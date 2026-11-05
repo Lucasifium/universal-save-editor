@@ -95,6 +95,11 @@ pub fn parse_binary(d: &[u8]) -> Option<TreeDoc> {
             return Some(t);
         }
     }
+    if metro::looks(d) {
+        if let Ok(t) = metro::parse(d) {
+            return Some(t);
+        }
+    }
     if p5r::looks(d) {
         if let Ok(t) = p5r::parse(d) {
             return Some(t);

@@ -86,6 +86,10 @@ pub enum Layer {
     Ff9,
     /// Persona 5 Royal (PC): encrypted, zlib-packed game data; `head` is the file up to the data, decrypted.
     P5r { head: Arc<Vec<u8>> },
+    /// Metro `.player`: "artm" + build string, one LZ4 block, CRC-32.
+    MetroPlayer { head: Arc<Vec<u8>> },
+    /// Metro auto save: "DEZP", three sections of LZ4 blocks, CRC-32.
+    MetroDezp { sections: Arc<fmt::metro::Sections> },
     /// Hogwarts Legacy: the game's SQLite database, kept Oodle-compressed in the save's
     /// `RawDatabaseImage` byte array. `head` is the save up to the array's data (its size
     /// fields at `size_at` and `count_at`), `tail` everything after it.
@@ -152,6 +156,8 @@ impl Layer {
             Layer::PalworldOodle => "Palworld container (Oodle)".into(),
             Layer::Ff9 => "Final Fantasy IX save encryption".into(),
             Layer::P5r { .. } => "Persona 5 Royal save (encrypted, zlib)".into(),
+            Layer::MetroPlayer { .. } => "Metro level save (LZ4)".into(),
+            Layer::MetroDezp { .. } => "Metro auto save (LZ4)".into(),
             Layer::HogwartsDb { .. } => "Hogwarts Legacy save (database, Oodle)".into(),
             Layer::Es3 { .. } => "Easy Save 3 encryption".into(),
             Layer::GodotEnc(_) => "Godot encryption".into(),
@@ -509,6 +515,8 @@ fn wrap(layer: &Layer, data: Vec<u8>) -> Result<Vec<u8>, String> {
         }
         Layer::Ff9 => fmt::ff9::encrypt(&data)?,
         Layer::P5r { head } => fmt::p5r::pack(head, &data),
+        Layer::MetroPlayer { head } => fmt::metro::pack_player(head, &data),
+        Layer::MetroDezp { sections } => fmt::metro::pack_dezp(sections, &data)?,
         Layer::PalworldOodle => {
             let packed = crate::oodle::compress(&data).ok_or("Oodle couldn't pack the save again (no Oodle library found)")?;
             let mut out = (data.len() as u32).to_le_bytes().to_vec();
@@ -721,6 +729,16 @@ fn peel(data: &[u8], ctx: &mut Ctx) -> Option<(Layer, Vec<u8>)> {
         let plain = if double { once.and_then(|i| inflate(&i).ok()) } else { once };
         if let Some(p) = plain.filter(|p| p.len() == u32::from_le_bytes(data[0..4].try_into().unwrap()) as usize) {
             return Some((Layer::Palworld { double }, p));
+        }
+    }
+    if data.starts_with(b"artm") {
+        if let Some((head, p)) = fmt::metro::unpack_player(data) {
+            return Some((Layer::MetroPlayer { head: Arc::new(head) }, p));
+        }
+    }
+    if data.starts_with(b"DEZP") {
+        if let Some((sections, p)) = fmt::metro::unpack_dezp(data) {
+            return Some((Layer::MetroDezp { sections: Arc::new(sections) }, p));
         }
     }
     if data.starts_with(b"DATA") {
