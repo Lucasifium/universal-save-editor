@@ -85,6 +85,8 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 | Yakuza 0 | *Kiryu & Majima*: both characters' money (up to ¥10 trillion) and CP, the uncollected real estate and cabaret takings, and the difficulty |
 | Yakuza Kiwami | *Kiryu*: money and the experience he hasn't spent yet (save and autosave files) |
 | Yakuza Kiwami 2, Like a Dragon (Dragon Engine) | *Player*: decrypted (XOR) and its checksum updated (Adler-32 or CRC-32); money, HP, Kiwami 2's experience pools and Like a Dragon's whole party (level, experience, HP, MP), with every other value in the tree |
+| Yakuza 6, Kiwami 3, Judgment, Lost Judgment, Like a Dragon Gaiden, Infinite Wealth, Ishin!, Pirate Yakuza (Dragon Engine) | Decrypted with each game's key and checksum kept right (keys from rgg_save_tool_py); values in the tree, and the Yakuza screen where the save has the same layout. Not tried on sample saves of these games yet |
+| Yakuza 3, 4, 5 Remastered | Hex view and Value search |
 | Ren'Py visual novels | *Story*: the game's numbers, flags and text variables with a filter, money and the like up front |
 
 ## Oodle (Palworld, Hogwarts Legacy)

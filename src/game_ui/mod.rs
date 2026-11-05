@@ -142,7 +142,7 @@ pub fn detect(kind: &str, root: &Value) -> Option<Game> {
         "Metro player save" => Game::Metro,
         "Yakuza 0 save" => Game::Yakuza0,
         "Yakuza Kiwami save" => Game::Kiwami,
-        _ if has("/base/m_title") && has("/player/point/m_point/1") => Game::YakuzaDe,
+        _ if has("/base/m_title") && has("/player") => Game::YakuzaDe,
         "Unreal Engine save (PalWorldPlayerSaveGame)" if has("/SaveData/TechnologyPoint") => Game::Palworld,
         "Final Fantasy VII Remake save" | "Final Fantasy VII Rebirth save" => Game::Ff7Remake,
         "RimWorld save" => Game::RimWorld,
