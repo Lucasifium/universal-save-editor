@@ -59,6 +59,7 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 | Balatro | Money, ante, hands and discards; this round; jokers and consumables; poker hand levels |
 | Hollow Knight, Slay the Spire | Geo, masks, notches, abilities and charms; a *Max upgrade materials* button (all 6 Pale Ore); gold, HP, deck, relics and potions |
 | RPG Maker MV / MZ | *Party*: gold, steps and play time; each character's name, level, EXP, HP / MP / TP, stat bonuses and learned skills (by id) |
+| Cairn (Story and On the Trail) | *Climber*: who climbs (Aava or Marco); play time, falls and deaths; the backpack, piton belt and chalk pouch as item grids with the game's own item names (add, remove or swap items, uses and sips left, what a bottle holds); the slot's saves, marking the one the game continues from |
 | Onimusha: Way of the Sword | Each save slot (place, play time, difficulty, objective); red souls, money, health and Oni energy; items and charms by name (on hand and in storage; charm level); equipment experience. Decrypts Capcom's RE Engine encryption with your Steam account, found automatically |
 | Stellaris, Hearts of Iron IV, EU4, CK2 | *Empire*: Stellaris stockpiles (energy, minerals, alloys…) and every resource; HOI4 political power, stability, war support, command power and experience; EU4 treasury, manpower, prestige, stability, monarch power and every country value; CK2 ruler wealth, prestige, piety and attributes. Ironman (binary) saves are recognised |
 | RimWorld | *Colony*: every colonist's skills (level and passion, modded passions included) and every silver stack, edited in place even in 100+ MB saves |
@@ -118,7 +119,7 @@ phone, or a copied save) enter your 17-digit Steam ID in *Tools › Decrypt with
 Games whose format isn't documented open in the hex view with Value search; for packed formats
 the data is unpacked first and packed again on save: Cyberpunk 2077 and The Witcher 3 (LZ4
 chunks), XCOM 2 / War of the Chosen (LZO chunks, both checksums updated), Mass Effect 1
-Legendary Edition (zlib, checksum updated), Civilization V (zlib), Dying Light (gzip), Ubisoft `.save.z` (zlib), BioShock Infinite (Unreal Engine 3 zlib chunks, MD5 updated), BioShock Remastered (zlib blocks, each packed back into its own space), Control (CRC-32 updated) and Cairn (the files inside each slot pack; the newest save opens first, and the side panel lists the slot's saves by date with the run's play time, deaths and falls). Other RE Engine
+Legendary Edition (zlib, checksum updated), Civilization V (zlib), Dying Light (gzip), Ubisoft `.save.z` (zlib), BioShock Infinite (Unreal Engine 3 zlib chunks, MD5 updated), BioShock Remastered (zlib blocks, each packed back into its own space), Control (CRC-32 updated) and Cairn (the files inside each slot pack; the newest save, the one the game continues from, opens first; the pack's size fields are kept right when a save grows). Other RE Engine
 games (Resident Evil Requiem, Dragon's Dogma 2, Monster Hunter Wilds and Stories 3, Pragmata,
 Dead Rising Deluxe Remaster, Kunitsu-Gami) decrypt and open with their values.
 
