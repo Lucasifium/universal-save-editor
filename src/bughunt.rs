@@ -1021,3 +1021,67 @@ fn pak_messages() {
         println!("{pak}: {count} entries, {checked} checked, {found} message files");
     }
 }
+
+/// UI smoke test: for the saves found for every game in the catalog that open on a game screen
+/// (read-only, in memory), draws the screen off-screen at a desktop and a phone width,
+/// clicks into it a few times, and reports any panic. SAVE_EDITOR_PER_GAME = saves per game (3).
+#[test]
+#[ignore]
+fn every_game_screen_draws() {
+    use eframe::egui;
+    let per: usize = std::env::var("SAVE_EDITOR_PER_GAME").ok().and_then(|s| s.parse().ok()).unwrap_or(3);
+    let (mut drawn, mut bad) = (0, vec![]);
+    for g in crate::games::GAMES {
+        for f in crate::games::find(g).iter().filter(|f| f.size < 300 << 20).take(per) {
+            let Ok(raw) = std::fs::read(&f.path) else { continue };
+            let d = decode_with(&raw, &Options::for_path(&f.path));
+            let (game, tree, view) = match &d.content {
+                Content::Tree(t) => (crate::game_ui::detect(&t.kind_name, &t.view), Some(&**t), t.view.clone()),
+                Content::Json { value, .. } => (crate::game_ui::detect("JSON", value), None, value.clone()),
+                _ => (None, None, Value::Null),
+            };
+            let Some(game) = game else { continue };
+            let name = f.path.file_name().unwrap_or_default().to_string_lossy().to_string();
+            let r = catch_unwind(AssertUnwindSafe(|| {
+                let ctx = egui::Context::default();
+                crate::theme::install_fonts(&ctx);
+                crate::theme::apply(&ctx, true);
+                let mut edits = 0;
+                for (w, h) in [(1280.0, 900.0), (380.0, 800.0)] {
+                    for frame in 0..4 {
+                        let mut input = egui::RawInput { screen_rect: Some(egui::Rect::from_min_size(egui::Pos2::ZERO, egui::vec2(w, h))), ..Default::default() };
+                        // A click somewhere in the upper half on later frames, to open grids and editors.
+                        if frame >= 1 {
+                            let p = egui::pos2(w * (0.15 + 0.2 * frame as f32), h * 0.35);
+                            input.events.push(egui::Event::PointerMoved(p));
+                            input.events.push(egui::Event::PointerButton { pos: p, button: egui::PointerButton::Primary, pressed: true, modifiers: Default::default() });
+                            input.events.push(egui::Event::PointerButton { pos: p, button: egui::PointerButton::Primary, pressed: false, modifiers: Default::default() });
+                        }
+                        let _ = ctx.run(input, |ctx| {
+                            egui::CentralPanel::default().show(ctx, |ui| {
+                                egui::ScrollArea::vertical().show(ui, |ui| {
+                                    let mut cx = crate::game_ui::GameCtx { root: &view, baseline: &view, tree, edits: vec![], archive: None, open_entry: None };
+                                    crate::game_ui::show(game, ui, &mut cx);
+                                    edits += cx.edits.len();
+                                });
+                            });
+                        });
+                    }
+                }
+                edits
+            }));
+            match r {
+                Ok(_) => drawn += 1,
+                Err(e) => {
+                    let msg = e.downcast_ref::<String>().cloned().or_else(|| e.downcast_ref::<&str>().map(|s| s.to_string())).unwrap_or_default();
+                    bad.push(format!("{} / {name} ({game:?}): {msg}", g.name));
+                }
+            }
+        }
+    }
+    println!("screens drawn: {drawn}, panics: {}", bad.len());
+    for b in &bad {
+        println!("   PANIC {b}");
+    }
+    assert!(bad.is_empty());
+}
