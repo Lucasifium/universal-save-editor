@@ -89,7 +89,7 @@ pub enum Layer {
     /// Metro `.player`: "artm" + build string, one LZ4 block, CRC-32.
     MetroPlayer { head: Arc<Vec<u8>> },
     /// Metro auto save: "DEZP", three sections of LZ4 blocks, CRC-32.
-    MetroDezp { sections: Arc<fmt::metro::Sections> },
+    MetroDezp { layout: Arc<fmt::metro::Dezp> },
     /// Hogwarts Legacy: the game's SQLite database, kept Oodle-compressed in the save's
     /// `RawDatabaseImage` byte array. `head` is the save up to the array's data (its size
     /// fields at `size_at` and `count_at`), `tail` everything after it.
@@ -516,7 +516,7 @@ fn wrap(layer: &Layer, data: Vec<u8>) -> Result<Vec<u8>, String> {
         Layer::Ff9 => fmt::ff9::encrypt(&data)?,
         Layer::P5r { head } => fmt::p5r::pack(head, &data),
         Layer::MetroPlayer { head } => fmt::metro::pack_player(head, &data),
-        Layer::MetroDezp { sections } => fmt::metro::pack_dezp(sections, &data)?,
+        Layer::MetroDezp { layout } => fmt::metro::pack_dezp(layout, &data)?,
         Layer::PalworldOodle => {
             let packed = crate::oodle::compress(&data).ok_or("Oodle couldn't pack the save again (no Oodle library found)")?;
             let mut out = (data.len() as u32).to_le_bytes().to_vec();
@@ -737,8 +737,8 @@ fn peel(data: &[u8], ctx: &mut Ctx) -> Option<(Layer, Vec<u8>)> {
         }
     }
     if data.starts_with(b"DEZP") {
-        if let Some((sections, p)) = fmt::metro::unpack_dezp(data) {
-            return Some((Layer::MetroDezp { sections: Arc::new(sections) }, p));
+        if let Some((layout, p)) = fmt::metro::unpack_dezp(data) {
+            return Some((Layer::MetroDezp { layout: Arc::new(layout) }, p));
         }
     }
     if data.starts_with(b"DATA") {
