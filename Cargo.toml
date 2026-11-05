@@ -1,0 +1,66 @@
+[package]
+name = "save_editor_offline"
+version = "0.1.0"
+edition = "2021"
+description = "Local, offline save-file reader/editor"
+
+[lib]
+name = "save_editor_offline"
+path = "src/lib.rs"
+
+[[bin]]
+name = "SaveEditorOffline"
+path = "src/main.rs"
+
+[dependencies]
+eframe = "0.29"
+serde_json = { version = "1", features = ["preserve_order", "arbitrary_precision"] }
+flate2 = "1"
+# RE Engine "Mandarin" saves (Onimusha: Way of the Sword, Dragon's Dogma 2, MH Wilds…) use modular arithmetic on 256-bit keys.
+num-bigint = "0.4"
+base64 = "0.22"
+lz-str = "0.2"
+zip = { version = "2", default-features = false, features = ["deflate"] }
+# Re-signing Ren'Py 8.1+ saves with the player's own local key (ECDSA P-256 / SHA-1).
+p256 = "0.13"
+sha1 = "0.10"
+# Structured formats.
+toml_edit = "0.22"
+serde_yaml = "0.9"
+plist = "1"
+rmpv = "1"
+bson = "2"
+rusqlite = { version = "0.32", features = ["bundled"] }
+# Extra compression wrappers.
+zstd = "0.13"
+lz4_flex = "0.11"
+lzma-rs = "0.3"
+bzip2 = "0.4"
+# Encrypted saves (Easy Save 3, Godot).
+aes = "0.8"
+cbc = { version = "0.1", features = ["alloc"] }
+cfb-mode = "0.8"
+pbkdf2 = { version = "0.12", default-features = false, features = ["hmac"] }
+hmac = "0.12"
+md-5 = "0.10"
+lzokay-native = "0.1"
+# Oodle: the library games install is loaded at run time (src/oodle.rs); none of it is shipped.
+libloading = "0.8"
+
+# Native file dialogs (Android has none; the app shows its own file browser there).
+[target.'cfg(not(target_os = "android"))'.dependencies]
+rfd = "0.15"
+
+[target.'cfg(target_os = "android")'.dependencies]
+eframe = { version = "0.29", features = ["android-native-activity"] }
+winit = { version = "0.30", features = ["android-native-activity"] }
+jni = "0.21"
+
+[dev-dependencies]
+rand_core = { version = "0.6", features = ["getrandom"] }
+
+[build-dependencies]
+winresource = "0.1"
+
+[profile.release]
+opt-level = 3

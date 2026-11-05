@@ -1,0 +1,6267 @@
+I1	Iron Pickaxe
+I2	Dirt Block
+I3	Stone Block
+I4	Iron Broadsword
+I5	Mushroom
+I6	Iron Shortsword
+I7	Iron Hammer
+I8	Torch
+I9	Wood
+I10	Iron Axe
+I11	Iron Ore
+I12	Copper Ore
+I13	Gold Ore
+I14	Silver Ore
+I15	Copper Watch
+I16	Silver Watch
+I17	Gold Watch
+I18	Depth Meter
+I19	Gold Bar
+I20	Copper Bar
+I21	Silver Bar
+I22	Iron Bar
+I23	Gel
+I24	Wooden Sword
+I25	Wooden Door
+I26	Stone Wall
+I27	Acorn
+I28	Lesser Healing Potion
+I29	Life Crystal
+I30	Dirt Wall
+I31	Bottle
+I32	Wooden Table
+I33	Furnace
+I34	Wooden Chair
+I35	Iron Anvil
+I36	Work Bench
+I37	Goggles
+I38	Lens
+I39	Wooden Bow
+I40	Wooden Arrow
+I41	Flaming Arrow
+I42	Shuriken
+I43	Suspicious Looking Eye
+I44	Demon Bow
+I45	War Axe of the Night
+I46	Light's Bane
+I47	Unholy Arrow
+I48	Chest
+I49	Band of Regeneration
+I50	Magic Mirror
+I51	Jester's Arrow
+I52	Angel Statue
+I53	Cloud in a Bottle
+I54	Hermes Boots
+I55	Enchanted Boomerang
+I56	Demonite Ore
+I57	Demonite Bar
+I58	Heart
+I59	Corrupt Seeds
+I60	Vile Mushroom
+I61	Ebonstone Block
+I62	Grass Seeds
+I63	Sunflower
+I64	Vilethorn
+I65	Starfury
+I66	Purification Powder
+I67	Vile Powder
+I68	Rotten Chunk
+I69	Worm Tooth
+I70	Worm Food
+I71	Copper Coin
+I72	Silver Coin
+I73	Gold Coin
+I74	Platinum Coin
+I75	Fallen Star
+I76	Copper Greaves
+I77	Iron Greaves
+I78	Silver Greaves
+I79	Gold Greaves
+I80	Copper Chainmail
+I81	Iron Chainmail
+I82	Silver Chainmail
+I83	Gold Chainmail
+I84	Grappling Hook
+I85	Chain
+I86	Shadow Scale
+I87	Piggy Bank
+I88	Mining Helmet
+I89	Copper Helmet
+I90	Iron Helmet
+I91	Silver Helmet
+I92	Gold Helmet
+I93	Wood Wall
+I94	Wood Platform
+I95	Flintlock Pistol
+I96	Musket
+I97	Musket Ball
+I98	Minishark
+I99	Iron Bow
+I100	Shadow Greaves
+I101	Shadow Scalemail
+I102	Shadow Helmet
+I103	Nightmare Pickaxe
+I104	The Breaker
+I105	Candle
+I106	Copper Chandelier
+I107	Silver Chandelier
+I108	Gold Chandelier
+I109	Mana Crystal
+I110	Lesser Mana Potion
+I111	Band of Starpower
+I112	Flower of Fire
+I113	Magic Missile
+I114	Dirt Rod
+I115	Shadow Orb
+I116	Meteorite
+I117	Meteorite Bar
+I118	Hook
+I119	Flamarang
+I120	Molten Fury
+I121	Volcano
+I122	Molten Pickaxe
+I123	Meteor Helmet
+I124	Meteor Suit
+I125	Meteor Leggings
+I126	Bottled Water
+I127	Space Gun
+I128	Rocket Boots
+I129	Gray Brick
+I130	Gray Brick Wall
+I131	Red Brick
+I132	Red Brick Wall
+I133	Clay Block
+I134	Blue Brick
+I135	Blue Brick Wall
+I136	Chain Lantern
+I137	Green Brick
+I138	Green Brick Wall
+I139	Pink Brick
+I140	Pink Brick Wall
+I141	Gold Brick
+I142	Gold Brick Wall
+I143	Silver Brick
+I144	Silver Brick Wall
+I145	Copper Brick
+I146	Copper Brick Wall
+I147	Spike
+I148	Water Candle
+I149	Book
+I150	Cobweb
+I151	Necro Helmet
+I152	Necro Breastplate
+I153	Necro Greaves
+I154	Bone
+I155	Muramasa
+I156	Cobalt Shield
+I157	Aqua Scepter
+I158	Lucky Horseshoe
+I159	Shiny Red Balloon
+I160	Harpoon
+I161	Spiky Ball
+I162	Ball O' Hurt
+I163	Blue Moon
+I164	Handgun
+I165	Water Bolt
+I166	Bomb
+I167	Dynamite
+I168	Grenade
+I169	Sand Block
+I170	Glass
+I171	Sign
+I172	Ash Block
+I173	Obsidian
+I174	Hellstone
+I175	Hellstone Bar
+I176	Mud Block
+I177	Sapphire
+I178	Ruby
+I179	Emerald
+I180	Topaz
+I181	Amethyst
+I182	Diamond
+I183	Glowing Mushroom
+I184	Star
+I185	Ivy Whip
+I186	Breathing Reed
+I187	Flipper
+I188	Healing Potion
+I189	Mana Potion
+I190	Blade of Grass
+I191	Thorn Chakram
+I192	Obsidian Brick
+I193	Obsidian Skull
+I194	Mushroom Grass Seeds
+I195	Jungle Grass Seeds
+I196	Wooden Hammer
+I197	Star Cannon
+I198	Blue Phaseblade
+I199	Red Phaseblade
+I200	Green Phaseblade
+I201	Purple Phaseblade
+I202	White Phaseblade
+I203	Yellow Phaseblade
+I204	Meteor Hamaxe
+I205	Empty Bucket
+I206	Water Bucket
+I207	Lava Bucket
+I208	Jungle Rose
+I209	Stinger
+I210	Vine
+I211	Feral Claws
+I212	Anklet of the Wind
+I213	Staff of Regrowth
+I214	Hellstone Brick
+I215	Whoopie Cushion
+I216	Shackle
+I217	Molten Hamaxe
+I218	Flamelash
+I219	Phoenix Blaster
+I220	Sunfury
+I221	Hellforge
+I222	Clay Pot
+I223	Nature's Gift
+I224	Bed
+I225	Silk
+I226	Restoration Potion (#226)
+I227	Restoration Potion (#227)
+I228	Jungle Hat
+I229	Jungle Shirt
+I230	Jungle Pants
+I231	Molten Helmet
+I232	Molten Breastplate
+I233	Molten Greaves
+I234	Meteor Shot
+I235	Sticky Bomb
+I236	Black Lens
+I237	Sunglasses
+I238	Wizard Hat
+I239	Top Hat
+I240	Tuxedo Shirt
+I241	Tuxedo Pants
+I242	Summer Hat
+I243	Bunny Hood
+I244	Plumber's Hat
+I245	Plumber's Shirt
+I246	Plumber's Pants
+I247	Hero's Hat
+I248	Hero's Shirt
+I249	Hero's Pants
+I250	Fish Bowl
+I251	Archaeologist's Hat
+I252	Archaeologist's Jacket
+I253	Archaeologist's Pants
+I254	Black Thread
+I255	Green Thread
+I256	Ninja Hood
+I257	Ninja Shirt
+I258	Ninja Pants
+I259	Leather
+I260	Red Hat
+I261	Goldfish
+I262	Robe
+I263	Robot Hat
+I264	Gold Crown
+I265	Hellfire Arrow
+I266	Sandgun
+I267	Guide Voodoo Doll
+I268	Diving Helmet
+I269	Familiar Shirt
+I270	Familiar Pants
+I271	Familiar Wig
+I272	Demon Scythe
+I273	Night's Edge
+I274	Dark Lance
+I275	Coral
+I276	Cactus
+I277	Trident
+I278	Silver Bullet
+I279	Throwing Knife
+I280	Spear
+I281	Blowpipe
+I282	Glowstick
+I283	Seed
+I284	Wooden Boomerang
+I285	Aglet
+I286	Sticky Glowstick
+I287	Poisoned Knife
+I288	Obsidian Skin Potion
+I289	Regeneration Potion
+I290	Swiftness Potion
+I291	Gills Potion
+I292	Ironskin Potion
+I293	Mana Regeneration Potion
+I294	Magic Power Potion
+I295	Featherfall Potion
+I296	Spelunker Potion
+I297	Invisibility Potion
+I298	Shine Potion
+I299	Night Owl Potion
+I300	Battle Potion
+I301	Thorns Potion
+I302	Water Walking Potion
+I303	Archery Potion
+I304	Hunter Potion
+I305	Gravitation Potion
+I306	Gold Chest
+I307	Daybloom Seeds
+I308	Moonglow Seeds
+I309	Blinkroot Seeds
+I310	Deathweed Seeds
+I311	Waterleaf Seeds
+I312	Fireblossom Seeds
+I313	Daybloom
+I314	Moonglow
+I315	Blinkroot
+I316	Deathweed
+I317	Waterleaf
+I318	Fireblossom
+I319	Shark Fin
+I320	Feather
+I321	Tombstone
+I322	Mime Mask
+I323	Antlion Mandible
+I324	Illegal Gun Parts
+I325	The Doctor's Shirt
+I326	The Doctor's Pants
+I327	Golden Key
+I328	Shadow Chest
+I329	Shadow Key
+I330	Obsidian Brick Wall
+I331	Jungle Spores
+I332	Loom
+I333	Piano
+I334	Dresser
+I335	Bench
+I336	Bathtub
+I337	Red Banner
+I338	Green Banner
+I339	Blue Banner
+I340	Yellow Banner
+I341	Lamp Post
+I342	Tiki Torch
+I343	Barrel
+I344	Chinese Lantern
+I345	Cooking Pot
+I346	Safe
+I347	Skull Lantern
+I348	Trash Can
+I349	Candelabra
+I350	Pink Vase
+I351	Mug
+I352	Keg
+I353	Ale
+I354	Bookcase
+I355	Throne
+I356	Bowl
+I357	Bowl of Soup
+I358	Toilet
+I359	Grandfather Clock
+I360	Armor Statue
+I361	Goblin Battle Standard
+I362	Tattered Cloth
+I363	Sawmill
+I364	Cobalt Ore
+I365	Mythril Ore
+I366	Adamantite Ore
+I367	Pwnhammer
+I368	Excalibur
+I369	Hallowed Seeds
+I370	Ebonsand Block
+I371	Cobalt Hat
+I372	Cobalt Helmet
+I373	Cobalt Mask
+I374	Cobalt Breastplate
+I375	Cobalt Leggings
+I376	Mythril Hood
+I377	Mythril Helmet
+I378	Mythril Hat
+I379	Mythril Chainmail
+I380	Mythril Greaves
+I381	Cobalt Bar
+I382	Mythril Bar
+I383	Cobalt Chainsaw
+I384	Mythril Chainsaw
+I385	Cobalt Drill
+I386	Mythril Drill
+I387	Adamantite Chainsaw
+I388	Adamantite Drill
+I389	Dao of Pow
+I390	Mythril Halberd
+I391	Adamantite Bar
+I392	Glass Wall
+I393	Compass
+I394	Diving Gear
+I395	GPS
+I396	Obsidian Horseshoe
+I397	Obsidian Shield
+I398	Tinkerer's Workshop
+I399	Cloud in a Balloon
+I400	Adamantite Headgear
+I401	Adamantite Helmet
+I402	Adamantite Mask
+I403	Adamantite Breastplate
+I404	Adamantite Leggings
+I405	Spectre Boots
+I406	Adamantite Glaive
+I407	Toolbelt
+I408	Pearlsand Block
+I409	Pearlstone Block
+I410	Mining Shirt
+I411	Mining Pants
+I412	Pearlstone Brick
+I413	Iridescent Brick
+I414	Mudstone Brick
+I415	Cobalt Brick
+I416	Mythril Brick
+I417	Pearlstone Brick Wall
+I418	Iridescent Brick Wall
+I419	Mudstone Brick Wall
+I420	Cobalt Brick Wall
+I421	Mythril Brick Wall
+I422	Holy Water
+I423	Unholy Water
+I424	Silt Block
+I425	Fairy Bell
+I426	Breaker Blade
+I427	Blue Torch
+I428	Red Torch
+I429	Green Torch
+I430	Purple Torch
+I431	White Torch
+I432	Yellow Torch
+I433	Demon Torch
+I434	Clockwork Assault Rifle
+I435	Cobalt Repeater
+I436	Mythril Repeater
+I437	Dual Hook
+I438	Star Statue
+I439	Sword Statue
+I440	Slime Statue
+I441	Goblin Statue
+I442	Shield Statue
+I443	Bat Statue
+I444	Fish Statue
+I445	Bunny Statue
+I446	Skeleton Statue
+I447	Reaper Statue
+I448	Woman Statue
+I449	Imp Statue
+I450	Gargoyle Statue
+I451	Gloom Statue
+I452	Hornet Statue
+I453	Bomb Statue
+I454	Crab Statue
+I455	Hammer Statue
+I456	Potion Statue
+I457	Spear Statue
+I458	Cross Statue
+I459	Jellyfish Statue
+I460	Bow Statue
+I461	Boomerang Statue
+I462	Boot Statue
+I463	Chest Statue
+I464	Bird Statue
+I465	Axe Statue
+I466	Corrupt Statue
+I467	Tree Statue
+I468	Anvil Statue
+I469	Pickaxe Statue
+I470	Mushroom Statue
+I471	Eyeball Statue
+I472	Pillar Statue
+I473	Heart Statue
+I474	Pot Statue
+I475	Sunflower Statue
+I476	King Statue
+I477	Queen Statue
+I478	Piranha Statue
+I479	Planked Wall
+I480	Wooden Beam
+I481	Adamantite Repeater
+I482	Adamantite Sword
+I483	Cobalt Sword
+I484	Mythril Sword
+I485	Moon Charm
+I486	Ruler
+I487	Crystal Ball
+I488	Disco Ball
+I489	Sorcerer Emblem
+I490	Warrior Emblem
+I491	Ranger Emblem
+I492	Demon Wings
+I493	Angel Wings
+I494	Magical Harp
+I495	Rainbow Rod
+I496	Ice Rod
+I497	Neptune's Shell
+I498	Mannequin
+I499	Greater Healing Potion
+I500	Greater Mana Potion
+I501	Pixie Dust
+I502	Crystal Shard
+I503	Clown Hat
+I504	Clown Shirt
+I505	Clown Pants
+I506	Flamethrower
+I507	Bell
+I508	Harp
+I509	Red Wrench
+I510	Wire Cutter
+I511	Active Stone Block
+I512	Inactive Stone Block
+I513	Lever
+I514	Laser Rifle
+I515	Crystal Bullet
+I516	Holy Arrow
+I517	Magic Dagger
+I518	Crystal Storm
+I519	Cursed Flames
+I520	Soul of Light
+I521	Soul of Night
+I522	Cursed Flame
+I523	Cursed Torch
+I524	Adamantite Forge
+I525	Mythril Anvil
+I526	Unicorn Horn
+I527	Dark Shard
+I528	Light Shard
+I529	Red Pressure Plate
+I530	Wire
+I531	Spell Tome
+I532	Star Cloak
+I533	Megashark
+I534	Shotgun
+I535	Philosopher's Stone
+I536	Titan Glove
+I537	Cobalt Naginata
+I538	Switch
+I539	Dart Trap
+I540	Boulder
+I541	Green Pressure Plate
+I542	Gray Pressure Plate
+I543	Brown Pressure Plate
+I544	Mechanical Eye
+I545	Cursed Arrow
+I546	Cursed Bullet
+I547	Soul of Fright
+I548	Soul of Might
+I549	Soul of Sight
+I550	Gungnir
+I551	Hallowed Plate Mail
+I552	Hallowed Greaves
+I553	Hallowed Helmet
+I554	Cross Necklace
+I555	Mana Flower
+I556	Mechanical Worm
+I557	Mechanical Skull
+I558	Hallowed Headgear
+I559	Hallowed Mask
+I560	Slime Crown
+I561	Light Disc
+I562	Music Box (Overworld Day)
+I563	Music Box (Eerie)
+I564	Music Box (Night)
+I565	Music Box (Title)
+I566	Music Box (Underground)
+I567	Music Box (Boss 1)
+I568	Music Box (Jungle)
+I569	Music Box (Corruption)
+I570	Music Box (Underground Corruption)
+I571	Music Box (The Hallow)
+I572	Music Box (Boss 2)
+I573	Music Box (Underground Hallow)
+I574	Music Box (Boss 3)
+I575	Soul of Flight
+I576	Music Box
+I577	Demonite Brick
+I578	Hallowed Repeater
+I579	Drax
+I580	Explosives
+I581	Inlet Pump
+I582	Outlet Pump
+I583	1 Second Timer
+I584	3 Second Timer
+I585	5 Second Timer
+I586	Candy Cane Block
+I587	Candy Cane Wall
+I588	Santa Hat
+I589	Santa Shirt
+I590	Santa Pants
+I591	Green Candy Cane Block
+I592	Green Candy Cane Wall
+I593	Snow Block
+I594	Snow Brick
+I595	Snow Brick Wall
+I596	Blue Light
+I597	Red Light
+I598	Green Light
+I599	Blue Present
+I600	Green Present
+I601	Yellow Present
+I602	Snow Globe
+I603	Carrot
+I604	Adamantite Beam
+I605	Adamantite Beam Wall
+I606	Demonite Brick Wall
+I607	Sandstone Brick
+I608	Sandstone Brick Wall
+I609	Ebonstone Brick
+I610	Ebonstone Brick Wall
+I611	Red Stucco
+I612	Yellow Stucco
+I613	Green Stucco
+I614	Gray Stucco
+I615	Red Stucco Wall
+I616	Yellow Stucco Wall
+I617	Green Stucco Wall
+I618	Gray Stucco Wall
+I619	Ebonwood
+I620	Rich Mahogany
+I621	Pearlwood
+I622	Ebonwood Wall
+I623	Rich Mahogany Wall
+I624	Pearlwood Wall
+I625	Ebonwood Chest
+I626	Rich Mahogany Chest
+I627	Pearlwood Chest
+I628	Ebonwood Chair
+I629	Rich Mahogany Chair
+I630	Pearlwood Chair
+I631	Ebonwood Platform
+I632	Rich Mahogany Platform
+I633	Pearlwood Platform
+I634	Bone Platform
+I635	Ebonwood Work Bench
+I636	Rich Mahogany Work Bench
+I637	Pearlwood Work Bench
+I638	Ebonwood Table
+I639	Rich Mahogany Table
+I640	Pearlwood Table
+I641	Ebonwood Piano
+I642	Rich Mahogany Piano
+I643	Pearlwood Piano
+I644	Ebonwood Bed
+I645	Rich Mahogany Bed
+I646	Pearlwood Bed
+I647	Ebonwood Dresser
+I648	Rich Mahogany Dresser
+I649	Pearlwood Dresser
+I650	Ebonwood Door
+I651	Rich Mahogany Door
+I652	Pearlwood Door
+I653	Ebonwood Sword
+I654	Ebonwood Hammer
+I655	Ebonwood Bow
+I656	Rich Mahogany Sword
+I657	Rich Mahogany Hammer
+I658	Rich Mahogany Bow
+I659	Pearlwood Sword
+I660	Pearlwood Hammer
+I661	Pearlwood Bow
+I662	Rainbow Brick
+I663	Rainbow Brick Wall
+I664	Ice Block
+I665	Red's Wings
+I666	Red's Helmet
+I667	Red's Breastplate
+I668	Red's Leggings
+I669	Fish
+I670	Ice Boomerang
+I671	Keybrand
+I672	Cutlass
+I673	Boreal Wood Work Bench
+I674	True Excalibur
+I675	True Night's Edge
+I676	Frostbrand
+I677	Boreal Wood Table
+I678	Red Potion
+I679	Tactical Shotgun
+I680	Ivy Chest
+I681	Frozen Chest
+I682	Marrow
+I683	Unholy Trident
+I684	Frost Helmet
+I685	Frost Breastplate
+I686	Frost Leggings
+I687	Tin Helmet
+I688	Tin Chainmail
+I689	Tin Greaves
+I690	Lead Helmet
+I691	Lead Chainmail
+I692	Lead Greaves
+I693	Tungsten Helmet
+I694	Tungsten Chainmail
+I695	Tungsten Greaves
+I696	Platinum Helmet
+I697	Platinum Chainmail
+I698	Platinum Greaves
+I699	Tin Ore
+I700	Lead Ore
+I701	Tungsten Ore
+I702	Platinum Ore
+I703	Tin Bar
+I704	Lead Bar
+I705	Tungsten Bar
+I706	Platinum Bar
+I707	Tin Watch
+I708	Tungsten Watch
+I709	Platinum Watch
+I710	Tin Chandelier
+I711	Tungsten Chandelier
+I712	Platinum Chandelier
+I713	Platinum Candle
+I714	Platinum Candelabra
+I715	Platinum Crown
+I716	Lead Anvil
+I717	Tin Brick
+I718	Tungsten Brick
+I719	Platinum Brick
+I720	Tin Brick Wall
+I721	Tungsten Brick Wall
+I722	Platinum Brick Wall
+I723	Beam Sword
+I724	Ice Blade
+I725	Ice Bow
+I726	Frost Staff
+I727	Wood Helmet
+I728	Wood Breastplate
+I729	Wood Greaves
+I730	Ebonwood Helmet
+I731	Ebonwood Breastplate
+I732	Ebonwood Greaves
+I733	Rich Mahogany Helmet
+I734	Rich Mahogany Breastplate
+I735	Rich Mahogany Greaves
+I736	Pearlwood Helmet
+I737	Pearlwood Breastplate
+I738	Pearlwood Greaves
+I739	Amethyst Staff
+I740	Topaz Staff
+I741	Sapphire Staff
+I742	Emerald Staff
+I743	Ruby Staff
+I744	Diamond Staff
+I745	Grass Wall
+I746	Jungle Wall
+I747	Flower Wall
+I748	Jetpack
+I749	Butterfly Wings
+I750	Cactus Wall
+I751	Cloud
+I752	Cloud Wall
+I753	Seaweed (#753)
+I754	Rune Hat
+I755	Rune Robe
+I756	Mushroom Spear
+I757	Terra Blade
+I758	Grenade Launcher
+I759	Rocket Launcher
+I760	Proximity Mine Launcher
+I761	Fairy Wings
+I762	Slime Block
+I763	Flesh Block
+I764	Mushroom Wall
+I765	Rain Cloud
+I766	Bone Block
+I767	Frozen Slime Block
+I768	Bone Block Wall
+I769	Slime Block Wall
+I770	Flesh Block Wall
+I771	Rocket I
+I772	Rocket II
+I773	Rocket III
+I774	Rocket IV
+I775	Asphalt Block
+I776	Cobalt Pickaxe
+I777	Mythril Pickaxe
+I778	Adamantite Pickaxe
+I779	Clentaminator
+I780	Green Solution
+I781	Blue Solution
+I782	Purple Solution
+I783	Dark Blue Solution
+I784	Red Solution
+I785	Harpy Wings
+I786	Bone Wings
+I787	Hammush
+I788	Nettle Burst
+I789	Ankh Banner
+I790	Snake Banner
+I791	Omega Banner
+I792	Crimson Helmet
+I793	Crimson Scalemail
+I794	Crimson Greaves
+I795	Blood Butcherer
+I796	Tendon Bow
+I797	Flesh Grinder
+I798	Deathbringer Pickaxe
+I799	Blood Lust Cluster
+I800	The Undertaker
+I801	The Meatball
+I802	The Rotted Fork
+I803	Snow Hood
+I804	Snow Coat
+I805	Snow Pants
+I806	Living Wood Chair
+I807	Cactus Chair
+I808	Bone Chair
+I809	Flesh Chair
+I810	Mushroom Chair
+I811	Bone Work Bench
+I812	Cactus Work Bench
+I813	Flesh Work Bench
+I814	Mushroom Work Bench
+I815	Slime Work Bench
+I816	Cactus Door
+I817	Flesh Door
+I818	Mushroom Door
+I819	Living Wood Door
+I820	Bone Door
+I821	Flame Wings
+I822	Frozen Wings
+I823	Spectre Wings
+I824	Sunplate Block
+I825	Disc Wall
+I826	Skyware Chair
+I827	Bone Table
+I828	Flesh Table
+I829	Living Wood Table
+I830	Skyware Table
+I831	Living Wood Chest
+I832	Living Wood Wand
+I833	Purple Ice Block
+I834	Pink Ice Block
+I835	Red Ice Block
+I836	Crimstone Block
+I837	Skyware Door
+I838	Skyware Chest
+I839	Steampunk Hat
+I840	Steampunk Shirt
+I841	Steampunk Pants
+I842	Bee Hat
+I843	Bee Shirt
+I844	Bee Pants
+I845	World Banner
+I846	Sun Banner
+I847	Gravity Banner
+I848	Pharaoh's Mask
+I849	Actuator
+I850	Blue Wrench
+I851	Green Wrench
+I852	Blue Pressure Plate
+I853	Yellow Pressure Plate
+I854	Discount Card
+I855	Lucky Coin
+I856	Unicorn on a Stick
+I857	Sandstorm in a Bottle
+I858	Boreal Wood Sofa
+I859	Beach Ball
+I860	Charm of Myths
+I861	Moon Shell
+I862	Star Veil
+I863	Water Walking Boots
+I864	Tiara
+I865	Princess Dress (#865)
+I866	Pharaoh's Robe
+I867	Green Cap
+I868	Mushroom Cap
+I869	Tam O' Shanter
+I870	Mummy Mask
+I871	Mummy Shirt
+I872	Mummy Pants
+I873	Cowboy Hat
+I874	Cowboy Jacket
+I875	Cowboy Pants
+I876	Pirate Hat
+I877	Pirate Shirt
+I878	Pirate Pants
+I879	Viking Helmet
+I880	Crimtane Ore
+I881	Cactus Sword
+I882	Cactus Pickaxe
+I883	Ice Brick
+I884	Ice Brick Wall
+I885	Adhesive Bandage
+I886	Armor Polish
+I887	Bezoar
+I888	Blindfold
+I889	Fast Clock
+I890	Megaphone
+I891	Nazar
+I892	Vitamins
+I893	Trifold Map
+I894	Cactus Helmet
+I895	Cactus Breastplate
+I896	Cactus Leggings
+I897	Power Glove
+I898	Lightning Boots
+I899	Sun Stone
+I900	Moon Stone
+I901	Armor Bracing
+I902	Medicated Bandage
+I903	The Plan
+I904	Countercurse Mantra
+I905	Coin Gun
+I906	Lava Charm
+I907	Obsidian Water Walking Boots
+I908	Lava Waders
+I909	Pure Water Fountain
+I910	Desert Water Fountain
+I911	Shadewood
+I912	Shadewood Door
+I913	Shadewood Platform
+I914	Shadewood Chest
+I915	Shadewood Chair
+I916	Shadewood Work Bench
+I917	Shadewood Table
+I918	Shadewood Dresser
+I919	Shadewood Piano
+I920	Shadewood Bed
+I921	Shadewood Sword
+I922	Shadewood Hammer
+I923	Shadewood Bow
+I924	Shadewood Helmet
+I925	Shadewood Breastplate
+I926	Shadewood Greaves
+I927	Shadewood Wall
+I928	Cannon
+I929	Cannonball
+I930	Flare Gun
+I931	Flare
+I932	Bone Wand
+I933	Leaf Wand
+I934	Flying Carpet
+I935	Avenger Emblem
+I936	Mechanical Glove
+I937	Land Mine
+I938	Paladin's Shield
+I939	Web Slinger
+I940	Jungle Water Fountain
+I941	Icy Water Fountain
+I942	Corrupt Water Fountain
+I943	Crimson Water Fountain
+I944	Hallowed Water Fountain
+I945	Blood Water Fountain
+I946	Umbrella
+I947	Chlorophyte Ore
+I948	Steampunk Wings
+I949	Snowball
+I950	Ice Skates
+I951	Snowball Launcher
+I952	Web Covered Chest
+I953	Climbing Claws
+I954	Ancient Iron Helmet
+I955	Ancient Gold Helmet
+I956	Ancient Shadow Helmet
+I957	Ancient Shadow Scalemail
+I958	Ancient Shadow Greaves
+I959	Ancient Necro Helmet
+I960	Ancient Cobalt Helmet
+I961	Ancient Cobalt Breastplate
+I962	Ancient Cobalt Leggings
+I963	Black Belt
+I964	Boomstick
+I965	Rope
+I966	Campfire
+I967	Marshmallow
+I968	Marshmallow on a Stick
+I969	Cooked Marshmallow
+I970	Red Rocket
+I971	Green Rocket
+I972	Blue Rocket
+I973	Yellow Rocket
+I974	Ice Torch
+I975	Shoe Spikes
+I976	Tiger Climbing Gear
+I977	Tabi
+I978	Pink Snow Hood
+I979	Pink Snow Coat
+I980	Pink Snow Pants
+I981	Pink Thread
+I982	Mana Regeneration Band
+I983	Sandstorm in a Balloon
+I984	Master Ninja Gear
+I985	Rope Coil
+I986	Blowgun
+I987	Blizzard in a Bottle
+I988	Frostburn Arrow
+I989	Enchanted Sword
+I990	Pickaxe Axe
+I991	Cobalt Waraxe
+I992	Mythril Waraxe
+I993	Adamantite Waraxe
+I994	Eater's Bone
+I995	Blend-O-Matic
+I996	Meat Grinder
+I997	Extractinator
+I998	Solidifier
+I999	Amber
+I1000	Confetti Gun
+I1001	Chlorophyte Mask
+I1002	Chlorophyte Helmet
+I1003	Chlorophyte Headgear
+I1004	Chlorophyte Plate Mail
+I1005	Chlorophyte Greaves
+I1006	Chlorophyte Bar
+I1007	Red Dye
+I1008	Orange Dye
+I1009	Yellow Dye
+I1010	Lime Dye
+I1011	Green Dye
+I1012	Teal Dye
+I1013	Cyan Dye
+I1014	Sky Blue Dye
+I1015	Blue Dye
+I1016	Purple Dye
+I1017	Violet Dye
+I1018	Pink Dye
+I1019	Red and Black Dye
+I1020	Orange and Black Dye
+I1021	Yellow and Black Dye
+I1022	Lime and Black Dye
+I1023	Green and Black Dye
+I1024	Teal and Black Dye
+I1025	Cyan and Black Dye
+I1026	Sky Blue and Black Dye
+I1027	Blue and Black Dye
+I1028	Purple and Black Dye
+I1029	Violet and Black Dye
+I1030	Pink and Black Dye
+I1031	Flame Dye
+I1032	Flame and Black Dye
+I1033	Green Flame Dye
+I1034	Green Flame and Black Dye
+I1035	Blue Flame Dye
+I1036	Blue Flame and Black Dye
+I1037	Silver Dye
+I1038	Bright Red Dye
+I1039	Bright Orange Dye
+I1040	Bright Yellow Dye
+I1041	Bright Lime Dye
+I1042	Bright Green Dye
+I1043	Bright Teal Dye
+I1044	Bright Cyan Dye
+I1045	Bright Sky Blue Dye
+I1046	Bright Blue Dye
+I1047	Bright Purple Dye
+I1048	Bright Violet Dye
+I1049	Bright Pink Dye
+I1050	Black Dye
+I1051	Red and Silver Dye
+I1052	Orange and Silver Dye
+I1053	Yellow and Silver Dye
+I1054	Lime and Silver Dye
+I1055	Green and Silver Dye
+I1056	Teal and Silver Dye
+I1057	Cyan and Silver Dye
+I1058	Sky Blue and Silver Dye
+I1059	Blue and Silver Dye
+I1060	Purple and Silver Dye
+I1061	Violet and Silver Dye
+I1062	Pink and Silver Dye
+I1063	Intense Flame Dye
+I1064	Intense Green Flame Dye
+I1065	Intense Blue Flame Dye
+I1066	Rainbow Dye
+I1067	Intense Rainbow Dye
+I1068	Yellow Gradient Dye
+I1069	Cyan Gradient Dye
+I1070	Violet Gradient Dye
+I1071	Paintbrush
+I1072	Paint Roller
+I1073	Red Paint
+I1074	Orange Paint
+I1075	Yellow Paint
+I1076	Lime Paint
+I1077	Green Paint
+I1078	Teal Paint
+I1079	Cyan Paint
+I1080	Sky Blue Paint
+I1081	Blue Paint
+I1082	Purple Paint
+I1083	Violet Paint
+I1084	Pink Paint
+I1085	Deep Red Paint
+I1086	Deep Orange Paint
+I1087	Deep Yellow Paint
+I1088	Deep Lime Paint
+I1089	Deep Green Paint
+I1090	Deep Teal Paint
+I1091	Deep Cyan Paint
+I1092	Deep Sky Blue Paint
+I1093	Deep Blue Paint
+I1094	Deep Purple Paint
+I1095	Deep Violet Paint
+I1096	Deep Pink Paint
+I1097	Black Paint
+I1098	White Paint
+I1099	Gray Paint
+I1100	Paint Scraper
+I1101	Lihzahrd Brick
+I1102	Lihzahrd Brick Wall
+I1103	Slush Block
+I1104	Palladium Ore
+I1105	Orichalcum Ore
+I1106	Titanium Ore
+I1107	Teal Mushroom
+I1108	Green Mushroom
+I1109	Sky Blue Flower
+I1110	Yellow Marigold
+I1111	Blue Berries
+I1112	Lime Kelp
+I1113	Pink Prickly Pear
+I1114	Orange Bloodroot
+I1115	Red Husk
+I1116	Cyan Husk
+I1117	Violet Husk
+I1118	Purple Mucus
+I1119	Black Ink
+I1120	Dye Vat
+I1121	Bee Gun
+I1122	Possessed Hatchet
+I1123	Bee Keeper
+I1124	Hive
+I1125	Honey Block
+I1126	Hive Wall
+I1127	Crispy Honey Block
+I1128	Honey Bucket
+I1129	Hive Wand
+I1130	Beenade
+I1131	Gravity Globe
+I1132	Honey Comb
+I1133	Abeemination
+I1134	Bottled Honey
+I1135	Rain Hat
+I1136	Rain Coat
+I1137	Lihzahrd Door
+I1138	Dungeon Door
+I1139	Lead Door
+I1140	Iron Door
+I1141	Temple Key
+I1142	Lihzahrd Chest
+I1143	Lihzahrd Chair
+I1144	Lihzahrd Table
+I1145	Lihzahrd Work Bench
+I1146	Super Dart Trap
+I1147	Flame Trap
+I1148	Spiky Ball Trap
+I1149	Spear Trap
+I1150	Wooden Spike
+I1151	Lihzahrd Pressure Plate
+I1152	Lihzahrd Statue
+I1153	Lihzahrd Watcher Statue
+I1154	Lihzahrd Guardian Statue
+I1155	Wasp Gun
+I1156	Piranha Gun
+I1157	Pygmy Staff
+I1158	Pygmy Necklace
+I1159	Tiki Mask
+I1160	Tiki Shirt
+I1161	Tiki Pants
+I1162	Leaf Wings
+I1163	Blizzard in a Balloon
+I1164	Bundle of Balloons
+I1165	Bat Wings
+I1166	Bone Sword
+I1167	Hercules Beetle
+I1168	Smoke Bomb
+I1169	Bone Key
+I1170	Nectar
+I1171	Tiki Totem
+I1172	Lizard Egg
+I1173	Grave Marker
+I1174	Cross Grave Marker
+I1175	Headstone
+I1176	Gravestone
+I1177	Obelisk
+I1178	Leaf Blower
+I1179	Chlorophyte Bullet
+I1180	Parrot Cracker
+I1181	Strange Glowing Mushroom
+I1182	Seedling
+I1183	Wisp in a Bottle
+I1184	Palladium Bar
+I1185	Palladium Sword
+I1186	Palladium Pike
+I1187	Palladium Repeater
+I1188	Palladium Pickaxe
+I1189	Palladium Drill
+I1190	Palladium Chainsaw
+I1191	Orichalcum Bar
+I1192	Orichalcum Sword
+I1193	Orichalcum Halberd
+I1194	Orichalcum Repeater
+I1195	Orichalcum Pickaxe
+I1196	Orichalcum Drill
+I1197	Orichalcum Chainsaw
+I1198	Titanium Bar
+I1199	Titanium Sword
+I1200	Titanium Trident
+I1201	Titanium Repeater
+I1202	Titanium Pickaxe
+I1203	Titanium Drill
+I1204	Titanium Chainsaw
+I1205	Palladium Mask
+I1206	Palladium Helmet
+I1207	Palladium Headgear
+I1208	Palladium Breastplate
+I1209	Palladium Leggings
+I1210	Orichalcum Mask
+I1211	Orichalcum Helmet
+I1212	Orichalcum Headgear
+I1213	Orichalcum Breastplate
+I1214	Orichalcum Leggings
+I1215	Titanium Mask
+I1216	Titanium Helmet
+I1217	Titanium Headgear
+I1218	Titanium Breastplate
+I1219	Titanium Leggings
+I1220	Orichalcum Anvil
+I1221	Titanium Forge
+I1222	Palladium Waraxe
+I1223	Orichalcum Waraxe
+I1224	Titanium Waraxe
+I1225	Hallowed Bar
+I1226	Chlorophyte Claymore
+I1227	Chlorophyte Saber
+I1228	Chlorophyte Partisan
+I1229	Chlorophyte Shotbow
+I1230	Chlorophyte Pickaxe
+I1231	Chlorophyte Drill
+I1232	Chlorophyte Chainsaw
+I1233	Chlorophyte Greataxe
+I1234	Chlorophyte Warhammer
+I1235	Chlorophyte Arrow
+I1236	Amethyst Hook
+I1237	Topaz Hook
+I1238	Sapphire Hook
+I1239	Emerald Hook
+I1240	Ruby Hook
+I1241	Diamond Hook
+I1242	Amber Mosquito
+I1243	Umbrella Hat
+I1244	Nimbus Rod
+I1245	Orange Torch
+I1246	Crimsand Block
+I1247	Bee Cloak
+I1248	Eye of the Golem
+I1249	Honey Balloon
+I1250	Blue Horseshoe Balloon
+I1251	White Horseshoe Balloon
+I1252	Yellow Horseshoe Balloon
+I1253	Frozen Turtle Shell
+I1254	Sniper Rifle
+I1255	Venus Magnum
+I1256	Crimson Rod
+I1257	Crimtane Bar
+I1258	Stynger
+I1259	Flower Pow
+I1260	Rainbow Gun
+I1261	Stynger Bolt
+I1262	Chlorophyte Jackhammer
+I1263	Teleporter
+I1264	Flower of Frost
+I1265	Uzi
+I1266	Magnet Sphere
+I1267	Purple Stained Glass
+I1268	Yellow Stained Glass
+I1269	Blue Stained Glass
+I1270	Green Stained Glass
+I1271	Red Stained Glass
+I1272	Multicolored Stained Glass
+I1273	Skeletron Hand
+I1274	Skull
+I1275	Balla Hat
+I1276	Gangsta Hat
+I1277	Sailor Hat
+I1278	Eye Patch
+I1279	Sailor Shirt
+I1280	Sailor Pants
+I1281	Skeletron Mask
+I1282	Amethyst Robe
+I1283	Topaz Robe
+I1284	Sapphire Robe
+I1285	Emerald Robe
+I1286	Ruby Robe
+I1287	Diamond Robe
+I1288	White Tuxedo Shirt
+I1289	White Tuxedo Pants
+I1290	Panic Necklace
+I1291	Life Fruit
+I1292	Lihzahrd Altar
+I1293	Lihzahrd Power Cell
+I1294	Picksaw
+I1295	Heat Ray
+I1296	Staff of Earth
+I1297	Golem Fist
+I1298	Water Chest
+I1299	Binoculars
+I1300	Rifle Scope
+I1301	Destroyer Emblem
+I1302	High Velocity Bullet
+I1303	Jellyfish Necklace
+I1304	Zombie Arm
+I1305	The Axe
+I1306	Ice Sickle
+I1307	Clothier Voodoo Doll
+I1308	Poison Staff
+I1309	Slime Staff
+I1310	Poison Dart
+I1311	Eye Spring
+I1312	Toy Sled
+I1313	Book of Skulls
+I1314	KO Cannon
+I1315	Pirate Map
+I1316	Turtle Helmet
+I1317	Turtle Scale Mail
+I1318	Turtle Leggings
+I1319	Snowball Cannon
+I1320	Bone Pickaxe
+I1321	Magic Quiver
+I1322	Magma Stone
+I1323	Obsidian Rose
+I1324	Bananarang
+I1325	Chain Knife
+I1326	Rod of Discord
+I1327	Death Sickle
+I1328	Turtle Shell
+I1329	Tissue Sample
+I1330	Vertebra
+I1331	Bloody Spine
+I1332	Ichor
+I1333	Ichor Torch
+I1334	Ichor Arrow
+I1335	Ichor Bullet
+I1336	Golden Shower
+I1337	Bunny Cannon
+I1338	Explosive Bunny
+I1339	Vial of Venom
+I1340	Flask of Venom
+I1341	Venom Arrow
+I1342	Venom Bullet
+I1343	Fire Gauntlet
+I1344	Cog
+I1345	Confetti
+I1346	Nanites
+I1347	Explosive Powder
+I1348	Gold Dust
+I1349	Party Bullet
+I1350	Nano Bullet
+I1351	Exploding Bullet
+I1352	Golden Bullet
+I1353	Flask of Cursed Flames
+I1354	Flask of Fire
+I1355	Flask of Gold
+I1356	Flask of Ichor
+I1357	Flask of Nanites
+I1358	Flask of Party
+I1359	Flask of Poison
+I1360	Eye of Cthulhu Trophy
+I1361	Eater of Worlds Trophy
+I1362	Brain of Cthulhu Trophy
+I1363	Skeletron Trophy
+I1364	Queen Bee Trophy
+I1365	Wall of Flesh Trophy
+I1366	Destroyer Trophy
+I1367	Skeletron Prime Trophy
+I1368	Retinazer Trophy
+I1369	Spazmatism Trophy
+I1370	Plantera Trophy
+I1371	Golem Trophy
+I1372	Blood Moon Rising
+I1373	The Hanged Man
+I1374	Glory of the Fire
+I1375	Bone Warp
+I1376	Wall Skeleton
+I1377	Hanging Skeleton
+I1378	Blue Slab Wall
+I1379	Blue Tiled Wall
+I1380	Pink Slab Wall
+I1381	Pink Tiled Wall
+I1382	Green Slab Wall
+I1383	Green Tiled Wall
+I1384	Blue Brick Platform
+I1385	Pink Brick Platform
+I1386	Green Brick Platform
+I1387	Metal Shelf
+I1388	Brass Shelf
+I1389	Wood Shelf
+I1390	Brass Lantern
+I1391	Caged Lantern
+I1392	Carriage Lantern
+I1393	Alchemy Lantern
+I1394	Diabolist Lamp
+I1395	Oil Rag Sconce
+I1396	Blue Dungeon Chair
+I1397	Blue Dungeon Table
+I1398	Blue Dungeon Work Bench
+I1399	Green Dungeon Chair
+I1400	Green Dungeon Table
+I1401	Green Dungeon Work Bench
+I1402	Pink Dungeon Chair
+I1403	Pink Dungeon Table
+I1404	Pink Dungeon Work Bench
+I1405	Blue Dungeon Candle
+I1406	Green Dungeon Candle
+I1407	Pink Dungeon Candle
+I1408	Blue Dungeon Vase
+I1409	Green Dungeon Vase
+I1410	Pink Dungeon Vase
+I1411	Blue Dungeon Door
+I1412	Green Dungeon Door
+I1413	Pink Dungeon Door
+I1414	Blue Dungeon Bookcase
+I1415	Green Dungeon Bookcase
+I1416	Pink Dungeon Bookcase
+I1417	Catacomb
+I1418	Dungeon Shelf
+I1419	Skellington J Skellingsworth
+I1420	The Cursed Man
+I1421	The Eye Sees the End
+I1422	Something Evil is Watching You
+I1423	The Twins Have Awoken
+I1424	The Screamer
+I1425	Goblins Playing Poker
+I1426	Dryadisque
+I1427	Sunflowers
+I1428	Terrarian Gothic
+I1429	Beanie
+I1430	Imbuing Station
+I1431	Star in a Bottle
+I1432	Empty Bullet
+I1433	Impact
+I1434	Powered by Birds
+I1435	The Destroyer
+I1436	The Persistency of Eyes
+I1437	Unicorn Crossing the Hallows
+I1438	Great Wave
+I1439	Starry Night
+I1440	Guide Picasso
+I1441	The Guardian's Gaze
+I1442	Father of Someone
+I1443	Nurse Lisa
+I1444	Shadowbeam Staff
+I1445	Inferno Fork
+I1446	Spectre Staff
+I1447	Wooden Fence
+I1448	Lead Fence
+I1449	Bubble Machine
+I1450	Bubble Wand
+I1451	Marching Bones Banner
+I1452	Necromantic Sign
+I1453	Rusted Company Standard
+I1454	Ragged Brotherhood Sigil
+I1455	Molten Legion Flag
+I1456	Diabolic Sigil
+I1457	Obsidian Platform
+I1458	Obsidian Door
+I1459	Obsidian Chair
+I1460	Obsidian Table
+I1461	Obsidian Work Bench
+I1462	Obsidian Vase
+I1463	Obsidian Bookcase
+I1464	Hellbound Banner
+I1465	Hell Hammer Banner
+I1466	Helltower Banner
+I1467	Lost Hopes of Man Banner
+I1468	Obsidian Watcher Banner
+I1469	Lava Erupts Banner
+I1470	Blue Dungeon Bed
+I1471	Green Dungeon Bed
+I1472	Pink Dungeon Bed
+I1473	Obsidian Bed
+I1474	Waldo
+I1475	Darkness
+I1476	Dark Soul Reaper
+I1477	Land
+I1478	Trapped Ghost
+I1479	Demon's Eye
+I1480	Finding Gold
+I1481	First Encounter
+I1482	Good Morning
+I1483	Underground Reward
+I1484	Through the Window
+I1485	Place Above the Clouds
+I1486	Do Not Step on the Grass
+I1487	Cold Waters in the White Land
+I1488	Lightless Chasms
+I1489	The Land of Deceiving Looks
+I1490	Daylight
+I1491	Secret of the Sands
+I1492	Deadland Comes Alive
+I1493	Evil Presence
+I1494	Sky Guardian
+I1495	American Explosive
+I1496	Discover
+I1497	Hand Earth
+I1498	Old Miner
+I1499	Skelehead
+I1500	Facing the Cerebral Mastermind
+I1501	Lake of Fire
+I1502	Trio Super Heroes
+I1503	Spectre Hood
+I1504	Spectre Robe
+I1505	Spectre Pants
+I1506	Spectre Pickaxe
+I1507	Spectre Hamaxe
+I1508	Ectoplasm
+I1509	Gothic Chair
+I1510	Gothic Table
+I1511	Gothic Work Bench
+I1512	Gothic Bookcase
+I1513	Paladin's Hammer
+I1514	SWAT Helmet
+I1515	Bee Wings
+I1516	Giant Harpy Feather
+I1517	Bone Feather
+I1518	Fire Feather
+I1519	Ice Feather
+I1520	Broken Bat Wing
+I1521	Tattered Bee Wing
+I1522	Large Amethyst
+I1523	Large Topaz
+I1524	Large Sapphire
+I1525	Large Emerald
+I1526	Large Ruby
+I1527	Large Diamond
+I1528	Jungle Chest
+I1529	Corruption Chest
+I1530	Crimson Chest
+I1531	Hallowed Chest
+I1532	Ice Chest
+I1533	Jungle Key (#1533)
+I1534	Corruption Key (#1534)
+I1535	Crimson Key (#1535)
+I1536	Hallowed Key (#1536)
+I1537	Frozen Key (#1537)
+I1538	Imp Face
+I1539	Ominous Presence
+I1540	Shining Moon
+I1541	Living Gore
+I1542	Flowing Magma
+I1543	Spectre Paintbrush
+I1544	Spectre Paint Roller
+I1545	Spectre Paint Scraper
+I1546	Shroomite Headgear
+I1547	Shroomite Mask
+I1548	Shroomite Helmet
+I1549	Shroomite Breastplate
+I1550	Shroomite Leggings
+I1551	Autohammer
+I1552	Shroomite Bar
+I1553	S.D.M.G.
+I1554	Cenx's Tiara
+I1555	Cenx's Breastplate
+I1556	Cenx's Leggings
+I1557	Crowno's Mask
+I1558	Crowno's Breastplate
+I1559	Crowno's Leggings
+I1560	Will's Helmet
+I1561	Will's Breastplate
+I1562	Will's Leggings
+I1563	Jim's Helmet
+I1564	Jim's Breastplate
+I1565	Jim's Leggings
+I1566	Aaron's Helmet
+I1567	Aaron's Breastplate
+I1568	Aaron's Leggings
+I1569	Vampire Knives
+I1570	Broken Hero Sword
+I1571	Scourge of the Corruptor
+I1572	Staff of the Frost Hydra
+I1573	The Creation of the Guide
+I1574	The Merchant
+I1575	Crowno Devours His Lunch
+I1576	Rare Enchantment
+I1577	Glorious Night
+I1578	Sweetheart Necklace
+I1579	Flurry Boots
+I1580	D-Town's Helmet
+I1581	D-Town's Breastplate
+I1582	D-Town's Leggings
+I1583	D-Town's Wings
+I1584	Will's Wings
+I1585	Crowno's Wings
+I1586	Cenx's Wings
+I1587	Cenx's Dress
+I1588	Cenx's Dress Pants
+I1589	Palladium Column
+I1590	Palladium Column Wall
+I1591	Bubblegum Block
+I1592	Bubblegum Block Wall
+I1593	Titanstone Block
+I1594	Titanstone Block Wall
+I1595	Magic Cuffs
+I1596	Music Box (Snow)
+I1597	Music Box (Space Night)
+I1598	Music Box (Crimson)
+I1599	Music Box (Boss 4)
+I1600	Music Box (Alt Overworld Day)
+I1601	Music Box (Rain)
+I1602	Music Box (Ice)
+I1603	Music Box (Desert)
+I1604	Music Box (Ocean Day)
+I1605	Music Box (Dungeon)
+I1606	Music Box (Plantera)
+I1607	Music Box (Boss 5)
+I1608	Music Box (Temple)
+I1609	Music Box (Eclipse)
+I1610	Music Box (Mushrooms)
+I1611	Butterfly Dust
+I1612	Ankh Charm
+I1613	Ankh Shield
+I1614	Blue Flare
+I1615	Angler Fish Banner
+I1616	Angry Nimbus Banner
+I1617	Anomura Fungus Banner
+I1618	Antlion Banner
+I1619	Arapaima Banner
+I1620	Armored Skeleton Banner
+I1621	Cave Bat Banner
+I1622	Bird Banner
+I1623	Black Recluse Banner
+I1624	Blood Feeder Banner
+I1625	Blood Jelly Banner
+I1626	Blood Crawler Banner
+I1627	Bone Serpent Banner
+I1628	Bunny Banner
+I1629	Chaos Elemental Banner
+I1630	Mimic Banner
+I1631	Clown Banner
+I1632	Corrupt Bunny Banner
+I1633	Corrupt Goldfish Banner
+I1634	Crab Banner
+I1635	Crimera Banner
+I1636	Crimson Axe Banner
+I1637	Cursed Hammer Banner
+I1638	Demon Banner
+I1639	Demon Eye Banner
+I1640	Derpling Banner
+I1641	Eater of Souls Banner
+I1642	Enchanted Sword Banner
+I1643	Frozen Zombie Banner
+I1644	Face Monster Banner
+I1645	Floaty Gross Banner
+I1646	Flying Fish Banner
+I1647	Flying Snake Banner
+I1648	Frankenstein Banner
+I1649	Fungi Bulb Banner
+I1650	Fungo Fish Banner
+I1651	Gastropod Banner
+I1652	Goblin Thief Banner
+I1653	Goblin Sorcerer Banner
+I1654	Goblin Peon Banner
+I1655	Goblin Scout Banner
+I1656	Goblin Warrior Banner
+I1657	Goldfish Banner
+I1658	Harpy Banner
+I1659	Hellbat Banner
+I1660	Herpling Banner
+I1661	Hornet Banner
+I1662	Ice Elemental Banner
+I1663	Icy Merman Banner
+I1664	Fire Imp Banner
+I1665	Blue Jellyfish Banner
+I1666	Jungle Creeper Banner
+I1667	Lihzahrd Banner
+I1668	Man Eater Banner
+I1669	Meteor Head Banner
+I1670	Moth Banner
+I1671	Mummy Banner
+I1672	Mushi Ladybug Banner
+I1673	Parrot Banner
+I1674	Pigron Banner
+I1675	Piranha Banner
+I1676	Pirate Deckhand Banner
+I1677	Pixie Banner
+I1678	Raincoat Zombie Banner
+I1679	Reaper Banner
+I1680	Shark Banner
+I1681	Skeleton Banner
+I1682	Dark Caster Banner
+I1683	Blue Slime Banner
+I1684	Snow Flinx Banner
+I1685	Wall Creeper Banner
+I1686	Spore Zombie Banner
+I1687	Swamp Thing Banner
+I1688	Giant Tortoise Banner
+I1689	Toxic Sludge Banner
+I1690	Umbrella Slime Banner
+I1691	Unicorn Banner
+I1692	Vampire Banner
+I1693	Vulture Banner
+I1694	Nymph Banner
+I1695	Werewolf Banner
+I1696	Wolf Banner
+I1697	World Feeder Banner
+I1698	Worm Banner
+I1699	Wraith Banner
+I1700	Wyvern Banner
+I1701	Zombie Banner
+I1702	Glass Platform
+I1703	Glass Chair
+I1704	Golden Chair
+I1705	Golden Toilet
+I1706	Bar Stool
+I1707	Honey Chair
+I1708	Steampunk Chair
+I1709	Glass Door
+I1710	Golden Door
+I1711	Honey Door
+I1712	Steampunk Door
+I1713	Glass Table
+I1714	Banquet Table
+I1715	Bar
+I1716	Golden Table
+I1717	Honey Table
+I1718	Steampunk Table
+I1719	Glass Bed
+I1720	Golden Bed
+I1721	Honey Bed
+I1722	Steampunk Bed
+I1723	Living Wood Wall
+I1724	Fart in a Jar
+I1725	Pumpkin
+I1726	Pumpkin Wall
+I1727	Hay
+I1728	Hay Wall
+I1729	Spooky Wood
+I1730	Spooky Wood Wall
+I1731	Pumpkin Helmet
+I1732	Pumpkin Breastplate
+I1733	Pumpkin Leggings
+I1734	Candy Apple
+I1735	Soul Cake
+I1736	Nurse Hat
+I1737	Nurse Shirt
+I1738	Nurse Pants
+I1739	Wizard's Hat
+I1740	Guy Fawkes Mask
+I1741	Dye Trader Robe
+I1742	Steampunk Goggles
+I1743	Cyborg Helmet
+I1744	Cyborg Shirt
+I1745	Cyborg Pants
+I1746	Creeper Mask
+I1747	Creeper Shirt
+I1748	Creeper Pants
+I1749	Cat Mask
+I1750	Cat Shirt
+I1751	Cat Pants
+I1752	Ghost Mask
+I1753	Ghost Shirt
+I1754	Pumpkin Mask
+I1755	Pumpkin Shirt
+I1756	Pumpkin Pants
+I1757	Robot Mask
+I1758	Robot Shirt
+I1759	Robot Pants
+I1760	Unicorn Mask
+I1761	Unicorn Shirt
+I1762	Unicorn Pants
+I1763	Vampire Mask
+I1764	Vampire Shirt
+I1765	Vampire Pants
+I1766	Witch Hat
+I1767	Leprechaun Hat
+I1768	Leprechaun Shirt
+I1769	Leprechaun Pants
+I1770	Pixie Shirt
+I1771	Pixie Pants
+I1772	Princess Hat
+I1773	Princess Dress (#1773)
+I1774	Goodie Bag
+I1775	Witch Dress
+I1776	Witch Boots
+I1777	Bride of Frankenstein Mask
+I1778	Bride of Frankenstein Dress
+I1779	Karate Tortoise Mask
+I1780	Karate Tortoise Shirt
+I1781	Karate Tortoise Pants
+I1782	Candy Corn Rifle
+I1783	Candy Corn
+I1784	Jack 'O Lantern Launcher
+I1785	Explosive Jack 'O Lantern
+I1786	Sickle
+I1787	Pumpkin Pie
+I1788	Scarecrow Hat
+I1789	Scarecrow Shirt
+I1790	Scarecrow Pants
+I1791	Cauldron
+I1792	Pumpkin Chair
+I1793	Pumpkin Door
+I1794	Pumpkin Table
+I1795	Pumpkin Work Bench
+I1796	Pumpkin Platform
+I1797	Tattered Fairy Wings
+I1798	Spider Egg
+I1799	Magical Pumpkin Seed
+I1800	Bat Hook
+I1801	Bat Scepter
+I1802	Raven Staff
+I1803	Jungle Key (#1803)
+I1804	Corruption Key (#1804)
+I1805	Crimson Key (#1805)
+I1806	Hallowed Key (#1806)
+I1807	Frozen Key (#1807)
+I1808	Hanging Jack 'O Lantern
+I1809	Rotten Egg
+I1810	Unlucky Yarn
+I1811	Black Fairy Dust
+I1812	Jackelier
+I1813	Jack 'O Lantern
+I1814	Spooky Chair
+I1815	Spooky Door
+I1816	Spooky Table
+I1817	Spooky Work Bench
+I1818	Spooky Wood Platform
+I1819	Reaper Hood
+I1820	Reaper Robe
+I1821	Fox Mask
+I1822	Fox Shirt
+I1823	Fox Pants
+I1824	Cat Ears
+I1825	Bloody Machete
+I1826	The Horseman's Blade
+I1827	Bladed Glove
+I1828	Pumpkin Seed
+I1829	Spooky Hook
+I1830	Spooky Wings
+I1831	Spooky Twig
+I1832	Spooky Helmet
+I1833	Spooky Breastplate
+I1834	Spooky Leggings
+I1835	Stake Launcher
+I1836	Stake
+I1837	Cursed Sapling
+I1838	Space Creature Mask
+I1839	Space Creature Shirt
+I1840	Space Creature Pants
+I1841	Wolf Mask
+I1842	Wolf Shirt
+I1843	Wolf Pants
+I1844	Pumpkin Moon Medallion
+I1845	Necromantic Scroll
+I1846	Jacking Skeletron
+I1847	Bitter Harvest
+I1848	Blood Moon Countess
+I1849	Hallow's Eve
+I1850	Morbid Curiosity
+I1851	Treasure Hunter Shirt
+I1852	Treasure Hunter Pants
+I1853	Dryad Coverings
+I1854	Dryad Loincloth
+I1855	Mourning Wood Trophy
+I1856	Pumpking Trophy
+I1857	Jack 'O Lantern Mask
+I1858	Sniper Scope
+I1859	Heart Lantern
+I1860	Jellyfish Diving Gear
+I1861	Arctic Diving Gear
+I1862	Frostspark Boots
+I1863	Fart in a Balloon
+I1864	Papyrus Scarab
+I1865	Celestial Stone
+I1866	Hoverboard
+I1867	Candy Cane
+I1868	Sugar Plum
+I1869	Present
+I1870	Red Ryder
+I1871	Festive Wings
+I1872	Pine Tree Block
+I1873	Christmas Tree
+I1874	Star Topper 1
+I1875	Star Topper 2
+I1876	Star Topper 3
+I1877	Bow Topper
+I1878	White Garland
+I1879	White and Red Garland
+I1880	Red Garland
+I1881	Red and Green Garland
+I1882	Green Garland
+I1883	Green and White Garland
+I1884	Multicolored Bulb
+I1885	Red Bulb
+I1886	Yellow Bulb
+I1887	Green Bulb
+I1888	Red and Green Bulb
+I1889	Yellow and Green Bulb
+I1890	Red and Yellow Bulb
+I1891	White Bulb
+I1892	White and Red Bulb
+I1893	White and Yellow Bulb
+I1894	White and Green Bulb
+I1895	Multicolored Lights
+I1896	Red Lights
+I1897	Green Lights
+I1898	Blue Lights
+I1899	Yellow Lights
+I1900	Red and Yellow Lights
+I1901	Red and Green Lights
+I1902	Yellow and Green Lights
+I1903	Blue and Green Lights
+I1904	Red and Blue Lights
+I1905	Blue and Yellow Lights
+I1906	Giant Bow
+I1907	Reindeer Antlers
+I1908	Holly
+I1909	Candy Cane Sword
+I1910	Elf Melter
+I1911	Christmas Pudding
+I1912	Eggnog
+I1913	Star Anise
+I1914	Reindeer Bells
+I1915	Candy Cane Hook
+I1916	Christmas Hook
+I1917	Candy Cane Pickaxe
+I1918	Fruitcake Chakram
+I1919	Sugar Cookie
+I1920	Gingerbread Cookie
+I1921	Hand Warmer
+I1922	Coal
+I1923	Toolbox
+I1924	Pine Door
+I1925	Pine Chair
+I1926	Pine Table
+I1927	Dog Whistle
+I1928	Christmas Tree Sword
+I1929	Chain Gun
+I1930	Razorpine
+I1931	Blizzard Staff
+I1932	Mrs. Claus Hat
+I1933	Mrs. Claus Shirt
+I1934	Mrs. Claus Heels
+I1935	Parka Hood
+I1936	Parka Coat
+I1937	Parka Pants
+I1938	Snow Hat
+I1939	Ugly Sweater
+I1940	Tree Mask
+I1941	Tree Shirt
+I1942	Tree Trunks
+I1943	Elf Hat
+I1944	Elf Shirt
+I1945	Elf Pants
+I1946	Snowman Cannon
+I1947	North Pole
+I1948	Christmas Tree Wallpaper
+I1949	Ornament Wallpaper
+I1950	Candy Cane Wallpaper
+I1951	Festive Wallpaper
+I1952	Stars Wallpaper
+I1953	Squiggles Wallpaper
+I1954	Snowflake Wallpaper
+I1955	Krampus Horn Wallpaper
+I1956	Bluegreen Wallpaper
+I1957	Grinch Finger Wallpaper
+I1958	Naughty Present
+I1959	Baby Grinch's Mischief Whistle
+I1960	Ice Queen Trophy
+I1961	Santa-NK1 Trophy
+I1962	Everscream Trophy
+I1963	Music Box (Pumpkin Moon)
+I1964	Music Box (Alt Underground)
+I1965	Music Box (Frost Moon)
+I1966	Brown Paint
+I1967	Shadow Paint
+I1968	Negative Paint
+I1969	Team Dye
+I1970	Amethyst Gemspark Block
+I1971	Topaz Gemspark Block
+I1972	Sapphire Gemspark Block
+I1973	Emerald Gemspark Block
+I1974	Ruby Gemspark Block
+I1975	Diamond Gemspark Block
+I1976	Amber Gemspark Block
+I1977	Life Hair Dye
+I1978	Mana Hair Dye
+I1979	Depth Hair Dye
+I1980	Money Hair Dye
+I1981	Time Hair Dye
+I1982	Team Hair Dye
+I1983	Biome Hair Dye
+I1984	Party Hair Dye
+I1985	Rainbow Hair Dye
+I1986	Speed Hair Dye
+I1987	Angel Halo
+I1988	Fez
+I1989	Womannequin
+I1990	Hair Dye Remover
+I1991	Bug Net
+I1992	Firefly
+I1993	Firefly in a Bottle
+I1994	Monarch Butterfly
+I1995	Purple Emperor Butterfly
+I1996	Red Admiral Butterfly
+I1997	Ulysses Butterfly
+I1998	Sulphur Butterfly
+I1999	Tree Nymph Butterfly
+I2000	Zebra Swallowtail Butterfly
+I2001	Julia Butterfly
+I2002	Worm
+I2003	Mouse
+I2004	Lightning Bug
+I2005	Lightning Bug in a Bottle
+I2006	Snail
+I2007	Glowing Snail
+I2008	Fancy Gray Wallpaper
+I2009	Ice Floe Wallpaper
+I2010	Music Wallpaper
+I2011	Purple Rain Wallpaper
+I2012	Rainbow Wallpaper
+I2013	Sparkle Stone Wallpaper
+I2014	Starlit Heaven Wallpaper
+I2015	Bird
+I2016	Blue Jay
+I2017	Cardinal
+I2018	Squirrel
+I2019	Bunny
+I2020	Cactus Bookcase
+I2021	Ebonwood Bookcase
+I2022	Flesh Bookcase
+I2023	Honey Bookcase
+I2024	Steampunk Bookcase
+I2025	Glass Bookcase
+I2026	Rich Mahogany Bookcase
+I2027	Pearlwood Bookcase
+I2028	Spooky Bookcase
+I2029	Skyware Bookcase
+I2030	Lihzahrd Bookcase
+I2031	Frozen Bookcase
+I2032	Cactus Lantern
+I2033	Ebonwood Lantern
+I2034	Flesh Lantern
+I2035	Honey Lantern
+I2036	Steampunk Lantern
+I2037	Glass Lantern
+I2038	Rich Mahogany Lantern
+I2039	Pearlwood Lantern
+I2040	Frozen Lantern
+I2041	Lihzahrd Lantern
+I2042	Skyware Lantern
+I2043	Spooky Lantern
+I2044	Frozen Door
+I2045	Cactus Candle
+I2046	Ebonwood Candle
+I2047	Flesh Candle
+I2048	Glass Candle
+I2049	Frozen Candle
+I2050	Rich Mahogany Candle
+I2051	Pearlwood Candle
+I2052	Lihzahrd Candle
+I2053	Skyware Candle
+I2054	Pumpkin Candle
+I2055	Cactus Chandelier
+I2056	Ebonwood Chandelier
+I2057	Flesh Chandelier
+I2058	Honey Chandelier
+I2059	Frozen Chandelier
+I2060	Rich Mahogany Chandelier
+I2061	Pearlwood Chandelier
+I2062	Lihzahrd Chandelier
+I2063	Skyware Chandelier
+I2064	Spooky Chandelier
+I2065	Glass Chandelier
+I2066	Cactus Bed
+I2067	Flesh Bed
+I2068	Frozen Bed
+I2069	Lihzahrd Bed
+I2070	Skyware Bed
+I2071	Spooky Bed
+I2072	Cactus Bathtub
+I2073	Ebonwood Bathtub
+I2074	Flesh Bathtub
+I2075	Glass Bathtub
+I2076	Frozen Bathtub
+I2077	Rich Mahogany Bathtub
+I2078	Pearlwood Bathtub
+I2079	Lihzahrd Bathtub
+I2080	Skyware Bathtub
+I2081	Spooky Bathtub
+I2082	Cactus Lamp
+I2083	Ebonwood Lamp
+I2084	Flesh Lamp
+I2085	Glass Lamp
+I2086	Frozen Lamp
+I2087	Rich Mahogany Lamp
+I2088	Pearlwood Lamp
+I2089	Lihzahrd Lamp
+I2090	Skyware Lamp
+I2091	Spooky Lamp
+I2092	Cactus Candelabra
+I2093	Ebonwood Candelabra
+I2094	Flesh Candelabra
+I2095	Honey Candelabra
+I2096	Steampunk Candelabra
+I2097	Glass Candelabra
+I2098	Rich Mahogany Candelabra
+I2099	Pearlwood Candelabra
+I2100	Frozen Candelabra
+I2101	Lihzahrd Candelabra
+I2102	Skyware Candelabra
+I2103	Spooky Candelabra
+I2104	Brain of Cthulhu Mask
+I2105	Wall of Flesh Mask
+I2106	Twin Mask
+I2107	Skeletron Prime Mask
+I2108	Queen Bee Mask
+I2109	Plantera Mask
+I2110	Golem Mask
+I2111	Eater of Worlds Mask
+I2112	Eye of Cthulhu Mask
+I2113	Destroyer Mask
+I2114	Blacksmith Rack
+I2115	Carpentry Rack
+I2116	Helmet Rack
+I2117	Spear Rack
+I2118	Sword Rack
+I2119	Stone Slab
+I2120	Sandstone Slab
+I2121	Frog
+I2122	Mallard Duck
+I2123	Duck
+I2124	Honey Bathtub
+I2125	Steampunk Bathtub
+I2126	Living Wood Bathtub
+I2127	Shadewood Bathtub
+I2128	Bone Bathtub
+I2129	Honey Lamp
+I2130	Steampunk Lamp
+I2131	Living Wood Lamp
+I2132	Shadewood Lamp
+I2133	Golden Lamp
+I2134	Bone Lamp
+I2135	Living Wood Bookcase
+I2136	Shadewood Bookcase
+I2137	Golden Bookcase
+I2138	Bone Bookcase
+I2139	Living Wood Bed
+I2140	Bone Bed
+I2141	Living Wood Chandelier
+I2142	Shadewood Chandelier
+I2143	Golden Chandelier
+I2144	Bone Chandelier
+I2145	Living Wood Lantern
+I2146	Shadewood Lantern
+I2147	Golden Lantern
+I2148	Bone Lantern
+I2149	Living Wood Candelabra
+I2150	Shadewood Candelabra
+I2151	Golden Candelabra
+I2152	Bone Candelabra
+I2153	Living Wood Candle
+I2154	Shadewood Candle
+I2155	Golden Candle
+I2156	Black Scorpion
+I2157	Scorpion
+I2158	Bubble Wallpaper
+I2159	Copper Pipe Wallpaper
+I2160	Ducky Wallpaper
+I2161	Frost Core
+I2162	Bunny Cage
+I2163	Squirrel Cage
+I2164	Mallard Duck Cage
+I2165	Duck Cage
+I2166	Bird Cage
+I2167	Blue Jay Cage
+I2168	Cardinal Cage
+I2169	Waterfall Wall
+I2170	Lavafall Wall
+I2171	Crimson Seeds
+I2172	Heavy Assembler
+I2173	Copper Plating
+I2174	Snail Cage
+I2175	Glowing Snail Cage
+I2176	Shroomite Digging Claw
+I2177	Ammo Box
+I2178	Monarch Butterfly Jar
+I2179	Purple Emperor Butterfly Jar
+I2180	Red Admiral Butterfly Jar
+I2181	Ulysses Butterfly Jar
+I2182	Sulphur Butterfly Jar
+I2183	Tree Nymph Butterfly Jar
+I2184	Zebra Swallowtail Butterfly Jar
+I2185	Julia Butterfly Jar
+I2186	Scorpion Cage
+I2187	Black Scorpion Cage
+I2188	Venom Staff
+I2189	Spectre Mask
+I2190	Frog Cage
+I2191	Mouse Cage
+I2192	Bone Welder
+I2193	Flesh Cloning Vat
+I2194	Glass Kiln
+I2195	Lihzahrd Furnace
+I2196	Living Loom
+I2197	Sky Mill
+I2198	Ice Machine
+I2199	Beetle Helmet
+I2200	Beetle Scale Mail
+I2201	Beetle Shell
+I2202	Beetle Leggings
+I2203	Steampunk Boiler
+I2204	Honey Dispenser
+I2205	Penguin
+I2206	Penguin Cage
+I2207	Worm Cage
+I2208	Terrarium
+I2209	Super Mana Potion
+I2210	Ebonwood Fence
+I2211	Rich Mahogany Fence
+I2212	Pearlwood Fence
+I2213	Shadewood Fence
+I2214	Brick Layer
+I2215	Extendo Grip
+I2216	Paint Sprayer
+I2217	Portable Cement Mixer
+I2218	Beetle Husk
+I2219	Celestial Magnet
+I2220	Celestial Emblem
+I2221	Celestial Cuffs
+I2222	Peddler's Hat
+I2223	Pulse Bow
+I2224	Large Dynasty Lantern
+I2225	Dynasty Lamp
+I2226	Dynasty Lantern
+I2227	Large Dynasty Candle
+I2228	Dynasty Chair
+I2229	Dynasty Work Bench
+I2230	Dynasty Chest
+I2231	Dynasty Bed
+I2232	Dynasty Bathtub
+I2233	Dynasty Bookcase
+I2234	Dynasty Cup
+I2235	Dynasty Bowl
+I2236	Dynasty Candle
+I2237	Dynasty Clock
+I2238	Golden Clock
+I2239	Glass Clock
+I2240	Honey Clock
+I2241	Steampunk Clock
+I2242	Fancy Dishes
+I2243	Glass Bowl
+I2244	Wine Glass
+I2245	Living Wood Piano
+I2246	Flesh Piano
+I2247	Frozen Piano
+I2248	Frozen Table
+I2249	Honey Chest
+I2250	Steampunk Chest
+I2251	Honey Work Bench
+I2252	Frozen Work Bench
+I2253	Steampunk Work Bench
+I2254	Glass Piano
+I2255	Honey Piano
+I2256	Steampunk Piano
+I2257	Honey Cup
+I2258	Chalice
+I2259	Dynasty Table
+I2260	Dynasty Wood
+I2261	Red Dynasty Shingles
+I2262	Blue Dynasty Shingles
+I2263	White Dynasty Wall
+I2264	Blue Dynasty Wall
+I2265	Dynasty Door
+I2266	Sake
+I2267	Pad Thai
+I2268	Pho
+I2269	Revolver
+I2270	Gatligator
+I2271	Arcane Rune Wall
+I2272	Water Gun
+I2273	Katana
+I2274	Ultrabright Torch
+I2275	Magic Hat
+I2276	Diamond Ring
+I2277	Gi
+I2278	Kimono
+I2279	Mystic Robe
+I2280	Beetle Wings
+I2281	Tiger Skin
+I2282	Leopard Skin
+I2283	Zebra Skin
+I2284	Crimson Cloak
+I2285	Mysterious Cape
+I2286	Red Cape
+I2287	Winter Cape
+I2288	Frozen Chair
+I2289	Wood Fishing Pole
+I2290	Bass
+I2291	Reinforced Fishing Pole
+I2292	Fiberglass Fishing Pole
+I2293	Fisher of Souls
+I2294	Golden Fishing Rod
+I2295	Mechanic's Rod
+I2296	Sitting Duck's Fishing Pole
+I2297	Trout
+I2298	Salmon
+I2299	Atlantic Cod
+I2300	Tuna
+I2301	Red Snapper
+I2302	Neon Tetra
+I2303	Armored Cavefish
+I2304	Damselfish
+I2305	Crimson Tigerfish
+I2306	Frost Minnow
+I2307	Princess Fish
+I2308	Golden Carp
+I2309	Specular Fish
+I2310	Prismite
+I2311	Variegated Lardfish
+I2312	Flarefin Koi
+I2313	Double Cod
+I2314	Honeyfin
+I2315	Obsidifish
+I2316	Shrimp
+I2317	Chaos Fish
+I2318	Ebonkoi
+I2319	Hemopiranha
+I2320	Rockfish
+I2321	Stinkfish
+I2322	Mining Potion
+I2323	Heartreach Potion
+I2324	Calming Potion
+I2325	Builder Potion
+I2326	Titan Potion
+I2327	Flipper Potion
+I2328	Summoning Potion
+I2329	Dangersense Potion
+I2330	Purple Clubberfish
+I2331	Obsidian Swordfish
+I2332	Swordfish
+I2333	Iron Fence
+I2334	Wooden Crate
+I2335	Iron Crate
+I2336	Golden Crate
+I2337	Old Shoe
+I2338	Seaweed (#2338)
+I2339	Tin Can
+I2340	Minecart Track
+I2341	Reaver Shark
+I2342	Sawtooth Shark
+I2343	Minecart
+I2344	Ammo Reservation Potion
+I2345	Lifeforce Potion
+I2346	Endurance Potion
+I2347	Rage Potion
+I2348	Inferno Potion
+I2349	Wrath Potion
+I2350	Recall Potion
+I2351	Teleportation Potion
+I2352	Love Potion
+I2353	Stink Potion
+I2354	Fishing Potion
+I2355	Sonar Potion
+I2356	Crate Potion
+I2357	Shiverthorn Seeds
+I2358	Shiverthorn
+I2359	Warmth Potion
+I2360	Fish Hook
+I2361	Bee Headgear
+I2362	Bee Breastplate
+I2363	Bee Greaves
+I2364	Hornet Staff
+I2365	Imp Staff
+I2366	Queen Spider Staff
+I2367	Angler Hat
+I2368	Angler Vest
+I2369	Angler Pants
+I2370	Spider Mask
+I2371	Spider Breastplate
+I2372	Spider Greaves
+I2373	High Test Fishing Line
+I2374	Angler Earring
+I2375	Tackle Box
+I2376	Blue Dungeon Piano
+I2377	Green Dungeon Piano
+I2378	Pink Dungeon Piano
+I2379	Golden Piano
+I2380	Obsidian Piano
+I2381	Bone Piano
+I2382	Cactus Piano
+I2383	Spooky Piano
+I2384	Skyware Piano
+I2385	Lihzahrd Piano
+I2386	Blue Dungeon Dresser
+I2387	Green Dungeon Dresser
+I2388	Pink Dungeon Dresser
+I2389	Golden Dresser
+I2390	Obsidian Dresser
+I2391	Bone Dresser
+I2392	Cactus Dresser
+I2393	Spooky Dresser
+I2394	Skyware Dresser
+I2395	Honey Dresser
+I2396	Lihzahrd Dresser
+I2397	Sofa
+I2398	Ebonwood Sofa
+I2399	Rich Mahogany Sofa
+I2400	Pearlwood Sofa
+I2401	Shadewood Sofa
+I2402	Blue Dungeon Sofa
+I2403	Green Dungeon Sofa
+I2404	Pink Dungeon Sofa
+I2405	Golden Sofa
+I2406	Obsidian Sofa
+I2407	Bone Sofa
+I2408	Cactus Sofa
+I2409	Spooky Sofa
+I2410	Skyware Sofa
+I2411	Honey Sofa
+I2412	Steampunk Sofa
+I2413	Mushroom Sofa
+I2414	Glass Sofa
+I2415	Pumpkin Sofa
+I2416	Lihzahrd Sofa
+I2417	Seashell Hairpin
+I2418	Mermaid Adornment
+I2419	Mermaid Tail
+I2420	Zephyr Fish
+I2421	Fleshcatcher
+I2422	Hotline Fishing Hook
+I2423	Frog Leg
+I2424	Anchor
+I2425	Cooked Fish
+I2426	Cooked Shrimp
+I2427	Sashimi
+I2428	Fuzzy Carrot
+I2429	Scaly Truffle
+I2430	Slimy Saddle
+I2431	Bee Wax
+I2432	Copper Plating Wall
+I2433	Stone Slab Wall
+I2434	Sail
+I2435	Coralstone Block
+I2436	Blue Jellyfish
+I2437	Green Jellyfish
+I2438	Pink Jellyfish
+I2439	Blue Jellyfish Jar
+I2440	Green Jellyfish Jar
+I2441	Pink Jellyfish Jar
+I2442	Life Preserver
+I2443	Ship's Wheel
+I2444	Compass Rose
+I2445	Wall Anchor
+I2446	Goldfish Trophy
+I2447	Bunnyfish Trophy
+I2448	Swordfish Trophy
+I2449	Sharkteeth Trophy
+I2450	Batfish
+I2451	Bumblebee Tuna
+I2452	Catfish
+I2453	Cloudfish
+I2454	Cursedfish
+I2455	Dirtfish
+I2456	Dynamite Fish
+I2457	Eater of Plankton
+I2458	Fallen Starfish
+I2459	The Fish of Cthulhu
+I2460	Fishotron
+I2461	Harpyfish
+I2462	Hungerfish
+I2463	Ichorfish
+I2464	Jewelfish
+I2465	Mirage Fish
+I2466	Mutant Flinxfin
+I2467	Pengfish
+I2468	Pixiefish
+I2469	Spiderfish
+I2470	Tundra Trout
+I2471	Unicorn Fish
+I2472	Guide Voodoo Fish
+I2473	Wyverntail
+I2474	Zombie Fish
+I2475	Amanita Fungifin
+I2476	Angelfish
+I2477	Bloody Manowar
+I2478	Bonefish
+I2479	Bunnyfish
+I2480	Cap'n Tunabeard
+I2481	Clownfish
+I2482	Demonic Hellfish
+I2483	Derpfish
+I2484	Fishron
+I2485	Infected Scabbardfish
+I2486	Mudfish
+I2487	Slimefish
+I2488	Tropical Barracuda
+I2489	King Slime Trophy
+I2490	Ship in a Bottle
+I2491	Hardy Saddle
+I2492	Pressure Plate Track
+I2493	King Slime Mask
+I2494	Fin Wings
+I2495	Treasure Map
+I2496	Seaweed Planter
+I2497	Pillagin' Me Pixels
+I2498	Fish Costume Mask
+I2499	Fish Costume Shirt
+I2500	Fish Costume Finskirt
+I2501	Ginger Beard
+I2502	Honeyed Goggles
+I2503	Boreal Wood
+I2504	Palm Wood
+I2505	Boreal Wood Wall
+I2506	Palm Wood Wall
+I2507	Boreal Wood Fence
+I2508	Palm Wood Fence
+I2509	Boreal Wood Helmet
+I2510	Boreal Wood Breastplate
+I2511	Boreal Wood Greaves
+I2512	Palm Wood Helmet
+I2513	Palm Wood Breastplate
+I2514	Palm Wood Greaves
+I2515	Palm Wood Bow
+I2516	Palm Wood Hammer
+I2517	Palm Wood Sword
+I2518	Palm Wood Platform
+I2519	Palm Wood Bathtub
+I2520	Palm Wood Bed
+I2521	Palm Wood Bench
+I2522	Palm Wood Candelabra
+I2523	Palm Wood Candle
+I2524	Palm Wood Chair
+I2525	Palm Wood Chandelier
+I2526	Palm Wood Chest
+I2527	Palm Wood Sofa
+I2528	Palm Wood Door
+I2529	Palm Wood Dresser
+I2530	Palm Wood Lantern
+I2531	Palm Wood Piano
+I2532	Palm Wood Table
+I2533	Palm Wood Lamp
+I2534	Palm Wood Work Bench
+I2535	Optic Staff
+I2536	Palm Wood Bookcase
+I2537	Mushroom Bathtub
+I2538	Mushroom Bed
+I2539	Mushroom Bench
+I2540	Mushroom Bookcase
+I2541	Mushroom Candelabra
+I2542	Mushroom Candle
+I2543	Mushroom Chandelier
+I2544	Mushroom Chest
+I2545	Mushroom Dresser
+I2546	Mushroom Lantern
+I2547	Mushroom Lamp
+I2548	Mushroom Piano
+I2549	Mushroom Platform
+I2550	Mushroom Table
+I2551	Spider Staff
+I2552	Boreal Wood Bathtub
+I2553	Boreal Wood Bed
+I2554	Boreal Wood Bookcase
+I2555	Boreal Wood Candelabra
+I2556	Boreal Wood Candle
+I2557	Boreal Wood Chair
+I2558	Boreal Wood Chandelier
+I2559	Boreal Wood Chest
+I2560	Boreal Wood Clock
+I2561	Boreal Wood Door
+I2562	Boreal Wood Dresser
+I2563	Boreal Wood Lamp
+I2564	Boreal Wood Lantern
+I2565	Boreal Wood Piano
+I2566	Boreal Wood Platform
+I2567	Slime Bathtub
+I2568	Slime Bed
+I2569	Slime Bookcase
+I2570	Slime Candelabra
+I2571	Slime Candle
+I2572	Slime Chair
+I2573	Slime Chandelier
+I2574	Slime Chest
+I2575	Slime Clock
+I2576	Slime Door
+I2577	Slime Dresser
+I2578	Slime Lamp
+I2579	Slime Lantern
+I2580	Slime Piano
+I2581	Slime Platform
+I2582	Slime Sofa
+I2583	Slime Table
+I2584	Pirate Staff
+I2585	Slime Hook
+I2586	Sticky Grenade
+I2587	Beguiling Lyre
+I2588	Duke Fishron Mask
+I2589	Duke Fishron Trophy
+I2590	Molotov Cocktail
+I2591	Bone Clock
+I2592	Cactus Clock
+I2593	Ebonwood Clock
+I2594	Frozen Clock
+I2595	Lihzahrd Clock
+I2596	Living Wood Clock
+I2597	Rich Mahogany Clock
+I2598	Flesh Clock
+I2599	Mushroom Clock
+I2600	Obsidian Clock
+I2601	Palm Wood Clock
+I2602	Pearlwood Clock
+I2603	Pumpkin Clock
+I2604	Shadewood Clock
+I2605	Spooky Clock
+I2606	Skyware Clock
+I2607	Spider Fang
+I2608	Falcon Blade
+I2609	Fishron Wings
+I2610	Slime Gun
+I2611	Flairoon
+I2612	Green Dungeon Chest
+I2613	Pink Dungeon Chest
+I2614	Blue Dungeon Chest
+I2615	Bone Chest
+I2616	Cactus Chest
+I2617	Flesh Chest
+I2618	Obsidian Chest
+I2619	Pumpkin Chest
+I2620	Spooky Chest
+I2621	Tempest Staff
+I2622	Razorblade Typhoon
+I2623	Bubble Gun
+I2624	Tsunami
+I2625	Seashell
+I2626	Starfish
+I2627	Steampunk Platform
+I2628	Skyware Platform
+I2629	Living Wood Platform
+I2630	Honey Platform
+I2631	Skyware Work Bench
+I2632	Glass Work Bench
+I2633	Living Wood Work Bench
+I2634	Flesh Sofa
+I2635	Frozen Sofa
+I2636	Living Wood Sofa
+I2637	Pumpkin Dresser
+I2638	Steampunk Dresser
+I2639	Glass Dresser
+I2640	Flesh Dresser
+I2641	Pumpkin Lantern
+I2642	Obsidian Lantern
+I2643	Pumpkin Lamp
+I2644	Obsidian Lamp
+I2645	Blue Dungeon Lamp
+I2646	Green Dungeon Lamp
+I2647	Pink Dungeon Lamp
+I2648	Honey Candle
+I2649	Steampunk Candle
+I2650	Spooky Candle
+I2651	Obsidian Candle
+I2652	Blue Dungeon Chandelier
+I2653	Green Dungeon Chandelier
+I2654	Pink Dungeon Chandelier
+I2655	Steampunk Chandelier
+I2656	Pumpkin Chandelier
+I2657	Obsidian Chandelier
+I2658	Blue Dungeon Bathtub
+I2659	Green Dungeon Bathtub
+I2660	Pink Dungeon Bathtub
+I2661	Pumpkin Bathtub
+I2662	Obsidian Bathtub
+I2663	Golden Bathtub
+I2664	Blue Dungeon Candelabra
+I2665	Green Dungeon Candelabra
+I2666	Pink Dungeon Candelabra
+I2667	Obsidian Candelabra
+I2668	Pumpkin Candelabra
+I2669	Pumpkin Bed
+I2670	Pumpkin Bookcase
+I2671	Pumpkin Piano
+I2672	Shark Statue
+I2673	Truffle Worm
+I2674	Apprentice Bait
+I2675	Journeyman Bait
+I2676	Master Bait
+I2677	Amber Gemspark Wall
+I2678	Offline Amber Gemspark Wall
+I2679	Amethyst Gemspark Wall
+I2680	Offline Amethyst Gemspark Wall
+I2681	Diamond Gemspark Wall
+I2682	Offline Diamond Gemspark Wall
+I2683	Emerald Gemspark Wall
+I2684	Offline Emerald Gemspark Wall
+I2685	Ruby Gemspark Wall
+I2686	Offline Ruby Gemspark Wall
+I2687	Sapphire Gemspark Wall
+I2688	Offline Sapphire Gemspark Wall
+I2689	Topaz Gemspark Wall
+I2690	Offline Topaz Gemspark Wall
+I2691	Tin Plating Wall
+I2692	Tin Plating
+I2693	Waterfall Block
+I2694	Lavafall Block
+I2695	Confetti Block
+I2696	Confetti Wall
+I2697	Midnight Confetti Block
+I2698	Midnight Confetti Wall
+I2699	Weapon Rack
+I2700	Fireworks Box
+I2701	Living Fire Block
+I2702	'0' Statue
+I2703	'1' Statue
+I2704	'2' Statue
+I2705	'3' Statue
+I2706	'4' Statue
+I2707	'5' Statue
+I2708	'6' Statue
+I2709	'7' Statue
+I2710	'8' Statue
+I2711	'9' Statue
+I2712	'A' Statue
+I2713	'B' Statue
+I2714	'C' Statue
+I2715	'D' Statue
+I2716	'E' Statue
+I2717	'F' Statue
+I2718	'G' Statue
+I2719	'H' Statue
+I2720	'I' Statue
+I2721	'J' Statue
+I2722	'K' Statue
+I2723	'L' Statue
+I2724	'M' Statue
+I2725	'N' Statue
+I2726	'O' Statue
+I2727	'P' Statue
+I2728	'Q' Statue
+I2729	'R' Statue
+I2730	'S' Statue
+I2731	'T' Statue
+I2732	'U' Statue
+I2733	'V' Statue
+I2734	'W' Statue
+I2735	'X' Statue
+I2736	'Y' Statue
+I2737	'Z' Statue
+I2738	Firework Fountain
+I2739	Booster Track
+I2740	Grasshopper
+I2741	Grasshopper Cage
+I2742	Music Box (Underground Crimson)
+I2743	Cactus Table
+I2744	Cactus Platform
+I2745	Boreal Wood Sword
+I2746	Boreal Wood Hammer
+I2747	Boreal Wood Bow
+I2748	Glass Chest
+I2749	Xeno Staff
+I2750	Meteor Staff
+I2751	Living Cursed Fire Block
+I2752	Living Demon Fire Block
+I2753	Living Frost Fire Block
+I2754	Living Ichor Block
+I2755	Living Ultrabright Fire Block
+I2756	Gender Change Potion
+I2757	Vortex Helmet
+I2758	Vortex Breastplate
+I2759	Vortex Leggings
+I2760	Nebula Helmet
+I2761	Nebula Breastplate
+I2762	Nebula Leggings
+I2763	Solar Flare Helmet
+I2764	Solar Flare Breastplate
+I2765	Solar Flare Leggings
+I2766	Solar Tablet Fragment
+I2767	Solar Tablet
+I2768	Drill Containment Unit
+I2769	Cosmic Car Key
+I2770	Mothron Wings
+I2771	Brain Scrambler
+I2774	Vortex Drill
+I2776	Vortex Pickaxe
+I2779	Nebula Drill
+I2781	Nebula Pickaxe
+I2784	Solar Flare Drill
+I2786	Solar Flare Pickaxe
+I2787	Honeyfall Block
+I2788	Honeyfall Wall
+I2789	Chlorophyte Brick Wall
+I2790	Crimtane Brick Wall
+I2791	Shroomite Plating Wall
+I2792	Chlorophyte Brick
+I2793	Crimtane Brick
+I2794	Shroomite Plating
+I2795	Laser Machinegun
+I2796	Electrosphere Launcher
+I2797	Xenopopper
+I2798	Laser Drill
+I2799	Mechanical Ruler
+I2800	Anti-Gravity Hook
+I2801	Moon Mask
+I2802	Sun Mask
+I2803	Martian Costume Mask
+I2804	Martian Costume Shirt
+I2805	Martian Costume Pants
+I2806	Martian Uniform Helmet
+I2807	Martian Uniform Torso
+I2808	Martian Uniform Pants
+I2809	Martian Astro Clock
+I2810	Martian Bathtub
+I2811	Martian Bed
+I2812	Martian Hover Chair
+I2813	Martian Chandelier
+I2814	Martian Chest
+I2815	Martian Door
+I2816	Martian Dresser
+I2817	Martian Holobookcase
+I2818	Martian Hover Candle
+I2819	Martian Lamppost
+I2820	Martian Lantern
+I2821	Martian Piano
+I2822	Martian Platform
+I2823	Martian Sofa
+I2824	Martian Table
+I2825	Martian Table Lamp
+I2826	Martian Work Bench
+I2827	Wooden Sink
+I2828	Ebonwood Sink
+I2829	Rich Mahogany Sink
+I2830	Pearlwood Sink
+I2831	Bone Sink
+I2832	Flesh Sink
+I2833	Living Wood Sink
+I2834	Skyware Sink
+I2835	Shadewood Sink
+I2836	Lihzahrd Sink
+I2837	Blue Dungeon Sink
+I2838	Green Dungeon Sink
+I2839	Pink Dungeon Sink
+I2840	Obsidian Sink
+I2841	Metal Sink
+I2842	Glass Sink
+I2843	Golden Sink
+I2844	Honey Sink
+I2845	Steampunk Sink
+I2846	Pumpkin Sink
+I2847	Spooky Sink
+I2848	Frozen Sink
+I2849	Dynasty Sink
+I2850	Palm Wood Sink
+I2851	Mushroom Sink
+I2852	Boreal Wood Sink
+I2853	Slime Sink
+I2854	Cactus Sink
+I2855	Martian Sink
+I2856	Solar Cultist Hood
+I2857	Lunar Cultist Hood
+I2858	Solar Cultist Robe
+I2859	Lunar Cultist Robe
+I2860	Martian Conduit Plating
+I2861	Martian Conduit Wall
+I2862	HiTek Sunglasses
+I2863	Martian Hair Dye
+I2864	Martian Dye
+I2865	Castle Marsberg
+I2866	Martia Lisa
+I2867	The Truth Is Up There
+I2868	Smoke Block
+I2869	Living Flame Dye
+I2870	Living Rainbow Dye
+I2871	Shadow Dye
+I2872	Negative Dye
+I2873	Living Ocean Dye
+I2874	Brown Dye
+I2875	Brown and Black Dye
+I2876	Bright Brown Dye
+I2877	Brown and Silver Dye
+I2878	Wisp Dye
+I2879	Pixie Dye
+I2880	Influx Waver
+I2882	Charged Blaster Cannon
+I2883	Chlorophyte Dye
+I2884	Unicorn Wisp Dye
+I2885	Infernal Wisp Dye
+I2886	Vicious Powder
+I2887	Vicious Mushroom
+I2888	The Bee's Knees
+I2889	Gold Bird
+I2890	Gold Bunny
+I2891	Gold Butterfly
+I2892	Gold Frog
+I2893	Gold Grasshopper
+I2894	Gold Mouse
+I2895	Gold Worm
+I2896	Sticky Dynamite
+I2897	Angry Trapper Banner
+I2898	Armored Viking Banner
+I2899	Black Slime Banner
+I2900	Blue Armored Bones Banner
+I2901	Blue Cultist Archer Banner
+I2902	Lunatic Devotee Banner
+I2903	Blue Cultist Fighter Banner
+I2904	Bone Lee Banner
+I2905	Clinger Banner
+I2906	Cochineal Beetle Banner
+I2907	Corrupt Penguin Banner
+I2908	Corrupt Slime Banner
+I2909	Corruptor Banner
+I2910	Crimslime Banner
+I2911	Cursed Skull Banner
+I2912	Cyan Beetle Banner
+I2913	Devourer Banner
+I2914	Diabolist Banner
+I2915	Doctor Bones Banner
+I2916	Dungeon Slime Banner
+I2917	Dungeon Spirit Banner
+I2918	Elf Archer Banner
+I2919	Elf Copter Banner
+I2920	Eyezor Banner
+I2921	Flocko Banner
+I2922	Ghost Banner
+I2923	Giant Bat Banner
+I2924	Giant Cursed Skull Banner
+I2925	Giant Flying Fox Banner
+I2926	Gingerbread Man Banner
+I2927	Goblin Archer Banner
+I2928	Green Slime Banner
+I2929	Headless Horseman Banner
+I2930	Hell Armored Bones Banner
+I2931	Hellhound Banner
+I2932	Hoppin' Jack Banner
+I2933	Ice Bat Banner
+I2934	Ice Golem Banner
+I2935	Ice Slime Banner
+I2936	Ichor Sticker Banner
+I2937	Illuminant Bat Banner
+I2938	Illuminant Slime Banner
+I2939	Jungle Bat Banner
+I2940	Jungle Slime Banner
+I2941	Krampus Banner
+I2942	Lac Beetle Banner
+I2943	Lava Bat Banner
+I2944	Lava Slime Banner
+I2945	Martian Brain Scrambler Banner
+I2946	Martian Drone Banner
+I2947	Martian Engineer Banner
+I2948	Martian Gigazapper Banner
+I2949	Martian Gray Grunt Banner
+I2950	Martian Officer Banner
+I2951	Martian Ray Gunner Banner
+I2952	Martian Scutlix Gunner Banner
+I2953	Martian Tesla Turret Banner
+I2954	Mister Stabby Banner
+I2955	Mother Slime Banner
+I2956	Necromancer Banner
+I2957	Nutcracker Banner
+I2958	Paladin Banner
+I2959	Penguin Banner
+I2960	Pinky Banner
+I2961	Poltergeist Banner
+I2962	Possessed Armor Banner
+I2963	Present Mimic Banner
+I2964	Purple Slime Banner
+I2965	Ragged Caster Banner
+I2966	Rainbow Slime Banner
+I2967	Raven Banner
+I2968	Red Slime Banner
+I2969	Rune Wizard Banner
+I2970	Rusty Armored Bones Banner
+I2971	Scarecrow Banner
+I2972	Scutlix Banner
+I2973	Skeleton Archer Banner
+I2974	Skeleton Commando Banner
+I2975	Skeleton Sniper Banner
+I2976	Slimer Banner
+I2977	Snatcher Banner
+I2978	Snow Balla Banner
+I2979	Snowman Gangsta Banner
+I2980	Spiked Ice Slime Banner
+I2981	Spiked Jungle Slime Banner
+I2982	Splinterling Banner
+I2983	Squid Banner
+I2984	Tactical Skeleton Banner
+I2985	The Groom Banner
+I2986	Tim Banner
+I2987	Undead Miner Banner
+I2988	Undead Viking Banner
+I2989	White Cultist Archer Banner
+I2990	White Cultist Caster Banner
+I2991	White Cultist Fighter Banner
+I2992	Yellow Slime Banner
+I2993	Yeti Banner
+I2994	Zombie Elf Banner
+I2995	Sparky
+I2996	Vine Rope
+I2997	Wormhole Potion
+I2998	Summoner Emblem
+I2999	Bewitching Table
+I3000	Alchemy Table
+I3001	Strange Brew
+I3002	Spelunker Glowstick
+I3003	Bone Arrow
+I3004	Bone Torch
+I3005	Vine Rope Coil
+I3006	Life Drain
+I3007	Dart Pistol
+I3008	Dart Rifle
+I3009	Crystal Dart
+I3010	Cursed Dart
+I3011	Ichor Dart
+I3012	Chain Guillotines
+I3013	Fetid Baghnakhs
+I3014	Clinger Staff
+I3015	Putrid Scent
+I3016	Flesh Knuckles
+I3017	Flower Boots
+I3018	Seedler
+I3019	Hellwing Bow
+I3020	Tendon Hook
+I3021	Thorn Hook
+I3022	Illuminant Hook
+I3023	Worm Hook
+I3024	Skiphs' Blood
+I3025	Purple Ooze Dye
+I3026	Reflective Silver Dye
+I3027	Reflective Gold Dye
+I3028	Blue Acid Dye
+I3029	Daedalus Stormbow
+I3030	Flying Knife
+I3031	Bottomless Water Bucket
+I3032	Super Absorbant Sponge
+I3033	Gold Ring
+I3034	Coin Ring
+I3035	Greedy Ring
+I3036	Fish Finder
+I3037	Weather Radio
+I3038	Hades Dye
+I3039	Twilight Dye
+I3040	Acid Dye
+I3041	Glowing Mushroom Dye
+I3042	Phase Dye
+I3043	Magic Lantern
+I3044	Music Box (Lunar Boss)
+I3045	Rainbow Torch
+I3046	Cursed Campfire
+I3047	Demon Campfire
+I3048	Frozen Campfire
+I3049	Ichor Campfire
+I3050	Rainbow Campfire
+I3051	Crystal Vile Shard
+I3052	Shadowflame Bow
+I3053	Shadowflame Hex Doll
+I3054	Shadowflame Knife
+I3055	Acorns
+I3056	Cold Snap
+I3057	Cursed Saint
+I3058	Snowfellas
+I3059	The Season
+I3060	Bone Rattle
+I3061	Architect Gizmo Pack
+I3062	Crimson Heart
+I3063	Meowmere
+I3064	Enchanted Sundial
+I3065	Star Wrath
+I3066	Smooth Marble Block
+I3067	Hellstone Brick Wall
+I3068	Guide to Plant Fiber Cordage
+I3069	Wand of Sparking
+I3070	Gold Bird Cage
+I3071	Gold Bunny Cage
+I3072	Gold Butterfly Jar
+I3073	Gold Frog Cage
+I3074	Gold Grasshopper Cage
+I3075	Gold Mouse Cage
+I3076	Gold Worm Cage
+I3077	Silk Rope
+I3078	Web Rope
+I3079	Silk Rope Coil
+I3080	Web Rope Coil
+I3081	Marble Block
+I3082	Marble Wall
+I3083	Smooth Marble Wall
+I3084	Radar
+I3085	Golden Lock Box
+I3086	Granite Block
+I3087	Smooth Granite Block
+I3088	Granite Wall
+I3089	Smooth Granite Wall
+I3090	Royal Gel
+I3091	Key of Night
+I3092	Key of Light
+I3093	Herb Bag
+I3094	Javelin
+I3095	Tally Counter
+I3096	Sextant
+I3097	Shield of Cthulhu
+I3098	Butcher's Chainsaw
+I3099	Stopwatch
+I3100	Meteorite Brick
+I3101	Meteorite Brick Wall
+I3102	Metal Detector
+I3103	Endless Quiver
+I3104	Endless Musket Pouch
+I3105	Toxic Flask
+I3106	Psycho Knife
+I3107	Nail Gun
+I3108	Nail
+I3109	Night Vision Helmet
+I3110	Celestial Shell
+I3111	Pink Gel
+I3112	Bouncy Glowstick
+I3113	Pink Slime Block
+I3114	Pink Torch
+I3115	Bouncy Bomb
+I3116	Bouncy Grenade
+I3117	Peace Candle
+I3118	Lifeform Analyzer
+I3119	DPS Meter
+I3120	Fisherman's Pocket Guide
+I3121	Goblin Tech
+I3122	R.E.K. 3000
+I3123	PDA
+I3124	Cell Phone
+I3125	Granite Chest
+I3126	Meteorite Clock
+I3127	Marble Clock
+I3128	Granite Clock
+I3129	Meteorite Door
+I3130	Marble Door
+I3131	Granite Door
+I3132	Meteorite Dresser
+I3133	Marble Dresser
+I3134	Granite Dresser
+I3135	Meteorite Lamp
+I3136	Marble Lamp
+I3137	Granite Lamp
+I3138	Meteorite Lantern
+I3139	Marble Lantern
+I3140	Granite Lantern
+I3141	Meteorite Piano
+I3142	Marble Piano
+I3143	Granite Piano
+I3144	Meteorite Platform
+I3145	Marble Platform
+I3146	Granite Platform
+I3147	Meteorite Sink
+I3148	Marble Sink
+I3149	Granite Sink
+I3150	Meteorite Sofa
+I3151	Marble Sofa
+I3152	Granite Sofa
+I3153	Meteorite Table
+I3154	Marble Table
+I3155	Granite Table
+I3156	Meteorite Work Bench
+I3157	Marble Work Bench
+I3158	Granite Work Bench
+I3159	Meteorite Bathtub
+I3160	Marble Bathtub
+I3161	Granite Bathtub
+I3162	Meteorite Bed
+I3163	Marble Bed
+I3164	Granite Bed
+I3165	Meteorite Bookcase
+I3166	Marble Bookcase
+I3167	Granite Bookcase
+I3168	Meteorite Candelabra
+I3169	Marble Candelabra
+I3170	Granite Candelabra
+I3171	Meteorite Candle
+I3172	Marble Candle
+I3173	Granite Candle
+I3174	Meteorite Chair
+I3175	Marble Chair
+I3176	Granite Chair
+I3177	Meteorite Chandelier
+I3178	Marble Chandelier
+I3179	Granite Chandelier
+I3180	Meteorite Chest
+I3181	Marble Chest
+I3182	Magic Water Dropper
+I3183	Golden Bug Net
+I3184	Magic Lava Dropper
+I3185	Magic Honey Dropper
+I3186	Empty Dropper
+I3187	Gladiator Helmet
+I3188	Gladiator Breastplate
+I3189	Gladiator Leggings
+I3190	Reflective Dye
+I3191	Enchanted Nightcrawler
+I3192	Grubby
+I3193	Sluggy
+I3194	Buggy
+I3195	Grub Soup
+I3196	Bomb Fish
+I3197	Frost Daggerfish
+I3198	Sharpening Station
+I3199	Ice Mirror
+I3200	Sailfish Boots
+I3201	Tsunami in a Bottle
+I3202	Target Dummy
+I3203	Corrupt Crate
+I3204	Crimson Crate
+I3205	Dungeon Crate
+I3206	Sky Crate
+I3207	Hallowed Crate
+I3208	Jungle Crate
+I3209	Crystal Serpent
+I3210	Toxikarp
+I3211	Bladetongue
+I3212	Shark Tooth Necklace
+I3213	Money Trough
+I3214	Bubble
+I3215	Daybloom Planter Box
+I3216	Moonglow Planter Box
+I3217	Deathweed Planter Box (#3217)
+I3218	Deathweed Planter Box (#3218)
+I3219	Blinkroot Planter Box
+I3220	Waterleaf Planter Box
+I3221	Shiverthorn Planter Box
+I3222	Fireblossom Planter Box
+I3223	Brain of Confusion
+I3224	Worm Scarf
+I3225	Balloon Pufferfish
+I3226	Lazure's Valkyrie Circlet
+I3227	Lazure's Valkyrie Cloak
+I3228	Lazure's Barrier Platform
+I3229	Golden Cross Grave Marker
+I3230	Golden Tombstone
+I3231	Golden Grave Marker
+I3232	Golden Gravestone
+I3233	Golden Headstone
+I3234	Crystal Block
+I3235	Music Box (Martian Madness)
+I3236	Music Box (Pirate Invasion)
+I3237	Music Box (Hell)
+I3238	Crystal Block Wall
+I3239	Trap Door
+I3240	Tall Gate
+I3241	Sharkron Balloon
+I3242	Tax Collector's Hat
+I3243	Tax Collector's Suit
+I3244	Tax Collector's Pants
+I3245	Bone Glove
+I3246	Clothier's Jacket
+I3247	Clothier's Pants
+I3248	Dye Trader's Turban
+I3249	Deadly Sphere Staff
+I3250	Green Horseshoe Balloon
+I3251	Amber Horseshoe Balloon
+I3252	Pink Horseshoe Balloon
+I3253	Lava Lamp
+I3254	Enchanted Nightcrawler Cage
+I3255	Buggy Cage
+I3256	Grubby Cage
+I3257	Sluggy Cage
+I3258	Slap Hand
+I3259	Twilight Hair Dye
+I3260	Blessed Apple
+I3261	Spectre Bar
+I3262	Code 1
+I3263	Buccaneer Bandana
+I3264	Buccaneer Tunic
+I3265	Buccaneer Pantaloons
+I3266	Obsidian Outlaw Hat
+I3267	Obsidian Longcoat
+I3268	Obsidian Pants
+I3269	Medusa Head
+I3270	Item Frame
+I3271	Sandstone Block
+I3272	Hardened Sand Block
+I3273	Sandstone Wall
+I3274	Hardened Ebonsand Block
+I3275	Hardened Crimsand Block
+I3276	Ebonsandstone Block
+I3277	Crimsandstone Block
+I3278	Wooden Yoyo
+I3279	Malaise
+I3280	Artery
+I3281	Amazon
+I3282	Cascade
+I3283	Chik
+I3284	Code 2
+I3285	Rally
+I3286	Yelets
+I3287	Red's Throw
+I3288	Valkyrie Yoyo
+I3289	Amarok
+I3290	Hel-Fire
+I3291	Kraken
+I3292	The Eye of Cthulhu
+I3293	Red String
+I3294	Orange String
+I3295	Yellow String
+I3296	Lime String
+I3297	Green String
+I3298	Teal String
+I3299	Cyan String
+I3300	Sky Blue String
+I3301	Blue String
+I3302	Purple String
+I3303	Violet String
+I3304	Pink String
+I3305	Brown String
+I3306	White String
+I3307	Rainbow String
+I3308	Black String
+I3309	Black Counterweight
+I3310	Blue Counterweight
+I3311	Green Counterweight
+I3312	Purple Counterweight
+I3313	Red Counterweight
+I3314	Yellow Counterweight
+I3315	Format:C
+I3316	Gradient
+I3317	Valor
+I3318	Treasure Bag (King Slime)
+I3319	Treasure Bag (Eye of Cthulhu)
+I3320	Treasure Bag (Eater of Worlds)
+I3321	Treasure Bag (Brain of Cthulhu)
+I3322	Treasure Bag (Queen Bee)
+I3323	Treasure Bag (Skeletron)
+I3324	Treasure Bag (Wall of Flesh)
+I3325	Treasure Bag (The Destroyer)
+I3326	Treasure Bag (The Twins)
+I3327	Treasure Bag (Skeletron Prime)
+I3328	Treasure Bag (Plantera)
+I3329	Treasure Bag (Golem)
+I3330	Treasure Bag (Duke Fishron)
+I3331	Treasure Bag (Lunatic Cultist)
+I3332	Treasure Bag (Moon Lord)
+I3333	Hive Pack
+I3334	Yoyo Glove
+I3335	Demon Heart
+I3336	Spore Sac
+I3337	Shiny Stone
+I3338	Hardened Pearlsand Block
+I3339	Pearlsandstone Block
+I3340	Hardened Sand Wall
+I3341	Hardened Ebonsand Wall
+I3342	Hardened Crimsand Wall
+I3343	Hardened Pearlsand Wall
+I3344	Ebonsandstone Wall
+I3345	Crimsandstone Wall
+I3346	Pearlsandstone Wall
+I3347	Desert Fossil
+I3348	Desert Fossil Wall
+I3349	Exotic Scimitar
+I3350	Paintball Gun
+I3351	Classy Cane
+I3352	Stylish Scissors
+I3353	Mechanical Cart
+I3354	Mechanical Wheel Piece
+I3355	Mechanical Wagon Piece
+I3356	Mechanical Battery Piece
+I3357	Lunatic Cultist Trophy
+I3358	Martian Saucer Trophy
+I3359	Flying Dutchman Trophy
+I3360	Living Mahogany Wand
+I3361	Rich Mahogany Leaf Wand
+I3362	Fallen Tuxedo Shirt
+I3363	Fallen Tuxedo Pants
+I3364	Fireplace
+I3365	Chimney
+I3366	Yoyo Bag
+I3367	Shrimpy Truffle
+I3368	Arkhalis
+I3369	Confetti Cannon
+I3370	Music Box (The Towers)
+I3371	Music Box (Goblin Invasion)
+I3372	Lunatic Cultist Mask
+I3373	Moon Lord Mask
+I3374	Fossil Helmet
+I3375	Fossil Plate
+I3376	Fossil Greaves
+I3377	Amber Staff
+I3378	Bone Javelin
+I3379	Bone Throwing Knife
+I3380	Sturdy Fossil
+I3381	Stardust Helmet
+I3382	Stardust Plate
+I3383	Stardust Leggings
+I3384	Portal Gun
+I3385	Strange Plant (#3385)
+I3386	Strange Plant (#3386)
+I3387	Strange Plant (#3387)
+I3388	Strange Plant (#3388)
+I3389	Terrarian
+I3390	Goblin Warlock Banner
+I3391	Salamander Banner
+I3392	Giant Shelly Banner
+I3393	Crawdad Banner
+I3394	Fritz Banner
+I3395	Creature From The Deep Banner
+I3396	Dr. Man Fly Banner
+I3397	Mothron Banner
+I3398	Severed Hand Banner
+I3399	The Possessed Banner
+I3400	Butcher Banner
+I3401	Psycho Banner
+I3402	Deadly Sphere Banner
+I3403	Nailhead Banner
+I3404	Poisonous Spore Banner
+I3405	Medusa Banner
+I3406	Hoplite Banner
+I3407	Granite Elemental Banner
+I3408	Granite Golem Banner
+I3409	Blood Zombie Banner
+I3410	Drippler Banner
+I3411	Tomb Crawler Banner
+I3412	Dune Splicer Banner
+I3413	Antlion Swarmer Banner
+I3414	Antlion Charger Banner
+I3415	Ghoul Banner
+I3416	Lamia Banner
+I3417	Desert Spirit Banner
+I3418	Basilisk Banner
+I3419	Sand Poacher Banner
+I3420	Stargazer Banner
+I3421	Milkyway Weaver Banner
+I3422	Flow Invader Banner
+I3423	Twinkle Popper Banner
+I3424	Mini Star Cell Banner
+I3425	Star Cell Banner
+I3426	Corite Banner
+I3427	Sroller Banner
+I3428	Crawltipede Banner
+I3429	Drakomire Rider Banner
+I3430	Drakomire Banner
+I3431	Selenian Banner
+I3432	Predictor Banner
+I3433	Brain Suckler Banner
+I3434	Nebula Floater Banner
+I3435	Evolution Beast Banner
+I3436	Alien Larva Banner
+I3437	Alien Queen Banner
+I3438	Alien Hornet Banner
+I3439	Vortexian Banner
+I3440	Storm Diver Banner
+I3441	Pirate Captain Banner
+I3442	Pirate Deadeye Banner
+I3443	Pirate Corsair Banner
+I3444	Pirate Crossbower Banner
+I3445	Martian Walker Banner
+I3446	Red Devil Banner
+I3447	Pink Jellyfish Banner
+I3448	Green Jellyfish Banner
+I3449	Dark Mummy Banner
+I3450	Light Mummy Banner
+I3451	Angry Bones Banner
+I3452	Ice Tortoise Banner
+I3453	Damage Booster
+I3454	Life Booster
+I3455	Mana Booster
+I3456	Vortex Fragment
+I3457	Nebula Fragment
+I3458	Solar Fragment
+I3459	Stardust Fragment
+I3460	Luminite
+I3461	Luminite Brick
+I3464	Stardust Drill
+I3466	Stardust Pickaxe
+I3467	Luminite Bar
+I3468	Solar Wings
+I3469	Vortex Booster
+I3470	Nebula Mantle
+I3471	Stardust Wings
+I3472	Luminite Brick Wall
+I3473	Solar Eruption
+I3474	Stardust Cell Staff
+I3475	Vortex Beater
+I3476	Nebula Arcanum
+I3477	Blood Water
+I3478	Wedding Veil
+I3479	Wedding Dress
+I3480	Platinum Bow
+I3481	Platinum Hammer
+I3482	Platinum Axe
+I3483	Platinum Shortsword
+I3484	Platinum Broadsword
+I3485	Platinum Pickaxe
+I3486	Tungsten Bow
+I3487	Tungsten Hammer
+I3488	Tungsten Axe
+I3489	Tungsten Shortsword
+I3490	Tungsten Broadsword
+I3491	Tungsten Pickaxe
+I3492	Lead Bow
+I3493	Lead Hammer
+I3494	Lead Axe
+I3495	Lead Shortsword
+I3496	Lead Broadsword
+I3497	Lead Pickaxe
+I3498	Tin Bow
+I3499	Tin Hammer
+I3500	Tin Axe
+I3501	Tin Shortsword
+I3502	Tin Broadsword
+I3503	Tin Pickaxe
+I3504	Copper Bow
+I3505	Copper Hammer
+I3506	Copper Axe
+I3507	Copper Shortsword
+I3508	Copper Broadsword
+I3509	Copper Pickaxe
+I3510	Silver Bow
+I3511	Silver Hammer
+I3512	Silver Axe
+I3513	Silver Shortsword
+I3514	Silver Broadsword
+I3515	Silver Pickaxe
+I3516	Gold Bow
+I3517	Gold Hammer
+I3518	Gold Axe
+I3519	Gold Shortsword
+I3520	Gold Broadsword
+I3521	Gold Pickaxe
+I3522	Solar Flare Hamaxe
+I3523	Vortex Hamaxe
+I3524	Nebula Hamaxe
+I3525	Stardust Hamaxe
+I3526	Solar Dye
+I3527	Nebula Dye
+I3528	Vortex Dye
+I3529	Stardust Dye
+I3530	Void Dye
+I3531	Stardust Dragon Staff
+I3532	Bacon
+I3533	Shifting Sands Dye
+I3534	Mirage Dye
+I3535	Shifting Pearlsands Dye
+I3536	Vortex Monolith
+I3537	Nebula Monolith
+I3538	Stardust Monolith
+I3539	Solar Monolith
+I3540	Phantasm
+I3541	Last Prism
+I3542	Nebula Blaze
+I3543	Daybreak
+I3544	Super Healing Potion
+I3545	Detonator
+I3546	Celebration
+I3547	Bouncy Dynamite
+I3548	Happy Grenade
+I3549	Ancient Manipulator
+I3550	Flame and Silver Dye
+I3551	Green Flame and Silver Dye
+I3552	Blue Flame and Silver Dye
+I3553	Reflective Copper Dye
+I3554	Reflective Obsidian Dye
+I3555	Reflective Metal Dye
+I3556	Midnight Rainbow Dye
+I3557	Black and White Dye
+I3558	Bright Silver Dye
+I3559	Silver and Black Dye
+I3560	Red Acid Dye
+I3561	Gel Dye
+I3562	Pink Gel Dye
+I3563	Red Squirrel
+I3564	Gold Squirrel
+I3565	Red Squirrel Cage
+I3566	Gold Squirrel Cage
+I3567	Luminite Bullet
+I3568	Luminite Arrow
+I3569	Lunar Portal Staff
+I3570	Lunar Flare
+I3571	Rainbow Crystal Staff
+I3572	Lunar Hook
+I3573	Solar Fragment Block
+I3574	Vortex Fragment Block
+I3575	Nebula Fragment Block
+I3576	Stardust Fragment Block
+I3577	Suspicious Looking Tentacle
+I3578	Yoraiz0r's Uniform
+I3579	Yoraiz0r's Skirt
+I3580	Yoraiz0r's Spell
+I3581	Yoraiz0r's Scowl
+I3582	Jim's Wings
+I3583	Yoraiz0r's Recolored Goggles
+I3584	Living Leaf Wall
+I3585	Skiphs' Mask
+I3586	Skiphs' Skin
+I3587	Skiphs' Bear Butt
+I3588	Skiphs' Paws
+I3589	Loki's Helmet
+I3590	Loki's Breastplate
+I3591	Loki's Greaves
+I3592	Loki's Wings
+I3593	Sand Slime Banner
+I3594	Sea Snail Banner
+I3595	Moon Lord Trophy
+I3596	Not a Kid, nor a Squid
+I3597	Burning Hades Dye
+I3598	Grim Dye
+I3599	Loki's Dye
+I3600	Shadowflame Hades Dye
+I3601	Celestial Sigil
+I3602	Logic Gate Lamp (Off)
+I3603	Logic Gate (AND)
+I3604	Logic Gate (OR)
+I3605	Logic Gate (NAND)
+I3606	Logic Gate (NOR)
+I3607	Logic Gate (XOR)
+I3608	Logic Gate (XNOR)
+I3609	Conveyor Belt (Clockwise)
+I3610	Conveyor Belt (Counter Clockwise)
+I3611	The Grand Design
+I3612	Yellow Wrench
+I3613	Logic Sensor (Day)
+I3614	Logic Sensor (Night)
+I3615	Logic Sensor (Player Above)
+I3616	Junction Box
+I3617	Announcement Box
+I3618	Logic Gate Lamp (On)
+I3619	Mechanical Lens
+I3620	Actuation Rod
+I3621	Red Team Block
+I3622	Red Team Platform
+I3623	Static Hook
+I3624	Presserator
+I3625	Multicolor Wrench
+I3626	Pink Weighted Pressure Plate
+I3627	Engineering Helmet
+I3628	Companion Cube
+I3629	Wire Bulb
+I3630	Orange Weighted Pressure Plate
+I3631	Purple Weighted Pressure Plate
+I3632	Cyan Weighted Pressure Plate
+I3633	Green Team Block
+I3634	Blue Team Block
+I3635	Yellow Team Block
+I3636	Pink Team Block
+I3637	White Team Block
+I3638	Green Team Platform
+I3639	Blue Team Platform
+I3640	Yellow Team Platform
+I3641	Pink Team Platform
+I3642	White Team Platform
+I3643	Large Amber
+I3644	Ruby Gem Lock
+I3645	Sapphire Gem Lock
+I3646	Emerald Gem Lock
+I3647	Topaz Gem Lock
+I3648	Amethyst Gem Lock
+I3649	Diamond Gem Lock
+I3650	Amber Gem Lock
+I3651	Squirrel Statue
+I3652	Butterfly Statue
+I3653	Worm Statue
+I3654	Firefly Statue
+I3655	Scorpion Statue
+I3656	Snail Statue
+I3657	Grasshopper Statue
+I3658	Mouse Statue
+I3659	Duck Statue
+I3660	Penguin Statue
+I3661	Frog Statue
+I3662	Buggy Statue
+I3663	Logic Gate Lamp (Faulty)
+I3664	Portal Gun Station
+I3665	Trapped Chest
+I3666	Trapped Gold Chest
+I3667	Trapped Shadow Chest
+I3668	Trapped Ebonwood Chest
+I3669	Trapped Rich Mahogany Chest
+I3670	Trapped Pearlwood Chest
+I3671	Trapped Ivy Chest
+I3672	Trapped Frozen Chest
+I3673	Trapped Living Wood Chest
+I3674	Trapped Skyware Chest
+I3675	Trapped Shadewood Chest
+I3676	Trapped Web Covered Chest
+I3677	Trapped Lihzahrd Chest
+I3678	Trapped Water Chest
+I3679	Trapped Jungle Chest
+I3680	Trapped Corruption Chest
+I3681	Trapped Crimson Chest
+I3682	Trapped Hallowed Chest
+I3683	Trapped Ice Chest
+I3684	Trapped Dynasty Chest
+I3685	Trapped Honey Chest
+I3686	Trapped Steampunk Chest
+I3687	Trapped Palm Wood Chest
+I3688	Trapped Mushroom Chest
+I3689	Trapped Boreal Wood Chest
+I3690	Trapped Slime Chest
+I3691	Trapped Green Dungeon Chest
+I3692	Trapped Pink Dungeon Chest
+I3693	Trapped Blue Dungeon Chest
+I3694	Trapped Bone Chest
+I3695	Trapped Cactus Chest
+I3696	Trapped Flesh Chest
+I3697	Trapped Obsidian Chest
+I3698	Trapped Pumpkin Chest
+I3699	Trapped Spooky Chest
+I3700	Trapped Glass Chest
+I3701	Trapped Martian Chest
+I3702	Trapped Meteorite Chest
+I3703	Trapped Granite Chest
+I3704	Trapped Marble Chest
+I3705	ItemName.Fake_newchest1
+I3706	ItemName.Fake_newchest2
+I3707	Teal Pressure Pad
+I3708	Wall Creeper Statue
+I3709	Unicorn Statue
+I3710	Drippler Statue
+I3711	Wraith Statue
+I3712	Bone Skeleton Statue
+I3713	Undead Viking Statue
+I3714	Medusa Statue
+I3715	Harpy Statue
+I3716	Pigron Statue
+I3717	Hoplite Statue
+I3718	Granite Golem Statue
+I3719	Armed Zombie Statue
+I3720	Blood Zombie Statue
+I3721	Angler Tackle Bag
+I3722	Geyser
+I3723	Ultrabright Campfire
+I3724	Bone Campfire
+I3725	Pixel Box
+I3726	Liquid Sensor (Water)
+I3727	Liquid Sensor (Lava)
+I3728	Liquid Sensor (Honey)
+I3729	Liquid Sensor (Any)
+I3730	Bundled Party Balloons
+I3731	Balloon Animal
+I3732	Party Hat
+I3733	Silly Sunflower Petals
+I3734	Silly Sunflower Tops
+I3735	Silly Sunflower Bottoms
+I3736	Silly Pink Balloon
+I3737	Silly Purple Balloon
+I3738	Silly Green Balloon
+I3739	Blue Streamer
+I3740	Green Streamer
+I3741	Pink Streamer
+I3742	Silly Balloon Machine
+I3743	Silly Tied Balloon (Pink)
+I3744	Silly Tied Balloon (Purple)
+I3745	Silly Tied Balloon (Green)
+I3746	Pigronata
+I3747	Party Center
+I3748	Silly Tied Bundle of Balloons
+I3749	Party Present
+I3750	Slice of Cake
+I3751	Cog Wall
+I3752	Sandfall Wall
+I3753	Snowfall Wall
+I3754	Sandfall Block
+I3755	Snowfall Block
+I3756	Snow Cloud
+I3757	Pedguin's Hood
+I3758	Pedguin's Jacket
+I3759	Pedguin's Trousers
+I3760	Silly Pink Balloon Wall
+I3761	Silly Purple Balloon Wall
+I3762	Silly Green Balloon Wall
+I3763	0x33's Aviators
+I3764	Blue Phasesaber
+I3765	Red Phasesaber
+I3766	Green Phasesaber
+I3767	Purple Phasesaber
+I3768	White Phasesaber
+I3769	Yellow Phasesaber
+I3770	Djinn's Curse
+I3771	Ancient Horn
+I3772	Mandible Blade
+I3773	Ancient Headdress
+I3774	Ancient Garments
+I3775	Ancient Slacks
+I3776	Forbidden Mask
+I3777	Forbidden Robes
+I3778	Forbidden Treads
+I3779	Spirit Flame
+I3780	Sand Elemental Banner
+I3781	Pocket Mirror
+I3782	Magic Sand Dropper
+I3783	Forbidden Fragment
+I3784	Lamia Tail
+I3785	Lamia Wraps
+I3786	Lamia Mask
+I3787	Sky Fracture
+I3788	Onyx Blaster
+I3789	Sand Shark Banner
+I3790	Bone Biter Banner
+I3791	Flesh Reaver Banner
+I3792	Crystal Thresher Banner
+I3793	Angry Tumbler Banner
+I3794	Ancient Cloth
+I3795	Desert Spirit Lamp
+I3796	Music Box (Sandstorm)
+I3797	Apprentice's Hat
+I3798	Apprentice's Robe
+I3799	Apprentice's Trousers
+I3800	Squire's Great Helm
+I3801	Squire's Plating
+I3802	Squire's Greaves
+I3803	Huntress's Wig
+I3804	Huntress's Jerkin
+I3805	Huntress's Pants
+I3806	Monk's Bushy Brow Bald Cap
+I3807	Monk's Shirt
+I3808	Monk's Pants
+I3809	Apprentice's Scarf
+I3810	Squire's Shield
+I3811	Huntress's Buckler
+I3812	Monk's Belt
+I3813	Defender's Forge
+I3814	War Table
+I3815	War Table Banner
+I3816	Eternia Crystal Stand
+I3817	Defender Medal
+I3818	Flameburst Rod
+I3819	Flameburst Cane
+I3820	Flameburst Staff
+I3821	Ale Tosser
+I3822	Etherian Mana
+I3823	Brand of the Inferno
+I3824	Ballista Rod
+I3825	Ballista Cane
+I3826	Ballista Staff
+I3827	Flying Dragon
+I3828	Eternia Crystal
+I3829	Lightning Aura Rod
+I3830	Lightning Aura Cane
+I3831	Lightning Aura Staff
+I3832	Explosive Trap Rod
+I3833	Explosive Trap Cane
+I3834	Explosive Trap Staff
+I3835	Sleepy Octopod
+I3836	Ghastly Glaive
+I3837	Etherian Goblin Bomber Banner
+I3838	Etherian Goblin Banner
+I3839	Old One's Skeleton Banner
+I3840	Drakin Banner
+I3841	Kobold Glider Banner
+I3842	Kobold Banner
+I3843	Wither Beast Banner
+I3844	Etherian Wyvern Banner
+I3845	Etherian Javelin Thrower Banner
+I3846	Etherian Lightning Bug Banner
+I3852	Tome of Infinite Wisdom
+I3853	ItemName.BoringBow
+I3854	Phantom Phoenix
+I3855	Gato Egg
+I3856	Creeper Egg
+I3857	Dragon Egg
+I3858	Sky Dragon's Fury
+I3859	Aerial Bane
+I3860	Treasure Bag (Betsy)
+I3863	Betsy Mask
+I3864	Dark Mage Mask
+I3865	Ogre Mask
+I3866	Betsy Trophy
+I3867	Dark Mage Trophy
+I3868	Ogre Trophy
+I3869	Music Box (Old One's Army)
+I3870	Betsy's Wrath
+I3871	Valhalla Knight's Helm
+I3872	Valhalla Knight's Breastplate
+I3873	Valhalla Knight's Greaves
+I3874	Dark Artist's Hat
+I3875	Dark Artist's Robes
+I3876	Dark Artist's Leggings
+I3877	Red Riding Hood
+I3878	Red Riding Dress
+I3879	Red Riding Leggings
+I3880	Shinobi Infiltrator's Helmet
+I3881	Shinobi Infiltrator's Torso
+I3882	Shinobi Infiltrator's Pants
+I3883	Betsy's Wings
+I3884	Crystal Chest
+I3885	Golden Chest
+I3886	Trapped Crystal Chest
+I3887	Trapped Golden Chest
+I3888	Crystal Door
+I3889	Crystal Chair
+I3890	Crystal Candle
+I3891	Crystal Lantern
+I3892	Crystal Lamp
+I3893	Crystal Candelabra
+I3894	Crystal Chandelier
+I3895	Crystal Bathtub
+I3896	Crystal Sink
+I3897	Crystal Bed
+I3898	Crystal Clock
+I3899	Sunplate Clock
+I3900	Blue Dungeon Clock
+I3901	Green Dungeon Clock
+I3902	Pink Dungeon Clock
+I3903	Crystal Platform
+I3904	Golden Platform
+I3905	Dynasty Wood Platform
+I3906	Lihzahrd Platform
+I3907	Flesh Platform
+I3908	Frozen Platform
+I3909	Crystal Work Bench
+I3910	Golden Work Bench
+I3911	Crystal Dresser
+I3912	Dynasty Dresser
+I3913	Frozen Dresser
+I3914	Living Wood Dresser
+I3915	Crystal Piano
+I3916	Dynasty Piano
+I3917	Crystal Bookcase
+I3918	Crystal Sofa
+I3919	Dynasty Sofa
+I3920	Crystal Table
+I3921	Arkhalis' Hood
+I3922	Arkhalis' Bodice
+I3923	Arkhalis' Tights
+I3924	Arkhalis' Lightwings
+I3925	Leinfors' Hair Protector
+I3926	Leinfors' Excessive Style
+I3927	Leinfors' Fancypants
+I3928	Leinfors' Prehensile Cloak
+I3929	Leinfors' Luxury Shampoo
+I3930	Celebration Mk2
+I3931	Spider Bathtub
+I3932	Spider Bed
+I3933	Spider Bookcase
+I3934	Spider Dresser
+I3935	Spider Candelabra
+I3936	Spider Candle
+I3937	Spider Chair
+I3938	Spider Chandelier
+I3939	Spider Chest
+I3940	Spider Clock
+I3941	Spider Door
+I3942	Spider Lamp
+I3943	Spider Lantern
+I3944	Spider Piano
+I3945	Spider Platform
+I3946	Spider Sink
+I3947	Spider Sofa
+I3948	Spider Table
+I3949	Spider Work Bench
+I3950	Trapped Spider Chest
+I3951	Iron Brick
+I3952	Iron Brick Wall
+I3953	Lead Brick
+I3954	Lead Brick Wall
+I3955	Lesion Block
+I3956	Lesion Block Wall
+I3957	Lesion Platform
+I3958	Lesion Bathtub
+I3959	Lesion Bed
+I3960	Lesion Bookcase
+I3961	Lesion Candelabra
+I3962	Lesion Candle
+I3963	Lesion Chair
+I3964	Lesion Chandelier
+I3965	Lesion Chest
+I3966	Lesion Clock
+I3967	Lesion Door
+I3968	Lesion Dresser
+I3969	Lesion Lamp
+I3970	Lesion Lantern
+I3971	Lesion Piano
+I3972	Lesion Sink
+I3973	Lesion Sofa
+I3974	Lesion Table
+I3975	Lesion Work Bench
+I3976	Trapped Lesion Chest
+I3977	Hat Rack
+I3979	Pearlwood Crate
+I3980	Mythril Crate
+I3981	Titanium Crate
+I3982	Defiled Crate
+I3983	Hematic Crate
+I3984	Stockade Crate
+I3985	Azure Crate
+I3986	Divine Crate
+I3987	Bramble Crate
+I3988	Dead Man's Chest
+I3989	Golf Ball
+I3990	Amphibian Boots
+I3991	Arcane Flower
+I3992	Berserker's Glove
+I3993	Fairy Boots
+I3994	Frog Flipper
+I3995	Frog Gear
+I3996	Frog Webbing
+I3997	Frozen Shield
+I3998	Hero Shield
+I3999	Magma Skull
+I4000	Magnet Flower
+I4001	Mana Cloak
+I4002	Molten Quiver
+I4003	Molten Skull Rose
+I4004	Obsidian Skull Rose
+I4005	Recon Scope
+I4006	Stalker's Quiver
+I4007	Stinger Necklace
+I4008	Ultrabright Helmet
+I4009	Apple
+I4011	Apple Pie
+I4012	Banana Split
+I4013	BBQ Ribs
+I4014	Bunny Stew
+I4015	Burger
+I4016	Chicken Nugget
+I4017	Chocolate Chip Cookie
+I4018	Cream Soda
+I4019	Escargot
+I4020	Fried Egg
+I4021	Fries
+I4022	Golden Delight
+I4023	Grapes
+I4024	Grilled Squirrel
+I4025	Hotdog
+I4026	Ice Cream
+I4027	Milkshake
+I4028	Nachos
+I4029	Pizza
+I4030	Potato Chips
+I4031	Roasted Bird
+I4032	Roasted Duck
+I4033	Sauteed Frog Legs
+I4034	Seafood Dinner
+I4035	Shrimp Po' Boy
+I4036	Spaghetti
+I4037	Steak
+I4038	Molten Charm
+I4039	Golf Club (Iron)
+I4040	Golf Cup
+I4041	Blue Flower Seeds
+I4042	Magenta Flower Seeds
+I4043	Pink Flower Seeds
+I4044	Red Flower Seeds
+I4045	Yellow Flower Seeds
+I4046	Violet Flower Seeds
+I4047	White Flower Seeds
+I4048	Tall Grass Seeds
+I4049	Lawn Mower
+I4050	Crimstone Brick
+I4051	Smooth Sandstone
+I4052	Crimstone Brick Wall
+I4053	Smooth Sandstone Wall
+I4054	Blood Moon Monolith
+I4055	Dunerider Boots
+I4056	Ancient Chisel
+I4057	Rain Song
+I4059	Fossil Pickaxe
+I4060	Super Star Shooter
+I4061	Storm Spear
+I4062	Thunder Zapper
+I4063	Drum Set
+I4064	Picnic Table
+I4065	Fancy Picnic Table
+I4066	Desert Minecart
+I4067	Minecarp
+I4068	Pink Fairy
+I4069	Green Fairy
+I4070	Blue Fairy
+I4071	Junonia Shell
+I4072	Lightning Whelk Shell
+I4073	Tulip Shell
+I4074	Pin Wheel
+I4075	Weather Vane
+I4076	Void Vault
+I4077	Music Box (Ocean Night)
+I4078	Music Box (Slime Rain)
+I4079	Music Box (Space Day)
+I4080	Music Box (Town Day)
+I4081	Music Box (Town Night)
+I4082	Music Box (Windy Day)
+I4083	White Pin Flag
+I4084	Red Pin Flag
+I4085	Green Pin Flag
+I4086	Blue Pin Flag
+I4087	Yellow Pin Flag
+I4088	Purple Pin Flag
+I4089	Golf Tee
+I4090	Shell Pile
+I4091	Anti-Portal Block
+I4092	Golf Club (Putter)
+I4093	Golf Club (Wedge)
+I4094	Golf Club (Driver)
+I4095	Golf Whistle
+I4096	Ebonwood Toilet
+I4097	Rich Mahogany Toilet
+I4098	Pearlwood Toilet
+I4099	Living Wood Toilet
+I4100	Cactus Toilet
+I4101	Bone Toilet
+I4102	Flesh Toilet
+I4103	Mushroom Toilet
+I4104	Skyware Toilet
+I4105	Shadewood Toilet
+I4106	Lihzahrd Toilet
+I4107	Blue Dungeon Toilet
+I4108	Green Dungeon Toilet
+I4109	Pink Dungeon Toilet
+I4110	Obsidian Toilet
+I4111	Frozen Toilet
+I4112	Glass Toilet
+I4113	Honey Toilet
+I4114	Steampunk Toilet
+I4115	Pumpkin Toilet
+I4116	Spooky Toilet
+I4117	Dynasty Toilet
+I4118	Palm Wood Toilet
+I4119	Boreal Wood Toilet
+I4120	Slime Toilet
+I4121	Martian Toilet
+I4122	Granite Toilet
+I4123	Marble Toilet
+I4124	Crystal Toilet
+I4125	Spider Toilet
+I4126	Lesion Toilet
+I4127	Diamond Toilet
+I4128	Maid Bonnet
+I4129	Maid Dress
+I4130	Maid Shoes
+I4131	Void Bag
+I4132	Pink Maid Bonnet
+I4133	Pink Maid Dress
+I4134	Pink Maid Shoes
+I4135	Country Club Cap
+I4136	Country Club Vest
+I4137	Country Club Trousers
+I4138	Country Club Visor
+I4139	Spider Nest Block
+I4140	Spider Nest Wall
+I4141	Meteorite Toilet
+I4142	Decay Chamber
+I4144	Terragrim
+I4145	Solar Bathtub
+I4146	Solar Bed
+I4147	Solar Bookcase
+I4148	Solar Dresser
+I4149	Solar Candelabra
+I4150	Solar Candle
+I4151	Solar Chair
+I4152	Solar Chandelier
+I4153	Solar Chest
+I4154	Solar Clock
+I4155	Solar Door
+I4156	Solar Lamp
+I4157	Solar Lantern
+I4158	Solar Piano
+I4159	Solar Platform
+I4160	Solar Sink
+I4161	Solar Sofa
+I4162	Solar Table
+I4163	Solar Work Bench
+I4164	Trapped Solar Chest
+I4165	Solar Toilet
+I4166	Vortex Bathtub
+I4167	Vortex Bed
+I4168	Vortex Bookcase
+I4169	Vortex Dresser
+I4170	Vortex Candelabra
+I4171	Vortex Candle
+I4172	Vortex Chair
+I4173	Vortex Chandelier
+I4174	Vortex Chest
+I4175	Vortex Clock
+I4176	Vortex Door
+I4177	Vortex Lamp
+I4178	Vortex Lantern
+I4179	Vortex Piano
+I4180	Vortex Platform
+I4181	Vortex Sink
+I4182	Vortex Sofa
+I4183	Vortex Table
+I4184	Vortex Work Bench
+I4185	Trapped Vortex Chest
+I4186	Vortex Toilet
+I4187	Nebula Bathtub
+I4188	Nebula Bed
+I4189	Nebula Bookcase
+I4190	Nebula Dresser
+I4191	Nebula Candelabra
+I4192	Nebula Candle
+I4193	Nebula Chair
+I4194	Nebula Chandelier
+I4195	Nebula Chest
+I4196	Nebula Clock
+I4197	Nebula Door
+I4198	Nebula Lamp
+I4199	Nebula Lantern
+I4200	Nebula Piano
+I4201	Nebula Platform
+I4202	Nebula Sink
+I4203	Nebula Sofa
+I4204	Nebula Table
+I4205	Nebula Work Bench
+I4206	Trapped Nebula Chest
+I4207	Nebula Toilet
+I4208	Stardust Bathtub
+I4209	Stardust Bed
+I4210	Stardust Bookcase
+I4211	Stardust Dresser
+I4212	Stardust Candelabra
+I4213	Stardust Candle
+I4214	Stardust Chair
+I4215	Stardust Chandelier
+I4216	Stardust Chest
+I4217	Stardust Clock
+I4218	Stardust Door
+I4219	Stardust Lamp
+I4220	Stardust Lantern
+I4221	Stardust Piano
+I4222	Stardust Platform
+I4223	Stardust Sink
+I4224	Stardust Sofa
+I4225	Stardust Table
+I4226	Stardust Work Bench
+I4227	Trapped Stardust Chest
+I4228	Stardust Toilet
+I4229	Solar Brick
+I4230	Vortex Brick
+I4231	Nebula Brick
+I4232	Stardust Brick
+I4233	Solar Brick Wall
+I4234	Vortex Brick Wall
+I4235	Nebula Brick Wall
+I4236	Stardust Brick Wall
+I4237	Music Box (Day Remix)
+I4238	Cracked Blue Brick
+I4239	Cracked Green Brick
+I4240	Cracked Pink Brick
+I4241	Wild Flower Seeds
+I4242	Black Golf Ball
+I4243	Blue Golf Ball
+I4244	Brown Golf Ball
+I4245	Cyan Golf Ball
+I4246	Green Golf Ball
+I4247	Lime Golf Ball
+I4248	Orange Golf Ball
+I4249	Pink Golf Ball
+I4250	Purple Golf Ball
+I4251	Red Golf Ball
+I4252	Sky Blue Golf Ball
+I4253	Teal Golf Ball
+I4254	Violet Golf Ball
+I4255	Yellow Golf Ball
+I4256	Amber Robe
+I4257	Amber Hook
+I4258	Orange Phaseblade
+I4259	Orange Phasesaber
+I4260	Orange Stained Glass
+I4261	Orange Pressure Plate
+I4262	Snake Charmer's Flute
+I4263	Magic Conch
+I4264	Golf Cart Keys
+I4265	Golf Chest
+I4266	Trapped Golf Chest
+I4267	Sandstone Chest
+I4268	Trapped Sandstone Chest
+I4269	Sanguine Staff
+I4270	Blood Thorn
+I4271	Bloody Tear
+I4272	Drippler Crippler
+I4273	Vampire Frog Staff
+I4274	Gold Goldfish
+I4275	Gold Fish Bowl
+I4276	Bast Statue
+I4277	Gold Starry Block
+I4278	Blue Starry Block
+I4279	Gold Starry Wall
+I4280	Blue Starry Wall
+I4281	Finch Staff
+I4282	Apricot
+I4283	Banana
+I4284	Blackcurrant
+I4285	Blood Orange
+I4286	Cherry
+I4287	Coconut
+I4288	Dragon Fruit
+I4289	Elderberry
+I4290	Grapefruit
+I4291	Lemon
+I4292	Mango
+I4293	Peach
+I4294	Pineapple
+I4295	Plum
+I4296	Rambutan
+I4297	Star Fruit
+I4298	Sandstone Bathtub
+I4299	Sandstone Bed
+I4300	Sandstone Bookcase
+I4301	Sandstone Dresser
+I4302	Sandstone Candelabra
+I4303	Sandstone Candle
+I4304	Sandstone Chair
+I4305	Sandstone Chandelier
+I4306	Sandstone Clock
+I4307	Sandstone Door
+I4308	Sandstone Lamp
+I4309	Sandstone Lantern
+I4310	Sandstone Piano
+I4311	Sandstone Platform
+I4312	Sandstone Sink
+I4313	Sandstone Sofa
+I4314	Sandstone Table
+I4315	Sandstone Work Bench
+I4316	Sandstone Toilet
+I4317	Haemorrhaxe
+I4318	Void Monolith
+I4319	Arrow Sign
+I4320	Painted Arrow Sign
+I4321	Master Gamer's Jacket
+I4322	Master Gamer's Pants
+I4323	Star Princess Crown
+I4324	Star Princess Dress
+I4325	Chum Caster
+I4326	Plate
+I4327	Black Dragonfly Jar
+I4328	Blue Dragonfly Jar
+I4329	Green Dragonfly Jar
+I4330	Orange Dragonfly Jar
+I4331	Red Dragonfly Jar
+I4332	Yellow Dragonfly Jar
+I4333	Gold Dragonfly Jar
+I4334	Black Dragonfly
+I4335	Blue Dragonfly
+I4336	Green Dragonfly
+I4337	Orange Dragonfly
+I4338	Red Dragonfly
+I4339	Yellow Dragonfly
+I4340	Gold Dragonfly
+I4341	Step Stool
+I4342	Dragonfly Statue
+I4343	Paper Airplane
+I4344	White Paper Airplane
+I4345	Can Of Worms
+I4346	Encumbering Stone
+I4347	Gray Zapinator
+I4348	Orange Zapinator
+I4349	Green Moss
+I4350	Brown Moss
+I4351	Red Moss
+I4352	Blue Moss
+I4353	Purple Moss
+I4354	Lava Moss
+I4355	Boulder Statue
+I4356	Music Box (Journey's Beginning)
+I4357	Music Box (Storm)
+I4358	Music Box (Graveyard)
+I4359	Seagull
+I4360	Seagull Statue
+I4361	Ladybug
+I4362	Gold Ladybug
+I4363	Maggot
+I4364	Maggot Cage
+I4365	Celestial Wand
+I4366	Eucalyptus Sap
+I4367	Blue Kite
+I4368	Blue and Yellow Kite
+I4369	Red Kite
+I4370	Red and Yellow Kite
+I4371	Yellow Kite
+I4372	Ivy
+I4373	Pupfish
+I4374	Grebe
+I4375	Rat
+I4376	Rat Cage
+I4377	Krypton Moss
+I4378	Xenon Moss
+I4379	Wyvern Kite
+I4380	Ladybug Cage
+I4381	Blood Rain Bow
+I4382	Advanced Combat Techniques
+I4383	Desert Torch
+I4384	Coral Torch
+I4385	Corrupt Torch
+I4386	Crimson Torch
+I4387	Hallowed Torch
+I4388	Jungle Torch
+I4389	Argon Moss
+I4390	Rolling Cactus
+I4391	Thin Ice
+I4392	Echo Block
+I4393	Scarab Fish
+I4394	Scorpio Fish
+I4395	Owl
+I4396	Owl Cage
+I4397	Owl Statue
+I4398	Pupfish Bowl
+I4399	Gold Ladybug Cage
+I4400	Geode
+I4401	Flounder
+I4402	Rock Lobster
+I4403	Lobster Tail
+I4404	Inner Tube
+I4405	Frozen Crate
+I4406	Boreal Crate
+I4407	Oasis Crate
+I4408	Mirage Crate
+I4409	Spectre Goggles
+I4410	Oyster
+I4411	Shucked Oyster
+I4412	White Pearl
+I4413	Black Pearl
+I4414	Pink Pearl
+I4415	Stone Door
+I4416	Stone Platform
+I4417	Oasis Water Fountain
+I4418	Water Strider
+I4419	Gold Water Strider
+I4420	Lawn Flamingo
+I4421	Music Box (Underground Jungle)
+I4422	Grate
+I4423	Scarab Bomb
+I4424	Wrought Iron Fence
+I4425	Shark Bait
+I4426	Bee Minecart
+I4427	Ladybug Minecart
+I4428	Pigron Minecart
+I4429	Sunflower Minecart
+I4430	Potted Forest Cedar
+I4431	Potted Jungle Cedar
+I4432	Potted Hallow Cedar
+I4433	Potted Forest Tree
+I4434	Potted Jungle Tree
+I4435	Potted Hallow Tree
+I4436	Potted Forest Palm
+I4437	Potted Jungle Palm
+I4438	Potted Hallow Palm
+I4439	Potted Forest Bamboo
+I4440	Potted Jungle Bamboo
+I4441	Potted Hallow Bamboo
+I4442	Scarab Fishing Rod
+I4443	Demonic Hellcart
+I4444	Witch's Broom
+I4445	Cluster Rocket I
+I4446	Cluster Rocket II
+I4447	Wet Rocket
+I4448	Lava Rocket
+I4449	Honey Rocket
+I4450	Shroom Minecart
+I4451	Amethyst Minecart
+I4452	Topaz Minecart
+I4453	Sapphire Minecart
+I4454	Emerald Minecart
+I4455	Ruby Minecart
+I4456	Diamond Minecart
+I4457	Mini Nuke I
+I4458	Mini Nuke II
+I4459	Dry Rocket
+I4460	Sandcastle Bucket
+I4461	Turtle Cage
+I4462	Jungle Turtle Cage
+I4463	Gladius
+I4464	Turtle
+I4465	Jungle Turtle
+I4466	Turtle Statue
+I4467	Amber Minecart
+I4468	Beetle Minecart
+I4469	Meowmere Minecart
+I4470	Party Wagon
+I4471	The Dutchman
+I4472	Steampunk Minecart
+I4473	Grebe Cage
+I4474	Seagull Cage
+I4475	Water Strider Cage
+I4476	Gold Water Strider Cage
+I4477	Lesser Luck Potion
+I4478	Luck Potion
+I4479	Greater Luck Potion
+I4480	Seahorse
+I4481	Seahorse Cage
+I4482	Gold Seahorse
+I4483	Gold Seahorse Cage
+I4484	1/2 Second Timer
+I4485	1/4 Second Timer
+I4486	Ebonstone Wall
+I4487	Mud Wall
+I4488	Pearlstone Wall
+I4489	Snow Wall
+I4490	Amethyst Stone Wall
+I4491	Topaz Stone Wall
+I4492	Sapphire Stone Wall
+I4493	Emerald Stone Wall
+I4494	Ruby Stone Wall
+I4495	Diamond Stone Wall
+I4496	Green Mossy Wall
+I4497	Brown Mossy Wall
+I4498	Red Mossy Wall
+I4499	Blue Mossy Wall
+I4500	Purple Mossy Wall
+I4501	Rocky Dirt Wall
+I4502	Old Stone Wall
+I4503	Spider Wall
+I4504	Corrupt Grass Wall
+I4505	Hallowed Grass Wall
+I4506	Ice Wall
+I4507	Obsidian Wall
+I4508	Crimson Grass Wall
+I4509	Crimstone Wall
+I4510	Cave Dirt Wall
+I4511	Rough Dirt Wall
+I4512	Craggy Stone Wall
+I4513	Corrupt Growth Wall
+I4514	Corrupt Mass Wall
+I4515	Corrupt Pustule Wall
+I4516	Corrupt Tendril Wall
+I4517	Crimson Crust Wall
+I4518	Crimson Scab Wall
+I4519	Crimson Teeth Wall
+I4520	Crimson Blister Wall
+I4521	Layered Dirt Wall
+I4522	Crumbling Dirt Wall
+I4523	Cracked Dirt Wall
+I4524	Wavy Dirt Wall
+I4525	Hallowed Prism Wall
+I4526	Hallowed Cavern Wall
+I4527	Hallowed Shard Wall
+I4528	Hallowed Crystalline Wall
+I4529	Lichen Stone Wall
+I4530	Leafy Jungle Wall
+I4531	Ivy Stone Wall
+I4532	Jungle Vine Wall
+I4533	Ember Wall
+I4534	Cinder Wall
+I4535	Magma Wall
+I4536	Smouldering Stone Wall
+I4537	Worn Stone Wall
+I4538	Stalactite Stone Wall
+I4539	Mottled Stone Wall
+I4540	Fractured Stone Wall
+I4541	The Bride Banner
+I4542	Zombie Merman Banner
+I4543	Wandering Eye Fish Banner
+I4544	Blood Squid Banner
+I4545	Blood Eel Banner
+I4546	Hemogoblin Shark Banner
+I4547	Large Bamboo
+I4548	Large Bamboo Wall
+I4549	Demon Horns
+I4550	Bamboo Leaf
+I4551	Slice of Hell Cake
+I4552	Fog Machine
+I4553	Plasma Lamp
+I4554	Marble Column
+I4555	Chef Hat
+I4556	Chef Uniform
+I4557	Chef Pants
+I4558	Star Hairpin
+I4559	Heart Hairpin
+I4560	Bunny Ears
+I4561	Devil Horns
+I4562	Fedora
+I4563	Fake Unicorn Horn
+I4564	Bamboo
+I4565	Bamboo Wall
+I4566	Bamboo Bathtub
+I4567	Bamboo Bed
+I4568	Bamboo Bookcase
+I4569	Bamboo Dresser
+I4570	Bamboo Candelabra
+I4571	Bamboo Candle
+I4572	Bamboo Chair
+I4573	Bamboo Chandelier
+I4574	Bamboo Chest
+I4575	Bamboo Clock
+I4576	Bamboo Door
+I4577	Bamboo Lamp
+I4578	Bamboo Lantern
+I4579	Bamboo Piano
+I4580	Bamboo Platform
+I4581	Bamboo Sink
+I4582	Bamboo Sofa
+I4583	Bamboo Table
+I4584	Bamboo Work Bench
+I4585	Trapped Bamboo Chest
+I4586	Bamboo Toilet
+I4587	Worn Golf Club (Iron)
+I4588	Worn Golf Club (Putter)
+I4589	Worn Golf Club (Wedge)
+I4590	Worn Golf Club (Driver)
+I4591	Fancy Golf Club (Iron)
+I4592	Fancy Golf Club (Putter)
+I4593	Fancy Golf Club (Wedge)
+I4594	Fancy Golf Club (Driver)
+I4595	Premium Golf Club (Iron)
+I4596	Premium Golf Club (Putter)
+I4597	Premium Golf Club (Wedge)
+I4598	Premium Golf Club (Driver)
+I4599	Bronze Golf Trophy
+I4600	Silver Golf Trophy
+I4601	Gold Golf Trophy
+I4602	Dreadnautilus Banner
+I4603	Birdie Rattle
+I4604	Exotic Chew Toy
+I4605	Bedazzled Nectar
+I4606	Music Box (Jungle Night)
+I4607	Desert Tiger Staff
+I4608	Chum Bucket
+I4609	Garden Gnome
+I4610	Bone Serpent Kite
+I4611	World Feeder Kite
+I4612	Bunny Kite
+I4613	Pigron Kite
+I4614	Apple Juice
+I4615	Grape Juice
+I4616	Lemonade
+I4617	Frozen Banana Daiquiri
+I4618	Peach Sangria
+I4619	Pi?a Colada
+I4620	Tropical Smoothie
+I4621	Bloody Moscato
+I4622	Smoothie of Darkness
+I4623	Prismatic Punch
+I4624	Fruit Juice
+I4625	Fruit Salad
+I4626	Andrew Sphinx
+I4627	Watchful Antlion
+I4628	Burning Spirit
+I4629	Jaws of Death
+I4630	The Sands of Slime
+I4631	Snakes, I Hate Snakes
+I4632	Life Above the Sand
+I4633	Oasis
+I4634	Prehistory Preserved
+I4635	Ancient Tablet
+I4636	Uluru
+I4637	Visiting the Pyramids
+I4638	Bandage Boy
+I4639	Divine Eye
+I4640	Amethyst Stone Block
+I4641	Topaz Stone Block
+I4642	Sapphire Stone Block
+I4643	Emerald Stone Block
+I4644	Ruby Stone Block
+I4645	Diamond Stone Block
+I4646	Amber Stone Block
+I4647	Amber Stone Wall
+I4648	Man Eater Kite
+I4649	Blue Jellyfish Kite
+I4650	Pink Jellyfish Kite
+I4651	Shark Kite
+I4652	Superhero Mask
+I4653	Superhero Costume
+I4654	Superhero Tights
+I4655	Pink Fairy Jar
+I4656	Green Fairy Jar
+I4657	Blue Fairy Jar
+I4658	The Rolling Greens
+I4659	Study of a Ball at Rest
+I4660	Fore!
+I4661	The Duplicity of Reflections
+I4662	Fogbound Dye
+I4663	Bloodbath Dye
+I4664	Pretty Pink Dress
+I4665	Pretty Pink Stockings
+I4666	Pretty Pink Ribbon
+I4667	Bamboo Fence
+I4668	Illuminant Coating
+I4669	Sand Shark Kite
+I4670	Corrupt Bunny Kite
+I4671	Vicious Bunny Kite
+I4672	Leather Whip
+I4673	Drumstick
+I4674	Goldfish Kite
+I4675	Angry Trapper Kite
+I4676	Koi Kite
+I4677	Crawltipede Kite
+I4678	Durendal
+I4679	Morning Star
+I4680	Dark Harvest
+I4681	Spectrum Kite
+I4682	Release Doves
+I4683	Wandering Eye Kite
+I4684	Unicorn Kite
+I4685	Gravedigger Hat
+I4686	Gravedigger Coat
+I4687	Angry Dandelion Banner
+I4688	Gnome Banner
+I4689	Desert Campfire
+I4690	Coral Campfire
+I4691	Corrupt Campfire
+I4692	Crimson Campfire
+I4693	Hallowed Campfire
+I4694	Jungle Campfire
+I4695	Soul of Light in a Bottle
+I4696	Soul of Night in a Bottle
+I4697	Soul of Flight in a Bottle
+I4698	Soul of Sight in a Bottle
+I4699	Soul of Might in a Bottle
+I4700	Soul of Fright in a Bottle
+I4701	Mud Bud
+I4702	Release Lantern
+I4703	Quad-Barrel Shotgun
+I4704	Funeral Hat
+I4705	Funeral Coat
+I4706	Funeral Pants
+I4707	Tragic Umbrella
+I4708	Victorian Goth Hat
+I4709	Victorian Goth Dress
+I4710	Tattered Wood Sign
+I4711	Gravedigger's Shovel
+I4712	Desert Chest
+I4713	Trapped Desert Chest
+I4714	Desert Key
+I4715	Stellar Tune
+I4716	Mollusk Whistle
+I4717	Boreal Beam
+I4718	Rich Mahogany Beam
+I4719	Granite Column
+I4720	Sandstone Column
+I4721	Mushroom Beam
+I4723	Nevermore
+I4724	Reborn
+I4725	Graveyard
+I4726	Ghost Manifestation
+I4727	Wicked Undead
+I4728	Bloody Goblet
+I4729	Still Life
+I4730	Ghostar's Infinity Eight
+I4731	Terra Toilet
+I4732	Ghostar's Soul Jar
+I4733	Ghostar's Garb
+I4734	Ghostar's Tights
+I4735	Ball O' Fuse Wire
+I4736	Full Moon Squeaky Toy
+I4737	Ornate Shadow Key
+I4738	Dr. Man Fly Mask
+I4739	Dr. Man Fly's Lab Coat
+I4740	Butcher Mask
+I4741	Butcher's Bloodstained Apron
+I4742	Butcher's Bloodstained Pants
+I4743	Football
+I4744	Hunter Cloak
+I4745	Coffin Minecart
+I4746	Safeman's Blanket Cape
+I4747	Safeman's Sunny Day
+I4748	Safeman's Sun Dress
+I4749	Safeman's Pink Leggings
+I4750	FoodBarbarian's Tattered Dragon Wings
+I4751	FoodBarbarian's Horned Helm
+I4752	FoodBarbarian's Wild Wolf Spaulders
+I4753	FoodBarbarian's Savage Greaves
+I4754	Grox The Great's Wings
+I4755	Grox The Great's Horned Cowl
+I4756	Grox The Great's Chestplate
+I4757	Grox The Great's Greaves
+I4758	Blade Staff
+I4759	Squirrel Hook
+I4760	Sergeant United Shield
+I4761	Rock Golem Head
+I4762	Critter Shampoo
+I4763	Digging Molecart
+I4764	Shroomerang
+I4765	Tree Globe
+I4766	World Globe
+I4767	Guide to Critter Companionship
+I4768	Dog Ears
+I4769	Dog Tail
+I4770	Fox Ears
+I4771	Fox Tail
+I4772	Lizard Ears
+I4773	Lizard Tail
+I4774	Panda Ears
+I4775	Bunny Tail
+I4776	Fairy Glowstick
+I4777	Lightning Carrot
+I4778	Prismatic Dye
+I4779	Mushroom Hat
+I4780	Mushroom Vest
+I4781	Mushroom Pants
+I4782	Treasure Bag (Empress of Light)
+I4783	Empress of Light Trophy
+I4784	Empress of Light Mask
+I4785	Dusty Rawhide Saddle
+I4786	Royal Gilded Saddle
+I4787	Black Studded Saddle
+I4788	Jousting Lance
+I4789	Shadow Jousting Lance
+I4790	Hallowed Jousting Lance
+I4791	Pogo Stick
+I4792	The Black Spot
+I4793	Hexxed Branch
+I4794	Toy Tank
+I4795	Goat Skull
+I4796	Dark Mage's Tome
+I4797	Royal Delight
+I4798	Suspicious Grinning Eye
+I4799	Writhing Remains
+I4800	Brain in a Jar
+I4801	Possessed Skull
+I4802	Sparkling Honey
+I4803	Deactivated Probe
+I4804	Pair of Eyeballs
+I4805	Robotic Skull
+I4806	Plantera Seedling
+I4807	Guardian Golem
+I4808	Pork of the Sea
+I4809	Tablet Fragment
+I4810	Piece of Moon Squid
+I4811	Jewel of Light
+I4812	Pumpkin Scented Candle
+I4813	Shrub Star
+I4814	Frozen Crown
+I4815	Cosmic Skateboard
+I4816	Ogre's Club
+I4817	Betsy's Egg
+I4818	Combat Wrench
+I4819	Demon Conch
+I4820	Bottomless Lava Bucket
+I4821	Lavaproof Bug Net
+I4822	Flame Waker Boots
+I4823	Empress Wings
+I4824	Wet Bomb
+I4825	Lava Bomb
+I4826	Honey Bomb
+I4827	Dry Bomb
+I4828	Superheated Blood
+I4829	Cat License
+I4830	Dog License
+I4831	Amethyst Squirrel
+I4832	Topaz Squirrel
+I4833	Sapphire Squirrel
+I4834	Emerald Squirrel
+I4835	Ruby Squirrel
+I4836	Diamond Squirrel
+I4837	Amber Squirrel
+I4838	Amethyst Bunny
+I4839	Topaz Bunny
+I4840	Sapphire Bunny
+I4841	Emerald Bunny
+I4842	Ruby Bunny
+I4843	Diamond Bunny
+I4844	Amber Bunny
+I4845	Hell Butterfly
+I4846	Hell Butterfly Jar
+I4847	Lavafly
+I4848	Lavafly in a Bottle
+I4849	Magma Snail
+I4850	Magma Snail Cage
+I4851	Topaz Gemcorn
+I4852	Amethyst Gemcorn
+I4853	Sapphire Gemcorn
+I4854	Emerald Gemcorn
+I4855	Ruby Gemcorn
+I4856	Diamond Gemcorn
+I4857	Amber Gemcorn
+I4858	Hanging Pot
+I4859	Hanging Daybloom
+I4860	Hanging Moonglow
+I4861	Hanging Waterleaf
+I4862	Hanging Shiverthorn
+I4863	Hanging Blinkroot
+I4864	Hanging Corrupt Deathweed
+I4865	Hanging Crimson Deathweed
+I4866	Hanging Fireblossom
+I4867	Hanging Brazier
+I4868	Mini Volcano
+I4869	Large Volcano
+I4870	Potion of Return
+I4871	Sakura Sapling
+I4872	Lava Absorbant Sponge
+I4873	Hallowed Hood
+I4874	Hellfire Treads
+I4875	Jungle Pylon
+I4876	Forest Pylon
+I4877	Obsidian Crate
+I4878	Hellstone Crate
+I4879	Obsidian Lock Box
+I4880	Lava Serpent Bowl
+I4881	Lavaproof Fishing Hook
+I4882	Amethyst Bunny Cage
+I4883	Topaz Bunny Cage
+I4884	Sapphire Bunny Cage
+I4885	Emerald Bunny Cage
+I4886	Ruby Bunny Cage
+I4887	Diamond Bunny Cage
+I4888	Amber Bunny Cage
+I4889	Amethyst Squirrel Cage
+I4890	Topaz Squirrel Cage
+I4891	Sapphire Squirrel Cage
+I4892	Emerald Squirrel Cage
+I4893	Ruby Squirrel Cage
+I4894	Diamond Squirrel Cage
+I4895	Amber Squirrel Cage
+I4896	Ancient Hallowed Mask
+I4897	Ancient Hallowed Helmet
+I4898	Ancient Hallowed Headgear
+I4899	Ancient Hallowed Hood
+I4900	Ancient Hallowed Plate Mail
+I4901	Ancient Hallowed Greaves
+I4902	Potted Magma Palm
+I4903	Potted Brimstone Bush
+I4904	Potted Fire Brambles
+I4905	Potted Lava Bulb
+I4906	Potted Ember Tendrils
+I4907	Yellow Willow Sapling
+I4908	Dirt Bomb
+I4909	Sticky Dirt Bomb
+I4910	Bunny License
+I4911	Cool Whip
+I4912	Firecracker
+I4913	Snapthorn
+I4914	Kaleidoscope
+I4915	Tungsten Bullet
+I4916	Hallow Pylon
+I4917	Cavern Pylon
+I4918	Ocean Pylon
+I4919	Desert Pylon
+I4920	Snow Pylon
+I4921	Mushroom Pylon
+I4922	Cavern Water Fountain
+I4923	Starlight
+I4924	Eye of Cthulhu Relic
+I4925	Eater of Worlds Relic
+I4926	Brain of Cthulhu Relic
+I4927	Skeletron Relic
+I4928	Queen Bee Relic
+I4929	King Slime Relic
+I4930	Wall of Flesh Relic
+I4931	Twins Relic
+I4932	Destroyer Relic
+I4933	Skeletron Prime Relic
+I4934	Plantera Relic
+I4935	Golem Relic
+I4936	Duke Fishron Relic
+I4937	Lunatic Cultist Relic
+I4938	Moon Lord Relic
+I4939	Martian Saucer Relic
+I4940	Flying Dutchman Relic
+I4941	Mourning Wood Relic
+I4942	Pumpking Relic
+I4943	Ice Queen Relic
+I4944	Everscream Relic
+I4945	Santa-NK1 Relic
+I4946	Dark Mage Relic
+I4947	Ogre Relic
+I4948	Betsy Relic
+I4949	Empress of Light Relic
+I4950	Queen Slime Relic
+I4951	Universal Pylon
+I4952	Nightglow
+I4953	Eventide
+I4954	Celestial Starboard
+I4955	Rabbit Perch
+I4956	Zenith
+I4957	Treasure Bag (Queen Slime)
+I4958	Queen Slime Trophy
+I4959	Queen Slime Mask
+I4960	Regal Delicacy
+I4961	Prismatic Lacewing
+I4962	Stone Accent Slab
+I4963	Truffle Worm Cage
+I4964	Prismatic Lacewing Jar
+I4965	Rock Golem Banner
+I4966	Blood Mummy Banner
+I4967	Spore Skeleton Banner
+I4968	Spore Bat Banner
+I4969	Antlion Larva Banner
+I4970	Vicious Bunny Banner
+I4971	Vicious Goldfish Banner
+I4972	Vicious Penguin Banner
+I4973	Corrupt Mimic Banner
+I4974	Crimson Mimic Banner
+I4975	Hallowed Mimic Banner
+I4976	Moss Hornet Banner
+I4977	Wandering Eye Banner
+I4978	Fledgling Wings
+I4979	Music Box (Queen Slime)
+I4980	Hook of Dissonance
+I4981	Gelatinous Pillion
+I4982	Crystal Assassin Hood
+I4983	Crystal Assassin Shirt
+I4984	Crystal Assassin Pants
+I4985	Music Box (Empress Of Light)
+I4986	Sparkle Slime Balloon
+I4987	Volatile Gelatin
+I4988	Gelatin Crystal
+I4989	Soaring Insignia
+I4990	Music Box (Duke Fishron)
+I4991	Music Box (Morning Rain)
+I4992	Music Box (Alt Title)
+I4993	Chippy's Couch
+I4994	Blue Graduation Cap
+I4995	Maroon Graduation Cap
+I4996	Black Graduation Cap
+I4997	Blue Graduation Gown
+I4998	Maroon Graduation Gown
+I4999	Black Graduation Gown
+I5000	Terraspark Boots
+I5001	Moon Lord Legs
+I5002	Ocean Crate
+I5003	Seaside Crate
+I5004	Badger's Hat
+I5005	Terraprisma
+I5006	Music Box (Underground Desert)
+I5007	Dead Man's Sweater
+I5008	Teapot
+I5009	Teacup
+I5010	Treasure Magnet
+I5011	Mace
+I5012	Flaming Mace
+I5013	ItemName.SleepingIcon
+I5014	Otherworldly Music Box (Rain)
+I5015	Otherworldly Music Box (Overworld Day)
+I5016	Otherworldly Music Box (Night)
+I5017	Otherworldly Music Box (Underground)
+I5018	Otherworldly Music Box (Desert)
+I5019	Otherworldly Music Box (Ocean)
+I5020	Otherworldly Music Box (Mushrooms)
+I5021	Otherworldly Music Box (Dungeon)
+I5022	Otherworldly Music Box (Space)
+I5023	Otherworldly Music Box (Underworld)
+I5024	Otherworldly Music Box (Snow)
+I5025	Otherworldly Music Box (Corruption)
+I5026	Otherworldly Music Box (Underground Corruption)
+I5027	Otherworldly Music Box (Crimson)
+I5028	Otherworldly Music Box (Underground Crimson)
+I5029	Otherworldly Music Box (Ice)
+I5030	Otherworldly Music Box (Underground Hallow)
+I5031	Otherworldly Music Box (Eerie)
+I5032	Otherworldly Music Box (Boss 2)
+I5033	Otherworldly Music Box (Boss 1)
+I5034	Otherworldly Music Box (Invasion)
+I5035	Otherworldly Music Box (The Towers)
+I5036	Otherworldly Music Box (Lunar Boss)
+I5037	Otherworldly Music Box (Plantera)
+I5038	Otherworldly Music Box (Jungle)
+I5039	Otherworldly Music Box (Wall of Flesh)
+I5040	Otherworldly Music Box (Hallow)
+I5041	Carton of Milk
+I5042	Coffee
+I5043	Torch God's Favor
+I5044	Music Box (Journey's End)
+I5045	Plaguebringer's Skull
+I5046	Plaguebringer's Cloak
+I5047	Plaguebringer's Treads
+I5048	Wandering Jingasa
+I5049	Wandering Yukata
+I5050	Wandering Geta
+I5051	Timeless Traveler's Hood
+I5052	Timeless Traveler's Cloak
+I5053	Timeless Traveler's Footwear
+I5054	Floret Protector Helmet
+I5055	Floret Protector Shirt
+I5056	Floret Protector Pants
+I5057	Capricorn Helmet
+I5058	Capricorn Chestplate
+I5059	Capricorn Hooves
+I5060	Capricorn Tail
+I5061	Video Visage
+I5062	Lazer Blazer
+I5063	Pinstripe Pants
+I5064	Lavaproof Tackle Bag
+I5065	Resonance Scepter
+I5066	Bee Hive
+I5067	Antlion Eggs
+I5068	Flinx Fur Coat
+I5069	Flinx Staff
+I5070	Flinx Fur
+I5071	Royal Tiara
+I5072	Royal Blouse
+I5073	Royal Dress
+I5074	Spinal Tap
+I5075	Rainbow Cursor
+I5076	Royal Scepter
+I5077	Glass Slipper
+I5078	Prince Uniform
+I5079	Prince Pants
+I5080	Prince Cape
+I5081	Potted Crystal Fern
+I5082	Potted Crystal Spiral
+I5083	Potted Crystal Teardrop
+I5084	Potted Crystal Tree
+I5085	Princess 64
+I5086	Painting of a Lass
+I5087	Dark Side of the Hallow
+I5088	Bernie's Button
+I5089	Glommer's Flower
+I5090	Deerclops Eyeball
+I5091	Monster Meat
+I5092	Monster Lasagna
+I5093	Froggle Bunwich
+I5094	Tentacle Spike
+I5095	Lucy the Axe
+I5096	Ham Bat
+I5097	Bat Bat
+I5098	Eye Bone
+I5099	Garland
+I5100	Bone Helm
+I5101	Eyebrella
+I5102	Gentleman's Vest
+I5103	Gentleman's Trousers
+I5104	Gentleman's Beard
+I5105	Gentleman's Long Beard
+I5106	Gentleman's Magnificent Beard
+I5107	Magiluminescence
+I5108	Deerclops Trophy
+I5109	Deerclops Mask
+I5110	Deerclops Relic
+I5111	Treasure Bag (Deerclops)
+I5112	Music Box (Deerclops)
+I5113	Radio Thing
+I5114	Abigail's Flower
+I5115	Firestarter's Sweater
+I5116	Firestarter's Skirt
+I5117	Pew-matic Horn
+I5118	Weather Pain
+I5119	Houndius Shootius
+I5120	Deer Thing
+I5121	The Gentleman Scientist
+I5122	The Firestarter
+I5123	The Bereaved
+I5124	The Strongman
+I5125	Fart Kart
+I5126	Hand Of Creation
+I5127	Neon Moss
+I5128	Helium Moss
+I5129	Flymeal
+I5130	Lilith's Necklace
+I5131	Resplendent Dessert
+I5132	Stinkbug
+I5133	Stinkbug Cage
+I5134	Terraformer
+I5135	Venom Dart Trap
+I5136	Vulkelf Ears
+I5137	Stinkbug Blocker
+I5138	Ghostly Stinkbug Blocker
+I5139	Fishing Bobber
+I5140	Glowing Fishing Bobber
+I5141	Lava Moss Fishing Bobber
+I5142	Krypton Moss Fishing Bobber
+I5143	Xenon Moss Fishing Bobber
+I5144	Argon Moss Fishing Bobber
+I5145	Neon Moss Fishing Bobber
+I5146	Helium Moss Fishing Bobber
+I5147	Wand of Frosting
+I5148	Reef Bathtub
+I5149	Reef Bed
+I5150	Reef Bookcase
+I5151	Reef Dresser
+I5152	Reef Candelabra
+I5153	Reef Candle
+I5154	Reef Chair
+I5155	Reef Chandelier
+I5156	Reef Chest
+I5157	Reef Clock
+I5158	Reef Door
+I5159	Reef Lamp
+I5160	Reef Lantern
+I5161	Reef Piano
+I5162	Reef Platform
+I5163	Reef Sink
+I5164	Reef Sofa
+I5165	Reef Table
+I5166	Reef Work Bench
+I5167	Trapped Reef Chest
+I5168	Reef Toilet
+I5169	Balloon Bathtub
+I5170	Balloon Bed
+I5171	Balloon Bookcase
+I5172	Balloon Dresser
+I5173	Balloon Candelabra
+I5174	Balloon Candle
+I5175	Balloon Chair
+I5176	Balloon Chandelier
+I5177	Balloon Chest
+I5178	Balloon Clock
+I5179	Balloon Door
+I5180	Balloon Lamp
+I5181	Balloon Lantern
+I5182	Balloon Piano
+I5183	Balloon Platform
+I5184	Balloon Sink
+I5185	Balloon Sofa
+I5186	Balloon Table
+I5187	Balloon Work Bench
+I5188	Trapped Balloon Chest
+I5189	Balloon Toilet
+I5190	Ash Wood Bathtub
+I5191	Ash Wood Bed
+I5192	Ash Wood Bookcase
+I5193	Ash Wood Dresser
+I5194	Ash Wood Candelabra
+I5195	Ash Wood Candle
+I5196	Ash Wood Chair
+I5197	Ash Wood Chandelier
+I5198	Ash Wood Chest
+I5199	Ash Wood Clock
+I5200	Ash Wood Door
+I5201	Ash Wood Lamp
+I5202	Ash Wood Lantern
+I5203	Ash Wood Piano
+I5204	Ash Wood Platform
+I5205	Ash Wood Sink
+I5206	Ash Wood Sofa
+I5207	Ash Wood Table
+I5208	Ash Wood Work Bench
+I5209	Trapped Ash Wood Chest
+I5210	Ash Wood Toilet
+I5211	Biome Sight Potion
+I5212	Scarlet Macaw
+I5213	Scarlet Macaw Cage
+I5214	Ash Grass Seeds
+I5215	Ash Wood
+I5216	Ash Wood Wall
+I5217	Ash Wood Fence
+I5218	Outcast
+I5219	Fairy Guides
+I5220	A Horrible Night for Alchemy
+I5221	Morning Hunt
+I5222	Suspiciously Sparkly
+I5223	Requiem
+I5224	Cat Sword
+I5225	Kargoh's Summon
+I5226	High Pitch
+I5227	A Machine for Terrarians
+I5228	Terra Blade Chronicles
+I5229	Benny Warhol
+I5230	Lizard King
+I5231	My Son
+I5232	Duality
+I5233	Parsec Pals
+I5234	Remnants of Devotion
+I5235	Not So Lost In Paradise
+I5236	Ocular Resonance
+I5237	Wings of Evil
+I5238	Constellation (#5238)
+I5239	Eyezorhead
+I5240	Dread of the Red Sea
+I5241	Do Not Eat the Vile Mushroom!
+I5242	Yuuma, The Blue Tiger
+I5243	Moonman & Company
+I5244	Sunshine of Israpony
+I5245	Purity
+I5246	Sufficiently Advanced
+I5247	Strange Growth
+I5248	Happy Little Tree
+I5249	Strange Dead Fellows
+I5250	Secrets
+I5251	Thunderbolt
+I5252	Crustography
+I5253	The Werewolf
+I5254	Blessing from the Heavens
+I5255	Love is in the Trash Slot
+I5256	Fangs
+I5257	Hail to the King
+I5258	See The World For What It Is
+I5259	What Lurks Below
+I5260	This Is Getting Out Of Hand
+I5261	Buddies
+I5262	Midnight Sun
+I5263	Couch Gag
+I5264	Silent Fish
+I5265	The Duke
+I5266	Royal Romance
+I5267	Bioluminescence
+I5268	Wildflowers
+I5269	Viking Voyage
+I5270	Bifrost
+I5271	Heartlands
+I5272	Forest Troll
+I5273	Aurora Borealis
+I5274	Lady Of The Lake
+I5275	Joja Cola
+I5276	Stardrop
+I5277	Spicy Pepper
+I5278	Pomegranate
+I5279	Ash Wood Helmet
+I5280	Ash Wood Breastplate
+I5281	Ash Wood Greaves
+I5282	Ash Wood Bow
+I5283	Ash Wood Hammer
+I5284	Ash Wood Sword
+I5285	Moon Globe
+I5286	Repaired Life Crystal
+I5287	Repaired Mana Crystal
+I5288	Terra Fart Kart
+I5289	Minecart Upgrade Kit
+I5290	Jim's Cap
+I5291	Echo Wall
+I5292	Echo Platform
+I5293	Mushroom Torch
+I5294	Hive-Five
+I5295	Axe of Regrowth
+I5296	Chlorophyte Extractinator
+I5297	Blue Chicken Egg
+I5298	Trimarang
+I5299	Mushroom Campfire
+I5300	Blue Macaw
+I5301	Blue Macaw Cage
+I5302	Bottomless Honey Bucket
+I5303	Honey Absorbant Sponge
+I5304	Ultra Absorbant Sponge
+I5305	Goblorc Ears
+I5306	Reef Block
+I5307	Reef Wall
+I5308	r/Terraria
+I5309	Guide to Environmental Preservation
+I5310	Princess Style
+I5311	Toucan
+I5312	Yellow Cockatiel
+I5313	Gray Cockatiel
+I5314	Toucan Cage
+I5315	Yellow Cockatiel Cage
+I5316	Gray Cockatiel Cage
+I5317	Macaw Statue
+I5318	Toucan Statue
+I5319	Cockatiel Statue
+I5320	Decorative Healing Potion
+I5321	Decorative Mana Potion
+I5322	Shadow Candle
+I5323	Guide to Peaceful Coexistence
+I5324	Rubblemaker (Small)
+I5325	Closed Void Bag
+I5326	Artisan Loaf
+I5327	TNT Barrel
+I5328	Chest Lock
+I5329	Rubblemaker (Medium)
+I5330	Rubblemaker (Large)
+I5331	Bundle of Horseshoe Balloons
+I5332	Spiffo Plush
+I5333	Glow Tulip
+I5334	Ocram's Razor
+I5335	Rod of Harmony
+I5336	Advanced Combat Techniques: Volume Two
+I5337	Vital Crystal
+I5338	Aegis Fruit
+I5339	Arcane Crystal
+I5340	Galaxy Pearl
+I5341	Gummy Worm
+I5342	Ambrosia
+I5343	Peddler's Satchel
+I5344	Echo Coating
+I5345	Echo Chamber
+I5346	Gas Trap
+I5347	Aether Monolith
+I5348	Shimmer Arrow
+I5349	Aetherium Block
+I5350	Faeling
+I5351	Faeling in a Bottle
+I5352	Shimmer Slime Banner
+I5353	Aether Torch
+I5354	Reflective Shades
+I5355	Chromatic Cloak
+I5356	Used Gas Trap
+I5357	Aether Campfire
+I5358	Shellphone (Home)
+I5359	Shellphone (Spawn)
+I5360	Shellphone (Ocean)
+I5361	Shellphone (Underworld)
+I5362	Music Box (Aether)
+I5363	Infested Spider Wall
+I5364	Bottomless Shimmer Bucket
+I5365	Cursed Blue Brick Wall
+I5366	Cursed Blue Slab Wall
+I5367	Cursed Blue Tiled Wall
+I5368	Cursed Pink Brick Wall
+I5369	Cursed Pink Slab Wall
+I5370	Cursed Pink Tiled Wall
+I5371	Cursed Green Brick Wall
+I5372	Cursed Green Slab Wall
+I5373	Cursed Green Tiled Wall
+I5374	Treacherous Sandstone Wall
+I5375	Treacherous Hardened Sand Wall
+I5376	Forbidden Lihzahrd Brick Wall
+I5377	Spelunker Flare
+I5378	Cursed Flare
+I5379	Rainbow Flare
+I5380	Shimmer Flare
+I5381	Enchanted Moondial
+I5382	Waffle's Iron
+I5383	Bouncy Boulder
+I5384	Life Crystal Boulder
+I5385	Dizzy's Rare Gecko Chester
+I5386	Raynbro's Hoodie
+I5387	Raynbro's Pants
+I5388	Eye of the Sun
+I5389	Cheesy Pizza Poster
+I5390	Raynbro's Hood
+I5391	Uncumbering Stone
+I5392	Yellow Solution
+I5393	White Solution
+I5394	Brown Solution
+I5395	Poo
+I5396	Poo Wall
+I5397	Aetherium Wall
+I5398	Aetherium Brick
+I5399	Aetherium Brick Wall
+I5400	The Dirtiest Block
+I5401	Lunar Rust Brick
+I5402	Dark Celestial Brick
+I5403	Astra Brick
+I5404	Cosmic Ember Brick
+I5405	Cryocore Brick
+I5406	Mercury Brick
+I5407	Star Royale Brick
+I5408	Heavenforge Brick
+I5409	Lunar Rust Brick Wall
+I5410	Dark Celestial Brick Wall
+I5411	Astra Brick Wall
+I5412	Cosmic Ember Brick Wall
+I5413	Cryocore Brick Wall
+I5414	Mercury Brick Wall
+I5415	Star Royale Brick Wall
+I5416	Heavenforge Brick Wall
+I5417	Ancient Blue Brick
+I5418	Ancient Blue Brick Wall
+I5419	Ancient Green Brick
+I5420	Ancient Green Brick Wall
+I5421	Ancient Pink Brick
+I5422	Ancient Pink Brick Wall
+I5423	Ancient Gold Brick
+I5424	Ancient Gold Brick Wall
+I5425	Ancient Silver Brick
+I5426	Ancient Silver Brick Wall
+I5427	Ancient Copper Brick
+I5428	Ancient Copper Brick Wall
+I5429	Ancient Cobalt Brick
+I5430	Ancient Cobalt Brick Wall
+I5431	Ancient Mythril Brick
+I5432	Ancient Mythril Brick Wall
+I5433	Ancient Obsidian Brick
+I5434	Ancient Obsidian Brick Wall
+I5435	Ancient Hellstone Brick
+I5436	Ancient Hellstone Brick Wall
+I5437	Shellphone
+I5438	Fertilizer
+I5439	Lava Moss Brick
+I5440	Argon Moss Brick
+I5441	Krypton Moss Brick
+I5442	Xenon Moss Brick
+I5443	Neon Moss Brick
+I5444	Helium Moss Brick
+I5445	Lava Moss Brick Wall
+I5446	Argon Moss Brick Wall
+I5447	Krypton Moss Brick Wall
+I5448	Xenon Moss Brick Wall
+I5449	Neon Moss Brick Wall
+I5450	Helium Moss Brick Wall
+I5451	Kwad Racer Drone
+I5452	FPV Goggles
+I5453	Guide to Critter Companionship (Inactive)
+I5454	Guide to Environmental Preservation (Inactive)
+I5455	Guide to Peaceful Coexistence (Inactive)
+I5456	Mushroom Staff
+I5457	The Beheaded's Head
+I5458	The Beheaded's Cuirass
+I5459	The Beheaded's Trousers
+I5460	Barrel Launcher
+I5461	Killing Deck
+I5462	Flint
+I5463	Barnacle Staff
+I5464	Mitey-Titey
+I5465	Ram Rune
+I5466	Swarm Grenade
+I5467	Replica Demon Altar
+I5468	Replica Crimson Altar
+I5469	Replica Shadow Orb
+I5470	Replica Crimson Heart
+I5471	Decorative Cobweb
+I5472	Item Flask
+I5473	Cobwhip
+I5474	Soulscourge
+I5475	Vasculash
+I5476	Starcrash
+I5477	Vulgar Display of Flower
+I5478	Electric Eel
+I5479	Constellation (#5479)
+I5480	Possession
+I5481	Portable Kiln
+I5482	Alchemy Flask
+I5483	Queen of Bees
+I5484	Cow Bell
+I5485	Chicken Charm
+I5486	The Sea of Silence
+I5487	Heroes From Another World
+I5488	Crystallize
+I5489	Eater Of Life
+I5490	Brasilian Skies
+I5491	Winter At Varingskollen
+I5492	Magic Shimmer Dropper
+I5493	Shimmerfall Block
+I5494	Shimmerfall Wall
+I5495	Shimmer Gun
+I5496	Jungle Juice
+I5497	Pink Banner
+I5498	White Banner
+I5499	Froggy Neckband
+I5500	Goat's Tuft
+I5501	Old Companion Locket
+I5502	Cat Chime
+I5503	Dog Collar
+I5504	Turkey Wattle Necklace
+I5505	Mean Goblin's Spikes
+I5506	Crow's Beak
+I5507	Balloony Beads
+I5508	Grim Old Barb
+I5509	Vampire Pendant
+I5510	Slasher's Mysterious Skull
+I5511	Pufferfish
+I5512	Pufferfish Cage
+I5513	Puffer Shrimp
+I5514	Rainbow Boulder
+I5515	Moon Lord Torso
+I5516	Poo Boulder
+I5517	Faecorn
+I5518	Infused Fertilizer
+I5519	Axearang
+I5520	Lava Boulder
+I5521	Spider Boulder
+I5522	Ghoulder
+I5523	Friendly Boulder
+I5524	Chlorophyte Visor
+I5525	Cursed Piper Flute
+I5526	Flairon
+I5527	Of Sea and Dreams
+I5528	The Runic Pixie
+I5529	Banner of the Beast
+I5530	Stickman vs Terr Terr
+I5531	Cozy Window
+I5532	Demon Altar (#5532)
+I5533	Crimson Altar (#5533)
+I5534	Fairy Choker
+I5535	Pink Phaseblade
+I5536	Pink Phasesaber
+I5537	Blackened Fish
+I5538	Music Box (Queen Bee)
+I5539	Music Box (The Twins)
+I5540	Magic String
+I5541	Magic Yoyo Bag
+I5542	Freeze Bomb
+I5543	Stress Ball
+I5544	Cloud Platform
+I5545	Overgrown Living Wood Wall
+I5546	Natural Dirt Wall
+I5547	Strung Counterweight
+I5548	Aetherium Bathtub
+I5549	Aetherium Bed
+I5550	Aetherium Bookcase
+I5551	Aetherium Dresser
+I5552	Aetherium Candelabra
+I5553	Aetherium Candle
+I5554	Aetherium Chair
+I5555	Aetherium Chandelier
+I5556	Aetherium Chest
+I5557	Aetherium Clock
+I5558	Aetherium Door
+I5559	Aetherium Lamp
+I5560	Aetherium Lantern
+I5561	Aetherium Piano
+I5562	Aetherium Platform
+I5563	Aetherium Sink
+I5564	Aetherium Sofa
+I5565	Aetherium Table
+I5566	Aetherium Work Bench
+I5567	Trapped Aetherium Chest
+I5568	Aetherium Toilet
+I5569	Lava Cloud
+I5570	Star Cloud
+I5571	Rainbow Cloud
+I5572	Mud Ball
+I5573	Torch God's Flavor
+I5574	Lucky Clover
+I5575	Wilted Clover
+I5576	Raven Feather
+I5577	Pretty Mirror
+I5578	Music Box (King Slime)
+I5579	Music Box (Alt Queen Bee)
+I5580	Music Box (Lunatic Cultist)
+I5581	Music Box (Skeletron Prime)
+I5582	Music Box (The Destroyer)
+I5583	Chicken Bones' Visor
+I5584	Chicken Bones' Vest
+I5585	Chicken Bones' Pants
+I5586	Chicken Bones' Wings
+I5587	Chicken Bones' Robe
+I5588	Prospector Helmet
+I5589	Prospector Shirt
+I5590	Prospector Pants
+I5591	Captain Hat
+I5592	Captain Vest
+I5593	Captain Pants
+I5594	Power Bomb
+I5595	Sticky Power Bomb
+I5596	Welding Mask
+I5597	Amulet of the Night
+I5598	CRT Monolith
+I5599	Retro Monolith
+I5600	Blue Roller Skates
+I5601	Fallen Star Bathtub
+I5602	Fallen Star Bed
+I5603	Fallen Star Bookcase
+I5604	Fallen Star Dresser
+I5605	Fallen Star Candelabra
+I5606	Fallen Star Candle
+I5607	Fallen Star Chair
+I5608	Fallen Star Chandelier
+I5609	Fallen Star Chest
+I5610	Fallen Star Clock
+I5611	Fallen Star Door
+I5612	Fallen Star Lamp
+I5613	Fallen Star Lantern
+I5614	Fallen Star Piano
+I5615	Fallen Star Platform
+I5616	Fallen Star Sink
+I5617	Fallen Star Sofa
+I5618	Fallen Star Table
+I5619	Fallen Star Work Bench
+I5620	Trapped Fallen Star Chest
+I5621	Fallen Star Toilet
+I5622	Fallen Star Block
+I5623	Fallen Star Wall
+I5624	Chippy's Helmet
+I5625	Chippy's Chestplate
+I5626	Chippy's Greaves
+I5627	Chippy's Cloak
+I5628	Chippy's Headband
+I5629	Acorn Slingshot
+I5630	r/Terraria 2023
+I5631	Bould and Bash
+I5632	Dark Forebodings
+I5633	Oktober
+I5634	It's Scragglin' Time
+I5635	Kaguya
+I5636	Prost
+I5637	Music Box (Eater of Worlds)
+I5638	Music Box (Torch God)
+I5639	Music Box (Alt Torch God)
+I5640	Green Roller Skates
+I5641	Classic Roller Skates
+I5642	Party Roller Skates
+I5643	Rainbow Glowstick
+I5644	Scrying Orb
+I5645	Rock Candy
+I5646	Blue Bikini Top
+I5647	Blue Bikini Bottom
+I5648	Red Swimsuit
+I5649	Green Swimshorts
+I5650	Gray Swimshorts
+I5651	Orca Banner
+I5652	Underworld Pylon
+I5653	Aether Pylon
+I5654	Friendly Rainbow Boulder
+I5655	Film Projector
+I5656	Heroicis' Hat
+I5657	Heroicis' Coat
+I5658	Heroicis' Pants
+I5659	Heroicis' Wings
+I5660	Hallowed Crown
+I5661	Heroicis' Wings (Inactive)
+I5662	Enchanted Pixie Dust
+I5663	Cattiva
+I5664	Foxparks
+I5665	Chillet
+I5666	Chillet Ignis
+I5667	Digtoise
+I5668	The Imploder
+I5669	True Copper Shortsword
+I5670	Rainbow Phaseblade
+I5671	Rainbow Phasesaber
+I5672	Librarian Skeleton Banner
+I5673	Water Bolt Mimic Banner
+I5674	Dull Red Team Block
+I5675	Dull Green Team Block
+I5676	Dull Blue Team Block
+I5677	Dull Yellow Team Block
+I5678	Dull Pink Team Block
+I5679	Dull White Team Block
+I5680	Lilac Dusk Hairclip
+I5681	Lilac Dusk Dress
+I5682	Lilac Dusk Skirt
+I5683	Kazzymodus' Hood
+I5684	Kazzymodus' Chestpiece
+I5685	Kazzymodus' Leggings
+I5686	Kazzymodus' Wings
+I5687	Slime Spear
+I5688	Slime Whip
+I5689	Feywood Bathtub
+I5690	Feywood Bed
+I5691	Feywood Bookcase
+I5692	Feywood Dresser
+I5693	Feywood Candelabra
+I5694	Feywood Candle
+I5695	Feywood Chair
+I5696	Feywood Chandelier
+I5697	Feywood Chest
+I5698	Feywood Clock
+I5699	Feywood Door
+I5700	Feywood Lamp
+I5701	Feywood Lantern
+I5702	Feywood Piano
+I5703	Feywood Platform
+I5704	Feywood Sink
+I5705	Feywood Sofa
+I5706	Feywood Table
+I5707	Feywood Work Bench
+I5708	Trapped Feywood Chest
+I5709	Feywood Toilet
+I5710	Feywood
+I5711	Feywood Wall
+I5712	Hallowed Bathtub
+I5713	Hallowed Bed
+I5714	Hallowed Bookcase
+I5715	Hallowed Dresser
+I5716	Hallowed Candelabra
+I5717	Hallowed Candle
+I5718	Hallowed Chair
+I5719	Hallowed Chandelier
+I5720	Fancy Hallowed Chest
+I5721	Hallowed Clock
+I5722	Hallowed Door
+I5723	Hallowed Lamp
+I5724	Hallowed Lantern
+I5725	Hallowed Piano
+I5726	Hallowed Platform
+I5727	Hallowed Sink
+I5728	Hallowed Sofa
+I5729	Hallowed Table
+I5730	Hallowed Work Bench
+I5731	Trapped Fancy Hallowed Chest
+I5732	Hallowed Toilet
+I5733	Hallowed Brick
+I5734	Hallowed Brick Wall
+I5735	Pal Metal Chestplate
+I5736	Pal Metal Leggings
+I5737	Chippy's Cloak (Inactive)
+I5738	Wall Racer Car
+I5739	Gothic Bathtub
+I5740	Gothic Bed
+I5741	Gothic Dresser
+I5742	Gothic Candelabra
+I5743	Gothic Candle
+I5744	Gothic Chandelier
+I5745	Gothic Chest
+I5746	Gothic Clock
+I5747	Gothic Door
+I5748	Gothic Lamp
+I5749	Gothic Lantern
+I5750	Gothic Piano
+I5751	Gothic Platform
+I5752	Gothic Sink
+I5753	Gothic Sofa
+I5754	Trapped Gothic Chest
+I5755	Gothic Toilet
+I5756	Demonite Bathtub
+I5757	Demonite Bed
+I5758	Demonite Bookcase
+I5759	Demonite Candelabra
+I5760	Demonite Candle
+I5761	Demonite Chair
+I5762	Demonite Chandelier
+I5763	Demonite Chest
+I5764	Demonite Clock
+I5765	Demonite Door
+I5766	Demonite Dresser
+I5767	Demonite Lamp
+I5768	Demonite Lantern
+I5769	Demonite Piano
+I5770	Demonite Platform
+I5771	Demonite Sink
+I5772	Demonite Sofa
+I5773	Demonite Table
+I5774	Demonite Toilet
+I5775	Demonite Work Bench
+I5776	Trapped Demonite Chest
+I5777	Crimtane Bathtub
+I5778	Crimtane Bed
+I5779	Crimtane Bookcase
+I5780	Crimtane Candelabra
+I5781	Crimtane Candle
+I5782	Crimtane Chair
+I5783	Crimtane Chandelier
+I5784	Crimtane Chest
+I5785	Crimtane Clock
+I5786	Crimtane Door
+I5787	Crimtane Dresser
+I5788	Crimtane Lamp
+I5789	Crimtane Lantern
+I5790	Crimtane Piano
+I5791	Crimtane Platform
+I5792	Crimtane Sink
+I5793	Crimtane Sofa
+I5794	Crimtane Table
+I5795	Crimtane Toilet
+I5796	Crimtane Work Bench
+I5797	Trapped Crimtane Chest
+I5798	Snow Bathtub
+I5799	Snow Bed
+I5800	Snow Bookcase
+I5801	Snow Candelabra
+I5802	Snow Candle
+I5803	Snow Chair
+I5804	Snow Chandelier
+I5805	Snow Chest
+I5806	Snow Clock
+I5807	Snow Door
+I5808	Snow Dresser
+I5809	Snow Lamp
+I5810	Snow Lantern
+I5811	Snow Piano
+I5812	Snow Platform
+I5813	Snow Sink
+I5814	Snow Sofa
+I5815	Snow Table
+I5816	Snow Toilet
+I5817	Snow Work Bench
+I5818	Trapped Snow Chest
+I5819	Flinx Fur Bathtub
+I5820	Flinx Fur Bed
+I5821	Flinx Fur Bookcase
+I5822	Flinx Fur Candelabra
+I5823	Flinx Fur Candle
+I5824	Flinx Fur Chair
+I5825	Flinx Fur Chandelier
+I5826	Flinx Fur Chest
+I5827	Flinx Fur Clock
+I5828	Flinx Fur Door
+I5829	Flinx Fur Dresser
+I5830	Flinx Fur Lamp
+I5831	Flinx Fur Lantern
+I5832	Flinx Fur Piano
+I5833	Flinx Fur Platform
+I5834	Flinx Fur Sink
+I5835	Flinx Fur Sofa
+I5836	Flinx Fur Table
+I5837	Flinx Fur Toilet
+I5838	Flinx Fur Work Bench
+I5839	Trapped Flinx Fur Chest
+I5840	Pine Bathtub
+I5841	Pine Bed
+I5842	Pine Bookcase
+I5843	Pine Candelabra
+I5844	Pine Candle
+I5845	Pine Chandelier
+I5846	Pine Chest
+I5847	Pine Clock
+I5848	Pine Dresser
+I5849	Pine Lamp
+I5850	Pine Lantern
+I5851	Pine Piano
+I5852	Pine Platform
+I5853	Pine Sink
+I5854	Pine Sofa
+I5855	Pine Toilet
+I5856	Pine Work Bench
+I5857	Trapped Pine Chest
+I5858	Easter Bathtub
+I5859	Easter Bed
+I5860	Easter Bookcase
+I5861	Easter Candelabra
+I5862	Easter Candle
+I5863	Easter Chair
+I5864	Easter Chandelier
+I5865	Easter Chest
+I5866	Easter Clock
+I5867	Easter Door
+I5868	Easter Dresser
+I5869	Easter Lamp
+I5870	Easter Lantern
+I5871	Easter Piano
+I5872	Easter Platform
+I5873	Easter Sink
+I5874	Easter Sofa
+I5875	Easter Table
+I5876	Easter Toilet
+I5877	Easter Work Bench
+I5878	Trapped Easter Chest
+I5879	Stone Bathtub
+I5880	Stone Bed
+I5881	Stone Bookcase
+I5882	Stone Candelabra
+I5883	Stone Candle
+I5884	Stone Chair
+I5885	Stone Chandelier
+I5886	Stone Chest
+I5887	Stone Clock
+I5888	Stone Dresser
+I5889	Stone Lamp
+I5890	Stone Lantern
+I5891	Stone Piano
+I5892	Stone Sink
+I5893	Stone Sofa
+I5894	Stone Table
+I5895	Stone Toilet
+I5896	Stone Work Bench
+I5897	Trapped Stone Chest
+I5898	Jellyfish Bathtub
+I5899	Jellyfish Bed
+I5900	Jellyfish Bookcase
+I5901	Jellyfish Candelabra
+I5902	Jellyfish Candle
+I5903	Jellyfish Chair
+I5904	Jellyfish Chandelier
+I5905	Jellyfish Chest
+I5906	Jellyfish Clock
+I5907	Jellyfish Door
+I5908	Jellyfish Dresser
+I5909	Jellyfish Lamp
+I5910	Jellyfish Lantern
+I5911	Jellyfish Piano
+I5912	Jellyfish Platform
+I5913	Jellyfish Sink
+I5914	Jellyfish Sofa
+I5915	Jellyfish Table
+I5916	Jellyfish Toilet
+I5917	Jellyfish Work Bench
+I5918	Trapped Jellyfish Chest
+I5919	Pine Tree Wall
+I5920	Easter Block
+I5921	Easter Wall
+I5922	Gothic Brick
+I5923	Gothic Brick Wall
+I5924	Flinx Fur Block
+I5925	Flinx Fur Wall
+I5926	Jellyfish Block
+I5927	Jellyfish Wall
+I5928	Toybreaker Brick
+I5929	Remix
+I5930	Pine Wood
+I5931	Pine Wood Wall
+I5932	Harpy Bathtub
+I5933	Harpy Bed
+I5934	Harpy Bookcase
+I5935	Harpy Candelabra
+I5936	Harpy Candle
+I5937	Harpy Chair
+I5938	Harpy Chandelier
+I5939	Harpy Chest
+I5940	Harpy Clock
+I5941	Harpy Door
+I5942	Harpy Dresser
+I5943	Harpy Lamp
+I5944	Harpy Lantern
+I5945	Harpy Piano
+I5946	Harpy Platform
+I5947	Harpy Sink
+I5948	Harpy Sofa
+I5949	Harpy Table
+I5950	Harpy Toilet
+I5951	Harpy Work Bench
+I5952	Trapped Harpy Chest
+I5953	Harpy Block
+I5954	Harpy Wall
+I5955	Cloud Bathtub
+I5956	Cloud Bed
+I5957	Cloud Bookcase
+I5958	Cloud Candelabra
+I5959	Cloud Candle
+I5960	Cloud Chair
+I5961	Cloud Chandelier
+I5962	Cloud Chest
+I5963	Cloud Clock
+I5964	Cloud Door
+I5965	Cloud Dresser
+I5966	Cloud Lamp
+I5967	Cloud Lantern
+I5968	Cloud Piano
+I5969	Cloud Sink
+I5970	Cloud Sofa
+I5971	Cloud Table
+I5972	Cloud Toilet
+I5973	Cloud Work Bench
+I5974	Trapped Cloud Chest
+I5975	Duskware Bathtub
+I5976	Duskware Bed
+I5977	Duskware Bookcase
+I5978	Duskware Candelabra
+I5979	Duskware Candle
+I5980	Duskware Chair
+I5981	Duskware Chandelier
+I5982	Duskware Chest
+I5983	Duskware Clock
+I5984	Duskware Door
+I5985	Duskware Dresser
+I5986	Duskware Lamp
+I5987	Duskware Lantern
+I5988	Duskware Piano
+I5989	Duskware Platform
+I5990	Duskware Sink
+I5991	Duskware Sofa
+I5992	Duskware Table
+I5993	Duskware Toilet
+I5994	Duskware Work Bench
+I5995	Trapped Duskware Chest
+I5996	Moonplate Block
+I5997	Crescent Wall
+I5998	Librarian Bathtub
+I5999	Librarian Bed
+I6000	Librarian Bookcase
+I6001	Librarian Candelabra
+I6002	Librarian Candle
+I6003	Librarian Chair
+I6004	Librarian Chandelier
+I6005	Librarian Chest
+I6006	Librarian Clock
+I6007	Librarian Door
+I6008	Librarian Dresser
+I6009	Librarian Lamp
+I6010	Librarian Lantern
+I6011	Librarian Piano
+I6012	Librarian Platform
+I6013	Librarian Sink
+I6014	Librarian Sofa
+I6015	Librarian Table
+I6016	Librarian Toilet
+I6017	Librarian Work Bench
+I6018	Trapped Librarian Chest
+I6019	Librarian Block
+I6020	Librarian Wall
+I6021	Spike Bathtub
+I6022	Spike Bed
+I6023	Spike Bookcase
+I6024	Spike Candelabra
+I6025	Spike Candle
+I6026	Spike Chair
+I6027	Spike Chandelier
+I6028	Spike Chest
+I6029	Spike Clock
+I6030	Spike Door
+I6031	Spike Dresser
+I6032	Spike Lamp
+I6033	Spike Lantern
+I6034	Spike Piano
+I6035	Spike Platform
+I6036	Spike Sink
+I6037	Spike Sofa
+I6038	Spike Table
+I6039	Spike Toilet
+I6040	Spike Work Bench
+I6041	Trapped Spike Chest
+I6042	Spike Block
+I6043	Spike Wall
+I6044	Office Bathtub
+I6045	Office Bed
+I6046	Office Bookcase
+I6047	Office Candelabra
+I6048	Office Candle
+I6049	Office Chair
+I6050	Office Chandelier
+I6051	Office Chest
+I6052	Office Clock
+I6053	Office Door
+I6054	Office Dresser
+I6055	Office Lamp
+I6056	Office Lantern
+I6057	Office Piano
+I6058	Office Platform
+I6059	Office Sink
+I6060	Office Sofa
+I6061	Office Table
+I6062	Office Toilet
+I6063	Office Work Bench
+I6064	Trapped Office Chest
+I6065	Office Block
+I6066	Office Wall
+I6067	Forbidden Bathtub
+I6068	Forbidden Bed
+I6069	Forbidden Bookcase
+I6070	Forbidden Candelabra
+I6071	Forbidden Candle
+I6072	Forbidden Chair
+I6073	Forbidden Chandelier
+I6074	Forbidden Chest
+I6075	Forbidden Clock
+I6076	Forbidden Door
+I6077	Forbidden Dresser
+I6078	Forbidden Lamp
+I6079	Forbidden Lantern
+I6080	Forbidden Piano
+I6081	Forbidden Platform
+I6082	Forbidden Sink
+I6083	Forbidden Sofa
+I6084	Forbidden Table
+I6085	Forbidden Toilet
+I6086	Forbidden Work Bench
+I6087	Trapped Forbidden Chest
+I6088	Forbidden Block
+I6089	Forbidden Wall
+I6090	Aquarium Bathtub
+I6091	Aquarium Bed
+I6092	Aquarium Bookcase
+I6093	Aquarium Candelabra
+I6094	Aquarium Candle
+I6095	Aquarium Chair
+I6096	Aquarium Chandelier
+I6097	Aquarium Clock
+I6098	Aquarium Door
+I6099	Aquarium Dresser
+I6100	Aquarium Lamp
+I6101	Aquarium Lantern
+I6102	Aquarium Piano
+I6103	Aquarium Platform
+I6104	Aquarium Sink
+I6105	Aquarium Sofa
+I6106	Aquarium Table
+I6107	Aquarium Toilet
+I6108	Aquarium Work Bench
+I6109	Aquarium Block
+I6110	Aquarium Wall
+I6111	Boulder Bathtub
+I6112	Boulder Bed
+I6113	Boulder Bookcase
+I6114	Boulder Candelabra
+I6115	Boulder Candle
+I6116	Boulder Chair
+I6117	Boulder Chandelier
+I6118	Boulder Chest
+I6119	Boulder Clock
+I6120	Boulder Door
+I6121	Boulder Dresser
+I6122	Boulder Lamp
+I6123	Boulder Lantern
+I6124	Boulder Piano
+I6125	Boulder Platform
+I6126	Boulder Sink
+I6127	Boulder Sofa
+I6128	Boulder Table
+I6129	Boulder Toilet
+I6130	Boulder Work Bench
+I6131	Trapped Boulder Chest
+I6132	Boulder Block
+I6133	Boulder Wall
+I6134	Sharp Spike Block
+I6135	Demon Altar (#6135)
+I6136	Crimson Altar (#6136)
+I6137	Luna's Runic Pixie Hood
+I6138	Luna's Runic Pixie Shirt
+I6139	Luna's Runic Pixie Pants
+I6140	Luna's Runic Pixie Wings
+I6141	Luna's Runic Pixie Cloak
+I6142	Huge Dragon Egg
+I6143	ItemName.FoxparksTagEffect
+I6144	Music Box (Skeletron)
+I6145	Music Box (Rainbow Boulder)
+I6146	Music Box (Silence)
+I6147	Giant Tiki
+I6148	Trusty Cattiva
+I6149	Trusty Foxparks
+I6150	Trusty Chillet
+I6151	Trusty Chillet Ignis
+I6152	Daybloom Staff
+I6153	Glacier Fang
+I6154	Mystic Bloom
+I6155	Lightning Strike
+I6156	Silver Bracer
+I6157	Snake Band
+I6158	Mobius Strip
+I6159	Wicked Armlet
+I6160	Razortip
+I6161	Clay Bud Staff
+I6162	Ouroboros Ring
+I6163	Twilight Grasp
+I6164	Ruinous Staff
+I6165	Poison Barb
+I6166	Harpy Charm
+I6167	Snapping Stone
+I6168	Chaos Cylinder
+I6169	Chaos Cylinder (Full)
+I6170	Enchanted Timer
+I6171	Bejeweled Staff
+I6172	Heavy Sling
+I6173	Arc Surge
+I6174	Trusty Digtoise
+I6175	Scout's Sling
+I6176	Templar's Sling
+I6177	Royal Guard's Harness
+I6178	Pyroclastic Stone
+I6179	Armlet Of Ruin
+I6180	Seraph Necklace
+I6181	Phoenix Quiver
+I6182	Wicked Claws
+I6183	Silver Shield
+I6184	Sweet Barb
+I6185	Catalyst Band
+I6186	Druidic Serpent Cloak
+I6187	Crossed Heart Necklace
+I6188	Restoration Shield
+I6189	Mystic Arts Sash
+I6190	Guide to Old World Parkour
+I6191	Little Kinship Peach
+I6192	Kinship Peach
+I6193	Chaos Cylinder (Random)
+I6194	Chaos Cylinder (Simple)
+I6195	Guide to Old World Parkour (Inactive)
+P1	Large
+P2	Massive
+P3	Dangerous
+P4	Savage
+P5	Sharp
+P6	Pointy
+P7	Tiny
+P8	Terrible
+P9	Small
+P10	Dull
+P11	Unhappy
+P12	Bulky
+P13	Shameful
+P14	Heavy
+P15	Light
+P16	Sighted
+P17	Rapid
+P18	Hasty
+P19	Intimidating
+P20	Deadly
+P21	Staunch
+P22	Awful
+P23	Lethargic
+P24	Awkward
+P25	Powerful
+P26	Mystic
+P27	Adept
+P28	Masterful
+P29	Inept
+P30	Ignorant
+P31	Deranged
+P32	Intense
+P33	Taboo
+P34	Celestial
+P35	Furious
+P36	Keen
+P37	Superior
+P38	Forceful
+P39	Broken
+P40	Damaged
+P41	Shoddy
+P42	Quick
+P43	Deadly
+P44	Agile
+P45	Nimble
+P46	Murderous
+P47	Slow
+P48	Sluggish
+P49	Lazy
+P50	Annoying
+P51	Nasty
+P52	Manic
+P53	Hurtful
+P54	Strong
+P55	Unpleasant
+P56	Weak
+P57	Ruthless
+P58	Frenzying
+P59	Godly
+P60	Demonic
+P61	Zealous
+P62	Hard
+P63	Guarding
+P64	Armored
+P65	Warding
+P66	Arcane
+P67	Precise
+P68	Lucky
+P69	Jagged
+P70	Spiked
+P71	Angry
+P72	Menacing
+P73	Brisk
+P74	Fleeting
+P75	Hasty
+P76	Quick
+P77	Wild
+P78	Rash
+P79	Intrepid
+P80	Violent
+P81	Legendary
+P82	Unreal
+P83	Mythical
+P84	Legendary
+P85	Fabled
+P86	Loyal
+P87	Worthy
+P88	Focused
+P89	Patient
+P90	Rabid
+P91	Ill-Tempered
+P92	Petty
+P93	Feeble
+P94	Skittish
+P95	Eager
+P96	Ballistic
+P97	Scraggling
