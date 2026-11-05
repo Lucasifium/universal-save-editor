@@ -45,6 +45,7 @@ pub struct GameInfo {
 const FULL: &str = "Game screen";
 const VALUES: &str = "Values and Tree";
 const HEX: &str = "Hex view and Value search (find a number you know, then change it)";
+const METRO: &str = "Game screen for the level saves (.player); the auto save is unpacked for Value search";
 const HEX_UNPACKED: &str = "Unpacked for Value search (find a number you know, then change it); packed again on save";
 const PDX_BINARY: &str = "Text saves fully; ironman (binary) saves are shown but can't be edited";
 
@@ -121,9 +122,9 @@ pub const GAMES: &[GameInfo] = &[
     game!("Mass Effect Legendary Edition (ME2)", FULL, r"Documents\BioWare\Mass Effect Legendary Edition\Save\ME2\<career folder>", r"Save_0001.pcsav, AutoSave.pcsav, QuickSave.pcsav", [(Documents, r"BioWare\Mass Effect Legendary Edition\Save\ME2")], ["*.pcsav"], 2),
     game!("Mass Effect Legendary Edition (ME3)", FULL, r"Documents\BioWare\Mass Effect Legendary Edition\Save\ME3\<career folder>", r"Save_0001.pcsav, AutoSave.pcsav, QuickSave.pcsav", [(Documents, r"BioWare\Mass Effect Legendary Edition\Save\ME3")], ["*.pcsav"], 2),
     game!("Mass Effect: Andromeda", HEX, r"Documents\BioWare\Mass Effect Andromeda\Save", r"Career<id>-<slot> (no extension)", [(Documents, r"BioWare\Mass Effect Andromeda\Save")], ["Career*"], 1),
-    game!("Metro 2033 Redux", HEX, r"Documents\4A Games\Metro 2033\<account>", r"game save files", [(Documents, r"4A Games\Metro 2033\*"), (Documents, r"4A Games\Metro Redux\*")], ["*"], 1),
+    game!("Metro 2033 Redux", METRO, r"Documents\4A Games\Metro 2033\<account>", r"game save files", [(Documents, r"4A Games\Metro 2033\*"), (Documents, r"4A Games\Metro Redux\*")], ["*"], 1),
     game!("Metro Exodus", HEX, r"Steam\userdata\<account>\412020\remote", r"m3_quick_save, game1 …", [(SteamUser("412020"), r"remote")], ["m3_*", "game*"], 1),
-    game!("Metro: Last Light Redux", HEX, r"Documents\4A Games\Metro Last Light\<account>", r"game save files", [(Documents, r"4A Games\Metro Last Light\*")], ["*"], 1),
+    game!("Metro: Last Light Redux", METRO, r"Documents\4A Games\Metro Last Light\<account>", r"game save files", [(Documents, r"4A Games\Metro Last Light\*")], ["*"], 1),
     game!("Minecraft (Java Edition)", FULL, r"%APPDATA%\.minecraft\saves\<world>", r"level.dat (and region\*.mca)", [(AppData, r".minecraft\saves")], ["level.dat"], 2),
     game!("Monster Hunter Stories 3: Twisted Reflection", VALUES, r"Steam\userdata\<account>\2852190\remote\win64_save", "data*.bin", [(SteamUser("2852190"), r"remote\win64_save")], ["*.bin"], 1),
     game!("Monster Hunter Wilds", VALUES, r"Steam\userdata\<account>\2246340\remote\win64_save", "data*.bin", [(SteamUser("2246340"), r"remote\win64_save")], ["*.bin"], 1),

@@ -1101,3 +1101,21 @@ pub fn ffx(ui: &mut Ui, cx: &mut GameCtx) {
     }
     ui.weak("Stats are as the Sphere Grid has raised them (255 is the most). HP above 9999 needs Break HP Limit.");
 }
+
+// ------------------------------------------------------------------ Metro
+
+pub fn metro(ui: &mut Ui, cx: &mut GameCtx) {
+    let accent = Color32::from_rgb(200, 160, 60);
+    const MONEY: &str = "/Inventory/Military-grade rounds (money)";
+    hero(ui, accent, "Metro", "Artyom", |ui| {
+        cx.tile(ui, "Military-grade rounds", MONEY, accent);
+    });
+    let rows: Vec<(String, String)> = match cx.get("/Inventory") {
+        Some(Value::Object(m)) => m.keys().filter(|k| !k.starts_with("Military")).map(|k| (k.clone(), join("/Inventory", k))).collect(),
+        _ => vec![],
+    };
+    panel(ui, "Ammunition", |ui| {
+        value_rows(ui, cx, "metro_ammo", &rows);
+        ui.weak("What Artyom carries at the start of this level (chapter select loads it). The game may cap a count at what Artyom can carry.");
+    });
+}

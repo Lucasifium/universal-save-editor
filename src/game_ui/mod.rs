@@ -59,6 +59,7 @@ pub enum Game {
     Ffx2,
     P5r,
     Ffx,
+    Metro,
 }
 
 impl Game {
@@ -88,6 +89,7 @@ impl Game {
             Game::Ffx2 => "Gullwings",
             Game::P5r => "Phantom Thieves",
             Game::Ffx => "Party",
+            Game::Metro => "Artyom",
             _ => "Character",
         }
     }
@@ -131,6 +133,7 @@ pub fn detect(kind: &str, root: &Value) -> Option<Game> {
         "Final Fantasy X-2 save" => Game::Ffx2,
         "Persona 5 Royal save" => Game::P5r,
         "Final Fantasy X save" => Game::Ffx,
+        "Metro player save" => Game::Metro,
         "Unreal Engine save (PalWorldPlayerSaveGame)" if has("/SaveData/TechnologyPoint") => Game::Palworld,
         "Final Fantasy VII Remake save" | "Final Fantasy VII Rebirth save" => Game::Ff7Remake,
         "RimWorld save" => Game::RimWorld,
@@ -173,6 +176,7 @@ pub fn show(game: Game, ui: &mut Ui, cx: &mut GameCtx) {
         Game::Ffx2 => screens2::ffx2(ui, cx),
         Game::P5r => screens2::p5r(ui, cx),
         Game::Ffx => screens2::ffx(ui, cx),
+        Game::Metro => screens2::metro(ui, cx),
         Game::RenPy => screens2::renpy(ui, cx),
         Game::MassEffect => screens2::mass_effect(ui, cx),
         Game::Xcom => screens2::xcom(ui, cx),
