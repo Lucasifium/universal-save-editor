@@ -88,6 +88,9 @@ pub enum Layer {
     P5r { head: Arc<Vec<u8>> },
     /// Metro `.player`: "artm" + build string, one LZ4 block, CRC-32.
     MetroPlayer { head: Arc<Vec<u8>> },
+    /// Cairn (The Game Bakers) "COPECK" slot: a fixed-size pack of named files; one of them
+    /// is edited in place (`at`, `size`).
+    Copeck { pack: Arc<Vec<u8>>, name: String, entry: usize },
     /// Metro auto save: "DEZP", three sections of LZ4 blocks, CRC-32.
     MetroDezp { layout: Arc<fmt::metro::Dezp> },
     /// Hogwarts Legacy: the game's SQLite database, kept Oodle-compressed in the save's
@@ -157,6 +160,7 @@ impl Layer {
             Layer::Ff9 => "Final Fantasy IX save encryption".into(),
             Layer::P5r { .. } => "Persona 5 Royal save (encrypted, zlib)".into(),
             Layer::MetroPlayer { .. } => "Metro level save (LZ4)".into(),
+            Layer::Copeck { name, .. } => format!("Cairn save pack ({name})"),
             Layer::MetroDezp { .. } => "Metro auto save (LZ4)".into(),
             Layer::HogwartsDb { .. } => "Hogwarts Legacy save (database, Oodle)".into(),
             Layer::Es3 { .. } => "Easy Save 3 encryption".into(),
@@ -516,6 +520,7 @@ fn wrap(layer: &Layer, data: Vec<u8>) -> Result<Vec<u8>, String> {
         Layer::Ff9 => fmt::ff9::encrypt(&data)?,
         Layer::P5r { head } => fmt::p5r::pack(head, &data),
         Layer::MetroPlayer { head } => fmt::metro::pack_player(head, &data),
+        Layer::Copeck { pack, entry, .. } => copeck_put(pack, *entry, &data)?,
         Layer::MetroDezp { layout } => fmt::metro::pack_dezp(layout, &data)?,
         Layer::PalworldOodle => {
             let packed = crate::oodle::compress(&data).ok_or("Oodle couldn't pack the save again (no Oodle library found)")?;
@@ -729,6 +734,11 @@ fn peel(data: &[u8], ctx: &mut Ctx) -> Option<(Layer, Vec<u8>)> {
         let plain = if double { once.and_then(|i| inflate(&i).ok()) } else { once };
         if let Some(p) = plain.filter(|p| p.len() == u32::from_le_bytes(data[0..4].try_into().unwrap()) as usize) {
             return Some((Layer::Palworld { double }, p));
+        }
+    }
+    if data.starts_with(b"COPECK") {
+        if let Some(r) = peel_copeck(data, ctx) {
+            return Some(r);
         }
     }
     if data.starts_with(b"artm") {
@@ -1182,6 +1192,74 @@ fn png_replace(png: &[u8], kind: &[u8; 4], data: &[u8]) -> Result<Vec<u8>, Strin
 fn save_like(name: &str) -> u8 {
     let n = name.to_lowercase();
     ["session", "save", "player", "profile", "progress", "game"].iter().filter(|k| n.contains(*k)).count() as u8
+}
+
+/// Cairn "COPECK" pack: from 0x10, directory entries of 0xA0 bytes (u32 offset, u32 size,
+/// u32 0, u64 modification time, a byte, the NUL-terminated name) until one without a name;
+/// deleted entries start with FFFFFFFF. Files are stored from 0x50000 on, each at a 16-byte
+/// boundary after the last.
+fn copeck_entries(data: &[u8]) -> Option<Vec<(usize, String, usize, usize, u64)>> {
+    let u32_at = |p: usize| data.get(p..p + 4).map(|b| u32::from_le_bytes(b.try_into().unwrap()) as usize);
+    let mut out = Vec::new();
+    let mut p = 0x10;
+    while p + 0xA0 <= data.len() {
+        let raw = data[p + 0x15..p + 0xA0].split(|&b| b == 0).next()?;
+        if raw.is_empty() {
+            break;
+        }
+        if !raw.iter().all(|&c| (32..127).contains(&c)) {
+            return None;
+        }
+        let (at, size) = (u32_at(p)?, u32_at(p + 4)?);
+        if at != 0xFFFF_FFFF {
+            if at.checked_add(size)? > data.len() {
+                return None;
+            }
+            let time = u64::from_le_bytes(data[p + 0x0C..p + 0x14].try_into().ok()?) & 0x3FFF_FFFF_FFFF_FFFF;
+            out.push((p, String::from_utf8_lossy(raw).into_owned(), at, size, time));
+        }
+        p += 0xA0;
+    }
+    (!out.is_empty()).then_some(out)
+}
+
+fn peel_copeck(data: &[u8], ctx: &mut Ctx) -> Option<(Layer, Vec<u8>)> {
+    let files = copeck_entries(data)?;
+    // The file asked for, else the newest save.
+    let chosen = ctx
+        .opts
+        .zip_entry
+        .as_ref()
+        .and_then(|n| files.iter().find(|f| &f.1 == n))
+        .or_else(|| files.iter().filter(|f| f.1.ends_with(".SAV")).max_by_key(|f| f.4))
+        .or_else(|| files.iter().max_by_key(|f| f.3))?
+        .clone();
+    ctx.zip_entries = files.iter().map(|f| f.1.clone()).collect();
+    let bytes = data[chosen.2..chosen.2 + chosen.3].to_vec();
+    Some((Layer::Copeck { pack: Arc::new(data.to_vec()), name: chosen.1, entry: chosen.0 }, bytes))
+}
+
+/// Puts a file back: in its place if it fits, else after the last file.
+fn copeck_put(pack: &[u8], entry: usize, data: &[u8]) -> Result<Vec<u8>, String> {
+    let files = copeck_entries(pack).ok_or("the Cairn save pack can't be read")?;
+    let (_, _, at, size, _) = files.iter().find(|f| f.0 == entry).cloned().ok_or("the file is missing from the pack")?;
+    let mut out = pack.to_vec();
+    let new_at = if data.len() <= size {
+        out[at..at + size].fill(0);
+        at
+    } else {
+        let end = files.iter().map(|f| f.2 + f.3).max().unwrap_or(0);
+        let a = (end + 15) & !15;
+        if a + data.len() > out.len() {
+            return Err("the Cairn save pack is full".into());
+        }
+        out[at..at + size].fill(0);
+        a
+    };
+    out[new_at..new_at + data.len()].copy_from_slice(data);
+    out[entry..entry + 4].copy_from_slice(&(new_at as u32).to_le_bytes());
+    out[entry + 4..entry + 8].copy_from_slice(&(data.len() as u32).to_le_bytes());
+    Ok(out)
 }
 
 /// Barotrauma-style bundle: repeated [i32 name length (UTF-16 units), name, i32 size, bytes].
@@ -1975,3 +2053,29 @@ pub fn companion_files(path: &std::path::Path, bytes: &[u8]) -> Vec<(std::path::
     out
 }
 
+
+#[cfg(test)]
+mod copeck_tests {
+    #[test]
+    fn a_grown_file_moves_after_the_last() {
+        let mut pack = vec![0u8; 0x60000];
+        pack[..6].copy_from_slice(b"COPECK");
+        let mut entry = |p: usize, at: u32, size: u32, name: &str, data: &[u8]| {
+            pack[p..p + 4].copy_from_slice(&at.to_le_bytes());
+            pack[p + 4..p + 8].copy_from_slice(&size.to_le_bytes());
+            pack[p + 0x15..p + 0x15 + name.len()].copy_from_slice(name.as_bytes());
+            pack[at as usize..at as usize + data.len()].copy_from_slice(data);
+        };
+        entry(0x10, 0x50000, 4, "A.SAV", b"abcd");
+        entry(0xB0, 0x50010, 3, "B.BIN", b"xyz");
+        let files = super::copeck_entries(&pack).unwrap();
+        assert_eq!(files.len(), 2);
+        let out = super::copeck_put(&pack, 0x10, b"longer data").unwrap();
+        let again = super::copeck_entries(&out).unwrap();
+        assert_eq!((again[0].2, again[0].3), (0x50020, 11));
+        assert_eq!(&out[0x50020..0x5002B], b"longer data");
+        assert_eq!(&out[0x50010..0x50013], b"xyz");
+        let small = super::copeck_put(&pack, 0x10, b"ab").unwrap();
+        assert_eq!(super::copeck_entries(&small).unwrap()[0].3, 2);
+    }
+}
