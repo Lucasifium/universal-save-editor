@@ -35,10 +35,13 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
             );
         }
         let mut saves: Vec<(String, String)> = entries.iter().filter_map(|e| crate::app::cairn_save_label(e).map(|l| (e.clone(), l))).collect();
+        // The save the game continues from first, then the dated autosaves newest first, then the rest.
         saves.sort_by(|a, b| {
+            let resume = |e: &str| newest.as_deref() == Some(e);
             let dated = |l: &str| l.starts_with(|c: char| c.is_ascii_digit());
-            dated(&b.1).cmp(&dated(&a.1)).then(b.1.cmp(&a.1))
+            resume(&b.0).cmp(&resume(&a.0)).then(dated(&b.1).cmp(&dated(&a.1))).then(b.1.cmp(&a.1))
         });
+        saves.dedup_by(|a, b| a.0 == b.0);
         let cur = cur.to_string();
         let mut open = None;
         egui::CollapsingHeader::new(format!("Saves in this slot ({})", saves.len())).id_salt("cairn_saves").show(ui, |ui| {
