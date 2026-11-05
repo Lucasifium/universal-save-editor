@@ -238,11 +238,17 @@ struct MapView {
     wall: u16,
     liquid: u16,
     stroke: Option<Op>,
+    /// Which kinds of points of interest are drawn (see `tw::POI_KINDS`).
+    shown: Vec<bool>,
+    /// Spawn, dungeon, town NPC homes, chests (see `MARKS`).
+    marks: [bool; 4],
 }
+
+const MARKS: [&str; 4] = ["Spawn", "Dungeon", "Town NPC homes", "Chests"];
 
 impl Default for MapView {
     fn default() -> Self {
-        Self { key: 0, applied: String::new(), cells: vec![], tex: vec![], dirty: vec![], zoom: 0.0, center: Vec2::ZERO, tool: Tool::Look, size: 3, block: 1, wall: 4, liquid: 1, stroke: None }
+        Self { key: 0, applied: String::new(), cells: vec![], tex: vec![], dirty: vec![], zoom: 0.0, center: Vec2::ZERO, tool: Tool::Look, size: 3, block: 1, wall: 4, liquid: 1, stroke: None, shown: tw::POI_KINDS.iter().map(|k| k.shown).collect(), marks: [true; 4] }
     }
 }
 
@@ -278,7 +284,8 @@ impl MapView {
     fn sync(&mut self, map: &Arc<WorldMap>, edits: &str) {
         let key = Arc::as_ptr(map) as usize;
         if self.key != key {
-            *self = MapView { tool: self.tool, size: self.size, block: self.block, wall: self.wall, liquid: self.liquid, ..Default::default() };
+            let shown = std::mem::take(&mut self.shown);
+            *self = MapView { tool: self.tool, size: self.size, block: self.block, wall: self.wall, liquid: self.liquid, shown, marks: self.marks, ..Default::default() };
             self.key = key;
             self.cells = map.cells.clone();
             let n = Self::chunks_x(map) * map.height.div_ceil(CHUNK);
@@ -566,7 +573,7 @@ fn map_tab(ui: &mut Ui, cx: &mut GameCtx) {
         }
     }
     // Markers: chests (when zoomed in), town NPC homes, the spawn point.
-    if v.zoom >= 2.0 {
+    if v.marks[3] && v.zoom >= 2.0 {
         for &(x, y) in &map.chests {
             let r = Rect::from_min_max(to_screen(x as f32, y as f32), to_screen(x as f32 + 2.0, y as f32 + 2.0));
             if r.intersects(rect) {
@@ -576,7 +583,7 @@ fn map_tab(ui: &mut Ui, cx: &mut GameCtx) {
     }
     let font = egui::FontId::proportional(12.0);
     for (role, name, x, y, homeless) in &map.npcs {
-        if *homeless {
+        if *homeless || !v.marks[2] {
             continue;
         }
         let p = to_screen(*x as f32 + 0.5, *y as f32 - 1.0);
@@ -586,12 +593,47 @@ fn map_tab(ui: &mut Ui, cx: &mut GameCtx) {
             painter.text(p + Vec2::new(8.0, 0.0), egui::Align2::LEFT_CENTER, label, font.clone(), Color32::WHITE);
         }
     }
-    if let (Some(sx), Some(sy)) = (cx.int("/World/Spawn X"), cx.int("/World/Spawn Y")) {
+    let mut near: Option<(f32, usize)> = None;
+    for (i, poi) in map.pois.iter().enumerate() {
+        if !v.shown.get(poi.kind).copied().unwrap_or(true) {
+            continue;
+        }
+        let k = &tw::POI_KINDS[poi.kind];
+        let p = to_screen(poi.x as f32 + 0.5, poi.y as f32 + 0.5);
+        if !rect.expand(8.0).contains(p) {
+            continue;
+        }
+        let c = Color32::from_rgb(k.color[0], k.color[1], k.color[2]);
+        let r = if poi.size > 1 { 5.5 } else { 4.0 };
+        // A diamond, so points of interest stand apart from the round NPC and spawn markers.
+        let pts = vec![p + Vec2::new(0.0, -r), p + Vec2::new(r, 0.0), p + Vec2::new(0.0, r), p + Vec2::new(-r, 0.0)];
+        painter.add(egui::Shape::convex_polygon(pts, c, Stroke::new(1.0_f32, Color32::BLACK)));
+        if let Some(hp) = resp.hover_pos() {
+            let d = hp.distance(p);
+            if d < 10.0 && near.is_none_or(|(best, _)| d < best) {
+                near = Some((d, i));
+            }
+        }
+        if v.zoom >= 3.0 {
+            painter.text(p + Vec2::new(8.0, 0.0), egui::Align2::LEFT_CENTER, k.name, font.clone(), Color32::WHITE);
+        }
+    }
+    if let Some((_, i)) = near {
+        let poi = &map.pois[i];
+        let p = to_screen(poi.x as f32 + 0.5, poi.y as f32 + 0.5);
+        let k = &tw::POI_KINDS[poi.kind];
+        let text = if poi.size > 1 { format!("{} ({} tiles)", k.name, poi.size) } else { k.name.to_string() };
+        let galley = painter.layout_no_wrap(text, font.clone(), Color32::WHITE);
+        let at = p + Vec2::new(10.0, -galley.size().y / 2.0);
+        painter.rect_filled(Rect::from_min_size(at - Vec2::new(3.0, 1.0), galley.size() + Vec2::new(6.0, 2.0)), 3.0, Color32::from_black_alpha(200));
+        painter.galley(at, galley, Color32::WHITE);
+    }
+    if let (true, Some(sx), Some(sy)) = (v.marks[0], cx.int("/World/Spawn X"), cx.int("/World/Spawn Y")) {
         let p = to_screen(sx as f32 + 0.5, sy as f32 + 0.5);
         painter.circle(p, 6.0, Color32::from_rgb(60, 220, 90), Stroke::new(1.5_f32, Color32::BLACK));
         painter.text(p + Vec2::new(9.0, 0.0), egui::Align2::LEFT_CENTER, "Spawn", font.clone(), Color32::WHITE);
     }
-    if let (Some(dx), Some(dy)) = (cx.int("/World/Dungeon X"), cx.int("/World/Dungeon Y")) {
+    if let (true, Some(dx), Some(dy)) = (v.marks[1], cx.int("/World/Dungeon X"), cx.int("/World/Dungeon Y")) {
         let p = to_screen(dx as f32 + 0.5, dy as f32 + 0.5);
         painter.circle(p, 5.0, Color32::from_rgb(80, 120, 255), Stroke::new(1.5_f32, Color32::BLACK));
         painter.text(p + Vec2::new(9.0, 0.0), egui::Align2::LEFT_CENTER, "Dungeon", font.clone(), Color32::WHITE);
@@ -632,7 +674,67 @@ fn map_tab(ui: &mut Ui, cx: &mut GameCtx) {
         "Painting changes blocks, walls and liquids; furniture, chests, trees and other objects are left alone. Each stroke is one undo step. \
          Liquid only fills empty tiles and settles when the game runs.",
     );
+    poi_panel(ui, &map, v);
     if v.stroke.is_some() || !v.dirty.iter().all(|d| !d) {
         ui.ctx().request_repaint();
     }
+}
+
+/// Points of interest: a toggle per kind (with how many there are) and a list to jump to them.
+fn poi_panel(ui: &mut Ui, map: &WorldMap, v: &mut MapView) {
+    let mut counts = vec![0usize; tw::POI_KINDS.len()];
+    for p in &map.pois {
+        counts[p.kind] += 1;
+    }
+    panel(ui, "Shown on the map", |ui| {
+        ui.horizontal_wrapped(|ui| {
+            for (i, m) in MARKS.iter().enumerate() {
+                ui.checkbox(&mut v.marks[i], *m);
+            }
+        });
+        ui.horizontal_wrapped(|ui| {
+            for (k, kind) in tw::POI_KINDS.iter().enumerate() {
+                if counts[k] == 0 {
+                    continue;
+                }
+                let c = Color32::from_rgb(kind.color[0], kind.color[1], kind.color[2]);
+                let (r, _) = ui.allocate_exact_size(Vec2::splat(10.0), Sense::hover());
+                ui.painter().rect_filled(r, 2.0, c);
+                let mut on = v.shown[k];
+                if ui.checkbox(&mut on, format!("{} ({})", kind.name, counts[k])).changed() {
+                    v.shown[k] = on;
+                }
+            }
+        });
+        if map.pois.is_empty() {
+            ui.weak("Nothing special found in this world.");
+            return;
+        }
+        let list: Vec<&tw::Poi> = map.pois.iter().filter(|p| v.shown[p.kind]).collect();
+        egui::CollapsingHeader::new(format!("List ({})", list.len())).id_salt("tw_poi_list").show(ui, |ui| {
+            egui::ScrollArea::vertical().id_salt("tw_poi_scroll").max_height(200.0).show(ui, |ui| {
+                for p in list {
+                    let k = &tw::POI_KINDS[p.kind];
+                    let depth = ((p.y as f64 - map.surface) * 2.0).round() as i64;
+                    let level = if depth > 0 { format!("{depth} ft deep") } else { "surface".to_string() };
+                    if ui.selectable_label(false, format!("{}  \u{00B7}  {}, {}  \u{00B7}  {level}", k.name, p.x, p.y)).on_hover_text("Show it on the map").clicked() {
+                        v.center = Vec2::new(p.x as f32, p.y as f32);
+                        v.zoom = v.zoom.max(4.0);
+                        v.tool = Tool::Look;
+                    }
+                }
+            });
+        });
+        ui.horizontal(|ui| {
+            if ui.small_button("Show all").clicked() {
+                v.shown.iter_mut().for_each(|s| *s = true);
+                v.marks = [true; 4];
+            }
+            if ui.small_button("Hide all").clicked() {
+                v.shown.iter_mut().for_each(|s| *s = false);
+                v.marks = [false; 4];
+            }
+        });
+        ui.weak("Chests are drawn when you zoom in. Life Crystals are common, so they start hidden.");
+    });
 }

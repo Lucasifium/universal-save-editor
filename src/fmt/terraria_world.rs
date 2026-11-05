@@ -386,12 +386,149 @@ pub struct WorldMap {
     pub chests: Vec<(i32, i32)>,
     /// (role, name, home x, home y, homeless)
     pub npcs: Vec<(String, String, i32, i32, bool)>,
+    pub pois: Vec<Poi>,
 }
 
 impl WorldMap {
     pub fn shimmer_ok(&self) -> bool {
         self.version >= 269
     }
+}
+
+// ------------------------------------------------------------------ points of interest
+
+#[derive(Clone, Copy)]
+enum Find {
+    Tile(u16),
+    Wall(u16),
+    Shimmer,
+}
+
+/// What the map points out: name, marker colour, shown unless turned off, what to look
+/// for, and for areas the fewest matching tiles that count.
+pub struct PoiKind {
+    pub name: &'static str,
+    pub color: [u8; 3],
+    pub shown: bool,
+    find: Find,
+    area: Option<u32>,
+}
+
+const fn kind(name: &'static str, color: [u8; 3], shown: bool, find: Find, area: Option<u32>) -> PoiKind {
+    PoiKind { name, color, shown, find, area }
+}
+
+pub const POI_KINDS: [PoiKind; 15] = [
+    kind("Shimmer", [214, 160, 255], true, Find::Shimmer, Some(20)),
+    kind("Plantera's Bulb", [225, 128, 206], true, Find::Tile(238), None),
+    kind("Life Fruit", [149, 232, 87], true, Find::Tile(236), None),
+    kind("Life Crystal", [235, 60, 90], false, Find::Tile(12), None),
+    kind("Shadow Orb / Crimson Heart", [180, 90, 220], true, Find::Tile(31), None),
+    kind("Demon / Crimson Altar", [150, 60, 60], true, Find::Tile(26), None),
+    kind("Queen Bee Larva", [240, 200, 90], true, Find::Tile(231), None),
+    kind("Lihzahrd Altar", [255, 241, 51], true, Find::Tile(237), None),
+    kind("Jungle Temple", [200, 110, 40], true, Find::Wall(87), Some(400)),
+    kind("Bee Hive", [255, 156, 12], true, Find::Wall(86), Some(150)),
+    kind("Marble Cave", [235, 235, 245], true, Find::Wall(178), Some(200)),
+    kind("Granite Cave", [90, 90, 200], true, Find::Wall(180), Some(200)),
+    kind("Spider Nest", [200, 200, 200], true, Find::Wall(62), Some(200)),
+    kind("Glowing Mushrooms", [93, 127, 255], true, Find::Tile(70), Some(60)),
+    kind("Meteorite", [255, 110, 70], true, Find::Tile(37), Some(30)),
+];
+
+/// A point of interest: which kind, where (tiles), and for areas how many tiles match.
+#[derive(Clone, Copy, Debug)]
+pub struct Poi {
+    pub kind: usize,
+    pub x: u32,
+    pub y: u32,
+    pub size: u32,
+}
+
+fn poi_matches(f: Find, p: u32) -> bool {
+    match f {
+        Find::Tile(t) => packed_tile(p) == Some(t),
+        Find::Wall(w) => packed_wall(p) == w,
+        Find::Shimmer => packed_liquid(p) == 4,
+    }
+}
+
+/// Finds the points of interest: one per object (its top-left tile) and one per patch
+/// of an area (16-tile squares holding enough of it, joined with their neighbours).
+pub fn points_of_interest(m: &WorldMap) -> Vec<Poi> {
+    const BIN: usize = 16;
+    let (w, h) = (m.width, m.height);
+    let (bw, bh) = (w.div_ceil(BIN), h.div_ceil(BIN));
+    let areas: Vec<usize> = (0..POI_KINDS.len()).filter(|&k| POI_KINDS[k].area.is_some()).collect();
+    let objects: Vec<usize> = (0..POI_KINDS.len()).filter(|&k| POI_KINDS[k].area.is_none()).collect();
+    let mut counts = vec![vec![0u16; bw * bh]; areas.len()];
+    let mut out = Vec::new();
+    for y in 0..h {
+        for x in 0..w {
+            let p = m.cells[y * w + x];
+            for (ai, &k) in areas.iter().enumerate() {
+                if poi_matches(POI_KINDS[k].find, p) {
+                    counts[ai][(y / BIN) * bw + x / BIN] += 1;
+                }
+            }
+            let Some(t) = packed_tile(p) else { continue };
+            for &k in &objects {
+                if let Find::Tile(want) = POI_KINDS[k].find {
+                    let left = x > 0 && packed_tile(m.cells[y * w + x - 1]) == Some(want);
+                    let up = y > 0 && packed_tile(m.cells[(y - 1) * w + x]) == Some(want);
+                    if t == want && !left && !up {
+                        out.push(Poi { kind: k, x: x as u32, y: y as u32, size: 1 });
+                    }
+                }
+            }
+        }
+    }
+    for (ai, &k) in areas.iter().enumerate() {
+        let c = &counts[ai];
+        let min_bin = if matches!(POI_KINDS[k].find, Find::Shimmer) { 4 } else { 24 };
+        let mut seen = vec![false; bw * bh];
+        for start in 0..bw * bh {
+            if seen[start] || c[start] < min_bin {
+                continue;
+            }
+            // Join neighbouring squares into one patch.
+            let mut stack = vec![start];
+            seen[start] = true;
+            let mut bins = vec![];
+            while let Some(b) = stack.pop() {
+                bins.push(b);
+                let (bx, by) = ((b % bw) as i64, (b / bw) as i64);
+                for dy in -1..=1 {
+                    for dx in -1..=1 {
+                        let (nx, ny) = (bx + dx, by + dy);
+                        if nx < 0 || ny < 0 || nx >= bw as i64 || ny >= bh as i64 {
+                            continue;
+                        }
+                        let n = ny as usize * bw + nx as usize;
+                        if !seen[n] && c[n] >= min_bin {
+                            seen[n] = true;
+                            stack.push(n);
+                        }
+                    }
+                }
+            }
+            let total: u32 = bins.iter().map(|&b| c[b] as u32).sum();
+            if total < POI_KINDS[k].area.unwrap_or(0) {
+                continue;
+            }
+            // Mark the square nearest the middle of the patch (weighted by how much is there).
+            let (sx, sy) = bins.iter().fold((0f64, 0f64), |(sx, sy), &b| (sx + (b % bw) as f64 * c[b] as f64, sy + (b / bw) as f64 * c[b] as f64));
+            let (mx, my) = (sx / total as f64, sy / total as f64);
+            let best = *bins.iter().min_by(|&&a, &&b| {
+                let da = ((a % bw) as f64 - mx).powi(2) + ((a / bw) as f64 - my).powi(2);
+                let db = ((b % bw) as f64 - mx).powi(2) + ((b / bw) as f64 - my).powi(2);
+                da.total_cmp(&db)
+            }).unwrap();
+            let (x, y) = (((best % bw) * BIN + BIN / 2).min(w - 1), ((best / bw) * BIN + BIN / 2).min(h - 1));
+            out.push(Poi { kind: k, x: x as u32, y: y as u32, size: total });
+        }
+    }
+    out
 }
 
 // ------------------------------------------------------------------ map edits
@@ -1322,7 +1459,7 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
     b.add(&mut em, "", "Map edits", Value::from(""), Field::Edits);
     root.insert("Map edits".into(), em.remove("Map edits").unwrap());
 
-    let map = WorldMap {
+    let mut map = WorldMap {
         width: w,
         height: h,
         cells,
@@ -1332,7 +1469,9 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
         version: v,
         chests: chests.iter().map(|c| (c.x, c.y)).collect(),
         npcs: npc_list,
+        pois: vec![],
     };
+    map.pois = points_of_interest(&map);
     let backend = WldBackend {
         raw: Arc::new(d.to_vec()),
         sections,
@@ -1394,6 +1533,14 @@ mod tests {
             let mut doc = parse(&raw).unwrap();
             println!("{}: {:?}, {} chests, {:?}", e.path().display(), doc.view["World"]["Size"], doc.view["Chests"].as_object().unwrap().len(), t.elapsed());
             println!("  {}", serde_json::to_string(&doc.view["Bosses defeated"]).unwrap());
+            {
+                let m = doc.attachment().unwrap().downcast::<WorldMap>().unwrap();
+                let mut n = vec![0; POI_KINDS.len()];
+                for p in &m.pois {
+                    n[p.kind] += 1;
+                }
+                println!("  points of interest: {:?}", POI_KINDS.iter().zip(n).filter(|(_, c)| *c > 0).map(|(k, c)| format!("{} {c}", k.name)).collect::<Vec<_>>());
+            }
             assert_eq!(doc.to_bytes().unwrap(), raw);
             doc.set("/World/Name", Value::from("Edited World Name")).unwrap();
             if doc.view.pointer("/World/Hardmode").is_some() {
