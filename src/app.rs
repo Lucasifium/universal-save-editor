@@ -2196,7 +2196,7 @@ impl App {
         let cairn: Option<(String, Vec<(String, String)>, usize)> = self.doc.as_ref().and_then(|d| {
             let current = d.layers.iter().find_map(|l| if let Layer::Copeck { name, .. } = l { Some(name.clone()) } else { None })?;
             let mut saves: Vec<(String, String)> = d.zip_entries.iter().filter_map(|e| cairn_save_label(e).map(|l| (e.clone(), l))).collect();
-            // Dated saves newest first, then the quick save and any others.
+            // Dated saves newest first, then QUICK.SAV and any others.
             saves.sort_by(|a, b| {
                 let dated = |l: &str| l.starts_with(|c: char| c.is_ascii_digit());
                 dated(&b.1).cmp(&dated(&a.1)).then(b.1.cmp(&a.1))
@@ -2546,7 +2546,8 @@ impl App {
     }
 }
 
-/// "SAVEGAMES/AUTO_INPACK_2026.02.08_16.58.55.SAV" → "2026-02-08 16:58:55 (auto)"; QUICK.SAV → "Quick save".
+/// "SAVEGAMES/AUTO_INPACK_2026.02.08_16.58.55.SAV" → "2026-02-08 16:58:55 (auto)"; QUICK.SAV keeps its name
+/// (the game writes it itself; it is not a manual quick save).
 /// The labels sort by date.
 fn cairn_save_label(entry: &str) -> Option<String> {
     let name = entry.strip_prefix("SAVEGAMES/")?.strip_suffix(".SAV")?;
@@ -2559,7 +2560,7 @@ fn cairn_save_label(entry: &str) -> Option<String> {
         }
     }
     Some(match name {
-        "QUICK" => "Quick save".into(),
+        "QUICK" => "QUICK.SAV (written by the game)".into(),
         n => n.replace('_', " ").to_lowercase(),
     })
 }
@@ -2898,7 +2899,7 @@ mod cairn_label_tests {
     #[test]
     fn labels() {
         assert_eq!(super::cairn_save_label("SAVEGAMES/AUTO_INPACK_2026.02.08_16.58.55.SAV").unwrap(), "2026-02-08 16:58:55 (auto)");
-        assert_eq!(super::cairn_save_label("SAVEGAMES/QUICK.SAV").unwrap(), "Quick save");
+        assert_eq!(super::cairn_save_label("SAVEGAMES/QUICK.SAV").unwrap(), "QUICK.SAV (written by the game)");
         assert!(super::cairn_save_label("PATHS/FRAG_1").is_none());
     }
 }
