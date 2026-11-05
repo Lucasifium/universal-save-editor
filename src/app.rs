@@ -2569,6 +2569,9 @@ fn cairn_save_label(entry: &str) -> Option<String> {
 fn friendly_kind(layers: &[Layer], content: &Content) -> String {
     match content {
         Content::Tree(t) => t.kind_name.clone(),
+        Content::Json { value, .. } if layers.iter().any(|l| matches!(l, Layer::Rgg(_))) => {
+            value.pointer("/base/m_title").and_then(|t| t.as_str()).map(|t| format!("{t} save")).unwrap_or_else(|| "Yakuza save".into())
+        }
         Content::Json { .. } if layers.contains(&Layer::LzString) => "RPG Maker MV".into(),
         Content::Json { .. } if layers.contains(&Layer::RpgMzZlib) => "RPG Maker MZ".into(),
         Content::Json { value, .. } if names::is_rpgmaker(value) => "RPG Maker".into(),

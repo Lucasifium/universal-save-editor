@@ -92,6 +92,8 @@ pub enum Layer {
     Bioshock { chunks: Arc<fmt::bioshock::Chunks> },
     /// Control (Remedy): two u32 versions, then a CRC-32 of the rest.
     RemedyCrc { head: [u8; 8] },
+    /// Yakuza (Dragon Engine): XORed JSON and a check of it at the end.
+    Rgg(fmt::rgg::Check),
     /// BioShock Remastered: zlib blocks unpacked in place, packed back into the same space.
     Rgmh { original: Arc<Vec<u8>>, blocks: Arc<fmt::rgmh::Blocks> },
     /// Cairn (The Game Bakers) "COPECK" slot: a fixed-size pack of named files; one of them
@@ -168,6 +170,7 @@ impl Layer {
             Layer::MetroPlayer { .. } => "Metro level save (LZ4)".into(),
             Layer::Rgmh { blocks, .. } => format!("BioShock Remastered save ({} zlib blocks)", blocks.len()),
             Layer::RemedyCrc { .. } => "Control save (CRC-32)".into(),
+            Layer::Rgg(_) => "Yakuza save (Dragon Engine)".into(),
             Layer::Bioshock { chunks } => format!("BioShock Infinite save (MD5, {} zlib chunks)", chunks.len()),
             Layer::Copeck { name, .. } => format!("Cairn save pack ({name})"),
             Layer::MetroDezp { .. } => "Metro auto save (LZ4)".into(),
@@ -530,6 +533,7 @@ fn wrap(layer: &Layer, data: Vec<u8>) -> Result<Vec<u8>, String> {
         Layer::P5r { head } => fmt::p5r::pack(head, &data),
         Layer::MetroPlayer { head } => fmt::metro::pack_player(head, &data),
         Layer::Bioshock { chunks } => fmt::bioshock::pack(chunks, &data)?,
+        Layer::Rgg(check) => fmt::rgg::encrypt(*check, &data),
         Layer::RemedyCrc { head } => {
             let mut h = flate2::Crc::new();
             h.update(&data);
@@ -766,6 +770,9 @@ fn peel(data: &[u8], ctx: &mut Ctx) -> Option<(Layer, Vec<u8>)> {
         if h.sum().to_le_bytes() == data[8..12] {
             return Some((Layer::RemedyCrc { head: data[..8].try_into().unwrap() }, data[12..].to_vec()));
         }
+    }
+    if let Some((check, p)) = fmt::rgg::decrypt(data) {
+        return Some((Layer::Rgg(check), p));
     }
     if fmt::rgmh::looks(data) {
         if let Some((blocks, p)) = fmt::rgmh::unpack(data) {

@@ -64,6 +64,8 @@ pub mod metro;
 pub mod bioshock;
 pub mod rgmh;
 pub mod cairn;
+pub mod rgg;
+pub mod yakuza0;
 pub mod plistf;
 pub mod pokemon12;
 pub mod pokemon3;
@@ -95,6 +97,11 @@ pub fn parse_binary(d: &[u8]) -> Option<TreeDoc> {
     }
     if bethesda::looks(d) {
         if let Ok(t) = bethesda::parse(d) {
+            return Some(t);
+        }
+    }
+    if yakuza0::looks(d) {
+        if let Ok(t) = yakuza0::parse(d) {
             return Some(t);
         }
     }

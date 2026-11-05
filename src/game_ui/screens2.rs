@@ -1119,3 +1119,91 @@ pub fn metro(ui: &mut Ui, cx: &mut GameCtx) {
         ui.weak("What Artyom carries at the start of this level (chapter select loads it). The game may cap a count at what Artyom can carry.");
     });
 }
+
+// ------------------------------------------------------------------ Yakuza 0
+
+pub fn yakuza0(ui: &mut Ui, cx: &mut GameCtx) {
+    let accent = Color32::from_rgb(200, 40, 50);
+    let sub = [cx.text("/Game/Saved").map(|t| format!("Saved {t}")), cx.text("/Game/Playing as").map(|w| format!("playing as {w}"))]
+        .into_iter()
+        .flatten()
+        .collect::<Vec<_>>()
+        .join("  \u{00B7}  ");
+    hero(ui, accent, "Yakuza 0", &sub, |ui| {
+        cx.tile(ui, "Kiryu's money (\u{00A5})", "/Kiryu/Money", accent);
+        cx.tile(ui, "Majima's money (\u{00A5})", "/Majima/Money", accent);
+    });
+    panel(ui, "Kiryu", |ui| {
+        let rows = vec![
+            ("CP".to_string(), "/Kiryu/CP".to_string()),
+            ("Real estate takings (Kamurocho)".to_string(), "/Kiryu/Real estate takings (Kamurocho)".to_string()),
+        ];
+        value_rows(ui, cx, "y0_kiryu", &rows);
+    });
+    panel(ui, "Majima", |ui| {
+        let rows = vec![
+            ("CP".to_string(), "/Majima/CP".to_string()),
+            ("Cabaret takings (Sotenbori)".to_string(), "/Majima/Cabaret takings (Sotenbori)".to_string()),
+        ];
+        value_rows(ui, cx, "y0_majima", &rows);
+    });
+    panel(ui, "Game", |ui| {
+        value_rows(ui, cx, "y0_game", &[("Difficulty".to_string(), "/Game/Difficulty".to_string())]);
+        ui.weak("Takings are what the businesses have earned and you haven't collected yet. Money tops out at \u{00A5}9,999,999,999,999.");
+    });
+}
+
+// ------------------------------------------------------------------ Yakuza (Dragon Engine: Kiwami 2, Like a Dragon, …)
+
+pub fn yakuza_de(ui: &mut Ui, cx: &mut GameCtx) {
+    let accent = Color32::from_rgb(210, 160, 40);
+    let title = cx.text("/base/m_title").unwrap_or_else(|| "Yakuza".into());
+    let sub = cx.text("/base/m_subtitle").unwrap_or_default();
+    let party = cx.get("/party/m_chara").and_then(|v| v.as_array().map(Vec::len)).unwrap_or(0);
+    hero(ui, accent, &title, &sub, |ui| {
+        cx.tile(ui, "Money (\u{00A5})", "/player/point/m_point/1", accent);
+        if cx.get("/player/hp/m_max").is_some() {
+            cx.tile(ui, "Max HP", "/player/hp/m_max", accent);
+            cx.tile(ui, "HP", "/player/hp/m_now", accent);
+        }
+    });
+    // Kiwami 2 keeps Kiryu's five experience pools next to the money.
+    if party == 0 && cx.get("/player/point/m_point/6").is_some() {
+        panel(ui, "Experience", |ui| {
+            let rows: Vec<(String, String)> = (2..=6).map(|i| (format!("Experience pool {}", i - 1), format!("/player/point/m_point/{i}"))).collect();
+            value_rows(ui, cx, "yde_exp", &rows);
+            ui.weak("The five kinds of experience you spend in the Growth menu, in the order the save keeps them.");
+        });
+    }
+    if party > 0 {
+        const COLS: [(&str, &str); 6] = [
+            ("Level", "exp/m_level"),
+            ("Experience", "exp/m_exp"),
+            ("HP", "hp/m_now"),
+            ("Max HP", "hp/m_max"),
+            ("MP", "heat/m_now"),
+            ("Max MP", "heat/m_max"),
+        ];
+        panel(ui, "Party", |ui| {
+            egui::ScrollArea::horizontal().id_salt("yde_party_s").show(ui, |ui| {
+                egui::Grid::new("yde_party").striped(true).spacing([10.0, 4.0]).show(ui, |ui| {
+                    ui.label("");
+                    for (h, _) in COLS {
+                        ui.strong(h);
+                    }
+                    ui.end_row();
+                    for i in 0..party {
+                        let base = format!("/party/m_chara/{i}");
+                        ui.label(if i == 0 { "Ichiban".to_string() } else { format!("Member {}", i + 1) });
+                        for (h, k) in COLS {
+                            cx.compact(ui, &format!("{base}/{k}"), if h == "Experience" { 120.0 } else { 56.0 });
+                        }
+                        ui.end_row();
+                    }
+                });
+            });
+            ui.weak("Every party character the save knows about, in the save's order; the first is Ichiban.");
+        });
+    }
+    ui.weak("The save's checksum is updated when you save.");
+}
