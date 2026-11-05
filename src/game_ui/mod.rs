@@ -60,6 +60,8 @@ pub enum Game {
     P5r,
     Ffx,
     Metro,
+    Yakuza0,
+    YakuzaDe,
 }
 
 impl Game {
@@ -90,6 +92,8 @@ impl Game {
             Game::P5r => "Phantom Thieves",
             Game::Ffx => "Party",
             Game::Metro => "Artyom",
+            Game::Yakuza0 => "Kiryu & Majima",
+            Game::YakuzaDe => "Player",
             _ => "Character",
         }
     }
@@ -134,6 +138,8 @@ pub fn detect(kind: &str, root: &Value) -> Option<Game> {
         "Persona 5 Royal save" => Game::P5r,
         "Final Fantasy X save" => Game::Ffx,
         "Metro player save" => Game::Metro,
+        "Yakuza 0 save" => Game::Yakuza0,
+        _ if has("/base/m_title") && has("/player/point/m_point/1") => Game::YakuzaDe,
         "Unreal Engine save (PalWorldPlayerSaveGame)" if has("/SaveData/TechnologyPoint") => Game::Palworld,
         "Final Fantasy VII Remake save" | "Final Fantasy VII Rebirth save" => Game::Ff7Remake,
         "RimWorld save" => Game::RimWorld,
@@ -177,6 +183,8 @@ pub fn show(game: Game, ui: &mut Ui, cx: &mut GameCtx) {
         Game::P5r => screens2::p5r(ui, cx),
         Game::Ffx => screens2::ffx(ui, cx),
         Game::Metro => screens2::metro(ui, cx),
+        Game::Yakuza0 => screens2::yakuza0(ui, cx),
+        Game::YakuzaDe => screens2::yakuza_de(ui, cx),
         Game::RenPy => screens2::renpy(ui, cx),
         Game::MassEffect => screens2::mass_effect(ui, cx),
         Game::Xcom => screens2::xcom(ui, cx),
@@ -314,13 +322,16 @@ impl GameCtx<'_> {
             return;
         }
         let modified = self.modified(p);
-        tile_frame(ui, accent, modified, |ui| {
+        // Long numbers (money in the trillions) get a wider tile instead of being cut off.
+        let digits = self.get(p).map(|v| v.to_string().len()).unwrap_or(0) as f32;
+        let need = digits * 11.0 + 18.0;
+        tile_frame_min(ui, accent, modified, need + 76.0, |ui| {
             ui.label(RichText::new(caption).size(12.5).color(ui.visuals().weak_text_color()));
             ui.horizontal(|ui| {
                 ui.style_mut().override_font_id = Some(FontId::proportional(18.0));
                 // Whole numbers leave room for −/+; decimals use the whole width.
                 let whole = self.get(p).is_some_and(|v| v.as_i64().is_some() || v.as_u64().is_some());
-                let w = if whole { (ui.available_width() - 76.0).clamp(50.0, 104.0) } else { (ui.available_width() - 8.0).clamp(60.0, 160.0) };
+                let w = if whole { (ui.available_width() - 76.0).clamp(50.0, 104.0f32.max(need)) } else { (ui.available_width() - 8.0).clamp(60.0, 160.0f32.max(need)) };
                 self.editor(ui, p, w);
             });
         });
@@ -404,9 +415,14 @@ pub fn inset_fill(ui: &Ui, accent: Color32) -> Color32 {
 const TILE_W: f32 = 196.0;
 
 pub fn tile_frame(ui: &mut Ui, accent: Color32, modified: bool, add: impl FnOnce(&mut Ui)) {
+    tile_frame_min(ui, accent, modified, 0.0, add)
+}
+
+/// A tile at least `min` wide inside (when the row has room).
+pub fn tile_frame_min(ui: &mut Ui, accent: Color32, modified: bool, min: f32, add: impl FnOnce(&mut Ui)) {
     // At least two tiles per row, even on a phone.
     let row = ui.max_rect().width();
-    let tile_w = TILE_W.min((row / 2.0 - 30.0).max(110.0));
+    let tile_w = TILE_W.max(min).min((row / 2.0 - 30.0).max(110.0).max(min.min(row - 40.0)));
     // Tiles flow in rows; start a new row when this one is full (frames can't wrap by themselves).
     if ui.layout().main_wrap() && ui.available_size_before_wrap().x < tile_w + 24.0 {
         ui.end_row();

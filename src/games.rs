@@ -156,6 +156,11 @@ pub const GAMES: &[GameInfo] = &[
     game!("XCOM 2: War of the Chosen", HEX_UNPACKED, r"Documents\My Games\XCOM2 War of the Chosen\XComGame\SaveData", r"save_AUTOSAVE- Campaign …, save_<name>", [(Documents, r"My Games\XCOM2 War of the Chosen\XComGame\SaveData")], ["save*"], 1),
     game!("XCOM: Chimera Squad", HEX_UNPACKED, r"Documents\My Games\XCOM Chimera Squad\XComGame\SaveData", r"save*", [(Documents, r"My Games\XCOM Chimera Squad\XComGame\SaveData")], ["save*"], 1),
     game!("XCOM: Enemy Unknown / Enemy Within", HEX_UNPACKED, r"Documents\My Games\XCOM - Enemy Unknown (or XCOM - Enemy Within)\XComGame\SaveData", r"save1, save2 … (no extension)", [(Documents, r"My Games\XCOM - Enemy Unknown\XComGame\SaveData"), (Documents, r"My Games\XCOM - Enemy Within\XComGame\SaveData")], ["save*"], 1),
+    game!("Yakuza 0", FULL, r"Steam\userdata\<account>\638970\remote", r"SaveData00NN.sav", [(SteamUser("638970"), r"remote")], ["SaveData*.sav"], 1),
+    game!("Yakuza 3 Remastered", HEX, r"Steam\userdata\<account>\1088710\remote", r"savegameN.sav", [(SteamUser("1088710"), r"remote")], ["savegame*.sav"], 1),
+    game!("Yakuza Kiwami", HEX, r"Steam\userdata\<account>\834530\remote", r"SaveData00NN.sav, autosave00NN.sav", [(SteamUser("834530"), r"remote")], ["SaveData*.sav", "autosave*.sav"], 1),
+    game!("Yakuza Kiwami 2", FULL, r"%APPDATA%\SEGA\YakuzaKiwami2\<Steam account>\saveNN", r"data.sav (one folder per slot)", [(AppData, r"SEGA\YakuzaKiwami2\*")], ["data.sav"], 2),
+    game!("Yakuza: Like a Dragon", FULL, r"%APPDATA%\SEGA\YakuzaLikeADragon\<Steam account>\saveNNN", r"data.sav (one folder per slot)", [(AppData, r"SEGA\YakuzaLikeADragon\*")], ["data.sav"], 2),
 ];
 
 /// A save found for a game.

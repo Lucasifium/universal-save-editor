@@ -17,6 +17,8 @@ pub enum Kind {
     U16,
     I32,
     U32,
+    /// Unsigned 64-bit (money in some games).
+    U64,
     F32,
     /// A 32-bit true/false.
     B32,
@@ -29,6 +31,7 @@ impl Kind {
         match self {
             Kind::U8 | Kind::B8 => 1,
             Kind::I16 | Kind::U16 => 2,
+            Kind::U64 => 8,
             _ => 4,
         }
     }
@@ -74,6 +77,7 @@ pub fn read(d: &[u8], at: usize, kind: Kind, be: bool) -> Option<Value> {
         Kind::U16 => Value::from(u(2) as u16),
         Kind::I32 => Value::from(u(4) as u32 as i32),
         Kind::U32 => Value::from(u(4) as u32),
+        Kind::U64 => Value::from(u(8)),
         Kind::F32 => crate::tree::round_f32(Value::from(f64::from(f32::from_bits(u(4) as u32)))),
         Kind::B32 => Value::Bool(u(4) != 0),
         Kind::B8 => Value::Bool(b[0] != 0),
@@ -102,6 +106,7 @@ fn encode(l: &Leaf, v: &Value) -> Result<Vec<u8>, String> {
                 Kind::I16 => (i16::MIN.into(), i16::MAX.into()),
                 Kind::U16 => (0, u16::MAX.into()),
                 Kind::I32 => (i32::MIN.into(), i32::MAX.into()),
+                Kind::U64 => (0, u64::MAX.into()),
                 _ => (0, u32::MAX.into()),
             };
             let (min, max) = l.range.map_or((tmin, tmax), |(a, b)| (i128::from(a).max(tmin), i128::from(b).min(tmax)));
