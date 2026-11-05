@@ -63,6 +63,8 @@ pub enum Game {
     Yakuza0,
     YakuzaDe,
     Kiwami,
+    Gow2018,
+    GowRagnarok,
 }
 
 impl Game {
@@ -96,6 +98,8 @@ impl Game {
             Game::Yakuza0 => "Kiryu & Majima",
             Game::YakuzaDe => "Player",
             Game::Kiwami => "Kiryu",
+            Game::Gow2018 => "Kratos",
+            Game::GowRagnarok => "Kratos",
             _ => "Character",
         }
     }
@@ -142,6 +146,8 @@ pub fn detect(kind: &str, root: &Value) -> Option<Game> {
         "Metro player save" => Game::Metro,
         "Yakuza 0 save" => Game::Yakuza0,
         "Yakuza Kiwami save" => Game::Kiwami,
+        "God of War save" => Game::Gow2018,
+        "God of War Ragnarök save" => Game::GowRagnarok,
         _ if has("/base/m_title") && has("/player") => Game::YakuzaDe,
         "Unreal Engine save (PalWorldPlayerSaveGame)" if has("/SaveData/TechnologyPoint") => Game::Palworld,
         "Final Fantasy VII Remake save" | "Final Fantasy VII Rebirth save" => Game::Ff7Remake,
@@ -189,6 +195,8 @@ pub fn show(game: Game, ui: &mut Ui, cx: &mut GameCtx) {
         Game::Yakuza0 => screens2::yakuza0(ui, cx),
         Game::YakuzaDe => screens2::yakuza_de(ui, cx),
         Game::Kiwami => screens2::kiwami(ui, cx),
+        Game::Gow2018 => screens2::gow2018(ui, cx),
+        Game::GowRagnarok => screens2::gow_ragnarok(ui, cx),
         Game::RenPy => screens2::renpy(ui, cx),
         Game::MassEffect => screens2::mass_effect(ui, cx),
         Game::Xcom => screens2::xcom(ui, cx),

@@ -67,6 +67,7 @@ pub mod cairn;
 pub mod rgg;
 pub mod yakuza0;
 pub mod kiwami;
+pub mod gow;
 pub mod plistf;
 pub mod pokemon12;
 pub mod pokemon3;
@@ -98,6 +99,16 @@ pub fn parse_binary(d: &[u8]) -> Option<TreeDoc> {
     }
     if bethesda::looks(d) {
         if let Ok(t) = bethesda::parse(d) {
+            return Some(t);
+        }
+    }
+    if gow::looks_2018(d) {
+        if let Ok(t) = gow::parse_2018(d) {
+            return Some(t);
+        }
+    }
+    if gow::looks_ragnarok(d) {
+        if let Ok(t) = gow::parse_ragnarok(d) {
             return Some(t);
         }
     }

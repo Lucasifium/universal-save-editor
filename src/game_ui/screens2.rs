@@ -1219,3 +1219,104 @@ pub fn kiwami(ui: &mut Ui, cx: &mut GameCtx) {
     });
     ui.weak("Experience is what Kiryu has earned and not yet spent in the Abilities menu (99,999,999 at most). Money tops out at \u{00A5}9,999,999,999.");
 }
+
+// ------------------------------------------------------------------ God of War (2018)
+
+/// The keys of the object at `p`, in order.
+fn keys_of(cx: &GameCtx, p: &str) -> Vec<String> {
+    match cx.get(p) {
+        Some(Value::Object(m)) => m.keys().cloned().collect(),
+        _ => vec![],
+    }
+}
+
+pub fn gow2018(ui: &mut Ui, cx: &mut GameCtx) {
+    let accent = Color32::from_rgb(170, 40, 30);
+    let slots = keys_of(cx, "");
+    if slots.is_empty() {
+        return;
+    }
+    let labels: Vec<String> = slots.iter().map(|s| format!("{s}: {}", cx.text(&join(&join("", s), "Saved")).unwrap_or_default())).collect();
+    let t = tabs(ui, "gow_slot", &labels);
+    let base = join("", &slots[t]);
+    let title = cx.text(&join(&base, "Title")).unwrap_or_default();
+    hero(ui, accent, "God of War", &title, |ui| {
+        cx.tile(ui, "Hacksilver", &join(&base, "Hacksilver"), accent);
+        cx.tile(ui, "Experience", &join(&base, "Experience"), accent);
+    });
+    let res = join(&base, "Resources");
+    let rows: Vec<(String, String)> = keys_of(cx, &res).into_iter().map(|k| (k.clone(), join(&res, &k))).collect();
+    if !rows.is_empty() {
+        panel(ui, "Resources", |ui| {
+            value_rows(ui, cx, "gow_res", &rows);
+            ui.weak("Includes Yggdrasil's dew (the stat boosts). Resources this save hasn't found yet aren't listed.");
+        });
+    }
+    let eq = join(&base, "Equipment owned");
+    let cats = keys_of(cx, &eq);
+    if !cats.is_empty() {
+        panel(ui, "Equipment owned", |ui| {
+            for c in &cats {
+                let list: Vec<String> = cx
+                    .get(&join(&eq, c))
+                    .and_then(Value::as_array)
+                    .map(|a| a.iter().filter_map(|v| v.as_str().map(String::from)).collect())
+                    .unwrap_or_default();
+                egui::CollapsingHeader::new(format!("{c} ({})", list.len())).id_salt(("gow_eq", c)).show(ui, |ui| {
+                    for n in list {
+                        ui.label(n);
+                    }
+                });
+            }
+            ui.weak("Each upgrade level is its own entry. Adding pieces and changing their levels in this game's save isn't supported yet.");
+        });
+    }
+}
+
+// ------------------------------------------------------------------ God of War Ragnarök
+
+pub fn gow_ragnarok(ui: &mut Ui, cx: &mut GameCtx) {
+    let accent = Color32::from_rgb(60, 120, 190);
+    let title = cx.text("/Save/Title").unwrap_or_default();
+    let mode = cx.text("/Save/Mode").unwrap_or_default();
+    hero(ui, accent, "God of War Ragnar\u{00F6}k", &format!("{title}  \u{00B7}  {mode}"), |ui| {
+        cx.tile(ui, "Hacksilver", "/Currency/Hacksilver", accent);
+        cx.tile(ui, "Health", "/Kratos/Health", accent);
+        cx.tile(ui, "Rage", "/Kratos/Rage", accent);
+    });
+    for (group, id, note) in [
+        ("Experience", "gowr_xp", ""),
+        ("Currency", "gowr_cur", ""),
+        ("Yggdrasil's Dew", "gowr_dew", "Each dew adds to one of Kratos's stats."),
+        ("Resources", "gowr_res", "Resources this save hasn't found yet aren't listed."),
+    ] {
+        let p = join("", group);
+        let rows: Vec<(String, String)> = keys_of(cx, &p).into_iter().map(|k| (k.clone(), join(&p, &k))).collect();
+        if rows.is_empty() {
+            continue;
+        }
+        panel(ui, group, |ui| {
+            value_rows(ui, cx, id, &rows);
+            if !note.is_empty() {
+                ui.weak(note);
+            }
+        });
+    }
+    let cats = keys_of(cx, "/Equipment");
+    if cats.is_empty() {
+        if mode == "Valhalla" {
+            ui.weak("Equipment levels are edited in campaign saves.");
+        }
+        return;
+    }
+    panel(ui, "Equipment levels", |ui| {
+        for c in &cats {
+            let p = join("/Equipment", c);
+            let rows: Vec<(String, String)> = keys_of(cx, &p).into_iter().map(|k| (k.clone(), join(&p, &k))).collect();
+            egui::CollapsingHeader::new(format!("{c} ({})", rows.len())).id_salt(("gowr_eq", c)).show(ui, |ui| {
+                value_rows(ui, cx, &format!("gowr_eq_{c}"), &rows);
+            });
+        }
+        ui.weak("Each piece keeps its place, its links and what it's equipped to; only its level changes. Levels another piece of yours already has aren't offered.");
+    });
+}
