@@ -707,6 +707,37 @@ pub fn onimusha(ui: &mut Ui, cx: &mut GameCtx) {
     if let Some(goal) = parts.get(3).filter(|x| !x.is_empty()) {
         ui.label(RichText::new(format!("Objective: {goal}")).weak());
     }
+    // Items: 500 entries, unused ones hold item 46. EquipNum is what's on hand, BoxNum what's
+    // in storage (matched against the game's item screen).
+    let items = format!("{d}/_Items");
+    let used: Vec<(usize, i64)> = cx
+        .get(&items)
+        .and_then(Value::as_array)
+        .map(|a| a.iter().enumerate().filter_map(|(k, e)| e.get("ItemID")?.as_i64().filter(|&id| id != 46).map(|id| (k, id))).collect())
+        .unwrap_or_default();
+    if !used.is_empty() {
+        panel(ui, "Items", |ui| {
+            egui::Grid::new("oni_items").num_columns(3).striped(true).spacing([12.0, 4.0]).show(ui, |ui| {
+                ui.strong("Item");
+                ui.strong("On hand");
+                ui.strong("In storage");
+                ui.end_row();
+                for (k, id) in &used {
+                    let p = format!("{items}/{k}");
+                    let name = match id {
+                        26615 => "Hozuki".to_string(),
+                        817697408 => "Sake".to_string(),
+                        _ => format!("Item {id}"),
+                    };
+                    ui.label(name);
+                    cx.cell(ui, &format!("{p}/EquipNum"), 70.0);
+                    cx.cell(ui, &format!("{p}/BoxNum"), 70.0);
+                    ui.end_row();
+                }
+            });
+            ui.weak("Item names aren't known yet beyond the ones matched so far; the game shows each item's counts as On Hand and In Storage. Key items (weapons, the bow) have no count.");
+        });
+    }
     // Equipment that has gained experience (the rest of the 32 entries are unused).
     let eq = format!("{d}/_Equipments");
     let rows: Vec<usize> = cx
