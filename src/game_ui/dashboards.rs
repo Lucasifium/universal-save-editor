@@ -695,6 +695,11 @@ pub fn onimusha(ui: &mut Ui, cx: &mut GameCtx) {
         sub.push(format!("saved {when}"));
     }
     hero(ui, accent, "Onimusha: Way of the Sword", &sub.join("  \u{00B7}  "), |ui| {
+        // Red souls are kept multiplied by a key; the parser shows them as a plain number.
+        let souls = format!("{d}/_ResourceData/SoulAmount");
+        if cx.get(&souls).is_some_and(Value::is_number) {
+            cx.tile(ui, "Red souls", &souls, accent);
+        }
         cx.tile(ui, "Money", &format!("{d}/_ResourceData/Money"), accent);
         cx.tile(ui, "Health", &format!("{d}/_PlayerStatus/Health"), accent);
         cx.tile(ui, "Oni energy", &format!("{d}/_PlayerStatus/OniEnergy"), accent);
@@ -730,8 +735,8 @@ pub fn onimusha(ui: &mut Ui, cx: &mut GameCtx) {
     });
     ui.add_space(4.0);
     ui.weak(
-        "Each save slot is edited separately; the game keeps the slot you load. Souls are stored scrambled, so they're \
-         shown only in Values. Item and equipment names aren't known yet \u{2014} the Values tab lists everything.",
+        "Each save slot is edited separately; the game keeps the slot you load. Item and equipment names aren't known \
+         yet \u{2014} the Values tab lists everything.",
     );
 }
 

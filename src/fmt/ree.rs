@@ -64,6 +64,8 @@ const F64: i32 = 12;
 const STRING: i32 = 0xF;
 const STRUCT: i32 = 0x10;
 const CLASS: i32 = 0x11;
+/// Not a type in the file: a 16-byte "hidden" number (see `hidden_number`).
+const HIDDEN: i32 = -0x48;
 
 /// An editable number in the file: where, its type and its size in bytes.
 #[derive(Clone, Copy, Debug)]
@@ -71,6 +73,8 @@ struct Leaf {
     at: usize,
     ty: i32,
     size: usize,
+    /// For a hidden number: the key it is multiplied by.
+    key: u32,
 }
 
 impl Leaf {
@@ -126,7 +130,7 @@ impl Reader<'_> {
         let mut raw = [0u8; 8];
         raw[..size].copy_from_slice(b);
         let u = u64::from_le_bytes(raw);
-        let leaf = Leaf { at, ty, size };
+        let leaf = Leaf { at, ty, size, key: 0 };
         let v = match ty {
             BOOL => Value::Bool(u != 0),
             F32 if size == 4 => crate::tree::f32_value(f32::from_bits(u as u32)),
@@ -158,7 +162,13 @@ impl Reader<'_> {
         match ty {
             STRUCT => {
                 self.align_value(size.max(1));
+                let at = self.pos;
                 let b = self.take(size)?;
+                if let Some((v, key)) = hidden_number(b) {
+                    self.editable.insert(ptr.to_string(), self.leaves.len());
+                    self.leaves.push(Leaf { at, ty: HIDDEN, size, key });
+                    return Ok(Value::from(v));
+                }
                 Ok(Value::from(b.iter().map(|x| format!("{x:02X}")).collect::<Vec<_>>().join(" ")))
             }
             ARRAY => self.array(ptr),
@@ -268,6 +278,14 @@ impl ReeBackend {
     fn encode(leaf: &Leaf, v: &Value) -> Result<Vec<u8>, String> {
         let bytes: Vec<u8> = match leaf.ty {
             BOOL => vec![u8::from(v.as_bool().ok_or("tick or untick it")?)],
+            HIDDEN => {
+                let max = u64::MAX / u64::from(leaf.key);
+                let n = int_in(v, 0, max.into(), "This value")? as u64;
+                let mut b = (n * u64::from(leaf.key)).to_le_bytes().to_vec();
+                b.extend(leaf.key.to_le_bytes());
+                b.extend([0u8; 4]);
+                b
+            }
             F32 => (v.as_f64().ok_or("expected a number")? as f32).to_le_bytes().to_vec(),
             F64 => v.as_f64().ok_or("expected a number")?.to_le_bytes().to_vec(),
             _ => {
@@ -317,6 +335,19 @@ impl Backend for ReeBackend {
     fn clone_box(&self) -> Box<dyn Backend> {
         Box::new(self.clone())
     }
+}
+
+/// Capcom hides some numbers (Onimusha's red souls) in a 16-byte value: the number times a
+/// 32-bit key (u64), the key, then four zero bytes. Found by matching a save against the
+/// count the game showed (3924 souls: 3924 x key, exactly).
+fn hidden_number(b: &[u8]) -> Option<(u64, u32)> {
+    if b.len() != 16 || b[12..16] != [0; 4] {
+        return None;
+    }
+    let enc = u64::from_le_bytes(b[..8].try_into().ok()?);
+    let key = u32::from_le_bytes(b[8..12].try_into().ok()?);
+    // Keys seen so far all end in FF; that keeps random structs (ids, vectors) out.
+    (key > 0xFFFF && key & 0xFF == 0xFF && enc % u64::from(key) == 0).then(|| (enc / u64::from(key), key))
 }
 
 pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
@@ -415,5 +446,19 @@ mod tests {
         for k in keys.iter().filter(|k| !k.contains('#')).take(120) {
             println!("{k}");
         }
+    }
+}
+
+#[cfg(test)]
+mod hidden_tests {
+    #[test]
+    fn red_souls() {
+        // Onimusha's 16-byte value for 3924 souls.
+        let b = [0xAC, 0xB8, 0x0E, 0x08, 0x91, 0x05, 0, 0, 0xFF, 0xE9, 0xF7, 0x5C, 0, 0, 0, 0];
+        assert_eq!(super::hidden_number(&b), Some((3924, 0x5CF7_E9FF)));
+        // An empty slot: nothing times its key.
+        assert_eq!(super::hidden_number(&[0, 0, 0, 0, 0, 0, 0, 0, 0xFF, 0x3E, 0x58, 0x2C, 0, 0, 0, 0]), Some((0, 0x2C58_3EFF)));
+        // A GUID-like struct isn't one.
+        assert_eq!(super::hidden_number(&[0x12; 16]), None);
     }
 }
