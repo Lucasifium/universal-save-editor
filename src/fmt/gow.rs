@@ -384,9 +384,9 @@ pub fn parse_2018(d: &[u8]) -> Result<TreeDoc, String> {
         }
     }
     Ok(b.finish_with("God of War save", Checksum::None, Some(post_2018)).with_note(
-        "Every saved game in game.sav (newest first): XP, hacksilver and resources, and the equipment each one owns. \
-         Each upgrade level of a piece is a separate entry. Pick the save by its title and date; the slot number can \
-         differ from the game's list.",
+        "Every saved game in game.sav (newest first): XP, hacksilver and resources, the equipment each one owns, and \
+         equipment to add at its base level. Pick the save by its title and date; the slot number can differ from the \
+         game's list.",
     ))
 }
 
@@ -730,7 +730,7 @@ pub fn parse_ragnarok(d: &[u8]) -> Result<TreeDoc, String> {
     b.info(&["Save", "Inventory entries"], inv_count as u64);
     Ok(b.finish_with("God of War Ragnarök save", Checksum::None, Some(post_ragnarok)).with_note(
         "XP for Kratos, Atreus and Freya, hacksilver and the other currencies, resources, Yggdrasil's dew, health and rage, \
-         and the level of each piece of equipment (campaign saves): a piece keeps its place and links, only its level changes.",
+         the level of each piece of equipment, and new pieces to add (campaign saves).",
     ))
 }
 
