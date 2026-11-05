@@ -9,20 +9,22 @@ use serde_json::{Map, Value};
 use std::collections::HashMap;
 use std::sync::{Arc, OnceLock};
 
-const EMPTY: &str = "(empty)";
-const NO_PREFIX: &str = "(none)";
+pub(crate) const EMPTY: &str = "(empty)";
+pub(crate) const NO_PREFIX: &str = "(none)";
 const DIFFICULTY: [&str; 4] = ["Classic", "Mediumcore", "Hardcore", "Journey"];
-const MIN_VERSION: i32 = 230; // Terraria 1.4.0
+pub(crate) const MIN_VERSION: i32 = 230; // Terraria 1.4.0
 
-struct Tables {
+pub(crate) struct Tables {
     items: HashMap<i32, String>,
     item_ids: HashMap<String, i32>,
-    item_list: Arc<Vec<String>>,
+    pub(crate) item_list: Arc<Vec<String>>,
+    /// The same names in item id order.
+    pub(crate) item_list_by_id: Arc<Vec<String>>,
     prefixes: Vec<String>,
-    prefix_list: Arc<Vec<String>>,
+    pub(crate) prefix_list: Arc<Vec<String>>,
 }
 
-fn tables() -> &'static Tables {
+pub(crate) fn tables() -> &'static Tables {
     static T: OnceLock<Tables> = OnceLock::new();
     T.get_or_init(|| {
         let mut items = HashMap::new();
@@ -44,20 +46,24 @@ fn tables() -> &'static Tables {
         sorted.sort_by_key(|s| s.to_lowercase());
         let mut item_list = vec![EMPTY.to_string()];
         item_list.extend(sorted.into_iter().cloned());
+        let mut ids: Vec<(&i32, &String)> = items.iter().collect();
+        ids.sort();
+        let mut by_id = vec![EMPTY.to_string()];
+        by_id.extend(ids.into_iter().map(|(_, n)| n.clone()));
         let mut prefix_list = vec![NO_PREFIX.to_string()];
         prefix_list.extend(prefixes.iter().filter(|p| !p.is_empty()).cloned());
-        Tables { items, item_ids, item_list: Arc::new(item_list), prefixes, prefix_list: Arc::new(prefix_list) }
+        Tables { items, item_ids, item_list: Arc::new(item_list), item_list_by_id: Arc::new(by_id), prefixes, prefix_list: Arc::new(prefix_list) }
     })
 }
 
-fn item_name(id: i32) -> String {
+pub(crate) fn item_name(id: i32) -> String {
     match id {
         0 => EMPTY.into(),
         _ => tables().items.get(&id).cloned().unwrap_or_else(|| format!("#{id}")),
     }
 }
 
-fn item_id(name: &str) -> Option<i32> {
+pub(crate) fn item_id(name: &str) -> Option<i32> {
     let n = name.trim();
     if n.is_empty() || n.eq_ignore_ascii_case(EMPTY) {
         return Some(0);
@@ -68,7 +74,7 @@ fn item_id(name: &str) -> Option<i32> {
     tables().item_ids.get(&n.to_lowercase()).copied()
 }
 
-fn prefix_name(id: u8) -> String {
+pub(crate) fn prefix_name(id: u8) -> String {
     match tables().prefixes.get(id as usize) {
         _ if id == 0 => NO_PREFIX.into(),
         Some(p) if !p.is_empty() => p.clone(),
@@ -76,7 +82,7 @@ fn prefix_name(id: u8) -> String {
     }
 }
 
-fn prefix_id(name: &str) -> Option<u8> {
+pub(crate) fn prefix_id(name: &str) -> Option<u8> {
     let n = name.trim();
     if n.eq_ignore_ascii_case(NO_PREFIX) || n.is_empty() {
         return Some(0);

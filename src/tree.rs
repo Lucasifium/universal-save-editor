@@ -42,6 +42,11 @@ pub trait Backend: std::fmt::Debug + Send + Sync {
     fn reshapes(&self, _leaf: usize) -> bool {
         false
     }
+    /// Extra decoded data a game screen draws from (e.g. a Terraria world's tile grid),
+    /// too big for the value tree.
+    fn attachment(&self) -> Option<Arc<dyn std::any::Any + Send + Sync>> {
+        None
+    }
     fn clone_box(&self) -> Box<dyn Backend>;
 }
 
@@ -72,6 +77,11 @@ pub struct TreeDoc {
 impl TreeDoc {
     pub fn new(view: Value, editable: HashMap<String, usize>, kind_name: impl Into<String>, backend: Box<dyn Backend>) -> Self {
         Self { original: view.clone(), view, editable, kind_name: kind_name.into(), advanced: vec![], note: None, backend, derived_log: vec![] }
+    }
+
+    /// See `Backend::attachment`.
+    pub fn attachment(&self) -> Option<Arc<dyn std::any::Any + Send + Sync>> {
+        self.backend.attachment()
     }
 
     pub fn with_note(mut self, note: impl Into<String>) -> Self {

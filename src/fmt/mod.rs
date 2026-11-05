@@ -73,6 +73,7 @@ pub mod pokemon12;
 pub mod pokemon3;
 pub mod sqlite;
 pub mod terraria;
+pub mod terraria_world;
 pub mod tomlf;
 pub mod xml;
 pub mod yaml;
@@ -199,6 +200,11 @@ pub fn parse_binary(d: &[u8]) -> Option<TreeDoc> {
     }
     if terraria::looks(d) {
         if let Ok(t) = terraria::parse(d) {
+            return Some(t);
+        }
+    }
+    if terraria_world::looks(d) {
+        if let Ok(t) = terraria_world::parse(d) {
             return Some(t);
         }
     }

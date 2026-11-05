@@ -94,7 +94,7 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
 }
 
 /// A grid of item slots under `base`, with the selected slot's editor below it.
-fn slots(ui: &mut Ui, cx: &mut GameCtx, id: &str, base: &str, keys: &[String], cols: usize) {
+pub(super) fn slots(ui: &mut Ui, cx: &mut GameCtx, id: &str, base: &str, keys: &[String], cols: usize) {
     let present: Vec<&String> = keys.iter().filter(|k| cx.get(&format!("{base}/{}", pointer_escape(k))).is_some()).collect();
     let cells: Vec<Cell> = present
         .iter()
