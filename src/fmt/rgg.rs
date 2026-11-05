@@ -1,10 +1,20 @@
-//! Ryu Ga Gotoku Studio "Dragon Engine" saves (Yakuza Kiwami 2, Like a Dragon and later):
-//! the save is JSON, XORed with a repeating 13-byte key, then a 32-bit check of the plain
-//! JSON, stored as is. Kiwami 2 uses Adler-32 started at 0 instead of 1 (facts from
-//! SutandoTsukai181's yk2_save; the key is also in simontime's notes); Like a Dragon uses
-//! CRC-32. Both were checked against sample saves.
+//! Ryu Ga Gotoku Studio "Dragon Engine" saves: the save data (JSON; MessagePack in Yakuza
+//! Kiwami 3 and Pirate Yakuza; binary in Ishin), XORed with a repeating per-game key, then a
+//! 32-bit check of the plain data. Keys, which games use which check and Ishin's 16-byte
+//! trailer are from rgg_save_tool_py (MIT; keys found by its contributors), and the
+//! Adler-32-from-0 check from SutandoTsukai181's yk2_save. Kiwami 2 and Like a Dragon were
+//! checked against sample saves.
 
-const KEY: &[u8; 13] = b"STarYZgr3DL11";
+/// (games, key)
+pub const KEYS: [(&str, &[u8]); 6] = [
+    ("Kiwami 2, Like a Dragon, Infinite Wealth, Kiwami 3, Pirate Yakuza", b"STarYZgr3DL11"),
+    ("Like a Dragon (GOG)", b"r3DL11STarYZg"),
+    ("Yakuza 6", b"VI3rbPckNsea7JOUMrgT"),
+    ("Judgment", b"OphYnzbPoV5lj"),
+    ("Lost Judgment, Gaiden", b"jKMQEv7S4l9hd"),
+    ("Ishin", b"fuEw5rWN8MBS"),
+];
+const ISHIN: usize = 5;
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum Check {
@@ -12,8 +22,17 @@ pub enum Check {
     Adler0,
 }
 
-fn xor(d: &[u8]) -> Vec<u8> {
-    d.iter().enumerate().map(|(i, b)| b ^ KEY[i % KEY.len()]).collect()
+/// How a save is wrapped: which key, which check, and (Ishin) the 16 bytes after the data,
+/// which hold the check at 8..12.
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub struct Wrap {
+    pub key: u8,
+    pub check: Check,
+    pub trailer: Option<[u8; 16]>,
+}
+
+fn xor(d: &[u8], key: &[u8]) -> Vec<u8> {
+    d.iter().enumerate().map(|(i, b)| b ^ key[i % key.len()]).collect()
 }
 
 fn sum(check: Check, d: &[u8]) -> u32 {
@@ -38,20 +57,58 @@ fn sum(check: Check, d: &[u8]) -> u32 {
     }
 }
 
-/// The plain JSON and which check the file uses.
-pub fn decrypt(d: &[u8]) -> Option<(Check, Vec<u8>)> {
-    if d.len() < 16 || d[0] ^ KEY[0] != b'{' || d[1] ^ KEY[1] != b'"' {
-        return None;
+/// Does `first` (the first plain bytes) look like the start of this kind of save?
+fn plausible(key: usize, first: &[u8]) -> bool {
+    match key {
+        // Ishin's binary data starts with a small u32.
+        ISHIN => first.len() >= 4 && first[1..4] == [0, 0, 0],
+        // JSON, or a MessagePack map.
+        _ => first.starts_with(b"{\"") || matches!(first.first(), Some(0x80..=0x8F | 0xDE | 0xDF)),
     }
-    let plain = xor(&d[..d.len() - 4]);
-    let stored = u32::from_le_bytes(d[d.len() - 4..].try_into().unwrap());
-    [Check::Crc32, Check::Adler0].into_iter().find(|&c| sum(c, &plain) == stored).map(|c| (c, plain))
 }
 
-pub fn encrypt(check: Check, plain: &[u8]) -> Vec<u8> {
-    let mut out = xor(plain);
-    out.extend(sum(check, plain).to_le_bytes());
+/// The plain save and how it was wrapped.
+pub fn decrypt(d: &[u8]) -> Option<(Wrap, Vec<u8>)> {
+    if d.len() < 32 {
+        return None;
+    }
+    for (k, (_, key)) in KEYS.iter().enumerate() {
+        let first = xor(&d[..4], key);
+        if !plausible(k, &first) {
+            continue;
+        }
+        let tail = if k == ISHIN { 16 } else { 4 };
+        let body = &d[..d.len() - tail];
+        let stored = if k == ISHIN { &d[d.len() - 8..d.len() - 4] } else { &d[d.len() - 4..] };
+        let stored = u32::from_le_bytes(stored.try_into().unwrap());
+        let plain = xor(body, key);
+        for check in [Check::Crc32, Check::Adler0] {
+            if sum(check, &plain) == stored {
+                let trailer = (k == ISHIN).then(|| d[d.len() - 16..].try_into().unwrap());
+                return Some((Wrap { key: k as u8, check, trailer }, plain));
+            }
+        }
+    }
+    None
+}
+
+pub fn encrypt(w: &Wrap, plain: &[u8]) -> Vec<u8> {
+    let key = KEYS[w.key as usize].1;
+    let mut out = xor(plain, key);
+    let s = sum(w.check, plain).to_le_bytes();
+    match w.trailer {
+        Some(mut t) => {
+            t[8..12].copy_from_slice(&s);
+            out.extend(t);
+        }
+        None => out.extend(s),
+    }
     out
+}
+
+/// Which games a save's key belongs to (for the format's name).
+pub fn games(w: &Wrap) -> &'static str {
+    KEYS[w.key as usize].0
 }
 
 #[cfg(test)]
@@ -59,13 +116,19 @@ mod tests {
     use super::*;
 
     #[test]
-    fn round_trip_and_adler() {
-        // Adler-32 from 0: "Wikipedia" is 0x11E60398 with the usual start of 1.
+    fn every_key_round_trips() {
         assert_eq!(sum(Check::Adler0, b"Wikipedia"), 0x11DD_0397);
-        for c in [Check::Crc32, Check::Adler0] {
-            let plain = br#"{".ver":1,"player":{"point":{"m_point":[0,1500]}}}"#;
-            let file = encrypt(c, plain);
-            assert_eq!(decrypt(&file), Some((c, plain.to_vec())));
+        let json = br#"{".ver":1,"player":{"point":{"m_point":[0,1500]}}}"#.to_vec();
+        let ishin = [20u8, 0, 0, 0, 1, 2, 3, 4, 5, 6, 7, 8].repeat(8);
+        for k in 0..KEYS.len() {
+            let plain = if k == ISHIN { ishin.clone() } else { json.clone() };
+            for check in [Check::Crc32, Check::Adler0] {
+                let w = Wrap { key: k as u8, check, trailer: (k == ISHIN).then_some([7u8; 16]) };
+                let file = encrypt(&w, &plain);
+                let (w2, back) = decrypt(&file).unwrap_or_else(|| panic!("key {k}"));
+                assert_eq!(back, plain);
+                assert_eq!(encrypt(&w2, &back), file);
+            }
         }
     }
 
@@ -74,10 +137,8 @@ mod tests {
     #[ignore]
     fn real_file() {
         let d = std::fs::read(std::env::var("SAVE_EDITOR_RGG").unwrap()).unwrap();
-        let (c, plain) = decrypt(&d).expect("decrypt");
-        assert_eq!(encrypt(c, &plain), d);
-        let v: serde_json::Value = serde_json::from_slice(&plain).unwrap();
-        let again = serde_json::to_vec(&v).unwrap();
-        println!("{c:?}; JSON {} bytes; re-serialised identically: {}", plain.len(), again == plain);
+        let (w, plain) = decrypt(&d).expect("decrypt");
+        assert_eq!(encrypt(&w, &plain), d);
+        println!("{w:?} ({}); {} bytes", games(&w), plain.len());
     }
 }

@@ -46,6 +46,7 @@ const FULL: &str = "Game screen";
 const VALUES: &str = "Values and Tree";
 const HEX: &str = "Hex view and Value search (find a number you know, then change it)";
 const METRO: &str = "Game screen for the level saves (.player); the auto save is unpacked for Value search";
+const RGG_UNTESTED: &str = "Decrypted, with its checksum kept right (no save of this game has been tried yet); values in the Tree";
 const HEX_UNPACKED: &str = "Unpacked for Value search (find a number you know, then change it); packed again on save";
 const PDX_BINARY: &str = "Text saves fully; ironman (binary) saves are shown but can't be edited";
 
@@ -110,8 +111,14 @@ pub const GAMES: &[GameInfo] = &[
     game!("Hearts of Iron IV", FULL, r"Documents\Paradox Interactive\Hearts of Iron IV\save games", "*.hoi4", [(Documents, r"Paradox Interactive\Hearts of Iron IV\save games")], ["*.hoi4"], 1),
     game!("Hogwarts Legacy", FULL, r"%LOCALAPPDATA%\Hogwarts Legacy\Saved\SaveGames\<account>", r"HL-00-00.sav … (the character data inside is Oodle-compressed and can't be edited)", [(LocalAppData, r"Hogwarts Legacy\Saved\SaveGames\*")], ["HL-*.sav"], 1),
     game!("Hollow Knight", FULL, r"%USERPROFILE%\AppData\LocalLow\Team Cherry\Hollow Knight", "user1.dat … user4.dat", [(LocalLow, r"Team Cherry\Hollow Knight")], ["user?.dat"], 1),
+    game!("Judgment", RGG_UNTESTED, r"%APPDATA%\Sega\Judgment\Steam\<Steam id>", r"data.sav", [(AppData, r"Sega\Judgment\Steam\*")], ["*.sav"], 2),
     game!("Kenshi", FULL, r"%LOCALAPPDATA%\kenshi\save\<save name>", r"quick.save", [(LocalAppData, r"kenshi\save"), (SteamGame("Kenshi"), r"save")], ["quick.save"], 2),
     game!("Kunitsu-Gami: Path of the Goddess", VALUES, r"Steam\userdata\<account>\2510710\remote\win64_save", "data*.bin", [(SteamUser("2510710"), r"remote\win64_save")], ["*.bin"], 1),
+    game!("Like a Dragon Gaiden: The Man Who Erased His Name", RGG_UNTESTED, r"%APPDATA%\Sega\LikeADragonGaiden\Steam\<Steam id>", r"data.sav", [(AppData, r"Sega\LikeADragonGaiden\Steam\*")], ["*.sav"], 2),
+    game!("Like a Dragon: Infinite Wealth", RGG_UNTESTED, r"%APPDATA%\Sega\LikeADragon8\Steam\<Steam id>", r"data.sav", [(AppData, r"Sega\LikeADragon8\Steam\*")], ["*.sav"], 2),
+    game!("Like a Dragon: Ishin!", RGG_UNTESTED, r"%APPDATA%\SEGA\LikeADragonIshin\<Steam id>", r"data.sav (binary inside)", [(AppData, r"SEGA\LikeADragonIshin\*")], ["*.sav"], 2),
+    game!("Like a Dragon: Pirate Yakuza in Hawaii", RGG_UNTESTED, r"%APPDATA%\Sega\LikeADragonPirates\Steam\<Steam id>", r"data.sav (MessagePack inside)", [(AppData, r"Sega\LikeADragonPirates\Steam\*")], ["*.sav"], 2),
+    game!("Lost Judgment", RGG_UNTESTED, r"%APPDATA%\Sega\LostJudgment\Steam\<Steam id>", r"data.sav", [(AppData, r"Sega\LostJudgment\Steam\*")], ["*.sav"], 2),
     game!("Marvel's Spider-Man 2", HEX, r"Documents\Marvel's Spider-Man 2\<Steam id>", r"slot<n>-autosave.save", [(Documents, r"Marvel's Spider-Man 2\*")], ["slot*.save"], 1),
     game!("Marvel's Spider-Man Remastered", HEX, r"Documents\Marvel's Spider-Man Remastered\<Steam id>", r"slot<n>-s.save", [(Documents, r"Marvel's Spider-Man Remastered\*")], ["slot*.save"], 1),
     game!("Marvel's Spider-Man: Miles Morales", HEX, r"Documents\Marvel's Spider-Man Miles Morales\<Steam id>", r"slot<n>-s.save", [(Documents, r"Marvel's Spider-Man Miles Morales\*")], ["slot*.save"], 1),
@@ -158,9 +165,13 @@ pub const GAMES: &[GameInfo] = &[
     game!("XCOM: Enemy Unknown / Enemy Within", HEX_UNPACKED, r"Documents\My Games\XCOM - Enemy Unknown (or XCOM - Enemy Within)\XComGame\SaveData", r"save1, save2 … (no extension)", [(Documents, r"My Games\XCOM - Enemy Unknown\XComGame\SaveData"), (Documents, r"My Games\XCOM - Enemy Within\XComGame\SaveData")], ["save*"], 1),
     game!("Yakuza 0", FULL, r"Steam\userdata\<account>\638970\remote", r"SaveData00NN.sav", [(SteamUser("638970"), r"remote")], ["SaveData*.sav"], 1),
     game!("Yakuza 3 Remastered", HEX, r"Steam\userdata\<account>\1088710\remote", r"savegameN.sav", [(SteamUser("1088710"), r"remote")], ["savegame*.sav"], 1),
+    game!("Yakuza 4 Remastered", HEX, r"Steam\userdata\<account>\1105500\remote", r"save files", [(SteamUser("1105500"), r"remote")], ["*.sav"], 1),
+    game!("Yakuza 5 Remastered", HEX, r"Steam\userdata\<account>\1105510\remote", r"save files", [(SteamUser("1105510"), r"remote")], ["*.sav"], 1),
+    game!("Yakuza 6: The Song of Life", RGG_UNTESTED, r"Steam\userdata\<account>\1388590\remote", r"save files", [(SteamUser("1388590"), r"remote")], ["*.sav"], 2),
     game!("Yakuza Kiwami", FULL, r"Steam\userdata\<account>\834530\remote", r"SaveData00NN.sav, autosave00NN.sav", [(SteamUser("834530"), r"remote")], ["SaveData*.sav", "autosave*.sav"], 1),
-    game!("Yakuza Kiwami 2", FULL, r"%APPDATA%\SEGA\YakuzaKiwami2\<Steam account>\saveNN", r"data.sav (one folder per slot)", [(AppData, r"SEGA\YakuzaKiwami2\*")], ["data.sav"], 2),
-    game!("Yakuza: Like a Dragon", FULL, r"%APPDATA%\SEGA\YakuzaLikeADragon\<Steam account>\saveNNN", r"data.sav (one folder per slot)", [(AppData, r"SEGA\YakuzaLikeADragon\*")], ["data.sav"], 2),
+    game!("Yakuza Kiwami 2", FULL, r"%APPDATA%\SEGA\YakuzaKiwami2\<Steam account>\saveNN", r"data.sav (one folder per slot)", [(AppData, r"SEGA\YakuzaKiwami2\*"), (AppData, r"SEGA\YakuzaKiwami2_GOG")], ["data.sav"], 2),
+    game!("Yakuza Kiwami 3 & Dark Ties", RGG_UNTESTED, r"%APPDATA%\Sega\YakuzaKiwami3\Steam\<Steam id>", r"data.sav (MessagePack inside)", [(AppData, r"Sega\YakuzaKiwami3\Steam\*")], ["*.sav"], 2),
+    game!("Yakuza: Like a Dragon", FULL, r"%APPDATA%\SEGA\YakuzaLikeADragon\<Steam account>\saveNNN", r"data.sav (one folder per slot)", [(AppData, r"SEGA\YakuzaLikeADragon\*"), (AppData, r"SEGA\YakuzaLikeADragon_GOG\*")], ["data.sav"], 2),
 ];
 
 /// A save found for a game.
