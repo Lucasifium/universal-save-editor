@@ -760,7 +760,7 @@ impl App {
         };
         // Verify before touching the disk: the new file must decode to exactly what's on screen.
         let check = formats::decode_with(&bytes, &doc.opts);
-        if !formats::same_layers(&check.layers, &doc.layers) || !formats::same_data(&check.content, &doc.content) {
+        if !formats::same_layers(&check.layers, &doc.layers) || !formats::verified(&check.content, &doc.content) {
             return self.fail("Save aborted: the re-encoded file didn't read back identically. Your file was not changed.");
         }
 

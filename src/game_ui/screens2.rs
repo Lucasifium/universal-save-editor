@@ -1222,6 +1222,27 @@ pub fn kiwami(ui: &mut Ui, cx: &mut GameCtx) {
 
 // ------------------------------------------------------------------ God of War (2018)
 
+/// "Add equipment": a drop-down per piece the save doesn't have, grouped by type.
+fn gow_add_panel(ui: &mut Ui, cx: &mut GameCtx, base: &str, id: &str, note: &str) {
+    let add = join(base, "Add equipment");
+    let cats = keys_of(cx, &add);
+    if cats.is_empty() {
+        return;
+    }
+    panel(ui, "Add equipment", |ui| {
+        for c in &cats {
+            let p = join(&add, c);
+            let rows: Vec<(String, String)> = keys_of(cx, &p).into_iter().map(|k| (k.clone(), join(&p, &k))).collect();
+            let chosen = rows.iter().filter(|(_, p)| cx.text(p).is_some_and(|v| v != "Don't add")).count();
+            let title = if chosen > 0 { format!("{c} ({}, {chosen} to add)", rows.len()) } else { format!("{c} ({})", rows.len()) };
+            egui::CollapsingHeader::new(title).id_salt((id, c.as_str())).show(ui, |ui| {
+                value_rows(ui, cx, &format!("{id}_{c}"), &rows);
+            });
+        }
+        ui.weak(note);
+    });
+}
+
 /// The keys of the object at `p`, in order.
 fn keys_of(cx: &GameCtx, p: &str) -> Vec<String> {
     match cx.get(p) {
@@ -1268,9 +1289,17 @@ pub fn gow2018(ui: &mut Ui, cx: &mut GameCtx) {
                     }
                 });
             }
-            ui.weak("Each upgrade level is its own entry. Adding pieces and changing their levels in this game's save isn't supported yet.");
+            ui.weak("Each upgrade level is its own entry.");
         });
     }
+    gow_add_panel(
+        ui,
+        cx,
+        &base,
+        &format!("gow_add_{t}"),
+        "Pieces this save doesn't have at any level. They're added at their base level when you save; upgrade them at a \
+         shop in the game. Up to 32 at a time. Keep a copy of game.sav until you've loaded the save in the game.",
+    );
 }
 
 // ------------------------------------------------------------------ God of War Ragnarök
@@ -1319,4 +1348,13 @@ pub fn gow_ragnarok(ui: &mut Ui, cx: &mut GameCtx) {
         }
         ui.weak("Each piece keeps its place, its links and what it's equipped to; only its level changes. Levels another piece of yours already has aren't offered.");
     });
+    gow_add_panel(
+        ui,
+        cx,
+        "",
+        "gowr_add",
+        "Pieces you don't have yet, at the level you pick, for each type you already own a piece of (that piece's record \
+         is the model; it stays as it is). Added when you save, up to 32 at a time. Keep a copy of the save until you've \
+         loaded it in the game.",
+    );
 }

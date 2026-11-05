@@ -37,6 +37,11 @@ pub trait Backend: std::fmt::Debug + Send + Sync {
     fn choices(&self, _leaf: usize, _view: &Value) -> Option<Arc<Vec<String>>> {
         None
     }
+    /// Does changing this leaf change the file's layout (e.g. add an item)? Then the saved
+    /// file reads back as a different tree, and is checked with `TreeDoc::agrees_with`.
+    fn reshapes(&self, _leaf: usize) -> bool {
+        false
+    }
     fn clone_box(&self) -> Box<dyn Backend>;
 }
 
@@ -153,6 +158,20 @@ impl TreeDoc {
     #[cfg(test)]
     pub fn linked_count(&self, ptr: &str) -> usize {
         self.editable.get(ptr).map_or(0, |&l| self.backend.linked(l))
+    }
+
+    /// Has an edit that changes the file's layout been made?
+    pub fn reshaped(&self) -> bool {
+        self.editable.iter().any(|(ptr, &leaf)| self.backend.reshapes(leaf) && self.view.pointer(ptr) != self.original.pointer(ptr))
+    }
+
+    /// After a layout-changing save: every ordinary value that `other` (the file read back)
+    /// still has must be what was edited here.
+    pub fn agrees_with(&self, other: &TreeDoc) -> bool {
+        self.kind_name == other.kind_name
+            && self.editable.iter().all(|(ptr, &leaf)| {
+                self.backend.reshapes(leaf) || other.view.pointer(ptr).is_none_or(|v| Some(v) == self.view.pointer(ptr))
+            })
     }
 
     pub fn to_bytes(&self) -> Result<Vec<u8>, String> {
