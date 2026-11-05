@@ -512,7 +512,7 @@ mod tests {
             items.insert(format!("Slot {i}"), json!({"Item": "(empty)", "Quantity": 0}));
         }
         let root = json!({ "Items": items });
-        let mut cx = super::GameCtx { root: &root, baseline: &root, tree: None, edits: vec![] };
+        let mut cx = super::GameCtx { root: &root, baseline: &root, tree: None, edits: vec![], archive: None, open_entry: None };
         super::give_materials(super::Game::Sekiro, &mut cx);
         let e: std::collections::HashMap<String, serde_json::Value> = cx.edits.iter().cloned().collect();
         assert!(!e.contains_key("/Items/Slot 1/Quantity"), "already at the maximum");

@@ -1245,7 +1245,8 @@ fn save_like(name: &str) -> u8 {
 }
 
 /// Cairn "COPECK" pack: from 0x10, directory entries of 0xA0 bytes (u32 offset, u32 size,
-/// u32 0, u64 modification time, a byte, the NUL-terminated name) until one without a name;
+/// u32 size unpacked (gzip files; 0 when stored), u64 modification time, a byte, the
+/// NUL-terminated name) until one without a name;
 /// deleted entries start with FFFFFFFF. Files are stored from 0x50000 on, each at a 16-byte
 /// boundary after the last.
 fn copeck_entries(data: &[u8]) -> Option<Vec<(usize, String, usize, usize, u64)>> {
@@ -1289,6 +1290,14 @@ fn peel_copeck(data: &[u8], ctx: &mut Ctx) -> Option<(Layer, Vec<u8>)> {
     Some((Layer::Copeck { pack: Arc::new(data.to_vec()), name: chosen.1, entry: chosen.0 }, bytes))
 }
 
+/// The save Cairn continues from: the newest .SAV in the pack.
+pub fn copeck_newest(layers: &[Layer]) -> Option<String> {
+    layers.iter().find_map(|l| match l {
+        Layer::Copeck { pack, .. } => copeck_entries(pack)?.into_iter().filter(|f| f.1.ends_with(".SAV")).max_by_key(|f| f.4).map(|f| f.1),
+        _ => None,
+    })
+}
+
 /// Puts a file back: in its place if it fits, else after the last file.
 fn copeck_put(pack: &[u8], entry: usize, data: &[u8]) -> Result<Vec<u8>, String> {
     let files = copeck_entries(pack).ok_or("the Cairn save pack can't be read")?;
@@ -1309,6 +1318,12 @@ fn copeck_put(pack: &[u8], entry: usize, data: &[u8]) -> Result<Vec<u8>, String>
     out[new_at..new_at + data.len()].copy_from_slice(data);
     out[entry..entry + 4].copy_from_slice(&(new_at as u32).to_le_bytes());
     out[entry + 4..entry + 8].copy_from_slice(&(data.len() as u32).to_le_bytes());
+    // Then the size unpacked: gzip keeps it in its last four bytes (0 for a stored file).
+    // The game checks it, so a save that grew must say so.
+    if data.starts_with(&[0x1F, 0x8B]) && data.len() >= 18 {
+        let isize: [u8; 4] = data[data.len() - 4..].try_into().unwrap();
+        out[entry + 8..entry + 12].copy_from_slice(&isize);
+    }
     Ok(out)
 }
 

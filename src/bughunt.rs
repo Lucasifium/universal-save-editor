@@ -416,7 +416,7 @@ fn sekiro_item_save() {
     let mut todo = vec![(format!("/Items/{filled}/Quantity"), Value::from(7))];
     // What the game screen's "Give upgrade materials" button asks for.
     let root = t.view.clone();
-    let mut cx = crate::game_ui::GameCtx { root: &root, baseline: &root, tree: Some(&**t), edits: vec![] };
+    let mut cx = crate::game_ui::GameCtx { root: &root, baseline: &root, tree: Some(&**t), edits: vec![], archive: None, open_entry: None };
     crate::game_ui::give_materials(crate::game_ui::Game::Sekiro, &mut cx);
     todo.extend(cx.edits);
     for (p, v) in todo {
@@ -456,7 +456,7 @@ fn er_item_save() {
         let (first, _) = items.iter().find(|(_, v)| v["Item"] != "(empty)").unwrap();
         doc.set(&format!("/Items/{first}/Quantity"), Value::from(3)).unwrap();
         let root = doc.view.clone();
-        let mut cx = crate::game_ui::GameCtx { root: &root, baseline: &root, tree: Some(&doc), edits: vec![] };
+        let mut cx = crate::game_ui::GameCtx { root: &root, baseline: &root, tree: Some(&doc), edits: vec![], archive: None, open_entry: None };
         crate::game_ui::give_materials(crate::game_ui::Game::EldenRing, &mut cx);
         let edits = cx.edits;
         let n = edits.len();
@@ -609,7 +609,7 @@ fn ds1_item_save() {
         ];
         println!("  add: {results:?}");
         let root = doc.view.clone();
-        let mut cx = crate::game_ui::GameCtx { root: &root, baseline: &root, tree: Some(&doc), edits: vec![] };
+        let mut cx = crate::game_ui::GameCtx { root: &root, baseline: &root, tree: Some(&doc), edits: vec![], archive: None, open_entry: None };
         crate::game_ui::give_materials(crate::game_ui::Game::DarkSouls1, &mut cx);
         let edits = cx.edits;
         let n = edits.len();

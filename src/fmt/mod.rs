@@ -198,6 +198,11 @@ pub fn parse_binary(d: &[u8]) -> Option<TreeDoc> {
             return Some(t);
         }
     }
+    if cairn::looks(d) {
+        if let Ok(t) = cairn::parse(d) {
+            return Some(t);
+        }
+    }
     if terraria::looks(d) {
         if let Ok(t) = terraria::parse(d) {
             return Some(t);

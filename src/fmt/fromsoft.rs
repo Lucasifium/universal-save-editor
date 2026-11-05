@@ -582,7 +582,7 @@ mod tests {
 
         // The "Max upgrade materials" button.
         let root = doc.view.clone();
-        let mut cx = crate::game_ui::GameCtx { root: &root, baseline: &root, tree: Some(&doc), edits: vec![] };
+        let mut cx = crate::game_ui::GameCtx { root: &root, baseline: &root, tree: Some(&doc), edits: vec![], archive: None, open_entry: None };
         crate::game_ui::give_materials(crate::game_ui::Game::EldenRing, &mut cx);
         let edits = cx.edits;
         for (p, val) in edits {

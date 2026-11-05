@@ -5,6 +5,7 @@
 //! `(pointer, new value)` edits, which the app applies with undo, range checks,
 //! dependent values (a level following attributes) and checksums.
 
+mod cairn;
 mod dashboards;
 mod fromsoft;
 mod pokemon;
@@ -67,6 +68,7 @@ pub enum Game {
     Kiwami,
     Gow2018,
     GowRagnarok,
+    Cairn,
 }
 
 impl Game {
@@ -103,6 +105,7 @@ impl Game {
             Game::Kiwami => "Kiryu",
             Game::Gow2018 => "Kratos",
             Game::GowRagnarok => "Kratos",
+            Game::Cairn => "Climber",
             _ => "Character",
         }
     }
@@ -152,6 +155,7 @@ pub fn detect(kind: &str, root: &Value) -> Option<Game> {
         "Yakuza Kiwami save" => Game::Kiwami,
         "God of War save" => Game::Gow2018,
         "God of War Ragnarök save" => Game::GowRagnarok,
+        "Cairn save" => Game::Cairn,
         _ if has("/base/m_title") && has("/player") => Game::YakuzaDe,
         "Unreal Engine save (PalWorldPlayerSaveGame)" if has("/SaveData/TechnologyPoint") => Game::Palworld,
         "Final Fantasy VII Remake save" | "Final Fantasy VII Rebirth save" => Game::Ff7Remake,
@@ -202,6 +206,7 @@ pub fn show(game: Game, ui: &mut Ui, cx: &mut GameCtx) {
         Game::Kiwami => screens2::kiwami(ui, cx),
         Game::Gow2018 => screens2::gow2018(ui, cx),
         Game::GowRagnarok => screens2::gow_ragnarok(ui, cx),
+        Game::Cairn => cairn::show(ui, cx),
         Game::RenPy => screens2::renpy(ui, cx),
         Game::MassEffect => screens2::mass_effect(ui, cx),
         Game::Xcom => screens2::xcom(ui, cx),
@@ -222,6 +227,11 @@ pub struct GameCtx<'a> {
     /// where every value can be edited.
     pub tree: Option<&'a TreeDoc>,
     pub edits: Vec<(String, Value)>,
+    /// For saves inside an archive (a Cairn slot pack): the entry open now and all entries.
+    /// The third item is the entry the game itself would load (Cairn: the newest save).
+    pub archive: Option<(&'a str, &'a [String], Option<&'a str>)>,
+    /// An entry of that archive the screen asked to open instead.
+    pub open_entry: Option<String>,
 }
 
 impl GameCtx<'_> {

@@ -1975,6 +1975,7 @@ impl App {
             Tab::Game => {
                 let d = self.doc.as_ref().unwrap();
                 let (Some(r), Some(b), Some(game)) = (root(&d.content), root(&d.baseline), d.game) else { return };
+                let newest = formats::copeck_newest(&d.layers);
                 let mut cx = crate::game_ui::GameCtx {
                     root: r,
                     baseline: b,
@@ -1983,6 +1984,8 @@ impl App {
                         _ => None,
                     },
                     edits: vec![],
+                    archive: d.layers.iter().find_map(|l| if let Layer::Copeck { name, .. } = l { Some(name.as_str()) } else { None }).map(|n| (n, d.zip_entries.as_slice(), newest.as_deref())),
+                    open_entry: None,
                 };
                 // A vertical scroll area widens to fit its content; keep it to the window.
                 let w = ui.available_width();
@@ -1993,6 +1996,10 @@ impl App {
                     ui.weak("Everything else in this save is in the Values and Tree tabs.");
                 });
                 edits = cx.edits;
+                if let Some(e) = cx.open_entry {
+                    self.reopen_with(|o| o.zip_entry = Some(e));
+                    return;
+                }
             }
             Tab::Raw => {
                 ScrollArea::both().auto_shrink([false, false]).show(ui, |ui| {
@@ -2549,7 +2556,7 @@ impl App {
 /// "SAVEGAMES/AUTO_INPACK_2026.02.08_16.58.55.SAV" → "2026-02-08 16:58:55 (auto)"; QUICK.SAV keeps its name
 /// (the game writes it itself; it is not a manual quick save).
 /// The labels sort by date.
-fn cairn_save_label(entry: &str) -> Option<String> {
+pub(crate) fn cairn_save_label(entry: &str) -> Option<String> {
     let name = entry.strip_prefix("SAVEGAMES/")?.strip_suffix(".SAV")?;
     if let Some(stamp) = name.rsplit('_').nth(1).zip(name.rsplit('_').next()).filter(|_| name.contains('_')) {
         let (date, time) = stamp;
