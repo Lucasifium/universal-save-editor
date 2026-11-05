@@ -405,6 +405,27 @@ enum Find {
     /// The sword in stone (Large Piles 2, style 17), inside a shrine (a room with the
     /// Flower wall around it) or not.
     Sword { shrine: bool },
+    /// 0: a dungeon biome chest, 1: another dungeon chest, 2: a Jungle Temple chest.
+    Chest(u8),
+}
+
+/// Dungeon background walls (blue, green, pink; brick, slab and tile).
+const DUNGEON_WALLS: [u16; 9] = [7, 8, 9, 94, 95, 96, 97, 98, 99];
+
+/// What a chest is, from its tile and style: (Find::Chest group, name).
+fn chest_kind(tile: u16, style: u16, wall: u16) -> Option<(u8, &'static str)> {
+    Some(match (tile, style) {
+        (21, 23) => (0, "Jungle Chest (Piranha Gun)"),
+        (21, 24) => (0, "Corruption Chest (Scourge of the Corruptor)"),
+        (21, 25) => (0, "Crimson Chest (Vampire Knives)"),
+        (21, 26) => (0, "Hallowed Chest (Rainbow Gun)"),
+        (21, 27) => (0, "Frozen Chest (Staff of the Frost Hydra)"),
+        (467, 13) => (0, "Desert Chest (Desert Tiger Staff)"),
+        (21, 16) => (2, "Lihzahrd Chest"),
+        (21, 2) => (1, "Locked Gold Chest"),
+        (21 | 467, _) if DUNGEON_WALLS.contains(&wall) => (1, "Chest"),
+        _ => return None,
+    })
 }
 
 /// Large Piles 2 (tile 187) style 17, top-left frame: the sword in stone.
@@ -427,8 +448,11 @@ const fn kind(name: &'static str, color: [u8; 3], shown: bool, find: Find, area:
     PoiKind { name, color, shown, find, area }
 }
 
-pub const POI_KINDS: [PoiKind; 17] = [
+pub const POI_KINDS: [PoiKind; 20] = [
     kind("Shimmer", [214, 160, 255], true, Find::Shimmer, Some(20)),
+    kind("Dungeon Biome Chest", [80, 230, 170], true, Find::Chest(0), None),
+    kind("Dungeon Chest", [120, 140, 255], true, Find::Chest(1), None),
+    kind("Jungle Temple Chest", [255, 190, 60], true, Find::Chest(2), None),
     kind("Enchanted Sword Shrine", [120, 230, 255], true, Find::Sword { shrine: true }, None),
     kind("Sword in stone (no shrine)", [120, 160, 180], false, Find::Sword { shrine: false }, None),
     kind("Plantera's Bulb", [225, 128, 206], true, Find::Tile(238), None),
@@ -454,6 +478,8 @@ pub struct Poi {
     pub x: u32,
     pub y: u32,
     pub size: u32,
+    /// What exactly it is, when the kind covers several things (which biome chest…).
+    pub note: &'static str,
 }
 
 fn poi_matches(f: Find, p: u32) -> bool {
@@ -461,13 +487,16 @@ fn poi_matches(f: Find, p: u32) -> bool {
         Find::Tile(t) => packed_tile(p) == Some(t),
         Find::Wall(w) => packed_wall(p) == w,
         Find::Shimmer => packed_liquid(p) == 4,
-        Find::Sword { .. } => false,
+        Find::Sword { .. } | Find::Chest(_) => false,
     }
 }
 
 /// Finds the points of interest: one per object (its top-left tile) and one per patch
 /// of an area (16-tile squares holding enough of it, joined with their neighbours).
-pub fn points_of_interest(m: &WorldMap, swords: &[(u32, u32)]) -> Vec<Poi> {
+/// A chest's top-left tile as found in the map: (x, y, tile, style, wall).
+pub type ChestTile = (u32, u32, u16, u16, u16);
+
+pub fn points_of_interest(m: &WorldMap, swords: &[(u32, u32)], chests: &[ChestTile]) -> Vec<Poi> {
     const BIN: usize = 16;
     let (w, h) = (m.width, m.height);
     let (bw, bh) = (w.div_ceil(BIN), h.div_ceil(BIN));
@@ -489,9 +518,16 @@ pub fn points_of_interest(m: &WorldMap, swords: &[(u32, u32)]) -> Vec<Poi> {
                     let left = x > 0 && packed_tile(m.cells[y * w + x - 1]) == Some(want);
                     let up = y > 0 && packed_tile(m.cells[(y - 1) * w + x]) == Some(want);
                     if t == want && !left && !up {
-                        out.push(Poi { kind: k, x: x as u32, y: y as u32, size: 1 });
+                        out.push(Poi { kind: k, x: x as u32, y: y as u32, size: 1, note: "" });
                     }
                 }
+            }
+        }
+    }
+    for &(x, y, tile, style, wall) in chests {
+        if let Some((group, note)) = chest_kind(tile, style, wall) {
+            if let Some(k) = POI_KINDS.iter().position(|k| matches!(k.find, Find::Chest(g) if g == group)) {
+                out.push(Poi { kind: k, x, y, size: 1, note });
             }
         }
     }
@@ -502,7 +538,7 @@ pub fn points_of_interest(m: &WorldMap, swords: &[(u32, u32)]) -> Vec<Poi> {
             .count();
         let shrine = near >= 100;
         if let Some(k) = POI_KINDS.iter().position(|k| matches!(k.find, Find::Sword { shrine: s } if s == shrine)) {
-            out.push(Poi { kind: k, x, y, size: 1 });
+            out.push(Poi { kind: k, x, y, size: 1, note: "" });
         }
     }
     for (ai, &k) in areas.iter().enumerate() {
@@ -547,7 +583,7 @@ pub fn points_of_interest(m: &WorldMap, swords: &[(u32, u32)]) -> Vec<Poi> {
                 da.total_cmp(&db)
             }).unwrap();
             let (x, y) = (((best % bw) * BIN + BIN / 2).min(w - 1), ((best / bw) * BIN + BIN / 2).min(h - 1));
-            out.push(Poi { kind: k, x: x as u32, y: y as u32, size: total });
+            out.push(Poi { kind: k, x: x as u32, y: y as u32, size: total, note: "" });
         }
     }
     out
@@ -1394,6 +1430,16 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
         (s, e)
     };
 
+    let (chests, chest_per, per_chest) = match read_chests(d, sections[2], sections[3], v >= 300) {
+        Ok((c, p)) => (c, p, v >= 300),
+        Err(_) => {
+            let (c, p) = read_chests(d, sections[2], sections[3], v < 300)?;
+            (c, p, v < 300)
+        }
+    };
+    let chest_at: std::collections::HashSet<(i32, i32)> = chests.iter().map(|c| (c.x, c.y)).collect();
+    let mut chest_tiles: Vec<ChestTile> = Vec::new();
+
     // Tiles, column by column.
     let mut cells = vec![0u32; w * h];
     let mut columns = Vec::with_capacity(w + 1);
@@ -1406,6 +1452,11 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
             let (c, run) = read_cell(&mut r, &important)?;
             if c.tile == Some(SWORD_TILE) && c.frame == SWORD_FRAME {
                 swords.push((x as u32, y as u32));
+            }
+            if let Some(t @ (21 | 467)) = c.tile {
+                if chest_at.contains(&(x as i32, y as i32)) {
+                    chest_tiles.push((x as u32, y as u32, t, (c.frame.0 / 36) as u16, c.wall));
+                }
             }
             let p = pack(&c);
             if y + run >= h {
@@ -1422,13 +1473,6 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
         return Err("unexpected tile data".into());
     }
 
-    let (chests, chest_per, per_chest) = match read_chests(d, sections[2], sections[3], v >= 300) {
-        Ok((c, p)) => (c, p, v >= 300),
-        Err(_) => {
-            let (c, p) = read_chests(d, sections[2], sections[3], v < 300)?;
-            (c, p, v < 300)
-        }
-    };
     let signs = read_signs(d, sections[3], sections[4])?;
     let npcs = read_npcs(d, sections[4], sections[5], v, v >= 300).or_else(|_| read_npcs(d, sections[4], sections[5], v, v < 300)).unwrap_or_default();
 
@@ -1497,7 +1541,7 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
         npcs: npc_list,
         pois: vec![],
     };
-    map.pois = points_of_interest(&map, &swords);
+    map.pois = points_of_interest(&map, &swords, &chest_tiles);
     let backend = WldBackend {
         raw: Arc::new(d.to_vec()),
         sections,
