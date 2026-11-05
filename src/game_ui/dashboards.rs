@@ -654,21 +654,27 @@ pub fn ree_slots(root: &Value) -> Option<String> {
     })
 }
 
+/// Reads an "id<TAB>name" table (lines starting with '#' are comments).
+fn id_names(src: &'static str) -> std::collections::HashMap<i64, &'static str> {
+    src.lines()
+        .filter(|l| !l.starts_with('#'))
+        .filter_map(|l| {
+            let (id, name) = l.split_once('\t')?;
+            Some((id.parse().ok()?, name))
+        })
+        .collect()
+}
+
 /// English item name for an Onimusha ItemID (from the game's own item text).
 fn onimusha_item(id: i64) -> Option<&'static str> {
     static T: std::sync::OnceLock<std::collections::HashMap<i64, &'static str>> = std::sync::OnceLock::new();
-    T.get_or_init(|| {
-        include_str!("../fmt/data/onimusha_items.tsv")
-            .lines()
-            .filter(|l| !l.starts_with('#'))
-            .filter_map(|l| {
-                let (id, name) = l.split_once('\t')?;
-                Some((id.parse().ok()?, name))
-            })
-            .collect()
-    })
-    .get(&id)
-    .copied()
+    T.get_or_init(|| id_names(include_str!("../fmt/data/onimusha_items.tsv"))).get(&id).copied()
+}
+
+/// English charm name for an Onimusha charm ID; the game's text uses the unsigned form.
+fn onimusha_charm(id: i64) -> Option<&'static str> {
+    static T: std::sync::OnceLock<std::collections::HashMap<i64, &'static str>> = std::sync::OnceLock::new();
+    T.get_or_init(|| id_names(include_str!("../fmt/data/onimusha_charms.tsv"))).get(&i64::from(id as u32)).copied()
 }
 
 pub fn onimusha(ui: &mut Ui, cx: &mut GameCtx) {
@@ -749,6 +755,32 @@ pub fn onimusha(ui: &mut Ui, cx: &mut GameCtx) {
                 }
             });
             ui.weak("The game shows these counts as On Hand and In Storage. Key items (weapons, the bow) have no count.");
+        });
+    }
+    // Charms: unused entries hold the "no charm" ID 325704896. Level 0 is the
+    // first level, and EquipSlot is -1 when the charm isn't worn.
+    let charms = format!("{d}/#de498466");
+    let owned: Vec<(usize, i64)> = cx
+        .get(&charms)
+        .and_then(Value::as_array)
+        .map(|a| a.iter().enumerate().filter_map(|(k, e)| e.get("#37ba528f")?.as_i64().filter(|&id| id != 325704896 && id != 0).map(|id| (k, id))).collect())
+        .unwrap_or_default();
+    if !owned.is_empty() {
+        panel(ui, "Charms", |ui| {
+            egui::Grid::new("oni_charms").num_columns(3).striped(true).spacing([12.0, 4.0]).show(ui, |ui| {
+                ui.strong("Charm");
+                ui.strong("Level");
+                ui.strong("Worn");
+                ui.end_row();
+                for (k, id) in &owned {
+                    let p = format!("{charms}/{k}");
+                    ui.label(onimusha_charm(*id).map_or_else(|| format!("Charm {id}"), str::to_string));
+                    cx.cell(ui, &format!("{p}/Level"), 50.0);
+                    ui.label(if cx.int(&format!("{p}/EquipSlot")).is_some_and(|n| n >= 0) { "Yes" } else { "No" });
+                    ui.end_row();
+                }
+            });
+            ui.weak("Level 0 is the charm's first level; each charm has three.");
         });
     }
     // Equipment that has gained experience (the rest of the 32 entries are unused).
