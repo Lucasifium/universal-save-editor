@@ -2,9 +2,10 @@
 //!
 //! Containers (every file ends in a CRC-32 of everything before it):
 //! - `*.player` (the player at the start of each level, used by chapter select): "artm",
-//!   the build string (NUL-terminated), the unpacked size, the packed size (+8), the
-//!   unpacked size again, then one LZ4 block.
-//! - `*_auto_save`: "DEZP", three sections (unpacked size, section id, packed size), then
+//!   the build string (NUL-terminated), the unpacked size (Exodus: a build id, the size, a
+//!   hash), the packed size (+8), the unpacked size again, then one LZ4 block.
+//! - `*_auto_save`: "DEZP" (Exodus: a build id and two more fields), three sections
+//!   (unpacked size, section id, packed size), then
 //!   each section as blocks of (block size including these 8 bytes, unpacked size, LZ4).
 //!   Blocks may refer back into earlier ones (64 KB window); the editor writes them
 //!   independently, which any LZ4 reader accepts.
@@ -35,42 +36,51 @@ fn with_crc(mut out: Vec<u8>) -> Vec<u8> {
     out
 }
 
-/// `.player`: (head = "artm" + build string, data).
+/// `.player`: (head = everything before the packed size, data).
 pub fn unpack_player(d: &[u8]) -> Option<(Vec<u8>, Vec<u8>)> {
     if !d.starts_with(b"artm") || !crc_ok(d) {
         return None;
     }
     let h = 4 + d.get(4..64)?.iter().position(|&b| b == 0)? + 1;
-    let raw = u32_at(d, h)?;
-    if u32_at(d, h + 4)? != d.len() - (h + 8) || u32_at(d, h + 8)? != raw {
-        return None;
-    }
-    let data = lz4_flex::block::decompress(d.get(h + 12..d.len() - 4)?, raw).ok()?;
-    (data.len() == raw).then(|| (d[..h].to_vec(), data))
+    // The packed size (counting the unpacked size after it and the CRC) is followed by the
+    // unpacked size and the LZ4 block; Exodus has a few more fields before it.
+    let at = (h..h + 32).find(|&p| u32_at(d, p) == Some(d.len().wrapping_sub(p + 4)))?;
+    let raw = u32_at(d, at + 4)?;
+    let data = lz4_flex::block::decompress(d.get(at + 8..d.len() - 4)?, raw).ok()?;
+    (data.len() == raw).then(|| (d[..at].to_vec(), data))
 }
 
 pub fn pack_player(head: &[u8], data: &[u8]) -> Vec<u8> {
     let z = lz4_flex::block::compress(data);
     let mut out = head.to_vec();
-    out.extend((data.len() as u32).to_le_bytes());
     out.extend(((z.len() + 8) as u32).to_le_bytes());
     out.extend((data.len() as u32).to_le_bytes());
     out.extend(z);
     with_crc(out)
 }
 
-/// The auto save's layout: for each section, its id and its blocks' unpacked sizes.
-pub type Sections = Vec<(u32, Vec<usize>)>;
+/// The auto save's layout: what comes before the section table (Exodus has a build id
+/// and two more fields there), and for each section its id and its blocks' unpacked sizes.
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub struct Dezp {
+    pub prefix: Vec<u8>,
+    pub sections: Vec<(u32, Vec<usize>)>,
+}
 
-pub fn unpack_dezp(d: &[u8]) -> Option<(Sections, Vec<u8>)> {
-    if !d.starts_with(b"DEZP") || d.len() < 44 || !crc_ok(d) {
+pub fn unpack_dezp(d: &[u8]) -> Option<(Dezp, Vec<u8>)> {
+    if !d.starts_with(b"DEZP") || !crc_ok(d) {
         return None;
     }
+    [4, 0x14].into_iter().find_map(|t| unpack_dezp_at(d, t))
+}
+
+fn unpack_dezp_at(d: &[u8], table: usize) -> Option<(Dezp, Vec<u8>)> {
     let mut out: Vec<u8> = Vec::new();
-    let mut secs = Vec::new();
-    let mut p: usize = 0x28;
+    let mut sections = Vec::new();
+    let mut p: usize = table + 36;
     for s in 0..3 {
-        let (raw, id, packed) = (u32_at(d, 4 + 12 * s)?, u32_at(d, 8 + 12 * s)? as u32, u32_at(d, 12 + 12 * s)?);
+        let e = table + 12 * s;
+        let (raw, id, packed) = (u32_at(d, e)?, u32_at(d, e + 4)? as u32, u32_at(d, e + 8)?);
         let end = p.checked_add(packed)?;
         if end > d.len() - 4 {
             return None;
@@ -94,27 +104,28 @@ pub fn unpack_dezp(d: &[u8]) -> Option<(Sections, Vec<u8>)> {
         if out.len() - start != raw {
             return None;
         }
-        secs.push((id, blocks));
+        sections.push((id, blocks));
     }
-    (p == d.len() - 4).then_some((secs, out))
+    (p == d.len() - 4).then(|| (Dezp { prefix: d[4..table].to_vec(), sections }, out))
 }
 
-pub fn pack_dezp(secs: &Sections, data: &[u8]) -> Result<Vec<u8>, String> {
-    let total: usize = secs.iter().flat_map(|(_, b)| b).sum();
+pub fn pack_dezp(z: &Dezp, data: &[u8]) -> Result<Vec<u8>, String> {
+    let total: usize = z.sections.iter().flat_map(|(_, b)| b).sum();
     if total != data.len() {
         return Err("this save's data can't change size".into());
     }
     let mut table = b"DEZP".to_vec();
+    table.extend(&z.prefix);
     let mut body = vec![];
     let mut q = 0;
-    for (id, blocks) in secs {
+    for (id, blocks) in &z.sections {
         let raw: usize = blocks.iter().sum();
         let start = body.len();
         for &r in blocks {
-            let z = lz4_flex::block::compress(&data[q..q + r]);
-            body.extend(((z.len() + 8) as u32).to_le_bytes());
+            let c = lz4_flex::block::compress(&data[q..q + r]);
+            body.extend(((c.len() + 8) as u32).to_le_bytes());
             body.extend((r as u32).to_le_bytes());
-            body.extend(z);
+            body.extend(c);
             q += r;
         }
         table.extend((raw as u32).to_le_bytes());
@@ -129,7 +140,7 @@ pub fn pack_dezp(secs: &Sections, data: &[u8]) -> Result<Vec<u8>, String> {
 
 /// The ammo classes (money has its own): the class id, one byte, eight zero bytes, then
 /// the magazine size twice and the rounds carried.
-const CLASSES: [[u8; 4]; 2] = [[0x68, 0x8f, 0x25, 0x1d], [0x34, 0x5b, 0xc0, 0xf4]];
+const CLASSES: [[u8; 4]; 3] = [[0x68, 0x8f, 0x25, 0x1d], [0x34, 0x5b, 0xc0, 0xf4], [0x2c, 0x26, 0x8f, 0xd6]];
 #[cfg(test)]
 const AMMO: [u8; 13] = [0x68, 0x8f, 0x25, 0x1d, 1, 0, 0, 0, 0, 0, 0, 0, 0];
 
@@ -150,15 +161,35 @@ fn label(kind: &str) -> String {
         "12x70mm_flamethrower" => "Flamethrower shells".into(),
         "15mm" => "15 mm (Tikhar) balls".into(),
         "dshk" => "DShK rounds".into(),
-        "flame_fmj" => "Flamethrower fuel".into(),
+        "flame_fmj" | "flamethrower_liquid" => "Flamethrower fuel".into(),
+        "15mm_sabot" => "15 mm sabot balls".into(),
+        "makeshift" => "Makeshift rounds".into(),
+        "craft_metal" => "Metal (crafting)".into(),
+        "craft_chemical" => "Chemicals (crafting)".into(),
+        "craft_consumable" => "Consumables (crafting)".into(),
         k => k.replace('_', " "),
     }
+}
+
+/// The length of an item name (`ammo_…_NNNN` or `craft_…_NNNN`, NUL-terminated) at `at`.
+fn item_name(d: &[u8], at: usize) -> Option<usize> {
+    let w = d.get(at..(at + 64).min(d.len()))?;
+    if !(w.starts_with(b"ammo_") || w.starts_with(b"craft_")) {
+        return None;
+    }
+    let len = w.iter().position(|&c| c == 0)?;
+    let n = &w[..len];
+    let ok = len > 10
+        && n[len - 5] == b'_'
+        && n[len - 4..].iter().all(u8::is_ascii_digit)
+        && n.iter().all(|&c| c.is_ascii_lowercase() || c.is_ascii_digit() || c == b'_');
+    ok.then_some(len)
 }
 
 pub fn looks(d: &[u8]) -> bool {
     // Level saves only (about 200 KB): an auto save (1 MB and up) also lists the items lying
     // around the level, which aren't the player's.
-    d.len() > 1000 && d.len() < 600_000 && matches!(d.get(4..9), Some(b"2033\\") | Some(b"2034\\")) && d.windows(5).any(|w| w == b"ammo_")
+    d.len() > 1000 && d.len() < 600_000 && matches!(d.get(4..9), Some(b"2033\\") | Some(b"2034\\")) | matches!(d.get(4..7), Some(b"m3\\")) && d.windows(5).any(|w| w == b"ammo_")
 }
 
 pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
@@ -169,19 +200,23 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
     let mut any = false;
     let mut seen: std::collections::HashMap<String, usize> = std::collections::HashMap::new();
     let mut p = 0;
-    while let Some(i) = d[p..].windows(5).position(|w| w == b"ammo_").map(|i| i + p) {
+    let x = usize::from(d.get(4..7) == Some(b"m3\\"));
+    while let Some(i) = d[p..].windows(5).position(|w| w == b"ammo_" || w == b"craft").map(|i| i + p) {
         p = i + 5;
-        // ammo_<kind>_NNNN\0
-        let Some(len) = d[i..(i + 64).min(d.len())].iter().position(|&c| c == 0) else { continue };
+        let Some(len) = item_name(d, i) else { continue };
         let name = String::from_utf8_lossy(&d[i..i + len]).into_owned();
-        let Some((kind, num)) = name[5..].rsplit_once('_') else { continue };
-        if num.len() != 4 || !num.bytes().all(|c| c.is_ascii_digit()) {
-            continue;
-        }
+        let rest = name.strip_prefix("ammo_").unwrap_or(&name);
+        let (kind, _) = rest.rsplit_once('_').unwrap_or((rest, ""));
         let from = i + len;
-        let Some(k) = d[from..(from + 400).min(d.len())].windows(13).position(ammo_at).map(|k| k + from) else { continue };
-        let mag = u16::from_le_bytes([d[k + 13], d[k + 14]]);
-        if mag == 0 || d[k + 13..k + 15] != d[k + 15..k + 17] {
+        // Only up to the next item's name: an item without counts mustn't take the next one's.
+        let mut stop = (from + 400).min(d.len());
+        if let Some(n) = (from..stop).find(|&q| item_name(d, q).is_some()) {
+            stop = n;
+        }
+        let Some(k) = d[from..stop].windows(13).position(ammo_at).map(|k| k + from) else { continue };
+        // The magazine size twice (Exodus: one more byte before it, and 0 twice).
+        let k = k + x;
+        if d.len() < k + 19 || d[k + 13..k + 15] != d[k + 15..k + 17] {
             continue;
         }
         let n = seen.entry(kind.to_string()).or_default();
@@ -225,11 +260,13 @@ mod tests {
     #[test]
     fn dezp_round_trip() {
         let data: Vec<u8> = (0..300_000u32).map(|i| (i % 251) as u8).collect();
-        let secs: Sections = vec![(7, vec![100_000]), (8, vec![100_000, 50_000]), (9, vec![50_000])];
-        let file = pack_dezp(&secs, &data).unwrap();
-        let (s2, back) = unpack_dezp(&file).unwrap();
-        assert_eq!(back, data);
-        assert_eq!(s2, secs);
+        for prefix in [vec![], vec![1u8; 16]] {
+            let z = Dezp { prefix, sections: vec![(7, vec![100_000]), (8, vec![100_000, 50_000]), (9, vec![50_000])] };
+            let file = pack_dezp(&z, &data).unwrap();
+            let (z2, back) = unpack_dezp(&file).unwrap();
+            assert_eq!(back, data);
+            assert_eq!(z2, z);
+        }
     }
 
     /// Research aid: SAVE_EDITOR_METRO = a .player or auto save.
