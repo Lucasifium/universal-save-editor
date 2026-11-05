@@ -88,6 +88,8 @@ pub enum Layer {
     P5r { head: Arc<Vec<u8>> },
     /// Metro `.player`: "artm" + build string, one LZ4 block, CRC-32.
     MetroPlayer { head: Arc<Vec<u8>> },
+    /// BioShock Infinite: MD5 header, Unreal Engine 3 zlib chunks unpacked in place.
+    Bioshock { chunks: Arc<fmt::bioshock::Chunks> },
     /// Cairn (The Game Bakers) "COPECK" slot: a fixed-size pack of named files; one of them
     /// is edited in place (`at`, `size`).
     Copeck { pack: Arc<Vec<u8>>, name: String, entry: usize },
@@ -160,6 +162,7 @@ impl Layer {
             Layer::Ff9 => "Final Fantasy IX save encryption".into(),
             Layer::P5r { .. } => "Persona 5 Royal save (encrypted, zlib)".into(),
             Layer::MetroPlayer { .. } => "Metro level save (LZ4)".into(),
+            Layer::Bioshock { chunks } => format!("BioShock Infinite save (MD5, {} zlib chunks)", chunks.len()),
             Layer::Copeck { name, .. } => format!("Cairn save pack ({name})"),
             Layer::MetroDezp { .. } => "Metro auto save (LZ4)".into(),
             Layer::HogwartsDb { .. } => "Hogwarts Legacy save (database, Oodle)".into(),
@@ -520,6 +523,7 @@ fn wrap(layer: &Layer, data: Vec<u8>) -> Result<Vec<u8>, String> {
         Layer::Ff9 => fmt::ff9::encrypt(&data)?,
         Layer::P5r { head } => fmt::p5r::pack(head, &data),
         Layer::MetroPlayer { head } => fmt::metro::pack_player(head, &data),
+        Layer::Bioshock { chunks } => fmt::bioshock::pack(chunks, &data)?,
         Layer::Copeck { pack, entry, .. } => copeck_put(pack, *entry, &data)?,
         Layer::MetroDezp { layout } => fmt::metro::pack_dezp(layout, &data)?,
         Layer::PalworldOodle => {
@@ -734,6 +738,11 @@ fn peel(data: &[u8], ctx: &mut Ctx) -> Option<(Layer, Vec<u8>)> {
         let plain = if double { once.and_then(|i| inflate(&i).ok()) } else { once };
         if let Some(p) = plain.filter(|p| p.len() == u32::from_le_bytes(data[0..4].try_into().unwrap()) as usize) {
             return Some((Layer::Palworld { double }, p));
+        }
+    }
+    if data.len() > 64 {
+        if let Some((chunks, p)) = fmt::bioshock::unpack(data) {
+            return Some((Layer::Bioshock { chunks: Arc::new(chunks) }, p));
         }
     }
     if data.starts_with(b"COPECK") {
