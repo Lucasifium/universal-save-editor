@@ -62,6 +62,7 @@ pub enum Game {
     Metro,
     Yakuza0,
     YakuzaDe,
+    Kiwami,
 }
 
 impl Game {
@@ -94,6 +95,7 @@ impl Game {
             Game::Metro => "Artyom",
             Game::Yakuza0 => "Kiryu & Majima",
             Game::YakuzaDe => "Player",
+            Game::Kiwami => "Kiryu",
             _ => "Character",
         }
     }
@@ -139,6 +141,7 @@ pub fn detect(kind: &str, root: &Value) -> Option<Game> {
         "Final Fantasy X save" => Game::Ffx,
         "Metro player save" => Game::Metro,
         "Yakuza 0 save" => Game::Yakuza0,
+        "Yakuza Kiwami save" => Game::Kiwami,
         _ if has("/base/m_title") && has("/player/point/m_point/1") => Game::YakuzaDe,
         "Unreal Engine save (PalWorldPlayerSaveGame)" if has("/SaveData/TechnologyPoint") => Game::Palworld,
         "Final Fantasy VII Remake save" | "Final Fantasy VII Rebirth save" => Game::Ff7Remake,
@@ -185,6 +188,7 @@ pub fn show(game: Game, ui: &mut Ui, cx: &mut GameCtx) {
         Game::Metro => screens2::metro(ui, cx),
         Game::Yakuza0 => screens2::yakuza0(ui, cx),
         Game::YakuzaDe => screens2::yakuza_de(ui, cx),
+        Game::Kiwami => screens2::kiwami(ui, cx),
         Game::RenPy => screens2::renpy(ui, cx),
         Game::MassEffect => screens2::mass_effect(ui, cx),
         Game::Xcom => screens2::xcom(ui, cx),

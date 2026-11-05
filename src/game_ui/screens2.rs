@@ -1207,3 +1207,15 @@ pub fn yakuza_de(ui: &mut Ui, cx: &mut GameCtx) {
     }
     ui.weak("The save's checksum is updated when you save.");
 }
+
+// ------------------------------------------------------------------ Yakuza Kiwami
+
+pub fn kiwami(ui: &mut Ui, cx: &mut GameCtx) {
+    let accent = Color32::from_rgb(190, 40, 60);
+    let sub = cx.text("/Game/Saved").map(|t| format!("Saved {t}")).unwrap_or_default();
+    hero(ui, accent, "Yakuza Kiwami", &sub, |ui| {
+        cx.tile(ui, "Money (\u{00A5})", "/Kiryu/Money", accent);
+        cx.tile(ui, "Experience to spend", "/Kiryu/Experience to spend", accent);
+    });
+    ui.weak("Experience is what Kiryu has earned and not yet spent in the Abilities menu (99,999,999 at most). Money tops out at \u{00A5}9,999,999,999.");
+}
