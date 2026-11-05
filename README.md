@@ -83,11 +83,17 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 | Persona 5 Royal (PC) | *Phantom Thieves*: decrypted, unpacked and packed again; money, HP / SP, levels, experience and Persona stats for the party and Joker's Personas |
 | Metro 2033 / Last Light Redux, Exodus | *Artyom*: military-grade rounds, every ammo type and (Exodus) crafting metal and chemicals in the level saves (`.player`); auto and quick saves are unpacked (LZ4) for Value search. CRC-32 updated |
 | Yakuza 0 | *Kiryu & Majima*: both characters' money (up to ¥10 trillion) and CP, the uncollected real estate and cabaret takings, and the difficulty |
+| God of War (2018) | *Kratos*: every save in `game.sav` (newest first, by title and date): XP, hacksilver, every resource and Yggdrasil's dew, and the equipment each save owns |
+| God of War Ragnarök | *Kratos*: XP for Kratos, Atreus and Freya, hacksilver and divine ashes, resources, Yggdrasil's dew, health and rage, and the level of every weapon, armour piece, attachment, shield and relic (campaign saves; the piece keeps its place and links) |
 | Yakuza Kiwami | *Kiryu*: money and the experience he hasn't spent yet (save and autosave files) |
 | Yakuza Kiwami 2, Like a Dragon (Dragon Engine) | *Player*: decrypted (XOR) and its checksum updated (Adler-32 or CRC-32); money, HP, Kiwami 2's experience pools and Like a Dragon's whole party (level, experience, HP, MP), with every other value in the tree |
 | Yakuza 6, Kiwami 3, Judgment, Lost Judgment, Like a Dragon Gaiden, Infinite Wealth, Ishin!, Pirate Yakuza (Dragon Engine) | Decrypted with each game's key and checksum kept right (keys from rgg_save_tool_py); values in the tree, and the Yakuza screen where the save has the same layout. Not tried on sample saves of these games yet |
 | Yakuza 3, 4, 5 Remastered | Hex view and Value search |
 | Ren'Py visual novels | *Story*: the game's numbers, flags and text variables with a filter, money and the like up front |
+
+## Credits for God of War
+
+The God of War formats and item names come from the Forja save editors by wilypizza-svg (José Murilo), which credit kg971 and xcier.
 
 ## Oodle (Palworld, Hogwarts Legacy)
 

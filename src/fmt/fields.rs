@@ -48,6 +48,8 @@ pub struct Leaf {
     pub names: Option<Arc<Vec<String>>>,
     /// Other places that hold a copy of the same value (written too).
     pub also: Vec<usize>,
+    /// For a pick list: the raw value each name stands for (instead of 0, 1, 2…).
+    pub values: Option<Arc<Vec<u64>>>,
 }
 
 /// How the file's checksum is kept right after an edit.
@@ -96,6 +98,11 @@ fn encode(l: &Leaf, v: &Value) -> Result<Vec<u8>, String> {
             u64::from((f as f32).to_bits())
         }
         Kind::B32 | Kind::B8 => u64::from(v.as_bool().ok_or("tick or untick it")?),
+        _ if l.values.is_some() => {
+            let (names, values) = (l.names.as_ref().ok_or("pick one from the list")?, l.values.as_ref().unwrap());
+            let s = v.as_str().ok_or("pick one from the list")?;
+            values[names.iter().position(|n| n == s).ok_or("pick one from the list")?]
+        }
         k => {
             let v = match (&l.names, v) {
                 (Some(names), Value::String(s)) => Value::from(names.iter().position(|n| n == s).ok_or("pick one from the list")?),
@@ -217,6 +224,23 @@ impl<'a> Builder<'a> {
         self.field_with(path, at, kind, Some((0, names.len() as i64 - 1)), Some(names))
     }
 
+    /// A value that can only be one of `options` (name, raw value), shown as a drop-down.
+    /// The current value must be one of them; otherwise nothing is added.
+    pub fn pick(&mut self, path: &[&str], at: usize, kind: Kind, options: &[(String, u64)]) -> Option<Value> {
+        let raw = read(self.d, at, kind, self.big_endian)?.as_u64()?;
+        let i = options.iter().position(|(_, v)| *v == raw)?;
+        let names: Arc<Vec<String>> = Arc::new(options.iter().map(|(n, _)| n.clone()).collect());
+        let values: Arc<Vec<u64>> = Arc::new(options.iter().map(|(_, v)| *v).collect());
+        let ptr: String = path.iter().map(|k| format!("/{}", esc(k))).collect();
+        let id = self.leaves.len();
+        self.leaves.push(Leaf { at, kind, big_endian: self.big_endian, range: None, names: Some(names), also: vec![], values: Some(values) });
+        self.editable.insert(ptr, id);
+        let last = path[path.len() - 1].to_string();
+        let shown = Value::String(options[i].0.clone());
+        self.slot(path)?.insert(last, shown.clone());
+        Some(shown)
+    }
+
     fn field_with(&mut self, path: &[&str], at: usize, kind: Kind, range: Option<(i64, i64)>, names: Option<Arc<Vec<String>>>) -> Option<Value> {
         let raw = read(self.d, at, kind, self.big_endian)?;
         let shown = match (&names, raw.as_u64()) {
@@ -230,7 +254,7 @@ impl<'a> Builder<'a> {
         };
         let ptr: String = path.iter().map(|k| format!("/{}", esc(k))).collect();
         let id = self.leaves.len();
-        self.leaves.push(Leaf { at, kind, big_endian: self.big_endian, range, names, also: vec![] });
+        self.leaves.push(Leaf { at, kind, big_endian: self.big_endian, range, names, also: vec![], values: None });
         self.editable.insert(ptr, id);
         let last = path[path.len() - 1].to_string();
         self.slot(path)?.insert(last, shown);
@@ -272,6 +296,13 @@ mod tests {
         assert!(doc.set("/mode", Value::from("Sideways")).is_err());
         doc.set("/A/n", Value::from(500)).unwrap();
         doc.set("/mode", Value::from("Easy")).unwrap();
+        // A pick list writes the raw value of the chosen name.
+        let mut b = Builder::new(&[7, 0, 0, 0]);
+        b.pick(&["level"], 0, Kind::U32, &[("Level 1".into(), 5), ("Level 2".into(), 7), ("Level 3".into(), 9)]);
+        let mut p = b.finish("pick", Checksum::None);
+        assert_eq!(p.view.pointer("/level"), Some(&Value::from("Level 2")));
+        p.set("/level", Value::from("Level 3")).unwrap();
+        assert_eq!(p.to_bytes().unwrap(), vec![9, 0, 0, 0]);
         let out = doc.to_bytes().unwrap();
         assert_eq!(&out[..4], &500i32.to_le_bytes());
         assert_eq!(out[8], 0);
