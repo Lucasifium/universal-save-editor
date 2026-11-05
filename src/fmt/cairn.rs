@@ -1,10 +1,9 @@
-//! Cairn (The Game Bakers) saves, after the pack and gzip layers. The save starts with the
-//! 💿 marker; its run statistics follow the name of the current route fragment (`FRAG_<ticks>_<GUID>`;
-//! newer saves add a zero byte): play
-//! time in seconds and three more 64-bit totals (the last can be negative), then 32-bit
-//! counters: deaths, then falls.
-//! Worked out from four real slots against the game's own slot cards (play time to the
-//! second, falls, deaths; deaths stay 0 in a Free solo run).
+//! Cairn (The Game Bakers) saves, after the pack layer (and gzip, for most saves). A save
+//! starts with the 💿 marker. Its run statistics follow the name of the current route
+//! fragment (`FRAG_<ticks>_<GUID>`) and a few fields that newer formats added: play time
+//! in seconds, three more 64-bit totals (the last can be negative), then 32-bit counters:
+//! deaths, then falls. Worked out from sample saves against the game's
+//! own slot cards (play time to the second, falls, deaths; deaths stay 0 in Free solo).
 
 pub const MARKER: [u8; 4] = [0xF0, 0x9F, 0x92, 0xBF];
 
