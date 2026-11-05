@@ -90,6 +90,8 @@ pub enum Layer {
     MetroPlayer { head: Arc<Vec<u8>> },
     /// BioShock Infinite: MD5 header, Unreal Engine 3 zlib chunks unpacked in place.
     Bioshock { chunks: Arc<fmt::bioshock::Chunks> },
+    /// BioShock Remastered: zlib blocks unpacked in place, packed back into the same space.
+    Rgmh { original: Arc<Vec<u8>>, blocks: Arc<fmt::rgmh::Blocks> },
     /// Cairn (The Game Bakers) "COPECK" slot: a fixed-size pack of named files; one of them
     /// is edited in place (`at`, `size`).
     Copeck { pack: Arc<Vec<u8>>, name: String, entry: usize },
@@ -162,6 +164,7 @@ impl Layer {
             Layer::Ff9 => "Final Fantasy IX save encryption".into(),
             Layer::P5r { .. } => "Persona 5 Royal save (encrypted, zlib)".into(),
             Layer::MetroPlayer { .. } => "Metro level save (LZ4)".into(),
+            Layer::Rgmh { blocks, .. } => format!("BioShock Remastered save ({} zlib blocks)", blocks.len()),
             Layer::Bioshock { chunks } => format!("BioShock Infinite save (MD5, {} zlib chunks)", chunks.len()),
             Layer::Copeck { name, .. } => format!("Cairn save pack ({name})"),
             Layer::MetroDezp { .. } => "Metro auto save (LZ4)".into(),
@@ -524,6 +527,7 @@ fn wrap(layer: &Layer, data: Vec<u8>) -> Result<Vec<u8>, String> {
         Layer::P5r { head } => fmt::p5r::pack(head, &data),
         Layer::MetroPlayer { head } => fmt::metro::pack_player(head, &data),
         Layer::Bioshock { chunks } => fmt::bioshock::pack(chunks, &data)?,
+        Layer::Rgmh { original, blocks } => fmt::rgmh::pack_from(original, blocks, &data)?,
         Layer::Copeck { pack, entry, .. } => copeck_put(pack, *entry, &data)?,
         Layer::MetroDezp { layout } => fmt::metro::pack_dezp(layout, &data)?,
         Layer::PalworldOodle => {
@@ -743,6 +747,11 @@ fn peel(data: &[u8], ctx: &mut Ctx) -> Option<(Layer, Vec<u8>)> {
     if data.len() > 64 {
         if let Some((chunks, p)) = fmt::bioshock::unpack(data) {
             return Some((Layer::Bioshock { chunks: Arc::new(chunks) }, p));
+        }
+    }
+    if fmt::rgmh::looks(data) {
+        if let Some((blocks, p)) = fmt::rgmh::unpack(data) {
+            return Some((Layer::Rgmh { original: Arc::new(data.to_vec()), blocks: Arc::new(blocks) }, p));
         }
     }
     if data.starts_with(b"COPECK") {
