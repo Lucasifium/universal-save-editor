@@ -622,7 +622,13 @@ fn map_tab(ui: &mut Ui, cx: &mut GameCtx) {
         let poi = &map.pois[i];
         let p = to_screen(poi.x as f32 + 0.5, poi.y as f32 + 0.5);
         let k = &tw::POI_KINDS[poi.kind];
-        let text = if poi.size > 1 { format!("{} ({} tiles)", k.name, poi.size) } else { k.name.to_string() };
+        let text = if poi.size > 1 {
+            format!("{} ({} tiles)", k.name, poi.size)
+        } else if !poi.note.is_empty() {
+            format!("{}: {}", k.name, poi.note)
+        } else {
+            k.name.to_string()
+        };
         let galley = painter.layout_no_wrap(text, font.clone(), Color32::WHITE);
         let at = p + Vec2::new(10.0, -galley.size().y / 2.0);
         painter.rect_filled(Rect::from_min_size(at - Vec2::new(3.0, 1.0), galley.size() + Vec2::new(6.0, 2.0)), 3.0, Color32::from_black_alpha(200));
@@ -717,7 +723,7 @@ fn poi_panel(ui: &mut Ui, map: &WorldMap, v: &mut MapView) {
                     let k = &tw::POI_KINDS[p.kind];
                     let depth = ((p.y as f64 - map.surface) * 2.0).round() as i64;
                     let level = if depth > 0 { format!("{depth} ft deep") } else { "surface".to_string() };
-                    if ui.selectable_label(false, format!("{}  \u{00B7}  {}, {}  \u{00B7}  {level}", k.name, p.x, p.y)).on_hover_text("Show it on the map").clicked() {
+                    if ui.selectable_label(false, format!("{}{}  \u{00B7}  {}, {}  \u{00B7}  {level}", k.name, if p.note.is_empty() { String::new() } else { format!(": {}", p.note) }, p.x, p.y)).on_hover_text("Show it on the map").clicked() {
                         v.center = Vec2::new(p.x as f32, p.y as f32);
                         v.zoom = v.zoom.max(4.0);
                         v.tool = Tool::Look;
