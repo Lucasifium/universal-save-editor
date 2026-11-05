@@ -2225,6 +2225,29 @@ impl App {
                                 }
                             }
                         });
+                        if let Some(at) = crate::fmt::cairn::stats_at(data) {
+                            ui.add_space(6.0);
+                            ui.label(RichText::new("This save's run").strong());
+                            egui::Grid::new("cairn_stats").num_columns(3).spacing([10.0, 4.0]).show(ui, |ui| {
+                                for (label, off, _) in crate::fmt::cairn::FIELDS {
+                                    let o = at + off;
+                                    let Some(b) = data.get(o..o + 4) else { continue };
+                                    let mut v = u32::from_le_bytes(b.try_into().unwrap());
+                                    ui.label(label);
+                                    if ui.add(egui::DragValue::new(&mut v).range(0..=99_999_999)).changed() {
+                                        byte_edit = Some((o, v.to_le_bytes().to_vec()));
+                                        status = Some(Ok(format!("Set {label} to {v}")));
+                                    }
+                                    if off == 0 {
+                                        ui.weak(format!("{}:{:02}:{:02}", v / 3600, v / 60 % 60, v % 60));
+                                    } else {
+                                        ui.label("");
+                                    }
+                                    ui.end_row();
+                                }
+                            });
+                            ui.weak("As on the game's slot card. The card's own copy of the play time updates the next time the game saves.");
+                        }
                         if *others > 0 {
                             ui.weak(format!(
                                 "{others} other files (routes, tutorials, run info) are in the pack too: Tools \u{203A} Open another file in this archive."
