@@ -34,6 +34,7 @@ pub const NAMES: &[&str] = &[
     "ElapsedTimeFromRetreat",
     "ElemType",
     "Enabled",
+    "EquipNum",
     "EquipSlot",
     "EquipmentID",
     "ExecutedObjectIDList",
