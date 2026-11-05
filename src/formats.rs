@@ -248,6 +248,13 @@ pub fn same_layers(a: &[Layer], b: &[Layer]) -> bool {
     a.len() == b.len() && a.iter().zip(b).all(|(x, y)| std::mem::discriminant(x) == std::mem::discriminant(y))
 }
 
+/// Does the file read back (`check`) hold what was edited (`edited`)? Usually the same data;
+/// after an edit that changes the layout (adding items), the same values wherever both have them.
+pub fn verified(check: &Content, edited: &Content) -> bool {
+    same_data(check, edited)
+        || matches!((check, edited), (Content::Tree(c), Content::Tree(e)) if e.reshaped() && e.agrees_with(c))
+}
+
 /// Do two decoded contents carry the same data? Used to verify a save before writing it.
 pub fn same_data(a: &Content, b: &Content) -> bool {
     match (a, b) {

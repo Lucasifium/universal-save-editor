@@ -737,9 +737,12 @@ fn pipe_edit() {
     let out = crate::formats::encode(&dec.layers, &content).unwrap();
     let back = crate::formats::decode_with(&out, &opts);
     assert!(crate::formats::same_layers(&back.layers, &dec.layers), "layers differ");
-    assert!(crate::formats::same_data(&back.content, &content), "save check would fail");
+    assert!(crate::formats::verified(&back.content, &content), "save check would fail");
     let crate::formats::Content::Tree(b) = back.content else { panic!() };
-    println!("saved {} bytes, reads back {}", out.len(), b.view.pointer(&ptr).unwrap());
+    println!("saved {} bytes, reads back {:?}", out.len(), b.view.pointer(&ptr));
+    if let Ok(o) = std::env::var("SAVE_EDITOR_OUT") {
+        std::fs::write(o, &out).unwrap();
+    }
 }
 
 /// Research aid: opens SAVE_EDITOR_OPEN the way the app does and prints its layers and note,

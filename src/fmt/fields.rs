@@ -50,7 +50,14 @@ pub struct Leaf {
     pub also: Vec<usize>,
     /// For a pick list: the raw value each name stands for (instead of 0, 1, 2…).
     pub values: Option<Arc<Vec<u64>>>,
+    /// A choice with no bytes of its own (see `Builder::option`): its tag and chosen name are
+    /// handed to the format's `Post` step when saving.
+    pub tag: Option<Arc<str>>,
 }
+
+/// Runs after the values are written, with the virtual choices that were changed
+/// (tag, chosen name); it may change the file's layout (e.g. add records).
+pub type Post = fn(&mut Vec<u8>, &[(Arc<str>, String)]) -> Result<(), String>;
 
 /// How the file's checksum is kept right after an edit.
 #[allow(dead_code)]
@@ -87,6 +94,13 @@ pub fn read(d: &[u8], at: usize, kind: Kind, be: bool) -> Option<Value> {
 }
 
 fn encode(l: &Leaf, v: &Value) -> Result<Vec<u8>, String> {
+    if l.tag.is_some() {
+        let s = v.as_str().ok_or("pick one from the list")?;
+        return match &l.names {
+            Some(n) if n.iter().any(|x| x == s) => Ok(vec![]),
+            _ => Err("pick one from the list".into()),
+        };
+    }
     let n: u64 = match l.kind {
         Kind::F32 => {
             let f = v.as_f64().filter(|f| f.is_finite()).ok_or("expected a number")?;
@@ -133,17 +147,26 @@ struct FieldsBackend {
     data: Arc<Vec<u8>>,
     leaves: Vec<Leaf>,
     checksum: Checksum,
+    post: Option<Post>,
 }
 
 impl Backend for FieldsBackend {
     fn write(&self, _view: &Value, changes: &[(usize, Value)]) -> Result<Vec<u8>, String> {
         let mut out = self.data.as_ref().clone();
+        let mut chosen: Vec<(Arc<str>, String)> = vec![];
         for (leaf, v) in changes {
             let l = &self.leaves[*leaf];
             let bytes = encode(l, v)?;
+            if let Some(tag) = &l.tag {
+                chosen.push((tag.clone(), v.as_str().unwrap_or_default().to_string()));
+                continue;
+            }
             for at in std::iter::once(l.at).chain(l.also.iter().copied()) {
                 out[at..at + l.kind.size()].copy_from_slice(&bytes);
             }
+        }
+        if let (Some(post), false) = (self.post, chosen.is_empty()) {
+            post(&mut out, &chosen)?;
         }
         if !changes.is_empty() {
             match self.checksum {
@@ -173,6 +196,10 @@ impl Backend for FieldsBackend {
 
     fn choices(&self, leaf: usize, _view: &Value) -> Option<Arc<Vec<String>>> {
         self.leaves[leaf].names.clone()
+    }
+
+    fn reshapes(&self, leaf: usize) -> bool {
+        self.leaves[leaf].tag.is_some()
     }
 
     fn clone_box(&self) -> Box<dyn Backend> {
@@ -233,12 +260,27 @@ impl<'a> Builder<'a> {
         let values: Arc<Vec<u64>> = Arc::new(options.iter().map(|(_, v)| *v).collect());
         let ptr: String = path.iter().map(|k| format!("/{}", esc(k))).collect();
         let id = self.leaves.len();
-        self.leaves.push(Leaf { at, kind, big_endian: self.big_endian, range: None, names: Some(names), also: vec![], values: Some(values) });
+        self.leaves.push(Leaf { at, kind, big_endian: self.big_endian, range: None, names: Some(names), also: vec![], values: Some(values), tag: None });
         self.editable.insert(ptr, id);
         let last = path[path.len() - 1].to_string();
         let shown = Value::String(options[i].0.clone());
         self.slot(path)?.insert(last, shown.clone());
         Some(shown)
+    }
+
+    /// A choice that isn't stored anywhere yet (e.g. "add this item"): shown as a drop-down
+    /// starting at `names[0]`; when it's changed, `tag` and the chosen name go to the `Post`
+    /// step given to `finish_with`.
+    pub fn option(&mut self, path: &[&str], names: Vec<String>, tag: String) {
+        let Some(first) = names.first().cloned() else { return };
+        let ptr: String = path.iter().map(|k| format!("/{}", esc(k))).collect();
+        let id = self.leaves.len();
+        self.leaves.push(Leaf { at: 0, kind: Kind::U8, big_endian: false, range: None, names: Some(Arc::new(names)), also: vec![], values: None, tag: Some(tag.into()) });
+        self.editable.insert(ptr, id);
+        let last = path[path.len() - 1].to_string();
+        if let Some(m) = self.slot(path) {
+            m.insert(last, Value::String(first));
+        }
     }
 
     fn field_with(&mut self, path: &[&str], at: usize, kind: Kind, range: Option<(i64, i64)>, names: Option<Arc<Vec<String>>>) -> Option<Value> {
@@ -254,7 +296,7 @@ impl<'a> Builder<'a> {
         };
         let ptr: String = path.iter().map(|k| format!("/{}", esc(k))).collect();
         let id = self.leaves.len();
-        self.leaves.push(Leaf { at, kind, big_endian: self.big_endian, range, names, also: vec![], values: None });
+        self.leaves.push(Leaf { at, kind, big_endian: self.big_endian, range, names, also: vec![], values: None, tag: None });
         self.editable.insert(ptr, id);
         let last = path[path.len() - 1].to_string();
         self.slot(path)?.insert(last, shown);
@@ -272,7 +314,11 @@ impl<'a> Builder<'a> {
     }
 
     pub fn finish(self, kind_name: &str, checksum: Checksum) -> TreeDoc {
-        let backend = FieldsBackend { data: Arc::new(self.d.to_vec()), leaves: self.leaves, checksum };
+        self.finish_with(kind_name, checksum, None)
+    }
+
+    pub fn finish_with(self, kind_name: &str, checksum: Checksum, post: Option<Post>) -> TreeDoc {
+        let backend = FieldsBackend { data: Arc::new(self.d.to_vec()), leaves: self.leaves, checksum, post };
         TreeDoc::new(Value::Object(self.view), self.editable, kind_name, Box::new(backend))
     }
 }
@@ -303,6 +349,21 @@ mod tests {
         assert_eq!(p.view.pointer("/level"), Some(&Value::from("Level 2")));
         p.set("/level", Value::from("Level 3")).unwrap();
         assert_eq!(p.to_bytes().unwrap(), vec![9, 0, 0, 0]);
+        // A virtual choice reaches the post step and can change the layout.
+        fn grow(out: &mut Vec<u8>, chosen: &[(Arc<str>, String)]) -> Result<(), String> {
+            for (tag, name) in chosen {
+                if name == "Add" {
+                    out.extend(tag.as_bytes());
+                }
+            }
+            Ok(())
+        }
+        let mut b = Builder::new(&[1]);
+        b.option(&["add", "x"], vec!["Don't add".into(), "Add".into()], "X".into());
+        let mut v = b.finish_with("virtual", Checksum::None, Some(grow));
+        assert!(v.set("/add/x", Value::from("Maybe")).is_err());
+        v.set("/add/x", Value::from("Add")).unwrap();
+        assert_eq!(v.to_bytes().unwrap(), vec![1, b'X']);
         let out = doc.to_bytes().unwrap();
         assert_eq!(&out[..4], &500i32.to_le_bytes());
         assert_eq!(out[8], 0);
