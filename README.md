@@ -106,7 +106,7 @@ phone, or a copied save) enter your 17-digit Steam ID in *Tools › Decrypt with
 Games whose format isn't documented open in the hex view with Value search; for packed formats
 the data is unpacked first and packed again on save: Cyberpunk 2077 and The Witcher 3 (LZ4
 chunks), XCOM 2 / War of the Chosen (LZO chunks, both checksums updated), Mass Effect 1
-Legendary Edition (zlib, checksum updated), Civilization V (zlib), Dying Light (gzip), Ubisoft `.save.z` (zlib), BioShock Infinite (Unreal Engine 3 zlib chunks, MD5 updated), BioShock Remastered (zlib blocks, each packed back into its own space), Control (CRC-32 updated) and Cairn (the files inside each slot pack; the newest save opens first). Other RE Engine
+Legendary Edition (zlib, checksum updated), Civilization V (zlib), Dying Light (gzip), Ubisoft `.save.z` (zlib), BioShock Infinite (Unreal Engine 3 zlib chunks, MD5 updated), BioShock Remastered (zlib blocks, each packed back into its own space), Control (CRC-32 updated) and Cairn (the files inside each slot pack; the newest save opens first, and the side panel lists the slot's saves by date with the run's play time, deaths and falls). Other RE Engine
 games (Resident Evil Requiem, Dragon's Dogma 2, Monster Hunter Wilds and Stories 3, Pragmata,
 Dead Rising Deluxe Remaster, Kunitsu-Gami) decrypt and open with their values.
 

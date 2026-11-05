@@ -63,6 +63,7 @@ pub mod p5r;
 pub mod metro;
 pub mod bioshock;
 pub mod rgmh;
+pub mod cairn;
 pub mod plistf;
 pub mod pokemon12;
 pub mod pokemon3;
