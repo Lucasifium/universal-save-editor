@@ -1463,7 +1463,10 @@ impl App {
                 if entries.len() > 1 {
                     ui.menu_button("Open another file in this archive", |ui| {
                         let current = self.doc.as_ref().and_then(|d| {
-                            d.layers.iter().find_map(|l| if let Layer::ZipEntry { name, .. } = l { Some(name.clone()) } else { None })
+                            d.layers.iter().find_map(|l| match l {
+                                Layer::ZipEntry { name, .. } | Layer::Copeck { name, .. } => Some(name.clone()),
+                                _ => None,
+                            })
                         });
                         for e in entries {
                             if ui.selectable_label(current.as_deref() == Some(&e), &e).clicked() {
@@ -2189,6 +2192,19 @@ impl App {
         let mut labels_changed = false;
         let mut byte_edit: Option<(usize, Vec<u8>)> = None;
         let mut status: Option<Result<String, String>> = None;
+        // Cairn: the saves inside the slot pack, newest first.
+        let cairn: Option<(String, Vec<(String, String)>, usize)> = self.doc.as_ref().and_then(|d| {
+            let current = d.layers.iter().find_map(|l| if let Layer::Copeck { name, .. } = l { Some(name.clone()) } else { None })?;
+            let mut saves: Vec<(String, String)> = d.zip_entries.iter().filter_map(|e| cairn_save_label(e).map(|l| (e.clone(), l))).collect();
+            // Dated saves newest first, then the quick save and any others.
+            saves.sort_by(|a, b| {
+                let dated = |l: &str| l.starts_with(|c: char| c.is_ascii_digit());
+                dated(&b.1).cmp(&dated(&a.1)).then(b.1.cmp(&a.1))
+            });
+            let others = d.zip_entries.len() - saves.len();
+            Some((current, saves, others))
+        });
+        let mut open_entry: Option<String> = None;
         // Beside the grid on a wide window; under it on a narrow one, so the bytes keep the width.
         let wide = ctx.screen_rect().width() >= 900.0;
         let body = |ui: &mut egui::Ui| {
@@ -2196,6 +2212,27 @@ impl App {
             let h = &mut self.hex;
             ScrollArea::vertical().auto_shrink([false, false]).show(ui, |ui| {
                 ui.add_space(6.0);
+                if let Some((current, saves, others)) = &cairn {
+                    theme::card(ui, |ui| {
+                        ui.label(RichText::new("Cairn saves in this slot").family(theme::semibold_family()).size(16.0));
+                        ui.weak(format!("{} saves, the dated ones newest first; pick one to open it.", saves.len()));
+                        ScrollArea::vertical().id_salt("cairn_saves").max_height(220.0).show(ui, |ui| {
+                            for (entry, label) in saves {
+                                let shown = entry == current;
+                                let text = if shown { RichText::new(format!("{label}  (open)")).strong() } else { RichText::new(label) };
+                                if ui.selectable_label(shown, text).on_hover_text(entry).clicked() && !shown {
+                                    open_entry = Some(entry.clone());
+                                }
+                            }
+                        });
+                        if *others > 0 {
+                            ui.weak(format!(
+                                "{others} other files (routes, tutorials, run info) are in the pack too: Tools \u{203A} Open another file in this archive."
+                            ));
+                        }
+                    });
+                    ui.add_space(6.0);
+                }
                 theme::card(ui, |ui| {
                     ui.label(RichText::new("Named values").family(theme::semibold_family()).size(16.0));
                     if h.labels.is_empty() {
@@ -2381,6 +2418,9 @@ impl App {
         if refine {
             self.refine_from_disk();
         }
+        if let Some(e) = open_entry {
+            self.reopen_with(|o| o.zip_entry = Some(e));
+        }
     }
 
     // ------------------------------------------------------------ UI: welcome
@@ -2483,6 +2523,24 @@ impl App {
     }
 }
 
+/// "SAVEGAMES/AUTO_INPACK_2026.02.08_16.58.55.SAV" → "2026-02-08 16:58:55 (auto)"; QUICK.SAV → "Quick save".
+/// The labels sort by date.
+fn cairn_save_label(entry: &str) -> Option<String> {
+    let name = entry.strip_prefix("SAVEGAMES/")?.strip_suffix(".SAV")?;
+    if let Some(stamp) = name.rsplit('_').nth(1).zip(name.rsplit('_').next()).filter(|_| name.contains('_')) {
+        let (date, time) = stamp;
+        if date.len() == 10 && time.len() == 8 {
+            let kind = name.split('_').next().unwrap_or("").to_lowercase();
+            let kind = if kind == "auto" { "auto".to_string() } else { kind };
+            return Some(format!("{} {} ({kind})", date.replace('.', "-"), time.replace('.', ":")));
+        }
+    }
+    Some(match name {
+        "QUICK" => "Quick save".into(),
+        n => n.replace('_', " ").to_lowercase(),
+    })
+}
+
 /// Short, player-facing name for the detected format.
 fn friendly_kind(layers: &[Layer], content: &Content) -> String {
     match content {
@@ -2490,6 +2548,7 @@ fn friendly_kind(layers: &[Layer], content: &Content) -> String {
         Content::Json { .. } if layers.contains(&Layer::LzString) => "RPG Maker MV".into(),
         Content::Json { .. } if layers.contains(&Layer::RpgMzZlib) => "RPG Maker MZ".into(),
         Content::Json { value, .. } if names::is_rpgmaker(value) => "RPG Maker".into(),
+        Content::Binary(_) if layers.iter().any(|l| matches!(l, Layer::Copeck { .. })) => "Cairn save".into(),
         Content::Binary(_) => match layers.last() {
             Some(Layer::Mandarin { game, .. }) => format!("{} save", crate::fmt::mandarin::GAMES[*game].title),
             Some(Layer::Civ5 { .. }) => "Civilization V save".into(),
@@ -2809,4 +2868,14 @@ fn png(img: &egui::ColorImage) -> Vec<u8> {
     chunk(&mut out, b"IDAT", &idat);
     chunk(&mut out, b"IEND", &[]);
     out
+}
+
+#[cfg(test)]
+mod cairn_label_tests {
+    #[test]
+    fn labels() {
+        assert_eq!(super::cairn_save_label("SAVEGAMES/AUTO_INPACK_2026.02.08_16.58.55.SAV").unwrap(), "2026-02-08 16:58:55 (auto)");
+        assert_eq!(super::cairn_save_label("SAVEGAMES/QUICK.SAV").unwrap(), "Quick save");
+        assert!(super::cairn_save_label("PATHS/FRAG_1").is_none());
+    }
 }
