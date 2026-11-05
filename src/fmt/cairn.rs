@@ -1,7 +1,8 @@
 //! Cairn (The Game Bakers) saves, after the pack and gzip layers. The save starts with the
 //! 💿 marker; its run statistics follow the name of the current route fragment (`FRAG_<ticks>_<GUID>`;
 //! newer saves add a zero byte): play
-//! time in seconds and three more 64-bit totals, then 32-bit counters — deaths, then falls.
+//! time in seconds and three more 64-bit totals (the last can be negative), then 32-bit
+//! counters: deaths, then falls.
 //! Worked out from four real slots against the game's own slot cards (play time to the
 //! second, falls, deaths; deaths stay 0 in a Free solo run).
 
@@ -19,11 +20,16 @@ pub fn stats_at(d: &[u8]) -> Option<usize> {
     };
     let ok = |at: usize| {
         let (t, a, b, c) = (i64_at(at), i64_at(at + 8), i64_at(at + 16), i64_at(at + 24));
-        matches!((t, a, b, c), (Some(t), Some(a), Some(b), Some(c)) if t > 0 && t < 100_000_000 && a <= t && b >> 32 == 0 && c >> 32 == 0)
+        matches!((t, a, b, c), (Some(t), Some(a), Some(b), Some(c)) if t > 0 && t < 100_000_000 && a <= t && b >> 32 == 0 && (c as i64).unsigned_abs() >> 32 == 0)
     };
-    // Newer saves (format 29 at byte 4; 24 before) have one zero byte after the name.
-    let gap = usize::from(d[4] >= 29);
-    (36..d.len().saturating_sub(48)).filter(|&p| is_guid(&d[p - 36..p]) && (gap == 0 || d[p] == 0)).map(|p| p + gap).find(|&at| ok(at))
+    // How many of the four totals have a non-zero low byte: read one byte off, the next
+    // total's zero high byte lands in the low byte instead.
+    let score = |at: usize| (0..4).filter(|k| d.get(at + 8 * k).is_some_and(|&b| b != 0)).count();
+    // A few fields come between the name and the totals, more in newer versions (none in
+    // format 24, one byte in 29, 14 bytes in 41): try each gap and keep the best fit.
+    (36..d.len().saturating_sub(48)).filter(|&p| is_guid(&d[p - 36..p])).find_map(|p| {
+        (0..=32).map(|g| p + g).filter(|&at| ok(at)).max_by_key(|&at| (score(at), std::cmp::Reverse(at)))
+    })
 }
 
 /// (label, offset from the start of the statistics, byte width)
@@ -80,5 +86,38 @@ mod real_pack {
         let at = super::stats_at(b).unwrap() + 36;
         assert_eq!(u32::from_le_bytes(b[at..at + 4].try_into().unwrap()), 3);
         println!("falls now 3; pack still {} bytes", out.len());
+    }
+}
+
+#[cfg(test)]
+mod every_save {
+    /// Research aid: SAVE_EDITOR_CAIRN_DIR = a folder of SLOT_x.CPK packs; reads every save in them.
+    #[test]
+    #[ignore]
+    fn all() {
+        use crate::formats::{decode_with, Content, Options};
+        for e in std::fs::read_dir(std::env::var("SAVE_EDITOR_CAIRN_DIR").unwrap()).unwrap() {
+            let p = e.unwrap().path();
+            let raw = std::fs::read(&p).unwrap();
+            let first = decode_with(&raw, &Options::default());
+            let (mut ok, mut bad) = (0, vec![]);
+            for name in first.zip_entries.iter().filter(|n| n.ends_with(".SAV")) {
+                let opts = Options { zip_entry: Some(name.clone()), ..Options::default() };
+                let dec = decode_with(&raw, &opts);
+                match &dec.content {
+                    Content::Binary(d) => match super::stats_at(d) {
+                        Some(at) if name.ends_with("QUICK.SAV") || true => {
+                            ok += 1;
+                            if name.ends_with("QUICK.SAV") || name == first.zip_entries.iter().filter(|n| n.ends_with(".SAV")).last().unwrap() {
+                                println!("  {name}: {} s, deaths {}, falls {}", u32::from_le_bytes(d[at..at + 4].try_into().unwrap()), d[at + 32], d[at + 36]);
+                            }
+                        }
+                        _ => bad.push(format!("{name} (format {})", d.get(4).copied().unwrap_or(0))),
+                    },
+                    _ => bad.push(format!("{name} (not binary)")),
+                }
+            }
+            println!("{}: {ok} read, missing {:?}", p.display(), bad);
+        }
     }
 }
