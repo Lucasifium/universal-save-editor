@@ -80,7 +80,8 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 | Final Fantasy X (HD Remaster, PC) | *Party*: gil, and every character's and aeon's HP, MP, maxima and stats. The checksum (the game's own CRC-16) is updated |
 | Final Fantasy X-2 (HD Remaster, PC) | *Gullwings*: gil; Yuna, Rikku and Paine's level, experience, HP / MP and stats. Checksum updated |
 | Persona 4 Golden (PC) | *Protagonist*: yen, level, experience and the five social stats; the matching `.binslot` checksum is updated |
-| Persona 5 Royal (PC) | *Phantom Thieves*: decrypted, unpacked and packed again; HP / SP, levels, experience and Persona stats for the party and Joker's Personas |
+| Persona 5 Royal (PC) | *Phantom Thieves*: decrypted, unpacked and packed again; money, HP / SP, levels, experience and Persona stats for the party and Joker's Personas |
+| Metro 2033 / Last Light Redux, Exodus | *Artyom*: military-grade rounds, every ammo type and (Exodus) crafting metal and chemicals in the level saves (`.player`); auto and quick saves are unpacked (LZ4) for Value search. CRC-32 updated |
 | Ren'Py visual novels | *Story*: the game's numbers, flags and text variables with a filter, money and the like up front |
 
 ## Oodle (Palworld, Hogwarts Legacy)
@@ -105,7 +106,7 @@ phone, or a copied save) enter your 17-digit Steam ID in *Tools › Decrypt with
 Games whose format isn't documented open in the hex view with Value search; for packed formats
 the data is unpacked first and packed again on save: Cyberpunk 2077 and The Witcher 3 (LZ4
 chunks), XCOM 2 / War of the Chosen (LZO chunks, both checksums updated), Mass Effect 1
-Legendary Edition (zlib, checksum updated), Civilization V (zlib), Dying Light (gzip), Ubisoft `.save.z` (zlib). Other RE Engine
+Legendary Edition (zlib, checksum updated), Civilization V (zlib), Dying Light (gzip), Ubisoft `.save.z` (zlib), BioShock Infinite (Unreal Engine 3 zlib chunks, MD5 updated), BioShock Remastered (zlib blocks, each packed back into its own space), Control (CRC-32 updated) and Cairn (the files inside each slot pack; the newest save opens first). Other RE Engine
 games (Resident Evil Requiem, Dragon's Dogma 2, Monster Hunter Wilds and Stories 3, Pragmata,
 Dead Rising Deluxe Remaster, Kunitsu-Gami) decrypt and open with their values.
 
