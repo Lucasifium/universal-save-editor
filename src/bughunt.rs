@@ -894,3 +894,130 @@ fn dump_inner() {
     println!("{} → {} bytes", crate::formats::describe(&dec.layers, &dec.content), bytes.len());
     std::fs::write(path.with_extension("inner"), bytes).unwrap();
 }
+
+/// Research aid: pulls every message file (GMSG) out of an RE Engine game's .pak archives.
+/// SAVE_EDITOR_PAKS = archives separated by ';' (later ones override), SAVE_EDITOR_OUT_DIR = where to write.
+/// Archive layout facts from ree-pak-rs (eigeen, MIT).
+#[test]
+#[ignore]
+fn pak_messages() {
+    use num_bigint::BigUint;
+    use std::io::{Read, Seek, SeekFrom};
+    const MODULUS: [u8; 129] = [
+        0x7D, 0x0B, 0xF8, 0xC1, 0x7C, 0x23, 0xFD, 0x3B, 0xD4, 0x75, 0x16, 0xD2, 0x33, 0x21, 0xD8, 0x10, 0x71, 0xF9, 0x7C, 0xD1, 0x34, 0x93, 0xBA, 0x77,
+        0x26, 0xFC, 0xAB, 0x2C, 0xEE, 0xDA, 0xD9, 0x1C, 0x89, 0xE7, 0x29, 0x7B, 0xDD, 0x8A, 0xAE, 0x50, 0x39, 0xB6, 0x01, 0x6D, 0x21, 0x89, 0x5D, 0xA5,
+        0xA1, 0x3E, 0xA2, 0xC0, 0x8C, 0x93, 0x13, 0x36, 0x65, 0xEB, 0xE8, 0xDF, 0x06, 0x17, 0x67, 0x96, 0x06, 0x2B, 0xAC, 0x23, 0xED, 0x8C, 0xB7, 0x8B,
+        0x90, 0xAD, 0xEA, 0x71, 0xC4, 0x40, 0x44, 0x9D, 0x1C, 0x7B, 0xBA, 0xC4, 0xB6, 0x2D, 0xD6, 0xD2, 0x4B, 0x62, 0xD6, 0x26, 0xFC, 0x74, 0x20, 0x07,
+        0xEC, 0xE3, 0x59, 0x9A, 0xE6, 0xAF, 0xB9, 0xA8, 0x35, 0x8B, 0xE0, 0xE8, 0xD3, 0xCD, 0x45, 0x65, 0xB0, 0x91, 0xC4, 0x95, 0x1B, 0xF3, 0x23, 0x1E,
+        0xC6, 0x71, 0xCF, 0x3E, 0x35, 0x2D, 0x6B, 0xE3, 0x00,
+    ];
+    let out_dir = std::path::PathBuf::from(std::env::var("SAVE_EDITOR_OUT_DIR").unwrap());
+    std::fs::create_dir_all(&out_dir).unwrap();
+    for pak in std::env::var("SAVE_EDITOR_PAKS").unwrap().split(';') {
+        let mut f = std::io::BufReader::with_capacity(1 << 20, std::fs::File::open(pak).unwrap());
+        let mut head = [0u8; 16];
+        f.read_exact(&mut head).unwrap();
+        assert_eq!(&head[..4], b"KPKA");
+        let feature = u16::from_le_bytes([head[6], head[7]]);
+        let count = u32::from_le_bytes(head[8..12].try_into().unwrap()) as usize;
+        let mut table = vec![0u8; count * 48];
+        f.read_exact(&mut table).unwrap();
+        if feature & 0x10 != 0 {
+            f.read_exact(&mut [0u8; 4]).unwrap();
+        }
+        if feature & 0x04 != 0 {
+            f.read_exact(&mut [0u8; 9]).unwrap();
+        }
+        if feature & 0x08 != 0 {
+            let mut raw = [0u8; 128];
+            f.read_exact(&mut raw).unwrap();
+            let mut k = raw.to_vec();
+            k.resize(129, 0);
+            let key = BigUint::from_bytes_le(&k).modpow(&BigUint::from(65537u32), &BigUint::from_bytes_le(&MODULUS)).to_bytes_le();
+            let key: Vec<usize> = (0..32).map(|i| *key.get(i).unwrap_or(&0) as usize).collect();
+            for (i, b) in table.iter_mut().enumerate() {
+                *b ^= (i + key[i % 32] * key[i % 29]) as u8;
+            }
+        }
+        // Chunk table: block size, count, then (start low u32, meta u32) per chunk.
+        let mut chunks: Vec<(u64, u32)> = vec![];
+        let mut block = 0u32;
+        if feature & 0x20 != 0 {
+            let mut b4 = [0u8; 4];
+            f.read_exact(&mut b4).unwrap();
+            block = u32::from_le_bytes(b4);
+            f.read_exact(&mut b4).unwrap();
+            let n = u32::from_le_bytes(b4) as usize;
+            let mut raw = vec![0u8; n * 8];
+            f.read_exact(&mut raw).unwrap();
+            let (mut high, mut prev) = (0u64, u32::from_le_bytes(raw[0..4].try_into().unwrap()));
+            for c in raw.chunks(8) {
+                let lo = u32::from_le_bytes(c[0..4].try_into().unwrap());
+                if lo < prev {
+                    high += 1 << 32;
+                }
+                prev = lo;
+                chunks.push((high | u64::from(lo), u32::from_le_bytes(c[4..8].try_into().unwrap())));
+            }
+        }
+        let mut file = f.into_inner();
+        let mut read_chunk = |file: &mut std::fs::File, i: usize| -> Option<Vec<u8>> {
+            let (start, meta) = *chunks.get(i)?;
+            let len = (meta >> 10) as usize;
+            let mut buf = vec![0u8; len];
+            file.seek(SeekFrom::Start(start)).ok()?;
+            file.read_exact(&mut buf).ok()?;
+            if len as u32 == block { Some(buf) } else { zstd::decode_all(&buf[..]).ok() }
+        };
+        let (mut found, mut checked) = (0, 0);
+        for e in table.chunks(48) {
+            let hash = u64::from_le_bytes(e[0..8].try_into().unwrap());
+            let offset = u64::from_le_bytes(e[8..16].try_into().unwrap());
+            let csize = u64::from_le_bytes(e[16..24].try_into().unwrap()) as usize;
+            let usize_ = u64::from_le_bytes(e[24..32].try_into().unwrap()) as usize;
+            let attr = u64::from_le_bytes(e[32..40].try_into().unwrap());
+            if usize_ > 8 << 20 || usize_ < 16 || (attr >> 16) & 0xFF != 0 {
+                continue;
+            }
+            checked += 1;
+            let data: Option<Vec<u8>> = if attr & (1 << 24) != 0 {
+                // Chunked: check the magic in the first chunk, then read as many as needed.
+                let first = read_chunk(&mut file, offset as usize);
+                match first {
+                    Some(c) if c.get(4..8) == Some(b"GMSG") => {
+                        let mut all = c;
+                        let mut i = offset as usize + 1;
+                        while all.len() < usize_ {
+                            let Some(c) = read_chunk(&mut file, i) else { break };
+                            all.extend(c);
+                            i += 1;
+                        }
+                        all.truncate(usize_);
+                        Some(all)
+                    }
+                    _ => None,
+                }
+            } else {
+                let mut buf = vec![0u8; csize];
+                if file.seek(SeekFrom::Start(offset)).is_err() || file.read_exact(&mut buf).is_err() {
+                    continue;
+                }
+                let plain = match attr & 0xF {
+                    0 => Some(buf),
+                    1 => {
+                        let mut o = vec![];
+                        flate2::read::DeflateDecoder::new(&buf[..]).read_to_end(&mut o).ok().map(|_| o)
+                    }
+                    2 => zstd::decode_all(&buf[..]).ok(),
+                    _ => None,
+                };
+                plain.filter(|p| p.get(4..8) == Some(b"GMSG"))
+            };
+            if let Some(d) = data {
+                std::fs::write(out_dir.join(format!("{hash:016x}.msg")), d).unwrap();
+                found += 1;
+            }
+        }
+        println!("{pak}: {count} entries, {checked} checked, {found} message files");
+    }
+}

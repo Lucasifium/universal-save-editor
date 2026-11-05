@@ -654,6 +654,23 @@ pub fn ree_slots(root: &Value) -> Option<String> {
     })
 }
 
+/// English item name for an Onimusha ItemID (from the game's own item text).
+fn onimusha_item(id: i64) -> Option<&'static str> {
+    static T: std::sync::OnceLock<std::collections::HashMap<i64, &'static str>> = std::sync::OnceLock::new();
+    T.get_or_init(|| {
+        include_str!("../fmt/data/onimusha_items.tsv")
+            .lines()
+            .filter(|l| !l.starts_with('#'))
+            .filter_map(|l| {
+                let (id, name) = l.split_once('\t')?;
+                Some((id.parse().ok()?, name))
+            })
+            .collect()
+    })
+    .get(&id)
+    .copied()
+}
+
 pub fn onimusha(ui: &mut Ui, cx: &mut GameCtx) {
     let accent = Color32::from_rgb(190, 50, 60);
     let Some(base) = ree_slots(cx.root) else { return };
@@ -724,18 +741,14 @@ pub fn onimusha(ui: &mut Ui, cx: &mut GameCtx) {
                 ui.end_row();
                 for (k, id) in &used {
                     let p = format!("{items}/{k}");
-                    let name = match id {
-                        26615 => "Hozuki".to_string(),
-                        817697408 => "Sake".to_string(),
-                        _ => format!("Item {id}"),
-                    };
+                    let name = onimusha_item(*id).map_or_else(|| format!("Item {id}"), str::to_string);
                     ui.label(name);
                     cx.cell(ui, &format!("{p}/EquipNum"), 70.0);
                     cx.cell(ui, &format!("{p}/BoxNum"), 70.0);
                     ui.end_row();
                 }
             });
-            ui.weak("Item names aren't known yet beyond the ones matched so far; the game shows each item's counts as On Hand and In Storage. Key items (weapons, the bow) have no count.");
+            ui.weak("The game shows these counts as On Hand and In Storage. Key items (weapons, the bow) have no count.");
         });
     }
     // Equipment that has gained experience (the rest of the 32 entries are unused).

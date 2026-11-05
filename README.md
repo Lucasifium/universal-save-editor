@@ -58,7 +58,7 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 | Balatro | Money, ante, hands and discards; this round; jokers and consumables; poker hand levels |
 | Hollow Knight, Slay the Spire | Geo, masks, notches, abilities and charms; a *Max upgrade materials* button (all 6 Pale Ore); gold, HP, deck, relics and potions |
 | RPG Maker MV / MZ | *Party*: gold, steps and play time; each character's name, level, EXP, HP / MP / TP, stat bonuses and learned skills (by id) |
-| Onimusha: Way of the Sword | Each save slot (place, play time, difficulty, objective); money, health and Oni energy; equipment experience. Decrypts Capcom's RE Engine encryption with your Steam account, found automatically |
+| Onimusha: Way of the Sword | Each save slot (place, play time, difficulty, objective); red souls, money, health and Oni energy; items by name (on hand and in storage); equipment experience. Decrypts Capcom's RE Engine encryption with your Steam account, found automatically |
 | Stellaris, Hearts of Iron IV, EU4, CK2 | *Empire*: Stellaris stockpiles (energy, minerals, alloys…) and every resource; HOI4 political power, stability, war support, command power and experience; EU4 treasury, manpower, prestige, stability, monarch power and every country value; CK2 ruler wealth, prestige, piety and attributes. Ironman (binary) saves are recognised |
 | RimWorld | *Colony*: every colonist's skills (level and passion, modded passions included) and every silver stack, edited in place even in 100+ MB saves |
 | Oxygen Not Included | *Colony*: every duplicant's attribute levels and experience, total experience and learned skills |
