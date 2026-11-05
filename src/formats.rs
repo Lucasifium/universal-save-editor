@@ -90,6 +90,8 @@ pub enum Layer {
     MetroPlayer { head: Arc<Vec<u8>> },
     /// BioShock Infinite: MD5 header, Unreal Engine 3 zlib chunks unpacked in place.
     Bioshock { chunks: Arc<fmt::bioshock::Chunks> },
+    /// Control (Remedy): two u32 versions, then a CRC-32 of the rest.
+    RemedyCrc { head: [u8; 8] },
     /// BioShock Remastered: zlib blocks unpacked in place, packed back into the same space.
     Rgmh { original: Arc<Vec<u8>>, blocks: Arc<fmt::rgmh::Blocks> },
     /// Cairn (The Game Bakers) "COPECK" slot: a fixed-size pack of named files; one of them
@@ -165,6 +167,7 @@ impl Layer {
             Layer::P5r { .. } => "Persona 5 Royal save (encrypted, zlib)".into(),
             Layer::MetroPlayer { .. } => "Metro level save (LZ4)".into(),
             Layer::Rgmh { blocks, .. } => format!("BioShock Remastered save ({} zlib blocks)", blocks.len()),
+            Layer::RemedyCrc { .. } => "Control save (CRC-32)".into(),
             Layer::Bioshock { chunks } => format!("BioShock Infinite save (MD5, {} zlib chunks)", chunks.len()),
             Layer::Copeck { name, .. } => format!("Cairn save pack ({name})"),
             Layer::MetroDezp { .. } => "Metro auto save (LZ4)".into(),
@@ -527,6 +530,14 @@ fn wrap(layer: &Layer, data: Vec<u8>) -> Result<Vec<u8>, String> {
         Layer::P5r { head } => fmt::p5r::pack(head, &data),
         Layer::MetroPlayer { head } => fmt::metro::pack_player(head, &data),
         Layer::Bioshock { chunks } => fmt::bioshock::pack(chunks, &data)?,
+        Layer::RemedyCrc { head } => {
+            let mut h = flate2::Crc::new();
+            h.update(&data);
+            let mut out = head.to_vec();
+            out.extend(h.sum().to_le_bytes());
+            out.extend(&data);
+            out
+        }
         Layer::Rgmh { original, blocks } => fmt::rgmh::pack_from(original, blocks, &data)?,
         Layer::Copeck { pack, entry, .. } => copeck_put(pack, *entry, &data)?,
         Layer::MetroDezp { layout } => fmt::metro::pack_dezp(layout, &data)?,
@@ -747,6 +758,13 @@ fn peel(data: &[u8], ctx: &mut Ctx) -> Option<(Layer, Vec<u8>)> {
     if data.len() > 64 {
         if let Some((chunks, p)) = fmt::bioshock::unpack(data) {
             return Some((Layer::Bioshock { chunks: Arc::new(chunks) }, p));
+        }
+    }
+    if data.len() > 16 && data[..4] == data[4..8] && u32::from_le_bytes(data[..4].try_into().unwrap()) < 64 {
+        let mut h = flate2::Crc::new();
+        h.update(&data[12..]);
+        if h.sum().to_le_bytes() == data[8..12] {
+            return Some((Layer::RemedyCrc { head: data[..8].try_into().unwrap() }, data[12..].to_vec()));
         }
     }
     if fmt::rgmh::looks(data) {
