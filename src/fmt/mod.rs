@@ -61,6 +61,7 @@ pub mod p4g;
 pub mod ffx2;
 pub mod p5r;
 pub mod metro;
+pub mod bioshock;
 pub mod plistf;
 pub mod pokemon12;
 pub mod pokemon3;
