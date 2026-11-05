@@ -741,6 +741,6 @@ fn poi_panel(ui: &mut Ui, map: &WorldMap, v: &mut MapView) {
                 v.marks = [false; 4];
             }
         });
-        ui.weak("Chests are drawn when you zoom in. Life Crystals are common, so they start hidden.");
+        ui.weak("Chests are drawn when you zoom in. Life Crystals and Life Fruit are common, so they start hidden.");
     });
 }
