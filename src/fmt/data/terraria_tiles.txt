@@ -1,0 +1,1099 @@
+# Terraria tiles (T) and walls (W): id<TAB>map colour<TAB>name. Facts (ids, names, the game's map colours) as listed in TEdit's MapColors.xml for Terraria 1.4.5.
+T0	976B4B	Dirt
+T1	808080	Stone
+T2	1CD85E	Grass
+T3	1AC454	Plants
+T4	FDDD03	Torches
+T5	976B4B	Trees
+T6	8C6550	Iron
+T7	964316	Copper
+T8	B9A417	Gold
+T9	B9C2C3	Silver
+T10	77694F	Closed Door
+T11	77694F	Open Door
+T12	AE1845	Heart
+T13	85D5F7	Bottles
+T14	BF8E6F	Tables
+T15	BF8E6F	Chairs
+T16	8C8274	Anvils
+T17	909490	Furnaces
+T18	BF8E6F	Work Benches
+T19	BF8E6F	Platforms
+T20	A37451	Saplings
+T21	AE815C	Containers
+T22	625FA7	Demonite
+T23	8D89DF	Corrupt Grass
+T24	7A74DA	Corrupt Plants
+T25	6D5A80	Ebonstone
+T26	77657D	Demon Altar
+T27	369A36	Sunflower
+T28	974F50	Pots
+T29	AF6980	Piggy Bank
+T30	976B4B	Wood Block
+T31	8D78A8	Shadow Orbs
+T32	9787B7	Corrupt Thorns
+T33	FDDD03	Candles
+T34	EBA687	Chandeliers
+T35	E2911E	Jackolanterns
+T36	E6595C	Presents
+T37	685654	Meteorite
+T38	808080	Gray Brick
+T39	B53E3B	Red Brick
+T40	925144	Clay Block
+T41	42546D	Blue Dungeon Brick
+T42	FBEB7F	Hanging Lanterns
+T43	54643F	Green Dungeon Brick
+T44	6B4463	Pink Dungeon Brick
+T45	B9A417	Gold Brick
+T46	B9C2C3	Silver Brick
+T47	964316	Copper Brick
+T48	808080	Spikes
+T49	59C9FF	Water Candle
+T50	AA3072	Books
+T51	C0CACB	Cobweb
+T52	17B14C	Vines
+T53	BAA854	Sand
+T54	C8F6FE	Glass
+T55	BF8E6F	Signs
+T56	2B2854	Obsidian
+T57	44444C	Ash
+T58	8E4242	Hellstone
+T59	5C4449	Mud
+T60	8FD71D	Jungle Grass
+T61	87C41A	Jungle Plants
+T62	79B018	Jungle Vines
+T63	6E8CB6	Sapphire
+T64	C46072	Ruby
+T65	389661	Emerald
+T66	A0763A	Topaz
+T67	8C3AA6	Amethyst
+T68	7DBFC5	Diamond
+T69	BE965C	Jungle Thorns
+T70	5D7FFF	Mushroom Grass
+T71	B6AF82	Mushroom Plants
+T72	B6AF82	Mushroom Trees
+T73	1BC56D	Plants2
+T74	60C51B	Jungle Plants2
+T75	1A1A1A	Obsidian Brick
+T76	8E4242	Hellstone Brick
+T77	EE5546	Hellforge
+T78	796E61	Clay Pot
+T79	BF8E6F	Beds
+T80	497811	Cactus
+T81	F585BF	Coral
+T82	F6C51A	Immature Herbs
+T83	F6C51A	Mature Herbs
+T84	F6C51A	Blooming Herbs
+T85	C0C0C0	Tombstones
+T86	BF8E6F	Loom
+T87	BF8E6F	Pianos
+T88	BF8E6F	Dressers
+T89	BF8E6F	Benches
+T90	909490	Bathtubs
+T91	0D5882	Banners
+T92	D5E5ED	Lampposts
+T93	FDDD03	Lamps
+T94	BF8E6F	Kegs
+T95	FFA21F	Chinese Lanterns
+T96	909490	Cooking Pots
+T97	909490	Safes
+T98	FDDD03	Skull Lanterns
+T99	909490	Trash Can
+T100	FDDD03	Candelabras
+T101	BF8E6F	Bookcases
+T102	E5D449	Thrones
+T103	8D624D	Bowls
+T104	BF8E6F	Grandfather Clocks
+T105	909490	Statues
+T106	BF8E6F	Sawmill
+T107	0B508F	Cobalt
+T108	5BA9A9	Mythril
+T109	4EC1E3	Hallowed Grass
+T110	30BA87	Hallowed Plants
+T111	801A34	Adamantite
+T112	67627A	Ebonsand
+T113	30D0EA	Hallowed Plants2
+T114	BF8E6F	Tinkerers Workbench
+T115	21ABCF	Hallowed Vines
+T116	EEE1DA	Pearlsand
+T117	B5ACBE	Pearlstone
+T118	EEE1DA	Pearlstone Brick
+T119	6B5C6C	Iridescent Brick
+T120	5C4449	Mudstone
+T121	0B508F	Cobalt Brick
+T122	5BA9A9	Mythril Brick
+T123	6A6B76	Silt
+T124	493324	Wooden Beam
+T125	8DAFFF	Crystal Ball
+T126	9FD1E5	Disco Ball
+T128	BF8E6F	Mannequin
+T129	FF75E0	Crystals
+T130	808080	Active Stone Block
+T131	343434	Inactive Stone Block
+T132	909490	Lever
+T133	E73538	Adamantite Forge
+T134	A6BB99	Mythril Anvil
+T136	D5CBCC	Switches
+T137	909490	Traps
+T138	808080	Boulder
+T139	BF8E6F	Music Boxes
+T140	625FA7	Demonite Brick
+T141	C03B3B	Explosives
+T142	909490	Inlet Pump
+T143	909490	Outlet Pump
+T144	909490	Timers
+T145	C01E1E	Candy Cane Block
+T146	2BC01E	Green Candy Cane Block
+T147	D3ECF1	Snow Block
+T148	D3ECF1	Snow Brick
+T149	DC3232	Holiday Lights
+T150	801A34	Adamantite Beam
+T151	BEAB5E	Sandstone Brick
+T152	8085B8	Ebonstone Brick
+T153	EF8D7E	Red Stucco
+T154	BEAB5E	Yellow Stucco
+T155	83A2A1	Green Stucco
+T156	AAAB9D	Gray Stucco
+T157	68647E	Ebonwood
+T158	915155	Rich Mahogany
+T159	948562	Pearlwood
+T160	FF4C4C	Rainbow Brick
+T161	90C3E8	Ice Block
+T162	B8DBF0	Breakable Ice
+T163	AE91D6	Corrupt Ice
+T164	DAB6CC	Hallowed Ice
+T165	73ADE5	Stalactite
+T166	817D5D	Tin
+T167	3E5272	Lead
+T168	849D7F	Tungsten
+T169	98ABC6	Platinum
+T170	1B6D45	Pine Tree
+T171	218755	Christmas Tree
+T172	BF8E6F	Sinks
+T173	FDDD03	Platinum Candelabra
+T174	FDDD03	Platinum Candle
+T175	817D5D	Tin Brick
+T176	849D7F	Tungsten Brick
+T177	98ABC6	Platinum Brick
+T178	D05EC9	Exposed Gems
+T179	318672	Green Moss
+T180	7E8631	Brown Moss
+T181	863B31	Red Moss
+T182	2B568C	Blue Moss
+T183	793186	Purple Moss
+T184	1D6A58	Long Moss
+T185	636363	Small Piles
+T186	636363	Large Piles
+T187	636363	Large Piles2
+T188	497811	Cactus Block
+T189	DFFFFF	Cloud
+T190	B6AF82	Mushroom Block
+T191	976B4B	Living Wood
+T192	1AC454	Leaf Block
+T193	3879FF	Slime Block
+T194	9D9D6B	Bone Block
+T195	861622	Flesh Block
+T196	9390B2	Rain Cloud
+T197	61C8E1	Frozen Slime Block
+T198	3E3D34	Asphalt
+T199	D05050	Crimson Grass
+T200	D89890	Flesh Ice
+T201	CB3D40	Crimson Plants
+T202	D5B21C	Sunplate
+T203	802C2D	Crimstone
+T204	7D3741	Crimtane
+T205	BA3234	Crimson Vines
+T206	7CAFC9	Ice Brick
+T207	909490	Water Fountain
+T208	586976	Shadewood
+T209	909490	Cannon
+T211	BFE973	Chlorophyte
+T212	909490	Snowball Launcher
+T213	897843	Rope
+T214	676767	Chain
+T215	FE7902	Campfire
+T216	BF8E6F	Firework
+T217	909490	Blendomatic
+T218	909490	Meat Grinder
+T219	909490	Extractinator
+T220	909490	Solidifier
+T221	EF5A32	Palladium
+T222	E760E4	Orichalcum
+T223	395565	Titanium
+T224	6B848B	Slush
+T225	E37D16	Hive
+T226	8D3800	Lihzahrd Brick
+T227	4AC59B	Dye Plants
+T228	909490	Dye Vat
+T229	FF9C0C	Honey Block
+T230	834F0D	Crispy Honey Block
+T231	E0C265	Larva
+T232	915155	Wooden Spikes
+T233	6BB61D	Plant Detritus
+T234	352C29	Crimsand
+T235	D6B82E	Teleporter
+T236	95E857	Life Fruit
+T237	FFF133	Lihzahrd Altar
+T238	E180CE	Plantera Bulb
+T239	E0C265	Metal Bars
+T240	78553C	Painting3 X3
+T241	4D4A48	Painting4 X3
+T242	63321E	Painting6 X4
+T243	C6C4AA	Imbuing Station
+T244	C8F5FD	Bubble Machine
+T245	63321E	Painting2 X3
+T246	63321E	Painting3 X2
+T247	8C9696	Autohammer
+T248	DB4726	Palladium Column
+T249	EB26E7	Bubblegum Block
+T250	56555C	Titanstone
+T251	EB9617	Pumpkin Block
+T252	99832C	Hay Block
+T253	393061	Spooky Wood
+T254	F89E5C	Pumpkins
+T255	6B319A	Amethyst Gemspark Off
+T256	9A9431	Topaz Gemspark Off
+T257	31319A	Sapphire Gemspark Off
+T258	319A44	Emerald Gemspark Off
+T259	9A314D	Ruby Gemspark Off
+T260	555976	Diamond Gemspark Off
+T261	9A5331	Amber Gemspark Off
+T262	DD4FFF	Amethyst Gemspark
+T263	FAFF4F	Topaz Gemspark
+T264	4F66FF	Sapphire Gemspark
+T265	4FFF59	Emerald Gemspark
+T266	FF4F4F	Ruby Gemspark
+T267	F0F0F7	Diamond Gemspark
+T268	FF914F	Amber Gemspark
+T269	BF8E6F	Womannequin
+T270	BBFF6B	Fireflyina Bottle
+T271	6BFAFF	Lightning Bugina Bottle
+T272	797765	Cog
+T273	808080	Stone Slab
+T274	BEAB5E	Sand Stone Slab
+T275	7AD9E8	Bunny Cage
+T276	7AD9E8	Squirrel Cage
+T277	7AD9E8	Mallard Duck Cage
+T278	7AD9E8	Duck Cage
+T279	7AD9E8	Bird Cage
+T280	7AD9E8	Blue Jay
+T281	7AD9E8	Cardinal Cage
+T282	7AD9E8	Fish Bowl
+T283	808080	Heavy Work Bench
+T284	964316	Copper Plating
+T285	7AD9E8	Snail Cage
+T286	7AD9E8	Glowing Snail Cage
+T287	4F8011	Ammo Box
+T288	7AD9E8	Monarch Butterfly Jar
+T289	7AD9E8	Purple Emperor Butterfly Jar
+T290	7AD9E8	Red Admiral Butterfly Jar
+T291	7AD9E8	Ulysses Butterfly Jar
+T292	7AD9E8	Sulphur Butterfly Jar
+T293	7AD9E8	Tree Nymph Butterfly Jar
+T294	7AD9E8	Zebra Swallowtail Butterfly Jar
+T295	7AD9E8	Julia Butterfly Jar
+T296	7AD9E8	Scorpion Cage
+T297	7AD9E8	Black Scorpion Cage
+T298	7AD9E8	Frog Cage
+T299	7AD9E8	Mouse Cage
+T300	909490	Bone Welder
+T301	909490	Flesh Cloning Vat
+T302	909490	Glass Kiln
+T303	909490	Lihzahrd Furnace
+T304	909490	Living Loom
+T305	909490	Sky Mill
+T306	909490	Ice Machine
+T307	909490	Steampunk Boiler
+T308	909490	Honey Dispenser
+T309	7AD9E8	Penguin Cage
+T310	7AD9E8	Worm Cage
+T311	753D19	Dynasty Wood
+T312	CC5D49	Red Dynasty Shingles
+T313	57969A	Blue Dynasty Shingles
+T314	B5A47D	Minecart Track
+T315	EB7250	Coralstone
+T316	9DB0E2	Blue Jellyfish Bowl
+T317	76E381	Green Jellyfish Bowl
+T318	E376D7	Pink Jellyfish Bowl
+T319	604430	Ship In A Bottle
+T320	CBB997	Seaweed Planter
+T321	604D40	Boreal Wood
+T322	C6AA68	Palm Wood
+T323	B68D56	Palm Tree
+T324	E4D5AD	Beach Piles
+T325	817D5D	Tin Plating
+T326	093DBF	Waterfall
+T327	FD2003	Lavafall
+T328	C8F6FE	Confetti
+T329	0F0F0F	Confetti Black
+T330	E2764C	Copper Coin Pile
+T331	A1ACAD	Silver Coin Pile
+T332	CCB548	Gold Coin Pile
+T333	BEBEB2	Platinum Coin Pile
+T334	BF8E6F	Weapons Rack
+T335	D9AE89	Fireworks Box
+T336	FD3E03	Living Fire
+T337	909490	Alphabet Statues
+T338	55FFA0	Firework Fountain
+T339	7AD9E8	Grasshopper Cage
+T340	60F802	Living Cursed Fire
+T341	694ACA	Living Demon Fire
+T342	1DF0FF	Living Frost Fire
+T343	FECA50	Living Ichor
+T344	83FCF5	Living Ultrabright Fire
+T345	FF9C0C	Honeyfall
+T346	95D459	Chlorophyte Brick
+T347	EC4A4F	Crimtane Brick
+T348	2C1AE9	Shroomite Plating
+T349	909490	Mushroom Statue
+T350	37619B	Martian Conduit Plating
+T351	1F1F1F	Chimney Smoke
+T352	EE615E	Crimson Thorns
+T353	1CD85E	Vine Rope
+T354	8D6B59	Bewitching Table
+T355	8D6B59	Alchemy Table
+T356	E9CB18	Sundial
+T357	A8B2CC	Marble Block
+T358	7AD9E8	Gold Bird Cage
+T359	7AD9E8	Gold Bunny Cage
+T360	7AD9E8	Gold Butterfly Cage
+T361	7AD9E8	Gold Frog Cage
+T362	7AD9E8	Gold Grasshopper Cage
+T363	7AD9E8	Gold Mouse Cage
+T364	7AD9E8	Gold Worm Cage
+T365	9288CD	Silk Rope
+T366	DFE8E9	Web Rope
+T367	A8B2CC	Marble
+T368	322E68	Granite
+T369	322E68	Granite Block
+T370	7F74C2	Meteorite Brick
+T371	F965BD	Pink Slime Block
+T372	FC80C9	Peace Candle
+T373	093DBF	Water Drip
+T374	FD2003	Lava Drip
+T375	FF9C0C	Honey Drip
+T376	A0785C	Fishing Crate
+T377	BF8E6F	Sharpening Station
+T378	A07864	Target Dummy
+T379	FBD1F0	Bubble
+T380	BF8E6F	Planter Box
+T381	FE7902	Lava Moss
+T382	1CD85E	Vine Flowers
+T383	DD8890	Living Mahogany
+T384	83CE0C	Living Mahogany Leaves
+T385	571590	Crystal Block
+T386	7F5C45	Trapdoor Open
+T387	7F5C45	Trapdoor Closed
+T388	7F5C45	Tall Gate Closed
+T389	7F5C45	Tall Gate Open
+T390	FD2003	Lava Lamp
+T391	7AD9E8	Cage Enchanted Nightcrawler
+T392	7AD9E8	Cage Buggy
+T393	7AD9E8	Cage Grubby
+T394	7AD9E8	Cage Sluggy
+T395	BF8E6F	Item Frame
+T396	C67C4E	Sandstone
+T397	D4C064	Hardened Sand
+T398	64527E	Corrupt Hardened Sand
+T399	4D4C42	Crimson Hardened Sand
+T400	604475	Corrupt Sandstone
+T401	443C33	Crimson Sandstone
+T402	AEA8BA	Hallow Hardened Sand
+T403	CD98BA	Hallow Sandstone
+T404	D49458	Desert Fossil
+T405	8C8C8C	Fireplace
+T406	787878	Chimney
+T407	FFE384	Fossil Ore
+T408	555352	Lunar Ore
+T409	555352	Lunar Brick
+T410	4B8BA6	Lunar Monolith
+T411	E32E2E	Detonator
+T412	4B8BA6	Lunar Crafting Station
+T413	7AD9E8	Squirrel Orange Cage
+T414	7AD9E8	Squirrel Gold Cage
+T415	F94B07	Lunar Block Solar
+T416	00A0AA	Lunar Block Vortex
+T417	A057EA	Lunar Block Nebula
+T418	16ADFE	Lunar Block Stardust
+T419	585F72	Logic Gate Lamp
+T420	63FF6B	Logic Gate
+T421	414B5A	Conveyor Belt Left
+T422	414B5A	Conveyor Belt Right
+T423	F5C501	Logic Sensor
+T424	929BBB	Wire Pipe
+T425	929BBB	Announcement Box
+T426	A8262F	Team Block Red
+T427	B7353E	Team Block Red Platform
+T429	DCDCDC	Wire Bulb
+T430	27A860	Team Block Green
+T431	275EA8	Team Block Blue
+T432	F2DD64	Team Block Yellow
+T433	E064F2	Team Block Pink
+T434	C5C1D8	Team Block White
+T435	36B76F	Team Block Green Platform
+T436	366DB7	Team Block Blue Platform
+T437	FFEC73	Team Block Yellow Platform
+T438	EF73FF	Team Block Pink Platform
+T439	D4D0E7	Team Block White Platform
+T440	EE3335	Gem Locks
+T441	AE815C	Fake Containers
+T442	0390C9	Projectile Pressure Pad
+T443	909490	Geyser Trap
+T444	BFB07C	Bee Hive
+T445	F0F0F0	Pixel Box
+T446	FF4298	Silly Balloon Pink
+T447	B384FF	Silly Balloon Purple
+T448	00CEB4	Silly Balloon Green
+T449	5BBAF0	Silly Streamer Blue
+T450	5CF05B	Silly Streamer Green
+T451	F05B93	Silly Streamer Pink
+T452	FF96B5	Silly Balloon Machine
+T453	B384FF	Silly Balloon Tile
+T454	AE10B0	Pigronata
+T455	30E16E	Party Monolith
+T456	B384FF	Party Bundle Of Balloon Tile
+T457	96A4CE	Party Present
+T458	D3C66F	Sand Fall Block
+T459	BEDFE8	Snow Fall Block
+T460	8DA3B5	Snow Cloud
+T461	D4C064	Sand Drip
+T462	E7B21C	Djinn Lamp
+T463	9BD6F0	Defenders Forge
+T464	E9B780	War Table
+T465	3354C3	War Table Banner
+T466	CD9949	Elder Crystal Stand
+T467	813879	Containers2
+T468	813879	Fake Containers2
+T469	BF8E6F	Tables2
+T470	BF8E6F	Display Doll
+T471	BF8E6F	Weapons Rack2
+T472	BEA08C	Iron Brick
+T473	55727B	Lead Brick
+T474	745E61	Lesion Block
+T475	BF8E6F	Hat Rack
+T476	A0A0A0	Golf Hole
+T477	1CD85E	Golf Grass
+T478	6C2223	Crimstone Brick
+T479	B27244	Smooth Sandstone
+T480	783232	Blood Moon Monolith
+T481	42546D	Cracked Blue Dungeon Brick
+T482	54643F	Cracked Green Dungeon Brick
+T483	6B4463	Cracked Pink Dungeon Brick
+T484	497811	Rolling Cactus
+T485	C68658	Antlion Larva
+T486	BF8E6F	Drum Set
+T487	BF8E6F	Picnic Table
+T488	7F5C45	Fallen Log
+T489	FF1D88	Pin Wheel
+T490	D3D3D3	Weather Vane
+T491	3C14A0	Void Vault
+T492	4EC1E3	Golf Grass Hallowed
+T493	FAF9FC	Golf Cup Flag
+T494	E0DBEC	Golf Tee
+T495	FDE3D7	Shell Pile
+T496	A59F99	Anti Portal Block
+T497	BF8E6F	Toilets
+T498	CAAEA5	Spider
+T499	A0BB8E	Lesion Station
+T500	FE9E23	Solar Brick
+T501	22DD97	Vortex Brick
+T502	F9AAEC	Nebula Brick
+T503	23C8FE	Stardust Brick
+T505	7AD9E8	Gold Goldfish Bowl
+T506	3D3D3D	Cat Bast
+T507	050505	Gold Starry Glass Block
+T508	050505	Blue Starry Glass Block
+T509	32323C	Void Monolith
+T510	BF8E6F	Arrow Sign
+T511	BB444A	Painted Arrow Sign
+T512	318672	Green Moss Brick
+T513	7E8631	Brown Moss Brick
+T514	863B31	Red Moss Brick
+T515	2B568C	Blue Moss Brick
+T516	793186	Purple Moss Brick
+T517	FE7902	Lava Moss Brick
+T518	1AC454	Lily Pad
+T519	1CD86D	Cattail
+T520	E0DBEC	Food Platter
+T521	7AD9E8	Black Dragonfly Jar
+T522	7AD9E8	Blue Dragonfly Jar
+T523	7AD9E8	Green Dragonfly Jar
+T524	7AD9E8	Orange Dragonfly Jar
+T525	7AD9E8	Red Dragonfly Jar
+T526	7AD9E8	Yellow Dragonfly Jar
+T527	7AD9E8	Gold Dragonfly Jar
+T528	B6AF82	Mushroom Vines
+T529	639608	Sea Oats
+T530	6BB600	Oasis Plants
+T531	909490	Boulder Statue
+T532	7AD9E8	Maggot Cage
+T533	7AD9E8	Rat Cage
+T534	72FE02	Krypton Moss
+T535	72FE02	Krypton Moss Brick
+T536	00C5D0	Xenon Moss
+T537	00C5D0	Xenon Moss Brick
+T538	7AD9E8	Ladybug Cage
+T539	D0007E	Argon Moss
+T540	D0007E	Argon Moss Brick
+T542	7AD9E8	Owl Cage
+T543	7AD9E8	Pupfish Bowl
+T544	7AD9E8	Gold Ladybug Cage
+T545	FF7E91	Lawn Flamingo
+T546	3C3C3C	Grate
+T547	786E64	Potted Plants1
+T548	786E64	Potted Plants2
+T549	365314	Seaweed
+T550	7AD9E8	Turtle Cage
+T551	7AD9E8	Turtle Jungle Cage
+T552	BAA854	Sandcastles
+T553	7AD9E8	Grebe Cage
+T554	7AD9E8	Seagull Cage
+T555	7AD9E8	Water Strider Cage
+T556	7AD9E8	Gold Water Strider Cage
+T557	3C3C3C	Grate Closed
+T558	7AD9E8	Seahorse Cage
+T559	7AD9E8	Gold Seahorse Cage
+T560	964316	Golf Trophies
+T561	949EB8	Marble Column
+T562	A5A81A	Bamboo Block
+T563	A5A81A	Large Bamboo Block
+T564	577FDC	Plasma Lamp
+T565	636363	Fog Machine
+T566	E9B45A	Amber Stone Block
+T567	909490	Garden Gnome
+T568	F8CBE9	Pink Fairy Jar
+T569	CBF8DA	Green Fairy Jar
+T570	A0F2FF	Blue Fairy Jar
+T571	A5A81A	Bamboo
+T572	FFBAD4	Soul Bottles
+T573	BF8E6F	Tattered Wood Sign
+T574	4C392C	Boreal Beam
+T575	7D3D41	Rich Mahogany Beam
+T576	1E1A54	Granite Column
+T577	B2683A	Sandstone Column
+T578	AC9B6E	Mushroom Beam
+T579	636363	Rock Golem Head
+T580	7AD9E8	Hell Butterfly Jar
+T581	FF9696	Lavaflyina Bottle
+T582	7AD9E8	Magma Snail Cage
+T583	7F7F7F	Tree Topaz
+T584	7F7F7F	Tree Amethyst
+T585	7F7F7F	Tree Sapphire
+T586	7F7F7F	Tree Emerald
+T587	7F7F7F	Tree Ruby
+T588	7F7F7F	Tree Diamond
+T589	7F7F7F	Tree Amber
+T590	7F7F7F	Gem Saplings
+T591	725138	Pots Suspended
+T592	FE7902	Brazier Suspended
+T593	77694F	Volcano Small
+T594	77694F	Volcano Large
+T595	976B4B	Vanity Tree Sakura Saplings
+T596	976B4B	Vanity Tree Sakura
+T597	1CD85E	Teleportation Pylon
+T598	7AD9E8	Lavafish Bowl
+T599	7AD9E8	Amethyst Bunny Cage
+T600	7AD9E8	Topaz Bunny Cage
+T601	7AD9E8	Sapphire Bunny Cage
+T602	7AD9E8	Emerald Bunny Cage
+T603	7AD9E8	Ruby Bunny Cage
+T604	7AD9E8	Diamond Bunny Cage
+T605	7AD9E8	Amber Bunny Cage
+T606	7AD9E8	Amethyst Squirrel Cage
+T607	7AD9E8	Topaz Squirrel Cage
+T608	7AD9E8	Sapphire Squirrel Cage
+T609	7AD9E8	Emerald Squirrel Cage
+T610	7AD9E8	Ruby Squirrel Cage
+T611	7AD9E8	Diamond Squirrel Cage
+T612	7AD9E8	Amber Squirrel Cage
+T613	FA6432	Potted Lava Plants
+T614	FA6432	Potted Lava Plant Tendrils
+T615	976B4B	Vanity Tree Willow Saplings
+T616	976B4B	Vanity Tree Yellow Willow
+T617	E9CF5E	Master Trophy Base
+T618	808080	Accent Slab
+T619	7AD9E8	Truffle Worm Cage
+T620	7AD9E8	Empress Butterfly Jar
+T621	FAFAFA	Slice Of Cake
+T622	EBEBF9	Tea Kettle
+T623	DCD2F5	Potted Crystal Plants
+T624	D25B4D	Abigails Flower
+T625	DC0CED	Violet Moss
+T626	DC0CED	Violet Moss Brick
+T627	FF4C4C	Rainbow Moss
+T628	FF4C4C	Rainbow Moss Brick
+T629	7AD9E8	Stinkbug Cage
+T630	759149	Stinkbug Housing Blocker
+T631	7AEAE1	Stinkbug Housing Blocker Echo
+T632	7AD9E8	Scarlet Macaw Cage
+T633	D28C64	Ash Grass
+T634	917878	Tree Ash
+T635	917878	Ash Wood
+T636	7A74DA	Corrupt Vines
+T637	C8784B	Ash Plants
+T638	C8784B	Ash Vines
+T639	6E69FF	Mana Crystal
+T640	7AD9E8	Blue Macaw Cage
+T641	EB7D96	Reef Block
+T642	95D459	Chlorophyte Extractinator
+T643	7AD9E8	Toucan Cage
+T644	7AD9E8	Yellow Cockatiel Cage
+T645	7AD9E8	Gray Cockatiel Cage
+T646	6C858C	Shadow Candle
+T647	636363	Large Piles Echo
+T648	636363	Large Piles2 Echo
+T649	636363	Small Piles2x1 Echo
+T650	636363	Small Piles1x1 Echo
+T651	6BB61D	Plant Detritus3x2 Echo
+T652	6BB61D	Plant Detritus2x2 Echo
+T653	974F50	Pots Echo
+T654	C82C1C	TNT Barrel
+T655	E180CE	Plantera Thorns
+T656	157CD4	Glow Tulip
+T657	23CDD7	Echo Monolith
+T658	C869E6	Shimmer Monolith
+T659	F7E4FE	Shimmer Block
+T660	FF9696	Shimmerflyina Bottle
+T661	8D89DF	Corrupt Jungle Grass
+T662	D05050	Crimson Jungle Grass
+T663	18CBE9	Moondial
+T664	808080	Bouncy Boulder
+T665	AE1845	Life Crystal Boulder
+T666	733C28	Poop Block
+T667	F7E4FE	Shimmer Brick
+T668	976B4B	Dirtiest Block
+T669	532E39	Lunar Rust Brick
+T670	5B57A7	Dark Celestial Brick
+T671	172151	Astra Brick
+T672	358567	Cosmic Ember Brick
+T673	0B4350	Cryocore Brick
+T674	28313C	Mercury Brick
+T675	150D4D	Star Royale Brick
+T676	C3C9D7	Heavenforge Brick
+T677	42546D	Ancient Blue Brick
+T678	54643F	Ancient Green Brick
+T679	6B4463	Ancient Pink Brick
+T680	B9A417	Ancient Gold Brick
+T681	B9C2C3	Ancient Silver Brick
+T682	964316	Ancient Copper Brick
+T683	645ABE	Ancient Obsidian Brick
+T684	8E4242	Ancient Hellstone Brick
+T685	0B508F	Ancient Cobalt Brick
+T686	5BA9A9	Ancient Mythril Brick
+T687	FE7902	Lava Moss Block
+T688	D0007E	Argon Moss Block
+T689	72FE02	Krypton Moss Block
+T690	00C5D0	Xenon Moss Block
+T691	DC0CED	Violet Moss Block
+T692	FF4C4C	Rainbow Moss Block
+T693	73ADE5	Stalactite1x1 Echo
+T694	73ADE5	Stalactite1x2 Echo
+T695	77657D	Demon Altar Replica
+T696	8D78A8	Shadow Orbs Replica
+T697	C0CACB	Cobweb Replica
+T698	C8C8C8	Dead Cells Display Jar
+T699	8D6B59	Dead Cells Potion Station
+T700	D25B4D	Abigails Flower Replica
+T701	157CD4	Glow Tulip Replica
+T702	95E857	Life Fruit Replica
+T703	87C41A	Jungle Plants Echo
+T704	7F5C45	Fallen Log Echo
+T705	6BB600	Oasis Plants Echo
+T706	B1B7A1	Terragrim Shrine Echo
+T707	AA3072	Books Echo
+T708	EDDAF4	Shimmerfall
+T709	F7E4FE	Shimmer Drip
+T710	7AD9E8	Pufferfish Cage
+T711	808080	Rainbow Boulder
+T712	808080	Poulder
+T713	808080	Lava Boulder
+T714	808080	Spider Boulder
+T715	808080	Ghoulder
+T716	808080	Boulder That Spawns Pet
+T717	7E6676	Lava Cloud
+T718	F5D7C4	Star Cloud
+T719	DFFFFF	Rainbow Cloud
+T720	A4AFAF	CRT Monolith
+T721	4DB090	Retro Monolith
+T722	B9BE14	Fallen Star Block
+T723	B9BE14	Kite Anchor
+T724	B9BE14	Critter Anchor
+T725	E54141	Noir Monolith
+T726	1E1E24	Cannon Ball
+T727	771634	Team Block Red Variant
+T728	17774F	Team Block Green Variant
+T729	173677	Team Block Blue Variant
+T730	774417	Team Block Yellow Variant
+T731	4A1777	Team Block Pink Variant
+T732	4E526D	Team Block White Variant
+T733	73451B	Radio Thing Monolith
+T734	A07350	Feywood
+T735	EBC814	Hallowed Brick
+T736	F082A0	Easter Block
+T737	414B41	Gothic Brick
+T738	D2AAD7	Flinx Fur Block
+T739	5A7DEB	Jellyfish Block
+T740	D3D3D3	Toy Breaker Block
+T741	A05A32	Pine Wood Block
+T742	1A8DCC	Harpy Block
+T743	E3E3E3	Moonplate Block
+T744	6A6760	Librarian Block
+T745	78726C	Spike Block
+T746	7A4E15	Office Block
+T747	E7B21C	Forbidden Block
+T748	0272CE	Water Block
+T749	797979	Boulder Block
+T750	797979	Damaging Spike Block
+T751	808080	Palworld Digtoise Sleeping
+T752	808080	Palworld Chillet Egg
+W1	343434	Stone
+W2	583D2E	Dirt Unsafe
+W3	3D3A4E	Ebonstone Unsafe
+W4	493324	Wood
+W5	343434	Gray Brick
+W6	5B1E1E	Red Brick
+W7	1B1F2A	Blue Dungeon Unsafe
+W8	1F271A	Green Dungeon Unsafe
+W9	291C24	Pink Dungeon Unsafe
+W10	4A3E0C	Gold Brick
+W11	2E383B	Silver Brick
+W12	4B200B	Copper Brick
+W13	432525	Hellstone Brick Unsafe
+W14	0F0F0F	Obsidian Brick Unsafe
+W15	342B2D	Mud Unsafe
+W16	583D2E	Dirt
+W17	1B1F2A	Blue Dungeon
+W18	1F271A	Green Dungeon
+W19	291C24	Pink Dungeon
+W20	0F0F0F	Obsidian Brick
+W22	716363	Pearlstone Brick
+W23	26262B	Iridescent Brick
+W24	352729	Mudstone Brick
+W25	0B233E	Cobalt Brick
+W26	153F46	Mythril Brick
+W27	583D2E	Planked
+W28	515465	Pearlstone Brick Unsafe
+W29	581717	Candy Cane
+W30	1C5817	Green Candy Cane
+W31	4E5763	Snow Brick
+W32	561128	Adamantite Beam
+W33	312F53	Demonite Brick
+W34	454329	Sandstone Brick
+W35	333346	Ebonstone Brick
+W36	573B37	Red Stucco
+W37	454329	Yellow Stucco
+W38	313931	Green Stucco
+W39	4E4F49	Gray
+W40	556667	Snow Wall Unsafe
+W41	34323E	Ebonwood
+W42	472A2C	Rich Maogany
+W43	494232	Pearlwood
+W44	343434	Rainbow Brick
+W45	3C3B33	Tin Brick
+W46	30392F	Tungsten Brick
+W47	474D55	Platinum Brick
+W48	343434	Amethyst Unsafe
+W49	343434	Topaz Unsafe
+W50	343434	Sapphire Unsafe
+W51	343434	Emerald Unsafe
+W52	343434	Ruby Unsafe
+W53	343434	Diamond Unsafe
+W54	283832	Cave Unsafe
+W55	313024	Cave2 Unsafe
+W56	2B2120	Cave3 Unsafe
+W57	1F2831	Cave4 Unsafe
+W58	302334	Cave5 Unsafe
+W59	583D2E	Cave6 Unsafe
+W60	013414	Living Leaf
+W61	37271A	Cave7 Unsafe
+W62	27211A	Spider Unsafe
+W63	1E5030	Grass Unsafe
+W64	35501E	Jungle Unsafe
+W65	1E5030	Flower Unsafe
+W66	1E5030	Grass
+W67	35501E	Jungle
+W68	1E5030	Flower
+W69	2B2A44	Corrupt Grass Unsafe
+W70	1E4650	Hallowed Grass Unsafe
+W71	4E6987	Ice Unsafe
+W72	34540C	Cactus
+W73	BECCDF	Cloud
+W74	403E50	Mushroom
+W75	414123	Bone
+W76	142E68	Slime
+W77	3D0D10	Flesh
+W78	3F271A	Living Wood
+W79	332F60	Obsidian Back Unsafe
+W80	403E50	Mushroom Unsafe
+W81	653333	Crimson Grass Unsafe
+W82	4D4022	Disc Wall
+W83	3E2629	Crimstone Unsafe
+W84	304E5D	Ice Brick
+W85	363F45	Shadewood
+W86	8A4926	Hive Unsafe
+W87	320F08	Lihzahrd Brick Unsafe
+W94	20282D	Blue Dungeon Slab Unsafe
+W95	2C2932	Blue Dungeon Tile Unsafe
+W96	48324D	Pink Dungeon Slab Unsafe
+W97	4E3245	Pink Dungeon Tile Unsafe
+W98	242D2C	Green Dungeon Slab Unsafe
+W99	263132	Green Dungeon Tile Unsafe
+W100	20282D	Blue Dungeon Slab
+W101	2C2932	Blue Dungeon Tile
+W102	48324D	Pink Dungeon Slab
+W103	4E3245	Pink Dungeon Tile
+W104	242D2C	Green Dungeon Slab
+W105	263132	Green Dungeon Tile
+W108	8A4926	Hive
+W109	5E1911	Palladium Column
+W110	7D247A	Bubblegum Block
+W111	33231B	Titanstone Block
+W112	320F08	Lihzahrd Brick
+W113	873A00	Pumpkin
+W114	41340F	Hay
+W115	272A33	Spooky Wood
+W116	591A1B	Christmas Tree Wallpaper
+W117	7E7B73	Ornament Wallpaper
+W118	083213	Candy Cane Wallpaper
+W119	5F1518	Festive Wallpaper
+W120	111F41	Stars Wallpaper
+W121	C0AD8F	Squiggles Wallpaper
+W122	727283	Snowflake Wallpaper
+W123	887707	Krampus Horn Wallpaper
+W124	084803	Bluegreen Wallpaper
+W125	758452	Grinch Finger Wallpaper
+W126	646672	Fancy Gray Wallpaper
+W127	1E76E2	Ice Floe Wallpaper
+W128	5D0666	Music Wallpaper
+W129	4028A9	Purple Rain Wallpaper
+W130	2722B4	Rainbow Wallpaper
+W131	575E7D	Sparkle Stone Wallpaper
+W132	060606	Starlit Heaven Wallpaper
+W133	4548BA	Bubble Wallpaper
+W134	823E10	Copper Pipe Wallpaper
+W135	167BA3	Ducky Wallpaper
+W136	285697	Waterfall
+W137	B74B0F	Lavafall
+W138	535064	Ebonwood Fence
+W139	734144	Rich Mahogany Fence
+W140	776C51	Pearlwood Fence
+W141	3B4347	Shadewood Fence
+W142	DED8CA	White Dynasty
+W143	5A7069	Blue Dynasty
+W144	3E1C57	Arcane Runes
+W146	783B13	Copper Plating
+W147	3B3B3B	Stone Slab
+W148	E5DAA1	Sail
+W149	493B32	Boreal Wood
+W151	664B22	Palm Wood
+W153	FF914F	Amber Gemspark
+W154	DD4FFF	Amethyst Gemspark
+W155	F0F0F7	Diamond Gemspark
+W156	4FFF59	Emerald Gemspark
+W157	9A5331	Amber Gemspark Off
+W158	6B319A	Amethyst Gemspark Off
+W159	555976	Diamond Gemspark Off
+W160	319A44	Emerald Gemspark Off
+W161	9A314D	Ruby Gemspark Off
+W162	31319A	Sapphire Gemspark Off
+W163	9A9431	Topaz Gemspark Off
+W164	FF4F4F	Ruby Gemspark
+W165	4F66FF	Sapphire Gemspark
+W166	FAFF4F	Topaz Gemspark
+W167	464433	Tin Plating
+W169	050505	Confetti Black
+W170	3B2716	Cave Wall
+W171	3B2716	Cave Wall2
+W172	A36000	Honeyfall
+W173	5EA32E	Chlorophyte Brick
+W174	75203B	Crimtane Brick
+W175	140BCB	Shroomite Plating
+W176	4A4558	Martian Conduit
+W177	3C1E1E	Hellstone Brick
+W178	6F7587	Marble Unsafe
+W179	6F7587	Marble Block
+W180	191736	Granite Unsafe
+W181	191736	Granite Block
+W182	4A4781	Meteorite Brick
+W183	6F7587	Marble
+W184	191736	Granite
+W185	343434	Cave8 Unsafe
+W186	260942	Crystal
+W187	955033	Sandstone
+W188	523F50	Corruption Unsafe1
+W189	413D4D	Corruption Unsafe2
+W190	40415C	Corruption Unsafe3
+W191	4C3554	Corruption Unsafe4
+W192	904334	Crimson Unsafe1
+W193	953030	Crimson Unsafe2
+W194	6F2024	Crimson Unsafe3
+W195	933037	Crimson Unsafe4
+W196	614333	Dirt Unsafe1
+W197	70503E	Dirt Unsafe2
+W198	583D2E	Dirt Unsafe3
+W199	7F5E4C	Dirt Unsafe4
+W200	8F327B	Hallow Unsafe1
+W201	887883	Hallow Unsafe2
+W202	DB5C8F	Hallow Unsafe3
+W203	714096	Hallow Unsafe4
+W204	4A433C	Jungle Unsafe1
+W205	3C4E3B	Jungle Unsafe2
+W206	003615	Jungle Unsafe3
+W207	4A6148	Jungle Unsafe4
+W208	282523	Lava Unsafe1
+W209	4D3F42	Lava Unsafe2
+W210	6F0606	Lava Unsafe3
+W211	58433B	Lava Unsafe4
+W212	585750	Rocks Unsafe1
+W213	474743	Rocks Unsafe2
+W214	4C343C	Rocks Unsafe3
+W215	59303B	Rocks Unsafe4
+W216	9E6440	Hardened Sand
+W217	3E2D4B	Corrupt Hardened Sand
+W218	390E0C	Crimson Hardened Sand
+W219	604885	Hallow Hardened Sand
+W220	433750	Corrupt Sandstone
+W221	40251D	Crimson Sandstone
+W222	46335B	Hallow Sandstone
+W223	331204	Desert Fossil
+W224	393734	Lunar Brick Wall
+W225	444444	Cog Wall
+W226	948A4A	Sand Fall
+W227	5F89BF	Snow Fall
+W228	A0024B	Silly Balloon Pink Wall
+W229	6437A4	Silly Balloon Purple Wall
+W230	007565	Silly Balloon Green Wall
+W231	6E5A4E	Iron Brick
+W232	2F454B	Lead Brick
+W233	5B4346	Lesion Block
+W234	3C2427	Crimstone Brick
+W235	8C4B30	Smooth Sandstone
+W236	7F312C	Spider
+W237	C82C12	Solar Brick
+W238	185D42	Vortex Brick
+W239	A057EA	Nebula Brick
+W240	066AFF	Stardust Brick
+W242	050505	Gold Starry Glass Wall
+W243	050505	Blue Starry Glass Wall
+W244	3F271A	Living Wood Unsafe
+W245	666666	Wrought Iron Fence
+W246	3D3A4E	Ebonstone Echo
+W247	342B2D	Mud Wall Echo
+W248	515465	Pearlstone Echo
+W249	556667	Snow Wall Echo
+W250	343434	Amethyst Echo
+W251	343434	Topaz Echo
+W252	343434	Sapphire Echo
+W253	343434	Emerald Echo
+W254	343434	Ruby Echo
+W255	343434	Diamond Echo
+W256	283832	Cave1 Echo
+W257	313024	Cave2 Echo
+W258	2B2120	Cave3 Echo
+W259	1F2831	Cave4 Echo
+W260	302334	Cave5 Echo
+W261	583D2E	Cave6 Echo
+W262	37271A	Cave7 Echo
+W263	27211A	Spider Echo
+W264	2B2A44	Corrupt Grass Echo
+W265	1E4650	Hallowed Grass Echo
+W266	4E6987	Ice Echo
+W267	332F60	Obsidian Back Echo
+W268	653333	Crimson Grass Echo
+W269	3E2629	Crimstone Echo
+W270	3B2716	Cave Wall1 Echo
+W271	3B2716	Cave Wall2 Echo
+W272	6F7587	Marble Echo Unused
+W273	191736	Granite Echo Unused
+W274	343434	Cave8 Echo
+W275	955033	Sandstone Echo
+W276	523F50	Corruption1 Echo
+W277	413D4D	Corruption2 Echo
+W278	40415C	Corruption3 Echo
+W279	4C3554	Corruption4 Echo
+W280	904334	Crimson1 Echo
+W281	953030	Crimson2 Echo
+W282	6F2024	Crimson3 Echo
+W283	933037	Crimson4 Echo
+W284	614333	Dirt1 Echo
+W285	70503E	Dirt2 Echo
+W286	583D2E	Dirt3 Echo
+W287	7F5E4C	Dirt4 Echo
+W288	8F327B	Hallow1 Echo
+W289	887883	Hallow2 Echo
+W290	DB5C8F	Hallow3 Echo
+W291	714096	Hallow4 Echo
+W292	4A433C	Jungle1 Echo
+W293	3C4E3B	Jungle2 Echo
+W294	003615	Jungle3 Echo
+W295	4A6148	Jungle4 Echo
+W296	282523	Lava1 Echo
+W297	4D3F42	Lava2 Echo
+W298	6F0606	Lava3 Echo
+W299	58433B	Lava4 Echo
+W300	585750	Rocks1 Echo
+W301	474743	Rocks2 Echo
+W302	4C343C	Rocks3 Echo
+W303	59303B	Rocks4 Echo
+W304	9E6440	Hardened Sand Echo
+W305	3E2D4B	Corrupt Hardened Sand Echo
+W306	390E0C	Crimson Hardened Sand Echo
+W307	604885	Hallow Hardened Sand Echo
+W308	433750	Corrupt Sandstone Echo
+W309	40251D	Crimson Sandstone Echo
+W310	46335B	Hallow Sandstone Echo
+W311	331204	Desert Fossil Echo
+W312	4E6E33	Bamboo Block Wall
+W313	4E6E33	Large Bamboo Block Wall
+W314	343434	Amber Stone Wall Echo
+W315	B5E61D	Bamboo Fence
+W316	7D6464	Ash Wood
+W317	7D6464	Ash Wood Fence
+W319	69336C	Reef Wall
+W320	4B1E0F	Poop Wall
+W321	5B6C82	Shimmer Block Wall
+W322	5B6C82	Shimmer Brick Wall
+W323	371921	Lunar Rust Brick Wall
+W324	3C3791	Dark Celestial Brick Wall
+W325	0A0532	Astra Brick Wall
+W326	1E694B	Cosmic Ember Brick Wall
+W327	052D37	Cryocore Brick Wall
+W328	141923	Mercury Brick Wall
+W329	0F0A32	Star Royale Brick Wall
+W330	99A4BB	Heavenforge Brick Wall
+W331	1B1F2A	Ancient Blue Brick Wall
+W332	1F271A	Ancient Green Brick Wall
+W333	291C24	Ancient Pink Brick Wall
+W334	4A3E0C	Ancient Gold Brick Wall
+W335	2E383B	Ancient Silver Brick Wall
+W336	4B200B	Ancient Copper Brick Wall
+W337	0F0F0F	Ancient Obsidian Brick Wall
+W338	432525	Ancient Hellstone Brick Wall
+W339	0B233E	Ancient Cobalt Brick Wall
+W340	153F46	Ancient Mythril Brick Wall
+W341	642801	Lava Moss Block Wall
+W342	5C1E48	Argon Moss Block Wall
+W343	2A5101	Krypton Moss Block Wall
+W344	01516D	Xenon Moss Block Wall
+W345	381661	Violet Moss Block Wall
+W346	343434	Rainbow Moss Block Wall
+W347	644182	Shimmerfall
+W348	784B4B	Fallen Star Wall
+W349	343434	Stone Unsafe
+W350	00FF00	Unbreakable Block Wall
+W351	503928	Feywood Wall
+W352	75640A	Hallowed Brick Wall
+W353	0D3622	Pine Tree Block Wall
+W354	784150	Easter Block Wall
+W355	202520	Gothic Brick Wall
+W356	69556B	Flinx Fur Block Wall
+W357	2D3E75	Jellyfish Block Wall
+W358	502D19	Pine Wood Block Wall
+W359	0D4666	Harpy Block Wall
+W360	495D74	Moonplate Block Wall
+W361	353330	Librarian Block Wall
+W362	3C3936	Spike Block Wall
+W363	3D270A	Office Block Wall
+W364	73590E	Forbidden Block Wall
+W365	013967	Water Block Wall
+W366	3C3C3C	Boulder Block Wall

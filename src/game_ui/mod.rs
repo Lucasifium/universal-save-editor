@@ -10,6 +10,7 @@ mod fromsoft;
 mod pokemon;
 mod screens2;
 mod terraria;
+mod terraria_world;
 
 use crate::theme;
 use crate::tree::TreeDoc;
@@ -25,6 +26,7 @@ pub enum Game {
     DarkSouls1,
     Sekiro,
     Terraria,
+    TerrariaWorld,
     Pokemon,
     Bethesda,
     Hades,
@@ -72,6 +74,7 @@ impl Game {
     pub fn tab_label(self) -> &'static str {
         match self {
             Game::Pokemon => "Trainer",
+            Game::TerrariaWorld => "World",
             Game::Terraria | Game::Minecraft | Game::Stardew => "Player",
             Game::Balatro | Game::SlayTheSpire => "Run",
             Game::Hades => "House",
@@ -115,6 +118,7 @@ pub fn detect(kind: &str, root: &Value) -> Option<Game> {
         "Dark Souls character" => Game::DarkSouls1,
         "Sekiro character" => Game::Sekiro,
         "Terraria player" => Game::Terraria,
+        "Terraria world" => Game::TerrariaWorld,
         k if k.starts_with("Pok\u{00E9}mon") => Game::Pokemon,
         k if (k.starts_with("Skyrim") || k.starts_with("Fallout") || k.starts_with("Enderal")) && has("/Save") => Game::Bethesda,
         _ if has("/GameState/Resources") => Game::Hades,
@@ -163,6 +167,7 @@ pub fn show(game: Game, ui: &mut Ui, cx: &mut GameCtx) {
     match game {
         Game::EldenRing | Game::DarkSouls3 | Game::DarkSouls2 | Game::DarkSouls1 | Game::Sekiro => fromsoft::show(game, ui, cx),
         Game::Terraria => terraria::show(ui, cx),
+        Game::TerrariaWorld => terraria_world::show(ui, cx),
         Game::Pokemon => pokemon::show(ui, cx),
         Game::Bethesda => dashboards::bethesda(ui, cx),
         Game::Hades => dashboards::hades(ui, cx),
