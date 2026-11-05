@@ -878,3 +878,16 @@ fn view_dir() {
         println!("{}: {}", p.file_name().unwrap().to_string_lossy(), v.chars().take(300).collect::<String>());
     }
 }
+
+/// Research aid: SAVE_EDITOR_INNER = a save; writes what the last layer unpacks to (next to it, `.inner`).
+#[test]
+#[ignore]
+fn dump_inner() {
+    let path = std::path::PathBuf::from(std::env::var("SAVE_EDITOR_INNER").unwrap());
+    let raw = std::fs::read(&path).unwrap();
+    let opts = crate::formats::Options::for_path(&path);
+    let dec = crate::formats::decode_with(&raw, &opts);
+    let bytes = dec.content.to_bytes().unwrap();
+    println!("{} → {} bytes", crate::formats::describe(&dec.layers, &dec.content), bytes.len());
+    std::fs::write(path.with_extension("inner"), bytes).unwrap();
+}
