@@ -402,7 +402,16 @@ enum Find {
     Tile(u16),
     Wall(u16),
     Shimmer,
+    /// The sword in stone (Large Piles 2, style 17), inside a shrine (a room with the
+    /// Flower wall around it) or not.
+    Sword { shrine: bool },
 }
+
+/// Large Piles 2 (tile 187) style 17, top-left frame: the sword in stone.
+const SWORD_TILE: u16 = 187;
+const SWORD_FRAME: (i16, i16) = (17 * 54, 0);
+/// The background wall of Enchanted Sword shrines.
+const SHRINE_WALL: u16 = 68;
 
 /// What the map points out: name, marker colour, shown unless turned off, what to look
 /// for, and for areas the fewest matching tiles that count.
@@ -418,8 +427,10 @@ const fn kind(name: &'static str, color: [u8; 3], shown: bool, find: Find, area:
     PoiKind { name, color, shown, find, area }
 }
 
-pub const POI_KINDS: [PoiKind; 15] = [
+pub const POI_KINDS: [PoiKind; 17] = [
     kind("Shimmer", [214, 160, 255], true, Find::Shimmer, Some(20)),
+    kind("Enchanted Sword Shrine", [120, 230, 255], true, Find::Sword { shrine: true }, None),
+    kind("Sword in stone (no shrine)", [120, 160, 180], false, Find::Sword { shrine: false }, None),
     kind("Plantera's Bulb", [225, 128, 206], true, Find::Tile(238), None),
     kind("Life Fruit", [149, 232, 87], true, Find::Tile(236), None),
     kind("Life Crystal", [235, 60, 90], false, Find::Tile(12), None),
@@ -450,12 +461,13 @@ fn poi_matches(f: Find, p: u32) -> bool {
         Find::Tile(t) => packed_tile(p) == Some(t),
         Find::Wall(w) => packed_wall(p) == w,
         Find::Shimmer => packed_liquid(p) == 4,
+        Find::Sword { .. } => false,
     }
 }
 
 /// Finds the points of interest: one per object (its top-left tile) and one per patch
 /// of an area (16-tile squares holding enough of it, joined with their neighbours).
-pub fn points_of_interest(m: &WorldMap) -> Vec<Poi> {
+pub fn points_of_interest(m: &WorldMap, swords: &[(u32, u32)]) -> Vec<Poi> {
     const BIN: usize = 16;
     let (w, h) = (m.width, m.height);
     let (bw, bh) = (w.div_ceil(BIN), h.div_ceil(BIN));
@@ -481,6 +493,16 @@ pub fn points_of_interest(m: &WorldMap) -> Vec<Poi> {
                     }
                 }
             }
+        }
+    }
+    for &(x, y) in swords {
+        let near = (y.saturating_sub(12)..(y + 8).min(h as u32))
+            .flat_map(|yy| (x.saturating_sub(15)..(x + 18).min(w as u32)).map(move |xx| (xx, yy)))
+            .filter(|&(xx, yy)| packed_wall(m.cells[yy as usize * w + xx as usize]) == SHRINE_WALL)
+            .count();
+        let shrine = near >= 100;
+        if let Some(k) = POI_KINDS.iter().position(|k| matches!(k.find, Find::Sword { shrine: s } if s == shrine)) {
+            out.push(Poi { kind: k, x, y, size: 1 });
         }
     }
     for (ai, &k) in areas.iter().enumerate() {
@@ -1375,12 +1397,16 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
     // Tiles, column by column.
     let mut cells = vec![0u32; w * h];
     let mut columns = Vec::with_capacity(w + 1);
+    let mut swords = Vec::new();
     let mut r = Reader { d: &d[..sections[2]], pos: sections[1] };
     for x in 0..w {
         columns.push(r.pos);
         let mut y = 0;
         while y < h {
             let (c, run) = read_cell(&mut r, &important)?;
+            if c.tile == Some(SWORD_TILE) && c.frame == SWORD_FRAME {
+                swords.push((x as u32, y as u32));
+            }
             let p = pack(&c);
             if y + run >= h {
                 return Err("tile column overruns the world".into());
@@ -1471,7 +1497,7 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
         npcs: npc_list,
         pois: vec![],
     };
-    map.pois = points_of_interest(&map);
+    map.pois = points_of_interest(&map, &swords);
     let backend = WldBackend {
         raw: Arc::new(d.to_vec()),
         sections,
