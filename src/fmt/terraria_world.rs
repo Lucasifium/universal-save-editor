@@ -456,7 +456,7 @@ pub const POI_KINDS: [PoiKind; 20] = [
     kind("Enchanted Sword Shrine", [120, 230, 255], true, Find::Sword { shrine: true }, None),
     kind("Sword in stone (no shrine)", [120, 160, 180], false, Find::Sword { shrine: false }, None),
     kind("Plantera's Bulb", [225, 128, 206], true, Find::Tile(238), None),
-    kind("Life Fruit", [149, 232, 87], true, Find::Tile(236), None),
+    kind("Life Fruit", [149, 232, 87], false, Find::Tile(236), None),
     kind("Life Crystal", [235, 60, 90], false, Find::Tile(12), None),
     kind("Shadow Orb / Crimson Heart", [180, 90, 220], true, Find::Tile(31), None),
     kind("Demon / Crimson Altar", [150, 60, 60], true, Find::Tile(26), None),
