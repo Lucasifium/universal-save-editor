@@ -5,24 +5,23 @@
 //! `(pointer, new value)` edits, which the app applies with undo, range checks,
 //! dependent values (a level following attributes) and checksums.
 
-mod borderlands;
 mod arpg;
+mod borderlands;
 mod cairn;
 mod darkest;
 mod dashboards;
 mod deus_ex;
+mod dragon_age;
 mod fallout12;
 mod fromsoft;
-mod kotor;
-mod nwn;
-mod dragon_age;
-mod fromsoft;
-mod infinity;
+mod golden_sun;
 mod half_life;
 mod indie;
-mod octopath;
+mod infinity;
+mod kotor;
 mod larian;
-mod golden_sun;
+mod nwn;
+mod octopath;
 mod oni_map;
 mod pathfinder;
 mod pokemon;

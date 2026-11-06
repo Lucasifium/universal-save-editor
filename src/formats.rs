@@ -740,6 +740,8 @@ fn peel(data: &[u8], ctx: &mut Ctx) -> Option<(Layer, Vec<u8>)> {
                 "Larian save package: its game data is unpacked here and packed again, with the package checksum, when you save.".into()
             });
             return Some((Layer::Larian { archive: Arc::new(data.to_vec()), file }, lsf));
+        }
+    }
     if data.starts_with(b"XLZF\n") {
         if let Some(xml) = fmt::wasteland3::open(data) {
             return Some((Layer::Wasteland3 { original: Arc::new(data.to_vec()) }, xml));
