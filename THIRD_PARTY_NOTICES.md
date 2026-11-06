@@ -21,6 +21,7 @@ Universal Save Editor is free. It builds on other people's work, listed here wit
 | [civ6-save-parser (Civilization VI save layout, ported)](https://github.com/pydt/civ6-save-parser) | Mike Rosack and playyourdamnturn.com | MIT |
 | [halbu (Diablo II character layout, skill names)](https://github.com/feored/halbu) | feor | MIT |
 | [d2s (Diablo II save layout)](https://github.com/dschu012/d2s) | dschu012 | facts only (file layouts, ids and names), credited |
+| [Arcemi Pathfinder save editor (Pathfinder save layout; class, race and companion names)](https://github.com/jaygumji/ArcemiPathfinderKingmakerTools) | jaygumji | facts only (file layouts, ids and names), credited |
 | [Trilogy Save Editor (Mass Effect 1 and Legendary Edition save layouts, item and talent names)](https://github.com/KarlitosVII/trilogy-save-editor) | Karlitos | facts only (file layouts, ids and names), credited |
 | [God of War (2018) and Ragnarök save editors "Forja" (item ids and names; credits kg971 and xcier)](https://github.com/wilypizza-svg) | wilypizza-svg (José Murilo) | facts only (file layouts, ids and names), credited |
 

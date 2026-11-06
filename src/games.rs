@@ -142,6 +142,8 @@ pub const GAMES: &[GameInfo] = &[
     game!("Onimusha: Way of the Sword", FULL, r"Steam\userdata\<account>\2638890\remote\win64_save", "data001Slot.bin", [(SteamUser("2638890"), r"remote\win64_save")], ["*.bin"], 1),
     game!("Oxygen Not Included", FULL, r"Documents\Klei\OxygenNotIncluded\cloud_save_files\<Steam id>\<colony> (or save_files\<colony>)", "<colony>.sav", [(Documents, r"Klei\OxygenNotIncluded\cloud_save_files\*"), (Documents, r"Klei\OxygenNotIncluded\save_files")], ["*.sav"], 2),
     game!("Palworld", VALUES, r"%LOCALAPPDATA%\Pal\Saved\SaveGames\<Steam id>\<world>", r"Level.sav, Players\*.sav", [(LocalAppData, r"Pal\Saved\SaveGames")], ["*.sav"], 4),
+    game!("Pathfinder: Kingmaker", FULL, r"%USERPROFILE%\AppData\LocalLow\Owlcat Games\Pathfinder Kingmaker\Saved Games", r"Manual_*.zks, Auto_*.zks, Quick_*.zks", [(LocalLow, r"Owlcat Games\Pathfinder Kingmaker\Saved Games")], ["*.zks"], 1),
+    game!("Pathfinder: Wrath of the Righteous", FULL, r"%USERPROFILE%\AppData\LocalLow\Owlcat Games\Pathfinder Wrath Of The Righteous\Saved Games", r"Manual_*.zks, Auto_*.zks, Quick_*.zks", [(LocalLow, r"Owlcat Games\Pathfinder Wrath Of The Righteous\Saved Games")], ["*.zks"], 1),
     game!("Persona 3 Reload", HEX, r"%APPDATA%\SEGA\P3R\Steam\<Steam id>", r"SaveData*.sav", [(AppData, r"SEGA\P3R\Steam\*")], ["*.sav"], 2),
     game!("Persona 4 Golden", FULL, r"Steam\userdata\<account>\1113000\remote", r"data0001.bin …", [(SteamUser("1113000"), r"remote")], ["data*.bin"], 1),
     game!("Persona 5 Royal", FULL, r"%APPDATA%\SEGA\P5R\Steam\<Steam id>\savedata\DATA<nn>", r"DATA.DAT (encrypted)", [(AppData, r"SEGA\P5R\Steam\*\savedata")], ["DATA.DAT", "SYSTEM.DAT"], 2),

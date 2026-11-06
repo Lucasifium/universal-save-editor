@@ -139,6 +139,8 @@ pub enum Layer {
     Me1Le { block: u32 },
     /// Mass Effect (2008): "RGMH", a version, the header's length, the save image; then a zip.
     Me1Header { header: Arc<Vec<u8>> },
+    /// Pathfinder (Owlcat) `.zks`: header, player and party JSON shown as one document.
+    Owlcat { archive: Arc<Vec<u8>> },
 }
 
 impl Layer {
@@ -189,6 +191,7 @@ impl Layer {
             Layer::Cdpr { sizes, .. } => format!("CD Projekt RED save ({} LZ4 chunks)", sizes.len()),
             Layer::Me1Le { .. } => "Mass Effect (Legendary Edition) save (zlib)".to_string(),
             Layer::Me1Header { .. } => "Mass Effect save (image header)".to_string(),
+            Layer::Owlcat { .. } => "Pathfinder save archive".to_string(),
             Layer::Xcom { xcom2, sizes, .. } => format!("{} save ({} LZO chunks)", if *xcom2 { "XCOM 2" } else { "XCOM: Enemy Unknown" }, sizes.len()),
         }
     }
@@ -612,6 +615,7 @@ fn wrap(layer: &Layer, data: Vec<u8>) -> Result<Vec<u8>, String> {
             out.extend_from_slice(&tail);
             out
         }
+        Layer::Owlcat { archive } => fmt::owlcat::save(archive, &data)?,
         Layer::Me1Header { header } => {
             let mut out = header.to_vec();
             out.extend_from_slice(&data);
@@ -691,6 +695,10 @@ fn wrap(layer: &Layer, data: Vec<u8>) -> Result<Vec<u8>, String> {
 
 fn peel(data: &[u8], ctx: &mut Ctx) -> Option<(Layer, Vec<u8>)> {
     if data.starts_with(b"PK\x03\x04") {
+        if let Some(json) = fmt::owlcat::open(data) {
+            ctx.hint = Some("Pathfinder save: its party, money and header are shown together; changed parts are written back with their checksums.".into());
+            return Some((Layer::Owlcat { archive: Arc::new(data.to_vec()) }, json));
+        }
         return renpy_unzip(data).or_else(|| generic_unzip(data, ctx));
     }
     if data.starts_with(BOM) {
