@@ -141,6 +141,9 @@ pub enum Layer {
     Me1Header { header: Arc<Vec<u8>> },
     /// Pathfinder (Owlcat) `.zks`: header, player and party JSON shown as one document.
     Owlcat { archive: Arc<Vec<u8>> },
+    /// Borderlands 2 / The Pre-Sequel `.sav`: SHA-1, size, one LZO1X block around the
+    /// "WSG" character data. Unchanged data is written back as the original file.
+    Borderlands { original: Arc<Vec<u8>>, plain: Arc<Vec<u8>> },
 }
 
 impl Layer {
@@ -192,6 +195,7 @@ impl Layer {
             Layer::Me1Le { .. } => "Mass Effect (Legendary Edition) save (zlib)".to_string(),
             Layer::Me1Header { .. } => "Mass Effect save (image header)".to_string(),
             Layer::Owlcat { .. } => "Pathfinder save archive".to_string(),
+            Layer::Borderlands { .. } => "Borderlands save (SHA-1, LZO)".to_string(),
             Layer::Xcom { xcom2, sizes, .. } => format!("{} save ({} LZO chunks)", if *xcom2 { "XCOM 2" } else { "XCOM: Enemy Unknown" }, sizes.len()),
         }
     }
@@ -616,6 +620,13 @@ fn wrap(layer: &Layer, data: Vec<u8>) -> Result<Vec<u8>, String> {
             out
         }
         Layer::Owlcat { archive } => fmt::owlcat::save(archive, &data)?,
+        Layer::Borderlands { original, plain } => {
+            if data == **plain {
+                original.to_vec()
+            } else {
+                fmt::borderlands::pack(&data)?
+            }
+        }
         Layer::Me1Header { header } => {
             let mut out = header.to_vec();
             out.extend_from_slice(&data);
@@ -727,6 +738,13 @@ fn peel(data: &[u8], ctx: &mut Ctx) -> Option<(Layer, Vec<u8>)> {
     }
     if let Some(r) = peel_xcom(data, ctx) {
         return Some(r);
+    }
+    if let Some(inner) = fmt::borderlands::unpack(data) {
+        return Some((Layer::Borderlands { original: Arc::new(data.to_vec()), plain: Arc::new(inner.clone()) }, inner));
+    }
+    if data.len() >= 64 && data.iter().all(|&b| b == 0) {
+        ctx.hint = Some("This file is all zero bytes: there's nothing in it to edit. If the game crashed while saving, its backup (a .bak file next to it) may still be good.".into());
+        return None;
     }
     if let Some(r) = peel_me1le(data, ctx) {
         return Some(r);
