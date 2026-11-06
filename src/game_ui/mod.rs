@@ -14,6 +14,9 @@ mod fallout12;
 mod fromsoft;
 mod kotor;
 mod nwn;
+mod dragon_age;
+mod fromsoft;
+mod infinity;
 mod oni_map;
 mod pathfinder;
 mod pokemon;
@@ -90,6 +93,8 @@ pub enum Game {
     DeusEx,
     Kotor,
     Nwn,
+    Infinity,
+    DragonAge,
 }
 
 impl Game {
@@ -135,6 +140,8 @@ impl Game {
             Game::Fallout12 => "Pip-Boy",
             Game::DeusEx => "JC Denton",
             Game::Kotor => "Party",
+            Game::Infinity => "Party",
+            Game::DragonAge => "Warden",
             _ => "Character",
         }
     }
@@ -198,6 +205,8 @@ pub fn detect(kind: &str, root: &Value) -> Option<Game> {
         "Torchlight II character" => Game::Torchlight2,
         k if k.starts_with("Star Wars: KOTOR") => Game::Kotor,
         k if k.starts_with("Neverwinter Nights") => Game::Nwn,
+        crate::fmt::infinity::KIND => Game::Infinity,
+        crate::fmt::dragonage::KIND => Game::DragonAge,
         _ if has("/base/m_title") && has("/player") => Game::YakuzaDe,
         "Unreal Engine save (PalWorldPlayerSaveGame)" if has("/SaveData/TechnologyPoint") => Game::Palworld,
         "Final Fantasy VII Remake save" | "Final Fantasy VII Rebirth save" => Game::Ff7Remake,
@@ -258,6 +267,8 @@ pub fn show(game: Game, ui: &mut Ui, cx: &mut GameCtx) {
         Game::DeusEx => deus_ex::show(ui, cx),
         Game::Kotor => kotor::show(ui, cx),
         Game::Nwn => nwn::show(ui, cx),
+        Game::Infinity => infinity::show(ui, cx),
+        Game::DragonAge => dragon_age::show(ui, cx),
         Game::RenPy => screens2::renpy(ui, cx),
         Game::MassEffect => screens2::mass_effect(ui, cx),
         Game::Xcom => screens2::xcom(ui, cx),
@@ -745,6 +756,8 @@ mod tests {
         assert_eq!(detect("Borderlands 3 character", &json!({})), Some(Game::Borderlands3));
         assert_eq!(detect("Fallout 2 save", &json!({"Save": {}})), Some(Game::Fallout12));
         assert_eq!(detect("Deus Ex map save", &json!({})), Some(Game::DeusEx));
+        assert_eq!(detect(crate::fmt::infinity::KIND, &json!({})), Some(Game::Infinity));
+        assert_eq!(detect(crate::fmt::dragonage::KIND, &json!({})), Some(Game::DragonAge));
         assert_eq!(detect("Final Fantasy VII save", &json!({})), Some(Game::Ff7));
         assert_eq!(detect("Final Fantasy VII Rebirth save", &json!({})), Some(Game::Ff7Remake));
         assert_eq!(detect(".NET BinaryFormatter stream", &json!([{"m_Major": 1}, {"PCM_HP": 90.0}])), Some(Game::GreenHell));

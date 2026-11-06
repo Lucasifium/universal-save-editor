@@ -10,6 +10,9 @@ pub mod d2s;
 pub mod grimdawn;
 pub mod titanquest;
 pub mod torchlight2;
+pub mod dragonage;
+pub mod gff4;
+pub mod infinity;
 pub mod crypto;
 pub mod fromsoft;
 pub mod sekiro_inv;
@@ -227,6 +230,16 @@ pub fn parse_binary(d: &[u8]) -> Option<TreeDoc> {
     }
     if d2s::looks(d) {
         if let Ok(t) = d2s::parse(d) {
+            return Some(t);
+        }
+    }
+    if infinity::looks(d) {
+        if let Ok(t) = infinity::parse(d) {
+            return Some(t);
+        }
+    }
+    if dragonage::looks(d) {
+        if let Ok(t) = dragonage::parse(d) {
             return Some(t);
         }
     }

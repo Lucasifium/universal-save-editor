@@ -28,6 +28,9 @@ Universal Save Editor is free. It builds on other people's work, listed here wit
 | [sotor (KOTOR save layout)](https://github.com/StarfishXeno/sotor) | StarfishXeno | facts only (file layouts, ids and names), credited |
 | [rakata-save docs (KOTOR save layout)](https://github.com/ivy/nwscript) | Ivy Evans | facts only (no code used), credited |
 | [neverwinter.nim (GFF and ERF formats)](https://github.com/niv/neverwinter.nim) | Bernhard Stöckner (niv) and contributors | facts only (no code used), credited |
+| [IESDP (Infinity Engine file formats: GAM, CRE, IDS lists)](https://gibberlings3.github.io/iesdp/) | The Gibberlings Three | facts only (file layouts, ids and names), credited |
+| [dragon-age-save-editor (Dragon Age: Origins stat ids, approval and campaign ids)](https://github.com/AlekseiTovkachev/dragon-age-save-editor) | Aleksei Tovkachev | MIT |
+| [xoreos (GFF V4 layout and field ids)](https://github.com/xoreos/xoreos) | xoreos team | facts only (file layouts, ids and names), credited |
 | [God of War (2018) and Ragnarök save editors "Forja" (item ids and names; credits kg971 and xcier)](https://github.com/wilypizza-svg) | wilypizza-svg (José Murilo) | facts only (file layouts, ids and names), credited |
 | [Gibbed.Borderlands2 (Borderlands 2 / The Pre-Sequel save container, Huffman coding, field numbers; no code)](https://github.com/gibbed/Gibbed.Borderlands2) | Rick (gibbed) | Zlib (facts used, no code) |
 | [borderlands2 (black market order, ammo capacities, currency slots, item header bit widths)](https://github.com/apocalyptech/borderlands2) | CJ Kucera (apocalyptech) | facts only (file layouts, ids and names), credited |
@@ -62,6 +65,7 @@ Copyright notices of the projects above whose code or tables were used:
 - P4G Save Tool (Persona 4 Golden field positions): Copyright (c) 2016 Jack P. Fenech. Licensed under MIT.
 - bl3-cli-saveedit (Borderlands 3 save keys, currency hashes, experience table, SDU limits, item flags): Copyright (c) 2020-2021 CJ Kucera (cj@apocalyptech.com). Licensed under Zlib.
 - fallout-se (Fallout and Fallout 2 save layout and name tables): Copyright (c) 2026 Ali Raheem. Licensed under MIT OR Apache-2.0.
+- dragon-age-save-editor (Dragon Age: Origins stat ids, approval and campaign ids): Copyright (c) 2026 Aleksei Tovkachev. Licensed under MIT.
 
 The MIT, Apache-2.0 and zlib licence texts are included below with the crates that use them.
 

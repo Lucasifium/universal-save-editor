@@ -56,6 +56,10 @@ const FALLOUT12: &str = "Game screen: S.P.E.C.I.A.L., hit points, level, experie
 const DEUS_EX: &str = "Game screen for JC Denton: credits, skill points, bioelectric energy, health per body part, ammo, medkits and other item counts, skill and augmentation levels (values the game left out can't be set). Edits haven't been tried in the game yet";
 const KOTOR: &str = "Game screen: the player and party members (attributes, skills, HP and Force points, XP) from SAVEGAME.sav; credits, party XP and (KOTOR II) influence, components and chemicals from PARTYTABLE.res. Not yet tried in the game";
 const PDX_BINARY: &str = "Text saves fully; ironman (binary) saves are shown but can't be edited";
+const IE_BG: &str = "Game screen: party gold and reputation; each party member's experience, hit points, levels, abilities, alignment and item stacks or charges (BALDUR.gam)";
+const IE_IWD: &str = "Game screen as for Baldur's Gate: EE (same file layout); no Icewind Dale: EE save has been tried yet";
+const IE_PST: &str = "Hex view and Value search only: its save layout differs from the other Enhanced Editions and isn't mapped";
+const DAO: &str = "Game screen: party money, the Warden's and followers' level, experience, attributes and unspent points, approval, backpack stack sizes. Tried on saves from one playthrough; Awakening saves not yet tried";
 
 macro_rules! game {
     ($name:expr, $support:expr, $folder:expr, $files:expr, [$($place:expr),*], [$($pat:expr),*], $depth:expr) => {
@@ -71,6 +75,8 @@ pub const GAMES: &[GameInfo] = &[
     game!("Assassin's Creed Brotherhood", HEX, r"%USERPROFILE%\Saved Games\Assassin's Creed Brotherhood\SAVES", r"ACBROTHERHOODSAVEGAME0.SAV", [(SavedGames, r"Assassin's Creed Brotherhood\SAVES")], ["*.SAV"], 1),
     game!("Attack on Titan 2", HEX, r"Documents\KoeiTecmo\Attack on Titan2_AOT2\SAVEDATA", r"Attack on Titan2_AOT2_PK_WIN0000.dat", [(Documents, r"KoeiTecmo\Attack on Titan2_AOT2\SAVEDATA"), (Documents, r"KoeiTecmo\Attack on Titan 2")], ["*.dat"], 2),
     game!("Balatro", FULL, r"%APPDATA%\Balatro\<profile>", "save.jkr (the run), profile.jkr", [(AppData, "Balatro")], ["save.jkr", "profile.jkr"], 2),
+    game!("Baldur's Gate II: Enhanced Edition", IE_BG, r"Documents\Baldur's Gate II - Enhanced Edition\save\<nnnnnnnnn-Name>", r"BALDUR.gam (BALDUR.SAV holds the areas)", [(Documents, r"Baldur's Gate II - Enhanced Edition\save"), (Documents, r"Baldur's Gate II - Enhanced Edition\mpsave")], ["*.gam"], 2),
+    game!("Baldur's Gate: Enhanced Edition / Siege of Dragonspear", IE_BG, r"Documents\Baldur's Gate - Enhanced Edition\save\<nnnnnnnnn-Name>", r"BALDUR.gam (BALDUR.SAV holds the areas)", [(Documents, r"Baldur's Gate - Enhanced Edition\save"), (Documents, r"Baldur's Gate - Enhanced Edition\mpsave")], ["*.gam"], 2),
     game!("BioShock Infinite", HEX_UNPACKED, r"Steam\userdata\<account>\8870\remote\savedata", r"<area>-0_<date>.bkm / .sav", [(SteamUser("8870"), r"remote\savedata")], ["*.bkm", "*.sav"], 1),
     game!("BioShock Remastered / BioShock 2 Remastered", HEX_UNPACKED, r"Documents\BioshockHD\Bioshock (or Bioshock2)\SaveGames", r"<date>.bsb", [(Documents, r"BioshockHD"), (AppData, r"BioshockHD")], ["*.bsb"], 3),
     game!("Borderlands 2", BORDERLANDS, r"Documents\My Games\Borderlands 2\WillowGame\SaveData\<Steam id>", r"Save0001.sav … (one per character; .sav.bak is the backup)", [(Documents, r"My Games\Borderlands 2\WillowGame\SaveData")], ["Save*.sav"], 2),
@@ -100,6 +106,7 @@ pub const GAMES: &[GameInfo] = &[
     game!("Diablo II: Resurrected", FULL, r"%USERPROFILE%\Saved Games\Diablo II Resurrected", r"<name>.d2s (SharedStash*.d2i is the shared stash)", [(SavedGames, r"Diablo II Resurrected")], ["*.d2s"], 2),
     game!("Dishonored", HEX, r"Steam\userdata\<account>\205100\remote", r"dishonored0.sav, DisAutoSave0.sav", [(SteamUser("205100"), r"remote")], ["*.sav"], 1),
     game!("Dishonored 2 / Death of the Outsider", VALUES, r"%USERPROFILE%\Saved Games\Arkane Studios\Dishonored2\base\savegame\SLOT<n>", r"game.details (chapter, chaos level…)", [(SavedGames, r"Arkane Studios\Dishonored2\base\savegame"), (SavedGames, r"Arkane Studios\Dishonored2_DOTO\base\savegame")], ["game.details"], 2),
+    game!("Dragon Age: Origins (and Awakening)", DAO, r"Documents\BioWare\Dragon Age\Characters\<name>\Saves\<slot>", r"<name>.das, savegame.das (auto and quick saves)", [(Documents, r"BioWare\Dragon Age\Characters\*\Saves")], ["*.das"], 2),
     game!("Dragon's Dogma 2", VALUES, r"Steam\userdata\<account>\2054970\remote\win64_save", "data*.bin", [(SteamUser("2054970"), r"remote\win64_save")], ["*.bin"], 1),
     game!("Dying Light", FULL, r"Steam\userdata\<account>\239140\remote\out\save", r"save_main_0.sav (gzip)", [(SteamUser("239140"), r"remote\out\save")], ["*.sav"], 1),
     game!("Dying Light 2 / The Beast", FULL, r"Steam\userdata\<account>\534380\remote\out\save (backups in Documents\dying light 2\out\-save_backups)", r"save_main_0.sav (gzip)", [(SteamUser("534380"), r"remote\out\save"), (SteamUser("3008130"), r"remote\out\save"), (Documents, r"dying light 2\out\-save_backups"), (Documents, r"dying light the beast\out\-save_backups")], ["*.sav", "*.sav.bak"], 1),
@@ -127,6 +134,7 @@ pub const GAMES: &[GameInfo] = &[
     game!("Hearts of Iron IV", FULL, r"Documents\Paradox Interactive\Hearts of Iron IV\save games", "*.hoi4", [(Documents, r"Paradox Interactive\Hearts of Iron IV\save games")], ["*.hoi4"], 1),
     game!("Hogwarts Legacy", FULL, r"%LOCALAPPDATA%\Hogwarts Legacy\Saved\SaveGames\<account>", r"HL-00-00.sav … (the character data inside is Oodle-compressed and can't be edited)", [(LocalAppData, r"Hogwarts Legacy\Saved\SaveGames\*")], ["HL-*.sav"], 1),
     game!("Hollow Knight", FULL, r"%USERPROFILE%\AppData\LocalLow\Team Cherry\Hollow Knight", "user1.dat … user4.dat", [(LocalLow, r"Team Cherry\Hollow Knight")], ["user?.dat"], 1),
+    game!("Icewind Dale: Enhanced Edition", IE_IWD, r"Documents\Icewind Dale - Enhanced Edition\save\<nnnnnnnnn-Name>", r"ICEWIND.gam", [(Documents, r"Icewind Dale - Enhanced Edition\save"), (Documents, r"Icewind Dale - Enhanced Edition\mpsave")], ["*.gam"], 2),
     game!("Judgment", RGG_UNTESTED, r"%APPDATA%\Sega\Judgment\Steam\<Steam id>", r"data.sav", [(AppData, r"Sega\Judgment\Steam\*")], ["*.sav"], 2),
     game!("Kenshi", FULL, r"%LOCALAPPDATA%\kenshi\save\<save name>", r"quick.save", [(LocalAppData, r"kenshi\save"), (SteamGame("Kenshi"), r"save")], ["quick.save"], 2),
     game!("Kunitsu-Gami: Path of the Goddess", VALUES, r"Steam\userdata\<account>\2510710\remote\win64_save", "data*.bin", [(SteamUser("2510710"), r"remote\win64_save")], ["*.bin"], 1),
@@ -160,6 +168,7 @@ pub const GAMES: &[GameInfo] = &[
     game!("Persona 3 Reload", HEX, r"%APPDATA%\SEGA\P3R\Steam\<Steam id>", r"SaveData*.sav", [(AppData, r"SEGA\P3R\Steam\*")], ["*.sav"], 2),
     game!("Persona 4 Golden", FULL, r"Steam\userdata\<account>\1113000\remote", r"data0001.bin …", [(SteamUser("1113000"), r"remote")], ["data*.bin"], 1),
     game!("Persona 5 Royal", FULL, r"%APPDATA%\SEGA\P5R\Steam\<Steam id>\savedata\DATA<nn>", r"DATA.DAT (encrypted)", [(AppData, r"SEGA\P5R\Steam\*\savedata")], ["DATA.DAT", "SYSTEM.DAT"], 2),
+    game!("Planescape: Torment: Enhanced Edition", IE_PST, r"Documents\Planescape Torment - Enhanced Edition\save\<nnnnnnnnn-Name>", r"TORMENT.gam", [(Documents, r"Planescape Torment - Enhanced Edition\save")], ["*.gam"], 2),
     game!("Pragmata", VALUES, r"Steam\userdata\<account>\3357650\remote\win64_save", "data*.bin", [(SteamUser("3357650"), r"remote\win64_save")], ["*.bin"], 1),
     game!("Prey (2017)", HEX, r"%USERPROFILE%\Saved Games\Arkane Studios\Prey\SaveGames (Prey_MS for the Microsoft Store version)", r"Campaign<n>\<slot>\save.CSF (the player), <level>.level (each area)", [(SavedGames, r"Arkane Studios\Prey\SaveGames"), (SavedGames, r"Arkane Studios\Prey_MS\SaveGames")], ["save.CSF"], 3),
     game!("Red Dead Redemption", HEX, r"Documents\Rockstar Games\Red Dead Redemption\Profiles\<id>", r"RDR2SAVE0.SAV … (the PC port's own name)", [(Documents, r"Rockstar Games\Red Dead Redemption\Profiles\*")], ["*.SAV"], 1),
