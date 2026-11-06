@@ -2,6 +2,8 @@
 
 #[cfg(test)]
 mod bughunt;
+#[cfg(test)]
+mod site;
 mod app;
 mod backups;
 mod file_browser;
