@@ -31,6 +31,11 @@ const TALENTS: [(i32, &str); 15] = [
     (98, "First Aid"),
     (99, "Medicine"),
 ];
+/// A talent's name, or "Talent <id>" for ones without a known name.
+pub fn talent_name(id: i32) -> String {
+    TALENTS.iter().find(|t| t.0 == id).map_or_else(|| format!("Talent {id}"), |t| t.1.to_string())
+}
+
 const LEVELS: [&str; 11] = ["-", "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X"];
 
 /// (item id, manufacturer id) → name, from Trilogy Save Editor's item list.
@@ -141,7 +146,7 @@ impl R<'_, '_> {
             self.skip(12)?;
             self.list_of(4)?;
             self.list_of(4)?;
-            let label = TALENTS.iter().find(|t| t.0 == id).map_or_else(|| format!("Talent {id}"), |t| t.1.to_string());
+            let label = talent_name(id);
             let mut p: Vec<&str> = base.to_vec();
             p.push(&label);
             self.b.ranged(&p, rank_at, Kind::I32, 0, max.clamp(1, 20) as i64);

@@ -124,7 +124,7 @@ pub const GAMES: &[GameInfo] = &[
     game!("Marvel's Spider-Man 2", HEX, r"Documents\Marvel's Spider-Man 2\<Steam id>", r"slot<n>-autosave.save", [(Documents, r"Marvel's Spider-Man 2\*")], ["slot*.save"], 1),
     game!("Marvel's Spider-Man Remastered", HEX, r"Documents\Marvel's Spider-Man Remastered\<Steam id>", r"slot<n>-s.save", [(Documents, r"Marvel's Spider-Man Remastered\*")], ["slot*.save"], 1),
     game!("Marvel's Spider-Man: Miles Morales", HEX, r"Documents\Marvel's Spider-Man Miles Morales\<Steam id>", r"slot<n>-s.save", [(Documents, r"Marvel's Spider-Man Miles Morales\*")], ["slot*.save"], 1),
-    game!("Mass Effect (2008)", HEX, r"Documents\BioWare\Mass Effect\Save", r"<name>_<nn>.MassEffectSave, <name>_AutoSave.MassEffectSave", [(Documents, r"BioWare\Mass Effect\Save")], ["*.MassEffectSave"], 1),
+    game!("Mass Effect (2008)", FULL, r"Documents\BioWare\Mass Effect\Save", r"<name>_<nn>.MassEffectSave, <name>_AutoSave.MassEffectSave", [(Documents, r"BioWare\Mass Effect\Save")], ["*.MassEffectSave"], 1),
     game!("Mass Effect 2", FULL, r"Documents\BioWare\Mass Effect 2\Save\<Shepard's career folder>", r"Save_0001.pcsav, AutoSave.pcsav, QuickSave.pcsav, ChapterSave.pcsav", [(Documents, r"BioWare\Mass Effect 2\Save")], ["*.pcsav"], 2),
     game!("Mass Effect 3", FULL, r"Documents\BioWare\Mass Effect 3\Save\<Shepard's career folder>", r"Save_0001.pcsav, AutoSave.pcsav, QuickSave.pcsav", [(Documents, r"BioWare\Mass Effect 3\Save")], ["*.pcsav"], 2),
     game!("Mass Effect Legendary Edition (ME1)", FULL, r"Documents\BioWare\Mass Effect Legendary Edition\Save\ME1\<career folder>", r"<name>_<nn>.pcsav", [(Documents, r"BioWare\Mass Effect Legendary Edition\Save\ME1")], ["*.pcsav"], 2),

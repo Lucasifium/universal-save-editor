@@ -19,7 +19,7 @@ Universal Save Editor is free. It builds on other people's work, listed here wit
 | [P4G Save Tool (Persona 4 Golden field positions)](https://github.com/fendevel/P4G-Save-Tool) | Jack P. Fenech | MIT |
 | [ree-save-editor (RE Engine save layout; facts only, no code)](https://github.com/kvasszn/ree-save-editor) | kvasszn | facts only (file layouts, ids and names), credited |
 | [civ6-save-parser (Civilization VI save layout, ported)](https://github.com/pydt/civ6-save-parser) | Mike Rosack and playyourdamnturn.com | MIT |
-| [Trilogy Save Editor (Mass Effect 1 Legendary Edition save layout, item and talent names)](https://github.com/KarlitosVII/trilogy-save-editor) | Karlitos | facts only (file layouts, ids and names), credited |
+| [Trilogy Save Editor (Mass Effect 1 and Legendary Edition save layouts, item and talent names)](https://github.com/KarlitosVII/trilogy-save-editor) | Karlitos | facts only (file layouts, ids and names), credited |
 | [God of War (2018) and Ragnarök save editors "Forja" (item ids and names; credits kg971 and xcier)](https://github.com/wilypizza-svg) | wilypizza-svg (José Murilo) | facts only (file layouts, ids and names), credited |
 
 Copyright notices of the projects above whose code or tables were used:
