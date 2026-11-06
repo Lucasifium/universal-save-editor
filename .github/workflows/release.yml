@@ -41,8 +41,8 @@ jobs:
           for t in x86_64:x64 aarch64:arm64; do
             triple=${t%%:*}-pc-windows-msvc
             # /PDBALTPATH keeps the build folder out of the debug-info name.
-            cargo rustc --release --bin SaveEditorOffline --target "$triple" -- -C 'link-arg=/PDBALTPATH:%_PDB%'
-            cp "target/$triple/release/SaveEditorOffline.exe" "dist/SaveEditorOffline-windows-${t##*:}.exe"
+            cargo rustc --release --bin UniversalSaveEditor --target "$triple" -- -C 'link-arg=/PDBALTPATH:%_PDB%'
+            cp "target/$triple/release/UniversalSaveEditor.exe" "dist/UniversalSaveEditor-windows-${t##*:}.exe"
           done
       - uses: actions/upload-artifact@v4
         with: { name: windows, path: dist/*, if-no-files-found: error }
@@ -62,7 +62,7 @@ jobs:
             triple=${t%%:*}-unknown-linux-gnu
             # .2.28: works on any Linux with glibc 2.28+ (2018 onwards).
             cargo zigbuild --release --target "$triple.2.28"
-            python3 -I packaging/package.py tar "target/$triple/release/SaveEditorOffline" "dist/SaveEditorOffline-linux-${t##*:}.tar.gz"
+            python3 -I packaging/package.py tar "target/$triple/release/UniversalSaveEditor" "dist/UniversalSaveEditor-linux-${t##*:}.tar.gz"
           done
       - uses: actions/upload-artifact@v4
         with: { name: linux, path: dist/*, if-no-files-found: error }
@@ -102,7 +102,7 @@ jobs:
         run: |
           mkdir dist
           export ANDROID_KEYSTORE="$RUNNER_TEMP/release.keystore"
-          packaging/build_android.sh dist/SaveEditorOffline-android.apk
+          packaging/build_android.sh dist/UniversalSaveEditor-android.apk
           rm -f "$ANDROID_KEYSTORE"
       - if: steps.key.outputs.have == 'true'
         uses: actions/upload-artifact@v4
@@ -124,19 +124,19 @@ jobs:
           cargo build --release --target aarch64-apple-darwin
           cargo build --release --target x86_64-apple-darwin
 
-      - name: Make SaveEditorOffline.app
+      - name: Make UniversalSaveEditor.app
         run: |
           set -euo pipefail
           VERSION=$(sed -n 's/^version = "\(.*\)"/\1/p' Cargo.toml | head -1)
-          APP=dist/SaveEditorOffline.app
+          APP=dist/UniversalSaveEditor.app
           mkdir -p "$APP/Contents/MacOS" "$APP/Contents/Resources"
           # One binary that runs on both kinds of Mac.
-          lipo -create -output "$APP/Contents/MacOS/SaveEditorOffline" \
-            target/aarch64-apple-darwin/release/SaveEditorOffline \
-            target/x86_64-apple-darwin/release/SaveEditorOffline
+          lipo -create -output "$APP/Contents/MacOS/UniversalSaveEditor" \
+            target/aarch64-apple-darwin/release/UniversalSaveEditor \
+            target/x86_64-apple-darwin/release/UniversalSaveEditor
 
           # Icon: PNGs written by build.rs.
-          PNGS=$(dirname "$(ls target/aarch64-apple-darwin/release/build/save_editor_offline-*/out/icons/1024.png | head -1)")
+          PNGS=$(dirname "$(ls target/aarch64-apple-darwin/release/build/universal_save_editor-*/out/icons/1024.png | head -1)")
           ICONSET=$(mktemp -d)/AppIcon.iconset
           mkdir -p "$ICONSET"
           for s in 16 32 128 256 512; do
@@ -150,10 +150,10 @@ jobs:
           <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
           <plist version="1.0">
           <dict>
-            <key>CFBundleName</key><string>SaveEditorOffline</string>
-            <key>CFBundleDisplayName</key><string>SaveEditorOffline</string>
-            <key>CFBundleIdentifier</key><string>com.saveeditoroffline.app</string>
-            <key>CFBundleExecutable</key><string>SaveEditorOffline</string>
+            <key>CFBundleName</key><string>UniversalSaveEditor</string>
+            <key>CFBundleDisplayName</key><string>UniversalSaveEditor</string>
+            <key>CFBundleIdentifier</key><string>com.universalsaveeditor.app</string>
+            <key>CFBundleExecutable</key><string>UniversalSaveEditor</string>
             <key>CFBundleIconFile</key><string>AppIcon</string>
             <key>CFBundlePackageType</key><string>APPL</string>
             <key>CFBundleVersion</key><string>${VERSION}</string>
@@ -166,10 +166,10 @@ jobs:
 
           # Ad-hoc signature: required for Apple Silicon to run it at all.
           codesign --force --deep --sign - "$APP"
-          cd dist && ditto -c -k --keepParent SaveEditorOffline.app SaveEditorOffline-macos.zip
+          cd dist && ditto -c -k --keepParent UniversalSaveEditor.app UniversalSaveEditor-macos.zip
 
       - uses: actions/upload-artifact@v4
-        with: { name: macos, path: dist/SaveEditorOffline-macos.zip, if-no-files-found: error }
+        with: { name: macos, path: dist/UniversalSaveEditor-macos.zip, if-no-files-found: error }
 
   verify:
     needs: [windows, linux, android, macos]

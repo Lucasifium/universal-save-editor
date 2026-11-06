@@ -80,7 +80,7 @@ The Android job signs with the repository secrets `ANDROID_KEYSTORE_B64` (the re
 
 **macOS** can only be built on a Mac, and GitHub's Macs use many more Actions minutes, so it only runs
 for major tags (`vX.0.0`) or when *Include macOS* is ticked on a manual run. The universal `.app` is
-`SaveEditorOffline-macos.zip`. It isn't notarized: the first time, right-click the app › *Open*.
+`UniversalSaveEditor-macos.zip`. It isn't notarized: the first time, right-click the app › *Open*.
 
 **Android**: the first build creates a signing key in `packaging\android\` (`release.keystore` and its
 password). Keep both: Android only installs updates signed with the same key. On the phone, the app asks
