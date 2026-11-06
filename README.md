@@ -1,6 +1,13 @@
-# SaveEditorOffline
+# Universal Save Editor
 
-A local, offline save-file editor written in Rust (egui). Nothing is uploaded anywhere.
+A free, offline save editor for 100+ PC games: Cairn, Terraria (characters and a world map editor),
+Oxygen Not Included, RimWorld, Stardew Valley, Onimusha: Way of the Sword, Elden Ring, Dark Souls,
+Cyberpunk 2077, the Persona, Yakuza and Final Fantasy games, Ren'Py visual novels, RPG Maker games
+and more (the full list is below). Written in Rust (egui). Nothing is uploaded anywhere, and there are
+no rate limits.
+
+**Download:** grab the latest build from the [Releases](../../releases/latest) page (Windows, Linux,
+Android). The program file is still called `SaveEditorOffline`.
 
 ## Why this exists
 
@@ -11,13 +18,19 @@ as what I'd call Save Editor Offline. Now it's closer to a universal save editor
 
 My favourites so far:
 
-- **Cairn**: as far as I know, no other save editor can add items, infusions and so on. It can also
-  swap you to Marco on the story summit climbs. That will probably cause some issues, since I haven't
-  tested a full playthrough with it.
-- **Terraria**: the world map editor.
-- **Onimusha**: it just came out, so many fields are still missing as far as I can tell.
-- **RimWorld**
-- **Stardew Valley**
+- **Cairn save editor**: as far as I know, no other save editor can add items, infusions and so on.
+  Edit the backpack, piton belt and chalk pouch, and running buffs. It can also swap you to Marco on
+  the story summit climbs. That will probably cause some issues, since I haven't tested a full
+  playthrough with it.
+- **Terraria world editor and map editor**: paint blocks, walls and liquids on the map, with points of
+  interest (Shimmer, Plantera bulbs, Enchanted Sword shrines, chests). Characters have their own
+  Terraria character editor.
+- **Onimusha: Way of the Sword save editor**: it just came out, so many fields are still missing as
+  far as I can tell.
+- **RimWorld save editor**
+- **Stardew Valley save editor**
+- **Oxygen Not Included save editor and map editor**: paint elements, temperature and mass on every
+  asteroid and rocket interior, plus duplicants, rockets and world settings.
 
 ## Run
 
