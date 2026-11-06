@@ -20,6 +20,8 @@ pub enum Kind {
     /// Unsigned 64-bit (money in some games).
     U64,
     F32,
+    /// A 32-bit float that holds a whole number (shown and edited as one).
+    F32Int,
     /// A 32-bit true/false.
     B32,
     /// A one-byte true/false.
@@ -88,6 +90,7 @@ pub fn read(d: &[u8], at: usize, kind: Kind, be: bool) -> Option<Value> {
         Kind::U32 => Value::from(u(4) as u32),
         Kind::U64 => Value::from(u(8)),
         Kind::F32 => crate::tree::round_f32(Value::from(f64::from(f32::from_bits(u(4) as u32)))),
+        Kind::F32Int => Value::from(f32::from_bits(u(4) as u32) as i64),
         Kind::B32 => Value::Bool(u(4) != 0),
         Kind::B8 => Value::Bool(b[0] != 0),
     })
@@ -112,6 +115,10 @@ fn encode(l: &Leaf, v: &Value) -> Result<Vec<u8>, String> {
             u64::from((f as f32).to_bits())
         }
         Kind::B32 | Kind::B8 => u64::from(v.as_bool().ok_or("tick or untick it")?),
+        Kind::F32Int => {
+            let (lo, hi) = l.range.unwrap_or((-(1 << 24), 1 << 24));
+            u64::from((int_in(v, lo.into(), hi.into(), "This value")? as f32).to_bits())
+        }
         _ if l.values.is_some() => {
             let (names, values) = (l.names.as_ref().ok_or("pick one from the list")?, l.values.as_ref().unwrap());
             let s = v.as_str().ok_or("pick one from the list")?;

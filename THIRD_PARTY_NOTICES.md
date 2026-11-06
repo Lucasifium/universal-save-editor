@@ -22,6 +22,9 @@ Universal Save Editor is free. It builds on other people's work, listed here wit
 | [halbu (Diablo II character layout, skill names)](https://github.com/feored/halbu) | feor | MIT |
 | [d2s (Diablo II save layout)](https://github.com/dschu012/d2s) | dschu012 | facts only (file layouts, ids and names), credited |
 | [Trilogy Save Editor (Mass Effect 1 and Legendary Edition save layouts, item and talent names)](https://github.com/KarlitosVII/trilogy-save-editor) | Karlitos | facts only (file layouts, ids and names), credited |
+| [IESDP (Infinity Engine file formats: GAM, CRE, IDS lists)](https://gibberlings3.github.io/iesdp/) | The Gibberlings Three | facts only (file layouts, ids and names), credited |
+| [dragon-age-save-editor (Dragon Age: Origins stat ids, approval and campaign ids)](https://github.com/AlekseiTovkachev/dragon-age-save-editor) | Aleksei Tovkachev | MIT |
+| [xoreos (GFF V4 layout and field ids)](https://github.com/xoreos/xoreos) | xoreos team | facts only (file layouts, ids and names), credited |
 | [God of War (2018) and Ragnarök save editors "Forja" (item ids and names; credits kg971 and xcier)](https://github.com/wilypizza-svg) | wilypizza-svg (José Murilo) | facts only (file layouts, ids and names), credited |
 
 Copyright notices of the projects above whose code or tables were used:
@@ -39,6 +42,7 @@ Copyright notices of the projects above whose code or tables were used:
 - W3SavegameEditor (The Witcher 3 save layout): Copyright (c) 2015 Atvaark. Licensed under MIT.
 - RE_RSZ (RE Engine field names): Copyright (c) 2021 alphazolam. Licensed under MIT.
 - P4G Save Tool (Persona 4 Golden field positions): Copyright (c) 2016 Jack P. Fenech. Licensed under MIT.
+- dragon-age-save-editor (Dragon Age: Origins stat ids, approval and campaign ids): Copyright (c) 2026 Aleksei Tovkachev. Licensed under MIT.
 
 The MIT, Apache-2.0 and zlib licence texts are included below with the crates that use them.
 
