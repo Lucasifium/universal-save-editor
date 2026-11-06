@@ -1136,3 +1136,27 @@ fn unpack_save() {
         println!("wrote {} bytes", b.len());
     }
 }
+
+/// Research aid: SAVE_EDITOR_DETECT = a file listing paths (one per line); prints each
+/// path with the game screen it opens on (or the reader's kind when there's none).
+#[test]
+#[ignore]
+fn detect_files() {
+    let list = std::fs::read_to_string(std::env::var("SAVE_EDITOR_DETECT").unwrap()).unwrap();
+    for line in list.lines().filter(|l| !l.is_empty()) {
+        let path = std::path::Path::new(line);
+        let Ok(raw) = std::fs::read(path) else { continue };
+        let r = catch_unwind(AssertUnwindSafe(|| {
+            let d = decode_with(&raw, &Options::for_path(path));
+            match &d.content {
+                Content::Tree(t) => match crate::game_ui::detect(&t.kind_name, &t.view) {
+                    Some(g) => format!("{g:?}"),
+                    None => format!("-({})", t.kind_name),
+                },
+                Content::Json { value, .. } => crate::game_ui::detect("JSON", value).map_or("-(JSON)".into(), |g| format!("{g:?}")),
+                _ => "-".into(),
+            }
+        }));
+        println!("DET\t{line}\t{}", r.unwrap_or_else(|_| "PANIC".into()));
+    }
+}
