@@ -22,6 +22,11 @@ Universal Save Editor is free. It builds on other people's work, listed here wit
 | [halbu (Diablo II character layout, skill names)](https://github.com/feored/halbu) | feor | MIT |
 | [d2s (Diablo II save layout)](https://github.com/dschu012/d2s) | dschu012 | facts only (file layouts, ids and names), credited |
 | [Trilogy Save Editor (Mass Effect 1 and Legendary Edition save layouts, item and talent names)](https://github.com/KarlitosVII/trilogy-save-editor) | Karlitos | facts only (file layouts, ids and names), credited |
+| [xoreos (KOTOR and Neverwinter Nights save layout)](https://github.com/xoreos/xoreos) | the xoreos team | facts only (file layouts, ids and names), credited |
+| [KotOR Savegame Editor (KOTOR save fields, party table, NPC numbers)](https://github.com/Fair-Strides/KotOR-Save-Editor) | tk102, Fair-Strides and contributors | facts only (file layouts, ids and names), credited |
+| [sotor (KOTOR save layout)](https://github.com/StarfishXeno/sotor) | StarfishXeno | facts only (file layouts, ids and names), credited |
+| [rakata-save docs (KOTOR save layout)](https://github.com/ivy/nwscript) | Ivy Evans | facts only (no code used), credited |
+| [neverwinter.nim (GFF and ERF formats)](https://github.com/niv/neverwinter.nim) | Bernhard Stöckner (niv) and contributors | facts only (no code used), credited |
 | [God of War (2018) and Ragnarök save editors "Forja" (item ids and names; credits kg971 and xcier)](https://github.com/wilypizza-svg) | wilypizza-svg (José Murilo) | facts only (file layouts, ids and names), credited |
 
 Copyright notices of the projects above whose code or tables were used:
