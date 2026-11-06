@@ -13,6 +13,10 @@ use serde_json::{json, Value};
 use std::collections::HashSet;
 use std::path::{Path, PathBuf};
 
+/// The browser version: no folders to look through, files arrive from the page's picker and
+/// leave as downloads.
+const WEB: bool = cfg!(target_arch = "wasm32");
+
 #[derive(PartialEq, Eq, Clone, Copy)]
 enum Tab {
     /// The game's own screen (character sheet, inventory…), for games that have one.
@@ -233,6 +237,11 @@ pub struct App {
     browser: Option<(Ask, FileBrowser)>,
     #[cfg(target_os = "android")]
     keyboard_shown: bool,
+    /// Browser version: what the file being picked is for, and the context to wake when it's in.
+    #[cfg(target_arch = "wasm32")]
+    web_asked: Option<Ask>,
+    #[cfg(target_arch = "wasm32")]
+    ctx: egui::Context,
 }
 
 impl App {
@@ -283,6 +292,10 @@ impl App {
             browser: None,
             #[cfg(target_os = "android")]
             keyboard_shown: false,
+            #[cfg(target_arch = "wasm32")]
+            web_asked: None,
+            #[cfg(target_arch = "wasm32")]
+            ctx: cc.egui_ctx.clone(),
         };
         // "--select-game" opens the game list instead of a file; "--select-game=elden" also
         // picks the first game whose name contains that.
@@ -331,7 +344,19 @@ impl App {
         {
             self.browser = Some((what, FileBrowser::new(mode, title, dir, name)));
         }
-        #[cfg(not(target_os = "android"))]
+        #[cfg(target_arch = "wasm32")]
+        {
+            let _ = (title, dir);
+            match mode {
+                file_browser::Mode::OpenFile => {
+                    self.web_asked = Some(what);
+                    crate::web::pick_file(&self.ctx);
+                }
+                file_browser::Mode::SaveFile => self.answered(what, PathBuf::from(name.unwrap_or_else(|| "save".into()))),
+                file_browser::Mode::Folder => self.fail("The browser version can't open folders \u{2014} use the desktop app for this."),
+            }
+        }
+        #[cfg(not(any(target_os = "android", target_arch = "wasm32")))]
         {
             let mut dlg = rfd::FileDialog::new().set_title(title);
             if let Some(d) = dir {
@@ -386,19 +411,17 @@ impl App {
     /// shows that it's opening.
     fn load_async(&mut self, path: &Path) {
         // Zips go to the worker too: what's inside can be far bigger than the file.
-        let zipped = std::fs::File::open(path).ok().and_then(|mut f| {
-            let mut m = [0u8; 4];
-            std::io::Read::read_exact(&mut f, &mut m).ok().map(|_| m == *b"PK")
-        });
-        let big = zipped == Some(true) || std::fs::metadata(path).is_ok_and(|m| m.len() >= BACKGROUND_LOAD);
-        if !big {
+        let zipped = crate::vfs::head(path, 4).is_some_and(|m| m == b"PK\x03\x04");
+        let big = zipped || crate::vfs::len(path).is_some_and(|n| n >= BACKGROUND_LOAD);
+        // The browser version has no worker threads.
+        if !big || WEB {
             return self.load(path);
         }
         let opts = formats::Options::for_path(path);
         let (tx, rx) = std::sync::mpsc::channel();
         let (p, o) = (path.to_path_buf(), opts.clone());
         std::thread::spawn(move || {
-            let r = std::fs::read(&p)
+            let r = crate::vfs::read(&p)
                 .map_err(|e| format!("Couldn't open {}: {e}", p.display()))
                 .map(|raw| (raw.len(), prepare(&p, formats::decode_with(&raw, &o))));
             let _ = tx.send(r);
@@ -450,7 +473,7 @@ impl App {
 
     /// Load with explicit options (password, zip entry).
     fn load_with(&mut self, path: &Path, opts: formats::Options) {
-        let raw = match std::fs::read(path) {
+        let raw = match crate::vfs::read(path) {
             Ok(r) => r,
             Err(e) => return self.fail(format!("Couldn't open {}: {e}", path.display())),
         };
@@ -701,7 +724,7 @@ impl App {
 
     fn load_labels(&mut self) {
         let Some(path) = self.labels_path() else { return };
-        let Ok(text) = std::fs::read_to_string(path) else { return };
+        let Ok(text) = crate::vfs::read_to_string(path) else { return };
         let Ok(v) = serde_json::from_str::<Value>(&text) else { return };
         for l in v["labels"].as_array().into_iter().flatten() {
             let (Some(off), Some(name), Some(ty)) =
@@ -718,9 +741,9 @@ impl App {
         let list: Vec<Value> =
             self.hex.labels.iter().map(|(o, l)| json!({"offset": o, "name": l.name, "type": l.ty.name()})).collect();
         let result = if list.is_empty() {
-            if path.exists() { std::fs::remove_file(&path) } else { Ok(()) }
+            if crate::vfs::exists(&path) { crate::vfs::remove_file(&path) } else { Ok(()) }
         } else {
-            std::fs::write(&path, serde_json::to_string_pretty(&json!({ "labels": list })).unwrap())
+            crate::vfs::write(&path, serde_json::to_string_pretty(&json!({ "labels": list })).unwrap())
         };
         if let Err(e) = result {
             self.fail(format!("Couldn't save names to {}: {e}", path.display()));
@@ -765,12 +788,21 @@ impl App {
         }
 
         let mut note = String::new();
+        if WEB {
+            if let Err(e) = write_in_place(path, &bytes) {
+                return self.fail(format!("Couldn't hand over {}: {e}", path.display()));
+            }
+            for (other, data) in formats::companion_files(path, &bytes) {
+                let _ = write_in_place(&other, &data);
+            }
+            note = " Your browser downloaded it \u{2014} put it in place of the game's save (keep a copy of the old one).".into();
+        } else {
         if path.exists() {
             let mut bak = path.as_os_str().to_owned();
             bak.push(".bak");
             let bak = PathBuf::from(bak);
             if !bak.exists() {
-                if let Err(e) = std::fs::copy(path, &bak) {
+                if let Err(e) = crate::vfs::copy(path, &bak) {
                     return self.fail(format!("Couldn't create backup {}: {e}", bak.display()));
                 }
                 note = format!(" Original backed up as {}.", file_name(&bak));
@@ -780,20 +812,16 @@ impl App {
                 return self.fail(format!("Couldn't back up the current file: {e}. Your file was not changed."));
             }
         }
-        // Write to a temp file, then swap it in, so a crash can never leave a half-written save.
-        let mut tmp = path.as_os_str().to_owned();
-        tmp.push(".saving");
-        let tmp = PathBuf::from(tmp);
-        if let Err(e) = std::fs::write(&tmp, &bytes).and_then(|_| std::fs::rename(&tmp, path)) {
-            let _ = std::fs::remove_file(&tmp);
+        if let Err(e) = write_in_place(path, &bytes) {
             return self.fail(format!("Couldn't write {}: {e}", path.display()));
         }
         // Files the game checks against this save (Persona 4 Golden's .binslot).
         for (other, data) in formats::companion_files(path, &bytes) {
             let _ = crate::backups::take(&other);
-            if let Err(e) = std::fs::write(&other, data) {
+            if let Err(e) = crate::vfs::write(&other, data) {
                 return self.fail(format!("Saved, but couldn't update {}: {e}", other.display()));
             }
+        }
         }
 
         let signed = check.layers.iter().any(|l| matches!(l, Layer::RenpyZip { signed: true, .. }));
@@ -1108,7 +1136,7 @@ impl App {
         if let Some(game) = crate::running::game_for(&path) {
             return self.fail(format!("{game} looks like it's running \u{2014} quit it first, or it will overwrite the copy."));
         }
-        let raw = match std::fs::read(&path) {
+        let raw = match crate::vfs::read(&path) {
             Ok(r) => r,
             Err(e) => return self.fail(format!("Couldn't read {}: {e}", path.display())),
         };
@@ -1116,14 +1144,12 @@ impl App {
             Ok(o) => o,
             Err(e) => return self.fail(format!("Couldn't copy the character: {e}")),
         };
-        if let Err(e) = crate::backups::take(&path) {
-            return self.fail(format!("Couldn't back up the file first: {e}. Nothing was changed."));
+        if !WEB {
+            if let Err(e) = crate::backups::take(&path) {
+                return self.fail(format!("Couldn't back up the file first: {e}. Nothing was changed."));
+            }
         }
-        let mut tmp = path.as_os_str().to_owned();
-        tmp.push(".saving");
-        let tmp = PathBuf::from(tmp);
-        if let Err(e) = std::fs::write(&tmp, &out).and_then(|_| std::fs::rename(&tmp, &path)) {
-            let _ = std::fs::remove_file(&tmp);
+        if let Err(e) = write_in_place(&path, &out) {
             return self.fail(format!("Couldn't write {}: {e}", path.display()));
         }
         self.load(&path);
@@ -1156,7 +1182,11 @@ impl App {
                 }
             });
             ui.add_space(4.0);
-            ui.weak("The current file is kept as a backup \u{2014} File \u{203A} Restore previous version brings it back.");
+            ui.weak(if WEB {
+                "Your browser downloads the edited file. Keep a copy of the original before you replace it."
+            } else {
+                "The current file is kept as a backup \u{2014} File \u{203A} Restore previous version brings it back."
+            });
             ui.add_space(8.0);
             ui.horizontal_wrapped(|ui| {
                 let label = if r.running.is_some() { "Save anyway" } else { "Save" };
@@ -1212,11 +1242,11 @@ impl App {
         if let Err(e) = crate::backups::take(&path) {
             return self.fail(format!("Couldn't back up the current file first: {e}"));
         }
-        match std::fs::copy(from, &path) {
+        match crate::vfs::copy(from, &path) {
             Ok(_) => {
-                if let Ok(bytes) = std::fs::read(&path) {
+                if let Ok(bytes) = crate::vfs::read(&path) {
                     for (other, data) in formats::companion_files(&path, &bytes) {
-                        let _ = std::fs::write(&other, data);
+                        let _ = crate::vfs::write(&other, data);
                     }
                 }
                 self.dirty = false;
@@ -1248,7 +1278,11 @@ impl App {
             Content::Tree(t) => serde_json::to_vec_pretty(&t.view).map_err(|e| e.to_string()),
             other => other.to_bytes(),
         };
-        match result.and_then(|b| std::fs::write(&dest, b).map_err(|e| e.to_string())) {
+        #[cfg(target_arch = "wasm32")]
+        let result = result.and_then(|b| crate::web::download(&file_name(dest), &b));
+        #[cfg(not(target_arch = "wasm32"))]
+        let result = result.and_then(|b| crate::vfs::write(dest, b).map_err(|e| e.to_string()));
+        match result {
             Ok(()) => self.ok(format!("Exported to {}", dest.display())),
             Err(e) => self.fail(format!("Export failed: {e}")),
         }
@@ -1275,7 +1309,7 @@ impl App {
             return self.fail("Refine re-reads the file from disk \u{2014} save or revert your changes first.");
         }
         let Some(path) = self.doc.as_ref().map(|d| d.path.clone()) else { return };
-        let raw = match std::fs::read(&path) {
+        let raw = match crate::vfs::read(&path) {
             Ok(r) => r,
             Err(e) => return self.fail(format!("Reload failed: {e}")),
         };
@@ -1315,7 +1349,7 @@ impl App {
                     ui.close_menu();
                     self.ask(Ask::Open, None, None);
                 }
-                if !cfg!(target_os = "android") && ui.button("Select game\u{2026}").clicked() {
+                if !cfg!(target_os = "android") && !WEB && ui.button("Select game\u{2026}").clicked() {
                     ui.close_menu();
                     self.game_picker = Some(GamePicker::new());
                 }
@@ -1325,7 +1359,7 @@ impl App {
                         ui.weak("Nothing yet");
                     }
                     for p in recent {
-                        if ui.add_enabled(p.exists(), egui::Button::new(file_name(&p))).on_hover_text(p.display().to_string()).clicked() {
+                        if ui.add_enabled(crate::vfs::exists(&p), egui::Button::new(file_name(&p))).on_hover_text(p.display().to_string()).clicked() {
                             ui.close_menu();
                             self.request_open(p);
                         }
@@ -1438,7 +1472,7 @@ impl App {
             });
             ui.menu_button("Tools", |ui| {
                 let is_rpg = matches!(&self.doc, Some(Doc { content: Content::Json { value, .. }, .. }) if names::is_rpgmaker(value));
-                if ui.add_enabled(is_rpg, egui::Button::new("Locate game data folder (RPG Maker names)\u{2026}")).clicked() {
+                if !WEB && ui.add_enabled(is_rpg, egui::Button::new("Locate game data folder (RPG Maker names)\u{2026}")).clicked() {
                     ui.close_menu();
                     self.locate_data_dir();
                 }
@@ -1523,7 +1557,7 @@ impl App {
 
     fn compare_with(&mut self, other: PathBuf) {
         let Some(d) = &self.doc else { return };
-        let raw = match std::fs::read(&other) {
+        let raw = match crate::vfs::read(&other) {
             Ok(r) => r,
             Err(e) => return self.fail(format!("Couldn't open {}: {e}", other.display())),
         };
@@ -1731,6 +1765,7 @@ impl App {
                 self.ask(Ask::Open, None, None);
             }
             if !cfg!(target_os = "android")
+                && !WEB
                 && ui.button("Select game").on_hover_text("Pick a game from the list to see the saves it has on this computer").clicked()
             {
                 self.game_picker = Some(GamePicker::new());
@@ -2468,7 +2503,9 @@ impl App {
                 ui.image((logo.id(), egui::vec2(88.0, 88.0)));
                 ui.add_space(6.0);
                 ui.label(RichText::new(APP_NAME).family(theme::semibold_family()).size(26.0).color(ui.visuals().strong_text_color()));
-                ui.label(if cfg!(target_os = "android") {
+                ui.label(if WEB {
+                    "Edit game saves safely \u{2014} it runs in your browser and nothing is uploaded."
+                } else if cfg!(target_os = "android") {
                     "Edit game saves safely \u{2014} everything stays on this device."
                 } else {
                     "Edit game saves safely \u{2014} everything stays on this computer."
@@ -2495,7 +2532,7 @@ impl App {
                                 ui.weak("Files you open will appear here.");
                             }
                             for p in self.settings.recent.iter().take(8) {
-                                let exists = p.exists();
+                                let exists = crate::vfs::exists(p);
                                 ui.horizontal(|ui| {
                                     let r = ui.add_enabled(exists, egui::Link::new(file_name(p)));
                                     if r.clicked() {
@@ -2509,7 +2546,11 @@ impl App {
                         ui.add_space(8.0);
                         theme::card(ui, |ui| {
                             ui.label(RichText::new("Find your saves").family(theme::semibold_family()).size(16.0));
-                            ui.weak(if cfg!(target_os = "android") {
+                            ui.weak(if WEB {
+                                "The browser can't look through your folders, so pick the file yourself. On Windows most games \
+                                 keep saves in Documents\\My Games, %APPDATA%, %LOCALAPPDATA% or Steam\\userdata \u{2014} \
+                                 type one of these into the file picker's address bar to jump there."
+                            } else if cfg!(target_os = "android") {
                                 "Common places emulators and games keep save files:"
                             } else {
                                 "Common places games keep save files on this PC:"
@@ -2647,6 +2688,20 @@ impl eframe::App for App {
         // Files dropped on the window.
         if let Some(p) = ctx.input(|i| i.raw.dropped_files.iter().find_map(|f| f.path.clone())) {
             self.request_open(p);
+        }
+        #[cfg(target_arch = "wasm32")]
+        {
+            // The browser hands over the dropped file's contents, not a path.
+            if let Some((name, bytes)) = ctx.input(|i| i.raw.dropped_files.iter().find_map(|f| Some((f.name.clone(), f.bytes.clone()?)))) {
+                let p = crate::web::keep(&name, &bytes);
+                self.request_open(p);
+            }
+            if let Some(p) = crate::web::take_picked() {
+                match self.web_asked.take() {
+                    Some(what) => self.answered(what, p),
+                    None => self.request_open(p),
+                }
+            }
         }
         // Shortcuts.
         let no_text_focus = ctx.memory(|m| m.focused().is_none());
@@ -2831,6 +2886,27 @@ impl eframe::App for App {
                 None => {}
             }
         }
+    }
+}
+
+/// Replaces the file at `path` with `bytes`. On a computer: through a temporary file swapped
+/// in, so a crash can never leave a half-written save. In the browser: as a download.
+fn write_in_place(path: &Path, bytes: &[u8]) -> Result<(), String> {
+    #[cfg(target_arch = "wasm32")]
+    {
+        crate::web::download(&file_name(path), bytes)?;
+        crate::vfs::write(path, bytes).map_err(|e| e.to_string())
+    }
+    #[cfg(not(target_arch = "wasm32"))]
+    {
+        let mut tmp = path.as_os_str().to_owned();
+        tmp.push(".saving");
+        let tmp = PathBuf::from(tmp);
+        if let Err(e) = std::fs::write(&tmp, bytes).and_then(|_| std::fs::rename(&tmp, path)) {
+            let _ = std::fs::remove_file(&tmp);
+            return Err(e.to_string());
+        }
+        Ok(())
     }
 }
 

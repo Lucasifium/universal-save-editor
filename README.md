@@ -12,6 +12,11 @@ no rate limits.
 **Download:** grab the latest build from the [Releases](../../releases/latest) page (Windows, Linux,
 Android). The program file is still called `SaveEditorOffline`.
 
+**No install:** the [browser version](https://lucasifium.github.io/universal-save-editor/app/) is the same
+editor compiled to WebAssembly. It runs inside the page on your own computer and never uploads the save;
+saving downloads the edited file. It can't search your folders (*Select game*), keep backups, or open
+SQLite saves and Oodle-compressed saves (Palworld, Hogwarts Legacy): use the downloaded app for those.
+
 ## Why this exists
 
 I got sick of online-only save editors that were rate limited, so I set out to make an offline
@@ -46,7 +51,7 @@ Games; on Android: RetroArch, Downloads).
 ## Builds
 
     .\build_all.ps1                     # everything the machine can build, into dist\
-    .\build_all.ps1 -Only android       # or windows-x64, windows-arm64, linux-x64, linux-arm64
+    .\build_all.ps1 -Only android       # or windows-x64, windows-arm64, linux-x64, linux-arm64, web
 
 | File in `dist\` | Runs on |
 |---|---|
@@ -61,6 +66,12 @@ What the script needs: Rust targets for each platform, Visual Studio Build Tools
 compiler, `cargo-zigbuild` + `pip install ziglang` (Linux), and the Android SDK/NDK plus a JDK (Android).
 The SDK is found through `ANDROID_HOME`, then Android Studio's usual place
 (`%LOCALAPPDATA%\Android\Sdk`), then an `android-sdk` folder next to this one.
+
+**Browser version** (`web`): needs `rustup target add wasm32-unknown-unknown` and
+`cargo install wasm-bindgen-cli --version <the wasm-bindgen version in Cargo.lock>`. It builds into
+`docs\app\` (`web/build.sh` does the same on Linux/macOS); commit that folder and GitHub Pages serves it
+with the website. `web/index.html` is the page that loads it; `src/web.rs` and `src/vfs.rs` hold the
+browser-only parts (file picker, downloads, files kept in memory).
 
 **macOS** can only be built on a Mac, so `.github/workflows/build.yml` builds a universal `.app` on
 GitHub's Macs when you start it by hand (*Actions* › *macOS build* › *Run workflow*; pushing
@@ -89,6 +100,7 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 | Skyrim, Fallout 4 | Character header; game time; every statistic. Skyrim: the character's real level (in the character itself and the header) |
 | Hades, Hades II | Main currencies; runs, play time and last death; all resources by kind (currencies, plants, ores, fish, reagents) |
 | Stardew Valley | Gold, Qi Gems, casino coins, Golden Walnuts; health and energy; the six skills (level and XP, with the XP the next level needs); farm details |
+| Starbound | Pixels and the other currencies; item counts in every bag; health, energy and food; ship level, crew and fuel; deaths and play time (checked on a real character save, not yet tried in the game) |
 | Minecraft (`level.dat`) | Health, food and XP; game mode; world settings; inventory and ender chest grids |
 | Balatro | Money, ante, hands and discards; this round; jokers and consumables; poker hand levels |
 | Hollow Knight, Slay the Spire | Geo, masks, notches, abilities and charms; a *Max upgrade materials* button (all 6 Pale Ore); gold, HP, deck, relics and potions |

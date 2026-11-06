@@ -1,5 +1,6 @@
 # Builds SaveEditorOffline for every platform the machine can build, into dist\.
-#   Windows x64 + ARM64 (MSVC), Linux x64 + ARM64 (cargo-zigbuild), Android APK (arm64 + x86_64).
+#   Windows x64 + ARM64 (MSVC), Linux x64 + ARM64 (cargo-zigbuild), Android APK (arm64 + x86_64),
+#   and the browser version (WebAssembly) into docs\app\.
 # macOS is built by GitHub Actions (.github/workflows/build.yml), since Apple's SDK only runs on Macs.
 #
 #   .\build_all.ps1              everything
@@ -83,6 +84,20 @@ foreach ($arch in @(@('x64', 'x86_64'), @('arm64', 'aarch64'))) {
     Run cargo zigbuild --release --target "$($arch[1])-unknown-linux-gnu.2.28"
     Run python -I packaging\package.py tar "target\$($arch[1])-unknown-linux-gnu\release\$Name" "dist\$Name-linux-$($arch[0]).tar.gz"
     $built += "dist\$Name-linux-$($arch[0]).tar.gz"
+}
+
+if (Want 'web') {
+    # The browser version, into docs\app\ (published with the website; commit it).
+    if (Get-Command wasm-bindgen -ErrorAction SilentlyContinue) {
+        Write-Host '== Browser version' -ForegroundColor Cyan
+        Run cargo rustc --profile web --lib --crate-type cdylib --target wasm32-unknown-unknown
+        Remove-Item -Recurse -Force docs\app -ErrorAction SilentlyContinue
+        Run wasm-bindgen --target web --no-typescript --out-dir docs\app target\wasm32-unknown-unknown\web\save_editor_offline.wasm
+        Copy-Item web\index.html docs\app\index.html
+        $built += 'docs\app\'
+    } else {
+        Write-Host '== Browser version skipped: install wasm-bindgen-cli (see README, Builds)' -ForegroundColor Yellow
+    }
 }
 
 if (Want 'android') {

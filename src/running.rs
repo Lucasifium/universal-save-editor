@@ -77,7 +77,7 @@ fn processes() -> Vec<String> {
     String::from_utf8_lossy(&out.stdout).lines().skip(1).map(norm).collect()
 }
 
-#[cfg(target_os = "android")]
+#[cfg(any(target_os = "android", target_arch = "wasm32"))]
 fn processes() -> Vec<String> {
     vec![]
 }

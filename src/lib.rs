@@ -1,4 +1,5 @@
-//! SaveEditorOffline: the app, shared by the desktop executable and the Android library.
+//! SaveEditorOffline: the app, shared by the desktop executable, the Android library and the
+//! browser version (`web.rs`).
 
 #[cfg(test)]
 mod bughunt;
@@ -25,10 +26,14 @@ mod running;
 mod settings;
 mod theme;
 mod values_view;
+mod vfs;
+#[cfg(target_arch = "wasm32")]
+mod web;
 mod widgets;
 
 pub use platform::APP_NAME;
 
+#[cfg(not(target_arch = "wasm32"))]
 /// Desktop entry point. `initial`: a file passed on the command line (or dropped onto the program).
 pub fn run_desktop(initial: Option<std::path::PathBuf>) -> eframe::Result {
     let icon = eframe::egui::IconData { rgba: icon::rgba(64), width: 64, height: 64 };
