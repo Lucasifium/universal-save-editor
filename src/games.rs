@@ -51,6 +51,8 @@ const HEX_UNPACKED: &str = "Unpacked for Value search (find a number you know, t
 const XCOM2: &str = "Game screen: HQ resources and soldiers (rank, kills, missions, stats); unpacked and packed again on save. Not yet tried in the game";
 const CIV6: &str = "Game screen: settings, mods and each civilisation (human or AI, whose turn it is); gold and the map are in the packed part and aren't mapped";
 const PDX_BINARY: &str = "Text saves fully; ironman (binary) saves are shown but can't be edited";
+const GOLDEN_SUN: &str = "Game screen: every file in the flash with its coins, each party member's level, experience, HP/PP, base stats and items, and the Djinn per element; checksums kept right. Not yet tried in the game";
+const GBA_FOLDER: &str = r"The emulator's save folder: mGBA and VisualBoyAdvance-M keep <ROM name>.sav next to the ROM (or in the save folder set in their options)";
 
 macro_rules! game {
     ($name:expr, $support:expr, $folder:expr, $files:expr, [$($place:expr),*], [$($pat:expr),*], $depth:expr) => {
@@ -109,6 +111,8 @@ pub const GAMES: &[GameInfo] = &[
     game!("Final Fantasy XVI", HEX, r"Documents\My Games\FINAL FANTASY XVI\Steam\<Steam id> (EOS for Epic)", r"one .png file per slot, plus the autosave", [(Documents, r"My Games\FINAL FANTASY XVI\*\*")], ["*.png", "*.sav"], 1),
     game!("God of War (2018)", FULL, r"%USERPROFILE%\Saved Games\God of War\<account>", r"game.sav (all slots)", [(SavedGames, r"God of War\*")], ["*.sav"], 1),
     game!("God of War Ragnarök", FULL, r"%USERPROFILE%\Saved Games\God of War Ragnarök\<account>", r"GOWRSAVE10 …", [(SavedGames, r"God of War Ragnarök\*")], ["GOWRSAVE*"], 1),
+    game!("Golden Sun (GBA, emulator saves)", GOLDEN_SUN, GBA_FOLDER, r"Golden Sun (USA, Europe).sav … (64 KiB flash)", [(Documents, "mGBA"), (AppData, "visualboyadvance-m"), (Documents, "ROMs")], ["*Golden Sun.sav", "*Golden Sun (*.sav", "*Golden Sun [*.sav"], 3),
+    game!("Golden Sun: The Lost Age (GBA, emulator saves)", GOLDEN_SUN, GBA_FOLDER, r"Golden Sun - The Lost Age (USA, Europe).sav … (64 KiB flash)", [(Documents, "mGBA"), (AppData, "visualboyadvance-m"), (Documents, "ROMs")], ["*Lost Age*.sav"], 3),
     game!("Green Hell", HEX, r"Steam\userdata\<account>\815370\remote", r"SPSlot0.sav …", [(SteamUser("815370"), r"remote")], ["*Slot*.sav"], 1),
     game!("Hades", FULL, r"Documents\Saved Games\Hades", "Profile1.sav … Profile4.sav", [(Documents, r"Saved Games\Hades"), (SavedGames, "Hades")], ["Profile*.sav"], 1),
     game!("Hades II", FULL, r"Saved Games\Hades II", "Profile1.sav …", [(SavedGames, "Hades II"), (Documents, r"Saved Games\Hades II")], ["Profile*.sav"], 1),
