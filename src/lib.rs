@@ -39,7 +39,7 @@ pub fn run_desktop(initial: Option<std::path::PathBuf>) -> eframe::Result {
     let icon = eframe::egui::IconData { rgba: icon::rgba(64), width: 64, height: 64 };
     let options = eframe::NativeOptions {
         viewport: eframe::egui::ViewportBuilder::default()
-            .with_title(APP_NAME)
+            .with_title(platform::DISPLAY_NAME)
             .with_app_id(APP_NAME)
             .with_inner_size([1150.0, 760.0])
             .with_min_inner_size([700.0, 400.0])

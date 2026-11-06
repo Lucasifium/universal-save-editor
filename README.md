@@ -108,14 +108,21 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 | Starbound | Pixels and the other currencies; item counts in every bag; health, energy and food; ship level, crew and fuel; deaths and play time (checked on a real character save, not yet tried in the game) |
 | Minecraft (`level.dat`) | Health, food and XP; game mode; world settings; inventory and ender chest grids |
 | Balatro | Money, ante, hands and discards; this round; jokers and consumables; poker hand levels |
-| Hollow Knight, Slay the Spire | Geo, masks, notches, abilities and charms; a *Max upgrade materials* button (all 6 Pale Ore); gold, HP, deck, relics and potions |
+| Hollow Knight | Geo, masks, notches, abilities and charms; a *Max upgrade materials* button (all 6 Pale Ore) |
+| Slay the Spire | Gold, HP, deck, relics and potions |
 | RPG Maker MV / MZ | *Party*: gold, steps and play time; each character's name, level, EXP, HP / MP / TP, stat bonuses and learned skills (by id) |
 | Cairn (Story and On the Trail) | *Climber*: who climbs (Aava or Marco); play time, falls and deaths; the running buffs (Focus, Grip, Temperature, Grit, Burst and the rest: seconds left, source, strength; start, stretch or end them); the backpack, piton belt and chalk pouch as item grids with the game's own item names (add, remove or swap items, uses and sips left, what a bottle holds); the slot's saves, marking the one the game continues from |
+| Diablo II, Diablo II: Resurrected | *Character*: level, experience, gold and stash gold; the four attributes, stat and skill points; life, mana and stamina (base values); points in every skill |
+| Pathfinder: Kingmaker, Wrath of the Righteous | *Party*: money; the player and each companion's ability scores, experience, classes and levels, and base hit points (Wrath: mythic rank too) |
 | Onimusha: Way of the Sword | Each save slot (place, play time, difficulty, objective); red souls, money, health and Oni energy; items and charms by name (on hand and in storage; charm level); equipment experience. Decrypts Capcom's RE Engine encryption with your Steam account, found automatically |
-| Stellaris, Hearts of Iron IV, EU4, CK2 | *Empire*: Stellaris stockpiles (energy, minerals, alloys…) and every resource; HOI4 political power, stability, war support, command power and experience; EU4 treasury, manpower, prestige, stability, monarch power and every country value; CK2 ruler wealth, prestige, piety and attributes. Ironman (binary) saves are recognised |
+| Stellaris | *Empire*: energy, minerals, food, alloys, consumer goods, influence and unity up front, and every resource in the stockpile. Ironman (binary) saves are recognised but can't be edited |
+| Hearts of Iron IV | *Empire*: political power, stability, war support, command power and experience. Ironman (binary) saves are recognised but can't be edited |
+| Europa Universalis IV | *Empire*: treasury, manpower, prestige, stability, monarch power and every country value. Ironman (binary) saves are recognised but can't be edited |
+| Crusader Kings II | *Empire*: the ruler's wealth, prestige, piety and attributes |
 | RimWorld | *Colony*: every colonist's skills (level and passion, modded passions included) and every silver stack, edited in place even in 100+ MB saves |
 | Oxygen Not Included | *Colony*: every duplicant's attribute levels and experience, total experience and learned skills; a *Map* of every asteroid and rocket interior (elements, temperature and germ views; paint elements with mass and temperature, dig out to vacuum, set temperature or mass, clear germs, reveal the fog; geysers, teleporters, Gravitas finds, story traits, artifacts and the Printing Pod as toggleable markers); *Worlds & rockets*: names, discovered, sunlight and cosmic radiation, and what's on the star map |
 | Subnautica, Below Zero | *Slot*: game mode (Survival / Freedom / Hardcore / Creative), play time, vehicles |
+| Mass Effect (2008) and Legendary Edition ME1 | *Shepard*: level, experience, talent points and power ranks; credits, medi-gel, omni-gel and grenades; each squad member's level, talent points and talents. Legendary Edition saves also show origin, reputation, difficulty and the inventory |
 | Mass Effect 2, Mass Effect 3 (original and Legendary Edition) | *Shepard*: level, experience, talent points, difficulty; credits, medi-gel, element zero, iridium, palladium, platinum, probes, fuel, grenades; power ranks; spare ammo; each squad member's level, talent points and powers. The save's checksum is updated |
 | XCOM: Enemy Unknown / Within | *HQ*: money; every soldier's rank, XP, kills, HP, aim, mobility and will (the fallen listed last); storage counts. Every saved object's numbers are in *Values* |
 | Final Fantasy VII (PC / 2013 Steam) | *Party*: each slot's gil and play time; every character's level, experience, kills, limit level and gauge, HP / MP and the six stats. Slot checksums are updated |
@@ -160,7 +167,7 @@ folders automatically (remembered afterwards), or set `SAVE_EDITOR_OODLE` to the
 
 ## Select game
 
-*Select game* (toolbar and File menu) lists every game the editor knows — about 95, Mass Effect 1–3, the Legendary Edition and Andromeda among them — with where it
+*Select game* (toolbar and File menu) lists every game the editor knows — about 150, Mass Effect 1–3, the Legendary Edition and Andromeda among them — with where it
 usually keeps its saves and what the files are called, and finds them on your computer (Steam
 libraries and `userdata`, Documents wherever Windows has it, AppData, Saved Games, Ubisoft
 Connect). Pick a game, then a save, to open it; if none are found it says so. *Open…* and dragging

@@ -3,6 +3,8 @@
 use std::path::{Path, PathBuf};
 
 pub const APP_NAME: &str = "SaveEditorOffline";
+/// The name people see (window title, start screen); `APP_NAME` names folders and settings.
+pub const DISPLAY_NAME: &str = "Universal Save Editor";
 
 #[cfg(target_os = "android")]
 static ANDROID_DATA: std::sync::OnceLock<PathBuf> = std::sync::OnceLock::new();
