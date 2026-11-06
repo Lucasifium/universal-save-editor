@@ -47,6 +47,7 @@ const VALUES: &str = "Values and Tree";
 const HEX: &str = "Hex view and Value search (find a number you know, then change it)";
 const METRO: &str = "Game screen for the level saves (.player); the auto save is unpacked for Value search";
 const RGG_JUDGMENT: &str = "Decrypted, with its checksum kept right (read and written back byte for byte on a real save; not yet tried in the game); values in the Tree";
+const RGG_Y6: &str = "Decrypted, with its checksum kept right (read and written back byte for byte on real saves; not yet tried in the game); values in the Tree";
 const RGG_UNTESTED: &str = "Decrypted, with its checksum kept right (no save of this game has been tried yet); values in the Tree";
 const HEX_UNPACKED: &str = "Unpacked for Value search (find a number you know, then change it); packed again on save";
 const XCOM2: &str = "Game screen: HQ resources and soldiers (rank, kills, missions, stats); unpacked and packed again on save. Not yet tried in the game";
@@ -234,7 +235,7 @@ pub const GAMES: &[GameInfo] = &[
     game!("Yakuza 3 Remastered", HEX, r"Steam\userdata\<account>\1088710\remote", r"savegameN.sav", [(SteamUser("1088710"), r"remote")], ["savegame*.sav"], 1),
     game!("Yakuza 4 Remastered", HEX, r"Steam\userdata\<account>\1105500\remote", r"save files", [(SteamUser("1105500"), r"remote")], ["*.sav"], 1),
     game!("Yakuza 5 Remastered", HEX, r"Steam\userdata\<account>\1105510\remote", r"save files", [(SteamUser("1105510"), r"remote")], ["*.sav"], 1),
-    game!("Yakuza 6: The Song of Life", RGG_UNTESTED, r"Steam\userdata\<account>\1388590\remote", r"save files", [(SteamUser("1388590"), r"remote")], ["*.sav"], 2),
+    game!("Yakuza 6: The Song of Life", RGG_Y6, r"Steam\userdata\<account>\1388590\remote", r"save files", [(SteamUser("1388590"), r"remote")], ["*.sav"], 2),
     game!("Yakuza Kiwami", FULL, r"Steam\userdata\<account>\834530\remote", r"SaveData00NN.sav, autosave00NN.sav", [(SteamUser("834530"), r"remote")], ["SaveData*.sav", "autosave*.sav"], 1),
     game!("Yakuza Kiwami 2", FULL, r"%APPDATA%\SEGA\YakuzaKiwami2\<Steam account>\saveNN", r"data.sav (one folder per slot)", [(AppData, r"SEGA\YakuzaKiwami2\*"), (AppData, r"SEGA\YakuzaKiwami2_GOG")], ["data.sav"], 2),
     game!("Yakuza Kiwami 3 & Dark Ties", RGG_UNTESTED, r"%APPDATA%\Sega\YakuzaKiwami3\Steam\<Steam id>", r"data.sav (MessagePack inside)", [(AppData, r"Sega\YakuzaKiwami3\Steam\*")], ["*.sav"], 2),
