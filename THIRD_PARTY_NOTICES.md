@@ -66,6 +66,8 @@ Universal Save Editor is free. It builds on other people's work, listed here wit
 | [valheim-fch-editor (Valheim character layout, skill ids)](https://github.com/cquaid/valheim-fch-editor) | cQuaid | MIT |
 | [valheim-save-tools (Valheim character layout by version)](https://github.com/Kakoen/valheim-save-tools) | Kakoen | facts only (file layouts, ids and names), credited |
 | [valheim-character-editor (newer Valheim layouts, skill ids)](https://github.com/bkaznowski/valheim-character-editor) | bkaznowski | facts only (file layouts, ids and names), credited |
+| [obababot (Golden Sun save layout; item, class and Djinn name tables)](https://github.com/Dyrati/obababot) | Dyrati | MIT |
+| [golden_sun_save_converter and golden_sun_password_exporter (Golden Sun save blocks and checksum)](https://github.com/Hambaka/golden_sun_save_converter) | Hambaka | MIT |
 
 Copyright notices of the projects above whose code or tables were used:
 
@@ -93,6 +95,8 @@ Copyright notices of the projects above whose code or tables were used:
 - game-tools-collection (Octopath Traveler II character and job ids): Copyright (c) 2024 RyudoSynbios. Licensed under MIT.
 - LSLib (Larian LSPK package and LSF resource layouts, ported): Copyright (c) Norbyte. Licensed under MIT.
 - valheim-fch-editor (Valheim character layout, skill ids): Copyright (c) 2021 cQuaid. Licensed under MIT.
+- obababot (Golden Sun save layout; item, class and Djinn name tables): Copyright (c) 2020 Dyrati. Licensed under MIT.
+- golden_sun_save_converter and golden_sun_password_exporter (Golden Sun save blocks and checksum): Copyright (c) 2022 Hambaka. Licensed under MIT.
 
 The MIT, Apache-2.0 and zlib licence texts are included below with the crates that use them.
 

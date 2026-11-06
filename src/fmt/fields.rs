@@ -55,6 +55,9 @@ pub struct Leaf {
     /// A choice with no bytes of its own (see `Builder::option`): its tag and chosen name are
     /// handed to the format's `Post` step when saving.
     pub tag: Option<Arc<str>>,
+    /// Only some bits of the value: (shift, width, bias). Shown as `bits + bias`; the other
+    /// bits are kept as they are in the file when it's written.
+    pub bits: Option<(u32, u32, i64)>,
 }
 
 /// Runs after the values are written, with the virtual choices that were changed
@@ -70,6 +73,9 @@ pub enum Checksum {
     TrailingBzip2,
     /// Custom: called with the whole file after the values are written.
     Custom(fn(&mut Vec<u8>)),
+    /// Like `Custom`, also given the offset of every value that was written (so only the
+    /// blocks that changed get a new checksum).
+    Touched(fn(&mut Vec<u8>, &[usize])),
 }
 
 pub fn read(d: &[u8], at: usize, kind: Kind, be: bool) -> Option<Value> {
@@ -141,6 +147,11 @@ fn encode(l: &Leaf, v: &Value) -> Result<Vec<u8>, String> {
             int_in(&v, min, max, "This value")? as u64
         }
     };
+    // A bit field: the shown value minus its bias, moved to its bits.
+    let n = match l.bits {
+        Some((shift, width, bias)) => ((n as i64 - bias) as u64 & ((1u64 << width) - 1)) << shift,
+        None => n,
+    };
     let size = l.kind.size();
     let mut out: Vec<u8> = (0..size).map(|i| (n >> (8 * i)) as u8).collect();
     if l.big_endian {
@@ -161,6 +172,7 @@ impl Backend for FieldsBackend {
     fn write(&self, _view: &Value, changes: &[(usize, Value)]) -> Result<Vec<u8>, String> {
         let mut out = self.data.as_ref().clone();
         let mut chosen: Vec<(Arc<str>, String)> = vec![];
+        let mut touched: Vec<usize> = vec![];
         for (leaf, v) in changes {
             let l = &self.leaves[*leaf];
             let bytes = encode(l, v)?;
@@ -169,7 +181,28 @@ impl Backend for FieldsBackend {
                 continue;
             }
             for at in std::iter::once(l.at).chain(l.also.iter().copied()) {
-                out[at..at + l.kind.size()].copy_from_slice(&bytes);
+                let size = l.kind.size();
+                match l.bits {
+                    // Merge the new bits into what the file holds there now.
+                    Some((shift, width, _)) => {
+                        let le = |b: &[u8]| -> u64 {
+                            let mut x = 0u64;
+                            for i in 0..size {
+                                x |= u64::from(if l.big_endian { b[size - 1 - i] } else { b[i] }) << (8 * i);
+                            }
+                            x
+                        };
+                        let mask = ((1u64 << width) - 1) << shift;
+                        let merged = (le(&out[at..at + size]) & !mask) | (le(&bytes) & mask);
+                        let mut nb: Vec<u8> = (0..size).map(|i| (merged >> (8 * i)) as u8).collect();
+                        if l.big_endian {
+                            nb.reverse();
+                        }
+                        out[at..at + size].copy_from_slice(&nb);
+                    }
+                    None => out[at..at + size].copy_from_slice(&bytes),
+                }
+                touched.push(at);
             }
         }
         if let (Some(post), false) = (self.post, chosen.is_empty()) {
@@ -184,6 +217,7 @@ impl Backend for FieldsBackend {
                     out[n..].copy_from_slice(&crc.to_le_bytes());
                 }
                 Checksum::Custom(f) => f(&mut out),
+                Checksum::Touched(f) => f(&mut out, &touched),
             }
         }
         Ok(out)
@@ -267,7 +301,7 @@ impl<'a> Builder<'a> {
         let values: Arc<Vec<u64>> = Arc::new(options.iter().map(|(_, v)| *v).collect());
         let ptr: String = path.iter().map(|k| format!("/{}", esc(k))).collect();
         let id = self.leaves.len();
-        self.leaves.push(Leaf { at, kind, big_endian: self.big_endian, range: None, names: Some(names), also: vec![], values: Some(values), tag: None });
+        self.leaves.push(Leaf { at, kind, big_endian: self.big_endian, range: None, names: Some(names), also: vec![], values: Some(values), tag: None, bits: None });
         self.editable.insert(ptr, id);
         let last = path[path.len() - 1].to_string();
         let shown = Value::String(options[i].0.clone());
@@ -282,7 +316,7 @@ impl<'a> Builder<'a> {
         let Some(first) = names.first().cloned() else { return };
         let ptr: String = path.iter().map(|k| format!("/{}", esc(k))).collect();
         let id = self.leaves.len();
-        self.leaves.push(Leaf { at: 0, kind: Kind::U8, big_endian: false, range: None, names: Some(Arc::new(names)), also: vec![], values: None, tag: Some(tag.into()) });
+        self.leaves.push(Leaf { at: 0, kind: Kind::U8, big_endian: false, range: None, names: Some(Arc::new(names)), also: vec![], values: None, tag: Some(tag.into()), bits: None });
         self.editable.insert(ptr, id);
         let last = path[path.len() - 1].to_string();
         if let Some(m) = self.slot(path) {
@@ -303,11 +337,42 @@ impl<'a> Builder<'a> {
         };
         let ptr: String = path.iter().map(|k| format!("/{}", esc(k))).collect();
         let id = self.leaves.len();
-        self.leaves.push(Leaf { at, kind, big_endian: self.big_endian, range, names, also: vec![], values: None, tag: None });
+        self.leaves.push(Leaf { at, kind, big_endian: self.big_endian, range, names, also: vec![], values: None, tag: None, bits: None });
         self.editable.insert(ptr, id);
         let last = path[path.len() - 1].to_string();
         self.slot(path)?.insert(last, shown);
         Some(raw)
+    }
+
+    /// An editable bit field of the value at `at`: `width` bits from `shift`, shown as
+    /// `bits + bias` and limited to `lo..=hi` (shown values). The other bits stay as they are.
+    #[allow(clippy::too_many_arguments)]
+    pub fn bits(&mut self, path: &[&str], at: usize, kind: Kind, shift: u32, width: u32, bias: i64, lo: i64, hi: i64) -> Option<Value> {
+        let raw = read(self.d, at, kind, self.big_endian)?.as_u64()?;
+        let shown = Value::from(((raw >> shift) & ((1u64 << width) - 1)) as i64 + bias);
+        let ptr: String = path.iter().map(|k| format!("/{}", esc(k))).collect();
+        let id = self.leaves.len();
+        self.leaves.push(Leaf { at, kind, big_endian: self.big_endian, range: Some((lo, hi)), names: None, also: vec![], values: None, tag: None, bits: Some((shift, width, bias)) });
+        self.editable.insert(ptr, id);
+        let last = path[path.len() - 1].to_string();
+        self.slot(path)?.insert(last, shown.clone());
+        Some(shown)
+    }
+
+    /// Like `pick`, for a bit field (`width` bits from `shift`) of the value at `at`.
+    pub fn pick_bits(&mut self, path: &[&str], at: usize, kind: Kind, shift: u32, width: u32, options: &[(String, u64)]) -> Option<Value> {
+        let raw = (read(self.d, at, kind, self.big_endian)?.as_u64()? >> shift) & ((1u64 << width) - 1);
+        let i = options.iter().position(|(_, v)| *v == raw)?;
+        let names: Arc<Vec<String>> = Arc::new(options.iter().map(|(n, _)| n.clone()).collect());
+        let values: Arc<Vec<u64>> = Arc::new(options.iter().map(|(_, v)| *v).collect());
+        let ptr: String = path.iter().map(|k| format!("/{}", esc(k))).collect();
+        let id = self.leaves.len();
+        self.leaves.push(Leaf { at, kind, big_endian: self.big_endian, range: None, names: Some(names), also: vec![], values: Some(values), tag: None, bits: Some((shift, width, 0)) });
+        self.editable.insert(ptr, id);
+        let last = path[path.len() - 1].to_string();
+        let shown = Value::String(options[i].0.clone());
+        self.slot(path)?.insert(last, shown.clone());
+        Some(shown)
     }
 
     /// Writes the value last added at `path` to `at` as well (a copy the game keeps).
@@ -371,6 +436,18 @@ mod tests {
         assert!(v.set("/add/x", Value::from("Maybe")).is_err());
         v.set("/add/x", Value::from("Add")).unwrap();
         assert_eq!(v.to_bytes().unwrap(), vec![1, b'X']);
+        // Bit fields keep the bits around them; `Touched` hears where values were written.
+        fn mark(out: &mut Vec<u8>, at: &[usize]) {
+            out[3] = at.len() as u8;
+        }
+        let mut b = Builder::new(&[0xB4, 0x12, 0, 0]);
+        assert_eq!(b.bits(&["qty"], 0, Kind::U16, 11, 5, 1, 1, 30), Some(Value::from(3)));
+        b.pick_bits(&["id"], 0, Kind::U16, 0, 9, &[("Herb".into(), 0xB4), ("Nut".into(), 0xB5)]);
+        let mut bf = b.finish("bits", Checksum::Touched(mark));
+        assert!(bf.set("/qty", Value::from(31)).is_err());
+        bf.set("/qty", Value::from(30)).unwrap();
+        bf.set("/id", Value::from("Nut")).unwrap();
+        assert_eq!(bf.to_bytes().unwrap(), vec![0xB5, 0xEA, 0, 2]);
         let out = doc.to_bytes().unwrap();
         assert_eq!(&out[..4], &500i32.to_le_bytes());
         assert_eq!(out[8], 0);
