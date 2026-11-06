@@ -1,6 +1,9 @@
 # Universal Save Editor
 
-A free, offline save editor for 100+ PC games: Cairn, Terraria (characters and a world map editor),
+> **Free, and it always will be.** No price, no ads, no account, no paid version, no online service, no
+> rate limits. If anyone is charging you for this, it isn't from here.
+
+An offline save editor for 100+ PC games: Cairn, Terraria (characters and a world map editor),
 Oxygen Not Included, RimWorld, Stardew Valley, Onimusha: Way of the Sword, Elden Ring, Dark Souls,
 Cyberpunk 2077, the Persona, Yakuza and Final Fantasy games, Ren'Py visual novels, RPG Maker games
 and more (the full list is below). Written in Rust (egui). Nothing is uploaded anywhere, and there are
@@ -278,3 +281,25 @@ Manual checks (ignored by default): `cli_edit` edits any file from the command l
 `bug_hunt` (`SAVE_EDITOR_SCAN=list.txt`) stress-tests a list of saves: ~150 edits of every kind per file,
 save + re-open comparison, and damaged/truncated copies to make sure nothing crashes.
 
+
+## Credits and legal
+
+- **Free forever.** This project will never be sold or put behind an account, ads or a paywall, and the GPL licence keeps every shared copy and fork free and open too.
+- **Not affiliated with any game company.** All game names, item names and trademarks belong to their
+  owners. This project isn't affiliated with or endorsed by any developer or publisher. Game names
+  appear here only to say which saves the editor can open.
+- **No game files are shipped.** The editor contains no game code, art, sound or other assets. It
+  ships only the ids and names it needs to show what's in a save. Oodle-compressed saves use the
+  Oodle library the game itself installed; it isn't included.
+- **Built on others' work.** Save layouts and item tables from other open-source editors are used under
+  their licences (MIT, Apache-2.0, zlib), and every crate compiled into the program is listed with its
+  licence. See [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
+- **Use at your own risk.** Back up your saves first. Editing saves is meant for single-player games:
+  don't use edited saves in online or multiplayer modes, where it can break the game's rules and get
+  an account banned. The editor never touches online services or anti-cheat.
+
+## Licence
+
+Copyright (C) 2026 Lucasifium. Universal Save Editor is free software under the
+[GNU General Public License v3.0 or later](LICENSE): you can use, share and change it, and any version
+you share must stay free and open source under the same licence. It comes with no warranty.
