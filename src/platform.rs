@@ -27,16 +27,16 @@ pub fn config_dir() -> Option<PathBuf> {
     if cfg!(windows) {
         env("APPDATA").map(|d| windows_dir(&d))
     } else if cfg!(target_os = "macos") {
-        env("HOME").map(|h| h.join("Library").join("Application Support").join(APP_DIR))
+        env("HOME").map(|h| h.join("Library").join("Application Support").join(APP_NAME))
     } else {
-        env("XDG_CONFIG_HOME").or_else(|| env("HOME").map(|h| h.join(".config"))).map(|d| d.join(APP_DIR))
+        env("XDG_CONFIG_HOME").or_else(|| env("HOME").map(|h| h.join(".config"))).map(|d| d.join(APP_NAME))
     }
 }
 
 /// %APPDATA%\UniversalSaveEditor, bringing over the settings from an older folder name.
 #[cfg(not(target_os = "android"))]
 fn windows_dir(appdata: &Path) -> PathBuf {
-    let dir = appdata.join(APP_DIR);
+    let dir = appdata.join(APP_NAME);
     let old = appdata.join("SaveEditor").join("settings.json");
     if !dir.exists() && old.is_file() {
         let _ = std::fs::create_dir_all(&dir);
