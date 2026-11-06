@@ -10,6 +10,8 @@ use std::fmt::Write as _;
 const SITE: &str = "https://lucasifium.github.io/universal-save-editor";
 const REPO: &str = "https://github.com/Lucasifium/universal-save-editor";
 const DOWNLOAD: &str = "https://github.com/Lucasifium/universal-save-editor/releases/latest";
+/// The browser version (built by `web/build.sh` into `docs/app/`, which `build_site` keeps).
+const WEB_APP: &str = "app/";
 
 fn esc(s: &str) -> String {
     s.replace('&', "&amp;").replace('<', "&lt;").replace('>', "&gt;").replace('"', "&quot;")
@@ -173,7 +175,7 @@ fn page(title: &str, desc: &str, path: &str, body: &str, schema: &str) -> String
 <script type="application/ld+json">{schema}</script>
 </head>
 <body>
-<header><div class="in"><a class="brand" href="{root}">Universal Save Editor</a><nav><a href="{root}#games">Games</a><a href="{DOWNLOAD}">Download</a><a href="{REPO}">Source</a></nav></div></header>
+<header><div class="in"><a class="brand" href="{root}">Universal Save Editor</a><nav><a href="{root}#games">Games</a><a href="{root}{WEB_APP}">Use in browser</a><a href="{DOWNLOAD}">Download</a><a href="{REPO}">Source</a></nav></div></header>
 <main>
 {body}
 </main>
@@ -195,7 +197,7 @@ fn schema(name: &str, desc: &str, url: &str) -> String {
         "description": desc,
         "url": url,
         "applicationCategory": "UtilitiesApplication",
-        "operatingSystem": "Windows, Linux, Android",
+        "operatingSystem": "Windows, Linux, Android, web browser",
         "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"},
         "license": "https://www.gnu.org/licenses/gpl-3.0.html",
         "downloadUrl": DOWNLOAD,
@@ -215,14 +217,20 @@ const WHY: &str = r#"<ul>
 #[ignore]
 fn build_site() {
     let out = std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join("docs");
-    let _ = std::fs::remove_dir_all(&out);
+    // Start over, except for the browser version, which web/build.sh builds separately.
+    for e in std::fs::read_dir(&out).into_iter().flatten().flatten() {
+        if e.file_name() != "app" {
+            let p = e.path();
+            let _ = if p.is_dir() { std::fs::remove_dir_all(&p) } else { std::fs::remove_file(&p) };
+        }
+    }
     std::fs::create_dir_all(&out).unwrap();
     std::fs::write(out.join("style.css"), STYLE).unwrap();
     std::fs::write(out.join(".nojekyll"), "").unwrap();
     // Google Search Console's proof that this site belongs to the project's owner.
     std::fs::write(out.join("google9d120e6c8e9d3fa5.html"), "google-site-verification: google9d120e6c8e9d3fa5.html").unwrap();
     let rows = readme_rows();
-    let mut urls = vec![format!("{SITE}/")];
+    let mut urls = vec![format!("{SITE}/"), format!("{SITE}/{WEB_APP}")];
     let mut cards = String::new();
     let mut unmatched = vec![];
     let mut games: Vec<&GameInfo> = GAMES.iter().collect();
@@ -268,14 +276,14 @@ fn build_site() {
             r#"<h1>{h} save editor</h1>
 <p class="lead">Edit your {n} save on your own PC with Universal Save Editor, a free, offline save editor for 100+ games. Nothing is uploaded and there are no limits.</p>
 <div class="badges"><span class="badge free">Free forever</span><span class="badge">Offline</span><span class="badge">Open source</span><span class="badge">{lvl}</span></div>
-<a class="btn" href="{DOWNLOAD}">Download for free</a><a class="btn alt" href="{REPO}">Source code</a>
+<a class="btn" href="{DOWNLOAD}">Download for free</a><a class="btn alt" href="../{WEB_APP}">Use it in your browser</a>
 <h2>What you can edit</h2>
 <div class="card">{what}</div>
 <h2>Where {n} keeps its saves</h2>
-<div class="card"><p>Folder: <code>{folder}</code></p><p>Files: <code>{files}</code></p><p>You don't need to find it yourself: choose <em>Select game</em> in the editor, pick {n}, and it lists the saves it finds.</p></div>
+<div class="card"><p>Folder: <code>{folder}</code></p><p>Files: <code>{files}</code></p><p>You don't need to find it yourself: choose <em>Select game</em> in the editor, pick {n}, and it lists the saves it finds. (The browser version can't look through your folders: open the file from this folder yourself.)</p></div>
 <h2>How to edit your {n} save</h2>
 <ol>
-<li><a href="{DOWNLOAD}">Download Universal Save Editor</a> for Windows, Linux or Android. On Windows and Linux just run it; on Android install the APK.</li>
+<li><a href="{DOWNLOAD}">Download Universal Save Editor</a> for Windows, Linux or Android. On Windows and Linux just run it; on Android install the APK. Rather not install anything? <a href="../{WEB_APP}">Use it in your browser</a> instead: it runs on your computer too, and saving downloads the edited file.</li>
 <li>Close the game, so it doesn't write over your changes.</li>
 <li>Choose <em>Select game</em>, pick <strong>{n}</strong> and open your save (or drag the save file onto the window).</li>
 <li>Change what you want, then <em>Save</em>. The editor checks the new file and backs up the old one first.</li>
@@ -301,10 +309,11 @@ fn build_site() {
     let full = GAMES.iter().filter(|g| g.support == "Game screen").count();
     let desc = format!("Free, offline save editor for {}+ PC games, including Cairn, Terraria, Oxygen Not Included, RimWorld, Stardew Valley, Elden Ring and Cyberpunk 2077. Nothing is uploaded, no limits.", GAMES.len() / 10 * 10);
     let body = format!(
-        r#"<h1>A free save editor you download, for {n} games</h1>
+        r#"<h1>A free save editor for {n} games</h1>
 <p class="lead">Universal Save Editor edits your saves on your own computer: no uploads, no accounts, no rate limits. It's free, and always will be.</p>
-<div class="badges"><span class="badge free">Free forever</span><span class="badge">Offline</span><span class="badge">Open source</span><span class="badge">Windows · Linux · Android</span></div>
-<a class="btn" href="{DOWNLOAD}">Download for free</a><a class="btn alt" href="{REPO}">Source code</a>
+<div class="badges"><span class="badge free">Free forever</span><span class="badge">Offline</span><span class="badge">Open source</span><span class="badge">Windows · Linux · Android · Browser</span></div>
+<a class="btn" href="{DOWNLOAD}">Download for free</a><a class="btn alt" href="{WEB_APP}">Use it in your browser</a>
+<div class="card"><strong>Don't want to run a program?</strong> <a href="{WEB_APP}">The browser version</a> is the same editor, running inside the web page on your own computer: your save is never uploaded. It can't search your folders for saves or back them up for you, so open the file yourself and keep a copy; saving downloads the edited file. A few saves need the downloaded app (SQLite saves, and Palworld or Hogwarts Legacy saves, which need the game's own Oodle library).</div>
 <h2>Why download a save editor?</h2>
 {WHY}
 <h2 id="games">Games ({n})</h2>
@@ -328,6 +337,7 @@ fn build_site() {
         .replace("<meta charset=\"utf-8\">", "<meta charset=\"utf-8\">\n<meta name=\"robots\" content=\"noindex\">")
         .replace("href=\"./style.css\"", "href=\"/universal-save-editor/style.css\"")
         .replace("href=\"./#games\"", "href=\"/universal-save-editor/#games\"")
+        .replace("href=\"./app/\"", "href=\"/universal-save-editor/app/\"")
         .replace("href=\"./\"", "href=\"/universal-save-editor/\"");
     std::fs::write(out.join("404.html"), nf).unwrap();
     std::fs::write(out.join("robots.txt"), format!("User-agent: *\nAllow: /\nSitemap: {SITE}/sitemap.xml\n")).unwrap();

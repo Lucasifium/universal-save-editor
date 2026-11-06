@@ -32,12 +32,12 @@ serde_yaml = "0.9"
 plist = "1"
 rmpv = "1"
 bson = "2"
-rusqlite = { version = "0.32", features = ["bundled"] }
 # Extra compression wrappers.
 zstd = "0.13"
 lz4_flex = "0.11"
 lzma-rs = "0.3"
-bzip2 = "0.4"
+# Pure-Rust bzip2 (also builds for the browser version).
+bzip2 = "0.6"
 # Encrypted saves (Easy Save 3, Godot).
 aes = "0.8"
 cbc = { version = "0.1", features = ["alloc"] }
@@ -48,12 +48,24 @@ md-5 = "0.10"
 # Valheim characters end with a SHA-512 of their data.
 sha2 = "0.10"
 lzokay-native = "0.1"
+
+# Not in the browser version: SQLite is C built against the platform's C library, and there
+# are no installed games to load Oodle from.
+[target.'cfg(not(target_arch = "wasm32"))'.dependencies]
+rusqlite = { version = "0.32", features = ["bundled"] }
 # Oodle: the library games install is loaded at run time (src/oodle.rs); none of it is shipped.
 libloading = "0.8"
 
 # Native file dialogs (Android has none; the app shows its own file browser there).
-[target.'cfg(not(target_os = "android"))'.dependencies]
+[target.'cfg(not(any(target_os = "android", target_arch = "wasm32")))'.dependencies]
 rfd = "0.15"
+
+# The browser version (web/): files come from the page's file picker and go back as downloads.
+[target.'cfg(target_arch = "wasm32")'.dependencies]
+wasm-bindgen = "0.2"
+wasm-bindgen-futures = "0.4"
+js-sys = "0.3"
+web-sys = { version = "0.3", features = ["Window", "Document", "Element", "HtmlElement", "HtmlInputElement", "HtmlAnchorElement", "HtmlCanvasElement", "FileList", "File", "Blob", "BlobPropertyBag", "Url", "Event", "EventTarget"] }
 
 [target.'cfg(target_os = "android")'.dependencies]
 eframe = { version = "0.29", features = ["android-native-activity"] }
@@ -68,3 +80,11 @@ winresource = "0.1"
 
 [profile.release]
 opt-level = 3
+
+# The browser version (web/build.sh, build_all.ps1 -Only web): a smaller download.
+[profile.web]
+inherits = "release"
+opt-level = "s"
+lto = true
+codegen-units = 1
+panic = "abort"

@@ -1,4 +1,5 @@
 //! Oodle (RAD Game Tools / Epic) compression, used by Palworld and Hogwarts Legacy saves.
+#![cfg_attr(target_arch = "wasm32", allow(dead_code))]
 //!
 //! Oodle has no open-source implementation we may ship, so nothing of it is built into this
 //! program. Instead the editor uses the Oodle library that games already install on this
@@ -15,6 +16,7 @@ type Decompress = unsafe extern "C" fn(
 type Compress = unsafe extern "C" fn(i32, *const u8, i64, *mut u8, i32, *const u8, *const u8, *const u8, *mut u8, i64) -> i64;
 
 struct Lib {
+    #[cfg(not(target_arch = "wasm32"))]
     _lib: libloading::Library,
     decompress: Decompress,
     compress: Option<Compress>,
@@ -87,18 +89,26 @@ fn search_games() -> Option<PathBuf> {
 
 fn lib() -> Option<&'static Lib> {
     static L: OnceLock<Option<Lib>> = OnceLock::new();
-    L.get_or_init(|| {
-        let path = search()?;
-        // SAFETY: loading the game's own Oodle library and looking up its two documented
-        // entry points; their signatures are the published Oodle 2.x ones.
-        unsafe {
-            let lib = libloading::Library::new(&path).ok()?;
-            let decompress = *lib.get::<Decompress>(b"OodleLZ_Decompress\0").ok()?;
-            let compress = lib.get::<Compress>(b"OodleLZ_Compress\0").ok().map(|s| *s);
-            Some(Lib { _lib: lib, decompress, compress, path })
-        }
-    })
-    .as_ref()
+    L.get_or_init(load).as_ref()
+}
+
+/// The browser version can't load a library from the user's games.
+#[cfg(target_arch = "wasm32")]
+fn load() -> Option<Lib> {
+    None
+}
+
+#[cfg(not(target_arch = "wasm32"))]
+fn load() -> Option<Lib> {
+    let path = search()?;
+    // SAFETY: loading the game's own Oodle library and looking up its two documented
+    // entry points; their signatures are the published Oodle 2.x ones.
+    unsafe {
+        let lib = libloading::Library::new(&path).ok()?;
+        let decompress = *lib.get::<Decompress>(b"OodleLZ_Decompress\0").ok()?;
+        let compress = lib.get::<Compress>(b"OodleLZ_Compress\0").ok().map(|s| *s);
+        Some(Lib { _lib: lib, decompress, compress, path })
+    }
 }
 
 /// Where the Oodle library was found, if it was.

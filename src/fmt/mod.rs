@@ -98,6 +98,7 @@ pub mod gow;
 pub mod plistf;
 pub mod pokemon12;
 pub mod pokemon3;
+#[cfg(not(target_arch = "wasm32"))]
 pub mod sqlite;
 pub mod terraria;
 pub mod terraria_world;
@@ -120,7 +121,11 @@ pub fn parse_binary(d: &[u8]) -> Option<TreeDoc> {
         }
     }
     if d.starts_with(b"SQLite format 3\0") {
+        #[cfg(not(target_arch = "wasm32"))]
         return sqlite::parse(d).ok();
+        // The browser version has no SQLite: the file opens as hex.
+        #[cfg(target_arch = "wasm32")]
+        return None;
     }
     if d.starts_with(b"bplist") {
         return plistf::parse(d).ok();
