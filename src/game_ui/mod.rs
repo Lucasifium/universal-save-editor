@@ -27,6 +27,7 @@ mod oni_map;
 mod pathfinder;
 mod pokemon;
 mod expedition33;
+mod fallout3nv;
 mod screens2;
 mod starbound;
 mod survival;
@@ -125,6 +126,7 @@ pub enum Game {
     Torment,
     Starbound,
     Expedition33,
+    Fallout3Nv,
 }
 
 impl Game {
@@ -189,6 +191,7 @@ impl Game {
             Game::Torment => "Party",
             Game::Starbound => "Character",
             Game::Expedition33 => "Party",
+            Game::Fallout3Nv => "Character",
             _ => "Character",
         }
     }
@@ -272,6 +275,7 @@ pub fn detect(kind: &str, root: &Value) -> Option<Game> {
         "Wasteland 3 save" => Game::Wasteland3,
         "Valheim character" => Game::Valheim,
         crate::fmt::starbound::KIND_PLAYER => Game::Starbound,
+        crate::fmt::fos::KIND => Game::Fallout3Nv,
         crate::fmt::goldensun::KIND_GS1 | crate::fmt::goldensun::KIND_GS2 => Game::GoldenSun,
         _ if has("/base/m_title") && has("/player") => Game::YakuzaDe,
         k if k.starts_with("Unreal Engine save (BP_SaveGameObject") && has("/CharactersCollection") && has("/Gold") => Game::Expedition33,
@@ -351,6 +355,7 @@ pub fn show(game: Game, ui: &mut Ui, cx: &mut GameCtx) {
         Game::GoldenSun => golden_sun::show(ui, cx),
         Game::Starbound => starbound::show(ui, cx),
         Game::Expedition33 => expedition33::show(ui, cx),
+        Game::Fallout3Nv => fallout3nv::show(ui, cx),
         Game::RenPy => screens2::renpy(ui, cx),
         Game::MassEffect => screens2::mass_effect(ui, cx),
         Game::Xcom => screens2::xcom(ui, cx),

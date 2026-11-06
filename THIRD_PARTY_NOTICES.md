@@ -21,6 +21,8 @@ Universal Save Editor is free. It builds on other people's work, listed here wit
 | [civ6-save-parser (Civilization VI save layout, ported)](https://github.com/pydt/civ6-save-parser) | Mike Rosack and playyourdamnturn.com | MIT |
 | [halbu (Diablo II character layout, skill names)](https://github.com/feored/halbu) | feor | MIT |
 | [d2s (Diablo II save layout)](https://github.com/dschu012/d2s) | dschu012 | facts only (file layouts, ids and names), credited |
+| [NVForever save notes (Fallout 3 / New Vegas `.fos` layout; facts only, no code)](https://github.com/LootJunkieAzza/NVForever) | LootJunkieAzza | facts only (file layouts, ids and names), credited |
+| [xEdit save definitions (Fallout 3 / New Vegas inventory extra data; facts only, no code)](https://github.com/TES5Edit/TES5Edit) | the xEdit team | facts only (file layouts, ids and names), credited |
 | [py-starbound (Starbound versioned JSON save layout)](https://github.com/blixt/py-starbound) | blixt | MIT; file layout facts only, no code copied, credited |
 | [uesave-rs (Unreal property-tag save layout)](https://github.com/trumank/uesave-rs) | trumank | MIT; file layout facts only, no code copied, credited |
 | [LSLib (Larian LSPK package and LSF resource layouts, ported)](https://github.com/Norbyte/lslib) | Norbyte | MIT |
