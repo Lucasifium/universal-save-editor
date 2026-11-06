@@ -8,6 +8,7 @@
 mod cairn;
 mod dashboards;
 mod fromsoft;
+mod indie;
 mod oni_map;
 mod pathfinder;
 mod pokemon;
@@ -75,6 +76,10 @@ pub enum Game {
     Gow2018,
     GowRagnarok,
     Cairn,
+    Silksong,
+    Undertale,
+    Deltarune,
+    VampireSurvivors,
 }
 
 impl Game {
@@ -115,6 +120,9 @@ impl Game {
             Game::Gow2018 => "Kratos",
             Game::GowRagnarok => "Kratos",
             Game::Cairn => "Climber",
+            Game::Silksong => "Hornet",
+            Game::Deltarune => "Party",
+            Game::VampireSurvivors => "Collection",
             _ => "Character",
         }
     }
@@ -138,6 +146,7 @@ pub fn detect(kind: &str, root: &Value) -> Option<Game> {
         _ if has("/SaveGame/player/farmName") => Game::Stardew,
         _ if has("/Data/Player/Inventory") => Game::Minecraft,
         _ if has("/GAME/dollars") && has("/cardAreas") => Game::Balatro,
+        _ if indie::is_silksong(root) => Game::Silksong,
         _ if has("/playerData/geo") => Game::HollowKnight,
         _ if has("/current_health") && has("/relics") && has("/cards") => Game::SlayTheSpire,
         _ if has("/actors/_data/@a") && has("/party/_actors/@a") => Game::RpgMaker,
@@ -152,6 +161,9 @@ pub fn detect(kind: &str, root: &Value) -> Option<Game> {
         "XCOM 2 game data" => Game::Xcom2,
         "Civilization VI save" => Game::Civ6,
         "Diablo II character" => Game::Diablo2,
+        "Undertale save" => Game::Undertale,
+        k if k.starts_with("Deltarune save") => Game::Deltarune,
+        "Vampire Survivors save" => Game::VampireSurvivors,
         "Final Fantasy VII save" => Game::Ff7,
         "Final Fantasy IX save" => Game::Ff9,
         "Dying Light save" if has("/Group/Main/Cash") || has("/Bucket") => Game::DyingLight2,
@@ -227,6 +239,10 @@ pub fn show(game: Game, ui: &mut Ui, cx: &mut GameCtx) {
         Game::Civ6 => screens2::civ6(ui, cx),
         Game::Diablo2 => screens2::diablo2(ui, cx),
         Game::Pathfinder => pathfinder::show(ui, cx),
+        Game::Silksong => indie::silksong(ui, cx),
+        Game::Undertale => indie::undertale(ui, cx),
+        Game::Deltarune => indie::deltarune(ui, cx),
+        Game::VampireSurvivors => indie::vampire_survivors(ui, cx),
         Game::Ff7 => screens2::ff7(ui, cx),
         Game::Ff7Remake => screens2::ff7_remake(ui, cx),
         Game::Paradox => {
@@ -694,6 +710,10 @@ mod tests {
         assert_eq!(detect("Pok\u{00E9}mon Crystal", &json!({})), Some(Game::Pokemon));
         assert_eq!(detect("Lua table", &json!({"GAME": {"dollars": 4}, "cardAreas": {}})), Some(Game::Balatro));
         assert_eq!(detect("JSON", &json!({"playerData": {"geo": 1}})), Some(Game::HollowKnight));
+        assert_eq!(detect("JSON", &json!({"playerData": {"geo": 1, "silkMax": 9, "ShellShards": 0}})), Some(Game::Silksong));
+        assert_eq!(detect("Undertale save", &json!({})), Some(Game::Undertale));
+        assert_eq!(detect("Deltarune save (Chapter 1)", &json!({})), Some(Game::Deltarune));
+        assert_eq!(detect("Vampire Survivors save", &json!({})), Some(Game::VampireSurvivors));
         assert_eq!(detect("XML", &json!({"SaveGame": {"player": {"farmName": "x"}}})), Some(Game::Stardew));
         assert_eq!(detect("JSON", &json!({"actors": {"_data": {"@a": [null, {}]}}, "party": {"_actors": {"@a": [1]}}})), Some(Game::RpgMaker));
         assert_eq!(detect("JSON", &json!({"gold": 1})), None);

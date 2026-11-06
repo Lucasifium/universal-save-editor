@@ -24,6 +24,12 @@ Universal Save Editor is free. It builds on other people's work, listed here wit
 | [Arcemi Pathfinder save editor (Pathfinder save layout; class, race and companion names)](https://github.com/jaygumji/ArcemiPathfinderKingmakerTools) | jaygumji | facts only (file layouts, ids and names), credited |
 | [Trilogy Save Editor (Mass Effect 1 and Legendary Edition save layouts, item and talent names)](https://github.com/KarlitosVII/trilogy-save-editor) | Karlitos | facts only (file layouts, ids and names), credited |
 | [God of War (2018) and Ragnarök save editors "Forja" (item ids and names; credits kg971 and xcier)](https://github.com/wilypizza-svg) | wilypizza-svg (José Murilo) | facts only (file layouts, ids and names), credited |
+| [vampire-survivors-save-editor (Vampire Survivors checksum and number styles)](https://github.com/chrisdfennell/vampire-survivors-save-editor) | chrisdfennell | MIT |
+| [vampire-survivors-save-edit (Vampire Survivors power-up names and highest ranks)](https://github.com/egavard/vampire-survivors-save-edit) | egavard | facts only (file layouts, ids and names), credited |
+| [silksong-save-analyzer (Hollow Knight: Silksong ability and crest names)](https://github.com/tureptor/silksong-save-analyzer) | tureptor | facts only (file layouts, ids and names), credited |
+| [silksong-save-viewer (Hollow Knight: Silksong ability names)](https://github.com/BlueOrcaz/silksong-save-viewer) | BlueOrcaz | facts only (file layouts, ids and names), credited |
+| [FloweysTimeMachine (Undertale save layout, item and phone names)](https://github.com/crumblingstatue/FloweysTimeMachine) | crumblingstatue | facts only (file layouts, ids and names), credited |
+| [DeltaruneDecomp (Deltarune Chapter 1 save field order)](https://github.com/TeamBlossomDevs/DeltaruneDecomp) | TeamBlossomDevs | facts only (file layouts, ids and names), credited |
 
 Copyright notices of the projects above whose code or tables were used:
 
@@ -40,6 +46,7 @@ Copyright notices of the projects above whose code or tables were used:
 - W3SavegameEditor (The Witcher 3 save layout): Copyright (c) 2015 Atvaark. Licensed under MIT.
 - RE_RSZ (RE Engine field names): Copyright (c) 2021 alphazolam. Licensed under MIT.
 - P4G Save Tool (Persona 4 Golden field positions): Copyright (c) 2016 Jack P. Fenech. Licensed under MIT.
+- vampire-survivors-save-editor (Vampire Survivors checksum and number styles): Copyright (c) 2026 chrisdfennell. Licensed under MIT.
 
 The MIT, Apache-2.0 and zlib licence texts are included below with the crates that use them.
 
