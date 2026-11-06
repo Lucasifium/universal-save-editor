@@ -126,6 +126,7 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 | Kenshi | *Faction*: the player's cats |
 | Palworld | *Player*: technology points, ancient technology points, Lifmunk effigies and the record counters (Oodle, see below) |
 | Final Fantasy IX (Steam) | *Party*: every saved game in `SavedData_ww.dat` (decrypted and encrypted again): gil, and each character's level, experience, HP / MP and base stats |
+| Death Stranding 2: On the Beach | *Facilities*: the material stocks (chiral crystals, resins, metals, ceramics, chemicals, special alloys) at every facility you've found, with its connection level; likes from NPCs and other porters and likes given; day, time of day and play time. Unpacked (XOR, LZ4) and packed again with the save's MD5 on save; pieces that didn't change keep their bytes. Not yet tried in the game |
 | Final Fantasy XV (Windows Edition) | *Party*: gil, ability points and medals; every character's level, HP / MP and stats, the experience waiting to be banked at the next rest, total experience and kills; item amounts in every bag (by the game's item number). Decrypted (AES-192, shuffled blocks) and encrypted again on save. Not yet tried in the game |
 | Final Fantasy X (HD Remaster, PC) | *Party*: gil, and every character's and aeon's HP, MP, maxima and stats. The checksum (the game's own CRC-16) is updated |
 | Final Fantasy X-2 (HD Remaster, PC) | *Gullwings*: gil; Yuna, Rikku and Paine's level, experience, HP / MP and stats. Checksum updated |

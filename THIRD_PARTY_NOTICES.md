@@ -28,6 +28,8 @@ Universal Save Editor is free. It builds on other people's work, listed here wit
 | [FFXVSaveCrypt (Final Fantasy XV save encryption)](https://github.com/Surihix/FFXVSaveCrypt) | Surihix | facts only (key, footer and block shuffle), credited |
 | [FFXVTemplates (Final Fantasy XV gameplay save layout)](https://github.com/Kizari/FFXVTemplates) | Kizari, Rinual | MIT; file layout facts only, no code copied, credited |
 | [js-civ5save (Civilization V save layout)](https://github.com/bmaupin/js-civ5save) | bmaupin | MIT; file layout facts only, no code copied, credited |
+| [ds2-peko-check (Death Stranding 2 save sections, facility names)](https://github.com/binsento-netizen/ds2-peko-check) | binsento-netizen | MIT; file layout facts and the facility list only, no code copied, credited |
+| [DeathStrandingSaveDataResigner (Death Stranding key derivation)](https://github.com/mi5hmash/DeathStrandingSaveDataResigner) | mi5hmash | MIT; key derivation facts only, no code copied, credited |
 | [Arcemi Pathfinder save editor (Pathfinder save layout; class, race and companion names)](https://github.com/jaygumji/ArcemiPathfinderKingmakerTools) | jaygumji | facts only (file layouts, ids and names), credited |
 | [Trilogy Save Editor (Mass Effect 1 and Legendary Edition save layouts, item and talent names)](https://github.com/KarlitosVII/trilogy-save-editor) | Karlitos | facts only (file layouts, ids and names), credited |
 | [xoreos (KOTOR and Neverwinter Nights save layout)](https://github.com/xoreos/xoreos) | the xoreos team | facts only (file layouts, ids and names), credited |

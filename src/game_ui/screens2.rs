@@ -1513,6 +1513,54 @@ pub fn ffxv(ui: &mut Ui, cx: &mut GameCtx) {
     ui.weak("Not yet tried in the game.");
 }
 
+// ------------------------------------------------------------------ Death Stranding 2
+
+pub fn death_stranding2(ui: &mut Ui, cx: &mut GameCtx) {
+    let accent = Color32::from_rgb(200, 150, 60);
+    let mut sub = vec![];
+    if let Some(d) = cx.int("/Save/Day") {
+        sub.push(format!("Day {d}{}", cx.text("/Save/Time of day").map(|t| format!(", {t}")).unwrap_or_default()));
+    }
+    if let Some(t) = cx.text("/Save/Play time") {
+        sub.push(format!("{t} played"));
+    }
+    hero(ui, accent, "Death Stranding 2", &sub.join("  \u{00B7}  "), |ui| {
+        cx.tile(ui, "Likes from NPCs", "/Likes/From NPCs", accent);
+        cx.tile(ui, "Likes from other porters", "/Likes/From other porters", accent);
+        cx.tile(ui, "Likes given", "/Likes/Given", accent);
+    });
+    let names: Vec<String> = match cx.get("/Facilities") {
+        Some(Value::Object(m)) => m.keys().cloned().collect(),
+        _ => vec![],
+    };
+    if names.is_empty() {
+        return;
+    }
+    panel(ui, "Facility material stocks", |ui| {
+        egui::ScrollArea::horizontal().id_salt("ds2_s").show(ui, |ui| {
+            egui::Grid::new("ds2_g").striped(true).spacing([10.0, 4.0]).show(ui, |ui| {
+                ui.strong("Facility");
+                ui.strong("Connection");
+                for m in crate::fmt::ds2::MATERIALS {
+                    ui.strong(m);
+                }
+                ui.end_row();
+                for n in &names {
+                    let p = join("/Facilities", n);
+                    ui.label(n);
+                    cx.compact(ui, &join(&p, "Connection level"), 40.0);
+                    for m in crate::fmt::ds2::MATERIALS {
+                        cx.compact(ui, &join(&p, m), 72.0);
+                    }
+                    ui.end_row();
+                }
+            });
+        });
+        ui.weak("Facilities you have found or connected, with the materials stored at each. Connection level runs 0\u{2013}5.");
+    });
+    ui.weak("The save's MD5 is written again when you save. Not yet tried in the game.");
+}
+
 // ------------------------------------------------------------------ God of War (2018)
 
 /// "Add equipment": a drop-down per piece the save doesn't have, grouped by type.
