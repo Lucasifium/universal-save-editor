@@ -299,7 +299,7 @@ fn build_site() {
     let full = GAMES.iter().filter(|g| g.support == "Game screen").count();
     let desc = format!("Free, offline save editor for {}+ PC games, including Cairn, Terraria, Oxygen Not Included, RimWorld, Stardew Valley, Elden Ring and Cyberpunk 2077. Nothing is uploaded, no limits.", GAMES.len() / 10 * 10);
     let body = format!(
-        r#"<h1>A free save editor you download, for {n}+ games</h1>
+        r#"<h1>A free save editor you download, for {n} games</h1>
 <p class="lead">Universal Save Editor edits your saves on your own computer: no uploads, no accounts, no rate limits. It's free, and always will be.</p>
 <div class="badges"><span class="badge free">Free forever</span><span class="badge">Offline</span><span class="badge">Open source</span><span class="badge">Windows · Linux · Android</span></div>
 <a class="btn" href="{DOWNLOAD}">Download for free</a><a class="btn alt" href="{REPO}">Source code</a>
