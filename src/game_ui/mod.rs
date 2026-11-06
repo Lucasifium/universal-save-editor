@@ -26,6 +26,7 @@ mod oni_map;
 mod pathfinder;
 mod pokemon;
 mod screens2;
+mod starbound;
 mod survival;
 mod terraria;
 mod terraria_world;
@@ -115,6 +116,7 @@ pub enum Game {
     Wasteland3,
     Valheim,
     GoldenSun,
+    Starbound,
 }
 
 impl Game {
@@ -173,6 +175,7 @@ impl Game {
             Game::Wasteland3 => "Rangers",
             Game::Valheim => "Viking",
             Game::GoldenSun => "Party",
+            Game::Starbound => "Character",
             _ => "Character",
         }
     }
@@ -251,6 +254,7 @@ pub fn detect(kind: &str, root: &Value) -> Option<Game> {
         crate::fmt::larian::BG3 => Game::Bg3,
         "Wasteland 3 save" => Game::Wasteland3,
         "Valheim character" => Game::Valheim,
+        crate::fmt::starbound::KIND_PLAYER => Game::Starbound,
         crate::fmt::goldensun::KIND_GS1 | crate::fmt::goldensun::KIND_GS2 => Game::GoldenSun,
         _ if has("/base/m_title") && has("/player") => Game::YakuzaDe,
         "Unreal Engine save (PalWorldPlayerSaveGame)" if has("/SaveData/TechnologyPoint") => Game::Palworld,
@@ -323,6 +327,7 @@ pub fn show(game: Game, ui: &mut Ui, cx: &mut GameCtx) {
         Game::Wasteland3 => survival::wasteland3(ui, cx),
         Game::Valheim => survival::valheim(ui, cx),
         Game::GoldenSun => golden_sun::show(ui, cx),
+        Game::Starbound => starbound::show(ui, cx),
         Game::RenPy => screens2::renpy(ui, cx),
         Game::MassEffect => screens2::mass_effect(ui, cx),
         Game::Xcom => screens2::xcom(ui, cx),

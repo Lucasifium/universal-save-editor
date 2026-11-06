@@ -100,6 +100,7 @@ pub mod pokemon12;
 pub mod pokemon3;
 #[cfg(not(target_arch = "wasm32"))]
 pub mod sqlite;
+pub mod starbound;
 pub mod terraria;
 pub mod terraria_world;
 pub mod tomlf;
@@ -126,6 +127,11 @@ pub fn parse_binary(d: &[u8]) -> Option<TreeDoc> {
         // The browser version has no SQLite: the file opens as hex.
         #[cfg(target_arch = "wasm32")]
         return None;
+    }
+    if starbound::looks(d) {
+        if let Ok(t) = starbound::parse(d) {
+            return Some(t);
+        }
     }
     if d.starts_with(b"bplist") {
         return plistf::parse(d).ok();
