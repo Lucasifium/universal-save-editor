@@ -9,6 +9,7 @@ mod cairn;
 mod dashboards;
 mod fromsoft;
 mod oni_map;
+mod pathfinder;
 mod pokemon;
 mod screens2;
 mod terraria;
@@ -52,6 +53,7 @@ pub enum Game {
     Xcom2,
     Civ6,
     Diablo2,
+    Pathfinder,
     Ff7,
     Ff7Remake,
     HogwartsDb,
@@ -88,6 +90,7 @@ impl Game {
             Game::Paradox => "Empire",
             Game::Civ6 => "Civilizations",
             Game::Diablo2 => "Character",
+            Game::Pathfinder => "Party",
             Game::RimWorld | Game::OxygenNotIncluded => "Colony",
             Game::Subnautica | Game::ReSlot => "Slot",
             Game::GreenHell => "Survivor",
@@ -130,6 +133,7 @@ pub fn detect(kind: &str, root: &Value) -> Option<Game> {
         "Terraria world" => Game::TerrariaWorld,
         k if k.starts_with("Pok\u{00E9}mon") => Game::Pokemon,
         k if (k.starts_with("Skyrim") || k.starts_with("Fallout") || k.starts_with("Enderal")) && has("/Save") => Game::Bethesda,
+        _ if pathfinder::is_pathfinder(root) => Game::Pathfinder,
         _ if has("/GameState/Resources") => Game::Hades,
         _ if has("/SaveGame/player/farmName") => Game::Stardew,
         _ if has("/Data/Player/Inventory") => Game::Minecraft,
@@ -222,6 +226,7 @@ pub fn show(game: Game, ui: &mut Ui, cx: &mut GameCtx) {
         Game::Xcom2 => screens2::xcom2(ui, cx),
         Game::Civ6 => screens2::civ6(ui, cx),
         Game::Diablo2 => screens2::diablo2(ui, cx),
+        Game::Pathfinder => pathfinder::show(ui, cx),
         Game::Ff7 => screens2::ff7(ui, cx),
         Game::Ff7Remake => screens2::ff7_remake(ui, cx),
         Game::Paradox => {
@@ -697,6 +702,7 @@ mod tests {
         assert_eq!(detect("XCOM 2 game data", &json!({})), Some(Game::Xcom2));
         assert_eq!(detect("Civilization VI save", &json!({})), Some(Game::Civ6));
         assert_eq!(detect("Diablo II character", &json!({})), Some(Game::Diablo2));
+        assert_eq!(detect("JSON", &json!({"player": {"Money": 1}, "party": {"m_EntityData": []}})), Some(Game::Pathfinder));
         assert_eq!(detect("Final Fantasy VII save", &json!({})), Some(Game::Ff7));
         assert_eq!(detect("Final Fantasy VII Rebirth save", &json!({})), Some(Game::Ff7Remake));
         assert_eq!(detect(".NET BinaryFormatter stream", &json!([{"m_Major": 1}, {"PCM_HP": 90.0}])), Some(Game::GreenHell));

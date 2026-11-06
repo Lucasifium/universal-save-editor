@@ -1,0 +1,309 @@
+# Blueprint GUID, kind, game (wotr / kingmaker / both), name: Pathfinder classes, races and companions (facts from Arcemi's mapping file, MPL-2.0).
+610d836f3a3a9ed42a4349b62f002e96	class		Druid
+35a3b7bfc663ac74aa8bb50adfe70813	class		Blight Druid
+782c46afacd88d448afba6178471a744	class		Defender of the True World
+da69747aa3dd0044ebff5f3d701cdde3	class		Feyspeaker
+c1c86e2997fd4257a13ef5601b5dc6dd	class		Primal Druid
+a6bf603aa4d666f4f86dab0289e2048c	class		Drovier
+f815594bd1e3454182022d375bf70fd1	class		Elemental Rampager
+45a4607686d96a1498891b3286121780	class		Magus
+d078b2ef073f2814c9e338a789d97b73	class		Eldritch Scion
+7d6678f2160018049814838af2ab4236	class		Sword Saint
+44388c01eb4a29d4d90a25cc0574320d	class		Eldritch Archer
+2dff80a045794cb9b5452fe7b66b79d7	class		Arcane Rider
+79ccf7a306a5d5547bebd97299f6fc89	class		Hexcrafter
+1125145639129cf45b6b9b674cbd62b1	class		Spell Dancer
+67ec8dcae6fb3d3439e5ae874ddc7b9b	class		Armored Battlemage
+42a455d9ec1ad924d889272429eb8391	class		Kineticist
+f2847dd4b12fffd41beaa3d7120d27ad	class		Psychokineticist
+f12f18ae8842425489d29f302e69134c	class		Dark Elementalist
+7d61d9b2250260a45b18c5634524a8fb	class		Kinetic Knight
+365b50dba54efb74fa24c07e9b7a838c	class		Blood Kineticist
+4a8324d676d642c99edcdda6988ca3b1	class		Elemental Engine
+aa11888104d17f7459851e8d559ffa98	class		Overwhelming Soul
+f1a70d9e1b0b41e49874e1fa9052a1ce	class		Inquisitor
+46eb929c8b6d7164188eb4d9bcd0a012	class		Sacred Huntmaster
+639b74fd2f48d474e965c596b1649095	class		Tactical Leader
+cdaabf4b146c9ba42ab7d05abe3b48c4	class		Monster Tactician
+ac87f40932cfd324c90b441f93857c40	class		Faith Hunter
+0e5e91c17f114d358910e0da4ae29b50	class		Judge
+19b4a243d9a4bd34887d03c3dea03ced	class		Sanctified Slayer
+ba34257984f4c41408ce1dc2004e342e	class		Wizard
+17b26d5302cd3e243a281a0beec6256b	class		Arcane Bomber
+55a8ce15e30d71547a44c69bb2e8a84f	class		Thassilonian Specialist
+f43c78692a4e10d43a38bd6aedf53c1b	class		Scroll Savant
+8789dcfc6f8e4fe49d80b90472ea6993	class		Cruoromancer
+c4a866cef5134632a8a3ef5696f45a5b	class		Elemental Specialist
+6d2027b4eec590c41adb5caeb7bb026d	class		Exploiter Wizard
+bb571f1b6cea462e99db7893685a0982	class		Spell Master
+e8f21e5b58e0569468e420ebea456124	class		Monk
+f8767821ec805bf479706392fcc3394c	class		Sensei
+5868fc82eb11a4244926363983897279	class		Scaled Fist
+8f3242d209994884bbb6c0999660f4df	class		Traditional Monk
+2b1a58a7917084f49b097e86271df21c	class		Zen Archer
+dde7724382ae4f63aa9786cb9b3b64b2	class		Quarterstaff Master
+fad7c56737ed12e42aacc330acc86428	class		Sohei
+3b81e57a75299b74ab6b144e830864e9	class		Student of Stone
+b3a505fb61437dc4097f43c3f8f9a4cf	class		Sorcerer
+aa00d945f7cf6c34c909a29a25f2df38	class		Empyreal Sorcerer
+711d5024ecc75f346b9cda609c3a1f83	class		Sylvan Sorcerer
+00b990c8be2117e45ae6514ee4ef561c	class		Sage Sorcerer
+e66a112ab57f69e418f1f11d5d2f3248	class		Crossblooded
+65a630aa291f65047b90a2af5df75d83	class		Nine Tailed Heir
+734917ec8b8542378c1d35519439d67f	class		Overwhelming Mage
+7229db6fc0b07af4180e783eed43c4d9	class		Seeker
+67819271767a9dd4fbfd4ae700befea0	class		Cleric
+472af8cb3de628f4a805dc4a038971bc	class		Ecclesitheurge
+6bfb7e74b530f3749b590286dd2b9b30	class		Crusader
+c4a02990f15c0bb4d8749a90a5ed46b3	class		Herald Caller
+857bc9fadf70f294795a9cba974a48b8	class		Angelfire Apostle
+2537d1312a462834aadbd1153a2a0d54	class		Devilbane Priest
+a4560e3fb5d247d68fb1a2738fcc0855	class		Priest of Balance
+299aa766dee3cbf4790da4efb8c72484	class		Rogue
+9e94d1847e6f331478e5a714659220ce	class		Knife Master
+57f93dd8423c97c49989501281296c4a	class		Eldritch Scoundrel
+b5f0b25e1519d27479018353b51fd349	class		Thug
+b4f5741d42c4cb04abf5ab3fe33f6fc5	class		Underground Chemist
+bd4e70bfb89a452b876713d61b9b8eb2	class		Master of All
+4dbc4b7f2d5149ce83854bffa72035ce	class		Rowdy
+490394869f666c141bf8647b1a365220	class		Sylvan Trickster
+de52b73972f0ed74c87f8f6a8e20b542	class		Eldritch Knight
+72051275b1dbb2d42ba9118237794f7c	class		Dragon Disciple
+9c935a076d4fe4d4999fd48d853e3cf3	class		Arcane Trickster
+d5917881586ff1d4d96d5b7cebda9464	class		Stalwart Defender
+0920ea7e4fd7a404282e3d8b0ac41838	class		Mystic Theurge
+4e0ea99612ae87a499c7fb0588e31828	class		Duelist
+ed246f1680e667b47b7427d51e651059	class		Hellknight
+90e4d7da3ccd1a8478411e07e91d5750	class		Aldori Swordlord
+46b1fe9759ea01f4d883b23d8f0aecbb	class		Student of War
+ee6425d6392101843af35f756ce7fefd	class		Hellknight Signifier
+4a7c05adfbaf05446a6bf664d28fb103	class		Loremaster
+eb284ea8d40a2d045911f525eb96c43d	class		Assassin
+eb24ca44debf6714aabe1af1fd905a07	class		Winter Witch
+0937bec61c0dabc468428f496580c721	class		Alchemist
+6af888a7800b3e949a40f558ff204aae	class		Grenadier
+68cbcd9fbf1fb1d489562f829bb97e38	class		Vivisectionist
+063440d550b25524abcb8dc2590d0168	class		Chirurgeon
+6faf49766d8156c419d08f556a40374f	class		Incense Synthesizer
+ac242ddeaa05af449bfc5230231fab84	class		Metamorph
+d218568445cf0524e889a2dfce97d76f	class		Preservationist
+f7d7eb166b3dd594fb330d085df41853	class		Barbarian
+48277b221b6ba6e40affb1e9b49faf36	class		Armored Hulk
+063da4c77fa59454a9828c9ece407ea1	class		Mad Dog
+a2ccb759dc6f1f94d9aae8061509bf87	class		Invulnerable Rager
+3f0a548044dbad04b82535237584772b	class		Pack Rager
+adffdd8a99094a89823a79292a503ee9	class		Instinctual Warrior
+e791f31b7fd225645ae709958afe2e91	class		Beastkin Berserker
+772c83a25e2268e448e841dcd548235f	class		Bard
+38384e0c1e99c2e42ac6ed70a04aca46	class		Archaeologist
+e7914f2adcdb8fc46af5b65d1e06c539	class		Flame Dancer
+3c67fb6458752a1419fb8cd4efaf8eaa	class		Thundercaller
+f128f6cd9c140284caa244da069f250c	class		Dirge Bard
+912b0495d9485124bb2c0e4aa6ac2efd	class		Beast Tamer
+bed077eaa12834b4495cf481ee721810	class		Tranquil Whisperer
+48ac8db94d5de7645906c7d0ad3bcfbd	class		Fighter
+a599da9a8a6b9e54083b0a4d2a25db59	class		Tower Shield Specialist
+84643e02a764bff4a9c1aba333a53c89	class		Two-Handed Fighter
+d80a67a264f206e4b8d2fcf7e560d48f	class		Aldori Defender
+fdee5f25a5d0fe0448d093b462435c0c	class		Armiger
+8dff97413c63c1147be8a5ca229abefc	class		Dragonheir Scion
+758e0061a077e54409a3bf0eb51511e5	class		Mutation Warrior
+bfa11238e7ae3544bbeb4d0b92e897ec	class		Paladin
+fec08c1a3187da549abd6b85f27e4432	class		Divine Hunter
+fcdb27e1a6cef834ea1d7fab7c6e2b61	class		Hospitaler
+5693945afac189a469ef970eac8f71d9	class		Divine Guardian
+5ce3a2f8eae64cf2ba83865711e53e27	class		Divine Scion
+4d9a864eae278744aafa7ff23f2a6466	class		Martyr
+cf0f99b3cd7444a48681b1c1c4aa2a41	class		Stonelord
+cc70a9fdcd8781a4ca2f0e594f066964	class		Warrior of the Holy Light
+cda0615668a6df14eb36ba19ee881af6	class		Ranger
+4fd9705f1aebf614f9500bb0e7341179	class		Freebooter
+300917c3479d27d47b4b4b52b1762e8d	class		Flamewarden
+a330c05e484d98748a462acd43654a3a	class		Stormwalker
+7888187acfd26b7499cf255b0d6dcb0e	class		Espionage Expert
+fd8c915590dcc5b41b73b80c3c0da8ee	class		Demonslayer
+9f147dbae4a34cda9f0e6091dc1a4a7c	class		Nomad
+145f1d3d360a7ad48bd95d392c81b38e	class		Shaman
+39b2fd5000e5eb142bfde2afa6c83f76	class		Spirit Hunter
+7939ff57cc2ce104693ea2f5afa595b6	class		Possessed Shaman
+5086aef2b76c433584160f7b49aef95b	class		Shadow Shaman
+a6ab54dbe2cc9314a8ad62863fbc64c4	class		Spirit Warden
+556590a43467a27459ac1a80324c9f9f	class		Unsworn Shaman
+bb14b164c2ce4e2bb05434a3218ff73d	class		Wildland Shaman
+96c2b16450cc98548a0e82f743fbee80	class		Witch Doctor
+1b9873f1e7bfe5449bc84d03e9c8e3cc	class		Witch
+c5f6e53e71059fb4d802ce81a277a12d	class		Stigmatized Witch
+d7c7cdbc760041fabaedc1623a53a431	class		Elemental Witch
+96e4c06b6add0a64a8ad8976f9c38c37	class		Hagbound
+191b4be2152fde541ac8984c7f36e91d	class		Hex Channeler
+ee92a9813c04b1440a3af3c766b6b02d	class		Ley Line Guardian
+08045a390a764d71b2150fd122e05e19	class		Witch of the Veil
+20ce9bf8af32bee4c8557a045ab499b1	class		Oracle
+204117c48168f2a41a8e155419e6e880	class		Divine Herbalist
+4f2698f04fa63e34b8153fa3a9795649	class		Enlightened Philosopher
+8f205adfab73b3c4c8c93d251a3cef02	class		Lone Strider
+09035bb5dbb714645bb08ea7db47884c	class		Possessed Oracle
+c9df67160a77ecd4a97928f2455545d7	class		Purifier
+c539d65b7682c8d469e6f122922f1dee	class		Seeker
+77769e43e63647c2b32298efcc577aca	class		Wind Whisperer
+26b10d4340839004f960f9816f6109fe	class		Animal
+b56b64f13a2b4c0ea507e86e1620aa98	class		Bulwark
+0a146638c22af254895f332dc865cdca	class		Wrecker
+98ce0856db141964ebb3ad46379c66b5	class		Racer
+3ae8abeef5615294c85a2d0f92f592de	class		Deathtouched
+c0408f7c61c3f934abb5d98e3eece6c3	class		Bully
+380903f7a2424e11b89b7e1f15930fe2	class		Aggressor
+2f3eb33b70e86d14787f62fd584fa4f2	class		Daredevil
+247aa787806d5da4f89cfc3dff0b217f	class		Mythic Champion
+530b6a79cb691c24ba99e1577b4beb6d	class		Mythic Companion
+a5a9fe8f663d701488bd1db8ea40484e	class		Mythic Angel
+9a3b2c63afa79744cbca46bea0da9a16	class		Mythic Azata
+15a85e67b7d69554cab9ed5830d0268e	class		Mythic Aeon
+8e19495ea576a8641964102d177e34b7	class		Mythic Demon
+211f49705f478b3468db6daa802452a2	class		Mythic Devil
+daf1235b6217787499c14e4e32142523	class		Mythic Golden Dragon
+b82f1fbd191e1f2498266ca41f05027f	class		Mythic Fake Legend
+3d420403f3e7340499931324640efe96	class		Mythic Legend
+5d501618a28bdc24c80007a5c937dcb7	class		Mythic Lich
+5295b8e13c2303f4c88bdb3d7760a757	class		Mythic Swarm That Walks
+8df873a8c6e48294abdb78c45834aa0a	class		Mythic Trickster
+01a754e7c1b7c5946ba895a5ff0faffc	class		Dragon
+6e6135c91c2f84e46b7bb49f2158a9ce	class		Havoc Dragon
+52dbfd8505e22f84fad8d702611f60b7	class		Arcanist
+ce63b2df8c6c12649b02c278e73d8bfa	class		Brown-Fur Transmuter
+2f35608fc073c04448a9c162a20852ce	class		Eldritch Font
+26185cfb81b34e778ad370407300de9a	class		Nature Mage
+e9d0ee69305049fe8400a066010dbcd1	class		Phantasmal Mage
+44f3ba33839a87f48a66b2b9b2f7c69b	class		Unlettered Arcanist
+5f2fa2e0d1cf1ca428af7e24c443d868	class		White Mage
+d77e67a814d686842802c9cfd8ef8499	class		Bloodrager
+32a5dff92373a9641b43e97d453b9369	class		Steelblood
+afe79636228fdd64ea8d9bf3644838a3	class		Spelleater
+d55163eed9214367820654f0ebe0ff69	class		Reformed Fiend
+4d588290ed0736e4f8cd3f4c3beacd69	class		Primalist
+10d92d54d19e4a59b5bbd4259ec0974f	class		Mixed-Blood Rager
+5648585af75596f4a9fa3ae385127f57	class		Greenrager
+9a8b323e5559dab45a23e0dc0b8e9c52	class		Bloodrider
+3adc3439f98cb534ba98df59838f02c7	class		Cavalier
+d287fbf2495ff2e4d88d5c49217bf173	class		Beast Rider
+4c4c3f9df00a5e04680d172a290111c4	class		Disciple of the Pike
+13cc5ccd5cef4c98a5806f033e19a8bb	class		Fearsome Leader
+48fd69254e9e5c540bd65101d3252184	class		Gendarme
+112dd0e61f95c3a459ac0a565472e685	class		Knight of the Wall
+07db3fec753209546a792a7942288998	class		Standard Bearer
+8d95dc9edd5740aeadb5906198a9925a	class		Cavalier of the Paw
+34ecd1b5e1b90b9498795791b0855239	class		Hunter
+34963fc6d87354c4fa85eb76f122c41c	class		Colluding Scoundrel
+339659f6b09b4136bf8c2b2c3df87c65	class		Divine Hound
+f996f0a18e5d945459e710ee3a6dd485	class		Divine Hunter
+74ee8172df6782f4792ea0f8647dea34	class		Forester
+f1341c61c77092643ae63d7cb52f83f8	class		Urban Hunter
+0be343c549776574286730b33ae5c676	class		Wandering Marksman
+6afa347d804838b48bda16acb0573dc0	class		Skald
+71d41dd6309ea994886908c34c87ccd9	class		Battle Scion
+db942e7040084ea289c6be2bfeb3d0a8	class		Battle Singer
+5e63586bebd229649bdafe0fde4caaec	class		Court Poet
+9c46c4e4303e5da40b63faa6df18e2c2	class		Demon Dancer
+72fa7b1c7a6ede44eb490080bf4a2f90	class		Herald of the Horn
+67daa4f4f2b62f54cb3ec56bdc85dea6	class		Hunt Caller
+c75e0971973957d4dbad24bc7957e4fb	class		Slayer
+23a5d0ca607f6094097d509b2b1f4a10	class		Arcane Enforcer
+738c5666f8ef46c45942df9100a0d254	class		Deliverer
+8040e66d2724c754f85dd3026a1f0cee	class		Executioner
+5947427f10bc497dbc24f66129b43e5d	class		Imitator
+f6e304de008939d46960a2ebb075e150	class		Spawn Slayer
+598f461cd7885304e8bae040122cb249	class		Stygian Slayer
+67bbc0dcd471ea0428a362f6e94f3a51	class		Vanguard
+30b5e47d47a0e37438cc5a80c96cfb99	class		Warpriest
+ad56b5819c4072345bff9aff6f1df13c	class		Champion of the Faith
+cd2d419961bb019438b77d4aecc2fc04	class		Cult Leader
+384a9d0c3f1b0634ba183b77d75618c0	class		Disenchanter
+f68ca492c9c15e241ab73735fbd0fb9f	class		Feral Champion
+aaf7ace9642192d4389eab95e6cd04fd	class		Proclaimer
+d34dcc10e74961f44a81f72b54377b24	class		Shieldbearer
+a406d6ebea5c46bba3160246be03e96f	class		Shifter
+1a51b5856d3b48d78b3e967dc5f20bd6	class		Child Of Manticore
+2d5b06e413a9408cbd5bb999b5a4cc4a	class		Dragonblood Shifter
+1cdfc7d306d1430eac19427539b62091	class		Feyform Shifter
+f5d22b6b5a7940d49a4d494f67a91efa	class		Fiendflesh Shifter
+aed5b306ad734a6da5d5638edcb667c9	class		Griffonheart Shifter
+41d5b44e421048d09d32623689173e11	class		Rageshaper Shifter
+c42d338616fa46ab9bcc67c94bca7609	class		Wild Effigy Shifter
+25a5878d125338244896ebd3238226c8	race		Elf
+c4faf439f0e70bd40b5e36ee80d06be7	race		Dwarf
+0a5d473ead98b0646b94495af250fdc4	race		Human
+b7f02ba92b363064fb873963bec275ee	race		Aasimar
+ef35a22c9a27da345a4528f0d5889157	race		Gnome
+b0c3ef2729c498f47970bb50fa1acd30	race		Halfling
+b3646842ffbd01643ab4dac7479b20b0	race		Half-Elf
+1dc20e195581a804890ddc74218bfd8e	race		Half-Orc
+5c4e42124dc2b4647af6e36cf2590500	race		Tiefling
+9d168ca7100e9314385ce66852385451	race		Goblin
+daca06a3f3355664bba1e87e67f3b5b3	race		Mongrel
+fd188bb7bb0002e49863aec93bfb9d99	race		Kitsune
+5e464d1d5fd0e7a4380b6ce60ef2c83b	race		Ascending Succubus
+4d4555326b9b7144f93be1ea61337cd7	race		Oread
+64e8b7d5f1ae91d45bbf1e56a3fdff01	race		Dhampir
+4391e8b9afbb0cf43aeba700c089f56d	character		Player
+baaff53a675a84f4983f1e2113b24552	character		Custom
+54be53f0b35bf3c4592a97ae335fe765	character	wotr	Seelah
+397b090721c41044ea3220445300e1b8	character		Camellia
+cb29621d99b902e4da6f5d232352fbda	character		Lann
+ae766624c03058440a036de90a7f2009	character		Wenduag
+766435873b1361c4287c351de194e5f9	character		Woljif
+2779754eecffd044fbd4842dba55312c	character		Ember
+1b893f7cf2b150e4f8bc2b3c389ba71d	character		Nenio
+096fc4a96d675bb45a0396bcaa7aa993	character		Daeran
+1cbbbb892f93c3d439f8417ad7cbb6aa	character		Sosiel
+0d37024170b172346b3769df92a971f5	character		Regill
+a352873d37ec6c54c9fa8f6da3a6b3e1	character		Arueshalae
+e3bc95db7e2181d41847b3a1d858258d	character		Arueshalae (Evil)
+f72bb7c48bb3e45458f866045448fb58	character		Greybor
+32a037e97c3d5c54b85da8f639616c57	character		Aivu
+0bb1c03b9f7bbcf42bb74478af2c6258	character		Trever
+6b1f599497f5cfa42853d095bda6dafd	character		Delamere
+88162735402ac094d8a08867814902dd	character		Anevia
+ea8034769ab7d584e97b5227cbc03296	character		Finnean
+e46927657a79db64ea30758db3f42bb9	character		Galfrey
+7ece3afabe2b6f343b17d1eaa409d273	character		Ciar
+d58b81fd7ec14784fa05bc29fb6c7ae0	character		Galfrey (Lich)
+e551850403d61eb48bb2de010d12c894	character		Kestoglyr
+0bcf3c125a28d164191e874e3c0c52de	character		Staunton
+51744ec49565c0340b11a1a6dac7920b	character		Triceratops
+b7ed989aa5c54ab8898909910e1db145	character		Triceratops (PreOrder)
+6894be76b76c402994f255247e5a7758	character		Horse (PreOrder)
+fb8300e8298c08d4a9f50dfa1203e98d	character		Horse
+6da038f9c2364ffbb863938b6fb0c50e	character		Armored Pony (For NPC)
+a207eff7953731b44acf1a3fa4354c2d	character		Bear
+3eb6ad60c8b9fe34fafa32e1f429ff5b	character		Boar
+f9df16ffd0c8cec4d99a0ae6f025a3f8	character		Centipede
+918939943bf32ba4a95470ea696c2ba5	character		Dog
+8e43d402ca1a2ad44ac9d2c9fe99f32c	character		Elk
+54cf380dee486ff42b803174d1b9da1b	character		Leopard
+e7aa96d15a45238438ae4cfb476f6bb9	character		Mammoth
+57381165c3f4b4740a872e54f62c3a14	character		Monitor Lizard
+8a6986e17799d7d4b90f0c158b31c5b9	character		Smilodon
+16426365939c42dda587f90b5ad594c6	character		Smilodon (PreOrder)
+28d1986d57a7081439fbb581aa6f960c	character		Velociraptor
+eab864d9ca3415644a792792fd81bf87	character		Wolf
+42f0d5ec3dc844feb44b04507a7c1bfc	character		Ulbrig
+bb25a055bc26469e8926c8c8f2834d41	character		Hippogriff
+3e0014e4be454482a2797fd81123d7b4	character		Rekarth
+561036c882a640089b1d42f03ebe3a6c	character		Sendri
+942862a48f1644ae85ac5e3c9deb720c	character		Penta
+34cbc3fbf30269740b259c4053a1f581	character		Deer
+77c11edb92ce0fd408ad96b40fd27121	character		Linzi
+32d2801eddf236b499d42e4a7d34de23	character		Jaethal
+b3f29faef0a82b941af04f08ceb47fa2	character		Amiri
+f6c23e93512e1b54dba11560446a9e02	character		Tristian
+5455cd3cd375d7a459ca47ea9ff2de78	character		Tartuccio
+aab03d0ab5262da498b32daa6a99b507	character		Harrim
+54be53f0b35bf3c4592a97ae335fe765	character	kingmaker	Valerie
+f9161aa0b3f519c47acbce01f53ee217	character		Octavia
+b090918d7e9010a45b96465de7a104c3	character		Regongar
+f1c0b181a534f4940ae17f243a5968ec	character		Kanerah
+d5bc1d94cd3e5be4bbc03f3366f67afc	character		Ekundayo
+ef4e6551044872b4cb99dff10f707971	character		Dog (Ekundayo)
+c807d18a89f96c74f8bb48b31b616323	character		Kalikke
+3f5777b51d301524c9b912812955ee1e	character		Jubilost
+f9417988783876044b76f918f8636455	character		Nok-Nok
