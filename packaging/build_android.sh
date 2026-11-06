@@ -5,7 +5,7 @@
 # ANDROID_KEYSTORE_PASSWORD. Without them the APK stays unsigned and is not written.
 set -euo pipefail
 OUT=${1:?output apk}
-NAME=SaveEditorOffline
+NAME=UniversalSaveEditor
 SDK=${ANDROID_HOME:?}
 NDK=${ANDROID_NDK_HOME:?}
 BIN=$NDK/toolchains/llvm/prebuilt/linux-x86_64/bin
@@ -23,11 +23,11 @@ for pair in arm64-v8a:aarch64-linux-android x86_64:x86_64-linux-android; do
   CARGO_ENCODED_RUSTFLAGS="${CARGO_ENCODED_RUSTFLAGS}"$'\x1f-C\x1flink-arg=-Wl,-z,max-page-size=16384' \
     cargo rustc --release --lib --crate-type cdylib --target "$t"
   mkdir -p "$APK/lib-$abi"
-  "$BIN/llvm-strip" --strip-unneeded "target/$t/release/libsave_editor_offline.so" -o "$APK/lib-$abi/libsave_editor_offline.so"
-  libs+=("lib/$abi/libsave_editor_offline.so=$APK/lib-$abi/libsave_editor_offline.so")
+  "$BIN/llvm-strip" --strip-unneeded "target/$t/release/libuniversal_save_editor.so" -o "$APK/lib-$abi/libuniversal_save_editor.so"
+  libs+=("lib/$abi/libuniversal_save_editor.so=$APK/lib-$abi/libuniversal_save_editor.so")
 done
 
-icons=$(dirname "$(ls target/aarch64-linux-android/release/build/save_editor_offline-*/out/icons/192.png | head -1)")
+icons=$(dirname "$(ls target/aarch64-linux-android/release/build/universal_save_editor-*/out/icons/192.png | head -1)")
 python3 -I packaging/package.py icons "$icons" "$APK/res"
 IFS=. read -r MA MI PA <<<"$VERSION"
 CODE=$((MA * 10000 + MI * 100 + PA))
