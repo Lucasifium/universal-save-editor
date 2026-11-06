@@ -46,6 +46,7 @@ const FULL: &str = "Game screen";
 const VALUES: &str = "Values and Tree";
 const HEX: &str = "Hex view and Value search (find a number you know, then change it)";
 const METRO: &str = "Game screen for the level saves (.player); the auto save is unpacked for Value search";
+const RGG_JUDGMENT: &str = "Decrypted, with its checksum kept right (read and written back byte for byte on a real save; not yet tried in the game); values in the Tree";
 const RGG_UNTESTED: &str = "Decrypted, with its checksum kept right (no save of this game has been tried yet); values in the Tree";
 const HEX_UNPACKED: &str = "Unpacked for Value search (find a number you know, then change it); packed again on save";
 const XCOM2: &str = "Game screen: HQ resources and soldiers (rank, kills, missions, stats); unpacked and packed again on save. Not yet tried in the game";
@@ -153,7 +154,7 @@ pub const GAMES: &[GameInfo] = &[
     game!("Hollow Knight", FULL, r"%USERPROFILE%\AppData\LocalLow\Team Cherry\Hollow Knight", "user1.dat … user4.dat", [(LocalLow, r"Team Cherry\Hollow Knight")], ["user?.dat"], 1),
     game!("Hollow Knight: Silksong", "Game screen: rosaries, shell shards, masks, silk, needle, abilities, crests, tools and items; decrypted and encrypted again on save. Not yet tried in the game", r"%USERPROFILE%\AppData\LocalLow\Team Cherry\Hollow Knight Silksong\<Steam id>", "user1.dat … user4.dat", [(LocalLow, r"Team Cherry\Hollow Knight Silksong")], ["user?.dat"], 2),
     game!("Icewind Dale: Enhanced Edition", IE_IWD, r"Documents\Icewind Dale - Enhanced Edition\save\<nnnnnnnnn-Name>", r"ICEWIND.gam", [(Documents, r"Icewind Dale - Enhanced Edition\save"), (Documents, r"Icewind Dale - Enhanced Edition\mpsave")], ["*.gam"], 2),
-    game!("Judgment", RGG_UNTESTED, r"%APPDATA%\Sega\Judgment\Steam\<Steam id>", r"data.sav", [(AppData, r"Sega\Judgment\Steam\*")], ["*.sav"], 2),
+    game!("Judgment", RGG_JUDGMENT, r"%APPDATA%\Sega\Judgment\Steam\<Steam id>", r"data.sav", [(AppData, r"Sega\Judgment\Steam\*")], ["*.sav"], 2),
     game!("Kenshi", FULL, r"%LOCALAPPDATA%\kenshi\save\<save name>", r"quick.save", [(LocalAppData, r"kenshi\save"), (SteamGame("Kenshi"), r"save")], ["quick.save"], 2),
     game!("Kunitsu-Gami: Path of the Goddess", VALUES, r"Steam\userdata\<account>\2510710\remote\win64_save", "data*.bin", [(SteamUser("2510710"), r"remote\win64_save")], ["*.bin"], 1),
     game!("Like a Dragon Gaiden: The Man Who Erased His Name", RGG_UNTESTED, r"%APPDATA%\Sega\LikeADragonGaiden\Steam\<Steam id>", r"data.sav", [(AppData, r"Sega\LikeADragonGaiden\Steam\*")], ["*.sav"], 2),
