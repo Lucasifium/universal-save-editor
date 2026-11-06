@@ -18,6 +18,7 @@ Universal Save Editor is free. It builds on other people's work, listed here wit
 | [RE_RSZ (RE Engine field names)](https://github.com/alphazolam/RE_RSZ) | alphazolam | MIT |
 | [P4G Save Tool (Persona 4 Golden field positions)](https://github.com/fendevel/P4G-Save-Tool) | Jack P. Fenech | MIT |
 | [ree-save-editor (RE Engine save layout; facts only, no code)](https://github.com/kvasszn/ree-save-editor) | kvasszn | facts only (file layouts, ids and names), credited |
+| [civ6-save-parser (Civilization VI save layout, ported)](https://github.com/pydt/civ6-save-parser) | Mike Rosack and playyourdamnturn.com | MIT |
 | [Trilogy Save Editor (Mass Effect 1 Legendary Edition save layout, item and talent names)](https://github.com/KarlitosVII/trilogy-save-editor) | Karlitos | facts only (file layouts, ids and names), credited |
 | [God of War (2018) and Ragnarök save editors "Forja" (item ids and names; credits kg971 and xcier)](https://github.com/wilypizza-svg) | wilypizza-svg (José Murilo) | facts only (file layouts, ids and names), credited |
 
@@ -31,6 +32,7 @@ Copyright notices of the projects above whose code or tables were used:
 - oni-save-parser (Oxygen Not Included save layout): Copyright (c) 2018 RoboPhred. Licensed under MIT.
 - Gibbed.MassEffect2 / Gibbed.MassEffect3 (Mass Effect save layout): Copyright (c) 2012, 2021 Rick (rick 'at' gibbed 'dot' us). Licensed under Zlib.
 - rgg_save_tool_py (Yakuza / Like a Dragon keys and checksums): Copyright (c) 2023 James. Licensed under MIT.
+- civ6-save-parser (Civilization VI save layout, ported): Copyright (c) 2017 Mike Rosack and playyourdamnturn.com. Licensed under MIT.
 - W3SavegameEditor (The Witcher 3 save layout): Copyright (c) 2015 Atvaark. Licensed under MIT.
 - RE_RSZ (RE Engine field names): Copyright (c) 2021 alphazolam. Licensed under MIT.
 - P4G Save Tool (Persona 4 Golden field positions): Copyright (c) 2016 Jack P. Fenech. Licensed under MIT.
