@@ -4,6 +4,10 @@
 //! understand is simply skipped (shown read-only) instead of failing the whole file.
 //! Numbers and booleans are patched in place; text edits also update the size field
 //! of every enclosing property so the file stays consistent.
+//!
+//! Unreal Engine 5.4 and later write each property's complete type (`MapProperty` of
+//! `NameProperty` to `IntProperty`, …) in the tag, so arrays, sets and maps are read
+//! element by element there; older saves still show maps and sets as skipped bytes.
 
 use crate::tree::{child, int_in, num, unique_key, Backend, Patches, TreeDoc};
 use serde_json::{Map, Value};
@@ -22,8 +26,24 @@ enum Kind {
     F32,
     F64,
     Bool,
+    /// A UE 5.4 boolean kept in its tag's flags byte (bit 0x10); holds the other bits.
+    TagBool(u8),
     Str,
 }
+
+/// A property's complete type as UE 5.4+ writes it: a name and its parameters.
+#[derive(Clone, Debug)]
+struct TypeName {
+    name: String,
+    inner: Vec<TypeName>,
+}
+
+/// UE 5.4 property tag flags.
+const TAG_ARRAY_INDEX: u8 = 0x01;
+const TAG_GUID: u8 = 0x02;
+const TAG_EXTENSIONS: u8 = 0x04;
+const TAG_NATIVE: u8 = 0x08;
+const TAG_BOOL_TRUE: u8 = 0x10;
 
 #[derive(Clone, Debug)]
 struct Leaf {
@@ -39,6 +59,10 @@ struct P<'a> {
     pos: usize,
     leaves: Vec<Leaf>,
     editable: HashMap<String, usize>,
+    /// UE 5.4+ tags with complete type names.
+    full_types: bool,
+    /// UE5 large world coordinates (vectors of doubles).
+    lwc: bool,
 }
 
 /// Native structs serialized as raw values: (name, component kind, count).
@@ -112,6 +136,7 @@ impl P<'_> {
             Kind::F32 => crate::tree::f32_value(rd!(f32)),
             Kind::F64 => num(rd!(f64)),
             Kind::Bool => Value::Bool(rd!(u8) != 0),
+            Kind::TagBool(_) => Value::Bool(rd!(u8) & TAG_BOOL_TRUE != 0),
             Kind::Str => Value::String(self.fstring()?),
         };
         Ok(self.leaf(ptr, start, kind, sizes, v))
@@ -143,7 +168,7 @@ impl P<'_> {
                 return Ok(m);
             }
             let key = unique_key(&m, &name);
-            let v = self.prop(&child(ptr, &key), sizes)?;
+            let v = if self.full_types { self.prop5(&child(ptr, &key), sizes)? } else { self.prop(&child(ptr, &key), sizes)? };
             m.insert(key, v);
         }
     }
@@ -218,6 +243,139 @@ impl P<'_> {
                 }
             }
         }
+    }
+    fn type_name(&mut self, depth: usize) -> Result<TypeName, String> {
+        let name = self.fstring()?;
+        let n = self.i32()?;
+        if !(0..=8).contains(&n) || depth > 16 {
+            return Err("bad property type".into());
+        }
+        let inner = (0..n).map(|_| self.type_name(depth + 1)).collect::<Result<_, _>>()?;
+        Ok(TypeName { name, inner })
+    }
+    /// One UE 5.4+ property after its name: complete type, size, flags, value.
+    fn prop5(&mut self, ptr: &str, sizes: &[usize]) -> Result<Value, String> {
+        let ty = self.type_name(0)?;
+        let size_off = self.pos;
+        let size = self.i32()?;
+        if size < 0 || size as usize > self.d.len() {
+            return Err("bad property size".into());
+        }
+        let size = size as usize;
+        let flags_at = self.pos;
+        let flags = self.u8()?;
+        if flags & !0x1F != 0 || flags & TAG_EXTENSIONS != 0 {
+            return Err("unsupported property tag flags".into());
+        }
+        if flags & TAG_ARRAY_INDEX != 0 {
+            self.i32()?;
+        }
+        if flags & TAG_GUID != 0 {
+            self.take(16)?;
+        }
+        if ty.name == "BoolProperty" {
+            // The value is the flag; nothing follows.
+            let end = self.pos;
+            self.pos = flags_at;
+            let v = self.scalar(Kind::TagBool(flags & !TAG_BOOL_TRUE), ptr, sizes)?;
+            self.leaves.last_mut().unwrap().end = flags_at + 1;
+            self.pos = end;
+            return Ok(v);
+        }
+        let mut chain = sizes.to_vec();
+        chain.push(size_off);
+        let start = self.pos;
+        Ok(self.value_or_skip(start, size, |p| {
+            // A byte with an enum type is the enumerator's name, unless it's one raw byte.
+            if ty.name == "ByteProperty" && size == 1 {
+                return p.scalar(Kind::U8, ptr, &chain);
+            }
+            p.typed(&ty, ptr, &chain, flags & TAG_NATIVE != 0)
+        }))
+    }
+    /// A value of a known UE 5.4+ type (also the elements of arrays, sets and maps).
+    fn typed(&mut self, ty: &TypeName, ptr: &str, sizes: &[usize], native: bool) -> Result<Value, String> {
+        let param = |i: usize| ty.inner.get(i).ok_or_else(|| format!("{} without its type", ty.name));
+        match ty.name.as_str() {
+            "StructProperty" => {
+                let st = param(0)?.name.as_str();
+                if let Some(r) = self.native5(st, ptr, sizes) {
+                    return r;
+                }
+                if native {
+                    return Err("struct in its own binary form".into());
+                }
+                self.props(ptr, sizes, None).map(Value::Object)
+            }
+            "ArrayProperty" | "SetProperty" => {
+                let inner = param(0)?;
+                if ty.name == "SetProperty" && self.i32()? != 0 {
+                    return Err("set with removed entries".into());
+                }
+                let n = self.count()?;
+                if inner.name == "ByteProperty" && inner.inner.is_empty() && n > 4096 {
+                    self.take(n)?;
+                    return Ok(Value::String(format!("<{n} bytes>")));
+                }
+                (0..n).map(|i| self.typed(inner, &format!("{ptr}/{i}"), sizes, false)).collect::<Result<Vec<_>, _>>().map(Value::Array)
+            }
+            "MapProperty" => {
+                let (kt, vt) = (param(0)?, param(1)?);
+                if self.i32()? != 0 {
+                    return Err("map with removed entries".into());
+                }
+                let n = self.count()?;
+                let mut m = Map::new();
+                for _ in 0..n {
+                    // Keys are shown as the entry's name, not edited.
+                    let leaves = self.leaves.len();
+                    let key = key_text(&self.typed(kt, "\u{0}key", sizes, false)?);
+                    self.leaves.truncate(leaves);
+                    self.editable.retain(|_, id| *id < leaves);
+                    let k = unique_key(&m, &key);
+                    let v = self.typed(vt, &child(ptr, &k), sizes, false)?;
+                    m.insert(k, v);
+                }
+                Ok(Value::Object(m))
+            }
+            "BoolProperty" => self.scalar(Kind::Bool, ptr, sizes),
+            "ByteProperty" if ty.inner.is_empty() => self.scalar(Kind::U8, ptr, sizes),
+            "ByteProperty" | "EnumProperty" | "NameProperty" | "ObjectProperty" | "ClassProperty" | "InterfaceProperty" => {
+                self.fstring().map(Value::String)
+            }
+            "SoftObjectProperty" | "SoftClassProperty" => {
+                let parts = [self.fstring()?, self.fstring()?, self.fstring()?];
+                Ok(Value::String(parts.iter().filter(|s| !s.is_empty()).cloned().collect::<Vec<_>>().join(":")))
+            }
+            other => match Self::kind_of(other) {
+                Some(k) => self.scalar(k, ptr, sizes),
+                None => Err(format!("unsupported type {other}")),
+            },
+        }
+    }
+    /// An element count that can't be more than the bytes left.
+    fn count(&mut self) -> Result<usize, String> {
+        let n = self.i32()?;
+        if n < 0 || n as usize > self.d.len() - self.pos {
+            return Err("bad element count".into());
+        }
+        Ok(n as usize)
+    }
+    /// Structs UE 5 writes as raw values.
+    fn native5(&mut self, st: &str, ptr: &str, sizes: &[usize]) -> Option<Result<Value, String>> {
+        let (kind, n) = match st {
+            "Vector" | "Rotator" => (if self.lwc { Kind::F64 } else { Kind::F32 }, 3),
+            "Vector2D" => (if self.lwc { Kind::F64 } else { Kind::F32 }, 2),
+            "Vector4" | "Quat" => (if self.lwc { Kind::F64 } else { Kind::F32 }, 4),
+            "LinearColor" => (Kind::F32, 4),
+            "Color" => (Kind::U8, 4),
+            "IntPoint" => (Kind::I32, 2),
+            "IntVector" => (Kind::I32, 3),
+            "DateTime" | "Timespan" => return Some(self.scalar(Kind::I64, ptr, sizes)),
+            "Guid" => return Some(self.take(16).map(|b| Value::String(b.iter().map(|x| format!("{x:02x}")).collect()))),
+            _ => return None,
+        };
+        Some((0..n).map(|i| self.scalar(kind, &format!("{ptr}/{i}"), sizes)).collect::<Result<Vec<_>, _>>().map(Value::Array))
     }
     /// Parse a value that must occupy exactly `size` bytes; on any mismatch, skip it
     /// (read-only) and drop leaves registered while trying.
@@ -305,6 +463,16 @@ struct GvasBackend {
     leaves: Vec<Leaf>,
 }
 
+/// A map key as the entry's name: text as is, numbers written out, struct fields joined.
+fn key_text(v: &Value) -> String {
+    match v {
+        Value::String(s) => s.clone(),
+        Value::Object(m) => m.values().map(key_text).collect::<Vec<_>>().join("|"),
+        Value::Array(a) => a.iter().map(key_text).collect::<Vec<_>>().join("|"),
+        other => other.to_string(),
+    }
+}
+
 fn fstring_bytes(s: &str) -> Vec<u8> {
     if s.is_empty() {
         return 0i32.to_le_bytes().to_vec();
@@ -343,6 +511,7 @@ fn encode(kind: Kind, v: &Value) -> Result<Vec<u8>, String> {
         Kind::F32 => (v.as_f64().ok_or("must be a number")? as f32).to_le_bytes().to_vec(),
         Kind::F64 => v.as_f64().ok_or("must be a number")?.to_le_bytes().to_vec(),
         Kind::Bool => vec![v.as_bool().ok_or("must be on/off")? as u8],
+        Kind::TagBool(rest) => vec![rest | if v.as_bool().ok_or("must be on/off")? { TAG_BOOL_TRUE } else { 0 }],
         Kind::Str => fstring_bytes(v.as_str().ok_or("must be text")?),
     })
 }
@@ -388,7 +557,7 @@ impl Backend for GvasBackend {
 }
 
 pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
-    let mut p = P { d, pos: 0, leaves: vec![], editable: HashMap::new() };
+    let mut p = P { d, pos: 0, leaves: vec![], editable: HashMap::new(), full_types: false, lwc: false };
     if p.take(4)? != b"GVAS" {
         return Err("not GVAS".into());
     }
@@ -397,7 +566,10 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
     if save_version >= 3 {
         p.i32()?; // UE5 package version
     }
-    p.take(10)?; // engine major/minor/patch + changelist
+    let engine = p.take(10)?; // engine major/minor/patch + changelist
+    let (major, minor) = (u16::from_le_bytes([engine[0], engine[1]]), u16::from_le_bytes([engine[2], engine[3]]));
+    p.full_types = (major, minor) >= (5, 4);
+    p.lwc = major >= 5;
     p.fstring()?; // branch
     p.i32()?; // custom version format
     let n = p.i32()?;
@@ -406,6 +578,9 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
     }
     p.take(n as usize * 20)?;
     let class = p.fstring()?;
+    if p.full_types {
+        p.u8()?; // flags byte after the class name (0)
+    }
     let props = p.props("", &[], None)?;
     let trailing = d.len() - p.pos;
     if trailing > 16 {
@@ -498,5 +673,106 @@ mod tests {
             assert_eq!(again.view.pointer(p).unwrap(), &v, "{p}");
         }
         assert!(doc.set("/Gold", Value::from(1_i64 << 40)).is_err());
+    }
+
+    /// A UE 5.4 type name: name, parameter count, parameters.
+    fn tn(name: &str, inner: &[Vec<u8>]) -> Vec<u8> {
+        let mut v = fs(name);
+        v.extend((inner.len() as i32).to_le_bytes());
+        for i in inner {
+            v.extend(i);
+        }
+        v
+    }
+
+    fn prop5(name: &str, ty: Vec<u8>, flags: u8, value: &[u8]) -> Vec<u8> {
+        let mut v = fs(name);
+        v.extend(ty);
+        v.extend((value.len() as i32).to_le_bytes());
+        v.push(flags);
+        v.extend(value);
+        v
+    }
+
+    use serde_json::json;
+
+    fn sample5() -> Vec<u8> {
+        let int = || tn("IntProperty", &[]);
+        let name = || tn("NameProperty", &[]);
+        let mut v = b"GVAS".to_vec();
+        v.extend(3i32.to_le_bytes());
+        v.extend(522i32.to_le_bytes());
+        v.extend(1012i32.to_le_bytes());
+        v.extend([5, 0, 4, 0, 4, 0, 1, 2, 3, 4]);
+        v.extend(fs("++UE5+Release-5.4"));
+        v.extend(3i32.to_le_bytes());
+        v.extend(0i32.to_le_bytes());
+        v.extend(fs("/Game/Save/BP_Save.BP_Save_C"));
+        v.push(0);
+        v.extend(prop5("Gold", int(), 0, &1500i32.to_le_bytes()));
+        v.extend(prop5("Hardcore", tn("BoolProperty", &[]), TAG_BOOL_TRUE, &[]));
+        // Map<Name, Int>
+        let mut inv = 0i32.to_le_bytes().to_vec();
+        inv.extend(2i32.to_le_bytes());
+        for (k, n) in [("Potion", 3i32), ("Elixir", 1)] {
+            inv.extend(fs(k));
+            inv.extend(n.to_le_bytes());
+        }
+        v.extend(prop5("Inventory", tn("MapProperty", &[name(), int()]), 0, &inv));
+        // Map<Name, Struct{Level: Int, Title: Str, Spot: Vector}>
+        let mut hero = prop5("Level", int(), 0, &7i32.to_le_bytes());
+        hero.extend(prop5("Title", tn("StrProperty", &[]), 0, &fs("Novice")));
+        let st = |s: &str, pkg: &str| tn("StructProperty", &[tn(s, &[tn(pkg, &[])])]);
+        let spot: Vec<u8> = [1.0f64, 2.0, 3.0].iter().flat_map(|f| f.to_le_bytes()).collect();
+        hero.extend(prop5("Spot", st("Vector", "/Script/CoreUObject"), TAG_NATIVE, &spot));
+        hero.extend(fs("None"));
+        let mut chars = 0i32.to_le_bytes().to_vec();
+        chars.extend(1i32.to_le_bytes());
+        chars.extend(fs("Hero"));
+        chars.extend(hero);
+        v.extend(prop5("Chars", tn("MapProperty", &[name(), st("S_Char", "/Game/S_Char")]), 0, &chars));
+        let mut arr = 3i32.to_le_bytes().to_vec();
+        for x in [10i32, 20, 30] {
+            arr.extend(x.to_le_bytes());
+        }
+        v.extend(prop5("Scores", tn("ArrayProperty", &[int()]), 0, &arr));
+        v.extend(fs("None"));
+        v.extend(0i32.to_le_bytes());
+        v
+    }
+
+    #[test]
+    fn ue54_full_type_tags_with_maps() {
+        let raw = sample5();
+        let mut doc = parse(&raw).unwrap();
+        assert_eq!(doc.to_bytes().unwrap(), raw);
+        for (p, v) in [
+            ("/Gold", json!(1500)),
+            ("/Hardcore", json!(true)),
+            ("/Inventory/Potion", json!(3)),
+            ("/Inventory/Elixir", json!(1)),
+            ("/Chars/Hero/Level", json!(7)),
+            ("/Chars/Hero/Title", json!("Novice")),
+            ("/Chars/Hero/Spot/2", json!(3.0)),
+            ("/Scores/2", json!(30)),
+        ] {
+            assert_eq!(doc.view.pointer(p).unwrap(), &v, "{p}");
+        }
+        doc.set("/Inventory/Potion", json!(99)).unwrap();
+        doc.set("/Hardcore", json!(false)).unwrap();
+        doc.set("/Chars/Hero/Title", json!("Grand Champion")).unwrap();
+        doc.set("/Chars/Hero/Level", json!(80)).unwrap();
+        let again = parse(&doc.to_bytes().unwrap()).unwrap();
+        for (p, v) in [
+            ("/Gold", json!(1500)),
+            ("/Hardcore", json!(false)),
+            ("/Inventory/Potion", json!(99)),
+            ("/Inventory/Elixir", json!(1)),
+            ("/Chars/Hero/Level", json!(80)),
+            ("/Chars/Hero/Title", json!("Grand Champion")),
+            ("/Scores/1", json!(20)),
+        ] {
+            assert_eq!(again.view.pointer(p).unwrap(), &v, "{p}");
+        }
     }
 }

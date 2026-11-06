@@ -22,6 +22,7 @@ Universal Save Editor is free. It builds on other people's work, listed here wit
 | [halbu (Diablo II character layout, skill names)](https://github.com/feored/halbu) | feor | MIT |
 | [d2s (Diablo II save layout)](https://github.com/dschu012/d2s) | dschu012 | facts only (file layouts, ids and names), credited |
 | [py-starbound (Starbound versioned JSON save layout)](https://github.com/blixt/py-starbound) | blixt | MIT; file layout facts only, no code copied, credited |
+| [uesave-rs (Unreal property-tag save layout)](https://github.com/trumank/uesave-rs) | trumank | MIT; file layout facts only, no code copied, credited |
 | [LSLib (Larian LSPK package and LSF resource layouts, ported)](https://github.com/Norbyte/lslib) | Norbyte | MIT |
 | [pLarianSaveTools (Divinity: Original Sin 2 save layout)](https://github.com/patimweb-labs/pLarianSaveTools) | patimweb-labs | facts only (file layouts, ids and names), credited |
 | [bg3-savefile-parser (Baldur's Gate 3 save layout)](https://github.com/DanFinchUK/bg3-savefile-parser) | DanFinchUK | facts only (file layouts, ids and names), credited |
