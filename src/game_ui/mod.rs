@@ -49,6 +49,7 @@ pub enum Game {
     RenPy,
     MassEffect,
     Xcom,
+    Xcom2,
     Ff7,
     Ff7Remake,
     HogwartsDb,
@@ -88,7 +89,7 @@ impl Game {
             Game::GreenHell => "Survivor",
             Game::RenPy => "Story",
             Game::MassEffect => "Shepard",
-            Game::Xcom => "HQ",
+            Game::Xcom | Game::Xcom2 => "HQ",
             Game::Ff7 | Game::Ff7Remake | Game::Ff9 => "Party",
             Game::HogwartsDb => "Character",
             Game::DyingLight2 | Game::DyingLight => "Survivor",
@@ -140,6 +141,7 @@ pub fn detect(kind: &str, root: &Value) -> Option<Game> {
         k if screens2::is_renpy(k, root) => Game::RenPy,
         k if k.starts_with("Mass Effect") && has("/Shepard") => Game::MassEffect,
         "XCOM: Enemy Unknown game data" => Game::Xcom,
+        "XCOM 2 game data" => Game::Xcom2,
         "Final Fantasy VII save" => Game::Ff7,
         "Final Fantasy IX save" => Game::Ff9,
         "Dying Light save" if has("/Group/Main/Cash") || has("/Bucket") => Game::DyingLight2,
@@ -211,6 +213,7 @@ pub fn show(game: Game, ui: &mut Ui, cx: &mut GameCtx) {
         Game::RenPy => screens2::renpy(ui, cx),
         Game::MassEffect => screens2::mass_effect(ui, cx),
         Game::Xcom => screens2::xcom(ui, cx),
+        Game::Xcom2 => screens2::xcom2(ui, cx),
         Game::Ff7 => screens2::ff7(ui, cx),
         Game::Ff7Remake => screens2::ff7_remake(ui, cx),
         Game::Paradox => {
@@ -683,6 +686,7 @@ mod tests {
         assert_eq!(detect("JSON", &json!({"gold": 1})), None);
         assert_eq!(detect("Mass Effect 3 save", &json!({"Shepard": {"Level": 60}})), Some(Game::MassEffect));
         assert_eq!(detect("XCOM: Enemy Unknown game data", &json!({})), Some(Game::Xcom));
+        assert_eq!(detect("XCOM 2 game data", &json!({})), Some(Game::Xcom2));
         assert_eq!(detect("Final Fantasy VII save", &json!({})), Some(Game::Ff7));
         assert_eq!(detect("Final Fantasy VII Rebirth save", &json!({})), Some(Game::Ff7Remake));
         assert_eq!(detect(".NET BinaryFormatter stream", &json!([{"m_Major": 1}, {"PCM_HP": 90.0}])), Some(Game::GreenHell));

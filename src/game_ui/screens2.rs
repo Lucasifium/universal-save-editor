@@ -623,6 +623,89 @@ pub fn xcom(ui: &mut Ui, cx: &mut GameCtx) {
     }
 }
 
+// ------------------------------------------------------------------ XCOM 2 / War of the Chosen
+
+const XCOM2_RANKS: [&str; 9] = ["Rookie", "Squaddie", "Corporal", "Sergeant", "Lieutenant", "Captain", "Major", "Colonel", "Brigadier"];
+
+pub fn xcom2(ui: &mut Ui, cx: &mut GameCtx) {
+    let accent = Color32::from_rgb(70, 150, 210);
+    let soldiers: Vec<String> = match cx.get("/Soldiers") {
+        Some(Value::Object(m)) => m.keys().map(|k| join("/Soldiers", k)).collect(),
+        _ => vec![],
+    };
+    let n = soldiers.len();
+    hero(ui, accent, "XCOM 2", &format!("{n} soldier{}", if n == 1 { "" } else { "s" }), |ui| {
+        for (_, label) in crate::fmt::xcom2::RESOURCES {
+            cx.tile(ui, label, &join("/Resources", label), accent);
+        }
+    });
+    if !soldiers.is_empty() {
+        let stats = ["HP", "Aim", "Mobility", "Will", "Hacking", "Defense", "Dodge", "Psi"];
+        let shown: Vec<&str> = stats.iter().copied().filter(|s| soldiers.iter().any(|b| cx.get(&format!("{b}/Stats/{s}")).is_some())).collect();
+        panel(ui, "Soldiers", |ui| {
+            let q = filter_box(ui, "xcom2_sold", "name or class");
+            egui::ScrollArea::both().id_salt("xcom2_s").max_height(460.0).show(ui, |ui| {
+                egui::Grid::new("xcom2_grid").num_columns(5 + shown.len()).striped(true).spacing([10.0, 4.0]).show(ui, |ui| {
+                    for h in ["Soldier", "Class", "Rank", "Kills", "Missions"].iter().chain(shown.iter()) {
+                        ui.strong(*h);
+                    }
+                    ui.end_row();
+                    for b in &soldiers {
+                        let first = cx.text(&format!("{b}/First name")).unwrap_or_default();
+                        let last = cx.text(&format!("{b}/Last name")).unwrap_or_default();
+                        let nick = cx.text(&format!("{b}/Nickname")).filter(|n| !n.is_empty()).map(|n| format!(" \u{201C}{n}\u{201D}")).unwrap_or_default();
+                        let class = cx.text(&format!("{b}/Class")).unwrap_or_default();
+                        let name = format!("{first}{nick} {last}");
+                        if !q.is_empty() && !name.to_lowercase().contains(&q) && !class.to_lowercase().contains(&q) {
+                            continue;
+                        }
+                        ui.label(name);
+                        ui.label(words(&class));
+                        let rank = format!("{b}/Rank");
+                        ui.horizontal(|ui| {
+                            cx.compact(ui, &rank, 36.0);
+                            if let Some(r) = cx.int(&rank).and_then(|r| XCOM2_RANKS.get(r as usize)) {
+                                ui.weak(*r);
+                            }
+                        });
+                        for f in ["Kills", "Missions"] {
+                            let p = format!("{b}/{f}");
+                            if cx.get(&p).is_some() {
+                                cx.compact(ui, &p, 44.0);
+                            } else {
+                                ui.label("");
+                            }
+                        }
+                        for s in &shown {
+                            let p = format!("{b}/Stats/{s}");
+                            if cx.get(&p).is_some() {
+                                cx.compact(ui, &p, 44.0);
+                            } else {
+                                ui.label("");
+                            }
+                        }
+                        ui.end_row();
+                    }
+                });
+            });
+            ui.weak(
+                "Rank 0 is Rookie \u{2026} 7 is Colonel (8 Brigadier with some classes). A stat sets the soldier's current, maximum and \
+                 base value together, so a wounded soldier is healed to it. A blank cell is a value the game left at its default.",
+            );
+        });
+    }
+    let rows: Vec<(String, String)> = match cx.get("/Storage") {
+        Some(Value::Object(m)) => m.iter().filter(|(_, v)| v.as_i64().is_some_and(|n| n > 0)).map(|(k, _)| (words(k), join("/Storage", k))).collect(),
+        _ => vec![],
+    };
+    if !rows.is_empty() {
+        panel(ui, "Storage", |ui| {
+            value_rows(ui, cx, "xcom2_store", &rows);
+            ui.weak("Items HQ holds, by the game's template name.");
+        });
+    }
+}
+
 // ------------------------------------------------------------------ Final Fantasy VII (PC)
 
 pub fn ff7(ui: &mut Ui, cx: &mut GameCtx) {
