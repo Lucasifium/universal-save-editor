@@ -136,8 +136,7 @@ Item, tile and element names and ids are facts about each game, used only so the
 | bytemuck_derive | 1.12.1 | Zlib OR Apache-2.0 OR MIT |
 | byteorder | 1.5.0 | Unlicense OR MIT |
 | byteorder-lite | 0.1.0 | Unlicense OR MIT |
-| bzip2 | 0.4.4 | MIT/Apache-2.0 |
-| bzip2-sys | 0.1.13+1.0.8 | MIT/Apache-2.0 |
+| bzip2 | 0.6.1 | MIT/Apache-2.0 |
 | cbc | 0.1.2 | MIT OR Apache-2.0 |
 | cfb-mode | 0.8.2 | MIT OR Apache-2.0 |
 | cfg-if | 1.0.5 | MIT OR Apache-2.0 |
@@ -220,7 +219,9 @@ Item, tile and element names and ids are facts about each game, used only so the
 | indexmap | 2.14.2 | Apache-2.0 OR MIT |
 | inout | 0.1.4 | MIT OR Apache-2.0 |
 | itoa | 1.0.18 | MIT OR Apache-2.0 |
+| js-sys | 0.3.106 | MIT/Apache-2.0 |
 | khronos-egl | 6.0.0 | MIT/Apache-2.0 |
+| libbz2-rs-sys | 0.2.6 | bzip2-1.0.6 |
 | libc | 0.2.190 | MIT OR Apache-2.0 |
 | libloading | 0.8.9 | ISC |
 | libsqlite3-sys | 0.30.1 | MIT |
@@ -333,6 +334,12 @@ Item, tile and element names and ids are facts about each game, used only so the
 | url | 2.5.8 | MIT OR Apache-2.0 |
 | utf8_iter | 1.0.4 | Apache-2.0 OR MIT |
 | uuid | 1.28.0 | Apache-2.0 OR MIT |
+| wasm-bindgen | 0.2.129 | MIT/Apache-2.0 |
+| wasm-bindgen-futures | 0.4.79 | MIT/Apache-2.0 |
+| wasm-bindgen-macro | 0.2.129 | MIT/Apache-2.0 |
+| wasm-bindgen-macro-support | 0.2.129 | MIT/Apache-2.0 |
+| wasm-bindgen-shared | 0.2.129 | MIT/Apache-2.0 |
+| web-sys | 0.3.106 | MIT/Apache-2.0 |
 | web-time | 1.1.0 | MIT OR Apache-2.0 |
 | webbrowser | 1.2.4 | MIT OR Apache-2.0 |
 | wgpu | 22.1.0 | MIT OR Apache-2.0 |
@@ -1050,7 +1057,7 @@ IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 DEALINGS IN THE SOFTWARE.
 ```
 
-### Used by: ahash 0.8.12, arrayvec 0.7.8, base64 0.22.1, base64 0.23.1, bitflags 2.13.2, bumpalo 3.20.3, bzip2 0.4.4, bzip2-sys 0.1.13+1.0.8, cfg-if 1.0.5, displaydoc 0.2.7, equivalent 1.0.2, ff 0.13.1, flate2 1.1.10, form_urlencoded 1.2.2, glow 0.13.1, glow 0.14.2, group 0.13.0, hashbrown 0.14.5, hashbrown 0.15.5, hashbrown 0.17.1, idna 1.1.0, idna_adapter 1.2.2, indexmap 2.14.2, khronos-egl 6.0.0, lock_api 0.4.14, log 0.4.34, num-bigint 0.4.8, num-integer 0.1.47, num-traits 0.2.19, once_cell 1.21.4, parking_lot 0.12.5, parking_lot_core 0.9.12, percent-encoding 2.3.2, png 0.18.1, renderdoc-sys 1.1.0, rustc-hash 1.1.0, scopeguard 1.2.0, smallvec 1.16.3, smol_str 0.2.2, stable_deref_trait 1.2.1, syn 1.0.109, ttf-parser 0.25.1, unicode-segmentation 1.13.3, unicode-width 0.1.14, unicode-xid 0.2.6, url 2.5.8, uuid 1.28.0
+### Used by: ahash 0.8.12, arrayvec 0.7.8, base64 0.22.1, base64 0.23.1, bitflags 2.13.2, bumpalo 3.20.3, bzip2 0.6.1, cfg-if 1.0.5, displaydoc 0.2.7, equivalent 1.0.2, ff 0.13.1, flate2 1.1.10, form_urlencoded 1.2.2, glow 0.13.1, glow 0.14.2, group 0.13.0, hashbrown 0.14.5, hashbrown 0.15.5, hashbrown 0.17.1, idna 1.1.0, idna_adapter 1.2.2, indexmap 2.14.2, khronos-egl 6.0.0, lock_api 0.4.14, log 0.4.34, num-bigint 0.4.8, num-integer 0.1.47, num-traits 0.2.19, once_cell 1.21.4, parking_lot 0.12.5, parking_lot_core 0.9.12, percent-encoding 2.3.2, png 0.18.1, renderdoc-sys 1.1.0, rustc-hash 1.1.0, scopeguard 1.2.0, smallvec 1.16.3, smol_str 0.2.2, stable_deref_trait 1.2.1, syn 1.0.109, ttf-parser 0.25.1, unicode-segmentation 1.13.3, unicode-width 0.1.14, unicode-xid 0.2.6, url 2.5.8, uuid 1.28.0
 
 ```text
 Apache License
@@ -2065,7 +2072,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ```
 
-### Used by: bzip2 0.4.4, cfg-if 1.0.5
+### Used by: bzip2 0.6.1, cfg-if 1.0.5, js-sys 0.3.106, wasm-bindgen 0.2.129, wasm-bindgen-futures 0.4.79, wasm-bindgen-macro 0.2.129, wasm-bindgen-macro-support 0.2.129, wasm-bindgen-shared 0.2.129, web-sys 0.3.106
 
 ```text
 Copyright (c) 2014 Alex Crichton
@@ -2095,34 +2102,52 @@ IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 DEALINGS IN THE SOFTWARE.
 ```
 
-### Used by: bzip2-sys 0.1.13+1.0.8
+### Used by: libbz2-rs-sys 0.2.6
 
 ```text
-Copyright (c) 2014-2025 Alex Crichton and Contributors
+The original program, "bzip2", the associated library "libbzip2", and all
+documentation, are
 
-Permission is hereby granted, free of charge, to any
-person obtaining a copy of this software and associated
-documentation files (the "Software"), to deal in the
-Software without restriction, including without
-limitation the rights to use, copy, modify, merge,
-publish, distribute, sublicense, and/or sell copies of
-the Software, and to permit persons to whom the Software
-is furnished to do so, subject to the following
-conditions:
+Copyright (C) 1996-2021 Julian R Seward.
+Copyright (C) 2019-2020 Federico Mena Quintero
+Copyright (C) 2021 Micah Snyder
 
-The above copyright notice and this permission notice
-shall be included in all copies or substantial portions
-of the Software.
+This Rust translation, "libbzip2-rs" is a derived work based on "bzip2" and
+"libbzip2", and is Copyright (C) 2024-2025 Trifecta Tech Foundation and contributors
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF
-ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
-TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
-PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT
-SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
-CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
-OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR
-IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-DEALINGS IN THE SOFTWARE.
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions
+are met:
+
+1. Redistributions of source code must retain the above copyright
+   notice, this list of conditions and the following disclaimer.
+
+2. The origin of this software must not be misrepresented; you must
+   not claim that you wrote the original software.  If you use this
+   software in a product, an acknowledgment in the product
+   documentation would be appreciated but is not required.
+
+3. Altered source versions must be plainly marked as such, and must
+   not be misrepresented as being the original software.
+
+4. The name of the author may not be used to endorse or promote
+   products derived from this software without specific prior written
+   permission.
+
+THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS
+OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ARE DISCLAIMED.  IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY
+DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE
+GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+Julian Seward, jseward@acm.org
+bzip2/libbzip2 version 1.1.0 of 6 September 2010
 ```
 
 ### Used by: cbc 0.1.2, cfb-mode 0.8.2

@@ -1,5 +1,6 @@
 # Builds SaveEditorOffline for every platform the machine can build, into dist\.
-#   Windows x64 + ARM64 (MSVC), Linux x64 + ARM64 (cargo-zigbuild), Android APK (arm64 + x86_64).
+#   Windows x64 + ARM64 (MSVC), Linux x64 + ARM64 (cargo-zigbuild), Android APK (arm64 + x86_64),
+#   and the browser version (WebAssembly) into docs\app\.
 # macOS is built by GitHub Actions (.github/workflows/build.yml), since Apple's SDK only runs on Macs.
 #
 #   .\build_all.ps1              everything
@@ -21,7 +22,13 @@ $Jdk = (Get-ChildItem 'C:\Program Files\Microsoft' -Directory -Filter 'jdk-*' | 
 $Version = (Select-String -Path Cargo.toml -Pattern '^version = "(.+)"').Matches[0].Groups[1].Value
 $Name = 'SaveEditorOffline'
 $env:CARGO_ZIGBUILD_ZIG_PATH = 'python -m ziglang'
-$env:RUSTFLAGS = '-A linker_messages'
+# Compiler flags. Paths inside the programs (panic messages) say ~ instead of this computer's
+# user folder. Passed one per field (CARGO_ENCODED_RUSTFLAGS), so a space in the folder name is fine.
+function Set-RustFlags([string[]]$extra = @()) {
+    $env:RUSTFLAGS = $null
+    $env:CARGO_ENCODED_RUSTFLAGS = (@('-A', 'linker_messages', "--remap-path-prefix=$env:USERPROFILE=~") + $extra) -join [char]0x1f
+}
+Set-RustFlags
 
 function Want($what) { $Only.Count -eq 0 -or $Only -contains $what }
 function Run($exe) {
@@ -53,6 +60,20 @@ foreach ($arch in @(@('x64', 'x86_64'), @('arm64', 'aarch64'))) {
     $built += "dist\$Name-linux-$($arch[0]).tar.gz"
 }
 
+if (Want 'web') {
+    # The browser version, into docs\app\ (published with the website; commit it).
+    if (Get-Command wasm-bindgen -ErrorAction SilentlyContinue) {
+        Write-Host '== Browser version' -ForegroundColor Cyan
+        Run cargo rustc --profile web --lib --crate-type cdylib --target wasm32-unknown-unknown
+        Remove-Item -Recurse -Force docs\app -ErrorAction SilentlyContinue
+        Run wasm-bindgen --target web --no-typescript --out-dir docs\app target\wasm32-unknown-unknown\web\save_editor_offline.wasm
+        Copy-Item web\index.html docs\app\index.html
+        $built += 'docs\app\'
+    } else {
+        Write-Host '== Browser version skipped: install wasm-bindgen-cli (see README, Builds)' -ForegroundColor Yellow
+    }
+}
+
 if (Want 'android') {
     Write-Host '== Android APK' -ForegroundColor Cyan
     $env:JAVA_HOME = $Jdk
@@ -64,7 +85,7 @@ if (Want 'android') {
         Set-Item "env:AR_$u" "$NdkBin\llvm-ar.exe"
         Set-Item "env:CARGO_TARGET_$($up)_LINKER" "$NdkBin\$($t)26-clang.cmd"
         # 16 KB pages: required for Android 15+ devices that use them.
-        $env:RUSTFLAGS = '-A linker_messages -C link-arg=-Wl,-z,max-page-size=16384'
+        Set-RustFlags @('-C', 'link-arg=-Wl,-z,max-page-size=16384')
         Run cargo rustc --release --lib --crate-type cdylib --target $t
         $so = "target\$t\release\libsave_editor_offline.so"
         Run "$NdkBin\llvm-strip.exe" --strip-unneeded $so -o "target\$t\release\libsave_editor_offline.stripped.so"
@@ -73,7 +94,7 @@ if (Want 'android') {
         Copy-Item "target\$t\release\libsave_editor_offline.stripped.so" "$stage\libsave_editor_offline.so"
         $libs += "lib/$($abi[0])/libsave_editor_offline.so=$stage\libsave_editor_offline.so"
     }
-    $env:RUSTFLAGS = '-A linker_messages'
+    Set-RustFlags
 
     $apkDir = 'target\apk'
     Remove-Item -Recurse -Force "$apkDir\res", "$apkDir\compiled" -ErrorAction SilentlyContinue
