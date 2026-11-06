@@ -1561,6 +1561,65 @@ pub fn death_stranding2(ui: &mut Ui, cx: &mut GameCtx) {
     ui.weak("The save's MD5 is written again when you save. Not yet tried in the game.");
 }
 
+// ------------------------------------------------------------------ Mass Effect: Andromeda
+
+pub fn andromeda(ui: &mut Ui, cx: &mut GameCtx) {
+    let accent = Color32::from_rgb(60, 170, 200);
+    let mut sub = vec![];
+    if let Some(l) = cx.text("/Save/Location") {
+        sub.push(l);
+    }
+    if let Some(c) = cx.num("/Save/Completion %") {
+        sub.push(format!("{c}% complete"));
+    }
+    if let Some(h) = cx.num("/Save/Play time (hours)") {
+        sub.push(format!("{h:.1} hours played"));
+    }
+    hero(ui, accent, "Mass Effect: Andromeda", &sub.join("  \u{00B7}  "), |ui| {
+        cx.tile(ui, "Credits", "/Ryder/Credits", accent);
+        cx.tile(ui, "Ryder's level", "/Ryder/Level", accent);
+        cx.tile(ui, "Skill points", "/Ryder/Skill points", accent);
+    });
+    let squad: Vec<String> = match cx.get("/Squad") {
+        Some(Value::Object(m)) => m.keys().cloned().collect(),
+        _ => vec![],
+    };
+    if !squad.is_empty() {
+        panel(ui, "Squad", |ui| {
+            egui::Grid::new("mea_squad").striped(true).spacing([12.0, 4.0]).show(ui, |ui| {
+                ui.strong("");
+                ui.strong("Level");
+                ui.strong("Skill points");
+                ui.end_row();
+                for n in &squad {
+                    let p = join("/Squad", n);
+                    ui.label(n);
+                    cx.compact(ui, &join(&p, "Level"), 52.0);
+                    cx.compact(ui, &join(&p, "Skill points"), 60.0);
+                    ui.end_row();
+                }
+            });
+        });
+    }
+    let groups: Vec<String> = match cx.get("/Resources") {
+        Some(Value::Object(m)) => m.keys().cloned().collect(),
+        _ => vec![],
+    };
+    if !groups.is_empty() {
+        panel(ui, "Resources", |ui| {
+            let i = tabs(ui, "mea_res", &groups);
+            let p = join("/Resources", &groups[i]);
+            let rows: Vec<(String, String)> = match cx.get(&p) {
+                Some(Value::Object(m)) => m.keys().map(|k| (k.clone(), join(&p, k))).collect(),
+                _ => vec![],
+            };
+            value_rows(ui, cx, &format!("mea_{i}"), &rows);
+            ui.weak("Research data, minerals, salvage and the other stacks in Ryder's inventory, named from the save itself.");
+        });
+    }
+    ui.weak("A level change is copied to the character's progression too; the load screen keeps showing the old level until the game saves again. Both checksums are written again on save. Not yet tried in the game.");
+}
+
 // ------------------------------------------------------------------ God of War (2018)
 
 /// "Add equipment": a drop-down per piece the save doesn't have, grouped by type.
