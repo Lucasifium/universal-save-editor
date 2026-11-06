@@ -60,6 +60,7 @@ pub mod nwn;
 pub mod half_life;
 pub mod octopath;
 pub mod godot;
+pub mod goldensun;
 pub mod ini;
 pub mod lua;
 pub mod luabins;
@@ -134,6 +135,11 @@ pub fn parse_binary(d: &[u8]) -> Option<TreeDoc> {
     }
     if pokemon3::looks(d) {
         if let Ok(t) = pokemon3::parse(d) {
+            return Some(t);
+        }
+    }
+    if goldensun::looks(d) {
+        if let Ok(t) = goldensun::parse(d) {
             return Some(t);
         }
     }
