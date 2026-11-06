@@ -13,6 +13,7 @@ pub mod torchlight2;
 pub mod dragonage;
 pub mod gff4;
 pub mod infinity;
+pub mod darkest;
 pub mod crypto;
 pub mod fromsoft;
 pub mod sekiro_inv;
@@ -54,6 +55,7 @@ pub mod gff;
 pub mod kotor;
 pub mod nwn;
 pub mod half_life;
+pub mod octopath;
 pub mod godot;
 pub mod ini;
 pub mod lua;
@@ -326,6 +328,13 @@ pub fn parse_binary(d: &[u8]) -> Option<TreeDoc> {
     }
     if borderlands3::looks(d) {
         if let Ok(t) = borderlands3::parse(d) {
+    if darkest::looks(d) {
+        if let Ok(t) = darkest::parse(d) {
+            return Some(t);
+        }
+    }
+    if octopath::looks(d) {
+        if let Ok(t) = octopath::parse(d) {
             return Some(t);
         }
     }

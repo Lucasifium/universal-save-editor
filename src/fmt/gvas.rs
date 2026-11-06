@@ -222,12 +222,14 @@ impl P<'_> {
     /// Parse a value that must occupy exactly `size` bytes; on any mismatch, skip it
     /// (read-only) and drop leaves registered while trying.
     fn value_or_skip(&mut self, start: usize, size: usize, f: impl FnOnce(&mut Self) -> Result<Value, String>) -> Value {
-        let (leaves, editable) = (self.leaves.len(), self.editable.clone());
+        // Leaves are numbered in order, so the ones added by a failed try are those past `leaves`
+        // (no copy of the whole map per value: big saves have tens of thousands of them).
+        let leaves = self.leaves.len();
         match f(self) {
             Ok(v) if self.pos == start + size => v,
             _ => {
                 self.leaves.truncate(leaves);
-                self.editable = editable;
+                self.editable.retain(|_, id| *id < leaves);
                 self.pos = start + size;
                 Value::String(format!("<{size} bytes>"))
             }
