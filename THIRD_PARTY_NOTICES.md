@@ -44,6 +44,8 @@ Universal Save Editor is free. It builds on other people's work, listed here wit
 | [tl2-save-edit (Torchlight II save scrambling, checksum, hero and item layout)](https://github.com/Scepheo/tl2-save-edit) | Scepheo | facts only (file layouts, ids and names), credited |
 | [fallout-se (Fallout and Fallout 2 save layout; stat, skill, perk, trait, kill and item name tables)](https://github.com/ali-raheem/fallout-se) | Ali Raheem | MIT OR Apache-2.0 (used under MIT) |
 | [UELib (Unreal Engine 1 package layout for Deus Ex saves; facts only, no code)](https://github.com/EliotVU/Unreal-Library) | EliotVU | facts only (file layouts), credited |
+| [VolvoWrench (Half-Life / Source save container and map-state layout)](https://github.com/Traderain/VolvoWrench) | Traderain | WTFPL (layout only, no code copied) |
+| [Half-Life SDK and Source SDK 2013 (save field names, weapon ammo types)](https://github.com/ValveSoftware/source-sdk-2013) | Valve | facts only (file layouts, ids and names), credited |
 
 Copyright notices of the projects above whose code or tables were used:
 
