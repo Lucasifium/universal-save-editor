@@ -961,7 +961,7 @@ fn pak_messages() {
             }
         }
         let mut file = f.into_inner();
-        let mut read_chunk = |file: &mut std::fs::File, i: usize| -> Option<Vec<u8>> {
+        let read_chunk = |file: &mut std::fs::File, i: usize| -> Option<Vec<u8>> {
             let (start, meta) = *chunks.get(i)?;
             let len = (meta >> 10) as usize;
             let mut buf = vec![0u8; len];
@@ -1034,6 +1034,11 @@ fn every_game_screen_draws() {
     let (mut drawn, mut bad) = (0, vec![]);
     let mut todo: Vec<(String, std::path::PathBuf)> = vec![];
     if let Ok(list) = std::env::var("SAVE_EDITOR_DRAW") {
+        // "@list.txt": one path per line (for more files than an environment variable holds).
+        let list = match list.strip_prefix('@') {
+            Some(file) => std::fs::read_to_string(file).expect("list file").lines().collect::<Vec<_>>().join("|"),
+            None => list,
+        };
         todo = list.split('|').filter(|s| !s.is_empty()).map(|s| ("(given)".to_string(), std::path::PathBuf::from(s))).collect();
     } else {
         for g in crate::games::GAMES {
@@ -1082,7 +1087,12 @@ fn every_game_screen_draws() {
                 edits
             }));
             match r {
-                Ok(_) => drawn += 1,
+                Ok(_) => {
+                    drawn += 1;
+                    if std::env::var_os("SAVE_EDITOR_LIST").is_some() {
+                        println!("DRAWN {game:?}\t{}", path.display());
+                    }
+                }
                 Err(e) => {
                     let msg = e.downcast_ref::<String>().cloned().or_else(|| e.downcast_ref::<&str>().map(|s| s.to_string())).unwrap_or_default();
                     bad.push(format!("{gname} / {name} ({game:?}): {msg}"));
@@ -1192,4 +1202,55 @@ fn crafting_materials_on_saves() {
         let names: Vec<String> = list.iter().map(|s| format!("{} {}->{}", s.name, s.have, s.cap)).collect();
         println!("{} ({game:?}): {} material stacks, {n} raised, {} values written: {}", path.display(), list.len(), edits.len(), names.join(", "));
     }
+}
+
+/// Every game screen must draw (without panicking) on saves that lack what it looks for, or
+/// hold it with unexpected types: a damaged, truncated or newer-version save.
+#[test]
+fn every_screen_survives_odd_data() {
+    use crate::game_ui::Game;
+    use eframe::egui;
+    use serde_json::json;
+    const ALL: &[Game] = &[Game::EldenRing,Game::DarkSouls3,Game::DarkSouls2,Game::DarkSouls1,Game::Sekiro,Game::Terraria,Game::TerrariaWorld,Game::Pokemon,Game::Bethesda,Game::Hades,Game::Stardew,Game::Minecraft,Game::Balatro,Game::HollowKnight,Game::SlayTheSpire,Game::RpgMaker,Game::Onimusha,Game::Paradox,Game::RimWorld,Game::Subnautica,Game::OxygenNotIncluded,Game::GreenHell,Game::ReSlot,Game::Hogwarts,Game::RenPy,Game::MassEffect,Game::Xcom,Game::Xcom2,Game::Civ6,Game::Diablo2,Game::Pathfinder,Game::Ff7,Game::Ff7Remake,Game::HogwartsDb,Game::Ff9,Game::DyingLight2,Game::DyingLight,Game::Witcher3,Game::Cyberpunk,Game::Kenshi,Game::Palworld,Game::P4g,Game::Ffx2,Game::P5r,Game::Ffx,Game::Metro,Game::Yakuza0,Game::YakuzaDe,Game::Kiwami,Game::Ffxv,Game::DeathStranding2,Game::Gow2018,Game::GowRagnarok,Game::Cairn,Game::Borderlands,Game::Borderlands3,Game::GrimDawn,Game::TitanQuest,Game::Torchlight2,Game::Fallout12,Game::DeusEx,Game::Kotor,Game::Nwn,Game::Infinity,Game::DragonAge,Game::HalfLife,Game::HalfLife2,Game::Silksong,Game::Undertale,Game::Deltarune,Game::VampireSurvivors,Game::DarkestDungeon,Game::DarkestDungeon2,Game::Octopath,Game::Dos2,Game::Bg3,Game::Wasteland3,Game::Valheim,Game::GoldenSun,Game::Torment,Game::Starbound];
+    let odd = json!({
+        "Save": {"Level": "x", "Gold": -1}, "Shepard": [], "player": {"Money": null}, "party": {}, "Character": 5,
+        "Progress": {"Level": 1e30}, "Attributes": [1, 2], "Squad": {"": {}}, "Resources": "none", "#1": {"_Data": {}},
+        "GameState": {"Resources": []}, "SaveGame": {"player": {"farmName": 1}}, "Data": {"Player": {"Inventory": {}}},
+        "playerData": {"geo": "a"}, "actors": {"_data": {"@a": [null]}}, "Variables": [], "base": {"m_title": 0}
+    });
+    let mut bad = vec![];
+    for &game in ALL {
+        let _ = game.tab_label();
+        for root in [json!({}), json!(null), json!([]), odd.clone()] {
+            let r = catch_unwind(AssertUnwindSafe(|| {
+                let ctx = egui::Context::default();
+                crate::theme::install_fonts(&ctx);
+                crate::theme::apply(&ctx, true);
+                for (w, h) in [(1280.0, 900.0), (360.0, 700.0)] {
+                    for frame in 0..3 {
+                        let mut input = egui::RawInput { screen_rect: Some(egui::Rect::from_min_size(egui::Pos2::ZERO, egui::vec2(w, h))), ..Default::default() };
+                        if frame >= 1 {
+                            let p = egui::pos2(w * (0.2 + 0.3 * frame as f32), h * 0.3);
+                            input.events.push(egui::Event::PointerMoved(p));
+                            input.events.push(egui::Event::PointerButton { pos: p, button: egui::PointerButton::Primary, pressed: true, modifiers: Default::default() });
+                            input.events.push(egui::Event::PointerButton { pos: p, button: egui::PointerButton::Primary, pressed: false, modifiers: Default::default() });
+                        }
+                        let _ = ctx.run(input, |ctx| {
+                            egui::CentralPanel::default().show(ctx, |ui| {
+                                egui::ScrollArea::vertical().show(ui, |ui| {
+                                    let mut cx = crate::game_ui::GameCtx { root: &root, baseline: &root, tree: None, edits: vec![], archive: None, open_entry: None };
+                                    crate::game_ui::show(game, ui, &mut cx);
+                                });
+                            });
+                        });
+                    }
+                }
+            }));
+            if let Err(e) = r {
+                let msg = e.downcast_ref::<String>().cloned().or_else(|| e.downcast_ref::<&str>().map(|s| s.to_string())).unwrap_or_default();
+                bad.push(format!("{game:?} on {}: {msg}", if root.is_object() && root.as_object().unwrap().is_empty() { "{}".to_string() } else { root.to_string().chars().take(20).collect() }));
+            }
+        }
+    }
+    assert!(bad.is_empty(), "screens that panicked:\n{}", bad.join("\n"));
 }

@@ -1,6 +1,6 @@
 use crate::file_browser::{self, FileBrowser};
 use crate::formats::{self, Content, Layer};
-use crate::platform::{self, APP_NAME};
+use crate::platform;
 use crate::hex_view::{self, HexState, NumType, OffsetLabel};
 use crate::json_view::{self, TreeCtx};
 use crate::names::{self, Names};
@@ -2022,9 +2022,10 @@ impl App {
                     archive: d.layers.iter().find_map(|l| if let Layer::Copeck { name, .. } = l { Some(name.as_str()) } else { None }).map(|n| (n, d.zip_entries.as_slice(), newest.as_deref())),
                     open_entry: None,
                 };
-                // A vertical scroll area widens to fit its content; keep it to the window.
+                // Laid out to the window's width (at most 1200); a table or banner that is wider
+                // still (a phone) scrolls sideways instead of being cut off.
                 let w = ui.available_width();
-                ScrollArea::vertical().auto_shrink([false, false]).max_width(w).show(ui, |ui| {
+                ScrollArea::both().auto_shrink([false, false]).max_width(w).show(ui, |ui| {
                     ui.set_max_width(w.min(1200.0));
                     crate::game_ui::show(game, ui, &mut cx);
                     ui.add_space(12.0);

@@ -38,7 +38,7 @@ pub fn unpack(d: &[u8]) -> Option<(Blocks, Vec<u8>)> {
     while q + 6 < d.len() {
         if d[q] == 0x78 && matches!(d[q + 1], 0x01 | 0x5e | 0x9c | 0xda) && q >= 4 {
             let len = u32::from_le_bytes(d[q - 4..q].try_into().unwrap()) as usize;
-            if len > 2 && q + len <= d.len() {
+            if len > 2 && q.checked_add(len).is_some_and(|end| end <= d.len()) {
                 if let Some(raw) = inflate_exact(&d[q..q + len]) {
                     view.extend(&d[p..q]);
                     blocks.push((q, len, view.len(), raw.len()));
@@ -91,6 +91,17 @@ pub fn pack_from(original: &[u8], blocks: &Blocks, view: &[u8]) -> Result<Vec<u8
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    /// A block size near 4 GB must not wrap the end offset (it would on 32-bit, the browser build).
+    #[test]
+    fn huge_block_size_is_not_a_block() {
+        let mut d = b"RGMH".to_vec();
+        d.resize(0x2024, 0);
+        d.extend(0xFFFF_FFF0u32.to_le_bytes());
+        d.extend([0x78, 0x9c]);
+        d.resize(0x2200, 0);
+        assert!(unpack(&d).is_none());
+    }
 
     fn block(data: &[u8]) -> Vec<u8> {
         let mut z = flate2::write::ZlibEncoder::new(Vec::new(), flate2::Compression::fast());
