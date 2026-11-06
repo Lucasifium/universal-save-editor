@@ -26,6 +26,7 @@ mod octopath;
 mod oni_map;
 mod pathfinder;
 mod pokemon;
+mod expedition33;
 mod screens2;
 mod starbound;
 mod survival;
@@ -123,6 +124,7 @@ pub enum Game {
     GoldenSun,
     Torment,
     Starbound,
+    Expedition33,
 }
 
 impl Game {
@@ -186,6 +188,7 @@ impl Game {
             Game::GoldenSun => "Party",
             Game::Torment => "Party",
             Game::Starbound => "Character",
+            Game::Expedition33 => "Party",
             _ => "Character",
         }
     }
@@ -271,6 +274,7 @@ pub fn detect(kind: &str, root: &Value) -> Option<Game> {
         crate::fmt::starbound::KIND_PLAYER => Game::Starbound,
         crate::fmt::goldensun::KIND_GS1 | crate::fmt::goldensun::KIND_GS2 => Game::GoldenSun,
         _ if has("/base/m_title") && has("/player") => Game::YakuzaDe,
+        k if k.starts_with("Unreal Engine save (BP_SaveGameObject") && has("/CharactersCollection") && has("/Gold") => Game::Expedition33,
         "Unreal Engine save (PalWorldPlayerSaveGame)" if has("/SaveData/TechnologyPoint") => Game::Palworld,
         "Final Fantasy VII Remake save" | "Final Fantasy VII Rebirth save" => Game::Ff7Remake,
         "RimWorld save" => Game::RimWorld,
@@ -346,6 +350,7 @@ pub fn show(game: Game, ui: &mut Ui, cx: &mut GameCtx) {
         Game::Valheim => survival::valheim(ui, cx),
         Game::GoldenSun => golden_sun::show(ui, cx),
         Game::Starbound => starbound::show(ui, cx),
+        Game::Expedition33 => expedition33::show(ui, cx),
         Game::RenPy => screens2::renpy(ui, cx),
         Game::MassEffect => screens2::mass_effect(ui, cx),
         Game::Xcom => screens2::xcom(ui, cx),
