@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://lucasifium.github.io/universal-save-editor/sitemap.xml
