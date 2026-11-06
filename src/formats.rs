@@ -152,6 +152,8 @@ pub enum Layer {
     /// Larian `.lsv` (Divinity: Original Sin 2, Baldur's Gate 3): one LSF file of the
     /// package, unpacked; packed again with the package's checksum on save.
     Larian { archive: Arc<Vec<u8>>, file: String },
+    /// Wasteland 3 `.xml`: a `Key:=Value` text header, then the XML packed with LZF.
+    Wasteland3 { original: Arc<Vec<u8>> },
 }
 
 impl Layer {
@@ -207,6 +209,7 @@ impl Layer {
             Layer::GrimDawn { .. } => "Grim Dawn character (encrypted, checksummed blocks)".into(),
             Layer::Torchlight2 => "Torchlight II save (scrambled, checksum)".into(),
             Layer::Larian { file, .. } => format!("Larian save package ({file})"),
+            Layer::Wasteland3 { .. } => "Wasteland 3 save (LZF)".to_string(),
             Layer::Xcom { xcom2, sizes, .. } => format!("{} save ({} LZO chunks)", if *xcom2 { "XCOM 2" } else { "XCOM: Enemy Unknown" }, sizes.len()),
         }
     }
@@ -643,6 +646,7 @@ fn wrap(layer: &Layer, data: Vec<u8>) -> Result<Vec<u8>, String> {
         Layer::GrimDawn { seed, plan } => fmt::grimdawn::encrypt(*seed, plan, &data)?,
         Layer::Torchlight2 => fmt::torchlight2::pack(&data),
         Layer::Larian { archive, file } => fmt::larian::save(archive, file, &data)?,
+        Layer::Wasteland3 { original } => fmt::wasteland3::pack(original, &data)?,
         Layer::Me1Header { header } => {
             let mut out = header.to_vec();
             out.extend_from_slice(&data);
@@ -736,6 +740,9 @@ fn peel(data: &[u8], ctx: &mut Ctx) -> Option<(Layer, Vec<u8>)> {
                 "Larian save package: its game data is unpacked here and packed again, with the package checksum, when you save.".into()
             });
             return Some((Layer::Larian { archive: Arc::new(data.to_vec()), file }, lsf));
+    if data.starts_with(b"XLZF\n") {
+        if let Some(xml) = fmt::wasteland3::open(data) {
+            return Some((Layer::Wasteland3 { original: Arc::new(data.to_vec()) }, xml));
         }
     }
     if data.starts_with(BOM) {
