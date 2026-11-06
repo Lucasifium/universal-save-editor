@@ -1,5 +1,5 @@
 [package]
-name = "save_editor_offline"
+name = "universal_save_editor"
 version = "0.1.0"
 edition = "2021"
 description = "Universal Save Editor: a free, offline save editor for 100+ PC games"
@@ -7,11 +7,11 @@ license = "GPL-3.0-or-later"
 repository = "https://github.com/Lucasifium/universal-save-editor"
 
 [lib]
-name = "save_editor_offline"
+name = "universal_save_editor"
 path = "src/lib.rs"
 
 [[bin]]
-name = "SaveEditorOffline"
+name = "UniversalSaveEditor"
 path = "src/main.rs"
 
 [dependencies]

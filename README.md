@@ -10,7 +10,7 @@ and more (the full list is below). Written in Rust (egui). Nothing is uploaded a
 no rate limits.
 
 **Download:** grab the latest build from the [Releases](../../releases/latest) page (Windows, Linux,
-Android). The program file is still called `SaveEditorOffline`.
+Android).
 
 **No install:** the [browser version](https://lucasifium.github.io/universal-save-editor/app/) is the same
 editor compiled to WebAssembly. It runs inside the page on your own computer and never uploads the save;
@@ -52,12 +52,12 @@ Games; on Android: RetroArch, Downloads).
 
 | File in `dist\` | Runs on |
 |---|---|
-| `SaveEditorOffline-windows-x64.exe` | Windows 10/11, Intel/AMD |
-| `SaveEditorOffline-windows-arm64.exe` | Windows 11 on ARM (Snapdragon laptops) |
-| `SaveEditorOffline-linux-x64.tar.gz` | Linux with glibc 2.28+ (2018 on), X11 or Wayland |
-| `SaveEditorOffline-linux-arm64.tar.gz` | ARM64 Linux (Raspberry Pi 4/5 64-bit OS, etc.) |
-| `SaveEditorOffline-android.apk` | Android 8+ phones and tablets (ARM64, plus x86_64 for emulators) |
-| `SaveEditorOffline-macos.zip` | macOS 11+, Apple Silicon and Intel; only in major releases or when asked for |
+| `UniversalSaveEditor-windows-x64.exe` | Windows 10/11, Intel/AMD |
+| `UniversalSaveEditor-windows-arm64.exe` | Windows 11 on ARM (Snapdragon laptops) |
+| `UniversalSaveEditor-linux-x64.tar.gz` | Linux with glibc 2.28+ (2018 on), X11 or Wayland |
+| `UniversalSaveEditor-linux-arm64.tar.gz` | ARM64 Linux (Raspberry Pi 4/5 64-bit OS, etc.) |
+| `UniversalSaveEditor-android.apk` | Android 8+ phones and tablets (ARM64, plus x86_64 for emulators) |
+| `UniversalSaveEditor-macos.zip` | macOS 11+, Apple Silicon and Intel; only in major releases or when asked for |
 
 What the script needs: Rust targets for each platform, Visual Studio Build Tools with the ARM64
 compiler, `cargo-zigbuild` + `pip install ziglang` (Linux), and the Android SDK/NDK plus a JDK (Android).
@@ -295,8 +295,8 @@ another one (e.g. before and after you earned gold), with a one-click **Use thei
 ## Preferences
 
 Theme (dark/light), zoom (Ctrl +/−), recent files and view toggles are remembered in
-`settings.json` in `%APPDATA%\SaveEditorOffline` (Windows), `~/Library/Application Support/SaveEditorOffline`
-(macOS), `~/.config/SaveEditorOffline` (Linux) or the app's private storage (Android).
+`settings.json` in `%APPDATA%\UniversalSaveEditor` (Windows), `~/Library/Application Support/UniversalSaveEditor`
+(macOS), `~/.config/UniversalSaveEditor` (Linux) or the app's private storage (Android).
 
 ## Tests
 

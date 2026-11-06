@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- MainActivity (packaging/android/java) is Android's NativeActivity plus on-screen keyboard
-     support; it loads libsave_editor_offline.so, where the app is. -->
+     support; it loads libuniversal_save_editor.so, where the app is. -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.saveeditoroffline.app"
+    package="com.universalsaveeditor.app"
     android:versionCode="@VERSION_CODE@"
     android:versionName="@VERSION@">
 
@@ -14,7 +14,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" android:maxSdkVersion="29" />
 
     <application
-        android:label="SaveEditorOffline"
+        android:label="UniversalSaveEditor"
         android:icon="@mipmap/ic_launcher"
         android:hasCode="true"
         android:requestLegacyExternalStorage="true">
@@ -24,7 +24,7 @@
             android:theme="@android:style/Theme.Material.NoActionBar.Fullscreen"
             android:configChanges="orientation|screenSize|screenLayout|smallestScreenSize|keyboard|keyboardHidden|navigation|uiMode|density"
             android:windowSoftInputMode="adjustResize">
-            <meta-data android:name="android.app.lib_name" android:value="save_editor_offline" />
+            <meta-data android:name="android.app.lib_name" android:value="universal_save_editor" />
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

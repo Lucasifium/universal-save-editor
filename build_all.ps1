@@ -1,4 +1,4 @@
-# Builds SaveEditorOffline for every platform the machine can build, into dist\.
+# Builds UniversalSaveEditor for every platform the machine can build, into dist\.
 #   Windows x64 + ARM64 (MSVC), Linux x64 + ARM64 (cargo-zigbuild), Android APK (arm64 + x86_64),
 #   and the browser version (WebAssembly) into docs\app\.
 # macOS is built by GitHub Actions (.github/workflows/release.yml), since Apple's SDK only runs on Macs.
@@ -20,7 +20,7 @@ $BuildTools = (Get-ChildItem "$SdkRoot\build-tools" -Directory | Sort-Object Nam
 $Platform = (Get-ChildItem "$SdkRoot\platforms" -Directory | Sort-Object Name | Select-Object -Last 1).FullName
 $Jdk = (Get-ChildItem 'C:\Program Files\Microsoft' -Directory -Filter 'jdk-*' | Sort-Object Name | Select-Object -Last 1).FullName
 $Version = (Select-String -Path Cargo.toml -Pattern '^version = "(.+)"').Matches[0].Groups[1].Value
-$Name = 'SaveEditorOffline'
+$Name = 'UniversalSaveEditor'
 $env:CARGO_ZIGBUILD_ZIG_PATH = 'python -m ziglang'
 
 # Rust writes source paths into the program (panic messages). Replace this machine's folders with
@@ -92,7 +92,7 @@ if (Want 'web') {
         Write-Host '== Browser version' -ForegroundColor Cyan
         Run cargo rustc --profile web --lib --crate-type cdylib --target wasm32-unknown-unknown
         Remove-Item -Recurse -Force docs\app -ErrorAction SilentlyContinue
-        Run wasm-bindgen --target web --no-typescript --out-dir docs\app target\wasm32-unknown-unknown\web\save_editor_offline.wasm
+        Run wasm-bindgen --target web --no-typescript --out-dir docs\app target\wasm32-unknown-unknown\web\universal_save_editor.wasm
         Copy-Item web\index.html docs\app\index.html
         $built += 'docs\app\'
     } else {
@@ -113,19 +113,19 @@ if (Want 'android') {
         # 16 KB pages: required for Android 15+ devices that use them.
         Set-RustFlags @('-C', 'link-arg=-Wl,-z,max-page-size=16384')
         Run cargo rustc --release --lib --crate-type cdylib --target $t
-        $so = "target\$t\release\libsave_editor_offline.so"
-        Run "$NdkBin\llvm-strip.exe" --strip-unneeded $so -o "target\$t\release\libsave_editor_offline.stripped.so"
+        $so = "target\$t\release\libuniversal_save_editor.so"
+        Run "$NdkBin\llvm-strip.exe" --strip-unneeded $so -o "target\$t\release\libuniversal_save_editor.stripped.so"
         $stage = "target\apk\lib-$($abi[0])"
         New-Item -ItemType Directory -Force $stage | Out-Null
-        Copy-Item "target\$t\release\libsave_editor_offline.stripped.so" "$stage\libsave_editor_offline.so"
-        $libs += "lib/$($abi[0])/libsave_editor_offline.so=$stage\libsave_editor_offline.so"
+        Copy-Item "target\$t\release\libuniversal_save_editor.stripped.so" "$stage\libuniversal_save_editor.so"
+        $libs += "lib/$($abi[0])/libuniversal_save_editor.so=$stage\libuniversal_save_editor.so"
     }
     Set-RustFlags
 
     $apkDir = 'target\apk'
     Remove-Item -Recurse -Force "$apkDir\res", "$apkDir\compiled" -ErrorAction SilentlyContinue
     # Launcher icons: PNGs written by build.rs.
-    $icons = Get-ChildItem 'target\aarch64-linux-android\release\build' -Directory -Filter 'save_editor_offline-*' |
+    $icons = Get-ChildItem 'target\aarch64-linux-android\release\build' -Directory -Filter 'universal_save_editor-*' |
         ForEach-Object { "$($_.FullName)\out\icons" } | Where-Object { Test-Path "$_\192.png" } | Select-Object -First 1
     Run python -I packaging\package.py icons $icons "$apkDir\res"
     $p = $Version.Split('.')
@@ -154,8 +154,8 @@ if (Want 'android') {
     if (-not (Test-Path $ks)) {
         $pw = -join ((48..57) + (65..90) + (97..122) | Get-Random -Count 24 | ForEach-Object { [char]$_ })
         Set-Content $pwFile $pw -NoNewline -Encoding ascii
-        Run "$Jdk\bin\keytool.exe" -genkeypair -keystore $ks -alias saveeditoroffline -keyalg RSA -keysize 4096 -validity 10000 `
-            -storepass $pw -keypass $pw -dname 'CN=SaveEditorOffline'
+        Run "$Jdk\bin\keytool.exe" -genkeypair -keystore $ks -alias universalsaveeditor -keyalg RSA -keysize 4096 -validity 10000 `
+            -storepass $pw -keypass $pw -dname 'CN=UniversalSaveEditor'
     }
     Run "$BuildTools\apksigner.bat" sign --ks $ks --ks-pass "file:$pwFile" --out "dist\$Name-android.apk" "$apkDir\aligned.apk"
     Run "$BuildTools\apksigner.bat" verify "dist\$Name-android.apk"
@@ -166,7 +166,7 @@ if (Want 'android') {
 # The APK and tarballs are compressed, so check the binaries that went into them as well.
 $checked = @($built | Where-Object { $_ -like '*.exe' })
 foreach ($arch in @('x86_64', 'aarch64')) { $checked += @(Get-Item "target\$arch-unknown-linux-gnu\release\$Name" -ErrorAction SilentlyContinue | ForEach-Object FullName) }
-if (Want 'android') { $checked += @(Get-ChildItem 'target\apk' -Recurse -Filter 'libsave_editor_offline.so' | ForEach-Object FullName) }
+if (Want 'android') { $checked += @(Get-ChildItem 'target\apk' -Recurse -Filter 'libuniversal_save_editor.so' | ForEach-Object FullName) }
 foreach ($f in $checked) { Check-Clean $f }
 
 Write-Host ''

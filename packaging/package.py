@@ -9,7 +9,7 @@ import os, shutil, sys, tarfile, zipfile
 
 def tar(binary, out):
     with tarfile.open(out, "w:gz") as t:
-        info = t.gettarinfo(binary, arcname="SaveEditorOffline")
+        info = t.gettarinfo(binary, arcname="UniversalSaveEditor")
         info.mode = 0o755
         info.uid = info.gid = 0
         info.uname = info.gname = ""

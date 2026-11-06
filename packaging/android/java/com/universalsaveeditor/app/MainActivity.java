@@ -1,4 +1,4 @@
-package com.saveeditoroffline.app;
+package com.universalsaveeditor.app;
 
 import android.app.NativeActivity;
 import android.content.Context;
@@ -18,7 +18,7 @@ import android.view.inputmethod.InputMethodManager;
  */
 public class MainActivity extends NativeActivity {
     static {
-        System.loadLibrary("save_editor_offline");
+        System.loadLibrary("universal_save_editor");
     }
 
     /** Typed text. */

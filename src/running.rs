@@ -8,7 +8,7 @@ use std::path::Path;
 /// (Steam\userdata, OneDrive\Documents…) without being the game.
 const IGNORE: &[&str] = &[
     "steam", "steamwebhelper", "onedrive", "dropbox", "googledrivefs", "explorer", "epicgameslauncher", "galaxyclient",
-    "code", "claude", "saveeditoroffline", "node", "python", "java", "javaw", "cmd", "powershell", "bash", "svchost",
+    "code", "claude", "universalsaveeditor", "node", "python", "java", "javaw", "cmd", "powershell", "bash", "svchost",
     "documents", "users", "appdata", "local", "roaming", "locallow", "game", "games", "save", "saves",
 ];
 

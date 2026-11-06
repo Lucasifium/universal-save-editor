@@ -1,5 +1,5 @@
 //! Small persisted preferences, stored in the app's config folder (on Windows,
-//! %APPDATA%\SaveEditorOffline\settings.json).
+//! %APPDATA%\UniversalSaveEditor\settings.json).
 
 use serde_json::{json, Value};
 use std::path::PathBuf;
