@@ -59,6 +59,13 @@ Universal Save Editor is free. It builds on other people's work, listed here wit
 | [game-tools-collection (Octopath Traveler II character and job ids)](https://github.com/RyudoSynbios/game-tools-collection) | RyudoSynbios | MIT |
 | [octopath-save-editor (Octopath Traveler save paths and property names)](https://github.com/AppleBoiy/octopath-save-editor) | AppleBoiy | facts only (file layouts, ids and names), credited |
 | [Darkest Dungeon 2 save editor (save files and value names)](https://github.com/Hyena68/Darkest-Dungeon-SAVE-EDITOR) | Hyena68 | facts only (file layouts, ids and names), credited |
+| [wasteland-3-savegame-decoder (Wasteland 3 save header and LZF body; facts, no code)](https://github.com/nharrer/wasteland-3-savegame-decoder) | nharrer | MIT |
+| [wl3 (Wasteland 3 save re-packing: header sizes; facts, no code)](https://github.com/xeus2001/wl3) | xeus2001 | MIT |
+| [w3se (Wasteland 3 save paths for money, attributes and items)](https://github.com/stolinator/w3se) | stolinator | facts only (file layouts, ids and names), credited |
+| [LibLZF (the LZF stream format; the editor has its own implementation)](http://software.schmorp.de/pkg/liblzf.html) | Marc Alexander Lehmann | facts only (format), credited |
+| [valheim-fch-editor (Valheim character layout, skill ids)](https://github.com/cquaid/valheim-fch-editor) | cQuaid | MIT |
+| [valheim-save-tools (Valheim character layout by version)](https://github.com/Kakoen/valheim-save-tools) | Kakoen | facts only (file layouts, ids and names), credited |
+| [valheim-character-editor (newer Valheim layouts, skill ids)](https://github.com/bkaznowski/valheim-character-editor) | bkaznowski | facts only (file layouts, ids and names), credited |
 
 Copyright notices of the projects above whose code or tables were used:
 
@@ -85,6 +92,7 @@ Copyright notices of the projects above whose code or tables were used:
 - DarkestDungeonSaveEditor (Darkest Dungeon DSON format and its type rules, ported): Copyright (c) 2018 robojumper. Licensed under MIT.
 - game-tools-collection (Octopath Traveler II character and job ids): Copyright (c) 2024 RyudoSynbios. Licensed under MIT.
 - LSLib (Larian LSPK package and LSF resource layouts, ported): Copyright (c) Norbyte. Licensed under MIT.
+- valheim-fch-editor (Valheim character layout, skill ids): Copyright (c) 2021 cQuaid. Licensed under MIT.
 
 The MIT, Apache-2.0 and zlib licence texts are included below with the crates that use them.
 

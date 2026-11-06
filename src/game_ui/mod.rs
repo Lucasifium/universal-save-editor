@@ -26,6 +26,7 @@ mod oni_map;
 mod pathfinder;
 mod pokemon;
 mod screens2;
+mod survival;
 mod terraria;
 mod terraria_world;
 
@@ -111,6 +112,8 @@ pub enum Game {
     Octopath,
     Dos2,
     Bg3,
+    Wasteland3,
+    Valheim,
 }
 
 impl Game {
@@ -166,6 +169,8 @@ impl Game {
             Game::DarkestDungeon2 => "Expedition",
             Game::Octopath => "Travellers",
             Game::Dos2 | Game::Bg3 => "Party",
+            Game::Wasteland3 => "Rangers",
+            Game::Valheim => "Viking",
             _ => "Character",
         }
     }
@@ -242,6 +247,8 @@ pub fn detect(kind: &str, root: &Value) -> Option<Game> {
         crate::fmt::octopath::OT1 | crate::fmt::octopath::OT2 => Game::Octopath,
         crate::fmt::larian::DOS2 => Game::Dos2,
         crate::fmt::larian::BG3 => Game::Bg3,
+        "Wasteland 3 save" => Game::Wasteland3,
+        "Valheim character" => Game::Valheim,
         _ if has("/base/m_title") && has("/player") => Game::YakuzaDe,
         "Unreal Engine save (PalWorldPlayerSaveGame)" if has("/SaveData/TechnologyPoint") => Game::Palworld,
         "Final Fantasy VII Remake save" | "Final Fantasy VII Rebirth save" => Game::Ff7Remake,
@@ -310,6 +317,8 @@ pub fn show(game: Game, ui: &mut Ui, cx: &mut GameCtx) {
         Game::Octopath => octopath::show(ui, cx),
         Game::Dos2 => larian::dos2(ui, cx),
         Game::Bg3 => larian::bg3(ui, cx),
+        Game::Wasteland3 => survival::wasteland3(ui, cx),
+        Game::Valheim => survival::valheim(ui, cx),
         Game::RenPy => screens2::renpy(ui, cx),
         Game::MassEffect => screens2::mass_effect(ui, cx),
         Game::Xcom => screens2::xcom(ui, cx),
@@ -826,6 +835,8 @@ mod tests {
         assert_eq!(detect("Darkest Dungeon save file", &json!({})), None);
         assert_eq!(detect("JSON", &json!({"run_values": {"values": {}}, "inventory": {"m_items": []}})), Some(Game::DarkestDungeon2));
         assert_eq!(detect("Octopath Traveler II save", &json!({})), Some(Game::Octopath));
+        assert_eq!(detect("Wasteland 3 save", &json!({})), Some(Game::Wasteland3));
+        assert_eq!(detect("Valheim character", &json!({})), Some(Game::Valheim));
     }
 
     #[test]

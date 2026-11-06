@@ -103,6 +103,8 @@ pub mod terraria_world;
 pub mod tomlf;
 pub mod undertale;
 pub mod vampire;
+pub mod valheim;
+pub mod wasteland3;
 pub mod xml;
 pub mod yaml;
 
@@ -311,6 +313,16 @@ pub fn parse_binary(d: &[u8]) -> Option<TreeDoc> {
     }
     if oni::looks(d) {
         if let Ok(t) = oni::parse(d) {
+            return Some(t);
+        }
+    }
+    if wasteland3::looks(d) {
+        if let Ok(t) = wasteland3::parse(d) {
+            return Some(t);
+        }
+    }
+    if valheim::looks(d) {
+        if let Ok(t) = valheim::parse(d) {
             return Some(t);
         }
     }

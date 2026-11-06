@@ -45,6 +45,8 @@ cfb-mode = "0.8"
 pbkdf2 = { version = "0.12", default-features = false, features = ["hmac"] }
 hmac = "0.12"
 md-5 = "0.10"
+# Valheim characters end with a SHA-512 of their data.
+sha2 = "0.10"
 lzokay-native = "0.1"
 # Oodle: the library games install is loaded at run time (src/oodle.rs); none of it is shipped.
 libloading = "0.8"
