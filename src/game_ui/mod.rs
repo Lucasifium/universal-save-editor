@@ -8,6 +8,7 @@
 mod cairn;
 mod dashboards;
 mod fromsoft;
+mod larian;
 mod oni_map;
 mod pathfinder;
 mod pokemon;
@@ -75,6 +76,8 @@ pub enum Game {
     Gow2018,
     GowRagnarok,
     Cairn,
+    Dos2,
+    Bg3,
 }
 
 impl Game {
@@ -115,6 +118,7 @@ impl Game {
             Game::Gow2018 => "Kratos",
             Game::GowRagnarok => "Kratos",
             Game::Cairn => "Climber",
+            Game::Dos2 | Game::Bg3 => "Party",
             _ => "Character",
         }
     }
@@ -169,6 +173,8 @@ pub fn detect(kind: &str, root: &Value) -> Option<Game> {
         "God of War save" => Game::Gow2018,
         "God of War Ragnarök save" => Game::GowRagnarok,
         "Cairn save" => Game::Cairn,
+        crate::fmt::larian::DOS2 => Game::Dos2,
+        crate::fmt::larian::BG3 => Game::Bg3,
         _ if has("/base/m_title") && has("/player") => Game::YakuzaDe,
         "Unreal Engine save (PalWorldPlayerSaveGame)" if has("/SaveData/TechnologyPoint") => Game::Palworld,
         "Final Fantasy VII Remake save" | "Final Fantasy VII Rebirth save" => Game::Ff7Remake,
@@ -220,6 +226,8 @@ pub fn show(game: Game, ui: &mut Ui, cx: &mut GameCtx) {
         Game::Gow2018 => screens2::gow2018(ui, cx),
         Game::GowRagnarok => screens2::gow_ragnarok(ui, cx),
         Game::Cairn => cairn::show(ui, cx),
+        Game::Dos2 => larian::dos2(ui, cx),
+        Game::Bg3 => larian::bg3(ui, cx),
         Game::RenPy => screens2::renpy(ui, cx),
         Game::MassEffect => screens2::mass_effect(ui, cx),
         Game::Xcom => screens2::xcom(ui, cx),
@@ -702,6 +710,8 @@ mod tests {
         assert_eq!(detect("XCOM 2 game data", &json!({})), Some(Game::Xcom2));
         assert_eq!(detect("Civilization VI save", &json!({})), Some(Game::Civ6));
         assert_eq!(detect("Diablo II character", &json!({})), Some(Game::Diablo2));
+        assert_eq!(detect("Divinity: Original Sin 2 save", &json!({})), Some(Game::Dos2));
+        assert_eq!(detect("Baldur's Gate 3 save", &json!({})), Some(Game::Bg3));
         assert_eq!(detect("JSON", &json!({"player": {"Money": 1}, "party": {"m_EntityData": []}})), Some(Game::Pathfinder));
         assert_eq!(detect("Final Fantasy VII save", &json!({})), Some(Game::Ff7));
         assert_eq!(detect("Final Fantasy VII Rebirth save", &json!({})), Some(Game::Ff7Remake));

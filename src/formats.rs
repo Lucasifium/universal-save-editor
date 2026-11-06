@@ -141,6 +141,9 @@ pub enum Layer {
     Me1Header { header: Arc<Vec<u8>> },
     /// Pathfinder (Owlcat) `.zks`: header, player and party JSON shown as one document.
     Owlcat { archive: Arc<Vec<u8>> },
+    /// Larian `.lsv` (Divinity: Original Sin 2, Baldur's Gate 3): one LSF file of the
+    /// package, unpacked; packed again with the package's checksum on save.
+    Larian { archive: Arc<Vec<u8>>, file: String },
 }
 
 impl Layer {
@@ -192,6 +195,7 @@ impl Layer {
             Layer::Me1Le { .. } => "Mass Effect (Legendary Edition) save (zlib)".to_string(),
             Layer::Me1Header { .. } => "Mass Effect save (image header)".to_string(),
             Layer::Owlcat { .. } => "Pathfinder save archive".to_string(),
+            Layer::Larian { file, .. } => format!("Larian save package ({file})"),
             Layer::Xcom { xcom2, sizes, .. } => format!("{} save ({} LZO chunks)", if *xcom2 { "XCOM 2" } else { "XCOM: Enemy Unknown" }, sizes.len()),
         }
     }
@@ -294,6 +298,8 @@ pub fn decode_with(raw: &[u8], opts: &Options) -> Decoded {
     // Cyberpunk 2077 keeps its table of sections in the file's tail, outside the packed data.
     let cyberpunk = match layers.last() {
         Some(Layer::Cdpr { prefix, footer, .. }) => fmt::cyberpunk::parse(&data, prefix.len(), footer),
+        // Larian saves: the screen also reads the package's other files (summary, metadata).
+        Some(Layer::Larian { archive, file }) => fmt::larian::parse(&data, archive, file),
         _ => None,
     };
     let content = match cyberpunk {
@@ -616,6 +622,7 @@ fn wrap(layer: &Layer, data: Vec<u8>) -> Result<Vec<u8>, String> {
             out
         }
         Layer::Owlcat { archive } => fmt::owlcat::save(archive, &data)?,
+        Layer::Larian { archive, file } => fmt::larian::save(archive, file, &data)?,
         Layer::Me1Header { header } => {
             let mut out = header.to_vec();
             out.extend_from_slice(&data);
@@ -700,6 +707,16 @@ fn peel(data: &[u8], ctx: &mut Ctx) -> Option<(Layer, Vec<u8>)> {
             return Some((Layer::Owlcat { archive: Arc::new(data.to_vec()) }, json));
         }
         return renpy_unzip(data).or_else(|| generic_unzip(data, ctx));
+    }
+    if fmt::lspk::looks(data) {
+        if let Some((file, lsf)) = fmt::larian::open(data) {
+            ctx.hint = Some(if file.eq_ignore_ascii_case("meta.lsf") {
+                "Baldur's Gate 3 save: the party summary is shown read-only.".into()
+            } else {
+                "Larian save package: its game data is unpacked here and packed again, with the package checksum, when you save.".into()
+            });
+            return Some((Layer::Larian { archive: Arc::new(data.to_vec()), file }, lsf));
+        }
     }
     if data.starts_with(BOM) {
         return Some((Layer::Utf8Bom, data[BOM.len()..].to_vec()));
