@@ -73,6 +73,7 @@ pub mod masseffect;
 pub mod me1;
 pub mod me1le;
 pub mod fallout12;
+pub mod fos;
 pub mod deusex;
 pub mod xcom2;
 pub mod xcom_eu;
@@ -269,6 +270,11 @@ pub fn parse_binary(d: &[u8]) -> Option<TreeDoc> {
     }
     if torchlight2::looks(d) {
         if let Ok(t) = torchlight2::parse(d) {
+            return Some(t);
+        }
+    }
+    if fos::looks(d) {
+        if let Ok(t) = fos::parse(d) {
             return Some(t);
         }
     }
