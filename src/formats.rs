@@ -90,6 +90,8 @@ pub enum Layer {
     MetroPlayer { head: Arc<Vec<u8>> },
     /// BioShock Infinite: MD5 header, Unreal Engine 3 zlib chunks unpacked in place.
     Bioshock { chunks: Arc<fmt::bioshock::Chunks> },
+    /// Final Fantasy XV `.save`: AES-192, shuffled blocks and a tweak; `foot` is the plain footer.
+    Ffxv { foot: Arc<Vec<u8>> },
     /// Control (Remedy): two u32 versions, then a CRC-32 of the rest.
     RemedyCrc { head: [u8; 8] },
     /// Yakuza (Dragon Engine): XORed JSON and a check of it at the end.
@@ -124,8 +126,9 @@ pub enum Layer {
     /// original file supplies the header and footer bytes when writing it back.
     Mandarin { original: Arc<Vec<u8>>, game: usize, user: u64 },
     /// Civilization V `.Civ5Save`: an uncompressed header, then the game as one zlib stream
-    /// to the end of the file.
-    Civ5 { header: Arc<Vec<u8>> },
+    /// cut into chunks of up to 64 KiB, each after its u32 length (`chunked`; very old saves
+    /// may hold one plain stream), then (older builds) a trailer kept as it is.
+    Civ5 { header: Arc<Vec<u8>>, chunked: bool, trailer: Arc<Vec<u8>> },
     /// CD Projekt RED's chunked saves (Cyberpunk 2077 `sav.dat`, The Witcher 3 `.sav`): a
     /// header with an `FZLC` table of LZ4 chunks, then a footer.
     /// `tagged`: each chunk starts "4ZLX" and its unpacked size (Cyberpunk).
@@ -187,6 +190,7 @@ impl Layer {
             Layer::MetroPlayer { .. } => "Metro level save (LZ4)".into(),
             Layer::Rgmh { blocks, .. } => format!("BioShock Remastered save ({} zlib blocks)", blocks.len()),
             Layer::RemedyCrc { .. } => "Control save (CRC-32)".into(),
+            Layer::Ffxv { .. } => "Final Fantasy XV save encryption".into(),
             Layer::Rgg(w) => format!("Yakuza save (Dragon Engine: {})", fmt::rgg::games(w)),
             Layer::Bioshock { chunks } => format!("BioShock Infinite save (MD5, {} zlib chunks)", chunks.len()),
             Layer::Copeck { name, .. } => format!("Cairn save pack ({name})"),
@@ -563,6 +567,7 @@ fn wrap(layer: &Layer, data: Vec<u8>) -> Result<Vec<u8>, String> {
             out
         }
         Layer::Ff9 => fmt::ff9::encrypt(&data)?,
+        Layer::Ffxv { foot } => fmt::ffxv::encrypt(&data, foot)?,
         Layer::P5r { head } => fmt::p5r::pack(head, &data),
         Layer::MetroPlayer { head } => fmt::metro::pack_player(head, &data),
         Layer::Bioshock { chunks } => fmt::bioshock::pack(chunks, &data)?,
@@ -712,13 +717,22 @@ fn wrap(layer: &Layer, data: Vec<u8>) -> Result<Vec<u8>, String> {
             out.extend(body);
             out
         }
-        Layer::Civ5 { header } => {
-            // Written the way the game does: everything, then a sync flush and no final block.
+        Layer::Civ5 { header, chunked, trailer } => {
+            // Written the way the game does: everything, then a sync flush and no final block,
+            // cut into 64 KiB chunks.
             let mut out = header.as_ref().clone();
-            let mut e = flate2::write::ZlibEncoder::new(Vec::new(), flate2::Compression::default());
+            let mut e = flate2::write::ZlibEncoder::new(Vec::new(), flate2::Compression::new(6));
             e.write_all(&data).map_err(|e| e.to_string())?;
             e.flush().map_err(|e| e.to_string())?;
-            out.extend_from_slice(e.get_ref());
+            if *chunked {
+                for c in e.get_ref().chunks(CIV5_CHUNK) {
+                    out.extend((c.len() as u32).to_le_bytes());
+                    out.extend_from_slice(c);
+                }
+            } else {
+                out.extend_from_slice(e.get_ref());
+            }
+            out.extend_from_slice(trailer);
             out
         }
     })
@@ -882,6 +896,11 @@ fn peel(data: &[u8], ctx: &mut Ctx) -> Option<(Layer, Vec<u8>)> {
     if data.starts_with(b"DATA") {
         if let Some((head, p)) = fmt::p5r::unpack(data) {
             return Some((Layer::P5r { head: Arc::new(head) }, p));
+        }
+    }
+    if data.len() > 117 && data[data.len() - 1] == 2 {
+        if let Some((p, foot)) = fmt::ffxv::decrypt(data) {
+            return Some((Layer::Ffxv { foot: Arc::new(foot) }, p));
         }
     }
     if data.len() == fmt::ff9::FILE_LEN {
@@ -1199,8 +1218,56 @@ fn peel_cdpr(data: &[u8], ctx: &mut Ctx) -> Option<(Layer, Vec<u8>)> {
 
 /// Civilization V: the header's readable entries (civilization, difficulty, eras, speed,
 /// map size) for the status line, and the zlib-compressed game for value search.
+const CIV5_CHUNK: usize = 0x10000;
+
+/// The compressed game data of a Civilization V save: chunks of up to 64 KiB, each after its
+/// u32 length, starting at `at` (the first chunk's length). Returns the stream put back
+/// together and where the last chunk ends.
+fn civ5_chunks(data: &[u8], at: usize) -> Option<(Vec<u8>, usize)> {
+    let mut z = Vec::new();
+    let mut p = at;
+    loop {
+        let len = u32::from_le_bytes(data.get(p..p + 4)?.try_into().ok()?) as usize;
+        if len == 0 || len > CIV5_CHUNK || p + 4 + len > data.len() {
+            return None;
+        }
+        z.extend_from_slice(&data[p + 4..p + 4 + len]);
+        p += 4 + len;
+        if len < CIV5_CHUNK || p == data.len() {
+            return Some((z, p));
+        }
+    }
+}
+
+fn civ5_inflate(z: &[u8]) -> Option<(Vec<u8>, usize)> {
+    // The game ends the stream with a sync flush instead of a final block, so the decoder
+    // stops with "incomplete" once everything is out.
+    let mut d = flate2::read::ZlibDecoder::new(z);
+    let mut plain = Vec::new();
+    match d.read_to_end(&mut plain) {
+        Ok(_) => {}
+        Err(e) if e.kind() == std::io::ErrorKind::UnexpectedEof => {}
+        Err(_) => return None,
+    }
+    (plain.len() > 1024).then_some((plain, d.total_in() as usize))
+}
+
 fn peel_civ5(data: &[u8], ctx: &mut Ctx) -> Option<(Layer, Vec<u8>)> {
-    // The first zlib stream that unpacks completely and runs to the end of the file.
+    // The first chunked zlib stream that unpacks completely.
+    let chunked = (4..data.len().min(1 << 20).saturating_sub(2)).find_map(|i| {
+        if data[i] != 0x78 || !matches!(data[i + 1], 0x9C | 0xDA | 0x01) {
+            return None;
+        }
+        let (z, end) = civ5_chunks(data, i - 4)?;
+        let (plain, used) = civ5_inflate(&z)?;
+        (used == z.len()).then_some((i - 4, plain, end))
+    });
+    if let Some((at, plain, end)) = chunked {
+        civ5_hint(data, at, ctx);
+        let layer = Layer::Civ5 { header: Arc::new(data[..at].to_vec()), chunked: true, trailer: Arc::new(data[end..].to_vec()) };
+        return Some((layer, plain));
+    }
+    // Otherwise the first zlib stream that unpacks completely and runs to the end of the file.
     let (at, plain) = (0..data.len().min(1 << 20).saturating_sub(2)).find_map(|i| {
         if data[i] != 0x78 || !matches!(data[i + 1], 0x9C | 0xDA | 0x01) {
             return None;
@@ -1216,6 +1283,12 @@ fn peel_civ5(data: &[u8], ctx: &mut Ctx) -> Option<(Layer, Vec<u8>)> {
         }
         (plain.len() > 1024 && i + d.total_in() as usize == data.len()).then_some((i, plain))
     })?;
+    civ5_hint(data, at, ctx);
+    Some((Layer::Civ5 { header: Arc::new(data[..at].to_vec()), chunked: false, trailer: Arc::new(vec![]) }, plain))
+}
+
+/// What the save's header says about the game, as the hint above the data.
+fn civ5_hint(data: &[u8], at: usize, ctx: &mut Ctx) {
     let words: Vec<String> = data[..at]
         .split(|&b| b < 0x20 || b > 0x7E)
         .filter(|w| w.len() >= 6 && w.iter().all(|c| c.is_ascii_uppercase() || *c == b'_'))
@@ -1236,7 +1309,6 @@ fn peel_civ5(data: &[u8], ctx: &mut Ctx) -> Option<(Layer, Vec<u8>)> {
         "{}. The game data is unpacked here so Value search can find a number you know (gold, faith, a city's population); it's packed again when you save.",
         parts.join(", ")
     ));
-    Some((Layer::Civ5 { header: Arc::new(data[..at].to_vec()) }, plain))
 }
 
 /// A Capcom RE Engine save: find the game and Steam account that open it.
@@ -2245,5 +2317,35 @@ mod copeck_tests {
         assert_eq!(&out[0x50010..0x50013], b"xyz");
         let small = super::copeck_put(&pack, 0x10, b"ab").unwrap();
         assert_eq!(super::copeck_entries(&small).unwrap()[0].3, 2);
+    }
+}
+
+#[cfg(test)]
+mod civ5_tests {
+    use super::*;
+
+    /// A synthetic save whose game data packs to more than one 64 KiB chunk.
+    #[test]
+    fn chunked_game_data_round_trips() {
+        let mut plain = Vec::new();
+        let mut x = 12345u32;
+        for i in 0..400_000u32 {
+            x = x.wrapping_mul(1_103_515_245).wrapping_add(12345);
+            plain.push(if i % 3 == 0 { (x >> 24) as u8 } else { (i % 7) as u8 });
+        }
+        let mut header = b"CIV5\x08\x00\x00\x00".to_vec();
+        header.extend(b"\x0B\x00\x00\x00HANDICAP_KING".iter());
+        let layer = Layer::Civ5 { header: Arc::new(header.clone()), chunked: true, trailer: Arc::new(b"\x01\x00\x00\x00tail".to_vec()) };
+        let file = wrap(&layer, plain.clone()).unwrap();
+        assert!(file.len() > header.len() + 2 * CIV5_CHUNK, "needs several chunks");
+        let opts = Options::default();
+        let mut ctx = Ctx { opts: &opts, zip_entries: vec![], hint: None };
+        let (back, data) = peel_civ5(&file, &mut ctx).unwrap();
+        assert_eq!(data, plain);
+        let Layer::Civ5 { header: h, chunked, trailer } = &back else { panic!() };
+        assert_eq!(h.as_slice(), header.as_slice());
+        assert!(*chunked);
+        assert_eq!(trailer.as_slice(), b"\x01\x00\x00\x00tail");
+        assert_eq!(wrap(&back, data).unwrap(), file);
     }
 }

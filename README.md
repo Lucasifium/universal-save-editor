@@ -126,6 +126,7 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 | Kenshi | *Faction*: the player's cats |
 | Palworld | *Player*: technology points, ancient technology points, Lifmunk effigies and the record counters (Oodle, see below) |
 | Final Fantasy IX (Steam) | *Party*: every saved game in `SavedData_ww.dat` (decrypted and encrypted again): gil, and each character's level, experience, HP / MP and base stats |
+| Final Fantasy XV (Windows Edition) | *Party*: gil, ability points and medals; every character's level, HP / MP and stats, the experience waiting to be banked at the next rest, total experience and kills; item amounts in every bag (by the game's item number). Decrypted (AES-192, shuffled blocks) and encrypted again on save. Not yet tried in the game |
 | Final Fantasy X (HD Remaster, PC) | *Party*: gil, and every character's and aeon's HP, MP, maxima and stats. The checksum (the game's own CRC-16) is updated |
 | Final Fantasy X-2 (HD Remaster, PC) | *Gullwings*: gil; Yuna, Rikku and Paine's level, experience, HP / MP and stats. Checksum updated |
 | Persona 4 Golden (PC) | *Protagonist*: yen, level, experience and the five social stats; the matching `.binslot` checksum is updated |
@@ -166,7 +167,7 @@ phone, or a copied save) enter your 17-digit Steam ID in *Tools › Decrypt with
 Games whose format isn't documented open in the hex view with Value search; for packed formats
 the data is unpacked first and packed again on save: Cyberpunk 2077 and The Witcher 3 (LZ4
 chunks), XCOM 2 / War of the Chosen (LZO chunks, both checksums updated), Mass Effect 1
-Legendary Edition (zlib, checksum updated), Civilization V (zlib), Dying Light (gzip), Ubisoft `.save.z` (zlib), BioShock Infinite (Unreal Engine 3 zlib chunks, MD5 updated), BioShock Remastered (zlib blocks, each packed back into its own space), Control (CRC-32 updated) and Cairn (the files inside each slot pack; the newest save, the one the game continues from, opens first; the pack's size fields are kept right when a save grows). Other RE Engine
+Legendary Edition (zlib, checksum updated), Civilization V (zlib, in 64 KiB chunks), Dying Light (gzip), Ubisoft `.save.z` (zlib), BioShock Infinite (Unreal Engine 3 zlib chunks, MD5 updated), BioShock Remastered (zlib blocks, each packed back into its own space), Control (CRC-32 updated) and Cairn (the files inside each slot pack; the newest save, the one the game continues from, opens first; the pack's size fields are kept right when a save grows). Other RE Engine
 games (Resident Evil Requiem, Dragon's Dogma 2, Monster Hunter Wilds and Stories 3, Pragmata,
 Dead Rising Deluxe Remaster, Kunitsu-Gami) decrypt and open with their values.
 

@@ -80,10 +80,33 @@ fn norm(s: &str) -> String {
     s.to_lowercase().replace('ö', "o").chars().filter(|c| c.is_alphanumeric() || *c == ' ').collect::<String>().split_whitespace().collect::<Vec<_>>().join(" ")
 }
 
-/// The README row describing this catalog game, if any.
+/// Games that open on a screen of their own ("Game screen", or "Game screen: what it shows").
+fn has_screen(g: &GameInfo) -> bool {
+    g.support.starts_with("Game screen")
+}
+
+/// What the page says can be edited: the README row for this game, or else (for games whose
+/// catalog text says it) the catalog text.
 fn description(g: &GameInfo, rows: &[(String, String)]) -> Option<String> {
+    let row = readme_row(g, rows);
+    if g.support == "Game screen" {
+        return row.map(|r| r.1);
+    }
+    // Catalog text that describes the screen is more exact than a loosely matched row.
+    if let Some((_, r)) = row.filter(|r| r.0 >= 90) {
+        return Some(r);
+    }
+    has_screen(g).then(|| {
+        let t = g.support.trim_start_matches("Game screen").trim_start_matches([':', ' ']);
+        let mut c = t.chars();
+        c.next().map(|f| f.to_uppercase().chain(c).collect::<String>() + ".").unwrap_or_default()
+    })
+}
+
+/// The README row describing this catalog game, if any.
+fn readme_row(g: &GameInfo, rows: &[(String, String)]) -> Option<(usize, String)> {
     // The table describes the game screens; other games get the general note.
-    if g.support != "Game screen" {
+    if !has_screen(g) {
         return None;
     }
     // Games the table lists under another name.
@@ -98,7 +121,7 @@ fn description(g: &GameInfo, rows: &[(String, String)]) -> Option<String> {
         _ => None,
     };
     if let Some(a) = alias {
-        return rows.iter().find(|(g, _)| g.starts_with(a)).map(|(_, d)| d.clone());
+        return rows.iter().find(|(g, _)| g.starts_with(a)).map(|(_, d)| (100, d.clone()));
     }
     let name = norm(g.name);
     let short = norm(g.name.split(" (").next().unwrap_or(g.name));
@@ -122,11 +145,11 @@ fn description(g: &GameInfo, rows: &[(String, String)]) -> Option<String> {
             best = Some((score, desc));
         }
     }
-    best.map(|(_, d)| d.clone())
+    best.map(|(s, d)| (s, d.clone()))
 }
 
 fn level(g: &GameInfo) -> (&'static str, &'static str) {
-    if g.support == "Game screen" {
+    if has_screen(g) {
         ("Full editor", "A screen laid out for this game, with names for its items and values.")
     } else if g.support.starts_with("Hex") || g.support.starts_with("Unpacked") {
         ("Value search", "Find a number you know (money, ammo, experience) and change it.")
@@ -234,7 +257,7 @@ fn build_site() {
     let mut cards = String::new();
     let mut unmatched = vec![];
     let mut games: Vec<&GameInfo> = GAMES.iter().collect();
-    games.sort_by_key(|g| (g.support != "Game screen", g.name.to_lowercase()));
+    games.sort_by_key(|g| (!has_screen(g), g.name.to_lowercase()));
 
     for g in &games {
         let s = format!("{}-save-editor", slug(&search_name(g.name)));
@@ -306,7 +329,7 @@ fn build_site() {
         let _ = write!(cards, r#"<li><a href="{s}/">{}<small>{lvl}</small></a></li>"#, esc(g.name));
     }
 
-    let full = GAMES.iter().filter(|g| g.support == "Game screen").count();
+    let full = GAMES.iter().filter(|g| has_screen(g)).count();
     let desc = format!("Free, offline save editor for {}+ PC games, including Cairn, Terraria, Oxygen Not Included, RimWorld, Stardew Valley, Elden Ring and Cyberpunk 2077. Nothing is uploaded, no limits.", GAMES.len() / 10 * 10);
     let body = format!(
         r#"<h1>A free save editor for {n} games</h1>

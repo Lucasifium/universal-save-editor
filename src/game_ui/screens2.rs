@@ -1446,6 +1446,73 @@ pub fn kiwami(ui: &mut Ui, cx: &mut GameCtx) {
     ui.weak("Experience is what Kiryu has earned and not yet spent in the Abilities menu (99,999,999 at most). Money tops out at \u{00A5}9,999,999,999.");
 }
 
+// ------------------------------------------------------------------ Final Fantasy XV
+
+pub fn ffxv(ui: &mut Ui, cx: &mut GameCtx) {
+    let accent = Color32::from_rgb(70, 110, 190);
+    let mut sub = vec![];
+    if let Some(c) = cx.int("/Save/Chapter") {
+        sub.push(format!("Chapter {c}"));
+    }
+    if let Some(l) = cx.int("/Save/Level shown") {
+        sub.push(format!("Level {l}"));
+    }
+    if let Some(t) = cx.text("/Save/Play time") {
+        sub.push(format!("{t} played"));
+    }
+    hero(ui, accent, "Final Fantasy XV", &sub.join("  \u{00B7}  "), |ui| {
+        cx.tile(ui, "Gil", "/Party/Gil", accent);
+        cx.tile(ui, "Ability points", "/Party/Ability points", accent);
+        cx.tile(ui, "Medals", "/Party/Medals", accent);
+    });
+    const COLS: [&str; 12] = ["Level", "Experience", "Total experience", "HP", "Max HP", "MP", "Max MP", "Strength", "Vitality", "Magic", "Spirit", "Kills"];
+    for group in ["Party", "Others"] {
+        let base = format!("/Characters/{group}");
+        let who: Vec<String> = match cx.get(&base) {
+            Some(Value::Object(m)) => m.keys().cloned().collect(),
+            _ => continue,
+        };
+        let title = if group == "Party" { "Party" } else { "Guests and other characters" };
+        panel(ui, title, |ui| {
+            egui::ScrollArea::horizontal().id_salt(("ffxv_s", group)).show(ui, |ui| {
+                egui::Grid::new(("ffxv_g", group)).striped(true).spacing([10.0, 4.0]).show(ui, |ui| {
+                    ui.label("");
+                    for h in COLS {
+                        ui.strong(h);
+                    }
+                    ui.end_row();
+                    for w in &who {
+                        let p = join(&base, w);
+                        ui.label(w);
+                        for k in COLS {
+                            cx.compact(ui, &join(&p, k), if k.contains("xperience") { 90.0 } else { 52.0 });
+                        }
+                        ui.end_row();
+                    }
+                });
+            });
+        });
+    }
+    ui.weak("Experience is what a character has earned since the last rest; the game banks it, and raises the level, when the party rests at a camp or hotel. Levels, HP, MP and stats are shown as saved.");
+    let lists: Vec<String> = match cx.get("/Items") {
+        Some(Value::Object(m)) => m.keys().cloned().collect(),
+        _ => vec![],
+    };
+    if !lists.is_empty() {
+        panel(ui, "Items", |ui| {
+            let i = tabs(ui, "ffxv_items", &lists);
+            let p = join("/Items", &lists[i]);
+            let rows: Vec<(String, String)> = match cx.get(&p) {
+                Some(Value::Object(m)) => m.keys().map(|k| (k.clone(), join(&p, k))).collect(),
+                _ => vec![],
+            };
+            value_rows(ui, cx, &format!("ffxv_{i}"), &rows);
+            ui.weak("Items are listed by the game's item number (names aren't known yet); 999 is the most the editor lets you set.");
+        });
+    }
+    ui.weak("Not yet tried in the game.");
+}
+
 // ------------------------------------------------------------------ God of War (2018)
 
 /// "Add equipment": a drop-down per piece the save doesn't have, grouped by type.
