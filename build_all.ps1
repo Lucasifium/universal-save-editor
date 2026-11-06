@@ -1,7 +1,7 @@
 # Builds SaveEditorOffline for every platform the machine can build, into dist\.
 #   Windows x64 + ARM64 (MSVC), Linux x64 + ARM64 (cargo-zigbuild), Android APK (arm64 + x86_64),
 #   and the browser version (WebAssembly) into docs\app\.
-# macOS is built by GitHub Actions (.github/workflows/build.yml), since Apple's SDK only runs on Macs.
+# macOS is built by GitHub Actions (.github/workflows/release.yml), since Apple's SDK only runs on Macs.
 #
 #   .\build_all.ps1              everything
 #   .\build_all.ps1 -Only android,linux-x64
@@ -172,4 +172,4 @@ foreach ($f in $checked) { Check-Clean $f }
 Write-Host ''
 Write-Host "Built $Name $Version" -ForegroundColor Green
 foreach ($f in $built) { '{0,-45} {1,8:N1} MB' -f $f, ((Get-Item $f).Length / 1MB) }
-Write-Host 'macOS: start "macOS build" by hand in the GitHub Actions tab when needed (it never runs on its own).'
+Write-Host 'macOS: run "Release" with "Include macOS" in the GitHub Actions tab when needed (it only runs on major tags otherwise).'
