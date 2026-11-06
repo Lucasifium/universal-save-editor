@@ -6,8 +6,10 @@
 //! dependent values (a level following attributes) and checksums.
 
 mod cairn;
+mod darkest;
 mod dashboards;
 mod fromsoft;
+mod octopath;
 mod oni_map;
 mod pathfinder;
 mod pokemon;
@@ -75,6 +77,9 @@ pub enum Game {
     Gow2018,
     GowRagnarok,
     Cairn,
+    DarkestDungeon,
+    DarkestDungeon2,
+    Octopath,
 }
 
 impl Game {
@@ -115,6 +120,9 @@ impl Game {
             Game::Gow2018 => "Kratos",
             Game::GowRagnarok => "Kratos",
             Game::Cairn => "Climber",
+            Game::DarkestDungeon => "Hamlet",
+            Game::DarkestDungeon2 => "Expedition",
+            Game::Octopath => "Travellers",
             _ => "Character",
         }
     }
@@ -169,6 +177,9 @@ pub fn detect(kind: &str, root: &Value) -> Option<Game> {
         "God of War save" => Game::Gow2018,
         "God of War Ragnarök save" => Game::GowRagnarok,
         "Cairn save" => Game::Cairn,
+        k if darkest::is_dd1(k) => Game::DarkestDungeon,
+        "JSON" if darkest::dd2_file(root).is_some() => Game::DarkestDungeon2,
+        crate::fmt::octopath::OT1 | crate::fmt::octopath::OT2 => Game::Octopath,
         _ if has("/base/m_title") && has("/player") => Game::YakuzaDe,
         "Unreal Engine save (PalWorldPlayerSaveGame)" if has("/SaveData/TechnologyPoint") => Game::Palworld,
         "Final Fantasy VII Remake save" | "Final Fantasy VII Rebirth save" => Game::Ff7Remake,
@@ -220,6 +231,9 @@ pub fn show(game: Game, ui: &mut Ui, cx: &mut GameCtx) {
         Game::Gow2018 => screens2::gow2018(ui, cx),
         Game::GowRagnarok => screens2::gow_ragnarok(ui, cx),
         Game::Cairn => cairn::show(ui, cx),
+        Game::DarkestDungeon => darkest::show_dd1(ui, cx),
+        Game::DarkestDungeon2 => darkest::show_dd2(ui, cx),
+        Game::Octopath => octopath::show(ui, cx),
         Game::RenPy => screens2::renpy(ui, cx),
         Game::MassEffect => screens2::mass_effect(ui, cx),
         Game::Xcom => screens2::xcom(ui, cx),
@@ -709,6 +723,10 @@ mod tests {
         assert_eq!(detect("RE Engine save", &json!({"#1": {"_Data": {"_InventoryData": []}}})), Some(Game::ReSlot));
         assert_eq!(detect("Unreal Engine save (PersistentGameData)", &json!({"CharacterSaveGameInfo": {"CharacterHouse": "Ravenclaw"}})), Some(Game::Hogwarts));
         assert_eq!(detect("Ren'Py save", &json!({"Variables": {"money": 5}})), Some(Game::RenPy));
+        assert_eq!(detect("Darkest Dungeon estate", &json!({})), Some(Game::DarkestDungeon));
+        assert_eq!(detect("Darkest Dungeon save file", &json!({})), None);
+        assert_eq!(detect("JSON", &json!({"run_values": {"values": {}}, "inventory": {"m_items": []}})), Some(Game::DarkestDungeon2));
+        assert_eq!(detect("Octopath Traveler II save", &json!({})), Some(Game::Octopath));
     }
 
     #[test]

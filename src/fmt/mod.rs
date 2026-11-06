@@ -5,6 +5,7 @@ pub mod bsonf;
 pub mod civ6;
 pub mod containers;
 pub mod d2s;
+pub mod darkest;
 pub mod crypto;
 pub mod fromsoft;
 pub mod sekiro_inv;
@@ -42,6 +43,7 @@ mod ree_names;
 mod er_items;
 mod sekiro_items;
 pub mod gvas;
+pub mod octopath;
 pub mod godot;
 pub mod ini;
 pub mod lua;
@@ -257,6 +259,16 @@ pub fn parse_binary(d: &[u8]) -> Option<TreeDoc> {
     }
     if pdx::looks(d) {
         if let Ok(t) = pdx::parse(d) {
+            return Some(t);
+        }
+    }
+    if darkest::looks(d) {
+        if let Ok(t) = darkest::parse(d) {
+            return Some(t);
+        }
+    }
+    if octopath::looks(d) {
+        if let Ok(t) = octopath::parse(d) {
             return Some(t);
         }
     }
