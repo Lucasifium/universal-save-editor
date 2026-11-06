@@ -21,6 +21,7 @@ mod infinity;
 mod half_life;
 mod indie;
 mod octopath;
+mod larian;
 mod oni_map;
 mod pathfinder;
 mod pokemon;
@@ -108,6 +109,8 @@ pub enum Game {
     DarkestDungeon,
     DarkestDungeon2,
     Octopath,
+    Dos2,
+    Bg3,
 }
 
 impl Game {
@@ -162,6 +165,7 @@ impl Game {
             Game::DarkestDungeon => "Hamlet",
             Game::DarkestDungeon2 => "Expedition",
             Game::Octopath => "Travellers",
+            Game::Dos2 | Game::Bg3 => "Party",
             _ => "Character",
         }
     }
@@ -236,6 +240,8 @@ pub fn detect(kind: &str, root: &Value) -> Option<Game> {
         k if darkest::is_dd1(k) => Game::DarkestDungeon,
         "JSON" if darkest::dd2_file(root).is_some() => Game::DarkestDungeon2,
         crate::fmt::octopath::OT1 | crate::fmt::octopath::OT2 => Game::Octopath,
+        crate::fmt::larian::DOS2 => Game::Dos2,
+        crate::fmt::larian::BG3 => Game::Bg3,
         _ if has("/base/m_title") && has("/player") => Game::YakuzaDe,
         "Unreal Engine save (PalWorldPlayerSaveGame)" if has("/SaveData/TechnologyPoint") => Game::Palworld,
         "Final Fantasy VII Remake save" | "Final Fantasy VII Rebirth save" => Game::Ff7Remake,
@@ -302,6 +308,8 @@ pub fn show(game: Game, ui: &mut Ui, cx: &mut GameCtx) {
         Game::DarkestDungeon => darkest::show_dd1(ui, cx),
         Game::DarkestDungeon2 => darkest::show_dd2(ui, cx),
         Game::Octopath => octopath::show(ui, cx),
+        Game::Dos2 => larian::dos2(ui, cx),
+        Game::Bg3 => larian::bg3(ui, cx),
         Game::RenPy => screens2::renpy(ui, cx),
         Game::MassEffect => screens2::mass_effect(ui, cx),
         Game::Xcom => screens2::xcom(ui, cx),
@@ -792,6 +800,8 @@ mod tests {
         assert_eq!(detect("XCOM 2 game data", &json!({})), Some(Game::Xcom2));
         assert_eq!(detect("Civilization VI save", &json!({})), Some(Game::Civ6));
         assert_eq!(detect("Diablo II character", &json!({})), Some(Game::Diablo2));
+        assert_eq!(detect("Divinity: Original Sin 2 save", &json!({})), Some(Game::Dos2));
+        assert_eq!(detect("Baldur's Gate 3 save", &json!({})), Some(Game::Bg3));
         assert_eq!(detect("JSON", &json!({"player": {"Money": 1}, "party": {"m_EntityData": []}})), Some(Game::Pathfinder));
         assert_eq!(detect("Borderlands: The Pre-Sequel character", &json!({})), Some(Game::Borderlands));
         assert_eq!(detect("Borderlands 3 character", &json!({})), Some(Game::Borderlands3));
