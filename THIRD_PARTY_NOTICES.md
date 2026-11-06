@@ -24,6 +24,13 @@ Universal Save Editor is free. It builds on other people's work, listed here wit
 | [Arcemi Pathfinder save editor (Pathfinder save layout; class, race and companion names)](https://github.com/jaygumji/ArcemiPathfinderKingmakerTools) | jaygumji | facts only (file layouts, ids and names), credited |
 | [Trilogy Save Editor (Mass Effect 1 and Legendary Edition save layouts, item and talent names)](https://github.com/KarlitosVII/trilogy-save-editor) | Karlitos | facts only (file layouts, ids and names), credited |
 | [God of War (2018) and Ragnarök save editors "Forja" (item ids and names; credits kg971 and xcier)](https://github.com/wilypizza-svg) | wilypizza-svg (José Murilo) | facts only (file layouts, ids and names), credited |
+| [wasteland-3-savegame-decoder (Wasteland 3 save header and LZF body; facts, no code)](https://github.com/nharrer/wasteland-3-savegame-decoder) | nharrer | MIT |
+| [wl3 (Wasteland 3 save re-packing: header sizes; facts, no code)](https://github.com/xeus2001/wl3) | xeus2001 | MIT |
+| [w3se (Wasteland 3 save paths for money, attributes and items)](https://github.com/stolinator/w3se) | stolinator | facts only (file layouts, ids and names), credited |
+| [LibLZF (the LZF stream format; the editor has its own implementation)](http://software.schmorp.de/pkg/liblzf.html) | Marc Alexander Lehmann | facts only (format), credited |
+| [valheim-fch-editor (Valheim character layout, skill ids)](https://github.com/cquaid/valheim-fch-editor) | cQuaid | MIT |
+| [valheim-save-tools (Valheim character layout by version)](https://github.com/Kakoen/valheim-save-tools) | Kakoen | facts only (file layouts, ids and names), credited |
+| [valheim-character-editor (newer Valheim layouts, skill ids)](https://github.com/bkaznowski/valheim-character-editor) | bkaznowski | facts only (file layouts, ids and names), credited |
 
 Copyright notices of the projects above whose code or tables were used:
 
@@ -40,6 +47,7 @@ Copyright notices of the projects above whose code or tables were used:
 - W3SavegameEditor (The Witcher 3 save layout): Copyright (c) 2015 Atvaark. Licensed under MIT.
 - RE_RSZ (RE Engine field names): Copyright (c) 2021 alphazolam. Licensed under MIT.
 - P4G Save Tool (Persona 4 Golden field positions): Copyright (c) 2016 Jack P. Fenech. Licensed under MIT.
+- valheim-fch-editor (Valheim character layout, skill ids): Copyright (c) 2021 cQuaid. Licensed under MIT.
 
 The MIT, Apache-2.0 and zlib licence texts are included below with the crates that use them.
 
