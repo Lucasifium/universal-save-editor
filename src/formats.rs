@@ -137,6 +137,8 @@ pub enum Layer {
     /// Mass Effect Legendary Edition (ME1) save: an Unreal chunk of zlib blocks, then the
     /// CRC-32/BZIP2 of everything before it, 1, and the unpacked size.
     Me1Le { block: u32 },
+    /// Mass Effect (2008): "RGMH", a version, the header's length, the save image; then a zip.
+    Me1Header { header: Arc<Vec<u8>> },
 }
 
 impl Layer {
@@ -186,6 +188,7 @@ impl Layer {
             Layer::Civ5 { .. } => "Civilization V save (compressed game data)".into(),
             Layer::Cdpr { sizes, .. } => format!("CD Projekt RED save ({} LZ4 chunks)", sizes.len()),
             Layer::Me1Le { .. } => "Mass Effect (Legendary Edition) save (zlib)".to_string(),
+            Layer::Me1Header { .. } => "Mass Effect save (image header)".to_string(),
             Layer::Xcom { xcom2, sizes, .. } => format!("{} save ({} LZO chunks)", if *xcom2 { "XCOM 2" } else { "XCOM: Enemy Unknown" }, sizes.len()),
         }
     }
@@ -609,6 +612,11 @@ fn wrap(layer: &Layer, data: Vec<u8>) -> Result<Vec<u8>, String> {
             out.extend_from_slice(&tail);
             out
         }
+        Layer::Me1Header { header } => {
+            let mut out = header.to_vec();
+            out.extend_from_slice(&data);
+            out
+        }
         Layer::Me1Le { block } => {
             let bs = (*block as usize).max(1);
             let parts: Vec<&[u8]> = data.chunks(bs).collect();
@@ -702,6 +710,12 @@ fn peel(data: &[u8], ctx: &mut Ctx) -> Option<(Layer, Vec<u8>)> {
     }
     if let Some(r) = peel_cdpr(data, ctx) {
         return Some(r);
+    }
+    if data.starts_with(b"RGMH") {
+        let len = data.get(8..12).map(|b| u32::from_le_bytes(b.try_into().unwrap()) as usize)?;
+        if data.get(len..len + 4) == Some(&b"PK\x03\x04"[..]) {
+            return Some((Layer::Me1Header { header: Arc::new(data[..len].to_vec()) }, data[len..].to_vec()));
+        }
     }
     if let Some(r) = peel_xcom(data, ctx) {
         return Some(r);

@@ -562,7 +562,7 @@ fn power_list(ui: &mut Ui, cx: &mut GameCtx, base: &str, id: &str, accent: Color
         return;
     }
     let game = cx.text("/Save/Game").unwrap_or_default();
-    let max = if game.contains("ME1") { 12.0 } else if game.contains('3') { 6.0 } else { 4.0 };
+    let max = if game.contains("ME1") || game.contains("2008") { 12.0 } else if game.contains('3') { 6.0 } else { 4.0 };
     ui.push_id(id, |ui| {
         panel(ui, "Powers", |ui| {
             columns(ui, 320.0, names.len(), |ui, i| {

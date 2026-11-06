@@ -50,6 +50,7 @@ pub mod nbt;
 pub mod nrbf;
 pub mod fields;
 pub mod masseffect;
+pub mod me1;
 pub mod me1le;
 pub mod xcom2;
 pub mod xcom_eu;
@@ -199,6 +200,11 @@ pub fn parse_binary(d: &[u8]) -> Option<TreeDoc> {
     }
     if xcom_eu::looks(d) {
         if let Ok(t) = xcom_eu::parse(d) {
+            return Some(t);
+        }
+    }
+    if me1::looks(d) {
+        if let Ok(t) = me1::parse(d) {
             return Some(t);
         }
     }
