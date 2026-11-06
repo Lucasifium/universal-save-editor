@@ -22,13 +22,39 @@ $Jdk = (Get-ChildItem 'C:\Program Files\Microsoft' -Directory -Filter 'jdk-*' | 
 $Version = (Select-String -Path Cargo.toml -Pattern '^version = "(.+)"').Matches[0].Groups[1].Value
 $Name = 'SaveEditorOffline'
 $env:CARGO_ZIGBUILD_ZIG_PATH = 'python -m ziglang'
-# Compiler flags. Paths inside the programs (panic messages) say ~ instead of this computer's
-# user folder. Passed one per field (CARGO_ENCODED_RUSTFLAGS), so a space in the folder name is fine.
+
+# Rust writes source paths into the program (panic messages). Replace this machine's folders with
+# neutral names so no account name or local folder ends up in a release; Check-Clean below
+# refuses any file that still contains one. Passed through CARGO_ENCODED_RUSTFLAGS (separated by
+# 0x1F) so folders with spaces work. When several prefixes match, the last one given wins.
+$CargoHome = if ($env:CARGO_HOME) { $env:CARGO_HOME } else { "$env:USERPROFILE\.cargo" }
+$RustupHome = if ($env:RUSTUP_HOME) { $env:RUSTUP_HOME } else { "$env:USERPROFILE\.rustup" }
+$Remap = @(
+    "--remap-path-prefix=$env:USERPROFILE=~",
+    "--remap-path-prefix=$RustupHome=/rustup",
+    "--remap-path-prefix=$CargoHome=/cargo",
+    "--remap-path-prefix=$PSScriptRoot=/build"
+)
 function Set-RustFlags([string[]]$extra = @()) {
-    $env:RUSTFLAGS = $null
-    $env:CARGO_ENCODED_RUSTFLAGS = (@('-A', 'linker_messages', "--remap-path-prefix=$env:USERPROFILE=~") + $extra) -join [char]0x1f
+    Remove-Item env:RUSTFLAGS -ErrorAction SilentlyContinue
+    $env:CARGO_ENCODED_RUSTFLAGS = (@('-A', 'linker_messages') + $Remap + $extra) -join [char]0x1F
 }
 Set-RustFlags
+
+# Fails if a built file still holds this machine's user folder, user name or project folder.
+function Check-Clean($file) {
+    $bytes = [IO.File]::ReadAllBytes((Resolve-Path $file))
+    $text = [Text.Encoding]::GetEncoding(28591).GetString($bytes)
+    $wide = [Text.Encoding]::Unicode.GetString($bytes)
+    $needles = @($env:USERPROFILE, $env:USERPROFILE.Replace('\', '/'), $PSScriptRoot, $PSScriptRoot.Replace('\', '/'))
+    if ($env:USERNAME.Length -ge 3) { $needles += "\$env:USERNAME\"; $needles += "/$env:USERNAME/" }
+    foreach ($n in $needles) {
+        if ($text.IndexOf($n, [StringComparison]::OrdinalIgnoreCase) -ge 0 -or
+            $wide.IndexOf($n, [StringComparison]::OrdinalIgnoreCase) -ge 0) {
+            throw "$file still contains a local path; not releasing it"
+        }
+    }
+}
 
 function Want($what) { $Only.Count -eq 0 -or $Only -contains $what }
 function Run($exe) {
@@ -136,6 +162,12 @@ if (Want 'android') {
     Remove-Item "dist\$Name-android.apk.idsig" -ErrorAction SilentlyContinue
     $built += "dist\$Name-android.apk"
 }
+
+# The APK and tarballs are compressed, so check the binaries that went into them as well.
+$checked = @($built | Where-Object { $_ -like '*.exe' })
+foreach ($arch in @('x86_64', 'aarch64')) { $checked += @(Get-Item "target\$arch-unknown-linux-gnu\release\$Name" -ErrorAction SilentlyContinue | ForEach-Object FullName) }
+if (Want 'android') { $checked += @(Get-ChildItem 'target\apk' -Recurse -Filter 'libsave_editor_offline.so' | ForEach-Object FullName) }
+foreach ($f in $checked) { Check-Clean $f }
 
 Write-Host ''
 Write-Host "Built $Name $Version" -ForegroundColor Green
