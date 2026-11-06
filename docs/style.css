@@ -18,5 +18,8 @@ code{background:var(--card);border:1px solid var(--line);border-radius:6px;paddi
 .grid a:hover,.grid a:focus-visible{border-color:var(--accent2)}.grid small{display:block;color:var(--muted);font-size:.85rem}
 .grid .tag{align-self:flex-start;margin-top:auto;padding-top:4px;font-size:.75rem;color:var(--muted)}.grid .tag.screen{color:var(--accent)}
 .empty{color:var(--muted);display:none}
+details#all{margin:12px 0}details#all>summary{cursor:pointer;display:inline-block;padding:10px 16px;border:1px solid var(--line);border-radius:10px;background:var(--card);font-weight:600;list-style:none}
+details#all>summary::-webkit-details-marker{display:none}details#all>summary::before{content:"\25B8";display:inline-block;margin-right:8px;transition:transform .15s}
+details#all[open]>summary::before{transform:rotate(90deg)}details#all>summary:hover{border-color:var(--accent2)}
 #q{width:100%;max-width:420px;padding:10px 14px;border-radius:10px;border:1px solid var(--line);background:var(--card);color:var(--text);font-size:1rem}
 ol li,ul li{margin:4px 0}@media (max-width:600px){header nav{margin-left:0;gap:14px;flex-wrap:wrap}header .in{padding-top:10px;padding-bottom:10px;gap:6px}}footer{border-top:1px solid var(--line);margin-top:48px;color:var(--muted);font-size:.9rem}footer .in{padding:20px 16px}

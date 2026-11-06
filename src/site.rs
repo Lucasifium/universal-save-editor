@@ -232,6 +232,9 @@ code{background:var(--card);border:1px solid var(--line);border-radius:6px;paddi
 .grid a:hover,.grid a:focus-visible{border-color:var(--accent2)}.grid small{display:block;color:var(--muted);font-size:.85rem}
 .grid .tag{align-self:flex-start;margin-top:auto;padding-top:4px;font-size:.75rem;color:var(--muted)}.grid .tag.screen{color:var(--accent)}
 .empty{color:var(--muted);display:none}
+details#all{margin:12px 0}details#all>summary{cursor:pointer;display:inline-block;padding:10px 16px;border:1px solid var(--line);border-radius:10px;background:var(--card);font-weight:600;list-style:none}
+details#all>summary::-webkit-details-marker{display:none}details#all>summary::before{content:"\25B8";display:inline-block;margin-right:8px;transition:transform .15s}
+details#all[open]>summary::before{transform:rotate(90deg)}details#all>summary:hover{border-color:var(--accent2)}
 #q{width:100%;max-width:420px;padding:10px 14px;border-radius:10px;border:1px solid var(--line);background:var(--card);color:var(--text);font-size:1rem}
 ol li,ul li{margin:4px 0}@media (max-width:600px){header nav{margin-left:0;gap:14px;flex-wrap:wrap}header .in{padding-top:10px;padding-bottom:10px;gap:6px}}footer{border-top:1px solid var(--line);margin-top:48px;color:var(--muted);font-size:.9rem}footer .in{padding:20px 16px}
 "#;
@@ -402,11 +405,13 @@ fn build_site() {
 <h2>Why download a save editor?</h2>
 {WHY}
 <h2 id="games">Games ({n})</h2>
-<p>{full} games open on a screen made for them; the rest can be edited value by value. Type to filter:</p>
+<p>{full} games open on a screen made for them; the rest can be edited value by value. Type to find yours, or open the full list:</p>
 <input id="q" type="search" placeholder="Find a game" aria-label="Find a game">
+<details id="all"><summary>Show all {n} supported games</summary>
 <ul class="grid" id="list">{cards}</ul>
+</details>
 <p class="empty" id="none">No game matches. The editor can still open saves of games that aren't listed: try it, or <a href="{REPO}/issues">ask for the game</a>.</p>
-<script>document.getElementById('q').addEventListener('input',function(){{var q=this.value.toLowerCase().trim(),n=0;document.querySelectorAll('#list li').forEach(function(li){{var hit=li.querySelector('span').textContent.toLowerCase().indexOf(q)>=0;li.style.display=hit?'':'none';if(hit)n++}});document.getElementById('none').style.display=n?'none':'block'}})</script>
+<script>var all=document.getElementById('all');if(location.hash==='#games')all.open=true;window.addEventListener('hashchange',function(){{if(location.hash==='#games')all.open=true}});document.getElementById('q').addEventListener('input',function(){{var q=this.value.toLowerCase().trim(),n=0;if(q)all.open=true;document.querySelectorAll('#list li').forEach(function(li){{var hit=li.querySelector('span').textContent.toLowerCase().indexOf(q)>=0;li.style.display=hit?'':'none';if(hit)n++}});document.getElementById('none').style.display=n?'none':'block'}})</script>
 "#,
         n = GAMES.len(),
     );
