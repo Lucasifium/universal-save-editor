@@ -219,6 +219,8 @@ fn build_site() {
     std::fs::create_dir_all(&out).unwrap();
     std::fs::write(out.join("style.css"), STYLE).unwrap();
     std::fs::write(out.join(".nojekyll"), "").unwrap();
+    // Google Search Console's proof that this site belongs to the project's owner.
+    std::fs::write(out.join("google9d120e6c8e9d3fa5.html"), "google-site-verification: google9d120e6c8e9d3fa5.html").unwrap();
     let rows = readme_rows();
     let mut urls = vec![format!("{SITE}/")];
     let mut cards = String::new();
