@@ -9,6 +9,8 @@ mod borderlands;
 mod arpg;
 mod cairn;
 mod dashboards;
+mod deus_ex;
+mod fallout12;
 mod fromsoft;
 mod oni_map;
 mod pathfinder;
@@ -82,6 +84,8 @@ pub enum Game {
     GrimDawn,
     TitanQuest,
     Torchlight2,
+    Fallout12,
+    DeusEx,
 }
 
 impl Game {
@@ -124,6 +128,8 @@ impl Game {
             Game::Cairn => "Climber",
             Game::Borderlands | Game::Borderlands3 => "Vault Hunter",
             Game::GrimDawn | Game::TitanQuest | Game::Torchlight2 => "Character",
+            Game::Fallout12 => "Pip-Boy",
+            Game::DeusEx => "JC Denton",
             _ => "Character",
         }
     }
@@ -141,6 +147,8 @@ pub fn detect(kind: &str, root: &Value) -> Option<Game> {
         "Terraria player" => Game::Terraria,
         "Terraria world" => Game::TerrariaWorld,
         k if k.starts_with("Pok\u{00E9}mon") => Game::Pokemon,
+        "Fallout 1 save" | "Fallout 2 save" => Game::Fallout12,
+        "Deus Ex map save" | "Deus Ex save info" => Game::DeusEx,
         k if (k.starts_with("Skyrim") || k.starts_with("Fallout") || k.starts_with("Enderal")) && has("/Save") => Game::Bethesda,
         _ if pathfinder::is_pathfinder(root) => Game::Pathfinder,
         _ if has("/GameState/Resources") => Game::Hades,
@@ -239,6 +247,8 @@ pub fn show(game: Game, ui: &mut Ui, cx: &mut GameCtx) {
         Game::GrimDawn => arpg::grim_dawn(ui, cx),
         Game::TitanQuest => arpg::titan_quest(ui, cx),
         Game::Torchlight2 => arpg::torchlight2(ui, cx),
+        Game::Fallout12 => fallout12::show(ui, cx),
+        Game::DeusEx => deus_ex::show(ui, cx),
         Game::RenPy => screens2::renpy(ui, cx),
         Game::MassEffect => screens2::mass_effect(ui, cx),
         Game::Xcom => screens2::xcom(ui, cx),
@@ -724,6 +734,8 @@ mod tests {
         assert_eq!(detect("JSON", &json!({"player": {"Money": 1}, "party": {"m_EntityData": []}})), Some(Game::Pathfinder));
         assert_eq!(detect("Borderlands: The Pre-Sequel character", &json!({})), Some(Game::Borderlands));
         assert_eq!(detect("Borderlands 3 character", &json!({})), Some(Game::Borderlands3));
+        assert_eq!(detect("Fallout 2 save", &json!({"Save": {}})), Some(Game::Fallout12));
+        assert_eq!(detect("Deus Ex map save", &json!({})), Some(Game::DeusEx));
         assert_eq!(detect("Final Fantasy VII save", &json!({})), Some(Game::Ff7));
         assert_eq!(detect("Final Fantasy VII Rebirth save", &json!({})), Some(Game::Ff7Remake));
         assert_eq!(detect(".NET BinaryFormatter stream", &json!([{"m_Major": 1}, {"PCM_HP": 90.0}])), Some(Game::GreenHell));

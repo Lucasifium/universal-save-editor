@@ -52,6 +52,8 @@ const XCOM2: &str = "Game screen: HQ resources and soldiers (rank, kills, missio
 const CIV6: &str = "Game screen: settings, mods and each civilisation (human or AI, whose turn it is); gold and the map are in the packed part and aren't mapped";
 const BORDERLANDS: &str = "Game screen: level, experience, skill points, money, Eridium (Moonstone in The Pre-Sequel; Seraph crystals and Torgue tokens in Borderlands 2), ammo and ammo SDUs; gear is listed (level, slot), not edited. Packing and checksums are redone on save. Edited saves not yet tried in the game";
 const BORDERLANDS3: &str = "Game screen: level and experience, skill points, money, Eridium, ammo and SDU levels; gear is listed (slot, favourite/junk), not edited. Encrypted again on save. Edited saves not yet tried in the game";
+const FALLOUT12: &str = "Game screen: S.P.E.C.I.A.L., hit points, level, experience, skill points, skills, kills, bottle caps and inventory counts (traits and perks shown). Edits haven't been tried in the game yet";
+const DEUS_EX: &str = "Game screen for JC Denton: credits, skill points, bioelectric energy, health per body part, ammo, medkits and other item counts, skill and augmentation levels (values the game left out can't be set). Edits haven't been tried in the game yet";
 const PDX_BINARY: &str = "Text saves fully; ironman (binary) saves are shown but can't be edited";
 
 macro_rules! game {
@@ -90,6 +92,7 @@ pub const GAMES: &[GameInfo] = &[
     game!("Death Stranding (Director's Cut)", HEX, r"%LOCALAPPDATA%\KojimaProductions\DeathStrandingDC\<account>\<slot>", r"checkpoint.dat", [(LocalAppData, r"KojimaProductions\DeathStrandingDC"), (LocalAppData, r"KojimaProductions\DeathStranding")], ["checkpoint.dat"], 3),
     game!("Death Stranding 2: On the Beach", HEX, r"Documents\DEATH STRANDING 2 - ON THE BEACH\<Steam id>", r"manualsave<n>.dat, checkpointsave<n>.dat", [(Documents, r"DEATH STRANDING 2 - ON THE BEACH\*")], ["*save*.dat"], 1),
     game!("Deathloop", HEX, r"%USERPROFILE%\Saved Games\Arkane Studios\Deathloop\base\savegame\<Steam id>\SLOT01", r"save.dloop", [(SavedGames, r"Arkane Studios\Deathloop\base\savegame")], ["*.dloop"], 3),
+    game!("Deus Ex (2000)", DEUS_EX, r"<install folder>\Save\Save#### (Steam: steamapps\common\Deus Ex\Save; some installs: Documents\Deus Ex\Save)", r"<map>.dxs: open the map named in SaveInfo.dxs, which holds JC (open SaveInfo.dxs to see which)", [(SteamGame("Deus Ex"), r"Save"), (Documents, r"Deus Ex\Save")], ["*.dxs"], 1),
     game!("Deus Ex: Human Revolution", HEX, r"Steam\userdata\<account>\238010\remote", r"GAMEA1_4 …", [(SteamUser("238010"), r"remote")], ["GAME*"], 1),
     game!("Deus Ex: Mankind Divided", HEX, r"Steam\userdata\<account>\337000\remote", r"DXNGsavegame0000.dat", [(SteamUser("337000"), r"remote")], ["DXNGsavegame*.dat"], 1),
     game!("Diablo II (Lord of Destruction 1.10+)", FULL, r"%USERPROFILE%\Saved Games\Diablo II (1.13 and older: <install folder>\Save)", r"<name>.d2s", [(SavedGames, r"Diablo II")], ["*.d2s"], 1),
@@ -103,6 +106,8 @@ pub const GAMES: &[GameInfo] = &[
     game!("Enderal: Forgotten Stories (Special Edition)", FULL, r"Documents\My Games\Enderal Special Edition\Saves", "*.ess", [(Documents, r"My Games\Enderal Special Edition\Saves"), (Documents, r"My Games\Enderal\Saves")], ["*.ess"], 1),
     game!("Europa Universalis IV", VALUES, r"Documents\Paradox Interactive\Europa Universalis IV\save games", "*.eu4", [(Documents, r"Paradox Interactive\Europa Universalis IV\save games")], ["*.eu4"], 1),
     game!("Europa Universalis V", PDX_BINARY, r"Documents\Paradox Interactive\Europa Universalis V\save games", "*.eu5", [(Documents, r"Paradox Interactive\Europa Universalis V\save games")], ["*.eu5"], 1),
+    game!("Fallout (1997)", FALLOUT12, r"<install folder>\data\SAVEGAME\SLOT01 … SLOT10 (Steam: steamapps\common\Fallout; GOG: GOG Games\Fallout)", r"SAVE.DAT (the .SAV files next to it are the maps)", [(SteamGame("Fallout"), r"data\SAVEGAME")], ["SAVE.DAT"], 1),
+    game!("Fallout 2", FALLOUT12, r"<install folder>\data\SAVEGAME\SLOT01 … SLOT10 (Steam: steamapps\common\Fallout 2; GOG: GOG Games\Fallout 2)", r"SAVE.DAT (the .SAV files next to it are the maps)", [(SteamGame("Fallout 2"), r"data\SAVEGAME")], ["SAVE.DAT"], 1),
     game!("Fallout 4", FULL, r"Documents\My Games\Fallout4\Saves", "*.fos", [(Documents, r"My Games\Fallout4\Saves"), (Documents, r"My Games\Fallout4VR\Saves")], ["*.fos"], 2),
     game!("Far Cry (Ubisoft Connect games)", HEX, r"Ubisoft Connect: <Program Files (x86)>\Ubisoft\Ubisoft Game Launcher\savegames\<user>\<game number>", r"<number>.save", [(ProgramFilesX86, r"Ubisoft\Ubisoft Game Launcher\savegames\*\*")], ["*.save", "*.save.z"], 1),
     game!("Final Fantasy IX", FULL, r"%USERPROFILE%\AppData\LocalLow\SquareEnix\FINAL FANTASY IX\Steam\EncryptedSavedData", r"SavedData_ww.dat (encrypted)", [(LocalLow, r"SquareEnix\FINAL FANTASY IX")], ["*.dat"], 3),
