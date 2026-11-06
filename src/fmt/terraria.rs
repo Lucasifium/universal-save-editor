@@ -335,6 +335,7 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
         b.add(&mut ch, cp, "Difficulty", Value::from(DIFFICULTY[diff]), Field::Difficulty { at });
     }
     let ticks = r.i64()?;
+    ch.insert("File version".into(), Value::from(v));
     ch.insert("Play time (hours)".into(), Value::from((ticks as f64 / 36e9 * 10.0).round() / 10.0));
     r.i32()?; // hair
     r.u8()?; // hair dye
@@ -430,9 +431,70 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
     Ok(doc.with_note("Close Terraria (or at least go back to the title screen) before saving, or the game will overwrite your edit."))
 }
 
+/// A made-up player file of `version` (1.4.4 to 1.4.4.9) with `items` (inventory slot
+/// from 0, item id, stack) and the same in the piggy bank (`bank`).
+#[cfg(test)]
+pub(crate) fn synthetic(version: i32, items: &[(usize, i32, i32)], bank: &[(usize, i32, i32)]) -> Vec<u8> {
+    assert!((260..=318).contains(&version));
+    let mut d = version.to_le_bytes().to_vec();
+    d.extend(b"relogic");
+    d.push(3);
+    d.extend([0u8; 12]);
+    d.extend(net_string("Tester"));
+    d.push(0); // classic
+    d.extend(36_000_000_000i64.to_le_bytes());
+    d.extend([0u8; 5]); // hair, hair dye
+    d.extend([0u8; 4]);
+    for n in [100i32, 100, 20, 20] {
+        d.extend(n.to_le_bytes());
+    }
+    d.extend([0u8; 3 + 1 + 6 + 1]); // upgrade flags
+    d.extend(0i32.to_le_bytes()); // tax
+    d.extend([0u8; 8]); // deaths
+    d.extend([0u8; 21]); // colours
+    d.extend(vec![0u8; 30 * 5]); // armor, vanity, dyes
+    let slot = |d: &mut Vec<u8>, list: &[(usize, i32, i32)], i: usize, fav: bool| {
+        let (id, n) = list.iter().find(|s| s.0 == i).map_or((0, 0), |s| (s.1, s.2));
+        d.extend(id.to_le_bytes());
+        d.extend(n.to_le_bytes());
+        d.push(0);
+        if fav {
+            d.push(0);
+        }
+    };
+    for i in 0..50 {
+        slot(&mut d, items, i, true);
+    }
+    for i in 0..8 {
+        slot(&mut d, &[], i, true);
+    }
+    d.extend(vec![0u8; 10 * 5]); // pet, mount, hook…
+    for i in 0..40 {
+        slot(&mut d, bank, i, false);
+    }
+    for _ in 0..2 * 40 {
+        slot(&mut d, &[], 0, false);
+    }
+    for _ in 0..40 {
+        slot(&mut d, &[], 0, true);
+    }
+    d.extend([0u8; 64]); // the rest of the file
+    d
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn synthetic_player_reads() {
+        let d = synthetic(279, &[(0, 22, 7)], &[(3, 9, 50)]);
+        let doc = parse(&d).unwrap();
+        assert_eq!(doc.view.pointer("/Character/File version").unwrap(), 279);
+        assert_eq!(doc.view.pointer("/Inventory/Slot 1/Item").unwrap(), "Iron Bar");
+        assert_eq!(doc.view.pointer("/Piggy bank/Slot 4/Stack").unwrap(), 50);
+        assert_eq!(doc.to_bytes().unwrap(), d);
+    }
 
     #[test]
     #[ignore]

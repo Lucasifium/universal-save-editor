@@ -81,6 +81,8 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
         ui.label(RichText::new("Coins and ammo").strong());
         let ca: Vec<String> = (1..=4).map(|i| format!("Coin slot {i}")).chain((1..=4).map(|i| format!("Ammo slot {i}"))).collect();
         slots(ui, cx, "terraria_coins", "/Coins and ammo", &ca, 8);
+        ui.add_space(6.0);
+        super::crafting::button(super::Game::Terraria, ui, cx);
     });
 
     let stores: Vec<String> = ["Piggy bank", "Safe", "Defender's Forge", "Void Vault"].iter().filter(|s| cx.get(&format!("/{}", pointer_escape(s))).is_some()).map(|s| s.to_string()).collect();

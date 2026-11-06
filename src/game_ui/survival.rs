@@ -237,6 +237,8 @@ pub fn valheim(ui: &mut Ui, cx: &mut GameCtx) {
                 ui.end_row();
             }
         });
+        ui.add_space(4.0);
+        super::crafting::button(super::Game::Valheim, ui, cx);
         ui.weak("Items are shown by their prefab name. Each item has its own top stack size and quality in the game; going past them may be undone when it loads.");
     });
 }

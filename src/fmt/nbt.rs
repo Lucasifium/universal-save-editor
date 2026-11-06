@@ -432,6 +432,50 @@ mod tests {
         write(&Nbt { le, header: header.then_some(10), root_name: String::new(), root })
     }
 
+    /// The "Max crafting materials" button on a made-up Java player: materials go to 64,
+    /// progression items and single items without a count stay as they are.
+    #[test]
+    fn minecraft_crafting_materials_round_trip() {
+        let item = |slot: i8, id: &str, count: Option<Tag>| {
+            let mut c = vec![("Slot".to_string(), Tag::Byte(slot)), ("id".to_string(), Tag::String(id.into()))];
+            if let Some(n) = count {
+                c.push(("Count".to_string(), n));
+            }
+            Tag::Compound(c)
+        };
+        let ender = Tag::Compound(vec![("Slot".into(), Tag::Byte(0)), ("id".into(), Tag::String("minecraft:string".into())), ("count".into(), Tag::Int(5))]);
+        let root = Tag::Compound(vec![(
+            "Data".into(),
+            Tag::Compound(vec![(
+                "Player".into(),
+                Tag::Compound(vec![
+                    ("Inventory".into(), Tag::List(10, vec![
+                        item(0, "minecraft:iron_ingot", Some(Tag::Byte(9))),
+                        item(1, "minecraft:ender_pearl", Some(Tag::Byte(3))),
+                        item(2, "minecraft:eye_of_ender", Some(Tag::Byte(2))),
+                        item(3, "minecraft:diamond", None),
+                    ])),
+                    ("EnderItems".into(), Tag::List(10, vec![ender])),
+                ]),
+            )]),
+        )]);
+        let raw = write(&Nbt { le: false, header: None, root_name: String::new(), root });
+        let mut doc = parse(&raw).unwrap();
+        let view = doc.view.clone();
+        let mut cx = crate::game_ui::GameCtx { root: &view, baseline: &view, tree: Some(&doc), edits: vec![], archive: None, open_entry: None };
+        assert_eq!(crate::game_ui::max_crafting_materials(crate::game_ui::Game::Minecraft, &mut cx), 2);
+        for (p, v) in cx.edits {
+            doc.set(&p, v).unwrap().expect("editable");
+        }
+        let again = parse(&doc.to_bytes().unwrap()).unwrap();
+        let v = |p: &str| again.view.pointer(p).cloned().unwrap();
+        assert_eq!(v("/Data/Player/Inventory/0/Count"), 64);
+        assert_eq!(v("/Data/Player/Inventory/1/Count"), 3);
+        assert_eq!(v("/Data/Player/Inventory/2/Count"), 2);
+        assert!(again.view.pointer("/Data/Player/Inventory/3/Count").is_none());
+        assert_eq!(v("/Data/Player/EnderItems/0/count"), 64);
+    }
+
     #[test]
     fn java_and_bedrock() {
         for (le, header) in [(false, false), (true, true)] {

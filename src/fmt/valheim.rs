@@ -342,6 +342,11 @@ pub mod tests {
 
     /// A made-up profile-37 character with two items and two skills.
     pub fn synthetic(version: i32) -> Vec<u8> {
+        synthetic_with(version, &[("Coins", 120, 1), ("SwordTest", 1, 3)])
+    }
+
+    /// The same character carrying `items` (prefab, stack, quality).
+    pub fn synthetic_with(version: i32, items: &[(&str, i32, i32)]) -> Vec<u8> {
         let mut p = vec![];
         i(&mut p, 26); // player data version
         for v in [100.0, 75.5, 80.0] {
@@ -352,8 +357,8 @@ pub mod tests {
         s(&mut p, "GP_Test");
         f(&mut p, 0.0);
         i(&mut p, 104);
-        i(&mut p, 2);
-        for (name, stack, q) in [("Coins", 120, 1), ("SwordTest", 1, 3)] {
+        i(&mut p, items.len() as i32);
+        for &(name, stack, q) in items {
             s(&mut p, name);
             i(&mut p, stack);
             f(&mut p, 50.0);
