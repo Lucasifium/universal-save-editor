@@ -144,6 +144,11 @@ pub enum Layer {
     /// Borderlands 2 / The Pre-Sequel `.sav`: SHA-1, size, one LZO1X block around the
     /// "WSG" character data. Unchanged data is written back as the original file.
     Borderlands { original: Arc<Vec<u8>>, plain: Arc<Vec<u8>> },
+    /// Grim Dawn character: rolling-XOR encryption with checksummed blocks; `plan` says how
+    /// each part of the plain data is encrypted again.
+    GrimDawn { seed: u32, plan: Arc<Vec<fmt::grimdawn::Seg>> },
+    /// Torchlight II character (version 0x44): scrambled nibbles, a checksum and the file size.
+    Torchlight2,
 }
 
 impl Layer {
@@ -196,6 +201,8 @@ impl Layer {
             Layer::Me1Header { .. } => "Mass Effect save (image header)".to_string(),
             Layer::Owlcat { .. } => "Pathfinder save archive".to_string(),
             Layer::Borderlands { .. } => "Borderlands save (SHA-1, LZO)".to_string(),
+            Layer::GrimDawn { .. } => "Grim Dawn character (encrypted, checksummed blocks)".into(),
+            Layer::Torchlight2 => "Torchlight II save (scrambled, checksum)".into(),
             Layer::Xcom { xcom2, sizes, .. } => format!("{} save ({} LZO chunks)", if *xcom2 { "XCOM 2" } else { "XCOM: Enemy Unknown" }, sizes.len()),
         }
     }
@@ -627,6 +634,8 @@ fn wrap(layer: &Layer, data: Vec<u8>) -> Result<Vec<u8>, String> {
                 fmt::borderlands::pack(&data)?
             }
         }
+        Layer::GrimDawn { seed, plan } => fmt::grimdawn::encrypt(*seed, plan, &data)?,
+        Layer::Torchlight2 => fmt::torchlight2::pack(&data),
         Layer::Me1Header { header } => {
             let mut out = header.to_vec();
             out.extend_from_slice(&data);
@@ -714,6 +723,9 @@ fn peel(data: &[u8], ctx: &mut Ctx) -> Option<(Layer, Vec<u8>)> {
     }
     if data.starts_with(BOM) {
         return Some((Layer::Utf8Bom, data[BOM.len()..].to_vec()));
+    }
+    if let Some(r) = peel_arpg(data, ctx) {
+        return r;
     }
     if let Some((header, state)) = fmt::luabins::open(data) {
         return Some((Layer::Supergiant { header: Arc::new(header) }, state));
@@ -946,6 +958,26 @@ fn peel(data: &[u8], ctx: &mut Ctx) -> Option<(Layer, Vec<u8>)> {
                 return Some((Layer::JsEscape, plain.into_bytes()));
             }
         }
+    }
+    None
+}
+
+/// Grim Dawn and Torchlight II characters. `Some(None)`: recognised, but can't be opened.
+fn peel_arpg(data: &[u8], ctx: &mut Ctx) -> Option<Option<(Layer, Vec<u8>)>> {
+    match fmt::grimdawn::decrypt(data) {
+        Some(Ok((seed, plain, plan))) => return Some(Some((Layer::GrimDawn { seed, plan: Arc::new(plan) }, plain))),
+        Some(Err(e)) => {
+            ctx.hint = Some(format!("This is a Grim Dawn character, but part of it is laid out in a way this editor doesn't know ({e}), so it can't be edited safely."));
+            return Some(None);
+        }
+        None => {}
+    }
+    if let Some(plain) = fmt::torchlight2::unpack(data) {
+        return Some(Some((Layer::Torchlight2, plain)));
+    }
+    if fmt::torchlight2::is_old(data) {
+        ctx.hint = Some("This is a Torchlight II character from an older version of the game (format 0x40). Its layout is different and isn't supported.".into());
+        return Some(None);
     }
     None
 }
