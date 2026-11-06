@@ -9,11 +9,16 @@
 //! table (offset / count at 0x2BC / 0x2C0, 0x14 bytes per item: resref, …, three u16
 //! charges). Layouts per IESDP (facts only), checked on sample BG:EE and BG2:EE saves.
 //! Everything here is a fixed-size value, edited in place; no checksum.
+//!
+//! Planescape: Torment: Enhanced Edition writes the same `GAMEV2.0` / `CRE V1.0` files
+//! (also named `BALDUR.gam`), checked on real PST:EE saves. It is told apart by the
+//! protagonist's death variable `Nameless`, and its creatures use PST's own RACE.IDS.
 
 use super::fields::{Builder, Checksum, Kind};
 use crate::tree::TreeDoc;
 
 pub const KIND: &str = "Infinity Engine save (GAM V2.0)";
+pub const KIND_PST: &str = "Planescape: Torment EE save (GAM V2.0)";
 
 const NPC_SIZE: usize = 0x160;
 const VAR_SIZE: usize = 0x54;
@@ -97,6 +102,33 @@ fn race_name(id: u8) -> Option<&'static str> {
     })
 }
 
+/// RACE.IDS of Planescape: Torment (the entries party members use).
+fn pst_race_name(id: u8) -> Option<&'static str> {
+    Some(match id {
+        1 => "Human",
+        6 => "Annah",
+        12 => "Dakkon",
+        19 => "Fall-From-Grace",
+        30 => "Githzerai",
+        35 => "Ignus",
+        45 => "Morte",
+        48 => "Nordom",
+        64 => "Tiefling",
+        68 => "Vhailor",
+        _ => return None,
+    })
+}
+
+/// A Planescape: Torment: EE save: a party member has the death variable `Nameless`.
+pub fn is_pst(d: &[u8]) -> bool {
+    let Some((off, n)) = table(d, 0x20, NPC_SIZE) else { return false };
+    looks(d)
+        && (0..n).map(|i| off + i * NPC_SIZE).any(|n| {
+            let (Some(cre), Some(size)) = (u32_at(d, n + 4).map(|v| v as usize), u32_at(d, n + 8).map(|v| v as usize)) else { return false };
+            size >= 0x2D4 && cre.checked_add(size).is_some_and(|e| e <= d.len()) && d[cre..].starts_with(b"CRE V1.0") && text(d, cre + 0x280, 32).eq_ignore_ascii_case("nameless")
+        })
+}
+
 /// "VICONIA" / "jaheira" → "Viconia" / "Jaheira".
 fn pretty(s: &str) -> String {
     let mut c = s.chars();
@@ -116,6 +148,7 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
     if !looks(d) {
         return Err("not a GAM V2.0 save".into());
     }
+    let pst = is_pst(d);
     let mut b = Builder::new(d);
     b.field(&["Party", "Gold"], 0x18, Kind::U32);
     let reps: Vec<(String, u64)> = (1..=20).map(|r| (r.to_string(), r * 10)).collect();
@@ -144,7 +177,13 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
         let mut name = text(d, n + 0xC0, 32);
         if name.is_empty() {
             let death = text(d, cre + 0x280, 32);
-            name = if death.is_empty() || death.eq_ignore_ascii_case("none") { format!("Character (name #{})", u32_at(d, cre + 8).unwrap_or(0)) } else { pretty(&death) };
+            name = if death.is_empty() || death.eq_ignore_ascii_case("none") {
+                format!("Character (name #{})", u32_at(d, cre + 8).unwrap_or(0))
+            } else if pst && death.eq_ignore_ascii_case("nameless") {
+                "The Nameless One".into()
+            } else {
+                pretty(&death)
+            };
         }
         let mut key = name.clone();
         let mut k = 2;
@@ -164,7 +203,13 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
         let cname = class_name(class);
         b.info(&p("Class"), cname.map_or_else(|| format!("class #{class}"), str::to_string));
         let race = d[cre + 0x272];
-        b.info(&p("Race"), race_name(race).map_or_else(|| format!("race #{race}"), str::to_string));
+        // PST:EE leaves some party members' race byte at values that aren't theirs (0 for
+        // the Nameless One), so only a known entry is shown there.
+        match (pst, if pst { pst_race_name(race) } else { race_name(race) }) {
+            (_, Some(r)) => b.info(&p("Race"), r),
+            (false, None) => b.info(&p("Race"), format!("race #{race}")),
+            (true, None) => {}
+        }
         b.ranged(&p("Experience"), cre + 0x18, Kind::U32, 0, 99_999_999);
         b.ranged(&p("Hit points"), cre + 0x24, Kind::U16, 0, 32767);
         b.ranged(&p("Max hit points"), cre + 0x26, Kind::U16, 1, 32767);
@@ -209,7 +254,7 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
     if members == 0 {
         return Err("no party member found".into());
     }
-    Ok(b.finish(KIND, Checksum::None))
+    Ok(b.finish(if pst { KIND_PST } else { KIND }, Checksum::None))
 }
 
 #[cfg(test)]
@@ -304,6 +349,31 @@ pub(crate) mod tests {
         assert_eq!(again.view.pointer("/Party members/Skie/Items/01 POTN08/Quantity ~1 charges"), Some(&10.into()));
         // Not a GAM.
         assert!(!looks(b"GAMEV1.1 and more bytes"));
+    }
+
+    #[test]
+    fn planescape_torment_is_told_apart() {
+        let mut d = sample();
+        assert!(!is_pst(&d));
+        // The protagonist (second NPC struct) gets PST's death variable, the other PST's Morte race.
+        let npc_off = u32_at(&d, 0x20).unwrap() as usize;
+        let hero = u32_at(&d, npc_off + NPC_SIZE + 4).unwrap() as usize;
+        d[hero + 0x280..hero + 0x2A0].fill(0);
+        d[hero + 0x280..hero + 0x288].copy_from_slice(b"Nameless");
+        let skie = u32_at(&d, npc_off + 4).unwrap() as usize;
+        d[skie + 0x272] = 45;
+        d[hero + 0x272] = 0;
+        d[npc_off + NPC_SIZE + 0xC0..npc_off + NPC_SIZE + 0xC4].fill(0);
+        assert!(is_pst(&d));
+        let mut doc = parse(&d).unwrap();
+        assert_eq!(doc.kind_name, KIND_PST);
+        let v = &doc.view;
+        assert!(v.pointer("/Party members/The Nameless One").is_some());
+        assert!(v.pointer("/Party members/The Nameless One/Race").is_none(), "race 0 isn't a PST race");
+        assert_eq!(v.pointer("/Party members/Skie/Race"), Some(&"Morte".into()));
+        doc.set("/Party members/The Nameless One/Experience", 7000.into()).unwrap();
+        let again = parse(&doc.to_bytes().unwrap()).unwrap();
+        assert_eq!(again.view.pointer("/Party members/The Nameless One/Experience"), Some(&7000.into()));
     }
 
     /// Research aid: SAVE_EDITOR_IE = BALDUR.gam files separated by `|`. Each must parse,
