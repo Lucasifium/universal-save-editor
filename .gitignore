@@ -3,3 +3,6 @@
 # Android signing key: keep a backup, but never publish it.
 /packaging/android/release.keystore
 /packaging/android/keystore-password.txt
+
+# Local agent worktrees
+.claude/worktrees/
