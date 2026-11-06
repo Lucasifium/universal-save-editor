@@ -48,6 +48,7 @@ const HEX: &str = "Hex view and Value search (find a number you know, then chang
 const METRO: &str = "Game screen for the level saves (.player); the auto save is unpacked for Value search";
 const RGG_UNTESTED: &str = "Decrypted, with its checksum kept right (no save of this game has been tried yet); values in the Tree";
 const HEX_UNPACKED: &str = "Unpacked for Value search (find a number you know, then change it); packed again on save";
+const XCOM2: &str = "Game screen: HQ resources and soldiers (rank, kills, missions, stats); unpacked and packed again on save. Not yet tried in the game";
 const PDX_BINARY: &str = "Text saves fully; ironman (binary) saves are shown but can't be edited";
 
 macro_rules! game {
@@ -160,8 +161,8 @@ pub const GAMES: &[GameInfo] = &[
     game!("Terraria (worlds)", FULL, r"Documents\My Games\Terraria\Worlds", "<world>.wld (Terraria 1.4 or later)", [(Documents, r"My Games\Terraria\Worlds"), (Documents, r"My Games\Terraria\tModLoader\Worlds")], ["*.wld"], 1),
     game!("The Witcher 3", FULL, r"Documents\The Witcher 3\gamesaves", r"ManualSave_*.sav, AutoSave_*.sav", [(Documents, r"The Witcher 3\gamesaves")], ["*.sav"], 1),
     game!("Victoria 3", PDX_BINARY, r"Documents\Paradox Interactive\Victoria 3\save games", "*.v3", [(Documents, r"Paradox Interactive\Victoria 3\save games")], ["*.v3"], 1),
-    game!("XCOM 2", HEX_UNPACKED, r"Documents\My Games\XCOM2\XComGame\SaveData", r"save1, save2 … (no extension)", [(Documents, r"My Games\XCOM2\XComGame\SaveData")], ["save*"], 1),
-    game!("XCOM 2: War of the Chosen", HEX_UNPACKED, r"Documents\My Games\XCOM2 War of the Chosen\XComGame\SaveData", r"save_AUTOSAVE- Campaign …, save_<name>", [(Documents, r"My Games\XCOM2 War of the Chosen\XComGame\SaveData")], ["save*"], 1),
+    game!("XCOM 2", XCOM2, r"Documents\My Games\XCOM2\XComGame\SaveData", r"save1, save2 … (no extension)", [(Documents, r"My Games\XCOM2\XComGame\SaveData")], ["save*"], 1),
+    game!("XCOM 2: War of the Chosen", XCOM2, r"Documents\My Games\XCOM2 War of the Chosen\XComGame\SaveData", r"save_AUTOSAVE- Campaign …, save_<name>", [(Documents, r"My Games\XCOM2 War of the Chosen\XComGame\SaveData")], ["save*"], 1),
     game!("XCOM: Chimera Squad", HEX_UNPACKED, r"Documents\My Games\XCOM Chimera Squad\XComGame\SaveData", r"save*", [(Documents, r"My Games\XCOM Chimera Squad\XComGame\SaveData")], ["save*"], 1),
     game!("XCOM: Enemy Unknown / Enemy Within", HEX_UNPACKED, r"Documents\My Games\XCOM - Enemy Unknown (or XCOM - Enemy Within)\XComGame\SaveData", r"save1, save2 … (no extension)", [(Documents, r"My Games\XCOM - Enemy Unknown\XComGame\SaveData"), (Documents, r"My Games\XCOM - Enemy Within\XComGame\SaveData")], ["save*"], 1),
     game!("Yakuza 0", FULL, r"Steam\userdata\<account>\638970\remote", r"SaveData00NN.sav", [(SteamUser("638970"), r"remote")], ["SaveData*.sav"], 1),

@@ -49,6 +49,7 @@ pub mod nbt;
 pub mod nrbf;
 pub mod fields;
 pub mod masseffect;
+pub mod xcom2;
 pub mod xcom_eu;
 pub mod ff7;
 pub mod ff7r;
@@ -181,6 +182,11 @@ pub fn parse_binary(d: &[u8]) -> Option<TreeDoc> {
     }
     if ff7::looks(d) {
         if let Ok(t) = ff7::parse(d) {
+            return Some(t);
+        }
+    }
+    if xcom2::looks(d) {
+        if let Ok(t) = xcom2::parse(d) {
             return Some(t);
         }
     }
