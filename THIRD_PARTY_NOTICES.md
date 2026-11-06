@@ -23,6 +23,12 @@ Universal Save Editor is free. It builds on other people's work, listed here wit
 | [d2s (Diablo II save layout)](https://github.com/dschu012/d2s) | dschu012 | facts only (file layouts, ids and names), credited |
 | [Trilogy Save Editor (Mass Effect 1 and Legendary Edition save layouts, item and talent names)](https://github.com/KarlitosVII/trilogy-save-editor) | Karlitos | facts only (file layouts, ids and names), credited |
 | [God of War (2018) and Ragnarök save editors "Forja" (item ids and names; credits kg971 and xcier)](https://github.com/wilypizza-svg) | wilypizza-svg (José Murilo) | facts only (file layouts, ids and names), credited |
+| [grim-dawn-save-editor (Grim Dawn character block layouts, ported)](https://github.com/kraken444444/grim-dawn-save-editor) | Zez (kraken444444) | MIT |
+| [gd-edit (Grim Dawn item, stash tab, skill and hotbar layouts of Fangs of Asterkarn saves)](https://github.com/GrimDawn-max/gd-edit) | GrimDawn-max and gd-edit contributors | facts only (file layouts, ids and names), credited |
+| [GDParser (Grim Dawn save encryption)](https://github.com/ChrisElison/GDParser) | Christopher David Elison | MIT |
+| [TQVaultAE (Titan Quest save key/value layout)](https://github.com/EtienneLamoureux/TQVaultAE) | Brandon Wallace and TQVaultAE contributors | MIT |
+| [tqrespec (Titan Quest attribute order)](https://github.com/epinter/tqrespec) | epinter | facts only (file layouts, ids and names), credited |
+| [tl2-save-edit (Torchlight II save scrambling, checksum, hero and item layout)](https://github.com/Scepheo/tl2-save-edit) | Scepheo | facts only (file layouts, ids and names), credited |
 
 Copyright notices of the projects above whose code or tables were used:
 
@@ -38,6 +44,9 @@ Copyright notices of the projects above whose code or tables were used:
 - halbu (Diablo II character layout, skill names): Copyright (c) 2023 feor. Licensed under MIT.
 - W3SavegameEditor (The Witcher 3 save layout): Copyright (c) 2015 Atvaark. Licensed under MIT.
 - RE_RSZ (RE Engine field names): Copyright (c) 2021 alphazolam. Licensed under MIT.
+- grim-dawn-save-editor (Grim Dawn character block layouts, ported): Copyright (c) 2026 Zez (kraken444444). Licensed under MIT.
+- GDParser (Grim Dawn save encryption): Copyright (c) 2021 Christopher David Elison. Licensed under MIT.
+- TQVaultAE (Titan Quest save key/value layout): Copyright (c) 2006-2012 Brandon Wallace. Licensed under MIT.
 - P4G Save Tool (Persona 4 Golden field positions): Copyright (c) 2016 Jack P. Fenech. Licensed under MIT.
 
 The MIT, Apache-2.0 and zlib licence texts are included below with the crates that use them.

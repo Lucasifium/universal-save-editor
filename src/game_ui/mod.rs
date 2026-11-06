@@ -5,6 +5,7 @@
 //! `(pointer, new value)` edits, which the app applies with undo, range checks,
 //! dependent values (a level following attributes) and checksums.
 
+mod arpg;
 mod cairn;
 mod dashboards;
 mod fromsoft;
@@ -73,6 +74,9 @@ pub enum Game {
     Gow2018,
     GowRagnarok,
     Cairn,
+    GrimDawn,
+    TitanQuest,
+    Torchlight2,
 }
 
 impl Game {
@@ -112,6 +116,7 @@ impl Game {
             Game::Gow2018 => "Kratos",
             Game::GowRagnarok => "Kratos",
             Game::Cairn => "Climber",
+            Game::GrimDawn | Game::TitanQuest | Game::Torchlight2 => "Character",
             _ => "Character",
         }
     }
@@ -165,6 +170,9 @@ pub fn detect(kind: &str, root: &Value) -> Option<Game> {
         "God of War save" => Game::Gow2018,
         "God of War Ragnarök save" => Game::GowRagnarok,
         "Cairn save" => Game::Cairn,
+        "Grim Dawn character" => Game::GrimDawn,
+        "Titan Quest character" => Game::TitanQuest,
+        "Torchlight II character" => Game::Torchlight2,
         _ if has("/base/m_title") && has("/player") => Game::YakuzaDe,
         "Unreal Engine save (PalWorldPlayerSaveGame)" if has("/SaveData/TechnologyPoint") => Game::Palworld,
         "Final Fantasy VII Remake save" | "Final Fantasy VII Rebirth save" => Game::Ff7Remake,
@@ -216,6 +224,9 @@ pub fn show(game: Game, ui: &mut Ui, cx: &mut GameCtx) {
         Game::Gow2018 => screens2::gow2018(ui, cx),
         Game::GowRagnarok => screens2::gow_ragnarok(ui, cx),
         Game::Cairn => cairn::show(ui, cx),
+        Game::GrimDawn => arpg::grim_dawn(ui, cx),
+        Game::TitanQuest => arpg::titan_quest(ui, cx),
+        Game::Torchlight2 => arpg::torchlight2(ui, cx),
         Game::RenPy => screens2::renpy(ui, cx),
         Game::MassEffect => screens2::mass_effect(ui, cx),
         Game::Xcom => screens2::xcom(ui, cx),
@@ -703,6 +714,9 @@ mod tests {
         assert_eq!(detect("RE Engine save", &json!({"#1": {"_Data": {"_InventoryData": []}}})), Some(Game::ReSlot));
         assert_eq!(detect("Unreal Engine save (PersistentGameData)", &json!({"CharacterSaveGameInfo": {"CharacterHouse": "Ravenclaw"}})), Some(Game::Hogwarts));
         assert_eq!(detect("Ren'Py save", &json!({"Variables": {"money": 5}})), Some(Game::RenPy));
+        assert_eq!(detect("Grim Dawn character", &json!({})), Some(Game::GrimDawn));
+        assert_eq!(detect("Titan Quest character", &json!({})), Some(Game::TitanQuest));
+        assert_eq!(detect("Torchlight II character", &json!({})), Some(Game::Torchlight2));
     }
 
     #[test]
