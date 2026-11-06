@@ -70,6 +70,8 @@ Universal Save Editor is free. It builds on other people's work, listed here wit
 | [w3se (Wasteland 3 save paths for money, attributes and items)](https://github.com/stolinator/w3se) | stolinator | facts only (file layouts, ids and names), credited |
 | [LibLZF (the LZF stream format; the editor has its own implementation)](http://software.schmorp.de/pkg/liblzf.html) | Marc Alexander Lehmann | facts only (format), credited |
 | [valheim-fch-editor (Valheim character layout, skill ids)](https://github.com/cquaid/valheim-fch-editor) | cQuaid | MIT |
+| [Terraria Wiki (which items are crafting materials, and their stack sizes)](https://terraria.wiki.gg/) | Terraria Wiki contributors | facts only (item ids, types and stack sizes), credited |
+| [Valheim Wiki (material prefab names and stack sizes)](https://valheim.fandom.com/) | Valheim Wiki contributors | facts only (ids and stack sizes), credited |
 | [valheim-save-tools (Valheim character layout by version)](https://github.com/Kakoen/valheim-save-tools) | Kakoen | facts only (file layouts, ids and names), credited |
 | [valheim-character-editor (newer Valheim layouts, skill ids)](https://github.com/bkaznowski/valheim-character-editor) | bkaznowski | facts only (file layouts, ids and names), credited |
 | [obababot (Golden Sun save layout; item, class and Djinn name tables)](https://github.com/Dyrati/obababot) | Dyrati | MIT |

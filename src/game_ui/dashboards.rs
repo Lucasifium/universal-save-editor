@@ -262,6 +262,23 @@ pub fn stardew(ui: &mut Ui, cx: &mut GameCtx) {
     panel(ui, "Farm", |ui| {
         grid(ui, cx, "sdv_farm", &[("Total earned", join(p, "totalMoneyEarned")), ("Favorite thing", join(p, "favoriteThing")), ("Raining", join(g, "isRaining")), ("Daily luck", join(g, "dailyLuck"))]);
     });
+    if let Ok(list) = super::crafting::stacks(super::Game::Stardew, cx) {
+        panel(ui, "Crafting materials in the backpack", |ui| {
+            if list.is_empty() {
+                ui.weak("No wood, stone, ores, bars or other crafting materials in the backpack.");
+            } else {
+                egui::Grid::new("sdv_mats").num_columns(2).striped(true).spacing([14.0, 4.0]).show(ui, |ui| {
+                    for s in &list {
+                        ui.label(&s.name);
+                        cx.compact(ui, &s.paths[0], 80.0);
+                        ui.end_row();
+                    }
+                });
+            }
+            ui.add_space(4.0);
+            super::crafting::button(super::Game::Stardew, ui, cx);
+        });
+    }
 }
 
 // ------------------------------------------------------------------ Minecraft
@@ -354,6 +371,10 @@ pub fn minecraft(ui: &mut Ui, cx: &mut GameCtx) {
                 None => {
                     ui.weak("Click an item to change it. Empty slots can't be filled from here (use the Tree tab).");
                 }
+            }
+            if id == "mc_inv" {
+                ui.add_space(4.0);
+                super::crafting::button(super::Game::Minecraft, ui, cx);
             }
         });
     }

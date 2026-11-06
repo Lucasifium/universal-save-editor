@@ -8,6 +8,7 @@
 mod arpg;
 mod borderlands;
 mod cairn;
+pub mod crafting;
 mod darkest;
 mod dashboards;
 mod deus_ex;
@@ -703,6 +704,13 @@ pub fn words(key: &str) -> String {
 #[cfg(test)]
 pub fn give_materials(game: Game, cx: &mut GameCtx) {
     fromsoft::give_materials(game, cx);
+}
+
+/// What a game screen's "Max crafting materials" button does (for tests); returns the
+/// number of stacks raised.
+#[cfg(test)]
+pub fn max_crafting_materials(game: Game, cx: &mut GameCtx) -> usize {
+    crafting::apply(game, cx)
 }
 
 /// The "max upgrade materials" button: `what` names the amount ("99 of each").

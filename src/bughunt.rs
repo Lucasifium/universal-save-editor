@@ -1160,3 +1160,36 @@ fn detect_files() {
         println!("DET\t{line}\t{}", r.unwrap_or_else(|_| "PANIC".into()));
     }
 }
+
+/// Research aid: runs "Max crafting materials" on the saves in SAVE_EDITOR_CRAFT
+/// ("a|b|…") through the whole save pipeline: every material stack must read back at its
+/// cap, and every other value must read back unchanged.
+#[test]
+#[ignore]
+fn crafting_materials_on_saves() {
+    let list = std::env::var("SAVE_EDITOR_CRAFT").expect("SAVE_EDITOR_CRAFT");
+    for path in list.split('|').filter(|s| !s.is_empty()).map(std::path::PathBuf::from) {
+        let raw = std::fs::read(&path).unwrap();
+        let mut d = decode_with(&raw, &Options::for_path(&path));
+        let Content::Tree(t) = &mut d.content else { panic!("{}: not a tree", path.display()) };
+        let game = crate::game_ui::detect(&t.kind_name, &t.view).expect("a game screen");
+        let before = t.view.clone();
+        let mut cx = crate::game_ui::GameCtx { root: &before, baseline: &before, tree: Some(&**t), edits: vec![], archive: None, open_entry: None };
+        let list = crate::game_ui::crafting::stacks(game, &cx).unwrap_or_default();
+        let n = crate::game_ui::max_crafting_materials(game, &mut cx);
+        let edits = cx.edits;
+        for (p, v) in &edits {
+            t.set(p, v.clone()).unwrap().expect("editable");
+        }
+        let out = encode(&d.layers, &d.content).unwrap();
+        let back = decode_with(&out, &Options::for_path(&path));
+        let Content::Tree(b) = &back.content else { panic!("reads back") };
+        let mut expect = before.clone();
+        for (p, v) in &edits {
+            *expect.pointer_mut(p).unwrap() = v.clone();
+        }
+        assert_eq!(b.view, expect, "{}: only the material stacks may change", path.display());
+        let names: Vec<String> = list.iter().map(|s| format!("{} {}->{}", s.name, s.have, s.cap)).collect();
+        println!("{} ({game:?}): {} material stacks, {n} raised, {} values written: {}", path.display(), list.len(), edits.len(), names.join(", "));
+    }
+}
