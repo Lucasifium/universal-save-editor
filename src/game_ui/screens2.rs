@@ -486,6 +486,8 @@ pub fn mass_effect(ui: &mut Ui, cx: &mut GameCtx) {
         cx.tile(ui, "Experience", "/Shepard/Experience", accent);
         cx.tile(ui, "Talent points", "/Shepard/Talent points", accent);
         cx.tile(ui, "Difficulty", "/Save/Difficulty", accent);
+        cx.tile(ui, "Paragon", "/Shepard/Paragon", accent);
+        cx.tile(ui, "Renegade", "/Shepard/Renegade", accent);
     });
     panel(ui, "Resources", |ui| {
         let rows: Vec<(String, String)> = match cx.get("/Resources") {
@@ -493,7 +495,9 @@ pub fn mass_effect(ui: &mut Ui, cx: &mut GameCtx) {
             _ => vec![],
         };
         value_rows(ui, cx, "me_res", &rows);
-        ui.weak("Element zero, iridium, palladium and platinum are Mass Effect 2's minerals; Mass Effect 3 keeps them at 0.");
+        if cx.get("/Resources/Omni-gel").is_none() {
+            ui.weak("Element zero, iridium, palladium and platinum are Mass Effect 2's minerals; Mass Effect 3 keeps them at 0.");
+        }
     });
     power_list(ui, cx, "/Powers", "me_pow", accent);
     let weapons: Vec<String> = match cx.get("/Weapons") {
@@ -505,6 +509,23 @@ pub fn mass_effect(ui: &mut Ui, cx: &mut GameCtx) {
             let rows: Vec<(String, String)> = weapons.iter().map(|w| (words(w), format!("{}/Spare ammo", join("/Weapons", w)))).collect();
             value_rows(ui, cx, "me_w", &rows);
             ui.weak("Spare ammo for each weapon Shepard carries.");
+        });
+    }
+    let parts: Vec<String> = match cx.get("/Items") {
+        Some(Value::Object(m)) => m.iter().filter(|(_, v)| v.as_object().is_some_and(|o| !o.is_empty())).map(|(k, _)| k.clone()).collect(),
+        _ => vec![],
+    };
+    if !parts.is_empty() {
+        panel(ui, "Inventory", |ui| {
+            let t = tabs(ui, "me_items", &parts);
+            let base = join("/Items", &parts[t]);
+            let q = filter_box(ui, "me_items_q", "item name");
+            let rows: Vec<(String, String)> = match cx.get(&base) {
+                Some(Value::Object(m)) => m.keys().filter(|k| q.is_empty() || k.to_lowercase().contains(&q)).map(|k| (k.clone(), join(&base, k))).collect(),
+                _ => vec![],
+            };
+            egui::ScrollArea::vertical().id_salt("me_items_s").max_height(380.0).show(ui, |ui| value_rows(ui, cx, &format!("me_it{t}"), &rows));
+            ui.weak("Each item's level (I\u{2013}X). Items without a name are upgrades and ammo, shown by the game's item number.");
         });
     }
     let squad: Vec<String> = match cx.get("/Squad") {
@@ -526,9 +547,10 @@ pub fn mass_effect(ui: &mut Ui, cx: &mut GameCtx) {
                 }
             });
             power_list(ui, cx, &format!("{base}/Powers"), &format!("me_sq{t}"), accent);
+            power_list(ui, cx, &format!("{base}/Talents"), &format!("me_sqt{t}"), accent);
         });
     }
-    ui.weak("Power ranks run 0\u{2013}4 in Mass Effect 2 and 0\u{2013}6 in Mass Effect 3; an evolved power shows up as its own entry.");
+    ui.weak("Power ranks run 0\u{2013}4 in Mass Effect 2 and 0\u{2013}6 in Mass Effect 3 and up to 12 in Mass Effect 1; an evolved power shows up as its own entry.");
 }
 
 fn power_list(ui: &mut Ui, cx: &mut GameCtx, base: &str, id: &str, accent: Color32) {
@@ -539,7 +561,8 @@ fn power_list(ui: &mut Ui, cx: &mut GameCtx, base: &str, id: &str, accent: Color
     if names.is_empty() {
         return;
     }
-    let max = if cx.text("/Save/Game").is_some_and(|g| g.contains('3')) { 6.0 } else { 4.0 };
+    let game = cx.text("/Save/Game").unwrap_or_default();
+    let max = if game.contains("ME1") { 12.0 } else if game.contains('3') { 6.0 } else { 4.0 };
     ui.push_id(id, |ui| {
         panel(ui, "Powers", |ui| {
             columns(ui, 320.0, names.len(), |ui, i| {
