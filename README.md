@@ -2,6 +2,20 @@
 
 A local, offline save-file editor written in Rust (egui). Nothing is uploaded anywhere.
 
+## Why this exists
+
+Online-only save editors are often rate limited, so this is an offline one that covers as many games as possible: RPG Maker games, Ren'Py and a growing list of others.
+
+My favourites so far:
+
+- **Cairn**: as far as I know, no other save editor can add items, infusions and so on. It can also
+  swap you to Marco on the story summit climbs. That will probably cause some issues, since I haven't
+  tested a full playthrough with it.
+- **Terraria**: the world map editor.
+- **Onimusha**: it just came out, so many fields are still missing as far as I can tell.
+- **RimWorld**
+- **Stardew Valley**
+
 ## Run
 
     cargo run --release -- path\to\savefile      # path is optional
@@ -64,7 +78,7 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 | Onimusha: Way of the Sword | Each save slot (place, play time, difficulty, objective); red souls, money, health and Oni energy; items and charms by name (on hand and in storage; charm level); equipment experience. Decrypts Capcom's RE Engine encryption with your Steam account, found automatically |
 | Stellaris, Hearts of Iron IV, EU4, CK2 | *Empire*: Stellaris stockpiles (energy, minerals, alloys…) and every resource; HOI4 political power, stability, war support, command power and experience; EU4 treasury, manpower, prestige, stability, monarch power and every country value; CK2 ruler wealth, prestige, piety and attributes. Ironman (binary) saves are recognised |
 | RimWorld | *Colony*: every colonist's skills (level and passion, modded passions included) and every silver stack, edited in place even in 100+ MB saves |
-| Oxygen Not Included | *Colony*: every duplicant's attribute levels and experience, total experience and learned skills |
+| Oxygen Not Included | *Colony*: every duplicant's attribute levels and experience, total experience and learned skills; a *Map* of every asteroid and rocket interior (elements, temperature and germ views; paint elements with mass and temperature, dig out to vacuum, set temperature or mass, clear germs, reveal the fog; geysers, teleporters, Gravitas finds, story traits, artifacts and the Printing Pod as toggleable markers); *Worlds & rockets*: names, discovered, sunlight and cosmic radiation, and what's on the star map |
 | Subnautica, Below Zero | *Slot*: game mode (Survival / Freedom / Hardcore / Creative), play time, vehicles |
 | Mass Effect 2, Mass Effect 3 (original and Legendary Edition) | *Shepard*: level, experience, talent points, difficulty; credits, medi-gel, element zero, iridium, palladium, platinum, probes, fuel, grenades; power ranks; spare ammo; each squad member's level, talent points and powers. The save's checksum is updated |
 | XCOM: Enemy Unknown / Within | *HQ*: money; every soldier's rank, XP, kills, HP, aim, mobility and will (the fallen listed last); storage counts. Every saved object's numbers are in *Values* |
