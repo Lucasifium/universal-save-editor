@@ -24,6 +24,8 @@ Universal Save Editor is free. It builds on other people's work, listed here wit
 | [Arcemi Pathfinder save editor (Pathfinder save layout; class, race and companion names)](https://github.com/jaygumji/ArcemiPathfinderKingmakerTools) | jaygumji | facts only (file layouts, ids and names), credited |
 | [Trilogy Save Editor (Mass Effect 1 and Legendary Edition save layouts, item and talent names)](https://github.com/KarlitosVII/trilogy-save-editor) | Karlitos | facts only (file layouts, ids and names), credited |
 | [God of War (2018) and Ragnarök save editors "Forja" (item ids and names; credits kg971 and xcier)](https://github.com/wilypizza-svg) | wilypizza-svg (José Murilo) | facts only (file layouts, ids and names), credited |
+| [obababot (Golden Sun save layout; item, class and Djinn name tables)](https://github.com/Dyrati/obababot) | Dyrati | MIT |
+| [golden_sun_save_converter and golden_sun_password_exporter (Golden Sun save blocks and checksum)](https://github.com/Hambaka/golden_sun_save_converter) | Hambaka | MIT |
 
 Copyright notices of the projects above whose code or tables were used:
 
@@ -40,6 +42,8 @@ Copyright notices of the projects above whose code or tables were used:
 - W3SavegameEditor (The Witcher 3 save layout): Copyright (c) 2015 Atvaark. Licensed under MIT.
 - RE_RSZ (RE Engine field names): Copyright (c) 2021 alphazolam. Licensed under MIT.
 - P4G Save Tool (Persona 4 Golden field positions): Copyright (c) 2016 Jack P. Fenech. Licensed under MIT.
+- obababot (Golden Sun save layout; item, class and Djinn name tables): Copyright (c) 2020 Dyrati. Licensed under MIT.
+- golden_sun_save_converter and golden_sun_password_exporter (Golden Sun save blocks and checksum): Copyright (c) 2022 Hambaka. Licensed under MIT.
 
 The MIT, Apache-2.0 and zlib licence texts are included below with the crates that use them.
 
