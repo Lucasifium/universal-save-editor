@@ -323,6 +323,13 @@ fn build_site() {
     }
     sm.push_str("</urlset>\n");
     std::fs::write(out.join("sitemap.xml"), sm).unwrap();
+    // GitHub Pages serves this for unknown addresses; keep it out of the index.
+    let nf = page("Page not found | Universal Save Editor", "That page doesn't exist. Find your game on the Universal Save Editor home page.", "", "<h1>Page not found</h1>\n<p class=\"lead\">That address doesn't exist. Every supported game is listed on the <a href=\"/universal-save-editor/#games\">home page</a>.</p>", &schema("Universal Save Editor", "Free, offline save editor for PC games.", &format!("{SITE}/")))
+        .replace("<meta charset=\"utf-8\">", "<meta charset=\"utf-8\">\n<meta name=\"robots\" content=\"noindex\">")
+        .replace("href=\"./style.css\"", "href=\"/universal-save-editor/style.css\"")
+        .replace("href=\"./#games\"", "href=\"/universal-save-editor/#games\"")
+        .replace("href=\"./\"", "href=\"/universal-save-editor/\"");
+    std::fs::write(out.join("404.html"), nf).unwrap();
     std::fs::write(out.join("robots.txt"), format!("User-agent: *\nAllow: /\nSitemap: {SITE}/sitemap.xml\n")).unwrap();
     println!("{} pages; full-editor games without a README row: {unmatched:?}", urls.len());
     // Every page needs its own slug.
