@@ -30,6 +30,7 @@ mod starbound;
 mod survival;
 mod terraria;
 mod terraria_world;
+mod torment;
 
 use crate::theme;
 use crate::tree::TreeDoc;
@@ -116,6 +117,7 @@ pub enum Game {
     Wasteland3,
     Valheim,
     GoldenSun,
+    Torment,
     Starbound,
 }
 
@@ -175,6 +177,7 @@ impl Game {
             Game::Wasteland3 => "Rangers",
             Game::Valheim => "Viking",
             Game::GoldenSun => "Party",
+            Game::Torment => "Party",
             Game::Starbound => "Character",
             _ => "Character",
         }
@@ -244,6 +247,7 @@ pub fn detect(kind: &str, root: &Value) -> Option<Game> {
         k if k.starts_with("Star Wars: KOTOR") => Game::Kotor,
         k if k.starts_with("Neverwinter Nights") => Game::Nwn,
         crate::fmt::infinity::KIND => Game::Infinity,
+        crate::fmt::infinity::KIND_PST => Game::Torment,
         crate::fmt::dragonage::KIND => Game::DragonAge,
         crate::fmt::half_life::KIND_GOLDSRC => Game::HalfLife,
         crate::fmt::half_life::KIND_SOURCE => Game::HalfLife2,
@@ -317,6 +321,7 @@ pub fn show(game: Game, ui: &mut Ui, cx: &mut GameCtx) {
         Game::Kotor => kotor::show(ui, cx),
         Game::Nwn => nwn::show(ui, cx),
         Game::Infinity => infinity::show(ui, cx),
+        Game::Torment => torment::show(ui, cx),
         Game::DragonAge => dragon_age::show(ui, cx),
         Game::HalfLife | Game::HalfLife2 => half_life::show(ui, cx),
         Game::DarkestDungeon => darkest::show_dd1(ui, cx),
@@ -826,6 +831,7 @@ mod tests {
         assert_eq!(detect("Fallout 2 save", &json!({"Save": {}})), Some(Game::Fallout12));
         assert_eq!(detect("Deus Ex map save", &json!({})), Some(Game::DeusEx));
         assert_eq!(detect(crate::fmt::infinity::KIND, &json!({})), Some(Game::Infinity));
+        assert_eq!(detect(crate::fmt::infinity::KIND_PST, &json!({})), Some(Game::Torment));
         assert_eq!(detect(crate::fmt::dragonage::KIND, &json!({})), Some(Game::DragonAge));
         assert_eq!(detect(crate::fmt::half_life::KIND_GOLDSRC, &json!({})), Some(Game::HalfLife));
         assert_eq!(detect(crate::fmt::half_life::KIND_SOURCE, &json!({})), Some(Game::HalfLife2));

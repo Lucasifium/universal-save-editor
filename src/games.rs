@@ -63,7 +63,7 @@ const VALHEIM: &str = "Game screen for characters saved with profile versions 33
 const PDX_BINARY: &str = "Text saves fully; ironman (binary) saves are shown but can't be edited";
 const IE_BG: &str = "Game screen: party gold and reputation; each party member's experience, hit points, levels, abilities, alignment and item stacks or charges (BALDUR.gam)";
 const IE_IWD: &str = "Game screen as for Baldur's Gate: EE (same file layout); no Icewind Dale: EE save has been tried yet";
-const IE_PST: &str = "Hex view and Value search only: its save layout differs from the other Enhanced Editions and isn't mapped";
+const IE_PST: &str = "Game screen: the party's coppers; the Nameless One's and each companion's experience, level, hit points, abilities, alignment and item stacks (BALDUR.gam, same layout as the other Enhanced Editions). Checked on real saves, not yet tried in the game";
 const DAO: &str = "Game screen: party money, the Warden's and followers' level, experience, attributes and unspent points, approval, backpack stack sizes. Tried on saves from one playthrough; Awakening saves not yet tried";
 const GOLDEN_SUN: &str = "Game screen: every file in the flash with its coins, each party member's level, experience, HP/PP, base stats and items, and the Djinn per element; checksums kept right. Not yet tried in the game";
 const GBA_FOLDER: &str = r"The emulator's save folder: mGBA and VisualBoyAdvance-M keep <ROM name>.sav next to the ROM (or in the save folder set in their options)";
@@ -188,7 +188,7 @@ pub const GAMES: &[GameInfo] = &[
     game!("Persona 3 Reload", HEX, r"%APPDATA%\SEGA\P3R\Steam\<Steam id>", r"SaveData*.sav", [(AppData, r"SEGA\P3R\Steam\*")], ["*.sav"], 2),
     game!("Persona 4 Golden", FULL, r"Steam\userdata\<account>\1113000\remote", r"data0001.bin …", [(SteamUser("1113000"), r"remote")], ["data*.bin"], 1),
     game!("Persona 5 Royal", FULL, r"%APPDATA%\SEGA\P5R\Steam\<Steam id>\savedata\DATA<nn>", r"DATA.DAT (encrypted)", [(AppData, r"SEGA\P5R\Steam\*\savedata")], ["DATA.DAT", "SYSTEM.DAT"], 2),
-    game!("Planescape: Torment: Enhanced Edition", IE_PST, r"Documents\Planescape Torment - Enhanced Edition\save\<nnnnnnnnn-Name>", r"TORMENT.gam", [(Documents, r"Planescape Torment - Enhanced Edition\save")], ["*.gam"], 2),
+    game!("Planescape: Torment: Enhanced Edition", IE_PST, r"Documents\Planescape Torment - Enhanced Edition\save\<nnnnnnnnn-Name>", r"BALDUR.gam (BALDUR.SAV holds the areas)", [(Documents, r"Planescape Torment - Enhanced Edition\save")], ["*.gam"], 2),
     game!("Pragmata", VALUES, r"Steam\userdata\<account>\3357650\remote\win64_save", "data*.bin", [(SteamUser("3357650"), r"remote\win64_save")], ["*.bin"], 1),
     game!("Prey (2017)", HEX, r"%USERPROFILE%\Saved Games\Arkane Studios\Prey\SaveGames (Prey_MS for the Microsoft Store version)", r"Campaign<n>\<slot>\save.CSF (the player), <level>.level (each area)", [(SavedGames, r"Arkane Studios\Prey\SaveGames"), (SavedGames, r"Arkane Studios\Prey_MS\SaveGames")], ["save.CSF"], 3),
     game!("Red Dead Redemption", HEX, r"Documents\Rockstar Games\Red Dead Redemption\Profiles\<id>", r"RDR2SAVE0.SAV … (the PC port's own name)", [(Documents, r"Rockstar Games\Red Dead Redemption\Profiles\*")], ["*.SAV"], 1),

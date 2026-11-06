@@ -97,6 +97,7 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 | Skyrim, Fallout 4 | Character header; game time; every statistic. Skyrim: the character's real level (in the character itself and the header) |
 | Hades, Hades II | Main currencies; runs, play time and last death; all resources by kind (currencies, plants, ores, fish, reagents) |
 | Stardew Valley | Gold, Qi Gems, casino coins, Golden Walnuts; health and energy; the six skills (level and XP, with the XP the next level needs); farm details |
+| Planescape: Torment: Enhanced Edition | Coppers; the Nameless One and each companion: experience, level, hit points, abilities, alignment and item stacks (checked on real saves, not yet tried in the game) |
 | Starbound | Pixels and the other currencies; item counts in every bag; health, energy and food; ship level, crew and fuel; deaths and play time (checked on a real character save, not yet tried in the game) |
 | Minecraft (`level.dat`) | Health, food and XP; game mode; world settings; inventory and ender chest grids |
 | Balatro | Money, ante, hands and discards; this round; jokers and consumables; poker hand levels |
