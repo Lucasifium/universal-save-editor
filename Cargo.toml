@@ -2,7 +2,9 @@
 name = "save_editor_offline"
 version = "0.1.0"
 edition = "2021"
-description = "Local, offline save-file reader/editor"
+description = "Universal Save Editor: a free, offline save editor for 100+ PC games"
+license = "GPL-3.0-or-later"
+repository = "https://github.com/Lucasifium/universal-save-editor"
 
 [lib]
 name = "save_editor_offline"
