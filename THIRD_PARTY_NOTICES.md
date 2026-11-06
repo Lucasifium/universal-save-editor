@@ -24,6 +24,10 @@ Universal Save Editor is free. It builds on other people's work, listed here wit
 | [Arcemi Pathfinder save editor (Pathfinder save layout; class, race and companion names)](https://github.com/jaygumji/ArcemiPathfinderKingmakerTools) | jaygumji | facts only (file layouts, ids and names), credited |
 | [Trilogy Save Editor (Mass Effect 1 and Legendary Edition save layouts, item and talent names)](https://github.com/KarlitosVII/trilogy-save-editor) | Karlitos | facts only (file layouts, ids and names), credited |
 | [God of War (2018) and Ragnarök save editors "Forja" (item ids and names; credits kg971 and xcier)](https://github.com/wilypizza-svg) | wilypizza-svg (José Murilo) | facts only (file layouts, ids and names), credited |
+| [DarkestDungeonSaveEditor (Darkest Dungeon DSON format and its type rules, ported)](https://github.com/robojumper/DarkestDungeonSaveEditor) | robojumper | MIT |
+| [game-tools-collection (Octopath Traveler II character and job ids)](https://github.com/RyudoSynbios/game-tools-collection) | RyudoSynbios | MIT |
+| [octopath-save-editor (Octopath Traveler save paths and property names)](https://github.com/AppleBoiy/octopath-save-editor) | AppleBoiy | facts only (file layouts, ids and names), credited |
+| [Darkest Dungeon 2 save editor (save files and value names)](https://github.com/Hyena68/Darkest-Dungeon-SAVE-EDITOR) | Hyena68 | facts only (file layouts, ids and names), credited |
 
 Copyright notices of the projects above whose code or tables were used:
 
@@ -40,6 +44,8 @@ Copyright notices of the projects above whose code or tables were used:
 - W3SavegameEditor (The Witcher 3 save layout): Copyright (c) 2015 Atvaark. Licensed under MIT.
 - RE_RSZ (RE Engine field names): Copyright (c) 2021 alphazolam. Licensed under MIT.
 - P4G Save Tool (Persona 4 Golden field positions): Copyright (c) 2016 Jack P. Fenech. Licensed under MIT.
+- DarkestDungeonSaveEditor (Darkest Dungeon DSON format and its type rules, ported): Copyright (c) 2018 robojumper. Licensed under MIT.
+- game-tools-collection (Octopath Traveler II character and job ids): Copyright (c) 2024 RyudoSynbios. Licensed under MIT.
 
 The MIT, Apache-2.0 and zlib licence texts are included below with the crates that use them.
 
