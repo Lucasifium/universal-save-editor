@@ -51,6 +51,7 @@ pub enum Game {
     Xcom,
     Xcom2,
     Civ6,
+    Diablo2,
     Ff7,
     Ff7Remake,
     HogwartsDb,
@@ -86,6 +87,7 @@ impl Game {
             Game::RpgMaker => "Party",
             Game::Paradox => "Empire",
             Game::Civ6 => "Civilizations",
+            Game::Diablo2 => "Character",
             Game::RimWorld | Game::OxygenNotIncluded => "Colony",
             Game::Subnautica | Game::ReSlot => "Slot",
             Game::GreenHell => "Survivor",
@@ -145,6 +147,7 @@ pub fn detect(kind: &str, root: &Value) -> Option<Game> {
         "XCOM: Enemy Unknown game data" => Game::Xcom,
         "XCOM 2 game data" => Game::Xcom2,
         "Civilization VI save" => Game::Civ6,
+        "Diablo II character" => Game::Diablo2,
         "Final Fantasy VII save" => Game::Ff7,
         "Final Fantasy IX save" => Game::Ff9,
         "Dying Light save" if has("/Group/Main/Cash") || has("/Bucket") => Game::DyingLight2,
@@ -218,6 +221,7 @@ pub fn show(game: Game, ui: &mut Ui, cx: &mut GameCtx) {
         Game::Xcom => screens2::xcom(ui, cx),
         Game::Xcom2 => screens2::xcom2(ui, cx),
         Game::Civ6 => screens2::civ6(ui, cx),
+        Game::Diablo2 => screens2::diablo2(ui, cx),
         Game::Ff7 => screens2::ff7(ui, cx),
         Game::Ff7Remake => screens2::ff7_remake(ui, cx),
         Game::Paradox => {
@@ -692,6 +696,7 @@ mod tests {
         assert_eq!(detect("XCOM: Enemy Unknown game data", &json!({})), Some(Game::Xcom));
         assert_eq!(detect("XCOM 2 game data", &json!({})), Some(Game::Xcom2));
         assert_eq!(detect("Civilization VI save", &json!({})), Some(Game::Civ6));
+        assert_eq!(detect("Diablo II character", &json!({})), Some(Game::Diablo2));
         assert_eq!(detect("Final Fantasy VII save", &json!({})), Some(Game::Ff7));
         assert_eq!(detect("Final Fantasy VII Rebirth save", &json!({})), Some(Game::Ff7Remake));
         assert_eq!(detect(".NET BinaryFormatter stream", &json!([{"m_Major": 1}, {"PCM_HP": 90.0}])), Some(Game::GreenHell));
