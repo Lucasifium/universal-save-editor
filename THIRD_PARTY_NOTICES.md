@@ -46,6 +46,12 @@ Universal Save Editor is free. It builds on other people's work, listed here wit
 | [UELib (Unreal Engine 1 package layout for Deus Ex saves; facts only, no code)](https://github.com/EliotVU/Unreal-Library) | EliotVU | facts only (file layouts), credited |
 | [VolvoWrench (Half-Life / Source save container and map-state layout)](https://github.com/Traderain/VolvoWrench) | Traderain | WTFPL (layout only, no code copied) |
 | [Half-Life SDK and Source SDK 2013 (save field names, weapon ammo types)](https://github.com/ValveSoftware/source-sdk-2013) | Valve | facts only (file layouts, ids and names), credited |
+| [vampire-survivors-save-editor (Vampire Survivors checksum and number styles)](https://github.com/chrisdfennell/vampire-survivors-save-editor) | chrisdfennell | MIT |
+| [vampire-survivors-save-edit (Vampire Survivors power-up names and highest ranks)](https://github.com/egavard/vampire-survivors-save-edit) | egavard | facts only (file layouts, ids and names), credited |
+| [silksong-save-analyzer (Hollow Knight: Silksong ability and crest names)](https://github.com/tureptor/silksong-save-analyzer) | tureptor | facts only (file layouts, ids and names), credited |
+| [silksong-save-viewer (Hollow Knight: Silksong ability names)](https://github.com/BlueOrcaz/silksong-save-viewer) | BlueOrcaz | facts only (file layouts, ids and names), credited |
+| [FloweysTimeMachine (Undertale save layout, item and phone names)](https://github.com/crumblingstatue/FloweysTimeMachine) | crumblingstatue | facts only (file layouts, ids and names), credited |
+| [DeltaruneDecomp (Deltarune Chapter 1 save field order)](https://github.com/TeamBlossomDevs/DeltaruneDecomp) | TeamBlossomDevs | facts only (file layouts, ids and names), credited |
 
 Copyright notices of the projects above whose code or tables were used:
 
@@ -68,6 +74,7 @@ Copyright notices of the projects above whose code or tables were used:
 - bl3-cli-saveedit (Borderlands 3 save keys, currency hashes, experience table, SDU limits, item flags): Copyright (c) 2020-2021 CJ Kucera (cj@apocalyptech.com). Licensed under Zlib.
 - fallout-se (Fallout and Fallout 2 save layout and name tables): Copyright (c) 2026 Ali Raheem. Licensed under MIT OR Apache-2.0.
 - dragon-age-save-editor (Dragon Age: Origins stat ids, approval and campaign ids): Copyright (c) 2026 Aleksei Tovkachev. Licensed under MIT.
+- vampire-survivors-save-editor (Vampire Survivors checksum and number styles): Copyright (c) 2026 chrisdfennell. Licensed under MIT.
 
 The MIT, Apache-2.0 and zlib licence texts are included below with the crates that use them.
 
