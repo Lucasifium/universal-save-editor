@@ -3273,6 +3273,7 @@ dependencies = [
  "serde_json",
  "serde_yaml",
  "sha1",
+ "sha2",
  "toml_edit 0.22.27",
  "winit",
  "winresource",

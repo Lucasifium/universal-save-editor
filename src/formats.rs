@@ -141,6 +141,8 @@ pub enum Layer {
     Me1Header { header: Arc<Vec<u8>> },
     /// Pathfinder (Owlcat) `.zks`: header, player and party JSON shown as one document.
     Owlcat { archive: Arc<Vec<u8>> },
+    /// Wasteland 3 `.xml`: a `Key:=Value` text header, then the XML packed with LZF.
+    Wasteland3 { original: Arc<Vec<u8>> },
 }
 
 impl Layer {
@@ -192,6 +194,7 @@ impl Layer {
             Layer::Me1Le { .. } => "Mass Effect (Legendary Edition) save (zlib)".to_string(),
             Layer::Me1Header { .. } => "Mass Effect save (image header)".to_string(),
             Layer::Owlcat { .. } => "Pathfinder save archive".to_string(),
+            Layer::Wasteland3 { .. } => "Wasteland 3 save (LZF)".to_string(),
             Layer::Xcom { xcom2, sizes, .. } => format!("{} save ({} LZO chunks)", if *xcom2 { "XCOM 2" } else { "XCOM: Enemy Unknown" }, sizes.len()),
         }
     }
@@ -616,6 +619,7 @@ fn wrap(layer: &Layer, data: Vec<u8>) -> Result<Vec<u8>, String> {
             out
         }
         Layer::Owlcat { archive } => fmt::owlcat::save(archive, &data)?,
+        Layer::Wasteland3 { original } => fmt::wasteland3::pack(original, &data)?,
         Layer::Me1Header { header } => {
             let mut out = header.to_vec();
             out.extend_from_slice(&data);
@@ -700,6 +704,11 @@ fn peel(data: &[u8], ctx: &mut Ctx) -> Option<(Layer, Vec<u8>)> {
             return Some((Layer::Owlcat { archive: Arc::new(data.to_vec()) }, json));
         }
         return renpy_unzip(data).or_else(|| generic_unzip(data, ctx));
+    }
+    if data.starts_with(b"XLZF\n") {
+        if let Some(xml) = fmt::wasteland3::open(data) {
+            return Some((Layer::Wasteland3 { original: Arc::new(data.to_vec()) }, xml));
+        }
     }
     if data.starts_with(BOM) {
         return Some((Layer::Utf8Bom, data[BOM.len()..].to_vec()));
