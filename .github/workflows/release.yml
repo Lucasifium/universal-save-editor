@@ -74,11 +74,25 @@ jobs:
       ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
     steps:
       - uses: actions/checkout@v4
-      - name: Signing key present?
+      - name: Signing key
         id: key
+        env:
+          PUBLISHING: ${{ github.ref_type == 'tag' || inputs.tag != '' }}
         run: |
-          if [ -n "$KEYSTORE_B64" ] && [ -n "$ANDROID_KEYSTORE_PASSWORD" ]; then echo "have=true" >> "$GITHUB_OUTPUT"
-          else echo "::warning::Android signing secrets are not set; skipping the APK"; fi
+          ks="$RUNNER_TEMP/release.keystore"
+          if [ -n "$KEYSTORE_B64" ] && [ -n "$ANDROID_KEYSTORE_PASSWORD" ]; then
+            printf '%s' "$KEYSTORE_B64" | base64 -d > "$ks"
+            echo "have=true" >> "$GITHUB_OUTPUT"
+          elif [ "$PUBLISHING" = true ]; then
+            echo "::warning::Android signing secrets are not set; the release goes out without the APK"
+          else
+            # Build-only run: a throwaway key proves the pipeline works. Never published.
+            echo "::warning::No signing secrets; signing with a throwaway test key"
+            echo "have=true" >> "$GITHUB_OUTPUT"
+            pw="testonly-$RANDOM$RANDOM"; echo "ANDROID_KEYSTORE_PASSWORD=$pw" >> "$GITHUB_ENV"
+            keytool -genkeypair -keystore "$ks" -alias test -keyalg RSA -keysize 2048 -validity 30 \
+              -storepass "$pw" -keypass "$pw" -dname 'CN=Test'
+          fi
       - if: steps.key.outputs.have == 'true'
         run: python3 packaging/rustflags.py
       - if: steps.key.outputs.have == 'true'
@@ -87,11 +101,9 @@ jobs:
         name: Build and sign
         run: |
           mkdir dist
-          ks="$RUNNER_TEMP/release.keystore"
-          printf '%s' "$KEYSTORE_B64" | base64 -d > "$ks"
-          export ANDROID_KEYSTORE="$ks"
+          export ANDROID_KEYSTORE="$RUNNER_TEMP/release.keystore"
           packaging/build_android.sh dist/SaveEditorOffline-android.apk
-          rm -f "$ks"
+          rm -f "$ANDROID_KEYSTORE"
       - if: steps.key.outputs.have == 'true'
         uses: actions/upload-artifact@v4
         with: { name: android, path: dist/*, if-no-files-found: error }
@@ -159,10 +171,21 @@ jobs:
       - uses: actions/upload-artifact@v4
         with: { name: macos, path: dist/SaveEditorOffline-macos.zip, if-no-files-found: error }
 
-  publish:
+  verify:
     needs: [windows, linux, android, macos]
-    # Publish what was built even when the Android key or macOS was skipped, but never after a failure.
-    if: ${{ !cancelled() && !contains(needs.*.result, 'failure') && (github.ref_type == 'tag' || inputs.tag != '') }}
+    if: ${{ !cancelled() && !contains(needs.*.result, 'failure') }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with: { path: dist, merge-multiple: true }
+      - run: ls -l dist
+      - name: No personal or build-machine traces
+        run: python3 -I packaging/check_clean.py dist
+
+  publish:
+    needs: [verify]
+    if: ${{ !cancelled() && needs.verify.result == 'success' && (github.ref_type == 'tag' || inputs.tag != '') }}
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -176,8 +199,6 @@ jobs:
           ver=$(sed -n 's/^version = "\(.*\)"/\1/p' Cargo.toml | head -1)
           [ "v$ver" = "$tag" ] || { echo "tag $tag does not match Cargo.toml version $ver"; exit 1; }
           echo "TAG=$tag" >> "$GITHUB_ENV"
-      - name: No personal or build-machine traces
-        run: python3 -I packaging/check_clean.py dist
       - name: Publish
         env:
           GH_TOKEN: ${{ github.token }}
