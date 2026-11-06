@@ -92,6 +92,8 @@ pub enum Layer {
     Bioshock { chunks: Arc<fmt::bioshock::Chunks> },
     /// Final Fantasy XV `.save`: AES-192, shuffled blocks and a tweak; `foot` is the plain footer.
     Ffxv { foot: Arc<Vec<u8>> },
+    /// Death Stranding 2: XORed chunks, the game data in LZ4 pieces with an MD5.
+    Ds2(Arc<fmt::ds2::Wrap>),
     /// Control (Remedy): two u32 versions, then a CRC-32 of the rest.
     RemedyCrc { head: [u8; 8] },
     /// Yakuza (Dragon Engine): XORed JSON and a check of it at the end.
@@ -191,6 +193,7 @@ impl Layer {
             Layer::Rgmh { blocks, .. } => format!("BioShock Remastered save ({} zlib blocks)", blocks.len()),
             Layer::RemedyCrc { .. } => "Control save (CRC-32)".into(),
             Layer::Ffxv { .. } => "Final Fantasy XV save encryption".into(),
+            Layer::Ds2(_) => "Death Stranding 2 save (XOR, LZ4, MD5)".into(),
             Layer::Rgg(w) => format!("Yakuza save (Dragon Engine: {})", fmt::rgg::games(w)),
             Layer::Bioshock { chunks } => format!("BioShock Infinite save (MD5, {} zlib chunks)", chunks.len()),
             Layer::Copeck { name, .. } => format!("Cairn save pack ({name})"),
@@ -568,6 +571,7 @@ fn wrap(layer: &Layer, data: Vec<u8>) -> Result<Vec<u8>, String> {
         }
         Layer::Ff9 => fmt::ff9::encrypt(&data)?,
         Layer::Ffxv { foot } => fmt::ffxv::encrypt(&data, foot)?,
+        Layer::Ds2(w) => fmt::ds2::pack(w, &data)?,
         Layer::P5r { head } => fmt::p5r::pack(head, &data),
         Layer::MetroPlayer { head } => fmt::metro::pack_player(head, &data),
         Layer::Bioshock { chunks } => fmt::bioshock::pack(chunks, &data)?,
@@ -896,6 +900,11 @@ fn peel(data: &[u8], ctx: &mut Ctx) -> Option<(Layer, Vec<u8>)> {
     if data.starts_with(b"DATA") {
         if let Some((head, p)) = fmt::p5r::unpack(data) {
             return Some((Layer::P5r { head: Arc::new(head) }, p));
+        }
+    }
+    if fmt::ds2::looks(data) {
+        if let Some((w, p)) = fmt::ds2::unpack(data) {
+            return Some((Layer::Ds2(Arc::new(w)), p));
         }
     }
     if data.len() > 117 && data[data.len() - 1] == 2 {
