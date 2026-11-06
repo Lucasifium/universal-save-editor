@@ -1559,6 +1559,9 @@ fn classify(data: Vec<u8>, opts: &Options) -> Content {
             return Content::Tree(Box::new(doc));
         }
     }
+    if let Some(doc) = fmt::parse_aurora(&data, opts.path.as_deref()) {
+        return Content::Tree(Box::new(doc));
+    }
     if let Some(doc) = fmt::parse_binary(&data) {
         return Content::Tree(Box::new(doc));
     }
@@ -2187,6 +2190,8 @@ pub fn companion_files(path: &std::path::Path, bytes: &[u8]) -> Vec<(std::path::
             }
         }
     }
+    // Neverwinter Nights: player.bic beside a module save holds the same player.
+    out.extend(fmt::nwn::companions(path, bytes));
     out
 }
 

@@ -12,6 +12,8 @@ mod dashboards;
 mod deus_ex;
 mod fallout12;
 mod fromsoft;
+mod kotor;
+mod nwn;
 mod oni_map;
 mod pathfinder;
 mod pokemon;
@@ -86,6 +88,8 @@ pub enum Game {
     Torchlight2,
     Fallout12,
     DeusEx,
+    Kotor,
+    Nwn,
 }
 
 impl Game {
@@ -130,6 +134,7 @@ impl Game {
             Game::GrimDawn | Game::TitanQuest | Game::Torchlight2 => "Character",
             Game::Fallout12 => "Pip-Boy",
             Game::DeusEx => "JC Denton",
+            Game::Kotor => "Party",
             _ => "Character",
         }
     }
@@ -191,6 +196,8 @@ pub fn detect(kind: &str, root: &Value) -> Option<Game> {
         "Grim Dawn character" => Game::GrimDawn,
         "Titan Quest character" => Game::TitanQuest,
         "Torchlight II character" => Game::Torchlight2,
+        k if k.starts_with("Star Wars: KOTOR") => Game::Kotor,
+        k if k.starts_with("Neverwinter Nights") => Game::Nwn,
         _ if has("/base/m_title") && has("/player") => Game::YakuzaDe,
         "Unreal Engine save (PalWorldPlayerSaveGame)" if has("/SaveData/TechnologyPoint") => Game::Palworld,
         "Final Fantasy VII Remake save" | "Final Fantasy VII Rebirth save" => Game::Ff7Remake,
@@ -249,6 +256,8 @@ pub fn show(game: Game, ui: &mut Ui, cx: &mut GameCtx) {
         Game::Torchlight2 => arpg::torchlight2(ui, cx),
         Game::Fallout12 => fallout12::show(ui, cx),
         Game::DeusEx => deus_ex::show(ui, cx),
+        Game::Kotor => kotor::show(ui, cx),
+        Game::Nwn => nwn::show(ui, cx),
         Game::RenPy => screens2::renpy(ui, cx),
         Game::MassEffect => screens2::mass_effect(ui, cx),
         Game::Xcom => screens2::xcom(ui, cx),
@@ -745,6 +754,8 @@ mod tests {
         assert_eq!(detect("Grim Dawn character", &json!({})), Some(Game::GrimDawn));
         assert_eq!(detect("Titan Quest character", &json!({})), Some(Game::TitanQuest));
         assert_eq!(detect("Torchlight II character", &json!({})), Some(Game::Torchlight2));
+        assert_eq!(detect("Star Wars: KOTOR II party table", &json!({})), Some(Game::Kotor));
+        assert_eq!(detect("Neverwinter Nights character", &json!({})), Some(Game::Nwn));
     }
 
     #[test]
