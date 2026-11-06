@@ -96,6 +96,8 @@ pub mod sqlite;
 pub mod terraria;
 pub mod terraria_world;
 pub mod tomlf;
+pub mod undertale;
+pub mod vampire;
 pub mod xml;
 pub mod yaml;
 
@@ -103,6 +105,12 @@ use crate::tree::TreeDoc;
 
 /// Binary formats with a recognisable signature (checked before text detection).
 pub fn parse_binary(d: &[u8]) -> Option<TreeDoc> {
+    // Checksummed JSON: before the plain JSON reader gets it.
+    if vampire::looks(d) {
+        if let Ok(t) = vampire::parse(d) {
+            return Some(t);
+        }
+    }
     if d.starts_with(b"SQLite format 3\0") {
         return sqlite::parse(d).ok();
     }
@@ -375,6 +383,9 @@ pub fn parse_binary_late(d: &[u8]) -> Option<TreeDoc> {
 
 /// Text formats. Ambiguous ones (YAML, TOML) are only trusted by file extension.
 pub fn parse_text(text: &str, ext: &str) -> Option<TreeDoc> {
+    if let Some(doc) = undertale::parse(text) {
+        return Some(doc);
+    }
     let t = text.trim_start();
     if lua::looks(t) {
         if let Ok(doc) = lua::parse(text) {
