@@ -249,6 +249,109 @@ fn write_lists(l: &Lists) -> Vec<u8> {
     out
 }
 
+// ------------------------------------------------------------------ buffs
+
+/// The nine buff slots in the order the save keeps them, named as the game's HUD shows them.
+/// Worked out in the game by giving each slot its own time: Focus, Grip, Temperature, Grit,
+/// Burst and Stoked! show under those names; Extra grip comes from chalk and doesn't run down
+/// off the wall; Stamina and Strength have no line of their own (the Grip line shows the
+/// longest of them and Grip), so they keep the game's internal names.
+pub const BUFFS: [&str; 9] = ["Stamina", "Strength", "Focus", "Grip", "Extra grip", "Temperature", "Stoked!", "Grit", "Burst"];
+/// For a buff added to an empty slot: (item it comes from, strength, level), as the game's
+/// own items give them (seen across many saves). Strength and Stoked! never showed up in a
+/// save, so they can only be changed when a save already has them.
+const BUFF_DEFAULTS: [Option<(u32, f32, u32)>; 9] =
+    [Some((230, 3.0, 1)), None, Some((230, 1.0, 1)), Some((230, 0.75, 1)), Some((151, 1.5, 2)), Some((236, 1.0, 1)), None, Some((230, 0.0, 1)), Some((84, 0.35, 1))];
+
+/// One running buff: what gave it, how strong, and the seconds left. A slot can hold several
+/// (each sip adds one); they run one after the other, so the time shown is their sum.
+#[derive(Clone, Debug, PartialEq)]
+struct Boost {
+    flag: u32,
+    item: u32,
+    amount: f32,
+    level: u32,
+    time: f32,
+    last: u8,
+}
+
+#[derive(Clone, Debug)]
+struct Boosts {
+    start: usize,
+    end: usize,
+    slots: Vec<Vec<Boost>>,
+}
+
+/// The buff slots come after what the climber carries: three more lists (pitons left behind,
+/// gadgets, key items), a short block (a byte, a u16, a u32 count of u16s, nine zero bytes),
+/// the four vitals (health, then three 0-1 values), and 12 bytes (24 from format 41 on).
+/// Then nine slots, each a u16 count and that many 21-byte entries. Checked against every
+/// save of every slot, Story and On the Trail.
+fn find_boosts(d: &[u8], lists_end: usize) -> Option<Boosts> {
+    let f32_at = |o: usize| d.get(o..o + 4).map(|b| f32::from_le_bytes(b.try_into().unwrap()));
+    let u32_at = |o: usize| d.get(o..o + 4).map(|b| u32::from_le_bytes(b.try_into().unwrap()));
+    let mut p = lists_end;
+    for _ in 0..3 {
+        read_list(d, &mut p, false)?;
+    }
+    if *d.get(p)? != 0 {
+        return None;
+    }
+    p += 3;
+    let n = u32_at(p)? as usize;
+    if n > 200 {
+        return None;
+    }
+    p += 4 + 2 * n;
+    if d.get(p..p + 9)? != [0u8; 9] {
+        return None;
+    }
+    p += 9;
+    let (h, a, b, c) = (f32_at(p)?, f32_at(p + 4)?, f32_at(p + 8)?, f32_at(p + 12)?);
+    if !(0.0..=1000.0).contains(&h) || ![a, b, c].iter().all(|x| (0.0..=1.0001).contains(x)) {
+        return None;
+    }
+    p += 16 + if *d.get(4)? >= 41 { 24 } else { 12 };
+    let start = p;
+    let mut slots = Vec::with_capacity(9);
+    for _ in 0..9 {
+        let n = u16::from_le_bytes(d.get(p..p + 2)?.try_into().ok()?) as usize;
+        p += 2;
+        let mut v = Vec::with_capacity(n.min(64));
+        for _ in 0..n {
+            let x = Boost { flag: u32_at(p)?, item: u32_at(p + 4)?, amount: f32_at(p + 8)?, level: u32_at(p + 12)?, time: f32_at(p + 16)?, last: *d.get(p + 20)? };
+            if x.flag > 1 || x.level > 1000 || x.last > 1 || !items().by_id.contains_key(&x.item) || !x.amount.is_finite() || !(0.0..1e7).contains(&x.time) {
+                return None;
+            }
+            v.push(x);
+            p += 21;
+        }
+        slots.push(v);
+    }
+    Some(Boosts { start, end: p, slots })
+}
+
+fn write_boosts(slots: &[Vec<Boost>]) -> Vec<u8> {
+    let mut out = Vec::new();
+    for v in slots {
+        out.extend_from_slice(&(v.len() as u16).to_le_bytes());
+        for x in v {
+            out.extend_from_slice(&x.flag.to_le_bytes());
+            out.extend_from_slice(&x.item.to_le_bytes());
+            out.extend_from_slice(&x.amount.to_le_bytes());
+            out.extend_from_slice(&x.level.to_le_bytes());
+            out.extend_from_slice(&x.time.to_le_bytes());
+            out.push(x.last);
+        }
+    }
+    out
+}
+
+/// Strength as shown: three decimals (the save keeps a 32-bit float).
+fn strength(x: f32) -> f64 {
+    (x as f64 * 1000.0).round() / 1000.0
+}
+
 /// The climbers, by the game's character number (1 and 2).
 const CLIMBERS: [&str; 2] = ["Aava", "Marco"];
 
@@ -270,12 +373,16 @@ enum Field {
     Item,
     Content,
     Count,
+    BuffTime(usize),
+    BuffFrom(usize),
+    BuffStrength(usize),
 }
 
 #[derive(Clone, Debug)]
 struct CairnBackend {
     raw: Arc<Vec<u8>>,
     lists: Lists,
+    boosts: Option<Boosts>,
     fields: Vec<Field>,
     /// Count and contents pointers for each Item leaf (for follow-up values).
     rows: HashMap<usize, (String, String)>,
@@ -299,6 +406,7 @@ impl CairnBackend {
 impl Backend for CairnBackend {
     fn write(&self, view: &Value, changes: &[(usize, Value)]) -> Result<Vec<u8>, String> {
         let mut out = self.raw.to_vec();
+        let mut lists_end = self.lists.end;
         // The climber comes before the lists, so its place doesn't move.
         for (leaf, v) in changes {
             if let Field::Climber { at } = self.fields[*leaf] {
@@ -339,7 +447,39 @@ impl Backend for CairnBackend {
                 }
                 lists.lists[li] = new;
             }
-            out.splice(self.lists.start..self.lists.end, write_lists(&lists));
+            let bytes = write_lists(&lists);
+            lists_end = self.lists.start + bytes.len();
+            out.splice(self.lists.start..self.lists.end, bytes);
+        }
+        // Buffs come after the lists: find them again in the new bytes, then rebuild each slot
+        // that was changed as a single buff with the whole time left.
+        let touched: Vec<usize> = changes
+            .iter()
+            .filter_map(|(l, _)| match self.fields[*l] {
+                Field::BuffTime(i) | Field::BuffFrom(i) | Field::BuffStrength(i) => Some(i),
+                _ => None,
+            })
+            .collect();
+        if !touched.is_empty() {
+            let (Some(old), Some(now)) = (&self.boosts, find_boosts(&out, lists_end)) else { return Err("the buffs can't be found in this save".into()) };
+            let mut slots = now.slots.clone();
+            for &i in &touched {
+                let base = format!("/Buffs/{}", esc(BUFFS[i]));
+                let secs = view.pointer(&format!("{base}/Seconds left")).and_then(Value::as_f64).unwrap_or(0.0);
+                if secs <= 0.0 {
+                    slots[i].clear();
+                    continue;
+                }
+                let from = item_id(view.pointer(&format!("{base}/From")).and_then(Value::as_str).unwrap_or(NONE)).ok_or("unknown item")?;
+                let amount = view.pointer(&format!("{base}/Strength")).and_then(Value::as_f64).unwrap_or(0.0) as f32;
+                let (item, level) = match (old.slots[i].first(), BUFF_DEFAULTS[i]) {
+                    (Some(x), _) => (if from != 0 { from } else { x.item }, x.level),
+                    (None, Some((it, _, lv))) => (if from != 0 { from } else { it }, lv),
+                    (None, None) => return Err(format!("{} can't be added: no item in the game gives it", BUFFS[i])),
+                };
+                slots[i] = vec![Boost { flag: 1, item, amount, level, time: secs as f32, last: u8::from(level >= 2) }];
+            }
+            out.splice(now.start..now.end, write_boosts(&slots));
         }
         // The statistics come after the lists: find them again in the new bytes.
         if let Some(at) = stats_at(&out) {
@@ -362,10 +502,45 @@ impl Backend for CairnBackend {
                 item_id(s).map(|_| ()).ok_or_else(|| format!("there's no item called \u{201C}{s}\u{201D}"))
             }
             Field::Count => int_in(v, 0, 99_999, "Count").map(|_| ()),
+            Field::BuffTime(i) => {
+                let t = v.as_f64().ok_or("expected a number")?;
+                if !(0.0..=999_999.0).contains(&t) {
+                    return Err("Seconds left must be between 0 and 999999".into());
+                }
+                let empty = self.boosts.as_ref().is_none_or(|b| b.slots[i].is_empty());
+                if t > 0.0 && empty && BUFF_DEFAULTS[i].is_none() {
+                    return Err(format!("{} can't be added: no item in the game gives it", BUFFS[i]));
+                }
+                Ok(())
+            }
+            Field::BuffFrom(_) => {
+                let s = v.as_str().ok_or("expected text")?;
+                item_id(s).map(|_| ()).ok_or_else(|| format!("there's no item called \u{201C}{s}\u{201D}"))
+            }
+            Field::BuffStrength(_) => {
+                let x = v.as_f64().ok_or("expected a number")?;
+                (0.0..=100.0).contains(&x).then_some(()).ok_or_else(|| "Strength must be between 0 and 100".into())
+            }
         }
     }
 
     fn derived(&self, leaf: usize, view: &Value) -> Vec<(String, Value)> {
+        if let Field::BuffTime(i) | Field::BuffFrom(i) | Field::BuffStrength(i) = self.fields[leaf] {
+            let base = format!("/Buffs/{}", esc(BUFFS[i]));
+            let secs = view.pointer(&format!("{base}/Seconds left")).and_then(Value::as_f64).unwrap_or(0.0);
+            let from = view.pointer(&format!("{base}/From")).and_then(Value::as_str).unwrap_or(NONE);
+            // A changed slot is saved as one buff with the whole time left.
+            let mut out = vec![(format!("{base}/Stacked"), Value::from(u64::from(secs > 0.0)))];
+            // A buff switched on gets its usual source and strength; one switched off loses them.
+            if let Field::BuffTime(_) = self.fields[leaf] {
+                match (secs > 0.0, from == NONE, BUFF_DEFAULTS[i]) {
+                    (false, false, _) => out.extend([(format!("{base}/From"), Value::from(NONE)), (format!("{base}/Strength"), Value::from(0.0))]),
+                    (true, true, Some((item, amount, _))) => out.extend([(format!("{base}/From"), Value::from(item_name(item))), (format!("{base}/Strength"), Value::from(strength(amount)))]),
+                    _ => {}
+                }
+            }
+            return out;
+        }
         let (Field::Item, Some((count, content))) = (self.fields[leaf], self.rows.get(&leaf)) else { return vec![] };
         let base = count.rsplit_once('/').map_or("", |p| p.0);
         let item = view.pointer(&format!("{base}/Item")).and_then(Value::as_str).unwrap_or(NONE);
@@ -381,7 +556,7 @@ impl Backend for CairnBackend {
 
     fn choices(&self, leaf: usize, _view: &Value) -> Option<Arc<Vec<String>>> {
         match self.fields[leaf] {
-            Field::Item | Field::Content => Some(items().list.clone()),
+            Field::Item | Field::Content | Field::BuffFrom(_) => Some(items().list.clone()),
             Field::Climber { .. } => Some(Arc::new(CLIMBERS.iter().map(|c| c.to_string()).collect())),
             _ => None,
         }
@@ -439,7 +614,23 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
         }
         root.insert(name.to_string(), Value::Object(m));
     }
-    let backend = CairnBackend { raw: Arc::new(d.to_vec()), lists, fields, rows };
+    let boosts = find_boosts(d, lists.end);
+    if let Some(b) = &boosts {
+        let mut m = Map::new();
+        for (i, name) in BUFFS.iter().enumerate() {
+            let v = &b.slots[i];
+            let base = format!("/Buffs/{}", esc(name));
+            let mut r = Map::new();
+            let secs: f64 = v.iter().map(|x| x.time as f64).sum();
+            add(&mut fields, &mut r, format!("{base}/Seconds left"), "Seconds left", Value::from(secs.round() as u64), Field::BuffTime(i));
+            add(&mut fields, &mut r, format!("{base}/From"), "From", Value::from(v.first().map_or(NONE.to_string(), |x| item_name(x.item))), Field::BuffFrom(i));
+            add(&mut fields, &mut r, format!("{base}/Strength"), "Strength", Value::from(v.first().map_or(0.0, |x| strength(x.amount))), Field::BuffStrength(i));
+            r.insert("Stacked".into(), Value::from(v.len()));
+            m.insert(name.to_string(), Value::Object(r));
+        }
+        root.insert("Buffs".into(), Value::Object(m));
+    }
+    let backend = CairnBackend { raw: Arc::new(d.to_vec()), lists, boosts, fields, rows };
     Ok(TreeDoc::new(Value::Object(root), editable, "Cairn save", Box::new(backend))
         .with_note("Close Cairn (or go back to its title screen) before saving: the game keeps the slot file locked while a climb is loaded. Added items go at the bottom of the bag; \u{201C}Shake up bag\u{201D} in the game settles them."))
 }
@@ -473,6 +664,14 @@ mod backpack {
                 assert!(items.contains(&"Protein bar"), "{name}: added item missing");
                 assert_eq!(again.view["Backpack"]["Item 1"]["Count"], 7);
                 assert_eq!(again.view.get("Run"), t.view.get("Run"), "{name}");
+                assert!(t.view.get("Buffs").is_some(), "{name}: buffs not found");
+                t.set("/Buffs/Stamina/Seconds left", serde_json::Value::from(900)).unwrap();
+                t.set("/Buffs/Grit/Seconds left", serde_json::Value::from(0)).unwrap();
+                let buffed = super::parse(&t.to_bytes().unwrap()).unwrap();
+                assert_eq!(buffed.view["Buffs"]["Stamina"]["Seconds left"], 900, "{name}");
+                assert_eq!(buffed.view["Buffs"]["Stamina"]["Stacked"], 1, "{name}");
+                assert_eq!(buffed.view["Buffs"]["Grit"]["Seconds left"], 0, "{name}");
+                assert_eq!(buffed.view["Backpack"], again.view["Backpack"], "{name}");
                 let who = t.view["Run"]["Climber"].as_str().unwrap().to_string();
                 let other = if who == "Aava" { "Marco" } else { "Aava" };
                 t.set("/Run/Climber", serde_json::Value::from(other)).unwrap();

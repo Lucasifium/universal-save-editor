@@ -63,6 +63,41 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
         ui.add_space(6.0);
     }
 
+    if cx.get("/Buffs").is_some() {
+        panel(ui, "Buffs", |ui| {
+            egui::Grid::new("cairn_buffs").num_columns(4).striped(true).spacing([12.0, 6.0]).show(ui, |ui| {
+                ui.strong("Buff");
+                ui.strong("Seconds left");
+                ui.strong("From");
+                ui.strong("Strength");
+                ui.end_row();
+                for name in crate::fmt::cairn::BUFFS {
+                    let base = format!("/Buffs/{}", pointer_escape(name));
+                    let secs = cx.int(&format!("{base}/Seconds left")).unwrap_or(0);
+                    let stacked = cx.int(&format!("{base}/Stacked")).unwrap_or(0);
+                    cx.label(ui, name, &format!("{base}/Seconds left"));
+                    ui.horizontal(|ui| {
+                        cx.compact(ui, &format!("{base}/Seconds left"), 80.0);
+                        if secs > 0 {
+                            let shown = format!("{}:{:02}", secs / 60, secs % 60);
+                            ui.weak(if stacked > 1 { format!("{shown} ({stacked} stacked)") } else { shown });
+                        }
+                    });
+                    cx.compact(ui, &format!("{base}/From"), 200.0);
+                    cx.compact(ui, &format!("{base}/Strength"), 70.0);
+                    ui.end_row();
+                }
+            });
+            ui.weak(
+                "Seconds left is the time the game shows for the buff (10:00 is 600). Set it to 0 to end a buff, or give an empty one time to start it \
+                 with its usual source and strength. Sips taken one after another stack and run in turn; a changed buff is saved as one with the whole time. \
+                 Stamina and Strength show on the game's Grip line (it shows the longest of them and Grip). Extra grip comes from chalk and \
+                 doesn't run down off the wall (the chalk count on the HUD is the chalk itself: 12 grips a charge). \
+                 Strength and Stoked! can only be changed when the save already has them.",
+            );
+        });
+    }
+
     panel(ui, "Backpack", |ui| {
         grid(ui, cx, "cairn_bag", "Backpack", 8);
         ui.weak(
