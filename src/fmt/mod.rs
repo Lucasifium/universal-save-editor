@@ -96,6 +96,7 @@ pub mod yakuza0;
 pub mod kiwami;
 pub mod ffxv;
 pub mod ds2;
+pub mod mea;
 pub mod gow;
 pub mod plistf;
 pub mod pokemon12;
@@ -168,6 +169,11 @@ pub fn parse_binary(d: &[u8]) -> Option<TreeDoc> {
     }
     if gow::looks_ragnarok(d) {
         if let Ok(t) = gow::parse_ragnarok(d) {
+            return Some(t);
+        }
+    }
+    if mea::looks(d) {
+        if let Ok(t) = mea::parse(d) {
             return Some(t);
         }
     }
