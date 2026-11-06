@@ -34,6 +34,8 @@ Universal Save Editor is free. It builds on other people's work, listed here wit
 | [TQVaultAE (Titan Quest save key/value layout)](https://github.com/EtienneLamoureux/TQVaultAE) | Brandon Wallace and TQVaultAE contributors | MIT |
 | [tqrespec (Titan Quest attribute order)](https://github.com/epinter/tqrespec) | epinter | facts only (file layouts, ids and names), credited |
 | [tl2-save-edit (Torchlight II save scrambling, checksum, hero and item layout)](https://github.com/Scepheo/tl2-save-edit) | Scepheo | facts only (file layouts, ids and names), credited |
+| [fallout-se (Fallout and Fallout 2 save layout; stat, skill, perk, trait, kill and item name tables)](https://github.com/ali-raheem/fallout-se) | Ali Raheem | MIT OR Apache-2.0 (used under MIT) |
+| [UELib (Unreal Engine 1 package layout for Deus Ex saves; facts only, no code)](https://github.com/EliotVU/Unreal-Library) | EliotVU | facts only (file layouts), credited |
 
 Copyright notices of the projects above whose code or tables were used:
 
@@ -54,6 +56,7 @@ Copyright notices of the projects above whose code or tables were used:
 - TQVaultAE (Titan Quest save key/value layout): Copyright (c) 2006-2012 Brandon Wallace. Licensed under MIT.
 - P4G Save Tool (Persona 4 Golden field positions): Copyright (c) 2016 Jack P. Fenech. Licensed under MIT.
 - bl3-cli-saveedit (Borderlands 3 save keys, currency hashes, experience table, SDU limits, item flags): Copyright (c) 2020-2021 CJ Kucera (cj@apocalyptech.com). Licensed under Zlib.
+- fallout-se (Fallout and Fallout 2 save layout and name tables): Copyright (c) 2026 Ali Raheem. Licensed under MIT OR Apache-2.0.
 
 The MIT, Apache-2.0 and zlib licence texts are included below with the crates that use them.
 
