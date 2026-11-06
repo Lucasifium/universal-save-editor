@@ -49,6 +49,7 @@ const METRO: &str = "Game screen for the level saves (.player); the auto save is
 const RGG_UNTESTED: &str = "Decrypted, with its checksum kept right (no save of this game has been tried yet); values in the Tree";
 const HEX_UNPACKED: &str = "Unpacked for Value search (find a number you know, then change it); packed again on save";
 const XCOM2: &str = "Game screen: HQ resources and soldiers (rank, kills, missions, stats); unpacked and packed again on save. Not yet tried in the game";
+const CIV6: &str = "Game screen: settings, mods and each civilisation (human or AI, whose turn it is); gold and the map are in the packed part and aren't mapped";
 const PDX_BINARY: &str = "Text saves fully; ironman (binary) saves are shown but can't be edited";
 
 macro_rules! game {
@@ -69,7 +70,7 @@ pub const GAMES: &[GameInfo] = &[
     game!("BioShock Remastered / BioShock 2 Remastered", HEX_UNPACKED, r"Documents\BioshockHD\Bioshock (or Bioshock2)\SaveGames", r"<date>.bsb", [(Documents, r"BioshockHD"), (AppData, r"BioshockHD")], ["*.bsb"], 3),
     game!("Cairn", FULL, r"%USERPROFILE%\Saved Games\TheGameBakers\Cairn_RETAIL\SAVEGAMES\RETAIL\STORY (SUMMIT for summit runs)", r"SLOT_A.CPK … SLOT_D.CPK", [(SavedGames, r"TheGameBakers\Cairn_RETAIL\SAVEGAMES\RETAIL"), (SavedGames, r"TheGameBakers\Cairn\SAVEGAMES")], ["*.CPK"], 2),
     game!("Civilization V", HEX, r"Documents\My Games\Sid Meier's Civilization 5\Saves\single (or ModdedSaves\single)", "<Leader>_<year>.Civ5Save", [(Documents, r"My Games\Sid Meier's Civilization 5\Saves"), (Documents, r"My Games\Sid Meier's Civilization 5\ModdedSaves")], ["*.Civ5Save"], 3),
-    game!("Civilization VI", HEX, r"Documents\My Games\Sid Meier's Civilization VI\Saves\Single", r"*.Civ6Save (auto\AutoSave_####.Civ6Save)", [(Documents, r"My Games\Sid Meier's Civilization VI\Saves")], ["*.Civ6Save"], 3),
+    game!("Civilization VI", CIV6, r"Documents\My Games\Sid Meier's Civilization VI\Saves\Single", r"*.Civ6Save (auto\AutoSave_####.Civ6Save)", [(Documents, r"My Games\Sid Meier's Civilization VI\Saves")], ["*.Civ6Save"], 3),
     game!("Control", HEX_UNPACKED, r"Steam\userdata\<account>\870780\remote", r"savegame-slot-00_global …", [(SteamUser("870780"), r"remote"), (LocalAppData, r"Remedy\Control")], ["savegame-*"], 2),
     game!("Crisis Core: Final Fantasy VII Reunion", VALUES, r"Documents\My Games\CRISIS CORE FINAL FANTASY VII REUNION\Steam\<Steam id>", r"SAVEDATA_PROGRESS.sav", [(Documents, r"My Games\CRISIS CORE FINAL FANTASY VII REUNION\*\*")], ["*.sav"], 1),
     game!("Crusader Kings II", VALUES, r"Documents\Paradox Interactive\Crusader Kings II\save games", "*.ck2", [(Documents, r"Paradox Interactive\Crusader Kings II\save games")], ["*.ck2"], 1),

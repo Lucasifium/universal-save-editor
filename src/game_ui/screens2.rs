@@ -729,6 +729,70 @@ pub fn xcom2(ui: &mut Ui, cx: &mut GameCtx) {
     }
 }
 
+// ------------------------------------------------------------------ Civilization VI
+
+pub fn civ6(ui: &mut Ui, cx: &mut GameCtx) {
+    let accent = Color32::from_rgb(200, 160, 60);
+    let turn = cx.int("/Game/Turn").map(|t| format!("Turn {t}")).unwrap_or_default();
+    let mut sub = vec![turn];
+    for k in ["Speed", "Map size", "Map"] {
+        if let Some(v) = cx.text(&format!("/Game/{k}")) {
+            sub.push(format!("{k}: {v}"));
+        }
+    }
+    let civs: Vec<String> = match cx.get("/Civilizations") {
+        Some(Value::Object(m)) => m.keys().map(|k| join("/Civilizations", k)).collect(),
+        _ => vec![],
+    };
+    hero(ui, accent, "Civilization VI", &sub.join("  \u{00B7}  "), |ui| {
+        let humans = civs.iter().filter(|c| cx.text(&format!("{c}/Played by")).as_deref() == Some("Human")).count();
+        fact(ui, "Civilizations", &civs.len().to_string(), accent);
+        fact(ui, "Human players", &humans.to_string(), accent);
+    });
+    panel(ui, "Civilizations", |ui| {
+        egui::Grid::new("civ6_grid").num_columns(6).striped(true).spacing([14.0, 6.0]).show(ui, |ui| {
+            for h in ["Civilization", "Leader", "Player", "Played by", "Their turn", "Alive"] {
+                ui.strong(h);
+            }
+            ui.end_row();
+            for c in &civs {
+                ui.label(cx.text(&format!("{c}/Civilization")).unwrap_or_default());
+                ui.label(cx.text(&format!("{c}/Leader")).unwrap_or_default());
+                ui.label(cx.text(&format!("{c}/Player")).unwrap_or_default());
+                cx.compact(ui, &format!("{c}/Played by"), 90.0);
+                let t = format!("{c}/Current turn");
+                if cx.get(&t).is_some() {
+                    cx.compact(ui, &t, 40.0);
+                } else {
+                    ui.label("");
+                }
+                let alive = cx.get(&format!("{c}/Alive")).and_then(Value::as_bool);
+                ui.label(match alive {
+                    Some(true) => "Yes",
+                    Some(false) => "Defeated",
+                    None => "",
+                });
+                ui.end_row();
+            }
+        });
+        ui.weak(
+            "Hand a civilisation to a human or the AI, or change whose turn it is \u{2014} for hotseat or play-by-cloud games when someone \
+             drops out. Gold, faith, cities and units are in the packed part of the save, which isn't mapped yet.",
+        );
+    });
+    let mods: Vec<String> = match cx.get("/Mods") {
+        Some(Value::Object(m)) => m.values().filter_map(|v| v.as_str().map(str::to_string)).collect(),
+        _ => vec![],
+    };
+    if !mods.is_empty() {
+        panel(ui, "Mods and DLC", |ui| {
+            for m in mods {
+                ui.label(m);
+            }
+        });
+    }
+}
+
 // ------------------------------------------------------------------ Final Fantasy VII (PC)
 
 pub fn ff7(ui: &mut Ui, cx: &mut GameCtx) {

@@ -1025,23 +1025,34 @@ fn pak_messages() {
 /// UI smoke test: for the saves found for every game in the catalog that open on a game screen
 /// (read-only, in memory), draws the screen off-screen at a desktop and a phone width,
 /// clicks into it a few times, and reports any panic. SAVE_EDITOR_PER_GAME = saves per game (3).
+/// SAVE_EDITOR_DRAW = files to draw instead (separated by `|`), e.g. downloaded saves.
 #[test]
 #[ignore]
 fn every_game_screen_draws() {
     use eframe::egui;
     let per: usize = std::env::var("SAVE_EDITOR_PER_GAME").ok().and_then(|s| s.parse().ok()).unwrap_or(3);
     let (mut drawn, mut bad) = (0, vec![]);
-    for g in crate::games::GAMES {
-        for f in crate::games::find(g).iter().filter(|f| f.size < 300 << 20).take(per) {
-            let Ok(raw) = std::fs::read(&f.path) else { continue };
-            let d = decode_with(&raw, &Options::for_path(&f.path));
+    let mut todo: Vec<(String, std::path::PathBuf)> = vec![];
+    if let Ok(list) = std::env::var("SAVE_EDITOR_DRAW") {
+        todo = list.split('|').filter(|s| !s.is_empty()).map(|s| ("(given)".to_string(), std::path::PathBuf::from(s))).collect();
+    } else {
+        for g in crate::games::GAMES {
+            for f in crate::games::find(g).iter().filter(|f| f.size < 300 << 20).take(per) {
+                todo.push((g.name.to_string(), f.path.clone()));
+            }
+        }
+    }
+    for (gname, path) in &todo {
+        {
+            let Ok(raw) = std::fs::read(path) else { continue };
+            let d = decode_with(&raw, &Options::for_path(path));
             let (game, tree, view) = match &d.content {
                 Content::Tree(t) => (crate::game_ui::detect(&t.kind_name, &t.view), Some(&**t), t.view.clone()),
                 Content::Json { value, .. } => (crate::game_ui::detect("JSON", value), None, value.clone()),
                 _ => (None, None, Value::Null),
             };
             let Some(game) = game else { continue };
-            let name = f.path.file_name().unwrap_or_default().to_string_lossy().to_string();
+            let name = path.file_name().unwrap_or_default().to_string_lossy().to_string();
             let r = catch_unwind(AssertUnwindSafe(|| {
                 let ctx = egui::Context::default();
                 crate::theme::install_fonts(&ctx);
@@ -1074,7 +1085,7 @@ fn every_game_screen_draws() {
                 Ok(_) => drawn += 1,
                 Err(e) => {
                     let msg = e.downcast_ref::<String>().cloned().or_else(|| e.downcast_ref::<&str>().map(|s| s.to_string())).unwrap_or_default();
-                    bad.push(format!("{} / {name} ({game:?}): {msg}", g.name));
+                    bad.push(format!("{gname} / {name} ({game:?}): {msg}"));
                 }
             }
         }
