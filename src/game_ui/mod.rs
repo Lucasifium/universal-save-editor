@@ -8,6 +8,7 @@
 mod borderlands;
 mod arpg;
 mod cairn;
+mod darkest;
 mod dashboards;
 mod deus_ex;
 mod fallout12;
@@ -19,6 +20,7 @@ mod fromsoft;
 mod infinity;
 mod half_life;
 mod indie;
+mod octopath;
 mod oni_map;
 mod pathfinder;
 mod pokemon;
@@ -103,6 +105,9 @@ pub enum Game {
     Undertale,
     Deltarune,
     VampireSurvivors,
+    DarkestDungeon,
+    DarkestDungeon2,
+    Octopath,
 }
 
 impl Game {
@@ -154,6 +159,9 @@ impl Game {
             Game::Silksong => "Hornet",
             Game::Deltarune => "Party",
             Game::VampireSurvivors => "Collection",
+            Game::DarkestDungeon => "Hamlet",
+            Game::DarkestDungeon2 => "Expedition",
+            Game::Octopath => "Travellers",
             _ => "Character",
         }
     }
@@ -225,6 +233,9 @@ pub fn detect(kind: &str, root: &Value) -> Option<Game> {
         crate::fmt::dragonage::KIND => Game::DragonAge,
         crate::fmt::half_life::KIND_GOLDSRC => Game::HalfLife,
         crate::fmt::half_life::KIND_SOURCE => Game::HalfLife2,
+        k if darkest::is_dd1(k) => Game::DarkestDungeon,
+        "JSON" if darkest::dd2_file(root).is_some() => Game::DarkestDungeon2,
+        crate::fmt::octopath::OT1 | crate::fmt::octopath::OT2 => Game::Octopath,
         _ if has("/base/m_title") && has("/player") => Game::YakuzaDe,
         "Unreal Engine save (PalWorldPlayerSaveGame)" if has("/SaveData/TechnologyPoint") => Game::Palworld,
         "Final Fantasy VII Remake save" | "Final Fantasy VII Rebirth save" => Game::Ff7Remake,
@@ -288,6 +299,9 @@ pub fn show(game: Game, ui: &mut Ui, cx: &mut GameCtx) {
         Game::Infinity => infinity::show(ui, cx),
         Game::DragonAge => dragon_age::show(ui, cx),
         Game::HalfLife | Game::HalfLife2 => half_life::show(ui, cx),
+        Game::DarkestDungeon => darkest::show_dd1(ui, cx),
+        Game::DarkestDungeon2 => darkest::show_dd2(ui, cx),
+        Game::Octopath => octopath::show(ui, cx),
         Game::RenPy => screens2::renpy(ui, cx),
         Game::MassEffect => screens2::mass_effect(ui, cx),
         Game::Xcom => screens2::xcom(ui, cx),
@@ -798,6 +812,10 @@ mod tests {
         assert_eq!(detect("Torchlight II character", &json!({})), Some(Game::Torchlight2));
         assert_eq!(detect("Star Wars: KOTOR II party table", &json!({})), Some(Game::Kotor));
         assert_eq!(detect("Neverwinter Nights character", &json!({})), Some(Game::Nwn));
+        assert_eq!(detect("Darkest Dungeon estate", &json!({})), Some(Game::DarkestDungeon));
+        assert_eq!(detect("Darkest Dungeon save file", &json!({})), None);
+        assert_eq!(detect("JSON", &json!({"run_values": {"values": {}}, "inventory": {"m_items": []}})), Some(Game::DarkestDungeon2));
+        assert_eq!(detect("Octopath Traveler II save", &json!({})), Some(Game::Octopath));
     }
 
     #[test]
