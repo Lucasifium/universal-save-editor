@@ -53,6 +53,8 @@ pub mod fields;
 pub mod masseffect;
 pub mod me1;
 pub mod me1le;
+pub mod fallout12;
+pub mod deusex;
 pub mod xcom2;
 pub mod xcom_eu;
 pub mod ff7;
@@ -186,6 +188,16 @@ pub fn parse_binary(d: &[u8]) -> Option<TreeDoc> {
     }
     if ff7::looks(d) {
         if let Ok(t) = ff7::parse(d) {
+            return Some(t);
+        }
+    }
+    if fallout12::looks(d) {
+        if let Ok(t) = fallout12::parse(d) {
+            return Some(t);
+        }
+    }
+    if deusex::looks(d) {
+        if let Ok(t) = deusex::parse(d) {
             return Some(t);
         }
     }
