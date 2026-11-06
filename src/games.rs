@@ -50,6 +50,8 @@ const RGG_UNTESTED: &str = "Decrypted, with its checksum kept right (no save of 
 const HEX_UNPACKED: &str = "Unpacked for Value search (find a number you know, then change it); packed again on save";
 const XCOM2: &str = "Game screen: HQ resources and soldiers (rank, kills, missions, stats); unpacked and packed again on save. Not yet tried in the game";
 const CIV6: &str = "Game screen: settings, mods and each civilisation (human or AI, whose turn it is); gold and the map are in the packed part and aren't mapped";
+const HL1: &str = "Game screen: health, armour, flashlight, ammo by type and each weapon's magazine, changed in place. Values the game left out because they're zero (no armour, an empty magazine) can't be set. Not yet tried in the game; the 25th-anniversary build hasn't been checked";
+const HL2: &str = "Game screen: health, armour, suit power, ammo by type and each weapon's magazines, changed in place. Values the game left out because they're zero (no armour, an empty magazine) can't be set. Not yet tried in the game; the 20th-anniversary build hasn't been checked";
 const PDX_BINARY: &str = "Text saves fully; ironman (binary) saves are shown but can't be edited";
 
 macro_rules! game {
@@ -112,6 +114,9 @@ pub const GAMES: &[GameInfo] = &[
     game!("Green Hell", HEX, r"Steam\userdata\<account>\815370\remote", r"SPSlot0.sav …", [(SteamUser("815370"), r"remote")], ["*Slot*.sav"], 1),
     game!("Hades", FULL, r"Documents\Saved Games\Hades", "Profile1.sav … Profile4.sav", [(Documents, r"Saved Games\Hades"), (SavedGames, "Hades")], ["Profile*.sav"], 1),
     game!("Hades II", FULL, r"Saved Games\Hades II", "Profile1.sav …", [(SavedGames, "Hades II"), (Documents, r"Saved Games\Hades II")], ["Profile*.sav"], 1),
+    game!("Half-Life / Opposing Force / Blue Shift", HL1, r"<Steam library>\steamapps\common\Half-Life\valve\SAVE (Opposing Force: gearbox\SAVE, Blue Shift: bshift\SAVE)", r"quick.sav, autosave.sav, Half-Life-001.sav …", [(SteamGame("Half-Life"), r"valve\SAVE"), (SteamGame("Half-Life"), r"gearbox\SAVE"), (SteamGame("Half-Life"), r"bshift\SAVE")], ["*.sav"], 1),
+    game!("Half-Life 2 / Episode One / Episode Two", HL2, r"<Steam library>\steamapps\common\Half-Life 2\hl2\save (Episode One: episodic\save, Episode Two: ep2\save)", r"quick.sav, autosave.sav, half-life-001.sav …", [(SteamGame("Half-Life 2"), r"hl2\save"), (SteamGame("Half-Life 2"), r"episodic\save"), (SteamGame("Half-Life 2"), r"ep2\save")], ["*.sav"], 1),
+    game!("Half-Life: Source", HL2, r"<Steam library>\steamapps\common\Half-Life 2\hl1\save", r"quick.sav, autosave.sav, half-life-001.sav …", [(SteamGame("Half-Life 2"), r"hl1\save")], ["*.sav"], 1),
     game!("Hearts of Iron IV", FULL, r"Documents\Paradox Interactive\Hearts of Iron IV\save games", "*.hoi4", [(Documents, r"Paradox Interactive\Hearts of Iron IV\save games")], ["*.hoi4"], 1),
     game!("Hogwarts Legacy", FULL, r"%LOCALAPPDATA%\Hogwarts Legacy\Saved\SaveGames\<account>", r"HL-00-00.sav … (the character data inside is Oodle-compressed and can't be edited)", [(LocalAppData, r"Hogwarts Legacy\Saved\SaveGames\*")], ["HL-*.sav"], 1),
     game!("Hollow Knight", FULL, r"%USERPROFILE%\AppData\LocalLow\Team Cherry\Hollow Knight", "user1.dat … user4.dat", [(LocalLow, r"Team Cherry\Hollow Knight")], ["user?.dat"], 1),

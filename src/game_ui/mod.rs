@@ -8,6 +8,7 @@
 mod cairn;
 mod dashboards;
 mod fromsoft;
+mod half_life;
 mod oni_map;
 mod pokemon;
 mod screens2;
@@ -73,6 +74,8 @@ pub enum Game {
     Gow2018,
     GowRagnarok,
     Cairn,
+    HalfLife,
+    HalfLife2,
 }
 
 impl Game {
@@ -112,6 +115,7 @@ impl Game {
             Game::Gow2018 => "Kratos",
             Game::GowRagnarok => "Kratos",
             Game::Cairn => "Climber",
+            Game::HalfLife | Game::HalfLife2 => "Player",
             _ => "Character",
         }
     }
@@ -165,6 +169,8 @@ pub fn detect(kind: &str, root: &Value) -> Option<Game> {
         "God of War save" => Game::Gow2018,
         "God of War Ragnarök save" => Game::GowRagnarok,
         "Cairn save" => Game::Cairn,
+        crate::fmt::half_life::KIND_GOLDSRC => Game::HalfLife,
+        crate::fmt::half_life::KIND_SOURCE => Game::HalfLife2,
         _ if has("/base/m_title") && has("/player") => Game::YakuzaDe,
         "Unreal Engine save (PalWorldPlayerSaveGame)" if has("/SaveData/TechnologyPoint") => Game::Palworld,
         "Final Fantasy VII Remake save" | "Final Fantasy VII Rebirth save" => Game::Ff7Remake,
@@ -216,6 +222,7 @@ pub fn show(game: Game, ui: &mut Ui, cx: &mut GameCtx) {
         Game::Gow2018 => screens2::gow2018(ui, cx),
         Game::GowRagnarok => screens2::gow_ragnarok(ui, cx),
         Game::Cairn => cairn::show(ui, cx),
+        Game::HalfLife | Game::HalfLife2 => half_life::show(ui, cx),
         Game::RenPy => screens2::renpy(ui, cx),
         Game::MassEffect => screens2::mass_effect(ui, cx),
         Game::Xcom => screens2::xcom(ui, cx),
@@ -697,6 +704,8 @@ mod tests {
         assert_eq!(detect("XCOM 2 game data", &json!({})), Some(Game::Xcom2));
         assert_eq!(detect("Civilization VI save", &json!({})), Some(Game::Civ6));
         assert_eq!(detect("Diablo II character", &json!({})), Some(Game::Diablo2));
+        assert_eq!(detect(crate::fmt::half_life::KIND_GOLDSRC, &json!({})), Some(Game::HalfLife));
+        assert_eq!(detect(crate::fmt::half_life::KIND_SOURCE, &json!({})), Some(Game::HalfLife2));
         assert_eq!(detect("Final Fantasy VII save", &json!({})), Some(Game::Ff7));
         assert_eq!(detect("Final Fantasy VII Rebirth save", &json!({})), Some(Game::Ff7Remake));
         assert_eq!(detect(".NET BinaryFormatter stream", &json!([{"m_Major": 1}, {"PCM_HP": 90.0}])), Some(Game::GreenHell));
