@@ -41,6 +41,9 @@ mod ree_names;
 mod er_items;
 mod sekiro_items;
 pub mod gvas;
+pub mod gff;
+pub mod kotor;
+pub mod nwn;
 pub mod godot;
 pub mod ini;
 pub mod lua;
@@ -93,6 +96,9 @@ pub fn parse_binary(d: &[u8]) -> Option<TreeDoc> {
     }
     if d.starts_with(b"bplist") {
         return plistf::parse(d).ok();
+    }
+    if let Some(t) = parse_aurora(d, None) {
+        return Some(t);
     }
     if pokemon12::looks(d) {
         if let Ok(t) = pokemon12::parse(d) {
@@ -284,6 +290,18 @@ pub fn parse_binary(d: &[u8]) -> Option<TreeDoc> {
         if let Ok(t) = bsonf::parse(d) {
             return Some(t);
         }
+    }
+    None
+}
+
+/// BioWare Aurora saves (KOTOR 1 and 2, Neverwinter Nights). `path` finds the files kept
+/// beside a save (KOTOR's savenfo.res names the module the player is in).
+pub fn parse_aurora(d: &[u8], path: Option<&std::path::Path>) -> Option<TreeDoc> {
+    if kotor::looks(d) {
+        return kotor::parse(d, path).ok();
+    }
+    if nwn::looks(d) {
+        return nwn::parse(d, path).ok();
     }
     None
 }
