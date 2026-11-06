@@ -23,6 +23,8 @@ Universal Save Editor is free. It builds on other people's work, listed here wit
 | [d2s (Diablo II save layout)](https://github.com/dschu012/d2s) | dschu012 | facts only (file layouts, ids and names), credited |
 | [Trilogy Save Editor (Mass Effect 1 and Legendary Edition save layouts, item and talent names)](https://github.com/KarlitosVII/trilogy-save-editor) | Karlitos | facts only (file layouts, ids and names), credited |
 | [God of War (2018) and Ragnarök save editors "Forja" (item ids and names; credits kg971 and xcier)](https://github.com/wilypizza-svg) | wilypizza-svg (José Murilo) | facts only (file layouts, ids and names), credited |
+| [VolvoWrench (Half-Life / Source save container and map-state layout)](https://github.com/Traderain/VolvoWrench) | Traderain | WTFPL (layout only, no code copied) |
+| [Half-Life SDK and Source SDK 2013 (save field names, weapon ammo types)](https://github.com/ValveSoftware/source-sdk-2013) | Valve | facts only (file layouts, ids and names), credited |
 
 Copyright notices of the projects above whose code or tables were used:
 

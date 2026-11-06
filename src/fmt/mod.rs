@@ -41,6 +41,7 @@ mod ree_names;
 mod er_items;
 mod sekiro_items;
 pub mod gvas;
+pub mod half_life;
 pub mod godot;
 pub mod ini;
 pub mod lua;
@@ -186,6 +187,11 @@ pub fn parse_binary(d: &[u8]) -> Option<TreeDoc> {
     }
     if ff7::looks(d) {
         if let Ok(t) = ff7::parse(d) {
+            return Some(t);
+        }
+    }
+    if half_life::looks(d) {
+        if let Ok(t) = half_life::parse(d) {
             return Some(t);
         }
     }
