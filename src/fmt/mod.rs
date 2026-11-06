@@ -4,6 +4,7 @@ pub mod bethesda;
 pub mod bsonf;
 pub mod civ6;
 pub mod containers;
+pub mod d2s;
 pub mod crypto;
 pub mod fromsoft;
 pub mod sekiro_inv;
@@ -185,6 +186,11 @@ pub fn parse_binary(d: &[u8]) -> Option<TreeDoc> {
     }
     if ff7::looks(d) {
         if let Ok(t) = ff7::parse(d) {
+            return Some(t);
+        }
+    }
+    if d2s::looks(d) {
+        if let Ok(t) = d2s::parse(d) {
             return Some(t);
         }
     }

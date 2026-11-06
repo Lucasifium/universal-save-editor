@@ -793,6 +793,62 @@ pub fn civ6(ui: &mut Ui, cx: &mut GameCtx) {
     }
 }
 
+// ------------------------------------------------------------------ Diablo II
+
+pub fn diablo2(ui: &mut Ui, cx: &mut GameCtx) {
+    let accent = Color32::from_rgb(170, 40, 30);
+    let name = cx.text("/Character/Name").filter(|n| !n.is_empty()).unwrap_or_else(|| "Hero".into());
+    let class = cx.text("/Character/Class").unwrap_or_default();
+    let mut sub = vec![class];
+    if cx.flag("/Character/Hardcore") {
+        sub.push("Hardcore".into());
+    }
+    sub.push(if cx.flag("/Character/Expansion") { "Lord of Destruction".into() } else { "Classic".into() });
+    hero(ui, accent, &name, &sub.join("  \u{00B7}  "), |ui| {
+        for (label, p) in [("Level", "/Progress/Level"), ("Experience", "/Progress/Experience"), ("Gold", "/Progress/Gold"), ("Stash gold", "/Progress/Stash gold")] {
+            cx.tile(ui, label, p, accent);
+        }
+    });
+    columns(ui, 360.0, 2, |ui, i| {
+        if i == 0 {
+            panel(ui, "Attributes", |ui| {
+                for k in ["Strength", "Dexterity", "Vitality", "Energy"] {
+                    cx.attribute(ui, k, &join("/Attributes", k), 1023.0, accent);
+                }
+                ui.add_space(6.0);
+                cx.grid_row(ui, "Stat points", "/Attributes/Stat points", 80.0);
+                cx.grid_row(ui, "Skill points", "/Attributes/Skill points", 80.0);
+            });
+        } else {
+            panel(ui, "Life and mana", |ui| {
+                egui::Grid::new("d2_life").num_columns(4).spacing([10.0, 6.0]).show(ui, |ui| {
+                    for (a, b) in [("Life", "Max life"), ("Mana", "Max mana"), ("Stamina", "Max stamina")] {
+                        ui.label(a);
+                        cx.compact(ui, &join("/Life and mana", a), 84.0);
+                        ui.label("of");
+                        cx.compact(ui, &join("/Life and mana", b), 84.0);
+                        ui.end_row();
+                    }
+                });
+                ui.weak("Max life and mana here are the base values, before items.");
+            });
+        }
+    });
+    let skills: Vec<String> = match cx.get("/Skills") {
+        Some(Value::Object(m)) => m.keys().cloned().collect(),
+        _ => vec![],
+    };
+    if !skills.is_empty() {
+        panel(ui, "Skills", |ui| {
+            columns(ui, 300.0, skills.len(), |ui, i| {
+                cx.attribute(ui, &skills[i], &join("/Skills", &skills[i]), 20.0, accent);
+            });
+            ui.weak("Hard points put into each skill (20 is the most the game allows from points; items add more on top).");
+        });
+    }
+    ui.weak("Changing the level doesn't change experience: set both. Gold on the character can be at most 10,000 per level.");
+}
+
 // ------------------------------------------------------------------ Final Fantasy VII (PC)
 
 pub fn ff7(ui: &mut Ui, cx: &mut GameCtx) {
