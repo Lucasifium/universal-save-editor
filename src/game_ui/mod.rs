@@ -7,6 +7,8 @@
 
 mod cairn;
 mod dashboards;
+mod deus_ex;
+mod fallout12;
 mod fromsoft;
 mod oni_map;
 mod pokemon;
@@ -73,6 +75,8 @@ pub enum Game {
     Gow2018,
     GowRagnarok,
     Cairn,
+    Fallout12,
+    DeusEx,
 }
 
 impl Game {
@@ -112,6 +116,8 @@ impl Game {
             Game::Gow2018 => "Kratos",
             Game::GowRagnarok => "Kratos",
             Game::Cairn => "Climber",
+            Game::Fallout12 => "Pip-Boy",
+            Game::DeusEx => "JC Denton",
             _ => "Character",
         }
     }
@@ -129,6 +135,8 @@ pub fn detect(kind: &str, root: &Value) -> Option<Game> {
         "Terraria player" => Game::Terraria,
         "Terraria world" => Game::TerrariaWorld,
         k if k.starts_with("Pok\u{00E9}mon") => Game::Pokemon,
+        "Fallout 1 save" | "Fallout 2 save" => Game::Fallout12,
+        "Deus Ex map save" | "Deus Ex save info" => Game::DeusEx,
         k if (k.starts_with("Skyrim") || k.starts_with("Fallout") || k.starts_with("Enderal")) && has("/Save") => Game::Bethesda,
         _ if has("/GameState/Resources") => Game::Hades,
         _ if has("/SaveGame/player/farmName") => Game::Stardew,
@@ -216,6 +224,8 @@ pub fn show(game: Game, ui: &mut Ui, cx: &mut GameCtx) {
         Game::Gow2018 => screens2::gow2018(ui, cx),
         Game::GowRagnarok => screens2::gow_ragnarok(ui, cx),
         Game::Cairn => cairn::show(ui, cx),
+        Game::Fallout12 => fallout12::show(ui, cx),
+        Game::DeusEx => deus_ex::show(ui, cx),
         Game::RenPy => screens2::renpy(ui, cx),
         Game::MassEffect => screens2::mass_effect(ui, cx),
         Game::Xcom => screens2::xcom(ui, cx),
@@ -697,6 +707,8 @@ mod tests {
         assert_eq!(detect("XCOM 2 game data", &json!({})), Some(Game::Xcom2));
         assert_eq!(detect("Civilization VI save", &json!({})), Some(Game::Civ6));
         assert_eq!(detect("Diablo II character", &json!({})), Some(Game::Diablo2));
+        assert_eq!(detect("Fallout 2 save", &json!({"Save": {}})), Some(Game::Fallout12));
+        assert_eq!(detect("Deus Ex map save", &json!({})), Some(Game::DeusEx));
         assert_eq!(detect("Final Fantasy VII save", &json!({})), Some(Game::Ff7));
         assert_eq!(detect("Final Fantasy VII Rebirth save", &json!({})), Some(Game::Ff7Remake));
         assert_eq!(detect(".NET BinaryFormatter stream", &json!([{"m_Major": 1}, {"PCM_HP": 90.0}])), Some(Game::GreenHell));

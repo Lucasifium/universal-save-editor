@@ -23,6 +23,8 @@ Universal Save Editor is free. It builds on other people's work, listed here wit
 | [d2s (Diablo II save layout)](https://github.com/dschu012/d2s) | dschu012 | facts only (file layouts, ids and names), credited |
 | [Trilogy Save Editor (Mass Effect 1 and Legendary Edition save layouts, item and talent names)](https://github.com/KarlitosVII/trilogy-save-editor) | Karlitos | facts only (file layouts, ids and names), credited |
 | [God of War (2018) and Ragnarök save editors "Forja" (item ids and names; credits kg971 and xcier)](https://github.com/wilypizza-svg) | wilypizza-svg (José Murilo) | facts only (file layouts, ids and names), credited |
+| [fallout-se (Fallout and Fallout 2 save layout; stat, skill, perk, trait, kill and item name tables)](https://github.com/ali-raheem/fallout-se) | Ali Raheem | MIT OR Apache-2.0 (used under MIT) |
+| [UELib (Unreal Engine 1 package layout for Deus Ex saves; facts only, no code)](https://github.com/EliotVU/Unreal-Library) | EliotVU | facts only (file layouts), credited |
 
 Copyright notices of the projects above whose code or tables were used:
 
@@ -39,6 +41,7 @@ Copyright notices of the projects above whose code or tables were used:
 - W3SavegameEditor (The Witcher 3 save layout): Copyright (c) 2015 Atvaark. Licensed under MIT.
 - RE_RSZ (RE Engine field names): Copyright (c) 2021 alphazolam. Licensed under MIT.
 - P4G Save Tool (Persona 4 Golden field positions): Copyright (c) 2016 Jack P. Fenech. Licensed under MIT.
+- fallout-se (Fallout and Fallout 2 save layout and name tables): Copyright (c) 2026 Ali Raheem. Licensed under MIT OR Apache-2.0.
 
 The MIT, Apache-2.0 and zlib licence texts are included below with the crates that use them.
 
