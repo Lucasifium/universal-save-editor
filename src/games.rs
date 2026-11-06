@@ -50,6 +50,8 @@ const RGG_UNTESTED: &str = "Decrypted, with its checksum kept right (no save of 
 const HEX_UNPACKED: &str = "Unpacked for Value search (find a number you know, then change it); packed again on save";
 const XCOM2: &str = "Game screen: HQ resources and soldiers (rank, kills, missions, stats); unpacked and packed again on save. Not yet tried in the game";
 const CIV6: &str = "Game screen: settings, mods and each civilisation (human or AI, whose turn it is); gold and the map are in the packed part and aren't mapped";
+const BORDERLANDS: &str = "Game screen: level, experience, skill points, money, Eridium (Moonstone in The Pre-Sequel; Seraph crystals and Torgue tokens in Borderlands 2), ammo and ammo SDUs; gear is listed (level, slot), not edited. Packing and checksums are redone on save. Edited saves not yet tried in the game";
+const BORDERLANDS3: &str = "Game screen: level and experience, skill points, money, Eridium, ammo and SDU levels; gear is listed (slot, favourite/junk), not edited. Encrypted again on save. Edited saves not yet tried in the game";
 const PDX_BINARY: &str = "Text saves fully; ironman (binary) saves are shown but can't be edited";
 
 macro_rules! game {
@@ -68,6 +70,9 @@ pub const GAMES: &[GameInfo] = &[
     game!("Balatro", FULL, r"%APPDATA%\Balatro\<profile>", "save.jkr (the run), profile.jkr", [(AppData, "Balatro")], ["save.jkr", "profile.jkr"], 2),
     game!("BioShock Infinite", HEX_UNPACKED, r"Steam\userdata\<account>\8870\remote\savedata", r"<area>-0_<date>.bkm / .sav", [(SteamUser("8870"), r"remote\savedata")], ["*.bkm", "*.sav"], 1),
     game!("BioShock Remastered / BioShock 2 Remastered", HEX_UNPACKED, r"Documents\BioshockHD\Bioshock (or Bioshock2)\SaveGames", r"<date>.bsb", [(Documents, r"BioshockHD"), (AppData, r"BioshockHD")], ["*.bsb"], 3),
+    game!("Borderlands 2", BORDERLANDS, r"Documents\My Games\Borderlands 2\WillowGame\SaveData\<Steam id>", r"Save0001.sav … (one per character; .sav.bak is the backup)", [(Documents, r"My Games\Borderlands 2\WillowGame\SaveData")], ["Save*.sav"], 2),
+    game!("Borderlands 3", BORDERLANDS3, r"Documents\My Games\Borderlands 3\Saved\SaveGames\<Steam or Epic id>", r"<n>.sav (1.sav, 2.sav … one per character; profile.sav is the profile)", [(Documents, r"My Games\Borderlands 3\Saved\SaveGames")], ["?.sav", "??.sav", "???.sav"], 2),
+    game!("Borderlands: The Pre-Sequel", BORDERLANDS, r"Documents\My Games\Borderlands The Pre-Sequel\WillowGame\SaveData\<Steam id>", r"Save0001.sav … (one per character; .sav.bak is the backup)", [(Documents, r"My Games\Borderlands The Pre-Sequel\WillowGame\SaveData")], ["Save*.sav"], 2),
     game!("Cairn", FULL, r"%USERPROFILE%\Saved Games\TheGameBakers\Cairn_RETAIL\SAVEGAMES\RETAIL\STORY (SUMMIT for summit runs)", r"SLOT_A.CPK … SLOT_D.CPK", [(SavedGames, r"TheGameBakers\Cairn_RETAIL\SAVEGAMES\RETAIL"), (SavedGames, r"TheGameBakers\Cairn\SAVEGAMES")], ["*.CPK"], 2),
     game!("Civilization V", HEX, r"Documents\My Games\Sid Meier's Civilization 5\Saves\single (or ModdedSaves\single)", "<Leader>_<year>.Civ5Save", [(Documents, r"My Games\Sid Meier's Civilization 5\Saves"), (Documents, r"My Games\Sid Meier's Civilization 5\ModdedSaves")], ["*.Civ5Save"], 3),
     game!("Civilization VI", CIV6, r"Documents\My Games\Sid Meier's Civilization VI\Saves\Single", r"*.Civ6Save (auto\AutoSave_####.Civ6Save)", [(Documents, r"My Games\Sid Meier's Civilization VI\Saves")], ["*.Civ6Save"], 3),

@@ -1,6 +1,8 @@
 //! Structured save formats. Each module turns bytes into an editable `TreeDoc`.
 
 pub mod bethesda;
+pub mod borderlands;
+pub mod borderlands3;
 pub mod bsonf;
 pub mod civ6;
 pub mod containers;
@@ -257,6 +259,16 @@ pub fn parse_binary(d: &[u8]) -> Option<TreeDoc> {
     }
     if pdx::looks(d) {
         if let Ok(t) = pdx::parse(d) {
+            return Some(t);
+        }
+    }
+    if borderlands::looks(d) {
+        if let Ok(t) = borderlands::parse(d) {
+            return Some(t);
+        }
+    }
+    if borderlands3::looks(d) {
+        if let Ok(t) = borderlands3::parse(d) {
             return Some(t);
         }
     }
