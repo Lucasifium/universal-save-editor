@@ -1,4 +1,4 @@
-//! Procedurally drawn app icon: a floppy disk with a pencil on a rounded gradient tile.
+//! Procedurally drawn app icon: a gold key between two sliders on a dark rounded tile.
 //! Shared by the window icon (runtime) and the .exe icon (build.rs).
 
 type Rgba = [f32; 4];
@@ -8,13 +8,6 @@ fn rounded_rect(x: f32, y: f32, x0: f32, y0: f32, x1: f32, y1: f32, r: f32) -> b
     let cy = y.clamp(y0 + r, y1 - r);
     let (dx, dy) = (x - cx, y - cy);
     x >= x0 && x <= x1 && y >= y0 && y <= y1 && dx * dx + dy * dy <= r * r
-}
-
-fn seg_dist(px: f32, py: f32, ax: f32, ay: f32, bx: f32, by: f32) -> (f32, f32) {
-    let (vx, vy) = (bx - ax, by - ay);
-    let t = (((px - ax) * vx + (py - ay) * vy) / (vx * vx + vy * vy)).clamp(0.0, 1.0);
-    let (cx, cy) = (ax + vx * t, ay + vy * t);
-    (((px - cx).powi(2) + (py - cy).powi(2)).sqrt(), t)
 }
 
 fn over(dst: Rgba, src: Rgba) -> Rgba {
@@ -30,54 +23,88 @@ fn hex(c: u32) -> Rgba {
     [((c >> 16) & 0xFF) as f32 / 255.0, ((c >> 8) & 0xFF) as f32 / 255.0, (c & 0xFF) as f32 / 255.0, 1.0]
 }
 
+fn circle(x: f32, y: f32, cx: f32, cy: f32, r: f32) -> bool {
+    (x - cx).powi(2) + (y - cy).powi(2) <= r * r
+}
+
+/// A vertical bar with round ends from `y0` to `y1`, `w` wide, centred on `cx`.
+fn vbar(x: f32, y: f32, cx: f32, y0: f32, y1: f32, w: f32) -> bool {
+    rounded_rect(x, y, cx - w / 2.0, y0, cx + w / 2.0, y1, w / 2.0)
+}
+
+fn heart(x: f32, y: f32, cx: f32, cy: f32, s: f32) -> bool {
+    let (u, v) = ((x - cx) / s, -(y - cy) / s);
+    (u * u + v * v - 1.0).powi(3) - u * u * v.powi(3) <= 0.0
+}
+
+fn star(x: f32, y: f32, cx: f32, cy: f32, r: f32) -> bool {
+    // Even-odd test against the ten vertices of a five-pointed star.
+    let pts: Vec<(f32, f32)> = (0..10)
+        .map(|i| {
+            let a = std::f32::consts::PI * i as f32 / 5.0;
+            let rr = if i % 2 == 0 { r } else { r * 0.42 };
+            (cx + rr * a.sin(), cy - rr * a.cos())
+        })
+        .collect();
+    let mut inside = false;
+    for i in 0..10 {
+        let (x0, y0) = pts[i];
+        let (x1, y1) = pts[(i + 1) % 10];
+        if (y0 > y) != (y1 > y) && x < x0 + (y - y0) / (y1 - y0) * (x1 - x0) {
+            inside = !inside;
+        }
+    }
+    inside
+}
+
 /// Colour of the icon at normalised coordinates (0..1, 0..1).
 fn sample(x: f32, y: f32) -> Rgba {
     let mut c: Rgba = [0.0; 4];
+    let ink = hex(0x26204F);
 
-    // Background tile with a top-left → bottom-right gradient.
+    // Background tile, dark navy to violet.
     if rounded_rect(x, y, 0.03, 0.03, 0.97, 0.97, 0.2) {
         let t = ((x + y) / 2.0).clamp(0.0, 1.0);
-        let (a, b) = (hex(0x3D8BFD), hex(0x7B4FE0));
+        let (a, b) = (hex(0x1A2A48), hex(0x34226B));
         c = [a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t, a[2] + (b[2] - a[2]) * t, 1.0];
     }
 
-    // Floppy body (white, top-right corner clipped).
-    let (fx0, fy0, fx1, fy1) = (0.2, 0.18, 0.74, 0.76);
-    let clipped = x + (fy0 - y) > fx1 - 0.1;
-    if rounded_rect(x, y, fx0, fy0, fx1, fy1, 0.05) && !clipped {
-        c = over(c, hex(0xF5F7FF));
-        // Metal shutter.
-        if rounded_rect(x, y, 0.32, fy0, 0.58, 0.36, 0.015) {
-            c = over(c, hex(0x5B6B8C));
-            if rounded_rect(x, y, 0.48, 0.21, 0.54, 0.33, 0.01) {
-                c = over(c, hex(0xF5F7FF));
-            }
+    // Slider tracks (left and right); the part below each knob takes the knob's colour.
+    let (top, bottom) = (0.17, 0.84);
+    for (cx, ky, col) in [(0.255, 0.64, hex(0xFF5470)), (0.745, 0.49, hex(0x4FE08A))] {
+        if vbar(x, y, cx, top, bottom, 0.032) {
+            c = over(c, [1.0, 1.0, 1.0, 0.16]);
         }
-        // Label area with two text lines.
-        if rounded_rect(x, y, 0.28, 0.47, 0.66, 0.76, 0.02) {
-            c = over(c, hex(0xDCE4F7));
-            for ly in [0.55, 0.64] {
-                if (y - ly).abs() < 0.018 && x > 0.33 && x < 0.61 {
-                    c = over(c, hex(0x9AA8C7));
-                }
-            }
-        }
-    }
-
-    // Pencil, diagonal across the bottom-right.
-    let (ax, ay, bx, by) = (0.56, 0.86, 0.86, 0.56);
-    let (d, t) = seg_dist(x, y, ax, ay, bx, by);
-    if t > 0.0 && t < 1.0 {
-        if t < 0.16 {
-            // Sharpened tip: tapers to a point at (ax, ay).
-            let w = 0.075 * (t / 0.16);
-            if d < w {
-                c = over(c, if t < 0.07 { hex(0x2B2B3A) } else { hex(0xF2D7A6) });
-            }
-        } else if d < 0.075 {
-            let col = if t > 0.86 { hex(0xF06A8A) } else if t > 0.8 { hex(0xC9CED8) } else { hex(0xFFB547) };
+        if vbar(x, y, cx, ky, bottom, 0.032) {
             c = over(c, col);
         }
+        if circle(x, y, cx, ky, 0.09) {
+            c = over(c, col);
+        }
+    }
+    if heart(x, y, 0.255, 0.65, 0.034) {
+        c = over(c, ink);
+    }
+    if star(x, y, 0.745, 0.49, 0.052) {
+        c = over(c, ink);
+    }
+
+    // The key: ring, shaft and two teeth, in the middle.
+    let gold = hex(0xFFC13D);
+    let (kx, ring_y) = (0.5, 0.3);
+    if circle(x, y, kx, ring_y, 0.146) || vbar(x, y, kx, ring_y, 0.88, 0.064) {
+        c = over(c, gold);
+    }
+    for (ty0, ty1) in [(0.66, 0.705), (0.76, 0.805)] {
+        if rounded_rect(x, y, kx, ty0, kx + 0.115, ty1, 0.012) {
+            c = over(c, gold);
+        }
+    }
+    if circle(x, y, kx, ring_y, 0.082) {
+        c = over(c, ink);
+    }
+    if circle(x, y, kx, ring_y, 0.036) {
+        c = over(c, gold);
     }
     c
 }
