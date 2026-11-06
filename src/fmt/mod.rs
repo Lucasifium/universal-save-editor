@@ -7,6 +7,9 @@ pub mod bsonf;
 pub mod civ6;
 pub mod containers;
 pub mod d2s;
+pub mod grimdawn;
+pub mod titanquest;
+pub mod torchlight2;
 pub mod crypto;
 pub mod fromsoft;
 pub mod sekiro_inv;
@@ -189,6 +192,21 @@ pub fn parse_binary(d: &[u8]) -> Option<TreeDoc> {
     }
     if ff7::looks(d) {
         if let Ok(t) = ff7::parse(d) {
+            return Some(t);
+        }
+    }
+    if grimdawn::looks(d) {
+        if let Ok(t) = grimdawn::parse(d) {
+            return Some(t);
+        }
+    }
+    if titanquest::looks(d) {
+        if let Ok(t) = titanquest::parse(d) {
+            return Some(t);
+        }
+    }
+    if torchlight2::looks(d) {
+        if let Ok(t) = torchlight2::parse(d) {
             return Some(t);
         }
     }
