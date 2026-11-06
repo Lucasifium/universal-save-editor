@@ -88,7 +88,8 @@ fn has_screen(g: &GameInfo) -> bool {
 /// What the page says can be edited: the README row for this game, or else (for games whose
 /// catalog text says it) the catalog text.
 fn description(g: &GameInfo, rows: &[(String, String)]) -> Option<String> {
-    let row = readme_row(g, rows);
+    // The README points to its own sections ("Oodle, see below"); a game page has none.
+    let row = readme_row(g, rows).map(|(s, d)| (s, d.replace(", see below", "")));
     if g.support == "Game screen" {
         return row.map(|r| r.1);
     }
@@ -117,6 +118,10 @@ fn readme_row(g: &GameInfo, rows: &[(String, String)]) -> Option<(usize, String)
         "Final Fantasy X / X-2 HD Remaster" => Some("Final Fantasy X (HD Remaster"),
         n if n.starts_with("Mass Effect Legendary Edition (ME2") || n.starts_with("Mass Effect Legendary Edition (ME3") => Some("Mass Effect 2, Mass Effect 3"),
         "Yakuza: Like a Dragon" => Some("Yakuza Kiwami 2, Like a Dragon"),
+        n if n.starts_with("Metro") => Some("Metro 2033"),
+        "Mass Effect (2008)" | "Mass Effect Legendary Edition (ME1)" => Some("Mass Effect (2008)"),
+        n if n.starts_with("Diablo II") => Some("Diablo II"),
+        n if n.starts_with("Pathfinder") => Some("Pathfinder"),
         "Yakuza Kiwami 3 & Dark Ties" => Some("Yakuza 6, Kiwami 3"),
         _ => None,
     };
@@ -148,13 +153,62 @@ fn readme_row(g: &GameInfo, rows: &[(String, String)]) -> Option<(usize, String)
     best.map(|(s, d)| (s, d.clone()))
 }
 
+/// Games whose saves need the downloaded app (Oodle compression).
+fn needs_app(g: &GameInfo) -> bool {
+    matches!(g.name, "Palworld" | "Hogwarts Legacy")
+}
+
+/// One short line for a game card: what the page says can be edited, without asides
+/// (parentheses) or notes on how the file is unpacked and checked.
+fn card_blurb(what: &str) -> String {
+    let mut plain = String::new();
+    let mut depth = 0;
+    for c in what.replace(['*', '`'], "").chars() {
+        match c {
+            '(' => depth += 1,
+            ')' => depth = (depth - 1).max(0),
+            c if depth == 0 => plain.push(c),
+            _ => {}
+        }
+    }
+    let plain = plain.replace("  ", " ").replace(" ,", ",").replace(" ;", ";").replace(" :", ":").replace(", changed in place", "").replace(" changed in place", "");
+    let mut w = plain.split(". ").next().unwrap_or("").trim();
+    // "Kiryu & Majima: money…" -> "money…"; "A map editor: pan…" keeps its label.
+    if let Some((label, rest)) = w.split_once(": ") {
+        if label.chars().count() < 30 && !label.contains(',') && !label.starts_with("A ") {
+            w = rest;
+        }
+    }
+    let technical = |p: &str| {
+        let l = p.to_lowercase();
+        ["decrypted", "unpacked", "packed again", "encrypted", "checksum", "scrambled", "aren't mapped", "not yet", "can't be"].iter().any(|t| l.contains(t))
+    };
+    let parts: Vec<&str> = w.split("; ").map(str::trim).filter(|p| !p.is_empty() && !technical(p)).collect();
+    let w = parts.join(", ");
+    let w = w.trim_end_matches(['.', ',', ' ', '\u{2026}']);
+    const MAX: usize = 64;
+    let mut out = if w.chars().count() <= MAX {
+        w.to_string()
+    } else {
+        let cut: String = w.chars().take(MAX).collect();
+        let at = cut.rfind([',', ' ']).unwrap_or(cut.len());
+        let cut = cut[..at].trim_end_matches([',', ' ', '/']);
+        let cut = cut.strip_suffix(" and").or(cut.strip_suffix(" the")).unwrap_or(cut);
+        format!("{}\u{2026}", cut.trim_end_matches([',', ' ']))
+    };
+    if let Some(f) = out.chars().next() {
+        out = f.to_uppercase().chain(out.chars().skip(1)).collect();
+    }
+    out
+}
+
 fn level(g: &GameInfo) -> (&'static str, &'static str) {
     if has_screen(g) {
-        ("Full editor", "A screen laid out for this game, with names for its items and values.")
+        ("Game screen", "A screen laid out for this game, with names for its items and values.")
     } else if g.support.starts_with("Hex") || g.support.starts_with("Unpacked") {
-        ("Value search", "Find a number you know (money, ammo, experience) and change it.")
+        ("Value search", "Find a number you know (money, ammo, experience) and change it. The save is shown as raw data: there is no screen for this game yet.")
     } else {
-        ("Values editor", "Every value in the save, by name, with a filter.")
+        ("Values editor", "Every value in the save, by name, with a filter. There is no screen laid out for this game yet.")
     }
 }
 
@@ -173,10 +227,13 @@ h1{font-size:2.1rem;line-height:1.2;margin:32px 0 8px}h2{margin-top:36px}
 .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px 20px;margin:16px 0}
 code{background:var(--card);border:1px solid var(--line);border-radius:6px;padding:1px 6px;font-size:.9em;word-break:break-all}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:10px;padding:0;list-style:none}
-.grid a{display:block;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px 14px;color:var(--text);text-decoration:none}
-.grid a:hover{border-color:var(--accent2)}.grid small{display:block;color:var(--muted)}
+.grid li{margin:0;display:flex}
+.grid a{flex:1;display:flex;flex-direction:column;gap:2px;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px 14px;color:var(--text);text-decoration:none;line-height:1.35}
+.grid a:hover,.grid a:focus-visible{border-color:var(--accent2)}.grid small{display:block;color:var(--muted);font-size:.85rem}
+.grid .tag{align-self:flex-start;margin-top:auto;padding-top:4px;font-size:.75rem;color:var(--muted)}.grid .tag.screen{color:var(--accent)}
+.empty{color:var(--muted);display:none}
 #q{width:100%;max-width:420px;padding:10px 14px;border-radius:10px;border:1px solid var(--line);background:var(--card);color:var(--text);font-size:1rem}
-ol li,ul li{margin:4px 0}footer{border-top:1px solid var(--line);margin-top:48px;color:var(--muted);font-size:.9rem}footer .in{padding:20px 16px}
+ol li,ul li{margin:4px 0}@media (max-width:600px){header nav{margin-left:0;gap:14px;flex-wrap:wrap}header .in{padding-top:10px;padding-bottom:10px;gap:6px}}footer{border-top:1px solid var(--line);margin-top:48px;color:var(--muted);font-size:.9rem}footer .in{padding:20px 16px}
 "#;
 
 fn page(title: &str, desc: &str, path: &str, body: &str, schema: &str) -> String {
@@ -297,13 +354,13 @@ fn build_site() {
         let _ = write!(
             body,
             r#"<h1>{h} save editor</h1>
-<p class="lead">Edit your {n} save on your own PC with Universal Save Editor, a free, offline save editor for 100+ games. Nothing is uploaded and there are no limits.</p>
+<p class="lead">Edit your {n} save on your own PC with Universal Save Editor, a free, offline save editor for {many}+ games. Nothing is uploaded and there are no limits.</p>
 <div class="badges"><span class="badge free">Free forever</span><span class="badge">Offline</span><span class="badge">Open source</span><span class="badge">{lvl}</span></div>
 <a class="btn" href="{DOWNLOAD}">Download for free</a><a class="btn alt" href="../{WEB_APP}">Use it in your browser</a>
 <h2>What you can edit</h2>
 <div class="card">{what}</div>
 <h2>Where {n} keeps its saves</h2>
-<div class="card"><p>Folder: <code>{folder}</code></p><p>Files: <code>{files}</code></p><p>You don't need to find it yourself: choose <em>Select game</em> in the editor, pick {n}, and it lists the saves it finds. (The browser version can't look through your folders: open the file from this folder yourself.)</p></div>
+<div class="card"><p>Folder: <code>{folder}</code></p><p>Files: <code>{files}</code></p><p>You don't need to find it yourself: choose <em>Select game</em> in the editor, pick {n}, and it lists the saves it finds. (The browser version can't look through your folders: open the file from this folder yourself.)</p>{browser}</div>
 <h2>How to edit your {n} save</h2>
 <ol>
 <li><a href="{DOWNLOAD}">Download Universal Save Editor</a> for Windows, Linux or Android. On Windows and Linux just run it; on Android install the APK. Rather not install anything? <a href="../{WEB_APP}">Use it in your browser</a> instead: it runs on your computer too, and saving downloads the edited file.</li>
@@ -316,9 +373,11 @@ fn build_site() {
 <p>Edited saves are for single-player play. Don't use them in online or multiplayer modes.</p>
 "#,
             h = esc(&search),
+            many = GAMES.len() / 10 * 10,
             n = esc(g.name),
             what = what.as_deref().map(md).unwrap_or_else(|| esc(lvl_note)),
             folder = esc(g.folder),
+            browser = if needs_app(g) { "<p><strong>Use the downloaded app for this game:</strong> its saves are compressed with Oodle, which the browser version can't unpack.</p>" } else { "" },
             files = esc(g.files),
         );
         let path = format!("{s}/");
@@ -326,7 +385,10 @@ fn build_site() {
         std::fs::create_dir_all(&dir).unwrap();
         std::fs::write(dir.join("index.html"), page(&title, &desc, &path, &body, &schema(&format!("Universal Save Editor ({search} save editor)"), &desc, &format!("{SITE}/{path}")))).unwrap();
         urls.push(format!("{SITE}/{path}"));
-        let _ = write!(cards, r#"<li><a href="{s}/">{}<small>{lvl}</small></a></li>"#, esc(g.name));
+        let blurb = what.as_deref().map(card_blurb).unwrap_or_default();
+        let tag_class = if has_screen(g) { "tag screen" } else { "tag" };
+        let blurb_html = if blurb.is_empty() { String::new() } else { format!("<small>{}</small>", esc(&blurb)) };
+        let _ = write!(cards, r#"<li><a href="{s}/"><span>{}</span>{blurb_html}<span class="{tag_class}">{lvl}</span></a></li>"#, esc(g.name));
     }
 
     let full = GAMES.iter().filter(|g| has_screen(g)).count();
@@ -343,11 +405,12 @@ fn build_site() {
 <p>{full} games open on a screen made for them; the rest can be edited value by value. Type to filter:</p>
 <input id="q" type="search" placeholder="Find a game" aria-label="Find a game">
 <ul class="grid" id="list">{cards}</ul>
-<script>document.getElementById('q').addEventListener('input',function(){{var q=this.value.toLowerCase();document.querySelectorAll('#list li').forEach(function(li){{li.style.display=li.textContent.toLowerCase().indexOf(q)<0?'none':''}})}})</script>
+<p class="empty" id="none">No game matches. The editor can still open saves of games that aren't listed: try it, or <a href="{REPO}/issues">ask for the game</a>.</p>
+<script>document.getElementById('q').addEventListener('input',function(){{var q=this.value.toLowerCase().trim(),n=0;document.querySelectorAll('#list li').forEach(function(li){{var hit=li.querySelector('span').textContent.toLowerCase().indexOf(q)>=0;li.style.display=hit?'':'none';if(hit)n++}});document.getElementById('none').style.display=n?'none':'block'}})</script>
 "#,
         n = GAMES.len(),
     );
-    std::fs::write(out.join("index.html"), page("Universal Save Editor: free, offline save editor for 100+ games", &desc, "", &body, &schema("Universal Save Editor", &desc, &format!("{SITE}/")))).unwrap();
+    std::fs::write(out.join("index.html"), page(&format!("Universal Save Editor: free, offline save editor for {}+ games", GAMES.len() / 10 * 10), &desc, "", &body, &schema("Universal Save Editor", &desc, &format!("{SITE}/")))).unwrap();
 
     let mut sm = String::from("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n");
     for u in &urls {

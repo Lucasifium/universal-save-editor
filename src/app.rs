@@ -2502,7 +2502,7 @@ impl App {
                 });
                 ui.image((logo.id(), egui::vec2(88.0, 88.0)));
                 ui.add_space(6.0);
-                ui.label(RichText::new(APP_NAME).family(theme::semibold_family()).size(26.0).color(ui.visuals().strong_text_color()));
+                ui.label(RichText::new(platform::DISPLAY_NAME).family(theme::semibold_family()).size(26.0).color(ui.visuals().strong_text_color()));
                 ui.label(if WEB {
                     "Edit game saves safely \u{2014} it runs in your browser and nothing is uploaded."
                 } else if cfg!(target_os = "android") {
@@ -2568,10 +2568,21 @@ impl App {
                         ui.add_space(8.0);
                         theme::card(ui, |ui| {
                             ui.label(RichText::new("What it can open").family(theme::semibold_family()).size(16.0));
+                            let games = format!(
+                                "{} games, {} of them with a screen of their own: Elden Ring, Baldur's Gate, Mass Effect, Final Fantasy, Stardew Valley, Terraria, Cyberpunk 2077 and many more \u{00B7} Pok\u{00E9}mon Gen I\u{2013}III (emulator saves) \u{00B7} {}",
+                                crate::games::GAMES.len(),
+                                crate::games::GAMES.iter().filter(|g| g.support.starts_with("Game screen")).count(),
+                                if WEB { "the full list is on the website" } else { "Select game lists them all" },
+                            );
+                            let data_formats = if WEB {
+                                "JSON \u{00B7} XML \u{00B7} INI/CFG \u{00B7} TOML \u{00B7} YAML \u{00B7} plist \u{00B7} MessagePack \u{00B7} BSON \u{00B7} Python pickle (SQLite needs the downloaded app)"
+                            } else {
+                                "JSON \u{00B7} XML \u{00B7} INI/CFG \u{00B7} TOML \u{00B7} YAML \u{00B7} plist \u{00B7} MessagePack \u{00B7} BSON \u{00B7} SQLite \u{00B7} Python pickle"
+                            };
                             for (title, list) in [
-                                ("Games", "Pok\u{00E9}mon Red/Blue/Yellow, Gold/Silver/Crystal and Ruby/Sapphire/Emerald/FireRed/LeafGreen (emulator saves) \u{00B7} Terraria characters and worlds (with a map editor) \u{00B7} Elden Ring \u{00B7} Dark Souls II/III \u{00B7} Sekiro \u{00B7} Skyrim/Enderal \u{00B7} Fallout 4 \u{00B7} Hades/Hades II \u{00B7} Balatro \u{00B7} Minecraft (incl. region files) \u{00B7} Stardew Valley \u{00B7} Hollow Knight \u{00B7} Slay the Spire \u{00B7} mGBA save states"),
+                                ("Games", games.as_str()),
                                 ("Game engines", "Ren'Py \u{00B7} RPG Maker MV/MZ/XP/VX/VX Ace \u{00B7} Unreal Engine (GVAS) \u{00B7} Unity (.NET BinaryFormatter, Easy Save 3, JSON, XML) \u{00B7} Godot (store_var, encrypted) \u{00B7} Minecraft NBT \u{00B7} TyranoScript \u{00B7} Twine/SugarCube \u{00B7} Barotrauma \u{00B7} Palworld (PlZ)"),
-                                ("Data formats", "JSON \u{00B7} XML \u{00B7} INI/CFG \u{00B7} TOML \u{00B7} YAML \u{00B7} plist \u{00B7} MessagePack \u{00B7} BSON \u{00B7} SQLite \u{00B7} Python pickle"),
+                                ("Data formats", data_formats),
                                 ("Wrappers", "gzip \u{00B7} zlib \u{00B7} zstd \u{00B7} LZ4 \u{00B7} xz \u{00B7} bzip2 \u{00B7} zip \u{00B7} Base64 \u{00B7} UTF-16 \u{00B7} XOR \u{00B7} AES (with password)"),
                                 ("Anything else", "Any file opens in the hex editor with value search"),
                             ] {
@@ -2738,8 +2749,8 @@ impl eframe::App for App {
         }
 
         let title = match &self.doc {
-            Some(d) => format!("{}{} \u{2014} {APP_NAME}", if self.dirty { "\u{2022} " } else { "" }, file_name(&d.path)),
-            None => APP_NAME.into(),
+            Some(d) => format!("{}{} \u{2014} {}", if self.dirty { "\u{2022} " } else { "" }, file_name(&d.path), platform::DISPLAY_NAME),
+            None => platform::DISPLAY_NAME.into(),
         };
         if title != self.window_title {
             ctx.send_viewport_cmd(egui::ViewportCommand::Title(title.clone()));
