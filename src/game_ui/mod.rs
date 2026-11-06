@@ -8,6 +8,7 @@
 mod cairn;
 mod dashboards;
 mod fromsoft;
+mod oni_map;
 mod pokemon;
 mod screens2;
 mod terraria;

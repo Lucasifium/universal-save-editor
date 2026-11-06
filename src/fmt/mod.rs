@@ -33,6 +33,7 @@ pub mod mandarin;
 pub mod pdx;
 mod rimworld;
 mod oni;
+pub mod oni_map;
 mod ree;
 mod ree_names;
 mod er_items;
