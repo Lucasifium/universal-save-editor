@@ -1,0 +1,190 @@
+# Builds every download and publishes them to a GitHub Release.
+#   - Push a tag like v0.2.0 (it must match the version in Cargo.toml): builds and publishes.
+#   - Actions tab > "Release" > Run workflow: builds only (files appear under the run's Artifacts).
+#     Fill in "tag" to publish that release from the chosen branch as well.
+# macOS uses GitHub's expensive Mac machines, so it only runs for major tags (X.0.0) or when
+# "Include macOS" is ticked on a manual run.
+# Every file goes through packaging/check_clean.py before it is published.
+name: Release
+
+on:
+  push:
+    tags: ['v*']
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Publish a release with this tag (e.g. v0.2.0); empty = build only'
+        required: false
+        default: ''
+      macos:
+        description: 'Include macOS'
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+env:
+  CARGO_TERM_COLOR: never
+
+jobs:
+  windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: python packaging/rustflags.py
+      - run: rustup target add x86_64-pc-windows-msvc aarch64-pc-windows-msvc
+      - name: Build
+        shell: bash
+        run: |
+          mkdir dist
+          for t in x86_64:x64 aarch64:arm64; do
+            triple=${t%%:*}-pc-windows-msvc
+            # /PDBALTPATH keeps the build folder out of the debug-info name.
+            cargo rustc --release --bin SaveEditorOffline --target "$triple" -- -C 'link-arg=/PDBALTPATH:%_PDB%'
+            cp "target/$triple/release/SaveEditorOffline.exe" "dist/SaveEditorOffline-windows-${t##*:}.exe"
+          done
+      - uses: actions/upload-artifact@v4
+        with: { name: windows, path: dist/*, if-no-files-found: error }
+
+  linux:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 packaging/rustflags.py
+      - run: |
+          rustup target add x86_64-unknown-linux-gnu aarch64-unknown-linux-gnu
+          pip install ziglang cargo-zigbuild
+      - name: Build
+        run: |
+          mkdir dist
+          for t in x86_64:x64 aarch64:arm64; do
+            triple=${t%%:*}-unknown-linux-gnu
+            # .2.28: works on any Linux with glibc 2.28+ (2018 onwards).
+            cargo zigbuild --release --target "$triple.2.28"
+            python3 -I packaging/package.py tar "target/$triple/release/SaveEditorOffline" "dist/SaveEditorOffline-linux-${t##*:}.tar.gz"
+          done
+      - uses: actions/upload-artifact@v4
+        with: { name: linux, path: dist/*, if-no-files-found: error }
+
+  android:
+    runs-on: ubuntu-latest
+    env:
+      KEYSTORE_B64: ${{ secrets.ANDROID_KEYSTORE_B64 }}
+      ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Signing key present?
+        id: key
+        run: |
+          if [ -n "$KEYSTORE_B64" ] && [ -n "$ANDROID_KEYSTORE_PASSWORD" ]; then echo "have=true" >> "$GITHUB_OUTPUT"
+          else echo "::warning::Android signing secrets are not set; skipping the APK"; fi
+      - if: steps.key.outputs.have == 'true'
+        run: python3 packaging/rustflags.py
+      - if: steps.key.outputs.have == 'true'
+        run: rustup target add aarch64-linux-android x86_64-linux-android
+      - if: steps.key.outputs.have == 'true'
+        name: Build and sign
+        run: |
+          mkdir dist
+          ks="$RUNNER_TEMP/release.keystore"
+          printf '%s' "$KEYSTORE_B64" | base64 -d > "$ks"
+          export ANDROID_KEYSTORE="$ks"
+          packaging/build_android.sh dist/SaveEditorOffline-android.apk
+          rm -f "$ks"
+      - if: steps.key.outputs.have == 'true'
+        uses: actions/upload-artifact@v4
+        with: { name: android, path: dist/*, if-no-files-found: error }
+
+  macos:
+    if: ${{ inputs.macos || (github.ref_type == 'tag' && endsWith(github.ref_name, '.0.0')) }}
+    runs-on: macos-14
+    steps:
+      - uses: actions/checkout@v4
+
+      - run: python3 packaging/rustflags.py
+
+      - name: Rust targets
+        run: rustup target add aarch64-apple-darwin x86_64-apple-darwin
+
+      - name: Build (Apple Silicon + Intel)
+        run: |
+          cargo build --release --target aarch64-apple-darwin
+          cargo build --release --target x86_64-apple-darwin
+
+      - name: Make SaveEditorOffline.app
+        run: |
+          set -euo pipefail
+          VERSION=$(sed -n 's/^version = "\(.*\)"/\1/p' Cargo.toml | head -1)
+          APP=dist/SaveEditorOffline.app
+          mkdir -p "$APP/Contents/MacOS" "$APP/Contents/Resources"
+          # One binary that runs on both kinds of Mac.
+          lipo -create -output "$APP/Contents/MacOS/SaveEditorOffline" \
+            target/aarch64-apple-darwin/release/SaveEditorOffline \
+            target/x86_64-apple-darwin/release/SaveEditorOffline
+
+          # Icon: PNGs written by build.rs.
+          PNGS=$(dirname "$(ls target/aarch64-apple-darwin/release/build/save_editor_offline-*/out/icons/1024.png | head -1)")
+          ICONSET=$(mktemp -d)/AppIcon.iconset
+          mkdir -p "$ICONSET"
+          for s in 16 32 128 256 512; do
+            cp "$PNGS/$s.png" "$ICONSET/icon_${s}x${s}.png"
+            cp "$PNGS/$((s * 2)).png" "$ICONSET/icon_${s}x${s}@2x.png"
+          done
+          iconutil -c icns "$ICONSET" -o "$APP/Contents/Resources/AppIcon.icns"
+
+          cat > "$APP/Contents/Info.plist" <<EOF
+          <?xml version="1.0" encoding="UTF-8"?>
+          <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+          <plist version="1.0">
+          <dict>
+            <key>CFBundleName</key><string>SaveEditorOffline</string>
+            <key>CFBundleDisplayName</key><string>SaveEditorOffline</string>
+            <key>CFBundleIdentifier</key><string>com.saveeditoroffline.app</string>
+            <key>CFBundleExecutable</key><string>SaveEditorOffline</string>
+            <key>CFBundleIconFile</key><string>AppIcon</string>
+            <key>CFBundlePackageType</key><string>APPL</string>
+            <key>CFBundleVersion</key><string>${VERSION}</string>
+            <key>CFBundleShortVersionString</key><string>${VERSION}</string>
+            <key>LSMinimumSystemVersion</key><string>11.0</string>
+            <key>NSHighResolutionCapable</key><true/>
+          </dict>
+          </plist>
+          EOF
+
+          # Ad-hoc signature: required for Apple Silicon to run it at all.
+          codesign --force --deep --sign - "$APP"
+          cd dist && ditto -c -k --keepParent SaveEditorOffline.app SaveEditorOffline-macos.zip
+
+      - uses: actions/upload-artifact@v4
+        with: { name: macos, path: dist/SaveEditorOffline-macos.zip, if-no-files-found: error }
+
+  publish:
+    needs: [windows, linux, android, macos]
+    # Publish what was built even when the Android key or macOS was skipped, but never after a failure.
+    if: ${{ !cancelled() && !contains(needs.*.result, 'failure') && (github.ref_type == 'tag' || inputs.tag != '') }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with: { path: dist, merge-multiple: true }
+      - name: Tag matches Cargo.toml
+        run: |
+          tag="${{ github.ref_type == 'tag' && github.ref_name || inputs.tag }}"
+          ver=$(sed -n 's/^version = "\(.*\)"/\1/p' Cargo.toml | head -1)
+          [ "v$ver" = "$tag" ] || { echo "tag $tag does not match Cargo.toml version $ver"; exit 1; }
+          echo "TAG=$tag" >> "$GITHUB_ENV"
+      - name: No personal or build-machine traces
+        run: python3 -I packaging/check_clean.py dist
+      - name: Publish
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          ls -l dist
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            gh release upload "$TAG" dist/* --clobber
+          else
+            gh release create "$TAG" dist/* --title "$TAG" --generate-notes --target "$GITHUB_SHA"
+          fi
