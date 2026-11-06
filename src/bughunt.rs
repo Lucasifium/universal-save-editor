@@ -1085,3 +1085,43 @@ fn every_game_screen_draws() {
     }
     assert!(bad.is_empty());
 }
+
+/// Research aid: for every game in the catalog, whether its saves open on a game screen,
+/// and what the reader calls them (read-only, in memory).
+#[test]
+#[ignore]
+fn screens_per_game() {
+    for g in crate::games::GAMES {
+        let found = crate::games::find(g);
+        let mut kinds = std::collections::BTreeMap::<String, (usize, bool)>::new();
+        for f in found.iter().filter(|f| f.size < 300 << 20).take(4) {
+            let Ok(raw) = std::fs::read(&f.path) else { continue };
+            let d = decode_with(&raw, &Options::for_path(&f.path));
+            let (kind, screen) = match &d.content {
+                Content::Tree(t) => (t.kind_name.clone(), crate::game_ui::detect(&t.kind_name, &t.view).is_some()),
+                Content::Json { value, .. } => ("JSON".into(), crate::game_ui::detect("JSON", value).is_some()),
+                _ => (describe(&d.layers, &d.content), false),
+            };
+            let e = kinds.entry(kind).or_insert((0, false));
+            e.0 += 1;
+            e.1 |= screen;
+        }
+        let any = kinds.values().any(|k| k.1);
+        println!("{}\t{}\t{}\t{:?}", if found.is_empty() { "NOSAVE" } else if any { "SCREEN" } else { "none" }, g.name, found.len(), kinds);
+    }
+}
+
+/// Research aid: SAVE_EDITOR_UNPACK = save; writes what's left after the outer layers
+/// (decryption, unpacking) to UNPACK_OUT, when it's plain binary.
+#[test]
+#[ignore]
+fn unpack_save() {
+    let path = std::env::var("SAVE_EDITOR_UNPACK").unwrap();
+    let raw = std::fs::read(&path).unwrap();
+    let d = decode_with(&raw, &Options::for_path(std::path::Path::new(&path)));
+    println!("layers {:?}", d.layers.iter().map(|l| format!("{l:?}").chars().take(60).collect::<String>()).collect::<Vec<_>>());
+    if let Content::Binary(b) = &d.content {
+        std::fs::write(std::env::var("UNPACK_OUT").unwrap(), b).unwrap();
+        println!("wrote {} bytes", b.len());
+    }
+}
