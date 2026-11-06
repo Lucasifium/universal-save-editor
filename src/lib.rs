@@ -1,4 +1,4 @@
-//! SaveEditorOffline: the app, shared by the desktop executable, the Android library and the
+//! Universal Save Editor: the app, shared by the desktop executable, the Android library and the
 //! browser version (`web.rs`).
 
 #[cfg(test)]

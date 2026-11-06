@@ -13,7 +13,7 @@ cargo rustc --profile web --lib --crate-type cdylib --target wasm32-unknown-unkn
 out=docs/app
 rm -rf "$out"
 mkdir -p "$out"
-wasm-bindgen --target web --no-typescript --out-dir "$out" target/wasm32-unknown-unknown/web/save_editor_offline.wasm
+wasm-bindgen --target web --no-typescript --out-dir "$out" target/wasm32-unknown-unknown/web/universal_save_editor.wasm
 cp web/index.html "$out/index.html"
 python3 -I packaging/check_clean.py "$out"
 ls -la "$out"

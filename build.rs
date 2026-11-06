@@ -27,8 +27,8 @@ fn main() {
     if os == "windows" {
         let mut res = winresource::WindowsResource::new();
         res.set_icon(ico_path.to_str().unwrap());
-        res.set("FileDescription", "SaveEditorOffline");
-        res.set("ProductName", "SaveEditorOffline");
+        res.set("FileDescription", "UniversalSaveEditor");
+        res.set("ProductName", "UniversalSaveEditor");
         if let Err(e) = res.compile() {
             println!("cargo:warning=could not embed icon: {e}");
         }

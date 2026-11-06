@@ -3238,49 +3238,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "save_editor_offline"
-version = "0.1.0"
-dependencies = [
- "aes",
- "base64 0.22.1",
- "bson",
- "bzip2",
- "cbc",
- "cfb-mode",
- "eframe",
- "flate2",
- "hmac",
- "jni 0.21.1",
- "js-sys",
- "libloading",
- "lz-str",
- "lz4_flex",
- "lzma-rs",
- "lzokay-native",
- "md-5",
- "num-bigint",
- "p256",
- "pbkdf2",
- "plist",
- "rand_core 0.6.4",
- "rfd",
- "rmpv",
- "rusqlite",
- "serde_json",
- "serde_yaml",
- "sha1",
- "sha2",
- "toml_edit 0.22.27",
- "wasm-bindgen",
- "wasm-bindgen-futures",
- "web-sys",
- "winit",
- "winresource",
- "zip",
- "zstd",
-]
-
-[[package]]
 name = "scoped-tls"
 version = "1.0.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -3972,6 +3929,49 @@ name = "unicode-xid"
 version = "0.2.6"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "ebc1c04c71510c7f702b52b7c350734c9ff1295c464a03335b00bb84fc54f853"
+
+[[package]]
+name = "universal_save_editor"
+version = "0.1.0"
+dependencies = [
+ "aes",
+ "base64 0.22.1",
+ "bson",
+ "bzip2",
+ "cbc",
+ "cfb-mode",
+ "eframe",
+ "flate2",
+ "hmac",
+ "jni 0.21.1",
+ "js-sys",
+ "libloading",
+ "lz-str",
+ "lz4_flex",
+ "lzma-rs",
+ "lzokay-native",
+ "md-5",
+ "num-bigint",
+ "p256",
+ "pbkdf2",
+ "plist",
+ "rand_core 0.6.4",
+ "rfd",
+ "rmpv",
+ "rusqlite",
+ "serde_json",
+ "serde_yaml",
+ "sha1",
+ "sha2",
+ "toml_edit 0.22.27",
+ "wasm-bindgen",
+ "wasm-bindgen-futures",
+ "web-sys",
+ "winit",
+ "winresource",
+ "zip",
+ "zstd",
+]
 
 [[package]]
 name = "unsafe-libyaml"

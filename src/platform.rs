@@ -2,7 +2,7 @@
 
 use std::path::{Path, PathBuf};
 
-pub const APP_NAME: &str = "SaveEditorOffline";
+pub const APP_NAME: &str = "UniversalSaveEditor";
 /// The name people see (window title, start screen); `APP_NAME` names folders and settings.
 pub const DISPLAY_NAME: &str = "Universal Save Editor";
 
@@ -27,16 +27,16 @@ pub fn config_dir() -> Option<PathBuf> {
     if cfg!(windows) {
         env("APPDATA").map(|d| windows_dir(&d))
     } else if cfg!(target_os = "macos") {
-        env("HOME").map(|h| h.join("Library").join("Application Support").join(APP_NAME))
+        env("HOME").map(|h| h.join("Library").join("Application Support").join(APP_DIR))
     } else {
-        env("XDG_CONFIG_HOME").or_else(|| env("HOME").map(|h| h.join(".config"))).map(|d| d.join(APP_NAME))
+        env("XDG_CONFIG_HOME").or_else(|| env("HOME").map(|h| h.join(".config"))).map(|d| d.join(APP_DIR))
     }
 }
 
-/// %APPDATA%\SaveEditorOffline, bringing over the settings from before the rename.
+/// %APPDATA%\UniversalSaveEditor, bringing over the settings from an older folder name.
 #[cfg(not(target_os = "android"))]
 fn windows_dir(appdata: &Path) -> PathBuf {
-    let dir = appdata.join(APP_NAME);
+    let dir = appdata.join(APP_DIR);
     let old = appdata.join("SaveEditor").join("settings.json");
     if !dir.exists() && old.is_file() {
         let _ = std::fs::create_dir_all(&dir);
@@ -203,14 +203,14 @@ pub mod android {
     }
 
     #[no_mangle]
-    extern "system" fn Java_com_saveeditoroffline_app_MainActivity_nativeText(mut env: jni::JNIEnv, _: jni::objects::JClass, text: jni::objects::JString) {
+    extern "system" fn Java_com_universalsaveeditor_app_MainActivity_nativeText(mut env: jni::JNIEnv, _: jni::objects::JClass, text: jni::objects::JString) {
         if let Ok(s) = env.get_string(&text) {
             push(Typed::Text(s.into()));
         }
     }
 
     #[no_mangle]
-    extern "system" fn Java_com_saveeditoroffline_app_MainActivity_nativeKey(_: jni::JNIEnv, _: jni::objects::JClass, code: jni::sys::jint) {
+    extern "system" fn Java_com_universalsaveeditor_app_MainActivity_nativeKey(_: jni::JNIEnv, _: jni::objects::JClass, code: jni::sys::jint) {
         use eframe::egui::Key;
         // android.view.KeyEvent key codes.
         let key = match code {
@@ -237,7 +237,7 @@ mod tests {
         std::fs::create_dir_all(base.join("SaveEditor")).unwrap();
         std::fs::write(base.join("SaveEditor").join("settings.json"), "{\"dark\":false}").unwrap();
         let dir = super::windows_dir(&base);
-        assert_eq!(dir, base.join("SaveEditorOffline"));
+        assert_eq!(dir, base.join("UniversalSaveEditor"));
         assert_eq!(std::fs::read_to_string(dir.join("settings.json")).unwrap(), "{\"dark\":false}");
         // Later changes in the new folder are kept, not overwritten by the old file.
         std::fs::write(dir.join("settings.json"), "{}").unwrap();
