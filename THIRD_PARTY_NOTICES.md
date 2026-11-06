@@ -21,6 +21,9 @@ Universal Save Editor is free. It builds on other people's work, listed here wit
 | [civ6-save-parser (Civilization VI save layout, ported)](https://github.com/pydt/civ6-save-parser) | Mike Rosack and playyourdamnturn.com | MIT |
 | [halbu (Diablo II character layout, skill names)](https://github.com/feored/halbu) | feor | MIT |
 | [d2s (Diablo II save layout)](https://github.com/dschu012/d2s) | dschu012 | facts only (file layouts, ids and names), credited |
+| [LSLib (Larian LSPK package and LSF resource layouts, ported)](https://github.com/Norbyte/lslib) | Norbyte | MIT |
+| [pLarianSaveTools (Divinity: Original Sin 2 save layout)](https://github.com/patimweb-labs/pLarianSaveTools) | patimweb-labs | facts only (file layouts, ids and names), credited |
+| [bg3-savefile-parser (Baldur's Gate 3 save layout)](https://github.com/DanFinchUK/bg3-savefile-parser) | DanFinchUK | facts only (file layouts, ids and names), credited |
 | [Arcemi Pathfinder save editor (Pathfinder save layout; class, race and companion names)](https://github.com/jaygumji/ArcemiPathfinderKingmakerTools) | jaygumji | facts only (file layouts, ids and names), credited |
 | [Trilogy Save Editor (Mass Effect 1 and Legendary Edition save layouts, item and talent names)](https://github.com/KarlitosVII/trilogy-save-editor) | Karlitos | facts only (file layouts, ids and names), credited |
 | [xoreos (KOTOR and Neverwinter Nights save layout)](https://github.com/xoreos/xoreos) | the xoreos team | facts only (file layouts, ids and names), credited |
@@ -81,6 +84,7 @@ Copyright notices of the projects above whose code or tables were used:
 - vampire-survivors-save-editor (Vampire Survivors checksum and number styles): Copyright (c) 2026 chrisdfennell. Licensed under MIT.
 - DarkestDungeonSaveEditor (Darkest Dungeon DSON format and its type rules, ported): Copyright (c) 2018 robojumper. Licensed under MIT.
 - game-tools-collection (Octopath Traveler II character and job ids): Copyright (c) 2024 RyudoSynbios. Licensed under MIT.
+- LSLib (Larian LSPK package and LSF resource layouts, ported): Copyright (c) Norbyte. Licensed under MIT.
 
 The MIT, Apache-2.0 and zlib licence texts are included below with the crates that use them.
 
