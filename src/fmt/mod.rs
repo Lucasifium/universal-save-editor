@@ -53,6 +53,7 @@ pub mod gvas;
 pub mod gff;
 pub mod kotor;
 pub mod nwn;
+pub mod half_life;
 pub mod godot;
 pub mod ini;
 pub mod lua;
@@ -225,6 +226,8 @@ pub fn parse_binary(d: &[u8]) -> Option<TreeDoc> {
     }
     if deusex::looks(d) {
         if let Ok(t) = deusex::parse(d) {
+    if half_life::looks(d) {
+        if let Ok(t) = half_life::parse(d) {
             return Some(t);
         }
     }

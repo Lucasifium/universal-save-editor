@@ -17,6 +17,7 @@ mod nwn;
 mod dragon_age;
 mod fromsoft;
 mod infinity;
+mod half_life;
 mod oni_map;
 mod pathfinder;
 mod pokemon;
@@ -95,6 +96,8 @@ pub enum Game {
     Nwn,
     Infinity,
     DragonAge,
+    HalfLife,
+    HalfLife2,
 }
 
 impl Game {
@@ -142,6 +145,7 @@ impl Game {
             Game::Kotor => "Party",
             Game::Infinity => "Party",
             Game::DragonAge => "Warden",
+            Game::HalfLife | Game::HalfLife2 => "Player",
             _ => "Character",
         }
     }
@@ -207,6 +211,8 @@ pub fn detect(kind: &str, root: &Value) -> Option<Game> {
         k if k.starts_with("Neverwinter Nights") => Game::Nwn,
         crate::fmt::infinity::KIND => Game::Infinity,
         crate::fmt::dragonage::KIND => Game::DragonAge,
+        crate::fmt::half_life::KIND_GOLDSRC => Game::HalfLife,
+        crate::fmt::half_life::KIND_SOURCE => Game::HalfLife2,
         _ if has("/base/m_title") && has("/player") => Game::YakuzaDe,
         "Unreal Engine save (PalWorldPlayerSaveGame)" if has("/SaveData/TechnologyPoint") => Game::Palworld,
         "Final Fantasy VII Remake save" | "Final Fantasy VII Rebirth save" => Game::Ff7Remake,
@@ -269,6 +275,7 @@ pub fn show(game: Game, ui: &mut Ui, cx: &mut GameCtx) {
         Game::Nwn => nwn::show(ui, cx),
         Game::Infinity => infinity::show(ui, cx),
         Game::DragonAge => dragon_age::show(ui, cx),
+        Game::HalfLife | Game::HalfLife2 => half_life::show(ui, cx),
         Game::RenPy => screens2::renpy(ui, cx),
         Game::MassEffect => screens2::mass_effect(ui, cx),
         Game::Xcom => screens2::xcom(ui, cx),
@@ -758,6 +765,8 @@ mod tests {
         assert_eq!(detect("Deus Ex map save", &json!({})), Some(Game::DeusEx));
         assert_eq!(detect(crate::fmt::infinity::KIND, &json!({})), Some(Game::Infinity));
         assert_eq!(detect(crate::fmt::dragonage::KIND, &json!({})), Some(Game::DragonAge));
+        assert_eq!(detect(crate::fmt::half_life::KIND_GOLDSRC, &json!({})), Some(Game::HalfLife));
+        assert_eq!(detect(crate::fmt::half_life::KIND_SOURCE, &json!({})), Some(Game::HalfLife2));
         assert_eq!(detect("Final Fantasy VII save", &json!({})), Some(Game::Ff7));
         assert_eq!(detect("Final Fantasy VII Rebirth save", &json!({})), Some(Game::Ff7Remake));
         assert_eq!(detect(".NET BinaryFormatter stream", &json!([{"m_Major": 1}, {"PCM_HP": 90.0}])), Some(Game::GreenHell));
