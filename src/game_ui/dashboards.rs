@@ -564,7 +564,8 @@ pub fn slay_the_spire(ui: &mut Ui, cx: &mut GameCtx) {
         let (title, p) = lists[i];
         let Some(Value::Array(items)) = cx.get(p).cloned() else { return };
         panel(ui, &format!("{title} ({})", items.len()), |ui| {
-            egui::Grid::new(("sts", title)).num_columns(2).striped(true).spacing([8.0, 3.0]).show(ui, |ui| {
+            // The name column keeps its width: a grid otherwise sizes it from the narrowest first frame.
+            egui::Grid::new(("sts", title)).num_columns(2).striped(true).spacing([8.0, 3.0]).min_col_width(150.0).show(ui, |ui| {
                 for (n, it) in items.iter().enumerate() {
                     let ip = format!("{p}/{n}");
                     if it.is_object() {

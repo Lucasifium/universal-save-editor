@@ -84,7 +84,7 @@ pub fn install_fonts(ctx: &egui::Context) -> bool {
 }
 
 pub fn apply(ctx: &egui::Context, dark: bool) {
-    let mut style = (*ctx.style()).clone();
+    let mut style = (*ctx.style_of(if dark { egui::Theme::Dark } else { egui::Theme::Light })).clone();
     style.text_styles = [
         (TextStyle::Small, FontId::new(12.5, FontFamily::Proportional)),
         (TextStyle::Body, FontId::new(15.0, FontFamily::Proportional)),
@@ -122,7 +122,11 @@ pub fn apply(ctx: &egui::Context, dark: bool) {
         v.faint_bg_color = Color32::from_rgb(236, 238, 246);
     }
     style.visuals = v;
-    ctx.set_style(style);
+    // Pin the theme: otherwise egui follows the system (or browser) theme and, where that
+    // differs from this setting, draws its own default style instead of this one.
+    let theme = if dark { egui::Theme::Dark } else { egui::Theme::Light };
+    ctx.set_style_of(theme, style);
+    ctx.set_theme(theme);
 }
 
 /// Text version of a status colour that stays readable on the current background.
