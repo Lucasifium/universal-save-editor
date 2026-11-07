@@ -157,6 +157,11 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 | Yakuza 6: The Song of Life | Money, HP and Kiryu's five experience pools; decrypted (key from rgg_save_tool_py) with its checksum kept right, every other value in the tree (checked on real saves, not yet tried in the game) |
 | Yakuza Kiwami 3, Judgment, Lost Judgment, Like a Dragon Gaiden, Infinite Wealth, Ishin!, Pirate Yakuza (Dragon Engine) | Decrypted with each game's key and checksum kept right (keys from rgg_save_tool_py); values in the tree, and the Yakuza screen where the save has the same layout. Not tried on sample saves of these games yet |
 | Yakuza 3, 4, 5 Remastered | Hex view and Value search |
+| Half-Life / Opposing Force / Blue Shift | *Player*: health, armour and flashlight; spare ammo by type; each carried weapon's magazine, with the weapon in hand marked. Read from the current map's state and changed in place |
+| Half-Life 2 / Episode One / Episode Two | *Player*: health, armour and suit power; spare ammo by type (pulse rounds, SMG grenades, energy balls and the rest); each carried weapon's two magazines, with the weapon in hand marked. Changed in place |
+| Half-Life: Source | *Player*: health, armour, spare ammo by type and each carried weapon's magazine. Changed in place |
+| Black Mesa | *Player*: health and armour; spare ammo by type (9mm, .357, buckshot, uranium, hornets and the rest); each carried weapon's magazine, with the weapon in hand marked. Changed in place |
+| Half-Life: Alyx | *Player*: health and resin; pistol, shotgun and rapidfire ammo in the backpack; the weapons Alyx has. Changed in place |
 | Ren'Py visual novels | *Story*: the game's numbers, flags and text variables with a filter, money and the like up front |
 
 ## Credits for God of War

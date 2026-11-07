@@ -270,6 +270,7 @@ pub fn detect(kind: &str, root: &Value) -> Option<Game> {
         crate::fmt::dragonage::KIND => Game::DragonAge,
         crate::fmt::half_life::KIND_GOLDSRC => Game::HalfLife,
         crate::fmt::half_life::KIND_SOURCE => Game::HalfLife2,
+        crate::fmt::half_life::KIND_ALYX => Game::HalfLife2,
         k if darkest::is_dd1(k) => Game::DarkestDungeon,
         "JSON" if darkest::dd2_file(root).is_some() => Game::DarkestDungeon2,
         crate::fmt::octopath::OT1 | crate::fmt::octopath::OT2 => Game::Octopath,
@@ -876,6 +877,7 @@ mod tests {
         assert_eq!(detect(crate::fmt::dragonage::KIND, &json!({})), Some(Game::DragonAge));
         assert_eq!(detect(crate::fmt::half_life::KIND_GOLDSRC, &json!({})), Some(Game::HalfLife));
         assert_eq!(detect(crate::fmt::half_life::KIND_SOURCE, &json!({})), Some(Game::HalfLife2));
+        assert_eq!(detect(crate::fmt::half_life::KIND_ALYX, &json!({})), Some(Game::HalfLife2));
         assert_eq!(detect("Final Fantasy VII save", &json!({})), Some(Game::Ff7));
         assert_eq!(detect("Final Fantasy VII Rebirth save", &json!({})), Some(Game::Ff7Remake));
         assert_eq!(detect(".NET BinaryFormatter stream", &json!([{"m_Major": 1}, {"PCM_HP": 90.0}])), Some(Game::GreenHell));
