@@ -48,6 +48,11 @@ pub fn about(game: Game) -> &'static str {
              of ender, nether stars and other progression items are left alone. Stacks of one item may have no \
              count in newer saves and aren't changed."
         }
+        Game::Nier => {
+            "Raises every material in the Materials list (ores, alloys, screws, gears, cables, batteries, machine parts, \
+             gems, gadgets, seeds, meats and the rest) to 99, the most one slot holds. Viscous Oil (a quest item) and \
+             the Children's Cores (a story item) aren't in the list and are left alone, as are recovery items and key items."
+        }
         _ => "",
     }
 }
@@ -59,6 +64,7 @@ pub fn stacks(game: Game, cx: &GameCtx) -> Result<Vec<Stack>, &'static str> {
         Game::Stardew => Ok(stardew(cx)),
         Game::Valheim => Ok(valheim(cx)),
         Game::Minecraft => Ok(minecraft(cx)),
+        Game::Nier => Ok(nier(cx)),
         _ => Err("This game has no crafting materials list."),
     }
 }
@@ -201,6 +207,19 @@ fn stardew(cx: &GameCtx) -> Vec<Stack> {
         out.push(Stack { paths, name, have, cap: 999 });
     }
     out
+}
+
+// ------------------------------------------------------------------ NieR:Automata
+
+/// The reader already files only plain materials under "Materials" (see `fmt::nier::MATERIALS`).
+fn nier(cx: &GameCtx) -> Vec<Stack> {
+    object_keys(cx, "/Materials")
+        .into_iter()
+        .filter_map(|k| {
+            let p = format!("/Materials/{}", pointer_escape(&k));
+            Some(Stack { have: cx.int(&p)?, paths: vec![p], name: k, cap: 99 })
+        })
+        .collect()
 }
 
 // ------------------------------------------------------------------ Valheim
@@ -386,6 +405,16 @@ mod tests {
         assert_eq!(e.len(), 2);
         assert_eq!(e["/SaveGame/player/items/Item/0/stack"], 999);
         assert_eq!(e["/SaveGame/player/items/Item/0/Stack"], 999);
+    }
+
+    #[test]
+    fn nier_raises_only_materials() {
+        let root = json!({"Items": {"Small Recovery": 3}, "Materials": {"Copper Ore": 12, "Pearl": 99}});
+        let mut cx = ctx(&root);
+        assert_eq!(apply(Game::Nier, &mut cx), 1);
+        let e = edits(&cx);
+        assert_eq!(e.len(), 1);
+        assert_eq!(e["/Materials/Copper Ore"], 99);
     }
 
     #[test]

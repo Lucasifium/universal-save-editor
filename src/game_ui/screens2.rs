@@ -64,7 +64,7 @@ fn filter_box(ui: &mut Ui, id: &str, hint: &str) -> String {
 }
 
 /// Label + editor rows for the given (label, pointer) pairs, spread over columns.
-fn value_rows(ui: &mut Ui, cx: &mut GameCtx, id: &str, rows: &[(String, String)]) {
+pub(super) fn value_rows(ui: &mut Ui, cx: &mut GameCtx, id: &str, rows: &[(String, String)]) {
     let rows: Vec<&(String, String)> = rows.iter().filter(|(_, p)| cx.get(p).is_some()).collect();
     if rows.is_empty() {
         return;
