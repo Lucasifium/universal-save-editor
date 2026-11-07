@@ -87,6 +87,7 @@ pub mod cyberpunk;
 pub mod kenshi;
 pub mod p4g;
 pub mod ffx2;
+pub mod dead_rising;
 pub mod p5r;
 pub mod metro;
 pub mod bioshock;
@@ -206,6 +207,21 @@ pub fn parse_binary(d: &[u8]) -> Option<TreeDoc> {
     }
     if p5r::looks(d) {
         if let Ok(t) = p5r::parse(d) {
+            return Some(t);
+        }
+    }
+    if dead_rising::looks_dr1(d) {
+        if let Ok(t) = dead_rising::parse_dr1(d) {
+            return Some(t);
+        }
+    }
+    if dead_rising::looks_dr2(d) {
+        if let Ok(t) = dead_rising::parse_dr2(d) {
+            return Some(t);
+        }
+    }
+    if dead_rising::looks_otr(d) {
+        if let Ok(t) = dead_rising::parse_otr(d) {
             return Some(t);
         }
     }

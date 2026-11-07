@@ -10,6 +10,7 @@ mod borderlands;
 mod cairn;
 pub mod crafting;
 mod darkest;
+mod dead_rising;
 mod dashboards;
 mod deus_ex;
 mod dragon_age;
@@ -129,6 +130,8 @@ pub enum Game {
     Expedition33,
     Fallout3Nv,
     Nier,
+    DeadRising,
+    DeadRising2,
 }
 
 impl Game {
@@ -195,6 +198,7 @@ impl Game {
             Game::Expedition33 => "Party",
             Game::Fallout3Nv => "Character",
             Game::Nier => "YoRHa",
+            Game::DeadRising | Game::DeadRising2 => "Survivor",
             _ => "Character",
         }
     }
@@ -281,6 +285,8 @@ pub fn detect(kind: &str, root: &Value) -> Option<Game> {
         crate::fmt::starbound::KIND_PLAYER => Game::Starbound,
         crate::fmt::fos::KIND => Game::Fallout3Nv,
         crate::fmt::nier::KIND => Game::Nier,
+        crate::fmt::dead_rising::KIND_DR1 => Game::DeadRising,
+        crate::fmt::dead_rising::KIND_DR2 | crate::fmt::dead_rising::KIND_OTR => Game::DeadRising2,
         crate::fmt::goldensun::KIND_GS1 | crate::fmt::goldensun::KIND_GS2 => Game::GoldenSun,
         _ if has("/base/m_title") && has("/player") => Game::YakuzaDe,
         // Yakuza 6 has no title in its save; its spearfishing minigame marks it.
@@ -364,6 +370,8 @@ pub fn show(game: Game, ui: &mut Ui, cx: &mut GameCtx) {
         Game::Expedition33 => expedition33::show(ui, cx),
         Game::Fallout3Nv => fallout3nv::show(ui, cx),
         Game::Nier => nier::show(ui, cx),
+        Game::DeadRising => dead_rising::dead_rising(ui, cx),
+        Game::DeadRising2 => dead_rising::dead_rising2(ui, cx),
         Game::RenPy => screens2::renpy(ui, cx),
         Game::MassEffect => screens2::mass_effect(ui, cx),
         Game::Xcom => screens2::xcom(ui, cx),

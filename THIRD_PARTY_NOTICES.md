@@ -24,6 +24,8 @@ Universal Save Editor is free. It builds on other people's work, listed here wit
 | [NVForever save notes (Fallout 3 / New Vegas `.fos` layout; facts only, no code)](https://github.com/LootJunkieAzza/NVForever) | LootJunkieAzza | facts only (file layouts, ids and names), credited |
 | [xEdit save definitions (Fallout 3 / New Vegas inventory extra data; facts only, no code)](https://github.com/TES5Edit/TES5Edit) | the xEdit team | facts only (file layouts, ids and names), credited |
 | [py-starbound (Starbound versioned JSON save layout)](https://github.com/blixt/py-starbound) | blixt | MIT; file layout facts only, no code copied, credited |
+| [apollo-patches (Dead Rising 2 / Off the Record stat offsets and CRC-32 settings; facts only, no code)](https://github.com/bucanero/apollo-patches) | Damian Parrino (bucanero) and the code authors it credits | facts only (file layouts), credited |
+| [save-decrypters (Dead Rising block checksum, after Philymaster's notes; facts only, no code)](https://github.com/bucanero/save-decrypters) | Damian Parrino (bucanero), Philymaster | facts only (checksum scheme), credited |
 | [uesave-rs (Unreal property-tag save layout)](https://github.com/trumank/uesave-rs) | trumank | MIT; file layout facts only, no code copied, credited |
 | [LSLib (Larian LSPK package and LSF resource layouts, ported)](https://github.com/Norbyte/lslib) | Norbyte | MIT |
 | [pLarianSaveTools (Divinity: Original Sin 2 save layout)](https://github.com/patimweb-labs/pLarianSaveTools) | patimweb-labs | facts only (file layouts, ids and names), credited |
