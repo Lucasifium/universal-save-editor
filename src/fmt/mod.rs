@@ -51,7 +51,7 @@ pub mod oni_map;
 pub mod owlcat;
 mod ree;
 mod ree_names;
-mod er_items;
+pub(crate) mod er_items;
 mod sekiro_items;
 pub mod gvas;
 pub mod gff;

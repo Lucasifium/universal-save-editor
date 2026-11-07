@@ -316,6 +316,9 @@ fn item_lists(g: Game, ui: &mut Ui, cx: &mut GameCtx, accent: Color32) {
         if materials_button(ui, &format!("{max} of each"), &format!("{tip} Ones you already have that many of are left alone.")) {
             give_materials(g, cx);
         }
+        if g == Game::EldenRing {
+            super::crafting::offer(g, ui, cx);
+        }
         ui.add_space(4.0);
         if skills && t == names.len() - 1 && query.is_empty() {
             if let Some(serde_json::Value::Array(a)) = cx.get("/Learned/Skills & prosthetic tools").cloned() {

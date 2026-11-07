@@ -3,8 +3,9 @@
 //!
 //! Each game has its own list, made from public sources (the games' wikis) and kept to
 //! plain materials: no quest or story items, no boss summons or boss drops, no keys,
-//! no critters, nothing whose possession the game reacts to. Games whose materials or
-//! stack sizes couldn't be pinned down that way don't get the button.
+//! no critters, nothing whose possession the game reacts to. Where no public source states a
+//! game's stack size, the cap is an estimate from community guides and editors; each such
+//! cap says so where it is defined, and the button's hover text says so too.
 
 use super::{Game, GameCtx};
 use crate::json_view::pointer_escape;
@@ -53,6 +54,59 @@ pub fn about(game: Game) -> &'static str {
              gems, gadgets, seeds, meats and the rest) to 99, the most one slot holds. Viscous Oil (a quest item) and \
              the Children's Cores (a story item) aren't in the list and are left alone, as are recovery items and key items."
         }
+        Game::EldenRing => {
+            "Raises the crafting materials you carry or keep in the chest (meat, bones, flowers, mushrooms, \
+             butterflies, stones and the rest of the base game's cookbook materials) to 999, the most a slot \
+             holds. Smithing stones and gloveworts have their own button; key items are left alone."
+        }
+        Game::HogwartsDb => {
+            "Raises every potion ingredient, plant ingredient, beast by-product and Moonstone in your resource \
+             bag to 999 (an estimate: the game shows no stack limit above that). Gold, seeds and potions are \
+             left alone."
+        }
+        Game::Gow2018 => {
+            "Raises the crafting resources this save has found (Dust of the Realms, the Svartalfheim steels, \
+             realm-specific ores and remnants and the rest) to 999 in each save slot, an estimate since the \
+             game states no limit. Frozen Flame and Chaos Flame are story-locked and left alone, as are \
+             Yggdrasil's Dew and other stat items."
+        }
+        Game::GowRagnarok => {
+            "Raises the crafting resources this save has found (embers, timber, metals, remnants, crystals, \
+             leather, bones and the realm materials) to 999, an estimate since the game states no limit. \
+             Yggdrasil's Dew, currencies and quest items are left alone."
+        }
+        Game::Andromeda => {
+            "Raises the minerals, biological materials and faction materials in Ryder's inventory to 999, \
+             the resource limit in the game's settings. Research data, salvage and augmentations are left alone."
+        }
+        Game::DeathStranding2 => {
+            "Raises the chiral crystals, resins, metals, ceramics, chemicals and special alloys stored at every \
+             facility you've found to 9999 each, an estimate since the game states no facility limit."
+        }
+        Game::Metro => {
+            "Raises Artyom's crafting metal and chemicals (Metro Exodus) to 150 each, an estimate of the most \
+             he can carry on Normal; the game may lower them to its own limit when it loads."
+        }
+        Game::Ffxv => {
+            "Raises every treasure (the materials used for elemancy and weapon upgrades) to 99, the most one \
+             item stacks to. Key items, food and recovery items are left alone."
+        }
+        Game::Kotor => {
+            "Raises KOTOR II's components and chemicals (what the workbench and lab station craft with) to \
+             9999 each, an estimate since the game states no limit."
+        }
+        Game::HalfLife2 => {
+            "Raises Alyx's resin (what the upgrade stations build with) to 999, an estimate since the game \
+             states no limit."
+        }
+        Game::Starbound => {
+            "Raises ores, bars, fabric, leather, silk, plant fibre, wire, glass and other crafting materials in \
+             every bag to 1000, the game's usual stack size for them. Quest items, fuel and currencies are left alone."
+        }
+        Game::Expedition33 => {
+            "Raises every kind of Chroma Catalyst (the weapon upgrade materials) to 999, an estimate since the \
+             game states no limit. Lumina, Recoat and story items are left alone."
+        }
         _ => "",
     }
 }
@@ -65,6 +119,18 @@ pub fn stacks(game: Game, cx: &GameCtx) -> Result<Vec<Stack>, &'static str> {
         Game::Valheim => Ok(valheim(cx)),
         Game::Minecraft => Ok(minecraft(cx)),
         Game::Nier => Ok(nier(cx)),
+        Game::EldenRing => Ok(elden_ring(cx)),
+        Game::HogwartsDb => Ok(hogwarts(cx)),
+        Game::Gow2018 => Ok(gow2018(cx)),
+        Game::GowRagnarok => Ok(gow_ragnarok(cx)),
+        Game::Andromeda => Ok(andromeda(cx)),
+        Game::DeathStranding2 => Ok(death_stranding2(cx)),
+        Game::Metro => Ok(metro(cx)),
+        Game::Ffxv => Ok(ffxv(cx)),
+        Game::Kotor => some(fixed(cx, &[("/Party/Components", "Components"), ("/Party/Chemicals", "Chemicals")], KOTOR2_CAP), "Only KOTOR II's party table has components and chemicals."),
+        Game::HalfLife2 => some(fixed(cx, &[("/Player/Resin", "Resin")], ALYX_RESIN_CAP), "Only Half-Life: Alyx has a crafting material (resin)."),
+        Game::Starbound => Ok(starbound(cx)),
+        Game::Expedition33 => Ok(expedition33(cx)),
         _ => Err("This game has no crafting materials list."),
     }
 }
@@ -101,6 +167,13 @@ pub fn button(game: Game, ui: &mut Ui, cx: &mut GameCtx) {
                 apply(game, cx);
             }
         }
+    }
+}
+
+/// The button, only where this save has the game's crafting materials list (nothing otherwise).
+pub fn offer(game: Game, ui: &mut Ui, cx: &mut GameCtx) {
+    if stacks(game, cx).is_ok() {
+        button(game, ui, cx);
     }
 }
 
@@ -220,6 +293,221 @@ fn nier(cx: &GameCtx) -> Vec<Stack> {
             Some(Stack { have: cx.int(&p)?, paths: vec![p], name: k, cap: 99 })
         })
         .collect()
+}
+
+/// One stack per value at `p` that holds a number.
+fn single(cx: &GameCtx, p: String, name: String, cap: i64) -> Option<Stack> {
+    Some(Stack { have: cx.int(&p)?, paths: vec![p], name, cap })
+}
+
+/// The number values under the object at `base` whose key passes `keep`.
+fn counts_under(cx: &GameCtx, base: &str, cap: i64, keep: impl Fn(&str) -> bool) -> Vec<Stack> {
+    object_keys(cx, base)
+        .into_iter()
+        .filter(|k| keep(k))
+        .filter_map(|k| single(cx, format!("{base}/{}", pointer_escape(&k)), k, cap))
+        .collect()
+}
+
+/// `list`, or `why` when it's empty (the save has none of the game's fixed material counts).
+fn some(list: Vec<Stack>, why: &'static str) -> Result<Vec<Stack>, &'static str> {
+    if list.is_empty() {
+        Err(why)
+    } else {
+        Ok(list)
+    }
+}
+
+/// Fixed paths that hold one count each.
+fn fixed(cx: &GameCtx, paths: &[(&str, &str)], cap: i64) -> Vec<Stack> {
+    paths.iter().filter_map(|(p, n)| single(cx, p.to_string(), n.to_string(), cap)).collect()
+}
+
+// ------------------------------------------------------------------ Elden Ring
+
+/// The base game's crafting materials (cookbook ingredients). Elden Ring lets a slot hold 999
+/// of each, in the pouch and in the chest.
+const ELDEN_RING: [&str; 67] = [
+    "Sliver of Meat", "Beast Liver", "Lump of Flesh", "Beast Blood", "Old Fang", "Budding Horn", "Flight Pinion",
+    "Four-Toed Fowl Foot", "Turtle Neck Meat", "Human Bone Shard", "Great Dragonfly Head", "Slumbering Egg", "Crab Eggs",
+    "Land Octopus Ovary", "Miranda Powder", "Strip of White Flesh", "Thin Beast Bones", "Hefty Beast Bone", "String",
+    "Living Jar Shard", "Albinauric Bloodclot", "Stormhawk Feather", "Poisonbloom", "Trina's Lily", "Fulgurbloom",
+    "Miquella's Lily", "Grave Violet", "Faded Erdleaf Flower", "Erdleaf Flower", "Altus Bloom", "Fire Blossom",
+    "Golden Sunflower", "Tarnished Golden Sunflower", "Herba", "Arteria Leaf", "Dewkissed Herba", "Rowa Fruit",
+    "Golden Rowa", "Rimed Rowa", "Bloodrose", "Eye of Yelough", "Crystal Bud", "Rimed Crystal Bud", "Sacramental Bud",
+    "Mushroom", "Melted Mushroom", "Toxic Mushroom", "Root Resin", "Cracked Crystal", "Sanctuary Stone",
+    "Nascent Butterfly", "Aeonian Butterfly", "Smoldering Butterfly", "Silver Firefly", "Gold Firefly",
+    "Glintstone Firefly", "Golden Centipede", "Silver Tear Husk", "Gold-Tinged Excrement", "Blood-Tainted Excrement",
+    "Cave Moss", "Budding Cave Moss", "Crystal Cave Moss", "Yellow Ember", "Volcanic Stone", "Formic Rock",
+    "Gravel Stone",
+];
+
+fn elden_ring(cx: &GameCtx) -> Vec<Stack> {
+    let mut out = vec![];
+    for list in ["/Items", "/Storage"] {
+        for k in object_keys(cx, list) {
+            let p = format!("{list}/{}", pointer_escape(&k));
+            let item = cx.text(&format!("{p}/Item")).unwrap_or_default();
+            if !ELDEN_RING.contains(&item.as_str()) {
+                continue;
+            }
+            if let Some(s) = single(cx, format!("{p}/Quantity"), item, 999).filter(|s| s.have > 0) {
+                out.push(s);
+            }
+        }
+    }
+    out
+}
+
+// ------------------------------------------------------------------ Hogwarts Legacy
+
+/// Estimate: no public source states a stack limit for ingredients or Moonstone, and the
+/// inventory shows counts up to 999.
+const HOGWARTS_CAP: i64 = 999;
+
+fn hogwarts(cx: &GameCtx) -> Vec<Stack> {
+    let Some(Value::Array(rows)) = cx.get("/InventoryDynamic") else { return vec![] };
+    let field = |r: &Value, k: &str| r.get(k).and_then(Value::as_str).unwrap_or("").to_string();
+    rows.iter()
+        .enumerate()
+        .filter(|(_, r)| field(r, "CharacterID") == "Player0" && field(r, "HolderID") == "ResourceInventory")
+        .filter_map(|(i, r)| {
+            let id = field(r, "ItemID");
+            let low = id.to_ascii_lowercase();
+            if id.is_empty() || low == "knuts" || ["seed", "potion", "quest"].iter().any(|w| low.contains(w)) {
+                return None;
+            }
+            single(cx, format!("/InventoryDynamic/{i}/Count"), id, HOGWARTS_CAP)
+        })
+        .collect()
+}
+
+// ------------------------------------------------------------------ God of War (2018)
+
+/// Estimate: the game states no limit for crafting resources.
+const GOW_CAP: i64 = 999;
+
+/// Resources the 2018 game files with the crafting materials but that aren't plain materials:
+/// the two story-locked upgrade flames and the stat-boosting dews.
+fn gow2018_skip(name: &str) -> bool {
+    matches!(name, "Frozen Flame" | "Chaos Flame") || name.starts_with("Yggdrasil's Dew")
+}
+
+fn gow2018(cx: &GameCtx) -> Vec<Stack> {
+    object_keys(cx, "")
+        .into_iter()
+        .flat_map(|slot| counts_under(cx, &format!("/{}/Resources", pointer_escape(&slot)), GOW_CAP, |k| !gow2018_skip(k)))
+        .collect()
+}
+
+// ------------------------------------------------------------------ God of War Ragnarök
+
+/// Crafting materials from public resource lists (embers, timber, metals, remnants, crystals,
+/// leather, bones and realm materials). Resources not named here (quest items, Valhalla
+/// currencies, food) are left alone.
+const GOW_RAGNAROK: [&str; 33] = [
+    "Glowing Embers", "Smoldering Embers", "Blazing Embers", "Sovereign Coals", "Stonewood", "Ydalir Timber",
+    "Folkvangr Whetstone", "Dwarven Steel", "Forged Iron", "Honed Metal", "Asgardian Ingot", "Luminous Alloy",
+    "Tempered Remnants", "Hardened Remnants", "Fortified Remnants", "Crystalline Fragment", "Crystalline Shard",
+    "Purified Crystalline", "Sparkling Crystal", "Gleaming Crystal", "Shining Crystal", "Bonded Leather", "Rawhide",
+    "Beast Scraps", "Beast Bones", "Slag Deposits", "Petrified Bones", "Celestial Fossil", "Whispering Slab",
+    "Nidavellir Core", "Dragon Claw", "Aegir's Gold", "Skap Slag",
+];
+
+fn gow_ragnarok(cx: &GameCtx) -> Vec<Stack> {
+    counts_under(cx, "/Resources", GOW_CAP, |k| GOW_RAGNAROK.contains(&k))
+}
+
+// ------------------------------------------------------------------ Mass Effect: Andromeda
+
+/// The game's settings cap resources at 999 (`max_resources_count`).
+fn andromeda(cx: &GameCtx) -> Vec<Stack> {
+    ["Minerals", "Biological materials", "Faction materials"]
+        .iter()
+        .flat_map(|g| counts_under(cx, &format!("/Resources/{}", pointer_escape(g)), 999, |_| true))
+        .collect()
+}
+
+// ------------------------------------------------------------------ Death Stranding 2
+
+/// Estimate: the game states no limit for a facility's stock.
+const DS2_CAP: i64 = 9999;
+
+fn death_stranding2(cx: &GameCtx) -> Vec<Stack> {
+    let mut out = vec![];
+    for f in object_keys(cx, "/Facilities") {
+        let base = format!("/Facilities/{}", pointer_escape(&f));
+        for m in crate::fmt::ds2::MATERIALS {
+            if let Some(s) = single(cx, format!("{base}/{}", pointer_escape(m)), format!("{f}: {m}"), DS2_CAP) {
+                out.push(s);
+            }
+        }
+    }
+    out
+}
+
+// ------------------------------------------------------------------ Metro Exodus
+
+/// Estimate of the most metal and chemicals Artyom carries on Normal.
+const METRO_CAP: i64 = 150;
+
+fn metro(cx: &GameCtx) -> Vec<Stack> {
+    counts_under(cx, "/Inventory", METRO_CAP, |k| k.starts_with("Metal (crafting)") || k.starts_with("Chemicals (crafting)"))
+}
+
+// ------------------------------------------------------------------ Final Fantasy XV
+
+fn ffxv(cx: &GameCtx) -> Vec<Stack> {
+    counts_under(cx, "/Items/Treasures", 99, |_| true)
+}
+
+// ------------------------------------------------------------------ KOTOR II, Half-Life: Alyx
+
+/// Estimate: KOTOR II states no limit for components or chemicals.
+const KOTOR2_CAP: i64 = 9999;
+/// Estimate: Half-Life: Alyx states no limit for resin.
+const ALYX_RESIN_CAP: i64 = 999;
+
+// ------------------------------------------------------------------ Starbound
+
+/// Item ids of the base game's crafting materials (ores, bars, cloth and parts). Most items
+/// stack to 1000 (the game's default stack size).
+const STARBOUND: [&str; 40] = [
+    "coalore", "copperore", "ironore", "silverore", "goldore", "platinumore", "titaniumore", "durasteelore", "tungstenore",
+    "uraniumore", "plutoniumore", "solariumore", "corefragmentore", "aegisaltore", "ferozoniumore", "violiumore",
+    "diamond", "copperbar", "ironbar", "silverbar", "goldbar", "platinumbar", "titaniumbar", "durasteelbar",
+    "tungstenbar", "solariumstar", "refinedaegisalt", "refinedferozium", "refinedviolium", "fabric", "leather", "silk",
+    "plantfibre", "wire", "glass", "bone", "cottonwool", "siliconboard", "volatilepowder", "phasematter",
+];
+
+fn starbound(cx: &GameCtx) -> Vec<Stack> {
+    let mut bags: Vec<String> = object_keys(cx, "/inventory/itemBags").into_iter().map(|k| format!("/inventory/itemBags/{}", pointer_escape(&k))).collect();
+    if bags.is_empty() {
+        bags = ["bag", "tileBag", "actionBar"].iter().map(|k| format!("/inventory/{k}")).collect();
+    }
+    let mut out = vec![];
+    for bag in bags {
+        let Some(Value::Array(slots)) = cx.get(&bag) else { continue };
+        for i in 0..slots.len() {
+            let slot = format!("{bag}/{i}");
+            // 1.0 and later wrap the stack in `content`.
+            let base = if cx.get(&format!("{slot}/content/name")).is_some() { format!("{slot}/content") } else { slot };
+            let name = cx.text(&format!("{base}/name")).unwrap_or_default();
+            if STARBOUND.contains(&name.as_str()) {
+                if let Some(s) = single(cx, format!("{base}/count"), name, 1000).filter(|s| s.have > 0) {
+                    out.push(s);
+                }
+            }
+        }
+    }
+    out
+}
+
+// ------------------------------------------------------------------ Clair Obscur: Expedition 33
+
+/// Estimate: the game states no limit for Chroma Catalysts.
+fn expedition33(cx: &GameCtx) -> Vec<Stack> {
+    counts_under(cx, "/InventoryItems", 999, |k| k.starts_with("UpgradeMaterial_Level"))
 }
 
 // ------------------------------------------------------------------ Valheim
@@ -516,7 +804,114 @@ mod tests {
     }
 
     #[test]
+    fn elden_ring_pouch_and_chest() {
+        let root = json!({
+            "Items": {"Slot 1": {"Item": "Sliver of Meat", "Quantity": 4}, "Slot 2": {"Item": "Smithing Stone [1]", "Quantity": 3}, "Slot 3": {"Item": "Gravel Stone", "Quantity": 999}},
+            "Key items": {"Slot 1": {"Item": "Rold Medallion", "Quantity": 1}},
+            "Storage": {"Slot 1": {"Item": "Rowa Fruit", "Quantity": 20}, "Slot 2": {"Item": "Erdleaf Flower", "Quantity": 0}}
+        });
+        let mut cx = ctx(&root);
+        assert_eq!(apply(Game::EldenRing, &mut cx), 2);
+        let e = edits(&cx);
+        assert_eq!(e.len(), 2);
+        assert_eq!(e["/Items/Slot 1/Quantity"], 999);
+        assert_eq!(e["/Storage/Slot 1/Quantity"], 999);
+    }
+
+    #[test]
+    fn hogwarts_resource_bag_only() {
+        let root = json!({"InventoryDynamic": [
+            {"CharacterID": "Player0", "HolderID": "ResourceInventory", "ItemID": "Knuts", "Count": 50},
+            {"CharacterID": "Player0", "HolderID": "ResourceInventory", "ItemID": "Moonstone", "Count": 12},
+            {"CharacterID": "Player0", "HolderID": "ResourceInventory", "ItemID": "MandrakeSeed", "Count": 2},
+            {"CharacterID": "Player0", "HolderID": "GearInventory", "ItemID": "Hat", "Count": 1},
+            {"CharacterID": "Player0", "HolderID": "ResourceInventory", "ItemID": "LacewingFlies_Byproduct", "Count": 3}
+        ]});
+        let mut cx = ctx(&root);
+        assert_eq!(apply(Game::HogwartsDb, &mut cx), 2);
+        let e = edits(&cx);
+        assert_eq!(e["/InventoryDynamic/1/Count"], 999);
+        assert_eq!(e["/InventoryDynamic/4/Count"], 999);
+        assert_eq!(e.len(), 2);
+    }
+
+    #[test]
+    fn god_of_war_skips_story_flames_and_dew() {
+        let root = json!({"Slot 1": {"Hacksilver": 10, "Resources": {"Dust of Realms": 5, "Frozen Flame": 1, "Chaos Flame": 1, "Yggdrasil's Dew of Vitality": 1}}});
+        let mut cx = ctx(&root);
+        assert_eq!(apply(Game::Gow2018, &mut cx), 1);
+        assert_eq!(edits(&cx)["/Slot 1/Resources/Dust of Realms"], GOW_CAP);
+        let root = json!({"Currency": {"Hacksilver": 3}, "Resources": {"Stonewood": 7, "Meal of Comfort": 1}, "Yggdrasil's Dew": {"Strength": 1}});
+        let mut cx = ctx(&root);
+        assert_eq!(apply(Game::GowRagnarok, &mut cx), 1);
+        assert_eq!(edits(&cx)["/Resources/Stonewood"], GOW_CAP);
+    }
+
+    #[test]
+    fn fixed_and_grouped_counts() {
+        let root = json!({"Resources": {"Minerals": {"Iron": 4}, "Research data": {"Milky Way": 1}, "Salvage": {"Scrap": 2}, "Faction materials": {"Kett Alloy": 1000}}});
+        let mut cx = ctx(&root);
+        assert_eq!(apply(Game::Andromeda, &mut cx), 1);
+        assert_eq!(edits(&cx)["/Resources/Minerals/Iron"], 999);
+
+        let root = json!({"Facilities": {"Port": {"Connection level": 2, "Metals": 10, "Resins": 9999}}});
+        let mut cx = ctx(&root);
+        assert_eq!(apply(Game::DeathStranding2, &mut cx), 1);
+        assert_eq!(edits(&cx)["/Facilities/Port/Metals"], DS2_CAP);
+
+        let root = json!({"Inventory": {"Military-grade rounds (money)": 5, "Shotgun shells": 4, "Metal (crafting)": 20, "Chemicals (crafting)": 3}});
+        let mut cx = ctx(&root);
+        assert_eq!(apply(Game::Metro, &mut cx), 2);
+        assert_eq!(edits(&cx).len(), 2);
+
+        let root = json!({"Items": {"Key items": {"10": 1}, "Treasures": {"20": 4}}});
+        let mut cx = ctx(&root);
+        assert_eq!(apply(Game::Ffxv, &mut cx), 1);
+        assert_eq!(edits(&cx)["/Items/Treasures/20"], 99);
+
+        let root = json!({"Party": {"Credits": 1, "Components": 30, "Chemicals": 2}});
+        let mut cx = ctx(&root);
+        assert_eq!(apply(Game::Kotor, &mut cx), 2);
+        assert!(stacks(Game::Kotor, &ctx(&json!({"Party": {"Credits": 1}}))).is_err(), "KOTOR I has none");
+
+        let root = json!({"Player": {"Health": 50, "Resin": 26}});
+        let mut cx = ctx(&root);
+        assert_eq!(apply(Game::HalfLife2, &mut cx), 1);
+        assert_eq!(edits(&cx)["/Player/Resin"], ALYX_RESIN_CAP);
+
+        let root = json!({"InventoryItems": {"UpgradeMaterial_Level1": 3, "Consumable_LuminaPoint": 2, "SkinVerso": 1}});
+        let mut cx = ctx(&root);
+        assert_eq!(apply(Game::Expedition33, &mut cx), 1);
+        assert_eq!(edits(&cx)["/InventoryItems/UpgradeMaterial_Level1"], 999);
+    }
+
+    #[test]
+    fn starbound_bags_old_and_new() {
+        let root = json!({"inventory": {"itemBags": {"materialBag": [
+            {"content": {"name": "ironore", "count": 12}}, null, {"content": {"name": "dirt", "count": 500}}
+        ], "mainBag": [{"content": {"name": "fabric", "count": 1000}}, {"content": {"name": "liquidfuel", "count": 2}}]}}});
+        let mut cx = ctx(&root);
+        assert_eq!(apply(Game::Starbound, &mut cx), 1);
+        assert_eq!(edits(&cx)["/inventory/itemBags/materialBag/0/content/count"], 1000);
+        let root = json!({"inventory": {"bag": [{"name": "copperbar", "count": 3}]}});
+        let mut cx = ctx(&root);
+        assert_eq!(apply(Game::Starbound, &mut cx), 1);
+        assert_eq!(edits(&cx)["/inventory/bag/0/count"], 1000);
+    }
+
+    #[test]
     fn lists_have_no_duplicates() {
+        for list in [&ELDEN_RING[..], &GOW_RAGNAROK[..], &STARBOUND[..]] {
+            assert_eq!(list.iter().collect::<HashSet<_>>().len(), list.len());
+        }
+        let er: HashSet<&str> = crate::fmt::er_items::GOODS.iter().map(|(_, n)| *n).collect();
+        for n in ELDEN_RING {
+            assert!(er.contains(n), "{n}");
+        }
+        let gowr = include_str!("../fmt/data/gowr_items.tsv");
+        for n in GOW_RAGNAROK {
+            assert!(gowr.lines().any(|l| l.split('\t').nth(1) == Some(n) && l.ends_with("Resources")), "{n}");
+        }
         assert_eq!(valheim_caps().len(), VALHEIM.len());
         let mc: HashSet<_> = MINECRAFT.iter().collect();
         assert_eq!(mc.len(), MINECRAFT.len());

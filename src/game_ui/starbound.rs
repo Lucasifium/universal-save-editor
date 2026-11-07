@@ -190,6 +190,7 @@ fn inventory(ui: &mut Ui, cx: &mut GameCtx) {
         }
         ui.add_space(4.0);
         ui.weak("Each item has its own largest stack in the game (1000 for most materials); the game may cut a bigger count when it loads.");
+        super::crafting::offer(super::Game::Starbound, ui, cx);
     });
 }
 

@@ -62,6 +62,9 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
             fact(ui, "HEV suit", &s, accent);
         }
     });
+    if alyx {
+        super::crafting::offer(super::Game::HalfLife2, ui, cx);
+    }
 
     let ammo = keys(cx, "/Ammo");
     panel(ui, "Ammunition", |ui| {

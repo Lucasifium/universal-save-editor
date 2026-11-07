@@ -117,6 +117,7 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
                 }
             });
             ui.weak("Counts only; weapons and picto sit in the list at their owned count.");
+            super::crafting::offer(super::Game::Expedition33, ui, cx);
         });
     }
     let _ = fmt_num;

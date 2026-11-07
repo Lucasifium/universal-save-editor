@@ -1003,6 +1003,7 @@ pub fn hogwarts_db(ui: &mut Ui, cx: &mut GameCtx) {
             ui.weak("No resources in the bag.");
         }
         value_rows(ui, cx, "hl_res", &rows);
+        super::crafting::offer(super::Game::HogwartsDb, ui, cx);
         ui.weak("How many of each ingredient and material you carry. The game caps most stacks at its own limits.");
     });
     let perks: Vec<(String, String)> = cx
@@ -1342,6 +1343,9 @@ pub fn metro(ui: &mut Ui, cx: &mut GameCtx) {
     };
     panel(ui, "Ammunition", |ui| {
         value_rows(ui, cx, "metro_ammo", &rows);
+        if rows.iter().any(|(k, _)| k.contains("(crafting)")) {
+            super::crafting::offer(super::Game::Metro, ui, cx);
+        }
         ui.weak("What Artyom carries at the start of this level (chapter select loads it). The game may cap a count at what Artyom can carry.");
     });
 }
@@ -1508,6 +1512,9 @@ pub fn ffxv(ui: &mut Ui, cx: &mut GameCtx) {
                 _ => vec![],
             };
             value_rows(ui, cx, &format!("ffxv_{i}"), &rows);
+            if cx.get("/Items/Treasures").is_some() {
+                super::crafting::offer(super::Game::Ffxv, ui, cx);
+            }
             ui.weak("Items are listed by the game's item number (names aren't known yet); 999 is the most the editor lets you set.");
         });
     }
@@ -1558,6 +1565,7 @@ pub fn death_stranding2(ui: &mut Ui, cx: &mut GameCtx) {
             });
         });
         ui.weak("Facilities you have found or connected, with the materials stored at each. Connection level runs 0\u{2013}5.");
+        super::crafting::offer(super::Game::DeathStranding2, ui, cx);
     });
     ui.weak("The save's MD5 is written again when you save. Not yet tried in the game.");
 }
@@ -1615,6 +1623,7 @@ pub fn andromeda(ui: &mut Ui, cx: &mut GameCtx) {
                 _ => vec![],
             };
             value_rows(ui, cx, &format!("mea_{i}"), &rows);
+            super::crafting::offer(super::Game::Andromeda, ui, cx);
             ui.weak("Research data, minerals, salvage and the other stacks in Ryder's inventory, named from the save itself.");
         });
     }
@@ -1671,6 +1680,7 @@ pub fn gow2018(ui: &mut Ui, cx: &mut GameCtx) {
     if !rows.is_empty() {
         panel(ui, "Resources", |ui| {
             value_rows(ui, cx, "gow_res", &rows);
+            super::crafting::offer(super::Game::Gow2018, ui, cx);
             ui.weak("Includes Yggdrasil's dew (the stat boosts). Resources this save hasn't found yet aren't listed.");
         });
     }
@@ -1727,6 +1737,9 @@ pub fn gow_ragnarok(ui: &mut Ui, cx: &mut GameCtx) {
         }
         panel(ui, group, |ui| {
             value_rows(ui, cx, id, &rows);
+            if group == "Resources" {
+                super::crafting::offer(super::Game::GowRagnarok, ui, cx);
+            }
             if !note.is_empty() {
                 ui.weak(note);
             }

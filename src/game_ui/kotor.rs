@@ -57,6 +57,7 @@ fn party_table(ui: &mut Ui, cx: &mut GameCtx) {
             cx.tile(ui, label, p, GOLD);
         }
     });
+    super::crafting::offer(super::Game::Kotor, ui, cx);
     let names = keys(cx, "/Influence");
     if !names.is_empty() {
         panel(ui, "Influence", |ui| {
