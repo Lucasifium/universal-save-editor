@@ -278,6 +278,8 @@ pub fn detect(kind: &str, root: &Value) -> Option<Game> {
         crate::fmt::fos::KIND => Game::Fallout3Nv,
         crate::fmt::goldensun::KIND_GS1 | crate::fmt::goldensun::KIND_GS2 => Game::GoldenSun,
         _ if has("/base/m_title") && has("/player") => Game::YakuzaDe,
+        // Yakuza 6 has no title in its save; its spearfishing minigame marks it.
+        _ if has("/base/m_subtitle") && has("/player/point/m_point") && has("/mg_spearfishing") => Game::YakuzaDe,
         k if k.starts_with("Unreal Engine save (BP_SaveGameObject") && has("/CharactersCollection") && has("/Gold") => Game::Expedition33,
         "Unreal Engine save (PalWorldPlayerSaveGame)" if has("/SaveData/TechnologyPoint") => Game::Palworld,
         "Final Fantasy VII Remake save" | "Final Fantasy VII Rebirth save" => Game::Ff7Remake,
@@ -848,6 +850,9 @@ mod tests {
         assert_eq!(detect("XML", &json!({"SaveGame": {"player": {"farmName": "x"}}})), Some(Game::Stardew));
         assert_eq!(detect("JSON", &json!({"actors": {"_data": {"@a": [null, {}]}}, "party": {"_actors": {"@a": [1]}}})), Some(Game::RpgMaker));
         assert_eq!(detect("JSON", &json!({"gold": 1})), None);
+        let y6 = json!({"base": {"m_subtitle": "chapter1"}, "player": {"point": {"m_point": [0, 5000]}}, "mg_spearfishing": {}});
+        assert_eq!(detect("Yakuza save (Dragon Engine: Yakuza 6)", &y6), Some(Game::YakuzaDe));
+        assert_eq!(detect("JSON", &json!({"base": {"m_subtitle": "x"}, "player": {"point": {"m_point": []}}})), None);
         assert_eq!(detect("Mass Effect 3 save", &json!({"Shepard": {"Level": 60}})), Some(Game::MassEffect));
         assert_eq!(detect("XCOM: Enemy Unknown game data", &json!({})), Some(Game::Xcom));
         assert_eq!(detect("XCOM 2 game data", &json!({})), Some(Game::Xcom2));
