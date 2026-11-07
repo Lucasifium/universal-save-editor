@@ -80,6 +80,11 @@ Universal Save Editor is free. It builds on other people's work, listed here wit
 | [valheim-character-editor (newer Valheim layouts, skill ids)](https://github.com/bkaznowski/valheim-character-editor) | bkaznowski | facts only (file layouts, ids and names), credited |
 | [obababot (Golden Sun save layout; item, class and Djinn name tables)](https://github.com/Dyrati/obababot) | Dyrati | MIT |
 | [golden_sun_save_converter and golden_sun_password_exporter (Golden Sun save blocks and checksum)](https://github.com/Hambaka/golden_sun_save_converter) | Hambaka | MIT |
+| [NieR.Automata.Editor (NieR:Automata save layout, item and weapon names, experience table)](https://github.com/MysteryDash/NieR.Automata.Editor) | Alexandre Quoniou | MIT |
+| [nierautomatasaveeditor (NieR:Automata money, experience and item offsets)](https://github.com/atilion/nierautomatasaveeditor) | atilion | MIT; offsets only, credited |
+| [NieRAutomata_LVL-EXP_Editor (NieR:Automata experience offset)](https://github.com/Aemony/NieRAutomata_LVL-EXP_Editor) | Aemony | MIT; offset only, credited |
+| [NieRAutomata_Inventory_Editor (NieR:Automata 99-per-slot item limit)](https://github.com/Aemony/NieRAutomata_Inventory_Editor) | Aemony | facts only (item limit), credited |
+| [NieR:Automata Wiki (which items are in the Materials list)](https://nierautomata.wiki.fextralife.com/Materials) | Fextralife wiki contributors | facts only (item names and categories), credited |
 
 Copyright notices of the projects above whose code or tables were used:
 
@@ -109,6 +114,9 @@ Copyright notices of the projects above whose code or tables were used:
 - valheim-fch-editor (Valheim character layout, skill ids): Copyright (c) 2021 cQuaid. Licensed under MIT.
 - obababot (Golden Sun save layout; item, class and Djinn name tables): Copyright (c) 2020 Dyrati. Licensed under MIT.
 - golden_sun_save_converter and golden_sun_password_exporter (Golden Sun save blocks and checksum): Copyright (c) 2022 Hambaka. Licensed under MIT.
+- NieR.Automata.Editor (NieR:Automata save layout, item and weapon names, experience table): Copyright (c) 2020 Alexandre Quoniou. Licensed under MIT.
+- nierautomatasaveeditor (NieR:Automata offsets): Copyright (c) 2017 atilion. Licensed under MIT.
+- NieRAutomata_LVL-EXP_Editor (NieR:Automata experience offset): Copyright (c) 2018 Aemony. Licensed under MIT.
 
 The MIT, Apache-2.0 and zlib licence texts are included below with the crates that use them.
 
@@ -10410,4 +10418,3 @@ ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ```
-

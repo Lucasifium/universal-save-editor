@@ -28,6 +28,7 @@ mod pathfinder;
 mod pokemon;
 mod expedition33;
 mod fallout3nv;
+mod nier;
 mod screens2;
 mod starbound;
 mod survival;
@@ -127,6 +128,7 @@ pub enum Game {
     Starbound,
     Expedition33,
     Fallout3Nv,
+    Nier,
 }
 
 impl Game {
@@ -192,6 +194,7 @@ impl Game {
             Game::Starbound => "Character",
             Game::Expedition33 => "Party",
             Game::Fallout3Nv => "Character",
+            Game::Nier => "YoRHa",
             _ => "Character",
         }
     }
@@ -276,6 +279,7 @@ pub fn detect(kind: &str, root: &Value) -> Option<Game> {
         "Valheim character" => Game::Valheim,
         crate::fmt::starbound::KIND_PLAYER => Game::Starbound,
         crate::fmt::fos::KIND => Game::Fallout3Nv,
+        crate::fmt::nier::KIND => Game::Nier,
         crate::fmt::goldensun::KIND_GS1 | crate::fmt::goldensun::KIND_GS2 => Game::GoldenSun,
         _ if has("/base/m_title") && has("/player") => Game::YakuzaDe,
         // Yakuza 6 has no title in its save; its spearfishing minigame marks it.
@@ -358,6 +362,7 @@ pub fn show(game: Game, ui: &mut Ui, cx: &mut GameCtx) {
         Game::Starbound => starbound::show(ui, cx),
         Game::Expedition33 => expedition33::show(ui, cx),
         Game::Fallout3Nv => fallout3nv::show(ui, cx),
+        Game::Nier => nier::show(ui, cx),
         Game::RenPy => screens2::renpy(ui, cx),
         Game::MassEffect => screens2::mass_effect(ui, cx),
         Game::Xcom => screens2::xcom(ui, cx),
@@ -850,6 +855,7 @@ mod tests {
         assert_eq!(detect("XML", &json!({"SaveGame": {"player": {"farmName": "x"}}})), Some(Game::Stardew));
         assert_eq!(detect("JSON", &json!({"actors": {"_data": {"@a": [null, {}]}}, "party": {"_actors": {"@a": [1]}}})), Some(Game::RpgMaker));
         assert_eq!(detect("JSON", &json!({"gold": 1})), None);
+        assert_eq!(detect(crate::fmt::nier::KIND, &json!({})), Some(Game::Nier));
         let y6 = json!({"base": {"m_subtitle": "chapter1"}, "player": {"point": {"m_point": [0, 5000]}}, "mg_spearfishing": {}});
         assert_eq!(detect("Yakuza save (Dragon Engine: Yakuza 6)", &y6), Some(Game::YakuzaDe));
         assert_eq!(detect("JSON", &json!({"base": {"m_subtitle": "x"}, "player": {"point": {"m_point": []}}})), None);
