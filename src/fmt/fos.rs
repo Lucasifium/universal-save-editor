@@ -4,7 +4,7 @@
 //! plugin list, a table of section offsets, then the "changed forms": one record per game
 //! object that differs from the master files. Nearly every field is followed by a `|` byte.
 //! Three records are read here: the player's reference (form 0x14), which holds the actor
-//! value arrays (experience, karma) and the inventory (bottle caps), and the player's base
+//! value arrays (experience, karma, the skills' permanent bonuses) and the inventory (bottle caps), and the player's base
 //! form (0x7), which holds S.P.E.C.I.A.L.
 //!
 //! Everything is a fixed-size value changed in place; there is no checksum. Layout facts
@@ -24,6 +24,17 @@ const NPC: u8 = 10;
 /// Actor value codes in the second array.
 const AV_KARMA: usize = 23;
 const AV_XP: usize = 24;
+
+/// Skill actor value codes (32 to 45) and their names. New Vegas leaves Big Guns unused
+/// and turns Small Guns into Guns and the unused Throwing into Survival.
+pub const SKILLS_FNV: &[(usize, &str)] = &[
+    (32, "Barter"), (34, "Energy Weapons"), (35, "Explosives"), (41, "Guns"), (36, "Lockpick"), (37, "Medicine"), (38, "Melee Weapons"),
+    (39, "Repair"), (40, "Science"), (42, "Sneak"), (43, "Speech"), (44, "Survival"), (45, "Unarmed"),
+];
+pub const SKILLS_FO3: &[(usize, &str)] = &[
+    (32, "Barter"), (33, "Big Guns"), (34, "Energy Weapons"), (35, "Explosives"), (36, "Lockpick"), (37, "Medicine"), (38, "Melee Weapons"),
+    (39, "Repair"), (40, "Science"), (41, "Small Guns"), (42, "Sneak"), (43, "Speech"), (45, "Unarmed"),
+];
 
 pub fn looks(d: &[u8]) -> bool {
     d.starts_with(MAGIC)
@@ -158,6 +169,11 @@ fn parse_inner(d: &[u8]) -> Option<TreeDoc> {
     if player.len >= 28 + 3 * n_av * 5 && d[slot(0, 0) + 4] == 0x7C && d[slot(2, n_av - 1) + 4] == 0x7C {
         b.ranged(&["Character", "Experience"], slot(1, AV_XP), Kind::F32Int, 0, 10_000_000);
         b.ranged(&["Character", "Karma"], slot(1, AV_KARMA), Kind::F32Int, -1000, 1000);
+        // The same array holds each skill's permanent bonus: the points spent at level-up
+        // plus skill books, bobbleheads and perks. The game adds it to the skill's base.
+        for &(code, name) in if fnv { SKILLS_FNV } else { SKILLS_FO3 } {
+            b.ranged(&["Skills", name], slot(1, code), Kind::F32Int, -100, 100);
+        }
     }
     // Bottle caps are the inventory entry for form 0x0F: reference, `|`, i32, `|`. The
     // reference can be written two ways; accept the one match inside the player's record.
@@ -269,6 +285,7 @@ mod tests {
                 let v: f32 = match (array, code) {
                     (1, AV_XP) => 5000.0,
                     (1, AV_KARMA) => 250.0,
+                    (1, 43) => 12.0,
                     _ => 0.0,
                 };
                 ach.extend(v.to_le_bytes());
@@ -321,7 +338,12 @@ mod tests {
         assert_eq!(doc.view.pointer("/Character/Karma"), Some(&Value::from(250)));
         assert_eq!(doc.view.pointer("/Character/Bottle caps"), Some(&Value::from(1234)));
         assert_eq!(doc.view.pointer("/S.P.E.C.I.A.L./Intelligence"), Some(&Value::from(7)));
+        assert_eq!(doc.view.pointer("/Skills/Speech"), Some(&Value::from(12)));
+        assert_eq!(doc.view.pointer("/Skills/Guns"), Some(&Value::from(0)));
+        assert!(doc.view.pointer("/Skills/Big Guns").is_none());
         assert_eq!(doc.to_bytes().unwrap(), d);
+        doc.set("/Skills/Speech", Value::from(40)).unwrap();
+        assert!(doc.set("/Skills/Speech", Value::from(101)).is_err());
         doc.set("/Character/Bottle caps", Value::from(99999)).unwrap();
         doc.set("/S.P.E.C.I.A.L./Luck", Value::from(10)).unwrap();
         doc.set("/Character/Experience", Value::from(60000)).unwrap();
@@ -332,6 +354,7 @@ mod tests {
         assert_eq!(again.view.pointer("/Character/Bottle caps"), Some(&Value::from(99999)));
         assert_eq!(again.view.pointer("/S.P.E.C.I.A.L./Luck"), Some(&Value::from(10)));
         assert_eq!(again.view.pointer("/Character/Experience"), Some(&Value::from(60000)));
+        assert_eq!(again.view.pointer("/Skills/Speech"), Some(&Value::from(40)));
         assert_eq!(again.view.pointer("/Character/Name"), Some(&Value::from("Courier")));
         assert!(parse(&d[..d.len() - 20]).is_err());
     }
