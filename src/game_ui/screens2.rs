@@ -1383,7 +1383,8 @@ pub fn yakuza0(ui: &mut Ui, cx: &mut GameCtx) {
 
 pub fn yakuza_de(ui: &mut Ui, cx: &mut GameCtx) {
     let accent = Color32::from_rgb(210, 160, 40);
-    let title = cx.text("/base/m_title").unwrap_or_else(|| "Yakuza".into());
+    let y6 = cx.get("/base/m_title").is_none() && cx.get("/mg_spearfishing").is_some();
+    let title = cx.text("/base/m_title").unwrap_or_else(|| if y6 { "Yakuza 6: The Song of Life".into() } else { "Yakuza".into() });
     let sub = cx.text("/base/m_subtitle").unwrap_or_default();
     let party = cx.get("/party/m_chara").and_then(|v| v.as_array().map(Vec::len)).unwrap_or(0);
     hero(ui, accent, &title, &sub, |ui| {
@@ -1393,7 +1394,7 @@ pub fn yakuza_de(ui: &mut Ui, cx: &mut GameCtx) {
             cx.tile(ui, "HP", "/player/hp/m_now", accent);
         }
     });
-    // Kiwami 2 keeps Kiryu's five experience pools next to the money.
+    // Kiwami 2 and Yakuza 6 keep Kiryu's five experience pools next to the money.
     if party == 0 && cx.get("/player/point/m_point/6").is_some() {
         panel(ui, "Experience", |ui| {
             let rows: Vec<(String, String)> = (2..=6).map(|i| (format!("Experience pool {}", i - 1), format!("/player/point/m_point/{i}"))).collect();
