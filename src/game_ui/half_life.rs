@@ -1,5 +1,6 @@
 //! Half-Life (GoldSrc) and Half-Life 2 (Source) saves: the player's HEV readout — health,
-//! armour, suit power, ammo by type and the weapons carried with their magazines.
+//! armour, suit power, ammo by type and the weapons carried with their magazines. Also
+//! Black Mesa (Source) and Half-Life: Alyx (Source 2: health, resin, ammo, weapons).
 
 use super::{fact, hero, panel, GameCtx};
 use crate::json_view::pointer_escape;
@@ -22,6 +23,7 @@ fn accent(game: &str) -> Color32 {
     match game {
         "Half-Life: Opposing Force" => Color32::from_rgb(70, 170, 60),
         "Half-Life: Blue Shift" => Color32::from_rgb(70, 140, 230),
+        "Half-Life: Alyx" => Color32::from_rgb(40, 190, 200),
         g if g.starts_with("Half-Life 2") => Color32::from_rgb(235, 180, 40),
         _ => Color32::from_rgb(250, 150, 20),
     }
@@ -30,6 +32,7 @@ fn accent(game: &str) -> Color32 {
 pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
     let game = cx.text("/Save/Game").unwrap_or_else(|| "Half-Life".into());
     let accent = accent(&game);
+    let alyx = game == "Half-Life: Alyx";
     let mut sub = vec![];
     if let Some(m) = cx.text("/Save/Map") {
         sub.push(format!("Map {m}"));
@@ -47,7 +50,7 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
         _ => vec![],
     };
     hero(ui, accent, &game, &sub.join("  \u{00B7}  "), |ui| {
-        for label in ["Health", "Armor", "Suit power", "Flashlight", "Max health"] {
+        for label in ["Health", "Armor", "Suit power", "Flashlight", "Max health", "Resin"] {
             let p = join("/Player", label);
             if cx.get(&p).is_some() {
                 cx.tile(ui, label, &p, accent);
@@ -71,13 +74,26 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
                 cx.tile(ui, a, &join("/Ammo", a), accent);
             }
         });
-        ui.weak("Spare ammunition by type, as the HUD counts it. Names come from the weapons that use each type; \"Ammo type N\" is one no weapon in this map names. The game caps ammo at each type's maximum when you pick more up.");
+        if alyx {
+            ui.weak("Spare ammunition stored in the backpack, as the wrist display counts it.");
+        } else {
+            ui.weak("Spare ammunition by type, as the HUD counts it. Names come from the weapons that use each type; \"Ammo type N\" is one no weapon in this map names. The game caps ammo at each type's maximum when you pick more up.");
+        }
     });
 
     let weapons = keys(cx, "/Weapons");
     panel(ui, "Weapons", |ui| {
         if weapons.is_empty() {
             ui.weak("The player carries no weapons yet.");
+            return;
+        }
+        if alyx {
+            ui.horizontal_wrapped(|ui| {
+                for w in &weapons {
+                    fact(ui, w, "carried", accent);
+                }
+            });
+            ui.weak("The weapons Alyx has. Their upgrades and loaded rounds aren't edited here.");
             return;
         }
         // Only Source weapons have a second magazine.

@@ -1,5 +1,7 @@
-//! Half-Life saves: GoldSrc (Half-Life, Opposing Force, Blue Shift; `JSAV` version 0x71)
-//! and Source (Half-Life 2, Episode One and Two, Half-Life: Source; version 0x73).
+//! Half-Life saves: GoldSrc (Half-Life, Opposing Force, Blue Shift; `JSAV` version 0x71),
+//! Source (Half-Life 2, Episode One and Two, Lost Coast, Half-Life: Source; version 0x73;
+//! Black Mesa: 0x765) and Source 2 (Half-Life: Alyx; `S2SV` version 0x74, the same records
+//! with a longer map-state header).
 //!
 //! A `.sav` is a container: `JSAV`, version, header size, token count, token bytes, the
 //! token table, the game header (records: map name, comment…), then one entry per visited
@@ -33,6 +35,8 @@ fn cstr(b: &[u8]) -> String {
 pub enum Engine {
     GoldSrc,
     Source,
+    /// Half-Life: Alyx (`S2SV` version 0x74).
+    Source2,
 }
 
 /// One record: its field name (token index), where its value starts and how long it is.
@@ -101,7 +105,7 @@ fn directory(d: &[u8], mut o: usize) -> Option<Vec<(String, usize, usize)>> {
 }
 
 pub fn container(d: &[u8]) -> Option<Container> {
-    if !d.starts_with(b"JSAV") {
+    if !d.starts_with(b"JSAV") && !d.starts_with(b"S2SV") {
         return None;
     }
     let version = i32_at(d, 4)?;
@@ -129,7 +133,9 @@ impl Container {
     pub fn engine(&self) -> Option<Engine> {
         match self.version {
             0x71 => Some(Engine::GoldSrc),
-            0x73 => Some(Engine::Source),
+            // 0x765: Black Mesa.
+            0x73 | 0x765 => Some(Engine::Source),
+            0x74 => Some(Engine::Source2),
             _ => None,
         }
     }
@@ -139,7 +145,8 @@ impl Container {
     }
 
     pub fn map(&self, d: &[u8]) -> Option<String> {
-        self.header_text(d, "mapName").filter(|m| !m.is_empty())
+        // Source 2 names the map's spawn groups instead; the first is the map itself.
+        self.header_text(d, "mapName").or_else(|| self.header_text(d, "m_sGroupName")).filter(|m| !m.is_empty())
     }
 }
 
@@ -159,7 +166,7 @@ struct Level {
     data: (usize, usize),
 }
 
-const TABLE_FIELDS: &[&str] = &["id", "edictindex", "saveentityindex", "restoreentityindex", "location", "size", "flags", "classname", "globalname", "landmarkModelSpace", "modelname"];
+const TABLE_FIELDS: &[&str] = &["id", "edictindex", "saveentityindex", "restoreentityindex", "location", "size", "flags", "classname", "globalname", "landmarkModelSpace", "modelname", "entityname", "m_pPrecacheEntityKeys"];
 
 /// Reads `ETABLE` records from `recs`: one entity per `ETABLE`, until a record that isn't
 /// part of the table. Returns the entities (location relative) and how many records were used.
@@ -184,6 +191,21 @@ fn entity_table(d: &[u8], names: &Names, recs: &[Rec]) -> (Vec<(String, i64, i64
         used += 1;
     }
     (out, used)
+}
+
+/// The entity table sits among the block headers: find its first `ETABLE` record.
+fn find_table(d: &[u8], names: &Names, hs: usize, he: usize) -> Option<Vec<(String, i64, i64)>> {
+    let et = names.0.iter().position(|s| s == "ETABLE")? as u16;
+    let pat = [4, 0, et as u8, (et >> 8) as u8];
+    let mut from = hs;
+    loop {
+        let p = from + d.get(from..he)?.windows(4).position(|w| w == pat)?;
+        let (t, _) = entity_table(d, names, &records(d, p, he));
+        if t.len() > 1 {
+            return Some(t);
+        }
+        from = p + 1;
+    }
 }
 
 fn level(d: &[u8], engine: Engine, start: usize, len: usize) -> Option<Level> {
@@ -214,6 +236,27 @@ fn level(d: &[u8], engine: Engine, start: usize, len: usize) -> Option<Level> {
                 .collect();
             Some(Level { names, ents, data: (base, de) })
         }
+        Engine::Source2 => {
+            // VALV, version, token count, ?, token bytes, then the sizes of three sections:
+            // block headers (with the entity table at their end), strings, entity data.
+            let (tcount, tbytes, a, b, c) = (h(1)?, h(3)?, h(4)?, h(5)?, h(6)?);
+            let names = Names(tokens(d, start + 32, tbytes, tcount)?);
+            let hs = start + 32 + tbytes;
+            let he = hs.checked_add(a)?;
+            let ds = he.checked_add(b)?;
+            let de = ds.checked_add(c)?;
+            if de > end {
+                return None;
+            }
+            let ents = find_table(d, &names, hs, he)?
+                .into_iter()
+                .map(|(class, loc, size)| {
+                    let s = (ds as i64 + loc).clamp(ds as i64, de as i64) as usize;
+                    Ent { class, start: s, end: (s as i64 + size.max(0)).min(de as i64) as usize }
+                })
+                .collect();
+            Some(Level { names, ents, data: (ds, de) })
+        }
         Engine::Source => {
             let (sbytes, scount, hbytes, dbytes) = (h(1)?, h(2)?, h(3)?, h(4)?);
             let names = Names(tokens(d, start + 24, sbytes, scount)?);
@@ -224,19 +267,7 @@ fn level(d: &[u8], engine: Engine, start: usize, len: usize) -> Option<Level> {
             if de > end {
                 return None;
             }
-            // The entity table sits among the block headers: find its first ETABLE record.
-            let et = names.0.iter().position(|s| s == "ETABLE")? as u16;
-            let pat = [4, 0, et as u8, (et >> 8) as u8];
-            let mut from = hs;
-            let table = loop {
-                let p = from + d[from..he].windows(4).position(|w| w == pat)?;
-                let (t, _) = entity_table(d, &names, &records(d, p, he));
-                if t.len() > 1 {
-                    break t;
-                }
-                from = p + 1;
-            };
-            let ents = table
+            let ents = find_table(d, &names, hs, he)?
                 .into_iter()
                 .map(|(class, loc, size)| {
                     let s = (ds as i64 + loc).clamp(ds as i64, de as i64) as usize;
@@ -290,6 +321,10 @@ pub fn weapon_info(class: &str) -> Option<(&'static str, Option<&'static str>, O
         "shockrifle" => ("Shock roach", Some("Shock charge"), None),
         "sporelauncher" => ("Spore launcher", Some("Spores"), None),
         "penguin" => ("Penguins", Some("Penguins"), None),
+        // Black Mesa
+        "tau" => ("Tau cannon", Some("Uranium"), None),
+        "gluon" => ("Gluon gun", Some("Uranium"), None),
+        "hivehand" => ("Hivehand", Some("Hornets"), None),
         // Half-Life 2 and the episodes
         "physcannon" => ("Gravity Gun", None, None),
         "pistol" => ("Pistol", Some("Pistol rounds"), None),
@@ -318,27 +353,100 @@ fn game_name(engine: Engine, map: &str) -> &'static str {
         Engine::GoldSrc => "Half-Life",
         Engine::Source if m.starts_with("ep1_") => "Half-Life 2: Episode One",
         Engine::Source if m.starts_with("ep2_") => "Half-Life 2: Episode Two",
+        Engine::Source if m == "d2_lostcoast" => "Half-Life 2: Lost Coast",
+        Engine::Source if m.starts_with("bm_") => "Black Mesa",
         Engine::Source if m.starts_with("d1_") || m.starts_with("d2_") || m.starts_with("d3_") || m == "background01" => "Half-Life 2",
         // Half-Life: Source plays the original maps (c1a0, t0a0…).
         Engine::Source if (m.starts_with('c') || m.starts_with('t')) && m.as_bytes().get(1).is_some_and(u8::is_ascii_digit) => "Half-Life: Source",
         Engine::Source => "Source engine game",
+        Engine::Source2 => "Half-Life: Alyx",
     }
 }
 
-/// "#HL2_Chapter11_Title" → "Chapter 11".
+/// "#HL2_Chapter11_Title" or "#HLVR_Chapter_Number_06 …" → "Chapter 11", "Chapter 6".
 fn chapter(comment: &str) -> Option<String> {
     let c = comment.trim().trim_start_matches('#');
     let i = c.find("Chapter")?;
-    let n: String = c[i + 7..].chars().take_while(char::is_ascii_digit).collect();
+    let n: String = c[i + 7..].trim_start_matches(|ch: char| ch == '_' || ch.is_ascii_alphabetic()).chars().take_while(char::is_ascii_digit).collect();
     (!n.is_empty()).then(|| format!("Chapter {}", n.trim_start_matches('0')))
 }
 
 pub fn looks(d: &[u8]) -> bool {
-    d.len() > 64 && d.starts_with(b"JSAV") && matches!(i32_at(d, 4), Some(0x71 | 0x73))
+    d.len() > 64 && ((d.starts_with(b"JSAV") && matches!(i32_at(d, 4), Some(0x71 | 0x73 | 0x765))) || (d.starts_with(b"S2SV") && i32_at(d, 4) == Some(0x74)))
 }
 
 pub const KIND_GOLDSRC: &str = "Half-Life save (GoldSrc)";
 pub const KIND_SOURCE: &str = "Half-Life 2 save (Source)";
+pub const KIND_ALYX: &str = "Half-Life: Alyx save (Source 2)";
+
+/// Half-Life: Alyx: the player's `m_iAmmo` slots, checked against the ammo counts the game
+/// writes into each save's description ("stats <health> <resin> <pistol> <shotgun> <rapidfire> …").
+const ALYX_AMMO: &[(usize, &str)] = &[(3, "Pistol rounds"), (7, "Shotgun shells"), (4, "Rapidfire rounds")];
+
+fn alyx_weapon(class: &str) -> Option<&'static str> {
+    Some(match class {
+        "hlvr_weapon_energygun" => "Pistol",
+        "hlvr_weapon_shotgun" => "Shotgun",
+        "hlvr_weapon_rapidfire" => "Rapidfire",
+        "hlvr_multitool" => "Multi-tool",
+        _ => return None,
+    })
+}
+
+fn parse_alyx(d: &[u8], c: &Container, map: &str, lv: &Level, pf: &[(String, Rec)]) -> Result<TreeDoc, String> {
+    let mut b = Builder::new(d);
+    let mut missing: Vec<String> = vec![];
+    b.info(&["Save", "Game"], "Half-Life: Alyx");
+    b.info(&["Save", "Map"], map.to_string());
+    if let Some(ch) = c.header_text(d, "m_sComment").as_deref().and_then(chapter) {
+        b.info(&["Save", "Chapter"], ch);
+    }
+    for (label, field, lo, hi) in [("Health", "m_iHealth", 1, 999), ("Max health", "m_iMaxHealth", 1, 999), ("Resin", "m_nCraftingCurrency", 0, 9999)] {
+        match get(pf, field).filter(|r| r.len == 4) {
+            Some(r) => {
+                b.ranged(&["Player", label], r.at, Kind::I32, lo, hi);
+            }
+            None => missing.push(format!("{label}: 0, so the game left it out of the save")),
+        }
+    }
+    match get(pf, "m_iAmmo").filter(|r| r.len % 4 == 0 && r.len <= 1024) {
+        Some(r) => {
+            for &(t, label) in ALYX_AMMO {
+                if 4 * t + 4 <= r.len {
+                    b.ranged(&["Ammo", label], r.at + 4 * t, Kind::I32, 0, 9999);
+                }
+            }
+            for t in 0..r.len / 4 {
+                if !ALYX_AMMO.iter().any(|a| a.0 == t) && i32_at(d, r.at + 4 * t).unwrap_or(0) != 0 {
+                    b.ranged(&["Ammo", &format!("Ammo type {t}")], r.at + 4 * t, Kind::I32, 0, 9999);
+                }
+            }
+        }
+        None => missing.push("Ammo: none carried, so the game left the ammo list out of the save".into()),
+    }
+    // The weapons Alyx has are kept attached to her hands.
+    let mut held: Vec<(&str, &str)> = vec![];
+    for e in &lv.ents {
+        let Some(name) = alyx_weapon(&e.class) else { continue };
+        let f = lv.fields(d, e);
+        if get(&f, "m_bIsAttached").is_some_and(|r| r.len == 1 && d[r.at] != 0) && !held.iter().any(|h| h.0 == name) {
+            held.push((name, &e.class));
+        }
+    }
+    held.sort_by_key(|h| ["Pistol", "Shotgun", "Rapidfire", "Multi-tool"].iter().position(|n| *n == h.0));
+    for (name, class) in &held {
+        b.info(&["Weapons", name, "Entity"], class.to_string());
+    }
+    if held.is_empty() {
+        missing.push("Weapons: none carried".into());
+    }
+    if !missing.is_empty() {
+        b.info(&["Not in this save"], missing);
+    }
+    Ok(b.finish(KIND_ALYX, Checksum::None).with_note(
+        "Alyx as saved in the current map. The save's description in the game's Load menu (its health, resin and ammo) is written when the game saves, so it shows the old numbers until you save again.",
+    ))
+}
 
 pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
     let c = container(d).ok_or("not a Half-Life save container")?;
@@ -349,6 +457,9 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
     let lv = level(d, engine, start, len).ok_or("couldn't read the map's entity state")?;
     let pi = lv.ents.iter().position(|e| e.class == "player" && e.end > e.start).ok_or("no player in the current map")?;
     let pf = lv.fields(d, &lv.ents[pi]);
+    if engine == Engine::Source2 {
+        return parse_alyx(d, &c, &map, &lv, &pf);
+    }
     let gs = engine == Engine::GoldSrc;
 
     let mut b = Builder::new(d);
@@ -721,6 +832,88 @@ pub(crate) mod tests {
         hl1.extend(fixed);
         hl1.extend(body);
         jsav(0x73, "d1_canals_05", hl1, true)
+    }
+
+    /// Half-Life: Alyx: an `S2SV` container whose header names the map's spawn group, and a
+    /// map state with a 32-byte header and three sections (block headers, strings, entity data).
+    pub fn alyx() -> Vec<u8> {
+        let mut t = Toks(vec![String::new()]);
+        let mut pl = vec![];
+        rec(&mut pl, &mut t, "CBaseEntity", &ints(&[3]));
+        rec(&mut pl, &mut t, "m_iMaxHealth", &ints(&[100]));
+        rec(&mut pl, &mut t, "m_iHealth", &ints(&[64]));
+        let mut ammo = [0i32; 32];
+        ammo[3] = 90;
+        ammo[4] = 150;
+        rec(&mut pl, &mut t, "m_iAmmo", &ints(&ammo));
+        rec(&mut pl, &mut t, "CHL_VR_Player", &ints(&[2]));
+        rec(&mut pl, &mut t, "m_nCraftingCurrency", &ints(&[26]));
+        let mut gun = vec![];
+        rec(&mut gun, &mut t, "m_bIsAttached", &[1]);
+        let mut loose = vec![];
+        rec(&mut loose, &mut t, "m_iHealth", &ints(&[1]));
+        let (table, data) = ents(&mut t, &[("worldspawn", vec![]), ("player", pl), ("hlvr_weapon_energygun", gun), ("hlvr_weapon_shotgun", loose)]);
+        let mut blocks = vec![0u8; 16];
+        blocks.extend(table);
+        let strings = b"strings\0".to_vec();
+        let tb = t.bytes();
+        let mut hl1 = b"VALV".to_vec();
+        hl1.extend(ints(&[0x74, t.0.len() as i32, 0, tb.len() as i32, blocks.len() as i32, strings.len() as i32, data.len() as i32]));
+        hl1.extend(tb);
+        hl1.extend(blocks);
+        hl1.extend(strings);
+        hl1.extend(data);
+
+        let mut t = Toks(vec![String::new()]);
+        let mut hdr = vec![];
+        rec(&mut hdr, &mut t, "GameHeader", &ints(&[2]));
+        rec(&mut hdr, &mut t, "m_sComment", &sz("#HLVR_Chapter_Number_06 #HLVR_Chapter_Title_06 stats 64 26 90 0 150 -1 0 1:00:00"));
+        rec(&mut hdr, &mut t, "m_nSpawnGroupCount", &ints(&[1]));
+        rec(&mut hdr, &mut t, "SpawnGroups", &ints(&[2]));
+        rec(&mut hdr, &mut t, "m_sGroupName", &sz("a3_distillery"));
+        let tb = t.bytes();
+        let mut d = b"S2SV".to_vec();
+        d.extend(ints(&[0x74, hdr.len() as i32, t.0.len() as i32, tb.len() as i32]));
+        d.extend(tb);
+        d.extend(hdr);
+        let files = [("a3_distillery.hl1".to_string(), hl1), ("a3_distillery.hl3".to_string(), ints(&[0]))];
+        d.extend(ints(&[files.len() as i32]));
+        for (n, data) in files {
+            let mut nm = n.into_bytes();
+            nm.resize(260, 0);
+            d.extend(nm);
+            d.extend(ints(&[data.len() as i32]));
+            d.extend(data);
+        }
+        d
+    }
+
+    #[test]
+    fn alyx_reads_and_edits() {
+        let d = alyx();
+        assert!(looks(&d));
+        let mut doc = parse(&d).unwrap();
+        let v = &doc.view;
+        assert_eq!(doc.kind_name, KIND_ALYX);
+        assert_eq!(v.pointer("/Save/Game"), Some(&"Half-Life: Alyx".into()));
+        assert_eq!(v.pointer("/Save/Map"), Some(&"a3_distillery".into()));
+        assert_eq!(v.pointer("/Save/Chapter"), Some(&"Chapter 6".into()));
+        assert_eq!(v.pointer("/Player/Health"), Some(&64.into()));
+        assert_eq!(v.pointer("/Player/Resin"), Some(&26.into()));
+        assert_eq!(v.pointer("/Ammo/Pistol rounds"), Some(&90.into()));
+        assert_eq!(v.pointer("/Ammo/Rapidfire rounds"), Some(&150.into()));
+        assert_eq!(v.pointer("/Ammo/Shotgun shells"), Some(&0.into()));
+        assert!(v.pointer("/Weapons/Pistol").is_some());
+        // A weapon lying in the world (not attached to Alyx) isn't hers.
+        assert!(v.pointer("/Weapons/Shotgun").is_none());
+        doc.set("/Player/Resin", 500.into()).unwrap();
+        doc.set("/Ammo/Shotgun shells", 30.into()).unwrap();
+        let out = doc.to_bytes().unwrap();
+        assert_eq!(out.len(), d.len());
+        let back = parse(&out).unwrap().view;
+        assert_eq!(back.pointer("/Player/Resin"), Some(&500.into()));
+        assert_eq!(back.pointer("/Ammo/Shotgun shells"), Some(&30.into()));
+        assert_eq!(back.pointer("/Player/Health"), Some(&64.into()));
     }
 
     #[test]
