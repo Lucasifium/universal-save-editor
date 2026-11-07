@@ -1,5 +1,5 @@
 //! Fallout 3 and Fallout: New Vegas (`.fos`): the character's bottle caps, experience,
-//! karma and S.P.E.C.I.A.L. Values the save doesn't have (some saves lack a readable
+//! karma, S.P.E.C.I.A.L. and the points added to each skill. Values the save doesn't have (some saves lack a readable
 //! inventory or base form) are left out.
 
 use super::{columns, fact, hero, panel, GameCtx};
@@ -34,9 +34,25 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
                 ui.weak("The perk and trait bonuses on top come from the game.");
             });
         } else {
-            panel(ui, "About the numbers", |ui| {
-                ui.weak("Experience sets the level the game works out; the level shown is from the save's header and catches up when you next gain experience. Karma runs from \u{2212}1000 to 1000.");
+            panel(ui, "Skills: points added", |ui| {
+                let names: Vec<String> = match cx.get("/Skills") {
+                    Some(serde_json::Value::Object(m)) => m.keys().cloned().collect(),
+                    _ => vec![],
+                };
+                if names.is_empty() {
+                    ui.weak("This save's skills couldn't be read.");
+                    return;
+                }
+                egui::Grid::new("fo_skills").num_columns(2).spacing([12.0, 6.0]).show(ui, |ui| {
+                    for n in &names {
+                        cx.grid_row(ui, n, &format!("/Skills/{n}"), 70.0);
+                    }
+                });
+                ui.weak("Points spent at level-up plus books, bobbleheads and perks. The game adds them to each skill's base (from S.P.E.C.I.A.L., +15 when tagged) and stops counting at 100.");
             });
         }
+    });
+    panel(ui, "About the numbers", |ui| {
+        ui.weak("Experience sets the level the game works out; the level shown is from the save's header and catches up when you next gain experience. Karma runs from \u{2212}1000 to 1000.");
     });
 }
