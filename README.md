@@ -105,7 +105,7 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 | Hades, Hades II | Main currencies; runs, play time and last death; all resources by kind (currencies, plants, ores, fish, reagents) |
 | Stardew Valley | Gold, Qi Gems, casino coins, Golden Walnuts; health and energy; the six skills (level and XP, with the XP the next level needs); farm details; the crafting materials in the backpack (wood, stone, fiber, clay, ores, bars, monster loot…) with a **Max crafting materials** button that fills them to 999, leaving quest items, minerals and artifacts alone |
 | Planescape: Torment: Enhanced Edition | Coppers; the Nameless One and each companion: experience, level, hit points, abilities, alignment and item stacks (checked on real saves, not yet tried in the game) |
-| Clair Obscur: Expedition 33 | Gold; each party member's level, experience, action points, health and attribute points; item counts (checked on a real save, not yet tried in the game) |
+| Clair Obscur: Expedition 33 | Gold; each party member's level, experience, action points, health, attribute points and Lumina from Colours of Lumina; each weapon's level; item counts (checked on a real save, not yet tried in the game) |
 | Fallout 3 | Bottle caps, experience, karma, S.P.E.C.I.A.L. and the points added to each skill (checked on real saves, not yet tried in the game) |
 | Fallout: New Vegas | Bottle caps, experience, karma, S.P.E.C.I.A.L. and the points added to each skill (checked on real saves, not yet tried in the game) |
 | Starbound | Pixels and the other currencies; item counts in every bag; health, energy and food; ship level, crew and fuel; deaths and play time (checked on a real character save, not yet tried in the game) |

@@ -1,5 +1,6 @@
 //! Clair Obscur: Expedition 33 (`EXPEDITION_*.sav`, an Unreal Engine save): gold, play time,
-//! each party member's level, experience and attribute points, and the item counts.
+//! each party member's level, experience, attribute points and Lumina from Colours of
+//! Lumina, each weapon's level, and the item counts.
 //! Property names carry a generated suffix (`CurrentLevel_49_97AB…`), so values are found by
 //! the part before it.
 
@@ -56,6 +57,13 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
     });
     let mut names = members.clone();
     names.push("Items".into());
+    let weapons = match cx.get("/WeaponProgressions") {
+        Some(Value::Array(a)) => a.len(),
+        _ => 0,
+    };
+    if weapons > 0 {
+        names.push("Weapons".into());
+    }
     let t = tabs(ui, "e33_tabs", &names);
     if t < members.len() {
         let base = join("/CharactersCollection", &members[t]);
@@ -63,7 +71,14 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
             if i == 0 {
                 panel(ui, "Level and vitals", |ui| {
                     egui::Grid::new(("e33_char", &base)).num_columns(2).spacing([12.0, 6.0]).show(ui, |ui| {
-                        for (label, prefix) in [("Level", "CurrentLevel"), ("Experience", "CurrentExperience"), ("Available action points", "AvailableActionPoints"), ("Current HP", "CurrentHP"), ("Current MP", "CurrentMP")] {
+                        for (label, prefix) in [
+                            ("Level", "CurrentLevel"),
+                            ("Experience", "CurrentExperience"),
+                            ("Available action points", "AvailableActionPoints"),
+                            ("Current HP", "CurrentHP"),
+                            ("Current MP", "CurrentMP"),
+                            ("Lumina from Colours of Lumina", "LuminaFromConsumables"),
+                        ] {
                             if let Some(k) = find(cx, &base, prefix) {
                                 cx.grid_row(ui, label, &join(&base, &k), 110.0);
                             }
@@ -81,6 +96,18 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
                     });
                 });
             }
+        });
+    } else if t == members.len() + 1 {
+        panel(ui, "Weapon levels", |ui| {
+            egui::Grid::new("e33_weapons").num_columns(2).spacing([12.0, 6.0]).show(ui, |ui| {
+                for i in 0..weapons {
+                    let base = format!("/WeaponProgressions/{i}");
+                    let (Some(id), Some(lv)) = (find(cx, &base, "DefinitionID"), find(cx, &base, "CurrentLevel")) else { continue };
+                    let name = cx.text(&join(&base, &id)).unwrap_or_default();
+                    cx.grid_row(ui, &words(&name), &join(&base, &lv), 90.0);
+                }
+            });
+            ui.weak("Each weapon you own and the level it has been upgraded to.");
         });
     } else {
         panel(ui, "Items", |ui| {
