@@ -31,37 +31,13 @@ pub fn config_dir() -> Option<PathBuf> {
     } else {
         env("XDG_CONFIG_HOME").or_else(|| env("HOME").map(|h| h.join(".config"))).map(|d| d.join(APP_NAME))
     }?;
-    move_from_old_name(&dir);
     Some(dir)
 }
 
-/// The folder was called "SaveEditorOffline" before the program was renamed: move it (settings,
-/// recent files and the backups of edited saves) to the new name the first time.
-#[cfg(not(target_os = "android"))]
-fn move_from_old_name(dir: &Path) {
-    static ONCE: std::sync::Once = std::sync::Once::new();
-    ONCE.call_once(|| rename_old_dir(dir));
-}
-
-#[cfg(not(target_os = "android"))]
-fn rename_old_dir(dir: &Path) {
-    let Some(old) = dir.parent().map(|p| p.join("SaveEditorOffline")) else { return };
-    if !dir.exists() && old.is_dir() {
-        let _ = std::fs::rename(&old, dir);
-    }
-}
-
-/// %APPDATA%\UniversalSaveEditor, bringing over the settings from an older folder name.
+/// %APPDATA%\UniversalSaveEditor.
 #[cfg(not(target_os = "android"))]
 fn windows_dir(appdata: &Path) -> PathBuf {
-    let dir = appdata.join(APP_NAME);
-    move_from_old_name(&dir);
-    let old = appdata.join("SaveEditor").join("settings.json");
-    if !dir.exists() && old.is_file() {
-        let _ = std::fs::create_dir_all(&dir);
-        let _ = std::fs::copy(old, dir.join("settings.json"));
-    }
-    dir
+    appdata.join(APP_NAME)
 }
 
 /// Label for the "show this file in the file manager" command, if there is one.
@@ -244,39 +220,6 @@ pub mod android {
             _ => return,
         };
         push(Typed::Key(key));
-    }
-}
-
-#[cfg(test)]
-mod tests {
-    #[test]
-    fn old_settings_are_copied_once() {
-        let base = std::env::temp_dir().join(format!("seo_settings_test_{}", std::process::id()));
-        let _ = std::fs::remove_dir_all(&base);
-        std::fs::create_dir_all(base.join("SaveEditor")).unwrap();
-        std::fs::write(base.join("SaveEditor").join("settings.json"), "{\"dark\":false}").unwrap();
-        let dir = super::windows_dir(&base);
-        assert_eq!(dir, base.join("UniversalSaveEditor"));
-        assert_eq!(std::fs::read_to_string(dir.join("settings.json")).unwrap(), "{\"dark\":false}");
-        // Later changes in the new folder are kept, not overwritten by the old file.
-        std::fs::write(dir.join("settings.json"), "{}").unwrap();
-        super::windows_dir(&base);
-        assert_eq!(std::fs::read_to_string(dir.join("settings.json")).unwrap(), "{}");
-        let _ = std::fs::remove_dir_all(&base);
-    }
-
-    #[test]
-    fn folder_from_before_the_rename_is_moved() {
-        let base = std::env::temp_dir().join(format!("seo_rename_test_{}", std::process::id()));
-        let _ = std::fs::remove_dir_all(&base);
-        std::fs::create_dir_all(base.join("SaveEditorOffline").join("backups")).unwrap();
-        std::fs::write(base.join("SaveEditorOffline").join("settings.json"), "{\"dark\":false}").unwrap();
-        let dir = base.join(super::APP_NAME);
-        super::rename_old_dir(&dir);
-        assert_eq!(std::fs::read_to_string(dir.join("settings.json")).unwrap(), "{\"dark\":false}");
-        assert!(dir.join("backups").is_dir());
-        assert!(!base.join("SaveEditorOffline").exists());
-        let _ = std::fs::remove_dir_all(&base);
     }
 }
 
