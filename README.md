@@ -31,7 +31,7 @@ My favourites so far:
   interest (Shimmer, Plantera bulbs, Enchanted Sword shrines, chests). Characters have their own
   Terraria character editor.
 - **Onimusha: Way of the Sword save editor**: it just came out, so many fields are still missing as
-  far as I can tell.
+  far as I can tell. It has a Max crafting materials button for the equipment upgrade materials.
 - **RimWorld save editor**
 - **Stardew Valley save editor**
 - **Oxygen Not Included save editor and map editor**: paint elements, temperature and mass on every
@@ -121,7 +121,7 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 | Cairn (Story and On the Trail) | *Climber*: who climbs (Aava or Marco); play time, falls and deaths; the running buffs (Focus, Grip, Temperature, Grit, Burst and the rest: seconds left, source, strength; start, stretch or end them); the backpack, piton belt and chalk pouch as item grids with the game's own item names (add, remove or swap items, uses and sips left, what a bottle holds); the slot's saves, marking the one the game continues from |
 | Diablo II, Diablo II: Resurrected | *Character*: level, experience, gold and stash gold; the four attributes, stat and skill points; life, mana and stamina (base values); points in every skill |
 | Pathfinder: Kingmaker, Wrath of the Righteous | *Party*: money; the player and each companion's ability scores, experience, classes and levels, and base hit points (Wrath: mythic rank too) |
-| Onimusha: Way of the Sword | Each save slot (place, play time, difficulty, objective); red souls, money, health and Oni energy; items and charms by name (on hand and in storage; charm level); equipment experience. Decrypts Capcom's RE Engine encryption with your Steam account, found automatically |
+| Onimusha: Way of the Sword | Each save slot (place, play time, difficulty, objective); red souls, money, health and Oni energy; items and charms by name (on hand and in storage; charm level), with a **Max crafting materials** button that fills the upgrade materials on hand (cloths, leather, whetstones, iron, Tamahagane, Malicite, Byakue's Talisman, Dohatsu-ten's Horn) to 99 (an estimate), leaving Power Stones, Oni Stones, Oni Cloth and key items alone; equipment experience. Decrypts Capcom's RE Engine encryption with your Steam account, found automatically |
 | Stellaris | *Empire*: energy, minerals, food, alloys, consumer goods, influence and unity up front, and every resource in the stockpile. Ironman (binary) saves are recognised but can't be edited |
 | Hearts of Iron IV | *Empire*: political power, stability, war support, command power and experience. Ironman (binary) saves are recognised but can't be edited |
 | Europa Universalis IV | *Empire*: treasury, manpower, prestige, stability, monarch power and every country value. Ironman (binary) saves are recognised but can't be edited |

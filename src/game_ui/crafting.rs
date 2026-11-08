@@ -107,6 +107,13 @@ pub fn about(game: Game) -> &'static str {
             "Raises every kind of Chroma Catalyst (the weapon upgrade materials) to 999, an estimate since the \
              game states no limit. Lumina, Recoat and story items are left alone."
         }
+        Game::Onimusha => {
+            "Raises the upgrade materials on hand in every save slot (Hempen, Cotton and Fine Silk Cloth, \
+             Leather, Whetstone, Iron, Tempered Iron, Tamahagane, Malicite, Malicite Mass, Byakue's Talisman \
+             and Dohatsu-ten's Horn) to 99, an estimate since the game states no limit. Only materials the \
+             slot already has are raised. Power Stones and Oni Stones (skill currencies), Oni Cloth (each \
+             makes one Hozuki Pouch), tributes, medicine and key items are left alone."
+        }
         _ => "",
     }
 }
@@ -131,6 +138,7 @@ pub fn stacks(game: Game, cx: &GameCtx) -> Result<Vec<Stack>, &'static str> {
         Game::HalfLife2 => some(fixed(cx, &[("/Player/Resin", "Resin")], ALYX_RESIN_CAP), "Only Half-Life: Alyx has a crafting material (resin)."),
         Game::Starbound => Ok(starbound(cx)),
         Game::Expedition33 => Ok(expedition33(cx)),
+        Game::Onimusha => Ok(onimusha(cx)),
         _ => Err("This game has no crafting materials list."),
     }
 }
@@ -510,6 +518,49 @@ fn expedition33(cx: &GameCtx) -> Vec<Stack> {
     counts_under(cx, "/InventoryItems", 999, |k| k.starts_with("UpgradeMaterial_Level"))
 }
 
+// ------------------------------------------------------------------ Onimusha: Way of the Sword
+
+/// Estimate: the game states no limit for materials (its own item-capacity setting leaves
+/// materials out), and no upgrade needs anywhere near this many.
+const ONIMUSHA_CAP: i64 = 99;
+
+/// ItemIDs of the equipment upgrade materials (the clothing, sword and Oni Gauntlet upgrade
+/// costs in public guides). Byakue's Talisman and Dohatsu-ten's Horn drop again from their
+/// Genma in rifts, so they are plain materials once owned.
+const ONIMUSHA: [(i64, &str); 12] = [
+    (32727, "Hempen Cloth"),
+    (6729, "Cotton Cloth"),
+    (7568, "Leather"),
+    (14487, "Fine Silk Cloth"),
+    (15508, "Whetstone"),
+    (16424, "Iron"),
+    (14276, "Tempered Iron"),
+    (1544132352, "Tamahagane"),
+    (474871936, "Malicite"),
+    (8973, "Malicite Mass"),
+    (11192, "Byakue's Talisman"),
+    (15668, "Dohatsu-ten's Horn"),
+];
+
+/// Every used save slot's material entries; the count raised is EquipNum (on hand).
+fn onimusha(cx: &GameCtx) -> Vec<Stack> {
+    let Some(base) = super::dashboards::ree_slots(cx.root) else { return vec![] };
+    let slots = cx.get(&base).and_then(Value::as_array).map_or(0, Vec::len);
+    let mut out = vec![];
+    for i in (0..slots).filter(|i| cx.int(&format!("{base}/{i}/_Data/_ResourceData/PlayTime")).unwrap_or(0) > 0) {
+        let items = format!("{base}/{i}/_Data/_Items");
+        let n = cx.get(&items).and_then(Value::as_array).map_or(0, Vec::len);
+        for k in 0..n {
+            let Some(id) = cx.int(&format!("{items}/{k}/ItemID")) else { continue };
+            let Some((_, name)) = ONIMUSHA.iter().find(|(m, _)| *m == id) else { continue };
+            if let Some(s) = single(cx, format!("{items}/{k}/EquipNum"), (*name).to_string(), ONIMUSHA_CAP) {
+                out.push(s);
+            }
+        }
+    }
+    out
+}
+
 // ------------------------------------------------------------------ Valheim
 
 /// Prefab name and stack size (Valheim wiki).
@@ -883,6 +934,28 @@ mod tests {
         let mut cx = ctx(&root);
         assert_eq!(apply(Game::Expedition33, &mut cx), 1);
         assert_eq!(edits(&cx)["/InventoryItems/UpgradeMaterial_Level1"], 999);
+    }
+
+    #[test]
+    fn onimusha_materials_in_used_slots() {
+        let slot = |play: i64| json!({"_Data": {"_ResourceData": {"PlayTime": play}, "_Items": [
+            {"ItemID": 16424, "EquipNum": 3, "BoxNum": 1},
+            {"ItemID": 1080394368, "EquipNum": 2, "BoxNum": 0},
+            {"ItemID": 2901, "EquipNum": 1, "BoxNum": 0},
+            {"ItemID": 1544132352, "EquipNum": 99, "BoxNum": 0},
+            {"ItemID": 46, "EquipNum": 0, "BoxNum": 0}
+        ]}});
+        let root = json!({"SaveData": {"Slots": [slot(100), slot(0)]}});
+        let mut cx = ctx(&root);
+        assert_eq!(stacks(Game::Onimusha, &cx).unwrap().len(), 2);
+        assert_eq!(apply(Game::Onimusha, &mut cx), 1);
+        let e = edits(&cx);
+        assert_eq!(e.len(), 1);
+        assert_eq!(e["/SaveData/Slots/0/_Data/_Items/0/EquipNum"], ONIMUSHA_CAP);
+        let names = include_str!("../fmt/data/onimusha_items.tsv");
+        for (id, n) in ONIMUSHA {
+            assert!(names.lines().any(|l| l == format!("{id}\t{n}")), "{n}");
+        }
     }
 
     #[test]
