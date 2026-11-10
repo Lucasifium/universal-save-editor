@@ -41,52 +41,24 @@ My favourites so far:
 
     cargo run --release -- path\to\savefile      # path is optional
 
-or run one of the builds in `dist\` (see below). On desktop you can also drag a save onto the program or
+or download a build from Releases (below). On desktop you can also drag a save onto the program or
 the window. The welcome screen lists recent files and common save folders (Ren'Py games, Unity, Saved
 Games; on Android: RetroArch, Downloads).
 
-## Builds
+## Downloads
 
-    .\build_all.ps1                     # everything the machine can build, into dist\
-    .\build_all.ps1 -Only android       # or windows-x64, windows-arm64, linux-x64, linux-arm64, web
+Ready-made builds are on the [Releases page](../../releases):
 
-| File in `dist\` | Runs on |
+| File | Runs on |
 |---|---|
 | `UniversalSaveEditor-windows-x64.exe` | Windows 10/11, Intel/AMD |
-| `UniversalSaveEditor-windows-arm64.exe` | Windows 11 on ARM (Snapdragon laptops) |
-| `UniversalSaveEditor-linux-x64.tar.gz` | Linux with glibc 2.28+ (2018 on), X11 or Wayland |
-| `UniversalSaveEditor-linux-arm64.tar.gz` | ARM64 Linux (Raspberry Pi 4/5 64-bit OS, etc.) |
-| `UniversalSaveEditor-android.apk` | Android 8+ phones and tablets (ARM64, plus x86_64 for emulators) |
-| `UniversalSaveEditor-macos.zip` | macOS 11+, Apple Silicon and Intel; only in major releases or when asked for |
+| `UniversalSaveEditor-windows-arm64.exe` | Windows 11 on ARM |
+| `UniversalSaveEditor-linux-x64.tar.gz` | Linux x64 (glibc 2.28+) |
+| `UniversalSaveEditor-linux-arm64.tar.gz` | Linux ARM64 (e.g. Raspberry Pi) |
+| `UniversalSaveEditor-android.apk` | Android 8+ |
+| `UniversalSaveEditor-macos.zip` | macOS 11+ (major releases only) |
 
-What the script needs: Rust targets for each platform, Visual Studio Build Tools with the ARM64
-compiler, `cargo-zigbuild` + `pip install ziglang` (Linux), and the Android SDK/NDK plus a JDK (Android).
-The SDK is found through `ANDROID_HOME`, then Android Studio's usual place
-(`%LOCALAPPDATA%\Android\Sdk`), then an `android-sdk` folder next to this one.
-
-**Browser version** (`web`): needs `rustup target add wasm32-unknown-unknown` and
-`cargo install wasm-bindgen-cli --version <the wasm-bindgen version in Cargo.lock>`. It builds into
-`docs\app\` (`web/build.sh` does the same on Linux/macOS); commit that folder and GitHub Pages serves it
-with the website. `web/index.html` is the page that loads it; `src/web.rs` and `src/vfs.rs` hold the
-browser-only parts (file picker, downloads, files kept in memory).
-
-**Releases are built on GitHub.** Pushing a tag such as `v0.2.0` (matching the version in `Cargo.toml`)
-runs `.github/workflows/release.yml`: it builds Windows x64/ARM64, Linux x64/ARM64 and the Android APK,
-refuses any file that still holds a build-machine path, user name or e-mail address
-(`packaging/check_clean.py`), and attaches the files to the GitHub Release. *Actions* › *Release* › *Run
-workflow* builds without publishing (files appear under the run's *Artifacts*; fill in *tag* to publish).
-The Android job signs with the repository secrets `ANDROID_KEYSTORE_B64` (the release keystore, base64) and
-`ANDROID_KEYSTORE_PASSWORD`; without them the APK is skipped.
-
-**macOS** can only be built on a Mac, and GitHub's Macs use many more Actions minutes, so it only runs
-for major tags (`vX.0.0`) or when *Include macOS* is ticked on a manual run. The universal `.app` is
-`UniversalSaveEditor-macos.zip`. It isn't notarized: the first time, right-click the app › *Open*.
-
-**Android**: the first build creates a signing key in `packaging\android\` (`release.keystore` and its
-password). Keep both: Android only installs updates signed with the same key. On the phone, the app asks
-for *All files access* the first time you open a file, so it can read and write saves where emulators
-keep them. Android's NativeActivity has no on-screen keyboard support, so `packaging\android\java` adds a
-small activity that passes the keyboard's typing to the app.
+There is also a browser version on the project website. To build it yourself, see [BUILDING.md](BUILDING.md).
 
 ## Game screens
 
