@@ -315,6 +315,7 @@ save + re-open comparison, and damaged/truncated copies to make sure nothing cra
 - **Built on others' work.** Save layouts and item tables from other open-source editors are used under
   their licences (MIT, Apache-2.0, zlib), and every crate compiled into the program is listed with its
   licence. See [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
+- **Built with help from Claude (Anthropic).**
 - **Use at your own risk.** Back up your saves first. Editing saves is meant for single-player games:
   don't use edited saves in online or multiplayer modes, where it can break the game's rules and get
   an account banned. The editor never touches online services or anti-cheat.
