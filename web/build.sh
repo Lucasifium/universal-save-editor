@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Builds the browser version into docs/app/ (served with the website).
+# Builds the browser (WebAssembly) version into docs/app/, which is served with the website.
 # Needs: rustup target add wasm32-unknown-unknown
 #        cargo install wasm-bindgen-cli --version <the wasm-bindgen version in Cargo.lock>
 set -euo pipefail
