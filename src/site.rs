@@ -327,32 +327,47 @@ fn build_site() {
         if what.is_none() && g.support == "Game screen" {
             unmatched.push(g.name);
         }
-        // For search results: the description without its tab label, about one line long.
-        let short_what = what
-            .as_deref()
-            .map(|w| {
-                let w = w.replace(['*', '`'], "");
-                let w = match w.split_once(": ") {
-                    Some((label, rest)) if label.len() < 20 && !label.contains(' ') => rest.to_string(),
-                    _ => w,
-                };
-                let w = w.replace("; ", ", ");
-                if w.chars().count() <= 120 {
-                    return w.trim_end_matches('.').to_string();
-                }
-                let cut: String = w.chars().take(120).collect();
+        // For search results: the description without its tab label, short enough for a snippet.
+        let clean_what = what.as_deref().map(|w| {
+            let w = w.replace(['*', '`'], "");
+            let w = match w.split_once(": ") {
+                Some((label, rest)) if label.len() < 20 && !label.contains(' ') => rest.to_string(),
+                _ => w,
+            };
+            w.replace("; ", ", ")
+        });
+        let build_desc = |limit: usize, tail: bool| -> String {
+            let tail = if tail { " Nothing is uploaded, no limits." } else { "" };
+            let Some(w) = clean_what.as_deref() else {
+                return format!("Free, offline {search} save editor for PC. {lvl_note}{tail}");
+            };
+            let short = if w.chars().count() <= limit {
+                w.trim_end_matches('.').to_string()
+            } else {
+                let cut: String = w.chars().take(limit).collect();
                 let end = cut.rfind([',', ' ']).unwrap_or(cut.len());
                 format!("{}\u{2026}", cut[..end].trim_end_matches([',', ' ']))
-            })
-            .unwrap_or_default();
-        let desc = if short_what.is_empty() {
-            format!("Free, offline {search} save editor for PC. {lvl_note} Nothing is uploaded, no limits.")
-        } else {
-            let first = short_what.chars().next().map_or(String::new(), |c| c.to_lowercase().collect());
-            let dot = if short_what.ends_with('\u{2026}') { "" } else { "." };
-            format!("Free, offline {search} save editor for PC. Edit {first}{}{dot} Nothing is uploaded, no limits.", short_what.chars().skip(1).collect::<String>())
+            };
+            let first = short.chars().next().map_or(String::new(), |c| c.to_lowercase().collect());
+            let dot = if short.ends_with('\u{2026}') { "" } else { "." };
+            format!("Free, offline {search} save editor for PC. Edit {first}{}{dot}{tail}", short.chars().skip(1).collect::<String>())
         };
-        let title = format!("{search} Save Editor: free and offline | Universal Save Editor");
+        // Search engines cut descriptions at about 160 characters: keep the game name and what
+        // can be edited, and drop the boilerplate first.
+        let desc = [(120, true), (120, false), (80, false), (50, false)]
+            .iter()
+            .map(|&(l, t)| build_desc(l, t))
+            .find(|d| d.chars().count() <= 160)
+            .unwrap_or_else(|| build_desc(50, false));
+        // Titles are cut at about 60 characters: the game name always comes first.
+        let title = [
+            format!("{search} Save Editor: free and offline | Universal Save Editor"),
+            format!("{search} Save Editor | Universal Save Editor"),
+            format!("{search} Save Editor: free and offline"),
+        ]
+        .into_iter()
+        .find(|t| t.chars().count() <= 62)
+        .unwrap_or_else(|| format!("{search} Save Editor"));
         let mut body = String::new();
         let _ = write!(
             body,
