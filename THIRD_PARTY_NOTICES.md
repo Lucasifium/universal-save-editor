@@ -32,6 +32,7 @@ Universal Save Editor is free. It builds on other people's work, listed here wit
 | [schedule-one-editor and Schedule-1-Save-File-Editor (Schedule I save file names and fields; sample saves used for checks only, not included)](https://github.com/Rainnny7/schedule-one-editor) | Rainnny7 | MIT |
 | [SOTFEdit (Sons of the Forest item names and carrying limits; sample saves used for checks only, not included)](https://github.com/codengine/SOTFEdit) | codengine | MIT |
 | [DeathMustDieSaveEditor (Death Must Die save layout; sample save used for checks only, not included)](https://github.com/DenislavLitsov/DeathMustDieSaveEditor) | Denislav Litsov | Apache-2.0 |
+| [DrKahls-Time-Machine (Cuphead save field names; sample save used for checks only, not included)](https://github.com/GeopJr/DrKahls-Time-Machine) | GeopJr | Unlicense |
 | [uesave-rs (Unreal property-tag save layout)](https://github.com/trumank/uesave-rs) | trumank | MIT; file layout facts only, no code copied, credited |
 | [LSLib (Larian LSPK package and LSF resource layouts, ported)](https://github.com/Norbyte/lslib) | Norbyte | MIT |
 | [pLarianSaveTools (Divinity: Original Sin 2 save layout)](https://github.com/patimweb-labs/pLarianSaveTools) | patimweb-labs | facts only (file layouts, ids and names), credited |

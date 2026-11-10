@@ -3,7 +3,7 @@
 
 use super::{List, Max, Section, Shape, Spec, Table};
 
-pub static SPECS: &[Spec] = &[COTL, FALLOUT_SHELTER, DRG, S1_MONEY, S1_RANK, S1_TIME, S1_GAME, SOTF_STATE, SOTF_ITEMS, DMD];
+pub static SPECS: &[Spec] = &[COTL, FALLOUT_SHELTER, DRG, S1_MONEY, S1_RANK, S1_TIME, S1_GAME, SOTF_STATE, SOTF_ITEMS, DMD, CUPHEAD];
 
 // ------------------------------------------------------------------ Cult of the Lamb
 
@@ -638,6 +638,39 @@ const DMD: Spec = Spec {
             ("Selected character", "/serializedSaveData/values/0/ProgressionJson/_selectedCharacterId"),
         ],
     }],
+    lists: &[],
+    tables: &[],
+};
+
+// ------------------------------------------------------------------ Cuphead
+
+const CUPHEAD: Spec = Spec {
+    name: "Cuphead",
+    tab: "Inkwell Isle",
+    accent: (214, 168, 48),
+    kind: None,
+    markers: &["/inventories/playerOne/money", "/coinManager", "/statictics/playerOne"],
+    subtitle: "",
+    tiles: &[("Coins (Cuphead)", "/inventories/playerOne/money"), ("Coins (Mugman)", "/inventories/playerTwo/money"), ("Wishes left", "/djimmiWishes")],
+    sections: &[
+        Section {
+            title: "Coins and deaths",
+            rows: &[
+                ("Coins, player 1", "/inventories/playerOne/money"), ("Coins, player 2", "/inventories/playerTwo/money"),
+                ("Deaths, player 1", "/statictics/playerOne/numDeaths"), ("Deaths, player 2", "/statictics/playerTwo/numDeaths"),
+                ("Djimmi's wishes", "/djimmiWishes"), ("Player 1 is Mugman", "/isPlayer1Mugman"),
+            ],
+        },
+        Section {
+            title: "Unlocks",
+            rows: &[
+                ("Expert mode available", "/_isHardModeAvailable"), ("Expert mode available (DLC)", "/_isHardModeAvailableDLC"),
+                ("Black and white filter", "/unlockedBlackAndWhite"), ("2-strip colour filter", "/unlocked2Strip"),
+                ("Chalice recolour", "/unlockedChaliceRecolor"), ("Boatman unlocked", "/hasUnlockedBoatman"),
+                ("First super unlocked", "/hasUnlockedFirstSuper"), ("Curse charm puzzle done", "/curseCharmPuzzleComplete"),
+            ],
+        },
+    ],
     lists: &[],
     tables: &[],
 };
