@@ -250,6 +250,7 @@ fn page(title: &str, desc: &str, path: &str, body: &str, schema: &str) -> String
 <meta name="description" content="{d}">
 <link rel="canonical" href="{SITE}/{path}">
 <meta property="og:type" content="website">
+<meta property="og:site_name" content="Universal Save Editor">
 <meta property="og:title" content="{t}">
 <meta property="og:description" content="{d}">
 <meta property="og:url" content="{SITE}/{path}">
@@ -285,6 +286,33 @@ fn schema(name: &str, desc: &str, url: &str) -> String {
         "license": "https://www.gnu.org/licenses/gpl-3.0.html",
         "downloadUrl": DOWNLOAD,
     })
+    .to_string()
+    .replace("</", "<\\/")
+}
+
+/// Home page only: tells Google the site's name (used for the name shown above search results).
+fn website_schema(app: &str, crumb: Option<(&str, &str)>) -> String {
+    let mut app: serde_json::Value = serde_json::from_str(app).unwrap();
+    app.as_object_mut().unwrap().remove("@context");
+    app["isPartOf"] = serde_json::json!({"@id": format!("{SITE}/#website")});
+    let mut graph = vec![serde_json::json!({
+                "@type": "WebSite",
+                "@id": format!("{SITE}/#website"),
+                "url": format!("{SITE}/"),
+                "name": "Universal Save Editor",
+                "alternateName": ["Universal Save Editor (offline)", "Offline Universal Save Editor"],
+                "inLanguage": "en"
+            }), app];
+    if let Some((name, url)) = crumb {
+        graph.push(serde_json::json!({
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+                {"@type": "ListItem", "position": 1, "name": "Universal Save Editor", "item": format!("{SITE}/")},
+                {"@type": "ListItem", "position": 2, "name": name, "item": url}
+            ]
+        }));
+    }
+    serde_json::json!({"@context": "https://schema.org", "@graph": graph})
     .to_string()
     .replace("</", "<\\/")
 }
@@ -401,7 +429,7 @@ fn build_site() {
         let path = format!("{s}/");
         let dir = out.join(&s);
         std::fs::create_dir_all(&dir).unwrap();
-        std::fs::write(dir.join("index.html"), page(&title, &desc, &path, &body, &schema(&format!("Universal Save Editor ({search} save editor)"), &desc, &format!("{SITE}/{path}")))).unwrap();
+        std::fs::write(dir.join("index.html"), page(&title, &desc, &path, &body, &website_schema(&schema(&format!("Universal Save Editor ({search} save editor)"), &desc, &format!("{SITE}/{path}")), Some((&format!("{search} Save Editor"), &format!("{SITE}/{path}")))))).unwrap();
         urls.push(format!("{SITE}/{path}"));
         let blurb = what.as_deref().map(card_blurb).unwrap_or_default();
         let tag_class = if has_screen(g) { "tag screen" } else { "tag" };
@@ -410,9 +438,9 @@ fn build_site() {
     }
 
     let full = GAMES.iter().filter(|g| has_screen(g)).count();
-    let desc = format!("Free, offline save editor for {}+ PC games, including Cairn, Terraria, Oxygen Not Included, RimWorld, Stardew Valley, Elden Ring and Cyberpunk 2077. Nothing is uploaded, no limits.", GAMES.len() / 10 * 10);
+    let desc = format!("Universal Save Editor is a free, offline save editor for {}+ PC games, including Elden Ring, Skyrim, Stardew Valley, Cyberpunk 2077 and Dark Souls III. Nothing is uploaded.", GAMES.len() / 10 * 10);
     let body = format!(
-        r#"<h1>A free save editor for {n} games</h1>
+        r#"<h1>Universal Save Editor: a free save editor for {n} games</h1>
 <p class="lead">Universal Save Editor edits your saves on your own computer: no uploads, no accounts, no rate limits. It's free, and always will be.</p>
 <div class="badges"><span class="badge free">Free forever</span><span class="badge">Offline</span><span class="badge">Open source</span><span class="badge">Windows · Linux · Android · Browser</span></div>
 <a class="btn" href="{DOWNLOAD}">Download for free</a><a class="btn alt" href="{WEB_APP}">Use it in your browser</a>
@@ -430,7 +458,7 @@ fn build_site() {
 "#,
         n = GAMES.len(),
     );
-    std::fs::write(out.join("index.html"), page(&format!("Universal Save Editor: free, offline save editor for {}+ games", GAMES.len() / 10 * 10), &desc, "", &body, &schema("Universal Save Editor", &desc, &format!("{SITE}/")))).unwrap();
+    std::fs::write(out.join("index.html"), page(&format!("Universal Save Editor - Free Offline Save Editor for {}+ Games", GAMES.len() / 10 * 10), &desc, "", &body, &website_schema(&schema("Universal Save Editor", &desc, &format!("{SITE}/")), None))).unwrap();
 
     let mut sm = String::from("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n");
     for u in &urls {
