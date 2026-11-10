@@ -55,6 +55,8 @@ pub struct Table {
     pub name: &'static [&'static str],
     /// Editable columns: `(heading, pointer inside the entry)`.
     pub cols: &'static [(&'static str, &'static str)],
+    /// `(text, name)`: names for rows whose name text is an id.
+    pub names: &'static [(&'static str, &'static str)],
 }
 
 pub struct Spec {
@@ -210,6 +212,7 @@ pub fn show(i: u16, ui: &mut Ui, cx: &mut GameCtx) {
                         if !q.is_empty() && !name.to_lowercase().contains(&q) {
                             continue;
                         }
+                        let name = t.names.iter().find(|(id, _)| *id == name).map_or(name, |(_, n)| n.to_string());
                         ui.label(if name.is_empty() { format!("#{}", r + 1) } else { name });
                         for (_, k) in t.cols {
                             let p = format!("{}/{r}{k}", t.path);

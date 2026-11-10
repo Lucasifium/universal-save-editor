@@ -156,6 +156,47 @@ impl P<'_> {
             _ => return None,
         })
     }
+    /// One key of a UE 4 map or element of a UE 4 set, as text (never editable). Struct keys
+    /// are taken to be GUIDs, which is what saves use.
+    fn legacy_key(&mut self, ty: &str) -> Result<String, String> {
+        match ty {
+            "StructProperty" => Ok(self.take(16)?.iter().map(|b| format!("{b:02x}")).collect()),
+            "NameProperty" | "StrProperty" | "ObjectProperty" | "EnumProperty" | "SoftObjectProperty" => self.fstring(),
+            other => {
+                let k = Self::kind_of(other).ok_or("unsupported map key")?;
+                let leaves = self.leaves.len();
+                let v = self.scalar(k, "\u{0}key", &[])?;
+                self.leaves.truncate(leaves);
+                self.editable.retain(|_, id| *id < leaves);
+                Ok(key_text(&v))
+            }
+        }
+    }
+    /// A UE 4 set or map (key type `kt`, value type `vt`, empty for a set): its scalar values
+    /// are editable in place; anything it can't read is left to the caller to skip.
+    fn legacy_container(&mut self, kt: &str, vt: &str, ptr: &str, chain: &[usize]) -> Result<Value, String> {
+        if self.i32()? != 0 {
+            return Err("container with removed entries".into());
+        }
+        let n = self.count()?;
+        if vt.is_empty() {
+            return (0..n).map(|_| self.legacy_key(kt).map(Value::String)).collect::<Result<Vec<_>, _>>().map(Value::Array);
+        }
+        let mut m = Map::new();
+        for _ in 0..n {
+            let key = self.legacy_key(kt)?;
+            let k = unique_key(&m, &key);
+            let at = child(ptr, &k);
+            let v = match Self::kind_of(vt) {
+                Some(kind) => self.scalar(kind, &at, chain)?,
+                None if vt == "StructProperty" => self.props(&at, chain, None).map(Value::Object)?,
+                None if vt == "BoolProperty" => self.scalar(Kind::Bool, &at, chain)?,
+                None => return Err("unsupported map value".into()),
+            };
+            m.insert(k, v);
+        }
+        Ok(Value::Object(m))
+    }
     /// A property list terminated by "None".
     fn props(&mut self, ptr: &str, sizes: &[usize], end: Option<usize>) -> Result<Map<String, Value>, String> {
         let mut m = Map::new();
@@ -221,15 +262,18 @@ impl P<'_> {
                 Ok(self.value_or_skip(start, size, |p| p.fstring().map(Value::String)))
             }
             "SetProperty" | "MapProperty" => {
-                self.fstring()?;
-                if ty == "MapProperty" {
-                    self.fstring()?;
-                }
+                let kt = self.fstring()?;
+                let vt = if ty == "MapProperty" { self.fstring()? } else { String::new() };
                 self.guid()?;
                 let start = self.pos;
-                self.take(size)?;
-                let _ = start;
-                Ok(Value::String(format!("<{ty}: {size} bytes>")))
+                if self.pos + size > self.d.len() {
+                    return Err("property runs past the file".into());
+                }
+                let value = self.value_or_skip(start, size, |p| p.legacy_container(&kt, &vt, ptr, &chain));
+                Ok(match value {
+                    Value::String(_) => Value::String(format!("<{ty}: {size} bytes>")),
+                    v => v,
+                })
             }
             other => {
                 self.guid()?;
@@ -385,7 +429,10 @@ impl P<'_> {
         let leaves = self.leaves.len();
         match f(self) {
             Ok(v) if self.pos == start + size => v,
-            _ => {
+            r => {
+                if std::env::var_os("GVAS_DEBUG").is_some() {
+                    eprintln!("SKIP {size} bytes: {:?}", r.as_ref().err());
+                }
                 self.leaves.truncate(leaves);
                 self.editable.retain(|_, id| *id < leaves);
                 self.pos = start + size;
@@ -404,6 +451,9 @@ impl P<'_> {
         Some((0..n).map(|i| self.scalar(kind, &format!("{ptr}/{i}"), sizes)).collect::<Result<Vec<_>, _>>().map(Value::Array))
     }
     fn struct_value(&mut self, st: &str, size: usize, ptr: &str, sizes: &[usize]) -> Result<Value, String> {
+        if st == "Guid" && size == 16 {
+            return Ok(Value::String(self.take(16)?.iter().map(|b| format!("{b:02x}")).collect()));
+        }
         if let Some(r) = self.native(st, size, ptr, sizes) {
             return r;
         }
@@ -432,7 +482,9 @@ impl P<'_> {
                 chain.push(size_off);
                 let each = if n > 0 { total / n } else { 0 };
                 for i in 0..n {
-                    out.push(self.struct_value(&st, each, &item(i), &chain)?);
+                    // Elements of a property-list struct differ in size; each ends at its own "None".
+                    let raw = st == "Guid" || NATIVE.iter().any(|(name, _, _)| *name == st);
+                    out.push(if raw { self.struct_value(&st, each, &item(i), &chain)? } else { Value::Object(self.props(&item(i), &chain, None)?) });
                 }
             }
             "BoolProperty" => (0..n).try_for_each(|i| self.scalar(Kind::Bool, &item(i), sizes).map(|v| out.push(v)))?,
@@ -583,8 +635,8 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
     }
     let props = p.props("", &[], None)?;
     let trailing = d.len() - p.pos;
-    if trailing > 16 {
-        return Err("unexpected data after properties".into());
+    if trailing > 16 && d[p.pos..].iter().any(|&b| b != 0) {
+        return Err(format!("unexpected data after properties ({trailing} bytes)"));
     }
     let short = class.rsplit('.').next().unwrap_or(&class).to_string();
     let backend = GvasBackend { raw: d.to_vec(), leaves: p.leaves };
@@ -673,6 +725,66 @@ mod tests {
             assert_eq!(again.view.pointer(p).unwrap(), &v, "{p}");
         }
         assert!(doc.set("/Gold", Value::from(1_i64 << 40)).is_err());
+    }
+
+    /// UE 4 maps with GUID keys, sets, and arrays of structs whose elements differ in size
+    /// (Deep Rock Galactic's layout), with zero padding after the properties.
+    #[test]
+    fn legacy_maps_and_struct_arrays() {
+        let mut v = b"GVAS".to_vec();
+        v.extend(2i32.to_le_bytes());
+        v.extend(522i32.to_le_bytes());
+        v.extend([4, 0, 27, 0, 2, 0, 1, 2, 3, 4]);
+        v.extend(fs("++UE4+Release-4.27"));
+        v.extend(3i32.to_le_bytes());
+        v.extend(0i32.to_le_bytes());
+        v.extend(fs("/Script/FSD.FSDSaveGame"));
+        // Map<Guid, float>
+        let mut map = 0i32.to_le_bytes().to_vec();
+        map.extend(2i32.to_le_bytes());
+        for (g, f) in [(1u8, 37.0f32), (2, 10.5)] {
+            map.extend([g; 16]);
+            map.extend(f.to_le_bytes());
+        }
+        let mut tag = fs("StructProperty");
+        tag.extend(fs("FloatProperty"));
+        v.extend(prop("Owned", "MapProperty", &tag, &map, false));
+        // Set<Name>
+        let mut set = 0i32.to_le_bytes().to_vec();
+        set.extend(1i32.to_le_bytes());
+        set.extend(fs("Seen"));
+        v.extend(prop("Events", "SetProperty", &fs("NameProperty"), &set, false));
+        // Array<Struct{XP: int, Tag: str}> with elements of different sizes.
+        let mut elems = vec![];
+        for (xp, t) in [(5i32, "a"), (6, "a longer tag")] {
+            elems.extend(prop("XP", "IntProperty", &[], &xp.to_le_bytes(), false));
+            elems.extend(prop("Tag", "StrProperty", &[], &fs(t), false));
+            elems.extend(fs("None"));
+        }
+        let mut arr = 2i32.to_le_bytes().to_vec();
+        arr.extend(fs("Chars"));
+        arr.extend(fs("StructProperty"));
+        arr.extend((elems.len() as i32).to_le_bytes());
+        arr.extend(0i32.to_le_bytes());
+        arr.extend(fs("CharSave"));
+        arr.extend([0u8; 16]);
+        arr.push(0);
+        arr.extend(&elems);
+        v.extend(prop("Chars", "ArrayProperty", &fs("StructProperty"), &arr, false));
+        v.extend(fs("None"));
+        v.extend(0i32.to_le_bytes());
+        v.extend([0u8; 40]);
+        let raw = v;
+        let mut doc = parse(&raw).unwrap();
+        assert_eq!(doc.view.pointer("/Owned/01010101010101010101010101010101").unwrap(), 37.0);
+        assert_eq!(doc.view.pointer("/Events/0").unwrap(), "Seen");
+        assert_eq!(doc.view.pointer("/Chars/1/Tag").unwrap(), "a longer tag");
+        assert_eq!(doc.to_bytes().unwrap(), raw);
+        doc.set("/Owned/02020202020202020202020202020202", Value::from(9999)).unwrap();
+        doc.set("/Chars/0/XP", Value::from(318093)).unwrap();
+        let again = parse(&doc.to_bytes().unwrap()).unwrap();
+        assert_eq!(again.view.pointer("/Owned/02020202020202020202020202020202").unwrap(), 9999.0);
+        assert_eq!(again.view.pointer("/Chars/0/XP").unwrap(), 318093);
     }
 
     /// A UE 5.4 type name: name, parameter count, parameters.
@@ -773,6 +885,20 @@ mod tests {
             ("/Scores/1", json!(20)),
         ] {
             assert_eq!(again.view.pointer(p).unwrap(), &v, "{p}");
+        }
+    }
+}
+
+#[cfg(test)]
+mod research {
+    /// Research: why a GVAS file doesn't parse (SAVE_EDITOR_GVAS = file).
+    #[test]
+    #[ignore]
+    fn gvas_error() {
+        let Ok(f) = std::env::var("SAVE_EDITOR_GVAS") else { return };
+        match super::parse(&std::fs::read(f).unwrap()) {
+            Ok(t) => println!("OK {}", t.kind_name),
+            Err(e) => println!("ERR {e}"),
         }
     }
 }
