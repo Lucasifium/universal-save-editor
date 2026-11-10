@@ -32,6 +32,7 @@ mod expedition33;
 mod fallout3nv;
 mod nier;
 mod screens2;
+mod simple;
 mod starbound;
 mod survival;
 mod terraria;
@@ -136,6 +137,8 @@ pub enum Game {
     Nier,
     DeadRising,
     DeadRising2,
+    /// A table-driven screen (see `simple.rs`).
+    Simple(u16),
 }
 
 impl Game {
@@ -206,6 +209,7 @@ impl Game {
             Game::LethalCompany => "Crew",
             Game::Repo => "Team",
             Game::DeadRising | Game::DeadRising2 => "Survivor",
+            Game::Simple(i) => simple::tab_label(i),
             _ => "Character",
         }
     }
@@ -308,7 +312,7 @@ pub fn detect(kind: &str, root: &Value) -> Option<Game> {
         "Oxygen Not Included save" => Game::OxygenNotIncluded,
         _ if has("/gameMode") && has("/changeSet") && has("/session") => Game::Subnautica,
         "Stellaris save" | "Hearts of Iron IV save" | "Europa Universalis IV save" | "Crusader Kings II save" | "Crusader Kings III save" | "Paradox save" => Game::Paradox,
-        _ => return None,
+        _ => return simple::detect(kind, root).map(Game::Simple),
     })
 }
 
@@ -385,6 +389,7 @@ pub fn show(game: Game, ui: &mut Ui, cx: &mut GameCtx) {
         Game::Repo => coop::repo(ui, cx),
         Game::DeadRising => dead_rising::dead_rising(ui, cx),
         Game::DeadRising2 => dead_rising::dead_rising2(ui, cx),
+        Game::Simple(i) => simple::show(i, ui, cx),
         Game::RenPy => screens2::renpy(ui, cx),
         Game::MassEffect => screens2::mass_effect(ui, cx),
         Game::Xcom => screens2::xcom(ui, cx),

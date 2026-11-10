@@ -124,6 +124,7 @@ pub enum Layer {
     Region { archive: Arc<Vec<u8>>, index: usize, kind: u8 },
     /// Hollow Knight `user*.dat`: .NET string of base64 AES-encrypted JSON.
     HollowKnight,
+    FalloutShelter,
     /// Capcom RE Engine "Mandarin" encryption (index into `mandarin::GAMES`, user id); the
     /// original file supplies the header and footer bytes when writing it back.
     Mandarin { original: Arc<Vec<u8>>, game: usize, user: u64 },
@@ -206,6 +207,7 @@ impl Layer {
             Layer::Bnd4 { name, key, .. } => format!("FromSoftware save ({name}{})", if key.is_some() { ", encrypted" } else { "" }),
             Layer::Region { index, .. } => format!("Minecraft region (chunk {},{})", index % 32, index / 32),
             Layer::HollowKnight => "Hollow Knight encryption".into(),
+            Layer::FalloutShelter => "Fallout Shelter save encryption".into(),
             Layer::Mandarin { game, .. } => format!("{} save encryption", fmt::mandarin::GAMES[*game].title),
             Layer::Civ5 { .. } => "Civilization V save (compressed game data)".into(),
             Layer::Cdpr { sizes, .. } => format!("CD Projekt RED save ({} LZ4 chunks)", sizes.len()),
@@ -602,6 +604,7 @@ fn wrap(layer: &Layer, data: Vec<u8>) -> Result<Vec<u8>, String> {
         Layer::Bnd4 { archive, name, key, iv } => fmt::containers::bnd4_replace(archive, name, &data, *key, iv)?,
         Layer::Region { archive, index, kind } => fmt::containers::region_replace(archive, *index, &data, *kind)?,
         Layer::HollowKnight => fmt::crypto::hollow_knight_encrypt(&data),
+        Layer::FalloutShelter => fmt::crypto::fallout_shelter_encrypt(&data),
         Layer::Mandarin { original, game, user } => fmt::mandarin::encrypt(&data, original, &fmt::mandarin::GAMES[*game], *user)?,
         Layer::Cdpr { prefix, fzlc, sizes, footer, tagged } => {
             if data.len() != sizes.iter().map(|&n| n as usize).sum::<usize>() {
@@ -956,6 +959,9 @@ fn peel(data: &[u8], ctx: &mut Ctx) -> Option<(Layer, Vec<u8>)> {
     }
     if let Some(plain) = fmt::crypto::hollow_knight_decrypt(data) {
         return Some((Layer::HollowKnight, plain));
+    }
+    if let Some(plain) = fmt::crypto::fallout_shelter_decrypt(data) {
+        return Some((Layer::FalloutShelter, plain));
     }
     if let Some((password, iv, plain)) = fmt::crypto::es3_decrypt_any(data, ctx.opts.password.as_deref(), is_recognisable) {
         return Some((Layer::Es3 { password, iv }, plain));
@@ -1797,6 +1803,8 @@ mod tests {
     fn zlib() { roundtrip(&[Layer::Zlib]); }
     #[test]
     fn base64_gzip() { roundtrip(&[Layer::Base64, Layer::Gzip]); }
+    #[test]
+    fn fallout_shelter_layer() { roundtrip(&[Layer::FalloutShelter]); }
     #[test]
     fn bom() { roundtrip(&[Layer::Utf8Bom]); }
 

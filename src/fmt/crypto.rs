@@ -271,3 +271,30 @@ pub fn hollow_knight_encrypt(plain: &[u8]) -> Vec<u8> {
     out.push(0x0B);
     out
 }
+
+/// Fallout Shelter `Vault<n>.sav`: base64 of AES-256-CBC (PKCS7, fixed key and IV) JSON, as
+/// published by the game's open-source save editors.
+const FS_KEY: [u8; 32] = [
+    0xa7, 0xca, 0x9f, 0x33, 0x66, 0xd8, 0x92, 0xc2, 0xf0, 0xbe, 0xf4, 0x17, 0x34, 0x1c, 0xa9, 0x71, 0xb6, 0x9a, 0xe9, 0xf7, 0xba, 0xcc, 0xcf, 0xfc, 0xf4, 0x3c, 0x62, 0xd1, 0xd7, 0xd0, 0x21, 0xf9,
+];
+const FS_IV: &[u8; 16] = b"tu89geji340t89u2";
+
+pub fn fallout_shelter_decrypt(data: &[u8]) -> Option<Vec<u8>> {
+    use base64::Engine;
+    let text = std::str::from_utf8(data).ok()?.trim();
+    if text.len() < 24 || !text.bytes().all(|b| b.is_ascii_alphanumeric() || matches!(b, b'+' | b'/' | b'=')) {
+        return None;
+    }
+    let raw = base64::engine::general_purpose::STANDARD.decode(text).ok()?;
+    if raw.is_empty() || raw.len() % 16 != 0 {
+        return None;
+    }
+    let plain = cbc::Decryptor::<aes::Aes256>::new(&FS_KEY.into(), FS_IV.into()).decrypt_padded_vec_mut::<Pkcs7>(&raw).ok()?;
+    plain.first().is_some_and(|&b| b == b'{').then_some(plain)
+}
+
+pub fn fallout_shelter_encrypt(plain: &[u8]) -> Vec<u8> {
+    use base64::Engine;
+    let body = cbc::Encryptor::<aes::Aes256>::new(&FS_KEY.into(), FS_IV.into()).encrypt_padded_vec_mut::<Pkcs7>(plain);
+    base64::engine::general_purpose::STANDARD.encode(body).into_bytes()
+}

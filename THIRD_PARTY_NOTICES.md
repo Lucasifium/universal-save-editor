@@ -26,6 +26,8 @@ Universal Save Editor is free. It builds on other people's work, listed here wit
 | [py-starbound (Starbound versioned JSON save layout)](https://github.com/blixt/py-starbound) | blixt | MIT; file layout facts only, no code copied, credited |
 | [apollo-patches (Dead Rising 2 / Off the Record stat offsets and CRC-32 settings; facts only, no code)](https://github.com/bucanero/apollo-patches) | Damian Parrino (bucanero) and the code authors it credits | facts only (file layouts), credited |
 | [save-decrypters (Dead Rising block checksum, after Philymaster's notes; facts only, no code)](https://github.com/bucanero/save-decrypters) | Damian Parrino (bucanero), Philymaster | facts only (checksum scheme), credited |
+| [Cult-of-the-Lamb-Save-Editor (save field names and item names; sample save used for checks only, not included)](https://github.com/fabiobarcelona/Cult-of-the-Lamb-Save-Editor) | Fabio Barcelona | MIT |
+| [shelter-editor (Fallout Shelter save encryption and layout)](https://github.com/MobileSam/shelter-editor) | MobileSam | MIT |
 | [uesave-rs (Unreal property-tag save layout)](https://github.com/trumank/uesave-rs) | trumank | MIT; file layout facts only, no code copied, credited |
 | [LSLib (Larian LSPK package and LSF resource layouts, ported)](https://github.com/Norbyte/lslib) | Norbyte | MIT |
 | [pLarianSaveTools (Divinity: Original Sin 2 save layout)](https://github.com/patimweb-labs/pLarianSaveTools) | patimweb-labs | facts only (file layouts, ids and names), credited |
