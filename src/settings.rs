@@ -1,5 +1,5 @@
 //! Small persisted preferences, stored in the app's config folder (on Windows,
-//! %APPDATA%\UniversalSaveEditor\settings.json).
+//! %APPDATA%\UniversalSaveEditor\settings.json): theme, zoom, recent files and view toggles.
 
 use serde_json::{json, Value};
 use std::path::PathBuf;

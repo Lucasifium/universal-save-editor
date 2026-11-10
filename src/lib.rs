@@ -1,5 +1,6 @@
 //! Universal Save Editor: the app, shared by the desktop executable, the Android library and the
-//! browser version (`web.rs`).
+//! browser version (`web.rs`). `run_desktop` starts the window; the readers in
+//! `fmt/` decide what each save is.
 
 #[cfg(test)]
 mod bughunt;

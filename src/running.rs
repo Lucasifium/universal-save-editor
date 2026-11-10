@@ -1,6 +1,6 @@
 //! Is the game that owns this save running right now? Games keep their save in memory and
 //! write it back on autosave or when they quit, which silently undoes an edit made while
-//! they're open.
+//! they're open. Used to warn before saving.
 
 use std::path::Path;
 
