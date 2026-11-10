@@ -14,7 +14,8 @@ import android.view.inputmethod.InputMethodManager;
 
 /**
  * NativeActivity has no text-input connection, so on-screen keyboards can't type into it.
- * This adds an invisible view that receives the keyboard's text and hands it to the Rust app.
+ * This adds an invisible view that receives the keyboard's text and hands it to the Rust app
+ * (libuniversal_save_editor.so, loaded below).
  */
 public class MainActivity extends NativeActivity {
     static {

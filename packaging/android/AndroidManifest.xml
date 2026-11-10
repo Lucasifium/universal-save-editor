@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- MainActivity (packaging/android/java) is Android's NativeActivity plus on-screen keyboard
-     support; it loads libuniversal_save_editor.so, where the app is. -->
+<!-- Android manifest template (version fields are filled in at build time). MainActivity
+     (packaging/android/java) is NativeActivity plus on-screen keyboard support; it loads
+     libuniversal_save_editor.so, which holds the app. -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.universalsaveeditor.app"
     android:versionCode="@VERSION_CODE@"

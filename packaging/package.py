@@ -1,4 +1,5 @@
-"""Packaging steps that are awkward in PowerShell; called by build_all.ps1.
+"""Packaging helpers for build_all.ps1 (steps that are awkward in PowerShell): tarballs,
+Android launcher icons, and adding files to an APK.
 
   package.py tar   <binary> <out.tar.gz>         Linux: tarball keeping the executable bit
   package.py icons <png dir> <res dir>          Android launcher icons (PNGs made by build.rs)

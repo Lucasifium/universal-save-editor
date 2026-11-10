@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
-# Builds the signed APK on Linux (GitHub Actions); the same steps as the Android part of build_all.ps1.
+# Builds the Android APK on Linux (used by the GitHub release workflow); same steps as the
+# Android part of build_all.ps1.
 #   build_android.sh <out.apk>
 # Needs ANDROID_HOME, ANDROID_NDK_HOME, a JDK, and for signing ANDROID_KEYSTORE (path) and
 # ANDROID_KEYSTORE_PASSWORD. Without them the APK stays unsigned and is not written.
