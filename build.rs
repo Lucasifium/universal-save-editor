@@ -1,5 +1,6 @@
-// Generates the app icon: embedded into the Windows executable, and written as PNGs into
-// OUT_DIR/icons for the Android and macOS packages (build_all.ps1, the GitHub workflow).
+// Build script: draws the app icon (src/icon.rs) and embeds it, with the program's name, into the
+// Windows executable. For Android and macOS builds it also writes the icon as PNGs into
+// OUT_DIR/icons, which the packaging scripts pick up.
 
 #[path = "src/icon.rs"]
 mod icon;
