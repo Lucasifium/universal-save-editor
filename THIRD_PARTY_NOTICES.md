@@ -29,6 +29,9 @@ Universal Save Editor is free. It builds on other people's work, listed here wit
 | [Cult-of-the-Lamb-Save-Editor (save field names and item names; sample save used for checks only, not included)](https://github.com/fabiobarcelona/Cult-of-the-Lamb-Save-Editor) | Fabio Barcelona | MIT |
 | [shelter-editor (Fallout Shelter save encryption and layout)](https://github.com/MobileSam/shelter-editor) | MobileSam | MIT |
 | [drg-editor (Deep Rock Galactic resource and dwarf ids, XP table; sample saves used for checks only, not included)](https://github.com/MrMarble/drg-editor) | MrMarble | MIT |
+| [schedule-one-editor and Schedule-1-Save-File-Editor (Schedule I save file names and fields; sample saves used for checks only, not included)](https://github.com/Rainnny7/schedule-one-editor) | Rainnny7 | MIT |
+| [SOTFEdit (Sons of the Forest item names and carrying limits; sample saves used for checks only, not included)](https://github.com/codengine/SOTFEdit) | codengine | MIT |
+| [DeathMustDieSaveEditor (Death Must Die save layout; sample save used for checks only, not included)](https://github.com/DenislavLitsov/DeathMustDieSaveEditor) | Denislav Litsov | Apache-2.0 |
 | [uesave-rs (Unreal property-tag save layout)](https://github.com/trumank/uesave-rs) | trumank | MIT; file layout facts only, no code copied, credited |
 | [LSLib (Larian LSPK package and LSF resource layouts, ported)](https://github.com/Norbyte/lslib) | Norbyte | MIT |
 | [pLarianSaveTools (Divinity: Original Sin 2 save layout)](https://github.com/patimweb-labs/pLarianSaveTools) | patimweb-labs | facts only (file layouts, ids and names), credited |

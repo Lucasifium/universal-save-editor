@@ -125,6 +125,8 @@ pub enum Layer {
     /// Hollow Knight `user*.dat`: .NET string of base64 AES-encrypted JSON.
     HollowKnight,
     FalloutShelter,
+    /// JSON held in JSON strings: the pointers of the strings opened, and whether the file is indented.
+    NestedJson { paths: Vec<String>, pretty: bool },
     /// Capcom RE Engine "Mandarin" encryption (index into `mandarin::GAMES`, user id); the
     /// original file supplies the header and footer bytes when writing it back.
     Mandarin { original: Arc<Vec<u8>>, game: usize, user: u64 },
@@ -208,6 +210,7 @@ impl Layer {
             Layer::Region { index, .. } => format!("Minecraft region (chunk {},{})", index % 32, index / 32),
             Layer::HollowKnight => "Hollow Knight encryption".into(),
             Layer::FalloutShelter => "Fallout Shelter save encryption".into(),
+            Layer::NestedJson { paths, .. } => format!("JSON inside JSON strings ({})", paths.len()),
             Layer::Mandarin { game, .. } => format!("{} save encryption", fmt::mandarin::GAMES[*game].title),
             Layer::Civ5 { .. } => "Civilization V save (compressed game data)".into(),
             Layer::Cdpr { sizes, .. } => format!("CD Projekt RED save ({} LZ4 chunks)", sizes.len()),
@@ -605,6 +608,7 @@ fn wrap(layer: &Layer, data: Vec<u8>) -> Result<Vec<u8>, String> {
         Layer::Region { archive, index, kind } => fmt::containers::region_replace(archive, *index, &data, *kind)?,
         Layer::HollowKnight => fmt::crypto::hollow_knight_encrypt(&data),
         Layer::FalloutShelter => fmt::crypto::fallout_shelter_encrypt(&data),
+        Layer::NestedJson { paths, pretty } => fmt::nested::close(&data, paths, *pretty)?,
         Layer::Mandarin { original, game, user } => fmt::mandarin::encrypt(&data, original, &fmt::mandarin::GAMES[*game], *user)?,
         Layer::Cdpr { prefix, fzlc, sizes, footer, tagged } => {
             if data.len() != sizes.iter().map(|&n| n as usize).sum::<usize>() {
@@ -770,6 +774,9 @@ fn peel(data: &[u8], ctx: &mut Ctx) -> Option<(Layer, Vec<u8>)> {
     }
     if data.starts_with(BOM) {
         return Some((Layer::Utf8Bom, data[BOM.len()..].to_vec()));
+    }
+    if let Some(o) = fmt::nested::open(data) {
+        return Some((Layer::NestedJson { paths: o.paths, pretty: o.pretty }, o.bytes));
     }
     if let Some(r) = peel_arpg(data, ctx) {
         return r;
@@ -1805,6 +1812,18 @@ mod tests {
     fn base64_gzip() { roundtrip(&[Layer::Base64, Layer::Gzip]); }
     #[test]
     fn fallout_shelter_layer() { roundtrip(&[Layer::FalloutShelter]); }
+    #[test]
+    fn nested_json_layer() {
+        let content = Content::Json { value: serde_json::json!({"Version": 2, "State": "{\"Hp\":12,\"Gold\":5}"}), pretty: false };
+        let bytes = encode(&[], &content).unwrap();
+        let d = decode(&bytes);
+        assert!(matches!(d.layers.as_slice(), [Layer::NestedJson { .. }]), "{:?}", d.layers);
+        match &d.content {
+            Content::Json { value, .. } => assert_eq!(value["State"]["Gold"], 5),
+            other => panic!("expected JSON, got {}", other.kind()),
+        }
+        assert_eq!(encode(&d.layers, &d.content).unwrap(), bytes);
+    }
     #[test]
     fn bom() { roundtrip(&[Layer::Utf8Bom]); }
 

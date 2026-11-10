@@ -32,6 +32,8 @@ pub struct Max {
     /// Ids (or names, for a map) of the plain crafting materials the button may raise.
     pub ids: &'static [&'static str],
     pub cap: i64,
+    /// Caps of single ids that differ from `cap`.
+    pub caps: &'static [(&'static str, i64)],
     /// True when no public source states the cap and it is an estimate.
     pub estimate: bool,
     /// What the button does, for its hover text.
@@ -55,6 +57,8 @@ pub struct Table {
     pub name: &'static [&'static str],
     /// Editable columns: `(heading, pointer inside the entry)`.
     pub cols: &'static [(&'static str, &'static str)],
+    /// Only rows whose name is one of these (empty: every row).
+    pub only: &'static [&'static str],
     /// `(text, name)`: names for rows whose name text is an id.
     pub names: &'static [(&'static str, &'static str)],
 }
@@ -150,8 +154,9 @@ pub fn apply_max(cx: &mut GameCtx, l: &List) -> usize {
         if !m.ids.contains(&id.as_str()) {
             continue;
         }
-        if cx.num(&p).is_some_and(|have| have < m.cap as f64) {
-            set_count(cx, l, &p, Value::from(m.cap));
+        let cap = m.caps.iter().find(|(c, _)| *c == id).map_or(m.cap, |(_, c)| *c);
+        if cx.num(&p).is_some_and(|have| have < cap as f64) {
+            set_count(cx, l, &p, Value::from(cap));
             n += 1;
         }
     }
@@ -210,6 +215,9 @@ pub fn show(i: u16, ui: &mut Ui, cx: &mut GameCtx) {
                     for r in 0..n {
                         let name = t.name.iter().filter_map(|k| cx.text(&format!("{}/{r}{k}", t.path))).collect::<Vec<_>>().join(" ");
                         if !q.is_empty() && !name.to_lowercase().contains(&q) {
+                            continue;
+                        }
+                        if !t.only.is_empty() && !t.only.contains(&name.as_str()) {
                             continue;
                         }
                         let name = t.names.iter().find(|(id, _)| *id == name).map_or(name, |(_, n)| n.to_string());
@@ -310,8 +318,9 @@ mod tests {
                         .map(|id| {
                             let mut o = serde_json::Map::new();
                             o.insert(id_key.to_string(), id.parse::<i64>().map_or_else(|_| json!(id), |n| json!(n)));
+                            let low = l.max.as_ref().is_some_and(|m| m.ids.contains(id));
                             for k in *qty_keys {
-                                o.insert(k.to_string(), json!(3));
+                                o.insert(k.to_string(), json!(if low { 0 } else { 3 }));
                             }
                             Value::Object(o)
                         })
@@ -320,7 +329,8 @@ mod tests {
                     set_path(&mut root, l.path, Value::Array(arr));
                 }
                 Shape::Map => {
-                    let o: serde_json::Map<String, Value> = ids.iter().map(|id| (id.to_string(), json!(3))).collect();
+                    let o: serde_json::Map<String, Value> =
+                        ids.iter().map(|id| (id.to_string(), json!(if l.max.as_ref().is_some_and(|m| m.ids.contains(id)) { 0 } else { 3 }))).collect();
                     set_path(&mut root, l.path, Value::Object(o));
                 }
             }
@@ -376,7 +386,8 @@ mod tests {
                     Shape::Array { id_key, qty_keys } => {
                         for e in arr.as_array().unwrap() {
                             let id = match &e[*id_key] { Value::String(s) => s.clone(), n => n.to_string() };
-                            let want = if m.ids.contains(&id.as_str()) { m.cap } else { 3 };
+                            let cap = m.caps.iter().find(|(c, _)| *c == id).map_or(m.cap, |(_, c)| *c);
+                            let want = if m.ids.contains(&id.as_str()) { cap } else { 3 };
                             for k in *qty_keys {
                                 assert_eq!(e[*k].as_i64(), Some(want), "{} {id} {k}", s.name);
                             }
@@ -384,7 +395,8 @@ mod tests {
                     }
                     Shape::Map => {
                         for (id, v) in arr.as_object().unwrap() {
-                            let want = if m.ids.contains(&id.as_str()) { m.cap } else { 3 };
+                            let cap = m.caps.iter().find(|(c, _)| *c == id.as_str()).map_or(m.cap, |(_, c)| *c);
+                            let want = if m.ids.contains(&id.as_str()) { cap } else { 3 };
                             assert_eq!(v.as_i64(), Some(want), "{} {id}", s.name);
                         }
                     }
