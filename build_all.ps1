@@ -1,4 +1,5 @@
-# Builds UniversalSaveEditor for every platform the machine can build, into dist\.
+# Builds Universal Save Editor for every platform this machine has tools for, into dist\.
+# Every built file is checked for build-machine folders, user names and e-mail addresses.
 #   Windows x64 + ARM64 (MSVC), Linux x64 + ARM64 (cargo-zigbuild), Android APK (arm64 + x86_64),
 #   and the browser version (WebAssembly) into docs\app\.
 # macOS is built by GitHub Actions (.github/workflows/release.yml), since Apple's SDK only runs on Macs.
