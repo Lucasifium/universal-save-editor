@@ -8,6 +8,7 @@
 mod arpg;
 mod borderlands;
 mod cairn;
+mod coop;
 pub mod crafting;
 mod darkest;
 mod dead_rising;
@@ -128,6 +129,9 @@ pub enum Game {
     Torment,
     Starbound,
     Expedition33,
+    Phasmophobia,
+    LethalCompany,
+    Repo,
     Fallout3Nv,
     Nier,
     DeadRising,
@@ -198,6 +202,9 @@ impl Game {
             Game::Expedition33 => "Party",
             Game::Fallout3Nv => "Character",
             Game::Nier => "YoRHa",
+            Game::Phasmophobia => "Ghost hunter",
+            Game::LethalCompany => "Crew",
+            Game::Repo => "Team",
             Game::DeadRising | Game::DeadRising2 => "Survivor",
             _ => "Character",
         }
@@ -288,6 +295,9 @@ pub fn detect(kind: &str, root: &Value) -> Option<Game> {
         crate::fmt::dead_rising::KIND_DR1 => Game::DeadRising,
         crate::fmt::dead_rising::KIND_DR2 | crate::fmt::dead_rising::KIND_OTR => Game::DeadRising2,
         crate::fmt::goldensun::KIND_GS1 | crate::fmt::goldensun::KIND_GS2 => Game::GoldenSun,
+        _ if coop::is_phasmophobia(root) => Game::Phasmophobia,
+        _ if coop::is_lethal_company(root) => Game::LethalCompany,
+        _ if coop::is_repo(root) => Game::Repo,
         _ if has("/base/m_title") && has("/player") => Game::YakuzaDe,
         // Yakuza 6 has no title in its save; its spearfishing minigame marks it.
         _ if has("/base/m_subtitle") && has("/player/point/m_point") && has("/mg_spearfishing") => Game::YakuzaDe,
@@ -370,6 +380,9 @@ pub fn show(game: Game, ui: &mut Ui, cx: &mut GameCtx) {
         Game::Expedition33 => expedition33::show(ui, cx),
         Game::Fallout3Nv => fallout3nv::show(ui, cx),
         Game::Nier => nier::show(ui, cx),
+        Game::Phasmophobia => coop::phasmophobia(ui, cx),
+        Game::LethalCompany => coop::lethal_company(ui, cx),
+        Game::Repo => coop::repo(ui, cx),
         Game::DeadRising => dead_rising::dead_rising(ui, cx),
         Game::DeadRising2 => dead_rising::dead_rising2(ui, cx),
         Game::RenPy => screens2::renpy(ui, cx),
@@ -865,6 +878,12 @@ mod tests {
         assert_eq!(detect("JSON", &json!({"actors": {"_data": {"@a": [null, {}]}}, "party": {"_actors": {"@a": [1]}}})), Some(Game::RpgMaker));
         assert_eq!(detect("JSON", &json!({"gold": 1})), None);
         assert_eq!(detect(crate::fmt::nier::KIND, &json!({})), Some(Game::Nier));
+        let es3 = |n: i64| json!({"__type": "int", "value": n});
+        assert_eq!(detect(crate::fmt::es3::KIND_PHASMOPHOBIA, &json!({"PlayersMoney": es3(5), "NewLevel": es3(2)})), Some(Game::Phasmophobia));
+        assert_eq!(detect("JSON", &json!({"GroupCredits": es3(60), "ProfitQuota": es3(130)})), Some(Game::LethalCompany));
+        assert_eq!(detect("JSON", &json!({"PlayerXPNum": es3(60), "PlayerLevel": es3(1)})), Some(Game::LethalCompany));
+        assert_eq!(detect("JSON", &json!({"dictionaryOfDictionaries": {"__type": "d", "value": {"runStats": {"level": 1}}}})), Some(Game::Repo));
+        assert_eq!(detect("JSON", &json!({"GroupCredits": 60})), None);
         let y6 = json!({"base": {"m_subtitle": "chapter1"}, "player": {"point": {"m_point": [0, 5000]}}, "mg_spearfishing": {}});
         assert_eq!(detect("Yakuza save (Dragon Engine: Yakuza 6)", &y6), Some(Game::YakuzaDe));
         assert_eq!(detect("JSON", &json!({"base": {"m_subtitle": "x"}, "player": {"point": {"m_point": []}}})), None);

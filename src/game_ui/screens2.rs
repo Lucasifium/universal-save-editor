@@ -52,7 +52,7 @@ pub fn objects_with(root: &Value, key: &str, limit: usize) -> Vec<String> {
 }
 
 /// A filter box remembered under `id`; returns the lowercase query.
-fn filter_box(ui: &mut Ui, id: &str, hint: &str) -> String {
+pub(super) fn filter_box(ui: &mut Ui, id: &str, hint: &str) -> String {
     let sid = egui::Id::new(("screen_filter", id));
     let mut q = ui.data(|d| d.get_temp::<String>(sid)).unwrap_or_default();
     ui.horizontal(|ui| {

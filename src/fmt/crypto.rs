@@ -12,6 +12,10 @@ use md5::{Digest, Md5};
 
 pub const ES3_DEFAULT_PASSWORD: &str = "password";
 
+/// Passwords of games known to use Easy Save 3 encryption with their own password, as
+/// published by those games' open-source save editors (Phasmophobia, Lethal Company, R.E.P.O.).
+pub const ES3_GAME_PASSWORDS: &[&str] = &["t36gref9u84y7f43g", "lcslime14a5", "Why would you want to cheat?... :o It's no fun. :') :'D"];
+
 fn es3_key(password: &str, iv: &[u8]) -> [u8; 16] {
     let mut key = [0u8; 16];
     pbkdf2::pbkdf2_hmac::<sha1::Sha1>(password.as_bytes(), iv, 100, &mut key);
@@ -28,15 +32,17 @@ pub fn es3_decrypt(data: &[u8], password: &str) -> Option<(Vec<u8>, Vec<u8>)> {
     Some((iv.to_vec(), plain))
 }
 
-/// Try the player's password (if any) and ES3's default; accept only a result that
+/// Try the player's password (if any), ES3's default and the known games' passwords; accept only a result that
 /// `accept` recognises (JSON, gzip, …) so random data is never "decrypted".
 pub fn es3_decrypt_any(data: &[u8], password: Option<&str>, accept: fn(&[u8]) -> bool) -> Option<(String, Vec<u8>, Vec<u8>)> {
     if std::str::from_utf8(data).is_ok() {
         return None;
     }
     let mut candidates: Vec<&str> = password.into_iter().collect();
-    if !candidates.contains(&ES3_DEFAULT_PASSWORD) {
-        candidates.push(ES3_DEFAULT_PASSWORD);
+    for pw in std::iter::once(&ES3_DEFAULT_PASSWORD).chain(ES3_GAME_PASSWORDS) {
+        if !candidates.contains(pw) {
+            candidates.push(pw);
+        }
     }
     for pw in candidates {
         if let Some((iv, plain)) = es3_decrypt(data, pw) {

@@ -87,6 +87,10 @@ Universal Save Editor is free. It builds on other people's work, listed here wit
 | [NieRAutomata_LVL-EXP_Editor (NieR:Automata experience offset)](https://github.com/Aemony/NieRAutomata_LVL-EXP_Editor) | Aemony | MIT; offset only, credited |
 | [NieRAutomata_Inventory_Editor (NieR:Automata 99-per-slot item limit)](https://github.com/Aemony/NieRAutomata_Inventory_Editor) | Aemony | facts only (item limit), credited |
 | [NieR:Automata Wiki (which items are in the Materials list)](https://nierautomata.wiki.fextralife.com/Materials) | Fextralife wiki contributors | facts only (item names and categories), credited |
+| [LethalCompanySaveEditor (Lethal Company save password and value names)](https://github.com/BEMZ01/LethalCompanySaveEditor) | BEMZ01 | MIT; facts only, no code copied, credited |
+| [R.E.P.O-Save-Editor (R.E.P.O. save password and layout)](https://github.com/N0edL/R.E.P.O-Save-Editor) | N0edL | MIT; facts only, no code copied, credited |
+| [PhasmoEditor (Phasmophobia save password and value names)](https://github.com/stth12/PhasmoEditor) | stth12 | facts only (password and value names), credited |
+| [Yurei (Phasmophobia save values: prestige and its badge)](https://github.com/AbstractUmbra/Yurei) | AbstractUmbra | facts only (value names), credited |
 
 Copyright notices of the projects above whose code or tables were used:
 

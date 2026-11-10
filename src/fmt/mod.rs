@@ -18,6 +18,7 @@ pub mod larian;
 pub mod lsf;
 pub mod lspk;
 pub mod crypto;
+pub mod es3;
 pub mod fromsoft;
 pub mod sekiro_inv;
 pub mod er_inv;
@@ -480,6 +481,9 @@ pub fn parse_binary_late(d: &[u8]) -> Option<TreeDoc> {
 /// Text formats. Ambiguous ones (YAML, TOML) are only trusted by file extension.
 pub fn parse_text(text: &str, ext: &str) -> Option<TreeDoc> {
     if let Some(doc) = undertale::parse(text) {
+        return Some(doc);
+    }
+    if let Some(doc) = es3::parse(text) {
         return Some(doc);
     }
     let t = text.trim_start();
