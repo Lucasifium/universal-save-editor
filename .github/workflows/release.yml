@@ -1,4 +1,4 @@
-# Builds every download and publishes them to a GitHub Release.
+# Builds every download (Windows, Linux, Android, macOS) and publishes them to a GitHub Release.
 #   - Push a tag like v0.2.0 (it must match the version in Cargo.toml): builds and publishes.
 #   - Actions tab > "Release" > Run workflow: builds only (files appear under the run's Artifacts).
 #     Fill in "tag" to publish that release from the chosen branch as well.
