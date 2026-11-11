@@ -26,7 +26,9 @@ pub fn lzf_decompress(src: &[u8], size: usize) -> Result<Vec<u8>, String> {
         i += 1;
         if ctrl < 32 {
             let n = ctrl + 1;
-            let lit = src.get(i..i + n).ok_or("LZF data ends inside a literal run")?;
+            let lit = src
+                .get(i..i + n)
+                .ok_or("LZF data ends inside a literal run")?;
             out.extend_from_slice(lit);
             i += n;
         } else {
@@ -53,7 +55,10 @@ pub fn lzf_decompress(src: &[u8], size: usize) -> Result<Vec<u8>, String> {
         }
     }
     if out.len() != size {
-        return Err(format!("LZF data unpacks to {} bytes, the header says {size}", out.len()));
+        return Err(format!(
+            "LZF data unpacks to {} bytes, the header says {size}",
+            out.len()
+        ));
     }
     Ok(out)
 }
@@ -127,7 +132,11 @@ fn header(d: &[u8]) -> Option<(Vec<(String, String)>, usize, usize)> {
         keys.push((k.to_string(), v.trim_end_matches('\r').to_string()));
         p = e + 1;
     }
-    let get = |k: &str| keys.iter().find(|(a, _)| a == k).and_then(|(_, v)| v.trim().parse::<usize>().ok());
+    let get = |k: &str| {
+        keys.iter()
+            .find(|(a, _)| a == k)
+            .and_then(|(_, v)| v.trim().parse::<usize>().ok())
+    };
     let packed = get("SaveDataSize")?;
     get("DataSize")?;
     let end = p.checked_add(packed)?;
@@ -137,7 +146,13 @@ fn header(d: &[u8]) -> Option<(Vec<(String, String)>, usize, usize)> {
 /// Header and unpacked XML of a Wasteland 3 save.
 pub fn open(d: &[u8]) -> Option<Vec<u8>> {
     let (keys, start, end) = header(d)?;
-    let size = keys.iter().find(|(k, _)| k == "DataSize")?.1.trim().parse().ok()?;
+    let size = keys
+        .iter()
+        .find(|(k, _)| k == "DataSize")?
+        .1
+        .trim()
+        .parse()
+        .ok()?;
     lzf_decompress(&d[start..end], size).ok()
 }
 
@@ -159,7 +174,9 @@ pub fn pack(original: &[u8], xml: &[u8]) -> Result<Vec<u8>, String> {
         let text = String::from_utf8_lossy(line);
         match text.split_once(":=") {
             Some(("DataSize", _)) => out.extend(format!("DataSize:={}\n", xml.len()).bytes()),
-            Some(("SaveDataSize", _)) => out.extend(format!("SaveDataSize:={}\n", packed.len()).bytes()),
+            Some(("SaveDataSize", _)) => {
+                out.extend(format!("SaveDataSize:={}\n", packed.len()).bytes())
+            }
             _ => out.extend_from_slice(line),
         }
     }
@@ -194,7 +211,10 @@ struct P<'a> {
 
 impl P<'_> {
     fn skip(&mut self, end: &[u8]) -> Result<(), String> {
-        let n = self.d[self.pos..].windows(end.len()).position(|w| w == end).ok_or("unterminated XML")?;
+        let n = self.d[self.pos..]
+            .windows(end.len())
+            .position(|w| w == end)
+            .ok_or("unterminated XML")?;
         self.pos += n + end.len();
         Ok(())
     }
@@ -215,7 +235,11 @@ impl P<'_> {
     }
     fn name(&mut self) -> String {
         let s = self.pos;
-        while self.d.get(self.pos).is_some_and(|b| !b.is_ascii_whitespace() && !b"/>".contains(b)) {
+        while self
+            .d
+            .get(self.pos)
+            .is_some_and(|b| !b.is_ascii_whitespace() && !b"/>".contains(b))
+        {
             self.pos += 1;
         }
         String::from_utf8_lossy(&self.d[s..self.pos]).into_owned()
@@ -243,12 +267,20 @@ impl P<'_> {
             }
         }
         if self.d[self.pos - 2] == b'/' {
-            return Ok(Node { name, cs: self.pos, ce: self.pos, kids: vec![] });
+            return Ok(Node {
+                name,
+                cs: self.pos,
+                ce: self.pos,
+                kids: vec![],
+            });
         }
         let cs = self.pos;
         let mut kids = vec![];
         loop {
-            let n = self.d[self.pos..].iter().position(|&b| b == b'<').ok_or_else(|| format!("unclosed <{name}>"))?;
+            let n = self.d[self.pos..]
+                .iter()
+                .position(|&b| b == b'<')
+                .ok_or_else(|| format!("unclosed <{name}>"))?;
             self.pos += n;
             let rest = &self.d[self.pos..];
             if rest.starts_with(b"</") {
@@ -282,7 +314,9 @@ fn root(d: &[u8]) -> Result<Node, String> {
 /// An unpacked Wasteland 3 save: XML whose root is `<save>` with the party in `<pcs>`.
 pub fn looks(d: &[u8]) -> bool {
     let head = &d[..d.len().min(4096)];
-    d.starts_with(b"<save>") && head.windows(9).any(|w| w == b"<version>") && d.windows(5).any(|w| w == b"<pcs>")
+    d.starts_with(b"<save>")
+        && head.windows(9).any(|w| w == b"<version>")
+        && d.windows(5).any(|w| w == b"<pcs>")
 }
 
 /// Most a whole-number field accepts (the game stores them as 32-bit integers).
@@ -300,7 +334,11 @@ impl Backend for W3Backend {
         let mut p = Patches::default();
         for (leaf, v) in changes {
             let (s, e) = self.spans[*leaf];
-            p.add(s, e, int_in(v, 0, MAX, "This value")?.to_string().into_bytes());
+            p.add(
+                s,
+                e,
+                int_in(v, 0, MAX, "This value")?.to_string().into_bytes(),
+            );
         }
         p.apply(&self.data)
     }
@@ -330,10 +368,14 @@ impl Build<'_> {
     fn number(&mut self, map: &mut Map<String, Value>, ptr: &str, key: &str, n: &Node) {
         let t = self.text(n);
         // Only plain digits as the game writes them ("0", "57"; not "+5" or "05").
-        let plain = n.kids.is_empty() && !t.is_empty() && t.bytes().all(|b| b.is_ascii_digit()) && (t == "0" || !t.starts_with('0'));
+        let plain = n.kids.is_empty()
+            && !t.is_empty()
+            && t.bytes().all(|b| b.is_ascii_digit())
+            && (t == "0" || !t.starts_with('0'));
         match t.parse::<i64>() {
             Ok(v) if plain && i128::from(v) <= MAX => {
-                self.editable.insert(format!("{ptr}/{}", esc(key)), self.spans.len());
+                self.editable
+                    .insert(format!("{ptr}/{}", esc(key)), self.spans.len());
                 self.spans.push((n.cs, n.ce));
                 map.insert(key.to_string(), Value::from(v));
             }
@@ -347,7 +389,9 @@ impl Build<'_> {
     fn items(&mut self, list: &Node, ptr: &str) -> Map<String, Value> {
         let mut m = Map::new();
         for it in list.all("item") {
-            let (Some(name), Some(q)) = (it.kid("templateName"), it.kid("quantity")) else { continue };
+            let (Some(name), Some(q)) = (it.kid("templateName"), it.kid("quantity")) else {
+                continue;
+            };
             let key = unique_key(&m, &self.text(name));
             self.number(&mut m, ptr, &key, q);
         }
@@ -369,14 +413,20 @@ impl Build<'_> {
             let sp = format!("{ptr}/Skills");
             let mut s = Map::new();
             for sk in skills.all("skill") {
-                let (Some(id), Some(lv)) = (sk.kid("skillId"), sk.kid("level")) else { continue };
+                let (Some(id), Some(lv)) = (sk.kid("skillId"), sk.kid("level")) else {
+                    continue;
+                };
                 let key = unique_key(&s, &format!("Skill {}", self.text(id)));
                 self.number(&mut s, &sp, &key, lv);
             }
             m.insert("Skills".into(), Value::Object(s));
         }
         if let Some(perks) = pc.kid("perks") {
-            let names: Vec<Value> = perks.all("perk").filter_map(|p| p.kid("perkname")).map(|n| Value::String(self.text(n))).collect();
+            let names: Vec<Value> = perks
+                .all("perk")
+                .filter_map(|p| p.kid("perkname"))
+                .map(|n| Value::String(self.text(n)))
+                .collect();
             m.insert("Perks".into(), Value::Array(names));
         }
         if let Some(eq) = pc.kid("equipment") {
@@ -410,11 +460,20 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
         return Err("not a Wasteland 3 save".into());
     }
     let pcs = save.kid("pcs").ok_or("no party in this save")?;
-    let mut b = Build { d, spans: vec![], editable: HashMap::new() };
+    let mut b = Build {
+        d,
+        spans: vec![],
+        editable: HashMap::new(),
+    };
     let mut view = Map::new();
 
     let mut info = Map::new();
-    for (label, tag) in [("Version", "version"), ("Location", "currentScene"), ("Saved", "saveTime"), ("Play time", "gameplaytime")] {
+    for (label, tag) in [
+        ("Version", "version"),
+        ("Location", "currentScene"),
+        ("Saved", "saveTime"),
+        ("Play time", "gameplaytime"),
+    ] {
         if let Some(n) = save.kid(tag) {
             info.insert(label.into(), Value::String(b.text(n)));
         }
@@ -431,7 +490,11 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
         let Some(list) = list else { continue };
         let mut m = Map::new();
         for pc in list.all("pc") {
-            let name = pc.kid("displayName").map(|n| b.text(n)).filter(|s| !s.trim().is_empty()).unwrap_or_else(|| "Ranger".into());
+            let name = pc
+                .kid("displayName")
+                .map(|n| b.text(n))
+                .filter(|s| !s.trim().is_empty())
+                .unwrap_or_else(|| "Ranger".into());
             let key = unique_key(&m, &name);
             let r = b.ranger(pc, &format!("/{section}/{}", esc(&key)));
             m.insert(key, Value::Object(r));
@@ -441,15 +504,26 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
         }
     }
 
-    for (section, tag) in [("Inventory", "hostInventory"), ("Party stash", "partyStash")] {
+    for (section, tag) in [
+        ("Inventory", "hostInventory"),
+        ("Party stash", "partyStash"),
+    ] {
         if let Some(list) = save.kid(tag) {
             let items = b.items(list, &format!("/{}", esc(section)));
             view.insert(section.into(), Value::Object(items));
         }
     }
 
-    let backend = W3Backend { data: Arc::new(d.to_vec()), spans: b.spans };
-    Ok(TreeDoc::new(Value::Object(view), b.editable, "Wasteland 3 save", Box::new(backend)))
+    let backend = W3Backend {
+        data: Arc::new(d.to_vec()),
+        spans: b.spans,
+    };
+    Ok(TreeDoc::new(
+        Value::Object(view),
+        b.editable,
+        "Wasteland 3 save",
+        Box::new(backend),
+    ))
 }
 
 #[cfg(test)]
@@ -457,7 +531,9 @@ mod tests {
     use super::*;
 
     fn synthetic_xml() -> Vec<u8> {
-        let item = |t: &str, q: u32| format!("<item><templateName>{t}</templateName><slot>0</slot><ammoLoaded>0</ammoLoaded><quantity>{q}</quantity><uid>00000000-0000-0000-0000-000000000000</uid></item>");
+        let item = |t: &str, q: u32| {
+            format!("<item><templateName>{t}</templateName><slot>0</slot><ammoLoaded>0</ammoLoaded><quantity>{q}</quantity><uid>00000000-0000-0000-0000-000000000000</uid></item>")
+        };
         let pc = |name: &str, lv: u32| {
             format!(
                 "<pc><displayName>{name}</displayName><level>{lv}</level><xp>120</xp><hitpoints>40</hitpoints><companionId>-1</companionId>\
@@ -516,14 +592,24 @@ mod tests {
         let v = &doc.view;
         assert_eq!(v.pointer("/Party/Money"), Some(&Value::from(250)));
         assert_eq!(v.pointer("/Rangers/Alpha/Level"), Some(&Value::from(3)));
-        assert_eq!(v.pointer("/Rangers/Bravo/Skills/Skill 320"), Some(&Value::from(1)));
-        assert_eq!(v.pointer("/Rangers/Alpha/Perk points"), Some(&Value::from(1)));
-        assert_eq!(v.pointer("/Rangers/Alpha/Equipment/Weapon_Test"), Some(&Value::from(1)));
+        assert_eq!(
+            v.pointer("/Rangers/Bravo/Skills/Skill 320"),
+            Some(&Value::from(1))
+        );
+        assert_eq!(
+            v.pointer("/Rangers/Alpha/Perk points"),
+            Some(&Value::from(1))
+        );
+        assert_eq!(
+            v.pointer("/Rangers/Alpha/Equipment/Weapon_Test"),
+            Some(&Value::from(1))
+        );
         assert_eq!(v.pointer("/Inventory/Ammo9mm (2)"), Some(&Value::from(3)));
         assert!(doc.set("/Party/Money", Value::from(-1)).is_err());
         doc.set("/Party/Money", Value::from(1_000_000)).unwrap();
         doc.set("/Rangers/Bravo/Strength", Value::from(10)).unwrap();
-        doc.set("/Rangers/Alpha/Skills/Skill 10", Value::from(7)).unwrap();
+        doc.set("/Rangers/Alpha/Skills/Skill 10", Value::from(7))
+            .unwrap();
         doc.set("/Inventory/Scrap_Test", Value::from(99)).unwrap();
         let out = doc.to_bytes().unwrap();
         let s = String::from_utf8(out.clone()).unwrap();
@@ -539,7 +625,18 @@ mod tests {
         assert_eq!(get("DataSize"), out.len().to_string());
         assert_eq!(get("SaveDataSize"), (end - start).to_string());
         assert_eq!(get("Hash"), "");
-        assert_eq!(keys.iter().map(|k| k.0.as_str()).collect::<Vec<_>>(), ["Version", "Location", "DataSize", "SaveDataSize", "Hash", "Levels", "DLCReq"]);
+        assert_eq!(
+            keys.iter().map(|k| k.0.as_str()).collect::<Vec<_>>(),
+            [
+                "Version",
+                "Location",
+                "DataSize",
+                "SaveDataSize",
+                "Hash",
+                "Levels",
+                "DLCReq"
+            ]
+        );
         assert_eq!(open(&f2).unwrap(), out);
     }
 
@@ -547,7 +644,9 @@ mod tests {
     fn opens_through_the_layer_stack() {
         let f = file(&synthetic_xml());
         let d = crate::formats::decode(&f);
-        let crate::formats::Content::Tree(t) = &d.content else { panic!("not a tree: {}", d.content.kind()) };
+        let crate::formats::Content::Tree(t) = &d.content else {
+            panic!("not a tree: {}", d.content.kind())
+        };
         assert_eq!(t.kind_name, "Wasteland 3 save");
         assert_eq!(crate::formats::encode(&d.layers, &d.content).unwrap(), f);
     }
@@ -562,24 +661,52 @@ mod tests {
             let raw = std::fs::read(path).unwrap();
             let xml = open(&raw).expect("unpacks");
             let again = lzf_compress(&xml);
-            assert_eq!(lzf_decompress(&again, xml.len()).unwrap(), xml, "{path}: repack");
+            assert_eq!(
+                lzf_decompress(&again, xml.len()).unwrap(),
+                xml,
+                "{path}: repack"
+            );
             let d = crate::formats::decode(&raw);
-            let crate::formats::Content::Tree(t) = &d.content else { panic!("{path}: not a tree") };
+            let crate::formats::Content::Tree(t) = &d.content else {
+                panic!("{path}: not a tree")
+            };
             assert_eq!(t.kind_name, "Wasteland 3 save");
-            assert_eq!(crate::formats::encode(&d.layers, &d.content).unwrap(), raw, "{path}: unchanged save differs");
+            assert_eq!(
+                crate::formats::encode(&d.layers, &d.content).unwrap(),
+                raw,
+                "{path}: unchanged save differs"
+            );
             let mut doc = (**t).clone();
-            let money = doc.view.pointer("/Party/Money").and_then(Value::as_i64).expect("money");
+            let money = doc
+                .view
+                .pointer("/Party/Money")
+                .and_then(Value::as_i64)
+                .expect("money");
             doc.set("/Party/Money", Value::from(money + 1)).unwrap();
-            let ranger = doc.view["Rangers"].as_object().unwrap().keys().next().unwrap().clone();
-            let skills = doc.view["Rangers"][&ranger]["Skills"].as_object().unwrap().clone();
+            let ranger = doc.view["Rangers"]
+                .as_object()
+                .unwrap()
+                .keys()
+                .next()
+                .unwrap()
+                .clone();
+            let skills = doc.view["Rangers"][&ranger]["Skills"]
+                .as_object()
+                .unwrap()
+                .clone();
             let (sk, lv) = skills.iter().next().unwrap();
             let sp = format!("/Rangers/{}/Skills/{}", esc(&ranger), esc(sk));
             doc.set(&sp, Value::from(lv.as_i64().unwrap() + 1)).unwrap();
             let content = crate::formats::Content::Tree(Box::new(doc.clone()));
             let out = crate::formats::encode(&d.layers, &content).unwrap();
             let back = crate::formats::decode(&out);
-            let crate::formats::Content::Tree(t2) = &back.content else { panic!("{path}: edited save doesn't read") };
-            assert_eq!(t2.view, doc.view, "{path}: edited save reads back differently");
+            let crate::formats::Content::Tree(t2) = &back.content else {
+                panic!("{path}: edited save doesn't read")
+            };
+            assert_eq!(
+                t2.view, doc.view,
+                "{path}: edited save reads back differently"
+            );
             let x1 = open(&raw).unwrap();
             let x2 = open(&out).unwrap();
             let diff = x1.len().abs_diff(x2.len());

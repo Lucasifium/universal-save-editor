@@ -9,7 +9,10 @@ use serde_json::Value;
 const ACCENT: Color32 = Color32::from_rgb(200, 45, 40);
 
 pub fn dead_rising(ui: &mut Ui, cx: &mut GameCtx) {
-    let sub = cx.text("/Save/Area").map(|a| format!("Saved in area {a}")).unwrap_or_default();
+    let sub = cx
+        .text("/Save/Area")
+        .map(|a| format!("Saved in area {a}"))
+        .unwrap_or_default();
     hero(ui, ACCENT, "Dead Rising", &sub, |ui| {
         cx.tile(ui, "Level", "/Frank/Level", ACCENT);
         cx.tile(ui, "PP", "/Frank/PP", ACCENT);
@@ -19,7 +22,13 @@ pub fn dead_rising(ui: &mut Ui, cx: &mut GameCtx) {
         ui.weak("1000 per health block: 4000 at level 1, 12000 at level 50.");
         let skills = cx.int("/Frank/Skills").unwrap_or(0);
         ui.label(format!("Skills learned: {} of 21", skills.count_ones()));
-        if ui.add_enabled(skills != DR1_ALL_SKILLS && cx.can_edit("/Frank/Skills"), eframe::egui::Button::new("Learn all skills")).clicked() {
+        if ui
+            .add_enabled(
+                skills != DR1_ALL_SKILLS && cx.can_edit("/Frank/Skills"),
+                eframe::egui::Button::new("Learn all skills"),
+            )
+            .clicked()
+        {
             cx.set("/Frank/Skills", Value::from(DR1_ALL_SKILLS));
         }
         if ui.button("Level 50 with full health").clicked() {
@@ -33,7 +42,11 @@ pub fn dead_rising(ui: &mut Ui, cx: &mut GameCtx) {
 
 pub fn dead_rising2(ui: &mut Ui, cx: &mut GameCtx) {
     let otr = cx.tree.is_some_and(|t| t.kind_name == KIND_OTR);
-    let (title, who) = if otr { ("Dead Rising 2: Off the Record", "/Frank") } else { ("Dead Rising 2", "/Chuck") };
+    let (title, who) = if otr {
+        ("Dead Rising 2: Off the Record", "/Frank")
+    } else {
+        ("Dead Rising 2", "/Chuck")
+    };
     let p = |k: &str| format!("{who}/{k}");
     hero(ui, ACCENT, title, "", |ui| {
         for k in ["Level", "PP", "Money"] {

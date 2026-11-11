@@ -28,12 +28,34 @@ const AV_XP: usize = 24;
 /// Skill actor value codes (32 to 45) and their names. New Vegas leaves Big Guns unused
 /// and turns Small Guns into Guns and the unused Throwing into Survival.
 pub const SKILLS_FNV: &[(usize, &str)] = &[
-    (32, "Barter"), (34, "Energy Weapons"), (35, "Explosives"), (41, "Guns"), (36, "Lockpick"), (37, "Medicine"), (38, "Melee Weapons"),
-    (39, "Repair"), (40, "Science"), (42, "Sneak"), (43, "Speech"), (44, "Survival"), (45, "Unarmed"),
+    (32, "Barter"),
+    (34, "Energy Weapons"),
+    (35, "Explosives"),
+    (41, "Guns"),
+    (36, "Lockpick"),
+    (37, "Medicine"),
+    (38, "Melee Weapons"),
+    (39, "Repair"),
+    (40, "Science"),
+    (42, "Sneak"),
+    (43, "Speech"),
+    (44, "Survival"),
+    (45, "Unarmed"),
 ];
 pub const SKILLS_FO3: &[(usize, &str)] = &[
-    (32, "Barter"), (33, "Big Guns"), (34, "Energy Weapons"), (35, "Explosives"), (36, "Lockpick"), (37, "Medicine"), (38, "Melee Weapons"),
-    (39, "Repair"), (40, "Science"), (41, "Small Guns"), (42, "Sneak"), (43, "Speech"), (45, "Unarmed"),
+    (32, "Barter"),
+    (33, "Big Guns"),
+    (34, "Energy Weapons"),
+    (35, "Explosives"),
+    (36, "Lockpick"),
+    (37, "Medicine"),
+    (38, "Melee Weapons"),
+    (39, "Repair"),
+    (40, "Science"),
+    (41, "Small Guns"),
+    (42, "Sneak"),
+    (43, "Speech"),
+    (45, "Unarmed"),
 ];
 
 pub fn looks(d: &[u8]) -> bool {
@@ -41,7 +63,9 @@ pub fn looks(d: &[u8]) -> bool {
 }
 
 fn u32_at(d: &[u8], at: usize) -> Option<u32> {
-    Some(u32::from_le_bytes(d.get(at..at.checked_add(4)?)?.try_into().ok()?))
+    Some(u32::from_le_bytes(
+        d.get(at..at.checked_add(4)?)?.try_into().ok()?,
+    ))
 }
 
 /// A cursor over the `|`-separated header fields.
@@ -76,7 +100,11 @@ impl Cur<'_> {
 fn resolve(r: [u8; 3], fids: &[u32]) -> u32 {
     let v = (((r[0] & 0x3F) as u32) << 16) | ((r[1] as u32) << 8) | r[2] as u32;
     match r[0] >> 6 {
-        0 => v.checked_sub(1).and_then(|i| fids.get(i as usize)).copied().unwrap_or(0),
+        0 => v
+            .checked_sub(1)
+            .and_then(|i| fids.get(i as usize))
+            .copied()
+            .unwrap_or(0),
         1 => v,
         _ => 0xFF00_0000 | v,
     }
@@ -121,7 +149,9 @@ fn parse_inner(d: &[u8]) -> Option<TreeDoc> {
     let tab = |i: usize| u32_at(d, o + 4 * i).map(|v| v as usize);
     let (fid_off, forms_off, forms_end, forms_n) = (tab(0)?, tab(3)?, tab(4)?, tab(7)?);
     let n_fids = u32_at(d, fid_off)? as usize;
-    let fids: Vec<u32> = (0..n_fids).map(|i| u32_at(d, fid_off + 4 + 4 * i)).collect::<Option<_>>()?;
+    let fids: Vec<u32> = (0..n_fids)
+        .map(|i| u32_at(d, fid_off + 4 + 4 * i))
+        .collect::<Option<_>>()?;
     // Walk the changed forms for the two records needed.
     let (mut player, mut base) = (None, None);
     let mut p = forms_off;
@@ -152,7 +182,14 @@ fn parse_inner(d: &[u8]) -> Option<TreeDoc> {
     let player = player?;
 
     let mut b = Builder::new(d);
-    b.info(&["Character", "Game"], if fnv { "Fallout: New Vegas" } else { "Fallout 3" });
+    b.info(
+        &["Character", "Game"],
+        if fnv {
+            "Fallout: New Vegas"
+        } else {
+            "Fallout 3"
+        },
+    );
     b.info(&["Character", "Name"], name);
     b.info(&["Character", "Level"], level);
     b.info(&["Character", "Karma title"], karma_title);
@@ -166,9 +203,24 @@ fn parse_inner(d: &[u8]) -> Option<TreeDoc> {
     let n_av = if fnv { 77 } else { 73 };
     let av = player.at + 28;
     let slot = |array: usize, code: usize| av + (array * n_av + code) * 5;
-    if player.len >= 28 + 3 * n_av * 5 && d[slot(0, 0) + 4] == 0x7C && d[slot(2, n_av - 1) + 4] == 0x7C {
-        b.ranged(&["Character", "Experience"], slot(1, AV_XP), Kind::F32Int, 0, 10_000_000);
-        b.ranged(&["Character", "Karma"], slot(1, AV_KARMA), Kind::F32Int, -1000, 1000);
+    if player.len >= 28 + 3 * n_av * 5
+        && d[slot(0, 0) + 4] == 0x7C
+        && d[slot(2, n_av - 1) + 4] == 0x7C
+    {
+        b.ranged(
+            &["Character", "Experience"],
+            slot(1, AV_XP),
+            Kind::F32Int,
+            0,
+            10_000_000,
+        );
+        b.ranged(
+            &["Character", "Karma"],
+            slot(1, AV_KARMA),
+            Kind::F32Int,
+            -1000,
+            1000,
+        );
         // The same array holds each skill's permanent bonus: the points spent at level-up
         // plus skill books, bobbleheads and perks. The game adds it to the skill's base.
         for &(code, name) in if fnv { SKILLS_FNV } else { SKILLS_FO3 } {
@@ -180,15 +232,30 @@ fn parse_inner(d: &[u8]) -> Option<TreeDoc> {
     let body = &d[player.at..player.at + player.len];
     let from = 28 + 3 * n_av * 5;
     let mut refs = vec![[0x40u8, 0, 0x0F]];
-    refs.extend(fids.iter().enumerate().filter(|(_, &f)| f == CAPS).map(|(i, _)| {
-        let v = i as u32 + 1;
-        [(v >> 16) as u8 & 0x3F, (v >> 8) as u8, v as u8]
-    }));
+    refs.extend(
+        fids.iter()
+            .enumerate()
+            .filter(|(_, &f)| f == CAPS)
+            .map(|(i, _)| {
+                let v = i as u32 + 1;
+                [(v >> 16) as u8 & 0x3F, (v >> 8) as u8, v as u8]
+            }),
+    );
     let hits: Vec<usize> = (from..body.len().saturating_sub(8))
-        .filter(|&i| refs.iter().any(|r| body[i..i + 3] == r[..]) && body[i + 3] == 0x7C && body[i + 8] == 0x7C)
+        .filter(|&i| {
+            refs.iter().any(|r| body[i..i + 3] == r[..])
+                && body[i + 3] == 0x7C
+                && body[i + 8] == 0x7C
+        })
         .collect();
     if let [i] = hits[..] {
-        b.ranged(&["Character", "Bottle caps"], player.at + i + 4, Kind::I32, 0, i32::MAX as i64);
+        b.ranged(
+            &["Character", "Bottle caps"],
+            player.at + i + 4,
+            Kind::I32,
+            0,
+            i32::MAX as i64,
+        );
     }
 
     // S.P.E.C.I.A.L. in the player's base form: base data (24 bytes), the factions
@@ -200,7 +267,10 @@ fn parse_inner(d: &[u8]) -> Option<TreeDoc> {
             let first = *d.get(c.o)?;
             let (n, w) = match first & 3 {
                 0 => (first as usize >> 2, 1),
-                1 => (u16::from_le_bytes(d.get(c.o..c.o + 2)?.try_into().ok()?) as usize >> 2, 2),
+                1 => (
+                    u16::from_le_bytes(d.get(c.o..c.o + 2)?.try_into().ok()?) as usize >> 2,
+                    2,
+                ),
                 _ => return None,
             };
             c.o += w;
@@ -213,10 +283,24 @@ fn parse_inner(d: &[u8]) -> Option<TreeDoc> {
             c.pipe()?;
             let at = c.o;
             let vals = d.get(at..at + 7)?;
-            (vals.iter().all(|v| (1..=10).contains(v)) && *d.get(at + 7)? == 0x7C && at + 8 <= base.at + base.len).then_some(at)
+            (vals.iter().all(|v| (1..=10).contains(v))
+                && *d.get(at + 7)? == 0x7C
+                && at + 8 <= base.at + base.len)
+                .then_some(at)
         })();
         if let Some(at) = special {
-            for (i, n) in ["Strength", "Perception", "Endurance", "Charisma", "Intelligence", "Agility", "Luck"].iter().enumerate() {
+            for (i, n) in [
+                "Strength",
+                "Perception",
+                "Endurance",
+                "Charisma",
+                "Intelligence",
+                "Agility",
+                "Luck",
+            ]
+            .iter()
+            .enumerate()
+            {
                 b.ranged(&["S.P.E.C.I.A.L.", n], at + i, Kind::U8, 1, 10);
             }
         }
@@ -321,7 +405,10 @@ mod tests {
         d.extend(0u32.to_le_bytes());
         let tail = d.len();
         d.extend([5, 0, 0, 0, 0, 0, 0, 0, 0x7C]);
-        for (i, v) in [fid_off, tail, 0, forms_off, forms_end, 0, 0, 2].iter().enumerate() {
+        for (i, v) in [fid_off, tail, 0, forms_off, forms_end, 0, 0, 2]
+            .iter()
+            .enumerate()
+        {
             d[table_at + 4 * i..table_at + 4 * i + 4].copy_from_slice(&(*v as u32).to_le_bytes());
         }
         d
@@ -331,31 +418,63 @@ mod tests {
     fn reads_and_edits_in_place() {
         let d = synthetic();
         let mut doc = parse(&d).unwrap();
-        assert_eq!(doc.view.pointer("/Character/Name"), Some(&Value::from("Courier")));
+        assert_eq!(
+            doc.view.pointer("/Character/Name"),
+            Some(&Value::from("Courier"))
+        );
         assert_eq!(doc.view.pointer("/Character/Level"), Some(&Value::from(12)));
-        assert_eq!(doc.view.pointer("/Character/Game"), Some(&Value::from("Fallout: New Vegas")));
-        assert_eq!(doc.view.pointer("/Character/Experience"), Some(&Value::from(5000)));
-        assert_eq!(doc.view.pointer("/Character/Karma"), Some(&Value::from(250)));
-        assert_eq!(doc.view.pointer("/Character/Bottle caps"), Some(&Value::from(1234)));
-        assert_eq!(doc.view.pointer("/S.P.E.C.I.A.L./Intelligence"), Some(&Value::from(7)));
+        assert_eq!(
+            doc.view.pointer("/Character/Game"),
+            Some(&Value::from("Fallout: New Vegas"))
+        );
+        assert_eq!(
+            doc.view.pointer("/Character/Experience"),
+            Some(&Value::from(5000))
+        );
+        assert_eq!(
+            doc.view.pointer("/Character/Karma"),
+            Some(&Value::from(250))
+        );
+        assert_eq!(
+            doc.view.pointer("/Character/Bottle caps"),
+            Some(&Value::from(1234))
+        );
+        assert_eq!(
+            doc.view.pointer("/S.P.E.C.I.A.L./Intelligence"),
+            Some(&Value::from(7))
+        );
         assert_eq!(doc.view.pointer("/Skills/Speech"), Some(&Value::from(12)));
         assert_eq!(doc.view.pointer("/Skills/Guns"), Some(&Value::from(0)));
         assert!(doc.view.pointer("/Skills/Big Guns").is_none());
         assert_eq!(doc.to_bytes().unwrap(), d);
         doc.set("/Skills/Speech", Value::from(40)).unwrap();
         assert!(doc.set("/Skills/Speech", Value::from(101)).is_err());
-        doc.set("/Character/Bottle caps", Value::from(99999)).unwrap();
+        doc.set("/Character/Bottle caps", Value::from(99999))
+            .unwrap();
         doc.set("/S.P.E.C.I.A.L./Luck", Value::from(10)).unwrap();
-        doc.set("/Character/Experience", Value::from(60000)).unwrap();
+        doc.set("/Character/Experience", Value::from(60000))
+            .unwrap();
         assert!(doc.set("/S.P.E.C.I.A.L./Luck", Value::from(11)).is_err());
         let out = doc.to_bytes().unwrap();
         assert_eq!(out.len(), d.len());
         let again = parse(&out).unwrap();
-        assert_eq!(again.view.pointer("/Character/Bottle caps"), Some(&Value::from(99999)));
-        assert_eq!(again.view.pointer("/S.P.E.C.I.A.L./Luck"), Some(&Value::from(10)));
-        assert_eq!(again.view.pointer("/Character/Experience"), Some(&Value::from(60000)));
+        assert_eq!(
+            again.view.pointer("/Character/Bottle caps"),
+            Some(&Value::from(99999))
+        );
+        assert_eq!(
+            again.view.pointer("/S.P.E.C.I.A.L./Luck"),
+            Some(&Value::from(10))
+        );
+        assert_eq!(
+            again.view.pointer("/Character/Experience"),
+            Some(&Value::from(60000))
+        );
         assert_eq!(again.view.pointer("/Skills/Speech"), Some(&Value::from(40)));
-        assert_eq!(again.view.pointer("/Character/Name"), Some(&Value::from("Courier")));
+        assert_eq!(
+            again.view.pointer("/Character/Name"),
+            Some(&Value::from("Courier"))
+        );
         assert!(parse(&d[..d.len() - 20]).is_err());
     }
 
@@ -364,7 +483,11 @@ mod tests {
     #[test]
     #[ignore]
     fn real_files() {
-        for path in std::env::var("SAVE_EDITOR_FOS").unwrap().split('|').filter(|s| !s.is_empty()) {
+        for path in std::env::var("SAVE_EDITOR_FOS")
+            .unwrap()
+            .split('|')
+            .filter(|s| !s.is_empty())
+        {
             let d = std::fs::read(path).unwrap();
             let mut doc = match parse(&d) {
                 Ok(t) => t,
@@ -373,13 +496,27 @@ mod tests {
                     continue;
                 }
             };
-            println!("{}", serde_json::to_string(&doc.view).unwrap().chars().take(400).collect::<String>());
+            println!(
+                "{}",
+                serde_json::to_string(&doc.view)
+                    .unwrap()
+                    .chars()
+                    .take(400)
+                    .collect::<String>()
+            );
             assert_eq!(doc.to_bytes().unwrap(), d, "round trip");
-            let caps = doc.view.pointer("/Character/Bottle caps").and_then(Value::as_i64);
+            let caps = doc
+                .view
+                .pointer("/Character/Bottle caps")
+                .and_then(Value::as_i64);
             if let Some(c) = caps {
-                doc.set("/Character/Bottle caps", Value::from(c + 1)).unwrap();
+                doc.set("/Character/Bottle caps", Value::from(c + 1))
+                    .unwrap();
                 let out = doc.to_bytes().unwrap();
-                assert_eq!(parse(&out).unwrap().view.pointer("/Character/Bottle caps"), Some(&Value::from(c + 1)));
+                assert_eq!(
+                    parse(&out).unwrap().view.pointer("/Character/Bottle caps"),
+                    Some(&Value::from(c + 1))
+                );
             }
         }
     }

@@ -43,7 +43,9 @@ impl Backend for Es3Backend {
         for (id, v) in changes {
             let l = &self.leaves[*id];
             let text = match (l.tok, v) {
-                (Tok::Text, Value::String(_)) => serde_json::to_string(v).map_err(|e| e.to_string())?,
+                (Tok::Text, Value::String(_)) => {
+                    serde_json::to_string(v).map_err(|e| e.to_string())?
+                }
                 (Tok::Int | Tok::Float, Value::Number(n)) => n.to_string(),
                 (Tok::Bool, Value::Bool(b)) => b.to_string(),
                 _ => return Err("value of the wrong type".into()),
@@ -107,7 +109,11 @@ impl Scan<'_> {
 
     fn leaf(&mut self, ptr: &str, start: usize, tok: Tok) {
         self.editable.insert(ptr.to_string(), self.leaves.len());
-        self.leaves.push(Leaf { start, end: self.at, tok });
+        self.leaves.push(Leaf {
+            start,
+            end: self.at,
+            tok,
+        });
     }
 
     fn value(&mut self, ptr: &str) -> Option<Value> {
@@ -185,7 +191,9 @@ impl Scan<'_> {
                 Some(Value::String(s))
             }
             _ => {
-                while self.d.get(self.at).is_some_and(|b| !matches!(b, b',' | b'}' | b']' | b':') && !b.is_ascii_whitespace()) {
+                while self.d.get(self.at).is_some_and(|b| {
+                    !matches!(b, b',' | b'}' | b']' | b':') && !b.is_ascii_whitespace()
+                }) {
                     self.at += 1;
                 }
                 let t = std::str::from_utf8(&self.d[start..self.at]).ok()?;
@@ -213,7 +221,13 @@ pub fn parse(text: &str) -> Option<TreeDoc> {
     if !t.starts_with('{') || !t.contains("\"__type\"") {
         return None;
     }
-    let mut s = Scan { d: text.as_bytes(), at: text.len() - t.len(), leaves: vec![], editable: HashMap::new(), depth: 0 };
+    let mut s = Scan {
+        d: text.as_bytes(),
+        at: text.len() - t.len(),
+        leaves: vec![],
+        editable: HashMap::new(),
+        depth: 0,
+    };
     let view = s.value("")?;
     s.ws();
     if s.at != text.len() {
@@ -221,13 +235,29 @@ pub fn parse(text: &str) -> Option<TreeDoc> {
     }
     // Every entry must be ES3's {"__type", "value"} pair.
     let entries = view.as_object()?;
-    if entries.is_empty() || !entries.values().all(|v| v.get("__type").is_some_and(Value::is_string)) {
+    if entries.is_empty()
+        || !entries
+            .values()
+            .all(|v| v.get("__type").is_some_and(Value::is_string))
+    {
         return None;
     }
     // The type names stay as they are.
     s.editable.retain(|p, _| !p.ends_with("/__type"));
-    let kind = if view.pointer("/PlayersMoney/value").is_some() { KIND_PHASMOPHOBIA } else { KIND };
-    Some(TreeDoc::new(view, s.editable, kind, Box::new(Es3Backend { raw: text.as_bytes().to_vec(), leaves: s.leaves })))
+    let kind = if view.pointer("/PlayersMoney/value").is_some() {
+        KIND_PHASMOPHOBIA
+    } else {
+        KIND
+    };
+    Some(TreeDoc::new(
+        view,
+        s.editable,
+        kind,
+        Box::new(Es3Backend {
+            raw: text.as_bytes().to_vec(),
+            leaves: s.leaves,
+        }),
+    ))
 }
 
 #[cfg(test)]
@@ -238,7 +268,10 @@ mod tests {
 
     #[test]
     fn reads_object_keys_and_edits_in_place() {
-        assert!(serde_json::from_str::<Value>(SAMPLE).is_err(), "the sample must not be strict JSON");
+        assert!(
+            serde_json::from_str::<Value>(SAMPLE).is_err(),
+            "the sample must not be strict JSON"
+        );
         let mut doc = parse(SAMPLE).unwrap();
         assert_eq!(doc.kind_name, KIND_PHASMOPHOBIA);
         assert_eq!(doc.to_bytes().unwrap(), SAMPLE.as_bytes());
@@ -246,14 +279,27 @@ mod tests {
         assert_eq!(v(&doc, "/PlayersMoney/value"), Some(Value::from(250)));
         assert_eq!(v(&doc, "/Name/value"), Some(Value::from("a \"b\"")));
         assert_eq!(v(&doc, "/Ghosts/value/Oni"), Some(Value::from(7)));
-        let items = doc.view.pointer("/Outfit/value/Items").unwrap().as_object().unwrap();
-        assert_eq!(items.keys().collect::<Vec<_>>(), [r#"{"low":2048,"high":0}"#, r#"{"low":4,"high":0}"#]);
+        let items = doc
+            .view
+            .pointer("/Outfit/value/Items")
+            .unwrap()
+            .as_object()
+            .unwrap();
+        assert_eq!(
+            items.keys().collect::<Vec<_>>(),
+            [r#"{"low":2048,"high":0}"#, r#"{"low":4,"high":0}"#]
+        );
         assert!(!doc.editable.contains_key("/PlayersMoney/__type"));
-        doc.set("/PlayersMoney/value", Value::from(999_999)).unwrap();
+        doc.set("/PlayersMoney/value", Value::from(999_999))
+            .unwrap();
         doc.set("/Ghosts/value/Oni", Value::from(8)).unwrap();
         doc.set("/Seen/value", Value::Bool(true)).unwrap();
         doc.set("/Name/value", Value::from("x\"y")).unwrap();
-        doc.set("/Outfit/value/Items/{\"low\":4,\"high\":0}/materialOption", Value::from(1)).unwrap();
+        doc.set(
+            "/Outfit/value/Items/{\"low\":4,\"high\":0}/materialOption",
+            Value::from(1),
+        )
+        .unwrap();
         assert!(doc.set("/PlayersMoney/value", Value::from(1.5)).is_err());
         assert!(doc.set("/PlayersMoney/value", Value::from("many")).is_err());
         let out = String::from_utf8(doc.to_bytes().unwrap()).unwrap();
@@ -264,7 +310,10 @@ mod tests {
             .replace(r#""a \"b\"""#, r#""x\"y""#)
             .replace("\"materialOption\":3", "\"materialOption\":1");
         assert_eq!(out, want);
-        assert_eq!(parse(&out).unwrap().view.pointer("/PlayersMoney/value"), Some(&Value::from(999_999)));
+        assert_eq!(
+            parse(&out).unwrap().view.pointer("/PlayersMoney/value"),
+            Some(&Value::from(999_999))
+        );
     }
 
     #[test]
@@ -272,7 +321,10 @@ mod tests {
         assert!(parse("{\"a\":1}").is_none());
         assert!(parse("{\"a\":{\"__type\":\"int\",\"value\":1}} trailing").is_none());
         assert!(parse("{\"a\":{\"__type\":\"int\",\"value\":1},\"b\":2}").is_none());
-        let other = parse("{\"a\":{\"__type\":\"int\",\"value\":1},{\"k\":1}:{\"__type\":\"int\",\"value\":2}}").unwrap();
+        let other = parse(
+            "{\"a\":{\"__type\":\"int\",\"value\":1},{\"k\":1}:{\"__type\":\"int\",\"value\":2}}",
+        )
+        .unwrap();
         assert_eq!(other.kind_name, KIND);
     }
 
@@ -282,13 +334,25 @@ mod tests {
     #[ignore]
     fn real_files() {
         use crate::formats::{decode, encode, Content};
-        for path in std::env::var("SAVE_EDITOR_ES3").unwrap().split('|').filter(|s| !s.is_empty()) {
+        for path in std::env::var("SAVE_EDITOR_ES3")
+            .unwrap()
+            .split('|')
+            .filter(|s| !s.is_empty())
+        {
             let raw = std::fs::read(path).unwrap();
             let mut d = decode(&raw);
             // JSON is written out again in the editor's own spacing, so compare what it says.
             let same = encode(&d.layers, &d.content).unwrap();
-            assert!(same == raw || crate::formats::same_data(&decode(&same).content, &d.content), "{path}: round trip");
-            let ptr = ["/PlayersMoney/value", "/GroupCredits/value", "/PlayerXPNum/value", "/dictionaryOfDictionaries/value/runStats/currency"];
+            assert!(
+                same == raw || crate::formats::same_data(&decode(&same).content, &d.content),
+                "{path}: round trip"
+            );
+            let ptr = [
+                "/PlayersMoney/value",
+                "/GroupCredits/value",
+                "/PlayerXPNum/value",
+                "/dictionaryOfDictionaries/value/runStats/currency",
+            ];
             let (kind, hit) = match &mut d.content {
                 Content::Tree(t) => {
                     let hit = ptr.iter().find(|p| t.view.pointer(p).is_some()).unwrap();

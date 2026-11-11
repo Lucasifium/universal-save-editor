@@ -94,7 +94,11 @@ impl Algo {
                 for &b in d {
                     c ^= b as u32;
                     for _ in 0..8 {
-                        c = if c & 1 != 0 { (c >> 1) ^ 0x82F6_3B78 } else { c >> 1 };
+                        c = if c & 1 != 0 {
+                            (c >> 1) ^ 0x82F6_3B78
+                        } else {
+                            c >> 1
+                        };
                     }
                 }
                 !c as u64
@@ -120,7 +124,9 @@ impl Algo {
                 }
                 ((b << 16) | a) as u64
             }
-            Algo::Fnv1a32 => d.iter().fold(0x811C_9DC5u32, |h, &b| (h ^ b as u32).wrapping_mul(0x0100_0193)) as u64,
+            Algo::Fnv1a32 => d.iter().fold(0x811C_9DC5u32, |h, &b| {
+                (h ^ b as u32).wrapping_mul(0x0100_0193)
+            }) as u64,
             Algo::Sum32 => d.iter().fold(0u32, |s, &b| s.wrapping_add(b as u32)) as u64,
             Algo::Words32 => d.chunks(4).fold(0u32, |s, w| {
                 let mut b = [0u8; 4];
@@ -132,7 +138,11 @@ impl Algo {
                 for &b in d {
                     c ^= (b as u16) << 8;
                     for _ in 0..8 {
-                        c = if c & 0x8000 != 0 { (c << 1) ^ 0x1021 } else { c << 1 };
+                        c = if c & 0x8000 != 0 {
+                            (c << 1) ^ 0x1021
+                        } else {
+                            c << 1
+                        };
                     }
                 }
                 c as u64
@@ -142,7 +152,11 @@ impl Algo {
                 for &b in d {
                     c ^= b as u16;
                     for _ in 0..8 {
-                        c = if c & 1 != 0 { (c >> 1) ^ 0xA001 } else { c >> 1 };
+                        c = if c & 1 != 0 {
+                            (c >> 1) ^ 0xA001
+                        } else {
+                            c >> 1
+                        };
                     }
                 }
                 c as u64
@@ -212,12 +226,15 @@ impl Sum {
 
     /// True when `d` holds this checksum.
     pub fn holds(&self, d: &[u8]) -> bool {
-        self.compute(d).is_some_and(|v| d[self.at..self.at + v.len()] == v[..])
+        self.compute(d)
+            .is_some_and(|v| d[self.at..self.at + v.len()] == v[..])
     }
 
     /// `d` with the checksum written again.
     pub fn fix(&self, d: &mut [u8]) -> Result<(), String> {
-        let v = self.compute(d).ok_or("the file is too short for its checksum")?;
+        let v = self
+            .compute(d)
+            .ok_or("the file is too short for its checksum")?;
         d[self.at..self.at + v.len()].copy_from_slice(&v);
         Ok(())
     }
@@ -228,8 +245,20 @@ impl Sum {
             Span::Before => "the bytes before it",
             Span::Zeroed => "the whole file (with itself as zero)",
         };
-        let order = if self.algo.width() > 1 && !self.algo.is_hash() { if self.be { ", big-endian" } else { ", little-endian" } } else { "" };
-        format!("{} at 0x{:X}{order}, over {span}", self.algo.name(), self.at)
+        let order = if self.algo.width() > 1 && !self.algo.is_hash() {
+            if self.be {
+                ", big-endian"
+            } else {
+                ", little-endian"
+            }
+        } else {
+            ""
+        };
+        format!(
+            "{} at 0x{:X}{order}, over {span}",
+            self.algo.name(),
+            self.at
+        )
     }
 }
 
@@ -255,7 +284,11 @@ pub fn find(d: &[u8], others: &[Vec<u8>]) -> Vec<Sum> {
             continue;
         }
         // Narrow sums match by chance too easily anywhere but the very first or last byte.
-        let places = if algo.is_hash() || w == 1 { vec![0, n - w] } else { near(w) };
+        let places = if algo.is_hash() || w == 1 {
+            vec![0, n - w]
+        } else {
+            near(w)
+        };
         for &at in &places {
             for span in [Span::After, Span::Before, Span::Zeroed] {
                 if (span == Span::After && at + w == n) || (span == Span::Before && at == 0) {
@@ -265,9 +298,18 @@ pub fn find(d: &[u8], others: &[Vec<u8>]) -> Vec<Sum> {
                 if stored.iter().all(|&b| b == 0) || stored.iter().all(|&b| b == 0xFF) {
                     continue;
                 }
-                for be in if w == 1 || algo.is_hash() { vec![false] } else { vec![false, true] } {
+                for be in if w == 1 || algo.is_hash() {
+                    vec![false]
+                } else {
+                    vec![false, true]
+                } {
                     let s = Sum { algo, at, be, span };
-                    if s.holds(d) && others.iter().filter(|o| o.len() == n && o[..] != d[..]).all(|o| s.holds(o)) {
+                    if s.holds(d)
+                        && others
+                            .iter()
+                            .filter(|o| o.len() == n && o[..] != d[..])
+                            .all(|o| s.holds(o))
+                    {
                         out.push(s);
                     }
                 }
@@ -285,7 +327,10 @@ fn store() -> Option<std::path::PathBuf> {
 
 #[cfg(not(target_arch = "wasm32"))]
 fn key(path: &std::path::Path) -> String {
-    std::fs::canonicalize(path).unwrap_or_else(|_| path.to_path_buf()).to_string_lossy().to_string()
+    std::fs::canonicalize(path)
+        .unwrap_or_else(|_| path.to_path_buf())
+        .to_string_lossy()
+        .to_string()
 }
 
 #[cfg_attr(target_arch = "wasm32", allow(dead_code))]
@@ -301,10 +346,22 @@ fn encode_line(s: &Sum) -> String {
 
 #[cfg_attr(target_arch = "wasm32", allow(dead_code))]
 fn decode_line(t: &str) -> Option<Sum> {
-    let v: Vec<usize> = t.split('\t').map(|x| x.parse().ok()).collect::<Option<_>>()?;
-    let [algo, at, be, span] = v[..] else { return None };
-    let span = [Span::After, Span::Before, Span::Zeroed].get(span).copied()?;
-    Some(Sum { algo: *ALGOS.get(algo)?, at, be: be == 1, span })
+    let v: Vec<usize> = t
+        .split('\t')
+        .map(|x| x.parse().ok())
+        .collect::<Option<_>>()?;
+    let [algo, at, be, span] = v[..] else {
+        return None;
+    };
+    let span = [Span::After, Span::Before, Span::Zeroed]
+        .get(span)
+        .copied()?;
+    Some(Sum {
+        algo: *ALGOS.get(algo)?,
+        at,
+        be: be == 1,
+        span,
+    })
 }
 
 /// The fix-up chosen earlier for this file, if any.
@@ -312,7 +369,11 @@ fn decode_line(t: &str) -> Option<Sum> {
 pub fn remembered(path: &std::path::Path) -> Option<Sum> {
     let k = key(path);
     let text = std::fs::read_to_string(store()?).ok()?;
-    text.lines().rev().find_map(|l| l.strip_prefix(&k).and_then(|r| r.strip_prefix('\t')).and_then(decode_line))
+    text.lines().rev().find_map(|l| {
+        l.strip_prefix(&k)
+            .and_then(|r| r.strip_prefix('\t'))
+            .and_then(decode_line)
+    })
 }
 
 /// Remembers (or with `None`, forgets) the fix-up for this file.
@@ -321,7 +382,11 @@ pub fn remember(path: &std::path::Path, sum: Option<Sum>) -> Result<(), String> 
     let file = store().ok_or("no settings folder")?;
     let k = key(path);
     let old = std::fs::read_to_string(&file).unwrap_or_default();
-    let mut lines: Vec<String> = old.lines().filter(|l| !l.starts_with(&format!("{k}\t"))).map(String::from).collect();
+    let mut lines: Vec<String> = old
+        .lines()
+        .filter(|l| !l.starts_with(&format!("{k}\t")))
+        .map(String::from)
+        .collect();
     if let Some(s) = sum {
         lines.push(format!("{k}\t{}", encode_line(&s)));
     }
@@ -339,9 +404,24 @@ mod tests {
     fn finds_and_fixes() {
         let base: Vec<u8> = (0..3000u32).map(|i| (i * 31 % 251) as u8).collect();
         for s in [
-            Sum { algo: Algo::Crc32, at: base.len() - 4, be: false, span: Span::Before },
-            Sum { algo: Algo::Crc16Ccitt, at: 8, be: true, span: Span::Zeroed },
-            Sum { algo: Algo::Adler32, at: 0, be: false, span: Span::After },
+            Sum {
+                algo: Algo::Crc32,
+                at: base.len() - 4,
+                be: false,
+                span: Span::Before,
+            },
+            Sum {
+                algo: Algo::Crc16Ccitt,
+                at: 8,
+                be: true,
+                span: Span::Zeroed,
+            },
+            Sum {
+                algo: Algo::Adler32,
+                at: 0,
+                be: false,
+                span: Span::After,
+            },
         ] {
             let mut d = base.clone();
             s.fix(&mut d).unwrap();
@@ -370,14 +450,24 @@ mod tests {
 
     #[test]
     fn line_round_trip() {
-        let s = Sum { algo: Algo::Fnv1a32, at: 12, be: true, span: Span::Zeroed };
+        let s = Sum {
+            algo: Algo::Fnv1a32,
+            at: 12,
+            be: true,
+            span: Span::Zeroed,
+        };
         assert_eq!(decode_line(&encode_line(&s)), Some(s));
     }
 
     #[test]
     fn hashes() {
         let mut d = vec![7u8; 500];
-        let s = Sum { algo: Algo::Sha1, at: 0, be: false, span: Span::After };
+        let s = Sum {
+            algo: Algo::Sha1,
+            at: 0,
+            be: false,
+            span: Span::After,
+        };
         s.fix(&mut d).unwrap();
         assert!(find(&d, &[]).contains(&s));
     }

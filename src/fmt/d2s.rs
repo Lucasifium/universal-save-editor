@@ -16,7 +16,16 @@ use std::collections::{BTreeMap, HashMap};
 use std::sync::{Arc, OnceLock};
 
 const MAGIC: u32 = 0xAA55_AA55;
-pub const CLASSES: [&str; 8] = ["Amazon", "Sorceress", "Necromancer", "Paladin", "Barbarian", "Druid", "Assassin", "Warlock"];
+pub const CLASSES: [&str; 8] = [
+    "Amazon",
+    "Sorceress",
+    "Necromancer",
+    "Paladin",
+    "Barbarian",
+    "Druid",
+    "Assassin",
+    "Warlock",
+];
 
 /// The stats a character file holds: id, label, bit width, 13.8 fixed point, highest value.
 const STATS: [(u16, &str, u32, bool, i64); 16] = [
@@ -45,7 +54,11 @@ fn stat(id: u16) -> Option<&'static (u16, &'static str, u32, bool, i64)> {
 fn skill_names() -> &'static Vec<Vec<String>> {
     static T: OnceLock<Vec<Vec<String>>> = OnceLock::new();
     T.get_or_init(|| {
-        include_str!("data/d2_skills.tsv").lines().filter(|l| !l.starts_with('#') && !l.is_empty()).map(|l| l.split('\t').map(str::to_string).collect()).collect()
+        include_str!("data/d2_skills.tsv")
+            .lines()
+            .filter(|l| !l.starts_with('#') && !l.is_empty())
+            .map(|l| l.split('\t').map(str::to_string).collect())
+            .collect()
     })
 }
 
@@ -65,15 +78,36 @@ struct Layout {
 fn layout(d: &[u8]) -> Option<Layout> {
     let v = u32_at(d, 4)?;
     Some(match v {
-        96 | 97 => Layout { status: 0x24, class: 0x28, level: 0x2B, stats: 765, name: Some((0x14, 16)) },
-        98 | 99 => Layout { status: 0x24, class: 0x28, level: 0x2B, stats: 765, name: Some((0x10B, 48)) },
-        105 => Layout { status: 0x14, class: 0x18, level: 0x1B, stats: 833, name: Some((299, 48)) },
+        96 | 97 => Layout {
+            status: 0x24,
+            class: 0x28,
+            level: 0x2B,
+            stats: 765,
+            name: Some((0x14, 16)),
+        },
+        98 | 99 => Layout {
+            status: 0x24,
+            class: 0x28,
+            level: 0x2B,
+            stats: 765,
+            name: Some((0x10B, 48)),
+        },
+        105 => Layout {
+            status: 0x14,
+            class: 0x18,
+            level: 0x1B,
+            stats: 833,
+            name: Some((299, 48)),
+        },
         _ => return None,
     })
 }
 
 pub fn looks(d: &[u8]) -> bool {
-    d.len() > 790 && u32_at(d, 0) == Some(MAGIC) && u32_at(d, 8) == Some(d.len() as u32) && layout(d).is_some()
+    d.len() > 790
+        && u32_at(d, 0) == Some(MAGIC)
+        && u32_at(d, 8) == Some(d.len() as u32)
+        && layout(d).is_some()
 }
 
 pub fn checksum(d: &[u8]) -> u32 {
@@ -149,7 +183,9 @@ struct D2Backend {
 }
 
 fn as_int(v: &Value) -> Result<i64, String> {
-    v.as_i64().or_else(|| v.as_f64().filter(|f| f.fract() == 0.0).map(|f| f as i64)).ok_or_else(|| "expected a whole number".to_string())
+    v.as_i64()
+        .or_else(|| v.as_f64().filter(|f| f.fract() == 0.0).map(|f| f as i64))
+        .ok_or_else(|| "expected a whole number".to_string())
 }
 
 impl D2Backend {
@@ -184,7 +220,11 @@ impl Backend for D2Backend {
                     let fixed = stat(*id).is_some_and(|s| s.3);
                     let old = stats.get(id).copied().unwrap_or(0);
                     // Life and mana keep their fraction (the low 8 bits).
-                    let raw = if fixed { ((n as u32) << 8) | (old & 0xFF) } else { n as u32 };
+                    let raw = if fixed {
+                        ((n as u32) << 8) | (old & 0xFF)
+                    } else {
+                        n as u32
+                    };
                     stats.insert(*id, if n == 0 { 0 } else { raw });
                 }
                 Target::Skill(i) => skills.push((*i, n as u8)),
@@ -245,18 +285,33 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
     let mut editable = HashMap::new();
     let mut targets = vec![];
     let mut add = |view: &mut Map<String, Value>, group: &str, key: &str, v: Value, t: Target| {
-        editable.insert(format!("/{}/{}", crate::json_view::pointer_escape(group), crate::json_view::pointer_escape(key)), targets.len());
+        editable.insert(
+            format!(
+                "/{}/{}",
+                crate::json_view::pointer_escape(group),
+                crate::json_view::pointer_escape(key)
+            ),
+            targets.len(),
+        );
         targets.push(t);
-        view.entry(group.to_string()).or_insert_with(|| Value::Object(Map::new())).as_object_mut().unwrap().insert(key.to_string(), v);
+        view.entry(group.to_string())
+            .or_insert_with(|| Value::Object(Map::new()))
+            .as_object_mut()
+            .unwrap()
+            .insert(key.to_string(), v);
     };
     let mut info = Map::new();
     let class = d[lay.class] as usize;
     if let Some((at, n)) = lay.name {
         let raw = &d[at..at + n];
-        let name = String::from_utf8_lossy(&raw[..raw.iter().position(|&c| c == 0).unwrap_or(n)]).into_owned();
+        let name = String::from_utf8_lossy(&raw[..raw.iter().position(|&c| c == 0).unwrap_or(n)])
+            .into_owned();
         info.insert("Name".into(), name.into());
     }
-    info.insert("Class".into(), CLASSES.get(class).copied().unwrap_or("?").into());
+    info.insert(
+        "Class".into(),
+        CLASSES.get(class).copied().unwrap_or("?").into(),
+    );
     let status = d[lay.status];
     info.insert("Hardcore".into(), (status & 0x04 != 0).into());
     info.insert("Expansion".into(), (status & 0x20 != 0).into());
@@ -274,10 +329,23 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
     }
     let names = skill_names();
     for i in 0..30 {
-        let label = names.get(class).and_then(|c| c.get(i)).cloned().unwrap_or_else(|| format!("Skill {}", i + 1));
-        add(&mut view, "Skills", &label, d[end + 2 + i].into(), Target::Skill(i));
+        let label = names
+            .get(class)
+            .and_then(|c| c.get(i))
+            .cloned()
+            .unwrap_or_else(|| format!("Skill {}", i + 1));
+        add(
+            &mut view,
+            "Skills",
+            &label,
+            d[end + 2 + i].into(),
+            Target::Skill(i),
+        );
     }
-    let backend = D2Backend { data: Arc::new(d.to_vec()), targets };
+    let backend = D2Backend {
+        data: Arc::new(d.to_vec()),
+        targets,
+    };
     Ok(TreeDoc::new(Value::Object(view), editable, "Diablo II character", Box::new(backend))
         .with_note("Level, experience, gold, attributes, unspent points and skill points; the file's size and checksum are fixed when you save. Gold can be at most 10,000 × level on the character."))
 }
@@ -318,7 +386,10 @@ mod tests {
     fn reads_and_adds_gold() {
         let d = sample();
         let mut doc = parse(&d).unwrap();
-        assert_eq!(doc.view.pointer("/Character/Class"), Some(&"Sorceress".into()));
+        assert_eq!(
+            doc.view.pointer("/Character/Class"),
+            Some(&"Sorceress".into())
+        );
         assert_eq!(doc.view.pointer("/Attributes/Energy"), Some(&35.into()));
         assert_eq!(doc.view.pointer("/Life and mana/Life"), Some(&80.into()));
         assert_eq!(doc.view.pointer("/Progress/Gold"), Some(&0.into()));
@@ -352,21 +423,44 @@ mod tests {
             }
         }
         let mut files = vec![];
-        walk(std::path::Path::new(&std::env::var("SAVE_EDITOR_D2").unwrap()), &mut files);
+        walk(
+            std::path::Path::new(&std::env::var("SAVE_EDITOR_D2").unwrap()),
+            &mut files,
+        );
         for f in files {
             let d = std::fs::read(&f).unwrap();
             match parse(&d) {
                 Ok(mut doc) => {
                     let v = &doc.view;
-                    println!("{}: {} {} lvl {} gold {} xp {}", f.display(), v["Character"]["Name"], v["Character"]["Class"], v["Progress"]["Level"], v["Progress"]["Gold"], v["Progress"]["Experience"]);
+                    println!(
+                        "{}: {} {} lvl {} gold {} xp {}",
+                        f.display(),
+                        v["Character"]["Name"],
+                        v["Character"]["Class"],
+                        v["Progress"]["Level"],
+                        v["Progress"]["Gold"],
+                        v["Progress"]["Experience"]
+                    );
                     assert_eq!(doc.to_bytes().unwrap(), d);
                     // An edit (gold + 1, which is new on fresh characters) reads back.
-                    let g = doc.view.pointer("/Progress/Gold").and_then(Value::as_i64).unwrap();
+                    let g = doc
+                        .view
+                        .pointer("/Progress/Gold")
+                        .and_then(Value::as_i64)
+                        .unwrap();
                     doc.set("/Progress/Gold", (g + 1).into()).unwrap();
                     let out = doc.to_bytes().unwrap();
                     let again = parse(&out).unwrap();
-                    assert_eq!(again.view.pointer("/Progress/Gold").and_then(Value::as_i64), Some(g + 1), "{}", f.display());
-                    assert_eq!(again.view.pointer("/Progress/Experience"), doc.view.pointer("/Progress/Experience"));
+                    assert_eq!(
+                        again.view.pointer("/Progress/Gold").and_then(Value::as_i64),
+                        Some(g + 1),
+                        "{}",
+                        f.display()
+                    );
+                    assert_eq!(
+                        again.view.pointer("/Progress/Experience"),
+                        doc.view.pointer("/Progress/Experience")
+                    );
                     let after = |x: &[u8]| {
                         let l = layout(x).unwrap();
                         let (_, e) = read_stats(x, l.stats + 2).unwrap();

@@ -9,14 +9,20 @@ use serde_json::Value;
 
 fn rows(cx: &GameCtx, base: &str) -> Vec<(String, String)> {
     match cx.get(base) {
-        Some(Value::Object(m)) => m.keys().map(|k| (k.clone(), format!("{base}/{}", pointer_escape(k)))).collect(),
+        Some(Value::Object(m)) => m
+            .keys()
+            .map(|k| (k.clone(), format!("{base}/{}", pointer_escape(k))))
+            .collect(),
         _ => vec![],
     }
 }
 
 pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
     let accent = Color32::from_rgb(200, 190, 160);
-    let name = cx.text("/Save/Name").filter(|n| !n.is_empty()).unwrap_or_else(|| "NieR:Automata".into());
+    let name = cx
+        .text("/Save/Name")
+        .filter(|n| !n.is_empty())
+        .unwrap_or_else(|| "NieR:Automata".into());
     let mut sub = vec!["NieR:Automata".to_string()];
     if let Some(c) = cx.int("/Save/Chapter") {
         sub.push(format!("chapter {c}"));
@@ -28,11 +34,20 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
         cx.tile(ui, "Money (G)", "/Player/Money", accent);
         cx.tile(ui, "Experience", "/Player/Experience", accent);
         if let Some(xp) = cx.int("/Player/Experience") {
-            fact(ui, "Level", &crate::fmt::nier::level_for(xp).to_string(), accent);
+            fact(
+                ui,
+                "Level",
+                &crate::fmt::nier::level_for(xp).to_string(),
+                accent,
+            );
         }
     });
     let lists = ["Items", "Materials", "Weapons"];
-    let t = tabs(ui, "nier_tabs", &lists.iter().map(|s| s.to_string()).collect::<Vec<_>>());
+    let t = tabs(
+        ui,
+        "nier_tabs",
+        &lists.iter().map(|s| s.to_string()).collect::<Vec<_>>(),
+    );
     let base = format!("/{}", lists[t]);
     let r = rows(cx, &base);
     panel(ui, lists[t], |ui| {

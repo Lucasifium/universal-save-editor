@@ -47,7 +47,12 @@ impl Inventory {
     fn choices(&self, leaf: usize, view: &Value) -> Option<Arc<Vec<String>>> {
         each!(self, i => i.choices(leaf, view))
     }
-    fn write(&self, out: &mut Vec<u8>, view: &Value, changes: &[(usize, Value)]) -> Result<(), String> {
+    fn write(
+        &self,
+        out: &mut Vec<u8>,
+        view: &Value,
+        changes: &[(usize, Value)],
+    ) -> Result<(), String> {
         each!(self, i => i.write(out, view, changes))
     }
 }
@@ -83,8 +88,28 @@ const SEKIRO_SLOT: usize = 0x10_0000;
 /// Dark Souls Remastered, decrypted (a length, the data, padding).
 const DS1_SLOT: usize = 0x6_0010;
 
-const ER_ATTRS: [&str; 8] = ["Vigor", "Mind", "Endurance", "Strength", "Dexterity", "Intelligence", "Faith", "Arcane"];
-const ER_CLASSES: [&str; 10] = ["Vagabond", "Warrior", "Hero", "Bandit", "Astrologer", "Prophet", "Confessor", "Samurai", "Prisoner", "Wretch"];
+const ER_ATTRS: [&str; 8] = [
+    "Vigor",
+    "Mind",
+    "Endurance",
+    "Strength",
+    "Dexterity",
+    "Intelligence",
+    "Faith",
+    "Arcane",
+];
+const ER_CLASSES: [&str; 10] = [
+    "Vagabond",
+    "Warrior",
+    "Hero",
+    "Bandit",
+    "Astrologer",
+    "Prophet",
+    "Confessor",
+    "Samurai",
+    "Prisoner",
+    "Wretch",
+];
 /// Dark Souls III: (name, offset from Vigor). Two unused values sit before Vitality.
 const DS3_ATTRS: [(&str, usize); 9] = [
     ("Vigor", 0x00),
@@ -108,7 +133,18 @@ const DS1_ATTRS: [(&str, usize); 8] = [
     ("Intelligence", 0xB8),
     ("Faith", 0xC0),
 ];
-pub const DS1_CLASSES: [&str; 10] = ["Warrior", "Knight", "Wanderer", "Thief", "Bandit", "Hunter", "Sorcerer", "Pyromancer", "Cleric", "Deprived"];
+pub const DS1_CLASSES: [&str; 10] = [
+    "Warrior",
+    "Knight",
+    "Wanderer",
+    "Thief",
+    "Bandit",
+    "Hunter",
+    "Sorcerer",
+    "Pyromancer",
+    "Cleric",
+    "Deprived",
+];
 /// Each class's attribute total minus its starting soul level: soul level = total − this.
 const DS1_LEVEL_MINUS: [u32; 10] = [82, 81, 83, 81, 82, 82, 79, 83, 82, 82];
 /// Dark Souls II: (name, offset in the slot); 16-bit, stored in this order (not the menu's).
@@ -125,22 +161,30 @@ const DS2_ATTRS: [(&str, usize); 9] = [
 ];
 
 fn u32_at(d: &[u8], o: usize) -> u32 {
-    d.get(o..o + 4).map_or(0, |b| u32::from_le_bytes(b.try_into().unwrap()))
+    d.get(o..o + 4)
+        .map_or(0, |b| u32::from_le_bytes(b.try_into().unwrap()))
 }
 
 fn u16_at(d: &[u8], o: usize) -> u16 {
-    d.get(o..o + 2).map_or(0, |b| u16::from_le_bytes(b.try_into().unwrap()))
+    d.get(o..o + 2)
+        .map_or(0, |b| u16::from_le_bytes(b.try_into().unwrap()))
 }
 
 fn name_at(d: &[u8], o: usize) -> Option<String> {
-    let units: Vec<u16> = d.get(o..o + 32)?.chunks_exact(2).map(|c| u16::from_le_bytes([c[0], c[1]])).take_while(|&u| u != 0).collect();
+    let units: Vec<u16> = d
+        .get(o..o + 32)?
+        .chunks_exact(2)
+        .map(|c| u16::from_le_bytes([c[0], c[1]]))
+        .take_while(|&u| u != 0)
+        .collect();
     let s = String::from_utf16(&units).ok()?;
     (!s.trim().is_empty() && s.chars().all(|c| !c.is_control())).then(|| s.trim_end().to_string())
 }
 
 /// Candidate offsets for a block of `n` u32 attributes: every byte where they're all 1..=99.
 fn attr_blocks(d: &[u8], n: usize, extra: usize) -> impl Iterator<Item = usize> + '_ {
-    (0..d.len().saturating_sub(n * 4 + extra)).filter(move |&o| (0..n).all(|i| (1..=99).contains(&u32_at(d, o + i * 4))))
+    (0..d.len().saturating_sub(n * 4 + extra))
+        .filter(move |&o| (0..n).all(|i| (1..=99).contains(&u32_at(d, o + i * 4))))
 }
 
 /// Elden Ring: offset of Vigor (the block isn't always 4-byte aligned).
@@ -163,7 +207,9 @@ fn find_ds3(d: &[u8]) -> Option<usize> {
         let vit = u32_at(d, o + 0x28);
         let sum: u32 = (0..8).map(|i| u32_at(d, o + i * 4)).sum::<u32>() + vit;
         o >= 0x40
-            && (1..=99).contains(&vit) && u32_at(d, o + 0x2C) + 89 == sum && name_at(d, o + 0x44).is_some()
+            && (1..=99).contains(&vit)
+            && u32_at(d, o + 0x2C) + 89 == sum
+            && name_at(d, o + 0x44).is_some()
     })
 }
 
@@ -172,7 +218,8 @@ fn is_ds2(d: &[u8]) -> bool {
         return false;
     }
     let attrs: Vec<u16> = DS2_ATTRS.iter().map(|(_, o)| u16_at(d, *o)).collect();
-    attrs.iter().all(|a| (1..=99).contains(a)) && u32_at(d, 0x3C) + 53 == attrs.iter().map(|&a| a as u32).sum::<u32>()
+    attrs.iter().all(|a| (1..=99).contains(a))
+        && u32_at(d, 0x3C) + 53 == attrs.iter().map(|&a| a as u32).sum::<u32>()
 }
 
 /// Dark Souls: the character's class, if the slot holds one (level = attributes − class constant).
@@ -196,7 +243,11 @@ fn find_sekiro(d: &[u8]) -> Option<usize> {
     }
     (0..d.len() - 0x200).step_by(4).find(|&o| {
         let hp = [u32_at(d, o), u32_at(d, o + 4), u32_at(d, o + 8)];
-        let posture = [u32_at(d, o + 0x1C), u32_at(d, o + 0x20), u32_at(d, o + 0x24)];
+        let posture = [
+            u32_at(d, o + 0x1C),
+            u32_at(d, o + 0x20),
+            u32_at(d, o + 0x24),
+        ];
         (100..=20_000).contains(&hp[1])
             && (1..=hp[1]).contains(&hp[0])
             && (100..=hp[1]).contains(&hp[2])
@@ -290,12 +341,21 @@ impl Backend for SlotBackend {
         if let Some(inv) = self.inv(leaf) {
             return inv.derived(leaf, view);
         }
-        let Some(rule) = &self.level else { return vec![] };
+        let Some(rule) = &self.level else {
+            return vec![];
+        };
         if !self.attr_leaves.contains(&leaf) {
             return vec![];
         }
-        let sum: u64 = rule.attr_ptrs.iter().map(|p| view.pointer(p).and_then(Value::as_u64).unwrap_or(0)).sum();
-        vec![(rule.level_ptr.clone(), Value::from(sum.saturating_sub(rule.minus)))]
+        let sum: u64 = rule
+            .attr_ptrs
+            .iter()
+            .map(|p| view.pointer(p).and_then(Value::as_u64).unwrap_or(0))
+            .sum();
+        vec![(
+            rule.level_ptr.clone(),
+            Value::from(sum.saturating_sub(rule.minus)),
+        )]
     }
 
     fn choices(&self, leaf: usize, view: &Value) -> Option<Arc<Vec<String>>> {
@@ -318,11 +378,21 @@ struct Builder<'a> {
 
 impl<'a> Builder<'a> {
     fn new(d: &'a [u8]) -> Self {
-        Self { d, root: Map::new(), editable: HashMap::new(), fields: vec![], inv: None }
+        Self {
+            d,
+            root: Map::new(),
+            editable: HashMap::new(),
+            fields: vec![],
+            inv: None,
+        }
     }
 
     fn section(&mut self, s: &str) -> &mut Map<String, Value> {
-        self.root.entry(s.to_string()).or_insert_with(|| Value::Object(Map::new())).as_object_mut().unwrap()
+        self.root
+            .entry(s.to_string())
+            .or_insert_with(|| Value::Object(Map::new()))
+            .as_object_mut()
+            .unwrap()
     }
 
     fn read(&self, off: usize, width: usize) -> u64 {
@@ -339,25 +409,71 @@ impl<'a> Builder<'a> {
     }
 
     /// An editable number (written to every offset in `offs`). Returns its leaf.
-    fn num(&mut self, sec: &str, key: &str, offs: &[usize], width: usize, (min, max): (i128, i128), what: &'static str) -> usize {
+    fn num(
+        &mut self,
+        sec: &str,
+        key: &str,
+        offs: &[usize],
+        width: usize,
+        (min, max): (i128, i128),
+        what: &'static str,
+    ) -> usize {
         let v = self.read(offs[0], width);
         self.section(sec).insert(key.into(), Value::from(v));
-        self.editable.insert(format!("/{sec}/{key}"), self.fields.len());
-        self.fields.push(Field { offs: offs.to_vec(), width, min, max, what, derived: false });
+        self.editable
+            .insert(format!("/{sec}/{key}"), self.fields.len());
+        self.fields.push(Field {
+            offs: offs.to_vec(),
+            width,
+            min,
+            max,
+            what,
+            derived: false,
+        });
         self.fields.len() - 1
     }
 
-    fn finish(mut self, game: Game, level: Option<(&str, &str, u64)>, attr_leaves: Vec<usize>, note: &str) -> TreeDoc {
+    fn finish(
+        mut self,
+        game: Game,
+        level: Option<(&str, &str, u64)>,
+        attr_leaves: Vec<usize>,
+        note: &str,
+    ) -> TreeDoc {
         let level = level.map(|(sec, key, minus)| {
             let p = format!("/{sec}/{key}");
             if let Some(&leaf) = self.editable.get(&p) {
                 self.fields[leaf].derived = true;
             }
-            let attr_ptrs = attr_leaves.iter().filter_map(|l| self.editable.iter().find(|(_, v)| *v == l).map(|(k, _)| k.clone())).collect();
-            LevelRule { level_ptr: p, attr_ptrs, minus }
+            let attr_ptrs = attr_leaves
+                .iter()
+                .filter_map(|l| {
+                    self.editable
+                        .iter()
+                        .find(|(_, v)| *v == l)
+                        .map(|(k, _)| k.clone())
+                })
+                .collect();
+            LevelRule {
+                level_ptr: p,
+                attr_ptrs,
+                minus,
+            }
         });
-        let backend = SlotBackend { raw: self.d.to_vec(), fields: self.fields, level, attr_leaves, inv: self.inv };
-        TreeDoc::new(Value::Object(self.root), self.editable, game.name(), Box::new(backend)).with_note(note)
+        let backend = SlotBackend {
+            raw: self.d.to_vec(),
+            fields: self.fields,
+            level,
+            attr_leaves,
+            inv: self.inv,
+        };
+        TreeDoc::new(
+            Value::Object(self.root),
+            self.editable,
+            game.name(),
+            Box::new(backend),
+        )
+        .with_note(note)
     }
 }
 
@@ -385,15 +501,35 @@ fn pools(b: &mut Builder, pools: &[(&str, usize)]) {
 fn parse_er(d: &[u8]) -> Result<TreeDoc, String> {
     let base = find_er(d).ok_or("no Elden Ring character in this slot")?;
     let mut b = Builder::new(d);
-    b.show("Character", "Name", name_at(d, base + 0x60).unwrap_or_default());
+    b.show(
+        "Character",
+        "Name",
+        name_at(d, base + 0x60).unwrap_or_default(),
+    );
     let class = d.get(base + 0x60 + 0x23).copied().unwrap_or(255) as usize;
-    b.show("Character", "Starting class", ER_CLASSES.get(class).copied().unwrap_or("Unknown"));
+    b.show(
+        "Character",
+        "Starting class",
+        ER_CLASSES.get(class).copied().unwrap_or("Unknown"),
+    );
     b.num("Character", "Level", &[base + 0x2C], 4, (1, 713), "Level");
     b.num("Character", "Runes", &[base + 0x30], 4, CURRENCY, "Runes");
     b.show("Character", "Rune memory", b.read(base + 0x34, 4));
-    let attrs: Vec<usize> = ER_ATTRS.iter().enumerate().map(|(i, a)| b.num("Attributes", a, &[base + i * 4], 4, ATTR, "Attributes")).collect();
-    pools(&mut b, &[("HP", base - 0x2C), ("FP", base - 0x20), ("Stamina", base - 0x10)]);
-    b.inv = er_inv::build(d, base, b.fields.len(), &mut b.root, &mut b.editable).map(Inventory::EldenRing);
+    let attrs: Vec<usize> = ER_ATTRS
+        .iter()
+        .enumerate()
+        .map(|(i, a)| b.num("Attributes", a, &[base + i * 4], 4, ATTR, "Attributes"))
+        .collect();
+    pools(
+        &mut b,
+        &[
+            ("HP", base - 0x2C),
+            ("FP", base - 0x20),
+            ("Stamina", base - 0x10),
+        ],
+    );
+    b.inv = er_inv::build(d, base, b.fields.len(), &mut b.root, &mut b.editable)
+        .map(Inventory::EldenRing);
     let items = if b.inv.is_some() {
         "Items, Key items and Storage list your goods (items, materials, keys): change an item or its quantity (up to 999), \
          or pick an item for one of the empty slots at the end to add it. Weapons, armor, talismans and Ashes of War are counted, not edited. "
@@ -405,19 +541,46 @@ fn parse_er(d: &[u8]) -> Result<TreeDoc, String> {
          The load screen keeps showing the old level until you save in-game. Close the game before saving. \
          Use Tools \u{203A} Open another file in this archive to pick another character slot."
     );
-    Ok(b.finish(Game::EldenRing, Some(("Character", "Level", 79)), attrs, &note))
+    Ok(b.finish(
+        Game::EldenRing,
+        Some(("Character", "Level", 79)),
+        attrs,
+        &note,
+    ))
 }
 
 fn parse_ds3(d: &[u8]) -> Result<TreeDoc, String> {
     let base = find_ds3(d).ok_or("no Dark Souls III character in this slot")?;
     let mut b = Builder::new(d);
-    b.show("Character", "Name", name_at(d, base + 0x44).unwrap_or_default());
-    b.num("Character", "Soul level", &[base + 0x2C], 4, (1, 802), "Soul level");
+    b.show(
+        "Character",
+        "Name",
+        name_at(d, base + 0x44).unwrap_or_default(),
+    );
+    b.num(
+        "Character",
+        "Soul level",
+        &[base + 0x2C],
+        4,
+        (1, 802),
+        "Soul level",
+    );
     b.num("Character", "Souls", &[base + 0x30], 4, CURRENCY, "Souls");
     b.show("Character", "Soul memory", b.read(base + 0x34, 4));
-    let attrs: Vec<usize> = DS3_ATTRS.iter().map(|(a, o)| b.num("Attributes", a, &[base + o], 4, ATTR, "Attributes")).collect();
-    pools(&mut b, &[("HP", base - 0x2C), ("FP", base - 0x20), ("Stamina", base - 0x10)]);
-    b.inv = ds3_inv::build(d, base, b.fields.len(), &mut b.root, &mut b.editable).map(Inventory::DarkSouls3);
+    let attrs: Vec<usize> = DS3_ATTRS
+        .iter()
+        .map(|(a, o)| b.num("Attributes", a, &[base + o], 4, ATTR, "Attributes"))
+        .collect();
+    pools(
+        &mut b,
+        &[
+            ("HP", base - 0x2C),
+            ("FP", base - 0x20),
+            ("Stamina", base - 0x10),
+        ],
+    );
+    b.inv = ds3_inv::build(d, base, b.fields.len(), &mut b.root, &mut b.editable)
+        .map(Inventory::DarkSouls3);
     let items = if b.inv.is_some() {
         "Items, Storage, Weapons, Armor and Rings list what you have: change an item or its quantity (99 carried, 600 stored), \
          a weapon's level and infusion, or pick something for one of the empty slots at the end to add it. "
@@ -429,7 +592,12 @@ fn parse_ds3(d: &[u8]) -> Result<TreeDoc, String> {
          The load screen keeps showing the old level until you save in-game. Close the game before saving. \
          Use Tools \u{203A} Open another file in this archive to pick another character slot."
     );
-    Ok(b.finish(Game::DarkSouls3, Some(("Character", "Soul level", 89)), attrs, &note))
+    Ok(b.finish(
+        Game::DarkSouls3,
+        Some(("Character", "Soul level", 89)),
+        attrs,
+        &note,
+    ))
 }
 
 fn parse_ds2(d: &[u8]) -> Result<TreeDoc, String> {
@@ -438,12 +606,23 @@ fn parse_ds2(d: &[u8]) -> Result<TreeDoc, String> {
     }
     let mut b = Builder::new(d);
     b.show("Character", "Name", name_at(d, 0x3C4).unwrap_or_default());
-    b.num("Character", "Soul level", &[0x3C], 4, (1, 838), "Soul level");
+    b.num(
+        "Character",
+        "Soul level",
+        &[0x3C],
+        4,
+        (1, 838),
+        "Soul level",
+    );
     b.num("Character", "Souls", &[0x40], 4, CURRENCY, "Souls");
     b.show("Character", "Soul memory", b.read(0x44, 4));
-    let attrs: Vec<usize> = DS2_ATTRS.iter().map(|(a, o)| b.num("Attributes", a, &[*o], 2, ATTR, "Attributes")).collect();
+    let attrs: Vec<usize> = DS2_ATTRS
+        .iter()
+        .map(|(a, o)| b.num("Attributes", a, &[*o], 2, ATTR, "Attributes"))
+        .collect();
     b.show("Status", "HP", b.read(0x4C, 4));
-    b.inv = ds2_inv::build(d, b.fields.len(), &mut b.root, &mut b.editable).map(Inventory::DarkSouls2);
+    b.inv =
+        ds2_inv::build(d, b.fields.len(), &mut b.root, &mut b.editable).map(Inventory::DarkSouls2);
     Ok(b.finish(
         Game::DarkSouls2,
         Some(("Character", "Soul level", 53)),
@@ -461,12 +640,23 @@ fn parse_ds1(d: &[u8]) -> Result<TreeDoc, String> {
     let mut b = Builder::new(d);
     b.show("Character", "Name", name_at(d, 0xF8).unwrap_or_default());
     b.show("Character", "Starting class", DS1_CLASSES[class]);
-    b.num("Character", "Soul level", &[0xE0], 2, (1, 713), "Soul level");
+    b.num(
+        "Character",
+        "Soul level",
+        &[0xE0],
+        2,
+        (1, 713),
+        "Soul level",
+    );
     b.num("Character", "Souls", &[0xE4], 4, CURRENCY, "Souls");
     b.num("Character", "Humanity", &[0xD4], 1, (0, 99), "Humanity");
-    let attrs: Vec<usize> = DS1_ATTRS.iter().map(|(a, o)| b.num("Attributes", a, &[*o], 1, ATTR, "Attributes")).collect();
+    let attrs: Vec<usize> = DS1_ATTRS
+        .iter()
+        .map(|(a, o)| b.num("Attributes", a, &[*o], 1, ATTR, "Attributes"))
+        .collect();
     pools(&mut b, &[("HP", 0x64), ("Stamina", 0x80)]);
-    b.inv = ds1_inv::build(d, b.fields.len(), &mut b.root, &mut b.editable).map(Inventory::DarkSouls1);
+    b.inv =
+        ds1_inv::build(d, b.fields.len(), &mut b.root, &mut b.editable).map(Inventory::DarkSouls1);
     Ok(b.finish(
         Game::DarkSouls1,
         Some(("Character", "Soul level", DS1_LEVEL_MINUS[class] as u64)),
@@ -482,19 +672,55 @@ fn parse_sekiro(d: &[u8]) -> Result<TreeDoc, String> {
     let o = find_sekiro(d).ok_or("no Sekiro character in this slot")?;
     let mut b = Builder::new(d);
     b.num("Character", "Sen", &[o + 0x64], 4, CURRENCY, "Sen");
-    b.num("Character", "Attack Power", &[o + 0x30], 4, (1, 99), "Attack Power");
+    b.num(
+        "Character",
+        "Attack Power",
+        &[o + 0x30],
+        4,
+        (1, 99),
+        "Attack Power",
+    );
     // How many Spirit Emblems can be carried; those carried are an item (Items, Spirit Emblem).
-    b.num("Character", "Spirit Emblem capacity", &[o + 0x12E], 1, (0, 99), "Spirit Emblem capacity");
+    b.num(
+        "Character",
+        "Spirit Emblem capacity",
+        &[o + 0x12E],
+        1,
+        (0, 99),
+        "Spirit Emblem capacity",
+    );
     // Vitality and posture are stored three times (current, maximum, base); edit all together.
-    b.num("Status", "Vitality", &[o, o + 4, o + 8], 4, (1, 99_999), "Vitality");
-    b.num("Status", "Posture", &[o + 0x1C, o + 0x20, o + 0x24], 4, (1, 99_999), "Posture");
+    b.num(
+        "Status",
+        "Vitality",
+        &[o, o + 4, o + 8],
+        4,
+        (1, 99_999),
+        "Vitality",
+    );
+    b.num(
+        "Status",
+        "Posture",
+        &[o + 0x1C, o + 0x20, o + 0x24],
+        4,
+        (1, 99_999),
+        "Posture",
+    );
     // Skills: experience toward the next skill point (the game hands out a point once it's
     // full), how many points have been earned and all experience ever gained. Points to
     // spend are an item (Items, Skill Point).
-    b.num("Skills", "Skill experience", &[o + 0x148], 4, (0, 999_999_999), "Skill experience");
+    b.num(
+        "Skills",
+        "Skill experience",
+        &[o + 0x148],
+        4,
+        (0, 999_999_999),
+        "Skill experience",
+    );
     b.show("Skills", "Skill points earned", b.read(o + 0x13C, 4));
     b.show("Skills", "Total experience", b.read(o + 0x140, 4));
-    b.inv = sekiro_inv::build(d, b.fields.len(), &mut b.root, &mut b.editable).map(Inventory::Sekiro);
+    b.inv =
+        sekiro_inv::build(d, b.fields.len(), &mut b.root, &mut b.editable).map(Inventory::Sekiro);
     let items = if b.inv.is_some() {
         "Items, Key items and Storage list what you have: change an item or its quantity, or pick an item for an empty slot to add it. \
          The game caps what you carry at each item's limit and keeps the rest in Storage. \
@@ -538,7 +764,10 @@ mod tests {
         let mut doc = parse(&d).unwrap();
         assert_eq!(doc.kind_name, "Elden Ring character");
         assert_eq!(doc.view.pointer("/Character/Name").unwrap(), "Tarnished");
-        assert_eq!(doc.view.pointer("/Character/Starting class").unwrap(), "Wretch");
+        assert_eq!(
+            doc.view.pointer("/Character/Starting class").unwrap(),
+            "Wretch"
+        );
         assert_eq!(doc.view.pointer("/Status/Max HP").unwrap(), 400);
         assert!(doc.set("/Character/Level", Value::from(50)).is_err());
         doc.set("/Attributes/Vigor", Value::from(40)).unwrap();
@@ -571,18 +800,39 @@ mod tests {
         assert_eq!(v(&doc, "/Items/Slot 1/Item"), "Smithing Stone [1]");
         assert_eq!(v(&doc, "/Key items/Slot 1/Item"), "Stonesword Key");
         assert_eq!(v(&doc, "/Storage/Slot 1/Quantity"), 400);
-        assert!(v(&doc, "/Items/Slot 3").is_null(), "only the empty slots at the end are offered");
+        assert!(
+            v(&doc, "/Items/Slot 3").is_null(),
+            "only the empty slots at the end are offered"
+        );
         assert_eq!(v(&doc, "/Items/Slot 2625/Item"), sekiro_inv::EMPTY);
 
-        assert!(doc.set("/Items/Slot 1/Item", Value::from(sekiro_inv::EMPTY)).is_err(), "not one of the offered slots");
-        assert!(doc.set("/Items/Slot 2/Item", Value::from("Smithing Stone [2]")).is_err(), "in a quick slot");
-        assert!(doc.set("/Items/Slot 1/Quantity", Value::from(1000)).is_err());
+        assert!(
+            doc.set("/Items/Slot 1/Item", Value::from(sekiro_inv::EMPTY))
+                .is_err(),
+            "not one of the offered slots"
+        );
+        assert!(
+            doc.set("/Items/Slot 2/Item", Value::from("Smithing Stone [2]"))
+                .is_err(),
+            "in a quick slot"
+        );
+        assert!(doc
+            .set("/Items/Slot 1/Quantity", Value::from(1000))
+            .is_err());
         doc.set("/Items/Slot 2/Quantity", Value::from(20)).unwrap();
-        doc.set("/Storage/Slot 1/Quantity", Value::from(999)).unwrap();
+        doc.set("/Storage/Slot 1/Quantity", Value::from(999))
+            .unwrap();
 
         // The "Max upgrade materials" button.
         let root = doc.view.clone();
-        let mut cx = crate::game_ui::GameCtx { root: &root, baseline: &root, tree: Some(&doc), edits: vec![], archive: None, open_entry: None };
+        let mut cx = crate::game_ui::GameCtx {
+            root: &root,
+            baseline: &root,
+            tree: Some(&doc),
+            edits: vec![],
+            archive: None,
+            open_entry: None,
+        };
         crate::game_ui::give_materials(crate::game_ui::Game::EldenRing, &mut cx);
         let edits = cx.edits;
         for (p, val) in edits {
@@ -593,13 +843,23 @@ mod tests {
         assert_eq!(v(&doc, "/Items/Slot 2662/Item"), "Great Ghost Glovewort");
 
         let out = doc.to_bytes().unwrap();
-        assert_eq!(parse(&out).unwrap().view, doc.view, "saving reads back exactly what's on screen");
+        assert_eq!(
+            parse(&out).unwrap().view,
+            doc.view,
+            "saving reads back exactly what's on screen"
+        );
         let inv = base + 0x370;
         assert_eq!(u32_at(&out, inv), 2 + 38, "carried count");
         let e = inv + 4 + 2624 * 12;
-        assert_eq!([u32_at(&out, e), u32_at(&out, e + 4), u32_at(&out, e + 8)], [0xB000_0000 | 10101, 999, 100]);
+        assert_eq!(
+            [u32_at(&out, e), u32_at(&out, e + 4), u32_at(&out, e + 8)],
+            [0xB000_0000 | 10101, 999, 100]
+        );
         let next = inv + 4 + 0xA80 * 12 + 4 + 0x180 * 12;
-        assert_eq!([u32_at(&out, next), u32_at(&out, next + 4)], [10 + 38, 100 + 38]);
+        assert_eq!(
+            [u32_at(&out, next), u32_at(&out, next + 4)],
+            [10 + 38, 100 + 38]
+        );
         let st = storage_at(&out, base).unwrap();
         assert_eq!(u32_at(&out, st), 1);
         assert_eq!(u32_at(&out, st + 8), 999);
@@ -611,7 +871,10 @@ mod tests {
         use crate::fmt::er_inv::tests::{add_handle, blank, mark_end, wear, with_table};
         let mut d = vec![0u8; ER_SLOT];
         // Heavy Dagger +5, and a Longsword that's worn.
-        let base = with_table(&mut d, &[(0x8080_0010, 1_000_000 + 100 + 5), (0x8080_0011, 2_000_000)]);
+        let base = with_table(
+            &mut d,
+            &[(0x8080_0010, 1_000_000 + 100 + 5), (0x8080_0011, 2_000_000)],
+        );
         for i in 0..8 {
             put32(&mut d, base + i * 4, 10);
         }
@@ -630,45 +893,89 @@ mod tests {
         assert_eq!(v(&doc, "/Weapons/Slot 2/Item"), "Longsword");
 
         doc.set("/Weapons/Slot 1/Level", Value::from(25)).unwrap();
-        doc.set("/Weapons/Slot 1/Affinity", Value::from("Keen")).unwrap();
+        doc.set("/Weapons/Slot 1/Affinity", Value::from("Keen"))
+            .unwrap();
         assert!(doc.set("/Weapons/Slot 1/Level", Value::from(26)).is_err());
-        assert!(doc.set("/Weapons/Slot 2/Item", Value::from("Dagger")).is_err(), "worn");
-        assert!(doc.set("/Weapons/Slot 1/Item", Value::from(sekiro_inv::EMPTY)).is_err(), "not added here");
+        assert!(
+            doc.set("/Weapons/Slot 2/Item", Value::from("Dagger"))
+                .is_err(),
+            "worn"
+        );
+        assert!(
+            doc.set("/Weapons/Slot 1/Item", Value::from(sekiro_inv::EMPTY))
+                .is_err(),
+            "not added here"
+        );
 
         // Adding: a weapon that can take affinities, armor and a talisman.
         let (&(_, sword, _, _), somber) = (
-            WEAPONS.iter().find(|w| w.2 == Some(25) && w.3 != 0).unwrap(),
-            WEAPONS.iter().find(|w| w.2 == Some(10) && w.3 == 0).unwrap(),
+            WEAPONS
+                .iter()
+                .find(|w| w.2 == Some(25) && w.3 != 0)
+                .unwrap(),
+            WEAPONS
+                .iter()
+                .find(|w| w.2 == Some(10) && w.3 == 0)
+                .unwrap(),
         );
-        doc.set("/Weapons/Slot 2593/Item", Value::from(sword)).unwrap();
+        doc.set("/Weapons/Slot 2593/Item", Value::from(sword))
+            .unwrap();
         assert_eq!(v(&doc, "/Weapons/Slot 2593/Affinity"), "Standard");
-        doc.set("/Weapons/Slot 2593/Level", Value::from(25)).unwrap();
-        doc.set("/Weapons/Slot 2594/Item", Value::from(somber.1)).unwrap();
-        doc.set("/Weapons/Slot 2594/Level", Value::from(25)).unwrap();
-        assert_eq!(v(&doc, "/Weapons/Slot 2594/Level"), 10, "somber weapons stop at +10");
-        assert_eq!(v(&doc, "/Weapons/Slot 2594/Affinity"), super::er_inv::NO_AFFINITY);
-        doc.set("/Armor/Slot 2561/Item", Value::from(ARMOR[0].1)).unwrap();
-        doc.set("/Talismans/Slot 2545/Item", Value::from(TALISMANS[0].1)).unwrap();
+        doc.set("/Weapons/Slot 2593/Level", Value::from(25))
+            .unwrap();
+        doc.set("/Weapons/Slot 2594/Item", Value::from(somber.1))
+            .unwrap();
+        doc.set("/Weapons/Slot 2594/Level", Value::from(25))
+            .unwrap();
+        assert_eq!(
+            v(&doc, "/Weapons/Slot 2594/Level"),
+            10,
+            "somber weapons stop at +10"
+        );
+        assert_eq!(
+            v(&doc, "/Weapons/Slot 2594/Affinity"),
+            super::er_inv::NO_AFFINITY
+        );
+        doc.set("/Armor/Slot 2561/Item", Value::from(ARMOR[0].1))
+            .unwrap();
+        doc.set("/Talismans/Slot 2545/Item", Value::from(TALISMANS[0].1))
+            .unwrap();
 
         let out = doc.to_bytes().unwrap();
         assert_eq!(out.len(), d.len());
         let back = parse(&out).unwrap();
-        assert_eq!(back.view, doc.view, "saving reads back exactly what's on screen");
+        assert_eq!(
+            back.view, doc.view,
+            "saving reads back exactly what's on screen"
+        );
         // The character data moved by the two new weapons and the armor (13 + 13 + 8 bytes).
         let moved = super::find_er(&out).unwrap();
         assert_eq!(moved, base + 34);
         assert_eq!(u32_at(&out, moved + 0x370), 2 + 4, "carried count");
-        assert_eq!(u32_at(&out, 0x20 + 4), 1_000_000 + 200 + 25, "Keen Dagger +25");
+        assert_eq!(
+            u32_at(&out, 0x20 + 4),
+            1_000_000 + 200 + 25,
+            "Keen Dagger +25"
+        );
 
         // Removing what was added puts the item table back as it was.
         let mut doc2 = back;
-        for p in ["/Weapons/Slot 2593/Item", "/Weapons/Slot 2594/Item", "/Armor/Slot 2561/Item", "/Talismans/Slot 2545/Item"] {
+        for p in [
+            "/Weapons/Slot 2593/Item",
+            "/Weapons/Slot 2594/Item",
+            "/Armor/Slot 2561/Item",
+            "/Talismans/Slot 2545/Item",
+        ] {
             doc2.set(p, Value::from(sekiro_inv::EMPTY)).unwrap();
         }
         let out2 = doc2.to_bytes().unwrap();
         assert_eq!(parse(&out2).unwrap().view, doc2.view);
         assert_eq!(super::find_er(&out2), Some(base));
-        assert_eq!(out2[0x20 + 42..base], d[0x20 + 42..base], "the free table entries are back");
+        assert_eq!(
+            out2[0x20 + 42..base],
+            d[0x20 + 42..base],
+            "the free table entries are back"
+        );
         assert_eq!(u32_at(&out2, base + 0x370), 2);
     }
 
@@ -691,21 +998,38 @@ mod tests {
         let v = |doc: &TreeDoc, p: &str| doc.view.pointer(p).cloned().unwrap_or(Value::Null);
         assert_eq!(v(&doc, "/Weapons/Slot 1/Level"), 3);
         assert_eq!(v(&doc, "/Items/Slot 2/Item"), "Titanite Shard");
-        assert!(doc.set("/Weapons/Slot 1/Item", Value::from("Dagger")).is_err(), "worn");
+        assert!(
+            doc.set("/Weapons/Slot 1/Item", Value::from("Dagger"))
+                .is_err(),
+            "worn"
+        );
         doc.set("/Weapons/Slot 1/Level", Value::from(10)).unwrap();
         doc.set("/Items/Slot 2/Quantity", Value::from(99)).unwrap();
         assert!(doc.set("/Items/Slot 2/Quantity", Value::from(100)).is_err());
         // A new weapon in the reserved slots (0x780 - 64 - 32 = 1824).
-        doc.set("/Weapons/Slot 1825/Item", Value::from("Dagger")).unwrap();
-        doc.set("/Weapons/Slot 1825/Infusion", Value::from("Sharp")).unwrap();
-        assert!(doc.set("/Weapons/Slot 1825/Level", Value::from(11)).is_err());
-        doc.set("/Weapons/Slot 1825/Level", Value::from(10)).unwrap();
+        doc.set("/Weapons/Slot 1825/Item", Value::from("Dagger"))
+            .unwrap();
+        doc.set("/Weapons/Slot 1825/Infusion", Value::from("Sharp"))
+            .unwrap();
+        assert!(doc
+            .set("/Weapons/Slot 1825/Level", Value::from(11))
+            .is_err());
+        doc.set("/Weapons/Slot 1825/Level", Value::from(10))
+            .unwrap();
         let out = doc.to_bytes().unwrap();
         assert_eq!(out.len(), d.len());
-        assert_eq!(&out[out.len() - 13..], &d[d.len() - 13..], "the slot's last bytes stay");
+        assert_eq!(
+            &out[out.len() - 13..],
+            &d[d.len() - 13..],
+            "the slot's last bytes stay"
+        );
         let back = parse(&out).unwrap();
         assert_eq!(back.view, doc.view);
-        assert_eq!(super::find_ds3(&out), Some(base + 52), "the item table grew by one weapon");
+        assert_eq!(
+            super::find_ds3(&out),
+            Some(base + 52),
+            "the item table grew by one weapon"
+        );
     }
 
     #[test]
@@ -732,15 +1056,25 @@ mod tests {
         assert_eq!(v(&doc, "/Weapons/Slot 1/Item"), "Broadsword");
         assert_eq!(v(&doc, "/Weapons/Slot 1/Level"), 2);
         assert_eq!(v(&doc, "/Items/Slot 2/Item"), "Lifegem");
-        assert!(doc.set("/Weapons/Slot 1/Item", Value::from("Dagger")).is_err(), "worn");
+        assert!(
+            doc.set("/Weapons/Slot 1/Item", Value::from("Dagger"))
+                .is_err(),
+            "worn"
+        );
         doc.set("/Weapons/Slot 1/Level", Value::from(9)).unwrap();
         assert_eq!(v(&doc, "/Weapons/Slot 1/Level"), 5, "+5 at most");
-        doc.set("/Weapons/Slot 1953/Item", Value::from("Dagger")).unwrap();
-        doc.set("/Rings/Slot 1905/Item", Value::from("Life Ring")).unwrap();
+        doc.set("/Weapons/Slot 1953/Item", Value::from("Dagger"))
+            .unwrap();
+        doc.set("/Rings/Slot 1905/Item", Value::from("Life Ring"))
+            .unwrap();
         let out = doc.to_bytes().unwrap();
         assert_eq!(parse(&out).unwrap().view, doc.view);
         let o = 0x1E30 + 1952 * 16;
-        assert_eq!(u32_at(&out, o + 8), 60f32.to_bits(), "a new weapon gets an owned weapon's durability");
+        assert_eq!(
+            u32_at(&out, o + 8),
+            60f32.to_bits(),
+            "a new weapon gets an owned weapon's durability"
+        );
     }
 
     #[test]
@@ -774,33 +1108,71 @@ mod tests {
         assert_eq!(parse(&out).unwrap().view, doc.view);
         assert_eq!(out[0xA8], 20);
         assert_eq!(u32_at(&out, 0x360 + 64 * 28 + 4), 201_005);
-        assert_eq!(u32_at(&out, 0x304 + 4), 201_005, "the equipped copy follows");
-        assert!(doc.set("/Weapons/Slot 65/Item", Value::from("Dagger")).is_err(), "equipped");
-        assert!(doc.set("/Items/Slot 66/Item", Value::from("(empty)")).is_err(), "not one of the slots for new items");
+        assert_eq!(
+            u32_at(&out, 0x304 + 4),
+            201_005,
+            "the equipped copy follows"
+        );
+        assert!(
+            doc.set("/Weapons/Slot 65/Item", Value::from("Dagger"))
+                .is_err(),
+            "equipped"
+        );
+        assert!(
+            doc.set("/Items/Slot 66/Item", Value::from("(empty)"))
+                .is_err(),
+            "not one of the slots for new items"
+        );
 
         // Adding: a second Longsword (copies the first's sort key and durability), a ring,
         // armor and a material, in the slots kept for new items.
         let mut doc = parse(&out).unwrap();
         assert_eq!(counts(&out), (2, 0, 65));
-        doc.set("/Weapons/Slot 1953/Item", Value::from("Longsword")).unwrap();
+        doc.set("/Weapons/Slot 1953/Item", Value::from("Longsword"))
+            .unwrap();
         doc.set("/Weapons/Slot 1953/Level", Value::from(4)).unwrap();
         assert_eq!(v(&doc, "/Weapons/Slot 1953/Infusion"), "Normal");
-        doc.set("/Rings/Slot 1905/Item", Value::from("Havel's Ring")).unwrap();
-        doc.set("/Armor/Slot 1921/Item", Value::from("Catarina Helm")).unwrap();
-        doc.set("/Items/Slot 1985/Item", Value::from("Green Titanite Shard")).unwrap();
-        doc.set("/Items/Slot 1985/Quantity", Value::from(12)).unwrap();
-        assert!(!doc.choices("/Items/Slot 1986/Item").unwrap().contains(&"Titanite Shard".to_string()), "already carried");
+        doc.set("/Rings/Slot 1905/Item", Value::from("Havel's Ring"))
+            .unwrap();
+        doc.set("/Armor/Slot 1921/Item", Value::from("Catarina Helm"))
+            .unwrap();
+        doc.set("/Items/Slot 1985/Item", Value::from("Green Titanite Shard"))
+            .unwrap();
+        doc.set("/Items/Slot 1985/Quantity", Value::from(12))
+            .unwrap();
+        assert!(
+            !doc.choices("/Items/Slot 1986/Item")
+                .unwrap()
+                .contains(&"Titanite Shard".to_string()),
+            "already carried"
+        );
         let added = doc.to_bytes().unwrap();
-        assert_eq!(parse(&added).unwrap().view, doc.view, "saving reads back what's on screen");
+        assert_eq!(
+            parse(&added).unwrap().view,
+            doc.view,
+            "saving reads back what's on screen"
+        );
         assert_eq!(counts(&added), (6, 0, 1984));
-        let e = |d: &[u8], slot: usize| (0..7).map(|k| u32_at(d, 0x360 + slot * 28 + k * 4)).collect::<Vec<u32>>();
-        assert_eq!(e(&added, 1952), vec![0, 201_004, 1, (7 << 12) | 1952, 1, 200, 0]);
+        let e = |d: &[u8], slot: usize| {
+            (0..7)
+                .map(|k| u32_at(d, 0x360 + slot * 28 + k * 4))
+                .collect::<Vec<u32>>()
+        };
+        assert_eq!(
+            e(&added, 1952),
+            vec![0, 201_004, 1, (7 << 12) | 1952, 1, 200, 0]
+        );
         assert_eq!(e(&added, 1984)[..5], [4 << 28, 1020, 12, 1984, 1]);
         assert_eq!(e(&added, 1904)[..2], [2 << 28, 100]);
 
         // Removing what was added.
         let mut doc = parse(&added).unwrap();
-        for p in ["/Weapons/Slot 1953/Item", "/Rings/Slot 1905/Item", "/Armor/Slot 1921/Item", "/Items/Slot 1985/Item"] {
+        for p in [
+            "/Weapons/Slot 1953/Item",
+            "/Rings/Slot 1905/Item",
+            "/Armor/Slot 1921/Item",
+            "/Items/Slot 1985/Item",
+        ] {
             doc.set(p, Value::from("(empty)")).unwrap();
         }
         let removed = doc.to_bytes().unwrap();
@@ -848,7 +1220,8 @@ mod tests {
         let mut doc = parse(&d).unwrap();
         assert_eq!(doc.kind_name, "Dark Souls II character");
         assert_eq!(doc.view.pointer("/Attributes/Strength").unwrap(), 15);
-        doc.set("/Attributes/Adaptability", Value::from(25)).unwrap();
+        doc.set("/Attributes/Adaptability", Value::from(25))
+            .unwrap();
         assert_eq!(doc.view.pointer("/Character/Soul level").unwrap(), 32);
         let out = doc.to_bytes().unwrap();
         assert_eq!(u16_at(&out, 0x34), 25, "Adaptability is stored after Faith");
@@ -870,14 +1243,29 @@ mod tests {
         put32(&mut d, o + 0x148, 46_244); // skill experience
         let mut doc = parse(&d).unwrap();
         assert_eq!(doc.kind_name, "Sekiro character");
-        assert_eq!(doc.view.pointer("/Skills/Skill points earned").unwrap(), 115);
-        doc.set("/Skills/Skill experience", Value::from(90_000)).unwrap();
-        assert_eq!(doc.view.pointer("/Character/Spirit Emblem capacity").unwrap(), 19);
-        assert!(doc.view.pointer("/Items").is_none(), "no item tables in this buffer");
+        assert_eq!(
+            doc.view.pointer("/Skills/Skill points earned").unwrap(),
+            115
+        );
+        doc.set("/Skills/Skill experience", Value::from(90_000))
+            .unwrap();
+        assert_eq!(
+            doc.view
+                .pointer("/Character/Spirit Emblem capacity")
+                .unwrap(),
+            19
+        );
+        assert!(
+            doc.view.pointer("/Items").is_none(),
+            "no item tables in this buffer"
+        );
         doc.set("/Status/Vitality", Value::from(1200)).unwrap();
         doc.set("/Character/Sen", Value::from(9999)).unwrap();
         let out = doc.to_bytes().unwrap();
-        assert_eq!([u32_at(&out, o), u32_at(&out, o + 4), u32_at(&out, o + 8)], [1200; 3]);
+        assert_eq!(
+            [u32_at(&out, o), u32_at(&out, o + 4), u32_at(&out, o + 8)],
+            [1200; 3]
+        );
         assert_eq!(u32_at(&out, o + 0x64), 9999);
         assert_eq!(out[o + 0x12E], 19);
         assert_eq!(u32_at(&out, o + 0x148), 90_000);
@@ -913,7 +1301,10 @@ mod tests {
         assert_eq!(v(&doc, "/Storage/Slot 1/Quantity"), 500);
         assert_eq!(v(&doc, "/Items/Slot 3/Item"), sekiro_inv::EMPTY);
         assert_eq!(v(&doc, "/Items/Slot 320/Item"), sekiro_inv::EMPTY);
-        assert!(v(&doc, "/Items/Slot 321").is_null(), "a fixed number of slots is listed");
+        assert!(
+            v(&doc, "/Items/Slot 321").is_null(),
+            "a fixed number of slots is listed"
+        );
 
         // The gourd is on a quick-item slot: its quantity can change, the item can't.
         assert!(doc.set("/Items/Slot 2/Item", Value::from("Oil")).is_err());
@@ -922,37 +1313,75 @@ mod tests {
         doc.set("/Items/Slot 3/Item", Value::from("Oil")).unwrap();
         assert_eq!(v(&doc, "/Items/Slot 3/Quantity"), 1);
         doc.set("/Items/Slot 3/Quantity", Value::from(12)).unwrap();
-        assert!(!doc.choices("/Items/Slot 4/Item").unwrap().contains(&"Oil".to_string()), "already carried");
-        assert!(doc.choices("/Key items/Slot 2/Item").unwrap().contains(&"Oil".to_string()), "other tables are separate");
-        assert!(doc.set("/Items/Slot 4/Item", Value::from("Excalibur")).is_err());
+        assert!(
+            !doc.choices("/Items/Slot 4/Item")
+                .unwrap()
+                .contains(&"Oil".to_string()),
+            "already carried"
+        );
+        assert!(
+            doc.choices("/Key items/Slot 2/Item")
+                .unwrap()
+                .contains(&"Oil".to_string()),
+            "other tables are separate"
+        );
+        assert!(doc
+            .set("/Items/Slot 4/Item", Value::from("Excalibur"))
+            .is_err());
         // Removing.
-        doc.set("/Items/Slot 1/Item", Value::from(sekiro_inv::EMPTY)).unwrap();
+        doc.set("/Items/Slot 1/Item", Value::from(sekiro_inv::EMPTY))
+            .unwrap();
         assert_eq!(v(&doc, "/Items/Slot 1/Quantity"), 0);
-        doc.set("/Storage/Slot 1/Quantity", Value::from(999)).unwrap();
-        assert!(doc.set("/Storage/Slot 1/Quantity", Value::from(10_000)).is_err());
+        doc.set("/Storage/Slot 1/Quantity", Value::from(999))
+            .unwrap();
+        assert!(doc
+            .set("/Storage/Slot 1/Quantity", Value::from(10_000))
+            .is_err());
 
         let out = doc.to_bytes().unwrap();
-        let entry = |o: usize| [u32_at(&out, o), u32_at(&out, o + 4), u32_at(&out, o + 8), u32_at(&out, o + 12)];
+        let entry = |o: usize| {
+            [
+                u32_at(&out, o),
+                u32_at(&out, o + 4),
+                u32_at(&out, o + 8),
+                u32_at(&out, o + 12),
+            ]
+        };
         assert_eq!(entry(t), [0, u32::MAX, 0, 0]);
         assert_eq!(entry(t + 16)[2], 9);
         let oil = entry(t + 32);
         assert_eq!(oil[..3], [0xB000_0000 | 3520, 0x4000_0000 | 3520, 12]);
-        assert_eq!(oil[3], 0x102, "the next index, after the two already given out");
+        assert_eq!(
+            oil[3], 0x102,
+            "the next index, after the two already given out"
+        );
         assert_eq!(u32_at(&out, t - 0x10), 0x102, "last index");
-        assert_eq!(u32_at(&out, t - 0xC), 2, "carried count: one added, one removed");
+        assert_eq!(
+            u32_at(&out, t - 0xC),
+            2,
+            "carried count: one added, one removed"
+        );
         assert_eq!(u32_at(&out, t - 8), 1, "key items unchanged");
         // Saving re-reads the file and needs exactly what's on screen.
         assert_eq!(parse(&out).unwrap().view, doc.view);
         // Nothing outside the edited entries and headers moved.
         let changed: Vec<usize> = (0..d.len()).filter(|&i| d[i] != out[i]).collect();
-        assert!(changed.iter().all(|&i| (t - 0x10..t + 0x30).contains(&i) || (t + 0x9094..t + 0x90A4).contains(&i)), "{changed:x?}");
+        assert!(
+            changed.iter().all(
+                |&i| (t - 0x10..t + 0x30).contains(&i) || (t + 0x9094..t + 0x90A4).contains(&i)
+            ),
+            "{changed:x?}"
+        );
     }
 
     #[test]
     fn sekiro_items_found_when_shifted() {
         let t = 0x8E6FC; // where a real slot keeps them
         let doc = parse(&sekiro_slot(t)).unwrap();
-        assert_eq!(doc.view.pointer("/Items/Slot 2/Item").unwrap(), "Healing Gourd");
+        assert_eq!(
+            doc.view.pointer("/Items/Slot 2/Item").unwrap(),
+            "Healing Gourd"
+        );
         assert_eq!(doc.to_bytes().unwrap(), sekiro_slot(t));
     }
 
@@ -964,7 +1393,12 @@ mod tests {
         for e in std::fs::read_dir(dir).unwrap().flatten() {
             let d = std::fs::read(e.path()).unwrap();
             if let Ok(doc) = parse(&d) {
-                println!("{}: {}\n  {}", e.file_name().to_string_lossy(), doc.kind_name, doc.view);
+                println!(
+                    "{}: {}\n  {}",
+                    e.file_name().to_string_lossy(),
+                    doc.kind_name,
+                    doc.view
+                );
                 assert_eq!(doc.to_bytes().unwrap(), d, "unchanged slot must round-trip");
             }
         }

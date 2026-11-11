@@ -8,8 +8,8 @@
 use aes::cipher::{BlockDecryptMut, BlockEncryptMut, KeyIvInit};
 
 const KEY: [u8; 32] = [
-    0xde, 0x53, 0x99, 0x4b, 0x49, 0x18, 0x4a, 0x83, 0x8e, 0xb6, 0x40, 0xb8, 0x73, 0xb2, 0x03, 0x7e, 0xf3, 0x57, 0x9f, 0x12, 0x29,
-    0xad, 0x43, 0xd3, 0x95, 0x41, 0x95, 0x0b, 0x7c, 0x81, 0x24, 0x5d,
+    0xde, 0x53, 0x99, 0x4b, 0x49, 0x18, 0x4a, 0x83, 0x8e, 0xb6, 0x40, 0xb8, 0x73, 0xb2, 0x03, 0x7e,
+    0xf3, 0x57, 0x9f, 0x12, 0x29, 0xad, 0x43, 0xd3, 0x95, 0x41, 0x95, 0x0b, 0x7c, 0x81, 0x24, 0x5d,
 ];
 
 pub fn crc(d: &[u8]) -> u32 {
@@ -19,13 +19,19 @@ pub fn crc(d: &[u8]) -> u32 {
         for (i, e) in t.iter_mut().enumerate() {
             let mut c = (i as u32) << 24;
             for _ in 0..8 {
-                c = if c & 0x8000_0000 != 0 { (c << 1) ^ 0x04C1_1DB7 } else { c << 1 };
+                c = if c & 0x8000_0000 != 0 {
+                    (c << 1) ^ 0x04C1_1DB7
+                } else {
+                    c << 1
+                };
             }
             *e = c;
         }
         t
     });
-    d.iter().fold(0xFFFF_FFFF, |c, &b| (c << 8) ^ t[((c >> 24) as u8 ^ b) as usize])
+    d.iter().fold(0xFFFF_FFFF, |c, &b| {
+        (c << 8) ^ t[((c >> 24) as u8 ^ b) as usize]
+    })
 }
 
 fn u32_at(d: &[u8], o: usize) -> usize {
@@ -64,7 +70,13 @@ fn plain(d: &[u8]) -> Option<Vec<u8>> {
 /// unpacked game data.
 pub fn unpack(d: &[u8]) -> Option<(Vec<u8>, Vec<u8>)> {
     let p = plain(d)?;
-    let (hs, hsc, ds, dsc, flags) = (u16_at(&p, 0x20), u16_at(&p, 0x22), u32_at(&p, 0x24), u32_at(&p, 0x28), u32_at(&p, 0x2C));
+    let (hs, hsc, ds, dsc, flags) = (
+        u16_at(&p, 0x20),
+        u16_at(&p, 0x22),
+        u32_at(&p, 0x24),
+        u32_at(&p, 0x28),
+        u32_at(&p, 0x2C),
+    );
     let at = align(if flags & 1 != 0 { hsc } else { hs });
     if at < 0x40 || at > p.len() {
         return None;
@@ -128,7 +140,9 @@ const TABLE: usize = 0x18;
 const COPY: usize = 0x18528;
 const REC: usize = 0x2B0;
 const MONEY: usize = 0x35C0;
-const NAMES: [&str; 10] = ["Joker", "Ryuji", "Morgana", "Ann", "Yusuke", "Makoto", "Haru", "Futaba", "Akechi", "Kasumi"];
+const NAMES: [&str; 10] = [
+    "Joker", "Ryuji", "Morgana", "Ann", "Yusuke", "Makoto", "Haru", "Futaba", "Akechi", "Kasumi",
+];
 
 fn id(d: &[u8], c: usize) -> usize {
     u32_at(d, TABLE + REC * c + 0x10)
@@ -165,7 +179,11 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
             if pid == 0 {
                 continue;
             }
-            let label = if c == 0 { format!("Persona {:02} (#{pid})", slot + 1) } else { "Persona".to_string() };
+            let label = if c == 0 {
+                format!("Persona {:02} (#{pid})", slot + 1)
+            } else {
+                "Persona".to_string()
+            };
             let mut g = |k: &str, o: usize, kind: Kind, lo: i64, hi: i64, n: usize| {
                 b.ranged(&[who, &label, k], r + p + o, kind, lo, hi);
                 if same(p + o, n) {
@@ -174,7 +192,10 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
             };
             g("Level", 4, Kind::U8, 1, 99, 1);
             g("Experience", 8, Kind::I32, 0, 99_999_999, 4);
-            for (i, s) in ["Strength", "Magic", "Endurance", "Agility", "Luck"].into_iter().enumerate() {
+            for (i, s) in ["Strength", "Magic", "Endurance", "Agility", "Luck"]
+                .into_iter()
+                .enumerate()
+            {
                 g(s, 0x1C + i, Kind::U8, 1, 99, 1);
             }
         }
@@ -221,7 +242,12 @@ mod tests {
         let path = std::env::var("SAVE_EDITOR_P5R").unwrap();
         let d = std::fs::read(&path).unwrap();
         let (h, data) = unpack(&d).expect("unpack");
-        println!("head {} data {} flags {:x}", h.len(), data.len(), u32_at(&h, 0x2C));
+        println!(
+            "head {} data {} flags {:x}",
+            h.len(),
+            data.len(),
+            u32_at(&h, 0x2C)
+        );
         let again = pack(&h, &data);
         assert_eq!(unpack(&again).unwrap().1, data);
         std::fs::write(format!("{path}.plain"), &data).unwrap();

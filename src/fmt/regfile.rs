@@ -23,7 +23,11 @@ pub enum Line {
     /// Copied as it was.
     Raw(String),
     /// A value shown for editing: (JSON key, registry name, kind).
-    Value { key: String, name: String, kind: Kind },
+    Value {
+        key: String,
+        name: String,
+        kind: Kind,
+    },
 }
 
 #[derive(Clone, Debug, PartialEq, Eq, Default)]
@@ -36,7 +40,9 @@ const HEAD: &str = "Windows Registry Editor Version 5.00";
 /// The preference name without Unity's `_h<hash>` suffix.
 fn pref_name(reg: &str) -> &str {
     match reg.rsplit_once("_h") {
-        Some((n, h)) if !n.is_empty() && !h.is_empty() && h.bytes().all(|b| b.is_ascii_digit()) => n,
+        Some((n, h)) if !n.is_empty() && !h.is_empty() && h.bytes().all(|b| b.is_ascii_digit()) => {
+            n
+        }
         _ => reg,
     }
 }
@@ -51,14 +57,22 @@ fn quote(s: &str) -> String {
 }
 
 fn hex_bytes(s: &str) -> Option<Vec<u8>> {
-    s.split(',').map(|b| b.trim()).filter(|b| !b.is_empty()).map(|b| u8::from_str_radix(b, 16).ok()).collect()
+    s.split(',')
+        .map(|b| b.trim())
+        .filter(|b| !b.is_empty())
+        .map(|b| u8::from_str_radix(b, 16).ok())
+        .collect()
 }
 
 fn hex_text(prefix: &str, name: &str, bytes: &[u8]) -> String {
     let mut out = format!("{}={prefix}", quote(name));
     let mut col = out.len();
     for (i, b) in bytes.iter().enumerate() {
-        let item = if i + 1 < bytes.len() { format!("{b:02x},") } else { format!("{b:02x}") };
+        let item = if i + 1 < bytes.len() {
+            format!("{b:02x},")
+        } else {
+            format!("{b:02x}")
+        };
         if col + item.len() > 78 && i + 1 < bytes.len() {
             out.push_str("\\\r\n  ");
             col = 2;
@@ -120,12 +134,21 @@ pub fn open(text: &str) -> Option<(Meta, Vec<u8>)> {
             let name = unquote(&l[..=end])?;
             let data = l[end + 1..].strip_prefix('=')?;
             let (kind, value) = if let Some(h) = data.strip_prefix("dword:") {
-                (Kind::Int, Value::from(u32::from_str_radix(h, 16).ok()? as i32))
+                (
+                    Kind::Int,
+                    Value::from(u32::from_str_radix(h, 16).ok()? as i32),
+                )
             } else if let Some(h) = data.strip_prefix("hex(4):") {
                 let b = hex_bytes(h)?;
                 match b.len() {
-                    8 => (Kind::Float, Value::Number(Number::from_f64(f64::from_le_bytes(b.try_into().ok()?))?)),
-                    4 => (Kind::Int, Value::from(i32::from_le_bytes(b.try_into().ok()?))),
+                    8 => (
+                        Kind::Float,
+                        Value::Number(Number::from_f64(f64::from_le_bytes(b.try_into().ok()?))?),
+                    ),
+                    4 => (
+                        Kind::Int,
+                        Value::from(i32::from_le_bytes(b.try_into().ok()?)),
+                    ),
                     _ => return None,
                 }
             } else if let Some(h) = data.strip_prefix("hex:") {
@@ -167,11 +190,16 @@ pub fn save(meta: &Meta, json: &[u8]) -> Result<Vec<u8>, String> {
                 let val = obj.get(key).ok_or_else(|| format!("{key} was removed"))?;
                 match kind {
                     Kind::Int => {
-                        let n = val.as_i64().filter(|n| *n >= i32::MIN as i64 && *n <= u32::MAX as i64).ok_or_else(|| format!("{key} must be a whole number"))?;
+                        let n = val
+                            .as_i64()
+                            .filter(|n| *n >= i32::MIN as i64 && *n <= u32::MAX as i64)
+                            .ok_or_else(|| format!("{key} must be a whole number"))?;
                         format!("{}=dword:{:08x}", quote(name), n as u32)
                     }
                     Kind::Float => {
-                        let f = val.as_f64().ok_or_else(|| format!("{key} must be a number"))?;
+                        let f = val
+                            .as_f64()
+                            .ok_or_else(|| format!("{key} must be a number"))?;
                         hex_text("hex(4):", name, &f.to_le_bytes())
                     }
                     Kind::Text => {
@@ -213,7 +241,10 @@ mod tests {
         assert!(back.contains("\"Coins_h1234567\"=dword:0001869f"));
         let (_, again) = open(&back).unwrap();
         let v: Value = serde_json::from_slice(&again).unwrap();
-        assert_eq!(v["PlayerName"], "A long player name that wraps onto a second line of hex");
+        assert_eq!(
+            v["PlayerName"],
+            "A long player name that wraps onto a second line of hex"
+        );
         assert_eq!(v["Volume"], 0.25);
     }
 }
@@ -226,7 +257,13 @@ mod layer_tests {
         let mut raw = vec![0xFF, 0xFE];
         raw.extend(reg.encode_utf16().flat_map(|u| u.to_le_bytes()));
         let d = crate::formats::decode_with(&raw, &Default::default());
-        assert!(d.layers.iter().any(|l| matches!(l, crate::formats::Layer::RegFile(_))), "{:?}", d.layers.iter().map(|l| l.name()).collect::<Vec<_>>());
+        assert!(
+            d.layers
+                .iter()
+                .any(|l| matches!(l, crate::formats::Layer::RegFile(_))),
+            "{:?}",
+            d.layers.iter().map(|l| l.name()).collect::<Vec<_>>()
+        );
         assert_eq!(crate::formats::encode(&d.layers, &d.content).unwrap(), raw);
     }
 }

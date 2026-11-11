@@ -44,8 +44,18 @@ fn head(d: &[u8]) -> Option<Head> {
     let metadata_format = u32_at(d, m + 8 * n + 4)?;
     let at = |i: usize| m + 8 * i;
     // Sections are stored strings, nodes, attributes, values, keys.
-    let pairs = if version >= 6 { vec![at(0), at(2), at(3), at(4), at(1)] } else { vec![at(0), at(1), at(2), at(3)] };
-    Some(Head { version, pairs, flags, metadata_format, len: m + 8 * n + 8 })
+    let pairs = if version >= 6 {
+        vec![at(0), at(2), at(3), at(4), at(1)]
+    } else {
+        vec![at(0), at(1), at(2), at(3)]
+    };
+    Some(Head {
+        version,
+        pairs,
+        flags,
+        metadata_format,
+        len: m + 8 * n + 8,
+    })
 }
 
 /// The sections as (unpacked size, packed size, packed bytes), in file order; keys only
@@ -60,7 +70,11 @@ fn sections<'a>(d: &'a [u8], h: &Head) -> Option<Vec<(usize, usize, &'a [u8])>> 
         }
         let (us, ps) = (u32_at(d, p)? as usize, u32_at(d, p + 4)? as usize);
         // Packed size 0 (or no compression) means the section is stored as it is.
-        let n = if ps == 0 || h.flags & 0x0F == 0 { us } else { ps };
+        let n = if ps == 0 || h.flags & 0x0F == 0 {
+            us
+        } else {
+            ps
+        };
         out.push((us, ps, d.get(at..at + n)?));
         at += n;
     }
@@ -104,7 +118,10 @@ pub fn pack(plain: &[u8], original: &[u8]) -> Result<Vec<u8>, String> {
             continue;
         }
         let new = s.2;
-        let old = os.get(i).copied().and_then(|o| unpack_section(&oh, i, o).map(|p| (o, p)));
+        let old = os
+            .get(i)
+            .copied()
+            .and_then(|o| unpack_section(&oh, i, o).map(|p| (o, p)));
         let (ps_new, bytes) = match old {
             Some((o, p)) if p == new => (o.1, o.2.to_vec()),
             _ if h.flags & 0x0F == 0 || new.is_empty() => (0, new.to_vec()),
@@ -175,7 +192,11 @@ impl<'a> Lsf<'a> {
         let mut first_attr = vec![-1; count];
         for i in 0..count {
             let e = i * nsz;
-            let (name, parent, first) = if v3 { (u32_at(nb, e)?, i32_at(nb, e + 4)?, i32_at(nb, e + 12)?) } else { (u32_at(nb, e)?, i32_at(nb, e + 8)?, i32_at(nb, e + 4)?) };
+            let (name, parent, first) = if v3 {
+                (u32_at(nb, e)?, i32_at(nb, e + 4)?, i32_at(nb, e + 12)?)
+            } else {
+                (u32_at(nb, e)?, i32_at(nb, e + 8)?, i32_at(nb, e + 4)?)
+            };
             if parent >= i as i32 {
                 return None;
             }
@@ -193,11 +214,23 @@ impl<'a> Lsf<'a> {
             let (ty, len) = (tl & 0x3F, (tl >> 6) as usize);
             if v3 {
                 let at = u32_at(ab, e + 12)? as usize;
-                attrs.push(Attr { name, ty, len, at: values_at + at, next: i32_at(ab, e + 8)? });
+                attrs.push(Attr {
+                    name,
+                    ty,
+                    len,
+                    at: values_at + at,
+                    next: i32_at(ab, e + 8)?,
+                });
             } else {
                 // Values follow each other; a node's attributes are those naming it, in order.
                 let node = i32_at(ab, e + 8)?;
-                attrs.push(Attr { name, ty, len, at: values_at + offset, next: -1 });
+                attrs.push(Attr {
+                    name,
+                    ty,
+                    len,
+                    at: values_at + offset,
+                    next: -1,
+                });
                 offset += len;
                 let n = usize::try_from(node).ok().filter(|&n| n < count)?;
                 match last[n] {
@@ -219,16 +252,33 @@ impl<'a> Lsf<'a> {
                 first_child[p as usize] = i as i32;
             }
         }
-        let lsf = Lsf { d, names, nodes, first_attr, first_child, next_sibling, attrs };
+        let lsf = Lsf {
+            d,
+            names,
+            nodes,
+            first_attr,
+            first_child,
+            next_sibling,
+            attrs,
+        };
         // Every name reference must resolve.
-        if lsf.nodes.iter().map(|n| n.0).chain(lsf.attrs.iter().map(|a| a.name)).any(|r| lsf.name_of(r).is_none()) {
+        if lsf
+            .nodes
+            .iter()
+            .map(|n| n.0)
+            .chain(lsf.attrs.iter().map(|a| a.name))
+            .any(|r| lsf.name_of(r).is_none())
+        {
             return None;
         }
         Some(lsf)
     }
 
     fn name_of(&self, r: u32) -> Option<&str> {
-        self.names.get((r >> 16) as usize)?.get((r & 0xFFFF) as usize).map(String::as_str)
+        self.names
+            .get((r >> 16) as usize)?
+            .get((r & 0xFFFF) as usize)
+            .map(String::as_str)
     }
 
     pub fn name(&self, r: u32) -> &str {
@@ -253,7 +303,11 @@ impl<'a> Lsf<'a> {
         })
     }
 
-    pub fn children_named<'s>(&'s self, n: usize, name: &'s str) -> impl Iterator<Item = usize> + 's {
+    pub fn children_named<'s>(
+        &'s self,
+        n: usize,
+        name: &'s str,
+    ) -> impl Iterator<Item = usize> + 's {
         self.children(n).filter(move |&c| self.node_name(c) == name)
     }
 
@@ -263,9 +317,15 @@ impl<'a> Lsf<'a> {
 
     /// Every node at this path of names from a region.
     pub fn at_path(&self, path: &[&str]) -> Vec<usize> {
-        let mut cur: Vec<usize> = self.roots().filter(|&r| self.node_name(r) == path[0]).collect();
+        let mut cur: Vec<usize> = self
+            .roots()
+            .filter(|&r| self.node_name(r) == path[0])
+            .collect();
         for name in &path[1..] {
-            cur = cur.iter().flat_map(|&n| self.children_named(n, name).collect::<Vec<_>>()).collect();
+            cur = cur
+                .iter()
+                .flat_map(|&n| self.children_named(n, name).collect::<Vec<_>>())
+                .collect();
         }
         cur
     }
@@ -387,7 +447,11 @@ pub(crate) mod tests {
         let flags = if packed { 0x22 } else { 0 };
         let mut body = vec![];
         for (i, s) in [&sn, &nb, &ab, &vb].into_iter().enumerate() {
-            let c = if packed { lspk::compress(s, flags, i != 0).unwrap() } else { vec![] };
+            let c = if packed {
+                lspk::compress(s, flags, i != 0).unwrap()
+            } else {
+                vec![]
+            };
             out.extend((s.len() as u32).to_le_bytes());
             out.extend((c.len() as u32).to_le_bytes());
             body.extend(if packed { c } else { s.clone() });
@@ -403,7 +467,14 @@ pub(crate) mod tests {
         let f = build(
             &[
                 ("Root", -1, vec![("Count", 4, 7i32.to_le_bytes().to_vec())]),
-                ("Child", 0, vec![("Name", 22, b"Ann\0".to_vec()), ("Gold", 5, 300u32.to_le_bytes().to_vec())]),
+                (
+                    "Child",
+                    0,
+                    vec![
+                        ("Name", 22, b"Ann\0".to_vec()),
+                        ("Gold", 5, 300u32.to_le_bytes().to_vec()),
+                    ],
+                ),
                 ("Child", 0, vec![("Name", 22, b"Bo\0".to_vec())]),
             ],
             true,
@@ -428,9 +499,15 @@ pub(crate) mod tests {
         let again = unpack(&out).unwrap();
         assert_eq!(again, edited);
         let l = Lsf::read(&again).unwrap();
-        assert_eq!(l.int_of(l.at_path(&["Root", "Child"])[0], "Gold"), Some(301));
+        assert_eq!(
+            l.int_of(l.at_path(&["Root", "Child"])[0], "Gold"),
+            Some(301)
+        );
         // A stored (never packed) file reads the same way.
-        let raw = build(&[("Root", -1, vec![("Count", 4, 1i32.to_le_bytes().to_vec())])], false);
+        let raw = build(
+            &[("Root", -1, vec![("Count", 4, 1i32.to_le_bytes().to_vec())])],
+            false,
+        );
         let u = unpack(&raw).unwrap();
         assert_eq!(u, raw);
         let l = Lsf::read(&u).unwrap();

@@ -112,7 +112,10 @@ fn encode(l: &Leaf, v: &Value) -> Result<Vec<u8>, String> {
     }
     let n: u64 = match l.kind {
         Kind::F32 => {
-            let f = v.as_f64().filter(|f| f.is_finite()).ok_or("expected a number")?;
+            let f = v
+                .as_f64()
+                .filter(|f| f.is_finite())
+                .ok_or("expected a number")?;
             if let Some((lo, hi)) = l.range {
                 if f < lo as f64 || f > hi as f64 {
                     return Err(format!("must be between {lo} and {hi}"));
@@ -126,13 +129,24 @@ fn encode(l: &Leaf, v: &Value) -> Result<Vec<u8>, String> {
             u64::from((int_in(v, lo.into(), hi.into(), "This value")? as f32).to_bits())
         }
         _ if l.values.is_some() => {
-            let (names, values) = (l.names.as_ref().ok_or("pick one from the list")?, l.values.as_ref().unwrap());
+            let (names, values) = (
+                l.names.as_ref().ok_or("pick one from the list")?,
+                l.values.as_ref().unwrap(),
+            );
             let s = v.as_str().ok_or("pick one from the list")?;
-            values[names.iter().position(|n| n == s).ok_or("pick one from the list")?]
+            values[names
+                .iter()
+                .position(|n| n == s)
+                .ok_or("pick one from the list")?]
         }
         k => {
             let v = match (&l.names, v) {
-                (Some(names), Value::String(s)) => Value::from(names.iter().position(|n| n == s).ok_or("pick one from the list")?),
+                (Some(names), Value::String(s)) => Value::from(
+                    names
+                        .iter()
+                        .position(|n| n == s)
+                        .ok_or("pick one from the list")?,
+                ),
                 _ => v.clone(),
             };
             let (tmin, tmax): (i128, i128) = match k {
@@ -143,7 +157,9 @@ fn encode(l: &Leaf, v: &Value) -> Result<Vec<u8>, String> {
                 Kind::U64 => (0, u64::MAX.into()),
                 _ => (0, u32::MAX.into()),
             };
-            let (min, max) = l.range.map_or((tmin, tmax), |(a, b)| (i128::from(a).max(tmin), i128::from(b).min(tmax)));
+            let (min, max) = l.range.map_or((tmin, tmax), |(a, b)| {
+                (i128::from(a).max(tmin), i128::from(b).min(tmax))
+            });
             int_in(&v, min, max, "This value")? as u64
         }
     };
@@ -188,13 +204,15 @@ impl Backend for FieldsBackend {
                         let le = |b: &[u8]| -> u64 {
                             let mut x = 0u64;
                             for i in 0..size {
-                                x |= u64::from(if l.big_endian { b[size - 1 - i] } else { b[i] }) << (8 * i);
+                                x |= u64::from(if l.big_endian { b[size - 1 - i] } else { b[i] })
+                                    << (8 * i);
                             }
                             x
                         };
                         let mask = ((1u64 << width) - 1) << shift;
                         let merged = (le(&out[at..at + size]) & !mask) | (le(&bytes) & mask);
-                        let mut nb: Vec<u8> = (0..size).map(|i| (merged >> (8 * i)) as u8).collect();
+                        let mut nb: Vec<u8> =
+                            (0..size).map(|i| (merged >> (8 * i)) as u8).collect();
                         if l.big_endian {
                             nb.reverse();
                         }
@@ -259,13 +277,22 @@ pub struct Builder<'a> {
 
 impl<'a> Builder<'a> {
     pub fn new(d: &'a [u8]) -> Self {
-        Self { d, big_endian: false, view: Map::new(), leaves: vec![], editable: HashMap::new() }
+        Self {
+            d,
+            big_endian: false,
+            view: Map::new(),
+            leaves: vec![],
+            editable: HashMap::new(),
+        }
     }
 
     fn slot(&mut self, path: &[&str]) -> Option<&mut Map<String, Value>> {
         let mut m = &mut self.view;
         for k in &path[..path.len() - 1] {
-            m = m.entry(k.to_string()).or_insert_with(|| Value::Object(Map::new())).as_object_mut()?;
+            m = m
+                .entry(k.to_string())
+                .or_insert_with(|| Value::Object(Map::new()))
+                .as_object_mut()?;
         }
         Some(m)
     }
@@ -283,25 +310,54 @@ impl<'a> Builder<'a> {
         self.field_with(path, at, kind, None, None)
     }
 
-    pub fn ranged(&mut self, path: &[&str], at: usize, kind: Kind, lo: i64, hi: i64) -> Option<Value> {
+    pub fn ranged(
+        &mut self,
+        path: &[&str],
+        at: usize,
+        kind: Kind,
+        lo: i64,
+        hi: i64,
+    ) -> Option<Value> {
         self.field_with(path, at, kind, Some((lo, hi)), None)
     }
 
     pub fn named(&mut self, path: &[&str], at: usize, kind: Kind, names: &[&str]) -> Option<Value> {
         let names: Arc<Vec<String>> = Arc::new(names.iter().map(|s| s.to_string()).collect());
-        self.field_with(path, at, kind, Some((0, names.len() as i64 - 1)), Some(names))
+        self.field_with(
+            path,
+            at,
+            kind,
+            Some((0, names.len() as i64 - 1)),
+            Some(names),
+        )
     }
 
     /// A value that can only be one of `options` (name, raw value), shown as a drop-down.
     /// The current value must be one of them; otherwise nothing is added.
-    pub fn pick(&mut self, path: &[&str], at: usize, kind: Kind, options: &[(String, u64)]) -> Option<Value> {
+    pub fn pick(
+        &mut self,
+        path: &[&str],
+        at: usize,
+        kind: Kind,
+        options: &[(String, u64)],
+    ) -> Option<Value> {
         let raw = read(self.d, at, kind, self.big_endian)?.as_u64()?;
         let i = options.iter().position(|(_, v)| *v == raw)?;
         let names: Arc<Vec<String>> = Arc::new(options.iter().map(|(n, _)| n.clone()).collect());
         let values: Arc<Vec<u64>> = Arc::new(options.iter().map(|(_, v)| *v).collect());
         let ptr: String = path.iter().map(|k| format!("/{}", esc(k))).collect();
         let id = self.leaves.len();
-        self.leaves.push(Leaf { at, kind, big_endian: self.big_endian, range: None, names: Some(names), also: vec![], values: Some(values), tag: None, bits: None });
+        self.leaves.push(Leaf {
+            at,
+            kind,
+            big_endian: self.big_endian,
+            range: None,
+            names: Some(names),
+            also: vec![],
+            values: Some(values),
+            tag: None,
+            bits: None,
+        });
         self.editable.insert(ptr, id);
         let last = path[path.len() - 1].to_string();
         let shown = Value::String(options[i].0.clone());
@@ -313,10 +369,22 @@ impl<'a> Builder<'a> {
     /// starting at `names[0]`; when it's changed, `tag` and the chosen name go to the `Post`
     /// step given to `finish_with`.
     pub fn option(&mut self, path: &[&str], names: Vec<String>, tag: String) {
-        let Some(first) = names.first().cloned() else { return };
+        let Some(first) = names.first().cloned() else {
+            return;
+        };
         let ptr: String = path.iter().map(|k| format!("/{}", esc(k))).collect();
         let id = self.leaves.len();
-        self.leaves.push(Leaf { at: 0, kind: Kind::U8, big_endian: false, range: None, names: Some(Arc::new(names)), also: vec![], values: None, tag: Some(tag.into()), bits: None });
+        self.leaves.push(Leaf {
+            at: 0,
+            kind: Kind::U8,
+            big_endian: false,
+            range: None,
+            names: Some(Arc::new(names)),
+            also: vec![],
+            values: None,
+            tag: Some(tag.into()),
+            bits: None,
+        });
         self.editable.insert(ptr, id);
         let last = path[path.len() - 1].to_string();
         if let Some(m) = self.slot(path) {
@@ -324,7 +392,14 @@ impl<'a> Builder<'a> {
         }
     }
 
-    fn field_with(&mut self, path: &[&str], at: usize, kind: Kind, range: Option<(i64, i64)>, names: Option<Arc<Vec<String>>>) -> Option<Value> {
+    fn field_with(
+        &mut self,
+        path: &[&str],
+        at: usize,
+        kind: Kind,
+        range: Option<(i64, i64)>,
+        names: Option<Arc<Vec<String>>>,
+    ) -> Option<Value> {
         let raw = read(self.d, at, kind, self.big_endian)?;
         let shown = match (&names, raw.as_u64()) {
             (Some(n), Some(i)) if (i as usize) < n.len() => Value::String(n[i as usize].clone()),
@@ -337,7 +412,17 @@ impl<'a> Builder<'a> {
         };
         let ptr: String = path.iter().map(|k| format!("/{}", esc(k))).collect();
         let id = self.leaves.len();
-        self.leaves.push(Leaf { at, kind, big_endian: self.big_endian, range, names, also: vec![], values: None, tag: None, bits: None });
+        self.leaves.push(Leaf {
+            at,
+            kind,
+            big_endian: self.big_endian,
+            range,
+            names,
+            also: vec![],
+            values: None,
+            tag: None,
+            bits: None,
+        });
         self.editable.insert(ptr, id);
         let last = path[path.len() - 1].to_string();
         self.slot(path)?.insert(last, shown);
@@ -347,12 +432,32 @@ impl<'a> Builder<'a> {
     /// An editable bit field of the value at `at`: `width` bits from `shift`, shown as
     /// `bits + bias` and limited to `lo..=hi` (shown values). The other bits stay as they are.
     #[allow(clippy::too_many_arguments)]
-    pub fn bits(&mut self, path: &[&str], at: usize, kind: Kind, shift: u32, width: u32, bias: i64, lo: i64, hi: i64) -> Option<Value> {
+    pub fn bits(
+        &mut self,
+        path: &[&str],
+        at: usize,
+        kind: Kind,
+        shift: u32,
+        width: u32,
+        bias: i64,
+        lo: i64,
+        hi: i64,
+    ) -> Option<Value> {
         let raw = read(self.d, at, kind, self.big_endian)?.as_u64()?;
         let shown = Value::from(((raw >> shift) & ((1u64 << width) - 1)) as i64 + bias);
         let ptr: String = path.iter().map(|k| format!("/{}", esc(k))).collect();
         let id = self.leaves.len();
-        self.leaves.push(Leaf { at, kind, big_endian: self.big_endian, range: Some((lo, hi)), names: None, also: vec![], values: None, tag: None, bits: Some((shift, width, bias)) });
+        self.leaves.push(Leaf {
+            at,
+            kind,
+            big_endian: self.big_endian,
+            range: Some((lo, hi)),
+            names: None,
+            also: vec![],
+            values: None,
+            tag: None,
+            bits: Some((shift, width, bias)),
+        });
         self.editable.insert(ptr, id);
         let last = path[path.len() - 1].to_string();
         self.slot(path)?.insert(last, shown.clone());
@@ -360,14 +465,33 @@ impl<'a> Builder<'a> {
     }
 
     /// Like `pick`, for a bit field (`width` bits from `shift`) of the value at `at`.
-    pub fn pick_bits(&mut self, path: &[&str], at: usize, kind: Kind, shift: u32, width: u32, options: &[(String, u64)]) -> Option<Value> {
-        let raw = (read(self.d, at, kind, self.big_endian)?.as_u64()? >> shift) & ((1u64 << width) - 1);
+    pub fn pick_bits(
+        &mut self,
+        path: &[&str],
+        at: usize,
+        kind: Kind,
+        shift: u32,
+        width: u32,
+        options: &[(String, u64)],
+    ) -> Option<Value> {
+        let raw =
+            (read(self.d, at, kind, self.big_endian)?.as_u64()? >> shift) & ((1u64 << width) - 1);
         let i = options.iter().position(|(_, v)| *v == raw)?;
         let names: Arc<Vec<String>> = Arc::new(options.iter().map(|(n, _)| n.clone()).collect());
         let values: Arc<Vec<u64>> = Arc::new(options.iter().map(|(_, v)| *v).collect());
         let ptr: String = path.iter().map(|k| format!("/{}", esc(k))).collect();
         let id = self.leaves.len();
-        self.leaves.push(Leaf { at, kind, big_endian: self.big_endian, range: None, names: Some(names), also: vec![], values: Some(values), tag: None, bits: Some((shift, width, 0)) });
+        self.leaves.push(Leaf {
+            at,
+            kind,
+            big_endian: self.big_endian,
+            range: None,
+            names: Some(names),
+            also: vec![],
+            values: Some(values),
+            tag: None,
+            bits: Some((shift, width, 0)),
+        });
         self.editable.insert(ptr, id);
         let last = path[path.len() - 1].to_string();
         let shown = Value::String(options[i].0.clone());
@@ -390,8 +514,18 @@ impl<'a> Builder<'a> {
     }
 
     pub fn finish_with(self, kind_name: &str, checksum: Checksum, post: Option<Post>) -> TreeDoc {
-        let backend = FieldsBackend { data: Arc::new(self.d.to_vec()), leaves: self.leaves, checksum, post };
-        TreeDoc::new(Value::Object(self.view), self.editable, kind_name, Box::new(backend))
+        let backend = FieldsBackend {
+            data: Arc::new(self.d.to_vec()),
+            leaves: self.leaves,
+            checksum,
+            post,
+        };
+        TreeDoc::new(
+            Value::Object(self.view),
+            self.editable,
+            kind_name,
+            Box::new(backend),
+        )
     }
 }
 
@@ -416,7 +550,16 @@ mod tests {
         doc.set("/mode", Value::from("Easy")).unwrap();
         // A pick list writes the raw value of the chosen name.
         let mut b = Builder::new(&[7, 0, 0, 0]);
-        b.pick(&["level"], 0, Kind::U32, &[("Level 1".into(), 5), ("Level 2".into(), 7), ("Level 3".into(), 9)]);
+        b.pick(
+            &["level"],
+            0,
+            Kind::U32,
+            &[
+                ("Level 1".into(), 5),
+                ("Level 2".into(), 7),
+                ("Level 3".into(), 9),
+            ],
+        );
         let mut p = b.finish("pick", Checksum::None);
         assert_eq!(p.view.pointer("/level"), Some(&Value::from("Level 2")));
         p.set("/level", Value::from("Level 3")).unwrap();
@@ -431,7 +574,11 @@ mod tests {
             Ok(())
         }
         let mut b = Builder::new(&[1]);
-        b.option(&["add", "x"], vec!["Don't add".into(), "Add".into()], "X".into());
+        b.option(
+            &["add", "x"],
+            vec!["Don't add".into(), "Add".into()],
+            "X".into(),
+        );
         let mut v = b.finish_with("virtual", Checksum::None, Some(grow));
         assert!(v.set("/add/x", Value::from("Maybe")).is_err());
         v.set("/add/x", Value::from("Add")).unwrap();
@@ -441,8 +588,18 @@ mod tests {
             out[3] = at.len() as u8;
         }
         let mut b = Builder::new(&[0xB4, 0x12, 0, 0]);
-        assert_eq!(b.bits(&["qty"], 0, Kind::U16, 11, 5, 1, 1, 30), Some(Value::from(3)));
-        b.pick_bits(&["id"], 0, Kind::U16, 0, 9, &[("Herb".into(), 0xB4), ("Nut".into(), 0xB5)]);
+        assert_eq!(
+            b.bits(&["qty"], 0, Kind::U16, 11, 5, 1, 1, 30),
+            Some(Value::from(3))
+        );
+        b.pick_bits(
+            &["id"],
+            0,
+            Kind::U16,
+            0,
+            9,
+            &[("Herb".into(), 0xB4), ("Nut".into(), 0xB5)],
+        );
         let mut bf = b.finish("bits", Checksum::Touched(mark));
         assert!(bf.set("/qty", Value::from(31)).is_err());
         bf.set("/qty", Value::from(30)).unwrap();

@@ -51,7 +51,9 @@ fn num(f: f64) -> Json {
 }
 
 fn elements(els: &[Element]) -> Map<String, Json> {
-    els.iter().map(|e| (e.name.clone(), to_json(&e.value))).collect()
+    els.iter()
+        .map(|e| (e.name.clone(), to_json(&e.value)))
+        .collect()
 }
 
 fn to_json(v: &Value) -> Json {
@@ -80,9 +82,12 @@ fn to_json(v: &Value) -> Json {
             m.extend(elements(&c.dynamic_elements));
             Json::Object(m)
         }
-        Value::Dictionary { data, .. } => {
-            Json::Array(data.elements.iter().map(|e| Json::Array(vec![to_json(&e.key), to_json(&e.value)])).collect())
-        }
+        Value::Dictionary { data, .. } => Json::Array(
+            data.elements
+                .iter()
+                .map(|e| Json::Array(vec![to_json(&e.key), to_json(&e.value)]))
+                .collect(),
+        ),
         Value::Null | Value::Undefined => Json::Null,
         other => Json::String(placeholder(other)),
     }
@@ -122,7 +127,9 @@ fn apply(v: &mut Value, j: &Json, path: &str) -> Result<(), String> {
     match v {
         Value::Number(f) => set_f64(f, as_f64(j, path)?),
         Value::Integer(i) => {
-            let n = j.as_i64().ok_or_else(|| format!("{path} must be a whole number"))?;
+            let n = j
+                .as_i64()
+                .ok_or_else(|| format!("{path} must be a whole number"))?;
             // AMF3 integers hold 29 bits; a bigger number is stored as a Number instead.
             if (-(1 << 28)..(1 << 28)).contains(&n) {
                 *i = n as i32;
@@ -130,12 +137,28 @@ fn apply(v: &mut Value, j: &Json, path: &str) -> Result<(), String> {
                 *v = Value::Number(n as f64);
             }
         }
-        Value::Bool(b) => *b = j.as_bool().ok_or_else(|| format!("{path} must be true or false"))?,
-        Value::String(s) => *s = j.as_str().ok_or_else(|| format!("{path} must be text"))?.to_string(),
+        Value::Bool(b) => {
+            *b = j
+                .as_bool()
+                .ok_or_else(|| format!("{path} must be true or false"))?
+        }
+        Value::String(s) => {
+            *s = j
+                .as_str()
+                .ok_or_else(|| format!("{path} must be text"))?
+                .to_string()
+        }
         Value::AMF3(inner) => apply(inner, j, path)?,
-        Value::Object { data, .. } => set_elements(&mut data.elements, j.as_object().ok_or_else(|| format!("{path} must stay an object"))?, path)?,
+        Value::Object { data, .. } => set_elements(
+            &mut data.elements,
+            j.as_object()
+                .ok_or_else(|| format!("{path} must stay an object"))?,
+            path,
+        )?,
         Value::ECMAArray { data, .. } => {
-            let m = j.as_object().ok_or_else(|| format!("{path} must stay an object"))?;
+            let m = j
+                .as_object()
+                .ok_or_else(|| format!("{path} must stay an object"))?;
             for (i, d) in data.dense.iter_mut().enumerate() {
                 if let Some(n) = m.get(&i.to_string()) {
                     apply(d, n, &format!("{path}/{i}"))?;
@@ -147,12 +170,18 @@ fn apply(v: &mut Value, j: &Json, path: &str) -> Result<(), String> {
         Value::VectorObject { data, .. } => apply_list(&mut data.values, j, path)?,
         Value::VectorInt(vec) => {
             for (x, n) in vec.values.iter_mut().zip(list(j, path)?) {
-                *x = n.as_i64().and_then(|n| i32::try_from(n).ok()).ok_or_else(|| format!("{path}: whole numbers only"))?;
+                *x = n
+                    .as_i64()
+                    .and_then(|n| i32::try_from(n).ok())
+                    .ok_or_else(|| format!("{path}: whole numbers only"))?;
             }
         }
         Value::VectorUInt(vec) => {
             for (x, n) in vec.values.iter_mut().zip(list(j, path)?) {
-                *x = n.as_u64().and_then(|n| u32::try_from(n).ok()).ok_or_else(|| format!("{path}: whole numbers from 0 only"))?;
+                *x = n
+                    .as_u64()
+                    .and_then(|n| u32::try_from(n).ok())
+                    .ok_or_else(|| format!("{path}: whole numbers from 0 only"))?;
             }
         }
         Value::VectorDouble(vec) => {
@@ -161,7 +190,9 @@ fn apply(v: &mut Value, j: &Json, path: &str) -> Result<(), String> {
             }
         }
         Value::Custom(c) => {
-            let m = j.as_object().ok_or_else(|| format!("{path} must stay an object"))?;
+            let m = j
+                .as_object()
+                .ok_or_else(|| format!("{path} must stay an object"))?;
             set_elements(&mut c.elements, m, path)?;
             set_elements(&mut c.dynamic_elements, m, path)?;
         }
@@ -174,7 +205,9 @@ fn apply(v: &mut Value, j: &Json, path: &str) -> Result<(), String> {
         }
         Value::Null | Value::Undefined => {
             if !j.is_null() {
-                return Err(format!("{path} is empty in the save and can't be given a value"));
+                return Err(format!(
+                    "{path} is empty in the save and can't be given a value"
+                ));
             }
         }
         other => {
@@ -194,7 +227,8 @@ fn set_f64(x: &mut f64, n: f64) {
 }
 
 fn list<'a>(j: &'a Json, path: &str) -> Result<&'a Vec<Json>, String> {
-    j.as_array().ok_or_else(|| format!("{path} must stay a list"))
+    j.as_array()
+        .ok_or_else(|| format!("{path} must stay a list"))
 }
 
 fn apply_list(values: &mut [Value], j: &Json, path: &str) -> Result<(), String> {
@@ -221,7 +255,11 @@ pub fn open(d: &[u8]) -> Option<Vec<u8>> {
 pub fn save(original: &[u8], json: &[u8]) -> Result<Vec<u8>, String> {
     let mut lso = parse(original).ok_or("the original .sol file no longer parses")?;
     let j: Json = serde_json::from_slice(json).map_err(|e| e.to_string())?;
-    set_elements(&mut lso.body, j.as_object().ok_or("the values must stay an object")?, "")?;
+    set_elements(
+        &mut lso.body,
+        j.as_object().ok_or("the values must stay an object")?,
+        "",
+    )?;
     write(&lso).ok_or_else(|| "the edited .sol file couldn't be written".to_string())
 }
 
@@ -233,8 +271,20 @@ mod tests {
     #[test]
     fn edit_amf0_and_amf3() {
         for version in [AMFVersion::AMF0, AMFVersion::AMF3] {
-            let int = if version == AMFVersion::AMF3 { Value::Integer(5) } else { Value::Number(5.0) };
-            let mut lso = Lso::new(vec![Element::new("coins", int), Element::new("name", Value::String("Ann".into())), Element::new("hard", Value::Bool(false))], "save", version);
+            let int = if version == AMFVersion::AMF3 {
+                Value::Integer(5)
+            } else {
+                Value::Number(5.0)
+            };
+            let mut lso = Lso::new(
+                vec![
+                    Element::new("coins", int),
+                    Element::new("name", Value::String("Ann".into())),
+                    Element::new("hard", Value::Bool(false)),
+                ],
+                "save",
+                version,
+            );
             let file = flash_lso::write::write_to_bytes(&mut lso).unwrap();
             assert!(looks(&file));
             let json = open(&file).expect("opens");
@@ -242,7 +292,10 @@ mod tests {
             assert_eq!(v["coins"], 5);
             let out = save(&file, br#"{"coins": 99999, "name": "Bo", "hard": true}"#).unwrap();
             let v: Json = serde_json::from_slice(&open(&out).unwrap()).unwrap();
-            assert_eq!(v, serde_json::json!({"coins": 99999, "name": "Bo", "hard": true}));
+            assert_eq!(
+                v,
+                serde_json::json!({"coins": 99999, "name": "Bo", "hard": true})
+            );
             assert_eq!(save(&file, &json).unwrap(), file);
         }
     }
@@ -254,7 +307,11 @@ mod tests {
     fn sample_files() {
         let dir = std::env::var("SOL_SAMPLES").expect("SOL_SAMPLES");
         let (mut ok, mut skipped) = (0, vec![]);
-        for e in std::fs::read_dir(dir).unwrap().flatten().filter(|e| e.path().is_file()) {
+        for e in std::fs::read_dir(dir)
+            .unwrap()
+            .flatten()
+            .filter(|e| e.path().is_file())
+        {
             let d = std::fs::read(e.path()).unwrap();
             match open(&d) {
                 Some(json) => {

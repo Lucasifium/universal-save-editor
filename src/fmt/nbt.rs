@@ -52,13 +52,21 @@ macro_rules! rd {
     ($self:ident, $t:ty) => {{
         const N: usize = std::mem::size_of::<$t>();
         let b: [u8; N] = $self.take(N)?.try_into().unwrap();
-        if $self.le { <$t>::from_le_bytes(b) } else { <$t>::from_be_bytes(b) }
+        if $self.le {
+            <$t>::from_le_bytes(b)
+        } else {
+            <$t>::from_be_bytes(b)
+        }
     }};
 }
 
 impl R<'_> {
     fn take(&mut self, n: usize) -> Result<&[u8], String> {
-        let end = self.pos.checked_add(n).filter(|&e| e <= self.d.len()).ok_or("unexpected end of data")?;
+        let end = self
+            .pos
+            .checked_add(n)
+            .filter(|&e| e <= self.d.len())
+            .ok_or("unexpected end of data")?;
         let s = &self.d[self.pos..end];
         self.pos = end;
         Ok(s)
@@ -116,11 +124,19 @@ impl R<'_> {
             }
             11 => {
                 let n = self.len()?;
-                Tag::IntArray((0..n).map(|_| Ok(rd!(self, i32))).collect::<Result<_, String>>()?)
+                Tag::IntArray(
+                    (0..n)
+                        .map(|_| Ok(rd!(self, i32)))
+                        .collect::<Result<_, String>>()?,
+                )
             }
             12 => {
                 let n = self.len()?;
-                Tag::LongArray((0..n).map(|_| Ok(rd!(self, i64))).collect::<Result<_, String>>()?)
+                Tag::LongArray(
+                    (0..n)
+                        .map(|_| Ok(rd!(self, i64)))
+                        .collect::<Result<_, String>>()?,
+                )
             }
             _ => return Err(format!("unknown tag {id}")),
         })
@@ -135,7 +151,11 @@ struct W {
 macro_rules! wr {
     ($self:ident, $v:expr) => {{
         let v = $v;
-        let b = if $self.le { v.to_le_bytes() } else { v.to_be_bytes() };
+        let b = if $self.le {
+            v.to_le_bytes()
+        } else {
+            v.to_be_bytes()
+        };
         $self.out.extend_from_slice(&b);
     }};
 }
@@ -207,11 +227,18 @@ fn read(d: &[u8], le: bool, header: bool) -> Result<Nbt, String> {
         if len != d.len() - 8 {
             return Err("header length mismatch".into());
         }
-        (Some(i32::from_le_bytes(d[0..4].try_into().unwrap())), &d[8..])
+        (
+            Some(i32::from_le_bytes(d[0..4].try_into().unwrap())),
+            &d[8..],
+        )
     } else {
         (None, d)
     };
-    let mut r = R { d: body, pos: 0, le };
+    let mut r = R {
+        d: body,
+        pos: 0,
+        le,
+    };
     if rd!(r, u8) != 10 {
         return Err("not NBT".into());
     }
@@ -220,11 +247,19 @@ fn read(d: &[u8], le: bool, header: bool) -> Result<Nbt, String> {
     if r.pos != body.len() {
         return Err("extra data after NBT".into());
     }
-    Ok(Nbt { le, header: version, root_name, root })
+    Ok(Nbt {
+        le,
+        header: version,
+        root_name,
+        root,
+    })
 }
 
 fn write(n: &Nbt) -> Vec<u8> {
-    let mut w = W { out: Vec::new(), le: n.le };
+    let mut w = W {
+        out: Vec::new(),
+        le: n.le,
+    };
     wr!(w, 10u8);
     w.string(&n.root_name);
     w.payload(&n.root);
@@ -262,9 +297,13 @@ fn set(tag: &mut Tag, idx: Option<usize>, v: &Value) -> Result<(), String> {
     let int = |lo: i128, hi: i128, what: &str| int_in(v, lo, hi, what);
     match (tag, idx) {
         (Tag::Byte(x), None) => *x = int(-128, 127, "A byte value")? as i8,
-        (Tag::Short(x), None) => *x = int(i16::MIN as i128, i16::MAX as i128, "A short value")? as i16,
+        (Tag::Short(x), None) => {
+            *x = int(i16::MIN as i128, i16::MAX as i128, "A short value")? as i16
+        }
         (Tag::Int(x), None) => *x = int(i32::MIN as i128, i32::MAX as i128, "An int value")? as i32,
-        (Tag::Long(x), None) => *x = int(i64::MIN as i128, i64::MAX as i128, "A long value")? as i64,
+        (Tag::Long(x), None) => {
+            *x = int(i64::MIN as i128, i64::MAX as i128, "A long value")? as i64
+        }
         (Tag::Float(x), None) => *x = v.as_f64().ok_or("must be a number")? as f32,
         (Tag::Double(x), None) => *x = v.as_f64().ok_or("must be a number")?,
         (Tag::String(x), None) => {
@@ -274,9 +313,17 @@ fn set(tag: &mut Tag, idx: Option<usize>, v: &Value) -> Result<(), String> {
             }
             *x = s.to_string();
         }
-        (Tag::ByteArray(a), Some(i)) => *a.get_mut(i).ok_or("bad index")? = int(-128, 127, "A byte value")? as i8,
-        (Tag::IntArray(a), Some(i)) => *a.get_mut(i).ok_or("bad index")? = int(i32::MIN as i128, i32::MAX as i128, "An int value")? as i32,
-        (Tag::LongArray(a), Some(i)) => *a.get_mut(i).ok_or("bad index")? = int(i64::MIN as i128, i64::MAX as i128, "A long value")? as i64,
+        (Tag::ByteArray(a), Some(i)) => {
+            *a.get_mut(i).ok_or("bad index")? = int(-128, 127, "A byte value")? as i8
+        }
+        (Tag::IntArray(a), Some(i)) => {
+            *a.get_mut(i).ok_or("bad index")? =
+                int(i32::MIN as i128, i32::MAX as i128, "An int value")? as i32
+        }
+        (Tag::LongArray(a), Some(i)) => {
+            *a.get_mut(i).ok_or("bad index")? =
+                int(i64::MIN as i128, i64::MAX as i128, "A long value")? as i64
+        }
         _ => return Err("this value can't be edited".into()),
     }
     Ok(())
@@ -290,7 +337,9 @@ fn split(path: &[usize], tree: &Tag) -> (Vec<usize>, Option<usize>) {
         match t {
             Tag::Compound(f) => t = &f[i].1,
             Tag::List(_, items) => t = &items[i],
-            Tag::ByteArray(_) | Tag::IntArray(_) | Tag::LongArray(_) => return (path[..n].to_vec(), Some(i)),
+            Tag::ByteArray(_) | Tag::IntArray(_) | Tag::LongArray(_) => {
+                return (path[..n].to_vec(), Some(i))
+            }
             _ => break,
         }
     }
@@ -302,7 +351,11 @@ impl Backend for NbtBackend {
         let mut nbt = self.nbt.clone();
         for (id, v) in changes {
             let (path, idx) = split(&self.paths[*id], &nbt.root);
-            set(get_mut(&mut nbt.root, &path).ok_or("couldn't locate an edited value")?, idx, v)?;
+            set(
+                get_mut(&mut nbt.root, &path).ok_or("couldn't locate an edited value")?,
+                idx,
+                v,
+            )?;
         }
         Ok(write(&nbt))
     }
@@ -400,15 +453,32 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
         if !header && d.first() != Some(&10) {
             continue;
         }
-        let Ok(nbt) = read(d, le, header) else { continue };
+        let Ok(nbt) = read(d, le, header) else {
+            continue;
+        };
         // Only trust it if writing it back reproduces the file exactly.
         if write(&nbt) != d {
             continue;
         }
-        let mut b = B { paths: vec![], editable: HashMap::new() };
+        let mut b = B {
+            paths: vec![],
+            editable: HashMap::new(),
+        };
         let view = b.view(&nbt.root, "", &mut vec![]);
-        let name = if le { "Minecraft NBT (Bedrock)" } else { "Minecraft NBT (Java)" };
-        return Ok(TreeDoc::new(view, b.editable, name, Box::new(NbtBackend { nbt, paths: b.paths })));
+        let name = if le {
+            "Minecraft NBT (Bedrock)"
+        } else {
+            "Minecraft NBT (Java)"
+        };
+        return Ok(TreeDoc::new(
+            view,
+            b.editable,
+            name,
+            Box::new(NbtBackend {
+                nbt,
+                paths: b.paths,
+            }),
+        ));
     }
     Err("not NBT".into())
 }
@@ -425,11 +495,22 @@ mod tests {
                 ("Time".into(), Tag::Long(123456)),
                 ("hardcore".into(), Tag::Byte(0)),
                 ("SpawnX".into(), Tag::Int(-40)),
-                ("Pos".into(), Tag::List(6, vec![Tag::Double(1.5), Tag::Double(64.0), Tag::Double(-3.25)])),
+                (
+                    "Pos".into(),
+                    Tag::List(
+                        6,
+                        vec![Tag::Double(1.5), Tag::Double(64.0), Tag::Double(-3.25)],
+                    ),
+                ),
                 ("Inv".into(), Tag::IntArray(vec![1, 2, 3])),
             ]),
         )]);
-        write(&Nbt { le, header: header.then_some(10), root_name: String::new(), root })
+        write(&Nbt {
+            le,
+            header: header.then_some(10),
+            root_name: String::new(),
+            root,
+        })
     }
 
     /// The "Max crafting materials" button on a made-up Java player: materials go to 64,
@@ -437,33 +518,61 @@ mod tests {
     #[test]
     fn minecraft_crafting_materials_round_trip() {
         let item = |slot: i8, id: &str, count: Option<Tag>| {
-            let mut c = vec![("Slot".to_string(), Tag::Byte(slot)), ("id".to_string(), Tag::String(id.into()))];
+            let mut c = vec![
+                ("Slot".to_string(), Tag::Byte(slot)),
+                ("id".to_string(), Tag::String(id.into())),
+            ];
             if let Some(n) = count {
                 c.push(("Count".to_string(), n));
             }
             Tag::Compound(c)
         };
-        let ender = Tag::Compound(vec![("Slot".into(), Tag::Byte(0)), ("id".into(), Tag::String("minecraft:string".into())), ("count".into(), Tag::Int(5))]);
+        let ender = Tag::Compound(vec![
+            ("Slot".into(), Tag::Byte(0)),
+            ("id".into(), Tag::String("minecraft:string".into())),
+            ("count".into(), Tag::Int(5)),
+        ]);
         let root = Tag::Compound(vec![(
             "Data".into(),
             Tag::Compound(vec![(
                 "Player".into(),
                 Tag::Compound(vec![
-                    ("Inventory".into(), Tag::List(10, vec![
-                        item(0, "minecraft:iron_ingot", Some(Tag::Byte(9))),
-                        item(1, "minecraft:ender_pearl", Some(Tag::Byte(3))),
-                        item(2, "minecraft:eye_of_ender", Some(Tag::Byte(2))),
-                        item(3, "minecraft:diamond", None),
-                    ])),
+                    (
+                        "Inventory".into(),
+                        Tag::List(
+                            10,
+                            vec![
+                                item(0, "minecraft:iron_ingot", Some(Tag::Byte(9))),
+                                item(1, "minecraft:ender_pearl", Some(Tag::Byte(3))),
+                                item(2, "minecraft:eye_of_ender", Some(Tag::Byte(2))),
+                                item(3, "minecraft:diamond", None),
+                            ],
+                        ),
+                    ),
                     ("EnderItems".into(), Tag::List(10, vec![ender])),
                 ]),
             )]),
         )]);
-        let raw = write(&Nbt { le: false, header: None, root_name: String::new(), root });
+        let raw = write(&Nbt {
+            le: false,
+            header: None,
+            root_name: String::new(),
+            root,
+        });
         let mut doc = parse(&raw).unwrap();
         let view = doc.view.clone();
-        let mut cx = crate::game_ui::GameCtx { root: &view, baseline: &view, tree: Some(&doc), edits: vec![], archive: None, open_entry: None };
-        assert_eq!(crate::game_ui::max_crafting_materials(crate::game_ui::Game::Minecraft, &mut cx), 2);
+        let mut cx = crate::game_ui::GameCtx {
+            root: &view,
+            baseline: &view,
+            tree: Some(&doc),
+            edits: vec![],
+            archive: None,
+            open_entry: None,
+        };
+        assert_eq!(
+            crate::game_ui::max_crafting_materials(crate::game_ui::Game::Minecraft, &mut cx),
+            2
+        );
         for (p, v) in cx.edits {
             doc.set(&p, v).unwrap().expect("editable");
         }
@@ -472,7 +581,10 @@ mod tests {
         assert_eq!(v("/Data/Player/Inventory/0/Count"), 64);
         assert_eq!(v("/Data/Player/Inventory/1/Count"), 3);
         assert_eq!(v("/Data/Player/Inventory/2/Count"), 2);
-        assert!(again.view.pointer("/Data/Player/Inventory/3/Count").is_none());
+        assert!(again
+            .view
+            .pointer("/Data/Player/Inventory/3/Count")
+            .is_none());
         assert_eq!(v("/Data/Player/EnderItems/0/count"), 64);
     }
 
@@ -486,10 +598,16 @@ mod tests {
             doc.set("/Data/Time", Value::from(999)).unwrap();
             doc.set("/Data/Pos/1", Value::from(80.0)).unwrap();
             doc.set("/Data/Inv/2", Value::from(7)).unwrap();
-            assert!(doc.set("/Data/hardcore", Value::from(300)).is_err(), "byte range enforced");
+            assert!(
+                doc.set("/Data/hardcore", Value::from(300)).is_err(),
+                "byte range enforced"
+            );
             let again = parse(&doc.to_bytes().unwrap()).unwrap();
             assert_eq!(again.view.pointer("/Data/Time").unwrap(), 999);
-            assert_eq!(again.view.pointer("/Data/Pos/1").unwrap().as_f64(), Some(80.0));
+            assert_eq!(
+                again.view.pointer("/Data/Pos/1").unwrap().as_f64(),
+                Some(80.0)
+            );
             assert_eq!(again.view.pointer("/Data/Inv/2").unwrap(), 7);
         }
     }

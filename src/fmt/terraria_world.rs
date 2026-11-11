@@ -40,30 +40,48 @@ pub fn palette() -> &'static Palette {
     static P: OnceLock<Palette> = OnceLock::new();
     P.get_or_init(|| {
         let (mut tiles, mut walls): (Vec<Option<Kind>>, Vec<Option<Kind>>) = (vec![], vec![]);
-        for l in include_str!("data/terraria_tiles.txt").lines().filter(|l| !l.starts_with('#')) {
+        for l in include_str!("data/terraria_tiles.txt")
+            .lines()
+            .filter(|l| !l.starts_with('#'))
+        {
             let mut f = l.splitn(3, '\t');
-            let (Some(id), Some(col), Some(name)) = (f.next(), f.next(), f.next()) else { continue };
+            let (Some(id), Some(col), Some(name)) = (f.next(), f.next(), f.next()) else {
+                continue;
+            };
             let (list, n) = match id.split_at(1) {
                 ("T", n) => (&mut tiles, n),
                 ("W", n) => (&mut walls, n),
                 _ => continue,
             };
-            let (Ok(n), Ok(c)) = (n.parse::<usize>(), u32::from_str_radix(col, 16)) else { continue };
+            let (Ok(n), Ok(c)) = (n.parse::<usize>(), u32::from_str_radix(col, 16)) else {
+                continue;
+            };
             if list.len() <= n {
                 list.resize_with(n + 1, || None);
             }
-            list[n] = Some(Kind { name: name.to_string(), color: [(c >> 16) as u8, (c >> 8) as u8, c as u8] });
+            list[n] = Some(Kind {
+                name: name.to_string(),
+                color: [(c >> 16) as u8, (c >> 8) as u8, c as u8],
+            });
         }
         Palette { tiles, walls }
     })
 }
 
 pub fn tile_name(id: u16) -> String {
-    palette().tiles.get(id as usize).and_then(Option::as_ref).map_or_else(|| format!("Tile #{id}"), |k| k.name.clone())
+    palette()
+        .tiles
+        .get(id as usize)
+        .and_then(Option::as_ref)
+        .map_or_else(|| format!("Tile #{id}"), |k| k.name.clone())
 }
 
 pub fn wall_name(id: u16) -> String {
-    palette().walls.get(id as usize).and_then(Option::as_ref).map_or_else(|| format!("Wall #{id}"), |k| k.name.clone())
+    palette()
+        .walls
+        .get(id as usize)
+        .and_then(Option::as_ref)
+        .map_or_else(|| format!("Wall #{id}"), |k| k.name.clone())
 }
 
 /// Town NPC roles by NPC id (the name in the save is the NPC's own name).
@@ -404,7 +422,9 @@ enum Find {
     Shimmer,
     /// The sword in stone (Large Piles 2, style 17), inside a shrine (a room with the
     /// Flower wall around it) or not.
-    Sword { shrine: bool },
+    Sword {
+        shrine: bool,
+    },
     /// 0: a dungeon biome chest, 1: another dungeon chest, 2: a Jungle Temple chest.
     Chest(u8),
 }
@@ -444,30 +464,126 @@ pub struct PoiKind {
     area: Option<u32>,
 }
 
-const fn kind(name: &'static str, color: [u8; 3], shown: bool, find: Find, area: Option<u32>) -> PoiKind {
-    PoiKind { name, color, shown, find, area }
+const fn kind(
+    name: &'static str,
+    color: [u8; 3],
+    shown: bool,
+    find: Find,
+    area: Option<u32>,
+) -> PoiKind {
+    PoiKind {
+        name,
+        color,
+        shown,
+        find,
+        area,
+    }
 }
 
 pub const POI_KINDS: [PoiKind; 20] = [
     kind("Shimmer", [214, 160, 255], true, Find::Shimmer, Some(20)),
-    kind("Dungeon Biome Chest", [80, 230, 170], true, Find::Chest(0), None),
+    kind(
+        "Dungeon Biome Chest",
+        [80, 230, 170],
+        true,
+        Find::Chest(0),
+        None,
+    ),
     kind("Dungeon Chest", [120, 140, 255], true, Find::Chest(1), None),
-    kind("Jungle Temple Chest", [255, 190, 60], true, Find::Chest(2), None),
-    kind("Enchanted Sword Shrine", [120, 230, 255], true, Find::Sword { shrine: true }, None),
-    kind("Sword in stone (no shrine)", [120, 160, 180], false, Find::Sword { shrine: false }, None),
-    kind("Plantera's Bulb", [225, 128, 206], true, Find::Tile(238), None),
+    kind(
+        "Jungle Temple Chest",
+        [255, 190, 60],
+        true,
+        Find::Chest(2),
+        None,
+    ),
+    kind(
+        "Enchanted Sword Shrine",
+        [120, 230, 255],
+        true,
+        Find::Sword { shrine: true },
+        None,
+    ),
+    kind(
+        "Sword in stone (no shrine)",
+        [120, 160, 180],
+        false,
+        Find::Sword { shrine: false },
+        None,
+    ),
+    kind(
+        "Plantera's Bulb",
+        [225, 128, 206],
+        true,
+        Find::Tile(238),
+        None,
+    ),
     kind("Life Fruit", [149, 232, 87], false, Find::Tile(236), None),
     kind("Life Crystal", [235, 60, 90], false, Find::Tile(12), None),
-    kind("Shadow Orb / Crimson Heart", [180, 90, 220], true, Find::Tile(31), None),
-    kind("Demon / Crimson Altar", [150, 60, 60], true, Find::Tile(26), None),
-    kind("Queen Bee Larva", [240, 200, 90], true, Find::Tile(231), None),
-    kind("Lihzahrd Altar", [255, 241, 51], true, Find::Tile(237), None),
-    kind("Jungle Temple", [200, 110, 40], true, Find::Wall(87), Some(400)),
+    kind(
+        "Shadow Orb / Crimson Heart",
+        [180, 90, 220],
+        true,
+        Find::Tile(31),
+        None,
+    ),
+    kind(
+        "Demon / Crimson Altar",
+        [150, 60, 60],
+        true,
+        Find::Tile(26),
+        None,
+    ),
+    kind(
+        "Queen Bee Larva",
+        [240, 200, 90],
+        true,
+        Find::Tile(231),
+        None,
+    ),
+    kind(
+        "Lihzahrd Altar",
+        [255, 241, 51],
+        true,
+        Find::Tile(237),
+        None,
+    ),
+    kind(
+        "Jungle Temple",
+        [200, 110, 40],
+        true,
+        Find::Wall(87),
+        Some(400),
+    ),
     kind("Bee Hive", [255, 156, 12], true, Find::Wall(86), Some(150)),
-    kind("Marble Cave", [235, 235, 245], true, Find::Wall(178), Some(200)),
-    kind("Granite Cave", [90, 90, 200], true, Find::Wall(180), Some(200)),
-    kind("Spider Nest", [200, 200, 200], true, Find::Wall(62), Some(200)),
-    kind("Glowing Mushrooms", [93, 127, 255], true, Find::Tile(70), Some(60)),
+    kind(
+        "Marble Cave",
+        [235, 235, 245],
+        true,
+        Find::Wall(178),
+        Some(200),
+    ),
+    kind(
+        "Granite Cave",
+        [90, 90, 200],
+        true,
+        Find::Wall(180),
+        Some(200),
+    ),
+    kind(
+        "Spider Nest",
+        [200, 200, 200],
+        true,
+        Find::Wall(62),
+        Some(200),
+    ),
+    kind(
+        "Glowing Mushrooms",
+        [93, 127, 255],
+        true,
+        Find::Tile(70),
+        Some(60),
+    ),
     kind("Meteorite", [255, 110, 70], true, Find::Tile(37), Some(30)),
 ];
 
@@ -500,8 +616,12 @@ pub fn points_of_interest(m: &WorldMap, swords: &[(u32, u32)], chests: &[ChestTi
     const BIN: usize = 16;
     let (w, h) = (m.width, m.height);
     let (bw, bh) = (w.div_ceil(BIN), h.div_ceil(BIN));
-    let areas: Vec<usize> = (0..POI_KINDS.len()).filter(|&k| POI_KINDS[k].area.is_some()).collect();
-    let objects: Vec<usize> = (0..POI_KINDS.len()).filter(|&k| POI_KINDS[k].area.is_none()).collect();
+    let areas: Vec<usize> = (0..POI_KINDS.len())
+        .filter(|&k| POI_KINDS[k].area.is_some())
+        .collect();
+    let objects: Vec<usize> = (0..POI_KINDS.len())
+        .filter(|&k| POI_KINDS[k].area.is_none())
+        .collect();
     let mut counts = vec![vec![0u16; bw * bh]; areas.len()];
     let mut out = Vec::new();
     for y in 0..h {
@@ -518,7 +638,13 @@ pub fn points_of_interest(m: &WorldMap, swords: &[(u32, u32)], chests: &[ChestTi
                     let left = x > 0 && packed_tile(m.cells[y * w + x - 1]) == Some(want);
                     let up = y > 0 && packed_tile(m.cells[(y - 1) * w + x]) == Some(want);
                     if t == want && !left && !up {
-                        out.push(Poi { kind: k, x: x as u32, y: y as u32, size: 1, note: "" });
+                        out.push(Poi {
+                            kind: k,
+                            x: x as u32,
+                            y: y as u32,
+                            size: 1,
+                            note: "",
+                        });
                     }
                 }
             }
@@ -526,8 +652,17 @@ pub fn points_of_interest(m: &WorldMap, swords: &[(u32, u32)], chests: &[ChestTi
     }
     for &(x, y, tile, style, wall) in chests {
         if let Some((group, note)) = chest_kind(tile, style, wall) {
-            if let Some(k) = POI_KINDS.iter().position(|k| matches!(k.find, Find::Chest(g) if g == group)) {
-                out.push(Poi { kind: k, x, y, size: 1, note });
+            if let Some(k) = POI_KINDS
+                .iter()
+                .position(|k| matches!(k.find, Find::Chest(g) if g == group))
+            {
+                out.push(Poi {
+                    kind: k,
+                    x,
+                    y,
+                    size: 1,
+                    note,
+                });
             }
         }
     }
@@ -537,13 +672,26 @@ pub fn points_of_interest(m: &WorldMap, swords: &[(u32, u32)], chests: &[ChestTi
             .filter(|&(xx, yy)| packed_wall(m.cells[yy as usize * w + xx as usize]) == SHRINE_WALL)
             .count();
         let shrine = near >= 100;
-        if let Some(k) = POI_KINDS.iter().position(|k| matches!(k.find, Find::Sword { shrine: s } if s == shrine)) {
-            out.push(Poi { kind: k, x, y, size: 1, note: "" });
+        if let Some(k) = POI_KINDS
+            .iter()
+            .position(|k| matches!(k.find, Find::Sword { shrine: s } if s == shrine))
+        {
+            out.push(Poi {
+                kind: k,
+                x,
+                y,
+                size: 1,
+                note: "",
+            });
         }
     }
     for (ai, &k) in areas.iter().enumerate() {
         let c = &counts[ai];
-        let min_bin = if matches!(POI_KINDS[k].find, Find::Shimmer) { 4 } else { 24 };
+        let min_bin = if matches!(POI_KINDS[k].find, Find::Shimmer) {
+            4
+        } else {
+            24
+        };
         let mut seen = vec![false; bw * bh];
         for start in 0..bw * bh {
             if seen[start] || c[start] < min_bin {
@@ -575,15 +723,32 @@ pub fn points_of_interest(m: &WorldMap, swords: &[(u32, u32)], chests: &[ChestTi
                 continue;
             }
             // Mark the square nearest the middle of the patch (weighted by how much is there).
-            let (sx, sy) = bins.iter().fold((0f64, 0f64), |(sx, sy), &b| (sx + (b % bw) as f64 * c[b] as f64, sy + (b / bw) as f64 * c[b] as f64));
+            let (sx, sy) = bins.iter().fold((0f64, 0f64), |(sx, sy), &b| {
+                (
+                    sx + (b % bw) as f64 * c[b] as f64,
+                    sy + (b / bw) as f64 * c[b] as f64,
+                )
+            });
             let (mx, my) = (sx / total as f64, sy / total as f64);
-            let best = *bins.iter().min_by(|&&a, &&b| {
-                let da = ((a % bw) as f64 - mx).powi(2) + ((a / bw) as f64 - my).powi(2);
-                let db = ((b % bw) as f64 - mx).powi(2) + ((b / bw) as f64 - my).powi(2);
-                da.total_cmp(&db)
-            }).unwrap();
-            let (x, y) = (((best % bw) * BIN + BIN / 2).min(w - 1), ((best / bw) * BIN + BIN / 2).min(h - 1));
-            out.push(Poi { kind: k, x: x as u32, y: y as u32, size: total, note: "" });
+            let best = *bins
+                .iter()
+                .min_by(|&&a, &&b| {
+                    let da = ((a % bw) as f64 - mx).powi(2) + ((a / bw) as f64 - my).powi(2);
+                    let db = ((b % bw) as f64 - mx).powi(2) + ((b / bw) as f64 - my).powi(2);
+                    da.total_cmp(&db)
+                })
+                .unwrap();
+            let (x, y) = (
+                ((best % bw) * BIN + BIN / 2).min(w - 1),
+                ((best / bw) * BIN + BIN / 2).min(h - 1),
+            );
+            out.push(Poi {
+                kind: k,
+                x: x as u32,
+                y: y as u32,
+                size: total,
+                note: "",
+            });
         }
     }
     out
@@ -618,22 +783,42 @@ impl Op {
     }
 
     /// The tiles one stamp covers, clipped to the world.
-    pub fn stamp(&self, (x, y): (u32, u32), w: usize, h: usize) -> impl Iterator<Item = (usize, usize)> {
+    pub fn stamp(
+        &self,
+        (x, y): (u32, u32),
+        w: usize,
+        h: usize,
+    ) -> impl Iterator<Item = (usize, usize)> {
         let half = (self.size as i64 - 1) / 2;
         let (x0, y0) = ((x as i64 - half).max(0), (y as i64 - half).max(0));
-        let (x1, y1) = ((x as i64 - half + self.size as i64).min(w as i64), (y as i64 - half + self.size as i64).min(h as i64));
-        (y0..y1.max(y0)).flat_map(move |yy| (x0..x1.max(x0)).map(move |xx| (xx as usize, yy as usize)))
+        let (x1, y1) = (
+            (x as i64 - half + self.size as i64).min(w as i64),
+            (y as i64 - half + self.size as i64).min(h as i64),
+        );
+        (y0..y1.max(y0))
+            .flat_map(move |yy| (x0..x1.max(x0)).map(move |xx| (xx as usize, yy as usize)))
     }
 }
 
 pub fn parse_ops(s: &str) -> Result<Vec<Op>, String> {
     let mut ops = Vec::new();
     for part in s.split(';').map(str::trim).filter(|p| !p.is_empty()) {
-        let n: Vec<u32> = part.split_whitespace().map(|t| t.parse::<u32>().map_err(|_| "map edits aren't in the expected form".to_string())).collect::<Result<_, _>>()?;
+        let n: Vec<u32> = part
+            .split_whitespace()
+            .map(|t| {
+                t.parse::<u32>()
+                    .map_err(|_| "map edits aren't in the expected form".to_string())
+            })
+            .collect::<Result<_, _>>()?;
         if n.len() < 5 || n.len() % 2 == 0 || n[0] > 255 || n[1] > u16::MAX as u32 || n[2] > 64 {
             return Err("map edits aren't in the expected form".into());
         }
-        ops.push(Op { mode: n[0] as u8, value: n[1] as u16, size: n[2] as u16, points: n[3..].chunks(2).map(|p| (p[0], p[1])).collect() });
+        ops.push(Op {
+            mode: n[0] as u8,
+            value: n[1] as u16,
+            size: n[2] as u16,
+            points: n[3..].chunks(2).map(|p| (p[0], p[1])).collect(),
+        });
     }
     Ok(ops)
 }
@@ -644,7 +829,10 @@ pub fn op_ok(op: &Op, map: &WorldMap) -> Result<(), String> {
     match op.mode {
         PAINT_BLOCK => {
             let t = op.value as usize;
-            if t >= map.important.len() || map.important[t] || pal.tiles.get(t).is_none_or(Option::is_none) {
+            if t >= map.important.len()
+                || map.important[t]
+                || pal.tiles.get(t).is_none_or(Option::is_none)
+            {
                 return Err(format!("tile #{t} can't be painted"));
             }
         }
@@ -662,7 +850,12 @@ pub fn op_ok(op: &Op, map: &WorldMap) -> Result<(), String> {
         ERASE_BLOCK | ERASE_WALL | DRAIN_LIQUID => {}
         _ => return Err("unknown map edit".into()),
     }
-    if op.size == 0 || op.points.iter().any(|&(x, y)| x as usize >= map.width || y as usize >= map.height) {
+    if op.size == 0
+        || op
+            .points
+            .iter()
+            .any(|&(x, y)| x as usize >= map.width || y as usize >= map.height)
+    {
         return Err("map edit outside the world".into());
     }
     Ok(())
@@ -744,11 +937,24 @@ pub fn apply_packed(mode: u8, value: u16, p: u32, imp: &[bool]) -> u32 {
 #[derive(Clone, Debug)]
 enum Field {
     Name,
-    Int { at: usize, size: u8, min: i64, max: i64 },
-    Bool { at: usize },
-    Ticks { at: usize },
-    Mode { at: usize },
-    Evil { at: usize },
+    Int {
+        at: usize,
+        size: u8,
+        min: i64,
+        max: i64,
+    },
+    Bool {
+        at: usize,
+    },
+    Ticks {
+        at: usize,
+    },
+    Mode {
+        at: usize,
+    },
+    Evil {
+        at: usize,
+    },
     ChestName(usize),
     Item(usize, usize),
     Stack(usize, usize),
@@ -765,7 +971,8 @@ struct Builder {
 
 impl Builder {
     fn add(&mut self, map: &mut Map<String, Value>, base: &str, key: &str, v: Value, f: Field) {
-        self.editable.insert(format!("{base}/{}", esc(key)), self.fields.len());
+        self.editable
+            .insert(format!("{base}/{}", esc(key)), self.fields.len());
         self.fields.push(f);
         map.insert(key.to_string(), v);
     }
@@ -799,7 +1006,13 @@ struct Header {
 /// Reads the world info section. `newer`: the Terraria 1.4.5 layout (a ninth seed flag and
 /// a second timestamp before the creation time, and a second banner table after the kill
 /// counts). Checked by sanity limits, since the section ends with data we don't read.
-fn read_header(d: &[u8], start: usize, v: i32, newer: bool, b: &mut Builder) -> Result<Header, String> {
+fn read_header(
+    d: &[u8],
+    start: usize,
+    v: i32,
+    newer: bool,
+    b: &mut Builder,
+) -> Result<Header, String> {
     let mut r = Reader { d, pos: start };
     let mut world = Map::new();
     let wp = "/World";
@@ -818,16 +1031,33 @@ fn read_header(d: &[u8], start: usize, v: i32, newer: bool, b: &mut Builder) -> 
         8400 => "Large",
         _ => "Custom",
     };
-    world.insert("Size".into(), Value::from(format!("{size} ({max_x} \u{00D7} {max_y} tiles)")));
+    world.insert(
+        "Size".into(),
+        Value::from(format!("{size} ({max_x} \u{00D7} {max_y} tiles)")),
+    );
     world.insert("World ID".into(), Value::from(id));
     world.insert("File version".into(), Value::from(v));
     let at = r.take(4)?;
     let mode = i32::from_le_bytes(d[at..at + 4].try_into().unwrap());
     let mode_name = MODES.get(mode as usize).ok_or("unexpected world info")?;
-    b.add(&mut world, wp, "Difficulty", Value::from(*mode_name), Field::Mode { at });
+    b.add(
+        &mut world,
+        wp,
+        "Difficulty",
+        Value::from(*mode_name),
+        Field::Mode { at },
+    );
 
     let mut bools: Vec<(usize, u8)> = vec![]; // for the sanity check
-    fn flag_in(d: &[u8], bools: &mut Vec<(usize, u8)>, b: &mut Builder, r: &mut Reader, m: &mut Map<String, Value>, base: &str, key: Option<&str>) -> Result<(), String> {
+    fn flag_in(
+        d: &[u8],
+        bools: &mut Vec<(usize, u8)>,
+        b: &mut Builder,
+        r: &mut Reader,
+        m: &mut Map<String, Value>,
+        base: &str,
+        key: Option<&str>,
+    ) -> Result<(), String> {
         let at = r.take(1)?;
         bools.push((at, d[at]));
         if let Some(k) = key {
@@ -842,7 +1072,16 @@ fn read_header(d: &[u8], start: usize, v: i32, newer: bool, b: &mut Builder) -> 
     }
     let mut seeds = Map::new();
     let sp = "/Special seeds";
-    for (need, key) in [(222, "Drunk world (05162020)"), (227, "For the worthy"), (238, "Celebrationmk10"), (239, "The Constant"), (241, "Not the bees"), (249, "Don't dig up"), (266, "No traps"), (267, "Zenith (Get fixed boi)")] {
+    for (need, key) in [
+        (222, "Drunk world (05162020)"),
+        (227, "For the worthy"),
+        (238, "Celebrationmk10"),
+        (239, "The Constant"),
+        (241, "Not the bees"),
+        (249, "Don't dig up"),
+        (266, "No traps"),
+        (267, "Zenith (Get fixed boi)"),
+    ] {
         if v >= need {
             flag!(b, &mut r, &mut seeds, sp, Some(key))?;
         }
@@ -853,10 +1092,28 @@ fn read_header(d: &[u8], start: usize, v: i32, newer: bool, b: &mut Builder) -> 
     }
     r.take(8)?; // creation time
     r.take(1 + 17 * 4)?; // moon type, tree and cave background positions and styles
-    let int = |b: &mut Builder, r: &mut Reader, m: &mut Map<String, Value>, base: &str, key: &str, min: i64, max: i64| -> Result<i64, String> {
+    let int = |b: &mut Builder,
+               r: &mut Reader,
+               m: &mut Map<String, Value>,
+               base: &str,
+               key: &str,
+               min: i64,
+               max: i64|
+     -> Result<i64, String> {
         let at = r.take(4)?;
         let n = i32::from_le_bytes(d[at..at + 4].try_into().unwrap()) as i64;
-        b.add(m, base, key, Value::from(n), Field::Int { at, size: 4, min, max });
+        b.add(
+            m,
+            base,
+            key,
+            Value::from(n),
+            Field::Int {
+                at,
+                size: 4,
+                min,
+                max,
+            },
+        );
         Ok(n)
     };
     let sx = int(b, &mut r, &mut world, wp, "Spawn X", 0, max_x as i64 - 1)?;
@@ -865,7 +1122,13 @@ fn read_header(d: &[u8], start: usize, v: i32, newer: bool, b: &mut Builder) -> 
     let rock = r.f64()?;
     let at = r.take(8)?;
     let time = f64::from_le_bytes(d[at..at + 8].try_into().unwrap());
-    b.add(&mut world, wp, "Time (ticks)", Value::from(time.round() as i64), Field::Ticks { at });
+    b.add(
+        &mut world,
+        wp,
+        "Time (ticks)",
+        Value::from(time.round() as i64),
+        Field::Ticks { at },
+    );
     flag!(b, &mut r, &mut world, wp, Some("Daytime"))?;
     int(b, &mut r, &mut world, wp, "Moon phase", 0, 7)?;
     flag!(b, &mut r, &mut world, wp, Some("Blood Moon"))?;
@@ -874,7 +1137,13 @@ fn read_header(d: &[u8], start: usize, v: i32, newer: bool, b: &mut Builder) -> 
     let dy = int(b, &mut r, &mut world, wp, "Dungeon Y", 0, max_y as i64 - 1)?;
     let at = r.take(1)?;
     bools.push((at, d[at]));
-    b.add(&mut world, wp, "Evil", Value::from(EVIL[(d[at] != 0) as usize]), Field::Evil { at });
+    b.add(
+        &mut world,
+        wp,
+        "Evil",
+        Value::from(EVIL[(d[at] != 0) as usize]),
+        Field::Evil { at },
+    );
 
     let mut bosses = Map::new();
     let bp = "/Bosses defeated";
@@ -884,22 +1153,55 @@ fn read_header(d: &[u8], start: usize, v: i32, newer: bool, b: &mut Builder) -> 
     let tp = "/Town NPCs";
     // Fixed order in the file; shown in the order players meet them.
     let mut boss_at: Vec<(&str, usize)> = vec![];
-    fn boss(d: &[u8], r: &mut Reader, bools: &mut Vec<(usize, u8)>, boss_at: &mut Vec<(&'static str, usize)>, key: &'static str) -> Result<(), String> {
+    fn boss(
+        d: &[u8],
+        r: &mut Reader,
+        bools: &mut Vec<(usize, u8)>,
+        boss_at: &mut Vec<(&'static str, usize)>,
+        key: &'static str,
+    ) -> Result<(), String> {
         let at = r.take(1)?;
         bools.push((at, d[at]));
         boss_at.push((key, at));
         Ok(())
     }
-    for k in ["Eye of Cthulhu", "Eater of Worlds / Brain of Cthulhu", "Skeletron", "Queen Bee", "The Destroyer", "The Twins", "Skeletron Prime", "Any mechanical boss", "Plantera", "Golem", "King Slime"] {
+    for k in [
+        "Eye of Cthulhu",
+        "Eater of Worlds / Brain of Cthulhu",
+        "Skeletron",
+        "Queen Bee",
+        "The Destroyer",
+        "The Twins",
+        "Skeletron Prime",
+        "Any mechanical boss",
+        "Plantera",
+        "Golem",
+        "King Slime",
+    ] {
         boss(d, &mut r, &mut bools, &mut boss_at, k)?;
     }
-    for k in ["Goblin Tinkerer rescued", "Wizard rescued", "Mechanic rescued"] {
+    for k in [
+        "Goblin Tinkerer rescued",
+        "Wizard rescued",
+        "Mechanic rescued",
+    ] {
         flag!(b, &mut r, &mut town, tp, Some(k))?;
     }
-    for k in ["Goblin Army", "Clown (Blood Moon)", "Frost Legion", "Pirate Invasion"] {
+    for k in [
+        "Goblin Army",
+        "Clown (Blood Moon)",
+        "Frost Legion",
+        "Pirate Invasion",
+    ] {
         flag!(b, &mut r, &mut events, ep, Some(k))?;
     }
-    flag!(b, &mut r, &mut world, wp, Some("Shadow Orb / Crimson Heart smashed"))?;
+    flag!(
+        b,
+        &mut r,
+        &mut world,
+        wp,
+        Some("Shadow Orb / Crimson Heart smashed")
+    )?;
     flag!(b, &mut r, &mut world, wp, Some("Meteor due"))?;
     r.take(1)?; // orbs smashed (counter)
     int(b, &mut r, &mut world, wp, "Altars smashed", 0, 100_000)?;
@@ -942,14 +1244,37 @@ fn read_header(d: &[u8], start: usize, v: i32, newer: bool, b: &mut Builder) -> 
         r.take(2 * n as usize)?;
     }
     r.take(1)?; // fast-forward time
-    for k in ["Duke Fishron", "Martian Madness", "Lunatic Cultist", "Moon Lord", "Pumpking", "Mourning Wood", "Ice Queen", "Santa-NK1", "Everscream"] {
-        if matches!(k, "Martian Madness" | "Pumpking" | "Mourning Wood" | "Ice Queen" | "Santa-NK1" | "Everscream") {
+    for k in [
+        "Duke Fishron",
+        "Martian Madness",
+        "Lunatic Cultist",
+        "Moon Lord",
+        "Pumpking",
+        "Mourning Wood",
+        "Ice Queen",
+        "Santa-NK1",
+        "Everscream",
+    ] {
+        if matches!(
+            k,
+            "Martian Madness"
+                | "Pumpking"
+                | "Mourning Wood"
+                | "Ice Queen"
+                | "Santa-NK1"
+                | "Everscream"
+        ) {
             flag!(b, &mut r, &mut events, ep, Some(k))?;
         } else {
             boss(d, &mut r, &mut bools, &mut boss_at, k)?;
         }
     }
-    for k in ["Solar Pillar", "Vortex Pillar", "Nebula Pillar", "Stardust Pillar"] {
+    for k in [
+        "Solar Pillar",
+        "Vortex Pillar",
+        "Nebula Pillar",
+        "Stardust Pillar",
+    ] {
         flag!(b, &mut r, &mut events, ep, Some(k))?;
     }
     for _ in 0..5 {
@@ -963,11 +1288,21 @@ fn read_header(d: &[u8], start: usize, v: i32, newer: bool, b: &mut Builder) -> 
     r.take(4 * n as usize)?;
     r.take(1 + 4 + 4 + 4)?; // sandstorm
     flag!(b, &mut r, &mut town, tp, Some("Tavernkeep rescued"))?;
-    for k in ["Old One's Army (tier 1)", "Old One's Army (tier 2)", "Old One's Army (tier 3)"] {
+    for k in [
+        "Old One's Army (tier 1)",
+        "Old One's Army (tier 2)",
+        "Old One's Army (tier 3)",
+    ] {
         flag!(b, &mut r, &mut events, ep, Some(k))?;
     }
     r.take(1 + 4)?; // background styles
-    flag!(b, &mut r, &mut town, tp, Some("Advanced Combat Techniques used"))?;
+    flag!(
+        b,
+        &mut r,
+        &mut town,
+        tp,
+        Some("Advanced Combat Techniques used")
+    )?;
     r.take(4 + 3)?; // lantern night
     let n = r.i32()?;
     if !(0..=1000).contains(&n) {
@@ -1004,13 +1339,25 @@ fn read_header(d: &[u8], start: usize, v: i32, newer: bool, b: &mut Builder) -> 
         "Moon Lord",
     ] {
         if let Some(&(_, at)) = boss_at.iter().find(|(n, _)| *n == k) {
-            b.add(&mut bosses, bp, k, Value::Bool(d[at] != 0), Field::Bool { at });
+            b.add(
+                &mut bosses,
+                bp,
+                k,
+                Value::Bool(d[at] != 0),
+                Field::Bool { at },
+            );
         }
     }
 
     // Sanity: everything read as on/off is 0 or 1, and positions are inside the world.
     let inside = |x: i64, y: i64| (0..max_x as i64).contains(&x) && (0..max_y as i64).contains(&y);
-    if bools.iter().any(|&(_, v)| v > 1) || !inside(sx, sy) || !inside(dx, dy) || !(1.0..max_y as f64).contains(&surface) || !(surface..max_y as f64).contains(&rock) || !(0.0..=86400.0).contains(&time) {
+    if bools.iter().any(|&(_, v)| v > 1)
+        || !inside(sx, sy)
+        || !inside(dx, dy)
+        || !(1.0..max_y as f64).contains(&surface)
+        || !(surface..max_y as f64).contains(&rock)
+        || !(0.0..=86400.0).contains(&time)
+    {
         return Err("unexpected world info".into());
     }
     let mut root = vec![("World".to_string(), world)];
@@ -1020,11 +1367,21 @@ fn read_header(d: &[u8], start: usize, v: i32, newer: bool, b: &mut Builder) -> 
     root.push(("Bosses defeated".into(), bosses));
     root.push(("Events".into(), events));
     root.push(("Town NPCs".into(), town));
-    Ok(Header { root, spawn: Some((sx as i32, sy as i32)), surface, rock })
+    Ok(Header {
+        root,
+        spawn: Some((sx as i32, sy as i32)),
+        surface,
+        rock,
+    })
 }
 
 /// When the world info can't be read fully: just the name, size and id.
-fn read_header_basic(d: &[u8], start: usize, v: i32, b: &mut Builder) -> Result<(Header, usize, usize), String> {
+fn read_header_basic(
+    d: &[u8],
+    start: usize,
+    v: i32,
+    b: &mut Builder,
+) -> Result<(Header, usize, usize), String> {
     let mut r = Reader { d, pos: start };
     let mut world = Map::new();
     let (_, _, name) = r.string()?;
@@ -1033,10 +1390,22 @@ fn read_header_basic(d: &[u8], start: usize, v: i32, b: &mut Builder) -> Result<
     r.take(8 + 16 + 4 + 16)?;
     let max_y = r.i32()?;
     let max_x = r.i32()?;
-    world.insert("Size".into(), Value::from(format!("{max_x} \u{00D7} {max_y} tiles")));
+    world.insert(
+        "Size".into(),
+        Value::from(format!("{max_x} \u{00D7} {max_y} tiles")),
+    );
     world.insert("File version".into(), Value::from(v));
     world.insert("Note".into(), Value::from("This world's file version isn't fully known, so only its name, chests, signs and map can be edited."));
-    Ok((Header { root: vec![("World".into(), world)], spawn: None, surface: max_y as f64 * 0.3, rock: max_y as f64 * 0.4 }, max_x as usize, max_y as usize))
+    Ok((
+        Header {
+            root: vec![("World".into(), world)],
+            spawn: None,
+            surface: max_y as f64 * 0.3,
+            rock: max_y as f64 * 0.4,
+        },
+        max_x as usize,
+        max_y as usize,
+    ))
 }
 
 fn world_size(d: &[u8], start: usize) -> Result<(usize, usize), String> {
@@ -1054,8 +1423,16 @@ fn world_size(d: &[u8], start: usize) -> Result<(usize, usize), String> {
 
 // ------------------------------------------------------------------ sections
 
-fn read_chests(d: &[u8], start: usize, end: usize, per_chest: bool) -> Result<(Vec<Chest>, i16), String> {
-    let mut r = Reader { d: &d[..end], pos: start };
+fn read_chests(
+    d: &[u8],
+    start: usize,
+    end: usize,
+    per_chest: bool,
+) -> Result<(Vec<Chest>, i16), String> {
+    let mut r = Reader {
+        d: &d[..end],
+        pos: start,
+    };
     let n = r.i16()?;
     let mut per = if per_chest { 0 } else { r.i16()? };
     if n < 0 || per < 0 || per > 200 {
@@ -1086,7 +1463,12 @@ fn read_chests(d: &[u8], start: usize, end: usize, per_chest: bool) -> Result<(V
                 s.push((0, 0, 0));
             }
         }
-        out.push(Chest { x, y, name, slots: s });
+        out.push(Chest {
+            x,
+            y,
+            name,
+            slots: s,
+        });
     }
     if r.pos != end {
         return Err("unexpected chests".into());
@@ -1124,7 +1506,10 @@ fn write_chests(chests: &[Chest], per: i16, per_chest: bool) -> Vec<u8> {
 }
 
 fn read_signs(d: &[u8], start: usize, end: usize) -> Result<Vec<Sign>, String> {
-    let mut r = Reader { d: &d[..end], pos: start };
+    let mut r = Reader {
+        d: &d[..end],
+        pos: start,
+    };
     let n = r.i16()?;
     let mut out = Vec::new();
     for _ in 0..n.max(0) {
@@ -1150,8 +1535,17 @@ fn write_signs(signs: &[Sign]) -> Vec<u8> {
 }
 
 /// Town NPCs: (id, name, home x, home y, homeless). `extra`: Terraria 1.4.5's extra byte per NPC.
-fn read_npcs(d: &[u8], start: usize, end: usize, v: i32, extra: bool) -> Result<Vec<(i32, String, i32, i32, bool)>, String> {
-    let mut r = Reader { d: &d[..end], pos: start };
+fn read_npcs(
+    d: &[u8],
+    start: usize,
+    end: usize,
+    v: i32,
+    extra: bool,
+) -> Result<Vec<(i32, String, i32, i32, bool)>, String> {
+    let mut r = Reader {
+        d: &d[..end],
+        pos: start,
+    };
     if v >= 268 {
         let n = r.i32()?;
         if !(0..=1000).contains(&n) {
@@ -1259,7 +1653,9 @@ impl Backend for WldBackend {
         let mut ops: Option<Vec<Op>> = None;
         for (leaf, v) in changes {
             let s = || v.as_str().ok_or_else(|| "expected text".to_string());
-            let mut put = |at: usize, bytes: &[u8]| parts[0][at - h0..at - h0 + bytes.len()].copy_from_slice(bytes);
+            let mut put = |at: usize, bytes: &[u8]| {
+                parts[0][at - h0..at - h0 + bytes.len()].copy_from_slice(bytes)
+            };
             match &self.fields[*leaf] {
                 Field::Name => name = Some(s()?.to_string()),
                 Field::Int { at, size, min, max } => {
@@ -1270,10 +1666,21 @@ impl Backend for WldBackend {
                     }
                 }
                 Field::Bool { at } => put(*at, &[u8::from(v.as_bool().ok_or("expected on/off")?)]),
-                Field::Ticks { at } => put(*at, &(int_in(v, 0, 54_000, "Time")? as f64).to_le_bytes()),
-                Field::Mode { at } => put(*at, &(MODES.iter().position(|m| Some(*m) == v.as_str()).ok_or("unknown difficulty")? as i32).to_le_bytes()),
+                Field::Ticks { at } => {
+                    put(*at, &(int_in(v, 0, 54_000, "Time")? as f64).to_le_bytes())
+                }
+                Field::Mode { at } => put(
+                    *at,
+                    &(MODES
+                        .iter()
+                        .position(|m| Some(*m) == v.as_str())
+                        .ok_or("unknown difficulty")? as i32)
+                        .to_le_bytes(),
+                ),
                 Field::Evil { at } => put(*at, &[u8::from(v.as_str() == Some(EVIL[1]))]),
-                Field::ChestName(c) => chests.get_or_insert_with(|| self.chests.to_vec())[*c].name = s()?.to_string(),
+                Field::ChestName(c) => {
+                    chests.get_or_insert_with(|| self.chests.to_vec())[*c].name = s()?.to_string()
+                }
                 Field::Item(c, k) => {
                     let id = item_id(s()?).ok_or("unknown item")?;
                     chests.get_or_insert_with(|| self.chests.to_vec())[*c].slots[*k].1 = id;
@@ -1286,7 +1693,9 @@ impl Backend for WldBackend {
                     let p = prefix_id(s()?).ok_or("unknown prefix")?;
                     chests.get_or_insert_with(|| self.chests.to_vec())[*c].slots[*k].2 = p;
                 }
-                Field::Sign(i) => signs.get_or_insert_with(|| self.signs.to_vec())[*i].text = s()?.to_string(),
+                Field::Sign(i) => {
+                    signs.get_or_insert_with(|| self.signs.to_vec())[*i].text = s()?.to_string()
+                }
                 Field::Edits => ops = Some(parse_ops(s()?)?),
             }
         }
@@ -1325,25 +1734,53 @@ impl Backend for WldBackend {
         match &self.fields[leaf] {
             Field::Name => match s()?.chars().count() {
                 0 => Err("the name can't be empty".into()),
-                n if n > MAX_NAME => Err(format!("world names can be at most {MAX_NAME} characters")),
+                n if n > MAX_NAME => {
+                    Err(format!("world names can be at most {MAX_NAME} characters"))
+                }
                 _ => Ok(()),
             },
-            Field::Int { min, max, .. } => int_in(v, *min as i128, *max as i128, "This value").map(|_| ()),
+            Field::Int { min, max, .. } => {
+                int_in(v, *min as i128, *max as i128, "This value").map(|_| ())
+            }
             Field::Ticks { .. } => int_in(v, 0, 54_000, "Time").map(|_| ()),
-            Field::Bool { .. } => v.as_bool().map(|_| ()).ok_or_else(|| "expected on/off".into()),
-            Field::Mode { .. } => MODES.contains(&s()?).then_some(()).ok_or_else(|| "unknown difficulty".into()),
-            Field::Evil { .. } => EVIL.contains(&s()?).then_some(()).ok_or_else(|| "expected Corruption or Crimson".into()),
-            Field::ChestName(_) => (s()?.chars().count() <= 20).then_some(()).ok_or_else(|| "chest names can be at most 20 characters".into()),
-            Field::Item(..) => item_id(s()?).map(|_| ()).ok_or_else(|| format!("there's no item called \u{201C}{}\u{201D}", s().unwrap_or_default())),
+            Field::Bool { .. } => v
+                .as_bool()
+                .map(|_| ())
+                .ok_or_else(|| "expected on/off".into()),
+            Field::Mode { .. } => MODES
+                .contains(&s()?)
+                .then_some(())
+                .ok_or_else(|| "unknown difficulty".into()),
+            Field::Evil { .. } => EVIL
+                .contains(&s()?)
+                .then_some(())
+                .ok_or_else(|| "expected Corruption or Crimson".into()),
+            Field::ChestName(_) => (s()?.chars().count() <= 20)
+                .then_some(())
+                .ok_or_else(|| "chest names can be at most 20 characters".into()),
+            Field::Item(..) => item_id(s()?).map(|_| ()).ok_or_else(|| {
+                format!(
+                    "there's no item called \u{201C}{}\u{201D}",
+                    s().unwrap_or_default()
+                )
+            }),
             Field::Stack(..) => int_in(v, 0, 9999, "Stack").map(|_| ()),
-            Field::Prefix(..) => prefix_id(s()?).map(|_| ()).ok_or_else(|| "unknown prefix".into()),
+            Field::Prefix(..) => prefix_id(s()?)
+                .map(|_| ())
+                .ok_or_else(|| "unknown prefix".into()),
             Field::Sign(_) => s().map(|_| ()),
-            Field::Edits => parse_ops(s()?)?.iter().try_for_each(|op| op_ok(op, &self.map)),
+            Field::Edits => parse_ops(s()?)?
+                .iter()
+                .try_for_each(|op| op_ok(op, &self.map)),
         }
     }
 
     fn derived(&self, leaf: usize, view: &Value) -> Vec<(String, Value)> {
-        let (Field::Item(..), Some((stack, prefix))) = (&self.fields[leaf], self.slot_ptrs.get(&leaf)) else { return vec![] };
+        let (Field::Item(..), Some((stack, prefix))) =
+            (&self.fields[leaf], self.slot_ptrs.get(&leaf))
+        else {
+            return vec![];
+        };
         let item_ptr = format!("{}/Item", stack.rsplit_once('/').map_or("", |p| p.0));
         let empty = view.pointer(&item_ptr).and_then(Value::as_str) == Some(EMPTY);
         let n = view.pointer(stack).and_then(Value::as_i64).unwrap_or(0);
@@ -1407,7 +1844,10 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
     let nt = r.i16()?.max(0) as usize;
     let at = r.take(nt.div_ceil(8))?;
     let important: Vec<bool> = (0..nt).map(|i| d[at + i / 8] >> (i % 8) & 1 != 0).collect();
-    if sections[0] != r.pos || sections.windows(2).any(|w| w[0] >= w[1]) || *sections.last().unwrap() >= d.len() {
+    if sections[0] != r.pos
+        || sections.windows(2).any(|w| w[0] >= w[1])
+        || *sections.last().unwrap() >= d.len()
+    {
         return Err("unexpected world layout".into());
     }
 
@@ -1425,7 +1865,10 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
         }
     };
     let name_span = {
-        let mut r = Reader { d, pos: sections[0] };
+        let mut r = Reader {
+            d,
+            pos: sections[0],
+        };
         let (s, e, _) = r.string()?;
         (s, e)
     };
@@ -1437,14 +1880,18 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
             (c, p, v < 300)
         }
     };
-    let chest_at: std::collections::HashSet<(i32, i32)> = chests.iter().map(|c| (c.x, c.y)).collect();
+    let chest_at: std::collections::HashSet<(i32, i32)> =
+        chests.iter().map(|c| (c.x, c.y)).collect();
     let mut chest_tiles: Vec<ChestTile> = Vec::new();
 
     // Tiles, column by column.
     let mut cells = vec![0u32; w * h];
     let mut columns = Vec::with_capacity(w + 1);
     let mut swords = Vec::new();
-    let mut r = Reader { d: &d[..sections[2]], pos: sections[1] };
+    let mut r = Reader {
+        d: &d[..sections[2]],
+        pos: sections[1],
+    };
     for x in 0..w {
         columns.push(r.pos);
         let mut y = 0;
@@ -1474,7 +1921,9 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
     }
 
     let signs = read_signs(d, sections[3], sections[4])?;
-    let npcs = read_npcs(d, sections[4], sections[5], v, v >= 300).or_else(|_| read_npcs(d, sections[4], sections[5], v, v < 300)).unwrap_or_default();
+    let npcs = read_npcs(d, sections[4], sections[5], v, v >= 300)
+        .or_else(|_| read_npcs(d, sections[4], sections[5], v, v < 300))
+        .unwrap_or_default();
 
     let mut root = Map::new();
     for (k, m) in header.root {
@@ -1486,7 +1935,13 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
         let key = format!("Chest {}", i + 1);
         let base = format!("/Chests/{}", esc(&key));
         let mut m = Map::new();
-        b.add(&mut m, &base, "Name", Value::from(c.name.clone()), Field::ChestName(i));
+        b.add(
+            &mut m,
+            &base,
+            "Name",
+            Value::from(c.name.clone()),
+            Field::ChestName(i),
+        );
         m.insert("Position".into(), Value::from(format!("{}, {}", c.x, c.y)));
         for (k, &(st, id, pre)) in c.slots.iter().enumerate() {
             let sk = format!("Slot {}", k + 1);
@@ -1494,9 +1949,35 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
             let mut s = Map::new();
             let empty = st <= 0 || id == 0;
             let item_leaf = b.fields.len();
-            b.add(&mut s, &sp, "Item", Value::from(if empty { EMPTY.to_string() } else { item_name(id) }), Field::Item(i, k));
-            b.add(&mut s, &sp, "Stack", Value::from(if empty { 0 } else { st as i64 }), Field::Stack(i, k));
-            b.add(&mut s, &sp, "Prefix", Value::from(if empty { NO_PREFIX.to_string() } else { prefix_name(pre) }), Field::Prefix(i, k));
+            b.add(
+                &mut s,
+                &sp,
+                "Item",
+                Value::from(if empty {
+                    EMPTY.to_string()
+                } else {
+                    item_name(id)
+                }),
+                Field::Item(i, k),
+            );
+            b.add(
+                &mut s,
+                &sp,
+                "Stack",
+                Value::from(if empty { 0 } else { st as i64 }),
+                Field::Stack(i, k),
+            );
+            b.add(
+                &mut s,
+                &sp,
+                "Prefix",
+                Value::from(if empty {
+                    NO_PREFIX.to_string()
+                } else {
+                    prefix_name(pre)
+                }),
+                Field::Prefix(i, k),
+            );
             slot_ptrs.insert(item_leaf, (format!("{sp}/Stack"), format!("{sp}/Prefix")));
             m.insert(sk, Value::Object(s));
         }
@@ -1508,7 +1989,13 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
         let key = format!("Sign {}", i + 1);
         let base = format!("/Signs/{}", esc(&key));
         let mut m = Map::new();
-        b.add(&mut m, &base, "Text", Value::from(s.text.clone()), Field::Sign(i));
+        b.add(
+            &mut m,
+            &base,
+            "Text",
+            Value::from(s.text.clone()),
+            Field::Sign(i),
+        );
         m.insert("Position".into(), Value::from(format!("{}, {}", s.x, s.y)));
         sm.insert(key, Value::Object(m));
     }
@@ -1520,7 +2007,14 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
         let mut m = Map::new();
         m.insert("Role".into(), Value::from(role.clone()));
         m.insert("Name".into(), Value::from(name.clone()));
-        m.insert("Home".into(), Value::from(if *homeless { "Homeless".to_string() } else { format!("{hx}, {hy}") }));
+        m.insert(
+            "Home".into(),
+            Value::from(if *homeless {
+                "Homeless".to_string()
+            } else {
+                format!("{hx}, {hy}")
+            }),
+        );
         nm.insert(format!("NPC {}", i + 1), Value::Object(m));
         npc_list.push((role, name.clone(), *hx, *hy, *homeless));
     }
@@ -1556,7 +2050,13 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
         slot_ptrs,
     };
     let _ = header.spawn;
-    let doc = TreeDoc::new(Value::Object(root), b.editable, "Terraria world", Box::new(backend)).with_advanced(vec!["Map edits".into()]);
+    let doc = TreeDoc::new(
+        Value::Object(root),
+        b.editable,
+        "Terraria world",
+        Box::new(backend),
+    )
+    .with_advanced(vec!["Map edits".into()]);
     Ok(doc.with_note("Close the world in Terraria (go back to the title screen) before saving, or the game will overwrite your edit. Keep a copy of the .wld until you've loaded it in the game."))
 }
 
@@ -1567,7 +2067,18 @@ mod tests {
     #[test]
     fn cells_round_trip() {
         let imp = vec![false, true, false];
-        let mut c = Cell { tile: Some(1), frame: (18, 36), tcolor: 3, wall: 300, wcolor: 2, liquid: 2, amount: 128, h2: 0x26, h3: 0x86, h4: 0x14 };
+        let mut c = Cell {
+            tile: Some(1),
+            frame: (18, 36),
+            tcolor: 3,
+            wall: 300,
+            wcolor: 2,
+            liquid: 2,
+            amount: 128,
+            h2: 0x26,
+            h3: 0x86,
+            h4: 0x14,
+        };
         let mut out = vec![];
         write_cell(&c, 300, &imp, &mut out);
         let mut r = Reader { d: &out, pos: 0 };
@@ -1581,8 +2092,16 @@ mod tests {
 
     #[test]
     fn ops_text() {
-        let op = Op { mode: PAINT_WALL, value: 4, size: 3, points: vec![(10, 20), (11, 20)] };
-        assert_eq!(parse_ops(&format!("{};{}", op.to_text(), op.to_text())).unwrap(), vec![op.clone(), op.clone()]);
+        let op = Op {
+            mode: PAINT_WALL,
+            value: 4,
+            size: 3,
+            points: vec![(10, 20), (11, 20)],
+        };
+        assert_eq!(
+            parse_ops(&format!("{};{}", op.to_text(), op.to_text())).unwrap(),
+            vec![op.clone(), op.clone()]
+        );
         assert_eq!(op.stamp((0, 0), 100, 100).count(), 4);
         assert!(parse_ops("1 2").is_err());
     }
@@ -1601,33 +2120,72 @@ mod tests {
             let raw = std::fs::read(e.path()).unwrap();
             let t = std::time::Instant::now();
             let mut doc = parse(&raw).unwrap();
-            println!("{}: {:?}, {} chests, {:?}", e.path().display(), doc.view["World"]["Size"], doc.view["Chests"].as_object().unwrap().len(), t.elapsed());
-            println!("  {}", serde_json::to_string(&doc.view["Bosses defeated"]).unwrap());
+            println!(
+                "{}: {:?}, {} chests, {:?}",
+                e.path().display(),
+                doc.view["World"]["Size"],
+                doc.view["Chests"].as_object().unwrap().len(),
+                t.elapsed()
+            );
+            println!(
+                "  {}",
+                serde_json::to_string(&doc.view["Bosses defeated"]).unwrap()
+            );
             {
                 let m = doc.attachment().unwrap().downcast::<WorldMap>().unwrap();
                 let mut n = vec![0; POI_KINDS.len()];
                 for p in &m.pois {
                     n[p.kind] += 1;
                 }
-                println!("  points of interest: {:?}", POI_KINDS.iter().zip(n).filter(|(_, c)| *c > 0).map(|(k, c)| format!("{} {c}", k.name)).collect::<Vec<_>>());
+                println!(
+                    "  points of interest: {:?}",
+                    POI_KINDS
+                        .iter()
+                        .zip(n)
+                        .filter(|(_, c)| *c > 0)
+                        .map(|(k, c)| format!("{} {c}", k.name))
+                        .collect::<Vec<_>>()
+                );
             }
             assert_eq!(doc.to_bytes().unwrap(), raw);
-            doc.set("/World/Name", Value::from("Edited World Name")).unwrap();
+            doc.set("/World/Name", Value::from("Edited World Name"))
+                .unwrap();
             if doc.view.pointer("/World/Hardmode").is_some() {
                 doc.set("/World/Hardmode", Value::Bool(true)).unwrap();
-                doc.set("/Bosses defeated/Moon Lord", Value::Bool(true)).unwrap();
+                doc.set("/Bosses defeated/Moon Lord", Value::Bool(true))
+                    .unwrap();
             }
-            doc.set("/Chests/Chest 1/Slot 1/Item", Value::from("Zenith")).unwrap();
-            doc.set("/Chests/Chest 1/Name", Value::from("Loot")).unwrap();
+            doc.set("/Chests/Chest 1/Slot 1/Item", Value::from("Zenith"))
+                .unwrap();
+            doc.set("/Chests/Chest 1/Name", Value::from("Loot"))
+                .unwrap();
             if doc.view.pointer("/Signs/Sign 1").is_some() {
                 doc.set("/Signs/Sign 1/Text", Value::from("Hello")).unwrap();
             }
             let map = doc.attachment().unwrap().downcast::<WorldMap>().unwrap();
-            let (cx, cy) = (map.width as u32 / 2, (map.surface as u32).saturating_sub(40));
+            let (cx, cy) = (
+                map.width as u32 / 2,
+                (map.surface as u32).saturating_sub(40),
+            );
             let ops = [
-                Op { mode: PAINT_BLOCK, value: 1, size: 5, points: vec![(cx, cy), (cx + 3, cy)] },
-                Op { mode: PAINT_WALL, value: 4, size: 3, points: vec![(cx, cy + 10)] },
-                Op { mode: PAINT_LIQUID, value: 1, size: 2, points: vec![(cx + 20, cy)] },
+                Op {
+                    mode: PAINT_BLOCK,
+                    value: 1,
+                    size: 5,
+                    points: vec![(cx, cy), (cx + 3, cy)],
+                },
+                Op {
+                    mode: PAINT_WALL,
+                    value: 4,
+                    size: 3,
+                    points: vec![(cx, cy + 10)],
+                },
+                Op {
+                    mode: PAINT_LIQUID,
+                    value: 1,
+                    size: 2,
+                    points: vec![(cx + 20, cy)],
+                },
             ];
             let text = ops.iter().map(Op::to_text).collect::<Vec<_>>().join(";");
             doc.set(EDITS, Value::from(text)).unwrap();
@@ -1636,13 +2194,23 @@ mod tests {
             assert!(doc.agrees_with(&again));
             assert_eq!(again.view["World"]["Name"], "Edited World Name");
             assert_eq!(again.view["Chests"]["Chest 1"]["Slot 1"]["Item"], "Zenith");
-            assert!(again.view["Chests"]["Chest 1"]["Slot 1"]["Stack"].as_i64().unwrap() >= 1);
+            assert!(
+                again.view["Chests"]["Chest 1"]["Slot 1"]["Stack"]
+                    .as_i64()
+                    .unwrap()
+                    >= 1
+            );
             let m2 = again.attachment().unwrap().downcast::<WorldMap>().unwrap();
             let mut expect = map.cells.clone();
             for op in &ops {
                 for &pt in &op.points {
                     for (x, y) in op.stamp(pt, map.width, map.height) {
-                        expect[y * map.width + x] = apply_packed(op.mode, op.value, expect[y * map.width + x], &map.important);
+                        expect[y * map.width + x] = apply_packed(
+                            op.mode,
+                            op.value,
+                            expect[y * map.width + x],
+                            &map.important,
+                        );
                     }
                 }
             }

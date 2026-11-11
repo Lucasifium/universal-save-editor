@@ -36,7 +36,19 @@ enum V {
 }
 
 /// (type id, number of float components) for float-based math types.
-const FLOAT_TYPES: &[(u32, usize)] = &[(5, 2), (7, 4), (9, 3), (11, 6), (12, 4), (14, 4), (15, 4), (16, 6), (17, 9), (18, 12), (19, 16)];
+const FLOAT_TYPES: &[(u32, usize)] = &[
+    (5, 2),
+    (7, 4),
+    (9, 3),
+    (11, 6),
+    (12, 4),
+    (14, 4),
+    (15, 4),
+    (16, 6),
+    (17, 9),
+    (18, 12),
+    (19, 16),
+];
 const INT_TYPES: &[(u32, usize)] = &[(6, 2), (8, 4), (10, 3), (13, 4)];
 const COLOR: u32 = 20;
 
@@ -47,7 +59,11 @@ struct R<'a> {
 
 impl R<'_> {
     fn take(&mut self, n: usize) -> Result<&[u8], String> {
-        let end = self.pos.checked_add(n).filter(|&e| e <= self.d.len()).ok_or("unexpected end of data")?;
+        let end = self
+            .pos
+            .checked_add(n)
+            .filter(|&e| e <= self.d.len())
+            .ok_or("unexpected end of data")?;
         let s = &self.d[self.pos..end];
         self.pos = end;
         Ok(s)
@@ -85,11 +101,25 @@ impl R<'_> {
         Ok(match ty {
             0 => V::Nil,
             1 => V::Bool(self.u32()? != 0),
-            2 => V::Int(if wide { i64::from_le_bytes(self.take(8)?.try_into().unwrap()) } else { self.u32()? as i32 as i64 }),
-            3 => V::Float(if wide { f64::from_le_bytes(self.take(8)?.try_into().unwrap()) } else { self.f32()? as f64 }),
+            2 => V::Int(if wide {
+                i64::from_le_bytes(self.take(8)?.try_into().unwrap())
+            } else {
+                self.u32()? as i32 as i64
+            }),
+            3 => V::Float(if wide {
+                f64::from_le_bytes(self.take(8)?.try_into().unwrap())
+            } else {
+                self.f32()? as f64
+            }),
             4 => V::Str(self.string()?),
             21 => V::StringName(self.string()?),
-            COLOR => V::Floats(COLOR, false, (0..4).map(|_| self.f32().map(f64::from)).collect::<Result<_, _>>()?),
+            COLOR => V::Floats(
+                COLOR,
+                false,
+                (0..4)
+                    .map(|_| self.f32().map(f64::from))
+                    .collect::<Result<_, _>>()?,
+            ),
             27 => {
                 let n = self.count()?;
                 let mut out = Vec::with_capacity(n.min(4096));
@@ -102,7 +132,11 @@ impl R<'_> {
             }
             28 => {
                 let n = self.count()?;
-                V::Array((0..n).map(|_| self.value(depth + 1)).collect::<Result<_, _>>()?)
+                V::Array(
+                    (0..n)
+                        .map(|_| self.value(depth + 1))
+                        .collect::<Result<_, _>>()?,
+                )
             }
             29 => {
                 let n = self.count()?;
@@ -112,11 +146,19 @@ impl R<'_> {
             }
             30 => {
                 let n = self.count()?;
-                V::PackedI32((0..n).map(|_| self.u32().map(|x| x as i32)).collect::<Result<_, _>>()?)
+                V::PackedI32(
+                    (0..n)
+                        .map(|_| self.u32().map(|x| x as i32))
+                        .collect::<Result<_, _>>()?,
+                )
             }
             31 => {
                 let n = self.count()?;
-                V::PackedI64((0..n).map(|_| Ok(i64::from_le_bytes(self.take(8)?.try_into().unwrap()))).collect::<Result<_, String>>()?)
+                V::PackedI64(
+                    (0..n)
+                        .map(|_| Ok(i64::from_le_bytes(self.take(8)?.try_into().unwrap())))
+                        .collect::<Result<_, String>>()?,
+                )
             }
             32 => {
                 let n = self.count()?;
@@ -124,7 +166,11 @@ impl R<'_> {
             }
             33 => {
                 let n = self.count()?;
-                V::PackedF64((0..n).map(|_| Ok(f64::from_le_bytes(self.take(8)?.try_into().unwrap()))).collect::<Result<_, String>>()?)
+                V::PackedF64(
+                    (0..n)
+                        .map(|_| Ok(f64::from_le_bytes(self.take(8)?.try_into().unwrap())))
+                        .collect::<Result<_, String>>()?,
+                )
             }
             34 => {
                 let n = self.count()?;
@@ -137,16 +183,31 @@ impl R<'_> {
                     _ => 4,
                 };
                 let n = self.count()?;
-                V::PackedVec(ty, per, (0..n * per).map(|_| self.f32()).collect::<Result<_, _>>()?)
+                V::PackedVec(
+                    ty,
+                    per,
+                    (0..n * per).map(|_| self.f32()).collect::<Result<_, _>>()?,
+                )
             }
             t => {
                 if let Some(&(_, n)) = FLOAT_TYPES.iter().find(|(id, _)| *id == t) {
                     let comps = (0..n)
-                        .map(|_| if wide { Ok(f64::from_le_bytes(self.take(8)?.try_into().unwrap())) } else { self.f32().map(f64::from) })
+                        .map(|_| {
+                            if wide {
+                                Ok(f64::from_le_bytes(self.take(8)?.try_into().unwrap()))
+                            } else {
+                                self.f32().map(f64::from)
+                            }
+                        })
                         .collect::<Result<_, String>>()?;
                     V::Floats(t, wide, comps)
                 } else if let Some(&(_, n)) = INT_TYPES.iter().find(|(id, _)| *id == t) {
-                    V::Ints(t, (0..n).map(|_| self.u32().map(|x| x as i32)).collect::<Result<_, _>>()?)
+                    V::Ints(
+                        t,
+                        (0..n)
+                            .map(|_| self.u32().map(|x| x as i32))
+                            .collect::<Result<_, _>>()?,
+                    )
                 } else {
                     return Err(format!("unsupported Variant type {t}"));
                 }
@@ -291,20 +352,47 @@ struct GodotBackend {
 fn apply(v: &mut V, path: &[usize], new: &Value) -> Result<(), String> {
     match (v, path) {
         (V::Bool(b), []) => *b = new.as_bool().ok_or("must be on/off")?,
-        (V::Int(i), []) => *i = int_in(new, i64::MIN as i128, i64::MAX as i128, "This number")? as i64,
+        (V::Int(i), []) => {
+            *i = int_in(new, i64::MIN as i128, i64::MAX as i128, "This number")? as i64
+        }
         (V::Float(f), []) => *f = new.as_f64().ok_or("must be a number")?,
         (V::Str(s), []) => *s = new.as_str().ok_or("must be text")?.to_string(),
-        (V::Floats(_, _, c), [i]) => *c.get_mut(*i).ok_or("bad index")? = new.as_f64().ok_or("must be a number")?,
-        (V::Ints(_, c), [i]) => *c.get_mut(*i).ok_or("bad index")? = int_in(new, i32::MIN as i128, i32::MAX as i128, "This number")? as i32,
-        (V::PackedBytes(a), [i]) => *a.get_mut(*i).ok_or("bad index")? = int_in(new, 0, 255, "A byte")? as u8,
-        (V::PackedI32(a), [i]) => *a.get_mut(*i).ok_or("bad index")? = int_in(new, i32::MIN as i128, i32::MAX as i128, "This number")? as i32,
-        (V::PackedI64(a), [i]) => *a.get_mut(*i).ok_or("bad index")? = int_in(new, i64::MIN as i128, i64::MAX as i128, "This number")? as i64,
-        (V::PackedF32(a), [i]) => *a.get_mut(*i).ok_or("bad index")? = new.as_f64().ok_or("must be a number")? as f32,
-        (V::PackedF64(a), [i]) => *a.get_mut(*i).ok_or("bad index")? = new.as_f64().ok_or("must be a number")?,
-        (V::PackedStr(a), [i]) => *a.get_mut(*i).ok_or("bad index")? = new.as_str().ok_or("must be text")?.to_string(),
-        (V::PackedVec(_, _, a), [i]) => *a.get_mut(*i).ok_or("bad index")? = new.as_f64().ok_or("must be a number")? as f32,
-        (V::Dict(pairs), [i, rest @ ..]) => apply(&mut pairs.get_mut(*i).ok_or("bad index")?.1, rest, new)?,
-        (V::Array(items), [i, rest @ ..]) => apply(items.get_mut(*i).ok_or("bad index")?, rest, new)?,
+        (V::Floats(_, _, c), [i]) => {
+            *c.get_mut(*i).ok_or("bad index")? = new.as_f64().ok_or("must be a number")?
+        }
+        (V::Ints(_, c), [i]) => {
+            *c.get_mut(*i).ok_or("bad index")? =
+                int_in(new, i32::MIN as i128, i32::MAX as i128, "This number")? as i32
+        }
+        (V::PackedBytes(a), [i]) => {
+            *a.get_mut(*i).ok_or("bad index")? = int_in(new, 0, 255, "A byte")? as u8
+        }
+        (V::PackedI32(a), [i]) => {
+            *a.get_mut(*i).ok_or("bad index")? =
+                int_in(new, i32::MIN as i128, i32::MAX as i128, "This number")? as i32
+        }
+        (V::PackedI64(a), [i]) => {
+            *a.get_mut(*i).ok_or("bad index")? =
+                int_in(new, i64::MIN as i128, i64::MAX as i128, "This number")? as i64
+        }
+        (V::PackedF32(a), [i]) => {
+            *a.get_mut(*i).ok_or("bad index")? = new.as_f64().ok_or("must be a number")? as f32
+        }
+        (V::PackedF64(a), [i]) => {
+            *a.get_mut(*i).ok_or("bad index")? = new.as_f64().ok_or("must be a number")?
+        }
+        (V::PackedStr(a), [i]) => {
+            *a.get_mut(*i).ok_or("bad index")? = new.as_str().ok_or("must be text")?.to_string()
+        }
+        (V::PackedVec(_, _, a), [i]) => {
+            *a.get_mut(*i).ok_or("bad index")? = new.as_f64().ok_or("must be a number")? as f32
+        }
+        (V::Dict(pairs), [i, rest @ ..]) => {
+            apply(&mut pairs.get_mut(*i).ok_or("bad index")?.1, rest, new)?
+        }
+        (V::Array(items), [i, rest @ ..]) => {
+            apply(items.get_mut(*i).ok_or("bad index")?, rest, new)?
+        }
         _ => return Err("this value can't be edited".into()),
     }
     Ok(())
@@ -383,8 +471,14 @@ impl B {
             V::PackedI64(a) => self.list(ptr, path, a.iter().map(|&x| Value::from(x)).collect()),
             V::PackedF32(a) => self.list(ptr, path, a.iter().map(|&x| num(x as f64)).collect()),
             V::PackedF64(a) => self.list(ptr, path, a.iter().map(|&x| num(x)).collect()),
-            V::PackedStr(a) => self.list(ptr, path, a.iter().map(|x| Value::String(x.clone())).collect()),
-            V::PackedVec(_, _, a) => self.list(ptr, path, a.iter().map(|&x| num(x as f64)).collect()),
+            V::PackedStr(a) => self.list(
+                ptr,
+                path,
+                a.iter().map(|x| Value::String(x.clone())).collect(),
+            ),
+            V::PackedVec(_, _, a) => {
+                self.list(ptr, path, a.iter().map(|&x| num(x as f64)).collect())
+            }
             V::Array(items) => Value::Array(
                 items
                     .iter()
@@ -430,7 +524,10 @@ fn read_doc(d: &[u8]) -> Result<GodotDoc, String> {
     })();
     if let Ok(vals) = as_records {
         if !vals.is_empty() {
-            return Ok(GodotDoc { records: true, values: vals });
+            return Ok(GodotDoc {
+                records: true,
+                values: vals,
+            });
         }
     }
     // …or one bare Variant.
@@ -439,7 +536,10 @@ fn read_doc(d: &[u8]) -> Result<GodotDoc, String> {
     if r.pos != d.len() {
         return Err("extra data".into());
     }
-    Ok(GodotDoc { records: false, values: vec![v] })
+    Ok(GodotDoc {
+        records: false,
+        values: vec![v],
+    })
 }
 
 pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
@@ -447,11 +547,17 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
         return Err("too short".into());
     }
     let doc = read_doc(d)?;
-    let structured = doc.values.iter().any(|v| matches!(v, V::Dict(_) | V::Array(_)));
+    let structured = doc
+        .values
+        .iter()
+        .any(|v| matches!(v, V::Dict(_) | V::Array(_)));
     if !structured || serialize(&doc) != d {
         return Err("not a Godot Variant file".into());
     }
-    let mut b = B { paths: vec![], editable: HashMap::new() };
+    let mut b = B {
+        paths: vec![],
+        editable: HashMap::new(),
+    };
     let view = if doc.values.len() == 1 {
         b.view(&doc.values[0], "", &mut vec![0])
     } else {
@@ -463,7 +569,15 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
         }
         Value::Object(m)
     };
-    Ok(TreeDoc::new(view, b.editable, "Godot binary save (store_var)", Box::new(GodotBackend { doc, paths: b.paths })))
+    Ok(TreeDoc::new(
+        view,
+        b.editable,
+        "Godot binary save (store_var)",
+        Box::new(GodotBackend {
+            doc,
+            paths: b.paths,
+        }),
+    ))
 }
 
 #[cfg(test)]
@@ -489,15 +603,26 @@ mod tests {
         let raw = serialize(&doc);
         let mut t = parse(&raw).unwrap();
         assert_eq!(t.to_bytes().unwrap(), raw);
-        assert_eq!(t.view.pointer("/Value 1/ratio").unwrap().as_f64(), Some(0.1), "doubles kept exactly");
-        t.set("/Value 1/gold", Value::from(3_000_000_000_i64)).unwrap();
+        assert_eq!(
+            t.view.pointer("/Value 1/ratio").unwrap().as_f64(),
+            Some(0.1),
+            "doubles kept exactly"
+        );
+        t.set("/Value 1/gold", Value::from(3_000_000_000_i64))
+            .unwrap();
         t.set("/Value 1/name", Value::from("Misty")).unwrap();
         t.set("/Value 1/pos/1", Value::from(8.25)).unwrap();
         t.set("/Value 1/inv/0", Value::from(9)).unwrap();
         let again = parse(&t.to_bytes().unwrap()).unwrap();
-        assert_eq!(again.view.pointer("/Value 1/gold").unwrap(), 3_000_000_000_i64);
+        assert_eq!(
+            again.view.pointer("/Value 1/gold").unwrap(),
+            3_000_000_000_i64
+        );
         assert_eq!(again.view.pointer("/Value 1/name").unwrap(), "Misty");
-        assert_eq!(again.view.pointer("/Value 1/pos/1").unwrap().as_f64(), Some(8.25));
+        assert_eq!(
+            again.view.pointer("/Value 1/pos/1").unwrap().as_f64(),
+            Some(8.25)
+        );
         assert_eq!(again.view.pointer("/Value 1/inv/0").unwrap(), 9);
     }
 }

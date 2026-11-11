@@ -20,7 +20,12 @@ fn sum(file: &[u8]) -> [u8; 20] {
 }
 
 pub fn looks(d: &[u8]) -> bool {
-    const MAGICS: [[u8; 4]; 4] = [[0xDE, 0xAD, 0xCE, 0x11], [0x11, 0xCE, 0xAD, 0xDE], [0x20, 0xDE, 0xAD, 0x19], [0x19, 0xAD, 0xDE, 0x20]];
+    const MAGICS: [[u8; 4]; 4] = [
+        [0xDE, 0xAD, 0xCE, 0x11],
+        [0x11, 0xCE, 0xAD, 0xDE],
+        [0x20, 0xDE, 0xAD, 0x19],
+        [0x19, 0xAD, 0xDE, 0x20],
+    ];
     d.len() > HEADER + 2 && MAGICS.iter().any(|m| d.starts_with(m))
 }
 
@@ -30,7 +35,9 @@ pub fn open(d: &[u8]) -> Option<(Vec<u8>, Vec<u8>)> {
         return None;
     }
     let mut out = vec![];
-    flate2::read::ZlibDecoder::new(&d[HEADER..]).read_to_end(&mut out).ok()?;
+    flate2::read::ZlibDecoder::new(&d[HEADER..])
+        .read_to_end(&mut out)
+        .ok()?;
     Some((d[..HEADER].to_vec(), out))
 }
 

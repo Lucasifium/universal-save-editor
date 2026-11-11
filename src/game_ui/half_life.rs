@@ -46,11 +46,21 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
         sub.push(format!("holding the {w}"));
     }
     let missing: Vec<String> = match cx.get("/Not in this save") {
-        Some(Value::Array(a)) => a.iter().filter_map(|v| v.as_str().map(str::to_string)).collect(),
+        Some(Value::Array(a)) => a
+            .iter()
+            .filter_map(|v| v.as_str().map(str::to_string))
+            .collect(),
         _ => vec![],
     };
     hero(ui, accent, &game, &sub.join("  \u{00B7}  "), |ui| {
-        for label in ["Health", "Armor", "Suit power", "Flashlight", "Max health", "Resin"] {
+        for label in [
+            "Health",
+            "Armor",
+            "Suit power",
+            "Flashlight",
+            "Max health",
+            "Resin",
+        ] {
             let p = join("/Player", label);
             if cx.get(&p).is_some() {
                 cx.tile(ui, label, &p, accent);
@@ -100,45 +110,69 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
             return;
         }
         // Only Source weapons have a second magazine.
-        let second = weapons.iter().any(|w| cx.get(&join(&join("/Weapons", w), "Second magazine")).is_some());
-        let mags: &[&str] = if second { &["Magazine", "Second magazine"] } else { &["Magazine"] };
-        egui::ScrollArea::horizontal().id_salt("hl_weapons_s").show(ui, |ui| {
-            egui::Grid::new("hl_weapons").num_columns(mags.len() + 2).striped(true).spacing([14.0, 6.0]).show(ui, |ui| {
-                for h in std::iter::once("Weapon").chain(mags.iter().copied()).chain(["Ammo"]) {
-                    ui.strong(h);
-                }
-                ui.end_row();
-                for w in &weapons {
-                    let base = join("/Weapons", w);
-                    let held = cx.text(&join(&base, "In hand")).is_some();
-                    let title = RichText::new(w).strong();
-                    ui.horizontal(|ui| {
-                        ui.label(if held { title.color(crate::theme::fg(ui, accent)) } else { title });
-                        if held {
-                            ui.label(RichText::new("in hand").small().color(ui.visuals().weak_text_color()));
-                        }
-                    })
-                    .response
-                    .on_hover_text(cx.text(&join(&base, "Entity")).unwrap_or_default());
-                    for k in mags {
-                        let p = join(&base, k);
-                        match cx.get(&p) {
-                            Some(Value::String(s)) => {
-                                ui.weak(s.clone());
-                            }
-                            Some(_) => {
-                                ui.horizontal(|ui| cx.cell(ui, &p, 64.0));
-                            }
-                            None => {
-                                ui.label("");
-                            }
-                        }
-                    }
-                    ui.label(cx.text(&join(&base, "Uses")).unwrap_or_default());
-                    ui.end_row();
-                }
-            });
+        let second = weapons.iter().any(|w| {
+            cx.get(&join(&join("/Weapons", w), "Second magazine"))
+                .is_some()
         });
+        let mags: &[&str] = if second {
+            &["Magazine", "Second magazine"]
+        } else {
+            &["Magazine"]
+        };
+        egui::ScrollArea::horizontal()
+            .id_salt("hl_weapons_s")
+            .show(ui, |ui| {
+                egui::Grid::new("hl_weapons")
+                    .num_columns(mags.len() + 2)
+                    .striped(true)
+                    .spacing([14.0, 6.0])
+                    .show(ui, |ui| {
+                        for h in std::iter::once("Weapon")
+                            .chain(mags.iter().copied())
+                            .chain(["Ammo"])
+                        {
+                            ui.strong(h);
+                        }
+                        ui.end_row();
+                        for w in &weapons {
+                            let base = join("/Weapons", w);
+                            let held = cx.text(&join(&base, "In hand")).is_some();
+                            let title = RichText::new(w).strong();
+                            ui.horizontal(|ui| {
+                                ui.label(if held {
+                                    title.color(crate::theme::fg(ui, accent))
+                                } else {
+                                    title
+                                });
+                                if held {
+                                    ui.label(
+                                        RichText::new("in hand")
+                                            .small()
+                                            .color(ui.visuals().weak_text_color()),
+                                    );
+                                }
+                            })
+                            .response
+                            .on_hover_text(cx.text(&join(&base, "Entity")).unwrap_or_default());
+                            for k in mags {
+                                let p = join(&base, k);
+                                match cx.get(&p) {
+                                    Some(Value::String(s)) => {
+                                        ui.weak(s.clone());
+                                    }
+                                    Some(_) => {
+                                        ui.horizontal(|ui| cx.cell(ui, &p, 64.0));
+                                    }
+                                    None => {
+                                        ui.label("");
+                                    }
+                                }
+                            }
+                            ui.label(cx.text(&join(&base, "Uses")).unwrap_or_default());
+                            ui.end_row();
+                        }
+                    });
+            });
         ui.weak("Rounds loaded in each weapon. An empty magazine isn't stored by the game, so it can't be filled here: fire it empty and reload, or give spare ammo above.");
     });
 

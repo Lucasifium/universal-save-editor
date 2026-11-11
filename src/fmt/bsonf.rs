@@ -19,7 +19,9 @@ struct BsonBackend {
 }
 
 fn get_mut<'a>(doc: &'a mut Document, path: &[Seg]) -> Option<&'a mut Bson> {
-    let (Seg::Key(first), rest) = path.split_first()? else { return None };
+    let (Seg::Key(first), rest) = path.split_first()? else {
+        return None;
+    };
     let mut cur = doc.get_mut(first)?;
     for s in rest {
         cur = match (cur, s) {
@@ -36,8 +38,12 @@ fn convert(orig: &Bson, v: &Value) -> Result<Bson, String> {
         Bson::Boolean(_) => Bson::Boolean(v.as_bool().ok_or("must be on/off")?),
         Bson::String(_) => Bson::String(v.as_str().ok_or("must be text")?.to_string()),
         Bson::Double(_) => Bson::Double(v.as_f64().ok_or("must be a number")?),
-        Bson::Int32(_) => Bson::Int32(int_in(v, i32::MIN as i128, i32::MAX as i128, "this number")? as i32),
-        Bson::Int64(_) => Bson::Int64(int_in(v, i64::MIN as i128, i64::MAX as i128, "this number")? as i64),
+        Bson::Int32(_) => {
+            Bson::Int32(int_in(v, i32::MIN as i128, i32::MAX as i128, "this number")? as i32)
+        }
+        Bson::Int64(_) => {
+            Bson::Int64(int_in(v, i64::MIN as i128, i64::MAX as i128, "this number")? as i64)
+        }
         _ => return Err("this value can't be edited".into()),
     })
 }
@@ -49,7 +55,8 @@ impl Backend for BsonBackend {
         }
         let mut doc = self.doc.clone();
         for (id, v) in changes {
-            let slot = get_mut(&mut doc, &self.paths[*id]).ok_or("couldn't locate an edited value")?;
+            let slot =
+                get_mut(&mut doc, &self.paths[*id]).ok_or("couldn't locate an edited value")?;
             *slot = convert(slot, v)?;
         }
         let mut out = Vec::new();
@@ -59,7 +66,11 @@ impl Backend for BsonBackend {
 
     fn check(&self, leaf: usize, v: &Value) -> Result<(), String> {
         let mut d = self.doc.clone();
-        convert(get_mut(&mut d, &self.paths[leaf]).ok_or("missing value")?, v).map(|_| ())
+        convert(
+            get_mut(&mut d, &self.paths[leaf]).ok_or("missing value")?,
+            v,
+        )
+        .map(|_| ())
     }
 
     fn clone_box(&self) -> Box<dyn Backend> {
@@ -114,7 +125,9 @@ impl B {
 }
 
 pub fn looks(d: &[u8]) -> bool {
-    d.len() >= 5 && i32::from_le_bytes([d[0], d[1], d[2], d[3]]) as usize == d.len() && d.last() == Some(&0)
+    d.len() >= 5
+        && i32::from_le_bytes([d[0], d[1], d[2], d[3]]) as usize == d.len()
+        && d.last() == Some(&0)
 }
 
 pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
@@ -122,9 +135,16 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
     if doc.is_empty() {
         return Err("empty BSON document".into());
     }
-    let mut b = B { paths: vec![], editable: HashMap::new() };
+    let mut b = B {
+        paths: vec![],
+        editable: HashMap::new(),
+    };
     let view = b.doc(&doc, "", &mut vec![]);
-    let backend = BsonBackend { raw: d.to_vec(), doc, paths: b.paths };
+    let backend = BsonBackend {
+        raw: d.to_vec(),
+        doc,
+        paths: b.paths,
+    };
     Ok(TreeDoc::new(view, b.editable, "BSON", Box::new(backend)))
 }
 
@@ -140,7 +160,10 @@ mod tests {
         assert!(looks(&raw));
         let mut t = parse(&raw).unwrap();
         assert_eq!(t.to_bytes().unwrap(), raw);
-        assert!(t.set("/gold", Value::from(5_000_000_000_i64)).is_err(), "Int32 is range-checked");
+        assert!(
+            t.set("/gold", Value::from(5_000_000_000_i64)).is_err(),
+            "Int32 is range-checked"
+        );
         t.set("/gold", Value::from(99)).unwrap();
         let out = Document::from_reader(&mut std::io::Cursor::new(t.to_bytes().unwrap())).unwrap();
         assert_eq!(out.get("gold"), Some(&Bson::Int32(99)));

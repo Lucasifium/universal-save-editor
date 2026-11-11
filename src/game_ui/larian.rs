@@ -15,7 +15,10 @@ fn keys(cx: &GameCtx, p: &str) -> Vec<String> {
 }
 
 fn gold_of(cx: &GameCtx, base: &str) -> i64 {
-    keys(cx, &format!("{base}/Gold")).iter().filter_map(|k| cx.int(&format!("{base}/Gold/{}", esc(k)))).sum()
+    keys(cx, &format!("{base}/Gold"))
+        .iter()
+        .filter_map(|k| cx.int(&format!("{base}/Gold/{}", esc(k))))
+        .sum()
 }
 
 pub fn dos2(ui: &mut Ui, cx: &mut GameCtx) {
@@ -29,11 +32,20 @@ pub fn dos2(ui: &mut Ui, cx: &mut GameCtx) {
             sub.push(s);
         }
     }
-    let total: i64 = members.iter().map(|m| gold_of(cx, &format!("/Party/{}", esc(m)))).sum();
-    hero(ui, teal, "Divinity: Original Sin 2", &sub.join("  \u{00B7}  "), |ui| {
-        fact(ui, "Party", &members.len().to_string(), teal);
-        fact(ui, "Gold carried", &fmt_num(total as f64), gold);
-    });
+    let total: i64 = members
+        .iter()
+        .map(|m| gold_of(cx, &format!("/Party/{}", esc(m))))
+        .sum();
+    hero(
+        ui,
+        teal,
+        "Divinity: Original Sin 2",
+        &sub.join("  \u{00B7}  "),
+        |ui| {
+            fact(ui, "Party", &members.len().to_string(), teal);
+            fact(ui, "Gold carried", &fmt_num(total as f64), gold);
+        },
+    );
     if members.is_empty() {
         ui.weak("No player characters found in this save.");
         return;
@@ -43,11 +55,18 @@ pub fn dos2(ui: &mut Ui, cx: &mut GameCtx) {
     let at = |k: &str| format!("{base}/{k}");
     let mut line = vec![];
     for k in ["Race", "Origin"] {
-        if let Some(s) = cx.text(&at(k)).filter(|s| !s.is_empty() && s != "Generic" && !s.starts_with("Generic")) {
+        if let Some(s) = cx
+            .text(&at(k))
+            .filter(|s| !s.is_empty() && s != "Generic" && !s.starts_with("Generic"))
+        {
             line.push(s);
         }
     }
-    line.push(if cx.flag(&at("In party")) { "In the party".into() } else { "Not in the party".into() });
+    line.push(if cx.flag(&at("In party")) {
+        "In the party".into()
+    } else {
+        "Not in the party".into()
+    });
     ui.label(RichText::new(line.join("  \u{00B7}  ")).color(theme_fg(ui, teal)));
     ui.add_space(6.0);
     columns(ui, 360.0, 2, |ui, col| {
@@ -60,13 +79,21 @@ pub fn dos2(ui: &mut Ui, cx: &mut GameCtx) {
             });
         } else {
             panel(ui, "Character", |ui| {
-                egui::Grid::new(("dos2_char", t)).num_columns(2).spacing([14.0, 6.0]).show(ui, |ui| {
-                    cx.grid_row(ui, "Experience", &at("Experience"), 120.0);
-                    cx.grid_row(ui, "Vitality", &at("Vitality"), 100.0);
-                    for k in ["Attribute points", "Combat ability points", "Civil ability points", "Talent points"] {
-                        cx.grid_row(ui, k, &format!("{base}/Points/{k}"), 80.0);
-                    }
-                });
+                egui::Grid::new(("dos2_char", t))
+                    .num_columns(2)
+                    .spacing([14.0, 6.0])
+                    .show(ui, |ui| {
+                        cx.grid_row(ui, "Experience", &at("Experience"), 120.0);
+                        cx.grid_row(ui, "Vitality", &at("Vitality"), 100.0);
+                        for k in [
+                            "Attribute points",
+                            "Combat ability points",
+                            "Civil ability points",
+                            "Talent points",
+                        ] {
+                            cx.grid_row(ui, k, &format!("{base}/Points/{k}"), 80.0);
+                        }
+                    });
                 ui.weak("The level follows from experience; points not yet spent can be spent in the game. Vitality is the current value.");
             });
         }
@@ -77,12 +104,22 @@ pub fn dos2(ui: &mut Ui, cx: &mut GameCtx) {
             ui.weak("This character carries no gold.");
             return;
         }
-        egui::Grid::new(("dos2_gold", t)).num_columns(2).spacing([14.0, 6.0]).show(ui, |ui| {
-            for k in &piles {
-                cx.grid_row(ui, k, &format!("{base}/Gold/{}", esc(k)), 120.0);
-            }
-        });
-        ui.label(RichText::new(format!("{} gold on {}", fmt_num(gold_of(cx, &base) as f64), members[t])).color(theme_fg(ui, gold)));
+        egui::Grid::new(("dos2_gold", t))
+            .num_columns(2)
+            .spacing([14.0, 6.0])
+            .show(ui, |ui| {
+                for k in &piles {
+                    cx.grid_row(ui, k, &format!("{base}/Gold/{}", esc(k)), 120.0);
+                }
+            });
+        ui.label(
+            RichText::new(format!(
+                "{} gold on {}",
+                fmt_num(gold_of(cx, &base) as f64),
+                members[t]
+            ))
+            .color(theme_fg(ui, gold)),
+        );
         ui.weak("Each line is a stack of coins in this character's inventory (named by its stats entry).");
     });
 }
@@ -99,14 +136,24 @@ pub fn bg3(ui: &mut Ui, cx: &mut GameCtx) {
             sub.push(s);
         }
     }
-    hero(ui, gold, "Baldur's Gate 3", &sub.join("  \u{00B7}  "), |ui| {
-        for k in ["Leader", "Region", "Game version"] {
-            if let Some(s) = cx.text(&format!("/Save/{k}")) {
-                fact(ui, k, &s, gold);
+    hero(
+        ui,
+        gold,
+        "Baldur's Gate 3",
+        &sub.join("  \u{00B7}  "),
+        |ui| {
+            for k in ["Leader", "Region", "Game version"] {
+                if let Some(s) = cx.text(&format!("/Save/{k}")) {
+                    fact(ui, k, &s, gold);
+                }
             }
-        }
-    });
-    let party = cx.get("/Party").and_then(Value::as_array).cloned().unwrap_or_default();
+        },
+    );
+    let party = cx
+        .get("/Party")
+        .and_then(Value::as_array)
+        .cloned()
+        .unwrap_or_default();
     panel(ui, "Party (read-only)", |ui| {
         if party.is_empty() {
             ui.weak("The save's summary lists no party.");
@@ -118,18 +165,22 @@ pub fn bg3(ui: &mut Ui, cx: &mut GameCtx) {
             Some(v) => v.to_string(),
         };
         egui::ScrollArea::horizontal().show(ui, |ui| {
-            egui::Grid::new("bg3_party").num_columns(5).striped(true).spacing([18.0, 6.0]).show(ui, |ui| {
-                for h in ["Origin", "Race", "Class", "Level", "Experience"] {
-                    ui.label(RichText::new(h).strong().color(theme_fg(ui, gold)));
-                }
-                ui.end_row();
-                for c in &party {
-                    for k in ["Origin", "Race", "Class", "Level", "Experience"] {
-                        ui.label(s(c, k));
+            egui::Grid::new("bg3_party")
+                .num_columns(5)
+                .striped(true)
+                .spacing([18.0, 6.0])
+                .show(ui, |ui| {
+                    for h in ["Origin", "Race", "Class", "Level", "Experience"] {
+                        ui.label(RichText::new(h).strong().color(theme_fg(ui, gold)));
                     }
                     ui.end_row();
-                }
-            });
+                    for c in &party {
+                        for k in ["Origin", "Race", "Class", "Level", "Experience"] {
+                            ui.label(s(c, k));
+                        }
+                        ui.end_row();
+                    }
+                });
         });
         ui.add_space(6.0);
         ui.weak(

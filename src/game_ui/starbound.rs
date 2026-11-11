@@ -51,7 +51,10 @@ fn stack_base(cx: &GameCtx, slot: &str) -> Option<String> {
 fn item_name(cx: &GameCtx, base: &str) -> String {
     let id = cx.text(&join(base, "name")).unwrap_or_default();
     for params in ["parameters", "data"] {
-        if let Some(s) = cx.text(&format!("{base}/{params}/shortdescription")).filter(|s| !s.is_empty()) {
+        if let Some(s) = cx
+            .text(&format!("{base}/{params}/shortdescription"))
+            .filter(|s| !s.is_empty())
+        {
             return format!("{} ({id})", strip_markup(&s));
         }
     }
@@ -77,7 +80,10 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
     // Deep space blue and pixel gold.
     let accent = Color32::from_rgb(70, 96, 186);
     let gold = Color32::from_rgb(214, 170, 60);
-    let name = cx.text("/identity/name").filter(|n| !n.is_empty()).unwrap_or_else(|| "Starbound character".into());
+    let name = cx
+        .text("/identity/name")
+        .filter(|n| !n.is_empty())
+        .unwrap_or_else(|| "Starbound character".into());
     let mut sub = vec![];
     for p in ["/identity/species", "/identity/gender"] {
         if let Some(s) = cx.text(p).filter(|s| !s.is_empty()) {
@@ -91,7 +97,9 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
         let mins = (t / 60.0) as i64;
         sub.push(format!("{}h {:02}m played", mins / 60, mins % 60));
     }
-    let money = ["/inventory/currencies/money", "/inventory/money"].into_iter().find(|p| cx.get(p).is_some());
+    let money = ["/inventory/currencies/money", "/inventory/money"]
+        .into_iter()
+        .find(|p| cx.get(p).is_some());
     hero(ui, accent, &name, &sub.join("  \u{00B7}  "), |ui| {
         match money {
             Some(p) => cx.tile(ui, "Pixels", p, gold),
@@ -102,7 +110,14 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
         cx.tile(ui, "Deaths", "/log/deathCount", accent);
     });
 
-    let names: Vec<String> = ["Inventory", "Character & ship", "Currencies", "Techs & progress"].map(String::from).to_vec();
+    let names: Vec<String> = [
+        "Inventory",
+        "Character & ship",
+        "Currencies",
+        "Techs & progress",
+    ]
+    .map(String::from)
+    .to_vec();
     match tabs(ui, "sb_tab", &names) {
         0 => inventory(ui, cx),
         1 => character(ui, cx),
@@ -113,9 +128,19 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
 
 fn inventory(ui: &mut Ui, cx: &mut GameCtx) {
     // 1.0 and later: named bags under itemBags; early-access saves: lists on the inventory.
-    let mut bags: Vec<String> = keys(cx, "/inventory/itemBags").into_iter().map(|k| join("/inventory/itemBags", &k)).collect();
+    let mut bags: Vec<String> = keys(cx, "/inventory/itemBags")
+        .into_iter()
+        .map(|k| join("/inventory/itemBags", &k))
+        .collect();
     if bags.is_empty() {
-        for k in ["bag", "tileBag", "actionBar", "essentialBar", "equipment", "wieldable"] {
+        for k in [
+            "bag",
+            "tileBag",
+            "actionBar",
+            "essentialBar",
+            "equipment",
+            "wieldable",
+        ] {
             if matches!(cx.get(&join("/inventory", k)), Some(Value::Array(_))) {
                 bags.push(join("/inventory", k));
             }
@@ -123,7 +148,13 @@ fn inventory(ui: &mut Ui, cx: &mut GameCtx) {
     }
     let worn: Vec<(String, String)> = keys(cx, "/inventory")
         .into_iter()
-        .filter(|k| k.ends_with("Slot") || matches!(k.as_str(), "beamAxe" | "wireTool" | "paintTool" | "inspectionTool"))
+        .filter(|k| {
+            k.ends_with("Slot")
+                || matches!(
+                    k.as_str(),
+                    "beamAxe" | "wireTool" | "paintTool" | "inspectionTool"
+                )
+        })
         .filter_map(|k| {
             let p = join("/inventory", &k);
             stack_base(cx, &p).map(|b| (words(&k), item_name(cx, &b)))
@@ -148,7 +179,12 @@ fn inventory(ui: &mut Ui, cx: &mut GameCtx) {
     let labels: Vec<String> = bags
         .iter()
         .map(|b| {
-            let key = b.rsplit('/').next().unwrap_or(b).replace("~1", "/").replace("~0", "~");
+            let key = b
+                .rsplit('/')
+                .next()
+                .unwrap_or(b)
+                .replace("~1", "/")
+                .replace("~0", "~");
             let used = match cx.get(b) {
                 Some(Value::Array(a)) => a.iter().filter(|v| !v.is_null()).count(),
                 _ => 0,
@@ -164,29 +200,45 @@ fn inventory(ui: &mut Ui, cx: &mut GameCtx) {
             _ => 0,
         };
         let mut shown = 0;
-        egui::Grid::new(("sb_items", &bag)).num_columns(3).striped(true).spacing([12.0, 4.0]).show(ui, |ui| {
-            ui.strong("Slot");
-            ui.strong("Item");
-            ui.strong("Count");
-            ui.end_row();
-            for i in 0..n {
-                let slot = format!("{bag}/{i}");
-                let Some(base) = stack_base(cx, &slot) else { continue };
-                let title = item_name(cx, &base);
-                if !q.is_empty() && !title.to_lowercase().contains(&q) {
-                    continue;
-                }
-                shown += 1;
-                ui.label(RichText::new(format!("{}", i + 1)).color(ui.visuals().weak_text_color()));
-                let count = join(&base, "count");
-                let c = if cx.modified(&count) { crate::theme::MODIFIED } else { ui.visuals().text_color() };
-                ui.label(RichText::new(title).color(c));
-                cx.cell(ui, &count, 80.0);
+        egui::Grid::new(("sb_items", &bag))
+            .num_columns(3)
+            .striped(true)
+            .spacing([12.0, 4.0])
+            .show(ui, |ui| {
+                ui.strong("Slot");
+                ui.strong("Item");
+                ui.strong("Count");
                 ui.end_row();
-            }
-        });
+                for i in 0..n {
+                    let slot = format!("{bag}/{i}");
+                    let Some(base) = stack_base(cx, &slot) else {
+                        continue;
+                    };
+                    let title = item_name(cx, &base);
+                    if !q.is_empty() && !title.to_lowercase().contains(&q) {
+                        continue;
+                    }
+                    shown += 1;
+                    ui.label(
+                        RichText::new(format!("{}", i + 1)).color(ui.visuals().weak_text_color()),
+                    );
+                    let count = join(&base, "count");
+                    let c = if cx.modified(&count) {
+                        crate::theme::MODIFIED
+                    } else {
+                        ui.visuals().text_color()
+                    };
+                    ui.label(RichText::new(title).color(c));
+                    cx.cell(ui, &count, 80.0);
+                    ui.end_row();
+                }
+            });
         if shown == 0 {
-            ui.weak(if q.is_empty() { "This bag is empty." } else { "No item matches." });
+            ui.weak(if q.is_empty() {
+                "This bag is empty."
+            } else {
+                "No item matches."
+            });
         }
         ui.add_space(4.0);
         ui.weak("Each item has its own largest stack in the game (1000 for most materials); the game may cut a bigger count when it loads.");
@@ -199,7 +251,11 @@ fn filter(ui: &mut Ui) -> String {
     let mut q = ui.data(|d| d.get_temp::<String>(sid)).unwrap_or_default();
     ui.horizontal(|ui| {
         ui.label("Filter:");
-        ui.add(egui::TextEdit::singleline(&mut q).hint_text("item name").desired_width(220.0));
+        ui.add(
+            egui::TextEdit::singleline(&mut q)
+                .hint_text("item name")
+                .desired_width(220.0),
+        );
     });
     ui.data_mut(|d| d.insert_temp(sid, q.clone()));
     q.to_lowercase()
@@ -214,11 +270,19 @@ fn character(ui: &mut Ui, cx: &mut GameCtx) {
                     ui.weak("This save keeps no vitals.");
                     return;
                 }
-                egui::Grid::new("sb_vitals").num_columns(2).spacing([14.0, 4.0]).show(ui, |ui| {
-                    for (k, l) in [("health", "Health"), ("energy", "Energy"), ("food", "Food"), ("breath", "Breath")] {
-                        cx.grid_row(ui, l, &join(base, k), 100.0);
-                    }
-                });
+                egui::Grid::new("sb_vitals")
+                    .num_columns(2)
+                    .spacing([14.0, 4.0])
+                    .show(ui, |ui| {
+                        for (k, l) in [
+                            ("health", "Health"),
+                            ("energy", "Energy"),
+                            ("food", "Food"),
+                            ("breath", "Breath"),
+                        ] {
+                            cx.grid_row(ui, l, &join(base, k), 100.0);
+                        }
+                    });
                 ui.weak("These are the current amounts; the most a character can have comes from its armour and food, and the game keeps the current amount within it.");
             });
         } else {
@@ -228,11 +292,20 @@ fn character(ui: &mut Ui, cx: &mut GameCtx) {
                     ui.weak("This save has no ship upgrades.");
                     return;
                 }
-                egui::Grid::new("sb_ship").num_columns(2).spacing([14.0, 4.0]).show(ui, |ui| {
-                    for (k, l) in [("shipLevel", "Ship level"), ("crewSize", "Crew size"), ("maxFuel", "Fuel tank"), ("fuelEfficiency", "Fuel efficiency"), ("shipSpeed", "Ship speed")] {
-                        cx.grid_row(ui, l, &join(base, k), 100.0);
-                    }
-                });
+                egui::Grid::new("sb_ship")
+                    .num_columns(2)
+                    .spacing([14.0, 4.0])
+                    .show(ui, |ui| {
+                        for (k, l) in [
+                            ("shipLevel", "Ship level"),
+                            ("crewSize", "Crew size"),
+                            ("maxFuel", "Fuel tank"),
+                            ("fuelEfficiency", "Fuel efficiency"),
+                            ("shipSpeed", "Ship speed"),
+                        ] {
+                            cx.grid_row(ui, l, &join(base, k), 100.0);
+                        }
+                    });
                 if let Some(Value::Array(c)) = cx.get("/shipUpgrades/capabilities") {
                     let c: Vec<String> = c.iter().filter_map(Value::as_str).map(words).collect();
                     if !c.is_empty() {
@@ -243,12 +316,19 @@ fn character(ui: &mut Ui, cx: &mut GameCtx) {
         }
     });
     panel(ui, "Record", |ui| {
-        egui::Grid::new("sb_log").num_columns(2).spacing([14.0, 4.0]).show(ui, |ui| {
-            cx.grid_row(ui, "Deaths", "/log/deathCount", 100.0);
-            cx.grid_row(ui, "Play time (seconds)", "/log/playTime", 140.0);
-            cx.grid_row(ui, "Intro done", "/log/introComplete", 100.0);
-        });
-        for (p, what) in [("/log/scannedObjects", "objects scanned"), ("/log/cinematics", "cinematics seen"), ("/log/radioMessages", "radio messages heard")] {
+        egui::Grid::new("sb_log")
+            .num_columns(2)
+            .spacing([14.0, 4.0])
+            .show(ui, |ui| {
+                cx.grid_row(ui, "Deaths", "/log/deathCount", 100.0);
+                cx.grid_row(ui, "Play time (seconds)", "/log/playTime", 140.0);
+                cx.grid_row(ui, "Intro done", "/log/introComplete", 100.0);
+            });
+        for (p, what) in [
+            ("/log/scannedObjects", "objects scanned"),
+            ("/log/cinematics", "cinematics seen"),
+            ("/log/radioMessages", "radio messages heard"),
+        ] {
             if let Some(Value::Array(a)) = cx.get(p) {
                 ui.label(format!("{} {what}", fmt_num(a.len() as f64)));
             }
@@ -261,19 +341,26 @@ fn currencies(ui: &mut Ui, cx: &mut GameCtx) {
         let ks = keys(cx, "/inventory/currencies");
         if ks.is_empty() {
             if cx.get("/inventory/money").is_some() {
-                egui::Grid::new("sb_cur_old").num_columns(2).spacing([14.0, 4.0]).show(ui, |ui| {
-                    cx.grid_row(ui, "Pixels", "/inventory/money", 120.0);
-                });
+                egui::Grid::new("sb_cur_old")
+                    .num_columns(2)
+                    .spacing([14.0, 4.0])
+                    .show(ui, |ui| {
+                        cx.grid_row(ui, "Pixels", "/inventory/money", 120.0);
+                    });
             } else {
                 ui.weak("No currencies in this save.");
             }
             return;
         }
-        egui::Grid::new("sb_cur").num_columns(2).spacing([14.0, 4.0]).striped(true).show(ui, |ui| {
-            for k in &ks {
-                cx.grid_row(ui, &label(k), &join("/inventory/currencies", k), 120.0);
-            }
-        });
+        egui::Grid::new("sb_cur")
+            .num_columns(2)
+            .spacing([14.0, 4.0])
+            .striped(true)
+            .show(ui, |ui| {
+                for k in &ks {
+                    cx.grid_row(ui, &label(k), &join("/inventory/currencies", k), 120.0);
+                }
+            });
         ui.weak("Each currency has a most the game allows; a larger amount may be cut when it loads. Currencies past pixels and ancient essence come from mods.");
     });
 }
@@ -281,7 +368,11 @@ fn currencies(ui: &mut Ui, cx: &mut GameCtx) {
 fn progress(ui: &mut Ui, cx: &mut GameCtx) {
     let list = |cx: &GameCtx, p: &str| -> Vec<String> {
         match cx.get(p) {
-            Some(Value::Array(a)) => a.iter().filter_map(Value::as_str).map(str::to_string).collect(),
+            Some(Value::Array(a)) => a
+                .iter()
+                .filter_map(Value::as_str)
+                .map(str::to_string)
+                .collect(),
             _ => vec![],
         }
     };
@@ -295,7 +386,11 @@ fn progress(ui: &mut Ui, cx: &mut GameCtx) {
                 }
                 for t in &avail {
                     let on = enabled.contains(t);
-                    ui.label(if on { RichText::new(format!("{t}  (enabled)")).strong() } else { RichText::new(t) });
+                    ui.label(if on {
+                        RichText::new(format!("{t}  (enabled)")).strong()
+                    } else {
+                        RichText::new(t)
+                    });
                 }
                 for k in keys(cx, "/techs/equippedTechs") {
                     if let Some(t) = cx.text(&join("/techs/equippedTechs", &k)) {
@@ -310,9 +405,21 @@ fn progress(ui: &mut Ui, cx: &mut GameCtx) {
                     _ => 0,
                 };
                 ui.label(format!("{} blueprints known", fmt_num(known as f64)));
-                ui.label(format!("{} codex entries", fmt_num(keys(cx, "/codexes").len() as f64)));
+                ui.label(format!(
+                    "{} codex entries",
+                    fmt_num(keys(cx, "/codexes").len() as f64)
+                ));
                 let quests = keys(cx, "/quests/quests");
-                let done = quests.iter().filter(|q| cx.text(&format!("/quests/quests/{}/content/state", pointer_escape(q))).is_some_and(|s| s == "Complete")).count();
+                let done = quests
+                    .iter()
+                    .filter(|q| {
+                        cx.text(&format!(
+                            "/quests/quests/{}/content/state",
+                            pointer_escape(q)
+                        ))
+                        .is_some_and(|s| s == "Complete")
+                    })
+                    .count();
                 ui.label(format!("{} quests, {} complete", quests.len(), done));
                 if let Some(Value::Array(m)) = cx.get("/aiState/completedMissions") {
                     ui.label(format!("{} missions done", m.len()));

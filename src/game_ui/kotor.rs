@@ -25,7 +25,10 @@ fn keys(cx: &GameCtx, p: &str) -> Vec<String> {
 
 fn list(cx: &GameCtx, p: &str) -> Vec<String> {
     match cx.get(p) {
-        Some(Value::Array(a)) => a.iter().filter_map(|v| v.as_str().map(str::to_string)).collect(),
+        Some(Value::Array(a)) => a
+            .iter()
+            .filter_map(|v| v.as_str().map(str::to_string))
+            .collect(),
         _ => vec![],
     }
 }
@@ -53,7 +56,12 @@ fn party_table(ui: &mut Ui, cx: &mut GameCtx) {
     }
     sub.push("Party table".into());
     hero(ui, GOLD, &short_game(cx), &sub.join("  \u{00B7}  "), |ui| {
-        for (label, p) in [("Credits", "/Party/Credits"), ("Party XP", "/Party/Party XP"), ("Components", "/Party/Components"), ("Chemicals", "/Party/Chemicals")] {
+        for (label, p) in [
+            ("Credits", "/Party/Credits"),
+            ("Party XP", "/Party/Party XP"),
+            ("Components", "/Party/Components"),
+            ("Chemicals", "/Party/Chemicals"),
+        ] {
             cx.tile(ui, label, p, GOLD);
         }
     });
@@ -67,7 +75,10 @@ fn party_table(ui: &mut Ui, cx: &mut GameCtx) {
                     cx.attribute(ui, &names[i], &p, 100.0, BLUE);
                 } else {
                     ui.horizontal(|ui| {
-                        ui.add_sized([110.0, 22.0], egui::Label::new(RichText::new(&names[i]).weak()).truncate());
+                        ui.add_sized(
+                            [110.0, 22.0],
+                            egui::Label::new(RichText::new(&names[i]).weak()).truncate(),
+                        );
                         ui.weak("not met yet");
                     });
                 }
@@ -78,18 +89,30 @@ fn party_table(ui: &mut Ui, cx: &mut GameCtx) {
     let members = list(cx, "/Party/In the party");
     let avail = list(cx, "/Party/Available");
     panel(ui, "Party", |ui| {
-        ui.label(format!("With you: {}", if members.is_empty() { "nobody".into() } else { members.join(", ") }));
+        ui.label(format!(
+            "With you: {}",
+            if members.is_empty() {
+                "nobody".into()
+            } else {
+                members.join(", ")
+            }
+        ));
         if !avail.is_empty() {
             ui.label(format!("Can join: {}", avail.join(", ")));
         }
     });
-    ui.weak("Stats of the player and the party members are in SAVEGAME.sav in the same save folder.");
+    ui.weak(
+        "Stats of the player and the party members are in SAVEGAME.sav in the same save folder.",
+    );
 }
 
 fn save(ui: &mut Ui, cx: &mut GameCtx) {
     let mut people: Vec<(String, String)> = vec![];
     if cx.get("/Player").is_some() {
-        let n = cx.text("/Player/Name").filter(|n| !n.is_empty()).unwrap_or_else(|| "Player".into());
+        let n = cx
+            .text("/Player/Name")
+            .filter(|n| !n.is_empty())
+            .unwrap_or_else(|| "Player".into());
         people.push((n, "/Player".into()));
     }
     for k in keys(cx, "/Party") {
@@ -102,9 +125,16 @@ fn save(ui: &mut Ui, cx: &mut GameCtx) {
             break;
         }
     }
-    let title = cx.text("/Player/Name").filter(|n| !n.is_empty()).unwrap_or_else(|| "Your party".into());
+    let title = cx
+        .text("/Player/Name")
+        .filter(|n| !n.is_empty())
+        .unwrap_or_else(|| "Your party".into());
     hero(ui, GOLD, &title, &sub.join("  \u{00B7}  "), |ui| {
-        for (label, p) in [("Experience", "/Player/Experience"), ("Skill points", "/Player/Skill points"), ("Level", "/Player/Level")] {
+        for (label, p) in [
+            ("Experience", "/Player/Experience"),
+            ("Skill points", "/Player/Skill points"),
+            ("Level", "/Player/Level"),
+        ] {
             if cx.can_edit(p) {
                 cx.tile(ui, label, p, GOLD);
             } else if let Some(v) = cx.text(p) {
@@ -126,15 +156,22 @@ fn save(ui: &mut Ui, cx: &mut GameCtx) {
     sheet(ui, cx, &base, t);
     let items = list(cx, "/Inventory");
     if !items.is_empty() {
-        egui::CollapsingHeader::new(RichText::new(format!("Party inventory ({} kinds)", items.len())).strong()).id_salt("kotor_inv").show(ui, |ui| {
-            egui::ScrollArea::vertical().id_salt("kotor_inv_s").max_height(260.0).show(ui, |ui| {
-                ui.horizontal_wrapped(|ui| {
-                    for it in &items {
-                        ui.label(RichText::new(it).monospace().size(12.0));
-                        ui.add_space(8.0);
-                    }
+        egui::CollapsingHeader::new(
+            RichText::new(format!("Party inventory ({} kinds)", items.len())).strong(),
+        )
+        .id_salt("kotor_inv")
+        .show(ui, |ui| {
+            egui::ScrollArea::vertical()
+                .id_salt("kotor_inv_s")
+                .max_height(260.0)
+                .show(ui, |ui| {
+                    ui.horizontal_wrapped(|ui| {
+                        for it in &items {
+                            ui.label(RichText::new(it).monospace().size(12.0));
+                            ui.add_space(8.0);
+                        }
+                    });
                 });
-            });
             ui.weak("Item tags as the game stores them; items can't be added or removed here.");
         });
     }

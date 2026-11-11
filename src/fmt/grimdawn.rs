@@ -78,7 +78,9 @@ fn p(path: &[&str]) -> Vec<String> {
 
 impl<'a> Cur<'a> {
     fn need(&self, n: usize) -> R<&'a [u8]> {
-        self.d.get(self.pos..self.pos + n).ok_or_else(|| format!("the save ends early (at {})", self.pos))
+        self.d
+            .get(self.pos..self.pos + n)
+            .ok_or_else(|| format!("the save ends early (at {})", self.pos))
     }
     /// Where the next value is in the plain data.
     fn at(&self) -> usize {
@@ -98,7 +100,9 @@ impl<'a> Cur<'a> {
         let raw = self.need(4)?;
         let c = u32::from_le_bytes(raw.try_into().unwrap());
         self.pos += 4;
-        let Some((t, k)) = &mut self.crypt else { return Ok(c) };
+        let Some((t, k)) = &mut self.crypt else {
+            return Ok(c);
+        };
         let v = c ^ *k;
         if absorb {
             for &b in raw {
@@ -115,7 +119,9 @@ impl<'a> Cur<'a> {
     fn bytes(&mut self, n: usize) -> R<Vec<u8>> {
         let raw = self.need(n)?;
         self.pos += n;
-        let Some((t, k)) = &mut self.crypt else { return Ok(raw.to_vec()) };
+        let Some((t, k)) = &mut self.crypt else {
+            return Ok(raw.to_vec());
+        };
         let mut out = Vec::with_capacity(n);
         for &c in raw {
             out.push(c ^ *k as u8);
@@ -142,7 +148,11 @@ impl<'a> Cur<'a> {
     fn wstr(&mut self) -> R<String> {
         let n = self.count(2)?;
         let b = self.bytes(2 * n)?;
-        Ok(String::from_utf16_lossy(&b.chunks(2).map(|c| u16::from_le_bytes([c[0], c[1]])).collect::<Vec<_>>()))
+        Ok(String::from_utf16_lossy(
+            &b.chunks(2)
+                .map(|c| u16::from_le_bytes([c[0], c[1]]))
+                .collect::<Vec<_>>(),
+        ))
     }
     fn skip_words(&mut self, n: usize) -> R<()> {
         for _ in 0..n {
@@ -167,7 +177,11 @@ impl<'a> Cur<'a> {
     fn begin(&mut self) -> R<(u32, usize)> {
         let id = self.u32()?;
         let len = self.word(false, Seg::Len)? as usize;
-        let end = self.pos.checked_add(len).filter(|&e| e + 4 <= self.d.len()).ok_or_else(|| format!("block {id} runs past the end"))?;
+        let end = self
+            .pos
+            .checked_add(len)
+            .filter(|&e| e + 4 <= self.d.len())
+            .ok_or_else(|| format!("block {id} runs past the end"))?;
         Ok((id, end))
     }
     fn end(&mut self, id: u32, end: usize) -> R<()> {
@@ -225,7 +239,11 @@ pub(crate) fn words(key: &str) -> String {
             out.push(' ');
         }
         prev_lower = c.is_lowercase() || c.is_ascii_digit();
-        out.push(if out.is_empty() { c.to_ascii_uppercase() } else { c.to_ascii_lowercase() });
+        out.push(if out.is_empty() {
+            c.to_ascii_uppercase()
+        } else {
+            c.to_ascii_lowercase()
+        });
     }
     out.trim_end().to_string()
 }
@@ -235,8 +253,13 @@ pub(crate) fn words(key: &str) -> String {
 /// the game's own database, which isn't shipped here.
 pub(crate) fn record_name(path: &str) -> String {
     let parts: Vec<&str> = path.split(['/', '\\']).filter(|s| !s.is_empty()).collect();
-    let Some(last) = parts.last() else { return String::new() };
-    let stem = last.strip_suffix(".dbr").or_else(|| last.strip_suffix(".DBR")).unwrap_or(last);
+    let Some(last) = parts.last() else {
+        return String::new();
+    };
+    let stem = last
+        .strip_suffix(".dbr")
+        .or_else(|| last.strip_suffix(".DBR"))
+        .unwrap_or(last);
     match parts.len() {
         0 | 1 => words(stem),
         n => format!("{}: {}", words(parts[n - 2]), words(stem)),
@@ -269,12 +292,18 @@ fn item(c: &mut Cur, v2: bool) -> R<(String, usize)> {
     Ok((base, stack))
 }
 
-fn stack_field(c: &mut Cur, group: &str, seen: &mut HashMap<String, usize>, (base, at): (String, usize)) {
+fn stack_field(
+    c: &mut Cur,
+    group: &str,
+    seen: &mut HashMap<String, usize>,
+    (base, at): (String, usize),
+) {
     if base.is_empty() {
         return;
     }
     let label = unique(seen, record_name(&base));
-    c.recs.push(Rec::Field(p(&[group, &label]), at, Kind::U32, 1, 100_000));
+    c.recs
+        .push(Rec::Field(p(&[group, &label]), at, Kind::U32, 1, 100_000));
 }
 
 fn uid_lists(c: &mut Cur, n: usize) -> R<()> {
@@ -313,7 +342,8 @@ fn block(c: &mut Cur, id: u32, end: usize, header_level: usize) -> R<()> {
         }
         2 => {
             c.field(&["Character", "Level"], Kind::U32, 1, 100)?;
-            c.recs.push(Rec::Mirror(p(&["Character", "Level"]), header_level));
+            c.recs
+                .push(Rec::Mirror(p(&["Character", "Level"]), header_level));
             c.field(&["Character", "Experience"], Kind::U32, 0, i32::MAX as i64)?;
             for k in ["Attribute points", "Skill points", "Devotion points"] {
                 c.field(&["Points", k], Kind::U32, 0, 10_000)?;
@@ -323,7 +353,8 @@ fn block(c: &mut Cur, id: u32, end: usize, header_level: usize) -> R<()> {
             for k in ["Physique", "Cunning", "Spirit", "Health", "Energy"] {
                 let at = c.at();
                 c.u32()?;
-                c.recs.push(Rec::Field(p(&["Attributes", k]), at, Kind::F32, 0, 100_000));
+                c.recs
+                    .push(Rec::Field(p(&["Attributes", k]), at, Kind::F32, 0, 100_000));
             }
         }
         3 => {
@@ -335,7 +366,11 @@ fn block(c: &mut Cur, id: u32, end: usize, header_level: usize) -> R<()> {
                 for i in 0..sacks {
                     let (sid, send) = c.begin()?;
                     c.byte()?;
-                    let group = if i == 0 { "Inventory".to_string() } else { format!("Bag {i}") };
+                    let group = if i == 0 {
+                        "Inventory".to_string()
+                    } else {
+                        format!("Bag {i}")
+                    };
                     for _ in 0..c.count(4)? {
                         let it = item(c, v2)?;
                         stack_field(c, &group, &mut seen, it);
@@ -356,7 +391,11 @@ fn block(c: &mut Cur, id: u32, end: usize, header_level: usize) -> R<()> {
                         c.byte()?;
                     }
                 }
-                let names: Vec<Value> = equipped.iter().filter(|b| !b.is_empty()).map(|b| Value::from(record_name(b))).collect();
+                let names: Vec<Value> = equipped
+                    .iter()
+                    .filter(|b| !b.is_empty())
+                    .map(|b| Value::from(record_name(b)))
+                    .collect();
                 c.info(&["Character", "Equipped"], names);
             }
         }
@@ -392,9 +431,14 @@ fn block(c: &mut Cur, id: u32, end: usize, header_level: usize) -> R<()> {
                 let name = c.str()?;
                 let at = c.at();
                 c.u32()?;
-                let group = if name.to_ascii_lowercase().contains("/devotion/") { "Devotions" } else { "Skills" };
+                let group = if name.to_ascii_lowercase().contains("/devotion/") {
+                    "Devotions"
+                } else {
+                    "Skills"
+                };
                 let label = unique(&mut seen, record_name(&name));
-                c.recs.push(Rec::Field(p(&[group, &label]), at, Kind::U32, 0, 100));
+                c.recs
+                    .push(Rec::Field(p(&[group, &label]), at, Kind::U32, 0, 100));
                 c.byte()?;
                 if v2 {
                     c.byte()?;
@@ -533,7 +577,10 @@ fn walk(c: &mut Cur) -> R<()> {
     let name = c.wstr()?;
     c.info(&["Character", "Name"], name);
     let sex = c.byte()?;
-    c.info(&["Character", "Sex"], if sex == 1 { "Male" } else { "Female" });
+    c.info(
+        &["Character", "Sex"],
+        if sex == 1 { "Male" } else { "Female" },
+    );
     let class = c.str()?;
     c.info(&["Character", "Class tag"], class);
     let header_level = c.at();
@@ -561,7 +608,15 @@ pub fn decrypt(file: &[u8]) -> Option<Result<(u32, Vec<u8>, Vec<Seg>), String>> 
     if u32::from_le_bytes(file.get(4..8)?.try_into().ok()?) ^ seed != MAGIC {
         return None;
     }
-    let mut c = Cur { d: file, pos: 4, base: 4, crypt: Some((table(seed), seed)), plain: Vec::with_capacity(file.len()), plan: vec![], recs: vec![] };
+    let mut c = Cur {
+        d: file,
+        pos: 4,
+        base: 4,
+        crypt: Some((table(seed), seed)),
+        plain: Vec::with_capacity(file.len()),
+        plan: vec![],
+        recs: vec![],
+    };
     Some(walk(&mut c).map(|()| (seed, c.plain, c.plan)))
 }
 
@@ -573,7 +628,12 @@ pub fn encrypt(seed: u32, plan: &[Seg], plain: &[u8]) -> Result<Vec<u8>, String>
     out.extend((seed ^ SEED_MASK).to_le_bytes());
     let mut i = 0;
     let short = || "this save's data can't change size".to_string();
-    let word = |i: usize| plain.get(i..i + 4).map(|b| u32::from_le_bytes(b.try_into().unwrap())).ok_or_else(short);
+    let word = |i: usize| {
+        plain
+            .get(i..i + 4)
+            .map(|b| u32::from_le_bytes(b.try_into().unwrap()))
+            .ok_or_else(short)
+    };
     for s in plan {
         match *s {
             Seg::Words(n) => {
@@ -620,16 +680,32 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
     if !looks(d) {
         return Err("not a Grim Dawn character".into());
     }
-    let mut c = Cur { d, pos: 0, base: 0, crypt: None, plain: vec![], plan: vec![], recs: vec![] };
+    let mut c = Cur {
+        d,
+        pos: 0,
+        base: 0,
+        crypt: None,
+        plain: vec![],
+        plan: vec![],
+        recs: vec![],
+    };
     walk(&mut c)?;
     let mut b = Builder::new(d);
     for r in c.recs {
         match r {
             Rec::Info(path, v) => b.info(&path.iter().map(String::as_str).collect::<Vec<_>>(), v),
             Rec::Field(path, at, kind, lo, hi) => {
-                b.ranged(&path.iter().map(String::as_str).collect::<Vec<_>>(), at, kind, lo, hi);
+                b.ranged(
+                    &path.iter().map(String::as_str).collect::<Vec<_>>(),
+                    at,
+                    kind,
+                    lo,
+                    hi,
+                );
             }
-            Rec::Mirror(path, at) => b.mirror(&path.iter().map(String::as_str).collect::<Vec<_>>(), at),
+            Rec::Mirror(path, at) => {
+                b.mirror(&path.iter().map(String::as_str).collect::<Vec<_>>(), at)
+            }
         }
     }
     Ok(b.finish("Grim Dawn character", Checksum::None).with_note(
@@ -653,7 +729,12 @@ pub(crate) mod tests {
 
     impl W {
         pub fn new(seed: u32) -> Self {
-            W { t: table(seed), k: seed, out: (seed ^ SEED_MASK).to_le_bytes().to_vec(), stack: vec![] }
+            W {
+                t: table(seed),
+                k: seed,
+                out: (seed ^ SEED_MASK).to_le_bytes().to_vec(),
+                stack: vec![],
+            }
         }
         pub fn u32(&mut self, v: u32) {
             let cb = (v ^ self.k).to_le_bytes();
@@ -815,8 +896,14 @@ pub(crate) mod tests {
         assert_eq!(v.pointer("/Character/Money"), Some(&5000.into()));
         assert_eq!(v.pointer("/Character/Level"), Some(&12.into()));
         assert_eq!(v.pointer("/Attributes/Physique"), Some(&90.0.into()));
-        assert_eq!(v.pointer("/Inventory/Materia: Compa scrapmetal"), Some(&40.into()));
-        assert_eq!(v.pointer("/Stash 1/Potions: Potion healtha01"), Some(&9.into()));
+        assert_eq!(
+            v.pointer("/Inventory/Materia: Compa scrapmetal"),
+            Some(&40.into())
+        );
+        assert_eq!(
+            v.pointer("/Stash 1/Potions: Potion healtha01"),
+            Some(&9.into())
+        );
         assert_eq!(v.pointer("/Skills/Playerclass01: Blitz1"), Some(&5.into()));
         doc.set("/Character/Money", 5001.into()).unwrap();
         doc.set("/Character/Level", 13.into()).unwrap();
@@ -830,11 +917,24 @@ pub(crate) mod tests {
         let again = parse(&plain2).unwrap();
         assert_eq!(again.view.pointer("/Character/Money"), Some(&5001.into()));
         assert_eq!(again.view.pointer("/Character/Level"), Some(&13.into()));
-        assert_eq!(again.view.pointer("/Attributes/Cunning"), Some(&75.0.into()));
-        assert_eq!(again.view.pointer("/Skills/Playerclass01: Blitz1"), Some(&6.into()));
-        assert_eq!(again.view.pointer("/Inventory"), doc.view.pointer("/Inventory"));
+        assert_eq!(
+            again.view.pointer("/Attributes/Cunning"),
+            Some(&75.0.into())
+        );
+        assert_eq!(
+            again.view.pointer("/Skills/Playerclass01: Blitz1"),
+            Some(&6.into())
+        );
+        assert_eq!(
+            again.view.pointer("/Inventory"),
+            doc.view.pointer("/Inventory")
+        );
         // The header's level follows.
-        let lvl_at = plain.windows(19).position(|w| w == b"tagSkillClassName01").unwrap() + 19;
+        let lvl_at = plain
+            .windows(19)
+            .position(|w| w == b"tagSkillClassName01")
+            .unwrap()
+            + 19;
         assert_eq!(&plain2[lvl_at..lvl_at + 4], &13u32.to_le_bytes());
         // A damaged checksum is refused.
         let mut bad = file.clone();
@@ -859,10 +959,16 @@ pub(crate) mod tests {
             }
         }
         let mut files = vec![];
-        walk(std::path::Path::new(&std::env::var(var).unwrap()), &mut files);
+        walk(
+            std::path::Path::new(&std::env::var(var).unwrap()),
+            &mut files,
+        );
         files.sort();
         let mut tried = 0;
-        for f in files.iter().filter(|f| want(&f.file_name().unwrap().to_string_lossy())) {
+        for f in files
+            .iter()
+            .filter(|f| want(&f.file_name().unwrap().to_string_lossy()))
+        {
             let raw = std::fs::read(f).unwrap();
             let opts = Options::for_path(f);
             let d = decode_with(&raw, &opts);
@@ -874,26 +980,57 @@ pub(crate) mod tests {
             tried += 1;
             let v = &doc.view;
             let short = |p: &str| v.pointer(p).map(|x| x.to_string()).unwrap_or_default();
-            println!("{}: {}", f.display(), edits.iter().map(|p| format!("{p}={}", short(p))).collect::<Vec<_>>().join(" "));
+            println!(
+                "{}: {}",
+                f.display(),
+                edits
+                    .iter()
+                    .map(|p| format!("{p}={}", short(p)))
+                    .collect::<Vec<_>>()
+                    .join(" ")
+            );
             for g in ["/Inventory", "/Items"] {
                 if let Some(Value::Object(m)) = v.pointer(g) {
-                    let big: Vec<String> = m.iter().filter(|(_, n)| n.as_i64().unwrap_or(0) > 1).take(3).map(|(k, n)| format!("{k} x{n}")).collect();
+                    let big: Vec<String> = m
+                        .iter()
+                        .filter(|(_, n)| n.as_i64().unwrap_or(0) > 1)
+                        .take(3)
+                        .map(|(k, n)| format!("{k} x{n}"))
+                        .collect();
                     println!("    {g}: {} items, stacks e.g. {big:?}", m.len());
                 }
             }
-            assert_eq!(encode(&d.layers, &d.content).unwrap(), raw, "unchanged save differs: {}", f.display());
+            assert_eq!(
+                encode(&d.layers, &d.content).unwrap(),
+                raw,
+                "unchanged save differs: {}",
+                f.display()
+            );
             let mut doc = doc.clone();
             let mut expect = doc.view.clone();
             for p in edits {
-                let Some(old) = doc.view.pointer(p).and_then(Value::as_f64) else { continue };
-                let new = if doc.view.pointer(p).unwrap().is_f64() { Value::from(old + 1.0) } else { Value::from(old as i64 + 1) };
-                doc.set(p, new.clone()).unwrap_or_else(|e| panic!("{p}: {e}"));
+                let Some(old) = doc.view.pointer(p).and_then(Value::as_f64) else {
+                    continue;
+                };
+                let new = if doc.view.pointer(p).unwrap().is_f64() {
+                    Value::from(old + 1.0)
+                } else {
+                    Value::from(old as i64 + 1)
+                };
+                doc.set(p, new.clone())
+                    .unwrap_or_else(|e| panic!("{p}: {e}"));
                 *expect.pointer_mut(p).unwrap() = new;
             }
             let out = encode(&d.layers, &Content::Tree(doc)).unwrap();
             assert_eq!(out.len(), raw.len());
             let again = decode_with(&out, &opts);
-            let Content::Tree(a) = &again.content else { panic!("edited save no longer reads: {} {:?}", f.display(), again.hint) };
+            let Content::Tree(a) = &again.content else {
+                panic!(
+                    "edited save no longer reads: {} {:?}",
+                    f.display(),
+                    again.hint
+                )
+            };
             assert_eq!(a.view, expect, "{}", f.display());
         }
         assert!(tried > 0, "no saves were read");
@@ -903,13 +1040,29 @@ pub(crate) mod tests {
     #[test]
     #[ignore]
     fn real_saves() {
-        research("SAVE_EDITOR_GD", |n| n.ends_with(".gdc"), "Grim Dawn character", &["/Character/Money", "/Attributes/Physique", "/Character/Experience", "/Points/Skill points"]);
+        research(
+            "SAVE_EDITOR_GD",
+            |n| n.ends_with(".gdc"),
+            "Grim Dawn character",
+            &[
+                "/Character/Money",
+                "/Attributes/Physique",
+                "/Character/Experience",
+                "/Points/Skill points",
+            ],
+        );
     }
 
     #[test]
     fn readable_record_names() {
-        assert_eq!(record_name("records/skills/playerclass01/blitz1.dbr"), "Playerclass01: Blitz1");
-        assert_eq!(record_name(r"Records\Skills\Storm\IceShard.dbr"), "Storm: Ice shard");
+        assert_eq!(
+            record_name("records/skills/playerclass01/blitz1.dbr"),
+            "Playerclass01: Blitz1"
+        );
+        assert_eq!(
+            record_name(r"Records\Skills\Storm\IceShard.dbr"),
+            "Storm: Ice shard"
+        );
         assert_eq!(record_name("x.dbr"), "X");
     }
 }

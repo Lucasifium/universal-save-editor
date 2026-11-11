@@ -38,12 +38,18 @@ fn is_key(d: &[u8], p: usize) -> bool {
     if p == d.len() {
         return true;
     }
-    let Some(n) = u32_at(d, p).map(|n| n as usize) else { return false };
+    let Some(n) = u32_at(d, p).map(|n| n as usize) else {
+        return false;
+    };
     if !(1..=64).contains(&n) {
         return false;
     }
-    let Some(k) = d.get(p + 4..p + 4 + n) else { return false };
-    (k[0].is_ascii_alphabetic() || k[0] == b'_') && k.iter().all(|&c| c.is_ascii_alphanumeric() || b"_.[]".contains(&c))
+    let Some(k) = d.get(p + 4..p + 4 + n) else {
+        return false;
+    };
+    (k[0].is_ascii_alphabetic() || k[0] == b'_')
+        && k.iter()
+            .all(|&c| c.is_ascii_alphanumeric() || b"_.[]".contains(&c))
 }
 
 /// Splits the file into key/value records; a value's type is told by where the next key starts.
@@ -58,24 +64,30 @@ fn tokens(d: &[u8]) -> Result<Vec<Tok<'_>>, String> {
         let key = std::str::from_utf8(&d[p + 4..p + 4 + n]).map_err(|e| e.to_string())?;
         p += 4 + n;
         let v = u32_at(d, p).map(|v| v as usize);
-        let (len, ty) = if key == "begin_block" || key == "end_block" || (v.is_some() && is_key(d, p + 4)) {
-            (4, Ty::Word)
-        } else if v.is_some_and(|v| v > 0 && v < 4096 && is_key(d, p + 4 + v)) {
-            (4 + v.unwrap(), Ty::Text)
-        } else if v.is_some_and(|v| v > 0 && v < 2048 && is_key(d, p + 4 + 2 * v)) {
-            (4 + 2 * v.unwrap(), Ty::Wide)
-        } else {
-            // Something else (an id, a trailing description): up to the next key.
-            let mut q = p + 1;
-            while q < d.len() && !is_key(d, q) {
-                q += 1;
-            }
-            (q - p, Ty::Blob)
-        };
+        let (len, ty) =
+            if key == "begin_block" || key == "end_block" || (v.is_some() && is_key(d, p + 4)) {
+                (4, Ty::Word)
+            } else if v.is_some_and(|v| v > 0 && v < 4096 && is_key(d, p + 4 + v)) {
+                (4 + v.unwrap(), Ty::Text)
+            } else if v.is_some_and(|v| v > 0 && v < 2048 && is_key(d, p + 4 + 2 * v)) {
+                (4 + 2 * v.unwrap(), Ty::Wide)
+            } else {
+                // Something else (an id, a trailing description): up to the next key.
+                let mut q = p + 1;
+                while q < d.len() && !is_key(d, q) {
+                    q += 1;
+                }
+                (q - p, Ty::Blob)
+            };
         if p + len > d.len() {
             return Err("the save ends early".into());
         }
-        out.push(Tok { key, at: p, len, ty });
+        out.push(Tok {
+            key,
+            at: p,
+            len,
+            ty,
+        });
         p += len;
     }
     Ok(out)
@@ -95,20 +107,35 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
         let s = &d[t.at + 4..t.at + t.len];
         match t.ty {
             Ty::Text => s.iter().map(|&c| c as char).collect(),
-            Ty::Wide => String::from_utf16_lossy(&s.chunks(2).map(|c| u16::from_le_bytes([c[0], c[1]])).collect::<Vec<_>>()),
+            Ty::Wide => String::from_utf16_lossy(
+                &s.chunks(2)
+                    .map(|c| u16::from_le_bytes([c[0], c[1]]))
+                    .collect::<Vec<_>>(),
+            ),
             // The mobile version writes the name as UTF-32.
-            Ty::Blob if t.len >= 4 && u32_at(d, t.at).is_some_and(|n| 4 + 4 * n as usize == t.len) => {
-                s.chunks(4).filter_map(|c| char::from_u32(u32::from_le_bytes([c[0], c[1], c[2], c[3]]))).collect()
+            Ty::Blob
+                if t.len >= 4 && u32_at(d, t.at).is_some_and(|n| 4 + 4 * n as usize == t.len) =>
+            {
+                s.chunks(4)
+                    .filter_map(|c| char::from_u32(u32::from_le_bytes([c[0], c[1], c[2], c[3]])))
+                    .collect()
             }
             _ => String::new(),
         }
     };
     let first = |key: &str| toks.iter().position(|t| t.key == key);
-    let word = |key: &str| first(key).filter(|&i| toks[i].ty == Ty::Word).map(|i| &toks[i]);
+    let word = |key: &str| {
+        first(key)
+            .filter(|&i| toks[i].ty == Ty::Word)
+            .map(|i| &toks[i])
+    };
     if let Some(i) = first("myPlayerName") {
         b.info(&["Character", "Name"], text(&toks[i]));
     }
-    for (key, label) in [("playerCharacterClass", "Class"), ("playerClassTag", "Class tag")] {
+    for (key, label) in [
+        ("playerCharacterClass", "Class"),
+        ("playerClassTag", "Class tag"),
+    ] {
         if let Some(i) = first(key).filter(|&i| toks[i].ty == Ty::Text) {
             b.info(&["Character", label], text(&toks[i]));
         }
@@ -126,16 +153,27 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
     if let Some(t) = word("money") {
         b.ranged(&["Character", "Money"], t.at, Kind::U32, 0, max);
     }
-    for (key, label) in [("modifierPoints", "Attribute points"), ("skillPoints", "Skill points")] {
+    for (key, label) in [
+        ("modifierPoints", "Attribute points"),
+        ("skillPoints", "Skill points"),
+    ] {
         if let Some(t) = word(key) {
             b.ranged(&["Points", label], t.at, Kind::U32, 0, 10_000);
         }
     }
     // The five attributes: the next `temp` values after skillPoints (past block markers).
     if let Some(i) = first("skillPoints") {
-        let temps: Vec<&Tok> = toks[i + 1..].iter().filter(|t| t.key != "begin_block" && t.key != "end_block").take(5).collect();
+        let temps: Vec<&Tok> = toks[i + 1..]
+            .iter()
+            .filter(|t| t.key != "begin_block" && t.key != "end_block")
+            .take(5)
+            .collect();
         if temps.len() == 5 && temps.iter().all(|t| t.key == "temp" && t.ty == Ty::Word) {
-            for (t, label) in temps.iter().zip(["Strength", "Dexterity", "Intelligence", "Health", "Energy"]) {
+            for (t, label) in
+                temps
+                    .iter()
+                    .zip(["Strength", "Dexterity", "Intelligence", "Health", "Energy"])
+            {
                 b.ranged(&["Attributes", label], t.at, Kind::F32, 0, 100_000);
             }
         }
@@ -143,15 +181,27 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
     // Skills: a skillName followed straight away by its skillLevel.
     let mut seen: HashMap<String, usize> = HashMap::new();
     for w in toks.windows(2) {
-        if w[0].key == "skillName" && w[0].ty == Ty::Text && w[1].key == "skillLevel" && w[1].ty == Ty::Word {
+        if w[0].key == "skillName"
+            && w[0].ty == Ty::Text
+            && w[1].key == "skillLevel"
+            && w[1].ty == Ty::Word
+        {
             let name = record_name(&text(&w[0]));
             let n = seen.entry(name.clone()).or_default();
             *n += 1;
-            let label = if *n > 1 { format!("{name} ({n})") } else { name };
+            let label = if *n > 1 {
+                format!("{name} ({n})")
+            } else {
+                name
+            };
             b.ranged(&["Skills", &label], w[1].at, Kind::U32, 0, 255);
         }
     }
-    for (key, label) in [("playTimeInSeconds", "Play time (seconds)"), ("numberOfKills", "Kills"), ("numberOfDeaths", "Deaths")] {
+    for (key, label) in [
+        ("playTimeInSeconds", "Play time (seconds)"),
+        ("numberOfKills", "Kills"),
+        ("numberOfDeaths", "Deaths"),
+    ] {
         if let Some(v) = word(key).and_then(|t| u32_at(d, t.at)) {
             b.info(&["Statistics", label], v);
         }
@@ -191,7 +241,11 @@ mod tests {
         d.extend("Hero".encode_utf16().flat_map(|c| c.to_le_bytes()));
         word(&mut d, "begin_block", 0xB01D_FACE);
         word(&mut d, "money", 1234);
-        text(&mut d, "skillName", r"Records\Skills\Storm\StormMastery.dbr");
+        text(
+            &mut d,
+            "skillName",
+            r"Records\Skills\Storm\StormMastery.dbr",
+        );
         word(&mut d, "skillLevel", 8);
         text(&mut d, "skillName", r"Records\Skills\Storm\IceShard.dbr");
         word(&mut d, "skillLevel", 3);
@@ -231,7 +285,10 @@ mod tests {
         assert_eq!(out.len(), d.len());
         let again = parse(&out).unwrap();
         assert_eq!(again.view.pointer("/Character/Level"), Some(&11.into()));
-        assert_eq!(again.view.pointer("/Attributes/Strength"), Some(&55.0.into()));
+        assert_eq!(
+            again.view.pointer("/Attributes/Strength"),
+            Some(&55.0.into())
+        );
         // The header's copy of the level follows.
         let at = d.windows(11).position(|w| w == b"playerLevel").unwrap() + 11;
         assert_eq!(&out[at..at + 4], &11u32.to_le_bytes());
@@ -241,6 +298,16 @@ mod tests {
     #[test]
     #[ignore]
     fn real_saves() {
-        crate::fmt::grimdawn::tests::research("SAVE_EDITOR_TQ", |n| n.eq_ignore_ascii_case("player.chr"), "Titan Quest character", &["/Character/Money", "/Attributes/Strength", "/Character/Level", "/Points/Skill points"]);
+        crate::fmt::grimdawn::tests::research(
+            "SAVE_EDITOR_TQ",
+            |n| n.eq_ignore_ascii_case("player.chr"),
+            "Titan Quest character",
+            &[
+                "/Character/Money",
+                "/Attributes/Strength",
+                "/Character/Level",
+                "/Points/Skill points",
+            ],
+        );
     }
 }

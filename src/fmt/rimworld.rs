@@ -21,7 +21,9 @@ fn find(d: &[u8], pat: &[u8], from: usize) -> Option<usize> {
     let first = pat[0];
     let mut i = from;
     while i + pat.len() <= d.len() {
-        let j = i + d[i..d.len() - pat.len() + 1].iter().position(|&b| b == first)?;
+        let j = i + d[i..d.len() - pat.len() + 1]
+            .iter()
+            .position(|&b| b == first)?;
         if &d[j..j + pat.len()] == pat {
             return Some(j);
         }
@@ -49,7 +51,9 @@ fn elem_end(d: &[u8], start: usize, tag: &str) -> Option<usize> {
             if depth == 0 {
                 return Some(i);
             }
-        } else if d[j..].starts_with(open.as_bytes()) && matches!(d.get(j + open.len()), Some(b'>' | b' ' | b'/')) {
+        } else if d[j..].starts_with(open.as_bytes())
+            && matches!(d.get(j + open.len()), Some(b'>' | b' ' | b'/'))
+        {
             let close = j + d[j..].iter().position(|&b| b == b'>')?;
             if d[close - 1] != b'/' {
                 depth += 1;
@@ -85,7 +89,9 @@ enum Leaf {
 impl Leaf {
     fn span(&self) -> (usize, usize) {
         match *self {
-            Leaf::Number { start, end } | Leaf::Level { start, end } | Leaf::Passion { start, end } => (start, end),
+            Leaf::Number { start, end }
+            | Leaf::Level { start, end }
+            | Leaf::Passion { start, end } => (start, end),
         }
     }
 }
@@ -101,7 +107,9 @@ struct RwBackend {
 impl RwBackend {
     fn render(&self, leaf: &Leaf, v: &Value) -> Result<String, String> {
         Ok(match leaf {
-            Leaf::Number { .. } => crate::tree::int_in(v, 0, i32::MAX as i128, "This value")?.to_string(),
+            Leaf::Number { .. } => {
+                crate::tree::int_in(v, 0, i32::MAX as i128, "This value")?.to_string()
+            }
             Leaf::Level { .. } => {
                 let n = crate::tree::int_in(v, 0, MAX_LEVEL, "Skill level")?;
                 if n == 0 {
@@ -112,7 +120,9 @@ impl RwBackend {
             }
             Leaf::Passion { .. } => match v.as_str() {
                 Some("None") => String::new(),
-                Some(p) if self.passions.iter().any(|x| x == p) => format!("<passion>{p}</passion>"),
+                Some(p) if self.passions.iter().any(|x| x == p) => {
+                    format!("<passion>{p}</passion>")
+                }
                 _ => return Err("pick a passion from the list".into()),
             },
         })
@@ -121,7 +131,10 @@ impl RwBackend {
 
 impl Backend for RwBackend {
     fn write(&self, _view: &Value, changes: &[(usize, Value)]) -> Result<Vec<u8>, String> {
-        let mut edits: Vec<((usize, usize), String)> = changes.iter().map(|(l, v)| Ok((self.leaves[*l].span(), self.render(&self.leaves[*l], v)?))).collect::<Result<_, String>>()?;
+        let mut edits: Vec<((usize, usize), String)> = changes
+            .iter()
+            .map(|(l, v)| Ok((self.leaves[*l].span(), self.render(&self.leaves[*l], v)?)))
+            .collect::<Result<_, String>>()?;
         edits.sort_by_key(|e| e.0);
         let mut out = Vec::with_capacity(self.data.len() + 256);
         let mut at = 0;
@@ -142,7 +155,9 @@ impl Backend for RwBackend {
         if !matches!(self.leaves[leaf], Leaf::Number { .. }) {
             return vec![];
         }
-        let total: i64 = view["Silver"].as_object().map_or(0, |m| m.values().filter_map(Value::as_i64).sum());
+        let total: i64 = view["Silver"]
+            .as_object()
+            .map_or(0, |m| m.values().filter_map(Value::as_i64).sum());
         vec![("/Colony/Silver (all stacks)".into(), Value::from(total))]
     }
 
@@ -158,7 +173,12 @@ impl Backend for RwBackend {
 /// Every passion named in the colonists' skills.
 fn colonists_view(root: &Map<String, Value>) -> Vec<String> {
     let mut out = vec![];
-    for c in root.get("Colonists").and_then(Value::as_object).into_iter().flat_map(|m| m.values()) {
+    for c in root
+        .get("Colonists")
+        .and_then(Value::as_object)
+        .into_iter()
+        .flat_map(|m| m.values())
+    {
         for sk in c["Skills"].as_object().into_iter().flat_map(|m| m.values()) {
             if let Some(p) = sk["Passion"].as_str() {
                 if !out.iter().any(|x| x == p) {
@@ -216,14 +236,22 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
     let mut at = 0;
     while let Some(sk) = find(d, b"<skills>", at) {
         at = sk + 1;
-        let next = d[sk + 8..].iter().position(|b| !b.is_ascii_whitespace()).map(|k| sk + 8 + k);
+        let next = d[sk + 8..]
+            .iter()
+            .position(|b| !b.is_ascii_whitespace())
+            .map(|k| sk + 8 + k);
         if next.is_none_or(|n| !d[n..].starts_with(b"<skills>")) || sk < done {
             continue;
         }
         let mut f = sk;
         let header = loop {
-            let Some(p) = d[..f].windows(9).rposition(|w| w == b"<faction>") else { break None };
-            if d[p.saturating_sub(160)..p].windows(5).any(|w| w == b"</id>") {
+            let Some(p) = d[..f].windows(9).rposition(|w| w == b"<faction>") else {
+                break None;
+            };
+            if d[p.saturating_sub(160)..p]
+                .windows(5)
+                .any(|w| w == b"</id>")
+            {
                 break Some(p);
             }
             f = p;
@@ -243,10 +271,20 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
             (None, Some(b)) => (b, "thing"),
             _ => continue,
         };
-        let Some(e) = elem_end(d, s, elem).filter(|&e| e > sk) else { continue };
-        let Some(list) = find(&d[..e], b"<skills>", sk + 8) else { continue };
-        let Some(list_end) = find(&d[..e], b"</skills>", list) else { continue };
-        let name = match (child(d, "nick", s, e), child(d, "first", s, e), child(d, "last", s, e)) {
+        let Some(e) = elem_end(d, s, elem).filter(|&e| e > sk) else {
+            continue;
+        };
+        let Some(list) = find(&d[..e], b"<skills>", sk + 8) else {
+            continue;
+        };
+        let Some(list_end) = find(&d[..e], b"</skills>", list) else {
+            continue;
+        };
+        let name = match (
+            child(d, "nick", s, e),
+            child(d, "first", s, e),
+            child(d, "last", s, e),
+        ) {
             (Some(n), _, _) if !n.0.is_empty() => n.0,
             (_, Some(f), Some(l)) => format!("{} {}", f.0, l.0),
             _ => child(d, "id", s, e).map_or_else(|| "Colonist".into(), |i| i.0),
@@ -256,37 +294,65 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
         let mut pawn = Map::new();
         if let Some((full, _, _)) = child(d, "first", s, e) {
             let last = child(d, "last", s, e).map(|l| l.0).unwrap_or_default();
-            pawn.insert("Name".into(), Value::from(format!("{full} {last}").trim().to_string()));
+            pawn.insert(
+                "Name".into(),
+                Value::from(format!("{full} {last}").trim().to_string()),
+            );
         }
         let mut skills = Map::new();
         let mut i = list + 8;
         while let Some(li) = find(&d[..list_end], b"<li>", i) {
             let Some(le) = li_end(d, li) else { break };
             i = le;
-            let Some((def, _, def_end)) = child(d, "def", li, le) else { continue };
+            let Some((def, _, def_end)) = child(d, "def", li, le) else {
+                continue;
+            };
             let after_def = def_end + "</def>".len();
             let sp = format!("{base}/Skills/{}", esc(&def));
             let mut sk = Map::new();
             let (lv, lspan) = match find(&d[..le], b"<level>", li) {
                 Some(ls) => {
                     let lend = find(&d[..le], b"</level>", ls).unwrap_or(ls) + "</level>".len();
-                    let n: i64 = String::from_utf8_lossy(&d[ls + 7..lend - 8]).trim().parse().unwrap_or(0);
+                    let n: i64 = String::from_utf8_lossy(&d[ls + 7..lend - 8])
+                        .trim()
+                        .parse()
+                        .unwrap_or(0);
                     (n, (ls, lend))
                 }
                 None => (0, (after_def, after_def)),
             };
             sk.insert("Level".into(), Value::from(lv));
-            leaf(format!("{sp}/Level"), Leaf::Level { start: lspan.0, end: lspan.1 }, &mut leaves);
+            leaf(
+                format!("{sp}/Level"),
+                Leaf::Level {
+                    start: lspan.0,
+                    end: lspan.1,
+                },
+                &mut leaves,
+            );
             let (pv, pspan) = match find(&d[..le], b"<passion>", li) {
                 Some(ps) => {
                     let pend = find(&d[..le], b"</passion>", ps).unwrap_or(ps) + "</passion>".len();
-                    (String::from_utf8_lossy(&d[ps + 9..pend - 10]).into_owned(), (ps, pend))
+                    (
+                        String::from_utf8_lossy(&d[ps + 9..pend - 10]).into_owned(),
+                        (ps, pend),
+                    )
                 }
                 // A new passion goes after the level (or the def).
-                None => (String::from("None"), (lspan.1.max(after_def), lspan.1.max(after_def))),
+                None => (
+                    String::from("None"),
+                    (lspan.1.max(after_def), lspan.1.max(after_def)),
+                ),
             };
             sk.insert("Passion".into(), Value::from(pv));
-            leaf(format!("{sp}/Passion"), Leaf::Passion { start: pspan.0, end: pspan.1 }, &mut leaves);
+            leaf(
+                format!("{sp}/Passion"),
+                Leaf::Passion {
+                    start: pspan.0,
+                    end: pspan.1,
+                },
+                &mut leaves,
+            );
             skills.insert(def, Value::Object(sk));
         }
         pawn.insert("Skills".into(), Value::Object(skills));
@@ -301,12 +367,29 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
     while let Some(s) = find(d, b"<def>Silver</def>", at) {
         at = s + 1;
         let end = (s + 1500).min(d.len());
-        let stop = find(&d[..end], b"</li>", s).or_else(|| find(&d[..end], b"</thing>", s)).unwrap_or(end);
-        let Some((n, cs, ce)) = child(d, "stackCount", s, stop) else { continue };
-        let Ok(n) = n.trim().parse::<i64>() else { continue };
+        let stop = find(&d[..end], b"</li>", s)
+            .or_else(|| find(&d[..end], b"</thing>", s))
+            .unwrap_or(end);
+        let Some((n, cs, ce)) = child(d, "stackCount", s, stop) else {
+            continue;
+        };
+        let Ok(n) = n.trim().parse::<i64>() else {
+            continue;
+        };
         let pos = child(d, "pos", s, stop).map(|p| p.0).unwrap_or_default();
-        let key = unique_key(&silver, &if pos.is_empty() { format!("Stack {}", silver.len() + 1) } else { format!("Stack at {pos}") });
-        leaf(format!("/Silver/{}", esc(&key)), Leaf::Number { start: cs, end: ce }, &mut leaves);
+        let key = unique_key(
+            &silver,
+            &if pos.is_empty() {
+                format!("Stack {}", silver.len() + 1)
+            } else {
+                format!("Stack at {pos}")
+            },
+        );
+        leaf(
+            format!("/Silver/{}", esc(&key)),
+            Leaf::Number { start: cs, end: ce },
+            &mut leaves,
+        );
         silver.insert(key, Value::from(n));
         total += n;
     }
@@ -321,7 +404,11 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
             passions.push(c);
         }
     }
-    let backend = RwBackend { data: Arc::new(d.to_vec()), leaves, passions: Arc::new(passions) };
+    let backend = RwBackend {
+        data: Arc::new(d.to_vec()),
+        leaves,
+        passions: Arc::new(passions),
+    };
     Ok(TreeDoc::new(Value::Object(root), editable, "RimWorld save", Box::new(backend)).with_note(
         "Colonists' skills and passions and every silver stack can be changed. The rest of this (very large) save is kept as it is.",
     ))
@@ -347,20 +434,48 @@ mod tests {
         assert!(looks(d));
         let mut doc = parse(d).unwrap();
         assert_eq!(doc.view["Colony"]["Faction"], "New Hope");
-        assert_eq!(doc.view["Colonists"]["Annie"]["Skills"]["Shooting"]["Level"], 8);
-        assert_eq!(doc.view["Colonists"]["Annie"]["Skills"]["Cooking"]["Level"], 0);
-        assert_eq!(doc.view["Colonists"]["Annie"]["Skills"]["Cooking"]["Passion"], "None");
+        assert_eq!(
+            doc.view["Colonists"]["Annie"]["Skills"]["Shooting"]["Level"],
+            8
+        );
+        assert_eq!(
+            doc.view["Colonists"]["Annie"]["Skills"]["Cooking"]["Level"],
+            0
+        );
+        assert_eq!(
+            doc.view["Colonists"]["Annie"]["Skills"]["Cooking"]["Passion"],
+            "None"
+        );
         assert_eq!(doc.view["Colonists"].as_object().unwrap().len(), 1);
         assert_eq!(doc.view["Silver"]["Stack at (10, 0, 4)"], 120);
         assert_eq!(doc.to_bytes().unwrap(), d);
-        doc.set("/Colonists/Annie/Skills/Cooking/Level", Value::from(15)).unwrap();
-        doc.set("/Colonists/Annie/Skills/Cooking/Passion", Value::from("Minor")).unwrap();
-        doc.set("/Colonists/Annie/Skills/Shooting/Passion", Value::from("None")).unwrap();
-        doc.set("/Silver/Stack at (10, 0, 4)", Value::from(500)).unwrap();
-        assert!(doc.set("/Colonists/Annie/Skills/Shooting/Level", Value::from(-1)).is_err());
-        assert!(doc.set("/Colonists/Annie/Skills/Shooting/Passion", Value::from("Burning")).is_err());
+        doc.set("/Colonists/Annie/Skills/Cooking/Level", Value::from(15))
+            .unwrap();
+        doc.set(
+            "/Colonists/Annie/Skills/Cooking/Passion",
+            Value::from("Minor"),
+        )
+        .unwrap();
+        doc.set(
+            "/Colonists/Annie/Skills/Shooting/Passion",
+            Value::from("None"),
+        )
+        .unwrap();
+        doc.set("/Silver/Stack at (10, 0, 4)", Value::from(500))
+            .unwrap();
+        assert!(doc
+            .set("/Colonists/Annie/Skills/Shooting/Level", Value::from(-1))
+            .is_err());
+        assert!(doc
+            .set(
+                "/Colonists/Annie/Skills/Shooting/Passion",
+                Value::from("Burning")
+            )
+            .is_err());
         let out = String::from_utf8(doc.to_bytes().unwrap()).unwrap();
-        assert!(out.contains("<li><def>Cooking</def><level>15</level><passion>Minor</passion></li>"));
+        assert!(
+            out.contains("<li><def>Cooking</def><level>15</level><passion>Minor</passion></li>")
+        );
         assert!(out.contains("<li><def>Shooting</def><level>8</level></li>"));
         assert!(out.contains("<stackCount>500</stackCount>"));
         assert_eq!(parse(out.as_bytes()).unwrap().view, doc.view);
@@ -375,7 +490,17 @@ mod tests {
         let doc = parse(&d).unwrap();
         println!("{:?}: {}", t.elapsed(), doc.view["Colony"]);
         for (k, v) in doc.view["Colonists"].as_object().unwrap() {
-            println!("{k}: {}", v["Skills"].as_object().map(|m| m.iter().map(|(s, x)| format!("{s} {} {}", x["Level"], x["Passion"])).collect::<Vec<_>>().join(", ")).unwrap_or_default());
+            println!(
+                "{k}: {}",
+                v["Skills"]
+                    .as_object()
+                    .map(|m| m
+                        .iter()
+                        .map(|(s, x)| format!("{s} {} {}", x["Level"], x["Passion"]))
+                        .collect::<Vec<_>>()
+                        .join(", "))
+                    .unwrap_or_default()
+            );
         }
         assert_eq!(doc.to_bytes().unwrap(), d);
     }

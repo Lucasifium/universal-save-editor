@@ -32,7 +32,11 @@ fn block_sums(b: &[u8]) -> (u16, u16) {
     let mut h = 0u16;
     for (i, &x) in b.iter().enumerate() {
         l = l.wrapping_add(u16::from(x));
-        h = if i % 2 == 0 { h.wrapping_add(u16::from(x)) } else { h.wrapping_sub(u16::from(x)) };
+        h = if i % 2 == 0 {
+            h.wrapping_add(u16::from(x))
+        } else {
+            h.wrapping_sub(u16::from(x))
+        };
     }
     (l, h)
 }
@@ -43,7 +47,9 @@ fn block_ok(d: &[u8], at: usize) -> bool {
 }
 
 pub fn looks_dr1(d: &[u8]) -> bool {
-    d.len() == DR1_LEN && d[..4] == [0x01, 0x10, 0, 0] && (0..d.len()).step_by(20).all(|b| block_ok(d, b))
+    d.len() == DR1_LEN
+        && d[..4] == [0x01, 0x10, 0, 0]
+        && (0..d.len()).step_by(20).all(|b| block_ok(d, b))
 }
 
 fn fix_dr1(out: &mut Vec<u8>) {
@@ -70,8 +76,18 @@ pub fn parse_dr1(d: &[u8]) -> Result<TreeDoc, String> {
     b.ranged(&["Frank", "Level"], raw(0x1C), Kind::U32, 1, 50);
     b.ranged(&["Frank", "PP"], raw(0x90), Kind::U32, 0, 999_999_999);
     b.ranged(&["Frank", "Max health"], raw(0x20), Kind::U32, 1000, 12_000);
-    b.ranged(&["Frank", "Skills"], raw(0x24), Kind::U32, 0, DR1_ALL_SKILLS);
-    let area: String = (0xC..0x10).map(|i| d[raw(i)]).take_while(|&c| c.is_ascii_alphanumeric()).map(char::from).collect();
+    b.ranged(
+        &["Frank", "Skills"],
+        raw(0x24),
+        Kind::U32,
+        0,
+        DR1_ALL_SKILLS,
+    );
+    let area: String = (0xC..0x10)
+        .map(|i| d[raw(i)])
+        .take_while(|&c| c.is_ascii_alphanumeric())
+        .map(char::from)
+        .collect();
     if !area.is_empty() {
         b.info(&["Save", "Area"], area);
     }
@@ -87,7 +103,13 @@ const DR2_SECTIONS: &[(usize, usize)] = &[(0, 0x4A104)];
 const DR2_STATS: usize = 0xD24;
 
 const OTR_LEN: usize = 257_294;
-const OTR_SECTIONS: &[(usize, usize)] = &[(0, 0x199), (0x6E8, 0x108D), (0x1770, 0x20E1), (0xA028, 0x24AE6), (0x29BF8, 0x3EBAE)];
+const OTR_SECTIONS: &[(usize, usize)] = &[
+    (0, 0x199),
+    (0x6E8, 0x108D),
+    (0x1770, 0x20E1),
+    (0xA028, 0x24AE6),
+    (0x29BF8, 0x3EBAE),
+];
 const OTR_STATS: usize = 0x18D0;
 const OTR_HEADER: usize = 0x161;
 
@@ -100,13 +122,19 @@ pub fn crc_dr2(d: &[u8]) -> u32 {
         for (i, e) in t.iter_mut().enumerate() {
             let mut c = (i as u32) << 24;
             for _ in 0..8 {
-                c = if c & 0x8000_0000 != 0 { (c << 1) ^ 0xEDB8_8320 } else { c << 1 };
+                c = if c & 0x8000_0000 != 0 {
+                    (c << 1) ^ 0xEDB8_8320
+                } else {
+                    c << 1
+                };
             }
             *e = c;
         }
         t
     });
-    d.iter().fold(0u32, |c, &b| (c << 8) ^ t[((c >> 24) as u8 ^ b.reverse_bits()) as usize])
+    d.iter().fold(0u32, |c, &b| {
+        (c << 8) ^ t[((c >> 24) as u8 ^ b.reverse_bits()) as usize]
+    })
 }
 
 fn sections_ok(d: &[u8], sections: &[(usize, usize)]) -> bool {
@@ -195,7 +223,11 @@ mod tests {
         let direct = data.iter().fold(0u32, |mut c, &b| {
             c ^= u32::from(b.reverse_bits()) << 24;
             for _ in 0..8 {
-                c = if c & 0x8000_0000 != 0 { (c << 1) ^ 0xEDB8_8320 } else { c << 1 };
+                c = if c & 0x8000_0000 != 0 {
+                    (c << 1) ^ 0xEDB8_8320
+                } else {
+                    c << 1
+                };
             }
             c
         });
@@ -223,7 +255,8 @@ mod tests {
         assert_eq!(doc.view.pointer("/Save/Area"), Some(&Value::from("s100")));
         assert!(doc.set("/Frank/Level", Value::from(51)).is_err());
         doc.set("/Frank/Level", Value::from(50)).unwrap();
-        doc.set("/Frank/Skills", Value::from(DR1_ALL_SKILLS)).unwrap();
+        doc.set("/Frank/Skills", Value::from(DR1_ALL_SKILLS))
+            .unwrap();
         let out = doc.to_bytes().unwrap();
         assert!(looks_dr1(&out));
         assert_eq!(out[raw(0x1C)], 50);
@@ -262,15 +295,23 @@ mod tests {
         doc.set("/Frank/PP", Value::from(5_000_000)).unwrap();
         let out = doc.to_bytes().unwrap();
         assert!(looks_otr(&out));
-        assert_eq!(&out[OTR_STATS + 4..OTR_STATS + 8], &5_000_000i32.to_le_bytes());
-        assert_eq!(&out[OTR_HEADER + 4..OTR_HEADER + 8], &5_000_000i32.to_le_bytes());
+        assert_eq!(
+            &out[OTR_STATS + 4..OTR_STATS + 8],
+            &5_000_000i32.to_le_bytes()
+        );
+        assert_eq!(
+            &out[OTR_HEADER + 4..OTR_HEADER + 8],
+            &5_000_000i32.to_le_bytes()
+        );
     }
 
     /// `DR_SAVES="a|b|c"`: each real save opens and writes back byte for byte.
     #[test]
     #[ignore]
     fn real_saves_round_trip() {
-        let Ok(list) = std::env::var("DR_SAVES") else { return };
+        let Ok(list) = std::env::var("DR_SAVES") else {
+            return;
+        };
         for p in list.split('|') {
             let d = std::fs::read(p).unwrap();
             let doc = if looks_dr1(&d) {
