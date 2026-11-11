@@ -8,6 +8,8 @@ mod bughunt;
 mod site;
 mod app;
 mod backups;
+#[cfg(not(any(target_arch = "wasm32", target_os = "android")))]
+mod cli;
 mod file_browser;
 mod fmt;
 mod formats;
@@ -34,6 +36,13 @@ mod web;
 mod widgets;
 
 pub use platform::APP_NAME;
+
+/// Command-line use (`UniversalSaveEditor info <save>`, `set`, `decode`, …; see `cli.rs`).
+/// Returns the exit code, or `None` when the arguments mean "open the window".
+#[cfg(not(any(target_arch = "wasm32", target_os = "android")))]
+pub fn run_cli(args: &[String]) -> Option<i32> {
+    cli::run(args)
+}
 
 #[cfg(not(target_arch = "wasm32"))]
 /// Desktop entry point. `initial`: a file passed on the command line (or dropped onto the program).

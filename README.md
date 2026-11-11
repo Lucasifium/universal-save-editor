@@ -268,6 +268,24 @@ another one (e.g. before and after you earned gold), with a one-click **Use thei
 - Changed values are highlighted in orange with a one-click revert.
 - **Undo / Redo** (Ctrl+Z / Ctrl+Y), and a **Changes** panel listing old › new for each edit.
 
+## Command line
+
+The same program runs commands without opening the window, for scripts and batch edits:
+
+    UniversalSaveEditor info   <save> [--json]          what the file is and which screen opens it
+    UniversalSaveEditor list   <save> [--json]          every value, by pointer
+    UniversalSaveEditor get    <save> /money /party/0/hp
+    UniversalSaveEditor set    <save> /money=99999 /name=Ann [-o <out>] [--no-backup]
+    UniversalSaveEditor decode <save> [-o <out>]        the unpacked data (JSON, text or bytes)
+    UniversalSaveEditor encode <save> <data> [-o <out>] pack edited data the way <save> is packed
+    UniversalSaveEditor games  [--json]                 the games the editor knows
+
+`--password <p>` opens encrypted saves, like *Tools › Decrypt with password*. Writing is as careful
+as the window: the new file must read back exactly before anything is written, the old file is
+backed up first (*File › Restore previous version* lists the copies) and the write is atomic.
+`decode` then `encode` lets any other tool edit the unpacked data while the editor handles the
+compression, encryption and checksums.
+
 ## Friendly names
 
 - Keys are shown as readable labels (`store.max_hp` → **Max HP**). Turn on **Raw keys** to see
