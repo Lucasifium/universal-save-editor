@@ -7,6 +7,7 @@
 //! UniversalSaveEditor set    <save> <pointer>=<json>... [-o <out>]
 //! UniversalSaveEditor decode <save> [-o <out>]                the unpacked data
 //! UniversalSaveEditor encode <save> <edited data> [-o <out>]  pack edited data like <save>
+//! UniversalSaveEditor patch  <save> [<game|file> [<n>[:<k>]...]]  console cheat patches (Apollo)
 //! UniversalSaveEditor games  [--json]                         the games the editor knows
 //! ```
 //!
@@ -19,7 +20,7 @@ use crate::formats::{self, Content, Options};
 use serde_json::{json, Value};
 use std::path::{Path, PathBuf};
 
-const COMMANDS: [&str; 10] = ["info", "list", "get", "set", "decode", "encode", "checksum", "steamid", "games", "help"];
+const COMMANDS: [&str; 11] = ["info", "list", "get", "set", "decode", "encode", "checksum", "steamid", "patch", "games", "help"];
 
 /// Runs a command if `args` (without the program name) start with one; `None` means "open the
 /// window", with the first argument as a file to open.
@@ -54,15 +55,19 @@ struct Args {
     password: Option<String>,
     entry: Option<String>,
     no_backup: bool,
+    /// --be / --le: byte order for cheat patches.
+    big_endian: Option<bool>,
 }
 
 fn parse(args: &[String]) -> Result<Args, String> {
-    let mut a = Args { pos: vec![], json: false, out: None, password: None, entry: None, no_backup: false };
+    let mut a = Args { pos: vec![], json: false, out: None, password: None, entry: None, no_backup: false, big_endian: None };
     let mut it = args.iter();
     while let Some(x) = it.next() {
         match x.as_str() {
             "--json" => a.json = true,
             "--no-backup" => a.no_backup = true,
+            "--be" => a.big_endian = Some(true),
+            "--le" => a.big_endian = Some(false),
             "-o" | "--out" => a.out = Some(PathBuf::from(it.next().ok_or("usage: -o needs a file")?)),
             "--password" => a.password = Some(it.next().ok_or("usage: --password needs a value")?.clone()),
             "--entry" => a.entry = Some(it.next().ok_or("usage: --entry needs a name (see info)")?.clone()),
@@ -85,6 +90,7 @@ fn help() {
          UniversalSaveEditor encode <save> <data> [-o <out>]  pack edited data the way <save> is packed\n  \
          UniversalSaveEditor checksum <save> [<n>|off]      find a checksum; <n> keeps that one fixed on every save\n  \
          UniversalSaveEditor steamid <save> [<old> <new>]   list the Steam IDs in a save, or change one to another account\n  \
+         UniversalSaveEditor patch  <save> [<game> [<n>...]]  console cheat patches: list the patch files for the save,\n                                                    a patch file's codes, or apply codes by number (<n>:<k> picks\n                                                    option k of a code with options; --be/--le sets the byte order)\n  \
          UniversalSaveEditor games  [--json]                the games the editor knows\n\n\
          Options: --password <p> (encrypted saves), --entry <name> (one save in an archive or\n\
          memory card, as listed by info), --json (machine-readable output).\n\
@@ -94,6 +100,126 @@ fn help() {
         crate::platform::DISPLAY_NAME,
         env!("CARGO_PKG_VERSION")
     );
+}
+
+/// `patch`: <game> is a title ID, a name to search for, or a .savepatch file.
+fn patch(a: &Args) -> Result<(), String> {
+    use crate::apollo::{self, db, Kind};
+    let f = a.pos.first().ok_or("usage: patch <save> [<game|file.savepatch> [<n>[:<k>]...]]")?;
+    let (path, opts, mut d) = open(f, a)?;
+    let Content::Binary(data) = &d.content else {
+        return Err(format!("{f}: cheat patches work on a console save's raw data, and this file opens as structured data"));
+    };
+    let inner = d.layers.iter().rev().find_map(|l| match l {
+        formats::Layer::ZipEntry { name, .. } | formats::Layer::Copeck { name, .. } => Some(name.clone()),
+        formats::Layer::Ps2Card { file, .. } => Some(file.name.clone()),
+        _ => None,
+    });
+    let full = format!("{}{}", path.to_string_lossy().replace('\\', "/"), inner.map(|n| format!("/{n}")).unwrap_or_default());
+    let file = full.rsplit('/').next().unwrap_or_default().to_string();
+    let Some(game) = a.pos.get(1) else {
+        let ids = db::ids_in(&full);
+        if ids.is_empty() {
+            println!("no title ID in the save's name; name the game: patch <save> <title ID or name>");
+        }
+        for e in ids.iter().flat_map(|id| db::find(id)) {
+            println!("{}  {}  ({})", e.id, e.title, e.platform);
+        }
+        return Ok(());
+    };
+    let (label, codes, mut be) = if game.to_ascii_lowercase().ends_with(".savepatch") {
+        let raw = std::fs::read(game).map_err(|e| format!("{game}: {e}"))?;
+        let (text, latin1) = match String::from_utf8(raw) {
+            Ok(t) => (t, false),
+            Err(e) => (e.into_bytes().iter().map(|&b| b as char).collect(), true),
+        };
+        let (id, title) = apollo::header(&text);
+        let be = db::ps3_id(if id.is_empty() { game } else { &id });
+        (title, apollo::parse(&text, latin1), be)
+    } else {
+        let mut hits = db::find(game);
+        if hits.is_empty() {
+            hits = db::search(game, 20);
+        }
+        match hits[..] {
+            [] => return Err(format!("no patch file for \"{game}\"")),
+            [e] => (format!("{} ({})", e.title, e.platform), e.codes(), e.big_endian()),
+            _ => {
+                println!("several patch files match; use a title ID:");
+                hits.iter().for_each(|e| println!("{}  {}  ({})", e.id, e.title, e.platform));
+                return Ok(());
+            }
+        }
+    };
+    be = a.big_endian.unwrap_or(be);
+    let picked = &a.pos[2..];
+    if picked.is_empty() {
+        println!("{label}  [{}]", if be { "big-endian" } else { "little-endian" });
+        for (i, c) in codes.iter().enumerate() {
+            if c.empty() {
+                println!("  -- {} --", c.name);
+                continue;
+            }
+            let mut notes = vec![];
+            if c.required {
+                notes.push("always applied".to_string());
+            }
+            if c.kind == Kind::Python {
+                notes.push("Python, not supported".into());
+            }
+            if !apollo::targets(c, &file) {
+                notes.push(format!("for {}", c.file));
+            }
+            let notes = if notes.is_empty() { String::new() } else { format!("  ({})", notes.join(", ")) };
+            println!("{:>4}  {}{}{notes}", i + 1, if c.child { "  " } else { "" }, c.name);
+            for ch in &c.choices {
+                let opts: Vec<String> = ch.values.iter().enumerate().map(|(k, (_, n))| format!("{}={n}", k + 1)).collect();
+                println!("        options: {}", opts.join(", "));
+            }
+        }
+        return Ok(());
+    }
+    // Which codes, and the option picked for each of their {TAGS} (1-based on the command line).
+    let mut want: Vec<(usize, Vec<usize>)> = vec![];
+    for p in picked.iter().flat_map(|p| p.split(',')).filter(|p| !p.is_empty()) {
+        let mut it = p.split(':');
+        let n: usize = it.next().and_then(|n| n.parse().ok()).filter(|&n| n >= 1 && n <= codes.len()).ok_or(format!("{p}: not a code number from the list"))?;
+        let ks: Vec<usize> = it.map(|k| k.parse::<usize>().ok().filter(|&k| k >= 1).map(|k| k - 1).ok_or(format!("{p}: options are numbered from 1"))).collect::<Result<_, _>>()?;
+        let c = &codes[n - 1];
+        if c.empty() {
+            return Err(format!("{n} is a heading, not a code"));
+        }
+        for (i, k) in ks.iter().enumerate() {
+            if c.choices.get(i).is_none_or(|ch| *k >= ch.values.len()) {
+                return Err(format!("{p}: code {n} has no option {}", k + 1));
+            }
+        }
+        want.push((n - 1, ks));
+    }
+    let mut out = data.clone();
+    let mut session = apollo::Session::new(be);
+    let mut done = 0;
+    for (i, c) in codes.iter().enumerate() {
+        let picks = want.iter().find(|(n, _)| *n == i).map(|(_, k)| k.clone());
+        if (picks.is_none() && !(c.required && apollo::targets(c, &file))) || c.empty() {
+            continue;
+        }
+        session.apply(&mut out, c, picks.as_deref().unwrap_or(&[])).map_err(|e| format!("{}: {e}; nothing was written", c.name))?;
+        done += usize::from(picks.is_some());
+    }
+    if out == *data {
+        println!("the codes didn't change anything");
+        return Ok(());
+    }
+    d.content = Content::Binary(out);
+    let bytes = formats::encode(&d.layers, &d.content)?;
+    let check = formats::decode_with(&bytes, &opts);
+    if !formats::same_layers(&check.layers, &d.layers) || !formats::verified(&check.content, &d.content) {
+        return Err("the patched save didn't read back identically; nothing was written".into());
+    }
+    write(&path, a.out.as_deref(), &bytes, a.no_backup)?;
+    println!("applied {done} code{}", if done == 1 { "" } else { "s" });
+    Ok(())
 }
 
 fn open(path: &str, a: &Args) -> Result<(PathBuf, Options, formats::Decoded), String> {
@@ -200,6 +326,7 @@ fn go(cmd: &str, args: &[String]) -> Result<(), String> {
             write(&path, a.out.as_deref(), &bytes, a.no_backup)?;
             println!("changed {n} place{}", if n == 1 { "" } else { "s" });
         }
+        "patch" => patch(&a)?,
         "games" => {
             if a.json {
                 let list: Vec<Value> = crate::games::GAMES

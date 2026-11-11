@@ -30,6 +30,13 @@ Universal Save Editor is free. It builds on other people's work, listed here wit
 | [xEdit save definitions (Fallout 3 / New Vegas inventory extra data; facts only, no code)](https://github.com/TES5Edit/TES5Edit) | the xEdit team | facts only (file layouts, ids and names), credited |
 | [py-starbound (Starbound versioned JSON save layout)](https://github.com/blixt/py-starbound) | blixt | MIT; file layout facts only, no code copied, credited |
 | [apollo-patches (Dead Rising 2 / Off the Record stat offsets and CRC-32 settings; facts only, no code)](https://github.com/bucanero/apollo-patches) | Damian Parrino (bucanero) and the code authors it credits | facts only (file layouts), credited |
+| [apollo-lib (the Apollo Save Tool's cheat patch engine: Save Wizard and BSD script codes, its hashes, ciphers and per-game decryption, ported to Rust in `src/apollo`; its test corpus used for checks)](https://github.com/bucanero/apollo-lib) | Damian Parrino (bucanero) and contributors | GPL-3.0-or-later |
+| [apollo-patches (about 2,400 `.savepatch` cheat files for PS1, PS2, PS3, PS4, PSP, Vita and Dreamcast saves, bundled packed in `src/apollo/patches.xz`)](https://github.com/bucanero/apollo-patches) | Damian Parrino (bucanero) and the code authors each file credits | GPL-3.0-or-later |
+| [offzip and packzip (finding and repacking zlib streams inside a save, as adapted in apollo-lib; ported)](https://aluigi.altervista.org/mytoolz.htm) | Luigi Auriemma | GPL-2.0-or-later, used under GPL-3.0 |
+| [save-decrypters (per-game test vectors used for checks only)](https://github.com/bucanero/save-decrypters) | Damian Parrino (bucanero) and contributors | GPL-3.0-or-later |
+| CRC routines (as used in apollo-lib) | Michael Barr | public domain |
+| [forcecrc32 (making a CRC-32 come out to a chosen value, as used in apollo-lib)](https://www.nayuki.io/page/forcing-a-files-crc-to-any-value) | Project Nayuki | MIT |
+| lookup3 hash (as used in apollo-lib) | Bob Jenkins | public domain |
 | [save-decrypters (Dead Rising block checksum, after Philymaster's notes; facts only, no code)](https://github.com/bucanero/save-decrypters) | Damian Parrino (bucanero), Philymaster | facts only (checksum scheme), credited |
 | [Cult-of-the-Lamb-Save-Editor (save field names and item names; sample save used for checks only, not included)](https://github.com/fabiobarcelona/Cult-of-the-Lamb-Save-Editor) | Fabio Barcelona | MIT |
 | [shelter-editor (Fallout Shelter save encryption and layout)](https://github.com/MobileSam/shelter-editor) | MobileSam | MIT |
@@ -187,6 +194,7 @@ Item, tile and element names and ids are facts about each game, used only so the
 | bitvec | 1.1.1 | MIT |
 | block-buffer | 0.10.4 | MIT OR Apache-2.0 |
 | block-padding | 0.3.3 | MIT OR Apache-2.0 |
+| blowfish | 0.9.1 | MIT OR Apache-2.0 |
 | bson | 2.15.0 | MIT |
 | bumpalo | 3.20.3 | MIT OR Apache-2.0 |
 | bytemuck | 1.25.2 | Zlib OR Apache-2.0 OR MIT |
@@ -194,6 +202,7 @@ Item, tile and element names and ids are facts about each game, used only so the
 | byteorder | 1.5.0 | Unlicense OR MIT |
 | byteorder-lite | 0.1.0 | Unlicense OR MIT |
 | bzip2 | 0.6.1 | MIT/Apache-2.0 |
+| camellia | 0.1.0 | MIT OR Apache-2.0 |
 | cbc | 0.1.2 | MIT OR Apache-2.0 |
 | cfb-mode | 0.8.2 | MIT OR Apache-2.0 |
 | cfg-if | 1.0.5 | MIT OR Apache-2.0 |
@@ -212,6 +221,7 @@ Item, tile and element names and ids are facts about each game, used only so the
 | crypto-common | 0.1.7 | MIT OR Apache-2.0 |
 | cursor-icon | 1.2.0 | MIT OR Apache-2.0 OR Zlib |
 | der | 0.7.10 | Apache-2.0 OR MIT |
+| des | 0.8.1 | MIT OR Apache-2.0 |
 | deranged | 0.5.9 | MIT OR Apache-2.0 |
 | digest | 0.10.7 | MIT OR Apache-2.0 |
 | displaydoc | 0.2.7 | MIT OR Apache-2.0 |
@@ -878,7 +888,7 @@ IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 DEALINGS IN THE SOFTWARE.
 ```
 
-### Used by: aes 0.8.4, base16ct 0.2.0, base64ct 1.8.3, block-buffer 0.10.4, block-padding 0.3.3, cbc 0.1.2, cfb-mode 0.8.2, cipher 0.4.4, const-oid 0.9.6, cpufeatures 0.2.17, crypto-bigint 0.5.5, crypto-common 0.1.7, der 0.7.10, digest 0.10.7, elliptic-curve 0.13.8, hmac 0.12.1, inout 0.1.4, md-5 0.10.6, p256 0.13.2, pbkdf2 0.12.2, pem-rfc7468 0.7.0, pkcs8 0.10.2, primeorder 0.13.6, sec1 0.7.3, sha1 0.10.7, sha2 0.10.9, signature 2.2.0, spki 0.7.3
+### Used by: aes 0.8.4, base16ct 0.2.0, base64ct 1.8.3, block-buffer 0.10.4, block-padding 0.3.3, blowfish 0.9.1, camellia 0.1.0, cbc 0.1.2, cfb-mode 0.8.2, cipher 0.4.4, const-oid 0.9.6, cpufeatures 0.2.17, crypto-bigint 0.5.5, crypto-common 0.1.7, der 0.7.10, des 0.8.1, digest 0.10.7, elliptic-curve 0.13.8, hmac 0.12.1, inout 0.1.4, md-5 0.10.6, p256 0.13.2, pbkdf2 0.12.2, pem-rfc7468 0.7.0, pkcs8 0.10.2, primeorder 0.13.6, sec1 0.7.3, sha1 0.10.7, sha2 0.10.9, signature 2.2.0, spki 0.7.3
 
 ```text
 Apache License
@@ -2207,7 +2217,7 @@ Julian Seward, jseward@acm.org
 bzip2/libbzip2 version 1.1.0 of 6 September 2010
 ```
 
-### Used by: cbc 0.1.2, cfb-mode 0.8.2
+### Used by: blowfish 0.9.1, camellia 0.1.0, cbc 0.1.2, cfb-mode 0.8.2, des 0.8.1
 
 ```text
 Copyright (c) 2018-2022 RustCrypto Developers
