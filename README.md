@@ -187,7 +187,7 @@ Games whose format isn't documented open in the hex view with Value search; for 
 the data is unpacked first and packed again on save: Cyberpunk 2077 and The Witcher 3 (LZ4
 chunks), XCOM 2 / War of the Chosen (LZO chunks, both checksums updated), Mass Effect 1
 Legendary Edition (zlib, checksum updated), Civilization V (zlib, in 64 KiB chunks), Dying Light (gzip), Ubisoft `.save.z` (zlib), BioShock Infinite (Unreal Engine 3 zlib chunks, MD5 updated), BioShock Remastered (zlib blocks, each packed back into its own space), Control (CRC-32 updated) and Cairn (the files inside each slot pack; the newest save, the one the game continues from, opens first; the pack's size fields are kept right when a save grows). Other RE Engine
-games (Resident Evil Requiem, Dragon's Dogma 2, Monster Hunter Wilds and Stories 3, Pragmata,
+games (Resident Evil 4 from 2023, with its older "Lime" encryption; Resident Evil Requiem, Dragon's Dogma 2, Monster Hunter Wilds and Stories 3, Pragmata,
 Dead Rising Deluxe Remaster, Kunitsu-Gami) decrypt and open with their values.
 
 Big files open on a worker thread, and unpacking and decryption use every core.

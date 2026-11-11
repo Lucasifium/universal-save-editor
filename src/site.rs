@@ -348,7 +348,9 @@ fn build_site() {
     let mut urls = vec![format!("{SITE}/"), format!("{SITE}/{WEB_APP}")];
     let mut cards = String::new();
     let mut unmatched = vec![];
-    let mut games: Vec<&GameInfo> = GAMES.iter().collect();
+    // SITE_SKIP="Game A|Game B" leaves those games off the site for now.
+    let skip: Vec<String> = std::env::var("SITE_SKIP").unwrap_or_default().split('|').map(|s| s.trim().to_string()).filter(|s| !s.is_empty()).collect();
+    let mut games: Vec<&GameInfo> = GAMES.iter().filter(|g| !skip.iter().any(|s| s == g.name)).collect();
     games.sort_by_key(|g| (!has_screen(g), g.name.to_lowercase()));
 
     for g in &games {
