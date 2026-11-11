@@ -262,6 +262,72 @@ pub fn stardew(ui: &mut Ui, cx: &mut GameCtx) {
     panel(ui, "Farm", |ui| {
         grid(ui, cx, "sdv_farm", &[("Total earned", join(p, "totalMoneyEarned")), ("Favorite thing", join(p, "favoriteThing")), ("Raining", join(g, "isRaining")), ("Daily luck", join(g, "dailyLuck"))]);
     });
+    let friends: usize = match cx.get(&join(p, "friendshipData/item")) {
+        Some(Value::Array(a)) => a.len(),
+        Some(Value::Object(_)) => 1,
+        _ => 0,
+    };
+    if friends > 0 {
+        panel(ui, "Friendships", |ui| {
+            let single = friends == 1 && cx.get(&join(p, "friendshipData/item/0")).is_none();
+            let base = move |n: usize| if single { join(p, "friendshipData/item") } else { join(p, &format!("friendshipData/item/{n}")) };
+            if ui.button("Raise everyone to 8 hearts").on_hover_text("2000 points. Romance candidates stop at 8 hearts until you give them a bouquet; others go to 10.").clicked() {
+                for n in 0..friends {
+                    let pts = format!("{}/value/Friendship/Points", base(n));
+                    if cx.int(&pts).is_some_and(|v| v < 2000) {
+                        cx.set(&pts, Value::from(2000));
+                    }
+                }
+            }
+            egui::Grid::new("sdv_friends").num_columns(3).striped(true).spacing([14.0, 3.0]).show(ui, |ui| {
+                for n in 0..friends {
+                    let b = base(n);
+                    let pts = format!("{b}/value/Friendship/Points");
+                    let Some(who) = cx.text(&format!("{b}/key/string")) else { continue };
+                    ui.label(who);
+                    cx.compact(ui, &pts, 70.0);
+                    ui.weak(format!("{:.1} hearts", cx.num(&pts).unwrap_or(0.0) / 250.0));
+                    ui.end_row();
+                }
+            });
+            ui.weak("250 points make a heart. 2500 is 10 hearts (3500 for a spouse); a romance candidate above 2000 needs the bouquet event first.");
+        });
+    }
+    let slots: usize = match cx.get(&join(p, "items/Item")) {
+        Some(Value::Array(a)) => a.len(),
+        _ => 0,
+    };
+    if slots > 0 {
+        panel(ui, "Backpack", |ui| {
+            egui::Grid::new("sdv_pack").num_columns(4).striped(true).spacing([12.0, 3.0]).show(ui, |ui| {
+                for n in 0..slots {
+                    let b = join(p, &format!("items/Item/{n}"));
+                    let Some(name) = cx.text(&format!("{b}/name")) else { continue };
+                    ui.label(name);
+                    let stack = if cx.get(&format!("{b}/stack")).is_some() { format!("{b}/stack") } else { format!("{b}/Stack") };
+                    cx.compact(ui, &stack, 60.0);
+                    if cx.get(&format!("{b}/quality")).is_some() {
+                        ui.horizontal(|ui| {
+                            ui.weak("quality");
+                            cx.compact(ui, &format!("{b}/quality"), 40.0);
+                        });
+                    } else {
+                        ui.label("");
+                    }
+                    if cx.get(&format!("{b}/upgradeLevel")).is_some() {
+                        ui.horizontal(|ui| {
+                            ui.weak("tool level");
+                            cx.compact(ui, &format!("{b}/upgradeLevel"), 40.0);
+                        });
+                    } else {
+                        ui.label("");
+                    }
+                    ui.end_row();
+                }
+            });
+            ui.weak("Quality: 0 normal, 1 silver, 2 gold, 4 iridium. Tool level: 0 basic, 1 copper, 2 steel, 3 gold, 4 iridium. Stacks go up to 999 for most items.");
+        });
+    }
     if let Ok(list) = super::crafting::stacks(super::Game::Stardew, cx) {
         panel(ui, "Crafting materials in the backpack", |ui| {
             if list.is_empty() {
@@ -529,6 +595,54 @@ pub fn hollow_knight(ui: &mut Ui, cx: &mut GameCtx) {
             }
         });
     });
+    let rows: Vec<(&str, String)> = [
+        ("Vengeful Spirit / Shade Soul (0 to 2)", "fireballLevel"),
+        ("Desolate Dive / Descending Dark (0 to 2)", "quakeLevel"),
+        ("Howling Wraiths / Abyss Shriek (0 to 2)", "screamLevel"),
+        ("Mode (0 normal, 1 Steel Soul, 2 Steel Soul dead)", "permadeathMode"),
+        ("Kingsoul / Void Heart state (0 to 4)", "royalCharmState"),
+        ("Grimmchild level", "grimmChildLevel"),
+        ("Grubs rescued", "grubsCollected"),
+    ]
+    .into_iter()
+    .map(|(l, k)| (l, join(p, k)))
+    .filter(|(_, pp)| cx.get(pp).is_some())
+    .collect();
+    if !rows.is_empty() {
+        panel(ui, "Spells, mode and charm state", |ui| {
+            grid(ui, cx, "hk_spells", &rows);
+            ui.weak("Spell levels: 0 not learned, 1 the first form, 2 the upgraded one. Set Mode back to 0 to open a dead Steel Soul save as a normal one.");
+        });
+    }
+    panel(ui, "Moves, dream nail and travel", |ui| {
+        ui.horizontal_wrapped(|ui| {
+            for (label, k) in [
+                ("Spells", "hasSpell"),
+                ("Nail arts", "hasNailArt"),
+                ("Cyclone Slash", "hasCyclone"),
+                ("Dash Slash", "hasDashSlash"),
+                ("Great Slash", "hasUpwardSlash"),
+                ("All nail arts", "hasAllNailArts"),
+                ("Awoken Dream Nail", "dreamNailUpgraded"),
+                ("Dream Gate", "hasDreamGate"),
+                ("Map", "hasMap"),
+                ("Quill", "hasQuill"),
+                ("Stag: Crossroads", "openedCrossroads"),
+                ("Stag: Greenpath", "openedGreenpath"),
+                ("Stag: Queen's Station", "openedFungalWastes"),
+                ("Stag: City of Tears", "openedRuins1"),
+                ("Stag: Kingdom's Edge", "openedRuins2"),
+                ("Stag: Royal Gardens", "openedRoyalGardens"),
+                ("Stag: Resting Grounds", "openedRestingGrounds"),
+                ("Stag: Deepnest", "openedDeepnest"),
+                ("Stag: Stag Nest", "openedStagNest"),
+                ("Stag: Hidden Station", "openedHiddenStation"),
+            ] {
+                cx.chip(ui, label, &join(p, k), accent);
+            }
+        });
+        ui.weak("Only the entries this save has are shown. Opening a stag station only unlocks the ride; the station itself still has to be found.");
+    });
     panel(ui, "Relics", |ui| {
         grid(ui, cx, "hk_relics", &[("Wanderer's Journals", join(p, "trinket1")), ("Hallownest Seals", join(p, "trinket2")), ("King's Idols", join(p, "trinket3")), ("Arcane Eggs", join(p, "trinket4"))]);
     });
@@ -719,6 +833,51 @@ pub fn rpg_maker(ui: &mut Ui, cx: &mut GameCtx) {
             }
         });
     });
+    // What the party carries: id -> count, one list for items, weapons and armor. Names are in the game's data files.
+    let mut change: Option<(String, Value)> = None;
+    for (title, key) in [("Items", "_items"), ("Weapons", "_weapons"), ("Armor", "_armors")] {
+        let base = format!("/party/{key}");
+        let Some(Value::Object(held)) = cx.get(&base).cloned() else { continue };
+        panel(ui, &format!("{title} carried ({})", held.len()), |ui| {
+            let mut ids: Vec<&String> = held.keys().collect();
+            ids.sort_by_key(|k| k.parse::<i64>().unwrap_or(i64::MAX));
+            egui::Grid::new(("rm_inv", key)).num_columns(3).striped(true).spacing([10.0, 3.0]).show(ui, |ui| {
+                for id in ids {
+                    ui.label(format!("#{id}"));
+                    cx.editor(ui, &format!("{base}/{id}"), 70.0);
+                    if ui.small_button("\u{2715}").on_hover_text("Remove from the party").clicked() {
+                        let mut left = held.clone();
+                        left.remove(id);
+                        change = Some((base.clone(), Value::Object(left)));
+                    }
+                    ui.end_row();
+                }
+            });
+            let sid = egui::Id::new(("rm_add", key));
+            let (mut id, mut n) = ui.data(|d| d.get_temp::<(String, String)>(sid)).unwrap_or_else(|| (String::new(), "1".into()));
+            ui.horizontal(|ui| {
+                ui.label("Add id");
+                ui.add(egui::TextEdit::singleline(&mut id).desired_width(60.0));
+                ui.label("count");
+                ui.add(egui::TextEdit::singleline(&mut n).desired_width(40.0));
+                if ui.button("Add").clicked() {
+                    if let (Ok(i), Ok(c)) = (id.trim().parse::<u32>(), n.trim().parse::<u32>()) {
+                        if i > 0 && (1..=9999).contains(&c) {
+                            let mut more = held.clone();
+                            more.insert(i.to_string(), Value::from(c));
+                            change = Some((base.clone(), Value::Object(more)));
+                            id.clear();
+                        }
+                    }
+                }
+            });
+            ui.data_mut(|d| d.insert_temp(sid, (id, n)));
+            ui.weak("The number is the entry's id in the game's database (the order of the list in the editor, starting at 1). Most games cap a stack at 99.");
+        });
+    }
+    if let Some((p, v)) = change {
+        cx.set(&p, v);
+    }
 }
 
 /// Where an RE Engine save keeps its save slots: the first array of objects with `_Data`
