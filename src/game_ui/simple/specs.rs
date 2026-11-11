@@ -3,7 +3,7 @@
 
 use super::{List, Max, Section, Shape, Spec, Table};
 
-pub static SPECS: &[Spec] = &[COTL, FALLOUT_SHELTER, DRG, S1_MONEY, S1_RANK, S1_TIME, S1_GAME, SOTF_STATE, SOTF_ITEMS, DMD, CUPHEAD, ANTIMATTER];
+pub static SPECS: &[Spec] = &[COTL, FALLOUT_SHELTER, DRG, S1_MONEY, S1_RANK, S1_TIME, S1_GAME, SOTF_STATE, SOTF_ITEMS, DMD, CUPHEAD, ANTIMATTER, PVZ];
 
 // ------------------------------------------------------------------ Cult of the Lamb
 
@@ -710,6 +710,26 @@ const ANTIMATTER: Spec = Spec {
                 ("Perk points", "/reality/perkPoints"),
             ],
         },
+    ],
+    lists: &[],
+    tables: &[],
+};
+
+// ------------------------------------------------------------------ Plants vs. Zombies
+
+const PVZ: Spec = Spec {
+    name: "Plants vs. Zombies",
+    tab: "Profile",
+    accent: (110, 180, 60),
+    kind: Some("Plants vs. Zombies profile"),
+    markers: &["/Adventure"],
+    subtitle: "userN.dat. Money is stored divided by 10; the game's cap is 99,990.",
+    tiles: &[("Money ÷ 10", "/Adventure/Money (the game shows this × 10)"), ("Adventure level", "/Adventure/Current level (1–50)")],
+    sections: &[
+        Section { title: "Adventure", rows: &[("Current level (1–50)", "/Adventure/Current level (1–50)"), ("Money (the game shows this × 10)", "/Adventure/Money (the game shows this × 10)"), ("Times completed", "/Adventure/Times completed"), ("Tree of Wisdom height (feet)", "/Adventure/Tree of Wisdom height (feet)"), ("Seed slot upgrades", "/Adventure/Seed slot upgrades"), ("Mini-games unlocked (1 = yes)", "/Adventure/Mini-games unlocked (1 = yes)"), ("Puzzle mode unlocked (1 = yes)", "/Adventure/Puzzle mode unlocked (1 = yes)")] },
+        Section { title: "Crazy Dave's shop (1 = bought)", rows: &[("Gatling Pea", "/Shop/Gatling Pea/Owned (1 = yes)"), ("Twin Sunflower", "/Shop/Twin Sunflower/Owned (1 = yes)"), ("Gloom-shroom", "/Shop/Gloom-shroom/Owned (1 = yes)"), ("Cattail", "/Shop/Cattail/Owned (1 = yes)"), ("Winter Melon", "/Shop/Winter Melon/Owned (1 = yes)"), ("Gold Magnet", "/Shop/Gold Magnet/Owned (1 = yes)"), ("Spikerock", "/Shop/Spikerock/Owned (1 = yes)"), ("Cob Cannon", "/Shop/Cob Cannon/Owned (1 = yes)"), ("Imitater", "/Shop/Imitater/Owned (1 = yes)"), ("Golden Watering Can", "/Shop/Golden Watering Can/Owned (1 = yes)"), ("Phonograph", "/Shop/Phonograph/Owned (1 = yes)"), ("Gardening Glove", "/Shop/Gardening Glove/Owned (1 = yes)"), ("Mushroom Garden", "/Shop/Mushroom Garden/Owned (1 = yes)"), ("Wheel Barrow", "/Shop/Wheel Barrow/Owned (1 = yes)"), ("Pool Cleaner", "/Shop/Pool Cleaner/Owned (1 = yes)"), ("Roof Cleaner", "/Shop/Roof Cleaner/Owned (1 = yes)"), ("Aquarium Garden", "/Shop/Aquarium Garden/Owned (1 = yes)")] },
+        Section { title: "Supplies (count + 1000)", rows: &[("Fertilizer", "/Shop/Fertilizer/Amount + 1000 (0 hides it)"), ("Bug spray", "/Shop/Bug spray/Amount + 1000 (0 hides it)"), ("Chocolate", "/Shop/Chocolate/Amount + 1000 (0 hides it)"), ("Tree food", "/Shop/Tree food/Amount + 1000 (0 hides it)"), ("Garden rake uses", "/Shop/Garden rake/Uses left")] },
+        Section { title: "Survival: rounds completed", rows: &[("Day", "/Survival/Day: rounds completed"), ("Night", "/Survival/Night: rounds completed"), ("Pool", "/Survival/Pool: rounds completed"), ("Fog", "/Survival/Fog: rounds completed"), ("Roof", "/Survival/Roof: rounds completed"), ("Day (Hard)", "/Survival/Day (Hard): rounds completed"), ("Night (Hard)", "/Survival/Night (Hard): rounds completed"), ("Pool (Hard)", "/Survival/Pool (Hard): rounds completed"), ("Fog (Hard)", "/Survival/Fog (Hard): rounds completed"), ("Roof (Hard)", "/Survival/Roof (Hard): rounds completed")] },
     ],
     lists: &[],
     tables: &[],

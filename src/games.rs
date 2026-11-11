@@ -23,6 +23,8 @@ pub enum Base {
     SteamGame(&'static str),
     /// %ProgramFiles(x86)% (Ubisoft Connect keeps saves there).
     ProgramFilesX86,
+    /// %ProgramData% (old PopCap games keep profiles there).
+    ProgramData,
     /// Unity PlayerPrefs: the exported registry values (Windows), `~/.config/unity3d` (Linux)
     /// and `~/Library/Preferences` (macOS).
     UnityPrefs,
@@ -238,6 +240,7 @@ pub const GAMES: &[GameInfo] = &[
     game!("Persona 5 Royal", FULL, r"%APPDATA%\SEGA\P5R\Steam\<Steam id>\savedata\DATA<nn>", r"DATA.DAT (encrypted)", [(AppData, r"SEGA\P5R\Steam\*\savedata"), (GamePass("SEGAofAmericaInc.F0cb6b3aer_s751p9cej88mt"), "")], ["DATA.DAT", "SYSTEM.DAT"], 2),
     game!("Phasmophobia", "Game screen: money, level, prestige and experience, how many of each item you own, item tiers and their unlocks, and the journal's statistics; each value is changed in place and the file encrypted again on save. Checked on public test saves, not yet tried in the game", r"%USERPROFILE%\AppData\LocalLow\Kinetic Games\Phasmophobia", r"SaveFile.txt", [(LocalLow, r"Kinetic Games\Phasmophobia")], ["SaveFile.txt"], 1),
     game!("Planescape: Torment: Enhanced Edition", IE_PST, r"Documents\Planescape Torment - Enhanced Edition\save\<nnnnnnnnn-Name>", r"BALDUR.gam (BALDUR.SAV holds the areas)", [(Documents, r"Planescape Torment - Enhanced Edition\save")], ["*.gam"], 2),
+    game!("Plants vs. Zombies (Game of the Year Edition)", "Game screen: money, Adventure level and completions, Crazy Dave's shop, supplies, Survival progress, and the Zen Garden's plants (mini-game and puzzle trophies are on the Values tab). Checked on a real save, not yet tried in the game", r"C:\ProgramData\PopCap Games\PlantsVsZombies\userdata (Steam: C:\ProgramData\Steam\PlantsVsZombies\userdata, or Steam\userdata\<account>\3590\remote)", r"user1.dat, user2.dat … (users.dat lists the profiles)", [(ProgramData, r"PopCap Games\PlantsVsZombies\userdata"), (ProgramData, r"Steam\PlantsVsZombies\userdata"), (SteamUser("3590"), "remote")], ["user*.dat"], 2),
     game!("PlayStation 2 memory cards (PCSX2)", "Every file in every save folder on the card opens on its own (Tools › Open another file in this archive) and is written back with the card's error-correction codes made again; use the value search for the numbers. .ps2 images with ECC and .bin images without. Checked on cards made by mymc, the reference tool", r"Documents\PCSX2\memcards", r"Mcd001.ps2, Mcd002.ps2", [(Documents, r"PCSX2\memcards")], ["*.ps2", "*.bin"], 1),
     game!("PlayStation memory cards (emulators)", "Each save on the card opens on its own (Tools › Open another file in this archive lists them by product code and title) and is written back into its own blocks; use the value search for the numbers. Raw, DexDrive and VGS images. Checked on a public card image", r"Documents\DuckStation\memcards (ePSXe: <install folder>\memcards)", r"shared_card_1.mcd, <game>_1.mcd, epsxe000.mcr …", [(Documents, r"DuckStation\memcards")], ["*.mcd", "*.mcr", "*.mc", "*.mem", "*.vgs", "*.gme"], 1),
     game!("Pragmata", VALUES, r"Steam\userdata\<account>\3357650\remote\win64_save", "data*.bin", [(SteamUser("3357650"), r"remote\win64_save")], ["*.bin"], 1),
@@ -436,6 +439,11 @@ fn wine_bases(base: Base) -> Vec<PathBuf> {
             .filter_map(|u| u.parent()?.parent().map(|c| c.join("Program Files (x86)")))
             .filter(|p| p.is_dir())
             .collect(),
+        ProgramData => users
+            .iter()
+            .filter_map(|u| u.parent()?.parent().map(|c| c.join("ProgramData")))
+            .filter(|p| p.is_dir())
+            .collect(),
         SteamUser(_) | SteamGame(_) | GamePass(_) | UnityPrefs => vec![],
     }
 }
@@ -465,6 +473,7 @@ fn native_bases(base: Base) -> Vec<PathBuf> {
             .filter(|p| p.is_dir())
             .collect(),
         ProgramFilesX86 => env("ProgramFiles(x86)").into_iter().collect(),
+        ProgramData => env("ProgramData").into_iter().collect(),
         UnityPrefs => {
             let mut v: Vec<PathBuf> = vec![];
             #[cfg(not(target_arch = "wasm32"))]
