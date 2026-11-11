@@ -206,7 +206,7 @@ fn level(g: &GameInfo) -> (&'static str, &'static str) {
     if has_screen(g) {
         ("Game screen", "A screen laid out for this game, with names for its items and values.")
     } else if g.support.starts_with("Hex") || g.support.starts_with("Unpacked") {
-        ("Value search", "Find a number you know (money, ammo, experience) and change it. The save is shown as raw data: there is no screen for this game yet.")
+        ("Value search", "Find a number you know (money, ammo, experience), or one you don't by how it changes between saves, and change it. The save is shown as raw data: there is no screen for this game yet.")
     } else {
         ("Values editor", "Every value in the save, by name, with a filter. There is no screen laid out for this game yet.")
     }
@@ -321,6 +321,8 @@ const WHY: &str = r#"<ul>
 <li><strong>Free, forever.</strong> No price, no ads, no account, no paid tier.</li>
 <li><strong>Offline.</strong> Your save never leaves your computer: nothing is uploaded, so there are no file size limits, queues or rate limits.</li>
 <li><strong>Safe.</strong> Every save is checked by reading it back before it's written, and the old file is backed up first (File &rsaquo; Restore previous version).</li>
+<li><strong>Works on games it doesn't know.</strong> Value search finds a number you know, or one you don't (a health bar, a hidden counter): scan, play, save, then keep what increased, decreased, changed or stayed the same.</li>
+<li><strong>Linux and Steam Deck.</strong> <em>Select game</em> also looks inside Proton and Wine prefixes, where Windows games run through Steam Play keep their saves.</li>
 <li><strong>Open source.</strong> Anyone can read the code (GPL-3.0).</li>
 </ul>"#;
 
