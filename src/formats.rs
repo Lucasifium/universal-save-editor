@@ -149,6 +149,11 @@ pub enum Layer {
     RegFile(Arc<fmt::regfile::Meta>),
     /// A Flash / AIR shared object (`.sol`): the original file, whose values are replaced.
     Sol { original: Arc<Vec<u8>> },
+    /// Haxe serialization (OpenFL and HaxeFlixel saves): the original text, whose values are
+    /// replaced.
+    Haxe { original: Arc<Vec<u8>> },
+    /// Dead Cells: the 59-byte header; the chunks are packed again under a new SHA-1.
+    DeadCells { header: Arc<Vec<u8>> },
     /// Civilization V `.Civ5Save`: an uncompressed header, then the game as one zlib stream
     /// cut into chunks of up to 64 KiB, each after its u32 length (`chunked`; very old saves
     /// may hold one plain stream), then (older builds) a trailer kept as it is.
@@ -236,6 +241,8 @@ impl Layer {
             Layer::Citrus { .. } => "Monster Hunter Rise save encryption".into(),
             Layer::RegFile(_) => "Registry values (Unity PlayerPrefs)".into(),
             Layer::Sol { .. } => "Flash shared object (.sol)".into(),
+            Layer::Haxe { .. } => "Haxe serialized save (OpenFL, HaxeFlixel)".into(),
+            Layer::DeadCells { .. } => "Dead Cells save (zlib, SHA-1)".into(),
             Layer::Civ5 { .. } => "Civilization V save (compressed game data)".into(),
             Layer::Cdpr { sizes, .. } => format!("CD Projekt RED save ({} LZ4 chunks)", sizes.len()),
             Layer::Me1Le { .. } => "Mass Effect (Legendary Edition) save (zlib)".to_string(),
@@ -639,6 +646,8 @@ fn wrap(layer: &Layer, data: Vec<u8>) -> Result<Vec<u8>, String> {
         Layer::Citrus { original, curve, steam } => fmt::citrus::encrypt(&data, original, *curve, *steam)?,
         Layer::RegFile(meta) => fmt::regfile::save(meta, &data)?,
         Layer::Sol { original } => fmt::sol::save(original, &data)?,
+        Layer::Haxe { original } => fmt::haxe::save(original, &data)?,
+        Layer::DeadCells { header } => fmt::deadcells::close(header, &data)?,
         Layer::Cdpr { prefix, fzlc, sizes, footer, tagged } => {
             if data.len() != sizes.iter().map(|&n| n as usize).sum::<usize>() {
                 return Err("this save's data can't change size".into());
@@ -807,6 +816,17 @@ fn peel(data: &[u8], ctx: &mut Ctx) -> Option<(Layer, Vec<u8>)> {
     if fmt::sol::looks(data) {
         if let Some(json) = fmt::sol::open(data) {
             return Some((Layer::Sol { original: Arc::new(data.to_vec()) }, json));
+        }
+    }
+    if fmt::deadcells::looks(data) {
+        if let Some((header, chunks)) = fmt::deadcells::open(data) {
+            ctx.hint = Some("Dead Cells save: its checksum and compression are handled for you. The values inside are hxbit binary data, so use the value search to find gold or cells.".into());
+            return Some((Layer::DeadCells { header: Arc::new(header) }, chunks));
+        }
+    }
+    if fmt::haxe::looks(data) {
+        if let Some(json) = fmt::haxe::open(data) {
+            return Some((Layer::Haxe { original: Arc::new(data.to_vec()) }, json));
         }
     }
     if data.starts_with(b"Windows Registry Editor") {

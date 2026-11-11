@@ -325,6 +325,7 @@ const WHY: &str = r#"<ul>
 <li><strong>Linux and Steam Deck.</strong> <em>Select game</em> also looks inside Proton and Wine prefixes, where Windows games run through Steam Play keep their saves.</li>
 <li><strong>Xbox app and PC Game Pass.</strong> Saves hidden in the Xbox app's container are listed under the names the game gave them and open with the same screens as the Steam saves.</li>
 <li><strong>Unity PlayerPrefs.</strong> Coins and unlocks that Unity games keep in the Windows registry (or prefs files on Linux and macOS) open by name and are written back on save.</li>
+<li><strong>Flash and Haxe saves.</strong> Flash and AIR <code>.sol</code> files and the Haxe saves of OpenFL and HaxeFlixel games (Friday Night Funkin' among them) open with every value by name.</li>
 <li><strong>Command line too.</strong> <code>info</code>, <code>list</code>, <code>get</code>, <code>set</code>, <code>decode</code> and <code>encode</code> work from scripts, with the same checks and backups as the window.</li>
 <li><strong>Open source.</strong> Anyone can read the code (GPL-3.0).</li>
 </ul>"#;
