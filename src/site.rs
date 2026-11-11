@@ -281,7 +281,7 @@ fn schema(name: &str, desc: &str, url: &str) -> String {
         "description": desc,
         "url": url,
         "applicationCategory": "UtilitiesApplication",
-        "operatingSystem": "Windows, Linux, Android, web browser",
+        "operatingSystem": "Windows, Linux, web browser",
         "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"},
         "license": "https://www.gnu.org/licenses/gpl-3.0.html",
         "downloadUrl": DOWNLOAD,
@@ -409,7 +409,7 @@ fn build_site() {
 <div class="card"><p>Folder: <code>{folder}</code></p><p>Files: <code>{files}</code></p><p>You don't need to find it yourself: choose <em>Select game</em> in the editor, pick {n}, and it lists the saves it finds. (The browser version can't look through your folders: open the file from this folder yourself.)</p>{browser}</div>
 <h2>How to edit your {n} save</h2>
 <ol>
-<li><a href="{DOWNLOAD}">Download Universal Save Editor</a> for Windows, Linux or Android. On Windows and Linux just run it; on Android install the APK. Rather not install anything? <a href="../{WEB_APP}">Use it in your browser</a> instead: it runs on your computer too, and saving downloads the edited file.</li>
+<li><a href="{DOWNLOAD}">Download Universal Save Editor</a> for Windows or Linux; just run it. Rather not install anything? <a href="../{WEB_APP}">Use it in your browser</a> instead: it runs on your computer too, and saving downloads the edited file.</li>
 <li>Close the game, so it doesn't write over your changes.</li>
 <li>Choose <em>Select game</em>, pick <strong>{n}</strong> and open your save (or drag the save file onto the window).</li>
 <li>Change what you want, then <em>Save</em>. The editor checks the new file and backs up the old one first.</li>
@@ -442,7 +442,7 @@ fn build_site() {
     let body = format!(
         r#"<h1>Universal Save Editor: a free save editor for {n} games</h1>
 <p class="lead">Universal Save Editor edits your saves on your own computer: no uploads, no accounts, no rate limits. It's free, and always will be.</p>
-<div class="badges"><span class="badge free">Free forever</span><span class="badge">Offline</span><span class="badge">Open source</span><span class="badge">Windows · Linux · Android · Browser</span></div>
+<div class="badges"><span class="badge free">Free forever</span><span class="badge">Offline</span><span class="badge">Open source</span><span class="badge">Windows · Linux · Browser</span></div>
 <a class="btn" href="{DOWNLOAD}">Download for free</a><a class="btn alt" href="{WEB_APP}">Use it in your browser</a>
 <div class="card"><strong>Don't want to run a program?</strong> <a href="{WEB_APP}">The browser version</a> is the same editor, running inside the web page on your own computer: your save is never uploaded. It can't search your folders for saves or back them up for you, so open the file yourself and keep a copy; saving downloads the edited file. A few saves need the downloaded app (SQLite saves, and Palworld or Hogwarts Legacy saves, which need the game's own Oodle library).</div>
 <h2>Why download a save editor?</h2>

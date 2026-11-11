@@ -9,8 +9,7 @@ Cyberpunk 2077, the Persona, Yakuza and Final Fantasy games, Ren'Py visual novel
 and more (the full list is below). Written in Rust (egui). Nothing is uploaded anywhere, and there are
 no rate limits.
 
-**Download:** grab the latest build from the [Releases](../../releases/latest) page (Windows, Linux,
-Android).
+**Download:** grab the latest build from the [Releases](../../releases/latest) page (Windows and Linux; macOS in major releases).
 
 **No install:** the [browser version](https://lucasifium.github.io/universal-save-editor/app/) is the same
 editor compiled to WebAssembly. It runs inside the page on your own computer and never uploads the save;
@@ -55,10 +54,9 @@ Ready-made builds are on the [Releases page](../../releases):
 | `UniversalSaveEditor-windows-arm64.exe` | Windows 11 on ARM |
 | `UniversalSaveEditor-linux-x64.tar.gz` | Linux x64 (glibc 2.28+) |
 | `UniversalSaveEditor-linux-arm64.tar.gz` | Linux ARM64 (e.g. Raspberry Pi) |
-| `UniversalSaveEditor-android.apk` | Android 8+ |
 | `UniversalSaveEditor-macos.zip` | macOS 11+ (major releases only) |
 
-There is also a browser version on the project website. To build it yourself, see [BUILDING.md](BUILDING.md).
+There is also a browser version on the project website. There is no ready-made Android app: the source is in the repo, and you can build the APK yourself (Android 8+) as described in [BUILDING.md](BUILDING.md).
 
 ## Game screens
 

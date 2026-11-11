@@ -1,9 +1,11 @@
-# Builds every download (Windows, Linux, Android, macOS) and publishes them to a GitHub Release.
+# Builds every download (Windows, Linux, macOS) and publishes them to a GitHub Release.
 #   - Push a tag like v0.2.0 (it must match the version in Cargo.toml): builds and publishes.
 #   - Actions tab > "Release" > Run workflow: builds only (files appear under the run's Artifacts).
 #     Fill in "tag" to publish that release from the chosen branch as well.
 # macOS uses GitHub's expensive Mac machines, so it only runs for major tags (X.0.0) or when
 # "Include macOS" is ticked on a manual run.
+# There is no Android download: the app's source stays in the repo (see BUILDING.md) for anyone who
+# wants to build the APK themselves.
 # Every file goes through packaging/check_clean.py before it is published.
 name: Release
 
@@ -66,47 +68,6 @@ jobs:
           done
       - uses: actions/upload-artifact@v4
         with: { name: linux, path: dist/*, if-no-files-found: error }
-
-  android:
-    runs-on: ubuntu-latest
-    env:
-      KEYSTORE_B64: ${{ secrets.ANDROID_KEYSTORE_B64 }}
-      ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
-    steps:
-      - uses: actions/checkout@v4
-      - name: Signing key
-        id: key
-        env:
-          PUBLISHING: ${{ github.ref_type == 'tag' || inputs.tag != '' }}
-        run: |
-          ks="$RUNNER_TEMP/release.keystore"
-          if [ -n "$KEYSTORE_B64" ] && [ -n "$ANDROID_KEYSTORE_PASSWORD" ]; then
-            printf '%s' "$KEYSTORE_B64" | base64 -d > "$ks"
-            echo "have=true" >> "$GITHUB_OUTPUT"
-          elif [ "$PUBLISHING" = true ]; then
-            echo "::warning::Android signing secrets are not set; the release goes out without the APK"
-          else
-            # Build-only run: a throwaway key proves the pipeline works. Never published.
-            echo "::warning::No signing secrets; signing with a throwaway test key"
-            echo "have=true" >> "$GITHUB_OUTPUT"
-            pw="testonly-$RANDOM$RANDOM"; echo "ANDROID_KEYSTORE_PASSWORD=$pw" >> "$GITHUB_ENV"
-            keytool -genkeypair -keystore "$ks" -alias test -keyalg RSA -keysize 2048 -validity 30 \
-              -storepass "$pw" -keypass "$pw" -dname 'CN=Test'
-          fi
-      - if: steps.key.outputs.have == 'true'
-        run: python3 packaging/rustflags.py
-      - if: steps.key.outputs.have == 'true'
-        run: rustup target add aarch64-linux-android x86_64-linux-android
-      - if: steps.key.outputs.have == 'true'
-        name: Build and sign
-        run: |
-          mkdir dist
-          export ANDROID_KEYSTORE="$RUNNER_TEMP/release.keystore"
-          packaging/build_android.sh dist/UniversalSaveEditor-android.apk
-          rm -f "$ANDROID_KEYSTORE"
-      - if: steps.key.outputs.have == 'true'
-        uses: actions/upload-artifact@v4
-        with: { name: android, path: dist/*, if-no-files-found: error }
 
   macos:
     if: ${{ inputs.macos || (github.ref_type == 'tag' && endsWith(github.ref_name, '.0.0')) }}
@@ -172,7 +133,7 @@ jobs:
         with: { name: macos, path: dist/UniversalSaveEditor-macos.zip, if-no-files-found: error }
 
   verify:
-    needs: [windows, linux, android, macos]
+    needs: [windows, linux, macos]
     if: ${{ !cancelled() && !contains(needs.*.result, 'failure') }}
     runs-on: ubuntu-latest
     steps:
