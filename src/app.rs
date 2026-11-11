@@ -204,6 +204,9 @@ struct Patches {
     file: String,
     /// Show codes for other files too.
     all_files: bool,
+    /// The save opened through its patch file's own unpacking codes (and the unpacked stream
+    /// shown, if any): those required codes have already run.
+    layer: Option<Option<String>>,
 }
 
 impl Patches {
@@ -1930,14 +1933,19 @@ impl App {
         let inner = d.layers.iter().rev().find_map(|l| match l {
             Layer::ZipEntry { name, .. } | Layer::Copeck { name, .. } => Some(name.clone()),
             Layer::Ps2Card { file, .. } => Some(file.name.clone()),
+            Layer::PsSave { name, .. } => Some(name.clone()),
             _ => None,
         });
+        let layer = d.layers.iter().find_map(|l| if let Layer::Apollo { var, .. } = l { Some(var.clone()) } else { None });
         let path = d.path.to_string_lossy().replace('\\', "/");
         let full = match &inner {
             Some(n) => format!("{path}/{n}"),
             None => path.clone(),
         };
-        let file = full.rsplit('/').next().unwrap_or_default().to_string();
+        let mut file = full.rsplit('/').next().unwrap_or_default().to_string();
+        if let Some(Some(v)) = &layer {
+            file = v.clone();
+        }
         let found: Vec<_> = db::ids_in(&full).iter().flat_map(|id| db::find(id)).collect();
         let mut p = Patches {
             query: String::new(),
@@ -1949,6 +1957,7 @@ impl App {
             big_endian: false,
             file,
             all_files: false,
+            layer,
         };
         if let [e] = p.found[..] {
             p.show(e.title.clone() + " (" + &e.platform + ")", e.codes(), e.big_endian());
@@ -2026,6 +2035,9 @@ impl App {
                 if !any_here && !p.all_files {
                     ui.weak(format!("None of these codes name \u{201C}{}\u{201D}; they may be for another file in the save folder.", p.file));
                 }
+                if p.layer.is_some() {
+                    ui.weak("This save was unpacked with the patch file's own codes when it opened; they run again when you save.");
+                }
                 ui.checkbox(&mut p.all_files, "Show codes for other files too");
                 ScrollArea::vertical().id_salt("patch_codes").max_height(300.0).show(ui, |ui| {
                     for i in 0..p.codes.len() {
@@ -2098,10 +2110,13 @@ impl App {
         let Some(Doc { content: Content::Binary(data), .. }) = &self.doc else { return };
         let mut out = data.clone();
         let mut session = crate::apollo::Session::new(p.big_endian);
+        if let Some(Some(v)) = &p.layer {
+            session.seed(v, out.clone());
+        }
         let (mut done, mut failed) = (0, vec![]);
         for (i, c) in p.codes.iter().enumerate() {
             let ticked = p.on[i] && p.listed(i);
-            let wanted = ticked || (c.required && (p.all_files || crate::apollo::targets(c, &p.file)));
+            let wanted = ticked || (c.required && p.layer.is_none() && (p.all_files || crate::apollo::targets(c, &p.file)));
             if !wanted || c.empty() {
                 continue;
             }
@@ -2109,6 +2124,9 @@ impl App {
                 Ok(()) => done += usize::from(ticked),
                 Err(e) => failed.push(format!("{}: {e}", c.name)),
             }
+        }
+        if let Some(Some(v)) = &p.layer {
+            out = session.unpacked(v).unwrap_or(&out).to_vec();
         }
         if out == *data {
             if failed.is_empty() {

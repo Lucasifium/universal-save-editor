@@ -10,6 +10,7 @@
 //! MicroPython runtime and are listed but can't be applied.
 
 mod bsd;
+pub mod console;
 pub mod crypt;
 pub mod db;
 pub mod hash;
@@ -363,6 +364,17 @@ const EXTRACTED: &str = "~extracted\\";
 impl Session {
     pub fn new(big_endian: bool) -> Self {
         Session { vars: vec![], zips: vec![], big_endian }
+    }
+
+    /// Starts from data already unpacked into `name` (a save the editor opened unpacked):
+    /// codes for that stream then work on it directly.
+    pub fn seed(&mut self, name: &str, data: Vec<u8>) {
+        self.vars.push(Var { name: name.to_string(), len: data.len(), data: Some(data) });
+    }
+
+    /// The bytes of an unpacked stream.
+    pub fn unpacked(&self, name: &str) -> Option<&[u8]> {
+        self.var(name).and_then(|v| v.data.as_deref())
     }
 
     pub(crate) fn var(&self, name: &str) -> Option<&Var> {
