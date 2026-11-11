@@ -139,6 +139,9 @@ pub enum Layer {
     /// Capcom RE Engine "Mandarin" encryption (index into `mandarin::GAMES`, user id); the
     /// original file supplies the header and footer bytes when writing it back.
     Mandarin { original: Arc<Vec<u8>>, game: usize, user: u64 },
+    /// Capcom RE Engine "Lime" encryption (Resident Evil 4, 2023): the file it came from (for
+    /// its key banks) and the user id.
+    Lime { original: Arc<Vec<u8>>, user: u64 },
     /// Civilization V `.Civ5Save`: an uncompressed header, then the game as one zlib stream
     /// cut into chunks of up to 64 KiB, each after its u32 length (`chunked`; very old saves
     /// may hold one plain stream), then (older builds) a trailer kept as it is.
@@ -222,6 +225,7 @@ impl Layer {
             Layer::Antimatter { .. } => "Antimatter Dimensions export text".into(),
             Layer::NestedJson { paths, .. } => format!("JSON inside JSON strings ({})", paths.len()),
             Layer::Mandarin { game, .. } => format!("{} save encryption", fmt::mandarin::GAMES[*game].title),
+            Layer::Lime { .. } => "Resident Evil 4 save encryption".into(),
             Layer::Civ5 { .. } => "Civilization V save (compressed game data)".into(),
             Layer::Cdpr { sizes, .. } => format!("CD Projekt RED save ({} LZ4 chunks)", sizes.len()),
             Layer::Me1Le { .. } => "Mass Effect (Legendary Edition) save (zlib)".to_string(),
@@ -621,6 +625,7 @@ fn wrap(layer: &Layer, data: Vec<u8>) -> Result<Vec<u8>, String> {
         Layer::Antimatter { kind, version } => fmt::antimatter::close(*kind, version, &data)?,
         Layer::NestedJson { paths, pretty } => fmt::nested::close(&data, paths, *pretty)?,
         Layer::Mandarin { original, game, user } => fmt::mandarin::encrypt(&data, original, &fmt::mandarin::GAMES[*game], *user)?,
+        Layer::Lime { original, user } => fmt::lime::encrypt(&data, original, *user)?,
         Layer::Cdpr { prefix, fzlc, sizes, footer, tagged } => {
             if data.len() != sizes.iter().map(|&n| n as usize).sum::<usize>() {
                 return Err("this save's data can't change size".into());
@@ -797,6 +802,9 @@ fn peel(data: &[u8], ctx: &mut Ctx) -> Option<(Layer, Vec<u8>)> {
     }
     if let Some(r) = peel_bnd4(data, ctx) {
         return Some(r);
+    }
+    if fmt::lime::looks(data) {
+        return peel_lime(data, ctx);
     }
     if fmt::mandarin::looks(data) {
         return peel_mandarin(data, ctx);
@@ -1345,6 +1353,32 @@ fn civ5_hint(data: &[u8], at: usize, ctx: &mut Ctx) {
         "{}. The game data is unpacked here so Value search can find a number you know (gold, faith, a city's population); it's packed again when you save.",
         parts.join(", ")
     ));
+}
+
+/// Steam accounts to try on an RE Engine save: from its path, this computer, and a Steam ID
+/// typed into Tools › Decrypt with password.
+fn ree_accounts(ctx: &Ctx) -> Vec<u64> {
+    let path = ctx.opts.path.clone().unwrap_or_default();
+    let mut accounts = fmt::mandarin::accounts_for(&path);
+    if let Some(id) = ctx.opts.password.as_deref().and_then(|p| p.trim().parse::<u64>().ok()) {
+        accounts.insert(0, id);
+    }
+    accounts
+}
+
+/// Resident Evil 4 (2023): find the Steam account that opens it.
+fn peel_lime(data: &[u8], ctx: &mut Ctx) -> Option<(Layer, Vec<u8>)> {
+    let Some(user) = fmt::lime::find_user(data, &ree_accounts(ctx)) else {
+        ctx.hint = Some(
+            "This is an encrypted Resident Evil 4 save, but none of the Steam accounts on this computer opens it. \
+             Open it from its own folder (Steam\\userdata\\<account>\\2050650\\remote\\win64_save) so the account can be found, \
+             or enter your Steam ID (17 digits) in Tools \u{203A} Decrypt with password."
+                .into(),
+        );
+        return None;
+    };
+    let plain = fmt::lime::decrypt(data, user)?;
+    Some((Layer::Lime { original: Arc::new(data.to_vec()), user }, plain))
 }
 
 /// A Capcom RE Engine save: find the game and Steam account that open it.

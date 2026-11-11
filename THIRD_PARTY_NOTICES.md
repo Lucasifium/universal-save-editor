@@ -11,6 +11,7 @@ Universal Save Editor is free. It builds on other people's work, listed here wit
 | [ER-Save-Editor (Elden Ring item names)](https://github.com/ClayAmore/ER-Save-Editor) | ClayAmore | Apache-2.0 |
 | [elden-ring-weapon-calculator (weapon upgrade levels and affinities)](https://github.com/ThomasJClark/elden-ring-weapon-calculator) | Tom Clark | MIT |
 | [MandarinJuice (encrypted save layer, ported)](https://github.com/mi5hmash/MandarinJuice) | Michał Gębicki | MIT |
+| [LimebrellaSharp (Resident Evil 4 "Lime" save layer, ported)](https://github.com/mi5hmash/LimebrellaSharp) | Michał Gębicki | MIT |
 | [oni-save-parser (Oxygen Not Included save layout)](https://github.com/RoboPhred/oni-save-parser) | RoboPhred | MIT |
 | [Gibbed.MassEffect2 / Gibbed.MassEffect3 (Mass Effect save layout)](https://github.com/gibbed/Gibbed.MassEffect3) | Rick (gibbed) | Zlib |
 | [rgg_save_tool_py (Yakuza / Like a Dragon keys and checksums)](https://github.com/plyrthn/rgg_save_tool_py) | James and contributors | MIT |

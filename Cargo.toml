@@ -47,6 +47,8 @@ hmac = "0.12"
 md-5 = "0.10"
 # Valheim characters end with a SHA-512 of their data.
 sha2 = "0.10"
+# Resident Evil 4 (2023) checks each block of its save with SHA3-256.
+sha3 = "0.10"
 lzokay-native = "0.1"
 
 # Not in the browser version: SQLite is C built against the platform's C library, and there

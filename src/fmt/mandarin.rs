@@ -66,15 +66,15 @@ const P1: &str = "8ztvuXKgtyUV5Fw5GCnhgq2Km9wKZNNETXnIEKuGNxc=";
 const P2: &str = "+Z23XDnQ25IKcq4cjJRwwVbFTW4FsmmipjxkiFXDmws=";
 const P3: &str = "5m9USvzOaMXvB7mgeyd1hTRKHbYTdugx9zufvV9E9xU=";
 
-struct Keys {
-    p1: BigUint,
+pub(super) struct Keys {
+    pub p1: BigUint,
     p2: BigUint,
     p3: BigUint,
     /// P3 ^ 0x14 mod P1: the first half of every wrapped key.
-    header_key: BigUint,
+    pub header_key: BigUint,
 }
 
-fn keys() -> &'static Keys {
+pub(super) fn keys() -> &'static Keys {
     static K: OnceLock<Keys> = OnceLock::new();
     K.get_or_init(|| {
         use base64::Engine;
@@ -129,7 +129,7 @@ fn slice_key(state: &mut u64) -> [u8; 32] {
 }
 
 /// AES-128 in OFB mode (the same both ways).
-fn ofb(data: &mut [u8], key: &[u8; 32]) {
+pub(super) fn ofb(data: &mut [u8], key: &[u8; 32]) {
     let aes = aes::Aes128::new(key[..16].into());
     let mut block = aes::Block::clone_from_slice(&key[16..]);
     for chunk in data.chunks_mut(16) {
@@ -140,7 +140,7 @@ fn ofb(data: &mut [u8], key: &[u8; 32]) {
     }
 }
 
-fn limbs(n: &BigUint, count: usize) -> Vec<u8> {
+pub(super) fn limbs(n: &BigUint, count: usize) -> Vec<u8> {
     let mut b = n.to_bytes_le();
     b.resize(count * 8, 0);
     b.truncate(count * 8);
@@ -148,7 +148,7 @@ fn limbs(n: &BigUint, count: usize) -> Vec<u8> {
 }
 
 /// Unwraps the slice key from a (unmasked) slice header.
-fn unwrap_key(header: &[u8], user: u64) -> [u8; 32] {
+pub(super) fn unwrap_key(header: &[u8], user: u64) -> [u8; 32] {
     let k = keys();
     let mut out = [0u8; 32];
     for i in 0..4 {
@@ -312,7 +312,7 @@ fn murmur3(words: &[u32], mut seed: u32) -> u32 {
     y ^ (y >> 16)
 }
 
-fn sign(file: &mut [u8]) {
+pub(super) fn sign(file: &mut [u8]) {
     let n = file.len() / 4;
     let words: Vec<u32> = file[..(n - 1) * 4].chunks_exact(4).map(|c| u32::from_le_bytes(c.try_into().unwrap())).collect();
     let s = murmur3(&words, 0xFFFF_FFFF);
