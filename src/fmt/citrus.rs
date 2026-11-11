@@ -34,6 +34,7 @@ include!("citrus_curves.rs");
 struct Curve {
     p: BigInt,
     a: BigInt,
+    #[cfg_attr(not(test), allow(dead_code))]
     g: (BigInt, BigInt),
 }
 

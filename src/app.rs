@@ -822,6 +822,12 @@ impl App {
                 return self.fail(format!("Saved, but couldn't update {}: {e}", other.display()));
             }
         }
+        #[cfg(not(target_arch = "wasm32"))]
+        match crate::playerprefs::after_save(path) {
+            Ok(Some(m)) => note.push_str(&format!(" {m}")),
+            Err(e) => return self.fail(format!("Saved the file, but {e}")),
+            Ok(None) => {}
+        }
         }
 
         let signed = check.layers.iter().any(|l| matches!(l, Layer::RenpyZip { signed: true, .. }));

@@ -170,6 +170,13 @@ Connect). On Linux and the Steam Deck it also looks inside Proton prefixes
 and the usual Wine, Heroic, Lutris and Bottles prefixes, so Windows games run through Steam Play
 show up too.
 
+**Unity PlayerPrefs**: many Unity games keep coins, unlocks and settings in PlayerPrefs instead of
+a save file. *Unity games (PlayerPrefs)* lists them: on Windows each Unity game's registry key
+(`HKCU\Software\<company>\<game>`) is exported to a `.reg` file that opens like a save, with every
+pref by name and its type kept (whole number, decimal, text), and saving imports it back into the
+registry. Close the game first: it writes its prefs back when it quits. On Linux the `prefs` files
+under `~/.config/unity3d` and on macOS the `unity.*.plist` files are listed too.
+
 **Xbox app / PC Game Pass saves**: the Xbox app hides each game's saves in a container
 (`%LOCALAPPDATA%\Packages\<game>\SystemAppData\wgs`) where every file is named by a GUID. The
 editor reads the container's index and lists the files under the names the game gave them, both in

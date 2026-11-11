@@ -292,6 +292,9 @@ fn write(path: &Path, out: Option<&Path>, bytes: &[u8], no_backup: bool) -> Resu
         std::fs::write(&other, data).map_err(|e| format!("{}: {e}", other.display()))?;
     }
     eprintln!("wrote {} ({} bytes)", target.display(), bytes.len());
+    if let Some(m) = crate::playerprefs::after_save(target)? {
+        eprintln!("{m}");
+    }
     Ok(())
 }
 

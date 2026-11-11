@@ -23,6 +23,9 @@ pub enum Base {
     SteamGame(&'static str),
     /// %ProgramFiles(x86)% (Ubisoft Connect keeps saves there).
     ProgramFilesX86,
+    /// Unity PlayerPrefs: the exported registry values (Windows), `~/.config/unity3d` (Linux)
+    /// and `~/Library/Preferences` (macOS).
+    UnityPrefs,
     /// The Xbox app / PC Game Pass save container of this Store package (`*`: every package).
     GamePass(&'static str),
 }
@@ -254,6 +257,7 @@ pub const GAMES: &[GameInfo] = &[
     game!("Titan Quest Anniversary Edition", "Game screen: level, experience, money, unspent points, the five attributes and skill levels (stash files aren't read). Not yet tried in the game", r"Documents\My Games\Titan Quest - Immortal Throne\SaveData\Main\_<name>", r"Player.chr", [(Documents, r"My Games\Titan Quest - Immortal Throne\SaveData\Main"), (Documents, r"My Games\Titan Quest - Immortal Throne\SaveData\User")], ["Player.chr"], 1),
     game!("Torchlight II", "Game screen: level, experience, fame, gold, unspent points, the four stats, health, mana and item stacks; scrambled again with its checksum. Saves in the older 0x40 format aren't supported. Not yet tried in the game", r"Documents\My Games\Runic Games\Torchlight 2\save\<Steam id> (modsave\<Steam id> with mods)", r"<NAME>_{<id>}.SVB", [(Documents, r"My Games\Runic Games\Torchlight 2\save"), (Documents, r"My Games\Runic Games\Torchlight 2\modsave")], ["*.svb"], 1),
     game!("Undertale", "Game screen: stats, gold, EXP, items, phone and equipment (by name); every line of the file can be edited. Not yet tried in the game", r"%LOCALAPPDATA%\UNDERTALE", r"file0 (file9 is a copy; undertale.ini is the load menu)", [(LocalAppData, "UNDERTALE")], ["file0", "file9", "file8"], 1),
+    game!("Unity games (PlayerPrefs)", "Every PlayerPref by name (coins, unlocks, settings): ints, decimals and text, written back with their types. On Windows they're read from the registry and imported back on save; close the game first", r"Windows: the registry (HKCU\Software\<company>\<game>); Linux: ~/.config/unity3d/<company>/<game>; macOS: ~/Library/Preferences", r"<company> - <game>.reg (exported for you), prefs, unity.<company>.<game>.plist", [(UnityPrefs, "")], ["*.reg", "prefs", "unity.*.plist"], 3),
     game!("Valheim (characters)", VALHEIM, r"%USERPROFILE%\AppData\LocalLow\IronGate\Valheim\characters_local (older or Steam Cloud: characters)", "<name>.fch", [(LocalLow, r"IronGate\Valheim\characters_local"), (LocalLow, r"IronGate\Valheim\characters"), (SteamUser("892970"), r"remote\characters")], ["*.fch"], 1),
     game!("Vampire Survivors", "Game screen: coins, power-up ranks and what's unlocked; the checksum is worked out again on save. Not yet tried in the game", r"Steam\userdata\<account>\1794680\remote (older builds: %APPDATA%\Vampire_Survivors\saves)", r"SaveData (older builds: SaveData.sav)", [(SteamUser("1794680"), "remote"), (AppData, r"Vampire_Survivors\saves"), (AppData, "Vampire_Survivors_Data")], ["SaveData", "SaveData.sav"], 1),
     game!("Victoria 3", PDX_BINARY, r"Documents\Paradox Interactive\Victoria 3\save games", "*.v3", [(Documents, r"Paradox Interactive\Victoria 3\save games")], ["*.v3"], 1),
@@ -415,7 +419,7 @@ fn wine_bases(base: Base) -> Vec<PathBuf> {
             .filter_map(|u| u.parent()?.parent().map(|c| c.join("Program Files (x86)")))
             .filter(|p| p.is_dir())
             .collect(),
-        SteamUser(_) | SteamGame(_) | GamePass(_) => vec![],
+        SteamUser(_) | SteamGame(_) | GamePass(_) | UnityPrefs => vec![],
     }
 }
 
@@ -444,6 +448,16 @@ fn native_bases(base: Base) -> Vec<PathBuf> {
             .filter(|p| p.is_dir())
             .collect(),
         ProgramFilesX86 => env("ProgramFiles(x86)").into_iter().collect(),
+        UnityPrefs => {
+            let mut v: Vec<PathBuf> = vec![];
+            #[cfg(not(target_arch = "wasm32"))]
+            v.extend(crate::playerprefs::export_all());
+            if let Some(h) = env("HOME") {
+                v.push(h.join(".config").join("unity3d"));
+                v.push(h.join("Library").join("Preferences"));
+            }
+            v.into_iter().filter(|p| p.is_dir()).collect()
+        }
         GamePass(pkg) => env("LOCALAPPDATA").map(|l| crate::xgp::user_dirs(&l.join("Packages"), pkg)).unwrap_or_default(),
         SteamGame(dir) => steam_libraries().into_iter().map(|l| l.join("steamapps").join("common").join(dir)).filter(|p| p.is_dir()).collect(),
     }

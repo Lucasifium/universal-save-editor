@@ -24,6 +24,8 @@ mod oodle;
 mod pickle;
 mod par;
 mod platform;
+#[cfg(not(target_arch = "wasm32"))]
+mod playerprefs;
 mod renpy_sign;
 mod running;
 mod settings;
