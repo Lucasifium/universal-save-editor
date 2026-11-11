@@ -1503,6 +1503,7 @@ impl App {
                         let current = self.doc.as_ref().and_then(|d| {
                             d.layers.iter().find_map(|l| match l {
                                 Layer::ZipEntry { name, .. } | Layer::Copeck { name, .. } => Some(name.clone()),
+                                Layer::Ps2Card { file, .. } => Some(file.name.clone()),
                                 _ => None,
                             })
                         });

@@ -186,6 +186,15 @@ back byte for byte.
 **Dead Cells**: the save's SHA-1 and zlib packing are handled, so the unpacked data can be changed
 in the hex view or found with the value search and saved back with a fresh checksum.
 
+**Console memory cards**: a PlayStation memory card image (`.mcr`, `.mcd`, `.mem`, `.vgs`,
+`.gme`, or a RetroArch `.srm` from Beetle PSX) opens one save at a time, listed by product code and
+title under *Tools › Open another file in this archive*, and each save is written back into its own
+blocks. A PlayStation 2 card from PCSX2 (`.ps2` with error-correction codes, or `.bin` without)
+lists every file in every save folder the same way; saving writes the card's codes again. DeSmuME
+`.dsv` saves open without their footer, which is put back on save. The editor doesn't know each
+game's own checksums inside these saves, so find values with the value search and test the edit in
+the emulator. Checked on a public PlayStation card and on PS2 cards made by mymc.
+
 **Unity PlayerPrefs**: many Unity games keep coins, unlocks and settings in PlayerPrefs instead of
 a save file. *Unity games (PlayerPrefs)* lists them: on Windows each Unity game's registry key
 (`HKCU\Software\<company>\<game>`) is exported to a `.reg` file that opens like a save, with every
@@ -303,7 +312,8 @@ The same program runs commands without opening the window, for scripts and batch
     UniversalSaveEditor encode <save> <data> [-o <out>] pack edited data the way <save> is packed
     UniversalSaveEditor games  [--json]                 the games the editor knows
 
-`--password <p>` opens encrypted saves, like *Tools › Decrypt with password*. Writing is as careful
+`--password <p>` opens encrypted saves, like *Tools › Decrypt with password*; `--entry <name>`
+picks one save inside an archive or memory card (`info` lists them). Writing is as careful
 as the window: the new file must read back exactly before anything is written, the old file is
 backed up first (*File › Restore previous version* lists the copies) and the write is atomic.
 `decode` then `encode` lets any other tool edit the unpacked data while the editor handles the

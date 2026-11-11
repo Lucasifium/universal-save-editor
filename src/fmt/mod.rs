@@ -51,6 +51,7 @@ pub mod regfile;
 pub mod sol;
 pub mod haxe;
 pub mod deadcells;
+pub mod memcard;
 pub mod pdx;
 mod rimworld;
 mod oni;
