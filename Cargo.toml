@@ -20,6 +20,7 @@ serde_json = { version = "1", features = ["preserve_order", "arbitrary_precision
 flate2 = "1"
 # RE Engine "Mandarin" saves (Onimusha: Way of the Sword, Dragon's Dogma 2, MH Wilds…) use modular arithmetic on 256-bit keys.
 num-bigint = "0.4"
+num-integer = "0.1"
 base64 = "0.22"
 lz-str = "0.2"
 zip = { version = "2", default-features = false, features = ["deflate"] }

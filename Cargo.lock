@@ -3971,6 +3971,7 @@ dependencies = [
  "lzokay-native",
  "md-5",
  "num-bigint",
+ "num-integer",
  "p256",
  "pbkdf2",
  "plist",
