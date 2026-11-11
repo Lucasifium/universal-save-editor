@@ -989,7 +989,7 @@ impl App {
                                 ScrollArea::vertical().id_salt("gp_saves").auto_shrink([false, false]).show(ui, |ui| {
                                     for s in saves {
                                         theme::card(ui, |ui| {
-                                            if ui.link(RichText::new(file_name(&s.path)).strong()).clicked() {
+                                            if ui.link(RichText::new(s.label.clone().unwrap_or_else(|| file_name(&s.path))).strong()).clicked() {
                                                 *open = Some(s.path.clone());
                                             }
                                             let when = s
@@ -2674,6 +2674,10 @@ fn narrow(ui: &egui::Ui) -> bool {
 }
 
 fn file_name(p: &Path) -> String {
+    #[cfg(not(target_arch = "wasm32"))]
+    if let Some(n) = crate::xgp::logical_name(p) {
+        return format!("{n} (Xbox app)");
+    }
     p.file_name().map(|n| n.to_string_lossy().into_owned()).unwrap_or_else(|| p.display().to_string())
 }
 
