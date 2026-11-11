@@ -2,8 +2,8 @@
 # Builds the Android APK on Linux (used by the GitHub release workflow); same steps as the
 # Android part of build_all.ps1.
 #   build_android.sh <out.apk>
-# Needs ANDROID_HOME, ANDROID_NDK_HOME, a JDK, and for signing ANDROID_KEYSTORE (path) and
-# ANDROID_KEYSTORE_PASSWORD. Without them the APK stays unsigned and is not written.
+# Needs ANDROID_HOME, ANDROID_NDK_HOME and a JDK. Signs with ANDROID_KEYSTORE / ANDROID_KEYSTORE_PASSWORD
+# if set, else with a key it makes in packaging/android/ (git-ignored).
 set -euo pipefail
 OUT=${1:?output apk}
 NAME=UniversalSaveEditor
@@ -42,7 +42,17 @@ javac -source 8 -target 8 -Xlint:-options -classpath "$PLATFORM/android.jar" -d 
 python3 -I packaging/package.py add "$APK/unsigned.apk" "classes.dex=$APK/java/classes.dex" "${libs[@]}"
 "$BT/zipalign" -f -p 4 "$APK/unsigned.apk" "$APK/aligned.apk"
 
-: "${ANDROID_KEYSTORE:?no signing key}"
+# Signing key: your own, made once on first use. Android only installs updates signed with the same key.
+if [ -z "${ANDROID_KEYSTORE:-}" ]; then
+  ANDROID_KEYSTORE=packaging/android/release.keystore
+  if [ ! -f "$ANDROID_KEYSTORE" ]; then
+    ANDROID_KEYSTORE_PASSWORD=$(head -c 18 /dev/urandom | base64 | tr -dc 'A-Za-z0-9' | head -c 24)
+    printf '%s' "$ANDROID_KEYSTORE_PASSWORD" > packaging/android/keystore-password.txt
+    keytool -genkeypair -keystore "$ANDROID_KEYSTORE" -alias universalsaveeditor -keyalg RSA -keysize 4096 -validity 10000 \
+      -storepass "$ANDROID_KEYSTORE_PASSWORD" -keypass "$ANDROID_KEYSTORE_PASSWORD" -dname 'CN=UniversalSaveEditor'
+  fi
+  ANDROID_KEYSTORE_PASSWORD=${ANDROID_KEYSTORE_PASSWORD:-$(cat packaging/android/keystore-password.txt)}
+fi
 "$BT/apksigner" sign --ks "$ANDROID_KEYSTORE" --ks-pass env:ANDROID_KEYSTORE_PASSWORD --out "$OUT" "$APK/aligned.apk"
 "$BT/apksigner" verify "$OUT"
 rm -f "$OUT.idsig"

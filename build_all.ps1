@@ -1,7 +1,8 @@
 # Builds Universal Save Editor for every platform this machine has tools for, into dist\.
 # Every built file is checked for build-machine folders, user names and e-mail addresses.
-#   Windows x64 + ARM64 (MSVC), Linux x64 + ARM64 (cargo-zigbuild), Android APK (arm64 + x86_64),
-#   and the browser version (WebAssembly) into docs\app\.
+#   Windows x64 + ARM64 (MSVC), Linux x64 + ARM64 (cargo-zigbuild) and the browser version
+#   (WebAssembly) into docs\app\. The Android APK is not part of a normal build and is not
+#   released; build it yourself with  .\build_all.ps1 -Only android
 # macOS is built by GitHub Actions (.github/workflows/release.yml), since Apple's SDK only runs on Macs.
 #
 #   .\build_all.ps1              everything
@@ -101,7 +102,7 @@ if (Want 'web') {
     }
 }
 
-if (Want 'android') {
+if ($Only -contains 'android') {
     Write-Host '== Android APK' -ForegroundColor Cyan
     $env:JAVA_HOME = $Jdk
     $env:PATH = "$Jdk\bin;$env:PATH"
@@ -167,7 +168,7 @@ if (Want 'android') {
 # The APK and tarballs are compressed, so check the binaries that went into them as well.
 $checked = @($built | Where-Object { $_ -like '*.exe' })
 foreach ($arch in @('x86_64', 'aarch64')) { $checked += @(Get-Item "target\$arch-unknown-linux-gnu\release\$Name" -ErrorAction SilentlyContinue | ForEach-Object FullName) }
-if (Want 'android') { $checked += @(Get-ChildItem 'target\apk' -Recurse -Filter 'libuniversal_save_editor.so' | ForEach-Object FullName) }
+if ($Only -contains 'android') { $checked += @(Get-ChildItem 'target\apk' -Recurse -Filter 'libuniversal_save_editor.so' | ForEach-Object FullName) }
 foreach ($f in $checked) { Check-Clean $f }
 
 Write-Host ''
