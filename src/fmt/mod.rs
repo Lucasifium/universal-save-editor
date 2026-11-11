@@ -99,6 +99,7 @@ pub mod dl1;
 pub mod witcher3;
 pub mod cyberpunk;
 pub mod kenshi;
+pub mod p3r;
 pub mod p4g;
 pub mod ffx2;
 pub mod dead_rising;
@@ -460,6 +461,11 @@ pub fn parse_binary(d: &[u8]) -> Option<TreeDoc> {
     }
     if octopath::looks(d) {
         if let Ok(t) = octopath::parse(d) {
+            return Some(t);
+        }
+    }
+    if p3r::looks(d) {
+        if let Ok(t) = p3r::parse(d) {
             return Some(t);
         }
     }

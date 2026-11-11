@@ -1284,6 +1284,37 @@ pub fn palworld(ui: &mut Ui, cx: &mut GameCtx) {
     }
 }
 
+// ------------------------------------------------------------------ Persona 3 Reload
+
+pub fn p3r(ui: &mut Ui, cx: &mut GameCtx) {
+    let accent = Color32::from_rgb(40, 150, 230);
+    hero(ui, accent, "Persona 3 Reload", "Protagonist", |ui| {
+        cx.tile(ui, "Yen", "/Protagonist/Yen", accent);
+        cx.tile(ui, "Level", "/Party/Protagonist/Level", accent);
+        cx.tile(ui, "Experience", "/Party/Protagonist/Experience", accent);
+    });
+    panel(ui, "Social stats", |ui| {
+        let rows: Vec<(String, String)> = ["Academics", "Charm", "Courage"].iter().map(|s| (s.to_string(), join("/Social stats", s))).collect();
+        value_rows(ui, cx, "p3r_soc", &rows);
+    });
+    let members = ["Protagonist", "Yukari", "Junpei", "Akihiko", "Mitsuru", "Fuuka", "Aigis", "Koromaru", "Ken", "Shinjiro"];
+    for name in members {
+        let base = join("/Party", name);
+        if cx.get(&join(&base, "Level")).is_none() {
+            continue;
+        }
+        panel(ui, name, |ui| {
+            let rows: Vec<(String, String)> = ["Level", "Experience", "HP", "SP"].iter().map(|k| (k.to_string(), join(&base, k))).collect();
+            value_rows(ui, cx, &format!("p3r_{name}"), &rows);
+        });
+    }
+    panel(ui, "Social Links", |ui| {
+        let keys: Vec<String> = cx.get("/Social links").and_then(|v| v.as_object()).map(|m| m.keys().cloned().collect()).unwrap_or_default();
+        let rows: Vec<(String, String)> = keys.iter().map(|k| (k.clone(), join("/Social links", k))).collect();
+        value_rows(ui, cx, "p3r_links", &rows);
+    });
+}
+
 // ------------------------------------------------------------------ Persona 4 Golden
 
 pub fn p4g(ui: &mut Ui, cx: &mut GameCtx) {
