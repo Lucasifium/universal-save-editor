@@ -187,7 +187,7 @@ binary and stays an ironman save. It isn't converted to a normal one.
 
 ## Select game
 
-*Select game* (toolbar and File menu) lists every game the editor knows — about 150, Mass Effect 1–3, the Legendary Edition and Andromeda among them — with where it
+*Select game* (toolbar and File menu) lists every game the editor knows — nearly 190, Mass Effect 1–3, the Legendary Edition and Andromeda among them — with where it
 usually keeps its saves and what the files are called, and finds them on your computer (Steam
 libraries and `userdata`, Documents wherever Windows has it, AppData, Saved Games, Ubisoft
 Connect). On Linux and the Steam Deck it also looks inside Proton prefixes
