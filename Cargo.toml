@@ -50,6 +50,8 @@ md-5 = "0.10"
 sha2 = "0.10"
 # Resident Evil 4 (2023) checks each block of its save with SHA3-256.
 sha3 = "0.10"
+# Flash and AIR shared objects (.sol), read and written by Ruffle's parser.
+flash-lso = "0.7"
 lzokay-native = "0.1"
 
 # Not in the browser version: SQLite is C built against the platform's C library, and there

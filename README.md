@@ -170,6 +170,12 @@ Connect). On Linux and the Steam Deck it also looks inside Proton prefixes
 and the usual Wine, Heroic, Lutris and Bottles prefixes, so Windows games run through Steam Play
 show up too.
 
+**Flash and AIR games**: `.sol` shared objects (AMF0 and AMF3) open with every value by name and
+are written back with each value's own type; anything the editor doesn't show (dates, byte arrays,
+class names, references) is kept as it was. *Flash and AIR games (.sol saves)* lists the Flash
+Player folders by site. Read and written with Ruffle's parser; checked on 66 public sample files,
+each written back byte for byte (the few the parser can't write back exactly open in the hex view).
+
 **Unity PlayerPrefs**: many Unity games keep coins, unlocks and settings in PlayerPrefs instead of
 a save file. *Unity games (PlayerPrefs)* lists them: on Windows each Unity game's registry key
 (`HKCU\Software\<company>\<game>`) is exported to a `.reg` file that opens like a save, with every

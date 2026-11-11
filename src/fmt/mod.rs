@@ -48,6 +48,7 @@ pub mod citrus;
 pub mod lime;
 pub mod mandarin;
 pub mod regfile;
+pub mod sol;
 pub mod pdx;
 mod rimworld;
 mod oni;
