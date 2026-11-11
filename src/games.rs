@@ -198,6 +198,7 @@ pub const GAMES: &[GameInfo] = &[
     game!("Judgment", RGG_JUDGMENT, r"%APPDATA%\Sega\Judgment\Steam\<Steam id>", r"data.sav", [(AppData, r"Sega\Judgment\Steam\*")], ["*.sav"], 2),
     game!("Kenshi", FULL, r"%LOCALAPPDATA%\kenshi\save\<save name>", r"quick.save", [(LocalAppData, r"kenshi\save"), (SteamGame("Kenshi"), r"save")], ["quick.save"], 2),
     game!("Kingdom Two Crowns", "Unpacked from gzip and opened as JSON: coins, gems, islands, units and mounts, every value by name; packed again on save", r"%USERPROFILE%\AppData\LocalLow\noio\Kingdom Two Crowns\Release (macOS: ~/Library/Application Support/nl.noio.kingdom-two-crowns/Release)", r"global-v35 and the slot files beside it", [(LocalLow, r"noio\Kingdom Two Crowns\Release"), (LocalLow, r"noio\KingdomTwoCrowns\Release")], ["global-v*"], 1),
+    game!("Koei Tecmo games (Nioh, Wo Long, Stranger of Paradise)", "Decrypted and encrypted again on save, keeping the file's own keys: Nioh, Nioh 2 and Nioh 3 (the data opens for Value search), Wo Long: Fallen Dynasty and Fatal Frame II: Crimson Butterfly Remake (the JSON opens with every value by name; both checksums are made again), Stranger of Paradise: Final Fantasy Origin (Value search). Checked on the test files of KatanaSaveDataResigner, not yet tried in the games", r"Documents\KoeiTecmo\<game>\Savedata\<Steam id>\SAVEDATA00", r"SAVEDATA.BIN (one folder per slot)", [(Documents, r"KoeiTecmo\*")], ["*.BIN", "*.bin"], 5),
     game!("Kunitsu-Gami: Path of the Goddess", VALUES, r"Steam\userdata\<account>\2510710\remote\win64_save", "data*.bin", [(SteamUser("2510710"), r"remote\win64_save")], ["*.bin"], 1),
     game!("Lethal Company", "Game screen: credits, the profit quota and what is paid towards it, quotas passed, the deadline, the current moon, ship upgrades in storage and the run's statistics (LCSaveFile1 to 3); your experience and rank (LCGeneralSaveData). Decrypted and encrypted again on save. Checked on public saves, not yet tried in the game", r"%USERPROFILE%\AppData\LocalLow\ZeekerssRBLX\Lethal Company", r"LCSaveFile1 … LCSaveFile3 (one per save slot), LCGeneralSaveData", [(LocalLow, r"ZeekerssRBLX\Lethal Company")], ["LCSaveFile*", "LCGeneralSaveData"], 1),
     game!("Like a Dragon Gaiden: The Man Who Erased His Name", RGG_UNTESTED, r"%APPDATA%\Sega\LikeADragonGaiden\Steam\<Steam id>", r"data.sav", [(AppData, r"Sega\LikeADragonGaiden\Steam\*"), (GamePass("SEGAofAmericaInc.l1b05f489e_s751p9cej88mt"), "")], ["*.sav"], 2),
@@ -544,7 +545,7 @@ fn game_pass_saves(dir: &Path, out: &mut Vec<Found>) {
 }
 
 /// Entries that cover many games (an engine or a launcher): their saves are listed by game.
-const MANY_GAMES: [&str; 7] = ["Flash and AIR games (.sol saves)", "OpenFL and HaxeFlixel games (Haxe saves)", "Xbox app / PC Game Pass saves (any game)", "Ren'Py visual novels", "RPG Maker MV / MZ games", "Assassin's Creed (Ubisoft Connect games)", "Far Cry (Ubisoft Connect games)"];
+const MANY_GAMES: [&str; 8] = ["Koei Tecmo games (Nioh, Wo Long, Stranger of Paradise)", "Flash and AIR games (.sol saves)", "OpenFL and HaxeFlixel games (Haxe saves)", "Xbox app / PC Game Pass saves (any game)", "Ren'Py visual novels", "RPG Maker MV / MZ games", "Assassin's Creed (Ubisoft Connect games)", "Far Cry (Ubisoft Connect games)"];
 
 pub fn many_games(g: &GameInfo) -> bool {
     MANY_GAMES.contains(&g.name)

@@ -12,6 +12,7 @@ Universal Save Editor is free. It builds on other people's work, listed here wit
 | [elden-ring-weapon-calculator (weapon upgrade levels and affinities)](https://github.com/ThomasJClark/elden-ring-weapon-calculator) | Tom Clark | MIT |
 | [MandarinJuice (encrypted save layer, ported)](https://github.com/mi5hmash/MandarinJuice) | Michał Gębicki | MIT |
 | [mhrise-save-editor (Monster Hunter Rise "Citrus" save layer and its curve table, ported)](https://github.com/ChevalGrand/mhrise-save-editor) | ChevalGrand | MIT |
+| [KatanaSaveDataResigner (Koei Tecmo Nioh, Wo Long, Fatal Frame II and Stranger of Paradise encryption and checksums, ported; its test files used for checks only)](https://github.com/mi5hmash/KatanaSaveDataResigner) | Michał Gębicki | MIT |
 | [LimebrellaSharp (Resident Evil 4 "Lime" save layer, ported)](https://github.com/mi5hmash/LimebrellaSharp) | Michał Gębicki | MIT |
 | [oni-save-parser (Oxygen Not Included save layout)](https://github.com/RoboPhred/oni-save-parser) | RoboPhred | MIT |
 | [Gibbed.MassEffect2 / Gibbed.MassEffect3 (Mass Effect save layout)](https://github.com/gibbed/Gibbed.MassEffect3) | Rick (gibbed) | Zlib |

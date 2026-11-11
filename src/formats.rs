@@ -164,6 +164,8 @@ pub enum Layer {
     /// One save on a PlayStation memory card image: the image, where the raw card starts in
     /// it, and the save's blocks.
     Ps1Card { image: Arc<Vec<u8>>, offset: usize, blocks: Vec<usize> },
+    /// Koei Tecmo "Katana" encryption: the game and the whole save decrypted (header and keys).
+    Katana { kind: fmt::katana::Kind, plain: Arc<Vec<u8>> },
     /// A checksum found with Tools › Find checksum, written again on save.
     Sum(fmt::sumfind::Sum),
     /// One file on a PlayStation 2 memory card image: the image and the file.
@@ -263,6 +265,7 @@ impl Layer {
             Layer::Sol { .. } => "Flash shared object (.sol)".into(),
             Layer::Haxe { .. } => "Haxe serialized save (OpenFL, HaxeFlixel)".into(),
             Layer::DeadCells { .. } => "Dead Cells save (zlib, SHA-1)".into(),
+            Layer::Katana { kind, .. } => format!("Koei Tecmo encryption ({})", kind.name()),
             Layer::Sum(s) => format!("Checksum kept fixed ({})", s.describe()),
             Layer::Ps2Card { file, .. } => format!("PlayStation 2 memory card ({})", file.name),
             Layer::Dsv { .. } => "DeSmuME save (.dsv footer)".into(),
@@ -771,6 +774,7 @@ fn wrap(layer: &Layer, data: Vec<u8>) -> Result<Vec<u8>, String> {
         Layer::Sol { original } => fmt::sol::save(original, &data)?,
         Layer::Haxe { original } => fmt::haxe::save(original, &data)?,
         Layer::DeadCells { header } => fmt::deadcells::close(header, &data)?,
+        Layer::Katana { kind, plain } => fmt::katana::close(*kind, plain, &data)?,
         Layer::Sum(s) => {
             let mut d = data;
             s.fix(&mut d)?;
@@ -961,6 +965,10 @@ fn peel(data: &[u8], ctx: &mut Ctx) -> Option<(Layer, Vec<u8>)> {
     }
     if let Some(at) = fmt::memcard::dsv_split(data) {
         return Some((Layer::Dsv { footer: Arc::new(data[at..].to_vec()) }, data[..at].to_vec()));
+    }
+    if let Some((kind, plain)) = fmt::katana::open(data) {
+        let inner = fmt::katana::content(kind, &plain);
+        return Some((Layer::Katana { kind, plain: Arc::new(plain) }, inner));
     }
     if let Some(card) = fmt::memcard::Ps2Card::open(data) {
         let files = card.files(data).unwrap_or_default();
