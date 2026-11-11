@@ -139,18 +139,6 @@ fn float_close(a: f64, b: f64) -> bool {
     (a - b).abs() <= 0.001_f64.max(b.abs() * 1e-5)
 }
 
-/// Does the value at `off` equal `text` interpreted as `ty`?
-pub fn matches_at(ty: NumType, data: &[u8], off: usize, text: &str, be: bool) -> bool {
-    if ty.is_float() {
-        let Ok(target) = text.trim().parse::<f64>() else { return false };
-        return float_at(ty, data, off, be).is_some_and(|v| float_close(v, target));
-    }
-    match encode_value(ty, text, be) {
-        Ok(pat) => data.get(off..off + pat.len()) == Some(&pat[..]),
-        Err(_) => false,
-    }
-}
-
 pub fn search(ty: NumType, data: &[u8], text: &str, be: bool) -> Result<Vec<usize>, String> {
     if ty.is_float() {
         let target: f64 = text.trim().parse().map_err(|e| format!("{e}"))?;
@@ -168,6 +156,167 @@ pub fn search(ty: NumType, data: &[u8], text: &str, be: bool) -> Result<Vec<usiz
         .map(|(i, _)| i)
         .take(MAX_RESULTS)
         .collect())
+}
+
+/// How a scan keeps or drops locations. The first four start a scan; the rest compare the
+/// value each location held before with what it holds now (after the game saved again, or in a
+/// second save file).
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum ScanMode {
+    Exact,
+    Between,
+    Unknown,
+    Changed,
+    Unchanged,
+    Increased,
+    Decreased,
+    IncreasedBy,
+    DecreasedBy,
+}
+
+impl ScanMode {
+    /// Modes that start a new scan.
+    pub const FIRST: [ScanMode; 3] = [ScanMode::Exact, ScanMode::Between, ScanMode::Unknown];
+    /// Modes that narrow an existing scan.
+    pub const NEXT: [ScanMode; 8] = [
+        ScanMode::Exact, ScanMode::Changed, ScanMode::Unchanged, ScanMode::Increased,
+        ScanMode::Decreased, ScanMode::IncreasedBy, ScanMode::DecreasedBy, ScanMode::Between,
+    ];
+
+    pub fn name(self) -> &'static str {
+        match self {
+            ScanMode::Exact => "Exact value",
+            ScanMode::Between => "Value between",
+            ScanMode::Unknown => "Unknown starting value",
+            ScanMode::Changed => "Changed",
+            ScanMode::Unchanged => "Unchanged",
+            ScanMode::Increased => "Increased",
+            ScanMode::Decreased => "Decreased",
+            ScanMode::IncreasedBy => "Increased by",
+            ScanMode::DecreasedBy => "Decreased by",
+        }
+    }
+
+    /// How many numbers the mode needs typed in (0, 1 or 2).
+    pub fn inputs(self) -> usize {
+        match self {
+            ScanMode::Exact | ScanMode::IncreasedBy | ScanMode::DecreasedBy => 1,
+            ScanMode::Between => 2,
+            _ => 0,
+        }
+    }
+
+    /// Does the mode compare an earlier copy of the data with a later one?
+    pub fn compares(self) -> bool {
+        matches!(self, ScanMode::Changed | ScanMode::Unchanged | ScanMode::Increased | ScanMode::Decreased | ScanMode::IncreasedBy | ScanMode::DecreasedBy)
+    }
+}
+
+/// The number at `off`, for comparisons. Text types have no number.
+pub fn number_at(ty: NumType, data: &[u8], off: usize, be: bool) -> Option<f64> {
+    let d = data.get(off..off + ty.size().max(1))?;
+    macro_rules! n {
+        ($t:ty) => {{
+            let a = d.try_into().ok()?;
+            (if be { <$t>::from_be_bytes(a) } else { <$t>::from_le_bytes(a) }) as f64
+        }};
+    }
+    Some(match ty {
+        NumType::U8 => d[0] as f64,
+        NumType::I8 => d[0] as i8 as f64,
+        NumType::U16 => n!(u16),
+        NumType::I16 => n!(i16),
+        NumType::U32 => n!(u32),
+        NumType::I32 => n!(i32),
+        NumType::U64 => n!(u64),
+        NumType::I64 => n!(i64),
+        NumType::F32 => n!(f32),
+        NumType::F64 => n!(f64),
+        NumType::Ascii | NumType::Utf16 => return None,
+    })
+}
+
+fn parse_num(text: &str) -> Result<f64, String> {
+    text.trim().parse::<f64>().map_err(|_| format!("\"{}\" is not a number", text.trim()))
+}
+
+fn near(ty: NumType, a: f64, b: f64) -> bool {
+    if ty.is_float() { float_close(a, b) } else { a == b }
+}
+
+/// Runs one scan step.
+///
+/// `before` is the data the existing locations were found in (or `None` on a first scan),
+/// `now` the data to test. `candidates` are the locations still in play; `None` means every
+/// location (a first scan, or after an unknown-value start). `aligned` tests only offsets that
+/// are a multiple of the type's size, which is how most games lay numbers out.
+#[allow(clippy::too_many_arguments)]
+pub fn scan(
+    ty: NumType,
+    mode: ScanMode,
+    before: Option<&[u8]>,
+    now: &[u8],
+    candidates: Option<&[usize]>,
+    a: &str,
+    b: &str,
+    be: bool,
+    aligned: bool,
+) -> Result<Vec<usize>, String> {
+    let size = ty.size();
+    if size == 0 {
+        // Text: only an exact search makes sense.
+        if mode != ScanMode::Exact {
+            return Err("Comparison scans work on numbers \u{2014} pick a number type".into());
+        }
+        let pat = encode_value(ty, a, be)?;
+        let hits = |o: &usize| now.get(*o..*o + pat.len()) == Some(&pat[..]);
+        return Ok(match candidates {
+            Some(c) => c.iter().copied().filter(hits).collect(),
+            None => search(ty, now, a, be)?,
+        });
+    }
+    if mode == ScanMode::Unknown {
+        return Err("An unknown-value scan keeps every location; it has nothing to test yet".into());
+    }
+    if mode.compares() && before.is_none() {
+        return Err("This scan compares with an earlier copy \u{2014} start a scan first".into());
+    }
+    let (x, y) = match mode.inputs() {
+        0 => (0.0, 0.0),
+        1 => (parse_num(a)?, 0.0),
+        _ => {
+            let (lo, hi) = (parse_num(a)?, parse_num(b)?);
+            (lo.min(hi), lo.max(hi))
+        }
+    };
+    let test = |o: usize| -> bool {
+        let Some(v) = number_at(ty, now, o, be) else { return false };
+        if ty.is_float() && !v.is_finite() {
+            return false;
+        }
+        let old = || before.and_then(|d| number_at(ty, d, o, be));
+        let raw_same = || before.and_then(|d| d.get(o..o + size)) == now.get(o..o + size);
+        match mode {
+            ScanMode::Exact => near(ty, v, x),
+            ScanMode::Between => v >= x && v <= y,
+            ScanMode::Unknown => true,
+            ScanMode::Changed => !raw_same(),
+            ScanMode::Unchanged => raw_same(),
+            ScanMode::Increased => old().is_some_and(|p| v > p),
+            ScanMode::Decreased => old().is_some_and(|p| v < p),
+            ScanMode::IncreasedBy => old().is_some_and(|p| near(ty, v - p, x)),
+            ScanMode::DecreasedBy => old().is_some_and(|p| near(ty, p - v, x)),
+        }
+    };
+    let out: Vec<usize> = match candidates {
+        Some(c) => c.iter().copied().filter(|&o| test(o)).take(MAX_RESULTS).collect(),
+        None => {
+            let step = if aligned { size } else { 1 };
+            let end = now.len().saturating_sub(size - 1);
+            (0..end).step_by(step).filter(|&o| test(o)).take(MAX_RESULTS).collect()
+        }
+    };
+    Ok(out)
 }
 
 /// A user-named offset ("Gold" at 0x40 as i32), persisted next to the save file.
@@ -194,6 +343,13 @@ pub struct HexState {
     pub results: Vec<usize>,
     pub result_set: HashSet<usize>,
     pub searched: bool,
+    /// Scan options: how the first scan and each refine pick locations.
+    pub first_mode: ScanMode,
+    pub next_mode: ScanMode,
+    pub search_text2: String,
+    pub aligned: bool,
+    /// An unknown-value scan is running: every location is still in play.
+    pub all_locations: bool,
 }
 
 impl Default for HexState {
@@ -213,15 +369,48 @@ impl Default for HexState {
             results: Vec::new(),
             result_set: HashSet::new(),
             searched: false,
+            first_mode: ScanMode::Exact,
+            next_mode: ScanMode::Exact,
+            search_text2: String::new(),
+            aligned: true,
+            all_locations: false,
         }
     }
 }
 
 impl HexState {
     pub fn set_results(&mut self, results: Vec<usize>) {
+        self.all_locations = false;
         self.result_set = results.iter().copied().collect();
         self.results = results;
         self.searched = true;
+    }
+
+    /// Candidates for the next scan step (`None` while an unknown-value scan keeps everything).
+    pub fn candidates(&self) -> Option<&[usize]> {
+        if self.all_locations { None } else { Some(&self.results) }
+    }
+
+    /// Starts a scan on `data` with the first-scan mode.
+    pub fn start_scan(&mut self, data: &[u8]) -> Result<String, String> {
+        if self.first_mode == ScanMode::Unknown {
+            self.set_results(Vec::new());
+            self.all_locations = true;
+            return Ok("Every location is in play. Change the value in-game, save, then refine with Increased, Decreased or Changed.".into());
+        }
+        let res = scan(self.search_type, self.first_mode, None, data, None, &self.search_text, &self.search_text2, self.big_endian, self.aligned)?;
+        let n = res.len();
+        self.set_results(res);
+        Ok(format!("{n} possible location(s)"))
+    }
+
+    /// Narrows the scan: `before` is the data the current results came from, `now` the new data.
+    pub fn refine(&mut self, before: &[u8], now: &[u8]) -> Result<(usize, usize), String> {
+        let was = if self.all_locations { now.len() / if self.aligned { self.search_type.size().max(1) } else { 1 } } else { self.results.len() };
+        let res = scan(self.search_type, self.next_mode, Some(before), now, self.candidates(), &self.search_text, &self.search_text2, self.big_endian, self.aligned)?;
+        let n = res.len();
+        self.set_results(res);
+        Ok((was, n))
     }
 
     pub fn jump(&mut self, off: usize) {
@@ -295,4 +484,55 @@ pub fn hex_grid(ui: &mut Ui, data: &[u8], baseline: &[u8], st: &mut HexState) {
             });
         }
     });
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    fn file(vals: &[i32]) -> Vec<u8> {
+        vals.iter().flat_map(|v| v.to_le_bytes()).collect()
+    }
+
+    #[test]
+    fn unknown_then_compare_scans() {
+        let before = file(&[10, 500, 7, 7, 900]);
+        let after = file(&[10, 450, 7, 9, 905]);
+        let mut st = HexState { first_mode: ScanMode::Unknown, ..Default::default() };
+        st.start_scan(&before).unwrap();
+        assert!(st.all_locations);
+        st.next_mode = ScanMode::Decreased;
+        st.refine(&before, &after).unwrap();
+        assert_eq!(st.results, vec![4]);
+
+        let mut st = HexState { first_mode: ScanMode::Unknown, ..Default::default() };
+        st.start_scan(&before).unwrap();
+        st.next_mode = ScanMode::IncreasedBy;
+        st.search_text = "5".into();
+        st.refine(&before, &after).unwrap();
+        assert_eq!(st.results, vec![16]);
+
+        st.next_mode = ScanMode::Unchanged;
+        st.refine(&after, &after).unwrap();
+        assert_eq!(st.results, vec![16]);
+
+        let mut st = HexState { first_mode: ScanMode::Between, search_text: "400".into(), search_text2: "600".into(), ..Default::default() };
+        st.start_scan(&before).unwrap();
+        assert_eq!(st.results, vec![4]);
+        st.next_mode = ScanMode::Changed;
+        st.refine(&before, &after).unwrap();
+        assert_eq!(st.results, vec![4]);
+    }
+
+    #[test]
+    fn unaligned_scan_and_floats() {
+        let mut d = vec![0u8; 3];
+        d.extend(2.5f32.to_le_bytes());
+        let mut st = HexState { search_type: NumType::F32, search_text: "2.5".into(), aligned: false, ..Default::default() };
+        st.start_scan(&d).unwrap();
+        assert_eq!(st.results, vec![3]);
+        st.aligned = true;
+        st.start_scan(&d).unwrap();
+        assert!(st.results.is_empty());
+    }
 }
