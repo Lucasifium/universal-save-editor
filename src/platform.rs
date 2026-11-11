@@ -250,10 +250,15 @@ pub fn steam_userdata_dirs() -> Vec<PathBuf> {
         roots.push(home.join(".local/share/Steam"));
         roots.push(home.join(".steam/steam"));
         roots.push(home.join("Library/Application Support/Steam"));
+        // Flatpak Steam and the Snap package.
+        roots.push(home.join(".var/app/com.valvesoftware.Steam/.local/share/Steam"));
+        roots.push(home.join("snap/steam/common/.local/share/Steam"));
     }
     let mut out: Vec<PathBuf> = vec![];
     for r in roots {
         let u = r.join("userdata");
+        // ~/.steam/steam is usually a link to ~/.local/share/Steam: list it once.
+        let u = std::fs::canonicalize(&u).unwrap_or(u);
         if u.is_dir() && !out.contains(&u) {
             out.push(u);
         }

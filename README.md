@@ -165,7 +165,10 @@ folders automatically (remembered afterwards), or set `SAVE_EDITOR_OODLE` to the
 *Select game* (toolbar and File menu) lists every game the editor knows — about 150, Mass Effect 1–3, the Legendary Edition and Andromeda among them — with where it
 usually keeps its saves and what the files are called, and finds them on your computer (Steam
 libraries and `userdata`, Documents wherever Windows has it, AppData, Saved Games, Ubisoft
-Connect). Pick a game, then a save, to open it; if none are found it says so. *Open…* and dragging
+Connect). On Linux and the Steam Deck it also looks inside Proton prefixes
+(`steamapps/compatdata/<app id>/pfx` in every Steam library, including Flatpak Steam and SD cards)
+and the usual Wine, Heroic, Lutris and Bottles prefixes, so Windows games run through Steam Play
+show up too. Pick a game, then a save, to open it; if none are found it says so. *Open…* and dragging
 a file onto the window work as before for anything else.
 
 Capcom RE Engine saves need the Steam account they belong to; away from Steam's folders (on a
@@ -263,6 +266,11 @@ another one (e.g. before and after you earned gold), with a one-click **Use thei
 - **RPG Maker**: the game's `data/` folder is found automatically and used to name variables,
   switches, items, weapons, armors and actors. If it isn't found, click the yellow chip or use
   *Tools › Locate game data folder*.
+- **Value search** (hex view) works on any file. Search for an exact value or a range, or start with
+  *Unknown starting value* when you can't see the number (a health bar, a hidden counter). Then
+  change it in-game, save, and *Refine*: keep what is now a given value, what changed, stayed the
+  same, increased, decreased, or went up or down by a given amount. *Aligned* tests only offsets
+  that are a multiple of the value size, which is how most games store numbers.
 - **Binary saves**: use *Value search* to find a value, click the result, then give it a name under
   *Named values*. Names are stored in `<save>.labels.json` and come back next time.
 

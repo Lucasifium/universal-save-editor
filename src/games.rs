@@ -347,8 +347,83 @@ pub fn steam_libraries() -> Vec<PathBuf> {
     out
 }
 
+/// Windows user folders inside Wine prefixes (`drive_c/users/<name>`): Steam Play / Proton
+/// prefixes in every Steam library (one per game, under `steamapps/compatdata/<app id>/pfx`),
+/// plus the default Wine prefix and the usual Heroic, Lutris and Bottles prefix folders. On
+/// Linux and the Steam Deck this is where Windows games run through Proton keep their saves.
+pub fn wine_user_dirs() -> Vec<PathBuf> {
+    if cfg!(windows) {
+        return vec![];
+    }
+    let mut prefixes: Vec<PathBuf> = vec![];
+    for lib in steam_libraries() {
+        for e in std::fs::read_dir(lib.join("steamapps").join("compatdata")).into_iter().flatten().flatten() {
+            prefixes.push(e.path().join("pfx"));
+        }
+    }
+    if let Some(home) = env("HOME") {
+        prefixes.push(home.join(".wine"));
+        for dir in ["Games/Heroic/Prefixes", "Games/Heroic/Prefixes/default", ".local/share/bottles/bottles", ".var/app/com.usebottles.bottles/data/bottles/bottles", "Games"] {
+            for e in std::fs::read_dir(home.join(dir)).into_iter().flatten().flatten() {
+                prefixes.push(e.path());
+                prefixes.push(e.path().join("pfx"));
+            }
+        }
+    }
+    users_in_prefixes(&prefixes)
+}
+
+fn users_in_prefixes(prefixes: &[PathBuf]) -> Vec<PathBuf> {
+    let mut out = vec![];
+    for p in prefixes {
+        for e in std::fs::read_dir(p.join("drive_c").join("users")).into_iter().flatten().flatten() {
+            let name = e.file_name().to_string_lossy().to_lowercase();
+            if name != "public" && e.path().is_dir() {
+                out.push(e.path());
+            }
+        }
+    }
+    out.sort();
+    out.dedup();
+    out
+}
+
+/// The first of `names` that exists under `dir` (Wine has used both spellings).
+fn first_existing(dir: &Path, names: &[&str]) -> Option<PathBuf> {
+    names.iter().map(|n| dir.join(n)).find(|p| p.is_dir())
+}
+
+/// The folders `base` stands for inside Wine and Proton prefixes.
+fn wine_bases(base: Base) -> Vec<PathBuf> {
+    let users = wine_user_dirs();
+    let pick = |names: &[&str]| -> Vec<PathBuf> { users.iter().filter_map(|u| first_existing(u, names)).collect() };
+    match base {
+        AppData => pick(&["AppData/Roaming", "Application Data"]),
+        LocalAppData => pick(&["AppData/Local", "Local Settings/Application Data"]),
+        LocalLow => pick(&["AppData/LocalLow"]),
+        Documents => pick(&["Documents", "My Documents"]),
+        SavedGames => pick(&["Saved Games"]),
+        ProgramFilesX86 => users
+            .iter()
+            .filter_map(|u| u.parent()?.parent().map(|c| c.join("Program Files (x86)")))
+            .filter(|p| p.is_dir())
+            .collect(),
+        SteamUser(_) | SteamGame(_) => vec![],
+    }
+}
+
 /// The folders `base` stands for on this computer.
 fn bases(base: Base) -> Vec<PathBuf> {
+    let mut out = native_bases(base);
+    for p in wine_bases(base) {
+        if !out.contains(&p) {
+            out.push(p);
+        }
+    }
+    out
+}
+
+fn native_bases(base: Base) -> Vec<PathBuf> {
     let home = env("USERPROFILE").or_else(|| env("HOME"));
     match base {
         AppData => env("APPDATA").into_iter().collect(),
@@ -382,6 +457,12 @@ fn expand(root: &Path, rel: &str) -> Vec<PathBuf> {
                 let p = dir.join(part);
                 if p.is_dir() {
                     next.push(p);
+                } else if !cfg!(windows) {
+                    // Windows folder names ignore case; inside a Wine prefix they don't.
+                    let want = part.to_lowercase();
+                    if let Some(e) = std::fs::read_dir(&dir).into_iter().flatten().flatten().find(|e| e.file_name().to_string_lossy().to_lowercase() == want && e.path().is_dir()) {
+                        next.push(e.path());
+                    }
                 }
             }
         }
@@ -467,6 +548,29 @@ pub fn find(g: &GameInfo) -> Vec<Found> {
     out.sort_by(|a, b| b.modified.cmp(&a.modified));
     out.dedup_by(|a, b| a.path == b.path);
     out
+}
+
+#[cfg(test)]
+mod proton_tests {
+    use super::*;
+
+    #[test]
+    fn finds_saves_inside_a_proton_prefix() {
+        let tmp = std::env::temp_dir().join(format!("use_proton_{}", std::process::id()));
+        let pfx = tmp.join("steamapps/compatdata/1245620/pfx");
+        let roaming = pfx.join("drive_c/users/steamuser/AppData/Roaming/EldenRing/7656");
+        std::fs::create_dir_all(&roaming).unwrap();
+        std::fs::create_dir_all(pfx.join("drive_c/users/Public")).unwrap();
+        let users = users_in_prefixes(&[pfx.clone()]);
+        assert_eq!(users, vec![pfx.join("drive_c/users/steamuser")]);
+        let appdata = first_existing(&users[0], &["AppData/Roaming", "Application Data"]).unwrap();
+        // Folder names are matched without regard to case inside a prefix.
+        let found = expand(&appdata, r"eldenring\*");
+        if !cfg!(windows) {
+            assert_eq!(found, vec![roaming.clone()]);
+        }
+        let _ = std::fs::remove_dir_all(&tmp);
+    }
 }
 
 #[cfg(test)]
