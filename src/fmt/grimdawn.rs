@@ -436,9 +436,26 @@ fn block(c: &mut Cur, id: u32, end: usize, header_level: usize) -> R<()> {
         }
         13 => {
             c.u32()?;
-            for _ in 0..c.count(14)? {
-                c.bytes(2)?;
-                c.skip_words(3)?;
+            for i in 0..c.count(14)? {
+                let name = match i {
+                    1 => "Devil's Crossing".to_string(),
+                    2 => "Aetherials".to_string(),
+                    3 => "Chthonians".to_string(),
+                    4 => "Cronley's Gang".to_string(),
+                    _ => format!("Faction {i}"),
+                };
+                for (k, label) in ["Changed", "Unlocked"].into_iter().enumerate() {
+                    let at = c.at();
+                    c.byte()?;
+                    // The first flag only records that the standing moved; leave it to the game.
+                    if k == 1 {
+                        c.recs.push(Rec::Field(p(&["Factions", &name, label]), at, Kind::B8, 0, 1));
+                    }
+                }
+                let at = c.at();
+                c.u32()?;
+                c.recs.push(Rec::Field(p(&["Factions", &name, "Reputation"]), at, Kind::F32Int, -25_000, 25_000));
+                c.skip_words(2)?;
             }
         }
         14 => {

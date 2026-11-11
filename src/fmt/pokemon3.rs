@@ -239,6 +239,9 @@ impl Game {
     }
 }
 
+const HOENN_BADGES: [&str; 8] = ["Stone", "Knuckle", "Dynamo", "Heat", "Balance", "Feather", "Mind", "Rain"];
+const KANTO_BADGES: [&str; 8] = ["Boulder", "Cascade", "Thunder", "Rainbow", "Soul", "Marsh", "Volcano", "Earth"];
+
 #[derive(Clone, Debug)]
 struct Layout {
     /// File offset of each section id in the current block.
@@ -345,6 +348,8 @@ enum Field {
     /// Item id in a bag/PC slot.
     Item { addr: usize },
     Mon { mon: usize, part: MonPart },
+    /// One bit: an event flag (badges).
+    Bit { addr: usize, bit: u8 },
 }
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
@@ -508,6 +513,11 @@ impl Backend for Gen3Backend {
                     l.write(&mut out, *addr, &encode_text(as_str(v)?, *len, &orig)?);
                 }
                 Field::Gender { addr } => l.write(&mut out, *addr, &[u8::from(as_str(v)? == "Girl")]),
+                Field::Bit { addr, bit } => {
+                    let on = v.as_bool().ok_or("expected true or false")?;
+                    let cur = l.read(&out, *addr, 1)[0];
+                    l.write(&mut out, *addr, &[if on { cur | 1 << bit } else { cur & !(1 << bit) }]);
+                }
                 Field::Item { addr } => {
                     let id = index_of(&t.items, as_str(v)?).ok_or("unknown item")? as u16;
                     l.write(&mut out, *addr, &id.to_le_bytes());
@@ -583,6 +593,7 @@ impl Backend for Gen3Backend {
             Field::Int { max, .. } => int_in(v, 0, *max as i128, "This value").map(|_| ()),
             Field::Text { len, .. } => encode_text(as_str(v)?, *len, &[]).map(|_| ()),
             Field::Gender { .. } => matches!(as_str(v)?, "Boy" | "Girl").then_some(()).ok_or_else(|| "choose Boy or Girl".into()),
+            Field::Bit { .. } => v.as_bool().map(|_| ()).ok_or_else(|| "expected true or false".into()),
             Field::Item { .. } => known(&t.items, "item"),
             Field::Mon { part, .. } => match part {
                 MonPart::Species => match index_of(&t.species, as_str(v)?) {
@@ -794,6 +805,24 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
     }
     root.insert("Trainer".into(), Value::Object(tr));
 
+    // Badges: eight event flags in a row. Where the flags start in the game data and the
+    // first badge's flag number are from PKHeX (GPL-3.0), SaveBlock3Large{RS,E,FRLG}.
+    let (flags, first, names): (usize, usize, [&str; 8]) = match l.game {
+        Game::RubySapphire => (0x1220, 0x807, HOENN_BADGES),
+        Game::Emerald => (0x1270, 0x867, HOENN_BADGES),
+        Game::FireRedLeafGreen => (0xEE0, 0x820, KANTO_BADGES),
+    };
+    let mut badges = Map::new();
+    for (i, n) in names.iter().enumerate() {
+        let flag = first + i;
+        let large = flags + flag / 8;
+        // The game data after the trainer section runs through sections 1 to 4.
+        let addr = (1 + large / DATA) * SECTION + large % DATA;
+        let bit = (flag % 8) as u8;
+        b.add(&mut badges, "/Badges", &format!("{n} Badge"), Value::Bool(l.u(d, addr, 1) >> bit & 1 == 1), Some(Field::Bit { addr, bit }));
+    }
+    root.insert("Badges".into(), Value::Object(badges));
+
     // Party
     let (team_size, team) = if frlg { (s1 + 0x34, s1 + 0x38) } else { (s1 + 0x234, s1 + 0x238) };
     let n = l.u(d, team_size, 4).min(6) as usize;
@@ -950,6 +979,9 @@ mod tests {
         assert_eq!(doc.view.pointer("/Bag/Items/Slot 1/Quantity").unwrap(), 5);
         let p = "/Party/Pokémon 1";
         assert_eq!(doc.view.pointer(&format!("{p}/Level")).unwrap(), 5);
+        assert_eq!(doc.view.pointer("/Badges/Stone Badge").unwrap(), false);
+        doc.set("/Badges/Stone Badge", Value::Bool(true)).unwrap();
+        doc.set("/Badges/Rain Badge", Value::Bool(true)).unwrap();
         doc.set("/Trainer/Money", Value::from(999_999)).unwrap();
         doc.set("/Bag/Items/Slot 1/Item", Value::from("Rare Candy")).unwrap();
         doc.set("/Bag/Items/Slot 1/Quantity", Value::from(99)).unwrap();
@@ -962,6 +994,12 @@ mod tests {
         let again = parse(&out).unwrap();
         assert_eq!(again.view, doc.view);
         assert_eq!(again.view.pointer("/Trainer/Money").unwrap(), 999_999);
+        assert_eq!(again.view.pointer("/Badges/Stone Badge").unwrap(), true);
+        assert_eq!(again.view.pointer("/Badges/Knuckle Badge").unwrap(), false);
+        // Emerald: flags start at 0x1270 of the game data, badge flags at 0x867 (section 2, 0x2F0 + 0x10C).
+        let l = layout(&out).unwrap();
+        assert_eq!(out[l.sec[2] + 0x2F0 + 0x10C], 0x80);
+        assert_eq!(out[l.sec[2] + 0x2F0 + 0x10D], 0x40);
         assert_eq!(again.view.pointer(&format!("{p}/Experience")).unwrap(), exp_for(3, 50));
         assert_eq!(again.view.pointer(&format!("{p}/Moves/Move 2")).unwrap(), "Surf");
         // Every section in the edited copy still has a valid checksum.

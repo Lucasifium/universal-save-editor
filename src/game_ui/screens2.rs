@@ -894,6 +894,28 @@ pub fn diablo2(ui: &mut Ui, cx: &mut GameCtx) {
             ui.weak("Hard points put into each skill (20 is the most the game allows from points; items add more on top).");
         });
     }
+    let ways: Vec<String> = ["Normal", "Nightmare", "Hell"].iter().map(|d| format!("/Waypoints: {d}")).filter(|p| cx.get(p).is_some()).collect();
+    if !ways.is_empty() {
+        panel(ui, "Waypoints", |ui| {
+            for base in &ways {
+                let keys = keys_of(cx, base);
+                let on = keys.iter().filter(|k| cx.flag(&join(base, k))).count();
+                egui::CollapsingHeader::new(format!("{}  ({on} of {})", base.trim_start_matches("/Waypoints: "), keys.len())).id_salt(("d2_wp", base)).show(ui, |ui| {
+                    if ui.small_button("Open every waypoint").clicked() {
+                        for k in &keys {
+                            cx.set(&join(base, k), Value::from(1));
+                        }
+                    }
+                    ui.horizontal_wrapped(|ui| {
+                        for k in &keys {
+                            cx.chip(ui, k, &join(base, k), accent);
+                        }
+                    });
+                });
+            }
+            ui.weak("A waypoint you can use in that difficulty. The character still has to be able to reach the act.");
+        });
+    }
     ui.weak("Changing the level doesn't change experience: set both. Gold on the character can be at most 10,000 per level.");
 }
 
@@ -1355,32 +1377,153 @@ pub fn ffx(ui: &mut Ui, cx: &mut GameCtx) {
         cx.tile(ui, "Gil", "/Party/Gil", accent);
     });
     const COLS: [&str; 12] = ["HP", "Max HP", "MP", "Max MP", "Strength", "Defense", "Magic", "Magic defense", "Agility", "Luck", "Evasion", "Accuracy"];
-    for group in ["Characters", "Aeons"] {
-        let who: Vec<String> = match cx.get(&format!("/{group}")) {
-            Some(Value::Object(m)) => m.keys().cloned().collect(),
-            _ => continue,
-        };
-        panel(ui, group, |ui| {
-            egui::ScrollArea::horizontal().id_salt(("ffx_s", group)).show(ui, |ui| {
-                egui::Grid::new(("ffx_g", group)).striped(true).spacing([10.0, 4.0]).show(ui, |ui| {
-                    ui.label("");
-                    for h in COLS {
-                        ui.strong(h);
-                    }
-                    ui.end_row();
-                    for w in &who {
-                        let p = join(&join("", group), w);
-                        ui.label(w);
-                        for k in COLS {
-                            cx.compact(ui, &join(&p, k), if k.contains("HP") { 72.0 } else { 46.0 });
+    const BASE: [&str; 10] = [
+        "Base max HP", "Base max MP", "Base strength", "Base defense", "Base magic", "Base magic defense", "Base agility", "Base luck",
+        "Base evasion", "Base accuracy",
+    ];
+    const GROW: [&str; 4] = ["AP", "Sphere levels", "Overdrive gauge", "Overdrive mode"];
+    let pages = ["Party".to_string(), "Abilities".into(), "Overdrives".into(), "Items".into(), "Monster Arena".into()];
+    match tabs(ui, "ffx_tab", &pages) {
+        0 => {
+            for group in ["Characters", "Aeons"] {
+                let who = keys_of(cx, &join("", group));
+                if who.is_empty() {
+                    continue;
+                }
+                for (title, cols) in [(group.to_string(), &COLS[..]), (format!("{group}: without equipment"), &BASE[..]), (format!("{group}: growth"), &GROW[..])] {
+                    panel(ui, &title, |ui| {
+                        egui::ScrollArea::horizontal().id_salt(("ffx_s", &title)).show(ui, |ui| {
+                            egui::Grid::new(("ffx_g", &title)).striped(true).spacing([10.0, 4.0]).show(ui, |ui| {
+                                ui.label("");
+                                for h in cols {
+                                    ui.strong(h.trim_start_matches("Base ").to_string());
+                                }
+                                ui.end_row();
+                                for w in &who {
+                                    let p = join(&join("", group), w);
+                                    ui.label(w);
+                                    for k in cols {
+                                        let w = if k.contains("mode") { 110.0 } else if k.contains("HP") || *k == "AP" { 72.0 } else { 46.0 };
+                                        if cx.get(&join(&p, k)).is_some() {
+                                            cx.compact(ui, &join(&p, k), w);
+                                        } else {
+                                            ui.label("");
+                                        }
+                                    }
+                                    ui.end_row();
+                                }
+                            });
+                        });
+                    });
+                }
+            }
+            ui.weak(
+                "Stats are as the Sphere Grid has raised them (255 is the most). HP above 9999 needs Break HP Limit. The game works the totals \
+                 out again from the \"without equipment\" numbers, so change both. Sphere levels are the moves left to spend on the Sphere Grid.",
+            );
+        }
+        1 => ffx_flags(ui, cx, "/Abilities", "ability", accent, true),
+        2 => {
+            ffx_flags(ui, cx, "/Overdrives", "overdrive", accent, false);
+            ffx_flags(ui, cx, "/Overdrive modes", "overdrive mode", accent, false);
+        }
+        3 => {
+            panel(ui, "Items", |ui| {
+                let slots = keys_of(cx, "/Items");
+                if ui.button("Set every stack to 99").on_hover_text("Raises the count of each item you already hold to 99.").clicked() {
+                    for s in &slots {
+                        let p = join("/Items", s);
+                        if cx.text(&join(&p, "Item")).is_some_and(|t| t != "(empty)") {
+                            cx.set(&join(&p, "Count"), Value::from(99));
                         }
-                        ui.end_row();
+                    }
+                }
+                let cols = ((ui.available_width() / 330.0).floor() as usize).clamp(1, 3);
+                let per = slots.len().div_ceil(cols).max(1);
+                ui.columns(cols, |cs| {
+                    for (c, chunk) in slots.chunks(per).enumerate() {
+                        let ui = &mut cs[c];
+                        egui::Grid::new(("ffx_items", c)).striped(true).spacing([8.0, 3.0]).show(ui, |ui| {
+                            for s in chunk {
+                                let p = join("/Items", s);
+                                ui.weak(s.trim_start_matches("Slot "));
+                                cx.compact(ui, &join(&p, "Item"), 190.0);
+                                cx.compact(ui, &join(&p, "Count"), 46.0);
+                                ui.end_row();
+                            }
+                        });
                     }
                 });
+                ui.weak("Pick an item for an empty slot and give it a count to add it. Keep each item in one slot only.");
             });
-        });
+            let keys = keys_of(cx, "/Key items");
+            if !keys.is_empty() {
+                panel(ui, "Key items", |ui| {
+                    ui.horizontal_wrapped(|ui| {
+                        for k in &keys {
+                            cx.chip(ui, k, &join("/Key items", k), accent);
+                        }
+                    });
+                    ui.weak("Story items: holding one early doesn't play the scene that normally gives it. The Al Bhed primers aren't listed.");
+                });
+            }
+        }
+        _ => {
+            panel(ui, "Monster Arena", |ui| {
+                let regions = keys_of(cx, "/Monster Arena");
+                if ui.button("Capture 10 of every fiend").on_hover_text("Sets every area's fiends to 10 captured. The arena's own creations are left alone.").clicked() {
+                    for r in &regions {
+                        if r.contains("Conquest") || r == "Original" {
+                            continue;
+                        }
+                        for m in keys_of(cx, &join("/Monster Arena", r)) {
+                            cx.set(&join(&join("/Monster Arena", r), &m), Value::from(10));
+                        }
+                    }
+                }
+                for r in &regions {
+                    let base = join("/Monster Arena", r);
+                    let rows: Vec<(String, String)> = keys_of(cx, &base).into_iter().map(|m| (m.clone(), join(&base, &m))).collect();
+                    egui::CollapsingHeader::new(r).id_salt(("ffx_arena", r)).show(ui, |ui| value_rows(ui, cx, &format!("ffx_arena_{r}"), &rows));
+                }
+                ui.weak("How many of each fiend the Monster Arena holds (10 at most). The conquest and original entries are the arena's creations: 1 means unlocked.");
+            });
+        }
     }
-    ui.weak("Stats are as the Sphere Grid has raised them (255 is the most). HP above 9999 needs Break HP Limit.");
+}
+
+/// Chips for on/off records grouped as `base/<who>/<name>` or `base/<who>/<group>/<name>`.
+fn ffx_flags(ui: &mut Ui, cx: &mut GameCtx, base: &str, what: &str, accent: Color32, nested: bool) {
+    let who = keys_of(cx, base);
+    if who.is_empty() {
+        return;
+    }
+    panel(ui, base.trim_start_matches('/'), |ui| {
+        for w in &who {
+            let wb = join(base, w);
+            let groups: Vec<(String, String)> =
+                if nested { keys_of(cx, &wb).into_iter().map(|g| (g.clone(), join(&wb, &g))).collect() } else { vec![(String::new(), wb.clone())] };
+            let all: Vec<String> = groups.iter().flat_map(|(_, gb)| keys_of(cx, gb).into_iter().map(|k| join(gb, &k)).collect::<Vec<_>>()).collect();
+            let on = all.iter().filter(|p| cx.flag(p)).count();
+            egui::CollapsingHeader::new(format!("{w}  ({on} of {})", all.len())).id_salt((base, w)).show(ui, |ui| {
+                if ui.small_button(format!("Learn every {what}")).clicked() {
+                    for p in &all {
+                        cx.set(p, Value::from(1));
+                    }
+                }
+                for (g, gb) in &groups {
+                    if !g.is_empty() {
+                        ui.strong(g);
+                    }
+                    ui.horizontal_wrapped(|ui| {
+                        for k in keys_of(cx, gb) {
+                            cx.chip(ui, &k, &join(gb, &k), accent);
+                        }
+                    });
+                }
+            });
+        }
+    });
 }
 
 // ------------------------------------------------------------------ Metro

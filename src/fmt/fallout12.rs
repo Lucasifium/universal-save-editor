@@ -443,8 +443,8 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
     let bonus = |i: usize| i32_at(d, l.proto + 148 + 4 * i).unwrap_or(0);
     b.ranged(&["Character", "Max hit points (base)"], stat(7), Kind::I32, 1, 999);
     b.info(&["Character", "Max hit points"], i64::from(i32_at(d, stat(7)).unwrap_or(0) + bonus(7)));
-    b.info(&["Character", "Radiation"], i64::from(i32_at(d, crit + 36).unwrap_or(0)));
-    b.info(&["Character", "Poison"], i64::from(i32_at(d, crit + 40).unwrap_or(0)));
+    b.ranged(&["Character", "Radiation"], crit + 36, Kind::I32, 0, 2000);
+    b.ranged(&["Character", "Poison"], crit + 40, Kind::I32, 0, 2000);
     b.info(&["Character", "Age"], i64::from(i32_at(d, stat(33)).unwrap_or(0)));
     b.info(&["Character", "Gender"], if i32_at(d, stat(34)) == Some(1) { "Female" } else { "Male" });
 
@@ -452,24 +452,25 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
         b.ranged(&["S.P.E.C.I.A.L.", name], stat(i), Kind::I32, 1, 10);
         b.info(&["S.P.E.C.I.A.L. bonus", name], i64::from(bonus(i)));
     }
-    let tagged: Vec<i32> = (0..4).filter_map(|i| i32_at(d, l.tags + 4 * i)).filter(|&s| s >= 0).collect();
     for (i, name) in SKILL_NAMES.iter().enumerate() {
         b.ranged(&["Skills", name], l.proto + 288 + 4 * i, Kind::I32, 0, 300);
     }
-    b.info(&["Tagged skills"], tagged.iter().filter_map(|&s| SKILL_NAMES.get(s as usize)).copied().collect::<Vec<_>>().join(", "));
-    let trait_names: &[&str] = if f2 { &TRAITS_F2 } else { &TRAITS_F1 };
-    let chosen: Vec<&str> = (0..2).filter_map(|i| i32_at(d, l.traits + 4 * i)).filter_map(|t| trait_names.get(usize::try_from(t).ok()?).copied()).collect();
-    b.info(&["Traits"], chosen.join(", "));
-    let perk_names: &[&str] = if f2 { &PERKS_F2 } else { &PERKS_F1 };
-    let mut any_perk = false;
-    for (i, name) in perk_names.iter().enumerate() {
-        if let Some(r) = i32_at(d, l.perks + 4 * i).filter(|&r| r > 0) {
-            b.info(&["Perks", name], i64::from(r));
-            any_perk = true;
-        }
+    // Tags, traits and perks are looked up by the game whenever it needs them, so they can be changed in place.
+    let none = ("(none)".to_string(), u64::from(u32::MAX));
+    let skill_opts: Vec<(String, u64)> = std::iter::once(none.clone()).chain(SKILL_NAMES.iter().enumerate().map(|(i, n)| (n.to_string(), i as u64))).collect();
+    for i in 0..4 {
+        b.pick(&["Tagged skill slots", &format!("Tag {}", i + 1)], l.tags + 4 * i, Kind::U32, &skill_opts);
     }
-    if !any_perk {
-        b.info(&["Perks"], Value::Object(Default::default()));
+    let trait_names: &[&str] = if f2 { &TRAITS_F2 } else { &TRAITS_F1 };
+    let trait_opts: Vec<(String, u64)> = std::iter::once(none).chain(trait_names.iter().enumerate().map(|(i, n)| (n.to_string(), i as u64))).collect();
+    for i in 0..2 {
+        b.pick(&["Trait slots", &format!("Trait {}", i + 1)], l.traits + 4 * i, Kind::U32, &trait_opts);
+    }
+    let perk_names: &[&str] = if f2 { &PERKS_F2 } else { &PERKS_F1 };
+    for (i, name) in perk_names.iter().enumerate() {
+        if i32_at(d, l.perks + 4 * i).is_some_and(|r| (0..=3).contains(&r)) {
+            b.ranged(&["Perk ranks", name], l.perks + 4 * i, Kind::I32, 0, 3);
+        }
     }
     let kill_names: &[&str] = if f2 { &KILLS_F2 } else { &KILLS_F1 };
     for (i, name) in kill_names.iter().enumerate() {
@@ -688,16 +689,23 @@ pub(crate) mod tests {
             assert_eq!(v(&doc, "/S.P.E.C.I.A.L./Intelligence"), Some(8.into()));
             assert_eq!(v(&doc, "/S.P.E.C.I.A.L. bonus/Strength"), Some(1.into()));
             assert_eq!(v(&doc, "/Skills/Steal"), Some(2.into()));
-            assert_eq!(v(&doc, "/Tagged skills"), Some("Small Guns, Speech, First Aid".into()));
-            assert_eq!(v(&doc, "/Traits"), Some("Gifted, Small Frame".into()));
-            assert_eq!(v(&doc, "/Perks/Action Boy"), Some(1.into()));
+            assert_eq!(v(&doc, "/Tagged skill slots/Tag 1"), Some("Small Guns".into()));
+            assert_eq!(v(&doc, "/Tagged skill slots/Tag 3"), Some("First Aid".into()));
+            assert_eq!(v(&doc, "/Tagged skill slots/Tag 4"), Some("(none)".into()));
+            assert_eq!(v(&doc, "/Trait slots/Trait 2"), Some("Small Frame".into()));
+            assert_eq!(v(&doc, "/Perk ranks/Action Boy"), Some(1.into()));
             assert_eq!(v(&doc, "/Kills/Rats"), Some(7.into()));
             assert_eq!(v(&doc, "/Money/Bottle caps"), Some(250.into()));
             assert_eq!(v(&doc, "/Inventory/01 Bottle Caps/Count"), Some(250.into()));
             assert_eq!(v(&doc, "/Inventory/02 Item #8/Loaded rounds"), Some(6.into()));
             assert_eq!(v(&doc, "/Inventory/02 Item #8/Loaded with"), Some("Small Energy Cell".into()));
             assert_eq!(v(&doc, "/Inventory/03 Stimpak/Count"), Some(3.into()));
-            assert!(!doc.editable.contains_key("/Traits"));
+            let mut e = parse(&d).unwrap();
+            e.set("/Trait slots/Trait 2", "Finesse".into()).unwrap();
+            e.set("/Perk ranks/Awareness", 1.into()).unwrap();
+            let again = parse(&e.to_bytes().unwrap()).unwrap();
+            assert_eq!(v(&again, "/Trait slots/Trait 2"), Some("Finesse".into()));
+            assert_eq!(v(&again, "/Perk ranks/Awareness"), Some(1.into()));
             assert_eq!(doc.to_bytes().unwrap(), d, "no edit, same bytes");
             doc.set("/Money/Bottle caps", 251.into()).unwrap();
             assert_eq!(v(&doc, "/Inventory/01 Bottle Caps/Count"), Some(251.into()));
@@ -730,7 +738,7 @@ pub(crate) mod tests {
             let l = layout(&d).unwrap();
             let get = |doc: &TreeDoc, p: &str| doc.view.pointer(p).cloned().unwrap_or(Value::Null);
             println!(
-                "{path}\n  {} | lvl {} exp {} sp {} hp {} | SPECIAL {:?} | caps {} | items {} amb {} | traits {} | tags {} | perks {}",
+                "{path}\n  {} | lvl {} exp {} sp {} hp {} | SPECIAL {:?} | caps {} | items {} amb {} | traits {} | tags {}",
                 get(&doc, "/Save/Character name"),
                 get(&doc, "/Character/Level"),
                 get(&doc, "/Character/Experience"),
@@ -740,9 +748,8 @@ pub(crate) mod tests {
                 get(&doc, "/Money/Bottle caps"),
                 l.items.len(),
                 l.ambiguous,
-                get(&doc, "/Traits"),
-                get(&doc, "/Tagged skills"),
-                get(&doc, "/Perks"),
+                get(&doc, "/Trait slots"),
+                get(&doc, "/Tagged skill slots"),
             );
             assert_eq!(doc.to_bytes().unwrap(), d);
             let before = doc.view.clone();

@@ -100,6 +100,19 @@ mod ffx {
         "Tidus", "Yuna", "Auron", "Kimahri", "Wakka", "Lulu", "Rikku", "Seymour", "Valefor", "Ifrit", "Ixion", "Shiva", "Bahamut", "Anima",
         "Yojimbo", "Cindy", "Sandy", "Mindy",
     ];
+    pub const MODES: [&str; 20] = [
+        "Warrior", "Comrade", "Stoic", "Healer", "Tactician", "Victim", "Dancer", "Avenger", "Slayer", "Hero", "Rook", "Victor", "Coward",
+        "Ally", "Sufferer", "Daredevil", "Loner", "(unused 17)", "(unused 18)", "Aeons only",
+    ];
+    pub const ITEM_SLOTS: usize = 112;
+    pub const ITEM_IDS: usize = 0x3F0C;
+    pub const ITEM_COUNTS: usize = 0x410C;
+    pub const KEY_ITEMS: usize = 0x44CC;
+    pub const MONSTERS: usize = 0x424C;
+    /// Rows of the names table that start with `tag` (tab-separated; see data/ffx.txt).
+    pub fn table(tag: char) -> impl Iterator<Item = Vec<&'static str>> {
+        include_str!("data/ffx.txt").lines().filter(move |l| l.starts_with(tag)).map(|l| l.split('\t').collect())
+    }
 }
 
 fn ffx_sum(d: &[u8]) -> u16 {
@@ -145,9 +158,55 @@ pub fn parse_ffx(d: &[u8]) -> Result<TreeDoc, String> {
         for (i, s) in ["Strength", "Defense", "Magic", "Magic defense", "Agility", "Luck", "Evasion", "Accuracy"].into_iter().enumerate() {
             f(s, 0x2B + i, Kind::U8, 0, 255);
         }
+        // What the character has without equipment: the game rebuilds the totals above from these.
+        f("Base max HP", 0x0, Kind::U32, 1, 99_999);
+        f("Base max MP", 0x4, Kind::U32, 0, 9_999);
+        for (i, s) in ["Strength", "Defense", "Magic", "Magic defense", "Agility", "Luck", "Evasion", "Accuracy"].into_iter().enumerate() {
+            f(&format!("Base {}", s.to_lowercase()), 0x8 + i, Kind::U8, 0, 255);
+        }
+        f("Overdrive gauge", 0x35, Kind::U8, 0, if c < 8 { 100 } else { 20 });
+        if c < 8 {
+            f("AP", 0x14, Kind::U32, 0, 99_999_999);
+            f("Sphere levels", 0x37, Kind::U8, 0, 99);
+            b.named(&[group, who, "Overdrive mode"], r + 0x34, Kind::U8, &ffx::MODES);
+            for (i, m) in ffx::MODES.iter().enumerate().take(17) {
+                b.bits(&["Overdrive modes", who, m], r + 0x84 + i / 8, Kind::U8, (i % 8) as u32, 1, 0, 0, 1);
+            }
+        }
+        for l in ffx::table('A') {
+            let (i, aeon_excluded) = (l[1].parse::<usize>().unwrap_or(0), l[4] == "1");
+            if c >= 8 && aeon_excluded {
+                continue;
+            }
+            b.bits(&["Abilities", who, l[2], l[3]], r + 0x3A + i / 8, Kind::U8, (i % 8) as u32, 1, 0, 0, 1);
+        }
+    }
+    for l in ffx::table('O') {
+        let (at, bit, c) = (l[1].parse::<usize>().unwrap_or(0), l[2].parse::<u32>().unwrap_or(0), l[3].parse::<usize>().unwrap_or(0));
+        b.bits(&["Overdrives", ffx::NAMES[c], l[4]], at, Kind::U8, bit, 1, 0, 0, 1);
+    }
+    let mut items: Vec<(String, u64)> = vec![("(empty)".into(), 0xFF)];
+    items.extend(ffx::table('I').map(|l| (l[3].to_string(), l[1].parse::<u64>().unwrap_or(0))));
+    for i in 0..ffx::ITEM_SLOTS {
+        let slot = format!("Slot {:03}", i + 1);
+        b.pick(&["Items", &slot, "Item"], ffx::ITEM_IDS + 2 * i, Kind::U16, &items);
+        b.ranged(&["Items", &slot, "Count"], ffx::ITEM_COUNTS + i, Kind::U8, 0, 99);
+    }
+    for l in ffx::table('K') {
+        let i = l[1].parse::<usize>().unwrap_or(0);
+        // The Al Bhed primers are counted in two more places, so they are left alone.
+        if (4..30).contains(&i) {
+            continue;
+        }
+        b.bits(&["Key items", l[2]], ffx::KEY_ITEMS + i / 8, Kind::U8, (i % 8) as u32, 1, 0, 0, 1);
+    }
+    for l in ffx::table('M') {
+        let i = l[1].parse::<usize>().unwrap_or(0);
+        b.ranged(&["Monster Arena", l[2], l[3]], ffx::MONSTERS + i, Kind::U8, 0, l[4].parse().unwrap_or(10));
     }
     Ok(b.finish("Final Fantasy X save", Checksum::Custom(fix_ffx)).with_note(
-        "Gil and every character's and aeon's HP, MP and stats. The checksum is updated when you save.",
+        "Gil, items, key items, every character's and aeon's HP, MP, stats, abilities and overdrives, and the Monster Arena captures. \
+         The checksum is updated when you save.",
     ))
 }
 

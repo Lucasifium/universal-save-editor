@@ -140,6 +140,8 @@ fn write_stats(stats: &BTreeMap<u16, u32>) -> Vec<u8> {
 enum Target {
     Stat(u16),
     Skill(usize),
+    /// One bit of a header byte (waypoints).
+    Bit(usize, u8),
 }
 
 #[derive(Clone, Debug)]
@@ -158,6 +160,7 @@ impl D2Backend {
             Target::Stat(12) => (1, 99),
             Target::Stat(id) => (0, stat(*id).map_or(0, |s| s.4)),
             Target::Skill(_) => (0, 99),
+            Target::Bit(..) => (0, 1),
         }
     }
 }
@@ -172,6 +175,7 @@ impl Backend for D2Backend {
         let start = lay.stats + 2;
         let (mut stats, end) = read_stats(d, start).ok_or("the attributes couldn't be read")?;
         let mut skills: Vec<(usize, u8)> = vec![];
+        let mut bits: Vec<(usize, u8, bool)> = vec![];
         for (leaf, v) in changes {
             let t = &self.targets[*leaf];
             let n = as_int(v)?;
@@ -188,6 +192,7 @@ impl Backend for D2Backend {
                     stats.insert(*id, if n == 0 { 0 } else { raw });
                 }
                 Target::Skill(i) => skills.push((*i, n as u8)),
+                Target::Bit(at, bit) => bits.push((*at, *bit, n == 1)),
             }
         }
         let mut out = d[..start].to_vec();
@@ -201,6 +206,10 @@ impl Backend for D2Backend {
         }
         for (i, n) in skills {
             out[skills_at + 2 + i] = n;
+        }
+        // The header comes before the attributes, so its offsets don't move.
+        for (at, bit, on) in bits {
+            out[at] = if on { out[at] | (1 << bit) } else { out[at] & !(1 << bit) };
         }
         if let Some(&lv) = stats.get(&12) {
             out[lay.level] = lv as u8;
@@ -276,6 +285,29 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
     for i in 0..30 {
         let label = names.get(class).and_then(|c| c.get(i)).cloned().unwrap_or_else(|| format!("Skill {}", i + 1));
         add(&mut view, "Skills", &label, d[end + 2 + i].into(), Target::Skill(i));
+    }
+    // Waypoints: 3 difficulties of 24 bytes (2 bytes, then one bit per waypoint, act by act).
+    if let Some(ws) = d.windows(8).take(0x400).position(|w| w == [b'W', b'S', 1, 0, 0, 0, 0x50, 0]).filter(|&p| p >= 0x100 && p + 8 + 72 <= d.len()) {
+        const WAYPOINTS: [(&str, &[&str]); 5] = [
+            ("Act I", &["Rogue Encampment", "Cold Plains", "Stony Field", "Dark Wood", "Black Marsh", "Outer Cloister", "Jail Level 1", "Inner Cloister", "Catacombs Level 2"]),
+            ("Act II", &["Lut Gholein", "Sewers Level 2", "Dry Hills", "Halls of the Dead Level 2", "Far Oasis", "Lost City", "Palace Cellar Level 1", "Arcane Sanctuary", "Canyon of the Magi"]),
+            ("Act III", &["Kurast Docks", "Spider Forest", "Great Marsh", "Flayer Jungle", "Lower Kurast", "Kurast Bazaar", "Upper Kurast", "Travincal", "Durance of Hate Level 2"]),
+            ("Act IV", &["The Pandemonium Fortress", "City of the Damned", "River of Flame"]),
+            ("Act V", &["Harrogath", "Frigid Highlands", "Arreat Plateau", "Crystalline Passage", "Halls of Pain", "Glacial Trail", "Frozen Tundra", "The Ancients' Way", "Worldstone Keep Level 2"]),
+        ];
+        let mut n = 0;
+        for (di, diff) in ["Normal", "Nightmare", "Hell"].into_iter().enumerate() {
+            n = 0;
+            for (act, list) in WAYPOINTS {
+                for name in list {
+                    let at = ws + 8 + di * 24 + 2 + n / 8;
+                    let bit = (n % 8) as u8;
+                    add(&mut view, &format!("Waypoints: {diff}"), &format!("{act}: {name}"), i64::from((d[at] >> bit) & 1).into(), Target::Bit(at, bit));
+                    n += 1;
+                }
+            }
+        }
+        let _ = n;
     }
     let backend = D2Backend { data: Arc::new(d.to_vec()), targets };
     Ok(TreeDoc::new(Value::Object(view), editable, "Diablo II character", Box::new(backend))

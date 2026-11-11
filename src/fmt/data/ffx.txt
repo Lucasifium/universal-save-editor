@@ -1,0 +1,489 @@
+A	8	Skills	Sleep Attack	0
+A	9	Skills	Silence Attack	0
+A	10	Skills	Dark Attack	0
+A	12	Skills	Sleep Buster	0
+A	13	Skills	Silence Buster	0
+A	14	Skills	Dark Buster	0
+A	11	Skills	Zombie Attack	0
+A	15	Skills	Triple Foul	0
+A	6	Skills	Delay Attack	0
+A	7	Skills	Delay Buster	0
+A	90	Skills	Extract Power	0
+A	91	Skills	Extract Mana	0
+A	92	Skills	Extract Speed	0
+A	93	Skills	Extract Ability	0
+A	16	Skills	Power Break	0
+A	17	Skills	Magic Break	0
+A	18	Skills	Armour Break	0
+A	19	Skills	Mental Break	0
+A	89	Skills	Full Break	0
+A	20	Skills	Mug	1
+A	94	Skills	Nab Gil	1
+A	21	Skills	Quick Hit	1
+A	22	Special	Steal	1
+A	23	Special	Use	1
+A	24	Special	Flee	1
+A	25	Special	Pray	0
+A	26	Special	Cheer	0
+A	27	Special	Aim	0
+A	28	Special	Focus	0
+A	29	Special	Reflex	0
+A	30	Special	Luck	0
+A	31	Special	Jinx	0
+A	32	Special	Lancet	0
+A	34	Special	Guard	1
+A	35	Special	Sentinel	1
+A	36	Special	Spare Change	1
+A	37	Special	Threaten	1
+A	38	Special	Provoke	1
+A	39	Special	Entrust	1
+A	40	Special	Copycat	1
+A	88	Special	Pilfer Gil	1
+A	95	Special	Quick Pockets	1
+A	41	Special	Doublecast	0
+A	42	Special	Bribe	1
+A	43	White Magic	Cure	0
+A	44	White Magic	Cura	0
+A	45	White Magic	Curaga	0
+A	47	White Magic	NulBlaze	0
+A	48	White Magic	NulShock	0
+A	49	White Magic	NulTide	0
+A	46	White Magic	NulFrost	0
+A	50	White Magic	Scan	0
+A	51	White Magic	Esuna	0
+A	52	White Magic	Life	0
+A	53	White Magic	Full-Life	0
+A	54	White Magic	Haste	0
+A	55	White Magic	Hastega	0
+A	56	White Magic	Slow	0
+A	57	White Magic	Slowga	0
+A	58	White Magic	Shell	0
+A	59	White Magic	Protect	0
+A	60	White Magic	Reflect	0
+A	61	White Magic	Dispel	0
+A	62	White Magic	Regen	0
+A	63	White Magic	Holy	0
+A	64	White Magic	Auto-Life	0
+A	66	Black Magic	Fire	0
+A	67	Black Magic	Thunder	0
+A	68	Black Magic	Water	0
+A	65	Black Magic	Blizzard	0
+A	69	Black Magic	Fira	0
+A	71	Black Magic	Thundara	0
+A	72	Black Magic	Watera	0
+A	70	Black Magic	Blizzara	0
+A	73	Black Magic	Firaga	0
+A	75	Black Magic	Thundaga	0
+A	76	Black Magic	Waterga	0
+A	74	Black Magic	Blizzaga	0
+A	77	Black Magic	Bio	0
+A	78	Black Magic	Demi	0
+A	79	Black Magic	Death	0
+A	80	Black Magic	Drain	0
+A	81	Black Magic	Osmose	0
+A	82	Black Magic	Flare	0
+A	83	Black Magic	Ultima	0
+I	8192	Recovery Items	Potion
+I	8193	Recovery Items	Hi-Potion
+I	8194	Recovery Items	X-Potion
+I	8195	Recovery Items	Mega-Potion
+I	8196	Recovery Items	Ether
+I	8197	Recovery Items	Turbo Ether
+I	8198	Recovery Items	Phoenix Down
+I	8199	Recovery Items	Mega Phoenix
+I	8200	Recovery Items	Elixir
+I	8201	Recovery Items	Megalixir
+I	8202	Recovery Items	Antidote
+I	8203	Recovery Items	Soft
+I	8204	Recovery Items	Eye Drops
+I	8205	Recovery Items	Echo Screen
+I	8206	Recovery Items	Holy Water
+I	8207	Recovery Items	Remedy
+I	8208	Distillers	Power Distiller
+I	8209	Distillers	Mana Distiller
+I	8210	Distillers	Speed Distiller
+I	8211	Distillers	Ability Distiller
+I	8212	Use Items	Al Bhed Potion
+I	8213	Use Items	Healing Water
+I	8214	Use Items	Tetra Elemental
+I	8215	Use Items	Antarctic Wind
+I	8216	Use Items	Arctic Wind
+I	8217	Use Items	Ice Gem
+I	8218	Use Items	Bomb Fragment
+I	8219	Use Items	Bomb Core
+I	8220	Use Items	Fire Gem
+I	8221	Use Items	Electro Marble
+I	8222	Use Items	Lightning Marble
+I	8223	Use Items	Lightning Gem
+I	8224	Use Items	Fish Scale
+I	8225	Use Items	Dragon Scale
+I	8226	Use Items	Water Gem
+I	8227	Use Items	Grenade
+I	8228	Use Items	Frag Grenade
+I	8229	Use Items	Sleeping Powder
+I	8230	Use Items	Dream Powder
+I	8231	Use Items	Silence Grenade
+I	8232	Use Items	Smoke Bomb
+I	8233	Use Items	Shadow Gem
+I	8234	Use Items	Shining Gem
+I	8235	Use Items	Blessed Gem
+I	8236	Use Items	Supreme Gem
+I	8237	Use Items	Poison Fang
+I	8238	Use Items	Silver Hourglass
+I	8239	Use Items	Gold Hourglass
+I	8240	Use Items	Candle of Life
+I	8241	Use Items	Petrify Grenade
+I	8242	Use Items	Farplane Shadow
+I	8243	Use Items	Farplane Wind
+I	8244	Miscellaneous	Designer Wallet
+I	8245	Use Items	Dark Matter
+I	8246	Use Items	Chocobo Feather
+I	8247	Use Items	Chocobo Wing
+I	8248	Use Items	Lunar Curtain
+I	8249	Use Items	Light Curtain
+I	8250	Use Items	Star Curtain
+I	8251	Use Items	Healing Spring
+I	8252	Use Items	Mana Spring
+I	8253	Use Items	Stamina Spring
+I	8254	Use Items	Soul Spring
+I	8255	Use Items	Purifying Salt
+I	8256	Use Items	Stamina Tablet
+I	8257	Use Items	Mana Tablet
+I	8258	Use Items	Twin Stars
+I	8259	Use Items	Stamina Tonic
+I	8260	Use Items	Mana Tonic
+I	8261	Use Items	Three Stars
+I	8262	Spheres	Power Sphere
+I	8263	Spheres	Mana Sphere
+I	8264	Spheres	Speed Sphere
+I	8265	Spheres	Ability Sphere
+I	8266	Spheres	Fortune Sphere
+I	8267	Spheres	Attribute Sphere
+I	8268	Spheres	Special Sphere
+I	8269	Spheres	Skill Sphere
+I	8270	Spheres	Wht Magic Sphere
+I	8271	Spheres	Blk Magic Sphere
+I	8272	Spheres	Master Sphere
+I	8273	Spheres	Lv. 1 Key Sphere
+I	8274	Spheres	Lv. 2 Key Sphere
+I	8275	Spheres	Lv. 3 Key Sphere
+I	8276	Spheres	Lv. 4 Key Sphere
+I	8277	Spheres	HP Sphere
+I	8278	Spheres	MP Sphere
+I	8279	Spheres	Strength Sphere
+I	8280	Spheres	Defence Sphere
+I	8281	Spheres	Magic Sphere
+I	8282	Spheres	Magic Def Sphere
+I	8283	Spheres	Agility Sphere
+I	8284	Spheres	Evasion Sphere
+I	8285	Spheres	Accuracy Sphere
+I	8286	Spheres	Luck Sphere
+I	8287	Spheres	Clear Sphere
+I	8288	Spheres	Return Sphere
+I	8289	Spheres	Friend Sphere
+I	8290	Spheres	Teleport Sphere
+I	8291	Spheres	Warp Sphere
+I	8292	Miscellaneous	Map
+I	8293	Miscellaneous	Rename Card
+I	8294	Miscellaneous	Musk
+I	8295	Miscellaneous	Hypello Potion
+I	8296	Miscellaneous	Shining Thorn
+I	8297	Miscellaneous	Pendulum
+I	8298	Miscellaneous	Amulet
+I	8299	Miscellaneous	Door to Tomorrow
+I	8300	Miscellaneous	Wings to Discovery
+I	8301	Miscellaneous	Gambler's Spirit
+I	8302	Miscellaneous	Underdog's Secret
+I	8303	Miscellaneous	Winning Formula
+K	2	Cloudy Mirror
+K	3	Celestial Mirror
+K	0	Withered Bouquet
+K	1	Flint
+K	30	Summoner's Soul
+K	31	Aeon's Soul
+K	32	Jecht's Sphere
+K	33	Rusty Sword
+K	35	Sun Crest
+K	36	Sun Sigil
+K	37	Moon Crest
+K	38	Moon Sigil
+K	39	Mars Crest
+K	40	Mars Sigil
+K	42	Saturn Crest
+K	43	Saturn Sigil
+K	44	Jupiter Crest
+K	45	Jupiter Sigil
+K	46	Venus Crest
+K	47	Venus Sigil
+K	48	Mercury Crest
+K	49	Mercury Sigil
+K	4	Al Bhed Primer I
+K	5	Al Bhed Primer II
+K	6	Al Bhed Primer III
+K	7	Al Bhed Primer IV
+K	8	Al Bhed Primer V
+K	9	Al Bhed Primer VI
+K	10	Al Bhed Primer VII
+K	11	Al Bhed Primer VIII
+K	12	Al Bhed Primer IX
+K	13	Al Bhed Primer X
+K	14	Al Bhed Primer XI
+K	15	Al Bhed Primer XII
+K	16	Al Bhed Primer XIII
+K	17	Al Bhed Primer XIV
+K	18	Al Bhed Primer XV
+K	19	Al Bhed Primer XVI
+K	20	Al Bhed Primer XVII
+K	21	Al Bhed Primer XVIII
+K	22	Al Bhed Primer XIX
+K	23	Al Bhed Primer XX
+K	24	Al Bhed Primer XXI
+K	25	Al Bhed Primer XXII
+K	26	Al Bhed Primer XXIII
+K	27	Al Bhed Primer XXIV
+K	28	Al Bhed Primer XXV
+K	29	Al Bhed Primer XXVI
+K	50	Blossom Crown
+K	51	Flower Sceptre
+K	41	Mark of Conquest
+O	15788	0	0	Spiral Cut
+O	15788	1	0	Slice & Dice
+O	15788	2	0	Energy Rain
+O	15788	3	0	Blitz Ace
+O	15788	4	2	Shooting Star
+O	15788	5	2	Dragon Fang
+O	15788	6	2	Banishing Blade
+O	15788	7	2	Tornado
+O	15789	0	3	Jump
+O	15789	1	3	Fire Breath
+O	15789	2	3	Seed Cannon
+O	15789	3	3	Self-Destruct
+O	15789	4	3	Thrust Kick
+O	15789	5	3	Stone Breath
+O	15789	6	3	Aqua Breath
+O	15789	7	3	Doom
+O	15790	0	3	White Wind
+O	15790	1	3	Bad Breath
+O	15790	2	3	Mighty Guard
+O	15790	3	3	Nova
+O	15790	4	4	Element Reels
+O	15790	5	4	Attack Reels
+O	15790	6	4	Status Reels
+O	15790	7	4	Aurochs Reels
+O	15791	0	5	Blizzard Fury
+O	15791	1	5	Fire Fury
+O	15791	2	5	Thunder Fury
+O	15791	3	5	Water Fury
+O	15791	4	5	Fira Fury
+O	15791	5	5	Blizzara Fury
+O	15791	6	5	Thundara Fury
+O	15791	7	5	Watera Fury
+O	15792	0	5	Firaga Fury
+O	15792	1	5	Blizzaga Fury
+O	15792	2	5	Thundaga Fury
+O	15792	3	5	Waterga Fury
+O	15792	4	5	Bio Fury
+O	15792	5	5	Demi Fury
+O	15792	6	5	Death Fury
+O	15792	7	5	Drain Fury
+O	15793	0	5	Osmose Fury
+O	15793	1	5	Flare Fury
+O	15793	2	5	Ultima Fury
+O	15793	3	6	Grenade
+O	15793	4	6	Frag Grenade
+O	15793	5	6	Pineapple
+O	15793	6	6	Potato Masher
+O	15793	7	6	Cluster Bomb
+O	15794	0	6	Tallboy
+O	15794	1	6	Blaster Mine
+O	15794	2	6	Hazardous Shell
+O	15794	3	6	Calamity Bomb
+O	15794	4	6	Chaos Grenade
+O	15794	5	6	Heat Blaster
+O	15794	6	6	Firestorm
+O	15794	7	6	Burning Soul
+O	15795	0	6	Brimstone
+O	15795	1	6	Abaddon Flame
+O	15795	2	6	Snow Flurry
+O	15795	3	6	Icefall
+O	15795	4	6	Winter Storm
+O	15795	5	6	Black Ice
+O	15795	6	6	Krysta
+O	15795	7	6	Thunderbolt
+O	15796	3	6	Thunderblast
+O	15796	4	6	Waterfall
+O	15796	5	6	Flash Flood
+O	15796	6	6	Tidal Wave
+O	15796	7	6	Aqua Toxin
+O	15797	0	6	Dark Rain
+O	15797	1	6	Nega Burst
+O	15797	2	6	Black Hole
+O	15797	3	6	Sunburst
+O	15797	4	6	Ultra Potion
+O	15797	5	6	Panacea
+O	15797	6	6	Ultra Cure
+O	15797	7	6	Mega Phoenix
+O	15798	0	6	Final Phoenix
+O	15798	1	6	Elixir
+O	15798	2	6	Megalixir
+O	15798	3	6	Super Elixir
+O	15798	4	6	Final Elixir
+O	15798	5	6	NulAll
+O	15798	6	6	Mega NulAll
+O	15798	7	6	Hyper NulAll
+O	15799	0	6	Ultra NulAll
+O	15799	1	6	Mighty Wall
+O	15799	2	6	Mighty G
+O	15799	3	6	Super Mighty G
+O	15799	4	6	Hyper Mighty G
+O	15799	5	6	Vitality
+O	15799	6	6	Mega Vitality
+O	15799	7	6	Hyper Vitality
+O	15800	0	6	Mana
+O	15800	1	6	Mega Mana
+O	15800	2	6	Hyper Mana
+O	15800	3	6	Freedom
+O	15800	4	6	Freedom X
+O	15800	5	6	Quartet of 9
+O	15800	6	6	Trio of 9999
+O	15800	7	6	Hero Drink
+O	15801	0	6	Miracle Drink
+O	15801	1	6	Hot Spurs
+O	15801	2	6	Eccentrick
+M	8	Besaid	Dingo	10
+M	27	Besaid	Condor	10
+M	15	Besaid	Water Flan	10
+M	21	Kilika	Dinonix	10
+M	30	Kilika	Killer Bee	10
+M	61	Kilika	Yellow Element	10
+M	38	Kilika	Ragora	10
+M	9	Mi'ihen Highroad	Mi'ihen Fang	10
+M	22	Mi'ihen Highroad	Ipiria	10
+M	34	Mi'ihen Highroad	Floating Eye	10
+M	62	Mi'ihen Highroad	White Element	10
+M	0	Mi'ihen Highroad	Raldo	10
+M	50	Mi'ihen Highroad	Vouivre	10
+M	85	Mi'ihen Highroad	Bomb	10
+M	47	Mi'ihen Highroad	Dual Horn	10
+M	23	Mushroom Rock Road	Raptor	10
+M	5	Mushroom Rock Road	Gandarewa	10
+M	16	Mushroom Rock Road	Thunder Flan	10
+M	63	Mushroom Rock Road	Red Element	10
+M	51	Mushroom Rock Road	Lamashtu	10
+M	91	Mushroom Rock Road	Funguar	10
+M	40	Mushroom Rock Road	Garuda	10
+M	10	Djose Road	Garm	10
+M	28	Djose Road	Simurgh	10
+M	31	Djose Road	Bite Bug	10
+M	17	Djose Road	Snow Flan	10
+M	1	Djose Road	Bunyip	10
+M	79	Djose Road	Basilisk	10
+M	83	Djose Road	Ochu	10
+M	24	Thunder Plains	Melusine	10
+M	6	Thunder Plains	Aerouge	10
+M	35	Thunder Plains	Buer	10
+M	64	Thunder Plains	Gold Element	10
+M	52	Thunder Plains	Kusariqqu	10
+M	89	Thunder Plains	Larva	10
+M	76	Thunder Plains	Iron Giant	10
+M	87	Thunder Plains	Quactuar	10
+M	11	Macalania	Snow Wolf	10
+M	25	Macalania	Iguion	10
+M	32	Macalania	Wasp	10
+M	36	Macalania	Evil Eye	10
+M	18	Macalania	Ice Flan	10
+M	65	Macalania	Blue Element	10
+M	2	Macalania	Murussu	10
+M	3	Macalania	Mafdet	10
+M	94	Macalania	Xiphos	10
+M	71	Macalania	Chimera	10
+M	12	Bikanel	Sand Wolf	10
+M	29	Bikanel	Alcyone	10
+M	53	Bikanel	Mushussu	10
+M	41	Bikanel	Zu	10
+M	42	Bikanel	Sand Worm	10
+M	88	Bikanel	Cactuar	10
+M	13	Calm Lands	Skoll	10
+M	33	Calm Lands	Nebiros	10
+M	19	Calm Lands	Flame Flan	10
+M	4	Calm Lands	Shred	10
+M	80	Calm Lands	Anacondaur	10
+M	57	Calm Lands	Ogre	10
+M	73	Calm Lands	Coeurl	10
+M	72	Calm Lands	Chimera Brain	10
+M	55	Calm Lands	Malboro	10
+M	26	Sunken Cave	Yowie	10
+M	7	Sunken Cave	Imp	10
+M	66	Sunken Cave	Dark Element	10
+M	54	Sunken Cave	Nidhogg	10
+M	92	Sunken Cave	Thorn	10
+M	48	Sunken Cave	Valaha	10
+M	68	Sunken Cave	Epaaj	10
+M	44	Sunken Cave	Ghost	10
+M	98	Sunken Cave	Tonberry	10
+M	14	Mt. Gagazet	Bandersnatch	10
+M	37	Mt. Gagazet	Ahriman	10
+M	20	Mt. Gagazet	Dark Flan	10
+M	86	Mt. Gagazet	Grenade	10
+M	39	Mt. Gagazet	Grat	10
+M	49	Mt. Gagazet	Grendel	10
+M	58	Mt. Gagazet	Bashura	10
+M	84	Mt. Gagazet	Mandragora	10
+M	69	Mt. Gagazet	Behemoth	10
+M	60	Mt. Gagazet	Splasher	10
+M	45	Mt. Gagazet	Achelous	10
+M	46	Mt. Gagazet	Maelspike	10
+M	93	Inside Sin	Exoray	10
+M	97	Inside Sin	Wraith	10
+M	77	Inside Sin	Gemini	10
+M	78	Inside Sin	Gemini	10
+M	75	Inside Sin	Demonolith	10
+M	56	Inside Sin	Great Malboro	10
+M	90	Inside Sin	Barbatos	10
+M	81	Inside Sin	Adamantoise	10
+M	70	Inside Sin	Behemoth King	10
+M	100	Omega Dungeon	Zaurus	10
+M	102	Omega Dungeon	Floating Death	10
+M	67	Omega Dungeon	Black Element	10
+M	101	Omega Dungeon	Halma	10
+M	95	Omega Dungeon	Puroboros	10
+M	96	Omega Dungeon	Spirit	10
+M	103	Omega Dungeon	Machea	10
+M	74	Omega Dungeon	Master Coeurl	10
+M	99	Omega Dungeon	Master Tonberry	10
+M	82	Omega Dungeon	Varuna	10
+M	120	Area Conquest	Stratoavis	1
+M	124	Area Conquest	Malboro Menace	1
+M	125	Area Conquest	Kottos	1
+M	129	Area Conquest	Coeurlregina	1
+M	131	Area Conquest	Jormungand	1
+M	134	Area Conquest	Cactuar King	1
+M	138	Area Conquest	Espada	1
+M	121	Area Conquest	Abyss Worm	1
+M	128	Area Conquest	Chimerageist	1
+M	137	Area Conquest	Don Tonberry	1
+M	127	Area Conquest	Catoblepas	1
+M	132	Area Conquest	Abaddon	1
+M	135	Area Conquest	Vorban	1
+M	114	Species Conquest	Fenrir	1
+M	116	Species Conquest	Ornitholestes	1
+M	117	Species Conquest	Pteryx	1
+M	118	Species Conquest	Hornet	1
+M	113	Species Conquest	Vidatu	1
+M	119	Species Conquest	One-Eye	1
+M	115	Species Conquest	Jumbo Flan	1
+M	126	Species Conquest	Nega Elemental	1
+M	112	Species Conquest	Tanket	1
+M	123	Species Conquest	Fafnir	1
+M	136	Species Conquest	Sleep Sprout	1
+M	133	Species Conquest	Bomb King	1
+M	122	Species Conquest	Juggernaut	1
+M	130	Species Conquest	Iron Clad	1
+M	107	Original	Earth Eater	1
+M	109	Original	Greater Sphere	1
+M	105	Original	Catastrophe	1
+M	110	Original	Th'uban	1
+M	106	Original	Neslug	1
+M	108	Original	Ultima Buster	1
+M	111	Original	Shinryu	1
+M	104	Original	Nemesis	1

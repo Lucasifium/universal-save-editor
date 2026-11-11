@@ -291,22 +291,22 @@ const MAX: i128 = i32::MAX as i128;
 #[derive(Clone, Debug)]
 struct W3Backend {
     data: Arc<Vec<u8>>,
-    /// Text span of each editable number.
-    spans: Vec<(usize, usize)>,
+    /// Text span of each editable number, and the least it may be.
+    spans: Vec<(usize, usize, i128)>,
 }
 
 impl Backend for W3Backend {
     fn write(&self, _view: &Value, changes: &[(usize, Value)]) -> Result<Vec<u8>, String> {
         let mut p = Patches::default();
         for (leaf, v) in changes {
-            let (s, e) = self.spans[*leaf];
-            p.add(s, e, int_in(v, 0, MAX, "This value")?.to_string().into_bytes());
+            let (s, e, lo) = self.spans[*leaf];
+            p.add(s, e, int_in(v, lo, MAX, "This value")?.to_string().into_bytes());
         }
         p.apply(&self.data)
     }
 
-    fn check(&self, _leaf: usize, v: &Value) -> Result<(), String> {
-        int_in(v, 0, MAX, "This value").map(|_| ())
+    fn check(&self, leaf: usize, v: &Value) -> Result<(), String> {
+        int_in(v, self.spans[leaf].2, MAX, "This value").map(|_| ())
     }
 
     fn clone_box(&self) -> Box<dyn Backend> {
@@ -316,7 +316,7 @@ impl Backend for W3Backend {
 
 struct Build<'a> {
     d: &'a [u8],
-    spans: Vec<(usize, usize)>,
+    spans: Vec<(usize, usize, i128)>,
     editable: HashMap<String, usize>,
 }
 
@@ -328,13 +328,19 @@ impl Build<'_> {
     /// A whole number in the file, editable at `ptr` (shown as text and read-only when it
     /// isn't a plain non-negative number).
     fn number(&mut self, map: &mut Map<String, Value>, ptr: &str, key: &str, n: &Node) {
+        self.number_from(map, ptr, key, n, 0);
+    }
+
+    /// Like `number`, for a value that may go down to `lo` (below zero for standings).
+    fn number_from(&mut self, map: &mut Map<String, Value>, ptr: &str, key: &str, n: &Node, lo: i128) {
         let t = self.text(n);
-        // Only plain digits as the game writes them ("0", "57"; not "+5" or "05").
-        let plain = n.kids.is_empty() && !t.is_empty() && t.bytes().all(|b| b.is_ascii_digit()) && (t == "0" || !t.starts_with('0'));
+        // Only plain digits as the game writes them ("0", "57", "-5"; not "+5" or "05").
+        let digits = if lo < 0 { t.strip_prefix('-').unwrap_or(&t) } else { &t };
+        let plain = n.kids.is_empty() && !digits.is_empty() && digits.bytes().all(|b| b.is_ascii_digit()) && (digits == "0" || !digits.starts_with('0')) && t != "-0";
         match t.parse::<i64>() {
-            Ok(v) if plain && i128::from(v) <= MAX => {
+            Ok(v) if plain && (lo..=MAX).contains(&i128::from(v)) => {
                 self.editable.insert(format!("{ptr}/{}", esc(key)), self.spans.len());
-                self.spans.push((n.cs, n.ce));
+                self.spans.push((n.cs, n.ce, lo));
                 map.insert(key.to_string(), Value::from(v));
             }
             _ => {
@@ -445,6 +451,30 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
         if let Some(list) = save.kid(tag) {
             let items = b.items(list, &format!("/{}", esc(section)));
             view.insert(section.into(), Value::Object(items));
+        }
+    }
+
+    // The game's own records: standing with each faction, fame, and the numbers its quests keep.
+    if let Some(globals) = save.kid("globals") {
+        let (mut standing, mut story) = (Map::new(), Map::new());
+        for g in globals.all("global") {
+            let (Some(k), Some(v)) = (g.kid("k"), g.kid("v")) else { continue };
+            let key = b.text(k);
+            if let Some(faction) = key.strip_prefix("G_Reputation_").filter(|f| !f.starts_with("Changed")) {
+                b.number_from(&mut standing, "/Reputation", &crate::game_ui::words(faction), v, -1000);
+            } else if key == "G_Fame" {
+                let mut party = view.remove("Party").and_then(|p| p.as_object().cloned()).unwrap_or_default();
+                b.number(&mut party, "/Party", "Fame", v);
+                view.insert("Party".into(), Value::Object(party));
+            } else if !key.is_empty() && !story.contains_key(&key) && b.text(v).parse::<i64>().is_ok() {
+                b.number_from(&mut story, "/Story values", &key, v, -(MAX + 1));
+            }
+        }
+        if !standing.is_empty() {
+            view.insert("Reputation".into(), Value::Object(standing));
+        }
+        if !story.is_empty() {
+            view.insert("Story values".into(), Value::Object(story));
         }
     }
 

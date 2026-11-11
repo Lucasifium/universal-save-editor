@@ -118,6 +118,31 @@ pub fn wasteland3(ui: &mut Ui, cx: &mut GameCtx) {
             panel(ui, "Equipped", |ui| amount_rows(ui, cx, &format!("w3_eq{t}"), &at("Equipment"), ""));
         }
     }
+    if cx.get("/Party/Fame").is_some() || !keys(cx, "/Reputation").is_empty() {
+        panel(ui, "Fame and reputation", |ui| {
+            if cx.get("/Party/Fame").is_some() {
+                cx.row_fixed(ui, "Fame", "/Party/Fame", 160.0, 90.0);
+            }
+            for k in keys(cx, "/Reputation") {
+                cx.row_fixed(ui, &k, &join("/Reputation", &k), 160.0, 90.0);
+            }
+            ui.weak("Standing with each faction (negative is hated). The game may clamp values outside its own range.");
+        });
+    }
+    let story = keys(cx, "/Story values");
+    if !story.is_empty() {
+        panel(ui, "Story values", |ui| {
+            egui::CollapsingHeader::new(format!("{} quest and tutorial records", story.len())).id_salt("w3_story").show(ui, |ui| {
+                let q = filter(ui, "w3_story", "name");
+                for k in story {
+                    if q.is_empty() || k.to_lowercase().contains(&q.to_lowercase()) {
+                        cx.row_fixed(ui, &k, &join("/Story values", &k), 380.0, 70.0);
+                    }
+                }
+                ui.weak("The game's own quest counters. Changing one can skip or repeat a scene; keep the backup.");
+            });
+        });
+    }
     for (title, base) in [("Inventory", "/Inventory"), ("Party stash", "/Party stash")] {
         if cx.get(base).is_none() {
             continue;

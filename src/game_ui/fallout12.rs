@@ -110,10 +110,10 @@ fn sheet(ui: &mut Ui, cx: &mut GameCtx) {
                 );
             });
         } else {
-            let tagged = cx.text("/Tagged skills").unwrap_or_default();
+            let tagged: Vec<String> = keys(cx, "/Tagged skill slots").iter().filter_map(|k| cx.text(&join("/Tagged skill slots", k))).collect();
             panel(ui, "Skills", |ui| {
                 for k in keys(cx, "/Skills") {
-                    let tag = tagged.split(", ").any(|t| t == k);
+                    let tag = tagged.iter().any(|t| *t == k);
                     let label = if tag { format!("\u{25C6} {k}") } else { k.clone() };
                     cx.row_fixed(ui, &label, &join("/Skills", &k), 150.0, 70.0);
                 }
@@ -125,24 +125,48 @@ fn sheet(ui: &mut Ui, cx: &mut GameCtx) {
 
     columns(ui, 380.0, 2, |ui, i| {
         if i == 0 {
-            panel(ui, "Traits", |ui| {
-                let t = cx.text("/Traits").unwrap_or_default();
-                chips(ui, &if t.is_empty() { vec![] } else { t.split(", ").map(str::to_string).collect() }, "No traits");
+            panel(ui, "Traits and tagged skills", |ui| {
+                for k in keys(cx, "/Trait slots") {
+                    cx.row_fixed(ui, &k, &join("/Trait slots", &k), 90.0, 180.0);
+                }
+                ui.add_space(4.0);
+                for k in keys(cx, "/Tagged skill slots") {
+                    cx.row_fixed(ui, &k, &join("/Tagged skill slots", &k), 90.0, 180.0);
+                }
+                ui.label(RichText::new("The fourth tag is the one the Tag! perk gives. Don't pick the same trait or skill twice.").size(12.0).color(DIM));
             });
         } else {
             panel(ui, "Perks", |ui| {
-                let perks: Vec<String> = keys(cx, "/Perks")
+                let perks: Vec<String> = keys(cx, "/Perk ranks")
                     .into_iter()
-                    .map(|k| match cx.int(&join("/Perks", &k)) {
-                        Some(r) if r > 1 => format!("{k} ({r})"),
-                        _ => k,
+                    .filter_map(|k| match cx.int(&join("/Perk ranks", &k)) {
+                        Some(r) if r > 1 => Some(format!("{k} ({r})")),
+                        Some(1) => Some(k),
+                        _ => None,
                     })
                     .collect();
                 chips(ui, &perks, "No perks yet");
+                egui::CollapsingHeader::new("Change perk ranks").id_salt("fo12_perks").show(ui, |ui| {
+                    let q = super::screens2::filter_box(ui, "fo12_perks", "perk name\u{2026}");
+                    egui::ScrollArea::vertical().id_salt("fo12_perk_list").max_height(260.0).show(ui, |ui| {
+                        for k in keys(cx, "/Perk ranks") {
+                            if q.is_empty() || k.to_lowercase().contains(&q) {
+                                cx.row_fixed(ui, &k, &join("/Perk ranks", &k), 200.0, 60.0);
+                            }
+                        }
+                    });
+                });
             });
         }
     });
-    ui.label(RichText::new("Traits and perks are shown only: the game applies their effects when they're picked, so they're not changed here.").size(12.0).color(DIM));
+    ui.label(
+        RichText::new(
+            "Rank 0 means not taken; most perks have one rank, a few two or three. A perk that gives a one-off gain when picked (Gain Strength, \
+             Lifegiver, the skill-point perks) doesn't give it when set here, so raise that number yourself.",
+        )
+        .size(12.0)
+        .color(DIM),
+    );
     ui.add_space(8.0);
 
     let items = keys(cx, "/Inventory");

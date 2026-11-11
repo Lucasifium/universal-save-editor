@@ -159,6 +159,23 @@ pub fn grim_dawn(ui: &mut Ui, cx: &mut GameCtx) {
             });
         }
     }
+    let factions = match cx.get("/Factions") {
+        Some(Value::Object(m)) => m.keys().cloned().collect::<Vec<_>>(),
+        _ => vec![],
+    };
+    if !factions.is_empty() {
+        panel(ui, "Factions", |ui| {
+            for f in &factions {
+                let base = join("/Factions", f);
+                ui.horizontal(|ui| {
+                    ui.add_sized([150.0, 18.0], egui::Label::new(f));
+                    cx.compact(ui, &join(&base, "Reputation"), 90.0);
+                    cx.compact(ui, &join(&base, "Unlocked"), 70.0);
+                });
+            }
+            ui.weak("Reputation runs from -25000 (nemesis) to 25000 (revered, the most). \"Faction N\" are factions the editor has no name for.");
+        });
+    }
 }
 
 // ------------------------------------------------------------------ Titan Quest
