@@ -166,6 +166,8 @@ pub enum Layer {
     Ps1Card { image: Arc<Vec<u8>>, offset: usize, blocks: Vec<usize> },
     /// Koei Tecmo "Katana" encryption: the game and the whole save decrypted (header and keys).
     Katana { kind: fmt::katana::Kind, plain: Arc<Vec<u8>> },
+    /// LEGO Batman: Legacy of the Dark Knight: the whole save RC4-encrypted (an Unreal GVAS save).
+    LegoTt,
     /// A checksum found with Tools › Find checksum, written again on save.
     Sum(fmt::sumfind::Sum),
     /// One file on a PlayStation 2 memory card image: the image and the file.
@@ -268,6 +270,7 @@ impl Layer {
             Layer::Sol { .. } => "Flash shared object (.sol)".into(),
             Layer::Haxe { .. } => "Haxe serialized save (OpenFL, HaxeFlixel)".into(),
             Layer::DeadCells { .. } => "Dead Cells save (zlib, SHA-1)".into(),
+            Layer::LegoTt => "LEGO Batman: Legacy of the Dark Knight save encryption".into(),
             Layer::Katana { kind, .. } => format!("Koei Tecmo encryption ({})", kind.name()),
             Layer::Sum(s) => format!("Checksum kept fixed ({})", s.describe()),
             Layer::Ps2Card { file, .. } => format!("PlayStation 2 memory card ({})", file.name),
@@ -779,6 +782,7 @@ fn wrap(layer: &Layer, data: Vec<u8>) -> Result<Vec<u8>, String> {
         Layer::Haxe { original } => fmt::haxe::save(original, &data)?,
         Layer::DeadCells { header } => fmt::deadcells::close(header, &data)?,
         Layer::Katana { kind, plain } => fmt::katana::close(*kind, plain, &data)?,
+        Layer::LegoTt => fmt::ttgames::close(&data),
         Layer::Sum(s) => {
             let mut d = data;
             s.fix(&mut d)?;
@@ -976,6 +980,10 @@ fn peel(data: &[u8], ctx: &mut Ctx) -> Option<(Layer, Vec<u8>)> {
     }
     if let Some(at) = fmt::memcard::dsv_split(data) {
         return Some((Layer::Dsv { footer: Arc::new(data[at..].to_vec()) }, data[..at].to_vec()));
+    }
+    if let Some(plain) = fmt::ttgames::open(data) {
+        ctx.hint = Some("LEGO Batman save: decrypted for you and encrypted again on save. Each SaveSlot file has a BackupCopy file next to it; the game checks the pair, so edit both.".into());
+        return Some((Layer::LegoTt, plain));
     }
     if let Some((kind, plain)) = fmt::katana::open(data) {
         let inner = fmt::katana::content(kind, &plain);

@@ -24,6 +24,7 @@ mod infinity;
 mod kotor;
 mod larian;
 mod nwn;
+mod lego;
 mod octopath;
 mod oni_map;
 mod pathfinder;
@@ -140,6 +141,7 @@ pub enum Game {
     Sims2,
     DeadRising,
     DeadRising2,
+    LegoBatman,
     /// A table-driven screen (see `simple.rs`).
     Simple(u16),
 }
@@ -213,6 +215,7 @@ impl Game {
             Game::LethalCompany => "Crew",
             Game::Repo => "Team",
             Game::DeadRising | Game::DeadRising2 => "Survivor",
+            Game::LegoBatman => "Studs",
             Game::Simple(i) => simple::tab_label(i),
             _ => "Character",
         }
@@ -304,6 +307,7 @@ pub fn detect(kind: &str, root: &Value) -> Option<Game> {
         crate::fmt::sims2::KIND => Game::Sims2,
         crate::fmt::dead_rising::KIND_DR1 => Game::DeadRising,
         crate::fmt::dead_rising::KIND_DR2 | crate::fmt::dead_rising::KIND_OTR => Game::DeadRising2,
+        crate::fmt::ttgames::KIND => Game::LegoBatman,
         crate::fmt::goldensun::KIND_GS1 | crate::fmt::goldensun::KIND_GS2 => Game::GoldenSun,
         _ if coop::is_phasmophobia(root) => Game::Phasmophobia,
         _ if coop::is_lethal_company(root) => Game::LethalCompany,
@@ -398,6 +402,7 @@ pub fn show(game: Game, ui: &mut Ui, cx: &mut GameCtx) {
         Game::Repo => coop::repo(ui, cx),
         Game::DeadRising => dead_rising::dead_rising(ui, cx),
         Game::DeadRising2 => dead_rising::dead_rising2(ui, cx),
+        Game::LegoBatman => lego::show(ui, cx),
         Game::Simple(i) => simple::show(i, ui, cx),
         Game::RenPy => screens2::renpy(ui, cx),
         Game::MassEffect => screens2::mass_effect(ui, cx),
