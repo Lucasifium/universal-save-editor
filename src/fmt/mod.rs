@@ -63,6 +63,7 @@ pub mod octopath;
 pub mod godot;
 pub mod goldensun;
 pub mod ini;
+pub mod antimatter;
 pub mod nested;
 pub mod lua;
 pub mod luabins;

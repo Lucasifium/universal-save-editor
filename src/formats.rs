@@ -125,6 +125,8 @@ pub enum Layer {
     /// Hollow Knight `user*.dat`: .NET string of base64 AES-encrypted JSON.
     HollowKnight,
     FalloutShelter,
+    /// Antimatter Dimensions export text (platform index, three letter version).
+    Antimatter { kind: u8, version: String },
     /// JSON held in JSON strings: the pointers of the strings opened, and whether the file is indented.
     NestedJson { paths: Vec<String>, pretty: bool },
     /// Capcom RE Engine "Mandarin" encryption (index into `mandarin::GAMES`, user id); the
@@ -210,6 +212,7 @@ impl Layer {
             Layer::Region { index, .. } => format!("Minecraft region (chunk {},{})", index % 32, index / 32),
             Layer::HollowKnight => "Hollow Knight encryption".into(),
             Layer::FalloutShelter => "Fallout Shelter save encryption".into(),
+            Layer::Antimatter { .. } => "Antimatter Dimensions export text".into(),
             Layer::NestedJson { paths, .. } => format!("JSON inside JSON strings ({})", paths.len()),
             Layer::Mandarin { game, .. } => format!("{} save encryption", fmt::mandarin::GAMES[*game].title),
             Layer::Civ5 { .. } => "Civilization V save (compressed game data)".into(),
@@ -608,6 +611,7 @@ fn wrap(layer: &Layer, data: Vec<u8>) -> Result<Vec<u8>, String> {
         Layer::Region { archive, index, kind } => fmt::containers::region_replace(archive, *index, &data, *kind)?,
         Layer::HollowKnight => fmt::crypto::hollow_knight_encrypt(&data),
         Layer::FalloutShelter => fmt::crypto::fallout_shelter_encrypt(&data),
+        Layer::Antimatter { kind, version } => fmt::antimatter::close(*kind, version, &data)?,
         Layer::NestedJson { paths, pretty } => fmt::nested::close(&data, paths, *pretty)?,
         Layer::Mandarin { original, game, user } => fmt::mandarin::encrypt(&data, original, &fmt::mandarin::GAMES[*game], *user)?,
         Layer::Cdpr { prefix, fzlc, sizes, footer, tagged } => {
@@ -966,6 +970,9 @@ fn peel(data: &[u8], ctx: &mut Ctx) -> Option<(Layer, Vec<u8>)> {
     }
     if let Some(plain) = fmt::crypto::hollow_knight_decrypt(data) {
         return Some((Layer::HollowKnight, plain));
+    }
+    if let Some((kind, version, plain)) = fmt::antimatter::open(data) {
+        return Some((Layer::Antimatter { kind, version }, plain));
     }
     if let Some(plain) = fmt::crypto::fallout_shelter_decrypt(data) {
         return Some((Layer::FalloutShelter, plain));
@@ -1812,6 +1819,8 @@ mod tests {
     fn base64_gzip() { roundtrip(&[Layer::Base64, Layer::Gzip]); }
     #[test]
     fn fallout_shelter_layer() { roundtrip(&[Layer::FalloutShelter]); }
+    #[test]
+    fn antimatter_layer() { roundtrip(&[Layer::Antimatter { kind: 0, version: "AAB".into() }]); }
     #[test]
     fn nested_json_layer() {
         let content = Content::Json { value: serde_json::json!({"Version": 2, "State": "{\"Hp\":12,\"Gold\":5}"}), pretty: false };

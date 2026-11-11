@@ -3,7 +3,7 @@
 
 use super::{List, Max, Section, Shape, Spec, Table};
 
-pub static SPECS: &[Spec] = &[COTL, FALLOUT_SHELTER, DRG, S1_MONEY, S1_RANK, S1_TIME, S1_GAME, SOTF_STATE, SOTF_ITEMS, DMD, CUPHEAD];
+pub static SPECS: &[Spec] = &[COTL, FALLOUT_SHELTER, DRG, S1_MONEY, S1_RANK, S1_TIME, S1_GAME, SOTF_STATE, SOTF_ITEMS, DMD, CUPHEAD, ANTIMATTER];
 
 // ------------------------------------------------------------------ Cult of the Lamb
 
@@ -668,6 +668,46 @@ const CUPHEAD: Spec = Spec {
                 ("Black and white filter", "/unlockedBlackAndWhite"), ("2-strip colour filter", "/unlocked2Strip"),
                 ("Chalice recolour", "/unlockedChaliceRecolor"), ("Boatman unlocked", "/hasUnlockedBoatman"),
                 ("First super unlocked", "/hasUnlockedFirstSuper"), ("Curse charm puzzle done", "/curseCharmPuzzleComplete"),
+            ],
+        },
+    ],
+    lists: &[],
+    tables: &[],
+};
+
+// ------------------------------------------------------------------ Antimatter Dimensions
+
+const ANTIMATTER: Spec = Spec {
+    name: "Antimatter Dimensions",
+    tab: "Dimensions",
+    accent: (40, 150, 200),
+    kind: None,
+    markers: &["/antimatter", "/dimensions/antimatter", "/infinityPoints", "/eternityPoints"],
+    subtitle: "",
+    tiles: &[("Antimatter", "/antimatter"), ("Infinity points", "/infinityPoints"), ("Eternity points", "/eternityPoints"), ("Reality machines", "/reality/realityMachines")],
+    sections: &[
+        Section {
+            title: "Antimatter and Infinity",
+            rows: &[
+                ("Antimatter", "/antimatter"), ("Dimension boosts", "/dimensionBoosts"), ("Antimatter galaxies", "/galaxies"),
+                ("Infinity points", "/infinityPoints"), ("Infinities", "/infinities"), ("Banked infinities", "/infinitiesBanked"),
+                ("Infinity power", "/infinityPower"),
+            ],
+        },
+        Section {
+            title: "Eternity",
+            rows: &[
+                ("Eternity points", "/eternityPoints"), ("Eternities", "/eternities"), ("Time shards", "/timeShards"),
+                ("Replicanti", "/replicanti/amount"), ("Replicanti galaxies", "/replicanti/galaxies"),
+                ("Tachyon particles", "/dilation/tachyonParticles"), ("Dilated time", "/dilation/dilatedTime"),
+            ],
+        },
+        Section {
+            title: "Reality",
+            rows: &[
+                ("Realities", "/realities"), ("Reality machines", "/reality/realityMachines"),
+                ("Imaginary machines", "/reality/imaginaryMachines"), ("Imaginary machine cap", "/reality/iMCap"),
+                ("Perk points", "/reality/perkPoints"),
             ],
         },
     ],
