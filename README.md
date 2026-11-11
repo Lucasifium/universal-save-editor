@@ -176,6 +176,16 @@ class names, references) is kept as it was. *Flash and AIR games (.sol saves)* l
 Player folders by site. Read and written with Ruffle's parser; checked on 66 public sample files,
 each written back byte for byte (the few the parser can't write back exactly open in the hex view).
 
+**OpenFL and HaxeFlixel games**: their `.sol` files are Haxe serialization text, not Flash's AMF.
+They open with every value by name (objects, lists, maps, enums) and are written back with only the
+edited numbers, flags and text changed; dates, bytes and shared references are kept as they were.
+*OpenFL and HaxeFlixel games (Haxe saves)* lists the `%APPDATA%\<company>` folders, which covers
+Friday Night Funkin' and its engines and mods. Checked on a public Friday Night Funkin' save, written
+back byte for byte.
+
+**Dead Cells**: the save's SHA-1 and zlib packing are handled, so the unpacked data can be changed
+in the hex view or found with the value search and saved back with a fresh checksum.
+
 **Unity PlayerPrefs**: many Unity games keep coins, unlocks and settings in PlayerPrefs instead of
 a save file. *Unity games (PlayerPrefs)* lists them: on Windows each Unity game's registry key
 (`HKCU\Software\<company>\<game>`) is exported to a `.reg` file that opens like a save, with every
