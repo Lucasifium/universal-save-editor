@@ -36,6 +36,7 @@ enum Ask {
     Compare,
     BackupDir,
     Import,
+    Patch,
 }
 
 #[derive(PartialEq, Eq, Clone, Copy)]
@@ -188,6 +189,51 @@ struct Compare {
     diffs: Vec<(String, Option<Value>, Option<Value>)>,
 }
 
+/// Tools › Cheat patches: the patch file picked and the codes ticked in it.
+struct Patches {
+    query: String,
+    /// The game's patch files found from the save's name, then search results.
+    found: Vec<&'static crate::apollo::db::Entry>,
+    /// The patch file shown: a label, its codes and the save's byte order.
+    label: String,
+    codes: Vec<crate::apollo::Code>,
+    on: Vec<bool>,
+    picks: Vec<Vec<usize>>,
+    big_endian: bool,
+    /// The save file's own name (codes say which file they're for).
+    file: String,
+    /// Show codes for other files too.
+    all_files: bool,
+}
+
+impl Patches {
+    /// Whether code `i` is listed: it's for this file, or every file is being shown. A heading
+    /// is listed when something under it is.
+    fn listed(&self, i: usize) -> bool {
+        let c = &self.codes[i];
+        if c.required {
+            return false;
+        }
+        if !c.empty() {
+            return self.all_files || crate::apollo::targets(c, &self.file);
+        }
+        let next = self.codes[i + 1..].iter().position(|n| n.empty()).map_or(self.codes.len(), |k| i + 1 + k);
+        (i + 1..next).any(|j| self.listed(j)) || (next == i + 1 && !c.parent)
+    }
+
+    fn ticked(&self) -> usize {
+        (0..self.codes.len()).filter(|&i| self.on[i] && self.listed(i)).count()
+    }
+
+    fn show(&mut self, label: String, codes: Vec<crate::apollo::Code>, big_endian: bool) {
+        self.on = codes.iter().map(|c| c.default_on && !c.required && c.kind != crate::apollo::Kind::Python).collect();
+        self.picks = codes.iter().map(|c| vec![0; c.choices.len()]).collect();
+        self.codes = codes;
+        self.label = label;
+        self.big_endian = big_endian;
+    }
+}
+
 pub struct App {
     doc: Option<Doc>,
     settings: Settings,
@@ -234,6 +280,7 @@ pub struct App {
     backup_name: Option<String>,
     /// Tools › Change Steam account: the IDs found in the save, the one picked, and the new one typed.
     rebind: Option<(Vec<u64>, usize, String)>,
+    patches: Option<Patches>,
     compare: Option<Compare>,
     save_review: Option<SaveReview>,
     copy_slots: Option<CopySlots>,
@@ -295,6 +342,7 @@ impl App {
             sum_hits: None,
             backup_name: None,
             rebind: None,
+            patches: None,
             compare: None,
             save_review: None,
             copy_slots: None,
@@ -353,6 +401,7 @@ impl App {
             Ask::Compare => ("Compare with which save?", file_browser::Mode::OpenFile),
             Ask::BackupDir => ("Keep backups in which folder?", file_browser::Mode::Folder),
             Ask::Import => ("Import which edited data?", file_browser::Mode::OpenFile),
+            Ask::Patch => ("Open which patch file (.savepatch)?", file_browser::Mode::OpenFile),
         };
         #[cfg(target_os = "android")]
         {
@@ -398,6 +447,7 @@ impl App {
             Ask::Export => self.export_to(&p),
             Ask::Compare => self.compare_with(p),
             Ask::Import => self.import_from(&p),
+            Ask::Patch => self.load_patch_file(&p),
             Ask::BackupDir => {
                 crate::backups::set_root(Some(p.clone()));
                 self.ok(format!("Backups now go to {}. Earlier ones stay where they were.", p.display()));
@@ -694,8 +744,10 @@ impl App {
             }
             Change::Bytes { off, before, after } => {
                 if let Some(Doc { content: Content::Binary(data), .. }) = &mut self.doc {
-                    let src = if undo { before } else { after };
-                    data[*off..*off + src.len()].copy_from_slice(src);
+                    // The two sides can differ in length (a patch that inserts or deletes bytes).
+                    let (cur, src) = if undo { (after, before) } else { (before, after) };
+                    let end = (*off + cur.len()).min(data.len());
+                    data.splice(*off..end, src.iter().copied());
                 }
                 String::new()
             }
@@ -1598,6 +1650,14 @@ impl App {
                 }
                 let binary = matches!(self.doc.as_ref().map(|d| &d.content), Some(Content::Binary(_)));
                 if ui
+                    .add_enabled(binary, egui::Button::new("Cheat patches\u{2026}"))
+                    .on_hover_text("Ready-made cheats for console saves (PlayStation 1\u{2013}4, PSP, Vita, Dreamcast) from the Apollo patch collection.")
+                    .clicked()
+                {
+                    ui.close_menu();
+                    self.start_patches();
+                }
+                if ui
                     .add_enabled(binary, egui::Button::new("Find checksum\u{2026}"))
                     .on_hover_text("Looks for a checksum in a save the editor doesn't know (CRC, Adler, sums, MD5, SHA) and keeps it right whenever you save.")
                     .clicked()
@@ -1862,6 +1922,218 @@ impl App {
             Some(c) => root(c).map(|v| crate::steamid::in_values(v).into_iter().map(|(id, _)| id).collect()).unwrap_or_default(),
             None => vec![],
         }
+    }
+
+    fn start_patches(&mut self) {
+        use crate::apollo::db;
+        let Some(d) = &self.doc else { return };
+        let inner = d.layers.iter().rev().find_map(|l| match l {
+            Layer::ZipEntry { name, .. } | Layer::Copeck { name, .. } => Some(name.clone()),
+            Layer::Ps2Card { file, .. } => Some(file.name.clone()),
+            _ => None,
+        });
+        let path = d.path.to_string_lossy().replace('\\', "/");
+        let full = match &inner {
+            Some(n) => format!("{path}/{n}"),
+            None => path.clone(),
+        };
+        let file = full.rsplit('/').next().unwrap_or_default().to_string();
+        let found: Vec<_> = db::ids_in(&full).iter().flat_map(|id| db::find(id)).collect();
+        let mut p = Patches {
+            query: String::new(),
+            found,
+            label: String::new(),
+            codes: vec![],
+            on: vec![],
+            picks: vec![],
+            big_endian: false,
+            file,
+            all_files: false,
+        };
+        if let [e] = p.found[..] {
+            p.show(e.title.clone() + " (" + &e.platform + ")", e.codes(), e.big_endian());
+        }
+        self.patches = Some(p);
+    }
+
+    fn load_patch_file(&mut self, path: &Path) {
+        let Some(p) = &mut self.patches else { return };
+        let raw = match crate::vfs::read(path) {
+            Ok(b) => b,
+            Err(e) => return self.fail(format!("Couldn't read {}: {e}", path.display())),
+        };
+        let (text, latin1) = match String::from_utf8(raw) {
+            Ok(t) => (t, false),
+            Err(e) => (e.into_bytes().iter().map(|&b| b as char).collect(), true),
+        };
+        let codes = crate::apollo::parse(&text, latin1);
+        if codes.is_empty() {
+            return self.fail("That file has no cheat codes in it.");
+        }
+        let name = path.file_name().map(|n| n.to_string_lossy().into_owned()).unwrap_or_default();
+        let (id, title) = crate::apollo::header(&text);
+        let be = crate::apollo::db::ps3_id(if id.is_empty() { &name } else { &id });
+        p.show(if title.is_empty() { name } else { title }, codes, be);
+    }
+
+    fn patches_dialog(&mut self, ctx: &egui::Context) {
+        use crate::apollo::Kind;
+        let Some(mut p) = self.patches.take() else { return };
+        let mut choice = None;
+        let mut open_file = false;
+        egui::Window::new("Cheat patches")
+            .collapsible(false)
+            .resizable(true)
+            .default_size([560.0, 520.0])
+            .order(egui::Order::Foreground)
+            .anchor(egui::Align2::CENTER_CENTER, [0.0, 0.0])
+            .show(ctx, |ui| {
+                ui.horizontal(|ui| {
+                    ui.label("Game:");
+                    let r = ui.add(TextEdit::singleline(&mut p.query).hint_text("name or title ID (SLUS-20312, BLES00371\u{2026})").desired_width(300.0));
+                    if r.changed() && p.query.trim().len() >= 2 {
+                        p.found = crate::apollo::db::search(&p.query, 40);
+                    }
+                    if !WEB && ui.button("Open patch file\u{2026}").clicked() {
+                        open_file = true;
+                    }
+                });
+                if !p.found.is_empty() {
+                    ScrollArea::vertical().id_salt("patch_games").max_height(110.0).show(ui, |ui| {
+                        for e in p.found.clone() {
+                            let label = format!("{}  \u{2014}  {} ({})", e.title, e.id, e.platform);
+                            if ui.selectable_label(p.label.starts_with(&e.title) && p.label.ends_with(&format!("({})", e.platform)), label).clicked() {
+                                p.show(e.title.clone() + " (" + &e.platform + ")", e.codes(), e.big_endian());
+                            }
+                        }
+                    });
+                } else if p.codes.is_empty() {
+                    ui.weak("No patches were found from this save's file or folder name. Type the game's name or title ID.");
+                }
+                if p.codes.is_empty() {
+                    ui.add_space(6.0);
+                    if ui.button("Close").clicked() {
+                        choice = Some(false);
+                    }
+                    return;
+                }
+                ui.separator();
+                ui.horizontal(|ui| {
+                    ui.strong(&p.label);
+                    ui.weak(if p.big_endian { "big-endian" } else { "little-endian" });
+                });
+                let any_here = p.codes.iter().any(|c| !c.empty() && crate::apollo::targets(c, &p.file));
+                if !any_here && !p.all_files {
+                    ui.weak(format!("None of these codes name \u{201C}{}\u{201D}; they may be for another file in the save folder.", p.file));
+                }
+                ui.checkbox(&mut p.all_files, "Show codes for other files too");
+                ScrollArea::vertical().id_salt("patch_codes").max_height(300.0).show(ui, |ui| {
+                    for i in 0..p.codes.len() {
+                        let c = &p.codes[i];
+                        if !p.listed(i) {
+                            continue;
+                        }
+                        if c.empty() {
+                            ui.add_space(4.0);
+                            ui.strong(&c.name);
+                            continue;
+                        }
+                        let here = crate::apollo::targets(c, &p.file);
+                        let usable = c.kind != Kind::Python;
+                        ui.horizontal(|ui| {
+                            if c.child {
+                                ui.add_space(16.0);
+                            }
+                            let mut name = RichText::new(&c.name);
+                            if c.alert {
+                                name = name.color(theme::WARN);
+                            }
+                            let r = ui.add_enabled(usable, egui::Checkbox::new(&mut p.on[i], name));
+                            if !usable {
+                                r.on_disabled_hover_text("This one is a Python script, which only Apollo itself can run.");
+                            } else if !here {
+                                r.on_hover_text(format!("Written for {}", c.file));
+                            }
+                            for (k, ch) in p.codes[i].choices.clone().iter().enumerate() {
+                                let cur = p.picks[i][k];
+                                let shown = ch.values.get(cur).map(|v| v.1.clone()).unwrap_or_default();
+                                egui::ComboBox::from_id_salt(("patch_pick", i, k)).selected_text(shown).show_ui(ui, |ui| {
+                                    for (j, (_, n)) in ch.values.iter().enumerate() {
+                                        ui.selectable_value(&mut p.picks[i][k], j, n);
+                                    }
+                                });
+                            }
+                        });
+                    }
+                });
+                ui.add_space(4.0);
+                ui.horizontal(|ui| {
+                    ui.checkbox(&mut p.big_endian, "Big-endian (PS3)")
+                        .on_hover_text("Byte order for numbers in the codes. Set from the patch file's console; change it only if you know the save uses the other one.");
+                });
+                ui.weak("Back up first: a code meant for another version of the game can damage the save. Codes change the data now; save to write the file.");
+                ui.add_space(6.0);
+                ui.horizontal(|ui| {
+                    let n = p.ticked();
+                    if ui.add_enabled(n > 0, egui::Button::new(RichText::new(format!("Apply {n} code{}", if n == 1 { "" } else { "s" })).color(Color32::WHITE)).fill(theme::ACCENT)).clicked() {
+                        choice = Some(true);
+                    }
+                    if ui.button("Close").clicked() {
+                        choice = Some(false);
+                    }
+                });
+            });
+        match choice {
+            Some(true) => self.apply_patches(&p),
+            Some(false) => {}
+            None => self.patches = Some(p),
+        }
+        if open_file {
+            self.ask(Ask::Patch, None, None);
+        }
+    }
+
+    /// Runs the ticked codes (and the patch file's required ones) in order, as one undo step.
+    fn apply_patches(&mut self, p: &Patches) {
+        let Some(Doc { content: Content::Binary(data), .. }) = &self.doc else { return };
+        let mut out = data.clone();
+        let mut session = crate::apollo::Session::new(p.big_endian);
+        let (mut done, mut failed) = (0, vec![]);
+        for (i, c) in p.codes.iter().enumerate() {
+            let ticked = p.on[i] && p.listed(i);
+            let wanted = ticked || (c.required && (p.all_files || crate::apollo::targets(c, &p.file)));
+            if !wanted || c.empty() {
+                continue;
+            }
+            match session.apply(&mut out, c, &p.picks[i]) {
+                Ok(()) => done += usize::from(ticked),
+                Err(e) => failed.push(format!("{}: {e}", c.name)),
+            }
+        }
+        if out == *data {
+            if failed.is_empty() {
+                self.info("The codes didn't change anything (the values may already be set).");
+            } else {
+                self.fail(format!("Nothing was changed. {}", failed.join("; ")));
+            }
+            return;
+        }
+        self.replace_bytes(out);
+        if failed.is_empty() {
+            self.ok(format!("Applied {done} code{}. Save to write the file.", if done == 1 { "" } else { "s" }));
+        } else {
+            self.fail(format!("Applied {done}, but some failed: {}", failed.join("; ")));
+        }
+    }
+
+    /// Replaces the whole binary content (its length may change) as one undo step.
+    fn replace_bytes(&mut self, after: Vec<u8>) {
+        let Some(Doc { content: Content::Binary(data), .. }) = &mut self.doc else { return };
+        let before = std::mem::replace(data, after.clone());
+        self.undo.push(Change::Bytes { off: 0, before, after });
+        self.redo.clear();
+        self.last_edit = None;
+        self.after_change("");
     }
 
     fn start_rebind(&mut self) {
@@ -3188,6 +3460,7 @@ impl eframe::App for App {
         self.sums_dialog(ctx);
         self.backup_name_dialog(ctx);
         self.rebind_dialog(ctx);
+        self.patches_dialog(ctx);
         self.poll_loading(ctx, now);
         self.save_review_dialog(ctx);
         self.copy_slots_dialog(ctx);

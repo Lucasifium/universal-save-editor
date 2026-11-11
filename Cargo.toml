@@ -41,6 +41,10 @@ lzma-rs = "0.3"
 bzip2 = "0.6"
 # Encrypted saves (Easy Save 3, Godot).
 aes = "0.8"
+# Ciphers used by console cheat patches (Apollo scripts).
+blowfish = "0.9"
+camellia = "0.1"
+des = "0.8"
 cbc = { version = "0.1", features = ["alloc"] }
 cfb-mode = "0.8"
 pbkdf2 = { version = "0.12", default-features = false, features = ["hmac"] }

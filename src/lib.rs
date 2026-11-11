@@ -7,6 +7,7 @@ mod bughunt;
 #[cfg(test)]
 mod site;
 mod app;
+mod apollo;
 mod backups;
 #[cfg(not(any(target_arch = "wasm32", target_os = "android")))]
 mod cli;

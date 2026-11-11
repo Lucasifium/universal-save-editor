@@ -286,6 +286,16 @@ Steam IDs stored in the save's data (as bytes, numbers or text) and changes ever
 account, picked from the accounts on this computer or typed in, so a save copied from another
 account or a co-op host loads. The save's packing and checksums are redone on save as for any edit.
 
+**Cheat patches** (*Tools*, or `patch` on the command line): ready-made cheats for console saves
+from the [Apollo Save Tool](https://github.com/bucanero/apollo-ps3)'s patch collection, about 2,400
+games across PlayStation 1 to 4, PSP, Vita and Dreamcast, built in. The game is found from the
+title ID in the save's file or folder name (`BLUS30490`, `BESCES-50003`, `CUSA01615`), or by
+searching its name, and a `.savepatch` file can be opened too. Tick the codes (pick a value where a
+code offers several) and apply: Save Wizard and BSD script codes run as Apollo runs them, including
+their searches, checksum and hash fixes, ciphers and zlib streams. Codes written as Python scripts
+aren't supported. Saves must already be decrypted (as Apollo or a PS4 save tool exports them); a
+patch meant for another region or version of the game can damage a save, so keep the backup.
+
 Big files open on a worker thread, and unpacking and decryption use every core.
 
 ## What it opens
@@ -376,6 +386,7 @@ The same program runs commands without opening the window, for scripts and batch
     UniversalSaveEditor encode <save> <data> [-o <out>] pack edited data the way <save> is packed
     UniversalSaveEditor checksum <save> [<n>|off]       find a checksum in an unknown save, keep one fixed
     UniversalSaveEditor steamid <save> [<old> <new>]    list the Steam IDs in a save, or move it to another account
+    UniversalSaveEditor patch  <save> [<game> [<n>...]] console cheat patches: the game's patch files, its codes, or apply codes by number
     UniversalSaveEditor games  [--json]                 the games the editor knows
 
 `--password <p>` opens encrypted saves, like *Tools › Decrypt with password*; `--entry <name>`
@@ -446,7 +457,7 @@ save + re-open comparison, and damaged/truncated copies to make sure nothing cra
 - **No game files are shipped.** The editor contains no game code, art, sound or other assets. It
   ships only the ids and names it needs to show what's in a save. Libraries a game itself installs are never included.
 - **Built on others' work.** Save layouts and item tables from other open-source editors are used under
-  their licences (MIT, Apache-2.0, zlib), and every crate compiled into the program is listed with its
+  their licences (MIT, Apache-2.0, zlib, GPL), and every crate compiled into the program is listed with its
   licence. See [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
 - **Built with help from Claude (Anthropic).**
 - **Use at your own risk.** Back up your saves first. Editing saves is meant for single-player games:
