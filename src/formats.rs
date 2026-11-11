@@ -174,6 +174,8 @@ pub enum Layer {
     Sum(fmt::sumfind::Sum),
     /// One file on a PlayStation 2 memory card image: the image and the file.
     Ps2Card { image: Arc<Vec<u8>>, file: fmt::memcard::Ps2File },
+    /// A single PS1/PS2 save exported by a cheat device or PC tool; `name` is the file open.
+    PsSave { kind: fmt::pssave::Kind, original: Arc<Vec<u8>>, name: String },
     /// DeSmuME `.dsv`: the footer after the raw DS save, kept as it is.
     Dsv { footer: Arc<Vec<u8>> },
     /// Civilization V `.Civ5Save`: an uncompressed header, then the game as one zlib stream
@@ -279,6 +281,7 @@ impl Layer {
             Layer::Katana { kind, .. } => format!("Koei Tecmo encryption ({})", kind.name()),
             Layer::Sum(s) => format!("Checksum kept fixed ({})", s.describe()),
             Layer::Ps2Card { file, .. } => format!("PlayStation 2 memory card ({})", file.name),
+            Layer::PsSave { kind, name, .. } => format!("{} ({name})", kind.label()),
             Layer::Dsv { .. } => "DeSmuME save (.dsv footer)".into(),
             Layer::Ps1Card { blocks, .. } => format!("PlayStation memory card (save in block {})", blocks[0]),
             Layer::Civ5 { .. } => "Civilization V save (compressed game data)".into(),
@@ -800,6 +803,7 @@ fn wrap(layer: &Layer, data: Vec<u8>) -> Result<Vec<u8>, String> {
             card.write_file(image, file, &data)?
         }
         Layer::Dsv { footer } => [&data[..], footer].concat(),
+        Layer::PsSave { kind, original, name } => fmt::pssave::save(*kind, original, name, &data)?,
         Layer::Ps1Card { image, offset, blocks } => {
             fmt::memcard::ps1_write(image, *offset, &fmt::memcard::Ps1Save { name: String::new(), blocks: blocks.clone() }, &data)?
         }
@@ -1002,6 +1006,24 @@ fn peel(data: &[u8], ctx: &mut Ctx) -> Option<(Layer, Vec<u8>)> {
     if let Some((kind, plain)) = fmt::katana::open(data) {
         let inner = fmt::katana::content(kind, &plain);
         return Some((Layer::Katana { kind, plain: Arc::new(plain) }, inner));
+    }
+    if let Some((kind, files)) = fmt::pssave::open(data, &ctx.opts.ext) {
+        let pick = |f: &&fmt::pssave::Entry| {
+            let n = f.name.rsplit('/').next().unwrap_or("").to_ascii_lowercase();
+            n != "icon.sys" && !n.ends_with(".ico") && !n.ends_with(".icn")
+        };
+        // The biggest file that isn't the icon or its description is usually the game's data.
+        let f = ctx.opts.zip_entry.as_ref().and_then(|n| files.iter().find(|f| &f.name == n)).or_else(|| files.iter().filter(pick).max_by_key(|f| f.data.len())).unwrap_or(&files[0]).clone();
+        if files.len() > 1 {
+            ctx.zip_entries = files.iter().map(|f| f.name.clone()).collect();
+        }
+        ctx.hint = Some(format!(
+            "{}: the save's own file is open{}. It is packed back the same way on save{}; each game checks its own data its own way, so test the edit in the emulator.",
+            kind.label(),
+            if files.len() > 1 { " (Tools › Open another file in this archive lists the rest)" } else { "" },
+            if matches!(kind, fmt::pssave::Kind::Psv1 | fmt::pssave::Kind::Psv2) { ", and signed again for the PS3" } else { "" }
+        ));
+        return Some((Layer::PsSave { kind, original: Arc::new(data.to_vec()), name: f.name }, f.data));
     }
     if let Some(card) = fmt::memcard::Ps2Card::open(data) {
         let files = card.files(data).unwrap_or_default();
