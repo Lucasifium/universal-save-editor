@@ -101,9 +101,9 @@ pub fn wasteland3(ui: &mut Ui, cx: &mut GameCtx) {
         if !skills.is_empty() {
             panel(ui, "Skills", |ui| {
                 columns(ui, 300.0, skills.len(), |ui, i| {
-                    cx.attribute(ui, &skills[i], &join(&at("Skills"), &skills[i]), 10.0, accent);
+                    cx.attribute(ui, &wasteland3_skill(&skills[i]), &join(&at("Skills"), &skills[i]), 10.0, accent);
                 });
-                ui.weak("Skills are listed by the game's skill number (their names aren't in the save).");
+                ui.weak("Only the skills a ranger has put points in are saved. A skill the editor has no name for shows its number.");
             });
         }
         if let Some(Value::Array(perks)) = cx.get(&at("Perks")).cloned() {
@@ -241,4 +241,36 @@ pub fn valheim(ui: &mut Ui, cx: &mut GameCtx) {
         super::crafting::button(super::Game::Valheim, ui, cx);
         ui.weak("Items are shown by their prefab name. Each item has its own top stack size and quality in the game; going past them may be undone when it loads.");
     });
+}
+
+/// The save keys skills by number ("Skill 250"); this gives the name the game shows.
+/// Numbers from consolelogreece/wasteland-3-save-editor (MIT), `js/metaData.js`.
+fn wasteland3_skill(key: &str) -> String {
+    let name = match key.strip_prefix("Skill ").and_then(|n| n.parse::<u32>().ok()) {
+        Some(10) => "Automatic Weapons",
+        Some(20) => "Melee Combat",
+        Some(30) => "Big Guns",
+        Some(40) => "Brawling",
+        Some(60) => "Small Arms",
+        Some(80) => "Sniper Rifles",
+        Some(210) => "Animal Whisperer",
+        Some(220) => "Barter",
+        Some(230) => "Nerd Stuff",
+        Some(240) => "Explosives",
+        Some(250) => "First Aid",
+        Some(260) => "Leadership",
+        Some(270) => "Lockpicking",
+        Some(280) => "Mechanics",
+        Some(290) => "Survival",
+        Some(310) => "Toaster Repair",
+        Some(320) => "Weapon Modding",
+        Some(330) => "Weird Science",
+        Some(400) => "Hard Ass",
+        Some(410) => "Kiss Ass",
+        Some(550) => "Sneaky Shit",
+        Some(560) => "Armor Modding",
+        Some(570) => "Combat Shooting",
+        _ => return key.to_string(),
+    };
+    name.to_string()
 }

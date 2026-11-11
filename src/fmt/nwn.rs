@@ -11,6 +11,7 @@
 use super::fields::{Builder, Checksum};
 use super::gff::{entry_gff, erf_entries, is_erf, At, Gff, T_IFO, T_SAV};
 use crate::tree::TreeDoc;
+use serde_json::{Map, Value};
 use std::path::{Path, PathBuf};
 
 /// skills.2da rows (checked against ranks on sample characters: a wizard's Concentration,
@@ -95,9 +96,14 @@ fn character(b: &mut Builder, c: At) {
         s.edit(b, &["Character", "Skills", &name], "Rank", 0, 127, &[]);
     }
     let mut seen: Vec<(String, i64)> = vec![];
+    let mut keys = Map::new();
     for it in c.list("ItemList") {
         let tag = it.text("Tag").unwrap_or_default();
         let n = it.int("StackSize").unwrap_or(1).max(1);
+        if it.has("StackSize") {
+            let key = crate::tree::insert_unique(&mut keys, if tag.is_empty() { "(no tag)" } else { &tag }, Value::Null);
+            it.edit(b, &["Items", &key], "StackSize", 1, 9999, &[]);
+        }
         match seen.iter_mut().find(|x| x.0 == tag) {
             Some(x) => x.1 += n,
             None => seen.push((tag, n)),
@@ -220,6 +226,8 @@ mod tests {
         assert_eq!(v.pointer("/Inventory/0"), Some(&Value::from("NW_WAMBO001 \u{00D7}99")));
         // Nothing changed: player.bic is left alone.
         assert!(companions(&sav, &d).is_empty());
+        assert_eq!(v.pointer("/Items/NW_WAMBO001"), Some(&Value::from(99)));
+        doc.set("/Items/NW_WAMBO001", Value::from(50)).unwrap();
         doc.set("/Character/Gold", Value::from(76)).unwrap();
         doc.set("/Character/Attributes/Strength", Value::from(18)).unwrap();
         doc.set("/Character/Skills/Lore", Value::from(9)).unwrap();
@@ -227,6 +235,7 @@ mod tests {
         assert_eq!(out.len(), d.len());
         let again = parse(&out, None).unwrap();
         assert_eq!(again.view.pointer("/Character/Gold"), Some(&Value::from(76)));
+        assert_eq!(again.view.pointer("/Items/NW_WAMBO001"), Some(&Value::from(50)));
         assert_eq!(again.view.pointer("/Character/Attributes/Dexterity"), Some(&Value::from(14)));
         let side = companions(&sav, &out);
         assert_eq!(side.len(), 1);

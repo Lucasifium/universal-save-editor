@@ -1,0 +1,109 @@
+b	7156	Player crew: Player	Rich Achievement (to unlock Spectre Master gear)
+b	4639	Player crew: Player	Player is female
+i	1	Player crew: Player	Origin (1 = Spacer, 2 = Colonist, 3 = Earthborn)
+i	2	Player crew: Player	Notoriety (1 = Survivor, 2 = War Hero, 3 = Ruthless)
+i	47	Player crew: Player	Paragon points
+i	46	Player crew: Player	Renegade points
+b	3939	Player crew: Crew	Kaidan in party
+b	4509	Player crew: Crew	Sided against Vrynnus while speaking to Kaidan
+b	4631	Player crew: Crew	Didn't judge about Rahna while speaking to Kaidan
+b	3940	Player crew: Crew	Ashley in party
+b	3941	Player crew: Crew	Garrus in party
+b	3942	Player crew: Crew	Wrex in party
+b	3021	Player crew: Crew	Wrex is dead
+b	5336	Player crew: Crew	Retrieved Wrex family armor
+b	4596	Player crew: Crew	Gave Tali a copy of the data found in UNC: Geth Incursions
+i	37	Player crew: Crew	Garrus C-Sec progress (paragon) (set to 6)
+i	38	Player crew: Crew	Garrus Spectres progress (renegade) (set to 6)
+b	6528	Player crew: Romance	Romanced somebody
+b	4281	Player crew: Romance	[Ashley] Romance active
+b	4282	Player crew: Romance	[Ashley] Romance cancelled
+b	3960	Player crew: Romance	[Kaidan] Romance active
+b	3961	Player crew: Romance	[Kaidan] Romance cancelled
+b	4169	Player crew: Romance	[Liara] Romance active
+b	4686	Player crew: Romance	[Liara] Romance cancelled
+i	17	Player crew: Romance	Romance progress with Ashley
+i	15	Player crew: Romance	Romance progress with Kaidan
+i	16	Player crew: Romance	Romance progress with Liara
+b	3979	Missions: Citadel	[Harkin] Talked to him
+b	3980	Missions: Citadel	[Barla Von] Met him
+b	3872	Missions: Citadel	[Doctor Michel] Persuaded blackmailer
+b	3873	Missions: Citadel	[Doctor Michel] Killed blackmailer
+b	5943	Missions: Citadel	[Garrus] Saved Dr. Michel from Fist's thugs
+b	7270	Missions: Citadel	[Expose Saren] Released Fist
+b	4731	Missions: Citadel	[The Fan] Met Conrad Verner
+b	4914	Missions: Citadel	[The Fan] Convinced him
+b	4915	Missions: Citadel	[The Fan] Go away
+b	4766	Missions: Citadel	[The Fourth Estate] Refused interview (looked bad)
+b	4767	Missions: Citadel	[The Fourth Estate] Excused yourself (looked good)
+b	4768	Missions: Citadel	[The Fourth Estate] Punched Khalisa Bint Sinan al-Jilani
+b	5853	Missions: Citadel	[Asari Consort] Completed quest
+b	4032	Missions: Citadel	[Asari Consort] Received Trinket
+b	7015	Missions: Citadel	[Asari Consort] Used Trinket on Eletania
+b	6922	Missions: Citadel	[Scan the Keepers] Accepted quest
+b	3880	Missions: Citadel	[Scan the Keepers] Killed Chorban
+b	3881	Missions: Citadel	[Scan the Keepers] Scared off Chorban
+b	3899	Missions: Citadel	[Rita's Sister] Completed assignment
+b	4820	Missions: Citadel	[Homecoming] Returned Nirali Bhatia's body
+b	4847	Missions: Citadel	[Old Friends (Earthborn)] Met Finch
+b	4855	Missions: Citadel	[Old Friends (Earthborn)] Killed Finch
+b	4861	Missions: Citadel	[I Remember Me (Colonist)] Talked Talitha down
+b	4862	Missions: Citadel	[I Remember Me (Colonist)] Bait and switch
+b	4926	Missions: Citadel	[Old, Unhappy, Far-Off Things (Spacer)] Spoke to Mom
+b	4948	Missions: Citadel	[Reporter's Request] Gave OSD information to Emily Wong
+b	7164	Missions: Citadel	Got Elkoss Combine license
+i	39	Missions: Citadel	[Scan the Keepers] Keepers scanned (0-21)
+b	4378	Missions: Feros	Charmed Ethan Jeong
+b	4377	Missions: Feros	Intimidated Ethan Jeong
+b	2883	Missions: Feros	Retrieved Gavin's data
+b	2514	Missions: Feros	Too many colonists killed
+b	3798	Missions: Feros	[The Thorian] Killed Shiala
+b	4133	Missions: Feros	[The Thorian] Released Shiala
+b	6252	Missions: Feros	[Outcome] Good Plus
+b	6253	Missions: Feros	[Outcome] Good
+b	6254	Missions: Feros	[Outcome] Renegade
+b	6380	Missions: Feros	[Outcome] Fail
+b	2687	Missions: Noveria	Gave evidence to Lorik Qui'in
+b	2690	Missions: Noveria	Gave evidence to Gianna Parasini
+b	2713	Missions: Noveria	Betrayed Gianna Parasini
+b	3860	Missions: Noveria	Talked to Han Olar
+b	2587	Missions: Noveria	Released Rachni Queen
+b	2588	Missions: Noveria	Killed Rachni Queen
+b	3827	Missions: Virmire	Rescued Ashley
+b	3828	Missions: Virmire	Rescued Kaidan
+b	3029	Missions: Virmire	Wrex killed by Shepard
+b	3028	Missions: Virmire	Wrex killed by Ashley on Shepard's orders
+b	5543	Missions: Virmire	Wrex killed by Ashley, without permission
+b	4464	Missions: Virmire	Geth flyers disabled (Both needed to keep Kirrahe alive)
+b	4459	Missions: Virmire	Geth flyers reported (Both needed to keep Kirrahe alive)
+b	6058	Missions: Virmire	Killed Rana Thanoptis
+b	3001	Missions: End	Saved the Council
+b	3002	Missions: End	Abandoned the Council
+b	5434	Missions: End	Councilor Udina
+b	5435	Missions: End	Councilor Anderson
+b	5885	Missions: UNC	[Cerberus] Heard of Cerberus
+b	4608	Missions: UNC	[Cerberus] Found Cerberus files
+b	4682	Missions: UNC	[Rogue VI] Completed assignment
+b	4621	Missions: UNC	[Asari Diplomacy] Met Nassana
+b	6848	Missions: UNC	[Asari Diplomacy] Killed Dahlia
+b	4883	Missions: UNC	[Hostage] Chairman Burns died
+b	4885	Missions: UNC	[Hostage] Killed biotics
+b	4886	Missions: UNC	[Hostage] Biotics surrendered
+b	5014	Missions: UNC	[Hostile Takeover] Accepted money
+b	5015	Missions: UNC	[Hostile Takeover] Persuaded criminal to disband gang
+b	5038	Missions: UNC	[Dead Scientists] Convinced Corporal Toombs
+b	5039	Missions: UNC	[Dead Scientists] Killed scientist
+b	4903	Missions: UNC	[Major Kyle] Kyle surrendered
+b	4904	Missions: UNC	[Major Kyle] Fought Kyle
+i	48	Missions: UNC	[Valuable Minerals] Light Metals (0-20)
+i	50	Missions: UNC	[Valuable Minerals] Heavy Metals (0-20)
+i	51	Missions: UNC	[Valuable Minerals] Gases (0-6)
+i	52	Missions: UNC	[Valuable Minerals] Rare Earths (0-20)
+i	53	Missions: UNC	[Prothean Data Discs] Prothean Data Discs (0-7)
+i	54	Missions: UNC	[Asari Writings] Asari Writings (0-10)
+i	55	Missions: UNC	[Turian Insignias] Turian Emblem (0-13)
+i	43	Missions: UNC	[Locate Signs of Battle] League Medallions (0-10)
+i	56	Missions: UNC	[Locate Signs of Battle] Salarian ID Tags (0-3)
+b	7291	Missions: DLC	[Bring Down the Sky] Completed mission
+b	7317	Missions: DLC	[Bring Down the Sky] Hostages rescued (Balak alive)
+b	7315	Missions: DLC	[Bring Down the Sky] Killed Balak

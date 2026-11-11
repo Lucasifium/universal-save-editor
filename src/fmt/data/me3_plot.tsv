@@ -1,0 +1,468 @@
+b	22226	General	ME1 Import
+b	21554	General	ME2 Import
+b	17662	General	Player is female
+b	22642	General	Performed Cosmetic Surgery in ME3
+b	5616	General	Changed difficulty (Failed Insanity playthrough)
+i	10475	General	New Game Plus Count
+i	10159	General	Paragon Points
+i	10160	General	Renegade Points
+i	10297	General	Reputation
+i	10380	General	Reputation Points
+i	10065	General	Persuade Multiplier
+i	10300	General	Extra Medigel
+b	17680	Crew: Ashley	Ashley in party
+b	17665	Crew: Ashley	Ashley is in squad
+b	17686	Crew: Ashley	Ashley is selectable
+i	10154	Crew: Ashley	Ashley appearance (0 = Default, 1 = Alternate, 2 = N7 Collector, 3 = From Ashes)
+i	10330	Crew: Ashley	Ashley mission count
+b	17682	Crew: EDI	EDI in party
+b	17667	Crew: EDI	EDI is in squad
+b	17688	Crew: EDI	EDI is selectable
+i	10156	Crew: EDI	EDI appearance (0 = Default, 1 = Alternate, 2 = N7 Collector, 3 = DLC Pack 1)
+i	10332	Crew: EDI	EDI mission count
+b	17681	Crew: Garrus	Garrus in party
+b	17666	Crew: Garrus	Garrus is in squad
+b	17687	Crew: Garrus	Garrus is selectable
+i	10155	Crew: Garrus	Garrus appearance (0 = Default, 1 = Alternate, 2 = N7 Collector, 3 = DLC Pack 1)
+i	10331	Crew: Garrus	Garrus mission count
+b	17694	Crew: James	James in party
+b	17692	Crew: James	James is in squad
+b	17695	Crew: James	James is selectable
+i	10158	Crew: James	James appearance (0 = Default, 1 = Alternate, 2 = N7 Collector, 3 = From Ashes)
+i	10334	Crew: James	James mission count
+b	17683	Crew: Javik	Javik in party
+b	17668	Crew: Javik	Javik is in squad
+b	17689	Crew: Javik	Javik is selectable
+i	10157	Crew: Javik	Javik appearance (0 = Default, 1 = Alternate)
+i	10333	Crew: Javik	Javik mission count
+b	17679	Crew: Kaidan	Kaidan in party
+b	17664	Crew: Kaidan	Kaidan is in squad
+b	17685	Crew: Kaidan	Kaidan is selectable
+i	10153	Crew: Kaidan	Kaidan appearance (0 = Default, 1 = Alternate, 2 = N7 Collector, 3 = From Ashes)
+i	10329	Crew: Kaidan	Kaidan mission count
+b	17678	Crew: Liara	Liara in party
+b	17663	Crew: Liara	Liara is in squad
+b	17684	Crew: Liara	Liara is selectable
+i	10152	Crew: Liara	Liara appearance (0 = Default, 1 = Alternate, 2 = N7 Collector, 3 = From Ashes, 4 = DLC Pack 1)
+i	10328	Crew: Liara	Liara mission count
+b	17838	Crew: Tali	Tali in party
+b	17836	Crew: Tali	Tali is in squad
+b	17839	Crew: Tali	Tali is selectable
+i	10214	Crew: Tali	Tali appearance (0 = Default, 1 = Alternate, 2 = From Ashes)
+i	10335	Crew: Tali	Tali mission count
+b	19724	Romance: Ashley	[Romanced] Ashley
+b	19729	Romance: Ashley	[Rejected] Ashley
+i	10314	Romance: Ashley	[Friendship] Ashley friendship
+i	10322	Romance: Ashley	[Romance] Ashley progress
+b	19715	Romance: Garrus	[Flirt] Still romancing Garrus
+b	19725	Romance: Garrus	[Romanced] Garrus
+b	19730	Romance: Garrus	[Rejected] Garrus
+i	10315	Romance: Garrus	[Friendship] Garrus friendship
+i	10323	Romance: Garrus	[Romance] Garrus progress
+b	19723	Romance: Kaidan	[Romanced] Kaidan
+b	19728	Romance: Kaidan	[Rejected] Kaidan
+i	10313	Romance: Kaidan	[Friendship] Kaidan friendship
+i	10321	Romance: Kaidan	[Romance] Kaidan progress
+b	21758	Romance: Liara	[Flirt] Continuing ME1 romance
+b	19722	Romance: Liara	[Romanced] Liara
+b	19727	Romance: Liara	[Rejected] Liara
+i	10312	Romance: Liara	[Friendship] Liara friendship
+i	10320	Romance: Liara	[Romance] Liara progress
+b	17796	Romance: Tali	[Flirt] Tali
+b	19726	Romance: Tali	[Romanced] Tali
+b	19731	Romance: Tali	[Rejected] Tali
+i	10318	Romance: Tali	[Friendship] Tali friendship
+i	10327	Romance: Tali	[Romance] Tali progress
+b	19835	Romance: Samantha	[Romanced] Samantha
+b	19836	Romance: Samantha	[Rejected] Samantha
+i	10336	Romance: Samantha	[Friendship] Samantha friendship
+i	10337	Romance: Samantha	[Romance] Samantha progress
+b	19838	Romance: Steve	[Romanced] Steve
+b	19839	Romance: Steve	[Rejected] Steve
+i	10340	Romance: Steve	[Friendship] Steve friendship
+i	10341	Romance: Steve	[Romance] Steve progress
+b	20628	Romance: Diana Allers	[Flirt] Diana Allers (after Cerberus coup)
+b	20630	Romance: Diana Allers	[Romanced] Diana Allers (after Rannoch)
+b	19846	Romance: Other	[Romanced] Jack
+b	19847	Romance: Other	[Rejected] Jack
+b	21750	Romance: Other	[Romanced] Miranda
+b	21751	Romance: Other	[Rejected] Miranda
+b	19283	Romance: Other	[Romanced] Thane
+b	21100	Romance: Other	[Romanced] Kelly
+b	25045	Romance: Other	[DLC: Citadel] Kissed Samara in Citadel apartment
+i	10316	Romance: Other	[Friendship] EDI friendship
+i	10319	Romance: Other	[Friendship] James friendship
+i	10317	Romance: Other	[Friendship] Javik friendship
+b	19578	Missions: Normandy	James refers to Shepard as 'Loco'
+b	19579	Missions: Normandy	James refers to Shepard as 'Lola'
+b	20574	Missions: Normandy	Allers on the Normandy
+b	20624	Missions: Normandy	Allers kicked off the Normandy
+b	20171	Missions: Normandy	Had Time Capsule conversation with Liara
+b	20122	Missions: Normandy	Argued with Joker
+b	19297	Missions: Citadel	[Medi-Gel Sabotage] Mission completed
+b	19629	Missions: Citadel	[Inspirational Stories] Mission completed
+b	19906	Missions: Citadel	[Krogan Dying Message] Gave Charr's poem to Ereba
+b	20498	Missions: Citadel	[Batarian Codes] Quest completed
+b	21119	Missions: Citadel	[Asari Widow] Delivered Tashya's message to Weshra
+b	21196	Missions: Citadel	[Hanar Diplomat] Mission completed
+b	21451	Missions: Citadel	[Hanar Diplomat] Saved homeworld
+b	21453	Missions: Citadel	[Hanar Diplomat] Kasumi alive
+b	21441	Missions: Citadel	[Cerberus Ciphers] Mission completed
+b	21838	Missions: Citadel	[Volus Ambassador] Zaeed died saving Din Korlack
+b	22573	Missions: Citadel	[Aria: Blue Suns] Found black market artifact (for Kannik)
+b	22082	Missions: Citadel	[Liara] Had Presidium date
+i	10311	Missions: Citadel	[Inspirational Stories] No. of Photos
+b	22595	Missions: Eden Prime	Helped colony resistance
+b	19181	Missions	Dr. Chakwas in party
+b	19182	Missions	Dr. Michel in party
+b	19245	Missions	Visited Ashley/Kaidan in the hospital (while awoke)
+b	20929	Missions	Spoke to Ashley about Spectre status during hospital visit
+b	19358	Missions	Spoke with Aria T'Loak to discuss recruiting gangs for war effort
+b	18819	Missions	Spoke to Thane at hospital
+b	20694	Missions	Advised Kelly Chambers to change her identity
+b	20182	Missions	[Miranda] Met her at Docking Bay D24
+b	19616	Story	Found the dogtags of Ambassador Dominic Osoba's son
+b	17900	Story	Rachi Queen saved
+b	17901	Story	Rachi Queen killed
+b	18846	Story	Rachi Breeder saved
+b	17902	Story	Rachi Breeder killed
+b	18913	Story	Grunt died fighting off Rachni
+b	20646	Story	Grunt survived fighting off Rachni
+b	18926	Story	Genophage is cured
+b	18927	Story	Genophage is sabotaged
+b	19062	Story	Mordin/Padok is killed by Shepard
+b	20494	Story	Mordin/Padok agreed to sabotage cure
+b	20315	Story	Eve is alive
+b	19060	Story	Eve is dead
+b	19186	Story	Kai Leng mortally wounded Salarian Councilor
+b	19188	Story	Kai Leng mortally wounded Thane
+b	19189	Story	Kai Leng mortally wounded Kirrahe
+b	19704	Story	Udina killed by Shepard
+b	18199	Story	Ashley killed during coup
+b	18893	Story	Ashley killed by Shepard
+b	19519	Story	Ashley killed by Garrus
+b	19521	Story	Ashley killed by James
+b	19523	Story	Ashley killed by Liara
+b	19525	Story	Ashley killed by EDI
+b	19527	Story	Ashley killed by Javik
+b	18445	Story	Kaidan killed during coup
+b	20266	Story	Kaidan killed by Shepard
+b	19520	Story	Kaidan killed by Garrus
+b	19522	Story	Kaidan killed by James
+b	19524	Story	Kaidan killed by Liara
+b	19526	Story	Kaidan killed by EDI
+b	19528	Story	Kaidan killed by Javik
+b	18714	Story	Thane died in Huerta hospital
+b	20166	Story	Encouraged EDI and Joker relationship
+b	19480	Story	Cerberus coup mission debrief completed
+b	20184	Story	[Miranda] Warned her about Kai Leng
+b	18261	Story	Talked with Brynn
+b	18090	Story	Shepard disapproves of Jacob protecting scientists
+b	18187	Story	Shepard approves of Jacob protecting scientists
+b	19411	Story	Spoke privately to Jacob on Gellix
+b	19397	Story	Had romance discussion with Jacob on Gellix
+b	19303	Story	Samara committed suicide
+b	19921	Story	Samara's suicide was prevented
+b	17795	Story	Shepard agrees counterattacking the Geth Dreadnought
+b	17800	Story	Punched Han'Gerrel
+b	18184	Story	Saved Admiral Koris
+b	17787	Story	Geth destroyed
+b	17788	Story	Quarians destroyed
+b	17789	Story	Brokered a peace deal between Geth and Quarians
+i	10212	Story	Points toward Geth and Quarian peace (>= 5 points to enable paragon: renegade dialogue)
+b	19769	Story	Wrex/Wreav was killed on Citadel
+b	20185	Story	[Miranda] Met her at Presidium appartment
+b	21872	Story	[Miranda] Gave her Alliance resources
+b	21873	Story	[Miranda] Did not give her Alliance resources
+b	20278	Story	Miranda killed by Kai Leng
+b	20687	Story	Miranda survived
+i	10665	Story	The Illusive Man progress (>= 6 points to enable all paragon: renegade dialogues)
+b	24082	Story	[Assist the Hacker] Mission completed
+b	23205	Story	[Assist the Mechanic] Found the Kehri power inverter
+b	24081	Story	[Assist Harrot] Found Aria's old couch for Harrot
+b	24935	Citadel dlc: Castle Arcade	[Claw] Assault Rifle Ultra-Light Mod
+b	24936	Citadel dlc: Castle Arcade	[Claw] Pistol Power Damage Mod
+b	24938	Citadel dlc: Castle Arcade	[Claw] SMG Power Damage Mod
+b	24937	Citadel dlc: Castle Arcade	[Claw] Sniper Rifle Damage and Penetration Mod
+b	24939	Citadel dlc: Castle Arcade	[Claw] Plush toy
+b	24940	Citadel dlc: Castle Arcade	[Claw] Music Track 1
+b	24941	Citadel dlc: Castle Arcade	[Claw] Music Track 2
+b	24942	Citadel dlc: Castle Arcade	[Claw] Music Track 3
+b	24943	Citadel dlc: Castle Arcade	[Claw] Music Track 4
+b	24944	Citadel dlc: Castle Arcade	[Claw] Music Track 5
+b	24945	Citadel dlc: Castle Arcade	[Claw] Music Track 6
+b	24946	Citadel dlc: Castle Arcade	[Claw] Music Track 7
+i	11205	Citadel dlc: Castle Arcade	[Relay Defense] Shepard
+i	11206	Citadel dlc: Castle Arcade	[Relay Defense] Bailey
+i	11207	Citadel dlc: Castle Arcade	[Relay Defense] Mouse
+i	11208	Citadel dlc: Castle Arcade	[Relay Defense] Schells
+i	11196	Citadel dlc: Castle Arcade	[Shattered Eezo] Shepard
+i	11197	Citadel dlc: Castle Arcade	[Shattered Eezo] Aria T'Loak
+i	11198	Citadel dlc: Castle Arcade	[Shattered Eezo] Barla Von
+i	11199	Citadel dlc: Castle Arcade	[Shattered Eezo] James Vega
+i	11200	Citadel dlc: Castle Arcade	[Shattered Eezo] Jordan Noles
+i	11201	Citadel dlc: Castle Arcade	[Shattered Eezo] Karote
+i	11202	Citadel dlc: Castle Arcade	[Shattered Eezo] Khalisah al-Jilani
+i	11203	Citadel dlc: Castle Arcade	[Shattered Eezo] Shifty Cow
+b	24499	Citadel dlc: Furniture Store	Polished Vanity
+b	24500	Citadel dlc: Furniture Store	Deluxe Vanity
+b	24501	Citadel dlc: Furniture Store	Simple Bedding
+b	24502	Citadel dlc: Furniture Store	Vibrant Kitchen
+b	24503	Citadel dlc: Furniture Store	Wholesome Kitchen
+b	24504	Citadel dlc: Furniture Store	Cozy Sofa
+b	24505	Citadel dlc: Furniture Store	Posh Sofa
+b	24506	Citadel dlc: Furniture Store	Basic Recliner
+b	24507	Citadel dlc: Furniture Store	Elegant Ottoman
+b	24508	Citadel dlc: Furniture Store	Light Coffee Table
+b	24509	Citadel dlc: Furniture Store	Artistic Shelving
+b	24510	Citadel dlc: Furniture Store	Amber Accent Wall
+b	24270	Citadel dlc: Appartment Decorations	[Bathroom] Standard Vanity
+b	24271	Citadel dlc: Appartment Decorations	[Bathroom] Polished Vanity
+b	24272	Citadel dlc: Appartment Decorations	[Bathroom] Deluxe Vanity
+b	24273	Citadel dlc: Appartment Decorations	[Bed] Standard Bedding
+b	24274	Citadel dlc: Appartment Decorations	[Bed] Simple Bedding
+b	24275	Citadel dlc: Appartment Decorations	[Kitchen] Standard Kitchen
+b	24276	Citadel dlc: Appartment Decorations	[Kitchen] Vibrant Kitchen
+b	24277	Citadel dlc: Appartment Decorations	[Kitchen] Wholesom Kitchen
+b	24278	Citadel dlc: Appartment Decorations	[Seating - Sofa] Standard Sofa
+b	24279	Citadel dlc: Appartment Decorations	[Seating - Sofa] Cozy Sofa
+b	24280	Citadel dlc: Appartment Decorations	[Seating - Sofa] Posh Sofa
+b	24281	Citadel dlc: Appartment Decorations	[Seating - Chair] Standard Armchair
+b	24282	Citadel dlc: Appartment Decorations	[Seating - Chair] Basic Recliner
+b	24283	Citadel dlc: Appartment Decorations	[Seating - Chair] Elegant Ottoman
+b	24284	Citadel dlc: Appartment Decorations	[Table] Standard Coffee Table
+b	24285	Citadel dlc: Appartment Decorations	[Table] Light Coffee Table
+b	24286	Citadel dlc: Appartment Decorations	[Wall - Shelving] Standard Shelving
+b	24287	Citadel dlc: Appartment Decorations	[Wall - Shelving] Artistic Shelving
+b	24288	Citadel dlc: Appartment Decorations	[Wall - Accent] Standard Accent Wall
+b	24289	Citadel dlc: Appartment Decorations	[Wall - Accent] Amber Accent Wall
+b	21041	Normandy: Pets	Space Hamster
+b	21187	Normandy: Pets	KEI-9
+b	21038	Normandy: Fish	Illium Skald Fish
+b	21039	Normandy: Fish	Prejek Paddle Fish
+b	21040	Normandy: Fish	Thessian Sunfish
+b	21113	Normandy: Fish	Koi Fish
+b	21115	Normandy: Fish	Khar'shan Snapping Eel
+b	21116	Normandy: Fish	Belan Jellyfish
+b	21118	Normandy: Fish	Striped Dartfish
+b	22153	Normandy: Fish	Aquarium VI
+i	10733	Normandy: Fish	Illium Skald Fish State (0 = alive, 3 = dead)
+i	10734	Normandy: Fish	Prejek Paddle Fish State (0 = alive, 3 = dead)
+i	10735	Normandy: Fish	Thessian Sunfish State (0 = alive, 3 = dead)
+i	10736	Normandy: Fish	Koi Fish State (0 = alive, 3 = dead)
+i	10739	Normandy: Fish	Khar'shan Snapping Eel State (0 = alive, 3 = dead)
+i	10740	Normandy: Fish	Belan Jellyfish State (0 = alive, 3 = dead)
+i	10737	Normandy: Fish	Striped Dartfish State (0 = alive, 3 = dead)
+b	21042	Normandy: Model Ships	Normandy SR-1
+b	21044	Normandy: Model Ships	Destiny Ascension
+b	21045	Normandy: Model Ships	Sovereign
+b	21046	Normandy: Model Ships	Turian Cruiser
+b	21047	Normandy: Model Ships	Alliance Cruiser
+b	21048	Normandy: Model Ships	Quarian Ship
+b	21050	Normandy: Model Ships	Alliance Shuttler
+b	21053	Normandy: Model Ships	Freighter
+b	21054	Normandy: Model Ships	Geth Cruiser
+b	21106	Normandy: Model Ships	Alliance Fighter
+b	21107	Normandy: Model Ships	Alliance Dreadnought
+b	21108	Normandy: Model Ships	Kodiak Drop Shuttle
+b	21109	Normandy: Model Ships	Citadel
+b	21110	Normandy: Model Ships	Shadow Broker Base
+b	21111	Normandy: Model Ships	Quarian Liveship
+b	21112	Normandy: Model Ships	Geth Fighter
+b	22590	Appearances: Casual	N7 Hoodie
+b	18988	Appearances: Parts	Kuwashii Visor (Head)
+b	18995	Appearances: Parts	Death Mask (Head)
+b	18999	Appearances: Parts	Capacitor Helmet (Head)
+b	19000	Appearances: Parts	Archon Visor (Head)
+b	19005	Appearances: Parts	Kestrel Helmet (Head)
+b	19006	Appearances: Parts	Recon Hood (Head)
+b	19007	Appearances: Parts	Sentry Interface (Head)
+b	19008	Appearances: Parts	Umbra Visor (Head)
+b	22339	Appearances: Parts	Mnemonic Visor (Head)
+b	22340	Appearances: Parts	Delumcore Overlay (Head)
+b	22341	Appearances: Parts	Securitel Helmet (Head)
+b	20920	Appearances: Parts	Ariake Technologies (Arms)
+b	20921	Appearances: Parts	Ariake Technologies (Legs)
+b	20919	Appearances: Parts	Ariake Technologies (Shoulders)
+b	20918	Appearances: Parts	Ariake Technologies (Torso)
+b	20916	Appearances: Parts	Armax Arsenal (Arms)
+b	20917	Appearances: Parts	Armax Arsenal (Legs)
+b	20915	Appearances: Parts	Armax Arsenal (Shoulders)
+b	20914	Appearances: Parts	Armax Arsenal (Torso)
+b	21401	Appearances: Parts	Hahne-Kedar (Arms)
+b	21402	Appearances: Parts	Hahne-Kedar (Legs)
+b	21400	Appearances: Parts	Hahne-Kedar (Shoulders)
+b	21399	Appearances: Parts	Hahne-Kedar (Torso)
+b	19457	Appearances: Parts	Kassa Fabrication (Arms)
+b	19458	Appearances: Parts	Kassa Fabrication (Legs)
+b	19456	Appearances: Parts	Kassa Fabrication (Shoulders)
+b	19455	Appearances: Parts	Kassa Fabrication (Torso)
+b	19469	Appearances: Parts	Rosenkov Materials (Arms)
+b	19470	Appearances: Parts	Rosenkov Materials (Legs)
+b	19468	Appearances: Parts	Rosenkov Materials (Shoulders)
+b	19467	Appearances: Parts	Rosenkov Materials (Torso)
+b	19461	Appearances: Parts	Serrice Council (Arms)
+b	19462	Appearances: Parts	Serrice Council (Legs)
+b	19460	Appearances: Parts	Serrice Council (Shoulders)
+b	19459	Appearances: Parts	Serrice Council (Torso)
+b	20984	Appearances: Full Body	Cerberus Armor
+b	20985	Appearances: Full Body	Inferno Armor
+b	20986	Appearances: Full Body	Terminus Armor
+b	20987	Appearances: Full Body	Collector Armor
+b	20988	Appearances: Full Body	N7 Defender Armor
+b	20989	Appearances: Full Body	Reckoner-Knight Armor
+b	21417	Appearances: Full Body	Blood Dragon Armor
+b	24819	Appearances: Full Body	Cerberus Shade Armor
+b	24820	Appearances: Full Body	Cerberus Nightmare Armor
+b	24821	Appearances: Full Body	Cerberus Spirit Armor
+b	25098	Weapons powers: Assault Rifles	Adas Anti-Synthetic Rifle
+b	25099	Weapons powers: Assault Rifles	Adas Anti-Synthetic Rifle (New Game Plus)
+b	25096	Weapons powers: Assault Rifles	Cerberus Harrier
+b	25097	Weapons powers: Assault Rifles	Cerberus Harrier (New Game Plus)
+b	23811	Weapons powers: Assault Rifles	Chakram Launcher
+b	23812	Weapons powers: Assault Rifles	Chakram Launcher (New Game Plus)
+b	21227	Weapons powers: Assault Rifles	Geth Pulse Rifle
+b	21563	Weapons powers: Assault Rifles	Geth Pulse Rifle (New Game Plus)
+b	24947	Weapons powers: Assault Rifles	M-7 Lancer
+b	24948	Weapons powers: Assault Rifles	M-7 Lancer (New Game Plus)
+b	21224	Weapons powers: Assault Rifles	M-8 Avenger
+b	21560	Weapons powers: Assault Rifles	M-8 Avenger (New Game Plus)
+b	21231	Weapons powers: Assault Rifles	M-15 Vindicator
+b	21566	Weapons powers: Assault Rifles	M-15 Vindicator (New Game Plus)
+b	21226	Weapons powers: Assault Rifles	M-37 Falcon
+b	21562	Weapons powers: Assault Rifles	M-37 Falcon (New Game Plus)
+b	25108	Weapons powers: Assault Rifles	M-55 Argus
+b	25109	Weapons powers: Assault Rifles	M-55 Argus (New Game Plus)
+b	21229	Weapons powers: Assault Rifles	M-76 Revenant
+b	21565	Weapons powers: Assault Rifles	M-76 Revenant (New Game Plus)
+b	21228	Weapons powers: Assault Rifles	M-96 Mattock
+b	21564	Weapons powers: Assault Rifles	M-96 Mattock (New Game Plus)
+b	21568	Weapons powers: Assault Rifles	M-99 Saber
+b	21567	Weapons powers: Assault Rifles	M-99 Saber (New Game Plus)
+b	25102	Weapons powers: Assault Rifles	N7 Typhoon
+b	25103	Weapons powers: Assault Rifles	N7 Typhoon (New Game Plus)
+b	23809	Weapons powers: Assault Rifles	N7 Valkyrie
+b	23810	Weapons powers: Assault Rifles	N7 Valkyrie (New Game Plus)
+b	22746	Weapons powers: Assault Rifles	Particle Rifle
+b	22747	Weapons powers: Assault Rifles	Particle Rifle (New Game Plus)
+b	21225	Weapons powers: Assault Rifles	Phaeston
+b	21561	Weapons powers: Assault Rifles	Phaeston (New Game Plus)
+b	25100	Weapons powers: Assault Rifles	Striker Assault Rifle
+b	25101	Weapons powers: Assault Rifles	Striker Assault Rifle (New Game Plus)
+b	25130	Weapons powers: Pistols	Acolyte
+b	25131	Weapons powers: Pistols	Acolyte (New Game Plus)
+b	21251	Weapons powers: Pistols	Arc Pistol
+b	21588	Weapons powers: Pistols	Arc Pistol (New Game Plus)
+b	25128	Weapons powers: Pistols	Executioner Pistol
+b	25129	Weapons powers: Pistols	Executioner Pistol (New Game Plus)
+b	21569	Weapons powers: Pistols	M-3 Predator
+b	21589	Weapons powers: Pistols	M-3 Predator (New Game Plus)
+b	21249	Weapons powers: Pistols	M-5 Phalanx
+b	21586	Weapons powers: Pistols	M-5 Phalanx (New Game Plus)
+b	21247	Weapons powers: Pistols	M-6 Carnifex
+b	21585	Weapons powers: Pistols	M-6 Carnifex (New Game Plus)
+b	21248	Weapons powers: Pistols	M-77 Paladin
+b	21570	Weapons powers: Pistols	M-358 Talon
+b	21590	Weapons powers: Pistols	M-358 Talon (New Game Plus)
+b	25138	Weapons powers: Pistols	N7 Eagle
+b	25139	Weapons powers: Pistols	N7 Eagle (New Game Plus)
+b	21250	Weapons powers: Pistols	Scorpion
+b	21587	Weapons powers: Pistols	Scorpion (New Game Plus)
+b	25124	Weapons powers: Shotguns	AT-12 Raider
+b	25125	Weapons powers: Shotguns	AT-12 Raider (New Game Plus)
+b	21239	Weapons powers: Shotguns	Disciple
+b	21579	Weapons powers: Shotguns	Disciple (New Game Plus)
+b	21241	Weapons powers: Shotguns	Geth Plasma Shotgun
+b	21581	Weapons powers: Shotguns	Geth Plasma Shotgun (New Game Plus)
+b	21242	Weapons powers: Shotguns	Graal Spike Thrower
+b	21582	Weapons powers: Shotguns	Graal Spike Thrower (New Game Plus)
+b	21245	Weapons powers: Shotguns	M-11 Wraith
+b	21240	Weapons powers: Shotguns	M-22 Eviscerator
+b	21580	Weapons powers: Shotguns	M-22 Eviscerator (New Game Plus)
+b	21243	Weapons powers: Shotguns	M-23 Katana
+b	21583	Weapons powers: Shotguns	M-23 Katana (New Game Plus)
+b	21244	Weapons powers: Shotguns	M-27 Scimitar
+b	21584	Weapons powers: Shotguns	M-27 Scimitar (New Game Plus)
+b	21238	Weapons powers: Shotguns	M-300 Claymore
+b	21578	Weapons powers: Shotguns	M-300 Claymore (New Game Plus)
+b	25126	Weapons powers: Shotguns	N7 Crusader
+b	25127	Weapons powers: Shotguns	N7 Crusader (New Game Plus)
+b	25134	Weapons powers: SMGs	Blood Pack Punisher
+b	25135	Weapons powers: SMGs	Blood Pack Punisher (New Game Plus)
+b	25132	Weapons powers: SMGs	Geth Plasma SMG
+b	25133	Weapons powers: SMGs	Geth Plasma SMG (New Game Plus)
+b	21255	Weapons powers: SMGs	M-4 Shuriken
+b	21593	Weapons powers: SMGs	M-4 Shuriken (New Game Plus)
+b	21256	Weapons powers: SMGs	M-9 Tempest
+b	21594	Weapons powers: SMGs	M-9 Tempest (New Game Plus)
+b	21254	Weapons powers: SMGs	M-12 Locust
+b	21592	Weapons powers: SMGs	M-12 Locust (New Game Plus)
+b	21252	Weapons powers: SMGs	M-25 Hornet
+b	21591	Weapons powers: SMGs	M-25 Hornet (New Game Plus)
+b	25136	Weapons powers: SMGs	N7 Hurricane
+b	25137	Weapons powers: SMGs	N7 Hurricane (New Game Plus)
+b	21246	Weapons powers: Sniper Rifles	Black Widow
+b	21236	Weapons powers: Sniper Rifles	Javelin
+b	21573	Weapons powers: Sniper Rifles	Javelin (New Game Plus)
+b	25114	Weapons powers: Sniper Rifles	Kishock Harpoon Gun
+b	25115	Weapons powers: Sniper Rifles	Kishock Harpoon Gun (New Game Plus)
+b	25112	Weapons powers: Sniper Rifles	Krysae Sniper Rifle
+b	25113	Weapons powers: Sniper Rifles	Krysae Sniper Rifle (New Game Plus)
+b	21234	Weapons powers: Sniper Rifles	M-13 Raptor
+b	21575	Weapons powers: Sniper Rifles	M-13 Raptor (New Game Plus)
+b	21235	Weapons powers: Sniper Rifles	M-29 Incisor
+b	21572	Weapons powers: Sniper Rifles	M-29 Incisor (New Game Plus)
+b	25110	Weapons powers: Sniper Rifles	M-90 Indra
+b	25111	Weapons powers: Sniper Rifles	M-90 Indra (New Game Plus)
+b	21232	Weapons powers: Sniper Rifles	M-92 Mantis
+b	21574	Weapons powers: Sniper Rifles	M-92 Mantis (New Game Plus)
+b	21233	Weapons powers: Sniper Rifles	M-97 Viper
+b	21576	Weapons powers: Sniper Rifles	M-97 Viper (New Game Plus)
+b	21237	Weapons powers: Sniper Rifles	M-98 Widow
+b	21577	Weapons powers: Sniper Rifles	M-98 Widow (New Game Plus)
+b	25116	Weapons powers: Sniper Rifles	N7 Valiant
+b	25117	Weapons powers: Sniper Rifles	N7 Valiant (New Game Plus)
+b	22100	Weapons powers: Powers	Energy Drain
+b	22101	Weapons powers: Powers	Defense Drone
+b	22102	Weapons powers: Powers	Defense Matrix
+b	22103	Weapons powers: Powers	Decoy
+b	22104	Weapons powers: Powers	Armor Piercing Ammo
+b	22105	Weapons powers: Powers	Proximity Mine
+b	22106	Weapons powers: Powers	Barrier
+b	22107	Weapons powers: Powers	Reave
+b	22108	Weapons powers: Powers	Inferno Grenade
+b	22109	Weapons powers: Powers	Marksman
+b	22110	Weapons powers: Powers	Warp Ammo
+b	22111	Weapons powers: Powers	Stasis
+b	22112	Weapons powers: Powers	Fortification
+b	22113	Weapons powers: Powers	Carnage
+b	22114	Weapons powers: Powers	Slam
+b	22115	Weapons powers: Powers	Dark Channel
+b	23718	Weapons powers: Powers	Dominate
+b	23922	Weapons powers: Powers	Lash
+b	23923	Weapons powers: Powers	Flare
+b	21531	Intel	Weapon Upgrade Kit (Unlocked)
+b	21532	Intel	Weapon Upgrade Kit (Purchased)
+b	21533	Intel	Intel from Battle of Arcturus (Unlocked)
+b	21534	Intel	Intel from Battle of Arcturus (Purchased)
+b	21535	Intel	Biotic Research Data (Unlocked)
+b	21536	Intel	Biotic Research Data (Purchased)
+b	21537	Intel	Remains of Reaper Destroyer (Unlocked)
+b	21538	Intel	Remains of Reaper Destroyer (Purchased)
+b	21539	Intel	Intact Reaper Weapon (Unlocked)
+b	21540	Intel	Intact Reaper Weapon (Purchased)
+b	21541	Intel	Volus Intelligence Archives (Unlocked)
+b	21542	Intel	Volus Intelligence Archives (Purchased)
+b	21543	Intel	Improved Geth Resistors (Unlocked)
+b	21544	Intel	Improved Geth Resistors (Purchased)
+b	21545	Intel	Miniaturized Armor Capacitors (Unlocked)
+b	21546	Intel	Miniaturized Armor Capacitors (Purchased)
+b	21547	Intel	Gallea's Electronic Signature (Unlocked)
+b	21548	Intel	Gallea's Electronic Signature (Purchased)
+b	22419	Intel	Armor Modkit (Unlocked)
+b	22420	Intel	Armor Modkit (Purchased)
+b	22421	Intel	Advanced Biotic Amps (Unlocked)
+b	22422	Intel	Advanced Biotic Amps (Purchased)
+b	21549	Intel	Prejek Paddlefish (Unlocked)
+b	21550	Intel	Prejek Paddlefish (Purchased)
+b	22641	Intel	Med Bay Surgery (Purchased)

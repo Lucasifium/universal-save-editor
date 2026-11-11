@@ -1,0 +1,664 @@
+b	2279	Player	Played Mass Effect 1
+b	1456	Player	Game done
+b	66	Player	Player is female
+b	5979	Player	Cosmetic Surgery unlocked
+b	5978	Player	Cosmetic Surgery applied
+b	5616	Player	Changed difficulty (Failed Insanity playthrough)
+i	2	Player	Paragon points
+i	3	Player	Renegade points
+i	23	Player	Number of missions since last main story mission (Freedom's Progress, Horizon, etc.)
+b	38	Crew: Garrus	Garrus in party
+b	183	Crew: Garrus	Garrus is loyal
+b	6252	Crew: Garrus	Unlocked Garrus alternate appearance
+b	200	Crew: Garrus	Garrus is dead
+b	212	Crew: Garrus	Garrus is selectable
+b	26	Crew: Garrus	Garrus is in Squad
+b	224	Crew: Garrus	Garrus is specialized
+i	318	Crew: Garrus	Garrus appearance (0 = Default, 1 = Alternate, 2 = DLC)
+b	42	Crew: Grunt	Grunt in party
+b	189	Crew: Grunt	Grunt is loyal
+b	6256	Crew: Grunt	Unlocked Grunt alternate appearance
+b	204	Crew: Grunt	Grunt is dead
+b	216	Crew: Grunt	Grunt is selectable
+b	30	Crew: Grunt	Grunt is in Squad
+b	228	Crew: Grunt	Grunt is specialized
+i	322	Crew: Grunt	Grunt appearance (0 = Default, 1 = Alternate, 2 = DLC)
+b	35	Crew: Jack	Jack in party
+b	179	Crew: Jack	Jack is loyal
+b	6249	Crew: Jack	Unlocked Jack alternate appearance
+b	197	Crew: Jack	Jack is dead
+b	209	Crew: Jack	Jack is selectable
+b	23	Crew: Jack	Jack is in Squad
+b	221	Crew: Jack	Jack is specialized
+i	314	Crew: Jack	Jack appearance (0 = Default, 1 = Alternate, 2 = DLC)
+b	34	Crew: Jacob	Jacob in party
+b	178	Crew: Jacob	Jacob is loyal
+b	6248	Crew: Jacob	Unlocked Jacob alternate appearance
+b	196	Crew: Jacob	Jacob is dead
+b	208	Crew: Jacob	Jacob is selectable
+b	22	Crew: Jacob	Jacob is in Squad
+b	220	Crew: Jacob	Jacob is specialized
+i	313	Crew: Jacob	Jacob appearance (0 = Default, 1 = Alternate)
+b	37	Crew: Kasumi	Kasumi in party
+b	182	Crew: Kasumi	Kasumi is loyal
+b	6251	Crew: Kasumi	Unlocked Kasumi alternate appearance
+b	199	Crew: Kasumi	Kasumi is dead
+b	211	Crew: Kasumi	Kasumi is selectable
+b	25	Crew: Kasumi	Kasumi is in Squad
+b	223	Crew: Kasumi	Kasumi is specialized
+i	317	Crew: Kasumi	Kasumi appearance (0 = Default, 1 = Alternate)
+b	36	Crew: Legion	Legion in party
+b	180	Crew: Legion	Legion is loyal
+b	6250	Crew: Legion	Unlocked Legion alternate appearance
+b	198	Crew: Legion	Legion is dead
+b	210	Crew: Legion	Legion is selectable
+b	24	Crew: Legion	Legion is in Squad
+b	222	Crew: Legion	Legion is specialized
+i	315	Crew: Legion	Legion appearance (0 = Default, 1 = Alternate)
+b	33	Crew: Miranda	Miranda in party
+b	177	Crew: Miranda	Miranda is loyal
+b	6247	Crew: Miranda	Unlocked Miranda alternate appearance
+b	195	Crew: Miranda	Miranda is dead
+b	207	Crew: Miranda	Miranda is selectable
+b	21	Crew: Miranda	Miranda is in Squad
+b	219	Crew: Miranda	Miranda is specialized
+i	312	Crew: Miranda	Miranda appearance (0 = Default, 1 = Alternate, 2 = DLC)
+b	41	Crew: Mordin	Mordin in party
+b	188	Crew: Mordin	Mordin is loyal
+b	6255	Crew: Mordin	Unlocked Mordin alternate appearance
+b	203	Crew: Mordin	Mordin is dead
+b	215	Crew: Mordin	Mordin is selectable
+b	29	Crew: Mordin	Mordin is in Squad
+b	227	Crew: Mordin	Mordin is specialized
+i	321	Crew: Mordin	Mordin appearance (0 = Default, 1 = Alternate)
+b	43	Crew: Samara	Samara in party
+b	191	Crew: Samara	Samara is loyal
+b	6257	Crew: Samara	Unlocked Samara alternate appearance
+b	205	Crew: Samara	Samara is dead
+b	217	Crew: Samara	Samara is selectable
+b	31	Crew: Samara	Samara is in Squad
+b	229	Crew: Samara	Samara is specialized
+i	323	Crew: Samara	Samara appearance (0 = Default, 1 = Alternate)
+b	40	Crew: Tali	Tali in party
+b	186	Crew: Tali	Tali is loyal
+b	6254	Crew: Tali	Unlocked Tali alternate appearance
+b	202	Crew: Tali	Tali is dead
+b	214	Crew: Tali	Tali is selectable
+b	28	Crew: Tali	Tali is in Squad
+b	226	Crew: Tali	Tali is specialized
+i	320	Crew: Tali	Tali appearance (0 = Default, 1 = Alternate, 2 = DLC)
+b	39	Crew: Thane	Thane in party
+b	185	Crew: Thane	Thane is loyal
+b	6253	Crew: Thane	Unlocked Thane alternate appearance
+b	201	Crew: Thane	Thane is dead
+b	213	Crew: Thane	Thane is selectable
+b	27	Crew: Thane	Thane is in Squad
+b	225	Crew: Thane	Thane is specialized
+i	319	Crew: Thane	Thane appearance (0 = Default, 1 = Alternate, 2 = DLC)
+b	44	Crew: Zaeed	Zaeed in party
+b	192	Crew: Zaeed	Zaeed is loyal
+b	6258	Crew: Zaeed	Unlocked Zaeed alternate appearance
+b	206	Crew: Zaeed	Zaeed is dead
+b	218	Crew: Zaeed	Zaeed is selectable
+b	32	Crew: Zaeed	Zaeed is in Squad
+b	230	Crew: Zaeed	Zaeed is specialized
+i	324	Crew: Zaeed	Zaeed appearance (0 = Default, 1 = Alternate)
+b	3515	Crew: Crew	Mess Sgt. Rupert Gardner is dead
+b	3629	Crew: Crew	Kelly Chambers is dead
+b	3631	Crew: Crew	Kenneth Donnelly is dead
+b	3632	Crew: Crew	Gabriella Daniels is dead
+b	3630	Crew: Crew	Dr. Karin Chakwas is dead
+b	3351	Crew: Crew	Crew survived when escorted
+b	3349	Crew: Crew	Crew died when escorted
+i	23	Crew: Crew	Number of missions after crew abducted (1-3 = half dead / 4 = all dead. Change this BEFORE Omega 4 Relay)
+i	166	Crew: Crew	Number of missions after crew abducted (1-3 = half dead / 4 = all dead. Change this AFTER Omega 4 Relay)
+b	3423	Romance: Garrus	[Flirt] Garrus
+b	5207	Romance: Garrus	[Romanced] Had sex with Garrus
+b	6036	Romance: Garrus	[Romanced] No sex with Garrus
+b	3660	Romance: Garrus	[Rejected] Garrus
+i	270	Romance: Garrus	Garrus progress (1-4 = friends, 5 = romance, 6 = cancelled romance)
+b	5208	Romance: Jack	[Romanced] Had sex with Jack
+b	6035	Romance: Jack	[Romanced] No sex with Jack
+b	3270	Romance: Jack	[Rejected] Jack
+i	213	Romance: Jack	Jack progress (1-4 = friends, 5 = romance, 6 = cancelled romance)
+b	3892	Romance: Jacob	[Romanced] Had sex with Jacob
+b	3887	Romance: Jacob	[Romanced] No sex with Jacob
+b	3472	Romance: Jacob	[Rejected] Jacob
+i	267	Romance: Jacob	Jacob progress (1-4 = friends, 5 = romance, 6 = cancelled romance)
+b	3487	Romance: Miranda	[Flirt] Miranda
+b	5209	Romance: Miranda	[Romanced] Had sex with Miranda
+b	6034	Romance: Miranda	[Romanced] No sex with Miranda
+b	3304	Romance: Miranda	[Rejected] Miranda
+i	266	Romance: Miranda	Miranda progress (1-4 = friends, 5 = romance, 6 = cancelled romance)
+b	5751	Romance: Samara	Encouraged romance
+i	275	Romance: Samara	Samara progress (1-4 = friends, 5 = romance, 6 = cancelled romance)
+b	3926	Romance: Tali	[Romanced] Had sex with Tali
+b	6033	Romance: Tali	[Romanced] No sex with Tali
+b	3307	Romance: Tali	[Rejected] Tali
+i	272	Romance: Tali	Tali progress (1-4 = friends, 5 = romance, 6 = cancelled romance)
+b	5206	Romance: Thane	[Romanced] Had sex with Thane
+b	6037	Romance: Thane	[Romanced] No sex with Thane
+b	3310	Romance: Thane	[Rejected] Thane
+i	271	Romance: Thane	Thane progress (1-4 = friends, 5 = romance, 6 = cancelled romance)
+b	6929	Romance: Liara	Discussed relationship on Hagalaz
+b	6923	Romance: Liara	[Romanced] Kissed Liara
+b	6931	Romance: Liara	[Romanced] Date in the Normandy
+b	6927	Romance: Liara	[Romanced] Considered in relationship with Liara
+b	7333	Romance: Liara	[Romanced] Had sex with Liara
+b	6924	Romance: Liara	[Rejected] Be friend with Liara
+b	6999	Romance: Liara	[Rejected] Friend date in the Normandy
+b	6941	Romance: Liara	Recalls Normandy tour (broken ?)
+b	3817	Romance: Kelly Chambers	Had dinner
+b	5083	Romance: Kelly Chambers	Feeds the fishes
+b	6286	Romance: Kelly Chambers	Invited Kelly to cabin
+b	6287	Romance: Kelly Chambers	Danced for Shepard
+i	198	Romance: Kelly Chambers	Kelly flirt count
+i	197	Romance: Kelly Chambers	Kelly progress (0-1 = friend, 2 = flirty)
+b	3872	Missions: Normandy	Listened to Mordin singing
+b	2375	Missions: Freedom's Progress	Sent Veetor'Nara to Cerberus
+b	4424	Missions: Citadel	Punched Khalisa Bint Sinan al-Jilani
+b	2168	Missions: Citadel	[The Council] Declined reinstatement as Spectre
+b	2169	Missions: Citadel	[The Council] Accepted reinstatement as Spectre
+b	75	Missions: Haestrom	[Dossier: Tali] Kal'Reegar dead
+b	3117	Missions: Illium	[Blue Rose] Encouraged relationship
+b	3213	Missions: Illium	[Matriarch Aethyta] Met her
+b	3628	Missions: Illium	[Matriarch Aethyta] Talked about Conrad
+b	3131	Missions: Illium	[Conrad Verner] Talked to him
+b	3139	Missions: Illium	[Conrad Verner] Happy Conrad
+b	3140	Missions: Illium	[Conrad Verner] Sad Conrad
+b	3132	Missions: Illium	[Conrad Verner] Shot him in the foot
+b	1256	Missions: Reaper IFF	IFF acquired from Collector ship
+b	1247	Missions: Reaper IFF	Legion activated
+b	1248	Missions: Reaper IFF	Legion sent to Cerberus
+b	2882	Missions: Collector Base	[Infiltration] Garrus hacked the vents
+b	2878	Missions: Collector Base	[Infiltration] Jacob hacked the vents
+b	2881	Missions: Collector Base	[Infiltration] Kasumi hacked the vents (Best)
+b	2880	Missions: Collector Base	[Infiltration] Legion hacked the vents (Best)
+b	2885	Missions: Collector Base	[Infiltration] Mordin hacked the vents
+b	2884	Missions: Collector Base	[Infiltration] Tali hacked the vents (Best)
+b	2883	Missions: Collector Base	[Infiltration] Thane hacked the vents
+b	2870	Missions: Collector Base	[Infiltration] Garrus is 2nd squad leader (Best)
+b	2874	Missions: Collector Base	[Infiltration] Grunt is 2nd squad leader
+b	2867	Missions: Collector Base	[Infiltration] Jack is 2nd squad leader
+b	2866	Missions: Collector Base	[Infiltration] Jacob is 2nd squad leader (Best)
+b	2869	Missions: Collector Base	[Infiltration] Kasumi is 2nd squad leader
+b	2868	Missions: Collector Base	[Infiltration] Legion is 2nd squad leader
+b	2865	Missions: Collector Base	[Infiltration] Miranda is 2nd squad leader (Best)
+b	2873	Missions: Collector Base	[Infiltration] Mordin is 2nd squad leader
+b	3317	Missions: Collector Base	[Infiltration] Morinth is 2nd squad leader
+b	2875	Missions: Collector Base	[Infiltration] Samara is 2nd squad leader
+b	2827	Missions: Collector Base	[Infiltration] Tali is 2nd squad leader
+b	2871	Missions: Collector Base	[Infiltration] Thane is 2nd squad leader
+b	2876	Missions: Collector Base	[Infiltration] Zaeed is 2nd squad leader
+b	3710	Missions: Collector Base	[Factory] Chose no crew escort
+b	2953	Missions: Collector Base	[Factory] Garrus is crew escort
+b	2957	Missions: Collector Base	[Factory] Grunt is crew escort
+b	2950	Missions: Collector Base	[Factory] Jack is crew escort
+b	2949	Missions: Collector Base	[Factory] Jacob is crew escort
+b	2952	Missions: Collector Base	[Factory] Kasumi is crew escort
+b	2951	Missions: Collector Base	[Factory] Legion is crew escort
+b	2948	Missions: Collector Base	[Factory] Miranda is crew escort
+b	2956	Missions: Collector Base	[Factory] Mordin is crew escort
+b	3318	Missions: Collector Base	[Factory] Morinth is crew escort
+b	2958	Missions: Collector Base	[Factory] Samara is crew escort
+b	2955	Missions: Collector Base	[Factory] Tali is crew escort
+b	2954	Missions: Collector Base	[Factory] Thane is crew escort
+b	2959	Missions: Collector Base	[Factory] Zaeed is crew escort
+b	2851	Missions: Collector Base	[The Long Walk] Jack is biotic escort (Best)
+b	2850	Missions: Collector Base	[The Long Walk] Jacob is biotic escort
+b	2849	Missions: Collector Base	[The Long Walk] Miranda is biotic escort
+b	3319	Missions: Collector Base	[The Long Walk] Morinth is biotic escort (Best)
+b	2859	Missions: Collector Base	[The Long Walk] Samara is biotic escort (Best)
+b	2855	Missions: Collector Base	[The Long Walk] Thane is biotic escort
+b	2842	Missions: Collector Base	[The Long Walk] Garrus is 2nd squad leader (Best)
+b	2846	Missions: Collector Base	[The Long Walk] Grunt is 2nd squad leader
+b	2838	Missions: Collector Base	[The Long Walk] Jack is 2nd squad leader
+b	2837	Missions: Collector Base	[The Long Walk] Jacob is 2nd squad leader (Best)
+b	2841	Missions: Collector Base	[The Long Walk] Kasumi is 2nd squad leader
+b	2840	Missions: Collector Base	[The Long Walk] Legion is 2nd squad leader
+b	2836	Missions: Collector Base	[The Long Walk] Miranda is 2nd squad leader (Best)
+b	2845	Missions: Collector Base	[The Long Walk] Mordin is 2nd squad leader
+b	3320	Missions: Collector Base	[The Long Walk] Morinth is 2nd squad leader
+b	2847	Missions: Collector Base	[The Long Walk] Samara is 2nd squad leader
+b	2844	Missions: Collector Base	[The Long Walk] Tali is 2nd squad leader
+b	2843	Missions: Collector Base	[The Long Walk] Thane is 2nd squad leader
+b	2848	Missions: Collector Base	[The Long Walk] Zaeed is 2nd squad leader
+b	1831	Missions: Collector Base	[Final] Collector Base destroyed
+b	1832	Missions: Collector Base	[Final] Collector Base saved
+b	6815	Missions: DLCs	[Lair of the Shadow Broker] Mission completed
+b	7151	Missions: DLCs	[Lair of the Shadow Broker] Had drone intro conversation
+b	6512	Missions: DLCs	[Project Overlord] Mission completed
+b	6561	Missions: DLCs	[Project Overlord] David sent to Grissom Academy
+b	6562	Missions: DLCs	[Project Overlord] David given to Cerberus
+b	7451	Missions: DLCs	[Arrival] Mission completed
+b	7500	Missions: DLCs	[Arrival] Warned Batarians
+b	1501	Loyalty missions: Garrus	[Eye for an Eye] Mission completed
+b	1505	Loyalty missions: Grunt	[Rite of Passage] Mission completed
+b	126	Loyalty missions: Grunt	[Rite of Passage] Thresher Maw killed
+b	127	Loyalty missions: Grunt	[Rite of Passage] Thresher Maw survived
+b	1498	Loyalty missions: Jack	[Subject Zero] Mission completed
+b	281	Loyalty missions: Jack	[Subject Zero] Survivor killed
+b	282	Loyalty missions: Jack	[Subject Zero] Survivor spared
+b	1578	Loyalty missions: Jack	[Conflict with Miranda] Sided with Jack
+b	1577	Loyalty missions: Jack	[Conflict with Miranda] Sided with Miranda
+b	1579	Loyalty missions: Jack	[Conflict with Miranda] Kept the peace
+b	1497	Loyalty missions: Jacob	[The Gift of Greatness] Mission completed
+b	360	Loyalty missions: Jacob	[The Gift of Greatness] Dad marooned
+b	361	Loyalty missions: Jacob	[The Gift of Greatness] Dad arrested
+b	362	Loyalty missions: Jacob	[The Gift of Greatness] Dad suicide
+b	1500	Loyalty missions: Kasumi	[Stealing Memory] Mission completed
+b	6637	Loyalty missions: Kasumi	[Stealing Memory] Destroyed graybox
+b	6638	Loyalty missions: Kasumi	[Stealing Memory] Kept graybox
+b	1499	Loyalty missions: Legion	[A House Divided] Mission completed
+b	757	Loyalty missions: Legion	[A House Divided] Heretics destroyed
+b	759	Loyalty missions: Legion	[A House Divided] Heretics rewritten
+b	1583	Loyalty missions: Legion	[Conflict with Tali] Sided with Legion
+b	1584	Loyalty missions: Legion	[Conflict with Tali] Sided with Tali
+b	1585	Loyalty missions: Legion	[Conflict with Tali] Kept the peace
+b	1496	Loyalty missions: Miranda	[The Prodigal] Mission completed
+b	1288	Loyalty missions: Miranda	[The Prodigal] Saved Oriana
+b	1791	Loyalty missions: Miranda	[The Prodigal] Miranda talked Oriana
+b	1577	Loyalty missions: Miranda	[Conflict with Jack] Sided with Miranda
+b	1578	Loyalty missions: Miranda	[Conflict with Jack] Sided with Jack
+b	1579	Loyalty missions: Miranda	[Conflict with Jack] Kept the peace
+b	1504	Loyalty missions: Mordin	[Old Blood] Mission completed
+b	2050	Loyalty missions: Mordin	[Old Blood] Maelon killed
+b	2678	Loyalty missions: Mordin	[Old Blood] Maelon saved
+b	2676	Loyalty missions: Mordin	[Old Blood] Kept Maelon's data
+b	2677	Loyalty missions: Mordin	[Old Blood] Destroyed Maelon's data
+b	1506	Loyalty missions: Samara	[The Ardat-Yakshi] Mission completed
+b	3559	Loyalty missions: Samara	[The Ardat-Yakshi] Failed mission
+b	1664	Loyalty missions: Samara	[The Ardat-Yakshi] Killed Samara to recruit Morinth
+b	1502	Loyalty missions: Thane	[Sins of the Father] Mission completed
+b	3426	Loyalty missions: Thane	[Sins of the Father] Thane reunited with Kolyat
+b	3313	Loyalty missions: Thane	[Sins of the Father] Failed mission
+b	1503	Loyalty missions: Tali	[Treason] Mission completed
+b	668	Loyalty missions: Tali	[Treason] Legion was part of Tali's loyalty mission
+b	2933	Loyalty missions: Tali	[Treason] Revealed father's war crimes (unloyal)
+b	2934	Loyalty missions: Tali	[Treason] Tali exiled
+b	2935	Loyalty missions: Tali	[Treason] Tali found not guilty (Paragon)
+b	2936	Loyalty missions: Tali	[Treason] Tali cleared of charges (Renegade)
+b	1584	Loyalty missions: Tali	[Conflict with Legion] Sided with Tali
+b	1583	Loyalty missions: Tali	[Conflict with Legion] Sided with Legion
+b	1585	Loyalty missions: Tali	[Conflict with Legion] Kept the peace
+b	1507	Loyalty missions: Zaeed	[The Price of Revenge] Mission completed
+b	6423	Loyalty missions: Zaeed	[The Price of Revenge] Saved the trapped workers and Vido got away
+b	6261	Loyalty missions: Zaeed	[The Price of Revenge] Zaeed died
+b	4993	Research upgrades: Weapons	ML-77 Missile Launcher discovered
+b	5137	Research upgrades: Weapons	ML-77 Missile Launcher unlocked
+b	4994	Research upgrades: Weapons	M-622 Avalanche discovered
+b	5138	Research upgrades: Weapons	M-622 Avalanche unlocked
+b	5291	Research upgrades: Weapons	M-920 Cain discovered
+b	5290	Research upgrades: Weapons	M-920 Cain unlocked
+i	147	Research upgrades: Weapons	[Advanced Training] Assault Rifle
+i	150	Research upgrades: Weapons	[Advanced Training] Shotgun
+i	148	Research upgrades: Weapons	[Advanced Training] Sniper Rifle
+i	438	Research upgrades: Weapons	[Special Weapon] M-76 Revenant (set 2 to unlock)
+i	439	Research upgrades: Weapons	[Special Weapon] M-300 Claymore (set 2 to unlock)
+i	440	Research upgrades: Weapons	[Special Weapon] M-98 Widow (set 2 to unlock)
+i	149	Research upgrades: Weapons	[Pistol] M-6 Carniflex
+i	854	Research upgrades: Weapons	[Pistol] M-5 Phalanx
+i	124	Research upgrades: Weapons	[SMG] M-9 Tempest
+i	725	Research upgrades: Weapons	[SMG] M-12 Locust
+i	152	Research upgrades: Weapons	[Assault Rifle] M-15 Vindicator
+i	852	Research upgrades: Weapons	[Assault Rifle] M-96 Mattock
+i	495	Research upgrades: Weapons	[Assault Rifle] Geth Pulse Rifle
+i	850	Research upgrades: Weapons	[Assault Rifle] Collector Assault Rifle
+i	88	Research upgrades: Weapons	[Shotgun] M-27 Scimitar
+i	847	Research upgrades: Weapons	[Shotgun] M-22 Eviscerator
+i	853	Research upgrades: Weapons	[Shotgun] Geth Plasma Shotgun
+i	177	Research upgrades: Weapons	[Sniper Rifle] M-97 Viper
+i	855	Research upgrades: Weapons	[Sniper Rifle] M-29 Incisor
+i	123	Research upgrades: Weapons	[Heavy Weapon] Collector Particle Beam
+i	151	Research upgrades: Weapons	[Heavy Weapon] M-100 Grenade Launcher
+i	460	Research upgrades: Weapons	[Heavy Weapon] ML-77 Missile Launcher
+i	663	Research upgrades: Weapons	[Heavy Weapon] M-451 Firestorm
+i	461	Research upgrades: Weapons	[Heavy Weapon] M-622 Avalanch
+i	496	Research upgrades: Weapons	[Heavy Weapon] M-920 Cain
+i	851	Research upgrades: Weapons	[Heavy Weapon] M-490 Blackstorm
+b	7596	Research upgrades: Armors	[Parts] Kestrel Helmet
+b	7597	Research upgrades: Armors	[Parts] Kestrel Chest
+b	7598	Research upgrades: Armors	[Parts] Kestrel Shoulders
+b	7599	Research upgrades: Armors	[Parts] Kestrel Arms
+b	7600	Research upgrades: Armors	[Parts] Kestrel Legs
+b	4433	Research upgrades: Armors	[Helmet] Kuwashii Visor
+b	4450	Research upgrades: Armors	[Helmet] Death Mask
+b	7591	Research upgrades: Armors	[Helmet] Capacitor
+b	7593	Research upgrades: Armors	[Helmet] Sentry Interface
+b	7594	Research upgrades: Armors	[Helmet] Umbra Visor
+b	7595	Research upgrades: Armors	[Helmet] Archon Visor
+b	4271	Research upgrades: Armors	[Chest] Aegis Vest
+b	4438	Research upgrades: Armors	[Chest] Capacitor Chestplate
+b	4453	Research upgrades: Armors	[Chest] Shield Harness
+b	4423	Research upgrades: Armors	[Shoulders] Amplifier Plates
+b	4451	Research upgrades: Armors	[Shoulders] Asymmetric Defense Layer
+b	4437	Research upgrades: Armors	[Shoulders] Strength Boost Pads
+b	4449	Research upgrades: Armors	[Arms] Heavy Damping Gauntlets
+b	4269	Research upgrades: Armors	[Arms] Off-Hand Ammo Pack
+b	4435	Research upgrades: Armors	[Arms] Stabilization Gauntlets
+b	4436	Research upgrades: Armors	[Legs] Stimulator Conduits
+b	4270	Research upgrades: Armors	[Legs] Life Support Webbing
+b	4434	Research upgrades: Armors	[Legs] Ordnance Packs
+b	7590	Research upgrades: Armors	[Full Body] Terminus armor
+b	7592	Research upgrades: Armors	[Full Body] Blood Dragon armor
+b	7562	Research upgrades: Armors	[Full Body] Cerberus armor discovered
+b	7585	Research upgrades: Armors	[Full Body] Cerberus armor unlocked
+b	7567	Research upgrades: Armors	[Full Body] Inferno armor discovered
+b	7587	Research upgrades: Armors	[Full Body] Inferno armor unlocked
+b	7578	Research upgrades: Armors	[Full Body] Collector armor discovered
+b	7588	Research upgrades: Armors	[Full Body] Collector armor unlocked
+i	848	Research upgrades: Armors	[Full Body] Cerberus armor
+i	846	Research upgrades: Armors	[Full Body] Inferno armor
+i	849	Research upgrades: Armors	[Full Body] Collector armor
+b	6038	Research upgrades: Assault Rifle	Damage discovered
+b	6051	Research upgrades: Assault Rifle	Damage unlocked
+b	4771	Research upgrades: Assault Rifle	Accuracy discovered
+b	5134	Research upgrades: Assault Rifle	Accuracy unlocked
+b	4770	Research upgrades: Assault Rifle	Penetration discovered
+b	5133	Research upgrades: Assault Rifle	Penetration unlocked
+i	68	Research upgrades: Assault Rifle	Damage upgrades
+i	451	Research upgrades: Assault Rifle	Accuracy upgrade
+i	453	Research upgrades: Assault Rifle	Penetration upgrade
+b	6040	Research upgrades: SMG	Damage discovered
+b	6052	Research upgrades: SMG	Damage unlocked
+b	4988	Research upgrades: SMG	Shield Piercing discovered
+b	5135	Research upgrades: SMG	Shield Piercing unlocked
+b	4990	Research upgrades: SMG	Extra Rounds discovered
+b	5136	Research upgrades: SMG	Extra Rounds unlocked
+i	426	Research upgrades: SMG	Damage upgrades
+i	456	Research upgrades: SMG	Shield Piercing upgrade
+i	457	Research upgrades: SMG	Extra Rounds upgrade
+b	6044	Research upgrades: Heavy Pistol	Damage discovered
+b	6056	Research upgrades: Heavy Pistol	Damage unlocked
+b	4995	Research upgrades: Heavy Pistol	Penetration discovered
+b	5139	Research upgrades: Heavy Pistol	Penetration unlocked
+b	4996	Research upgrades: Heavy Pistol	Critical discovered
+b	5140	Research upgrades: Heavy Pistol	Critical unlocked
+i	69	Research upgrades: Heavy Pistol	Damage upgrades
+i	462	Research upgrades: Heavy Pistol	Penetration upgrade
+i	463	Research upgrades: Heavy Pistol	Critical upgrade
+b	6049	Research upgrades: Shotgun	Damage discovered
+b	6061	Research upgrades: Shotgun	Damage unlocked
+b	5001	Research upgrades: Shotgun	Shield Piercing discovered
+b	5152	Research upgrades: Shotgun	Shield Piercing unlocked
+b	5002	Research upgrades: Shotgun	Extra Rounds discovered
+b	5153	Research upgrades: Shotgun	Extra Rounds unlocked
+i	71	Research upgrades: Shotgun	Damage upgrades
+i	470	Research upgrades: Shotgun	Shield Piercing upgrade
+i	471	Research upgrades: Shotgun	Extra Rounds upgrade
+b	6050	Research upgrades: Sniper Rifle	Damage discovered
+b	6062	Research upgrades: Sniper Rifle	Damage unlocked
+b	5003	Research upgrades: Sniper Rifle	Penetration discovered
+b	5148	Research upgrades: Sniper Rifle	Penetration unlocked
+b	5004	Research upgrades: Sniper Rifle	Headshot Damage discovered
+b	5149	Research upgrades: Sniper Rifle	Headshot Damage unlocked
+i	72	Research upgrades: Sniper Rifle	Damage upgrades
+i	474	Research upgrades: Sniper Rifle	Penetration upgrade
+i	475	Research upgrades: Sniper Rifle	Headshot Damage upgrade
+b	6043	Research upgrades: Heavy Weapon	Ammo discovered
+b	6055	Research upgrades: Heavy Weapon	Ammo unlocked
+i	428	Research upgrades: Heavy Weapon	Ammo upgrades
+b	6046	Research upgrades: Medi-Gel	Capacity discovered
+b	6058	Research upgrades: Medi-Gel	Capacity unlocked
+b	4997	Research upgrades: Medi-Gel	Trauma Module discovered
+b	5141	Research upgrades: Medi-Gel	Trauma Module unlocked
+b	4998	Research upgrades: Medi-Gel	Emergency Shielding discovered
+b	5142	Research upgrades: Medi-Gel	Emergency Shielding unlocked
+i	67	Research upgrades: Medi-Gel	Capacity upgrades
+i	464	Research upgrades: Medi-Gel	Trauma Module upgrade
+i	465	Research upgrades: Medi-Gel	Emergency Shielding upgrade
+b	6048	Research upgrades: Shield	Damage Protection discovered
+b	6060	Research upgrades: Shield	Damage Protection unlocked
+b	5008	Research upgrades: Shield	Hard Shields discovered
+b	5147	Research upgrades: Shield	Hard Shields unlocked
+b	5007	Research upgrades: Shield	Redundant Field Generator discovered
+b	5146	Research upgrades: Shield	Redundant Field Generator unlocked
+i	434	Research upgrades: Shield	Damage Protection upgrades
+i	469	Research upgrades: Shield	Hard Shields upgrade
+i	468	Research upgrades: Shield	Redundant Field Generator upgrade
+i	448	Research upgrades: Shield	Calcified Endoskeleton (can't be normally obtained, set 1 to unlock)
+i	433	Research upgrades: Shield	Quarian Shield Capacitor (can't be normally obtained, set 1 to unlock)
+b	6041	Research upgrades: Biotic	Damage discovered
+b	6053	Research upgrades: Biotic	Damage unlocked
+b	4992	Research upgrades: Biotic	Cooldown discovered
+b	5155	Research upgrades: Biotic	Cooldown unlocked
+b	4991	Research upgrades: Biotic	Duration discovered
+b	5154	Research upgrades: Biotic	Duration unlocked
+i	103	Research upgrades: Biotic	Damage upgrades
+i	459	Research upgrades: Biotic	Cooldown upgrade
+i	458	Research upgrades: Biotic	Duration upgrade
+b	6039	Research upgrades: Tech	Damage discovered
+b	6063	Research upgrades: Tech	Damage unlocked
+b	5006	Research upgrades: Tech	Cooldowns discovered
+b	5151	Research upgrades: Tech	Cooldowns unlocked
+b	5005	Research upgrades: Tech	Duration discovered
+b	5150	Research upgrades: Tech	Duration unlocked
+i	75	Research upgrades: Tech	Damage upgrades
+i	473	Research upgrades: Tech	Cooldowns upgrade
+i	472	Research upgrades: Tech	Duration upgrade
+b	5459	Research upgrades: Power	Advanced Training discovered
+b	5458	Research upgrades: Power	Retrain discovered
+b	6141	Research upgrades: Player	Med-Bay upgrade discovered (Dermal Regeneration)
+b	6144	Research upgrades: Player	Med-Bay upgrade unlocked (Dermal Regeneration)
+b	6047	Research upgrades: Player	Heavy Skin Weave discovered
+b	6059	Research upgrades: Player	Heavy Skin Weave unlocked
+b	4999	Research upgrades: Player	Heavy Bone Weave discovered
+b	5144	Research upgrades: Player	Heavy Bone Weave unlocked
+b	5000	Research upgrades: Player	Heavy Muscle Weave discovered
+b	5145	Research upgrades: Player	Heavy Muscle Weave unlocked
+i	652	Research upgrades: Player	Med-Bay upgrade (Dermal Regeneration) purchased
+i	73	Research upgrades: Player	Heavy Skin Weave upgrades
+i	466	Research upgrades: Player	Heavy Bone Weave upgrade
+i	467	Research upgrades: Player	Heavy Muscle Weave upgrade
+b	6042	Research upgrades: Squadmates	[Grunt] Krogan Vitality discovered
+b	6054	Research upgrades: Squadmates	[Grunt] Krogan Vitality unlocked
+b	1190	Research upgrades: Squadmates	[Grunt] Krogan Shotgun discovered
+b	5638	Research upgrades: Squadmates	[Grunt] Krogan Shotgun unlocked
+b	1181	Research upgrades: Squadmates	[Jack] Subject Zero Biotic Boost discovered
+b	5639	Research upgrades: Squadmates	[Jack] Subject Zero Biotic Boost unlocked
+b	6045	Research upgrades: Squadmates	[Legion] Geth Shield Strength discovered
+b	6057	Research upgrades: Squadmates	[Legion] Geth Shield Strength unlocked
+b	1184	Research upgrades: Squadmates	[Legion] Legion's Sniper Rifle discovered
+b	5640	Research upgrades: Squadmates	[Legion] Legion's Sniper Rifle unlocked
+b	4480	Research upgrades: Squadmates	[Mordin] Mordin's Omni-tool discovered
+b	5641	Research upgrades: Squadmates	[Mordin] Mordin's Omni-tool unlocked
+i	101	Research upgrades: Squadmates	[Grunt] Krogan Vitality upgrades
+i	427	Research upgrades: Squadmates	[Grunt] Krogan Shotgun upgrades
+i	429	Research upgrades: Squadmates	[Jack] Subject Zero Biotic Boost upgrade
+i	121	Research upgrades: Squadmates	[Legion] Geth Shield Strength upgrades
+i	116	Research upgrades: Squadmates	[Legion] Legion's Sniper Rifle upgrades
+i	432	Research upgrades: Squadmates	[Mordin] Mordin's Omni-tool upgrade
+b	1183	Research upgrades: Ship	Heavy Ship Armor discovered
+b	5642	Research upgrades: Ship	Heavy Ship Armor unlocked
+b	237	Research upgrades: Ship	Heavy Ship Armor applied
+b	1192	Research upgrades: Ship	Multicore Shielding discovered
+b	5648	Research upgrades: Ship	Multicore Shielding unlocked
+b	236	Research upgrades: Ship	Multicore Shielding applied
+b	1182	Research upgrades: Ship	Thanix Cannon discovered
+b	5645	Research upgrades: Ship	Thanix Cannon unlocked
+b	238	Research upgrades: Ship	Thanix Cannon applied
+b	1186	Research upgrades: Ship	Extended Fuel Cells discovered
+b	5644	Research upgrades: Ship	Extended Fuel Cells unlocked
+b	1195	Research upgrades: Ship	Modular Probe Bay discovered
+b	5646	Research upgrades: Ship	Modular Probe Bay unlocked
+b	1188	Research upgrades: Ship	Advanced Mineral Scanner discovered
+b	5647	Research upgrades: Ship	Advanced Mineral Scanner unlocked
+i	114	Research upgrades: Ship	Heavy Ship Armor purchased
+i	110	Research upgrades: Ship	Multicore Shielding purchased
+i	117	Research upgrades: Ship	Thanix Cannon purchased
+i	435	Research upgrades: Ship	Extended Fuel Cells purchased
+i	111	Research upgrades: Ship	Modular Probe Bay purchased
+i	436	Research upgrades: Ship	Advanced Mineral Scanner purchased
+b	5794	Rewards	Prologue: Awakening
+b	5795	Rewards	Freedom's Progress
+b	5796	Rewards	Priority: Horizon
+b	5797	Rewards	Disabled Collector Vessel
+b	5816	Rewards	Reaper IFF
+b	5798	Rewards	Stop the Collectors: Omega 4 Relay
+b	5799	Rewards	Collector Base: Tartarus Debris Field
+b	5800	Rewards	Collector Base: Infiltration
+b	5801	Rewards	Collector Base: The Long Walk
+b	5812	Rewards	Dossier: The Warlord
+b	5813	Rewards	Dossier: Archangel
+b	5814	Rewards	Dossier: The Professor
+b	5815	Rewards	Dossier: The Convict
+b	5817	Rewards	Dossier: Tali
+b	5818	Rewards	Dossier: The Assassin
+b	5819	Rewards	Dossier: The Justicar
+b	5802	Rewards	Jacob: The Gift of Greatness
+b	5803	Rewards	Legion: A House Divided
+b	5804	Rewards	Thane: Sins of the Father
+b	5805	Rewards	Jack: Subject Zero
+b	5806	Rewards	Grunt: Rite of Passage
+b	5807	Rewards	Mordin: Old Blood
+b	5808	Rewards	Samara: The Ardat-Yakshi
+b	5809	Rewards	Tali: Treason
+b	5810	Rewards	Miranda: The Prodigal
+b	5811	Rewards	Garrus: Eye for an Eye
+b	5823	Rewards	N7 Archeological Dig Site
+b	5824	Rewards	N7 MSV Strontium Mule
+b	5825	Rewards	N7 Blue Suns Base
+b	5826	Rewards	N7 Anomalous Weather Detected
+b	5827	Rewards	N7 Blood Pack Comm Relay
+b	5828	Rewards	N7 Wrecked Merchant Freighter
+b	5829	Rewards	N7 Blood Pack Base
+b	5830	Rewards	N7 Hahne-Kedar Facility
+b	5832	Rewards	N7 Abandoned Research Station
+b	5833	Rewards	N7 MSV Estevanico
+b	5834	Rewards	N7 Captured Mining Facility
+b	5835	Rewards	N7 Eclipse Smuggling Depot
+b	5836	Rewards	N7 Quarian Crash Site
+b	5837	Rewards	N7 Mining the Canyon
+b	5838	Rewards	N7 Imminent Ship Crash
+b	5839	Rewards	N7 Lost Operative
+b	5840	Rewards	N7 Endangered Research Station
+b	5841	Rewards	N7 Javelin Missles Launched
+b	5843	Rewards	N7 Abandoned Mine
+b	5820	Rewards	Project Firewalker: Volcano Station
+b	5821	Rewards	Project Firewalker: Prothean Site
+b	5822	Rewards	Project Firewalker: Survey Sites Located
+b	5842	Rewards	Project Firewalker: Rosalie Lost
+b	5831	Rewards	Project Firewalker: Geth Incursions
+b	5845	Rewards	Normandy: Special Ingredients
+b	5846	Rewards	Normandy: Serrice Ice Brandy
+b	5847	Rewards	Normandy: FBA Couplings
+b	5844	Rewards	Astrosmash
+b	5848	Rewards	Liara: Systems Hacking
+b	5849	Rewards	Liara: The Observer
+b	5850	Rewards	Blue Rose of Illium
+b	5851	Rewards	Conrad Verner
+b	5852	Rewards	Medical Scans
+b	5853	Rewards	Gianna Parasini
+b	5854	Rewards	Indentured Service
+b	5855	Rewards	Lost Locket Found
+b	5856	Rewards	Salarian Family Data
+b	5857	Rewards	Stolen Goods Found
+b	5858	Rewards	Packages for Ish
+b	5859	Rewards	omgoracle
+b	5860	Rewards	omgsun
+b	5861	Rewards	Batarian Bartender
+b	5862	Rewards	Aria: Datapad Recovered
+b	5863	Rewards	Helped Nassasna's workers
+b	5864	Rewards	Killing Pyjacks
+b	5865	Rewards	Combustion Manifold
+b	5866	Rewards	Krogan Sushi
+b	5867	Rewards	Crime in Progress
+b	5868	Rewards	Spoke to Khalisah
+b	5869	Rewards	False Positives/Found Forged ID
+b	5870	Rewards	Reported Elnora to Detective Anaya
+b	5871	Rewards	Smuggling Evidence
+b	5873	Rewards	Helped injured Batarian when recruiting Mordin
+b	5874	Rewards	pradaniel
+b	5875	Rewards	Missing Scout
+b	3321	Captains cabin	[Pet] Space Hamster
+b	3326	Captains cabin	[Model] Normandy SR1
+b	3328	Captains cabin	[Model] Destiny Ascension
+b	3329	Captains cabin	[Model] Sovereign
+b	3330	Captains cabin	[Model] Turian Cruiser
+b	3331	Captains cabin	[Model] Alliance Cruiser
+b	3332	Captains cabin	[Model] Flotilla Vessel
+b	3334	Captains cabin	[Model] UT-47 Kodiak Drop Shuttle
+b	3337	Captains cabin	[Model] Athabasca Class Freighter
+b	3338	Captains cabin	[Model] Geth Ship
+b	7200	Captains cabin	[Model] Shadow Broker Base
+b	6157	Captains cabin	[Normandy Crash] Shepard's helmet
+b	6206	Captains cabin	[Firewalker] Prothean relic
+b	3322	Captains cabin	[Fish] Illium Skald Fish
+b	3323	Captains cabin	[Fish] Thessian Sunfish
+b	3324	Captains cabin	[Fish] Prejek Paddle Fish
+b	5083	Captains cabin	[Fish] Kelly feeds the fishes
+i	485	Captains cabin	Illium Skald Fish state (0 = alive, 3 = dead)
+i	486	Captains cabin	Thessian Sunfish state (0 = alive, 3 = dead)
+i	487	Captains cabin	Prejek Paddle Fish state (0 = alive, 3 = dead)
+b	1533	Imported me1: Player	[Origin] Spacer
+b	1535	Imported me1: Player	[Origin] Colonist
+b	1534	Imported me1: Player	[Origin] Earthborn
+b	1537	Imported me1: Player	[Notoriety] Survivor
+b	1538	Imported me1: Player	[Notoriety] War Hero
+b	1539	Imported me1: Player	[Notoriety] Ruthless
+b	2659	Imported me1: Crew	[Garrus] in party
+b	3922	Imported me1: Crew	[Garrus] Paragon (C-Sec)
+b	3923	Imported me1: Crew	[Garrus] Renegade (Spectre)
+b	1531	Imported me1: Crew	[Tali] Gave Tali a copy of the data found in UNC: Geth Incursions
+b	3753	Imported me1: Crew	[Wrex] in party
+b	1926	Imported me1: Romance	No romance
+b	1528	Imported me1: Romance	Romanced Ashley
+b	1529	Imported me1: Romance	Romanced Kaidan
+b	1530	Imported me1: Romance	Romanced Liara
+b	5210	Imported me1: Citadel	[Harkin] Talked to him
+b	5382	Imported me1: Citadel	[Doctor Michel] Persuaded blackmailer
+b	5383	Imported me1: Citadel	[Doctor Michel] Killed blackmailer
+b	3733	Imported me1: Citadel	[Expose Saren] Released Fist
+b	3141	Imported me1: Citadel	[The Fan] Met Conrad Verner
+b	3142	Imported me1: Citadel	[The Fan] Charmed him
+b	3143	Imported me1: Citadel	[The Fan] Intimidated him
+b	3144	Imported me1: Citadel	[The Fan] Got him killed
+b	3145	Imported me1: Citadel	[The Fan] No conversation with Conrad
+b	3750	Imported me1: Citadel	[The Fourth Estate] Excused yourself or refused interview
+b	3716	Imported me1: Citadel	[The Fourth Estate] Punched Khalisa Bint Sinan al-Jilani
+b	5376	Imported me1: Citadel	[Asari Consort] Completed quest
+b	2152	Imported me1: Citadel	[Asari Consort] Received Trinket or used it
+b	5386	Imported me1: Citadel	[Scan the Keepers] Accepted quest
+b	5388	Imported me1: Citadel	[Scan the Keepers] Killed Chorban
+b	5389	Imported me1: Citadel	[Scan the Keepers] Scared off Chorban
+b	5369	Imported me1: Citadel	[Homecoming] Returned Nirali Bhatia's body
+b	5353	Imported me1: Citadel	[Old Friends (Earthborn)] Met Finch
+b	5355	Imported me1: Citadel	[Old Friends (Earthborn)] Killed Finch
+b	5348	Imported me1: Citadel	[I Remember Me (Colonist)] Talked Talitha down
+b	5349	Imported me1: Citadel	[I Remember Me (Colonist)] Bait and switch
+b	5352	Imported me1: Citadel	[Old, Unhappy, Far-Off Things (Spacer)] Spoke to Mom
+b	5372	Imported me1: Citadel	[Reporter's Request] Gave OSD information to Emily Wong
+b	3773	Imported me1: Citadel	Got Elkoss Combine license
+b	3046	Imported me1: Feros	[The Thorian] Zhu's Hope saved
+b	3197	Imported me1: Feros	[The Thorian] Shiala survived
+b	5363	Imported me1: Feros	[Outcome] Good Plus
+b	5364	Imported me1: Feros	[Outcome] Good
+b	5367	Imported me1: Feros	[Outcome] Renegade
+b	5366	Imported me1: Feros	[Outcome] Failed
+b	5374	Imported me1: Noveria	Gave evidence to Lorik Quin
+b	3149	Imported me1: Noveria	Gave evidence to Gianna Parasini
+b	3150	Imported me1: Noveria	Not betrayed Gianna Parasini
+b	5384	Imported me1: Noveria	Talked to Han Olar
+b	3151	Imported me1: Noveria	Rachni Queen alive
+b	1541	Imported me1: Virmire	Rescued Ashley
+b	1540	Imported me1: Virmire	Rescued Kaidan
+b	3752	Imported me1: Virmire	Wrex died
+b	1862	Imported me1: Virmire	Wrex killed by Ashley
+b	3390	Imported me1: Virmire	Kirrahe survived
+b	2278	Imported me1: Virmire	Killed Rana Thanoptis
+b	1554	Imported me1: End	Saved the council
+b	1553	Imported me1: End	Abandoned the council
+b	1555	Imported me1: End	Councilor Udina
+b	1556	Imported me1: End	Councilor Anderson
+b	2365	Imported me1: UNC	[Cerberus] Heard of Cerberus
+b	2366	Imported me1: UNC	[Cerberus] Fought Cerberus
+b	1260	Imported me1: UNC	[Asari Diplomacy] Met Nassana
+b	1259	Imported me1: UNC	[Asari Diplomacy] Killed Dahlia
+b	5377	Imported me1: UNC	[Hostage] Chairman Burns died
+b	5379	Imported me1: UNC	[Hostage] Killed biotics
+b	5380	Imported me1: UNC	[Hostage] Biotics surrendered
+b	3731	Imported me1: UNC	[Hostile Takeover] Accepted money
+b	3732	Imported me1: UNC	[Hostile Takeover] Persuaded criminal to disband gang
+b	5358	Imported me1: UNC	[Dead Scientists] Convinced Corporal Toombs
+b	5359	Imported me1: UNC	[Dead Scientists] Killed scientist
+b	5361	Imported me1: DLC	[Bring Down the Sky] Hostages rescued (Balak alive)

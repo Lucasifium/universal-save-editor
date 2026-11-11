@@ -222,6 +222,66 @@ fn walk(r: &mut R) -> Result<(), String> {
             r.weapons(&["Squad", &name, "Weapons"])?;
         }
     }
+    plot(r)?;
+    Ok(())
+}
+
+/// Story flags and numbers the editor has a name for: (is a flag, id, section, label).
+/// From Trilogy Save Editor's plot databases (Karlitos, CeCILL-2.1, which allows use under the GPL).
+fn plot_names(me3: bool) -> impl Iterator<Item = (bool, usize, &'static str, &'static str)> {
+    let text = if me3 { include_str!("data/me3_plot.tsv") } else { include_str!("data/me2_plot.tsv") };
+    text.lines().filter_map(|l| {
+        let mut c = l.split('\t');
+        let (kind, id, section, label) = (c.next()?, c.next()?.parse().ok()?, c.next()?, c.next()?);
+        Some((kind == "b", id, section, label))
+    })
+}
+
+/// The plot table that follows the squad: flags packed 32 to a word, then numbers (a plain
+/// list in Mass Effect 2, id and value pairs in Mass Effect 3). Values are changed where they
+/// are; a Mass Effect 3 number the save doesn't hold yet can't be added.
+fn plot(r: &mut R) -> Result<(), String> {
+    let me3 = r.me3();
+    let words = r.count()?;
+    let flags_at = r.pos;
+    r.skip(words * 4)?;
+    let n = r.count()?;
+    let ints_at = r.pos;
+    let mut at: std::collections::HashMap<usize, usize> = std::collections::HashMap::new();
+    if me3 {
+        r.skip(n * 8)?;
+        for i in 0..n {
+            let id = i32::from_le_bytes(r.b.d[ints_at + i * 8..ints_at + i * 8 + 4].try_into().unwrap());
+            if id >= 0 {
+                at.insert(id as usize, ints_at + i * 8 + 4);
+            }
+        }
+    } else {
+        r.skip(n * 4)?;
+    }
+    let int_at = |id: usize| if me3 { at.get(&id).copied() } else { (id < n).then_some(ints_at + id * 4) };
+    let top: &[(usize, &str, i64)] =
+        if me3 { &[(10159, "Paragon", 100_000), (10160, "Renegade", 100_000), (10297, "Reputation rank", 100_000), (10380, "Reputation points", 100_000)] } else { &[(2, "Paragon", 100_000), (3, "Renegade", 100_000)] };
+    for (id, label, hi) in top {
+        if let Some(a) = int_at(*id) {
+            r.b.ranged(&["Shepard", label], a, Kind::I32, 0, *hi);
+        }
+    }
+    let mut seen = std::collections::HashSet::new();
+    for (flag, id, section, label) in plot_names(me3) {
+        if top.iter().any(|t| !flag && t.0 == id) {
+            continue;
+        }
+        // Two entries can share a label; the id keeps them apart.
+        let key = if seen.insert((flag, section, label)) { label.to_string() } else { format!("{label} ({id})") };
+        if flag {
+            if id / 32 < words {
+                r.b.bits(&["Story flags", section, &key], flags_at + id / 32 * 4, Kind::U32, (id % 32) as u32, 1, 0, 0, 1);
+            }
+        } else if let Some(a) = int_at(id) {
+            r.b.ranged(&["Story numbers", section, &key], a, Kind::I32, i32::MIN as i64, i32::MAX as i64);
+        }
+    }
     Ok(())
 }
 
@@ -386,6 +446,7 @@ fn squad_name(tag: &str) -> String {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use serde_json::Value;
 
     /// Research aid: SAVE_EDITOR_ME = a .pcsav to read.
     #[test]
@@ -396,6 +457,38 @@ mod tests {
         let doc = parse(&d).unwrap();
         println!("{}\n{}", doc.note.clone().unwrap_or_default(), serde_json::to_string_pretty(&doc.view).unwrap());
         assert_eq!(doc.to_bytes().unwrap(), d);
+    }
+
+    /// Research aid: SAVE_EDITOR_ME = a Mass Effect 2 or 3 .pcsav. Changes Paragon and flips
+    /// one story flag, then checks only those changed when the save is read again.
+    #[test]
+    #[ignore]
+    fn real_save_story_edit() {
+        let path = std::env::var("SAVE_EDITOR_ME").expect("SAVE_EDITOR_ME");
+        let d = std::fs::read(path).unwrap();
+        let mut doc = parse(&d).unwrap();
+        let before = doc.view.clone();
+        let (sec, flag) = {
+            let flags = before["Story flags"].as_object().unwrap();
+            let (sec, m) = flags.iter().next().unwrap();
+            (sec.clone(), m.as_object().unwrap().keys().next().unwrap().clone())
+        };
+        let fp = format!("/Story flags/{}/{}", crate::tree::esc(&sec), crate::tree::esc(&flag));
+        let was = before.pointer(&fp).unwrap().as_i64().unwrap();
+        doc.set(&fp, Value::from(1 - was)).unwrap();
+        doc.set("/Shepard/Paragon", Value::from(777)).unwrap();
+        let out = doc.to_bytes().unwrap();
+        assert_eq!(out.len(), d.len());
+        let again = parse(&out).unwrap().view;
+        assert_eq!(again.pointer(&fp), Some(&Value::from(1 - was)));
+        assert_eq!(again.pointer("/Shepard/Paragon"), Some(&Value::from(777)));
+        let mut expect = before;
+        *expect.pointer_mut(&fp).unwrap() = Value::from(1 - was);
+        *expect.pointer_mut("/Shepard/Paragon").unwrap() = Value::from(777);
+        assert_eq!(again, expect);
+        // Outside the trailing checksum, one flag bit and one number changed.
+        let diff = d.iter().zip(&out).take(d.len() - 4).filter(|(a, b)| a != b).count();
+        assert!((2..=5).contains(&diff), "{diff} bytes changed");
     }
 }
 
