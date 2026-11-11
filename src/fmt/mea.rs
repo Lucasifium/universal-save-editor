@@ -552,7 +552,7 @@ mod tests {
     impl W {
         fn u(&mut self, n: usize, v: u64) {
             for i in 0..n {
-                self.bits.push((v >> i) & 1 == 1);
+                self.bits.push(i < 64 && (v >> i) & 1 == 1);
             }
         }
         fn s(&mut self, t: &str) {
