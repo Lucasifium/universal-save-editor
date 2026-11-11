@@ -19,6 +19,8 @@ Universal Save Editor is free. It builds on other people's work, listed here wit
 | [rgg_save_tool_py (Yakuza / Like a Dragon keys and checksums)](https://github.com/plyrthn/rgg_save_tool_py) | James and contributors | MIT |
 | [W3SavegameEditor (The Witcher 3 save layout)](https://github.com/Atvaark/W3SavegameEditor) | Atvaark | MIT |
 | [RE_RSZ (RE Engine field names)](https://github.com/alphazolam/RE_RSZ) | alphazolam | MIT |
+| [P3R Save Lab (Persona 3 Reload save layout and field positions; sample saves used for checks only, not included)](https://github.com/Luckyseer/p3r-save-editor) | P3R Save Lab contributors | MIT |
+| [P3R-Save-EnDecryptor (Persona 3 Reload Steam save encryption)](https://github.com/illusionyy/P3R-Save-EnDecryptor) | illusion0001 | MIT |
 | [P4G Save Tool (Persona 4 Golden field positions)](https://github.com/fendevel/P4G-Save-Tool) | Jack P. Fenech | MIT |
 | [ree-save-editor (RE Engine save layout; facts only, no code)](https://github.com/kvasszn/ree-save-editor) | kvasszn | facts only (file layouts, ids and names), credited |
 | [civ6-save-parser (Civilization VI save layout, ported)](https://github.com/pydt/civ6-save-parser) | Mike Rosack and playyourdamnturn.com | MIT |
@@ -133,6 +135,8 @@ Copyright notices of the projects above whose code or tables were used:
 - grim-dawn-save-editor (Grim Dawn character block layouts, ported): Copyright (c) 2026 Zez (kraken444444). Licensed under MIT.
 - GDParser (Grim Dawn save encryption): Copyright (c) 2021 Christopher David Elison. Licensed under MIT.
 - TQVaultAE (Titan Quest save key/value layout): Copyright (c) 2006-2012 Brandon Wallace. Licensed under MIT.
+- P3R Save Lab (Persona 3 Reload save layout and field positions): Copyright (c) 2026 P3R Save Lab contributors. Licensed under MIT.
+- P3R-Save-EnDecryptor (Persona 3 Reload Steam save encryption): Copyright (c) 2024 illusion0001. Licensed under MIT.
 - P4G Save Tool (Persona 4 Golden field positions): Copyright (c) 2016 Jack P. Fenech. Licensed under MIT.
 - bl3-cli-saveedit (Borderlands 3 save keys, currency hashes, experience table, SDU limits, item flags): Copyright (c) 2020-2021 CJ Kucera (cj@apocalyptech.com). Licensed under Zlib.
 - fallout-se (Fallout and Fallout 2 save layout and name tables): Copyright (c) 2026 Ali Raheem. Licensed under MIT OR Apache-2.0.

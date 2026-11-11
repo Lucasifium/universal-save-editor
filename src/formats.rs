@@ -139,6 +139,8 @@ pub enum Layer {
     /// Hollow Knight `user*.dat`: .NET string of base64 AES-encrypted JSON.
     HollowKnight,
     FalloutShelter,
+    /// Persona 3 Reload Steam save (XOR key and bit permutation over a GVAS file).
+    P3rSteam,
     /// Antimatter Dimensions export text (platform index, three letter version).
     Antimatter { kind: u8, version: String },
     /// JSON held in JSON strings: the pointers of the strings opened, and whether the file is indented.
@@ -261,6 +263,7 @@ impl Layer {
             Layer::Region { index, .. } => format!("Minecraft region (chunk {},{})", index % 32, index / 32),
             Layer::HollowKnight => "Hollow Knight encryption".into(),
             Layer::FalloutShelter => "Fallout Shelter save encryption".into(),
+            Layer::P3rSteam => "Persona 3 Reload save encryption".into(),
             Layer::Antimatter { .. } => "Antimatter Dimensions export text".into(),
             Layer::NestedJson { paths, .. } => format!("JSON inside JSON strings ({})", paths.len()),
             Layer::Mandarin { game, .. } => format!("{} save encryption", fmt::mandarin::GAMES[*game].title),
@@ -772,6 +775,7 @@ fn wrap(layer: &Layer, data: Vec<u8>) -> Result<Vec<u8>, String> {
         Layer::Region { archive, index, kind } => fmt::containers::region_replace(archive, *index, &data, *kind)?,
         Layer::HollowKnight => fmt::crypto::hollow_knight_encrypt(&data),
         Layer::FalloutShelter => fmt::crypto::fallout_shelter_encrypt(&data),
+        Layer::P3rSteam => fmt::p3r::steam_encrypt(&data),
         Layer::Antimatter { kind, version } => fmt::antimatter::close(*kind, version, &data)?,
         Layer::NestedJson { paths, pretty } => fmt::nested::close(&data, paths, *pretty)?,
         Layer::Mandarin { original, game, user } => fmt::mandarin::encrypt(&data, original, &fmt::mandarin::GAMES[*game], *user)?,
@@ -1244,6 +1248,9 @@ fn peel(data: &[u8], ctx: &mut Ctx) -> Option<(Layer, Vec<u8>)> {
     }
     if let Some((kind, version, plain)) = fmt::antimatter::open(data) {
         return Some((Layer::Antimatter { kind, version }, plain));
+    }
+    if let Some(plain) = fmt::p3r::steam_decrypt(data) {
+        return Some((Layer::P3rSteam, plain));
     }
     if let Some(plain) = fmt::crypto::fallout_shelter_decrypt(data) {
         return Some((Layer::FalloutShelter, plain));
