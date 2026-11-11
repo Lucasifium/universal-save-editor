@@ -53,6 +53,7 @@ pub mod haxe;
 pub mod deadcells;
 pub mod memcard;
 pub mod sumfind;
+pub mod katana;
 pub mod pdx;
 pub mod pdxbin;
 mod rimworld;

@@ -208,6 +208,12 @@ edited numbers, flags and text changed; dates, bytes and shared references are k
 Friday Night Funkin' and its engines and mods. Checked on a public Friday Night Funkin' save, written
 back byte for byte.
 
+**Koei Tecmo games**: Nioh, Nioh 2 and Nioh 3, Wo Long: Fallen Dynasty, Fatal Frame II: Crimson
+Butterfly Remake and Stranger of Paradise: Final Fantasy Origin decrypt on open and encrypt again
+on save with the file's own keys, so an unchanged save writes back byte for byte. Wo Long and Fatal
+Frame II keep JSON inside, which opens with every value by name, and both of their checksums are
+made again. Ported from KatanaSaveDataResigner (MIT); checked on its test files, not yet in the games.
+
 **Dead Cells**: the save's SHA-1 and zlib packing are handled, so the unpacked data can be changed
 in the hex view or found with the value search and saved back with a fresh checksum.
 
