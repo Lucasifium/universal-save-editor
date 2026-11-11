@@ -41,6 +41,10 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
     let t = tabs(ui, "ie_party", &members);
     let base = join("/Party members", &members[t]);
     character(ui, cx, &base, accent);
+    let globals = keys(cx, "/Global variables");
+    if !globals.is_empty() {
+        super::screens2::panel_globals(ui, cx, &globals);
+    }
 }
 
 fn character(ui: &mut Ui, cx: &mut GameCtx, base: &str, accent: Color32) {

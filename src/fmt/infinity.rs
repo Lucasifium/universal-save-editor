@@ -158,6 +158,21 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
     if let Some((_, ch)) = global(d, "CHAPTER") {
         b.info(&["Party", "Chapter"], ch);
     }
+    // Every global variable: the game's own story counters (quest stages, flags, who has joined).
+    if let Some((off, n)) = table(d, 0x38, VAR_SIZE) {
+        let mut seen: std::collections::HashMap<String, usize> = Default::default();
+        for i in 0..n {
+            let v = off + i * VAR_SIZE;
+            let name = text(d, v, 32);
+            if name.is_empty() || u32_at(d, v + 0x28).is_none() {
+                continue;
+            }
+            let c = seen.entry(name.clone()).or_insert(0);
+            *c += 1;
+            let label = if *c > 1 { format!("{name} ({c})") } else { name };
+            b.ranged(&["Global variables", &label], v + 0x28, Kind::I32, i32::MIN as i64, i32::MAX as i64);
+        }
+    }
     if let Some(t) = u32_at(d, 0x08) {
         b.info(&["Party", "Game hours"], t / 300);
     }
@@ -318,6 +333,7 @@ pub(crate) mod tests {
         assert_eq!(v.pointer("/Party/Gold"), Some(&1234.into()));
         assert_eq!(v.pointer("/Party/Reputation"), Some(&"12".into()));
         assert_eq!(v.pointer("/Party/Chapter"), Some(&3.into()));
+        assert_eq!(v.pointer("/Global variables/CHAPTER"), Some(&3.into()));
         assert_eq!(v.pointer("/Party/Game hours"), Some(&10.into()));
         // Sorted by portrait slot: the protagonist first.
         let names: Vec<&String> = v["Party members"].as_object().unwrap().keys().collect();
