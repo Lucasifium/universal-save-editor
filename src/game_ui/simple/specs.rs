@@ -3,7 +3,7 @@
 
 use super::{List, Max, Section, Shape, Spec, Table};
 
-pub static SPECS: &[Spec] = &[COTL, FALLOUT_SHELTER, DRG, S1_MONEY, S1_RANK, S1_TIME, S1_GAME, SOTF_STATE, SOTF_ITEMS, DMD, CUPHEAD, ANTIMATTER, PVZ, CELESTE];
+pub static SPECS: &[Spec] = &[COTL, FALLOUT_SHELTER, DRG, S1_MONEY, S1_RANK, S1_TIME, S1_GAME, SOTF_STATE, SOTF_GAME, SOTF_WEATHER, SOTF_ITEMS, DMD, CUPHEAD, ANTIMATTER, PVZ, CELESTE];
 
 // ------------------------------------------------------------------ Cult of the Lamb
 
@@ -589,6 +589,35 @@ const SOTF_STATE: Spec = Spec {
         cols: &[("Decimal value", "/FloatValue"), ("Whole value", "/IntValue")],
         names: &[],
     }],
+};
+
+const SOTF_GAME: Spec = Spec {
+    name: "Sons of the Forest: game clock",
+    tab: "Game",
+    accent: (90, 150, 70),
+    kind: None,
+    markers: &["/Data/GameState/GameDays"],
+    subtitle: "GameStateSaveData.json. The in-game clock the save shows in its slot.",
+    tiles: &[],
+    sections: &[Section {
+        title: "Game clock",
+        rows: &[("Day", "/Data/GameState/GameDays"), ("Hour", "/Data/GameState/GameHours"), ("Minute", "/Data/GameState/GameMinutes"), ("Second", "/Data/GameState/GameSeconds")],
+    }],
+    lists: &[],
+    tables: &[],
+};
+
+const SOTF_WEATHER: Spec = Spec {
+    name: "Sons of the Forest: weather",
+    tab: "Weather",
+    accent: (90, 150, 70),
+    kind: None,
+    markers: &["/Data/WeatherSystem/_currentSeason"],
+    subtitle: "WeatherSystemSaveData.json. Season is 0 spring, 1 summer, 2 autumn, 3 winter.",
+    tiles: &[],
+    sections: &[Section { title: "Season", rows: &[("Current season", "/Data/WeatherSystem/_currentSeason"), ("Starting day offset", "/Data/WeatherSystem/_startingDayOffset")] }],
+    lists: &[],
+    tables: &[],
 };
 
 const SOTF_ITEMS: Spec = Spec {
