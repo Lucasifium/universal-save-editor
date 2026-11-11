@@ -82,6 +82,7 @@ Universal Save Editor is free. It builds on other people's work, listed here wit
 | [vampire-survivors-save-edit (Vampire Survivors power-up names and highest ranks)](https://github.com/egavard/vampire-survivors-save-edit) | egavard | facts only (file layouts, ids and names), credited |
 | [silksong-save-analyzer (Hollow Knight: Silksong ability and crest names)](https://github.com/tureptor/silksong-save-analyzer) | tureptor | facts only (file layouts, ids and names), credited |
 | [silksong-save-viewer (Hollow Knight: Silksong ability names)](https://github.com/BlueOrcaz/silksong-save-viewer) | BlueOrcaz | facts only (file layouts, ids and names), credited |
+| [UndertaleSaveEditor (Undertale route and counter line numbers)](https://github.com/Cofeiini/UndertaleSaveEditor) | Cofeiini | GPL-3.0; line numbers and labels used, credited |
 | [FloweysTimeMachine (Undertale save layout, item and phone names)](https://github.com/crumblingstatue/FloweysTimeMachine) | crumblingstatue | facts only (file layouts, ids and names), credited |
 | [DeltaruneDecomp (Deltarune Chapter 1 save field order)](https://github.com/TeamBlossomDevs/DeltaruneDecomp) | TeamBlossomDevs | facts only (file layouts, ids and names), credited |
 | [DarkestDungeonSaveEditor (Darkest Dungeon DSON format and its type rules, ported)](https://github.com/robojumper/DarkestDungeonSaveEditor) | robojumper | MIT |

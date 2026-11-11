@@ -130,6 +130,49 @@ pub fn lethal_company(ui: &mut Ui, cx: &mut GameCtx) {
         value_rows(ui, cx, "lc_ship", &rows);
         ui.weak("The deadline counts in-game minutes: a day is 1,080, so 3,240 is the full three days.");
     });
+    const LC_MOONS: [&str; 9] = ["Experimentation", "Assurance", "Vow", "Company Building", "March", "Rend", "Dine", "Offense", "Titan"];
+    const LC_UNLOCKS: [(i64, &str); 20] = [
+        (0, "Orange suit"), (1, "Green suit"), (2, "Hazard suit"), (3, "Pajama suit"), (4, "Cozy lights"), (5, "Teleporter"), (6, "Television"), (7, "Cupboard"),
+        (8, "File cabinet"), (9, "Toilet"), (10, "Shower"), (11, "Light switch"), (12, "Record player"), (13, "Table"), (14, "Romantic table"), (15, "Bunk beds"),
+        (16, "Terminal"), (17, "Signal translator"), (18, "Loud horn"), (19, "Inverse teleporter"),
+    ];
+    if let Some(m) = cx.int(&val("CurrentPlanetID")).and_then(|n| LC_MOONS.get(n as usize)) {
+        ui.weak(format!("Current moon: {m} (0 Experimentation, 1 Assurance, 2 Vow, 3 Company Building, 4 March, 5 Rend, 6 Dine, 7 Offense, 8 Titan)."));
+    }
+    if let Some(Value::Array(owned)) = cx.get(&val("UnlockedShipObjects")).cloned() {
+        panel(ui, "Ship items owned", |ui| {
+            let have: Vec<i64> = owned.iter().filter_map(Value::as_i64).collect();
+            ui.horizontal_wrapped(|ui| {
+                for (id, name) in LC_UNLOCKS.iter().chain([(20, "Jack-o'-lantern"), (21, "Welcome mat"), (22, "Goldfish"), (23, "Plushie pajama man"), (24, "Purple suit")].iter()) {
+                    let on = have.contains(id);
+                    if ui.selectable_label(on, *name).on_hover_text(if on { "Owned: click to take it away" } else { "Click to add it to the ship" }).clicked() {
+                        let mut next: Vec<Value> = owned.iter().filter(|v| v.as_i64() != Some(*id)).cloned().collect();
+                        if !on {
+                            next.push(Value::from(*id));
+                        }
+                        cx.set(&val("UnlockedShipObjects"), Value::Array(next));
+                    }
+                }
+            });
+            ui.weak("Suits and furniture the crew has bought. Adding one makes it available to the crew.");
+        });
+    }
+    if let Some(Value::Array(vals)) = cx.get(&val("shipScrapValues")).cloned() {
+        if !vals.is_empty() {
+            panel(ui, "Scrap on the ship (sell value)", |ui| {
+                if ui.button("Raise every scrap item to 200").on_hover_text("Sets each piece of scrap to a sell value of 200 if it is worth less.").clicked() {
+                    for (n, v) in vals.iter().enumerate() {
+                        if v.as_i64().is_some_and(|x| x < 200) {
+                            cx.set(&format!("{}/{n}", val("shipScrapValues")), Value::from(200));
+                        }
+                    }
+                }
+                let rows: Vec<(String, String)> = (0..vals.len()).map(|n| (format!("Scrap {}", n + 1), format!("{}/{n}", val("shipScrapValues")))).collect();
+                value_rows(ui, cx, "lc_scrap", &rows);
+                ui.weak("What each piece of scrap on the ship sells for. The quota counts what you sell.");
+            });
+        }
+    }
     let stored = entries(cx, |k, v| v.is_boolean().then(|| k.strip_prefix("ShipUnlockStored_").map(str::to_string)).flatten());
     if !stored.is_empty() {
         panel(ui, "Ship upgrades put in storage", |ui| {

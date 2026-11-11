@@ -560,12 +560,13 @@ pub fn slay_the_spire(ui: &mut Ui, cx: &mut GameCtx) {
         ui.add_space(8.0);
     }
     let lists: [(&str, &str); 3] = [("Deck", "/cards"), ("Relics", "/relics"), ("Potions", "/potions")];
+    let mut change: Option<(String, Value)> = None;
     columns(ui, 280.0, lists.len(), |ui, i| {
         let (title, p) = lists[i];
         let Some(Value::Array(items)) = cx.get(p).cloned() else { return };
         panel(ui, &format!("{title} ({})", items.len()), |ui| {
             // The name column keeps its width: a grid otherwise sizes it from the narrowest first frame.
-            egui::Grid::new(("sts", title)).num_columns(2).striped(true).spacing([8.0, 3.0]).min_col_width(150.0).show(ui, |ui| {
+            egui::Grid::new(("sts", title)).num_columns(3).striped(true).spacing([8.0, 3.0]).min_col_width(150.0).show(ui, |ui| {
                 for (n, it) in items.iter().enumerate() {
                     let ip = format!("{p}/{n}");
                     if it.is_object() {
@@ -578,11 +579,66 @@ pub fn slay_the_spire(ui: &mut Ui, cx: &mut GameCtx) {
                         cx.editor(ui, &ip, 150.0);
                         ui.label("");
                     }
+                    if ui.small_button("\u{2715}").on_hover_text("Remove").clicked() {
+                        let mut left = items.clone();
+                        left.remove(n);
+                        change = Some((p.to_string(), Value::Array(left)));
+                        if p == "/relics" {
+                            if let Some(Value::Array(mut counters)) = cx.get("/relic_counters").cloned() {
+                                if n < counters.len() {
+                                    counters.remove(n);
+                                    cx.set("/relic_counters", Value::Array(counters));
+                                }
+                            }
+                        }
+                    }
                     ui.end_row();
                 }
             });
+            let id = egui::Id::new(("sts_add", title));
+            let mut name = ui.data(|d| d.get_temp::<String>(id)).unwrap_or_default();
+            ui.horizontal(|ui| {
+                ui.add(egui::TextEdit::singleline(&mut name).hint_text("internal id, e.g. Strike_R").desired_width(150.0));
+                if ui.button("Add").clicked() && !name.trim().is_empty() {
+                    let mut more = items.clone();
+                    more.push(match i {
+                        0 => serde_json::json!({"id": name.trim(), "upgrades": 0, "misc": 0}),
+                        _ => Value::String(name.trim().to_string()),
+                    });
+                    change = Some((p.to_string(), Value::Array(more)));
+                    if p == "/relics" {
+                        if let Some(Value::Array(mut counters)) = cx.get("/relic_counters").cloned() {
+                            counters.push(Value::from(-1));
+                            cx.set("/relic_counters", Value::Array(counters));
+                        }
+                    }
+                    name.clear();
+                }
+            });
+            ui.data_mut(|d| d.insert_temp(id, name));
         });
     });
+    if let Some((p, v)) = change {
+        cx.set(&p, v);
+    }
+    let flags: Vec<&str> = ["has_emerald_key", "has_ruby_key", "has_sapphire_key", "is_ascension_mode", "is_final_act_on"].into_iter().filter(|k| cx.get(&format!("/{k}")).is_some()).collect();
+    if !flags.is_empty() || cx.get("/ascension_level").is_some() {
+        panel(ui, "Run settings", |ui| {
+            egui::Grid::new("sts_run").num_columns(2).spacing([14.0, 4.0]).show(ui, |ui| {
+                for (label, k) in [("Ascension level", "ascension_level"), ("Floor", "floor_num"), ("Act", "act_num"), ("Shop card removal cost", "purgeCost")] {
+                    if cx.get(&format!("/{k}")).is_some() {
+                        cx.grid_row(ui, label, &format!("/{k}"), 80.0);
+                    }
+                }
+            });
+            ui.horizontal_wrapped(|ui| {
+                for k in &flags {
+                    cx.chip(ui, &words(k.trim_start_matches("has_")), &format!("/{k}"), accent);
+                }
+            });
+            ui.weak("The three keys unlock the Heart; Final act lets the run go on to Act 4. Ids must be the game's own (a wrong one can stop the run loading); removing a relic also drops its counter.");
+        });
+    }
 }
 
 // ------------------------------------------------------------------ RPG Maker MV / MZ

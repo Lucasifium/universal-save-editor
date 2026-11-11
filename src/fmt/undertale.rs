@@ -285,6 +285,38 @@ pub fn parse_undertale(text: &str) -> Result<TreeDoc, String> {
     }
     d.add("Equipment", "Weapon", 29, ut_items());
     d.add("Equipment", "Armor", 30, ut_items());
+    // Route and counter lines (line numbers as in the game's own file).
+    for (k, l) in [
+        ("Total kills (genocide count)", 232),
+        ("Kills: Ruins", 233),
+        ("Kills: Snowdin", 234),
+        ("Kills: Waterfall", 235),
+        ("Kills: Hotland", 236),
+        ("Genocide route: Ruins", 252),
+        ("Genocide route: Snowdin", 253),
+        ("Genocide route: Waterfall", 254),
+        ("Genocide route: Hotland", 255),
+        ("Genocide route: Core", 256),
+        ("True Pacifist done", 38),
+        ("Hard mode", 37),
+        ("Disable random encounters", 39),
+        ("Killed Flowey", 506),
+        ("Killed Asgore", 507),
+        ("Killed Mettaton", 456),
+        ("Killed Undyne the Undying", 282),
+        ("fun value", 36),
+        ("Monsters spared", 54),
+        ("Fled from battle", 55),
+        ("Dialogue skipped", 56),
+        ("Gold spent: Snowdin shop", 90),
+        ("Gold spent: Hotland shop", 91),
+        ("Gold spent: Core shop", 409),
+        ("Flowey stalking", 40),
+    ] {
+        if numeric(d.get(l)) {
+            d.add("Route and counters", k, l, Kind::Num);
+        }
+    }
     d.add("Progress", "Room", 548, Kind::Num);
     d.add("Progress", "Play time (frames)", 549, Kind::Num);
     Ok(d.finish(
@@ -378,6 +410,9 @@ mod tests {
         assert_eq!(doc.to_bytes().unwrap(), text.as_bytes());
         assert_eq!(doc.view.pointer("/Character/Name").unwrap(), "Chara");
         assert_eq!(doc.view.pointer("/Character/Gold").unwrap(), 123);
+        doc.set("/Route and counters/Killed Flowey", 1.into()).unwrap();
+        assert_eq!(parse(&String::from_utf8(doc.to_bytes().unwrap()).unwrap()).unwrap().view.pointer("/Route and counters/Killed Flowey").unwrap(), 1);
+        let mut doc = parse(&text).expect("parses");
         assert_eq!(doc.view.pointer("/Items/Slot 1").unwrap(), "Monster Candy");
         assert_eq!(doc.view.pointer("/Items/Slot 2").unwrap(), "Cinnamon Bunny");
         assert_eq!(doc.view.pointer("/Items/Slot 3").unwrap(), "(empty)");
