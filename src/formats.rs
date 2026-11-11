@@ -142,6 +142,9 @@ pub enum Layer {
     /// Capcom RE Engine "Lime" encryption (Resident Evil 4, 2023): the file it came from (for
     /// its key banks) and the user id.
     Lime { original: Arc<Vec<u8>>, user: u64 },
+    /// Capcom RE Engine "Citrus" encryption (Monster Hunter Rise on Steam): the file it came
+    /// from (for its block keys), the curve and the Steam ID.
+    Citrus { original: Arc<Vec<u8>>, curve: usize, steam: u64 },
     /// Civilization V `.Civ5Save`: an uncompressed header, then the game as one zlib stream
     /// cut into chunks of up to 64 KiB, each after its u32 length (`chunked`; very old saves
     /// may hold one plain stream), then (older builds) a trailer kept as it is.
@@ -226,6 +229,7 @@ impl Layer {
             Layer::NestedJson { paths, .. } => format!("JSON inside JSON strings ({})", paths.len()),
             Layer::Mandarin { game, .. } => format!("{} save encryption", fmt::mandarin::GAMES[*game].title),
             Layer::Lime { .. } => "Resident Evil 4 save encryption".into(),
+            Layer::Citrus { .. } => "Monster Hunter Rise save encryption".into(),
             Layer::Civ5 { .. } => "Civilization V save (compressed game data)".into(),
             Layer::Cdpr { sizes, .. } => format!("CD Projekt RED save ({} LZ4 chunks)", sizes.len()),
             Layer::Me1Le { .. } => "Mass Effect (Legendary Edition) save (zlib)".to_string(),
@@ -626,6 +630,7 @@ fn wrap(layer: &Layer, data: Vec<u8>) -> Result<Vec<u8>, String> {
         Layer::NestedJson { paths, pretty } => fmt::nested::close(&data, paths, *pretty)?,
         Layer::Mandarin { original, game, user } => fmt::mandarin::encrypt(&data, original, &fmt::mandarin::GAMES[*game], *user)?,
         Layer::Lime { original, user } => fmt::lime::encrypt(&data, original, *user)?,
+        Layer::Citrus { original, curve, steam } => fmt::citrus::encrypt(&data, original, *curve, *steam)?,
         Layer::Cdpr { prefix, fzlc, sizes, footer, tagged } => {
             if data.len() != sizes.iter().map(|&n| n as usize).sum::<usize>() {
                 return Err("this save's data can't change size".into());
@@ -805,6 +810,19 @@ fn peel(data: &[u8], ctx: &mut Ctx) -> Option<(Layer, Vec<u8>)> {
     }
     if fmt::lime::looks(data) {
         return peel_lime(data, ctx);
+    }
+    if fmt::citrus::looks(data) {
+        let Some((curve, steam)) = fmt::citrus::find_key(data, &ree_accounts(ctx)) else {
+            ctx.hint = Some(
+                "This is an encrypted Monster Hunter Rise save, but none of the Steam accounts on this computer opens it. \
+                 Open it from its own folder (Steam\\userdata\\<account>\\1446780\\remote\\win64_save) so the account can be found, \
+                 or enter your Steam ID (17 digits) in Tools \u{203A} Decrypt with password."
+                    .into(),
+            );
+            return None;
+        };
+        let plain = fmt::citrus::decrypt(data, curve, steam)?;
+        return Some((Layer::Citrus { original: Arc::new(data.to_vec()), curve, steam }, plain));
     }
     if fmt::mandarin::looks(data) {
         return peel_mandarin(data, ctx);

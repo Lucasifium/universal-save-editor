@@ -44,6 +44,7 @@ mod ds3_items;
 mod er_equip;
 mod er_flags;
 pub mod slot_copy;
+pub mod citrus;
 pub mod lime;
 pub mod mandarin;
 pub mod pdx;

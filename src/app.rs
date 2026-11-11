@@ -2659,6 +2659,7 @@ fn friendly_kind(layers: &[Layer], content: &Content) -> String {
         Content::Binary(_) => match layers.last() {
             Some(Layer::Mandarin { game, .. }) => format!("{} save", crate::fmt::mandarin::GAMES[*game].title),
             Some(Layer::Lime { .. }) => "Resident Evil 4 save".into(),
+            Some(Layer::Citrus { .. }) => "Monster Hunter Rise save".into(),
             Some(Layer::Civ5 { .. }) => "Civilization V save".into(),
             Some(Layer::Cdpr { prefix, .. }) if prefix.starts_with(b"VASC") => "Cyberpunk 2077 save".into(),
             Some(Layer::Cdpr { .. }) => "The Witcher 3 save".into(),
