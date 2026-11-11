@@ -3,7 +3,7 @@
 
 use super::{List, Max, Section, Shape, Spec, Table};
 
-pub static SPECS: &[Spec] = &[COTL, FALLOUT_SHELTER, DRG, S1_MONEY, S1_RANK, S1_TIME, S1_GAME, SOTF_STATE, SOTF_GAME, SOTF_WEATHER, SOTF_ITEMS, DMD, CUPHEAD, ANTIMATTER, PVZ, CELESTE];
+pub static SPECS: &[Spec] = &[COTL, FALLOUT_SHELTER, DRG, S1_MONEY, S1_RANK, S1_TIME, S1_GAME, SOTF_STATE, SOTF_GAME, SOTF_WEATHER, SOTF_ITEMS, DMD, CUPHEAD, ANTIMATTER, PVZ, CELESTE, DRGS];
 
 // ------------------------------------------------------------------ Cult of the Lamb
 
@@ -787,4 +787,31 @@ const CELESTE: Spec = Spec {
         cols: &[("Cassette", "/@Cassette"), ("A done", "/Modes/AreaModeStats/0/@Completed"), ("A full clear", "/Modes/AreaModeStats/0/@FullClear"), ("A heart", "/Modes/AreaModeStats/0/@HeartGem"), ("B done", "/Modes/AreaModeStats/1/@Completed"), ("B full clear", "/Modes/AreaModeStats/1/@FullClear"), ("B heart", "/Modes/AreaModeStats/1/@HeartGem"), ("C done", "/Modes/AreaModeStats/2/@Completed"), ("C full clear", "/Modes/AreaModeStats/2/@FullClear"), ("C heart", "/Modes/AreaModeStats/2/@HeartGem")],
         names: &[("0", "Prologue"), ("1", "Forsaken City"), ("2", "Old Site"), ("3", "Celestial Resort"), ("4", "Golden Ridge"), ("5", "Mirror Temple"), ("6", "Reflection"), ("7", "The Summit"), ("8", "Epilogue"), ("9", "Core"), ("10", "Farewell")],
     }],
+};
+
+// ------------------------------------------------------------------ Deep Rock Galactic: Survivor
+
+const DRGS: Spec = Spec {
+    name: "Deep Rock Galactic: Survivor",
+    tab: "Profile",
+    accent: (232, 150, 24),
+    kind: None,
+    markers: &["/Credits", "/ClassRanks", "/MetaStatUpgrades"],
+    subtitle: "drgs.dat. Plain JSON; close the game before editing.",
+    tiles: &[("Credits", "/Credits"), ("Player rank", "/PlayerRank")],
+    sections: &[
+        Section {
+            title: "Resources",
+            rows: &[("Credits", "/Credits"), ("Bismor", "/Bismor"), ("Croppa", "/Croppa"), ("Enor Pearl", "/EnorPearl"), ("Jadiz", "/Jadiz"), ("Magnite", "/Magnite"), ("Umanite", "/Umanite"), ("Power Core", "/PowerCore")],
+        },
+        Section {
+            title: "Progress",
+            rows: &[("Player rank", "/PlayerRank"), ("Total class levels", "/TotalClassLevels"), ("Dives", "/NumDivesTotal"), ("Biome goal points", "/BiomeGoalPoints")],
+        },
+    ],
+    lists: &[],
+    tables: &[
+        Table { title: "Classes", path: "/ClassRanks", name: &["/ClassType"], only: &[], cols: &[("XP", "/Xp"), ("Rank", "/Rank")], names: &[] },
+        Table { title: "Stat upgrades", path: "/MetaStatUpgrades", name: &["/Id"], only: &[], cols: &[("Level", "/Level")], names: &[] },
+    ],
 };
