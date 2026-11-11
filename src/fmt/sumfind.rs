@@ -288,6 +288,7 @@ fn key(path: &std::path::Path) -> String {
     std::fs::canonicalize(path).unwrap_or_else(|_| path.to_path_buf()).to_string_lossy().to_string()
 }
 
+#[cfg_attr(target_arch = "wasm32", allow(dead_code))]
 fn encode_line(s: &Sum) -> String {
     let algo = ALGOS.iter().position(|a| *a == s.algo).unwrap_or(0);
     let span = match s.span {
@@ -298,6 +299,7 @@ fn encode_line(s: &Sum) -> String {
     format!("{algo}\t{}\t{}\t{span}", s.at, s.be as u8)
 }
 
+#[cfg_attr(target_arch = "wasm32", allow(dead_code))]
 fn decode_line(t: &str) -> Option<Sum> {
     let v: Vec<usize> = t.split('\t').map(|x| x.parse().ok()).collect::<Option<_>>()?;
     let [algo, at, be, span] = v[..] else { return None };

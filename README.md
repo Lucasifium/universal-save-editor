@@ -371,7 +371,8 @@ compression, encryption and checksums.
   read back exactly as shown on screen, the save is aborted and your file is left untouched.
 - **Atomic writes**: the save goes to a temp file and is then swapped in, so a crash can't leave a
   half-written save.
-- **Backups**: every save first copies the file as it was into the app's folder (`backups\<name>-<hash>`, last 30 kept); *File › Restore previous version* brings any of them back. The very first original is also kept as `<name>.bak`
+- **Backups**: every save first copies the file as it was into the app's folder (`backups\<name>-<hash>`, last 30 kept); *File › Restore previous version* brings any of them back or compares one with the open file, byte by byte or value by value. *Keep a named copy* there saves the file as it is now under a name (before a boss, say), and named copies are never cleared out. The backups can go to a folder you choose instead (a synced folder, another drive). The very first original is also kept as `<name>.bak`
+- **Export and import**: *File › Export decoded data* writes the unpacked data (JSON, text or bytes) for any other tool; *File › Import edited data* brings the edited file back, and saving packs, encrypts and checksums it the way the save was
 - **Game running**: if the game that owns the save is running, the app says so when opening and warns before saving (games write their save back when they autosave or quit)
 - **Review before saving**: Save lists every change in words first (can be turned off in that dialog)
   (*File › Restore original from backup*).

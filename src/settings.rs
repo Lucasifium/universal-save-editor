@@ -15,11 +15,13 @@ pub struct Settings {
     pub show_advanced: bool,
     /// Show the list of changes and ask before writing a save.
     pub confirm_save: bool,
+    /// Where backups go, when the player chose a folder (otherwise the app's own folder).
+    pub backup_dir: Option<PathBuf>,
 }
 
 impl Default for Settings {
     fn default() -> Self {
-        Self { recent: vec![], dark: true, zoom: 1.0, show_raw_keys: false, show_advanced: false, confirm_save: true }
+        Self { recent: vec![], dark: true, zoom: 1.0, show_raw_keys: false, show_advanced: false, confirm_save: true, backup_dir: None }
     }
 }
 
@@ -41,6 +43,7 @@ impl Settings {
         s.show_raw_keys = v["show_raw_keys"].as_bool().unwrap_or(false);
         s.show_advanced = v["show_advanced"].as_bool().unwrap_or(false);
         s.confirm_save = v["confirm_save"].as_bool().unwrap_or(true);
+        s.backup_dir = v["backup_dir"].as_str().filter(|d| !d.is_empty()).map(PathBuf::from);
         s
     }
 
@@ -53,6 +56,7 @@ impl Settings {
             "show_raw_keys": self.show_raw_keys,
             "show_advanced": self.show_advanced,
             "confirm_save": self.confirm_save,
+            "backup_dir": self.backup_dir.as_ref().map(|d| d.to_string_lossy().to_string()),
         });
         if let Some(dir) = p.parent() {
             let _ = std::fs::create_dir_all(dir);
