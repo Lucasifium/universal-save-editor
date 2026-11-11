@@ -19,7 +19,7 @@ use crate::formats::{self, Content, Options};
 use serde_json::{json, Value};
 use std::path::{Path, PathBuf};
 
-const COMMANDS: [&str; 9] = ["info", "list", "get", "set", "decode", "encode", "checksum", "games", "help"];
+const COMMANDS: [&str; 10] = ["info", "list", "get", "set", "decode", "encode", "checksum", "steamid", "games", "help"];
 
 /// Runs a command if `args` (without the program name) start with one; `None` means "open the
 /// window", with the first argument as a file to open.
@@ -84,6 +84,7 @@ fn help() {
          UniversalSaveEditor decode <save> [-o <out>]       the unpacked data (JSON, text or bytes)\n  \
          UniversalSaveEditor encode <save> <data> [-o <out>]  pack edited data the way <save> is packed\n  \
          UniversalSaveEditor checksum <save> [<n>|off]      find a checksum; <n> keeps that one fixed on every save\n  \
+         UniversalSaveEditor steamid <save> [<old> <new>]   list the Steam IDs in a save, or change one to another account\n  \
          UniversalSaveEditor games  [--json]                the games the editor knows\n\n\
          Options: --password <p> (encrypted saves), --entry <name> (one save in an archive or\n\
          memory card, as listed by info), --json (machine-readable output).\n\
@@ -156,6 +157,48 @@ fn go(cmd: &str, args: &[String]) -> Result<(), String> {
                 None if hits.is_empty() => println!("{f}: no known checksum at the start or end of the file"),
                 None => hits.iter().enumerate().for_each(|(i, h)| println!("{:>3}  {}", i + 1, h.describe())),
             }
+        }
+        "steamid" => {
+            let f = a.pos.first().ok_or("usage: steamid <save> [<old> <new>]")?;
+            let (path, opts, mut d) = open(f, &a)?;
+            let found: Vec<u64> = match &d.content {
+                Content::Binary(b) => crate::steamid::in_bytes(b).into_iter().map(|(id, _)| id).collect(),
+                c => root(c).map(|v| crate::steamid::in_values(v).into_iter().map(|(id, _)| id).collect()).unwrap_or_default(),
+            };
+            let (Some(old), Some(new)) = (a.pos.get(1), a.pos.get(2)) else {
+                if found.is_empty() {
+                    println!("{f}: no Steam ID found in the save's data");
+                }
+                found.iter().for_each(|id| println!("{id}  (account {})", id - crate::steamid::BASE));
+                return Ok(());
+            };
+            let (old, new) = (crate::steamid::parse(old).ok_or("<old> isn't a Steam ID")?, crate::steamid::parse(new).ok_or("<new> isn't a Steam ID")?);
+            if !found.contains(&old) {
+                return Err(format!("{f}: {old} isn't in this save"));
+            }
+            let n = match &mut d.content {
+                Content::Binary(b) => {
+                    let at = crate::steamid::in_bytes(b).into_iter().find(|(id, _)| *id == old).map(|(_, a)| a).unwrap_or_default();
+                    at.iter().for_each(|&o| b[o..o + 8].copy_from_slice(&new.to_le_bytes()));
+                    at.len()
+                }
+                c => {
+                    let v = root(c).cloned().unwrap_or_default();
+                    let ptrs = crate::steamid::in_values(&v).into_iter().find(|(id, _)| *id == old).map(|(_, p)| p).unwrap_or_default();
+                    for p in &ptrs {
+                        let nv = crate::steamid::replaced(v.pointer(p).unwrap_or(&Value::Null), new);
+                        set_in(c, p, nv)?;
+                    }
+                    ptrs.len()
+                }
+            };
+            let bytes = formats::encode(&d.layers, &d.content)?;
+            let check = formats::decode_with(&bytes, &opts);
+            if !formats::same_layers(&check.layers, &d.layers) || !formats::verified(&check.content, &d.content) {
+                return Err("the changed save didn't read back identically; nothing was written".into());
+            }
+            write(&path, a.out.as_deref(), &bytes, a.no_backup)?;
+            println!("changed {n} place{}", if n == 1 { "" } else { "s" });
         }
         "games" => {
             if a.json {
@@ -299,6 +342,18 @@ fn go(cmd: &str, args: &[String]) -> Result<(), String> {
             write(&path, a.out.as_deref(), &bytes, a.no_backup)?;
         }
         _ => return Err(format!("usage: unknown command {cmd}")),
+    }
+    Ok(())
+}
+
+/// Sets the value at `ptr` in JSON or Tree content.
+fn set_in(c: &mut Content, ptr: &str, v: Value) -> Result<(), String> {
+    match c {
+        Content::Tree(t) => {
+            t.set(ptr, v).map_err(|e| format!("{ptr}: {e}"))?.ok_or_else(|| format!("{ptr}: can't be edited"))?;
+        }
+        Content::Json { value, .. } => *value.pointer_mut(ptr).ok_or_else(|| format!("{ptr}: not in this save"))? = v,
+        _ => return Err(format!("{ptr}: this save has no values by name")),
     }
     Ok(())
 }

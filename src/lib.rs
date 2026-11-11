@@ -29,6 +29,7 @@ mod playerprefs;
 mod renpy_sign;
 mod running;
 mod settings;
+mod steamid;
 mod theme;
 mod values_view;
 mod vfs;
