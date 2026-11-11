@@ -226,6 +226,8 @@ pub struct App {
     hex: HexState,
     /// Text typed into the "Decrypt with password" dialog while it's open.
     password_prompt: Option<String>,
+    /// Checksums found by Tools › Find checksum, while their window is open.
+    sum_hits: Option<Vec<crate::fmt::sumfind::Sum>>,
     compare: Option<Compare>,
     save_review: Option<SaveReview>,
     copy_slots: Option<CopySlots>,
@@ -283,6 +285,7 @@ impl App {
             show_changes: false,
             hex: HexState::default(),
             password_prompt: None,
+            sum_hits: None,
             compare: None,
             save_review: None,
             copy_slots: None,
@@ -1489,6 +1492,15 @@ impl App {
                     ui.close_menu();
                     self.password_prompt = Some(self.doc.as_ref().and_then(|d| d.opts.password.clone()).unwrap_or_default());
                 }
+                let binary = matches!(self.doc.as_ref().map(|d| &d.content), Some(Content::Binary(_)));
+                if ui
+                    .add_enabled(binary, egui::Button::new("Find checksum\u{2026}"))
+                    .on_hover_text("Looks for a checksum in a save the editor doesn't know (CRC, Adler, sums, MD5, SHA) and keeps it right whenever you save.")
+                    .clicked()
+                {
+                    ui.close_menu();
+                    self.find_sums();
+                }
                 if ui
                     .add_enabled(has, egui::Button::new("Compare with another save\u{2026}"))
                     .on_hover_text("List every value that differs from another save \u{2014} handy for finding which value is your gold, HP, etc.")
@@ -1700,6 +1712,69 @@ impl App {
             } else if let Some(off) = p.strip_prefix("0x").and_then(|h| usize::from_str_radix(h, 16).ok()) {
                 self.hex.jump(off);
             }
+        }
+    }
+
+    fn find_sums(&mut self) {
+        let Some(d) = &self.doc else { return };
+        let Content::Binary(b) = &d.content else { return };
+        // Earlier copies of the file weed out values that only match by chance.
+        #[cfg(not(target_arch = "wasm32"))]
+        let others: Vec<Vec<u8>> = crate::backups::list(&d.path)
+            .into_iter()
+            .filter(|v| v.size as usize == b.len())
+            .take(8)
+            .filter_map(|v| std::fs::read(&v.path).ok())
+            .collect();
+        #[cfg(target_arch = "wasm32")]
+        let others: Vec<Vec<u8>> = vec![];
+        self.sum_hits = Some(crate::fmt::sumfind::find(b, &others));
+    }
+
+    fn sums_dialog(&mut self, ctx: &egui::Context) {
+        let Some(hits) = self.sum_hits.clone() else { return };
+        let current = self.doc.as_ref().and_then(|d| d.opts.sum);
+        let mut close = false;
+        let mut pick: Option<Option<crate::fmt::sumfind::Sum>> = None;
+        modal(ctx, "Find checksum", |ui| {
+            if hits.is_empty() {
+                ui.label("No checksum the editor knows was found at the start or end of this file.");
+                ui.weak("It may be encrypted, compressed, or checked with something the game made up. The value search still works on it.");
+            } else {
+                ui.label(if hits.len() == 1 { "This checksum holds for the file:" } else { "These checksums hold for the file:" });
+                ui.weak("Pick one to have it written again every time you save. Saving a few times and searching again narrows a long list.");
+                ui.add_space(6.0);
+                for h in &hits {
+                    ui.horizontal(|ui| {
+                        ui.label(h.describe());
+                        if current == Some(*h) {
+                            ui.weak("(kept fixed)");
+                        } else if ui.button("Keep fixed").clicked() {
+                            pick = Some(Some(*h));
+                        }
+                    });
+                }
+            }
+            if current.is_some() && ui.button("Stop fixing the checksum").clicked() {
+                pick = Some(None);
+            }
+            ui.add_space(6.0);
+            if ui.button("Close").clicked() {
+                close = true;
+            }
+        });
+        if let Some(p) = pick {
+            #[cfg(not(target_arch = "wasm32"))]
+            if let Some(d) = &self.doc {
+                let _ = crate::fmt::sumfind::remember(&d.path, p);
+            }
+            self.sum_hits = None;
+            self.reopen_with(|o| o.sum = p);
+            if p.is_some() {
+                self.ok("The checksum will be written again every time you save this file.");
+            }
+        } else if close {
+            self.sum_hits = None;
         }
     }
 
@@ -2881,6 +2956,7 @@ impl eframe::App for App {
             }
         }
         self.password_dialog(ctx);
+        self.sums_dialog(ctx);
         self.poll_loading(ctx, now);
         self.save_review_dialog(ctx);
         self.copy_slots_dialog(ctx);

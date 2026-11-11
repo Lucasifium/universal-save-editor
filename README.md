@@ -247,6 +247,12 @@ Legendary Edition (zlib, checksum updated), Civilization V (zlib, in 64 KiB chun
 games (Resident Evil 4 from 2023, with its older "Lime" encryption; Monster Hunter Rise on Steam, with its "Citrus" encryption; Resident Evil Requiem, Dragon's Dogma 2, Monster Hunter Wilds and Stories 3, Pragmata,
 Dead Rising Deluxe Remaster, Kunitsu-Gami) decrypt and open with their values.
 
+**Find checksum** (*Tools*, or `checksum` on the command line): for a save the editor doesn't know,
+it tries CRC-32, CRC-32C, Adler-32, Fletcher-32, FNV-1a, CRC-16, additive sums, MD5, SHA-1 and
+SHA-256 stored at the start or end of the file, over the bytes after it, before it, or the whole
+file. Earlier copies of the file (from *File › Restore previous version*) weed out chance matches.
+Pick one and it is written again every time you save that file; it shows as zeros while editing.
+
 Big files open on a worker thread, and unpacking and decryption use every core.
 
 ## What it opens
