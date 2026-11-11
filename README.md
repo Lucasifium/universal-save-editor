@@ -251,6 +251,13 @@ lists every file in every save folder the same way; saving writes the card's cod
 game's own checksums inside these saves, so find values with the value search and test the edit in
 the emulator. Checked on a public PlayStation card and on PS2 cards made by mymc.
 
+**Single PlayStation 1 and 2 saves**: the files cheat devices and PC tools export open the same
+way, one file of the save folder at a time: `.mcs` and `.psx` (PlayStation), `.psu` (uLaunchELF),
+`.max` (Action Replay Max, LZARI-packed), `.cbs` (CodeBreaker, encrypted and zlib-packed),
+`.xps`/`.sps` (Xploder and SharkPort) and PS3 `.psv` (PlayStation and PlayStation 2 saves for the
+PS3, signed again on save). Each is packed back in its own format. Checked on real `.max` and
+`.psu` saves, whose Action Replay packing is reproduced byte for byte.
+
 **Unity PlayerPrefs**: many Unity games keep coins, unlocks and settings in PlayerPrefs instead of
 a save file. *Unity games (PlayerPrefs)* lists them: on Windows each Unity game's registry key
 (`HKCU\Software\<company>\<game>`) is exported to a `.reg` file that opens like a save, with every
