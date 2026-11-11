@@ -310,6 +310,30 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
         silver.insert(key, Value::from(n));
         total += n;
     }
+    // The other stockpiled resources: every stack of each, by map position.
+    let mut resources = Map::new();
+    for def in ["Steel", "Plasteel", "ComponentIndustrial", "ComponentSpacer", "Gold", "Uranium", "Jade", "Chemfuel", "WoodLog", "Cloth", "Hyperweave", "Synthread", "Devilstrand", "MedicineHerbal", "MedicineIndustrial", "MedicineUltratech", "Neutroamine", "Penoxycyline", "Luciferium", "Beer", "Smokeleaf", "Psychite"] {
+        let pat = format!("<def>{def}</def>");
+        let mut stacks = Map::new();
+        let mut at = 0;
+        while let Some(s) = find(d, pat.as_bytes(), at) {
+            at = s + 1;
+            let end = (s + 1500).min(d.len());
+            let stop = find(&d[..end], b"</li>", s).or_else(|| find(&d[..end], b"</thing>", s)).unwrap_or(end);
+            let Some((n, cs, ce)) = child(d, "stackCount", s, stop) else { continue };
+            let Ok(n) = n.trim().parse::<i64>() else { continue };
+            let pos = child(d, "pos", s, stop).map(|p| p.0).unwrap_or_default();
+            let key = unique_key(&stacks, &if pos.is_empty() { format!("Stack {}", stacks.len() + 1) } else { format!("Stack at {pos}") });
+            leaf(format!("/Resources/{}/{}", esc(def), esc(&key)), Leaf::Number { start: cs, end: ce }, &mut leaves);
+            stacks.insert(key, Value::from(n));
+        }
+        if !stacks.is_empty() {
+            resources.insert(def.to_string(), Value::Object(stacks));
+        }
+    }
+    if !resources.is_empty() {
+        root.insert("Resources".into(), Value::Object(resources));
+    }
     colony.insert("Silver (all stacks)".into(), Value::from(total));
     colony.insert("Colonists".into(), Value::from(colonists.len()));
     root.insert("Colony".into(), Value::Object(colony));
@@ -338,7 +362,7 @@ mod tests {
         <skills><skills><li><def>Shooting</def><level>8</level><passion>Major</passion></li><li><def>Cooking</def></li></skills></skills><inventory><li><def>Gun</def></li></inventory></li>\
         <li Class=\"Pawn\"><def>Muffalo</def><id>Muffalo2</id><faction>Faction_7</faction></li>\
         <li Class=\"Pawn\"><def>Human</def><id>Human3</id><faction>Faction_3</faction><skills><skills><li><def>Shooting</def><level>3</level></li></skills></skills></li>\
-        <li Class=\"Thing\"><def>Silver</def><pos>(10, 0, 4)</pos><stackCount>120</stackCount></li>\
+        <li Class=\"Thing\"><def>Silver</def><pos>(10, 0, 4)</pos><stackCount>120</stackCount></li><li Class=\"Thing\"><def>Steel</def><pos>(3, 0, 3)</pos><stackCount>40</stackCount></li>\
         </things></li></maps></game></savegame>";
 
     #[test]
@@ -352,6 +376,7 @@ mod tests {
         assert_eq!(doc.view["Colonists"]["Annie"]["Skills"]["Cooking"]["Passion"], "None");
         assert_eq!(doc.view["Colonists"].as_object().unwrap().len(), 1);
         assert_eq!(doc.view["Silver"]["Stack at (10, 0, 4)"], 120);
+        assert_eq!(doc.view["Resources"]["Steel"]["Stack at (3, 0, 3)"], 40);
         assert_eq!(doc.to_bytes().unwrap(), d);
         doc.set("/Colonists/Annie/Skills/Cooking/Level", Value::from(15)).unwrap();
         doc.set("/Colonists/Annie/Skills/Cooking/Passion", Value::from("Minor")).unwrap();

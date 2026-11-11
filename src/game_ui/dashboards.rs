@@ -1160,6 +1160,26 @@ pub fn rimworld(ui: &mut Ui, cx: &mut GameCtx) {
         });
         ui.weak("Levels run 0\u{2013}20 in the base game. A passion makes the colonist learn that skill faster.");
     });
+    let kinds = keys(cx, "/Resources");
+    if !kinds.is_empty() {
+        panel(ui, "Other resources", |ui| {
+            for kind in &kinds {
+                let base = join("/Resources", kind);
+                let stacks = keys(cx, &base);
+                let total: i64 = stacks.iter().filter_map(|k| cx.int(&join(&base, k))).sum();
+                egui::CollapsingHeader::new(format!("{}  ({} on the map)", words(kind), fmt_num(total as f64))).id_salt(("rw_res", kind)).show(ui, |ui| {
+                    egui::Grid::new(("rw_res_g", kind)).num_columns(2).striped(true).spacing([14.0, 3.0]).show(ui, |ui| {
+                        for k in &stacks {
+                            ui.label(k);
+                            cx.compact(ui, &join(&base, k), 70.0);
+                            ui.end_row();
+                        }
+                    });
+                });
+            }
+            ui.weak("Each stack of these the colony has on the map, with its position. A stack can't hold more than the game's stack limit for that item, so for more, raise several stacks.");
+        });
+    }
     let stacks = keys(cx, "/Silver");
     panel(ui, "Silver stacks", |ui| {
         if stacks.is_empty() {
