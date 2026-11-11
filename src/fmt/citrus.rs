@@ -39,19 +39,13 @@ struct Curve {
 }
 
 fn int(hex: &str) -> BigInt {
-    let b: Vec<u8> = (0..hex.len() / 2)
-        .map(|i| u8::from_str_radix(&hex[i * 2..i * 2 + 2], 16).unwrap())
-        .collect();
+    let b: Vec<u8> = (0..hex.len() / 2).map(|i| u8::from_str_radix(&hex[i * 2..i * 2 + 2], 16).unwrap()).collect();
     BigInt::from_bytes_le(Sign::Plus, &b)
 }
 
 fn curve(i: usize) -> Curve {
     let c = &CURVES[i];
-    Curve {
-        p: int(c[0]),
-        a: int(c[1]),
-        g: (int(c[3]), int(c[4])),
-    }
+    Curve { p: int(c[0]), a: int(c[1]), g: (int(c[3]), int(c[4])) }
 }
 
 type Point = (BigInt, BigInt);
@@ -62,16 +56,13 @@ fn inv(v: &BigInt, p: &BigInt) -> BigInt {
 
 fn add(a: Option<Point>, b: Option<Point>, c: &Curve) -> Option<Point> {
     let Some((x1, y1)) = a else { return b };
-    let Some((x2, y2)) = b else {
-        return Some((x1, y1));
-    };
+    let Some((x2, y2)) = b else { return Some((x1, y1)) };
     let p = &c.p;
     if x1 == x2 && (y1 != y2 || y1 == BigInt::ZERO) {
         return None;
     }
     let slope = if x1 == x2 {
-        (BigInt::from(3) * &x1 * &x1 + &c.a).mod_floor(p)
-            * inv(&(BigInt::from(2) * &y1).mod_floor(p), p)
+        (BigInt::from(3) * &x1 * &x1 + &c.a).mod_floor(p) * inv(&(BigInt::from(2) * &y1).mod_floor(p), p)
     } else {
         (&y2 - &y1).mod_floor(p) * inv(&(&x2 - &x1).mod_floor(p), p)
     }
@@ -110,9 +101,7 @@ fn unwrap_word(seg: &[u8], d: &BigInt, c: &Curve) -> Option<u64> {
     let c2 = (n(64..96), n(96..128));
     let (sx, sy) = mul(d, c1, c)?;
     let m = add(Some(c2), Some((sx, (-sy).mod_floor(&c.p))), c)?;
-    Some(u64::from_le_bytes(
-        le32(&(m.0 / 100))[..8].try_into().unwrap(),
-    ))
+    Some(u64::from_le_bytes(le32(&(m.0 / 100))[..8].try_into().unwrap()))
 }
 
 fn unwrap_keys(keys: &[u8], d: &BigInt, c: &Curve) -> Option<([u8; 16], [u8; 16])> {
@@ -186,11 +175,7 @@ fn plain_len(d: &[u8]) -> usize {
 
 /// The private key for a Steam ID (the 64-bit id; an account number is widened).
 fn private(steam: u64) -> BigInt {
-    let id = if steam > u32::MAX as u64 {
-        steam
-    } else {
-        0x0110_0001_0000_0000 | steam
-    };
+    let id = if steam > u32::MAX as u64 { steam } else { 0x0110_0001_0000_0000 | steam };
     BigInt::from(!id)
 }
 
@@ -251,12 +236,7 @@ pub fn decrypt(d: &[u8], curve_index: usize, steam: u64) -> Option<Vec<u8>> {
 
 /// A file holding `plain`, built from `like` (the file it was read from): its header, tail
 /// and each block's keys are kept.
-pub fn encrypt(
-    plain: &[u8],
-    like: &[u8],
-    curve_index: usize,
-    steam: u64,
-) -> Result<Vec<u8>, String> {
+pub fn encrypt(plain: &[u8], like: &[u8], curve_index: usize, steam: u64) -> Result<Vec<u8>, String> {
     if !looks(like) {
         return Err("not a Citrus save".into());
     }
@@ -265,8 +245,7 @@ pub fn encrypt(
     let count = plain.len().div_ceil(DATA).max(1);
     let plan: Vec<(usize, &[u8])> = (0..count).map(|i| (i, old[i.min(old.len() - 1)])).collect();
     let built = crate::par::map(&plan, |(i, model)| -> Result<Vec<u8>, String> {
-        let (k, v, wrapped) =
-            block_keys(model, &pk, &c).ok_or("the save's keys don't open with this account")?;
+        let (k, v, wrapped) = block_keys(model, &pk, &c).ok_or("the save's keys don't open with this account")?;
         let mut data = vec![0u8; DATA];
         let from = i * DATA;
         let to = (from + DATA).min(plain.len());
@@ -317,19 +296,9 @@ mod tests {
         let ci = 3;
         let c = curve(ci);
         let (key, iv) = ([1u8; 16], [2u8; 16]);
-        let (dk, dv) = (
-            [
-                0x11u8, 0x22, 0x33, 0x44, 0x55, 0x66, 0x77, 0x88, 9, 10, 11, 12, 13, 14, 15, 16,
-            ],
-            [7u8; 16],
-        );
-        let words = [&dk[..8], &dk[8..], &dv[..8], &dv[8..]]
-            .map(|w| u64::from_le_bytes(w.try_into().unwrap()));
-        let mut wrapped: Vec<u8> = words
-            .iter()
-            .enumerate()
-            .flat_map(|(i, &w)| wrap_word(w, 1000 + i as u64, steam, &c))
-            .collect();
+        let (dk, dv) = ([0x11u8, 0x22, 0x33, 0x44, 0x55, 0x66, 0x77, 0x88, 9, 10, 11, 12, 13, 14, 15, 16], [7u8; 16]);
+        let words = [&dk[..8], &dk[8..], &dv[..8], &dv[8..]].map(|w| u64::from_le_bytes(w.try_into().unwrap()));
+        let mut wrapped: Vec<u8> = words.iter().enumerate().flat_map(|(i, &w)| wrap_word(w, 1000 + i as u64, steam, &c)).collect();
         assert_eq!(unwrap_keys(&wrapped, &private(steam), &c), Some((dk, dv)));
         cbc_encrypt(&mut wrapped, &key, &iv);
         let mut like = b"DSSS\x02\0\0\0\x04\0\0\0\0\0\0\0".to_vec();

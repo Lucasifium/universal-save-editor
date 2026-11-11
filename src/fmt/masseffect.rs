@@ -10,14 +10,7 @@ use super::fields::{Builder, Checksum, Kind};
 use crate::tree::TreeDoc;
 
 const ME2_DIFFICULTY: [&str; 5] = ["Casual", "Normal", "Veteran", "Hardcore", "Insanity"];
-const ME3_DIFFICULTY: [&str; 6] = [
-    "Narrative",
-    "Casual",
-    "Normal",
-    "Hardcore",
-    "Insanity",
-    "What Is Beyond Insanity",
-];
+const ME3_DIFFICULTY: [&str; 6] = ["Narrative", "Casual", "Normal", "Hardcore", "Insanity", "What Is Beyond Insanity"];
 
 pub fn looks(d: &[u8]) -> bool {
     if d.len() < 64 {
@@ -39,11 +32,7 @@ struct R<'a, 'b> {
 
 impl R<'_, '_> {
     fn i32(&mut self) -> Result<i32, String> {
-        let v = self
-            .b
-            .d
-            .get(self.pos..self.pos + 4)
-            .ok_or("the save ends early")?;
+        let v = self.b.d.get(self.pos..self.pos + 4).ok_or("the save ends early")?;
         self.pos += 4;
         Ok(i32::from_le_bytes(v.try_into().unwrap()))
     }
@@ -71,25 +60,14 @@ impl R<'_, '_> {
         }
         let d = self.b.d;
         if n > 0 {
-            let s = d
-                .get(self.pos..self.pos + n as usize)
-                .ok_or("the save ends early")?;
+            let s = d.get(self.pos..self.pos + n as usize).ok_or("the save ends early")?;
             self.pos += n as usize;
-            Ok(s.iter()
-                .take_while(|&&c| c != 0)
-                .map(|&c| super::bethesda_cp1252(c))
-                .collect())
+            Ok(s.iter().take_while(|&&c| c != 0).map(|&c| super::bethesda_cp1252(c)).collect())
         } else {
             let len = 2 * n.unsigned_abs() as usize;
-            let s = d
-                .get(self.pos..self.pos + len)
-                .ok_or("the save ends early")?;
+            let s = d.get(self.pos..self.pos + len).ok_or("the save ends early")?;
             self.pos += len;
-            let units: Vec<u16> = s
-                .chunks(2)
-                .map(|c| u16::from_le_bytes([c[0], c[1]]))
-                .take_while(|&u| u != 0)
-                .collect();
+            let units: Vec<u16> = s.chunks(2).map(|c| u16::from_le_bytes([c[0], c[1]])).take_while(|&u| u != 0).collect();
             Ok(String::from_utf16_lossy(&units))
         }
     }
@@ -123,11 +101,7 @@ impl R<'_, '_> {
             }
             let class = self.string()?;
             self.skip(4)?;
-            let label = if name.is_empty() || name == "None" {
-                class
-            } else {
-                name
-            };
+            let label = if name.is_empty() || name == "None" { class } else { name };
             let mut p: Vec<&str> = base.to_vec();
             p.push(&label);
             self.b.ranged(&p, rank_at, Kind::F32, 0, 6);
@@ -146,15 +120,7 @@ impl R<'_, '_> {
         for i in 0..self.count()? {
             let class = self.string()?;
             self.skip(4)?; // ammo used
-            let label = format!(
-                "{} ({})",
-                class
-                    .rsplit('.')
-                    .next()
-                    .unwrap_or(&class)
-                    .trim_start_matches("SFXWeapon_"),
-                i + 1
-            );
+            let label = format!("{} ({})", class.rsplit('.').next().unwrap_or(&class).trim_start_matches("SFXWeapon_"), i + 1);
             let mut p: Vec<&str> = base.to_vec();
             p.push(&label);
             p.push("Spare ammo");
@@ -183,11 +149,7 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
         _ => "Mass Effect 3",
     };
     b.info(&["Save", "Game"], game);
-    let mut r = R {
-        b: &mut b,
-        pos: 4,
-        version,
-    };
+    let mut r = R { b: &mut b, pos: 4, version };
     let res = walk(&mut r);
     let kind = format!("{game} save");
     let note = match res {
@@ -207,11 +169,7 @@ fn walk(r: &mut R) -> Result<(), String> {
     if me3 && r.version >= 36 {
         r.string()?;
     }
-    let names: &[&str] = if me3 {
-        &ME3_DIFFICULTY
-    } else {
-        &ME2_DIFFICULTY
-    };
+    let names: &[&str] = if me3 { &ME3_DIFFICULTY } else { &ME2_DIFFICULTY };
     r.b.named(&["Save", "Difficulty"], r.pos, Kind::U8, names);
     r.skip(1)?;
     if me3 && (43..=46).contains(&r.version) {
@@ -220,7 +178,7 @@ fn walk(r: &mut R) -> Result<(), String> {
     r.skip(4)?; // end game state
     r.skip(16)?; // time stamp
     r.skip(12 + 12 + 4)?; // location, rotation, loading tip
-                          // Levels (name, 2 bools), streaming (name, bool), kismet (guid, bool), doors (guid, 2 bytes).
+    // Levels (name, 2 bools), streaming (name, bool), kismet (guid, bool), doors (guid, 2 bytes).
     for _ in 0..r.count()? {
         r.string()?;
         r.skip(8)?;
@@ -272,15 +230,7 @@ fn player(r: &mut R) -> Result<(), String> {
     let female = r.i32()? != 0;
     r.b.info(&["Shepard", "Female"], female);
     let class = r.string()?;
-    r.b.info(
-        &["Shepard", "Class"],
-        class
-            .rsplit('.')
-            .next()
-            .unwrap_or(&class)
-            .trim_start_matches("SFXPawn_Player")
-            .to_string(),
-    );
+    r.b.info(&["Shepard", "Class"], class.rsplit('.').next().unwrap_or(&class).trim_start_matches("SFXPawn_Player").to_string());
     if me3 {
         if r.version >= 37 {
             r.skip(4)?;
@@ -295,19 +245,9 @@ fn player(r: &mut R) -> Result<(), String> {
     let first = r.string()?;
     r.b.info(&["Shepard", "First name"], first);
     r.skip(4)?; // last name (string id)
-    r.b.named(
-        &["Shepard", "Origin"],
-        r.pos,
-        Kind::U8,
-        &["None", "Spacer", "Colonist", "Earthborn"],
-    );
+    r.b.named(&["Shepard", "Origin"], r.pos, Kind::U8, &["None", "Spacer", "Colonist", "Earthborn"]);
     r.skip(1)?;
-    r.b.named(
-        &["Shepard", "Reputation"],
-        r.pos,
-        Kind::U8,
-        &["None", "Survivor", "War Hero", "Ruthless"],
-    );
+    r.b.named(&["Shepard", "Reputation"], r.pos, Kind::U8, &["None", "Survivor", "War Hero", "Ruthless"]);
     r.skip(1)?;
     r.ranged(&["Shepard", "Talent points"], Kind::I32, 0, 9999)?;
     for _ in 0..3 {
@@ -350,12 +290,7 @@ fn player(r: &mut R) -> Result<(), String> {
     }
     r.ranged(&["Resources", "Credits"], Kind::I32, 0, i32::MAX as i64)?;
     r.ranged(&["Resources", "Medi-gel"], Kind::I32, 0, 999)?;
-    r.ranged(
-        &["Resources", "Element zero"],
-        Kind::I32,
-        0,
-        i32::MAX as i64,
-    )?;
+    r.ranged(&["Resources", "Element zero"], Kind::I32, 0, i32::MAX as i64)?;
     r.ranged(&["Resources", "Iridium"], Kind::I32, 0, i32::MAX as i64)?;
     r.ranged(&["Resources", "Palladium"], Kind::I32, 0, i32::MAX as i64)?;
     r.ranged(&["Resources", "Platinum"], Kind::I32, 0, i32::MAX as i64)?;
@@ -442,10 +377,7 @@ fn squad_name(tag: &str) -> String {
         "nyreen" => "Nyreen",
         _ => {
             let mut c = t.chars();
-            return c
-                .next()
-                .map(|f| f.to_uppercase().collect::<String>() + c.as_str())
-                .unwrap_or_else(|| tag.to_string());
+            return c.next().map(|f| f.to_uppercase().collect::<String>() + c.as_str()).unwrap_or_else(|| tag.to_string());
         }
     };
     n.to_string()
@@ -462,11 +394,7 @@ mod tests {
         let path = std::env::var("SAVE_EDITOR_ME").expect("SAVE_EDITOR_ME");
         let d = std::fs::read(path).unwrap();
         let doc = parse(&d).unwrap();
-        println!(
-            "{}\n{}",
-            doc.note.clone().unwrap_or_default(),
-            serde_json::to_string_pretty(&doc.view).unwrap()
-        );
+        println!("{}\n{}", doc.note.clone().unwrap_or_default(), serde_json::to_string_pretty(&doc.view).unwrap());
         assert_eq!(doc.to_bytes().unwrap(), d);
     }
 }
@@ -483,19 +411,13 @@ mod sweep {
                 let p = e.path();
                 if p.is_dir() {
                     walk(&p, out);
-                } else if p
-                    .extension()
-                    .is_some_and(|x| x.eq_ignore_ascii_case("pcsav"))
-                {
+                } else if p.extension().is_some_and(|x| x.eq_ignore_ascii_case("pcsav")) {
                     out.push(p);
                 }
             }
         }
         let mut files = vec![];
-        walk(
-            std::path::Path::new(&std::env::var("SAVE_EDITOR_ME_DIR").unwrap()),
-            &mut files,
-        );
+        walk(std::path::Path::new(&std::env::var("SAVE_EDITOR_ME_DIR").unwrap()), &mut files);
         let (mut ok, mut partial, mut other) = (0, 0, 0);
         for f in &files {
             let d = std::fs::read(f).unwrap();

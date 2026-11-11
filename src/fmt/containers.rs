@@ -12,15 +12,9 @@ use std::io::{Read, Write};
 
 // ------------------------------------------------------------------ BND4
 
-const DS3_KEY: [u8; 16] = [
-    0xFD, 0x46, 0x4D, 0x69, 0x5E, 0x69, 0xA3, 0x9A, 0x10, 0xE3, 0x19, 0xA7, 0xAC, 0xE8, 0xB7, 0xFA,
-];
-const DS2_KEY: [u8; 16] = [
-    0x59, 0x9F, 0x9B, 0x69, 0x96, 0x40, 0xA5, 0x52, 0x36, 0xEE, 0x2D, 0x70, 0x83, 0x5E, 0xC7, 0x44,
-];
-const DSR_KEY: [u8; 16] = [
-    0x01, 0x23, 0x45, 0x67, 0x89, 0xAB, 0xCD, 0xEF, 0xFE, 0xDC, 0xBA, 0x98, 0x76, 0x54, 0x32, 0x10,
-];
+const DS3_KEY: [u8; 16] = [0xFD, 0x46, 0x4D, 0x69, 0x5E, 0x69, 0xA3, 0x9A, 0x10, 0xE3, 0x19, 0xA7, 0xAC, 0xE8, 0xB7, 0xFA];
+const DS2_KEY: [u8; 16] = [0x59, 0x9F, 0x9B, 0x69, 0x96, 0x40, 0xA5, 0x52, 0x36, 0xEE, 0x2D, 0x70, 0x83, 0x5E, 0xC7, 0x44];
+const DSR_KEY: [u8; 16] = [0x01, 0x23, 0x45, 0x67, 0x89, 0xAB, 0xCD, 0xEF, 0xFE, 0xDC, 0xBA, 0x98, 0x76, 0x54, 0x32, 0x10];
 
 #[derive(Clone, Debug)]
 pub struct Bnd4Entry {
@@ -52,18 +46,8 @@ pub fn bnd4_entries(d: &[u8]) -> Option<Vec<Bnd4Entry>> {
         if offset.checked_add(size)? > d.len() || size < 16 {
             return None;
         }
-        let units: Vec<u16> = d
-            .get(name_off..)?
-            .chunks_exact(2)
-            .map(|c| u16::from_le_bytes([c[0], c[1]]))
-            .take_while(|&u| u != 0)
-            .take(64)
-            .collect();
-        out.push(Bnd4Entry {
-            name: String::from_utf16(&units).ok()?,
-            offset,
-            size,
-        });
+        let units: Vec<u16> = d.get(name_off..)?.chunks_exact(2).map(|c| u16::from_le_bytes([c[0], c[1]])).take_while(|&u| u != 0).take(64).collect();
+        out.push(Bnd4Entry { name: String::from_utf16(&units).ok()?, offset, size });
     }
     Some(out)
 }
@@ -88,9 +72,7 @@ pub fn bnd4_open(d: &[u8], e: &Bnd4Entry) -> Option<(Vec<u8>, Option<[u8; 16]>, 
     let mut best: Option<(f64, Vec<u8>, [u8; 16], Vec<u8>)> = None;
     for key in [DS3_KEY, DS2_KEY, DSR_KEY] {
         let mut buf = body.to_vec();
-        cbc::Decryptor::<aes::Aes128>::new(&key.into(), iv.into())
-            .decrypt_padded_mut::<NoPadding>(&mut buf)
-            .ok()?;
+        cbc::Decryptor::<aes::Aes128>::new(&key.into(), iv.into()).decrypt_padded_mut::<NoPadding>(&mut buf).ok()?;
         let z = zero_share(&buf);
         if z > 0.05 && best.as_ref().is_none_or(|b| z > b.0) {
             best = Some((z, buf, key, iv.to_vec()));
@@ -103,18 +85,9 @@ pub fn bnd4_open(d: &[u8], e: &Bnd4Entry) -> Option<(Vec<u8>, Option<[u8; 16]>, 
 }
 
 /// Put edited entry data back: re-encrypt, new MD5, same place and size.
-pub fn bnd4_replace(
-    d: &[u8],
-    name: &str,
-    data: &[u8],
-    key: Option<[u8; 16]>,
-    iv: &[u8],
-) -> Result<Vec<u8>, String> {
+pub fn bnd4_replace(d: &[u8], name: &str, data: &[u8], key: Option<[u8; 16]>, iv: &[u8]) -> Result<Vec<u8>, String> {
     let entries = bnd4_entries(d).ok_or("the save archive changed")?;
-    let e = entries
-        .iter()
-        .find(|e| e.name == name)
-        .ok_or("entry not found")?;
+    let e = entries.iter().find(|e| e.name == name).ok_or("entry not found")?;
     let rest = match key {
         None => data.to_vec(),
         Some(key) => {
@@ -139,16 +112,12 @@ pub fn bnd4_replace(
 /// The entry to open by default: the first character slot that isn't empty.
 pub fn bnd4_default(d: &[u8], entries: &[Bnd4Entry]) -> Option<usize> {
     // The first slot that really holds a character.
-    if let Some(i) = entries.iter().position(|e| {
-        bnd4_open(d, e).is_some_and(|(p, _, _)| super::fromsoft::detect(&p).is_some())
-    }) {
+    if let Some(i) = entries.iter().position(|e| bnd4_open(d, e).is_some_and(|(p, _, _)| super::fromsoft::detect(&p).is_some())) {
         return Some(i);
     }
     entries
         .iter()
-        .position(|e| {
-            bnd4_open(d, e).is_some_and(|(p, _, _)| p.iter().any(|&b| b != 0)) && e.size > 0x10000
-        })
+        .position(|e| bnd4_open(d, e).is_some_and(|(p, _, _)| p.iter().any(|&b| b != 0)) && e.size > 0x10000)
         .or_else(|| entries.iter().position(|e| bnd4_open(d, e).is_some()))
 }
 
@@ -182,12 +151,8 @@ pub fn region_open(d: &[u8], index: usize) -> Option<(Vec<u8>, u8)> {
     let body = d.get(off + 5..off + 4 + len)?;
     let mut out = Vec::new();
     match kind {
-        1 => flate2::read::GzDecoder::new(body)
-            .read_to_end(&mut out)
-            .ok()?,
-        2 => flate2::read::ZlibDecoder::new(body)
-            .read_to_end(&mut out)
-            .ok()?,
+        1 => flate2::read::GzDecoder::new(body).read_to_end(&mut out).ok()?,
+        2 => flate2::read::ZlibDecoder::new(body).read_to_end(&mut out).ok()?,
         3 => {
             out = body.to_vec();
             0
@@ -246,10 +211,7 @@ mod tests {
         let nbt = b"\x0a\x00\x00\x01\x00\x01a\x05\x00".to_vec();
         let r = region_replace(&d, 5, &nbt, 2).unwrap();
         d = r;
-        assert_eq!(
-            region_chunks(&d).unwrap(),
-            vec![(5, "chunk 5,0".to_string())]
-        );
+        assert_eq!(region_chunks(&d).unwrap(), vec![(5, "chunk 5,0".to_string())]);
         assert_eq!(region_open(&d, 5).unwrap(), (nbt.clone(), 2));
         // A much bigger chunk moves to the end of the file.
         let big: Vec<u8> = (0..20000u32).map(|i| (i * 7919 % 251) as u8).collect();
@@ -265,9 +227,7 @@ mod tests {
         enc_plain[5] = 9;
         let iv = [7u8; 16];
         let mut ct = enc_plain.clone();
-        cbc::Encryptor::<aes::Aes128>::new(&DS3_KEY.into(), &iv.into())
-            .encrypt_padded_mut::<NoPadding>(&mut ct, 64)
-            .unwrap();
+        cbc::Encryptor::<aes::Aes128>::new(&DS3_KEY.into(), &iv.into()).encrypt_padded_mut::<NoPadding>(&mut ct, 64).unwrap();
         let e0 = [Md5::digest(&plain).to_vec(), plain.clone()].concat();
         let body1 = [iv.to_vec(), ct].concat();
         let e1 = [Md5::digest(&body1).to_vec(), body1].concat();
@@ -277,14 +237,8 @@ mod tests {
         d[0x20] = 0x20;
         d[0x30] = 1;
         let names = 0x80;
-        let n0: Vec<u8> = "USER_DATA000\0"
-            .encode_utf16()
-            .flat_map(u16::to_le_bytes)
-            .collect();
-        let n1: Vec<u8> = "USER_DATA001\0"
-            .encode_utf16()
-            .flat_map(u16::to_le_bytes)
-            .collect();
+        let n0: Vec<u8> = "USER_DATA000\0".encode_utf16().flat_map(u16::to_le_bytes).collect();
+        let n1: Vec<u8> = "USER_DATA001\0".encode_utf16().flat_map(u16::to_le_bytes).collect();
         d[names..names + n0.len()].copy_from_slice(&n0);
         d[names + 0x20..names + 0x20 + n1.len()].copy_from_slice(&n1);
         for (i, (e, name_at)) in [(&e0, names), (&e1, names + 0x20)].into_iter().enumerate() {
@@ -312,9 +266,7 @@ mod tests {
     fn real_souls_saves() {
         let home = std::env::var("APPDATA").unwrap();
         for dir in ["EldenRing", "DarkSoulsIII", "DarkSoulsII", "Sekiro"] {
-            let Ok(walk) = std::fs::read_dir(format!("{home}\\{dir}")) else {
-                continue;
-            };
+            let Ok(walk) = std::fs::read_dir(format!("{home}\\{dir}")) else { continue };
             for sub in walk.flatten().filter(|e| e.path().is_dir()) {
                 for f in std::fs::read_dir(sub.path()).unwrap().flatten() {
                     let p = f.path();
@@ -327,23 +279,10 @@ mod tests {
                     for e in &entries {
                         let (plain, key, iv) = bnd4_open(&d, e).expect("checksum ok");
                         let back = bnd4_replace(&d, &e.name, &plain, key, &iv).unwrap();
-                        assert_eq!(
-                            back,
-                            d,
-                            "{} {} must re-encode identically",
-                            p.display(),
-                            e.name
-                        );
+                        assert_eq!(back, d, "{} {} must re-encode identically", p.display(), e.name);
                     }
                     let (p0, key, _) = bnd4_open(&d, &entries[first]).unwrap();
-                    println!(
-                        "{} {} entries, default {} encrypted {} zeros {:.0}%",
-                        p.display(),
-                        entries.len(),
-                        entries[first].name,
-                        key.is_some(),
-                        zero_share(&p0) * 100.0
-                    );
+                    println!("{} {} entries, default {} encrypted {} zeros {:.0}%", p.display(), entries.len(), entries[first].name, key.is_some(), zero_share(&p0) * 100.0);
                 }
             }
         }

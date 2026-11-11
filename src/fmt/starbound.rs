@@ -148,25 +148,15 @@ impl Rd<'_> {
 
     fn text(&mut self) -> Result<String, String> {
         let n = self.varint()? as usize;
-        let end = self
-            .p
-            .checked_add(n)
-            .filter(|&e| e <= self.d.len())
-            .ok_or("text runs past the end")?;
-        let s = std::str::from_utf8(&self.d[self.p..end])
-            .map_err(|_| "text isn't UTF-8")?
-            .to_string();
+        let end = self.p.checked_add(n).filter(|&e| e <= self.d.len()).ok_or("text runs past the end")?;
+        let s = std::str::from_utf8(&self.d[self.p..end]).map_err(|_| "text isn't UTF-8")?.to_string();
         self.p = end;
         Ok(s)
     }
 
     fn leaf(&mut self, ptr: &str, start: usize, ty: Ty, v: Value) -> Value {
         self.editable.insert(ptr.to_string(), self.leaves.len());
-        self.leaves.push(Leaf {
-            start,
-            end: self.p,
-            ty,
-        });
+        self.leaves.push(Leaf { start, end: self.p, ty });
         v
     }
 
@@ -178,12 +168,7 @@ impl Rd<'_> {
         Ok(match self.byte()? {
             1 => Value::Null,
             2 => {
-                let b: [u8; 8] = self
-                    .d
-                    .get(self.p..self.p + 8)
-                    .ok_or("file ends early")?
-                    .try_into()
-                    .unwrap();
+                let b: [u8; 8] = self.d.get(self.p..self.p + 8).ok_or("file ends early")?.try_into().unwrap();
                 self.p += 8;
                 let f = f64::from_be_bytes(b);
                 if f.is_finite() {
@@ -198,11 +183,7 @@ impl Rd<'_> {
             }
             4 => {
                 let z = self.varint()?;
-                let n = if z & 1 == 1 {
-                    -((z >> 1) as i64) - 1
-                } else {
-                    (z >> 1) as i64
-                };
+                let n = if z & 1 == 1 { -((z >> 1) as i64) - 1 } else { (z >> 1) as i64 };
                 self.leaf(ptr, start, Ty::Int, Value::from(n))
             }
             5 => {
@@ -243,19 +224,10 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
     if !looks(d) {
         return Err("not a Starbound file".into());
     }
-    let mut r = Rd {
-        d,
-        p: MAGIC.len(),
-        leaves: vec![],
-        editable: HashMap::new(),
-    };
+    let mut r = Rd { d, p: MAGIC.len(), leaves: vec![], editable: HashMap::new() };
     let name = r.text()?;
     let version = if r.byte()? != 0 {
-        let b: [u8; 4] = d
-            .get(r.p..r.p + 4)
-            .ok_or("file ends early")?
-            .try_into()
-            .unwrap();
+        let b: [u8; 4] = d.get(r.p..r.p + 4).ok_or("file ends early")?.try_into().unwrap();
         r.p += 4;
         Some(i32::from_be_bytes(b))
     } else {
@@ -269,15 +241,7 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
         "PlayerEntity" => KIND_PLAYER.to_string(),
         n => format!("Starbound {n}"),
     };
-    let mut doc = TreeDoc::new(
-        view,
-        r.editable,
-        kind,
-        Box::new(SbBackend {
-            raw: d.to_vec(),
-            leaves: r.leaves,
-        }),
-    );
+    let mut doc = TreeDoc::new(view, r.editable, kind, Box::new(SbBackend { raw: d.to_vec(), leaves: r.leaves }));
     if name == "PlayerEntity" && version.is_some_and(|v| v < 20) {
         doc = doc.with_note("This character comes from an early-access version of Starbound (before 1.0); the game converts it when it loads, and the screen shows only what that older layout has.");
     }
@@ -380,73 +344,25 @@ pub(crate) mod tests {
         let mut doc = parse(&raw).unwrap();
         assert_eq!(doc.kind_name, KIND_PLAYER);
         assert_eq!(doc.to_bytes().unwrap(), raw);
-        assert_eq!(
-            doc.view.pointer("/inventory/currencies/essence").unwrap(),
-            -3
-        );
-        assert_eq!(
-            doc.view
-                .pointer("/inventory/itemBags/mainBag/2/content/name")
-                .unwrap(),
-            "torch"
-        );
-        assert_eq!(
-            doc.view
-                .pointer("/statusController/resourceValues/food")
-                .unwrap()
-                .as_f64(),
-            Some(52.5)
-        );
+        assert_eq!(doc.view.pointer("/inventory/currencies/essence").unwrap(), -3);
+        assert_eq!(doc.view.pointer("/inventory/itemBags/mainBag/2/content/name").unwrap(), "torch");
+        assert_eq!(doc.view.pointer("/statusController/resourceValues/food").unwrap().as_f64(), Some(52.5));
         // 60 is one varint byte; 1,000,000 takes three: the file grows and the rest stays put.
-        doc.set("/inventory/currencies/money", Value::from(1_000_000))
-            .unwrap();
-        doc.set(
-            "/inventory/itemBags/mainBag/0/content/count",
-            Value::from(999),
-        )
-        .unwrap();
-        doc.set(
-            "/statusController/resourceValues/health",
-            Value::from(77.25),
-        )
-        .unwrap();
-        doc.set("/identity/name", Value::from("Nova Prime"))
-            .unwrap();
+        doc.set("/inventory/currencies/money", Value::from(1_000_000)).unwrap();
+        doc.set("/inventory/itemBags/mainBag/0/content/count", Value::from(999)).unwrap();
+        doc.set("/statusController/resourceValues/health", Value::from(77.25)).unwrap();
+        doc.set("/identity/name", Value::from("Nova Prime")).unwrap();
         doc.set("/log/introComplete", Value::Bool(false)).unwrap();
-        assert!(doc
-            .set("/inventory/currencies/money", Value::from("lots"))
-            .is_err());
+        assert!(doc.set("/inventory/currencies/money", Value::from("lots")).is_err());
         let out = doc.to_bytes().unwrap();
         let back = parse(&out).unwrap();
-        assert_eq!(
-            back.view.pointer("/inventory/currencies/money").unwrap(),
-            1_000_000
-        );
-        assert_eq!(
-            back.view
-                .pointer("/inventory/itemBags/mainBag/0/content/count")
-                .unwrap(),
-            999
-        );
-        assert_eq!(
-            back.view
-                .pointer("/statusController/resourceValues/health")
-                .unwrap()
-                .as_f64(),
-            Some(77.25)
-        );
+        assert_eq!(back.view.pointer("/inventory/currencies/money").unwrap(), 1_000_000);
+        assert_eq!(back.view.pointer("/inventory/itemBags/mainBag/0/content/count").unwrap(), 999);
+        assert_eq!(back.view.pointer("/statusController/resourceValues/health").unwrap().as_f64(), Some(77.25));
         assert_eq!(back.view.pointer("/identity/name").unwrap(), "Nova Prime");
         assert_eq!(back.view.pointer("/log/introComplete").unwrap(), false);
-        assert_eq!(
-            back.view.pointer("/inventory/currencies/essence").unwrap(),
-            -3
-        );
-        assert_eq!(
-            back.view
-                .pointer("/inventory/itemBags/mainBag/2/content/count")
-                .unwrap(),
-            40
-        );
+        assert_eq!(back.view.pointer("/inventory/currencies/essence").unwrap(), -3);
+        assert_eq!(back.view.pointer("/inventory/itemBags/mainBag/2/content/count").unwrap(), 40);
         assert!(parse(&raw[..raw.len() - 1]).is_err());
         assert!(parse(b"SBVJ01\x01x\x00\x09").is_err());
     }
@@ -458,27 +374,14 @@ pub(crate) mod tests {
         for path in list.split('|').filter(|s| !s.is_empty()) {
             let raw = std::fs::read(path).unwrap();
             let dec = crate::formats::decode(&raw);
-            let crate::formats::Content::Tree(t) = &dec.content else {
-                panic!("{path}: not a tree")
-            };
-            assert!(
-                t.kind_name.starts_with("Starbound"),
-                "{path}: {}",
-                t.kind_name
-            );
-            assert_eq!(
-                crate::formats::encode(&dec.layers, &dec.content).unwrap(),
-                raw,
-                "{path}: unchanged differs"
-            );
+            let crate::formats::Content::Tree(t) = &dec.content else { panic!("{path}: not a tree") };
+            assert!(t.kind_name.starts_with("Starbound"), "{path}: {}", t.kind_name);
+            assert_eq!(crate::formats::encode(&dec.layers, &dec.content).unwrap(), raw, "{path}: unchanged differs");
             if t.kind_name != KIND_PLAYER {
                 continue;
             }
             let mut doc = (**t).clone();
-            let money = ["/inventory/currencies/money", "/inventory/money"]
-                .into_iter()
-                .find(|p| doc.view.pointer(p).is_some())
-                .unwrap();
+            let money = ["/inventory/currencies/money", "/inventory/money"].into_iter().find(|p| doc.view.pointer(p).is_some()).unwrap();
             let n = doc.view.pointer(money).and_then(Value::as_i64).unwrap();
             // Past 2^20 so the varint gets longer.
             doc.set(money, Value::from(n + 5_000_000)).unwrap();
@@ -489,17 +392,9 @@ pub(crate) mod tests {
             }
             let out = doc.to_bytes().unwrap();
             let back = parse(&out).unwrap();
-            assert_eq!(
-                back.view.pointer(money).and_then(Value::as_i64),
-                Some(n + 5_000_000),
-                "{path}"
-            );
+            assert_eq!(back.view.pointer(money).and_then(Value::as_i64), Some(n + 5_000_000), "{path}");
             if had_health {
-                assert_eq!(
-                    back.view.pointer(health).and_then(Value::as_f64),
-                    Some(1234.5),
-                    "{path}"
-                );
+                assert_eq!(back.view.pointer(health).and_then(Value::as_f64), Some(1234.5), "{path}");
             }
             let mut a = t.view.clone();
             let mut b = back.view.clone();
@@ -510,12 +405,7 @@ pub(crate) mod tests {
                 *b.pointer_mut(health).unwrap() = Value::Null;
             }
             assert!(a == b, "{path}: other values changed");
-            println!(
-                "{path}: ok ({} values, {} bytes -> {})",
-                t.editable.len(),
-                raw.len(),
-                out.len()
-            );
+            println!("{path}: ok ({} values, {} bytes -> {})", t.editable.len(), raw.len(), out.len());
         }
     }
 }

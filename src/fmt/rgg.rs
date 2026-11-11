@@ -7,10 +7,7 @@
 
 /// (games, key)
 pub const KEYS: [(&str, &[u8]); 6] = [
-    (
-        "Kiwami 2, Like a Dragon, Infinite Wealth, Kiwami 3, Pirate Yakuza",
-        b"STarYZgr3DL11",
-    ),
+    ("Kiwami 2, Like a Dragon, Infinite Wealth, Kiwami 3, Pirate Yakuza", b"STarYZgr3DL11"),
     ("Like a Dragon (GOG)", b"r3DL11STarYZg"),
     ("Yakuza 6", b"VI3rbPckNsea7JOUMrgT"),
     ("Judgment", b"OphYnzbPoV5lj"),
@@ -35,10 +32,7 @@ pub struct Wrap {
 }
 
 fn xor(d: &[u8], key: &[u8]) -> Vec<u8> {
-    d.iter()
-        .enumerate()
-        .map(|(i, b)| b ^ key[i % key.len()])
-        .collect()
+    d.iter().enumerate().map(|(i, b)| b ^ key[i % key.len()]).collect()
 }
 
 fn sum(check: Check, d: &[u8]) -> u32 {
@@ -85,24 +79,13 @@ pub fn decrypt(d: &[u8]) -> Option<(Wrap, Vec<u8>)> {
         }
         let tail = if k == ISHIN { 16 } else { 4 };
         let body = &d[..d.len() - tail];
-        let stored = if k == ISHIN {
-            &d[d.len() - 8..d.len() - 4]
-        } else {
-            &d[d.len() - 4..]
-        };
+        let stored = if k == ISHIN { &d[d.len() - 8..d.len() - 4] } else { &d[d.len() - 4..] };
         let stored = u32::from_le_bytes(stored.try_into().unwrap());
         let plain = xor(body, key);
         for check in [Check::Crc32, Check::Adler0] {
             if sum(check, &plain) == stored {
                 let trailer = (k == ISHIN).then(|| d[d.len() - 16..].try_into().unwrap());
-                return Some((
-                    Wrap {
-                        key: k as u8,
-                        check,
-                        trailer,
-                    },
-                    plain,
-                ));
+                return Some((Wrap { key: k as u8, check, trailer }, plain));
             }
         }
     }
@@ -138,17 +121,9 @@ mod tests {
         let json = br#"{".ver":1,"player":{"point":{"m_point":[0,1500]}}}"#.to_vec();
         let ishin = [20u8, 0, 0, 0, 1, 2, 3, 4, 5, 6, 7, 8].repeat(8);
         for k in 0..KEYS.len() {
-            let plain = if k == ISHIN {
-                ishin.clone()
-            } else {
-                json.clone()
-            };
+            let plain = if k == ISHIN { ishin.clone() } else { json.clone() };
             for check in [Check::Crc32, Check::Adler0] {
-                let w = Wrap {
-                    key: k as u8,
-                    check,
-                    trailer: (k == ISHIN).then_some([7u8; 16]),
-                };
+                let w = Wrap { key: k as u8, check, trailer: (k == ISHIN).then_some([7u8; 16]) };
                 let file = encrypt(&w, &plain);
                 let (w2, back) = decrypt(&file).unwrap_or_else(|| panic!("key {k}"));
                 assert_eq!(back, plain);

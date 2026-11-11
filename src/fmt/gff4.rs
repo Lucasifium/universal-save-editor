@@ -56,11 +56,7 @@ fn u32_at(d: &[u8], at: usize) -> Option<u32> {
 impl<'a> Gff4<'a> {
     /// A GFF V4.0 PC file of type `file_type` (e.g. `b"SAVE"`).
     pub fn open(d: &'a [u8], file_type: &[u8; 4]) -> Result<Self, String> {
-        if d.len() < 0x1C
-            || &d[0..8] != b"GFF V4.0"
-            || &d[8..12] != b"PC  "
-            || &d[12..16] != file_type
-        {
+        if d.len() < 0x1C || &d[0..8] != b"GFF V4.0" || &d[8..12] != b"PC  " || &d[12..16] != file_type {
             return Err("not a GFF V4.0 PC file".into());
         }
         let count = u32_at(d, 0x14).ok_or("short header")? as usize;
@@ -72,33 +68,20 @@ impl<'a> Gff4<'a> {
         for i in 0..count {
             let t = 0x1C + 16 * i;
             let label: [u8; 4] = d[t..t + 4].try_into().unwrap();
-            let (n, fo, size) = (
-                u32_at(d, t + 4).unwrap() as usize,
-                u32_at(d, t + 8).unwrap() as usize,
-                u32_at(d, t + 12).unwrap() as usize,
-            );
+            let (n, fo, size) = (u32_at(d, t + 4).unwrap() as usize, u32_at(d, t + 8).unwrap() as usize, u32_at(d, t + 12).unwrap() as usize);
             if n > 10_000 || fo.checked_add(12 * n).is_none_or(|e| e > d.len()) {
                 return Err("bad struct template".into());
             }
             let fields = (0..n)
                 .map(|k| {
                     let f = fo + 12 * k;
-                    Field {
-                        label: u32_at(d, f).unwrap(),
-                        ty: u16_at(d, f + 4).unwrap(),
-                        flags: u16_at(d, f + 6).unwrap(),
-                        off: u32_at(d, f + 8).unwrap() as usize,
-                    }
+                    Field { label: u32_at(d, f).unwrap(), ty: u16_at(d, f + 4).unwrap(), flags: u16_at(d, f + 6).unwrap(), off: u32_at(d, f + 8).unwrap() as usize }
                 })
                 .collect::<Vec<_>>();
             if fields.iter().any(|f| f.off >= size) {
                 return Err("field outside its struct".into());
             }
-            templates.push(Template {
-                label,
-                size,
-                fields,
-            });
+            templates.push(Template { label, size, fields });
         }
         if templates[0].size + data > d.len() {
             return Err("root struct outside the file".into());
@@ -107,10 +90,7 @@ impl<'a> Gff4<'a> {
     }
 
     pub fn root(&self) -> St {
-        St {
-            t: 0,
-            at: self.data,
-        }
+        St { t: 0, at: self.data }
     }
 
     pub fn label(&self, s: St) -> &[u8; 4] {
@@ -133,10 +113,7 @@ impl<'a> Gff4<'a> {
 
     /// The field definition and the absolute position of its slot in `s`.
     pub fn field(&self, s: St, label: u32) -> Option<(Field, usize)> {
-        let f = *self.templates[s.t]
-            .fields
-            .iter()
-            .find(|f| f.label == label)?;
+        let f = *self.templates[s.t].fields.iter().find(|f| f.label == label)?;
         Some((f, s.at + f.off))
     }
 
@@ -146,39 +123,25 @@ impl<'a> Gff4<'a> {
         if f.flags & LIST != 0 || f.flags & STRUCT == 0 {
             return None;
         }
-        let at = if f.flags & REF != 0 {
-            self.rel(u32_at(self.d, at)?)?
-        } else {
-            at
-        };
+        let at = if f.flags & REF != 0 { self.rel(u32_at(self.d, at)?)? } else { at };
         self.st(f.ty as usize, at)
     }
 
     /// The structs of a list field: inline structs, references to structs, or generic
     /// entries (type, flags, offset) that are structs. Missing entries are skipped.
     pub fn list(&self, s: St, label: u32) -> Vec<St> {
-        let Some((f, at)) = self.field(s, label) else {
-            return vec![];
-        };
+        let Some((f, at)) = self.field(s, label) else { return vec![] };
         if f.flags & LIST == 0 {
             return vec![];
         }
-        let Some(base) = u32_at(self.d, at).and_then(|o| self.rel(o)) else {
-            return vec![];
-        };
+        let Some(base) = u32_at(self.d, at).and_then(|o| self.rel(o)) else { return vec![] };
         let n = u32_at(self.d, base).unwrap_or(0) as usize;
         let first = base + 4;
         let mut out = vec![];
         for k in 0..n.min(1_000_000) {
             let st = if f.ty == GENERIC {
                 let e = first + 8 * k;
-                let (Some(t), Some(fl), Some(o)) = (
-                    u16_at(self.d, e),
-                    u16_at(self.d, e + 2),
-                    u32_at(self.d, e + 4),
-                ) else {
-                    break;
-                };
+                let (Some(t), Some(fl), Some(o)) = (u16_at(self.d, e), u16_at(self.d, e + 2), u32_at(self.d, e + 4)) else { break };
                 if fl & STRUCT == 0 || fl & LIST != 0 {
                     continue;
                 }
@@ -186,9 +149,7 @@ impl<'a> Gff4<'a> {
             } else if f.flags & STRUCT == 0 {
                 return vec![];
             } else if f.flags & REF != 0 {
-                let Some(o) = u32_at(self.d, first + 4 * k) else {
-                    break;
-                };
+                let Some(o) = u32_at(self.d, first + 4 * k) else { break };
                 self.rel(o).and_then(|a| self.st(f.ty as usize, a))
             } else {
                 let size = self.templates.get(f.ty as usize).map_or(0, |t| t.size);
@@ -206,26 +167,17 @@ impl<'a> Gff4<'a> {
 
     /// Number of entries in a list field.
     pub fn list_len(&self, s: St, label: u32) -> usize {
-        let Some((f, at)) = self.field(s, label) else {
-            return 0;
-        };
+        let Some((f, at)) = self.field(s, label) else { return 0 };
         if f.flags & LIST == 0 {
             return 0;
         }
-        u32_at(self.d, at)
-            .and_then(|o| self.rel(o))
-            .and_then(|b| u32_at(self.d, b))
-            .unwrap_or(0) as usize
+        u32_at(self.d, at).and_then(|o| self.rel(o)).and_then(|b| u32_at(self.d, b)).unwrap_or(0) as usize
     }
 
     fn utf16(&self, at: usize) -> Option<String> {
         let n = u32_at(self.d, at)? as usize;
         let b = self.d.get(at + 4..at.checked_add(4 + 2 * n)?)?;
-        let u: Vec<u16> = b
-            .chunks(2)
-            .map(|c| u16::from_le_bytes([c[0], c[1]]))
-            .take_while(|&c| c != 0)
-            .collect();
+        let u: Vec<u16> = b.chunks(2).map(|c| u16::from_le_bytes([c[0], c[1]])).take_while(|&c| c != 0).collect();
         Some(String::from_utf16_lossy(&u))
     }
 
@@ -246,10 +198,7 @@ impl<'a> Gff4<'a> {
         }
         let id = u32_at(self.d, at)?;
         // Offset 0 is the root struct, so it never holds text: it means "none".
-        let text = u32_at(self.d, at + 4)
-            .filter(|&o| o != 0)
-            .and_then(|o| self.rel(o))
-            .and_then(|a| self.utf16(a));
+        let text = u32_at(self.d, at + 4).filter(|&o| o != 0).and_then(|o| self.rel(o)).and_then(|a| self.utf16(a));
         Some((id, text))
     }
 
@@ -284,12 +233,7 @@ pub(crate) mod tests {
 
     /// Builds a GFF V4.0 PC file: `templates` = (label, size, fields (label, type, flags, offset)),
     /// `data` = the data section (the root struct first).
-    pub fn build(
-        file_type: &[u8; 4],
-        version: &[u8; 4],
-        templates: &[(&[u8; 4], u32, Vec<(u32, u16, u16, u32)>)],
-        data: &[u8],
-    ) -> Vec<u8> {
+    pub fn build(file_type: &[u8; 4], version: &[u8; 4], templates: &[(&[u8; 4], u32, Vec<(u32, u16, u16, u32)>)], data: &[u8]) -> Vec<u8> {
         let mut d = vec![];
         d.extend(b"GFF V4.0PC  ");
         d.extend(file_type);
@@ -334,15 +278,7 @@ pub(crate) mod tests {
         for c in "ab\0".encode_utf16() {
             data.extend(c.to_le_bytes());
         }
-        let f = build(
-            b"TEST",
-            b"V1.0",
-            &[
-                (b"ROOT", 8, vec![(1, 4, 0, 0), (2, 1, 0xC000, 4)]),
-                (b"ITEM", 8, vec![(3, 5, 0, 0), (4, 14, 0, 4)]),
-            ],
-            &data,
-        );
+        let f = build(b"TEST", b"V1.0", &[(b"ROOT", 8, vec![(1, 4, 0, 0), (2, 1, 0xC000, 4)]), (b"ITEM", 8, vec![(3, 5, 0, 0), (4, 14, 0, 4)])], &data);
         let g = Gff4::open(&f, b"TEST").unwrap();
         assert!(Gff4::open(&f, b"SAVE").is_err());
         let r = g.root();

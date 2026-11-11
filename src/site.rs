@@ -14,10 +14,7 @@ const DOWNLOAD: &str = "https://github.com/Lucasifium/universal-save-editor/rele
 const WEB_APP: &str = "app/";
 
 fn esc(s: &str) -> String {
-    s.replace('&', "&amp;")
-        .replace('<', "&lt;")
-        .replace('>', "&gt;")
-        .replace('"', "&quot;")
+    s.replace('&', "&amp;").replace('<', "&lt;").replace('>', "&gt;").replace('"', "&quot;")
 }
 
 /// README cell text (a little Markdown) to HTML.
@@ -42,14 +39,7 @@ fn md(s: &str) -> String {
 
 fn slug(name: &str) -> String {
     let mut s = String::new();
-    for c in name
-        .to_lowercase()
-        .replace(['\'', '\u{2019}'], "")
-        .replace('ö', "o")
-        .replace('é', "e")
-        .replace('&', " and ")
-        .chars()
-    {
+    for c in name.to_lowercase().replace(['\'', '\u{2019}'], "").replace('ö', "o").replace('é', "e").replace('&', " and ").chars() {
         if c.is_ascii_alphanumeric() {
             s.push(c);
         } else if !s.ends_with('-') && !s.is_empty() {
@@ -61,10 +51,7 @@ fn slug(name: &str) -> String {
 
 /// The words people type: "Cairn save editor"; a few catalog names read better shortened.
 fn search_name(name: &str) -> String {
-    if let Some(me) = name
-        .strip_prefix("Mass Effect Legendary Edition (ME")
-        .and_then(|r| r.strip_suffix(')'))
-    {
+    if let Some(me) = name.strip_prefix("Mass Effect Legendary Edition (ME").and_then(|r| r.strip_suffix(')')) {
         return format!("Mass Effect {me} Legendary Edition");
     }
     let n = name.split(" (").next().unwrap_or(name);
@@ -78,37 +65,19 @@ fn search_name(name: &str) -> String {
 /// Game-screen rows from the README: (names in the first cell, description).
 fn readme_rows() -> Vec<(String, String)> {
     let readme = include_str!("../README.md");
-    let table = readme
-        .split("## Game screens")
-        .nth(1)
-        .unwrap_or("")
-        .split("\n## ")
-        .next()
-        .unwrap_or("");
+    let table = readme.split("## Game screens").nth(1).unwrap_or("").split("\n## ").next().unwrap_or("");
     table
         .lines()
         .filter(|l| l.starts_with("| ") && !l.starts_with("| Game |"))
         .filter_map(|l| {
             let cells: Vec<&str> = l.trim_matches('|').split(" | ").collect();
-            (cells.len() >= 2).then(|| {
-                (
-                    cells[0].trim().to_string(),
-                    cells[1].trim().trim_end_matches('|').trim().to_string(),
-                )
-            })
+            (cells.len() >= 2).then(|| (cells[0].trim().to_string(), cells[1].trim().trim_end_matches('|').trim().to_string()))
         })
         .collect()
 }
 
 fn norm(s: &str) -> String {
-    s.to_lowercase()
-        .replace('ö', "o")
-        .chars()
-        .filter(|c| c.is_alphanumeric() || *c == ' ')
-        .collect::<String>()
-        .split_whitespace()
-        .collect::<Vec<_>>()
-        .join(" ")
+    s.to_lowercase().replace('ö', "o").chars().filter(|c| c.is_alphanumeric() || *c == ' ').collect::<String>().split_whitespace().collect::<Vec<_>>().join(" ")
 }
 
 /// Games that open on a screen of their own ("Game screen", or "Game screen: what it shows").
@@ -129,14 +98,9 @@ fn description(g: &GameInfo, rows: &[(String, String)]) -> Option<String> {
         return Some(r);
     }
     has_screen(g).then(|| {
-        let t = g
-            .support
-            .trim_start_matches("Game screen")
-            .trim_start_matches([':', ' ']);
+        let t = g.support.trim_start_matches("Game screen").trim_start_matches([':', ' ']);
         let mut c = t.chars();
-        c.next()
-            .map(|f| f.to_uppercase().chain(c).collect::<String>() + ".")
-            .unwrap_or_default()
+        c.next().map(|f| f.to_uppercase().chain(c).collect::<String>() + ".").unwrap_or_default()
     })
 }
 
@@ -152,11 +116,7 @@ fn readme_row(g: &GameInfo, rows: &[(String, String)]) -> Option<(usize, String)
         n if n.starts_with("Enderal") => Some("Skyrim, Fallout 4"),
         "Final Fantasy VII Rebirth" => Some("Final Fantasy VII Remake"),
         "Final Fantasy X / X-2 HD Remaster" => Some("Final Fantasy X (HD Remaster"),
-        n if n.starts_with("Mass Effect Legendary Edition (ME2")
-            || n.starts_with("Mass Effect Legendary Edition (ME3") =>
-        {
-            Some("Mass Effect 2, Mass Effect 3")
-        }
+        n if n.starts_with("Mass Effect Legendary Edition (ME2") || n.starts_with("Mass Effect Legendary Edition (ME3") => Some("Mass Effect 2, Mass Effect 3"),
         "Yakuza: Like a Dragon" => Some("Yakuza Kiwami 2, Like a Dragon"),
         n if n.starts_with("Metro") => Some("Metro 2033"),
         "Mass Effect (2008)" | "Mass Effect Legendary Edition (ME1)" => Some("Mass Effect (2008)"),
@@ -166,10 +126,7 @@ fn readme_row(g: &GameInfo, rows: &[(String, String)]) -> Option<(usize, String)
         _ => None,
     };
     if let Some(a) = alias {
-        return rows
-            .iter()
-            .find(|(g, _)| g.starts_with(a))
-            .map(|(_, d)| (100, d.clone()));
+        return rows.iter().find(|(g, _)| g.starts_with(a)).map(|(_, d)| (100, d.clone()));
     }
     let name = norm(g.name);
     let short = norm(g.name.split(" (").next().unwrap_or(g.name));
@@ -177,18 +134,12 @@ fn readme_row(g: &GameInfo, rows: &[(String, String)]) -> Option<(usize, String)
     for (games, desc) in rows {
         let cell = norm(games);
         // Pieces of the first cell: "Elden Ring, Dark Souls III / II / I" -> each listed game.
-        let pieces: Vec<String> = games
-            .split([',', '/'])
-            .map(norm)
-            .filter(|p| !p.is_empty())
-            .collect();
+        let pieces: Vec<String> = games.split([',', '/']).map(norm).filter(|p| !p.is_empty()).collect();
         let score = if cell == name || cell == short {
             100
         } else if pieces.iter().any(|p| *p == short || *p == name) {
             90
-        } else if pieces.iter().any(|p| {
-            p.len() > 4 && (short.starts_with(p.as_str()) || p.starts_with(short.as_str()))
-        }) {
+        } else if pieces.iter().any(|p| p.len() > 4 && (short.starts_with(p.as_str()) || p.starts_with(short.as_str()))) {
             60
         } else if short.len() > 5 && cell.contains(&short) {
             50
@@ -220,13 +171,7 @@ fn card_blurb(what: &str) -> String {
             _ => {}
         }
     }
-    let plain = plain
-        .replace("  ", " ")
-        .replace(" ,", ",")
-        .replace(" ;", ";")
-        .replace(" :", ":")
-        .replace(", changed in place", "")
-        .replace(" changed in place", "");
+    let plain = plain.replace("  ", " ").replace(" ,", ",").replace(" ;", ";").replace(" :", ":").replace(", changed in place", "").replace(" changed in place", "");
     let mut w = plain.split(". ").next().unwrap_or("").trim();
     // "Kiryu & Majima: money…" -> "money…"; "A map editor: pan…" keeps its label.
     if let Some((label, rest)) = w.split_once(": ") {
@@ -236,25 +181,9 @@ fn card_blurb(what: &str) -> String {
     }
     let technical = |p: &str| {
         let l = p.to_lowercase();
-        [
-            "decrypted",
-            "unpacked",
-            "packed again",
-            "encrypted",
-            "checksum",
-            "scrambled",
-            "aren't mapped",
-            "not yet",
-            "can't be",
-        ]
-        .iter()
-        .any(|t| l.contains(t))
+        ["decrypted", "unpacked", "packed again", "encrypted", "checksum", "scrambled", "aren't mapped", "not yet", "can't be"].iter().any(|t| l.contains(t))
     };
-    let parts: Vec<&str> = w
-        .split("; ")
-        .map(str::trim)
-        .filter(|p| !p.is_empty() && !technical(p))
-        .collect();
+    let parts: Vec<&str> = w.split("; ").map(str::trim).filter(|p| !p.is_empty() && !technical(p)).collect();
     let w = parts.join(", ");
     let w = w.trim_end_matches(['.', ',', ' ', '\u{2026}']);
     const MAX: usize = 64;
@@ -264,10 +193,7 @@ fn card_blurb(what: &str) -> String {
         let cut: String = w.chars().take(MAX).collect();
         let at = cut.rfind([',', ' ']).unwrap_or(cut.len());
         let cut = cut[..at].trim_end_matches([',', ' ', '/']);
-        let cut = cut
-            .strip_suffix(" and")
-            .or(cut.strip_suffix(" the"))
-            .unwrap_or(cut);
+        let cut = cut.strip_suffix(" and").or(cut.strip_suffix(" the")).unwrap_or(cut);
         format!("{}\u{2026}", cut.trim_end_matches([',', ' ']))
     };
     if let Some(f) = out.chars().next() {
@@ -278,10 +204,7 @@ fn card_blurb(what: &str) -> String {
 
 fn level(g: &GameInfo) -> (&'static str, &'static str) {
     if has_screen(g) {
-        (
-            "Game screen",
-            "A screen laid out for this game, with names for its items and values.",
-        )
+        ("Game screen", "A screen laid out for this game, with names for its items and values.")
     } else if g.support.starts_with("Binary saves") {
         // Paradox games: the catalog text says what is and isn't named.
         ("Values editor", g.support)
@@ -375,17 +298,14 @@ fn website_schema(app: &str, crumb: Option<(&str, &str)>) -> String {
     let mut app: serde_json::Value = serde_json::from_str(app).unwrap();
     app.as_object_mut().unwrap().remove("@context");
     app["isPartOf"] = serde_json::json!({"@id": format!("{SITE}/#website")});
-    let mut graph = vec![
-        serde_json::json!({
-            "@type": "WebSite",
-            "@id": format!("{SITE}/#website"),
-            "url": format!("{SITE}/"),
-            "name": "Universal Save Editor",
-            "alternateName": ["Universal Save Editor (offline)", "Offline Universal Save Editor"],
-            "inLanguage": "en"
-        }),
-        app,
-    ];
+    let mut graph = vec![serde_json::json!({
+                "@type": "WebSite",
+                "@id": format!("{SITE}/#website"),
+                "url": format!("{SITE}/"),
+                "name": "Universal Save Editor",
+                "alternateName": ["Universal Save Editor (offline)", "Offline Universal Save Editor"],
+                "inLanguage": "en"
+            }), app];
     if let Some((name, url)) = crumb {
         graph.push(serde_json::json!({
             "@type": "BreadcrumbList",
@@ -396,8 +316,8 @@ fn website_schema(app: &str, crumb: Option<(&str, &str)>) -> String {
         }));
     }
     serde_json::json!({"@context": "https://schema.org", "@graph": graph})
-        .to_string()
-        .replace("</", "<\\/")
+    .to_string()
+    .replace("</", "<\\/")
 }
 
 const WHY: &str = r#"<ul>
@@ -423,37 +343,21 @@ fn build_site() {
     for e in std::fs::read_dir(&out).into_iter().flatten().flatten() {
         if e.file_name() != "app" {
             let p = e.path();
-            let _ = if p.is_dir() {
-                std::fs::remove_dir_all(&p)
-            } else {
-                std::fs::remove_file(&p)
-            };
+            let _ = if p.is_dir() { std::fs::remove_dir_all(&p) } else { std::fs::remove_file(&p) };
         }
     }
     std::fs::create_dir_all(&out).unwrap();
     std::fs::write(out.join("style.css"), STYLE).unwrap();
     std::fs::write(out.join(".nojekyll"), "").unwrap();
     // Google Search Console's proof that this site belongs to the project's owner.
-    std::fs::write(
-        out.join("google9d120e6c8e9d3fa5.html"),
-        "google-site-verification: google9d120e6c8e9d3fa5.html",
-    )
-    .unwrap();
+    std::fs::write(out.join("google9d120e6c8e9d3fa5.html"), "google-site-verification: google9d120e6c8e9d3fa5.html").unwrap();
     let rows = readme_rows();
     let mut urls = vec![format!("{SITE}/"), format!("{SITE}/{WEB_APP}")];
     let mut cards = String::new();
     let mut unmatched = vec![];
     // SITE_SKIP="Game A|Game B" leaves those games off the site for now.
-    let skip: Vec<String> = std::env::var("SITE_SKIP")
-        .unwrap_or_default()
-        .split('|')
-        .map(|s| s.trim().to_string())
-        .filter(|s| !s.is_empty())
-        .collect();
-    let mut games: Vec<&GameInfo> = GAMES
-        .iter()
-        .filter(|g| !skip.iter().any(|s| s == g.name))
-        .collect();
+    let skip: Vec<String> = std::env::var("SITE_SKIP").unwrap_or_default().split('|').map(|s| s.trim().to_string()).filter(|s| !s.is_empty()).collect();
+    let mut games: Vec<&GameInfo> = GAMES.iter().filter(|g| !skip.iter().any(|s| s == g.name)).collect();
     games.sort_by_key(|g| (!has_screen(g), g.name.to_lowercase()));
 
     for g in &games {
@@ -474,11 +378,7 @@ fn build_site() {
             w.replace("; ", ", ")
         });
         let build_desc = |limit: usize, tail: bool| -> String {
-            let tail = if tail {
-                " Nothing is uploaded, no limits."
-            } else {
-                ""
-            };
+            let tail = if tail { " Nothing is uploaded, no limits." } else { "" };
             let Some(w) = clean_what.as_deref() else {
                 return format!("Free, offline {search} save editor for PC. {lvl_note}{tail}");
             };
@@ -489,15 +389,9 @@ fn build_site() {
                 let end = cut.rfind([',', ' ']).unwrap_or(cut.len());
                 format!("{}\u{2026}", cut[..end].trim_end_matches([',', ' ']))
             };
-            let first = short
-                .chars()
-                .next()
-                .map_or(String::new(), |c| c.to_lowercase().collect());
+            let first = short.chars().next().map_or(String::new(), |c| c.to_lowercase().collect());
             let dot = if short.ends_with('\u{2026}') { "" } else { "." };
-            format!(
-                "Free, offline {search} save editor for PC. Edit {first}{}{dot}{tail}",
-                short.chars().skip(1).collect::<String>()
-            )
+            format!("Free, offline {search} save editor for PC. Edit {first}{}{dot}{tail}", short.chars().skip(1).collect::<String>())
         };
         // Search engines cut descriptions at about 160 characters: keep the game name and what
         // can be edited, and drop the boilerplate first.
@@ -542,47 +436,18 @@ fn build_site() {
             n = esc(g.name),
             what = what.as_deref().map(md).unwrap_or_else(|| esc(lvl_note)),
             folder = esc(g.folder),
-            browser = if needs_app(g) {
-                "<p><strong>Use the downloaded app for this game:</strong> its saves are compressed with Oodle, which the browser version can't unpack.</p>"
-            } else {
-                ""
-            },
+            browser = if needs_app(g) { "<p><strong>Use the downloaded app for this game:</strong> its saves are compressed with Oodle, which the browser version can't unpack.</p>" } else { "" },
             files = esc(g.files),
         );
         let path = format!("{s}/");
         let dir = out.join(&s);
         std::fs::create_dir_all(&dir).unwrap();
-        std::fs::write(
-            dir.join("index.html"),
-            page(
-                &title,
-                &desc,
-                &path,
-                &body,
-                &website_schema(
-                    &schema(
-                        &format!("Universal Save Editor ({search} save editor)"),
-                        &desc,
-                        &format!("{SITE}/{path}"),
-                    ),
-                    Some((&format!("{search} Save Editor"), &format!("{SITE}/{path}"))),
-                ),
-            ),
-        )
-        .unwrap();
+        std::fs::write(dir.join("index.html"), page(&title, &desc, &path, &body, &website_schema(&schema(&format!("Universal Save Editor ({search} save editor)"), &desc, &format!("{SITE}/{path}")), Some((&format!("{search} Save Editor"), &format!("{SITE}/{path}")))))).unwrap();
         urls.push(format!("{SITE}/{path}"));
         let blurb = what.as_deref().map(card_blurb).unwrap_or_default();
         let tag_class = if has_screen(g) { "tag screen" } else { "tag" };
-        let blurb_html = if blurb.is_empty() {
-            String::new()
-        } else {
-            format!("<small>{}</small>", esc(&blurb))
-        };
-        let _ = write!(
-            cards,
-            r#"<li><a href="{s}/"><span>{}</span>{blurb_html}<span class="{tag_class}">{lvl}</span></a></li>"#,
-            esc(g.name)
-        );
+        let blurb_html = if blurb.is_empty() { String::new() } else { format!("<small>{}</small>", esc(&blurb)) };
+        let _ = write!(cards, r#"<li><a href="{s}/"><span>{}</span>{blurb_html}<span class="{tag_class}">{lvl}</span></a></li>"#, esc(g.name));
     }
 
     let full = GAMES.iter().filter(|g| has_screen(g)).count();
@@ -606,23 +471,7 @@ fn build_site() {
 "#,
         n = GAMES.len(),
     );
-    std::fs::write(
-        out.join("index.html"),
-        page(
-            &format!(
-                "Universal Save Editor - Free Offline Save Editor for {}+ Games",
-                GAMES.len() / 10 * 10
-            ),
-            &desc,
-            "",
-            &body,
-            &website_schema(
-                &schema("Universal Save Editor", &desc, &format!("{SITE}/")),
-                None,
-            ),
-        ),
-    )
-    .unwrap();
+    std::fs::write(out.join("index.html"), page(&format!("Universal Save Editor - Free Offline Save Editor for {}+ Games", GAMES.len() / 10 * 10), &desc, "", &body, &website_schema(&schema("Universal Save Editor", &desc, &format!("{SITE}/")), None))).unwrap();
 
     let mut sm = String::from("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n");
     for u in &urls {
@@ -638,15 +487,8 @@ fn build_site() {
         .replace("href=\"./app/\"", "href=\"/universal-save-editor/app/\"")
         .replace("href=\"./\"", "href=\"/universal-save-editor/\"");
     std::fs::write(out.join("404.html"), nf).unwrap();
-    std::fs::write(
-        out.join("robots.txt"),
-        format!("User-agent: *\nAllow: /\nSitemap: {SITE}/sitemap.xml\n"),
-    )
-    .unwrap();
-    println!(
-        "{} pages; full-editor games without a README row: {unmatched:?}",
-        urls.len()
-    );
+    std::fs::write(out.join("robots.txt"), format!("User-agent: *\nAllow: /\nSitemap: {SITE}/sitemap.xml\n")).unwrap();
+    println!("{} pages; full-editor games without a README row: {unmatched:?}", urls.len());
     // Every page needs its own slug.
     let mut slugs: Vec<String> = GAMES.iter().map(|g| slug(&search_name(g.name))).collect();
     slugs.sort();

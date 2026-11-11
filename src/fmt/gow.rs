@@ -37,26 +37,15 @@ fn hex(b: &[u8]) -> String {
     b.iter().map(|x| format!("{x:02X}")).collect()
 }
 fn id_value(id: &str) -> Option<u64> {
-    let b: Vec<u8> = (0..8)
-        .map(|i| u8::from_str_radix(id.get(2 * i..2 * i + 2)?, 16).ok())
-        .collect::<Option<_>>()?;
+    let b: Vec<u8> = (0..8).map(|i| u8::from_str_radix(id.get(2 * i..2 * i + 2)?, 16).ok()).collect::<Option<_>>()?;
     Some(u64::from_le_bytes(b.try_into().ok()?))
 }
 fn find(d: &[u8], pat: &[u8], from: usize, to: usize) -> Option<usize> {
     let to = to.min(d.len());
-    (from < to)
-        .then(|| {
-            d[from..to]
-                .windows(pat.len())
-                .position(|w| w == pat)
-                .map(|i| i + from)
-        })
-        .flatten()
+    (from < to).then(|| d[from..to].windows(pat.len()).position(|w| w == pat).map(|i| i + from)).flatten()
 }
 fn unhex(s: &str) -> Vec<u8> {
-    (0..s.len() / 2)
-        .filter_map(|i| u8::from_str_radix(&s[2 * i..2 * i + 2], 16).ok())
-        .collect()
+    (0..s.len() / 2).filter_map(|i| u8::from_str_radix(&s[2 * i..2 * i + 2], 16).ok()).collect()
 }
 
 /// A catalog entry: name, category, and (2018) whether it's an editable resource.
@@ -73,13 +62,7 @@ fn table(src: &'static str, resource_col: Option<usize>, cat_col: usize) -> Hash
             let c: Vec<&str> = l.split('\t').collect();
             Some((
                 c.first()?.to_string(),
-                Item {
-                    name: c.get(1)?.to_string(),
-                    category: c.get(cat_col)?.to_string(),
-                    resource: resource_col
-                        .and_then(|i| c.get(i))
-                        .is_some_and(|v| *v == "1"),
-                },
+                Item { name: c.get(1)?.to_string(), category: c.get(cat_col)?.to_string(), resource: resource_col.and_then(|i| c.get(i)).is_some_and(|v| *v == "1") },
             ))
         })
         .collect()
@@ -123,11 +106,7 @@ pub struct Family {
 fn level_label(lv: &str) -> String {
     let ng = lv.ends_with('+');
     let n = lv.trim_end_matches('+');
-    let base = if n == "0" {
-        "Base".to_string()
-    } else {
-        format!("Level {n}")
-    };
+    let base = if n == "0" { "Base".to_string() } else { format!("Level {n}") };
     if ng {
         base + " (NG+)"
     } else {
@@ -140,32 +119,14 @@ fn families() -> &'static (Vec<Family>, HashMap<String, usize>) {
     T.get_or_init(|| {
         let mut list = vec![];
         let mut by_id = HashMap::new();
-        for l in include_str!("data/gowr_families.tsv")
-            .lines()
-            .filter(|l| !l.starts_with('#') && !l.is_empty())
-        {
+        for l in include_str!("data/gowr_families.tsv").lines().filter(|l| !l.starts_with('#') && !l.is_empty()) {
             let c: Vec<&str> = l.split('\t').collect();
-            let (Some(name), Some(cat), Some(add), Some(vs)) =
-                (c.first(), c.get(1), c.get(2), c.get(3))
-            else {
-                continue;
-            };
-            let variants: Vec<(String, String)> = vs
-                .split(',')
-                .filter_map(|v| {
-                    v.split_once(':')
-                        .map(|(id, lv)| (id.to_string(), level_label(lv)))
-                })
-                .collect();
+            let (Some(name), Some(cat), Some(add), Some(vs)) = (c.first(), c.get(1), c.get(2), c.get(3)) else { continue };
+            let variants: Vec<(String, String)> = vs.split(',').filter_map(|v| v.split_once(':').map(|(id, lv)| (id.to_string(), level_label(lv)))).collect();
             for (id, _) in &variants {
                 by_id.insert(id.clone(), list.len());
             }
-            list.push(Family {
-                name: name.to_string(),
-                category: cat.to_string(),
-                can_add: *add == "1",
-                variants,
-            });
+            list.push(Family { name: name.to_string(), category: cat.to_string(), can_add: *add == "1", variants });
         }
         (list, by_id)
     })
@@ -183,11 +144,7 @@ fn date(ts: u64) -> String {
     let d = doy - (153 * mp + 2) / 5 + 1;
     let m = if mp < 10 { mp + 3 } else { mp - 9 };
     let y = yoe + era * 400 + i64::from(m <= 2);
-    format!(
-        "{y:04}-{m:02}-{d:02} {:02}:{:02} UTC",
-        secs / 3600,
-        secs / 60 % 60
-    )
+    format!("{y:04}-{m:02}-{d:02} {:02}:{:02} UTC", secs / 3600, secs / 60 % 60)
 }
 
 // ------------------------------------------------------------------ God of War (2018)
@@ -224,10 +181,7 @@ fn slot_2018(d: &[u8], index: usize) -> Option<Slot2018> {
         return None;
     }
     let raw = d.get(base + 16..base + 256)?;
-    let title =
-        String::from_utf8_lossy(&raw[..raw.iter().position(|&b| b == 0).unwrap_or(raw.len())])
-            .trim()
-            .to_string();
+    let title = String::from_utf8_lossy(&raw[..raw.iter().position(|&b| b == 0).unwrap_or(raw.len())]).trim().to_string();
     let t = base + TABLE;
     if d.get(t - 20..t - 16)? != [0x5F, 0x22, 0x43, 0xC6] || hex(d.get(t..t + 8)?) != XP {
         return None;
@@ -236,15 +190,8 @@ fn slot_2018(d: &[u8], index: usize) -> Option<Slot2018> {
     if count == 0 || count > 4096 || t + count * 16 > base + SLOT {
         return None;
     }
-    let rows = (0..count)
-        .map(|i| (hex(&d[t + 16 * i..t + 16 * i + 8]), t + 16 * i + 8))
-        .collect();
-    Some(Slot2018 {
-        index,
-        time,
-        title,
-        rows,
-    })
+    let rows = (0..count).map(|i| (hex(&d[t + 16 * i..t + 16 * i + 8]), t + 16 * i + 8)).collect();
+    Some(Slot2018 { index, time, title, rows })
 }
 
 /// Pieces of equipment that can be added in 2018: (id, name, category, family), base level only.
@@ -252,34 +199,14 @@ fn addable_2018() -> &'static Vec<(String, String, String, String)> {
     static T: OnceLock<Vec<(String, String, String, String)>> = OnceLock::new();
     T.get_or_init(|| {
         let mut out = vec![];
-        for l in include_str!("data/gow2018_items.tsv")
-            .lines()
-            .filter(|l| !l.starts_with('#') && !l.is_empty())
-        {
+        for l in include_str!("data/gow2018_items.tsv").lines().filter(|l| !l.starts_with('#') && !l.is_empty()) {
             let c: Vec<&str> = l.split('\t').collect();
-            let (Some(id), Some(name), Some(internal), Some(cat)) =
-                (c.first(), c.get(1), c.get(2), c.get(3))
-            else {
-                continue;
-            };
-            let equipment = [
-                "KratosArmorChest_",
-                "KratosArmorWrist_",
-                "KratosArmorLegs_",
-                "WeaponComponent_Axe_",
-                "WeaponComponent_Blades_",
-                "KratosArmorTrinket_",
-            ]
-            .iter()
-            .any(|p| internal.starts_with(p));
+            let (Some(id), Some(name), Some(internal), Some(cat)) = (c.first(), c.get(1), c.get(2), c.get(3)) else { continue };
+            let equipment = ["KratosArmorChest_", "KratosArmorWrist_", "KratosArmorLegs_", "WeaponComponent_Axe_", "WeaponComponent_Blades_", "KratosArmorTrinket_"]
+                .iter()
+                .any(|p| internal.starts_with(p));
             // Base pieces with a real name; upgrades, New Game+ copies and unnamed test entries are left out.
-            if !equipment
-                || internal.contains("_Reinforce")
-                || internal.contains("_NGP")
-                || name == internal
-                || name.is_empty()
-                || name.to_uppercase().contains("PLACEHOLDER")
-            {
+            if !equipment || internal.contains("_Reinforce") || internal.contains("_NGP") || name == internal || name.is_empty() || name.to_uppercase().contains("PLACEHOLDER") {
                 continue;
             }
             let _ = cat;
@@ -294,12 +221,7 @@ fn addable_2018() -> &'static Vec<(String, String, String, String)> {
             .iter()
             .find(|(p, _)| internal.starts_with(p))
             .map_or("Other", |(_, c)| c);
-            out.push((
-                id.to_string(),
-                name.to_string(),
-                cat.to_string(),
-                internal.to_string(),
-            ));
+            out.push((id.to_string(), name.to_string(), cat.to_string(), internal.to_string()));
         }
         out.sort_by(|a, b| a.2.cmp(&b.2).then(a.1.cmp(&b.1)));
         out
@@ -308,9 +230,7 @@ fn addable_2018() -> &'static Vec<(String, String, String, String)> {
 
 /// A piece's family: its internal name without the upgrade step.
 fn family_2018(internal: &str) -> &str {
-    internal
-        .find("_Reinforce")
-        .map_or(internal, |i| &internal[..i])
+    internal.find("_Reinforce").map_or(internal, |i| &internal[..i])
 }
 
 const ACTIVE: usize = 0x10400;
@@ -341,10 +261,7 @@ fn active_2018(d: &[u8], s: &Slot2018) -> Result<(usize, usize, usize), String> 
         return Err(bad());
     }
     let end = cur + 4 + u16_at(d, cur + 2).ok_or_else(bad)?;
-    if stats_end <= table_end
-        || end != base + ACTIVE + u32_at(d, base + 0x124).ok_or_else(bad)?
-        || end > base + ACTIVE_END
-    {
+    if stats_end <= table_end || end != base + ACTIVE + u32_at(d, base + 0x124).ok_or_else(bad)? || end > base + ACTIVE_END {
         return Err(bad());
     }
     Ok((stats, table_end, end))
@@ -358,19 +275,13 @@ fn post_2018(out: &mut Vec<u8>, chosen: &[(std::sync::Arc<str>, String)]) -> Res
             continue;
         }
         let (slot, id) = tag.split_once('|').ok_or("bad request")?;
-        by_slot
-            .entry(slot.parse().map_err(|_| "bad request")?)
-            .or_default()
-            .push(id.to_string());
+        by_slot.entry(slot.parse().map_err(|_| "bad request")?).or_default().push(id.to_string());
     }
     for (index, ids) in by_slot {
         let s = slot_2018(out, index).ok_or("this save slot can't be read")?;
         let (stats, table_end, end) = active_2018(out, &s)?;
         let have: HashSet<&str> = s.rows.iter().map(|(id, _)| id.as_str()).collect();
-        let ids: Vec<String> = ids
-            .into_iter()
-            .filter(|id| !have.contains(id.as_str()))
-            .collect();
+        let ids: Vec<String> = ids.into_iter().filter(|id| !have.contains(id.as_str())).collect();
         if ids.is_empty() {
             continue;
         }
@@ -444,27 +355,10 @@ pub fn parse_2018(d: &[u8]) -> Result<TreeDoc, String> {
                     b.ranged(&[k, "Hacksilver"], *at, Kind::U32, 0, i32::MAX as i64);
                 }
                 _ if item.resource && single => {
-                    b.ranged(
-                        &[k, "Resources", &item.name],
-                        *at,
-                        Kind::U32,
-                        0,
-                        i32::MAX as i64,
-                    );
+                    b.ranged(&[k, "Resources", &item.name], *at, Kind::U32, 0, i32::MAX as i64);
                 }
-                _ if [
-                    "Chest armor",
-                    "Wrist armor",
-                    "Waist armor",
-                    "Weapon attachments",
-                    "Talismans",
-                ]
-                .contains(&item.category.as_str()) =>
-                {
-                    owned
-                        .entry(item.category.clone())
-                        .or_default()
-                        .push(item.name.clone());
+                _ if ["Chest armor", "Wrist armor", "Waist armor", "Weapon attachments", "Talismans"].contains(&item.category.as_str()) => {
+                    owned.entry(item.category.clone()).or_default().push(item.name.clone());
                 }
                 _ => {}
             }
@@ -485,11 +379,7 @@ pub fn parse_2018(d: &[u8]) -> Result<TreeDoc, String> {
                 if owned_families.contains(family_2018(internal)) {
                     continue;
                 }
-                b.option(
-                    &[k, "Add equipment", cat, name],
-                    vec!["Don't add".into(), "Add".into()],
-                    format!("{}|{id}", s.index),
-                );
+                b.option(&[k, "Add equipment", cat, name], vec!["Don't add".into(), "Add".into()], format!("{}|{id}", s.index));
             }
         }
     }
@@ -521,9 +411,7 @@ fn kind_ragnarok(f: &Family) -> Option<&'static str> {
         "Weapon attachments" if f.name.starts_with("Rond") => "shield attachment",
         "Weapon attachments" if has("Hind") || has("Sauroter") => "spear attachment",
         "Weapon attachments" if has("Handles") || has("Pommels") => "blades attachment",
-        "Weapon attachments" if has("Knob") || has("Grip") || f.name == "The Furious Maul" => {
-            "axe attachment"
-        }
+        "Weapon attachments" if has("Knob") || has("Grip") || f.name == "The Furious Maul" => "axe attachment",
         _ => return None,
     })
 }
@@ -546,15 +434,10 @@ fn add_ragnarok(d: &[u8], l: &Layout) -> Result<AddRagnarok, String> {
     let inv_size = u16_at(d, l.inv_header).ok_or_else(|| bad("inventory"))?;
     let stats_header = l.attr_start - 24;
     let stats_size = u32_at(d, stats_header).ok_or_else(|| bad("attributes"))?;
-    if l.inv_header + inv_size + 2 != stats_header
-        || u32_at(d, stats_header + 12) != Some(l.attr_count)
-    {
+    if l.inv_header + inv_size + 2 != stats_header || u32_at(d, stats_header + 12) != Some(l.attr_count) {
         return Err(bad("table limits"));
     }
-    let (count8, count4) = (
-        u32_at(d, stats_header + 16).ok_or_else(|| bad("refs"))?,
-        u32_at(d, stats_header + 20).ok_or_else(|| bad("refs"))?,
-    );
+    let (count8, count4) = (u32_at(d, stats_header + 16).ok_or_else(|| bad("refs"))?, u32_at(d, stats_header + 20).ok_or_else(|| bad("refs"))?);
     let owned_start = l.attr_start + l.attr_count * 16 + count8 * 8;
     let owned_end = owned_start + count4 * 4;
     // The sections after the attributes: events, talismans, settings, ids, counters, an
@@ -574,13 +457,8 @@ fn add_ragnarok(d: &[u8], l: &Layout) -> Result<AddRagnarok, String> {
         }
     }
     let total = u32_at(d, 24).ok_or_else(|| bad("header"))?;
-    let parts: Vec<usize> = [408, 412, 416]
-        .iter()
-        .filter_map(|&o| u32_at(d, o))
-        .collect();
-    let (ev, tal, _, ids, counters, opt, fin) = (
-        frames[0], frames[1], frames[2], frames[3], frames[4], frames[5], frames[6],
-    );
+    let parts: Vec<usize> = [408, 412, 416].iter().filter_map(|&o| u32_at(d, o)).collect();
+    let (ev, tal, _, ids, counters, opt, fin) = (frames[0], frames[1], frames[2], frames[3], frames[4], frames[5], frames[6]);
     let ok = parts.len() == 3
         && total == parts.iter().sum::<usize>()
         && cur == BLOCK_START + parts[1]
@@ -597,13 +475,8 @@ fn add_ragnarok(d: &[u8], l: &Layout) -> Result<AddRagnarok, String> {
         return Err(bad("sections"));
     }
     let uids: HashSet<usize> = l.rows.iter().map(|r| r.instance).collect();
-    let owned: Vec<usize> = (0..count4)
-        .filter_map(|i| u32_at(d, owned_start + 4 * i))
-        .collect();
-    if uids.len() != l.rows.len()
-        || owned.iter().any(|u| !uids.contains(u))
-        || owned.iter().collect::<HashSet<_>>().len() != owned.len()
-    {
+    let owned: Vec<usize> = (0..count4).filter_map(|i| u32_at(d, owned_start + 4 * i)).collect();
+    if uids.len() != l.rows.len() || owned.iter().any(|u| !uids.contains(u)) || owned.iter().collect::<HashSet<_>>().len() != owned.len() {
         return Err(bad("owned list"));
     }
     let owned: HashSet<usize> = owned.into_iter().collect();
@@ -614,14 +487,8 @@ fn add_ragnarok(d: &[u8], l: &Layout) -> Result<AddRagnarok, String> {
     }
     let mut templates = vec![];
     for r in &l.rows {
-        let Some(kind) = by_id.get(&r.id).and_then(|&i| kind_ragnarok(&fams[i])) else {
-            continue;
-        };
-        if r.simple
-            && owned.contains(&r.instance)
-            && d.get(r.at + 12..r.at + 16) == Some(&[0xFF; 4][..])
-            && count.get(r.id.as_str()) == Some(&1)
-        {
+        let Some(kind) = by_id.get(&r.id).and_then(|&i| kind_ragnarok(&fams[i])) else { continue };
+        if r.simple && owned.contains(&r.instance) && d.get(r.at + 12..r.at + 16) == Some(&[0xFF; 4][..]) && count.get(r.id.as_str()) == Some(&1) {
             templates.push((kind, r.at));
         }
     }
@@ -630,22 +497,10 @@ fn add_ragnarok(d: &[u8], l: &Layout) -> Result<AddRagnarok, String> {
         .min(GEAR_BLOCK.saturating_sub(cur + MARGIN) / 28)
         .min(65_535usize.saturating_sub(inv_size) / 24)
         .min(20_000usize.saturating_sub(l.rows.len()));
-    Ok(AddRagnarok {
-        inv_header: l.inv_header,
-        inv_end: l.inv_end,
-        stats_header,
-        owned_end,
-        active_end: cur,
-        max_uid,
-        templates,
-        capacity,
-    })
+    Ok(AddRagnarok { inv_header: l.inv_header, inv_end: l.inv_end, stats_header, owned_end, active_end: cur, max_uid, templates, capacity })
 }
 
-fn post_ragnarok(
-    out: &mut Vec<u8>,
-    chosen: &[(std::sync::Arc<str>, String)],
-) -> Result<(), String> {
+fn post_ragnarok(out: &mut Vec<u8>, chosen: &[(std::sync::Arc<str>, String)]) -> Result<(), String> {
     let (fams, _) = families();
     let l = layout_ragnarok(out)?;
     let st = add_ragnarok(out, &l)?;
@@ -655,34 +510,14 @@ fn post_ragnarok(
         if choice == "Don't add" {
             continue;
         }
-        let fi: usize = tag
-            .strip_prefix('R')
-            .and_then(|n| n.parse().ok())
-            .ok_or("bad request")?;
+        let fi: usize = tag.strip_prefix('R').and_then(|n| n.parse().ok()).ok_or("bad request")?;
         let f = fams.get(fi).ok_or("bad request")?;
-        let id = f
-            .variants
-            .iter()
-            .find(|(_, lv)| lv == choice)
-            .map(|(id, _)| id.clone())
-            .ok_or("pick one of the listed levels")?;
-        if f.variants
-            .iter()
-            .any(|(v, _)| owned_ids.contains(v.as_str()))
-        {
+        let id = f.variants.iter().find(|(_, lv)| lv == choice).map(|(id, _)| id.clone()).ok_or("pick one of the listed levels")?;
+        if f.variants.iter().any(|(v, _)| owned_ids.contains(v.as_str())) {
             continue; // already owned (e.g. added in the same save)
         }
         let kind = kind_ragnarok(f).ok_or("this piece can't be added")?;
-        let &(_, template) = st
-            .templates
-            .iter()
-            .find(|(k, _)| *k == kind)
-            .ok_or_else(|| {
-                format!(
-                    "to add {}, you first need any piece of that type in the game",
-                    f.name
-                )
-            })?;
+        let &(_, template) = st.templates.iter().find(|(k, _)| *k == kind).ok_or_else(|| format!("to add {}, you first need any piece of that type in the game", f.name))?;
         plan.push((id, template));
     }
     if plan.is_empty() {
@@ -696,10 +531,8 @@ fn post_ragnarok(
     let original = out.clone();
     // Only the active part moves: [inv_end, owned_end) by the new records, and
     // [owned_end, active_end) by the records and references together.
-    out[st.owned_end + items + refs..st.active_end + items + refs]
-        .copy_from_slice(&original[st.owned_end..st.active_end]);
-    out[st.inv_end + items..st.owned_end + items]
-        .copy_from_slice(&original[st.inv_end..st.owned_end]);
+    out[st.owned_end + items + refs..st.active_end + items + refs].copy_from_slice(&original[st.owned_end..st.active_end]);
+    out[st.inv_end + items..st.owned_end + items].copy_from_slice(&original[st.inv_end..st.owned_end]);
     for (k, (id, template)) in plan.iter().enumerate() {
         let at = st.inv_end + 24 * k;
         let uid = st.max_uid + 1 + k;
@@ -709,18 +542,10 @@ fn post_ragnarok(
         let r = st.owned_end + items + 4 * k;
         out[r..r + 4].copy_from_slice(&(uid as u32).to_le_bytes());
     }
-    let set16 = |out: &mut Vec<u8>, at: usize, v: usize| {
-        out[at..at + 2].copy_from_slice(&(v as u16).to_le_bytes())
-    };
-    let set32 = |out: &mut Vec<u8>, at: usize, v: usize| {
-        out[at..at + 4].copy_from_slice(&(v as u32).to_le_bytes())
-    };
+    let set16 = |out: &mut Vec<u8>, at: usize, v: usize| out[at..at + 2].copy_from_slice(&(v as u16).to_le_bytes());
+    let set32 = |out: &mut Vec<u8>, at: usize, v: usize| out[at..at + 4].copy_from_slice(&(v as u32).to_le_bytes());
     let get = |at: usize| u32_at(&original, at).unwrap_or(0);
-    set16(
-        out,
-        st.inv_header,
-        u16_at(&original, st.inv_header).unwrap_or(0) + items,
-    );
+    set16(out, st.inv_header, u16_at(&original, st.inv_header).unwrap_or(0) + items);
     set32(out, st.inv_header + 2, get(st.inv_header + 2) + n);
     let stats = st.stats_header + items;
     set32(out, stats, get(st.stats_header) + refs);
@@ -731,18 +556,11 @@ fn post_ragnarok(
     // Read it back.
     let again = layout_ragnarok(out)?;
     let st2 = add_ragnarok(out, &again)?;
-    if again.rows.len() != l.rows.len() + n
-        || st2.active_end != st.active_end + items + refs
-        || out[st2.active_end..] != original[st2.active_end..]
-    {
+    if again.rows.len() != l.rows.len() + n || st2.active_end != st.active_end + items + refs || out[st2.active_end..] != original[st2.active_end..] {
         return Err("the added equipment didn't read back; nothing was saved".into());
     }
     for (k, (id, _)) in plan.iter().enumerate() {
-        if !again
-            .rows
-            .iter()
-            .any(|r| r.id == *id && r.instance == st.max_uid + 1 + k)
-        {
+        if !again.rows.iter().any(|r| r.id == *id && r.instance == st.max_uid + 1 + k) {
             return Err("an added piece didn't read back; nothing was saved".into());
         }
     }
@@ -763,9 +581,7 @@ struct Layout {
 fn layout_ragnarok(d: &[u8]) -> Result<Layout, String> {
     let bad = || "this save's layout isn't one the editor knows".to_string();
     let raw = &d[80..336];
-    let title =
-        String::from_utf8_lossy(&raw[..raw.iter().position(|&b| b == 0).unwrap_or(raw.len())])
-            .to_string();
+    let title = String::from_utf8_lossy(&raw[..raw.iter().position(|&b| b == 0).unwrap_or(raw.len())]).to_string();
     let valhalla = title.to_lowercase().contains("valhalla");
     let marker = find(d, &unhex("F6FB3126EEBBA180"), 0, 1_677_512).ok_or_else(bad)?;
     let pointers = *d.get(marker + 24).ok_or_else(bad)? as usize;
@@ -791,34 +607,17 @@ fn layout_ragnarok(d: &[u8]) -> Result<Layout, String> {
     for _ in 0..inv_count {
         let extra = groups.get(&cur).copied().unwrap_or(0);
         let r = d.get(cur..cur + 24).ok_or_else(bad)?;
-        rows.push(InvRow {
-            id: hex(&r[..8]),
-            at: cur,
-            instance: u32_at(r, 8).unwrap_or(0),
-            simple: extra == 0 && r[16..24].iter().all(|&b| b == 0),
-        });
+        rows.push(InvRow { id: hex(&r[..8]), at: cur, instance: u32_at(r, 8).unwrap_or(0), simple: extra == 0 && r[16..24].iter().all(|&b| b == 0) });
         cur += 24 + extra * 8;
     }
     // The attributes table comes after the inventory block.
     let block_end = inv_start + u16_at(d, inv_header).ok_or_else(bad)? - 4;
-    let count_at = if valhalla {
-        find(d, &unhex("FA40764A30A428C3"), block_end, GEAR_BLOCK).ok_or_else(bad)? + 8
-    } else {
-        block_end + 12
-    };
+    let count_at = if valhalla { find(d, &unhex("FA40764A30A428C3"), block_end, GEAR_BLOCK).ok_or_else(bad)? + 8 } else { block_end + 12 };
     let attr_count = u32_at(d, count_at).ok_or_else(bad)?;
     if attr_count > 20_000 || cur > block_end || count_at + 12 + attr_count * 16 > GEAR_BLOCK {
         return Err(bad());
     }
-    Ok(Layout {
-        title,
-        valhalla,
-        rows,
-        inv_header,
-        inv_end: cur,
-        attr_start: count_at + 12,
-        attr_count,
-    })
+    Ok(Layout { title, valhalla, rows, inv_header, inv_end: cur, attr_start: count_at + 12, attr_count })
 }
 
 pub fn looks_ragnarok(d: &[u8]) -> bool {
@@ -842,37 +641,19 @@ pub fn parse_ragnarok(d: &[u8]) -> Result<TreeDoc, String> {
         return Err("not a God of War Ragnarök save".into());
     }
     let l = layout_ragnarok(d)?;
-    let (title, valhalla, rows, inv_count, attr_count) = (
-        l.title.clone(),
-        l.valhalla,
-        &l.rows,
-        l.rows.len(),
-        l.attr_count,
-    );
+    let (title, valhalla, rows, inv_count, attr_count) = (l.title.clone(), l.valhalla, &l.rows, l.rows.len(), l.attr_count);
     let attr_start = l.attr_start;
     let names = items_ragnarok();
     let mut b = Builder::new(d);
     b.info(&["Save", "Title"], title.clone());
-    b.info(
-        &["Save", "Mode"],
-        if valhalla { "Valhalla" } else { "Campaign" },
-    );
+    b.info(&["Save", "Mode"], if valhalla { "Valhalla" } else { "Campaign" });
     let mut seen: HashMap<String, usize> = HashMap::new();
-    let attrs: Vec<(String, usize)> = (0..attr_count)
-        .map(|i| {
-            (
-                hex(&d[attr_start + 16 * i..attr_start + 16 * i + 8]),
-                attr_start + 16 * i + 8,
-            )
-        })
-        .collect();
+    let attrs: Vec<(String, usize)> = (0..attr_count).map(|i| (hex(&d[attr_start + 16 * i..attr_start + 16 * i + 8]), attr_start + 16 * i + 8)).collect();
     for (id, _) in &attrs {
         *seen.entry(id.clone()).or_default() += 1;
     }
     for (id, at) in &attrs {
-        let (Some(item), Some(&1)) = (names.get(id), seen.get(id)) else {
-            continue;
-        };
+        let (Some(item), Some(&1)) = (names.get(id), seen.get(id)) else { continue };
         let group = match item.category.as_str() {
             "Experience" => "Experience",
             "Currency" => "Currency",
@@ -883,17 +664,8 @@ pub fn parse_ragnarok(d: &[u8]) -> Result<TreeDoc, String> {
         b.ranged(&[group, &item.name], *at, Kind::U32, 0, i32::MAX as i64);
     }
     // Health and rage.
-    if let Some(m) = find(
-        d,
-        &unhex("2BC947DCFC98D20F"),
-        HEALTH_BLOCK,
-        d.len().saturating_sub(256),
-    ) {
-        let at = if m >= 151 && u16_at(d, m - 151) == Some(1530) {
-            m - 138
-        } else {
-            m - 42
-        };
+    if let Some(m) = find(d, &unhex("2BC947DCFC98D20F"), HEALTH_BLOCK, d.len().saturating_sub(256)) {
+        let at = if m >= 151 && u16_at(d, m - 151) == Some(1530) { m - 138 } else { m - 42 };
         b.ranged(&["Kratos", "Health"], at, Kind::F32, 0, 2_000_000_000);
         b.ranged(&["Kratos", "Rage"], at + 8, Kind::F32, 0, 2_000_000_000);
     }
@@ -904,9 +676,7 @@ pub fn parse_ragnarok(d: &[u8]) -> Result<TreeDoc, String> {
         let in_use: HashSet<&str> = rows.iter().map(|r| r.id.as_str()).collect();
         let mut used_keys: HashMap<String, usize> = HashMap::new();
         for r in rows.iter().filter(|r| r.simple) {
-            let Some(&fi) = by_id.get(&r.id) else {
-                continue;
-            };
+            let Some(&fi) = by_id.get(&r.id) else { continue };
             let f = &fams[fi];
             let (name, cat) = (&f.name, &f.category);
             if f.variants.len() < 2 || name.to_lowercase().contains("valhalla") {
@@ -923,11 +693,7 @@ pub fn parse_ragnarok(d: &[u8]) -> Result<TreeDoc, String> {
             }
             let n = used_keys.entry(format!("{cat}/{name}")).or_default();
             *n += 1;
-            let key = if *n == 1 {
-                name.clone()
-            } else {
-                format!("{name} ({n})")
-            };
+            let key = if *n == 1 { name.clone() } else { format!("{name} ({n})") };
             b.pick(&["Equipment", cat, &key], r.at, Kind::U64, &options);
         }
     }
@@ -939,46 +705,25 @@ pub fn parse_ragnarok(d: &[u8]) -> Result<TreeDoc, String> {
             let owned: HashSet<&str> = rows.iter().map(|r| r.id.as_str()).collect();
             let kinds: HashSet<&str> = st.templates.iter().map(|(k, _)| *k).collect();
             let mut order: Vec<usize> = (0..fams.len()).collect();
-            order.sort_by(|&a, &b| {
-                fams[a]
-                    .category
-                    .cmp(&fams[b].category)
-                    .then(fams[a].name.cmp(&fams[b].name))
-            });
+            order.sort_by(|&a, &b| fams[a].category.cmp(&fams[b].category).then(fams[a].name.cmp(&fams[b].name)));
             let mut used: HashSet<String> = HashSet::new();
             for fi in order {
                 let f = &fams[fi];
-                let Some(kind) = kind_ragnarok(f) else {
-                    continue;
-                };
+                let Some(kind) = kind_ragnarok(f) else { continue };
                 // Appearance-only and placeholder entries aren't pieces the game lets you own this way.
-                let odd = f.name.contains("(Transmog)")
-                    || f.name.starts_with("An Extremely Long")
-                    || f.name.to_lowercase().contains("valhalla");
-                if !kinds.contains(kind)
-                    || odd
-                    || f.variants.iter().any(|(id, _)| owned.contains(id.as_str()))
-                {
+                let odd = f.name.contains("(Transmog)") || f.name.starts_with("An Extremely Long") || f.name.to_lowercase().contains("valhalla");
+                if !kinds.contains(kind) || odd || f.variants.iter().any(|(id, _)| owned.contains(id.as_str())) {
                     continue;
                 }
                 if !used.insert(format!("{}/{}", f.category, f.name)) {
                     continue;
                 }
                 let mut names = vec!["Don't add".to_string()];
-                names.extend(
-                    f.variants
-                        .iter()
-                        .filter(|(_, lv)| lv.starts_with("Level"))
-                        .map(|(_, lv)| lv.clone()),
-                );
+                names.extend(f.variants.iter().filter(|(_, lv)| lv.starts_with("Level")).map(|(_, lv)| lv.clone()));
                 if names.len() < 2 {
                     continue;
                 }
-                b.option(
-                    &["Add equipment", &f.category, &f.name],
-                    names,
-                    format!("R{fi}"),
-                );
+                b.option(&["Add equipment", &f.category, &f.name], names, format!("R{fi}"));
             }
         }
     }
@@ -993,12 +738,7 @@ pub fn parse_ragnarok(d: &[u8]) -> Result<TreeDoc, String> {
 mod tests {
     #[test]
     fn tables_load() {
-        assert_eq!(
-            super::items_2018()
-                .get(super::HACKSILVER)
-                .map(|i| i.name.as_str()),
-            Some("Hacksilver")
-        );
+        assert_eq!(super::items_2018().get(super::HACKSILVER).map(|i| i.name.as_str()), Some("Hacksilver"));
         assert!(super::items_ragnarok().len() > 3000);
         assert!(super::families().0.len() > 500);
         assert_eq!(super::date(1_664_244_240), "2022-09-27 02:04 UTC");
@@ -1009,18 +749,9 @@ mod tests {
     #[ignore]
     fn real_file() {
         let d = std::fs::read(std::env::var("SAVE_EDITOR_GOW").unwrap()).unwrap();
-        let doc = if super::looks_2018(&d) {
-            super::parse_2018(&d)
-        } else {
-            super::parse_ragnarok(&d)
-        }
-        .unwrap();
+        let doc = if super::looks_2018(&d) { super::parse_2018(&d) } else { super::parse_ragnarok(&d) }.unwrap();
         let v = serde_json::to_string_pretty(&doc.view).unwrap();
-        println!(
-            "{} editable\n{}",
-            doc.editable.len(),
-            v.chars().take(3000).collect::<String>()
-        );
+        println!("{} editable\n{}", doc.editable.len(), v.chars().take(3000).collect::<String>());
         assert_eq!(doc.to_bytes().unwrap(), d);
     }
 }
@@ -1031,25 +762,12 @@ mod peek_add {
     #[ignore]
     fn list() {
         let d = std::fs::read(std::env::var("SAVE_EDITOR_GOW").unwrap()).unwrap();
-        let doc = if super::looks_2018(&d) {
-            super::parse_2018(&d)
-        } else {
-            super::parse_ragnarok(&d)
-        }
-        .unwrap();
-        let mut ptrs: Vec<&String> = doc
-            .editable
-            .keys()
-            .filter(|p| p.contains("Add equipment"))
-            .collect();
+        let doc = if super::looks_2018(&d) { super::parse_2018(&d) } else { super::parse_ragnarok(&d) }.unwrap();
+        let mut ptrs: Vec<&String> = doc.editable.keys().filter(|p| p.contains("Add equipment")).collect();
         ptrs.sort();
         println!("{} add choices", ptrs.len());
         for p in ptrs.iter().take(6) {
-            println!(
-                "{p} {:?}",
-                doc.choices(p)
-                    .map(|c| c.iter().take(4).cloned().collect::<Vec<_>>())
-            );
+            println!("{p} {:?}", doc.choices(p).map(|c| c.iter().take(4).cloned().collect::<Vec<_>>()));
         }
     }
 }

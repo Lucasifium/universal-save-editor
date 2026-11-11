@@ -40,24 +40,14 @@ fn fstring(d: &[u8], at: usize) -> Option<(String, usize)> {
         if s[n - 1] != 0 {
             return None;
         }
-        Some((
-            s[..n - 1]
-                .iter()
-                .map(|&c| super::bethesda_cp1252(c))
-                .collect(),
-            at + 4 + n,
-        ))
+        Some((s[..n - 1].iter().map(|&c| super::bethesda_cp1252(c)).collect(), at + 4 + n))
     } else {
         let n = n.unsigned_abs() as usize;
         if n > 4096 {
             return None;
         }
         let s = d.get(at + 4..at + 4 + 2 * n)?;
-        let u: Vec<u16> = s
-            .chunks(2)
-            .map(|c| u16::from_le_bytes([c[0], c[1]]))
-            .take_while(|&x| x != 0)
-            .collect();
+        let u: Vec<u16> = s.chunks(2).map(|c| u16::from_le_bytes([c[0], c[1]])).take_while(|&x| x != 0).collect();
         Some((String::from_utf16_lossy(&u), at + 4 + 2 * n))
     }
 }
@@ -97,9 +87,7 @@ struct Prop {
 
 impl Prop {
     fn int(&self, d: &[u8]) -> Option<i32> {
-        (self.ty == "IntProperty" && self.size == 4)
-            .then(|| i32_at(d, self.at))
-            .flatten()
+        (self.ty == "IntProperty" && self.size == 4).then(|| i32_at(d, self.at)).flatten()
     }
     fn name_value(&self, d: &[u8]) -> Option<String> {
         match self.ty.as_str() {
@@ -140,11 +128,7 @@ fn tags(d: &[u8], at: usize, limit: usize, depth: usize) -> Option<(Vec<Prop>, u
         if ty == "StructProperty" || ty == "ByteProperty" {
             v = ident(d, v)?.1;
         }
-        let end = if ty == "BoolProperty" {
-            v + 1
-        } else {
-            v + size
-        };
+        let end = if ty == "BoolProperty" { v + 1 } else { v + size };
         if end > limit {
             return None;
         }
@@ -176,14 +160,7 @@ fn tags(d: &[u8], at: usize, limit: usize, depth: usize) -> Option<(Vec<Prop>, u
             }
         }
         let size = if ty == "BoolProperty" { 1 } else { size };
-        out.push(Prop {
-            name,
-            ty,
-            index: index as i32,
-            at: v,
-            size,
-            sub,
-        });
+        out.push(Prop { name, ty, index: index as i32, at: v, size, sub });
         p = end;
     }
 }
@@ -211,19 +188,12 @@ fn objects(d: &[u8]) -> Vec<(i32, Vec<Prop>)> {
     for (i, (id, _)) in found.iter().enumerate() {
         last.insert(*id, i);
     }
-    found
-        .into_iter()
-        .enumerate()
-        .filter(|(i, (id, _))| last[id] == *i)
-        .map(|(_, x)| x)
-        .collect()
+    found.into_iter().enumerate().filter(|(i, (id, _))| last[id] == *i).map(|(_, x)| x).collect()
 }
 
 pub fn looks(d: &[u8]) -> bool {
     let head = &d[..d.len().min(1 << 20)];
-    d.len() > 4096
-        && find(head, b"XComGameState").is_some()
-        && find(d, b"m_TemplateName\0").is_some()
+    d.len() > 4096 && find(head, b"XComGameState").is_some() && find(d, b"m_TemplateName\0").is_some()
 }
 
 fn find(hay: &[u8], needle: &[u8]) -> Option<usize> {
@@ -260,18 +230,12 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
     b.info(&["Objects read"], objs.len());
 
     // HQ: the object with an Inventory and HighestSoldierRank.
-    let hq = objs
-        .iter()
-        .find(|(_, p)| get(p, "Inventory").is_some() && get(p, "HighestSoldierRank").is_some());
+    let hq = objs.iter().find(|(_, p)| get(p, "Inventory").is_some() && get(p, "HighestSoldierRank").is_some());
     if let Some((_, hq)) = hq {
-        let inv = get(hq, "Inventory")
-            .map(|p| p.sub.clone())
-            .unwrap_or_default();
+        let inv = get(hq, "Inventory").map(|p| p.sub.clone()).unwrap_or_default();
         let mut have: HashMap<String, (i32, usize)> = HashMap::new();
         for el in &inv {
-            let Some(id) = get(el, "ObjectID").and_then(|p| p.int(d)) else {
-                continue;
-            };
+            let Some(id) = get(el, "ObjectID").and_then(|p| p.int(d)) else { continue };
             let Some(item) = by_id.get(&id) else { continue };
             let Some(t) = template(item) else { continue };
             if let Some(q) = get(item, "Quantity").filter(|q| q.int(d).is_some()) {
@@ -284,10 +248,7 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
             }
         }
         // The rest of what HQ holds, by template name.
-        let mut rest: Vec<(&String, &(i32, usize))> = have
-            .iter()
-            .filter(|(t, _)| !RESOURCES.iter().any(|r| r.0 == t.as_str()))
-            .collect();
+        let mut rest: Vec<(&String, &(i32, usize))> = have.iter().filter(|(t, _)| !RESOURCES.iter().any(|r| r.0 == t.as_str())).collect();
         rest.sort();
         for (t, &(_, at)) in rest {
             b.ranged(&["Storage", t], at, Kind::I32, 0, i32::MAX as i64);
@@ -301,11 +262,7 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
             continue;
         }
         let text = |k: &str| get(p, k).and_then(|x| x.name_value(d)).unwrap_or_default();
-        let key = format!(
-            "{:04} {}",
-            id,
-            [text("strFirstName"), text("strLastName")].join(" ").trim()
-        );
+        let key = format!("{:04} {}", id, [text("strFirstName"), text("strLastName")].join(" ").trim());
         let path = |f: &str| vec!["Soldiers".to_string(), key.clone(), f.to_string()];
         let put = |b: &mut Builder, f: &str, v: String| {
             let p = path(f);
@@ -324,11 +281,7 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
             ("AbilityPoints", "Ability points", Kind::I32),
         ] {
             if let Some(x) = get(p, tag) {
-                let want = if kind == Kind::I32 {
-                    "IntProperty"
-                } else {
-                    "FloatProperty"
-                };
+                let want = if kind == Kind::I32 { "IntProperty" } else { "FloatProperty" };
                 if x.ty == want && x.size == 4 {
                     let pp = path(label);
                     let r: Vec<&str> = pp.iter().map(String::as_str).collect();
@@ -342,28 +295,12 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
         }
         // CharacterStats[i]: { Type, CurrentValue, MaxValue, BaseMaxValue }. The editor shows
         // MaxValue; Current and BaseMax follow it.
-        for st in p
-            .iter()
-            .filter(|x| x.name == "CharacterStats" && x.ty == "StructProperty")
-        {
+        for st in p.iter().filter(|x| x.name == "CharacterStats" && x.ty == "StructProperty") {
             let Some(s) = st.sub.first() else { continue };
-            let Some(ty) = get(s, "Type").and_then(|t| t.name_value(d)) else {
-                continue;
-            };
-            let floats = |k: &str| {
-                get(s, k)
-                    .filter(|v| v.ty == "FloatProperty" && v.size == 4)
-                    .map(|v| v.at)
-            };
-            let Some(max) = floats("MaxValue") else {
-                continue;
-            };
-            let pp = vec![
-                "Soldiers".to_string(),
-                key.clone(),
-                "Stats".to_string(),
-                stat_label(&ty),
-            ];
+            let Some(ty) = get(s, "Type").and_then(|t| t.name_value(d)) else { continue };
+            let floats = |k: &str| get(s, k).filter(|v| v.ty == "FloatProperty" && v.size == 4).map(|v| v.at);
+            let Some(max) = floats("MaxValue") else { continue };
+            let pp = vec!["Soldiers".to_string(), key.clone(), "Stats".to_string(), stat_label(&ty)];
             let r: Vec<&str> = pp.iter().map(String::as_str).collect();
             b.field(&r, max, Kind::F32);
             for k in ["CurrentValue", "BaseMaxValue"] {
@@ -466,20 +403,11 @@ pub(crate) mod tests {
         int(&mut sol, "m_SoldierRank", 2);
         float(&mut sol, "KillCount", 5.0);
         int(&mut sol, "iNumMissions", 4);
-        for (i, (t, v)) in [("eStat_HP", 6.0f32), ("eStat_Offense", 70.0)]
-            .iter()
-            .enumerate()
-        {
+        for (i, (t, v)) in [("eStat_HP", 6.0f32), ("eStat_Offense", 70.0)].iter().enumerate() {
             let mut s = vec![];
             let mut e = vec![];
             name(&mut e, t);
-            head(
-                &mut s,
-                "Type",
-                "ByteProperty",
-                e.len(),
-                Some("ECharStatType"),
-            );
+            head(&mut s, "Type", "ByteProperty", e.len(), Some("ECharStatType"));
             s.extend(e);
             float(&mut s, "CurrentValue", *v);
             float(&mut s, "MaxValue", *v);
@@ -514,16 +442,12 @@ pub(crate) mod tests {
         assert_eq!(s["Missions"], 4);
         assert_eq!(s["Stats"]["Aim"], 70.0);
         doc.set("/Resources/Supplies", 999.into()).unwrap();
-        doc.set("/Soldiers/0020 Ana Test/Stats/HP", 10.0.into())
-            .unwrap();
+        doc.set("/Soldiers/0020 Ana Test/Stats/HP", 10.0.into()).unwrap();
         let out = doc.to_bytes().unwrap();
         assert_eq!(out.len(), d.len());
         let doc2 = parse(&out).unwrap();
         assert_eq!(doc2.view.pointer("/Resources/Supplies"), Some(&999.into()));
-        assert_eq!(
-            doc2.view.pointer("/Soldiers/0020 Ana Test/Stats/HP"),
-            Some(&10.0.into())
-        );
+        assert_eq!(doc2.view.pointer("/Soldiers/0020 Ana Test/Stats/HP"), Some(&10.0.into()));
         // Current and base max follow: all three 10.0 now.
         let ten = 10.0f32.to_le_bytes();
         assert_eq!(out.windows(4).filter(|w| *w == ten).count(), 3);
@@ -536,15 +460,7 @@ pub(crate) mod tests {
         let d = std::fs::read(std::env::var("SAVE_EDITOR_XCOM2").unwrap()).unwrap();
         let t = std::time::Instant::now();
         let doc = parse(&d).unwrap();
-        println!(
-            "{:?}\n{}",
-            t.elapsed(),
-            serde_json::to_string_pretty(&doc.view)
-                .unwrap()
-                .chars()
-                .take(6000)
-                .collect::<String>()
-        );
+        println!("{:?}\n{}", t.elapsed(), serde_json::to_string_pretty(&doc.view).unwrap().chars().take(6000).collect::<String>());
         assert_eq!(doc.to_bytes().unwrap(), d);
     }
 }

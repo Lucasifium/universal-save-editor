@@ -17,12 +17,7 @@ const PLAIN_LEN: usize = META.0 + 150 * PREVIEW.0 + 151 * SLOT.0;
 
 fn key_iv() -> ([u8; 32], [u8; 16]) {
     let mut kv = [0u8; 48];
-    pbkdf2::pbkdf2_hmac::<sha1::Sha1>(
-        b"System.Security.SecureString",
-        &[3, 3, 1, 4, 7, 0, 9, 7],
-        1000,
-        &mut kv,
-    );
+    pbkdf2::pbkdf2_hmac::<sha1::Sha1>(b"System.Security.SecureString", &[3, 3, 1, 4, 7, 0, 9, 7], 1000, &mut kv);
     let mut k = [0u8; 32];
     let mut iv = [0u8; 16];
     k.copy_from_slice(&kv[..32]);
@@ -63,9 +58,7 @@ pub fn decrypt(d: &[u8]) -> Option<Vec<u8>> {
             return None;
         }
         let mut buf = d[at..at + c].to_vec();
-        let p = cbc::Decryptor::<aes::Aes256>::new(&k.into(), &iv.into())
-            .decrypt_padded_mut::<Pkcs7>(&mut buf)
-            .ok()?;
+        let p = cbc::Decryptor::<aes::Aes256>::new(&k.into(), &iv.into()).decrypt_padded_mut::<Pkcs7>(&mut buf).ok()?;
         if p.len() != n {
             return None;
         }
@@ -82,8 +75,7 @@ pub fn encrypt(plain: &[u8]) -> Result<Vec<u8>, String> {
     let mut out = vec![0u8; FILE_LEN];
     let mut p = 0;
     for (at, n, _) in sections() {
-        let c = cbc::Encryptor::<aes::Aes256>::new(&k.into(), &iv.into())
-            .encrypt_padded_vec_mut::<Pkcs7>(&plain[p..p + n]);
+        let c = cbc::Encryptor::<aes::Aes256>::new(&k.into(), &iv.into()).encrypt_padded_vec_mut::<Pkcs7>(&plain[p..p + n]);
         out[at..at + c.len()].copy_from_slice(&c);
         p += n;
     }
@@ -112,32 +104,18 @@ pub fn parse(plain: &[u8]) -> Result<TreeDoc, String> {
             continue;
         }
         used += 1;
-        let slot = if i == 0 {
-            "Autosave".to_string()
-        } else {
-            format!("Slot {}", (i - 1) / 15 + 1) + &format!(" file {}", (i - 1) % 15 + 1)
-        };
+        let slot = if i == 0 { "Autosave".to_string() } else { format!("Slot {}", (i - 1) / 15 + 1) + &format!(" file {}", (i - 1) % 15 + 1) };
         let sl = slot.as_str();
         b.ranged(&[sl, "Gil"], s + GIL, Kind::U32, 0, 9_999_999);
         for m in 0..9 {
             let r = s + FIRST_NAME + m * MEMBER;
-            let name: String = plain[r..r + 12]
-                .iter()
-                .take_while(|&&c| c != 0)
-                .map(|&c| c as char)
-                .collect();
+            let name: String = plain[r..r + 12].iter().take_while(|&&c| c != 0).map(|&c| c as char).collect();
             if name.is_empty() {
                 continue;
             }
             let who = name.as_str();
             let mut f = |k: &str, off: isize, kind: Kind, lo: i64, hi: i64| {
-                b.ranged(
-                    &[sl, "Party", who, k],
-                    (r as isize + off) as usize,
-                    kind,
-                    lo,
-                    hi,
-                );
+                b.ranged(&[sl, "Party", who, k], (r as isize + off) as usize, kind, lo, hi);
             };
             f("Level", -9, Kind::U8, 1, 99);
             f("Experience", -19, Kind::U32, 0, 9_999_999);
@@ -183,19 +161,10 @@ mod tests {
         assert_eq!(decrypt(&file).unwrap(), plain);
         let mut doc = parse(&plain).unwrap();
         assert_eq!(doc.view.pointer("/Slot 1 file 2/Gil").unwrap(), 1234);
-        assert_eq!(
-            doc.view
-                .pointer("/Slot 1 file 2/Party/Zidane/Level")
-                .unwrap(),
-            12
-        );
-        doc.set("/Slot 1 file 2/Gil", serde_json::Value::from(99999))
-            .unwrap();
+        assert_eq!(doc.view.pointer("/Slot 1 file 2/Party/Zidane/Level").unwrap(), 12);
+        doc.set("/Slot 1 file 2/Gil", serde_json::Value::from(99999)).unwrap();
         let out = doc.to_bytes().unwrap();
-        assert_eq!(
-            u32::from_le_bytes(out[s + GIL..s + GIL + 4].try_into().unwrap()),
-            99999
-        );
+        assert_eq!(u32::from_le_bytes(out[s + GIL..s + GIL + 4].try_into().unwrap()), 99999);
     }
 
     /// Research aid: SAVE_EDITOR_FF9 = a SavedData_ww.dat.
@@ -206,13 +175,6 @@ mod tests {
         let plain = decrypt(&d).expect("decrypt");
         assert_eq!(encrypt(&plain).unwrap(), d, "re-encrypting changes nothing");
         let doc = parse(&plain).unwrap();
-        println!(
-            "{}",
-            serde_json::to_string_pretty(&doc.view)
-                .unwrap()
-                .chars()
-                .take(1500)
-                .collect::<String>()
-        );
+        println!("{}", serde_json::to_string_pretty(&doc.view).unwrap().chars().take(1500).collect::<String>());
     }
 }

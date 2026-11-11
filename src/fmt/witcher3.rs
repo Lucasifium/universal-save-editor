@@ -28,10 +28,7 @@ struct Names {
 
 impl Names {
     fn index(&self, n: &str) -> Option<u16> {
-        self.list
-            .iter()
-            .position(|x| x == n)
-            .map(|i| (i + 1) as u16)
+        self.list.iter().position(|x| x == n).map(|i| (i + 1) as u16)
     }
 }
 
@@ -40,24 +37,15 @@ fn names(d: &[u8]) -> Option<Names> {
     // The offsets count from the original file's start: find the shift that makes the
     // footer point at the "NM" marker.
     for base in 0..(1 << 21).min(vt) {
-        let Some(sf) = (vt - base).checked_sub(10) else {
-            break;
-        };
-        let Some(nm) = u32_at(d, sf).and_then(|n| n.checked_sub(base)) else {
-            continue;
-        };
+        let Some(sf) = (vt - base).checked_sub(10) else { break };
+        let Some(nm) = u32_at(d, sf).and_then(|n| n.checked_sub(base)) else { continue };
         if d.get(nm..nm + 6) == Some(b"NMMANU") {
             let count = u32_at(d, nm + 6)?;
             let mut p = nm + 14;
             let mut list = Vec::with_capacity(count);
             for _ in 0..count {
                 let n = *d.get(p)? as usize;
-                list.push(
-                    d.get(p + 1..p + 1 + n)?
-                        .iter()
-                        .map(|&c| c as char)
-                        .collect(),
-                );
+                list.push(d.get(p + 1..p + 1 + n)?.iter().map(|&c| c as char).collect());
                 p += 1 + n;
             }
             return Some(Names { list, at: nm });
@@ -75,17 +63,10 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
         return Err("not Witcher 3 game data".into());
     }
     let nt = names(d).ok_or("the name table wasn't found")?;
-    let ix = |n: &str| {
-        nt.index(n)
-            .ok_or_else(|| format!("no \u{201C}{n}\u{201D} in this save"))
-    };
+    let ix = |n: &str| nt.index(n).ok_or_else(|| format!("no \u{201C}{n}\u{201D} in this save"));
     let int32 = ix("Int32")?;
     let pair = |a: u16, b: u16| [a.to_le_bytes(), b.to_le_bytes()].concat();
-    let lm = find(
-        &d[..nt.at],
-        &pair(ix("levelManager")?, ix("handle:W3LevelManager")?),
-    )
-    .ok_or("the player's level data wasn't found")?;
+    let lm = find(&d[..nt.at], &pair(ix("levelManager")?, ix("handle:W3LevelManager")?)).ok_or("the player's level data wasn't found")?;
     let lm_size = u32_at(d, lm + 4).ok_or("bad level data")?;
     let lm_end = (lm + 4 + lm_size).min(nt.at);
     let block = &d[lm..lm_end];
@@ -104,18 +85,12 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
         let end = (start + 4 + u32_at(d, start + 4).unwrap_or(0)).min(lm_end);
         let count = u32_at(d, start + 8).unwrap_or(0);
         let mut q = start + 12;
-        for (n, (label, a, c)) in [
-            ("Skill points", "Unspent", "Spent"),
-            ("Experience", "Toward next level", "Total"),
-        ]
-        .into_iter()
-        .enumerate()
-        {
+        for (n, (label, a, c)) in [("Skill points", "Unspent", "Spent"), ("Experience", "Toward next level", "Total")].into_iter().enumerate() {
             if n >= count || q >= end {
                 break;
             }
             q += 1; // each element starts with a 0 byte
-                    // Properties until a 0 name.
+            // Properties until a 0 name.
             while q + 2 <= end {
                 let name = u32_at(d, q).map(|x| x as u16).unwrap_or(0);
                 if name == 0 {
@@ -129,13 +104,7 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
                 }
                 let ty = (u32_at(d, q).unwrap_or(0) >> 16) as u16;
                 if ty == int32 && size == 8 {
-                    let which = if name == free {
-                        Some(a)
-                    } else if name == used {
-                        Some(c)
-                    } else {
-                        None
-                    };
+                    let which = if name == free { Some(a) } else if name == used { Some(c) } else { None };
                     if let Some(w) = which {
                         b.ranged(&["Geralt", label, w], q + 8, Kind::I32, 0, i32::MAX as i64);
                     }
@@ -150,13 +119,7 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
         let mut o = lm_end;
         while let Some(i) = find(&d[o..nt.at], &crowns.to_le_bytes()).map(|i| i + o) {
             if d.get(i + 13..i + 17) == Some(&dyes[..]) {
-                b.ranged(
-                    &["Geralt", "Crowns"],
-                    i + 17,
-                    Kind::U32,
-                    0,
-                    i32::MAX as u32 as i64,
-                );
+                b.ranged(&["Geralt", "Crowns"], i + 17, Kind::U32, 0, i32::MAX as u32 as i64);
                 break;
             }
             o = i + 2;
@@ -180,11 +143,7 @@ mod tests {
         let d = std::fs::read(std::env::var("SAVE_EDITOR_W3").unwrap()).unwrap();
         let t = std::time::Instant::now();
         let doc = super::parse(&d).unwrap();
-        println!(
-            "{:?} {}",
-            t.elapsed(),
-            serde_json::to_string_pretty(&doc.view).unwrap()
-        );
+        println!("{:?} {}", t.elapsed(), serde_json::to_string_pretty(&doc.view).unwrap());
         assert_eq!(doc.to_bytes().unwrap(), d);
     }
 }

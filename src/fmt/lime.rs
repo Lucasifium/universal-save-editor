@@ -24,12 +24,7 @@ const BANKS: usize = 4 * 0x80;
 const DATA: usize = 0x1000;
 const SEGMENT: usize = BANKS + DATA + 0x20;
 /// The first bank header of every segment (the fixed "header key").
-const FIRST_BANK: [u64; 4] = [
-    0x5B49_D502_17C8_39BB,
-    0x772B_EEF5_D244_1867,
-    0x6E23_6B07_6EEB_11B8,
-    0x1216_F542_E37C_EE41,
-];
+const FIRST_BANK: [u64; 4] = [0x5B49_D502_17C8_39BB, 0x772B_EEF5_D244_1867, 0x6E23_6B07_6EEB_11B8, 0x1216_F542_E37C_EE41];
 
 pub fn looks(d: &[u8]) -> bool {
     d.len() >= HEADER + SEGMENT + FOOTER
@@ -63,9 +58,7 @@ fn decrypt_segment(seg: &[u8], user: u64) -> Vec<u8> {
 
 /// Does `user` open this file? (Decrypts and checks the first segment only.)
 pub fn id_matches(d: &[u8], user: u64) -> bool {
-    let Some(seg) = segments(d).next() else {
-        return false;
-    };
+    let Some(seg) = segments(d).next() else { return false };
     Sha3_256::digest(decrypt_segment(seg, user))[..] == seg[BANKS + DATA..]
 }
 
@@ -116,10 +109,7 @@ pub fn encrypt(plain: &[u8], like: &[u8], user: u64) -> Result<Vec<u8>, String> 
 
 /// The account (of `accounts`) that opens this file, as a user id.
 pub fn find_user(d: &[u8], accounts: &[u64]) -> Option<u64> {
-    accounts
-        .iter()
-        .map(|&a| user_id(a))
-        .find(|&u| id_matches(d, u))
+    accounts.iter().map(|&a| user_id(a)).find(|&u| id_matches(d, u))
 }
 
 #[cfg(test)]
@@ -135,16 +125,10 @@ mod tests {
         let enc = std::fs::read(dir.join("encrypted.bin")).unwrap();
         let plain = std::fs::read(dir.join("decrypted.bin")).unwrap();
         assert!(looks(&enc));
-        assert_eq!(
-            find_user(&enc, &[5, 76_561_197_960_265_729]),
-            Some(user_id(1))
-        );
+        assert_eq!(find_user(&enc, &[5, 76_561_197_960_265_729]), Some(user_id(1)));
         assert_eq!(decrypt(&enc, user_id(1)).unwrap(), plain);
         let again = encrypt(&plain, &enc, user_id(1)).unwrap();
-        assert_eq!(
-            again, enc,
-            "unchanged data must give the file back byte for byte"
-        );
+        assert_eq!(again, enc, "unchanged data must give the file back byte for byte");
         let mut edited = plain.clone();
         edited[100] ^= 0xFF;
         edited.extend([7u8; 5000]);
@@ -163,8 +147,7 @@ mod tests {
         let a = hk.modpow(&BigUint::from(user), &k.p1);
         for (i, part) in [11u64, 22, 33, 44].into_iter().enumerate() {
             banks[i * 128..i * 128 + 64].copy_from_slice(&mandarin::limbs(hk, 8));
-            banks[i * 128 + 64..i * 128 + 128]
-                .copy_from_slice(&mandarin::limbs(&(&a * BigUint::from(part)), 8));
+            banks[i * 128 + 64..i * 128 + 128].copy_from_slice(&mandarin::limbs(&(&a * BigUint::from(part)), 8));
         }
         let mut like = b"DSSS\x02\0\0\0\x10\0\0\0\0\0\0\0".to_vec();
         like.extend(&banks);

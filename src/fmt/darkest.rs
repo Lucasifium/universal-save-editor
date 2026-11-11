@@ -23,25 +23,17 @@ pub fn looks(d: &[u8]) -> bool {
 }
 
 fn u32_at(d: &[u8], at: usize) -> Option<u32> {
-    d.get(at..at + 4)
-        .map(|b| u32::from_le_bytes(b.try_into().unwrap()))
+    d.get(at..at + 4).map(|b| u32::from_le_bytes(b.try_into().unwrap()))
 }
 
 /// The game's string hash (field names, and many ids stored as ints).
 pub fn name_hash(s: &str) -> u32 {
-    s.bytes()
-        .fold(0u32, |h, b| h.wrapping_mul(53).wrapping_add(u32::from(b)))
+    s.bytes().fold(0u32, |h, b| h.wrapping_mul(53).wrapping_add(u32::from(b)))
 }
 
 // Field names whose type can't be told from the size (from robojumper's DsonTypes). A
 // pattern is matched against the field's name and its parents' names, last part first.
-const FLOATS: &[&[&str]] = &[
-    &["current_hp"],
-    &["m_Stress"],
-    &["actor", "buff_group", "*", "amount"],
-    &["chapters", "*", "*", "percent"],
-    &["non_rolled_additional_chances", "*", "chance"],
-];
+const FLOATS: &[&[&str]] = &[&["current_hp"], &["m_Stress"], &["actor", "buff_group", "*", "amount"], &["chapters", "*", "*", "percent"], &["non_rolled_additional_chances", "*", "chance"]];
 const INT_VECTORS: &[&[&str]] = &[
     &["read_page_indexes"],
     &["raid_read_page_indexes"],
@@ -69,32 +61,13 @@ const INT_VECTORS: &[&[&str]] = &[
     &["backer_heroes", "*", "camping_skills"],
     &["backer_heroes", "*", "quirks"],
 ];
-const STRING_VECTORS: &[&[&str]] = &[
-    &["goal_ids"],
-    &["roaming_dungeon_2_ids", "*", "s"],
-    &["quirk_group"],
-    &["backgroundNames"],
-    &["backgroundGroups", "*", "backgrounds"],
-    &["backgroundGroups", "*", "background_table_entries"],
-];
-const FLOAT_ARRAYS: &[&[&str]] = &[
-    &["map", "bounds"],
-    &["areas", "*", "bounds"],
-    &["areas", "*", "tiles", "*", "mappos"],
-    &["areas", "*", "tiles", "*", "sidepos"],
-];
+const STRING_VECTORS: &[&[&str]] = &[&["goal_ids"], &["roaming_dungeon_2_ids", "*", "s"], &["quirk_group"], &["backgroundNames"], &["backgroundGroups", "*", "backgrounds"], &["backgroundGroups", "*", "background_table_entries"]];
+const FLOAT_ARRAYS: &[&[&str]] = &[&["map", "bounds"], &["areas", "*", "bounds"], &["areas", "*", "tiles", "*", "mappos"], &["areas", "*", "tiles", "*", "sidepos"]];
 const TWO_INTS: &[&[&str]] = &[&["killRange"]];
 
 /// `chain` is the field's name, then its parent's, and so on.
 fn is_a(table: &[&[&str]], chain: &[&str]) -> bool {
-    table.iter().any(|pat| {
-        pat.len() <= chain.len()
-            && pat
-                .iter()
-                .rev()
-                .zip(chain)
-                .all(|(p, c)| *p == "*" || p == c)
-    })
+    table.iter().any(|pat| pat.len() <= chain.len() && pat.iter().rev().zip(chain).all(|(p, c)| *p == "*" || p == c))
 }
 
 /// Limits for values the game keeps in a known range.
@@ -129,46 +102,24 @@ fn unique(used: &mut HashSet<String>, name: &str) -> String {
 }
 
 /// One DSON file at `base..base + len` of the builder's data; its values go under `prefix`.
-fn file(
-    b: &mut Builder,
-    base: usize,
-    len: usize,
-    prefix: &[String],
-    depth: usize,
-) -> Result<(), String> {
+fn file(b: &mut Builder, base: usize, len: usize, prefix: &[String], depth: usize) -> Result<(), String> {
     let all: &[u8] = b.d;
     let d = all.get(base..base + len).ok_or("the file ends early")?;
     if !looks(d) {
         return Err("not a Darkest Dungeon file".into());
     }
     let at = |o: usize| u32_at(d, o).unwrap_or(0) as usize;
-    let (n1, m1off, n2, m2off, dlen, doff) =
-        (at(0x14), at(0x18), at(0x2C), at(0x30), at(0x38), at(0x3C));
-    let fits = |off: usize, n: usize, size: usize| {
-        n < 10_000_000 && off.checked_add(n * size).is_some_and(|e| e <= len)
-    };
+    let (n1, m1off, n2, m2off, dlen, doff) = (at(0x14), at(0x18), at(0x2C), at(0x30), at(0x38), at(0x3C));
+    let fits = |off: usize, n: usize, size: usize| n < 10_000_000 && off.checked_add(n * size).is_some_and(|e| e <= len);
     if !fits(m1off, n1, 16) || !fits(m2off, n2, 12) || !fits(doff, dlen, 1) {
         return Err("the file's tables don't fit in it".into());
     }
     let m1: Vec<usize> = (0..n1).map(|i| at(m1off + 16 * i + 8)).collect(); // direct children
-    let m2: Vec<(u32, usize, u32)> = (0..n2)
-        .map(|i| {
-            (
-                at(m2off + 12 * i) as u32,
-                at(m2off + 12 * i + 4),
-                at(m2off + 12 * i + 8) as u32,
-            )
-        })
-        .collect();
+    let m2: Vec<(u32, usize, u32)> = (0..n2).map(|i| (at(m2off + 12 * i) as u32, at(m2off + 12 * i + 4), at(m2off + 12 * i + 8) as u32)).collect();
     let data = &d[doff..doff + dlen];
     let mut offsets: Vec<usize> = m2.iter().map(|e| e.1).collect();
     offsets.sort_unstable();
-    let next = |off: usize| {
-        offsets
-            .get(offsets.partition_point(|&o| o <= off))
-            .copied()
-            .unwrap_or(dlen)
-    };
+    let next = |off: usize| offsets.get(offsets.partition_point(|&o| o <= off)).copied().unwrap_or(dlen);
     let mut stack: Vec<Level> = vec![];
     let mut root_used = HashSet::new();
     for &(hash, off, info) in &m2 {
@@ -180,10 +131,7 @@ fn file(
         if name_hash(&name) != hash {
             return Err(format!("field name {name:?} doesn't match its hash"));
         }
-        let key = unique(
-            stack.last_mut().map_or(&mut root_used, |l| &mut l.used),
-            &name,
-        );
+        let key = unique(stack.last_mut().map_or(&mut root_used, |l| &mut l.used), &name);
         let mut path: Vec<String> = prefix.to_vec();
         path.extend(stack.iter().map(|l| l.key.clone()));
         path.push(key.clone());
@@ -192,12 +140,7 @@ fn file(
             let idx = ((info >> 11) & 0xF_FFFF) as usize;
             let children = *m1.get(idx).ok_or("bad object index")?;
             if children > 0 {
-                stack.push(Level {
-                    key,
-                    name,
-                    remaining: children,
-                    used: HashSet::new(),
-                });
+                stack.push(Level { key, name, remaining: children, used: HashSet::new() });
                 continue;
             }
             b.info(&p, Value::Object(Map::new()));
@@ -226,39 +169,23 @@ fn file(
 }
 
 fn i32s(a: &[u8]) -> Vec<i32> {
-    a.chunks_exact(4)
-        .map(|c| i32::from_le_bytes(c.try_into().unwrap()))
-        .collect()
+    a.chunks_exact(4).map(|c| i32::from_le_bytes(c.try_into().unwrap())).collect()
 }
 
 /// One value: `raw` is everything after the name (at `raw_at` in the data); aligned values
 /// start `skip` bytes in.
-fn value(
-    b: &mut Builder,
-    p: &[&str],
-    chain: &[&str],
-    raw: &[u8],
-    raw_at: usize,
-    skip: usize,
-    depth: usize,
-) {
+fn value(b: &mut Builder, p: &[&str], chain: &[&str], raw: &[u8], raw_at: usize, skip: usize, depth: usize) {
     let a = raw.get(skip..).unwrap_or(&[]);
     let abs = raw_at + skip;
     if is_a(FLOAT_ARRAYS, chain) {
-        let v: Vec<Value> = a
-            .chunks_exact(4)
-            .map(|c| crate::tree::f32_value(f32::from_le_bytes(c.try_into().unwrap())))
-            .collect();
+        let v: Vec<Value> = a.chunks_exact(4).map(|c| crate::tree::f32_value(f32::from_le_bytes(c.try_into().unwrap()))).collect();
         b.info(p, Value::Array(v));
         return;
     }
     if is_a(INT_VECTORS, chain) && a.len() >= 4 {
         let n = i32s(&a[..4])[0];
         if n >= 0 && a.len() == (n as usize + 1) * 4 {
-            b.info(
-                p,
-                Value::Array(i32s(&a[4..]).into_iter().map(Value::from).collect()),
-            );
+            b.info(p, Value::Array(i32s(&a[4..]).into_iter().map(Value::from).collect()));
             return;
         }
     }
@@ -276,10 +203,7 @@ fn value(
         return;
     }
     if is_a(TWO_INTS, chain) && a.len() == 8 {
-        b.info(
-            p,
-            Value::Array(i32s(a).into_iter().map(Value::from).collect()),
-        );
+        b.info(p, Value::Array(i32s(a).into_iter().map(Value::from).collect()));
         return;
     }
     if raw.len() == 1 {
@@ -292,10 +216,7 @@ fn value(
         return;
     }
     if a.len() == 8 && a[0] <= 1 && a[4] <= 1 {
-        b.info(
-            p,
-            Value::Array(vec![Value::Bool(a[0] != 0), Value::Bool(a[4] != 0)]),
-        );
+        b.info(p, Value::Array(vec![Value::Bool(a[0] != 0), Value::Bool(a[4] != 0)]));
         return;
     }
     if a.len() == 4 {
@@ -376,20 +297,9 @@ pub(crate) mod tests {
         let mut data: Vec<u8> = vec![];
         let mut m1: Vec<[i32; 4]> = vec![];
         let mut m2: Vec<[u32; 3]> = vec![];
-        fn put(
-            f: &F,
-            parent: i32,
-            data: &mut Vec<u8>,
-            m1: &mut Vec<[i32; 4]>,
-            m2: &mut Vec<[u32; 3]>,
-        ) -> usize {
+        fn put(f: &F, parent: i32, data: &mut Vec<u8>, m1: &mut Vec<[i32; 4]>, m2: &mut Vec<[u32; 3]>) -> usize {
             let name = match f {
-                F::Obj(n, _)
-                | F::Int(n, _)
-                | F::Float(n, _)
-                | F::Bool(n, _)
-                | F::Str(n, _)
-                | F::File(n, _) => *n,
+                F::Obj(n, _) | F::Int(n, _) | F::Float(n, _) | F::Bool(n, _) | F::Str(n, _) | F::File(n, _) => *n,
             };
             let off = data.len() as u32;
             data.extend(name.as_bytes());
@@ -444,23 +354,7 @@ pub(crate) mod tests {
         let m2off = m1off + 16 * m1.len();
         let doff = m2off + 12 * m2.len();
         let mut out = MAGIC.to_vec();
-        for v in [
-            0x5E55u32,
-            0x40,
-            0,
-            (16 * m1.len()) as u32,
-            m1.len() as u32,
-            m1off as u32,
-            0,
-            0,
-            0,
-            0,
-            m2.len() as u32,
-            m2off as u32,
-            0,
-            data.len() as u32,
-            doff as u32,
-        ] {
+        for v in [0x5E55u32, 0x40, 0, (16 * m1.len()) as u32, m1.len() as u32, m1off as u32, 0, 0, 0, 0, m2.len() as u32, m2off as u32, 0, data.len() as u32, doff as u32] {
             out.extend(v.to_le_bytes());
         }
         for e in &m1 {
@@ -474,35 +368,13 @@ pub(crate) mod tests {
     }
 
     pub fn estate() -> Vec<u8> {
-        let wallet = |i: &'static str, n: i32, t: &str| {
-            F::Obj(i, vec![F::Int("amount", n), F::Str("type", t.into())])
-        };
+        let wallet = |i: &'static str, n: i32, t: &str| F::Obj(i, vec![F::Int("amount", n), F::Str("type", t.into())]);
         dson(vec![F::Obj(
             "base_root",
             vec![
                 F::Int("version", 34),
-                F::Obj(
-                    "wallet",
-                    vec![
-                        wallet("0", 1234, "gold"),
-                        wallet("1", 5, "bust"),
-                        wallet("2", 7, "crest"),
-                    ],
-                ),
-                F::Obj(
-                    "trinkets",
-                    vec![F::Obj(
-                        "items",
-                        vec![F::Obj(
-                            "0",
-                            vec![
-                                F::Str("id", "lucky_dice".into()),
-                                F::Str("type", "trinket".into()),
-                                F::Int("amount", 1),
-                            ],
-                        )],
-                    )],
-                ),
+                F::Obj("wallet", vec![wallet("0", 1234, "gold"), wallet("1", 5, "bust"), wallet("2", 7, "crest")]),
+                F::Obj("trinkets", vec![F::Obj("items", vec![F::Obj("0", vec![F::Str("id", "lucky_dice".into()), F::Str("type", "trinket".into()), F::Int("amount", 1)])])]),
                 F::Obj("empty", vec![]),
             ],
         )])
@@ -512,10 +384,7 @@ pub(crate) mod tests {
         let hero = dson(vec![F::Obj(
             "base_root",
             vec![
-                F::Obj(
-                    "actor",
-                    vec![F::Str("name", "Testa".into()), F::Float("current_hp", 25.5)],
-                ),
+                F::Obj("actor", vec![F::Str("name", "Testa".into()), F::Float("current_hp", 25.5)]),
                 F::Str("heroClass", "vestal".into()),
                 F::Int("resolveXp", 3),
                 F::Float("m_Stress", 40.0),
@@ -524,19 +393,7 @@ pub(crate) mod tests {
                 F::Int("armour_rank", 0),
             ],
         )]);
-        dson(vec![F::Obj(
-            "base_root",
-            vec![
-                F::Obj(
-                    "heroes",
-                    vec![F::Obj(
-                        "7",
-                        vec![F::Obj("hero_file_data", vec![F::File("raw_data", hero)])],
-                    )],
-                ),
-                F::Int("nextGuid", 8),
-            ],
-        )])
+        dson(vec![F::Obj("base_root", vec![F::Obj("heroes", vec![F::Obj("7", vec![F::Obj("hero_file_data", vec![F::File("raw_data", hero)])])]), F::Int("nextGuid", 8)])])
     }
 
     #[test]
@@ -545,39 +402,18 @@ pub(crate) mod tests {
         assert!(looks(&d));
         let mut doc = parse(&d).unwrap();
         assert_eq!(doc.kind_name, "Darkest Dungeon estate");
-        assert_eq!(
-            doc.view.pointer("/base_root/wallet/0/amount"),
-            Some(&Value::from(1234))
-        );
-        assert_eq!(
-            doc.view.pointer("/base_root/wallet/2/type"),
-            Some(&Value::from("crest"))
-        );
-        assert_eq!(
-            doc.view.pointer("/base_root/trinkets/items/0/id"),
-            Some(&Value::from("lucky_dice"))
-        );
-        assert_eq!(
-            doc.view.pointer("/base_root/empty"),
-            Some(&Value::Object(Map::new()))
-        );
+        assert_eq!(doc.view.pointer("/base_root/wallet/0/amount"), Some(&Value::from(1234)));
+        assert_eq!(doc.view.pointer("/base_root/wallet/2/type"), Some(&Value::from("crest")));
+        assert_eq!(doc.view.pointer("/base_root/trinkets/items/0/id"), Some(&Value::from("lucky_dice")));
+        assert_eq!(doc.view.pointer("/base_root/empty"), Some(&Value::Object(Map::new())));
         assert_eq!(doc.to_bytes().unwrap(), d);
-        assert!(doc
-            .set("/base_root/wallet/0/amount", Value::from(-1))
-            .is_err());
-        doc.set("/base_root/wallet/0/amount", Value::from(99_999))
-            .unwrap();
+        assert!(doc.set("/base_root/wallet/0/amount", Value::from(-1)).is_err());
+        doc.set("/base_root/wallet/0/amount", Value::from(99_999)).unwrap();
         let out = doc.to_bytes().unwrap();
         assert_eq!(out.len(), d.len());
         let again = parse(&out).unwrap();
-        assert_eq!(
-            again.view.pointer("/base_root/wallet/0/amount"),
-            Some(&Value::from(99_999))
-        );
-        assert_eq!(
-            again.view.pointer("/base_root/wallet/1/amount"),
-            Some(&Value::from(5))
-        );
+        assert_eq!(again.view.pointer("/base_root/wallet/0/amount"), Some(&Value::from(99_999)));
+        assert_eq!(again.view.pointer("/base_root/wallet/1/amount"), Some(&Value::from(5)));
     }
 
     #[test]
@@ -586,58 +422,21 @@ pub(crate) mod tests {
         let mut doc = parse(&d).unwrap();
         assert_eq!(doc.kind_name, "Darkest Dungeon roster");
         let h = "/base_root/heroes/7/hero_file_data/raw_data/base_root";
-        assert_eq!(
-            doc.view.pointer(&format!("{h}/actor/name")),
-            Some(&Value::from("Testa"))
-        );
-        assert_eq!(
-            doc.view
-                .pointer(&format!("{h}/m_Stress"))
-                .and_then(Value::as_f64),
-            Some(40.0)
-        );
-        assert_eq!(
-            doc.view.pointer(&format!("{h}/visited_deaths_door")),
-            Some(&Value::Bool(false))
-        );
-        assert_eq!(
-            doc.view.pointer("/base_root/nextGuid"),
-            Some(&Value::from(8))
-        );
-        assert!(doc
-            .set(&format!("{h}/m_Stress"), Value::from(250.0))
-            .is_err());
-        assert!(doc
-            .set(&format!("{h}/weapon_rank"), Value::from(5))
-            .is_err());
+        assert_eq!(doc.view.pointer(&format!("{h}/actor/name")), Some(&Value::from("Testa")));
+        assert_eq!(doc.view.pointer(&format!("{h}/m_Stress")).and_then(Value::as_f64), Some(40.0));
+        assert_eq!(doc.view.pointer(&format!("{h}/visited_deaths_door")), Some(&Value::Bool(false)));
+        assert_eq!(doc.view.pointer("/base_root/nextGuid"), Some(&Value::from(8)));
+        assert!(doc.set(&format!("{h}/m_Stress"), Value::from(250.0)).is_err());
+        assert!(doc.set(&format!("{h}/weapon_rank"), Value::from(5)).is_err());
         doc.set(&format!("{h}/m_Stress"), Value::from(0.0)).unwrap();
         doc.set(&format!("{h}/resolveXp"), Value::from(30)).unwrap();
-        doc.set(&format!("{h}/weapon_rank"), Value::from(4))
-            .unwrap();
+        doc.set(&format!("{h}/weapon_rank"), Value::from(4)).unwrap();
         let out = doc.to_bytes().unwrap();
         let again = parse(&out).unwrap();
-        assert_eq!(
-            again
-                .view
-                .pointer(&format!("{h}/m_Stress"))
-                .and_then(Value::as_f64),
-            Some(0.0)
-        );
-        assert_eq!(
-            again.view.pointer(&format!("{h}/resolveXp")),
-            Some(&Value::from(30))
-        );
-        assert_eq!(
-            again.view.pointer(&format!("{h}/weapon_rank")),
-            Some(&Value::from(4))
-        );
-        assert_eq!(
-            again
-                .view
-                .pointer(&format!("{h}/actor/current_hp"))
-                .and_then(Value::as_f64),
-            Some(25.5)
-        );
+        assert_eq!(again.view.pointer(&format!("{h}/m_Stress")).and_then(Value::as_f64), Some(0.0));
+        assert_eq!(again.view.pointer(&format!("{h}/resolveXp")), Some(&Value::from(30)));
+        assert_eq!(again.view.pointer(&format!("{h}/weapon_rank")), Some(&Value::from(4)));
+        assert_eq!(again.view.pointer(&format!("{h}/actor/current_hp")).and_then(Value::as_f64), Some(25.5));
     }
 
     #[test]
@@ -646,12 +445,7 @@ pub(crate) mod tests {
         let m2off = u32_at(&d, 0x30).unwrap() as usize;
         d[m2off] ^= 1;
         assert!(parse(&d).is_err());
-        assert_eq!(
-            name_hash("base_root"),
-            "base_root"
-                .bytes()
-                .fold(0u32, |h, b| h.wrapping_mul(53).wrapping_add(b as u32))
-        );
+        assert_eq!(name_hash("base_root"), "base_root".bytes().fold(0u32, |h, b| h.wrapping_mul(53).wrapping_add(b as u32)));
     }
 
     /// Research aid: every file in SAVE_EDITOR_DD1 (a profile folder) parses, writes back
@@ -666,26 +460,15 @@ pub(crate) mod tests {
                 continue;
             }
             let mut doc = parse(&d).unwrap_or_else(|err| panic!("{}: {err}", e.path().display()));
-            println!(
-                "{}: {} ({} editable)",
-                e.file_name().to_string_lossy(),
-                doc.kind_name,
-                doc.editable.len()
-            );
+            println!("{}: {} ({} editable)", e.file_name().to_string_lossy(), doc.kind_name, doc.editable.len());
             assert_eq!(doc.to_bytes().unwrap(), d);
             let before = doc.view.clone();
             let edit = match doc.kind_name.as_str() {
                 "Darkest Dungeon estate" => Some("/base_root/wallet/0/amount".to_string()),
                 "Darkest Dungeon roster" => {
-                    let heroes = doc
-                        .view
-                        .pointer("/base_root/heroes")
-                        .and_then(Value::as_object)
-                        .unwrap();
+                    let heroes = doc.view.pointer("/base_root/heroes").and_then(Value::as_object).unwrap();
                     let first = heroes.keys().next().unwrap();
-                    Some(format!(
-                        "/base_root/heroes/{first}/hero_file_data/raw_data/base_root/resolveXp"
-                    ))
+                    Some(format!("/base_root/heroes/{first}/hero_file_data/raw_data/base_root/resolveXp"))
                 }
                 _ => None,
             };

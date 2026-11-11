@@ -13,12 +13,7 @@ const FRAME: usize = 128;
 
 /// Where the raw card starts in the image (after a DexDrive or VGS header), if this is one.
 pub fn ps1_offset(d: &[u8]) -> Option<usize> {
-    [0usize, 64, 3904].into_iter().find(|&o| {
-        d.len() == o + PS1_CARD
-            && d[o..].starts_with(b"MC\0")
-            && (o != 64 || d.starts_with(b"VgsM"))
-            && (o != 3904 || d.starts_with(b"123-456-STD"))
-    })
+    [0usize, 64, 3904].into_iter().find(|&o| d.len() == o + PS1_CARD && d[o..].starts_with(b"MC\0") && (o != 64 || d.starts_with(b"VgsM")) && (o != 3904 || d.starts_with(b"123-456-STD")))
 }
 
 /// One save on a PlayStation card: its entry name and its blocks in order.
@@ -90,21 +85,9 @@ pub fn ps1_saves(card: &[u8]) -> Vec<Ps1Save> {
             let e = &card[b * FRAME..];
             next = u16::from_le_bytes([e[8], e[9]]);
         }
-        let file: String = f[10..31]
-            .iter()
-            .take_while(|&&c| c != 0)
-            .map(|&c| c as char)
-            .collect();
-        let t = if card[first * BLOCK..].starts_with(b"SC") {
-            title(&card[first * BLOCK + 4..first * BLOCK + 68])
-        } else {
-            String::new()
-        };
-        let name = if t.is_empty() {
-            format!("{first:02} {file}")
-        } else {
-            format!("{first:02} {file} \u{2014} {t}")
-        };
+        let file: String = f[10..31].iter().take_while(|&&c| c != 0).map(|&c| c as char).collect();
+        let t = if card[first * BLOCK..].starts_with(b"SC") { title(&card[first * BLOCK + 4..first * BLOCK + 68]) } else { String::new() };
+        let name = if t.is_empty() { format!("{first:02} {file}") } else { format!("{first:02} {file} \u{2014} {t}") };
         out.push(Ps1Save { name, blocks });
     }
     out
@@ -112,24 +95,17 @@ pub fn ps1_saves(card: &[u8]) -> Vec<Ps1Save> {
 
 /// A save's bytes (its blocks one after another, title and icon frames included).
 pub fn ps1_read(card: &[u8], s: &Ps1Save) -> Vec<u8> {
-    s.blocks
-        .iter()
-        .flat_map(|&b| card[b * BLOCK..(b + 1) * BLOCK].iter().copied())
-        .collect()
+    s.blocks.iter().flat_map(|&b| card[b * BLOCK..(b + 1) * BLOCK].iter().copied()).collect()
 }
 
 /// The image with the save's blocks replaced by `data`, which must keep its size.
 pub fn ps1_write(image: &[u8], offset: usize, s: &Ps1Save, data: &[u8]) -> Result<Vec<u8>, String> {
     if data.len() != s.blocks.len() * BLOCK {
-        return Err(format!(
-            "a save on a memory card keeps its size ({} bytes)",
-            s.blocks.len() * BLOCK
-        ));
+        return Err(format!("a save on a memory card keeps its size ({} bytes)", s.blocks.len() * BLOCK));
     }
     let mut out = image.to_vec();
     for (i, &b) in s.blocks.iter().enumerate() {
-        out[offset + b * BLOCK..offset + (b + 1) * BLOCK]
-            .copy_from_slice(&data[i * BLOCK..(i + 1) * BLOCK]);
+        out[offset + b * BLOCK..offset + (b + 1) * BLOCK].copy_from_slice(&data[i * BLOCK..(i + 1) * BLOCK]);
     }
     Ok(out)
 }
@@ -168,10 +144,7 @@ fn ecc128(s: &[u8]) -> [u8; 3] {
     const MASKS: [u8; 7] = [0x55, 0x33, 0x0F, 0x00, 0xAA, 0xCC, 0xF0];
     let (mut cp, mut lp0, mut lp1) = (0x77u8, 0x7Fu8, 0x7Fu8);
     for (i, &b) in s.iter().enumerate() {
-        cp ^= MASKS
-            .iter()
-            .enumerate()
-            .fold(0, |m, (k, &mask)| m | parity(b & mask) << k);
+        cp ^= MASKS.iter().enumerate().fold(0, |m, (k, &mask)| m | parity(b & mask) << k);
         if parity(b) == 1 {
             lp0 ^= !(i as u8);
             lp1 ^= i as u8;
@@ -192,22 +165,9 @@ impl Ps2Card {
             return None;
         }
         let pages = clusters * per_cluster;
-        let spare = if d.len() == pages * page {
-            0
-        } else if d.len() == pages * (page + page / 128 * 4) {
-            page / 128 * 4
-        } else {
-            return None;
-        };
+        let spare = if d.len() == pages * page { 0 } else if d.len() == pages * (page + page / 128 * 4) { page / 128 * 4 } else { return None };
         let ifc = (0..32).map(|i| le32(d, 0x50 + i * 4)).collect();
-        Some(Self {
-            page,
-            per_cluster,
-            spare,
-            alloc: le32(d, 0x34) as usize,
-            ifc,
-            root: le32(d, 0x3C),
-        })
+        Some(Self { page, per_cluster, spare, alloc: le32(d, 0x34) as usize, ifc, root: le32(d, 0x3C) })
     }
 
     fn cluster_bytes(&self) -> usize {
@@ -272,17 +232,8 @@ impl Ps2Card {
         Some(
             raw.chunks(512)
                 .map(|e| {
-                    let name = e[0x40..0x60]
-                        .iter()
-                        .take_while(|&&c| c != 0)
-                        .map(|&c| c as char)
-                        .collect();
-                    (
-                        u16::from_le_bytes([e[0], e[1]]),
-                        le32(e, 4) as usize,
-                        le32(e, 0x10),
-                        name,
-                    )
+                    let name = e[0x40..0x60].iter().take_while(|&&c| c != 0).map(|&c| c as char).collect();
+                    (u16::from_le_bytes([e[0], e[1]]), le32(e, 4) as usize, le32(e, 0x10), name)
                 })
                 .collect(),
         )
@@ -297,14 +248,9 @@ impl Ps2Card {
             if mode & 0xA020 != 0xA020 && mode & 0x8020 != 0x8020 {
                 continue;
             }
-            for (m, flen, c, fname) in self.dir(d, *cluster, (*len).min(4096))?.into_iter().skip(2)
-            {
+            for (m, flen, c, fname) in self.dir(d, *cluster, (*len).min(4096))?.into_iter().skip(2) {
                 if m & 0x8010 == 0x8010 {
-                    out.push(Ps2File {
-                        name: format!("{name}/{fname}"),
-                        cluster: c,
-                        len: flen,
-                    });
+                    out.push(Ps2File { name: format!("{name}/{fname}"), cluster: c, len: flen });
                 }
             }
         }
@@ -319,15 +265,10 @@ impl Ps2Card {
     /// changed page written again.
     pub fn write_file(&self, d: &[u8], f: &Ps2File, data: &[u8]) -> Result<Vec<u8>, String> {
         if data.len() != f.len {
-            return Err(format!(
-                "a file on a PS2 memory card keeps its size ({} bytes)",
-                f.len
-            ));
+            return Err(format!("a file on a PS2 memory card keeps its size ({} bytes)", f.len));
         }
         let cb = self.cluster_bytes();
-        let chain = self
-            .chain(d, f.cluster, f.len.div_ceil(cb).max(1))
-            .ok_or("the file's clusters can't be followed")?;
+        let chain = self.chain(d, f.cluster, f.len.div_ceil(cb).max(1)).ok_or("the file's clusters can't be followed")?;
         let mut out = d.to_vec();
         for (i, c) in chain.iter().enumerate() {
             for (p, at) in self.pages(*c as usize + self.alloc).enumerate() {
@@ -342,10 +283,7 @@ impl Ps2Card {
                 }
                 page[..to - from].copy_from_slice(&data[from..to]);
                 if self.spare > 0 {
-                    let codes: Vec<u8> = out[at..at + self.page]
-                        .chunks(128)
-                        .flat_map(ecc128)
-                        .collect();
+                    let codes: Vec<u8> = out[at..at + self.page].chunks(128).flat_map(ecc128).collect();
                     out[at + self.page..at + self.page + codes.len()].copy_from_slice(&codes);
                 }
             }
@@ -358,15 +296,7 @@ impl Ps2Card {
     #[cfg(test)]
     pub fn ecc_ok(&self, d: &[u8]) -> bool {
         self.spare == 0
-            || d.chunks(self.page + self.spare).all(|p| {
-                p.iter().all(|&b| b == 0xFF)
-                    || p[..self.page]
-                        .chunks(128)
-                        .flat_map(ecc128)
-                        .eq(p[self.page..self.page + self.page / 128 * 3]
-                            .iter()
-                            .copied())
-            })
+            || d.chunks(self.page + self.spare).all(|p| p.iter().all(|&b| b == 0xFF) || p[..self.page].chunks(128).flat_map(ecc128).eq(p[self.page..self.page + self.page / 128 * 3].iter().copied()))
     }
 }
 
@@ -400,13 +330,7 @@ mod tests {
         let o = ps1_offset(&image).unwrap();
         assert_eq!(o, 64);
         let saves = ps1_saves(&image[o..]);
-        assert_eq!(
-            saves,
-            vec![Ps1Save {
-                name: "01 BASLUS-00000TEST \u{2014} A 1".into(),
-                blocks: vec![1, 3]
-            }]
-        );
+        assert_eq!(saves, vec![Ps1Save { name: "01 BASLUS-00000TEST \u{2014} A 1".into(), blocks: vec![1, 3] }]);
         let mut data = ps1_read(&image[o..], &saves[0]);
         assert_eq!(data[BLOCK], 7);
         data[BLOCK] = 9;
@@ -454,17 +378,12 @@ mod tests {
 /// DeSmuME's `.dsv`: the raw Nintendo DS save, then a footer that starts with this text and
 /// ends with "|-DESMUME SAVE-|". Returns where the footer starts.
 pub fn dsv_split(d: &[u8]) -> Option<usize> {
-    const SNIP: &[u8] =
-        b"|<--Snip above here to create a raw sav by excluding this DeSmuME savedata footer:";
+    const SNIP: &[u8] = b"|<--Snip above here to create a raw sav by excluding this DeSmuME savedata footer:";
     if !d.ends_with(b"|-DESMUME SAVE-|") || d.len() > 64 * 1024 * 1024 {
         return None;
     }
     let from = d.len().saturating_sub(256);
-    d[from..]
-        .windows(SNIP.len())
-        .position(|w| w == SNIP)
-        .map(|p| from + p)
-        .filter(|&p| p > 0)
+    d[from..].windows(SNIP.len()).position(|w| w == SNIP).map(|p| from + p).filter(|&p| p > 0)
 }
 
 #[cfg(test)]
@@ -472,9 +391,7 @@ mod dsv_tests {
     #[test]
     fn split() {
         let mut d = vec![1u8; 512];
-        d.extend_from_slice(
-            b"|<--Snip above here to create a raw sav by excluding this DeSmuME savedata footer:",
-        );
+        d.extend_from_slice(b"|<--Snip above here to create a raw sav by excluding this DeSmuME savedata footer:");
         d.extend_from_slice(&[0u8; 24]);
         d.extend_from_slice(b"|-DESMUME SAVE-|");
         assert_eq!(super::dsv_split(&d), Some(512));

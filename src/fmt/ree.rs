@@ -25,14 +25,8 @@ pub fn murmur3(data: &[u8], seed: u32) -> u32 {
     let mut h = seed;
     let mut chunks = data.chunks_exact(4);
     for c in &mut chunks {
-        let k = u32::from_le_bytes(c.try_into().unwrap())
-            .wrapping_mul(C1)
-            .rotate_left(15)
-            .wrapping_mul(C2);
-        h = (h ^ k)
-            .rotate_left(13)
-            .wrapping_mul(5)
-            .wrapping_add(0xE654_6B64);
+        let k = u32::from_le_bytes(c.try_into().unwrap()).wrapping_mul(C1).rotate_left(15).wrapping_mul(C2);
+        h = (h ^ k).rotate_left(13).wrapping_mul(5).wrapping_add(0xE654_6B64);
     }
     let tail = chunks.remainder();
     if !tail.is_empty() {
@@ -57,9 +51,7 @@ pub fn name_hash(name: &str) -> u32 {
 fn name(hash: u32) -> String {
     static N: OnceLock<HashMap<u32, &'static str>> = OnceLock::new();
     let names = N.get_or_init(|| NAMES.iter().map(|n| (name_hash(n), *n)).collect());
-    names
-        .get(&hash)
-        .map_or_else(|| format!("#{hash:08x}"), |n| n.to_string())
+    names.get(&hash).map_or_else(|| format!("#{hash:08x}"), |n| n.to_string())
 }
 
 /// The encrypted file's header, which value alignment counts from.
@@ -116,10 +108,7 @@ impl Reader<'_> {
         }
     }
     fn take(&mut self, n: usize) -> Result<&[u8], String> {
-        let b = self
-            .d
-            .get(self.pos..self.pos + n)
-            .ok_or("unexpected end of save")?;
+        let b = self.d.get(self.pos..self.pos + n).ok_or("unexpected end of save")?;
         self.pos += n;
         Ok(b)
     }
@@ -141,18 +130,11 @@ impl Reader<'_> {
         let mut raw = [0u8; 8];
         raw[..size].copy_from_slice(b);
         let u = u64::from_le_bytes(raw);
-        let leaf = Leaf {
-            at,
-            ty,
-            size,
-            key: 0,
-        };
+        let leaf = Leaf { at, ty, size, key: 0 };
         let v = match ty {
             BOOL => Value::Bool(u != 0),
             F32 if size == 4 => crate::tree::f32_value(f32::from_bits(u as u32)),
-            F64 if size == 8 => {
-                serde_json::Number::from_f64(f64::from_bits(u)).map_or(Value::Null, Value::Number)
-            }
+            F64 if size == 8 => serde_json::Number::from_f64(f64::from_bits(u)).map_or(Value::Null, Value::Number),
             F32 | F64 => return Err("odd float size".into()),
             STRUCT => return Err("struct as a number".into()),
             _ if leaf.signed() => {
@@ -171,16 +153,8 @@ impl Reader<'_> {
     fn string(&mut self) -> Result<Value, String> {
         self.align(4);
         let n = self.u32()? as usize;
-        let units: Vec<u16> = self
-            .take(n * 2)?
-            .chunks_exact(2)
-            .map(|c| u16::from_le_bytes([c[0], c[1]]))
-            .collect();
-        Ok(Value::from(
-            String::from_utf16_lossy(&units)
-                .trim_end_matches('\0')
-                .to_string(),
-        ))
+        let units: Vec<u16> = self.take(n * 2)?.chunks_exact(2).map(|c| u16::from_le_bytes([c[0], c[1]])).collect();
+        Ok(Value::from(String::from_utf16_lossy(&units).trim_end_matches('\0').to_string()))
     }
 
     /// One value of a value array, or of a field after its size.
@@ -192,20 +166,10 @@ impl Reader<'_> {
                 let b = self.take(size)?;
                 if let Some((v, key)) = hidden_number(b) {
                     self.editable.insert(ptr.to_string(), self.leaves.len());
-                    self.leaves.push(Leaf {
-                        at,
-                        ty: HIDDEN,
-                        size,
-                        key,
-                    });
+                    self.leaves.push(Leaf { at, ty: HIDDEN, size, key });
                     return Ok(Value::from(v));
                 }
-                Ok(Value::from(
-                    b.iter()
-                        .map(|x| format!("{x:02X}"))
-                        .collect::<Vec<_>>()
-                        .join(" "),
-                ))
+                Ok(Value::from(b.iter().map(|x| format!("{x:02X}")).collect::<Vec<_>>().join(" ")))
             }
             ARRAY => self.array(ptr),
             _ => self.number(ty, size, ptr),
@@ -276,33 +240,12 @@ impl Reader<'_> {
 
 /// Quick check before parsing: a name, a sensible field count, and a known field type.
 pub fn looks(d: &[u8]) -> bool {
-    let u = |o: usize| {
-        d.get(o..o + 4)
-            .map(|b| u32::from_le_bytes(b.try_into().unwrap()))
-    };
-    d.len() >= 24
-        && matches!(u(4), Some(1..=4096))
-        && matches!(u(16).map(|t| t as i32), Some(-1..=0x11))
+    let u = |o: usize| d.get(o..o + 4).map(|b| u32::from_le_bytes(b.try_into().unwrap()));
+    d.len() >= 24 && matches!(u(4), Some(1..=4096)) && matches!(u(16).map(|t| t as i32), Some(-1..=0x11))
 }
 
-fn read(
-    d: &[u8],
-) -> Result<
-    (
-        Value,
-        Vec<Leaf>,
-        HashMap<String, usize>,
-        HashMap<u32, usize>,
-    ),
-    String,
-> {
-    let mut r = Reader {
-        d,
-        pos: 0,
-        leaves: vec![],
-        editable: HashMap::new(),
-        seen: HashMap::new(),
-    };
+fn read(d: &[u8]) -> Result<(Value, Vec<Leaf>, HashMap<String, usize>, HashMap<u32, usize>), String> {
+    let mut r = Reader { d, pos: 0, leaves: vec![], editable: HashMap::new(), seen: HashMap::new() };
     let mut root = Map::new();
     while r.pos + 8 <= d.len() {
         let h = r.u32()?;
@@ -319,13 +262,8 @@ fn read(
 /// Name hashes in `d` that the name table doesn't know, most used first.
 #[cfg(test)]
 pub fn unknown_names(d: &[u8]) -> Vec<(u32, usize)> {
-    let Ok((_, _, _, seen)) = read(d) else {
-        return vec![];
-    };
-    let mut v: Vec<(u32, usize)> = seen
-        .into_iter()
-        .filter(|(h, _)| name(*h).starts_with('#'))
-        .collect();
+    let Ok((_, _, _, seen)) = read(d) else { return vec![] };
+    let mut v: Vec<(u32, usize)> = seen.into_iter().filter(|(h, _)| name(*h).starts_with('#')).collect();
     v.sort_by(|a, b| b.1.cmp(&a.1));
     v
 }
@@ -348,14 +286,8 @@ impl ReeBackend {
                 b.extend([0u8; 4]);
                 b
             }
-            F32 => (v.as_f64().ok_or("expected a number")? as f32)
-                .to_le_bytes()
-                .to_vec(),
-            F64 => v
-                .as_f64()
-                .ok_or("expected a number")?
-                .to_le_bytes()
-                .to_vec(),
+            F32 => (v.as_f64().ok_or("expected a number")? as f32).to_le_bytes().to_vec(),
+            F64 => v.as_f64().ok_or("expected a number")?.to_le_bytes().to_vec(),
             _ => {
                 let bits = 8 * leaf.size as u32;
                 let (min, max) = if leaf.signed() {
@@ -415,16 +347,12 @@ fn hidden_number(b: &[u8]) -> Option<(u64, u32)> {
     let enc = u64::from_le_bytes(b[..8].try_into().ok()?);
     let key = u32::from_le_bytes(b[8..12].try_into().ok()?);
     // Keys seen so far all end in FF; that keeps random structs (ids, vectors) out.
-    (key > 0xFFFF && key & 0xFF == 0xFF && enc % u64::from(key) == 0)
-        .then(|| (enc / u64::from(key), key))
+    (key > 0xFFFF && key & 0xFF == 0xFF && enc % u64::from(key) == 0).then(|| (enc / u64::from(key), key))
 }
 
 pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
     let (view, leaves, editable, _) = read(d)?;
-    let backend = ReeBackend {
-        data: std::sync::Arc::new(d.to_vec()),
-        leaves,
-    };
+    let backend = ReeBackend { data: std::sync::Arc::new(d.to_vec()), leaves };
     Ok(TreeDoc::new(view, editable, "RE Engine save", Box::new(backend)).with_note(
         "Fields whose names aren't known yet show as #hash. Numbers, ticks and choices can be edited; \
          use Tools \u{203A} Compare with another save to find a value you know.",
@@ -440,10 +368,7 @@ mod tests {
         // MurmurHash3_x86_32 reference values.
         assert_eq!(murmur3(b"", 0), 0);
         assert_eq!(murmur3(b"hello", 0), 0x248B_FA47);
-        assert_eq!(
-            murmur3(b"The quick brown fox jumps over the lazy dog", 0x9747_B28C),
-            0x2FA8_26CD
-        );
+        assert_eq!(murmur3(b"The quick brown fox jumps over the lazy dog", 0x9747_B28C), 0x2FA8_26CD);
     }
 
     /// Builds a tiny save: one object with a u32, a bool, a string and an array of i32.
@@ -488,9 +413,7 @@ mod tests {
         assert_eq!(doc.to_bytes().unwrap(), d);
         doc.set("/_System/Money", Value::from(99999)).unwrap();
         doc.set("/_System/Values/0", Value::from(-7)).unwrap();
-        assert!(doc
-            .set("/_System/Values/1", Value::from(1i64 << 40))
-            .is_err());
+        assert!(doc.set("/_System/Values/1", Value::from(1i64 << 40)).is_err());
         let back = parse(&doc.to_bytes().unwrap()).unwrap();
         assert_eq!(back.view, doc.view);
     }
@@ -503,25 +426,10 @@ mod tests {
         let doc = parse(&d).unwrap();
         println!("{} editable values", doc.editable.len());
         let unknown = unknown_names(&d);
-        println!(
-            "{} unknown names, top: {:x?}",
-            unknown.len(),
-            &unknown[..unknown.len().min(20)]
-        );
+        println!("{} unknown names, top: {:x?}", unknown.len(), &unknown[..unknown.len().min(20)]);
         if let Ok(out) = std::env::var("RE_UNKNOWN_OUT") {
-            std::fs::write(
-                out,
-                unknown
-                    .iter()
-                    .map(|(h, _)| {
-                        format!(
-                            "{h:08x}
-"
-                        )
-                    })
-                    .collect::<String>(),
-            )
-            .unwrap();
+            std::fs::write(out, unknown.iter().map(|(h, _)| format!("{h:08x}
+")).collect::<String>()).unwrap();
         }
         let mut keys = vec![];
         fn walk(v: &Value, p: &str, keys: &mut Vec<String>, depth: usize) {
@@ -546,15 +454,10 @@ mod hidden_tests {
     #[test]
     fn red_souls() {
         // Onimusha's 16-byte value for 3924 souls.
-        let b = [
-            0xAC, 0xB8, 0x0E, 0x08, 0x91, 0x05, 0, 0, 0xFF, 0xE9, 0xF7, 0x5C, 0, 0, 0, 0,
-        ];
+        let b = [0xAC, 0xB8, 0x0E, 0x08, 0x91, 0x05, 0, 0, 0xFF, 0xE9, 0xF7, 0x5C, 0, 0, 0, 0];
         assert_eq!(super::hidden_number(&b), Some((3924, 0x5CF7_E9FF)));
         // An empty slot: nothing times its key.
-        assert_eq!(
-            super::hidden_number(&[0, 0, 0, 0, 0, 0, 0, 0, 0xFF, 0x3E, 0x58, 0x2C, 0, 0, 0, 0]),
-            Some((0, 0x2C58_3EFF))
-        );
+        assert_eq!(super::hidden_number(&[0, 0, 0, 0, 0, 0, 0, 0, 0xFF, 0x3E, 0x58, 0x2C, 0, 0, 0, 0]), Some((0, 0x2C58_3EFF)));
         // A GUID-like struct isn't one.
         assert_eq!(super::hidden_number(&[0x12; 16]), None);
     }

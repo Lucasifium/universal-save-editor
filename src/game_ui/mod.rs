@@ -11,13 +11,11 @@ mod cairn;
 mod coop;
 pub mod crafting;
 mod darkest;
-mod dashboards;
 mod dead_rising;
+mod dashboards;
 mod deus_ex;
 mod dragon_age;
-mod expedition33;
 mod fallout12;
-mod fallout3nv;
 mod fromsoft;
 mod golden_sun;
 mod half_life;
@@ -25,12 +23,14 @@ mod indie;
 mod infinity;
 mod kotor;
 mod larian;
-mod nier;
 mod nwn;
 mod octopath;
 mod oni_map;
 mod pathfinder;
 mod pokemon;
+mod expedition33;
+mod fallout3nv;
+mod nier;
 mod screens2;
 mod simple;
 mod starbound;
@@ -229,11 +229,7 @@ pub fn detect(kind: &str, root: &Value) -> Option<Game> {
         k if k.starts_with("Pok\u{00E9}mon") => Game::Pokemon,
         "Fallout 1 save" | "Fallout 2 save" => Game::Fallout12,
         "Deus Ex map save" | "Deus Ex save info" => Game::DeusEx,
-        k if (k.starts_with("Skyrim") || k.starts_with("Fallout") || k.starts_with("Enderal"))
-            && has("/Save") =>
-        {
-            Game::Bethesda
-        }
+        k if (k.starts_with("Skyrim") || k.starts_with("Fallout") || k.starts_with("Enderal")) && has("/Save") => Game::Bethesda,
         _ if pathfinder::is_pathfinder(root) => Game::Pathfinder,
         _ if has("/GameState/Resources") => Game::Hades,
         _ if has("/SaveGame/player/farmName") => Game::Stardew,
@@ -308,28 +304,14 @@ pub fn detect(kind: &str, root: &Value) -> Option<Game> {
         _ if coop::is_repo(root) => Game::Repo,
         _ if has("/base/m_title") && has("/player") => Game::YakuzaDe,
         // Yakuza 6 has no title in its save; its spearfishing minigame marks it.
-        _ if has("/base/m_subtitle") && has("/player/point/m_point") && has("/mg_spearfishing") => {
-            Game::YakuzaDe
-        }
-        k if k.starts_with("Unreal Engine save (BP_SaveGameObject")
-            && has("/CharactersCollection")
-            && has("/Gold") =>
-        {
-            Game::Expedition33
-        }
-        "Unreal Engine save (PalWorldPlayerSaveGame)" if has("/SaveData/TechnologyPoint") => {
-            Game::Palworld
-        }
+        _ if has("/base/m_subtitle") && has("/player/point/m_point") && has("/mg_spearfishing") => Game::YakuzaDe,
+        k if k.starts_with("Unreal Engine save (BP_SaveGameObject") && has("/CharactersCollection") && has("/Gold") => Game::Expedition33,
+        "Unreal Engine save (PalWorldPlayerSaveGame)" if has("/SaveData/TechnologyPoint") => Game::Palworld,
         "Final Fantasy VII Remake save" | "Final Fantasy VII Rebirth save" => Game::Ff7Remake,
         "RimWorld save" => Game::RimWorld,
         "Oxygen Not Included save" => Game::OxygenNotIncluded,
         _ if has("/gameMode") && has("/changeSet") && has("/session") => Game::Subnautica,
-        "Stellaris save"
-        | "Hearts of Iron IV save"
-        | "Europa Universalis IV save"
-        | "Crusader Kings II save"
-        | "Crusader Kings III save"
-        | "Paradox save" => Game::Paradox,
+        "Stellaris save" | "Hearts of Iron IV save" | "Europa Universalis IV save" | "Crusader Kings II save" | "Crusader Kings III save" | "Paradox save" => Game::Paradox,
         k if k.ends_with(" save (binary)") && crate::fmt::pdxbin::is_kind(k) => Game::Paradox,
         _ => return simple::detect(kind, root).map(Game::Simple),
     })
@@ -337,9 +319,7 @@ pub fn detect(kind: &str, root: &Value) -> Option<Game> {
 
 pub fn show(game: Game, ui: &mut Ui, cx: &mut GameCtx) {
     match game {
-        Game::EldenRing | Game::DarkSouls3 | Game::DarkSouls2 | Game::DarkSouls1 | Game::Sekiro => {
-            fromsoft::show(game, ui, cx)
-        }
+        Game::EldenRing | Game::DarkSouls3 | Game::DarkSouls2 | Game::DarkSouls1 | Game::Sekiro => fromsoft::show(game, ui, cx),
         Game::Terraria => terraria::show(ui, cx),
         Game::TerrariaWorld => terraria_world::show(ui, cx),
         Game::Pokemon => pokemon::show(ui, cx),
@@ -453,15 +433,12 @@ impl GameCtx<'_> {
 
     pub fn int(&self, p: &str) -> Option<i64> {
         let v = self.get(p)?;
-        v.as_i64()
-            .or_else(|| v.as_f64().map(|f| f as i64))
-            .or_else(|| v.as_str().and_then(|s| s.trim().parse().ok()))
+        v.as_i64().or_else(|| v.as_f64().map(|f| f as i64)).or_else(|| v.as_str().and_then(|s| s.trim().parse().ok()))
     }
 
     pub fn num(&self, p: &str) -> Option<f64> {
         let v = self.get(p)?;
-        v.as_f64()
-            .or_else(|| v.as_str().and_then(|s| s.trim().parse().ok()))
+        v.as_f64().or_else(|| v.as_str().and_then(|s| s.trim().parse().ok()))
     }
 
     pub fn text(&self, p: &str) -> Option<String> {
@@ -475,9 +452,7 @@ impl GameCtx<'_> {
     pub fn flag(&self, p: &str) -> bool {
         match self.get(p) {
             Some(Value::Bool(b)) => *b,
-            Some(v) => {
-                v.as_i64().is_some_and(|n| n != 0) || v.as_str().is_some_and(|s| s == "true")
-            }
+            Some(v) => v.as_i64().is_some_and(|n| n != 0) || v.as_str().is_some_and(|s| s == "true"),
             None => false,
         }
     }
@@ -485,9 +460,7 @@ impl GameCtx<'_> {
     pub fn can_edit(&self, p: &str) -> bool {
         match self.tree {
             Some(t) => t.editable.contains_key(p),
-            None => self
-                .get(p)
-                .is_some_and(|v| !matches!(v, Value::Object(_) | Value::Array(_))),
+            None => self.get(p).is_some_and(|v| !matches!(v, Value::Object(_) | Value::Array(_))),
         }
     }
 
@@ -502,15 +475,9 @@ impl GameCtx<'_> {
     /// Editor for one value (drop-down when the field has a fixed list). Nothing is shown
     /// when the value isn't in this save.
     pub fn editor(&mut self, ui: &mut Ui, p: &str, width: f32) {
-        let Some(v) = self.get(p).cloned() else {
-            return;
-        };
+        let Some(v) = self.get(p).cloned() else { return };
         let editable = self.can_edit(p);
-        let choices = if editable {
-            self.tree.and_then(|t| t.choices(p))
-        } else {
-            None
-        };
+        let choices = if editable { self.tree.and_then(|t| t.choices(p)) } else { None };
         // One group, so a number's box and its −/+ stay in one cell of a grid.
         let out = ui
             .horizontal(|ui| match (&choices, &v) {
@@ -553,30 +520,18 @@ impl GameCtx<'_> {
             return;
         }
         ui.horizontal(|ui| {
-            let c = if self.modified(p) {
-                theme::MODIFIED
-            } else {
-                ui.visuals().text_color()
-            };
-            ui.allocate_ui_with_layout(
-                egui::vec2(label_w, 22.0),
-                egui::Layout::left_to_right(egui::Align::Center),
-                |ui| {
-                    ui.set_width(label_w);
-                    ui.add(egui::Label::new(RichText::new(label).color(c)).truncate());
-                },
-            );
+            let c = if self.modified(p) { theme::MODIFIED } else { ui.visuals().text_color() };
+            ui.allocate_ui_with_layout(egui::vec2(label_w, 22.0), egui::Layout::left_to_right(egui::Align::Center), |ui| {
+                ui.set_width(label_w);
+                ui.add(egui::Label::new(RichText::new(label).color(c)).truncate());
+            });
             self.editor(ui, p, width);
         });
     }
 
     /// A field's label, orange when it was changed.
     pub fn label(&self, ui: &mut Ui, label: &str, p: &str) {
-        let c = if self.modified(p) {
-            theme::MODIFIED
-        } else {
-            ui.visuals().text_color()
-        };
+        let c = if self.modified(p) { theme::MODIFIED } else { ui.visuals().text_color() };
         ui.label(RichText::new(label).color(c));
     }
 
@@ -590,22 +545,12 @@ impl GameCtx<'_> {
         let digits = self.get(p).map(|v| v.to_string().len()).unwrap_or(0) as f32;
         let need = digits * 11.0 + 18.0;
         tile_frame_min(ui, accent, modified, need + 76.0, |ui| {
-            ui.label(
-                RichText::new(caption)
-                    .size(12.5)
-                    .color(ui.visuals().weak_text_color()),
-            );
+            ui.label(RichText::new(caption).size(12.5).color(ui.visuals().weak_text_color()));
             ui.horizontal(|ui| {
                 ui.style_mut().override_font_id = Some(FontId::proportional(18.0));
                 // Whole numbers leave room for −/+; decimals use the whole width.
-                let whole = self
-                    .get(p)
-                    .is_some_and(|v| v.as_i64().is_some() || v.as_u64().is_some());
-                let w = if whole {
-                    (ui.available_width() - 76.0).clamp(50.0, 104.0f32.max(need))
-                } else {
-                    (ui.available_width() - 8.0).clamp(60.0, 160.0f32.max(need))
-                };
+                let whole = self.get(p).is_some_and(|v| v.as_i64().is_some() || v.as_u64().is_some());
+                let w = if whole { (ui.available_width() - 76.0).clamp(50.0, 104.0f32.max(need)) } else { (ui.available_width() - 8.0).clamp(60.0, 160.0f32.max(need)) };
                 self.editor(ui, p, w);
             });
         });
@@ -615,19 +560,11 @@ impl GameCtx<'_> {
     pub fn attribute(&mut self, ui: &mut Ui, name: &str, p: &str, max: f64, color: Color32) {
         let Some(n) = self.num(p) else { return };
         ui.horizontal(|ui| {
-            let c = if self.modified(p) {
-                theme::MODIFIED
-            } else {
-                ui.visuals().strong_text_color()
-            };
-            ui.allocate_ui_with_layout(
-                egui::vec2(110.0, 24.0),
-                egui::Layout::left_to_right(egui::Align::Center),
-                |ui| {
-                    ui.set_width(110.0);
-                    ui.add(egui::Label::new(RichText::new(name).color(c)).truncate());
-                },
-            );
+            let c = if self.modified(p) { theme::MODIFIED } else { ui.visuals().strong_text_color() };
+            ui.allocate_ui_with_layout(egui::vec2(110.0, 24.0), egui::Layout::left_to_right(egui::Align::Center), |ui| {
+                ui.set_width(110.0);
+                ui.add(egui::Label::new(RichText::new(name).color(c)).truncate());
+            });
             // Decimals need a wider box than whole numbers.
             self.editor(ui, p, if n.fract().abs() > 1e-9 { 84.0 } else { 52.0 });
             let w = (ui.available_width() - 8.0).max(30.0);
@@ -637,25 +574,13 @@ impl GameCtx<'_> {
 
     /// A toggle chip for an on/off value.
     pub fn chip(&mut self, ui: &mut Ui, label: &str, p: &str, color: Color32) {
-        let Some(v) = self.get(p).cloned() else {
-            return;
-        };
+        let Some(v) = self.get(p).cloned() else { return };
         let on = self.flag(p);
         let editable = self.can_edit(p);
         let modified = self.modified(p);
-        let fill = if on {
-            color.gamma_multiply(0.85)
-        } else {
-            ui.visuals().widgets.inactive.bg_fill
-        };
-        let text_c = if on {
-            Color32::WHITE
-        } else {
-            ui.visuals().weak_text_color()
-        };
-        let mut btn = egui::Button::new(RichText::new(label).color(text_c).size(13.0))
-            .fill(fill)
-            .rounding(12.0);
+        let fill = if on { color.gamma_multiply(0.85) } else { ui.visuals().widgets.inactive.bg_fill };
+        let text_c = if on { Color32::WHITE } else { ui.visuals().weak_text_color() };
+        let mut btn = egui::Button::new(RichText::new(label).color(text_c).size(13.0)).fill(fill).rounding(12.0);
         if modified {
             btn = btn.stroke(egui::Stroke::new(1.5_f32, theme::MODIFIED));
         }
@@ -677,50 +602,24 @@ impl GameCtx<'_> {
 /// The header card: a coloured band with the character's name and a line under it.
 pub fn hero(ui: &mut Ui, accent: Color32, title: &str, subtitle: &str, add: impl FnOnce(&mut Ui)) {
     let fill = blend(ui.visuals().faint_bg_color, accent, 0.18);
-    let resp = egui::Frame::none()
-        .fill(fill)
-        .rounding(10.0)
-        .inner_margin(egui::Margin::symmetric(18.0, 14.0))
-        .show(ui, |ui| {
-            ui.set_width(ui.available_width());
-            ui.label(
-                RichText::new(title)
-                    .family(theme::semibold_family())
-                    .size(26.0)
-                    .color(ui.visuals().strong_text_color()),
-            );
-            if !subtitle.is_empty() {
-                ui.label(
-                    RichText::new(subtitle)
-                        .size(14.0)
-                        .color(theme::fg(ui, accent)),
-                );
-            }
-            ui.add_space(6.0);
-            ui.horizontal_wrapped(add);
-        });
+    let resp = egui::Frame::none().fill(fill).rounding(10.0).inner_margin(egui::Margin::symmetric(18.0, 14.0)).show(ui, |ui| {
+        ui.set_width(ui.available_width());
+        ui.label(RichText::new(title).family(theme::semibold_family()).size(26.0).color(ui.visuals().strong_text_color()));
+        if !subtitle.is_empty() {
+            ui.label(RichText::new(subtitle).size(14.0).color(theme::fg(ui, accent)));
+        }
+        ui.add_space(6.0);
+        ui.horizontal_wrapped(add);
+    });
     let r = resp.response.rect;
-    ui.painter().rect_filled(
-        egui::Rect::from_min_size(r.min, egui::vec2(5.0, r.height())),
-        egui::Rounding {
-            nw: 10.0,
-            sw: 10.0,
-            ne: 0.0,
-            se: 0.0,
-        },
-        accent,
-    );
+    ui.painter().rect_filled(egui::Rect::from_min_size(r.min, egui::vec2(5.0, r.height())), egui::Rounding { nw: 10.0, sw: 10.0, ne: 0.0, se: 0.0 }, accent);
     ui.add_space(10.0);
 }
 
 /// A titled card.
 pub fn panel(ui: &mut Ui, title: &str, add: impl FnOnce(&mut Ui)) {
     theme::card(ui, |ui| {
-        ui.label(
-            RichText::new(title)
-                .family(theme::semibold_family())
-                .size(16.0),
-        );
+        ui.label(RichText::new(title).family(theme::semibold_family()).size(16.0));
         ui.add_space(4.0);
         add(ui);
     });
@@ -739,27 +638,15 @@ pub fn tile_frame(ui: &mut Ui, accent: Color32, modified: bool, add: impl FnOnce
 }
 
 /// A tile at least `min` wide inside (when the row has room).
-pub fn tile_frame_min(
-    ui: &mut Ui,
-    accent: Color32,
-    modified: bool,
-    min: f32,
-    add: impl FnOnce(&mut Ui),
-) {
+pub fn tile_frame_min(ui: &mut Ui, accent: Color32, modified: bool, min: f32, add: impl FnOnce(&mut Ui)) {
     // At least two tiles per row, even on a phone.
     let row = ui.max_rect().width();
-    let tile_w = TILE_W
-        .max(min)
-        .min((row / 2.0 - 30.0).max(110.0).max(min.min(row - 40.0)));
+    let tile_w = TILE_W.max(min).min((row / 2.0 - 30.0).max(110.0).max(min.min(row - 40.0)));
     // Tiles flow in rows; start a new row when this one is full (frames can't wrap by themselves).
     if ui.layout().main_wrap() && ui.available_size_before_wrap().x < tile_w + 24.0 {
         ui.end_row();
     }
-    let stroke = if modified {
-        egui::Stroke::new(1.5_f32, theme::MODIFIED)
-    } else {
-        egui::Stroke::new(1.0_f32, accent.gamma_multiply(0.45))
-    };
+    let stroke = if modified { egui::Stroke::new(1.5_f32, theme::MODIFIED) } else { egui::Stroke::new(1.0_f32, accent.gamma_multiply(0.45)) };
     egui::Frame::none()
         .fill(inset_fill(ui, accent))
         .stroke(stroke)
@@ -774,16 +661,8 @@ pub fn tile_frame_min(
 /// A read-only figure in the same style as `tile`.
 pub fn fact(ui: &mut Ui, caption: &str, value: &str, accent: Color32) {
     tile_frame(ui, accent, false, |ui| {
-        ui.label(
-            RichText::new(caption)
-                .size(12.5)
-                .color(ui.visuals().weak_text_color()),
-        );
-        ui.label(
-            RichText::new(value)
-                .size(18.0)
-                .color(ui.visuals().strong_text_color()),
-        );
+        ui.label(RichText::new(caption).size(12.5).color(ui.visuals().weak_text_color()));
+        ui.label(RichText::new(value).size(18.0).color(ui.visuals().strong_text_color()));
     });
 }
 
@@ -795,43 +674,23 @@ pub fn bar(ui: &mut Ui, width: f32, frac: f32, color: Color32, text: Option<&str
     p.rect_filled(rect, h / 2.0, ui.visuals().extreme_bg_color);
     let f = frac.clamp(0.0, 1.0);
     if f > 0.0 {
-        p.rect_filled(
-            egui::Rect::from_min_size(rect.min, egui::vec2(rect.width() * f, h)),
-            h / 2.0,
-            color,
-        );
+        p.rect_filled(egui::Rect::from_min_size(rect.min, egui::vec2(rect.width() * f, h)), h / 2.0, color);
     }
     if let Some(t) = text {
-        p.text(
-            rect.center(),
-            egui::Align2::CENTER_CENTER,
-            t,
-            FontId::proportional(12.0),
-            Color32::WHITE,
-        );
+        p.text(rect.center(), egui::Align2::CENTER_CENTER, t, FontId::proportional(12.0), Color32::WHITE);
     }
 }
 
 /// A labelled meter: "HP  [=====    ] 450 / 600".
 pub fn meter(ui: &mut Ui, label: &str, cur: f64, max: f64, color: Color32) {
     ui.horizontal(|ui| {
-        ui.allocate_ui_with_layout(
-            egui::vec2(70.0, 18.0),
-            egui::Layout::left_to_right(egui::Align::Center),
-            |ui| {
-                ui.set_width(70.0);
-                ui.label(RichText::new(label).strong());
-            },
-        );
+        ui.allocate_ui_with_layout(egui::vec2(70.0, 18.0), egui::Layout::left_to_right(egui::Align::Center), |ui| {
+            ui.set_width(70.0);
+            ui.label(RichText::new(label).strong());
+        });
         let w = (ui.available_width() - 4.0).max(60.0);
         let frac = if max > 0.0 { (cur / max) as f32 } else { 0.0 };
-        bar(
-            ui,
-            w,
-            frac,
-            color,
-            Some(&format!("{} / {}", fmt_num(cur), fmt_num(max))),
-        );
+        bar(ui, w, frac, color, Some(&format!("{} / {}", fmt_num(cur), fmt_num(max))));
     });
 }
 
@@ -885,11 +744,7 @@ pub fn words(key: &str) -> String {
             out.push(' ');
         }
         prev_lower = c.is_lowercase() || c.is_ascii_digit();
-        out.push(if out.is_empty() {
-            c.to_ascii_uppercase()
-        } else {
-            c.to_ascii_lowercase()
-        });
+        out.push(if out.is_empty() { c.to_ascii_uppercase() } else { c.to_ascii_lowercase() });
     }
     out
 }
@@ -909,9 +764,7 @@ pub fn max_crafting_materials(game: Game, cx: &mut GameCtx) -> usize {
 
 /// The "max upgrade materials" button: `what` names the amount ("99 of each").
 pub fn materials_button(ui: &mut Ui, what: &str, tip: &str) -> bool {
-    ui.button(format!("Max upgrade materials ({what})"))
-        .on_hover_text(tip)
-        .clicked()
+    ui.button(format!("Max upgrade materials ({what})")).on_hover_text(tip).clicked()
 }
 
 // ------------------------------------------------------------------ item grids
@@ -926,17 +779,9 @@ pub struct Cell {
 }
 
 /// A grid of item cells; returns the index clicked. `selected` is highlighted.
-pub fn cell_grid(
-    ui: &mut Ui,
-    cells: &[Cell],
-    cols: usize,
-    selected: Option<usize>,
-    accent: Color32,
-) -> Option<usize> {
+pub fn cell_grid(ui: &mut Ui, cells: &[Cell], cols: usize, selected: Option<usize>, accent: Color32) -> Option<usize> {
     let gap = 4.0;
-    let cols = cols
-        .max(1)
-        .min(((ui.available_width() + gap) / 58.0).floor().max(1.0) as usize);
+    let cols = cols.max(1).min(((ui.available_width() + gap) / 58.0).floor().max(1.0) as usize);
     let size = ((ui.available_width() - gap * (cols as f32 - 1.0)) / cols as f32).clamp(52.0, 96.0);
     let mut clicked = None;
     for (r, row) in cells.chunks(cols).enumerate() {
@@ -947,11 +792,7 @@ pub fn cell_grid(
                 let (rect, resp) = ui.allocate_exact_size(egui::vec2(size, size), Sense::click());
                 let p = ui.painter();
                 let base = cell.tint.unwrap_or(ui.visuals().extreme_bg_color);
-                let fill = if resp.hovered() {
-                    blend(base, accent, 0.25)
-                } else {
-                    base
-                };
+                let fill = if resp.hovered() { blend(base, accent, 0.25) } else { base };
                 p.rect_filled(rect, 6.0, fill);
                 let stroke = if selected == Some(i) {
                     egui::Stroke::new(2.0_f32, accent)
@@ -964,26 +805,12 @@ pub fn cell_grid(
                 if !cell.empty {
                     let galley = fit_title(ui, &cell.title, size);
                     let pos = rect.center() - galley.size() / 2.0 - egui::vec2(0.0, 4.0);
-                    ui.painter().with_clip_rect(rect.shrink(2.0)).galley(
-                        pos,
-                        galley,
-                        Color32::WHITE,
-                    );
+                    ui.painter().with_clip_rect(rect.shrink(2.0)).galley(pos, galley, Color32::WHITE);
                     if let Some(n) = cell.count.filter(|&n| n > 1) {
-                        ui.painter().text(
-                            rect.right_bottom() - egui::vec2(4.0, 3.0),
-                            egui::Align2::RIGHT_BOTTOM,
-                            fmt_num(n as f64),
-                            FontId::proportional(11.0),
-                            theme::fg(ui, accent),
-                        );
+                        ui.painter().text(rect.right_bottom() - egui::vec2(4.0, 3.0), egui::Align2::RIGHT_BOTTOM, fmt_num(n as f64), FontId::proportional(11.0), theme::fg(ui, accent));
                     }
                 }
-                let resp = resp.on_hover_text(if cell.empty {
-                    "(empty)".to_string()
-                } else {
-                    cell.title.clone()
-                });
+                let resp = resp.on_hover_text(if cell.empty { "(empty)".to_string() } else { cell.title.clone() });
                 if resp.clicked() {
                     clicked = Some(i);
                 }
@@ -1002,16 +829,7 @@ fn fit_title(ui: &Ui, title: &str, size: f32) -> std::sync::Arc<egui::Galley> {
     let mut last = None;
     for pt in [11.0, 10.0, 9.0, 8.0] {
         let font = FontId::proportional(pt);
-        let longest = title
-            .split_whitespace()
-            .map(|w| {
-                ui.fonts(|f| {
-                    f.layout_no_wrap(w.to_string(), font.clone(), color)
-                        .size()
-                        .x
-                })
-            })
-            .fold(0.0, f32::max);
+        let longest = title.split_whitespace().map(|w| ui.fonts(|f| f.layout_no_wrap(w.to_string(), font.clone(), color).size().x)).fold(0.0, f32::max);
         let galley = ui.painter().layout(title.to_string(), font, color, width);
         if longest <= width && galley.size().y <= size - 16.0 {
             return galley;
@@ -1035,9 +853,7 @@ pub fn select(ui: &Ui, id: &str, i: Option<usize>) {
 
 /// A row of tabs; returns the chosen index (remembered under `id`).
 pub fn tabs(ui: &mut Ui, id: &str, names: &[String]) -> usize {
-    let mut cur = selection(ui, id)
-        .unwrap_or(0)
-        .min(names.len().saturating_sub(1));
+    let mut cur = selection(ui, id).unwrap_or(0).min(names.len().saturating_sub(1));
     ui.horizontal_wrapped(|ui| {
         for (i, n) in names.iter().enumerate() {
             if ui.selectable_label(cur == i, n).clicked() {
@@ -1056,238 +872,64 @@ mod tests {
 
     #[test]
     fn detects_games_from_their_data() {
-        assert_eq!(
-            detect("Elden Ring character", &json!({})),
-            Some(Game::EldenRing)
-        );
-        assert_eq!(
-            detect("Pok\u{00E9}mon Crystal", &json!({})),
-            Some(Game::Pokemon)
-        );
-        assert_eq!(
-            detect(
-                "Lua table",
-                &json!({"GAME": {"dollars": 4}, "cardAreas": {}})
-            ),
-            Some(Game::Balatro)
-        );
-        assert_eq!(
-            detect("JSON", &json!({"playerData": {"geo": 1}})),
-            Some(Game::HollowKnight)
-        );
-        assert_eq!(
-            detect(
-                "JSON",
-                &json!({"playerData": {"geo": 1, "silkMax": 9, "ShellShards": 0}})
-            ),
-            Some(Game::Silksong)
-        );
+        assert_eq!(detect("Elden Ring character", &json!({})), Some(Game::EldenRing));
+        assert_eq!(detect("Pok\u{00E9}mon Crystal", &json!({})), Some(Game::Pokemon));
+        assert_eq!(detect("Lua table", &json!({"GAME": {"dollars": 4}, "cardAreas": {}})), Some(Game::Balatro));
+        assert_eq!(detect("JSON", &json!({"playerData": {"geo": 1}})), Some(Game::HollowKnight));
+        assert_eq!(detect("JSON", &json!({"playerData": {"geo": 1, "silkMax": 9, "ShellShards": 0}})), Some(Game::Silksong));
         assert_eq!(detect("Undertale save", &json!({})), Some(Game::Undertale));
-        assert_eq!(
-            detect("Deltarune save (Chapter 1)", &json!({})),
-            Some(Game::Deltarune)
-        );
-        assert_eq!(
-            detect("Vampire Survivors save", &json!({})),
-            Some(Game::VampireSurvivors)
-        );
-        assert_eq!(
-            detect("XML", &json!({"SaveGame": {"player": {"farmName": "x"}}})),
-            Some(Game::Stardew)
-        );
-        assert_eq!(
-            detect(
-                "JSON",
-                &json!({"actors": {"_data": {"@a": [null, {}]}}, "party": {"_actors": {"@a": [1]}}})
-            ),
-            Some(Game::RpgMaker)
-        );
+        assert_eq!(detect("Deltarune save (Chapter 1)", &json!({})), Some(Game::Deltarune));
+        assert_eq!(detect("Vampire Survivors save", &json!({})), Some(Game::VampireSurvivors));
+        assert_eq!(detect("XML", &json!({"SaveGame": {"player": {"farmName": "x"}}})), Some(Game::Stardew));
+        assert_eq!(detect("JSON", &json!({"actors": {"_data": {"@a": [null, {}]}}, "party": {"_actors": {"@a": [1]}}})), Some(Game::RpgMaker));
         assert_eq!(detect("JSON", &json!({"gold": 1})), None);
         assert_eq!(detect(crate::fmt::nier::KIND, &json!({})), Some(Game::Nier));
         let es3 = |n: i64| json!({"__type": "int", "value": n});
-        assert_eq!(
-            detect(
-                crate::fmt::es3::KIND_PHASMOPHOBIA,
-                &json!({"PlayersMoney": es3(5), "NewLevel": es3(2)})
-            ),
-            Some(Game::Phasmophobia)
-        );
-        assert_eq!(
-            detect(
-                "JSON",
-                &json!({"GroupCredits": es3(60), "ProfitQuota": es3(130)})
-            ),
-            Some(Game::LethalCompany)
-        );
-        assert_eq!(
-            detect(
-                "JSON",
-                &json!({"PlayerXPNum": es3(60), "PlayerLevel": es3(1)})
-            ),
-            Some(Game::LethalCompany)
-        );
-        assert_eq!(
-            detect(
-                "JSON",
-                &json!({"dictionaryOfDictionaries": {"__type": "d", "value": {"runStats": {"level": 1}}}})
-            ),
-            Some(Game::Repo)
-        );
+        assert_eq!(detect(crate::fmt::es3::KIND_PHASMOPHOBIA, &json!({"PlayersMoney": es3(5), "NewLevel": es3(2)})), Some(Game::Phasmophobia));
+        assert_eq!(detect("JSON", &json!({"GroupCredits": es3(60), "ProfitQuota": es3(130)})), Some(Game::LethalCompany));
+        assert_eq!(detect("JSON", &json!({"PlayerXPNum": es3(60), "PlayerLevel": es3(1)})), Some(Game::LethalCompany));
+        assert_eq!(detect("JSON", &json!({"dictionaryOfDictionaries": {"__type": "d", "value": {"runStats": {"level": 1}}}})), Some(Game::Repo));
         assert_eq!(detect("JSON", &json!({"GroupCredits": 60})), None);
         let y6 = json!({"base": {"m_subtitle": "chapter1"}, "player": {"point": {"m_point": [0, 5000]}}, "mg_spearfishing": {}});
-        assert_eq!(
-            detect("Yakuza save (Dragon Engine: Yakuza 6)", &y6),
-            Some(Game::YakuzaDe)
-        );
-        assert_eq!(
-            detect(
-                "JSON",
-                &json!({"base": {"m_subtitle": "x"}, "player": {"point": {"m_point": []}}})
-            ),
-            None
-        );
-        assert_eq!(
-            detect("Mass Effect 3 save", &json!({"Shepard": {"Level": 60}})),
-            Some(Game::MassEffect)
-        );
-        assert_eq!(
-            detect("XCOM: Enemy Unknown game data", &json!({})),
-            Some(Game::Xcom)
-        );
+        assert_eq!(detect("Yakuza save (Dragon Engine: Yakuza 6)", &y6), Some(Game::YakuzaDe));
+        assert_eq!(detect("JSON", &json!({"base": {"m_subtitle": "x"}, "player": {"point": {"m_point": []}}})), None);
+        assert_eq!(detect("Mass Effect 3 save", &json!({"Shepard": {"Level": 60}})), Some(Game::MassEffect));
+        assert_eq!(detect("XCOM: Enemy Unknown game data", &json!({})), Some(Game::Xcom));
         assert_eq!(detect("XCOM 2 game data", &json!({})), Some(Game::Xcom2));
         assert_eq!(detect("Civilization VI save", &json!({})), Some(Game::Civ6));
-        assert_eq!(
-            detect("Diablo II character", &json!({})),
-            Some(Game::Diablo2)
-        );
-        assert_eq!(
-            detect("Divinity: Original Sin 2 save", &json!({})),
-            Some(Game::Dos2)
-        );
+        assert_eq!(detect("Diablo II character", &json!({})), Some(Game::Diablo2));
+        assert_eq!(detect("Divinity: Original Sin 2 save", &json!({})), Some(Game::Dos2));
         assert_eq!(detect("Baldur's Gate 3 save", &json!({})), Some(Game::Bg3));
-        assert_eq!(
-            detect(
-                "JSON",
-                &json!({"player": {"Money": 1}, "party": {"m_EntityData": []}})
-            ),
-            Some(Game::Pathfinder)
-        );
-        assert_eq!(
-            detect("Borderlands: The Pre-Sequel character", &json!({})),
-            Some(Game::Borderlands)
-        );
-        assert_eq!(
-            detect("Borderlands 3 character", &json!({})),
-            Some(Game::Borderlands3)
-        );
-        assert_eq!(
-            detect("Fallout 2 save", &json!({"Save": {}})),
-            Some(Game::Fallout12)
-        );
+        assert_eq!(detect("JSON", &json!({"player": {"Money": 1}, "party": {"m_EntityData": []}})), Some(Game::Pathfinder));
+        assert_eq!(detect("Borderlands: The Pre-Sequel character", &json!({})), Some(Game::Borderlands));
+        assert_eq!(detect("Borderlands 3 character", &json!({})), Some(Game::Borderlands3));
+        assert_eq!(detect("Fallout 2 save", &json!({"Save": {}})), Some(Game::Fallout12));
         assert_eq!(detect("Deus Ex map save", &json!({})), Some(Game::DeusEx));
-        assert_eq!(
-            detect(crate::fmt::infinity::KIND, &json!({})),
-            Some(Game::Infinity)
-        );
-        assert_eq!(
-            detect(crate::fmt::infinity::KIND_PST, &json!({})),
-            Some(Game::Torment)
-        );
-        assert_eq!(
-            detect(crate::fmt::dragonage::KIND, &json!({})),
-            Some(Game::DragonAge)
-        );
-        assert_eq!(
-            detect(crate::fmt::half_life::KIND_GOLDSRC, &json!({})),
-            Some(Game::HalfLife)
-        );
-        assert_eq!(
-            detect(crate::fmt::half_life::KIND_SOURCE, &json!({})),
-            Some(Game::HalfLife2)
-        );
-        assert_eq!(
-            detect(crate::fmt::half_life::KIND_ALYX, &json!({})),
-            Some(Game::HalfLife2)
-        );
-        assert_eq!(
-            detect("Final Fantasy VII save", &json!({})),
-            Some(Game::Ff7)
-        );
-        assert_eq!(
-            detect("Final Fantasy VII Rebirth save", &json!({})),
-            Some(Game::Ff7Remake)
-        );
-        assert_eq!(
-            detect(
-                ".NET BinaryFormatter stream",
-                &json!([{"m_Major": 1}, {"PCM_HP": 90.0}])
-            ),
-            Some(Game::GreenHell)
-        );
-        assert_eq!(
-            detect(
-                "RE Engine save",
-                &json!({"#1": {"_Data": {"_InventoryData": []}}})
-            ),
-            Some(Game::ReSlot)
-        );
-        assert_eq!(
-            detect(
-                "Unreal Engine save (PersistentGameData)",
-                &json!({"CharacterSaveGameInfo": {"CharacterHouse": "Ravenclaw"}})
-            ),
-            Some(Game::Hogwarts)
-        );
-        assert_eq!(
-            detect("Ren'Py save", &json!({"Variables": {"money": 5}})),
-            Some(Game::RenPy)
-        );
-        assert_eq!(
-            detect("Grim Dawn character", &json!({})),
-            Some(Game::GrimDawn)
-        );
-        assert_eq!(
-            detect("Titan Quest character", &json!({})),
-            Some(Game::TitanQuest)
-        );
-        assert_eq!(
-            detect("Torchlight II character", &json!({})),
-            Some(Game::Torchlight2)
-        );
-        assert_eq!(
-            detect("Star Wars: KOTOR II party table", &json!({})),
-            Some(Game::Kotor)
-        );
-        assert_eq!(
-            detect("Neverwinter Nights character", &json!({})),
-            Some(Game::Nwn)
-        );
-        assert_eq!(
-            detect("Darkest Dungeon estate", &json!({})),
-            Some(Game::DarkestDungeon)
-        );
+        assert_eq!(detect(crate::fmt::infinity::KIND, &json!({})), Some(Game::Infinity));
+        assert_eq!(detect(crate::fmt::infinity::KIND_PST, &json!({})), Some(Game::Torment));
+        assert_eq!(detect(crate::fmt::dragonage::KIND, &json!({})), Some(Game::DragonAge));
+        assert_eq!(detect(crate::fmt::half_life::KIND_GOLDSRC, &json!({})), Some(Game::HalfLife));
+        assert_eq!(detect(crate::fmt::half_life::KIND_SOURCE, &json!({})), Some(Game::HalfLife2));
+        assert_eq!(detect(crate::fmt::half_life::KIND_ALYX, &json!({})), Some(Game::HalfLife2));
+        assert_eq!(detect("Final Fantasy VII save", &json!({})), Some(Game::Ff7));
+        assert_eq!(detect("Final Fantasy VII Rebirth save", &json!({})), Some(Game::Ff7Remake));
+        assert_eq!(detect(".NET BinaryFormatter stream", &json!([{"m_Major": 1}, {"PCM_HP": 90.0}])), Some(Game::GreenHell));
+        assert_eq!(detect("RE Engine save", &json!({"#1": {"_Data": {"_InventoryData": []}}})), Some(Game::ReSlot));
+        assert_eq!(detect("Unreal Engine save (PersistentGameData)", &json!({"CharacterSaveGameInfo": {"CharacterHouse": "Ravenclaw"}})), Some(Game::Hogwarts));
+        assert_eq!(detect("Ren'Py save", &json!({"Variables": {"money": 5}})), Some(Game::RenPy));
+        assert_eq!(detect("Grim Dawn character", &json!({})), Some(Game::GrimDawn));
+        assert_eq!(detect("Titan Quest character", &json!({})), Some(Game::TitanQuest));
+        assert_eq!(detect("Torchlight II character", &json!({})), Some(Game::Torchlight2));
+        assert_eq!(detect("Star Wars: KOTOR II party table", &json!({})), Some(Game::Kotor));
+        assert_eq!(detect("Neverwinter Nights character", &json!({})), Some(Game::Nwn));
+        assert_eq!(detect("Darkest Dungeon estate", &json!({})), Some(Game::DarkestDungeon));
         assert_eq!(detect("Darkest Dungeon save file", &json!({})), None);
-        assert_eq!(
-            detect(
-                "JSON",
-                &json!({"run_values": {"values": {}}, "inventory": {"m_items": []}})
-            ),
-            Some(Game::DarkestDungeon2)
-        );
-        assert_eq!(
-            detect("Octopath Traveler II save", &json!({})),
-            Some(Game::Octopath)
-        );
-        assert_eq!(
-            detect("Wasteland 3 save", &json!({})),
-            Some(Game::Wasteland3)
-        );
+        assert_eq!(detect("JSON", &json!({"run_values": {"values": {}}, "inventory": {"m_items": []}})), Some(Game::DarkestDungeon2));
+        assert_eq!(detect("Octopath Traveler II save", &json!({})), Some(Game::Octopath));
+        assert_eq!(detect("Wasteland 3 save", &json!({})), Some(Game::Wasteland3));
         assert_eq!(detect("Valheim character", &json!({})), Some(Game::Valheim));
         assert_eq!(detect("Golden Sun save", &json!({})), Some(Game::GoldenSun));
-        assert_eq!(
-            detect("Golden Sun: The Lost Age save", &json!({})),
-            Some(Game::GoldenSun)
-        );
+        assert_eq!(detect("Golden Sun: The Lost Age save", &json!({})), Some(Game::GoldenSun));
     }
 
     #[test]

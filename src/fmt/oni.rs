@@ -36,10 +36,7 @@ struct R<'a> {
 
 impl R<'_> {
     fn take(&mut self, n: usize) -> Result<&[u8], String> {
-        let b = self
-            .d
-            .get(self.pos..self.pos + n)
-            .ok_or("unexpected end of save")?;
+        let b = self.d.get(self.pos..self.pos + n).ok_or("unexpected end of save")?;
         self.pos += n;
         Ok(b)
     }
@@ -57,9 +54,7 @@ impl R<'_> {
         if n < 0 {
             return Ok(None);
         }
-        Ok(Some(
-            String::from_utf8_lossy(self.take(n as usize)?).into_owned(),
-        ))
+        Ok(Some(String::from_utf8_lossy(self.take(n as usize)?).into_owned()))
     }
     fn name(&mut self) -> Result<String, String> {
         self.string()?.ok_or_else(|| "missing name".to_string())
@@ -69,11 +64,7 @@ impl R<'_> {
 fn type_info(r: &mut R) -> Result<TypeInfo, String> {
     let info = r.u8()?;
     let code = info & 63;
-    let template = if code == 0 || code == 13 {
-        Some(r.name()?)
-    } else {
-        None
-    };
+    let template = if code == 0 || code == 13 { Some(r.name()?) } else { None };
     let mut sub = vec![];
     if info & 128 != 0 {
         for _ in 0..r.u8()? {
@@ -82,12 +73,7 @@ fn type_info(r: &mut R) -> Result<TypeInfo, String> {
     } else if code == 17 {
         sub.push(type_info(r)?);
     }
-    Ok(TypeInfo {
-        code,
-        value_type: info & 64 != 0,
-        template,
-        sub,
-    })
+    Ok(TypeInfo { code, value_type: info & 64 != 0, template, sub })
 }
 
 fn templates(r: &mut R) -> Result<HashMap<String, Template>, String> {
@@ -146,14 +132,7 @@ struct Reader<'a> {
 
 impl<'a> Reader<'a> {
     fn new(d: &'a [u8], pos: usize, t: &'a HashMap<String, Template>) -> Self {
-        Reader {
-            r: R { d, pos },
-            t,
-            leaves: vec![],
-            editable: HashMap::new(),
-            strs: vec![],
-            blobs: vec![],
-        }
+        Reader { r: R { d, pos }, t, leaves: vec![], editable: HashMap::new(), strs: vec![], blobs: vec![] }
     }
 
     fn number(&mut self, code: u8, ptr: &str) -> Result<Value, String> {
@@ -171,26 +150,17 @@ impl<'a> Reader<'a> {
             8 => Value::from(i64::from_le_bytes(b.try_into().unwrap())),
             9 => Value::from(u64::from_le_bytes(b.try_into().unwrap())),
             10 => crate::tree::f32_value(f32::from_le_bytes(b.try_into().unwrap())),
-            _ => serde_json::Number::from_f64(f64::from_le_bytes(b.try_into().unwrap()))
-                .map_or(Value::Null, Value::Number),
+            _ => serde_json::Number::from_f64(f64::from_le_bytes(b.try_into().unwrap())).map_or(Value::Null, Value::Number),
         };
         if !(code == 3 && b[0] > 1) && !v.is_null() {
             self.editable.insert(ptr.to_string(), self.leaves.len());
-            self.leaves.push(Leaf {
-                at,
-                code,
-                lens: [0; 2],
-            });
+            self.leaves.push(Leaf { at, code, lens: [0; 2] });
         }
         Ok(v)
     }
 
     fn template(&mut self, name: &str, ptr: &str) -> Result<Value, String> {
-        let t = self
-            .t
-            .get(name)
-            .ok_or_else(|| format!("no template {name}"))?
-            .clone();
+        let t = self.t.get(name).ok_or_else(|| format!("no template {name}"))?.clone();
         let mut m = Map::new();
         for (k, ty) in &t.members {
             let key = unique_key(&m, k);
@@ -208,23 +178,9 @@ impl<'a> Reader<'a> {
                 Ok(self.r.string()?.map_or(Value::Null, Value::from))
             }
             14 => Ok(Value::from(vec![self.r.i32()?, self.r.i32()?])),
-            15 => Ok(Value::from(
-                (0..2)
-                    .map(|_| self.r.f32().map(|f| f as f64))
-                    .collect::<Result<Vec<_>, _>>()?,
-            )),
-            16 => Ok(Value::from(
-                (0..3)
-                    .map(|_| self.r.f32().map(|f| f as f64))
-                    .collect::<Result<Vec<_>, _>>()?,
-            )),
-            23 => Ok(Value::from(
-                self.r
-                    .take(4)?
-                    .iter()
-                    .map(|b| format!("{b:02X}"))
-                    .collect::<String>(),
-            )),
+            15 => Ok(Value::from((0..2).map(|_| self.r.f32().map(|f| f as f64)).collect::<Result<Vec<_>, _>>()?)),
+            16 => Ok(Value::from((0..3).map(|_| self.r.f32().map(|f| f as f64)).collect::<Result<Vec<_>, _>>()?)),
+            23 => Ok(Value::from(self.r.take(4)?.iter().map(|b| format!("{b:02X}")).collect::<String>())),
             0 => {
                 let name = ty.template.clone().unwrap_or_default();
                 let len = self.r.i32()?;
@@ -253,11 +209,7 @@ impl<'a> Reader<'a> {
                 let mut out = Vec::with_capacity((n as usize).min(4096));
                 for i in 0..n as usize {
                     let p = format!("{ptr}/{i}");
-                    out.push(if el.value_type && el.code == 0 {
-                        self.template(el.template.as_deref().unwrap_or(""), &p)?
-                    } else {
-                        self.value(el, &p)?
-                    });
+                    out.push(if el.value_type && el.code == 0 { self.template(el.template.as_deref().unwrap_or(""), &p)? } else { self.value(el, &p)? });
                 }
                 Ok(Value::Array(out))
             }
@@ -277,10 +229,7 @@ impl<'a> Reader<'a> {
                 if n < 0 {
                     return Ok(Value::Null);
                 }
-                let (kt, vt) = (
-                    ty.sub.first().ok_or("dict")?.clone(),
-                    ty.sub.get(1).ok_or("dict")?.clone(),
-                );
+                let (kt, vt) = (ty.sub.first().ok_or("dict")?.clone(), ty.sub.get(1).ok_or("dict")?.clone());
                 // Values come first, then the keys; numbered until the keys are known.
                 let mut vals = vec![];
                 for i in 0..n as usize {
@@ -295,31 +244,18 @@ impl<'a> Reader<'a> {
                 for (i, (k, v)) in keys.into_iter().zip(vals).enumerate() {
                     let name = match &k {
                         Value::String(s) => s.clone(),
-                        Value::Object(o) => o
-                            .get("hash")
-                            .map_or_else(|| k.to_string(), |h| h.to_string()),
+                        Value::Object(o) => o.get("hash").map_or_else(|| k.to_string(), |h| h.to_string()),
                         x => x.to_string(),
                     };
                     let key = unique_key(&m, &name);
                     let old = format!("{ptr}/\u{1}{i}");
                     let new = format!("{ptr}/{}", esc(&key));
-                    let moved: Vec<(String, usize)> = self
-                        .editable
-                        .iter()
-                        .filter(|(p, _)| {
-                            p.starts_with(&old)
-                                && (p.len() == old.len() || p.as_bytes()[old.len()] == b'/')
-                        })
-                        .map(|(p, l)| (p.clone(), *l))
-                        .collect();
+                    let moved: Vec<(String, usize)> = self.editable.iter().filter(|(p, _)| p.starts_with(&old) && (p.len() == old.len() || p.as_bytes()[old.len()] == b'/')).map(|(p, l)| (p.clone(), *l)).collect();
                     for (p, l) in moved {
                         self.editable.remove(&p);
                         self.editable.insert(format!("{new}{}", &p[old.len()..]), l);
                     }
-                    let under = |p: &str| {
-                        p.starts_with(&old)
-                            && (p.len() == old.len() || p.as_bytes()[old.len()] == b'/')
-                    };
+                    let under = |p: &str| p.starts_with(&old) && (p.len() == old.len() || p.as_bytes()[old.len()] == b'/');
                     for (p, _) in self.strs.iter_mut().filter(|(p, _)| under(p)) {
                         *p = format!("{new}{}", &p[old.len()..]);
                     }
@@ -338,11 +274,7 @@ impl<'a> Reader<'a> {
 }
 
 pub fn looks(d: &[u8]) -> bool {
-    d.len() > 32
-        && d.get(16..18) == Some(b"{\"")
-        && d[16..d.len().min(4096)]
-            .windows(18)
-            .any(|w| w == b"numberOfDuplicants")
+    d.len() > 32 && d.get(16..18) == Some(b"{\"") && d[16..d.len().min(4096)].windows(18).any(|w| w == b"numberOfDuplicants")
 }
 
 fn skip_template(r: &mut R, t: &HashMap<String, Template>, name: &str) -> Result<(), String> {
@@ -369,30 +301,13 @@ impl OniBackend {
             1 => vec![int_in(v, i8::MIN as i128, i8::MAX as i128, "This value")? as i8 as u8],
             2 => vec![int_in(v, 0, 255, "This value")? as u8],
             3 => vec![u8::from(v.as_bool().ok_or("tick or untick it")?)],
-            4 => (int_in(v, i16::MIN as i128, i16::MAX as i128, "This value")? as i16)
-                .to_le_bytes()
-                .to_vec(),
-            5 => (int_in(v, 0, u16::MAX as i128, "This value")? as u16)
-                .to_le_bytes()
-                .to_vec(),
-            6 | 13 => (int_in(v, i32::MIN as i128, i32::MAX as i128, "This value")? as i32)
-                .to_le_bytes()
-                .to_vec(),
-            7 => (int_in(v, 0, u32::MAX as i128, "This value")? as u32)
-                .to_le_bytes()
-                .to_vec(),
-            8 => (int_in(v, i64::MIN as i128, i64::MAX as i128, "This value")? as i64)
-                .to_le_bytes()
-                .to_vec(),
-            9 => (int_in(v, 0, u64::MAX as i128, "This value")? as u64)
-                .to_le_bytes()
-                .to_vec(),
-            10 => (v
-                .as_f64()
-                .filter(|f| f.is_finite())
-                .ok_or("expected a number")? as f32)
-                .to_le_bytes()
-                .to_vec(),
+            4 => (int_in(v, i16::MIN as i128, i16::MAX as i128, "This value")? as i16).to_le_bytes().to_vec(),
+            5 => (int_in(v, 0, u16::MAX as i128, "This value")? as u16).to_le_bytes().to_vec(),
+            6 | 13 => (int_in(v, i32::MIN as i128, i32::MAX as i128, "This value")? as i32).to_le_bytes().to_vec(),
+            7 => (int_in(v, 0, u32::MAX as i128, "This value")? as u32).to_le_bytes().to_vec(),
+            8 => (int_in(v, i64::MIN as i128, i64::MAX as i128, "This value")? as i64).to_le_bytes().to_vec(),
+            9 => (int_in(v, 0, u64::MAX as i128, "This value")? as u64).to_le_bytes().to_vec(),
+            10 => (v.as_f64().filter(|f| f.is_finite()).ok_or("expected a number")? as f32).to_le_bytes().to_vec(),
             TEXT => {
                 let s = v.as_str().ok_or("expected text")?.trim();
                 if s.is_empty() {
@@ -406,12 +321,7 @@ impl OniBackend {
                 b
             }
             MAP_EDITS => return Err("map edits are applied separately".into()),
-            _ => v
-                .as_f64()
-                .filter(|f| f.is_finite())
-                .ok_or("expected a number")?
-                .to_le_bytes()
-                .to_vec(),
+            _ => v.as_f64().filter(|f| f.is_finite()).ok_or("expected a number")?.to_le_bytes().to_vec(),
         })
     }
 }
@@ -443,8 +353,7 @@ impl Backend for OniBackend {
         // the behaviour and group lengths before each grow or shrink with it.
         texts.sort_by_key(|(leaf, _)| std::cmp::Reverse(leaf.at));
         for (leaf, b) in texts {
-            let old =
-                i32::from_le_bytes(body[leaf.at..leaf.at + 4].try_into().unwrap()).max(0) as usize;
+            let old = i32::from_le_bytes(body[leaf.at..leaf.at + 4].try_into().unwrap()).max(0) as usize;
             body.splice(leaf.at..leaf.at + 4 + old, b.iter().copied());
             let delta = b.len() as i64 - (4 + old) as i64;
             for &at in &leaf.lens {
@@ -473,13 +382,8 @@ impl Backend for OniBackend {
 
     fn check(&self, leaf: usize, v: &Value) -> Result<(), String> {
         if self.leaves[leaf].code == MAP_EDITS {
-            let map = self
-                .map
-                .as_ref()
-                .ok_or("this save's map couldn't be read")?;
-            return oni_map::parse_ops(v.as_str().ok_or("expected text")?)?
-                .iter()
-                .try_for_each(|op| oni_map::op_ok(op, map));
+            let map = self.map.as_ref().ok_or("this save's map couldn't be read")?;
+            return oni_map::parse_ops(v.as_str().ok_or("expected text")?)?.iter().try_for_each(|op| oni_map::op_ok(op, map));
         }
         Self::encode(&self.leaves[leaf], v).map(|_| ())
     }
@@ -489,9 +393,7 @@ impl Backend for OniBackend {
     }
 
     fn attachment(&self) -> Option<Arc<dyn std::any::Any + Send + Sync>> {
-        self.map
-            .clone()
-            .map(|m| m as Arc<dyn std::any::Any + Send + Sync>)
+        self.map.clone().map(|m| m as Arc<dyn std::any::Any + Send + Sync>)
     }
 
     fn clone_box(&self) -> Box<dyn Backend> {
@@ -500,12 +402,7 @@ impl Backend for OniBackend {
 }
 
 /// World fields shown and editable: (field, label).
-const WORLD_FIELDS: [(&str, &str); 4] = [
-    ("isDiscovered", "Discovered"),
-    ("isSurfaceRevealed", "Surface revealed"),
-    ("sunlight", "Sunlight (lux)"),
-    ("cosmicRadiation", "Cosmic radiation (rads)"),
-];
+const WORLD_FIELDS: [(&str, &str); 4] = [("isDiscovered", "Discovered"), ("isSurfaceRevealed", "Surface revealed"), ("sunlight", "Sunlight (lux)"), ("cosmicRadiation", "Cosmic radiation (rads)")];
 
 fn world_title(world_name: &str) -> String {
     let last = world_name.rsplit('/').next().unwrap_or(world_name);
@@ -532,9 +429,7 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
     let prefix = d[..r.pos].to_vec();
     let body = if compressed {
         let mut out = vec![];
-        flate2::read::ZlibDecoder::new(&d[r.pos..])
-            .read_to_end(&mut out)
-            .map_err(|e| e.to_string())?;
+        flate2::read::ZlibDecoder::new(&d[r.pos..]).read_to_end(&mut out).map_err(|e| e.to_string())?;
         out
     } else {
         d[r.pos..].to_vec()
@@ -602,12 +497,7 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
             }
             if let Some((kind, name)) = &poi {
                 if prefab != "Minion" {
-                    pois.push(Poi {
-                        kind: *kind,
-                        name: name.clone(),
-                        x: cx,
-                        y: cy,
-                    });
+                    pois.push(Poi { kind: *kind, name: name.clone(), x: cx, y: cy });
                 }
             }
             if prefab == "Minion" {
@@ -616,17 +506,10 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
                     .find(|b| b.0 == "MinionIdentity")
                     .and_then(|b| {
                         let mut s = Reader::new(&body, b.1, &t);
-                        s.template("MinionIdentity", "")
-                            .ok()
-                            .and_then(|v| v["name"].as_str().map(str::to_string))
+                        s.template("MinionIdentity", "").ok().and_then(|v| v["name"].as_str().map(str::to_string))
                     })
                     .unwrap_or_else(|| format!("Duplicant {}", i + 1));
-                pois.push(Poi {
-                    kind: 6,
-                    name: name.clone(),
-                    x: cx,
-                    y: cy,
-                });
+                pois.push(Poi { kind: 6, name: name.clone(), x: cx, y: cy });
                 let key = unique_key(&dupes, &name);
                 let base = format!("/Duplicants/{}", esc(&key));
                 let mut m = Map::new();
@@ -644,37 +527,20 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
                     }
                 }
                 dupes.insert(key, Value::Object(m));
-            } else if raw
-                .iter()
-                .any(|b| b.0 == "WorldContainer" || b.0 == "Clustercraft")
-            {
+            } else if raw.iter().any(|b| b.0 == "WorldContainer" || b.0 == "Clustercraft") {
                 // Worlds (asteroids, rocket interiors) and rockets: their name is the
                 // `m_name` of a behaviour (Clustercraft for rockets).
                 let mut name: Option<(String, Leaf)> = None;
                 for (bname, at, blen) in &raw {
-                    let has_name = t.get(bname).is_some_and(|tp| {
-                        tp.members
-                            .iter()
-                            .any(|(m, ty)| m == "m_name" && ty.code == 12)
-                    });
+                    let has_name = t.get(bname).is_some_and(|tp| tp.members.iter().any(|(m, ty)| m == "m_name" && ty.code == 12));
                     if !has_name || name.is_some() {
                         continue;
                     }
                     let mut s2 = Reader::new(&body, *at, &t);
                     if let Ok(v) = s2.template(bname, "") {
-                        if let (Some(n), Some((_, sat))) = (
-                            v["m_name"].as_str(),
-                            s2.strs.iter().find(|(p, _)| p == "/m_name"),
-                        ) {
+                        if let (Some(n), Some((_, sat))) = (v["m_name"].as_str(), s2.strs.iter().find(|(p, _)| p == "/m_name")) {
                             if s2.r.pos <= at + blen && !n.trim().is_empty() {
-                                name = Some((
-                                    n.to_string(),
-                                    Leaf {
-                                        at: *sat,
-                                        code: TEXT,
-                                        lens: [at - 4, group_len_at],
-                                    },
-                                ));
+                                name = Some((n.to_string(), Leaf { at: *sat, code: TEXT, lens: [at - 4, group_len_at] }));
                             }
                         }
                     }
@@ -683,35 +549,18 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
                 let world = wc.and_then(|(bname, at, blen)| {
                     rd.r.pos = at;
                     let tmp = format!("\u{3}{}", worlds.len());
-                    let v = rd
-                        .template(&bname, &tmp)
-                        .ok()
-                        .filter(|_| rd.r.pos <= at + blen)?;
+                    let v = rd.template(&bname, &tmp).ok().filter(|_| rd.r.pos <= at + blen)?;
                     Some((v, tmp))
                 });
                 let is_craft = raw.iter().any(|b| b.0 == "Clustercraft");
                 if let Some((v, tmp)) = world {
-                    let pair = |k: &str| {
-                        v[k].as_array().map(|a| {
-                            (
-                                a.first().and_then(Value::as_i64).unwrap_or(0),
-                                a.get(1).and_then(Value::as_i64).unwrap_or(0),
-                            )
-                        })
-                    };
-                    let (Some((ox, oy)), Some((w, h))) = (pair("worldOffset"), pair("worldSize"))
-                    else {
-                        continue;
-                    };
+                    let pair = |k: &str| v[k].as_array().map(|a| (a.first().and_then(Value::as_i64).unwrap_or(0), a.get(1).and_then(Value::as_i64).unwrap_or(0)));
+                    let (Some((ox, oy)), Some((w, h))) = (pair("worldOffset"), pair("worldSize")) else { continue };
                     let interior = v["isModuleInterior"].as_bool().unwrap_or(false);
                     let id = v["id"].as_i64().unwrap_or(-1) as i32;
                     let title = name.as_ref().map(|n| n.0.clone()).unwrap_or_else(|| {
                         let wn = v["worldName"].as_str().unwrap_or("");
-                        if wn.is_empty() {
-                            format!("World {id}")
-                        } else {
-                            world_title(wn)
-                        }
+                        if wn.is_empty() { format!("World {id}") } else { world_title(wn) }
                     });
                     let key = unique_key(&worlds_v, &title);
                     let base = format!("/Worlds/{}", esc(&key));
@@ -721,22 +570,12 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
                         moved.insert(format!("{base}/Name"), rd.leaves.len());
                         rd.leaves.push(*leaf);
                     }
-                    m.insert(
-                        "Type".into(),
-                        Value::from(if interior {
-                            "Rocket interior"
-                        } else {
-                            "Asteroid"
-                        }),
-                    );
+                    m.insert("Type".into(), Value::from(if interior { "Rocket interior" } else { "Asteroid" }));
                     if let Some(wn) = v["worldName"].as_str().filter(|s| !s.is_empty()) {
                         m.insert("Kind".into(), Value::from(world_title(wn)));
                     }
                     m.insert("Size".into(), Value::from(format!("{w} \u{00D7} {h}")));
-                    m.insert(
-                        "Start world".into(),
-                        Value::Bool(v["isStartWorld"].as_bool().unwrap_or(false)),
-                    );
+                    m.insert("Start world".into(), Value::Bool(v["isStartWorld"].as_bool().unwrap_or(false)));
                     for (f, label) in WORLD_FIELDS {
                         if let Some(l) = rd.editable.get(&format!("{tmp}/{f}")) {
                             moved.insert(format!("{base}/{label}"), *l);
@@ -777,12 +616,7 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
         }
     }
     let mut colony = Map::new();
-    for (k, label) in [
-        ("baseName", "Colony"),
-        ("numberOfCycles", "Cycles"),
-        ("numberOfDuplicants", "Duplicants"),
-        ("clusterId", "Cluster"),
-    ] {
+    for (k, label) in [("baseName", "Colony"), ("numberOfCycles", "Cycles"), ("numberOfDuplicants", "Duplicants"), ("clusterId", "Cluster")] {
         if let Some(v) = info.get(k) {
             colony.insert(label.into(), v.clone());
         }
@@ -791,44 +625,23 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
     // The map.
     let width = root_v["WidthInCells"].as_i64().unwrap_or(0).max(0) as usize;
     let height = root_v["HeightInCells"].as_i64().unwrap_or(0).max(0) as usize;
-    let map = OniMap::read(&body, sim_at, sim.max(0) as usize)
-        .filter(|(_, _, sw, sh)| *sw == width + 2 && *sh == height + 2 && !worlds.is_empty())
-        .map(|(cells, radiation, sw, sh)| {
-            let mut protected = vec![false; cells.len()];
-            for (x, y) in tiles {
-                if x >= 0 && y >= 0 && (x as usize) < width && (y as usize) < height {
-                    protected[y as usize * width + x as usize] = true;
-                }
+    let map = OniMap::read(&body, sim_at, sim.max(0) as usize).filter(|(_, _, sw, sh)| *sw == width + 2 && *sh == height + 2 && !worlds.is_empty()).map(|(cells, radiation, sw, sh)| {
+        let mut protected = vec![false; cells.len()];
+        for (x, y) in tiles {
+            if x >= 0 && y >= 0 && (x as usize) < width && (y as usize) < height {
+                protected[y as usize * width + x as usize] = true;
             }
-            let visible_at = root_rd
-                .blobs
-                .iter()
-                .find(|(p, _, n)| p.ends_with("/GridVisible") && *n == width * height)
-                .map(|b| b.1);
-            let visible = visible_at.map(|at| body[at..at + width * height].to_vec());
-            let mut present: Vec<u32> = cells.iter().map(|c| c.element).collect();
-            present.sort_unstable();
-            present.dedup();
-            worlds.sort_by_key(|w| (w.rocket, w.id));
-            pois.retain(|p| p.x >= 0 && p.y >= 0);
-            starmap.sort();
-            Arc::new(OniMap {
-                width,
-                height,
-                cells,
-                radiation,
-                protected,
-                visible,
-                worlds,
-                pois,
-                starmap,
-                present,
-                sim_at,
-                sim_w: sw,
-                sim_h: sh,
-                visible_at,
-            })
-        });
+        }
+        let visible_at = root_rd.blobs.iter().find(|(p, _, n)| p.ends_with("/GridVisible") && *n == width * height).map(|b| b.1);
+        let visible = visible_at.map(|at| body[at..at + width * height].to_vec());
+        let mut present: Vec<u32> = cells.iter().map(|c| c.element).collect();
+        present.sort_unstable();
+        present.dedup();
+        worlds.sort_by_key(|w| (w.rocket, w.id));
+        pois.retain(|p| p.x >= 0 && p.y >= 0);
+        starmap.sort();
+        Arc::new(OniMap { width, height, cells, radiation, protected, visible, worlds, pois, starmap, present, sim_at, sim_w: sw, sim_h: sh, visible_at })
+    });
 
     let mut root = Map::new();
     root.insert("Colony".into(), Value::Object(colony));
@@ -844,20 +657,9 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
     if map.is_some() {
         root.insert("Map edits".into(), Value::from(""));
         editable.insert(oni_map::EDITS.into(), leaves.len());
-        leaves.push(Leaf {
-            at: 0,
-            code: MAP_EDITS,
-            lens: [0; 2],
-        });
+        leaves.push(Leaf { at: 0, code: MAP_EDITS, lens: [0; 2] });
     }
-    let backend = OniBackend {
-        prefix: Arc::new(prefix),
-        body: Arc::new(body),
-        compressed,
-        original: Arc::new(d.to_vec()),
-        leaves,
-        map,
-    };
+    let backend = OniBackend { prefix: Arc::new(prefix), body: Arc::new(body), compressed, original: Arc::new(d.to_vec()), leaves, map };
     Ok(TreeDoc::new(Value::Object(root), editable, "Oxygen Not Included save", Box::new(backend))
         .with_note("Duplicants, the map of every asteroid and rocket interior, world settings and rocket names can be changed; the rest of the colony is kept as it is."))
 }
@@ -873,17 +675,9 @@ mod tests {
         let d = std::fs::read(std::env::var("ONI_SAVE").expect("ONI_SAVE")).unwrap();
         let t = std::time::Instant::now();
         let doc = parse(&d).unwrap();
-        println!(
-            "{:?}: {} editable; {}",
-            t.elapsed(),
-            doc.editable.len(),
-            doc.view["Colony"]
-        );
+        println!("{:?}: {} editable; {}", t.elapsed(), doc.editable.len(), doc.view["Colony"]);
         for (k, v) in doc.view["Duplicants"].as_object().unwrap().iter().take(2) {
-            println!(
-                "{k}: {:?}",
-                v.as_object().unwrap().keys().collect::<Vec<_>>()
-            );
+            println!("{k}: {:?}", v.as_object().unwrap().keys().collect::<Vec<_>>());
             for b in ["Klei.AI.AttributeLevels", "MinionResume"] {
                 let s = v.get(b).map(|x| x.to_string()).unwrap_or_default();
                 println!("  {b}: {}", &s[..s.len().min(1200)]);
@@ -913,9 +707,7 @@ mod research {
         let t = templates(&mut r).unwrap();
         let mut body = vec![];
         if compressed {
-            flate2::read::ZlibDecoder::new(&d[r.pos..])
-                .read_to_end(&mut body)
-                .unwrap();
+            flate2::read::ZlibDecoder::new(&d[r.pos..]).read_to_end(&mut body).unwrap();
         } else {
             body = d[r.pos..].to_vec();
         }
@@ -932,11 +724,7 @@ mod research {
         let sim_at = rd.r.pos;
         std::fs::write(format!("{out}.sim"), &body[sim_at..sim_at + sim_len]).unwrap();
         let j = serde_json::json!({"root_type": root_type, "root": root, "settings_type": settings_type, "settings": settings, "sim_at": sim_at, "sim_len": sim_len});
-        std::fs::write(
-            format!("{out}.root.json"),
-            serde_json::to_string_pretty(&j).unwrap(),
-        )
-        .unwrap();
+        std::fs::write(format!("{out}.root.json"), serde_json::to_string_pretty(&j).unwrap()).unwrap();
         println!("body {} bytes, sim at {sim_at} len {sim_len}", body.len());
         // Game objects: every prefab with its count; WorldContainer data in full.
         rd.r.pos = sim_at + sim_len;
@@ -959,10 +747,7 @@ mod research {
                     let name = rd.r.name().unwrap();
                     let blen = rd.r.i32().unwrap() as usize;
                     let at = rd.r.pos;
-                    if name == "WorldContainer"
-                        || name == "ClusterGridEntity"
-                        || name == "Clustercraft"
-                    {
+                    if name == "WorldContainer" || name == "ClusterGridEntity" || name == "Clustercraft" {
                         let v = rd.template(&name, "").unwrap_or(Value::Null);
                         worlds.push(serde_json::json!({"prefab": prefab, "behaviour": name, "pos": pos, "data": v}));
                     }
@@ -971,19 +756,9 @@ mod research {
             }
             assert_eq!(rd.r.pos, start + len, "{prefab}");
         }
-        std::fs::write(
-            format!("{out}.prefabs.txt"),
-            list.join(
-                "
-",
-            ),
-        )
-        .unwrap();
-        std::fs::write(
-            format!("{out}.worlds.json"),
-            serde_json::to_string_pretty(&worlds).unwrap(),
-        )
-        .unwrap();
+        std::fs::write(format!("{out}.prefabs.txt"), list.join("
+")).unwrap();
+        std::fs::write(format!("{out}.worlds.json"), serde_json::to_string_pretty(&worlds).unwrap()).unwrap();
         println!("{} prefabs, {} world records", list.len(), worlds.len());
     }
 }
@@ -1003,20 +778,9 @@ mod map_tests {
         println!("parsed in {:?}", t0.elapsed());
         assert_eq!(doc.to_bytes().unwrap(), d);
         let map = doc.attachment().unwrap().downcast::<OniMap>().unwrap();
-        println!(
-            "grid {}x{}, visible {:?}, protected {}",
-            map.width,
-            map.height,
-            map.visible
-                .as_ref()
-                .map(|v| v.iter().filter(|&&b| b > 0).count()),
-            map.protected.iter().filter(|&&p| p).count()
-        );
+        println!("grid {}x{}, visible {:?}, protected {}", map.width, map.height, map.visible.as_ref().map(|v| v.iter().filter(|&&b| b > 0).count()), map.protected.iter().filter(|&&p| p).count());
         for w in &map.worlds {
-            println!(
-                "world {} {:?} rocket={} at {},{} {}x{} disc={} start={}",
-                w.id, w.name, w.rocket, w.x, w.y, w.w, w.h, w.discovered, w.start
-            );
+            println!("world {} {:?} rocket={} at {},{} {}x{} disc={} start={}", w.id, w.name, w.rocket, w.x, w.y, w.w, w.h, w.discovered, w.start);
         }
         let mut kinds = std::collections::BTreeMap::new();
         for p in &map.pois {
@@ -1025,85 +789,30 @@ mod map_tests {
         println!("pois {kinds:?}");
         println!("starmap {:?}", map.starmap);
         // Tile buildings should sit on solid cells.
-        let solid = map
-            .protected
-            .iter()
-            .enumerate()
-            .filter(|(i, &p)| {
-                p && oni_map::element(map.cells[*i].element)
-                    .is_some_and(|e| e.state == oni_map::State::Solid)
-            })
-            .count();
+        let solid = map.protected.iter().enumerate().filter(|(i, &p)| p && oni_map::element(map.cells[*i].element).is_some_and(|e| e.state == oni_map::State::Solid)).count();
         println!("protected cells that are solid: {solid}");
-        println!(
-            "view keys {:?}",
-            doc.view.as_object().unwrap().keys().collect::<Vec<_>>()
-        );
+        println!("view keys {:?}", doc.view.as_object().unwrap().keys().collect::<Vec<_>>());
         println!("worlds {}", doc.view["Worlds"]);
         // Paint a 3x3 of granite in the middle of the start world, rename a rocket.
         let w = map.worlds.iter().find(|w| w.start).unwrap();
         let (cx, cy) = ((w.x + w.w / 2) as u32, (w.y + w.h / 2) as u32);
-        let op = oni_map::Op {
-            mode: oni_map::PAINT,
-            world: w.id as u16,
-            element: oni_map::hash("Granite"),
-            mass: 1234.5,
-            temp: 300.0,
-            size: 3,
-            points: vec![(cx, cy)],
-        };
-        let rev = oni_map::Op {
-            mode: oni_map::REVEAL,
-            world: w.id as u16,
-            element: 0,
-            mass: 0.0,
-            temp: 0.0,
-            size: 0,
-            points: vec![],
-        };
-        doc.set(
-            oni_map::EDITS,
-            Value::from(format!("{};{}", op.to_text(), rev.to_text())),
-        )
-        .unwrap();
-        let rocket = doc.view["Rockets"]
-            .as_object()
-            .unwrap()
-            .keys()
-            .next()
-            .unwrap()
-            .clone();
-        doc.set(
-            &format!("/Rockets/{}/Name", esc(&rocket)),
-            Value::from("Renamed Rocket With A Longer Name"),
-        )
-        .unwrap();
+        let op = oni_map::Op { mode: oni_map::PAINT, world: w.id as u16, element: oni_map::hash("Granite"), mass: 1234.5, temp: 300.0, size: 3, points: vec![(cx, cy)] };
+        let rev = oni_map::Op { mode: oni_map::REVEAL, world: w.id as u16, element: 0, mass: 0.0, temp: 0.0, size: 0, points: vec![] };
+        doc.set(oni_map::EDITS, Value::from(format!("{};{}", op.to_text(), rev.to_text()))).unwrap();
+        let rocket = doc.view["Rockets"].as_object().unwrap().keys().next().unwrap().clone();
+        doc.set(&format!("/Rockets/{}/Name", esc(&rocket)), Value::from("Renamed Rocket With A Longer Name")).unwrap();
         let out = doc.to_bytes().unwrap();
         let again = parse(&out).unwrap();
         let m2 = again.attachment().unwrap().downcast::<OniMap>().unwrap();
         let i = cy as usize * map.width + cx as usize;
         println!("before {:?} after {:?}", map.cells[i], m2.cells[i]);
-        assert!(
-            m2.cells[i].element == oni_map::hash("Granite")
-                || map.protected[i]
-                || map.cells[i].element == oni_map::neutronium()
-        );
-        let changed = map
-            .cells
-            .iter()
-            .zip(&m2.cells)
-            .filter(|(a, b)| a != b)
-            .count();
+        assert!(m2.cells[i].element == oni_map::hash("Granite") || map.protected[i] || map.cells[i].element == oni_map::neutronium());
+        let changed = map.cells.iter().zip(&m2.cells).filter(|(a, b)| a != b).count();
         println!("cells changed {changed}");
         assert!(changed <= 9);
-        assert!(again.view["Rockets"]
-            .get("Renamed Rocket With A Longer Name")
-            .is_some());
+        assert!(again.view["Rockets"].get("Renamed Rocket With A Longer Name").is_some());
         let v2 = m2.visible.as_ref().unwrap();
         assert!(v2[(w.y + 1) * map.width + w.x + 1] == 255);
-        assert_eq!(
-            again.view["Duplicants"].as_object().unwrap().len(),
-            doc.view["Duplicants"].as_object().unwrap().len()
-        );
+        assert_eq!(again.view["Duplicants"].as_object().unwrap().len(), doc.view["Duplicants"].as_object().unwrap().len());
     }
 }

@@ -20,11 +20,7 @@ fn crc16(d: &[u8]) -> u16 {
         for (i, e) in t.iter_mut().enumerate() {
             let mut c = (i as u16) << 8;
             for _ in 0..8 {
-                c = if c & 0x8000 != 0 {
-                    (c << 1) ^ 0x1021
-                } else {
-                    c << 1
-                };
+                c = if c & 0x8000 != 0 { (c << 1) ^ 0x1021 } else { c << 1 };
             }
             *e = c;
         }
@@ -32,9 +28,7 @@ fn crc16(d: &[u8]) -> u16 {
         t[255] = 0;
         t
     });
-    d.iter()
-        .fold(0xFFFF, |c, &b| t[((c >> 8) as u8 ^ b) as usize] ^ (c << 8))
-        ^ 0xFFFF
+    d.iter().fold(0xFFFF, |c, &b| t[((c >> 8) as u8 ^ b) as usize] ^ (c << 8)) ^ 0xFFFF
 }
 
 /// The checksum with `zero` bytes of its own place cleared.
@@ -81,19 +75,7 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
         f("Max HP", 16, Kind::U32, 1, 99_999);
         f("MP", 12, Kind::U32, 0, 9_999);
         f("Max MP", 20, Kind::U32, 0, 9_999);
-        for (i, s) in [
-            "Strength",
-            "Defense",
-            "Magic",
-            "Magic defense",
-            "Agility",
-            "Accuracy",
-            "Evasion",
-            "Luck",
-        ]
-        .into_iter()
-        .enumerate()
-        {
+        for (i, s) in ["Strength", "Defense", "Magic", "Magic defense", "Agility", "Accuracy", "Evasion", "Luck"].into_iter().enumerate() {
             f(s, 25 + i, Kind::U8, 0, 255);
         }
     }
@@ -115,8 +97,8 @@ mod ffx {
     pub const GIL: usize = 0x3D88;
     pub const CHARS: usize = 0x5610;
     pub const NAMES: [&str; 18] = [
-        "Tidus", "Yuna", "Auron", "Kimahri", "Wakka", "Lulu", "Rikku", "Seymour", "Valefor",
-        "Ifrit", "Ixion", "Shiva", "Bahamut", "Anima", "Yojimbo", "Cindy", "Sandy", "Mindy",
+        "Tidus", "Yuna", "Auron", "Kimahri", "Wakka", "Lulu", "Rikku", "Seymour", "Valefor", "Ifrit", "Ixion", "Shiva", "Bahamut", "Anima",
+        "Yojimbo", "Cindy", "Sandy", "Mindy",
     ];
 }
 
@@ -160,19 +142,7 @@ pub fn parse_ffx(d: &[u8]) -> Result<TreeDoc, String> {
         f("MP", 0x1C, Kind::U32, 0, 9_999);
         f("Max HP", 0x20, Kind::U32, 1, 99_999);
         f("Max MP", 0x24, Kind::U32, 0, 9_999);
-        for (i, s) in [
-            "Strength",
-            "Defense",
-            "Magic",
-            "Magic defense",
-            "Agility",
-            "Luck",
-            "Evasion",
-            "Accuracy",
-        ]
-        .into_iter()
-        .enumerate()
-        {
+        for (i, s) in ["Strength", "Defense", "Magic", "Magic defense", "Agility", "Luck", "Evasion", "Accuracy"].into_iter().enumerate() {
             f(s, 0x2B + i, Kind::U8, 0, 255);
         }
     }
@@ -201,17 +171,10 @@ mod tests {
         let mut doc = parse(&d).unwrap();
         assert_eq!(doc.view.pointer("/Gullwings/Gil").unwrap(), 1500);
         assert_eq!(doc.view.pointer("/Party/Yuna/Level").unwrap(), 7);
-        doc.set("/Gullwings/Gil", serde_json::Value::from(250000))
-            .unwrap();
+        doc.set("/Gullwings/Gil", serde_json::Value::from(250000)).unwrap();
         let out = doc.to_bytes().unwrap();
         assert!(looks(&out), "the checksum was updated");
-        assert_eq!(
-            i32::from_le_bytes(out[0x14..0x18].try_into().unwrap()),
-            250000
-        );
-        assert_eq!(
-            i32::from_le_bytes(out[GIL..GIL + 4].try_into().unwrap()),
-            250000
-        );
+        assert_eq!(i32::from_le_bytes(out[0x14..0x18].try_into().unwrap()), 250000);
+        assert_eq!(i32::from_le_bytes(out[GIL..GIL + 4].try_into().unwrap()), 250000);
     }
 }

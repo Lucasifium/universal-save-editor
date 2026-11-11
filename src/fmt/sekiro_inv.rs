@@ -37,8 +37,7 @@ const GOOD: u32 = 0xB000_0000;
 const GOOD_ID: u32 = 0x4000_0000;
 
 fn u32_at(d: &[u8], o: usize) -> u32 {
-    d.get(o..o + 4)
-        .map_or(0, |b| u32::from_le_bytes(b.try_into().unwrap()))
+    d.get(o..o + 4).map_or(0, |b| u32::from_le_bytes(b.try_into().unwrap()))
 }
 
 fn put(d: &mut [u8], o: usize, v: u32) {
@@ -46,12 +45,7 @@ fn put(d: &mut [u8], o: usize, v: u32) {
 }
 
 fn entry(d: &[u8], o: usize) -> [u32; 4] {
-    [
-        u32_at(d, o),
-        u32_at(d, o + 4),
-        u32_at(d, o + 8),
-        u32_at(d, o + 12),
-    ]
+    [u32_at(d, o), u32_at(d, o + 4), u32_at(d, o + 8), u32_at(d, o + 12)]
 }
 
 fn is_empty(e: [u32; 4]) -> bool {
@@ -84,11 +78,7 @@ fn used(d: &[u8], at: usize, cap: usize) -> Option<usize> {
 pub fn find(d: &[u8]) -> Option<usize> {
     let end = d.len().checked_sub(STORAGE_AT + STORAGE_CAP * ENTRY)?;
     (0x10..end).step_by(4).find(|&t| {
-        let (last, carried, key) = (
-            u32_at(d, t - 0x10),
-            u32_at(d, t - 0xC) as usize,
-            u32_at(d, t - 8) as usize,
-        );
+        let (last, carried, key) = (u32_at(d, t - 0x10), u32_at(d, t - 0xC) as usize, u32_at(d, t - 8) as usize);
         u32_at(d, t - 4) == 0
             && (0x100..0x1000).contains(&last)
             && (1..=CARRIED_CAP).contains(&carried)
@@ -117,31 +107,19 @@ fn names() -> &'static Names {
         let mut by_id = HashMap::new();
         let mut by_name = HashMap::new();
         for &(id, n) in GOODS {
-            let shown = if count[n] > 1 {
-                format!("{n} (#{id})")
-            } else {
-                n.to_string()
-            };
+            let shown = if count[n] > 1 { format!("{n} (#{id})") } else { n.to_string() };
             by_name.insert(shown.clone(), id);
             by_id.insert(id, shown);
         }
         let mut all: Vec<String> = by_name.keys().cloned().collect();
         all.sort_by_key(|s| s.to_lowercase());
         all.insert(0, EMPTY.into());
-        Names {
-            by_id,
-            by_name,
-            all: Arc::new(all),
-        }
+        Names { by_id, by_name, all: Arc::new(all) }
     })
 }
 
 fn good_name(id: u32) -> String {
-    names()
-        .by_id
-        .get(&id)
-        .cloned()
-        .unwrap_or_else(|| format!("Item #{id}"))
+    names().by_id.get(&id).cloned().unwrap_or_else(|| format!("Item #{id}"))
 }
 
 #[derive(Clone, Debug)]
@@ -180,51 +158,20 @@ pub struct Inventory {
 
 /// Adds the item sections to `root` (editable leaves numbered from `first_leaf`) and the
 /// list of learned skills and tools. `None` if the tables aren't where they should be.
-pub fn build(
-    d: &[u8],
-    first_leaf: usize,
-    root: &mut Map<String, Value>,
-    editable: &mut HashMap<String, usize>,
-) -> Option<Inventory> {
+pub fn build(d: &[u8], first_leaf: usize, root: &mut Map<String, Value>, editable: &mut HashMap<String, usize>) -> Option<Inventory> {
     let t = find(d)?;
     let mut tables = vec![
-        Table {
-            section: "Items",
-            start: t,
-            cap: CARRIED_CAP,
-            count_at: t - 0xC,
-            last_at: Some(t - 0x10),
-        },
-        Table {
-            section: "Key items",
-            start: t + KEY_AT,
-            cap: KEY_CAP,
-            count_at: t - 8,
-            last_at: None,
-        },
+        Table { section: "Items", start: t, cap: CARRIED_CAP, count_at: t - 0xC, last_at: Some(t - 0x10) },
+        Table { section: "Key items", start: t + KEY_AT, cap: KEY_CAP, count_at: t - 8, last_at: None },
     ];
     let storage_count = u32_at(d, t + STORAGE_HDR + 4) as usize;
     if used(d, t + STORAGE_AT, STORAGE_CAP) == Some(storage_count) {
-        tables.push(Table {
-            section: "Storage",
-            start: t + STORAGE_AT,
-            cap: STORAGE_CAP,
-            count_at: t + STORAGE_HDR + 4,
-            last_at: Some(t + STORAGE_HDR),
-        });
+        tables.push(Table { section: "Storage", start: t + STORAGE_AT, cap: STORAGE_CAP, count_at: t + STORAGE_HDR + 4, last_at: Some(t + STORAGE_HDR) });
     }
-    let quick: BTreeSet<u32> = (0..QUICK_LEN / 4)
-        .map(|i| u32_at(d, t + QUICK_AT + i * 4))
-        .filter(|h| h >> 28 == 0xB)
-        .collect();
+    let quick: BTreeSet<u32> = (0..QUICK_LEN / 4).map(|i| u32_at(d, t + QUICK_AT + i * 4)).filter(|h| h >> 28 == 0xB).collect();
     let weapons: HashMap<u32, &str> = WEAPONS.iter().copied().collect();
 
-    let mut inv = Inventory {
-        tables,
-        rows: vec![],
-        first_leaf,
-        sort: HashMap::new(),
-    };
+    let mut inv = Inventory { tables, rows: vec![], first_leaf, sort: HashMap::new() };
     let mut learned = BTreeSet::new();
     for (ti, tb) in inv.tables.iter().enumerate() {
         let mut sec = Map::new();
@@ -233,10 +180,7 @@ pub fn build(
             let off = tb.start + i * ENTRY;
             let e = entry(d, off);
             if e[0] >> 28 == 0x8 {
-                if let Some(n) = weapons
-                    .get(&e[1])
-                    .filter(|n| !n.starts_with("Virtual Weapon"))
-                {
+                if let Some(n) = weapons.get(&e[1]).filter(|n| !n.starts_with("Virtual Weapon")) {
                     learned.insert(n.to_string());
                 }
             }
@@ -271,10 +215,7 @@ pub fn build(
         root.insert(tb.section.into(), Value::Object(sec));
     }
     let mut skills = Map::new();
-    skills.insert(
-        "Skills & prosthetic tools".into(),
-        Value::Array(learned.into_iter().map(Value::from).collect()),
-    );
+    skills.insert("Skills & prosthetic tools".into(), Value::Array(learned.into_iter().map(Value::from).collect()));
     root.insert("Learned".into(), Value::Object(skills));
     Some(inv)
 }
@@ -310,14 +251,9 @@ impl Inventory {
 
     /// An empty slot holds nothing; an item holds at least one.
     pub fn derived(&self, leaf: usize, view: &Value) -> Vec<(String, Value)> {
-        let Some((row, _)) = self.row(leaf) else {
-            return vec![];
-        };
+        let Some((row, _)) = self.row(leaf) else { return vec![] };
         let empty = view.pointer(&row.item_ptr).and_then(Value::as_str) == Some(EMPTY);
-        let qty = view
-            .pointer(&row.qty_ptr)
-            .and_then(Value::as_u64)
-            .unwrap_or(0);
+        let qty = view.pointer(&row.qty_ptr).and_then(Value::as_u64).unwrap_or(0);
         match (empty, qty) {
             (true, q) if q != 0 => vec![(row.qty_ptr.clone(), Value::from(0))],
             (false, 0) => vec![(row.qty_ptr.clone(), Value::from(1))],
@@ -338,12 +274,7 @@ impl Inventory {
             .filter_map(|r| view.pointer(&r.item_ptr).and_then(Value::as_str))
             .filter(|n| *n != EMPTY)
             .collect();
-        let mut all: Vec<String> = names()
-            .all
-            .iter()
-            .filter(|n| !taken.contains(n.as_str()))
-            .cloned()
-            .collect();
+        let mut all: Vec<String> = names().all.iter().filter(|n| !taken.contains(n.as_str())).cloned().collect();
         if !names().by_name.contains_key(&row.orig_name) && row.orig_name != EMPTY {
             all.insert(1, row.orig_name.clone());
         }
@@ -351,17 +282,8 @@ impl Inventory {
     }
 
     /// Writes the changed slots (and the tables' counts) into `out`.
-    pub fn write(
-        &self,
-        out: &mut [u8],
-        view: &Value,
-        changes: &[(usize, Value)],
-    ) -> Result<(), String> {
-        let touched: BTreeSet<usize> = changes
-            .iter()
-            .filter_map(|(l, _)| l.checked_sub(self.first_leaf).map(|i| i / 2))
-            .filter(|&r| r < self.rows.len())
-            .collect();
+    pub fn write(&self, out: &mut [u8], view: &Value, changes: &[(usize, Value)]) -> Result<(), String> {
+        let touched: BTreeSet<usize> = changes.iter().filter_map(|(l, _)| l.checked_sub(self.first_leaf).map(|i| i / 2)).filter(|&r| r < self.rows.len()).collect();
         if touched.is_empty() {
             return Ok(());
         }
@@ -370,12 +292,7 @@ impl Inventory {
             .iter()
             .map(|t| match t.last_at {
                 Some(a) => u32_at(out, a),
-                None => (0..t.cap)
-                    .map(|i| entry(out, t.start + i * ENTRY))
-                    .filter(|e| !is_empty(*e))
-                    .map(|e| e[3] & 0xFFF)
-                    .max()
-                    .unwrap_or(0),
+                None => (0..t.cap).map(|i| entry(out, t.start + i * ENTRY)).filter(|e| !is_empty(*e)).map(|e| e[3] & 0xFFF).max().unwrap_or(0),
             })
             .collect();
         let mut delta = vec![0i64; self.tables.len()];
@@ -383,25 +300,14 @@ impl Inventory {
         let mut added: Vec<(usize, u32)> = vec![];
         for r in touched {
             let row = &self.rows[r];
-            let name = view
-                .pointer(&row.item_ptr)
-                .and_then(Value::as_str)
-                .unwrap_or(EMPTY);
-            let qty = view
-                .pointer(&row.qty_ptr)
-                .and_then(Value::as_u64)
-                .unwrap_or(0) as u32;
+            let name = view.pointer(&row.item_ptr).and_then(Value::as_str).unwrap_or(EMPTY);
+            let qty = view.pointer(&row.qty_ptr).and_then(Value::as_u64).unwrap_or(0) as u32;
             let new = if name == EMPTY {
                 None
             } else if name == row.orig_name {
                 row.orig
             } else {
-                Some(
-                    *names()
-                        .by_name
-                        .get(name)
-                        .ok_or_else(|| format!("\u{201C}{name}\u{201D} isn't a Sekiro item"))?,
-                )
+                Some(*names().by_name.get(name).ok_or_else(|| format!("\u{201C}{name}\u{201D} isn't a Sekiro item"))?)
             };
             let o = row.off;
             match (row.orig, new) {
@@ -419,11 +325,7 @@ impl Inventory {
                     put(out, o, GOOD | id);
                     put(out, o + 4, GOOD_ID | id);
                     put(out, o + 8, qty.max(1));
-                    put(
-                        out,
-                        o + 12,
-                        (last[row.table] & 0xFFF) | self.sort.get(&id).copied().unwrap_or(0),
-                    );
+                    put(out, o + 12, (last[row.table] & 0xFFF) | self.sort.get(&id).copied().unwrap_or(0));
                     delta[row.table] += 1;
                 }
                 (Some(was), Some(id)) => {
@@ -432,11 +334,7 @@ impl Inventory {
                         let idx = u32_at(out, o + 12);
                         put(out, o, GOOD | id);
                         put(out, o + 4, GOOD_ID | id);
-                        put(
-                            out,
-                            o + 12,
-                            (idx & 0xFFF) | self.sort.get(&id).copied().unwrap_or(idx & !0xFFF),
-                        );
+                        put(out, o + 12, (idx & 0xFFF) | self.sort.get(&id).copied().unwrap_or(idx & !0xFFF));
                     }
                     put(out, o + 8, qty.max(1));
                 }
@@ -444,16 +342,9 @@ impl Inventory {
         }
         for (i, t) in self.tables.iter().enumerate() {
             for &(_, id) in added.iter().filter(|(li, _)| *li == i) {
-                let n = (0..t.cap)
-                    .map(|k| entry(out, t.start + k * ENTRY))
-                    .filter(|e| is_good(*e) && e[0] & 0x0FFF_FFFF == id)
-                    .count();
+                let n = (0..t.cap).map(|k| entry(out, t.start + k * ENTRY)).filter(|e| is_good(*e) && e[0] & 0x0FFF_FFFF == id).count();
                 if n > 1 {
-                    return Err(format!(
-                        "{} already has {} \u{2014} change its quantity instead",
-                        t.section,
-                        good_name(id)
-                    ));
+                    return Err(format!("{} already has {} \u{2014} change its quantity instead", t.section, good_name(id)));
                 }
             }
             let n = u32_at(out, t.count_at) as i64 + delta[i];
@@ -473,11 +364,7 @@ pub mod tests {
     /// A slot-sized buffer with an empty set of tables at `t`.
     pub fn blank(len: usize, t: usize) -> Vec<u8> {
         let mut d = vec![0u8; len];
-        for (at, cap) in [
-            (t, CARRIED_CAP),
-            (t + KEY_AT, KEY_CAP),
-            (t + STORAGE_AT, STORAGE_CAP),
-        ] {
+        for (at, cap) in [(t, CARRIED_CAP), (t + KEY_AT, KEY_CAP), (t + STORAGE_AT, STORAGE_CAP)] {
             for i in 0..cap {
                 put(&mut d, at + i * ENTRY + 4, u32::MAX);
             }

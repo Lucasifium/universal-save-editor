@@ -77,10 +77,7 @@ pub fn pack_from(original: &[u8], blocks: &Blocks, view: &[u8]) -> Result<Vec<u8
             z.write_all(data).map_err(|e| e.to_string())?;
             let mut z = z.finish().map_err(|e| e.to_string())?;
             if z.len() > space {
-                return Err(
-                    "this change doesn't fit in the save's space for it; try a smaller change"
-                        .into(),
-                );
+                return Err("this change doesn't fit in the save's space for it; try a smaller change".into());
             }
             z.resize(space, 0);
             out.extend(z);
@@ -133,11 +130,7 @@ mod tests {
         assert_eq!(out.len(), file.len());
         let (_, back) = unpack(&out).unwrap();
         assert_eq!(back, view);
-        assert_eq!(
-            out[..blocks[0].0 + blocks[0].1],
-            file[..blocks[0].0 + blocks[0].1],
-            "the unchanged block is untouched"
-        );
+        assert_eq!(out[..blocks[0].0 + blocks[0].1], file[..blocks[0].0 + blocks[0].1], "the unchanged block is untouched");
     }
 
     /// Research aid: SAVE_EDITOR_RGMH = a .bsb save.
@@ -147,12 +140,7 @@ mod tests {
         let d = std::fs::read(std::env::var("SAVE_EDITOR_RGMH").unwrap()).unwrap();
         let t = std::time::Instant::now();
         let (b, v) = unpack(&d).expect("unpack");
-        println!(
-            "{} blocks, {} bytes unpacked in {:?}",
-            b.len(),
-            v.len(),
-            t.elapsed()
-        );
+        println!("{} blocks, {} bytes unpacked in {:?}", b.len(), v.len(), t.elapsed());
         assert_eq!(pack_from(&d, &b, &v).unwrap(), d);
     }
 }

@@ -29,23 +29,14 @@ const SAVE_MAGIC: u64 = 0x0A45_5641_5300_4246;
 const CRC_SEED: u32 = 0x1234_5678;
 
 /// Party members by character id (names from Gibbed's PartyMembers.json).
-const MEMBERS: &[(i64, &str)] = &[
-    (0, "Ryder"),
-    (1, "Cora"),
-    (2, "Jaal"),
-    (4, "Vetra"),
-    (5, "Drack"),
-    (6, "Peebee"),
-    (7, "Liam"),
-];
+const MEMBERS: &[(i64, &str)] = &[(0, "Ryder"), (1, "Cora"), (2, "Jaal"), (4, "Vetra"), (5, "Drack"), (6, "Peebee"), (7, "Liam")];
 
 pub fn looks(d: &[u8]) -> bool {
     d.len() >= 18 && d.starts_with(MAGIC) && u16::from_le_bytes([d[8], d[9]]) == 1
 }
 
 fn djb(s: &str) -> u32 {
-    s.bytes()
-        .fold(5381u32, |h, c| h.wrapping_mul(33) ^ u32::from(c))
+    s.bytes().fold(5381u32, |h, c| h.wrapping_mul(33) ^ u32::from(c))
 }
 
 /// zlib's CRC-32 continued from `seed`.
@@ -54,11 +45,7 @@ fn crc32(d: &[u8], seed: u32) -> u32 {
     for (i, t) in table.iter_mut().enumerate() {
         let mut c = i as u32;
         for _ in 0..8 {
-            c = if c & 1 != 0 {
-                0xEDB8_8320 ^ (c >> 1)
-            } else {
-                c >> 1
-            };
+            c = if c & 1 != 0 { 0xEDB8_8320 ^ (c >> 1) } else { c >> 1 };
         }
         *t = c;
     }
@@ -160,9 +147,7 @@ impl Bits<'_> {
 
 /// Reads `width` bits at absolute bit `at` of `d`.
 fn get_bits(d: &[u8], at: usize, width: usize) -> u64 {
-    (0..width).fold(0u64, |v, i| {
-        v | u64::from((d[(at + i) / 8] >> ((at + i) % 8)) & 1) << i
-    })
+    (0..width).fold(0u64, |v, i| v | u64::from((d[(at + i) / 8] >> ((at + i) % 8)) & 1) << i)
 }
 
 fn put_bits(d: &mut [u8], at: usize, width: usize, v: u64) {
@@ -197,25 +182,9 @@ struct Walk {
 
 fn meta_names() -> Vec<(u32, &'static str)> {
     [
-        "AreaNameStringId",
-        "AreaThumbnailTextureId",
-        "GameVersion",
-        "RequiredDLC",
-        "RequiredInstallGroup",
-        "ProfileName",
-        "ProfileUniqueName",
-        "ProfileId",
-        "LevelID",
-        "PlayerLevel",
-        "GameCompleted",
-        "TrialMode",
-        "CompletionPercentage",
-        "DateTime",
-        "LevelTitleID",
-        "LevelFloorID",
-        "LevelRegionID",
-        "TotalPlaytime",
-        "NameOverrideStringId",
+        "AreaNameStringId", "AreaThumbnailTextureId", "GameVersion", "RequiredDLC", "RequiredInstallGroup", "ProfileName",
+        "ProfileUniqueName", "ProfileId", "LevelID", "PlayerLevel", "GameCompleted", "TrialMode", "CompletionPercentage",
+        "DateTime", "LevelTitleID", "LevelFloorID", "LevelRegionID", "TotalPlaytime", "NameOverrideStringId",
     ]
     .iter()
     .map(|n| (djb(n), *n))
@@ -225,9 +194,7 @@ fn meta_names() -> Vec<(u32, &'static str)> {
 fn read_meta(m: &[u8]) -> Vec<(String, String)> {
     let names = meta_names();
     let mut out = vec![];
-    let (Some(count), true) = (m.get(10..14), m.len() >= 14) else {
-        return out;
-    };
+    let (Some(count), true) = (m.get(10..14), m.len() >= 14) else { return out };
     let count = u32::from_le_bytes(count.try_into().unwrap());
     let mut p = 14;
     for _ in 0..count {
@@ -235,17 +202,10 @@ fn read_meta(m: &[u8]) -> Vec<(String, String)> {
         let h = u32::from_le_bytes(h.try_into().unwrap());
         let Some(l) = m.get(p + 4..p + 6) else { break };
         let l = u16::from_le_bytes(l.try_into().unwrap()) as usize;
-        let Some(v) = m.get(p + 6..p + 6 + l) else {
-            break;
-        };
+        let Some(v) = m.get(p + 6..p + 6 + l) else { break };
         p += 6 + l;
         if let Some((_, n)) = names.iter().find(|(x, _)| *x == h) {
-            out.push((
-                n.to_string(),
-                String::from_utf8_lossy(v)
-                    .trim_end_matches('\0')
-                    .to_string(),
-            ));
+            out.push((n.to_string(), String::from_utf8_lossy(v).trim_end_matches('\0').to_string()));
         }
     }
     out
@@ -254,12 +214,7 @@ fn read_meta(m: &[u8]) -> Vec<(String, String)> {
 fn walk(d: &[u8]) -> Result<Walk, String> {
     let ((ms, ml), (ds, dl)) = blocks(d).ok_or("not a Mass Effect: Andromeda save")?;
     let meta = read_meta(&d[ms + 4..ms + ml]);
-    let mut r = Bits {
-        d,
-        base: ds + 4,
-        len: (dl - 4) * 8,
-        p: 0,
-    };
+    let mut r = Bits { d, base: ds + 4, len: (dl - 4) * 8, p: 0 };
 
     // SaveData header.
     r.skip_save_magic()?;
@@ -333,16 +288,9 @@ fn walk(d: &[u8]) -> Result<Walk, String> {
     }
     r.end(e)?;
     let party = party.ok_or("the save has no party data")?;
-    let at = offsets
-        .iter()
-        .find(|(i, _)| *i == party)
-        .map(|(_, o)| o[3])
-        .unwrap_or(0);
+    let at = offsets.iter().find(|(i, _)| *i == party).map(|(_, o)| o[3]).unwrap_or(0);
     if at == 0 {
-        return Ok(Walk {
-            meta,
-            members: vec![],
-        });
+        return Ok(Walk { meta, members: vec![] });
     }
     if at < bulk_start || at > bulk_end {
         return Err("the party data isn't where it should be".into());
@@ -353,10 +301,7 @@ fn walk(d: &[u8]) -> Result<Walk, String> {
     let agent_end = r.frame(24)?;
     let squad_end = r.frame(24)?;
     if squad_end > agent_end || squad_end == r.p {
-        return Ok(Walk {
-            meta,
-            members: vec![],
-        });
+        return Ok(Walk { meta, members: vec![] });
     }
     let version = r.u(32)?;
     if !(11..=12).contains(&version) {
@@ -387,19 +332,8 @@ fn walk(d: &[u8]) -> Result<Walk, String> {
         if id < 0 || raw_len == 0 {
             continue;
         }
-        let mut m = Member {
-            id,
-            snap_level: snap,
-            snap_points: snap + 32,
-            prog_level: None,
-            items: vec![],
-        };
-        let mut q = Bits {
-            d,
-            base: r.base,
-            len: raw + raw_len,
-            p: raw,
-        };
+        let mut m = Member { id, snap_level: snap, snap_points: snap + 32, prog_level: None, items: vec![] };
+        let mut q = Bits { d, base: r.base, len: raw + raw_len, p: raw };
         member(&mut q, &mut m)?;
         members.push(m);
     }
@@ -413,13 +347,7 @@ fn member(q: &mut Bits, m: &mut Member) -> Result<(), String> {
     if !(1..=11).contains(&base_version) {
         return Err("party member data version isn't supported".into());
     }
-    let version = if base_version >= 11 {
-        q.u(16)?
-    } else if base_version >= 8 {
-        9
-    } else {
-        4
-    };
+    let version = if base_version >= 11 { q.u(16)? } else if base_version >= 8 { 9 } else { 4 };
     let e = q.frame(24)?; // unknown component
     q.p = e;
     let e = q.frame(24)?; // inventory
@@ -432,10 +360,7 @@ fn member(q: &mut Bits, m: &mut Member) -> Result<(), String> {
             q.skip(32)?;
             let name = q.string()?;
             if q.p + 32 <= start + len {
-                m.items.push(Item {
-                    name: String::from_utf8_lossy(&name).to_string(),
-                    qty: q.abs(),
-                });
+                m.items.push(Item { name: String::from_utf8_lossy(&name).to_string(), qty: q.abs() });
             }
             q.p = ie;
         }
@@ -512,10 +437,7 @@ fn resource(name: &str) -> Option<(&'static str, String)> {
         out.push(c);
     }
     let mut cs = out.chars();
-    let out = cs
-        .next()
-        .map(|f| f.to_ascii_uppercase().to_string() + cs.as_str())
-        .unwrap_or_default();
+    let out = cs.next().map(|f| f.to_ascii_uppercase().to_string() + cs.as_str()).unwrap_or_default();
     Some((group, out))
 }
 
@@ -538,8 +460,7 @@ fn int_field(b: &mut Builder, path: &[&str], at: usize, bias: i64, lo: i64, hi: 
 pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
     let ((ms, ml), (ds, dl)) = blocks(d).ok_or("not a Mass Effect: Andromeda save")?;
     if u32::from_le_bytes(d[ms..ms + 4].try_into().unwrap()) != crc32(&d[ms + 4..ms + ml], CRC_SEED)
-        || u32::from_le_bytes(d[ds..ds + 4].try_into().unwrap())
-            != crc32(&d[ds + 4..ds + dl], CRC_SEED)
+        || u32::from_le_bytes(d[ds..ds + 4].try_into().unwrap()) != crc32(&d[ds + 4..ds + dl], CRC_SEED)
     {
         return Err("the save's checksum is wrong (damaged file?)".into());
     }
@@ -553,10 +474,7 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
         b.info(&["Save", "Level (load screen)"], v);
     }
     if let Some(v) = meta("LevelID") {
-        b.info(
-            &["Save", "Location"],
-            v.rsplit('/').next().unwrap_or_default().to_string(),
-        );
+        b.info(&["Save", "Location"], v.rsplit('/').next().unwrap_or_default().to_string());
     }
     if let Some(v) = meta("CompletionPercentage").and_then(|v| v.parse::<i64>().ok()) {
         b.info(&["Save", "Completion %"], v);
@@ -568,11 +486,7 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
         b.info(&["Save", "Game completed"], v == "true");
     }
     for m in &w.members {
-        let name = MEMBERS
-            .iter()
-            .find(|(id, _)| *id == m.id)
-            .map(|(_, n)| n.to_string())
-            .unwrap_or(format!("Member {}", m.id));
+        let name = MEMBERS.iter().find(|(id, _)| *id == m.id).map(|(_, n)| n.to_string()).unwrap_or(format!("Member {}", m.id));
         let group = if m.id == 0 { "Ryder" } else { "Squad" };
         let path = |k: &'static str| -> Vec<String> {
             if m.id == 0 {
@@ -582,42 +496,19 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
             }
         };
         let p = path("Level");
-        int_field(
-            &mut b,
-            &p.iter().map(String::as_str).collect::<Vec<_>>(),
-            m.snap_level,
-            1,
-            1,
-            200,
-        );
+        int_field(&mut b, &p.iter().map(String::as_str).collect::<Vec<_>>(), m.snap_level, 1, 1, 200);
         let p = path("Skill points");
-        int_field(
-            &mut b,
-            &p.iter().map(String::as_str).collect::<Vec<_>>(),
-            m.snap_points,
-            0,
-            0,
-            9999,
-        );
+        int_field(&mut b, &p.iter().map(String::as_str).collect::<Vec<_>>(), m.snap_points, 0, 0, 9999);
         if m.id != 0 {
             continue;
         }
-        if let Some(c) = m
-            .items
-            .iter()
-            .find(|i| i.name.eq_ignore_ascii_case("game/items/stackables/credit"))
-        {
+        if let Some(c) = m.items.iter().find(|i| i.name.eq_ignore_ascii_case("game/items/stackables/credit")) {
             int_field(&mut b, &["Ryder", "Credits"], c.qty, 0, 0, 999_999_999);
         }
         let mut seen: Vec<(String, String)> = vec![];
         for it in &m.items {
-            let Some((g, mut n)) = resource(&it.name) else {
-                continue;
-            };
-            let k = seen
-                .iter()
-                .filter(|(sg, sn)| sg == g && (sn == &n || sn.starts_with(&format!("{n} ("))))
-                .count();
+            let Some((g, mut n)) = resource(&it.name) else { continue };
+            let k = seen.iter().filter(|(sg, sn)| sg == g && (sn == &n || sn.starts_with(&format!("{n} (")))).count();
             if k > 0 {
                 n = format!("{n} ({})", k + 1);
             }
@@ -780,16 +671,7 @@ mod tests {
         bulk.push(24);
         bulk.u(32, 12);
         bulk.u(16, 0);
-        let ryder = member_blob(
-            &[
-                (
-                    "Game/Items/Research/Materials/Mineral/RM_ElementZero_01",
-                    936,
-                ),
-                ("Game/Items/Stackables/Credit", 100),
-            ],
-            4,
-        );
+        let ryder = member_blob(&[("Game/Items/Research/Materials/Mineral/RM_ElementZero_01", 936), ("Game/Items/Stackables/Credit", 100)], 4);
         let cora = member_blob(&[("Game/Items/Stackables/Credit", 100)], 2);
         bulk.u(16, 3);
         for b in [&ryder, &cora, &vec![]] {
@@ -829,10 +711,7 @@ mod tests {
         }
         w.push(24);
         w.u(4, 2);
-        for (name, idx) in [
-            ("MEPlotSaveGameAgent", 1u64),
-            ("MEPartyManagerSaveGameAgent", 7),
-        ] {
+        for (name, idx) in [("MEPlotSaveGameAgent", 1u64), ("MEPartyManagerSaveGameAgent", 7)] {
             w.u(32, u64::from(djb(name)));
             w.u(8, idx);
             w.u(16, 4);
@@ -873,16 +752,12 @@ mod tests {
         assert_eq!(v(&doc, "/Ryder/Level"), Some(Value::from(5)));
         assert_eq!(v(&doc, "/Ryder/Skill points"), Some(Value::from(7)));
         assert_eq!(v(&doc, "/Squad/Cora/Level"), Some(Value::from(3)));
-        assert_eq!(
-            v(&doc, "/Resources/Minerals/Element Zero"),
-            Some(Value::from(936))
-        );
+        assert_eq!(v(&doc, "/Resources/Minerals/Element Zero"), Some(Value::from(936)));
         assert_eq!(doc.to_bytes().unwrap(), d);
 
         doc.set("/Ryder/Credits", Value::from(999_999)).unwrap();
         doc.set("/Squad/Cora/Level", Value::from(50)).unwrap();
-        doc.set("/Resources/Minerals/Element Zero", Value::from(5000))
-            .unwrap();
+        doc.set("/Resources/Minerals/Element Zero", Value::from(5000)).unwrap();
         assert!(doc.set("/Ryder/Level", Value::from(0)).is_err());
         let out = doc.to_bytes().unwrap();
         assert_eq!(out.len(), d.len());
@@ -890,10 +765,7 @@ mod tests {
         assert_eq!(v(&again, "/Ryder/Credits"), Some(Value::from(999_999)));
         assert_eq!(v(&again, "/Squad/Cora/Level"), Some(Value::from(50)));
         assert_eq!(v(&again, "/Ryder/Level"), Some(Value::from(5)));
-        assert_eq!(
-            v(&again, "/Resources/Minerals/Element Zero"),
-            Some(Value::from(5000))
-        );
+        assert_eq!(v(&again, "/Resources/Minerals/Element Zero"), Some(Value::from(5000)));
         // The level went to Cora's progression data as well.
         let w = walk(&out).unwrap();
         let cora = w.members.iter().find(|m| m.id == 1).unwrap();
@@ -909,28 +781,13 @@ mod tests {
         let d = std::fs::read(path).unwrap();
         let mut doc = parse(&d).unwrap();
         println!("{}", serde_json::to_string_pretty(&doc.view).unwrap());
-        assert_eq!(
-            doc.to_bytes().unwrap(),
-            d,
-            "unedited save comes back byte for byte"
-        );
-        let credits = doc
-            .view
-            .pointer("/Ryder/Credits")
-            .and_then(Value::as_i64)
-            .expect("credits");
-        doc.set("/Ryder/Credits", Value::from(credits + 12_345))
-            .unwrap();
+        assert_eq!(doc.to_bytes().unwrap(), d, "unedited save comes back byte for byte");
+        let credits = doc.view.pointer("/Ryder/Credits").and_then(Value::as_i64).expect("credits");
+        doc.set("/Ryder/Credits", Value::from(credits + 12_345)).unwrap();
         let out = doc.to_bytes().unwrap();
         let again = parse(&out).expect("re-parses with good CRCs");
-        assert_eq!(
-            again.view.pointer("/Ryder/Credits").and_then(Value::as_i64),
-            Some(credits + 12_345)
-        );
+        assert_eq!(again.view.pointer("/Ryder/Credits").and_then(Value::as_i64), Some(credits + 12_345));
         let diff = d.iter().zip(&out).filter(|(a, b)| a != b).count();
-        println!(
-            "credits {credits} -> {}, {diff} bytes differ",
-            credits + 12_345
-        );
+        println!("credits {credits} -> {}, {diff} bytes differ", credits + 12_345);
     }
 }

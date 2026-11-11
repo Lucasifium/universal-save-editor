@@ -96,14 +96,9 @@ impl P<'_> {
 
     fn number(&mut self) -> Result<Value, String> {
         let start = self.i;
-        while self.i < self.s.len()
-            && (self.s[self.i].is_ascii_alphanumeric() || b"+-.".contains(&self.s[self.i]))
-        {
+        while self.i < self.s.len() && (self.s[self.i].is_ascii_alphanumeric() || b"+-.".contains(&self.s[self.i])) {
             // Stop at a sign that isn't part of an exponent.
-            if (self.s[self.i] == b'-' || self.s[self.i] == b'+')
-                && self.i > start
-                && !matches!(self.s[self.i - 1], b'e' | b'E')
-            {
+            if (self.s[self.i] == b'-' || self.s[self.i] == b'+') && self.i > start && !matches!(self.s[self.i - 1], b'e' | b'E') {
                 break;
             }
             self.i += 1;
@@ -120,13 +115,10 @@ impl P<'_> {
 
     fn ident(&mut self) -> Option<String> {
         let start = self.i;
-        while self.i < self.s.len()
-            && (self.s[self.i].is_ascii_alphanumeric() || self.s[self.i] == b'_')
-        {
+        while self.i < self.s.len() && (self.s[self.i].is_ascii_alphanumeric() || self.s[self.i] == b'_') {
             self.i += 1;
         }
-        (self.i > start && !self.s[start].is_ascii_digit())
-            .then(|| String::from_utf8_lossy(&self.s[start..self.i]).into_owned())
+        (self.i > start && !self.s[start].is_ascii_digit()).then(|| String::from_utf8_lossy(&self.s[start..self.i]).into_owned())
     }
 
     fn value(&mut self, ptr: &str) -> Result<Value, String> {
@@ -146,11 +138,7 @@ impl P<'_> {
         };
         if let Some(kind) = kind {
             self.editable.insert(ptr.to_string(), self.spans.len());
-            self.spans.push(Span {
-                start,
-                end: self.i,
-                kind,
-            });
+            self.spans.push(Span { start, end: self.i, kind });
         }
         Ok(v)
     }
@@ -251,9 +239,7 @@ impl Backend for LuaBackend {
 
     fn check(&self, leaf: usize, v: &Value) -> Result<(), String> {
         match (self.spans[leaf].kind, v) {
-            (Kind::Str, Value::String(_))
-            | (Kind::Num, Value::Number(_))
-            | (Kind::Bool, Value::Bool(_)) => Ok(()),
+            (Kind::Str, Value::String(_)) | (Kind::Num, Value::Number(_)) | (Kind::Bool, Value::Bool(_)) => Ok(()),
             _ => Err("this value has to keep its type".into()),
         }
     }
@@ -273,13 +259,7 @@ pub fn parse(text: &str) -> Result<TreeDoc, String> {
         return Err("not a Lua table".into());
     }
     let s = text.as_bytes();
-    let mut p = P {
-        s,
-        i: 0,
-        spans: vec![],
-        editable: HashMap::new(),
-        depth: 0,
-    };
+    let mut p = P { s, i: 0, spans: vec![], editable: HashMap::new(), depth: 0 };
     p.ws();
     p.i += 6; // return
     p.ws();
@@ -288,16 +268,8 @@ pub fn parse(text: &str) -> Result<TreeDoc, String> {
     if p.i != s.len() {
         return Err("unexpected text after the table".into());
     }
-    let backend = LuaBackend {
-        raw: text.to_string(),
-        spans: p.spans,
-    };
-    Ok(TreeDoc::new(
-        root,
-        p.editable,
-        "Lua table",
-        Box::new(backend),
-    ))
+    let backend = LuaBackend { raw: text.to_string(), spans: p.spans };
+    Ok(TreeDoc::new(root, p.editable, "Lua table", Box::new(backend)))
 }
 
 #[cfg(test)]

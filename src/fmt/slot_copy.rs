@@ -38,8 +38,7 @@ fn profile(d: &[u8]) -> Option<(Vec<Bnd4Entry>, Vec<u8>)> {
         return None;
     }
     let (data, key, _) = bnd4_open(d, find(&entries, "USER_DATA010")?)?;
-    (key.is_none() && data.len() == PROFILE_LEN && d.starts_with(b"BND4"))
-        .then_some((entries, data))
+    (key.is_none() && data.len() == PROFILE_LEN && d.starts_with(b"BND4")).then_some((entries, data))
 }
 
 /// The ten slots, or `None` when this isn't an Elden Ring `.sl2`.
@@ -49,11 +48,7 @@ pub fn er_slots(d: &[u8]) -> Option<Vec<Slot>> {
         (0..SLOTS)
             .map(|i| {
                 let s = SUMMARY + i * SUMMARY_LEN;
-                let units: Vec<u16> = p[s..s + 32]
-                    .chunks_exact(2)
-                    .map(|c| u16::from_le_bytes([c[0], c[1]]))
-                    .take_while(|&u| u != 0)
-                    .collect();
+                let units: Vec<u16> = p[s..s + 32].chunks_exact(2).map(|c| u16::from_le_bytes([c[0], c[1]])).take_while(|&u| u != 0).collect();
                 Slot {
                     active: p[ACTIVE + i] == 1,
                     name: String::from_utf16_lossy(&units),
@@ -73,10 +68,7 @@ pub fn er_copy(d: &[u8], from: usize, to: usize) -> Result<Vec<u8>, String> {
     if p[ACTIVE + from] != 1 {
         return Err("that slot has no character".into());
     }
-    let (src, dst) = (
-        find(&entries, &slot_name(from)).unwrap(),
-        find(&entries, &slot_name(to)).unwrap(),
-    );
+    let (src, dst) = (find(&entries, &slot_name(from)).unwrap(), find(&entries, &slot_name(to)).unwrap());
     // The source must be intact (its MD5 checks out) before it's duplicated.
     bnd4_open(d, src).ok_or("the character's data is damaged")?;
     let mut out = d.to_vec();
@@ -102,13 +94,7 @@ mod tests {
         let to = slots.iter().position(|s| !s.active).unwrap();
         let out = er_copy(&d, 0, to).unwrap();
         let after = er_slots(&out).unwrap();
-        assert_eq!(
-            after[to],
-            Slot {
-                active: true,
-                ..slots[0].clone()
-            }
-        );
+        assert_eq!(after[to], Slot { active: true, ..slots[0].clone() });
         for (i, s) in after.iter().enumerate().filter(|(i, _)| *i != to) {
             assert_eq!(s, &slots[i]);
         }

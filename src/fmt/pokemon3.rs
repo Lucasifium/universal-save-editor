@@ -16,9 +16,7 @@ const SECTION: usize = 0x1000;
 const DATA: usize = 3968;
 const BLOCK: usize = 14 * SECTION;
 const SIGNATURE: u32 = 0x0801_2025;
-const SIZES: [usize; 14] = [
-    3884, 3968, 3968, 3968, 3848, 3968, 3968, 3968, 3968, 3968, 3968, 3968, 3968, 2000,
-];
+const SIZES: [usize; 14] = [3884, 3968, 3968, 3968, 3848, 3968, 3968, 3968, 3968, 3968, 3968, 3968, 3968, 2000];
 /// PC storage starts in section 5; addresses at or above this are PC-buffer offsets.
 const PC: usize = 0x10000;
 
@@ -76,24 +74,12 @@ pub fn tables() -> &'static Tables {
 
 const NONE: &str = "(none)";
 pub const NATURES: [&str; 25] = [
-    "Hardy", "Lonely", "Brave", "Adamant", "Naughty", "Bold", "Docile", "Relaxed", "Impish", "Lax",
-    "Timid", "Hasty", "Serious", "Jolly", "Naive", "Modest", "Mild", "Quiet", "Bashful", "Rash",
-    "Calm", "Gentle", "Sassy", "Careful", "Quirky",
+    "Hardy", "Lonely", "Brave", "Adamant", "Naughty", "Bold", "Docile", "Relaxed", "Impish", "Lax", "Timid", "Hasty", "Serious", "Jolly",
+    "Naive", "Modest", "Mild", "Quiet", "Bashful", "Rash", "Calm", "Gentle", "Sassy", "Careful", "Quirky",
 ];
 const BALLS: [&str; 13] = [
-    "",
-    "Master Ball",
-    "Ultra Ball",
-    "Great Ball",
-    "Poké Ball",
-    "Safari Ball",
-    "Net Ball",
-    "Dive Ball",
-    "Nest Ball",
-    "Repeat Ball",
-    "Timer Ball",
-    "Luxury Ball",
-    "Premier Ball",
+    "", "Master Ball", "Ultra Ball", "Great Ball", "Poké Ball", "Safari Ball", "Net Ball", "Dive Ball", "Nest Ball", "Repeat Ball", "Timer Ball",
+    "Luxury Ball", "Premier Ball",
 ];
 const STATS: [&str; 6] = ["HP", "Attack", "Defense", "Speed", "Sp. Atk", "Sp. Def"];
 
@@ -115,9 +101,7 @@ fn index_of(table: &[String], name: &str) -> Option<usize> {
     if let Some(num) = n.strip_prefix('#') {
         return num.parse().ok().filter(|&i: &usize| i < 0x10000);
     }
-    table
-        .iter()
-        .position(|s| !s.is_empty() && s.eq_ignore_ascii_case(n))
+    table.iter().position(|s| !s.is_empty() && s.eq_ignore_ascii_case(n))
 }
 
 pub fn exp_for(growth: u16, n: u32) -> u32 {
@@ -152,23 +136,13 @@ pub fn level_for(growth: u16, exp: u32) -> u32 {
 
 /// Party stats from base stats, IVs, EVs, level and nature (index 0 = HP, then
 /// Attack, Defense, Speed, Sp. Atk, Sp. Def — the order they're stored in).
-pub fn calc_stats(
-    species: usize,
-    ivs: [u32; 6],
-    evs: [u32; 6],
-    level: u32,
-    nature: usize,
-) -> Option<[u32; 6]> {
+pub fn calc_stats(species: usize, ivs: [u32; 6], evs: [u32; 6], level: u32, nature: usize) -> Option<[u32; 6]> {
     let b = tables().base.get(species).copied().flatten()?;
     let mut out = [0; 6];
     for i in 0..6 {
         let core = (2 * b[i] as u32 + ivs[i] + evs[i] / 4) * level / 100;
         out[i] = if i == 0 {
-            if species == 303 {
-                1
-            } else {
-                core + level + 10
-            } // Shedinja always has 1 HP
+            if species == 303 { 1 } else { core + level + 10 } // Shedinja always has 1 HP
         } else {
             // Nature: +10% to stat (n / 5), −10% to stat (n % 5), counting from Attack.
             // Stored order is Atk, Def, Spe, SpA, SpD — same as the nature order.
@@ -198,76 +172,7 @@ fn charset() -> &'static [Option<char>; 256] {
         for (i, c) in "ÀÁÂÇÈÉÊËÌ".chars().enumerate() {
             t[1 + i] = Some(c);
         }
-        for (i, c) in [
-            (0x0B, 'Î'),
-            (0x0C, 'Ï'),
-            (0x0D, 'Ò'),
-            (0x0E, 'Ó'),
-            (0x0F, 'Ô'),
-            (0x10, 'Œ'),
-            (0x11, 'Ù'),
-            (0x12, 'Ú'),
-            (0x13, 'Û'),
-            (0x14, 'Ñ'),
-            (0x15, 'ß'),
-            (0x16, 'à'),
-            (0x17, 'á'),
-            (0x19, 'ç'),
-            (0x1A, 'è'),
-            (0x1B, 'é'),
-            (0x1C, 'ê'),
-            (0x1D, 'ë'),
-            (0x1E, 'ì'),
-            (0x20, 'î'),
-            (0x21, 'ï'),
-            (0x22, 'ò'),
-            (0x23, 'ó'),
-            (0x24, 'ô'),
-            (0x25, 'œ'),
-            (0x26, 'ù'),
-            (0x27, 'ú'),
-            (0x28, 'û'),
-            (0x29, 'ñ'),
-            (0x2A, 'º'),
-            (0x2B, 'ª'),
-            (0x2D, '&'),
-            (0x2E, '+'),
-            (0x35, '='),
-            (0x36, ';'),
-            (0x51, '¿'),
-            (0x52, '¡'),
-            (0x5A, 'Í'),
-            (0x5B, '%'),
-            (0x5C, '('),
-            (0x5D, ')'),
-            (0x68, 'â'),
-            (0x6F, 'í'),
-            (0x85, '<'),
-            (0x86, '>'),
-            (0xAB, '!'),
-            (0xAC, '?'),
-            (0xAD, '.'),
-            (0xAE, '-'),
-            (0xAF, '·'),
-            (0xB0, '…'),
-            (0xB1, '“'),
-            (0xB2, '”'),
-            (0xB3, '‘'),
-            (0xB4, '’'),
-            (0xB5, '♂'),
-            (0xB6, '♀'),
-            (0xB7, '¥'),
-            (0xB8, ','),
-            (0xB9, '×'),
-            (0xBA, '/'),
-            (0xF0, ':'),
-            (0xF1, 'Ä'),
-            (0xF2, 'Ö'),
-            (0xF3, 'Ü'),
-            (0xF4, 'ä'),
-            (0xF5, 'ö'),
-            (0xF6, 'ü'),
-        ] {
+        for (i, c) in [(0x0B, 'Î'), (0x0C, 'Ï'), (0x0D, 'Ò'), (0x0E, 'Ó'), (0x0F, 'Ô'), (0x10, 'Œ'), (0x11, 'Ù'), (0x12, 'Ú'), (0x13, 'Û'), (0x14, 'Ñ'), (0x15, 'ß'), (0x16, 'à'), (0x17, 'á'), (0x19, 'ç'), (0x1A, 'è'), (0x1B, 'é'), (0x1C, 'ê'), (0x1D, 'ë'), (0x1E, 'ì'), (0x20, 'î'), (0x21, 'ï'), (0x22, 'ò'), (0x23, 'ó'), (0x24, 'ô'), (0x25, 'œ'), (0x26, 'ù'), (0x27, 'ú'), (0x28, 'û'), (0x29, 'ñ'), (0x2A, 'º'), (0x2B, 'ª'), (0x2D, '&'), (0x2E, '+'), (0x35, '='), (0x36, ';'), (0x51, '¿'), (0x52, '¡'), (0x5A, 'Í'), (0x5B, '%'), (0x5C, '('), (0x5D, ')'), (0x68, 'â'), (0x6F, 'í'), (0x85, '<'), (0x86, '>'), (0xAB, '!'), (0xAC, '?'), (0xAD, '.'), (0xAE, '-'), (0xAF, '·'), (0xB0, '…'), (0xB1, '“'), (0xB2, '”'), (0xB3, '‘'), (0xB4, '’'), (0xB5, '♂'), (0xB6, '♀'), (0xB7, '¥'), (0xB8, ','), (0xB9, '×'), (0xBA, '/'), (0xF0, ':'), (0xF1, 'Ä'), (0xF2, 'Ö'), (0xF3, 'Ü'), (0xF4, 'ä'), (0xF5, 'ö'), (0xF6, 'ü')] {
             t[i] = Some(c);
         }
         for i in 0..10 {
@@ -297,10 +202,7 @@ pub fn encode_text(s: &str, len: usize, orig: &[u8]) -> Result<Vec<u8>, String> 
     let t = charset();
     let mut out = Vec::with_capacity(len);
     for ch in s.chars() {
-        let b = t
-            .iter()
-            .position(|&c| c == Some(ch))
-            .ok_or_else(|| format!("the game can't show \u{201C}{ch}\u{201D}"))?;
+        let b = t.iter().position(|&c| c == Some(ch)).ok_or_else(|| format!("the game can't show \u{201C}{ch}\u{201D}"))?;
         out.push(b as u8);
     }
     if out.len() > len {
@@ -310,16 +212,7 @@ pub fn encode_text(s: &str, len: usize, orig: &[u8]) -> Result<Vec<u8>, String> 
         return Err("a name can't be empty".into());
     }
     // Terminator, then the same filler the game used (0xFF or 0x00).
-    let fill = if orig
-        .iter()
-        .skip_while(|&&b| b != 0xFF)
-        .skip(1)
-        .all(|&b| b == 0xFF)
-    {
-        0xFF
-    } else {
-        0x00
-    };
+    let fill = if orig.iter().skip_while(|&&b| b != 0xFF).skip(1).all(|&b| b == 0xFF) { 0xFF } else { 0x00 };
     if out.len() < len {
         out.push(0xFF);
     }
@@ -373,17 +266,12 @@ impl Layout {
         }
     }
     fn u(&self, d: &[u8], addr: usize, size: usize) -> u32 {
-        self.read(d, addr, size)
-            .iter()
-            .rev()
-            .fold(0, |a, &b| (a << 8) | b as u32)
+        self.read(d, addr, size).iter().rev().fold(0, |a, &b| (a << 8) | b as u32)
     }
 }
 
 fn checksum(b: &[u8], n: usize) -> u16 {
-    let s = b[..n].chunks_exact(4).fold(0u32, |a, w| {
-        a.wrapping_add(u32::from_le_bytes(w.try_into().unwrap()))
-    });
+    let s = b[..n].chunks_exact(4).fold(0u32, |a, w| a.wrapping_add(u32::from_le_bytes(w.try_into().unwrap())));
     ((s >> 16) as u16).wrapping_add(s as u16)
 }
 
@@ -412,8 +300,7 @@ fn block(d: &[u8], base: usize) -> Option<([usize; 14], u32)> {
 
 pub fn looks(d: &[u8]) -> bool {
     // 128 KiB, optionally followed by a few bytes an emulator appended (clock data).
-    (0x20000..=0x20000 + 0x200).contains(&d.len())
-        && (block(d, 0).is_some() || block(d, BLOCK).is_some())
+    (0x20000..=0x20000 + 0x200).contains(&d.len()) && (block(d, 0).is_some() || block(d, BLOCK).is_some())
 }
 
 fn layout(d: &[u8]) -> Option<Layout> {
@@ -421,11 +308,7 @@ fn layout(d: &[u8]) -> Option<Layout> {
     let b = block(d, BLOCK);
     let (sec, _) = match (a, b) {
         (Some(a), Some(b)) => {
-            if a.1 > b.1 {
-                a
-            } else {
-                b
-            }
+            if a.1 > b.1 { a } else { b }
         }
         (Some(x), None) | (None, Some(x)) => x,
         _ => return None,
@@ -456,27 +339,12 @@ fn layout(d: &[u8]) -> Option<Layout> {
 #[derive(Clone, Debug)]
 enum Field {
     /// Unsigned integer; `xor` = 2 or 4 bytes of the security key applied.
-    Int {
-        addr: usize,
-        size: usize,
-        max: u32,
-        xor: bool,
-    },
-    Text {
-        addr: usize,
-        len: usize,
-    },
-    Gender {
-        addr: usize,
-    },
+    Int { addr: usize, size: usize, max: u32, xor: bool },
+    Text { addr: usize, len: usize },
+    Gender { addr: usize },
     /// Item id in a bag/PC slot.
-    Item {
-        addr: usize,
-    },
-    Mon {
-        mon: usize,
-        part: MonPart,
-    },
+    Item { addr: usize },
+    Mon { mon: usize, part: MonPart },
 }
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
@@ -509,16 +377,11 @@ struct Mon {
 // Substructure offsets within the decrypted 48 bytes, by personality % 24.
 fn sub_offset(pid: u32, sub: usize) -> usize {
     const ORDER: [&str; 24] = [
-        "GAEM", "GAME", "GEAM", "GEMA", "GMAE", "GMEA", "AGEM", "AGME", "AEGM", "AEMG", "AMGE",
-        "AMEG", "EGAM", "EGMA", "EAGM", "EAMG", "EMGA", "EMAG", "MGAE", "MGEA", "MAGE", "MAEG",
-        "MEGA", "MEAG",
+        "GAEM", "GAME", "GEAM", "GEMA", "GMAE", "GMEA", "AGEM", "AGME", "AEGM", "AEMG", "AMGE", "AMEG", "EGAM", "EGMA", "EAGM", "EAMG", "EMGA",
+        "EMAG", "MGAE", "MGEA", "MAGE", "MAEG", "MEGA", "MEAG",
     ];
     let c = b"GAEM"[sub];
-    ORDER[(pid % 24) as usize]
-        .bytes()
-        .position(|b| b == c)
-        .unwrap()
-        * 12
+    ORDER[(pid % 24) as usize].bytes().position(|b| b == c).unwrap() * 12
 }
 
 const G: usize = 0;
@@ -550,10 +413,7 @@ impl MonData {
     }
     fn get(&self, sub: usize, off: usize, size: usize) -> u32 {
         let o = sub_offset(self.pid(), sub) + off;
-        self.data[o..o + size]
-            .iter()
-            .rev()
-            .fold(0, |a, &b| (a << 8) | b as u32)
+        self.data[o..o + size].iter().rev().fold(0, |a, &b| (a << 8) | b as u32)
     }
     fn set(&mut self, sub: usize, off: usize, size: usize, v: u32) {
         let o = sub_offset(self.pid(), sub) + off;
@@ -563,9 +423,7 @@ impl MonData {
         u16::from_le_bytes([self.head[28], self.head[29]]) == self.calc_checksum()
     }
     fn calc_checksum(&self) -> u16 {
-        self.data.chunks_exact(2).fold(0u16, |a, w| {
-            a.wrapping_add(u16::from_le_bytes([w[0], w[1]]))
-        })
+        self.data.chunks_exact(2).fold(0u16, |a, w| a.wrapping_add(u16::from_le_bytes([w[0], w[1]])))
     }
     /// Re-encrypt into `head` (with a fresh checksum).
     fn seal(&mut self) {
@@ -604,11 +462,7 @@ fn abilities_of(species: usize) -> [String; 2] {
     let t = tables();
     let b = t.base.get(species).copied().flatten().unwrap_or([0; 10]);
     let a1 = name_of(&t.abilities, b[7] as usize);
-    let a2 = if b[8] == 0 {
-        a1.clone()
-    } else {
-        name_of(&t.abilities, b[8] as usize)
-    };
+    let a2 = if b[8] == 0 { a1.clone() } else { name_of(&t.abilities, b[8] as usize) };
     [a1, a2]
 }
 
@@ -627,10 +481,7 @@ impl Gen3Backend {
 
     fn species_in_view(&self, mon: usize, view: &Value) -> usize {
         let t = tables();
-        view.pointer(&self.mon_ptr(mon, "Species"))
-            .and_then(Value::as_str)
-            .and_then(|s| index_of(&t.species, s))
-            .unwrap_or(0)
+        view.pointer(&self.mon_ptr(mon, "Species")).and_then(Value::as_str).and_then(|s| index_of(&t.species, s)).unwrap_or(0)
     }
 }
 
@@ -645,12 +496,7 @@ impl Backend for Gen3Backend {
         let mut mons: HashMap<usize, MonData> = HashMap::new();
         for (leaf, v) in changes {
             match &self.fields[*leaf] {
-                Field::Int {
-                    addr,
-                    size,
-                    max,
-                    xor,
-                } => {
+                Field::Int { addr, size, max, xor } => {
                     let mut n = int_in(v, 0, *max as i128, "This value")? as u32;
                     if *xor {
                         n ^= if *size == 2 { l.key & 0xFFFF } else { l.key };
@@ -661,30 +507,22 @@ impl Backend for Gen3Backend {
                     let orig = l.read(&out, *addr, *len);
                     l.write(&mut out, *addr, &encode_text(as_str(v)?, *len, &orig)?);
                 }
-                Field::Gender { addr } => {
-                    l.write(&mut out, *addr, &[u8::from(as_str(v)? == "Girl")])
-                }
+                Field::Gender { addr } => l.write(&mut out, *addr, &[u8::from(as_str(v)? == "Girl")]),
                 Field::Item { addr } => {
                     let id = index_of(&t.items, as_str(v)?).ok_or("unknown item")? as u16;
                     l.write(&mut out, *addr, &id.to_le_bytes());
                 }
                 Field::Mon { mon, part } => {
                     let m = &self.mons[*mon];
-                    let md = mons
-                        .entry(*mon)
-                        .or_insert_with(|| MonData::read(l, &self.raw, m.addr, m.party));
+                    let md = mons.entry(*mon).or_insert_with(|| MonData::read(l, &self.raw, m.addr, m.party));
                     let int = |max: i128| int_in(v, 0, max, "This value").map(|n| n as u32);
                     match *part {
                         MonPart::Species => {
                             let sp = index_of(&t.species, as_str(v)?).ok_or("unknown Pokémon")?;
                             md.set(G, 0, 2, sp as u32);
                             // The ability shown is re-read under the new species, so store its slot.
-                            let shown = view
-                                .pointer(&self.mon_ptr(*mon, "Ability"))
-                                .and_then(Value::as_str)
-                                .unwrap_or("");
-                            let second =
-                                abilities_of(sp)[1] == shown && abilities_of(sp)[0] != shown;
+                            let shown = view.pointer(&self.mon_ptr(*mon, "Ability")).and_then(Value::as_str).unwrap_or("");
+                            let second = abilities_of(sp)[1] == shown && abilities_of(sp)[0] != shown;
                             let w = md.get(M, 4, 4) & 0x7FFF_FFFF;
                             md.set(M, 4, 4, w | (u32::from(second) << 31));
                         }
@@ -692,20 +530,10 @@ impl Backend for Gen3Backend {
                             let enc = encode_text(as_str(v)?, 10, &md.head[8..18])?;
                             md.head[8..18].copy_from_slice(&enc);
                         }
-                        MonPart::HeldItem => md.set(
-                            G,
-                            2,
-                            2,
-                            index_of(&t.items, as_str(v)?).ok_or("unknown item")? as u32,
-                        ),
+                        MonPart::HeldItem => md.set(G, 2, 2, index_of(&t.items, as_str(v)?).ok_or("unknown item")? as u32),
                         MonPart::Experience => md.set(G, 4, 4, int(u32::MAX as i128)?),
                         MonPart::Friendship => md.set(G, 9, 1, int(255)?),
-                        MonPart::Move(i) => md.set(
-                            A,
-                            i * 2,
-                            2,
-                            index_of(&t.moves, as_str(v)?).ok_or("unknown move")? as u32,
-                        ),
+                        MonPart::Move(i) => md.set(A, i * 2, 2, index_of(&t.moves, as_str(v)?).ok_or("unknown move")? as u32),
                         MonPart::Pp(i) => md.set(A, 8 + i, 1, int(255)?),
                         MonPart::Ev(i) => md.set(E, i, 1, int(255)?),
                         MonPart::Iv(i) => {
@@ -720,22 +548,15 @@ impl Backend for Gen3Backend {
                         }
                         MonPart::Ball => {
                             let want = as_str(v)?;
-                            let ball = BALLS
-                                .iter()
-                                .position(|b| !b.is_empty() && *b == want)
-                                .ok_or("unknown ball")?
-                                as u32;
+                            let ball = BALLS.iter().position(|b| !b.is_empty() && *b == want).ok_or("unknown ball")? as u32;
                             let w = md.get(M, 2, 2) & !(0xF << 11);
                             md.set(M, 2, 2, w | (ball << 11));
                         }
                         // Box Pokémon have no level byte: their level comes from experience.
                         MonPart::Level if m.party => md.head[84] = int(100)? as u8,
                         MonPart::Level => {}
-                        MonPart::CurrentHp => {
-                            md.head[86..88].copy_from_slice(&(int(0xFFFF)? as u16).to_le_bytes())
-                        }
-                        MonPart::Stat(i) => md.head[88 + i * 2..90 + i * 2]
-                            .copy_from_slice(&(int(0xFFFF)? as u16).to_le_bytes()),
+                        MonPart::CurrentHp => md.head[86..88].copy_from_slice(&(int(0xFFFF)? as u16).to_le_bytes()),
+                        MonPart::Stat(i) => md.head[88 + i * 2..90 + i * 2].copy_from_slice(&(int(0xFFFF)? as u16).to_le_bytes()),
                     }
                 }
             }
@@ -756,23 +577,16 @@ impl Backend for Gen3Backend {
         let t = tables();
         let known = |table: &[String], what: &str| -> Result<(), String> {
             let s = as_str(v)?;
-            index_of(table, s)
-                .map(|_| ())
-                .ok_or_else(|| format!("there's no {what} called \u{201C}{s}\u{201D}"))
+            index_of(table, s).map(|_| ()).ok_or_else(|| format!("there's no {what} called \u{201C}{s}\u{201D}"))
         };
         match &self.fields[leaf] {
             Field::Int { max, .. } => int_in(v, 0, *max as i128, "This value").map(|_| ()),
             Field::Text { len, .. } => encode_text(as_str(v)?, *len, &[]).map(|_| ()),
-            Field::Gender { .. } => matches!(as_str(v)?, "Boy" | "Girl")
-                .then_some(())
-                .ok_or_else(|| "choose Boy or Girl".into()),
+            Field::Gender { .. } => matches!(as_str(v)?, "Boy" | "Girl").then_some(()).ok_or_else(|| "choose Boy or Girl".into()),
             Field::Item { .. } => known(&t.items, "item"),
             Field::Mon { part, .. } => match part {
                 MonPart::Species => match index_of(&t.species, as_str(v)?) {
-                    Some(0) | None => Err(format!(
-                        "there's no Pokémon called \u{201C}{}\u{201D}",
-                        as_str(v)?
-                    )),
+                    Some(0) | None => Err(format!("there's no Pokémon called \u{201C}{}\u{201D}", as_str(v)?)),
                     Some(_) => Ok(()),
                 },
                 MonPart::Nickname => encode_text(as_str(v)?, 10, &[]).map(|_| ()),
@@ -782,24 +596,18 @@ impl Backend for Gen3Backend {
                 MonPart::Iv(_) => int_in(v, 0, 31, "IVs").map(|_| ()),
                 MonPart::Level => int_in(v, 1, 100, "Level").map(|_| ()),
                 MonPart::Experience => int_in(v, 0, 2_000_000, "Experience").map(|_| ()),
-                MonPart::Friendship | MonPart::Pp(_) | MonPart::Ev(_) => {
-                    int_in(v, 0, 255, "This value").map(|_| ())
-                }
+                MonPart::Friendship | MonPart::Pp(_) | MonPart::Ev(_) => int_in(v, 0, 255, "This value").map(|_| ()),
                 MonPart::CurrentHp | MonPart::Stat(_) => int_in(v, 0, 999, "Stats").map(|_| ()),
             },
         }
     }
 
     fn derived(&self, leaf: usize, view: &Value) -> Vec<(String, Value)> {
-        let Field::Mon { mon, part } = &self.fields[leaf] else {
-            return vec![];
-        };
+        let Field::Mon { mon, part } = &self.fields[leaf] else { return vec![] };
         let (mon, part) = (*mon, *part);
         let p = |k: &str| self.mon_ptr(mon, k);
         let species = self.species_in_view(mon, view);
-        let Some(b) = tables().base.get(species).copied().flatten() else {
-            return vec![];
-        };
+        let Some(b) = tables().base.get(species).copied().flatten() else { return vec![] };
         let growth = b[6];
         let mut out = Vec::new();
         let mut level = num_at(view, &p("Level"));
@@ -814,28 +622,14 @@ impl Backend for Gen3Backend {
         }
         if part == MonPart::Species {
             // Keep the ability if the new species can have it, otherwise its first one.
-            let cur = view
-                .pointer(&p("Ability"))
-                .and_then(Value::as_str)
-                .unwrap_or("");
+            let cur = view.pointer(&p("Ability")).and_then(Value::as_str).unwrap_or("");
             let opts = abilities_of(species);
-            out.push((
-                p("Ability"),
-                Value::from(if opts.iter().any(|a| a == cur) {
-                    cur.to_string()
-                } else {
-                    opts[0].clone()
-                }),
-            ));
+            out.push((p("Ability"), Value::from(if opts.iter().any(|a| a == cur) { cur.to_string() } else { opts[0].clone() })));
         }
         if self.mons[mon].party {
             let ivs = std::array::from_fn(|i| num_at(view, &p(&format!("IVs/{}", STATS[i]))));
             let evs = std::array::from_fn(|i| num_at(view, &p(&format!("EVs/{}", STATS[i]))));
-            let nature = view
-                .pointer(&p("Nature"))
-                .and_then(Value::as_str)
-                .and_then(|n| NATURES.iter().position(|x| *x == n))
-                .unwrap_or(0);
+            let nature = view.pointer(&p("Nature")).and_then(Value::as_str).and_then(|n| NATURES.iter().position(|x| *x == n)).unwrap_or(0);
             if let Some(stats) = calc_stats(species, ivs, evs, level, nature) {
                 let old_max = num_at(view, &p("Stats/Max HP"));
                 let cur = num_at(view, &p("Stats/Current HP"));
@@ -885,33 +679,16 @@ struct Builder {
 }
 
 impl Builder {
-    fn add(
-        &mut self,
-        map: &mut Map<String, Value>,
-        base: &str,
-        key: &str,
-        v: Value,
-        f: Option<Field>,
-    ) {
+    fn add(&mut self, map: &mut Map<String, Value>, base: &str, key: &str, v: Value, f: Option<Field>) {
         if let Some(f) = f {
-            self.editable.insert(
-                format!("{base}/{}", crate::tree::esc(key)),
-                self.fields.len(),
-            );
+            self.editable.insert(format!("{base}/{}", crate::tree::esc(key)), self.fields.len());
             self.fields.push(f);
         }
         map.insert(key.to_string(), v);
     }
 }
 
-fn mon_view(
-    b: &mut Builder,
-    l: &Layout,
-    d: &[u8],
-    addr: usize,
-    party: bool,
-    ptr: &str,
-) -> Option<Value> {
+fn mon_view(b: &mut Builder, l: &Layout, d: &[u8], addr: usize, party: bool, ptr: &str) -> Option<Value> {
     let t = tables();
     let md = MonData::read(l, d, addr, party);
     let species = md.species();
@@ -921,57 +698,22 @@ fn mon_view(
     let ok = md.checksum_ok();
     let mon = b.mons.len();
     let mf = |part| ok.then_some(Field::Mon { mon, part });
-    b.mons.push(Mon {
-        addr,
-        party,
-        ptr: ptr.to_string(),
-    });
+    b.mons.push(Mon { addr, party, ptr: ptr.to_string() });
     let base = t.base.get(species).copied().flatten();
     let egg = md.get(M, 4, 4) >> 30 & 1 == 1;
     let name = name_of(&t.species, species);
     let mut m = Map::new();
     if !ok {
-        m.insert(
-            "Note".into(),
-            Value::from(
-                "This Pokémon's data is damaged (a \u{201C}Bad Egg\u{201D}); it's shown read-only.",
-            ),
-        );
+        m.insert("Note".into(), Value::from("This Pokémon's data is damaged (a \u{201C}Bad Egg\u{201D}); it's shown read-only."));
     }
-    b.add(
-        &mut m,
-        ptr,
-        "Species",
-        Value::from(name.clone()),
-        mf(MonPart::Species),
-    );
+    b.add(&mut m, ptr, "Species", Value::from(name.clone()), mf(MonPart::Species));
     let nick = decode_text(&md.head[8..18]);
-    let nick_field = if nick.is_some() && !egg {
-        mf(MonPart::Nickname)
-    } else {
-        None
-    };
-    b.add(
-        &mut m,
-        ptr,
-        "Nickname",
-        Value::from(nick.clone().unwrap_or_else(|| "?".into())),
-        nick_field,
-    );
+    let nick_field = if nick.is_some() && !egg { mf(MonPart::Nickname) } else { None };
+    b.add(&mut m, ptr, "Nickname", Value::from(nick.clone().unwrap_or_else(|| "?".into())), nick_field);
     let exp = md.get(G, 4, 4);
-    let level = if party {
-        md.head[84] as u32
-    } else {
-        base.map_or(1, |b| level_for(b[6], exp))
-    };
+    let level = if party { md.head[84] as u32 } else { base.map_or(1, |b| level_for(b[6], exp)) };
     b.add(&mut m, ptr, "Level", Value::from(level), mf(MonPart::Level));
-    b.add(
-        &mut m,
-        ptr,
-        "Experience",
-        Value::from(exp),
-        mf(MonPart::Experience),
-    );
+    b.add(&mut m, ptr, "Experience", Value::from(exp), mf(MonPart::Experience));
     let nature = (md.pid() % 25) as usize;
     m.insert("Nature".into(), Value::from(NATURES[nature]));
     let tid = rd32(&md.head, 4);
@@ -981,60 +723,21 @@ fn mon_view(
         m.insert("Egg".into(), Value::Bool(true));
     }
     let abil = abilities_of(species)[(md.get(M, 4, 4) >> 31) as usize].clone();
-    b.add(
-        &mut m,
-        ptr,
-        "Ability",
-        Value::from(abil),
-        mf(MonPart::Ability),
-    );
-    b.add(
-        &mut m,
-        ptr,
-        "Held item",
-        Value::from(name_of(&t.items, md.get(G, 2, 2) as usize)),
-        mf(MonPart::HeldItem),
-    );
-    b.add(
-        &mut m,
-        ptr,
-        "Friendship",
-        Value::from(md.get(G, 9, 1)),
-        mf(MonPart::Friendship),
-    );
+    b.add(&mut m, ptr, "Ability", Value::from(abil), mf(MonPart::Ability));
+    b.add(&mut m, ptr, "Held item", Value::from(name_of(&t.items, md.get(G, 2, 2) as usize)), mf(MonPart::HeldItem));
+    b.add(&mut m, ptr, "Friendship", Value::from(md.get(G, 9, 1)), mf(MonPart::Friendship));
     let ball = (md.get(M, 2, 2) >> 11 & 0xF) as usize;
     if (1..BALLS.len()).contains(&ball) {
-        b.add(
-            &mut m,
-            ptr,
-            "Poké Ball",
-            Value::from(BALLS[ball]),
-            mf(MonPart::Ball),
-        );
+        b.add(&mut m, ptr, "Poké Ball", Value::from(BALLS[ball]), mf(MonPart::Ball));
     }
     let mut moves = Map::new();
     let mptr = format!("{ptr}/Moves");
     for i in 0..4 {
-        b.add(
-            &mut moves,
-            &mptr,
-            &format!("Move {}", i + 1),
-            Value::from(name_of(&t.moves, md.get(A, i * 2, 2) as usize)),
-            mf(MonPart::Move(i)),
-        );
-        b.add(
-            &mut moves,
-            &mptr,
-            &format!("PP {}", i + 1),
-            Value::from(md.get(A, 8 + i, 1)),
-            mf(MonPart::Pp(i)),
-        );
+        b.add(&mut moves, &mptr, &format!("Move {}", i + 1), Value::from(name_of(&t.moves, md.get(A, i * 2, 2) as usize)), mf(MonPart::Move(i)));
+        b.add(&mut moves, &mptr, &format!("PP {}", i + 1), Value::from(md.get(A, 8 + i, 1)), mf(MonPart::Pp(i)));
     }
     m.insert("Moves".into(), Value::Object(moves));
-    for (title, vals, part) in [
-        ("IVs", md.ivs(), MonPart::Iv as fn(usize) -> MonPart),
-        ("EVs", md.evs(), MonPart::Ev as fn(usize) -> MonPart),
-    ] {
+    for (title, vals, part) in [("IVs", md.ivs(), MonPart::Iv as fn(usize) -> MonPart), ("EVs", md.evs(), MonPart::Ev as fn(usize) -> MonPart)] {
         let mut s = Map::new();
         let sp = format!("{ptr}/{title}");
         for i in 0..6 {
@@ -1046,28 +749,10 @@ fn mon_view(
         let mut s = Map::new();
         let sp = format!("{ptr}/Stats");
         let h = |o: usize| u16::from_le_bytes([md.head[o], md.head[o + 1]]) as u32;
-        b.add(
-            &mut s,
-            &sp,
-            "Current HP",
-            Value::from(h(86)),
-            mf(MonPart::CurrentHp),
-        );
-        b.add(
-            &mut s,
-            &sp,
-            "Max HP",
-            Value::from(h(88)),
-            mf(MonPart::Stat(0)),
-        );
+        b.add(&mut s, &sp, "Current HP", Value::from(h(86)), mf(MonPart::CurrentHp));
+        b.add(&mut s, &sp, "Max HP", Value::from(h(88)), mf(MonPart::Stat(0)));
         for i in 1..6 {
-            b.add(
-                &mut s,
-                &sp,
-                STATS[i],
-                Value::from(h(88 + i * 2)),
-                mf(MonPart::Stat(i)),
-            );
+            b.add(&mut s, &sp, STATS[i], Value::from(h(88 + i * 2)), mf(MonPart::Stat(i)));
         }
         m.insert("Stats".into(), Value::Object(s));
     }
@@ -1089,108 +774,28 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
     let mut tr = Map::new();
     let tp = "/Trainer";
     match decode_text(&l.read(d, 0, 7)) {
-        Some(n) => b.add(
-            &mut tr,
-            tp,
-            "Name",
-            Value::from(n),
-            Some(Field::Text { addr: 0, len: 7 }),
-        ),
+        Some(n) => b.add(&mut tr, tp, "Name", Value::from(n), Some(Field::Text { addr: 0, len: 7 })),
         None => b.add(&mut tr, tp, "Name", Value::from("?"), None),
     }
-    b.add(
-        &mut tr,
-        tp,
-        "Gender",
-        Value::from(if l.u(d, 8, 1) == 1 { "Girl" } else { "Boy" }),
-        Some(Field::Gender { addr: 8 }),
-    );
+    b.add(&mut tr, tp, "Gender", Value::from(if l.u(d, 8, 1) == 1 { "Girl" } else { "Boy" }), Some(Field::Gender { addr: 8 }));
     tr.insert("Trainer ID".into(), Value::from(l.u(d, 10, 2)));
     tr.insert("Secret ID".into(), Value::from(l.u(d, 12, 2)));
     let money_at = s1 + if frlg { 0x290 } else { 0x490 };
-    b.add(
-        &mut tr,
-        tp,
-        "Money",
-        Value::from(l.u(d, money_at, 4) ^ l.key),
-        Some(Field::Int {
-            addr: money_at,
-            size: 4,
-            max: 999_999,
-            xor: true,
-        }),
-    );
-    b.add(
-        &mut tr,
-        tp,
-        "Coins",
-        Value::from((l.u(d, money_at + 4, 2) ^ (l.key & 0xFFFF)) & 0xFFFF),
-        Some(Field::Int {
-            addr: money_at + 4,
-            size: 2,
-            max: 9999,
-            xor: true,
-        }),
-    );
-    b.add(
-        &mut tr,
-        tp,
-        "Play time (hours)",
-        Value::from(l.u(d, 0xE, 2)),
-        Some(Field::Int {
-            addr: 0xE,
-            size: 2,
-            max: 999,
-            xor: false,
-        }),
-    );
-    b.add(
-        &mut tr,
-        tp,
-        "Play time (minutes)",
-        Value::from(l.u(d, 0x10, 1)),
-        Some(Field::Int {
-            addr: 0x10,
-            size: 1,
-            max: 59,
-            xor: false,
-        }),
-    );
-    b.add(
-        &mut tr,
-        tp,
-        "Play time (seconds)",
-        Value::from(l.u(d, 0x11, 1)),
-        Some(Field::Int {
-            addr: 0x11,
-            size: 1,
-            max: 59,
-            xor: false,
-        }),
-    );
+    b.add(&mut tr, tp, "Money", Value::from(l.u(d, money_at, 4) ^ l.key), Some(Field::Int { addr: money_at, size: 4, max: 999_999, xor: true }));
+    b.add(&mut tr, tp, "Coins", Value::from((l.u(d, money_at + 4, 2) ^ (l.key & 0xFFFF)) & 0xFFFF), Some(Field::Int { addr: money_at + 4, size: 2, max: 9999, xor: true }));
+    b.add(&mut tr, tp, "Play time (hours)", Value::from(l.u(d, 0xE, 2)), Some(Field::Int { addr: 0xE, size: 2, max: 999, xor: false }));
+    b.add(&mut tr, tp, "Play time (minutes)", Value::from(l.u(d, 0x10, 1)), Some(Field::Int { addr: 0x10, size: 1, max: 59, xor: false }));
+    b.add(&mut tr, tp, "Play time (seconds)", Value::from(l.u(d, 0x11, 1)), Some(Field::Int { addr: 0x11, size: 1, max: 59, xor: false }));
     if frlg {
         let rival = 4 * SECTION + 0xBCC;
         if let Some(n) = decode_text(&l.read(d, rival, 7)) {
-            b.add(
-                &mut tr,
-                tp,
-                "Rival name",
-                Value::from(n),
-                Some(Field::Text {
-                    addr: rival,
-                    len: 7,
-                }),
-            );
+            b.add(&mut tr, tp, "Rival name", Value::from(n), Some(Field::Text { addr: rival, len: 7 }));
         }
     }
     root.insert("Trainer".into(), Value::Object(tr));
 
     // Party
-    let (team_size, team) = if frlg {
-        (s1 + 0x34, s1 + 0x38)
-    } else {
-        (s1 + 0x234, s1 + 0x238)
-    };
+    let (team_size, team) = if frlg { (s1 + 0x34, s1 + 0x38) } else { (s1 + 0x234, s1 + 0x238) };
     let n = l.u(d, team_size, 4).min(6) as usize;
     let mut party = Map::new();
     for i in 0..n {
@@ -1205,30 +810,9 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
 
     // Bag
     let pockets: &[(&str, usize, usize, bool)] = match l.game {
-        Game::RubySapphire => &[
-            ("Items", 0x560, 20, true),
-            ("Key items", 0x5B0, 20, true),
-            ("Poké Balls", 0x600, 16, true),
-            ("TMs & HMs", 0x640, 64, true),
-            ("Berries", 0x740, 46, true),
-            ("PC items", 0x498, 50, false),
-        ],
-        Game::Emerald => &[
-            ("Items", 0x560, 30, true),
-            ("Key items", 0x5D8, 30, true),
-            ("Poké Balls", 0x650, 16, true),
-            ("TMs & HMs", 0x690, 64, true),
-            ("Berries", 0x790, 46, true),
-            ("PC items", 0x498, 50, false),
-        ],
-        Game::FireRedLeafGreen => &[
-            ("Items", 0x310, 42, true),
-            ("Key items", 0x3B8, 30, true),
-            ("Poké Balls", 0x430, 13, true),
-            ("TMs & HMs", 0x464, 58, true),
-            ("Berries", 0x54C, 43, true),
-            ("PC items", 0x298, 30, false),
-        ],
+        Game::RubySapphire => &[("Items", 0x560, 20, true), ("Key items", 0x5B0, 20, true), ("Poké Balls", 0x600, 16, true), ("TMs & HMs", 0x640, 64, true), ("Berries", 0x740, 46, true), ("PC items", 0x498, 50, false)],
+        Game::Emerald => &[("Items", 0x560, 30, true), ("Key items", 0x5D8, 30, true), ("Poké Balls", 0x650, 16, true), ("TMs & HMs", 0x690, 64, true), ("Berries", 0x790, 46, true), ("PC items", 0x498, 50, false)],
+        Game::FireRedLeafGreen => &[("Items", 0x310, 42, true), ("Key items", 0x3B8, 30, true), ("Poké Balls", 0x430, 13, true), ("TMs & HMs", 0x464, 58, true), ("Berries", 0x54C, 43, true), ("PC items", 0x298, 30, false)],
     };
     let mut bag = Map::new();
     for &(title, off, count, xor) in pockets {
@@ -1242,25 +826,8 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
             let mut slot = Map::new();
             let key = format!("Slot {}", i + 1);
             let sp = format!("{pp}/{}", crate::tree::esc(&key));
-            b.add(
-                &mut slot,
-                &sp,
-                "Item",
-                Value::from(name_of(&t.items, id)),
-                Some(Field::Item { addr }),
-            );
-            b.add(
-                &mut slot,
-                &sp,
-                "Quantity",
-                Value::from(qty & 0xFFFF),
-                Some(Field::Int {
-                    addr: addr + 2,
-                    size: 2,
-                    max: 999,
-                    xor,
-                }),
-            );
+            b.add(&mut slot, &sp, "Item", Value::from(name_of(&t.items, id)), Some(Field::Item { addr }));
+            b.add(&mut slot, &sp, "Quantity", Value::from(qty & 0xFFFF), Some(Field::Int { addr: addr + 2, size: 2, max: 999, xor }));
             pocket.insert(key, Value::Object(slot));
         }
         bag.insert(title.into(), Value::Object(pocket));
@@ -1276,16 +843,7 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
         let bp = format!("/PC boxes/{}", crate::tree::esc(&key));
         let mut bm = Map::new();
         if !bname.is_empty() {
-            b.add(
-                &mut bm,
-                &bp,
-                "Box name",
-                Value::from(bname),
-                Some(Field::Text {
-                    addr: name_addr,
-                    len: 8,
-                }),
-            );
+            b.add(&mut bm, &bp, "Box name", Value::from(bname), Some(Field::Text { addr: name_addr, len: 8 }));
         }
         for slot in 0..30 {
             let addr = PC + 4 + (bx * 30 + slot) * 80;
@@ -1302,18 +860,8 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
     }
     root.insert("PC boxes".into(), Value::Object(boxes));
 
-    let backend = Gen3Backend {
-        raw: d.to_vec(),
-        layout: l.clone(),
-        fields: b.fields,
-        mons: b.mons,
-    };
-    let doc = TreeDoc::new(
-        Value::Object(root),
-        b.editable,
-        l.game.name(),
-        Box::new(backend),
-    );
+    let backend = Gen3Backend { raw: d.to_vec(), layout: l.clone(), fields: b.fields, mons: b.mons };
+    let doc = TreeDoc::new(Value::Object(root), b.editable, l.game.name(), Box::new(backend));
     Ok(doc.with_note(
         "Edits go into the newest of the two copies the game keeps, and checksums are fixed automatically. \
          Changing a Pokémon's level also sets its experience and stats. Close the game in your emulator before saving, \
@@ -1373,14 +921,9 @@ mod tests {
                     let mut head = vec![0u8; 100];
                     head[0..4].copy_from_slice(&7u32.to_le_bytes());
                     head[4..8].copy_from_slice(&0x0001_0002u32.to_le_bytes());
-                    head[8..18].copy_from_slice(&[
-                        0xC7, 0xE9, 0xD8, 0xDF, 0xDD, 0xE4, 0xFF, 0xFF, 0xFF, 0xFF,
-                    ]);
+                    head[8..18].copy_from_slice(&[0xC7, 0xE9, 0xD8, 0xDF, 0xDD, 0xE4, 0xFF, 0xFF, 0xFF, 0xFF]);
                     head[84] = 5;
-                    let mut md = MonData {
-                        head,
-                        data: [0; 48],
-                    };
+                    let mut md = MonData { head, data: [0; 48] };
                     md.set(G, 0, 2, 283);
                     md.set(G, 4, 4, exp_for(3, 5));
                     md.set(A, 0, 2, 33);
@@ -1408,30 +951,19 @@ mod tests {
         let p = "/Party/Pokémon 1";
         assert_eq!(doc.view.pointer(&format!("{p}/Level")).unwrap(), 5);
         doc.set("/Trainer/Money", Value::from(999_999)).unwrap();
-        doc.set("/Bag/Items/Slot 1/Item", Value::from("Rare Candy"))
-            .unwrap();
-        doc.set("/Bag/Items/Slot 1/Quantity", Value::from(99))
-            .unwrap();
+        doc.set("/Bag/Items/Slot 1/Item", Value::from("Rare Candy")).unwrap();
+        doc.set("/Bag/Items/Slot 1/Quantity", Value::from(99)).unwrap();
         doc.set(&format!("{p}/Level"), Value::from(50)).unwrap();
         let derived = doc.take_derived();
         assert!(derived.iter().any(|(k, _, _)| k.ends_with("/Experience")));
-        doc.set(&format!("{p}/Moves/Move 2"), Value::from("Surf"))
-            .unwrap();
-        assert!(doc
-            .set(&format!("{p}/Moves/Move 3"), Value::from("Not a move"))
-            .is_err());
+        doc.set(&format!("{p}/Moves/Move 2"), Value::from("Surf")).unwrap();
+        assert!(doc.set(&format!("{p}/Moves/Move 3"), Value::from("Not a move")).is_err());
         let out = doc.to_bytes().unwrap();
         let again = parse(&out).unwrap();
         assert_eq!(again.view, doc.view);
         assert_eq!(again.view.pointer("/Trainer/Money").unwrap(), 999_999);
-        assert_eq!(
-            again.view.pointer(&format!("{p}/Experience")).unwrap(),
-            exp_for(3, 50)
-        );
-        assert_eq!(
-            again.view.pointer(&format!("{p}/Moves/Move 2")).unwrap(),
-            "Surf"
-        );
+        assert_eq!(again.view.pointer(&format!("{p}/Experience")).unwrap(), exp_for(3, 50));
+        assert_eq!(again.view.pointer(&format!("{p}/Moves/Move 2")).unwrap(), "Surf");
         // Every section in the edited copy still has a valid checksum.
         assert!(block(&out, BLOCK).is_some());
         // The other (older) copy is untouched.
@@ -1449,48 +981,23 @@ mod tests {
                 continue;
             }
             let doc = parse(&d).unwrap();
-            println!(
-                "{} -> {} {}",
-                e.path().display(),
-                doc.kind_name,
-                doc.view["Trainer"]
-            );
+            println!("{} -> {} {}", e.path().display(), doc.kind_name, doc.view["Trainer"]);
             let l = layout(&d).unwrap();
             let s1 = SECTION;
-            let team = s1
-                + if l.game == Game::FireRedLeafGreen {
-                    0x38
-                } else {
-                    0x238
-                };
+            let team = s1 + if l.game == Game::FireRedLeafGreen { 0x38 } else { 0x238 };
             for i in 0..6 {
                 let md = MonData::read(&l, &d, team + i * 100, true);
                 if md.species() == 0 || !md.checksum_ok() {
                     continue;
                 }
                 let lv = md.head[84] as u32;
-                let stored: Vec<u32> = (0..6)
-                    .map(|k| u16::from_le_bytes([md.head[88 + k * 2], md.head[89 + k * 2]]) as u32)
-                    .collect();
-                let calc = calc_stats(
-                    md.species(),
-                    md.ivs(),
-                    md.evs(),
-                    lv,
-                    (md.pid() % 25) as usize,
-                )
-                .unwrap();
-                println!(
-                    "  {} lv{lv} stored {stored:?} calc {calc:?}",
-                    tables().species[md.species()]
-                );
+                let stored: Vec<u32> = (0..6).map(|k| u16::from_le_bytes([md.head[88 + k * 2], md.head[89 + k * 2]]) as u32).collect();
+                let calc = calc_stats(md.species(), md.ivs(), md.evs(), lv, (md.pid() % 25) as usize).unwrap();
+                println!("  {} lv{lv} stored {stored:?} calc {calc:?}", tables().species[md.species()]);
                 // The game only recalculates stats on level-up, so EVs earned since then
                 // can leave a point or two of difference.
                 if !e.path().to_string_lossy().contains("Random") {
-                    assert!(
-                        stored.iter().zip(calc).all(|(a, b)| a.abs_diff(b) <= 3),
-                        "stats don't match"
-                    );
+                    assert!(stored.iter().zip(calc).all(|(a, b)| a.abs_diff(b) <= 3), "stats don't match");
                 }
             }
             let out = doc.to_bytes().unwrap();

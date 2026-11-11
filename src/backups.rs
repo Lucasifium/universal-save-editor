@@ -21,17 +21,12 @@ pub struct Version {
 }
 
 fn now() -> u64 {
-    SystemTime::now()
-        .duration_since(UNIX_EPOCH)
-        .map(|d| d.as_secs())
-        .unwrap_or(0)
+    SystemTime::now().duration_since(UNIX_EPOCH).map(|d| d.as_secs()).unwrap_or(0)
 }
 
 /// FNV-1a, so two saves with the same name in different folders get different folders.
 fn hash(s: &str) -> u32 {
-    s.bytes().fold(0x811C_9DC5u32, |h, b| {
-        (h ^ b as u32).wrapping_mul(0x0100_0193)
-    })
+    s.bytes().fold(0x811C_9DC5u32, |h, b| (h ^ b as u32).wrapping_mul(0x0100_0193))
 }
 
 static ROOT: std::sync::RwLock<Option<PathBuf>> = std::sync::RwLock::new(None);
@@ -45,10 +40,7 @@ pub fn set_root(dir: Option<PathBuf>) {
 
 /// The folder all backups go under.
 pub fn root() -> Option<PathBuf> {
-    ROOT.read()
-        .ok()
-        .and_then(|r| r.clone())
-        .or_else(|| crate::platform::config_dir().map(|d| d.join("backups")))
+    ROOT.read().ok().and_then(|r| r.clone()).or_else(|| crate::platform::config_dir().map(|d| d.join("backups")))
 }
 
 /// Where the versions of `save` are kept.
@@ -56,18 +48,7 @@ pub fn folder(save: &Path) -> Option<PathBuf> {
     let full = std::fs::canonicalize(save).unwrap_or_else(|_| save.to_path_buf());
     let name: String = save
         .file_name()
-        .map(|n| {
-            n.to_string_lossy()
-                .chars()
-                .map(|c| {
-                    if c.is_alphanumeric() || "._-".contains(c) {
-                        c
-                    } else {
-                        '_'
-                    }
-                })
-                .collect()
-        })
+        .map(|n| n.to_string_lossy().chars().map(|c| if c.is_alphanumeric() || "._-".contains(c) { c } else { '_' }).collect())
         .unwrap_or_else(|| "save".into());
     let key = full.to_string_lossy().to_lowercase();
     root().map(|d| d.join(format!("{name}-{:08x}", hash(&key))))
@@ -75,12 +56,8 @@ pub fn folder(save: &Path) -> Option<PathBuf> {
 
 /// Every kept version of `save`, newest first.
 pub fn list(save: &Path) -> Vec<Version> {
-    let Some(dir) = folder(save) else {
-        return vec![];
-    };
-    let Ok(rd) = std::fs::read_dir(&dir) else {
-        return vec![];
-    };
+    let Some(dir) = folder(save) else { return vec![] };
+    let Ok(rd) = std::fs::read_dir(&dir) else { return vec![] };
     let mut out: Vec<Version> = rd
         .flatten()
         .filter_map(|e| {
@@ -92,12 +69,7 @@ pub fn list(save: &Path) -> Vec<Version> {
                 None => (stem, None),
             };
             let when = stamp.split('-').next()?.parse().ok()?;
-            Some(Version {
-                size: e.metadata().ok()?.len(),
-                path: p,
-                when,
-                name,
-            })
+            Some(Version { size: e.metadata().ok()?.len(), path: p, when, name })
         })
         .collect();
     out.sort_by(|a, b| b.when.cmp(&a.when).then_with(|| b.path.cmp(&a.path)));
@@ -112,46 +84,23 @@ pub fn take(save: &Path) -> Result<Option<PathBuf>, String> {
 
 /// Keeps a copy of the file as it is on disk now under `name`, for good.
 pub fn take_named(save: &Path, name: &str) -> Result<PathBuf, String> {
-    let clean: String = name
-        .trim()
-        .chars()
-        .map(|c| {
-            if c.is_alphanumeric() || " ._-()".contains(c) {
-                c
-            } else {
-                '_'
-            }
-        })
-        .take(60)
-        .collect();
+    let clean: String = name.trim().chars().map(|c| if c.is_alphanumeric() || " ._-()".contains(c) { c } else { '_' }).take(60).collect();
     if clean.trim().is_empty() {
         return Err("give the copy a name".into());
     }
-    copy(save, Some(clean.trim()))
-        .and_then(|p| p.ok_or_else(|| "the save file can't be read".to_string()))
+    copy(save, Some(clean.trim())).and_then(|p| p.ok_or_else(|| "the save file can't be read".to_string()))
 }
 
 /// Takes a name away from a copy, so it is pruned like the others in time.
 pub fn unlock(v: &Version) -> Result<(), String> {
-    let ext = v
-        .path
-        .extension()
-        .map(|e| format!(".{}", e.to_string_lossy()))
-        .unwrap_or_default();
-    let stem = v
-        .path
-        .file_stem()
-        .and_then(|s| s.to_str())
-        .unwrap_or_default();
+    let ext = v.path.extension().map(|e| format!(".{}", e.to_string_lossy())).unwrap_or_default();
+    let stem = v.path.file_stem().and_then(|s| s.to_str()).unwrap_or_default();
     let stamp = stem.split('~').next().unwrap_or(stem);
-    std::fs::rename(&v.path, v.path.with_file_name(format!("{stamp}{ext}")))
-        .map_err(|e| e.to_string())
+    std::fs::rename(&v.path, v.path.with_file_name(format!("{stamp}{ext}"))).map_err(|e| e.to_string())
 }
 
 fn copy(save: &Path, name: Option<&str>) -> Result<Option<PathBuf>, String> {
-    let Ok(bytes) = std::fs::read(save) else {
-        return Ok(None);
-    };
+    let Ok(bytes) = std::fs::read(save) else { return Ok(None) };
     let dir = folder(save).ok_or("no folder for backups on this device")?;
     let versions = list(save);
     if name.is_none() {
@@ -162,10 +111,7 @@ fn copy(save: &Path, name: Option<&str>) -> Result<Option<PathBuf>, String> {
         }
     }
     std::fs::create_dir_all(&dir).map_err(|e| e.to_string())?;
-    let ext = save
-        .extension()
-        .map(|e| format!(".{}", e.to_string_lossy()))
-        .unwrap_or_default();
+    let ext = save.extension().map(|e| format!(".{}", e.to_string_lossy())).unwrap_or_default();
     let tag = name.map(|n| format!("~{n}")).unwrap_or_default();
     let t = now();
     let mut dest = dir.join(format!("{t}{tag}{ext}"));
@@ -230,10 +176,7 @@ mod tests {
         }
         let v = list(&save);
         assert_eq!(v.iter().filter(|v| v.name.is_none()).count(), KEEP - 1 + 1);
-        let named = v
-            .iter()
-            .find(|v| v.name.as_deref() == Some("before boss"))
-            .expect("named copy kept");
+        let named = v.iter().find(|v| v.name.as_deref() == Some("before boss")).expect("named copy kept");
         assert_eq!(std::fs::read(&named.path).unwrap(), b"one");
         unlock(named).unwrap();
         assert!(list(&save).iter().all(|v| v.name.is_none()));

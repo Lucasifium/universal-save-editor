@@ -5,10 +5,7 @@ use super::terraria::slots;
 use super::{fact, hero, panel, select, selection, tabs, GameCtx};
 use crate::fmt::terraria_world::{self as tw, Op, WorldMap};
 use crate::json_view::pointer_escape;
-use eframe::egui::{
-    self, Color32, ColorImage, PointerButton, Pos2, Rect, RichText, Sense, Stroke, TextureHandle,
-    TextureOptions, Ui, Vec2,
-};
+use eframe::egui::{self, Color32, ColorImage, PointerButton, Pos2, Rect, RichText, Sense, Stroke, TextureHandle, TextureOptions, Ui, Vec2};
 use serde_json::Value;
 use std::sync::{Arc, Mutex};
 
@@ -28,11 +25,7 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
         sub.push("Hardmode".into());
     }
     let count = |cx: &GameCtx, p: &str| cx.get(p).and_then(Value::as_object).map_or(0, |m| m.len());
-    let (chests, signs, npcs) = (
-        count(cx, "/Chests"),
-        count(cx, "/Signs"),
-        count(cx, "/NPCs"),
-    );
+    let (chests, signs, npcs) = (count(cx, "/Chests"), count(cx, "/Signs"), count(cx, "/NPCs"));
     hero(ui, ACCENT, &name, &sub.join("  \u{00B7}  "), |ui| {
         fact(ui, "Chests", &chests.to_string(), ACCENT);
         fact(ui, "Signs", &signs.to_string(), ACCENT);
@@ -52,27 +45,20 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
 // ------------------------------------------------------------------ settings tabs
 
 fn keys(cx: &GameCtx, p: &str) -> Vec<String> {
-    cx.get(p)
-        .and_then(Value::as_object)
-        .map(|m| m.keys().cloned().collect())
-        .unwrap_or_default()
+    cx.get(p).and_then(Value::as_object).map(|m| m.keys().cloned().collect()).unwrap_or_default()
 }
 
 fn world_tab(ui: &mut Ui, cx: &mut GameCtx) {
     panel(ui, "World", |ui| {
-        egui::Grid::new("tw_world")
-            .num_columns(2)
-            .spacing([14.0, 6.0])
-            .striped(true)
-            .show(ui, |ui| {
-                for k in keys(cx, "/World") {
-                    let p = format!("/World/{}", pointer_escape(&k));
-                    if matches!(cx.get(&p), Some(Value::Bool(_))) {
-                        continue;
-                    }
-                    cx.grid_row(ui, &k, &p, 220.0);
+        egui::Grid::new("tw_world").num_columns(2).spacing([14.0, 6.0]).striped(true).show(ui, |ui| {
+            for k in keys(cx, "/World") {
+                let p = format!("/World/{}", pointer_escape(&k));
+                if matches!(cx.get(&p), Some(Value::Bool(_))) {
+                    continue;
                 }
-            });
+                cx.grid_row(ui, &k, &p, 220.0);
+            }
+        });
         ui.horizontal_wrapped(|ui| {
             for k in keys(cx, "/World") {
                 let p = format!("/World/{}", pointer_escape(&k));
@@ -106,13 +92,7 @@ fn chip_panel(ui: &mut Ui, cx: &mut GameCtx, title: &str, base: &str, note: &str
 fn progress_tab(ui: &mut Ui, cx: &mut GameCtx) {
     chip_panel(ui, cx, "Bosses defeated", "/Bosses defeated", "These are the flags the game checks (progress, NPCs moving in, the Bestiary and achievements aren't changed).");
     chip_panel(ui, cx, "Events", "/Events", "");
-    chip_panel(
-        ui,
-        cx,
-        "Town NPCs",
-        "/Town NPCs",
-        "A rescued NPC can move in once there's a free house.",
-    );
+    chip_panel(ui, cx, "Town NPCs", "/Town NPCs", "A rescued NPC can move in once there's a free house.");
 }
 
 fn chests_tab(ui: &mut Ui, cx: &mut GameCtx) {
@@ -126,11 +106,7 @@ fn chests_tab(ui: &mut Ui, cx: &mut GameCtx) {
     panel(ui, "Chests", |ui| {
         ui.horizontal(|ui| {
             ui.label("Find:");
-            ui.add(
-                egui::TextEdit::singleline(&mut filter)
-                    .hint_text("chest name or item")
-                    .desired_width(240.0),
-            );
+            ui.add(egui::TextEdit::singleline(&mut filter).hint_text("chest name or item").desired_width(240.0));
         });
         let f = filter.trim().to_lowercase();
         let rows: Vec<(usize, String)> = all
@@ -139,48 +115,27 @@ fn chests_tab(ui: &mut Ui, cx: &mut GameCtx) {
             .filter_map(|(i, k)| {
                 let base = format!("/Chests/{}", pointer_escape(k));
                 let c = cx.get(&base)?.as_object()?;
-                let items: Vec<&str> = c
-                    .values()
-                    .filter_map(|s| s.get("Item")?.as_str())
-                    .filter(|s| *s != "(empty)")
-                    .collect();
+                let items: Vec<&str> = c.values().filter_map(|s| s.get("Item")?.as_str()).filter(|s| *s != "(empty)").collect();
                 let name = c.get("Name").and_then(Value::as_str).unwrap_or("");
-                if !f.is_empty()
-                    && !name.to_lowercase().contains(&f)
-                    && !items.iter().any(|it| it.to_lowercase().contains(&f))
-                {
+                if !f.is_empty() && !name.to_lowercase().contains(&f) && !items.iter().any(|it| it.to_lowercase().contains(&f)) {
                     return None;
                 }
                 let pos = c.get("Position").and_then(Value::as_str).unwrap_or("");
-                let title = if name.is_empty() {
-                    k.clone()
-                } else {
-                    format!("{k} \u{201C}{name}\u{201D}")
-                };
-                Some((
-                    i,
-                    format!(
-                        "{title}  \u{00B7}  at {pos}  \u{00B7}  {} item{}",
-                        items.len(),
-                        if items.len() == 1 { "" } else { "s" }
-                    ),
-                ))
+                let title = if name.is_empty() { k.clone() } else { format!("{k} \u{201C}{name}\u{201D}") };
+                Some((i, format!("{title}  \u{00B7}  at {pos}  \u{00B7}  {} item{}", items.len(), if items.len() == 1 { "" } else { "s" })))
             })
             .collect();
         let sel = selection(ui, "tw_chest");
-        egui::ScrollArea::vertical()
-            .id_salt("tw_chest_list")
-            .max_height(220.0)
-            .show(ui, |ui| {
-                for (i, label) in &rows {
-                    if ui.selectable_label(sel == Some(*i), label).clicked() {
-                        select(ui, "tw_chest", Some(*i));
-                    }
+        egui::ScrollArea::vertical().id_salt("tw_chest_list").max_height(220.0).show(ui, |ui| {
+            for (i, label) in &rows {
+                if ui.selectable_label(sel == Some(*i), label).clicked() {
+                    select(ui, "tw_chest", Some(*i));
                 }
-                if rows.is_empty() {
-                    ui.weak("No chest matches.");
-                }
-            });
+            }
+            if rows.is_empty() {
+                ui.weak("No chest matches.");
+            }
+        });
     });
     ui.data_mut(|d| d.insert_temp(fid, filter));
     let Some(i) = selection(ui, "tw_chest").filter(|&i| i < all.len()) else {
@@ -189,17 +144,11 @@ fn chests_tab(ui: &mut Ui, cx: &mut GameCtx) {
     };
     let base = format!("/Chests/{}", pointer_escape(&all[i]));
     panel(ui, &all[i], |ui| {
-        egui::Grid::new("tw_chest_name")
-            .num_columns(2)
-            .spacing([12.0, 6.0])
-            .show(ui, |ui| {
-                cx.grid_row(ui, "Name", &format!("{base}/Name"), 220.0);
-                cx.grid_row(ui, "Position", &format!("{base}/Position"), 220.0);
-            });
-        let ks: Vec<String> = keys(cx, &base)
-            .into_iter()
-            .filter(|k| k.starts_with("Slot "))
-            .collect();
+        egui::Grid::new("tw_chest_name").num_columns(2).spacing([12.0, 6.0]).show(ui, |ui| {
+            cx.grid_row(ui, "Name", &format!("{base}/Name"), 220.0);
+            cx.grid_row(ui, "Position", &format!("{base}/Position"), 220.0);
+        });
+        let ks: Vec<String> = keys(cx, &base).into_iter().filter(|k| k.starts_with("Slot ")).collect();
         slots(ui, cx, &format!("tw_chest_slots_{i}"), &base, &ks, 10);
     });
 }
@@ -211,19 +160,15 @@ fn signs_tab(ui: &mut Ui, cx: &mut GameCtx) {
         return;
     }
     panel(ui, "Signs", |ui| {
-        egui::Grid::new("tw_signs")
-            .num_columns(2)
-            .spacing([14.0, 6.0])
-            .striped(true)
-            .show(ui, |ui| {
-                for k in &all {
-                    let base = format!("/Signs/{}", pointer_escape(k));
-                    let pos = cx.text(&format!("{base}/Position")).unwrap_or_default();
-                    cx.label(ui, &format!("{k} ({pos})"), &format!("{base}/Text"));
-                    cx.editor(ui, &format!("{base}/Text"), 420.0);
-                    ui.end_row();
-                }
-            });
+        egui::Grid::new("tw_signs").num_columns(2).spacing([14.0, 6.0]).striped(true).show(ui, |ui| {
+            for k in &all {
+                let base = format!("/Signs/{}", pointer_escape(k));
+                let pos = cx.text(&format!("{base}/Position")).unwrap_or_default();
+                cx.label(ui, &format!("{k} ({pos})"), &format!("{base}/Text"));
+                cx.editor(ui, &format!("{base}/Text"), 420.0);
+                ui.end_row();
+            }
+        });
     });
 }
 
@@ -234,23 +179,19 @@ fn npcs_tab(ui: &mut Ui, cx: &mut GameCtx) {
         return;
     }
     panel(ui, "Town NPCs", |ui| {
-        egui::Grid::new("tw_npcs")
-            .num_columns(3)
-            .spacing([14.0, 4.0])
-            .striped(true)
-            .show(ui, |ui| {
-                ui.strong("Who");
-                ui.strong("Name");
-                ui.strong("Home");
-                ui.end_row();
-                for k in &all {
-                    let base = format!("/NPCs/{}", pointer_escape(k));
-                    for f in ["Role", "Name", "Home"] {
-                        ui.label(cx.text(&format!("{base}/{f}")).unwrap_or_default());
-                    }
-                    ui.end_row();
+        egui::Grid::new("tw_npcs").num_columns(3).spacing([14.0, 4.0]).striped(true).show(ui, |ui| {
+            ui.strong("Who");
+            ui.strong("Name");
+            ui.strong("Home");
+            ui.end_row();
+            for k in &all {
+                let base = format!("/NPCs/{}", pointer_escape(k));
+                for f in ["Role", "Name", "Home"] {
+                    ui.label(cx.text(&format!("{base}/{f}")).unwrap_or_default());
                 }
-            });
+                ui.end_row();
+            }
+        });
         ui.weak("Homes are tile positions; they're shown on the Map.");
     });
 }
@@ -307,23 +248,7 @@ const MARKS: [&str; 4] = ["Spawn", "Dungeon", "Town NPC homes", "Chests"];
 
 impl Default for MapView {
     fn default() -> Self {
-        Self {
-            key: 0,
-            applied: String::new(),
-            cells: vec![],
-            tex: vec![],
-            dirty: vec![],
-            zoom: 0.0,
-            center: Vec2::ZERO,
-            tool: Tool::Look,
-            size: 3,
-            block: 1,
-            wall: 4,
-            liquid: 1,
-            stroke: None,
-            shown: tw::POI_KINDS.iter().map(|k| k.shown).collect(),
-            marks: [true; 4],
-        }
+        Self { key: 0, applied: String::new(), cells: vec![], tex: vec![], dirty: vec![], zoom: 0.0, center: Vec2::ZERO, tool: Tool::Look, size: 3, block: 1, wall: 4, liquid: 1, stroke: None, shown: tw::POI_KINDS.iter().map(|k| k.shown).collect(), marks: [true; 4] }
     }
 }
 
@@ -360,16 +285,7 @@ impl MapView {
         let key = Arc::as_ptr(map) as usize;
         if self.key != key {
             let shown = std::mem::take(&mut self.shown);
-            *self = MapView {
-                tool: self.tool,
-                size: self.size,
-                block: self.block,
-                wall: self.wall,
-                liquid: self.liquid,
-                shown,
-                marks: self.marks,
-                ..Default::default()
-            };
+            *self = MapView { tool: self.tool, size: self.size, block: self.block, wall: self.wall, liquid: self.liquid, shown, marks: self.marks, ..Default::default() };
             self.key = key;
             self.cells = map.cells.clone();
             let n = Self::chunks_x(map) * map.height.div_ceil(CHUNK);
@@ -379,10 +295,7 @@ impl MapView {
         if self.applied == edits {
             return;
         }
-        if !self.applied.is_empty()
-            && edits.starts_with(&self.applied)
-            && edits[self.applied.len()..].starts_with(';')
-        {
+        if !self.applied.is_empty() && edits.starts_with(&self.applied) && edits[self.applied.len()..].starts_with(';') {
             let more = edits[self.applied.len() + 1..].to_string();
             self.apply_text(map, &more);
         } else {
@@ -396,11 +309,7 @@ impl MapView {
     fn upload(&mut self, ctx: &egui::Context, map: &WorldMap) {
         let cxn = Self::chunks_x(map);
         let colors = Colors::get();
-        let opts = TextureOptions {
-            magnification: egui::TextureFilter::Nearest,
-            minification: egui::TextureFilter::Linear,
-            ..Default::default()
-        };
+        let opts = TextureOptions { magnification: egui::TextureFilter::Nearest, minification: egui::TextureFilter::Linear, ..Default::default() };
         for i in 0..self.dirty.len() {
             if !self.dirty[i] {
                 continue;
@@ -413,10 +322,7 @@ impl MapView {
                 let row = &self.cells[y * map.width + x0..y * map.width + x0 + w];
                 px.extend(row.iter().map(|&p| colors.of(p, y, map)));
             }
-            let img = ColorImage {
-                size: [w, h],
-                pixels: px,
-            };
+            let img = ColorImage { size: [w, h], pixels: px };
             match &mut self.tex[i] {
                 Some(t) => t.set(img, opts),
                 slot => *slot = Some(ctx.load_texture(format!("tw_map_{i}"), img, opts)),
@@ -435,38 +341,18 @@ impl Colors {
         static C: std::sync::OnceLock<Colors> = std::sync::OnceLock::new();
         C.get_or_init(|| {
             let p = tw::palette();
-            let conv = |k: &Option<tw::Kind>, fallback: Color32| {
-                k.as_ref().map_or(fallback, |k| {
-                    Color32::from_rgb(k.color[0], k.color[1], k.color[2])
-                })
-            };
+            let conv = |k: &Option<tw::Kind>, fallback: Color32| k.as_ref().map_or(fallback, |k| Color32::from_rgb(k.color[0], k.color[1], k.color[2]));
             Colors {
-                tiles: p
-                    .tiles
-                    .iter()
-                    .map(|k| conv(k, Color32::from_rgb(200, 0, 200)))
-                    .collect(),
-                walls: p
-                    .walls
-                    .iter()
-                    .map(|k| conv(k, Color32::from_rgb(60, 50, 60)))
-                    .collect(),
+                tiles: p.tiles.iter().map(|k| conv(k, Color32::from_rgb(200, 0, 200))).collect(),
+                walls: p.walls.iter().map(|k| conv(k, Color32::from_rgb(60, 50, 60))).collect(),
             }
         })
     }
 
     fn of(&self, p: u32, y: usize, map: &WorldMap) -> Color32 {
         if let Some(t) = tw::packed_tile(p) {
-            let c = self
-                .tiles
-                .get(t as usize)
-                .copied()
-                .unwrap_or(Color32::from_rgb(200, 0, 200));
-            return if tw::packed_actuated(p) {
-                c.linear_multiply(0.5)
-            } else {
-                c
-            };
+            let c = self.tiles.get(t as usize).copied().unwrap_or(Color32::from_rgb(200, 0, 200));
+            return if tw::packed_actuated(p) { c.linear_multiply(0.5) } else { c };
         }
         match tw::packed_liquid(p) {
             1 => return Color32::from_rgb(9, 61, 191),
@@ -477,11 +363,7 @@ impl Colors {
         }
         let w = tw::packed_wall(p);
         if w != 0 {
-            return self
-                .walls
-                .get(w as usize)
-                .copied()
-                .unwrap_or(Color32::from_rgb(60, 50, 60));
+            return self.walls.get(w as usize).copied().unwrap_or(Color32::from_rgb(60, 50, 60));
         }
         let y = y as f64;
         if y < map.surface {
@@ -500,43 +382,23 @@ fn paintable_blocks(map: &WorldMap) -> (Vec<String>, Vec<u16>) {
     let p = tw::palette();
     let v: Vec<(String, u16)> = (0..map.important.len())
         .filter(|&t| !map.important[t])
-        .filter_map(|t| {
-            p.tiles
-                .get(t)?
-                .as_ref()
-                .map(|k| (format!("#{t} {}", k.name), t as u16))
-        })
+        .filter_map(|t| p.tiles.get(t)?.as_ref().map(|k| (format!("#{t} {}", k.name), t as u16)))
         .collect();
     v.into_iter().unzip()
 }
 
 fn paintable_walls() -> (Vec<String>, Vec<u16>) {
     let p = tw::palette();
-    let v: Vec<(String, u16)> = (1..p.walls.len().min(0x400))
-        .filter_map(|w| {
-            p.walls[w]
-                .as_ref()
-                .map(|k| (format!("#{w} {}", k.name), w as u16))
-        })
-        .collect();
+    let v: Vec<(String, u16)> = (1..p.walls.len().min(0x400)).filter_map(|w| p.walls[w].as_ref().map(|k| (format!("#{w} {}", k.name), w as u16))).collect();
     v.into_iter().unzip()
 }
 
 fn map_tab(ui: &mut Ui, cx: &mut GameCtx) {
-    let Some(map) = cx
-        .tree
-        .and_then(|t| t.attachment())
-        .and_then(|a| a.downcast::<WorldMap>().ok())
-    else {
+    let Some(map) = cx.tree.and_then(|t| t.attachment()).and_then(|a| a.downcast::<WorldMap>().ok()) else {
         ui.weak("The map isn't available for this file.");
         return;
     };
-    let state = ui.data_mut(|d| {
-        d.get_temp_mut_or_insert_with(egui::Id::new("tw_map"), || {
-            Arc::new(Mutex::new(MapView::default()))
-        })
-        .clone()
-    });
+    let state = ui.data_mut(|d| d.get_temp_mut_or_insert_with(egui::Id::new("tw_map"), || Arc::new(Mutex::new(MapView::default()))).clone());
     let mut guard = state.lock().unwrap_or_else(|e| e.into_inner());
     let v = &mut *guard;
     let edits = cx.text(tw::EDITS).unwrap_or_default();
@@ -557,14 +419,9 @@ fn map_tab(ui: &mut Ui, cx: &mut GameCtx) {
         match v.tool {
             Tool::Block => {
                 let (names, ids) = paintable_blocks(&map);
-                let cur = ids
-                    .iter()
-                    .position(|&i| i == v.block)
-                    .map_or_else(String::new, |i| names[i].clone());
+                let cur = ids.iter().position(|&i| i == v.block).map_or_else(String::new, |i| names[i].clone());
                 ui.label("Block:");
-                if let Some(Value::String(s)) =
-                    crate::widgets::choice_editor(ui, "tw_block", &cur, &names, 240.0)
-                {
+                if let Some(Value::String(s)) = crate::widgets::choice_editor(ui, "tw_block", &cur, &names, 240.0) {
                     if let Some(i) = names.iter().position(|n| *n == s) {
                         v.block = ids[i];
                     }
@@ -572,14 +429,9 @@ fn map_tab(ui: &mut Ui, cx: &mut GameCtx) {
             }
             Tool::Wall => {
                 let (names, ids) = paintable_walls();
-                let cur = ids
-                    .iter()
-                    .position(|&i| i == v.wall)
-                    .map_or_else(String::new, |i| names[i].clone());
+                let cur = ids.iter().position(|&i| i == v.wall).map_or_else(String::new, |i| names[i].clone());
                 ui.label("Wall:");
-                if let Some(Value::String(s)) =
-                    crate::widgets::choice_editor(ui, "tw_wall", &cur, &names, 240.0)
-                {
+                if let Some(Value::String(s)) = crate::widgets::choice_editor(ui, "tw_wall", &cur, &names, 240.0) {
                     if let Some(i) = names.iter().position(|n| *n == s) {
                         v.wall = ids[i];
                     }
@@ -589,10 +441,7 @@ fn map_tab(ui: &mut Ui, cx: &mut GameCtx) {
                 ui.label("Liquid:");
                 let n = if map.shimmer_ok() { 4 } else { 3 };
                 for (i, name) in tw::LIQUIDS.iter().take(n).enumerate() {
-                    if ui
-                        .selectable_label(v.liquid == i as u16 + 1, *name)
-                        .clicked()
-                    {
+                    if ui.selectable_label(v.liquid == i as u16 + 1, *name).clicked() {
                         v.liquid = i as u16 + 1;
                     }
                 }
@@ -601,11 +450,7 @@ fn map_tab(ui: &mut Ui, cx: &mut GameCtx) {
         }
         if painting {
             ui.label("Brush:");
-            ui.add(
-                egui::DragValue::new(&mut v.size)
-                    .range(1..=32)
-                    .suffix(" tiles"),
-            );
+            ui.add(egui::DragValue::new(&mut v.size).range(1..=32).suffix(" tiles"));
         }
         if ui.button("Fit").clicked() {
             v.zoom = 0.0;
@@ -642,30 +487,16 @@ fn map_tab(ui: &mut Ui, cx: &mut GameCtx) {
         }
     }
     let painting = !matches!(v.tool, Tool::Look | Tool::Spawn);
-    let pan = resp.dragged_by(PointerButton::Secondary)
-        || resp.dragged_by(PointerButton::Middle)
-        || (!painting && resp.dragged_by(PointerButton::Primary));
+    let pan = resp.dragged_by(PointerButton::Secondary) || resp.dragged_by(PointerButton::Middle) || (!painting && resp.dragged_by(PointerButton::Primary));
     if pan {
         v.center -= resp.drag_delta() / v.zoom;
     }
     // Keep the view on the world.
     let half = rect.size() / v.zoom / 2.0;
-    v.center.x = if half.x * 2.0 >= w {
-        w / 2.0
-    } else {
-        v.center.x.clamp(half.x, w - half.x)
-    };
-    v.center.y = if half.y * 2.0 >= h {
-        h / 2.0
-    } else {
-        v.center.y.clamp(half.y, h - half.y)
-    };
+    v.center.x = if half.x * 2.0 >= w { w / 2.0 } else { v.center.x.clamp(half.x, w - half.x) };
+    v.center.y = if half.y * 2.0 >= h { h / 2.0 } else { v.center.y.clamp(half.y, h - half.y) };
 
-    let hover_tile = resp
-        .hover_pos()
-        .map(|p| to_tile(v, p))
-        .filter(|t| t.x >= 0.0 && t.y >= 0.0 && t.x < w && t.y < h)
-        .map(|t| (t.x as u32, t.y as u32));
+    let hover_tile = resp.hover_pos().map(|p| to_tile(v, p)).filter(|t| t.x >= 0.0 && t.y >= 0.0 && t.x < w && t.y < h).map(|t| (t.x as u32, t.y as u32));
 
     // Painting: a stroke runs from press to release and becomes one map edit (one undo step).
     let primary_down = ui.input(|i| i.pointer.primary_down());
@@ -680,12 +511,7 @@ fn map_tab(ui: &mut Ui, cx: &mut GameCtx) {
                 _ => (tw::DRAIN_LIQUID, 0),
             };
             let size = v.size;
-            let mut op = v.stroke.take().unwrap_or(Op {
-                mode,
-                value,
-                size,
-                points: vec![],
-            });
+            let mut op = v.stroke.take().unwrap_or(Op { mode, value, size, points: vec![] });
             let last = op.points.last().copied();
             if last != Some(pt) {
                 // Fill in between fast mouse moves so the stroke has no gaps.
@@ -696,10 +522,7 @@ fn map_tab(ui: &mut Ui, cx: &mut GameCtx) {
                     let n = (dx.abs().max(dy.abs()) / step).ceil() as u32;
                     for k in 1..n {
                         let f = k as f32 / n as f32;
-                        pts.push((
-                            (lx as f32 + dx * f).round() as u32,
-                            (ly as f32 + dy * f).round() as u32,
-                        ));
+                        pts.push(((lx as f32 + dx * f).round() as u32, (ly as f32 + dy * f).round() as u32));
                     }
                 }
                 pts.push(pt);
@@ -712,11 +535,7 @@ fn map_tab(ui: &mut Ui, cx: &mut GameCtx) {
         }
     } else if let Some(op) = v.stroke.take() {
         if !op.points.is_empty() {
-            let new = if edits.is_empty() {
-                op.to_text()
-            } else {
-                format!("{edits};{}", op.to_text())
-            };
+            let new = if edits.is_empty() { op.to_text() } else { format!("{edits};{}", op.to_text()) };
             cx.set(tw::EDITS, Value::from(new.clone()));
             v.applied = new;
         }
@@ -729,9 +548,7 @@ fn map_tab(ui: &mut Ui, cx: &mut GameCtx) {
                     cx.set("/World/Spawn Y", Value::from(y));
                 }
                 Tool::Look => {
-                    if let Some(i) = map.chests.iter().position(|&(cxp, cyp)| {
-                        (cxp..cxp + 2).contains(&(x as i32)) && (cyp..cyp + 2).contains(&(y as i32))
-                    }) {
+                    if let Some(i) = map.chests.iter().position(|&(cxp, cyp)| (cxp..cxp + 2).contains(&(x as i32)) && (cyp..cyp + 2).contains(&(y as i32))) {
                         select(ui, "tw_chest", Some(i));
                         select(ui, "tw_tab", Some(3));
                     }
@@ -750,32 +567,17 @@ fn map_tab(ui: &mut Ui, cx: &mut GameCtx) {
         let Some(t) = t else { continue };
         let (x0, y0) = ((i % cxn) * CHUNK, (i / cxn) * CHUNK);
         let [tw_, th] = t.size();
-        let r = Rect::from_min_max(
-            to_screen(x0 as f32, y0 as f32),
-            to_screen((x0 + tw_) as f32, (y0 + th) as f32),
-        );
+        let r = Rect::from_min_max(to_screen(x0 as f32, y0 as f32), to_screen((x0 + tw_) as f32, (y0 + th) as f32));
         if r.intersects(rect) {
-            painter.image(
-                t.id(),
-                r,
-                Rect::from_min_max(Pos2::ZERO, Pos2::new(1.0, 1.0)),
-                Color32::WHITE,
-            );
+            painter.image(t.id(), r, Rect::from_min_max(Pos2::ZERO, Pos2::new(1.0, 1.0)), Color32::WHITE);
         }
     }
     // Markers: chests (when zoomed in), town NPC homes, the spawn point.
     if v.marks[3] && v.zoom >= 2.0 {
         for &(x, y) in &map.chests {
-            let r = Rect::from_min_max(
-                to_screen(x as f32, y as f32),
-                to_screen(x as f32 + 2.0, y as f32 + 2.0),
-            );
+            let r = Rect::from_min_max(to_screen(x as f32, y as f32), to_screen(x as f32 + 2.0, y as f32 + 2.0));
             if r.intersects(rect) {
-                painter.rect_stroke(
-                    r,
-                    1.0,
-                    Stroke::new(1.5_f32, Color32::from_rgb(255, 210, 60)),
-                );
+                painter.rect_stroke(r, 1.0, Stroke::new(1.5_f32, Color32::from_rgb(255, 210, 60)));
             }
         }
     }
@@ -785,25 +587,10 @@ fn map_tab(ui: &mut Ui, cx: &mut GameCtx) {
             continue;
         }
         let p = to_screen(*x as f32 + 0.5, *y as f32 - 1.0);
-        painter.circle(
-            p,
-            5.0,
-            Color32::from_rgb(240, 240, 240),
-            Stroke::new(1.0_f32, Color32::BLACK),
-        );
+        painter.circle(p, 5.0, Color32::from_rgb(240, 240, 240), Stroke::new(1.0_f32, Color32::BLACK));
         if v.zoom >= 1.5 {
-            let label = if name.is_empty() {
-                role.clone()
-            } else {
-                format!("{name} ({role})")
-            };
-            painter.text(
-                p + Vec2::new(8.0, 0.0),
-                egui::Align2::LEFT_CENTER,
-                label,
-                font.clone(),
-                Color32::WHITE,
-            );
+            let label = if name.is_empty() { role.clone() } else { format!("{name} ({role})") };
+            painter.text(p + Vec2::new(8.0, 0.0), egui::Align2::LEFT_CENTER, label, font.clone(), Color32::WHITE);
         }
     }
     let mut near: Option<(f32, usize)> = None;
@@ -819,17 +606,8 @@ fn map_tab(ui: &mut Ui, cx: &mut GameCtx) {
         let c = Color32::from_rgb(k.color[0], k.color[1], k.color[2]);
         let r = if poi.size > 1 { 5.5 } else { 4.0 };
         // A diamond, so points of interest stand apart from the round NPC and spawn markers.
-        let pts = vec![
-            p + Vec2::new(0.0, -r),
-            p + Vec2::new(r, 0.0),
-            p + Vec2::new(0.0, r),
-            p + Vec2::new(-r, 0.0),
-        ];
-        painter.add(egui::Shape::convex_polygon(
-            pts,
-            c,
-            Stroke::new(1.0_f32, Color32::BLACK),
-        ));
+        let pts = vec![p + Vec2::new(0.0, -r), p + Vec2::new(r, 0.0), p + Vec2::new(0.0, r), p + Vec2::new(-r, 0.0)];
+        painter.add(egui::Shape::convex_polygon(pts, c, Stroke::new(1.0_f32, Color32::BLACK)));
         if let Some(hp) = resp.hover_pos() {
             let d = hp.distance(p);
             if d < 10.0 && near.is_none_or(|(best, _)| d < best) {
@@ -837,13 +615,7 @@ fn map_tab(ui: &mut Ui, cx: &mut GameCtx) {
             }
         }
         if v.zoom >= 3.0 {
-            painter.text(
-                p + Vec2::new(8.0, 0.0),
-                egui::Align2::LEFT_CENTER,
-                k.name,
-                font.clone(),
-                Color32::WHITE,
-            );
+            painter.text(p + Vec2::new(8.0, 0.0), egui::Align2::LEFT_CENTER, k.name, font.clone(), Color32::WHITE);
         }
     }
     if let Some((_, i)) = near {
@@ -859,64 +631,24 @@ fn map_tab(ui: &mut Ui, cx: &mut GameCtx) {
         };
         let galley = painter.layout_no_wrap(text, font.clone(), Color32::WHITE);
         let at = p + Vec2::new(10.0, -galley.size().y / 2.0);
-        painter.rect_filled(
-            Rect::from_min_size(
-                at - Vec2::new(3.0, 1.0),
-                galley.size() + Vec2::new(6.0, 2.0),
-            ),
-            3.0,
-            Color32::from_black_alpha(200),
-        );
+        painter.rect_filled(Rect::from_min_size(at - Vec2::new(3.0, 1.0), galley.size() + Vec2::new(6.0, 2.0)), 3.0, Color32::from_black_alpha(200));
         painter.galley(at, galley, Color32::WHITE);
     }
-    if let (true, Some(sx), Some(sy)) = (
-        v.marks[0],
-        cx.int("/World/Spawn X"),
-        cx.int("/World/Spawn Y"),
-    ) {
+    if let (true, Some(sx), Some(sy)) = (v.marks[0], cx.int("/World/Spawn X"), cx.int("/World/Spawn Y")) {
         let p = to_screen(sx as f32 + 0.5, sy as f32 + 0.5);
-        painter.circle(
-            p,
-            6.0,
-            Color32::from_rgb(60, 220, 90),
-            Stroke::new(1.5_f32, Color32::BLACK),
-        );
-        painter.text(
-            p + Vec2::new(9.0, 0.0),
-            egui::Align2::LEFT_CENTER,
-            "Spawn",
-            font.clone(),
-            Color32::WHITE,
-        );
+        painter.circle(p, 6.0, Color32::from_rgb(60, 220, 90), Stroke::new(1.5_f32, Color32::BLACK));
+        painter.text(p + Vec2::new(9.0, 0.0), egui::Align2::LEFT_CENTER, "Spawn", font.clone(), Color32::WHITE);
     }
-    if let (true, Some(dx), Some(dy)) = (
-        v.marks[1],
-        cx.int("/World/Dungeon X"),
-        cx.int("/World/Dungeon Y"),
-    ) {
+    if let (true, Some(dx), Some(dy)) = (v.marks[1], cx.int("/World/Dungeon X"), cx.int("/World/Dungeon Y")) {
         let p = to_screen(dx as f32 + 0.5, dy as f32 + 0.5);
-        painter.circle(
-            p,
-            5.0,
-            Color32::from_rgb(80, 120, 255),
-            Stroke::new(1.5_f32, Color32::BLACK),
-        );
-        painter.text(
-            p + Vec2::new(9.0, 0.0),
-            egui::Align2::LEFT_CENTER,
-            "Dungeon",
-            font.clone(),
-            Color32::WHITE,
-        );
+        painter.circle(p, 5.0, Color32::from_rgb(80, 120, 255), Stroke::new(1.5_f32, Color32::BLACK));
+        painter.text(p + Vec2::new(9.0, 0.0), egui::Align2::LEFT_CENTER, "Dungeon", font.clone(), Color32::WHITE);
     }
     if let (true, Some((x, y))) = (painting, hover_tile) {
         let half = ((v.size.max(1) - 1) / 2) as f32;
         let x0 = x as f32 - half;
         let y0 = y as f32 - half;
-        let r = Rect::from_min_max(
-            to_screen(x0, y0),
-            to_screen(x0 + v.size as f32, y0 + v.size as f32),
-        );
+        let r = Rect::from_min_max(to_screen(x0, y0), to_screen(x0 + v.size as f32, y0 + v.size as f32));
         painter.rect_stroke(r, 0.0, Stroke::new(1.5_f32, Color32::WHITE));
     }
 
@@ -975,10 +707,7 @@ fn poi_panel(ui: &mut Ui, map: &WorldMap, v: &mut MapView) {
                 let (r, _) = ui.allocate_exact_size(Vec2::splat(10.0), Sense::hover());
                 ui.painter().rect_filled(r, 2.0, c);
                 let mut on = v.shown[k];
-                if ui
-                    .checkbox(&mut on, format!("{} ({})", kind.name, counts[k]))
-                    .changed()
-                {
+                if ui.checkbox(&mut on, format!("{} ({})", kind.name, counts[k])).changed() {
                     v.shown[k] = on;
                 }
             }
@@ -988,46 +717,20 @@ fn poi_panel(ui: &mut Ui, map: &WorldMap, v: &mut MapView) {
             return;
         }
         let list: Vec<&tw::Poi> = map.pois.iter().filter(|p| v.shown[p.kind]).collect();
-        egui::CollapsingHeader::new(format!("List ({})", list.len()))
-            .id_salt("tw_poi_list")
-            .show(ui, |ui| {
-                egui::ScrollArea::vertical()
-                    .id_salt("tw_poi_scroll")
-                    .max_height(200.0)
-                    .show(ui, |ui| {
-                        for p in list {
-                            let k = &tw::POI_KINDS[p.kind];
-                            let depth = ((p.y as f64 - map.surface) * 2.0).round() as i64;
-                            let level = if depth > 0 {
-                                format!("{depth} ft deep")
-                            } else {
-                                "surface".to_string()
-                            };
-                            if ui
-                                .selectable_label(
-                                    false,
-                                    format!(
-                                        "{}{}  \u{00B7}  {}, {}  \u{00B7}  {level}",
-                                        k.name,
-                                        if p.note.is_empty() {
-                                            String::new()
-                                        } else {
-                                            format!(": {}", p.note)
-                                        },
-                                        p.x,
-                                        p.y
-                                    ),
-                                )
-                                .on_hover_text("Show it on the map")
-                                .clicked()
-                            {
-                                v.center = Vec2::new(p.x as f32, p.y as f32);
-                                v.zoom = v.zoom.max(4.0);
-                                v.tool = Tool::Look;
-                            }
-                        }
-                    });
+        egui::CollapsingHeader::new(format!("List ({})", list.len())).id_salt("tw_poi_list").show(ui, |ui| {
+            egui::ScrollArea::vertical().id_salt("tw_poi_scroll").max_height(200.0).show(ui, |ui| {
+                for p in list {
+                    let k = &tw::POI_KINDS[p.kind];
+                    let depth = ((p.y as f64 - map.surface) * 2.0).round() as i64;
+                    let level = if depth > 0 { format!("{depth} ft deep") } else { "surface".to_string() };
+                    if ui.selectable_label(false, format!("{}{}  \u{00B7}  {}, {}  \u{00B7}  {level}", k.name, if p.note.is_empty() { String::new() } else { format!(": {}", p.note) }, p.x, p.y)).on_hover_text("Show it on the map").clicked() {
+                        v.center = Vec2::new(p.x as f32, p.y as f32);
+                        v.zoom = v.zoom.max(4.0);
+                        v.tool = Tool::Look;
+                    }
+                }
             });
+        });
         ui.horizontal(|ui| {
             if ui.small_button("Show all").clicked() {
                 v.shown.iter_mut().for_each(|s| *s = true);

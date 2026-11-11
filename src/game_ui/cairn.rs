@@ -10,47 +10,20 @@ const ACCENT: Color32 = Color32::from_rgb(214, 120, 70);
 const NONE: &str = "(none)";
 
 pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
-    let current = cx
-        .archive
-        .map(|(c, _, _)| c.to_string())
-        .unwrap_or_default();
+    let current = cx.archive.map(|(c, _, _)| c.to_string()).unwrap_or_default();
     let sub = crate::app::cairn_save_label(&current).unwrap_or_else(|| current.clone());
     let carried = |cx: &GameCtx, list: &str| {
-        cx.get(&format!("/{}", pointer_escape(list)))
-            .and_then(Value::as_object)
-            .map_or(0, |m| {
-                m.values()
-                    .filter(|r| {
-                        r.get("Item")
-                            .and_then(Value::as_str)
-                            .is_some_and(|s| s != NONE)
-                    })
-                    .count()
-            })
+        cx.get(&format!("/{}", pointer_escape(list))).and_then(Value::as_object).map_or(0, |m| m.values().filter(|r| r.get("Item").and_then(Value::as_str).is_some_and(|s| s != NONE)).count())
     };
-    let (bag, pouch, belt) = (
-        carried(cx, "Backpack"),
-        carried(cx, "Chalk pouch"),
-        carried(cx, "Piton belt"),
-    );
+    let (bag, pouch, belt) = (carried(cx, "Backpack"), carried(cx, "Chalk pouch"), carried(cx, "Piton belt"));
     hero(ui, ACCENT, "Cairn", &sub, |ui| {
         if let Some(s) = cx.int("/Run/Play time (seconds)") {
-            super::fact(
-                ui,
-                "Play time",
-                &format!("{}:{:02}:{:02}", s / 3600, s / 60 % 60, s % 60),
-                ACCENT,
-            );
+            super::fact(ui, "Play time", &format!("{}:{:02}:{:02}", s / 3600, s / 60 % 60, s % 60), ACCENT);
         }
         cx.tile(ui, "Climber", "/Run/Climber", ACCENT);
         cx.tile(ui, "Falls", "/Run/Falls", ACCENT);
         cx.tile(ui, "Deaths", "/Run/Deaths", ACCENT);
-        super::fact(
-            ui,
-            "Carried",
-            &format!("{bag} in the bag, {belt} pitons, {pouch} chalk"),
-            ACCENT,
-        );
+        super::fact(ui, "Carried", &format!("{bag} in the bag, {belt} pitons, {pouch} chalk"), ACCENT);
     });
 
     if let Some((cur, entries, newest)) = cx.archive {
@@ -61,18 +34,12 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
                     .color(crate::theme::MODIFIED),
             );
         }
-        let mut saves: Vec<(String, String)> = entries
-            .iter()
-            .filter_map(|e| crate::app::cairn_save_label(e).map(|l| (e.clone(), l)))
-            .collect();
+        let mut saves: Vec<(String, String)> = entries.iter().filter_map(|e| crate::app::cairn_save_label(e).map(|l| (e.clone(), l))).collect();
         // The save the game continues from first, then the dated autosaves newest first, then the rest.
         saves.sort_by(|a, b| {
             let resume = |e: &str| newest.as_deref() == Some(e);
             let dated = |l: &str| l.starts_with(|c: char| c.is_ascii_digit());
-            resume(&b.0)
-                .cmp(&resume(&a.0))
-                .then(dated(&b.1).cmp(&dated(&a.1)))
-                .then(b.1.cmp(&a.1))
+            resume(&b.0).cmp(&resume(&a.0)).then(dated(&b.1).cmp(&dated(&a.1))).then(b.1.cmp(&a.1))
         });
         saves.dedup_by(|a, b| a.0 == b.0);
         let cur = cur.to_string();
@@ -98,37 +65,29 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
 
     if cx.get("/Buffs").is_some() {
         panel(ui, "Buffs", |ui| {
-            egui::Grid::new("cairn_buffs")
-                .num_columns(4)
-                .striped(true)
-                .spacing([12.0, 6.0])
-                .show(ui, |ui| {
-                    ui.strong("Buff");
-                    ui.strong("Seconds left");
-                    ui.strong("From");
-                    ui.strong("Strength");
+            egui::Grid::new("cairn_buffs").num_columns(4).striped(true).spacing([12.0, 6.0]).show(ui, |ui| {
+                ui.strong("Buff");
+                ui.strong("Seconds left");
+                ui.strong("From");
+                ui.strong("Strength");
+                ui.end_row();
+                for name in crate::fmt::cairn::BUFFS {
+                    let base = format!("/Buffs/{}", pointer_escape(name));
+                    let secs = cx.int(&format!("{base}/Seconds left")).unwrap_or(0);
+                    let stacked = cx.int(&format!("{base}/Stacked")).unwrap_or(0);
+                    cx.label(ui, name, &format!("{base}/Seconds left"));
+                    ui.horizontal(|ui| {
+                        cx.compact(ui, &format!("{base}/Seconds left"), 80.0);
+                        if secs > 0 {
+                            let shown = format!("{}:{:02}", secs / 60, secs % 60);
+                            ui.weak(if stacked > 1 { format!("{shown} ({stacked} stacked)") } else { shown });
+                        }
+                    });
+                    cx.compact(ui, &format!("{base}/From"), 200.0);
+                    cx.compact(ui, &format!("{base}/Strength"), 70.0);
                     ui.end_row();
-                    for name in crate::fmt::cairn::BUFFS {
-                        let base = format!("/Buffs/{}", pointer_escape(name));
-                        let secs = cx.int(&format!("{base}/Seconds left")).unwrap_or(0);
-                        let stacked = cx.int(&format!("{base}/Stacked")).unwrap_or(0);
-                        cx.label(ui, name, &format!("{base}/Seconds left"));
-                        ui.horizontal(|ui| {
-                            cx.compact(ui, &format!("{base}/Seconds left"), 80.0);
-                            if secs > 0 {
-                                let shown = format!("{}:{:02}", secs / 60, secs % 60);
-                                ui.weak(if stacked > 1 {
-                                    format!("{shown} ({stacked} stacked)")
-                                } else {
-                                    shown
-                                });
-                            }
-                        });
-                        cx.compact(ui, &format!("{base}/From"), 200.0);
-                        cx.compact(ui, &format!("{base}/Strength"), 70.0);
-                        ui.end_row();
-                    }
-                });
+                }
+            });
             ui.weak(
                 "Seconds left is the time the game shows for the buff (10:00 is 600). Set it to 0 to end a buff, or give an empty one time to start it \
                  with its usual source and strength. Sips taken one after another stack and run in turn; a changed buff is saved as one with the whole time. \
@@ -163,31 +122,19 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
 /// The rows of one list as a grid of squares, with the chosen one's editor under it.
 fn grid(ui: &mut Ui, cx: &mut GameCtx, id: &str, list: &str, cols: usize) {
     let base = format!("/{}", pointer_escape(list));
-    let keys: Vec<String> = cx
-        .get(&base)
-        .and_then(Value::as_object)
-        .map(|m| m.keys().cloned().collect())
-        .unwrap_or_default();
+    let keys: Vec<String> = cx.get(&base).and_then(Value::as_object).map(|m| m.keys().cloned().collect()).unwrap_or_default();
     let cells: Vec<Cell> = keys
         .iter()
         .map(|k| {
             let p = format!("{base}/{}", pointer_escape(k));
             let item = cx.text(&format!("{p}/Item")).unwrap_or_default();
             let empty = item.is_empty() || item == NONE;
-            let contents = cx
-                .text(&format!("{p}/Contents"))
-                .filter(|c| c != NONE && !c.is_empty());
+            let contents = cx.text(&format!("{p}/Contents")).filter(|c| c != NONE && !c.is_empty());
             Cell {
-                title: if empty {
-                    String::new()
-                } else {
-                    contents.map_or(item.clone(), |c| format!("{item} ({c})"))
-                },
+                title: if empty { String::new() } else { contents.map_or(item.clone(), |c| format!("{item} ({c})")) },
                 count: (!empty).then(|| cx.int(&format!("{p}/Count"))).flatten(),
                 empty,
-                modified: ["Item", "Contents", "Count"]
-                    .iter()
-                    .any(|f| cx.modified(&format!("{p}/{f}"))),
+                modified: ["Item", "Contents", "Count"].iter().any(|f| cx.modified(&format!("{p}/{f}"))),
                 tint: None,
             }
         })
@@ -201,25 +148,18 @@ fn grid(ui: &mut Ui, cx: &mut GameCtx, id: &str, list: &str, cols: usize) {
         return;
     };
     let p = format!("{base}/{}", pointer_escape(&keys[i]));
-    egui::Frame::none()
-        .fill(super::inset_fill(ui, ACCENT))
-        .rounding(8.0)
-        .inner_margin(10.0)
-        .show(ui, |ui| {
-            ui.set_width(ui.available_width());
-            ui.horizontal(|ui| {
-                ui.label(RichText::new(keys[i].as_str()).strong());
-                if ui.small_button("Close").clicked() {
-                    select(ui, id, None);
-                }
-            });
-            egui::Grid::new((id, "row"))
-                .num_columns(2)
-                .spacing([12.0, 6.0])
-                .show(ui, |ui| {
-                    cx.grid_row(ui, "Item", &format!("{p}/Item"), 260.0);
-                    cx.grid_row(ui, "Count", &format!("{p}/Count"), 100.0);
-                    cx.grid_row(ui, "Contents", &format!("{p}/Contents"), 260.0);
-                });
+    egui::Frame::none().fill(super::inset_fill(ui, ACCENT)).rounding(8.0).inner_margin(10.0).show(ui, |ui| {
+        ui.set_width(ui.available_width());
+        ui.horizontal(|ui| {
+            ui.label(RichText::new(keys[i].as_str()).strong());
+            if ui.small_button("Close").clicked() {
+                select(ui, id, None);
+            }
         });
+        egui::Grid::new((id, "row")).num_columns(2).spacing([12.0, 6.0]).show(ui, |ui| {
+            cx.grid_row(ui, "Item", &format!("{p}/Item"), 260.0);
+            cx.grid_row(ui, "Count", &format!("{p}/Count"), 100.0);
+            cx.grid_row(ui, "Contents", &format!("{p}/Contents"), 260.0);
+        });
+    });
 }

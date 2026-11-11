@@ -16,10 +16,7 @@ pub const EDITS: &str = "/Map edits";
 pub fn hash(name: &str) -> u32 {
     let mut h: u32 = 0;
     for c in name.to_lowercase().bytes() {
-        h = (c as u32)
-            .wrapping_add(h << 6)
-            .wrapping_add(h << 16)
-            .wrapping_sub(h);
+        h = (c as u32).wrapping_add(h << 6).wrapping_add(h << 16).wrapping_sub(h);
     }
     h
 }
@@ -61,13 +58,7 @@ const TABLE: &[(&str, &str, State, [u8; 3], bool)] = &[
     ("Vacuum", "Vacuum", State::Vacuum, [0, 0, 0], true),
     ("Unobtanium", "Neutronium", S, [60, 52, 70], true),
     ("Oxygen", "Oxygen", G, [130, 190, 235], true),
-    (
-        "ContaminatedOxygen",
-        "Polluted Oxygen",
-        G,
-        [150, 175, 110],
-        true,
-    ),
+    ("ContaminatedOxygen", "Polluted Oxygen", G, [150, 175, 110], true),
     ("CarbonDioxide", "Carbon Dioxide", G, [95, 95, 95], true),
     ("Hydrogen", "Hydrogen", G, [230, 150, 200], true),
     ("ChlorineGas", "Chlorine Gas", G, [200, 230, 120], true),
@@ -92,13 +83,7 @@ const TABLE: &[(&str, &str, State, [u8; 3], bool)] = &[
     ("PhosphorusGas", "Phosphorus Gas", G, [230, 210, 200], false),
     ("SulfurGas", "Sulfur Gas", G, [230, 220, 120], false),
     ("EthanolGas", "Ethanol Gas", G, [210, 190, 160], false),
-    (
-        "SuperCoolantGas",
-        "Super Coolant Gas",
-        G,
-        [150, 220, 230],
-        false,
-    ),
+    ("SuperCoolantGas", "Super Coolant Gas", G, [150, 220, 230], false),
     ("Fallout", "Nuclear Fallout", G, [150, 200, 60], false),
     ("Syngas", "Syngas", G, [180, 160, 200], false),
     ("Water", "Water", L, [40, 110, 210], true),
@@ -117,48 +102,18 @@ const TABLE: &[(&str, &str, State, [u8; 3], bool)] = &[
     ("Mercury", "Mercury", L, [190, 190, 200], false),
     ("LiquidSulfur", "Liquid Sulfur", L, [230, 200, 60], false),
     ("LiquidOxygen", "Liquid Oxygen", L, [110, 170, 230], false),
-    (
-        "LiquidHydrogen",
-        "Liquid Hydrogen",
-        L,
-        [230, 140, 190],
-        false,
-    ),
-    (
-        "LiquidCarbonDioxide",
-        "Liquid Carbon Dioxide",
-        L,
-        [90, 90, 100],
-        false,
-    ),
+    ("LiquidHydrogen", "Liquid Hydrogen", L, [230, 140, 190], false),
+    ("LiquidCarbonDioxide", "Liquid Carbon Dioxide", L, [90, 90, 100], false),
     ("LiquidPropane", "Liquid Propane", L, [190, 160, 200], false),
     ("LiquidHelium", "Liquid Helium", L, [240, 220, 170], false),
-    (
-        "LiquidPhosphorus",
-        "Liquid Phosphorus",
-        L,
-        [230, 200, 190],
-        false,
-    ),
+    ("LiquidPhosphorus", "Liquid Phosphorus", L, [230, 200, 190], false),
     ("MoltenCopper", "Molten Copper", L, [240, 130, 60], false),
     ("MoltenGold", "Molten Gold", L, [250, 200, 70], false),
     ("MoltenIron", "Molten Iron", L, [240, 110, 70], false),
     ("MoltenSteel", "Molten Steel", L, [230, 150, 120], false),
-    (
-        "MoltenTungsten",
-        "Molten Tungsten",
-        L,
-        [220, 140, 170],
-        false,
-    ),
+    ("MoltenTungsten", "Molten Tungsten", L, [220, 140, 170], false),
     ("MoltenNiobium", "Molten Niobium", L, [200, 150, 190], false),
-    (
-        "MoltenAluminum",
-        "Molten Aluminum",
-        L,
-        [230, 170, 150],
-        false,
-    ),
+    ("MoltenAluminum", "Molten Aluminum", L, [230, 170, 150], false),
     ("MoltenCobalt", "Molten Cobalt", L, [170, 120, 220], false),
     ("MoltenLead", "Molten Lead", L, [200, 140, 140], false),
     ("MoltenUranium", "Molten Uranium", L, [160, 230, 60], false),
@@ -176,13 +131,7 @@ const TABLE: &[(&str, &str, State, [u8; 3], bool)] = &[
     ("Granite", "Granite", S, [150, 120, 120], true),
     ("SandStone", "Sandstone", S, [200, 160, 110], true),
     ("IgneousRock", "Igneous Rock", S, [120, 115, 120], true),
-    (
-        "SedimentaryRock",
-        "Sedimentary Rock",
-        S,
-        [160, 130, 100],
-        true,
-    ),
+    ("SedimentaryRock", "Sedimentary Rock", S, [160, 130, 100], true),
     ("Obsidian", "Obsidian", S, [55, 45, 65], true),
     ("Katairite", "Abyssalite", S, [95, 75, 130], true),
     ("Dirt", "Dirt", S, [130, 90, 60], true),
@@ -217,13 +166,7 @@ const TABLE: &[(&str, &str, State, [u8; 3], bool)] = &[
     ("Rust", "Rust", S, [170, 80, 50], true),
     ("Salt", "Salt", S, [235, 230, 230], true),
     ("Phosphorite", "Phosphorite", S, [200, 170, 160], true),
-    (
-        "Phosphorus",
-        "Refined Phosphorus",
-        S,
-        [220, 190, 180],
-        false,
-    ),
+    ("Phosphorus", "Refined Phosphorus", S, [220, 190, 180], false),
     ("ToxicSand", "Polluted Dirt", S, [120, 110, 70], true),
     ("Polypropylene", "Plastic", S, [230, 230, 200], false),
     ("Isoresin", "Isoresin", S, [210, 150, 60], false),
@@ -236,27 +179,9 @@ const TABLE: &[(&str, &str, State, [u8; 3], bool)] = &[
     ("Cobalt", "Cobalt", S, [100, 120, 200], false),
     ("Cobaltite", "Cobalt Ore", S, [80, 100, 170], false),
     ("UraniumOre", "Uranium Ore", S, [110, 160, 50], false),
-    (
-        "EnrichedUranium",
-        "Enriched Uranium",
-        S,
-        [120, 220, 60],
-        false,
-    ),
-    (
-        "DepletedUranium",
-        "Depleted Uranium",
-        S,
-        [100, 130, 70],
-        false,
-    ),
-    (
-        "SolidNuclearWaste",
-        "Solid Nuclear Waste",
-        S,
-        [110, 170, 40],
-        false,
-    ),
+    ("EnrichedUranium", "Enriched Uranium", S, [120, 220, 60], false),
+    ("DepletedUranium", "Depleted Uranium", S, [100, 130, 70], false),
+    ("SolidNuclearWaste", "Solid Nuclear Waste", S, [110, 170, 40], false),
     ("Graphite", "Graphite", S, [70, 70, 80], false),
     ("Sucrose", "Sucrose", S, [240, 235, 225], false),
     ("SolidResin", "Solid Resin", S, [190, 120, 40], false),
@@ -275,51 +200,21 @@ const TABLE: &[(&str, &str, State, [u8; 3], bool)] = &[
     ("Cinnabar", "Cinnabar", S, [190, 70, 70], false),
     ("SolidMercury", "Solid Mercury", S, [180, 180, 190], false),
     ("SolidCrudeOil", "Solid Crude Oil", S, [50, 40, 35], false),
-    (
-        "SolidPetroleum",
-        "Solid Petroleum",
-        S,
-        [190, 150, 60],
-        false,
-    ),
+    ("SolidPetroleum", "Solid Petroleum", S, [190, 150, 60], false),
     ("SolidNaphtha", "Solid Naphtha", S, [140, 100, 80], false),
     ("SolidChlorine", "Solid Chlorine", S, [170, 210, 90], false),
     ("SolidMethane", "Solid Methane", S, [200, 180, 150], false),
-    (
-        "SolidCarbonDioxide",
-        "Solid Carbon Dioxide",
-        S,
-        [110, 110, 115],
-        false,
-    ),
+    ("SolidCarbonDioxide", "Solid Carbon Dioxide", S, [110, 110, 115], false),
     ("SolidOxygen", "Solid Oxygen", S, [120, 170, 220], false),
     ("SolidHydrogen", "Solid Hydrogen", S, [220, 140, 190], false),
     ("SolidPropane", "Solid Propane", S, [180, 150, 190], false),
     ("SolidEthanol", "Solid Ethanol", S, [190, 160, 120], false),
-    (
-        "SolidSuperCoolant",
-        "Solid Super Coolant",
-        S,
-        [90, 190, 210],
-        false,
-    ),
-    (
-        "SolidViscoGel",
-        "Solid Visco-Gel",
-        S,
-        [190, 100, 190],
-        false,
-    ),
+    ("SolidSuperCoolant", "Solid Super Coolant", S, [90, 190, 210], false),
+    ("SolidViscoGel", "Solid Visco-Gel", S, [190, 100, 190], false),
     ("SolidSyngas", "Solid Syngas", S, [160, 140, 190], false),
     ("MilkFat", "Brackwax", S, [235, 225, 200], false),
     ("MilkIce", "Frozen Brackene", S, [230, 230, 220], false),
-    (
-        "FrozenPhytoOil",
-        "Frozen Phyto Oil",
-        S,
-        [160, 180, 80],
-        false,
-    ),
+    ("FrozenPhytoOil", "Frozen Phyto Oil", S, [160, 180, 80], false),
     ("Tallow", "Tallow", S, [230, 215, 170], false),
     ("Peat", "Peat", S, [90, 70, 50], false),
     ("Amber", "Amber", S, [230, 150, 40], false),
@@ -339,36 +234,13 @@ const TABLE: &[(&str, &str, State, [u8; 3], bool)] = &[
     ("Shale", "Shale", S, [100, 100, 110], false),
     ("SiltStone", "Siltstone", S, [170, 150, 120], false),
     ("Basalt", "Basalt", S, [70, 70, 75], false),
-    (
-        "UnobtaniumAlloy",
-        "Neutronium Alloy",
-        S,
-        [90, 80, 100],
-        false,
-    ),
-    (
-        "MurkyBrineIce",
-        "Murky Brine Ice",
-        S,
-        [150, 170, 165],
-        false,
-    ),
+    ("UnobtaniumAlloy", "Neutronium Alloy", S, [90, 80, 100], false),
+    ("MurkyBrineIce", "Murky Brine Ice", S, [150, 170, 165], false),
 ];
 
 pub fn elements() -> &'static [Element] {
     static E: OnceLock<Vec<Element>> = OnceLock::new();
-    E.get_or_init(|| {
-        TABLE
-            .iter()
-            .map(|&(id, name, state, color, core)| Element {
-                id: hash(id),
-                name,
-                state,
-                color,
-                core,
-            })
-            .collect()
-    })
+    E.get_or_init(|| TABLE.iter().map(|&(id, name, state, color, core)| Element { id: hash(id), name, state, color, core }).collect())
 }
 
 pub fn element(id: u32) -> Option<&'static Element> {
@@ -376,10 +248,7 @@ pub fn element(id: u32) -> Option<&'static Element> {
 }
 
 pub fn element_name(id: u32) -> String {
-    element(id).map_or_else(
-        || format!("Unknown element #{id:08x}"),
-        |e| e.name.to_string(),
-    )
+    element(id).map_or_else(|| format!("Unknown element #{id:08x}"), |e| e.name.to_string())
 }
 
 pub const VACUUM: &str = "Vacuum";
@@ -440,41 +309,13 @@ pub struct PoiKind {
 }
 
 pub const POI_KINDS: [PoiKind; 7] = [
-    PoiKind {
-        name: "Geysers & vents",
-        color: [90, 210, 255],
-        shown: true,
-    },
-    PoiKind {
-        name: "Teleporters",
-        color: [200, 120, 255],
-        shown: true,
-    },
-    PoiKind {
-        name: "Gravitas finds",
-        color: [255, 200, 70],
-        shown: true,
-    },
-    PoiKind {
-        name: "Story traits",
-        color: [255, 130, 90],
-        shown: true,
-    },
-    PoiKind {
-        name: "Artifacts",
-        color: [240, 240, 140],
-        shown: true,
-    },
-    PoiKind {
-        name: "Printing Pod",
-        color: [120, 255, 140],
-        shown: true,
-    },
-    PoiKind {
-        name: "Duplicants",
-        color: [255, 255, 255],
-        shown: false,
-    },
+    PoiKind { name: "Geysers & vents", color: [90, 210, 255], shown: true },
+    PoiKind { name: "Teleporters", color: [200, 120, 255], shown: true },
+    PoiKind { name: "Gravitas finds", color: [255, 200, 70], shown: true },
+    PoiKind { name: "Story traits", color: [255, 130, 90], shown: true },
+    PoiKind { name: "Artifacts", color: [240, 240, 140], shown: true },
+    PoiKind { name: "Printing Pod", color: [120, 255, 140], shown: true },
+    PoiKind { name: "Duplicants", color: [255, 255, 255], shown: false },
 ];
 
 #[derive(Clone, Debug)]
@@ -494,20 +335,14 @@ fn words(s: &str) -> String {
             prev_lower = false;
             continue;
         }
-        if (c.is_uppercase() && prev_lower)
-            || (c.is_ascii_digit()
-                && prev_lower
-                && !out.ends_with(|p: char| p.is_ascii_digit() || p.is_uppercase()))
-        {
+        if (c.is_uppercase() && prev_lower) || (c.is_ascii_digit() && prev_lower && !out.ends_with(|p: char| p.is_ascii_digit() || p.is_uppercase())) {
             out.push(' ');
         }
         prev_lower = c.is_lowercase() || c.is_ascii_digit();
         out.push(c);
     }
     let mut cs = out.chars();
-    cs.next().map_or_else(String::new, |f| {
-        f.to_uppercase().collect::<String>() + cs.as_str()
-    })
+    cs.next().map_or_else(String::new, |f| f.to_uppercase().collect::<String>() + cs.as_str())
 }
 
 /// The point of interest a prefab is, if it's one: (kind, name).
@@ -546,11 +381,7 @@ pub fn poi_of(prefab: &str) -> Option<(usize, String)> {
             "murky_brine" => "Murky Brine Geyser",
             _ => "",
         };
-        let name = if name.is_empty() {
-            format!("{} geyser", words(g))
-        } else {
-            name.to_string()
-        };
+        let name = if name.is_empty() { format!("{} geyser", words(g)) } else { name.to_string() };
         return Some((0, name));
     }
     let (kind, name) = match prefab {
@@ -571,8 +402,7 @@ pub fn poi_of(prefab: &str) -> Option<(usize, String)> {
         "PropReceptionDesk" => (2, "Reception Desk"),
         "MegaBrainTank" => (3, "Somnium Synthesizer"),
         "FossilDig" => (3, "Ancient Specimen"),
-        "FossilIce" | "FossilResin" | "FossilRock" | "FossilBitsLarge" | "FossilBitsSmall"
-        | "FossilSculpture" => (3, "Fossil"),
+        "FossilIce" | "FossilResin" | "FossilRock" | "FossilBitsLarge" | "FossilBitsSmall" | "FossilSculpture" => (3, "Fossil"),
         "HijackedHeadquarters" => (3, "Hijacked Headquarters"),
         "MorbRoverMaker" => (3, "Biobot Builder"),
         "CritterManipulator" | "GravitasCreatureManipulator" => (3, "Critter Flux-O-Matic"),
@@ -681,13 +511,7 @@ impl OniMap {
                 let si = (y + 1) * sw + x + 1;
                 let a = SIM_HEADER + 16 * si;
                 let g = SIM_HEADER + 16 * n + 8 * si;
-                cells.push(Cell {
-                    element: u(a) as u32,
-                    temp: f(a + 4),
-                    mass: f(a + 8),
-                    germ: u(g) as u32,
-                    germs: u(g + 4) as u32 as i32,
-                });
+                cells.push(Cell { element: u(a) as u32, temp: f(a + 4), mass: f(a + 8), germ: u(g) as u32, germs: u(g + 4) as u32 as i32 });
                 rad.push(f(a + 12));
             }
         }
@@ -700,10 +524,7 @@ impl OniMap {
 
     /// Elements a brush can paint in this save.
     pub fn paintable(&self) -> Vec<&'static Element> {
-        let mut v: Vec<&'static Element> = elements()
-            .iter()
-            .filter(|e| e.core || self.present.contains(&e.id))
-            .collect();
+        let mut v: Vec<&'static Element> = elements().iter().filter(|e| e.core || self.present.contains(&e.id)).collect();
         v.sort_by_key(|e| e.name);
         v
     }
@@ -789,10 +610,7 @@ impl Op {
     }
 
     pub fn to_text(&self) -> String {
-        let mut s = format!(
-            "{} {} {} {} {} {}",
-            self.mode, self.world, self.element, self.mass, self.temp, self.size
-        );
+        let mut s = format!("{} {} {} {} {} {}", self.mode, self.world, self.element, self.mass, self.temp, self.size);
         for (x, y) in &self.points {
             s.push_str(&format!(" {x} {y}"));
         }
@@ -801,17 +619,11 @@ impl Op {
 
     /// The cells one stamp covers, clipped to the stroke's world.
     pub fn stamp(&self, (x, y): (u32, u32), map: &OniMap) -> impl Iterator<Item = (usize, usize)> {
-        let (wx, wy, ww, wh) = map.world(self.world as i32).map_or((0, 0, 0, 0), |w| {
-            (w.x as i64, w.y as i64, w.w as i64, w.h as i64)
-        });
+        let (wx, wy, ww, wh) = map.world(self.world as i32).map_or((0, 0, 0, 0), |w| (w.x as i64, w.y as i64, w.w as i64, w.h as i64));
         let half = (self.size as i64 - 1) / 2;
         let (x0, y0) = ((x as i64 - half).max(wx), (y as i64 - half).max(wy));
-        let (x1, y1) = (
-            (x as i64 - half + self.size as i64).min(wx + ww),
-            (y as i64 - half + self.size as i64).min(wy + wh),
-        );
-        (y0..y1.max(y0))
-            .flat_map(move |yy| (x0..x1.max(x0)).map(move |xx| (xx as usize, yy as usize)))
+        let (x1, y1) = ((x as i64 - half + self.size as i64).min(wx + ww), (y as i64 - half + self.size as i64).min(wy + wh));
+        (y0..y1.max(y0)).flat_map(move |yy| (x0..x1.max(x0)).map(move |xx| (xx as usize, yy as usize)))
     }
 }
 
@@ -829,19 +641,8 @@ pub fn parse_ops(s: &str) -> Result<Vec<Op>, String> {
         let mass: f32 = t[3].parse().map_err(|_| bad())?;
         let temp: f32 = t[4].parse().map_err(|_| bad())?;
         let size: u16 = t[5].parse().map_err(|_| bad())?;
-        let n: Vec<u32> = t[6..]
-            .iter()
-            .map(|v| v.parse::<u32>().map_err(|_| bad()))
-            .collect::<Result<_, _>>()?;
-        ops.push(Op {
-            mode,
-            world,
-            element,
-            mass,
-            temp,
-            size,
-            points: n.chunks(2).map(|p| (p[0], p[1])).collect(),
-        });
+        let n: Vec<u32> = t[6..].iter().map(|v| v.parse::<u32>().map_err(|_| bad())).collect::<Result<_, _>>()?;
+        ops.push(Op { mode, world, element, mass, temp, size, points: n.chunks(2).map(|p| (p[0], p[1])).collect() });
     }
     Ok(ops)
 }
@@ -851,17 +652,12 @@ pub const MAX_TEMP: f32 = 9_999.0;
 
 /// Is this a stroke the save can take?
 pub fn op_ok(op: &Op, map: &OniMap) -> Result<(), String> {
-    let w = map
-        .world(op.world as i32)
-        .ok_or("map edit for a world that isn't in this save")?;
+    let w = map.world(op.world as i32).ok_or("map edit for a world that isn't in this save")?;
     match op.base() {
         PAINT => {
             let e = element(op.element).ok_or("unknown element")?;
             if !e.core && !map.present.contains(&e.id) {
-                return Err(format!(
-                    "{} isn't in this save, so it can't be painted",
-                    e.name
-                ));
+                return Err(format!("{} isn't in this save, so it can't be painted", e.name));
             }
             if e.state != State::Vacuum {
                 if !(op.mass > 0.0 && op.mass <= MAX_MASS) {
@@ -889,13 +685,7 @@ pub fn op_ok(op: &Op, map: &OniMap) -> Result<(), String> {
     if op.size == 0 || op.size > 64 || op.points.is_empty() {
         return Err("map edit without a brush".into());
     }
-    if op.points.iter().any(|&(x, y)| {
-        y as usize >= map.height
-            || (x as usize) < w.x
-            || (x as usize) >= w.x + w.w
-            || (y as usize) < w.y
-            || (y as usize) >= w.y + w.h
-    }) {
+    if op.points.iter().any(|&(x, y)| y as usize >= map.height || (x as usize) < w.x || (x as usize) >= w.x + w.w || (y as usize) < w.y || (y as usize) >= w.y + w.h) {
         return Err("map edit outside its world".into());
     }
     Ok(())
@@ -907,30 +697,14 @@ pub fn apply_cell(op: &Op, c: Cell, protected: bool) -> Cell {
         return c;
     }
     let vac = vacuum();
-    let empty = Cell {
-        element: vac,
-        temp: 0.0,
-        mass: 0.0,
-        germ: 0,
-        germs: 0,
-    };
+    let empty = Cell { element: vac, temp: 0.0, mass: 0.0, germ: 0, germs: 0 };
     match op.base() {
         PAINT if op.element == vac => empty,
-        PAINT => Cell {
-            element: op.element,
-            temp: op.temp,
-            mass: op.mass,
-            germ: 0,
-            germs: 0,
-        },
+        PAINT => Cell { element: op.element, temp: op.temp, mass: op.mass, germ: 0, germs: 0 },
         VACUUM_OUT => empty,
         HEAT if c.element != vac => Cell { temp: op.temp, ..c },
         MASS if c.element != vac => Cell { mass: op.mass, ..c },
-        CLEAN => Cell {
-            germ: 0,
-            germs: 0,
-            ..c
-        },
+        CLEAN => Cell { germ: 0, germs: 0, ..c },
         _ => c,
     }
 }
@@ -942,24 +716,18 @@ pub fn color_of(c: &Cell) -> [u8; 3] {
             // Gases are drawn faintly, thicker gas a little stronger.
             State::Gas => {
                 let k = (0.25 + (c.mass / 4.0).min(1.0) * 0.35).min(0.6);
-                [
-                    (e.color[0] as f32 * k) as u8,
-                    (e.color[1] as f32 * k) as u8,
-                    (e.color[2] as f32 * k) as u8,
-                ]
+                [(e.color[0] as f32 * k) as u8, (e.color[1] as f32 * k) as u8, (e.color[2] as f32 * k) as u8]
             }
             _ => e.color,
         },
         None => {
             let h = c.element;
-            [
-                (100 + (h & 0x3F)) as u8,
-                (90 + ((h >> 8) & 0x3F)) as u8,
-                (110 + ((h >> 16) & 0x3F)) as u8,
-            ]
+            [(100 + (h & 0x3F)) as u8, (90 + ((h >> 8) & 0x3F)) as u8, (110 + ((h >> 16) & 0x3F)) as u8]
         }
     }
 }
+
+
 
 #[cfg(test)]
 mod tests {
@@ -976,71 +744,25 @@ mod tests {
 
     #[test]
     fn ops_round_trip() {
-        let op = Op {
-            mode: PAINT | ALSO_NEUTRONIUM,
-            world: 2,
-            element: hash("Water"),
-            mass: 1000.5,
-            temp: 293.15,
-            size: 3,
-            points: vec![(5, 6), (7, 8)],
-        };
-        assert_eq!(
-            parse_ops(&format!("{};{}", op.to_text(), op.to_text())).unwrap(),
-            vec![op.clone(), op]
-        );
+        let op = Op { mode: PAINT | ALSO_NEUTRONIUM, world: 2, element: hash("Water"), mass: 1000.5, temp: 293.15, size: 3, points: vec![(5, 6), (7, 8)] };
+        assert_eq!(parse_ops(&format!("{};{}", op.to_text(), op.to_text())).unwrap(), vec![op.clone(), op]);
         assert!(parse_ops("1 0 0 1").is_err());
     }
 
     #[test]
     fn brushes() {
-        let water = Cell {
-            element: hash("Water"),
-            temp: 300.0,
-            mass: 900.0,
-            germ: 7,
-            germs: 50,
-        };
-        let op = |mode| Op {
-            mode,
-            world: 0,
-            element: hash("Granite"),
-            mass: 1200.0,
-            temp: 280.0,
-            size: 1,
-            points: vec![],
-        };
-        assert_eq!(
-            apply_cell(&op(PAINT), water, false),
-            Cell {
-                element: hash("Granite"),
-                temp: 280.0,
-                mass: 1200.0,
-                germ: 0,
-                germs: 0
-            }
-        );
+        let water = Cell { element: hash("Water"), temp: 300.0, mass: 900.0, germ: 7, germs: 50 };
+        let op = |mode| Op { mode, world: 0, element: hash("Granite"), mass: 1200.0, temp: 280.0, size: 1, points: vec![] };
+        assert_eq!(apply_cell(&op(PAINT), water, false), Cell { element: hash("Granite"), temp: 280.0, mass: 1200.0, germ: 0, germs: 0 });
         assert_eq!(apply_cell(&op(PAINT), water, true), water);
         assert_eq!(apply_cell(&op(HEAT), water, false).temp, 280.0);
         assert_eq!(apply_cell(&op(MASS), water, false).mass, 1200.0);
         assert_eq!(apply_cell(&op(CLEAN), water, false).germs, 0);
         assert_eq!(apply_cell(&op(VACUUM_OUT), water, false).element, vacuum());
-        let n = Cell {
-            element: neutronium(),
-            ..water
-        };
+        let n = Cell { element: neutronium(), ..water };
         assert_eq!(apply_cell(&op(VACUUM_OUT), n, false), n);
-        assert_eq!(
-            apply_cell(&op(VACUUM_OUT | ALSO_NEUTRONIUM), n, false).element,
-            vacuum()
-        );
-        let v = Cell {
-            element: vacuum(),
-            temp: 0.0,
-            mass: 0.0,
-            germ: 0,
-            germs: 0,
-        };
+        assert_eq!(apply_cell(&op(VACUUM_OUT | ALSO_NEUTRONIUM), n, false).element, vacuum());
+        let v = Cell { element: vacuum(), temp: 0.0, mass: 0.0, germ: 0, germs: 0 };
         assert_eq!(apply_cell(&op(HEAT), v, false), v);
     }
 }

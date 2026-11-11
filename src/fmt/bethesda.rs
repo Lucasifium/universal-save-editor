@@ -34,10 +34,7 @@ struct R<'a> {
 
 impl R<'_> {
     fn bytes(&mut self, n: usize) -> Result<&[u8], String> {
-        let b = self
-            .d
-            .get(self.i..self.i + n)
-            .ok_or("unexpected end of save")?;
+        let b = self.d.get(self.i..self.i + n).ok_or("unexpected end of save")?;
         self.i += n;
         Ok(b)
     }
@@ -106,25 +103,11 @@ fn container(d: &[u8]) -> Result<Container, String> {
     let level_at = r.i;
     h.insert("Level".into(), Value::from(r.u32()?));
     h.insert("Location".into(), Value::from(r.wstring()?));
-    h.insert(
-        if game == Game::Skyrim {
-            "In-game date"
-        } else {
-            "Play time"
-        }
-        .into(),
-        Value::from(r.wstring()?),
-    );
+    h.insert(if game == Game::Skyrim { "In-game date" } else { "Play time" }.into(), Value::from(r.wstring()?));
     h.insert("Race".into(), Value::from(r.wstring()?));
-    h.insert(
-        "Sex".into(),
-        Value::from(if r.u16()? == 1 { "Female" } else { "Male" }),
-    );
+    h.insert("Sex".into(), Value::from(if r.u16()? == 1 { "Female" } else { "Male" }));
     h.insert("Experience".into(), crate::tree::f32_value(r.f32()?));
-    h.insert(
-        "Experience for next level".into(),
-        crate::tree::f32_value(r.f32()?),
-    );
+    h.insert("Experience for next level".into(), crate::tree::f32_value(r.f32()?));
     h.insert("Save number".into(), Value::from(save_number));
     r.bytes(8)?; // file time
     let width = r.u32()? as usize;
@@ -143,22 +126,12 @@ fn container(d: &[u8]) -> Result<Container, String> {
     if r.i != header_end {
         return Err("unexpected save header layout".into());
     }
-    let bpp = if game == Game::Skyrim && version < 12 {
-        3
-    } else {
-        4
-    };
+    let bpp = if game == Game::Skyrim && version < 12 { 3 } else { 4 };
     let prefix = header_end + width * height * bpp;
     if prefix > d.len() {
         return Err("truncated save".into());
     }
-    Ok(Container {
-        game,
-        prefix,
-        compression,
-        header: h,
-        level_at,
-    })
+    Ok(Container { game, prefix, compression, header: h, level_at })
 }
 
 fn decompress(d: &[u8], c: &Container) -> Result<Vec<u8>, String> {
@@ -174,14 +147,10 @@ fn decompress(d: &[u8], c: &Container) -> Result<Vec<u8>, String> {
                 return Err("unexpected data after the compressed save".into());
             }
             let out = match c.compression {
-                Compression::Lz4 => {
-                    lz4_flex::block::decompress(body, len).map_err(|e| e.to_string())?
-                }
+                Compression::Lz4 => lz4_flex::block::decompress(body, len).map_err(|e| e.to_string())?,
                 _ => {
                     let mut out = Vec::new();
-                    flate2::read::ZlibDecoder::new(body)
-                        .read_to_end(&mut out)
-                        .map_err(|e| e.to_string())?;
+                    flate2::read::ZlibDecoder::new(body).read_to_end(&mut out).map_err(|e| e.to_string())?;
                     out
                 }
             };
@@ -201,8 +170,7 @@ fn recompress(d: &[u8], c: &Container, body: &[u8]) -> Result<Vec<u8>, String> {
             let packed = match c.compression {
                 Compression::Lz4 => lz4_flex::block::compress(body),
                 _ => {
-                    let mut e =
-                        flate2::write::ZlibEncoder::new(Vec::new(), flate2::Compression::default());
+                    let mut e = flate2::write::ZlibEncoder::new(Vec::new(), flate2::Compression::default());
                     e.write_all(body).map_err(|e| e.to_string())?;
                     e.finish().map_err(|e| e.to_string())?
                 }
@@ -220,10 +188,7 @@ enum Field {
     I32(usize),
     F32(usize),
     /// The player's level: in the player's base record (`body`, 16-bit) and the header (`raw`).
-    Level {
-        body_at: usize,
-        header_at: usize,
-    },
+    Level { body_at: usize, header_at: usize },
 }
 
 #[derive(Clone, Debug)]
@@ -242,16 +207,8 @@ impl Backend for BethBackend {
         let mut raw = self.raw.clone();
         for (leaf, v) in changes {
             let (at, bytes) = match self.fields[*leaf] {
-                Field::I32(at) => (
-                    at,
-                    (crate::tree::int_in(v, i32::MIN as i128, i32::MAX as i128, "This value")?
-                        as i32)
-                        .to_le_bytes(),
-                ),
-                Field::F32(at) => (
-                    at,
-                    (v.as_f64().ok_or("expected a number")? as f32).to_le_bytes(),
-                ),
+                Field::I32(at) => (at, (crate::tree::int_in(v, i32::MIN as i128, i32::MAX as i128, "This value")? as i32).to_le_bytes()),
+                Field::F32(at) => (at, (v.as_f64().ok_or("expected a number")? as f32).to_le_bytes()),
                 Field::Level { body_at, header_at } => {
                     let n = crate::tree::int_in(v, 1, 32767, "The level")? as u16;
                     body[body_at..body_at + 2].copy_from_slice(&n.to_le_bytes());
@@ -276,14 +233,8 @@ impl Backend for BethBackend {
     fn check(&self, leaf: usize, v: &Value) -> Result<(), String> {
         match self.fields[leaf] {
             Field::Level { .. } => crate::tree::int_in(v, 1, 32767, "The level").map(|_| ()),
-            Field::I32(_) => {
-                crate::tree::int_in(v, i32::MIN as i128, i32::MAX as i128, "This value").map(|_| ())
-            }
-            Field::F32(_) => v
-                .as_f64()
-                .filter(|f| f.is_finite() && f.abs() < 3e38)
-                .map(|_| ())
-                .ok_or_else(|| "expected a number".into()),
+            Field::I32(_) => crate::tree::int_in(v, i32::MIN as i128, i32::MAX as i128, "This value").map(|_| ()),
+            Field::F32(_) => v.as_f64().filter(|f| f.is_finite() && f.abs() < 3e38).map(|_| ()).ok_or_else(|| "expected a number".into()),
         }
     }
 
@@ -305,16 +256,8 @@ fn location_table(body: &[u8], game: Game) -> Result<usize, String> {
     let after_plugins = r.i;
     // With or without the light-plugin (ESL) list.
     let mut candidates = vec![after_plugins];
-    if let Ok(n) = (R {
-        d: body,
-        i: after_plugins,
-    })
-    .u16()
-    {
-        let mut r2 = R {
-            d: body,
-            i: after_plugins + 2,
-        };
+    if let Ok(n) = (R { d: body, i: after_plugins }).u16() {
+        let mut r2 = R { d: body, i: after_plugins + 2 };
         if (0..n).all(|_| r2.wstring().is_ok()) {
             candidates.push(r2.i);
         }
@@ -352,31 +295,18 @@ fn global_name(form: u32) -> Option<&'static str> {
 /// form, when it holds actor base data (ACBS, level at +8) and isn't compressed. Order of
 /// a change form's data follows UESP's table (form flags first, then ACBS).
 fn player_level(body: &[u8], table: usize) -> Option<usize> {
-    let u = |o: usize| {
-        body.get(o..o + 4)
-            .map(|b| u32::from_le_bytes(b.try_into().unwrap()))
-    };
+    let u = |o: usize| body.get(o..o + 4).map(|b| u32::from_le_bytes(b.try_into().unwrap()));
     let base = (u(table + 8)? as usize).checked_sub(table + 100)?;
     let at = (u(table + 16)? as usize).checked_sub(base)?;
     let n = u(table + 36)? as usize;
     let mut o = at;
     for _ in 0..n {
-        let id = (u32::from(*body.get(o)?) << 16)
-            | (u32::from(body[o + 1]) << 8)
-            | u32::from(body[o + 2]);
+        let id = (u32::from(*body.get(o)?) << 16) | (u32::from(body[o + 1]) << 8) | u32::from(body[o + 2]);
         let flags = u(o + 3)?;
         let ty = *body.get(o + 7)?;
         let (l1, l2, h) = match ty >> 6 {
-            0 => (
-                usize::from(*body.get(o + 9)?),
-                usize::from(*body.get(o + 10)?),
-                11,
-            ),
-            1 => (
-                usize::from(u16::from_le_bytes([*body.get(o + 9)?, *body.get(o + 10)?])),
-                usize::from(u16::from_le_bytes([*body.get(o + 11)?, *body.get(o + 12)?])),
-                13,
-            ),
+            0 => (usize::from(*body.get(o + 9)?), usize::from(*body.get(o + 10)?), 11),
+            1 => (usize::from(u16::from_le_bytes([*body.get(o + 9)?, *body.get(o + 10)?])), usize::from(u16::from_le_bytes([*body.get(o + 11)?, *body.get(o + 12)?])), 13),
             _ => (u(o + 9)? as usize, u(o + 13)? as usize, 17),
         };
         if id == 0x40_0007 && ty & 0x3F == 9 {
@@ -403,15 +333,9 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
     let c = container(d)?;
     let body = decompress(d, &c)?;
     let table = location_table(&body, c.game)?;
-    let mut t = R {
-        d: &body,
-        i: table + 24,
-    };
+    let mut t = R { d: &body, i: table + 24 };
     let count1 = t.u32()? as usize;
-    let mut r = R {
-        d: &body,
-        i: table + 25 * 4,
-    };
+    let mut r = R { d: &body, i: table + 25 * 4 };
     let mut fields = Vec::new();
     let mut editable = HashMap::new();
     let mut stats = Map::new();
@@ -424,10 +348,7 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
         let data_end = start + len;
         match kind {
             0 => {
-                let mut s = R {
-                    d: &body[..data_end],
-                    i: start,
-                };
+                let mut s = R { d: &body[..data_end], i: start };
                 let n = s.u32()?;
                 for _ in 0..n {
                     let name = s.wstring()?;
@@ -435,26 +356,17 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
                     let at = s.i;
                     let v = s.u32()? as i32;
                     let key = crate::tree::unique_key(&stats, &name);
-                    editable.insert(
-                        format!("/Misc stats/{}", crate::tree::esc(&key)),
-                        fields.len(),
-                    );
+                    editable.insert(format!("/Misc stats/{}", crate::tree::esc(&key)), fields.len());
                     fields.push(Field::I32(at));
                     stats.insert(key, Value::from(v));
                 }
             }
             3 => {
-                let mut s = R {
-                    d: &body[..data_end],
-                    i: start,
-                };
+                let mut s = R { d: &body[..data_end], i: start };
                 let n = s.vsval()?;
                 for _ in 0..n {
                     let id = s.bytes(3)?;
-                    let (kind, value) = (
-                        id[0] >> 6,
-                        ((id[0] as u32 & 0x3F) << 16) | (id[1] as u32) << 8 | id[2] as u32,
-                    );
+                    let (kind, value) = (id[0] >> 6, ((id[0] as u32 & 0x3F) << 16) | (id[1] as u32) << 8 | id[2] as u32);
                     let at = s.i;
                     let v = s.f32()?;
                     let name = match (kind, global_name(value)) {
@@ -463,16 +375,9 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
                         _ => format!("Global {value:06X} (plugin)"),
                     };
                     // Named ones (game time) get their own section; the rest are advanced.
-                    let (section, map) = if kind == 1 && global_name(value).is_some() {
-                        ("Game time", &mut time)
-                    } else {
-                        ("Global variables", &mut globals)
-                    };
+                    let (section, map) = if kind == 1 && global_name(value).is_some() { ("Game time", &mut time) } else { ("Global variables", &mut globals) };
                     let key = crate::tree::unique_key(map, &name);
-                    editable.insert(
-                        format!("/{section}/{}", crate::tree::esc(&key)),
-                        fields.len(),
-                    );
+                    editable.insert(format!("/{section}/{}", crate::tree::esc(&key)), fields.len());
                     fields.push(Field::F32(at));
                     let shown = crate::tree::f32_value(v);
                     map.insert(key, shown);
@@ -485,10 +390,7 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
     let level_note = match (c.game, player_level(&body, table)) {
         (Game::Skyrim, Some(at)) => {
             editable.insert("/Save/Level".into(), fields.len());
-            fields.push(Field::Level {
-                body_at: at,
-                header_at: c.level_at,
-            });
+            fields.push(Field::Level { body_at: at, header_at: c.level_at });
             true
         }
         _ => false,
@@ -502,18 +404,9 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
         Game::Skyrim => "Skyrim save",
         Game::Fallout4 => "Fallout 4 save",
     };
-    let backend = BethBackend {
-        raw: d.to_vec(),
-        body,
-        fields,
-    };
-    let doc = TreeDoc::new(Value::Object(root), editable, name, Box::new(backend))
-        .with_advanced(vec!["Global variables".into()]);
-    let level = if level_note {
-        " The level is changed in the character itself (the game recalculates the experience needed)."
-    } else {
-        ""
-    };
+    let backend = BethBackend { raw: d.to_vec(), body, fields };
+    let doc = TreeDoc::new(Value::Object(root), editable, name, Box::new(backend)).with_advanced(vec!["Global variables".into()]);
+    let level = if level_note { " The level is changed in the character itself (the game recalculates the experience needed)." } else { "" };
     Ok(doc.with_note(format!(
         "Misc stats and global variables (game time, day counters\u{2026}) can be edited.{level} Items, gold and skills are stored in \
          a part of the save whose format isn't documented well enough to change safely \u{2014} use the game's console for those."
@@ -528,16 +421,8 @@ mod tests {
     #[ignore]
     fn real_bethesda_saves() {
         let docs = std::env::var("BETHESDA_SAVES").expect("BETHESDA_SAVES");
-        for game in [
-            "Enderal Special Edition",
-            "Fallout4VR",
-            "Skyrim Special Edition",
-            "Skyrim",
-            "Fallout4",
-        ] {
-            let Ok(dir) = std::fs::read_dir(format!("{docs}\\{game}\\Saves")) else {
-                continue;
-            };
+        for game in ["Enderal Special Edition", "Fallout4VR", "Skyrim Special Edition", "Skyrim", "Fallout4"] {
+            let Ok(dir) = std::fs::read_dir(format!("{docs}\\{game}\\Saves")) else { continue };
             for e in dir.flatten().take(3) {
                 let p = e.path();
                 if !p.extension().is_some_and(|x| x == "ess" || x == "fos") {
@@ -545,28 +430,11 @@ mod tests {
                 }
                 let d = std::fs::read(&p).unwrap();
                 let mut doc = parse(&d).unwrap_or_else(|e| panic!("{}: {e}", p.display()));
-                println!(
-                    "{}: {} | {} stats, time {}",
-                    p.display(),
-                    doc.view["Save"],
-                    doc.view["Misc stats"].as_object().unwrap().len(),
-                    doc.view["Game time"]
-                );
+                println!("{}: {} | {} stats, time {}", p.display(), doc.view["Save"], doc.view["Misc stats"].as_object().unwrap().len(), doc.view["Game time"]);
                 assert_eq!(doc.to_bytes().unwrap(), d);
-                let key = doc.view["Misc stats"]
-                    .as_object()
-                    .unwrap()
-                    .keys()
-                    .next()
-                    .unwrap()
-                    .clone();
-                doc.set(
-                    &format!("/Misc stats/{}", crate::tree::esc(&key)),
-                    Value::from(12345),
-                )
-                .unwrap();
-                doc.set("/Game time/Days passed", Value::from(100.5))
-                    .unwrap();
+                let key = doc.view["Misc stats"].as_object().unwrap().keys().next().unwrap().clone();
+                doc.set(&format!("/Misc stats/{}", crate::tree::esc(&key)), Value::from(12345)).unwrap();
+                doc.set("/Game time/Days passed", Value::from(100.5)).unwrap();
                 let out = doc.to_bytes().unwrap();
                 let again = parse(&out).unwrap();
                 assert_eq!(again.view, doc.view);
@@ -592,12 +460,7 @@ mod tests {
             // table starts right after the location table.
             let base = u(table + 8) as usize - (table + 100);
             let (cf_at, cf_n) = (u(table + 16) as usize - base, u(table + 36) as usize);
-            println!(
-                "{} level {} xp {} | change forms at {cf_at:#x} x{cf_n}",
-                e.file_name().to_string_lossy(),
-                c.header["Level"],
-                c.header["Experience"]
-            );
+            println!("{} level {} xp {} | change forms at {cf_at:#x} x{cf_n}", e.file_name().to_string_lossy(), c.header["Level"], c.header["Experience"]);
             let mut o = cf_at;
             for _ in 0..cf_n {
                 let id = ((body[o] as u32) << 16) | (body[o + 1] as u32) << 8 | body[o + 2] as u32;
@@ -606,29 +469,20 @@ mod tests {
                 let ver = body[o + 8];
                 let (l1, l2, h) = match ty >> 6 {
                     0 => (body[o + 9] as usize, body[o + 10] as usize, 11),
-                    1 => (
-                        u16::from_le_bytes([body[o + 9], body[o + 10]]) as usize,
-                        u16::from_le_bytes([body[o + 11], body[o + 12]]) as usize,
-                        13,
-                    ),
+                    1 => (u16::from_le_bytes([body[o + 9], body[o + 10]]) as usize, u16::from_le_bytes([body[o + 11], body[o + 12]]) as usize, 13),
                     _ => (u(o + 9) as usize, u(o + 13) as usize, 17),
                 };
                 if id == 0x40_0007 || id == 0x40_0014 {
                     let raw = &body[o + h..o + h + l1];
                     let data = if l2 > 0 {
                         let mut out = Vec::new();
-                        flate2::read::ZlibDecoder::new(raw)
-                            .read_to_end(&mut out)
-                            .unwrap();
+                        flate2::read::ZlibDecoder::new(raw).read_to_end(&mut out).unwrap();
                         out
                     } else {
                         raw.to_vec()
                     };
                     let hex: String = data.iter().take(96).map(|b| format!("{b:02x} ")).collect();
-                    println!(
-                        "  id {id:06x} type {} ver {ver} flags {flags:#010x} len {l1}/{l2}: {hex}",
-                        ty & 0x3F
-                    );
+                    println!("  id {id:06x} type {} ver {ver} flags {flags:#010x} len {l1}/{l2}: {hex}", ty & 0x3F);
                 }
                 o += h + l1;
             }

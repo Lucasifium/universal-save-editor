@@ -4,9 +4,7 @@
 use crate::names::{self, Names};
 use crate::theme;
 use crate::widgets;
-use eframe::egui::{
-    self, text::LayoutJob, CollapsingHeader, Color32, FontId, TextFormat, TextStyle, Ui,
-};
+use eframe::egui::{self, text::LayoutJob, CollapsingHeader, Color32, FontId, TextFormat, TextStyle, Ui};
 use serde_json::{Map, Value};
 use std::collections::HashMap;
 
@@ -28,11 +26,7 @@ pub struct TreeCtx<'a> {
 }
 
 fn items(n: usize) -> String {
-    if n == 1 {
-        "1 item".into()
-    } else {
-        format!("{n} items")
-    }
+    if n == 1 { "1 item".into() } else { format!("{n} items") }
 }
 
 impl TreeCtx<'_> {
@@ -47,18 +41,10 @@ fn label_job(ui: &Ui, main: &str, raw: Option<&str>, suffix: &str, color: Color3
     let mut job = LayoutJob::default();
     job.append(main, 0.0, TextFormat::simple(font, color));
     if !suffix.is_empty() {
-        job.append(
-            suffix,
-            6.0,
-            TextFormat::simple(small.clone(), ui.visuals().weak_text_color()),
-        );
+        job.append(suffix, 6.0, TextFormat::simple(small.clone(), ui.visuals().weak_text_color()));
     }
     if let Some(raw) = raw {
-        job.append(
-            raw,
-            8.0,
-            TextFormat::simple(small, Color32::from_rgb(120, 150, 185)),
-        );
+        job.append(raw, 8.0, TextFormat::simple(small, Color32::from_rgb(120, 150, 185)));
     }
     job
 }
@@ -102,45 +88,26 @@ fn node_ui(ui: &mut Ui, key: &str, v: &Value, ptr: &str, ctx: &mut TreeCtx) {
         Value::Object(map) => {
             let n = map.keys().filter(|k| !ctx.hidden(k)).count();
             let job = label_job(ui, &label, raw, &items(n), ui.visuals().strong_text_color());
-            CollapsingHeader::new(job)
-                .id_salt(ptr)
-                .show(ui, |ui| object_children(ui, map, ptr, ctx));
+            CollapsingHeader::new(job).id_salt(ptr).show(ui, |ui| object_children(ui, map, ptr, ctx));
         }
         Value::Array(arr) => {
-            let job = label_job(
-                ui,
-                &label,
-                raw,
-                &items(arr.len()),
-                ui.visuals().strong_text_color(),
-            );
+            let job = label_job(ui, &label, raw, &items(arr.len()), ui.visuals().strong_text_color());
             CollapsingHeader::new(job).id_salt(ptr).show(ui, |ui| {
                 let entries: Vec<(usize, &Value)> = arr.iter().enumerate().collect();
-                paged(ui, ptr, &entries, |ui, (i, child)| {
-                    node_ui(ui, &i.to_string(), child, &format!("{ptr}/{i}"), ctx)
-                });
+                paged(ui, ptr, &entries, |ui, (i, child)| node_ui(ui, &i.to_string(), child, &format!("{ptr}/{i}"), ctx));
             });
         }
         _ => {
             let editable = ctx.editable.is_none_or(|e| e.contains_key(ptr));
             let modified = ctx.baseline.pointer(ptr) != Some(v);
             ui.horizontal(|ui| {
-                let color = if modified {
-                    theme::MODIFIED
-                } else {
-                    ui.visuals().text_color()
-                };
+                let color = if modified { theme::MODIFIED } else { ui.visuals().text_color() };
                 let label_w = (ctx.value_x - ui.cursor().min.x).max(120.0);
                 let job = label_job(ui, &label, raw, "", color);
-                ui.allocate_ui_with_layout(
-                    egui::vec2(label_w, ui.spacing().interact_size.y),
-                    egui::Layout::left_to_right(egui::Align::Center),
-                    |ui| {
-                        ui.set_width(label_w);
-                        ui.add(egui::Label::new(job).truncate())
-                            .on_hover_text(format!("key: {key}\npath: {ptr}"));
-                    },
-                );
+                ui.allocate_ui_with_layout(egui::vec2(label_w, ui.spacing().interact_size.y), egui::Layout::left_to_right(egui::Align::Center), |ui| {
+                    ui.set_width(label_w);
+                    ui.add(egui::Label::new(job).truncate()).on_hover_text(format!("key: {key}\npath: {ptr}"));
+                });
                 if let Some(nv) = widgets::value_editor(ui, ptr, v, editable, 320.0) {
                     ctx.edits.push((ptr.to_string(), nv));
                 }

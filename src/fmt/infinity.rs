@@ -34,20 +34,11 @@ fn u32_at(d: &[u8], at: usize) -> Option<u32> {
 
 /// A NUL-padded text field.
 fn text(d: &[u8], at: usize, n: usize) -> String {
-    d.get(at..at + n)
-        .unwrap_or_default()
-        .iter()
-        .take_while(|&&c| c != 0)
-        .map(|&c| super::bethesda_cp1252(c))
-        .collect::<String>()
-        .trim()
-        .to_string()
+    d.get(at..at + n).unwrap_or_default().iter().take_while(|&&c| c != 0).map(|&c| super::bethesda_cp1252(c)).collect::<String>().trim().to_string()
 }
 
 pub fn looks(d: &[u8]) -> bool {
-    d.len() >= 0xB4
-        && d.starts_with(b"GAMEV2.0")
-        && table(d, 0x20, NPC_SIZE).is_some_and(|(_, n)| (1..=6).contains(&n))
+    d.len() >= 0xB4 && d.starts_with(b"GAMEV2.0") && table(d, 0x20, NPC_SIZE).is_some_and(|(_, n)| (1..=6).contains(&n))
 }
 
 /// (offset, count) of a table whose header fields are at `at`, if it fits in the file.
@@ -130,21 +121,11 @@ fn pst_race_name(id: u8) -> Option<&'static str> {
 
 /// A Planescape: Torment: EE save: a party member has the death variable `Nameless`.
 pub fn is_pst(d: &[u8]) -> bool {
-    let Some((off, n)) = table(d, 0x20, NPC_SIZE) else {
-        return false;
-    };
+    let Some((off, n)) = table(d, 0x20, NPC_SIZE) else { return false };
     looks(d)
         && (0..n).map(|i| off + i * NPC_SIZE).any(|n| {
-            let (Some(cre), Some(size)) = (
-                u32_at(d, n + 4).map(|v| v as usize),
-                u32_at(d, n + 8).map(|v| v as usize),
-            ) else {
-                return false;
-            };
-            size >= 0x2D4
-                && cre.checked_add(size).is_some_and(|e| e <= d.len())
-                && d[cre..].starts_with(b"CRE V1.0")
-                && text(d, cre + 0x280, 32).eq_ignore_ascii_case("nameless")
+            let (Some(cre), Some(size)) = (u32_at(d, n + 4).map(|v| v as usize), u32_at(d, n + 8).map(|v| v as usize)) else { return false };
+            size >= 0x2D4 && cre.checked_add(size).is_some_and(|e| e <= d.len()) && d[cre..].starts_with(b"CRE V1.0") && text(d, cre + 0x280, 32).eq_ignore_ascii_case("nameless")
         })
 }
 
@@ -152,10 +133,7 @@ pub fn is_pst(d: &[u8]) -> bool {
 fn pretty(s: &str) -> String {
     let mut c = s.chars();
     match c.next() {
-        Some(f) => f
-            .to_uppercase()
-            .chain(c.flat_map(char::to_lowercase))
-            .collect(),
+        Some(f) => f.to_uppercase().chain(c.flat_map(char::to_lowercase)).collect(),
         None => String::new(),
     }
 }
@@ -163,10 +141,7 @@ fn pretty(s: &str) -> String {
 /// The value of a global variable (e.g. CHAPTER).
 fn global(d: &[u8], name: &str) -> Option<(usize, i32)> {
     let (off, n) = table(d, 0x38, VAR_SIZE)?;
-    (0..n)
-        .map(|i| off + i * VAR_SIZE)
-        .find(|&v| text(d, v, 32).eq_ignore_ascii_case(name))
-        .and_then(|v| Some((v + 0x28, u32_at(d, v + 0x28)? as i32)))
+    (0..n).map(|i| off + i * VAR_SIZE).find(|&v| text(d, v, 32).eq_ignore_ascii_case(name)).and_then(|v| Some((v + 0x28, u32_at(d, v + 0x28)? as i32)))
 }
 
 pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
@@ -177,9 +152,7 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
     let mut b = Builder::new(d);
     b.field(&["Party", "Gold"], 0x18, Kind::U32);
     let reps: Vec<(String, u64)> = (1..=20).map(|r| (r.to_string(), r * 10)).collect();
-    if b.pick(&["Party", "Reputation"], 0x54, Kind::U32, &reps)
-        .is_none()
-    {
+    if b.pick(&["Party", "Reputation"], 0x54, Kind::U32, &reps).is_none() {
         b.ranged(&["Party", "Reputation (x10)"], 0x54, Kind::U32, 10, 200);
     }
     if let Some((_, ch)) = global(d, "CHAPTER") {
@@ -191,24 +164,13 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
     b.info(&["Party", "Area"], text(d, 0x58, 8));
 
     let (npc_off, npc_n) = table(d, 0x20, NPC_SIZE).ok_or("party table out of range")?;
-    let mut npcs: Vec<(u16, usize)> = (0..npc_n)
-        .map(|i| npc_off + i * NPC_SIZE)
-        .map(|n| (u16_at(d, n + 2).unwrap_or(0xFFFF), n))
-        .collect();
+    let mut npcs: Vec<(u16, usize)> = (0..npc_n).map(|i| npc_off + i * NPC_SIZE).map(|n| (u16_at(d, n + 2).unwrap_or(0xFFFF), n)).collect();
     npcs.sort_by_key(|x| x.0);
     let mut used: Vec<String> = vec![];
     let mut members = 0;
     for (order, n) in npcs {
-        let (Some(cre), Some(size)) = (
-            u32_at(d, n + 4).map(|v| v as usize),
-            u32_at(d, n + 8).map(|v| v as usize),
-        ) else {
-            continue;
-        };
-        if size < 0x2D4
-            || cre.checked_add(size).is_none_or(|e| e > d.len())
-            || !d[cre..].starts_with(b"CRE V1.0")
-        {
+        let (Some(cre), Some(size)) = (u32_at(d, n + 4).map(|v| v as usize), u32_at(d, n + 8).map(|v| v as usize)) else { continue };
+        if size < 0x2D4 || cre.checked_add(size).is_none_or(|e| e > d.len()) || !d[cre..].starts_with(b"CRE V1.0") {
             continue;
         }
         // The protagonist's name is in the NPC struct; companions are named by their script name.
@@ -239,21 +201,11 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
         b.info(&p("Creature"), text(d, n + 0x0C, 8));
         let class = d[cre + 0x273];
         let cname = class_name(class);
-        b.info(
-            &p("Class"),
-            cname.map_or_else(|| format!("class #{class}"), str::to_string),
-        );
+        b.info(&p("Class"), cname.map_or_else(|| format!("class #{class}"), str::to_string));
         let race = d[cre + 0x272];
         // PST:EE leaves some party members' race byte at values that aren't theirs (0 for
         // the Nameless One), so only a known entry is shown there.
-        match (
-            pst,
-            if pst {
-                pst_race_name(race)
-            } else {
-                race_name(race)
-            },
-        ) {
+        match (pst, if pst { pst_race_name(race) } else { race_name(race) }) {
             (_, Some(r)) => b.info(&p("Race"), r),
             (false, None) => b.info(&p("Race"), format!("race #{race}")),
             (true, None) => {}
@@ -262,77 +214,33 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
         b.ranged(&p("Hit points"), cre + 0x24, Kind::U16, 0, 32767);
         b.ranged(&p("Max hit points"), cre + 0x26, Kind::U16, 1, 32767);
         // One level per class of a multi-class (first class first); a single class has one.
-        let parts: Vec<&str> = cname
-            .map(|c| c.split('/').collect())
-            .unwrap_or_else(|| vec!["Class"]);
+        let parts: Vec<&str> = cname.map(|c| c.split('/').collect()).unwrap_or_else(|| vec!["Class"]);
         for (i, part) in parts.iter().enumerate().take(3) {
-            let label = if parts.len() == 1 {
-                "Level".to_string()
-            } else {
-                format!("{part} level")
-            };
-            b.ranged(
-                &[m[0], m[1], &label],
-                cre + 0x234 + i,
-                Kind::U8,
-                if i == 0 { 1 } else { 0 },
-                100,
-            );
+            let label = if parts.len() == 1 { "Level".to_string() } else { format!("{part} level") };
+            b.ranged(&[m[0], m[1], &label], cre + 0x234 + i, Kind::U8, if i == 0 { 1 } else { 0 }, 100);
         }
-        for (i, label) in [
-            "Strength",
-            "Strength bonus (18/xx)",
-            "Intelligence",
-            "Wisdom",
-            "Dexterity",
-            "Constitution",
-            "Charisma",
-        ]
-        .iter()
-        .enumerate()
-        {
+        for (i, label) in ["Strength", "Strength bonus (18/xx)", "Intelligence", "Wisdom", "Dexterity", "Constitution", "Charisma"].iter().enumerate() {
             let (lo, hi) = if i == 1 { (0, 100) } else { (1, 25) };
             b.ranged(&p(label), cre + 0x238 + i, Kind::U8, lo, hi);
         }
-        let opts: Vec<(String, u64)> = ALIGNMENTS
-            .iter()
-            .map(|(n, v)| (n.to_string(), *v))
-            .collect();
-        if b.pick(&p("Alignment"), cre + 0x27B, Kind::U8, &opts)
-            .is_none()
-        {
+        let opts: Vec<(String, u64)> = ALIGNMENTS.iter().map(|(n, v)| (n.to_string(), *v)).collect();
+        if b.pick(&p("Alignment"), cre + 0x27B, Kind::U8, &opts).is_none() {
             b.info(&p("Alignment"), format!("0x{:02X}", d[cre + 0x27B]));
         }
         // Items: stack size / charges (the first counter is the stack size of ammunition
         // and potions, a wand's charges otherwise).
-        let (io, ic) = (
-            u32_at(d, cre + 0x2BC).unwrap_or(0) as usize,
-            u32_at(d, cre + 0x2C0).unwrap_or(0) as usize,
-        );
+        let (io, ic) = (u32_at(d, cre + 0x2BC).unwrap_or(0) as usize, u32_at(d, cre + 0x2C0).unwrap_or(0) as usize);
         if ic <= 1000 && io.checked_add(ic * ITEM_SIZE).is_some_and(|e| e <= size) {
             let width = ic.to_string().len().max(2);
             for i in 0..ic {
                 let at = cre + io + i * ITEM_SIZE;
                 let res = text(d, at, 8);
-                let ik = format!(
-                    "{:0width$} {}",
-                    i + 1,
-                    if res.is_empty() { "(no name)" } else { &res }
-                );
+                let ik = format!("{:0width$} {}", i + 1, if res.is_empty() { "(no name)" } else { &res });
                 let it = [m[0], m[1], "Items", ik.as_str()];
                 let mut any = false;
-                for (j, label) in ["Quantity / charges", "Charges 2", "Charges 3"]
-                    .iter()
-                    .enumerate()
-                {
+                for (j, label) in ["Quantity / charges", "Charges 2", "Charges 3"].iter().enumerate() {
                     if u16_at(d, at + 0x0A + 2 * j).is_some_and(|v| v > 0) {
-                        b.ranged(
-                            &[it[0], it[1], it[2], it[3], label],
-                            at + 0x0A + 2 * j,
-                            Kind::U16,
-                            0,
-                            32767,
-                        );
+                        b.ranged(&[it[0], it[1], it[2], it[3], label], at + 0x0A + 2 * j, Kind::U16, 0, 32767);
                         any = true;
                     }
                 }
@@ -368,19 +276,12 @@ pub(crate) mod tests {
         d.resize(var_off + VAR_SIZE, 0);
         d[var_off..var_off + 7].copy_from_slice(b"CHAPTER");
         d[var_off + 0x28..var_off + 0x2C].copy_from_slice(&3i32.to_le_bytes());
-        let put =
-            |d: &mut Vec<u8>, at: usize, v: u32| d[at..at + 4].copy_from_slice(&v.to_le_bytes());
+        let put = |d: &mut Vec<u8>, at: usize, v: u32| d[at..at + 4].copy_from_slice(&v.to_le_bytes());
         put(&mut d, 0x20, npc_off as u32);
         put(&mut d, 0x24, 2);
         put(&mut d, 0x38, var_off as u32);
         put(&mut d, 0x3C, 1);
-        for (i, (order, name, death, class, xp)) in [
-            (1u16, "", "SKIE", 4u8, 900u32),
-            (0, "Hero", "None", 8, 5000),
-        ]
-        .into_iter()
-        .enumerate()
-        {
+        for (i, (order, name, death, class, xp)) in [(1u16, "", "SKIE", 4u8, 900u32), (0, "Hero", "None", 8, 5000)].into_iter().enumerate() {
             let cre = d.len();
             let mut c = vec![0u8; 0x2D4 + 2 * ITEM_SIZE];
             c[..8].copy_from_slice(b"CRE V1.0");
@@ -421,45 +322,20 @@ pub(crate) mod tests {
         // Sorted by portrait slot: the protagonist first.
         let names: Vec<&String> = v["Party members"].as_object().unwrap().keys().collect();
         assert_eq!(names, ["Hero", "Skie"]);
-        assert_eq!(
-            v.pointer("/Party members/Hero/Class"),
-            Some(&"Fighter/Cleric".into())
-        );
-        assert_eq!(
-            v.pointer("/Party members/Hero/Fighter level"),
-            Some(&3.into())
-        );
-        assert_eq!(
-            v.pointer("/Party members/Hero/Cleric level"),
-            Some(&2.into())
-        );
+        assert_eq!(v.pointer("/Party members/Hero/Class"), Some(&"Fighter/Cleric".into()));
+        assert_eq!(v.pointer("/Party members/Hero/Fighter level"), Some(&3.into()));
+        assert_eq!(v.pointer("/Party members/Hero/Cleric level"), Some(&2.into()));
         assert!(v.pointer("/Party members/Skie/Thief level").is_none());
         assert_eq!(v.pointer("/Party members/Skie/Level"), Some(&3.into()));
-        assert_eq!(
-            v.pointer("/Party members/Skie/Strength bonus (18~1xx)"),
-            Some(&50.into())
-        );
-        assert_eq!(
-            v.pointer("/Party members/Skie/Alignment"),
-            Some(&"True neutral".into())
-        );
-        assert_eq!(
-            v.pointer("/Party members/Skie/Items/01 POTN08/Quantity ~1 charges"),
-            Some(&5.into())
-        );
-        assert!(!doc
-            .editable
-            .contains_key("/Party members/Skie/Items/02 SW1H01/Quantity ~1 charges"));
+        assert_eq!(v.pointer("/Party members/Skie/Strength bonus (18~1xx)"), Some(&50.into()));
+        assert_eq!(v.pointer("/Party members/Skie/Alignment"), Some(&"True neutral".into()));
+        assert_eq!(v.pointer("/Party members/Skie/Items/01 POTN08/Quantity ~1 charges"), Some(&5.into()));
+        assert!(!doc.editable.contains_key("/Party members/Skie/Items/02 SW1H01/Quantity ~1 charges"));
         doc.set("/Party/Gold", 1235.into()).unwrap();
         doc.set("/Party/Reputation", "20".into()).unwrap();
         doc.set("/Party members/Hero/Dexterity", 18.into()).unwrap();
-        doc.set("/Party members/Hero/Alignment", "Chaotic evil".into())
-            .unwrap();
-        doc.set(
-            "/Party members/Skie/Items/01 POTN08/Quantity ~1 charges",
-            10.into(),
-        )
-        .unwrap();
+        doc.set("/Party members/Hero/Alignment", "Chaotic evil".into()).unwrap();
+        doc.set("/Party members/Skie/Items/01 POTN08/Quantity ~1 charges", 10.into()).unwrap();
         assert!(doc.set("/Party members/Hero/Strength", 26.into()).is_err());
         let out = doc.to_bytes().unwrap();
         assert_eq!(out.len(), d.len());
@@ -468,20 +344,9 @@ pub(crate) mod tests {
         let again = parse(&out).unwrap();
         assert_eq!(again.view.pointer("/Party/Gold"), Some(&1235.into()));
         assert_eq!(again.view.pointer("/Party/Reputation"), Some(&"20".into()));
-        assert_eq!(
-            again.view.pointer("/Party members/Hero/Dexterity"),
-            Some(&18.into())
-        );
-        assert_eq!(
-            again.view.pointer("/Party members/Hero/Alignment"),
-            Some(&"Chaotic evil".into())
-        );
-        assert_eq!(
-            again
-                .view
-                .pointer("/Party members/Skie/Items/01 POTN08/Quantity ~1 charges"),
-            Some(&10.into())
-        );
+        assert_eq!(again.view.pointer("/Party members/Hero/Dexterity"), Some(&18.into()));
+        assert_eq!(again.view.pointer("/Party members/Hero/Alignment"), Some(&"Chaotic evil".into()));
+        assert_eq!(again.view.pointer("/Party members/Skie/Items/01 POTN08/Quantity ~1 charges"), Some(&10.into()));
         // Not a GAM.
         assert!(!looks(b"GAMEV1.1 and more bytes"));
     }
@@ -504,20 +369,11 @@ pub(crate) mod tests {
         assert_eq!(doc.kind_name, KIND_PST);
         let v = &doc.view;
         assert!(v.pointer("/Party members/The Nameless One").is_some());
-        assert!(
-            v.pointer("/Party members/The Nameless One/Race").is_none(),
-            "race 0 isn't a PST race"
-        );
+        assert!(v.pointer("/Party members/The Nameless One/Race").is_none(), "race 0 isn't a PST race");
         assert_eq!(v.pointer("/Party members/Skie/Race"), Some(&"Morte".into()));
-        doc.set("/Party members/The Nameless One/Experience", 7000.into())
-            .unwrap();
+        doc.set("/Party members/The Nameless One/Experience", 7000.into()).unwrap();
         let again = parse(&doc.to_bytes().unwrap()).unwrap();
-        assert_eq!(
-            again
-                .view
-                .pointer("/Party members/The Nameless One/Experience"),
-            Some(&7000.into())
-        );
+        assert_eq!(again.view.pointer("/Party members/The Nameless One/Experience"), Some(&7000.into()));
     }
 
     /// Research aid: SAVE_EDITOR_IE = BALDUR.gam files separated by `|`. Each must parse,
@@ -526,28 +382,14 @@ pub(crate) mod tests {
     #[test]
     #[ignore]
     fn real_saves() {
-        for path in std::env::var("SAVE_EDITOR_IE")
-            .unwrap()
-            .split('|')
-            .filter(|s| !s.is_empty())
-        {
+        for path in std::env::var("SAVE_EDITOR_IE").unwrap().split('|').filter(|s| !s.is_empty()) {
             let d = std::fs::read(path).unwrap();
             let mut doc = parse(&d).unwrap();
-            println!(
-                "{path}\n{}",
-                serde_json::to_string_pretty(&doc.view).unwrap()
-            );
+            println!("{path}\n{}", serde_json::to_string_pretty(&doc.view).unwrap());
             assert_eq!(doc.to_bytes().unwrap(), d, "round trip");
             let gold = doc.view["Party"]["Gold"].as_u64().unwrap();
             doc.set("/Party/Gold", (gold + 1).into()).unwrap();
-            let first = doc.view["Party members"]
-                .as_object()
-                .unwrap()
-                .keys()
-                .next()
-                .unwrap()
-                .replace('~', "~0")
-                .replace('/', "~1");
+            let first = doc.view["Party members"].as_object().unwrap().keys().next().unwrap().replace('~', "~0").replace('/', "~1");
             let dp = format!("/Party members/{first}/Dexterity");
             let dex = doc.view.pointer(&dp).unwrap().as_u64().unwrap();
             let nd = if dex < 25 { dex + 1 } else { dex - 1 };

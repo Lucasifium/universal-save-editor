@@ -22,10 +22,7 @@ pub struct Section {
 pub enum Shape {
     /// An array of objects: `id_key` names the item, `qty_keys[0]` is the count the screen
     /// edits and the others (a reserved or unreserved copy) are kept equal to it.
-    Array {
-        id_key: &'static str,
-        qty_keys: &'static [&'static str],
-    },
+    Array { id_key: &'static str, qty_keys: &'static [&'static str] },
     /// An object of `name: count` (the name is the id).
     Map,
 }
@@ -94,10 +91,7 @@ impl Spec {
 
 /// Index of the spec that recognises this save.
 pub fn detect(kind: &str, root: &Value) -> Option<u16> {
-    SPECS
-        .iter()
-        .position(|s| s.matches(kind, root))
-        .map(|i| i as u16)
+    SPECS.iter().position(|s| s.matches(kind, root)).map(|i| i as u16)
 }
 
 pub fn tab_label(i: u16) -> &'static str {
@@ -110,9 +104,7 @@ fn qty_path(base: &str, i: usize, key: &str) -> String {
 
 /// What one list entry is: (id as text, pointer of its count).
 fn entries(cx: &GameCtx, l: &List) -> Vec<(String, String)> {
-    let Some(v) = cx.get(l.path) else {
-        return vec![];
-    };
+    let Some(v) = cx.get(l.path) else { return vec![] };
     match (&l.shape, v) {
         (Shape::Array { id_key, qty_keys }, Value::Array(a)) => a
             .iter()
@@ -120,10 +112,7 @@ fn entries(cx: &GameCtx, l: &List) -> Vec<(String, String)> {
             .filter_map(|(i, e)| {
                 let id = match e.get(*id_key)? {
                     Value::String(s) => s.clone(),
-                    n => n
-                        .as_i64()
-                        .map(|n| n.to_string())
-                        .or_else(|| n.as_f64().map(|f| f.to_string()))?,
+                    n => n.as_i64().map(|n| n.to_string()).or_else(|| n.as_f64().map(|f| f.to_string()))?,
                 };
                 e.get(qty_keys[0])?.as_f64()?;
                 Some((id, qty_path(l.path, i, qty_keys[0])))
@@ -132,22 +121,14 @@ fn entries(cx: &GameCtx, l: &List) -> Vec<(String, String)> {
         (Shape::Map, Value::Object(m)) => m
             .iter()
             .filter(|(_, v)| v.is_number())
-            .map(|(k, _)| {
-                (
-                    k.clone(),
-                    format!("{}/{}", l.path, crate::json_view::pointer_escape(k)),
-                )
-            })
+            .map(|(k, _)| (k.clone(), format!("{}/{}", l.path, crate::json_view::pointer_escape(k))))
             .collect(),
         _ => vec![],
     }
 }
 
 fn name_of(l: &List, id: &str) -> String {
-    l.names
-        .iter()
-        .find(|(i, _)| *i == id)
-        .map_or_else(|| format!("Item {id}"), |(_, n)| n.to_string())
+    l.names.iter().find(|(i, _)| *i == id).map_or_else(|| format!("Item {id}"), |(_, n)| n.to_string())
 }
 
 /// Sets a list entry's count, and its mirrored copies.
@@ -173,11 +154,7 @@ pub fn apply_max(cx: &mut GameCtx, l: &List) -> usize {
         if !m.ids.contains(&id.as_str()) {
             continue;
         }
-        let cap = m
-            .caps
-            .iter()
-            .find(|(c, _)| *c == id)
-            .map_or(m.cap, |(_, c)| *c);
+        let cap = m.caps.iter().find(|(c, _)| *c == id).map_or(m.cap, |(_, c)| *c);
         if cx.num(&p).is_some_and(|have| have < cap as f64) {
             set_count(cx, l, &p, Value::from(cap));
             n += 1;
@@ -207,22 +184,15 @@ pub fn show(i: u16, ui: &mut Ui, cx: &mut GameCtx) {
             }
         }
     });
-    let visible: Vec<&Section> = s
-        .sections
-        .iter()
-        .filter(|sec| sec.rows.iter().any(|(_, p)| cx.get(p).is_some()))
-        .collect();
+    let visible: Vec<&Section> = s.sections.iter().filter(|sec| sec.rows.iter().any(|(_, p)| cx.get(p).is_some())).collect();
     columns(ui, 360.0, visible.len(), |ui, k| {
         let sec = visible[k];
         panel(ui, sec.title, |ui| {
-            egui::Grid::new(("simple_grid", i, k))
-                .num_columns(2)
-                .spacing([14.0, 5.0])
-                .show(ui, |ui| {
-                    for (label, p) in sec.rows {
-                        cx.grid_row(ui, label, p, 110.0);
-                    }
-                });
+            egui::Grid::new(("simple_grid", i, k)).num_columns(2).spacing([14.0, 5.0]).show(ui, |ui| {
+                for (label, p) in sec.rows {
+                    cx.grid_row(ui, label, p, 110.0);
+                }
+            });
         });
     });
     for (ti, t) in s.tables.iter().enumerate() {
@@ -235,54 +205,35 @@ pub fn show(i: u16, ui: &mut Ui, cx: &mut GameCtx) {
         }
         panel(ui, &format!("{} ({n})", t.title), |ui| {
             let q = filter(ui, &format!("t{i}/{ti}"));
-            egui::ScrollArea::horizontal()
-                .id_salt(("simple_table_scroll", i, ti))
-                .show(ui, |ui| {
-                    egui::Grid::new(("simple_table", i, ti))
-                        .num_columns(t.cols.len() + 1)
-                        .spacing([8.0, 4.0])
-                        .striped(true)
-                        .show(ui, |ui| {
-                            ui.label("");
-                            for (h, _) in t.cols {
-                                ui.label(egui::RichText::new(*h).strong());
+            egui::ScrollArea::horizontal().id_salt(("simple_table_scroll", i, ti)).show(ui, |ui| {
+                egui::Grid::new(("simple_table", i, ti)).num_columns(t.cols.len() + 1).spacing([8.0, 4.0]).striped(true).show(ui, |ui| {
+                    ui.label("");
+                    for (h, _) in t.cols {
+                        ui.label(egui::RichText::new(*h).strong());
+                    }
+                    ui.end_row();
+                    for r in 0..n {
+                        let name = t.name.iter().filter_map(|k| cx.text(&format!("{}/{r}{k}", t.path))).collect::<Vec<_>>().join(" ");
+                        if !q.is_empty() && !name.to_lowercase().contains(&q) {
+                            continue;
+                        }
+                        if !t.only.is_empty() && !t.only.contains(&name.as_str()) {
+                            continue;
+                        }
+                        let name = t.names.iter().find(|(id, _)| *id == name).map_or(name, |(_, n)| n.to_string());
+                        ui.label(if name.is_empty() { format!("#{}", r + 1) } else { name });
+                        for (_, k) in t.cols {
+                            let p = format!("{}/{r}{k}", t.path);
+                            if cx.get(&p).is_some() {
+                                cx.cell(ui, &p, 64.0);
+                            } else {
+                                ui.label("");
                             }
-                            ui.end_row();
-                            for r in 0..n {
-                                let name = t
-                                    .name
-                                    .iter()
-                                    .filter_map(|k| cx.text(&format!("{}/{r}{k}", t.path)))
-                                    .collect::<Vec<_>>()
-                                    .join(" ");
-                                if !q.is_empty() && !name.to_lowercase().contains(&q) {
-                                    continue;
-                                }
-                                if !t.only.is_empty() && !t.only.contains(&name.as_str()) {
-                                    continue;
-                                }
-                                let name = t
-                                    .names
-                                    .iter()
-                                    .find(|(id, _)| *id == name)
-                                    .map_or(name, |(_, n)| n.to_string());
-                                ui.label(if name.is_empty() {
-                                    format!("#{}", r + 1)
-                                } else {
-                                    name
-                                });
-                                for (_, k) in t.cols {
-                                    let p = format!("{}/{r}{k}", t.path);
-                                    if cx.get(&p).is_some() {
-                                        cx.cell(ui, &p, 64.0);
-                                    } else {
-                                        ui.label("");
-                                    }
-                                }
-                                ui.end_row();
-                            }
-                        });
+                        }
+                        ui.end_row();
+                    }
                 });
+            });
         });
     }
     for (li, l) in s.lists.iter().enumerate() {
@@ -293,46 +244,31 @@ pub fn show(i: u16, ui: &mut Ui, cx: &mut GameCtx) {
         panel(ui, l.title, |ui| {
             if let Some(m) = &l.max {
                 ui.horizontal(|ui| {
-                    let tip = format!(
-                        "{}{}",
-                        m.about,
-                        if m.estimate {
-                            " The cap is an estimate from community guides."
-                        } else {
-                            ""
-                        }
-                    );
-                    if ui
-                        .button(format!("Max crafting materials ({})", m.cap))
-                        .on_hover_text(tip)
-                        .clicked()
-                    {
+                    let tip = format!("{}{}", m.about, if m.estimate { " The cap is an estimate from community guides." } else { "" });
+                    if ui.button(format!("Max crafting materials ({})", m.cap)).on_hover_text(tip).clicked() {
                         apply_max(cx, l);
                     }
                 });
             }
             let q = filter(ui, &format!("{i}/{li}"));
-            egui::Grid::new(("simple_list", i, li))
-                .num_columns(2)
-                .spacing([14.0, 4.0])
-                .show(ui, |ui| {
-                    for (id, p) in &list {
-                        let name = name_of(l, id);
-                        if !q.is_empty() && !name.to_lowercase().contains(&q) {
-                            continue;
-                        }
-                        cx.label(ui, &name, p);
-                        let n = cx.edits.len();
-                        ui.horizontal(|ui| cx.editor(ui, p, 110.0));
-                        if cx.edits.len() > n {
-                            if let Some((_, v)) = cx.edits.last().cloned() {
-                                cx.edits.pop();
-                                set_count(cx, l, p, v);
-                            }
-                        }
-                        ui.end_row();
+            egui::Grid::new(("simple_list", i, li)).num_columns(2).spacing([14.0, 4.0]).show(ui, |ui| {
+                for (id, p) in &list {
+                    let name = name_of(l, id);
+                    if !q.is_empty() && !name.to_lowercase().contains(&q) {
+                        continue;
                     }
-                });
+                    cx.label(ui, &name, p);
+                    let n = cx.edits.len();
+                    ui.horizontal(|ui| cx.editor(ui, p, 110.0));
+                    if cx.edits.len() > n {
+                        if let Some((_, v)) = cx.edits.last().cloned() {
+                            cx.edits.pop();
+                            set_count(cx, l, p, v);
+                        }
+                    }
+                    ui.end_row();
+                }
+            });
         });
     }
 }
@@ -344,11 +280,7 @@ mod tests {
 
     fn put(root: &mut Value, ptr: &str, v: Value) {
         let mut cur = root;
-        let parts: Vec<String> = ptr
-            .split('/')
-            .skip(1)
-            .map(|s| s.replace("~1", "/").replace("~0", "~"))
-            .collect();
+        let parts: Vec<String> = ptr.split('/').skip(1).map(|s| s.replace("~1", "/").replace("~0", "~")).collect();
         for (i, k) in parts.iter().enumerate() {
             if !cur.is_object() {
                 *cur = json!({});
@@ -385,10 +317,7 @@ mod tests {
                         .iter()
                         .map(|id| {
                             let mut o = serde_json::Map::new();
-                            o.insert(
-                                id_key.to_string(),
-                                id.parse::<i64>().map_or_else(|_| json!(id), |n| json!(n)),
-                            );
+                            o.insert(id_key.to_string(), id.parse::<i64>().map_or_else(|_| json!(id), |n| json!(n)));
                             let low = l.max.as_ref().is_some_and(|m| m.ids.contains(id));
                             for k in *qty_keys {
                                 o.insert(k.to_string(), json!(if low { 0 } else { 3 }));
@@ -400,19 +329,8 @@ mod tests {
                     set_path(&mut root, l.path, Value::Array(arr));
                 }
                 Shape::Map => {
-                    let o: serde_json::Map<String, Value> = ids
-                        .iter()
-                        .map(|id| {
-                            (
-                                id.to_string(),
-                                json!(if l.max.as_ref().is_some_and(|m| m.ids.contains(id)) {
-                                    0
-                                } else {
-                                    3
-                                }),
-                            )
-                        })
-                        .collect();
+                    let o: serde_json::Map<String, Value> =
+                        ids.iter().map(|id| (id.to_string(), json!(if l.max.as_ref().is_some_and(|m| m.ids.contains(id)) { 0 } else { 3 }))).collect();
                     set_path(&mut root, l.path, Value::Object(o));
                 }
             }
@@ -442,46 +360,21 @@ mod tests {
             let root = synthetic(s);
             let kind = s.kind.unwrap_or("JSON");
             let found = super::super::detect(kind, &root);
-            assert_eq!(
-                found,
-                Some(super::super::Game::Simple(i as u16)),
-                "{} not detected",
-                s.name
-            );
+            assert_eq!(found, Some(super::super::Game::Simple(i as u16)), "{} not detected", s.name);
             // Draw it.
             let ctx = egui::Context::default();
             crate::theme::install_fonts(&ctx);
-            let input = egui::RawInput {
-                screen_rect: Some(egui::Rect::from_min_size(
-                    egui::Pos2::ZERO,
-                    egui::vec2(1000.0, 800.0),
-                )),
-                ..Default::default()
-            };
+            let input = egui::RawInput { screen_rect: Some(egui::Rect::from_min_size(egui::Pos2::ZERO, egui::vec2(1000.0, 800.0))), ..Default::default() };
             let _ = ctx.run(input, |ctx| {
                 egui::CentralPanel::default().show(ctx, |ui| {
-                    let mut cx = GameCtx {
-                        root: &root,
-                        baseline: &root,
-                        tree: None,
-                        edits: vec![],
-                        archive: None,
-                        open_entry: None,
-                    };
+                    let mut cx = GameCtx { root: &root, baseline: &root, tree: None, edits: vec![], archive: None, open_entry: None };
                     show(i as u16, ui, &mut cx);
                 });
             });
             // The max button raises its materials, mirrors the copies and leaves others alone.
             for l in s.lists {
                 let Some(m) = &l.max else { continue };
-                let mut cx = GameCtx {
-                    root: &root,
-                    baseline: &root,
-                    tree: None,
-                    edits: vec![],
-                    archive: None,
-                    open_entry: None,
-                };
+                let mut cx = GameCtx { root: &root, baseline: &root, tree: None, edits: vec![], archive: None, open_entry: None };
                 let n = apply_max(&mut cx, l);
                 assert_eq!(n, m.ids.len(), "{}: {}", s.name, l.title);
                 let mut after = root.clone();
@@ -492,15 +385,8 @@ mod tests {
                 match &l.shape {
                     Shape::Array { id_key, qty_keys } => {
                         for e in arr.as_array().unwrap() {
-                            let id = match &e[*id_key] {
-                                Value::String(s) => s.clone(),
-                                n => n.to_string(),
-                            };
-                            let cap = m
-                                .caps
-                                .iter()
-                                .find(|(c, _)| *c == id)
-                                .map_or(m.cap, |(_, c)| *c);
+                            let id = match &e[*id_key] { Value::String(s) => s.clone(), n => n.to_string() };
+                            let cap = m.caps.iter().find(|(c, _)| *c == id).map_or(m.cap, |(_, c)| *c);
                             let want = if m.ids.contains(&id.as_str()) { cap } else { 3 };
                             for k in *qty_keys {
                                 assert_eq!(e[*k].as_i64(), Some(want), "{} {id} {k}", s.name);
@@ -509,11 +395,7 @@ mod tests {
                     }
                     Shape::Map => {
                         for (id, v) in arr.as_object().unwrap() {
-                            let cap = m
-                                .caps
-                                .iter()
-                                .find(|(c, _)| *c == id.as_str())
-                                .map_or(m.cap, |(_, c)| *c);
+                            let cap = m.caps.iter().find(|(c, _)| *c == id.as_str()).map_or(m.cap, |(_, c)| *c);
                             let want = if m.ids.contains(&id.as_str()) { cap } else { 3 };
                             assert_eq!(v.as_i64(), Some(want), "{} {id}", s.name);
                         }
@@ -538,16 +420,9 @@ mod tests {
                 _ => panic!("{f}: not a tree"),
             };
             let g = super::super::detect(&kind, &root);
-            let Some(super::super::Game::Simple(i)) = g else {
-                panic!("{f}: kind {kind:?} detected as {g:?}")
-            };
+            let Some(super::super::Game::Simple(i)) = g else { panic!("{f}: kind {kind:?} detected as {g:?}") };
             let s = &SPECS[i as usize];
-            let shown = s
-                .sections
-                .iter()
-                .flat_map(|sec| sec.rows)
-                .filter(|(_, p)| root.pointer(p).is_some())
-                .count();
+            let shown = s.sections.iter().flat_map(|sec| sec.rows).filter(|(_, p)| root.pointer(p).is_some()).count();
             let total: usize = s.sections.iter().map(|sec| sec.rows.len()).sum();
             println!("{f}: {} ({shown} of {total} values present)", s.name);
         }
