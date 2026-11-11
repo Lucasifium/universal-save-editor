@@ -54,6 +54,7 @@ pub mod deadcells;
 pub mod memcard;
 pub mod sumfind;
 pub mod katana;
+pub mod ttgames;
 pub mod pdx;
 pub mod pdxbin;
 mod rimworld;
@@ -444,7 +445,11 @@ pub fn parse_binary(d: &[u8]) -> Option<TreeDoc> {
         }
     }
     if d.starts_with(b"GVAS") {
-        return gvas::parse(d).ok();
+        let mut t = gvas::parse(d).ok()?;
+        if ttgames::is_lego(&t.view) {
+            t.kind_name = ttgames::KIND.into();
+        }
+        return Some(t);
     }
     if ree::looks(d) {
         if let Ok(t) = ree::parse(d) {
