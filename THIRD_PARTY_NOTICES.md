@@ -28,6 +28,7 @@ Universal Save Editor is free. It builds on other people's work, listed here wit
 | [save-decrypters (Dead Rising block checksum, after Philymaster's notes; facts only, no code)](https://github.com/bucanero/save-decrypters) | Damian Parrino (bucanero), Philymaster | facts only (checksum scheme), credited |
 | [Cult-of-the-Lamb-Save-Editor (save field names and item names; sample save used for checks only, not included)](https://github.com/fabiobarcelona/Cult-of-the-Lamb-Save-Editor) | Fabio Barcelona | MIT |
 | [shelter-editor (Fallout Shelter save encryption and layout)](https://github.com/MobileSam/shelter-editor) | MobileSam | MIT |
+| [XGP-save-extractor (Xbox app / Game Pass container layout and Store package names)](https://github.com/Z1ni/XGP-save-extractor), after [NMSSaveEditor issue 306](https://github.com/goatfungus/NMSSaveEditor/issues/306) | Z1ni; snoozbuster | MIT |
 | [drg-editor (Deep Rock Galactic resource and dwarf ids, XP table; sample saves used for checks only, not included)](https://github.com/MrMarble/drg-editor) | MrMarble | MIT |
 | [schedule-one-editor and Schedule-1-Save-File-Editor (Schedule I save file names and fields; sample saves used for checks only, not included)](https://github.com/Rainnny7/schedule-one-editor) | Rainnny7 | MIT |
 | [SOTFEdit (Sons of the Forest item names and carrying limits; sample saves used for checks only, not included)](https://github.com/codengine/SOTFEdit) | codengine | MIT |

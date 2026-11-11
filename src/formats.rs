@@ -31,7 +31,14 @@ pub struct Options {
 
 impl Options {
     pub fn for_path(path: &std::path::Path) -> Self {
-        let ext = path.extension().map(|e| e.to_string_lossy().to_lowercase()).unwrap_or_default();
+        let mut ext = path.extension().map(|e| e.to_string_lossy().to_lowercase()).unwrap_or_default();
+        // A Game Pass blob is named by a GUID: take the extension from the name the game gave it.
+        #[cfg(not(target_arch = "wasm32"))]
+        if ext.is_empty() {
+            if let Some(n) = crate::xgp::logical_name(path) {
+                ext = n.rsplit_once('.').map(|(_, e)| e.to_lowercase()).filter(|e| !e.contains('/')).unwrap_or_default();
+            }
+        }
         Self { ext, path: Some(path.to_path_buf()), ..Default::default() }
     }
 }

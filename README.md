@@ -168,7 +168,16 @@ libraries and `userdata`, Documents wherever Windows has it, AppData, Saved Game
 Connect). On Linux and the Steam Deck it also looks inside Proton prefixes
 (`steamapps/compatdata/<app id>/pfx` in every Steam library, including Flatpak Steam and SD cards)
 and the usual Wine, Heroic, Lutris and Bottles prefixes, so Windows games run through Steam Play
-show up too. Pick a game, then a save, to open it; if none are found it says so. *Open…* and dragging
+show up too.
+
+**Xbox app / PC Game Pass saves**: the Xbox app hides each game's saves in a container
+(`%LOCALAPPDATA%\Packages\<game>\SystemAppData\wgs`) where every file is named by a GUID. The
+editor reads the container's index and lists the files under the names the game gave them, both in
+the *Xbox app / PC Game Pass saves (any game)* entry and under the game's own entry (Control,
+Hades, Palworld, Persona 5 Royal, Final Fantasy XV, Yakuza 0, Clair Obscur: Expedition 33 and
+others). The files inside are the same as the Steam ones, so each opens with the game's own screen,
+and saving writes the file back in place. Let the Xbox app finish syncing before you open a save,
+and keep the game closed while you edit: cloud sync can replace an edited file. Pick a game, then a save, to open it; if none are found it says so. *Open…* and dragging
 a file onto the window work as before for anything else.
 
 Capcom RE Engine saves need the Steam account they belong to; away from Steam's folders (on a

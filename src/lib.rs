@@ -28,6 +28,7 @@ mod settings;
 mod theme;
 mod values_view;
 mod vfs;
+mod xgp;
 #[cfg(target_arch = "wasm32")]
 mod web;
 mod widgets;

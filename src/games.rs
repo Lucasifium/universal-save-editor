@@ -23,6 +23,8 @@ pub enum Base {
     SteamGame(&'static str),
     /// %ProgramFiles(x86)% (Ubisoft Connect keeps saves there).
     ProgramFilesX86,
+    /// The Xbox app / PC Game Pass save container of this Store package (`*`: every package).
+    GamePass(&'static str),
 }
 
 #[derive(Clone, Copy, Debug)]
@@ -113,8 +115,8 @@ pub const GAMES: &[GameInfo] = &[
     game!("Cairn", FULL, r"%USERPROFILE%\Saved Games\TheGameBakers\Cairn_RETAIL\SAVEGAMES\RETAIL\STORY (SUMMIT for summit runs)", r"SLOT_A.CPK … SLOT_D.CPK", [(SavedGames, r"TheGameBakers\Cairn_RETAIL\SAVEGAMES\RETAIL"), (SavedGames, r"TheGameBakers\Cairn\SAVEGAMES")], ["*.CPK"], 2),
     game!("Civilization V", HEX, r"Documents\My Games\Sid Meier's Civilization 5\Saves\single (or ModdedSaves\single)", "<Leader>_<year>.Civ5Save", [(Documents, r"My Games\Sid Meier's Civilization 5\Saves"), (Documents, r"My Games\Sid Meier's Civilization 5\ModdedSaves")], ["*.Civ5Save"], 3),
     game!("Civilization VI", CIV6, r"Documents\My Games\Sid Meier's Civilization VI\Saves\Single", r"*.Civ6Save (auto\AutoSave_####.Civ6Save)", [(Documents, r"My Games\Sid Meier's Civilization VI\Saves")], ["*.Civ6Save"], 3),
-    game!("Clair Obscur: Expedition 33", EXPEDITION33, r"%LOCALAPPDATA%\Sandfall\Saved\SaveGames\<Steam id>", r"EXPEDITION_*.sav", [(LocalAppData, r"Sandfall\Saved\SaveGames")], ["*.sav"], 2),
-    game!("Control", HEX_UNPACKED, r"Steam\userdata\<account>\870780\remote", r"savegame-slot-00_global …", [(SteamUser("870780"), r"remote"), (LocalAppData, r"Remedy\Control")], ["savegame-*"], 2),
+    game!("Clair Obscur: Expedition 33", EXPEDITION33, r"%LOCALAPPDATA%\Sandfall\Saved\SaveGames\<Steam id>", r"EXPEDITION_*.sav", [(LocalAppData, r"Sandfall\Saved\SaveGames"), (GamePass("KeplerInteractive.Expedition33_ymj30pw7xe604"), "")], ["*.sav"], 2),
+    game!("Control", HEX_UNPACKED, r"Steam\userdata\<account>\870780\remote", r"savegame-slot-00_global …", [(SteamUser("870780"), r"remote"), (LocalAppData, r"Remedy\Control"), (GamePass("505GAMESS.P.A.ControlPCGP_tefn33qh9azfc"), "")], ["savegame-*"], 2),
     game!("Crisis Core: Final Fantasy VII Reunion", VALUES, r"Documents\My Games\CRISIS CORE FINAL FANTASY VII REUNION\Steam\<Steam id>", r"SAVEDATA_PROGRESS.sav", [(Documents, r"My Games\CRISIS CORE FINAL FANTASY VII REUNION\*\*")], ["*.sav"], 1),
     game!("Crusader Kings II", FULL, r"Documents\Paradox Interactive\Crusader Kings II\save games", "*.ck2", [(Documents, r"Paradox Interactive\Crusader Kings II\save games")], ["*.ck2"], 1),
     game!("Crusader Kings III", PDX_BINARY, r"Documents\Paradox Interactive\Crusader Kings III\save games", "*.ck3", [(Documents, r"Paradox Interactive\Crusader Kings III\save games")], ["*.ck3"], 1),
@@ -165,7 +167,7 @@ pub const GAMES: &[GameInfo] = &[
     game!("Final Fantasy VII Rebirth", FULL, r"Documents\My Games\FINAL FANTASY VII REBIRTH\Steam\<Steam id>", r"ff7rebirth000.sav …", [(Documents, r"My Games\FINAL FANTASY VII REBIRTH\*\*")], ["ff7rebirth*.sav"], 1),
     game!("Final Fantasy VII Remake Intergrade", FULL, r"Documents\My Games\FINAL FANTASY VII REMAKE\(Steam or EOS)\<id>", r"ff7remake000.sav …", [(Documents, r"My Games\FINAL FANTASY VII REMAKE\*\*")], ["ff7remake*.sav"], 1),
     game!("Final Fantasy X / X-2 HD Remaster", FULL, r"Documents\SQUARE ENIX\FINAL FANTASY X&X-2 HD Remaster", r"ffx_###", [(Documents, r"SQUARE ENIX\FINAL FANTASY X&X-2 HD Remaster")], ["ffx_*", "ffx2_*"], 3),
-    game!("Final Fantasy XV", FULL, r"Documents\My Games\FINAL FANTASY XV\Steam\<Steam id>\savestorage (also Steam\userdata\<account>\637650\remote)", r"gameplay slot files", [(Documents, r"My Games\FINAL FANTASY XV"), (SteamUser("637650"), r"remote")], ["*.save", "*.sav", "*.dat", "gameplay*"], 4),
+    game!("Final Fantasy XV", FULL, r"Documents\My Games\FINAL FANTASY XV\Steam\<Steam id>\savestorage (also Steam\userdata\<account>\637650\remote)", r"gameplay slot files", [(Documents, r"My Games\FINAL FANTASY XV"), (SteamUser("637650"), r"remote"), (GamePass("39EA002F.FINALFANTASYXVforPC_n746a19ndrrjg"), "")], ["*.save", "*.sav", "*.dat", "gameplay*"], 4),
     game!("Final Fantasy XVI", HEX, r"Documents\My Games\FINAL FANTASY XVI\Steam\<Steam id> (EOS for Epic)", r"one .png file per slot, plus the autosave", [(Documents, r"My Games\FINAL FANTASY XVI\*\*")], ["*.png", "*.sav"], 1),
     game!("God of War (2018)", FULL, r"%USERPROFILE%\Saved Games\God of War\<account>", r"game.sav (all slots)", [(SavedGames, r"God of War\*")], ["*.sav"], 1),
     game!("God of War Ragnarök", FULL, r"%USERPROFILE%\Saved Games\God of War Ragnarök\<account>", r"GOWRSAVE10 …", [(SavedGames, r"God of War Ragnarök\*")], ["GOWRSAVE*"], 1),
@@ -173,7 +175,7 @@ pub const GAMES: &[GameInfo] = &[
     game!("Golden Sun: The Lost Age (GBA, emulator saves)", GOLDEN_SUN, GBA_FOLDER, r"Golden Sun - The Lost Age (USA, Europe).sav … (64 KiB flash)", [(Documents, "mGBA"), (AppData, "visualboyadvance-m"), (Documents, "ROMs")], ["*Lost Age*.sav"], 3),
     game!("Green Hell", FULL, r"Steam\userdata\<account>\815370\remote", r"SPSlot0.sav …", [(SteamUser("815370"), r"remote")], ["*Slot*.sav"], 1),
     game!("Grim Dawn", "Game screen: money, level, experience, unspent attribute/skill/devotion points, attributes, skill ranks and item stacks; decrypted, then encrypted again with fresh checksums. Not yet tried in the game", r"Documents\My Games\Grim Dawn\save\main\_<name> (Steam Cloud: Steam\userdata\<account>\219990\remote\save\main\_<name>)", r"player.gdc", [(Documents, r"My Games\Grim Dawn\save\main"), (SteamUser("219990"), r"remote\save\main")], ["player.gdc"], 1),
-    game!("Hades", FULL, r"Documents\Saved Games\Hades", "Profile1.sav … Profile4.sav", [(Documents, r"Saved Games\Hades"), (SavedGames, "Hades")], ["Profile*.sav"], 1),
+    game!("Hades", FULL, r"Documents\Saved Games\Hades", "Profile1.sav … Profile4.sav", [(Documents, r"Saved Games\Hades"), (SavedGames, "Hades"), (GamePass("SupergiantGamesLLC.Hades_q53c1yqmx7pha"), "")], ["Profile*.sav"], 1),
     game!("Hades II", FULL, r"Saved Games\Hades II", "Profile1.sav …", [(SavedGames, "Hades II"), (Documents, r"Saved Games\Hades II")], ["Profile*.sav"], 1),
     game!("Half-Life / Opposing Force / Blue Shift", HL1, r"<Steam library>\steamapps\common\Half-Life\valve\SAVE (Opposing Force: gearbox\SAVE, Blue Shift: bshift\SAVE)", r"quick.sav, autosave.sav, Half-Life-001.sav …", [(SteamGame("Half-Life"), r"valve\SAVE"), (SteamGame("Half-Life"), r"gearbox\SAVE"), (SteamGame("Half-Life"), r"bshift\SAVE")], ["*.sav"], 1),
     game!("Half-Life 2 / Episode One / Episode Two", HL2_EPISODES, r"<Steam library>\steamapps\common\Half-Life 2\hl2\save (Episode One: episodic\save, Episode Two: ep2\save, Lost Coast: lostcoast\save)", r"quick.sav, autosave.sav, half-life-001.sav …", [(SteamGame("Half-Life 2"), r"hl2\save"), (SteamGame("Half-Life 2"), r"episodic\save"), (SteamGame("Half-Life 2"), r"ep2\save"), (SteamGame("Half-Life 2"), r"lostcoast\save")], ["*.sav"], 1),
@@ -188,9 +190,9 @@ pub const GAMES: &[GameInfo] = &[
     game!("Kenshi", FULL, r"%LOCALAPPDATA%\kenshi\save\<save name>", r"quick.save", [(LocalAppData, r"kenshi\save"), (SteamGame("Kenshi"), r"save")], ["quick.save"], 2),
     game!("Kunitsu-Gami: Path of the Goddess", VALUES, r"Steam\userdata\<account>\2510710\remote\win64_save", "data*.bin", [(SteamUser("2510710"), r"remote\win64_save")], ["*.bin"], 1),
     game!("Lethal Company", "Game screen: credits, the profit quota and what is paid towards it, quotas passed, the deadline, the current moon, ship upgrades in storage and the run's statistics (LCSaveFile1 to 3); your experience and rank (LCGeneralSaveData). Decrypted and encrypted again on save. Checked on public saves, not yet tried in the game", r"%USERPROFILE%\AppData\LocalLow\ZeekerssRBLX\Lethal Company", r"LCSaveFile1 … LCSaveFile3 (one per save slot), LCGeneralSaveData", [(LocalLow, r"ZeekerssRBLX\Lethal Company")], ["LCSaveFile*", "LCGeneralSaveData"], 1),
-    game!("Like a Dragon Gaiden: The Man Who Erased His Name", RGG_UNTESTED, r"%APPDATA%\Sega\LikeADragonGaiden\Steam\<Steam id>", r"data.sav", [(AppData, r"Sega\LikeADragonGaiden\Steam\*")], ["*.sav"], 2),
+    game!("Like a Dragon Gaiden: The Man Who Erased His Name", RGG_UNTESTED, r"%APPDATA%\Sega\LikeADragonGaiden\Steam\<Steam id>", r"data.sav", [(AppData, r"Sega\LikeADragonGaiden\Steam\*"), (GamePass("SEGAofAmericaInc.l1b05f489e_s751p9cej88mt"), "")], ["*.sav"], 2),
     game!("Like a Dragon: Infinite Wealth", RGG_UNTESTED, r"%APPDATA%\Sega\LikeADragon8\Steam\<Steam id>", r"data.sav", [(AppData, r"Sega\LikeADragon8\Steam\*")], ["*.sav"], 2),
-    game!("Like a Dragon: Ishin!", RGG_UNTESTED, r"%APPDATA%\SEGA\LikeADragonIshin\<Steam id>", r"data.sav (binary inside)", [(AppData, r"SEGA\LikeADragonIshin\*")], ["*.sav"], 2),
+    game!("Like a Dragon: Ishin!", RGG_UNTESTED, r"%APPDATA%\SEGA\LikeADragonIshin\<Steam id>", r"data.sav (binary inside)", [(AppData, r"SEGA\LikeADragonIshin\*"), (GamePass("SEGAofAmericaInc.ProjectMacan_s751p9cej88mt"), "")], ["*.sav"], 2),
     game!("Like a Dragon: Pirate Yakuza in Hawaii", RGG_UNTESTED, r"%APPDATA%\Sega\LikeADragonPirates\Steam\<Steam id>", r"data.sav (MessagePack inside)", [(AppData, r"Sega\LikeADragonPirates\Steam\*")], ["*.sav"], 2),
     game!("Lost Judgment", RGG_UNTESTED, r"%APPDATA%\Sega\LostJudgment\Steam\<Steam id>", r"data.sav", [(AppData, r"Sega\LostJudgment\Steam\*")], ["*.sav"], 2),
     game!("Marvel's Spider-Man 2", HEX, r"Documents\Marvel's Spider-Man 2\<Steam id>", r"slot<n>-autosave.save", [(Documents, r"Marvel's Spider-Man 2\*")], ["slot*.save"], 1),
@@ -211,16 +213,16 @@ pub const GAMES: &[GameInfo] = &[
     game!("Monster Hunter Wilds", VALUES, r"Steam\userdata\<account>\2246340\remote\win64_save", "data*.bin", [(SteamUser("2246340"), r"remote\win64_save")], ["*.bin"], 1),
     game!("Neverwinter Nights: Enhanced Edition", "Game screen: gold, experience, ability scores, hit points, alignment and skills of the player (the module .sav, with player.bic kept in step) or a vault character (.bic). Not yet tried in the game", r"Documents\Neverwinter Nights\saves\<nnnnnn> - <name> (characters: Documents\Neverwinter Nights\localvault)", r"<Module>.sav (the player as the game loads it), player.bic, localvault\*.bic", [(Documents, r"Neverwinter Nights\saves"), (Documents, r"Neverwinter Nights\localvault")], ["*.sav", "*.bic"], 2),
     game!("NieR:Automata", "Game screen: money, experience (with the level it gives), item and material counts, weapon levels, and Max crafting materials. Checked on a real save, not yet tried in the game", r"Documents\My Games\NieR_Automata", r"SlotData_0.dat … SlotData_2.dat (one per slot)", [(Documents, r"My Games\NieR_Automata")], ["SlotData_*.dat"], 1),
-    game!("Octopath Traveler", "Game screen: money (leaves) and the eight travellers' level, EXP, JP and current HP/SP, changed in place. Read from a sample save; changing them hasn't been tried in the game yet", r"Documents\My Games\Octopath_Traveler\<Steam id>\SaveGames", r"SaveData0.sav (autosave), SaveData1.sav …", [(Documents, r"My Games\Octopath_Traveler\*\SaveGames")], ["SaveData*.sav"], 1),
+    game!("Octopath Traveler", "Game screen: money (leaves) and the eight travellers' level, EXP, JP and current HP/SP, changed in place. Read from a sample save; changing them hasn't been tried in the game yet", r"Documents\My Games\Octopath_Traveler\<Steam id>\SaveGames", r"SaveData0.sav (autosave), SaveData1.sav …", [(Documents, r"My Games\Octopath_Traveler\*\SaveGames"), (GamePass("39EA002F.FrigateMS_n746a19ndrrjg"), "")], ["SaveData*.sav"], 1),
     game!("Octopath Traveler II", "Game screen: money (leaves) and the eight travellers' level, EXP, JP and current HP/SP, changed in place", r"Documents\My Games\Octopath_Traveler2\Steam\<Steam id>\SaveGames", r"SaveData0.sav (autosave), SaveData1.sav …", [(Documents, r"My Games\Octopath_Traveler2\*\*\SaveGames")], ["SaveData*.sav"], 1),
     game!("Onimusha: Way of the Sword", FULL, r"Steam\userdata\<account>\2638890\remote\win64_save", "data001Slot.bin", [(SteamUser("2638890"), r"remote\win64_save")], ["*.bin"], 1),
     game!("Oxygen Not Included", FULL, r"Documents\Klei\OxygenNotIncluded\cloud_save_files\<Steam id>\<colony> (or save_files\<colony>)", "<colony>.sav", [(Documents, r"Klei\OxygenNotIncluded\cloud_save_files\*"), (Documents, r"Klei\OxygenNotIncluded\save_files")], ["*.sav"], 2),
-    game!("Palworld", FULL, r"%LOCALAPPDATA%\Pal\Saved\SaveGames\<Steam id>\<world>", r"Level.sav, Players\*.sav", [(LocalAppData, r"Pal\Saved\SaveGames")], ["*.sav"], 4),
+    game!("Palworld", FULL, r"%LOCALAPPDATA%\Pal\Saved\SaveGames\<Steam id>\<world>", r"Level.sav, Players\*.sav", [(LocalAppData, r"Pal\Saved\SaveGames"), (GamePass("PocketpairInc.Palworld_ad4psfrxyesvt"), "")], ["*.sav"], 4),
     game!("Pathfinder: Kingmaker", FULL, r"%USERPROFILE%\AppData\LocalLow\Owlcat Games\Pathfinder Kingmaker\Saved Games", r"Manual_*.zks, Auto_*.zks, Quick_*.zks", [(LocalLow, r"Owlcat Games\Pathfinder Kingmaker\Saved Games")], ["*.zks"], 1),
     game!("Pathfinder: Wrath of the Righteous", FULL, r"%USERPROFILE%\AppData\LocalLow\Owlcat Games\Pathfinder Wrath Of The Righteous\Saved Games", r"Manual_*.zks, Auto_*.zks, Quick_*.zks", [(LocalLow, r"Owlcat Games\Pathfinder Wrath Of The Righteous\Saved Games")], ["*.zks"], 1),
     game!("Persona 3 Reload", HEX, r"%APPDATA%\SEGA\P3R\Steam\<Steam id>", r"SaveData*.sav", [(AppData, r"SEGA\P3R\Steam\*")], ["*.sav"], 2),
     game!("Persona 4 Golden", FULL, r"Steam\userdata\<account>\1113000\remote", r"data0001.bin …", [(SteamUser("1113000"), r"remote")], ["data*.bin"], 1),
-    game!("Persona 5 Royal", FULL, r"%APPDATA%\SEGA\P5R\Steam\<Steam id>\savedata\DATA<nn>", r"DATA.DAT (encrypted)", [(AppData, r"SEGA\P5R\Steam\*\savedata")], ["DATA.DAT", "SYSTEM.DAT"], 2),
+    game!("Persona 5 Royal", FULL, r"%APPDATA%\SEGA\P5R\Steam\<Steam id>\savedata\DATA<nn>", r"DATA.DAT (encrypted)", [(AppData, r"SEGA\P5R\Steam\*\savedata"), (GamePass("SEGAofAmericaInc.F0cb6b3aer_s751p9cej88mt"), "")], ["DATA.DAT", "SYSTEM.DAT"], 2),
     game!("Phasmophobia", "Game screen: money, level, prestige and experience, how many of each item you own, item tiers and their unlocks, and the journal's statistics; each value is changed in place and the file encrypted again on save. Checked on public test saves, not yet tried in the game", r"%USERPROFILE%\AppData\LocalLow\Kinetic Games\Phasmophobia", r"SaveFile.txt", [(LocalLow, r"Kinetic Games\Phasmophobia")], ["SaveFile.txt"], 1),
     game!("Planescape: Torment: Enhanced Edition", IE_PST, r"Documents\Planescape Torment - Enhanced Edition\save\<nnnnnnnnn-Name>", r"BALDUR.gam (BALDUR.SAV holds the areas)", [(Documents, r"Planescape Torment - Enhanced Edition\save")], ["*.gam"], 2),
     game!("Pragmata", VALUES, r"Steam\userdata\<account>\3357650\remote\win64_save", "data*.bin", [(SteamUser("3357650"), r"remote\win64_save")], ["*.bin"], 1),
@@ -254,11 +256,12 @@ pub const GAMES: &[GameInfo] = &[
     game!("Vampire Survivors", "Game screen: coins, power-up ranks and what's unlocked; the checksum is worked out again on save. Not yet tried in the game", r"Steam\userdata\<account>\1794680\remote (older builds: %APPDATA%\Vampire_Survivors\saves)", r"SaveData (older builds: SaveData.sav)", [(SteamUser("1794680"), "remote"), (AppData, r"Vampire_Survivors\saves"), (AppData, "Vampire_Survivors_Data")], ["SaveData", "SaveData.sav"], 1),
     game!("Victoria 3", PDX_BINARY, r"Documents\Paradox Interactive\Victoria 3\save games", "*.v3", [(Documents, r"Paradox Interactive\Victoria 3\save games")], ["*.v3"], 1),
     game!("Wasteland 3", WASTELAND3, r"Documents\My Games\Wasteland3\Save Games", r"<save name>.xml (packed, despite the name)", [(Documents, r"My Games\Wasteland3\Save Games")], ["*.xml"], 3),
+    game!("Xbox app / PC Game Pass saves (any game)", "Every save the Xbox app keeps, listed under the names the game gave them; each opens like the same game's Steam save (the game's screen if it has one) and is written back in place. Let the Xbox app finish syncing first", r"%LOCALAPPDATA%\Packages\<game package>\SystemAppData\wgs\<Xbox user>_<title>", r"containers.index, plus one folder per save slot", [(GamePass("*"), "")], ["*"], 1),
     game!("XCOM 2", XCOM2, r"Documents\My Games\XCOM2\XComGame\SaveData", r"save1, save2 … (no extension)", [(Documents, r"My Games\XCOM2\XComGame\SaveData")], ["save*"], 1),
     game!("XCOM 2: War of the Chosen", XCOM2, r"Documents\My Games\XCOM2 War of the Chosen\XComGame\SaveData", r"save_AUTOSAVE- Campaign …, save_<name>", [(Documents, r"My Games\XCOM2 War of the Chosen\XComGame\SaveData")], ["save*"], 1),
     game!("XCOM: Chimera Squad", HEX_UNPACKED, r"Documents\My Games\XCOM Chimera Squad\XComGame\SaveData", r"save*", [(Documents, r"My Games\XCOM Chimera Squad\XComGame\SaveData")], ["save*"], 1),
     game!("XCOM: Enemy Unknown / Enemy Within", FULL, r"Documents\My Games\XCOM - Enemy Unknown (or XCOM - Enemy Within)\XComGame\SaveData", r"save1, save2 … (no extension)", [(Documents, r"My Games\XCOM - Enemy Unknown\XComGame\SaveData"), (Documents, r"My Games\XCOM - Enemy Within\XComGame\SaveData")], ["save*"], 1),
-    game!("Yakuza 0", FULL, r"Steam\userdata\<account>\638970\remote", r"SaveData00NN.sav", [(SteamUser("638970"), r"remote")], ["SaveData*.sav"], 1),
+    game!("Yakuza 0", FULL, r"Steam\userdata\<account>\638970\remote", r"SaveData00NN.sav", [(SteamUser("638970"), r"remote"), (GamePass("SEGAofAmericaInc.Yakuza0PC_s751p9cej88mt"), "")], ["SaveData*.sav"], 1),
     game!("Yakuza 3 Remastered", HEX, r"Steam\userdata\<account>\1088710\remote", r"savegameN.sav", [(SteamUser("1088710"), r"remote")], ["savegame*.sav"], 1),
     game!("Yakuza 4 Remastered", HEX, r"Steam\userdata\<account>\1105500\remote", r"save files", [(SteamUser("1105500"), r"remote")], ["*.sav"], 1),
     game!("Yakuza 5 Remastered", HEX, r"Steam\userdata\<account>\1105510\remote", r"save files", [(SteamUser("1105510"), r"remote")], ["*.sav"], 1),
@@ -266,7 +269,7 @@ pub const GAMES: &[GameInfo] = &[
     game!("Yakuza Kiwami", FULL, r"Steam\userdata\<account>\834530\remote", r"SaveData00NN.sav, autosave00NN.sav", [(SteamUser("834530"), r"remote")], ["SaveData*.sav", "autosave*.sav"], 1),
     game!("Yakuza Kiwami 2", FULL, r"%APPDATA%\SEGA\YakuzaKiwami2\<Steam account>\saveNN", r"data.sav (one folder per slot)", [(AppData, r"SEGA\YakuzaKiwami2\*"), (AppData, r"SEGA\YakuzaKiwami2_GOG")], ["data.sav"], 2),
     game!("Yakuza Kiwami 3 & Dark Ties", RGG_UNTESTED, r"%APPDATA%\Sega\YakuzaKiwami3\Steam\<Steam id>", r"data.sav (MessagePack inside)", [(AppData, r"Sega\YakuzaKiwami3\Steam\*")], ["*.sav"], 2),
-    game!("Yakuza: Like a Dragon", FULL, r"%APPDATA%\SEGA\YakuzaLikeADragon\<Steam account>\saveNNN", r"data.sav (one folder per slot)", [(AppData, r"SEGA\YakuzaLikeADragon\*"), (AppData, r"SEGA\YakuzaLikeADragon_GOG\*")], ["data.sav"], 2),
+    game!("Yakuza: Like a Dragon", FULL, r"%APPDATA%\SEGA\YakuzaLikeADragon\<Steam account>\saveNNN", r"data.sav (one folder per slot)", [(AppData, r"SEGA\YakuzaLikeADragon\*"), (AppData, r"SEGA\YakuzaLikeADragon_GOG\*"), (GamePass("SEGAofAmericaInc.Yazawa_s751p9cej88mt"), "")], ["data.sav"], 2),
 ];
 
 /// A save found for a game.
@@ -275,6 +278,8 @@ pub struct Found {
     pub path: PathBuf,
     pub modified: Option<SystemTime>,
     pub size: u64,
+    /// The name to show when the file's own name says nothing (Game Pass blobs).
+    pub label: Option<String>,
 }
 
 /// `*` (any run), `?` (one character) and `[0-9]` (a digit), ignoring case.
@@ -408,7 +413,7 @@ fn wine_bases(base: Base) -> Vec<PathBuf> {
             .filter_map(|u| u.parent()?.parent().map(|c| c.join("Program Files (x86)")))
             .filter(|p| p.is_dir())
             .collect(),
-        SteamUser(_) | SteamGame(_) => vec![],
+        SteamUser(_) | SteamGame(_) | GamePass(_) => vec![],
     }
 }
 
@@ -437,6 +442,7 @@ fn native_bases(base: Base) -> Vec<PathBuf> {
             .filter(|p| p.is_dir())
             .collect(),
         ProgramFilesX86 => env("ProgramFiles(x86)").into_iter().collect(),
+        GamePass(pkg) => env("LOCALAPPDATA").map(|l| crate::xgp::user_dirs(&l.join("Packages"), pkg)).unwrap_or_default(),
         SteamGame(dir) => steam_libraries().into_iter().map(|l| l.join("steamapps").join("common").join(dir)).filter(|p| p.is_dir()).collect(),
     }
 }
@@ -471,17 +477,6 @@ fn expand(root: &Path, rel: &str) -> Vec<PathBuf> {
     cur
 }
 
-/// The folders this game's saves would be in, that exist here.
-pub fn folders(g: &GameInfo) -> Vec<PathBuf> {
-    let mut out = vec![];
-    for (base, rel) in g.places {
-        for root in bases(*base) {
-            out.extend(expand(&root, rel));
-        }
-    }
-    out
-}
-
 fn walk(dir: &Path, depth: usize, g: &GameInfo, out: &mut Vec<Found>) {
     let Ok(rd) = std::fs::read_dir(dir) else { return };
     for e in rd.flatten() {
@@ -500,14 +495,26 @@ fn walk(dir: &Path, depth: usize, g: &GameInfo, out: &mut Vec<Found>) {
                 || lower.contains(".v.")
                 || lower.contains("_temp");
             if !backup && g.patterns.iter().any(|pat| wildcard(pat, &name)) {
-                out.push(Found { path: p, modified: meta.modified().ok(), size: meta.len() });
+                out.push(Found { path: p, modified: meta.modified().ok(), size: meta.len(), label: None });
             }
         }
     }
 }
 
+/// Every file in a Game Pass user folder, named the way the game named it.
+fn game_pass_saves(dir: &Path, out: &mut Vec<Found>) {
+    let Ok(idx) = crate::xgp::read_index(dir) else { return };
+    for c in &idx.containers {
+        for f in &c.files {
+            let Ok(meta) = std::fs::metadata(&f.path) else { continue };
+            let label = if c.files.len() == 1 { c.name.clone() } else { format!("{}/{}", c.name, f.name) };
+            out.push(Found { path: f.path.clone(), modified: meta.modified().ok(), size: meta.len(), label: Some(format!("{label} (Xbox app)")) });
+        }
+    }
+}
+
 /// Entries that cover many games (an engine or a launcher): their saves are listed by game.
-const MANY_GAMES: [&str; 4] = ["Ren'Py visual novels", "RPG Maker MV / MZ games", "Assassin's Creed (Ubisoft Connect games)", "Far Cry (Ubisoft Connect games)"];
+const MANY_GAMES: [&str; 5] = ["Xbox app / PC Game Pass saves (any game)", "Ren'Py visual novels", "RPG Maker MV / MZ games", "Assassin's Creed (Ubisoft Connect games)", "Far Cry (Ubisoft Connect games)"];
 
 pub fn many_games(g: &GameInfo) -> bool {
     MANY_GAMES.contains(&g.name)
@@ -516,6 +523,11 @@ pub fn many_games(g: &GameInfo) -> bool {
 /// Which game a save belongs to, for entries that cover many games: the folder the game
 /// has under the search place (its last `*` part, or the folder right under it).
 pub fn group_of(g: &GameInfo, path: &Path) -> String {
+    if g.places.iter().any(|(b, _)| matches!(b, GamePass(_))) {
+        if let Some(p) = crate::xgp::package_of(path) {
+            return p;
+        }
+    }
     for (base, rel) in g.places {
         let parts: Vec<&str> = rel.split(['\\', '/']).filter(|p| !p.is_empty()).collect();
         let at = parts.iter().rposition(|p| p.contains('*')).unwrap_or(parts.len());
@@ -542,8 +554,17 @@ pub fn group_of(g: &GameInfo, path: &Path) -> String {
 /// This game's saves on this computer, newest first.
 pub fn find(g: &GameInfo) -> Vec<Found> {
     let mut out = vec![];
-    for dir in folders(g) {
-        walk(&dir, g.depth.saturating_sub(1), g, &mut out);
+    for (base, rel) in g.places {
+        let pass = matches!(base, GamePass(_));
+        for root in bases(*base) {
+            for dir in expand(&root, rel) {
+                if pass {
+                    game_pass_saves(&dir, &mut out);
+                } else {
+                    walk(&dir, g.depth.saturating_sub(1), g, &mut out);
+                }
+            }
+        }
     }
     out.sort_by(|a, b| b.modified.cmp(&a.modified));
     out.dedup_by(|a, b| a.path == b.path);
