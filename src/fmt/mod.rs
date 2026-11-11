@@ -117,6 +117,7 @@ pub mod dbpf;
 pub mod pvz;
 pub mod sims1;
 pub mod sims2;
+pub mod sims4;
 pub mod ds2;
 pub mod mea;
 pub mod gow;
@@ -321,6 +322,11 @@ pub fn parse_binary(d: &[u8]) -> Option<TreeDoc> {
     }
     if pvz::looks(d) {
         if let Ok(t) = pvz::parse(d) {
+            return Some(t);
+        }
+    }
+    if sims4::looks(d) {
+        if let Ok(t) = sims4::parse(d) {
             return Some(t);
         }
     }
