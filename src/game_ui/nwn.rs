@@ -78,13 +78,25 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
     };
     if !items.is_empty() {
         egui::CollapsingHeader::new(RichText::new(format!("Backpack ({} kinds)", items.len())).strong()).id_salt("nwn_inv").show(ui, |ui| {
+        let stacks: Vec<String> = match cx.get("/Items") {
+            Some(Value::Object(m)) => m.keys().cloned().collect(),
+            _ => vec![],
+        };
+        if stacks.is_empty() {
             ui.horizontal_wrapped(|ui| {
                 for it in &items {
                     ui.label(RichText::new(it).monospace().size(12.0));
                     ui.add_space(8.0);
                 }
             });
-            ui.weak("Item tags as the game stores them; items can't be added or removed here.");
+        } else {
+            egui::ScrollArea::vertical().id_salt("nwn_inv_s").max_height(300.0).show(ui, |ui| {
+                super::columns(ui, 280.0, stacks.len(), |ui, i| {
+                    cx.row_fixed(ui, &stacks[i], &format!("/Items/{}", crate::json_view::pointer_escape(&stacks[i])), 180.0, 56.0);
+                });
+            });
+        }
+        ui.weak("How many of each item is in the stack, by the item's tag. The game may cut a stack back to what the item allows; items can't be added or removed here.");
         });
     }
     ui.add_space(6.0);

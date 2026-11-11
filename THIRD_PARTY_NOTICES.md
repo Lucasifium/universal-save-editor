@@ -54,7 +54,7 @@ Universal Save Editor is free. It builds on other people's work, listed here wit
 | [DeathStrandingSaveDataResigner (Death Stranding key derivation)](https://github.com/mi5hmash/DeathStrandingSaveDataResigner) | mi5hmash | MIT; key derivation facts only, no code copied, credited |
 | [Gibbed.MassEffectAndromeda (Mass Effect: Andromeda save layout)](https://github.com/gibbed/Gibbed.MassEffectAndromeda) | Rick (gibbed) | zlib; save layout ported, party member names, credited |
 | [Arcemi Pathfinder save editor (Pathfinder save layout; class, race and companion names)](https://github.com/jaygumji/ArcemiPathfinderKingmakerTools) | jaygumji | facts only (file layouts, ids and names), credited |
-| [Trilogy Save Editor (Mass Effect 1 and Legendary Edition save layouts, item and talent names)](https://github.com/KarlitosVII/trilogy-save-editor) | Karlitos | facts only (file layouts, ids and names), credited |
+| [Trilogy Save Editor (Mass Effect save layouts, item and talent names; the Mass Effect 2 and 3 story flag tables in `src/fmt/data/me2_plot.tsv` and `me3_plot.tsv` are converted from its plot databases)](https://github.com/KarlitosVII/trilogy-save-editor) | Karlitos | CeCILL-2.1 (compatible with the GNU GPL, article 5.3.4) |
 | [xoreos (KOTOR and Neverwinter Nights save layout)](https://github.com/xoreos/xoreos) | the xoreos team | facts only (file layouts, ids and names), credited |
 | [KotOR Savegame Editor (KOTOR save fields, party table, NPC numbers)](https://github.com/Fair-Strides/KotOR-Save-Editor) | tk102, Fair-Strides and contributors | facts only (file layouts, ids and names), credited |
 | [sotor (KOTOR save layout)](https://github.com/StarfishXeno/sotor) | StarfishXeno | facts only (file layouts, ids and names), credited |
@@ -85,12 +85,14 @@ Universal Save Editor is free. It builds on other people's work, listed here wit
 | [FloweysTimeMachine (Undertale save layout, item and phone names)](https://github.com/crumblingstatue/FloweysTimeMachine) | crumblingstatue | facts only (file layouts, ids and names), credited |
 | [DeltaruneDecomp (Deltarune Chapter 1 save field order)](https://github.com/TeamBlossomDevs/DeltaruneDecomp) | TeamBlossomDevs | facts only (file layouts, ids and names), credited |
 | [DarkestDungeonSaveEditor (Darkest Dungeon DSON format and its type rules, ported)](https://github.com/robojumper/DarkestDungeonSaveEditor) | robojumper | MIT |
-| [game-tools-collection (Octopath Traveler II character and job ids)](https://github.com/RyudoSynbios/game-tools-collection) | RyudoSynbios | MIT |
+| [game-tools-collection (Octopath Traveler II character and job ids; Golden Sun Djinn counts and file-select totals)](https://github.com/RyudoSynbios/game-tools-collection) | RyudoSynbios | MIT |
 | [octopath-save-editor (Octopath Traveler save paths and property names)](https://github.com/AppleBoiy/octopath-save-editor) | AppleBoiy | facts only (file layouts, ids and names), credited |
 | [Darkest Dungeon 2 save editor (save files and value names)](https://github.com/Hyena68/Darkest-Dungeon-SAVE-EDITOR) | Hyena68 | facts only (file layouts, ids and names), credited |
 | [wasteland-3-savegame-decoder (Wasteland 3 save header and LZF body; facts, no code)](https://github.com/nharrer/wasteland-3-savegame-decoder) | nharrer | MIT |
 | [wl3 (Wasteland 3 save re-packing: header sizes; facts, no code)](https://github.com/xeus2001/wl3) | xeus2001 | MIT |
 | [w3se (Wasteland 3 save paths for money, attributes and items)](https://github.com/stolinator/w3se) | stolinator | facts only (file layouts, ids and names), credited |
+| [wasteland-3-save-editor (Wasteland 3 skill numbers)](https://github.com/consolelogreece/wasteland-3-save-editor) | R | MIT |
+| [CO-E33 Save Editor (Clair Obscur: Expedition 33 attribute order)](https://github.com/Infarctus/CO-E33_Save_editor) | Infarctus | GPL-3.0 |
 | [LibLZF (the LZF stream format; the editor has its own implementation)](http://software.schmorp.de/pkg/liblzf.html) | Marc Alexander Lehmann | facts only (format), credited |
 | [valheim-fch-editor (Valheim character layout, skill ids)](https://github.com/cquaid/valheim-fch-editor) | cQuaid | MIT |
 | [Terraria Wiki (which items are crafting materials, and their stack sizes)](https://terraria.wiki.gg/) | Terraria Wiki contributors | facts only (item ids, types and stack sizes), credited |
@@ -134,7 +136,7 @@ Copyright notices of the projects above whose code or tables were used:
 - dragon-age-save-editor (Dragon Age: Origins stat ids, approval and campaign ids): Copyright (c) 2026 Aleksei Tovkachev. Licensed under MIT.
 - vampire-survivors-save-editor (Vampire Survivors checksum and number styles): Copyright (c) 2026 chrisdfennell. Licensed under MIT.
 - DarkestDungeonSaveEditor (Darkest Dungeon DSON format and its type rules, ported): Copyright (c) 2018 robojumper. Licensed under MIT.
-- game-tools-collection (Octopath Traveler II character and job ids): Copyright (c) 2024 RyudoSynbios. Licensed under MIT.
+- game-tools-collection (Octopath Traveler II character and job ids; Golden Sun Djinn counts and file-select totals): Copyright (c) 2024 RyudoSynbios. Licensed under MIT.
 - LSLib (Larian LSPK package and LSF resource layouts, ported): Copyright (c) Norbyte. Licensed under MIT.
 - valheim-fch-editor (Valheim character layout, skill ids): Copyright (c) 2021 cQuaid. Licensed under MIT.
 - obababot (Golden Sun save layout; item, class and Djinn name tables): Copyright (c) 2020 Dyrati. Licensed under MIT.

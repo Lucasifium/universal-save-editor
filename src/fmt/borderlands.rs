@@ -502,6 +502,23 @@ enum Target {
     BlackMarket(usize),
     /// An ammo amount: where its 4-byte float is in the character data.
     Ammo(usize),
+    /// How many weapons can be readied (field 2 of the inventory slot data, field 13).
+    GunSlots,
+}
+
+/// Backpack and bank black market slots, and the room each level gives: the backpack
+/// starts at 12 and grows by 3, the bank starts at 6 and grows by 2 (figures from
+/// apocalyptech's Borderlands 2 save editor notes).
+const BACKPACK_SDU: usize = 7;
+const BANK_SDU: usize = 8;
+pub const MAX_STORAGE_SDU: i64 = 9;
+
+pub fn backpack_slots(level: i64) -> i64 {
+    12 + 3 * level
+}
+
+pub fn bank_slots(level: i64) -> i64 {
+    6 + 2 * level
 }
 
 #[derive(Clone, Debug)]
@@ -520,9 +537,12 @@ impl Bl2Backend {
     fn range(&self, t: &Target) -> (i64, i64) {
         match t {
             Target::Int(2) => (1, self.max_level),
+            Target::Int(7) => (0, 2),
             Target::Int(_) | Target::Currency(_) => (0, i64::from(i32::MAX)),
+            Target::BlackMarket(BACKPACK_SDU | BANK_SDU) => (0, MAX_STORAGE_SDU),
             Target::BlackMarket(_) => (0, MAX_AMMO_SDU),
             Target::Ammo(_) => (0, 99_999),
+            Target::GunSlots => (2, 4),
         }
     }
 }
@@ -542,6 +562,9 @@ impl Backend for Bl2Backend {
         };
         let mut currency = None;
         let mut market = None;
+        // New values for fields 1 (backpack room) and 2 (weapon slots) of the slot data.
+        let mut slots: [Option<u64>; 2] = [None, None];
+        let mut bank = None;
         for (leaf, v) in changes {
             let t = &self.targets[*leaf];
             let n = whole(v)?;
@@ -564,8 +587,47 @@ impl Backend for Bl2Backend {
                         vals.resize(*i + 1, 0);
                     }
                     vals[*i] = n as u64;
+                    // The room an upgrade gives is saved beside its level; keep the two in step.
+                    if matches!(t, Target::BlackMarket(BACKPACK_SDU)) {
+                        slots[0] = Some(backpack_slots(n) as u64);
+                    } else if matches!(t, Target::BlackMarket(BANK_SDU)) {
+                        bank = Some(bank_slots(n) as u64);
+                    }
                 }
                 Target::Ammo(at) => patches.add(*at, *at + 4, (n as f32).to_le_bytes().to_vec()),
+                Target::GunSlots => slots[1] = Some(n as u64),
+            }
+        }
+        if slots.iter().any(Option::is_some) {
+            let f = pb::first(&top, 13).ok_or("missing inventory slot data")?;
+            let inner = pb::fields(f.bytes().ok_or("missing inventory slot data")?).ok_or("the inventory slot data couldn't be read")?;
+            let body = f.bytes().unwrap();
+            let mut out = vec![];
+            let mut done = [false; 2];
+            for g in &inner {
+                match (g.num, slots.get(g.num as usize - 1).copied().flatten()) {
+                    (1 | 2, Some(v)) => {
+                        out.extend(pb::int_field(g.num, v));
+                        done[g.num as usize - 1] = true;
+                    }
+                    _ => out.extend_from_slice(&body[g.start..g.end]),
+                }
+            }
+            for (i, v) in slots.iter().enumerate() {
+                if let (Some(v), false) = (v, done[i]) {
+                    out.extend(pb::int_field(i as u32 + 1, *v));
+                }
+            }
+            let mut field = vec![];
+            pb::put_varint(&mut field, (13 << 3) | 2);
+            pb::put_varint(&mut field, out.len() as u64);
+            field.extend(out);
+            patches.add(f.start, f.end, field);
+        }
+        if let Some(v) = bank {
+            match pb::first(&top, 56) {
+                Some(f) => patches.add(f.start, f.end, pb::int_field(56, v)),
+                None => patches.add(proto.len(), proto.len(), pb::int_field(56, v)),
             }
         }
         for (num, slot) in [(6, currency), (36, market)] {
@@ -635,7 +697,7 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
         }
     }
     if let Some(n) = int(7) {
-        add(&mut view, "Character", "Playthroughs completed", n.into(), None);
+        add(&mut view, "Character", "Playthroughs completed", n.into(), Some(Target::Int(7)));
     }
 
     let currency = pb::first(&top, 6).and_then(|f| f.bytes()).and_then(pb::packed);
@@ -656,10 +718,21 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
     if let Some(levels) = pb::first(&top, 36).and_then(|f| f.bytes()).and_then(pb::packed) {
         for (i, &lv) in levels.iter().enumerate() {
             let label = BLACK_MARKET.get(i).map_or_else(|| format!("Upgrade {}", i + 1), |s| s.to_string());
-            // Backpack and bank sizes are kept elsewhere too, so only ammo upgrades are edited.
-            let ammo = CAPACITY.iter().any(|c| c.0 == label);
-            add(&mut view, "SDU upgrades", &label, lv.into(), ammo.then_some(Target::BlackMarket(i)));
+            // Backpack and bank room is kept elsewhere too; the writer keeps it in step.
+            let known = CAPACITY.iter().any(|c| c.0 == label) || i == BACKPACK_SDU || i == BANK_SDU;
+            add(&mut view, "SDU upgrades", &label, lv.into(), known.then_some(Target::BlackMarket(i)));
         }
+    }
+    if let Some(inner) = pb::first(&top, 13).and_then(|f| f.bytes()).and_then(pb::fields) {
+        if let Some(n) = pb::first(&inner, 1).and_then(|f| f.int()) {
+            add(&mut view, "Character", "Backpack room", n.into(), None);
+        }
+        if let Some(n) = pb::first(&inner, 2).and_then(|f| f.int()) {
+            add(&mut view, "Character", "Weapon slots", n.into(), Some(Target::GunSlots));
+        }
+    }
+    if let Some(n) = int(56) {
+        add(&mut view, "Character", "Bank room", n.into(), None);
     }
 
     let item_view = |f: pb::Field, weapon_list: bool| -> Option<Value> {
@@ -713,7 +786,12 @@ pub(crate) mod tests {
             r.extend(pb::int_field(4, 1));
             p.extend(pb::bytes_field(11, &r));
         }
+        let mut slots = pb::int_field(1, 15);
+        slots.extend(pb::int_field(2, 2));
+        slots.extend(pb::int_field(3, 0));
+        p.extend(pb::bytes_field(13, &slots));
         p.extend(pb::bytes_field(19, &pb::bytes_field(1, b"Tester")));
+        p.extend(pb::int_field(56, 6));
         p.extend(pb::packed_field(36, &[2, 1, 0, 0, 0, 0, 0, 1, 0]));
         // One weapon: header byte (weapon, version 7), seed 0, check, then bit fields.
         let mut body = vec![0u8; 30];
@@ -776,7 +854,8 @@ pub(crate) mod tests {
         assert_eq!(v.pointer("/SDU upgrades/Assault rifle"), Some(&2.into()));
         assert_eq!(v.pointer("/Weapons/0/Level"), Some(&30.into()));
         assert_eq!(v.pointer("/Weapons/0/Serial check"), Some(&"OK".into()));
-        assert!(!doc.editable.contains_key("/SDU upgrades/Backpack"));
+        assert_eq!(v.pointer("/Character/Backpack room"), Some(&15.into()));
+        assert_eq!(v.pointer("/Character/Weapon slots"), Some(&2.into()));
         assert_eq!(doc.to_bytes().unwrap(), blob);
         // Money grows a byte; ammo, SDU and level change.
         doc.set("/Currency/Money", 300_000.into()).unwrap();
@@ -789,6 +868,23 @@ pub(crate) mod tests {
         assert_eq!(again.view, doc.view);
         assert_eq!(again.view.pointer("/Currency/Money"), Some(&300_000.into()));
         assert_eq!(again.view.pointer("/Currency/Eridium"), Some(&12.into()));
+        // Backpack and bank upgrades carry their room with them; weapon slots and playthroughs change alone.
+        let mut doc = again;
+        doc.set("/SDU upgrades/Backpack", 9.into()).unwrap();
+        doc.set("/SDU upgrades/Bank", 3.into()).unwrap();
+        doc.set("/Character/Weapon slots", 4.into()).unwrap();
+        doc.set("/Character/Playthroughs completed", 2.into()).unwrap();
+        assert!(doc.set("/Character/Weapon slots", 5.into()).is_err());
+        assert!(doc.set("/SDU upgrades/Backpack", 10.into()).is_err());
+        let out = doc.to_bytes().unwrap();
+        let again = parse(&out).unwrap();
+        assert_eq!(again.view.pointer("/SDU upgrades/Backpack"), Some(&9.into()));
+        assert_eq!(again.view.pointer("/Character/Backpack room"), Some(&39.into()));
+        assert_eq!(again.view.pointer("/Character/Bank room"), Some(&12.into()));
+        assert_eq!(again.view.pointer("/Character/Weapon slots"), Some(&4.into()));
+        assert_eq!(again.view.pointer("/Character/Playthroughs completed"), Some(&2.into()));
+        assert_eq!(again.view.pointer("/Currency/Money"), Some(&300_000.into()));
+        let doc = again;
         // Through the whole file as the game reads it.
         let file = pack(&out).unwrap();
         assert_eq!(parse(&unpack(&file).unwrap()).unwrap().view, doc.view);

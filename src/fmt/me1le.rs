@@ -215,13 +215,29 @@ fn walk(r: &mut R) -> Result<(), String> {
     r.string()?; // character id
     r.skip(16)?; // created
     // Plot table: booleans (bit fields), integers, floats.
-    r.list_of(4)?;
+    let flags_at = r.pos + 4;
+    let words = r.list_of(4)?;
     let ints_at = r.pos + 4;
     let ints = r.list_of(4)?;
     // Paragon and Renegade are plot integers 47 and 46.
     for (i, label) in [(47, "Paragon"), (46, "Renegade")] {
         if i < ints {
             r.b.ranged(&["Shepard", label], ints_at + 4 * i, Kind::I32, 0, 9999);
+        }
+    }
+    // Named story flags and numbers, from Trilogy Save Editor's plot database (Karlitos,
+    // CeCILL-2.1, which allows use under the GPL). Origin and notoriety have their own fields.
+    let mut seen = std::collections::HashSet::new();
+    for l in include_str!("data/me1_plot.tsv").lines() {
+        let mut c = l.split('\t');
+        let (Some(kind), Some(id), Some(section), Some(label)) = (c.next(), c.next().and_then(|n| n.parse::<usize>().ok()), c.next(), c.next()) else { continue };
+        let key = if seen.insert((kind, section, label)) { label.to_string() } else { format!("{label} ({id})") };
+        if kind == "b" {
+            if id / 32 < words {
+                r.b.bits(&["Story flags", section, &key], flags_at + id / 32 * 4, Kind::U32, (id % 32) as u32, 1, 0, 0, 1);
+            }
+        } else if id < ints && ![1, 2, 46, 47].contains(&id) {
+            r.b.ranged(&["Story numbers", section, &key], ints_at + 4 * id, Kind::I32, i32::MIN as i64, i32::MAX as i64);
         }
     }
     r.list_of(4)?;

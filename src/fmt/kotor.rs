@@ -20,6 +20,7 @@
 use super::fields::{Builder, Checksum};
 use super::gff::{entry_gff, erf_entries, is_erf, At, Gff, T_IFO, T_SAV, T_UTC};
 use crate::tree::TreeDoc;
+use serde_json::{Map, Value};
 use std::path::Path;
 
 /// skills.2da order (the same in both games).
@@ -202,9 +203,14 @@ fn parse_save(d: &[u8], path: Option<&Path>) -> Result<TreeDoc, String> {
     let mut doc_items = vec![];
     if let Some(inv) = top.iter().find(|e| e.name.eq_ignore_ascii_case("INVENTORY")).and_then(|e| entry_gff(d, e)) {
         let mut seen: Vec<(String, i64)> = vec![];
+        let mut keys = Map::new();
         for it in At::root(inv).list("ItemList") {
             let tag = it.text("Tag").unwrap_or_default();
             let n = it.int("StackSize").unwrap_or(1).max(1);
+            if it.has("StackSize") {
+                let key = crate::tree::insert_unique(&mut keys, if tag.is_empty() { "(no tag)" } else { &tag }, Value::Null);
+                it.edit(&mut b, &["Items", &key], "StackSize", 1, 9999, &[]);
+            }
             match seen.iter_mut().find(|x| x.0 == tag) {
                 Some(x) => x.1 += n,
                 None => seen.push((tag, n)),
@@ -355,6 +361,8 @@ mod tests {
         assert_eq!(v.pointer("/Party/Carth/Level"), Some(&Value::from(11)));
         assert_eq!(v.pointer("/Party/Carth/Health/Max FP"), Some(&Value::from(30)));
         assert_eq!(v.pointer("/Inventory/0"), Some(&Value::from("g_i_medeqpmnt01 \u{00D7}5")));
+        assert_eq!(v.pointer("/Items/g_i_medeqpmnt01"), Some(&Value::from(5)));
+        doc.set("/Items/g_i_medeqpmnt01", Value::from(40)).unwrap();
         doc.set("/Player/Experience", Value::from(5000)).unwrap();
         doc.set("/Player/Attributes/Strength", Value::from(18)).unwrap();
         doc.set("/Player/Skills/Repair", Value::from(9)).unwrap();
@@ -364,6 +372,7 @@ mod tests {
         let again = parse(&out, None).unwrap();
         assert_eq!(again.view.pointer("/Player/Experience"), Some(&Value::from(5000)));
         assert_eq!(again.view.pointer("/Party/Carth/Attributes/Dexterity"), Some(&Value::from(20)));
+        assert_eq!(again.view.pointer("/Items/g_i_medeqpmnt01"), Some(&Value::from(40)));
         assert_eq!(again.view.pointer("/Party/Bastila/Attributes/Dexterity"), Some(&Value::from(14)));
         // Every copy of the player got the edit.
         let top = erf_entries(&out, 0, out.len()).unwrap();

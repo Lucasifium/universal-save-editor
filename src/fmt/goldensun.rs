@@ -62,6 +62,13 @@ impl Game {
             Game::LostAge => 0x20,
         }
     }
+    /// Djinn of each element in the game.
+    pub fn djinn_per_element(self) -> usize {
+        match self {
+            Game::GoldenSun => 7,
+            Game::LostAge => 18,
+        }
+    }
     fn members(self) -> usize {
         match self {
             Game::GoldenSun => 7,
@@ -242,11 +249,57 @@ fn fix(out: &mut [u8], touched: &[usize], size: usize) {
     }
 }
 
+/// After a Djinn edit: the counts the game keeps beside the bits (owned and set, per member
+/// and element) and the totals on the file-select screen are made to match. Only files whose
+/// Djinn words were written are touched. Layout from game-tools-collection (RyudoSynbios, MIT).
+fn fix_djinn(out: &mut [u8], touched: &[usize], g: Game, size: usize) {
+    let mut blocks: Vec<usize> = touched.iter().map(|&a| a - a % size).collect();
+    blocks.sort_unstable();
+    blocks.dedup();
+    for blk in blocks {
+        let base = blk + 0x10;
+        let party = base + 0x500 + g.shift();
+        if party + PC * g.members() > out.len() || out[blk..blk + 7] != *b"CAMELOT" {
+            continue;
+        }
+        let djinn = |a: usize| (party..party + PC * g.members()).contains(&a) && (0xF8..0x118).contains(&((a - party) % PC));
+        if !touched.iter().any(|&a| a - a % size == blk && djinn(a)) {
+            continue;
+        }
+        for p in 0..g.members() {
+            let r = party + PC * p;
+            for e in 0..4 {
+                let owned = u32_at(out, r + 0xF8 + 4 * e);
+                // A Djinni that isn't owned can't be set.
+                let set = u32_at(out, r + 0x108 + 4 * e) & owned;
+                out[r + 0x108 + 4 * e..r + 0x10C + 4 * e].copy_from_slice(&set.to_le_bytes());
+                out[r + 0x118 + e] = owned.count_ones() as u8;
+                out[r + 0x11C + e] = set.count_ones() as u8;
+            }
+        }
+        let n = out[base + 0x40].count_ones() as usize;
+        let mut all = [0u32; 4];
+        for j in 0..n {
+            let who = out[base + 0x438 + g.shift() + j] as usize;
+            if who < g.members() {
+                for (e, a) in all.iter_mut().enumerate() {
+                    *a |= u32_at(out, party + PC * who + 0xF8 + 4 * e);
+                }
+            }
+        }
+        for (e, a) in all.iter().enumerate() {
+            out[base + 0x18 + e] = a.count_ones() as u8;
+        }
+    }
+}
+
 fn fix_gs1(out: &mut Vec<u8>, touched: &[usize]) {
+    fix_djinn(out, touched, Game::GoldenSun, 0x1000);
     fix(out, touched, 0x1000);
 }
 
 fn fix_gs2(out: &mut Vec<u8>, touched: &[usize]) {
+    fix_djinn(out, touched, Game::LostAge, 0x3000);
     fix(out, touched, 0x3000);
 }
 
@@ -304,15 +357,12 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
             }
             b.info(&[f, "Party", m, "Stats", "Luck"], d[r + 0x42]);
 
-            // Djinn: owned ones, set (on the character) or on standby.
+            // Djinn: a bit per Djinni for "has it" and another for "set" (the rest are on standby).
             for (e, el) in ELEMENTS.iter().enumerate() {
-                let owned = u32_at(d, r + 0xF8 + 4 * e);
-                let set = u32_at(d, r + 0x108 + 4 * e);
-                for bit in 0..20 {
-                    if owned >> bit & 1 != 0 {
-                        let state = if set >> bit & 1 != 0 { "Set" } else { "Standby" };
-                        b.info(&[f, "Party", m, "Djinn", el, &djinn_name(e, bit)], state);
-                    }
+                for bit in 0..g.djinn_per_element() {
+                    let name = djinn_name(e, bit);
+                    b.bits(&[f, "Party", m, "Djinn", el, &name, "Owned"], r + 0xF8 + 4 * e, Kind::U32, bit as u32, 1, 0, 0, 1);
+                    b.bits(&[f, "Party", m, "Djinn", el, &name, "Set"], r + 0x108 + 4 * e, Kind::U32, bit as u32, 1, 0, 0, 1);
                 }
             }
 
@@ -423,8 +473,11 @@ mod tests {
         assert_eq!(v.pointer("/File 1/Coins"), Some(&Value::from(1234)));
         assert_eq!(v.pointer("/File 1/Play time"), Some(&Value::from("1:01:01")));
         assert_eq!(v.pointer("/File 1/Party/Isaac/Level"), Some(&Value::from(12)));
-        assert_eq!(v.pointer("/File 1/Party/Isaac/Djinn/Venus/Flint"), Some(&Value::from("Set")));
-        assert_eq!(v.pointer("/File 1/Party/Isaac/Djinn/Venus/Quartz"), Some(&Value::from("Standby")));
+        assert_eq!(v.pointer("/File 1/Party/Isaac/Djinn/Venus/Flint/Owned"), Some(&Value::from(1)));
+        assert_eq!(v.pointer("/File 1/Party/Isaac/Djinn/Venus/Flint/Set"), Some(&Value::from(1)));
+        assert_eq!(v.pointer("/File 1/Party/Isaac/Djinn/Venus/Quartz/Owned"), Some(&Value::from(1)));
+        assert_eq!(v.pointer("/File 1/Party/Isaac/Djinn/Venus/Quartz/Set"), Some(&Value::from(0)));
+        assert_eq!(v.pointer("/File 1/Party/Isaac/Djinn/Venus/Granite/Owned"), Some(&Value::from(0)));
         assert_eq!(v.pointer("/File 1/Party/Isaac/Items/Slot 01/Item"), Some(&Value::from("Long Sword")));
         assert_eq!(v.pointer("/File 1/Party/Isaac/Items/Slot 02/Quantity"), Some(&Value::from(3)));
         assert_eq!(v.pointer("/File 1/Party/Isaac/Items/Slot 03/Item"), Some(&Value::from(EMPTY)));
@@ -453,6 +506,18 @@ mod tests {
         let again = parse(&out).unwrap();
         assert_eq!(again.view.pointer("/File 1/Party/Isaac/Items/Slot 02/Item"), Some(&Value::from("Nut")));
         assert_eq!(again.view.pointer("/File 1/Party/Isaac/Items/Slot 03/Item"), Some(&Value::from("Broad Sword")));
+        // Giving a Djinni and setting it: the counts beside the bits and the file-select totals follow.
+        let mut doc = again;
+        doc.set("/File 1/Party/Isaac/Djinn/Venus/Granite/Owned", Value::from(1)).unwrap();
+        doc.set("/File 1/Party/Isaac/Djinn/Venus/Granite/Set", Value::from(1)).unwrap();
+        doc.set("/File 1/Party/Isaac/Djinn/Mars/Forge/Set", Value::from(1)).unwrap();
+        let out = doc.to_bytes().unwrap();
+        assert_eq!(u32_at(&out, r + 0xF8), 0b111);
+        assert_eq!(u32_at(&out, r + 0x108), 0b011);
+        assert_eq!(u32_at(&out, r + 0x108 + 8), 0, "a Djinni that isn't owned stays unset");
+        assert_eq!((out[r + 0x118], out[r + 0x11C], out[r + 0x11C + 2]), (3, 2, 0));
+        assert_eq!(out[at + 0x10 + 0x18], 3);
+        assert_eq!(u16_at(&out, at + 8), block_sum(&out, at, 0x1000));
     }
 
     #[test]
@@ -546,6 +611,21 @@ mod tests {
                 *b2.pointer_mut(&q).unwrap() = Value::Null;
             }
             assert_eq!(o, b2, "{}", p.display());
+            // Djinn: flipping one and flipping it back gives the file as it was, so the counts
+            // the editor works out are the ones the game wrote.
+            let dj = doc.view.pointer(&format!("{f}/Party/{who}/Djinn/Venus")).and_then(Value::as_object).unwrap().keys().next().unwrap().clone();
+            let dp = format!("{f}/Party/{who}/Djinn/Venus/{dj}/Owned");
+            let mut d1 = parse(&d).unwrap();
+            let was = d1.view.pointer(&dp).and_then(Value::as_u64).unwrap();
+            let set_was = d1.view.pointer(&dp.replace("/Owned", "/Set")).and_then(Value::as_u64).unwrap();
+            d1.set(&dp, Value::from(1 - was)).unwrap();
+            let mid = d1.to_bytes().unwrap();
+            let mut d2 = parse(&mid).unwrap();
+            d2.set(&dp, Value::from(was)).unwrap();
+            d2.set(&dp.replace("/Owned", "/Set"), Value::from(set_was)).unwrap();
+            let round = d2.to_bytes().unwrap();
+            let diff: Vec<usize> = (0..d.len()).filter(|&i| round[i] != d[i]).collect();
+            assert!(diff.is_empty(), "{}: Djinn round trip differs at {:x?}", p.display(), &diff[..diff.len().min(12)]);
             println!("{}: {:?}, files {:?}, coins {coins}, {who} level {level}", p.file_name().unwrap().to_string_lossy(), g, slots.iter().map(|s| s.file + 1).collect::<Vec<_>>());
             n += 1;
         }

@@ -79,6 +79,8 @@ fn range_for(chain: &[&str]) -> Option<(i64, i64)> {
         ["weapon_rank" | "armour_rank", ..] => (0, 4),
         ["resolveXp", ..] => (0, i32::MAX as i64),
         ["amount", _, "wallet", ..] => (0, i32::MAX as i64),
+        // Trinkets and estate items: how many of each the estate holds.
+        ["amount", _, "items", ..] => (1, 999),
         _ => return None,
     })
 }

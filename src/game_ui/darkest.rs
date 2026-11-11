@@ -112,8 +112,13 @@ fn estate(ui: &mut Ui, cx: &mut GameCtx) {
                         let at = join(base, k);
                         let id = cx.text(&join(&at, "id")).unwrap_or_default();
                         ui.label(words(&id));
-                        let n = cx.int(&join(&at, "amount")).unwrap_or(0);
-                        ui.label(RichText::new(format!("\u{00D7}{n}")).color(ui.visuals().weak_text_color()));
+                        let ap = join(&at, "amount");
+                        if cx.can_edit(&ap) {
+                            cx.compact(ui, &ap, 52.0);
+                        } else {
+                            let n = cx.int(&ap).unwrap_or(0);
+                            ui.label(RichText::new(format!("\u{00D7}{n}")).color(ui.visuals().weak_text_color()));
+                        }
                         ui.end_row();
                     }
                 });
@@ -206,11 +211,12 @@ fn roster(ui: &mut Ui, cx: &mut GameCtx) {
                     if skills.is_empty() {
                         continue;
                     }
-                    ui.label(RichText::new(format!("{label} (upgrade as stored)")).strong());
-                    for s in skills {
-                        let lv = cx.int(&join(&base, &s)).unwrap_or(0);
-                        ui.label(format!("{}  \u{2014}  {lv}", words(&s)));
-                    }
+                    ui.label(RichText::new(format!("{label} (upgrade level)")).strong());
+                    egui::Grid::new(("dd_skills", &base)).num_columns(2).spacing([16.0, 3.0]).show(ui, |ui| {
+                        for s in skills {
+                            cx.grid_row(ui, &words(&s), &join(&base, &s), 44.0);
+                        }
+                    });
                     ui.add_space(4.0);
                 }
             });

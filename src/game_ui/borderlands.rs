@@ -218,8 +218,32 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
         ui,
         cx,
         true,
-        "Bars show the ammo each SDU level holds before relic and class mod bonuses (the game allows more with those). Backpack and bank SDUs are shown in Values, not edited here.",
+        "Bars show the ammo each SDU level holds before relic and class mod bonuses (the game allows more with those).",
     );
+    if cx.get("/SDU upgrades/Backpack").is_some() || cx.get("/Character/Weapon slots").is_some() {
+        panel(ui, "Storage and playthroughs", |ui| {
+            egui::Grid::new("bl2_storage").num_columns(3).spacing([14.0, 4.0]).show(ui, |ui| {
+                for (label, p, room, per) in [("Backpack SDU", "/SDU upgrades/Backpack", "/Character/Backpack room", "slots"), ("Bank SDU", "/SDU upgrades/Bank", "/Character/Bank room", "slots")] {
+                    if cx.get(p).is_some() {
+                        cx.label(ui, label, p);
+                        ui.horizontal(|ui| cx.editor(ui, p, 56.0));
+                        let lv = cx.int(p).unwrap_or(0);
+                        let now = if label.starts_with("Backpack") { crate::fmt::borderlands::backpack_slots(lv) } else { crate::fmt::borderlands::bank_slots(lv) };
+                        let saved = cx.int(room);
+                        ui.weak(if cx.modified(p) || saved.is_none() { format!("{now} {per} when saved") } else { format!("{} {per}", saved.unwrap()) });
+                        ui.end_row();
+                    }
+                }
+                cx.grid_row(ui, "Weapon slots", "/Character/Weapon slots", 56.0);
+                cx.grid_row(ui, "Playthroughs completed", "/Character/Playthroughs completed", 56.0);
+            });
+            ui.weak(format!(
+                "Backpack and bank SDUs go from 0 to {}: the backpack holds 12 items plus 3 a level, the bank 6 plus 2 a level. Weapon slots go from 2 to 4. \
+                 Playthroughs completed 1 opens True Vault Hunter Mode and 2 opens Ultimate Vault Hunter Mode.",
+                crate::fmt::borderlands::MAX_STORAGE_SDU
+            ));
+        });
+    }
     let nw = cx.get("/Weapons").and_then(Value::as_array).map_or(0, Vec::len);
     let ni = cx.get("/Items").and_then(Value::as_array).map_or(0, Vec::len);
     panel(ui, "Loot", |ui| {

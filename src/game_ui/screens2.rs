@@ -488,6 +488,7 @@ pub fn mass_effect(ui: &mut Ui, cx: &mut GameCtx) {
         cx.tile(ui, "Difficulty", "/Save/Difficulty", accent);
         cx.tile(ui, "Paragon", "/Shepard/Paragon", accent);
         cx.tile(ui, "Renegade", "/Shepard/Renegade", accent);
+        cx.tile(ui, "Reputation points", "/Shepard/Reputation points", accent);
     });
     panel(ui, "Resources", |ui| {
         let rows: Vec<(String, String)> = match cx.get("/Resources") {
@@ -551,6 +552,53 @@ pub fn mass_effect(ui: &mut Ui, cx: &mut GameCtx) {
         });
     }
     ui.weak("Power ranks run 0\u{2013}4 in Mass Effect 2 and 0\u{2013}6 in Mass Effect 3 and up to 12 in Mass Effect 1; an evolved power shows up as its own entry.");
+    story(ui, cx, accent);
+}
+
+/// Mass Effect 2 and 3 story flags (loyalty, romance, who lived, imported choices) and the
+/// numbers beside them, by section.
+fn story(ui: &mut Ui, cx: &mut GameCtx, accent: Color32) {
+    let flags = keys_of(cx, "/Story flags");
+    let numbers = keys_of(cx, "/Story numbers");
+    if flags.is_empty() && numbers.is_empty() {
+        return;
+    }
+    panel(ui, "Story", |ui| {
+        let q = filter_box(ui, "me_story", "loyal, romance, dead\u{2026}");
+        let mut sections = flags.clone();
+        for n in &numbers {
+            if !sections.contains(n) {
+                sections.push(n.clone());
+            }
+        }
+        for sec in &sections {
+            let fb = join("/Story flags", sec);
+            let nb = join("/Story numbers", sec);
+            let hit = |k: &String| q.is_empty() || k.to_lowercase().contains(&q) || sec.to_lowercase().contains(&q);
+            let f: Vec<String> = keys_of(cx, &fb).into_iter().filter(hit).collect();
+            let n: Vec<String> = keys_of(cx, &nb).into_iter().filter(hit).collect();
+            if f.is_empty() && n.is_empty() {
+                continue;
+            }
+            let on = f.iter().filter(|k| cx.flag(&join(&fb, k))).count();
+            let title = if f.is_empty() { sec.clone() } else { format!("{sec}  ({on} of {} on)", f.len()) };
+            egui::CollapsingHeader::new(title).id_salt(("me_story", sec)).open(if q.is_empty() { None } else { Some(true) }).show(ui, |ui| {
+                ui.horizontal_wrapped(|ui| {
+                    for k in &f {
+                        cx.chip(ui, k, &join(&fb, k), accent);
+                    }
+                });
+                if !n.is_empty() {
+                    let rows: Vec<(String, String)> = n.iter().map(|k| (k.clone(), join(&nb, k))).collect();
+                    value_rows(ui, cx, &format!("me_story_{sec}"), &rows);
+                }
+            });
+        }
+        ui.weak(
+            "Click a flag to turn it on or off. These are the game's own story records: changing one doesn't replay the scene behind it, \
+             and flags that contradict each other (alive and dead, two romances) can confuse later scenes, so change few at a time and keep the backup.",
+        );
+    });
 }
 
 fn power_list(ui: &mut Ui, cx: &mut GameCtx, base: &str, id: &str, accent: Color32) {
@@ -663,13 +711,13 @@ pub fn xcom2(ui: &mut Ui, cx: &mut GameCtx) {
         }
     });
     if !soldiers.is_empty() {
-        let stats = ["HP", "Aim", "Mobility", "Will", "Hacking", "Defense", "Dodge", "Psi"];
+        let stats = ["HP", "Aim", "Mobility", "Will", "Hacking", "Defense", "Dodge", "Psi", "Armor", "Shield", "Sight"];
         let shown: Vec<&str> = stats.iter().copied().filter(|s| soldiers.iter().any(|b| cx.get(&format!("{b}/Stats/{s}")).is_some())).collect();
         panel(ui, "Soldiers", |ui| {
             let q = filter_box(ui, "xcom2_sold", "name or class");
             egui::ScrollArea::both().id_salt("xcom2_s").max_height(460.0).show(ui, |ui| {
-                egui::Grid::new("xcom2_grid").num_columns(5 + shown.len()).striped(true).spacing([10.0, 4.0]).show(ui, |ui| {
-                    for h in ["Soldier", "Class", "Rank", "Kills", "Missions"].iter().chain(shown.iter()) {
+                egui::Grid::new("xcom2_grid").num_columns(6 + shown.len()).striped(true).spacing([10.0, 4.0]).show(ui, |ui| {
+                    for h in ["Soldier", "Class", "Rank", "Kills", "Missions", "Ability points"].iter().chain(shown.iter()) {
                         ui.strong(*h);
                     }
                     ui.end_row();
@@ -691,7 +739,7 @@ pub fn xcom2(ui: &mut Ui, cx: &mut GameCtx) {
                                 ui.weak(*r);
                             }
                         });
-                        for f in ["Kills", "Missions"] {
+                        for f in ["Kills", "Missions", "Ability points"] {
                             let p = format!("{b}/{f}");
                             if cx.get(&p).is_some() {
                                 cx.compact(ui, &p, 44.0);
@@ -891,15 +939,21 @@ pub fn ff7(ui: &mut Ui, cx: &mut GameCtx) {
             }
         });
         ui.add_space(6.0);
-        egui::Grid::new(("ff7_hp", t, c)).num_columns(3).spacing([14.0, 4.0]).show(ui, |ui| {
+        egui::Grid::new(("ff7_hp", t, c)).num_columns(4).spacing([14.0, 4.0]).show(ui, |ui| {
             ui.label("");
             ui.strong("Now");
             ui.strong("Max");
+            ui.strong("Base max");
             ui.end_row();
-            for (n, cur, max) in [("HP", "HP", "Max HP"), ("MP", "MP", "Max MP")] {
+            for (n, cur, max, base) in [("HP", "HP", "Max HP", "Base max HP"), ("MP", "MP", "Max MP", "Base max MP")] {
                 ui.label(n);
                 cx.cell(ui, &at(cur), 70.0);
                 cx.cell(ui, &at(max), 70.0);
+                if cx.get(&at(base)).is_some() {
+                    cx.cell(ui, &at(base), 70.0);
+                } else {
+                    ui.label("");
+                }
                 ui.end_row();
             }
         });
@@ -908,7 +962,7 @@ pub fn ff7(ui: &mut Ui, cx: &mut GameCtx) {
         for k in ["Strength", "Vitality", "Magic", "Spirit", "Dexterity", "Luck"] {
             cx.attribute(ui, k, &at(k), 255.0, accent);
         }
-        ui.weak("Stats go up to 255. The game recalculates max HP/MP from level and equipment, so change base max HP/MP in Values to make it stick.");
+        ui.weak("Stats go up to 255. The game works out max HP/MP again from the base max and equipment, so raise the base max to make a higher maximum stick.");
     });
 }
 

@@ -127,15 +127,25 @@ fn save(ui: &mut Ui, cx: &mut GameCtx) {
     let items = list(cx, "/Inventory");
     if !items.is_empty() {
         egui::CollapsingHeader::new(RichText::new(format!("Party inventory ({} kinds)", items.len())).strong()).id_salt("kotor_inv").show(ui, |ui| {
-            egui::ScrollArea::vertical().id_salt("kotor_inv_s").max_height(260.0).show(ui, |ui| {
-                ui.horizontal_wrapped(|ui| {
-                    for it in &items {
-                        ui.label(RichText::new(it).monospace().size(12.0));
-                        ui.add_space(8.0);
-                    }
+        let stacks: Vec<String> = match cx.get("/Items") {
+            Some(Value::Object(m)) => m.keys().cloned().collect(),
+            _ => vec![],
+        };
+        if stacks.is_empty() {
+            ui.horizontal_wrapped(|ui| {
+                for it in &items {
+                    ui.label(RichText::new(it).monospace().size(12.0));
+                    ui.add_space(8.0);
+                }
+            });
+        } else {
+            egui::ScrollArea::vertical().id_salt("kotor_inv_s").max_height(300.0).show(ui, |ui| {
+                super::columns(ui, 280.0, stacks.len(), |ui, i| {
+                    cx.row_fixed(ui, &stacks[i], &format!("/Items/{}", crate::json_view::pointer_escape(&stacks[i])), 180.0, 56.0);
                 });
             });
-            ui.weak("Item tags as the game stores them; items can't be added or removed here.");
+        }
+        ui.weak("How many of each item is in the stack, by the item's tag. The game may cut a stack back to what the item allows; items can't be added or removed here.");
         });
     }
     ui.add_space(6.0);

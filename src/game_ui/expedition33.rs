@@ -31,10 +31,16 @@ fn is_cosmetic(name: &str) -> bool {
 }
 
 fn attribute(key: &str) -> String {
-    // The game stores these as "ECharacterAttribute::NewEnumeratorN"; the names behind N
-    // aren't mapped, so they show by number.
+    // The game stores these as "ECharacterAttribute::NewEnumeratorN". The names behind N are
+    // from Infarctus/CO-E33_Save_editor (GPL-3.0), `src/types/enums.ts`; 2 is never saved.
     match key.rsplit("NewEnumerator").next().and_then(|n| n.parse::<u32>().ok()) {
-        Some(n) => format!("Attribute {}", n + 1),
+        Some(0) => "Vitality".into(),
+        Some(1) => "Might".into(),
+        Some(2) => "Intelligence (unused)".into(),
+        Some(3) => "Agility".into(),
+        Some(4) => "Defense".into(),
+        Some(5) => "Luck".into(),
+        Some(n) => format!("Attribute {n}"),
         None => words(key),
     }
 }
