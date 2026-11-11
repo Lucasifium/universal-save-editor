@@ -174,6 +174,9 @@ pub enum Layer {
     Sum(fmt::sumfind::Sum),
     /// One file on a PlayStation 2 memory card image: the image and the file.
     Ps2Card { image: Arc<Vec<u8>>, file: fmt::memcard::Ps2File },
+    /// A console save unpacked by its patch file's own codes (decrypt, decompress), packed
+    /// again by the rest of them; `var` is the unpacked stream shown, if the codes made one.
+    Apollo { id: String, file: String, var: Option<String>, original: Arc<Vec<u8>> },
     /// A single PS1/PS2 save exported by a cheat device or PC tool; `name` is the file open.
     PsSave { kind: fmt::pssave::Kind, original: Arc<Vec<u8>>, name: String },
     /// DeSmuME `.dsv`: the footer after the raw DS save, kept as it is.
@@ -282,6 +285,7 @@ impl Layer {
             Layer::Sum(s) => format!("Checksum kept fixed ({})", s.describe()),
             Layer::Ps2Card { file, .. } => format!("PlayStation 2 memory card ({})", file.name),
             Layer::PsSave { kind, name, .. } => format!("{} ({name})", kind.label()),
+            Layer::Apollo { id, .. } => format!("Console save unpacked by its patch file ({id})"),
             Layer::Dsv { .. } => "DeSmuME save (.dsv footer)".into(),
             Layer::Ps1Card { blocks, .. } => format!("PlayStation memory card (save in block {})", blocks[0]),
             Layer::Civ5 { .. } => "Civilization V save (compressed game data)".into(),
@@ -387,6 +391,26 @@ pub fn decode_with(raw: &[u8], opts: &Options) -> Decoded {
     let mut ctx = Ctx { opts, zip_entries: vec![], hint: None };
     let mut layers = Vec::new();
     let mut data = raw.to_vec();
+    // Console saves (PS3, PS4, PSP, Vita…) whose folder names the game: the patch
+    // collection's own codes decrypt or unpack them.
+    if let Some(path) = &opts.path {
+        let path = path.to_string_lossy();
+        if let Some(o) = crate::apollo::console::open(&path, raw) {
+            ctx.hint = Some(if o.plain[..] == raw[..] {
+                format!("{} ({}) save: its checksums are written again on save, with the codes from its Apollo patch file.", o.title, o.platform)
+            } else {
+                format!(
+                    "{} ({}) save: {} with the codes from its Apollo patch file, and packed again the same way when you save.",
+                    o.title,
+                    o.platform,
+                    if o.var.is_some() { "unpacked" } else { "decrypted" }
+                )
+            });
+            let file = path.replace('\\', "/").rsplit('/').next().unwrap_or_default().to_string();
+            layers.push(Layer::Apollo { id: o.id, file, var: o.var, original: Arc::new(raw.to_vec()) });
+            data = o.plain;
+        }
+    }
     while layers.len() < MAX_LAYERS {
         match peel(&data, &mut ctx) {
             Some((layer, inner)) => {
@@ -804,6 +828,7 @@ fn wrap(layer: &Layer, data: Vec<u8>) -> Result<Vec<u8>, String> {
         }
         Layer::Dsv { footer } => [&data[..], footer].concat(),
         Layer::PsSave { kind, original, name } => fmt::pssave::save(*kind, original, name, &data)?,
+        Layer::Apollo { id, file, var, original } => crate::apollo::console::close(id, file, var, original, &data)?,
         Layer::Ps1Card { image, offset, blocks } => {
             fmt::memcard::ps1_write(image, *offset, &fmt::memcard::Ps1Save { name: String::new(), blocks: blocks.clone() }, &data)?
         }

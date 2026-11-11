@@ -113,10 +113,15 @@ fn patch(a: &Args) -> Result<(), String> {
     let inner = d.layers.iter().rev().find_map(|l| match l {
         formats::Layer::ZipEntry { name, .. } | formats::Layer::Copeck { name, .. } => Some(name.clone()),
         formats::Layer::Ps2Card { file, .. } => Some(file.name.clone()),
+        formats::Layer::PsSave { name, .. } => Some(name.clone()),
         _ => None,
     });
+    let layer = d.layers.iter().find_map(|l| if let formats::Layer::Apollo { var, .. } = l { Some(var.clone()) } else { None });
     let full = format!("{}{}", path.to_string_lossy().replace('\\', "/"), inner.map(|n| format!("/{n}")).unwrap_or_default());
-    let file = full.rsplit('/').next().unwrap_or_default().to_string();
+    let mut file = full.rsplit('/').next().unwrap_or_default().to_string();
+    if let Some(Some(v)) = &layer {
+        file = v.clone();
+    }
     let Some(game) = a.pos.get(1) else {
         let ids = db::ids_in(&full);
         if ids.is_empty() {
@@ -198,14 +203,21 @@ fn patch(a: &Args) -> Result<(), String> {
     }
     let mut out = data.clone();
     let mut session = apollo::Session::new(be);
+    if let Some(Some(v)) = &layer {
+        session.seed(v, out.clone());
+    }
     let mut done = 0;
     for (i, c) in codes.iter().enumerate() {
         let picks = want.iter().find(|(n, _)| *n == i).map(|(_, k)| k.clone());
-        if (picks.is_none() && !(c.required && apollo::targets(c, &file))) || c.empty() {
+        // Required codes unpack and pack the save: when it opened unpacked, they already ran.
+        if (picks.is_none() && !(c.required && layer.is_none() && apollo::targets(c, &file))) || c.empty() {
             continue;
         }
         session.apply(&mut out, c, picks.as_deref().unwrap_or(&[])).map_err(|e| format!("{}: {e}; nothing was written", c.name))?;
         done += usize::from(picks.is_some());
+    }
+    if let Some(Some(v)) = &layer {
+        out = session.unpacked(v).unwrap_or(&out).to_vec();
     }
     if out == *data {
         println!("the codes didn't change anything");

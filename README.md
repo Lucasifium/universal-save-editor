@@ -304,8 +304,19 @@ title ID in the save's file or folder name (`BLUS30490`, `BESCES-50003`, `CUSA01
 searching its name, and a `.savepatch` file can be opened too. Tick the codes (pick a value where a
 code offers several) and apply: Save Wizard and BSD script codes run as Apollo runs them, including
 their searches, checksum and hash fixes, ciphers and zlib streams. Codes written as Python scripts
-aren't supported. Saves must already be decrypted (as Apollo or a PS4 save tool exports them); a
-patch meant for another region or version of the game can damage a save, so keep the backup.
+aren't supported. A patch meant for another region or version of the game can damage a save, so
+keep the backup.
+
+**Encrypted console saves**: about 80 PlayStation 3, PlayStation 4, PSP and Vita games (189 title
+IDs) whose saves are encrypted, compressed or checksummed (Grand Theft Auto V, Red Dead Redemption 2,
+Shin Megami Tensei V, Dynasty Warriors 8, Metal Gear Solid, Resident Evil, Silent Hill and Like a
+Dragon: Ishin! among them) open already
+unpacked when the save's folder name carries the title ID, as a save exported from a console or an
+emulator does (`BLUS31156-SAVE`, `CUSA12345`). The game's own patch file does the work: its decrypt
+and decompress codes run when the save opens, and its checksum, compress and encrypt codes run again
+on save. A save is only opened this way when packing it again gives back exactly what it read, and
+checksums stored inside the data show as zeros and are filled in on save. Checked byte for byte on 18
+real encrypted saves from the save-decrypters project.
 
 Big files open on a worker thread, and unpacking and decryption use every core.
 
