@@ -103,10 +103,10 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 | Diablo II, Diablo II: Resurrected | *Character*: level, experience, gold and stash gold; the four attributes, stat and skill points; life, mana and stamina (base values); points in every skill |
 | Pathfinder: Kingmaker, Wrath of the Righteous | *Party*: money; the player and each companion's ability scores, experience, classes and levels, and base hit points (Wrath: mythic rank too) |
 | Onimusha: Way of the Sword | Each save slot (place, play time, difficulty, objective); red souls, money, health and Oni energy; items and charms by name (on hand and in storage; charm level), with a **Max crafting materials** button that fills the upgrade materials on hand (cloths, leather, whetstones, iron, Tamahagane, Malicite, Byakue's Talisman, Dohatsu-ten's Horn) to 99 (an estimate), leaving Power Stones, Oni Stones, Oni Cloth and key items alone; equipment experience. Decrypts Capcom's RE Engine encryption with your Steam account, found automatically |
-| Stellaris | *Empire*: energy, minerals, food, alloys, consumer goods, influence and unity up front, and every resource in the stockpile. Ironman (binary) saves are recognised but can't be edited |
-| Hearts of Iron IV | *Empire*: political power, stability, war support, command power and experience. Ironman (binary) saves are recognised but can't be edited |
-| Europa Universalis IV | *Empire*: treasury, manpower, prestige, stability, monarch power and every country value. Ironman (binary) saves are recognised but can't be edited |
-| Crusader Kings II | *Empire*: the ruler's wealth, prestige, piety and attributes |
+| Stellaris | *Empire*: energy, minerals, food, alloys, consumer goods, influence and unity up front, and every resource in the stockpile. Ironman saves are text like any other Stellaris save and open the same way (no ironman save has been tried yet); the game may stop awarding achievements for an edited campaign |
+| Hearts of Iron IV | *Empire*: political power, stability, war support, command power and experience. Binary saves (the game's default, and ironman) are edited in place and stay binary; fields outside this screen show as numbers (checked on public saves, not yet tried in the game) |
+| Europa Universalis IV | *Empire*: treasury, manpower, prestige, stability, monarch power and every country value. Ironman (binary) saves are edited in place and stay ironman; fields outside this screen show as numbers (checked on public saves, not yet tried in the game) |
+| Crusader Kings II | *Empire*: the ruler's wealth, prestige, piety and attributes. Ironman (binary) saves are edited in place; no ironman save has been tried yet |
 | RimWorld | *Colony*: every colonist's skills (level and passion, modded passions included) and every silver stack, edited in place even in 100+ MB saves |
 | Oxygen Not Included | *Colony*: every duplicant's attribute levels and experience, total experience and learned skills; a *Map* of every asteroid and rocket interior (elements, temperature and germ views; paint elements with mass and temperature, dig out to vacuum, set temperature or mass, clear germs, reveal the fog; geysers, teleporters, Gravitas finds, story traits, artifacts and the Printing Pod as toggleable markers); *Worlds & rockets*: names, discovered, sunlight and cosmic radiation, and what's on the star map |
 | Subnautica, Below Zero | *Slot*: game mode (Survival / Freedom / Hardcore / Creative), play time, vehicles |
@@ -159,6 +159,31 @@ implementation the editor may include. Instead it uses the Oodle library that ma
 install (`oo2core_*_win64.dll`, e.g. with Sekiro or Telltale games), loading it while running, just as
 those games do; nothing of Oodle is part of this program. It's found in your Steam and Epic game
 folders automatically (remembered afterwards), or set `SAVE_EDITOR_OODLE` to the library's path.
+
+## Paradox ironman and binary saves
+
+Ironman saves of Europa Universalis IV, Crusader Kings II and III, Hearts of Iron IV, Victoria 3,
+Imperator: Rome and Europa Universalis V are binary, and so are the ordinary saves that Hearts of
+Iron IV, Crusader Kings III, Victoria 3 and Europa Universalis V write by default. The editor opens them and changes values in place: the
+number you edit is overwritten where it sits and nothing else in the file moves, so the save stays
+binary and stays an ironman save. It isn't converted to a normal one.
+
+- **Achievements.** These games check their ironman saves, and an edited one will most likely stop
+  earning achievements for that campaign. The editor doesn't try to get around that.
+- **Field names.** A binary save stores each field name as a number, and Paradox has asked that the
+  tables of those numbers not be shared, so the editor doesn't include them. It knows only the few
+  fields its *Empire* screens show for Europa Universalis IV, Hearts of Iron IV and Crusader Kings II;
+  other fields appear as their number (`0x2d82`). Country tags, names and other text are stored as
+  text, so the *Values* tab stays readable: find your country by its tag and its numbers are listed
+  under it.
+- **Europa Universalis V** keeps nearly all its names in the save itself, so its saves read in full.
+- **Your own token file.** If you have a token file for a game, put it in a `tokens` folder next to
+  the program (or in the editor's settings folder) as `eu4.txt`, `hoi4.txt`, `ck2.txt`, `ck3.txt`,
+  `vic3.txt`, `imperator.txt` or `eu5.txt`, and every name it lists is shown. Each line is an id and
+  a name (`0x284d date`); the semicolon-separated tables some older tools use are read as well. The
+  variables `EU4_IRONMAN_TOKENS`, `HOI4_IRONMAN_TOKENS` and so on can point to a file instead.
+- **Text instead.** Hearts of Iron IV writes text saves when `save_as_binary=no` is set in its
+  `settings.txt`, and the newer games write text saves in debug mode. Text saves open with every name.
 
 ## Select game
 

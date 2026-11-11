@@ -423,7 +423,7 @@ pub fn eu4(ui: &mut Ui, cx: &mut GameCtx) {
         let rows = scalar_rows(cx, &c, |k, v| v.is_number() && (q.is_empty() || k.contains(&q)));
         egui::ScrollArea::vertical().id_salt("eu4_c").max_height(360.0).show(ui, |ui| value_rows(ui, cx, "eu4_rows", &rows));
     });
-    ui.weak("Stability runs \u{2212}3 to 3; prestige and legitimacy up to 100. Ironman saves are binary and can't be edited.");
+    ui.weak("Stability runs \u{2212}3 to 3; prestige and legitimacy up to 100. Ironman saves are edited in place and stay ironman; the game may stop awarding achievements for an edited campaign.");
 }
 
 pub fn ck2(ui: &mut Ui, cx: &mut GameCtx) {
