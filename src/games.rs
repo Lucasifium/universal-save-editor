@@ -172,6 +172,7 @@ pub const GAMES: &[GameInfo] = &[
     game!("Final Fantasy X / X-2 HD Remaster", FULL, r"Documents\SQUARE ENIX\FINAL FANTASY X&X-2 HD Remaster", r"ffx_###", [(Documents, r"SQUARE ENIX\FINAL FANTASY X&X-2 HD Remaster")], ["ffx_*", "ffx2_*"], 3),
     game!("Final Fantasy XV", FULL, r"Documents\My Games\FINAL FANTASY XV\Steam\<Steam id>\savestorage (also Steam\userdata\<account>\637650\remote)", r"gameplay slot files", [(Documents, r"My Games\FINAL FANTASY XV"), (SteamUser("637650"), r"remote"), (GamePass("39EA002F.FINALFANTASYXVforPC_n746a19ndrrjg"), "")], ["*.save", "*.sav", "*.dat", "gameplay*"], 4),
     game!("Final Fantasy XVI", HEX, r"Documents\My Games\FINAL FANTASY XVI\Steam\<Steam id> (EOS for Epic)", r"one .png file per slot, plus the autosave", [(Documents, r"My Games\FINAL FANTASY XVI\*\*")], ["*.png", "*.sav"], 1),
+    game!("Flash and AIR games (.sol saves)", "Every value by name (numbers, flags, text, lists), written back with its own type; dates, byte arrays and class names are kept as they were. Checked on 66 public sample files, each written back byte for byte", r"%APPDATA%\Macromedia\Flash Player\#SharedObjects\<id>\<site or localhost> (AIR games: %APPDATA%\<game>\Local Store\#SharedObjects)", r"<name>.sol", [(AppData, r"Macromedia\Flash Player\#SharedObjects\*")], ["*.sol"], 6),
     game!("God of War (2018)", FULL, r"%USERPROFILE%\Saved Games\God of War\<account>", r"game.sav (all slots)", [(SavedGames, r"God of War\*")], ["*.sav"], 1),
     game!("God of War Ragnarök", FULL, r"%USERPROFILE%\Saved Games\God of War Ragnarök\<account>", r"GOWRSAVE10 …", [(SavedGames, r"God of War Ragnarök\*")], ["GOWRSAVE*"], 1),
     game!("Golden Sun (GBA, emulator saves)", GOLDEN_SUN, GBA_FOLDER, r"Golden Sun (USA, Europe).sav … (64 KiB flash)", [(Documents, "mGBA"), (AppData, "visualboyadvance-m"), (Documents, "ROMs")], ["*Golden Sun.sav", "*Golden Sun (*.sav", "*Golden Sun [*.sav"], 3),
@@ -530,7 +531,7 @@ fn game_pass_saves(dir: &Path, out: &mut Vec<Found>) {
 }
 
 /// Entries that cover many games (an engine or a launcher): their saves are listed by game.
-const MANY_GAMES: [&str; 5] = ["Xbox app / PC Game Pass saves (any game)", "Ren'Py visual novels", "RPG Maker MV / MZ games", "Assassin's Creed (Ubisoft Connect games)", "Far Cry (Ubisoft Connect games)"];
+const MANY_GAMES: [&str; 6] = ["Flash and AIR games (.sol saves)", "Xbox app / PC Game Pass saves (any game)", "Ren'Py visual novels", "RPG Maker MV / MZ games", "Assassin's Creed (Ubisoft Connect games)", "Far Cry (Ubisoft Connect games)"];
 
 pub fn many_games(g: &GameInfo) -> bool {
     MANY_GAMES.contains(&g.name)
@@ -549,6 +550,8 @@ pub fn group_of(g: &GameInfo, path: &Path) -> String {
         let at = parts.iter().rposition(|p| p.contains('*')).unwrap_or(parts.len());
         for root in bases(*base) {
             let Ok(sub) = path.strip_prefix(&root) else { continue };
+            // Flash Player: <random id>\<site>\…: the site names the game.
+            let at = if g.name.starts_with("Flash and AIR") { at + 1 } else { at };
             let Some(name) = sub.components().nth(at).map(|c| c.as_os_str().to_string_lossy().to_string()) else { continue };
             if sub.components().count() <= at + 1 {
                 continue; // the save itself, not a folder
