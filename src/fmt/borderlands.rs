@@ -61,8 +61,7 @@ pub mod pb {
             }
         }
         pub fn text(&self) -> Option<String> {
-            self.bytes()
-                .map(|b| String::from_utf8_lossy(b).into_owned())
+            self.bytes().map(|b| String::from_utf8_lossy(b).into_owned())
         }
     }
 
@@ -115,12 +114,7 @@ pub mod pb {
                 }
                 _ => return None,
             };
-            out.push(Field {
-                num,
-                val,
-                start,
-                end: i,
-            });
+            out.push(Field { num, val, start, end: i });
         }
         Some(out)
     }
@@ -214,9 +208,7 @@ pub fn unpack(d: &[u8]) -> Option<Vec<u8>> {
         return None;
     }
     let body = &d[24..];
-    let inner = std::panic::catch_unwind(|| lzokay_native::decompress_all(body, Some(size)))
-        .ok()?
-        .ok()?;
+    let inner = std::panic::catch_unwind(|| lzokay_native::decompress_all(body, Some(size))).ok()?.ok()?;
     (inner.len() == size && looks(&inner)).then_some(inner)
 }
 
@@ -237,9 +229,7 @@ pub fn pack(inner: &[u8]) -> Result<Vec<u8>, String> {
 // ------------------------------------------------------------------ WSG blob
 
 pub fn looks(d: &[u8]) -> bool {
-    d.len() > 19
-        && &d[4..7] == b"WSG"
-        && u32::from_be_bytes(d[0..4].try_into().unwrap()) as usize + 4 == d.len()
+    d.len() > 19 && &d[4..7] == b"WSG" && u32::from_be_bytes(d[0..4].try_into().unwrap()) as usize + 4 == d.len()
 }
 
 fn crc32(d: &[u8]) -> u32 {
@@ -258,22 +248,14 @@ struct Header {
 fn header(d: &[u8]) -> Option<Header> {
     let at = |o: usize, be: bool| {
         let b: [u8; 4] = d.get(o..o + 4)?.try_into().ok()?;
-        Some(if be {
-            u32::from_be_bytes(b)
-        } else {
-            u32::from_le_bytes(b)
-        })
+        Some(if be { u32::from_be_bytes(b) } else { u32::from_le_bytes(b) })
     };
     let big_endian = match (at(7, false)?, at(7, true)?) {
         (2, _) => false,
         (_, 2) => true,
         _ => return None,
     };
-    Some(Header {
-        big_endian,
-        crc: at(11, big_endian)?,
-        len: at(15, big_endian)? as usize,
-    })
+    Some(Header { big_endian, crc: at(11, big_endian)?, len: at(15, big_endian)? as usize })
 }
 
 /// Huffman decoding: tree (pre-order) then codes, `n` bytes out.
@@ -290,11 +272,7 @@ fn huff_decode(d: &[u8], n: usize) -> Option<Vec<u8>> {
     };
     // (left, right) for branches; leaves have left == usize::MAX and the byte in right.
     let mut nodes: Vec<(usize, usize)> = vec![];
-    fn node(
-        nodes: &mut Vec<(usize, usize)>,
-        read: &mut dyn FnMut(u32) -> Option<u32>,
-        depth: usize,
-    ) -> Option<usize> {
+    fn node(nodes: &mut Vec<(usize, usize)>, read: &mut dyn FnMut(u32) -> Option<u32>, depth: usize) -> Option<usize> {
         if nodes.len() > 1024 || depth > 300 {
             return None;
         }
@@ -314,11 +292,7 @@ fn huff_decode(d: &[u8], n: usize) -> Option<Vec<u8>> {
     while out.len() < n {
         let mut i = 0;
         while nodes[i].0 != usize::MAX {
-            i = if read(1)? == 1 {
-                nodes[i].1
-            } else {
-                nodes[i].0
-            };
+            i = if read(1)? == 1 { nodes[i].1 } else { nodes[i].0 };
         }
         out.push(nodes[i].1 as u8);
     }
@@ -335,10 +309,7 @@ fn huff_encode(d: &[u8]) -> Vec<u8> {
     }
     // Nodes: leaves 0..256 (byte), branches after; (left, right).
     let mut kids: Vec<(usize, usize)> = (0..256).map(|_| (usize::MAX, usize::MAX)).collect();
-    let mut heap: BinaryHeap<Reverse<(u64, usize)>> = (0..256)
-        .filter(|&b| counts[b] > 0)
-        .map(|b| Reverse((counts[b], b)))
-        .collect();
+    let mut heap: BinaryHeap<Reverse<(u64, usize)>> = (0..256).filter(|&b| counts[b] > 0).map(|b| Reverse((counts[b], b))).collect();
     if heap.is_empty() {
         heap.push(Reverse((0, 0)));
     }
@@ -400,13 +371,7 @@ pub fn decode(d: &[u8]) -> Result<Vec<u8>, String> {
 /// A WSG blob for this character data, in the byte order of `like`.
 fn encode(like: &[u8], proto: &[u8]) -> Result<Vec<u8>, String> {
     let h = header(like).ok_or("unknown save version")?;
-    let w = |v: u32| {
-        if h.big_endian {
-            v.to_be_bytes()
-        } else {
-            v.to_le_bytes()
-        }
-    };
+    let w = |v: u32| if h.big_endian { v.to_be_bytes() } else { v.to_le_bytes() };
     let body = huff_encode(proto);
     let mut out = vec![0u8; 4];
     out.extend_from_slice(b"WSG");
@@ -438,18 +403,7 @@ const CLASSES: [(&str, &str, &str, bool); 12] = [
 ];
 
 /// Black market (SDU) slots in save order; The Pre-Sequel adds lasers at the end.
-const BLACK_MARKET: [&str; 10] = [
-    "Assault rifle",
-    "Pistol",
-    "Rocket launcher",
-    "Shotgun",
-    "SMG",
-    "Sniper rifle",
-    "Grenades",
-    "Backpack",
-    "Bank",
-    "Laser",
-];
+const BLACK_MARKET: [&str; 10] = ["Assault rifle", "Pistol", "Rocket launcher", "Shotgun", "SMG", "Sniper rifle", "Grenades", "Backpack", "Bank", "Laser"];
 
 /// Ammo resource object → the name shared with its SDU.
 const AMMO: [(&str, &str); 8] = [
@@ -495,10 +449,7 @@ pub fn amount_value(f: f32) -> Value {
 
 fn ammo_name(resource: &str) -> String {
     let last = resource.rsplit('.').next().unwrap_or(resource);
-    AMMO.iter().find(|a| a.0 == last).map_or_else(
-        || last.trim_start_matches("Ammo_").replace('_', " "),
-        |a| a.1.to_string(),
-    )
+    AMMO.iter().find(|a| a.0 == last).map_or_else(|| last.trim_start_matches("Ammo_").replace('_', " "), |a| a.1.to_string())
 }
 
 /// What an inventory serial says once de-obfuscated: is its check right, is it a weapon,
@@ -533,20 +484,10 @@ pub fn serial(s: &[u8]) -> Option<Serial> {
     let weapon = s[0] & 0x80 != 0;
     // Bit fields after the check, least significant bit first: set (8), type (17, or 13
     // for weapons), balance (20), manufacturer (11), then the level (7).
-    let at = if weapon {
-        8 + 13 + 20 + 11
-    } else {
-        8 + 17 + 20 + 11
-    };
+    let at = if weapon { 8 + 13 + 20 + 11 } else { 8 + 17 + 20 + 11 };
     let bits = &t[2..];
-    let level = (0..7).map(|k| at + k).fold(0u32, |v, i| {
-        v | (u32::from(bits.get(i / 8).map_or(0, |b| (b >> (i % 8)) & 1)) << (i - at))
-    });
-    Some(Serial {
-        ok: ((c >> 16) ^ (c & 0xFFFF)) as u16 == check,
-        weapon,
-        level,
-    })
+    let level = (0..7).map(|k| at + k).fold(0u32, |v, i| v | (u32::from(bits.get(i / 8).map_or(0, |b| (b >> (i % 8)) & 1)) << (i - at)));
+    Some(Serial { ok: ((c >> 16) ^ (c & 0xFFFF)) as u16 == check, weapon, level })
 }
 
 // ------------------------------------------------------------------ editable document
@@ -572,9 +513,7 @@ struct Bl2Backend {
 }
 
 fn whole(v: &Value) -> Result<i64, String> {
-    v.as_i64()
-        .or_else(|| v.as_f64().filter(|f| f.fract() == 0.0).map(|f| f as i64))
-        .ok_or_else(|| "expected a whole number".to_string())
+    v.as_i64().or_else(|| v.as_f64().filter(|f| f.fract() == 0.0).map(|f| f as i64)).ok_or_else(|| "expected a whole number".to_string())
 }
 
 impl Bl2Backend {
@@ -599,12 +538,7 @@ impl Backend for Bl2Backend {
         // A packed list: its span in the message and its values.
         let list = |num: u32| -> Result<((usize, usize), Vec<u64>), String> {
             let f = pb::first(&top, num).ok_or("missing list")?;
-            Ok((
-                (f.start, f.end),
-                f.bytes()
-                    .and_then(pb::packed)
-                    .ok_or("the list couldn't be read")?,
-            ))
+            Ok(((f.start, f.end), f.bytes().and_then(pb::packed).ok_or("the list couldn't be read")?))
         };
         let mut currency = None;
         let mut market = None;
@@ -621,17 +555,9 @@ impl Backend for Bl2Backend {
                     patches.add(f.start, f.end, pb::int_field(*num, n as u64));
                 }
                 Target::Currency(i) | Target::BlackMarket(i) => {
-                    let slot = if matches!(t, Target::Currency(_)) {
-                        &mut currency
-                    } else {
-                        &mut market
-                    };
+                    let slot = if matches!(t, Target::Currency(_)) { &mut currency } else { &mut market };
                     if slot.is_none() {
-                        *slot = Some(list(if matches!(t, Target::Currency(_)) {
-                            6
-                        } else {
-                            36
-                        })?);
+                        *slot = Some(list(if matches!(t, Target::Currency(_)) { 6 } else { 36 })?);
                     }
                     let (_, vals) = slot.as_mut().unwrap();
                     if vals.len() <= *i {
@@ -672,13 +598,9 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
     let proto = decode(d)?;
     let top = pb::fields(&proto).ok_or("the character data couldn't be read")?;
     let int = |n: u32| pb::first(&top, n).and_then(|f| f.int());
-    let class_path = pb::first(&top, 1)
-        .and_then(|f| f.text())
-        .ok_or("no character class")?;
+    let class_path = pb::first(&top, 1).and_then(|f| f.text()).ok_or("no character class")?;
     let class_obj = class_path.rsplit('.').next().unwrap_or("").to_string();
-    let class = CLASSES
-        .iter()
-        .find(|c| c.0.eq_ignore_ascii_case(&class_obj));
+    let class = CLASSES.iter().find(|c| c.0.eq_ignore_ascii_case(&class_obj));
     let resources: Vec<(String, Option<f32>, usize)> = pb::all(&top, 11)
         .filter_map(|f| {
             let b = f.bytes()?;
@@ -687,142 +609,56 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
             let amount = pb::first(&inner, 3);
             // Where the float is in the whole message: field start + key/length bytes.
             let body_at = f.end - b.len();
-            Some((
-                name,
-                amount.and_then(|a| a.f32()),
-                amount.map_or(0, |a| body_at + a.end - 4),
-            ))
+            Some((name, amount.and_then(|a| a.f32()), amount.map_or(0, |a| body_at + a.end - 4)))
         })
         .collect();
     let tps = class.map_or_else(|| resources.iter().any(|r| r.0 == "Laser"), |c| c.3);
     let mut view = Map::new();
     let mut editable = HashMap::new();
     let mut targets = vec![];
-    let mut add =
-        |view: &mut Map<String, Value>, group: &str, key: &str, v: Value, t: Option<Target>| {
-            if let Some(t) = t {
-                editable.insert(
-                    format!("/{}/{}", crate::tree::esc(group), crate::tree::esc(key)),
-                    targets.len(),
-                );
-                targets.push(t);
-            }
-            view.entry(group.to_string())
-                .or_insert_with(|| Value::Object(Map::new()))
-                .as_object_mut()
-                .unwrap()
-                .insert(key.to_string(), v);
-        };
-
-    let name = pb::first(&top, 19)
-        .and_then(|f| f.bytes())
-        .and_then(|b| pb::fields(b)?.iter().find(|f| f.num == 1)?.text())
-        .unwrap_or_default();
-    add(&mut view, "Character", "Name", name.into(), None);
-    add(
-        &mut view,
-        "Character",
-        "Class",
-        class
-            .map_or_else(|| class_obj.clone(), |c| c.1.to_string())
-            .into(),
-        None,
-    );
-    add(
-        &mut view,
-        "Character",
-        "Vault hunter",
-        class.map_or("", |c| c.2).into(),
-        None,
-    );
-    add(
-        &mut view,
-        "Character",
-        "Game",
-        if tps {
-            "Borderlands: The Pre-Sequel"
-        } else {
-            "Borderlands 2"
+    let mut add = |view: &mut Map<String, Value>, group: &str, key: &str, v: Value, t: Option<Target>| {
+        if let Some(t) = t {
+            editable.insert(format!("/{}/{}", crate::tree::esc(group), crate::tree::esc(key)), targets.len());
+            targets.push(t);
         }
-        .into(),
-        None,
-    );
+        view.entry(group.to_string()).or_insert_with(|| Value::Object(Map::new())).as_object_mut().unwrap().insert(key.to_string(), v);
+    };
+
+    let name = pb::first(&top, 19).and_then(|f| f.bytes()).and_then(|b| pb::fields(b)?.iter().find(|f| f.num == 1)?.text()).unwrap_or_default();
+    add(&mut view, "Character", "Name", name.into(), None);
+    add(&mut view, "Character", "Class", class.map_or_else(|| class_obj.clone(), |c| c.1.to_string()).into(), None);
+    add(&mut view, "Character", "Vault hunter", class.map_or("", |c| c.2).into(), None);
+    add(&mut view, "Character", "Game", if tps { "Borderlands: The Pre-Sequel" } else { "Borderlands 2" }.into(), None);
     for (num, label) in [(2, "Level"), (3, "Experience"), (4, "Skill points")] {
         if let Some(n) = int(num) {
-            add(
-                &mut view,
-                "Character",
-                label,
-                n.into(),
-                Some(Target::Int(num)),
-            );
+            add(&mut view, "Character", label, n.into(), Some(Target::Int(num)));
         }
     }
     if let Some(n) = int(7) {
-        add(
-            &mut view,
-            "Character",
-            "Playthroughs completed",
-            n.into(),
-            None,
-        );
+        add(&mut view, "Character", "Playthroughs completed", n.into(), None);
     }
 
-    let currency = pb::first(&top, 6)
-        .and_then(|f| f.bytes())
-        .and_then(pb::packed);
+    let currency = pb::first(&top, 6).and_then(|f| f.bytes()).and_then(pb::packed);
     if let Some(cur) = &currency {
-        let slots: &[(usize, &str)] = if tps {
-            &[(0, "Money"), (1, "Moonstone")]
-        } else {
-            &[
-                (0, "Money"),
-                (1, "Eridium"),
-                (2, "Seraph crystals"),
-                (4, "Torgue tokens"),
-            ]
-        };
+        let slots: &[(usize, &str)] = if tps { &[(0, "Money"), (1, "Moonstone")] } else { &[(0, "Money"), (1, "Eridium"), (2, "Seraph crystals"), (4, "Torgue tokens")] };
         for &(i, label) in slots {
-            add(
-                &mut view,
-                "Currency",
-                label,
-                cur.get(i).copied().unwrap_or(0).into(),
-                Some(Target::Currency(i)),
-            );
+            add(&mut view, "Currency", label, cur.get(i).copied().unwrap_or(0).into(), Some(Target::Currency(i)));
         }
     }
     let mut seen = Map::new();
     for (name, amount, at) in &resources {
         let key = crate::tree::insert_unique(&mut seen, name, Value::Null);
         match amount {
-            Some(a) => add(
-                &mut view,
-                "Ammo",
-                &key,
-                amount_value(*a),
-                Some(Target::Ammo(*at)),
-            ),
+            Some(a) => add(&mut view, "Ammo", &key, amount_value(*a), Some(Target::Ammo(*at))),
             None => add(&mut view, "Ammo", &key, 0.into(), None),
         }
     }
-    if let Some(levels) = pb::first(&top, 36)
-        .and_then(|f| f.bytes())
-        .and_then(pb::packed)
-    {
+    if let Some(levels) = pb::first(&top, 36).and_then(|f| f.bytes()).and_then(pb::packed) {
         for (i, &lv) in levels.iter().enumerate() {
-            let label = BLACK_MARKET
-                .get(i)
-                .map_or_else(|| format!("Upgrade {}", i + 1), |s| s.to_string());
+            let label = BLACK_MARKET.get(i).map_or_else(|| format!("Upgrade {}", i + 1), |s| s.to_string());
             // Backpack and bank sizes are kept elsewhere too, so only ammo upgrades are edited.
             let ammo = CAPACITY.iter().any(|c| c.0 == label);
-            add(
-                &mut view,
-                "SDU upgrades",
-                &label,
-                lv.into(),
-                ammo.then_some(Target::BlackMarket(i)),
-            );
+            add(&mut view, "SDU upgrades", &label, lv.into(), ammo.then_some(Target::BlackMarket(i)));
         }
     }
 
@@ -832,49 +668,22 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
         let mut m = Map::new();
         m.insert("Level".into(), s.level.into());
         if weapon_list {
-            m.insert(
-                "Quick slot".into(),
-                pb::first(&inner, 2)
-                    .and_then(|f| f.int())
-                    .unwrap_or(0)
-                    .into(),
-            );
+            m.insert("Quick slot".into(), pb::first(&inner, 2).and_then(|f| f.int()).unwrap_or(0).into());
         } else {
-            m.insert(
-                "Quantity".into(),
-                pb::first(&inner, 2)
-                    .and_then(|f| f.int())
-                    .unwrap_or(0)
-                    .into(),
-            );
-            m.insert(
-                "Equipped".into(),
-                (pb::first(&inner, 3).and_then(|f| f.int()).unwrap_or(0) != 0).into(),
-            );
+            m.insert("Quantity".into(), pb::first(&inner, 2).and_then(|f| f.int()).unwrap_or(0).into());
+            m.insert("Equipped".into(), (pb::first(&inner, 3).and_then(|f| f.int()).unwrap_or(0) != 0).into());
         }
         m.insert("Weapon".into(), s.weapon.into());
-        m.insert(
-            "Serial check".into(),
-            if s.ok { "OK" } else { "doesn't match" }.into(),
-        );
+        m.insert("Serial check".into(), if s.ok { "OK" } else { "doesn't match" }.into());
         Some(Value::Object(m))
     };
-    let weapons: Vec<Value> = pb::all(&top, 54)
-        .filter_map(|f| item_view(f, true))
-        .collect();
-    let items: Vec<Value> = pb::all(&top, 53)
-        .filter_map(|f| item_view(f, false))
-        .collect();
+    let weapons: Vec<Value> = pb::all(&top, 54).filter_map(|f| item_view(f, true)).collect();
+    let items: Vec<Value> = pb::all(&top, 53).filter_map(|f| item_view(f, false)).collect();
     view.insert("Weapons".into(), Value::Array(weapons));
     view.insert("Items".into(), Value::Array(items));
     view.insert("Bank".into(), Value::from(pb::all(&top, 41).count()));
 
-    let backend = Bl2Backend {
-        blob: Arc::new(d.to_vec()),
-        proto: Arc::new(proto),
-        targets,
-        max_level: if tps { 70 } else { 80 },
-    };
+    let backend = Bl2Backend { blob: Arc::new(d.to_vec()), proto: Arc::new(proto), targets, max_level: if tps { 70 } else { 80 } };
     let kind = if tps { KIND_TPS } else { KIND_BL2 };
     let currency_name = if tps { "moonstone" } else { "Eridium" };
     Ok(TreeDoc::new(Value::Object(view), editable, kind, Box::new(backend)).with_note(format!(
@@ -890,26 +699,16 @@ pub(crate) mod tests {
     /// A synthetic character protobuf (BL2 Psycho, made-up values).
     pub fn sample_proto(tps: bool) -> Vec<u8> {
         let mut p = vec![];
-        let class = if tps {
-            "GD_Enforcer.Character.CharClass_Enforcer"
-        } else {
-            "GD_Lilac_PlayerClass.Character.CharClass_LilacPlayerClass"
-        };
+        let class = if tps { "GD_Enforcer.Character.CharClass_Enforcer" } else { "GD_Lilac_PlayerClass.Character.CharClass_LilacPlayerClass" };
         p.extend(pb::bytes_field(1, class.as_bytes()));
         p.extend(pb::int_field(2, 30));
         p.extend(pb::int_field(3, 400_000));
         p.extend(pb::int_field(4, 3));
         p.extend(pb::packed_field(6, &[1500, 12, 0, 0, 5]));
         p.extend(pb::int_field(7, 0));
-        for (res, amt) in [
-            ("Ammo_Combat_Rifle", 560.0f32),
-            ("Ammo_Grenade_Protean", 3.0),
-        ] {
+        for (res, amt) in [("Ammo_Combat_Rifle", 560.0f32), ("Ammo_Grenade_Protean", 3.0)] {
             let mut r = pb::bytes_field(1, format!("D_Resources.AmmoResources.{res}").as_bytes());
-            r.extend(pb::bytes_field(
-                2,
-                format!("D_Resourcepools.AmmoPools.{res}_Pool").as_bytes(),
-            ));
+            r.extend(pb::bytes_field(2, format!("D_Resourcepools.AmmoPools.{res}_Pool").as_bytes()));
             r.extend(pb::f32_field(3, amt));
             r.extend(pb::int_field(4, 1));
             p.extend(pb::bytes_field(11, &r));
@@ -945,13 +744,7 @@ pub(crate) mod tests {
 
     #[test]
     fn huffman_round_trip() {
-        for data in [
-            &b""[..],
-            b"a",
-            b"aaaa",
-            b"hello huffman world",
-            &(0..=255u8).cycle().take(5000).collect::<Vec<_>>(),
-        ] {
+        for data in [&b""[..], b"a", b"aaaa", b"hello huffman world", &(0..=255u8).cycle().take(5000).collect::<Vec<_>>()] {
             let e = huff_encode(data);
             assert_eq!(huff_decode(&e, data.len()).unwrap(), data);
         }
@@ -966,10 +759,7 @@ pub(crate) mod tests {
         let mut bad = file.clone();
         *bad.last_mut().unwrap() ^= 1;
         assert!(unpack(&bad).is_none(), "SHA-1 is checked");
-        assert!(
-            unpack(&vec![0u8; 45_000]).is_none(),
-            "an all-zero file isn't a save"
-        );
+        assert!(unpack(&vec![0u8; 45_000]).is_none(), "an all-zero file isn't a save");
     }
 
     #[test]
@@ -1020,9 +810,7 @@ pub(crate) mod tests {
     #[ignore]
     fn real_saves() {
         use crate::formats::{decode_with, encode, Content, Options};
-        let Ok(dirs) = std::env::var("SAVE_EDITOR_BL2") else {
-            return;
-        };
+        let Ok(dirs) = std::env::var("SAVE_EDITOR_BL2") else { return };
         let mut files = vec![];
         for dir in dirs.split('|') {
             for e in std::fs::read_dir(dir).unwrap().flatten() {
@@ -1037,13 +825,7 @@ pub(crate) mod tests {
             let raw = std::fs::read(&f).unwrap();
             let d = decode_with(&raw, &Options::for_path(&f));
             let Content::Tree(doc) = &d.content else {
-                println!(
-                    "{}: not opened ({} bytes, all zero: {}) hint: {:?}",
-                    f.display(),
-                    raw.len(),
-                    raw.iter().all(|&b| b == 0),
-                    d.hint
-                );
+                println!("{}: not opened ({} bytes, all zero: {}) hint: {:?}", f.display(), raw.len(), raw.iter().all(|&b| b == 0), d.hint);
                 continue;
             };
             let v = &doc.view;
@@ -1059,51 +841,21 @@ pub(crate) mod tests {
                 v["Weapons"].as_array().unwrap().len(),
                 v["Items"].as_array().unwrap().len()
             );
-            assert!(v["Weapons"]
-                .as_array()
-                .unwrap()
-                .iter()
-                .chain(v["Items"].as_array().unwrap())
-                .all(|i| i["Serial check"] == "OK"));
-            assert_eq!(
-                encode(&d.layers, &d.content).unwrap(),
-                raw,
-                "unchanged save writes back byte for byte"
-            );
+            assert!(v["Weapons"].as_array().unwrap().iter().chain(v["Items"].as_array().unwrap()).all(|i| i["Serial check"] == "OK"));
+            assert_eq!(encode(&d.layers, &d.content).unwrap(), raw, "unchanged save writes back byte for byte");
             let mut doc = doc.as_ref().clone();
-            let money = doc
-                .view
-                .pointer("/Currency/Money")
-                .and_then(Value::as_i64)
-                .unwrap();
+            let money = doc.view.pointer("/Currency/Money").and_then(Value::as_i64).unwrap();
             doc.set("/Currency/Money", (money + 1).into()).unwrap();
-            let ammo_key = doc.view["Ammo"]
-                .as_object()
-                .unwrap()
-                .keys()
-                .next()
-                .unwrap()
-                .clone();
+            let ammo_key = doc.view["Ammo"].as_object().unwrap().keys().next().unwrap().clone();
             let ammo_ptr = format!("/Ammo/{}", crate::tree::esc(&ammo_key));
             doc.set(&ammo_ptr, 7.into()).unwrap();
             let out = encode(&d.layers, &Content::Tree(Box::new(doc.clone()))).unwrap();
             let back = decode_with(&out, &Options::for_path(&f));
-            let Content::Tree(again) = &back.content else {
-                panic!("edited save doesn't open")
-            };
+            let Content::Tree(again) = &back.content else { panic!("edited save doesn't open") };
             assert_eq!(again.view, doc.view, "{}", f.display());
-            assert_eq!(
-                again
-                    .view
-                    .pointer("/Currency/Money")
-                    .and_then(Value::as_i64),
-                Some(money + 1)
-            );
+            assert_eq!(again.view.pointer("/Currency/Money").and_then(Value::as_i64), Some(money + 1));
             // Everything else in the character data is unchanged.
-            let (p0, p1) = (
-                decode(&unpack(&raw).unwrap()).unwrap(),
-                decode(&unpack(&out).unwrap()).unwrap(),
-            );
+            let (p0, p1) = (decode(&unpack(&raw).unwrap()).unwrap(), decode(&unpack(&out).unwrap()).unwrap());
             let (t0, t1) = (pb::fields(&p0).unwrap(), pb::fields(&p1).unwrap());
             assert_eq!(t0.len(), t1.len());
             for (a, b) in t0.iter().zip(&t1) {
@@ -1113,8 +865,7 @@ pub(crate) mod tests {
                 }
             }
             if let Ok(o) = std::env::var("SAVE_EDITOR_BL2_OUT") {
-                std::fs::write(std::path::Path::new(&o).join(f.file_name().unwrap()), &out)
-                    .unwrap();
+                std::fs::write(std::path::Path::new(&o).join(f.file_name().unwrap()), &out).unwrap();
             }
         }
     }

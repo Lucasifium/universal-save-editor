@@ -59,27 +59,12 @@ const ARMOR_ID: u32 = 0x1000_0000;
 const ASH_ID: u32 = 0x8000_0000;
 /// Maximum carried or stored of any good.
 pub const MAX_QTY: i128 = 999;
-pub const AFFINITIES: [&str; 13] = [
-    "Standard",
-    "Heavy",
-    "Keen",
-    "Quality",
-    "Fire",
-    "Flame Art",
-    "Lightning",
-    "Sacred",
-    "Magic",
-    "Cold",
-    "Poison",
-    "Blood",
-    "Occult",
-];
+pub const AFFINITIES: [&str; 13] = ["Standard", "Heavy", "Keen", "Quality", "Fire", "Flame Art", "Lightning", "Sacred", "Magic", "Cold", "Poison", "Blood", "Occult"];
 /// Shown as the affinity of weapons that can't have one.
 pub const NO_AFFINITY: &str = "\u{2014}";
 
 fn u32_at(d: &[u8], o: usize) -> u32 {
-    d.get(o..o + 4)
-        .map_or(0, |b| u32::from_le_bytes(b.try_into().unwrap()))
+    d.get(o..o + 4).map_or(0, |b| u32::from_le_bytes(b.try_into().unwrap()))
 }
 
 fn put(d: &mut [u8], o: usize, v: u32) {
@@ -143,29 +128,18 @@ impl Names {
         let mut by_id = HashMap::new();
         let mut by_name = HashMap::new();
         for (id, n) in items {
-            let shown = if count[n] > 1 {
-                format!("{n} (#{id})")
-            } else {
-                n.to_string()
-            };
+            let shown = if count[n] > 1 { format!("{n} (#{id})") } else { n.to_string() };
             by_name.insert(shown.clone(), id);
             by_id.insert(id, shown);
         }
         let mut all: Vec<String> = by_name.keys().cloned().collect();
         all.sort_by_key(|s| s.to_lowercase());
         all.insert(0, EMPTY.into());
-        Names {
-            by_id,
-            by_name,
-            all: Arc::new(all),
-        }
+        Names { by_id, by_name, all: Arc::new(all) }
     }
 
     pub(super) fn name(&self, id: u32, what: &str) -> String {
-        self.by_id
-            .get(&id)
-            .cloned()
-            .unwrap_or_else(|| format!("{what} #{id}"))
+        self.by_id.get(&id).cloned().unwrap_or_else(|| format!("{what} #{id}"))
     }
 }
 
@@ -174,12 +148,7 @@ fn names(kind: Kind) -> &'static Names {
     let n = N.get_or_init(|| {
         [
             Names::new(GOODS.iter().map(|&(i, n)| (i, n))),
-            Names::new(
-                WEAPONS
-                    .iter()
-                    .filter(|w| w.0 != UNARMED)
-                    .map(|&(i, n, _, _)| (i, n)),
-            ),
+            Names::new(WEAPONS.iter().filter(|w| w.0 != UNARMED).map(|&(i, n, _, _)| (i, n))),
             Names::new(ARMOR.iter().map(|&(i, n)| (i, n))),
             Names::new(TALISMANS.iter().map(|&(i, n)| (i, n))),
             Names::new(ASHES.iter().map(|&(i, n)| (i, n))),
@@ -207,9 +176,7 @@ pub fn good_id(name: &str) -> Option<u32> {
 /// A weapon's highest upgrade level and affinity mask, if known.
 fn weapon_info(base: u32) -> Option<(Option<u8>, u16)> {
     static W: OnceLock<HashMap<u32, (Option<u8>, u16)>> = OnceLock::new();
-    W.get_or_init(|| WEAPONS.iter().map(|&(i, _, m, a)| (i, (m, a))).collect())
-        .get(&base)
-        .copied()
+    W.get_or_init(|| WEAPONS.iter().map(|&(i, _, m, a)| (i, (m, a))).collect()).get(&base).copied()
 }
 
 fn is_ammo(base: u32) -> bool {
@@ -219,12 +186,7 @@ fn is_ammo(base: u32) -> bool {
 /// The affinities a weapon can have, by name ("—" alone when it can't have one).
 fn affinity_names(base: Option<u32>) -> Vec<String> {
     let mask = base.and_then(weapon_info).map_or(0, |(_, m)| m);
-    let v: Vec<String> = AFFINITIES
-        .iter()
-        .enumerate()
-        .filter(|(i, _)| mask & (1 << i) != 0)
-        .map(|(_, a)| a.to_string())
-        .collect();
+    let v: Vec<String> = AFFINITIES.iter().enumerate().filter(|(i, _)| mask & (1 << i) != 0).map(|(_, a)| a.to_string()).collect();
     if v.is_empty() {
         vec![NO_AFFINITY.into()]
     } else {
@@ -306,16 +268,7 @@ const OFFERED: [[usize; 5]; 3] = [[64, 32, 32, 16, 16], [16, 0, 0, 0, 0], [32, 0
 
 fn offered_kind(list: usize, cap: usize, i: usize) -> Option<Kind> {
     let mut end = cap;
-    for (k, &n) in [
-        Kind::Good,
-        Kind::Weapon,
-        Kind::Armor,
-        Kind::Talisman,
-        Kind::Ash,
-    ]
-    .iter()
-    .zip(&OFFERED[list])
-    {
+    for (k, &n) in [Kind::Good, Kind::Weapon, Kind::Armor, Kind::Talisman, Kind::Ash].iter().zip(&OFFERED[list]) {
         if i < end && i + n >= end {
             return Some(*k);
         }
@@ -347,31 +300,15 @@ fn locate(d: &[u8], vigor: usize) -> Option<Located> {
         return None;
     }
     let mut lists = vec![
-        List {
-            section: "Items",
-            start: inv + 4,
-            cap: CARRIED_CAP,
-            count_at: inv,
-            next_at: next,
-        },
-        List {
-            section: "Key items",
-            start: key + 4,
-            cap: KEY_CAP,
-            count_at: key,
-            next_at: next,
-        },
+        List { section: "Items", start: inv + 4, cap: CARRIED_CAP, count_at: inv, next_at: next },
+        List { section: "Key items", start: key + 4, cap: KEY_CAP, count_at: key, next_at: next },
     ];
     let equip_items = end + SPELLS_LEN;
     let ammo = equip_items + EQUIP_ITEMS_LEN + GESTURES_LEN;
     let n_ammo = u32_at(d, ammo) as usize;
     let equipped_at = ammo + 4 + 8 * n_ammo;
     let mut equipped: BTreeSet<u32> = BTreeSet::new();
-    for (at, len) in [
-        (vigor + WORN_FROM_VIGOR, WORN_LEN),
-        (equip_items, EQUIP_ITEMS_LEN),
-        (equipped_at, EQUIPPED_LEN),
-    ] {
+    for (at, len) in [(vigor + WORN_FROM_VIGOR, WORN_LEN), (equip_items, EQUIP_ITEMS_LEN), (equipped_at, EQUIPPED_LEN)] {
         for i in 0..len / 4 {
             let v = u32_at(d, at + i * 4);
             if matches!(v >> 28, 0x4 | 0x8 | 0x9 | 0xA | 0xB) {
@@ -393,24 +330,13 @@ fn locate(d: &[u8], vigor: usize) -> Option<Located> {
         && used(d, st + 4, STORAGE_CAP) == Some(u32_at(d, st) as usize)
         && used(d, st_key + 4, STORAGE_KEY_CAP) == Some(u32_at(d, st_key) as usize)
     {
-        lists.push(List {
-            section: "Storage",
-            start: st + 4,
-            cap: STORAGE_CAP,
-            count_at: st,
-            next_at: st_next,
-        });
+        lists.push(List { section: "Storage", start: st + 4, cap: STORAGE_CAP, count_at: st, next_at: st_next });
         if let Some((f, e)) = walk(d, st_next + 8) {
             flags_at = Some(f);
             used_end = Some(e);
         }
     }
-    Some(Located {
-        lists,
-        equipped,
-        used_end,
-        flags_at,
-    })
+    Some(Located { lists, equipped, used_end, flags_at })
 }
 
 /// From the end of storage to the end of the last known section, checking the one marker
@@ -463,15 +389,7 @@ fn read_table(d: &[u8], vigor: usize) -> Option<(HashMap<u32, Ga>, Vec<usize>, u
                 first_weapon = Some(o);
             }
             let aow = if len == 21 { u32_at(d, o + 16) } else { 0 };
-            by_handle.insert(
-                h,
-                Ga {
-                    off: o,
-                    len,
-                    id,
-                    aow,
-                },
-            );
+            by_handle.insert(h, Ga { off: o, len, id, aow });
         }
         o += len;
         if o > d.len() {
@@ -480,23 +398,12 @@ fn read_table(d: &[u8], vigor: usize) -> Option<(HashMap<u32, Ga>, Vec<usize>, u
     }
     (o + 0x34 == vigor).then(|| {
         let after = first_weapon.unwrap_or(GA_START);
-        (
-            by_handle,
-            empties.into_iter().filter(|&e| e > after).collect(),
-            o,
-            last,
-        )
+        (by_handle, empties.into_iter().filter(|&e| e > after).collect(), o, last)
     })
 }
 
 /// Adds the item sections to `root` (leaves numbered from `first_leaf`).
-pub fn build(
-    d: &[u8],
-    vigor: usize,
-    first_leaf: usize,
-    root: &mut Map<String, Value>,
-    editable: &mut HashMap<String, usize>,
-) -> Option<Inventory> {
+pub fn build(d: &[u8], vigor: usize, first_leaf: usize, root: &mut Map<String, Value>, editable: &mut HashMap<String, usize>) -> Option<Inventory> {
     let loc = locate(d, vigor)?;
     let table = read_table(d, vigor);
     let mut inv = Inventory {
@@ -504,11 +411,7 @@ pub fn build(
         rows: vec![],
         first_leaf,
         table: match (&table, loc.used_end) {
-            (Some((_, free, _, last)), Some(end)) => Some(Table {
-                free: free.clone(),
-                last_handle: *last,
-                spare: d.len() - end,
-            }),
+            (Some((_, free, _, last)), Some(end)) => Some(Table { free: free.clone(), last_handle: *last, spare: d.len() - end }),
             _ => None,
         },
         flags: vec![],
@@ -516,23 +419,9 @@ pub fn build(
     let ga = table.map(|t| t.0).unwrap_or_default();
     let mut loc = loc;
     // An ash fitted to a weapon stays put.
-    loc.equipped.extend(
-        ga.values()
-            .filter(|g| g.len == 21 && g.aow != 0 && g.aow != u32::MAX)
-            .map(|g| g.aow),
-    );
-    let mut sections: Vec<(&str, Map<String, Value>)> = [
-        "Items",
-        "Key items",
-        "Storage",
-        "Weapons",
-        "Armor",
-        "Talismans",
-        "Ashes of War",
-    ]
-    .iter()
-    .map(|s| (*s, Map::new()))
-    .collect();
+    loc.equipped.extend(ga.values().filter(|g| g.len == 21 && g.aow != 0 && g.aow != u32::MAX).map(|g| g.aow));
+    let mut sections: Vec<(&str, Map<String, Value>)> =
+        ["Items", "Key items", "Storage", "Weapons", "Armor", "Talismans", "Ashes of War"].iter().map(|s| (*s, Map::new())).collect();
     for (li, l) in inv.lists.iter().enumerate() {
         for i in 0..l.cap {
             let off = l.start + i * ENTRY;
@@ -548,14 +437,7 @@ pub fn build(
                 Kind::Good => (li, format!("Slot {}", i + 1)),
                 k => {
                     let s = 2 + k as usize;
-                    (
-                        s,
-                        if li == 0 {
-                            format!("Slot {}", i + 1)
-                        } else {
-                            format!("Storage {}", i + 1)
-                        },
-                    )
+                    (s, if li == 0 { format!("Slot {}", i + 1) } else { format!("Storage {}", i + 1) })
                 }
             };
             if kind != Kind::Good && li == 1 {
@@ -563,38 +445,19 @@ pub fn build(
             }
             let handle = (e[0] != 0).then_some(e[0]);
             let g = handle.and_then(|h| ga.get(&h).copied());
-            if matches!(kind, Kind::Weapon | Kind::Armor | Kind::Ash)
-                && handle.is_some()
-                && g.is_none_or(|g| g.id == UNARMED)
-            {
+            if matches!(kind, Kind::Weapon | Kind::Armor | Kind::Ash) && handle.is_some() && g.is_none_or(|g| g.id == UNARMED) {
                 continue; // not in the item table, or bare fists: leave it alone
             }
             let (name, level, affinity) = match (kind, handle) {
                 (_, None) => (EMPTY.to_string(), 0, NO_AFFINITY.to_string()),
-                (Kind::Good, Some(h)) | (Kind::Talisman, Some(h)) => (
-                    names(kind).name(h & 0x0FFF_FFFF, kind_word(kind)),
-                    0,
-                    NO_AFFINITY.to_string(),
-                ),
-                (Kind::Armor | Kind::Ash, Some(_)) => (
-                    names(kind).name(g.unwrap().id & 0x0FFF_FFFF, kind_word(kind)),
-                    0,
-                    NO_AFFINITY.to_string(),
-                ),
+                (Kind::Good, Some(h)) | (Kind::Talisman, Some(h)) => (names(kind).name(h & 0x0FFF_FFFF, kind_word(kind)), 0, NO_AFFINITY.to_string()),
+                (Kind::Armor | Kind::Ash, Some(_)) => (names(kind).name(g.unwrap().id & 0x0FFF_FFFF, kind_word(kind)), 0, NO_AFFINITY.to_string()),
                 (Kind::Weapon, Some(_)) => {
                     let id = g.unwrap().id;
                     let base = id - id % 10_000;
                     let aff = ((id / 100) % 100) as usize;
-                    let affinity = if weapon_info(base).is_some_and(|(_, m)| m != 0) {
-                        AFFINITIES.get(aff).map_or(NO_AFFINITY, |a| *a)
-                    } else {
-                        NO_AFFINITY
-                    };
-                    (
-                        names(kind).name(base, "Weapon"),
-                        id % 100,
-                        affinity.to_string(),
-                    )
+                    let affinity = if weapon_info(base).is_some_and(|(_, m)| m != 0) { AFFINITIES.get(aff).map_or(NO_AFFINITY, |a| *a) } else { NO_AFFINITY };
+                    (names(kind).name(base, "Weapon"), id % 100, affinity.to_string())
                 }
             };
             let base = format!("/{}/{key}", sections[sec_i].0);
@@ -603,10 +466,7 @@ pub fn build(
             slot.insert("Item".into(), Value::from(name.clone()));
             ptrs[0] = Some(format!("{base}/Item"));
             if matches!(kind, Kind::Good | Kind::Weapon) {
-                slot.insert(
-                    "Quantity".into(),
-                    Value::from(if handle.is_some() { e[1] } else { 0 }),
-                );
+                slot.insert("Quantity".into(), Value::from(if handle.is_some() { e[1] } else { 0 }));
                 ptrs[1] = Some(format!("{base}/Quantity"));
             }
             if kind == Kind::Weapon {
@@ -689,22 +549,14 @@ impl Inventory {
 
     pub fn check(&self, leaf: usize, v: &Value) -> Result<(), String> {
         if self.flag(leaf).is_some() {
-            return v
-                .as_bool()
-                .map(|_| ())
-                .ok_or_else(|| "tick or untick it".to_string());
+            return v.as_bool().map(|_| ()).ok_or_else(|| "tick or untick it".to_string());
         }
         let (row, f) = self.row(leaf).ok_or("unknown value")?;
         match f {
             1 => return int_in(v, 0, MAX_QTY, "Quantity").map(|_| ()),
             2 => return int_in(v, 0, 25, "Level").map(|_| ()),
             3 => {
-                let had = row.ga.map(|g| {
-                    AFFINITIES
-                        .get(((g.id / 100) % 100) as usize)
-                        .copied()
-                        .unwrap_or(NO_AFFINITY)
-                });
+                let had = row.ga.map(|g| AFFINITIES.get(((g.id / 100) % 100) as usize).copied().unwrap_or(NO_AFFINITY));
                 if row.ga.is_some_and(|g| g.aow != 0 && g.aow != u32::MAX) && v.as_str() != had {
                     return Err("this weapon has an Ash of War on it, which sets its affinity \u{2014} change it in the game".into());
                 }
@@ -718,28 +570,15 @@ impl Inventory {
             return Err(format!("\u{201C}{name}\u{201D} isn't an Elden Ring {what}"));
         }
         if row.equipped && name != row.orig_name {
-            return Err(format!(
-                "this {what} is equipped or in a quick slot \u{2014} take it off in the game first"
-            ));
+            return Err(format!("this {what} is equipped or in a quick slot \u{2014} take it off in the game first"));
         }
-        if row.kind == Kind::Weapon
-            && name != row.orig_name
-            && row.ga.is_some_and(|g| g.aow != 0 && g.aow != u32::MAX)
-        {
-            return Err(
-                "this weapon has an Ash of War on it \u{2014} take it off in the game first".into(),
-            );
+        if row.kind == Kind::Weapon && name != row.orig_name && row.ga.is_some_and(|g| g.aow != 0 && g.aow != u32::MAX) {
+            return Err("this weapon has an Ash of War on it \u{2014} take it off in the game first".into());
         }
         if name == EMPTY && row.handle.is_some() && !row.offered {
-            return Err(format!(
-                "this {what} can't be removed here \u{2014} drop or sell it in the game"
-            ));
+            return Err(format!("this {what} can't be removed here \u{2014} drop or sell it in the game"));
         }
-        if name != EMPTY
-            && row.handle.is_none()
-            && matches!(row.kind, Kind::Weapon | Kind::Armor | Kind::Ash)
-            && self.table.is_none()
-        {
+        if name != EMPTY && row.handle.is_none() && matches!(row.kind, Kind::Weapon | Kind::Armor | Kind::Ash) && self.table.is_none() {
             return Err("new weapons, armor and Ashes of War can't be added to this save".into());
         }
         Ok(())
@@ -748,12 +587,8 @@ impl Inventory {
     /// Keeps a row consistent: an empty slot holds nothing; a weapon's level and affinity
     /// stay within what it can have.
     pub fn derived(&self, leaf: usize, view: &Value) -> Vec<(String, Value)> {
-        let Some((row, _)) = self.row(leaf) else {
-            return vec![];
-        };
-        let name = Self::get(row, view, 0)
-            .and_then(Value::as_str)
-            .unwrap_or(EMPTY);
+        let Some((row, _)) = self.row(leaf) else { return vec![] };
+        let name = Self::get(row, view, 0).and_then(Value::as_str).unwrap_or(EMPTY);
         let empty = name == EMPTY;
         let mut out = vec![];
         let mut set = |f: usize, v: Value| {
@@ -767,22 +602,9 @@ impl Inventory {
         match row.kind {
             Kind::Good => set(1, Value::from(if empty { 0 } else { qty.max(1) })),
             Kind::Weapon => {
-                let base = Self::id_of(Kind::Weapon, name).or_else(|| {
-                    (name == row.orig_name)
-                        .then(|| row.ga.map(|g| g.id - g.id % 10_000))
-                        .flatten()
-                });
+                let base = Self::id_of(Kind::Weapon, name).or_else(|| (name == row.orig_name).then(|| row.ga.map(|g| g.id - g.id % 10_000)).flatten());
                 let ammo = base.is_some_and(is_ammo);
-                set(
-                    1,
-                    Value::from(if empty {
-                        0
-                    } else if ammo {
-                        qty.clamp(1, 999)
-                    } else {
-                        1
-                    }),
-                );
+                set(1, Value::from(if empty { 0 } else if ammo { qty.clamp(1, 999) } else { 1 }));
                 let level = Self::get(row, view, 2).and_then(Value::as_u64).unwrap_or(0);
                 let max = match base.and_then(weapon_info) {
                     Some((Some(m), _)) => m as u64,
@@ -792,9 +614,7 @@ impl Inventory {
                 };
                 set(2, Value::from(if empty { 0 } else { level.min(max) }));
                 let allowed = affinity_names(if empty { None } else { base });
-                let aff = Self::get(row, view, 3)
-                    .and_then(Value::as_str)
-                    .unwrap_or(NO_AFFINITY);
+                let aff = Self::get(row, view, 3).and_then(Value::as_str).unwrap_or(NO_AFFINITY);
                 if !allowed.iter().any(|a| a == aff) {
                     set(3, Value::from(allowed[0].clone()));
                 }
@@ -809,19 +629,9 @@ impl Inventory {
         match f {
             0 => {}
             3 => {
-                let name = Self::get(row, view, 0)
-                    .and_then(Value::as_str)
-                    .unwrap_or(EMPTY);
-                let base = Self::id_of(Kind::Weapon, name).or_else(|| {
-                    (name == row.orig_name)
-                        .then(|| row.ga.map(|g| g.id - g.id % 10_000))
-                        .flatten()
-                });
-                return Some(Arc::new(affinity_names(if name == EMPTY {
-                    None
-                } else {
-                    base
-                })));
+                let name = Self::get(row, view, 0).and_then(Value::as_str).unwrap_or(EMPTY);
+                let base = Self::id_of(Kind::Weapon, name).or_else(|| (name == row.orig_name).then(|| row.ga.map(|g| g.id - g.id % 10_000)).flatten());
+                return Some(Arc::new(affinity_names(if name == EMPTY { None } else { base })));
             }
             _ => return None,
         }
@@ -836,12 +646,7 @@ impl Inventory {
         } else {
             BTreeSet::new()
         };
-        let mut all: Vec<String> = names(row.kind)
-            .all
-            .iter()
-            .filter(|n| !taken.contains(n.as_str()))
-            .cloned()
-            .collect();
+        let mut all: Vec<String> = names(row.kind).all.iter().filter(|n| !taken.contains(n.as_str())).cloned().collect();
         if row.handle.is_some() && !row.offered {
             all.retain(|n| n != EMPTY);
         }
@@ -853,19 +658,11 @@ impl Inventory {
 
     /// Writes the changed rows (and the lists' counters) into `out`; adding or removing a
     /// weapon or armor resizes the item table.
-    pub fn write(
-        &self,
-        out: &mut Vec<u8>,
-        view: &Value,
-        changes: &[(usize, Value)],
-    ) -> Result<(), String> {
+    pub fn write(&self, out: &mut Vec<u8>, view: &Value, changes: &[(usize, Value)]) -> Result<(), String> {
         // Flags first: resizing the item table below moves them along with everything else.
         for (leaf, _) in changes {
             if let Some(f) = self.flag(*leaf) {
-                let on = view
-                    .pointer(&f.ptr)
-                    .and_then(Value::as_bool)
-                    .unwrap_or(false);
+                let on = view.pointer(&f.ptr).and_then(Value::as_bool).unwrap_or(false);
                 if on {
                     out[f.at] |= 1 << f.bit;
                 } else {
@@ -873,61 +670,36 @@ impl Inventory {
                 }
             }
         }
-        let touched: BTreeSet<usize> = changes
-            .iter()
-            .filter_map(|(l, _)| l.checked_sub(self.first_leaf).map(|i| i / 4))
-            .filter(|&r| r < self.rows.len())
-            .collect();
+        let touched: BTreeSet<usize> = changes.iter().filter_map(|(l, _)| l.checked_sub(self.first_leaf).map(|i| i / 4)).filter(|&r| r < self.rows.len()).collect();
         if touched.is_empty() {
             return Ok(());
         }
-        let mut next: HashMap<usize, (u32, u32)> = self
-            .lists
-            .iter()
-            .map(|l| {
-                (
-                    l.next_at,
-                    (u32_at(out, l.next_at), u32_at(out, l.next_at + 4)),
-                )
-            })
-            .collect();
+        let mut next: HashMap<usize, (u32, u32)> = self.lists.iter().map(|l| (l.next_at, (u32_at(out, l.next_at), u32_at(out, l.next_at + 4)))).collect();
         let mut delta = vec![0i64; self.lists.len()];
         let mut added: Vec<(usize, Kind, u32)> = vec![];
         // Item table changes, applied last (they move everything after them).
         let mut table_ops: Vec<(usize, usize, Vec<u8>)> = vec![];
-        let mut free = self
-            .table
-            .as_ref()
-            .map(|t| t.free.iter())
-            .into_iter()
-            .flatten();
+        let mut free = self.table.as_ref().map(|t| t.free.iter()).into_iter().flatten();
         let mut last_handle = self.table.as_ref().map_or(0, |t| t.last_handle);
         for r in touched {
             let row = &self.rows[r];
-            let name = Self::get(row, view, 0)
-                .and_then(Value::as_str)
-                .unwrap_or(EMPTY);
+            let name = Self::get(row, view, 0).and_then(Value::as_str).unwrap_or(EMPTY);
             let qty = Self::get(row, view, 1).and_then(Value::as_u64).unwrap_or(1) as u32;
             let level = Self::get(row, view, 2).and_then(Value::as_u64).unwrap_or(0) as u32;
-            let aff = Self::get(row, view, 3)
-                .and_then(Value::as_str)
-                .unwrap_or(NO_AFFINITY);
+            let aff = Self::get(row, view, 3).and_then(Value::as_str).unwrap_or(NO_AFFINITY);
             let aff_n = AFFINITIES.iter().position(|a| *a == aff).unwrap_or(0) as u32;
             let what = kind_word(row.kind).to_lowercase();
-            let id =
-                if name == EMPTY {
-                    None
-                } else if name == row.orig_name && row.handle.is_some() {
-                    Some(match (row.kind, row.ga) {
-                        (Kind::Weapon, Some(g)) => g.id - g.id % 10_000,
-                        (Kind::Armor | Kind::Ash, Some(g)) => g.id & 0x0FFF_FFFF,
-                        _ => row.handle.unwrap() & 0x0FFF_FFFF,
-                    })
-                } else {
-                    Some(Self::id_of(row.kind, name).ok_or_else(|| {
-                        format!("\u{201C}{name}\u{201D} isn't an Elden Ring {what}")
-                    })?)
-                };
+            let id = if name == EMPTY {
+                None
+            } else if name == row.orig_name && row.handle.is_some() {
+                Some(match (row.kind, row.ga) {
+                    (Kind::Weapon, Some(g)) => g.id - g.id % 10_000,
+                    (Kind::Armor | Kind::Ash, Some(g)) => g.id & 0x0FFF_FFFF,
+                    _ => row.handle.unwrap() & 0x0FFF_FFFF,
+                })
+            } else {
+                Some(Self::id_of(row.kind, name).ok_or_else(|| format!("\u{201C}{name}\u{201D} isn't an Elden Ring {what}"))?)
+            };
             // What the item table entry should hold for this row.
             let ga_id = id.map(|id| match row.kind {
                 Kind::Weapon => id + aff_n * 100 + level,
@@ -978,15 +750,7 @@ impl Inventory {
                     added.push((row.list, row.kind, handle));
                     let n = next.get_mut(&l.next_at).unwrap();
                     put(out, o, handle);
-                    put(
-                        out,
-                        o + 4,
-                        if row.kind == Kind::Weapon || row.kind == Kind::Good {
-                            qty.max(1)
-                        } else {
-                            1
-                        },
-                    );
+                    put(out, o + 4, if row.kind == Kind::Weapon || row.kind == Kind::Good { qty.max(1) } else { 1 });
                     put(out, o + 8, n.1);
                     n.0 += 1;
                     n.1 += 1;
@@ -1000,11 +764,7 @@ impl Inventory {
                         }
                     }
                     (Kind::Good | Kind::Talisman, _) => {
-                        let nh = if row.kind == Kind::Good {
-                            GOOD
-                        } else {
-                            TALISMAN
-                        } | gid;
+                        let nh = if row.kind == Kind::Good { GOOD } else { TALISMAN } | gid;
                         if nh != h {
                             added.push((row.list, row.kind, nh));
                             put(out, o, nh);
@@ -1018,19 +778,10 @@ impl Inventory {
             }
         }
         for (i, l) in self.lists.iter().enumerate() {
-            for &(_, kind, h) in added
-                .iter()
-                .filter(|(li, k, _)| *li == i && matches!(k, Kind::Good | Kind::Talisman))
-            {
-                let n = (0..l.cap)
-                    .filter(|k| u32_at(out, l.start + k * ENTRY) == h)
-                    .count();
+            for &(_, kind, h) in added.iter().filter(|(li, k, _)| *li == i && matches!(k, Kind::Good | Kind::Talisman)) {
+                let n = (0..l.cap).filter(|k| u32_at(out, l.start + k * ENTRY) == h).count();
                 if n > 1 {
-                    return Err(format!(
-                        "{} already has {} \u{2014} change its quantity instead",
-                        l.section,
-                        names(kind).name(h & 0x0FFF_FFFF, kind_word(kind))
-                    ));
+                    return Err(format!("{} already has {} \u{2014} change its quantity instead", l.section, names(kind).name(h & 0x0FFF_FFFF, kind_word(kind))));
                 }
             }
             let n = (u32_at(out, l.count_at) as i64 + delta[i]) as u32;
@@ -1041,10 +792,7 @@ impl Inventory {
         }
         if !table_ops.is_empty() {
             let len = out.len();
-            let grow: i64 = table_ops
-                .iter()
-                .map(|(_, old, new)| new.len() as i64 - *old as i64)
-                .sum();
+            let grow: i64 = table_ops.iter().map(|(_, old, new)| new.len() as i64 - *old as i64).sum();
             let spare = self.table.as_ref().map_or(0, |t| t.spare) as i64;
             if grow > spare {
                 return Err("there's no room left in this save for more weapons and armor".into());

@@ -134,21 +134,8 @@ pub fn stacks(game: Game, cx: &GameCtx) -> Result<Vec<Stack>, &'static str> {
         Game::DeathStranding2 => Ok(death_stranding2(cx)),
         Game::Metro => Ok(metro(cx)),
         Game::Ffxv => Ok(ffxv(cx)),
-        Game::Kotor => some(
-            fixed(
-                cx,
-                &[
-                    ("/Party/Components", "Components"),
-                    ("/Party/Chemicals", "Chemicals"),
-                ],
-                KOTOR2_CAP,
-            ),
-            "Only KOTOR II's party table has components and chemicals.",
-        ),
-        Game::HalfLife2 => some(
-            fixed(cx, &[("/Player/Resin", "Resin")], ALYX_RESIN_CAP),
-            "Only Half-Life: Alyx has a crafting material (resin).",
-        ),
+        Game::Kotor => some(fixed(cx, &[("/Party/Components", "Components"), ("/Party/Chemicals", "Chemicals")], KOTOR2_CAP), "Only KOTOR II's party table has components and chemicals."),
+        Game::HalfLife2 => some(fixed(cx, &[("/Player/Resin", "Resin")], ALYX_RESIN_CAP), "Only Half-Life: Alyx has a crafting material (resin)."),
         Game::Starbound => Ok(starbound(cx)),
         Game::Expedition33 => Ok(expedition33(cx)),
         Game::Onimusha => Ok(onimusha(cx)),
@@ -182,15 +169,8 @@ pub fn button(game: Game, ui: &mut Ui, cx: &mut GameCtx) {
                 1 => "Max crafting materials (1 stack)".to_string(),
                 n => format!("Max crafting materials ({n} stacks)"),
             };
-            let why_off = if list.is_empty() {
-                "No crafting materials in this save."
-            } else {
-                "Every crafting material is already a full stack."
-            };
-            let r = ui
-                .add_enabled(low > 0, egui::Button::new(label))
-                .on_hover_text(about(game))
-                .on_disabled_hover_text(why_off);
+            let why_off = if list.is_empty() { "No crafting materials in this save." } else { "Every crafting material is already a full stack." };
+            let r = ui.add_enabled(low > 0, egui::Button::new(label)).on_hover_text(about(game)).on_disabled_hover_text(why_off);
             if r.clicked() {
                 apply(game, cx);
             }
@@ -221,25 +201,16 @@ pub const TERRARIA_9999: i64 = 269;
 /// material, ore, bar or gem), less critters, fish and unobtainable or inactive items;
 /// plus the seven woods.
 const TERRARIA_IDS: [i32; 144] = [
-    9, 619, 620, 621, 911, 2503, 2504, 11, 12, 13, 14, 19, 20, 21, 22, 38, 56, 57, 60, 68, 69, 86,
-    116, 117, 118, 173, 174, 175, 177, 178, 179, 180, 181, 182, 209, 210, 225, 236, 254, 255, 259,
-    313, 314, 315, 316, 317, 318, 319, 320, 323, 324, 331, 362, 364, 365, 366, 381, 382, 391, 501,
-    520, 521, 522, 526, 527, 528, 531, 547, 548, 549, 575, 699, 700, 701, 702, 703, 704, 705, 706,
-    880, 947, 981, 999, 1006, 1104, 1105, 1106, 1113, 1115, 1116, 1117, 1118, 1119, 1184, 1191,
-    1198, 1225, 1257, 1328, 1329, 1330, 1332, 1339, 1345, 1346, 1347, 1348, 1432, 1508, 1516, 1517,
-    1518, 1519, 1520, 1521, 1552, 1570, 1611, 1811, 1831, 2161, 2218, 2358, 2431, 2607, 2766, 2887,
-    3111, 3186, 3354, 3355, 3356, 3456, 3457, 3458, 3459, 3460, 3467, 3783, 3794, 4412, 4413, 4414,
-    5070,
+    9, 619, 620, 621, 911, 2503, 2504, 11, 12, 13, 14, 19, 20, 21, 22, 38, 56, 57, 60, 68, 69, 86, 116, 117, 118, 173, 174, 175, 177, 178, 179, 180, 181, 182, 209, 210, 225, 236, 254, 255,
+    259, 313, 314, 315, 316, 317, 318, 319, 320, 323, 324, 331, 362, 364, 365, 366, 381, 382, 391, 501, 520, 521, 522, 526, 527, 528, 531, 547, 548, 549,
+    575, 699, 700, 701, 702, 703, 704, 705, 706, 880, 947, 981, 999, 1006, 1104, 1105, 1106, 1113, 1115, 1116, 1117, 1118, 1119, 1184, 1191, 1198, 1225,
+    1257, 1328, 1329, 1330, 1332, 1339, 1345, 1346, 1347, 1348, 1432, 1508, 1516, 1517, 1518, 1519, 1520, 1521, 1552, 1570, 1611, 1811, 1831, 2161, 2218,
+    2358, 2431, 2607, 2766, 2887, 3111, 3186, 3354, 3355, 3356, 3456, 3457, 3458, 3459, 3460, 3467, 3783, 3794, 4412, 4413, 4414, 5070,
 ];
 
 fn terraria_names() -> &'static HashSet<String> {
     static S: OnceLock<HashSet<String>> = OnceLock::new();
-    S.get_or_init(|| {
-        TERRARIA_IDS
-            .iter()
-            .map(|&i| crate::fmt::terraria::item_name(i))
-            .collect()
-    })
+    S.get_or_init(|| TERRARIA_IDS.iter().map(|&i| crate::fmt::terraria::item_name(i)).collect())
 }
 
 fn terraria(cx: &GameCtx) -> Result<Vec<Stack>, &'static str> {
@@ -249,13 +220,7 @@ fn terraria(cx: &GameCtx) -> Result<Vec<Stack>, &'static str> {
     }
     let names = terraria_names();
     let mut out = vec![];
-    for store in [
-        "Inventory",
-        "Piggy bank",
-        "Safe",
-        "Defender's Forge",
-        "Void Vault",
-    ] {
+    for store in ["Inventory", "Piggy bank", "Safe", "Defender's Forge", "Void Vault"] {
         let base = format!("/{}", pointer_escape(store));
         for k in object_keys(cx, &base) {
             let p = format!("{base}/{}", pointer_escape(&k));
@@ -263,12 +228,7 @@ fn terraria(cx: &GameCtx) -> Result<Vec<Stack>, &'static str> {
             let stack = format!("{p}/Stack");
             if let (true, Some(have)) = (names.contains(&item), cx.int(&stack)) {
                 if have > 0 {
-                    out.push(Stack {
-                        paths: vec![stack],
-                        name: item,
-                        have,
-                        cap: 9999,
-                    });
+                    out.push(Stack { paths: vec![stack], name: item, have, cap: 9999 });
                 }
             }
         }
@@ -319,29 +279,13 @@ fn stardew(cx: &GameCtx) -> Vec<Stack> {
             continue;
         }
         let name = cx.text(&format!("{p}/name")).unwrap_or_default();
-        let Some(&(_, cat)) = STARDEW.iter().find(|(n, _)| *n == name) else {
-            continue;
-        };
-        if cx.int(&format!("{p}/category")).is_some_and(|c| c != cat)
-            || cx.flag(&format!("{p}/questItem"))
-            || cx.flag(&format!("{p}/bigCraftable"))
-        {
+        let Some(&(_, cat)) = STARDEW.iter().find(|(n, _)| *n == name) else { continue };
+        if cx.int(&format!("{p}/category")).is_some_and(|c| c != cat) || cx.flag(&format!("{p}/questItem")) || cx.flag(&format!("{p}/bigCraftable")) {
             continue;
         }
-        let paths: Vec<String> = ["stack", "Stack"]
-            .iter()
-            .map(|k| format!("{p}/{k}"))
-            .filter(|q| cx.int(q).is_some())
-            .collect();
-        let Some(have) = paths.first().and_then(|q| cx.int(q)) else {
-            continue;
-        };
-        out.push(Stack {
-            paths,
-            name,
-            have,
-            cap: 999,
-        });
+        let paths: Vec<String> = ["stack", "Stack"].iter().map(|k| format!("{p}/{k}")).filter(|q| cx.int(q).is_some()).collect();
+        let Some(have) = paths.first().and_then(|q| cx.int(q)) else { continue };
+        out.push(Stack { paths, name, have, cap: 999 });
     }
     out
 }
@@ -354,24 +298,14 @@ fn nier(cx: &GameCtx) -> Vec<Stack> {
         .into_iter()
         .filter_map(|k| {
             let p = format!("/Materials/{}", pointer_escape(&k));
-            Some(Stack {
-                have: cx.int(&p)?,
-                paths: vec![p],
-                name: k,
-                cap: 99,
-            })
+            Some(Stack { have: cx.int(&p)?, paths: vec![p], name: k, cap: 99 })
         })
         .collect()
 }
 
 /// One stack per value at `p` that holds a number.
 fn single(cx: &GameCtx, p: String, name: String, cap: i64) -> Option<Stack> {
-    Some(Stack {
-        have: cx.int(&p)?,
-        paths: vec![p],
-        name,
-        cap,
-    })
+    Some(Stack { have: cx.int(&p)?, paths: vec![p], name, cap })
 }
 
 /// The number values under the object at `base` whose key passes `keep`.
@@ -394,10 +328,7 @@ fn some(list: Vec<Stack>, why: &'static str) -> Result<Vec<Stack>, &'static str>
 
 /// Fixed paths that hold one count each.
 fn fixed(cx: &GameCtx, paths: &[(&str, &str)], cap: i64) -> Vec<Stack> {
-    paths
-        .iter()
-        .filter_map(|(p, n)| single(cx, p.to_string(), n.to_string(), cap))
-        .collect()
+    paths.iter().filter_map(|(p, n)| single(cx, p.to_string(), n.to_string(), cap)).collect()
 }
 
 // ------------------------------------------------------------------ Elden Ring
@@ -405,72 +336,17 @@ fn fixed(cx: &GameCtx, paths: &[(&str, &str)], cap: i64) -> Vec<Stack> {
 /// The base game's crafting materials (cookbook ingredients). Elden Ring lets a slot hold 999
 /// of each, in the pouch and in the chest.
 const ELDEN_RING: [&str; 67] = [
-    "Sliver of Meat",
-    "Beast Liver",
-    "Lump of Flesh",
-    "Beast Blood",
-    "Old Fang",
-    "Budding Horn",
-    "Flight Pinion",
-    "Four-Toed Fowl Foot",
-    "Turtle Neck Meat",
-    "Human Bone Shard",
-    "Great Dragonfly Head",
-    "Slumbering Egg",
-    "Crab Eggs",
-    "Land Octopus Ovary",
-    "Miranda Powder",
-    "Strip of White Flesh",
-    "Thin Beast Bones",
-    "Hefty Beast Bone",
-    "String",
-    "Living Jar Shard",
-    "Albinauric Bloodclot",
-    "Stormhawk Feather",
-    "Poisonbloom",
-    "Trina's Lily",
-    "Fulgurbloom",
-    "Miquella's Lily",
-    "Grave Violet",
-    "Faded Erdleaf Flower",
-    "Erdleaf Flower",
-    "Altus Bloom",
-    "Fire Blossom",
-    "Golden Sunflower",
-    "Tarnished Golden Sunflower",
-    "Herba",
-    "Arteria Leaf",
-    "Dewkissed Herba",
-    "Rowa Fruit",
-    "Golden Rowa",
-    "Rimed Rowa",
-    "Bloodrose",
-    "Eye of Yelough",
-    "Crystal Bud",
-    "Rimed Crystal Bud",
-    "Sacramental Bud",
-    "Mushroom",
-    "Melted Mushroom",
-    "Toxic Mushroom",
-    "Root Resin",
-    "Cracked Crystal",
-    "Sanctuary Stone",
-    "Nascent Butterfly",
-    "Aeonian Butterfly",
-    "Smoldering Butterfly",
-    "Silver Firefly",
-    "Gold Firefly",
-    "Glintstone Firefly",
-    "Golden Centipede",
-    "Silver Tear Husk",
-    "Gold-Tinged Excrement",
-    "Blood-Tainted Excrement",
-    "Cave Moss",
-    "Budding Cave Moss",
-    "Crystal Cave Moss",
-    "Yellow Ember",
-    "Volcanic Stone",
-    "Formic Rock",
+    "Sliver of Meat", "Beast Liver", "Lump of Flesh", "Beast Blood", "Old Fang", "Budding Horn", "Flight Pinion",
+    "Four-Toed Fowl Foot", "Turtle Neck Meat", "Human Bone Shard", "Great Dragonfly Head", "Slumbering Egg", "Crab Eggs",
+    "Land Octopus Ovary", "Miranda Powder", "Strip of White Flesh", "Thin Beast Bones", "Hefty Beast Bone", "String",
+    "Living Jar Shard", "Albinauric Bloodclot", "Stormhawk Feather", "Poisonbloom", "Trina's Lily", "Fulgurbloom",
+    "Miquella's Lily", "Grave Violet", "Faded Erdleaf Flower", "Erdleaf Flower", "Altus Bloom", "Fire Blossom",
+    "Golden Sunflower", "Tarnished Golden Sunflower", "Herba", "Arteria Leaf", "Dewkissed Herba", "Rowa Fruit",
+    "Golden Rowa", "Rimed Rowa", "Bloodrose", "Eye of Yelough", "Crystal Bud", "Rimed Crystal Bud", "Sacramental Bud",
+    "Mushroom", "Melted Mushroom", "Toxic Mushroom", "Root Resin", "Cracked Crystal", "Sanctuary Stone",
+    "Nascent Butterfly", "Aeonian Butterfly", "Smoldering Butterfly", "Silver Firefly", "Gold Firefly",
+    "Glintstone Firefly", "Golden Centipede", "Silver Tear Husk", "Gold-Tinged Excrement", "Blood-Tainted Excrement",
+    "Cave Moss", "Budding Cave Moss", "Crystal Cave Moss", "Yellow Ember", "Volcanic Stone", "Formic Rock",
     "Gravel Stone",
 ];
 
@@ -498,22 +374,15 @@ fn elden_ring(cx: &GameCtx) -> Vec<Stack> {
 const HOGWARTS_CAP: i64 = 999;
 
 fn hogwarts(cx: &GameCtx) -> Vec<Stack> {
-    let Some(Value::Array(rows)) = cx.get("/InventoryDynamic") else {
-        return vec![];
-    };
+    let Some(Value::Array(rows)) = cx.get("/InventoryDynamic") else { return vec![] };
     let field = |r: &Value, k: &str| r.get(k).and_then(Value::as_str).unwrap_or("").to_string();
     rows.iter()
         .enumerate()
-        .filter(|(_, r)| {
-            field(r, "CharacterID") == "Player0" && field(r, "HolderID") == "ResourceInventory"
-        })
+        .filter(|(_, r)| field(r, "CharacterID") == "Player0" && field(r, "HolderID") == "ResourceInventory")
         .filter_map(|(i, r)| {
             let id = field(r, "ItemID");
             let low = id.to_ascii_lowercase();
-            if id.is_empty()
-                || low == "knuts"
-                || ["seed", "potion", "quest"].iter().any(|w| low.contains(w))
-            {
+            if id.is_empty() || low == "knuts" || ["seed", "potion", "quest"].iter().any(|w| low.contains(w)) {
                 return None;
             }
             single(cx, format!("/InventoryDynamic/{i}/Count"), id, HOGWARTS_CAP)
@@ -535,14 +404,7 @@ fn gow2018_skip(name: &str) -> bool {
 fn gow2018(cx: &GameCtx) -> Vec<Stack> {
     object_keys(cx, "")
         .into_iter()
-        .flat_map(|slot| {
-            counts_under(
-                cx,
-                &format!("/{}/Resources", pointer_escape(&slot)),
-                GOW_CAP,
-                |k| !gow2018_skip(k),
-            )
-        })
+        .flat_map(|slot| counts_under(cx, &format!("/{}/Resources", pointer_escape(&slot)), GOW_CAP, |k| !gow2018_skip(k)))
         .collect()
 }
 
@@ -552,39 +414,12 @@ fn gow2018(cx: &GameCtx) -> Vec<Stack> {
 /// leather, bones and realm materials). Resources not named here (quest items, Valhalla
 /// currencies, food) are left alone.
 const GOW_RAGNAROK: [&str; 33] = [
-    "Glowing Embers",
-    "Smoldering Embers",
-    "Blazing Embers",
-    "Sovereign Coals",
-    "Stonewood",
-    "Ydalir Timber",
-    "Folkvangr Whetstone",
-    "Dwarven Steel",
-    "Forged Iron",
-    "Honed Metal",
-    "Asgardian Ingot",
-    "Luminous Alloy",
-    "Tempered Remnants",
-    "Hardened Remnants",
-    "Fortified Remnants",
-    "Crystalline Fragment",
-    "Crystalline Shard",
-    "Purified Crystalline",
-    "Sparkling Crystal",
-    "Gleaming Crystal",
-    "Shining Crystal",
-    "Bonded Leather",
-    "Rawhide",
-    "Beast Scraps",
-    "Beast Bones",
-    "Slag Deposits",
-    "Petrified Bones",
-    "Celestial Fossil",
-    "Whispering Slab",
-    "Nidavellir Core",
-    "Dragon Claw",
-    "Aegir's Gold",
-    "Skap Slag",
+    "Glowing Embers", "Smoldering Embers", "Blazing Embers", "Sovereign Coals", "Stonewood", "Ydalir Timber",
+    "Folkvangr Whetstone", "Dwarven Steel", "Forged Iron", "Honed Metal", "Asgardian Ingot", "Luminous Alloy",
+    "Tempered Remnants", "Hardened Remnants", "Fortified Remnants", "Crystalline Fragment", "Crystalline Shard",
+    "Purified Crystalline", "Sparkling Crystal", "Gleaming Crystal", "Shining Crystal", "Bonded Leather", "Rawhide",
+    "Beast Scraps", "Beast Bones", "Slag Deposits", "Petrified Bones", "Celestial Fossil", "Whispering Slab",
+    "Nidavellir Core", "Dragon Claw", "Aegir's Gold", "Skap Slag",
 ];
 
 fn gow_ragnarok(cx: &GameCtx) -> Vec<Stack> {
@@ -597,14 +432,7 @@ fn gow_ragnarok(cx: &GameCtx) -> Vec<Stack> {
 fn andromeda(cx: &GameCtx) -> Vec<Stack> {
     ["Minerals", "Biological materials", "Faction materials"]
         .iter()
-        .flat_map(|g| {
-            counts_under(
-                cx,
-                &format!("/Resources/{}", pointer_escape(g)),
-                999,
-                |_| true,
-            )
-        })
+        .flat_map(|g| counts_under(cx, &format!("/Resources/{}", pointer_escape(g)), 999, |_| true))
         .collect()
 }
 
@@ -618,12 +446,7 @@ fn death_stranding2(cx: &GameCtx) -> Vec<Stack> {
     for f in object_keys(cx, "/Facilities") {
         let base = format!("/Facilities/{}", pointer_escape(&f));
         for m in crate::fmt::ds2::MATERIALS {
-            if let Some(s) = single(
-                cx,
-                format!("{base}/{}", pointer_escape(m)),
-                format!("{f}: {m}"),
-                DS2_CAP,
-            ) {
+            if let Some(s) = single(cx, format!("{base}/{}", pointer_escape(m)), format!("{f}: {m}"), DS2_CAP) {
                 out.push(s);
             }
         }
@@ -637,9 +460,7 @@ fn death_stranding2(cx: &GameCtx) -> Vec<Stack> {
 const METRO_CAP: i64 = 150;
 
 fn metro(cx: &GameCtx) -> Vec<Stack> {
-    counts_under(cx, "/Inventory", METRO_CAP, |k| {
-        k.starts_with("Metal (crafting)") || k.starts_with("Chemicals (crafting)")
-    })
+    counts_under(cx, "/Inventory", METRO_CAP, |k| k.starts_with("Metal (crafting)") || k.starts_with("Chemicals (crafting)"))
 }
 
 // ------------------------------------------------------------------ Final Fantasy XV
@@ -660,77 +481,28 @@ const ALYX_RESIN_CAP: i64 = 999;
 /// Item ids of the base game's crafting materials (ores, bars, cloth and parts). Most items
 /// stack to 1000 (the game's default stack size).
 const STARBOUND: [&str; 40] = [
-    "coalore",
-    "copperore",
-    "ironore",
-    "silverore",
-    "goldore",
-    "platinumore",
-    "titaniumore",
-    "durasteelore",
-    "tungstenore",
-    "uraniumore",
-    "plutoniumore",
-    "solariumore",
-    "corefragmentore",
-    "aegisaltore",
-    "ferozoniumore",
-    "violiumore",
-    "diamond",
-    "copperbar",
-    "ironbar",
-    "silverbar",
-    "goldbar",
-    "platinumbar",
-    "titaniumbar",
-    "durasteelbar",
-    "tungstenbar",
-    "solariumstar",
-    "refinedaegisalt",
-    "refinedferozium",
-    "refinedviolium",
-    "fabric",
-    "leather",
-    "silk",
-    "plantfibre",
-    "wire",
-    "glass",
-    "bone",
-    "cottonwool",
-    "siliconboard",
-    "volatilepowder",
-    "phasematter",
+    "coalore", "copperore", "ironore", "silverore", "goldore", "platinumore", "titaniumore", "durasteelore", "tungstenore",
+    "uraniumore", "plutoniumore", "solariumore", "corefragmentore", "aegisaltore", "ferozoniumore", "violiumore",
+    "diamond", "copperbar", "ironbar", "silverbar", "goldbar", "platinumbar", "titaniumbar", "durasteelbar",
+    "tungstenbar", "solariumstar", "refinedaegisalt", "refinedferozium", "refinedviolium", "fabric", "leather", "silk",
+    "plantfibre", "wire", "glass", "bone", "cottonwool", "siliconboard", "volatilepowder", "phasematter",
 ];
 
 fn starbound(cx: &GameCtx) -> Vec<Stack> {
-    let mut bags: Vec<String> = object_keys(cx, "/inventory/itemBags")
-        .into_iter()
-        .map(|k| format!("/inventory/itemBags/{}", pointer_escape(&k)))
-        .collect();
+    let mut bags: Vec<String> = object_keys(cx, "/inventory/itemBags").into_iter().map(|k| format!("/inventory/itemBags/{}", pointer_escape(&k))).collect();
     if bags.is_empty() {
-        bags = ["bag", "tileBag", "actionBar"]
-            .iter()
-            .map(|k| format!("/inventory/{k}"))
-            .collect();
+        bags = ["bag", "tileBag", "actionBar"].iter().map(|k| format!("/inventory/{k}")).collect();
     }
     let mut out = vec![];
     for bag in bags {
-        let Some(Value::Array(slots)) = cx.get(&bag) else {
-            continue;
-        };
+        let Some(Value::Array(slots)) = cx.get(&bag) else { continue };
         for i in 0..slots.len() {
             let slot = format!("{bag}/{i}");
             // 1.0 and later wrap the stack in `content`.
-            let base = if cx.get(&format!("{slot}/content/name")).is_some() {
-                format!("{slot}/content")
-            } else {
-                slot
-            };
+            let base = if cx.get(&format!("{slot}/content/name")).is_some() { format!("{slot}/content") } else { slot };
             let name = cx.text(&format!("{base}/name")).unwrap_or_default();
             if STARBOUND.contains(&name.as_str()) {
-                if let Some(s) =
-                    single(cx, format!("{base}/count"), name, 1000).filter(|s| s.have > 0)
-                {
+                if let Some(s) = single(cx, format!("{base}/count"), name, 1000).filter(|s| s.have > 0) {
                     out.push(s);
                 }
             }
@@ -743,9 +515,7 @@ fn starbound(cx: &GameCtx) -> Vec<Stack> {
 
 /// Estimate: the game states no limit for Chroma Catalysts.
 fn expedition33(cx: &GameCtx) -> Vec<Stack> {
-    counts_under(cx, "/InventoryItems", 999, |k| {
-        k.starts_with("UpgradeMaterial_Level")
-    })
+    counts_under(cx, "/InventoryItems", 999, |k| k.starts_with("UpgradeMaterial_Level"))
 }
 
 // ------------------------------------------------------------------ Onimusha: Way of the Sword
@@ -774,31 +544,16 @@ const ONIMUSHA: [(i64, &str); 12] = [
 
 /// Every used save slot's material entries; the count raised is EquipNum (on hand).
 fn onimusha(cx: &GameCtx) -> Vec<Stack> {
-    let Some(base) = super::dashboards::ree_slots(cx.root) else {
-        return vec![];
-    };
+    let Some(base) = super::dashboards::ree_slots(cx.root) else { return vec![] };
     let slots = cx.get(&base).and_then(Value::as_array).map_or(0, Vec::len);
     let mut out = vec![];
-    for i in (0..slots).filter(|i| {
-        cx.int(&format!("{base}/{i}/_Data/_ResourceData/PlayTime"))
-            .unwrap_or(0)
-            > 0
-    }) {
+    for i in (0..slots).filter(|i| cx.int(&format!("{base}/{i}/_Data/_ResourceData/PlayTime")).unwrap_or(0) > 0) {
         let items = format!("{base}/{i}/_Data/_Items");
         let n = cx.get(&items).and_then(Value::as_array).map_or(0, Vec::len);
         for k in 0..n {
-            let Some(id) = cx.int(&format!("{items}/{k}/ItemID")) else {
-                continue;
-            };
-            let Some((_, name)) = ONIMUSHA.iter().find(|(m, _)| *m == id) else {
-                continue;
-            };
-            if let Some(s) = single(
-                cx,
-                format!("{items}/{k}/EquipNum"),
-                (*name).to_string(),
-                ONIMUSHA_CAP,
-            ) {
+            let Some(id) = cx.int(&format!("{items}/{k}/ItemID")) else { continue };
+            let Some((_, name)) = ONIMUSHA.iter().find(|(m, _)| *m == id) else { continue };
+            if let Some(s) = single(cx, format!("{items}/{k}/EquipNum"), (*name).to_string(), ONIMUSHA_CAP) {
                 out.push(s);
             }
         }
@@ -897,24 +652,13 @@ fn valheim(cx: &GameCtx) -> Vec<Stack> {
     for k in object_keys(cx, "/Inventory") {
         // A second stack of the same item is listed as "Wood (2)".
         let prefab = match k.rsplit_once(" (") {
-            Some((a, b))
-                if b.ends_with(')') && b[..b.len() - 1].chars().all(|c| c.is_ascii_digit()) =>
-            {
-                a
-            }
+            Some((a, b)) if b.ends_with(')') && b[..b.len() - 1].chars().all(|c| c.is_ascii_digit()) => a,
             _ => k.as_str(),
         };
-        let Some(&cap) = caps.get(prefab) else {
-            continue;
-        };
+        let Some(&cap) = caps.get(prefab) else { continue };
         let p = format!("/Inventory/{}/Stack", pointer_escape(&k));
         if let Some(have) = cx.int(&p) {
-            out.push(Stack {
-                paths: vec![p],
-                name: prefab.to_string(),
-                have,
-                cap,
-            });
+            out.push(Stack { paths: vec![p], name: prefab.to_string(), have, cap });
         }
     }
     out
@@ -924,64 +668,19 @@ fn valheim(cx: &GameCtx) -> Vec<Stack> {
 
 /// Java Edition item ids (without `minecraft:`) of crafting materials that stack to 64.
 const MINECRAFT: [&str; 50] = [
-    "iron_ingot",
-    "gold_ingot",
-    "copper_ingot",
-    "netherite_ingot",
-    "netherite_scrap",
-    "iron_nugget",
-    "gold_nugget",
-    "raw_iron",
-    "raw_gold",
-    "raw_copper",
-    "diamond",
-    "emerald",
-    "lapis_lazuli",
-    "redstone",
-    "coal",
-    "charcoal",
-    "quartz",
-    "amethyst_shard",
-    "string",
-    "leather",
-    "rabbit_hide",
-    "feather",
-    "bone",
-    "bone_meal",
-    "gunpowder",
-    "slime_ball",
-    "blaze_rod",
-    "blaze_powder",
-    "flint",
-    "paper",
-    "sugar",
-    "stick",
-    "glowstone_dust",
-    "prismarine_shard",
-    "prismarine_crystals",
-    "phantom_membrane",
-    "clay_ball",
-    "brick",
-    "nether_brick",
-    "magma_cream",
-    "ghast_tear",
-    "ink_sac",
-    "glow_ink_sac",
-    "honeycomb",
-    "nether_wart",
-    "shulker_shell",
-    "turtle_scute",
-    "scute",
-    "armadillo_scute",
-    "breeze_rod",
+    "iron_ingot", "gold_ingot", "copper_ingot", "netherite_ingot", "netherite_scrap", "iron_nugget", "gold_nugget",
+    "raw_iron", "raw_gold", "raw_copper", "diamond", "emerald", "lapis_lazuli", "redstone", "coal", "charcoal",
+    "quartz", "amethyst_shard", "string", "leather", "rabbit_hide", "feather", "bone", "bone_meal", "gunpowder",
+    "slime_ball", "blaze_rod", "blaze_powder", "flint", "paper", "sugar", "stick", "glowstone_dust",
+    "prismarine_shard", "prismarine_crystals", "phantom_membrane", "clay_ball", "brick", "nether_brick",
+    "magma_cream", "ghast_tear", "ink_sac", "glow_ink_sac", "honeycomb", "nether_wart", "shulker_shell",
+    "turtle_scute", "scute", "armadillo_scute", "breeze_rod",
 ];
 
 fn minecraft(cx: &GameCtx) -> Vec<Stack> {
     let mut out = vec![];
     for list in ["/Data/Player/Inventory", "/Data/Player/EnderItems"] {
-        let Some(Value::Array(items)) = cx.get(list) else {
-            continue;
-        };
+        let Some(Value::Array(items)) = cx.get(list) else { continue };
         for i in 0..items.len() {
             let p = format!("{list}/{i}");
             let id = cx.text(&format!("{p}/id")).unwrap_or_default();
@@ -990,20 +689,9 @@ fn minecraft(cx: &GameCtx) -> Vec<Stack> {
                 continue;
             }
             // Before 1.20.5 the count is a byte named Count; since then an int named count.
-            let Some(c) = ["Count", "count"]
-                .iter()
-                .map(|k| format!("{p}/{k}"))
-                .find(|q| cx.int(q).is_some())
-            else {
-                continue;
-            };
+            let Some(c) = ["Count", "count"].iter().map(|k| format!("{p}/{k}")).find(|q| cx.int(q).is_some()) else { continue };
             let have = cx.int(&c).unwrap_or(0);
-            out.push(Stack {
-                paths: vec![c],
-                name: short.to_string(),
-                have,
-                cap: 64,
-            });
+            out.push(Stack { paths: vec![c], name: short.to_string(), have, cap: 64 });
         }
     }
     out
@@ -1015,14 +703,7 @@ mod tests {
     use serde_json::json;
 
     fn ctx(root: &Value) -> GameCtx<'_> {
-        GameCtx {
-            root,
-            baseline: root,
-            tree: None,
-            edits: vec![],
-            archive: None,
-            open_entry: None,
-        }
+        GameCtx { root, baseline: root, tree: None, edits: vec![], archive: None, open_entry: None }
     }
 
     fn edits(cx: &GameCtx) -> HashMap<String, Value> {
@@ -1032,10 +713,7 @@ mod tests {
     #[test]
     fn terraria_ids_are_known_items() {
         for &i in &TERRARIA_IDS {
-            assert!(
-                !crate::fmt::terraria::item_name(i).starts_with("Unknown"),
-                "{i}"
-            );
+            assert!(!crate::fmt::terraria::item_name(i).starts_with("Unknown"), "{i}");
         }
         assert_eq!(terraria_names().len(), TERRARIA_IDS.len());
     }
@@ -1070,8 +748,7 @@ mod tests {
 
     #[test]
     fn nier_raises_only_materials() {
-        let root =
-            json!({"Items": {"Small Recovery": 3}, "Materials": {"Copper Ore": 12, "Pearl": 99}});
+        let root = json!({"Items": {"Small Recovery": 3}, "Materials": {"Copper Ore": 12, "Pearl": 99}});
         let mut cx = ctx(&root);
         assert_eq!(apply(Game::Nier, &mut cx), 1);
         let e = edits(&cx);
@@ -1116,14 +793,7 @@ mod tests {
     /// Runs the button on a parsed save and writes the result, like the app does.
     fn round_trip(game: Game, doc: &mut crate::tree::TreeDoc) -> usize {
         let view = doc.view.clone();
-        let mut cx = GameCtx {
-            root: &view,
-            baseline: &view,
-            tree: Some(doc),
-            edits: vec![],
-            archive: None,
-            open_entry: None,
-        };
+        let mut cx = GameCtx { root: &view, baseline: &view, tree: Some(doc), edits: vec![], archive: None, open_entry: None };
         let n = apply(game, &mut cx);
         let e = cx.edits;
         for (p, v) in e {
@@ -1136,11 +806,7 @@ mod tests {
     fn terraria_save_round_trip() {
         use crate::fmt::terraria::{parse, synthetic};
         // Iron Bar, Lens, Dirt Block, Suspicious Looking Eye; Wood and a full Gold Bar stack in the bank.
-        let d = synthetic(
-            279,
-            &[(0, 22, 7), (1, 38, 3), (2, 2, 40), (3, 43, 1)],
-            &[(0, 9, 120), (1, 19, 9999)],
-        );
+        let d = synthetic(279, &[(0, 22, 7), (1, 38, 3), (2, 2, 40), (3, 43, 1)], &[(0, 9, 120), (1, 19, 9999)]);
         let mut doc = parse(&d).unwrap();
         assert_eq!(round_trip(Game::Terraria, &mut doc), 3);
         let again = parse(&doc.to_bytes().unwrap()).unwrap();
@@ -1148,26 +814,12 @@ mod tests {
         assert_eq!(v("/Inventory/Slot 1/Stack"), 9999);
         assert_eq!(v("/Inventory/Slot 2/Stack"), 9999);
         assert_eq!(v("/Inventory/Slot 3/Stack"), 40, "blocks aren't materials");
-        assert_eq!(
-            v("/Inventory/Slot 4/Stack"),
-            1,
-            "boss summons are left alone"
-        );
+        assert_eq!(v("/Inventory/Slot 4/Stack"), 1, "boss summons are left alone");
         assert_eq!(v("/Piggy bank/Slot 1/Stack"), 9999);
         assert_eq!(v("/Piggy bank/Slot 2/Stack"), 9999);
-        assert_eq!(
-            v("/Inventory/Slot 5/Item"),
-            crate::fmt::terraria::EMPTY,
-            "nothing added"
-        );
+        assert_eq!(v("/Inventory/Slot 5/Item"), crate::fmt::terraria::EMPTY, "nothing added");
         // Only the stacks changed.
-        let changed = doc
-            .to_bytes()
-            .unwrap()
-            .iter()
-            .zip(&d)
-            .filter(|(a, b)| a != b)
-            .count();
+        let changed = doc.to_bytes().unwrap().iter().zip(&d).filter(|(a, b)| a != b).count();
         assert!(changed <= 3 * 4, "{changed} bytes changed");
         // A 1.4.0 character is refused.
         let mut old = parse(&synthetic(260, &[(0, 22, 7)], &[])).unwrap();
@@ -1177,17 +829,7 @@ mod tests {
     #[test]
     fn valheim_save_round_trip() {
         use crate::fmt::valheim::{parse, tests::synthetic_with};
-        let d = synthetic_with(
-            37,
-            &[
-                ("Wood", 12, 1),
-                ("Wood", 50, 1),
-                ("Iron", 4, 1),
-                ("Coins", 10, 1),
-                ("DragonTear", 2, 1),
-                ("BellFragment", 1, 1),
-            ],
-        );
+        let d = synthetic_with(37, &[("Wood", 12, 1), ("Wood", 50, 1), ("Iron", 4, 1), ("Coins", 10, 1), ("DragonTear", 2, 1), ("BellFragment", 1, 1)]);
         let mut doc = parse(&d).unwrap();
         assert_eq!(round_trip(Game::Valheim, &mut doc), 2);
         let out = doc.to_bytes().unwrap();
@@ -1198,16 +840,8 @@ mod tests {
         assert_eq!(v("/Inventory/Wood (2)/Stack"), 50);
         assert_eq!(v("/Inventory/Iron/Stack"), 30);
         assert_eq!(v("/Inventory/Coins/Stack"), 10);
-        assert_eq!(
-            v("/Inventory/DragonTear/Stack"),
-            2,
-            "boss drops are left alone"
-        );
-        assert_eq!(
-            v("/Inventory/BellFragment/Stack"),
-            1,
-            "key fragments are left alone"
-        );
+        assert_eq!(v("/Inventory/DragonTear/Stack"), 2, "boss drops are left alone");
+        assert_eq!(v("/Inventory/BellFragment/Stack"), 1, "key fragments are left alone");
     }
 
     #[test]
@@ -1217,11 +851,7 @@ mod tests {
         let mut doc = crate::fmt::xml::parse(xml).unwrap();
         assert_eq!(round_trip(Game::Stardew, &mut doc), 1);
         let out = String::from_utf8(doc.to_bytes().unwrap()).unwrap();
-        assert_eq!(
-            out,
-            xml.replace("<Stack>15</Stack>", "<Stack>999</Stack>")
-                .replace("<stack>15</stack>", "<stack>999</stack>")
-        );
+        assert_eq!(out, xml.replace("<Stack>15</Stack>", "<Stack>999</Stack>").replace("<stack>15</stack>", "<stack>999</stack>"));
     }
 
     #[test]
@@ -1275,8 +905,7 @@ mod tests {
         assert_eq!(apply(Game::Andromeda, &mut cx), 1);
         assert_eq!(edits(&cx)["/Resources/Minerals/Iron"], 999);
 
-        let root =
-            json!({"Facilities": {"Port": {"Connection level": 2, "Metals": 10, "Resins": 9999}}});
+        let root = json!({"Facilities": {"Port": {"Connection level": 2, "Metals": 10, "Resins": 9999}}});
         let mut cx = ctx(&root);
         assert_eq!(apply(Game::DeathStranding2, &mut cx), 1);
         assert_eq!(edits(&cx)["/Facilities/Port/Metals"], DS2_CAP);
@@ -1294,10 +923,7 @@ mod tests {
         let root = json!({"Party": {"Credits": 1, "Components": 30, "Chemicals": 2}});
         let mut cx = ctx(&root);
         assert_eq!(apply(Game::Kotor, &mut cx), 2);
-        assert!(
-            stacks(Game::Kotor, &ctx(&json!({"Party": {"Credits": 1}}))).is_err(),
-            "KOTOR I has none"
-        );
+        assert!(stacks(Game::Kotor, &ctx(&json!({"Party": {"Credits": 1}}))).is_err(), "KOTOR I has none");
 
         let root = json!({"Player": {"Health": 50, "Resin": 26}});
         let mut cx = ctx(&root);
@@ -1312,15 +938,13 @@ mod tests {
 
     #[test]
     fn onimusha_materials_in_used_slots() {
-        let slot = |play: i64| {
-            json!({"_Data": {"_ResourceData": {"PlayTime": play}, "_Items": [
-                {"ItemID": 16424, "EquipNum": 3, "BoxNum": 1},
-                {"ItemID": 1080394368, "EquipNum": 2, "BoxNum": 0},
-                {"ItemID": 2901, "EquipNum": 1, "BoxNum": 0},
-                {"ItemID": 1544132352, "EquipNum": 99, "BoxNum": 0},
-                {"ItemID": 46, "EquipNum": 0, "BoxNum": 0}
-            ]}})
-        };
+        let slot = |play: i64| json!({"_Data": {"_ResourceData": {"PlayTime": play}, "_Items": [
+            {"ItemID": 16424, "EquipNum": 3, "BoxNum": 1},
+            {"ItemID": 1080394368, "EquipNum": 2, "BoxNum": 0},
+            {"ItemID": 2901, "EquipNum": 1, "BoxNum": 0},
+            {"ItemID": 1544132352, "EquipNum": 99, "BoxNum": 0},
+            {"ItemID": 46, "EquipNum": 0, "BoxNum": 0}
+        ]}});
         let root = json!({"SaveData": {"Slots": [slot(100), slot(0)]}});
         let mut cx = ctx(&root);
         assert_eq!(stacks(Game::Onimusha, &cx).unwrap().len(), 2);
@@ -1341,10 +965,7 @@ mod tests {
         ], "mainBag": [{"content": {"name": "fabric", "count": 1000}}, {"content": {"name": "liquidfuel", "count": 2}}]}}});
         let mut cx = ctx(&root);
         assert_eq!(apply(Game::Starbound, &mut cx), 1);
-        assert_eq!(
-            edits(&cx)["/inventory/itemBags/materialBag/0/content/count"],
-            1000
-        );
+        assert_eq!(edits(&cx)["/inventory/itemBags/materialBag/0/content/count"], 1000);
         let root = json!({"inventory": {"bag": [{"name": "copperbar", "count": 3}]}});
         let mut cx = ctx(&root);
         assert_eq!(apply(Game::Starbound, &mut cx), 1);
@@ -1356,20 +977,13 @@ mod tests {
         for list in [&ELDEN_RING[..], &GOW_RAGNAROK[..], &STARBOUND[..]] {
             assert_eq!(list.iter().collect::<HashSet<_>>().len(), list.len());
         }
-        let er: HashSet<&str> = crate::fmt::er_items::GOODS
-            .iter()
-            .map(|(_, n)| *n)
-            .collect();
+        let er: HashSet<&str> = crate::fmt::er_items::GOODS.iter().map(|(_, n)| *n).collect();
         for n in ELDEN_RING {
             assert!(er.contains(n), "{n}");
         }
         let gowr = include_str!("../fmt/data/gowr_items.tsv");
         for n in GOW_RAGNAROK {
-            assert!(
-                gowr.lines()
-                    .any(|l| l.split('\t').nth(1) == Some(n) && l.ends_with("Resources")),
-                "{n}"
-            );
+            assert!(gowr.lines().any(|l| l.split('\t').nth(1) == Some(n) && l.ends_with("Resources")), "{n}");
         }
         assert_eq!(valheim_caps().len(), VALHEIM.len());
         let mc: HashSet<_> = MINECRAFT.iter().collect();

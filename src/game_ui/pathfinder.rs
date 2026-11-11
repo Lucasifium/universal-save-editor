@@ -62,26 +62,12 @@ fn index(v: &Value, p: &mut String, out: &mut HashMap<String, String>) {
 /// The pointer of the object at `p` under `/party`, following a `$ref` if it is one.
 fn resolve(root: &Value, p: &str) -> Option<String> {
     let v = root.pointer(p)?;
-    let Some(Value::String(r)) = v.get("$ref") else {
-        return Some(p.to_string());
-    };
+    let Some(Value::String(r)) = v.get("$ref") else { return Some(p.to_string()) };
     let party = root.get("party")?;
     IDS.with(|c| {
         let mut c = c.borrow_mut();
-        let key = (
-            party as *const Value as usize,
-            party
-                .get("m_EntityData")
-                .and_then(Value::as_array)
-                .map_or(0, Vec::len),
-        );
-        let stale = (c.0, c.1) != key
-            || c.2
-                .get(r)
-                .and_then(|q| root.pointer(&format!("/party{q}")))
-                .and_then(|o| o.get("$id"))
-                .and_then(Value::as_str)
-                != Some(r);
+        let key = (party as *const Value as usize, party.get("m_EntityData").and_then(Value::as_array).map_or(0, Vec::len));
+        let stale = (c.0, c.1) != key || c.2.get(r).and_then(|q| root.pointer(&format!("/party{q}"))).and_then(|o| o.get("$id")).and_then(Value::as_str) != Some(r);
         if stale {
             let mut m = HashMap::new();
             index(party, &mut String::new(), &mut m);
@@ -98,10 +84,7 @@ fn child(root: &Value, base: &str, key: &str) -> Option<String> {
 fn unit_id(v: &Value) -> Option<String> {
     match v {
         Value::String(s) => Some(s.clone()),
-        Value::Object(m) => m
-            .get("m_UniqueId")
-            .and_then(Value::as_str)
-            .map(str::to_string),
+        Value::Object(m) => m.get("m_UniqueId").and_then(Value::as_str).map(str::to_string),
         _ => None,
     }
 }
@@ -113,49 +96,23 @@ fn guid_name(g: &str, wotr: bool) -> Option<String> {
 pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
     let accent = Color32::from_rgb(190, 150, 70);
     let root = cx.root;
-    let wotr = root.pointer("/player/Corruption").is_some()
-        || root.pointer("/player/m_LeadersManager").is_some();
-    let title = if wotr {
-        "Pathfinder: Wrath of the Righteous"
-    } else {
-        "Pathfinder: Kingmaker"
-    };
+    let wotr = root.pointer("/player/Corruption").is_some() || root.pointer("/player/m_LeadersManager").is_some();
+    let title = if wotr { "Pathfinder: Wrath of the Righteous" } else { "Pathfinder: Kingmaker" };
     let save = cx.text("/header/Name").unwrap_or_default();
     let main = root.pointer("/player/m_MainCharacter").and_then(unit_id);
-    let party: Vec<String> = root
-        .pointer("/player/PartyCharacters")
-        .and_then(Value::as_array)
-        .map(|a| a.iter().filter_map(unit_id).collect())
-        .unwrap_or_default();
+    let party: Vec<String> = root.pointer("/player/PartyCharacters").and_then(Value::as_array).map(|a| a.iter().filter_map(unit_id).collect()).unwrap_or_default();
     // Party members: (label, pointer of the unit's Descriptor).
     let mut members: Vec<(String, String)> = vec![];
-    if let Some(units) = root
-        .pointer("/party/m_EntityData")
-        .and_then(Value::as_array)
-    {
+    if let Some(units) = root.pointer("/party/m_EntityData").and_then(Value::as_array) {
         for (i, u) in units.iter().enumerate() {
-            let Some(id) = u.get("UniqueId").and_then(Value::as_str) else {
-                continue;
-            };
+            let Some(id) = u.get("UniqueId").and_then(Value::as_str) else { continue };
             if !party.iter().any(|p| p == id) && main.as_deref() != Some(id) {
                 continue;
             }
-            let Some(desc) = child(root, &format!("/party/m_EntityData/{i}"), "Descriptor") else {
-                continue;
-            };
-            let custom = root
-                .pointer(&format!("{desc}/CustomName"))
-                .and_then(Value::as_str)
-                .filter(|s| !s.is_empty())
-                .map(str::to_string);
-            let bp = root
-                .pointer(&format!("{desc}/Blueprint"))
-                .and_then(Value::as_str)
-                .and_then(|g| guid_name(g, wotr))
-                .filter(|n| n != "Player" && n != "Custom");
-            let name = custom
-                .or(bp)
-                .unwrap_or_else(|| format!("Companion {}", members.len() + 1));
+            let Some(desc) = child(root, &format!("/party/m_EntityData/{i}"), "Descriptor") else { continue };
+            let custom = root.pointer(&format!("{desc}/CustomName")).and_then(Value::as_str).filter(|s| !s.is_empty()).map(str::to_string);
+            let bp = root.pointer(&format!("{desc}/Blueprint")).and_then(Value::as_str).and_then(|g| guid_name(g, wotr)).filter(|n| n != "Player" && n != "Custom");
+            let name = custom.or(bp).unwrap_or_else(|| format!("Companion {}", members.len() + 1));
             if main.as_deref() == Some(id) {
                 members.insert(0, (name, desc));
             } else {
@@ -183,9 +140,7 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
         if col == 0 {
             panel(ui, "Ability scores", |ui| {
                 for (k, short) in ABILITIES {
-                    let Some(s) = stats.as_deref().and_then(|s| child(cx.root, s, k)) else {
-                        continue;
-                    };
+                    let Some(s) = stats.as_deref().and_then(|s| child(cx.root, s, k)) else { continue };
                     let p = format!("{s}/m_BaseValue");
                     if cx.get(&p).is_some() {
                         cx.attribute(ui, &format!("{k} ({short})"), &p, 30.0, accent);
@@ -196,36 +151,23 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
         } else {
             panel(ui, "Progression", |ui| {
                 if let Some(p) = &prog {
-                    for (label, k) in [
-                        ("Experience", "Experience"),
-                        ("Mythic rank", "MythicExperience"),
-                    ] {
+                    for (label, k) in [("Experience", "Experience"), ("Mythic rank", "MythicExperience")] {
                         let q = format!("{p}/{k}");
                         if cx.get(&q).is_some() {
                             cx.grid_row(ui, label, &q, 120.0);
                         }
                     }
-                    if let Some(classes) = cx
-                        .get(&format!("{p}/Classes"))
-                        .and_then(Value::as_array)
-                        .cloned()
-                    {
+                    if let Some(classes) = cx.get(&format!("{p}/Classes")).and_then(Value::as_array).cloned() {
                         ui.add_space(6.0);
                         for c in classes {
-                            let g = c
-                                .get("CharacterClass")
-                                .and_then(Value::as_str)
-                                .unwrap_or_default();
+                            let g = c.get("CharacterClass").and_then(Value::as_str).unwrap_or_default();
                             let name = guid_name(g, wotr).unwrap_or_else(|| "Class".into());
                             let lv = c.get("Level").and_then(Value::as_i64).unwrap_or(0);
                             ui.label(format!("{name} {lv}"));
                         }
                     }
                 }
-                if let Some(hp) = stats
-                    .as_deref()
-                    .and_then(|s| child(cx.root, s, "HitPoints"))
-                {
+                if let Some(hp) = stats.as_deref().and_then(|s| child(cx.root, s, "HitPoints")) {
                     let q = format!("{hp}/m_BaseValue");
                     if cx.get(&q).is_some() {
                         ui.add_space(6.0);

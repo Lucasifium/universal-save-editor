@@ -28,10 +28,7 @@ fn i32_at(d: &[u8], at: usize) -> Option<i32> {
 }
 
 fn cstr(b: &[u8]) -> String {
-    b.iter()
-        .take_while(|&&c| c != 0)
-        .map(|&c| c as char)
-        .collect()
+    b.iter().take_while(|&&c| c != 0).map(|&c| c as char).collect()
 }
 
 #[derive(Clone, Copy, PartialEq, Eq, Debug)]
@@ -61,11 +58,7 @@ fn records(d: &[u8], start: usize, end: usize) -> Vec<Rec> {
         if o + 4 + len > end {
             break;
         }
-        out.push(Rec {
-            tok,
-            at: o + 4,
-            len,
-        });
+        out.push(Rec { tok, at: o + 4, len });
         o += 4 + len;
     }
     out
@@ -74,12 +67,7 @@ fn records(d: &[u8], start: usize, end: usize) -> Vec<Rec> {
 /// A token table: `count` NUL-terminated names (empty slots are a lone NUL).
 fn tokens(d: &[u8], at: usize, bytes: usize, count: usize) -> Option<Vec<String>> {
     let t = d.get(at..at.checked_add(bytes)?)?;
-    Some(
-        t.split(|&c| c == 0)
-            .take(count)
-            .map(|s| s.iter().map(|&c| c as char).collect())
-            .collect(),
-    )
+    Some(t.split(|&c| c == 0).take(count).map(|s| s.iter().map(|&c| c as char).collect()).collect())
 }
 
 struct Names(Vec<String>);
@@ -135,17 +123,10 @@ pub fn container(d: &[u8]) -> Option<Container> {
     }
     // Newer Source builds write the number of entries first; older ones don't.
     let files = match i32_at(d, hend) {
-        Some(n) if (0..100_000).contains(&n) => directory(d, hend + 4)
-            .filter(|f| f.len() == n as usize)
-            .or_else(|| directory(d, hend)),
+        Some(n) if (0..100_000).contains(&n) => directory(d, hend + 4).filter(|f| f.len() == n as usize).or_else(|| directory(d, hend)),
         _ => directory(d, hend),
     }?;
-    Some(Container {
-        version,
-        header: (hstart, hend),
-        names,
-        files,
-    })
+    Some(Container { version, header: (hstart, hend), names, files })
 }
 
 impl Container {
@@ -160,17 +141,12 @@ impl Container {
     }
 
     fn header_text(&self, d: &[u8], field: &str) -> Option<String> {
-        records(d, self.header.0, self.header.1)
-            .iter()
-            .find(|r| self.names.of(r) == field)
-            .map(|r| cstr(&d[r.at..r.at + r.len]))
+        records(d, self.header.0, self.header.1).iter().find(|r| self.names.of(r) == field).map(|r| cstr(&d[r.at..r.at + r.len]))
     }
 
     pub fn map(&self, d: &[u8]) -> Option<String> {
         // Source 2 names the map's spawn groups instead; the first is the map itself.
-        self.header_text(d, "mapName")
-            .or_else(|| self.header_text(d, "m_sGroupName"))
-            .filter(|m| !m.is_empty())
+        self.header_text(d, "mapName").or_else(|| self.header_text(d, "m_sGroupName")).filter(|m| !m.is_empty())
     }
 }
 
@@ -190,21 +166,7 @@ struct Level {
     data: (usize, usize),
 }
 
-const TABLE_FIELDS: &[&str] = &[
-    "id",
-    "edictindex",
-    "saveentityindex",
-    "restoreentityindex",
-    "location",
-    "size",
-    "flags",
-    "classname",
-    "globalname",
-    "landmarkModelSpace",
-    "modelname",
-    "entityname",
-    "m_pPrecacheEntityKeys",
-];
+const TABLE_FIELDS: &[&str] = &["id", "edictindex", "saveentityindex", "restoreentityindex", "location", "size", "flags", "classname", "globalname", "landmarkModelSpace", "modelname", "entityname", "m_pPrecacheEntityKeys"];
 
 /// Reads `ETABLE` records from `recs`: one entity per `ETABLE`, until a record that isn't
 /// part of the table. Returns the entities (location relative) and how many records were used.
@@ -269,18 +231,10 @@ fn level(d: &[u8], engine: Engine, start: usize, len: usize) -> Option<Level> {
                 .into_iter()
                 .map(|(class, loc, size)| {
                     let s = (base as i64 + loc).clamp(ds as i64, de as i64) as usize;
-                    Ent {
-                        class,
-                        start: s,
-                        end: (s as i64 + size.max(0)).min(de as i64) as usize,
-                    }
+                    Ent { class, start: s, end: (s as i64 + size.max(0)).min(de as i64) as usize }
                 })
                 .collect();
-            Some(Level {
-                names,
-                ents,
-                data: (base, de),
-            })
+            Some(Level { names, ents, data: (base, de) })
         }
         Engine::Source2 => {
             // VALV, version, token count, ?, token bytes, then the sizes of three sections:
@@ -298,18 +252,10 @@ fn level(d: &[u8], engine: Engine, start: usize, len: usize) -> Option<Level> {
                 .into_iter()
                 .map(|(class, loc, size)| {
                     let s = (ds as i64 + loc).clamp(ds as i64, de as i64) as usize;
-                    Ent {
-                        class,
-                        start: s,
-                        end: (s as i64 + size.max(0)).min(de as i64) as usize,
-                    }
+                    Ent { class, start: s, end: (s as i64 + size.max(0)).min(de as i64) as usize }
                 })
                 .collect();
-            Some(Level {
-                names,
-                ents,
-                data: (ds, de),
-            })
+            Some(Level { names, ents, data: (ds, de) })
         }
         Engine::Source => {
             let (sbytes, scount, hbytes, dbytes) = (h(1)?, h(2)?, h(3)?, h(4)?);
@@ -325,28 +271,17 @@ fn level(d: &[u8], engine: Engine, start: usize, len: usize) -> Option<Level> {
                 .into_iter()
                 .map(|(class, loc, size)| {
                     let s = (ds as i64 + loc).clamp(ds as i64, de as i64) as usize;
-                    Ent {
-                        class,
-                        start: s,
-                        end: (s as i64 + size.max(0)).min(de as i64) as usize,
-                    }
+                    Ent { class, start: s, end: (s as i64 + size.max(0)).min(de as i64) as usize }
                 })
                 .collect();
-            Some(Level {
-                names,
-                ents,
-                data: (ds, de),
-            })
+            Some(Level { names, ents, data: (ds, de) })
         }
     }
 }
 
 impl Level {
     fn fields(&self, d: &[u8], e: &Ent) -> Vec<(String, Rec)> {
-        records(d, e.start, e.end)
-            .into_iter()
-            .map(|r| (self.names.of(&r).to_string(), r))
-            .collect()
+        records(d, e.start, e.end).into_iter().map(|r| (self.names.of(&r).to_string(), r)).collect()
     }
 }
 
@@ -355,71 +290,59 @@ fn get<'a>(f: &'a [(String, Rec)], name: &str) -> Option<&'a Rec> {
 }
 
 fn int(d: &[u8], f: &[(String, Rec)], name: &str) -> Option<i32> {
-    get(f, name)
-        .filter(|r| r.len == 4)
-        .and_then(|r| i32_at(d, r.at))
+    get(f, name).filter(|r| r.len == 4).and_then(|r| i32_at(d, r.at))
 }
 
 /// HUD name and ammo names (primary, secondary) of a weapon, by classname (from the SDKs).
-pub fn weapon_info(
-    class: &str,
-) -> Option<(&'static str, Option<&'static str>, Option<&'static str>)> {
-    Some(
-        match class.strip_prefix("weapon_")?.to_ascii_lowercase().as_str() {
-            "crowbar" => ("Crowbar", None, None),
-            "9mmhandgun" | "glock" => ("9mm pistol", Some("9mm"), None),
-            "357" | "python" => (".357 Magnum", Some(".357"), None),
-            "9mmar" | "mp5" => ("MP5", Some("9mm"), Some("AR grenades")),
-            "shotgun" => ("Shotgun", Some("Buckshot"), None),
-            "crossbow" => ("Crossbow", Some("Crossbow bolts"), None),
-            "rpg" => ("RPG", Some("Rockets"), None),
-            "gauss" => ("Tau cannon", Some("Uranium"), None),
-            "egon" => ("Gluon gun", Some("Uranium"), None),
-            "hornetgun" => ("Hivehand", Some("Hornets"), None),
-            "handgrenade" => ("Hand grenades", Some("Hand grenades"), None),
-            "satchel" => ("Satchel charges", Some("Satchel charges"), None),
-            "tripmine" => ("Tripmines", Some("Tripmines"), None),
-            "snark" => ("Snarks", Some("Snarks"), None),
-            // Opposing Force
-            "pipewrench" => ("Pipe wrench", None, None),
-            "knife" => ("Combat knife", None, None),
-            "grapple" => ("Barnacle grapple", None, None),
-            "eagle" => ("Desert Eagle", Some(".357"), None),
-            "m249" => ("M249 SAW", Some("5.56mm"), None),
-            "displacer" => ("Displacer cannon", Some("Uranium"), None),
-            "sniperrifle" => ("Sniper rifle", Some("7.62mm"), None),
-            "shockrifle" => ("Shock roach", Some("Shock charge"), None),
-            "sporelauncher" => ("Spore launcher", Some("Spores"), None),
-            "penguin" => ("Penguins", Some("Penguins"), None),
-            // Black Mesa
-            "tau" => ("Tau cannon", Some("Uranium"), None),
-            "gluon" => ("Gluon gun", Some("Uranium"), None),
-            "hivehand" => ("Hivehand", Some("Hornets"), None),
-            // Half-Life 2 and the episodes
-            "physcannon" => ("Gravity Gun", None, None),
-            "pistol" => ("Pistol", Some("Pistol rounds"), None),
-            "smg1" => ("SMG", Some("SMG rounds"), Some("SMG grenades")),
-            "ar2" => (
-                "Pulse rifle (AR2)",
-                Some("Pulse rounds"),
-                Some("Energy balls"),
-            ),
-            "frag" => ("Grenades", Some("Grenades"), None),
-            "slam" => ("S.L.A.M.", Some("S.L.A.M."), None),
-            "bugbait" => ("Bugbait", None, None),
-            "stunstick" => ("Stunstick", None, None),
-            _ => return None,
-        },
-    )
+pub fn weapon_info(class: &str) -> Option<(&'static str, Option<&'static str>, Option<&'static str>)> {
+    Some(match class.strip_prefix("weapon_")?.to_ascii_lowercase().as_str() {
+        "crowbar" => ("Crowbar", None, None),
+        "9mmhandgun" | "glock" => ("9mm pistol", Some("9mm"), None),
+        "357" | "python" => (".357 Magnum", Some(".357"), None),
+        "9mmar" | "mp5" => ("MP5", Some("9mm"), Some("AR grenades")),
+        "shotgun" => ("Shotgun", Some("Buckshot"), None),
+        "crossbow" => ("Crossbow", Some("Crossbow bolts"), None),
+        "rpg" => ("RPG", Some("Rockets"), None),
+        "gauss" => ("Tau cannon", Some("Uranium"), None),
+        "egon" => ("Gluon gun", Some("Uranium"), None),
+        "hornetgun" => ("Hivehand", Some("Hornets"), None),
+        "handgrenade" => ("Hand grenades", Some("Hand grenades"), None),
+        "satchel" => ("Satchel charges", Some("Satchel charges"), None),
+        "tripmine" => ("Tripmines", Some("Tripmines"), None),
+        "snark" => ("Snarks", Some("Snarks"), None),
+        // Opposing Force
+        "pipewrench" => ("Pipe wrench", None, None),
+        "knife" => ("Combat knife", None, None),
+        "grapple" => ("Barnacle grapple", None, None),
+        "eagle" => ("Desert Eagle", Some(".357"), None),
+        "m249" => ("M249 SAW", Some("5.56mm"), None),
+        "displacer" => ("Displacer cannon", Some("Uranium"), None),
+        "sniperrifle" => ("Sniper rifle", Some("7.62mm"), None),
+        "shockrifle" => ("Shock roach", Some("Shock charge"), None),
+        "sporelauncher" => ("Spore launcher", Some("Spores"), None),
+        "penguin" => ("Penguins", Some("Penguins"), None),
+        // Black Mesa
+        "tau" => ("Tau cannon", Some("Uranium"), None),
+        "gluon" => ("Gluon gun", Some("Uranium"), None),
+        "hivehand" => ("Hivehand", Some("Hornets"), None),
+        // Half-Life 2 and the episodes
+        "physcannon" => ("Gravity Gun", None, None),
+        "pistol" => ("Pistol", Some("Pistol rounds"), None),
+        "smg1" => ("SMG", Some("SMG rounds"), Some("SMG grenades")),
+        "ar2" => ("Pulse rifle (AR2)", Some("Pulse rounds"), Some("Energy balls")),
+        "frag" => ("Grenades", Some("Grenades"), None),
+        "slam" => ("S.L.A.M.", Some("S.L.A.M."), None),
+        "bugbait" => ("Bugbait", None, None),
+        "stunstick" => ("Stunstick", None, None),
+        _ => return None,
+    })
 }
 
 /// "weapon_sniperrifle" → "Sniperrifle" for weapons the table doesn't know.
 fn plain_name(class: &str) -> String {
     let s = class.strip_prefix("weapon_").unwrap_or(class);
     let mut c = s.chars();
-    c.next()
-        .map(|f| f.to_uppercase().chain(c).collect())
-        .unwrap_or_default()
+    c.next().map(|f| f.to_uppercase().chain(c).collect()).unwrap_or_default()
 }
 
 fn game_name(engine: Engine, map: &str) -> &'static str {
@@ -432,21 +355,9 @@ fn game_name(engine: Engine, map: &str) -> &'static str {
         Engine::Source if m.starts_with("ep2_") => "Half-Life 2: Episode Two",
         Engine::Source if m == "d2_lostcoast" => "Half-Life 2: Lost Coast",
         Engine::Source if m.starts_with("bm_") => "Black Mesa",
-        Engine::Source
-            if m.starts_with("d1_")
-                || m.starts_with("d2_")
-                || m.starts_with("d3_")
-                || m == "background01" =>
-        {
-            "Half-Life 2"
-        }
+        Engine::Source if m.starts_with("d1_") || m.starts_with("d2_") || m.starts_with("d3_") || m == "background01" => "Half-Life 2",
         // Half-Life: Source plays the original maps (c1a0, t0a0…).
-        Engine::Source
-            if (m.starts_with('c') || m.starts_with('t'))
-                && m.as_bytes().get(1).is_some_and(u8::is_ascii_digit) =>
-        {
-            "Half-Life: Source"
-        }
+        Engine::Source if (m.starts_with('c') || m.starts_with('t')) && m.as_bytes().get(1).is_some_and(u8::is_ascii_digit) => "Half-Life: Source",
         Engine::Source => "Source engine game",
         Engine::Source2 => "Half-Life: Alyx",
     }
@@ -456,18 +367,12 @@ fn game_name(engine: Engine, map: &str) -> &'static str {
 fn chapter(comment: &str) -> Option<String> {
     let c = comment.trim().trim_start_matches('#');
     let i = c.find("Chapter")?;
-    let n: String = c[i + 7..]
-        .trim_start_matches(|ch: char| ch == '_' || ch.is_ascii_alphabetic())
-        .chars()
-        .take_while(char::is_ascii_digit)
-        .collect();
+    let n: String = c[i + 7..].trim_start_matches(|ch: char| ch == '_' || ch.is_ascii_alphabetic()).chars().take_while(char::is_ascii_digit).collect();
     (!n.is_empty()).then(|| format!("Chapter {}", n.trim_start_matches('0')))
 }
 
 pub fn looks(d: &[u8]) -> bool {
-    d.len() > 64
-        && ((d.starts_with(b"JSAV") && matches!(i32_at(d, 4), Some(0x71 | 0x73 | 0x765)))
-            || (d.starts_with(b"S2SV") && i32_at(d, 4) == Some(0x74)))
+    d.len() > 64 && ((d.starts_with(b"JSAV") && matches!(i32_at(d, 4), Some(0x71 | 0x73 | 0x765))) || (d.starts_with(b"S2SV") && i32_at(d, 4) == Some(0x74)))
 }
 
 pub const KIND_GOLDSRC: &str = "Half-Life save (GoldSrc)";
@@ -476,11 +381,7 @@ pub const KIND_ALYX: &str = "Half-Life: Alyx save (Source 2)";
 
 /// Half-Life: Alyx: the player's `m_iAmmo` slots, checked against the ammo counts the game
 /// writes into each save's description ("stats <health> <resin> <pistol> <shotgun> <rapidfire> …").
-const ALYX_AMMO: &[(usize, &str)] = &[
-    (3, "Pistol rounds"),
-    (7, "Shotgun shells"),
-    (4, "Rapidfire rounds"),
-];
+const ALYX_AMMO: &[(usize, &str)] = &[(3, "Pistol rounds"), (7, "Shotgun shells"), (4, "Rapidfire rounds")];
 
 fn alyx_weapon(class: &str) -> Option<&'static str> {
     Some(match class {
@@ -492,13 +393,7 @@ fn alyx_weapon(class: &str) -> Option<&'static str> {
     })
 }
 
-fn parse_alyx(
-    d: &[u8],
-    c: &Container,
-    map: &str,
-    lv: &Level,
-    pf: &[(String, Rec)],
-) -> Result<TreeDoc, String> {
+fn parse_alyx(d: &[u8], c: &Container, map: &str, lv: &Level, pf: &[(String, Rec)]) -> Result<TreeDoc, String> {
     let mut b = Builder::new(d);
     let mut missing: Vec<String> = vec![];
     b.info(&["Save", "Game"], "Half-Life: Alyx");
@@ -506,11 +401,7 @@ fn parse_alyx(
     if let Some(ch) = c.header_text(d, "m_sComment").as_deref().and_then(chapter) {
         b.info(&["Save", "Chapter"], ch);
     }
-    for (label, field, lo, hi) in [
-        ("Health", "m_iHealth", 1, 999),
-        ("Max health", "m_iMaxHealth", 1, 999),
-        ("Resin", "m_nCraftingCurrency", 0, 9999),
-    ] {
+    for (label, field, lo, hi) in [("Health", "m_iHealth", 1, 999), ("Max health", "m_iMaxHealth", 1, 999), ("Resin", "m_nCraftingCurrency", 0, 9999)] {
         match get(pf, field).filter(|r| r.len == 4) {
             Some(r) => {
                 b.ranged(&["Player", label], r.at, Kind::I32, lo, hi);
@@ -526,39 +417,23 @@ fn parse_alyx(
                 }
             }
             for t in 0..r.len / 4 {
-                if !ALYX_AMMO.iter().any(|a| a.0 == t) && i32_at(d, r.at + 4 * t).unwrap_or(0) != 0
-                {
-                    b.ranged(
-                        &["Ammo", &format!("Ammo type {t}")],
-                        r.at + 4 * t,
-                        Kind::I32,
-                        0,
-                        9999,
-                    );
+                if !ALYX_AMMO.iter().any(|a| a.0 == t) && i32_at(d, r.at + 4 * t).unwrap_or(0) != 0 {
+                    b.ranged(&["Ammo", &format!("Ammo type {t}")], r.at + 4 * t, Kind::I32, 0, 9999);
                 }
             }
         }
-        None => missing
-            .push("Ammo: none carried, so the game left the ammo list out of the save".into()),
+        None => missing.push("Ammo: none carried, so the game left the ammo list out of the save".into()),
     }
     // The weapons Alyx has are kept attached to her hands.
     let mut held: Vec<(&str, &str)> = vec![];
     for e in &lv.ents {
-        let Some(name) = alyx_weapon(&e.class) else {
-            continue;
-        };
+        let Some(name) = alyx_weapon(&e.class) else { continue };
         let f = lv.fields(d, e);
-        if get(&f, "m_bIsAttached").is_some_and(|r| r.len == 1 && d[r.at] != 0)
-            && !held.iter().any(|h| h.0 == name)
-        {
+        if get(&f, "m_bIsAttached").is_some_and(|r| r.len == 1 && d[r.at] != 0) && !held.iter().any(|h| h.0 == name) {
             held.push((name, &e.class));
         }
     }
-    held.sort_by_key(|h| {
-        ["Pistol", "Shotgun", "Rapidfire", "Multi-tool"]
-            .iter()
-            .position(|n| *n == h.0)
-    });
+    held.sort_by_key(|h| ["Pistol", "Shotgun", "Rapidfire", "Multi-tool"].iter().position(|n| *n == h.0));
     for (name, class) in &held {
         b.info(&["Weapons", name, "Entity"], class.to_string());
     }
@@ -578,17 +453,9 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
     let engine = c.engine().ok_or("unknown save version")?;
     let map = c.map(d).ok_or("the save names no map")?;
     let want = format!("{map}.hl1");
-    let &(_, start, len) = c
-        .files
-        .iter()
-        .find(|f| f.0.eq_ignore_ascii_case(&want))
-        .ok_or("the current map isn't in the save")?;
+    let &(_, start, len) = c.files.iter().find(|f| f.0.eq_ignore_ascii_case(&want)).ok_or("the current map isn't in the save")?;
     let lv = level(d, engine, start, len).ok_or("couldn't read the map's entity state")?;
-    let pi = lv
-        .ents
-        .iter()
-        .position(|e| e.class == "player" && e.end > e.start)
-        .ok_or("no player in the current map")?;
+    let pi = lv.ents.iter().position(|e| e.class == "player" && e.end > e.start).ok_or("no player in the current map")?;
     let pf = lv.fields(d, &lv.ents[pi]);
     if engine == Engine::Source2 {
         return parse_alyx(d, &c, &map, &lv, &pf);
@@ -602,18 +469,9 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
     if let Some(ch) = c.header_text(d, "comment").as_deref().and_then(chapter) {
         b.info(&["Save", "Chapter"], ch);
     }
-    let maps = c
-        .files
-        .iter()
-        .filter(|f| f.0.to_ascii_lowercase().ends_with(".hl1"))
-        .count();
+    let maps = c.files.iter().filter(|f| f.0.to_ascii_lowercase().ends_with(".hl1")).count();
     b.info(&["Save", "Maps in this save"], maps as i64);
-    if let Some(s) = records(d, lv.data.0, lv.data.1)
-        .iter()
-        .take(64)
-        .find(|r| lv.names.of(r) == "skillLevel" && r.len == 4)
-        .and_then(|r| i32_at(d, r.at))
-    {
+    if let Some(s) = records(d, lv.data.0, lv.data.1).iter().take(64).find(|r| lv.names.of(r) == "skillLevel" && r.len == 4).and_then(|r| i32_at(d, r.at)) {
         let s = match s {
             1 => "Easy".to_string(),
             2 => "Medium".to_string(),
@@ -624,17 +482,9 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
     }
 
     // Health and suit.
-    let (health, max_health, armor) = if gs {
-        ("health", "max_health", "armorvalue")
-    } else {
-        ("m_iHealth", "m_iMaxHealth", "m_ArmorValue")
-    };
+    let (health, max_health, armor) = if gs { ("health", "max_health", "armorvalue") } else { ("m_iHealth", "m_iMaxHealth", "m_ArmorValue") };
     let kind = if gs { Kind::F32 } else { Kind::I32 };
-    for (label, field, lo, hi) in [
-        ("Health", health, 1, 999),
-        ("Max health", max_health, 1, 999),
-        ("Armor", armor, 0, 999),
-    ] {
+    for (label, field, lo, hi) in [("Health", health, 1, 999), ("Max health", max_health, 1, 999), ("Armor", armor, 0, 999)] {
         match get(&pf, field).filter(|r| r.len == 4) {
             Some(r) => {
                 b.ranged(&["Player", label], r.at, kind, lo, hi);
@@ -650,43 +500,21 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
             None => missing.push("Flashlight: empty, so the game left it out of the save".into()),
         }
         if let Some(w) = int(d, &pf, "weapons") {
-            b.info(
-                &["Player", "HEV suit"],
-                if (w as u32) & 0x8000_0000 != 0 {
-                    "Yes"
-                } else {
-                    "No"
-                },
-            );
+            b.info(&["Player", "HEV suit"], if (w as u32) & 0x8000_0000 != 0 { "Yes" } else { "No" });
         }
     } else {
         let sub = |name: &str| -> Vec<(String, Rec)> {
-            get(&pf, name)
-                .map(|r| {
-                    records(d, r.at, r.at + r.len)
-                        .into_iter()
-                        .map(|x| (lv.names.of(&x).to_string(), x))
-                        .collect()
-                })
-                .unwrap_or_default()
+            get(&pf, name).map(|r| records(d, r.at, r.at + r.len).into_iter().map(|x| (lv.names.of(&x).to_string(), x)).collect()).unwrap_or_default()
         };
         let local = sub("m_Local");
         if let Some(r) = get(&local, "m_bWearingSuit").filter(|r| r.len == 1) {
-            b.info(
-                &["Player", "HEV suit"],
-                if d[r.at] != 0 { "Yes" } else { "No" },
-            );
+            b.info(&["Player", "HEV suit"], if d[r.at] != 0 { "Yes" } else { "No" });
         }
         let hl2 = sub("m_HL2Local");
         if !hl2.is_empty() {
-            for (label, field) in [
-                ("Suit power", "m_flSuitPower"),
-                ("Flashlight", "m_flFlashBattery"),
-            ] {
+            for (label, field) in [("Suit power", "m_flSuitPower"), ("Flashlight", "m_flFlashBattery")] {
                 // Half-Life 2 and Episode One keep -1 here for the flashlight (it runs off suit power).
-                if let Some(r) = get(&hl2, field).filter(|r| {
-                    r.len == 4 && i32_at(d, r.at).is_some_and(|v| f32::from_bits(v as u32) >= 0.0)
-                }) {
+                if let Some(r) = get(&hl2, field).filter(|r| r.len == 4 && i32_at(d, r.at).is_some_and(|v| f32::from_bits(v as u32) >= 0.0)) {
                     b.ranged(&["Player", label], r.at, Kind::F32, 0, 100);
                 } else if field == "m_flSuitPower" {
                     missing.push("Suit power: 0, so the game left it out of the save".into());
@@ -697,11 +525,7 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
 
     // Weapons the player carries, as entity indexes.
     let mut held: Vec<usize> = vec![];
-    let idx = |v: i32| {
-        usize::try_from(v)
-            .ok()
-            .filter(|&i| i > 0 && i < lv.ents.len())
-    };
+    let idx = |v: i32| usize::try_from(v).ok().filter(|&i| i > 0 && i < lv.ents.len());
     if gs {
         if let Some(r) = get(&pf, "m_rgpPlayerItems") {
             for k in 0..r.len / 4 {
@@ -718,58 +542,24 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
             }
         }
         if held.is_empty() {
-            held = (0..lv.ents.len())
-                .filter(|&i| {
-                    lv.ents[i].class.starts_with("weapon_")
-                        && int(d, &lv.fields(d, &lv.ents[i]), "m_pPlayer") == Some(pi as i32)
-                })
-                .collect();
+            held = (0..lv.ents.len()).filter(|&i| lv.ents[i].class.starts_with("weapon_") && int(d, &lv.fields(d, &lv.ents[i]), "m_pPlayer") == Some(pi as i32)).collect();
         }
     } else if let Some(r) = get(&pf, "m_hMyWeapons") {
-        held = (0..r.len / 4)
-            .filter_map(|k| i32_at(d, r.at + 4 * k).and_then(idx))
-            .collect();
+        held = (0..r.len / 4).filter_map(|k| i32_at(d, r.at + 4 * k).and_then(idx)).collect();
     }
     held.retain(|&i| lv.ents[i].class.starts_with("weapon_") && lv.ents[i].end > lv.ents[i].start);
-    let active = int(
-        d,
-        &pf,
-        if gs {
-            "m_pActiveItem"
-        } else {
-            "m_hActiveWeapon"
-        },
-    )
-    .and_then(idx);
+    let active = int(d, &pf, if gs { "m_pActiveItem" } else { "m_hActiveWeapon" }).and_then(idx);
 
     // Ammo names: each weapon entity in the level says which ammo types it uses.
-    let (pri, sec, clip1, clip2) = if gs {
-        ("m_iPrimaryAmmoType", "m_iSecondaryAmmoType", "m_iClip", "")
-    } else {
-        (
-            "m_iPrimaryAmmoType",
-            "m_iSecondaryAmmoType",
-            "m_iClip1",
-            "m_iClip2",
-        )
-    };
+    let (pri, sec, clip1, clip2) = if gs { ("m_iPrimaryAmmoType", "m_iSecondaryAmmoType", "m_iClip", "") } else { ("m_iPrimaryAmmoType", "m_iSecondaryAmmoType", "m_iClip1", "m_iClip2") };
     let mut ammo_names: BTreeMap<usize, Vec<&'static str>> = BTreeMap::new();
     let mut order: Vec<usize> = held.clone();
-    order.extend((0..lv.ents.len()).filter(|i| {
-        !held.contains(i)
-            && lv.ents[*i].class.starts_with("weapon_")
-            && lv.ents[*i].end > lv.ents[*i].start
-    }));
+    order.extend((0..lv.ents.len()).filter(|i| !held.contains(i) && lv.ents[*i].class.starts_with("weapon_") && lv.ents[*i].end > lv.ents[*i].start));
     for &i in &order {
-        let Some((_, a1, a2)) = weapon_info(&lv.ents[i].class) else {
-            continue;
-        };
+        let Some((_, a1, a2)) = weapon_info(&lv.ents[i].class) else { continue };
         let f = lv.fields(d, &lv.ents[i]);
         for (field, name) in [(pri, a1), (sec, a2)] {
-            if let (Some(t), Some(n)) = (
-                int(d, &f, field).and_then(|t| usize::try_from(t).ok()),
-                name,
-            ) {
+            if let (Some(t), Some(n)) = (int(d, &f, field).and_then(|t| usize::try_from(t).ok()), name) {
                 let e = ammo_names.entry(t).or_default();
                 if !e.contains(&n) {
                     e.push(n);
@@ -777,15 +567,9 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
             }
         }
     }
-    let ammo_label = |t: usize| {
-        ammo_names
-            .get(&t)
-            .map_or_else(|| format!("Ammo type {t}"), |n| n.join(" / "))
-    };
+    let ammo_label = |t: usize| ammo_names.get(&t).map_or_else(|| format!("Ammo type {t}"), |n| n.join(" / "));
 
-    match get(&pf, if gs { "m_rgAmmo" } else { "m_iAmmo" })
-        .filter(|r| r.len % 4 == 0 && r.len <= 1024)
-    {
+    match get(&pf, if gs { "m_rgAmmo" } else { "m_iAmmo" }).filter(|r| r.len % 4 == 0 && r.len <= 1024) {
         Some(r) => {
             let mut used: Vec<String> = vec![];
             for t in 0..r.len / 4 {
@@ -801,16 +585,14 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
                 used.push(label);
             }
         }
-        None => missing
-            .push("Ammo: none carried, so the game left the ammo list out of the save".into()),
+        None => missing.push("Ammo: none carried, so the game left the ammo list out of the save".into()),
     }
 
     let mut names_used: Vec<String> = vec![];
     for &i in &held {
         let e = &lv.ents[i];
         let f = lv.fields(d, e);
-        let mut name =
-            weapon_info(&e.class).map_or_else(|| plain_name(&e.class), |w| w.0.to_string());
+        let mut name = weapon_info(&e.class).map_or_else(|| plain_name(&e.class), |w| w.0.to_string());
         if names_used.contains(&name) {
             name = format!("{name} ({})", names_used.len() + 1);
         }
@@ -819,12 +601,7 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
         if Some(i) == active {
             b.info(&["Weapons", &name, "In hand"], "Yes");
         }
-        let types: Vec<String> = [pri, sec]
-            .iter()
-            .filter_map(|k| int(d, &f, k))
-            .filter_map(|t| usize::try_from(t).ok())
-            .map(ammo_label)
-            .collect();
+        let types: Vec<String> = [pri, sec].iter().filter_map(|k| int(d, &f, k)).filter_map(|t| usize::try_from(t).ok()).map(ammo_label).collect();
         if !types.is_empty() {
             b.info(&["Weapons", &name, "Uses"], types.join(", "));
         }
@@ -851,8 +628,7 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
         missing.push("Weapons: none carried".into());
     }
     if let Some(a) = active.filter(|a| held.contains(a)) {
-        let n = weapon_info(&lv.ents[a].class)
-            .map_or_else(|| plain_name(&lv.ents[a].class), |w| w.0.to_string());
+        let n = weapon_info(&lv.ents[a].class).map_or_else(|| plain_name(&lv.ents[a].class), |w| w.0.to_string());
         b.info(&["Player", "Weapon in hand"], n);
     }
     if !missing.is_empty() {
@@ -915,18 +691,10 @@ pub(crate) mod tests {
         rec(&mut hdr, &mut t, "comment", &sz("#HL2_Chapter3_Title"));
         let tb = t.bytes();
         let mut d = b"JSAV".to_vec();
-        d.extend(ints(&[
-            version,
-            hdr.len() as i32,
-            t.0.len() as i32,
-            tb.len() as i32,
-        ]));
+        d.extend(ints(&[version, hdr.len() as i32, t.0.len() as i32, tb.len() as i32]));
         d.extend(tb);
         d.extend(hdr);
-        let files = [
-            (format!("{map}.hl1"), hl1),
-            (format!("{map}.hl2"), b"VALV".to_vec()),
-        ];
+        let files = [(format!("{map}.hl1"), hl1), (format!("{map}.hl2"), b"VALV".to_vec())];
         if count_first {
             d.extend(ints(&[files.len() as i32]));
         }
@@ -965,12 +733,7 @@ pub(crate) mod tests {
         rec(&mut pl, &mut t, "weapons", &ints(&[i32::MIN | 0b10100]));
         rec(&mut pl, &mut t, "PLAYER", &ints(&[3]));
         rec(&mut pl, &mut t, "m_iFlashBattery", &ints(&[80]));
-        rec(
-            &mut pl,
-            &mut t,
-            "m_rgpPlayerItems",
-            &ints(&[-1, -1, 2, -1, -1, -1]),
-        );
+        rec(&mut pl, &mut t, "m_rgpPlayerItems", &ints(&[-1, -1, 2, -1, -1, -1]));
         rec(&mut pl, &mut t, "m_pActiveItem", &ints(&[2]));
         let mut ammo = [0i32; 32];
         ammo[1] = 12;
@@ -987,15 +750,7 @@ pub(crate) mod tests {
         let mut sg = vec![];
         rec(&mut sg, &mut t, "m_pPlayer", &ints(&[1]));
         rec(&mut sg, &mut t, "m_iPrimaryAmmoType", &ints(&[1]));
-        let (table, data) = ents(
-            &mut t,
-            &[
-                ("worldspawn", vec![]),
-                ("player", pl),
-                ("weapon_9mmAR", mp5),
-                ("weapon_shotgun", sg),
-            ],
-        );
+        let (table, data) = ents(&mut t, &[("worldspawn", vec![]), ("player", pl), ("weapon_9mmAR", mp5), ("weapon_shotgun", sg)]);
         let mut body = table;
         let mut sh = vec![];
         rec(&mut sh, &mut t, "Save Header", &ints(&[1]));
@@ -1017,13 +772,7 @@ pub(crate) mod tests {
         body.extend(data);
         let tb = t.bytes();
         let mut hl1 = b"VALV".to_vec();
-        hl1.extend(ints(&[
-            0x71,
-            body.len() as i32,
-            4,
-            t.0.len() as i32,
-            tb.len() as i32,
-        ]));
+        hl1.extend(ints(&[0x71, body.len() as i32, 4, t.0.len() as i32, tb.len() as i32]));
         hl1.extend(tb);
         hl1.extend(body);
         jsav(0x71, "of1a1", hl1, false)
@@ -1058,10 +807,7 @@ pub(crate) mod tests {
         rec(&mut smg, &mut t, "m_iSecondaryAmmoType", &ints(&[9]));
         rec(&mut smg, &mut t, "m_iClip1", &ints(&[45]));
         rec(&mut smg, &mut t, "m_iClip2", &ints(&[-1]));
-        let (table, data) = ents(
-            &mut t,
-            &[("worldspawn", vec![]), ("player", pl), ("weapon_smg1", smg)],
-        );
+        let (table, data) = ents(&mut t, &[("worldspawn", vec![]), ("player", pl), ("weapon_smg1", smg)]);
         let mut hdr = vec![0u8; 12]; // block headers come first
         hdr.extend(table);
         let mut body = vec![];
@@ -1081,13 +827,7 @@ pub(crate) mod tests {
         body.extend(data);
         let tb = t.bytes();
         let mut hl1 = b"VALV".to_vec();
-        hl1.extend(ints(&[
-            0x73,
-            tb.len() as i32,
-            t.0.len() as i32,
-            fixed.len() as i32,
-            body.len() as i32,
-        ]));
+        hl1.extend(ints(&[0x73, tb.len() as i32, t.0.len() as i32, fixed.len() as i32, body.len() as i32]));
         hl1.extend(tb);
         hl1.extend(fixed);
         hl1.extend(body);
@@ -1112,29 +852,13 @@ pub(crate) mod tests {
         rec(&mut gun, &mut t, "m_bIsAttached", &[1]);
         let mut loose = vec![];
         rec(&mut loose, &mut t, "m_iHealth", &ints(&[1]));
-        let (table, data) = ents(
-            &mut t,
-            &[
-                ("worldspawn", vec![]),
-                ("player", pl),
-                ("hlvr_weapon_energygun", gun),
-                ("hlvr_weapon_shotgun", loose),
-            ],
-        );
+        let (table, data) = ents(&mut t, &[("worldspawn", vec![]), ("player", pl), ("hlvr_weapon_energygun", gun), ("hlvr_weapon_shotgun", loose)]);
         let mut blocks = vec![0u8; 16];
         blocks.extend(table);
         let strings = b"strings\0".to_vec();
         let tb = t.bytes();
         let mut hl1 = b"VALV".to_vec();
-        hl1.extend(ints(&[
-            0x74,
-            t.0.len() as i32,
-            0,
-            tb.len() as i32,
-            blocks.len() as i32,
-            strings.len() as i32,
-            data.len() as i32,
-        ]));
+        hl1.extend(ints(&[0x74, t.0.len() as i32, 0, tb.len() as i32, blocks.len() as i32, strings.len() as i32, data.len() as i32]));
         hl1.extend(tb);
         hl1.extend(blocks);
         hl1.extend(strings);
@@ -1143,29 +867,16 @@ pub(crate) mod tests {
         let mut t = Toks(vec![String::new()]);
         let mut hdr = vec![];
         rec(&mut hdr, &mut t, "GameHeader", &ints(&[2]));
-        rec(
-            &mut hdr,
-            &mut t,
-            "m_sComment",
-            &sz("#HLVR_Chapter_Number_06 #HLVR_Chapter_Title_06 stats 64 26 90 0 150 -1 0 1:00:00"),
-        );
+        rec(&mut hdr, &mut t, "m_sComment", &sz("#HLVR_Chapter_Number_06 #HLVR_Chapter_Title_06 stats 64 26 90 0 150 -1 0 1:00:00"));
         rec(&mut hdr, &mut t, "m_nSpawnGroupCount", &ints(&[1]));
         rec(&mut hdr, &mut t, "SpawnGroups", &ints(&[2]));
         rec(&mut hdr, &mut t, "m_sGroupName", &sz("a3_distillery"));
         let tb = t.bytes();
         let mut d = b"S2SV".to_vec();
-        d.extend(ints(&[
-            0x74,
-            hdr.len() as i32,
-            t.0.len() as i32,
-            tb.len() as i32,
-        ]));
+        d.extend(ints(&[0x74, hdr.len() as i32, t.0.len() as i32, tb.len() as i32]));
         d.extend(tb);
         d.extend(hdr);
-        let files = [
-            ("a3_distillery.hl1".to_string(), hl1),
-            ("a3_distillery.hl3".to_string(), ints(&[0])),
-        ];
+        let files = [("a3_distillery.hl1".to_string(), hl1), ("a3_distillery.hl3".to_string(), ints(&[0]))];
         d.extend(ints(&[files.len() as i32]));
         for (n, data) in files {
             let mut nm = n.into_bytes();
@@ -1212,15 +923,9 @@ pub(crate) mod tests {
         let mut doc = parse(&d).unwrap();
         let v = &doc.view;
         assert_eq!(doc.kind_name, KIND_GOLDSRC);
-        assert_eq!(
-            v.pointer("/Save/Game"),
-            Some(&"Half-Life: Opposing Force".into())
-        );
+        assert_eq!(v.pointer("/Save/Game"), Some(&"Half-Life: Opposing Force".into()));
         assert_eq!(v.pointer("/Save/Difficulty"), Some(&"Medium".into()));
-        assert_eq!(
-            v.pointer("/Player/Health").and_then(|x| x.as_f64()),
-            Some(75.0)
-        );
+        assert_eq!(v.pointer("/Player/Health").and_then(|x| x.as_f64()), Some(75.0));
         assert_eq!(v.pointer("/Player/HEV suit"), Some(&"Yes".into()));
         assert_eq!(v.pointer("/Player/Flashlight"), Some(&80.into()));
         assert_eq!(v.pointer("/Player/Weapon in hand"), Some(&"MP5".into()));
@@ -1228,15 +933,9 @@ pub(crate) mod tests {
         assert_eq!(v.pointer("/Ammo/AR grenades"), Some(&2.into()));
         assert_eq!(v.pointer("/Ammo/Buckshot"), Some(&12.into()));
         assert_eq!(v.pointer("/Weapons/MP5/Magazine"), Some(&25.into()));
-        assert_eq!(
-            v.pointer("/Weapons/Shotgun/Magazine"),
-            Some(&"empty (not stored)".into())
-        );
+        assert_eq!(v.pointer("/Weapons/Shotgun/Magazine"), Some(&"empty (not stored)".into()));
         assert!(v.pointer("/Player/Armor").is_none());
-        assert!(v
-            .pointer("/Not in this save/0")
-            .and_then(|x| x.as_str())
-            .is_some_and(|s| s.starts_with("Armor")));
+        assert!(v.pointer("/Not in this save/0").and_then(|x| x.as_str()).is_some_and(|s| s.starts_with("Armor")));
         doc.set("/Player/Health", 100.0.into()).unwrap();
         doc.set("/Ammo/9mm", 250.into()).unwrap();
         doc.set("/Weapons/MP5/Magazine", 50.into()).unwrap();
@@ -1244,10 +943,7 @@ pub(crate) mod tests {
         let out = doc.to_bytes().unwrap();
         assert_eq!(out.len(), d.len());
         let back = parse(&out).unwrap().view;
-        assert_eq!(
-            back.pointer("/Player/Health").and_then(|x| x.as_f64()),
-            Some(100.0)
-        );
+        assert_eq!(back.pointer("/Player/Health").and_then(|x| x.as_f64()), Some(100.0));
         assert_eq!(back.pointer("/Ammo/9mm"), Some(&250.into()));
         assert_eq!(back.pointer("/Weapons/MP5/Magazine"), Some(&50.into()));
         assert_eq!(back.pointer("/Ammo/Buckshot"), Some(&12.into()));
@@ -1265,10 +961,7 @@ pub(crate) mod tests {
         assert_eq!(v.pointer("/Save/Difficulty"), Some(&"Hard".into()));
         assert_eq!(v.pointer("/Player/Health"), Some(&58.into()));
         assert_eq!(v.pointer("/Player/Armor"), Some(&28.into()));
-        assert_eq!(
-            v.pointer("/Player/Suit power").and_then(|x| x.as_f64()),
-            Some(55.0)
-        );
+        assert_eq!(v.pointer("/Player/Suit power").and_then(|x| x.as_f64()), Some(55.0));
         assert_eq!(v.pointer("/Ammo/SMG rounds"), Some(&225.into()));
         assert_eq!(v.pointer("/Ammo/SMG grenades"), Some(&3.into()));
         assert_eq!(v.pointer("/Ammo/Ammo type 21"), Some(&1.into()));
@@ -1281,10 +974,7 @@ pub(crate) mod tests {
         let back = parse(&out).unwrap().view;
         assert_eq!(back.pointer("/Player/Armor"), Some(&100.into()));
         assert_eq!(back.pointer("/Ammo/SMG grenades"), Some(&5.into()));
-        assert_eq!(
-            back.pointer("/Player/Suit power").and_then(|x| x.as_f64()),
-            Some(100.0)
-        );
+        assert_eq!(back.pointer("/Player/Suit power").and_then(|x| x.as_f64()), Some(100.0));
         assert_eq!(back.pointer("/Player/Health"), Some(&58.into()));
     }
 
@@ -1317,32 +1007,12 @@ pub(crate) mod tests {
                     return Err("no-edit write differs".into());
                 }
                 let before = doc.view.clone();
-                let h = before
-                    .pointer("/Player/Health")
-                    .and_then(|x| x.as_f64())
-                    .ok_or("no health")?;
+                let h = before.pointer("/Player/Health").and_then(|x| x.as_f64()).ok_or("no health")?;
                 let nh = if h >= 999.0 { h - 1.0 } else { h + 1.0 };
-                doc.set(
-                    "/Player/Health",
-                    if nh.fract() == 0.0 {
-                        serde_json::json!(nh as i64)
-                    } else {
-                        serde_json::json!(nh)
-                    },
-                )?;
-                let ammo = before
-                    .pointer("/Ammo")
-                    .and_then(|a| a.as_object())
-                    .and_then(|a| {
-                        a.iter()
-                            .next()
-                            .map(|(k, v)| (k.clone(), v.as_i64().unwrap_or(0)))
-                    });
+                doc.set("/Player/Health", if nh.fract() == 0.0 { serde_json::json!(nh as i64) } else { serde_json::json!(nh) })?;
+                let ammo = before.pointer("/Ammo").and_then(|a| a.as_object()).and_then(|a| a.iter().next().map(|(k, v)| (k.clone(), v.as_i64().unwrap_or(0))));
                 if let Some((k, v)) = &ammo {
-                    doc.set(
-                        &format!("/Ammo/{}", crate::json_view::pointer_escape(k)),
-                        (v + 7).into(),
-                    )?;
+                    doc.set(&format!("/Ammo/{}", crate::json_view::pointer_escape(k)), (v + 7).into())?;
                 }
                 let out = doc.to_bytes()?;
                 if out.len() != d.len() {
@@ -1352,8 +1022,7 @@ pub(crate) mod tests {
                 if after.pointer("/Player/Health").and_then(|x| x.as_f64()) != Some(nh) {
                     return Err("health didn't read back".into());
                 }
-                *after.pointer_mut("/Player/Health").unwrap() =
-                    before.pointer("/Player/Health").unwrap().clone();
+                *after.pointer_mut("/Player/Health").unwrap() = before.pointer("/Player/Health").unwrap().clone();
                 if let Some((k, v)) = &ammo {
                     let p = format!("/Ammo/{}", crate::json_view::pointer_escape(k));
                     if after.pointer(&p).and_then(|x| x.as_i64()) != Some(v + 7) {
@@ -1365,11 +1034,7 @@ pub(crate) mod tests {
                     return Err("other values changed".into());
                 }
                 let differ = d.iter().zip(&out).filter(|(a, b)| a != b).count();
-                Ok(format!(
-                    "{} bytes differ; {}",
-                    differ,
-                    serde_json::to_string(&before).unwrap()
-                ))
+                Ok(format!("{} bytes differ; {}", differ, serde_json::to_string(&before).unwrap()))
             });
             match r {
                 Ok(Ok(s)) => {

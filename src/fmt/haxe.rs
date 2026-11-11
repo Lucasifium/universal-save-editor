@@ -18,16 +18,9 @@ enum Node {
     /// The float as written (digits), or `k`, `m`, `p` for NaN, -Infinity, +Infinity.
     Float(String),
     /// A string: its text, and whether the file wrote it as a back-reference (`R`).
-    Str {
-        text: String,
-        raw: Option<String>,
-        was_ref: Option<usize>,
-    },
+    Str { text: String, raw: Option<String>, was_ref: Option<usize> },
     /// `o … g` (anonymous object) or `c<class> … g` (class instance).
-    Object {
-        class: Option<Box<Node>>,
-        fields: Vec<(Node, Node)>,
-    },
+    Object { class: Option<Box<Node>>, fields: Vec<(Node, Node)> },
     /// `a … h`; `nulls` items stand for `u<n>` runs.
     Array(Vec<Item>),
     /// `l … h`
@@ -37,24 +30,13 @@ enum Node {
     IntMap(Vec<(i64, Node)>),
     ObjMap(Vec<(Node, Node)>),
     /// `w<name><ctor>:<n>args` or `j<name>:<index>:<n>args`.
-    Enum {
-        name: Box<Node>,
-        ctor: EnumCtor,
-        args: Vec<Node>,
-    },
+    Enum { name: Box<Node>, ctor: EnumCtor, args: Vec<Node> },
     /// `C<class> … g` (custom serializer): the values it wrote.
-    Custom {
-        class: Box<Node>,
-        values: Vec<Node>,
-    },
+    Custom { class: Box<Node>, values: Vec<Node> },
     /// `x<value>`
     Exception(Box<Node>),
     /// Tokens kept as they are: `r<n>`, `v<date>`, `s<len>:<base64>`, `A<name>`, `B<name>`.
-    Opaque {
-        tag: u8,
-        text: String,
-        inner: Option<Box<Node>>,
-    },
+    Opaque { tag: u8, text: String, inner: Option<Box<Node>> },
 }
 
 #[derive(Clone, Debug, PartialEq)]
@@ -154,9 +136,7 @@ impl Reader<'_> {
     }
 
     fn float_text(&mut self) -> Option<String> {
-        let t = self
-            .take_while(|c| c.is_ascii_digit() || b"+-.eE".contains(&c))
-            .to_string();
+        let t = self.take_while(|c| c.is_ascii_digit() || b"+-.eE".contains(&c)).to_string();
         t.parse::<f64>().ok()?;
         Some(t)
     }
@@ -167,25 +147,15 @@ impl Reader<'_> {
             b'y' => {
                 let n = self.count()?;
                 self.eat(b':')?;
-                let raw = std::str::from_utf8(self.s.get(self.at..self.at + n)?)
-                    .ok()?
-                    .to_string();
+                let raw = std::str::from_utf8(self.s.get(self.at..self.at + n)?).ok()?.to_string();
                 self.at += n;
                 let text = url_decode(&raw)?;
                 self.strings.push(text.clone());
-                Some(Node::Str {
-                    text,
-                    raw: Some(raw),
-                    was_ref: None,
-                })
+                Some(Node::Str { text, raw: Some(raw), was_ref: None })
             }
             b'R' => {
                 let k = self.count()?;
-                Some(Node::Str {
-                    text: self.strings.get(k)?.clone(),
-                    raw: None,
-                    was_ref: Some(k),
-                })
+                Some(Node::Str { text: self.strings.get(k)?.clone(), raw: None, was_ref: Some(k) })
             }
             _ => None,
         }
@@ -194,11 +164,7 @@ impl Reader<'_> {
     fn pairs(&mut self, end: u8, key_is_string: bool, d: usize) -> Option<Vec<(Node, Node)>> {
         let mut v = vec![];
         while self.peek()? != end {
-            let k = if key_is_string {
-                self.string()?
-            } else {
-                self.value(d)?
-            };
+            let k = if key_is_string { self.string()? } else { self.value(d)? };
             v.push((k, self.value(d)?));
         }
         self.at += 1;
@@ -223,16 +189,10 @@ impl Reader<'_> {
             b'i' => Node::Int(self.int()?),
             b'd' => Node::Float(self.float_text()?),
             b'k' | b'm' | b'p' => Node::Float((tag as char).to_string()),
-            b'o' => Node::Object {
-                class: None,
-                fields: self.pairs(b'g', true, d)?,
-            },
+            b'o' => Node::Object { class: None, fields: self.pairs(b'g', true, d)? },
             b'c' => {
                 let class = Box::new(self.string()?);
-                Node::Object {
-                    class: Some(class),
-                    fields: self.pairs(b'g', true, d)?,
-                }
+                Node::Object { class: Some(class), fields: self.pairs(b'g', true, d)? }
             }
             b'a' => {
                 let mut items = vec![];
@@ -279,55 +239,32 @@ impl Reader<'_> {
             }
             b'C' => {
                 let class = Box::new(self.string()?);
-                Node::Custom {
-                    class,
-                    values: self.until_depth(b'g', d)?,
-                }
+                Node::Custom { class, values: self.until_depth(b'g', d)? }
             }
             b'x' => Node::Exception(Box::new(self.value(d)?)),
-            b'r' => Node::Opaque {
-                tag,
-                text: self.count()?.to_string(),
-                inner: None,
-            },
+            b'r' => Node::Opaque { tag, text: self.count()?.to_string(), inner: None },
             b'v' => {
                 let s = &self.s[self.at..];
-                let text = if s.len() >= 19 && s[..4].iter().all(u8::is_ascii_digit) && s[4] == b'-'
-                {
+                let text = if s.len() >= 19 && s[..4].iter().all(u8::is_ascii_digit) && s[4] == b'-' {
                     let t = std::str::from_utf8(&s[..19]).ok()?.to_string();
                     self.at += 19;
                     t
                 } else {
                     self.float_text()?
                 };
-                Node::Opaque {
-                    tag,
-                    text,
-                    inner: None,
-                }
+                Node::Opaque { tag, text, inner: None }
             }
             b's' => {
                 let n = self.count()?;
                 self.eat(b':')?;
                 let b = self.s.get(self.at..self.at + n)?;
-                if !b
-                    .iter()
-                    .all(|c| c.is_ascii_alphanumeric() || *c == b'%' || *c == b':')
-                {
+                if !b.iter().all(|c| c.is_ascii_alphanumeric() || *c == b'%' || *c == b':') {
                     return None;
                 }
                 self.at += n;
-                Node::Opaque {
-                    tag,
-                    text: format!("{n}:{}", std::str::from_utf8(b).ok()?),
-                    inner: None,
-                }
+                Node::Opaque { tag, text: format!("{n}:{}", std::str::from_utf8(b).ok()?), inner: None }
             }
-            b'A' | b'B' => Node::Opaque {
-                tag,
-                text: String::new(),
-                inner: Some(Box::new(self.string()?)),
-            },
+            b'A' | b'B' => Node::Opaque { tag, text: String::new(), inner: Some(Box::new(self.string()?)) },
             _ => return None,
         })
     }
@@ -407,11 +344,7 @@ impl Writer {
                 self.out.push('h');
             }
             Node::StrMap(v) | Node::ObjMap(v) => {
-                self.out.push(if matches!(n, Node::StrMap(_)) {
-                    'b'
-                } else {
-                    'M'
-                });
+                self.out.push(if matches!(n, Node::StrMap(_)) { 'b' } else { 'M' });
                 for (k, x) in v {
                     self.node(k);
                     self.node(x);
@@ -464,20 +397,13 @@ impl Writer {
 }
 
 fn parse(d: &[u8]) -> Option<Node> {
-    let mut r = Reader {
-        s: d,
-        at: 0,
-        strings: vec![],
-    };
+    let mut r = Reader { s: d, at: 0, strings: vec![] };
     let n = r.value(0)?;
     (r.at == d.len()).then_some(n)
 }
 
 fn write(n: &Node) -> String {
-    let mut w = Writer {
-        out: String::new(),
-        strings: vec![],
-    };
+    let mut w = Writer { out: String::new(), strings: vec![] };
     w.node(n);
     w.out
 }
@@ -497,29 +423,12 @@ fn key_text(k: &Node) -> String {
 
 fn placeholder(n: &Node) -> String {
     match n {
-        Node::Opaque {
-            tag: b'v', text, ..
-        } => format!("\u{2039}date {text}\u{203A}"),
-        Node::Opaque {
-            tag: b's', text, ..
-        } => format!(
-            "\u{2039}{} bytes\u{203A}",
-            text.split(':').nth(1).map_or(0, |b| b.len() * 3 / 4)
-        ),
-        Node::Opaque {
-            tag: b'r', text, ..
-        } => format!("\u{2039}same as object #{text}\u{203A}"),
+        Node::Opaque { tag: b'v', text, .. } => format!("\u{2039}date {text}\u{203A}"),
+        Node::Opaque { tag: b's', text, .. } => format!("\u{2039}{} bytes\u{203A}", text.split(':').nth(1).map_or(0, |b| b.len() * 3 / 4)),
+        Node::Opaque { tag: b'r', text, .. } => format!("\u{2039}same as object #{text}\u{203A}"),
         Node::Opaque { inner: Some(i), .. } => format!("\u{2039}type {}\u{203A}", key_text(i)),
-        Node::Enum {
-            ctor: EnumCtor::Name(c),
-            args,
-            ..
-        } if args.is_empty() => key_text(c),
-        Node::Enum {
-            ctor: EnumCtor::Index(i),
-            args,
-            ..
-        } if args.is_empty() => format!("\u{2039}enum #{i}\u{203A}"),
+        Node::Enum { ctor: EnumCtor::Name(c), args, .. } if args.is_empty() => key_text(c),
+        Node::Enum { ctor: EnumCtor::Index(i), args, .. } if args.is_empty() => format!("\u{2039}enum #{i}\u{203A}"),
         _ => "\u{2039}kept as it is\u{203A}".into(),
     }
 }
@@ -529,10 +438,7 @@ fn float_json(t: &str) -> Json {
         "k" => Json::String("NaN".into()),
         "m" => Json::String("-Infinity".into()),
         "p" => Json::String("Infinity".into()),
-        _ => t
-            .parse::<Number>()
-            .map(Json::Number)
-            .unwrap_or_else(|_| Json::String(t.into())),
+        _ => t.parse::<Number>().map(Json::Number).unwrap_or_else(|_| Json::String(t.into())),
     }
 }
 
@@ -551,14 +457,8 @@ fn to_json(n: &Node) -> Json {
         Node::Str { text, .. } => Json::String(text.clone()),
         Node::Object { fields, .. } => pairs_json(fields),
         Node::StrMap(v) => pairs_json(v),
-        Node::IntMap(v) => {
-            Json::Object(v.iter().map(|(k, x)| (k.to_string(), to_json(x))).collect())
-        }
-        Node::ObjMap(v) => Json::Array(
-            v.iter()
-                .map(|(k, x)| Json::Array(vec![to_json(k), to_json(x)]))
-                .collect(),
-        ),
+        Node::IntMap(v) => Json::Object(v.iter().map(|(k, x)| (k.to_string(), to_json(x))).collect()),
+        Node::ObjMap(v) => Json::Array(v.iter().map(|(k, x)| Json::Array(vec![to_json(k), to_json(x)])).collect()),
         Node::Array(items) => Json::Array(
             items
                 .iter()
@@ -568,9 +468,7 @@ fn to_json(n: &Node) -> Json {
                 })
                 .collect(),
         ),
-        Node::List(v) | Node::Custom { values: v, .. } => {
-            Json::Array(v.iter().map(to_json).collect())
-        }
+        Node::List(v) | Node::Custom { values: v, .. } => Json::Array(v.iter().map(to_json).collect()),
         Node::Enum { ctor, args, .. } if !args.is_empty() => {
             let name = match ctor {
                 EnumCtor::Name(c) => key_text(c),
@@ -606,11 +504,7 @@ fn float_token(f: f64) -> String {
 }
 
 fn whole(j: &Json) -> Option<i64> {
-    j.as_i64().or_else(|| {
-        j.as_f64()
-            .filter(|f| f.fract() == 0.0 && f.abs() < 9.0e15)
-            .map(|f| f as i64)
-    })
+    j.as_i64().or_else(|| j.as_f64().filter(|f| f.fract() == 0.0 && f.abs() < 9.0e15).map(|f| f as i64))
 }
 
 fn set_number(n: &mut Node, j: &Json, path: &str) -> Result<(), String> {
@@ -636,9 +530,7 @@ fn set_number(n: &mut Node, j: &Json, path: &str) -> Result<(), String> {
 }
 
 fn apply_pairs(v: &mut [(Node, Node)], j: &Json, path: &str) -> Result<(), String> {
-    let m = j
-        .as_object()
-        .ok_or_else(|| format!("{path} must stay an object"))?;
+    let m = j.as_object().ok_or_else(|| format!("{path} must stay an object"))?;
     for (k, x) in v {
         let name = key_text(k);
         if let Some(n) = m.get(&name) {
@@ -649,8 +541,7 @@ fn apply_pairs(v: &mut [(Node, Node)], j: &Json, path: &str) -> Result<(), Strin
 }
 
 fn list<'a>(j: &'a Json, path: &str) -> Result<&'a Vec<Json>, String> {
-    j.as_array()
-        .ok_or_else(|| format!("{path} must stay a list"))
+    j.as_array().ok_or_else(|| format!("{path} must stay a list"))
 }
 
 fn apply_list(v: &mut [Node], j: &Json, path: &str) -> Result<(), String> {
@@ -664,28 +555,12 @@ fn apply_list(v: &mut [Node], j: &Json, path: &str) -> Result<(), String> {
 fn apply(n: &mut Node, j: &Json, path: &str) -> Result<(), String> {
     match n {
         Node::Zero | Node::Int(_) | Node::Float(_) => set_number(n, j, path)?,
-        Node::True | Node::False => {
-            *n = if j
-                .as_bool()
-                .ok_or_else(|| format!("{path} must be true or false"))?
-            {
-                Node::True
-            } else {
-                Node::False
-            }
-        }
-        Node::Str { text, .. } => {
-            *text = j
-                .as_str()
-                .ok_or_else(|| format!("{path} must be text"))?
-                .to_string()
-        }
+        Node::True | Node::False => *n = if j.as_bool().ok_or_else(|| format!("{path} must be true or false"))? { Node::True } else { Node::False },
+        Node::Str { text, .. } => *text = j.as_str().ok_or_else(|| format!("{path} must be text"))?.to_string(),
         Node::Object { fields, .. } => apply_pairs(fields, j, path)?,
         Node::StrMap(v) => apply_pairs(v, j, path)?,
         Node::IntMap(v) => {
-            let m = j
-                .as_object()
-                .ok_or_else(|| format!("{path} must stay an object"))?;
+            let m = j.as_object().ok_or_else(|| format!("{path} must stay an object"))?;
             for (k, x) in v {
                 if let Some(n) = m.get(&k.to_string()) {
                     apply(x, n, &format!("{path}/{k}"))?;
@@ -721,18 +596,13 @@ fn apply(n: &mut Node, j: &Json, path: &str) -> Result<(), String> {
         }
         Node::List(v) | Node::Custom { values: v, .. } => apply_list(v, j, path)?,
         Node::Enum { args, .. } if !args.is_empty() => {
-            let m = j
-                .as_object()
-                .filter(|m| m.len() == 1)
-                .ok_or_else(|| format!("{path} must stay as it is"))?;
+            let m = j.as_object().filter(|m| m.len() == 1).ok_or_else(|| format!("{path} must stay as it is"))?;
             apply_list(args, m.values().next().unwrap_or(&Json::Null), path)?;
         }
         Node::Exception(v) => apply(v, j, path)?,
         Node::Null => {
             if !j.is_null() {
-                return Err(format!(
-                    "{path} is empty in the save and can't be given a value"
-                ));
+                return Err(format!("{path} is empty in the save and can't be given a value"));
             }
         }
         other => {
@@ -788,34 +658,18 @@ mod tests {
         let file = b"oy5:coinsi250y4:namey3:Anny5:otherR2y5:speedd1.5y4:hardfg";
         let json = open(file).expect("opens");
         let v: Json = serde_json::from_slice(&json).unwrap();
-        assert_eq!(
-            v,
-            serde_json::json!({"coins": 250, "name": "Ann", "other": "Ann", "speed": 1.5, "hard": false})
-        );
+        assert_eq!(v, serde_json::json!({"coins": 250, "name": "Ann", "other": "Ann", "speed": 1.5, "hard": false}));
         assert_eq!(save(file, &json).unwrap(), file);
-        let out = save(
-            file,
-            br#"{"coins": 99999999999, "name": "Bo Bo", "other": "Ann", "speed": 2, "hard": true}"#,
-        )
-        .unwrap();
+        let out = save(file, br#"{"coins": 99999999999, "name": "Bo Bo", "other": "Ann", "speed": 2, "hard": true}"#).unwrap();
         let back: Json = serde_json::from_slice(&open(&out).unwrap()).unwrap();
-        assert_eq!(
-            back,
-            serde_json::json!({"coins": 99999999999u64, "name": "Bo Bo", "other": "Ann", "speed": 2, "hard": true})
-        );
+        assert_eq!(back, serde_json::json!({"coins": 99999999999u64, "name": "Bo Bo", "other": "Ann", "speed": 2, "hard": true}));
         // "other" still says Ann although the string it pointed at changed.
         assert!(String::from_utf8(out).unwrap().contains("y5:other"));
     }
 
     #[test]
     fn plain_text_is_not_haxe() {
-        for t in [
-            &b"ok then"[..],
-            b"abc",
-            b"opening night",
-            b"{\"a\":1}",
-            b"list of things",
-        ] {
+        for t in [&b"ok then"[..], b"abc", b"opening night", b"{\"a\":1}", b"list of things"] {
             assert!(!looks(t));
         }
     }
@@ -825,11 +679,7 @@ mod tests {
     #[ignore]
     fn sample_files() {
         let dir = std::env::var("HAXE_SAMPLES").expect("HAXE_SAMPLES");
-        for e in std::fs::read_dir(dir)
-            .unwrap()
-            .flatten()
-            .filter(|e| e.path().is_file())
-        {
+        for e in std::fs::read_dir(dir).unwrap().flatten().filter(|e| e.path().is_file()) {
             let d = std::fs::read(e.path()).unwrap();
             let json = open(&d).unwrap_or_else(|| panic!("{:?} doesn't open", e.path()));
             assert_eq!(save(&d, &json).unwrap(), d, "{:?}", e.path());

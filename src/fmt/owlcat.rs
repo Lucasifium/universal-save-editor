@@ -15,11 +15,7 @@ use std::collections::HashMap;
 use std::io::{Cursor, Read, Write};
 use std::sync::OnceLock;
 
-const PARTS: [(&str, &str); 3] = [
-    ("header", "header.json"),
-    ("player", "player.json"),
-    ("party", "party.json"),
-];
+const PARTS: [(&str, &str); 3] = [("header", "header.json"), ("player", "player.json"), ("party", "party.json")];
 
 fn strip_bom(b: &[u8]) -> &[u8] {
     b.strip_prefix(b"\xEF\xBB\xBF").unwrap_or(b)
@@ -55,25 +51,16 @@ fn digest_text(b: &[u8]) -> Vec<u8> {
 /// Writes the combined JSON back into the archive.
 pub fn save(archive: &[u8], combined: &[u8]) -> Result<Vec<u8>, String> {
     let err = |e: zip::result::ZipError| e.to_string();
-    let doc: Value = serde_json::from_slice(combined)
-        .map_err(|e| format!("the save's JSON doesn't read back: {e}"))?;
+    let doc: Value = serde_json::from_slice(combined).map_err(|e| format!("the save's JSON doesn't read back: {e}"))?;
     let mut src = zip::ZipArchive::new(Cursor::new(archive)).map_err(err)?;
     let mut new: HashMap<&str, Vec<u8>> = HashMap::new();
     for (key, file) in PARTS {
         let part = doc.get(key).ok_or(format!("{key} is missing"))?;
         let mut old = Vec::new();
-        src.by_name(file)
-            .map_err(err)?
-            .read_to_end(&mut old)
-            .map_err(|e| e.to_string())?;
-        let old_value: Value =
-            serde_json::from_slice(strip_bom(&old)).map_err(|e| e.to_string())?;
+        src.by_name(file).map_err(err)?.read_to_end(&mut old).map_err(|e| e.to_string())?;
+        let old_value: Value = serde_json::from_slice(strip_bom(&old)).map_err(|e| e.to_string())?;
         if &old_value != part {
-            let mut b = if old.starts_with(b"\xEF\xBB\xBF") {
-                b"\xEF\xBB\xBF".to_vec()
-            } else {
-                vec![]
-            };
+            let mut b = if old.starts_with(b"\xEF\xBB\xBF") { b"\xEF\xBB\xBF".to_vec() } else { vec![] };
             b.extend(serde_json::to_vec(part).map_err(|e| e.to_string())?);
             new.insert(file, b);
         }
@@ -81,8 +68,7 @@ pub fn save(archive: &[u8], combined: &[u8]) -> Result<Vec<u8>, String> {
     if new.is_empty() {
         return Ok(archive.to_vec());
     }
-    let deflated = zip::write::SimpleFileOptions::default()
-        .compression_method(zip::CompressionMethod::Deflated);
+    let deflated = zip::write::SimpleFileOptions::default().compression_method(zip::CompressionMethod::Deflated);
     let mut out = zip::ZipWriter::new(Cursor::new(Vec::new()));
     for i in 0..src.len() {
         let f = src.by_index_raw(i).map_err(err)?;
@@ -94,13 +80,9 @@ pub fn save(archive: &[u8], combined: &[u8]) -> Result<Vec<u8>, String> {
         } else if name == "checksums" {
             drop(f);
             let mut old = Vec::new();
-            src.by_index(i)
-                .map_err(err)?
-                .read_to_end(&mut old)
-                .map_err(|e| e.to_string())?;
+            src.by_index(i).map_err(err)?.read_to_end(&mut old).map_err(|e| e.to_string())?;
             out.start_file(name, deflated).map_err(err)?;
-            out.write_all(&fix_checksums(&old, &new))
-                .map_err(|e| e.to_string())?;
+            out.write_all(&fix_checksums(&old, &new)).map_err(|e| e.to_string())?;
         } else {
             out.raw_copy_file(f).map_err(err)?;
         }
@@ -120,12 +102,8 @@ fn fix_checksums(old: &[u8], new: &HashMap<&str, Vec<u8>>) -> Vec<u8> {
     }
     records.push(rest.to_vec());
     for rec in &mut records {
-        let Some(e) = rec.windows(2).position(|w| w == b": ") else {
-            continue;
-        };
-        let Ok(name) = std::str::from_utf8(&rec[..e]) else {
-            continue;
-        };
+        let Some(e) = rec.windows(2).position(|w| w == b": ") else { continue };
+        let Ok(name) = std::str::from_utf8(&rec[..e]) else { continue };
         if let Some(b) = new.get(name) {
             *rec = [&rec[..e + 2], &digest_text(b)[..]].concat();
         }
@@ -149,10 +127,7 @@ pub fn name(guid: &str, wotr: bool) -> Option<String> {
     });
     let game = if wotr { "wotr" } else { "kingmaker" };
     let hits = || t.iter().filter(|x| x.0 == guid);
-    hits()
-        .find(|x| x.1 == game)
-        .or_else(|| hits().find(|x| x.1.is_empty()))
-        .map(|x| x.2.clone())
+    hits().find(|x| x.1 == game).or_else(|| hits().find(|x| x.1.is_empty())).map(|x| x.2.clone())
 }
 
 #[cfg(test)]
@@ -162,20 +137,11 @@ mod tests {
     fn zks(player: &str, party: &str) -> Vec<u8> {
         let mut z = zip::ZipWriter::new(Cursor::new(Vec::new()));
         let o = zip::write::SimpleFileOptions::default();
-        for (n, b) in [
-            ("header.json", r#"{"Name":"Test"}"#),
-            ("player.json", player),
-            ("party.json", party),
-            ("area.json", "{}"),
-        ] {
+        for (n, b) in [("header.json", r#"{"Name":"Test"}"#), ("player.json", player), ("party.json", party), ("area.json", "{}")] {
             z.start_file(n, o).unwrap();
             z.write_all(b.as_bytes()).unwrap();
         }
-        let sums = format!(
-            "player.json: {}\n===========\nparty.json: {}\n===========\n",
-            String::from_utf8_lossy(&digest_text(player.as_bytes())),
-            String::from_utf8_lossy(&digest_text(party.as_bytes()))
-        );
+        let sums = format!("player.json: {}\n===========\nparty.json: {}\n===========\n", String::from_utf8_lossy(&digest_text(player.as_bytes())), String::from_utf8_lossy(&digest_text(party.as_bytes())));
         z.start_file("checksums", o).unwrap();
         z.write_all(sums.as_bytes()).unwrap();
         z.finish().unwrap().into_inner()
@@ -185,20 +151,13 @@ mod tests {
     fn edits_one_part_and_its_checksum() {
         let a = zks(r#"{"Money":100,"Chapter":1}"#, r#"{"m_EntityData":[]}"#);
         let combined = open(&a).unwrap();
-        assert_eq!(
-            save(&a, &combined).unwrap(),
-            a,
-            "no change keeps the archive"
-        );
+        assert_eq!(save(&a, &combined).unwrap(), a, "no change keeps the archive");
         let mut v: Value = serde_json::from_slice(&combined).unwrap();
         v["player"]["Money"] = 5000.into();
         let out = save(&a, &serde_json::to_vec(&v).unwrap()).unwrap();
         let mut z = zip::ZipArchive::new(Cursor::new(&out)).unwrap();
         let mut p = String::new();
-        z.by_name("player.json")
-            .unwrap()
-            .read_to_string(&mut p)
-            .unwrap();
+        z.by_name("player.json").unwrap().read_to_string(&mut p).unwrap();
         assert_eq!(p, r#"{"Money":5000,"Chapter":1}"#);
         let mut c = Vec::new();
         z.by_name("checksums").unwrap().read_to_end(&mut c).unwrap();
@@ -206,10 +165,7 @@ mod tests {
         assert!(c.starts_with(&want));
         assert!(c.ends_with(b"\n===========\n"));
         let mut party = Vec::new();
-        z.by_name("party.json")
-            .unwrap()
-            .read_to_end(&mut party)
-            .unwrap();
+        z.by_name("party.json").unwrap().read_to_end(&mut party).unwrap();
         assert_eq!(party, br#"{"m_EntityData":[]}"#);
     }
 }
@@ -224,23 +180,15 @@ mod real {
         let raw = std::fs::read(std::env::var("SAVE_EDITOR_ZKS").unwrap()).unwrap();
         let mut d = decode(&raw);
         println!("{}", crate::formats::describe(&d.layers, &d.content));
-        assert_eq!(
-            encode(&d.layers, &d.content).unwrap(),
-            raw,
-            "no edit keeps the file"
-        );
-        let Content::Json { value, .. } = &mut d.content else {
-            panic!("not JSON")
-        };
+        assert_eq!(encode(&d.layers, &d.content).unwrap(), raw, "no edit keeps the file");
+        let Content::Json { value, .. } = &mut d.content else { panic!("not JSON") };
         assert!(crate::game_ui::detect("JSON", value).is_some(), "no screen");
         let m = value["player"]["Money"].as_i64().unwrap();
         value["player"]["Money"] = (m + 1).into();
         let out = encode(&d.layers, &d.content).unwrap();
         std::fs::write(std::env::var("ZKS_OUT").unwrap(), &out).unwrap();
         let again = decode(&out);
-        let Content::Json { value, .. } = &again.content else {
-            panic!("re-read failed")
-        };
+        let Content::Json { value, .. } = &again.content else { panic!("re-read failed") };
         assert_eq!(value["player"]["Money"].as_i64(), Some(m + 1));
     }
 }

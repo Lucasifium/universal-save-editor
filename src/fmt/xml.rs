@@ -11,25 +11,11 @@ use std::collections::HashMap;
 #[derive(Clone, Debug)]
 enum Leaf {
     /// Text between tags (`cdata` = inside <![CDATA[ ]]>, written unescaped).
-    Text {
-        start: usize,
-        end: usize,
-        cdata: bool,
-        orig: String,
-    },
+    Text { start: usize, end: usize, cdata: bool, orig: String },
     /// Attribute value between its quotes.
-    Attr {
-        start: usize,
-        end: usize,
-        quote: u8,
-        orig: String,
-    },
+    Attr { start: usize, end: usize, quote: u8, orig: String },
     /// `<name/>` with no attributes — becomes `<name>text</name>` when given a value.
-    Empty {
-        start: usize,
-        end: usize,
-        name: String,
-    },
+    Empty { start: usize, end: usize, name: String },
 }
 
 struct Elem {
@@ -67,10 +53,7 @@ impl P<'_> {
     }
     fn name(&mut self) -> Result<String, String> {
         let start = self.pos;
-        while self.pos < self.b.len()
-            && !self.b[self.pos].is_ascii_whitespace()
-            && !b"/>=".contains(&self.b[self.pos])
-        {
+        while self.pos < self.b.len() && !self.b[self.pos].is_ascii_whitespace() && !b"/>=".contains(&self.b[self.pos]) {
             self.pos += 1;
         }
         if start == self.pos {
@@ -120,16 +103,7 @@ impl P<'_> {
             self.ws();
             if self.starts("/>") {
                 self.pos += 2;
-                return Ok(Elem {
-                    name,
-                    attrs,
-                    children: vec![],
-                    texts: vec![],
-                    self_closing: true,
-                    tag_start,
-                    tag_end: self.pos,
-                    content_start: self.pos,
-                });
+                return Ok(Elem { name, attrs, children: vec![], texts: vec![], self_closing: true, tag_start, tag_end: self.pos, content_start: self.pos });
             }
             if self.starts(">") {
                 self.pos += 1;
@@ -176,16 +150,7 @@ impl P<'_> {
                     return Err("expected '>'".into());
                 }
                 self.pos += 1;
-                return Ok(Elem {
-                    name,
-                    attrs,
-                    children,
-                    texts,
-                    self_closing: false,
-                    tag_start,
-                    tag_end: self.pos,
-                    content_start,
-                });
+                return Ok(Elem { name, attrs, children, texts, self_closing: false, tag_start, tag_end: self.pos, content_start });
             } else if self.starts("<!--") {
                 self.skip_until("-->")?;
             } else if self.starts("<![CDATA[") {
@@ -225,9 +190,7 @@ fn unescape(s: &str) -> Option<String> {
             "amp" => '&',
             "quot" => '"',
             "apos" => '\'',
-            _ if ent.starts_with("#x") || ent.starts_with("#X") => {
-                char::from_u32(u32::from_str_radix(&ent[2..], 16).ok()?)?
-            }
+            _ if ent.starts_with("#x") || ent.starts_with("#X") => char::from_u32(u32::from_str_radix(&ent[2..], 16).ok()?)?,
             _ if ent.starts_with('#') => char::from_u32(ent[1..].parse().ok()?)?,
             _ => return None,
         };
@@ -254,11 +217,7 @@ fn escape(s: &str, quote: Option<u8>) -> String {
 }
 
 fn parse_root(s: &str) -> Result<Elem, String> {
-    let mut p = P {
-        s,
-        b: s.as_bytes(),
-        pos: 0,
-    };
+    let mut p = P { s, b: s.as_bytes(), pos: 0 };
     p.misc()?;
     let root = p.element(0)?;
     p.misc()?;
@@ -288,58 +247,23 @@ impl Builder {
     }
 
     fn view(&mut self, e: &Elem, ptr: &str) -> Value {
-        let meaningful: Vec<&(usize, usize, bool, Option<String>)> = e
-            .texts
-            .iter()
-            .filter(|t| t.2 || t.3.as_deref().is_none_or(|s| !s.trim().is_empty()))
-            .collect();
+        let meaningful: Vec<&(usize, usize, bool, Option<String>)> =
+            e.texts.iter().filter(|t| t.2 || t.3.as_deref().is_none_or(|s| !s.trim().is_empty())).collect();
         if e.attrs.is_empty() && e.children.is_empty() {
             return match (e.texts.as_slice(), e.self_closing) {
-                ([], true) => self.leaf(
-                    ptr,
-                    Leaf::Empty {
-                        start: e.tag_start,
-                        end: e.tag_end,
-                        name: e.name.clone(),
-                    },
-                    Value::String(String::new()),
-                    true,
-                ),
+                ([], true) => self.leaf(ptr, Leaf::Empty { start: e.tag_start, end: e.tag_end, name: e.name.clone() }, Value::String(String::new()), true),
                 ([], false) => self.leaf(
                     ptr,
-                    Leaf::Text {
-                        start: e.content_start,
-                        end: e.content_start,
-                        cdata: false,
-                        orig: String::new(),
-                    },
+                    Leaf::Text { start: e.content_start, end: e.content_start, cdata: false, orig: String::new() },
                     Value::String(String::new()),
                     true,
                 ),
                 ([(s, en, cdata, Some(t))], _) => {
-                    let v = if *cdata {
-                        Value::String(t.clone())
-                    } else {
-                        text_to_value(t)
-                    };
-                    self.leaf(
-                        ptr,
-                        Leaf::Text {
-                            start: *s,
-                            end: *en,
-                            cdata: *cdata,
-                            orig: t.clone(),
-                        },
-                        v,
-                        true,
-                    )
+                    let v = if *cdata { Value::String(t.clone()) } else { text_to_value(t) };
+                    self.leaf(ptr, Leaf::Text { start: *s, end: *en, cdata: *cdata, orig: t.clone() }, v, true)
                 }
                 _ => {
-                    let joined: String = e
-                        .texts
-                        .iter()
-                        .map(|t| t.3.clone().unwrap_or_default())
-                        .collect();
+                    let joined: String = e.texts.iter().map(|t| t.3.clone().unwrap_or_default()).collect();
                     Value::String(joined)
                 }
             };
@@ -349,38 +273,14 @@ impl Builder {
             let key = format!("@{an}");
             let p = child(ptr, &key);
             let v = match val {
-                Some(t) => self.leaf(
-                    &p,
-                    Leaf::Attr {
-                        start: *vs,
-                        end: *ve,
-                        quote: *q,
-                        orig: t.clone(),
-                    },
-                    text_to_value(t),
-                    true,
-                ),
+                Some(t) => self.leaf(&p, Leaf::Attr { start: *vs, end: *ve, quote: *q, orig: t.clone() }, text_to_value(t), true),
                 None => Value::String(String::new()),
             };
             map.insert(key, v);
         }
         if let Some((s, en, cdata, Some(t))) = meaningful.first().map(|t| (*t).clone()) {
             let p = child(ptr, "#text");
-            let v = self.leaf(
-                &p,
-                Leaf::Text {
-                    start: s,
-                    end: en,
-                    cdata,
-                    orig: t.clone(),
-                },
-                if cdata {
-                    Value::String(t)
-                } else {
-                    text_to_value(&t)
-                },
-                true,
-            );
+            let v = self.leaf(&p, Leaf::Text { start: s, end: en, cdata, orig: t.clone() }, if cdata { Value::String(t) } else { text_to_value(&t) }, true);
             map.insert("#text".into(), v);
         }
         // Group children by name, keeping first-appearance order.
@@ -400,13 +300,8 @@ impl Builder {
                 let v = self.view(c, &p);
                 map.insert(name.to_string(), v);
             } else {
-                let items: Vec<Value> = e
-                    .children
-                    .iter()
-                    .filter(|c| c.name == name)
-                    .enumerate()
-                    .map(|(i, c)| self.view(c, &format!("{p}/{i}")))
-                    .collect();
+                let items: Vec<Value> =
+                    e.children.iter().filter(|c| c.name == name).enumerate().map(|(i, c)| self.view(c, &format!("{p}/{i}"))).collect();
                 map.insert(name.to_string(), Value::Array(items));
             }
         }
@@ -425,39 +320,17 @@ impl Backend for XmlBackend {
         let mut p = Patches::default();
         for (id, v) in changes {
             match &self.leaves[*id] {
-                Leaf::Text {
-                    start,
-                    end,
-                    cdata,
-                    orig,
-                } => {
+                Leaf::Text { start, end, cdata, orig } => {
                     let t = value_to_text(orig, v);
-                    p.add(
-                        *start,
-                        *end,
-                        if *cdata { t } else { escape(&t, None) }.into_bytes(),
-                    );
+                    p.add(*start, *end, if *cdata { t } else { escape(&t, None) }.into_bytes());
                 }
-                Leaf::Attr {
-                    start,
-                    end,
-                    quote,
-                    orig,
-                } => {
-                    p.add(
-                        *start,
-                        *end,
-                        escape(&value_to_text(orig, v), Some(*quote)).into_bytes(),
-                    );
+                Leaf::Attr { start, end, quote, orig } => {
+                    p.add(*start, *end, escape(&value_to_text(orig, v), Some(*quote)).into_bytes());
                 }
                 Leaf::Empty { start, end, name } => {
                     let t = value_to_text("", v);
                     if !t.is_empty() {
-                        p.add(
-                            *start,
-                            *end,
-                            format!("<{name}>{}</{name}>", escape(&t, None)).into_bytes(),
-                        );
+                        p.add(*start, *end, format!("<{name}>{}</{name}>", escape(&t, None)).into_bytes());
                     }
                 }
             }
@@ -481,24 +354,13 @@ impl Backend for XmlBackend {
 
 pub fn parse(text: &str) -> Result<TreeDoc, String> {
     let root = parse_root(text)?;
-    let mut b = Builder {
-        leaves: vec![],
-        editable: HashMap::new(),
-    };
+    let mut b = Builder { leaves: vec![], editable: HashMap::new() };
     let mut map = Map::new();
     let ptr = child("", &root.name);
     let v = b.view(&root, &ptr);
     map.insert(root.name.clone(), v);
-    let backend = XmlBackend {
-        raw: text.as_bytes().to_vec(),
-        leaves: b.leaves,
-    };
-    Ok(TreeDoc::new(
-        Value::Object(map),
-        b.editable,
-        "XML",
-        Box::new(backend),
-    ))
+    let backend = XmlBackend { raw: text.as_bytes().to_vec(), leaves: b.leaves };
+    Ok(TreeDoc::new(Value::Object(map), b.editable, "XML", Box::new(backend)))
 }
 
 #[cfg(test)]
@@ -529,16 +391,8 @@ mod tests {
         let doc = parse(SAMPLE).unwrap();
         assert_eq!(doc.to_bytes().unwrap(), SAMPLE.as_bytes());
         assert_eq!(doc.view.pointer("/SaveGame/player/money").unwrap(), 1500);
-        assert_eq!(
-            doc.view.pointer("/SaveGame/player/name").unwrap(),
-            "Robin & Co"
-        );
-        assert_eq!(
-            doc.view
-                .pointer("/SaveGame/player/items/Item/1/@q")
-                .unwrap(),
-            5
-        );
+        assert_eq!(doc.view.pointer("/SaveGame/player/name").unwrap(), "Robin & Co");
+        assert_eq!(doc.view.pointer("/SaveGame/player/items/Item/1/@q").unwrap(), 5);
     }
 
     #[test]
@@ -549,11 +403,7 @@ mod tests {
         edit(&mut doc, "/SaveGame/player/isMale", Value::Bool(false));
         edit(&mut doc, "/SaveGame/player/farmName", Value::from("Sunny"));
         edit(&mut doc, "/SaveGame/player/items/Item/1/@q", Value::from(9));
-        edit(
-            &mut doc,
-            "/SaveGame/player/items/Item/0/#text",
-            Value::from("Melon"),
-        );
+        edit(&mut doc, "/SaveGame/player/items/Item/0/#text", Value::from("Melon"));
         let out = String::from_utf8(doc.to_bytes().unwrap()).unwrap();
         let expected = SAMPLE
             .replace("<money>1500</money>", "<money>99999</money>")
@@ -564,10 +414,7 @@ mod tests {
             .replace(">Parsnip<", ">Melon<");
         assert_eq!(out, expected);
         let again = parse(&out).unwrap();
-        assert_eq!(
-            again.view.pointer("/SaveGame/player/name").unwrap(),
-            "Ann <3"
-        );
+        assert_eq!(again.view.pointer("/SaveGame/player/name").unwrap(), "Ann <3");
     }
 
     #[test]

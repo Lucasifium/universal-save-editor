@@ -10,9 +10,7 @@ use crate::pickle;
 use crate::tree::TreeDoc;
 use base64::{engine::general_purpose::STANDARD, Engine};
 // bufread decoders hand back the unread remainder, so we can detect trailing data.
-use flate2::{
-    bufread::GzDecoder, bufread::ZlibDecoder, write::GzEncoder, write::ZlibEncoder, Compression,
-};
+use flate2::{bufread::GzDecoder, bufread::ZlibDecoder, write::GzEncoder, write::ZlibEncoder, Compression};
 use serde_json::Value;
 use std::io::{Cursor, Read, Write};
 use std::sync::Arc;
@@ -36,31 +34,19 @@ pub struct Options {
 impl Options {
     pub fn for_path(path: &std::path::Path) -> Self {
         #[cfg_attr(target_arch = "wasm32", allow(unused_mut))]
-        let mut ext = path
-            .extension()
-            .map(|e| e.to_string_lossy().to_lowercase())
-            .unwrap_or_default();
+        let mut ext = path.extension().map(|e| e.to_string_lossy().to_lowercase()).unwrap_or_default();
         // A Game Pass blob is named by a GUID: take the extension from the name the game gave it.
         #[cfg(not(target_arch = "wasm32"))]
         if ext.is_empty() {
             if let Some(n) = crate::xgp::logical_name(path) {
-                ext = n
-                    .rsplit_once('.')
-                    .map(|(_, e)| e.to_lowercase())
-                    .filter(|e| !e.contains('/'))
-                    .unwrap_or_default();
+                ext = n.rsplit_once('.').map(|(_, e)| e.to_lowercase()).filter(|e| !e.contains('/')).unwrap_or_default();
             }
         }
         #[cfg(not(target_arch = "wasm32"))]
         let sum = fmt::sumfind::remembered(path);
         #[cfg(target_arch = "wasm32")]
         let sum = None;
-        Self {
-            ext,
-            path: Some(path.to_path_buf()),
-            sum,
-            ..Default::default()
-        }
+        Self { ext, path: Some(path.to_path_buf()), sum, ..Default::default() }
     }
 }
 
@@ -68,26 +54,16 @@ impl Options {
 pub enum Layer {
     /// Ren'Py `.save` zip. Holds the original archive so every other entry
     /// (screenshot, metadata, signatures) is copied back untouched.
-    RenpyZip {
-        archive: Arc<Vec<u8>>,
-        signed: bool,
-    },
+    RenpyZip { archive: Arc<Vec<u8>>, signed: bool },
     /// Ren'Py `persistent` file: zlib data followed by signature lines over the
     /// uncompressed data. Ren'Py silently discards it if the signature is wrong.
-    RenpyPersistent {
-        signed: bool,
-    },
+    RenpyPersistent { signed: bool },
     /// One file inside a zip archive; every other entry is copied back untouched.
-    ZipEntry {
-        archive: Arc<Vec<u8>>,
-        name: String,
-    },
+    ZipEntry { archive: Arc<Vec<u8>>, name: String },
     /// UTF-8 byte-order mark in front of the text.
     Utf8Bom,
     /// UTF-16 text with a byte-order mark (converted to UTF-8 for editing).
-    Utf16 {
-        big_endian: bool,
-    },
+    Utf16 { big_endian: bool },
     /// gzip stream (magic 1F 8B).
     Gzip,
     /// Raw zlib stream.
@@ -101,10 +77,7 @@ pub enum Layer {
     /// Plain standard base64 text.
     Base64,
     /// Base64 wrapped into fixed-width lines.
-    Base64Lines {
-        width: usize,
-        crlf: bool,
-    },
+    Base64Lines { width: usize, crlf: bool },
     /// LZString `compressToBase64` (RPG Maker MV `.rpgsave`, Twine/SugarCube).
     LzString,
     /// zlib bytes stored as one UTF-8 char per byte (RPG Maker MZ `.rmmzsave`).
@@ -116,238 +89,123 @@ pub enum Layer {
     /// XOR with a repeating text key some games are known to use (Slay the Spire: "key").
     XorKey(String),
     /// A PNG with the data in a private zlib chunk (mGBA save states: `gbAs`).
-    PngChunk {
-        png: Arc<Vec<u8>>,
-        chunk: [u8; 4],
-    },
+    PngChunk { png: Arc<Vec<u8>>, chunk: [u8; 4] },
     /// A bundle of named files (Barotrauma `.save`: UTF-16 name, length, bytes, …).
-    FileBundle {
-        files: Arc<Vec<(String, Vec<u8>)>>,
-        name: String,
-    },
+    FileBundle { files: Arc<Vec<(String, Vec<u8>)>>, name: String },
     /// Palworld `.sav`: header + zlib (once or twice) around an Unreal GVAS save.
-    Palworld {
-        double: bool,
-    },
+    Palworld { double: bool },
     /// Palworld 0.6+ `.sav`: the same header ("PlM1") around Oodle-compressed GVAS data.
     PalworldOodle,
     /// Final Fantasy IX (Steam): every section of SavedData_ww.dat encrypted on its own.
     Ff9,
     /// Persona 5 Royal (PC): encrypted, zlib-packed game data; `head` is the file up to the data, decrypted.
-    P5r {
-        head: Arc<Vec<u8>>,
-    },
+    P5r { head: Arc<Vec<u8>> },
     /// Metro `.player`: "artm" + build string, one LZ4 block, CRC-32.
-    MetroPlayer {
-        head: Arc<Vec<u8>>,
-    },
+    MetroPlayer { head: Arc<Vec<u8>> },
     /// BioShock Infinite: MD5 header, Unreal Engine 3 zlib chunks unpacked in place.
-    Bioshock {
-        chunks: Arc<fmt::bioshock::Chunks>,
-    },
+    Bioshock { chunks: Arc<fmt::bioshock::Chunks> },
     /// Final Fantasy XV `.save`: AES-192, shuffled blocks and a tweak; `foot` is the plain footer.
-    Ffxv {
-        foot: Arc<Vec<u8>>,
-    },
+    Ffxv { foot: Arc<Vec<u8>> },
     /// Death Stranding 2: XORed chunks, the game data in LZ4 pieces with an MD5.
     Ds2(Arc<fmt::ds2::Wrap>),
     /// Control (Remedy): two u32 versions, then a CRC-32 of the rest.
-    RemedyCrc {
-        head: [u8; 8],
-    },
+    RemedyCrc { head: [u8; 8] },
     /// Yakuza (Dragon Engine): XORed JSON and a check of it at the end.
     Rgg(fmt::rgg::Wrap),
     /// BioShock Remastered: zlib blocks unpacked in place, packed back into the same space.
-    Rgmh {
-        original: Arc<Vec<u8>>,
-        blocks: Arc<fmt::rgmh::Blocks>,
-    },
+    Rgmh { original: Arc<Vec<u8>>, blocks: Arc<fmt::rgmh::Blocks> },
     /// Cairn (The Game Bakers) "COPECK" slot: a fixed-size pack of named files; one of them
     /// is edited in place (`at`, `size`).
-    Copeck {
-        pack: Arc<Vec<u8>>,
-        name: String,
-        entry: usize,
-    },
+    Copeck { pack: Arc<Vec<u8>>, name: String, entry: usize },
     /// Metro auto save: "DEZP", three sections of LZ4 blocks, CRC-32.
-    MetroDezp {
-        layout: Arc<fmt::metro::Dezp>,
-    },
+    MetroDezp { layout: Arc<fmt::metro::Dezp> },
     /// Hogwarts Legacy: the game's SQLite database, kept Oodle-compressed in the save's
     /// `RawDatabaseImage` byte array. `head` is the save up to the array's data (its size
     /// fields at `size_at` and `count_at`), `tail` everything after it.
-    HogwartsDb {
-        head: Arc<Vec<u8>>,
-        size_at: usize,
-        count_at: usize,
-        tail: Arc<Vec<u8>>,
-        block: u64,
-    },
+    HogwartsDb { head: Arc<Vec<u8>>, size_at: usize, count_at: usize, tail: Arc<Vec<u8>>, block: u64 },
     /// Easy Save 3 (Unity) AES-128-CBC encryption.
-    Es3 {
-        password: String,
-        iv: Vec<u8>,
-    },
+    Es3 { password: String, iv: Vec<u8> },
     /// Godot `FileAccess.open_encrypted_with_pass`.
     GodotEnc(fmt::crypto::GodotEnc),
     /// Terraria player (`.plr`) encryption.
     Terraria,
     /// Supergiant (Hades, Hades II) `.sav`: checksummed header + LZ4 game state.
-    Supergiant {
-        header: Arc<Vec<u8>>,
-    },
+    Supergiant { header: Arc<Vec<u8>> },
     /// One `USER_DATA` entry of a FromSoftware save (Elden Ring, Dark Souls, Sekiro):
     /// MD5-checked and, in Dark Souls II/III, AES-encrypted.
-    Bnd4 {
-        archive: Arc<Vec<u8>>,
-        name: String,
-        key: Option<[u8; 16]>,
-        iv: Vec<u8>,
-    },
+    Bnd4 { archive: Arc<Vec<u8>>, name: String, key: Option<[u8; 16]>, iv: Vec<u8> },
     /// One chunk of a Minecraft region file (`.mca`).
-    Region {
-        archive: Arc<Vec<u8>>,
-        index: usize,
-        kind: u8,
-    },
+    Region { archive: Arc<Vec<u8>>, index: usize, kind: u8 },
     /// Hollow Knight `user*.dat`: .NET string of base64 AES-encrypted JSON.
     HollowKnight,
     FalloutShelter,
     /// Antimatter Dimensions export text (platform index, three letter version).
-    Antimatter {
-        kind: u8,
-        version: String,
-    },
+    Antimatter { kind: u8, version: String },
     /// JSON held in JSON strings: the pointers of the strings opened, and whether the file is indented.
-    NestedJson {
-        paths: Vec<String>,
-        pretty: bool,
-    },
+    NestedJson { paths: Vec<String>, pretty: bool },
     /// Capcom RE Engine "Mandarin" encryption (index into `mandarin::GAMES`, user id); the
     /// original file supplies the header and footer bytes when writing it back.
-    Mandarin {
-        original: Arc<Vec<u8>>,
-        game: usize,
-        user: u64,
-    },
+    Mandarin { original: Arc<Vec<u8>>, game: usize, user: u64 },
     /// Capcom RE Engine "Lime" encryption (Resident Evil 4, 2023): the file it came from (for
     /// its key banks) and the user id.
-    Lime {
-        original: Arc<Vec<u8>>,
-        user: u64,
-    },
+    Lime { original: Arc<Vec<u8>>, user: u64 },
     /// Capcom RE Engine "Citrus" encryption (Monster Hunter Rise on Steam): the file it came
     /// from (for its block keys), the curve and the Steam ID.
-    Citrus {
-        original: Arc<Vec<u8>>,
-        curve: usize,
-        steam: u64,
-    },
+    Citrus { original: Arc<Vec<u8>>, curve: usize, steam: u64 },
     /// A Windows registry export (Unity PlayerPrefs): its values as JSON.
     RegFile(Arc<fmt::regfile::Meta>),
     /// A Flash / AIR shared object (`.sol`): the original file, whose values are replaced.
-    Sol {
-        original: Arc<Vec<u8>>,
-    },
+    Sol { original: Arc<Vec<u8>> },
     /// Haxe serialization (OpenFL and HaxeFlixel saves): the original text, whose values are
     /// replaced.
-    Haxe {
-        original: Arc<Vec<u8>>,
-    },
+    Haxe { original: Arc<Vec<u8>> },
     /// Dead Cells: the 59-byte header; the chunks are packed again under a new SHA-1.
-    DeadCells {
-        header: Arc<Vec<u8>>,
-    },
+    DeadCells { header: Arc<Vec<u8>> },
     /// One save on a PlayStation memory card image: the image, where the raw card starts in
     /// it, and the save's blocks.
-    Ps1Card {
-        image: Arc<Vec<u8>>,
-        offset: usize,
-        blocks: Vec<usize>,
-    },
+    Ps1Card { image: Arc<Vec<u8>>, offset: usize, blocks: Vec<usize> },
     /// A checksum found with Tools › Find checksum, written again on save.
     Sum(fmt::sumfind::Sum),
     /// One file on a PlayStation 2 memory card image: the image and the file.
-    Ps2Card {
-        image: Arc<Vec<u8>>,
-        file: fmt::memcard::Ps2File,
-    },
+    Ps2Card { image: Arc<Vec<u8>>, file: fmt::memcard::Ps2File },
     /// DeSmuME `.dsv`: the footer after the raw DS save, kept as it is.
-    Dsv {
-        footer: Arc<Vec<u8>>,
-    },
+    Dsv { footer: Arc<Vec<u8>> },
     /// Civilization V `.Civ5Save`: an uncompressed header, then the game as one zlib stream
     /// cut into chunks of up to 64 KiB, each after its u32 length (`chunked`; very old saves
     /// may hold one plain stream), then (older builds) a trailer kept as it is.
-    Civ5 {
-        header: Arc<Vec<u8>>,
-        chunked: bool,
-        trailer: Arc<Vec<u8>>,
-    },
+    Civ5 { header: Arc<Vec<u8>>, chunked: bool, trailer: Arc<Vec<u8>> },
     /// CD Projekt RED's chunked saves (Cyberpunk 2077 `sav.dat`, The Witcher 3 `.sav`): a
     /// header with an `FZLC` table of LZ4 chunks, then a footer.
     /// `tagged`: each chunk starts "4ZLX" and its unpacked size (Cyberpunk).
-    Cdpr {
-        prefix: Arc<Vec<u8>>,
-        fzlc: usize,
-        sizes: Vec<u32>,
-        footer: Arc<Vec<u8>>,
-        tagged: bool,
-    },
+    Cdpr { prefix: Arc<Vec<u8>>, fzlc: usize, sizes: Vec<u32>, footer: Arc<Vec<u8>>, tagged: bool },
     /// XCOM: Enemy Unknown / Within and XCOM 2 (incl. War of the Chosen): a header, then
     /// Unreal chunks of LZO1X data. `crc_at`: where the header keeps the CRC of the
     /// compressed data; the header has its own CRC too (both CRC-32/BZIP2).
-    Xcom {
-        header: Arc<Vec<u8>>,
-        crc_at: usize,
-        xcom2: bool,
-        sizes: Vec<u32>,
-        block: u32,
-    },
+    Xcom { header: Arc<Vec<u8>>, crc_at: usize, xcom2: bool, sizes: Vec<u32>, block: u32 },
     /// Mass Effect Legendary Edition (ME1) save: an Unreal chunk of zlib blocks, then the
     /// CRC-32/BZIP2 of everything before it, 1, and the unpacked size.
-    Me1Le {
-        block: u32,
-    },
+    Me1Le { block: u32 },
     /// Mass Effect (2008): "RGMH", a version, the header's length, the save image; then a zip.
-    Me1Header {
-        header: Arc<Vec<u8>>,
-    },
+    Me1Header { header: Arc<Vec<u8>> },
     /// Paradox `SAV…` save (Crusader Kings III, Victoria 3, Imperator: Rome, Europa
     /// Universalis V): a header line, sometimes the metadata, then from `zip_at` a zip
     /// archive that holds `gamestate`.
-    PdxSav {
-        original: Arc<Vec<u8>>,
-        zip_at: usize,
-    },
+    PdxSav { original: Arc<Vec<u8>>, zip_at: usize },
     /// Pathfinder (Owlcat) `.zks`: header, player and party JSON shown as one document.
-    Owlcat {
-        archive: Arc<Vec<u8>>,
-    },
+    Owlcat { archive: Arc<Vec<u8>> },
     /// Borderlands 2 / The Pre-Sequel `.sav`: SHA-1, size, one LZO1X block around the
     /// "WSG" character data. Unchanged data is written back as the original file.
-    Borderlands {
-        original: Arc<Vec<u8>>,
-        plain: Arc<Vec<u8>>,
-    },
+    Borderlands { original: Arc<Vec<u8>>, plain: Arc<Vec<u8>> },
     /// Grim Dawn character: rolling-XOR encryption with checksummed blocks; `plan` says how
     /// each part of the plain data is encrypted again.
-    GrimDawn {
-        seed: u32,
-        plan: Arc<Vec<fmt::grimdawn::Seg>>,
-    },
+    GrimDawn { seed: u32, plan: Arc<Vec<fmt::grimdawn::Seg>> },
     /// Torchlight II character (version 0x44): scrambled nibbles, a checksum and the file size.
     Torchlight2,
     /// Larian `.lsv` (Divinity: Original Sin 2, Baldur's Gate 3): one LSF file of the
     /// package, unpacked; packed again with the package's checksum on save.
-    Larian {
-        archive: Arc<Vec<u8>>,
-        file: String,
-    },
+    Larian { archive: Arc<Vec<u8>>, file: String },
     /// Wasteland 3 `.xml`: a `Key:=Value` text header, then the XML packed with LZF.
-    Wasteland3 {
-        original: Arc<Vec<u8>>,
-    },
+    Wasteland3 { original: Arc<Vec<u8>> },
 }
 
 impl Layer {
@@ -357,9 +215,7 @@ impl Layer {
             Layer::RenpyPersistent { .. } => "Ren'Py persistent (zlib + signature)".into(),
             Layer::ZipEntry { name, .. } => format!("zip archive ({name})"),
             Layer::Utf8Bom => "UTF-8 BOM".into(),
-            Layer::Utf16 { big_endian } => {
-                format!("UTF-16 {}", if *big_endian { "BE" } else { "LE" })
-            }
+            Layer::Utf16 { big_endian } => format!("UTF-16 {}", if *big_endian { "BE" } else { "LE" }),
             Layer::Gzip => "gzip".into(),
             Layer::Zlib => "zlib".into(),
             Layer::Deflate => "deflate".into(),
@@ -374,25 +230,19 @@ impl Layer {
             Layer::JsEscape => "URL-escaped (TyranoScript)".into(),
             Layer::Xor(k) => format!("XOR 0x{k:02X}"),
             Layer::XorKey(k) => format!("XOR \u{201C}{k}\u{201D}"),
-            Layer::PngChunk { chunk, .. } => {
-                format!("mGBA save state ({})", String::from_utf8_lossy(chunk))
-            }
+            Layer::PngChunk { chunk, .. } => format!("mGBA save state ({})", String::from_utf8_lossy(chunk)),
             Layer::FileBundle { name, .. } => format!("file bundle ({name})"),
             Layer::Palworld { .. } => "Palworld container".into(),
             Layer::PalworldOodle => "Palworld container (Oodle)".into(),
             Layer::Ff9 => "Final Fantasy IX save encryption".into(),
             Layer::P5r { .. } => "Persona 5 Royal save (encrypted, zlib)".into(),
             Layer::MetroPlayer { .. } => "Metro level save (LZ4)".into(),
-            Layer::Rgmh { blocks, .. } => {
-                format!("BioShock Remastered save ({} zlib blocks)", blocks.len())
-            }
+            Layer::Rgmh { blocks, .. } => format!("BioShock Remastered save ({} zlib blocks)", blocks.len()),
             Layer::RemedyCrc { .. } => "Control save (CRC-32)".into(),
             Layer::Ffxv { .. } => "Final Fantasy XV save encryption".into(),
             Layer::Ds2(_) => "Death Stranding 2 save (XOR, LZ4, MD5)".into(),
             Layer::Rgg(w) => format!("Yakuza save (Dragon Engine: {})", fmt::rgg::games(w)),
-            Layer::Bioshock { chunks } => {
-                format!("BioShock Infinite save (MD5, {} zlib chunks)", chunks.len())
-            }
+            Layer::Bioshock { chunks } => format!("BioShock Infinite save (MD5, {} zlib chunks)", chunks.len()),
             Layer::Copeck { name, .. } => format!("Cairn save pack ({name})"),
             Layer::MetroDezp { .. } => "Metro auto save (LZ4)".into(),
             Layer::HogwartsDb { .. } => "Hogwarts Legacy save (database, Oodle)".into(),
@@ -400,22 +250,13 @@ impl Layer {
             Layer::GodotEnc(_) => "Godot encryption".into(),
             Layer::Terraria => "Terraria player encryption".into(),
             Layer::Supergiant { .. } => "Supergiant save (checksum + LZ4)".into(),
-            Layer::Bnd4 { name, key, .. } => format!(
-                "FromSoftware save ({name}{})",
-                if key.is_some() { ", encrypted" } else { "" }
-            ),
-            Layer::Region { index, .. } => {
-                format!("Minecraft region (chunk {},{})", index % 32, index / 32)
-            }
+            Layer::Bnd4 { name, key, .. } => format!("FromSoftware save ({name}{})", if key.is_some() { ", encrypted" } else { "" }),
+            Layer::Region { index, .. } => format!("Minecraft region (chunk {},{})", index % 32, index / 32),
             Layer::HollowKnight => "Hollow Knight encryption".into(),
             Layer::FalloutShelter => "Fallout Shelter save encryption".into(),
             Layer::Antimatter { .. } => "Antimatter Dimensions export text".into(),
-            Layer::NestedJson { paths, .. } => {
-                format!("JSON inside JSON strings ({})", paths.len())
-            }
-            Layer::Mandarin { game, .. } => {
-                format!("{} save encryption", fmt::mandarin::GAMES[*game].title)
-            }
+            Layer::NestedJson { paths, .. } => format!("JSON inside JSON strings ({})", paths.len()),
+            Layer::Mandarin { game, .. } => format!("{} save encryption", fmt::mandarin::GAMES[*game].title),
             Layer::Lime { .. } => "Resident Evil 4 save encryption".into(),
             Layer::Citrus { .. } => "Monster Hunter Rise save encryption".into(),
             Layer::RegFile(_) => "Registry values (Unity PlayerPrefs)".into(),
@@ -425,13 +266,9 @@ impl Layer {
             Layer::Sum(s) => format!("Checksum kept fixed ({})", s.describe()),
             Layer::Ps2Card { file, .. } => format!("PlayStation 2 memory card ({})", file.name),
             Layer::Dsv { .. } => "DeSmuME save (.dsv footer)".into(),
-            Layer::Ps1Card { blocks, .. } => {
-                format!("PlayStation memory card (save in block {})", blocks[0])
-            }
+            Layer::Ps1Card { blocks, .. } => format!("PlayStation memory card (save in block {})", blocks[0]),
             Layer::Civ5 { .. } => "Civilization V save (compressed game data)".into(),
-            Layer::Cdpr { sizes, .. } => {
-                format!("CD Projekt RED save ({} LZ4 chunks)", sizes.len())
-            }
+            Layer::Cdpr { sizes, .. } => format!("CD Projekt RED save ({} LZ4 chunks)", sizes.len()),
             Layer::Me1Le { .. } => "Mass Effect (Legendary Edition) save (zlib)".to_string(),
             Layer::Me1Header { .. } => "Mass Effect save (image header)".to_string(),
             Layer::PdxSav { .. } => "Paradox save archive (gamestate)".to_string(),
@@ -441,25 +278,14 @@ impl Layer {
             Layer::Torchlight2 => "Torchlight II save (scrambled, checksum)".into(),
             Layer::Larian { file, .. } => format!("Larian save package ({file})"),
             Layer::Wasteland3 { .. } => "Wasteland 3 save (LZF)".to_string(),
-            Layer::Xcom { xcom2, sizes, .. } => format!(
-                "{} save ({} LZO chunks)",
-                if *xcom2 {
-                    "XCOM 2"
-                } else {
-                    "XCOM: Enemy Unknown"
-                },
-                sizes.len()
-            ),
+            Layer::Xcom { xcom2, sizes, .. } => format!("{} save ({} LZO chunks)", if *xcom2 { "XCOM 2" } else { "XCOM: Enemy Unknown" }, sizes.len()),
         }
     }
 }
 
 #[derive(Clone, Debug)]
 pub enum Content {
-    Json {
-        value: Value,
-        pretty: bool,
-    },
+    Json { value: Value, pretty: bool },
     Text(String),
     Binary(Vec<u8>),
     /// Any structured format with an editable tree (Ren'Py, XML, NBT, …).
@@ -511,10 +337,7 @@ pub fn describe(layers: &[Layer], content: &Content) -> String {
 /// Same encoding stack? Compares layer kinds only — a rebuilt zip never matches the
 /// original archive byte-for-byte, and that's expected.
 pub fn same_layers(a: &[Layer], b: &[Layer]) -> bool {
-    a.len() == b.len()
-        && a.iter()
-            .zip(b)
-            .all(|(x, y)| std::mem::discriminant(x) == std::mem::discriminant(y))
+    a.len() == b.len() && a.iter().zip(b).all(|(x, y)| std::mem::discriminant(x) == std::mem::discriminant(y))
 }
 
 /// Does the file read back (`check`) hold what was edited (`edited`)? Usually the same data;
@@ -542,11 +365,7 @@ pub fn decode(raw: &[u8]) -> Decoded {
 }
 
 pub fn decode_with(raw: &[u8], opts: &Options) -> Decoded {
-    let mut ctx = Ctx {
-        opts,
-        zip_entries: vec![],
-        hint: None,
-    };
+    let mut ctx = Ctx { opts, zip_entries: vec![], hint: None };
     let mut layers = Vec::new();
     let mut data = raw.to_vec();
     while layers.len() < MAX_LAYERS {
@@ -560,17 +379,13 @@ pub fn decode_with(raw: &[u8], opts: &Options) -> Decoded {
     }
     // Cyberpunk 2077 keeps its table of sections in the file's tail, outside the packed data.
     let cyberpunk = match layers.last() {
-        Some(Layer::Cdpr { prefix, footer, .. }) => {
-            fmt::cyberpunk::parse(&data, prefix.len(), footer)
-        }
+        Some(Layer::Cdpr { prefix, footer, .. }) => fmt::cyberpunk::parse(&data, prefix.len(), footer),
         // Larian saves: the screen also reads the package's other files (summary, metadata).
         Some(Layer::Larian { archive, file }) => fmt::larian::parse(&data, archive, file),
         Some(Layer::PdxSav { original, .. }) => pdx_sav_doc(&data, original, opts),
         // Europa Universalis IV and Crusader Kings II keep the date and the player beside
         // the game state, in the archive's `meta` entry.
-        Some(Layer::ZipEntry { archive, name })
-            if name == "gamestate" && fmt::pdxbin::looks(&data) =>
-        {
+        Some(Layer::ZipEntry { archive, name }) if name == "gamestate" && fmt::pdxbin::looks(&data) => {
             let mut meta = Vec::new();
             if let Ok(mut zip) = zip::ZipArchive::new(Cursor::new(archive.as_slice())) {
                 if let Ok(mut f) = zip.by_name("meta") {
@@ -595,13 +410,8 @@ pub fn decode_with(raw: &[u8], opts: &Options) -> Decoded {
         (_, c) => c,
     };
     if let (Content::Binary(b), None) = (&content, &ctx.hint) {
-        let battery = [512, 8192, 32768, 65536, 131072]
-            .iter()
-            .any(|&n| (n..=n + 48).contains(&b.len()))
-            && matches!(
-                opts.ext.as_str(),
-                "sav" | "srm" | "sa1" | "sa2" | "fla" | "eep" | "dsv"
-            );
+        let battery = [512, 8192, 32768, 65536, 131072].iter().any(|&n| (n..=n + 48).contains(&b.len()))
+            && matches!(opts.ext.as_str(), "sav" | "srm" | "sa1" | "sa2" | "fla" | "eep" | "dsv");
         if battery && layers.is_empty() {
             ctx.hint = Some(
                 "This looks like a Game Boy / GBA battery save. Use Value search to find a number you know (money, a stat), \
@@ -623,18 +433,12 @@ pub fn decode_with(raw: &[u8], opts: &Options) -> Decoded {
             ctx.hint = Some("This is the emulator's memory snapshot. Use Value search to find a number you know, then load this state in mGBA.".into());
         }
     }
-    if matches!(content, Content::Binary(ref b) if ctx.hint.is_none() && fmt::crypto::looks_encrypted(b))
-    {
+    if matches!(content, Content::Binary(ref b) if ctx.hint.is_none() && fmt::crypto::looks_encrypted(b)) {
         ctx.hint = Some(
             "This data looks encrypted. If you know the game's password, use Tools \u{203A} Decrypt with password.".into(),
         );
     }
-    Decoded {
-        layers,
-        content,
-        zip_entries: ctx.zip_entries,
-        hint: ctx.hint,
-    }
+    Decoded { layers, content, zip_entries: ctx.zip_entries, hint: ctx.hint }
 }
 
 pub fn encode(layers: &[Layer], content: &Content) -> Result<Vec<u8>, String> {
@@ -656,25 +460,14 @@ fn renpy_unzip(data: &[u8]) -> Option<(Layer, Vec<u8>)> {
     let signed = zip.file_names().any(|n| n == "signatures");
     let mut log = Vec::new();
     zip.by_name("log").ok()?.read_to_end(&mut log).ok()?;
-    Some((
-        Layer::RenpyZip {
-            archive: Arc::new(data.to_vec()),
-            signed,
-        },
-        log,
-    ))
+    Some((Layer::RenpyZip { archive: Arc::new(data.to_vec()), signed }, log))
 }
 
 /// Any other zip: open the chosen entry, or the first one that decodes to something editable.
 fn generic_unzip(data: &[u8], ctx: &mut Ctx) -> Option<(Layer, Vec<u8>)> {
     let mut zip = zip::ZipArchive::new(Cursor::new(data)).ok()?;
     let names: Vec<String> = (0..zip.len())
-        .filter_map(|i| {
-            zip.by_index(i)
-                .ok()
-                .filter(|f| f.is_file())
-                .map(|f| f.name().to_string())
-        })
+        .filter_map(|i| zip.by_index(i).ok().filter(|f| f.is_file()).map(|f| f.name().to_string()))
         .collect();
     if names.is_empty() {
         return None;
@@ -690,9 +483,7 @@ fn generic_unzip(data: &[u8], ctx: &mut Ctx) -> Option<(Layer, Vec<u8>)> {
             let mut best: Option<(String, (u8, usize))> = None;
             let mut fallback: Option<(String, usize)> = None;
             for n in &names {
-                let Some(bytes) = read(&mut zip, n) else {
-                    continue;
-                };
+                let Some(bytes) = read(&mut zip, n) else { continue };
                 let len = bytes.len();
                 // Decoding a big entry just to rank it is slow (Stellaris' gamestate is tens
                 // of MB): text-looking big entries count as editable without it.
@@ -714,34 +505,18 @@ fn generic_unzip(data: &[u8], ctx: &mut Ctx) -> Option<(Layer, Vec<u8>)> {
     };
     let bytes = read(&mut zip, &chosen)?;
     ctx.zip_entries = names;
-    Some((
-        Layer::ZipEntry {
-            archive: Arc::new(data.to_vec()),
-            name: chosen,
-        },
-        bytes,
-    ))
+    Some((Layer::ZipEntry { archive: Arc::new(data.to_vec()), name: chosen }, bytes))
 }
 
 /// A Paradox `SAV…` file that ends in a zip: the game state inside it.
 fn peel_pdx_sav(data: &[u8]) -> Option<(Layer, Vec<u8>)> {
     let h = fmt::pdxbin::SavHeader::read(data).filter(|h| h.zipped())?;
     let after = h.len + h.meta_len;
-    let zip_at = if data.get(after..after + 4) == Some(b"PK\x03\x04") {
-        after
-    } else {
-        h.len + data[h.len..].windows(4).position(|w| w == b"PK\x03\x04")?
-    };
+    let zip_at = if data.get(after..after + 4) == Some(b"PK\x03\x04") { after } else { h.len + data[h.len..].windows(4).position(|w| w == b"PK\x03\x04")? };
     let mut zip = zip::ZipArchive::new(Cursor::new(data)).ok()?;
     let mut out = Vec::new();
     zip.by_name("gamestate").ok()?.read_to_end(&mut out).ok()?;
-    Some((
-        Layer::PdxSav {
-            original: Arc::new(data.to_vec()),
-            zip_at,
-        },
-        out,
-    ))
+    Some((Layer::PdxSav { original: Arc::new(data.to_vec()), zip_at }, out))
 }
 
 /// The game state of a Paradox `SAV…` archive: binary (ironman) or text.
@@ -807,16 +582,10 @@ fn pdx_sav_wrap(original: &[u8], zip_at: usize, data: &[u8]) -> Result<Vec<u8>, 
 
 /// `rezip` for several entries, with the new archive written after `prefix` (its offsets
 /// count from the start of the whole file, as in the original).
-fn rezip_after(
-    prefix: Vec<u8>,
-    archive: &[u8],
-    files: &[(&str, &[u8])],
-    renpy: bool,
-) -> Result<Vec<u8>, String> {
+fn rezip_after(prefix: Vec<u8>, archive: &[u8], files: &[(&str, &[u8])], renpy: bool) -> Result<Vec<u8>, String> {
     use zip::write::SimpleFileOptions;
     let err = |e: zip::result::ZipError| e.to_string();
-    let deflated =
-        SimpleFileOptions::default().compression_method(zip::CompressionMethod::Deflated);
+    let deflated = SimpleFileOptions::default().compression_method(zip::CompressionMethod::Deflated);
     let mut src = zip::ZipArchive::new(Cursor::new(archive)).map_err(err)?;
     let mut start = Cursor::new(prefix);
     start.set_position(start.get_ref().len() as u64);
@@ -834,10 +603,7 @@ fn rezip_after(
             // Re-sign with the player's own key; without a key, drop the entry so the
             // game asks once and then loads it.
             drop(f);
-            if let Some(sig) = files
-                .first()
-                .and_then(|(_, log)| crate::renpy_sign::sign(log))
-            {
+            if let Some(sig) = files.first().and_then(|(_, log)| crate::renpy_sign::sign(log)) {
                 out.start_file("signatures", deflated).map_err(err)?;
                 out.write_all(sig.as_bytes()).map_err(|e| e.to_string())?;
             }
@@ -860,9 +626,7 @@ fn wrap(layer: &Layer, data: Vec<u8>) -> Result<Vec<u8>, String> {
         Layer::ZipEntry { archive, name } => rezip(archive, name, &data, false)?,
         Layer::PdxSav { original, zip_at } => pdx_sav_wrap(original, *zip_at, &data)?,
         Layer::RenpyPersistent { signed } => {
-            let mut out = compress(ZlibEncoder::new(Vec::new(), Compression::new(3)), &data)?
-                .finish()
-                .map_err(io)?;
+            let mut out = compress(ZlibEncoder::new(Vec::new(), Compression::new(3)), &data)?.finish().map_err(io)?;
             if *signed {
                 let sig = crate::renpy_sign::sign(&data).ok_or(
                     "this persistent file must be signed, but your Ren'Py key wasn't found \
@@ -875,73 +639,39 @@ fn wrap(layer: &Layer, data: Vec<u8>) -> Result<Vec<u8>, String> {
         Layer::Utf8Bom => [BOM, &data].concat(),
         Layer::Utf16 { big_endian } => {
             let s = String::from_utf8(data).map_err(|_| "UTF-16 layer needs text".to_string())?;
-            let mut out = if *big_endian {
-                vec![0xFE, 0xFF]
-            } else {
-                vec![0xFF, 0xFE]
-            };
+            let mut out = if *big_endian { vec![0xFE, 0xFF] } else { vec![0xFF, 0xFE] };
             for u in s.encode_utf16() {
-                out.extend_from_slice(&if *big_endian {
-                    u.to_be_bytes()
-                } else {
-                    u.to_le_bytes()
-                });
+                out.extend_from_slice(&if *big_endian { u.to_be_bytes() } else { u.to_le_bytes() });
             }
             out
         }
-        Layer::Gzip => compress(GzEncoder::new(Vec::new(), Compression::default()), &data)?
-            .finish()
-            .map_err(io)?,
-        Layer::Zlib => compress(ZlibEncoder::new(Vec::new(), Compression::default()), &data)?
-            .finish()
-            .map_err(io)?,
-        Layer::Deflate => compress(
-            flate2::write::DeflateEncoder::new(Vec::new(), Compression::default()),
-            &data,
-        )?
-        .finish()
-        .map_err(io)?,
+        Layer::Gzip => compress(GzEncoder::new(Vec::new(), Compression::default()), &data)?.finish().map_err(io)?,
+        Layer::Zlib => compress(ZlibEncoder::new(Vec::new(), Compression::default()), &data)?.finish().map_err(io)?,
+        Layer::Deflate => compress(flate2::write::DeflateEncoder::new(Vec::new(), Compression::default()), &data)?.finish().map_err(io)?,
         Layer::Zstd => zstd::encode_all(&data[..], 3).map_err(io)?,
-        Layer::Lz4 => compress(lz4_flex::frame::FrameEncoder::new(Vec::new()), &data)?
-            .finish()
-            .map_err(|e| e.to_string())?,
+        Layer::Lz4 => compress(lz4_flex::frame::FrameEncoder::new(Vec::new()), &data)?.finish().map_err(|e| e.to_string())?,
         Layer::Xz => {
             let mut out = Vec::new();
             lzma_rs::xz_compress(&mut &data[..], &mut out).map_err(io)?;
             out
         }
-        Layer::Bzip2 => compress(
-            bzip2::write::BzEncoder::new(Vec::new(), bzip2::Compression::default()),
-            &data,
-        )?
-        .finish()
-        .map_err(io)?,
+        Layer::Bzip2 => compress(bzip2::write::BzEncoder::new(Vec::new(), bzip2::Compression::default()), &data)?
+            .finish()
+            .map_err(io)?,
         Layer::Base64 => STANDARD.encode(&data).into_bytes(),
         Layer::Base64Lines { width, crlf } => {
             let b64 = STANDARD.encode(&data);
             let nl = if *crlf { "\r\n" } else { "\n" };
-            b64.as_bytes()
-                .chunks(*width)
-                .map(|c| std::str::from_utf8(c).unwrap())
-                .collect::<Vec<_>>()
-                .join(nl)
-                .into_bytes()
+            b64.as_bytes().chunks(*width).map(|c| std::str::from_utf8(c).unwrap()).collect::<Vec<_>>().join(nl).into_bytes()
         }
         Layer::LzString => {
-            let s = String::from_utf8(data)
-                .map_err(|_| "LZString layer needs UTF-8 text".to_string())?;
+            let s = String::from_utf8(data).map_err(|_| "LZString layer needs UTF-8 text".to_string())?;
             lz_str::compress_to_base64(s.as_str()).into_bytes()
         }
         Layer::RpgMzZlib => {
             // RPG Maker MZ uses pako.deflate(level 1, to:"string") and writes that string as UTF-8.
-            let zipped = compress(ZlibEncoder::new(Vec::new(), Compression::new(1)), &data)?
-                .finish()
-                .map_err(io)?;
-            zipped
-                .iter()
-                .map(|&b| b as char)
-                .collect::<String>()
-                .into_bytes()
+            let zipped = compress(ZlibEncoder::new(Vec::new(), Compression::new(1)), &data)?.finish().map_err(io)?;
+            zipped.iter().map(|&b| b as char).collect::<String>().into_bytes()
         }
         Layer::JsEscape => {
             let s = String::from_utf8(data).map_err(|_| "escaped layer needs text".to_string())?;
@@ -949,13 +679,7 @@ fn wrap(layer: &Layer, data: Vec<u8>) -> Result<Vec<u8>, String> {
         }
         Layer::Xor(k) => data.iter().map(|b| b ^ k).collect(),
         Layer::XorKey(k) => xor_key(&data, k.as_bytes()),
-        Layer::PngChunk { png, chunk } => png_replace(
-            png,
-            chunk,
-            &compress(ZlibEncoder::new(Vec::new(), Compression::default()), &data)?
-                .finish()
-                .map_err(io)?,
-        )?,
+        Layer::PngChunk { png, chunk } => png_replace(png, chunk, &compress(ZlibEncoder::new(Vec::new(), Compression::default()), &data)?.finish().map_err(io)?)?,
         Layer::FileBundle { files, name } => {
             let mut out = Vec::new();
             for (n, bytes) in files.iter() {
@@ -969,13 +693,9 @@ fn wrap(layer: &Layer, data: Vec<u8>) -> Result<Vec<u8>, String> {
             out
         }
         Layer::Palworld { double } => {
-            let inner = compress(ZlibEncoder::new(Vec::new(), Compression::default()), &data)?
-                .finish()
-                .map_err(io)?;
+            let inner = compress(ZlibEncoder::new(Vec::new(), Compression::default()), &data)?.finish().map_err(io)?;
             let payload = if *double {
-                compress(ZlibEncoder::new(Vec::new(), Compression::default()), &inner)?
-                    .finish()
-                    .map_err(io)?
+                compress(ZlibEncoder::new(Vec::new(), Compression::default()), &inner)?.finish().map_err(io)?
             } else {
                 inner.clone()
             };
@@ -986,13 +706,7 @@ fn wrap(layer: &Layer, data: Vec<u8>) -> Result<Vec<u8>, String> {
             out.extend(payload);
             out
         }
-        Layer::HogwartsDb {
-            head,
-            size_at,
-            count_at,
-            tail,
-            block,
-        } => {
+        Layer::HogwartsDb { head, size_at, count_at, tail, block } => {
             // The array holds [len + 4][len][database], cut into chunks that Oodle packs.
             let mut inner = ((data.len() + 4) as u32).to_le_bytes().to_vec();
             inner.extend((data.len() as u32).to_le_bytes());
@@ -1001,16 +715,8 @@ fn wrap(layer: &Layer, data: Vec<u8>) -> Result<Vec<u8>, String> {
             let packed = crate::par::map(&parts, |p| crate::oodle::compress(p));
             let mut arr = Vec::with_capacity(inner.len() / 3);
             for (c, p) in packed.into_iter().zip(&parts) {
-                let c =
-                    c.ok_or("Oodle couldn't pack the database again (no Oodle library found)")?;
-                for v in [
-                    0x9E2A_83C1u64,
-                    *block,
-                    c.len() as u64,
-                    p.len() as u64,
-                    c.len() as u64,
-                    p.len() as u64,
-                ] {
+                let c = c.ok_or("Oodle couldn't pack the database again (no Oodle library found)")?;
+                for v in [0x9E2A_83C1u64, *block, c.len() as u64, p.len() as u64, c.len() as u64, p.len() as u64] {
                     arr.extend(v.to_le_bytes());
                 }
                 arr.extend(c);
@@ -1041,8 +747,7 @@ fn wrap(layer: &Layer, data: Vec<u8>) -> Result<Vec<u8>, String> {
         Layer::Copeck { pack, entry, .. } => copeck_put(pack, *entry, &data)?,
         Layer::MetroDezp { layout } => fmt::metro::pack_dezp(layout, &data)?,
         Layer::PalworldOodle => {
-            let packed = crate::oodle::compress(&data)
-                .ok_or("Oodle couldn't pack the save again (no Oodle library found)")?;
+            let packed = crate::oodle::compress(&data).ok_or("Oodle couldn't pack the save again (no Oodle library found)")?;
             let mut out = (data.len() as u32).to_le_bytes().to_vec();
             out.extend((packed.len() as u32).to_le_bytes());
             out.extend(b"PlM1");
@@ -1053,32 +758,15 @@ fn wrap(layer: &Layer, data: Vec<u8>) -> Result<Vec<u8>, String> {
         Layer::GodotEnc(info) => fmt::crypto::godot_encrypt(&data, info)?,
         Layer::Terraria => fmt::crypto::terraria_encrypt(&data),
         Layer::Supergiant { header } => fmt::luabins::close(header, &data),
-        Layer::Bnd4 {
-            archive,
-            name,
-            key,
-            iv,
-        } => fmt::containers::bnd4_replace(archive, name, &data, *key, iv)?,
-        Layer::Region {
-            archive,
-            index,
-            kind,
-        } => fmt::containers::region_replace(archive, *index, &data, *kind)?,
+        Layer::Bnd4 { archive, name, key, iv } => fmt::containers::bnd4_replace(archive, name, &data, *key, iv)?,
+        Layer::Region { archive, index, kind } => fmt::containers::region_replace(archive, *index, &data, *kind)?,
         Layer::HollowKnight => fmt::crypto::hollow_knight_encrypt(&data),
         Layer::FalloutShelter => fmt::crypto::fallout_shelter_encrypt(&data),
         Layer::Antimatter { kind, version } => fmt::antimatter::close(*kind, version, &data)?,
         Layer::NestedJson { paths, pretty } => fmt::nested::close(&data, paths, *pretty)?,
-        Layer::Mandarin {
-            original,
-            game,
-            user,
-        } => fmt::mandarin::encrypt(&data, original, &fmt::mandarin::GAMES[*game], *user)?,
+        Layer::Mandarin { original, game, user } => fmt::mandarin::encrypt(&data, original, &fmt::mandarin::GAMES[*game], *user)?,
         Layer::Lime { original, user } => fmt::lime::encrypt(&data, original, *user)?,
-        Layer::Citrus {
-            original,
-            curve,
-            steam,
-        } => fmt::citrus::encrypt(&data, original, *curve, *steam)?,
+        Layer::Citrus { original, curve, steam } => fmt::citrus::encrypt(&data, original, *curve, *steam)?,
         Layer::RegFile(meta) => fmt::regfile::save(meta, &data)?,
         Layer::Sol { original } => fmt::sol::save(original, &data)?,
         Layer::Haxe { original } => fmt::haxe::save(original, &data)?,
@@ -1089,31 +777,14 @@ fn wrap(layer: &Layer, data: Vec<u8>) -> Result<Vec<u8>, String> {
             d
         }
         Layer::Ps2Card { image, file } => {
-            let card = fmt::memcard::Ps2Card::open(image)
-                .ok_or("the memory card image no longer reads")?;
+            let card = fmt::memcard::Ps2Card::open(image).ok_or("the memory card image no longer reads")?;
             card.write_file(image, file, &data)?
         }
         Layer::Dsv { footer } => [&data[..], footer].concat(),
-        Layer::Ps1Card {
-            image,
-            offset,
-            blocks,
-        } => fmt::memcard::ps1_write(
-            image,
-            *offset,
-            &fmt::memcard::Ps1Save {
-                name: String::new(),
-                blocks: blocks.clone(),
-            },
-            &data,
-        )?,
-        Layer::Cdpr {
-            prefix,
-            fzlc,
-            sizes,
-            footer,
-            tagged,
-        } => {
+        Layer::Ps1Card { image, offset, blocks } => {
+            fmt::memcard::ps1_write(image, *offset, &fmt::memcard::Ps1Save { name: String::new(), blocks: blocks.clone() }, &data)?
+        }
+        Layer::Cdpr { prefix, fzlc, sizes, footer, tagged } => {
             if data.len() != sizes.iter().map(|&n| n as usize).sum::<usize>() {
                 return Err("this save's data can't change size".into());
             }
@@ -1128,11 +799,7 @@ fn wrap(layer: &Layer, data: Vec<u8>) -> Result<Vec<u8>, String> {
                 })
                 .collect();
             let chunks = crate::par::map(&parts, |&(from, n)| {
-                let mut chunk = if *tagged {
-                    [&b"4ZLX"[..], &n.to_le_bytes()].concat()
-                } else {
-                    vec![]
-                };
+                let mut chunk = if *tagged { [&b"4ZLX"[..], &n.to_le_bytes()].concat() } else { vec![] };
                 chunk.extend(lz4_flex::block::compress(&data[from..from + n as usize]));
                 chunk
             });
@@ -1178,10 +845,7 @@ fn wrap(layer: &Layer, data: Vec<u8>) -> Result<Vec<u8>, String> {
         Layer::Me1Le { block } => {
             let bs = (*block as usize).max(1);
             let parts: Vec<&[u8]> = data.chunks(bs).collect();
-            let packed = crate::par::map(&parts, |p| {
-                compress(ZlibEncoder::new(Vec::new(), Compression::default()), p)
-                    .and_then(|e| e.finish().map_err(io))
-            });
+            let packed = crate::par::map(&parts, |p| compress(ZlibEncoder::new(Vec::new(), Compression::default()), p).and_then(|e| e.finish().map_err(io)));
             let mut table = Vec::new();
             let mut body = Vec::new();
             for (c, p) in packed.into_iter().zip(&parts) {
@@ -1202,13 +866,7 @@ fn wrap(layer: &Layer, data: Vec<u8>) -> Result<Vec<u8>, String> {
             out.extend((data.len() as u32).to_le_bytes());
             out
         }
-        Layer::Xcom {
-            header,
-            crc_at,
-            xcom2,
-            sizes,
-            block,
-        } => {
+        Layer::Xcom { header, crc_at, xcom2, sizes, block } => {
             if data.len() != sizes.iter().map(|&n| n as usize).sum::<usize>() {
                 return Err("this save's data can't change size".into());
             }
@@ -1221,10 +879,7 @@ fn wrap(layer: &Layer, data: Vec<u8>) -> Result<Vec<u8>, String> {
                     (from, n)
                 })
                 .collect();
-            let packed = crate::par::map(&parts, |&(from, n)| {
-                lzokay_native::compress(&data[from..from + n as usize])
-                    .map_err(|e| format!("{e:?}"))
-            });
+            let packed = crate::par::map(&parts, |&(from, n)| lzokay_native::compress(&data[from..from + n as usize]).map_err(|e| format!("{e:?}")));
             let mut body = Vec::with_capacity(data.len() / 2);
             for (c, &(_, n)) in packed.into_iter().zip(&parts) {
                 let c = c?;
@@ -1247,11 +902,7 @@ fn wrap(layer: &Layer, data: Vec<u8>) -> Result<Vec<u8>, String> {
             out.extend(body);
             out
         }
-        Layer::Civ5 {
-            header,
-            chunked,
-            trailer,
-        } => {
+        Layer::Civ5 { header, chunked, trailer } => {
             // Written the way the game does: everything, then a sync flush and no final block,
             // cut into 64 KiB chunks.
             let mut out = header.as_ref().clone();
@@ -1281,12 +932,7 @@ fn peel(data: &[u8], ctx: &mut Ctx) -> Option<(Layer, Vec<u8>)> {
     if data.starts_with(b"PK\x03\x04") {
         if let Some(json) = fmt::owlcat::open(data) {
             ctx.hint = Some("Pathfinder save: its party, money and header are shown together; changed parts are written back with their checksums.".into());
-            return Some((
-                Layer::Owlcat {
-                    archive: Arc::new(data.to_vec()),
-                },
-                json,
-            ));
+            return Some((Layer::Owlcat { archive: Arc::new(data.to_vec()) }, json));
         }
         return renpy_unzip(data).or_else(|| generic_unzip(data, ctx));
     }
@@ -1297,23 +943,12 @@ fn peel(data: &[u8], ctx: &mut Ctx) -> Option<(Layer, Vec<u8>)> {
             } else {
                 "Larian save package: its game data is unpacked here and packed again, with the package checksum, when you save.".into()
             });
-            return Some((
-                Layer::Larian {
-                    archive: Arc::new(data.to_vec()),
-                    file,
-                },
-                lsf,
-            ));
+            return Some((Layer::Larian { archive: Arc::new(data.to_vec()), file }, lsf));
         }
     }
     if data.starts_with(b"XLZF\n") {
         if let Some(xml) = fmt::wasteland3::open(data) {
-            return Some((
-                Layer::Wasteland3 {
-                    original: Arc::new(data.to_vec()),
-                },
-                xml,
-            ));
+            return Some((Layer::Wasteland3 { original: Arc::new(data.to_vec()) }, xml));
         }
     }
     if data.starts_with(BOM) {
@@ -1321,27 +956,16 @@ fn peel(data: &[u8], ctx: &mut Ctx) -> Option<(Layer, Vec<u8>)> {
     }
     if fmt::sol::looks(data) {
         if let Some(json) = fmt::sol::open(data) {
-            return Some((
-                Layer::Sol {
-                    original: Arc::new(data.to_vec()),
-                },
-                json,
-            ));
+            return Some((Layer::Sol { original: Arc::new(data.to_vec()) }, json));
         }
     }
     if let Some(at) = fmt::memcard::dsv_split(data) {
-        return Some((
-            Layer::Dsv {
-                footer: Arc::new(data[at..].to_vec()),
-            },
-            data[..at].to_vec(),
-        ));
+        return Some((Layer::Dsv { footer: Arc::new(data[at..].to_vec()) }, data[..at].to_vec()));
     }
     if let Some(card) = fmt::memcard::Ps2Card::open(data) {
         let files = card.files(data).unwrap_or_default();
         if files.is_empty() {
-            ctx.hint =
-                Some("This PlayStation 2 memory card holds no saves the editor can read.".into());
+            ctx.hint = Some("This PlayStation 2 memory card holds no saves the editor can read.".into());
             return None;
         }
         // Default to the first file that isn't the folder's icon or its description.
@@ -1349,24 +973,11 @@ fn peel(data: &[u8], ctx: &mut Ctx) -> Option<(Layer, Vec<u8>)> {
             let n = f.name.rsplit('/').next().unwrap_or("").to_ascii_lowercase();
             n != "icon.sys" && !n.ends_with(".ico") && !n.ends_with(".icn")
         };
-        let f = ctx
-            .opts
-            .zip_entry
-            .as_ref()
-            .and_then(|n| files.iter().find(|f| &f.name == n))
-            .or_else(|| files.iter().find(pick))
-            .unwrap_or(&files[0])
-            .clone();
+        let f = ctx.opts.zip_entry.as_ref().and_then(|n| files.iter().find(|f| &f.name == n)).or_else(|| files.iter().find(pick)).unwrap_or(&files[0]).clone();
         ctx.zip_entries = files.iter().map(|f| f.name.clone()).collect();
         ctx.hint = Some("PlayStation 2 memory card: Tools › Open another file in this archive lists every file in every save folder. The card's ECC is written again on save; each game checks its own data its own way, so test the edit in the emulator.".into());
         let bytes = card.read_file(data, &f)?;
-        return Some((
-            Layer::Ps2Card {
-                image: Arc::new(data.to_vec()),
-                file: f,
-            },
-            bytes,
-        ));
+        return Some((Layer::Ps2Card { image: Arc::new(data.to_vec()), file: f }, bytes));
     }
     if let Some(offset) = fmt::memcard::ps1_offset(data) {
         let saves = fmt::memcard::ps1_saves(&data[offset..]);
@@ -1374,44 +985,21 @@ fn peel(data: &[u8], ctx: &mut Ctx) -> Option<(Layer, Vec<u8>)> {
             ctx.hint = Some("This PlayStation memory card is empty.".into());
             return None;
         }
-        let s = ctx
-            .opts
-            .zip_entry
-            .as_ref()
-            .and_then(|n| saves.iter().find(|s| &s.name == n))
-            .unwrap_or(&saves[0])
-            .clone();
+        let s = ctx.opts.zip_entry.as_ref().and_then(|n| saves.iter().find(|s| &s.name == n)).unwrap_or(&saves[0]).clone();
         ctx.zip_entries = saves.iter().map(|s| s.name.clone()).collect();
         ctx.hint = Some("PlayStation memory card: the first save is open; Tools › Open another file in this archive lists the others. Each game checks its own data its own way, so use the value search and test the edit in the emulator.".into());
         let save = fmt::memcard::ps1_read(&data[offset..], &s);
-        return Some((
-            Layer::Ps1Card {
-                image: Arc::new(data.to_vec()),
-                offset,
-                blocks: s.blocks,
-            },
-            save,
-        ));
+        return Some((Layer::Ps1Card { image: Arc::new(data.to_vec()), offset, blocks: s.blocks }, save));
     }
     if fmt::deadcells::looks(data) {
         if let Some((header, chunks)) = fmt::deadcells::open(data) {
             ctx.hint = Some("Dead Cells save: its checksum and compression are handled for you. The values inside are hxbit binary data, so use the value search to find gold or cells.".into());
-            return Some((
-                Layer::DeadCells {
-                    header: Arc::new(header),
-                },
-                chunks,
-            ));
+            return Some((Layer::DeadCells { header: Arc::new(header) }, chunks));
         }
     }
     if fmt::haxe::looks(data) {
         if let Some(json) = fmt::haxe::open(data) {
-            return Some((
-                Layer::Haxe {
-                    original: Arc::new(data.to_vec()),
-                },
-                json,
-            ));
+            return Some((Layer::Haxe { original: Arc::new(data.to_vec()) }, json));
         }
     }
     if data.starts_with(b"Windows Registry Editor") {
@@ -1420,24 +1008,13 @@ fn peel(data: &[u8], ctx: &mut Ctx) -> Option<(Layer, Vec<u8>)> {
         }
     }
     if let Some(o) = fmt::nested::open(data) {
-        return Some((
-            Layer::NestedJson {
-                paths: o.paths,
-                pretty: o.pretty,
-            },
-            o.bytes,
-        ));
+        return Some((Layer::NestedJson { paths: o.paths, pretty: o.pretty }, o.bytes));
     }
     if let Some(r) = peel_arpg(data, ctx) {
         return r;
     }
     if let Some((header, state)) = fmt::luabins::open(data) {
-        return Some((
-            Layer::Supergiant {
-                header: Arc::new(header),
-            },
-            state,
-        ));
+        return Some((Layer::Supergiant { header: Arc::new(header) }, state));
     }
     if let Some(r) = peel_bnd4(data, ctx) {
         return Some(r);
@@ -1456,14 +1033,7 @@ fn peel(data: &[u8], ctx: &mut Ctx) -> Option<(Layer, Vec<u8>)> {
             return None;
         };
         let plain = fmt::citrus::decrypt(data, curve, steam)?;
-        return Some((
-            Layer::Citrus {
-                original: Arc::new(data.to_vec()),
-                curve,
-                steam,
-            },
-            plain,
-        ));
+        return Some((Layer::Citrus { original: Arc::new(data.to_vec()), curve, steam }, plain));
     }
     if fmt::mandarin::looks(data) {
         return peel_mandarin(data, ctx);
@@ -1475,29 +1045,16 @@ fn peel(data: &[u8], ctx: &mut Ctx) -> Option<(Layer, Vec<u8>)> {
         return Some(r);
     }
     if data.starts_with(b"RGMH") {
-        let len = data
-            .get(8..12)
-            .map(|b| u32::from_le_bytes(b.try_into().unwrap()) as usize)?;
+        let len = data.get(8..12).map(|b| u32::from_le_bytes(b.try_into().unwrap()) as usize)?;
         if data.get(len..len + 4) == Some(&b"PK\x03\x04"[..]) {
-            return Some((
-                Layer::Me1Header {
-                    header: Arc::new(data[..len].to_vec()),
-                },
-                data[len..].to_vec(),
-            ));
+            return Some((Layer::Me1Header { header: Arc::new(data[..len].to_vec()) }, data[len..].to_vec()));
         }
     }
     if let Some(r) = peel_xcom(data, ctx) {
         return Some(r);
     }
     if let Some(inner) = fmt::borderlands::unpack(data) {
-        return Some((
-            Layer::Borderlands {
-                original: Arc::new(data.to_vec()),
-                plain: Arc::new(inner.clone()),
-            },
-            inner,
-        ));
+        return Some((Layer::Borderlands { original: Arc::new(data.to_vec()), plain: Arc::new(inner.clone()) }, inner));
     }
     if data.len() >= 64 && data.iter().all(|&b| b == 0) {
         ctx.hint = Some("This file is all zero bytes: there's nothing in it to edit. If the game crashed while saving, its backup (a .bak file next to it) may still be good.".into());
@@ -1525,10 +1082,9 @@ fn peel(data: &[u8], ctx: &mut Ctx) -> Option<(Layer, Vec<u8>)> {
                 return Some((Layer::Zlib, v));
             }
             // Ren'Py persistent: signature lines follow the compressed data.
-            if std::str::from_utf8(rest).is_ok_and(|t| {
-                t.lines()
-                    .all(|l| l.trim().is_empty() || l.starts_with("signature "))
-            }) {
+            if std::str::from_utf8(rest)
+                .is_ok_and(|t| t.lines().all(|l| l.trim().is_empty() || l.starts_with("signature ")))
+            {
                 return Some((Layer::RenpyPersistent { signed: true }, v));
             }
         }
@@ -1540,10 +1096,7 @@ fn peel(data: &[u8], ctx: &mut Ctx) -> Option<(Layer, Vec<u8>)> {
     }
     if data.starts_with(&[0x04, 0x22, 0x4D, 0x18]) {
         let mut v = Vec::new();
-        if lz4_flex::frame::FrameDecoder::new(data)
-            .read_to_end(&mut v)
-            .is_ok()
-        {
+        if lz4_flex::frame::FrameDecoder::new(data).read_to_end(&mut v).is_ok() {
             return Some((Layer::Lz4, v));
         }
     }
@@ -1555,50 +1108,28 @@ fn peel(data: &[u8], ctx: &mut Ctx) -> Option<(Layer, Vec<u8>)> {
     }
     if data.len() > 10 && data.starts_with(b"BZh") && (b'1'..=b'9').contains(&data[3]) {
         let mut v = Vec::new();
-        if bzip2::read::BzDecoder::new(data)
-            .read_to_end(&mut v)
-            .is_ok()
-        {
+        if bzip2::read::BzDecoder::new(data).read_to_end(&mut v).is_ok() {
             return Some((Layer::Bzip2, v));
         }
     }
     if data.len() > 12 && &data[8..11] == b"PlZ" && matches!(data[11], 0x31 | 0x32) {
         let double = data[11] == 0x32;
         let once = inflate(&data[12..]).ok();
-        let plain = if double {
-            once.and_then(|i| inflate(&i).ok())
-        } else {
-            once
-        };
-        if let Some(p) =
-            plain.filter(|p| p.len() == u32::from_le_bytes(data[0..4].try_into().unwrap()) as usize)
-        {
+        let plain = if double { once.and_then(|i| inflate(&i).ok()) } else { once };
+        if let Some(p) = plain.filter(|p| p.len() == u32::from_le_bytes(data[0..4].try_into().unwrap()) as usize) {
             return Some((Layer::Palworld { double }, p));
         }
     }
     if data.len() > 64 {
         if let Some((chunks, p)) = fmt::bioshock::unpack(data) {
-            return Some((
-                Layer::Bioshock {
-                    chunks: Arc::new(chunks),
-                },
-                p,
-            ));
+            return Some((Layer::Bioshock { chunks: Arc::new(chunks) }, p));
         }
     }
-    if data.len() > 16
-        && data[..4] == data[4..8]
-        && u32::from_le_bytes(data[..4].try_into().unwrap()) < 64
-    {
+    if data.len() > 16 && data[..4] == data[4..8] && u32::from_le_bytes(data[..4].try_into().unwrap()) < 64 {
         let mut h = flate2::Crc::new();
         h.update(&data[12..]);
         if h.sum().to_le_bytes() == data[8..12] {
-            return Some((
-                Layer::RemedyCrc {
-                    head: data[..8].try_into().unwrap(),
-                },
-                data[12..].to_vec(),
-            ));
+            return Some((Layer::RemedyCrc { head: data[..8].try_into().unwrap() }, data[12..].to_vec()));
         }
     }
     if let Some((w, p)) = fmt::rgg::decrypt(data) {
@@ -1606,13 +1137,7 @@ fn peel(data: &[u8], ctx: &mut Ctx) -> Option<(Layer, Vec<u8>)> {
     }
     if fmt::rgmh::looks(data) {
         if let Some((blocks, p)) = fmt::rgmh::unpack(data) {
-            return Some((
-                Layer::Rgmh {
-                    original: Arc::new(data.to_vec()),
-                    blocks: Arc::new(blocks),
-                },
-                p,
-            ));
+            return Some((Layer::Rgmh { original: Arc::new(data.to_vec()), blocks: Arc::new(blocks) }, p));
         }
     }
     if data.starts_with(b"COPECK") {
@@ -1622,32 +1147,17 @@ fn peel(data: &[u8], ctx: &mut Ctx) -> Option<(Layer, Vec<u8>)> {
     }
     if data.starts_with(b"artm") {
         if let Some((head, p)) = fmt::metro::unpack_player(data) {
-            return Some((
-                Layer::MetroPlayer {
-                    head: Arc::new(head),
-                },
-                p,
-            ));
+            return Some((Layer::MetroPlayer { head: Arc::new(head) }, p));
         }
     }
     if data.starts_with(b"DEZP") {
         if let Some((layout, p)) = fmt::metro::unpack_dezp(data) {
-            return Some((
-                Layer::MetroDezp {
-                    layout: Arc::new(layout),
-                },
-                p,
-            ));
+            return Some((Layer::MetroDezp { layout: Arc::new(layout) }, p));
         }
     }
     if data.starts_with(b"DATA") {
         if let Some((head, p)) = fmt::p5r::unpack(data) {
-            return Some((
-                Layer::P5r {
-                    head: Arc::new(head),
-                },
-                p,
-            ));
+            return Some((Layer::P5r { head: Arc::new(head) }, p));
         }
     }
     if fmt::ds2::looks(data) {
@@ -1657,12 +1167,7 @@ fn peel(data: &[u8], ctx: &mut Ctx) -> Option<(Layer, Vec<u8>)> {
     }
     if data.len() > 117 && data[data.len() - 1] == 2 {
         if let Some((p, foot)) = fmt::ffxv::decrypt(data) {
-            return Some((
-                Layer::Ffxv {
-                    foot: Arc::new(foot),
-                },
-                p,
-            ));
+            return Some((Layer::Ffxv { foot: Arc::new(foot) }, p));
         }
     }
     if data.len() == fmt::ff9::FILE_LEN {
@@ -1716,9 +1221,7 @@ fn peel(data: &[u8], ctx: &mut Ctx) -> Option<(Layer, Vec<u8>)> {
     if let Some(plain) = fmt::crypto::fallout_shelter_decrypt(data) {
         return Some((Layer::FalloutShelter, plain));
     }
-    if let Some((password, iv, plain)) =
-        fmt::crypto::es3_decrypt_any(data, ctx.opts.password.as_deref(), is_recognisable)
-    {
+    if let Some((password, iv, plain)) = fmt::crypto::es3_decrypt_any(data, ctx.opts.password.as_deref(), is_recognisable) {
         return Some((Layer::Es3 { password, iv }, plain));
     }
     if let Some((k, plain)) = peel_known_xor(data) {
@@ -1727,13 +1230,7 @@ fn peel(data: &[u8], ctx: &mut Ctx) -> Option<(Layer, Vec<u8>)> {
     if data.starts_with(b"\x89PNG\r\n\x1a\n") {
         if let Some((chunk, body)) = png_find(data, &[*b"gbAs"]) {
             if let Ok(v) = inflate(&body) {
-                return Some((
-                    Layer::PngChunk {
-                        png: Arc::new(data.to_vec()),
-                        chunk,
-                    },
-                    v,
-                ));
+                return Some((Layer::PngChunk { png: Arc::new(data.to_vec()), chunk }, v));
             }
         }
     }
@@ -1786,15 +1283,7 @@ fn peel(data: &[u8], ctx: &mut Ctx) -> Option<(Layer, Vec<u8>)> {
 /// Grim Dawn and Torchlight II characters. `Some(None)`: recognised, but can't be opened.
 fn peel_arpg(data: &[u8], ctx: &mut Ctx) -> Option<Option<(Layer, Vec<u8>)>> {
     match fmt::grimdawn::decrypt(data) {
-        Some(Ok((seed, plain, plan))) => {
-            return Some(Some((
-                Layer::GrimDawn {
-                    seed,
-                    plan: Arc::new(plan),
-                },
-                plain,
-            )))
-        }
+        Some(Ok((seed, plain, plan))) => return Some(Some((Layer::GrimDawn { seed, plan: Arc::new(plan) }, plain))),
         Some(Err(e)) => {
             ctx.hint = Some(format!("This is a Grim Dawn character, but part of it is laid out in a way this editor doesn't know ({e}), so it can't be edited safely."));
             return Some(None);
@@ -1814,26 +1303,13 @@ fn peel_arpg(data: &[u8], ctx: &mut Ctx) -> Option<Option<(Layer, Vec<u8>)>> {
 /// FromSoftware BND4 save: open the chosen `USER_DATA` entry (default: first character).
 fn peel_bnd4(data: &[u8], ctx: &mut Ctx) -> Option<(Layer, Vec<u8>)> {
     let entries = fmt::containers::bnd4_entries(data)?;
-    let chosen = match ctx
-        .opts
-        .zip_entry
-        .as_ref()
-        .and_then(|n| entries.iter().position(|e| &e.name == n))
-    {
+    let chosen = match ctx.opts.zip_entry.as_ref().and_then(|n| entries.iter().position(|e| &e.name == n)) {
         Some(i) => i,
         None => fmt::containers::bnd4_default(data, &entries)?,
     };
     let (plain, key, iv) = fmt::containers::bnd4_open(data, &entries[chosen])?;
     ctx.zip_entries = entries.iter().map(|e| e.name.clone()).collect();
-    Some((
-        Layer::Bnd4 {
-            archive: Arc::new(data.to_vec()),
-            name: entries[chosen].name.clone(),
-            key,
-            iv,
-        },
-        plain,
-    ))
+    Some((Layer::Bnd4 { archive: Arc::new(data.to_vec()), name: entries[chosen].name.clone(), key, iv }, plain))
 }
 
 /// Minecraft region file: open the chosen chunk (default: the first one).
@@ -1860,10 +1336,7 @@ fn peel_hogwarts(data: &[u8], ctx: &mut Ctx) -> Option<(Layer, Vec<u8>)> {
     let count = u32::from_le_bytes(data.get(count_at..count_at + 4)?.try_into().ok()?) as usize;
     let start = count_at + 4;
     let end = start.checked_add(count).filter(|&e| e <= data.len())?;
-    let u64_at = |o: usize| {
-        data.get(o..o + 8)
-            .map(|b| u64::from_le_bytes(b.try_into().unwrap()))
-    };
+    let u64_at = |o: usize| data.get(o..o + 8).map(|b| u64::from_le_bytes(b.try_into().unwrap()));
     let mut q = start;
     let mut parts = vec![];
     let mut block = 0;
@@ -1898,25 +1371,13 @@ fn peel_hogwarts(data: &[u8], ctx: &mut Ctx) -> Option<(Layer, Vec<u8>)> {
         return None;
     }
     ctx.hint = Some("Hogwarts Legacy: the game's database is unpacked here (gold, experience, talent points, inventory); it's packed again with Oodle when you save.".into());
-    Some((
-        Layer::HogwartsDb {
-            head: Arc::new(data[..start].to_vec()),
-            size_at,
-            count_at,
-            tail: Arc::new(data[end..].to_vec()),
-            block,
-        },
-        db,
-    ))
+    Some((Layer::HogwartsDb { head: Arc::new(data[..start].to_vec()), size_at, count_at, tail: Arc::new(data[end..].to_vec()), block }, db))
 }
 
 /// Mass Effect 1 (Legendary Edition): tag, block size, packed and unpacked totals, a
 /// (packed, unpacked) size per block, the zlib blocks, then CRC, 1 and the unpacked size.
 fn peel_me1le(data: &[u8], ctx: &mut Ctx) -> Option<(Layer, Vec<u8>)> {
-    let u = |o: usize| {
-        data.get(o..o + 4)
-            .map(|b| u32::from_le_bytes(b.try_into().unwrap()) as usize)
-    };
+    let u = |o: usize| data.get(o..o + 4).map(|b| u32::from_le_bytes(b.try_into().unwrap()) as usize);
     if u(0)? != 0x9E2A_83C1 || data.len() < 40 {
         return None;
     }
@@ -1954,17 +1415,11 @@ fn peel_me1le(data: &[u8], ctx: &mut Ctx) -> Option<(Layer, Vec<u8>)> {
 /// block, and the LZO1X block.
 fn peel_xcom(data: &[u8], ctx: &mut Ctx) -> Option<(Layer, Vec<u8>)> {
     const TAG: [u8; 4] = [0xC1, 0x83, 0x2A, 0x9E];
-    let u = |o: usize| {
-        data.get(o..o + 4)
-            .map(|b| u32::from_le_bytes(b.try_into().unwrap()) as usize)
-    };
+    let u = |o: usize| data.get(o..o + 4).map(|b| u32::from_le_bytes(b.try_into().unwrap()) as usize);
     let version = u(0)?;
-    let (start, xcom2) = if matches!(version, 0x0F | 0x10) && data.get(1024..1028) == Some(&TAG[..])
-    {
+    let (start, xcom2) = if matches!(version, 0x0F | 0x10) && data.get(1024..1028) == Some(&TAG[..]) {
         (1024, false)
-    } else if (0x13..0x40).contains(&version)
-        && u(4).is_some_and(|h| h > 16 && data.get(h..h + 4) == Some(&TAG[..]))
-    {
+    } else if (0x13..0x40).contains(&version) && u(4).is_some_and(|h| h > 16 && data.get(h..h + 4) == Some(&TAG[..])) {
         (u(4)?, true)
     } else {
         return None;
@@ -1987,11 +1442,7 @@ fn peel_xcom(data: &[u8], ctx: &mut Ctx) -> Option<(Layer, Vec<u8>)> {
     let crc = fmt::crc32_bzip2(&data[start..]).to_le_bytes();
     let crc_at = data[..start].windows(4).position(|w| w == crc)?;
     let mut plain = Vec::new();
-    for b in crate::par::map(&blocks, |&(b, us)| {
-        std::panic::catch_unwind(|| lzokay_native::decompress_all(b, Some(us)))
-            .ok()
-            .and_then(|r| r.ok())
-    }) {
+    for b in crate::par::map(&blocks, |&(b, us)| std::panic::catch_unwind(|| lzokay_native::decompress_all(b, Some(us))).ok().and_then(|r| r.ok())) {
         plain.extend(b?);
     }
     let sizes = blocks.iter().map(|b| b.1 as u32).collect();
@@ -2000,28 +1451,14 @@ fn peel_xcom(data: &[u8], ctx: &mut Ctx) -> Option<(Layer, Vec<u8>)> {
          it's packed again and its checksums updated when you save.",
         if xcom2 { "XCOM 2" } else { "XCOM: Enemy Unknown / Within" }
     ));
-    Some((
-        Layer::Xcom {
-            header: Arc::new(data[..start].to_vec()),
-            crc_at,
-            xcom2,
-            sizes,
-            block,
-        },
-        plain,
-    ))
+    Some((Layer::Xcom { header: Arc::new(data[..start].to_vec()), crc_at, xcom2, sizes, block }, plain))
 }
 
 /// Cyberpunk 2077 / The Witcher 3: `FZLC`, chunk count, where the first chunk starts, then
 /// (compressed size, unpacked size, end) per chunk (the last one's end is left 0).
 fn peel_cdpr(data: &[u8], ctx: &mut Ctx) -> Option<(Layer, Vec<u8>)> {
-    let fzlc = data[..data.len().min(64)]
-        .windows(4)
-        .position(|w| w == b"FZLC")?;
-    let u = |o: usize| {
-        data.get(o..o + 4)
-            .map(|b| u32::from_le_bytes(b.try_into().unwrap()) as usize)
-    };
+    let fzlc = data[..data.len().min(64)].windows(4).position(|w| w == b"FZLC")?;
+    let u = |o: usize| data.get(o..o + 4).map(|b| u32::from_le_bytes(b.try_into().unwrap()) as usize);
     let n = u(fzlc + 4)?;
     let start = u(fzlc + 8)?;
     if n == 0 || n > 4096 || start > data.len() || fzlc + 12 + 12 * n > start {
@@ -2033,14 +1470,7 @@ fn peel_cdpr(data: &[u8], ctx: &mut Ctx) -> Option<(Layer, Vec<u8>)> {
     for k in 0..n {
         let (c, un) = (u(fzlc + 12 + 12 * k)?, u(fzlc + 16 + 12 * k)?);
         let chunk = data.get(at..at + c)?;
-        parts.push((
-            if chunk.starts_with(b"4ZLX") {
-                chunk.get(8..)?
-            } else {
-                chunk
-            },
-            un,
-        ));
+        parts.push((if chunk.starts_with(b"4ZLX") { chunk.get(8..)? } else { chunk }, un));
         sizes.push(un as u32);
         at += c;
         if k + 1 < n && u(fzlc + 20 + 12 * k)? != at {
@@ -2048,9 +1478,7 @@ fn peel_cdpr(data: &[u8], ctx: &mut Ctx) -> Option<(Layer, Vec<u8>)> {
         }
     }
     let mut plain = Vec::new();
-    for c in crate::par::map(&parts, |&(body, un)| {
-        lz4_flex::block::decompress(body, un).ok()
-    }) {
+    for c in crate::par::map(&parts, |&(body, un)| lz4_flex::block::decompress(body, un).ok()) {
         plain.extend(c?);
     }
     ctx.hint = Some(format!(
@@ -2058,16 +1486,7 @@ fn peel_cdpr(data: &[u8], ctx: &mut Ctx) -> Option<(Layer, Vec<u8>)> {
          it's packed again when you save. Check the save in the game afterwards \u{2014} the previous version is kept as a backup."
     ));
     let tagged = data[start..].starts_with(b"4ZLX");
-    Some((
-        Layer::Cdpr {
-            prefix: Arc::new(data[..start].to_vec()),
-            fzlc,
-            sizes,
-            footer: Arc::new(data[at..].to_vec()),
-            tagged,
-        },
-        plain,
-    ))
+    Some((Layer::Cdpr { prefix: Arc::new(data[..start].to_vec()), fzlc, sizes, footer: Arc::new(data[at..].to_vec()), tagged }, plain))
 }
 
 /// Civilization V: the header's readable entries (civilization, difficulty, eras, speed,
@@ -2118,11 +1537,7 @@ fn peel_civ5(data: &[u8], ctx: &mut Ctx) -> Option<(Layer, Vec<u8>)> {
     });
     if let Some((at, plain, end)) = chunked {
         civ5_hint(data, at, ctx);
-        let layer = Layer::Civ5 {
-            header: Arc::new(data[..at].to_vec()),
-            chunked: true,
-            trailer: Arc::new(data[end..].to_vec()),
-        };
+        let layer = Layer::Civ5 { header: Arc::new(data[..at].to_vec()), chunked: true, trailer: Arc::new(data[end..].to_vec()) };
         return Some((layer, plain));
     }
     // Otherwise the first zlib stream that unpacks completely and runs to the end of the file.
@@ -2142,14 +1557,7 @@ fn peel_civ5(data: &[u8], ctx: &mut Ctx) -> Option<(Layer, Vec<u8>)> {
         (plain.len() > 1024 && i + d.total_in() as usize == data.len()).then_some((i, plain))
     })?;
     civ5_hint(data, at, ctx);
-    Some((
-        Layer::Civ5 {
-            header: Arc::new(data[..at].to_vec()),
-            chunked: false,
-            trailer: Arc::new(vec![]),
-        },
-        plain,
-    ))
+    Some((Layer::Civ5 { header: Arc::new(data[..at].to_vec()), chunked: false, trailer: Arc::new(vec![]) }, plain))
 }
 
 /// What the save's header says about the game, as the hint above the data.
@@ -2158,27 +1566,11 @@ fn civ5_hint(data: &[u8], at: usize, ctx: &mut Ctx) {
         .split(|&b| b < 0x20 || b > 0x7E)
         .filter(|w| w.len() >= 6 && w.iter().all(|c| c.is_ascii_uppercase() || *c == b'_'))
         .map(|w| String::from_utf8_lossy(w).to_string())
-        .filter(|w| {
-            [
-                "CIVILIZATION_",
-                "HANDICAP_",
-                "ERA_",
-                "GAMESPEED_",
-                "WORLDSIZE_",
-            ]
-            .iter()
-            .any(|p| w.starts_with(p))
-        })
+        .filter(|w| ["CIVILIZATION_", "HANDICAP_", "ERA_", "GAMESPEED_", "WORLDSIZE_"].iter().any(|p| w.starts_with(p)))
         .collect();
-    let nice =
-        |w: &str| crate::game_ui::words(&w.splitn(2, '_').nth(1).unwrap_or(w).to_lowercase());
+    let nice = |w: &str| crate::game_ui::words(&w.splitn(2, '_').nth(1).unwrap_or(w).to_lowercase());
     let mut parts = vec![];
-    for (p, label) in [
-        ("CIVILIZATION_", ""),
-        ("HANDICAP_", " difficulty"),
-        ("GAMESPEED_", " speed"),
-        ("WORLDSIZE_", " map"),
-    ] {
+    for (p, label) in [("CIVILIZATION_", ""), ("HANDICAP_", " difficulty"), ("GAMESPEED_", " speed"), ("WORLDSIZE_", " map")] {
         if let Some(w) = words.iter().find(|w| w.starts_with(p)) {
             parts.push(format!("{}{label}", nice(w)));
         }
@@ -2197,12 +1589,7 @@ fn civ5_hint(data: &[u8], at: usize, ctx: &mut Ctx) {
 fn ree_accounts(ctx: &Ctx) -> Vec<u64> {
     let path = ctx.opts.path.clone().unwrap_or_default();
     let mut accounts = fmt::mandarin::accounts_for(&path);
-    if let Some(id) = ctx
-        .opts
-        .password
-        .as_deref()
-        .and_then(|p| p.trim().parse::<u64>().ok())
-    {
+    if let Some(id) = ctx.opts.password.as_deref().and_then(|p| p.trim().parse::<u64>().ok()) {
         accounts.insert(0, id);
     }
     accounts
@@ -2220,13 +1607,7 @@ fn peel_lime(data: &[u8], ctx: &mut Ctx) -> Option<(Layer, Vec<u8>)> {
         return None;
     };
     let plain = fmt::lime::decrypt(data, user)?;
-    Some((
-        Layer::Lime {
-            original: Arc::new(data.to_vec()),
-            user,
-        },
-        plain,
-    ))
+    Some((Layer::Lime { original: Arc::new(data.to_vec()), user }, plain))
 }
 
 /// A Capcom RE Engine save: find the game and Steam account that open it.
@@ -2236,20 +1617,8 @@ fn peel_mandarin(data: &[u8], ctx: &mut Ctx) -> Option<(Layer, Vec<u8>)> {
     let mut accounts = mandarin::accounts_for(&path);
     // A Steam ID typed into Tools › Decrypt with password (needed away from Steam's folders,
     // e.g. on a phone): the 64-bit id or the account number.
-    if let Some(id) = ctx
-        .opts
-        .password
-        .as_deref()
-        .and_then(|p| p.trim().parse::<u64>().ok())
-    {
-        accounts.insert(
-            0,
-            if id > u32::MAX as u64 {
-                id & 0xFFFF_FFFF
-            } else {
-                id
-            },
-        );
+    if let Some(id) = ctx.opts.password.as_deref().and_then(|p| p.trim().parse::<u64>().ok()) {
+        accounts.insert(0, if id > u32::MAX as u64 { id & 0xFFFF_FFFF } else { id });
         if id > u32::MAX as u64 {
             accounts.insert(0, id);
         }
@@ -2266,45 +1635,22 @@ fn peel_mandarin(data: &[u8], ctx: &mut Ctx) -> Option<(Layer, Vec<u8>)> {
     };
     let plain = mandarin::decrypt(data, game, user)?;
     let index = mandarin::GAMES.iter().position(|g| std::ptr::eq(g, game))?;
-    Some((
-        Layer::Mandarin {
-            original: Arc::new(data.to_vec()),
-            game: index,
-            user,
-        },
-        plain,
-    ))
+    Some((Layer::Mandarin { original: Arc::new(data.to_vec()), game: index, user }, plain))
 }
 
 fn peel_region(data: &[u8], ctx: &mut Ctx) -> Option<(Layer, Vec<u8>)> {
     let chunks = fmt::containers::region_chunks(data)?;
-    let (index, _) = ctx
-        .opts
-        .zip_entry
-        .as_ref()
-        .and_then(|n| chunks.iter().find(|c| &c.1 == n))
-        .unwrap_or(&chunks[0])
-        .clone();
+    let (index, _) = ctx.opts.zip_entry.as_ref().and_then(|n| chunks.iter().find(|c| &c.1 == n)).unwrap_or(&chunks[0]).clone();
     let (nbt, kind) = fmt::containers::region_open(data, index)?;
     ctx.zip_entries = chunks.into_iter().map(|c| c.1).collect();
-    Some((
-        Layer::Region {
-            archive: Arc::new(data.to_vec()),
-            index,
-            kind,
-        },
-        nbt,
-    ))
+    Some((Layer::Region { archive: Arc::new(data.to_vec()), index, kind }, nbt))
 }
 
 /// Repeating-key XOR keys used by known games.
 const KNOWN_XOR_KEYS: &[&str] = &["key"];
 
 fn xor_key(data: &[u8], key: &[u8]) -> Vec<u8> {
-    data.iter()
-        .zip(key.iter().cycle())
-        .map(|(b, k)| b ^ k)
-        .collect()
+    data.iter().zip(key.iter().cycle()).map(|(b, k)| b ^ k).collect()
 }
 
 fn peel_known_xor(data: &[u8]) -> Option<(String, Vec<u8>)> {
@@ -2313,10 +1659,7 @@ fn peel_known_xor(data: &[u8]) -> Option<(String, Vec<u8>)> {
     }
     KNOWN_XOR_KEYS.iter().find_map(|k| {
         let plain = xor_key(data, k.as_bytes());
-        std::str::from_utf8(&plain)
-            .ok()
-            .and_then(|t| parse_json(t.trim()))
-            .map(|_| (k.to_string(), plain))
+        std::str::from_utf8(&plain).ok().and_then(|t| parse_json(t.trim())).map(|_| (k.to_string(), plain))
     })
 }
 
@@ -2367,10 +1710,7 @@ fn png_replace(png: &[u8], kind: &[u8; 4], data: &[u8]) -> Result<Vec<u8>, Strin
 /// How much a file name looks like the main save data (higher = more likely).
 fn save_like(name: &str) -> u8 {
     let n = name.to_lowercase();
-    ["session", "save", "player", "profile", "progress", "game"]
-        .iter()
-        .filter(|k| n.contains(*k))
-        .count() as u8
+    ["session", "save", "player", "profile", "progress", "game"].iter().filter(|k| n.contains(*k)).count() as u8
 }
 
 /// Cairn "COPECK" pack: from 0x10, directory entries of 0xA0 bytes (u32 offset, u32 size,
@@ -2379,10 +1719,7 @@ fn save_like(name: &str) -> u8 {
 /// deleted entries start with FFFFFFFF. Files are stored from 0x50000 on, each at a 16-byte
 /// boundary after the last.
 fn copeck_entries(data: &[u8]) -> Option<Vec<(usize, String, usize, usize, u64)>> {
-    let u32_at = |p: usize| {
-        data.get(p..p + 4)
-            .map(|b| u32::from_le_bytes(b.try_into().unwrap()) as usize)
-    };
+    let u32_at = |p: usize| data.get(p..p + 4).map(|b| u32::from_le_bytes(b.try_into().unwrap()) as usize);
     let mut out = Vec::new();
     let mut p = 0x10;
     while p + 0xA0 <= data.len() {
@@ -2398,8 +1735,7 @@ fn copeck_entries(data: &[u8]) -> Option<Vec<(usize, String, usize, usize, u64)>
             if at.checked_add(size)? > data.len() {
                 return None;
             }
-            let time = u64::from_le_bytes(data[p + 0x0C..p + 0x14].try_into().ok()?)
-                & 0x3FFF_FFFF_FFFF_FFFF;
+            let time = u64::from_le_bytes(data[p + 0x0C..p + 0x14].try_into().ok()?) & 0x3FFF_FFFF_FFFF_FFFF;
             out.push((p, String::from_utf8_lossy(raw).into_owned(), at, size, time));
         }
         p += 0xA0;
@@ -2415,34 +1751,18 @@ fn peel_copeck(data: &[u8], ctx: &mut Ctx) -> Option<(Layer, Vec<u8>)> {
         .zip_entry
         .as_ref()
         .and_then(|n| files.iter().find(|f| &f.1 == n))
-        .or_else(|| {
-            files
-                .iter()
-                .filter(|f| f.1.ends_with(".SAV"))
-                .max_by_key(|f| f.4)
-        })
+        .or_else(|| files.iter().filter(|f| f.1.ends_with(".SAV")).max_by_key(|f| f.4))
         .or_else(|| files.iter().max_by_key(|f| f.3))?
         .clone();
     ctx.zip_entries = files.iter().map(|f| f.1.clone()).collect();
     let bytes = data[chosen.2..chosen.2 + chosen.3].to_vec();
-    Some((
-        Layer::Copeck {
-            pack: Arc::new(data.to_vec()),
-            name: chosen.1,
-            entry: chosen.0,
-        },
-        bytes,
-    ))
+    Some((Layer::Copeck { pack: Arc::new(data.to_vec()), name: chosen.1, entry: chosen.0 }, bytes))
 }
 
 /// The save Cairn continues from: the newest .SAV in the pack.
 pub fn copeck_newest(layers: &[Layer]) -> Option<String> {
     layers.iter().find_map(|l| match l {
-        Layer::Copeck { pack, .. } => copeck_entries(pack)?
-            .into_iter()
-            .filter(|f| f.1.ends_with(".SAV"))
-            .max_by_key(|f| f.4)
-            .map(|f| f.1),
+        Layer::Copeck { pack, .. } => copeck_entries(pack)?.into_iter().filter(|f| f.1.ends_with(".SAV")).max_by_key(|f| f.4).map(|f| f.1),
         _ => None,
     })
 }
@@ -2450,11 +1770,7 @@ pub fn copeck_newest(layers: &[Layer]) -> Option<String> {
 /// Puts a file back: in its place if it fits, else after the last file.
 fn copeck_put(pack: &[u8], entry: usize, data: &[u8]) -> Result<Vec<u8>, String> {
     let files = copeck_entries(pack).ok_or("the Cairn save pack can't be read")?;
-    let (_, _, at, size, _) = files
-        .iter()
-        .find(|f| f.0 == entry)
-        .cloned()
-        .ok_or("the file is missing from the pack")?;
+    let (_, _, at, size, _) = files.iter().find(|f| f.0 == entry).cloned().ok_or("the file is missing from the pack")?;
     let mut out = pack.to_vec();
     let new_at = if data.len() <= size {
         out[at..at + size].fill(0);
@@ -2483,10 +1799,7 @@ fn copeck_put(pack: &[u8], entry: usize, data: &[u8]) -> Result<Vec<u8>, String>
 /// Barotrauma-style bundle: repeated [i32 name length (UTF-16 units), name, i32 size, bytes].
 /// Must consume the data exactly, with sensible names.
 fn peel_bundle(data: &[u8], ctx: &mut Ctx) -> Option<(Layer, Vec<u8>)> {
-    let i32_at = |p: usize| {
-        data.get(p..p + 4)
-            .map(|b| i32::from_le_bytes(b.try_into().unwrap()))
-    };
+    let i32_at = |p: usize| data.get(p..p + 4).map(|b| i32::from_le_bytes(b.try_into().unwrap()));
     let mut files = Vec::new();
     let mut pos = 0;
     while pos < data.len() {
@@ -2495,11 +1808,7 @@ fn peel_bundle(data: &[u8], ctx: &mut Ctx) -> Option<(Layer, Vec<u8>)> {
             return None;
         }
         pos += 4;
-        let units: Vec<u16> = data
-            .get(pos..pos + nc as usize * 2)?
-            .chunks(2)
-            .map(|c| u16::from_le_bytes([c[0], c[1]]))
-            .collect();
+        let units: Vec<u16> = data.get(pos..pos + nc as usize * 2)?.chunks(2).map(|c| u16::from_le_bytes([c[0], c[1]])).collect();
         let name = String::from_utf16(&units).ok()?;
         if name.chars().any(|c| c.is_control()) {
             return None;
@@ -2529,13 +1838,7 @@ fn peel_bundle(data: &[u8], ctx: &mut Ctx) -> Option<(Layer, Vec<u8>)> {
     };
     let bytes = files.iter().find(|f| f.0 == chosen)?.1.clone();
     ctx.zip_entries = names;
-    Some((
-        Layer::FileBundle {
-            files: Arc::new(files),
-            name: chosen,
-        },
-        bytes,
-    ))
+    Some((Layer::FileBundle { files: Arc::new(files), name: chosen }, bytes))
 }
 
 fn peel_utf16(data: &[u8]) -> Option<(Layer, Vec<u8>)> {
@@ -2550,13 +1853,7 @@ fn peel_utf16(data: &[u8]) -> Option<(Layer, Vec<u8>)> {
     }
     let units: Vec<u16> = body
         .chunks(2)
-        .map(|c| {
-            if big_endian {
-                u16::from_be_bytes([c[0], c[1]])
-            } else {
-                u16::from_le_bytes([c[0], c[1]])
-            }
-        })
+        .map(|c| if big_endian { u16::from_be_bytes([c[0], c[1]]) } else { u16::from_le_bytes([c[0], c[1]]) })
         .collect();
     let s = String::from_utf16(&units).ok()?;
     is_printable(&s).then(|| (Layer::Utf16 { big_endian }, s.into_bytes()))
@@ -2582,9 +1879,7 @@ fn peel_xor(data: &[u8]) -> Option<(u8, Vec<u8>)> {
             continue;
         }
         let plain: Vec<u8> = data.iter().map(|b| b ^ k).collect();
-        let Ok(text) = std::str::from_utf8(&plain) else {
-            continue;
-        };
+        let Ok(text) = std::str::from_utf8(&plain) else { continue };
         let t = text.trim();
         if parse_json(t).is_some() || (target == b'<' && fmt::xml::looks_like_xml(t)) {
             return Some((k, plain));
@@ -2595,19 +1890,14 @@ fn peel_xor(data: &[u8]) -> Option<(u8, Vec<u8>)> {
 
 fn peel_base64_lines(text: &str) -> Option<(Layer, Vec<u8>)> {
     let crlf = text.contains("\r\n");
-    let lines: Vec<&str> = text
-        .trim_end()
-        .split(if crlf { "\r\n" } else { "\n" })
-        .collect();
+    let lines: Vec<&str> = text.trim_end().split(if crlf { "\r\n" } else { "\n" }).collect();
     if lines.len() < 2 {
         return None;
     }
     let width = lines[0].len();
     let uniform = width >= 16
         && lines[..lines.len() - 1].iter().all(|l| l.len() == width)
-        && lines
-            .last()
-            .is_some_and(|l| !l.is_empty() && l.len() <= width)
+        && lines.last().is_some_and(|l| !l.is_empty() && l.len() <= width)
         && lines.iter().all(|l| is_base64_charset(l));
     if !uniform || text.trim_end() != text.trim_end_matches(['\r', '\n']) {
         return None;
@@ -2616,9 +1906,8 @@ fn peel_base64_lines(text: &str) -> Option<(Layer, Vec<u8>)> {
     let bytes = STANDARD.decode(&joined).ok()?;
     // Must round-trip exactly (apart from a trailing newline, which we don't keep).
     let layer = Layer::Base64Lines { width, crlf };
-    (is_recognisable(&bytes)
-        && wrap(&layer, bytes.clone()).ok()?.as_slice() == text.trim_end().as_bytes())
-    .then_some((layer, bytes))
+    (is_recognisable(&bytes) && wrap(&layer, bytes.clone()).ok()?.as_slice() == text.trim_end().as_bytes())
+        .then_some((layer, bytes))
 }
 
 /// JavaScript `escape()`.
@@ -2715,28 +2004,19 @@ fn is_recognisable(bytes: &[u8]) -> bool {
 }
 
 fn is_printable(s: &str) -> bool {
-    !s.is_empty()
-        && s.chars()
-            .all(|c| !c.is_control() || matches!(c, '\n' | '\r' | '\t'))
+    !s.is_empty() && s.chars().all(|c| !c.is_control() || matches!(c, '\n' | '\r' | '\t'))
 }
 
 fn is_base64_charset(s: &str) -> bool {
-    s.bytes()
-        .all(|b| b.is_ascii_alphanumeric() || matches!(b, b'+' | b'/' | b'='))
+    s.bytes().all(|b| b.is_ascii_alphanumeric() || matches!(b, b'+' | b'/' | b'='))
 }
 
 fn looks_zlib(d: &[u8]) -> bool {
-    d.len() >= 2
-        && d[0] & 0x0F == 8
-        && d[0] >> 4 <= 7
-        && (u16::from(d[0]) * 256 + u16::from(d[1])) % 31 == 0
+    d.len() >= 2 && d[0] & 0x0F == 8 && d[0] >> 4 <= 7 && (u16::from(d[0]) * 256 + u16::from(d[1])) % 31 == 0
 }
 
 fn trailing_data() -> std::io::Error {
-    std::io::Error::new(
-        std::io::ErrorKind::InvalidData,
-        "extra data after the compressed stream",
-    )
+    std::io::Error::new(std::io::ErrorKind::InvalidData, "extra data after the compressed stream")
 }
 
 /// Decompress gzip, but only if the stream covers the *whole* input. Extra bytes
@@ -2784,17 +2064,11 @@ mod tests {
     use super::*;
 
     fn roundtrip(layers: &[Layer]) {
-        let content = Content::Json {
-            value: serde_json::json!({"gold": 1500, "name": "Hero", "items": [1, 2.5, null]}),
-            pretty: false,
-        };
+        let content = Content::Json { value: serde_json::json!({"gold": 1500, "name": "Hero", "items": [1, 2.5, null]}), pretty: false };
         let bytes = encode(layers, &content).unwrap();
         let decoded = decode(&bytes);
         assert_eq!(decoded.layers, layers, "layers for {layers:?}");
-        assert!(
-            same_data(&decoded.content, &content),
-            "save verification for {layers:?}"
-        );
+        assert!(same_data(&decoded.content, &content), "save verification for {layers:?}");
         match decoded.content {
             Content::Json { value, .. } => assert_eq!(value["gold"], 1500),
             other => panic!("expected JSON, got {}", other.kind()),
@@ -2802,53 +2076,27 @@ mod tests {
     }
 
     #[test]
-    fn plain_json() {
-        roundtrip(&[]);
-    }
+    fn plain_json() { roundtrip(&[]); }
     #[test]
-    fn rpg_maker_mv() {
-        roundtrip(&[Layer::LzString]);
-    }
+    fn rpg_maker_mv() { roundtrip(&[Layer::LzString]); }
     #[test]
-    fn rpg_maker_mz() {
-        roundtrip(&[Layer::RpgMzZlib]);
-    }
+    fn rpg_maker_mz() { roundtrip(&[Layer::RpgMzZlib]); }
     #[test]
-    fn gzip() {
-        roundtrip(&[Layer::Gzip]);
-    }
+    fn gzip() { roundtrip(&[Layer::Gzip]); }
     #[test]
-    fn zlib() {
-        roundtrip(&[Layer::Zlib]);
-    }
+    fn zlib() { roundtrip(&[Layer::Zlib]); }
     #[test]
-    fn base64_gzip() {
-        roundtrip(&[Layer::Base64, Layer::Gzip]);
-    }
+    fn base64_gzip() { roundtrip(&[Layer::Base64, Layer::Gzip]); }
     #[test]
-    fn fallout_shelter_layer() {
-        roundtrip(&[Layer::FalloutShelter]);
-    }
+    fn fallout_shelter_layer() { roundtrip(&[Layer::FalloutShelter]); }
     #[test]
-    fn antimatter_layer() {
-        roundtrip(&[Layer::Antimatter {
-            kind: 0,
-            version: "AAB".into(),
-        }]);
-    }
+    fn antimatter_layer() { roundtrip(&[Layer::Antimatter { kind: 0, version: "AAB".into() }]); }
     #[test]
     fn nested_json_layer() {
-        let content = Content::Json {
-            value: serde_json::json!({"Version": 2, "State": "{\"Hp\":12,\"Gold\":5}"}),
-            pretty: false,
-        };
+        let content = Content::Json { value: serde_json::json!({"Version": 2, "State": "{\"Hp\":12,\"Gold\":5}"}), pretty: false };
         let bytes = encode(&[], &content).unwrap();
         let d = decode(&bytes);
-        assert!(
-            matches!(d.layers.as_slice(), [Layer::NestedJson { .. }]),
-            "{:?}",
-            d.layers
-        );
+        assert!(matches!(d.layers.as_slice(), [Layer::NestedJson { .. }]), "{:?}", d.layers);
         match &d.content {
             Content::Json { value, .. } => assert_eq!(value["State"]["Gold"], 5),
             other => panic!("expected JSON, got {}", other.kind()),
@@ -2856,19 +2104,13 @@ mod tests {
         assert_eq!(encode(&d.layers, &d.content).unwrap(), bytes);
     }
     #[test]
-    fn bom() {
-        roundtrip(&[Layer::Utf8Bom]);
-    }
+    fn bom() { roundtrip(&[Layer::Utf8Bom]); }
 
     fn set(content: &mut Content, ptr: &str, v: Value) {
-        let Content::Tree(p) = content else {
-            panic!("expected a tree, got {}", content.kind())
-        };
+        let Content::Tree(p) = content else { panic!("expected a tree, got {}", content.kind()) };
         let (view, editable) = p.view_and_editable();
         assert!(editable.contains_key(ptr), "{ptr} should be editable");
-        *view
-            .pointer_mut(ptr)
-            .unwrap_or_else(|| panic!("missing {ptr}")) = v;
+        *view.pointer_mut(ptr).unwrap_or_else(|| panic!("missing {ptr}")) = v;
     }
 
     fn get(content: &Content, ptr: &str) -> Value {
@@ -2880,9 +2122,7 @@ mod tests {
         let raw = std::fs::read(format!("tests/fixtures/{name}")).unwrap();
         let mut d = decode(&raw);
         assert!(matches!(d.layers[0], Layer::RenpyZip { .. }));
-        let Content::Tree(p) = &d.content else {
-            panic!("not pickle")
-        };
+        let Content::Tree(p) = &d.content else { panic!("not pickle") };
         assert_eq!(p.kind_name, "Ren'Py save");
         assert_eq!(get(&d.content, "/Variables/gold"), 1500);
         assert_eq!(get(&d.content, "/Variables/e/name"), "Eileen");
@@ -2890,33 +2130,14 @@ mod tests {
 
         // Unchanged content must re-encode to an identical log.
         let same = encode(&d.layers, &d.content).unwrap();
-        assert_eq!(
-            decode(&same).content.to_bytes().unwrap(),
-            d.content.to_bytes().unwrap()
-        );
+        assert_eq!(decode(&same).content.to_bytes().unwrap(), d.content.to_bytes().unwrap());
 
         set(&mut d.content, "/Variables/gold", Value::from(99999));
-        set(
-            &mut d.content,
-            "/Variables/player_name",
-            Value::from("Robin Hood ★"),
-        );
+        set(&mut d.content, "/Variables/player_name", Value::from("Robin Hood ★"));
         set(&mut d.content, "/Variables/speed", serde_json::json!(2.25));
-        set(
-            &mut d.content,
-            "/Variables/flags/met_alice",
-            Value::from(false),
-        );
-        set(
-            &mut d.content,
-            "/Variables/inventory/money",
-            Value::from(9000),
-        );
-        set(
-            &mut d.content,
-            "/Variables/inventory/items/1",
-            Value::from("elixir"),
-        );
+        set(&mut d.content, "/Variables/flags/met_alice", Value::from(false));
+        set(&mut d.content, "/Variables/inventory/money", Value::from(9000));
+        set(&mut d.content, "/Variables/inventory/items/1", Value::from("elixir"));
         set(&mut d.content, "/Variables/big", Value::from(5));
         set(&mut d.content, "/Variables/neg", Value::from(-70000));
 
@@ -2926,34 +2147,18 @@ mod tests {
 
         let again = decode(&out);
         // The exact check the app runs before writing a save.
-        assert!(
-            same_layers(&again.layers, &d.layers),
-            "layer kinds must match"
-        );
-        assert!(
-            same_data(&again.content, &d.content),
-            "re-read data must match what was edited"
-        );
+        assert!(same_layers(&again.layers, &d.layers), "layer kinds must match");
+        assert!(same_data(&again.content, &d.content), "re-read data must match what was edited");
         assert_eq!(get(&again.content, "/Variables/gold"), 99999);
-        assert_eq!(
-            get(&again.content, "/Variables/player_name"),
-            "Robin Hood ★"
-        );
-        assert_eq!(
-            get(&again.content, "/Variables/inventory/items/1"),
-            "elixir"
-        );
+        assert_eq!(get(&again.content, "/Variables/player_name"), "Robin Hood ★");
+        assert_eq!(get(&again.content, "/Variables/inventory/items/1"), "elixir");
         assert_eq!(get(&again.content, "/Variables/neg"), -70000);
     }
 
     #[test]
-    fn renpy_protocol2() {
-        renpy_edit("renpy_p2-1-LT1.save");
-    }
+    fn renpy_protocol2() { renpy_edit("renpy_p2-1-LT1.save"); }
     #[test]
-    fn renpy_protocol5_signed() {
-        renpy_edit("renpy_p5-1-LT1.save");
-    }
+    fn renpy_protocol5_signed() { renpy_edit("renpy_p5-1-LT1.save"); }
 
     #[test]
     fn renpy_persistent() {
@@ -2961,19 +2166,12 @@ mod tests {
         let mut d = decode(&raw);
         assert_eq!(d.layers, vec![Layer::Zlib]);
         assert_eq!(get(&d.content, "/Variables/gallery_unlocked"), 3);
-        set(
-            &mut d.content,
-            "/Variables/gallery_unlocked",
-            Value::from(10),
-        );
+        set(&mut d.content, "/Variables/gallery_unlocked", Value::from(10));
         set(&mut d.content, "/Variables/ending_good", Value::from(true));
         let out = encode(&d.layers, &d.content).unwrap();
         std::fs::create_dir_all("target/test-out").unwrap();
         std::fs::write("target/test-out/persistent", &out).unwrap();
-        assert_eq!(
-            get(&decode(&out).content, "/Variables/gallery_unlocked"),
-            10
-        );
+        assert_eq!(get(&decode(&out).content, "/Variables/gallery_unlocked"), 10);
     }
 
     #[test]
@@ -2981,23 +2179,13 @@ mod tests {
         // One string and one list each referenced by two variables (pickle memo).
         let raw = std::fs::read("tests/fixtures/renpy_shared-1-LT1.save").unwrap();
         let mut d = decode(&raw);
-        let Content::Tree(p) = &mut d.content else {
-            panic!("not pickle")
-        };
-        assert_eq!(
-            p.view.pointer("/Variables/hero_label").unwrap(),
-            "Robin the Brave"
-        );
+        let Content::Tree(p) = &mut d.content else { panic!("not pickle") };
+        assert_eq!(p.view.pointer("/Variables/hero_label").unwrap(), "Robin the Brave");
 
-        let (_, aliases) = p
-            .set("/Variables/player_name", Value::from("Robin"))
-            .unwrap()
-            .unwrap();
+        let (_, aliases) = p.set("/Variables/player_name", Value::from("Robin")).unwrap().unwrap();
         assert_eq!(aliases, 1, "the shared name should be reported as shared");
         assert_eq!(p.view.pointer("/Variables/hero_label").unwrap(), "Robin");
-        p.set("/Variables/inventory/0", Value::from("axe"))
-            .unwrap()
-            .unwrap();
+        p.set("/Variables/inventory/0", Value::from("axe")).unwrap().unwrap();
         assert_eq!(p.view.pointer("/Variables/backpack/0").unwrap(), "axe");
         let (_, none) = p.set("/Variables/gold", Value::from(99)).unwrap().unwrap();
         assert_eq!(none, 0);
@@ -3008,10 +2196,7 @@ mod tests {
         std::fs::write("target/test-out/shared.save", &out).unwrap();
         let again = decode(&out);
         assert!(same_layers(&again.layers, &d.layers));
-        assert!(
-            same_data(&again.content, &d.content),
-            "screen and file must agree"
-        );
+        assert!(same_data(&again.content, &d.content), "screen and file must agree");
     }
 
     /// Point the signer at a throwaway key (never the real one) for tests.
@@ -3040,18 +2225,10 @@ mod tests {
         let mut log = Vec::new();
         zip.by_name("log").unwrap().read_to_end(&mut log).unwrap();
         let mut sigs = String::new();
-        zip.by_name("signatures")
-            .unwrap()
-            .read_to_string(&mut sigs)
-            .unwrap();
-        assert!(
-            crate::renpy_sign::verify(&log, &sigs),
-            "edited log must carry a valid signature"
-        );
+        zip.by_name("signatures").unwrap().read_to_string(&mut sigs).unwrap();
+        assert!(crate::renpy_sign::verify(&log, &sigs), "edited log must carry a valid signature");
         let names: Vec<_> = zip.file_names().map(String::from).collect();
-        assert!(
-            names.contains(&"screenshot.png".to_string()) && names.contains(&"json".to_string())
-        );
+        assert!(names.contains(&"screenshot.png".to_string()) && names.contains(&"json".to_string()));
     }
 
     #[test]
@@ -3060,14 +2237,8 @@ mod tests {
         // the rollback log; those must carry the edit too or it's silently undone.
         let raw = std::fs::read("tests/fixtures/renpy_rollback-1-LT1.save").unwrap();
         let mut d = decode(&raw);
-        let Content::Tree(p) = &d.content else {
-            panic!()
-        };
-        assert_eq!(
-            p.linked_count("/Variables/nScore"),
-            3,
-            "three history entries hold nScore"
-        );
+        let Content::Tree(p) = &d.content else { panic!() };
+        assert_eq!(p.linked_count("/Variables/nScore"), 3, "three history entries hold nScore");
         assert_eq!(p.linked_count("/Variables/nPatience"), 0);
         set(&mut d.content, "/Variables/nScore", Value::from(25));
         set(&mut d.content, "/Variables/nPatience", Value::from(7));
@@ -3095,22 +2266,12 @@ mod tests {
 
         let mut d = decode(&raw);
         assert_eq!(d.layers, vec![Layer::RenpyPersistent { signed: true }]);
-        set(
-            &mut d.content,
-            "/Variables/gallery_unlocked",
-            Value::from(42),
-        );
+        set(&mut d.content, "/Variables/gallery_unlocked", Value::from(42));
         let out = encode(&d.layers, &d.content).unwrap();
 
         let (new_pickle, sig) = inflate_with_rest(&out).unwrap();
-        assert!(crate::renpy_sign::verify(
-            &new_pickle,
-            std::str::from_utf8(sig).unwrap()
-        ));
-        assert_eq!(
-            get(&decode(&out).content, "/Variables/gallery_unlocked"),
-            42
-        );
+        assert!(crate::renpy_sign::verify(&new_pickle, std::str::from_utf8(sig).unwrap()));
+        assert_eq!(get(&decode(&out).content, "/Variables/gallery_unlocked"), 42);
     }
 
     /// Manual check against a sample Ren'Py save and the signing key Ren'Py keeps (read-only):
@@ -3122,24 +2283,13 @@ mod tests {
         let src = std::env::var("SAVE_EDITOR_REAL_SAVE").expect("set SAVE_EDITOR_REAL_SAVE");
         let raw = std::fs::read(&src).unwrap();
         let mut d = decode(&raw);
-        assert!(
-            matches!(d.layers[0], Layer::RenpyZip { signed: true, .. }),
-            "expected a signed Ren'Py save"
-        );
+        assert!(matches!(d.layers[0], Layer::RenpyZip { signed: true, .. }), "expected a signed Ren'Py save");
         // SAVE_EDITOR_REAL_VARS = "name=value,name=value" (variables of that game to change).
         let vars = std::env::var("SAVE_EDITOR_REAL_VARS").expect("set SAVE_EDITOR_REAL_VARS");
-        for (var, v) in vars
-            .split(',')
-            .filter_map(|p| p.split_once('='))
-            .map(|(k, v)| (k.trim().to_string(), v.trim().parse::<i64>().unwrap()))
-        {
+        for (var, v) in vars.split(',').filter_map(|p| p.split_once('=')).map(|(k, v)| (k.trim().to_string(), v.trim().parse::<i64>().unwrap())) {
             let ptr = format!("/Variables/{var}");
             if let Content::Tree(p) = &d.content {
-                eprintln!(
-                    "{var}: {} -> {v}  (history entries kept in step: {})",
-                    get(&d.content, &ptr),
-                    p.linked_count(&ptr)
-                );
+                eprintln!("{var}: {} -> {v}  (history entries kept in step: {})", get(&d.content, &ptr), p.linked_count(&ptr));
             }
             set(&mut d.content, &ptr, Value::from(v));
         }
@@ -3165,11 +2315,7 @@ mod tests {
         if let Some(h) = &d.hint {
             eprintln!("hint: {h}");
         }
-        for edit in std::env::var("SAVE_EDITOR_TEST_EDITS")
-            .unwrap_or_default()
-            .split(';')
-            .filter(|s| !s.is_empty())
-        {
+        for edit in std::env::var("SAVE_EDITOR_TEST_EDITS").unwrap_or_default().split(';').filter(|s| !s.is_empty()) {
             let (ptr, json) = edit.split_once('=').expect("ptr=json");
             let v: Value = serde_json::from_str(json).expect("json value");
             match &mut d.content {
@@ -3186,10 +2332,7 @@ mod tests {
         }
         let out = encode(&d.layers, &d.content).unwrap();
         let check = decode_with(&out, &opts);
-        assert!(
-            same_layers(&check.layers, &d.layers) && same_data(&check.content, &d.content),
-            "verification failed"
-        );
+        assert!(same_layers(&check.layers, &d.layers) && same_data(&check.content, &d.content), "verification failed");
         if let Ok(p) = std::env::var("SAVE_EDITOR_TEST_OUT") {
             std::fs::write(p, &out).unwrap();
         }
@@ -3201,14 +2344,10 @@ mod tests {
     #[test]
     #[ignore]
     fn scan_real_saves() {
-        let list =
-            std::fs::read_to_string(std::env::var("SAVE_EDITOR_SCAN").expect("SAVE_EDITOR_SCAN"))
-                .unwrap();
+        let list = std::fs::read_to_string(std::env::var("SAVE_EDITOR_SCAN").expect("SAVE_EDITOR_SCAN")).unwrap();
         let mut kinds: std::collections::BTreeMap<String, usize> = Default::default();
         for path in list.lines().map(str::trim).filter(|l| !l.is_empty()) {
-            let Ok(raw) = std::fs::read(path) else {
-                continue;
-            };
+            let Ok(raw) = std::fs::read(path) else { continue };
             let opts = Options::for_path(std::path::Path::new(path));
             let mut d = decode_with(&raw, &opts);
             let kind = describe(&d.layers, &d.content);
@@ -3217,48 +2356,25 @@ mod tests {
                 // Unchanged save must be accepted by the verification.
                 let same = encode(&d.layers, &Content::Tree(t.clone())).map(|b| {
                     let c = decode_with(&b, &opts);
-                    same_layers(&c.layers, &d.layers)
-                        && same_data(&c.content, &Content::Tree(t.clone()))
+                    same_layers(&c.layers, &d.layers) && same_data(&c.content, &Content::Tree(t.clone()))
                 });
                 result.push_str(&format!("unchanged-ok={} ", same.unwrap_or(false)));
                 // Simulated edit: first editable number +1 (or first text).
-                let target = t
-                    .editable
-                    .keys()
-                    .filter_map(|p| t.view.pointer(p).map(|v| (p.clone(), v.clone())))
-                    .find(|(_, v)| v.is_i64());
+                let target = t.editable.keys().filter_map(|p| t.view.pointer(p).map(|v| (p.clone(), v.clone()))).find(|(_, v)| v.is_i64());
                 let leaves = t.editable.len();
-                let edited = target
-                    .map(|(p, v)| t.set(&p, Value::from(v.as_i64().unwrap().saturating_add(1))));
+                let edited = target.map(|(p, v)| t.set(&p, Value::from(v.as_i64().unwrap().saturating_add(1))));
                 match edited {
                     Some(Ok(_)) => {
                         let reread = encode(&d.layers, &d.content).map(|b| decode_with(&b, &opts));
-                        let ok = reread.as_ref().is_ok_and(|c| {
-                            same_layers(&c.layers, &d.layers) && same_data(&c.content, &d.content)
-                        });
+                        let ok = reread.as_ref().is_ok_and(|c| same_layers(&c.layers, &d.layers) && same_data(&c.content, &d.content));
                         result.push_str(&format!("edit-ok={ok} ({leaves} leaves)"));
                         if let Err(e) = &reread {
                             result.push_str(&format!(" ERROR {e}"));
                         }
-                        if let (
-                            false,
-                            Ok(Decoded {
-                                content: Content::Tree(c),
-                                ..
-                            }),
-                            Content::Tree(t),
-                        ) = (ok, &reread, &d.content)
-                        {
-                            let first_diff = t
-                                .editable
-                                .keys()
-                                .find(|p| t.view.pointer(p) != c.view.pointer(p));
+                        if let (false, Ok(Decoded { content: Content::Tree(c), .. }), Content::Tree(t)) = (ok, &reread, &d.content) {
+                            let first_diff = t.editable.keys().find(|p| t.view.pointer(p) != c.view.pointer(p));
                             if let Some(p) = first_diff {
-                                result.push_str(&format!(
-                                    " DIFF {p}: {:?} vs reread {:?}",
-                                    t.view.pointer(p),
-                                    c.view.pointer(p)
-                                ));
+                                result.push_str(&format!(" DIFF {p}: {:?} vs reread {:?}", t.view.pointer(p), c.view.pointer(p)));
                             }
                         }
                     }
@@ -3307,13 +2423,7 @@ mod tests {
         assert_eq!(encode(&d.layers, &d.content).unwrap(), hk);
         // Balatro: raw deflate around a Lua table.
         let lua = b"return {[\"dollars\"]=4,[\"name\"]=\"Red Deck\",}";
-        let jkr = compress(
-            flate2::write::DeflateEncoder::new(Vec::new(), Compression::default()),
-            lua,
-        )
-        .unwrap()
-        .finish()
-        .unwrap();
+        let jkr = compress(flate2::write::DeflateEncoder::new(Vec::new(), Compression::default()), lua).unwrap().finish().unwrap();
         let mut opts = Options::default();
         opts.ext = "jkr".into();
         let d = decode_with(&jkr, &opts);
@@ -3332,33 +2442,14 @@ mod tests {
             vec![Layer::Utf16 { big_endian: false }],
             vec![Layer::Utf16 { big_endian: true }],
             vec![Layer::Xor(0x5A)],
-            vec![Layer::Base64Lines {
-                width: 16,
-                crlf: true,
-            }],
-            vec![Layer::Es3 {
-                password: "password".into(),
-                iv: vec![3; 16],
-            }],
-            vec![
-                Layer::Es3 {
-                    password: "password".into(),
-                    iv: vec![3; 16],
-                },
-                Layer::Gzip,
-            ],
+            vec![Layer::Base64Lines { width: 16, crlf: true }],
+            vec![Layer::Es3 { password: "password".into(), iv: vec![3; 16] }],
+            vec![Layer::Es3 { password: "password".into(), iv: vec![3; 16] }, Layer::Gzip],
         ] {
-            let content = Content::Json {
-                value: serde_json::from_slice(&json).unwrap(),
-                pretty: false,
-            };
+            let content = Content::Json { value: serde_json::from_slice(&json).unwrap(), pretty: false };
             let bytes = encode(&layers, &content).unwrap();
             let d = decode(&bytes);
-            assert!(
-                same_layers(&d.layers, &layers),
-                "{layers:?} detected as {:?}",
-                d.layers
-            );
+            assert!(same_layers(&d.layers, &layers), "{layers:?} detected as {:?}", d.layers);
             assert!(same_data(&d.content, &content), "{layers:?}");
         }
     }
@@ -3368,42 +2459,20 @@ mod tests {
         // Bundle: a gzipped "submarine" plus an XML game session, inside gzip.
         let files = Arc::new(vec![
             ("Sub.sub".to_string(), gz(b"<Submarine/>")),
-            (
-                "gamesession.xml".to_string(),
-                b"<Gamesession money=\"100\"/>".to_vec(),
-            ),
+            ("gamesession.xml".to_string(), b"<Gamesession money=\"100\"/>".to_vec()),
         ]);
-        let layers = vec![
-            Layer::Gzip,
-            Layer::FileBundle {
-                files: files.clone(),
-                name: "gamesession.xml".into(),
-            },
-        ];
-        let raw = encode(
-            &layers,
-            &Content::Text("<Gamesession money=\"100\"/>".into()),
-        )
-        .unwrap();
+        let layers = vec![Layer::Gzip, Layer::FileBundle { files: files.clone(), name: "gamesession.xml".into() }];
+        let raw = encode(&layers, &Content::Text("<Gamesession money=\"100\"/>".into())).unwrap();
         let mut d = decode(&raw);
         assert!(same_layers(&d.layers, &layers), "{:?}", d.layers);
-        assert_eq!(
-            d.zip_entries,
-            vec!["Sub.sub".to_string(), "gamesession.xml".to_string()]
-        );
-        let Content::Tree(t) = &mut d.content else {
-            panic!("expected XML, got {}", d.content.kind())
-        };
+        assert_eq!(d.zip_entries, vec!["Sub.sub".to_string(), "gamesession.xml".to_string()]);
+        let Content::Tree(t) = &mut d.content else { panic!("expected XML, got {}", d.content.kind()) };
         t.set("/Gamesession/@money", Value::from(99999)).unwrap();
         let again = decode(&encode(&d.layers, &d.content).unwrap());
-        let Content::Tree(t2) = &again.content else {
-            panic!()
-        };
+        let Content::Tree(t2) = &again.content else { panic!() };
         assert_eq!(t2.view.pointer("/Gamesession/@money").unwrap(), 99999);
         // The other file in the bundle is untouched.
-        let Layer::FileBundle { files: f2, .. } = &again.layers[1] else {
-            panic!()
-        };
+        let Layer::FileBundle { files: f2, .. } = &again.layers[1] else { panic!() };
         assert_eq!(f2[0], files[0]);
 
         // Palworld PlZ (single and double zlib) around arbitrary data.
@@ -3418,26 +2487,12 @@ mod tests {
 
     #[test]
     fn godot_encrypted_needs_password() {
-        let info = crate::fmt::crypto::GodotEnc {
-            password: "hunter2".into(),
-            iv: Some(vec![1; 16]),
-            mode: 1,
-        };
-        let bytes = encode(
-            &[Layer::GodotEnc(info)],
-            &Content::Json {
-                value: serde_json::json!({"hp": 5}),
-                pretty: false,
-            },
-        )
-        .unwrap();
+        let info = crate::fmt::crypto::GodotEnc { password: "hunter2".into(), iv: Some(vec![1; 16]), mode: 1 };
+        let bytes = encode(&[Layer::GodotEnc(info)], &Content::Json { value: serde_json::json!({"hp": 5}), pretty: false }).unwrap();
         let locked = decode(&bytes);
         assert!(matches!(locked.content, Content::Binary(_)));
         assert!(locked.hint.unwrap().contains("password"));
-        let opts = Options {
-            password: Some("hunter2".into()),
-            ..Default::default()
-        };
+        let opts = Options { password: Some("hunter2".into()), ..Default::default() };
         let open = decode_with(&bytes, &opts);
         assert!(matches!(open.layers[0], Layer::GodotEnc(_)));
         assert_eq!(get_json(&open.content, "/hp"), 5);
@@ -3456,103 +2511,47 @@ mod tests {
     fn pdx_sav_archive_round_trip() {
         use zip::write::SimpleFileOptions;
         let id = |n: u16| n.to_le_bytes().to_vec();
-        let text = |t: &str| {
-            [
-                id(0x000f),
-                (t.len() as u16).to_le_bytes().to_vec(),
-                t.as_bytes().to_vec(),
-            ]
-            .concat()
-        };
-        let meta = [
-            id(0x3155),
-            id(1),
-            id(3),
-            id(0x058f),
-            id(1),
-            id(0x000c),
-            9i32.to_le_bytes().to_vec(),
-            id(0x001c),
-            id(1),
-            text("Ada"),
-            id(4),
-        ]
-        .concat();
-        let state = [
-            meta.clone(),
-            id(0x7000),
-            id(1),
-            id(0x0167),
-            250_000i64.to_le_bytes().to_vec(),
-        ]
-        .concat();
+        let text = |t: &str| [id(0x000f), (t.len() as u16).to_le_bytes().to_vec(), t.as_bytes().to_vec()].concat();
+        let meta = [id(0x3155), id(1), id(3), id(0x058f), id(1), id(0x000c), 9i32.to_le_bytes().to_vec(), id(0x001c), id(1), text("Ada"), id(4)].concat();
+        let state = [meta.clone(), id(0x7000), id(1), id(0x0167), 250_000i64.to_le_bytes().to_vec()].concat();
         let mut file = format!("SAV0103aabbccdd{:08x}\n", meta.len()).into_bytes();
         file.extend(&meta);
         let zip_at = file.len();
         let mut start = Cursor::new(file);
         start.set_position(zip_at as u64);
         let mut w = zip::ZipWriter::new(start);
-        w.start_file("gamestate", SimpleFileOptions::default())
-            .unwrap();
+        w.start_file("gamestate", SimpleFileOptions::default()).unwrap();
         w.write_all(&state).unwrap();
         let raw = w.finish().unwrap().into_inner();
 
-        let d = decode_with(
-            &raw,
-            &Options {
-                ext: "ck3".into(),
-                ..Options::default()
-            },
-        );
+        let d = decode_with(&raw, &Options { ext: "ck3".into(), ..Options::default() });
         assert!(matches!(&d.layers[0], Layer::PdxSav { zip_at: z, .. } if *z == zip_at));
-        let Content::Tree(mut doc) = d.content else {
-            panic!("not a tree")
-        };
+        let Content::Tree(mut doc) = d.content else { panic!("not a tree") };
         assert_eq!(doc.kind_name, "Crusader Kings III save (binary)");
         assert_eq!(doc.view["0x7000"], 2.5);
-        assert_eq!(
-            encode(&d.layers, &Content::Tree(doc.clone()))
-                .map(|b| decode(&b).content.to_bytes().unwrap())
-                .unwrap(),
-            state
-        );
+        assert_eq!(encode(&d.layers, &Content::Tree(doc.clone())).map(|b| decode(&b).content.to_bytes().unwrap()).unwrap(), state);
         doc.set("/0x7000", serde_json::json!(7.25)).unwrap();
-        doc.set("/0x3155/0x001c", serde_json::json!("Adelaide"))
-            .unwrap();
+        doc.set("/0x3155/0x001c", serde_json::json!("Adelaide")).unwrap();
         let out = encode(&d.layers, &Content::Tree(doc)).unwrap();
         let h = fmt::pdxbin::SavHeader::read(&out).unwrap();
         assert_eq!(h.meta_len, meta.len() + 5);
-        let back = decode_with(
-            &out,
-            &Options {
-                ext: "ck3".into(),
-                ..Options::default()
-            },
-        );
-        let Content::Tree(doc) = back.content else {
-            panic!("not a tree")
-        };
+        let back = decode_with(&out, &Options { ext: "ck3".into(), ..Options::default() });
+        let Content::Tree(doc) = back.content else { panic!("not a tree") };
         assert_eq!(doc.view["0x7000"], 7.25);
         assert_eq!(doc.view["0x3155"]["0x001c"], "Adelaide");
         // The copy after the header line is the start of the new game state.
         let state = doc.to_bytes().unwrap();
         assert_eq!(&out[h.len..h.len + h.meta_len], &state[..h.meta_len]);
-        assert_eq!(
-            &out[h.len + h.meta_len..h.len + h.meta_len + 4],
-            b"PK\x03\x04"
-        );
+        assert_eq!(&out[h.len + h.meta_len..h.len + h.meta_len + 4], b"PK\x03\x04");
     }
 
     #[test]
     fn generic_zip_picks_editable_entry() {
         use zip::write::SimpleFileOptions;
         let mut w = zip::ZipWriter::new(Cursor::new(Vec::new()));
-        w.start_file("thumb.png", SimpleFileOptions::default())
-            .unwrap();
-        w.write_all(&[0x89, b'P', b'N', b'G', 0, 1, 2, 3, 250, 251])
-            .unwrap();
-        w.start_file("save.json", SimpleFileOptions::default())
-            .unwrap();
+        w.start_file("thumb.png", SimpleFileOptions::default()).unwrap();
+        w.write_all(&[0x89, b'P', b'N', b'G', 0, 1, 2, 3, 250, 251]).unwrap();
+        w.start_file("save.json", SimpleFileOptions::default()).unwrap();
         w.write_all(br#"{"gold":5}"#).unwrap();
         let raw = w.finish().unwrap().into_inner();
         let mut d = decode(&raw);
@@ -3566,10 +2565,7 @@ mod tests {
         assert_eq!(get_json(&again.content, "/gold"), 77);
         let mut z = zip::ZipArchive::new(Cursor::new(out)).unwrap();
         let mut png = Vec::new();
-        z.by_name("thumb.png")
-            .unwrap()
-            .read_to_end(&mut png)
-            .unwrap();
+        z.by_name("thumb.png").unwrap().read_to_end(&mut png).unwrap();
         assert_eq!(png[..4], [0x89, b'P', b'N', b'G'], "other entries kept");
     }
 
@@ -3634,10 +2630,7 @@ mod tests {
 /// been written: Persona 4 Golden keeps the save's MD5 in `dataNNNN.binslot` (0x18–0x27).
 pub fn companion_files(path: &std::path::Path, bytes: &[u8]) -> Vec<(std::path::PathBuf, Vec<u8>)> {
     let mut out = vec![];
-    if path
-        .extension()
-        .is_some_and(|e| e.eq_ignore_ascii_case("bin"))
-    {
+    if path.extension().is_some_and(|e| e.eq_ignore_ascii_case("bin")) {
         let slot = path.with_extension("binslot");
         if let Ok(mut s) = std::fs::read(&slot) {
             if s.len() >= 0x28 && s.starts_with(b"SAVE") {
@@ -3654,6 +2647,7 @@ pub fn companion_files(path: &std::path::Path, bytes: &[u8]) -> Vec<(std::path::
     out.extend(fmt::nwn::companions(path, bytes));
     out
 }
+
 
 #[cfg(test)]
 mod copeck_tests {
@@ -3692,40 +2686,18 @@ mod civ5_tests {
         let mut x = 12345u32;
         for i in 0..400_000u32 {
             x = x.wrapping_mul(1_103_515_245).wrapping_add(12345);
-            plain.push(if i % 3 == 0 {
-                (x >> 24) as u8
-            } else {
-                (i % 7) as u8
-            });
+            plain.push(if i % 3 == 0 { (x >> 24) as u8 } else { (i % 7) as u8 });
         }
         let mut header = b"CIV5\x08\x00\x00\x00".to_vec();
         header.extend(b"\x0B\x00\x00\x00HANDICAP_KING".iter());
-        let layer = Layer::Civ5 {
-            header: Arc::new(header.clone()),
-            chunked: true,
-            trailer: Arc::new(b"\x01\x00\x00\x00tail".to_vec()),
-        };
+        let layer = Layer::Civ5 { header: Arc::new(header.clone()), chunked: true, trailer: Arc::new(b"\x01\x00\x00\x00tail".to_vec()) };
         let file = wrap(&layer, plain.clone()).unwrap();
-        assert!(
-            file.len() > header.len() + 2 * CIV5_CHUNK,
-            "needs several chunks"
-        );
+        assert!(file.len() > header.len() + 2 * CIV5_CHUNK, "needs several chunks");
         let opts = Options::default();
-        let mut ctx = Ctx {
-            opts: &opts,
-            zip_entries: vec![],
-            hint: None,
-        };
+        let mut ctx = Ctx { opts: &opts, zip_entries: vec![], hint: None };
         let (back, data) = peel_civ5(&file, &mut ctx).unwrap();
         assert_eq!(data, plain);
-        let Layer::Civ5 {
-            header: h,
-            chunked,
-            trailer,
-        } = &back
-        else {
-            panic!()
-        };
+        let Layer::Civ5 { header: h, chunked, trailer } = &back else { panic!() };
         assert_eq!(h.as_slice(), header.as_slice());
         assert!(*chunked);
         assert_eq!(trailer.as_slice(), b"\x01\x00\x00\x00tail");

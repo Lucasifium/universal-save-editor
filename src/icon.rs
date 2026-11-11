@@ -20,12 +20,7 @@ fn over(dst: Rgba, src: Rgba) -> Rgba {
 }
 
 fn hex(c: u32) -> Rgba {
-    [
-        ((c >> 16) & 0xFF) as f32 / 255.0,
-        ((c >> 8) & 0xFF) as f32 / 255.0,
-        (c & 0xFF) as f32 / 255.0,
-        1.0,
-    ]
+    [((c >> 16) & 0xFF) as f32 / 255.0, ((c >> 8) & 0xFF) as f32 / 255.0, (c & 0xFF) as f32 / 255.0, 1.0]
 }
 
 fn circle(x: f32, y: f32, cx: f32, cy: f32, r: f32) -> bool {
@@ -71,12 +66,7 @@ fn sample(x: f32, y: f32) -> Rgba {
     if rounded_rect(x, y, 0.03, 0.03, 0.97, 0.97, 0.2) {
         let t = ((x + y) / 2.0).clamp(0.0, 1.0);
         let (a, b) = (hex(0x1A2A48), hex(0x34226B));
-        c = [
-            a[0] + (b[0] - a[0]) * t,
-            a[1] + (b[1] - a[1]) * t,
-            a[2] + (b[2] - a[2]) * t,
-            1.0,
-        ];
+        c = [a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t, a[2] + (b[2] - a[2]) * t, 1.0];
     }
 
     // Slider tracks (left and right); the part below each knob takes the knob's colour.
@@ -199,11 +189,7 @@ pub fn png(size: u32) -> Vec<u8> {
         for &b in data {
             c ^= b as u32;
             for _ in 0..8 {
-                c = if c & 1 != 0 {
-                    0xEDB8_8320 ^ (c >> 1)
-                } else {
-                    c >> 1
-                };
+                c = if c & 1 != 0 { 0xEDB8_8320 ^ (c >> 1) } else { c >> 1 };
             }
         }
         !c

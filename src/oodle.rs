@@ -11,33 +11,9 @@ use std::path::{Path, PathBuf};
 use std::sync::OnceLock;
 
 type Decompress = unsafe extern "C" fn(
-    *const u8,
-    i64,
-    *mut u8,
-    i64,
-    i32,
-    i32,
-    i32,
-    *mut u8,
-    i64,
-    *const u8,
-    *const u8,
-    *mut u8,
-    i64,
-    i32,
+    *const u8, i64, *mut u8, i64, i32, i32, i32, *mut u8, i64, *const u8, *const u8, *mut u8, i64, i32,
 ) -> i64;
-type Compress = unsafe extern "C" fn(
-    i32,
-    *const u8,
-    i64,
-    *mut u8,
-    i32,
-    *const u8,
-    *const u8,
-    *const u8,
-    *mut u8,
-    i64,
-) -> i64;
+type Compress = unsafe extern "C" fn(i32, *const u8, i64, *mut u8, i32, *const u8, *const u8, *const u8, *mut u8, i64) -> i64;
 
 struct Lib {
     #[cfg(not(target_arch = "wasm32"))]
@@ -54,26 +30,17 @@ const NORMAL: i32 = 4;
 
 fn names(n: &str) -> bool {
     let n = n.to_lowercase();
-    (n.starts_with("oo2core_") && n.ends_with("_win64.dll"))
-        || n.starts_with("liboo2corelinux64.so")
+    (n.starts_with("oo2core_") && n.ends_with("_win64.dll")) || n.starts_with("liboo2corelinux64.so")
 }
 
 /// The library file with the highest version number among `dir`'s games (two levels deep).
 fn search() -> Option<PathBuf> {
-    if let Some(p) = std::env::var_os("SAVE_EDITOR_OODLE")
-        .map(PathBuf::from)
-        .filter(|p| p.is_file())
-    {
+    if let Some(p) = std::env::var_os("SAVE_EDITOR_OODLE").map(PathBuf::from).filter(|p| p.is_file()) {
         return Some(p);
     }
     // Where it was found last time (searching every game folder takes a few seconds).
     let memo = crate::platform::config_dir().map(|d| d.join("oodle_library.txt"));
-    if let Some(p) = memo
-        .as_ref()
-        .and_then(|m| std::fs::read_to_string(m).ok())
-        .map(|s| PathBuf::from(s.trim()))
-        .filter(|p| p.is_file())
-    {
+    if let Some(p) = memo.as_ref().and_then(|m| std::fs::read_to_string(m).ok()).map(|s| PathBuf::from(s.trim())).filter(|p| p.is_file()) {
         return Some(p);
     }
     let found = search_games();
@@ -112,19 +79,9 @@ fn search_games() -> Option<PathBuf> {
     // Newest version first: oo2core_9 decodes everything the older ones wrote.
     // "oo2core_9_win64.dll" → 9; "liboo2corelinux64.so.9" → 9.
     let version = |p: &PathBuf| {
-        let n = p
-            .file_name()
-            .map(|n| n.to_string_lossy().to_lowercase())
-            .unwrap_or_default();
-        let tail = n
-            .strip_prefix("oo2core_")
-            .or_else(|| n.rsplit_once(".so.").map(|(_, v)| v))
-            .unwrap_or("");
-        tail.chars()
-            .take_while(char::is_ascii_digit)
-            .collect::<String>()
-            .parse::<u32>()
-            .unwrap_or(0)
+        let n = p.file_name().map(|n| n.to_string_lossy().to_lowercase()).unwrap_or_default();
+        let tail = n.strip_prefix("oo2core_").or_else(|| n.rsplit_once(".so.").map(|(_, v)| v)).unwrap_or("");
+        tail.chars().take_while(char::is_ascii_digit).collect::<String>().parse::<u32>().unwrap_or(0)
     };
     found.sort_by_key(|p| std::cmp::Reverse(version(p)));
     found.into_iter().next()
@@ -150,12 +107,7 @@ fn load() -> Option<Lib> {
         let lib = libloading::Library::new(&path).ok()?;
         let decompress = *lib.get::<Decompress>(b"OodleLZ_Decompress\0").ok()?;
         let compress = lib.get::<Compress>(b"OodleLZ_Compress\0").ok().map(|s| *s);
-        Some(Lib {
-            _lib: lib,
-            decompress,
-            compress,
-            path,
-        })
+        Some(Lib { _lib: lib, decompress, compress, path })
     }
 }
 
@@ -174,22 +126,7 @@ pub fn decompress(src: &[u8], raw_len: usize) -> Option<Vec<u8>> {
     let mut out = vec![0u8; raw_len];
     // SAFETY: buffers are valid for the lengths given; Oodle writes at most `raw_len` bytes.
     let n = unsafe {
-        (l.decompress)(
-            src.as_ptr(),
-            src.len() as i64,
-            out.as_mut_ptr(),
-            raw_len as i64,
-            1,
-            0,
-            0,
-            std::ptr::null_mut(),
-            0,
-            std::ptr::null(),
-            std::ptr::null(),
-            std::ptr::null_mut(),
-            0,
-            3,
-        )
+        (l.decompress)(src.as_ptr(), src.len() as i64, out.as_mut_ptr(), raw_len as i64, 1, 0, 0, std::ptr::null_mut(), 0, std::ptr::null(), std::ptr::null(), std::ptr::null_mut(), 0, 3)
     };
     (n == raw_len as i64).then_some(out)
 }
@@ -202,18 +139,7 @@ pub fn compress(src: &[u8]) -> Option<Vec<u8>> {
     let mut out = vec![0u8; cap];
     // SAFETY: as above; `cap` covers Oodle's maximum compressed size.
     let n = unsafe {
-        f(
-            KRAKEN,
-            src.as_ptr(),
-            src.len() as i64,
-            out.as_mut_ptr(),
-            NORMAL,
-            std::ptr::null(),
-            std::ptr::null(),
-            std::ptr::null(),
-            std::ptr::null_mut(),
-            0,
-        )
+        f(KRAKEN, src.as_ptr(), src.len() as i64, out.as_mut_ptr(), NORMAL, std::ptr::null(), std::ptr::null(), std::ptr::null(), std::ptr::null_mut(), 0)
     };
     if n <= 0 || n as usize > cap {
         return None;

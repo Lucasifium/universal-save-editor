@@ -57,22 +57,14 @@ fn places() -> Vec<(String, PathBuf)> {
                 }
             }
         }
-    } else if let Some(home) = std::env::var_os("HOME")
-        .or_else(|| std::env::var_os("USERPROFILE"))
-        .map(PathBuf::from)
-    {
+    } else if let Some(home) = std::env::var_os("HOME").or_else(|| std::env::var_os("USERPROFILE")).map(PathBuf::from) {
         out.push(("Home".to_string(), home));
     }
     out
 }
 
 impl FileBrowser {
-    pub fn new(
-        mode: Mode,
-        title: impl Into<String>,
-        start: Option<PathBuf>,
-        name: Option<String>,
-    ) -> Self {
+    pub fn new(mode: Mode, title: impl Into<String>, start: Option<PathBuf>, name: Option<String>) -> Self {
         let places = places();
         let dir = start
             .filter(|d| d.is_dir())
@@ -103,16 +95,11 @@ impl FileBrowser {
                     if self.mode == Mode::Folder && !is_dir {
                         continue;
                     }
-                    self.entries.push((
-                        e.file_name().to_string_lossy().into_owned(),
-                        is_dir,
-                        md.map_or(0, |m| m.len()),
-                    ));
+                    self.entries
+                        .push((e.file_name().to_string_lossy().into_owned(), is_dir, md.map_or(0, |m| m.len())));
                 }
-                self.entries.sort_by(|a, b| {
-                    b.1.cmp(&a.1)
-                        .then_with(|| a.0.to_lowercase().cmp(&b.0.to_lowercase()))
-                });
+                self.entries
+                    .sort_by(|a, b| b.1.cmp(&a.1).then_with(|| a.0.to_lowercase().cmp(&b.0.to_lowercase())));
             }
             Err(e) => self.error = Some(format!("Can't open this folder: {e}")),
         }

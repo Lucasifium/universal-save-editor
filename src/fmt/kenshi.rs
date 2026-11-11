@@ -21,14 +21,6 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
     }
     let at = find(d, MONEY).ok_or("no player money in this save")? + MONEY.len();
     let mut b = Builder::new(d);
-    b.ranged(
-        &["Player", "Money (cats)"],
-        at,
-        Kind::I32,
-        0,
-        i32::MAX as i64,
-    );
-    Ok(b.finish("Kenshi save", Checksum::None).with_note(
-        "The player faction's cats. Squads and characters are kept in the save's platoon folder.",
-    ))
+    b.ranged(&["Player", "Money (cats)"], at, Kind::I32, 0, i32::MAX as i64);
+    Ok(b.finish("Kenshi save", Checksum::None).with_note("The player faction's cats. Squads and characters are kept in the save's platoon folder."))
 }

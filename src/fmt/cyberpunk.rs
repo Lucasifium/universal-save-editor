@@ -83,11 +83,7 @@ pub fn parse(data: &[u8], head: usize, tail: &[u8]) -> Option<TreeDoc> {
     let money = tdbid("Items.money").to_le_bytes();
     let mut b = Builder::new(data);
     let mut found = false;
-    for s in secs[inv + 1..]
-        .iter()
-        .filter(|s| s.name == "itemData")
-        .take(items)
-    {
+    for s in secs[inv + 1..].iter().filter(|s| s.name == "itemData").take(items) {
         let o = s.offset.checked_sub(head)?;
         if data.get(o + 4..o + 12) == Some(&money[..]) && s.size >= 29 {
             b.ranged(&["V", "Eurodollars"], o + 25, Kind::U32, 0, i32::MAX as i64);

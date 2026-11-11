@@ -78,13 +78,7 @@ pub fn read(d: &[u8]) -> Option<Package> {
             return None;
         }
         let csize = u32_at(d, list_at + 4)? as usize;
-        (
-            version,
-            list_at,
-            md5,
-            if version >= 16 { 40 } else { 38 },
-            d.get(list_at + 8..list_at + 8 + csize)?,
-        )
+        (version, list_at, md5, if version >= 16 { 40 } else { 38 }, d.get(list_at + 8..list_at + 8 + csize)?)
     } else {
         let hsize = u32_at(d, d.len() - 8)? as usize;
         let h = d.len().checked_sub(hsize)?;
@@ -98,13 +92,7 @@ pub fn read(d: &[u8]) -> Option<Package> {
             return None;
         }
         let md5: [u8; 16] = d.get(h + 16..h + 32)?.try_into().ok()?;
-        (
-            version,
-            list_at,
-            md5,
-            0,
-            d.get(list_at + 4..list_at + list_size)?,
-        )
+        (version, list_at, md5, 0, d.get(list_at + 4..list_at + list_size)?)
     };
     let esz = entry_size(version)?;
     let n = u32_at(d, list_at)? as usize;
@@ -120,46 +108,16 @@ pub fn read(d: &[u8]) -> Option<Package> {
         let name_len = e[..256].iter().position(|&c| c == 0).unwrap_or(256);
         let name = String::from_utf8_lossy(&e[..name_len]).into_owned();
         let (offset, size_on_disk, size, part, flags) = match version {
-            18 => (
-                u64::from(u32_at(e, 256)?) | u64::from(u16_at(e, 260)?) << 32,
-                u64::from(u32_at(e, 264)?),
-                u64::from(u32_at(e, 268)?),
-                u32::from(e[262]),
-                e[263],
-            ),
-            15 | 16 => (
-                u64_at(e, 256)?,
-                u64_at(e, 264)?,
-                u64_at(e, 272)?,
-                u32_at(e, 280)?,
-                u32_at(e, 284)? as u8,
-            ),
-            _ => (
-                u64::from(u32_at(e, 256)?),
-                u64::from(u32_at(e, 260)?),
-                u64::from(u32_at(e, 264)?),
-                u32_at(e, 268)?,
-                u32_at(e, 272)? as u8,
-            ),
+            18 => (u64::from(u32_at(e, 256)?) | u64::from(u16_at(e, 260)?) << 32, u64::from(u32_at(e, 264)?), u64::from(u32_at(e, 268)?), u32::from(e[262]), e[263]),
+            15 | 16 => (u64_at(e, 256)?, u64_at(e, 264)?, u64_at(e, 272)?, u32_at(e, 280)?, u32_at(e, 284)? as u8),
+            _ => (u64::from(u32_at(e, 256)?), u64::from(u32_at(e, 260)?), u64::from(u32_at(e, 264)?), u32_at(e, 268)?, u32_at(e, 272)? as u8),
         };
         if part != 0 || offset.checked_add(size_on_disk)? > list_at as u64 {
             return None;
         }
-        entries.push(Entry {
-            name,
-            offset,
-            size_on_disk,
-            size,
-            flags,
-            raw: e.to_vec(),
-        });
+        entries.push(Entry { name, offset, size_on_disk, size, flags, raw: e.to_vec() });
     }
-    Some(Package {
-        version,
-        entries,
-        data_start,
-        md5,
-    })
+    Some(Package { version, entries, data_start, md5 })
 }
 
 /// Unpacks data compressed with a Larian compression method (low nibble of `flags`).
@@ -169,16 +127,12 @@ pub fn decompress(data: &[u8], flags: u8, size: usize, frame: bool) -> Option<Ve
         0 => data.to_vec(),
         1 => {
             let mut out = Vec::with_capacity(size);
-            flate2::read::ZlibDecoder::new(data)
-                .read_to_end(&mut out)
-                .ok()?;
+            flate2::read::ZlibDecoder::new(data).read_to_end(&mut out).ok()?;
             out
         }
         2 if frame => {
             let mut out = Vec::with_capacity(size);
-            lz4_flex::frame::FrameDecoder::new(data)
-                .read_to_end(&mut out)
-                .ok()?;
+            lz4_flex::frame::FrameDecoder::new(data).read_to_end(&mut out).ok()?;
             out
         }
         2 => lz4_flex::block::decompress(data, size).ok()?,
@@ -217,16 +171,12 @@ pub fn compress(data: &[u8], flags: u8, frame: bool) -> Result<Vec<u8>, String> 
 
 impl Package {
     pub fn find(&self, name: &str) -> Option<&Entry> {
-        self.entries
-            .iter()
-            .find(|e| e.name.eq_ignore_ascii_case(name))
+        self.entries.iter().find(|e| e.name.eq_ignore_ascii_case(name))
     }
 
     /// A file's unpacked contents.
     pub fn file(&self, d: &[u8], e: &Entry) -> Option<Vec<u8>> {
-        let raw = d.get(
-            usize::try_from(e.offset).ok()?..usize::try_from(e.offset + e.size_on_disk).ok()?,
-        )?;
+        let raw = d.get(usize::try_from(e.offset).ok()?..usize::try_from(e.offset + e.size_on_disk).ok()?)?;
         if e.size == 0 {
             return Some(vec![]);
         }
@@ -253,9 +203,7 @@ impl Package {
     pub fn checksum_ok(&self, d: &[u8]) -> bool {
         let mut files = HashMap::new();
         for e in &self.entries {
-            let Some(b) = self.file(d, e) else {
-                return false;
-            };
+            let Some(b) = self.file(d, e) else { return false };
             files.insert(e.name.clone(), b);
         }
         self.checksum(&files) == self.md5
@@ -268,15 +216,10 @@ impl Package {
         let mut unpacked: HashMap<String, Vec<u8>> = HashMap::new();
         let mut stored: Vec<Vec<u8>> = Vec::with_capacity(self.entries.len());
         for e in &self.entries {
-            let new = replace
-                .iter()
-                .find(|(k, _)| k.eq_ignore_ascii_case(&e.name))
-                .map(|(_, v)| v);
+            let new = replace.iter().find(|(k, _)| k.eq_ignore_ascii_case(&e.name)).map(|(_, v)| v);
             let plain = match new {
                 Some(v) => v.clone(),
-                None => self
-                    .file(d, e)
-                    .ok_or(format!("{} doesn't unpack", e.name))?,
+                None => self.file(d, e).ok_or(format!("{} doesn't unpack", e.name))?,
             };
             let disk = match new {
                 Some(v) if v.is_empty() => vec![],
@@ -289,13 +232,8 @@ impl Package {
         // Files keep their order on disk (case-insensitive name order in the game's own saves).
         let mut order: Vec<usize> = (0..self.entries.len()).collect();
         order.sort_by_key(|&i| self.entries[i].offset);
-        let mut out = if self.data_start > 0 {
-            d[..self.data_start].to_vec()
-        } else {
-            vec![]
-        };
-        let mut table =
-            Vec::with_capacity(self.entries.len() * entry_size(self.version).unwrap_or(0));
+        let mut out = if self.data_start > 0 { d[..self.data_start].to_vec() } else { vec![] };
+        let mut table = Vec::with_capacity(self.entries.len() * entry_size(self.version).unwrap_or(0));
         let mut new_at = vec![0u64; self.entries.len()];
         for &i in &order {
             new_at[i] = out.len() as u64;
@@ -327,8 +265,7 @@ impl Package {
                     raw[288..292].copy_from_slice(&crc().to_le_bytes());
                 }
                 _ => {
-                    let at =
-                        u32::try_from(at).map_err(|_| "the package is too big for its format")?;
+                    let at = u32::try_from(at).map_err(|_| "the package is too big for its format")?;
                     raw[256..260].copy_from_slice(&at.to_le_bytes());
                     raw[260..264].copy_from_slice(&(n as u32).to_le_bytes());
                     raw[264..268].copy_from_slice(&(size as u32).to_le_bytes());
@@ -431,36 +368,16 @@ pub(crate) mod tests {
     fn reads_and_rebuilds_both_layouts() {
         for (version, flags) in [(13, 0x21), (18, 0x23), (18, 0x22)] {
             let a: Vec<u8> = (0..5000u32).map(|i| (i % 7) as u8).collect();
-            let pkg_bytes = build(
-                version,
-                &[
-                    ("meta.lsf", b"meta data"),
-                    ("Globals.lsf", &a),
-                    ("b.png", b""),
-                ],
-                flags,
-            );
+            let pkg_bytes = build(version, &[("meta.lsf", b"meta data"), ("Globals.lsf", &a), ("b.png", b"")], flags);
             let p = read(&pkg_bytes).unwrap();
             assert_eq!(p.version, version);
             assert!(p.checksum_ok(&pkg_bytes));
-            assert_eq!(
-                p.file(&pkg_bytes, p.find("globals.lsf").unwrap()).unwrap(),
-                a
-            );
+            assert_eq!(p.file(&pkg_bytes, p.find("globals.lsf").unwrap()).unwrap(), a);
             // Rebuilding with nothing changed gives the same layout.
             let same = p.rebuild(&pkg_bytes, &HashMap::new()).unwrap();
             let q = read(&same).unwrap();
             assert!(q.checksum_ok(&same));
-            assert_eq!(
-                q.entries
-                    .iter()
-                    .map(|e| (e.name.clone(), e.offset))
-                    .collect::<Vec<_>>(),
-                p.entries
-                    .iter()
-                    .map(|e| (e.name.clone(), e.offset))
-                    .collect::<Vec<_>>()
-            );
+            assert_eq!(q.entries.iter().map(|e| (e.name.clone(), e.offset)).collect::<Vec<_>>(), p.entries.iter().map(|e| (e.name.clone(), e.offset)).collect::<Vec<_>>());
             // A changed file moves the ones after it and the checksum follows.
             let mut r = HashMap::new();
             r.insert("Globals.lsf".to_string(), b"short now".to_vec());
@@ -468,14 +385,8 @@ pub(crate) mod tests {
             let q = read(&out).unwrap();
             assert!(q.checksum_ok(&out));
             assert_ne!(q.md5, p.md5);
-            assert_eq!(
-                q.file(&out, q.find("Globals.lsf").unwrap()).unwrap(),
-                b"short now"
-            );
-            assert_eq!(
-                q.file(&out, q.find("meta.lsf").unwrap()).unwrap(),
-                b"meta data"
-            );
+            assert_eq!(q.file(&out, q.find("Globals.lsf").unwrap()).unwrap(), b"short now");
+            assert_eq!(q.file(&out, q.find("meta.lsf").unwrap()).unwrap(), b"meta data");
             assert_eq!(q.find("b.png").unwrap().size, 0);
         }
     }

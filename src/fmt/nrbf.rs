@@ -42,10 +42,7 @@ enum Val {
 
 #[derive(Clone, Debug)]
 enum Obj {
-    Class {
-        name: String,
-        members: Vec<(String, Val)>,
-    },
+    Class { name: String, members: Vec<(String, Val)> },
     Str(Value, usize),
     Array(Vec<Val>),
 }
@@ -76,11 +73,7 @@ enum Rec {
 
 impl P<'_> {
     fn take(&mut self, n: usize) -> Result<&[u8], String> {
-        let end = self
-            .pos
-            .checked_add(n)
-            .filter(|&e| e <= self.d.len())
-            .ok_or("unexpected end of data")?;
+        let end = self.pos.checked_add(n).filter(|&e| e <= self.d.len()).ok_or("unexpected end of data")?;
         let s = &self.d[self.pos..end];
         self.pos = end;
         Ok(s)
@@ -114,11 +107,7 @@ impl P<'_> {
         Ok(String::from_utf8_lossy(self.take(n)?).into_owned())
     }
     fn leaf(&mut self, start: usize, prim: Prim) -> usize {
-        self.leaves.push(Leaf {
-            start,
-            end: self.pos,
-            prim,
-        });
+        self.leaves.push(Leaf { start, end: self.pos, prim });
         self.leaves.len() - 1
     }
     /// Read one primitive of type `pt`.
@@ -126,8 +115,7 @@ impl P<'_> {
         let start = self.pos;
         macro_rules! n {
             ($t:ty, $p:expr) => {{
-                let v =
-                    <$t>::from_le_bytes(self.take(std::mem::size_of::<$t>())?.try_into().unwrap());
+                let v = <$t>::from_le_bytes(self.take(std::mem::size_of::<$t>())?.try_into().unwrap());
                 let id = self.leaf(start, $p);
                 Val::Prim(Value::from(v), Some(id))
             }};
@@ -172,10 +160,7 @@ impl P<'_> {
             5 => Val::Prim(Value::String(self.lps()?), None), // Decimal (as text)
             12 | 13 => {
                 let v = i64::from_le_bytes(self.take(8)?.try_into().unwrap());
-                Val::Prim(
-                    Value::String(format!("{} ticks", v & 0x3FFF_FFFF_FFFF_FFFF)),
-                    None,
-                )
+                Val::Prim(Value::String(format!("{} ticks", v & 0x3FFF_FFFF_FFFF_FFFF)), None)
             }
             17 => Val::Null,
             18 => {
@@ -231,13 +216,7 @@ impl P<'_> {
     }
     fn class_record(&mut self, id: i32, meta: ClassMeta) -> Result<Rec, String> {
         let members = self.members(&meta)?;
-        self.objects.insert(
-            id,
-            Obj::Class {
-                name: meta.name.clone(),
-                members,
-            },
-        );
+        self.objects.insert(id, Obj::Class { name: meta.name.clone(), members });
         self.metas.insert(id, meta);
         Ok(Rec::Val(Val::Ref(id)))
     }
@@ -271,11 +250,7 @@ impl P<'_> {
             1 => {
                 let id = self.i32()?;
                 let meta_id = self.i32()?;
-                let meta = self
-                    .metas
-                    .get(&meta_id)
-                    .cloned()
-                    .ok_or("unknown class reference")?;
+                let meta = self.metas.get(&meta_id).cloned().ok_or("unknown class reference")?;
                 self.class_record(id, meta)?
             }
             2 | 3 => {
@@ -283,14 +258,7 @@ impl P<'_> {
                 if t == 3 {
                     self.i32()?;
                 }
-                self.class_record(
-                    id,
-                    ClassMeta {
-                        name,
-                        names,
-                        types: None,
-                    },
-                )?
+                self.class_record(id, ClassMeta { name, names, types: None })?
             }
             4 | 5 => {
                 let (id, name, names) = self.class_info()?;
@@ -298,14 +266,7 @@ impl P<'_> {
                 if t == 5 {
                     self.i32()?;
                 }
-                self.class_record(
-                    id,
-                    ClassMeta {
-                        name,
-                        names,
-                        types: Some(types),
-                    },
-                )?
+                self.class_record(id, ClassMeta { name, names, types: Some(types) })?
             }
             6 => {
                 let id = self.i32()?;
@@ -326,11 +287,7 @@ impl P<'_> {
                 let bt = self.u8()?;
                 let extra = self.member_types_one(bt)?;
                 let n: usize = lens.iter().product();
-                let items = if bt == 0 {
-                    (0..n).map(|_| self.prim(extra)).collect::<Result<_, _>>()?
-                } else {
-                    self.elements(n)?
-                };
+                let items = if bt == 0 { (0..n).map(|_| self.prim(extra)).collect::<Result<_, _>>()? } else { self.elements(n)? };
                 self.objects.insert(id, Obj::Array(items));
                 Rec::Val(Val::Ref(id))
             }
@@ -410,10 +367,7 @@ impl V<'_> {
 
     fn key_text(&self, v: &Val) -> String {
         match v {
-            Val::Prim(x, _) => x
-                .as_str()
-                .map(String::from)
-                .unwrap_or_else(|| x.to_string()),
+            Val::Prim(x, _) => x.as_str().map(String::from).unwrap_or_else(|| x.to_string()),
             Val::Ref(id) => match self.objects.get(id) {
                 Some(Obj::Str(s, _)) => s.as_str().unwrap_or("").to_string(),
                 _ => format!("#{id}"),
@@ -432,13 +386,9 @@ impl V<'_> {
                 self.editable.insert(ptr.to_string(), leaf);
                 s
             }
-            Some(Obj::Array(items)) => Value::Array(
-                items
-                    .iter()
-                    .enumerate()
-                    .map(|(i, v)| self.val(v, &format!("{ptr}/{i}"), depth + 1))
-                    .collect(),
-            ),
+            Some(Obj::Array(items)) => {
+                Value::Array(items.iter().enumerate().map(|(i, v)| self.val(v, &format!("{ptr}/{i}"), depth + 1)).collect())
+            }
             Some(Obj::Class { name, members }) => self.class(&name, &members, ptr, depth),
         };
         self.visiting.remove(&id);
@@ -452,19 +402,11 @@ impl V<'_> {
     fn class(&mut self, name: &str, members: &[(String, Val)], ptr: &str, depth: usize) -> Value {
         // List<T>: show the first _size items of _items.
         if name.starts_with("System.Collections.Generic.List`1") {
-            if let (Some(Val::Ref(items)), Some(Val::Prim(size, _))) = (
-                Self::member(members, "_items"),
-                Self::member(members, "_size"),
-            ) {
+            if let (Some(Val::Ref(items)), Some(Val::Prim(size, _))) = (Self::member(members, "_items"), Self::member(members, "_size")) {
                 let size = size.as_u64().unwrap_or(0) as usize;
                 if let Some(Obj::Array(elems)) = self.objects.get(items).cloned() {
                     return Value::Array(
-                        elems
-                            .iter()
-                            .take(size)
-                            .enumerate()
-                            .map(|(i, v)| self.val(v, &format!("{ptr}/{i}"), depth + 1))
-                            .collect(),
+                        elems.iter().take(size).enumerate().map(|(i, v)| self.val(v, &format!("{ptr}/{i}"), depth + 1)).collect(),
                     );
                 }
             }
@@ -476,15 +418,8 @@ impl V<'_> {
                     let mut m = Map::new();
                     for e in &elems {
                         let Val::Ref(pid) = e else { continue };
-                        let Some(Obj::Class { members: kv, .. }) = self.objects.get(pid).cloned()
-                        else {
-                            continue;
-                        };
-                        let (Some(k), Some(v)) =
-                            (Self::member(&kv, "key"), Self::member(&kv, "value"))
-                        else {
-                            continue;
-                        };
+                        let Some(Obj::Class { members: kv, .. }) = self.objects.get(pid).cloned() else { continue };
+                        let (Some(k), Some(v)) = (Self::member(&kv, "key"), Self::member(&kv, "value")) else { continue };
                         let key = unique_key(&m, &self.key_text(k));
                         let val = self.val(v, &child(ptr, &key), depth + 1);
                         m.insert(key, val);
@@ -528,9 +463,7 @@ fn lps_bytes(s: &str) -> Vec<u8> {
 fn encode(p: Prim, v: &Value) -> Result<Vec<u8>, String> {
     macro_rules! int {
         ($t:ty) => {
-            (int_in(v, <$t>::MIN as i128, <$t>::MAX as i128, "This number")? as $t)
-                .to_le_bytes()
-                .to_vec()
+            (int_in(v, <$t>::MIN as i128, <$t>::MAX as i128, "This number")? as $t).to_le_bytes().to_vec()
         };
     }
     Ok(match p {
@@ -543,9 +476,7 @@ fn encode(p: Prim, v: &Value) -> Result<Vec<u8>, String> {
         Prim::U32 => int!(u32),
         Prim::I64 => int!(i64),
         Prim::U64 => int!(u64),
-        Prim::F32 => (v.as_f64().ok_or("must be a number")? as f32)
-            .to_le_bytes()
-            .to_vec(),
+        Prim::F32 => (v.as_f64().ok_or("must be a number")? as f32).to_le_bytes().to_vec(),
         Prim::F64 => v.as_f64().ok_or("must be a number")?.to_le_bytes().to_vec(),
         Prim::Str => lps_bytes(v.as_str().ok_or("must be text")?),
     })
@@ -584,14 +515,7 @@ pub fn looks(d: &[u8]) -> bool {
 }
 
 pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
-    let mut p = P {
-        d,
-        pos: 0,
-        leaves: vec![],
-        objects: HashMap::new(),
-        metas: HashMap::new(),
-        root: 0,
-    };
+    let mut p = P { d, pos: 0, leaves: vec![], objects: HashMap::new(), metas: HashMap::new(), root: 0 };
     // One message, or (Green Hell) several written one after another, then zero padding.
     let mut messages: Vec<(String, Value)> = vec![];
     let mut editable = HashMap::new();
@@ -608,11 +532,7 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
             _ => String::new(),
         };
         let n = messages.len();
-        let mut v = V {
-            objects: &p.objects,
-            editable: HashMap::new(),
-            visiting: HashSet::new(),
-        };
+        let mut v = V { objects: &p.objects, editable: HashMap::new(), visiting: HashSet::new() };
         let view = v.obj(p.root, &format!("/{n}"), 0);
         editable.extend(v.editable);
         messages.push((class, view));
@@ -624,28 +544,13 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
             return Err(format!("extra data after the message at {}", p.pos));
         }
     }
-    let backend = NrbfBackend {
-        raw: d.to_vec(),
-        leaves: p.leaves,
-    };
+    let backend = NrbfBackend { raw: d.to_vec(), leaves: p.leaves };
     if messages.len() == 1 {
         let (class, view) = messages.pop().unwrap();
-        let editable = editable
-            .into_iter()
-            .map(|(k, l)| (k["/0".len()..].to_string(), l))
-            .collect();
-        let name = if class.is_empty() {
-            ".NET BinaryFormatter".to_string()
-        } else {
-            format!(".NET BinaryFormatter ({class})")
-        };
+        let editable = editable.into_iter().map(|(k, l)| (k["/0".len()..].to_string(), l)).collect();
+        let name = if class.is_empty() { ".NET BinaryFormatter".to_string() } else { format!(".NET BinaryFormatter ({class})") };
         return Ok(TreeDoc::new(view, editable, name, Box::new(backend)));
     }
     let view = Value::Array(messages.into_iter().map(|(_, v)| v).collect());
-    Ok(TreeDoc::new(
-        view,
-        editable,
-        ".NET BinaryFormatter stream",
-        Box::new(backend),
-    ))
+    Ok(TreeDoc::new(view, editable, ".NET BinaryFormatter stream", Box::new(backend)))
 }

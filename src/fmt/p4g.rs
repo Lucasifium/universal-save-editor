@@ -19,23 +19,8 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
     let mut b = Builder::new(d);
     b.ranged(&["Protagonist", "Yen"], 88, Kind::U32, 0, 9_999_999);
     b.ranged(&["Protagonist", "Level"], 3290, Kind::U8, 1, 99);
-    b.ranged(
-        &["Protagonist", "Total experience"],
-        3348,
-        Kind::U32,
-        0,
-        99_999_999,
-    );
-    for (i, s) in [
-        "Knowledge",
-        "Courage",
-        "Diligence",
-        "Understanding",
-        "Expression",
-    ]
-    .iter()
-    .enumerate()
-    {
+    b.ranged(&["Protagonist", "Total experience"], 3348, Kind::U32, 0, 99_999_999);
+    for (i, s) in ["Knowledge", "Courage", "Diligence", "Understanding", "Expression"].iter().enumerate() {
         b.ranged(&["Social stats", s], 3336 + 2 * i, Kind::U16, 0, 999);
     }
     Ok(b.finish("Persona 4 Golden save", Checksum::None).with_note(

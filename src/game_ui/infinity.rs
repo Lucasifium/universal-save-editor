@@ -44,57 +44,30 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
 }
 
 fn character(ui: &mut Ui, cx: &mut GameCtx, base: &str, accent: Color32) {
-    let line: Vec<String> = ["Class", "Race", "Creature"]
-        .iter()
-        .filter_map(|k| cx.text(&join(base, k)))
-        .filter(|s| !s.is_empty())
-        .collect();
-    ui.label(
-        RichText::new(line.join("  \u{00B7}  "))
-            .size(14.0)
-            .color(ui.visuals().weak_text_color()),
-    );
+    let line: Vec<String> = ["Class", "Race", "Creature"].iter().filter_map(|k| cx.text(&join(base, k))).filter(|s| !s.is_empty()).collect();
+    ui.label(RichText::new(line.join("  \u{00B7}  ")).size(14.0).color(ui.visuals().weak_text_color()));
     ui.add_space(4.0);
-    let levels: Vec<String> = keys(cx, base)
-        .into_iter()
-        .filter(|k| k == "Level" || k.ends_with(" level"))
-        .collect();
+    let levels: Vec<String> = keys(cx, base).into_iter().filter(|k| k == "Level" || k.ends_with(" level")).collect();
     columns(ui, 360.0, 2, |ui, i| {
         if i == 0 {
             panel(ui, "Character", |ui| {
-                egui::Grid::new(("ie_char", base))
-                    .num_columns(2)
-                    .spacing([12.0, 6.0])
-                    .show(ui, |ui| {
-                        cx.grid_row(ui, "Experience", &join(base, "Experience"), 110.0);
-                        for l in &levels {
-                            cx.grid_row(ui, l, &join(base, l), 70.0);
-                        }
-                        cx.grid_row(ui, "Hit points", &join(base, "Hit points"), 70.0);
-                        cx.grid_row(ui, "Max hit points", &join(base, "Max hit points"), 70.0);
-                        cx.grid_row(ui, "Alignment", &join(base, "Alignment"), 150.0);
-                    });
+                egui::Grid::new(("ie_char", base)).num_columns(2).spacing([12.0, 6.0]).show(ui, |ui| {
+                    cx.grid_row(ui, "Experience", &join(base, "Experience"), 110.0);
+                    for l in &levels {
+                        cx.grid_row(ui, l, &join(base, l), 70.0);
+                    }
+                    cx.grid_row(ui, "Hit points", &join(base, "Hit points"), 70.0);
+                    cx.grid_row(ui, "Max hit points", &join(base, "Max hit points"), 70.0);
+                    cx.grid_row(ui, "Alignment", &join(base, "Alignment"), 150.0);
+                });
                 ui.weak("Levels don't follow experience by themselves: set both. Hit points above the maximum are the game's own temporary bonus.");
             });
         } else {
             panel(ui, "Abilities", |ui| {
-                for k in [
-                    "Strength",
-                    "Dexterity",
-                    "Constitution",
-                    "Intelligence",
-                    "Wisdom",
-                    "Charisma",
-                ] {
+                for k in ["Strength", "Dexterity", "Constitution", "Intelligence", "Wisdom", "Charisma"] {
                     cx.attribute(ui, k, &join(base, k), 25.0, accent);
                 }
-                cx.attribute(
-                    ui,
-                    "Strength 18/xx",
-                    &join(base, "Strength bonus (18/xx)"),
-                    100.0,
-                    accent,
-                );
+                cx.attribute(ui, "Strength 18/xx", &join(base, "Strength bonus (18/xx)"), 100.0, accent);
                 ui.weak("The 18/xx bonus only counts for warriors with Strength 18.");
             });
         }
@@ -103,35 +76,28 @@ fn character(ui: &mut Ui, cx: &mut GameCtx, base: &str, accent: Color32) {
     let items = keys(cx, &items_base);
     if !items.is_empty() {
         panel(ui, "Items", |ui| {
-            egui::ScrollArea::vertical()
-                .id_salt(("ie_items", base))
-                .max_height(380.0)
-                .show(ui, |ui| {
-                    egui::Grid::new(("ie_items_g", base))
-                        .num_columns(4)
-                        .striped(true)
-                        .spacing([14.0, 4.0])
-                        .show(ui, |ui| {
-                            ui.strong("Item");
-                            ui.strong("Quantity / charges");
-                            ui.strong("Charges 2");
-                            ui.strong("Charges 3");
-                            ui.end_row();
-                            for it in &items {
-                                let p = join(&items_base, it);
-                                ui.label(it.as_str());
-                                for k in ["Quantity / charges", "Charges 2", "Charges 3"] {
-                                    let q = join(&p, k);
-                                    if cx.can_edit(&q) {
-                                        cx.compact(ui, &q, 70.0);
-                                    } else {
-                                        ui.weak("\u{2013}");
-                                    }
-                                }
-                                ui.end_row();
+            egui::ScrollArea::vertical().id_salt(("ie_items", base)).max_height(380.0).show(ui, |ui| {
+                egui::Grid::new(("ie_items_g", base)).num_columns(4).striped(true).spacing([14.0, 4.0]).show(ui, |ui| {
+                    ui.strong("Item");
+                    ui.strong("Quantity / charges");
+                    ui.strong("Charges 2");
+                    ui.strong("Charges 3");
+                    ui.end_row();
+                    for it in &items {
+                        let p = join(&items_base, it);
+                        ui.label(it.as_str());
+                        for k in ["Quantity / charges", "Charges 2", "Charges 3"] {
+                            let q = join(&p, k);
+                            if cx.can_edit(&q) {
+                                cx.compact(ui, &q, 70.0);
+                            } else {
+                                ui.weak("\u{2013}");
                             }
-                        });
+                        }
+                        ui.end_row();
+                    }
                 });
+            });
             ui.weak("Items by their game resource name. Stack sizes (arrows, potions) and charges (wands) can be changed; items without either show \u{2013}. Items can't be added here.");
         });
     }

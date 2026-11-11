@@ -21,15 +21,7 @@ pub struct Settings {
 
 impl Default for Settings {
     fn default() -> Self {
-        Self {
-            recent: vec![],
-            dark: true,
-            zoom: 1.0,
-            show_raw_keys: false,
-            show_advanced: false,
-            confirm_save: true,
-            backup_dir: None,
-        }
+        Self { recent: vec![], dark: true, zoom: 1.0, show_raw_keys: false, show_advanced: false, confirm_save: true, backup_dir: None }
     }
 }
 
@@ -40,32 +32,18 @@ fn path() -> Option<PathBuf> {
 impl Settings {
     pub fn load() -> Self {
         let mut s = Self::default();
-        let Some(v) = path()
-            .and_then(|p| std::fs::read_to_string(p).ok())
-            .and_then(|t| serde_json::from_str::<Value>(&t).ok())
-        else {
+        let Some(v) = path().and_then(|p| std::fs::read_to_string(p).ok()).and_then(|t| serde_json::from_str::<Value>(&t).ok()) else {
             return s;
         };
         if let Some(r) = v["recent"].as_array() {
-            s.recent = r
-                .iter()
-                .filter_map(|x| x.as_str())
-                .map(PathBuf::from)
-                .collect();
+            s.recent = r.iter().filter_map(|x| x.as_str()).map(PathBuf::from).collect();
         }
         s.dark = v["dark"].as_bool().unwrap_or(s.dark);
-        s.zoom = v["zoom"]
-            .as_f64()
-            .map(|z| z as f32)
-            .filter(|z| (0.5..=3.0).contains(z))
-            .unwrap_or(1.0);
+        s.zoom = v["zoom"].as_f64().map(|z| z as f32).filter(|z| (0.5..=3.0).contains(z)).unwrap_or(1.0);
         s.show_raw_keys = v["show_raw_keys"].as_bool().unwrap_or(false);
         s.show_advanced = v["show_advanced"].as_bool().unwrap_or(false);
         s.confirm_save = v["confirm_save"].as_bool().unwrap_or(true);
-        s.backup_dir = v["backup_dir"]
-            .as_str()
-            .filter(|d| !d.is_empty())
-            .map(PathBuf::from);
+        s.backup_dir = v["backup_dir"].as_str().filter(|d| !d.is_empty()).map(PathBuf::from);
         s
     }
 
@@ -99,12 +77,7 @@ pub fn save_locations() -> Vec<(String, PathBuf)> {
     let mut out = Vec::new();
     if cfg!(target_os = "android") {
         let phone = PathBuf::from("/storage/emulated/0");
-        for (label, sub) in [
-            ("RetroArch saves", "RetroArch/saves"),
-            ("RetroArch states", "RetroArch/states"),
-            ("Downloads", "Download"),
-            ("Documents", "Documents"),
-        ] {
+        for (label, sub) in [("RetroArch saves", "RetroArch/saves"), ("RetroArch states", "RetroArch/states"), ("Downloads", "Download"), ("Documents", "Documents")] {
             let p = phone.join(sub);
             if p.is_dir() {
                 out.push((label.to_string(), p));
@@ -122,17 +95,8 @@ pub fn save_locations() -> Vec<(String, PathBuf)> {
                 .flatten()
                 .filter(|e| e.path().is_dir())
                 .map(|e| {
-                    let t = e
-                        .metadata()
-                        .and_then(|m| m.modified())
-                        .unwrap_or(std::time::UNIX_EPOCH);
-                    let name = e
-                        .file_name()
-                        .to_string_lossy()
-                        .split('-')
-                        .next()
-                        .unwrap_or("")
-                        .to_string();
+                    let t = e.metadata().and_then(|m| m.modified()).unwrap_or(std::time::UNIX_EPOCH);
+                    let name = e.file_name().to_string_lossy().split('-').next().unwrap_or("").to_string();
                     (t, name, e.path())
                 })
                 .filter(|(_, n, _)| !n.is_empty() && n != "tokens" && n != "persistent")
@@ -145,15 +109,9 @@ pub fn save_locations() -> Vec<(String, PathBuf)> {
     }
     if let Some(home) = env("USERPROFILE") {
         for (label, p) in [
-            (
-                "Unity games (LocalLow)",
-                home.join("AppData").join("LocalLow"),
-            ),
+            ("Unity games (LocalLow)", home.join("AppData").join("LocalLow")),
             ("Saved Games", home.join("Saved Games")),
-            (
-                "Documents \u{203A} My Games",
-                home.join("Documents").join("My Games"),
-            ),
+            ("Documents \u{203A} My Games", home.join("Documents").join("My Games")),
         ] {
             if p.is_dir() {
                 out.push((label.to_string(), p));

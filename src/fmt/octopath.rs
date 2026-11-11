@@ -17,30 +17,10 @@ pub const OT1: &str = "Octopath Traveler save";
 pub const OT2: &str = "Octopath Traveler II save";
 
 /// The eight travellers by character id 1–8.
-pub const OT1_CHARACTERS: [&str; 8] = [
-    "Olberic", "Tressa", "Cyrus", "Primrose", "H'aanit", "Therion", "Ophilia", "Alfyn",
-];
-pub const OT2_CHARACTERS: [&str; 8] = [
-    "Hikari",
-    "Ochette",
-    "Castti",
-    "Partitio",
-    "Temenos",
-    "Osvald",
-    "Thron\u{00E9}",
-    "Agnea",
-];
+pub const OT1_CHARACTERS: [&str; 8] = ["Olberic", "Tressa", "Cyrus", "Primrose", "H'aanit", "Therion", "Ophilia", "Alfyn"];
+pub const OT2_CHARACTERS: [&str; 8] = ["Hikari", "Ochette", "Castti", "Partitio", "Temenos", "Osvald", "Thron\u{00E9}", "Agnea"];
 /// The base jobs 0–7 (the same in both games).
-pub const JOBS: [&str; 8] = [
-    "Merchant",
-    "Thief",
-    "Warrior",
-    "Hunter",
-    "Cleric",
-    "Dancer",
-    "Scholar",
-    "Apothecary",
-];
+pub const JOBS: [&str; 8] = ["Merchant", "Thief", "Warrior", "Hunter", "Cleric", "Dancer", "Scholar", "Apothecary"];
 
 pub fn looks(d: &[u8]) -> bool {
     d.starts_with(b"GVAS") && d.windows(12).take(4096).any(|w| w == b"KSSaveGameBP")
@@ -53,14 +33,7 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
         return Err("not an Octopath save".into());
     }
     // Only the first game's names (inside the top-level structs) carry a suffix.
-    let first = ptr(&doc.view, "", "PlayerBackpack")
-        .and_then(|p| {
-            doc.view
-                .pointer(&p)?
-                .as_object()
-                .map(|m| m.keys().any(|k| bare(k) != k))
-        })
-        .unwrap_or(false);
+    let first = ptr(&doc.view, "", "PlayerBackpack").and_then(|p| doc.view.pointer(&p)?.as_object().map(|m| m.keys().any(|k| bare(k) != k))).unwrap_or(false);
     doc.kind_name = (if first { OT1 } else { OT2 }).into();
     Ok(doc)
 }
@@ -68,11 +41,7 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
 /// The property's bare name: `Level_7_2387E075…` → `Level`, `PlayerMember (3)` → `PlayerMember`.
 pub fn bare(k: &str) -> &str {
     let k = match k.rsplit_once(" (") {
-        Some((a, b))
-            if b.ends_with(')') && b[..b.len() - 1].bytes().all(|c| c.is_ascii_digit()) =>
-        {
-            a
-        }
+        Some((a, b)) if b.ends_with(')') && b[..b.len() - 1].bytes().all(|c| c.is_ascii_digit()) => a,
         _ => k,
     };
     // Blueprint suffix: _<number>_<32 hex digits>.
@@ -95,19 +64,13 @@ pub fn key<'a>(m: &'a Map<String, Value>, name: &str) -> Option<&'a String> {
 
 /// Pointer of `name` inside the object at `base` ("" for the top).
 pub fn ptr(root: &Value, base: &str, name: &str) -> Option<String> {
-    let m = if base.is_empty() {
-        root.as_object()?
-    } else {
-        root.pointer(base)?.as_object()?
-    };
+    let m = if base.is_empty() { root.as_object()? } else { root.pointer(base)?.as_object()? };
     key(m, name).map(|k| format!("{base}/{}", crate::tree::esc(k)))
 }
 
 /// Every party member slot, in order: (pointer, character id).
 pub fn members(root: &Value) -> Vec<(String, i64)> {
-    let Some(m) = root.as_object() else {
-        return vec![];
-    };
+    let Some(m) = root.as_object() else { return vec![] };
     let mut out = vec![];
     for (k, v) in m.iter().filter(|(k, _)| bare(k) == "PlayerMember") {
         let p = format!("/{}", crate::tree::esc(k));
@@ -119,9 +82,7 @@ pub fn members(root: &Value) -> Vec<(String, i64)> {
     }
     out.into_iter()
         .map(|p| {
-            let id = ptr(root, &p, "CharacterID")
-                .and_then(|q| root.pointer(&q)?.as_i64())
-                .unwrap_or(-1);
+            let id = ptr(root, &p, "CharacterID").and_then(|q| root.pointer(&q)?.as_i64()).unwrap_or(-1);
             (p, id)
         })
         .collect()
@@ -129,9 +90,7 @@ pub fn members(root: &Value) -> Vec<(String, i64)> {
 
 /// The values of a list of ints (an array, or one property repeated per index).
 pub fn ints(root: &Value, base: &str, name: &str) -> Vec<i64> {
-    let Some(Value::Object(m)) = root.pointer(base) else {
-        return vec![];
-    };
+    let Some(Value::Object(m)) = root.pointer(base) else { return vec![] };
     m.iter()
         .filter(|(k, _)| bare(k) == name)
         .flat_map(|(_, v)| match v {
@@ -142,15 +101,8 @@ pub fn ints(root: &Value, base: &str, name: &str) -> Vec<i64> {
 }
 
 pub fn character(kind: &str, id: i64) -> Option<&'static str> {
-    let names = if kind == OT1 {
-        &OT1_CHARACTERS
-    } else {
-        &OT2_CHARACTERS
-    };
-    usize::try_from(id - 1)
-        .ok()
-        .and_then(|i| names.get(i))
-        .copied()
+    let names = if kind == OT1 { &OT1_CHARACTERS } else { &OT2_CHARACTERS };
+    usize::try_from(id - 1).ok().and_then(|i| names.get(i)).copied()
 }
 
 pub fn job(id: i64) -> String {
@@ -197,13 +149,7 @@ mod tests {
     /// A synthetic save shaped like either game's: money, the party members (an array of
     /// structs) and the front row. The first game suffixes the names inside the structs.
     pub fn sample(first_game: bool) -> Vec<u8> {
-        let n = |s: &str, i: u32| {
-            if first_game {
-                format!("{s}_{i}_{:032X}", u128::from(i) * 0x1234_5678_9ABC)
-            } else {
-                s.to_string()
-            }
-        };
+        let n = |s: &str, i: u32| if first_game { format!("{s}_{i}_{:032X}", u128::from(i) * 0x1234_5678_9ABC) } else { s.to_string() };
         let mut v = b"GVAS".to_vec();
         v.extend(2i32.to_le_bytes());
         v.extend(522i32.to_le_bytes());
@@ -212,11 +158,7 @@ mod tests {
         v.extend(3i32.to_le_bytes());
         v.extend(0i32.to_le_bytes());
         v.extend(fs("/Game/System/BP/SaveLoad/KSSaveGameBP.KSSaveGameBP_C"));
-        v.extend(strukt(
-            "PlayerBackpack",
-            "KSPlayerBackpack",
-            int(&n("Money", 2), 1500),
-        ));
+        v.extend(strukt("PlayerBackpack", "KSPlayerBackpack", int(&n("Money", 2), 1500)));
         // PlayerMember: an array of three structs.
         let mut elems = vec![];
         for i in 0..3 {
@@ -274,10 +216,7 @@ mod tests {
             assert_eq!(ms.len(), 3);
             assert_eq!(ms[2].1, 3);
             assert_eq!(ints(&doc.view, "/PlayerParty", "MainMemberID"), vec![2, 0]);
-            assert_eq!(
-                character(&doc.kind_name, ms[0].1),
-                Some(if first { "Olberic" } else { "Hikari" })
-            );
+            assert_eq!(character(&doc.kind_name, ms[0].1), Some(if first { "Olberic" } else { "Hikari" }));
             let money = ptr(&doc.view, "/PlayerBackpack", "Money").unwrap();
             let level = ptr(&doc.view, &ms[1].0, "Level").unwrap();
             assert_eq!(doc.view.pointer(&level), Some(&Value::from(11)));
@@ -310,25 +249,11 @@ mod tests {
             let money = ptr(&before, "/PlayerBackpack", "Money").unwrap();
             let ms = members(&before);
             let level = ptr(&before, &ms[0].0, "Level").unwrap();
-            let (m, l) = (
-                before.pointer(&money).unwrap().as_i64().unwrap(),
-                before.pointer(&level).unwrap().as_i64().unwrap(),
-            );
+            let (m, l) = (before.pointer(&money).unwrap().as_i64().unwrap(), before.pointer(&level).unwrap().as_i64().unwrap());
             println!("{path}: {} money {m}", doc.kind_name);
             for (p, id) in ms.iter().filter(|m| (1..=8).contains(&m.1)) {
-                let g = |n: &str| {
-                    ptr(&before, p, n)
-                        .and_then(|q| before.pointer(&q).cloned())
-                        .unwrap_or(Value::Null)
-                };
-                println!(
-                    "   {:<10} lv {} exp {} jp {} job {}",
-                    character(&doc.kind_name, *id).unwrap(),
-                    g("Level"),
-                    g("Exp"),
-                    g("JobPoint"),
-                    job(g("FirstJobID").as_i64().unwrap_or(-1))
-                );
+                let g = |n: &str| ptr(&before, p, n).and_then(|q| before.pointer(&q).cloned()).unwrap_or(Value::Null);
+                println!("   {:<10} lv {} exp {} jp {} job {}", character(&doc.kind_name, *id).unwrap(), g("Level"), g("Exp"), g("JobPoint"), job(g("FirstJobID").as_i64().unwrap_or(-1)));
             }
             doc.set(&money, Value::from(m + 1)).unwrap();
             doc.set(&level, Value::from(l + 1)).unwrap();

@@ -23,19 +23,13 @@ pub fn config_dir() -> Option<PathBuf> {
 /// Where the app keeps its own settings.
 #[cfg(not(target_os = "android"))]
 pub fn config_dir() -> Option<PathBuf> {
-    let env = |k: &str| {
-        std::env::var_os(k)
-            .filter(|v| !v.is_empty())
-            .map(PathBuf::from)
-    };
+    let env = |k: &str| std::env::var_os(k).filter(|v| !v.is_empty()).map(PathBuf::from);
     let dir = if cfg!(windows) {
         env("APPDATA").map(|d| windows_dir(&d))
     } else if cfg!(target_os = "macos") {
         env("HOME").map(|h| h.join("Library").join("Application Support").join(APP_NAME))
     } else {
-        env("XDG_CONFIG_HOME")
-            .or_else(|| env("HOME").map(|h| h.join(".config")))
-            .map(|d| d.join(APP_NAME))
+        env("XDG_CONFIG_HOME").or_else(|| env("HOME").map(|h| h.join(".config"))).map(|d| d.join(APP_NAME))
     }?;
     Some(dir)
 }
@@ -66,9 +60,7 @@ pub fn reveal(path: &Path) {
     } else if cfg!(target_os = "macos") {
         Command::new("open").arg("-R").arg(path).spawn()
     } else {
-        Command::new("xdg-open")
-            .arg(path.parent().unwrap_or(Path::new("/")))
-            .spawn()
+        Command::new("xdg-open").arg(path.parent().unwrap_or(Path::new("/"))).spawn()
     };
 }
 
@@ -82,9 +74,7 @@ pub mod android {
 
     pub static APP: OnceLock<winit::platform::android::activity::AndroidApp> = OnceLock::new();
 
-    fn with_env<T>(
-        f: impl FnOnce(&mut jni::JNIEnv, &JObject) -> jni::errors::Result<T>,
-    ) -> Option<T> {
+    fn with_env<T>(f: impl FnOnce(&mut jni::JNIEnv, &JObject) -> jni::errors::Result<T>) -> Option<T> {
         let app = APP.get()?;
         let vm = unsafe { JavaVM::from_raw(app.vm_as_ptr() as *mut _) }.ok()?;
         let mut env = vm.attach_current_thread().ok()?;
@@ -97,11 +87,7 @@ pub mod android {
     }
 
     fn sdk() -> i32 {
-        with_env(|env, _| {
-            env.get_static_field("android/os/Build$VERSION", "SDK_INT", "I")?
-                .i()
-        })
-        .unwrap_or(0)
+        with_env(|env, _| env.get_static_field("android/os/Build$VERSION", "SDK_INT", "I")?.i()).unwrap_or(0)
     }
 
     pub fn has_file_access() -> bool {
@@ -109,28 +95,11 @@ pub mod android {
             // Older Android: the storage permission granted at install / in Settings.
             return with_env(|env, act| {
                 let p = env.new_string("android.permission.WRITE_EXTERNAL_STORAGE")?;
-                Ok(env
-                    .call_method(
-                        act,
-                        "checkSelfPermission",
-                        "(Ljava/lang/String;)I",
-                        &[JValue::Object(&p)],
-                    )?
-                    .i()?
-                    == 0)
+                Ok(env.call_method(act, "checkSelfPermission", "(Ljava/lang/String;)I", &[JValue::Object(&p)])?.i()? == 0)
             })
             .unwrap_or(false);
         }
-        with_env(|env, _| {
-            env.call_static_method(
-                "android/os/Environment",
-                "isExternalStorageManager",
-                "()Z",
-                &[],
-            )?
-            .z()
-        })
-        .unwrap_or(false)
+        with_env(|env, _| env.call_static_method("android/os/Environment", "isExternalStorageManager", "()Z", &[])?.z()).unwrap_or(false)
     }
 
     /// Opens the system screen where the user allows file access.
@@ -141,47 +110,16 @@ pub mod android {
                 let cls = env.find_class("java/lang/String")?;
                 let p = env.new_string("android.permission.WRITE_EXTERNAL_STORAGE")?;
                 let arr = env.new_object_array(1, cls, &p)?;
-                env.call_method(
-                    act,
-                    "requestPermissions",
-                    "([Ljava/lang/String;I)V",
-                    &[JValue::Object(&arr), JValue::Int(1)],
-                )?;
+                env.call_method(act, "requestPermissions", "([Ljava/lang/String;I)V", &[JValue::Object(&arr), JValue::Int(1)])?;
                 return Ok(());
             }
-            let pkg = env
-                .call_method(act, "getPackageName", "()Ljava/lang/String;", &[])?
-                .l()?;
+            let pkg = env.call_method(act, "getPackageName", "()Ljava/lang/String;", &[])?.l()?;
             let prefix = env.new_string("package:")?;
-            let uri_s = env
-                .call_method(
-                    &prefix,
-                    "concat",
-                    "(Ljava/lang/String;)Ljava/lang/String;",
-                    &[JValue::Object(&pkg)],
-                )?
-                .l()?;
-            let uri = env
-                .call_static_method(
-                    "android/net/Uri",
-                    "parse",
-                    "(Ljava/lang/String;)Landroid/net/Uri;",
-                    &[JValue::Object(&uri_s)],
-                )?
-                .l()?;
-            let action =
-                env.new_string("android.settings.MANAGE_APP_ALL_FILES_ACCESS_PERMISSION")?;
-            let intent = env.new_object(
-                "android/content/Intent",
-                "(Ljava/lang/String;Landroid/net/Uri;)V",
-                &[JValue::Object(&action), JValue::Object(&uri)],
-            )?;
-            env.call_method(
-                act,
-                "startActivity",
-                "(Landroid/content/Intent;)V",
-                &[JValue::Object(&intent)],
-            )?;
+            let uri_s = env.call_method(&prefix, "concat", "(Ljava/lang/String;)Ljava/lang/String;", &[JValue::Object(&pkg)])?.l()?;
+            let uri = env.call_static_method("android/net/Uri", "parse", "(Ljava/lang/String;)Landroid/net/Uri;", &[JValue::Object(&uri_s)])?.l()?;
+            let action = env.new_string("android.settings.MANAGE_APP_ALL_FILES_ACCESS_PERMISSION")?;
+            let intent = env.new_object("android/content/Intent", "(Ljava/lang/String;Landroid/net/Uri;)V", &[JValue::Object(&action), JValue::Object(&uri)])?;
+            env.call_method(act, "startActivity", "(Landroid/content/Intent;)V", &[JValue::Object(&intent)])?;
             Ok(())
         });
     }
@@ -190,21 +128,13 @@ pub mod android {
     /// a plain file path.
     pub fn intent_path() -> Option<std::path::PathBuf> {
         with_env(|env, act| {
-            let intent = env
-                .call_method(act, "getIntent", "()Landroid/content/Intent;", &[])?
-                .l()?;
-            let uri = env
-                .call_method(&intent, "getData", "()Landroid/net/Uri;", &[])?
-                .l()?;
+            let intent = env.call_method(act, "getIntent", "()Landroid/content/Intent;", &[])?.l()?;
+            let uri = env.call_method(&intent, "getData", "()Landroid/net/Uri;", &[])?.l()?;
             if uri.is_null() {
                 return Ok(None);
             }
-            let scheme = env
-                .call_method(&uri, "getScheme", "()Ljava/lang/String;", &[])?
-                .l()?;
-            let path = env
-                .call_method(&uri, "getPath", "()Ljava/lang/String;", &[])?
-                .l()?;
+            let scheme = env.call_method(&uri, "getScheme", "()Ljava/lang/String;", &[])?.l()?;
+            let path = env.call_method(&uri, "getPath", "()Ljava/lang/String;", &[])?.l()?;
             if scheme.is_null() || path.is_null() {
                 return Ok(None);
             }
@@ -219,9 +149,7 @@ pub mod android {
     /// navigation buttons): the window minus the content area Android reports.
     pub fn bottom_inset_px() -> f32 {
         let Some(app) = APP.get() else { return 0.0 };
-        let Some(win) = app.native_window() else {
-            return 0.0;
-        };
+        let Some(win) = app.native_window() else { return 0.0 };
         let (r, h) = (app.content_rect(), win.height());
         if r.bottom > 0 && r.bottom < h {
             (h - r.bottom) as f32
@@ -232,10 +160,7 @@ pub mod android {
 
     /// Shows or hides the on-screen keyboard (MainActivity.java's text-input view).
     pub fn set_keyboard(show: bool) {
-        with_env(|env, act| {
-            env.call_method(act, "setKeyboard", "(Z)V", &[JValue::Bool(show.into())])
-                .map(|_| ())
-        });
+        with_env(|env, act| env.call_method(act, "setKeyboard", "(Z)V", &[JValue::Bool(show.into())]).map(|_| ()));
     }
 
     /// What the on-screen keyboard typed, waiting for the next frame.
@@ -265,13 +190,7 @@ pub mod android {
                 Typed::Text(s) => raw.events.push(Event::Text(s)),
                 Typed::Key(key) => {
                     for pressed in [true, false] {
-                        raw.events.push(Event::Key {
-                            key,
-                            physical_key: None,
-                            pressed,
-                            repeat: false,
-                            modifiers: Default::default(),
-                        });
+                        raw.events.push(Event::Key { key, physical_key: None, pressed, repeat: false, modifiers: Default::default() });
                     }
                 }
             }
@@ -279,22 +198,14 @@ pub mod android {
     }
 
     #[no_mangle]
-    extern "system" fn Java_com_universalsaveeditor_app_MainActivity_nativeText(
-        mut env: jni::JNIEnv,
-        _: jni::objects::JClass,
-        text: jni::objects::JString,
-    ) {
+    extern "system" fn Java_com_universalsaveeditor_app_MainActivity_nativeText(mut env: jni::JNIEnv, _: jni::objects::JClass, text: jni::objects::JString) {
         if let Ok(s) = env.get_string(&text) {
             push(Typed::Text(s.into()));
         }
     }
 
     #[no_mangle]
-    extern "system" fn Java_com_universalsaveeditor_app_MainActivity_nativeKey(
-        _: jni::JNIEnv,
-        _: jni::objects::JClass,
-        code: jni::sys::jint,
-    ) {
+    extern "system" fn Java_com_universalsaveeditor_app_MainActivity_nativeKey(_: jni::JNIEnv, _: jni::objects::JClass, code: jni::sys::jint) {
         use eframe::egui::Key;
         // android.view.KeyEvent key codes.
         let key = match code {
@@ -314,11 +225,7 @@ pub mod android {
 
 /// Steam's `userdata` folders on this machine (one subfolder per account that has played).
 pub fn steam_userdata_dirs() -> Vec<PathBuf> {
-    let env = |k: &str| {
-        std::env::var_os(k)
-            .filter(|v| !v.is_empty())
-            .map(PathBuf::from)
-    };
+    let env = |k: &str| std::env::var_os(k).filter(|v| !v.is_empty()).map(PathBuf::from);
     let mut roots: Vec<PathBuf> = vec![];
     #[cfg(windows)]
     {

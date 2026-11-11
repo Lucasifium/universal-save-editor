@@ -3,12 +3,9 @@
 //! worlds' and rockets' settings.
 
 use super::{panel, select, GameCtx};
-use crate::fmt::oni_map::{self as om, Cell, OniMap, Op, State};
+use crate::fmt::oni_map::{self as om, Cell, Op, OniMap, State};
 use crate::json_view::pointer_escape;
-use eframe::egui::{
-    self, Color32, ColorImage, PointerButton, Pos2, Rect, RichText, Sense, Stroke, TextureHandle,
-    TextureOptions, Ui, Vec2,
-};
+use eframe::egui::{self, Color32, ColorImage, PointerButton, Pos2, Rect, RichText, Sense, Stroke, TextureHandle, TextureOptions, Ui, Vec2};
 use serde_json::Value;
 use std::sync::{Arc, Mutex};
 
@@ -130,22 +127,14 @@ impl MapView {
             self.applied.clear();
             self.dirty = true;
             if map.world(self.world).is_none() {
-                self.world = map
-                    .worlds
-                    .iter()
-                    .find(|w| w.start)
-                    .or(map.worlds.first())
-                    .map_or(0, |w| w.id);
+                self.world = map.worlds.iter().find(|w| w.start).or(map.worlds.first()).map_or(0, |w| w.id);
                 self.zoom = 0.0;
             }
         }
         if self.applied == edits {
             return;
         }
-        if !self.applied.is_empty()
-            && edits.starts_with(&self.applied)
-            && edits[self.applied.len()..].starts_with(';')
-        {
+        if !self.applied.is_empty() && edits.starts_with(&self.applied) && edits[self.applied.len()..].starts_with(';') {
             let more = edits[self.applied.len() + 1..].to_string();
             self.apply_text(map, &more);
         } else {
@@ -171,11 +160,7 @@ impl MapView {
             Overlay::Germs => {
                 let k = ((c.germs as f32).log10() / 5.0).clamp(0.3, 1.0);
                 let base = germ_color(c.germ);
-                [
-                    (base[0] as f32 * k) as u8,
-                    (base[1] as f32 * k) as u8,
-                    (base[2] as f32 * k) as u8,
-                ]
+                [(base[0] as f32 * k) as u8, (base[1] as f32 * k) as u8, (base[2] as f32 * k) as u8]
             }
         };
         let col = Color32::from_rgb(rgb[0], rgb[1], rgb[2]);
@@ -185,20 +170,14 @@ impl MapView {
             col
         }
         .to_opaque()
-        .gamma_multiply(if map.protected[i] && self.overlay == Overlay::Elements {
-            0.8
-        } else {
-            1.0
-        })
+        .gamma_multiply(if map.protected[i] && self.overlay == Overlay::Elements { 0.8 } else { 1.0 })
     }
 
     fn upload(&mut self, ctx: &egui::Context, map: &OniMap) {
         if !self.dirty && self.tex_world == self.world && self.tex.is_some() {
             return;
         }
-        let Some(w) = map.world(self.world) else {
-            return;
-        };
+        let Some(w) = map.world(self.world) else { return };
         let mut px = Vec::with_capacity(w.w * w.h);
         // Drawn with y up, like the game.
         for row in 0..w.h {
@@ -207,15 +186,8 @@ impl MapView {
                 px.push(self.color(map, y * map.width + x));
             }
         }
-        let img = ColorImage {
-            size: [w.w, w.h],
-            pixels: px,
-        };
-        let opts = TextureOptions {
-            magnification: egui::TextureFilter::Nearest,
-            minification: egui::TextureFilter::Linear,
-            ..Default::default()
-        };
+        let img = ColorImage { size: [w.w, w.h], pixels: px };
+        let opts = TextureOptions { magnification: egui::TextureFilter::Nearest, minification: egui::TextureFilter::Linear, ..Default::default() };
         match &mut self.tex {
             Some(t) => t.set(img, opts),
             slot => *slot = Some(ctx.load_texture("oni_map", img, opts)),
@@ -227,15 +199,7 @@ impl MapView {
 
 /// The game's thermal overlay, roughly: cold blue to hot red.
 fn heat(c: f32) -> [u8; 3] {
-    const STOPS: [(f32, [u8; 3]); 7] = [
-        (-100.0, [40, 40, 160]),
-        (-10.0, [60, 140, 230]),
-        (10.0, [80, 200, 220]),
-        (25.0, [80, 210, 90]),
-        (40.0, [230, 220, 70]),
-        (100.0, [240, 130, 40]),
-        (400.0, [220, 30, 30]),
-    ];
+    const STOPS: [(f32, [u8; 3]); 7] = [(-100.0, [40, 40, 160]), (-10.0, [60, 140, 230]), (10.0, [80, 200, 220]), (25.0, [80, 210, 90]), (40.0, [230, 220, 70]), (100.0, [240, 130, 40]), (400.0, [220, 30, 30])];
     if c <= STOPS[0].0 {
         return STOPS[0].1;
     }
@@ -271,20 +235,11 @@ fn mass_text(kg: f32) -> String {
 }
 
 fn state() -> impl Fn(&mut Ui) -> Arc<Mutex<MapView>> {
-    |ui: &mut Ui| {
-        ui.data_mut(|d| {
-            d.get_temp_mut_or_insert_with(egui::Id::new("oni_map"), || {
-                Arc::new(Mutex::new(MapView::default()))
-            })
-            .clone()
-        })
-    }
+    |ui: &mut Ui| ui.data_mut(|d| d.get_temp_mut_or_insert_with(egui::Id::new("oni_map"), || Arc::new(Mutex::new(MapView::default()))).clone())
 }
 
 pub fn map_of(cx: &GameCtx) -> Option<Arc<OniMap>> {
-    cx.tree
-        .and_then(|t| t.attachment())
-        .and_then(|a| a.downcast::<OniMap>().ok())
+    cx.tree.and_then(|t| t.attachment()).and_then(|a| a.downcast::<OniMap>().ok())
 }
 
 pub fn map_tab(ui: &mut Ui, cx: &mut GameCtx) {
@@ -304,37 +259,16 @@ pub fn map_tab(ui: &mut Ui, cx: &mut GameCtx) {
     ui.horizontal_wrapped(|ui| {
         ui.label("World:");
         for w in &map.worlds {
-            let label = if w.rocket {
-                format!("\u{1F680} {}", w.name)
-            } else if w.start {
-                format!("{} (start)", w.name)
-            } else {
-                w.name.clone()
-            };
-            let text = if w.discovered {
-                RichText::new(label)
-            } else {
-                RichText::new(label).weak()
-            };
-            if ui
-                .selectable_label(v.world == w.id, text)
-                .on_hover_text(if w.discovered {
-                    ""
-                } else {
-                    "Not discovered yet"
-                })
-                .clicked()
-                && v.world != w.id
-            {
+            let label = if w.rocket { format!("\u{1F680} {}", w.name) } else if w.start { format!("{} (start)", w.name) } else { w.name.clone() };
+            let text = if w.discovered { RichText::new(label) } else { RichText::new(label).weak() };
+            if ui.selectable_label(v.world == w.id, text).on_hover_text(if w.discovered { "" } else { "Not discovered yet" }).clicked() && v.world != w.id {
                 v.world = w.id;
                 v.zoom = 0.0;
                 v.dirty = true;
             }
         }
     });
-    let Some(world) = map.world(v.world).cloned() else {
-        return;
-    };
+    let Some(world) = map.world(v.world).cloned() else { return };
 
     // Tools.
     ui.horizontal_wrapped(|ui| {
@@ -348,18 +282,10 @@ pub fn map_tab(ui: &mut Ui, cx: &mut GameCtx) {
     ui.horizontal_wrapped(|ui| {
         if v.tool == Tool::Paint {
             let list = map.paintable();
-            let names: Vec<String> = list
-                .iter()
-                .map(|e| format!("{} ({})", e.name, e.state.word()))
-                .collect();
-            let cur = list
-                .iter()
-                .position(|e| e.id == v.element)
-                .map_or_else(String::new, |i| names[i].clone());
+            let names: Vec<String> = list.iter().map(|e| format!("{} ({})", e.name, e.state.word())).collect();
+            let cur = list.iter().position(|e| e.id == v.element).map_or_else(String::new, |i| names[i].clone());
             ui.label("Element:");
-            if let Some(Value::String(s)) =
-                crate::widgets::choice_editor(ui, "oni_element", &cur, &names, 240.0)
-            {
+            if let Some(Value::String(s)) = crate::widgets::choice_editor(ui, "oni_element", &cur, &names, 240.0) {
                 if let Some(i) = names.iter().position(|n| *n == s) {
                     let e = list[i];
                     v.element = e.id;
@@ -375,39 +301,21 @@ pub fn map_tab(ui: &mut Ui, cx: &mut GameCtx) {
         let gas_or_vac = om::element(v.element).map(|e| e.state);
         if (v.tool == Tool::Paint && gas_or_vac != Some(State::Vacuum)) || v.tool == Tool::Mass {
             ui.label("Mass:");
-            ui.add(
-                egui::DragValue::new(&mut v.mass)
-                    .range(0.001..=om::MAX_MASS)
-                    .speed(1.0)
-                    .suffix(" kg"),
-            );
+            ui.add(egui::DragValue::new(&mut v.mass).range(0.001..=om::MAX_MASS).speed(1.0).suffix(" kg"));
         }
         if (v.tool == Tool::Paint && gas_or_vac != Some(State::Vacuum)) || v.tool == Tool::Heat {
             ui.label("Temperature:");
-            ui.add(
-                egui::DragValue::new(&mut v.temp_c)
-                    .range(-273.0..=om::MAX_TEMP - KELVIN)
-                    .speed(0.5)
-                    .suffix(" \u{00B0}C"),
-            );
+            ui.add(egui::DragValue::new(&mut v.temp_c).range(-273.0..=om::MAX_TEMP - KELVIN).speed(0.5).suffix(" \u{00B0}C"));
         }
         if painting {
             ui.label("Brush:");
-            ui.add(
-                egui::DragValue::new(&mut v.size)
-                    .range(1..=32)
-                    .suffix(" cells"),
-            );
+            ui.add(egui::DragValue::new(&mut v.size).range(1..=32).suffix(" cells"));
             ui.checkbox(&mut v.neutronium, "Also change Neutronium");
         }
     });
     ui.horizontal_wrapped(|ui| {
         ui.label("Show:");
-        for (o, label) in [
-            (Overlay::Elements, "Elements"),
-            (Overlay::Temperature, "Temperature"),
-            (Overlay::Germs, "Germs"),
-        ] {
+        for (o, label) in [(Overlay::Elements, "Elements"), (Overlay::Temperature, "Temperature"), (Overlay::Germs, "Germs")] {
             if ui.selectable_label(v.overlay == o, label).clicked() {
                 v.overlay = o;
                 v.dirty = true;
@@ -417,25 +325,9 @@ pub fn map_tab(ui: &mut Ui, cx: &mut GameCtx) {
             if ui.checkbox(&mut v.dim, "Dim unexplored").changed() {
                 v.dirty = true;
             }
-            if ui
-                .button("Reveal this world's map")
-                .on_hover_text("Clears the fog over all of this world")
-                .clicked()
-            {
-                let op = Op {
-                    mode: om::REVEAL,
-                    world: world.id as u16,
-                    element: 0,
-                    mass: 0.0,
-                    temp: 0.0,
-                    size: 0,
-                    points: vec![],
-                };
-                let new = if edits.is_empty() {
-                    op.to_text()
-                } else {
-                    format!("{edits};{}", op.to_text())
-                };
+            if ui.button("Reveal this world's map").on_hover_text("Clears the fog over all of this world").clicked() {
+                let op = Op { mode: om::REVEAL, world: world.id as u16, element: 0, mass: 0.0, temp: 0.0, size: 0, points: vec![] };
+                let new = if edits.is_empty() { op.to_text() } else { format!("{edits};{}", op.to_text()) };
                 cx.set(om::EDITS, Value::from(new));
             }
         }
@@ -471,35 +363,16 @@ pub fn map_tab(ui: &mut Ui, cx: &mut GameCtx) {
             ui.input_mut(|i| i.smooth_scroll_delta = Vec2::ZERO);
         }
     }
-    let pan = resp.dragged_by(PointerButton::Secondary)
-        || resp.dragged_by(PointerButton::Middle)
-        || (!painting && resp.dragged_by(PointerButton::Primary));
+    let pan = resp.dragged_by(PointerButton::Secondary) || resp.dragged_by(PointerButton::Middle) || (!painting && resp.dragged_by(PointerButton::Primary));
     if pan {
         v.center -= resp.drag_delta() / v.zoom;
     }
     let half = rect.size() / v.zoom / 2.0;
-    v.center.x = if half.x * 2.0 >= w {
-        w / 2.0
-    } else {
-        v.center.x.clamp(half.x, w - half.x)
-    };
-    v.center.y = if half.y * 2.0 >= h {
-        h / 2.0
-    } else {
-        v.center.y.clamp(half.y, h - half.y)
-    };
+    v.center.x = if half.x * 2.0 >= w { w / 2.0 } else { v.center.x.clamp(half.x, w - half.x) };
+    v.center.y = if half.y * 2.0 >= h { h / 2.0 } else { v.center.y.clamp(half.y, h - half.y) };
 
     // Pointer → cell of the grid (y up).
-    let hover = resp
-        .hover_pos()
-        .map(|p| to_local(v, p))
-        .filter(|t| t.x >= 0.0 && t.y >= 0.0 && t.x < w && t.y < h)
-        .map(|t| {
-            (
-                (world.x + t.x as usize) as u32,
-                (world.y + world.h - 1 - t.y as usize) as u32,
-            )
-        });
+    let hover = resp.hover_pos().map(|p| to_local(v, p)).filter(|t| t.x >= 0.0 && t.y >= 0.0 && t.x < w && t.y < h).map(|t| ((world.x + t.x as usize) as u32, (world.y + world.h - 1 - t.y as usize) as u32));
 
     let primary_down = ui.input(|i| i.pointer.primary_down());
     if painting && primary_down && resp.is_pointer_button_down_on() {
@@ -513,15 +386,7 @@ pub fn map_tab(ui: &mut Ui, cx: &mut GameCtx) {
             };
             let mode = base | if v.neutronium { om::ALSO_NEUTRONIUM } else { 0 };
             let (size, temp) = (v.size, (v.temp_c + KELVIN).clamp(0.1, om::MAX_TEMP));
-            let mut op = v.stroke.take().unwrap_or(Op {
-                mode,
-                world: world.id as u16,
-                element: v.element,
-                mass: v.mass,
-                temp,
-                size,
-                points: vec![],
-            });
+            let mut op = v.stroke.take().unwrap_or(Op { mode, world: world.id as u16, element: v.element, mass: v.mass, temp, size, points: vec![] });
             let last = op.points.last().copied();
             if last != Some(pt) {
                 let mut pts = vec![];
@@ -531,10 +396,7 @@ pub fn map_tab(ui: &mut Ui, cx: &mut GameCtx) {
                     let n = (dx.abs().max(dy.abs()) / step).ceil() as u32;
                     for k in 1..n {
                         let f = k as f32 / n as f32;
-                        pts.push((
-                            (lx as f32 + dx * f).round() as u32,
-                            (ly as f32 + dy * f).round() as u32,
-                        ));
+                        pts.push(((lx as f32 + dx * f).round() as u32, (ly as f32 + dy * f).round() as u32));
                     }
                 }
                 pts.push(pt);
@@ -547,11 +409,7 @@ pub fn map_tab(ui: &mut Ui, cx: &mut GameCtx) {
         }
     } else if let Some(op) = v.stroke.take() {
         if !op.points.is_empty() {
-            let new = if edits.is_empty() {
-                op.to_text()
-            } else {
-                format!("{edits};{}", op.to_text())
-            };
+            let new = if edits.is_empty() { op.to_text() } else { format!("{edits};{}", op.to_text()) };
             cx.set(om::EDITS, Value::from(new.clone()));
             v.applied = new;
         }
@@ -562,26 +420,15 @@ pub fn map_tab(ui: &mut Ui, cx: &mut GameCtx) {
     painter.rect_filled(rect, 0.0, Color32::BLACK);
     let to_screen = |x: f32, y: f32| rect.center() + (Vec2::new(x, y) - v.center) * v.zoom;
     // A grid cell's place on screen (its bottom-left corner in local coordinates is y+1).
-    let cell_screen =
-        |x: f32, y: f32| to_screen(x - world.x as f32, (world.y + world.h) as f32 - y);
+    let cell_screen = |x: f32, y: f32| to_screen(x - world.x as f32, (world.y + world.h) as f32 - y);
     if let Some(t) = &v.tex {
-        painter.image(
-            t.id(),
-            Rect::from_min_max(to_screen(0.0, 0.0), to_screen(w, h)),
-            Rect::from_min_max(Pos2::ZERO, Pos2::new(1.0, 1.0)),
-            Color32::WHITE,
-        );
+        painter.image(t.id(), Rect::from_min_max(to_screen(0.0, 0.0), to_screen(w, h)), Rect::from_min_max(Pos2::ZERO, Pos2::new(1.0, 1.0)), Color32::WHITE);
     }
     let font = egui::FontId::proportional(12.0);
     let mut near: Option<(f32, usize)> = None;
     for (i, poi) in map.pois.iter().enumerate() {
         let (x, y) = (poi.x as usize, poi.y as usize);
-        if !v.shown.get(poi.kind).copied().unwrap_or(true)
-            || x < world.x
-            || x >= world.x + world.w
-            || y < world.y
-            || y >= world.y + world.h
-        {
+        if !v.shown.get(poi.kind).copied().unwrap_or(true) || x < world.x || x >= world.x + world.w || y < world.y || y >= world.y + world.h {
             continue;
         }
         let k = &om::POI_KINDS[poi.kind];
@@ -594,17 +441,8 @@ pub fn map_tab(ui: &mut Ui, cx: &mut GameCtx) {
             painter.circle(p, 4.5, c, Stroke::new(1.0_f32, Color32::BLACK));
         } else {
             let r = 5.0;
-            let pts = vec![
-                p + Vec2::new(0.0, -r),
-                p + Vec2::new(r, 0.0),
-                p + Vec2::new(0.0, r),
-                p + Vec2::new(-r, 0.0),
-            ];
-            painter.add(egui::Shape::convex_polygon(
-                pts,
-                c,
-                Stroke::new(1.0_f32, Color32::BLACK),
-            ));
+            let pts = vec![p + Vec2::new(0.0, -r), p + Vec2::new(r, 0.0), p + Vec2::new(0.0, r), p + Vec2::new(-r, 0.0)];
+            painter.add(egui::Shape::convex_polygon(pts, c, Stroke::new(1.0_f32, Color32::BLACK)));
         }
         if let Some(hp) = resp.hover_pos() {
             let d = hp.distance(p);
@@ -613,13 +451,7 @@ pub fn map_tab(ui: &mut Ui, cx: &mut GameCtx) {
             }
         }
         if v.zoom >= 5.0 {
-            painter.text(
-                p + Vec2::new(8.0, 0.0),
-                egui::Align2::LEFT_CENTER,
-                &poi.name,
-                font.clone(),
-                Color32::WHITE,
-            );
+            painter.text(p + Vec2::new(8.0, 0.0), egui::Align2::LEFT_CENTER, &poi.name, font.clone(), Color32::WHITE);
         }
     }
     if let Some((_, i)) = near {
@@ -627,23 +459,13 @@ pub fn map_tab(ui: &mut Ui, cx: &mut GameCtx) {
         let p = cell_screen(poi.x as f32 + 0.5, poi.y as f32 + 0.5);
         let galley = painter.layout_no_wrap(poi.name.clone(), font.clone(), Color32::WHITE);
         let at = p + Vec2::new(10.0, -galley.size().y / 2.0);
-        painter.rect_filled(
-            Rect::from_min_size(
-                at - Vec2::new(3.0, 1.0),
-                galley.size() + Vec2::new(6.0, 2.0),
-            ),
-            3.0,
-            Color32::from_black_alpha(200),
-        );
+        painter.rect_filled(Rect::from_min_size(at - Vec2::new(3.0, 1.0), galley.size() + Vec2::new(6.0, 2.0)), 3.0, Color32::from_black_alpha(200));
         painter.galley(at, galley, Color32::WHITE);
     }
     if let (true, Some((x, y))) = (painting, hover) {
         let half = ((v.size.max(1) - 1) / 2) as f32;
         let (x0, y0) = (x as f32 - half, y as f32 - half);
-        let r = Rect::from_two_pos(
-            cell_screen(x0, y0),
-            cell_screen(x0 + v.size as f32, y0 + v.size as f32),
-        );
+        let r = Rect::from_two_pos(cell_screen(x0, y0), cell_screen(x0 + v.size as f32, y0 + v.size as f32));
         painter.rect_stroke(r, 0.0, Stroke::new(1.5_f32, Color32::WHITE));
     }
 
@@ -688,12 +510,7 @@ pub fn map_tab(ui: &mut Ui, cx: &mut GameCtx) {
 }
 
 fn poi_panel(ui: &mut Ui, map: &OniMap, v: &mut MapView, world: &om::World) {
-    let inside = |p: &om::Poi| {
-        (p.x as usize) >= world.x
-            && (p.x as usize) < world.x + world.w
-            && (p.y as usize) >= world.y
-            && (p.y as usize) < world.y + world.h
-    };
+    let inside = |p: &om::Poi| (p.x as usize) >= world.x && (p.x as usize) < world.x + world.w && (p.y as usize) >= world.y && (p.y as usize) < world.y + world.h;
     let here: Vec<&om::Poi> = map.pois.iter().filter(|p| inside(p)).collect();
     let mut counts = vec![0usize; om::POI_KINDS.len()];
     for p in &here {
@@ -716,30 +533,18 @@ fn poi_panel(ui: &mut Ui, map: &OniMap, v: &mut MapView, world: &om::World) {
             return;
         }
         let list: Vec<&&om::Poi> = here.iter().filter(|p| v.shown[p.kind]).collect();
-        egui::CollapsingHeader::new(format!("List ({})", list.len()))
-            .id_salt("oni_poi_list")
-            .show(ui, |ui| {
-                egui::ScrollArea::vertical()
-                    .id_salt("oni_poi_scroll")
-                    .max_height(200.0)
-                    .show(ui, |ui| {
-                        for p in list {
-                            let (lx, ly) = (p.x as usize - world.x, p.y as usize - world.y);
-                            if ui
-                                .selectable_label(
-                                    false,
-                                    format!("{}  \u{00B7}  {lx}, {ly}", p.name),
-                                )
-                                .on_hover_text("Show it on the map")
-                                .clicked()
-                            {
-                                v.center = Vec2::new(lx as f32 + 0.5, (world.h - ly) as f32 - 0.5);
-                                v.zoom = v.zoom.max(6.0);
-                                v.tool = Tool::Look;
-                            }
-                        }
-                    });
+        egui::CollapsingHeader::new(format!("List ({})", list.len())).id_salt("oni_poi_list").show(ui, |ui| {
+            egui::ScrollArea::vertical().id_salt("oni_poi_scroll").max_height(200.0).show(ui, |ui| {
+                for p in list {
+                    let (lx, ly) = (p.x as usize - world.x, p.y as usize - world.y);
+                    if ui.selectable_label(false, format!("{}  \u{00B7}  {lx}, {ly}", p.name)).on_hover_text("Show it on the map").clicked() {
+                        v.center = Vec2::new(lx as f32 + 0.5, (world.h - ly) as f32 - 0.5);
+                        v.zoom = v.zoom.max(6.0);
+                        v.tool = Tool::Look;
+                    }
+                }
             });
+        });
         ui.horizontal(|ui| {
             if ui.small_button("Show all").clicked() {
                 v.shown.iter_mut().for_each(|s| *s = true);
@@ -748,20 +553,14 @@ fn poi_panel(ui: &mut Ui, map: &OniMap, v: &mut MapView, world: &om::World) {
                 v.shown.iter_mut().for_each(|s| *s = false);
             }
         });
-        ui.weak(
-            "Duplicants start hidden. Positions are cells from the world's bottom-left corner.",
-        );
+        ui.weak("Duplicants start hidden. Positions are cells from the world's bottom-left corner.");
     });
 }
 
 /// The asteroids and rocket interiors with their settings, the rockets' names and what's
 /// out on the star map.
 pub fn worlds_tab(ui: &mut Ui, cx: &mut GameCtx, accent: Color32) {
-    let keys: Vec<String> = cx
-        .get("/Worlds")
-        .and_then(Value::as_object)
-        .map(|m| m.keys().cloned().collect())
-        .unwrap_or_default();
+    let keys: Vec<String> = cx.get("/Worlds").and_then(Value::as_object).map(|m| m.keys().cloned().collect()).unwrap_or_default();
     if keys.is_empty() {
         ui.weak("No worlds found in this save.");
         return;
@@ -771,47 +570,25 @@ pub fn worlds_tab(ui: &mut Ui, cx: &mut GameCtx, accent: Color32) {
         let base = format!("/Worlds/{}", pointer_escape(k));
         let kind = cx.text(&format!("{base}/Type")).unwrap_or_default();
         panel(ui, k, |ui| {
-            egui::Grid::new(("oni_world", k))
-                .num_columns(2)
-                .spacing([14.0, 6.0])
-                .show(ui, |ui| {
-                    cx.grid_row(ui, "Name", &format!("{base}/Name"), 240.0);
-                    for f in ["Type", "Kind", "Size"] {
-                        if let Some(t) = cx.text(&format!("{base}/{f}")) {
-                            ui.label(f);
-                            ui.label(t);
-                            ui.end_row();
-                        }
+            egui::Grid::new(("oni_world", k)).num_columns(2).spacing([14.0, 6.0]).show(ui, |ui| {
+                cx.grid_row(ui, "Name", &format!("{base}/Name"), 240.0);
+                for f in ["Type", "Kind", "Size"] {
+                    if let Some(t) = cx.text(&format!("{base}/{f}")) {
+                        ui.label(f);
+                        ui.label(t);
+                        ui.end_row();
                     }
-                    cx.grid_row(
-                        ui,
-                        "Sunlight (lux)",
-                        &format!("{base}/Sunlight (lux)"),
-                        120.0,
-                    );
-                    cx.grid_row(
-                        ui,
-                        "Cosmic radiation (rads)",
-                        &format!("{base}/Cosmic radiation (rads)"),
-                        120.0,
-                    );
-                });
+                }
+                cx.grid_row(ui, "Sunlight (lux)", &format!("{base}/Sunlight (lux)"), 120.0);
+                cx.grid_row(ui, "Cosmic radiation (rads)", &format!("{base}/Cosmic radiation (rads)"), 120.0);
+            });
             ui.horizontal_wrapped(|ui| {
                 cx.chip(ui, "Discovered", &format!("{base}/Discovered"), accent);
-                cx.chip(
-                    ui,
-                    "Surface revealed",
-                    &format!("{base}/Surface revealed"),
-                    accent,
-                );
+                cx.chip(ui, "Surface revealed", &format!("{base}/Surface revealed"), accent);
                 if cx.flag(&format!("{base}/Start world")) {
                     ui.weak("The colony started here.");
                 }
-                if let Some(id) = map
-                    .as_ref()
-                    .and_then(|m| m.worlds.iter().find(|w| w.key == *k))
-                    .map(|w| w.id)
-                {
+                if let Some(id) = map.as_ref().and_then(|m| m.worlds.iter().find(|w| w.key == *k)).map(|w| w.id) {
                     if ui.button("Open on the map").clicked() {
                         let st = state()(ui);
                         let mut g = st.lock().unwrap_or_else(|e| e.into_inner());
@@ -828,27 +605,14 @@ pub fn worlds_tab(ui: &mut Ui, cx: &mut GameCtx, accent: Color32) {
         });
     }
     ui.weak("Sunlight and cosmic radiation are what the world gets at its surface. Discovered puts the world on the star map; Surface revealed clears the fog above ground.");
-    let rockets: Vec<String> = cx
-        .get("/Rockets")
-        .and_then(Value::as_object)
-        .map(|m| m.keys().cloned().collect())
-        .unwrap_or_default();
+    let rockets: Vec<String> = cx.get("/Rockets").and_then(Value::as_object).map(|m| m.keys().cloned().collect()).unwrap_or_default();
     if !rockets.is_empty() {
         panel(ui, &format!("Rockets ({})", rockets.len()), |ui| {
-            egui::Grid::new("oni_rockets")
-                .num_columns(2)
-                .spacing([14.0, 6.0])
-                .striped(true)
-                .show(ui, |ui| {
-                    for (i, r) in rockets.iter().enumerate() {
-                        cx.grid_row(
-                            ui,
-                            &format!("Rocket {}", i + 1),
-                            &format!("/Rockets/{}/Name", pointer_escape(r)),
-                            260.0,
-                        );
-                    }
-                });
+            egui::Grid::new("oni_rockets").num_columns(2).spacing([14.0, 6.0]).striped(true).show(ui, |ui| {
+                for (i, r) in rockets.iter().enumerate() {
+                    cx.grid_row(ui, &format!("Rocket {}", i + 1), &format!("/Rockets/{}/Name", pointer_escape(r)), 260.0);
+                }
+            });
             ui.weak("Rockets with a habitat module also have their interior as a world above, which can be painted on the Map.");
         });
     }
@@ -856,14 +620,7 @@ pub fn worlds_tab(ui: &mut Ui, cx: &mut GameCtx, accent: Color32) {
         panel(ui, "On the star map", |ui| {
             ui.horizontal_wrapped(|ui| {
                 for (name, n) in &m.starmap {
-                    ui.label(
-                        RichText::new(if *n > 1 {
-                            format!("{name} \u{00D7}{n}")
-                        } else {
-                            name.clone()
-                        })
-                        .color(accent),
-                    );
+                    ui.label(RichText::new(if *n > 1 { format!("{name} \u{00D7}{n}") } else { name.clone() }).color(accent));
                     ui.label("\u{00B7}");
                 }
             });
@@ -909,25 +666,13 @@ mod tests {
         let out = std::env::var("ONI_OUT").ok();
         let raw = std::fs::read(&path).unwrap();
         let d = decode_with(&raw, &Options::for_path(std::path::Path::new(&path)));
-        let Content::Tree(mut doc) = d.content else {
-            panic!("not a tree")
-        };
+        let Content::Tree(mut doc) = d.content else { panic!("not a tree") };
         let game = crate::game_ui::detect(&doc.kind_name, &doc.view).unwrap();
         let map = doc.attachment().unwrap().downcast::<OniMap>().unwrap();
         let ctx = egui::Context::default();
         crate::theme::install_fonts(&ctx);
-        let frame = |doc: &crate::tree::TreeDoc,
-                     tab: usize,
-                     events: Vec<egui::Event>,
-                     setup: &dyn Fn(&mut MapView)|
-         -> Vec<(String, Value)> {
-            let mut input = egui::RawInput {
-                screen_rect: Some(egui::Rect::from_min_size(
-                    egui::Pos2::ZERO,
-                    egui::vec2(1280.0, 1000.0),
-                )),
-                ..Default::default()
-            };
+        let frame = |doc: &crate::tree::TreeDoc, tab: usize, events: Vec<egui::Event>, setup: &dyn Fn(&mut MapView)| -> Vec<(String, Value)> {
+            let mut input = egui::RawInput { screen_rect: Some(egui::Rect::from_min_size(egui::Pos2::ZERO, egui::vec2(1280.0, 1000.0))), ..Default::default() };
             input.events = events;
             let mut edits = vec![];
             let view = doc.view.clone();
@@ -939,14 +684,7 @@ mod tests {
                         let mut g = st.lock().unwrap();
                         setup(&mut g);
                     }
-                    let mut cx = GameCtx {
-                        root: &view,
-                        baseline: &view,
-                        tree: Some(doc),
-                        edits: vec![],
-                        archive: None,
-                        open_entry: None,
-                    };
+                    let mut cx = GameCtx { root: &view, baseline: &view, tree: Some(doc), edits: vec![], archive: None, open_entry: None };
                     crate::game_ui::show(game, ui, &mut cx);
                     edits = cx.edits;
                 });
@@ -1011,18 +749,8 @@ mod tests {
         'find: for y in (200..900).step_by(20) {
             let p = egui::pos2(640.0, y as f32);
             let q = egui::pos2(700.0, y as f32);
-            let ev = |pos, pressed| egui::Event::PointerButton {
-                pos,
-                button: egui::PointerButton::Primary,
-                pressed,
-                modifiers: Default::default(),
-            };
-            frame(
-                &doc,
-                1,
-                vec![egui::Event::PointerMoved(p), ev(p, true)],
-                &setup,
-            );
+            let ev = |pos, pressed| egui::Event::PointerButton { pos, button: egui::PointerButton::Primary, pressed, modifiers: Default::default() };
+            frame(&doc, 1, vec![egui::Event::PointerMoved(p), ev(p, true)], &setup);
             frame(&doc, 1, vec![egui::Event::PointerMoved(q)], &setup);
             frame(&doc, 1, vec![egui::Event::PointerMoved(q)], &setup);
             let e = frame(&doc, 1, vec![ev(q, false)], &setup);
@@ -1035,29 +763,17 @@ mod tests {
             }
         }
         let text = got.pop().expect("a paint stroke made a map edit");
-        println!(
-            "stroke: {}",
-            &text.as_str().unwrap()[..text.as_str().unwrap().len().min(200)]
-        );
+        println!("stroke: {}", &text.as_str().unwrap()[..text.as_str().unwrap().len().min(200)]);
         doc.set(om::EDITS, text).unwrap();
         let bytes = doc.to_bytes().unwrap();
         let again = decode_with(&bytes, &Options::for_path(std::path::Path::new(&path)));
-        let Content::Tree(again) = again.content else {
-            panic!()
-        };
+        let Content::Tree(again) = again.content else { panic!() };
         let m2 = again.attachment().unwrap().downcast::<OniMap>().unwrap();
-        let changed: Vec<usize> = (0..map.cells.len())
-            .filter(|&i| map.cells[i] != m2.cells[i])
-            .collect();
+        let changed: Vec<usize> = (0..map.cells.len()).filter(|&i| map.cells[i] != m2.cells[i]).collect();
         println!("cells changed: {}", changed.len());
         assert!(!changed.is_empty());
-        assert!(changed
-            .iter()
-            .all(|&i| m2.cells[i].element == om::hash("Granite") && m2.cells[i].mass == 1500.0));
+        assert!(changed.iter().all(|&i| m2.cells[i].element == om::hash("Granite") && m2.cells[i].mass == 1500.0));
         let w = map.world(start).unwrap();
-        assert!(changed
-            .iter()
-            .all(|&i| (w.x..w.x + w.w).contains(&(i % map.width))
-                && (w.y..w.y + w.h).contains(&(i / map.width))));
+        assert!(changed.iter().all(|&i| (w.x..w.x + w.w).contains(&(i % map.width)) && (w.y..w.y + w.h).contains(&(i / map.width))));
     }
 }

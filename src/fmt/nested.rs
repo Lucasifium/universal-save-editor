@@ -43,12 +43,7 @@ fn walk(v: &mut Value, ptr: &str, paths: &mut Vec<String>, depth: usize) {
         }
         Value::Object(m) => {
             for (k, x) in m.iter_mut() {
-                walk(
-                    x,
-                    &format!("{ptr}/{}", crate::json_view::pointer_escape(k)),
-                    paths,
-                    depth,
-                );
+                walk(x, &format!("{ptr}/{}", crate::json_view::pointer_escape(k)), paths, depth);
             }
         }
         _ => {}
@@ -73,36 +68,21 @@ pub fn open(data: &[u8]) -> Option<Opened> {
         return None;
     }
     let pretty = t.lines().nth(1).is_some_and(|l| l.starts_with([' ', '\t']));
-    let bytes = if pretty {
-        serde_json::to_vec_pretty(&v).ok()?
-    } else {
-        serde_json::to_vec(&v).ok()?
-    };
-    Some(Opened {
-        paths,
-        pretty,
-        bytes,
-    })
+    let bytes = if pretty { serde_json::to_vec_pretty(&v).ok()? } else { serde_json::to_vec(&v).ok()? };
+    Some(Opened { paths, pretty, bytes })
 }
 
 /// Turns the opened values back into strings (deepest first).
 pub fn close(data: &[u8], paths: &[String], pretty: bool) -> Result<Vec<u8>, String> {
     let mut v: Value = serde_json::from_slice(data).map_err(|e| format!("not JSON: {e}"))?;
     for p in paths.iter().rev() {
-        let Some(slot) = v.pointer_mut(p) else {
-            continue;
-        };
+        let Some(slot) = v.pointer_mut(p) else { continue };
         if matches!(slot, Value::Object(_) | Value::Array(_)) {
             let text = serde_json::to_string(slot).map_err(|e| e.to_string())?;
             *slot = Value::String(text);
         }
     }
-    if pretty {
-        serde_json::to_vec_pretty(&v)
-    } else {
-        serde_json::to_vec(&v)
-    }
-    .map_err(|e| e.to_string())
+    if pretty { serde_json::to_vec_pretty(&v) } else { serde_json::to_vec(&v) }.map_err(|e| e.to_string())
 }
 
 #[cfg(test)]
@@ -126,12 +106,7 @@ mod tests {
         let back: Value = serde_json::from_slice(&back).unwrap();
         let state: Value = serde_json::from_str(back["State"].as_str().unwrap()).unwrap();
         assert_eq!(state["Hp"], 99);
-        assert_eq!(
-            state["Deep"]
-                .as_str()
-                .map(|s| serde_json::from_str::<Value>(s).unwrap()["A"].to_string()),
-            Some("1.50".into())
-        );
+        assert_eq!(state["Deep"].as_str().map(|s| serde_json::from_str::<Value>(s).unwrap()["A"].to_string()), Some("1.50".into()));
         // Unedited, the bytes come back the same.
         assert_eq!(close(&o.bytes, &o.paths, o.pretty).unwrap(), bytes);
     }

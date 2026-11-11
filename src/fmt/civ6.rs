@@ -42,15 +42,7 @@ const PLAYER_ALIVE: u32 = u32::from_le_bytes([0xA6, 0xDF, 0xA7, 0x62]);
 const IS_CURRENT_TURN: u32 = u32::from_le_bytes([0xCB, 0x21, 0xB0, 0x7A]);
 const ACTOR_AI_HUMAN: u32 = u32::from_le_bytes([0x95, 0xB9, 0x42, 0xCE]);
 const ACTOR_DESCRIPTION: u32 = u32::from_le_bytes([0x65, 0x19, 0x9B, 0xFF]);
-const ACTOR_KEYS: [u32; 7] = [
-    ACTOR_NAME,
-    LEADER_NAME,
-    ACTOR_TYPE,
-    PLAYER_NAME,
-    PLAYER_ALIVE,
-    IS_CURRENT_TURN,
-    ACTOR_AI_HUMAN,
-];
+const ACTOR_KEYS: [u32; 7] = [ACTOR_NAME, LEADER_NAME, ACTOR_TYPE, PLAYER_NAME, PLAYER_ALIVE, IS_CURRENT_TURN, ACTOR_AI_HUMAN];
 
 #[derive(Clone, Debug, PartialEq)]
 enum Data {
@@ -80,11 +72,7 @@ impl W<'_> {
     }
 
     fn find(&self, from: usize, what: &[u8]) -> Option<usize> {
-        self.d
-            .get(from..)?
-            .windows(what.len())
-            .position(|w| w == what)
-            .map(|i| i + from)
+        self.d.get(from..)?.windows(what.len()).position(|w| w == what).map(|i| i + from)
     }
 
     /// One entry at `pos`. Unknown types are retried one byte further on, as the
@@ -97,19 +85,11 @@ impl W<'_> {
             self.pos += 8;
             let value_at = start + 16;
             if !dont_skip && (marker < 256 || ty == 0) {
-                return Some(Entry {
-                    marker,
-                    value_at,
-                    data: Data::Skip,
-                });
+                return Some(Entry { marker, value_at, data: Data::Skip });
             }
             if ty == 0x18 || self.d.get(start + 4..start + 6) == Some(&[0x78, 0x9C][..]) {
                 self.pos = self.find(self.pos, &COMPRESSED_DATA_END)? + 4;
-                return Some(Entry {
-                    marker,
-                    value_at,
-                    data: Data::Other,
-                });
+                return Some(Entry { marker, value_at, data: Data::Other });
             }
             let data = match ty {
                 1 => {
@@ -133,12 +113,7 @@ impl W<'_> {
                     Data::Other
                 }
                 0x15 => {
-                    self.pos += if self.d.get(self.pos..self.pos + 4) == Some(&[0, 0, 0, 0x80][..])
-                    {
-                        20
-                    } else {
-                        12
-                    };
+                    self.pos += if self.d.get(self.pos..self.pos + 4) == Some(&[0, 0, 0, 0x80][..]) { 20 } else { 12 };
                     Data::Other
                 }
                 4 | 5 => self.string()?,
@@ -156,22 +131,13 @@ impl W<'_> {
                     continue;
                 }
             };
-            return Some(Entry {
-                marker,
-                value_at,
-                data,
-            });
+            return Some(Entry { marker, value_at, data });
         }
     }
 
     fn string(&mut self) -> Option<Data> {
         let d = self.d;
-        let len = u32::from_le_bytes([
-            *d.get(self.pos)?,
-            *d.get(self.pos + 1)?,
-            *d.get(self.pos + 2)?,
-            0,
-        ]) as usize;
+        let len = u32::from_le_bytes([*d.get(self.pos)?, *d.get(self.pos + 1)?, *d.get(self.pos + 2)?, 0]) as usize;
         self.pos += 2;
         let kind = *d.get(self.pos + 1)?;
         if kind == 0 || kind == 0x20 {
@@ -189,16 +155,12 @@ impl W<'_> {
     }
 
     fn utf_string(&mut self) -> Option<Data> {
-        let len =
-            u16::from_le_bytes(self.d.get(self.pos..self.pos + 2)?.try_into().ok()?) as usize * 2;
+        let len = u16::from_le_bytes(self.d.get(self.pos..self.pos + 2)?.try_into().ok()?) as usize * 2;
         self.pos += 2;
         if self.d.get(self.pos..self.pos + 6) == Some(&[0, 0x21, 2, 0, 0, 0][..]) {
             self.pos += 6;
             let s = self.d.get(self.pos..self.pos + len.saturating_sub(2))?;
-            let u: Vec<u16> = s
-                .chunks(2)
-                .map(|c| u16::from_le_bytes([c[0], c[1]]))
-                .collect();
+            let u: Vec<u16> = s.chunks(2).map(|c| u16::from_le_bytes([c[0], c[1]])).collect();
             self.pos += len;
             return Some(Data::Text(String::from_utf16_lossy(&u)));
         }
@@ -285,9 +247,7 @@ fn pretty(id: &str, prefix: &str) -> String {
             }
             let w = w.to_lowercase();
             let mut c = w.chars();
-            c.next()
-                .map(|f| f.to_uppercase().collect::<String>() + c.as_str())
-                .unwrap_or_default()
+            c.next().map(|f| f.to_uppercase().collect::<String>() + c.as_str()).unwrap_or_default()
         })
         .collect::<Vec<_>>()
         .join(" ")
@@ -296,28 +256,13 @@ fn pretty(id: &str, prefix: &str) -> String {
 /// A mod title is either plain text or `{"LOC_KEY":[{"locale":"en_US","text":"…"}…]}`:
 /// the English text if there is one, else the key made readable.
 fn mod_title(t: &str) -> String {
-    let Ok(serde_json::Value::Object(m)) = serde_json::from_str::<serde_json::Value>(t) else {
-        return t.to_string();
-    };
-    let Some((key, v)) = m.into_iter().next() else {
-        return t.to_string();
-    };
-    let en = v
-        .as_array()
-        .and_then(|a| a.iter().find(|x| x["locale"] == "en_US"))
-        .and_then(|x| x["text"].as_str())
-        .map(str::to_string);
+    let Ok(serde_json::Value::Object(m)) = serde_json::from_str::<serde_json::Value>(t) else { return t.to_string() };
+    let Some((key, v)) = m.into_iter().next() else { return t.to_string() };
+    let en = v.as_array().and_then(|a| a.iter().find(|x| x["locale"] == "en_US")).and_then(|x| x["text"].as_str()).map(str::to_string);
     en.unwrap_or_else(|| {
         let k = key.strip_prefix("LOC_").unwrap_or(&key);
-        let k = k
-            .strip_suffix("_MOD_TITLE")
-            .or_else(|| k.strip_suffix("_TITLE"))
-            .unwrap_or(k);
-        if k.contains(' ') {
-            k.to_string()
-        } else {
-            pretty(k, "")
-        }
+        let k = k.strip_suffix("_MOD_TITLE").or_else(|| k.strip_suffix("_TITLE")).unwrap_or(k);
+        if k.contains(' ') { k.to_string() } else { pretty(k, "") }
     })
 }
 
@@ -345,11 +290,7 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
             w.pos += 8;
             let Some(els) = w.array_0b(0) else { break };
             for el in els {
-                if let Some(Data::Text(t)) = el
-                    .iter()
-                    .find(|e| e.marker == MOD_TITLE)
-                    .map(|e| e.data.clone())
-                {
+                if let Some(Data::Text(t)) = el.iter().find(|e| e.marker == MOD_TITLE).map(|e| e.data.clone()) {
                     let t = mod_title(&t);
                     if !mods.contains(&t) {
                         mods.push(t);
@@ -362,14 +303,9 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
         if w.pos <= before {
             break;
         }
-        let slot = SLOT_HEADERS
-            .iter()
-            .position(|h| u32::from_le_bytes(*h) == e.marker);
+        let slot = SLOT_HEADERS.iter().position(|h| u32::from_le_bytes(*h) == e.marker);
         if let Some(s) = slot {
-            actors.push(Actor {
-                slot: Some(s),
-                fields: vec![],
-            });
+            actors.push(Actor { slot: Some(s), fields: vec![] });
             cur = Some(actors.len() - 1);
         } else if cur.is_none() && e.marker == START_ACTOR {
             actors.push(Actor::default());
@@ -377,9 +313,7 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
         } else if e.marker == ACTOR_DESCRIPTION {
             cur = None;
         } else {
-            if [GAME_TURN, GAME_SPEED, MAP_FILE, MAP_SIZE].contains(&e.marker)
-                && !game.iter().any(|g| g.marker == e.marker)
-            {
+            if [GAME_TURN, GAME_SPEED, MAP_FILE, MAP_SIZE].contains(&e.marker) && !game.iter().any(|g| g.marker == e.marker) {
                 game.push(e.clone());
             }
             if let Some(c) = cur {
@@ -392,15 +326,7 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
     }
 
     let mut b = Builder::new(d);
-    let gtext = |m: u32| {
-        game.iter().find(|g| g.marker == m).and_then(|g| {
-            if let Data::Text(s) = &g.data {
-                Some(s.clone())
-            } else {
-                None
-            }
-        })
-    };
+    let gtext = |m: u32| game.iter().find(|g| g.marker == m).and_then(|g| if let Data::Text(s) = &g.data { Some(s.clone()) } else { None });
     if let Some(t) = game.iter().find(|g| g.marker == GAME_TURN) {
         if let Data::Int(v) = t.data {
             b.info(&["Game", "Turn"], v);
@@ -413,12 +339,7 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
         b.info(&["Game", "Map size"], pretty(&s, "MAPSIZE_"));
     }
     if let Some(s) = gtext(MAP_FILE) {
-        let f = s
-            .rsplit(['/', '\\'])
-            .next()
-            .unwrap_or(&s)
-            .trim_end_matches(".lua")
-            .to_string();
+        let f = s.rsplit(['/', '\\']).next().unwrap_or(&s).trim_end_matches(".lua").to_string();
         b.info(&["Game", "Map"], f);
     }
     for (i, m) in mods.iter().enumerate() {
@@ -430,8 +351,7 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
     for slot in 0..SLOT_HEADERS.len() {
         let Some(a) = actors.iter().find(|a| {
             a.slot == Some(slot)
-                && a.get(ACTOR_AI_HUMAN)
-                    .is_some_and(|e| e.data != Data::Int(2))
+                && a.get(ACTOR_AI_HUMAN).is_some_and(|e| e.data != Data::Int(2))
                 && a.text(ACTOR_TYPE).as_deref() == Some("CIVILIZATION_LEVEL_FULL_CIV")
                 && a.text(ACTOR_NAME).is_some()
         }) else {
@@ -454,17 +374,9 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
         }
         if let Some(e) = a.get(ACTOR_AI_HUMAN) {
             let pp = p("Played by");
-            b.pick(
-                &[&pp[0], &pp[1], &pp[2]],
-                e.value_at,
-                Kind::U32,
-                &[("AI".to_string(), 1), ("Human".to_string(), 3)],
-            );
+            b.pick(&[&pp[0], &pp[1], &pp[2]], e.value_at, Kind::U32, &[("AI".to_string(), 1), ("Human".to_string(), 3)]);
         }
-        if let Some(e) = a
-            .get(IS_CURRENT_TURN)
-            .filter(|e| matches!(e.data, Data::Bool(_)))
-        {
+        if let Some(e) = a.get(IS_CURRENT_TURN).filter(|e| matches!(e.data, Data::Bool(_))) {
             let pp = p("Current turn");
             b.field(&[&pp[0], &pp[1], &pp[2]], e.value_at, Kind::B8);
         }
@@ -511,10 +423,7 @@ mod tests {
         text(&mut d, GAME_SPEED, "GAMESPEED_STANDARD");
         int(&mut d, GAME_TURN, 42);
         text(&mut d, MAP_SIZE, "MAPSIZE_SMALL");
-        for (slot, civ, human) in [
-            (0, "CIVILIZATION_ROME", true),
-            (1, "CIVILIZATION_EGYPT", false),
-        ] {
+        for (slot, civ, human) in [(0, "CIVILIZATION_ROME", true), (1, "CIVILIZATION_EGYPT", false)] {
             int(&mut d, u32::from_le_bytes(SLOT_HEADERS[slot]), 0);
             text(&mut d, ACTOR_NAME, civ);
             text(&mut d, ACTOR_TYPE, "CIVILIZATION_LEVEL_FULL_CIV");
@@ -534,29 +443,15 @@ mod tests {
         let v = &doc.view;
         assert_eq!(v.pointer("/Game/Turn"), Some(&42.into()));
         assert_eq!(v.pointer("/Game/Speed"), Some(&"Standard".into()));
-        assert_eq!(
-            v.pointer("/Civilizations/01 Rome/Played by"),
-            Some(&"Human".into())
-        );
-        assert_eq!(
-            v.pointer("/Civilizations/02 Egypt/Played by"),
-            Some(&"AI".into())
-        );
-        doc.set("/Civilizations/02 Egypt/Played by", "Human".into())
-            .unwrap();
-        doc.set("/Civilizations/01 Rome/Current turn", false.into())
-            .unwrap();
+        assert_eq!(v.pointer("/Civilizations/01 Rome/Played by"), Some(&"Human".into()));
+        assert_eq!(v.pointer("/Civilizations/02 Egypt/Played by"), Some(&"AI".into()));
+        doc.set("/Civilizations/02 Egypt/Played by", "Human".into()).unwrap();
+        doc.set("/Civilizations/01 Rome/Current turn", false.into()).unwrap();
         let out = doc.to_bytes().unwrap();
         assert_eq!(out.len(), d.len());
         let v2 = parse(&out).unwrap().view;
-        assert_eq!(
-            v2.pointer("/Civilizations/02 Egypt/Played by"),
-            Some(&"Human".into())
-        );
-        assert_eq!(
-            v2.pointer("/Civilizations/01 Rome/Current turn"),
-            Some(&false.into())
-        );
+        assert_eq!(v2.pointer("/Civilizations/02 Egypt/Played by"), Some(&"Human".into()));
+        assert_eq!(v2.pointer("/Civilizations/01 Rome/Current turn"), Some(&false.into()));
     }
 
     /// Research aid: SAVE_EDITOR_CIV6 = a folder of .Civ6Save files.
@@ -569,15 +464,7 @@ mod tests {
             let d = std::fs::read(&p).unwrap();
             match parse(&d) {
                 Ok(doc) => {
-                    println!(
-                        "{}: {}",
-                        p.display(),
-                        serde_json::to_string(&doc.view)
-                            .unwrap()
-                            .chars()
-                            .take(900)
-                            .collect::<String>()
-                    );
+                    println!("{}: {}", p.display(), serde_json::to_string(&doc.view).unwrap().chars().take(900).collect::<String>());
                     assert_eq!(doc.to_bytes().unwrap(), d);
                 }
                 Err(e) => println!("{}: ERR {e}", p.display()),

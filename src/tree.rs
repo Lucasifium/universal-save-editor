@@ -75,22 +75,8 @@ pub struct TreeDoc {
 }
 
 impl TreeDoc {
-    pub fn new(
-        view: Value,
-        editable: HashMap<String, usize>,
-        kind_name: impl Into<String>,
-        backend: Box<dyn Backend>,
-    ) -> Self {
-        Self {
-            original: view.clone(),
-            view,
-            editable,
-            kind_name: kind_name.into(),
-            advanced: vec![],
-            note: None,
-            backend,
-            derived_log: vec![],
-        }
+    pub fn new(view: Value, editable: HashMap<String, usize>, kind_name: impl Into<String>, backend: Box<dyn Backend>) -> Self {
+        Self { original: view.clone(), view, editable, kind_name: kind_name.into(), advanced: vec![], note: None, backend, derived_log: vec![] }
     }
 
     /// See `Backend::attachment`.
@@ -126,9 +112,7 @@ impl TreeDoc {
             }
             None => v,
         };
-        let Some(target) = self.view.pointer_mut(ptr) else {
-            return Ok(None);
-        };
+        let Some(target) = self.view.pointer_mut(ptr) else { return Ok(None) };
         let old = std::mem::replace(target, v.clone());
         let mut aliases = 0;
         if let Some(leaf) = leaf {
@@ -183,16 +167,12 @@ impl TreeDoc {
 
     #[cfg(test)]
     pub fn linked_count(&self, ptr: &str) -> usize {
-        self.editable
-            .get(ptr)
-            .map_or(0, |&l| self.backend.linked(l))
+        self.editable.get(ptr).map_or(0, |&l| self.backend.linked(l))
     }
 
     /// Has an edit that changes the file's layout been made?
     pub fn reshaped(&self) -> bool {
-        self.editable.iter().any(|(ptr, &leaf)| {
-            self.backend.reshapes(leaf) && self.view.pointer(ptr) != self.original.pointer(ptr)
-        })
+        self.editable.iter().any(|(ptr, &leaf)| self.backend.reshapes(leaf) && self.view.pointer(ptr) != self.original.pointer(ptr))
     }
 
     /// After a layout-changing save: every ordinary value that `other` (the file read back)
@@ -200,11 +180,7 @@ impl TreeDoc {
     pub fn agrees_with(&self, other: &TreeDoc) -> bool {
         self.kind_name == other.kind_name
             && self.editable.iter().all(|(ptr, &leaf)| {
-                self.backend.reshapes(leaf)
-                    || other
-                        .view
-                        .pointer(ptr)
-                        .is_none_or(|v| Some(v) == self.view.pointer(ptr))
+                self.backend.reshapes(leaf) || other.view.pointer(ptr).is_none_or(|v| Some(v) == self.view.pointer(ptr))
             })
     }
 
@@ -212,10 +188,7 @@ impl TreeDoc {
         let mut seen = HashSet::new();
         let mut changes: Vec<(usize, Value)> = Vec::new();
         for (ptr, &leaf) in &self.editable {
-            let (Some(cur), Some(orig)) = (self.view.pointer(ptr), self.original.pointer(ptr))
-            else {
-                continue;
-            };
+            let (Some(cur), Some(orig)) = (self.view.pointer(ptr), self.original.pointer(ptr)) else { continue };
             if cur != orig && seen.insert(leaf) {
                 changes.push((leaf, cur.clone()));
             }
@@ -269,20 +242,14 @@ pub fn text_to_value(s: &str) -> Value {
         _ => {}
     }
     let digits = t.strip_prefix('-').unwrap_or(t);
-    let plain_int = !digits.is_empty()
-        && digits.bytes().all(|b| b.is_ascii_digit())
-        && (digits == "0" || !digits.starts_with('0'))
-        && t != "-0";
+    let plain_int = !digits.is_empty() && digits.bytes().all(|b| b.is_ascii_digit()) && (digits == "0" || !digits.starts_with('0')) && t != "-0";
     if plain_int {
         if let Ok(i) = t.parse::<i64>() {
             return Value::from(i);
         }
     }
     if let Some((a, b)) = digits.split_once('.') {
-        let ok = !a.is_empty()
-            && !b.is_empty()
-            && a.bytes().chain(b.bytes()).all(|c| c.is_ascii_digit())
-            && (a == "0" || !a.starts_with('0'));
+        let ok = !a.is_empty() && !b.is_empty() && a.bytes().chain(b.bytes()).all(|c| c.is_ascii_digit()) && (a == "0" || !a.starts_with('0'));
         if ok {
             if let Ok(n) = serde_json::from_str::<Number>(t) {
                 return Value::Number(n);
@@ -301,9 +268,7 @@ pub fn value_to_text(orig: &str, v: &Value) -> String {
                 s.to_uppercase()
             } else if orig.starts_with(|c: char| c.is_ascii_uppercase()) {
                 let mut c = s.chars();
-                c.next()
-                    .map(|f| f.to_ascii_uppercase().to_string() + c.as_str())
-                    .unwrap_or_default()
+                c.next().map(|f| f.to_ascii_uppercase().to_string() + c.as_str()).unwrap_or_default()
             } else {
                 s.to_string()
             }
@@ -318,10 +283,7 @@ pub fn value_to_text(orig: &str, v: &Value) -> String {
 /// Integer value of a JSON value if it's a whole number that fits in `min..=max`.
 pub fn int_in(v: &Value, min: i128, max: i128, what: &str) -> Result<i128, String> {
     let n = match v {
-        Value::Number(n) => n
-            .as_i64()
-            .map(i128::from)
-            .or_else(|| n.as_u64().map(i128::from)),
+        Value::Number(n) => n.as_i64().map(i128::from).or_else(|| n.as_u64().map(i128::from)),
         Value::Bool(b) => Some(i128::from(*b)),
         _ => None,
     }
@@ -335,10 +297,7 @@ pub fn int_in(v: &Value, min: i128, max: i128, what: &str) -> Result<i128, Strin
 /// A 32-bit float shown with the shortest digits that read back as the same float
 /// (0.1, not 0.10000000149011612).
 pub fn f32_value(f: f32) -> Value {
-    format!("{f}")
-        .parse::<f64>()
-        .ok()
-        .map_or_else(|| num(f as f64), num)
+    format!("{f}").parse::<f64>().ok().map_or_else(|| num(f as f64), num)
 }
 
 /// Round a number to what a 32-bit float field stores (and show it the way such a
@@ -351,9 +310,7 @@ pub fn round_f32(v: Value) -> Value {
 }
 
 pub fn num(f: f64) -> Value {
-    Number::from_f64(f)
-        .map(Value::Number)
-        .unwrap_or_else(|| Value::String(f.to_string()))
+    Number::from_f64(f).map(Value::Number).unwrap_or_else(|| Value::String(f.to_string()))
 }
 
 /// A byte-range patcher: collect (start, end, replacement) and apply them in one pass.
@@ -389,11 +346,7 @@ mod tests {
     fn text_values() {
         assert_eq!(text_to_value("1500"), Value::from(1500));
         assert_eq!(text_to_value("-7"), Value::from(-7));
-        assert_eq!(
-            text_to_value("007"),
-            Value::from("007"),
-            "leading zeros stay text"
-        );
+        assert_eq!(text_to_value("007"), Value::from("007"), "leading zeros stay text");
         assert_eq!(text_to_value("1e5"), Value::from("1e5"));
         assert!(text_to_value("2.50").is_number());
         assert_eq!(text_to_value("True"), Value::Bool(true));

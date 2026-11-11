@@ -90,133 +90,42 @@ impl Game {
 
 /// Is this one of the kind names this module gives its documents?
 pub fn is_kind(kind: &str) -> bool {
-    [
-        Game::Eu4,
-        Game::Ck2,
-        Game::Hoi4,
-        Game::Ck3,
-        Game::Vic3,
-        Game::Imperator,
-        Game::Eu5,
-        Game::Unknown,
-    ]
-    .iter()
-    .any(|g| g.kind_name() == kind)
+    [Game::Eu4, Game::Ck2, Game::Hoi4, Game::Ck3, Game::Vic3, Game::Imperator, Game::Eu5, Game::Unknown].iter().any(|g| g.kind_name() == kind)
 }
 
 // ------------------------------------------------------------------ field names
 
 /// The fields the game screens show, by id. Everything else needs a token file.
 const EU4_NAMES: &[(u16, &str)] = &[
-    (0x001b, "name"),
-    (0x0179, "checksum"),
-    (0x2719, "war_exhaustion"),
-    (0x2839, "base_tax"),
-    (0x283b, "primary_culture"),
-    (0x283e, "religion"),
-    (0x283f, "manpower"),
-    (0x284d, "date"),
-    (0x284e, "capital"),
-    (0x2876, "treasury"),
-    (0x2886, "stability"),
-    (0x2888, "inflation"),
-    (0x290f, "war_exhaustion"),
-    (0x2951, "army_tradition"),
-    (0x2952, "navy_tradition"),
-    (0x2973, "max_manpower"),
-    (0x29a1, "prestige"),
-    (0x2a38, "player"),
-    (0x2a3a, "estimated_monthly_income"),
-    (0x2a49, "prestige"),
-    (0x2ab2, "powers"),
-    (0x2b27, "score"),
-    (0x2b51, "legitimacy"),
-    (0x2beb, "patriarch_authority"),
-    (0x2bfc, "piety"),
-    (0x2bfd, "mercantilism"),
-    (0x2c05, "republican_tradition"),
-    (0x2c69, "save_game"),
-    (0x2e4e, "countries"),
-    (0x2f94, "fervor"),
-    (0x3105, "doom"),
-    (0x312c, "authority"),
-    (0x319a, "government_rank"),
-    (0x31bb, "development"),
-    (0x31c0, "devotion"),
-    (0x31d4, "karma"),
-    (0x31ef, "raw_development"),
-    (0x32b8, "displayed_country_name"),
-    (0x32e8, "horde_unity"),
-    (0x332d, "piety"),
-    (0x33ab, "sailors"),
-    (0x33ac, "max_sailors"),
-    (0x33f1, "corruption"),
-    (0x343c, "great_power_score"),
-    (0x356d, "splendor"),
-    (0x357c, "absolutism"),
-    (0x35d4, "meritocracy"),
-    (0x36d6, "army_professionalism"),
-    (0x3707, "tribal_allegiance"),
-    (0x37e2, "innovativeness"),
+    (0x001b, "name"), (0x0179, "checksum"), (0x2719, "war_exhaustion"), (0x2839, "base_tax"), (0x283b, "primary_culture"),
+    (0x283e, "religion"), (0x283f, "manpower"), (0x284d, "date"), (0x284e, "capital"), (0x2876, "treasury"),
+    (0x2886, "stability"), (0x2888, "inflation"), (0x290f, "war_exhaustion"), (0x2951, "army_tradition"),
+    (0x2952, "navy_tradition"), (0x2973, "max_manpower"), (0x29a1, "prestige"), (0x2a38, "player"),
+    (0x2a3a, "estimated_monthly_income"), (0x2a49, "prestige"), (0x2ab2, "powers"), (0x2b27, "score"),
+    (0x2b51, "legitimacy"), (0x2beb, "patriarch_authority"), (0x2bfc, "piety"), (0x2bfd, "mercantilism"),
+    (0x2c05, "republican_tradition"), (0x2c69, "save_game"), (0x2e4e, "countries"), (0x2f94, "fervor"),
+    (0x3105, "doom"), (0x312c, "authority"), (0x319a, "government_rank"), (0x31bb, "development"),
+    (0x31c0, "devotion"), (0x31d4, "karma"), (0x31ef, "raw_development"), (0x32b8, "displayed_country_name"),
+    (0x32e8, "horde_unity"), (0x332d, "piety"), (0x33ab, "sailors"), (0x33ac, "max_sailors"), (0x33f1, "corruption"),
+    (0x343c, "great_power_score"), (0x356d, "splendor"), (0x357c, "absolutism"), (0x35d4, "meritocracy"),
+    (0x36d6, "army_professionalism"), (0x3707, "tribal_allegiance"), (0x37e2, "innovativeness"),
 ];
 
 const HOI4_NAMES: &[(u16, &str)] = &[
-    (0x001b, "name"),
-    (0x00ee, "version"),
-    (0x283c, "manpower"),
-    (0x284a, "date"),
-    (0x284b, "capital"),
-    (0x2883, "stability"),
-    (0x299f, "difficulty"),
-    (0x2a35, "player"),
-    (0x2d13, "ironman"),
-    (0x2d49, "countries"),
-    (0x2e3e, "ideology"),
-    (0x2f71, "research_slot"),
-    (0x2ffa, "politics"),
-    (0x3008, "ruling_party"),
-    (0x301e, "political_power"),
-    (0x3392, "army_experience"),
-    (0x3393, "navy_experience"),
-    (0x3394, "air_experience"),
-    (0x349d, "save_version"),
-    (0x37fd, "war_support"),
-    (0x3883, "command_power"),
+    (0x001b, "name"), (0x00ee, "version"), (0x283c, "manpower"), (0x284a, "date"), (0x284b, "capital"),
+    (0x2883, "stability"), (0x299f, "difficulty"), (0x2a35, "player"), (0x2d13, "ironman"), (0x2d49, "countries"),
+    (0x2e3e, "ideology"), (0x2f71, "research_slot"), (0x2ffa, "politics"), (0x3008, "ruling_party"),
+    (0x301e, "political_power"), (0x3392, "army_experience"), (0x3393, "navy_experience"), (0x3394, "air_experience"),
+    (0x349d, "save_version"), (0x37fd, "war_support"), (0x3883, "command_power"),
 ];
 
 const CK2_NAMES: &[(u16, &str)] = &[
-    (0x000b, "id"),
-    (0x001b, "name"),
-    (0x00da, "type"),
-    (0x010a, "score"),
-    (0x0116, "version"),
-    (0x01a2, "checksum"),
-    (0x2712, "fertility"),
-    (0x2717, "character"),
-    (0x2718, "traits"),
-    (0x2736, "dynasty"),
-    (0x2739, "wealth"),
-    (0x2740, "attributes"),
-    (0x274e, "piety"),
-    (0x2785, "culture"),
-    (0x278b, "religion"),
-    (0x279b, "date"),
-    (0x28a5, "prestige"),
-    (0x2910, "female"),
-    (0x292d, "player"),
-    (0x299e, "health"),
-    (0x2afb, "player_realm"),
-    (0x2c70, "birth_name"),
-    (0x31dd, "bn"),
-    (0x31de, "b_d"),
-    (0x31df, "d_d"),
-    (0x31e4, "att"),
-    (0x31e5, "rel"),
-    (0x31e6, "cul"),
-    (0x3439, "dnt"),
-    (0x343b, "fer"),
-    (0x343c, "prs"),
-    (0x344a, "fem"),
+    (0x000b, "id"), (0x001b, "name"), (0x00da, "type"), (0x010a, "score"), (0x0116, "version"), (0x01a2, "checksum"),
+    (0x2712, "fertility"), (0x2717, "character"), (0x2718, "traits"), (0x2736, "dynasty"), (0x2739, "wealth"),
+    (0x2740, "attributes"), (0x274e, "piety"), (0x2785, "culture"), (0x278b, "religion"), (0x279b, "date"),
+    (0x28a5, "prestige"), (0x2910, "female"), (0x292d, "player"), (0x299e, "health"), (0x2afb, "player_realm"),
+    (0x2c70, "birth_name"), (0x31dd, "bn"), (0x31de, "b_d"), (0x31df, "d_d"), (0x31e4, "att"), (0x31e5, "rel"),
+    (0x31e6, "cul"), (0x3439, "dnt"), (0x343b, "fer"), (0x343c, "prs"), (0x344a, "fem"),
 ];
 
 /// Field names by id: the built-in short list, then whatever token file the player has.
@@ -235,10 +144,7 @@ impl Names {
             Game::Ck2 => CK2_NAMES,
             _ => &[],
         };
-        Names {
-            map: list.iter().map(|&(id, n)| (id, Arc::from(n))).collect(),
-            supplied: 0,
-        }
+        Names { map: list.iter().map(|&(id, n)| (id, Arc::from(n))).collect(), supplied: 0 }
     }
 
     /// Adds a token file. Two layouts are read, line by line: `0x284d date` (id, then the
@@ -256,11 +162,7 @@ impl Names {
             } else {
                 continue;
             };
-            let plain = !name.is_empty()
-                && name.len() <= 96
-                && name
-                    .bytes()
-                    .all(|c| c.is_ascii_graphic() && !b"{}=\"".contains(&c));
+            let plain = !name.is_empty() && name.len() <= 96 && name.bytes().all(|c| c.is_ascii_graphic() && !b"{}=\"".contains(&c));
             if plain && id > 0x0004 {
                 self.map.insert(id, Arc::from(name));
                 self.supplied += 1;
@@ -294,20 +196,13 @@ impl Names {
     }
 
     fn id_of(&self, name: &str) -> Vec<u16> {
-        self.map
-            .iter()
-            .filter(|(_, n)| &***n == name)
-            .map(|(id, _)| *id)
-            .collect()
+        self.map.iter().filter(|(_, n)| &***n == name).map(|(id, _)| *id).collect()
     }
 }
 
 fn parse_hex(s: &str) -> Option<u16> {
     let s = s.trim();
-    let s = s
-        .strip_prefix("0x")
-        .or_else(|| s.strip_prefix("0X"))
-        .unwrap_or(s);
+    let s = s.strip_prefix("0x").or_else(|| s.strip_prefix("0X")).unwrap_or(s);
     if s.is_empty() || s.len() > 4 {
         return None;
     }
@@ -318,16 +213,11 @@ fn parse_hex(s: &str) -> Option<u16> {
 fn token_paths(game: Game) -> Vec<std::path::PathBuf> {
     let slug = game.slug();
     let mut out = vec![];
-    if let Some(p) = std::env::var_os(format!("{}_IRONMAN_TOKENS", slug.to_uppercase()))
-        .filter(|v| !v.is_empty())
-    {
+    if let Some(p) = std::env::var_os(format!("{}_IRONMAN_TOKENS", slug.to_uppercase())).filter(|v| !v.is_empty()) {
         out.push(std::path::PathBuf::from(p));
     }
     let mut dirs = vec![];
-    if let Some(d) = std::env::current_exe()
-        .ok()
-        .and_then(|e| e.parent().map(|p| p.join("tokens")))
-    {
+    if let Some(d) = std::env::current_exe().ok().and_then(|e| e.parent().map(|p| p.join("tokens"))) {
         dirs.push(d);
     }
     if let Some(d) = crate::platform::config_dir() {
@@ -440,17 +330,13 @@ enum Kind {
     Milli,
     Ieee,
     /// i64 in units of 1/div.
-    Fixed {
-        div: f64,
-    },
+    Fixed { div: f64 },
     /// The compact number: the whole token (id and bytes) is rewritten.
     Fixed5,
     Bool,
     Str,
     /// An i32 shown as a date (`hours`: the game also counts the hour).
-    Date {
-        hours: bool,
-    },
+    Date { hours: bool },
 }
 
 #[derive(Clone, Copy, Debug)]
@@ -520,28 +406,19 @@ fn date_text(v: i32, hours: bool) -> Option<String> {
         doy -= len;
         month += 1;
     }
-    Some(if hours {
-        format!("{year}.{month}.{}.{}", doy + 1, hour + 1)
-    } else {
-        format!("{year}.{month}.{}", doy + 1)
-    })
+    Some(if hours { format!("{year}.{month}.{}.{}", doy + 1, hour + 1) } else { format!("{year}.{month}.{}", doy + 1) })
 }
 
 /// The reverse of [`date_text`]: `1444.11.11` (or `1936.1.1.12` with the hour) as stored.
 fn date_value(text: &str, hours: bool) -> Option<i32> {
     const DAYS: [i32; 12] = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
-    let parts: Vec<i32> = text
-        .trim()
-        .split('.')
-        .map(|p| p.parse().ok())
-        .collect::<Option<_>>()?;
+    let parts: Vec<i32> = text.trim().split('.').map(|p| p.parse().ok()).collect::<Option<_>>()?;
     let (year, month, day, hour) = match (parts.as_slice(), hours) {
         (&[y, m, d], _) => (y, m, d, 1),
         (&[y, m, d, h], true) => (y, m, d, h),
         _ => return None,
     };
-    let ok =
-        (-5000..=9999).contains(&year) && (1..=12).contains(&month) && (1..=24).contains(&hour);
+    let ok = (-5000..=9999).contains(&year) && (1..=12).contains(&month) && (1..=24).contains(&hour);
     if !ok || day < 1 || day > DAYS[month as usize - 1] {
         return None;
     }
@@ -591,10 +468,7 @@ impl Builder<'_> {
         let mut b = [0u8; 4];
         b[..t.end - t.at - 2].copy_from_slice(&self.d[t.at + 2..t.end]);
         let i = u32::from_le_bytes(b) as usize;
-        self.lookup
-            .get(i)
-            .cloned()
-            .unwrap_or_else(|| format!("#{i}"))
+        self.lookup.get(i).cloned().unwrap_or_else(|| format!("#{i}"))
     }
 
     fn id_text(&mut self, id: u16) -> String {
@@ -623,10 +497,7 @@ impl Builder<'_> {
             T::U64 => u64::from_le_bytes(p.try_into().unwrap()).to_string(),
             T::Bool => (if p[0] != 0 { "yes" } else { "no" }).to_string(),
             T::Fixed5(w, neg) => (fixed5_raw(p, w, neg) as f64 / 100_000.0).to_string(),
-            T::F32 | T::F64 => format!(
-                "0x{:04x}",
-                u16::from_le_bytes([self.d[t.at], self.d[t.at + 1]])
-            ),
+            T::F32 | T::F64 => format!("0x{:04x}", u16::from_le_bytes([self.d[t.at], self.d[t.at + 1]])),
             T::Empty => String::new(),
             T::Open | T::Close | T::Eq | T::Rgb => "?".into(),
         }
@@ -740,9 +611,7 @@ impl Builder<'_> {
     }
 
     fn value(&mut self, ptr: &str, key: &str) -> Value {
-        let Some(t) = self.peek() else {
-            return Value::Null;
-        };
+        let Some(t) = self.peek() else { return Value::Null };
         self.pos = t.end;
         match t.t {
             T::Open => self.block(ptr, false),
@@ -761,9 +630,7 @@ impl Builder<'_> {
     }
 
     fn focused(&self, ptr: &str) -> bool {
-        self.focus.iter().any(|f| {
-            ptr == f || ptr.starts_with(&format!("{f}/")) || f.starts_with(&format!("{ptr}/"))
-        })
+        self.focus.iter().any(|f| ptr == f || ptr.starts_with(&format!("{f}/")) || f.starts_with(&format!("{ptr}/")))
     }
 
     /// The items of a block (its `{` already taken), up to its `}` (or the end of the data
@@ -786,8 +653,7 @@ impl Builder<'_> {
                 self.pos = t.end;
                 continue;
             }
-            let keyed = !matches!(t.t, T::Open | T::Rgb)
-                && self.peek_after(t).is_some_and(|n| n.t == T::Eq);
+            let keyed = !matches!(t.t, T::Open | T::Rgb) && self.peek_after(t).is_some_and(|n| n.t == T::Eq);
             if top {
                 self.budget = SECTION_BUDGET;
             }
@@ -826,10 +692,7 @@ impl Builder<'_> {
         }
         if hidden > 0 {
             let key = unique_key(&kv, "(not shown)");
-            kv.insert(
-                key,
-                Value::from(format!("{hidden} more values \u{2014} not listed here")),
-            );
+            kv.insert(key, Value::from(format!("{hidden} more values \u{2014} not listed here")));
         }
         if kv.is_empty() {
             return Value::Array(list);
@@ -872,11 +735,7 @@ struct BinBackend {
 impl BinBackend {
     fn encode(&self, leaf: &Leaf, v: &Value) -> Result<Vec<u8>, String> {
         use crate::tree::int_in;
-        let float = || {
-            v.as_f64()
-                .filter(|f| f.is_finite())
-                .ok_or_else(|| "expected a number".to_string())
-        };
+        let float = || v.as_f64().filter(|f| f.is_finite()).ok_or_else(|| "expected a number".to_string());
         let scaled = |div: f64, min: f64, max: f64| -> Result<f64, String> {
             let raw = (float()? * div).round();
             if raw < min || raw > max {
@@ -885,21 +744,11 @@ impl BinBackend {
             Ok(raw)
         };
         Ok(match leaf.kind {
-            Kind::I32 => (int_in(v, i32::MIN.into(), i32::MAX.into(), "This value")? as i32)
-                .to_le_bytes()
-                .to_vec(),
-            Kind::U32 => (int_in(v, 0, u32::MAX.into(), "This value")? as u32)
-                .to_le_bytes()
-                .to_vec(),
-            Kind::I64 => (int_in(v, i64::MIN.into(), i64::MAX.into(), "This value")? as i64)
-                .to_le_bytes()
-                .to_vec(),
-            Kind::U64 => (int_in(v, 0, u64::MAX.into(), "This value")? as u64)
-                .to_le_bytes()
-                .to_vec(),
-            Kind::Milli => (scaled(1000.0, i32::MIN.into(), i32::MAX.into())? as i32)
-                .to_le_bytes()
-                .to_vec(),
+            Kind::I32 => (int_in(v, i32::MIN.into(), i32::MAX.into(), "This value")? as i32).to_le_bytes().to_vec(),
+            Kind::U32 => (int_in(v, 0, u32::MAX.into(), "This value")? as u32).to_le_bytes().to_vec(),
+            Kind::I64 => (int_in(v, i64::MIN.into(), i64::MAX.into(), "This value")? as i64).to_le_bytes().to_vec(),
+            Kind::U64 => (int_in(v, 0, u64::MAX.into(), "This value")? as u64).to_le_bytes().to_vec(),
+            Kind::Milli => (scaled(1000.0, i32::MIN.into(), i32::MAX.into())? as i32).to_le_bytes().to_vec(),
             Kind::Ieee => {
                 let f = float()? as f32;
                 if !f.is_finite() {
@@ -907,34 +756,19 @@ impl BinBackend {
                 }
                 f.to_le_bytes().to_vec()
             }
-            Kind::Fixed { div } => (scaled(div, -9.0e18, 9.0e18)? as i64)
-                .to_le_bytes()
-                .to_vec(),
+            Kind::Fixed { div } => (scaled(div, -9.0e18, 9.0e18)? as i64).to_le_bytes().to_vec(),
             Kind::Fixed5 => fixed5_encode(scaled(100_000.0, -9.0e18, 9.0e18)? as i64),
             Kind::Bool => vec![u8::from(v.as_bool().ok_or("tick or untick it")?)],
             Kind::Date { hours } => {
-                let wanted = if hours {
-                    "a date like 1936.1.1.12 (year.month.day.hour)"
-                } else {
-                    "a date like 1444.11.11 (year.month.day)"
-                };
-                v.as_str()
-                    .and_then(|s| date_value(s, hours))
-                    .ok_or_else(|| format!("expected {wanted}"))?
-                    .to_le_bytes()
-                    .to_vec()
+                let wanted = if hours { "a date like 1936.1.1.12 (year.month.day.hour)" } else { "a date like 1444.11.11 (year.month.day)" };
+                v.as_str().and_then(|s| date_value(s, hours)).ok_or_else(|| format!("expected {wanted}"))?.to_le_bytes().to_vec()
             }
             Kind::Str => {
                 let s = v.as_str().ok_or("expected text")?;
                 let bytes: Vec<u8> = if self.utf8 {
                     s.as_bytes().to_vec()
                 } else {
-                    s.chars()
-                        .map(|c| {
-                            super::bethesda_cp1252_encode(c)
-                                .ok_or_else(|| format!("this save can't hold the character {c:?}"))
-                        })
-                        .collect::<Result<_, _>>()?
+                    s.chars().map(|c| super::bethesda_cp1252_encode(c).ok_or_else(|| format!("this save can't hold the character {c:?}"))).collect::<Result<_, _>>()?
                 };
                 if bytes.len() > u16::MAX as usize {
                     return Err("that text is too long".into());
@@ -952,10 +786,7 @@ impl Backend for BinBackend {
         if changes.is_empty() {
             return Ok(self.data.as_ref().clone());
         }
-        let mut edits: Vec<(Leaf, Vec<u8>)> = changes
-            .iter()
-            .map(|(l, v)| Ok((self.leaves[*l], self.encode(&self.leaves[*l], v)?)))
-            .collect::<Result<_, String>>()?;
+        let mut edits: Vec<(Leaf, Vec<u8>)> = changes.iter().map(|(l, v)| Ok((self.leaves[*l], self.encode(&self.leaves[*l], v)?))).collect::<Result<_, String>>()?;
         edits.sort_by_key(|e| e.0.start);
         let mut out = Vec::with_capacity(self.data.len() + 64);
         let (mut at, mut meta_delta) = (0usize, 0i64);
@@ -969,10 +800,7 @@ impl Backend for BinBackend {
         }
         out.extend_from_slice(&self.data[at..]);
         if let (Some((field, _)), true) = (self.meta, meta_delta != 0) {
-            let old = std::str::from_utf8(&out[field..field + 8])
-                .ok()
-                .and_then(|h| i64::from_str_radix(h, 16).ok())
-                .ok_or("the save's header can't be read")?;
+            let old = std::str::from_utf8(&out[field..field + 8]).ok().and_then(|h| i64::from_str_radix(h, 16).ok()).ok_or("the save's header can't be read")?;
             out[field..field + 8].copy_from_slice(format!("{:08x}", old + meta_delta).as_bytes());
         }
         Ok(out)
@@ -980,11 +808,7 @@ impl Backend for BinBackend {
 
     fn normalize(&self, leaf: usize, v: Value) -> Value {
         if let Kind::Date { hours } = self.leaves[leaf].kind {
-            return match v
-                .as_str()
-                .and_then(|s| date_value(s, hours))
-                .and_then(|n| date_text(n, hours))
-            {
+            return match v.as_str().and_then(|s| date_value(s, hours)).and_then(|n| date_text(n, hours)) {
                 Some(s) => Value::from(s),
                 None => v,
             };
@@ -1025,15 +849,9 @@ impl SavHeader {
         if d.len() < 24 || !d.starts_with(b"SAV") || !d[3..23].iter().all(u8::is_ascii_hexdigit) {
             return None;
         }
-        let hex = |r: std::ops::Range<usize>| {
-            usize::from_str_radix(std::str::from_utf8(&d[r]).ok()?, 16).ok()
-        };
+        let hex = |r: std::ops::Range<usize>| usize::from_str_radix(std::str::from_utf8(&d[r]).ok()?, 16).ok();
         let nl = d[23..d.len().min(64)].iter().position(|&c| c == b'\n')? + 23;
-        Some(SavHeader {
-            kind: hex(5..7)? as u8,
-            len: nl + 1,
-            meta_len: hex(15..23)?,
-        })
+        Some(SavHeader { kind: hex(5..7)? as u8, len: nl + 1, meta_len: hex(15..23)? })
     }
 
     /// Kinds 1, 3 and 5 hold binary data; 0, 2 and 4 text.
@@ -1051,10 +869,7 @@ impl SavHeader {
 /// Hearts of Iron IV data (also as found inside their zip archives), and uncompressed
 /// binary `SAV…` files.
 pub fn looks(d: &[u8]) -> bool {
-    d.starts_with(b"EU4bin")
-        || d.starts_with(b"CK2bin")
-        || d.starts_with(b"HOI4bin")
-        || SavHeader::read(d).is_some_and(|h| h.kind == 1)
+    d.starts_with(b"EU4bin") || d.starts_with(b"CK2bin") || d.starts_with(b"HOI4bin") || SavHeader::read(d).is_some_and(|h| h.kind == 1)
 }
 
 /// The string table Europa Universalis V keeps beside the game state: five bytes, then
@@ -1064,9 +879,7 @@ pub fn string_lookup(d: &[u8]) -> Vec<String> {
     let mut at = 5;
     while at + 2 <= d.len() {
         let n = u16::from_le_bytes([d[at], d[at + 1]]) as usize;
-        let Some(s) = d.get(at + 2..at + 2 + n) else {
-            break;
-        };
+        let Some(s) = d.get(at + 2..at + 2 + n) else { break };
         out.push(String::from_utf8_lossy(s).into_owned());
         at += 2 + n;
     }
@@ -1092,20 +905,11 @@ pub fn token_prefix_len(old: &[u8], new: &[u8]) -> Option<usize> {
 
 fn flavor(game: Game, body: &[u8]) -> Flavor {
     let old = matches!(game, Game::Eu4 | Game::Ck2 | Game::Hoi4);
-    let mut fl = Flavor {
-        game,
-        f32_thousandths: old,
-        f32_wide: false,
-        f64_div: if old { 32768.0 } else { 100_000.0 },
-        utf8: !matches!(game, Game::Eu4 | Game::Ck2),
-    };
+    let mut fl = Flavor { game, f32_thousandths: old, f32_wide: false, f64_div: if old { 32768.0 } else { 100_000.0 }, utf8: !matches!(game, Game::Eu4 | Game::Ck2) };
     if game == Game::Hoi4 {
         // `save_version=<i32>` near the top says which float encoding follows.
         let head = &body[..body.len().min(1 << 16)];
-        if let Some(i) = head
-            .windows(6)
-            .position(|w| w == [0x9d, 0x34, 0x01, 0x00, 0x0c, 0x00])
-        {
+        if let Some(i) = head.windows(6).position(|w| w == [0x9d, 0x34, 0x01, 0x00, 0x0c, 0x00]) {
             if let Some(v) = head.get(i + 6..i + 10) {
                 fl.f32_wide = i32::from_le_bytes(v.try_into().unwrap()) >= 30;
             }
@@ -1137,17 +941,10 @@ fn focus_paths(d: &[u8], start: usize, fl: &Flavor, names: &Names) -> Vec<String
         if !player.contains(&id) {
             continue;
         }
-        let Some(eq) = lex(d, at, fl).filter(|n| n.t == T::Eq) else {
-            continue;
-        };
+        let Some(eq) = lex(d, at, fl).filter(|n| n.t == T::Eq) else { continue };
         let Some(v) = lex(d, eq.end, fl) else { break };
         match v.t {
-            T::Str => {
-                return vec![format!(
-                    "/countries/{}",
-                    esc(&text_of(&d[v.at + 4..v.end], fl.utf8))
-                )]
-            }
+            T::Str => return vec![format!("/countries/{}", esc(&text_of(&d[v.at + 4..v.end], fl.utf8)))],
             T::Open => {
                 let mut p = v.end;
                 for _ in 0..16 {
@@ -1197,31 +994,13 @@ fn parse_full(d: &[u8], game: Game, lookup: &[String], side: &[u8]) -> Result<Tr
     } else {
         (game, 0, None)
     };
-    let game = if game == Game::Unknown {
-        Game::guess(&d[start..])
-    } else {
-        game
-    };
+    let game = if game == Game::Unknown { Game::guess(&d[start..]) } else { game };
     let fl = flavor(game, &d[start..]);
     let names = Names::for_game(game);
     let mut focus = focus_paths(d, start, &fl, &names);
     let mut beside = Map::new();
     if side.len() > start && side[..start] == d[..start] {
-        let mut m = Builder {
-            d: side,
-            pos: start,
-            fl,
-            names: &names,
-            lookup,
-            leaves: vec![],
-            leaf_ptrs: vec![],
-            editable: HashMap::new(),
-            focus: vec![],
-            budget: SECTION_BUDGET,
-            unnamed: 0,
-            named: 0,
-            bad: false,
-        };
+        let mut m = Builder { d: side, pos: start, fl, names: &names, lookup, leaves: vec![], leaf_ptrs: vec![], editable: HashMap::new(), focus: vec![], budget: SECTION_BUDGET, unnamed: 0, named: 0, bad: false };
         if let Value::Object(top) = m.block("", true) {
             beside = top;
         }
@@ -1229,21 +1008,7 @@ fn parse_full(d: &[u8], game: Game, lookup: &[String], side: &[u8]) -> Result<Tr
             focus = focus_paths(side, start, &fl, &names);
         }
     }
-    let mut b = Builder {
-        d,
-        pos: start,
-        fl,
-        names: &names,
-        lookup,
-        leaves: vec![],
-        leaf_ptrs: vec![],
-        editable: HashMap::new(),
-        focus,
-        budget: SECTION_BUDGET,
-        unnamed: 0,
-        named: 0,
-        bad: false,
-    };
+    let mut b = Builder { d, pos: start, fl, names: &names, lookup, leaves: vec![], leaf_ptrs: vec![], editable: HashMap::new(), focus, budget: SECTION_BUDGET, unnamed: 0, named: 0, bad: false };
     let mut view = b.block("", true);
     if b.bad || view.as_object().is_none_or(|m| m.len() < 2) {
         return Err("not a Paradox binary save".into());
@@ -1266,20 +1031,10 @@ fn parse_full(d: &[u8], game: Game, lookup: &[String], side: &[u8]) -> Result<Tr
             game.slug()
         ));
     } else if names.supplied > 0 {
-        note.push_str(&format!(
-            "Field names come from your token file ({} names). ",
-            names.supplied
-        ));
+        note.push_str(&format!("Field names come from your token file ({} names). ", names.supplied));
     }
-    note.push_str(
-        "Big sections show their first few thousand values; your own country is shown in full.",
-    );
-    let backend = BinBackend {
-        data: Arc::new(d.to_vec()),
-        leaves: b.leaves,
-        utf8: fl.utf8,
-        meta,
-    };
+    note.push_str("Big sections show their first few thousand values; your own country is shown in full.");
+    let backend = BinBackend { data: Arc::new(d.to_vec()), leaves: b.leaves, utf8: fl.utf8, meta };
     Ok(TreeDoc::new(view, b.editable, game.kind_name(), Box::new(backend)).with_note(note))
 }
 
@@ -1296,12 +1051,7 @@ mod tests {
     }
 
     fn s(text: &str) -> Vec<u8> {
-        [
-            id(0x000f),
-            (text.len() as u16).to_le_bytes().to_vec(),
-            text.as_bytes().to_vec(),
-        ]
-        .concat()
+        [id(0x000f), (text.len() as u16).to_le_bytes().to_vec(), text.as_bytes().to_vec()].concat()
     }
 
     fn i32v(v: i32) -> Vec<u8> {
@@ -1317,38 +1067,15 @@ mod tests {
         let date = (((1444 + 5000) * 365 + 314) * 24) as i32;
         [
             b"EU4bin".to_vec(),
-            id(0x284d),
-            id(EQ),
-            i32v(date),
-            id(0x2a38),
-            id(EQ),
-            s("FRA"),
-            id(0x2e4e),
-            id(EQ),
-            id(OPEN),
-            [id(0x0017), 3u16.to_le_bytes().to_vec(), b"FRA".to_vec()].concat(),
-            id(EQ),
-            id(OPEN),
-            id(0x2876),
-            id(EQ),
-            id(0x000d),
-            12345i32.to_le_bytes().to_vec(),
-            id(0x3f00),
-            id(EQ),
-            i32v(7),
-            id(0x2ab2),
-            id(EQ),
-            id(OPEN),
-            i32v(1),
-            i32v(2),
-            i32v(3),
-            id(CLOSE),
-            id(0x2bfd),
-            id(EQ),
-            id(0x0167),
-            (32768i64 * 5 / 2).to_le_bytes().to_vec(),
-            id(CLOSE),
-            id(CLOSE),
+            id(0x284d), id(EQ), i32v(date),
+            id(0x2a38), id(EQ), s("FRA"),
+            id(0x2e4e), id(EQ), id(OPEN),
+            [id(0x0017), 3u16.to_le_bytes().to_vec(), b"FRA".to_vec()].concat(), id(EQ), id(OPEN),
+            id(0x2876), id(EQ), id(0x000d), 12345i32.to_le_bytes().to_vec(),
+            id(0x3f00), id(EQ), i32v(7),
+            id(0x2ab2), id(EQ), id(OPEN), i32v(1), i32v(2), i32v(3), id(CLOSE),
+            id(0x2bfd), id(EQ), id(0x0167), (32768i64 * 5 / 2).to_le_bytes().to_vec(),
+            id(CLOSE), id(CLOSE),
         ]
         .concat()
     }
@@ -1367,12 +1094,9 @@ mod tests {
         assert_eq!(c["powers"][2], 3);
         assert_eq!(c["mercantilism"], 2.5);
         assert_eq!(doc.to_bytes().unwrap(), d);
-        doc.set("/countries/FRA/treasury", Value::from(99999.5))
-            .unwrap();
-        doc.set("/countries/FRA/powers/1", Value::from(999))
-            .unwrap();
-        doc.set("/countries/FRA/mercantilism", Value::from(40))
-            .unwrap();
+        doc.set("/countries/FRA/treasury", Value::from(99999.5)).unwrap();
+        doc.set("/countries/FRA/powers/1", Value::from(999)).unwrap();
+        doc.set("/countries/FRA/mercantilism", Value::from(40)).unwrap();
         doc.set("/player", Value::from("ENGL")).unwrap();
         let out = doc.to_bytes().unwrap();
         // One string grew by a byte; nothing else moved.
@@ -1381,9 +1105,7 @@ mod tests {
         assert_eq!(back.view, doc.view);
         assert_eq!(back.view["countries"]["FRA"]["treasury"], 99999.5);
         assert_eq!(back.view["countries"]["FRA"]["mercantilism"], 40.0);
-        assert!(doc
-            .set("/countries/FRA/powers/0", Value::from(1i64 << 40))
-            .is_err());
+        assert!(doc.set("/countries/FRA/powers/0", Value::from(1i64 << 40)).is_err());
     }
 
     #[test]
@@ -1398,17 +1120,7 @@ mod tests {
 
     #[test]
     fn compact_numbers() {
-        for raw in [
-            0i64,
-            1,
-            255,
-            256,
-            -1,
-            -70000,
-            123_456_789_012,
-            -(1 << 55),
-            1 << 60,
-        ] {
+        for raw in [0i64, 1, 255, 256, -1, -70000, 123_456_789_012, -(1 << 55), 1 << 60] {
             let enc = fixed5_encode(raw);
             let fl = flavor(Game::Eu5, &[]);
             let t = lex(&enc, 0, &fl).unwrap();
@@ -1425,26 +1137,9 @@ mod tests {
     #[test]
     fn sav_header_and_metadata_length() {
         // An uncompressed binary SAV file whose metadata holds a string that is edited.
-        let meta = [
-            id(0x3155),
-            id(EQ),
-            id(OPEN),
-            id(0x058f),
-            id(EQ),
-            i32v(9),
-            id(0x001c),
-            id(EQ),
-            s("Ada"),
-            id(CLOSE),
-        ]
-        .concat();
+        let meta = [id(0x3155), id(EQ), id(OPEN), id(0x058f), id(EQ), i32v(9), id(0x001c), id(EQ), s("Ada"), id(CLOSE)].concat();
         let body = [id(0x7000), id(EQ), i32v(5)].concat();
-        let d = [
-            format!("SAV0101aabbccdd{:08x}\n", meta.len()).into_bytes(),
-            meta.clone(),
-            body,
-        ]
-        .concat();
+        let d = [format!("SAV0101aabbccdd{:08x}\n", meta.len()).into_bytes(), meta.clone(), body].concat();
         let h = SavHeader::read(&d).unwrap();
         assert!(h.binary() && !h.zipped());
         assert_eq!((h.len, h.meta_len), (24, meta.len()));
@@ -1462,10 +1157,7 @@ mod tests {
         assert_eq!(date_text(60759371, true).as_deref(), Some("1936.1.1.12"));
         assert_eq!(date_value("1436.1.1", false), Some(56379360));
         assert_eq!(date_value("1936.1.1.12", true), Some(60759371));
-        assert_eq!(
-            date_value(" 1444.11.11 ", false),
-            Some(((1444 + 5000) * 365 + 314) * 24)
-        );
+        assert_eq!(date_value(" 1444.11.11 ", false), Some(((1444 + 5000) * 365 + 314) * 24));
         for bad in ["1444.13.1", "1444.2.29", "1444.11", "soon", "1444.11.11.5"] {
             assert_eq!(date_value(bad, false), None, "{bad}");
         }
@@ -1478,30 +1170,12 @@ mod tests {
         let path = std::env::var("PDXBIN_SAVE").expect("PDXBIN_SAVE");
         let d = std::fs::read(&path).unwrap();
         let game = Game::from_ext(&std::env::var("PDXBIN_GAME").unwrap_or_default());
-        let lookup = std::env::var("PDXBIN_LOOKUP")
-            .ok()
-            .map(|p| string_lookup(&std::fs::read(p).unwrap()))
-            .unwrap_or_default();
+        let lookup = std::env::var("PDXBIN_LOOKUP").ok().map(|p| string_lookup(&std::fs::read(p).unwrap())).unwrap_or_default();
         let t = std::time::Instant::now();
         let doc = parse_as(&d, game, &lookup).unwrap();
-        println!(
-            "{} in {:?}: {} editable, top {:?}",
-            doc.kind_name,
-            t.elapsed(),
-            doc.editable.len(),
-            doc.view
-                .as_object()
-                .unwrap()
-                .keys()
-                .take(30)
-                .collect::<Vec<_>>()
-        );
+        println!("{} in {:?}: {} editable, top {:?}", doc.kind_name, t.elapsed(), doc.editable.len(), doc.view.as_object().unwrap().keys().take(30).collect::<Vec<_>>());
         assert_eq!(doc.to_bytes().unwrap(), d);
-        for p in std::env::var("PDXBIN_SHOW")
-            .unwrap_or_default()
-            .split(',')
-            .filter(|p| !p.is_empty())
-        {
+        for p in std::env::var("PDXBIN_SHOW").unwrap_or_default().split(',').filter(|p| !p.is_empty()) {
             let s = doc.view.pointer(p).cloned().unwrap_or_default().to_string();
             println!("{p}: {}", &s[..s.len().min(1500)]);
         }

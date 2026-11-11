@@ -32,21 +32,13 @@ struct VsBackend {
 /// SHA-256 (FIPS 180-4).
 pub fn sha256(data: &[u8]) -> [u8; 32] {
     const K: [u32; 64] = [
-        0x428a2f98, 0x71374491, 0xb5c0fbcf, 0xe9b5dba5, 0x3956c25b, 0x59f111f1, 0x923f82a4,
-        0xab1c5ed5, 0xd807aa98, 0x12835b01, 0x243185be, 0x550c7dc3, 0x72be5d74, 0x80deb1fe,
-        0x9bdc06a7, 0xc19bf174, 0xe49b69c1, 0xefbe4786, 0x0fc19dc6, 0x240ca1cc, 0x2de92c6f,
-        0x4a7484aa, 0x5cb0a9dc, 0x76f988da, 0x983e5152, 0xa831c66d, 0xb00327c8, 0xbf597fc7,
-        0xc6e00bf3, 0xd5a79147, 0x06ca6351, 0x14292967, 0x27b70a85, 0x2e1b2138, 0x4d2c6dfc,
-        0x53380d13, 0x650a7354, 0x766a0abb, 0x81c2c92e, 0x92722c85, 0xa2bfe8a1, 0xa81a664b,
-        0xc24b8b70, 0xc76c51a3, 0xd192e819, 0xd6990624, 0xf40e3585, 0x106aa070, 0x19a4c116,
-        0x1e376c08, 0x2748774c, 0x34b0bcb5, 0x391c0cb3, 0x4ed8aa4a, 0x5b9cca4f, 0x682e6ff3,
-        0x748f82ee, 0x78a5636f, 0x84c87814, 0x8cc70208, 0x90befffa, 0xa4506ceb, 0xbef9a3f7,
-        0xc67178f2,
+        0x428a2f98, 0x71374491, 0xb5c0fbcf, 0xe9b5dba5, 0x3956c25b, 0x59f111f1, 0x923f82a4, 0xab1c5ed5, 0xd807aa98, 0x12835b01, 0x243185be, 0x550c7dc3, 0x72be5d74, 0x80deb1fe,
+        0x9bdc06a7, 0xc19bf174, 0xe49b69c1, 0xefbe4786, 0x0fc19dc6, 0x240ca1cc, 0x2de92c6f, 0x4a7484aa, 0x5cb0a9dc, 0x76f988da, 0x983e5152, 0xa831c66d, 0xb00327c8, 0xbf597fc7,
+        0xc6e00bf3, 0xd5a79147, 0x06ca6351, 0x14292967, 0x27b70a85, 0x2e1b2138, 0x4d2c6dfc, 0x53380d13, 0x650a7354, 0x766a0abb, 0x81c2c92e, 0x92722c85, 0xa2bfe8a1, 0xa81a664b,
+        0xc24b8b70, 0xc76c51a3, 0xd192e819, 0xd6990624, 0xf40e3585, 0x106aa070, 0x19a4c116, 0x1e376c08, 0x2748774c, 0x34b0bcb5, 0x391c0cb3, 0x4ed8aa4a, 0x5b9cca4f, 0x682e6ff3,
+        0x748f82ee, 0x78a5636f, 0x84c87814, 0x8cc70208, 0x90befffa, 0xa4506ceb, 0xbef9a3f7, 0xc67178f2,
     ];
-    let mut h: [u32; 8] = [
-        0x6a09e667, 0xbb67ae85, 0x3c6ef372, 0xa54ff53a, 0x510e527f, 0x9b05688c, 0x1f83d9ab,
-        0x5be0cd19,
-    ];
+    let mut h: [u32; 8] = [0x6a09e667, 0xbb67ae85, 0x3c6ef372, 0xa54ff53a, 0x510e527f, 0x9b05688c, 0x1f83d9ab, 0x5be0cd19];
     let mut msg = data.to_vec();
     msg.push(0x80);
     while msg.len() % 64 != 56 {
@@ -61,33 +53,17 @@ pub fn sha256(data: &[u8]) -> [u8; 32] {
         for i in 16..64 {
             let s0 = w[i - 15].rotate_right(7) ^ w[i - 15].rotate_right(18) ^ (w[i - 15] >> 3);
             let s1 = w[i - 2].rotate_right(17) ^ w[i - 2].rotate_right(19) ^ (w[i - 2] >> 10);
-            w[i] = w[i - 16]
-                .wrapping_add(s0)
-                .wrapping_add(w[i - 7])
-                .wrapping_add(s1);
+            w[i] = w[i - 16].wrapping_add(s0).wrapping_add(w[i - 7]).wrapping_add(s1);
         }
         let mut v = h;
         for i in 0..64 {
             let s1 = v[4].rotate_right(6) ^ v[4].rotate_right(11) ^ v[4].rotate_right(25);
             let ch = (v[4] & v[5]) ^ (!v[4] & v[6]);
-            let t1 = v[7]
-                .wrapping_add(s1)
-                .wrapping_add(ch)
-                .wrapping_add(K[i])
-                .wrapping_add(w[i]);
+            let t1 = v[7].wrapping_add(s1).wrapping_add(ch).wrapping_add(K[i]).wrapping_add(w[i]);
             let s0 = v[0].rotate_right(2) ^ v[0].rotate_right(13) ^ v[0].rotate_right(22);
             let maj = (v[0] & v[1]) ^ (v[0] & v[2]) ^ (v[1] & v[2]);
             let t2 = s0.wrapping_add(maj);
-            v = [
-                t1.wrapping_add(t2),
-                v[0],
-                v[1],
-                v[2],
-                v[3].wrapping_add(t1),
-                v[4],
-                v[5],
-                v[6],
-            ];
+            v = [t1.wrapping_add(t2), v[0], v[1], v[2], v[3].wrapping_add(t1), v[4], v[5], v[6]];
         }
         for (a, b) in h.iter_mut().zip(v) {
             *a = a.wrapping_add(b);
@@ -209,16 +185,8 @@ fn js_number(f: f64) -> String {
     } else if -6 < n && n <= 0 {
         format!("0.{}{digits}", "0".repeat((-n) as usize))
     } else {
-        let m = if k > 1 {
-            format!("{}.{}", &digits[..1], &digits[1..])
-        } else {
-            digits.clone()
-        };
-        format!(
-            "{m}e{}{}",
-            if n - 1 >= 0 { "+" } else { "-" },
-            (n - 1).abs()
-        )
+        let m = if k > 1 { format!("{}.{}", &digits[..1], &digits[1..]) } else { digits.clone() };
+        format!("{m}e{}{}", if n - 1 >= 0 { "+" } else { "-" }, (n - 1).abs())
     };
     format!("{sign}{body}")
 }
@@ -241,9 +209,7 @@ fn dotnet_number(f: f64) -> String {
 }
 
 fn number_from(text: String) -> Value {
-    serde_json::from_str::<Number>(&text)
-        .map(Value::Number)
-        .unwrap_or(Value::Null)
+    serde_json::from_str::<Number>(&text).map(Value::Number).unwrap_or(Value::Null)
 }
 
 impl Backend for VsBackend {
@@ -257,9 +223,7 @@ impl Backend for VsBackend {
     /// An edited number in the style the game itself writes it, so the checksum matches.
     fn normalize(&self, leaf: usize, v: Value) -> Value {
         let Value::Number(n) = &v else { return v };
-        let Some(f) = n.as_f64().filter(|f| f.is_finite()) else {
-            return v;
-        };
+        let Some(f) = n.as_f64().filter(|f| f.is_finite()) else { return v };
         let int = n.as_i64().is_some() || n.as_u64().is_some();
         let float = self.float.get(leaf).copied().unwrap_or(false);
         if self.dotnet {
@@ -287,12 +251,7 @@ pub fn looks(d: &[u8]) -> bool {
     d.first() == Some(&b'{') && d.len() < 64 << 20 && d.windows(12).any(|w| w == b"\"checksum\":\"")
 }
 
-fn register(
-    v: &Value,
-    ptr: &mut String,
-    editable: &mut HashMap<String, usize>,
-    float: &mut Vec<bool>,
-) {
+fn register(v: &Value, ptr: &mut String, editable: &mut HashMap<String, usize>, float: &mut Vec<bool>) {
     let mut add = |p: &str, f: bool| {
         editable.insert(p.to_string(), float.len());
         float.push(f);
@@ -339,19 +298,11 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
     let text = std::str::from_utf8(d).map_err(|e| e.to_string())?;
     let file: Value = serde_json::from_str(text).map_err(|e| e.to_string())?;
     let obj: &Map<String, Value> = file.as_object().ok_or("not an object")?;
-    let at = obj
-        .keys()
-        .position(|k| k == "checksum")
-        .ok_or("no checksum")?;
+    let at = obj.keys().position(|k| k == "checksum").ok_or("no checksum")?;
     if !obj["checksum"].is_string() || !obj.contains_key("Coins") {
         return Err("not a Vampire Survivors save".into());
     }
-    let view = Value::Object(
-        obj.iter()
-            .filter(|(k, _)| *k != "checksum")
-            .map(|(k, v)| (k.clone(), v.clone()))
-            .collect(),
-    );
+    let view = Value::Object(obj.iter().filter(|(k, _)| *k != "checksum").map(|(k, v)| (k.clone(), v.clone())).collect());
     // Only a save this writer reproduces exactly (checksum included) is opened this way:
     // then an edit gets a checksum the game accepts.
     if file_text(&view, at).as_bytes() != d {
@@ -362,12 +313,7 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
     let mut editable = HashMap::new();
     let mut float = Vec::new();
     register(&view, &mut String::new(), &mut editable, &mut float);
-    let backend = VsBackend {
-        raw: Arc::new(d.to_vec()),
-        at,
-        dotnet,
-        float,
-    };
+    let backend = VsBackend { raw: Arc::new(d.to_vec()), at, dotnet, float };
     let note = format!(
         "Vampire Survivors save ({} build): the checksum is worked out again when you save. The game reads the copy in \
          Steam\\userdata\\<account>\\1794680\\remote; close the game (and let Steam Cloud finish) before editing.",
@@ -385,30 +331,16 @@ mod tests {
         let v: Value = serde_json::from_str(body).unwrap();
         let o = v.as_object().unwrap();
         let at = o.keys().position(|k| k == "checksum").unwrap();
-        let rest = Value::Object(
-            o.iter()
-                .filter(|(k, _)| *k != "checksum")
-                .map(|(k, v)| (k.clone(), v.clone()))
-                .collect(),
-        );
+        let rest = Value::Object(o.iter().filter(|(k, _)| *k != "checksum").map(|(k, v)| (k.clone(), v.clone())).collect());
         file_text(&rest, at).into_bytes()
     }
 
     #[test]
     fn sha256_known_values() {
-        assert_eq!(
-            hex(&sha256(b"")),
-            "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
-        );
-        assert_eq!(
-            hex(&sha256(b"abc")),
-            "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad"
-        );
+        assert_eq!(hex(&sha256(b"")), "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855");
+        assert_eq!(hex(&sha256(b"abc")), "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad");
         let long = vec![b'a'; 1000];
-        assert_eq!(
-            hex(&sha256(&long)),
-            "41edece42d63e8d9bf515a9ba6932e1c20cbc9f5a5d134645adb5db1b9737ea3"
-        );
+        assert_eq!(hex(&sha256(&long)), "41edece42d63e8d9bf515a9ba6932e1c20cbc9f5a5d134645adb5db1b9737ea3");
     }
 
     #[test]
@@ -425,33 +357,16 @@ mod tests {
 
     #[test]
     fn edit_keeps_order_and_fixes_checksum() {
-        let raw = save(
-            r#"{"SelectedCharacter":"ANTONIO","Version":7220,"Coins":120,"LifetimeCoins":300,"SoundsVolume":0.7,"BoughtPowerups":["POWER","POWER"],"checksum":"","Name":"café \"x\""}"#,
-        );
+        let raw = save(r#"{"SelectedCharacter":"ANTONIO","Version":7220,"Coins":120,"LifetimeCoins":300,"SoundsVolume":0.7,"BoughtPowerups":["POWER","POWER"],"checksum":"","Name":"café \"x\""}"#);
         assert!(looks(&raw));
         let mut doc = parse(&raw).unwrap();
         assert_eq!(doc.kind_name, KIND);
         assert_eq!(doc.to_bytes().unwrap(), raw);
-        assert!(
-            doc.view.get("checksum").is_none(),
-            "worked out on save, not shown"
-        );
+        assert!(doc.view.get("checksum").is_none(), "worked out on save, not shown");
         doc.set("/Coins", Value::from(121)).unwrap();
-        doc.set(
-            "/SoundsVolume",
-            serde_json::from_str::<Value>("1.0").unwrap(),
-        )
-        .unwrap();
-        assert_eq!(
-            doc.view["SoundsVolume"].to_string(),
-            "1",
-            "JavaScript writes whole floats without .0"
-        );
-        doc.set(
-            "/BoughtPowerups",
-            serde_json::json!(["POWER", "POWER", "ARMOR"]),
-        )
-        .unwrap();
+        doc.set("/SoundsVolume", serde_json::from_str::<Value>("1.0").unwrap()).unwrap();
+        assert_eq!(doc.view["SoundsVolume"].to_string(), "1", "JavaScript writes whole floats without .0");
+        doc.set("/BoughtPowerups", serde_json::json!(["POWER", "POWER", "ARMOR"])).unwrap();
         let out = doc.to_bytes().unwrap();
         let text = std::str::from_utf8(&out).unwrap();
         assert!(text.starts_with(r#"{"SelectedCharacter":"ANTONIO","Version":7220,"Coins":121,"LifetimeCoins":300,"SoundsVolume":1,"BoughtPowerups":["POWER","POWER","ARMOR"],"checksum":""#));
@@ -459,9 +374,7 @@ mod tests {
         assert_eq!(back.view["Coins"], 121);
         assert_eq!(back.view, doc.view);
         // A wrong checksum: not opened as this format (plain JSON instead).
-        let bad = String::from_utf8(raw.clone())
-            .unwrap()
-            .replace("\"Coins\":120", "\"Coins\":999");
+        let bad = String::from_utf8(raw.clone()).unwrap().replace("\"Coins\":120", "\"Coins\":999");
         assert!(parse(bad.as_bytes()).is_err());
     }
 
@@ -473,10 +386,7 @@ mod tests {
         doc.set("/Coins", Value::from(300)).unwrap();
         doc.set("/Kills", Value::from(4)).unwrap();
         let out = String::from_utf8(doc.to_bytes().unwrap()).unwrap();
-        assert!(
-            out.starts_with(r#"{"Version":15101,"Coins":300.0,"Kills":4,"checksum":""#),
-            "{out}"
-        );
+        assert!(out.starts_with(r#"{"Version":15101,"Coins":300.0,"Kills":4,"checksum":""#), "{out}");
         assert!(parse(out.as_bytes()).is_ok());
     }
 
@@ -484,9 +394,7 @@ mod tests {
     #[test]
     #[ignore]
     fn research_real_saves() {
-        let Ok(list) = std::env::var("VS_SAVES") else {
-            return;
-        };
+        let Ok(list) = std::env::var("VS_SAVES") else { return };
         for path in list.split('|').filter(|s| !s.is_empty()) {
             let raw = std::fs::read(path).unwrap();
             assert!(looks(&raw), "{path}");
@@ -501,11 +409,7 @@ mod tests {
             let mut b = back.view.clone();
             b["Coins"] = before["Coins"].clone();
             assert_eq!(b, before, "{path}: nothing else changes");
-            eprintln!(
-                "{path}: Version {} coins {c} -> ok, {} bytes",
-                before["Version"],
-                out.len()
-            );
+            eprintln!("{path}: Version {} coins {c} -> ok, {} bytes", before["Version"], out.len());
         }
     }
 }

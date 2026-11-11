@@ -1,9 +1,9 @@
 use crate::file_browser::{self, FileBrowser};
 use crate::formats::{self, Content, Layer};
+use crate::platform;
 use crate::hex_view::{self, HexState, NumType, OffsetLabel};
 use crate::json_view::{self, TreeCtx};
 use crate::names::{self, Names};
-use crate::platform;
 use crate::settings::{self, Settings};
 use crate::theme::{self, icon};
 use crate::values_view::{self, Disp, Model, ViewCtx};
@@ -47,17 +47,8 @@ enum StatusKind {
 
 enum Change {
     /// `extra`: values that changed along with it (pointer, before, after).
-    Value {
-        ptr: String,
-        before: Value,
-        after: Value,
-        extra: Vec<(String, Value, Value)>,
-    },
-    Bytes {
-        off: usize,
-        before: Vec<u8>,
-        after: Vec<u8>,
-    },
+    Value { ptr: String, before: Value, after: Value, extra: Vec<(String, Value, Value)> },
+    Bytes { off: usize, before: Vec<u8>, after: Vec<u8> },
 }
 
 struct Doc {
@@ -86,13 +77,8 @@ fn root(c: &Content) -> Option<&Value> {
 /// Scalar values of a structured document by pointer (for comparing two saves).
 fn flatten(v: &Value, ptr: &str, out: &mut Vec<(String, Value)>) {
     match v {
-        Value::Object(m) => m
-            .iter()
-            .for_each(|(k, c)| flatten(c, &crate::tree::child(ptr, k), out)),
-        Value::Array(a) => a
-            .iter()
-            .enumerate()
-            .for_each(|(i, c)| flatten(c, &format!("{ptr}/{i}"), out)),
+        Value::Object(m) => m.iter().for_each(|(k, c)| flatten(c, &crate::tree::child(ptr, k), out)),
+        Value::Array(a) => a.iter().enumerate().for_each(|(i, c)| flatten(c, &format!("{ptr}/{i}"), out)),
         other => out.push((ptr.to_string(), other.clone())),
     }
 }
@@ -125,15 +111,13 @@ fn prepare(path: &Path, decoded: formats::Decoded) -> Prepared {
     let mut note = String::new();
     let mut names = Names::default();
     match &decoded.content {
-        Content::Json { value, .. } if names::is_rpgmaker(value) => {
-            match names::find_rpgmaker_data(path) {
-                Some(dir) => names = names::rpgmaker_names(value, &dir),
-                None => {
-                    names = names.rpgmaker_layout();
-                    note = " Game data folder not found \u{2014} use Tools \u{203A} Locate game data folder for variable and item names.".into();
-                }
+        Content::Json { value, .. } if names::is_rpgmaker(value) => match names::find_rpgmaker_data(path) {
+            Some(dir) => names = names::rpgmaker_names(value, &dir),
+            None => {
+                names = names.rpgmaker_layout();
+                note = " Game data folder not found \u{2014} use Tools \u{203A} Locate game data folder for variable and item names.".into();
             }
-        }
+        },
         Content::Tree(t) => {
             names.advanced = t.advanced.clone();
             if let Some(n) = &t.note {
@@ -155,15 +139,7 @@ fn prepare(path: &Path, decoded: formats::Decoded) -> Prepared {
         Content::Tree(t) => values_view::build(&t.view, &names, Some(&t.editable)),
         _ => Model::default(),
     };
-    Prepared {
-        baseline: decoded.content.clone(),
-        decoded,
-        names,
-        note,
-        game,
-        model,
-        running: crate::running::game_for(path),
-    }
+    Prepared { baseline: decoded.content.clone(), decoded, names, note, game, model, running: crate::running::game_for(path) }
 }
 
 /// The "Select game" dialog: the game list, which game is picked, and the saves found for
@@ -178,8 +154,7 @@ struct GamePicker {
 
 impl GamePicker {
     fn new() -> Self {
-        let found =
-            std::sync::Arc::new(std::sync::Mutex::new(vec![None; crate::games::GAMES.len()]));
+        let found = std::sync::Arc::new(std::sync::Mutex::new(vec![None; crate::games::GAMES.len()]));
         let out = found.clone();
         std::thread::spawn(move || {
             for (i, g) in crate::games::GAMES.iter().enumerate() {
@@ -189,12 +164,7 @@ impl GamePicker {
                 }
             }
         });
-        Self {
-            query: String::new(),
-            picked: None,
-            group: None,
-            found,
-        }
+        Self { query: String::new(), picked: None, group: None, found }
     }
 }
 
@@ -343,9 +313,7 @@ impl App {
                 let mut gp = GamePicker::new();
                 if let Some((_, q)) = p.to_string_lossy().split_once('=') {
                     let q = q.to_lowercase();
-                    gp.picked = crate::games::GAMES
-                        .iter()
-                        .position(|g| g.name.to_lowercase().contains(&q));
+                    gp.picked = crate::games::GAMES.iter().position(|g| g.name.to_lowercase().contains(&q));
                 }
                 app.game_picker = Some(gp);
                 None
@@ -373,17 +341,10 @@ impl App {
 
     /// Asks for a file or folder: a native dialog on desktop, the built-in browser on Android.
     fn ask(&mut self, what: Ask, dir: Option<PathBuf>, name: Option<String>) {
-        let dir = dir.or_else(|| {
-            self.doc
-                .as_ref()
-                .and_then(|d| d.path.parent().map(Path::to_path_buf))
-        });
+        let dir = dir.or_else(|| self.doc.as_ref().and_then(|d| d.path.parent().map(Path::to_path_buf)));
         let (title, mode) = match what {
             Ask::Open => ("Open a save file", file_browser::Mode::OpenFile),
-            Ask::DataDir => (
-                "Select the game's data folder (it contains System.json)",
-                file_browser::Mode::Folder,
-            ),
+            Ask::DataDir => ("Select the game's data folder (it contains System.json)", file_browser::Mode::Folder),
             Ask::SaveAs => ("Save a copy as", file_browser::Mode::SaveFile),
             Ask::Export => ("Export decoded data as", file_browser::Mode::SaveFile),
             Ask::Compare => ("Compare with which save?", file_browser::Mode::OpenFile),
@@ -402,12 +363,8 @@ impl App {
                     self.web_asked = Some(what);
                     crate::web::pick_file(&self.ctx);
                 }
-                file_browser::Mode::SaveFile => {
-                    self.answered(what, PathBuf::from(name.unwrap_or_else(|| "save".into())))
-                }
-                file_browser::Mode::Folder => self.fail(
-                    "The browser version can't open folders \u{2014} use the desktop app for this.",
-                ),
+                file_browser::Mode::SaveFile => self.answered(what, PathBuf::from(name.unwrap_or_else(|| "save".into()))),
+                file_browser::Mode::Folder => self.fail("The browser version can't open folders \u{2014} use the desktop app for this."),
             }
         }
         #[cfg(not(any(target_os = "android", target_arch = "wasm32")))]
@@ -440,10 +397,7 @@ impl App {
             Ask::Import => self.import_from(&p),
             Ask::BackupDir => {
                 crate::backups::set_root(Some(p.clone()));
-                self.ok(format!(
-                    "Backups now go to {}. Earlier ones stay where they were.",
-                    p.display()
-                ));
+                self.ok(format!("Backups now go to {}. Earlier ones stay where they were.", p.display()));
                 self.settings.backup_dir = Some(p);
                 self.settings.save();
             }
@@ -451,9 +405,7 @@ impl App {
     }
 
     fn browser_window(&mut self, ctx: &egui::Context) {
-        let Some((what, b)) = &mut self.browser else {
-            return;
-        };
+        let Some((what, b)) = &mut self.browser else { return };
         let what = *what;
         match b.show(ctx) {
             Some(file_browser::Outcome::Picked(p)) => {
@@ -492,12 +444,7 @@ impl App {
                 .map(|raw| (raw.len(), prepare(&p, formats::decode_with(&raw, &o))));
             let _ = tx.send(r);
         });
-        self.loading = Some(Loading {
-            path: path.to_path_buf(),
-            opts,
-            started: f64::NAN,
-            rx,
-        });
+        self.loading = Some(Loading { path: path.to_path_buf(), opts, started: f64::NAN, rx });
         self.info(format!("Opening {}\u{2026}", file_name(path)));
     }
 
@@ -554,15 +501,7 @@ impl App {
 
     /// Shows a decoded file (from `load_with` or the worker thread).
     fn finish_load(&mut self, path: &Path, opts: formats::Options, raw_len: usize, p: Prepared) {
-        let Prepared {
-            decoded,
-            baseline,
-            names,
-            note,
-            game,
-            model,
-            running,
-        } = p;
+        let Prepared { decoded, baseline, names, note, game, model, running } = p;
         let desc = friendly_kind(&decoded.layers, &decoded.content);
         self.doc = Some(Doc {
             path: path.to_path_buf(),
@@ -579,11 +518,7 @@ impl App {
         self.touched.clear();
         self.last_edit = None;
         self.dirty = false;
-        self.tab = if game.is_some() {
-            Tab::Game
-        } else {
-            Tab::Values
-        };
+        self.tab = if game.is_some() { Tab::Game } else { Tab::Values };
         self.search.clear();
         self.collapsed.clear();
         self.collapsed_gen += 1;
@@ -594,11 +529,7 @@ impl App {
         self.model_gen += 1;
         self.settings.push_recent(path);
         self.running = running;
-        self.info(format!(
-            "Opened {} ({}) \u{2014} {desc}.{note}",
-            file_name(path),
-            human_size(raw_len)
-        ));
+        self.info(format!("Opened {} ({}) \u{2014} {desc}.{note}", file_name(path), human_size(raw_len)));
     }
 
     fn rebuild_model(&mut self) {
@@ -619,14 +550,9 @@ impl App {
 
     fn use_data_dir(&mut self, dir: PathBuf) {
         let Some(doc) = &self.doc else { return };
-        let Content::Json { value, .. } = &doc.content else {
-            return;
-        };
+        let Content::Json { value, .. } = &doc.content else { return };
         if !dir.join("System.json").is_file() {
-            return self.fail(format!(
-                "{} has no System.json \u{2014} pick the game's data folder.",
-                dir.display()
-            ));
+            return self.fail(format!("{} has no System.json \u{2014} pick the game's data folder.", dir.display()));
         }
         let names = names::rpgmaker_names(value, &dir);
         let n = names.by_ptr.len();
@@ -649,16 +575,10 @@ impl App {
     /// changed with it (values shared between variables), or why the format can't
     /// store it (e.g. out of range).
     fn set_value(&mut self, ptr: &str, v: Value) -> Result<Option<(Value, usize)>, String> {
-        if let Some(Doc {
-            content: Content::Tree(t),
-            ..
-        }) = &mut self.doc
-        {
+        if let Some(Doc { content: Content::Tree(t), .. }) = &mut self.doc {
             return t.set(ptr, v);
         }
-        let Some(target) = self.root_mut().and_then(|r| r.pointer_mut(ptr)) else {
-            return Ok(None);
-        };
+        let Some(target) = self.root_mut().and_then(|r| r.pointer_mut(ptr)) else { return Ok(None) };
         Ok(Some((std::mem::replace(target, v), 0)))
     }
 
@@ -670,34 +590,17 @@ impl App {
             Err(e) => return self.fail(format!("Can't use that value: {e}.")),
         };
         let derived = match &mut self.doc {
-            Some(Doc {
-                content: Content::Tree(t),
-                ..
-            }) => t.take_derived(),
+            Some(Doc { content: Content::Tree(t), .. }) => t.take_derived(),
             _ => vec![],
         };
         // The format may have adjusted the value (e.g. rounded to a 32-bit float).
-        let v = self
-            .doc
-            .as_ref()
-            .and_then(|d| root(&d.content))
-            .and_then(|r| r.pointer(&ptr))
-            .cloned()
-            .unwrap_or(v);
+        let v = self.doc.as_ref().and_then(|d| root(&d.content)).and_then(|r| r.pointer(&ptr)).cloned().unwrap_or(v);
         if before == v && derived.is_empty() {
             return;
         }
         let merge = matches!(&self.last_edit, Some((p, t)) if *p == ptr && now - t < 1.5);
         match (merge, self.undo.last_mut()) {
-            (
-                true,
-                Some(Change::Value {
-                    ptr: p,
-                    before: b,
-                    after,
-                    extra,
-                }),
-            ) if *p == ptr => {
+            (true, Some(Change::Value { ptr: p, before: b, after, extra })) if *p == ptr => {
                 *after = v;
                 for (dp, db, da) in &derived {
                     match extra.iter_mut().find(|(ep, _, _)| ep == dp) {
@@ -711,12 +614,7 @@ impl App {
                     self.undo.pop();
                 }
             }
-            _ => self.undo.push(Change::Value {
-                ptr: ptr.clone(),
-                before,
-                after: v,
-                extra: derived.clone(),
-            }),
+            _ => self.undo.push(Change::Value { ptr: ptr.clone(), before, after: v, extra: derived.clone() }),
         }
         self.redo.clear();
         for (dp, _, _) in &derived {
@@ -725,16 +623,7 @@ impl App {
         self.after_change(&ptr);
         self.last_edit = Some((ptr, now));
         if !derived.is_empty() {
-            let names: Vec<String> = derived
-                .iter()
-                .map(|(p, _, _)| {
-                    p.rsplit('/')
-                        .next()
-                        .unwrap_or("")
-                        .replace("~1", "/")
-                        .replace("~0", "~")
-                })
-                .collect();
+            let names: Vec<String> = derived.iter().map(|(p, _, _)| p.rsplit('/').next().unwrap_or("").replace("~1", "/").replace("~0", "~")).collect();
             self.info(format!("Also updated: {}.", names.join(", ")));
         } else if aliases > 0 {
             self.info(format!(
@@ -745,24 +634,14 @@ impl App {
     }
 
     fn apply_bytes(&mut self, off: usize, bytes: Vec<u8>) {
-        let Some(Doc {
-            content: Content::Binary(data),
-            ..
-        }) = &mut self.doc
-        else {
-            return;
-        };
+        let Some(Doc { content: Content::Binary(data), .. }) = &mut self.doc else { return };
         let end = off + bytes.len();
         if end > data.len() {
             return;
         }
         let before = data[off..end].to_vec();
         data[off..end].copy_from_slice(&bytes);
-        self.undo.push(Change::Bytes {
-            off,
-            before,
-            after: bytes,
-        });
+        self.undo.push(Change::Bytes { off, before, after: bytes });
         self.redo.clear();
         self.last_edit = None;
         self.after_change("");
@@ -785,11 +664,7 @@ impl App {
     /// silently re-applied from stale text on the next save or tab switch.
     fn sync_raw(&mut self) {
         if self.tab == Tab::Raw {
-            if let Some(Doc {
-                content: Content::Json { value, .. },
-                ..
-            }) = &self.doc
-            {
+            if let Some(Doc { content: Content::Json { value, .. }, .. }) = &self.doc {
                 self.raw_text = serde_json::to_string_pretty(value).unwrap_or_default();
                 self.raw_error = None;
             }
@@ -797,27 +672,12 @@ impl App {
     }
 
     fn undo_redo(&mut self, undo: bool) {
-        let Some(change) = (if undo {
-            self.undo.pop()
-        } else {
-            self.redo.pop()
-        }) else {
-            return;
-        };
+        let Some(change) = (if undo { self.undo.pop() } else { self.redo.pop() }) else { return };
         let ptr = match &change {
-            Change::Value {
-                ptr,
-                before,
-                after,
-                extra,
-            } => {
+            Change::Value { ptr, before, after, extra } => {
                 // Undo/redo only restores values that were valid before, so this can't fail.
                 let _ = self.set_value(ptr, if undo { before.clone() } else { after.clone() });
-                if let Some(Doc {
-                    content: Content::Tree(t),
-                    ..
-                }) = &mut self.doc
-                {
+                if let Some(Doc { content: Content::Tree(t), .. }) = &mut self.doc {
                     t.take_derived();
                     for (p, b, a) in extra.iter() {
                         t.set_plain(p, if undo { b.clone() } else { a.clone() });
@@ -830,22 +690,14 @@ impl App {
                 ptr.clone()
             }
             Change::Bytes { off, before, after } => {
-                if let Some(Doc {
-                    content: Content::Binary(data),
-                    ..
-                }) = &mut self.doc
-                {
+                if let Some(Doc { content: Content::Binary(data), .. }) = &mut self.doc {
                     let src = if undo { before } else { after };
                     data[*off..*off + src.len()].copy_from_slice(src);
                 }
                 String::new()
             }
         };
-        if undo {
-            self.redo.push(change)
-        } else {
-            self.undo.push(change)
-        }
+        if undo { self.redo.push(change) } else { self.undo.push(change) }
         self.last_edit = None;
         self.after_change(&ptr);
         self.info(if undo { "Undone." } else { "Redone." });
@@ -889,54 +741,27 @@ impl App {
     }
 
     fn load_labels(&mut self) {
-        let Some(path) = self.labels_path() else {
-            return;
-        };
-        let Ok(text) = crate::vfs::read_to_string(path) else {
-            return;
-        };
-        let Ok(v) = serde_json::from_str::<Value>(&text) else {
-            return;
-        };
+        let Some(path) = self.labels_path() else { return };
+        let Ok(text) = crate::vfs::read_to_string(path) else { return };
+        let Ok(v) = serde_json::from_str::<Value>(&text) else { return };
         for l in v["labels"].as_array().into_iter().flatten() {
-            let (Some(off), Some(name), Some(ty)) = (
-                l["offset"].as_u64(),
-                l["name"].as_str(),
-                l["type"].as_str().and_then(NumType::from_name),
-            ) else {
+            let (Some(off), Some(name), Some(ty)) =
+                (l["offset"].as_u64(), l["name"].as_str(), l["type"].as_str().and_then(NumType::from_name))
+            else {
                 continue;
             };
-            self.hex.labels.insert(
-                off as usize,
-                OffsetLabel {
-                    name: name.to_string(),
-                    ty,
-                },
-            );
+            self.hex.labels.insert(off as usize, OffsetLabel { name: name.to_string(), ty });
         }
     }
 
     fn save_labels(&mut self) {
-        let Some(path) = self.labels_path() else {
-            return;
-        };
-        let list: Vec<Value> = self
-            .hex
-            .labels
-            .iter()
-            .map(|(o, l)| json!({"offset": o, "name": l.name, "type": l.ty.name()}))
-            .collect();
+        let Some(path) = self.labels_path() else { return };
+        let list: Vec<Value> =
+            self.hex.labels.iter().map(|(o, l)| json!({"offset": o, "name": l.name, "type": l.ty.name()})).collect();
         let result = if list.is_empty() {
-            if crate::vfs::exists(&path) {
-                crate::vfs::remove_file(&path)
-            } else {
-                Ok(())
-            }
+            if crate::vfs::exists(&path) { crate::vfs::remove_file(&path) } else { Ok(()) }
         } else {
-            crate::vfs::write(
-                &path,
-                serde_json::to_string_pretty(&json!({ "labels": list })).unwrap(),
-            )
+            crate::vfs::write(&path, serde_json::to_string_pretty(&json!({ "labels": list })).unwrap())
         };
         if let Err(e) = result {
             self.fail(format!("Couldn't save names to {}: {e}", path.display()));
@@ -949,13 +774,7 @@ impl App {
         if self.tab != Tab::Raw {
             return true;
         }
-        let Some(Doc {
-            content: Content::Json { value, .. },
-            ..
-        }) = &self.doc
-        else {
-            return true;
-        };
+        let Some(Doc { content: Content::Json { value, .. }, .. }) = &self.doc else { return true };
         match serde_json::from_str::<Value>(&self.raw_text) {
             Ok(v) => {
                 if *value != v {
@@ -982,9 +801,7 @@ impl App {
         };
         // Verify before touching the disk: the new file must decode to exactly what's on screen.
         let check = formats::decode_with(&bytes, &doc.opts);
-        if !formats::same_layers(&check.layers, &doc.layers)
-            || !formats::verified(&check.content, &doc.content)
-        {
+        if !formats::same_layers(&check.layers, &doc.layers) || !formats::verified(&check.content, &doc.content) {
             return self.fail("Save aborted: the re-encoded file didn't read back identically. Your file was not changed.");
         }
 
@@ -998,52 +815,41 @@ impl App {
             }
             note = " Your browser downloaded it \u{2014} put it in place of the game's save (keep a copy of the old one).".into();
         } else {
-            if path.exists() {
-                let mut bak = path.as_os_str().to_owned();
-                bak.push(".bak");
-                let bak = PathBuf::from(bak);
-                if !bak.exists() {
-                    if let Err(e) = crate::vfs::copy(path, &bak) {
-                        return self.fail(format!("Couldn't create backup {}: {e}", bak.display()));
-                    }
-                    note = format!(" Original backed up as {}.", file_name(&bak));
+        if path.exists() {
+            let mut bak = path.as_os_str().to_owned();
+            bak.push(".bak");
+            let bak = PathBuf::from(bak);
+            if !bak.exists() {
+                if let Err(e) = crate::vfs::copy(path, &bak) {
+                    return self.fail(format!("Couldn't create backup {}: {e}", bak.display()));
                 }
-                // Every earlier version stays restorable from File \u{203A} Restore previous version.
-                if let Err(e) = crate::backups::take(path) {
-                    return self.fail(format!(
-                        "Couldn't back up the current file: {e}. Your file was not changed."
-                    ));
-                }
+                note = format!(" Original backed up as {}.", file_name(&bak));
             }
-            if let Err(e) = write_in_place(path, &bytes) {
-                return self.fail(format!("Couldn't write {}: {e}", path.display()));
-            }
-            // Files the game checks against this save (Persona 4 Golden's .binslot).
-            for (other, data) in formats::companion_files(path, &bytes) {
-                let _ = crate::backups::take(&other);
-                if let Err(e) = crate::vfs::write(&other, data) {
-                    return self.fail(format!(
-                        "Saved, but couldn't update {}: {e}",
-                        other.display()
-                    ));
-                }
-            }
-            #[cfg(not(target_arch = "wasm32"))]
-            match crate::playerprefs::after_save(path) {
-                Ok(Some(m)) => note.push_str(&format!(" {m}")),
-                Err(e) => return self.fail(format!("Saved the file, but {e}")),
-                Ok(None) => {}
+            // Every earlier version stays restorable from File \u{203A} Restore previous version.
+            if let Err(e) = crate::backups::take(path) {
+                return self.fail(format!("Couldn't back up the current file: {e}. Your file was not changed."));
             }
         }
+        if let Err(e) = write_in_place(path, &bytes) {
+            return self.fail(format!("Couldn't write {}: {e}", path.display()));
+        }
+        // Files the game checks against this save (Persona 4 Golden's .binslot).
+        for (other, data) in formats::companion_files(path, &bytes) {
+            let _ = crate::backups::take(&other);
+            if let Err(e) = crate::vfs::write(&other, data) {
+                return self.fail(format!("Saved, but couldn't update {}: {e}", other.display()));
+            }
+        }
+        #[cfg(not(target_arch = "wasm32"))]
+        match crate::playerprefs::after_save(path) {
+            Ok(Some(m)) => note.push_str(&format!(" {m}")),
+            Err(e) => return self.fail(format!("Saved the file, but {e}")),
+            Ok(None) => {}
+        }
+        }
 
-        let signed = check
-            .layers
-            .iter()
-            .any(|l| matches!(l, Layer::RenpyZip { signed: true, .. }));
-        let persistent = check
-            .layers
-            .iter()
-            .any(|l| matches!(l, Layer::RenpyPersistent { .. }));
+        let signed = check.layers.iter().any(|l| matches!(l, Layer::RenpyZip { signed: true, .. }));
+        let persistent = check.layers.iter().any(|l| matches!(l, Layer::RenpyPersistent { .. }));
         let d = self.doc.as_mut().unwrap();
         d.path = path.to_path_buf();
         d.layers = check.layers;
@@ -1063,10 +869,7 @@ impl App {
         } else {
             ""
         };
-        self.ok(format!(
-            "Saved and verified ({}).{note}{extra}",
-            human_size(bytes.len())
-        ));
+        self.ok(format!("Saved and verified ({}).{note}{extra}", human_size(bytes.len())));
     }
 
     fn save(&mut self) {
@@ -1077,9 +880,7 @@ impl App {
 
     /// Save from the button / Ctrl+S: first show what changed and warn if the game is open.
     fn save_clicked(&mut self) {
-        let Some(path) = self.doc.as_ref().map(|d| d.path.clone()) else {
-            return;
-        };
+        let Some(path) = self.doc.as_ref().map(|d| d.path.clone()) else { return };
         if !self.commit_raw() {
             return self.fail("The Raw JSON has a syntax error \u{2014} fix it before saving.");
         }
@@ -1088,11 +889,7 @@ impl App {
             return self.save_to(&path);
         }
         self.running = running.clone();
-        self.save_review = Some(SaveReview {
-            path,
-            running,
-            lines: self.change_lines(),
-        });
+        self.save_review = Some(SaveReview { path, running, lines: self.change_lines() });
     }
 
     /// The unsaved changes in words: "Inventory \u{203A} Scrap Iron: 12 \u{2192} 99".
@@ -1102,17 +899,8 @@ impl App {
             (Content::Binary(a), Content::Binary(b)) => byte_ranges(a, b)
                 .into_iter()
                 .map(|(s, e)| {
-                    let name = self
-                        .hex
-                        .labels
-                        .get(&s)
-                        .map(|l| l.name.clone())
-                        .unwrap_or(format!("Offset 0x{s:X}"));
-                    format!(
-                        "{name}: {} byte{} changed",
-                        e - s,
-                        if e - s == 1 { "" } else { "s" }
-                    )
+                    let name = self.hex.labels.get(&s).map(|l| l.name.clone()).unwrap_or(format!("Offset 0x{s:X}"));
+                    format!("{name}: {} byte{} changed", e - s, if e - s == 1 { "" } else { "s" })
                 })
                 .collect(),
             (Content::Text(a), Content::Text(b)) => {
@@ -1123,9 +911,7 @@ impl App {
                 }
             }
             (c, b) => {
-                let (Some(cv), Some(bv)) = (root(c), root(b)) else {
-                    return vec![];
-                };
+                let (Some(cv), Some(bv)) = (root(c), root(b)) else { return vec![] };
                 self.touched
                     .iter()
                     .filter(|p| cv.pointer(p) != bv.pointer(p))
@@ -1134,25 +920,12 @@ impl App {
                             return "Whole document (Raw JSON edit)".to_string();
                         }
                         let (name, context) = match self.model.by_ptr.get(p.as_str()) {
-                            Some(&i) => (
-                                self.model.rows[i].name.clone(),
-                                self.model.rows[i].context.clone(),
-                            ),
+                            Some(&i) => (self.model.rows[i].name.clone(), self.model.rows[i].context.clone()),
                             None => (p.clone(), String::new()),
                         };
-                        let old = bv
-                            .pointer(p)
-                            .map(widgets::display)
-                            .unwrap_or_else(|| "(none)".into());
-                        let new = cv
-                            .pointer(p)
-                            .map(widgets::display)
-                            .unwrap_or_else(|| "(none)".into());
-                        let at = if context.is_empty() {
-                            name
-                        } else {
-                            format!("{context} \u{203A} {name}")
-                        };
+                        let old = bv.pointer(p).map(widgets::display).unwrap_or_else(|| "(none)".into());
+                        let new = cv.pointer(p).map(widgets::display).unwrap_or_else(|| "(none)".into());
+                        let at = if context.is_empty() { name } else { format!("{context} \u{203A} {name}") };
                         format!("{at}: {old} \u{2192} {new}")
                     })
                     .collect()
@@ -1161,9 +934,7 @@ impl App {
     }
 
     fn game_picker_dialog(&mut self, ctx: &egui::Context) {
-        let Some(gp) = &mut self.game_picker else {
-            return;
-        };
+        let Some(gp) = &mut self.game_picker else { return };
         let found = gp.found.lock().map(|v| v.clone()).unwrap_or_default();
         if found.iter().any(Option::is_none) {
             ctx.request_repaint_after(std::time::Duration::from_millis(200));
@@ -1173,10 +944,7 @@ impl App {
         let screen = ctx.screen_rect();
         let wide = screen.width() > 820.0;
         // A fixed size that always fits: the lists inside fill whatever they're given.
-        let size = egui::vec2(
-            (screen.width() - 40.0).min(900.0),
-            (screen.height() - 90.0).min(620.0),
-        );
+        let size = egui::vec2((screen.width() - 40.0).min(900.0), (screen.height() - 90.0).min(620.0));
         egui::Window::new("Select game")
             .collapsible(false)
             .resizable(false)
@@ -1333,9 +1101,7 @@ impl App {
     }
 
     fn copy_slots_dialog(&mut self, ctx: &egui::Context) {
-        let Some(c) = &mut self.copy_slots else {
-            return;
-        };
+        let Some(c) = &mut self.copy_slots else { return };
         let label = |i: usize, s: &crate::fmt::slot_copy::Slot| {
             if s.active {
                 format!("Slot {}: {} (level {})", i + 1, s.name, s.level)
@@ -1345,60 +1111,33 @@ impl App {
         };
         let mut choice = None;
         modal(ctx, "Copy character", |ui| {
-            egui::Grid::new("copy_slots")
-                .num_columns(2)
-                .spacing([12.0, 8.0])
-                .show(ui, |ui| {
-                    ui.label("Copy");
-                    egui::ComboBox::from_id_salt("copy_from")
-                        .width(260.0)
-                        .selected_text(label(c.from, &c.slots[c.from]))
-                        .show_ui(ui, |ui| {
-                            for (i, s) in c.slots.iter().enumerate().filter(|(_, s)| s.active) {
-                                ui.selectable_value(&mut c.from, i, label(i, s));
-                            }
-                        });
-                    ui.end_row();
-                    ui.label("Into");
-                    egui::ComboBox::from_id_salt("copy_to")
-                        .width(260.0)
-                        .selected_text(label(c.to, &c.slots[c.to]))
-                        .show_ui(ui, |ui| {
-                            for (i, s) in c.slots.iter().enumerate() {
-                                ui.selectable_value(&mut c.to, i, label(i, s));
-                            }
-                        });
-                    ui.end_row();
+            egui::Grid::new("copy_slots").num_columns(2).spacing([12.0, 8.0]).show(ui, |ui| {
+                ui.label("Copy");
+                egui::ComboBox::from_id_salt("copy_from").width(260.0).selected_text(label(c.from, &c.slots[c.from])).show_ui(ui, |ui| {
+                    for (i, s) in c.slots.iter().enumerate().filter(|(_, s)| s.active) {
+                        ui.selectable_value(&mut c.from, i, label(i, s));
+                    }
                 });
+                ui.end_row();
+                ui.label("Into");
+                egui::ComboBox::from_id_salt("copy_to").width(260.0).selected_text(label(c.to, &c.slots[c.to])).show_ui(ui, |ui| {
+                    for (i, s) in c.slots.iter().enumerate() {
+                        ui.selectable_value(&mut c.to, i, label(i, s));
+                    }
+                });
+                ui.end_row();
+            });
             let dest = &c.slots[c.to];
             if c.to == c.from {
-                ui.colored_label(
-                    theme::fg(ui, theme::WARN),
-                    "Pick a different slot to copy into.",
-                );
+                ui.colored_label(theme::fg(ui, theme::WARN), "Pick a different slot to copy into.");
             } else if dest.active {
-                ui.colored_label(
-                    theme::fg(ui, theme::WARN),
-                    format!(
-                        "This replaces {} (level {}) in slot {}.",
-                        dest.name,
-                        dest.level,
-                        c.to + 1
-                    ),
-                );
+                ui.colored_label(theme::fg(ui, theme::WARN), format!("This replaces {} (level {}) in slot {}.", dest.name, dest.level, c.to + 1));
             }
             ui.weak("The file is backed up first (File \u{203A} Restore previous version).");
             ui.add_space(8.0);
             ui.horizontal(|ui| {
                 let ok = c.to != c.from && c.slots[c.from].active;
-                if ui
-                    .add_enabled(
-                        ok,
-                        egui::Button::new(RichText::new("Copy").color(Color32::WHITE))
-                            .fill(theme::ACCENT),
-                    )
-                    .clicked()
-                {
+                if ui.add_enabled(ok, egui::Button::new(RichText::new("Copy").color(Color32::WHITE)).fill(theme::ACCENT)).clicked() {
                     choice = Some(true);
                 }
                 if ui.button("Cancel").clicked() {
@@ -1417,9 +1156,7 @@ impl App {
     }
 
     fn copy_character(&mut self, from: usize, to: usize, who: &crate::fmt::slot_copy::Slot) {
-        let Some(path) = self.doc.as_ref().map(|d| d.path.clone()) else {
-            return;
-        };
+        let Some(path) = self.doc.as_ref().map(|d| d.path.clone()) else { return };
         if let Some(game) = crate::running::game_for(&path) {
             return self.fail(format!("{game} looks like it's running \u{2014} quit it first, or it will overwrite the copy."));
         }
@@ -1433,21 +1170,14 @@ impl App {
         };
         if !WEB {
             if let Err(e) = crate::backups::take(&path) {
-                return self.fail(format!(
-                    "Couldn't back up the file first: {e}. Nothing was changed."
-                ));
+                return self.fail(format!("Couldn't back up the file first: {e}. Nothing was changed."));
             }
         }
         if let Err(e) = write_in_place(&path, &out) {
             return self.fail(format!("Couldn't write {}: {e}", path.display()));
         }
         self.load(&path);
-        self.ok(format!(
-            "Copied {} (level {}) into slot {}. It shows up on the game's Load Game screen.",
-            who.name,
-            who.level,
-            to + 1
-        ));
+        self.ok(format!("Copied {} (level {}) into slot {}. It shows up on the game's Load Game screen.", who.name, who.level, to + 1));
     }
 
     fn save_review_dialog(&mut self, ctx: &egui::Context) {
@@ -1458,11 +1188,7 @@ impl App {
             ui.set_max_width(520.0);
             if let Some(game) = &r.running {
                 theme::card(ui, |ui| {
-                    ui.label(
-                        RichText::new(format!("{game} looks like it's running."))
-                            .color(theme::fg(ui, theme::WARN))
-                            .strong(),
-                    );
+                    ui.label(RichText::new(format!("{game} looks like it's running.")).color(theme::fg(ui, theme::WARN)).strong());
                     ui.label(
                         "Games keep the save in memory and write it back when they autosave or quit, which would undo these \
                          changes. Quit the game completely (not just to the title screen), then save.",
@@ -1470,12 +1196,7 @@ impl App {
                 });
                 ui.add_space(6.0);
             }
-            ui.label(format!(
-                "{} change{} to {}:",
-                r.lines.len(),
-                if r.lines.len() == 1 { "" } else { "s" },
-                file_name(&r.path)
-            ));
+            ui.label(format!("{} change{} to {}:", r.lines.len(), if r.lines.len() == 1 { "" } else { "s" }, file_name(&r.path)));
             ScrollArea::vertical().max_height(280.0).show(ui, |ui| {
                 for l in &r.lines {
                     ui.label(format!("\u{2022} {l}"));
@@ -1492,18 +1213,8 @@ impl App {
             });
             ui.add_space(8.0);
             ui.horizontal_wrapped(|ui| {
-                let label = if r.running.is_some() {
-                    "Save anyway"
-                } else {
-                    "Save"
-                };
-                if ui
-                    .add(
-                        egui::Button::new(RichText::new(label).color(Color32::WHITE))
-                            .fill(theme::ACCENT),
-                    )
-                    .clicked()
-                {
+                let label = if r.running.is_some() { "Save anyway" } else { "Save" };
+                if ui.add(egui::Button::new(RichText::new(label).color(Color32::WHITE)).fill(theme::ACCENT)).clicked() {
                     choice = Some(0);
                 }
                 if r.running.is_some() && ui.button("Check again").clicked() {
@@ -1564,9 +1275,7 @@ impl App {
                 }
                 self.dirty = false;
                 self.load(&path);
-                self.ok(format!(
-                    "Restored {what}. The version it replaced is in the backup list too."
-                ));
+                self.ok(format!("Restored {what}. The version it replaced is in the backup list too."));
             }
             Err(e) => self.fail(format!("Couldn't restore backup: {e}")),
         }
@@ -1582,11 +1291,7 @@ impl App {
             Content::Text(_) => "txt",
             Content::Binary(_) => "bin",
         };
-        let stem = doc
-            .path
-            .file_stem()
-            .map(|s| s.to_string_lossy().into_owned())
-            .unwrap_or("save".into());
+        let stem = doc.path.file_stem().map(|s| s.to_string_lossy().into_owned()).unwrap_or("save".into());
         self.ask(Ask::Export, None, Some(format!("{stem}.decoded.{ext}")));
     }
 
@@ -1604,9 +1309,7 @@ impl App {
             Err(e) => return self.fail(format!("Couldn't pack the imported data: {e}")),
         };
         let check = formats::decode_with(&bytes, &doc.opts);
-        if !formats::same_layers(&check.layers, &doc.layers)
-            || std::mem::discriminant(&check.content) != std::mem::discriminant(&doc.content)
-        {
+        if !formats::same_layers(&check.layers, &doc.layers) || std::mem::discriminant(&check.content) != std::mem::discriminant(&doc.content) {
             return self.fail("The imported data doesn't pack back into this kind of save (wrong file, or edited into another format).");
         }
         let d = self.doc.as_mut().unwrap();
@@ -1614,18 +1317,13 @@ impl App {
         self.rebuild_model();
         self.edit_gen += 1;
         self.recompute_dirty();
-        self.ok(format!(
-            "Imported {}. Review the changes, then save.",
-            file_name(src)
-        ));
+        self.ok(format!("Imported {}. Review the changes, then save.", file_name(src)));
     }
 
     fn export_to(&mut self, dest: &Path) {
         let Some(doc) = &self.doc else { return };
         let result = match &doc.content {
-            Content::Json { value, .. } => {
-                serde_json::to_vec_pretty(value).map_err(|e| e.to_string())
-            }
+            Content::Json { value, .. } => serde_json::to_vec_pretty(value).map_err(|e| e.to_string()),
             Content::Tree(t) => serde_json::to_vec_pretty(&t.view).map_err(|e| e.to_string()),
             other => other.to_bytes(),
         };
@@ -1649,9 +1347,7 @@ impl App {
                 doc.content = Content::Binary(b);
                 doc.baseline = doc.content.clone();
                 self.rebuild_model();
-                self.ok(
-                    "Showing the decoded data as hex. Saving re-applies the original encoding.",
-                );
+                self.ok("Showing the decoded data as hex. Saving re-applies the original encoding.");
             }
             Err(e) => self.fail(e),
         }
@@ -1659,22 +1355,14 @@ impl App {
 
     fn refine_from_disk(&mut self) {
         if self.dirty {
-            return self.fail(
-                "Refine re-reads the file from disk \u{2014} save or revert your changes first.",
-            );
+            return self.fail("Refine re-reads the file from disk \u{2014} save or revert your changes first.");
         }
-        let Some(path) = self.doc.as_ref().map(|d| d.path.clone()) else {
-            return;
-        };
+        let Some(path) = self.doc.as_ref().map(|d| d.path.clone()) else { return };
         let raw = match crate::vfs::read(&path) {
             Ok(r) => r,
             Err(e) => return self.fail(format!("Reload failed: {e}")),
         };
-        let opts = self
-            .doc
-            .as_ref()
-            .map(|d| d.opts.clone())
-            .unwrap_or_default();
+        let opts = self.doc.as_ref().map(|d| d.opts.clone()).unwrap_or_default();
         let decoded = formats::decode_with(&raw, &opts);
         let bytes = match decoded.content.to_bytes() {
             Ok(b) => b,
@@ -1695,9 +1383,7 @@ impl App {
         self.undo.clear();
         self.redo.clear();
         self.recompute_dirty();
-        self.info(format!(
-            "Re-read the file: {before} \u{203A} {after} possible locations."
-        ));
+        self.info(format!("Re-read the file: {before} \u{203A} {after} possible locations."));
     }
 
     // ------------------------------------------------------------ UI: chrome
@@ -1842,43 +1528,24 @@ impl App {
                 }
             });
             ui.menu_button("Edit", |ui| {
-                if ui
-                    .add_enabled(
-                        !self.undo.is_empty(),
-                        egui::Button::new("Undo        Ctrl+Z"),
-                    )
-                    .clicked()
-                {
+                if ui.add_enabled(!self.undo.is_empty(), egui::Button::new("Undo        Ctrl+Z")).clicked() {
                     ui.close_menu();
                     self.undo_redo(true);
                 }
-                if ui
-                    .add_enabled(
-                        !self.redo.is_empty(),
-                        egui::Button::new("Redo        Ctrl+Y"),
-                    )
-                    .clicked()
-                {
+                if ui.add_enabled(!self.redo.is_empty(), egui::Button::new("Redo        Ctrl+Y")).clicked() {
                     ui.close_menu();
                     self.undo_redo(false);
                 }
                 ui.separator();
-                if ui
-                    .add_enabled(has, egui::Button::new("Find\u{2026}         Ctrl+F"))
-                    .clicked()
-                {
+                if ui.add_enabled(has, egui::Button::new("Find\u{2026}         Ctrl+F")).clicked() {
                     ui.close_menu();
                     self.focus_search = true;
                 }
             });
             ui.menu_button("View", |ui| {
                 let mut changed = false;
-                changed |= ui
-                    .checkbox(&mut self.settings.show_advanced, "Show advanced values")
-                    .changed();
-                changed |= ui
-                    .checkbox(&mut self.settings.show_raw_keys, "Show raw key names")
-                    .changed();
+                changed |= ui.checkbox(&mut self.settings.show_advanced, "Show advanced values").changed();
+                changed |= ui.checkbox(&mut self.settings.show_raw_keys, "Show raw key names").changed();
                 ui.checkbox(&mut self.show_changes, "Changes panel");
                 ui.separator();
                 if ui.radio(self.settings.dark, "Dark theme").clicked() && !self.settings.dark {
@@ -1894,14 +1561,8 @@ impl App {
                 ui.separator();
                 ui.weak("Zoom: Ctrl + / Ctrl \u{2212} / Ctrl 0");
                 ui.separator();
-                let structured = self
-                    .doc
-                    .as_ref()
-                    .is_some_and(|d| !matches!(d.content, Content::Binary(_)));
-                if ui
-                    .add_enabled(structured, egui::Button::new("Show decoded data as hex"))
-                    .clicked()
-                {
+                let structured = self.doc.as_ref().is_some_and(|d| !matches!(d.content, Content::Binary(_)));
+                if ui.add_enabled(structured, egui::Button::new("Show decoded data as hex")).clicked() {
                     ui.close_menu();
                     self.view_as_hex();
                 }
@@ -2019,28 +1680,12 @@ impl App {
                     .into_iter()
                     .take(5000)
                     .map(|(s, e)| {
-                        let hex = |x: &[u8]| {
-                            Value::String(
-                                x.iter()
-                                    .take(16)
-                                    .map(|b| format!("{b:02X}"))
-                                    .collect::<Vec<_>>()
-                                    .join(" "),
-                            )
-                        };
-                        (
-                            format!("0x{s:X}"),
-                            Some(hex(&a[s..e])),
-                            b.get(s..e.min(b.len())).map(hex),
-                        )
+                        let hex = |x: &[u8]| Value::String(x.iter().take(16).map(|b| format!("{b:02X}")).collect::<Vec<_>>().join(" "));
+                        (format!("0x{s:X}"), Some(hex(&a[s..e])), b.get(s..e.min(b.len())).map(hex))
                     })
                     .collect();
                 if a.len() != b.len() {
-                    out.push((
-                        "(file size)".into(),
-                        Some(Value::from(a.len())),
-                        Some(Value::from(b.len())),
-                    ));
+                    out.push(("(file size)".into(), Some(Value::from(a.len())), Some(Value::from(b.len()))));
                 }
                 out
             }
@@ -2066,19 +1711,12 @@ impl App {
                     }
                     out
                 }
-                _ => {
-                    return self.fail(
-                        "Those two files aren't the same kind of save, so they can't be compared.",
-                    )
-                }
+                _ => return self.fail("Those two files aren't the same kind of save, so they can't be compared."),
             },
         };
         let n = diffs.len();
         self.compare = Some(Compare { other, diffs });
-        self.info(format!(
-            "{n} difference{} found.",
-            if n == 1 { "" } else { "s" }
-        ));
+        self.info(format!("{n} difference{} found.", if n == 1 { "" } else { "s" }));
     }
 
     fn compare_window(&mut self, ctx: &egui::Context, now: f64) {
@@ -2087,10 +1725,7 @@ impl App {
         let mut jump: Option<String> = None;
         let mut take: Option<(String, Value)> = None;
         let other_name = file_name(&cmp.other);
-        let binary = matches!(
-            self.doc.as_ref().map(|d| &d.content),
-            Some(Content::Binary(_))
-        );
+        let binary = matches!(self.doc.as_ref().map(|d| &d.content), Some(Content::Binary(_)));
         egui::Window::new(format!("Compare with {other_name}"))
             .open(&mut open)
             .default_size([620.0, 460.0])
@@ -2167,41 +1802,26 @@ impl App {
                     self.settings.show_advanced = true;
                 }
                 self.scroll_to_row = Some(i);
-            } else if let Some(off) = p
-                .strip_prefix("0x")
-                .and_then(|h| usize::from_str_radix(h, 16).ok())
-            {
+            } else if let Some(off) = p.strip_prefix("0x").and_then(|h| usize::from_str_radix(h, 16).ok()) {
                 self.hex.jump(off);
             }
         }
     }
 
     fn backup_name_dialog(&mut self, ctx: &egui::Context) {
-        let Some(mut text) = self.backup_name.take() else {
-            return;
-        };
+        let Some(mut text) = self.backup_name.take() else { return };
         let mut choice = None;
         modal(ctx, "Keep a named copy", |ui| {
             ui.label("A copy of the file as it is on disk now, kept until you remove it.");
             ui.add_space(6.0);
-            let r = ui.add(
-                TextEdit::singleline(&mut text)
-                    .hint_text("for example: before the final boss")
-                    .desired_width(280.0),
-            );
+            let r = ui.add(TextEdit::singleline(&mut text).hint_text("for example: before the final boss").desired_width(280.0));
             r.request_focus();
             if r.lost_focus() && ui.input(|i| i.key_pressed(egui::Key::Enter)) {
                 choice = Some(true);
             }
             ui.add_space(6.0);
             ui.horizontal(|ui| {
-                if ui
-                    .add(
-                        egui::Button::new(RichText::new("Keep").color(Color32::WHITE))
-                            .fill(theme::ACCENT),
-                    )
-                    .clicked()
-                {
+                if ui.add(egui::Button::new(RichText::new("Keep").color(Color32::WHITE)).fill(theme::ACCENT)).clicked() {
                     choice = Some(true);
                 }
                 if ui.button("Cancel").clicked() {
@@ -2211,9 +1831,7 @@ impl App {
         });
         match choice {
             Some(true) => {
-                let Some(path) = self.doc.as_ref().map(|d| d.path.clone()) else {
-                    return;
-                };
+                let Some(path) = self.doc.as_ref().map(|d| d.path.clone()) else { return };
                 match crate::backups::take_named(&path, &text) {
                     Ok(_) => self.ok(format!("Kept a copy named \u{201C}{}\u{201D} (File \u{203A} Restore previous version).", text.trim())),
                     Err(e) => {
@@ -2229,9 +1847,7 @@ impl App {
 
     fn find_sums(&mut self) {
         let Some(d) = &self.doc else { return };
-        let Content::Binary(b) = &d.content else {
-            return;
-        };
+        let Content::Binary(b) = &d.content else { return };
         // Earlier copies of the file weed out values that only match by chance.
         #[cfg(not(target_arch = "wasm32"))]
         let others: Vec<Vec<u8>> = crate::backups::list(&d.path)
@@ -2246,24 +1862,16 @@ impl App {
     }
 
     fn sums_dialog(&mut self, ctx: &egui::Context) {
-        let Some(hits) = self.sum_hits.clone() else {
-            return;
-        };
+        let Some(hits) = self.sum_hits.clone() else { return };
         let current = self.doc.as_ref().and_then(|d| d.opts.sum);
         let mut close = false;
         let mut pick: Option<Option<crate::fmt::sumfind::Sum>> = None;
         modal(ctx, "Find checksum", |ui| {
             if hits.is_empty() {
-                ui.label(
-                    "No checksum the editor knows was found at the start or end of this file.",
-                );
+                ui.label("No checksum the editor knows was found at the start or end of this file.");
                 ui.weak("It may be encrypted, compressed, or checked with something the game made up. The value search still works on it.");
             } else {
-                ui.label(if hits.len() == 1 {
-                    "This checksum holds for the file:"
-                } else {
-                    "These checksums hold for the file:"
-                });
+                ui.label(if hits.len() == 1 { "This checksum holds for the file:" } else { "These checksums hold for the file:" });
                 ui.weak("Pick one to have it written again every time you save. Saving a few times and searching again narrows a long list.");
                 ui.add_space(6.0);
                 for h in &hits {
@@ -2301,32 +1909,20 @@ impl App {
     }
 
     fn password_dialog(&mut self, ctx: &egui::Context) {
-        let Some(mut text) = self.password_prompt.take() else {
-            return;
-        };
+        let Some(mut text) = self.password_prompt.take() else { return };
         let mut choice = None;
         modal(ctx, "Decrypt with password", |ui| {
             ui.label("Some games encrypt their saves with a password built into the game.");
             ui.weak("Supported: Easy Save 3 (Unity) and Godot encrypted files. Easy Save's default password is tried automatically.");
             ui.add_space(6.0);
-            let r = ui.add(
-                TextEdit::singleline(&mut text)
-                    .hint_text("password")
-                    .desired_width(280.0),
-            );
+            let r = ui.add(TextEdit::singleline(&mut text).hint_text("password").desired_width(280.0));
             r.request_focus();
             if r.lost_focus() && ui.input(|i| i.key_pressed(egui::Key::Enter)) {
                 choice = Some(true);
             }
             ui.add_space(6.0);
             ui.horizontal(|ui| {
-                if ui
-                    .add(
-                        egui::Button::new(RichText::new("Decrypt").color(Color32::WHITE))
-                            .fill(theme::ACCENT),
-                    )
-                    .clicked()
-                {
+                if ui.add(egui::Button::new(RichText::new("Decrypt").color(Color32::WHITE)).fill(theme::ACCENT)).clicked() {
                     choice = Some(true);
                 }
                 if ui.button("Cancel").clicked() {
@@ -2338,10 +1934,7 @@ impl App {
             Some(true) => {
                 let pw = text.clone();
                 self.reopen_with(|o| o.password = (!pw.is_empty()).then_some(pw.clone()));
-                if matches!(
-                    self.doc.as_ref().map(|d| &d.content),
-                    Some(Content::Binary(_))
-                ) {
+                if matches!(self.doc.as_ref().map(|d| &d.content), Some(Content::Binary(_))) {
                     self.fail("That password didn't decrypt the file (or the encryption isn't one this editor knows).");
                 }
             }
@@ -2352,11 +1945,7 @@ impl App {
 
     fn chip(ui: &mut egui::Ui, text: &str, color: Color32) -> egui::Response {
         // A frame doesn't wrap on its own: start a new line when the chip won't fit.
-        let w = ui.fonts(|f| {
-            f.layout_no_wrap(text.to_string(), egui::FontId::proportional(13.0), color)
-                .size()
-                .x
-        }) + 16.0;
+        let w = ui.fonts(|f| f.layout_no_wrap(text.to_string(), egui::FontId::proportional(13.0), color).size().x) + 16.0;
         if ui.layout().main_wrap && w > ui.available_size_before_wrap().x {
             ui.end_row();
         }
@@ -2364,12 +1953,7 @@ impl App {
             .fill(color.gamma_multiply(0.18))
             .rounding(egui::Rounding::same(10.0))
             .inner_margin(egui::Margin::symmetric(8.0, 2.0))
-            .show(ui, |ui| {
-                ui.add(
-                    egui::Label::new(RichText::new(text).color(theme::fg(ui, color)).size(13.0))
-                        .extend(),
-                )
-            })
+            .show(ui, |ui| ui.add(egui::Label::new(RichText::new(text).color(theme::fg(ui, color)).size(13.0)).extend()))
             .response
     }
 
@@ -2387,64 +1971,30 @@ impl App {
             }
         };
         row(ui, &mut |ui| {
-            if ui
-                .button(widgets::icon_text(ui, hi, icon::OPEN, "Open"))
-                .on_hover_text("Open a save file (Ctrl+O)")
-                .clicked()
-            {
+            if ui.button(widgets::icon_text(ui, hi, icon::OPEN, "Open")).on_hover_text("Open a save file (Ctrl+O)").clicked() {
                 self.ask(Ask::Open, None, None);
             }
             if !cfg!(target_os = "android")
                 && !WEB
-                && ui
-                    .button("Select game")
-                    .on_hover_text(
-                        "Pick a game from the list to see the saves it has on this computer",
-                    )
-                    .clicked()
+                && ui.button("Select game").on_hover_text("Pick a game from the list to see the saves it has on this computer").clicked()
             {
                 self.game_picker = Some(GamePicker::new());
             }
             let save_btn = if self.dirty {
-                egui::Button::new(widgets::icon_text_colored(
-                    ui,
-                    hi,
-                    icon::SAVE,
-                    "Save",
-                    Color32::WHITE,
-                ))
-                .fill(theme::ACCENT)
+                egui::Button::new(widgets::icon_text_colored(ui, hi, icon::SAVE, "Save", Color32::WHITE)).fill(theme::ACCENT)
             } else {
                 egui::Button::new(widgets::icon_text(ui, hi, icon::SAVE, "Save"))
             };
-            if ui
-                .add_enabled(self.dirty, save_btn)
-                .on_hover_text("Save changes to the file (Ctrl+S)")
-                .clicked()
-            {
+            if ui.add_enabled(self.dirty, save_btn).on_hover_text("Save changes to the file (Ctrl+S)").clicked() {
                 self.save_clicked();
             }
             if !narrow {
                 ui.separator();
             }
-            if ui
-                .add_enabled(
-                    !self.undo.is_empty(),
-                    egui::Button::new(widgets::icon_text(ui, hi, icon::UNDO, "Undo")),
-                )
-                .on_hover_text("Ctrl+Z")
-                .clicked()
-            {
+            if ui.add_enabled(!self.undo.is_empty(), egui::Button::new(widgets::icon_text(ui, hi, icon::UNDO, "Undo"))).on_hover_text("Ctrl+Z").clicked() {
                 self.undo_redo(true);
             }
-            if ui
-                .add_enabled(
-                    !self.redo.is_empty(),
-                    egui::Button::new(widgets::icon_text(ui, hi, icon::REDO, "Redo")),
-                )
-                .on_hover_text("Ctrl+Y")
-                .clicked()
-            {
+            if ui.add_enabled(!self.redo.is_empty(), egui::Button::new(widgets::icon_text(ui, hi, icon::REDO, "Redo"))).on_hover_text("Ctrl+Y").clicked() {
                 self.undo_redo(false);
             }
 
@@ -2452,23 +2002,11 @@ impl App {
             if !narrow {
                 ui.separator();
             }
-            ui.label(
-                RichText::new(file_name(&doc.path))
-                    .family(theme::semibold_family())
-                    .size(16.0),
-            )
-            .on_hover_text(doc.path.display().to_string());
+            ui.label(RichText::new(file_name(&doc.path)).family(theme::semibold_family()).size(16.0))
+                .on_hover_text(doc.path.display().to_string());
             let kind = friendly_kind(&doc.layers, &doc.content);
-            Self::chip(ui, &kind, theme::ACCENT).on_hover_text(format!(
-                "Detected format: {}",
-                formats::describe(&doc.layers, &doc.content)
-            ));
-            if doc.layers.iter().any(|l| {
-                matches!(
-                    l,
-                    Layer::RenpyZip { signed: true, .. } | Layer::RenpyPersistent { signed: true }
-                )
-            }) {
+            Self::chip(ui, &kind, theme::ACCENT).on_hover_text(format!("Detected format: {}", formats::describe(&doc.layers, &doc.content)));
+            if doc.layers.iter().any(|l| matches!(l, Layer::RenpyZip { signed: true, .. } | Layer::RenpyPersistent { signed: true })) {
                 if crate::renpy_sign::can_sign() {
                     Self::chip(ui, "Signed \u{2014} will re-sign", theme::OK).on_hover_text(
                         "Ren'Py 8.1+ signs its saves. Your Ren'Py key was found on this PC, so edited saves are re-signed and load normally.",
@@ -2485,14 +2023,12 @@ impl App {
                     "The game was running when this file was opened. Quit it before saving, or it may overwrite your changes.",
                 );
             }
-            let rpg =
-                matches!(&doc.content, Content::Json { value, .. } if names::is_rpgmaker(value));
+            let rpg = matches!(&doc.content, Content::Json { value, .. } if names::is_rpgmaker(value));
             let mut locate = false;
             if rpg {
                 match &doc.names.source {
                     Some(dir) => {
-                        Self::chip(ui, "Names from game data", theme::OK)
-                            .on_hover_text(dir.display().to_string());
+                        Self::chip(ui, "Names from game data", theme::OK).on_hover_text(dir.display().to_string());
                     }
                     None => {
                         if Self::chip(ui, "Game data not found \u{2014} click to locate", theme::WARN)
@@ -2508,21 +2044,10 @@ impl App {
 
             let mut changes = |ui: &mut egui::Ui| {
                 let n = self.change_count();
-                let label = if n > 0 {
-                    format!("Changes ({n})")
-                } else {
-                    "Changes".into()
-                };
-                let color = if self.show_changes {
-                    Color32::WHITE
-                } else {
-                    ui.visuals().text_color()
-                };
-                ui.toggle_value(
-                    &mut self.show_changes,
-                    widgets::icon_text_colored(ui, hi, icon::HISTORY, &label, color),
-                )
-                .on_hover_text("List everything you've changed since the last save");
+                let label = if n > 0 { format!("Changes ({n})") } else { "Changes".into() };
+                let color = if self.show_changes { Color32::WHITE } else { ui.visuals().text_color() };
+                ui.toggle_value(&mut self.show_changes, widgets::icon_text_colored(ui, hi, icon::HISTORY, &label, color))
+                    .on_hover_text("List everything you've changed since the last save");
             };
             if narrow {
                 changes(ui);
@@ -2542,11 +2067,7 @@ impl App {
             (Content::Binary(a), Content::Binary(b)) => byte_ranges(a, b).len(),
             (Content::Text(a), Content::Text(b)) => usize::from(a != b),
             (c, b) => match (root(c), root(b)) {
-                (Some(cv), Some(bv)) => self
-                    .touched
-                    .iter()
-                    .filter(|p| cv.pointer(p) != bv.pointer(p))
-                    .count(),
+                (Some(cv), Some(bv)) => self.touched.iter().filter(|p| cv.pointer(p) != bv.pointer(p)).count(),
                 _ => 0,
             },
         }
@@ -2560,13 +2081,7 @@ impl App {
             if self.doc.is_some() && !narrow(ui) {
                 let n = self.change_count();
                 if self.dirty {
-                    ui.label(
-                        RichText::new(format!(
-                            "{n} unsaved change{}",
-                            if n == 1 { "" } else { "s" }
-                        ))
-                        .color(theme::MODIFIED),
-                    );
+                    ui.label(RichText::new(format!("{n} unsaved change{}", if n == 1 { "" } else { "s" })).color(theme::MODIFIED));
                 } else {
                     ui.weak("No unsaved changes");
                 }
@@ -2579,15 +2094,9 @@ impl App {
                     StatusKind::Err => (theme::fg(ui, theme::ERR), icon::WARNING),
                 };
                 if self.has_icons && !glyph.is_empty() {
-                    ui.label(
-                        RichText::new(glyph)
-                            .family(theme::icons_family())
-                            .color(color)
-                            .size(12.0),
-                    );
+                    ui.label(RichText::new(glyph).family(theme::icons_family()).color(color).size(12.0));
                 }
-                ui.add(egui::Label::new(RichText::new(&self.status).color(color)).truncate())
-                    .on_hover_text(&self.status);
+                ui.add(egui::Label::new(RichText::new(&self.status).color(color)).truncate()).on_hover_text(&self.status);
             });
         });
     }
@@ -2595,10 +2104,7 @@ impl App {
     // ------------------------------------------------------------ UI: structured data
 
     fn structured_panel(&mut self, ui: &mut egui::Ui, now: f64) {
-        let is_json = matches!(
-            self.doc.as_ref().map(|d| &d.content),
-            Some(Content::Json { .. })
-        );
+        let is_json = matches!(self.doc.as_ref().map(|d| &d.content), Some(Content::Json { .. }));
         let game = self.doc.as_ref().and_then(|d| d.game);
         if (self.tab == Tab::Raw && !is_json) || (self.tab == Tab::Game && game.is_none()) {
             self.tab = Tab::Values;
@@ -2696,18 +2202,11 @@ impl App {
         ui.add_space(8.0);
         let hidden = self.model.sections.iter().filter(|s| s.advanced).count();
         let tip = if hidden > 0 && !self.settings.show_advanced {
-            format!(
-                "Also show engine internals and read-only values ({hidden} section{} hidden now)",
-                if hidden == 1 { "" } else { "s" }
-            )
+            format!("Also show engine internals and read-only values ({hidden} section{} hidden now)", if hidden == 1 { "" } else { "s" })
         } else {
             "Also show engine internals and read-only values".to_string()
         };
-        let label = if hidden > 0 && !self.settings.show_advanced {
-            format!("Advanced ({hidden})")
-        } else {
-            "Advanced".into()
-        };
+        let label = if hidden > 0 && !self.settings.show_advanced { format!("Advanced ({hidden})") } else { "Advanced".into() };
         changed |= widgets::labeled_toggle(ui, &mut self.settings.show_advanced, &label, &tip);
         if changed {
             self.settings.save();
@@ -2720,10 +2219,7 @@ impl App {
         match self.tab {
             Tab::Game => {
                 let d = self.doc.as_ref().unwrap();
-                let (Some(r), Some(b), Some(game)) = (root(&d.content), root(&d.baseline), d.game)
-                else {
-                    return;
-                };
+                let (Some(r), Some(b), Some(game)) = (root(&d.content), root(&d.baseline), d.game) else { return };
                 let newest = formats::copeck_newest(&d.layers);
                 let mut cx = crate::game_ui::GameCtx {
                     root: r,
@@ -2733,31 +2229,18 @@ impl App {
                         _ => None,
                     },
                     edits: vec![],
-                    archive: d
-                        .layers
-                        .iter()
-                        .find_map(|l| {
-                            if let Layer::Copeck { name, .. } = l {
-                                Some(name.as_str())
-                            } else {
-                                None
-                            }
-                        })
-                        .map(|n| (n, d.zip_entries.as_slice(), newest.as_deref())),
+                    archive: d.layers.iter().find_map(|l| if let Layer::Copeck { name, .. } = l { Some(name.as_str()) } else { None }).map(|n| (n, d.zip_entries.as_slice(), newest.as_deref())),
                     open_entry: None,
                 };
                 // Laid out to the window's width (at most 1200); a table or banner that is wider
                 // still (a phone) scrolls sideways instead of being cut off.
                 let w = ui.available_width();
-                ScrollArea::both()
-                    .auto_shrink([false, false])
-                    .max_width(w)
-                    .show(ui, |ui| {
-                        ui.set_max_width(w.min(1200.0));
-                        crate::game_ui::show(game, ui, &mut cx);
-                        ui.add_space(12.0);
-                        ui.weak("Everything else in this save is in the Values and Tree tabs.");
-                    });
+                ScrollArea::both().auto_shrink([false, false]).max_width(w).show(ui, |ui| {
+                    ui.set_max_width(w.min(1200.0));
+                    crate::game_ui::show(game, ui, &mut cx);
+                    ui.add_space(12.0);
+                    ui.weak("Everything else in this save is in the Values and Tree tabs.");
+                });
                 edits = cx.edits;
                 if let Some(e) = cx.open_entry {
                     self.reopen_with(|o| o.zip_entry = Some(e));
@@ -2765,75 +2248,36 @@ impl App {
                 }
             }
             Tab::Raw => {
-                ScrollArea::both()
-                    .auto_shrink([false, false])
-                    .show(ui, |ui| {
-                        ui.add(
-                            TextEdit::multiline(&mut self.raw_text)
-                                .code_editor()
-                                .desired_width(f32::INFINITY),
-                        );
-                    });
+                ScrollArea::both().auto_shrink([false, false]).show(ui, |ui| {
+                    ui.add(TextEdit::multiline(&mut self.raw_text).code_editor().desired_width(f32::INFINITY));
+                });
             }
             Tab::Tree => {
                 let d = self.doc.as_ref().unwrap();
-                let (Some(r), Some(b)) = (root(&d.content), root(&d.baseline)) else {
-                    return;
-                };
+                let (Some(r), Some(b)) = (root(&d.content), root(&d.baseline)) else { return };
                 let editable = match &d.content {
                     Content::Tree(t) => Some(&t.editable),
                     _ => None,
                 };
-                let value_x =
-                    ui.min_rect().left() + (ui.available_width() * 0.42).clamp(140.0, 480.0);
-                let mut ctx = TreeCtx {
-                    names: &d.names,
-                    editable,
-                    baseline: b,
-                    show_raw_keys: self.settings.show_raw_keys,
-                    value_x,
-                    edits: vec![],
-                };
-                ScrollArea::vertical()
-                    .auto_shrink([false, false])
-                    .show(ui, |ui| json_view::tree_ui(ui, r, &mut ctx));
+                let value_x = ui.min_rect().left() + (ui.available_width() * 0.42).clamp(140.0, 480.0);
+                let mut ctx = TreeCtx { names: &d.names, editable, baseline: b, show_raw_keys: self.settings.show_raw_keys, value_x, edits: vec![] };
+                ScrollArea::vertical().auto_shrink([false, false]).show(ui, |ui| json_view::tree_ui(ui, r, &mut ctx));
                 edits = ctx.edits;
             }
             Tab::Values => {
                 let d = self.doc.as_ref().unwrap();
-                let (Some(r), Some(b)) = (root(&d.content), root(&d.baseline)) else {
-                    return;
-                };
-                let value_gen = if self.search.trim().is_empty() {
-                    0
-                } else {
-                    self.edit_gen
-                };
-                let key = (
-                    self.search.clone(),
-                    self.settings.show_advanced,
-                    self.collapsed_gen,
-                    self.model_gen,
-                    value_gen,
-                );
+                let (Some(r), Some(b)) = (root(&d.content), root(&d.baseline)) else { return };
+                let value_gen = if self.search.trim().is_empty() { 0 } else { self.edit_gen };
+                let key = (self.search.clone(), self.settings.show_advanced, self.collapsed_gen, self.model_gen, value_gen);
                 // On very large saves, searching every value takes a moment: wait until
                 // typing pauses instead of re-searching on every key press.
                 let t = ui.input(|i| i.time);
-                let typing = self.model.rows.len() > 50_000
-                    && t - self.search_typed_at < 0.3
-                    && self.disp_key.is_some();
+                let typing = self.model.rows.len() > 50_000 && t - self.search_typed_at < 0.3 && self.disp_key.is_some();
                 if typing {
-                    ui.ctx()
-                        .request_repaint_after(std::time::Duration::from_millis(120));
+                    ui.ctx().request_repaint_after(std::time::Duration::from_millis(120));
                 }
                 if self.disp_key.as_ref() != Some(&key) && !typing {
-                    self.disp = values_view::filter(
-                        &self.model,
-                        r,
-                        &self.search,
-                        self.settings.show_advanced,
-                        &self.collapsed,
-                    );
+                    self.disp = values_view::filter(&self.model, r, &self.search, self.settings.show_advanced, &self.collapsed);
                     self.disp_key = Some(key);
                 }
                 if self.disp.is_empty() {
@@ -2885,140 +2329,88 @@ impl App {
         let mut jump = None;
         let mut revert_all = false;
         let mut close = false;
-        egui::SidePanel::right("changes")
-            .default_width(320.0)
-            .min_width(260.0)
-            .show(ctx, |ui| {
-                let Some(d) = &self.doc else { return };
-                ui.add_space(6.0);
-                ui.horizontal(|ui| {
-                    ui.heading("Changes");
-                    ui.with_layout(egui::Layout::right_to_left(egui::Align::Center), |ui| {
-                        if ui.small_button("Close").clicked() {
-                            close = true;
-                        }
-                    });
+        egui::SidePanel::right("changes").default_width(320.0).min_width(260.0).show(ctx, |ui| {
+            let Some(d) = &self.doc else { return };
+            ui.add_space(6.0);
+            ui.horizontal(|ui| {
+                ui.heading("Changes");
+                ui.with_layout(egui::Layout::right_to_left(egui::Align::Center), |ui| {
+                    if ui.small_button("Close").clicked() {
+                        close = true;
+                    }
                 });
-                ui.weak("Since you opened or last saved this file.");
-                ui.add_space(4.0);
-                ScrollArea::vertical()
-                    .auto_shrink([false, false])
-                    .show(ui, |ui| match (&d.content, &d.baseline) {
-                        (Content::Binary(cur), Content::Binary(base)) => {
-                            let ranges = byte_ranges(cur, base);
-                            if ranges.is_empty() {
-                                ui.weak("No changes yet.");
+            });
+            ui.weak("Since you opened or last saved this file.");
+            ui.add_space(4.0);
+            ScrollArea::vertical().auto_shrink([false, false]).show(ui, |ui| match (&d.content, &d.baseline) {
+                (Content::Binary(cur), Content::Binary(base)) => {
+                    let ranges = byte_ranges(cur, base);
+                    if ranges.is_empty() {
+                        ui.weak("No changes yet.");
+                    }
+                    for (start, end) in ranges {
+                        theme::card(ui, |ui| {
+                            let name = self.hex.labels.get(&start).map(|l| l.name.clone()).unwrap_or(format!("Offset 0x{start:X}"));
+                            if ui.link(RichText::new(name).strong()).clicked() {
+                                self.hex.jump(start);
                             }
-                            for (start, end) in ranges {
-                                theme::card(ui, |ui| {
-                                    let name = self
-                                        .hex
-                                        .labels
-                                        .get(&start)
-                                        .map(|l| l.name.clone())
-                                        .unwrap_or(format!("Offset 0x{start:X}"));
-                                    if ui.link(RichText::new(name).strong()).clicked() {
-                                        self.hex.jump(start);
-                                    }
-                                    let hex = |b: &[u8]| {
-                                        b.iter()
-                                            .take(16)
-                                            .map(|x| format!("{x:02X}"))
-                                            .collect::<Vec<_>>()
-                                            .join(" ")
-                                    };
-                                    ui.label(
-                                        RichText::new(hex(&base[start..end]))
-                                            .weak()
-                                            .strikethrough()
-                                            .monospace(),
-                                    );
-                                    ui.label(
-                                        RichText::new(hex(&cur[start..end]))
-                                            .color(theme::MODIFIED)
-                                            .monospace(),
-                                    );
-                                    if ui.small_button("Revert").clicked() {
-                                        revert_bytes.push((start, base[start..end].to_vec()));
-                                    }
-                                });
+                            let hex = |b: &[u8]| b.iter().take(16).map(|x| format!("{x:02X}")).collect::<Vec<_>>().join(" ");
+                            ui.label(RichText::new(hex(&base[start..end])).weak().strikethrough().monospace());
+                            ui.label(RichText::new(hex(&cur[start..end])).color(theme::MODIFIED).monospace());
+                            if ui.small_button("Revert").clicked() {
+                                revert_bytes.push((start, base[start..end].to_vec()));
                             }
-                        }
-                        (Content::Text(a), Content::Text(b)) => {
-                            ui.weak(if a != b {
-                                "The text has been edited."
+                        });
+                    }
+                }
+                (Content::Text(a), Content::Text(b)) => {
+                    ui.weak(if a != b { "The text has been edited." } else { "No changes yet." });
+                }
+                (c, b) => {
+                    let (Some(cv), Some(bv)) = (root(c), root(b)) else { return };
+                    let changed: Vec<&String> = self.touched.iter().filter(|p| cv.pointer(p) != bv.pointer(p)).collect();
+                    if changed.is_empty() {
+                        ui.weak("No changes yet. Edited values are highlighted in orange.");
+                    }
+                    for ptr in changed {
+                        theme::card(ui, |ui| {
+                            if ptr.is_empty() {
+                                ui.label(RichText::new("Whole document (Raw JSON edit)").strong());
                             } else {
-                                "No changes yet."
-                            });
-                        }
-                        (c, b) => {
-                            let (Some(cv), Some(bv)) = (root(c), root(b)) else {
-                                return;
-                            };
-                            let changed: Vec<&String> = self
-                                .touched
-                                .iter()
-                                .filter(|p| cv.pointer(p) != bv.pointer(p))
-                                .collect();
-                            if changed.is_empty() {
-                                ui.weak("No changes yet. Edited values are highlighted in orange.");
-                            }
-                            for ptr in changed {
-                                theme::card(ui, |ui| {
-                                    if ptr.is_empty() {
-                                        ui.label(
-                                            RichText::new("Whole document (Raw JSON edit)")
-                                                .strong(),
-                                        );
-                                    } else {
-                                        let (name, context) =
-                                            match self.model.by_ptr.get(ptr.as_str()) {
-                                                Some(&i) => (
-                                                    self.model.rows[i].name.clone(),
-                                                    self.model.rows[i].context.clone(),
-                                                ),
-                                                None => (ptr.clone(), String::new()),
-                                            };
-                                        if ui
-                                            .link(RichText::new(&name).strong())
-                                            .on_hover_text("Show in list")
-                                            .clicked()
-                                        {
-                                            jump = self.model.by_ptr.get(ptr.as_str()).copied();
-                                        }
-                                        if !context.is_empty() {
-                                            ui.weak(context);
-                                        }
-                                        let old = bv
-                                            .pointer(ptr)
-                                            .map(widgets::display)
-                                            .unwrap_or_else(|| "(none)".into());
-                                        let new = cv
-                                            .pointer(ptr)
-                                            .map(widgets::display)
-                                            .unwrap_or_else(|| "(none)".into());
-                                        ui.horizontal_wrapped(|ui| {
-                                            ui.label(RichText::new(old).weak().strikethrough());
-                                            ui.label("\u{203A}");
-                                            ui.label(RichText::new(new).color(theme::MODIFIED));
-                                        });
-                                    }
-                                    if ui.small_button("Revert").clicked() {
-                                        if let Some(orig) = bv.pointer(ptr) {
-                                            revert.push((ptr.clone(), orig.clone()));
-                                        }
-                                    }
+                                let (name, context) = match self.model.by_ptr.get(ptr.as_str()) {
+                                    Some(&i) => (self.model.rows[i].name.clone(), self.model.rows[i].context.clone()),
+                                    None => (ptr.clone(), String::new()),
+                                };
+                                if ui.link(RichText::new(&name).strong()).on_hover_text("Show in list").clicked() {
+                                    jump = self.model.by_ptr.get(ptr.as_str()).copied();
+                                }
+                                if !context.is_empty() {
+                                    ui.weak(context);
+                                }
+                                let old = bv.pointer(ptr).map(widgets::display).unwrap_or_else(|| "(none)".into());
+                                let new = cv.pointer(ptr).map(widgets::display).unwrap_or_else(|| "(none)".into());
+                                ui.horizontal_wrapped(|ui| {
+                                    ui.label(RichText::new(old).weak().strikethrough());
+                                    ui.label("\u{203A}");
+                                    ui.label(RichText::new(new).color(theme::MODIFIED));
                                 });
                             }
-                        }
-                    });
-                if self.dirty {
-                    ui.separator();
-                    if ui.button("Revert all changes").clicked() {
-                        revert_all = true;
+                            if ui.small_button("Revert").clicked() {
+                                if let Some(orig) = bv.pointer(ptr) {
+                                    revert.push((ptr.clone(), orig.clone()));
+                                }
+                            }
+                        });
                     }
                 }
             });
+            if self.dirty {
+                ui.separator();
+                if ui.button("Revert all changes").clicked() {
+                    revert_all = true;
+                }
+            }
+        });
         for (p, v) in revert {
             self.apply_edit(p, v, f64::NEG_INFINITY);
         }
@@ -3054,39 +2446,22 @@ impl App {
         let mut byte_edit: Option<(usize, Vec<u8>)> = None;
         let mut status: Option<Result<String, String>> = None;
         // Cairn: the saves inside the slot pack, newest first.
-        let cairn: Option<(String, Vec<(String, String)>, usize)> =
-            self.doc.as_ref().and_then(|d| {
-                let current = d.layers.iter().find_map(|l| {
-                    if let Layer::Copeck { name, .. } = l {
-                        Some(name.clone())
-                    } else {
-                        None
-                    }
-                })?;
-                let mut saves: Vec<(String, String)> = d
-                    .zip_entries
-                    .iter()
-                    .filter_map(|e| cairn_save_label(e).map(|l| (e.clone(), l)))
-                    .collect();
-                // Dated saves newest first, then QUICK.SAV and any others.
-                saves.sort_by(|a, b| {
-                    let dated = |l: &str| l.starts_with(|c: char| c.is_ascii_digit());
-                    dated(&b.1).cmp(&dated(&a.1)).then(b.1.cmp(&a.1))
-                });
-                let others = d.zip_entries.len() - saves.len();
-                Some((current, saves, others))
+        let cairn: Option<(String, Vec<(String, String)>, usize)> = self.doc.as_ref().and_then(|d| {
+            let current = d.layers.iter().find_map(|l| if let Layer::Copeck { name, .. } = l { Some(name.clone()) } else { None })?;
+            let mut saves: Vec<(String, String)> = d.zip_entries.iter().filter_map(|e| cairn_save_label(e).map(|l| (e.clone(), l))).collect();
+            // Dated saves newest first, then QUICK.SAV and any others.
+            saves.sort_by(|a, b| {
+                let dated = |l: &str| l.starts_with(|c: char| c.is_ascii_digit());
+                dated(&b.1).cmp(&dated(&a.1)).then(b.1.cmp(&a.1))
             });
+            let others = d.zip_entries.len() - saves.len();
+            Some((current, saves, others))
+        });
         let mut open_entry: Option<String> = None;
         // Beside the grid on a wide window; under it on a narrow one, so the bytes keep the width.
         let wide = ctx.screen_rect().width() >= 900.0;
         let body = |ui: &mut egui::Ui| {
-            let Some(Doc {
-                content: Content::Binary(data),
-                ..
-            }) = &self.doc
-            else {
-                return;
-            };
+            let Some(Doc { content: Content::Binary(data), .. }) = &self.doc else { return };
             let h = &mut self.hex;
             ScrollArea::vertical().auto_shrink([false, false]).show(ui, |ui| {
                 ui.add_space(6.0);
@@ -3322,17 +2697,10 @@ impl App {
             });
         };
         if wide {
-            egui::SidePanel::right("hex_tools")
-                .default_width(340.0)
-                .min_width(300.0)
-                .show(ctx, body);
+            egui::SidePanel::right("hex_tools").default_width(340.0).min_width(300.0).show(ctx, body);
         } else {
             let h = ctx.screen_rect().height() * 0.42;
-            egui::TopBottomPanel::bottom("hex_tools_bottom")
-                .resizable(true)
-                .default_height(h)
-                .min_height(120.0)
-                .show(ctx, body);
+            egui::TopBottomPanel::bottom("hex_tools_bottom").resizable(true).default_height(h).min_height(120.0).show(ctx, body);
         }
         if let Some((o, b)) = byte_edit {
             self.apply_bytes(o, b);
@@ -3475,25 +2843,12 @@ impl App {
 /// The labels sort by date.
 pub(crate) fn cairn_save_label(entry: &str) -> Option<String> {
     let name = entry.strip_prefix("SAVEGAMES/")?.strip_suffix(".SAV")?;
-    if let Some(stamp) = name
-        .rsplit('_')
-        .nth(1)
-        .zip(name.rsplit('_').next())
-        .filter(|_| name.contains('_'))
-    {
+    if let Some(stamp) = name.rsplit('_').nth(1).zip(name.rsplit('_').next()).filter(|_| name.contains('_')) {
         let (date, time) = stamp;
         if date.len() == 10 && time.len() == 8 {
             let kind = name.split('_').next().unwrap_or("").to_lowercase();
-            let kind = if kind == "auto" {
-                "auto".to_string()
-            } else {
-                kind
-            };
-            return Some(format!(
-                "{} {} ({kind})",
-                date.replace('.', "-"),
-                time.replace('.', ":")
-            ));
+            let kind = if kind == "auto" { "auto".to_string() } else { kind };
+            return Some(format!("{} {} ({kind})", date.replace('.', "-"), time.replace('.', ":")));
         }
     }
     Some(match name {
@@ -3506,27 +2861,19 @@ pub(crate) fn cairn_save_label(entry: &str) -> Option<String> {
 fn friendly_kind(layers: &[Layer], content: &Content) -> String {
     match content {
         Content::Tree(t) => t.kind_name.clone(),
-        Content::Json { value, .. } if layers.iter().any(|l| matches!(l, Layer::Rgg(_))) => value
-            .pointer("/base/m_title")
-            .and_then(|t| t.as_str())
-            .map(|t| format!("{t} save"))
-            .unwrap_or_else(|| "Yakuza save".into()),
+        Content::Json { value, .. } if layers.iter().any(|l| matches!(l, Layer::Rgg(_))) => {
+            value.pointer("/base/m_title").and_then(|t| t.as_str()).map(|t| format!("{t} save")).unwrap_or_else(|| "Yakuza save".into())
+        }
         Content::Json { .. } if layers.contains(&Layer::LzString) => "RPG Maker MV".into(),
         Content::Json { .. } if layers.contains(&Layer::RpgMzZlib) => "RPG Maker MZ".into(),
         Content::Json { value, .. } if names::is_rpgmaker(value) => "RPG Maker".into(),
-        Content::Binary(_) if layers.iter().any(|l| matches!(l, Layer::Copeck { .. })) => {
-            "Cairn save".into()
-        }
+        Content::Binary(_) if layers.iter().any(|l| matches!(l, Layer::Copeck { .. })) => "Cairn save".into(),
         Content::Binary(_) => match layers.last() {
-            Some(Layer::Mandarin { game, .. }) => {
-                format!("{} save", crate::fmt::mandarin::GAMES[*game].title)
-            }
+            Some(Layer::Mandarin { game, .. }) => format!("{} save", crate::fmt::mandarin::GAMES[*game].title),
             Some(Layer::Lime { .. }) => "Resident Evil 4 save".into(),
             Some(Layer::Citrus { .. }) => "Monster Hunter Rise save".into(),
             Some(Layer::Civ5 { .. }) => "Civilization V save".into(),
-            Some(Layer::Cdpr { prefix, .. }) if prefix.starts_with(b"VASC") => {
-                "Cyberpunk 2077 save".into()
-            }
+            Some(Layer::Cdpr { prefix, .. }) if prefix.starts_with(b"VASC") => "Cyberpunk 2077 save".into(),
             Some(Layer::Cdpr { .. }) => "The Witcher 3 save".into(),
             Some(Layer::Bnd4 { .. }) => "FromSoftware save".into(),
             _ => "Binary (hex)".into(),
@@ -3545,9 +2892,7 @@ fn file_name(p: &Path) -> String {
     if let Some(n) = crate::xgp::logical_name(p) {
         return format!("{n} (Xbox app)");
     }
-    p.file_name()
-        .map(|n| n.to_string_lossy().into_owned())
-        .unwrap_or_else(|| p.display().to_string())
+    p.file_name().map(|n| n.to_string_lossy().into_owned()).unwrap_or_else(|| p.display().to_string())
 }
 
 pub(crate) fn human_size(n: usize) -> String {
@@ -3571,14 +2916,11 @@ fn byte_ranges(a: &[u8], b: &[u8]) -> Vec<(usize, usize)> {
 }
 
 fn type_combo(ui: &mut egui::Ui, id: &str, ty: &mut NumType) {
-    egui::ComboBox::from_id_salt(id)
-        .selected_text(ty.name())
-        .width(120.0)
-        .show_ui(ui, |ui| {
-            for t in NumType::ALL {
-                ui.selectable_value(ty, t, t.name());
-            }
-        });
+    egui::ComboBox::from_id_salt(id).selected_text(ty.name()).width(120.0).show_ui(ui, |ui| {
+        for t in NumType::ALL {
+            ui.selectable_value(ty, t, t.name());
+        }
+    });
 }
 
 impl eframe::App for App {
@@ -3600,12 +2942,7 @@ impl eframe::App for App {
         #[cfg(target_arch = "wasm32")]
         {
             // The browser hands over the dropped file's contents, not a path.
-            if let Some((name, bytes)) = ctx.input(|i| {
-                i.raw
-                    .dropped_files
-                    .iter()
-                    .find_map(|f| Some((f.name.clone(), f.bytes.clone()?)))
-            }) {
+            if let Some((name, bytes)) = ctx.input(|i| i.raw.dropped_files.iter().find_map(|f| Some((f.name.clone(), f.bytes.clone()?)))) {
                 let p = crate::web::keep(&name, &bytes);
                 self.request_open(p);
             }
@@ -3621,30 +2958,17 @@ impl eframe::App for App {
         if ctx.input_mut(|i| i.consume_key(egui::Modifiers::COMMAND, egui::Key::O)) {
             self.ask(Ask::Open, None, None);
         }
-        if self.doc.is_some()
-            && ctx.input_mut(|i| i.consume_key(egui::Modifiers::COMMAND, egui::Key::S))
-        {
+        if self.doc.is_some() && ctx.input_mut(|i| i.consume_key(egui::Modifiers::COMMAND, egui::Key::S)) {
             self.save_clicked();
         }
-        let structured = self
-            .doc
-            .as_ref()
-            .is_some_and(|d| root(&d.content).is_some());
+        let structured = self.doc.as_ref().is_some_and(|d| root(&d.content).is_some());
         if structured && ctx.input_mut(|i| i.consume_key(egui::Modifiers::COMMAND, egui::Key::F)) {
             self.focus_search = true;
-            self.tab = if self.tab == Tab::Raw {
-                Tab::Raw
-            } else {
-                Tab::Values
-            };
+            self.tab = if self.tab == Tab::Raw { Tab::Raw } else { Tab::Values };
         }
         if no_text_focus {
-            if ctx.input_mut(|i| {
-                i.consume_key(
-                    egui::Modifiers::COMMAND | egui::Modifiers::SHIFT,
-                    egui::Key::Z,
-                )
-            }) || ctx.input_mut(|i| i.consume_key(egui::Modifiers::COMMAND, egui::Key::Y))
+            if ctx.input_mut(|i| i.consume_key(egui::Modifiers::COMMAND | egui::Modifiers::SHIFT, egui::Key::Z))
+                || ctx.input_mut(|i| i.consume_key(egui::Modifiers::COMMAND, egui::Key::Y))
             {
                 self.undo_redo(false);
             } else if ctx.input_mut(|i| i.consume_key(egui::Modifiers::COMMAND, egui::Key::Z)) {
@@ -3664,12 +2988,7 @@ impl eframe::App for App {
         }
 
         let title = match &self.doc {
-            Some(d) => format!(
-                "{}{} \u{2014} {}",
-                if self.dirty { "\u{2022} " } else { "" },
-                file_name(&d.path),
-                platform::DISPLAY_NAME
-            ),
+            Some(d) => format!("{}{} \u{2014} {}", if self.dirty { "\u{2022} " } else { "" }, file_name(&d.path), platform::DISPLAY_NAME),
             None => platform::DISPLAY_NAME.into(),
         };
         if title != self.window_title {
@@ -3712,37 +3031,17 @@ impl eframe::App for App {
             None => self.welcome(ui),
             Some('s') => self.structured_panel(ui, now),
             Some('t') => {
-                let Some(Doc {
-                    content: Content::Text(text),
-                    ..
-                }) = &mut self.doc
-                else {
-                    return;
-                };
+                let Some(Doc { content: Content::Text(text), .. }) = &mut self.doc else { return };
                 let changed = ScrollArea::both()
                     .auto_shrink([false, false])
-                    .show(ui, |ui| {
-                        ui.add(
-                            TextEdit::multiline(text)
-                                .code_editor()
-                                .desired_width(f32::INFINITY),
-                        )
-                        .changed()
-                    })
+                    .show(ui, |ui| ui.add(TextEdit::multiline(text).code_editor().desired_width(f32::INFINITY)).changed())
                     .inner;
                 if changed {
                     self.recompute_dirty();
                 }
             }
             _ => {
-                let Some(Doc {
-                    content: Content::Binary(data),
-                    baseline: Content::Binary(base),
-                    ..
-                }) = &self.doc
-                else {
-                    return;
-                };
+                let Some(Doc { content: Content::Binary(data), baseline: Content::Binary(base), .. }) = &self.doc else { return };
                 if data.is_empty() {
                     ui.weak("(empty file)");
                 } else {
@@ -3755,19 +3054,10 @@ impl eframe::App for App {
         if let Some(path) = self.pending_open.clone() {
             let mut choice = None;
             modal(ctx, "Unsaved changes", |ui| {
-                ui.label(format!(
-                    "You have unsaved changes. Save them before opening {}?",
-                    file_name(&path)
-                ));
+                ui.label(format!("You have unsaved changes. Save them before opening {}?", file_name(&path)));
                 ui.add_space(8.0);
                 ui.horizontal(|ui| {
-                    if ui
-                        .add(
-                            egui::Button::new(RichText::new("Save").color(Color32::WHITE))
-                                .fill(theme::ACCENT),
-                        )
-                        .clicked()
-                    {
+                    if ui.add(egui::Button::new(RichText::new("Save").color(Color32::WHITE)).fill(theme::ACCENT)).clicked() {
                         choice = Some(0);
                     }
                     if ui.button("Don't save").clicked() {
@@ -3819,15 +3109,7 @@ impl eframe::App for App {
                 ui.label("You have unsaved changes. Save them before closing?");
                 ui.add_space(8.0);
                 ui.horizontal(|ui| {
-                    if ui
-                        .add(
-                            egui::Button::new(
-                                RichText::new("Save and close").color(Color32::WHITE),
-                            )
-                            .fill(theme::ACCENT),
-                        )
-                        .clicked()
-                    {
+                    if ui.add(egui::Button::new(RichText::new("Save and close").color(Color32::WHITE)).fill(theme::ACCENT)).clicked() {
                         choice = Some(0);
                     }
                     if ui.button("Close without saving").clicked() {
@@ -3882,14 +3164,10 @@ fn write_in_place(path: &Path, bytes: &[u8]) -> Result<(), String> {
 
 fn modal(ctx: &egui::Context, title: &str, add: impl FnOnce(&mut egui::Ui)) {
     let screen = ctx.screen_rect();
-    egui::Area::new(egui::Id::new("modal_dim"))
-        .fixed_pos(screen.min)
-        .order(egui::Order::Middle)
-        .show(ctx, |ui| {
-            ui.allocate_response(screen.size(), egui::Sense::click());
-            ui.painter()
-                .rect_filled(screen, 0.0, Color32::from_black_alpha(140));
-        });
+    egui::Area::new(egui::Id::new("modal_dim")).fixed_pos(screen.min).order(egui::Order::Middle).show(ctx, |ui| {
+        ui.allocate_response(screen.size(), egui::Sense::click());
+        ui.painter().rect_filled(screen, 0.0, Color32::from_black_alpha(140));
+    });
     egui::Window::new(title)
         .collapsible(false)
         .resizable(false)
@@ -3905,19 +3183,14 @@ fn modal(ctx: &egui::Context, title: &str, add: impl FnOnce(&mut egui::Ui)) {
 fn self_shot(ctx: &egui::Context) {
     use std::sync::atomic::{AtomicBool, Ordering};
     static ASKED: AtomicBool = AtomicBool::new(false);
-    let Some(out) = std::env::var_os("SAVE_EDITOR_SHOT") else {
-        return;
-    };
+    let Some(out) = std::env::var_os("SAVE_EDITOR_SHOT") else { return };
     for e in ctx.input(|i| i.raw.events.clone()) {
         if let egui::Event::Screenshot { image, .. } = e {
             let _ = std::fs::write(&out, png(&image));
             ctx.send_viewport_cmd(egui::ViewportCommand::Close);
         }
     }
-    let after: f64 = std::env::var("SAVE_EDITOR_SHOT_AFTER")
-        .ok()
-        .and_then(|s| s.parse().ok())
-        .unwrap_or(4.0);
+    let after: f64 = std::env::var("SAVE_EDITOR_SHOT_AFTER").ok().and_then(|s| s.parse().ok()).unwrap_or(4.0);
     if ctx.input(|i| i.time) > after && !ASKED.swap(true, Ordering::SeqCst) {
         ctx.send_viewport_cmd(egui::ViewportCommand::Screenshot);
     }
@@ -3963,14 +3236,8 @@ fn png(img: &egui::ColorImage) -> Vec<u8> {
 mod cairn_label_tests {
     #[test]
     fn labels() {
-        assert_eq!(
-            super::cairn_save_label("SAVEGAMES/AUTO_INPACK_2026.02.08_16.58.55.SAV").unwrap(),
-            "2026-02-08 16:58:55 (auto)"
-        );
-        assert_eq!(
-            super::cairn_save_label("SAVEGAMES/QUICK.SAV").unwrap(),
-            "QUICK.SAV (written by the game)"
-        );
+        assert_eq!(super::cairn_save_label("SAVEGAMES/AUTO_INPACK_2026.02.08_16.58.55.SAV").unwrap(), "2026-02-08 16:58:55 (auto)");
+        assert_eq!(super::cairn_save_label("SAVEGAMES/QUICK.SAV").unwrap(), "QUICK.SAV (written by the game)");
         assert!(super::cairn_save_label("PATHS/FRAG_1").is_none());
     }
 }

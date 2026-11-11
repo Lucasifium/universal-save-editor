@@ -32,9 +32,7 @@ fn chunk(d: &[u8], i: usize) -> Option<(Vec<u8>, usize, usize)> {
     for k in 0..n {
         let (c, r) = (u32_at(d, i + 16 + 8 * k)?, u32_at(d, i + 20 + 8 * k)?);
         let before = out.len();
-        flate2::read::ZlibDecoder::new(d.get(q..q + c)?)
-            .read_to_end(&mut out)
-            .ok()?;
+        flate2::read::ZlibDecoder::new(d.get(q..q + c)?).read_to_end(&mut out).ok()?;
         if out.len() - before != r {
             return None;
         }
@@ -53,9 +51,7 @@ pub fn unpack(d: &[u8]) -> Option<(Chunks, Vec<u8>)> {
     let mut q = 16;
     while let Some(i) = d[q..].windows(4).position(|w| w == MAGIC).map(|i| i + q) {
         q = i + 4;
-        let Some((raw, bs, end)) = chunk(d, i) else {
-            continue;
-        };
+        let Some((raw, bs, end)) = chunk(d, i) else { continue };
         view.extend(&d[p..i - 4]);
         chunks.push((view.len(), raw.len(), bs));
         view.extend(raw);
@@ -78,21 +74,12 @@ pub fn pack(chunks: &Chunks, view: &[u8]) -> Result<Vec<u8>, String> {
         let blocks: Vec<Vec<u8>> = data
             .chunks(bs)
             .map(|b| {
-                let mut z =
-                    flate2::write::ZlibEncoder::new(Vec::new(), flate2::Compression::default());
+                let mut z = flate2::write::ZlibEncoder::new(Vec::new(), flate2::Compression::default());
                 z.write_all(b).unwrap();
                 z.finish().unwrap()
             })
             .collect();
-        let blocks = if blocks.is_empty() {
-            vec![
-                flate2::write::ZlibEncoder::new(Vec::new(), flate2::Compression::default())
-                    .finish()
-                    .unwrap(),
-            ]
-        } else {
-            blocks
-        };
+        let blocks = if blocks.is_empty() { vec![flate2::write::ZlibEncoder::new(Vec::new(), flate2::Compression::default()).finish().unwrap()] } else { blocks };
         let packed: usize = blocks.iter().map(Vec::len).sum();
         out.extend(((16 + 8 * blocks.len() + packed) as u32).to_le_bytes());
         out.extend(MAGIC);

@@ -81,21 +81,15 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
     while let Some(i) = d[p..].windows(3).position(|w| w == b"SGD").map(|i| i + p) {
         p = i + 4;
         let tag = d.get(i + 3).copied();
-        let (Some(size), Some(body)) = (u32_at(d, i + 8), Some(i + 12)) else {
-            continue;
-        };
+        let (Some(size), Some(body)) = (u32_at(d, i + 8), Some(i + 12)) else { continue };
         let end = body + size;
         if end > d.len() {
             continue;
         }
         match tag {
             Some(b'd') => {
-                let Some(idx) = u32_at(d, i + 12) else {
-                    continue;
-                };
-                let Some((name, mut q)) = string(d, i + 24) else {
-                    continue;
-                };
+                let Some(idx) = u32_at(d, i + 12) else { continue };
+                let Some((name, mut q)) = string(d, i + 24) else { continue };
                 let Some(n) = u32_at(d, q) else { continue };
                 q += 4;
                 let mut fields = vec![];
@@ -113,12 +107,8 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
                 p = end;
             }
             Some(b's') => {
-                let Some(c) = u32_at(d, body + 8) else {
-                    continue;
-                };
-                let Some((cname, fields)) = classes.get(&c) else {
-                    continue;
-                };
+                let Some(c) = u32_at(d, body + 8) else { continue };
+                let Some((cname, fields)) = classes.get(&c) else { continue };
                 // Objects with a name (skills, buffs, items) are listed under it.
                 let mut q = body + 16;
                 let mut vals: Vec<(String, Val, usize)> = vec![];
@@ -134,11 +124,7 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
                     q = e;
                 }
                 let label = vals.iter().find_map(|(f, v, _)| match v {
-                    Val::Text(s)
-                        if (f == "m_NameId" || f == "m_Type" || f == "m_Name") && !s.is_empty() =>
-                    {
-                        Some(s.clone())
-                    }
+                    Val::Text(s) if (f == "m_NameId" || f == "m_Type" || f == "m_Name") && !s.is_empty() => Some(s.clone()),
                     _ => None,
                 });
                 let short = cname.rsplit("::").next().unwrap_or(cname).to_string();
@@ -193,16 +179,7 @@ mod tests {
     fn real_save() {
         let d = std::fs::read(std::env::var("SAVE_EDITOR_SGD").unwrap()).unwrap();
         let doc = super::parse(&d).unwrap();
-        println!(
-            "{} editable; classes {:?}",
-            doc.editable.len(),
-            doc.view
-                .as_object()
-                .unwrap()
-                .keys()
-                .take(60)
-                .collect::<Vec<_>>()
-        );
+        println!("{} editable; classes {:?}", doc.editable.len(), doc.view.as_object().unwrap().keys().take(60).collect::<Vec<_>>());
         println!("cash {:?}", doc.view.pointer("/Group/Main/Cash"));
         println!("{:?}", doc.view.pointer("/Bucket"));
         assert_eq!(doc.to_bytes().unwrap(), d);
@@ -216,18 +193,8 @@ mod peek {
     fn items() {
         let d = std::fs::read(std::env::var("SAVE_EDITOR_SGD").unwrap()).unwrap();
         let doc = super::parse(&d).unwrap();
-        for k in [
-            "Item",
-            "ItemContainer",
-            "HealthState",
-            "State",
-            "QuickSlots",
-        ] {
-            let v = doc
-                .view
-                .get(k)
-                .map(|v| serde_json::to_string(v).unwrap())
-                .unwrap_or_default();
+        for k in ["Item", "ItemContainer", "HealthState", "State", "QuickSlots"] {
+            let v = doc.view.get(k).map(|v| serde_json::to_string(v).unwrap()).unwrap_or_default();
             println!("{k}: {}", v.chars().take(700).collect::<String>());
         }
     }

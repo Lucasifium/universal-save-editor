@@ -27,16 +27,11 @@ pub fn adler32(d: &[u8]) -> u32 {
 
 /// Split a save into (header before the state length, decompressed state).
 pub fn open(d: &[u8]) -> Option<(Vec<u8>, Vec<u8>)> {
-    if !d.starts_with(b"SGB1")
-        || d.len() < 16
-        || adler32(&d[8..]) != u32::from_le_bytes(d[4..8].try_into().ok()?)
-    {
+    if !d.starts_with(b"SGB1") || d.len() < 16 || adler32(&d[8..]) != u32::from_le_bytes(d[4..8].try_into().ok()?) {
         return None;
     }
     // The state is the last field: a u32 length covering the rest of the file.
-    let p = (8..d.len().min(1 << 16) - 4).find(|&p| {
-        u32::from_le_bytes(d[p..p + 4].try_into().unwrap()) as usize == d.len() - p - 4
-    })?;
+    let p = (8..d.len().min(1 << 16) - 4).find(|&p| u32::from_le_bytes(d[p..p + 4].try_into().unwrap()) as usize == d.len() - p - 4)?;
     let body = &d[p + 4..];
     let mut out = vec![0u8; (body.len() * 40).clamp(1 << 20, 256 << 20)];
     let n = lz4_flex::block::decompress_into(body, &mut out).ok()?;
@@ -104,11 +99,7 @@ impl P<'_> {
                 let b = self.d.get(self.i..self.i + 8).ok_or("unexpected end")?;
                 self.i += 8;
                 let f = f64::from_le_bytes(b.try_into().unwrap());
-                let v = if f.fract() == 0.0 && f.abs() < 9e15 {
-                    Value::from(f as i64)
-                } else {
-                    num(f)
-                };
+                let v = if f.fract() == 0.0 && f.abs() < 9e15 { Value::from(f as i64) } else { num(f) };
                 (v, Some(Kind::Num))
             }
             b'S' => (Value::String(self.str_body()?), Some(Kind::Str)),
@@ -137,11 +128,7 @@ impl P<'_> {
         };
         if let (Some(p), Some(kind)) = (ptr, kind) {
             self.editable.insert(p.to_string(), self.spans.len());
-            self.spans.push(Span {
-                start,
-                end: self.i,
-                kind,
-            });
+            self.spans.push(Span { start, end: self.i, kind });
         }
         Ok(v)
     }
@@ -159,13 +146,9 @@ impl Backend for LuabinsBackend {
         for (leaf, v) in changes {
             let s = &self.spans[*leaf];
             let bytes = match (s.kind, v) {
-                (Kind::Num, Value::Number(n)) => {
-                    [&[b'N'][..], &n.as_f64().ok_or("bad number")?.to_le_bytes()].concat()
-                }
+                (Kind::Num, Value::Number(n)) => [&[b'N'][..], &n.as_f64().ok_or("bad number")?.to_le_bytes()].concat(),
                 (Kind::Bool, Value::Bool(b)) => vec![if *b { b'1' } else { b'0' }],
-                (Kind::Str, Value::String(t)) => {
-                    [&[b'S'][..], &(t.len() as u32).to_le_bytes(), t.as_bytes()].concat()
-                }
+                (Kind::Str, Value::String(t)) => [&[b'S'][..], &(t.len() as u32).to_le_bytes(), t.as_bytes()].concat(),
                 _ => return Err("this value has to keep its type".into()),
             };
             p.add(s.start, s.end, bytes);
@@ -175,9 +158,7 @@ impl Backend for LuabinsBackend {
 
     fn check(&self, leaf: usize, v: &Value) -> Result<(), String> {
         match (self.spans[leaf].kind, v) {
-            (Kind::Num, Value::Number(_))
-            | (Kind::Bool, Value::Bool(_))
-            | (Kind::Str, Value::String(_)) => Ok(()),
+            (Kind::Num, Value::Number(_)) | (Kind::Bool, Value::Bool(_)) | (Kind::Str, Value::String(_)) => Ok(()),
             _ => Err("this value has to keep its type".into()),
         }
     }
@@ -189,39 +170,22 @@ impl Backend for LuabinsBackend {
 
 pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
     let count = *d.first().ok_or("empty")? as usize;
-    let mut p = P {
-        d,
-        i: 1,
-        spans: vec![],
-        editable: HashMap::new(),
-        depth: 0,
-    };
+    let mut p = P { d, i: 1, spans: vec![], editable: HashMap::new(), depth: 0 };
     let mut root = Map::new();
     for n in 0..count {
-        let key = if count == 1 {
-            "Game state".to_string()
-        } else {
-            format!("Value {}", n + 1)
-        };
+        let key = if count == 1 { "Game state".to_string() } else { format!("Value {}", n + 1) };
         let v = p.value(Some(&child("", &key)))?;
         root.insert(key, v);
     }
     if p.i != d.len() {
         return Err("unexpected data after the game state".into());
     }
-    let backend = LuabinsBackend {
-        raw: d.to_vec(),
-        spans: p.spans,
-    };
+    let backend = LuabinsBackend { raw: d.to_vec(), spans: p.spans };
     // Unwrap a single table so its fields become the top-level sections.
     let (view, editable) = match root.into_iter().next() {
         Some((k, Value::Object(m))) if count == 1 => {
             let prefix = child("", &k);
-            let editable = p
-                .editable
-                .into_iter()
-                .map(|(ptr, l)| (ptr[prefix.len()..].to_string(), l))
-                .collect();
+            let editable = p.editable.into_iter().map(|(ptr, l)| (ptr[prefix.len()..].to_string(), l)).collect();
             (Value::Object(m), editable)
         }
         Some((k, v)) => (Value::Object(Map::from_iter([(k, v)])), p.editable),
@@ -266,12 +230,7 @@ mod tests {
     #[test]
     #[ignore]
     fn real_hades_saves() {
-        let dir = std::env::var("HADES_SAVES").unwrap_or_else(|_| {
-            format!(
-                "{}\\Saved Games\\Hades II",
-                std::env::var("USERPROFILE").unwrap()
-            )
-        });
+        let dir = std::env::var("HADES_SAVES").unwrap_or_else(|_| format!("{}\\Saved Games\\Hades II", std::env::var("USERPROFILE").unwrap()));
         for e in std::fs::read_dir(dir).unwrap().flatten() {
             let p = e.path();
             if !p.to_string_lossy().ends_with(".sav") {
@@ -283,13 +242,7 @@ mod tests {
                 continue;
             };
             let doc = parse(&state).unwrap();
-            println!(
-                "{} header {} state {} leaves {}",
-                p.display(),
-                h.len(),
-                state.len(),
-                doc.editable.len()
-            );
+            println!("{} header {} state {} leaves {}", p.display(), h.len(), state.len(), doc.editable.len());
             assert_eq!(doc.to_bytes().unwrap(), state);
             let again = open(&close(&h, &state)).unwrap();
             assert_eq!(again.1, state);
