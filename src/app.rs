@@ -34,6 +34,8 @@ enum Ask {
     SaveAs,
     Export,
     Compare,
+    BackupDir,
+    Import,
 }
 
 #[derive(PartialEq, Eq, Clone, Copy)]
@@ -228,6 +230,8 @@ pub struct App {
     password_prompt: Option<String>,
     /// Checksums found by Tools › Find checksum, while their window is open.
     sum_hits: Option<Vec<crate::fmt::sumfind::Sum>>,
+    /// The name being typed for a kept copy (File › Restore previous version › Keep a copy).
+    backup_name: Option<String>,
     compare: Option<Compare>,
     save_review: Option<SaveReview>,
     copy_slots: Option<CopySlots>,
@@ -249,6 +253,7 @@ pub struct App {
 impl App {
     pub fn new(cc: &eframe::CreationContext<'_>, initial: Option<PathBuf>) -> Self {
         let settings = Settings::load();
+        crate::backups::set_root(settings.backup_dir.clone());
         let has_icons = theme::install_fonts(&cc.egui_ctx);
         theme::apply(&cc.egui_ctx, settings.dark);
         cc.egui_ctx.set_zoom_factor(settings.zoom);
@@ -286,6 +291,7 @@ impl App {
             hex: HexState::default(),
             password_prompt: None,
             sum_hits: None,
+            backup_name: None,
             compare: None,
             save_review: None,
             copy_slots: None,
@@ -342,6 +348,8 @@ impl App {
             Ask::SaveAs => ("Save a copy as", file_browser::Mode::SaveFile),
             Ask::Export => ("Export decoded data as", file_browser::Mode::SaveFile),
             Ask::Compare => ("Compare with which save?", file_browser::Mode::OpenFile),
+            Ask::BackupDir => ("Keep backups in which folder?", file_browser::Mode::Folder),
+            Ask::Import => ("Import which edited data?", file_browser::Mode::OpenFile),
         };
         #[cfg(target_os = "android")]
         {
@@ -386,6 +394,13 @@ impl App {
             Ask::SaveAs => self.save_to(&p),
             Ask::Export => self.export_to(&p),
             Ask::Compare => self.compare_with(p),
+            Ask::Import => self.import_from(&p),
+            Ask::BackupDir => {
+                crate::backups::set_root(Some(p.clone()));
+                self.ok(format!("Backups now go to {}. Earlier ones stay where they were.", p.display()));
+                self.settings.backup_dir = Some(p);
+                self.settings.save();
+            }
         }
     }
 
@@ -1280,6 +1295,31 @@ impl App {
         self.ask(Ask::Export, None, Some(format!("{stem}.decoded.{ext}")));
     }
 
+    fn import_from(&mut self, src: &Path) {
+        if self.dirty {
+            return self.fail("Save or revert your changes before importing.");
+        }
+        let Some(doc) = &self.doc else { return };
+        let payload = match crate::vfs::read(src) {
+            Ok(b) => b,
+            Err(e) => return self.fail(format!("Couldn't read {}: {e}", src.display())),
+        };
+        let bytes = match formats::encode(&doc.layers, &Content::Binary(payload)) {
+            Ok(b) => b,
+            Err(e) => return self.fail(format!("Couldn't pack the imported data: {e}")),
+        };
+        let check = formats::decode_with(&bytes, &doc.opts);
+        if !formats::same_layers(&check.layers, &doc.layers) || std::mem::discriminant(&check.content) != std::mem::discriminant(&doc.content) {
+            return self.fail("The imported data doesn't pack back into this kind of save (wrong file, or edited into another format).");
+        }
+        let d = self.doc.as_mut().unwrap();
+        d.content = check.content;
+        self.rebuild_model();
+        self.edit_gen += 1;
+        self.recompute_dirty();
+        self.ok(format!("Imported {}. Review the changes, then save.", file_name(src)));
+    }
+
     fn export_to(&mut self, dest: &Path) {
         let Some(doc) = &self.doc else { return };
         let result = match &doc.content {
@@ -1393,23 +1433,67 @@ impl App {
                 });
                 let versions = self.doc.as_ref().map(|d| crate::backups::list(&d.path)).unwrap_or_default();
                 let has_bak = bak.as_ref().is_some_and(|b| b.exists());
-                ui.add_enabled_ui(has_bak || !versions.is_empty(), |ui| {
+                let on_disk = !WEB && self.doc.as_ref().is_some_and(|d| d.path.is_file());
+                ui.add_enabled_ui(has_bak || !versions.is_empty() || on_disk, |ui| {
                     ui.menu_button("Restore previous version", |ui| {
                         ui.weak("Taken each time this app saved over the file.");
+                        ui.weak("Named copies are kept for good; the 30 newest others are kept.");
+                        if !WEB && ui.button("Keep a named copy of the file now\u{2026}").clicked() {
+                            ui.close_menu();
+                            self.backup_name = Some(String::new());
+                        }
+                        ui.separator();
                         let mut pick = None;
+                        let mut compare = None;
+                        let mut unlock = None;
                         ScrollArea::vertical().max_height(360.0).show(ui, |ui| {
-                            for v in &versions {
-                                let label = format!("{} ({})", crate::backups::describe(v.when), human_size(v.size as usize));
-                                if ui.button(label).clicked() {
-                                    pick = Some((v.path.clone(), format!("the version from {}", crate::backups::describe(v.when))));
-                                }
+                            for (i, v) in versions.iter().enumerate() {
+                                ui.horizontal(|ui| {
+                                    let when = crate::backups::describe(v.when);
+                                    let label = match &v.name {
+                                        Some(n) => format!("\u{201C}{n}\u{201D} \u{2014} {when} ({})", human_size(v.size as usize)),
+                                        None => format!("{when} ({})", human_size(v.size as usize)),
+                                    };
+                                    if ui.button(label).on_hover_text("Put this version back").clicked() {
+                                        pick = Some((v.path.clone(), format!("the version from {when}")));
+                                    }
+                                    if ui.small_button("Compare").on_hover_text("List what differs between this version and the open file").clicked() {
+                                        compare = Some(v.path.clone());
+                                    }
+                                    if v.name.is_some() && ui.small_button("Unname").on_hover_text("Let this copy be cleared out in time like the others").clicked() {
+                                        unlock = Some(i);
+                                    }
+                                });
                             }
                         });
+                        if let Some(p) = compare {
+                            ui.close_menu();
+                            self.compare_with(p);
+                        }
+                        if let Some(i) = unlock {
+                            if let Err(e) = crate::backups::unlock(&versions[i]) {
+                                self.fail(format!("Couldn't change that copy: {e}"));
+                            }
+                        }
                         if has_bak {
                             ui.separator();
                             if ui.button("The original, from before the first save (.bak)").clicked() {
                                 pick = bak.clone().map(|b| (b, "the original".to_string()));
                             }
+                        }
+                        if !WEB && !cfg!(target_os = "android") {
+                            ui.separator();
+                            ui.horizontal(|ui| {
+                                if ui.button("Keep backups in another folder\u{2026}").clicked() {
+                                    ui.close_menu();
+                                    self.ask(Ask::BackupDir, self.settings.backup_dir.clone(), None);
+                                }
+                                if self.settings.backup_dir.is_some() && ui.small_button("Back to the default folder").clicked() {
+                                    crate::backups::set_root(None);
+                                    self.settings.backup_dir = None;
+                                    self.settings.save();
+                                }
+                            });
                         }
                         if let Some(dir) = self.doc.as_ref().and_then(|d| crate::backups::folder(&d.path)) {
                             if dir.is_dir() {
@@ -1432,6 +1516,15 @@ impl App {
                 if ui.add_enabled(has, egui::Button::new("Export decoded data\u{2026}")).clicked() {
                     ui.close_menu();
                     self.export_decoded();
+                }
+                let importable = matches!(self.doc.as_ref().map(|d| &d.content), Some(Content::Binary(_) | Content::Text(_) | Content::Json { .. }));
+                if ui
+                    .add_enabled(importable, egui::Button::new("Import edited data\u{2026}"))
+                    .on_hover_text("Bring back data you exported and edited in another program; it is packed the way this save is packed when you save.")
+                    .clicked()
+                {
+                    ui.close_menu();
+                    self.ask(Ask::Import, None, None);
                 }
             });
             ui.menu_button("Edit", |ui| {
@@ -1712,6 +1805,43 @@ impl App {
             } else if let Some(off) = p.strip_prefix("0x").and_then(|h| usize::from_str_radix(h, 16).ok()) {
                 self.hex.jump(off);
             }
+        }
+    }
+
+    fn backup_name_dialog(&mut self, ctx: &egui::Context) {
+        let Some(mut text) = self.backup_name.take() else { return };
+        let mut choice = None;
+        modal(ctx, "Keep a named copy", |ui| {
+            ui.label("A copy of the file as it is on disk now, kept until you remove it.");
+            ui.add_space(6.0);
+            let r = ui.add(TextEdit::singleline(&mut text).hint_text("for example: before the final boss").desired_width(280.0));
+            r.request_focus();
+            if r.lost_focus() && ui.input(|i| i.key_pressed(egui::Key::Enter)) {
+                choice = Some(true);
+            }
+            ui.add_space(6.0);
+            ui.horizontal(|ui| {
+                if ui.add(egui::Button::new(RichText::new("Keep").color(Color32::WHITE)).fill(theme::ACCENT)).clicked() {
+                    choice = Some(true);
+                }
+                if ui.button("Cancel").clicked() {
+                    choice = Some(false);
+                }
+            });
+        });
+        match choice {
+            Some(true) => {
+                let Some(path) = self.doc.as_ref().map(|d| d.path.clone()) else { return };
+                match crate::backups::take_named(&path, &text) {
+                    Ok(_) => self.ok(format!("Kept a copy named \u{201C}{}\u{201D} (File \u{203A} Restore previous version).", text.trim())),
+                    Err(e) => {
+                        self.fail(format!("Couldn't keep a copy: {e}"));
+                        self.backup_name = Some(text);
+                    }
+                }
+            }
+            Some(false) => {}
+            None => self.backup_name = Some(text),
         }
     }
 
@@ -2957,6 +3087,7 @@ impl eframe::App for App {
         }
         self.password_dialog(ctx);
         self.sums_dialog(ctx);
+        self.backup_name_dialog(ctx);
         self.poll_loading(ctx, now);
         self.save_review_dialog(ctx);
         self.copy_slots_dialog(ctx);

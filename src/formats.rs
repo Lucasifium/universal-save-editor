@@ -33,6 +33,7 @@ pub struct Options {
 
 impl Options {
     pub fn for_path(path: &std::path::Path) -> Self {
+        #[cfg_attr(target_arch = "wasm32", allow(unused_mut))]
         let mut ext = path.extension().map(|e| e.to_string_lossy().to_lowercase()).unwrap_or_default();
         // A Game Pass blob is named by a GUID: take the extension from the name the game gave it.
         #[cfg(not(target_arch = "wasm32"))]
