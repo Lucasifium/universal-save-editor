@@ -253,6 +253,11 @@ SHA-256 stored at the start or end of the file, over the bytes after it, before 
 file. Earlier copies of the file (from *File › Restore previous version*) weed out chance matches.
 Pick one and it is written again every time you save that file; it shows as zeros while editing.
 
+**Change Steam account in this save** (*Tools*, or `steamid` on the command line): finds the 64-bit
+Steam IDs stored in the save's data (as bytes, numbers or text) and changes every copy to another
+account, picked from the accounts on this computer or typed in, so a save copied from another
+account or a co-op host loads. The save's packing and checksums are redone on save as for any edit.
+
 Big files open on a worker thread, and unpacking and decryption use every core.
 
 ## What it opens
@@ -341,6 +346,8 @@ The same program runs commands without opening the window, for scripts and batch
     UniversalSaveEditor set    <save> /money=99999 /name=Ann [-o <out>] [--no-backup]
     UniversalSaveEditor decode <save> [-o <out>]        the unpacked data (JSON, text or bytes)
     UniversalSaveEditor encode <save> <data> [-o <out>] pack edited data the way <save> is packed
+    UniversalSaveEditor checksum <save> [<n>|off]       find a checksum in an unknown save, keep one fixed
+    UniversalSaveEditor steamid <save> [<old> <new>]    list the Steam IDs in a save, or move it to another account
     UniversalSaveEditor games  [--json]                 the games the editor knows
 
 `--password <p>` opens encrypted saves, like *Tools › Decrypt with password*; `--entry <name>`

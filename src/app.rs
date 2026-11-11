@@ -232,6 +232,8 @@ pub struct App {
     sum_hits: Option<Vec<crate::fmt::sumfind::Sum>>,
     /// The name being typed for a kept copy (File › Restore previous version › Keep a copy).
     backup_name: Option<String>,
+    /// Tools › Change Steam account: the IDs found in the save, the one picked, and the new one typed.
+    rebind: Option<(Vec<u64>, usize, String)>,
     compare: Option<Compare>,
     save_review: Option<SaveReview>,
     copy_slots: Option<CopySlots>,
@@ -292,6 +294,7 @@ impl App {
             password_prompt: None,
             sum_hits: None,
             backup_name: None,
+            rebind: None,
             compare: None,
             save_review: None,
             copy_slots: None,
@@ -1585,6 +1588,14 @@ impl App {
                     ui.close_menu();
                     self.password_prompt = Some(self.doc.as_ref().and_then(|d| d.opts.password.clone()).unwrap_or_default());
                 }
+                if ui
+                    .add_enabled(has, egui::Button::new("Change Steam account in this save\u{2026}"))
+                    .on_hover_text("Finds the Steam IDs stored in the save and changes them to another account's, so a save copied from a friend or another account loads.")
+                    .clicked()
+                {
+                    ui.close_menu();
+                    self.start_rebind();
+                }
                 let binary = matches!(self.doc.as_ref().map(|d| &d.content), Some(Content::Binary(_)));
                 if ui
                     .add_enabled(binary, egui::Button::new("Find checksum\u{2026}"))
@@ -1842,6 +1853,94 @@ impl App {
             }
             Some(false) => {}
             None => self.backup_name = Some(text),
+        }
+    }
+
+    fn ids_in_save(&self) -> Vec<u64> {
+        match self.doc.as_ref().map(|d| &d.content) {
+            Some(Content::Binary(b)) => crate::steamid::in_bytes(b).into_iter().map(|(id, _)| id).collect(),
+            Some(c) => root(c).map(|v| crate::steamid::in_values(v).into_iter().map(|(id, _)| id).collect()).unwrap_or_default(),
+            None => vec![],
+        }
+    }
+
+    fn start_rebind(&mut self) {
+        let ids = self.ids_in_save();
+        if ids.is_empty() {
+            return self.fail("No Steam ID was found in this save's data (some games key the save to the account in other ways).");
+        }
+        self.rebind = Some((ids, 0, String::new()));
+    }
+
+    fn rebind_dialog(&mut self, ctx: &egui::Context) {
+        let Some((ids, mut pick, mut text)) = self.rebind.take() else { return };
+        #[cfg(not(target_arch = "wasm32"))]
+        let locals = crate::steamid::local_accounts();
+        #[cfg(target_arch = "wasm32")]
+        let locals: Vec<u64> = vec![];
+        let mut choice = None;
+        modal(ctx, "Change Steam account in this save", |ui| {
+            ui.label("Steam IDs in this save:");
+            for (i, id) in ids.iter().enumerate() {
+                ui.radio_value(&mut pick, i, format!("{id} (account {})", id - crate::steamid::BASE));
+            }
+            ui.add_space(6.0);
+            ui.label("Change it to:");
+            ui.add(TextEdit::singleline(&mut text).hint_text("17-digit Steam ID or account number").desired_width(280.0));
+            if !locals.is_empty() {
+                ui.horizontal_wrapped(|ui| {
+                    ui.weak("Accounts on this computer:");
+                    for id in &locals {
+                        if ui.small_button((id - crate::steamid::BASE).to_string()).clicked() {
+                            text = id.to_string();
+                        }
+                    }
+                });
+            }
+            ui.weak("Every copy of the ID changes; save to write the file. Some games also check the folder the save sits in.");
+            ui.add_space(6.0);
+            ui.horizontal(|ui| {
+                let ok = crate::steamid::parse(&text).is_some();
+                if ui.add_enabled(ok, egui::Button::new(RichText::new("Change").color(Color32::WHITE)).fill(theme::ACCENT)).clicked() {
+                    choice = Some(true);
+                }
+                if ui.button("Cancel").clicked() {
+                    choice = Some(false);
+                }
+            });
+        });
+        match choice {
+            Some(true) => {
+                let (Some(new), Some(&old)) = (crate::steamid::parse(&text), ids.get(pick)) else { return };
+                let n = self.rebind_to(old, new);
+                self.ok(format!("Changed the Steam ID in {n} place{}. Save to write the file.", if n == 1 { "" } else { "s" }));
+            }
+            Some(false) => {}
+            None => self.rebind = Some((ids, pick, text)),
+        }
+    }
+
+    /// Changes every copy of `old` to `new`; returns how many places changed.
+    fn rebind_to(&mut self, old: u64, new: u64) -> usize {
+        let Some(d) = &self.doc else { return 0 };
+        match &d.content {
+            Content::Binary(b) => {
+                let at = crate::steamid::in_bytes(b).into_iter().find(|(id, _)| *id == old).map(|(_, a)| a).unwrap_or_default();
+                for &o in &at {
+                    self.apply_bytes(o, new.to_le_bytes().to_vec());
+                }
+                at.len()
+            }
+            c => {
+                let Some(v) = root(c) else { return 0 };
+                let ptrs = crate::steamid::in_values(v).into_iter().find(|(id, _)| *id == old).map(|(_, p)| p).unwrap_or_default();
+                let edits: Vec<(String, Value)> = ptrs.iter().filter_map(|p| v.pointer(p).map(|x| (p.clone(), crate::steamid::replaced(x, new)))).collect();
+                for (p, val) in &edits {
+                    self.apply_edit(p.clone(), val.clone(), 0.0);
+                    self.last_edit = None;
+                }
+                edits.len()
+            }
         }
     }
 
@@ -3088,6 +3187,7 @@ impl eframe::App for App {
         self.password_dialog(ctx);
         self.sums_dialog(ctx);
         self.backup_name_dialog(ctx);
+        self.rebind_dialog(ctx);
         self.poll_loading(ctx, now);
         self.save_review_dialog(ctx);
         self.copy_slots_dialog(ctx);
