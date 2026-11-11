@@ -184,6 +184,9 @@ pub enum Layer {
     /// Unreal chunks of LZO1X data. `crc_at`: where the header keeps the CRC of the
     /// compressed data; the header has its own CRC too (both CRC-32/BZIP2).
     Xcom { header: Arc<Vec<u8>>, crc_at: usize, xcom2: bool, sizes: Vec<u32>, block: u32 },
+    /// The Sims 2 neighbourhood package (DBPF 1.x): the family and Sim resources are shown
+    /// as one flat document; changed ones are stored uncompressed when saving.
+    Dbpf { original: Arc<Vec<u8>> },
     /// Mass Effect Legendary Edition (ME1) save: an Unreal chunk of zlib blocks, then the
     /// CRC-32/BZIP2 of everything before it, 1, and the unpacked size.
     Me1Le { block: u32 },
@@ -281,6 +284,7 @@ impl Layer {
             Layer::Torchlight2 => "Torchlight II save (scrambled, checksum)".into(),
             Layer::Larian { file, .. } => format!("Larian save package ({file})"),
             Layer::Wasteland3 { .. } => "Wasteland 3 save (LZF)".to_string(),
+            Layer::Dbpf { .. } => "The Sims 2 package (DBPF)".to_string(),
             Layer::Xcom { xcom2, sizes, .. } => format!("{} save ({} LZO chunks)", if *xcom2 { "XCOM 2" } else { "XCOM: Enemy Unknown" }, sizes.len()),
         }
     }
@@ -870,6 +874,7 @@ fn wrap(layer: &Layer, data: Vec<u8>) -> Result<Vec<u8>, String> {
             out.extend((data.len() as u32).to_le_bytes());
             out
         }
+        Layer::Dbpf { original } => fmt::dbpf::rebuild(original, &data, fmt::sims2::editable)?,
         Layer::Xcom { header, crc_at, xcom2, sizes, block } => {
             if data.len() != sizes.iter().map(|&n| n as usize).sum::<usize>() {
                 return Err("this save's data can't change size".into());
@@ -931,6 +936,12 @@ fn peel(data: &[u8], ctx: &mut Ctx) -> Option<(Layer, Vec<u8>)> {
     if data.starts_with(b"SAV") {
         if let Some(found) = peel_pdx_sav(data) {
             return Some(found);
+        }
+    }
+    if data.starts_with(b"DBPF") {
+        if let Some(flat) = fmt::sims2::flatten(data) {
+            ctx.hint = Some("The Sims 2 neighbourhood: families, funds and Sims are shown; changed parts are stored uncompressed when you save. Close the game first.".into());
+            return Some((Layer::Dbpf { original: Arc::new(data.to_vec()) }, flat));
         }
     }
     if data.starts_with(b"PK\x03\x04") {

@@ -108,6 +108,7 @@ Universal Save Editor is free. It builds on other people's work, listed here wit
 | [NieRAutomata_Inventory_Editor (NieR:Automata 99-per-slot item limit)](https://github.com/Aemony/NieRAutomata_Inventory_Editor) | Aemony | facts only (item limit), credited |
 | [NieR:Automata Wiki (which items are in the Materials list)](https://nierautomata.wiki.fextralife.com/Materials) | Fextralife wiki contributors | facts only (item names and categories), credited |
 | [SimObliterator Suite (The Sims neighbourhood layout: family and neighbour records, person-data index names)](https://github.com/DnfJeff/SimObliterator_Suite) | Dnf_Jeff | MIT |
+| SimPE and the ModTheSims wiki (The Sims 2 DBPF package, FAMI and SDSC layouts, QFS; layouts only, no code) | SimPE authors, ModTheSims contributors | GPL-2.0-or-later (SimPE) |
 | [LethalCompanySaveEditor (Lethal Company save password and value names)](https://github.com/BEMZ01/LethalCompanySaveEditor) | BEMZ01 | MIT; facts only, no code copied, credited |
 | [R.E.P.O-Save-Editor (R.E.P.O. save password and layout)](https://github.com/N0edL/R.E.P.O-Save-Editor) | N0edL | MIT; facts only, no code copied, credited |
 | [PhasmoEditor (Phasmophobia save password and value names)](https://github.com/stth12/PhasmoEditor) | stth12 | facts only (password and value names), credited |
