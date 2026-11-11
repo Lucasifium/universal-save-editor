@@ -111,6 +111,7 @@ pub mod yakuza0;
 pub mod kiwami;
 pub mod ffxv;
 pub mod nier;
+pub mod sims1;
 pub mod ds2;
 pub mod mea;
 pub mod gow;
@@ -310,6 +311,11 @@ pub fn parse_binary(d: &[u8]) -> Option<TreeDoc> {
     }
     if nier::looks(d) {
         if let Ok(t) = nier::parse(d) {
+            return Some(t);
+        }
+    }
+    if sims1::looks(d) {
+        if let Ok(t) = sims1::parse(d) {
             return Some(t);
         }
     }

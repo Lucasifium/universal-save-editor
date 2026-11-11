@@ -31,6 +31,7 @@ mod pokemon;
 mod expedition33;
 mod fallout3nv;
 mod nier;
+mod sims;
 mod screens2;
 mod simple;
 mod starbound;
@@ -135,6 +136,7 @@ pub enum Game {
     Repo,
     Fallout3Nv,
     Nier,
+    Sims1,
     DeadRising,
     DeadRising2,
     /// A table-driven screen (see `simple.rs`).
@@ -205,6 +207,7 @@ impl Game {
             Game::Expedition33 => "Party",
             Game::Fallout3Nv => "Character",
             Game::Nier => "YoRHa",
+            Game::Sims1 => "Families",
             Game::Phasmophobia => "Ghost hunter",
             Game::LethalCompany => "Crew",
             Game::Repo => "Team",
@@ -296,6 +299,7 @@ pub fn detect(kind: &str, root: &Value) -> Option<Game> {
         crate::fmt::starbound::KIND_PLAYER => Game::Starbound,
         crate::fmt::fos::KIND => Game::Fallout3Nv,
         crate::fmt::nier::KIND => Game::Nier,
+        crate::fmt::sims1::KIND => Game::Sims1,
         crate::fmt::dead_rising::KIND_DR1 => Game::DeadRising,
         crate::fmt::dead_rising::KIND_DR2 | crate::fmt::dead_rising::KIND_OTR => Game::DeadRising2,
         crate::fmt::goldensun::KIND_GS1 | crate::fmt::goldensun::KIND_GS2 => Game::GoldenSun,
@@ -385,6 +389,7 @@ pub fn show(game: Game, ui: &mut Ui, cx: &mut GameCtx) {
         Game::Expedition33 => expedition33::show(ui, cx),
         Game::Fallout3Nv => fallout3nv::show(ui, cx),
         Game::Nier => nier::show(ui, cx),
+        Game::Sims1 => sims::show(ui, cx),
         Game::Phasmophobia => coop::phasmophobia(ui, cx),
         Game::LethalCompany => coop::lethal_company(ui, cx),
         Game::Repo => coop::repo(ui, cx),
@@ -884,6 +889,7 @@ mod tests {
         assert_eq!(detect("JSON", &json!({"actors": {"_data": {"@a": [null, {}]}}, "party": {"_actors": {"@a": [1]}}})), Some(Game::RpgMaker));
         assert_eq!(detect("JSON", &json!({"gold": 1})), None);
         assert_eq!(detect(crate::fmt::nier::KIND, &json!({})), Some(Game::Nier));
+        assert_eq!(detect(crate::fmt::sims1::KIND, &json!({})), Some(Game::Sims1));
         let es3 = |n: i64| json!({"__type": "int", "value": n});
         assert_eq!(detect(crate::fmt::es3::KIND_PHASMOPHOBIA, &json!({"PlayersMoney": es3(5), "NewLevel": es3(2)})), Some(Game::Phasmophobia));
         assert_eq!(detect("JSON", &json!({"GroupCredits": es3(60), "ProfitQuota": es3(130)})), Some(Game::LethalCompany));
