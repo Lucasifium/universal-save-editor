@@ -88,7 +88,7 @@ fn has_screen(g: &GameInfo) -> bool {
 /// What the page says can be edited: the README row for this game, or else (for games whose
 /// catalog text says it) the catalog text.
 fn description(g: &GameInfo, rows: &[(String, String)]) -> Option<String> {
-    // The README points to its own sections ("Oodle, see below"); a game page has none.
+    // The README points to its own sections ("see below"); a game page has none.
     let row = readme_row(g, rows).map(|(s, d)| (s, d.replace(", see below", "")));
     if g.support == "Game screen" {
         return row.map(|r| r.1);
@@ -153,7 +153,7 @@ fn readme_row(g: &GameInfo, rows: &[(String, String)]) -> Option<(usize, String)
     best.map(|(s, d)| (s, d.clone()))
 }
 
-/// Games whose saves need the downloaded app (Oodle compression).
+/// Games whose saves need the downloaded app.
 fn needs_app(g: &GameInfo) -> bool {
     matches!(g.name, "Palworld" | "Hogwarts Legacy")
 }
@@ -437,7 +437,7 @@ fn build_site() {
             n = esc(g.name),
             what = what.as_deref().map(md).unwrap_or_else(|| esc(lvl_note)),
             folder = esc(g.folder),
-            browser = if needs_app(g) { "<p><strong>Use the downloaded app for this game:</strong> its saves are compressed with Oodle, which the browser version can't unpack.</p>" } else { "" },
+            browser = if needs_app(g) { "<p><strong>Use the downloaded app for this game:</strong> the browser version can't open its saves.</p>" } else { "" },
             files = esc(g.files),
         );
         let path = format!("{s}/");
@@ -458,7 +458,7 @@ fn build_site() {
 <p class="lead">Universal Save Editor edits your saves on your own computer: no uploads, no accounts, no rate limits. It's free, and always will be.</p>
 <div class="badges"><span class="badge free">Free forever</span><span class="badge">Offline</span><span class="badge">Open source</span><span class="badge">Windows · Linux · Browser</span></div>
 <a class="btn" href="{DOWNLOAD}">Download for free</a><a class="btn alt" href="{WEB_APP}">Use it in your browser</a>
-<div class="card"><strong>Don't want to run a program?</strong> <a href="{WEB_APP}">The browser version</a> is the same editor, running inside the web page on your own computer: your save is never uploaded. It can't search your folders for saves or back them up for you, so open the file yourself and keep a copy; saving downloads the edited file. A few saves need the downloaded app (SQLite saves, and Palworld or Hogwarts Legacy saves, which need the game's own Oodle library).</div>
+<div class="card"><strong>Don't want to run a program?</strong> <a href="{WEB_APP}">The browser version</a> is the same editor, running inside the web page on your own computer: your save is never uploaded. It can't search your folders for saves or back them up for you, so open the file yourself and keep a copy; saving downloads the edited file. A few saves need the downloaded app (SQLite saves, and Palworld or Hogwarts Legacy saves).</div>
 <h2>Why download a save editor?</h2>
 {WHY}
 <h2 id="games">Games ({n})</h2>

@@ -14,7 +14,7 @@ no rate limits.
 **No install:** the [browser version](https://lucasifium.github.io/universal-save-editor/app/) is the same
 editor compiled to WebAssembly. It runs inside the page on your own computer and never uploads the save;
 saving downloads the edited file. It can't search your folders (*Select game*), keep backups, or open
-SQLite saves and Oodle-compressed saves (Palworld, Hogwarts Legacy): use the downloaded app for those.
+SQLite saves and the saves of Palworld and Hogwarts Legacy: use the downloaded app for those.
 
 ## Why this exists
 
@@ -133,13 +133,13 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 | Final Fantasy VII Remake (Intergrade), Rebirth | *Party*: each character's level, HP / max HP, MP / max MP and experience |
 | Green Hell | *Survivor*: health, energy, hydration, the three nutrients, dirtiness, sanity, every skill and the statistics |
 | Resident Evil Requiem (and RE Engine games with the same layout) | *Slot*: health of the player and other characters, inventory counts (with the ammo or contents they hold), save count |
-| Hogwarts Legacy | *Character*: gold, experience, talent points, every resource in the bag (with a **Max crafting materials** button that fills ingredients, beast by-products and Moonstone to 999, an estimate) and talent levels, from the game's own database inside the save (unpacked and packed again with Oodle, see below); without an Oodle library, the load-screen name, house and level |
+| Hogwarts Legacy | *Character*: gold, experience, talent points, every resource in the bag (with a **Max crafting materials** button that fills ingredients, beast by-products and Moonstone to 999, an estimate) and talent levels, from the game's own database inside the save (unpacked and packed again when you save); if the database can't be opened, the load-screen name, house and level |
 | The Witcher 3 | *Geralt*: crowns, level, unspent skill points and experience (repacked with LZ4 on save) |
 | Cyberpunk 2077 | *V*: eurodollars, from V's own inventory (found through the save's section table; the table's position is updated when the save is repacked) |
 | Dying Light 2 / The Beast | *Survivor*: money, health, the Traversal / Combat / Inhibitor levels and points, every skill's level (Techland's self-describing save format; every saved number is in *Values*) |
 | Dying Light | *Survivor*: the skill tree levels (every copy the save keeps) |
 | Kenshi | *Faction*: the player's cats |
-| Palworld | *Player*: technology points, ancient technology points, Lifmunk effigies and the record counters (Oodle, see below) |
+| Palworld | *Player*: technology points, ancient technology points, Lifmunk effigies and the record counters |
 | Final Fantasy IX (Steam) | *Party*: every saved game in `SavedData_ww.dat` (decrypted and encrypted again): gil, and each character's level, experience, HP / MP and base stats |
 | Death Stranding 2: On the Beach | *Facilities*: the material stocks (chiral crystals, resins, metals, ceramics, chemicals, special alloys) at every facility you've found, with its connection level, and a **Max crafting materials** button that fills them to 9999 (an estimate); likes from NPCs and other porters and likes given; day, time of day and play time. Unpacked (XOR, LZ4) and packed again with the save's MD5 on save; pieces that didn't change keep their bytes. Not yet tried in the game |
 | Final Fantasy XV (Windows Edition) | *Party*: gil, ability points and medals; every character's level, HP / MP and stats, the experience waiting to be banked at the next rest, total experience and kills; item amounts in every bag (by the game's item number), with a **Max crafting materials** button that fills every treasure to 99. Decrypted (AES-192, shuffled blocks) and encrypted again on save. Not yet tried in the game |
@@ -176,14 +176,6 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 ## Credits for God of War
 
 The God of War formats and item names come from the Forja save editors by wilypizza-svg (José Murilo), which credit kg971 and xcier.
-
-## Oodle (Palworld, Hogwarts Legacy)
-
-Palworld 0.6+ and Hogwarts Legacy compress their saves with Oodle, which has no open-source
-implementation the editor may include. Instead it uses the Oodle library that many games already
-install (`oo2core_*_win64.dll`, e.g. with Sekiro or Telltale games), loading it while running, just as
-those games do; nothing of Oodle is part of this program. It's found in your Steam and Epic game
-folders automatically (remembered afterwards), or set `SAVE_EDITOR_OODLE` to the library's path.
 
 ## Paradox ironman and binary saves
 
@@ -334,7 +326,7 @@ possible only the values you edit are rewritten — everything else stays byte-f
 | TyranoScript / TyranoBuilder | `.sav` (URL-escaped JSON) | JavaScript `escape()` test vectors |
 | Twine / SugarCube | exported saves (LZString) | round-trip tests |
 | Barotrauma | `.save` (gzip file bundle) | sample saves |
-| Palworld (older) | `.sav` with `PlZ` header | round-trip tests (`PlM`/Oodle saves aren't supported) |
+| Palworld (older) | `.sav` with `PlZ` header | round-trip tests (newer `PlM` saves are covered by the Palworld row) |
 
 **Data formats** — JSON, XML (span-patched, keeps formatting), INI/CFG, TOML (keeps comments),
 YAML (`.yml`/`.yaml`), Apple plist (binary and XML), MessagePack, BSON, SQLite (real `UPDATE`s;
@@ -447,8 +439,7 @@ save + re-open comparison, and damaged/truncated copies to make sure nothing cra
   owners. This project isn't affiliated with or endorsed by any developer or publisher. Game names
   appear here only to say which saves the editor can open.
 - **No game files are shipped.** The editor contains no game code, art, sound or other assets. It
-  ships only the ids and names it needs to show what's in a save. Oodle-compressed saves use the
-  Oodle library the game itself installed; it isn't included.
+  ships only the ids and names it needs to show what's in a save. Libraries a game itself installs are never included.
 - **Built on others' work.** Save layouts and item tables from other open-source editors are used under
   their licences (MIT, Apache-2.0, zlib), and every crate compiled into the program is listed with its
   licence. See [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
