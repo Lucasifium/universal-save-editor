@@ -23,59 +23,302 @@ use serde_json::Value;
 const HEADER_LEN: usize = 30_051;
 const SKILLS: usize = 18;
 
-const SPECIAL: [&str; 7] = ["Strength", "Perception", "Endurance", "Charisma", "Intelligence", "Agility", "Luck"];
+const SPECIAL: [&str; 7] = [
+    "Strength",
+    "Perception",
+    "Endurance",
+    "Charisma",
+    "Intelligence",
+    "Agility",
+    "Luck",
+];
 
 const SKILL_NAMES: [&str; SKILLS] = [
-    "Small Guns", "Big Guns", "Energy Weapons", "Unarmed", "Melee Weapons", "Throwing", "First Aid", "Doctor", "Sneak", "Lockpick", "Steal", "Traps", "Science",
-    "Repair", "Speech", "Barter", "Gambling", "Outdoorsman",
+    "Small Guns",
+    "Big Guns",
+    "Energy Weapons",
+    "Unarmed",
+    "Melee Weapons",
+    "Throwing",
+    "First Aid",
+    "Doctor",
+    "Sneak",
+    "Lockpick",
+    "Steal",
+    "Traps",
+    "Science",
+    "Repair",
+    "Speech",
+    "Barter",
+    "Gambling",
+    "Outdoorsman",
 ];
 
 const TRAITS_F1: [&str; 16] = [
-    "Fast Metabolism", "Bruiser", "Small Frame", "One Hander", "Finesse", "Kamikaze", "Heavy Handed", "Fast Shot", "Bloody Mess", "Jinxed", "Good Natured",
-    "Chem Reliant", "Chem Resistant", "Night Person", "Skilled", "Gifted",
+    "Fast Metabolism",
+    "Bruiser",
+    "Small Frame",
+    "One Hander",
+    "Finesse",
+    "Kamikaze",
+    "Heavy Handed",
+    "Fast Shot",
+    "Bloody Mess",
+    "Jinxed",
+    "Good Natured",
+    "Chem Reliant",
+    "Chem Resistant",
+    "Night Person",
+    "Skilled",
+    "Gifted",
 ];
 
 /// Fallout 2 replaced Night Person with Sex Appeal (checked on a character sheet).
 const TRAITS_F2: [&str; 16] = [
-    "Fast Metabolism", "Bruiser", "Small Frame", "One Hander", "Finesse", "Kamikaze", "Heavy Handed", "Fast Shot", "Bloody Mess", "Jinxed", "Good Natured",
-    "Chem Reliant", "Chem Resistant", "Sex Appeal", "Skilled", "Gifted",
+    "Fast Metabolism",
+    "Bruiser",
+    "Small Frame",
+    "One Hander",
+    "Finesse",
+    "Kamikaze",
+    "Heavy Handed",
+    "Fast Shot",
+    "Bloody Mess",
+    "Jinxed",
+    "Good Natured",
+    "Chem Reliant",
+    "Chem Resistant",
+    "Sex Appeal",
+    "Skilled",
+    "Gifted",
 ];
 
 const KILLS_F1: [&str; 15] = [
-    "Men", "Women", "Children", "Super Mutants", "Ghouls", "Brahmin", "Radscorpions", "Rats", "Floaters", "Centaurs", "Robots", "Dogs", "Mantises", "Deathclaws",
+    "Men",
+    "Women",
+    "Children",
+    "Super Mutants",
+    "Ghouls",
+    "Brahmin",
+    "Radscorpions",
+    "Rats",
+    "Floaters",
+    "Centaurs",
+    "Robots",
+    "Dogs",
+    "Mantises",
+    "Deathclaws",
     "Plants",
 ];
 
 const KILLS_F2: [&str; 19] = [
-    "Men", "Women", "Children", "Super Mutants", "Ghouls", "Brahmin", "Radscorpions", "Rats", "Floaters", "Centaurs", "Robots", "Dogs", "Mantises", "Deathclaws",
-    "Plants", "Geckos", "Aliens", "Giant Ants", "Big Bad Bosses",
+    "Men",
+    "Women",
+    "Children",
+    "Super Mutants",
+    "Ghouls",
+    "Brahmin",
+    "Radscorpions",
+    "Rats",
+    "Floaters",
+    "Centaurs",
+    "Robots",
+    "Dogs",
+    "Mantises",
+    "Deathclaws",
+    "Plants",
+    "Geckos",
+    "Aliens",
+    "Giant Ants",
+    "Big Bad Bosses",
 ];
 
 const PERKS_F1: [&str; 64] = [
-    "Awareness", "Bonus HtH Attacks", "Bonus HtH Damage", "Bonus Move", "Bonus Ranged Damage", "Bonus Rate of Fire", "Earlier Sequence", "Faster Healing",
-    "More Criticals", "Night Vision", "Presence", "Rad Resistance", "Toughness", "Strong Back", "Sharpshooter", "Silent Running", "Survivalist", "Master Trader",
-    "Educated", "Healer", "Fortune Finder", "Better Criticals", "Empathy", "Slayer", "Sniper", "Silent Death", "Action Boy", "Mental Block", "Lifegiver", "Dodger",
-    "Snakeater", "Mr. Fixit", "Medic", "Master Thief", "Speaker", "Heave Ho!", "Friendly Foe", "Pickpocket", "Ghost", "Cult of Personality", "Scrounger",
-    "Explorer", "Flower Child", "Pathfinder", "Animal Friend", "Scout", "Mysterious Stranger", "Ranger", "Quick Pockets", "Smooth Talker", "Swift Learner", "Tag!",
-    "Mutate!", "Nuka-Cola Addiction", "Buffout Addiction", "Mentats Addiction", "Psycho Addiction", "Radaway Addiction", "Weapon Long Range", "Weapon Accurate",
-    "Weapon Penetrate", "Weapon Knockback", "Powered Armor", "Combat Armor",
+    "Awareness",
+    "Bonus HtH Attacks",
+    "Bonus HtH Damage",
+    "Bonus Move",
+    "Bonus Ranged Damage",
+    "Bonus Rate of Fire",
+    "Earlier Sequence",
+    "Faster Healing",
+    "More Criticals",
+    "Night Vision",
+    "Presence",
+    "Rad Resistance",
+    "Toughness",
+    "Strong Back",
+    "Sharpshooter",
+    "Silent Running",
+    "Survivalist",
+    "Master Trader",
+    "Educated",
+    "Healer",
+    "Fortune Finder",
+    "Better Criticals",
+    "Empathy",
+    "Slayer",
+    "Sniper",
+    "Silent Death",
+    "Action Boy",
+    "Mental Block",
+    "Lifegiver",
+    "Dodger",
+    "Snakeater",
+    "Mr. Fixit",
+    "Medic",
+    "Master Thief",
+    "Speaker",
+    "Heave Ho!",
+    "Friendly Foe",
+    "Pickpocket",
+    "Ghost",
+    "Cult of Personality",
+    "Scrounger",
+    "Explorer",
+    "Flower Child",
+    "Pathfinder",
+    "Animal Friend",
+    "Scout",
+    "Mysterious Stranger",
+    "Ranger",
+    "Quick Pockets",
+    "Smooth Talker",
+    "Swift Learner",
+    "Tag!",
+    "Mutate!",
+    "Nuka-Cola Addiction",
+    "Buffout Addiction",
+    "Mentats Addiction",
+    "Psycho Addiction",
+    "Radaway Addiction",
+    "Weapon Long Range",
+    "Weapon Accurate",
+    "Weapon Penetrate",
+    "Weapon Knockback",
+    "Powered Armor",
+    "Combat Armor",
 ];
 
 const PERKS_F2: [&str; 119] = [
-    "Awareness", "Bonus HtH Attacks", "Bonus HtH Damage", "Bonus Move", "Bonus Ranged Damage", "Bonus Rate of Fire", "Earlier Sequence", "Faster Healing",
-    "More Criticals", "Night Vision", "Presence", "Rad Resistance", "Toughness", "Strong Back", "Sharpshooter", "Silent Running", "Survivalist", "Master Trader",
-    "Educated", "Healer", "Fortune Finder", "Better Criticals", "Empathy", "Slayer", "Sniper", "Silent Death", "Action Boy", "Mental Block", "Lifegiver", "Dodger",
-    "Snakeater", "Mr. Fixit", "Medic", "Master Thief", "Speaker", "Heave Ho!", "Friendly Foe", "Pickpocket", "Ghost", "Cult of Personality", "Scrounger",
-    "Explorer", "Flower Child", "Pathfinder", "Animal Friend", "Scout", "Mysterious Stranger", "Ranger", "Quick Pockets", "Smooth Talker", "Swift Learner", "Tag!",
-    "Mutate!", "Nuka-Cola Addiction", "Buffout Addiction", "Mentats Addiction", "Psycho Addiction", "Radaway Addiction", "Weapon Long Range", "Weapon Accurate",
-    "Weapon Penetrate", "Weapon Knockback", "Powered Armor", "Combat Armor", "Weapon Scope Range", "Weapon Fast Reload", "Weapon Night Sight", "Weapon Flameboy",
-    "Armor Advanced I", "Armor Advanced II", "Jet Addiction", "Tragic Addiction", "Armor Charisma", "Gecko Skinning", "Dermal Impact Armor",
-    "Dermal Impact Assault Enhancement", "Phoenix Armor Implants", "Phoenix Assault Enhancement", "Vault City Inoculations", "Adrenaline Rush", "Cautious Nature",
-    "Comprehension", "Demolition Expert", "Gambler", "Gain Strength", "Gain Perception", "Gain Endurance", "Gain Charisma", "Gain Intelligence", "Gain Agility",
-    "Gain Luck", "Harmless", "Here and Now", "HtH Evade", "Kama Sutra Master", "Karma Beacon", "Light Step", "Living Anatomy", "Magnetic Personality",
-    "Negotiator", "Pack Rat", "Pyromaniac", "Quick Recovery", "Salesman", "Stonewall", "Thief", "Weapon Handling", "Vault City Training",
-    "Alcohol Raised Hit Points", "Alcohol Raised Hit Points II", "Alcohol Lowered Hit Points", "Alcohol Lowered Hit Points II", "Autodoc Raised Hit Points",
-    "Autodoc Raised Hit Points II", "Autodoc Lowered Hit Points", "Autodoc Lowered Hit Points II", "Expert Excrement Expeditor", "Weapon Enhanced Knockout",
+    "Awareness",
+    "Bonus HtH Attacks",
+    "Bonus HtH Damage",
+    "Bonus Move",
+    "Bonus Ranged Damage",
+    "Bonus Rate of Fire",
+    "Earlier Sequence",
+    "Faster Healing",
+    "More Criticals",
+    "Night Vision",
+    "Presence",
+    "Rad Resistance",
+    "Toughness",
+    "Strong Back",
+    "Sharpshooter",
+    "Silent Running",
+    "Survivalist",
+    "Master Trader",
+    "Educated",
+    "Healer",
+    "Fortune Finder",
+    "Better Criticals",
+    "Empathy",
+    "Slayer",
+    "Sniper",
+    "Silent Death",
+    "Action Boy",
+    "Mental Block",
+    "Lifegiver",
+    "Dodger",
+    "Snakeater",
+    "Mr. Fixit",
+    "Medic",
+    "Master Thief",
+    "Speaker",
+    "Heave Ho!",
+    "Friendly Foe",
+    "Pickpocket",
+    "Ghost",
+    "Cult of Personality",
+    "Scrounger",
+    "Explorer",
+    "Flower Child",
+    "Pathfinder",
+    "Animal Friend",
+    "Scout",
+    "Mysterious Stranger",
+    "Ranger",
+    "Quick Pockets",
+    "Smooth Talker",
+    "Swift Learner",
+    "Tag!",
+    "Mutate!",
+    "Nuka-Cola Addiction",
+    "Buffout Addiction",
+    "Mentats Addiction",
+    "Psycho Addiction",
+    "Radaway Addiction",
+    "Weapon Long Range",
+    "Weapon Accurate",
+    "Weapon Penetrate",
+    "Weapon Knockback",
+    "Powered Armor",
+    "Combat Armor",
+    "Weapon Scope Range",
+    "Weapon Fast Reload",
+    "Weapon Night Sight",
+    "Weapon Flameboy",
+    "Armor Advanced I",
+    "Armor Advanced II",
+    "Jet Addiction",
+    "Tragic Addiction",
+    "Armor Charisma",
+    "Gecko Skinning",
+    "Dermal Impact Armor",
+    "Dermal Impact Assault Enhancement",
+    "Phoenix Armor Implants",
+    "Phoenix Assault Enhancement",
+    "Vault City Inoculations",
+    "Adrenaline Rush",
+    "Cautious Nature",
+    "Comprehension",
+    "Demolition Expert",
+    "Gambler",
+    "Gain Strength",
+    "Gain Perception",
+    "Gain Endurance",
+    "Gain Charisma",
+    "Gain Intelligence",
+    "Gain Agility",
+    "Gain Luck",
+    "Harmless",
+    "Here and Now",
+    "HtH Evade",
+    "Kama Sutra Master",
+    "Karma Beacon",
+    "Light Step",
+    "Living Anatomy",
+    "Magnetic Personality",
+    "Negotiator",
+    "Pack Rat",
+    "Pyromaniac",
+    "Quick Recovery",
+    "Salesman",
+    "Stonewall",
+    "Thief",
+    "Weapon Handling",
+    "Vault City Training",
+    "Alcohol Raised Hit Points",
+    "Alcohol Raised Hit Points II",
+    "Alcohol Lowered Hit Points",
+    "Alcohol Lowered Hit Points II",
+    "Autodoc Raised Hit Points",
+    "Autodoc Raised Hit Points II",
+    "Autodoc Lowered Hit Points",
+    "Autodoc Lowered Hit Points II",
+    "Expert Excrement Expeditor",
+    "Weapon Enhanced Knockout",
     "Jinxed",
 ];
 
@@ -140,7 +383,11 @@ pub const CAPS_PID: i32 = 41;
 
 pub fn item_name(f2: bool, pid: i32) -> Option<&'static str> {
     let idx = pid & 0x00FF_FFFF;
-    ITEMS.iter().chain(if f2 { ITEMS_F2 } else { &[] }).find(|(p, _)| *p == idx).map(|x| x.1)
+    ITEMS
+        .iter()
+        .chain(if f2 { ITEMS_F2 } else { &[] })
+        .find(|(p, _)| *p == idx)
+        .map(|x| x.1)
 }
 
 fn i32_at(d: &[u8], at: usize) -> Option<i32> {
@@ -152,12 +399,21 @@ fn i16_at(d: &[u8], at: usize) -> Option<i16> {
 }
 
 fn text(d: &[u8], at: usize, len: usize) -> String {
-    d.get(at..at + len).unwrap_or_default().iter().take_while(|&&c| c != 0).map(|&c| super::bethesda_cp1252(c)).collect()
+    d.get(at..at + len)
+        .unwrap_or_default()
+        .iter()
+        .take_while(|&&c| c != 0)
+        .map(|&c| super::bethesda_cp1252(c))
+        .collect()
 }
 
 /// 1 for Fallout, 2 for Fallout 2.
 fn version(d: &[u8]) -> Option<u8> {
-    if d.len() < HEADER_LEN + 64 || !d.starts_with(b"FALLOUT SAVE FILE") || i16_at(d, 24)? != 1 || d[28] != b'R' {
+    if d.len() < HEADER_LEN + 64
+        || !d.starts_with(b"FALLOUT SAVE FILE")
+        || i16_at(d, 24)? != 1
+        || d[28] != b'R'
+    {
         return None;
     }
     match i16_at(d, 26)? {
@@ -221,13 +477,27 @@ impl Walk<'_> {
     /// Does an item object start at `at` (its 18-int header and inventory header)?
     fn item_header(&self, at: usize) -> Option<(i32, i32)> {
         let d = self.d;
-        let (tile, pid, cid, inv) = (i32_at(d, at + 4)?, i32_at(d, at + 44)?, i32_at(d, at + 48)?, i32_at(d, at + 72)?);
-        let ok = (tile == -1 || cid == -1) && (pid >> 24) == 0 && (1..0x10000).contains(&(pid & 0xFF_FFFF)) && (-1..1000).contains(&inv);
+        let (tile, pid, cid, inv) = (
+            i32_at(d, at + 4)?,
+            i32_at(d, at + 44)?,
+            i32_at(d, at + 48)?,
+            i32_at(d, at + 72)?,
+        );
+        let ok = (tile == -1 || cid == -1)
+            && (pid >> 24) == 0
+            && (1..0x10000).contains(&(pid & 0xFF_FFFF))
+            && (-1..1000).contains(&inv);
         ok.then_some((pid, inv.max(0)))
     }
 
     /// `n` (count, item) entries from `at`; `k` gets where they end. Returns true to stop.
-    fn items(&mut self, at: usize, n: usize, depth: usize, k: &mut dyn FnMut(&mut Self, usize) -> bool) -> bool {
+    fn items(
+        &mut self,
+        at: usize,
+        n: usize,
+        depth: usize,
+        k: &mut dyn FnMut(&mut Self, usize) -> bool,
+    ) -> bool {
         if n == 0 {
             return k(self, at);
         }
@@ -235,15 +505,30 @@ impl Walk<'_> {
         if self.steps > MAX_STEPS || depth > 4 {
             return self.steps > MAX_STEPS;
         }
-        let Some(qty) = i32_at(self.d, at) else { return false };
+        let Some(qty) = i32_at(self.d, at) else {
+            return false;
+        };
         if qty < 1 {
             return false;
         }
-        let Some((pid, inner)) = self.item_header(at + 4) else { return false };
+        let Some((pid, inner)) = self.item_header(at + 4) else {
+            return false;
+        };
         let data = at + 4 + 84 + 4; // header, inventory header, item flags
         for extra in [0usize, 4, 8] {
-            self.stack.push(Item { qty_at: at, pid, extra_at: data, extra, depth });
-            let stop = self.items(data + extra, inner as usize, depth + 1, &mut |w: &mut Self, end: usize| w.items(end, n - 1, depth, &mut *k));
+            self.stack.push(Item {
+                qty_at: at,
+                pid,
+                extra_at: data,
+                extra,
+                depth,
+            });
+            let stop = self.items(
+                data + extra,
+                inner as usize,
+                depth + 1,
+                &mut |w: &mut Self, end: usize| w.items(end, n - 1, depth, &mut *k),
+            );
             self.stack.pop();
             if stop {
                 return true;
@@ -255,15 +540,20 @@ impl Walk<'_> {
     /// The critter data (handler 6), kill counts and tagged skills read right at `at`.
     fn proto_ok(&self, at: usize, kills: usize) -> bool {
         let d = self.d;
-        let Some(sneak) = i32_at(d, at) else { return false };
+        let Some(sneak) = i32_at(d, at) else {
+            return false;
+        };
         let stat = |i: usize| i32_at(d, at + 8 + 4 * i);
         let special = (0..7).all(|i| stat(i).is_some_and(|v| (1..=10).contains(&v)));
         let age = stat(33).is_some_and(|v| (1..=150).contains(&v));
         let gender = stat(34).is_some_and(|v| v == 0 || v == 1);
-        let skills = (0..SKILLS).all(|i| i32_at(d, at + 288 + 4 * i).is_some_and(|v| (0..=1000).contains(&v)));
+        let skills = (0..SKILLS)
+            .all(|i| i32_at(d, at + 288 + 4 * i).is_some_and(|v| (0..=1000).contains(&v)));
         let k = at + self.proto_len;
         let kills_ok = (0..kills).all(|i| i32_at(d, k + 4 * i).is_some_and(|v| v >= 0));
-        let tags_ok = (0..4).all(|i| i32_at(d, k + 4 * kills + 4 * i).is_some_and(|v| (-1..SKILLS as i32).contains(&v)));
+        let tags_ok = (0..4).all(|i| {
+            i32_at(d, k + 4 * kills + 4 * i).is_some_and(|v| (-1..SKILLS as i32).contains(&v))
+        });
         (sneak == 0 || sneak == 1) && special && age && gender && skills && kills_ok && tags_ok
     }
 }
@@ -313,7 +603,11 @@ fn combat(d: &[u8], at: usize, ai: bool) -> Option<usize> {
     if flags & 1 == 0 {
         return Some(at + 4);
     }
-    let (com, noncom, total) = (i32_at(d, at + 16)?, i32_at(d, at + 20)?, i32_at(d, at + 24)?);
+    let (com, noncom, total) = (
+        i32_at(d, at + 16)?,
+        i32_at(d, at + 20)?,
+        i32_at(d, at + 24)?,
+    );
     if com < 0 || noncom < 0 || com + noncom != total || total > 500 {
         return None;
     }
@@ -322,14 +616,20 @@ fn combat(d: &[u8], at: usize, ai: bool) -> Option<usize> {
 }
 
 fn traits_ok(d: &[u8], at: usize) -> bool {
-    let (Some(a), Some(b)) = (i32_at(d, at), i32_at(d, at + 4)) else { return false };
+    let (Some(a), Some(b)) = (i32_at(d, at), i32_at(d, at + 4)) else {
+        return false;
+    };
     let ok = |t: i32| (-1..16).contains(&t);
     ok(a) && ok(b) && (a == -1 || a != b)
 }
 
 /// Level, experience and unspent skill points (handler 13) look right at `at`.
 fn pc_ok(d: &[u8], at: usize) -> bool {
-    let (Some(points), Some(level), Some(exp)) = (i32_at(d, at), i32_at(d, at + 4), i32_at(d, at + 8)) else { return false };
+    let (Some(points), Some(level), Some(exp)) =
+        (i32_at(d, at), i32_at(d, at + 4), i32_at(d, at + 8))
+    else {
+        return false;
+    };
     (0..=1_000_000).contains(&points) && (1..=99).contains(&level) && exp >= 0
 }
 
@@ -347,22 +647,41 @@ fn layout(d: &[u8]) -> Result<Layout, String> {
         .ok_or("couldn't find the global variables")?;
     let player = after_maps;
     let d_ = d;
-    let (pid, inv_len) = (i32_at(d, player + 44).ok_or("short file")?, i32_at(d, player + 72).ok_or("short file")?);
+    let (pid, inv_len) = (
+        i32_at(d, player + 44).ok_or("short file")?,
+        i32_at(d, player + 72).ok_or("short file")?,
+    );
     if pid != 0x0100_0000 || !(0..1000).contains(&inv_len) {
         return Err("the player object isn't where it should be".into());
     }
     let proto_len = if f2 { 376 } else { 372 };
     let kill_n = if f2 { 19 } else { 15 };
-    let mut w = Walk { d: d_, steps: 0, stack: vec![], found: vec![], proto_len };
+    let mut w = Walk {
+        d: d_,
+        steps: 0,
+        stack: vec![],
+        found: vec![],
+        proto_len,
+    };
     let first = player + 84 + 44; // object header, inventory header, critter data
-    w.items(first, inv_len as usize, 0, &mut |w: &mut Walk, end: usize| {
-        if w.proto_ok(end + 4, kill_n) {
-            w.found.push((w.stack.clone(), end + 4));
-        }
-        w.found.len() > 1
-    });
+    w.items(
+        first,
+        inv_len as usize,
+        0,
+        &mut |w: &mut Walk, end: usize| {
+            if w.proto_ok(end + 4, kill_n) {
+                w.found.push((w.stack.clone(), end + 4));
+            }
+            w.found.len() > 1
+        },
+    );
     if w.found.is_empty() {
-        return Err(if w.steps > MAX_STEPS { "the inventory has too many possible readings" } else { "couldn't read the inventory" }.into());
+        return Err(if w.steps > MAX_STEPS {
+            "the inventory has too many possible readings"
+        } else {
+            "couldn't read the inventory"
+        }
+        .into());
     }
     let ambiguous = w.found.len() > 1;
     let (items, proto) = w.found.swap_remove(0);
@@ -374,16 +693,23 @@ fn layout(d: &[u8]) -> Result<Layout, String> {
         // for party members; then the player's level etc., traits, automap flags and the
         // preferences, whose first values have small ranges.
         let prefs_ok = |t: usize| {
-            let r = |i: usize, hi: i32| i32_at(d, t + 12 + 4 * i).is_some_and(|v| (0..=hi).contains(&v));
+            let r = |i: usize, hi: i32| {
+                i32_at(d, t + 12 + 4 * i).is_some_and(|v| (0..=hi).contains(&v))
+            };
             r(0, 2) && r(1, 2) && r(2, 3) && r(3, 2) && r(4, 1)
         };
         let mut hits = vec![];
         for party in 1..=64usize {
             let combat_at = perks + 476 * party;
-            if !(perks..combat_at).step_by(4).all(|q| i32_at(d, q).is_some_and(|v| (0..=20).contains(&v))) {
+            if !(perks..combat_at)
+                .step_by(4)
+                .all(|q| i32_at(d, q).is_some_and(|v| (0..=20).contains(&v)))
+            {
                 break;
             }
-            let Some(after) = combat(d, combat_at, true) else { continue };
+            let Some(after) = combat(d, combat_at, true) else {
+                continue;
+            };
             for ai in 0..=party {
                 let pc = after + 180 * ai;
                 if pc_ok(d, pc) && traits_ok(d, pc + 20) && prefs_ok(pc + 20) {
@@ -401,11 +727,15 @@ fn layout(d: &[u8]) -> Result<Layout, String> {
         let combat_at = perks + 4 * 64;
         let mut found = None;
         for ai in [false, true] {
-            let Some(pc) = combat(d, combat_at, ai) else { continue };
+            let Some(pc) = combat(d, combat_at, ai) else {
+                continue;
+            };
             if !pc_ok(d, pc) {
                 continue;
             }
-            let Some(t) = event_queue(d, pc + 20) else { continue };
+            let Some(t) = event_queue(d, pc + 20) else {
+                continue;
+            };
             if traits_ok(d, t) {
                 found = Some((pc, t));
                 break;
@@ -413,7 +743,20 @@ fn layout(d: &[u8]) -> Result<Layout, String> {
         }
         found.ok_or("couldn't find the level and experience")?
     };
-    Ok(Layout { f2, globals, maps, player, items, ambiguous, proto, kills, tags, perks, pc, traits })
+    Ok(Layout {
+        f2,
+        globals,
+        maps,
+        player,
+        items,
+        ambiguous,
+        proto,
+        kills,
+        tags,
+        perks,
+        pc,
+        traits,
+    })
 }
 
 pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
@@ -426,9 +769,20 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
     b.info(&["Save", "Character name"], text(d, 29, 32));
     b.info(&["Save", "Description"], text(d, 61, 30));
     b.info(&["Save", "Map"], text(d, 115, 16));
-    let (day, month, year) = (i16_at(d, 91).unwrap_or(0), i16_at(d, 93).unwrap_or(0), i16_at(d, 95).unwrap_or(0));
-    b.info(&["Save", "Saved on"], format!("{year:04}-{month:02}-{day:02}"));
-    let (gm, gd, gy) = (i16_at(d, 101).unwrap_or(0), i16_at(d, 103).unwrap_or(0), i16_at(d, 105).unwrap_or(0));
+    let (day, month, year) = (
+        i16_at(d, 91).unwrap_or(0),
+        i16_at(d, 93).unwrap_or(0),
+        i16_at(d, 95).unwrap_or(0),
+    );
+    b.info(
+        &["Save", "Saved on"],
+        format!("{year:04}-{month:02}-{day:02}"),
+    );
+    let (gm, gd, gy) = (
+        i16_at(d, 101).unwrap_or(0),
+        i16_at(d, 103).unwrap_or(0),
+        i16_at(d, 105).unwrap_or(0),
+    );
     b.info(&["Save", "Game date"], format!("{gy:04}-{gm:02}-{gd:02}"));
     b.info(&["Save", "Maps visited"], l.maps.len() as u64);
     b.info(&["Save", "Global variables"], l.globals as u64);
@@ -436,29 +790,74 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
     // Player object: hit points in its critter data.
     let crit = l.player + 84;
     b.ranged(&["Character", "Level"], l.pc + 4, Kind::I32, 1, 99);
-    b.ranged(&["Character", "Experience"], l.pc + 8, Kind::I32, 0, i32::MAX as i64);
+    b.ranged(
+        &["Character", "Experience"],
+        l.pc + 8,
+        Kind::I32,
+        0,
+        i32::MAX as i64,
+    );
     b.ranged(&["Character", "Skill points"], l.pc, Kind::I32, 0, 9999);
     b.ranged(&["Character", "Hit points"], crit + 32, Kind::I32, 1, 999);
     let stat = |i: usize| l.proto + 8 + 4 * i;
     let bonus = |i: usize| i32_at(d, l.proto + 148 + 4 * i).unwrap_or(0);
-    b.ranged(&["Character", "Max hit points (base)"], stat(7), Kind::I32, 1, 999);
-    b.info(&["Character", "Max hit points"], i64::from(i32_at(d, stat(7)).unwrap_or(0) + bonus(7)));
-    b.info(&["Character", "Radiation"], i64::from(i32_at(d, crit + 36).unwrap_or(0)));
-    b.info(&["Character", "Poison"], i64::from(i32_at(d, crit + 40).unwrap_or(0)));
-    b.info(&["Character", "Age"], i64::from(i32_at(d, stat(33)).unwrap_or(0)));
-    b.info(&["Character", "Gender"], if i32_at(d, stat(34)) == Some(1) { "Female" } else { "Male" });
+    b.ranged(
+        &["Character", "Max hit points (base)"],
+        stat(7),
+        Kind::I32,
+        1,
+        999,
+    );
+    b.info(
+        &["Character", "Max hit points"],
+        i64::from(i32_at(d, stat(7)).unwrap_or(0) + bonus(7)),
+    );
+    b.info(
+        &["Character", "Radiation"],
+        i64::from(i32_at(d, crit + 36).unwrap_or(0)),
+    );
+    b.info(
+        &["Character", "Poison"],
+        i64::from(i32_at(d, crit + 40).unwrap_or(0)),
+    );
+    b.info(
+        &["Character", "Age"],
+        i64::from(i32_at(d, stat(33)).unwrap_or(0)),
+    );
+    b.info(
+        &["Character", "Gender"],
+        if i32_at(d, stat(34)) == Some(1) {
+            "Female"
+        } else {
+            "Male"
+        },
+    );
 
     for (i, name) in SPECIAL.iter().enumerate() {
         b.ranged(&["S.P.E.C.I.A.L.", name], stat(i), Kind::I32, 1, 10);
         b.info(&["S.P.E.C.I.A.L. bonus", name], i64::from(bonus(i)));
     }
-    let tagged: Vec<i32> = (0..4).filter_map(|i| i32_at(d, l.tags + 4 * i)).filter(|&s| s >= 0).collect();
+    let tagged: Vec<i32> = (0..4)
+        .filter_map(|i| i32_at(d, l.tags + 4 * i))
+        .filter(|&s| s >= 0)
+        .collect();
     for (i, name) in SKILL_NAMES.iter().enumerate() {
         b.ranged(&["Skills", name], l.proto + 288 + 4 * i, Kind::I32, 0, 300);
     }
-    b.info(&["Tagged skills"], tagged.iter().filter_map(|&s| SKILL_NAMES.get(s as usize)).copied().collect::<Vec<_>>().join(", "));
+    b.info(
+        &["Tagged skills"],
+        tagged
+            .iter()
+            .filter_map(|&s| SKILL_NAMES.get(s as usize))
+            .copied()
+            .collect::<Vec<_>>()
+            .join(", "),
+    );
     let trait_names: &[&str] = if f2 { &TRAITS_F2 } else { &TRAITS_F1 };
-    let chosen: Vec<&str> = (0..2).filter_map(|i| i32_at(d, l.traits + 4 * i)).filter_map(|t| trait_names.get(usize::try_from(t).ok()?).copied()).collect();
+    let chosen: Vec<&str> = (0..2)
+        .filter_map(|i| i32_at(d, l.traits + 4 * i))
+        .filter_map(|t| trait_names.get(usize::try_from(t).ok()?).copied())
+        .collect();
     b.info(&["Traits"], chosen.join(", "));
     let perk_names: &[&str] = if f2 { &PERKS_F2 } else { &PERKS_F1 };
     let mut any_perk = false;
@@ -481,13 +880,25 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
     let width = l.items.len().to_string().len().max(2);
     for (n, it) in l.items.iter().enumerate() {
         let idx = it.pid & 0xFF_FFFF;
-        let name = item_name(f2, it.pid).map(str::to_string).unwrap_or_else(|| format!("Item #{idx}"));
-        let label = format!("{:0width$} {}{name}", n + 1, if it.depth > 0 { "\u{21B3} " } else { "" });
+        let name = item_name(f2, it.pid)
+            .map(str::to_string)
+            .unwrap_or_else(|| format!("Item #{idx}"));
+        let label = format!(
+            "{:0width$} {}{name}",
+            n + 1,
+            if it.depth > 0 { "\u{21B3} " } else { "" }
+        );
         let qty = i32_at(d, it.qty_at).unwrap_or(0);
         if l.ambiguous {
             b.info(&["Inventory", &label, "Count"], i64::from(qty));
         } else {
-            b.ranged(&["Inventory", &label, "Count"], it.qty_at, Kind::I32, 1, 99_999_999);
+            b.ranged(
+                &["Inventory", &label, "Count"],
+                it.qty_at,
+                Kind::I32,
+                1,
+                99_999_999,
+            );
             if idx == CAPS_PID && it.depth == 0 && caps.is_none() {
                 caps = Some(format!("/Inventory/{}/Count", crate::tree::esc(&label)));
             }
@@ -496,12 +907,23 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
         if it.extra == 8 {
             let ammo = i32_at(d, it.extra_at + 4).unwrap_or(-1);
             if l.ambiguous {
-                b.info(&["Inventory", &label, "Loaded rounds"], i64::from(i32_at(d, it.extra_at).unwrap_or(0)));
+                b.info(
+                    &["Inventory", &label, "Loaded rounds"],
+                    i64::from(i32_at(d, it.extra_at).unwrap_or(0)),
+                );
             } else {
-                b.ranged(&["Inventory", &label, "Loaded rounds"], it.extra_at, Kind::I32, 0, 999);
+                b.ranged(
+                    &["Inventory", &label, "Loaded rounds"],
+                    it.extra_at,
+                    Kind::I32,
+                    0,
+                    999,
+                );
             }
             if ammo > 0 {
-                let an = item_name(f2, ammo).map(str::to_string).unwrap_or_else(|| format!("Item #{}", ammo & 0xFF_FFFF));
+                let an = item_name(f2, ammo)
+                    .map(str::to_string)
+                    .unwrap_or_else(|| format!("Item #{}", ammo & 0xFF_FFFF));
                 b.info(&["Inventory", &label, "Loaded with"], an);
             }
         }
@@ -509,7 +931,11 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
     if l.items.is_empty() {
         b.info(&["Inventory"], Value::Object(Default::default()));
     }
-    let kind = if f2 { "Fallout 2 save" } else { "Fallout 1 save" };
+    let kind = if f2 {
+        "Fallout 2 save"
+    } else {
+        "Fallout 1 save"
+    };
     let mut doc = b.finish(kind, Checksum::None);
     // Bottle caps: the caps stack, under a second name for the money tile (the same leaf,
     // so an edit to either shows in both).
@@ -541,7 +967,29 @@ pub(crate) mod tests {
     /// An inventory item object (18-int header, inventory header, flags, extra ints).
     fn item(d: &mut Vec<u8>, qty: i32, pid: i32, extra: &[i32]) {
         put(d, qty);
-        for (i, v) in [7, -1, 0, 0, 0, 0, 0, 0, 0x0700_0000, 0, 0, pid, -1, 0, 0, 0, -1, -1].iter().enumerate() {
+        for (i, v) in [
+            7,
+            -1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0x0700_0000,
+            0,
+            0,
+            pid,
+            -1,
+            0,
+            0,
+            0,
+            -1,
+            -1,
+        ]
+        .iter()
+        .enumerate()
+        {
             let _ = i;
             put(d, *v);
         }
@@ -595,7 +1043,26 @@ pub(crate) mod tests {
         put(&mut d, 1234); // automap size
         write_globals(&mut d);
         // Player object.
-        for v in [1, 20000, 0, 0, 0, 0, 0, 3, 0x0100_003E, 0x6000_0000u32 as i32, 0, 0x0100_0000, 1, 4, 0x10000, 0, -1, -1] {
+        for v in [
+            1,
+            20000,
+            0,
+            0,
+            0,
+            0,
+            0,
+            3,
+            0x0100_003E,
+            0x6000_0000u32 as i32,
+            0,
+            0x0100_0000,
+            1,
+            4,
+            0x10000,
+            0,
+            -1,
+            -1,
+        ] {
             put(&mut d, v);
         }
         for v in [3, 3, 0] {
@@ -608,7 +1075,7 @@ pub(crate) mod tests {
         item(&mut d, 1, 8, &[6, 38]); // a weapon with 6 rounds of small energy cells
         item(&mut d, 3, 40, &[]); // stimpaks
         put(&mut d, 20000); // centre tile
-        // Critter data.
+                            // Critter data.
         put(&mut d, 0);
         put(&mut d, 0);
         let mut base = [0i32; 35];
@@ -679,7 +1146,14 @@ pub(crate) mod tests {
             assert!(looks(&d));
             let mut doc = parse(&d).unwrap();
             let v = |doc: &TreeDoc, p: &str| doc.view.pointer(p).cloned();
-            assert_eq!(doc.kind_name, if f2 { "Fallout 2 save" } else { "Fallout 1 save" });
+            assert_eq!(
+                doc.kind_name,
+                if f2 {
+                    "Fallout 2 save"
+                } else {
+                    "Fallout 1 save"
+                }
+            );
             assert_eq!(v(&doc, "/Character/Level"), Some(3.into()));
             assert_eq!(v(&doc, "/Character/Experience"), Some(3500.into()));
             assert_eq!(v(&doc, "/Character/Skill points"), Some(7.into()));
@@ -688,14 +1162,23 @@ pub(crate) mod tests {
             assert_eq!(v(&doc, "/S.P.E.C.I.A.L./Intelligence"), Some(8.into()));
             assert_eq!(v(&doc, "/S.P.E.C.I.A.L. bonus/Strength"), Some(1.into()));
             assert_eq!(v(&doc, "/Skills/Steal"), Some(2.into()));
-            assert_eq!(v(&doc, "/Tagged skills"), Some("Small Guns, Speech, First Aid".into()));
+            assert_eq!(
+                v(&doc, "/Tagged skills"),
+                Some("Small Guns, Speech, First Aid".into())
+            );
             assert_eq!(v(&doc, "/Traits"), Some("Gifted, Small Frame".into()));
             assert_eq!(v(&doc, "/Perks/Action Boy"), Some(1.into()));
             assert_eq!(v(&doc, "/Kills/Rats"), Some(7.into()));
             assert_eq!(v(&doc, "/Money/Bottle caps"), Some(250.into()));
             assert_eq!(v(&doc, "/Inventory/01 Bottle Caps/Count"), Some(250.into()));
-            assert_eq!(v(&doc, "/Inventory/02 Item #8/Loaded rounds"), Some(6.into()));
-            assert_eq!(v(&doc, "/Inventory/02 Item #8/Loaded with"), Some("Small Energy Cell".into()));
+            assert_eq!(
+                v(&doc, "/Inventory/02 Item #8/Loaded rounds"),
+                Some(6.into())
+            );
+            assert_eq!(
+                v(&doc, "/Inventory/02 Item #8/Loaded with"),
+                Some("Small Energy Cell".into())
+            );
             assert_eq!(v(&doc, "/Inventory/03 Stimpak/Count"), Some(3.into()));
             assert!(!doc.editable.contains_key("/Traits"));
             assert_eq!(doc.to_bytes().unwrap(), d, "no edit, same bytes");
@@ -720,7 +1203,11 @@ pub(crate) mod tests {
     #[ignore]
     fn real_saves() {
         let arg = std::env::var("FALLOUT_SAVES").unwrap();
-        let list = if arg.ends_with(".txt") { std::fs::read_to_string(&arg).unwrap().replace('\n', "|") } else { arg };
+        let list = if arg.ends_with(".txt") {
+            std::fs::read_to_string(&arg).unwrap().replace('\n', "|")
+        } else {
+            arg
+        };
         for path in list.split('|').map(str::trim).filter(|s| !s.is_empty()) {
             let d = std::fs::read(path).unwrap();
             let mut doc = match parse(&d) {
@@ -750,11 +1237,18 @@ pub(crate) mod tests {
                 doc.set("/Money/Bottle caps", (c + 1).into()).unwrap();
             }
             let luck = get(&doc, "/S.P.E.C.I.A.L./Luck").as_i64().unwrap();
-            doc.set("/S.P.E.C.I.A.L./Luck", (if luck == 10 { 9 } else { luck + 1 }).into()).unwrap();
+            doc.set(
+                "/S.P.E.C.I.A.L./Luck",
+                (if luck == 10 { 9 } else { luck + 1 }).into(),
+            )
+            .unwrap();
             let out = doc.to_bytes().unwrap();
             assert_eq!(out.len(), d.len());
             let back = parse(&out).unwrap();
-            assert_eq!(back.view, doc.view, "{path}: edits read back, nothing else moved");
+            assert_eq!(
+                back.view, doc.view,
+                "{path}: edits read back, nothing else moved"
+            );
             assert_ne!(back.view, before);
         }
     }

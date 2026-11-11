@@ -106,7 +106,15 @@ fn unpack_dezp_at(d: &[u8], table: usize) -> Option<(Dezp, Vec<u8>)> {
         }
         sections.push((id, blocks));
     }
-    (p == d.len() - 4).then(|| (Dezp { prefix: d[4..table].to_vec(), sections }, out))
+    (p == d.len() - 4).then(|| {
+        (
+            Dezp {
+                prefix: d[4..table].to_vec(),
+                sections,
+            },
+            out,
+        )
+    })
 }
 
 pub fn pack_dezp(z: &Dezp, data: &[u8]) -> Result<Vec<u8>, String> {
@@ -140,7 +148,11 @@ pub fn pack_dezp(z: &Dezp, data: &[u8]) -> Result<Vec<u8>, String> {
 
 /// The ammo classes (money has its own): the class id, one byte, eight zero bytes, then
 /// the magazine size twice and the rounds carried.
-const CLASSES: [[u8; 4]; 3] = [[0x68, 0x8f, 0x25, 0x1d], [0x34, 0x5b, 0xc0, 0xf4], [0x2c, 0x26, 0x8f, 0xd6]];
+const CLASSES: [[u8; 4]; 3] = [
+    [0x68, 0x8f, 0x25, 0x1d],
+    [0x34, 0x5b, 0xc0, 0xf4],
+    [0x2c, 0x26, 0x8f, 0xd6],
+];
 #[cfg(test)]
 const AMMO: [u8; 13] = [0x68, 0x8f, 0x25, 0x1d, 1, 0, 0, 0, 0, 0, 0, 0, 0];
 
@@ -182,14 +194,19 @@ fn item_name(d: &[u8], at: usize) -> Option<usize> {
     let ok = len > 10
         && n[len - 5] == b'_'
         && n[len - 4..].iter().all(u8::is_ascii_digit)
-        && n.iter().all(|&c| c.is_ascii_lowercase() || c.is_ascii_digit() || c == b'_');
+        && n.iter()
+            .all(|&c| c.is_ascii_lowercase() || c.is_ascii_digit() || c == b'_');
     ok.then_some(len)
 }
 
 pub fn looks(d: &[u8]) -> bool {
     // Level saves only (about 200 KB): an auto save (1 MB and up) also lists the items lying
     // around the level, which aren't the player's.
-    d.len() > 1000 && d.len() < 600_000 && matches!(d.get(4..9), Some(b"2033\\") | Some(b"2034\\")) | matches!(d.get(4..7), Some(b"m3\\")) && d.windows(5).any(|w| w == b"ammo_")
+    d.len() > 1000
+        && d.len() < 600_000
+        && matches!(d.get(4..9), Some(b"2033\\") | Some(b"2034\\"))
+            | matches!(d.get(4..7), Some(b"m3\\"))
+        && d.windows(5).any(|w| w == b"ammo_")
 }
 
 pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
@@ -201,7 +218,11 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
     let mut seen: std::collections::HashMap<String, usize> = std::collections::HashMap::new();
     let mut p = 0;
     let x = usize::from(d.get(4..7) == Some(b"m3\\"));
-    while let Some(i) = d[p..].windows(5).position(|w| w == b"ammo_" || w == b"craft").map(|i| i + p) {
+    while let Some(i) = d[p..]
+        .windows(5)
+        .position(|w| w == b"ammo_" || w == b"craft")
+        .map(|i| i + p)
+    {
         p = i + 5;
         let Some(len) = item_name(d, i) else { continue };
         let name = String::from_utf8_lossy(&d[i..i + len]).into_owned();
@@ -213,7 +234,13 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
         if let Some(n) = (from..stop).find(|&q| item_name(d, q).is_some()) {
             stop = n;
         }
-        let Some(k) = d[from..stop].windows(13).position(ammo_at).map(|k| k + from) else { continue };
+        let Some(k) = d[from..stop]
+            .windows(13)
+            .position(ammo_at)
+            .map(|k| k + from)
+        else {
+            continue;
+        };
         // The magazine size twice (Exodus: one more byte before it, and 0 twice).
         let k = k + x;
         if d.len() < k + 19 || d[k + 13..k + 15] != d[k + 15..k + 17] {
@@ -221,7 +248,11 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
         }
         let n = seen.entry(kind.to_string()).or_default();
         *n += 1;
-        let key = if *n == 1 { label(kind) } else { format!("{} ({})", label(kind), n) };
+        let key = if *n == 1 {
+            label(kind)
+        } else {
+            format!("{} ({})", label(kind), n)
+        };
         b.ranged(&["Inventory", &key], k + 17, Kind::U16, 0, 65_535);
         any = true;
         p = k + 19;
@@ -251,8 +282,17 @@ mod tests {
         assert_eq!(back, data);
         assert_eq!(pack_player(&head, &back), file);
         let mut doc = parse(&back).unwrap();
-        assert_eq!(doc.view.pointer("/Inventory/Military-grade rounds (money)").unwrap(), 10000);
-        doc.set("/Inventory/Military-grade rounds (money)", serde_json::Value::from(500)).unwrap();
+        assert_eq!(
+            doc.view
+                .pointer("/Inventory/Military-grade rounds (money)")
+                .unwrap(),
+            10000
+        );
+        doc.set(
+            "/Inventory/Military-grade rounds (money)",
+            serde_json::Value::from(500),
+        )
+        .unwrap();
         let at = data.windows(AMMO.len()).position(|w| w == AMMO).unwrap() + 17;
         assert_eq!(doc.to_bytes().unwrap()[at..at + 2], [0xF4, 1]);
     }
@@ -261,7 +301,14 @@ mod tests {
     fn dezp_round_trip() {
         let data: Vec<u8> = (0..300_000u32).map(|i| (i % 251) as u8).collect();
         for prefix in [vec![], vec![1u8; 16]] {
-            let z = Dezp { prefix, sections: vec![(7, vec![100_000]), (8, vec![100_000, 50_000]), (9, vec![50_000])] };
+            let z = Dezp {
+                prefix,
+                sections: vec![
+                    (7, vec![100_000]),
+                    (8, vec![100_000, 50_000]),
+                    (9, vec![50_000]),
+                ],
+            };
             let file = pack_dezp(&z, &data).unwrap();
             let (z2, back) = unpack_dezp(&file).unwrap();
             assert_eq!(back, data);
@@ -276,7 +323,10 @@ mod tests {
         let d = std::fs::read(std::env::var("SAVE_EDITOR_METRO").unwrap()).unwrap();
         if let Some((h, data)) = unpack_player(&d) {
             println!("player: {} bytes", data.len());
-            println!("{}", serde_json::to_string_pretty(&parse(&data).unwrap().view).unwrap());
+            println!(
+                "{}",
+                serde_json::to_string_pretty(&parse(&data).unwrap().view).unwrap()
+            );
             assert_eq!(unpack_player(&pack_player(&h, &data)).unwrap().1, data);
         } else {
             let (s, data) = unpack_dezp(&d).expect("unpack");

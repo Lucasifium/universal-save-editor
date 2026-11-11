@@ -23,7 +23,12 @@ pub fn keys_path() -> Option<PathBuf> {
     if let Some(p) = std::env::var_os("SAVE_EDITOR_RENPY_KEYS") {
         return Some(PathBuf::from(p));
     }
-    std::env::var_os("APPDATA").map(|d| PathBuf::from(d).join("RenPy").join("tokens").join("security_keys.txt"))
+    std::env::var_os("APPDATA").map(|d| {
+        PathBuf::from(d)
+            .join("RenPy")
+            .join("tokens")
+            .join("security_keys.txt")
+    })
 }
 
 struct Key {
@@ -32,7 +37,9 @@ struct Key {
 }
 
 fn load_keys() -> Vec<Key> {
-    let Some(text) = keys_path().and_then(|p| std::fs::read_to_string(p).ok()) else { return vec![] };
+    let Some(text) = keys_path().and_then(|p| std::fs::read_to_string(p).ok()) else {
+        return vec![];
+    };
     text.lines()
         .filter_map(|line| {
             let mut parts = line.split_whitespace();
@@ -42,7 +49,10 @@ fn load_keys() -> Vec<Key> {
             let private = STANDARD.decode(parts.next()?).ok()?;
             let public_der = STANDARD.decode(parts.next()?).ok()?;
             let secret = p256::SecretKey::from_sec1_der(&private).ok()?;
-            Some(Key { signing: SigningKey::from(secret), public_der })
+            Some(Key {
+                signing: SigningKey::from(secret),
+                public_der,
+            })
         })
         .collect()
 }
@@ -63,7 +73,11 @@ pub fn sign(data: &[u8]) -> Option<String> {
     let mut out = String::new();
     for k in keys {
         let sig: Signature = k.signing.sign_prehash(&digest).ok()?;
-        out.push_str(&format!("signature {} {}\n", STANDARD.encode(&k.public_der), STANDARD.encode(sig.to_bytes())));
+        out.push_str(&format!(
+            "signature {} {}\n",
+            STANDARD.encode(&k.public_der),
+            STANDARD.encode(sig.to_bytes())
+        ));
     }
     Some(out)
 }
@@ -80,9 +94,18 @@ pub fn verify(data: &[u8], signatures: &str) -> bool {
         if parts.next() != Some("signature") {
             return false;
         }
-        let (Some(k), Some(s)) = (parts.next(), parts.next()) else { return false };
-        let (Ok(k), Ok(s)) = (STANDARD.decode(k), STANDARD.decode(s)) else { return false };
-        let (Ok(vk), Ok(sig)) = (VerifyingKey::from_public_key_der(&k), Signature::from_slice(&s)) else { return false };
+        let (Some(k), Some(s)) = (parts.next(), parts.next()) else {
+            return false;
+        };
+        let (Ok(k), Ok(s)) = (STANDARD.decode(k), STANDARD.decode(s)) else {
+            return false;
+        };
+        let (Ok(vk), Ok(sig)) = (
+            VerifyingKey::from_public_key_der(&k),
+            Signature::from_slice(&s),
+        ) else {
+            return false;
+        };
         vk.verify_prehash(&digest, &sig).is_ok()
     })
 }
@@ -94,6 +117,10 @@ pub fn write_test_keys(path: &std::path::Path) {
     let secret = p256::SecretKey::random(&mut rand_core::OsRng);
     let private = secret.to_sec1_der().unwrap();
     let public = secret.public_key().to_public_key_der().unwrap();
-    let line = format!("signing-key {} {}\n", STANDARD.encode(&*private), STANDARD.encode(public.as_bytes()));
+    let line = format!(
+        "signing-key {} {}\n",
+        STANDARD.encode(&*private),
+        STANDARD.encode(public.as_bytes())
+    );
     std::fs::write(path, line).unwrap();
 }

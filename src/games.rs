@@ -54,7 +54,8 @@ const METRO: &str = "Game screen for the level saves (.player); the auto save is
 const RGG_JUDGMENT: &str = "Decrypted, with its checksum kept right (read and written back byte for byte on a real save; not yet tried in the game); values in the Tree";
 const RGG_Y6: &str = "Game screen: money, HP and Kiryu's five experience pools; decrypted, with its checksum kept right. Checked on real saves, not yet tried in the game";
 const RGG_UNTESTED: &str = "Decrypted, with its checksum kept right (no save of this game has been tried yet); values in the Tree";
-const HEX_UNPACKED: &str = "Unpacked for Value search (find a number you know, then change it); packed again on save";
+const HEX_UNPACKED: &str =
+    "Unpacked for Value search (find a number you know, then change it); packed again on save";
 const XCOM2: &str = "Game screen: HQ resources and soldiers (rank, kills, missions, stats); unpacked and packed again on save. Not yet tried in the game";
 const CIV6: &str = "Game screen: settings, mods and each civilisation (human or AI, whose turn it is); gold and the map are in the packed part and aren't mapped";
 const BORDERLANDS: &str = "Game screen: level, experience, skill points, money, Eridium (Moonstone in The Pre-Sequel; Seraph crystals and Torgue tokens in Borderlands 2), ammo and ammo SDUs; gear is listed (level, slot), not edited. Packing and checksums are redone on save. Edited saves not yet tried in the game";
@@ -321,7 +322,9 @@ pub fn wildcard(pat: &str, name: &str) -> bool {
 }
 
 fn env(k: &str) -> Option<PathBuf> {
-    std::env::var_os(k).filter(|v| !v.is_empty()).map(PathBuf::from)
+    std::env::var_os(k)
+        .filter(|v| !v.is_empty())
+        .map(PathBuf::from)
 }
 
 /// A value from the registry (Windows), via `reg query`.
@@ -329,23 +332,39 @@ fn env(k: &str) -> Option<PathBuf> {
 fn reg(key: &str, value: &str) -> Option<String> {
     use std::os::windows::process::CommandExt;
     const CREATE_NO_WINDOW: u32 = 0x0800_0000;
-    let out = std::process::Command::new("reg").args(["query", key, "/v", value]).creation_flags(CREATE_NO_WINDOW).output().ok()?;
+    let out = std::process::Command::new("reg")
+        .args(["query", key, "/v", value])
+        .creation_flags(CREATE_NO_WINDOW)
+        .output()
+        .ok()?;
     let text = String::from_utf8_lossy(&out.stdout).to_string();
-    text.lines().find_map(|l| l.split_once("REG_SZ").or_else(|| l.split_once("REG_EXPAND_SZ")).map(|(_, v)| v.trim().to_string()))
+    text.lines().find_map(|l| {
+        l.split_once("REG_SZ")
+            .or_else(|| l.split_once("REG_EXPAND_SZ"))
+            .map(|(_, v)| v.trim().to_string())
+    })
 }
 
 /// The Documents folder (it may have been moved to another drive).
 pub fn documents() -> Option<PathBuf> {
     #[cfg(windows)]
-    if let Some(p) = reg(r"HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders", "Personal") {
+    if let Some(p) = reg(
+        r"HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders",
+        "Personal",
+    ) {
         return Some(PathBuf::from(p));
     }
-    env("USERPROFILE").or_else(|| env("HOME")).map(|h| h.join("Documents"))
+    env("USERPROFILE")
+        .or_else(|| env("HOME"))
+        .map(|h| h.join("Documents"))
 }
 
 fn saved_games() -> Option<PathBuf> {
     #[cfg(windows)]
-    if let Some(p) = reg(r"HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders", "{4C5C32FF-BB9D-43b0-B5B4-2D72E54EAAA4}") {
+    if let Some(p) = reg(
+        r"HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders",
+        "{4C5C32FF-BB9D-43b0-B5B4-2D72E54EAAA4}",
+    ) {
         return Some(PathBuf::from(p));
     }
     env("USERPROFILE").map(|h| h.join("Saved Games"))
@@ -355,9 +374,12 @@ fn saved_games() -> Option<PathBuf> {
 pub fn steam_libraries() -> Vec<PathBuf> {
     let mut out: Vec<PathBuf> = vec![];
     for userdata in crate::platform::steam_userdata_dirs() {
-        let Some(steam) = userdata.parent() else { continue };
+        let Some(steam) = userdata.parent() else {
+            continue;
+        };
         out.push(steam.to_path_buf());
-        let vdf = std::fs::read_to_string(steam.join("steamapps").join("libraryfolders.vdf")).unwrap_or_default();
+        let vdf = std::fs::read_to_string(steam.join("steamapps").join("libraryfolders.vdf"))
+            .unwrap_or_default();
         for line in vdf.lines() {
             let mut parts = line.split('"').filter(|s| !s.trim().is_empty());
             if parts.next() == Some("path") {
@@ -382,14 +404,28 @@ pub fn wine_user_dirs() -> Vec<PathBuf> {
     }
     let mut prefixes: Vec<PathBuf> = vec![];
     for lib in steam_libraries() {
-        for e in std::fs::read_dir(lib.join("steamapps").join("compatdata")).into_iter().flatten().flatten() {
+        for e in std::fs::read_dir(lib.join("steamapps").join("compatdata"))
+            .into_iter()
+            .flatten()
+            .flatten()
+        {
             prefixes.push(e.path().join("pfx"));
         }
     }
     if let Some(home) = env("HOME") {
         prefixes.push(home.join(".wine"));
-        for dir in ["Games/Heroic/Prefixes", "Games/Heroic/Prefixes/default", ".local/share/bottles/bottles", ".var/app/com.usebottles.bottles/data/bottles/bottles", "Games"] {
-            for e in std::fs::read_dir(home.join(dir)).into_iter().flatten().flatten() {
+        for dir in [
+            "Games/Heroic/Prefixes",
+            "Games/Heroic/Prefixes/default",
+            ".local/share/bottles/bottles",
+            ".var/app/com.usebottles.bottles/data/bottles/bottles",
+            "Games",
+        ] {
+            for e in std::fs::read_dir(home.join(dir))
+                .into_iter()
+                .flatten()
+                .flatten()
+            {
                 prefixes.push(e.path());
                 prefixes.push(e.path().join("pfx"));
             }
@@ -401,7 +437,11 @@ pub fn wine_user_dirs() -> Vec<PathBuf> {
 fn users_in_prefixes(prefixes: &[PathBuf]) -> Vec<PathBuf> {
     let mut out = vec![];
     for p in prefixes {
-        for e in std::fs::read_dir(p.join("drive_c").join("users")).into_iter().flatten().flatten() {
+        for e in std::fs::read_dir(p.join("drive_c").join("users"))
+            .into_iter()
+            .flatten()
+            .flatten()
+        {
             let name = e.file_name().to_string_lossy().to_lowercase();
             if name != "public" && e.path().is_dir() {
                 out.push(e.path());
@@ -421,7 +461,12 @@ fn first_existing(dir: &Path, names: &[&str]) -> Option<PathBuf> {
 /// The folders `base` stands for inside Wine and Proton prefixes.
 fn wine_bases(base: Base) -> Vec<PathBuf> {
     let users = wine_user_dirs();
-    let pick = |names: &[&str]| -> Vec<PathBuf> { users.iter().filter_map(|u| first_existing(u, names)).collect() };
+    let pick = |names: &[&str]| -> Vec<PathBuf> {
+        users
+            .iter()
+            .filter_map(|u| first_existing(u, names))
+            .collect()
+    };
     match base {
         AppData => pick(&["AppData/Roaming", "Application Data"]),
         LocalAppData => pick(&["AppData/Local", "Local Settings/Application Data"]),
@@ -453,12 +498,21 @@ fn native_bases(base: Base) -> Vec<PathBuf> {
     match base {
         AppData => env("APPDATA").into_iter().collect(),
         LocalAppData => env("LOCALAPPDATA").into_iter().collect(),
-        LocalLow => home.map(|h| h.join("AppData").join("LocalLow")).into_iter().collect(),
+        LocalLow => home
+            .map(|h| h.join("AppData").join("LocalLow"))
+            .into_iter()
+            .collect(),
         Documents => documents().into_iter().collect(),
         SavedGames => saved_games().into_iter().collect(),
         SteamUser(app) => crate::platform::steam_userdata_dirs()
             .into_iter()
-            .flat_map(|u| std::fs::read_dir(u).into_iter().flatten().flatten().map(|e| e.path().join(app)))
+            .flat_map(|u| {
+                std::fs::read_dir(u)
+                    .into_iter()
+                    .flatten()
+                    .flatten()
+                    .map(|e| e.path().join(app))
+            })
             .filter(|p| p.is_dir())
             .collect(),
         ProgramFilesX86 => env("ProgramFiles(x86)").into_iter().collect(),
@@ -472,8 +526,14 @@ fn native_bases(base: Base) -> Vec<PathBuf> {
             }
             v.into_iter().filter(|p| p.is_dir()).collect()
         }
-        GamePass(pkg) => env("LOCALAPPDATA").map(|l| crate::xgp::user_dirs(&l.join("Packages"), pkg)).unwrap_or_default(),
-        SteamGame(dir) => steam_libraries().into_iter().map(|l| l.join("steamapps").join("common").join(dir)).filter(|p| p.is_dir()).collect(),
+        GamePass(pkg) => env("LOCALAPPDATA")
+            .map(|l| crate::xgp::user_dirs(&l.join("Packages"), pkg))
+            .unwrap_or_default(),
+        SteamGame(dir) => steam_libraries()
+            .into_iter()
+            .map(|l| l.join("steamapps").join("common").join(dir))
+            .filter(|p| p.is_dir())
+            .collect(),
     }
 }
 
@@ -496,7 +556,15 @@ fn expand(root: &Path, rel: &str) -> Vec<PathBuf> {
                 } else if !cfg!(windows) {
                     // Windows folder names ignore case; inside a Wine prefix they don't.
                     let want = part.to_lowercase();
-                    if let Some(e) = std::fs::read_dir(&dir).into_iter().flatten().flatten().find(|e| e.file_name().to_string_lossy().to_lowercase() == want && e.path().is_dir()) {
+                    if let Some(e) = std::fs::read_dir(&dir)
+                        .into_iter()
+                        .flatten()
+                        .flatten()
+                        .find(|e| {
+                            e.file_name().to_string_lossy().to_lowercase() == want
+                                && e.path().is_dir()
+                        })
+                    {
                         next.push(e.path());
                     }
                 }
@@ -508,7 +576,9 @@ fn expand(root: &Path, rel: &str) -> Vec<PathBuf> {
 }
 
 fn walk(dir: &Path, depth: usize, g: &GameInfo, out: &mut Vec<Found>) {
-    let Ok(rd) = std::fs::read_dir(dir) else { return };
+    let Ok(rd) = std::fs::read_dir(dir) else {
+        return;
+    };
     for e in rd.flatten() {
         let p = e.path();
         let Ok(meta) = e.metadata() else { continue };
@@ -521,11 +591,18 @@ fn walk(dir: &Path, depth: usize, g: &GameInfo, out: &mut Vec<Found>) {
             let lower = name.to_lowercase();
             // Backups and the side files some games keep next to a save (Hades' Profile1.v.sav,
             // Profile1_Temp.sav).
-            let backup = [".bak", ".old", ".tmp", ".saving", "_old", ".vdf"].iter().any(|x| lower.ends_with(x))
+            let backup = [".bak", ".old", ".tmp", ".saving", "_old", ".vdf"]
+                .iter()
+                .any(|x| lower.ends_with(x))
                 || lower.contains(".v.")
                 || lower.contains("_temp");
             if !backup && g.patterns.iter().any(|pat| wildcard(pat, &name)) {
-                out.push(Found { path: p, modified: meta.modified().ok(), size: meta.len(), label: None });
+                out.push(Found {
+                    path: p,
+                    modified: meta.modified().ok(),
+                    size: meta.len(),
+                    label: None,
+                });
             }
         }
     }
@@ -533,18 +610,39 @@ fn walk(dir: &Path, depth: usize, g: &GameInfo, out: &mut Vec<Found>) {
 
 /// Every file in a Game Pass user folder, named the way the game named it.
 fn game_pass_saves(dir: &Path, out: &mut Vec<Found>) {
-    let Ok(idx) = crate::xgp::read_index(dir) else { return };
+    let Ok(idx) = crate::xgp::read_index(dir) else {
+        return;
+    };
     for c in &idx.containers {
         for f in &c.files {
-            let Ok(meta) = std::fs::metadata(&f.path) else { continue };
-            let label = if c.files.len() == 1 { c.name.clone() } else { format!("{}/{}", c.name, f.name) };
-            out.push(Found { path: f.path.clone(), modified: meta.modified().ok(), size: meta.len(), label: Some(format!("{label} (Xbox app)")) });
+            let Ok(meta) = std::fs::metadata(&f.path) else {
+                continue;
+            };
+            let label = if c.files.len() == 1 {
+                c.name.clone()
+            } else {
+                format!("{}/{}", c.name, f.name)
+            };
+            out.push(Found {
+                path: f.path.clone(),
+                modified: meta.modified().ok(),
+                size: meta.len(),
+                label: Some(format!("{label} (Xbox app)")),
+            });
         }
     }
 }
 
 /// Entries that cover many games (an engine or a launcher): their saves are listed by game.
-const MANY_GAMES: [&str; 7] = ["Flash and AIR games (.sol saves)", "OpenFL and HaxeFlixel games (Haxe saves)", "Xbox app / PC Game Pass saves (any game)", "Ren'Py visual novels", "RPG Maker MV / MZ games", "Assassin's Creed (Ubisoft Connect games)", "Far Cry (Ubisoft Connect games)"];
+const MANY_GAMES: [&str; 7] = [
+    "Flash and AIR games (.sol saves)",
+    "OpenFL and HaxeFlixel games (Haxe saves)",
+    "Xbox app / PC Game Pass saves (any game)",
+    "Ren'Py visual novels",
+    "RPG Maker MV / MZ games",
+    "Assassin's Creed (Ubisoft Connect games)",
+    "Far Cry (Ubisoft Connect games)",
+];
 
 pub fn many_games(g: &GameInfo) -> bool {
     MANY_GAMES.contains(&g.name)
@@ -560,18 +658,37 @@ pub fn group_of(g: &GameInfo, path: &Path) -> String {
     }
     for (base, rel) in g.places {
         let parts: Vec<&str> = rel.split(['\\', '/']).filter(|p| !p.is_empty()).collect();
-        let at = parts.iter().rposition(|p| p.contains('*')).unwrap_or(parts.len());
+        let at = parts
+            .iter()
+            .rposition(|p| p.contains('*'))
+            .unwrap_or(parts.len());
         for root in bases(*base) {
-            let Ok(sub) = path.strip_prefix(&root) else { continue };
+            let Ok(sub) = path.strip_prefix(&root) else {
+                continue;
+            };
             // Flash Player: <random id>\<site>\…: the site names the game.
-            let at = if g.name.starts_with("Flash and AIR") { at + 1 } else { at };
-            let Some(name) = sub.components().nth(at).map(|c| c.as_os_str().to_string_lossy().to_string()) else { continue };
+            let at = if g.name.starts_with("Flash and AIR") {
+                at + 1
+            } else {
+                at
+            };
+            let Some(name) = sub
+                .components()
+                .nth(at)
+                .map(|c| c.as_os_str().to_string_lossy().to_string())
+            else {
+                continue;
+            };
             if sub.components().count() <= at + 1 {
                 continue; // the save itself, not a folder
             }
             // Ren'Py folders end in "-<digits>"; Ubisoft names games by number.
             let name = match name.rsplit_once('-') {
-                Some((n, d)) if !n.is_empty() && !d.is_empty() && d.bytes().all(|b| b.is_ascii_digit()) => n.to_string(),
+                Some((n, d))
+                    if !n.is_empty() && !d.is_empty() && d.bytes().all(|b| b.is_ascii_digit()) =>
+                {
+                    n.to_string()
+                }
                 _ => name,
             };
             if name.bytes().all(|b| b.is_ascii_digit()) {
@@ -580,7 +697,10 @@ pub fn group_of(g: &GameInfo, path: &Path) -> String {
             return name;
         }
     }
-    path.parent().and_then(|p| p.file_name()).map(|n| n.to_string_lossy().to_string()).unwrap_or_default()
+    path.parent()
+        .and_then(|p| p.file_name())
+        .map(|n| n.to_string_lossy().to_string())
+        .unwrap_or_default()
 }
 
 /// This game's saves on this computer, newest first.
@@ -646,7 +766,9 @@ mod tests {
         let mut sorted = names.clone();
         sorted.sort_by_key(|n| n.to_lowercase());
         assert_eq!(names, sorted);
-        assert!(GAMES.iter().all(|g| !g.places.is_empty() && !g.patterns.is_empty() && g.depth >= 1));
+        assert!(GAMES
+            .iter()
+            .all(|g| !g.places.is_empty() && !g.patterns.is_empty() && g.depth >= 1));
     }
 
     /// Research aid: lists what's found for every game in the catalog.
@@ -655,7 +777,15 @@ mod tests {
     fn find_on_this_computer() {
         for g in GAMES {
             let f = find(g);
-            println!("{}: {} saves {:?}", g.name, f.len(), f.iter().take(2).map(|x| x.path.display().to_string()).collect::<Vec<_>>());
+            println!(
+                "{}: {} saves {:?}",
+                g.name,
+                f.len(),
+                f.iter()
+                    .take(2)
+                    .map(|x| x.path.display().to_string())
+                    .collect::<Vec<_>>()
+            );
         }
     }
 }

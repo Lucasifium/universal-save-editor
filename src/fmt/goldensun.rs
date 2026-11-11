@@ -20,11 +20,25 @@ pub const KIND_GS2: &str = "Golden Sun: The Lost Age save";
 
 const FLASH: usize = 0x10000;
 /// Build dates stored in each file; they tell the game and its language apart.
-const GS1_DATES: [(u16, &str); 6] =
-    [(0x159C, "Japan"), (0x1652, "USA / Europe"), (0x1849, "Germany"), (0x1885, "Spain"), (0x1713, "France"), (0x1886, "Italy")];
-const GS2_DATES: [(u16, &str); 6] =
-    [(0x198A, "Japan"), (0x1C85, "USA / Europe"), (0x1D97, "Germany"), (0x1DC7, "Spain"), (0x1D98, "France"), (0x1DC8, "Italy")];
-pub const MEMBERS: [&str; 8] = ["Isaac", "Garet", "Ivan", "Mia", "Felix", "Jenna", "Sheba", "Piers"];
+const GS1_DATES: [(u16, &str); 6] = [
+    (0x159C, "Japan"),
+    (0x1652, "USA / Europe"),
+    (0x1849, "Germany"),
+    (0x1885, "Spain"),
+    (0x1713, "France"),
+    (0x1886, "Italy"),
+];
+const GS2_DATES: [(u16, &str); 6] = [
+    (0x198A, "Japan"),
+    (0x1C85, "USA / Europe"),
+    (0x1D97, "Germany"),
+    (0x1DC7, "Spain"),
+    (0x1D98, "France"),
+    (0x1DC8, "Italy"),
+];
+pub const MEMBERS: [&str; 8] = [
+    "Isaac", "Garet", "Ivan", "Mia", "Felix", "Jenna", "Sheba", "Piers",
+];
 pub const ELEMENTS: [&str; 4] = ["Venus", "Mercury", "Mars", "Jupiter"];
 /// Size of one party member's record.
 const PC: usize = 0x14C;
@@ -95,7 +109,9 @@ fn u32_at(d: &[u8], at: usize) -> u32 {
 
 /// Sum of the block's bytes after its header, as stored at offset 8.
 pub fn block_sum(d: &[u8], at: usize, size: usize) -> u16 {
-    d[at + 16..at + size].iter().fold(0u16, |s, &b| s.wrapping_add(u16::from(b)))
+    d[at + 16..at + size]
+        .iter()
+        .fold(0u16, |s, &b| s.wrapping_add(u16::from(b)))
 }
 
 fn slots_of(d: &[u8], g: Game) -> Vec<Slot> {
@@ -105,8 +121,17 @@ fn slots_of(d: &[u8], g: Game) -> Vec<Slot> {
     while at + size <= g.end() {
         let h = &d[at..at + 16];
         let date = u16_at(d, at + 0x36) & 0x7FFF;
-        if &h[..7] == b"CAMELOT" && h[7] <= 2 && u16_at(d, at + 8) == block_sum(d, at, size) && g.dates().iter().any(|x| x.0 == date) {
-            let s = Slot { file: h[7], at, count: u16_at(d, at + 10), date };
+        if &h[..7] == b"CAMELOT"
+            && h[7] <= 2
+            && u16_at(d, at + 8) == block_sum(d, at, size)
+            && g.dates().iter().any(|x| x.0 == date)
+        {
+            let s = Slot {
+                file: h[7],
+                at,
+                count: u16_at(d, at + 10),
+                date,
+            };
             match best.iter_mut().find(|b| b.file == s.file) {
                 Some(b) if b.count < s.count => *b = s,
                 Some(_) => {}
@@ -123,7 +148,11 @@ fn slots_of(d: &[u8], g: Game) -> Vec<Slot> {
 /// Which game wrote this flash, and its files.
 pub fn scan(d: &[u8]) -> Option<(Game, Vec<Slot>)> {
     // 64 KiB; some emulators write a 128 KiB flash or append a few bytes.
-    if d.len() < FLASH || d.len() > 2 * FLASH + 0x400 || d.get(..7) != Some(b"CAMELOT".as_slice()) && !(1..16).any(|i| d[i * 0x1000..].starts_with(b"CAMELOT")) {
+    if d.len() < FLASH
+        || d.len() > 2 * FLASH + 0x400
+        || d.get(..7) != Some(b"CAMELOT".as_slice())
+            && !(1..16).any(|i| d[i * 0x1000..].starts_with(b"CAMELOT"))
+    {
         return None;
     }
     for g in [Game::LostAge, Game::GoldenSun] {
@@ -155,7 +184,12 @@ pub fn tables() -> &'static Tables {
         let src = include_str!("data/goldensun.txt");
         let line = |k: &str| src.lines().find_map(|l| l.strip_prefix(k)).unwrap_or("");
         let names = |k: &str| line(k).split('|').map(str::to_string).collect::<Vec<_>>();
-        let ids = |k: &str| line(k).split(',').filter_map(|x| x.parse().ok()).collect::<Vec<u16>>();
+        let ids = |k: &str| {
+            line(k)
+                .split(',')
+                .filter_map(|x| x.parse().ok())
+                .collect::<Vec<u16>>()
+        };
         Tables {
             items: [names("IT1="), names("IT2=")],
             stackable: [ids("ST1="), ids("ST2=")],
@@ -198,7 +232,11 @@ pub fn is_stackable(g: Game, id: u16) -> bool {
 fn item_options(g: Game, stackable: bool) -> Vec<(String, u64)> {
     let t = &tables().items[gi(g)];
     (1..t.len() as u16)
-        .filter(|&i| !t[i as usize].starts_with('?') && !t[i as usize].is_empty() && is_stackable(g, i) == stackable)
+        .filter(|&i| {
+            !t[i as usize].starts_with('?')
+                && !t[i as usize].is_empty()
+                && is_stackable(g, i) == stackable
+        })
         .map(|i| (item_name(g, i), u64::from(i)))
         .collect()
 }
@@ -211,7 +249,11 @@ fn class_name(g: Game, id: u8) -> String {
 }
 
 pub fn djinn_name(e: usize, bit: usize) -> String {
-    tables().djinn.get(e * 20 + bit).cloned().unwrap_or_else(|| format!("#{bit}"))
+    tables()
+        .djinn
+        .get(e * 20 + bit)
+        .cloned()
+        .unwrap_or_else(|| format!("#{bit}"))
 }
 
 /// A name as the game stores it: Latin-1 for the western games, half-width katakana in
@@ -258,22 +300,35 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
         let f = file.as_str();
         let base = s.at + 0x10;
         let japanese = s.date == g.dates()[0].0;
-        let lang = g.dates().iter().find(|x| x.0 == s.date).map_or("?", |x| x.1);
+        let lang = g
+            .dates()
+            .iter()
+            .find(|x| x.0 == s.date)
+            .map_or("?", |x| x.1);
         b.info(&[f, "Version"], lang);
         b.info(&[f, "Leader"], text(&d[base..base + 12], japanese));
         b.info(&[f, "Save count"], s.count);
         let secs = u32_at(d, base + 0x244) / 60;
-        b.info(&[f, "Play time"], format!("{}:{:02}:{:02}", secs / 3600, secs / 60 % 60, secs % 60));
+        b.info(
+            &[f, "Play time"],
+            format!("{}:{:02}:{:02}", secs / 3600, secs / 60 % 60, secs % 60),
+        );
         b.ranged(&[f, "Coins"], base + 0x250, Kind::U32, 0, 99_999_999);
 
         // Party, in marching order.
         let mask = d[base + 0x40];
         let n = mask.count_ones() as usize;
-        let mut order: Vec<usize> = (0..n).map(|j| d[base + 0x438 + g.shift() + j] as usize).collect();
+        let mut order: Vec<usize> = (0..n)
+            .map(|j| d[base + 0x438 + g.shift() + j] as usize)
+            .collect();
         let mut seen = order.clone();
         seen.sort_unstable();
         seen.dedup();
-        if seen.len() != n || order.iter().any(|&p| p >= g.members() || mask >> p & 1 == 0) {
+        if seen.len() != n
+            || order
+                .iter()
+                .any(|&p| p >= g.members() || mask >> p & 1 == 0)
+        {
             order = (0..g.members()).filter(|&p| mask >> p & 1 != 0).collect();
         }
         for p in order {
@@ -310,7 +365,11 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
                 let set = u32_at(d, r + 0x108 + 4 * e);
                 for bit in 0..20 {
                     if owned >> bit & 1 != 0 {
-                        let state = if set >> bit & 1 != 0 { "Set" } else { "Standby" };
+                        let state = if set >> bit & 1 != 0 {
+                            "Set"
+                        } else {
+                            "Standby"
+                        };
                         b.info(&[f, "Party", m, "Djinn", el, &djinn_name(e, bit)], state);
                     }
                 }
@@ -322,12 +381,17 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
                 let v = u16_at(d, at);
                 let id = v & 0x1FF;
                 let key = format!("Slot {:02}", j + 1);
-                let ip = |k: &'static str| -> [&str; 6] { [f, "Party", m, "Items", key.as_str(), k] };
+                let ip =
+                    |k: &'static str| -> [&str; 6] { [f, "Party", m, "Items", key.as_str(), k] };
                 if id == 0 {
                     let mut opts = vec![(EMPTY.to_string(), 0)];
                     opts.extend(item_options(g, false));
                     opts.extend(item_options(g, true));
-                    opts.sort_by(|a, b| (a.1 != 0).cmp(&(b.1 != 0)).then(a.0.to_lowercase().cmp(&b.0.to_lowercase())));
+                    opts.sort_by(|a, b| {
+                        (a.1 != 0)
+                            .cmp(&(b.1 != 0))
+                            .then(a.0.to_lowercase().cmp(&b.0.to_lowercase()))
+                    });
                     b.pick_bits(&ip("Item"), at, Kind::U16, 0, 11, &opts);
                     break;
                 }
@@ -341,7 +405,11 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
                     opts.push((item_name(g, id), u64::from(id)));
                 }
                 opts.sort_by_key(|o| o.0.to_lowercase());
-                if equipped || broken || b.pick_bits(&ip("Item"), at, Kind::U16, 0, 11, &opts).is_none() {
+                if equipped
+                    || broken
+                    || b.pick_bits(&ip("Item"), at, Kind::U16, 0, 11, &opts)
+                        .is_none()
+                {
                     b.info(&ip("Item"), item_name(g, id));
                 }
                 if stack && qty <= 30 {
@@ -403,7 +471,7 @@ mod tests {
         d[r + 0x129] = 1;
         d[r + 0xF8] = 0b101; // Flint and Quartz owned…
         d[r + 0x108] = 0b001; // …Flint set.
-        // Long Sword (equipped), 3 Herbs, then nothing.
+                              // Long Sword (equipped), 3 Herbs, then nothing.
         d[r + 0xD8..r + 0xDA].copy_from_slice(&(1u16 | 0x200).to_le_bytes());
         d[r + 0xDA..r + 0xDC].copy_from_slice(&(180u16 | 2 << 11).to_le_bytes());
         let s = block_sum(d, at, size);
@@ -421,23 +489,61 @@ mod tests {
         assert_eq!(doc.kind_name, KIND_GS1);
         let v = &doc.view;
         assert_eq!(v.pointer("/File 1/Coins"), Some(&Value::from(1234)));
-        assert_eq!(v.pointer("/File 1/Play time"), Some(&Value::from("1:01:01")));
-        assert_eq!(v.pointer("/File 1/Party/Isaac/Level"), Some(&Value::from(12)));
-        assert_eq!(v.pointer("/File 1/Party/Isaac/Djinn/Venus/Flint"), Some(&Value::from("Set")));
-        assert_eq!(v.pointer("/File 1/Party/Isaac/Djinn/Venus/Quartz"), Some(&Value::from("Standby")));
-        assert_eq!(v.pointer("/File 1/Party/Isaac/Items/Slot 01/Item"), Some(&Value::from("Long Sword")));
-        assert_eq!(v.pointer("/File 1/Party/Isaac/Items/Slot 02/Quantity"), Some(&Value::from(3)));
-        assert_eq!(v.pointer("/File 1/Party/Isaac/Items/Slot 03/Item"), Some(&Value::from(EMPTY)));
+        assert_eq!(
+            v.pointer("/File 1/Play time"),
+            Some(&Value::from("1:01:01"))
+        );
+        assert_eq!(
+            v.pointer("/File 1/Party/Isaac/Level"),
+            Some(&Value::from(12))
+        );
+        assert_eq!(
+            v.pointer("/File 1/Party/Isaac/Djinn/Venus/Flint"),
+            Some(&Value::from("Set"))
+        );
+        assert_eq!(
+            v.pointer("/File 1/Party/Isaac/Djinn/Venus/Quartz"),
+            Some(&Value::from("Standby"))
+        );
+        assert_eq!(
+            v.pointer("/File 1/Party/Isaac/Items/Slot 01/Item"),
+            Some(&Value::from("Long Sword"))
+        );
+        assert_eq!(
+            v.pointer("/File 1/Party/Isaac/Items/Slot 02/Quantity"),
+            Some(&Value::from(3))
+        );
+        assert_eq!(
+            v.pointer("/File 1/Party/Isaac/Items/Slot 03/Item"),
+            Some(&Value::from(EMPTY))
+        );
         assert!(v.pointer("/File 1/Party/Isaac/Items/Slot 04").is_none());
         // An equipped item isn't swapped; a stackable one only for another stackable one.
-        assert!(!doc.editable.contains_key("/File 1/Party/Isaac/Items/Slot 01/Item"));
-        assert!(doc.set("/File 1/Party/Isaac/Items/Slot 02/Item", Value::from("Long Sword")).is_err());
+        assert!(!doc
+            .editable
+            .contains_key("/File 1/Party/Isaac/Items/Slot 01/Item"));
+        assert!(doc
+            .set(
+                "/File 1/Party/Isaac/Items/Slot 02/Item",
+                Value::from("Long Sword")
+            )
+            .is_err());
         assert!(doc.set("/File 1/Party/Isaac/HP", Value::from(151)).is_err());
         doc.set("/File 1/Coins", Value::from(1235)).unwrap();
-        doc.set("/File 1/Party/Isaac/Base stats/Attack", Value::from(60)).unwrap();
-        doc.set("/File 1/Party/Isaac/Items/Slot 02/Quantity", Value::from(30)).unwrap();
-        doc.set("/File 1/Party/Isaac/Items/Slot 02/Item", Value::from("Nut")).unwrap();
-        doc.set("/File 1/Party/Isaac/Items/Slot 03/Item", Value::from("Broad Sword")).unwrap();
+        doc.set("/File 1/Party/Isaac/Base stats/Attack", Value::from(60))
+            .unwrap();
+        doc.set(
+            "/File 1/Party/Isaac/Items/Slot 02/Quantity",
+            Value::from(30),
+        )
+        .unwrap();
+        doc.set("/File 1/Party/Isaac/Items/Slot 02/Item", Value::from("Nut"))
+            .unwrap();
+        doc.set(
+            "/File 1/Party/Isaac/Items/Slot 03/Item",
+            Value::from("Broad Sword"),
+        )
+        .unwrap();
         let out = doc.to_bytes().unwrap();
         assert_eq!(out.len(), d.len());
         let at = 3 * 0x1000;
@@ -451,8 +557,14 @@ mod tests {
         let changed: Vec<usize> = (0..out.len()).filter(|&i| out[i] != d[i]).collect();
         assert!(changed.iter().all(|&i| (at..at + 0x1000).contains(&i)));
         let again = parse(&out).unwrap();
-        assert_eq!(again.view.pointer("/File 1/Party/Isaac/Items/Slot 02/Item"), Some(&Value::from("Nut")));
-        assert_eq!(again.view.pointer("/File 1/Party/Isaac/Items/Slot 03/Item"), Some(&Value::from("Broad Sword")));
+        assert_eq!(
+            again.view.pointer("/File 1/Party/Isaac/Items/Slot 02/Item"),
+            Some(&Value::from("Nut"))
+        );
+        assert_eq!(
+            again.view.pointer("/File 1/Party/Isaac/Items/Slot 03/Item"),
+            Some(&Value::from("Broad Sword"))
+        );
     }
 
     #[test]
@@ -466,8 +578,12 @@ mod tests {
         assert_eq!(doc.kind_name, KIND_GS2);
         let keys: Vec<&String> = doc.view.as_object().unwrap().keys().collect();
         assert_eq!(keys, ["File 3", "File 1"]);
-        assert_eq!(doc.view.pointer("/File 3/Party/Felix/Name"), Some(&Value::from("Hero")));
-        doc.set("/File 3/Party/Felix/Level", Value::from(13)).unwrap();
+        assert_eq!(
+            doc.view.pointer("/File 3/Party/Felix/Name"),
+            Some(&Value::from("Hero"))
+        );
+        doc.set("/File 3/Party/Felix/Level", Value::from(13))
+            .unwrap();
         let out = doc.to_bytes().unwrap();
         let at = 4 * 0x3000;
         assert_eq!(out[at + 0x10 + 0x520 + PC * 4 + 0xF], 13);
@@ -485,11 +601,18 @@ mod tests {
         assert_eq!(item_name(Game::LostAge, 180), "Herb");
         assert!(is_stackable(Game::GoldenSun, 183));
         assert_eq!(djinn_name(3, 0), "Gust");
-        assert_eq!(text(&[0xDB, 0xCB, 0xDE, 0xDD, 0], true), "\u{FF9B}\u{FF8B}\u{FF9E}\u{FF9D}");
+        assert_eq!(
+            text(&[0xDB, 0xCB, 0xDE, 0xDD, 0], true),
+            "\u{FF9B}\u{FF8B}\u{FF9E}\u{FF9D}"
+        );
         assert_eq!(text(b"F\xe9lix\0", false), "F\u{e9}lix");
         // Every option in a pick list is unique.
         for g in [Game::GoldenSun, Game::LostAge] {
-            let mut all: Vec<String> = item_options(g, false).into_iter().chain(item_options(g, true)).map(|o| o.0).collect();
+            let mut all: Vec<String> = item_options(g, false)
+                .into_iter()
+                .chain(item_options(g, true))
+                .map(|o| o.0)
+                .collect();
             let n = all.len();
             all.sort();
             all.dedup();
@@ -515,10 +638,24 @@ mod tests {
             assert_eq!(doc.to_bytes().unwrap(), d, "{}", p.display());
             let s = slots[0];
             let f = format!("/File {}", s.file + 1);
-            let coins = doc.view.pointer(&format!("{f}/Coins")).and_then(Value::as_u64).unwrap();
-            let new_coins = if coins >= 99_999_999 { coins - 1 } else { coins + 1 };
-            doc.set(&format!("{f}/Coins"), Value::from(new_coins)).unwrap();
-            let party: Vec<String> = doc.view.pointer(&format!("{f}/Party")).and_then(Value::as_object).map(|m| m.keys().cloned().collect()).unwrap_or_default();
+            let coins = doc
+                .view
+                .pointer(&format!("{f}/Coins"))
+                .and_then(Value::as_u64)
+                .unwrap();
+            let new_coins = if coins >= 99_999_999 {
+                coins - 1
+            } else {
+                coins + 1
+            };
+            doc.set(&format!("{f}/Coins"), Value::from(new_coins))
+                .unwrap();
+            let party: Vec<String> = doc
+                .view
+                .pointer(&format!("{f}/Party"))
+                .and_then(Value::as_object)
+                .map(|m| m.keys().cloned().collect())
+                .unwrap_or_default();
             let who = &party[0];
             let lp = format!("{f}/Party/{who}/Level");
             let level = doc.view.pointer(&lp).and_then(Value::as_u64).unwrap();
@@ -533,11 +670,28 @@ mod tests {
             assert_eq!(slots2.len(), slots.len(), "{}", p.display());
             let size = g.block();
             assert_eq!(u16_at(&out, s.at + 8), block_sum(&out, s.at, size));
-            assert!((0..out.len()).filter(|&i| out[i] != d[i]).all(|i| (s.at..s.at + size).contains(&i)), "{}", p.display());
+            assert!(
+                (0..out.len())
+                    .filter(|&i| out[i] != d[i])
+                    .all(|i| (s.at..s.at + size).contains(&i)),
+                "{}",
+                p.display()
+            );
             let back = parse(&out).unwrap();
-            assert_eq!(back.view.pointer(&format!("{f}/Coins")).and_then(Value::as_u64), Some(new_coins));
-            assert_eq!(back.view.pointer(&lp).and_then(Value::as_u64), Some(new_level));
-            assert_eq!(back.view.pointer(&ap).and_then(Value::as_u64), Some(atk + 1));
+            assert_eq!(
+                back.view
+                    .pointer(&format!("{f}/Coins"))
+                    .and_then(Value::as_u64),
+                Some(new_coins)
+            );
+            assert_eq!(
+                back.view.pointer(&lp).and_then(Value::as_u64),
+                Some(new_level)
+            );
+            assert_eq!(
+                back.view.pointer(&ap).and_then(Value::as_u64),
+                Some(atk + 1)
+            );
             // Everything else in the view is as it was.
             let mut b2 = back.view.clone();
             let mut o = parse(&d).unwrap().view;
@@ -546,7 +700,12 @@ mod tests {
                 *b2.pointer_mut(&q).unwrap() = Value::Null;
             }
             assert_eq!(o, b2, "{}", p.display());
-            println!("{}: {:?}, files {:?}, coins {coins}, {who} level {level}", p.file_name().unwrap().to_string_lossy(), g, slots.iter().map(|s| s.file + 1).collect::<Vec<_>>());
+            println!(
+                "{}: {:?}, files {:?}, coins {coins}, {who} level {level}",
+                p.file_name().unwrap().to_string_lossy(),
+                g,
+                slots.iter().map(|s| s.file + 1).collect::<Vec<_>>()
+            );
             n += 1;
         }
         println!("{n} saves checked");

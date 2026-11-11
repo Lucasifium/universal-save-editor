@@ -68,7 +68,11 @@ impl P<'_> {
         Ok(b)
     }
     fn take(&mut self, n: usize) -> Result<&[u8], String> {
-        let end = self.pos.checked_add(n).filter(|&e| e <= self.d.len()).ok_or("unexpected end of data")?;
+        let end = self
+            .pos
+            .checked_add(n)
+            .filter(|&e| e <= self.d.len())
+            .ok_or("unexpected end of data")?;
         let s = &self.d[self.pos..end];
         self.pos = end;
         Ok(s)
@@ -117,7 +121,10 @@ impl P<'_> {
             }
             b';' => {
                 let i = self.count()?;
-                self.syms.get(i).cloned().ok_or_else(|| "bad symbol link".into())
+                self.syms
+                    .get(i)
+                    .cloned()
+                    .ok_or_else(|| "bad symbol link".into())
             }
             // Symbols with an encoding ivar: I : name, count, (sym, value)…
             b'I' => {
@@ -135,7 +142,11 @@ impl P<'_> {
     fn leaf(&mut self, ptr: Option<&str>, start: usize, kind: Kind, v: Value) -> Value {
         if let Some(p) = ptr {
             self.editable.insert(p.to_string(), self.leaves.len());
-            self.leaves.push(Leaf { start, end: self.pos, kind });
+            self.leaves.push(Leaf {
+                start,
+                end: self.pos,
+                kind,
+            });
         }
         v
     }
@@ -190,7 +201,9 @@ impl P<'_> {
                 let raw = self.bytes()?;
                 match String::from_utf8(raw) {
                     Ok(s) => self.leaf(ptr, start, Kind::Str, Value::String(s)),
-                    Err(e) => Value::String(format!("<{} bytes of binary data>", e.as_bytes().len())),
+                    Err(e) => {
+                        Value::String(format!("<{} bytes of binary data>", e.as_bytes().len()))
+                    }
                 }
             }
             b':' | b';' => {
@@ -259,7 +272,10 @@ impl P<'_> {
                 self.symbol()?;
                 self.value(ptr, depth + 1)?
             }
-            b'c' | b'm' | b'M' => Value::String(format!("<class {}>", String::from_utf8_lossy(&self.bytes()?))),
+            b'c' | b'm' | b'M' => Value::String(format!(
+                "<class {}>",
+                String::from_utf8_lossy(&self.bytes()?)
+            )),
             b'/' => {
                 let src = self.bytes()?;
                 self.byte()?;
@@ -287,7 +303,11 @@ struct MarshalBackend {
 
 fn encode(kind: Kind, v: &Value) -> Result<Vec<u8>, String> {
     Ok(match kind {
-        Kind::Bool => vec![if v.as_bool().ok_or("must be on/off")? { b'T' } else { b'F' }],
+        Kind::Bool => vec![if v.as_bool().ok_or("must be on/off")? {
+            b'T'
+        } else {
+            b'F'
+        }],
         Kind::Fixnum => {
             let n = int_in(v, i32::MIN as i128, i32::MAX as i128, "This number")? as i64;
             [vec![b'i'], w_long(n)].concat()
@@ -341,7 +361,13 @@ impl Backend for MarshalBackend {
 }
 
 pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
-    let mut p = P { d, pos: 0, syms: vec![], leaves: vec![], editable: HashMap::new() };
+    let mut p = P {
+        d,
+        pos: 0,
+        syms: vec![],
+        leaves: vec![],
+        editable: HashMap::new(),
+    };
     let mut parts = Vec::new();
     while p.pos < d.len() {
         if p.take(2)? != [4, 8] {
@@ -358,8 +384,16 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
     for (i, v) in parts.into_iter().enumerate() {
         root.insert(format!("Part {}", i + 1), v);
     }
-    let backend = MarshalBackend { raw: d.to_vec(), leaves: p.leaves };
-    Ok(TreeDoc::new(Value::Object(root), p.editable, "RPG Maker XP/VX/Ace (Ruby Marshal)", Box::new(backend)))
+    let backend = MarshalBackend {
+        raw: d.to_vec(),
+        leaves: p.leaves,
+    };
+    Ok(TreeDoc::new(
+        Value::Object(root),
+        p.editable,
+        "RPG Maker XP/VX/Ace (Ruby Marshal)",
+        Box::new(backend),
+    ))
 }
 
 #[cfg(test)]
@@ -368,7 +402,13 @@ mod tests {
 
     fn s(x: &str) -> Vec<u8> {
         // Ruby: I"..." with E: true (UTF-8 marker)
-        [b"I\"".to_vec(), w_long(x.len() as i64), x.as_bytes().to_vec(), b"\x06:\x06ET".to_vec()].concat()
+        [
+            b"I\"".to_vec(),
+            w_long(x.len() as i64),
+            x.as_bytes().to_vec(),
+            b"\x06:\x06ET".to_vec(),
+        ]
+        .concat()
     }
 
     /// Hand-built VX Ace style save: header hash, then contents with a Game_Party object.
@@ -404,9 +444,31 @@ mod tests {
 
     #[test]
     fn long_encoding_round_trips() {
-        for x in [0, 1, 122, 123, -1, -123, -124, 255, 256, -256, 65535, -65536, 1 << 20, i32::MAX as i64, i32::MIN as i64] {
+        for x in [
+            0,
+            1,
+            122,
+            123,
+            -1,
+            -123,
+            -124,
+            255,
+            256,
+            -256,
+            65535,
+            -65536,
+            1 << 20,
+            i32::MAX as i64,
+            i32::MIN as i64,
+        ] {
             let b = w_long(x);
-            let mut p = P { d: &b, pos: 0, syms: vec![], leaves: vec![], editable: HashMap::new() };
+            let mut p = P {
+                d: &b,
+                pos: 0,
+                syms: vec![],
+                leaves: vec![],
+                editable: HashMap::new(),
+            };
             assert_eq!(p.long().unwrap(), x, "value {x}");
             assert_eq!(p.pos, b.len());
         }
@@ -420,19 +482,33 @@ mod tests {
         assert_eq!(doc.view.pointer("/Part 1/playtime").unwrap(), 3600);
         assert_eq!(doc.view.pointer("/Part 2/party/@gold").unwrap(), 1500);
         assert_eq!(doc.view.pointer("/Part 2/party/@name").unwrap(), "Ash");
-        assert_eq!(doc.view.pointer("/Part 2/party/@steps").unwrap(), 5_000_000_000_i64);
-        doc.set("/Part 2/party/@gold", Value::from(999_999)).unwrap();
-        doc.set("/Part 2/party/@name", Value::from("Misty Waterflower")).unwrap();
+        assert_eq!(
+            doc.view.pointer("/Part 2/party/@steps").unwrap(),
+            5_000_000_000_i64
+        );
+        doc.set("/Part 2/party/@gold", Value::from(999_999))
+            .unwrap();
+        doc.set("/Part 2/party/@name", Value::from("Misty Waterflower"))
+            .unwrap();
         doc.set("/Part 2/party/@steps", Value::from(42)).unwrap();
         doc.set("/Part 2/party/@rate", Value::from(2.25)).unwrap();
         doc.set("/Part 2/party/@flag", Value::Bool(false)).unwrap();
         doc.set("/Part 2/vars/2", Value::from(1)).unwrap();
-        assert!(doc.set("/Part 2/vars/1", Value::from(1_i64 << 40)).is_err(), "fixnum range enforced");
+        assert!(
+            doc.set("/Part 2/vars/1", Value::from(1_i64 << 40)).is_err(),
+            "fixnum range enforced"
+        );
         let again = parse(&doc.to_bytes().unwrap()).unwrap();
         assert_eq!(again.view.pointer("/Part 2/party/@gold").unwrap(), 999_999);
-        assert_eq!(again.view.pointer("/Part 2/party/@name").unwrap(), "Misty Waterflower");
+        assert_eq!(
+            again.view.pointer("/Part 2/party/@name").unwrap(),
+            "Misty Waterflower"
+        );
         assert_eq!(again.view.pointer("/Part 2/party/@steps").unwrap(), 42);
-        assert_eq!(again.view.pointer("/Part 2/party/@rate").unwrap().as_f64(), Some(2.25));
+        assert_eq!(
+            again.view.pointer("/Part 2/party/@rate").unwrap().as_f64(),
+            Some(2.25)
+        );
         assert_eq!(again.view.pointer("/Part 2/party/@flag").unwrap(), false);
         assert_eq!(again.view.pointer("/Part 2/vars/2").unwrap(), 1);
     }

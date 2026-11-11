@@ -25,7 +25,11 @@ pub fn toggle(ui: &mut Ui, on: &mut bool) -> Response {
         );
         ui.painter().rect_filled(rect, radius, fill);
         let cx = egui::lerp((rect.left() + radius)..=(rect.right() - radius), t);
-        ui.painter().circle_filled(egui::pos2(cx, rect.center().y), radius - 3.0, Color32::WHITE);
+        ui.painter().circle_filled(
+            egui::pos2(cx, rect.center().y),
+            radius - 3.0,
+            Color32::WHITE,
+        );
     }
     resp
 }
@@ -35,7 +39,11 @@ pub fn labeled_toggle(ui: &mut Ui, on: &mut bool, text: &str, tip: &str) -> bool
     ui.horizontal(|ui| {
         ui.spacing_mut().item_spacing.x = 6.0;
         let mut changed = toggle(ui, on).on_hover_text(tip).changed();
-        if ui.add(egui::Label::new(text).sense(Sense::click())).on_hover_text(tip).clicked() {
+        if ui
+            .add(egui::Label::new(text).sense(Sense::click()))
+            .on_hover_text(tip)
+            .clicked()
+        {
             *on = !*on;
             changed = true;
         }
@@ -49,13 +57,26 @@ pub fn icon_text(ui: &Ui, has_icons: bool, icon: &str, text: &str) -> WidgetText
     icon_text_colored(ui, has_icons, icon, text, ui.visuals().text_color())
 }
 
-pub fn icon_text_colored(ui: &Ui, has_icons: bool, icon: &str, text: &str, color: Color32) -> WidgetText {
+pub fn icon_text_colored(
+    ui: &Ui,
+    has_icons: bool,
+    icon: &str,
+    text: &str,
+    color: Color32,
+) -> WidgetText {
     if !has_icons {
         return RichText::new(text).color(color).into();
     }
     let font = egui::TextStyle::Button.resolve(ui.style());
     let mut job = egui::text::LayoutJob::default();
-    job.append(icon, 0.0, egui::TextFormat::simple(egui::FontId::new(font.size - 1.0, theme::icons_family()), color));
+    job.append(
+        icon,
+        0.0,
+        egui::TextFormat::simple(
+            egui::FontId::new(font.size - 1.0, theme::icons_family()),
+            color,
+        ),
+    );
     if !text.is_empty() {
         job.append(text, 6.0, egui::TextFormat::simple(font, color));
     }
@@ -80,7 +101,10 @@ fn unescape_breaks(s: &str) -> String {
 
 /// Parse user input for a number, keeping integers as integers.
 pub fn parse_number(text: &str, integer: bool) -> Option<Value> {
-    let t: String = text.chars().filter(|c| !matches!(c, ' ' | ',' | '_')).collect();
+    let t: String = text
+        .chars()
+        .filter(|c| !matches!(c, ' ' | ',' | '_'))
+        .collect();
     if t.is_empty() {
         return None;
     }
@@ -119,27 +143,44 @@ pub fn type_name(v: &Value) -> &'static str {
 /// Editor for a scalar value. Returns `Some(new)` when the user changed it.
 /// A drop-down for fields with a fixed list of values (Pokémon, items, moves…),
 /// with a filter box so long lists stay usable.
-pub fn choice_editor(ui: &mut Ui, id_src: &str, current: &str, list: &[String], width: f32) -> Option<Value> {
+pub fn choice_editor(
+    ui: &mut Ui,
+    id_src: &str,
+    current: &str,
+    list: &[String],
+    width: f32,
+) -> Option<Value> {
     let mut out = None;
     let id = ui.make_persistent_id(("choice", id_src));
     let fid = id.with("filter");
-    egui::ComboBox::from_id_salt(id).selected_text(current).width(width.min(260.0)).height(340.0).show_ui(ui, |ui| {
-        let mut filter = ui.data(|d| d.get_temp::<String>(fid)).unwrap_or_default();
-        let r = ui.add(TextEdit::singleline(&mut filter).hint_text("Type to filter…").desired_width(f32::INFINITY));
-        if ui.memory(|m| m.focused().is_none()) {
-            r.request_focus();
-        }
-        let f = filter.trim().to_lowercase();
-        for name in list.iter().filter(|n| f.is_empty() || n.to_lowercase().contains(&f)) {
-            if ui.selectable_label(name == current, name).clicked() && name != current {
-                out = Some(Value::String(name.clone()));
+    egui::ComboBox::from_id_salt(id)
+        .selected_text(current)
+        .width(width.min(260.0))
+        .height(340.0)
+        .show_ui(ui, |ui| {
+            let mut filter = ui.data(|d| d.get_temp::<String>(fid)).unwrap_or_default();
+            let r = ui.add(
+                TextEdit::singleline(&mut filter)
+                    .hint_text("Type to filter…")
+                    .desired_width(f32::INFINITY),
+            );
+            if ui.memory(|m| m.focused().is_none()) {
+                r.request_focus();
             }
-        }
-        if out.is_some() {
-            filter.clear();
-        }
-        ui.data_mut(|d| d.insert_temp(fid, filter));
-    });
+            let f = filter.trim().to_lowercase();
+            for name in list
+                .iter()
+                .filter(|n| f.is_empty() || n.to_lowercase().contains(&f))
+            {
+                if ui.selectable_label(name == current, name).clicked() && name != current {
+                    out = Some(Value::String(name.clone()));
+                }
+            }
+            if out.is_some() {
+                filter.clear();
+            }
+            ui.data_mut(|d| d.insert_temp(fid, filter));
+        });
     out
 }
 
@@ -155,9 +196,16 @@ pub fn compact<R>(f: impl FnOnce() -> R) -> R {
     r
 }
 
-pub fn value_editor(ui: &mut Ui, id_src: &str, v: &Value, editable: bool, width: f32) -> Option<Value> {
+pub fn value_editor(
+    ui: &mut Ui,
+    id_src: &str,
+    v: &Value,
+    editable: bool,
+    width: f32,
+) -> Option<Value> {
     if !editable {
-        ui.label(RichText::new(display(v)).weak().italics()).on_hover_text("Read-only: this value can't be edited safely");
+        ui.label(RichText::new(display(v)).weak().italics())
+            .on_hover_text("Read-only: this value can't be edited safely");
         return None;
     }
     match v {
@@ -173,8 +221,13 @@ pub fn value_editor(ui: &mut Ui, id_src: &str, v: &Value, editable: bool, width:
             let mut text = escape_breaks(s);
             let id = ui.make_persistent_id(("str", id_src));
             let resp = ui.add(TextEdit::singleline(&mut text).id(id).desired_width(width));
-            let resp = if s.contains(['\n', '\r']) { resp.on_hover_text("\u{23CE} marks a line break") } else { resp };
-            resp.changed().then(|| Value::String(unescape_breaks(&text)))
+            let resp = if s.contains(['\n', '\r']) {
+                resp.on_hover_text("\u{23CE} marks a line break")
+            } else {
+                resp
+            };
+            resp.changed()
+                .then(|| Value::String(unescape_breaks(&text)))
         }
         Value::Number(n) => {
             let integer = n.as_i64().is_some() || n.as_u64().is_some();
@@ -186,12 +239,15 @@ pub fn value_editor(ui: &mut Ui, id_src: &str, v: &Value, editable: bool, width:
                 ui.data_mut(|d| d.remove::<String>(id));
             }
             let mut buf = if focused {
-                ui.data(|d| d.get_temp::<String>(id)).unwrap_or_else(|| n.to_string())
+                ui.data(|d| d.get_temp::<String>(id))
+                    .unwrap_or_else(|| n.to_string())
             } else {
                 n.to_string()
             };
             let valid = parse_number(&buf, integer).is_some();
-            let mut edit = TextEdit::singleline(&mut buf).id(id).desired_width(width.min(160.0));
+            let mut edit = TextEdit::singleline(&mut buf)
+                .id(id)
+                .desired_width(width.min(160.0));
             if !valid {
                 edit = edit.text_color(theme::ERR);
             }
@@ -206,15 +262,27 @@ pub fn value_editor(ui: &mut Ui, id_src: &str, v: &Value, editable: bool, width:
                 }
             }
             if !valid {
-                resp = resp.on_hover_text(if integer { "Enter a whole number, e.g. 1500" } else { "Enter a number, e.g. 2.5" });
+                resp = resp.on_hover_text(if integer {
+                    "Enter a whole number, e.g. 1500"
+                } else {
+                    "Enter a number, e.g. 2.5"
+                });
             }
             let _ = resp;
             if integer && !COMPACT.with(|c| c.get()) {
                 if let Some(i) = n.as_i64() {
-                    if ui.small_button("\u{2212}").on_hover_text("Decrease by 1").clicked() {
+                    if ui
+                        .small_button("\u{2212}")
+                        .on_hover_text("Decrease by 1")
+                        .clicked()
+                    {
                         out = Some(Value::from(i.saturating_sub(1)));
                     }
-                    if ui.small_button("+").on_hover_text("Increase by 1").clicked() {
+                    if ui
+                        .small_button("+")
+                        .on_hover_text("Increase by 1")
+                        .clicked()
+                    {
                         out = Some(Value::from(i.saturating_add(1)));
                     }
                 }
@@ -237,7 +305,10 @@ mod tests {
     fn line_breaks_round_trip() {
         for s in ["one line", "two\nlines", "windows\r\nbreaks", "\n"] {
             let shown = escape_breaks(s);
-            assert!(!shown.contains(['\n', '\r']), "one-line box must not see raw breaks");
+            assert!(
+                !shown.contains(['\n', '\r']),
+                "one-line box must not see raw breaks"
+            );
             assert_eq!(unescape_breaks(&shown), s);
         }
     }
@@ -246,10 +317,18 @@ mod tests {
     fn numbers_parse_strictly() {
         assert_eq!(parse_number("2,500", true), Some(Value::from(2500)));
         assert_eq!(parse_number("-7", true), Some(Value::from(-7)));
-        assert_eq!(parse_number("1.5", true), None, "whole-number fields reject decimals");
+        assert_eq!(
+            parse_number("1.5", true),
+            None,
+            "whole-number fields reject decimals"
+        );
         assert_eq!(parse_number("", true), None);
         assert_eq!(parse_number("abc", false), None);
-        assert_eq!(parse_number("inf", false), None, "JSON can't store infinity");
+        assert_eq!(
+            parse_number("inf", false),
+            None,
+            "JSON can't store infinity"
+        );
         assert!(parse_number("2.25", false).is_some());
     }
 }

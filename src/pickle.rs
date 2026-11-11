@@ -47,7 +47,13 @@ struct PObj {
 }
 
 fn obj(class: String, args: Vec<PV>) -> PV {
-    PV::Obj(Rc::new(RefCell::new(PObj { class, args, state: None, items: vec![], entries: vec![] })))
+    PV::Obj(Rc::new(RefCell::new(PObj {
+        class,
+        args,
+        state: None,
+        items: vec![],
+        entries: vec![],
+    })))
 }
 
 #[derive(Clone, Debug, PartialEq, Eq)]
@@ -75,7 +81,11 @@ pub fn looks_like_pickle(d: &[u8]) -> bool {
 /// Parse a pickle into an editable tree document.
 pub fn parse(data: &[u8]) -> Result<TreeDoc, String> {
     let (ops, root, shared_ops) = run(data)?;
-    let mut conv = Conv { editable: HashMap::new(), visiting: HashSet::new(), root_ptrs: HashMap::new() };
+    let mut conv = Conv {
+        editable: HashMap::new(),
+        visiting: HashSet::new(),
+        root_ptrs: HashMap::new(),
+    };
     let (view, kind) = conv.friendly_root(&root);
     let mut links: HashMap<usize, Vec<usize>> = HashMap::new();
     if kind == PickleKind::RenpySave {
@@ -85,7 +95,11 @@ pub fn parse(data: &[u8]) -> Result<TreeDoc, String> {
                 if shared_ops.contains(&op) {
                     continue;
                 }
-                if let Some(leaf) = conv.root_ptrs.get(&full_name).and_then(|p| conv.editable.get(p)) {
+                if let Some(leaf) = conv
+                    .root_ptrs
+                    .get(&full_name)
+                    .and_then(|p| conv.editable.get(p))
+                {
                     links.entry(*leaf).or_default().push(op);
                 }
             }
@@ -96,9 +110,17 @@ pub fn parse(data: &[u8]) -> Result<TreeDoc, String> {
         PickleKind::RenpyPersistent => "Ren'Py persistent data",
         PickleKind::Generic => "Python pickle",
     };
-    let backend = PickleBackend { raw: data.to_vec(), ops, links };
+    let backend = PickleBackend {
+        raw: data.to_vec(),
+        ops,
+        links,
+    };
     let doc = TreeDoc::new(view, conv.editable, name, Box::new(backend));
-    Ok(if kind == PickleKind::Generic { doc } else { doc.with_advanced(vec!["Ren'Py internals".into()]) })
+    Ok(if kind == PickleKind::Generic {
+        doc
+    } else {
+        doc.with_advanced(vec!["Ren'Py internals".into()])
+    })
 }
 
 impl Backend for PickleBackend {
@@ -191,7 +213,11 @@ fn encode_scalar(orig_code: u8, v: &Value) -> Result<Vec<u8>, String> {
         }
         Value::String(s) => {
             // Keep Python 2 byte-strings as byte-strings, unicode as unicode.
-            out.push(if matches!(orig_code, b'S' | b'T' | b'U') { b'T' } else { b'X' });
+            out.push(if matches!(orig_code, b'S' | b'T' | b'U') {
+                b'T'
+            } else {
+                b'X'
+            });
             out.extend_from_slice(&(s.len() as u32).to_le_bytes());
             out.extend_from_slice(s.as_bytes());
         }
@@ -209,7 +235,11 @@ struct Reader<'a> {
 
 impl<'a> Reader<'a> {
     fn take(&mut self, n: usize) -> Result<&'a [u8], String> {
-        let end = self.pos.checked_add(n).filter(|&e| e <= self.d.len()).ok_or("unexpected end of data")?;
+        let end = self
+            .pos
+            .checked_add(n)
+            .filter(|&e| e <= self.d.len())
+            .ok_or("unexpected end of data")?;
         let s = &self.d[self.pos..end];
         self.pos = end;
         Ok(s)
@@ -228,7 +258,10 @@ impl<'a> Reader<'a> {
     }
     fn line(&mut self) -> Result<String, String> {
         let rest = &self.d[self.pos..];
-        let n = rest.iter().position(|&b| b == b'\n').ok_or("unterminated line")?;
+        let n = rest
+            .iter()
+            .position(|&b| b == b'\n')
+            .ok_or("unterminated line")?;
         self.pos += n + 1;
         Ok(String::from_utf8_lossy(&rest[..n]).into_owned())
     }
@@ -241,7 +274,11 @@ fn int_from_le(bytes: &[u8]) -> PV {
     if bytes.len() > 8 {
         return PV::BigInt;
     }
-    let fill = if bytes[bytes.len() - 1] & 0x80 != 0 { 0xFF } else { 0 };
+    let fill = if bytes[bytes.len() - 1] & 0x80 != 0 {
+        0xFF
+    } else {
+        0
+    };
     let mut buf = [fill; 8];
     buf[..bytes.len()].copy_from_slice(bytes);
     PV::Int(i64::from_le_bytes(buf), 0)
@@ -258,7 +295,9 @@ fn unquote(s: &str) -> String {
     let t = s.trim();
     let t = t.strip_prefix(['\'', '"']).unwrap_or(t);
     let t = t.strip_suffix(['\'', '"']).unwrap_or(t);
-    t.replace("\\'", "'").replace("\\n", "\n").replace("\\\\", "\\")
+    t.replace("\\'", "'")
+        .replace("\\n", "\n")
+        .replace("\\\\", "\\")
 }
 
 fn unicode_escape(s: &str) -> String {
@@ -322,7 +361,11 @@ fn append_to(target: Option<&PV>, items: Vec<PV>) {
 }
 
 fn set_items(target: Option<&PV>, flat: Vec<PV>) {
-    let pairs: Vec<(PV, PV)> = flat.chunks(2).filter(|c| c.len() == 2).map(|c| (c[0].clone(), c[1].clone())).collect();
+    let pairs: Vec<(PV, PV)> = flat
+        .chunks(2)
+        .filter(|c| c.len() == 2)
+        .map(|c| (c[0].clone(), c[1].clone()))
+        .collect();
     match target {
         Some(PV::Dict(d)) => d.borrow_mut().extend(pairs),
         Some(PV::Obj(o)) => o.borrow_mut().entries.extend(pairs),
@@ -358,7 +401,10 @@ fn dict_entries(v: &PV) -> Vec<(PV, PV)> {
 }
 
 fn dict_get(v: &PV, key: &str) -> Option<PV> {
-    dict_entries(v).into_iter().find(|(k, _)| matches!(k, PV::Str(s, _) if s == key)).map(|(_, v)| v)
+    dict_entries(v)
+        .into_iter()
+        .find(|(k, _)| matches!(k, PV::Str(s, _) if s == key))
+        .map(|(_, v)| v)
 }
 
 fn list_items(v: &PV) -> Vec<PV> {
@@ -367,7 +413,11 @@ fn list_items(v: &PV) -> Vec<PV> {
         PV::Tuple(t) => t.as_ref().clone(),
         PV::Obj(o) => {
             let o = o.borrow();
-            if o.items.is_empty() { o.args.clone() } else { o.items.clone() }
+            if o.items.is_empty() {
+                o.args.clone()
+            } else {
+                o.items.clone()
+            }
         }
         _ => vec![],
     }
@@ -378,11 +428,17 @@ fn list_items(v: &PV) -> Vec<PV> {
 /// Rollback.stores = {"store": {"money": <value before this statement>, ...}, ...}.
 fn rollback_store_ops(log: Option<&PV>) -> Vec<(String, usize)> {
     let mut out = Vec::new();
-    let Some(entries) = log.and_then(|l| dict_get(l, "log")) else { return out };
+    let Some(entries) = log.and_then(|l| dict_get(l, "log")) else {
+        return out;
+    };
     for rb in list_items(&entries) {
-        let Some(stores) = dict_get(&rb, "stores") else { continue };
+        let Some(stores) = dict_get(&rb, "stores") else {
+            continue;
+        };
         for (store_name, changes) in dict_entries(&stores) {
-            let PV::Str(store_name, _) = store_name else { continue };
+            let PV::Str(store_name, _) = store_name else {
+                continue;
+            };
             for (var, val) in dict_entries(&changes) {
                 if let (PV::Str(var, _), Some(op)) = (var, scalar_op(&val)) {
                     out.push((format!("{store_name}.{var}"), op));
@@ -412,7 +468,10 @@ fn run(data: &[u8]) -> Result<(Vec<Op>, PV, HashSet<usize>), String> {
         stack.pop().ok_or_else(|| "stack underflow".to_string())
     }
     fn pop_mark(stack: &mut Vec<PV>) -> Result<Vec<PV>, String> {
-        let idx = stack.iter().rposition(|v| matches!(v, PV::Mark)).ok_or("missing MARK")?;
+        let idx = stack
+            .iter()
+            .rposition(|v| matches!(v, PV::Mark))
+            .ok_or("missing MARK")?;
         let items = stack.split_off(idx + 1);
         stack.pop();
         Ok(items)
@@ -424,13 +483,24 @@ fn run(data: &[u8]) -> Result<(Vec<Op>, PV, HashSet<usize>), String> {
         let idx = ops.len();
         let mut stop = false;
         match code {
-            0x80 => { r.take(1)?; }
-            0x95 => { r.take(8)?; }
+            0x80 => {
+                r.take(1)?;
+            }
+            0x95 => {
+                r.take(8)?;
+            }
             b'.' => stop = true,
             b'(' => stack.push(PV::Mark),
-            b'0' => { pop(&mut stack)?; }
-            b'1' => { pop_mark(&mut stack)?; }
-            b'2' => { let top = stack.last().cloned().ok_or("stack underflow")?; stack.push(top); }
+            b'0' => {
+                pop(&mut stack)?;
+            }
+            b'1' => {
+                pop_mark(&mut stack)?;
+            }
+            b'2' => {
+                let top = stack.last().cloned().ok_or("stack underflow")?;
+                stack.push(top);
+            }
             b'N' => stack.push(PV::None),
             0x88 => stack.push(PV::Bool(true, idx)),
             0x89 => stack.push(PV::Bool(false, idx)),
@@ -442,33 +512,126 @@ fn run(data: &[u8]) -> Result<(Vec<Op>, PV, HashSet<usize>), String> {
                     s => s.parse().map(|i| PV::Int(i, idx)).unwrap_or(PV::BigInt),
                 });
             }
-            b'J' => { let v = i32::from_le_bytes(r.take(4)?.try_into().unwrap()); stack.push(PV::Int(v as i64, idx)); }
-            b'K' => { let v = r.u8()?; stack.push(PV::Int(v as i64, idx)); }
-            b'M' => { let v = r.u16()?; stack.push(PV::Int(v as i64, idx)); }
-            b'L' => { let l = r.line()?; stack.push(l.trim_end_matches('L').parse().map(|i| PV::Int(i, idx)).unwrap_or(PV::BigInt)); }
-            0x8a => { let n = r.u8()?; let b = r.take(n)?; stack.push(with_op(int_from_le(b), idx)); }
-            0x8b => { let n = r.u32()?; let b = r.take(n)?; stack.push(with_op(int_from_le(b), idx)); }
-            b'S' => { let l = r.line()?; stack.push(PV::Str(unquote(&l), idx)); }
-            b'T' => { let n = r.u32()?; stack.push(PV::Str(String::from_utf8_lossy(r.take(n)?).into_owned(), idx)); }
-            b'U' => { let n = r.u8()?; stack.push(PV::Str(String::from_utf8_lossy(r.take(n)?).into_owned(), idx)); }
-            b'B' => { let n = r.u32()?; r.take(n)?; stack.push(PV::Bytes(n)); }
-            b'C' => { let n = r.u8()?; r.take(n)?; stack.push(PV::Bytes(n)); }
-            0x8e | 0x96 => { let n = r.u64()?; r.take(n)?; stack.push(PV::Bytes(n)); }
-            b'V' => { let l = r.line()?; stack.push(PV::Str(unicode_escape(&l), idx)); }
-            b'X' => { let n = r.u32()?; stack.push(PV::Str(String::from_utf8_lossy(r.take(n)?).into_owned(), idx)); }
-            0x8c => { let n = r.u8()?; stack.push(PV::Str(String::from_utf8_lossy(r.take(n)?).into_owned(), idx)); }
-            0x8d => { let n = r.u64()?; stack.push(PV::Str(String::from_utf8_lossy(r.take(n)?).into_owned(), idx)); }
-            b'F' => { let l = r.line()?; stack.push(PV::Float(l.trim().parse().unwrap_or(f64::NAN), idx)); }
-            b'G' => { let v = f64::from_be_bytes(r.take(8)?.try_into().unwrap()); stack.push(PV::Float(v, idx)); }
+            b'J' => {
+                let v = i32::from_le_bytes(r.take(4)?.try_into().unwrap());
+                stack.push(PV::Int(v as i64, idx));
+            }
+            b'K' => {
+                let v = r.u8()?;
+                stack.push(PV::Int(v as i64, idx));
+            }
+            b'M' => {
+                let v = r.u16()?;
+                stack.push(PV::Int(v as i64, idx));
+            }
+            b'L' => {
+                let l = r.line()?;
+                stack.push(
+                    l.trim_end_matches('L')
+                        .parse()
+                        .map(|i| PV::Int(i, idx))
+                        .unwrap_or(PV::BigInt),
+                );
+            }
+            0x8a => {
+                let n = r.u8()?;
+                let b = r.take(n)?;
+                stack.push(with_op(int_from_le(b), idx));
+            }
+            0x8b => {
+                let n = r.u32()?;
+                let b = r.take(n)?;
+                stack.push(with_op(int_from_le(b), idx));
+            }
+            b'S' => {
+                let l = r.line()?;
+                stack.push(PV::Str(unquote(&l), idx));
+            }
+            b'T' => {
+                let n = r.u32()?;
+                stack.push(PV::Str(
+                    String::from_utf8_lossy(r.take(n)?).into_owned(),
+                    idx,
+                ));
+            }
+            b'U' => {
+                let n = r.u8()?;
+                stack.push(PV::Str(
+                    String::from_utf8_lossy(r.take(n)?).into_owned(),
+                    idx,
+                ));
+            }
+            b'B' => {
+                let n = r.u32()?;
+                r.take(n)?;
+                stack.push(PV::Bytes(n));
+            }
+            b'C' => {
+                let n = r.u8()?;
+                r.take(n)?;
+                stack.push(PV::Bytes(n));
+            }
+            0x8e | 0x96 => {
+                let n = r.u64()?;
+                r.take(n)?;
+                stack.push(PV::Bytes(n));
+            }
+            b'V' => {
+                let l = r.line()?;
+                stack.push(PV::Str(unicode_escape(&l), idx));
+            }
+            b'X' => {
+                let n = r.u32()?;
+                stack.push(PV::Str(
+                    String::from_utf8_lossy(r.take(n)?).into_owned(),
+                    idx,
+                ));
+            }
+            0x8c => {
+                let n = r.u8()?;
+                stack.push(PV::Str(
+                    String::from_utf8_lossy(r.take(n)?).into_owned(),
+                    idx,
+                ));
+            }
+            0x8d => {
+                let n = r.u64()?;
+                stack.push(PV::Str(
+                    String::from_utf8_lossy(r.take(n)?).into_owned(),
+                    idx,
+                ));
+            }
+            b'F' => {
+                let l = r.line()?;
+                stack.push(PV::Float(l.trim().parse().unwrap_or(f64::NAN), idx));
+            }
+            b'G' => {
+                let v = f64::from_be_bytes(r.take(8)?.try_into().unwrap());
+                stack.push(PV::Float(v, idx));
+            }
             b']' => stack.push(PV::List(Rc::new(RefCell::new(vec![])))),
-            b'l' => { let items = pop_mark(&mut stack)?; stack.push(PV::List(Rc::new(RefCell::new(items)))); }
-            b'a' => { let v = pop(&mut stack)?; append_to(stack.last(), vec![v]); }
-            b'e' => { let items = pop_mark(&mut stack)?; append_to(stack.last(), items); }
+            b'l' => {
+                let items = pop_mark(&mut stack)?;
+                stack.push(PV::List(Rc::new(RefCell::new(items))));
+            }
+            b'a' => {
+                let v = pop(&mut stack)?;
+                append_to(stack.last(), vec![v]);
+            }
+            b'e' => {
+                let items = pop_mark(&mut stack)?;
+                append_to(stack.last(), items);
+            }
             b')' => stack.push(PV::Tuple(Rc::new(vec![]))),
-            b't' => { let items = pop_mark(&mut stack)?; stack.push(PV::Tuple(Rc::new(items))); }
+            b't' => {
+                let items = pop_mark(&mut stack)?;
+                stack.push(PV::Tuple(Rc::new(items)));
+            }
             0x85..=0x87 => {
                 let n = (code - 0x84) as usize;
-                if stack.len() < n { return Err("stack underflow".into()); }
+                if stack.len() < n {
+                    return Err("stack underflow".into());
+                }
                 let items = stack.split_off(stack.len() - n);
                 stack.push(PV::Tuple(Rc::new(items)));
             }
@@ -479,37 +642,93 @@ fn run(data: &[u8]) -> Result<(Vec<Op>, PV, HashSet<usize>), String> {
                 set_items(Some(&d), flat);
                 stack.push(d);
             }
-            b's' => { let v = pop(&mut stack)?; let k = pop(&mut stack)?; set_items(stack.last(), vec![k, v]); }
-            b'u' => { let flat = pop_mark(&mut stack)?; set_items(stack.last(), flat); }
+            b's' => {
+                let v = pop(&mut stack)?;
+                let k = pop(&mut stack)?;
+                set_items(stack.last(), vec![k, v]);
+            }
+            b'u' => {
+                let flat = pop_mark(&mut stack)?;
+                set_items(stack.last(), flat);
+            }
             0x8f => stack.push(PV::Set(Rc::new(RefCell::new(vec![])))),
-            0x90 => { let items = pop_mark(&mut stack)?; append_to(stack.last(), items); }
-            0x91 => { let items = pop_mark(&mut stack)?; stack.push(PV::Set(Rc::new(RefCell::new(items)))); }
-            b'g' => { let i: usize = r.line()?.trim().parse().map_err(|_| "bad GET")?; stack.push(fetch(&memo, i)?); }
-            b'h' => { let i = r.u8()?; stack.push(fetch(&memo, i)?); }
-            b'j' => { let i = r.u32()?; stack.push(fetch(&memo, i)?); }
-            b'p' => { let i: usize = r.line()?.trim().parse().map_err(|_| "bad PUT")?; memo.insert(i, stack.last().cloned().ok_or("stack underflow")?); }
-            b'q' => { let i = r.u8()?; memo.insert(i, stack.last().cloned().ok_or("stack underflow")?); }
-            b'r' => { let i = r.u32()?; memo.insert(i, stack.last().cloned().ok_or("stack underflow")?); }
-            0x94 => { let i = memo.len(); memo.insert(i, stack.last().cloned().ok_or("stack underflow")?); }
-            b'c' => { let m = r.line()?; let n = r.line()?; stack.push(PV::Global(format!("{m}.{n}").into())); }
+            0x90 => {
+                let items = pop_mark(&mut stack)?;
+                append_to(stack.last(), items);
+            }
+            0x91 => {
+                let items = pop_mark(&mut stack)?;
+                stack.push(PV::Set(Rc::new(RefCell::new(items))));
+            }
+            b'g' => {
+                let i: usize = r.line()?.trim().parse().map_err(|_| "bad GET")?;
+                stack.push(fetch(&memo, i)?);
+            }
+            b'h' => {
+                let i = r.u8()?;
+                stack.push(fetch(&memo, i)?);
+            }
+            b'j' => {
+                let i = r.u32()?;
+                stack.push(fetch(&memo, i)?);
+            }
+            b'p' => {
+                let i: usize = r.line()?.trim().parse().map_err(|_| "bad PUT")?;
+                memo.insert(i, stack.last().cloned().ok_or("stack underflow")?);
+            }
+            b'q' => {
+                let i = r.u8()?;
+                memo.insert(i, stack.last().cloned().ok_or("stack underflow")?);
+            }
+            b'r' => {
+                let i = r.u32()?;
+                memo.insert(i, stack.last().cloned().ok_or("stack underflow")?);
+            }
+            0x94 => {
+                let i = memo.len();
+                memo.insert(i, stack.last().cloned().ok_or("stack underflow")?);
+            }
+            b'c' => {
+                let m = r.line()?;
+                let n = r.line()?;
+                stack.push(PV::Global(format!("{m}.{n}").into()));
+            }
             0x93 => {
                 let n = pop(&mut stack)?;
                 let m = pop(&mut stack)?;
-                let s = |v: &PV| if let PV::Str(s, _) = v { s.clone() } else { "?".into() };
+                let s = |v: &PV| {
+                    if let PV::Str(s, _) = v {
+                        s.clone()
+                    } else {
+                        "?".into()
+                    }
+                };
                 stack.push(PV::Global(format!("{}.{}", s(&m), s(&n)).into()));
             }
-            b'R' => { let args = pop(&mut stack)?; let f = pop(&mut stack)?; stack.push(reduce(f, args)); }
+            b'R' => {
+                let args = pop(&mut stack)?;
+                let f = pop(&mut stack)?;
+                stack.push(reduce(f, args));
+            }
             0x81 => {
                 let args = pop(&mut stack)?;
                 let cls = pop(&mut stack)?;
-                let args = if let PV::Tuple(t) = args { t.as_ref().clone() } else { vec![] };
+                let args = if let PV::Tuple(t) = args {
+                    t.as_ref().clone()
+                } else {
+                    vec![]
+                };
                 stack.push(obj(global_name(&cls), args));
             }
             0x92 => {
                 pop(&mut stack)?;
                 let args = pop(&mut stack)?;
                 let cls = pop(&mut stack)?;
-                let args = if let PV::Tuple(t) = args { t.as_ref().clone() } else { vec![] };
+                let args = if let PV::Tuple(t) = args {
+                    t.as_ref().clone()
+                } else {
+                    vec![]
+                };
                 stack.push(obj(global_name(&cls), args));
             }
             b'b' => {
@@ -533,20 +752,45 @@ fn run(data: &[u8]) -> Result<(Vec<Op>, PV, HashSet<usize>), String> {
             }
             b'o' => {
                 let mut items = pop_mark(&mut stack)?;
-                if items.is_empty() { return Err("OBJ without class".into()); }
+                if items.is_empty() {
+                    return Err("OBJ without class".into());
+                }
                 let cls = items.remove(0);
                 stack.push(obj(global_name(&cls), items));
             }
-            0x82 => { r.take(1)?; stack.push(PV::Global("<extension>".into())); }
-            0x83 => { r.take(2)?; stack.push(PV::Global("<extension>".into())); }
-            0x84 => { r.take(4)?; stack.push(PV::Global("<extension>".into())); }
-            b'P' => { r.line()?; stack.push(PV::Global("<persistent id>".into())); }
-            b'Q' => { pop(&mut stack)?; stack.push(PV::Global("<persistent id>".into())); }
+            0x82 => {
+                r.take(1)?;
+                stack.push(PV::Global("<extension>".into()));
+            }
+            0x83 => {
+                r.take(2)?;
+                stack.push(PV::Global("<extension>".into()));
+            }
+            0x84 => {
+                r.take(4)?;
+                stack.push(PV::Global("<extension>".into()));
+            }
+            b'P' => {
+                r.line()?;
+                stack.push(PV::Global("<persistent id>".into()));
+            }
+            b'Q' => {
+                pop(&mut stack)?;
+                stack.push(PV::Global("<persistent id>".into()));
+            }
             0x97 => stack.push(PV::Bytes(0)),
             0x98 => {}
-            other => return Err(format!("unknown pickle opcode 0x{other:02X} at byte {start}")),
+            other => {
+                return Err(format!(
+                    "unknown pickle opcode 0x{other:02X} at byte {start}"
+                ))
+            }
         }
-        ops.push(Op { code, start, end: r.pos });
+        ops.push(Op {
+            code,
+            start,
+            end: r.pos,
+        });
         if stop {
             let root = pop(&mut stack)?;
             drop(fetch);
@@ -574,10 +818,19 @@ fn key_text(k: &PV) -> String {
     match k {
         PV::Str(s, _) => s.clone(),
         PV::Int(i, _) => i.to_string(),
-        PV::Bool(b, _) => if *b { "True".into() } else { "False".into() },
+        PV::Bool(b, _) => {
+            if *b {
+                "True".into()
+            } else {
+                "False".into()
+            }
+        }
         PV::None => "None".into(),
         PV::Float(f, _) => f.to_string(),
-        PV::Tuple(t) => format!("({})", t.iter().map(key_text).collect::<Vec<_>>().join(", ")),
+        PV::Tuple(t) => format!(
+            "({})",
+            t.iter().map(key_text).collect::<Vec<_>>().join(", ")
+        ),
         PV::Global(g) => g.to_string(),
         PV::Obj(o) => format!("<{}>", short_class(&o.borrow().class)),
         _ => "<key>".into(),
@@ -602,7 +855,10 @@ impl Conv {
         if let PV::Tuple(t) = root {
             if let Some(PV::Dict(roots)) = t.first() {
                 let entries = roots.borrow().clone();
-                if entries.iter().any(|(k, _)| matches!(k, PV::Str(s, _) if s.starts_with("store"))) {
+                if entries
+                    .iter()
+                    .any(|(k, _)| matches!(k, PV::Str(s, _) if s.starts_with("store")))
+                {
                     let view = self.split_vars(entries.iter().map(|(k, v)| {
                         let full = key_text(k);
                         let name = full.strip_prefix("store.").unwrap_or(&full).to_string();
@@ -618,7 +874,8 @@ impl Conv {
             if o.class.ends_with("Persistent") {
                 if let Some(PV::Dict(d)) = &o.state {
                     let entries = d.borrow().clone();
-                    let view = self.split_vars(entries.iter().map(|(k, v)| (key_text(k), String::new(), v)));
+                    let view = self
+                        .split_vars(entries.iter().map(|(k, v)| (key_text(k), String::new(), v)));
                     return (view, PickleKind::RenpyPersistent);
                 }
             }
@@ -632,8 +889,13 @@ impl Conv {
         let mut vars = Map::new();
         let mut internal = Map::new();
         for (name, full, v) in items {
-            let is_internal = name.starts_with('_') || name.starts_with("renpy") || name.contains("._");
-            let (group, map) = if is_internal { ("Ren'Py internals", &mut internal) } else { ("Variables", &mut vars) };
+            let is_internal =
+                name.starts_with('_') || name.starts_with("renpy") || name.contains("._");
+            let (group, map) = if is_internal {
+                ("Ren'Py internals", &mut internal)
+            } else {
+                ("Variables", &mut vars)
+            };
             let ptr = format!("/{}/{}", pointer_escape(group), pointer_escape(&name));
             if !full.is_empty() {
                 self.root_ptrs.insert(full, ptr.clone());
@@ -671,10 +933,22 @@ impl Conv {
     }
 
     fn list(&mut self, items: &[PV], ptr: &str, depth: usize) -> Value {
-        Value::Array(items.iter().enumerate().map(|(i, c)| self.conv(c, &format!("{ptr}/{i}"), depth + 1)).collect())
+        Value::Array(
+            items
+                .iter()
+                .enumerate()
+                .map(|(i, c)| self.conv(c, &format!("{ptr}/{i}"), depth + 1))
+                .collect(),
+        )
     }
 
-    fn dict(&mut self, entries: &[(PV, PV)], ptr: &str, depth: usize, map: &mut Map<String, Value>) {
+    fn dict(
+        &mut self,
+        entries: &[(PV, PV)],
+        ptr: &str,
+        depth: usize,
+        map: &mut Map<String, Value>,
+    ) {
         for (k, v) in entries {
             let key = key_text(k);
             let mut unique = key.clone();
@@ -764,7 +1038,11 @@ impl Conv {
                         PV::None => {}
                         other => {
                             let key = insert_unique(&mut map, "state".into(), Value::Null);
-                            let val = self.conv(other, &format!("{ptr}/{}", pointer_escape(&key)), depth + 1);
+                            let val = self.conv(
+                                other,
+                                &format!("{ptr}/{}", pointer_escape(&key)),
+                                depth + 1,
+                            );
                             map.insert(key, val);
                         }
                     }
@@ -772,12 +1050,21 @@ impl Conv {
                 if !o.entries.is_empty() {
                     let key = insert_unique(&mut map, "entries".into(), Value::Null);
                     let mut inner = Map::new();
-                    self.dict(&o.entries, &format!("{ptr}/{}", pointer_escape(&key)), depth + 1, &mut inner);
+                    self.dict(
+                        &o.entries,
+                        &format!("{ptr}/{}", pointer_escape(&key)),
+                        depth + 1,
+                        &mut inner,
+                    );
                     map.insert(key, Value::Object(inner));
                 }
                 if !o.items.is_empty() {
                     let key = insert_unique(&mut map, "items".into(), Value::Null);
-                    let val = self.list(&o.items, &format!("{ptr}/{}", pointer_escape(&key)), depth + 1);
+                    let val = self.list(
+                        &o.items,
+                        &format!("{ptr}/{}", pointer_escape(&key)),
+                        depth + 1,
+                    );
                     map.insert(key, val);
                 }
                 Value::Object(map)

@@ -26,13 +26,25 @@ const EQUIP_INDEX_COUNT: usize = 42;
 const IN_BOX: u32 = 0x100;
 const MAX_CARRIED: i128 = 99;
 const MAX_BOXED: i128 = 999;
-pub const INFUSIONS: [&str; 10] = ["Normal", "Fire", "Magic", "Lightning", "Dark", "Poison", "Bleed", "Raw", "Enchanted", "Mundane"];
+pub const INFUSIONS: [&str; 10] = [
+    "Normal",
+    "Fire",
+    "Magic",
+    "Lightning",
+    "Dark",
+    "Poison",
+    "Bleed",
+    "Raw",
+    "Enchanted",
+    "Mundane",
+];
 /// Durability for new equipment when the save has nothing to copy it from (low enough to
 /// stay under any item's maximum; the game repairs it at a bonfire).
 const DEFAULT_DURABILITY: [f32; 3] = [30.0, 35.0, 70.0];
 
 fn u32_at(d: &[u8], o: usize) -> u32 {
-    d.get(o..o + 4).map_or(0, |b| u32::from_le_bytes(b.try_into().unwrap()))
+    d.get(o..o + 4)
+        .map_or(0, |b| u32::from_le_bytes(b.try_into().unwrap()))
 }
 
 fn put(d: &mut [u8], o: usize, v: u32) {
@@ -67,7 +79,8 @@ impl Kind {
 fn names(kind: Kind) -> &'static Names {
     static N: OnceLock<[Names; 5]> = OnceLock::new();
     &N.get_or_init(|| {
-        [GOODS, WEAPONS, ARMOR, RINGS, KEY_ITEMS].map(|t| Names::new(t.iter().map(|&(i, n)| (i, n))))
+        [GOODS, WEAPONS, ARMOR, RINGS, KEY_ITEMS]
+            .map(|t| Names::new(t.iter().map(|&(i, n)| (i, n))))
     })[kind as usize]
 }
 
@@ -76,7 +89,13 @@ fn kind_of(id: u32) -> Option<Kind> {
     static K: OnceLock<HashMap<u32, Kind>> = OnceLock::new();
     K.get_or_init(|| {
         let mut m = HashMap::new();
-        for (t, k) in [(GOODS, Kind::Good), (KEY_ITEMS, Kind::Key), (RINGS, Kind::Ring), (ARMOR, Kind::Armor), (WEAPONS, Kind::Weapon)] {
+        for (t, k) in [
+            (GOODS, Kind::Good),
+            (KEY_ITEMS, Kind::Key),
+            (RINGS, Kind::Ring),
+            (ARMOR, Kind::Armor),
+            (WEAPONS, Kind::Weapon),
+        ] {
             for &(i, _) in t {
                 m.insert(i, k);
             }
@@ -112,14 +131,27 @@ pub struct Inventory {
 
 /// Unused entries offered for new items, as (kind, first position, count): far enough into
 /// the list that the game can still put items it moves to the box after them.
-const OFFERED: [(Kind, usize, usize); 4] = [(Kind::Ring, 1904, 16), (Kind::Armor, 1920, 32), (Kind::Weapon, 1952, 32), (Kind::Good, 1984, 64)];
+const OFFERED: [(Kind, usize, usize); 4] = [
+    (Kind::Ring, 1904, 16),
+    (Kind::Armor, 1920, 32),
+    (Kind::Weapon, 1952, 32),
+    (Kind::Good, 1984, 64),
+];
 const OFFERED_KEYS: usize = 16;
 
 fn offered_kind(i: usize) -> Option<Kind> {
-    OFFERED.iter().find(|(_, s, n)| (*s..s + n).contains(&i)).map(|(k, _, _)| *k)
+    OFFERED
+        .iter()
+        .find(|(_, s, n)| (*s..s + n).contains(&i))
+        .map(|(k, _, _)| *k)
 }
 
-pub fn build(d: &[u8], first_leaf: usize, root: &mut Map<String, Value>, editable: &mut HashMap<String, usize>) -> Option<Inventory> {
+pub fn build(
+    d: &[u8],
+    first_leaf: usize,
+    root: &mut Map<String, Value>,
+    editable: &mut HashMap<String, usize>,
+) -> Option<Inventory> {
     if d.len() < EQUIP_INDEX + EQUIP_INDEX_COUNT * 2 {
         return None;
     }
@@ -128,21 +160,46 @@ pub fn build(d: &[u8], first_leaf: usize, root: &mut Map<String, Value>, editabl
         .filter(|&p| p != 0xFFFF)
         .map(|p| p as usize)
         .collect();
-    let mut inv = Inventory { rows: vec![], first_leaf, durability: HashMap::new(), durability_kind: DEFAULT_DURABILITY.map(f32::to_bits) };
+    let mut inv = Inventory {
+        rows: vec![],
+        first_leaf,
+        durability: HashMap::new(),
+        durability_kind: DEFAULT_DURABILITY.map(f32::to_bits),
+    };
     let mut lowest: [Option<f32>; 3] = [None; 3];
-    let mut sections: Vec<(&str, Map<String, Value>)> =
-        ["Items", "Item box", "Weapons", "Armor", "Rings", "Key items"].iter().map(|s| (*s, Map::new())).collect();
+    let mut sections: Vec<(&str, Map<String, Value>)> = [
+        "Items",
+        "Item box",
+        "Weapons",
+        "Armor",
+        "Rings",
+        "Key items",
+    ]
+    .iter()
+    .map(|s| (*s, Map::new()))
+    .collect();
     let n_main = (MAIN.1 - MAIN.0) / ENTRY;
     let n_key = (KEY.1 - KEY.0) / ENTRY;
     for (list, (start, n)) in [(MAIN.0, n_main), (KEY.0, n_key)].into_iter().enumerate() {
         for i in 0..n {
             let off = start + i * ENTRY;
-            let (id, flags, qty, extra) = (u32_at(d, off), u32_at(d, off + 4), u32_at(d, off + 8), u32_at(d, off + 12));
-            let offered = if list == 0 { offered_kind(i) } else { (i >= n - OFFERED_KEYS).then_some(Kind::Key) };
+            let (id, flags, qty, extra) = (
+                u32_at(d, off),
+                u32_at(d, off + 4),
+                u32_at(d, off + 8),
+                u32_at(d, off + 12),
+            );
+            let offered = if list == 0 {
+                offered_kind(i)
+            } else {
+                (i >= n - OFFERED_KEYS).then_some(Kind::Key)
+            };
             let kind = match (id, offered) {
                 (0, Some(k)) => k,
                 (0, None) => continue,
-                (id, _) if list == 1 => kind_of(id).filter(|k| *k == Kind::Key).unwrap_or(Kind::Key),
+                (id, _) if list == 1 => {
+                    kind_of(id).filter(|k| *k == Kind::Key).unwrap_or(Kind::Key)
+                }
                 (id, _) => match kind_of(id) {
                     Some(Kind::Key) | None => continue, // unknown: left alone
                     Some(k) => k,
@@ -152,7 +209,10 @@ pub fn build(d: &[u8], first_leaf: usize, root: &mut Map<String, Value>, editabl
             if id != 0 && kind.equipment() {
                 let e = kind as usize - 1;
                 let f = f32::from_bits(qty);
-                inv.durability.entry(id).and_modify(|q| *q = (*q).max(qty)).or_insert(qty);
+                inv.durability
+                    .entry(id)
+                    .and_modify(|q| *q = (*q).max(qty))
+                    .or_insert(qty);
                 if f.is_finite() && f > 0.0 && lowest[e].is_none_or(|l| f < l) {
                     lowest[e] = Some(f);
                 }
@@ -164,19 +224,33 @@ pub fn build(d: &[u8], first_leaf: usize, root: &mut Map<String, Value>, editabl
                 k => k as usize + 1,
             };
             let key = format!("Slot {}", i + 1);
-            let name = if id == 0 { EMPTY.to_string() } else { names(kind).name(id, kind.word()) };
+            let name = if id == 0 {
+                EMPTY.to_string()
+            } else {
+                names(kind).name(id, kind.word())
+            };
             let base = format!("/{}/{key}", sections[sec].0);
             let mut slot = Map::new();
             let mut ptrs: [Option<String>; 4] = Default::default();
             slot.insert("Item".into(), Value::from(name.clone()));
             ptrs[0] = Some(format!("{base}/Item"));
             if matches!(kind, Kind::Good | Kind::Key) {
-                slot.insert("Quantity".into(), Value::from(if id == 0 { 0 } else { qty }));
+                slot.insert(
+                    "Quantity".into(),
+                    Value::from(if id == 0 { 0 } else { qty }),
+                );
                 ptrs[1] = Some(format!("{base}/Quantity"));
             }
             if kind == Kind::Weapon {
                 slot.insert("Level".into(), Value::from(extra & 0xFF));
-                let inf = if id == 0 { NO_AFFINITY } else { INFUSIONS.get(((extra >> 8) & 0xFF) as usize).copied().unwrap_or(NO_AFFINITY) };
+                let inf = if id == 0 {
+                    NO_AFFINITY
+                } else {
+                    INFUSIONS
+                        .get(((extra >> 8) & 0xFF) as usize)
+                        .copied()
+                        .unwrap_or(NO_AFFINITY)
+                };
                 slot.insert("Infusion".into(), Value::from(inf));
                 ptrs[2] = Some(format!("{base}/Level"));
             }
@@ -231,20 +305,34 @@ impl Inventory {
     pub fn check(&self, leaf: usize, v: &Value) -> Result<(), String> {
         let (row, f) = self.row(leaf).ok_or("unknown value")?;
         match f {
-            1 => return int_in(v, 0, if row.boxed { MAX_BOXED } else { MAX_CARRIED }, "Quantity").map(|_| ()),
+            1 => {
+                return int_in(
+                    v,
+                    0,
+                    if row.boxed { MAX_BOXED } else { MAX_CARRIED },
+                    "Quantity",
+                )
+                .map(|_| ())
+            }
             2 => return int_in(v, 0, 10, "Level").map(|_| ()),
             _ => {}
         }
         let name = v.as_str().ok_or("pick an item from the list")?;
         let what = row.kind.word().to_lowercase();
         if name != row.orig_name && name != EMPTY && !names(row.kind).by_name.contains_key(name) {
-            return Err(format!("\u{201C}{name}\u{201D} isn't a Dark Souls II {what}"));
+            return Err(format!(
+                "\u{201C}{name}\u{201D} isn't a Dark Souls II {what}"
+            ));
         }
         if row.equipped && name != row.orig_name {
-            return Err(format!("this {what} is equipped \u{2014} take it off in the game first"));
+            return Err(format!(
+                "this {what} is equipped \u{2014} take it off in the game first"
+            ));
         }
         if name == EMPTY && row.id.is_some() && !row.offered {
-            return Err(format!("this {what} can't be removed here \u{2014} drop or sell it in the game"));
+            return Err(format!(
+                "this {what} can't be removed here \u{2014} drop or sell it in the game"
+            ));
         }
         Ok(())
     }
@@ -252,8 +340,12 @@ impl Inventory {
     /// Weapons stay within +5, or the level they had if that's higher (unique weapons stop
     /// at +5 and the save doesn't say which those are).
     pub fn derived(&self, leaf: usize, view: &Value) -> Vec<(String, Value)> {
-        let Some((row, _)) = self.row(leaf) else { return vec![] };
-        let name = Self::get(row, view, 0).and_then(Value::as_str).unwrap_or(EMPTY);
+        let Some((row, _)) = self.row(leaf) else {
+            return vec![];
+        };
+        let name = Self::get(row, view, 0)
+            .and_then(Value::as_str)
+            .unwrap_or(EMPTY);
         let empty = name == EMPTY;
         let mut out = vec![];
         let mut set = |f: usize, v: Value| {
@@ -266,7 +358,11 @@ impl Inventory {
         let qty = Self::get(row, view, 1).and_then(Value::as_u64).unwrap_or(0);
         set(1, Value::from(if empty { 0 } else { qty.max(1) }));
         if row.kind == Kind::Weapon {
-            let max = if name == row.orig_name { row.level.max(5) } else { 5 } as u64;
+            let max = if name == row.orig_name {
+                row.level.max(5)
+            } else {
+                5
+            } as u64;
             let level = Self::get(row, view, 2).and_then(Value::as_u64).unwrap_or(0);
             set(2, Value::from(if empty { 0 } else { level.min(max) }));
             if row.id.is_none() || name != row.orig_name {
@@ -297,7 +393,12 @@ impl Inventory {
         } else {
             BTreeSet::new()
         };
-        let mut all: Vec<String> = names(row.kind).all.iter().filter(|n| !taken.contains(n.as_str())).cloned().collect();
+        let mut all: Vec<String> = names(row.kind)
+            .all
+            .iter()
+            .filter(|n| !taken.contains(n.as_str()))
+            .cloned()
+            .collect();
         if row.id.is_some() && !row.offered {
             all.retain(|n| n != EMPTY);
         }
@@ -307,12 +408,23 @@ impl Inventory {
         Some(Arc::new(all))
     }
 
-    pub fn write(&self, out: &mut [u8], view: &Value, changes: &[(usize, Value)]) -> Result<(), String> {
-        let touched: BTreeSet<usize> = changes.iter().filter_map(|(l, _)| l.checked_sub(self.first_leaf).map(|i| i / 4)).filter(|&r| r < self.rows.len()).collect();
+    pub fn write(
+        &self,
+        out: &mut [u8],
+        view: &Value,
+        changes: &[(usize, Value)],
+    ) -> Result<(), String> {
+        let touched: BTreeSet<usize> = changes
+            .iter()
+            .filter_map(|(l, _)| l.checked_sub(self.first_leaf).map(|i| i / 4))
+            .filter(|&r| r < self.rows.len())
+            .collect();
         let mut added = vec![];
         for r in touched {
             let row = &self.rows[r];
-            let name = Self::get(row, view, 0).and_then(Value::as_str).unwrap_or(EMPTY);
+            let name = Self::get(row, view, 0)
+                .and_then(Value::as_str)
+                .unwrap_or(EMPTY);
             let qty = Self::get(row, view, 1).and_then(Value::as_u64).unwrap_or(1) as u32;
             let level = Self::get(row, view, 2).and_then(Value::as_u64).unwrap_or(0) as u32;
             let what = row.kind.word().to_lowercase();
@@ -321,7 +433,9 @@ impl Inventory {
             } else if name == row.orig_name {
                 row.id
             } else {
-                Some(*names(row.kind).by_name.get(name).ok_or_else(|| format!("\u{201C}{name}\u{201D} isn't a Dark Souls II {what}"))?)
+                Some(*names(row.kind).by_name.get(name).ok_or_else(|| {
+                    format!("\u{201C}{name}\u{201D} isn't a Dark Souls II {what}")
+                })?)
             };
             let o = row.off;
             match (row.id, id) {
@@ -338,7 +452,14 @@ impl Inventory {
                     }
                     match row.kind {
                         Kind::Good | Kind::Key => put(out, o + 8, qty.max(1)),
-                        k if new => put(out, o + 8, self.durability.get(&id).copied().unwrap_or(self.durability_kind[k as usize - 1])),
+                        k if new => put(
+                            out,
+                            o + 8,
+                            self.durability
+                                .get(&id)
+                                .copied()
+                                .unwrap_or(self.durability_kind[k as usize - 1]),
+                        ),
                         _ => {}
                     }
                     if row.kind == Kind::Weapon {
@@ -351,9 +472,16 @@ impl Inventory {
             }
         }
         for (kind, boxed, id) in added {
-            let n = self.rows.iter().filter(|r| r.kind == kind && r.boxed == boxed && u32_at(out, r.off) == id).count();
+            let n = self
+                .rows
+                .iter()
+                .filter(|r| r.kind == kind && r.boxed == boxed && u32_at(out, r.off) == id)
+                .count();
             if n > 1 {
-                return Err(format!("{} is there already \u{2014} change its quantity instead", names(kind).name(id, kind.word())));
+                return Err(format!(
+                    "{} is there already \u{2014} change its quantity instead",
+                    names(kind).name(id, kind.word())
+                ));
             }
         }
         Ok(())

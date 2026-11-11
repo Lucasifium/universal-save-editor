@@ -57,7 +57,8 @@ impl Backend for PlistBackend {
         }
         let mut tree = self.tree.clone();
         for (id, v) in changes {
-            let slot = get_mut(&mut tree, &self.paths[*id]).ok_or("couldn't locate an edited value")?;
+            let slot =
+                get_mut(&mut tree, &self.paths[*id]).ok_or("couldn't locate an edited value")?;
             *slot = convert(slot, v)?;
         }
         let mut out = Vec::new();
@@ -117,7 +118,11 @@ impl B {
             P::String(s) => leaf(self, path, Value::String(s.clone())),
             P::Real(f) => leaf(self, path, num(*f)),
             P::Integer(i) => {
-                let n = i.as_signed().map(Value::from).or_else(|| i.as_unsigned().map(Value::from)).unwrap_or(Value::Null);
+                let n = i
+                    .as_signed()
+                    .map(Value::from)
+                    .or_else(|| i.as_unsigned().map(Value::from))
+                    .unwrap_or(Value::Null);
                 leaf(self, path, n)
             }
             P::Date(d) => Value::String(format!("{d:?}")),
@@ -134,9 +139,21 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
         return Err("not a property list document".into());
     }
     let binary = d.starts_with(b"bplist");
-    let mut b = B { paths: vec![], editable: HashMap::new() };
+    let mut b = B {
+        paths: vec![],
+        editable: HashMap::new(),
+    };
     let view = b.view(&tree, "", &mut vec![]);
-    let name = if binary { "Property list (binary)" } else { "Property list (XML)" };
-    let backend = PlistBackend { raw: d.to_vec(), tree, binary, paths: b.paths };
+    let name = if binary {
+        "Property list (binary)"
+    } else {
+        "Property list (XML)"
+    };
+    let backend = PlistBackend {
+        raw: d.to_vec(),
+        tree,
+        binary,
+        paths: b.paths,
+    };
     Ok(TreeDoc::new(view, b.editable, name, Box::new(backend)))
 }

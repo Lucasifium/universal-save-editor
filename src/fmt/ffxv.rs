@@ -21,7 +21,8 @@ use aes::cipher::{BlockDecryptMut, BlockEncryptMut, KeyIvInit};
 pub const KIND: &str = "Final Fantasy XV save";
 
 const KEY: [u8; 24] = [
-    0x54, 0x5f, 0xd4, 0x9b, 0xce, 0x5d, 0xc2, 0x76, 0xa5, 0x1a, 0xcb, 0x86, 0x44, 0x79, 0x1d, 0x6d, 0xf4, 0xb7, 0xe7, 0xb1, 0x33, 0x0c, 0x3f, 0x1d,
+    0x54, 0x5f, 0xd4, 0x9b, 0xce, 0x5d, 0xc2, 0x76, 0xa5, 0x1a, 0xcb, 0x86, 0x44, 0x79, 0x1d, 0x6d,
+    0xf4, 0xb7, 0xe7, 0xb1, 0x33, 0x0c, 0x3f, 0x1d,
 ];
 const FOOTER: usize = 53;
 
@@ -37,7 +38,9 @@ impl Mt {
         let mut s = [0u32; 624];
         s[0] = seed;
         for i in 1..624 {
-            s[i] = 1_812_433_253u32.wrapping_mul(s[i - 1] ^ (s[i - 1] >> 30)).wrapping_add(i as u32);
+            s[i] = 1_812_433_253u32
+                .wrapping_mul(s[i - 1] ^ (s[i - 1] >> 30))
+                .wrapping_add(i as u32);
         }
         Mt { s, i: 624 }
     }
@@ -45,7 +48,8 @@ impl Mt {
         if self.i >= 624 {
             for k in 0..624 {
                 let y = (self.s[k] & 0x8000_0000) | (self.s[(k + 1) % 624] & 0x7fff_ffff);
-                self.s[k] = self.s[(k + 397) % 624] ^ (y >> 1) ^ if y & 1 != 0 { 0x9908_b0df } else { 0 };
+                self.s[k] =
+                    self.s[(k + 397) % 624] ^ (y >> 1) ^ if y & 1 != 0 { 0x9908_b0df } else { 0 };
             }
             self.i = 0;
         }
@@ -84,7 +88,10 @@ fn swap_blocks(b: &mut [u8], i: usize, j: usize) {
 }
 
 fn footer_ok(d: &[u8]) -> bool {
-    d.len() >= FOOTER + 64 && (d.len() - FOOTER) % 16 == 0 && d[d.len() - 1] == 2 && d[d.len() - 17..d.len() - 1].iter().all(|&b| b == 0)
+    d.len() >= FOOTER + 64
+        && (d.len() - FOOTER) % 16 == 0
+        && d[d.len() - 1] == 2
+        && d[d.len() - 17..d.len() - 1].iter().all(|&b| b == 0)
 }
 
 /// Decrypts a Final Fantasy XV `.save`: (plain data, footer to pack it again with).
@@ -96,7 +103,11 @@ pub fn decrypt(d: &[u8]) -> Option<(Vec<u8>, Vec<u8>)> {
     let iv: [u8; 16] = foot[..16].try_into().unwrap();
     let tweak = &foot[16..32];
     let seed = u32::from_le_bytes(foot[32..36].try_into().unwrap());
-    let mut b: Vec<u8> = body.iter().enumerate().map(|(i, &x)| x.wrapping_sub(tweak[i & 15])).collect();
+    let mut b: Vec<u8> = body
+        .iter()
+        .enumerate()
+        .map(|(i, &x)| x.wrapping_sub(tweak[i & 15]))
+        .collect();
     let n = b.len() / 16;
     let ks = swaps(seed, n);
     for i in 1..n {
@@ -118,7 +129,8 @@ pub fn encrypt(plain: &[u8], foot: &[u8]) -> Result<Vec<u8>, String> {
     let iv: [u8; 16] = foot[..16].try_into().unwrap();
     let tweak = &foot[16..32];
     let seed = u32::from_le_bytes(foot[32..36].try_into().unwrap());
-    let mut b = cbc::Encryptor::<aes::Aes192>::new(&KEY.into(), &iv.into()).encrypt_padded_vec_mut::<aes::cipher::block_padding::NoPadding>(plain);
+    let mut b = cbc::Encryptor::<aes::Aes192>::new(&KEY.into(), &iv.into())
+        .encrypt_padded_vec_mut::<aes::cipher::block_padding::NoPadding>(plain);
     let n = b.len() / 16;
     let ks = swaps(seed, n);
     for i in (1..n).rev() {
@@ -148,7 +160,10 @@ struct Schema {
 }
 
 fn schema(d: &[u8]) -> Option<Schema> {
-    let u32_at = |o: usize| d.get(o..o + 4).map(|b| u32::from_le_bytes(b.try_into().unwrap()) as usize);
+    let u32_at = |o: usize| {
+        d.get(o..o + 4)
+            .map(|b| u32::from_le_bytes(b.try_into().unwrap()) as usize)
+    };
     let end = u32_at(12)?;
     let mut o = end;
     let n = u32_at(o)?;
@@ -160,7 +175,11 @@ fn schema(d: &[u8]) -> Option<Schema> {
         let l = u32_at(*o)?;
         let t = d.get(*o + 4..*o + 4 + l)?;
         *o += 4 + l;
-        Some(String::from_utf8_lossy(t).trim_end_matches('\0').to_string())
+        Some(
+            String::from_utf8_lossy(t)
+                .trim_end_matches('\0')
+                .to_string(),
+        )
     };
     let mut structs = vec![];
     for _ in 0..n {
@@ -176,7 +195,12 @@ fn schema(d: &[u8]) -> Option<Schema> {
             let size = u32_at(o + 4)?;
             let count = u16::from_le_bytes(d.get(o + 8..o + 10)?.try_into().ok()?) as usize;
             o += 13;
-            members.push(Member { name: mname, ty, size, count });
+            members.push(Member {
+                name: mname,
+                ty,
+                size,
+                count,
+            });
         }
         structs.push((name, id, members));
     }
@@ -238,7 +262,10 @@ fn find_all(d: &[u8], id: &[u8; 8], end: usize) -> Vec<usize> {
 }
 
 fn find_first(d: &[u8], id: &[u8; 8], from: usize, end: usize) -> Option<usize> {
-    d.get(from..end)?.windows(8).position(|w| w == id).map(|p| from + p)
+    d.get(from..end)?
+        .windows(8)
+        .position(|w| w == id)
+        .map(|p| from + p)
 }
 
 fn i32_at(d: &[u8], at: usize) -> i64 {
@@ -248,11 +275,17 @@ fn i32_at(d: &[u8], at: usize) -> i64 {
 // ------------------------------------------------------------------ reader
 
 pub fn looks(d: &[u8]) -> bool {
-    d.len() > 64 && u32::from_le_bytes(d[4..8].try_into().unwrap()) == 4 && schema(d).is_some_and(|s| s.get("Black.Save.Party.SavePartyDataStruct").is_some())
+    d.len() > 64
+        && u32::from_le_bytes(d[4..8].try_into().unwrap()) == 4
+        && schema(d).is_some_and(|s| s.get("Black.Save.Party.SavePartyDataStruct").is_some())
 }
 
 /// The members of a structure the screen reads, as (name in the tree, member).
-const PARTY: [(&str, &str, i64); 3] = [("Gil", "gil", 99_999_999), ("Ability points", "ability_point", 9_999), ("Medals", "medal", 99_999_999)];
+const PARTY: [(&str, &str, i64); 3] = [
+    ("Gil", "gil", 99_999_999),
+    ("Ability points", "ability_point", 9_999),
+    ("Medals", "medal", 99_999_999),
+];
 const STATS: [(&str, &str); 11] = [
     ("Level", "level"),
     ("HP", "hp"),
@@ -268,7 +301,16 @@ const STATS: [(&str, &str); 11] = [
 ];
 
 /// Item lists in `SaveItemStruct`, in order (each: u32 count, then {id, item id, amount}).
-const ITEM_LISTS: [&str; 8] = ["Battle items", "Key items", "Food and ingredients", "Treasures", "Car items", "Leisure items", "Upgrade items", "Trunk"];
+const ITEM_LISTS: [&str; 8] = [
+    "Battle items",
+    "Key items",
+    "Food and ingredients",
+    "Treasures",
+    "Car items",
+    "Leisure items",
+    "Upgrade items",
+    "Trunk",
+];
 
 pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
     let s = schema(d).ok_or("not a Final Fantasy XV gameplay save")?;
@@ -282,7 +324,11 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
             let base = at + 8 + 4;
             let len = le32(base) as usize;
             let rest = base + 4 + len;
-            let after: Vec<&Member> = m.iter().skip_while(|x| x.name != "AreaFilePath").skip(1).collect();
+            let after: Vec<&Member> = m
+                .iter()
+                .skip_while(|x| x.name != "AreaFilePath")
+                .skip(1)
+                .collect();
             let mut at2 = rest;
             for x in after {
                 match x.name.as_str() {
@@ -290,7 +336,10 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
                     "ChapterNo" => b.info(&["Save", "Chapter"], le32(at2) as i32),
                     "PlayTime" => {
                         let t = u64::from_le_bytes(d[at2..at2 + 8].try_into().unwrap());
-                        b.info(&["Save", "Play time"], format!("{}:{:02}", t / 3600, t / 60 % 60));
+                        b.info(
+                            &["Save", "Play time"],
+                            format!("{}:{:02}", t / 3600, t / 60 % 60),
+                        );
                         break;
                     }
                     _ => {}
@@ -307,7 +356,9 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
     }
 
     // Party money and points.
-    let (_, pid, pm) = s.get("Black.Save.Party.SavePartyDataStruct").ok_or("no party data")?;
+    let (_, pid, pm) = s
+        .get("Black.Save.Party.SavePartyDataStruct")
+        .ok_or("no party data")?;
     let pat = find_first(d, pid, 24, s.end).ok_or("no party data")? + 8;
     let pl = layout(pm);
     for (label, member, hi) in PARTY {
@@ -317,26 +368,42 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
     }
 
     // Characters: SavePlayerStruct holds the name, then SaveStatusStruct, then SavePlayerStatusStruct.
-    let (_, plid, _) = s.get("Black.Save.Player.SavePlayerStruct").ok_or("no characters")?;
-    let (_, stid, stm) = s.get("Black.Save.Player.SaveStatusStruct").ok_or("no characters")?;
-    let (_, psid, psm) = s.get("Black.Save.Player.SavePlayerStatusStruct").ok_or("no characters")?;
+    let (_, plid, _) = s
+        .get("Black.Save.Player.SavePlayerStruct")
+        .ok_or("no characters")?;
+    let (_, stid, stm) = s
+        .get("Black.Save.Player.SaveStatusStruct")
+        .ok_or("no characters")?;
+    let (_, psid, psm) = s
+        .get("Black.Save.Player.SavePlayerStatusStruct")
+        .ok_or("no characters")?;
     let (sl, psl) = (layout(stm), layout(psm));
     for at in find_all(d, plid, s.end) {
         // object, character and default character entry ids, then the name (u32 length + bytes).
         let nat = at + 8 + 12;
         let len = le32(nat) as usize;
-        let Some(raw) = d.get(nat + 4..nat + 4 + len) else { continue };
-        let name = String::from_utf8_lossy(&raw[..raw.iter().position(|&c| c == 0).unwrap_or(raw.len())]).to_string();
+        let Some(raw) = d.get(nat + 4..nat + 4 + len) else {
+            continue;
+        };
+        let name =
+            String::from_utf8_lossy(&raw[..raw.iter().position(|&c| c == 0).unwrap_or(raw.len())])
+                .to_string();
         if name.is_empty() {
             continue;
         }
-        let (Some(st), Some(ps)) = (find_first(d, stid, nat, s.end), find_first(d, psid, nat, s.end)) else { continue };
+        let (Some(st), Some(ps)) = (
+            find_first(d, stid, nat, s.end),
+            find_first(d, psid, nat, s.end),
+        ) else {
+            continue;
+        };
         // Both follow the name directly; anything farther away belongs to someone else.
         if st > nat + 4 + len + 64 || ps > st + 4096 {
             continue;
         }
         let (st, ps) = (st + 8, ps + 8);
-        let joined = sl.iter().any(|x| x.0 == "party_index") && i32_at(d, st + sl.iter().find(|x| x.0 == "party_index").unwrap().1) >= 0;
+        let joined = sl.iter().any(|x| x.0 == "party_index")
+            && i32_at(d, st + sl.iter().find(|x| x.0 == "party_index").unwrap().1) >= 0;
         let group = if joined { "Party" } else { "Others" };
         let base = ["Characters", group, name.as_str()];
         fn path<'a>(base: &[&'a str; 3], k: &'a str) -> Vec<&'a str> {
@@ -347,7 +414,11 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
                 b.info(&path(&base, label), i32_at(d, st + off));
             }
         }
-        for (label, member, hi) in [("Experience", "exp", 99_999_999i64), ("Total experience", "exp_total", -1), ("Kills", "kill_count", -1)] {
+        for (label, member, hi) in [
+            ("Experience", "exp", 99_999_999i64),
+            ("Total experience", "exp_total", -1),
+            ("Kills", "kill_count", -1),
+        ] {
             if let Some((_, off, kind)) = psl.iter().find(|x| x.0 == member) {
                 if hi > 0 {
                     b.ranged(&path(&base, label), ps + off, *kind, 0, hi);
@@ -363,7 +434,9 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
         if let Some(at) = find_first(d, iid, 24, s.end) {
             let mut o = at + 8;
             for list in ITEM_LISTS {
-                let Some(n) = d.get(o..o + 4).map(|_| le32(o) as usize) else { break };
+                let Some(n) = d.get(o..o + 4).map(|_| le32(o) as usize) else {
+                    break;
+                };
                 if n > 4096 || o + 4 + 16 * n > s.end {
                     break;
                 }
@@ -442,11 +515,50 @@ mod tests {
         d[12..16].copy_from_slice(&at.to_le_bytes());
         let mut sch = 5u32.to_le_bytes().to_vec();
         let defs: [(&str, [u8; 8], &[(&str, &str, u32)]); 5] = [
-            ("Black.Save.Party.SavePartyDataStruct", PARTY, &[("usercontrol_player_save_number", "Black.Save.SAVE_PLAYER", 4), ("chapter", "int32_t", 4), ("gil", "int32_t", 4), ("medal", "int32_t", 4), ("coin", "int32_t", 4), ("ability_point", "int32_t", 4)]),
-            ("Black.Save.Player.SavePlayerStruct", PLAYER, &[("object_entry_id", "SQEX.Ebony.Std.Fixid", 4)]),
-            ("Black.Save.Player.SaveStatusStruct", STATUS, &[("id", "SQEX.Ebony.Std.Fixid", 4), ("party_index", "int32_t", 4), ("join", "bool", 1), ("joined", "bool", 1), ("hp", "int32_t", 4), ("hp_max", "int32_t", 4), ("level", "uint32_t", 4)]),
-            ("Black.Save.Player.SavePlayerStatusStruct", PSTAT, &[("exp", "uint32_t", 4), ("exp_total", "uint32_t", 4)]),
-            ("Black.Save.Item.SaveItemStruct", ITEMS, &[("battle_item", "Black.Save.Item.SaveItemDataStruct", 512)]),
+            (
+                "Black.Save.Party.SavePartyDataStruct",
+                PARTY,
+                &[
+                    (
+                        "usercontrol_player_save_number",
+                        "Black.Save.SAVE_PLAYER",
+                        4,
+                    ),
+                    ("chapter", "int32_t", 4),
+                    ("gil", "int32_t", 4),
+                    ("medal", "int32_t", 4),
+                    ("coin", "int32_t", 4),
+                    ("ability_point", "int32_t", 4),
+                ],
+            ),
+            (
+                "Black.Save.Player.SavePlayerStruct",
+                PLAYER,
+                &[("object_entry_id", "SQEX.Ebony.Std.Fixid", 4)],
+            ),
+            (
+                "Black.Save.Player.SaveStatusStruct",
+                STATUS,
+                &[
+                    ("id", "SQEX.Ebony.Std.Fixid", 4),
+                    ("party_index", "int32_t", 4),
+                    ("join", "bool", 1),
+                    ("joined", "bool", 1),
+                    ("hp", "int32_t", 4),
+                    ("hp_max", "int32_t", 4),
+                    ("level", "uint32_t", 4),
+                ],
+            ),
+            (
+                "Black.Save.Player.SavePlayerStatusStruct",
+                PSTAT,
+                &[("exp", "uint32_t", 4), ("exp_total", "uint32_t", 4)],
+            ),
+            (
+                "Black.Save.Item.SaveItemStruct",
+                ITEMS,
+                &[("battle_item", "Black.Save.Item.SaveItemDataStruct", 512)],
+            ),
         ];
         for (name, id, members) in defs {
             s(&mut sch, name);
@@ -470,16 +582,47 @@ mod tests {
         let mut doc = parse(&d).unwrap();
         assert_eq!(doc.view.pointer("/Party/Gil").unwrap(), 123_456);
         assert_eq!(doc.view.pointer("/Party/Ability points").unwrap(), 42);
-        assert_eq!(doc.view.pointer("/Characters/Party/Noctis/Max HP").unwrap(), 5200);
-        assert_eq!(doc.view.pointer("/Characters/Party/Noctis/Level").unwrap(), 55);
-        assert_eq!(doc.view.pointer("/Characters/Party/Noctis/Experience").unwrap(), 1234);
-        assert_eq!(doc.view.pointer("/Items/Battle items/Item 16789763").unwrap(), 36);
-        doc.set("/Party/Gil", serde_json::Value::from(9_000_000)).unwrap();
-        doc.set("/Items/Battle items/Item 16789763", serde_json::Value::from(99)).unwrap();
+        assert_eq!(
+            doc.view.pointer("/Characters/Party/Noctis/Max HP").unwrap(),
+            5200
+        );
+        assert_eq!(
+            doc.view.pointer("/Characters/Party/Noctis/Level").unwrap(),
+            55
+        );
+        assert_eq!(
+            doc.view
+                .pointer("/Characters/Party/Noctis/Experience")
+                .unwrap(),
+            1234
+        );
+        assert_eq!(
+            doc.view
+                .pointer("/Items/Battle items/Item 16789763")
+                .unwrap(),
+            36
+        );
+        doc.set("/Party/Gil", serde_json::Value::from(9_000_000))
+            .unwrap();
+        doc.set(
+            "/Items/Battle items/Item 16789763",
+            serde_json::Value::from(99),
+        )
+        .unwrap();
         let out = doc.to_bytes().unwrap();
         assert_eq!(out.len(), d.len());
-        assert_eq!(parse(&out).unwrap().view.pointer("/Party/Gil").unwrap(), 9_000_000);
-        assert_eq!(parse(&out).unwrap().view.pointer("/Items/Battle items/Item 16789763").unwrap(), 99);
+        assert_eq!(
+            parse(&out).unwrap().view.pointer("/Party/Gil").unwrap(),
+            9_000_000
+        );
+        assert_eq!(
+            parse(&out)
+                .unwrap()
+                .view
+                .pointer("/Items/Battle items/Item 16789763")
+                .unwrap(),
+            99
+        );
     }
 
     #[test]
@@ -505,7 +648,11 @@ mod tests {
         let path = std::env::var("SAVE_EDITOR_FFXV").expect("set SAVE_EDITOR_FFXV");
         let d = std::fs::read(path).unwrap();
         let (plain, foot) = decrypt(&d).expect("decrypts");
-        assert_eq!(encrypt(&plain, &foot).unwrap(), d, "re-encrypts byte for byte");
+        assert_eq!(
+            encrypt(&plain, &foot).unwrap(),
+            d,
+            "re-encrypts byte for byte"
+        );
         let doc = parse(&plain).unwrap();
         println!("{}", serde_json::to_string_pretty(&doc.view).unwrap());
         assert_eq!(doc.to_bytes().unwrap(), plain);

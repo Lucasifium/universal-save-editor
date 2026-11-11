@@ -7,9 +7,35 @@ use std::path::Path;
 /// Process names that never mean "the game": they show up in many save paths
 /// (Steam\userdata, OneDrive\Documents…) without being the game.
 const IGNORE: &[&str] = &[
-    "steam", "steamwebhelper", "onedrive", "dropbox", "googledrivefs", "explorer", "epicgameslauncher", "galaxyclient",
-    "code", "claude", "universalsaveeditor", "node", "python", "java", "javaw", "cmd", "powershell", "bash", "svchost",
-    "documents", "users", "appdata", "local", "roaming", "locallow", "game", "games", "save", "saves",
+    "steam",
+    "steamwebhelper",
+    "onedrive",
+    "dropbox",
+    "googledrivefs",
+    "explorer",
+    "epicgameslauncher",
+    "galaxyclient",
+    "code",
+    "claude",
+    "universalsaveeditor",
+    "node",
+    "python",
+    "java",
+    "javaw",
+    "cmd",
+    "powershell",
+    "bash",
+    "svchost",
+    "documents",
+    "users",
+    "appdata",
+    "local",
+    "roaming",
+    "locallow",
+    "game",
+    "games",
+    "save",
+    "saves",
 ];
 
 /// Executables whose name doesn't match the folder their saves are in.
@@ -23,7 +49,11 @@ const ALIASES: &[(&str, &str, &str)] = &[
     ("bg3", "baldursgate3", "Baldur's Gate 3"),
     ("bg3_dx11", "baldursgate3", "Baldur's Gate 3"),
     ("palworldwin64shipping", "palworld", "Palworld"),
-    ("darksoulsremastered", "darksoulsremastered", "Dark Souls Remastered"),
+    (
+        "darksoulsremastered",
+        "darksoulsremastered",
+        "Dark Souls Remastered",
+    ),
     ("darksouls", "darksouls", "Dark Souls"),
     ("darksoulsii", "darksoulsii", "Dark Souls II"),
     ("darksoulsiii", "darksoulsiii", "Dark Souls III"),
@@ -34,7 +64,10 @@ const ALIASES: &[(&str, &str, &str)] = &[
 ];
 
 fn norm(s: &str) -> String {
-    s.chars().filter(|c| c.is_alphanumeric()).flat_map(|c| c.to_lowercase()).collect()
+    s.chars()
+        .filter(|c| c.is_alphanumeric())
+        .flat_map(|c| c.to_lowercase())
+        .collect()
 }
 
 /// Names (lower-case, letters and digits only, no ".exe") of the running processes.
@@ -42,7 +75,11 @@ fn norm(s: &str) -> String {
 fn processes() -> Vec<String> {
     use std::os::windows::process::CommandExt;
     const CREATE_NO_WINDOW: u32 = 0x0800_0000;
-    let Ok(out) = std::process::Command::new("tasklist").args(["/FO", "CSV", "/NH"]).creation_flags(CREATE_NO_WINDOW).output() else {
+    let Ok(out) = std::process::Command::new("tasklist")
+        .args(["/FO", "CSV", "/NH"])
+        .creation_flags(CREATE_NO_WINDOW)
+        .output()
+    else {
         return vec![];
     };
     String::from_utf8_lossy(&out.stdout)
@@ -50,22 +87,36 @@ fn processes() -> Vec<String> {
         .filter_map(|l| l.split("\",\"").next())
         .map(|n| {
             let n = n.trim_start_matches('"');
-            norm(n.strip_suffix(".exe").or_else(|| n.strip_suffix(".EXE")).unwrap_or(n))
+            norm(
+                n.strip_suffix(".exe")
+                    .or_else(|| n.strip_suffix(".EXE"))
+                    .unwrap_or(n),
+            )
         })
         .collect()
 }
 
 #[cfg(all(unix, not(target_os = "android"), not(target_os = "macos")))]
 fn processes() -> Vec<String> {
-    let Ok(rd) = std::fs::read_dir("/proc") else { return vec![] };
+    let Ok(rd) = std::fs::read_dir("/proc") else {
+        return vec![];
+    };
     rd.flatten()
-        .filter(|e| e.file_name().to_string_lossy().bytes().all(|b| b.is_ascii_digit()))
+        .filter(|e| {
+            e.file_name()
+                .to_string_lossy()
+                .bytes()
+                .all(|b| b.is_ascii_digit())
+        })
         .filter_map(|e| std::fs::read(e.path().join("cmdline")).ok())
         .filter_map(|c| {
             // Proton/Wine games show up as "Z:\...\eldenring.exe".
             let first = String::from_utf8_lossy(c.split(|&b| b == 0).next()?).to_string();
             let base = first.rsplit(['/', '\\']).next()?.to_string();
-            let base = base.strip_suffix(".exe").map(str::to_string).unwrap_or(base);
+            let base = base
+                .strip_suffix(".exe")
+                .map(str::to_string)
+                .unwrap_or(base);
             Some(norm(&base))
         })
         .collect()
@@ -73,8 +124,17 @@ fn processes() -> Vec<String> {
 
 #[cfg(target_os = "macos")]
 fn processes() -> Vec<String> {
-    let Ok(out) = std::process::Command::new("ps").args(["-axco", "command"]).output() else { return vec![] };
-    String::from_utf8_lossy(&out.stdout).lines().skip(1).map(norm).collect()
+    let Ok(out) = std::process::Command::new("ps")
+        .args(["-axco", "command"])
+        .output()
+    else {
+        return vec![];
+    };
+    String::from_utf8_lossy(&out.stdout)
+        .lines()
+        .skip(1)
+        .map(norm)
+        .collect()
 }
 
 #[cfg(any(target_os = "android", target_arch = "wasm32"))]
@@ -97,12 +157,18 @@ pub fn game_for(save: &Path) -> Option<String> {
         return None;
     }
     let procs = processes();
-    procs.iter().filter(|p| p.len() >= 4 && !IGNORE.contains(&p.as_str())).find_map(|p| {
-        if let Some(&(_, folder, name)) = ALIASES.iter().find(|a| a.0 == p.as_str()) {
-            return folders.iter().any(|f| f.0.starts_with(folder)).then(|| name.to_string());
-        }
-        folders.iter().find(|f| &f.0 == p).map(|f| f.1.clone())
-    })
+    procs
+        .iter()
+        .filter(|p| p.len() >= 4 && !IGNORE.contains(&p.as_str()))
+        .find_map(|p| {
+            if let Some(&(_, folder, name)) = ALIASES.iter().find(|a| a.0 == p.as_str()) {
+                return folders
+                    .iter()
+                    .any(|f| f.0.starts_with(folder))
+                    .then(|| name.to_string());
+            }
+            folders.iter().find(|f| &f.0 == p).map(|f| f.1.clone())
+        })
 }
 
 #[cfg(test)]

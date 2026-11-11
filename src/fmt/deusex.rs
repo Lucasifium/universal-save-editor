@@ -96,7 +96,12 @@ impl<'a> Pkg<'a> {
             let (len, q) = cidx(d, p)?;
             let len = usize::try_from(len).ok()?;
             let s = d.get(q..q + len)?;
-            names.push(s.iter().take_while(|&&c| c != 0).map(|&c| super::bethesda_cp1252(c)).collect());
+            names.push(
+                s.iter()
+                    .take_while(|&&c| c != 0)
+                    .map(|&c| super::bethesda_cp1252(c))
+                    .collect(),
+            );
             p = q + len + 4;
         }
         let name = |i: i32| names.get(usize::try_from(i).ok()?).cloned();
@@ -127,16 +132,33 @@ impl<'a> Pkg<'a> {
             if off + size > d.len() {
                 return None;
             }
-            exports.push(Export { class, name: name(on)?, flags, off, size });
+            exports.push(Export {
+                class,
+                name: name(on)?,
+                flags,
+                off,
+                size,
+            });
             p = q;
         }
-        Some(Pkg { d, names, imports, exports })
+        Some(Pkg {
+            d,
+            names,
+            imports,
+            exports,
+        })
     }
 
     fn class(&self, e: &Export) -> &str {
         match e.class {
-            c if c < 0 => self.imports.get((-c - 1) as usize).map_or("", String::as_str),
-            c if c > 0 => self.exports.get((c - 1) as usize).map_or("", |x| x.name.as_str()),
+            c if c < 0 => self
+                .imports
+                .get((-c - 1) as usize)
+                .map_or("", String::as_str),
+            c if c > 0 => self
+                .exports
+                .get((c - 1) as usize)
+                .map_or("", |x| x.name.as_str()),
             _ => "Class",
         }
     }
@@ -199,7 +221,8 @@ impl<'a> Pkg<'a> {
                     index = u32::from(b);
                     q += 1;
                 } else if b < 0xC0 {
-                    index = u32::from(u16::from_be_bytes(d.get(q..q + 2)?.try_into().ok()?)) & 0x3FFF;
+                    index =
+                        u32::from(u16::from_be_bytes(d.get(q..q + 2)?.try_into().ok()?)) & 0x3FFF;
                     q += 2;
                 } else {
                     index = u32::from_be_bytes(d.get(q..q + 4)?.try_into().ok()?) & 0x3FFF_FFFF;
@@ -207,14 +230,28 @@ impl<'a> Pkg<'a> {
                 }
             }
             if ty == 3 {
-                out.push(Prop { name, index: 0, ty, at: info_at, size: 0, flag: info & 0x80 != 0 });
+                out.push(Prop {
+                    name,
+                    index: 0,
+                    ty,
+                    at: info_at,
+                    size: 0,
+                    flag: info & 0x80 != 0,
+                });
                 p = q;
                 continue;
             }
             if q + size > end {
                 return None;
             }
-            out.push(Prop { name, index, ty, at: q, size, flag: false });
+            out.push(Prop {
+                name,
+                index,
+                ty,
+                at: q,
+                size,
+                flag: false,
+            });
             p = q + size;
         }
         None
@@ -226,7 +263,9 @@ impl<'a> Pkg<'a> {
             return None;
         }
         let (r, _) = cidx(self.d, p.at)?;
-        (r > 0).then(|| r as usize - 1).filter(|&i| i < self.exports.len())
+        (r > 0)
+            .then(|| r as usize - 1)
+            .filter(|&i| i < self.exports.len())
     }
 
     fn string(&self, p: &Prop) -> Option<String> {
@@ -234,16 +273,26 @@ impl<'a> Pkg<'a> {
             13 | 7 => {
                 let (len, q) = cidx(self.d, p.at)?;
                 let s = self.d.get(q..q + usize::try_from(len).ok()?)?;
-                Some(s.iter().take_while(|&&c| c != 0).map(|&c| super::bethesda_cp1252(c)).collect())
+                Some(
+                    s.iter()
+                        .take_while(|&&c| c != 0)
+                        .map(|&c| super::bethesda_cp1252(c))
+                        .collect(),
+                )
             }
-            6 => self.names.get(usize::try_from(cidx(self.d, p.at)?.0).ok()?).cloned(),
+            6 => self
+                .names
+                .get(usize::try_from(cidx(self.d, p.at)?.0).ok()?)
+                .cloned(),
             _ => None,
         }
     }
 }
 
 fn get<'p>(props: &'p [Prop], name: &str) -> Option<&'p Prop> {
-    props.iter().find(|p| p.index == 0 && p.name.eq_ignore_ascii_case(name))
+    props
+        .iter()
+        .find(|p| p.index == 0 && p.name.eq_ignore_ascii_case(name))
 }
 
 fn int(p: Option<&Prop>) -> Option<&Prop> {
@@ -255,7 +304,8 @@ fn float(p: Option<&Prop>) -> Option<&Prop> {
 }
 
 pub fn looks(d: &[u8]) -> bool {
-    u32_at(d, 0) == Some(MAGIC) && Pkg::open(d).is_some_and(|p| p.has_name("JCDentonMale") || p.has_name("DeusExSaveInfo"))
+    u32_at(d, 0) == Some(MAGIC)
+        && Pkg::open(d).is_some_and(|p| p.has_name("JCDentonMale") || p.has_name("DeusExSaveInfo"))
 }
 
 /// "HazMatSuit" → "Haz Mat Suit", "EMPGrenade" → "EMP Grenade".
@@ -266,7 +316,11 @@ fn words(key: &str) -> String {
         let prev = i.checked_sub(1).map(|j| c[j]);
         let next = c.get(i + 1).copied();
         let boundary = ch.is_uppercase()
-            && prev.is_some_and(|p| p.is_lowercase() || p.is_ascii_digit() || (p.is_uppercase() && next.is_some_and(char::is_lowercase)));
+            && prev.is_some_and(|p| {
+                p.is_lowercase()
+                    || p.is_ascii_digit()
+                    || (p.is_uppercase() && next.is_some_and(char::is_lowercase))
+            });
         if boundary {
             out.push(' ');
         }
@@ -358,10 +412,18 @@ fn unique(used: &mut std::collections::HashSet<String>, group: &str, name: Strin
 }
 
 fn save_info(pkg: &Pkg, b: &mut Builder) -> Option<String> {
-    let i = pkg.exports.iter().position(|e| pkg.class(e) == "DeusExSaveInfo" && e.size > 0)?;
+    let i = pkg
+        .exports
+        .iter()
+        .position(|e| pkg.class(e) == "DeusExSaveInfo" && e.size > 0)?;
     let props = pkg.props(i)?;
     let s = |n: &str| get(&props, n).and_then(|p| pkg.string(p));
-    let n = |k: &str| get(&props, k).filter(|p| p.ty == 2).and_then(|p| u32_at(pkg.d, p.at)).map(|v| v as i32);
+    let n = |k: &str| {
+        get(&props, k)
+            .filter(|p| p.ty == 2)
+            .and_then(|p| u32_at(pkg.d, p.at))
+            .map(|v| v as i32)
+    };
     if let Some(v) = s("Description") {
         b.info(&["Save", "Description"], v);
     }
@@ -373,7 +435,14 @@ fn save_info(pkg: &Pkg, b: &mut Builder) -> Option<String> {
         b.info(&["Save", "Map"], v.clone());
     }
     if let (Some(y), Some(mo), Some(d)) = (n("Year"), n("Month"), n("Day")) {
-        b.info(&["Save", "Saved on"], format!("{y:04}-{mo:02}-{d:02} {:02}:{:02}", n("Hour").unwrap_or(0), n("Minute").unwrap_or(0)));
+        b.info(
+            &["Save", "Saved on"],
+            format!(
+                "{y:04}-{mo:02}-{d:02} {:02}:{:02}",
+                n("Hour").unwrap_or(0),
+                n("Minute").unwrap_or(0)
+            ),
+        );
     }
     if let Some(v) = n("saveCount") {
         b.info(&["Save", "Save count"], i64::from(v));
@@ -389,7 +458,11 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
     let mut b = Builder::new(d);
     b.info(&["Save", "Game"], "Deus Ex");
     if let Some(map) = save_info(&pkg, &mut b) {
-        let file = if map.is_empty() { "the map's .dxs file".to_string() } else { format!("{map}.dxs") };
+        let file = if map.is_empty() {
+            "the map's .dxs file".to_string()
+        } else {
+            format!("{map}.dxs")
+        };
         b.info(&["Save", "Open to edit JC"], file.clone());
         return Ok(b.finish("Deus Ex save info", Checksum::None).with_note(format!(
             "This is the save's SaveInfo.dxs (description, date and current map). JC Denton is in {file} in the same folder: open that file to edit him."
@@ -397,9 +470,20 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
     }
 
     let objs: Vec<Option<Vec<Prop>>> = (0..pkg.exports.len()).map(|i| pkg.props(i)).collect();
-    let players: Vec<usize> = (0..pkg.exports.len()).filter(|&i| pkg.class(&pkg.exports[i]) == "JCDentonMale" && objs[i].is_some()).collect();
-    let live = |i: &usize| objs[*i].as_ref().is_some_and(|p| get(p, "SkillSystem").is_some() || get(p, "AugmentationSystem").is_some());
-    let Some(pi) = players.iter().copied().find(live).or_else(|| players.first().copied()) else {
+    let players: Vec<usize> = (0..pkg.exports.len())
+        .filter(|&i| pkg.class(&pkg.exports[i]) == "JCDentonMale" && objs[i].is_some())
+        .collect();
+    let live = |i: &usize| {
+        objs[*i].as_ref().is_some_and(|p| {
+            get(p, "SkillSystem").is_some() || get(p, "AugmentationSystem").is_some()
+        })
+    };
+    let Some(pi) = players
+        .iter()
+        .copied()
+        .find(live)
+        .or_else(|| players.first().copied())
+    else {
         return Err("no JC Denton in this file".into());
     };
     let is_live = live(&pi);
@@ -428,13 +512,48 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
         }
     };
 
-    ranged(&mut b, &["JC Denton", "Credits"], get(&player, "Credits"), 0, 99_999_999);
-    ranged(&mut b, &["JC Denton", "Skill points"], get(&player, "SkillPointsAvail"), 0, 9_999_999);
-    ranged(&mut b, &["JC Denton", "Skill points earned"], get(&player, "SkillPointsTotal"), 0, 9_999_999);
-    if ranged_f(&mut b, &["JC Denton", "Bioelectric energy"], get(&player, "Energy"), 0, 1000).is_none() {
-        b.info(&["JC Denton", "Bioelectric energy"], "not stored (at the game's default)");
+    ranged(
+        &mut b,
+        &["JC Denton", "Credits"],
+        get(&player, "Credits"),
+        0,
+        99_999_999,
+    );
+    ranged(
+        &mut b,
+        &["JC Denton", "Skill points"],
+        get(&player, "SkillPointsAvail"),
+        0,
+        9_999_999,
+    );
+    ranged(
+        &mut b,
+        &["JC Denton", "Skill points earned"],
+        get(&player, "SkillPointsTotal"),
+        0,
+        9_999_999,
+    );
+    if ranged_f(
+        &mut b,
+        &["JC Denton", "Bioelectric energy"],
+        get(&player, "Energy"),
+        0,
+        1000,
+    )
+    .is_none()
+    {
+        b.info(
+            &["JC Denton", "Bioelectric energy"],
+            "not stored (at the game's default)",
+        );
     }
-    ranged_f(&mut b, &["JC Denton", "Bioelectric energy max"], get(&player, "EnergyMax"), 0, 1000);
+    ranged_f(
+        &mut b,
+        &["JC Denton", "Bioelectric energy max"],
+        get(&player, "EnergyMax"),
+        0,
+        1000,
+    );
     for (label, prop) in [
         ("Overall", "Health"),
         ("Head", "HealthHead"),
@@ -469,7 +588,11 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
             weapons.push(item_name(&class));
             continue;
         }
-        let (group, prop, default) = if class.starts_with("Ammo") { ("Ammo", "AmmoAmount", "default amount (not stored)") } else { ("Items", "NumCopies", "1 (not stored)") };
+        let (group, prop, default) = if class.starts_with("Ammo") {
+            ("Ammo", "AmmoAmount", "default amount (not stored)")
+        } else {
+            ("Items", "NumCopies", "1 (not stored)")
+        };
         let label = unique(&mut used, group, item_name(&class));
         if ranged(&mut b, &[group, &label], get(&props, prop), 0, 9999).is_none() {
             b.info(&[group, &label], default);
@@ -482,13 +605,20 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
     // Skills and augmentations: linked lists from the player's managers.
     let chain = |manager: &str, first: &str| -> Vec<usize> {
         let mut out = vec![];
-        let mut cur = get(&player, manager).and_then(|p| pkg.target(p)).and_then(|m| objs[m].as_ref()).and_then(|m| get(m, first)).and_then(|p| pkg.target(p));
+        let mut cur = get(&player, manager)
+            .and_then(|p| pkg.target(p))
+            .and_then(|m| objs[m].as_ref())
+            .and_then(|m| get(m, first))
+            .and_then(|p| pkg.target(p));
         while let Some(i) = cur {
             if out.contains(&i) || out.len() > 100 {
                 break;
             }
             out.push(i);
-            cur = objs[i].as_ref().and_then(|p| get(p, "Next")).and_then(|p| pkg.target(p));
+            cur = objs[i]
+                .as_ref()
+                .and_then(|p| get(p, "Next"))
+                .and_then(|p| pkg.target(p));
         }
         out
     };
@@ -559,13 +689,52 @@ pub(crate) mod tests {
     /// A synthetic package: JC with credits, health and an inventory; skills and augs.
     pub(crate) fn sample(live: bool) -> Vec<u8> {
         let names = [
-            "None", "JCDentonMale", "Credits", "SkillPointsAvail", "Energy", "HealthHead", "Inventory", "SkillSystem", "AugmentationSystem", "AmmoAmount", "NumCopies",
-            "Ammo10mm", "MedKit", "SkillManager", "FirstSkill", "Next", "SkillComputer", "CurrentLevel", "AugmentationManager", "FirstAug", "AugSpeed", "bHasIt",
-            "JCDentonMale1", "Ammo10mm0", "MedKit0", "SkillManager0", "SkillComputer0", "AugmentationManager0", "AugSpeed0", "SkillTech", "SkillTech0", "Core", "Class",
+            "None",
+            "JCDentonMale",
+            "Credits",
+            "SkillPointsAvail",
+            "Energy",
+            "HealthHead",
+            "Inventory",
+            "SkillSystem",
+            "AugmentationSystem",
+            "AmmoAmount",
+            "NumCopies",
+            "Ammo10mm",
+            "MedKit",
+            "SkillManager",
+            "FirstSkill",
+            "Next",
+            "SkillComputer",
+            "CurrentLevel",
+            "AugmentationManager",
+            "FirstAug",
+            "AugSpeed",
+            "bHasIt",
+            "JCDentonMale1",
+            "Ammo10mm0",
+            "MedKit0",
+            "SkillManager0",
+            "SkillComputer0",
+            "AugmentationManager0",
+            "AugSpeed0",
+            "SkillTech",
+            "SkillTech0",
+            "Core",
+            "Class",
         ];
         let n = |s: &str| names.iter().position(|x| *x == s).unwrap() as i32;
         // Imports: the classes (export class = -(import index + 1)).
-        let classes = ["JCDentonMale", "Ammo10mm", "MedKit", "SkillManager", "SkillComputer", "AugmentationManager", "AugSpeed", "SkillTech"];
+        let classes = [
+            "JCDentonMale",
+            "Ammo10mm",
+            "MedKit",
+            "SkillManager",
+            "SkillComputer",
+            "AugmentationManager",
+            "AugSpeed",
+            "SkillTech",
+        ];
         let cls = |s: &str| -(classes.iter().position(|x| *x == s).unwrap() as i32 + 1);
         let tag = |o: &mut Vec<u8>, name: &str, info: u8| {
             o.extend(ci(n(name)));
@@ -664,7 +833,17 @@ pub(crate) mod tests {
         }
         let export_off = d.len();
         d.extend(table);
-        for (i, v) in [names.len(), name_off, objs.len(), export_off, classes.len(), import_off].iter().enumerate() {
+        for (i, v) in [
+            names.len(),
+            name_off,
+            objs.len(),
+            export_off,
+            classes.len(),
+            import_off,
+        ]
+        .iter()
+        .enumerate()
+        {
             d[counts_at + 4 * i..counts_at + 4 * i + 4].copy_from_slice(&(*v as u32).to_le_bytes());
         }
         d
@@ -698,7 +877,10 @@ pub(crate) mod tests {
         assert_eq!(v(&doc, "/Skills/Computer"), Some("Master".into()));
         assert_eq!(v(&doc, "/Skills/Electronics"), Some("Untrained".into()));
         assert!(!doc.editable.contains_key("/Skills/Electronics"));
-        assert_eq!(v(&doc, "/Augmentations/Speed Enhancement"), Some("Level 2".into()));
+        assert_eq!(
+            v(&doc, "/Augmentations/Speed Enhancement"),
+            Some("Level 2".into())
+        );
         assert_eq!(doc.to_bytes().unwrap(), d);
         doc.set("/JC Denton/Credits", 451.into()).unwrap();
         doc.set("/Skills/Computer", "Trained".into()).unwrap();
@@ -723,11 +905,20 @@ pub(crate) mod tests {
     #[ignore]
     fn real_saves() {
         let arg = std::env::var("DEUSEX_SAVES").unwrap();
-        let list = if arg.ends_with(".txt") { std::fs::read_to_string(&arg).unwrap().replace('\n', "|") } else { arg };
+        let list = if arg.ends_with(".txt") {
+            std::fs::read_to_string(&arg).unwrap().replace('\n', "|")
+        } else {
+            arg
+        };
         for dir in list.split('|').map(str::trim).filter(|s| !s.is_empty()) {
             let info = parse(&std::fs::read(format!("{dir}/SaveInfo.dxs")).unwrap()).unwrap();
             assert_eq!(info.kind_name, "Deus Ex save info");
-            let map = info.view.pointer("/Save/Map").and_then(Value::as_str).unwrap().to_lowercase();
+            let map = info
+                .view
+                .pointer("/Save/Map")
+                .and_then(Value::as_str)
+                .unwrap()
+                .to_lowercase();
             let mut lives = 0;
             for e in std::fs::read_dir(dir).unwrap() {
                 let path = e.unwrap().path();
@@ -739,7 +930,11 @@ pub(crate) mod tests {
                 assert!(looks(&d), "{file}");
                 let mut doc = parse(&d).unwrap_or_else(|e| panic!("{dir}/{file}: {e}"));
                 let live = doc.view.pointer("/Save/Live player") == Some(&true.into());
-                assert_eq!(live, file[..file.len() - 4].to_lowercase() == map, "{dir}/{file}");
+                assert_eq!(
+                    live,
+                    file[..file.len() - 4].to_lowercase() == map,
+                    "{dir}/{file}"
+                );
                 assert_eq!(doc.to_bytes().unwrap(), d);
                 if !live {
                     continue;
@@ -750,7 +945,10 @@ pub(crate) mod tests {
                 let credits = g("/JC Denton/Credits").as_i64().unwrap();
                 doc.set("/JC Denton/Credits", (credits + 1).into()).unwrap();
                 let out = doc.to_bytes().unwrap();
-                assert_eq!(out.iter().zip(&d).filter(|(a, b)| a != b).count() <= 4, true);
+                assert_eq!(
+                    out.iter().zip(&d).filter(|(a, b)| a != b).count() <= 4,
+                    true
+                );
                 let back = parse(&out).unwrap();
                 assert_eq!(back.view, doc.view);
             }

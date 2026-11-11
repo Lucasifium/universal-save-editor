@@ -1,7 +1,9 @@
 //! INI / CFG style saves (`[Section]` + `key=value`), including Godot ConfigFile.
 //! Only value spans are rewritten, so comments, ordering and line endings survive.
 
-use crate::tree::{child, insert_unique, text_to_value, unique_key, value_to_text, Backend, Patches, TreeDoc};
+use crate::tree::{
+    child, insert_unique, text_to_value, unique_key, value_to_text, Backend, Patches, TreeDoc,
+};
 use serde_json::{Map, Value};
 use std::collections::HashMap;
 
@@ -45,7 +47,15 @@ impl Backend for IniBackend {
     }
 }
 
-const INI_EXTS: &[&str] = &["ini", "cfg", "conf", "inf", "properties", "config", "settings"];
+const INI_EXTS: &[&str] = &[
+    "ini",
+    "cfg",
+    "conf",
+    "inf",
+    "properties",
+    "config",
+    "settings",
+];
 
 pub fn parse(text: &str, ext: &str) -> Result<TreeDoc, String> {
     let mut root = Map::new();
@@ -76,7 +86,11 @@ pub fn parse(text: &str, ext: &str) -> Result<TreeDoc, String> {
             continue;
         };
         let key = body[..eq].trim();
-        if key.is_empty() || key.contains(char::is_whitespace) && !key.contains('.') && key.split_whitespace().count() > 3 {
+        if key.is_empty()
+            || key.contains(char::is_whitespace)
+                && !key.contains('.')
+                && key.split_whitespace().count() > 3
+        {
             other += 1;
             continue;
         }
@@ -93,7 +107,11 @@ pub fn parse(text: &str, ext: &str) -> Result<TreeDoc, String> {
             ve -= 1;
             val = &val[1..val.len() - 1];
         }
-        let shown = if quoted { Value::String(val.replace("\\\"", "\"")) } else { text_to_value(val) };
+        let shown = if quoted {
+            Value::String(val.replace("\\\"", "\""))
+        } else {
+            text_to_value(val)
+        };
         let map = match &section {
             Some(s) => root.get_mut(s).and_then(Value::as_object_mut).unwrap(),
             None => &mut root,
@@ -104,7 +122,12 @@ pub fn parse(text: &str, ext: &str) -> Result<TreeDoc, String> {
             None => child("", &k),
         };
         editable.insert(ptr, leaves.len());
-        leaves.push(Leaf { start: vs, end: ve, quoted, orig: val.to_string() });
+        leaves.push(Leaf {
+            start: vs,
+            end: ve,
+            quoted,
+            orig: val.to_string(),
+        });
     }
 
     let by_ext = INI_EXTS.contains(&ext);
@@ -112,8 +135,16 @@ pub fn parse(text: &str, ext: &str) -> Result<TreeDoc, String> {
     if kv == 0 || !(by_ext || looks_ini) {
         return Err("not an INI file".into());
     }
-    let backend = IniBackend { raw: text.as_bytes().to_vec(), leaves };
-    Ok(TreeDoc::new(Value::Object(root), editable, "INI / config", Box::new(backend)))
+    let backend = IniBackend {
+        raw: text.as_bytes().to_vec(),
+        leaves,
+    };
+    Ok(TreeDoc::new(
+        Value::Object(root),
+        editable,
+        "INI / config",
+        Box::new(backend),
+    ))
 }
 
 #[cfg(test)]
@@ -128,17 +159,31 @@ mod tests {
         assert_eq!(doc.to_bytes().unwrap(), SAMPLE.as_bytes());
         assert_eq!(doc.view.pointer("/Player/Gold").unwrap(), 1500);
         assert_eq!(doc.view.pointer("/Player/Name").unwrap(), "Ash Ketchum");
-        assert_eq!(doc.view.pointer("/World/Seed").unwrap(), "0042", "leading zeros stay text");
+        assert_eq!(
+            doc.view.pointer("/World/Seed").unwrap(),
+            "0042",
+            "leading zeros stay text"
+        );
         doc.set("/Player/Gold", Value::from(25)).unwrap();
         doc.set("/Player/HardMode", Value::Bool(true)).unwrap();
         doc.set("/Player/Name", Value::from("Misty")).unwrap();
         let out = String::from_utf8(doc.to_bytes().unwrap()).unwrap();
-        assert_eq!(out, SAMPLE.replace("Gold=1500", "Gold=25").replace("HardMode=False", "HardMode=True").replace("Ash Ketchum", "Misty"));
+        assert_eq!(
+            out,
+            SAMPLE
+                .replace("Gold=1500", "Gold=25")
+                .replace("HardMode=False", "HardMode=True")
+                .replace("Ash Ketchum", "Misty")
+        );
         assert!(doc.set("/Player/Name", Value::from("two\nlines")).is_err());
     }
 
     #[test]
     fn plain_prose_is_not_ini() {
-        assert!(parse("Hello there.\nThis is a note = not config.\nJust text here.\n", "").is_err());
+        assert!(parse(
+            "Hello there.\nThis is a note = not config.\nJust text here.\n",
+            ""
+        )
+        .is_err());
     }
 }

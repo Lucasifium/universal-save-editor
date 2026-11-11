@@ -3,7 +3,11 @@
 //! `0` -> `0a`, `+` -> `0b`, `/` -> `0c`, no padding and, for PC version `AAB` and mobile,
 //! a closing `EndOfSavefile`.
 use base64::{engine::general_purpose::STANDARD, Engine};
-use flate2::{bufread::{GzDecoder, ZlibDecoder}, write::{GzEncoder, ZlibEncoder}, Compression};
+use flate2::{
+    bufread::{GzDecoder, ZlibDecoder},
+    write::{GzEncoder, ZlibEncoder},
+    Compression,
+};
 use std::io::{Read, Write};
 
 const PREFIXES: [&str; 3] = [
@@ -24,8 +28,13 @@ pub fn open(data: &[u8]) -> Option<(u8, String, Vec<u8>)> {
         return None;
     }
     let body = rest[3..].strip_suffix(END).unwrap_or(&rest[3..]);
-    let b64 = body.replace("0b", "+").replace("0c", "/").replace("0a", "0");
-    let raw = STANDARD.decode(format!("{b64}{}", "=".repeat((4 - b64.len() % 4) % 4))).ok()?;
+    let b64 = body
+        .replace("0b", "+")
+        .replace("0c", "/")
+        .replace("0a", "0");
+    let raw = STANDARD
+        .decode(format!("{b64}{}", "=".repeat((4 - b64.len() % 4) % 4)))
+        .ok()?;
     let mut out = Vec::new();
     let ok = if kind == 0 {
         ZlibDecoder::new(&raw[..]).take(LIMIT).read_to_end(&mut out)
@@ -47,9 +56,20 @@ pub fn close(kind: u8, version: &str, plain: &[u8]) -> Result<Vec<u8>, String> {
         z.write_all(plain).map_err(e)?;
         z.finish().map_err(e)?
     };
-    let b64 = STANDARD.encode(raw).trim_end_matches('=').replace('0', "0a").replace('+', "0b").replace('/', "0c");
-    let prefix = PREFIXES.get(kind as usize).ok_or("unknown Antimatter Dimensions platform")?;
-    let end = if kind != 0 || version == "AAB" { END } else { "" };
+    let b64 = STANDARD
+        .encode(raw)
+        .trim_end_matches('=')
+        .replace('0', "0a")
+        .replace('+', "0b")
+        .replace('/', "0c");
+    let prefix = PREFIXES
+        .get(kind as usize)
+        .ok_or("unknown Antimatter Dimensions platform")?;
+    let end = if kind != 0 || version == "AAB" {
+        END
+    } else {
+        ""
+    };
     Ok(format!("{prefix}{version}{b64}{end}").into_bytes())
 }
 

@@ -25,7 +25,11 @@ fn filter_box(ui: &mut Ui, id: &str, hint: &str) -> String {
     let mut q = ui.data(|d| d.get_temp::<String>(sid)).unwrap_or_default();
     ui.horizontal(|ui| {
         ui.label("Filter:");
-        ui.add(egui::TextEdit::singleline(&mut q).hint_text(hint).desired_width(220.0));
+        ui.add(
+            egui::TextEdit::singleline(&mut q)
+                .hint_text(hint)
+                .desired_width(220.0),
+        );
     });
     ui.data_mut(|d| d.insert_temp(sid, q.clone()));
     q.to_lowercase()
@@ -55,9 +59,20 @@ fn rows(ui: &mut Ui, cx: &mut GameCtx, id: &str, rows: &[(String, String)]) {
 /// A filterable list of the values under `base` (skills, a bag's stacks).
 fn list(ui: &mut Ui, cx: &mut GameCtx, id: &str, base: &str, hint: &str) {
     let all = keys(cx, base);
-    let q = if all.len() > 12 { filter_box(ui, id, hint) } else { String::new() };
-    let shown: Vec<(String, String)> = all.iter().filter(|k| q.is_empty() || k.to_lowercase().contains(&q)).map(|k| (k.clone(), join(base, k))).collect();
-    egui::ScrollArea::vertical().id_salt((id, "scroll")).max_height(420.0).show(ui, |ui| rows(ui, cx, id, &shown));
+    let q = if all.len() > 12 {
+        filter_box(ui, id, hint)
+    } else {
+        String::new()
+    };
+    let shown: Vec<(String, String)> = all
+        .iter()
+        .filter(|k| q.is_empty() || k.to_lowercase().contains(&q))
+        .map(|k| (k.clone(), join(base, k)))
+        .collect();
+    egui::ScrollArea::vertical()
+        .id_salt((id, "scroll"))
+        .max_height(420.0)
+        .show(ui, |ui| rows(ui, cx, id, &shown));
 }
 
 /// Tabs over the groups of item stacks that exist in this save.
@@ -66,15 +81,28 @@ fn stacks(ui: &mut Ui, cx: &mut GameCtx, id: &str, groups: &[String], note: &str
         return;
     }
     panel(ui, "Item stacks", |ui| {
-        let labels: Vec<String> = groups.iter().map(|g| format!("{g} ({})", keys(cx, &join("", g)).len())).collect();
+        let labels: Vec<String> = groups
+            .iter()
+            .map(|g| format!("{g} ({})", keys(cx, &join("", g)).len()))
+            .collect();
         let t = tabs(ui, id, &labels);
-        list(ui, cx, &format!("{id}{t}"), &join("", &groups[t]), "item name");
+        list(
+            ui,
+            cx,
+            &format!("{id}{t}"),
+            &join("", &groups[t]),
+            "item name",
+        );
         ui.weak(note);
     });
 }
 
 fn subtitle(parts: Vec<String>) -> String {
-    parts.into_iter().filter(|s| !s.is_empty()).collect::<Vec<_>>().join("  \u{00B7}  ")
+    parts
+        .into_iter()
+        .filter(|s| !s.is_empty())
+        .collect::<Vec<_>>()
+        .join("  \u{00B7}  ")
 }
 
 /// Bar scale for an attribute: room above the current value.
@@ -86,14 +114,26 @@ fn scale(cx: &GameCtx, p: &str, min: f64) -> f64 {
 
 pub fn grim_dawn(ui: &mut Ui, cx: &mut GameCtx) {
     let accent = Color32::from_rgb(201, 124, 44);
-    let name = cx.text("/Character/Name").filter(|n| !n.is_empty()).unwrap_or_else(|| "Character".into());
+    let name = cx
+        .text("/Character/Name")
+        .filter(|n| !n.is_empty())
+        .unwrap_or_else(|| "Character".into());
     let mut sub = vec![cx.text("/Character/Class tag").unwrap_or_default()];
     if cx.flag("/Character/Hardcore") {
         sub.push("Hardcore".into());
     }
-    sub.push(cx.text("/Character/Difficulty").map(|d| format!("{d} difficulty")).unwrap_or_default());
+    sub.push(
+        cx.text("/Character/Difficulty")
+            .map(|d| format!("{d} difficulty"))
+            .unwrap_or_default(),
+    );
     hero(ui, accent, &name, &subtitle(sub), |ui| {
-        for (label, p) in [("Level", "/Character/Level"), ("Experience", "/Character/Experience"), ("Iron bits", "/Character/Money"), ("Tributes", "/Character/Tributes")] {
+        for (label, p) in [
+            ("Level", "/Character/Level"),
+            ("Experience", "/Character/Experience"),
+            ("Iron bits", "/Character/Money"),
+            ("Tributes", "/Character/Tributes"),
+        ] {
             cx.tile(ui, label, p, accent);
         }
     });
@@ -106,26 +146,37 @@ pub fn grim_dawn(ui: &mut Ui, cx: &mut GameCtx) {
                     cx.attribute(ui, k, &p, max, accent);
                 }
                 ui.add_space(6.0);
-                egui::Grid::new("gd_base").num_columns(2).spacing([14.0, 4.0]).show(ui, |ui| {
-                    cx.grid_row(ui, "Base health", "/Attributes/Health", 90.0);
-                    cx.grid_row(ui, "Base energy", "/Attributes/Energy", 90.0);
-                });
+                egui::Grid::new("gd_base")
+                    .num_columns(2)
+                    .spacing([14.0, 4.0])
+                    .show(ui, |ui| {
+                        cx.grid_row(ui, "Base health", "/Attributes/Health", 90.0);
+                        cx.grid_row(ui, "Base energy", "/Attributes/Energy", 90.0);
+                    });
                 ui.weak("Base values before items and skills.");
             });
         } else {
             panel(ui, "Unspent points", |ui| {
-                egui::Grid::new("gd_pts").num_columns(2).spacing([14.0, 4.0]).show(ui, |ui| {
-                    for k in ["Attribute points", "Skill points", "Devotion points"] {
-                        cx.grid_row(ui, k, &join("/Points", k), 70.0);
-                    }
-                });
+                egui::Grid::new("gd_pts")
+                    .num_columns(2)
+                    .spacing([14.0, 4.0])
+                    .show(ui, |ui| {
+                        for k in ["Attribute points", "Skill points", "Devotion points"] {
+                            cx.grid_row(ui, k, &join("/Points", k), 70.0);
+                        }
+                    });
                 ui.add_space(4.0);
                 ui.horizontal_wrapped(|ui| {
                     if let Some(n) = cx.int("/Points/Devotion points unlocked") {
                         fact(ui, "Devotion points unlocked", &fmt_num(n as f64), accent);
                     }
                     if let Some(n) = cx.int("/Statistics/Play time (seconds)") {
-                        fact(ui, "Played", &format!("{:.1} hours", n as f64 / 3600.0), accent);
+                        fact(
+                            ui,
+                            "Played",
+                            &format!("{:.1} hours", n as f64 / 3600.0),
+                            accent,
+                        );
                     }
                     if let Some(n) = cx.int("/Statistics/Kills") {
                         fact(ui, "Kills", &fmt_num(n as f64), accent);
@@ -145,7 +196,10 @@ pub fn grim_dawn(ui: &mut Ui, cx: &mut GameCtx) {
             });
         }
     }
-    let groups: Vec<String> = keys(cx, "").into_iter().filter(|k| k == "Inventory" || k.starts_with("Bag ") || k.starts_with("Stash ")).collect();
+    let groups: Vec<String> = keys(cx, "")
+        .into_iter()
+        .filter(|k| k == "Inventory" || k.starts_with("Bag ") || k.starts_with("Stash "))
+        .collect();
     stacks(ui, cx, "gd_items", &groups, "How many are in each stack (items that don't stack are 1). Names are the item's record (folder: file name).");
     if let Some(Value::Array(eq)) = cx.get("/Character/Equipped").cloned() {
         if !eq.is_empty() {
@@ -165,10 +219,20 @@ pub fn grim_dawn(ui: &mut Ui, cx: &mut GameCtx) {
 
 pub fn titan_quest(ui: &mut Ui, cx: &mut GameCtx) {
     let accent = Color32::from_rgb(64, 128, 196);
-    let name = cx.text("/Character/Name").filter(|n| !n.is_empty()).unwrap_or_else(|| "Hero".into());
-    let sub = vec![cx.text("/Character/Class").unwrap_or_default(), cx.text("/Character/Class tag").unwrap_or_default()];
+    let name = cx
+        .text("/Character/Name")
+        .filter(|n| !n.is_empty())
+        .unwrap_or_else(|| "Hero".into());
+    let sub = vec![
+        cx.text("/Character/Class").unwrap_or_default(),
+        cx.text("/Character/Class tag").unwrap_or_default(),
+    ];
     hero(ui, accent, &name, &subtitle(sub), |ui| {
-        for (label, p) in [("Level", "/Character/Level"), ("Experience", "/Character/Experience"), ("Gold", "/Character/Money")] {
+        for (label, p) in [
+            ("Level", "/Character/Level"),
+            ("Experience", "/Character/Experience"),
+            ("Gold", "/Character/Money"),
+        ] {
             cx.tile(ui, label, p, accent);
         }
     });
@@ -181,22 +245,33 @@ pub fn titan_quest(ui: &mut Ui, cx: &mut GameCtx) {
                     cx.attribute(ui, k, &p, max, accent);
                 }
                 ui.add_space(6.0);
-                egui::Grid::new("tq_base").num_columns(2).spacing([14.0, 4.0]).show(ui, |ui| {
-                    cx.grid_row(ui, "Health", "/Attributes/Health", 90.0);
-                    cx.grid_row(ui, "Energy", "/Attributes/Energy", 90.0);
-                });
+                egui::Grid::new("tq_base")
+                    .num_columns(2)
+                    .spacing([14.0, 4.0])
+                    .show(ui, |ui| {
+                        cx.grid_row(ui, "Health", "/Attributes/Health", 90.0);
+                        cx.grid_row(ui, "Energy", "/Attributes/Energy", 90.0);
+                    });
                 ui.weak("Base values before items and skills.");
             });
         } else {
             panel(ui, "Unspent points", |ui| {
-                egui::Grid::new("tq_pts").num_columns(2).spacing([14.0, 4.0]).show(ui, |ui| {
-                    cx.grid_row(ui, "Attribute points", "/Points/Attribute points", 70.0);
-                    cx.grid_row(ui, "Skill points", "/Points/Skill points", 70.0);
-                });
+                egui::Grid::new("tq_pts")
+                    .num_columns(2)
+                    .spacing([14.0, 4.0])
+                    .show(ui, |ui| {
+                        cx.grid_row(ui, "Attribute points", "/Points/Attribute points", 70.0);
+                        cx.grid_row(ui, "Skill points", "/Points/Skill points", 70.0);
+                    });
                 ui.add_space(4.0);
                 ui.horizontal_wrapped(|ui| {
                     if let Some(n) = cx.int("/Statistics/Play time (seconds)") {
-                        fact(ui, "Played", &format!("{:.1} hours", n as f64 / 3600.0), accent);
+                        fact(
+                            ui,
+                            "Played",
+                            &format!("{:.1} hours", n as f64 / 3600.0),
+                            accent,
+                        );
                     }
                     for k in ["Kills", "Deaths"] {
                         if let Some(n) = cx.int(&join("/Statistics", k)) {
@@ -219,8 +294,14 @@ pub fn titan_quest(ui: &mut Ui, cx: &mut GameCtx) {
 
 pub fn torchlight2(ui: &mut Ui, cx: &mut GameCtx) {
     let accent = Color32::from_rgb(46, 160, 150);
-    let name = cx.text("/Hero/Name").filter(|n| !n.is_empty()).unwrap_or_else(|| "Hero".into());
-    let mut sub = vec![cx.text("/Hero/Class").unwrap_or_default(), cx.text("/Hero/Difficulty").unwrap_or_default()];
+    let name = cx
+        .text("/Hero/Name")
+        .filter(|n| !n.is_empty())
+        .unwrap_or_else(|| "Hero".into());
+    let mut sub = vec![
+        cx.text("/Hero/Class").unwrap_or_default(),
+        cx.text("/Hero/Difficulty").unwrap_or_default(),
+    ];
     if cx.flag("/Hero/Hardcore") {
         sub.push("Hardcore".into());
     }
@@ -231,7 +312,13 @@ pub fn torchlight2(ui: &mut Ui, cx: &mut GameCtx) {
         sub.push(format!("{:.1} hours", s / 3600.0));
     }
     hero(ui, accent, &name, &subtitle(sub), |ui| {
-        for (label, p) in [("Level", "/Progress/Level"), ("Experience", "/Progress/Experience"), ("Gold", "/Progress/Gold"), ("Fame level", "/Progress/Fame level"), ("Fame", "/Progress/Fame")] {
+        for (label, p) in [
+            ("Level", "/Progress/Level"),
+            ("Experience", "/Progress/Experience"),
+            ("Gold", "/Progress/Gold"),
+            ("Fame level", "/Progress/Fame level"),
+            ("Fame", "/Progress/Fame"),
+        ] {
             cx.tile(ui, label, p, accent);
         }
     });
@@ -246,12 +333,15 @@ pub fn torchlight2(ui: &mut Ui, cx: &mut GameCtx) {
             });
         } else {
             panel(ui, "Points, health and mana", |ui| {
-                egui::Grid::new("tl2_pts").num_columns(2).spacing([14.0, 4.0]).show(ui, |ui| {
-                    cx.grid_row(ui, "Attribute points", "/Points/Attribute points", 70.0);
-                    cx.grid_row(ui, "Skill points", "/Points/Skill points", 70.0);
-                    cx.grid_row(ui, "Health", "/Health and mana/Health", 90.0);
-                    cx.grid_row(ui, "Mana", "/Health and mana/Mana", 90.0);
-                });
+                egui::Grid::new("tl2_pts")
+                    .num_columns(2)
+                    .spacing([14.0, 4.0])
+                    .show(ui, |ui| {
+                        cx.grid_row(ui, "Attribute points", "/Points/Attribute points", 70.0);
+                        cx.grid_row(ui, "Skill points", "/Points/Skill points", 70.0);
+                        cx.grid_row(ui, "Health", "/Health and mana/Health", 90.0);
+                        cx.grid_row(ui, "Mana", "/Health and mana/Mana", 90.0);
+                    });
                 let spells: Vec<String> = keys(cx, "/Spells");
                 if !spells.is_empty() {
                     ui.add_space(6.0);

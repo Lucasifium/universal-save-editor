@@ -9,14 +9,30 @@ const HEADER: usize = 9;
 const SLOT: usize = 0x10F4;
 const SLOTS: usize = 15;
 const RECORD: usize = 0x84;
-const ROSTER: [&str; 11] = ["Cloud", "Barret", "Tifa", "Aerith", "Red XIII", "Yuffie", "Cait Sith", "Vincent", "Cid", "Young Cloud", "Sephiroth"];
+const ROSTER: [&str; 11] = [
+    "Cloud",
+    "Barret",
+    "Tifa",
+    "Aerith",
+    "Red XIII",
+    "Yuffie",
+    "Cait Sith",
+    "Vincent",
+    "Cid",
+    "Young Cloud",
+    "Sephiroth",
+];
 
 fn crc(b: &[u8]) -> u16 {
     let mut r: u32 = 0xFFFF;
     for &t in b {
         r ^= u32::from(t) << 8;
         for _ in 0..8 {
-            r = if r & 0x8000 != 0 { (r << 1) ^ 0x1021 } else { r << 1 };
+            r = if r & 0x8000 != 0 {
+                (r << 1) ^ 0x1021
+            } else {
+                r << 1
+            };
             r &= 0xFFFF;
         }
     }
@@ -36,7 +52,11 @@ fn fix_checksums(d: &mut Vec<u8>) {
 
 /// FF7's text: byte + 0x20 for the common range, 0xFF ends it.
 fn text(b: &[u8]) -> String {
-    b.iter().take_while(|&&c| c != 0xFF).filter(|&&c| c < 0x60).map(|&c| (c + 0x20) as char).collect()
+    b.iter()
+        .take_while(|&&c| c != 0xFF)
+        .filter(|&&c| c < 0x60)
+        .map(|&c| (c + 0x20) as char)
+        .collect()
 }
 
 pub fn looks(d: &[u8]) -> bool {
@@ -74,7 +94,13 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
         b.info(&[sl, "Location"], text(&d[s + 0x28..s + 0x48]));
         b.ranged(&[sl, "Gil"], s + 0xB7C, Kind::U32, 0, 99_999_999);
         b.mirror(&[sl, "Gil"], s + 0x20);
-        b.ranged(&[sl, "Play time (seconds)"], s + 0xB80, Kind::U32, 0, 359_999);
+        b.ranged(
+            &[sl, "Play time (seconds)"],
+            s + 0xB80,
+            Kind::U32,
+            0,
+            359_999,
+        );
         b.mirror(&[sl, "Play time (seconds)"], s + 0x24);
         for c in 0..9 {
             let r = s + 0x54 + c * RECORD;
@@ -91,7 +117,11 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
                 10 => "Sephiroth \u{2014} Vincent's place until he joins",
                 _ => role,
             };
-            let who = if name == role || (id < 9 && name == ROSTER[id]) { name.clone() } else { format!("{name} ({role})") };
+            let who = if name == role || (id < 9 && name == ROSTER[id]) {
+                name.clone()
+            } else {
+                format!("{name} ({role})")
+            };
             let p = |k: &str| [sl, "Party", who.as_str(), k].map(|x| x.to_string());
             macro_rules! f {
                 ($k:expr, $off:expr, $kind:expr, $lo:expr, $hi:expr) => {{
@@ -139,11 +169,22 @@ mod tests {
     fn real_save() {
         let d = std::fs::read(std::env::var("SAVE_EDITOR_FF7").unwrap()).unwrap();
         let mut doc = parse(&d).unwrap();
-        println!("{}", serde_json::to_string_pretty(&doc.view).unwrap().chars().take(2500).collect::<String>());
+        println!(
+            "{}",
+            serde_json::to_string_pretty(&doc.view)
+                .unwrap()
+                .chars()
+                .take(2500)
+                .collect::<String>()
+        );
         assert_eq!(doc.to_bytes().unwrap(), d);
-        doc.set("/Slot 1/Gil", serde_json::Value::from(5000)).unwrap();
+        doc.set("/Slot 1/Gil", serde_json::Value::from(5000))
+            .unwrap();
         let out = doc.to_bytes().unwrap();
         assert!(looks(&out));
-        assert_eq!(u32::from_le_bytes(out[HEADER + 0x20..HEADER + 0x24].try_into().unwrap()), 5000);
+        assert_eq!(
+            u32::from_le_bytes(out[HEADER + 0x20..HEADER + 0x24].try_into().unwrap()),
+            5000
+        );
     }
 }

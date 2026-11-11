@@ -19,7 +19,9 @@ use crate::formats::{self, Content, Options};
 use serde_json::{json, Value};
 use std::path::{Path, PathBuf};
 
-const COMMANDS: [&str; 9] = ["info", "list", "get", "set", "decode", "encode", "checksum", "games", "help"];
+const COMMANDS: [&str; 9] = [
+    "info", "list", "get", "set", "decode", "encode", "checksum", "games", "help",
+];
 
 /// Runs a command if `args` (without the program name) start with one; `None` means "open the
 /// window", with the first argument as a file to open.
@@ -30,7 +32,11 @@ pub fn run(args: &[String]) -> Option<i32> {
         return None;
     }
     if matches!(first, "--version" | "-V") {
-        println!("{} {}", crate::platform::DISPLAY_NAME, env!("CARGO_PKG_VERSION"));
+        println!(
+            "{} {}",
+            crate::platform::DISPLAY_NAME,
+            env!("CARGO_PKG_VERSION")
+        );
         return Some(0);
     }
     let code = match go(cmd, &args[1..]) {
@@ -57,15 +63,32 @@ struct Args {
 }
 
 fn parse(args: &[String]) -> Result<Args, String> {
-    let mut a = Args { pos: vec![], json: false, out: None, password: None, entry: None, no_backup: false };
+    let mut a = Args {
+        pos: vec![],
+        json: false,
+        out: None,
+        password: None,
+        entry: None,
+        no_backup: false,
+    };
     let mut it = args.iter();
     while let Some(x) = it.next() {
         match x.as_str() {
             "--json" => a.json = true,
             "--no-backup" => a.no_backup = true,
-            "-o" | "--out" => a.out = Some(PathBuf::from(it.next().ok_or("usage: -o needs a file")?)),
-            "--password" => a.password = Some(it.next().ok_or("usage: --password needs a value")?.clone()),
-            "--entry" => a.entry = Some(it.next().ok_or("usage: --entry needs a name (see info)")?.clone()),
+            "-o" | "--out" => {
+                a.out = Some(PathBuf::from(it.next().ok_or("usage: -o needs a file")?))
+            }
+            "--password" => {
+                a.password = Some(it.next().ok_or("usage: --password needs a value")?.clone())
+            }
+            "--entry" => {
+                a.entry = Some(
+                    it.next()
+                        .ok_or("usage: --entry needs a name (see info)")?
+                        .clone(),
+                )
+            }
             _ => a.pos.push(x.clone()),
         }
     }
@@ -124,8 +147,13 @@ fn screen(c: &Content) -> Option<String> {
 
 fn flatten(v: &Value, ptr: &str, out: &mut Vec<(String, Value)>) {
     match v {
-        Value::Object(m) => m.iter().for_each(|(k, c)| flatten(c, &crate::tree::child(ptr, k), out)),
-        Value::Array(a) => a.iter().enumerate().for_each(|(i, c)| flatten(c, &format!("{ptr}/{i}"), out)),
+        Value::Object(m) => m
+            .iter()
+            .for_each(|(k, c)| flatten(c, &crate::tree::child(ptr, k), out)),
+        Value::Array(a) => a
+            .iter()
+            .enumerate()
+            .for_each(|(i, c)| flatten(c, &format!("{ptr}/{i}"), out)),
         other => out.push((ptr.to_string(), other.clone())),
     }
 }
@@ -138,9 +166,17 @@ fn go(cmd: &str, args: &[String]) -> Result<(), String> {
             let f = a.pos.first().ok_or("usage: checksum <save> [<n>|off]")?;
             let (path, _, d) = open(f, &a)?;
             let Content::Binary(b) = &d.content else {
-                return Err(format!("{f}: the editor already reads this file ({}); its checksums are handled", formats::describe(&d.layers, &d.content)));
+                return Err(format!(
+                    "{f}: the editor already reads this file ({}); its checksums are handled",
+                    formats::describe(&d.layers, &d.content)
+                ));
             };
-            let others: Vec<Vec<u8>> = crate::backups::list(&path).into_iter().filter(|v| v.size as usize == b.len()).take(8).filter_map(|v| std::fs::read(&v.path).ok()).collect();
+            let others: Vec<Vec<u8>> = crate::backups::list(&path)
+                .into_iter()
+                .filter(|v| v.size as usize == b.len())
+                .take(8)
+                .filter_map(|v| std::fs::read(&v.path).ok())
+                .collect();
             let hits = crate::fmt::sumfind::find(b, &others);
             match a.pos.get(1).map(String::as_str) {
                 Some("off") => {
@@ -148,13 +184,28 @@ fn go(cmd: &str, args: &[String]) -> Result<(), String> {
                     println!("{f}: no checksum is fixed on save any more");
                 }
                 Some(n) => {
-                    let h = n.parse::<usize>().ok().and_then(|i| hits.get(i.wrapping_sub(1))).ok_or("usage: checksum <save> <n>, with n from the list")?;
+                    let h = n
+                        .parse::<usize>()
+                        .ok()
+                        .and_then(|i| hits.get(i.wrapping_sub(1)))
+                        .ok_or("usage: checksum <save> <n>, with n from the list")?;
                     crate::fmt::sumfind::remember(&path, Some(*h))?;
                     println!("{f}: {} is now written again on every save", h.describe());
                 }
-                None if a.json => println!("{}", serde_json::to_string_pretty(&hits.iter().map(|h| h.describe()).collect::<Vec<_>>()).unwrap()),
-                None if hits.is_empty() => println!("{f}: no known checksum at the start or end of the file"),
-                None => hits.iter().enumerate().for_each(|(i, h)| println!("{:>3}  {}", i + 1, h.describe())),
+                None if a.json => println!(
+                    "{}",
+                    serde_json::to_string_pretty(
+                        &hits.iter().map(|h| h.describe()).collect::<Vec<_>>()
+                    )
+                    .unwrap()
+                ),
+                None if hits.is_empty() => {
+                    println!("{f}: no known checksum at the start or end of the file")
+                }
+                None => hits
+                    .iter()
+                    .enumerate()
+                    .for_each(|(i, h)| println!("{:>3}  {}", i + 1, h.describe())),
             }
         }
         "games" => {
@@ -166,7 +217,10 @@ fn go(cmd: &str, args: &[String]) -> Result<(), String> {
                 println!("{}", serde_json::to_string_pretty(&list).unwrap());
             } else {
                 for g in crate::games::GAMES {
-                    println!("{}\n    {}\n    {}  ({})", g.name, g.support, g.folder, g.files);
+                    println!(
+                        "{}\n    {}\n    {}  ({})",
+                        g.name, g.support, g.folder, g.files
+                    );
                 }
             }
         }
@@ -214,7 +268,12 @@ fn go(cmd: &str, args: &[String]) -> Result<(), String> {
         "list" => {
             let f = a.pos.first().ok_or("usage: list <save>")?;
             let (_, _, d) = open(f, &a)?;
-            let r = root(&d.content).ok_or_else(|| format!("{f} has no named values ({}); use decode, or the window's Value search", d.content.kind()))?;
+            let r = root(&d.content).ok_or_else(|| {
+                format!(
+                    "{f} has no named values ({}); use decode, or the window's Value search",
+                    d.content.kind()
+                )
+            })?;
             let mut v = vec![];
             flatten(r, "", &mut v);
             if a.json {
@@ -227,14 +286,19 @@ fn go(cmd: &str, args: &[String]) -> Result<(), String> {
             }
         }
         "get" => {
-            let (f, ptrs) = a.pos.split_first().ok_or("usage: get <save> <pointer>...")?;
+            let (f, ptrs) = a
+                .pos
+                .split_first()
+                .ok_or("usage: get <save> <pointer>...")?;
             if ptrs.is_empty() {
                 return Err("usage: get <save> <pointer>...".into());
             }
             let (_, _, d) = open(f, &a)?;
             let r = root(&d.content).ok_or("this save has no named values")?;
             for p in ptrs {
-                let v = r.pointer(p).ok_or_else(|| format!("{p}: not in this save"))?;
+                let v = r
+                    .pointer(p)
+                    .ok_or_else(|| format!("{p}: not in this save"))?;
                 if ptrs.len() == 1 {
                     println!("{v}");
                 } else {
@@ -243,30 +307,48 @@ fn go(cmd: &str, args: &[String]) -> Result<(), String> {
             }
         }
         "set" => {
-            let (f, edits) = a.pos.split_first().ok_or("usage: set <save> <pointer>=<json>...")?;
+            let (f, edits) = a
+                .pos
+                .split_first()
+                .ok_or("usage: set <save> <pointer>=<json>...")?;
             if edits.is_empty() {
                 return Err("usage: set <save> <pointer>=<json>...".into());
             }
             let (path, opts, mut d) = open(f, &a)?;
             for e in edits {
-                let (ptr, text) = e.split_once('=').ok_or_else(|| format!("usage: {e}: write pointer=value"))?;
+                let (ptr, text) = e
+                    .split_once('=')
+                    .ok_or_else(|| format!("usage: {e}: write pointer=value"))?;
                 // Bare words are taken as text, so `/name=Ann` works without quotes.
-                let v: Value = serde_json::from_str(text).unwrap_or_else(|_| Value::String(text.to_string()));
-                let old = root(&d.content).and_then(|r| r.pointer(ptr)).cloned().ok_or_else(|| format!("{ptr}: not in this save"))?;
+                let v: Value =
+                    serde_json::from_str(text).unwrap_or_else(|_| Value::String(text.to_string()));
+                let old = root(&d.content)
+                    .and_then(|r| r.pointer(ptr))
+                    .cloned()
+                    .ok_or_else(|| format!("{ptr}: not in this save"))?;
                 match &mut d.content {
                     Content::Tree(t) => {
-                        t.set(ptr, v.clone()).map_err(|e| format!("{ptr}: {e}"))?.ok_or_else(|| format!("{ptr}: can't be edited"))?;
+                        t.set(ptr, v.clone())
+                            .map_err(|e| format!("{ptr}: {e}"))?
+                            .ok_or_else(|| format!("{ptr}: can't be edited"))?;
                     }
                     Content::Json { value, .. } => *value.pointer_mut(ptr).unwrap() = v.clone(),
                     _ => unreachable!(),
                 }
-                let now = root(&d.content).and_then(|r| r.pointer(ptr)).cloned().unwrap_or(Value::Null);
+                let now = root(&d.content)
+                    .and_then(|r| r.pointer(ptr))
+                    .cloned()
+                    .unwrap_or(Value::Null);
                 eprintln!("{ptr}: {old} \u{203A} {now}");
             }
             let bytes = formats::encode(&d.layers, &d.content)?;
             let check = formats::decode_with(&bytes, &opts);
-            if !formats::same_layers(&check.layers, &d.layers) || !formats::verified(&check.content, &d.content) {
-                return Err("the new file didn't read back identically; nothing was written".into());
+            if !formats::same_layers(&check.layers, &d.layers)
+                || !formats::verified(&check.content, &d.content)
+            {
+                return Err(
+                    "the new file didn't read back identically; nothing was written".into(),
+                );
             }
             write(&path, a.out.as_deref(), &bytes, a.no_backup)?;
         }
@@ -275,15 +357,21 @@ fn go(cmd: &str, args: &[String]) -> Result<(), String> {
             let (_, _, d) = open(f, &a)?;
             let bytes = d.content.to_bytes()?;
             match &a.out {
-                Some(o) => std::fs::write(o, &bytes).map_err(|e| format!("{}: {e}", o.display()))?,
+                Some(o) => {
+                    std::fs::write(o, &bytes).map_err(|e| format!("{}: {e}", o.display()))?
+                }
                 None => {
                     use std::io::Write;
-                    std::io::stdout().write_all(&bytes).map_err(|e| e.to_string())?;
+                    std::io::stdout()
+                        .write_all(&bytes)
+                        .map_err(|e| e.to_string())?;
                 }
             }
         }
         "encode" => {
-            let [f, data] = &a.pos[..] else { return Err("usage: encode <save> <edited data> [-o <out>]".into()) };
+            let [f, data] = &a.pos[..] else {
+                return Err("usage: encode <save> <edited data> [-o <out>]".into());
+            };
             let (path, opts, d) = open(f, &a)?;
             let payload = std::fs::read(data).map_err(|e| format!("{data}: {e}"))?;
             let bytes = formats::encode(&d.layers, &Content::Binary(payload.clone()))?;
@@ -294,7 +382,9 @@ fn go(cmd: &str, args: &[String]) -> Result<(), String> {
                 want.layers.is_empty() && formats::same_data(&check.content, &want.content)
             };
             if !formats::same_layers(&check.layers, &d.layers) || !same {
-                return Err("the packed file didn't unpack to the same data; nothing was written".into());
+                return Err(
+                    "the packed file didn't unpack to the same data; nothing was written".into(),
+                );
             }
             write(&path, a.out.as_deref(), &bytes, a.no_backup)?;
         }
@@ -343,7 +433,10 @@ mod tests {
         std::fs::write(&save, br#"{"gold": 10, "name": "A"}"#).unwrap();
         let s = |v: &[&str]| v.iter().map(|x| x.to_string()).collect::<Vec<_>>();
         let p = save.to_string_lossy().to_string();
-        assert_eq!(run(&s(&["set", &p, "/gold=999", "/name=Bo", "--no-backup"])), Some(0));
+        assert_eq!(
+            run(&s(&["set", &p, "/gold=999", "/name=Bo", "--no-backup"])),
+            Some(0)
+        );
         let v: Value = serde_json::from_slice(&std::fs::read(&save).unwrap()).unwrap();
         assert_eq!(v, json!({"gold": 999, "name": "Bo"}));
         assert_eq!(run(&s(&["set", &p, "/missing=1", "--no-backup"])), Some(1));
@@ -355,9 +448,15 @@ mod tests {
         std::fs::write(&gz, e.finish().unwrap()).unwrap();
         let g = gz.to_string_lossy().to_string();
         let plain = dir.join("plain.json");
-        assert_eq!(run(&s(&["decode", &g, "-o", &plain.to_string_lossy()])), Some(0));
+        assert_eq!(
+            run(&s(&["decode", &g, "-o", &plain.to_string_lossy()])),
+            Some(0)
+        );
         std::fs::write(&plain, br#"{"hp": 50}"#).unwrap();
-        assert_eq!(run(&s(&["encode", &g, &plain.to_string_lossy(), "--no-backup"])), Some(0));
+        assert_eq!(
+            run(&s(&["encode", &g, &plain.to_string_lossy(), "--no-backup"])),
+            Some(0)
+        );
         let (_, _, d) = open(&g, &parse(&[]).unwrap()).unwrap();
         assert_eq!(root(&d.content).unwrap()["hp"], json!(50));
         assert!(matches!(d.layers.first(), Some(formats::Layer::Gzip)));

@@ -11,7 +11,14 @@ use crate::tree::TreeDoc;
 use std::collections::HashMap;
 use std::sync::OnceLock;
 
-const CLASSES: [&str; 6] = ["Soldier", "Engineer", "Adept", "Infiltrator", "Sentinel", "Vanguard"];
+const CLASSES: [&str; 6] = [
+    "Soldier",
+    "Engineer",
+    "Adept",
+    "Infiltrator",
+    "Sentinel",
+    "Vanguard",
+];
 const DIFFICULTY: [&str; 5] = ["Casual", "Normal", "Veteran", "Hardcore", "Insanity"];
 /// Talent names by id, from Trilogy Save Editor's bonus talent list; others show their number.
 const TALENTS: [(i32, &str); 15] = [
@@ -33,10 +40,15 @@ const TALENTS: [(i32, &str); 15] = [
 ];
 /// A talent's name, or "Talent <id>" for ones without a known name.
 pub fn talent_name(id: i32) -> String {
-    TALENTS.iter().find(|t| t.0 == id).map_or_else(|| format!("Talent {id}"), |t| t.1.to_string())
+    TALENTS
+        .iter()
+        .find(|t| t.0 == id)
+        .map_or_else(|| format!("Talent {id}"), |t| t.1.to_string())
 }
 
-const LEVELS: [&str; 11] = ["-", "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X"];
+const LEVELS: [&str; 11] = [
+    "-", "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X",
+];
 
 /// (item id, manufacturer id) → name, from Trilogy Save Editor's item list.
 fn item_names() -> &'static HashMap<(i32, i32), String> {
@@ -46,7 +58,10 @@ fn item_names() -> &'static HashMap<(i32, i32), String> {
             .lines()
             .filter_map(|l| {
                 let mut f = l.splitn(3, '\t');
-                Some(((f.next()?.parse().ok()?, f.next()?.parse().ok()?), f.next()?.to_string()))
+                Some((
+                    (f.next()?.parse().ok()?, f.next()?.parse().ok()?),
+                    f.next()?.to_string(),
+                ))
             })
             .collect()
     })
@@ -67,7 +82,11 @@ struct R<'a, 'b> {
 
 impl R<'_, '_> {
     fn i32(&mut self) -> Result<i32, String> {
-        let v = self.b.d.get(self.pos..self.pos + 4).ok_or("the save ends early")?;
+        let v = self
+            .b
+            .d
+            .get(self.pos..self.pos + 4)
+            .ok_or("the save ends early")?;
         self.pos += 4;
         Ok(i32::from_le_bytes(v.try_into().unwrap()))
     }
@@ -107,14 +126,25 @@ impl R<'_, '_> {
         }
         let d = self.b.d;
         if n > 0 {
-            let s = d.get(self.pos..self.pos + n as usize).ok_or("the save ends early")?;
+            let s = d
+                .get(self.pos..self.pos + n as usize)
+                .ok_or("the save ends early")?;
             self.pos += n as usize;
-            Ok(s.iter().take_while(|&&c| c != 0).map(|&c| super::bethesda_cp1252(c)).collect())
+            Ok(s.iter()
+                .take_while(|&&c| c != 0)
+                .map(|&c| super::bethesda_cp1252(c))
+                .collect())
         } else {
             let len = 2 * n.unsigned_abs() as usize;
-            let s = d.get(self.pos..self.pos + len).ok_or("the save ends early")?;
+            let s = d
+                .get(self.pos..self.pos + len)
+                .ok_or("the save ends early")?;
             self.pos += len;
-            let units: Vec<u16> = s.chunks(2).map(|c| u16::from_le_bytes([c[0], c[1]])).take_while(|&u| u != 0).collect();
+            let units: Vec<u16> = s
+                .chunks(2)
+                .map(|c| u16::from_le_bytes([c[0], c[1]]))
+                .take_while(|&u| u != 0)
+                .collect();
             Ok(String::from_utf16_lossy(&units))
         }
     }
@@ -149,7 +179,8 @@ impl R<'_, '_> {
             let label = talent_name(id);
             let mut p: Vec<&str> = base.to_vec();
             p.push(&label);
-            self.b.ranged(&p, rank_at, Kind::I32, 0, max.clamp(1, 20) as i64);
+            self.b
+                .ranged(&p, rank_at, Kind::I32, 0, max.clamp(1, 20) as i64);
         }
         Ok(())
     }
@@ -170,10 +201,17 @@ impl R<'_, '_> {
             if id == 0 && maker == 0 {
                 continue; // an empty slot
             }
-            let name = item_names().get(&(id, maker)).cloned().unwrap_or_else(|| format!("Item #{id}"));
+            let name = item_names()
+                .get(&(id, maker))
+                .cloned()
+                .unwrap_or_else(|| format!("Item #{id}"));
             let n = names.entry(name.clone()).or_default();
             *n += 1;
-            let label = if *n > 1 { format!("{name} ({n})") } else { name };
+            let label = if *n > 1 {
+                format!("{name} ({n})")
+            } else {
+                name
+            };
             let mut p: Vec<&str> = base.to_vec();
             p.push(&label);
             self.b.named(&p, level_at, Kind::U8, &LEVELS);
@@ -208,13 +246,16 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
         Ok(()) => "Shepard, resources, inventory and the squad are shown; the save is packed again and its checksum updated when you save.".to_string(),
         Err(e) => format!("Only the start of this save could be read ({e}); what's shown can still be edited."),
     };
-    Ok(b.finish("Mass Effect 1 Legendary Edition save", Checksum::None).with_note(note))
+    Ok(
+        b.finish("Mass Effect 1 Legendary Edition save", Checksum::None)
+            .with_note(note),
+    )
 }
 
 fn walk(r: &mut R) -> Result<(), String> {
     r.string()?; // character id
     r.skip(16)?; // created
-    // Plot table: booleans (bit fields), integers, floats.
+                 // Plot table: booleans (bit fields), integers, floats.
     r.list_of(4)?;
     let ints_at = r.pos + 4;
     let ints = r.list_of(4)?;
@@ -267,15 +308,28 @@ fn player(r: &mut R) -> Result<(), String> {
     r.b.info(&["Shepard", "Female"], female);
     r.skip(4)?; // class name (string id)
     let class = r.u8()? as usize;
-    r.b.info(&["Shepard", "Class"], CLASSES.get(class).copied().unwrap_or("?"));
+    r.b.info(
+        &["Shepard", "Class"],
+        CLASSES.get(class).copied().unwrap_or("?"),
+    );
     r.ranged(&["Shepard", "Level"], Kind::I32, 1, 60)?;
     r.float(&["Shepard", "Experience"])?;
     let first = r.string()?;
     r.b.info(&["Shepard", "First name"], first);
     r.skip(4)?; // last name (string id)
-    r.b.named(&["Shepard", "Origin"], r.pos, Kind::U8, &["None", "Spacer", "Colonist", "Earthborn"]);
+    r.b.named(
+        &["Shepard", "Origin"],
+        r.pos,
+        Kind::U8,
+        &["None", "Spacer", "Colonist", "Earthborn"],
+    );
     r.skip(1)?;
-    r.b.named(&["Shepard", "Reputation"], r.pos, Kind::U8, &["None", "Survivor", "War Hero", "Ruthless"]);
+    r.b.named(
+        &["Shepard", "Reputation"],
+        r.pos,
+        Kind::U8,
+        &["None", "Survivor", "War Hero", "Ruthless"],
+    );
     r.skip(1)?;
     r.skip(4 + 1)?; // specialization, spectre rank
     r.ranged(&["Shepard", "Talent points"], Kind::I32, 0, 9999)?;
@@ -375,7 +429,16 @@ mod tests {
         i(&mut d, 0); // plot booleans
         i(&mut d, 48);
         for n in 0..48 {
-            i(&mut d, if n == 47 { 120 } else if n == 46 { 30 } else { 0 });
+            i(
+                &mut d,
+                if n == 47 {
+                    120
+                } else if n == 46 {
+                    30
+                } else {
+                    0
+                },
+            );
         }
         i(&mut d, 0); // floats
         i(&mut d, 0); // journal counter
@@ -456,7 +519,11 @@ mod tests {
     fn reads_and_edits() {
         let d = sample();
         let mut doc = super::parse(&d).unwrap();
-        assert!(doc.note.as_deref().unwrap().starts_with("Shepard"), "{:?}", doc.note);
+        assert!(
+            doc.note.as_deref().unwrap().starts_with("Shepard"),
+            "{:?}",
+            doc.note
+        );
         let v = &doc.view;
         assert_eq!(v.pointer("/Shepard/Class"), Some(&"Adept".into()));
         assert_eq!(v.pointer("/Shepard/Paragon"), Some(&120.into()));
@@ -464,12 +531,21 @@ mod tests {
         assert_eq!(v.pointer("/Save/Difficulty"), Some(&"Hardcore".into()));
         assert_eq!(v.pointer("/Save/Location"), Some(&"MapTest".into()));
         assert_eq!(v.pointer("/Powers/Lift"), Some(&4.into()));
-        assert_eq!(v.pointer("/Items/Equipment/[Aldrin Labs] Agent (Turian Light Armor)"), Some(&"VII".into()));
+        assert_eq!(
+            v.pointer("/Items/Equipment/[Aldrin Labs] Agent (Turian Light Armor)"),
+            Some(&"VII".into())
+        );
         assert_eq!(v.pointer("/Squad/Liara/Level"), Some(&21.into()));
         doc.set("/Resources/Credits", 999_999.into()).unwrap();
         let out = doc.to_bytes().unwrap();
         assert_eq!(out.len(), d.len());
-        assert_eq!(super::parse(&out).unwrap().view.pointer("/Resources/Credits"), Some(&999_999.into()));
+        assert_eq!(
+            super::parse(&out)
+                .unwrap()
+                .view
+                .pointer("/Resources/Credits"),
+            Some(&999_999.into())
+        );
     }
 
     /// Research aid: SAVE_EDITOR_ME1LE = unpacked ME1 LE data.
@@ -478,7 +554,11 @@ mod tests {
     fn real_save() {
         let d = std::fs::read(std::env::var("SAVE_EDITOR_ME1LE").unwrap()).unwrap();
         let doc = super::parse(&d).unwrap();
-        println!("{}\n{}", doc.note.clone().unwrap_or_default(), serde_json::to_string_pretty(&doc.view).unwrap());
+        println!(
+            "{}\n{}",
+            doc.note.clone().unwrap_or_default(),
+            serde_json::to_string_pretty(&doc.view).unwrap()
+        );
         assert_eq!(doc.to_bytes().unwrap(), d);
     }
 }

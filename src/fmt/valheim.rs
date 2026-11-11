@@ -50,7 +50,10 @@ pub const SKILLS: [(i32, &str); 24] = [
 ];
 
 pub fn skill_name(id: i32) -> String {
-    SKILLS.iter().find(|s| s.0 == id).map_or_else(|| format!("Skill {id}"), |s| s.1.to_string())
+    SKILLS
+        .iter()
+        .find(|s| s.0 == id)
+        .map_or_else(|| format!("Skill {id}"), |s| s.1.to_string())
 }
 
 /// Profile versions whose layout has been checked on sample characters.
@@ -63,14 +66,19 @@ fn i32_at(d: &[u8], at: usize) -> Option<i32> {
 }
 
 pub fn looks(d: &[u8]) -> bool {
-    let Some(n) = i32_at(d, 0).filter(|&n| n > 8) else { return false };
+    let Some(n) = i32_at(d, 0).filter(|&n| n > 8) else {
+        return false;
+    };
     let n = n as usize;
-    d.len() == n + 4 + 4 + 64 && i32_at(d, 4 + n) == Some(64) && i32_at(d, 4).is_some_and(|v| (1..=200).contains(&v))
+    d.len() == n + 4 + 4 + 64
+        && i32_at(d, 4 + n) == Some(64)
+        && i32_at(d, 4).is_some_and(|v| (1..=200).contains(&v))
 }
 
 fn hash_ok(d: &[u8]) -> bool {
     let n = i32_at(d, 0).unwrap_or(0) as usize;
-    d.get(4..4 + n).is_some_and(|p| Sha512::digest(p)[..] == d[8 + n..])
+    d.get(4..4 + n)
+        .is_some_and(|p| Sha512::digest(p)[..] == d[8 + n..])
 }
 
 /// Writes the SHA-512 of the profile data after it.
@@ -145,7 +153,14 @@ impl R<'_, '_> {
 fn read_only(d: &[u8], version: i32, why: String) -> TreeDoc {
     let mut b = Builder::new(d);
     b.info(&["Character", "Profile version"], version);
-    b.info(&["Character", "Checksum"], if hash_ok(d) { "SHA-512 matches" } else { "SHA-512 doesn't match" });
+    b.info(
+        &["Character", "Checksum"],
+        if hash_ok(d) {
+            "SHA-512 matches"
+        } else {
+            "SHA-512 doesn't match"
+        },
+    );
     b.info(&["Character", "Read-only"], why.clone());
     b.finish("Valheim character", Checksum::None).with_note(why)
 }
@@ -168,14 +183,25 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
         return Ok(read_only(d, version, why));
     }
     let mut b = Builder::new(d);
-    let mut r = R { b: &mut b, pos: 8, end: 4 + n };
+    let mut r = R {
+        b: &mut b,
+        pos: 8,
+        end: 4 + n,
+    };
     let note = read_profile(&mut r, version)?;
     if let Some(why) = note {
         return Ok(read_only(d, version, why));
     }
     let ok = hash_ok(d);
     b.info(&["Character", "Profile version"], version);
-    b.info(&["Character", "Checksum"], if ok { "SHA-512 matches (written again on save)" } else { "SHA-512 didn't match (written again on save)" });
+    b.info(
+        &["Character", "Checksum"],
+        if ok {
+            "SHA-512 matches (written again on save)"
+        } else {
+            "SHA-512 didn't match (written again on save)"
+        },
+    );
     Ok(b.finish("Valheim character", Checksum::Custom(rehash)))
 }
 
@@ -242,7 +268,9 @@ fn read_player(r: &mut R) -> Result<Option<String>, String> {
 
     let iv = r.i32()?;
     if !INVENTORY_OK.contains(&iv) {
-        return Ok(Some(format!("Its inventory has version {iv}; only 101 to 106 are known, so it's shown read-only.")));
+        return Ok(Some(format!(
+            "Its inventory has version {iv}; only 101 to 106 are known, so it's shown read-only."
+        )));
     }
     let mut keys = Map::new();
     for _ in 0..r.count()? {
@@ -250,9 +278,21 @@ fn read_player(r: &mut R) -> Result<Option<String>, String> {
         let key = crate::tree::unique_key(&keys, &name);
         keys.insert(key.clone(), Value::Null);
         let at = r.take(4)?;
-        r.b.ranged(&["Inventory", &key, "Stack"], at, Kind::I32, 0, i32::MAX as i64);
+        r.b.ranged(
+            &["Inventory", &key, "Stack"],
+            at,
+            Kind::I32,
+            0,
+            i32::MAX as i64,
+        );
         let at = r.take(4)?;
-        r.b.ranged(&["Inventory", &key, "Durability"], at, Kind::F32, 0, 1_000_000);
+        r.b.ranged(
+            &["Inventory", &key, "Durability"],
+            at,
+            Kind::F32,
+            0,
+            1_000_000,
+        );
         let (x, y) = (r.i32()?, r.i32()?);
         r.b.info(&["Inventory", &key, "Slot"], format!("{x},{y}"));
         let eq = r.u8()? != 0;
@@ -295,7 +335,12 @@ fn read_player(r: &mut R) -> Result<Option<String>, String> {
     let biomes = r.count()?;
     r.take(biomes * 4)?;
     r.pairs()?; // known texts
-    for (k, v) in [("Known recipes", recipes), ("Known materials", materials), ("Trophies", trophies.len()), ("Biomes found", biomes)] {
+    for (k, v) in [
+        ("Known recipes", recipes),
+        ("Known materials", materials),
+        ("Trophies", trophies.len()),
+        ("Biomes found", biomes),
+    ] {
         r.b.info(&["Progress", k], v);
     }
     r.string()?; // beard
@@ -442,7 +487,10 @@ pub mod tests {
         assert_eq!(v.pointer("/Stats/Deaths"), Some(&Value::from(2)));
         assert_eq!(v.pointer("/Vitals/Health"), Some(&Value::from(75.5)));
         assert_eq!(v.pointer("/Inventory/Coins/Stack"), Some(&Value::from(120)));
-        assert_eq!(v.pointer("/Inventory/SwordTest/Quality"), Some(&Value::from(3)));
+        assert_eq!(
+            v.pointer("/Inventory/SwordTest/Quality"),
+            Some(&Value::from(3))
+        );
         assert_eq!(v.pointer("/Skills/Run"), Some(&Value::from(30.0)));
         assert_eq!(v.pointer("/Progress/Known recipes"), Some(&Value::from(1)));
         assert!(doc.set("/Skills/Swords", Value::from(150.0)).is_err());
@@ -466,7 +514,10 @@ pub mod tests {
         let doc = parse(&d).unwrap();
         assert!(doc.editable.is_empty());
         assert!(doc.note.as_deref().unwrap().contains("profile version 41"));
-        assert_eq!(doc.view.pointer("/Character/Profile version"), Some(&Value::from(41)));
+        assert_eq!(
+            doc.view.pointer("/Character/Profile version"),
+            Some(&Value::from(41))
+        );
     }
 
     /// VALHEIM_SAVES = real `.fch` files separated by `|`: each opens, writes back unchanged,
@@ -479,20 +530,43 @@ pub mod tests {
         for path in list.split('|').filter(|s| !s.is_empty()) {
             let raw = std::fs::read(path).unwrap();
             let dec = crate::formats::decode(&raw);
-            let crate::formats::Content::Tree(t) = &dec.content else { panic!("{path}: not a tree") };
+            let crate::formats::Content::Tree(t) = &dec.content else {
+                panic!("{path}: not a tree")
+            };
             assert_eq!(t.kind_name, "Valheim character", "{path}");
             assert!(!t.editable.is_empty(), "{path}: read-only: {:?}", t.note);
-            assert_eq!(crate::formats::encode(&dec.layers, &dec.content).unwrap(), raw, "{path}: unchanged differs");
+            assert_eq!(
+                crate::formats::encode(&dec.layers, &dec.content).unwrap(),
+                raw,
+                "{path}: unchanged differs"
+            );
             let mut doc = (**t).clone();
-            let item = doc.view.get("Inventory").and_then(Value::as_object).and_then(|m| m.keys().find(|k| k.starts_with("Coins")).or_else(|| m.keys().next()).cloned());
+            let item = doc
+                .view
+                .get("Inventory")
+                .and_then(Value::as_object)
+                .and_then(|m| {
+                    m.keys()
+                        .find(|k| k.starts_with("Coins"))
+                        .or_else(|| m.keys().next())
+                        .cloned()
+                });
             if let Some(item) = &item {
                 let p = format!("/Inventory/{}/Stack", crate::tree::esc(item));
                 let n = doc.view.pointer(&p).and_then(Value::as_i64).unwrap();
                 doc.set(&p, Value::from(n + 1)).unwrap();
             }
-            let skill = doc.view.get("Skills").and_then(Value::as_object).and_then(|m| m.keys().next().cloned());
+            let skill = doc
+                .view
+                .get("Skills")
+                .and_then(Value::as_object)
+                .and_then(|m| m.keys().next().cloned());
             if let Some(sk) = &skill {
-                doc.set(&format!("/Skills/{}", crate::tree::esc(sk)), Value::from(42.5)).unwrap();
+                doc.set(
+                    &format!("/Skills/{}", crate::tree::esc(sk)),
+                    Value::from(42.5),
+                )
+                .unwrap();
             }
             let out = doc.to_bytes().unwrap();
             assert_eq!(out.len(), raw.len());

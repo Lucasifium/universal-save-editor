@@ -6,23 +6,23 @@ pub mod borderlands3;
 pub mod bsonf;
 pub mod civ6;
 pub mod containers;
+pub mod crypto;
 pub mod d2s;
-pub mod grimdawn;
-pub mod titanquest;
-pub mod torchlight2;
-pub mod dragonage;
-pub mod gff4;
-pub mod infinity;
 pub mod darkest;
+pub mod dragonage;
+pub mod ds3_inv;
+pub mod er_inv;
+pub mod es3;
+pub mod fromsoft;
+pub mod gff4;
+pub mod grimdawn;
+pub mod infinity;
 pub mod larian;
 pub mod lsf;
 pub mod lspk;
-pub mod crypto;
-pub mod es3;
-pub mod fromsoft;
 pub mod sekiro_inv;
-pub mod er_inv;
-pub mod ds3_inv;
+pub mod titanquest;
+pub mod torchlight2;
 
 /// Names of every good a FromSoftware game's item lists know (for tests).
 #[cfg(test)]
@@ -36,97 +36,97 @@ pub fn known_goods(game: &str) -> std::collections::HashSet<&'static str> {
     };
     t.iter().map(|g| g.1).collect()
 }
-pub mod ds2_inv;
+pub mod antimatter;
+pub mod bioshock;
+pub mod cairn;
+pub mod citrus;
+pub mod cyberpunk;
+pub mod dead_rising;
+pub mod deadcells;
+pub mod deusex;
+pub mod dl1;
 pub mod ds1_inv;
-mod ds2_items;
 mod ds1_items;
+pub mod ds2;
+pub mod ds2_inv;
+mod ds2_items;
 mod ds3_items;
 mod er_equip;
 mod er_flags;
-pub mod slot_copy;
-pub mod citrus;
-pub mod lime;
-pub mod mandarin;
-pub mod regfile;
-pub mod sol;
-pub mod haxe;
-pub mod deadcells;
-pub mod memcard;
-pub mod sumfind;
-pub mod pdx;
-pub mod pdxbin;
-mod rimworld;
-mod oni;
-pub mod oni_map;
-pub mod owlcat;
-mod ree;
-mod ree_names;
 pub(crate) mod er_items;
-mod sekiro_items;
-pub mod gvas;
-pub mod gff;
-pub mod kotor;
-pub mod nwn;
-pub mod half_life;
-pub mod octopath;
-pub mod godot;
-pub mod goldensun;
-pub mod ini;
-pub mod antimatter;
-pub mod nested;
-pub mod lua;
-pub mod luabins;
-pub mod marshal;
-pub mod msgpack;
-pub mod nbt;
-pub mod nrbf;
-pub mod fields;
-pub mod masseffect;
-pub mod me1;
-pub mod me1le;
 pub mod fallout12;
-pub mod fos;
-pub mod deusex;
-pub mod xcom2;
-pub mod xcom_eu;
 pub mod ff7;
 pub mod ff7r;
 pub mod ff9;
-pub mod sgd;
-pub mod dl1;
-pub mod witcher3;
-pub mod cyberpunk;
-pub mod kenshi;
-pub mod p4g;
 pub mod ffx2;
-pub mod dead_rising;
-pub mod p5r;
-pub mod metro;
-pub mod bioshock;
-pub mod rgmh;
-pub mod cairn;
-pub mod rgg;
-pub mod yakuza0;
-pub mod kiwami;
 pub mod ffxv;
-pub mod nier;
-pub mod ds2;
-pub mod mea;
+pub mod fields;
+pub mod fos;
+pub mod gff;
+pub mod godot;
+pub mod goldensun;
 pub mod gow;
+pub mod gvas;
+pub mod half_life;
+pub mod haxe;
+pub mod ini;
+pub mod kenshi;
+pub mod kiwami;
+pub mod kotor;
+pub mod lime;
+pub mod lua;
+pub mod luabins;
+pub mod mandarin;
+pub mod marshal;
+pub mod masseffect;
+pub mod me1;
+pub mod me1le;
+pub mod mea;
+pub mod memcard;
+pub mod metro;
+pub mod msgpack;
+pub mod nbt;
+pub mod nested;
+pub mod nier;
+pub mod nrbf;
+pub mod nwn;
+pub mod octopath;
+mod oni;
+pub mod oni_map;
+pub mod owlcat;
+pub mod p4g;
+pub mod p5r;
+pub mod pdx;
+pub mod pdxbin;
 pub mod plistf;
 pub mod pokemon12;
 pub mod pokemon3;
+mod ree;
+mod ree_names;
+pub mod regfile;
+pub mod rgg;
+pub mod rgmh;
+mod rimworld;
+mod sekiro_items;
+pub mod sgd;
+pub mod slot_copy;
+pub mod sol;
 #[cfg(not(target_arch = "wasm32"))]
 pub mod sqlite;
 pub mod starbound;
+pub mod sumfind;
 pub mod terraria;
 pub mod terraria_world;
 pub mod tomlf;
 pub mod undertale;
-pub mod vampire;
 pub mod valheim;
+pub mod vampire;
 pub mod wasteland3;
+pub mod witcher3;
+pub mod xcom2;
+pub mod xcom_eu;
 pub mod xml;
+pub mod yakuza0;
 pub mod yaml;
 
 use crate::tree::TreeDoc;
@@ -545,11 +545,17 @@ pub(crate) fn crc32_bzip2(d: &[u8]) -> u32 {
         for (i, e) in t.iter_mut().enumerate() {
             let mut c = (i as u32) << 24;
             for _ in 0..8 {
-                c = if c & 0x8000_0000 != 0 { (c << 1) ^ 0x04C1_1DB7 } else { c << 1 };
+                c = if c & 0x8000_0000 != 0 {
+                    (c << 1) ^ 0x04C1_1DB7
+                } else {
+                    c << 1
+                };
             }
             *e = c;
         }
         t
     });
-    !d.iter().fold(0xFFFF_FFFFu32, |c, &b| (c << 8) ^ t[((c >> 24) as u8 ^ b) as usize])
+    !d.iter().fold(0xFFFF_FFFFu32, |c, &b| {
+        (c << 8) ^ t[((c >> 24) as u8 ^ b) as usize]
+    })
 }

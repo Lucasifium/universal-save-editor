@@ -9,8 +9,12 @@ use serde_json::Value;
 
 const ACCENT: Color32 = Color32::from_rgb(214, 160, 40);
 /// Venus, Mercury, Mars, Jupiter.
-const ELEMENT_COLORS: [Color32; 4] =
-    [Color32::from_rgb(176, 128, 56), Color32::from_rgb(52, 128, 205), Color32::from_rgb(208, 72, 48), Color32::from_rgb(150, 92, 200)];
+const ELEMENT_COLORS: [Color32; 4] = [
+    Color32::from_rgb(176, 128, 56),
+    Color32::from_rgb(52, 128, 205),
+    Color32::from_rgb(208, 72, 48),
+    Color32::from_rgb(150, 92, 200),
+];
 
 fn keys(cx: &GameCtx, p: &str) -> Vec<String> {
     match cx.get(p) {
@@ -25,7 +29,10 @@ fn join(base: &str, key: &str) -> String {
 
 pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
     let lost_age = cx.tree.is_some_and(|t| t.kind_name == KIND_GS2);
-    let files: Vec<String> = keys(cx, "").into_iter().filter(|k| k.starts_with("File ")).collect();
+    let files: Vec<String> = keys(cx, "")
+        .into_iter()
+        .filter(|k| k.starts_with("File "))
+        .collect();
     if files.is_empty() {
         ui.weak("No save file in this flash.");
         return;
@@ -33,15 +40,29 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
     let labels: Vec<String> = files
         .iter()
         .map(|f| {
-            let leader = cx.text(&format!("{}/Leader", join("", f))).unwrap_or_default();
-            if leader.is_empty() { f.clone() } else { format!("{f} \u{2014} {leader}") }
+            let leader = cx
+                .text(&format!("{}/Leader", join("", f)))
+                .unwrap_or_default();
+            if leader.is_empty() {
+                f.clone()
+            } else {
+                format!("{f} \u{2014} {leader}")
+            }
         })
         .collect();
-    let t = if files.len() > 1 { tabs(ui, "gs_file", &labels) } else { 0 };
+    let t = if files.len() > 1 {
+        tabs(ui, "gs_file", &labels)
+    } else {
+        0
+    };
     let fp = join("", &files[t]);
     let sub = |k: &str| format!("{fp}/{k}");
 
-    let title = if lost_age { "Golden Sun: The Lost Age" } else { "Golden Sun" };
+    let title = if lost_age {
+        "Golden Sun: The Lost Age"
+    } else {
+        "Golden Sun"
+    };
     let mut line = vec![files[t].clone()];
     for k in ["Leader", "Version"] {
         if let Some(v) = cx.text(&sub(k)).filter(|v| !v.is_empty()) {
@@ -55,7 +76,15 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
         line.push(format!("saved {n} times"));
     }
     let party = keys(cx, &sub("Party"));
-    let djinn_total: usize = party.iter().map(|m| ELEMENTS.iter().map(|e| keys(cx, &format!("{}/Djinn/{e}", join(&sub("Party"), m))).len()).sum::<usize>()).sum();
+    let djinn_total: usize = party
+        .iter()
+        .map(|m| {
+            ELEMENTS
+                .iter()
+                .map(|e| keys(cx, &format!("{}/Djinn/{e}", join(&sub("Party"), m))).len())
+                .sum::<usize>()
+        })
+        .sum();
     hero(ui, ACCENT, title, &line.join("  \u{00B7}  "), |ui| {
         cx.tile(ui, "Coins", &sub("Coins"), ACCENT);
         fact(ui, "Party", &party.len().to_string(), ACCENT);
@@ -70,7 +99,10 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
         .iter()
         .map(|m| {
             let p = join(&sub("Party"), m);
-            let n = cx.text(&format!("{p}/Name")).filter(|n| !n.is_empty()).unwrap_or_else(|| m.clone());
+            let n = cx
+                .text(&format!("{p}/Name"))
+                .filter(|n| !n.is_empty())
+                .unwrap_or_else(|| m.clone());
             format!("{n}  Lv {}", cx.int(&format!("{p}/Level")).unwrap_or(0))
         })
         .collect();
@@ -80,7 +112,9 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
         member(ui, cx, &p, &party[i]);
     });
 
-    panel(ui, "Djinn", |ui| djinn_grid(ui, cx, &sub("Party"), &party, if lost_age { 18 } else { 7 }));
+    panel(ui, "Djinn", |ui| {
+        djinn_grid(ui, cx, &sub("Party"), &party, if lost_age { 18 } else { 7 })
+    });
     ui.weak("Djinn are shown as the save has them (set on a character, or on standby); they aren't edited here.");
 }
 
@@ -94,11 +128,17 @@ fn member(ui: &mut Ui, cx: &mut GameCtx, p: &str, key: &str) {
         _ => 3,
     };
     let color = ELEMENT_COLORS[elem];
-    let name = cx.text(&at("Name")).filter(|n| !n.is_empty()).unwrap_or_else(|| key.to_string());
+    let name = cx
+        .text(&at("Name"))
+        .filter(|n| !n.is_empty())
+        .unwrap_or_else(|| key.to_string());
     let class = cx.text(&at("Class")).unwrap_or_default();
     ui.horizontal_wrapped(|ui| {
         ui.label(RichText::new(&name).size(20.0).strong());
-        ui.label(RichText::new(format!("{class}  \u{00B7}  {} adept", ELEMENTS[elem])).color(crate::theme::fg(ui, color)));
+        ui.label(
+            RichText::new(format!("{class}  \u{00B7}  {} adept", ELEMENTS[elem]))
+                .color(crate::theme::fg(ui, color)),
+        );
     });
     ui.horizontal_wrapped(|ui| {
         cx.tile(ui, "Level", &at("Level"), color);
@@ -140,25 +180,42 @@ fn member(ui: &mut Ui, cx: &mut GameCtx, p: &str, key: &str) {
 fn inventory(ui: &mut Ui, cx: &mut GameCtx, p: &str, color: Color32) {
     ui.label(RichText::new("Items").strong());
     let slots = keys(cx, p);
-    egui::Grid::new(("gs_items", p)).num_columns(3).striped(true).spacing([12.0, 4.0]).show(ui, |ui| {
-        for s in &slots {
-            let sp = join(p, s);
-            let item = format!("{sp}/Item");
-            let equipped = cx.flag(&format!("{sp}/Equipped"));
-            let mark = if equipped { "E" } else if cx.flag(&format!("{sp}/Broken")) { "B" } else { "" };
-            ui.label(RichText::new(mark).strong().color(crate::theme::fg(ui, color))).on_hover_text(if equipped { "Equipped" } else { "" });
-            cx.editor(ui, &item, 220.0);
-            if cx.get(&format!("{sp}/Quantity")).is_some() && cx.text(&item).as_deref() != Some(crate::fmt::goldensun::EMPTY) {
-                ui.horizontal(|ui| {
-                    ui.label("\u{00D7}");
-                    cx.editor(ui, &format!("{sp}/Quantity"), 48.0);
-                });
-            } else {
-                ui.label("");
+    egui::Grid::new(("gs_items", p))
+        .num_columns(3)
+        .striped(true)
+        .spacing([12.0, 4.0])
+        .show(ui, |ui| {
+            for s in &slots {
+                let sp = join(p, s);
+                let item = format!("{sp}/Item");
+                let equipped = cx.flag(&format!("{sp}/Equipped"));
+                let mark = if equipped {
+                    "E"
+                } else if cx.flag(&format!("{sp}/Broken")) {
+                    "B"
+                } else {
+                    ""
+                };
+                ui.label(
+                    RichText::new(mark)
+                        .strong()
+                        .color(crate::theme::fg(ui, color)),
+                )
+                .on_hover_text(if equipped { "Equipped" } else { "" });
+                cx.editor(ui, &item, 220.0);
+                if cx.get(&format!("{sp}/Quantity")).is_some()
+                    && cx.text(&item).as_deref() != Some(crate::fmt::goldensun::EMPTY)
+                {
+                    ui.horizontal(|ui| {
+                        ui.label("\u{00D7}");
+                        cx.editor(ui, &format!("{sp}/Quantity"), 48.0);
+                    });
+                } else {
+                    ui.label("");
+                }
+                ui.end_row();
             }
-            ui.end_row();
-        }
-    });
+        });
     ui.weak("E = equipped (not swapped here). Consumables can be swapped for other consumables and gear for other gear; the first empty place takes any item.");
 }
 
@@ -167,31 +224,60 @@ fn djinn_grid(ui: &mut Ui, cx: &GameCtx, party_p: &str, party: &[String], per: u
     columns(ui, 220.0, 4, |ui, e| {
         let color = ELEMENT_COLORS[e];
         let el = ELEMENTS[e];
-        egui::Frame::none().fill(inset_fill(ui, color)).rounding(8.0).inner_margin(8.0).show(ui, |ui| {
-            ui.set_width(ui.available_width());
-            let owned = party.iter().map(|m| keys(cx, &format!("{}/Djinn/{el}", join(party_p, m))).len()).sum::<usize>();
-            ui.label(RichText::new(format!("{el}  {owned} / {per}")).strong().color(crate::theme::fg(ui, color)));
-            for bit in 0..per {
-                let dn = djinn_name(e, bit);
-                let holder = party.iter().find_map(|m| {
-                    let s = cx.text(&format!("{}/Djinn/{el}/{}", join(party_p, m), pointer_escape(&dn)))?;
-                    let who = cx.text(&format!("{}/Name", join(party_p, m))).filter(|n| !n.is_empty()).unwrap_or_else(|| m.clone());
-                    Some((who, s))
-                });
-                ui.horizontal(|ui| {
-                    let (fill, text) = match &holder {
-                        Some((_, s)) if s == "Set" => (color, Color32::WHITE),
-                        Some(_) => (color.gamma_multiply(0.45), Color32::WHITE),
-                        None => (ui.visuals().extreme_bg_color, ui.visuals().weak_text_color()),
-                    };
-                    egui::Frame::none().fill(fill).rounding(10.0).inner_margin(egui::Margin::symmetric(8.0, 2.0)).show(ui, |ui| {
-                        ui.label(RichText::new(&dn).size(13.0).color(text));
+        egui::Frame::none()
+            .fill(inset_fill(ui, color))
+            .rounding(8.0)
+            .inner_margin(8.0)
+            .show(ui, |ui| {
+                ui.set_width(ui.available_width());
+                let owned = party
+                    .iter()
+                    .map(|m| keys(cx, &format!("{}/Djinn/{el}", join(party_p, m))).len())
+                    .sum::<usize>();
+                ui.label(
+                    RichText::new(format!("{el}  {owned} / {per}"))
+                        .strong()
+                        .color(crate::theme::fg(ui, color)),
+                );
+                for bit in 0..per {
+                    let dn = djinn_name(e, bit);
+                    let holder = party.iter().find_map(|m| {
+                        let s = cx.text(&format!(
+                            "{}/Djinn/{el}/{}",
+                            join(party_p, m),
+                            pointer_escape(&dn)
+                        ))?;
+                        let who = cx
+                            .text(&format!("{}/Name", join(party_p, m)))
+                            .filter(|n| !n.is_empty())
+                            .unwrap_or_else(|| m.clone());
+                        Some((who, s))
                     });
-                    if let Some((who, s)) = &holder {
-                        ui.label(RichText::new(format!("{who} \u{00B7} {}", s.to_lowercase())).size(12.0).weak());
-                    }
-                });
-            }
-        });
+                    ui.horizontal(|ui| {
+                        let (fill, text) = match &holder {
+                            Some((_, s)) if s == "Set" => (color, Color32::WHITE),
+                            Some(_) => (color.gamma_multiply(0.45), Color32::WHITE),
+                            None => (
+                                ui.visuals().extreme_bg_color,
+                                ui.visuals().weak_text_color(),
+                            ),
+                        };
+                        egui::Frame::none()
+                            .fill(fill)
+                            .rounding(10.0)
+                            .inner_margin(egui::Margin::symmetric(8.0, 2.0))
+                            .show(ui, |ui| {
+                                ui.label(RichText::new(&dn).size(13.0).color(text));
+                            });
+                        if let Some((who, s)) = &holder {
+                            ui.label(
+                                RichText::new(format!("{who} \u{00B7} {}", s.to_lowercase()))
+                                    .size(12.0)
+                                    .weak(),
+                            );
+                        }
+                    });
+                }
+            });
     });
 }

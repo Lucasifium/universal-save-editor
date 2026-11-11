@@ -26,24 +26,37 @@ fn layout(d: &[u8]) -> Option<(usize, usize)> {
     if !(1..=64).contains(&n) {
         return None;
     }
-    [0x40usize, 0x100].into_iter().find(|&stride| {
-        let mut used = 0;
-        for k in 0..n {
-            let r = FIRST + k * stride;
-            let (Some(hp), Some(max), Some(mp), Some(mmp)) = (u32_at(d, r + 0x10), u32_at(d, r + 0x14), u32_at(d, r + 0x18), u32_at(d, r + 0x1C)) else {
-                return false;
-            };
-            if max == 0 {
-                continue; // not joined yet
+    [0x40usize, 0x100]
+        .into_iter()
+        .find(|&stride| {
+            let mut used = 0;
+            for k in 0..n {
+                let r = FIRST + k * stride;
+                let (Some(hp), Some(max), Some(mp), Some(mmp)) = (
+                    u32_at(d, r + 0x10),
+                    u32_at(d, r + 0x14),
+                    u32_at(d, r + 0x18),
+                    u32_at(d, r + 0x1C),
+                ) else {
+                    return false;
+                };
+                if max == 0 {
+                    continue; // not joined yet
+                }
+                // Current values above the maximum are allowed (an edit, or a temporary boost).
+                if !(1..=99).contains(&d[r])
+                    || max > 99_999
+                    || hp > 99_999
+                    || mp > 99_999
+                    || mmp > 99_999
+                {
+                    return false;
+                }
+                used += 1;
             }
-            // Current values above the maximum are allowed (an edit, or a temporary boost).
-            if !(1..=99).contains(&d[r]) || max > 99_999 || hp > 99_999 || mp > 99_999 || mmp > 99_999 {
-                return false;
-            }
-            used += 1;
-        }
-        used > 0
-    }).map(|s| (s, n))
+            used > 0
+        })
+        .map(|s| (s, n))
 }
 
 pub fn looks(d: &[u8]) -> bool {
@@ -54,7 +67,11 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
     let (stride, n) = layout(d).ok_or("not a Final Fantasy VII Remake/Rebirth slot")?;
     let rebirth = stride == 0x100;
     let mut b = Builder::new(d);
-    let game = if rebirth { "Final Fantasy VII Rebirth" } else { "Final Fantasy VII Remake" };
+    let game = if rebirth {
+        "Final Fantasy VII Rebirth"
+    } else {
+        "Final Fantasy VII Remake"
+    };
     b.info(&["Game"], game);
     let cap = if rebirth { 70 } else { 50 };
     for k in 0..n {
@@ -65,12 +82,24 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
         let who = format!("Character {}", k + 1);
         let w = who.as_str();
         // Levels above the game's cap are kept as they are (they can come from other editors).
-        b.ranged(&["Party", w, "Level"], r, Kind::U8, 1, i64::from(d[r].max(cap)));
+        b.ranged(
+            &["Party", w, "Level"],
+            r,
+            Kind::U8,
+            1,
+            i64::from(d[r].max(cap)),
+        );
         b.ranged(&["Party", w, "HP"], r + 0x10, Kind::U32, 0, 99_999);
         b.ranged(&["Party", w, "Max HP"], r + 0x14, Kind::U32, 1, 99_999);
         b.ranged(&["Party", w, "MP"], r + 0x18, Kind::U32, 0, 99_999);
         b.ranged(&["Party", w, "Max MP"], r + 0x1C, Kind::U32, 0, 99_999);
-        b.ranged(&["Party", w, "Experience"], r + 0x20, Kind::U32, 0, 99_999_999);
+        b.ranged(
+            &["Party", w, "Experience"],
+            r + 0x20,
+            Kind::U32,
+            0,
+            99_999_999,
+        );
     }
     Ok(b.finish(&format!("{game} save"), Checksum::None).with_note(
         "Party levels, HP, MP and experience. The game may recalculate max HP and MP from level and equipment when it loads; \
@@ -88,17 +117,29 @@ mod tests {
         d[..4].copy_from_slice(&[0, 0, 1, 0]);
         d[0x10..0x20].copy_from_slice(MARK);
         d[0x20] = 2;
-        for (k, (lv, hp, max)) in [(40u8, 900u32, 1000u32), (12, 300, 300)].into_iter().enumerate() {
+        for (k, (lv, hp, max)) in [(40u8, 900u32, 1000u32), (12, 300, 300)]
+            .into_iter()
+            .enumerate()
+        {
             let r = FIRST + k * 0x40;
             d[r] = lv;
             d[r + 0x10..r + 0x14].copy_from_slice(&hp.to_le_bytes());
             d[r + 0x14..r + 0x18].copy_from_slice(&max.to_le_bytes());
         }
         let mut doc = parse(&d).unwrap();
-        assert_eq!(doc.view.pointer("/Game").unwrap(), "Final Fantasy VII Remake");
+        assert_eq!(
+            doc.view.pointer("/Game").unwrap(),
+            "Final Fantasy VII Remake"
+        );
         assert_eq!(doc.view.pointer("/Party/Character 1/HP").unwrap(), 900);
-        assert!(doc.set("/Party/Character 1/Level", serde_json::Value::from(51)).is_err());
-        doc.set("/Party/Character 2/Experience", serde_json::Value::from(12345)).unwrap();
+        assert!(doc
+            .set("/Party/Character 1/Level", serde_json::Value::from(51))
+            .is_err());
+        doc.set(
+            "/Party/Character 2/Experience",
+            serde_json::Value::from(12345),
+        )
+        .unwrap();
         let out = doc.to_bytes().unwrap();
         assert_eq!(u32_at(&out, FIRST + 0x40 + 0x20), Some(12345));
     }
@@ -113,7 +154,12 @@ mod tests {
             match parse(&d) {
                 Ok(doc) => {
                     assert_eq!(doc.to_bytes().unwrap(), d);
-                    let lv: Vec<String> = doc.view["Party"].as_object().unwrap().values().map(|c| c["Level"].to_string()).collect();
+                    let lv: Vec<String> = doc.view["Party"]
+                        .as_object()
+                        .unwrap()
+                        .values()
+                        .map(|c| c["Level"].to_string())
+                        .collect();
                     println!("{:?}: {} levels {:?}", e.file_name(), doc.kind_name, lv);
                 }
                 Err(err) => println!("{:?}: {err}", e.file_name()),

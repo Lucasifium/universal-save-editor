@@ -32,13 +32,18 @@ mod mem {
 
 #[cfg(target_arch = "wasm32")]
 fn missing(p: &Path) -> io::Error {
-    io::Error::new(io::ErrorKind::NotFound, format!("{} isn't open in this tab", p.display()))
+    io::Error::new(
+        io::ErrorKind::NotFound,
+        format!("{} isn't open in this tab", p.display()),
+    )
 }
 
 #[cfg(target_arch = "wasm32")]
 pub fn read(p: impl AsRef<Path>) -> io::Result<Vec<u8>> {
     let p = p.as_ref();
-    mem::FILES.with(|f| f.borrow().get(p).cloned()).ok_or_else(|| missing(p))
+    mem::FILES
+        .with(|f| f.borrow().get(p).cloned())
+        .ok_or_else(|| missing(p))
 }
 
 #[cfg(target_arch = "wasm32")]
@@ -48,14 +53,20 @@ pub fn read_to_string(p: impl AsRef<Path>) -> io::Result<String> {
 
 #[cfg(target_arch = "wasm32")]
 pub fn write(p: impl AsRef<Path>, data: impl AsRef<[u8]>) -> io::Result<()> {
-    mem::FILES.with(|f| f.borrow_mut().insert(p.as_ref().to_path_buf(), data.as_ref().to_vec()));
+    mem::FILES.with(|f| {
+        f.borrow_mut()
+            .insert(p.as_ref().to_path_buf(), data.as_ref().to_vec())
+    });
     Ok(())
 }
 
 #[cfg(target_arch = "wasm32")]
 pub fn remove_file(p: impl AsRef<Path>) -> io::Result<()> {
     let p = p.as_ref();
-    mem::FILES.with(|f| f.borrow_mut().remove(p)).map(|_| ()).ok_or_else(|| missing(p))
+    mem::FILES
+        .with(|f| f.borrow_mut().remove(p))
+        .map(|_| ())
+        .ok_or_else(|| missing(p))
 }
 
 #[cfg(target_arch = "wasm32")]
@@ -81,7 +92,11 @@ pub fn head(p: &Path, n: usize) -> Option<Vec<u8>> {
     {
         use std::io::Read;
         let mut v = Vec::with_capacity(n);
-        std::fs::File::open(p).ok()?.take(n as u64).read_to_end(&mut v).ok()?;
+        std::fs::File::open(p)
+            .ok()?
+            .take(n as u64)
+            .read_to_end(&mut v)
+            .ok()?;
         Some(v)
     }
     #[cfg(target_arch = "wasm32")]

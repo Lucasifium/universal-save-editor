@@ -18,10 +18,12 @@ use std::collections::HashMap;
 use std::sync::Arc;
 
 const PREFIX: [u8; 32] = [
-    0x71, 0x34, 0x36, 0xB3, 0x56, 0x63, 0x25, 0x5F, 0xEA, 0xE2, 0x83, 0x73, 0xF4, 0x98, 0xB8, 0x18, 0x2E, 0xE5, 0x42, 0x2E, 0x50, 0xA2, 0x0F, 0x49, 0x87, 0x24, 0xE6, 0x65, 0x9A, 0xF0, 0x7C, 0xD7,
+    0x71, 0x34, 0x36, 0xB3, 0x56, 0x63, 0x25, 0x5F, 0xEA, 0xE2, 0x83, 0x73, 0xF4, 0x98, 0xB8, 0x18,
+    0x2E, 0xE5, 0x42, 0x2E, 0x50, 0xA2, 0x0F, 0x49, 0x87, 0x24, 0xE6, 0x65, 0x9A, 0xF0, 0x7C, 0xD7,
 ];
 const XOR: [u8; 32] = [
-    0x7C, 0x07, 0x69, 0x83, 0x31, 0x7E, 0x0C, 0x82, 0x5F, 0x2E, 0x36, 0x7F, 0x76, 0xB4, 0xA2, 0x71, 0x38, 0x2B, 0x6E, 0x87, 0x39, 0x05, 0x02, 0xC6, 0xCD, 0xD8, 0xB1, 0xCC, 0xA1, 0x33, 0xF9, 0xB6,
+    0x7C, 0x07, 0x69, 0x83, 0x31, 0x7E, 0x0C, 0x82, 0x5F, 0x2E, 0x36, 0x7F, 0x76, 0xB4, 0xA2, 0x71,
+    0x38, 0x2B, 0x6E, 0x87, 0x39, 0x05, 0x02, 0xC6, 0xCD, 0xD8, 0xB1, 0xCC, 0xA1, 0x33, 0xF9, 0xB6,
 ];
 
 const MONEY: u64 = 618_814_354;
@@ -30,10 +32,13 @@ pub const MAX_LEVEL: i64 = 72;
 
 /// Experience needed for each level (1 to 72).
 const XP: [u64; 72] = [
-    0, 358, 1241, 2850, 5376, 8997, 13886, 20208, 28126, 37798, 49377, 63016, 78861, 97061, 117757, 141092, 167206, 196238, 228322, 263595, 302190, 344238, 389873, 439222,
-    492414, 549578, 610840, 676325, 746158, 820463, 899363, 982980, 1071435, 1164850, 1263343, 1367034, 1476041, 1590483, 1710476, 1836137, 1967582, 2104926, 2248285,
-    2397772, 2553501, 2715586, 2884139, 3059273, 3241098, 3429728, 3625271, 3827840, 4037543, 4254491, 4478792, 4710556, 4949890, 5196902, 5451701, 5714393, 5985086,
-    6263885, 6550897, 6846227, 7149982, 7462266, 7783184, 8112840, 8451340, 8798786, 9155282, 9520932,
+    0, 358, 1241, 2850, 5376, 8997, 13886, 20208, 28126, 37798, 49377, 63016, 78861, 97061, 117757,
+    141092, 167206, 196238, 228322, 263595, 302190, 344238, 389873, 439222, 492414, 549578, 610840,
+    676325, 746158, 820463, 899363, 982980, 1071435, 1164850, 1263343, 1367034, 1476041, 1590483,
+    1710476, 1836137, 1967582, 2104926, 2248285, 2397772, 2553501, 2715586, 2884139, 3059273,
+    3241098, 3429728, 3625271, 3827840, 4037543, 4254491, 4478792, 4710556, 4949890, 5196902,
+    5451701, 5714393, 5985086, 6263885, 6550897, 6846227, 7149982, 7462266, 7783184, 8112840,
+    8451340, 8798786, 9155282, 9520932,
 ];
 
 pub fn level_for(xp: u64) -> i64 {
@@ -106,7 +111,10 @@ fn layout(d: &[u8]) -> Option<Layout> {
     if !d.starts_with(b"GVAS") {
         return None;
     }
-    let u32_at = |o: usize| d.get(o..o + 4).map(|b| u32::from_le_bytes(b.try_into().unwrap()));
+    let u32_at = |o: usize| {
+        d.get(o..o + 4)
+            .map(|b| u32::from_le_bytes(b.try_into().unwrap()))
+    };
     let fstring = |o: usize| -> Option<(String, usize)> {
         let n = i32::from_le_bytes(d.get(o..o + 4)?.try_into().ok()?);
         if !(0..=1024).contains(&n) {
@@ -114,7 +122,10 @@ fn layout(d: &[u8]) -> Option<Layout> {
         }
         let n = n as usize;
         let s = d.get(o + 4..o + 4 + n)?;
-        Some((String::from_utf8_lossy(s.strip_suffix(&[0]).unwrap_or(s)).into_owned(), o + 4 + n))
+        Some((
+            String::from_utf8_lossy(s.strip_suffix(&[0]).unwrap_or(s)).into_owned(),
+            o + 4 + n,
+        ))
     };
     if u32_at(4)? != 2 {
         return None;
@@ -172,7 +183,10 @@ pub fn serial_ok(s: &[u8]) -> Option<(bool, u8)> {
     h.update(&[0xFF, 0xFF]);
     h.update(&t[2..]);
     let c = h.sum();
-    Some((((c >> 16) ^ c) as u16 == u16::from_be_bytes([t[0], t[1]]), s[0]))
+    Some((
+        ((c >> 16) ^ c) as u16 == u16::from_be_bytes([t[0], t[1]]),
+        s[0],
+    ))
 }
 
 // ------------------------------------------------------------------ editable document
@@ -200,14 +214,18 @@ struct Bl3Backend {
 }
 
 fn whole(v: &Value) -> Result<i64, String> {
-    v.as_i64().or_else(|| v.as_f64().filter(|f| f.fract() == 0.0).map(|f| f as i64)).ok_or_else(|| "expected a whole number".to_string())
+    v.as_i64()
+        .or_else(|| v.as_f64().filter(|f| f.fract() == 0.0).map(|f| f as i64))
+        .ok_or_else(|| "expected a whole number".to_string())
 }
 
 impl Bl3Backend {
     fn range(&self, t: &Target) -> (i64, i64) {
         match t {
             Target::Level => (1, MAX_LEVEL),
-            Target::Experience | Target::SkillPoints | Target::Currency(_) => (0, i64::from(i32::MAX)),
+            Target::Experience | Target::SkillPoints | Target::Currency(_) => {
+                (0, i64::from(i32::MAX))
+            }
             Target::Ammo(_) => (0, 99_999),
             Target::Sdu(_, max) => (0, *max),
         }
@@ -225,7 +243,8 @@ impl Backend for Bl3Backend {
         let mut patches = Patches::default();
         // A field-`num` entry with a field inside it replaced (or added).
         let rewrite = |f: &pb::Field, inner_num: u32, encoded: &[u8]| -> Result<Vec<u8>, String> {
-            let msg = pb::replace(f.bytes().ok_or_else(bad)?, inner_num, encoded).ok_or_else(bad)?;
+            let msg =
+                pb::replace(f.bytes().ok_or_else(bad)?, inner_num, encoded).ok_or_else(bad)?;
             Ok(pb::bytes_field(f.num, &msg))
         };
         for (leaf, v) in changes {
@@ -244,12 +263,22 @@ impl Backend for Bl3Backend {
                 },
                 Target::SkillPoints => match pb::first(&top, 13) {
                     Some(f) => patches.add(f.start, f.end, rewrite(&f, 1, &pb::int_field(1, n))?),
-                    None => patches.add(proto.len(), proto.len(), pb::bytes_field(13, &pb::int_field(1, n))),
+                    None => patches.add(
+                        proto.len(),
+                        proto.len(),
+                        pb::bytes_field(13, &pb::int_field(1, n)),
+                    ),
                 },
                 Target::Currency(hash) => {
-                    let found = pb::all(&top, 9).find(|f| f.bytes().and_then(pb::fields).is_some_and(|i| pb::first(&i, 1).and_then(|x| x.int()) == Some(*hash)));
+                    let found = pb::all(&top, 9).find(|f| {
+                        f.bytes()
+                            .and_then(pb::fields)
+                            .is_some_and(|i| pb::first(&i, 1).and_then(|x| x.int()) == Some(*hash))
+                    });
                     match found {
-                        Some(f) => patches.add(f.start, f.end, rewrite(&f, 2, &pb::int_field(2, n))?),
+                        Some(f) => {
+                            patches.add(f.start, f.end, rewrite(&f, 2, &pb::int_field(2, n))?)
+                        }
                         None => {
                             let mut e = pb::int_field(1, *hash);
                             e.extend(pb::int_field(2, n));
@@ -288,15 +317,25 @@ impl Backend for Bl3Backend {
     fn derived(&self, leaf: usize, view: &Value) -> Vec<(String, Value)> {
         match self.targets[leaf] {
             Target::Level => {
-                let lv = view.pointer("/Character/Level").and_then(Value::as_i64).unwrap_or(1).clamp(1, MAX_LEVEL);
-                let xp = view.pointer("/Character/Experience").and_then(Value::as_u64).unwrap_or(0);
+                let lv = view
+                    .pointer("/Character/Level")
+                    .and_then(Value::as_i64)
+                    .unwrap_or(1)
+                    .clamp(1, MAX_LEVEL);
+                let xp = view
+                    .pointer("/Character/Experience")
+                    .and_then(Value::as_u64)
+                    .unwrap_or(0);
                 if level_for(xp) == lv {
                     return vec![];
                 }
                 vec![("/Character/Experience".into(), XP[lv as usize - 1].into())]
             }
             Target::Experience => {
-                let xp = view.pointer("/Character/Experience").and_then(Value::as_u64).unwrap_or(0);
+                let xp = view
+                    .pointer("/Character/Experience")
+                    .and_then(Value::as_u64)
+                    .unwrap_or(0);
                 vec![("/Character/Level".into(), level_for(xp).into())]
             }
             _ => vec![],
@@ -314,66 +353,167 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
     let lay = layout(d).ok_or("not a Borderlands 3 character")?;
     let mut proto = d[lay.len_at + 4..].to_vec();
     decrypt(&mut proto);
-    let top = pb::fields(&proto).ok_or("the character data couldn't be read (is this a console save?)")?;
-    let class_path = pb::first(&top, 4).and_then(|f| f.bytes()).and_then(|b| pb::first(&pb::fields(b)?, 1)?.text()).ok_or("no character class")?;
+    let top = pb::fields(&proto)
+        .ok_or("the character data couldn't be read (is this a console save?)")?;
+    let class_path = pb::first(&top, 4)
+        .and_then(|f| f.bytes())
+        .and_then(|b| pb::first(&pb::fields(b)?, 1)?.text())
+        .ok_or("no character class")?;
 
     let mut view = Map::new();
     let mut editable = HashMap::new();
     let mut targets = vec![];
-    let mut add = |view: &mut Map<String, Value>, group: &str, key: &str, v: Value, t: Option<Target>| {
-        if let Some(t) = t {
-            editable.insert(format!("/{}/{}", crate::tree::esc(group), crate::tree::esc(key)), targets.len());
-            targets.push(t);
-        }
-        view.entry(group.to_string()).or_insert_with(|| Value::Object(Map::new())).as_object_mut().unwrap().insert(key.to_string(), v);
-    };
+    let mut add =
+        |view: &mut Map<String, Value>, group: &str, key: &str, v: Value, t: Option<Target>| {
+            if let Some(t) = t {
+                editable.insert(
+                    format!("/{}/{}", crate::tree::esc(group), crate::tree::esc(key)),
+                    targets.len(),
+                );
+                targets.push(t);
+            }
+            view.entry(group.to_string())
+                .or_insert_with(|| Value::Object(Map::new()))
+                .as_object_mut()
+                .unwrap()
+                .insert(key.to_string(), v);
+        };
     let class = CLASSES.iter().find(|c| c.0 == object(&class_path));
-    let name = pb::first(&top, 43).and_then(|f| f.text()).unwrap_or_default();
+    let name = pb::first(&top, 43)
+        .and_then(|f| f.text())
+        .unwrap_or_default();
     add(&mut view, "Character", "Name", name.into(), None);
-    add(&mut view, "Character", "Class", class.map_or_else(|| object(&class_path).to_string(), |c| c.1.to_string()).into(), None);
-    add(&mut view, "Character", "Vault hunter", class.map_or("", |c| c.2).into(), None);
+    add(
+        &mut view,
+        "Character",
+        "Class",
+        class
+            .map_or_else(|| object(&class_path).to_string(), |c| c.1.to_string())
+            .into(),
+        None,
+    );
+    add(
+        &mut view,
+        "Character",
+        "Vault hunter",
+        class.map_or("", |c| c.2).into(),
+        None,
+    );
     let xp = pb::first(&top, 7).and_then(|f| f.int()).unwrap_or(0);
-    add(&mut view, "Character", "Level", level_for(xp).into(), Some(Target::Level));
-    add(&mut view, "Character", "Experience", xp.into(), Some(Target::Experience));
-    let ability = pb::first(&top, 13).and_then(|f| f.bytes()).and_then(pb::fields);
-    let points = ability.as_ref().and_then(|a| pb::first(a, 1)).and_then(|f| f.int()).unwrap_or(0);
-    add(&mut view, "Character", "Skill points", points.into(), Some(Target::SkillPoints));
-    add(&mut view, "Character", "Playthroughs completed", pb::first(&top, 15).and_then(|f| f.int()).unwrap_or(0).into(), None);
+    add(
+        &mut view,
+        "Character",
+        "Level",
+        level_for(xp).into(),
+        Some(Target::Level),
+    );
+    add(
+        &mut view,
+        "Character",
+        "Experience",
+        xp.into(),
+        Some(Target::Experience),
+    );
+    let ability = pb::first(&top, 13)
+        .and_then(|f| f.bytes())
+        .and_then(pb::fields);
+    let points = ability
+        .as_ref()
+        .and_then(|a| pb::first(a, 1))
+        .and_then(|f| f.int())
+        .unwrap_or(0);
+    add(
+        &mut view,
+        "Character",
+        "Skill points",
+        points.into(),
+        Some(Target::SkillPoints),
+    );
+    add(
+        &mut view,
+        "Character",
+        "Playthroughs completed",
+        pb::first(&top, 15)
+            .and_then(|f| f.int())
+            .unwrap_or(0)
+            .into(),
+        None,
+    );
 
     let currencies: Vec<(u64, u64)> = pb::all(&top, 9)
         .filter_map(|f| {
             let i = pb::fields(f.bytes()?)?;
-            Some((pb::first(&i, 1)?.int()?, pb::first(&i, 2).and_then(|x| x.int()).unwrap_or(0)))
+            Some((
+                pb::first(&i, 1)?.int()?,
+                pb::first(&i, 2).and_then(|x| x.int()).unwrap_or(0),
+            ))
         })
         .collect();
     for (hash, label) in [(MONEY, "Money"), (ERIDIUM, "Eridium")] {
         let n = currencies.iter().find(|c| c.0 == hash).map_or(0, |c| c.1);
-        add(&mut view, "Currency", label, n.into(), Some(Target::Currency(hash)));
+        add(
+            &mut view,
+            "Currency",
+            label,
+            n.into(),
+            Some(Target::Currency(hash)),
+        );
     }
 
     let mut seen = Map::new();
     for (i, f) in pb::all(&top, 5).enumerate() {
-        let Some(inner) = f.bytes().and_then(pb::fields) else { continue };
-        let Some(path) = pb::first(&inner, 2).and_then(|x| x.text()) else { continue };
+        let Some(inner) = f.bytes().and_then(pb::fields) else {
+            continue;
+        };
+        let Some(path) = pb::first(&inner, 2).and_then(|x| x.text()) else {
+            continue;
+        };
         let amount = pb::first(&inner, 1).and_then(|x| x.f32()).unwrap_or(0.0);
         let key = crate::tree::insert_unique(&mut seen, &ammo_name(&path), Value::Null);
-        add(&mut view, "Ammo", &key, super::borderlands::amount_value(amount), Some(Target::Ammo(i)));
+        add(
+            &mut view,
+            "Ammo",
+            &key,
+            super::borderlands::amount_value(amount),
+            Some(Target::Ammo(i)),
+        );
     }
     let mut seen = Map::new();
     for (i, f) in pb::all(&top, 29).enumerate() {
-        let Some(inner) = f.bytes().and_then(pb::fields) else { continue };
-        let Some(path) = pb::first(&inner, 2).and_then(|x| x.text()) else { continue };
+        let Some(inner) = f.bytes().and_then(pb::fields) else {
+            continue;
+        };
+        let Some(path) = pb::first(&inner, 2).and_then(|x| x.text()) else {
+            continue;
+        };
         let level = pb::first(&inner, 1).and_then(|x| x.int()).unwrap_or(0);
         let known = SDUS.iter().find(|s| s.0 == object(&path));
-        let key = crate::tree::insert_unique(&mut seen, known.map_or(object(&path), |s| s.1), Value::Null);
-        add(&mut view, "SDU upgrades", &key, level.into(), known.map(|s| Target::Sdu(i, s.2)));
+        let key = crate::tree::insert_unique(
+            &mut seen,
+            known.map_or(object(&path), |s| s.1),
+            Value::Null,
+        );
+        add(
+            &mut view,
+            "SDU upgrades",
+            &key,
+            level.into(),
+            known.map(|s| Target::Sdu(i, s.2)),
+        );
     }
 
     // Equipped slots point at inventory entries by index.
     let mut slots: HashMap<u64, String> = HashMap::new();
     for f in pb::all(&top, 11) {
-        let Some(inner) = f.bytes().and_then(pb::fields) else { continue };
-        let (Some(idx), Some(path)) = (pb::first(&inner, 1).and_then(|x| x.int()), pb::first(&inner, 3).and_then(|x| x.text())) else { continue };
+        let Some(inner) = f.bytes().and_then(pb::fields) else {
+            continue;
+        };
+        let (Some(idx), Some(path)) = (
+            pb::first(&inner, 1).and_then(|x| x.int()),
+            pb::first(&inner, 3).and_then(|x| x.text()),
+        ) else {
+            continue;
+        };
         slots.insert(idx, slot_name(&path));
     }
     let items: Vec<Value> = pb::all(&top, 10)
@@ -383,18 +523,33 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
             let (ok, version) = serial_ok(pb::first(&inner, 1)?.bytes()?)?;
             let flags = pb::first(&inner, 3).and_then(|x| x.int()).unwrap_or(0);
             let mut m = Map::new();
-            m.insert("Slot".into(), slots.get(&(i as u64)).cloned().unwrap_or_else(|| "Backpack".into()).into());
+            m.insert(
+                "Slot".into(),
+                slots
+                    .get(&(i as u64))
+                    .cloned()
+                    .unwrap_or_else(|| "Backpack".into())
+                    .into(),
+            );
             m.insert("Favorite".into(), (flags & 2 != 0).into());
             m.insert("Junk".into(), (flags & 4 != 0).into());
             m.insert("Has skin".into(), pb::first(&inner, 4).is_some().into());
             m.insert("Serial version".into(), version.into());
-            m.insert("Serial check".into(), if ok { "OK" } else { "doesn't match" }.into());
+            m.insert(
+                "Serial check".into(),
+                if ok { "OK" } else { "doesn't match" }.into(),
+            );
             Some(Value::Object(m))
         })
         .collect();
     view.insert("Inventory".into(), Value::Array(items));
 
-    let backend = Bl3Backend { file: Arc::new(d.to_vec()), proto: Arc::new(proto), len_at: lay.len_at, targets };
+    let backend = Bl3Backend {
+        file: Arc::new(d.to_vec()),
+        proto: Arc::new(proto),
+        len_at: lay.len_at,
+        targets,
+    };
     Ok(TreeDoc::new(Value::Object(view), editable, KIND, Box::new(backend)).with_note(
         "Level (set through experience), skill points, money, Eridium, ammo and SDU levels can be changed; the save is encrypted again when you save. \
          Items are shown, not edited. Turn off cloud saves for the game first, or the old save may come back.",
@@ -409,10 +564,22 @@ mod tests {
     fn sample() -> Vec<u8> {
         let mut p = vec![];
         p.extend(pb::int_field(1, 3));
-        p.extend(pb::bytes_field(4, &pb::bytes_field(1, b"/Game/PlayerCharacters/Gunner/PlayerClassId_Gunner.PlayerClassId_Gunner")));
-        for (amount, res) in [(Some(120.0f32), "Resource_Ammo_Pistol"), (None, "Resource_Ammo_Heavy")] {
+        p.extend(pb::bytes_field(
+            4,
+            &pb::bytes_field(
+                1,
+                b"/Game/PlayerCharacters/Gunner/PlayerClassId_Gunner.PlayerClassId_Gunner",
+            ),
+        ));
+        for (amount, res) in [
+            (Some(120.0f32), "Resource_Ammo_Pistol"),
+            (None, "Resource_Ammo_Heavy"),
+        ] {
             let mut r = amount.map(|a| pb::f32_field(1, a)).unwrap_or_default();
-            r.extend(pb::bytes_field(2, format!("/Game/GameData/Weapons/Ammo/{res}.{res}").as_bytes()));
+            r.extend(pb::bytes_field(
+                2,
+                format!("/Game/GameData/Weapons/Ammo/{res}.{res}").as_bytes(),
+            ));
             p.extend(pb::bytes_field(5, &r));
         }
         p.extend(pb::int_field(7, 30_000));
@@ -436,7 +603,10 @@ mod tests {
         p.extend(pb::bytes_field(11, &eq));
         p.extend(pb::bytes_field(13, &pb::bytes_field(2, b"tree")));
         let mut sdu = pb::int_field(1, 2);
-        sdu.extend(pb::bytes_field(2, b"/Game/Pickups/SDU/SDU_Backpack.SDU_Backpack"));
+        sdu.extend(pb::bytes_field(
+            2,
+            b"/Game/Pickups/SDU/SDU_Backpack.SDU_Backpack",
+        ));
         p.extend(pb::bytes_field(29, &sdu));
         p.extend(pb::bytes_field(43, b"Tester"));
         let mut d = b"GVAS".to_vec();
@@ -494,7 +664,10 @@ mod tests {
         doc.set("/Ammo/Heavy weapons", 12.into()).unwrap();
         doc.set("/SDU upgrades/Backpack", 13.into()).unwrap();
         doc.set("/Character/Level", 50.into()).unwrap();
-        assert_eq!(doc.view.pointer("/Character/Experience"), Some(&3_429_728.into()));
+        assert_eq!(
+            doc.view.pointer("/Character/Experience"),
+            Some(&3_429_728.into())
+        );
         assert!(doc.set("/SDU upgrades/Backpack", 14.into()).is_err());
         let out = doc.to_bytes().unwrap();
         let at = layout(&d).unwrap().len_at;
@@ -518,25 +691,61 @@ mod tests {
     #[ignore]
     fn real_saves() {
         use crate::formats::{decode_with, encode, Content, Options};
-        let Ok(list) = std::env::var("SAVE_EDITOR_BL3") else { return };
+        let Ok(list) = std::env::var("SAVE_EDITOR_BL3") else {
+            return;
+        };
         for f in list.split('|').map(std::path::PathBuf::from) {
             let raw = std::fs::read(&f).unwrap();
             let d = decode_with(&raw, &Options::for_path(&f));
-            let Content::Tree(doc) = &d.content else { panic!("{} didn't open", f.display()) };
+            let Content::Tree(doc) = &d.content else {
+                panic!("{} didn't open", f.display())
+            };
             assert_eq!(doc.kind_name, KIND);
             let v = &doc.view;
-            println!("{}: {} {} L{} xp {} money {} eridium {} ammo {} sdu {} items {}", f.display(), v["Character"]["Name"], v["Character"]["Class"], v["Character"]["Level"], v["Character"]["Experience"], v["Currency"]["Money"], v["Currency"]["Eridium"], v["Ammo"], v["SDU upgrades"], v["Inventory"].as_array().unwrap().len());
-            assert!(v["Inventory"].as_array().unwrap().iter().all(|i| i["Serial check"] == "OK"));
-            assert_eq!(encode(&d.layers, &d.content).unwrap(), raw, "unchanged save writes back byte for byte");
+            println!(
+                "{}: {} {} L{} xp {} money {} eridium {} ammo {} sdu {} items {}",
+                f.display(),
+                v["Character"]["Name"],
+                v["Character"]["Class"],
+                v["Character"]["Level"],
+                v["Character"]["Experience"],
+                v["Currency"]["Money"],
+                v["Currency"]["Eridium"],
+                v["Ammo"],
+                v["SDU upgrades"],
+                v["Inventory"].as_array().unwrap().len()
+            );
+            assert!(v["Inventory"]
+                .as_array()
+                .unwrap()
+                .iter()
+                .all(|i| i["Serial check"] == "OK"));
+            assert_eq!(
+                encode(&d.layers, &d.content).unwrap(),
+                raw,
+                "unchanged save writes back byte for byte"
+            );
             let mut doc = doc.as_ref().clone();
-            let money = doc.view.pointer("/Currency/Money").and_then(Value::as_i64).unwrap();
+            let money = doc
+                .view
+                .pointer("/Currency/Money")
+                .and_then(Value::as_i64)
+                .unwrap();
             doc.set("/Currency/Money", (money + 1).into()).unwrap();
             doc.set("/Ammo/Pistol", 7.into()).unwrap();
             let out = encode(&d.layers, &Content::Tree(Box::new(doc.clone()))).unwrap();
             let back = decode_with(&out, &Options::for_path(&f));
-            let Content::Tree(again) = &back.content else { panic!("edited save doesn't open") };
+            let Content::Tree(again) = &back.content else {
+                panic!("edited save doesn't open")
+            };
             assert_eq!(again.view, doc.view);
-            assert_eq!(again.view.pointer("/Currency/Money").and_then(Value::as_i64), Some(money + 1));
+            assert_eq!(
+                again
+                    .view
+                    .pointer("/Currency/Money")
+                    .and_then(Value::as_i64),
+                Some(money + 1)
+            );
             assert_eq!(again.view.pointer("/Ammo/Pistol"), Some(&7.into()));
             // Only the money entry (field 9) and an ammo entry (field 5) changed.
             let plain = |b: &[u8]| {
@@ -546,11 +755,22 @@ mod tests {
                 p
             };
             let (p0, p1) = (plain(&raw), plain(&out));
-            assert_eq!(out[..layout(&out).unwrap().len_at], raw[..layout(&raw).unwrap().len_at]);
+            assert_eq!(
+                out[..layout(&out).unwrap().len_at],
+                raw[..layout(&raw).unwrap().len_at]
+            );
             let (t0, t1) = (pb::fields(&p0).unwrap(), pb::fields(&p1).unwrap());
             assert_eq!(t0.len(), t1.len());
-            let changed: Vec<u32> = t0.iter().zip(&t1).filter(|(a, b)| p0[a.start..a.end] != p1[b.start..b.end]).map(|(a, _)| a.num).collect();
-            assert!(changed.iter().all(|&n| n == 9 || n == 5) && changed.len() == 2, "{changed:?}");
+            let changed: Vec<u32> = t0
+                .iter()
+                .zip(&t1)
+                .filter(|(a, b)| p0[a.start..a.end] != p1[b.start..b.end])
+                .map(|(a, _)| a.num)
+                .collect();
+            assert!(
+                changed.iter().all(|&n| n == 9 || n == 5) && changed.len() == 2,
+                "{changed:?}"
+            );
         }
     }
 }

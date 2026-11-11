@@ -17,14 +17,70 @@ use std::sync::Arc;
 
 /// Undertale item ids (the game's own item numbering), 0 = empty.
 pub const UT_ITEMS: [&str; 65] = [
-    "(empty)", "Monster Candy", "Croquet Roll", "Stick", "Bandage", "Rock Candy", "Pumpkin Rings", "Spider Donut", "Stoic Onion",
-    "Ghost Fruit", "Spider Cider", "Butterscotch Pie", "Faded Ribbon", "Toy Knife", "Tough Glove", "Manly Bandanna", "Snowman Piece",
-    "Nice Cream", "Puppydough Icecream", "Bisicle", "Unisicle", "Cinnamon Bunny", "Temmie Flakes", "Abandoned Quiche", "Old Tutu",
-    "Ballet Shoes", "Punch Card", "Annoying Dog", "Dog Salad", "Dog Residue (1)", "Dog Residue (2)", "Dog Residue (3)",
-    "Dog Residue (4)", "Dog Residue (5)", "Dog Residue (6)", "Astronaut Food", "Instant Noodles", "Crab Apple", "Hot Dog...?",
-    "Hot Cat", "Glamburger", "Sea Tea", "Starfait", "Legendary Hero", "Cloudy Glasses", "Torn Notebook", "Stained Apron",
-    "Burnt Pan", "Cowboy Hat", "Empty Gun", "Heart Locket", "Worn Dagger", "Real Knife", "The Locket", "Bad Memory", "Dream",
-    "Undyne's Letter", "Undyne Letter EX", "Potato Chisps", "Junk Food", "Mystery Key", "Face Steak", "Hush Puppy", "Snail Pie",
+    "(empty)",
+    "Monster Candy",
+    "Croquet Roll",
+    "Stick",
+    "Bandage",
+    "Rock Candy",
+    "Pumpkin Rings",
+    "Spider Donut",
+    "Stoic Onion",
+    "Ghost Fruit",
+    "Spider Cider",
+    "Butterscotch Pie",
+    "Faded Ribbon",
+    "Toy Knife",
+    "Tough Glove",
+    "Manly Bandanna",
+    "Snowman Piece",
+    "Nice Cream",
+    "Puppydough Icecream",
+    "Bisicle",
+    "Unisicle",
+    "Cinnamon Bunny",
+    "Temmie Flakes",
+    "Abandoned Quiche",
+    "Old Tutu",
+    "Ballet Shoes",
+    "Punch Card",
+    "Annoying Dog",
+    "Dog Salad",
+    "Dog Residue (1)",
+    "Dog Residue (2)",
+    "Dog Residue (3)",
+    "Dog Residue (4)",
+    "Dog Residue (5)",
+    "Dog Residue (6)",
+    "Astronaut Food",
+    "Instant Noodles",
+    "Crab Apple",
+    "Hot Dog...?",
+    "Hot Cat",
+    "Glamburger",
+    "Sea Tea",
+    "Starfait",
+    "Legendary Hero",
+    "Cloudy Glasses",
+    "Torn Notebook",
+    "Stained Apron",
+    "Burnt Pan",
+    "Cowboy Hat",
+    "Empty Gun",
+    "Heart Locket",
+    "Worn Dagger",
+    "Real Knife",
+    "The Locket",
+    "Bad Memory",
+    "Dream",
+    "Undyne's Letter",
+    "Undyne Letter EX",
+    "Potato Chisps",
+    "Junk Food",
+    "Mystery Key",
+    "Face Steak",
+    "Hush Puppy",
+    "Snail Pie",
     "Temmie Armor",
 ];
 
@@ -43,7 +99,13 @@ const UT_PHONE: [(i64, &str); 10] = [
 ];
 
 /// Deltarune party member numbers (Noelle joins in Chapter 2).
-const DR_MEMBERS: [(i64, &str); 5] = [(0, "(nobody)"), (1, "Kris"), (2, "Susie"), (3, "Ralsei"), (4, "Noelle")];
+const DR_MEMBERS: [(i64, &str); 5] = [
+    (0, "(nobody)"),
+    (1, "Kris"),
+    (2, "Susie"),
+    (3, "Ralsei"),
+    (4, "Noelle"),
+];
 
 #[derive(Clone, Debug)]
 enum Kind {
@@ -71,7 +133,11 @@ struct LineBackend {
 
 /// Is this GameMaker number text (`12`, `-38`, `145.75`, `1.80188e+006`)?
 fn numeric(s: &str) -> bool {
-    !s.is_empty() && s.bytes().any(|b| b.is_ascii_digit()) && s.bytes().all(|b| b.is_ascii_digit() || matches!(b, b'.' | b'-' | b'+' | b'e' | b'E')) && s.parse::<f64>().is_ok()
+    !s.is_empty()
+        && s.bytes().any(|b| b.is_ascii_digit())
+        && s.bytes()
+            .all(|b| b.is_ascii_digit() || matches!(b, b'.' | b'-' | b'+' | b'e' | b'E'))
+        && s.parse::<f64>().is_ok()
 }
 
 /// A number line as shown: whole numbers as integers (also `1.56599e+06`).
@@ -97,13 +163,19 @@ fn num_text(v: &Value) -> Result<String, String> {
             n.as_f64().ok_or("not a number")?
         }
         Value::Bool(b) => return Ok(i64::from(*b).to_string()),
-        Value::String(s) if numeric(s.trim()) => s.trim().parse::<f64>().map_err(|e| e.to_string())?,
+        Value::String(s) if numeric(s.trim()) => {
+            s.trim().parse::<f64>().map_err(|e| e.to_string())?
+        }
         _ => return Err("must be a number".into()),
     };
     if !f.is_finite() {
         return Err("must be a number".into());
     }
-    Ok(if f.fract() == 0.0 && f.abs() < 9.0e15 { (f as i64).to_string() } else { format!("{f}") })
+    Ok(if f.fract() == 0.0 && f.abs() < 9.0e15 {
+        (f as i64).to_string()
+    } else {
+        format!("{f}")
+    })
 }
 
 fn named_value(list: &[(i64, String)], s: &str) -> Value {
@@ -119,7 +191,9 @@ impl LineBackend {
         match &self.leaves[leaf].kind {
             Kind::Num => num_text(v),
             Kind::Text => match v {
-                Value::String(s) if s.contains(['\n', '\r']) => Err("can't contain line breaks".into()),
+                Value::String(s) if s.contains(['\n', '\r']) => {
+                    Err("can't contain line breaks".into())
+                }
                 Value::String(s) => Ok(s.clone()),
                 Value::Number(n) => Ok(n.to_string()),
                 _ => Err("must be text".into()),
@@ -198,7 +272,14 @@ impl<'a> Doc<'a> {
     fn new(text: &'a str) -> Self {
         let lines = split_lines(text);
         let used = vec![false; lines.len()];
-        Self { text, lines, used, root: Map::new(), editable: HashMap::new(), leaves: vec![] }
+        Self {
+            text,
+            lines,
+            used,
+            root: Map::new(),
+            editable: HashMap::new(),
+            leaves: vec![],
+        }
     }
 
     fn get(&self, line: usize) -> &str {
@@ -208,7 +289,9 @@ impl<'a> Doc<'a> {
 
     /// Put 1-based `line` at `section/key` (a section path may have one `/`).
     fn add(&mut self, section: &str, key: &str, line: usize, kind: Kind) {
-        let Some(&(s, e)) = self.lines.get(line - 1) else { return };
+        let Some(&(s, e)) = self.lines.get(line - 1) else {
+            return;
+        };
         let raw = &self.text[s..e];
         let kind = match kind {
             Kind::Num if !numeric(raw) => Kind::Text,
@@ -224,11 +307,20 @@ impl<'a> Doc<'a> {
         let mut ptr = String::new();
         for part in section.split('/') {
             ptr = crate::tree::child(&ptr, part);
-            map = map.entry(part.to_string()).or_insert_with(|| Value::Object(Map::new())).as_object_mut().unwrap();
+            map = map
+                .entry(part.to_string())
+                .or_insert_with(|| Value::Object(Map::new()))
+                .as_object_mut()
+                .unwrap();
         }
         map.insert(key.to_string(), v);
-        self.editable.insert(crate::tree::child(&ptr, key), self.leaves.len());
-        self.leaves.push(Leaf { start: s, end: e, kind });
+        self.editable
+            .insert(crate::tree::child(&ptr, key), self.leaves.len());
+        self.leaves.push(Leaf {
+            start: s,
+            end: e,
+            kind,
+        });
         self.used[line - 1] = true;
     }
 
@@ -236,21 +328,43 @@ impl<'a> Doc<'a> {
         // Everything not shown above, by line number, so every value can still be edited.
         for line in 1..=self.lines.len() {
             if !self.used[line - 1] && !(line == self.lines.len() && self.get(line).is_empty()) {
-                let kind = if numeric(self.get(line)) { Kind::Num } else { Kind::Text };
+                let kind = if numeric(self.get(line)) {
+                    Kind::Num
+                } else {
+                    Kind::Text
+                };
                 self.add("Other lines", &format!("Line {line}"), line, kind);
             }
         }
-        let backend = LineBackend { raw: Arc::new(self.text.as_bytes().to_vec()), leaves: self.leaves };
-        TreeDoc::new(Value::Object(self.root), self.editable, kind_name, Box::new(backend)).with_advanced(vec!["Other lines".into()]).with_note(note)
+        let backend = LineBackend {
+            raw: Arc::new(self.text.as_bytes().to_vec()),
+            leaves: self.leaves,
+        };
+        TreeDoc::new(
+            Value::Object(self.root),
+            self.editable,
+            kind_name,
+            Box::new(backend),
+        )
+        .with_advanced(vec!["Other lines".into()])
+        .with_note(note)
     }
 }
 
 fn named(list: &[(i64, &str)]) -> Kind {
-    Kind::Named(Arc::new(list.iter().map(|&(i, n)| (i, n.to_string())).collect()))
+    Kind::Named(Arc::new(
+        list.iter().map(|&(i, n)| (i, n.to_string())).collect(),
+    ))
 }
 
 fn ut_items() -> Kind {
-    Kind::Named(Arc::new(UT_ITEMS.iter().enumerate().map(|(i, n)| (i as i64, n.to_string())).collect()))
+    Kind::Named(Arc::new(
+        UT_ITEMS
+            .iter()
+            .enumerate()
+            .map(|(i, n)| (i as i64, n.to_string()))
+            .collect(),
+    ))
 }
 
 /// Line count of a text in this style (the last line has no line break).
@@ -269,19 +383,40 @@ pub fn parse_undertale(text: &str) -> Result<TreeDoc, String> {
     }
     let mut d = Doc::new(text);
     // Stats, inventory, equipment, room and time are all numbers; LV is 1 to 20.
-    if !(2..=30).chain([548, 549]).all(|l| numeric(d.get(l))) || !d.get(2).parse::<f64>().is_ok_and(|lv| (1.0..=20.0).contains(&lv)) {
+    if !(2..=30).chain([548, 549]).all(|l| numeric(d.get(l)))
+        || !d
+            .get(2)
+            .parse::<f64>()
+            .is_ok_and(|lv| (1.0..=20.0).contains(&lv))
+    {
         return Err("not an Undertale save".into());
     }
     let c = "Character";
     d.add(c, "Name", 1, Kind::Text);
-    for (k, l) in [("LV", 2), ("Max HP", 3), ("AT", 5), ("Weapon AT", 6), ("DF", 7), ("Armor DF", 8), ("Speed", 9), ("EXP", 10), ("Gold", 11), ("Kills", 12)] {
+    for (k, l) in [
+        ("LV", 2),
+        ("Max HP", 3),
+        ("AT", 5),
+        ("Weapon AT", 6),
+        ("DF", 7),
+        ("Armor DF", 8),
+        ("Speed", 9),
+        ("EXP", 10),
+        ("Gold", 11),
+        ("Kills", 12),
+    ] {
         d.add(c, k, l, Kind::Num);
     }
     for i in 0..8 {
         d.add("Items", &format!("Slot {}", i + 1), 13 + 2 * i, ut_items());
     }
     for i in 0..8 {
-        d.add("Phone", &format!("Slot {}", i + 1), 14 + 2 * i, named(&UT_PHONE));
+        d.add(
+            "Phone",
+            &format!("Slot {}", i + 1),
+            14 + 2 * i,
+            named(&UT_PHONE),
+        );
     }
     d.add("Equipment", "Weapon", 29, ut_items());
     d.add("Equipment", "Armor", 30, ut_items());
@@ -318,7 +453,17 @@ pub fn parse_deltarune(text: &str) -> Result<TreeDoc, String> {
     for (i, (_, who)) in DR_MEMBERS.iter().enumerate().take(members + 1).skip(1) {
         let b = 17 + block * i;
         let sec = format!("Party/{who}");
-        for (k, o) in [("HP", 0), ("Max HP", 1), ("Attack", 2), ("Defense", 3), ("Magic", 4), ("Guts", 5), ("Weapon", 6), ("Armor 1", 7), ("Armor 2", 8)] {
+        for (k, o) in [
+            ("HP", 0),
+            ("Max HP", 1),
+            ("Attack", 2),
+            ("Defense", 3),
+            ("Magic", 4),
+            ("Guts", 5),
+            ("Weapon", 6),
+            ("Armor 1", 7),
+            ("Armor 2", 8),
+        ] {
             d.add(&sec, k, b + o, Kind::Num);
         }
     }
@@ -326,17 +471,37 @@ pub fn parse_deltarune(text: &str) -> Result<TreeDoc, String> {
         // Dark World inventory: 13 rows of (item, key item, weapon, armor).
         for (k, o) in [("Items", 0), ("Key items", 1), ("Weapons", 2), ("Armor", 3)] {
             for j in 0..13 {
-                d.add(&format!("Inventory/{k}"), &format!("Slot {}", j + 1), 236 + 4 * j + o, Kind::Num);
+                d.add(
+                    &format!("Inventory/{k}"),
+                    &format!("Slot {}", j + 1),
+                    236 + 4 * j + o,
+                    Kind::Num,
+                );
             }
         }
         d.add("Tension", "TP", 288, Kind::Num);
         d.add("Tension", "Max TP", 289, Kind::Num);
         let lw = "Light World";
-        for (k, l) in [("Weapon", 290), ("Armor", 291), ("EXP", 292), ("LV", 293), ("Money", 294), ("HP", 295), ("Max HP", 296), ("AT", 297), ("DF", 298)] {
+        for (k, l) in [
+            ("Weapon", 290),
+            ("Armor", 291),
+            ("EXP", 292),
+            ("LV", 293),
+            ("Money", 294),
+            ("HP", 295),
+            ("Max HP", 296),
+            ("AT", 297),
+            ("DF", 298),
+        ] {
             d.add(lw, k, l, Kind::Num);
         }
         for i in 0..8 {
-            d.add("Light World items", &format!("Slot {}", i + 1), 301 + 2 * i, Kind::Num);
+            d.add(
+                "Light World items",
+                &format!("Slot {}", i + 1),
+                301 + 2 * i,
+                Kind::Num,
+            );
         }
     }
     d.add("Progress", "Plot", n - 2, Kind::Num);
@@ -364,7 +529,26 @@ mod tests {
     fn undertale() -> String {
         let mut l: Vec<String> = (0..549).map(|_| "0 ".to_string()).collect();
         l[0] = "Chara".into();
-        for (n, v) in [(2, "3"), (3, "28"), (4, "20"), (5, "14"), (6, "3"), (7, "10"), (8, "3"), (9, "4"), (10, "70"), (11, "123"), (12, "9"), (13, "1"), (15, "21"), (29, "13"), (30, "12"), (14, "201"), (548, "12"), (549, "1.80188e+006")] {
+        for (n, v) in [
+            (2, "3"),
+            (3, "28"),
+            (4, "20"),
+            (5, "14"),
+            (6, "3"),
+            (7, "10"),
+            (8, "3"),
+            (9, "4"),
+            (10, "70"),
+            (11, "123"),
+            (12, "9"),
+            (13, "1"),
+            (15, "21"),
+            (29, "13"),
+            (30, "12"),
+            (14, "201"),
+            (548, "12"),
+            (549, "1.80188e+006"),
+        ] {
             l[n - 1] = format!("{v} ");
         }
         l.join("\r\n")
@@ -383,16 +567,28 @@ mod tests {
         assert_eq!(doc.view.pointer("/Items/Slot 3").unwrap(), "(empty)");
         assert_eq!(doc.view.pointer("/Phone/Slot 1").unwrap(), "Say Hello");
         assert_eq!(doc.view.pointer("/Equipment/Weapon").unwrap(), "Toy Knife");
-        assert_eq!(doc.view.pointer("/Progress/Play time (frames)").unwrap(), 1801880);
-        assert!(doc.choices("/Items/Slot 1").unwrap().contains(&"Real Knife".to_string()));
+        assert_eq!(
+            doc.view.pointer("/Progress/Play time (frames)").unwrap(),
+            1801880
+        );
+        assert!(doc
+            .choices("/Items/Slot 1")
+            .unwrap()
+            .contains(&"Real Knife".to_string()));
         doc.set("/Character/Gold", Value::from(99999)).unwrap();
         doc.set("/Character/Name", Value::from("Frisk")).unwrap();
-        doc.set("/Items/Slot 3", Value::from("Legendary Hero")).unwrap();
-        doc.set("/Equipment/Weapon", Value::from("Real Knife")).unwrap();
-        assert!(doc.set("/Items/Slot 4", Value::from("Not an item")).is_err());
+        doc.set("/Items/Slot 3", Value::from("Legendary Hero"))
+            .unwrap();
+        doc.set("/Equipment/Weapon", Value::from("Real Knife"))
+            .unwrap();
+        assert!(doc
+            .set("/Items/Slot 4", Value::from("Not an item"))
+            .is_err());
         assert!(doc.set("/Character/Name", Value::from("a\nb")).is_err());
         let out = String::from_utf8(doc.to_bytes().unwrap()).unwrap();
-        let expect = text.replacen("123 \r\n", "99999 \r\n", 1).replacen("Chara\r\n", "Frisk\r\n", 1);
+        let expect =
+            text.replacen("123 \r\n", "99999 \r\n", 1)
+                .replacen("Chara\r\n", "Frisk\r\n", 1);
         let lines: Vec<&str> = out.split("\r\n").collect();
         assert_eq!(lines.len(), 549);
         assert_eq!(lines[10], "99999 ");
@@ -434,7 +630,10 @@ mod tests {
         for ch1 in [true, false] {
             let text = deltarune(ch1);
             let mut doc = parse(&text).expect("parses");
-            assert_eq!(doc.kind_name, if ch1 { DELTARUNE_CH1 } else { DELTARUNE_LATER });
+            assert_eq!(
+                doc.kind_name,
+                if ch1 { DELTARUNE_CH1 } else { DELTARUNE_LATER }
+            );
             assert_eq!(doc.to_bytes().unwrap(), text.as_bytes());
             assert_eq!(doc.view.pointer("/Player/Name").unwrap(), "VESSEL");
             assert_eq!(doc.view.pointer("/Player/Dark Dollars").unwrap(), 500);
@@ -445,10 +644,14 @@ mod tests {
             assert_eq!(doc.view.pointer("/Inventory/Items/Slot 1").is_some(), ch1);
             if ch1 {
                 assert_eq!(doc.view.pointer("/Inventory/Items/Slot 1").unwrap(), 3);
-                assert_eq!(doc.view.pointer("/Tension/TP").unwrap().as_f64(), Some(145.75));
+                assert_eq!(
+                    doc.view.pointer("/Tension/TP").unwrap().as_f64(),
+                    Some(145.75)
+                );
             }
             doc.set("/Player/Dark Dollars", Value::from(501)).unwrap();
-            doc.set("/Player/Party member 3", Value::from("Ralsei")).unwrap();
+            doc.set("/Player/Party member 3", Value::from("Ralsei"))
+                .unwrap();
             let out = String::from_utf8(doc.to_bytes().unwrap()).unwrap();
             let a: Vec<&str> = out.split("\r\n").collect();
             let b: Vec<&str> = text.split("\r\n").collect();
@@ -473,7 +676,9 @@ mod tests {
             let name = e.file_name().to_string_lossy().to_string();
             if p.is_dir() {
                 saves_in(&p, out);
-            } else if ["file0", "file8", "file9"].contains(&name.as_str()) || name.starts_with("filech") {
+            } else if ["file0", "file8", "file9"].contains(&name.as_str())
+                || name.starts_with("filech")
+            {
                 out.push(p.to_string_lossy().to_string());
             }
         }
@@ -484,7 +689,9 @@ mod tests {
     #[ignore]
     fn research_real_saves() {
         for var in ["UNDERTALE_SAVES", "DELTARUNE_SAVES"] {
-            let Ok(list) = std::env::var(var) else { continue };
+            let Ok(list) = std::env::var(var) else {
+                continue;
+            };
             let mut paths = vec![];
             for p in list.split('|').filter(|s| !s.is_empty()) {
                 if std::path::Path::new(p).is_dir() {
@@ -498,12 +705,20 @@ mod tests {
                 let text = String::from_utf8(raw.clone()).unwrap();
                 let mut doc = parse(&text).unwrap_or_else(|| panic!("{path} didn't parse"));
                 assert_eq!(doc.to_bytes().unwrap(), raw, "{path}: round trip");
-                let gold = if doc.kind_name == UNDERTALE { "/Character/Gold" } else { "/Player/Dark Dollars" };
+                let gold = if doc.kind_name == UNDERTALE {
+                    "/Character/Gold"
+                } else {
+                    "/Player/Dark Dollars"
+                };
                 let g = doc.view.pointer(gold).and_then(Value::as_i64).unwrap();
                 let before = doc.view.clone();
                 doc.set(gold, Value::from(g + 1)).unwrap();
                 let back = parse(std::str::from_utf8(&doc.to_bytes().unwrap()).unwrap()).unwrap();
-                assert_eq!(back.view.pointer(gold).and_then(Value::as_i64), Some(g + 1), "{path}");
+                assert_eq!(
+                    back.view.pointer(gold).and_then(Value::as_i64),
+                    Some(g + 1),
+                    "{path}"
+                );
                 let mut b = back.view.clone();
                 *b.pointer_mut(gold).unwrap() = Value::from(g);
                 assert_eq!(b, before, "{path}: nothing else changes");

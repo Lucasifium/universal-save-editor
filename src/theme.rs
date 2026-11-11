@@ -1,6 +1,8 @@
 //! Look & feel: Windows system fonts (with egui fallbacks), icon glyphs and colours.
 
-use eframe::egui::{self, Color32, FontData, FontDefinitions, FontFamily, FontId, Rounding, Stroke, TextStyle};
+use eframe::egui::{
+    self, Color32, FontData, FontDefinitions, FontFamily, FontId, Rounding, Stroke, TextStyle,
+};
 
 pub const ACCENT: Color32 = Color32::from_rgb(98, 110, 240);
 pub const MODIFIED: Color32 = Color32::from_rgb(240, 170, 60);
@@ -47,17 +49,29 @@ pub fn install_fonts(ctx: &egui::Context) -> bool {
         prop_front.push("segoe".to_string());
     }
     for (i, name) in prop_front.iter().enumerate() {
-        fonts.families.entry(FontFamily::Proportional).or_default().insert(i, name.clone());
+        fonts
+            .families
+            .entry(FontFamily::Proportional)
+            .or_default()
+            .insert(i, name.clone());
     }
     if let Some(d) = load(&f("consola.ttf")) {
         fonts.font_data.insert("consolas".into(), d);
-        fonts.families.entry(FontFamily::Monospace).or_default().insert(0, "consolas".into());
+        fonts
+            .families
+            .entry(FontFamily::Monospace)
+            .or_default()
+            .insert(0, "consolas".into());
     }
     // Symbol fallback (arrows, shapes) after the main fonts.
     if let Some(d) = load(&f("seguisym.ttf")) {
         fonts.font_data.insert("segoe_sym".into(), d);
         for fam in [FontFamily::Proportional, FontFamily::Monospace] {
-            fonts.families.entry(fam).or_default().push("segoe_sym".into());
+            fonts
+                .families
+                .entry(fam)
+                .or_default()
+                .push("segoe_sym".into());
         }
     }
 
@@ -84,29 +98,68 @@ pub fn install_fonts(ctx: &egui::Context) -> bool {
 }
 
 pub fn apply(ctx: &egui::Context, dark: bool) {
-    let mut style = (*ctx.style_of(if dark { egui::Theme::Dark } else { egui::Theme::Light })).clone();
+    let mut style = (*ctx.style_of(if dark {
+        egui::Theme::Dark
+    } else {
+        egui::Theme::Light
+    }))
+    .clone();
     style.text_styles = [
-        (TextStyle::Small, FontId::new(12.5, FontFamily::Proportional)),
+        (
+            TextStyle::Small,
+            FontId::new(12.5, FontFamily::Proportional),
+        ),
         (TextStyle::Body, FontId::new(15.0, FontFamily::Proportional)),
-        (TextStyle::Button, FontId::new(15.0, FontFamily::Proportional)),
+        (
+            TextStyle::Button,
+            FontId::new(15.0, FontFamily::Proportional),
+        ),
         (TextStyle::Heading, FontId::new(22.0, semibold_family())),
-        (TextStyle::Monospace, FontId::new(14.0, FontFamily::Monospace)),
+        (
+            TextStyle::Monospace,
+            FontId::new(14.0, FontFamily::Monospace),
+        ),
     ]
     .into();
     style.spacing.item_spacing = egui::vec2(8.0, 6.0);
     style.spacing.button_padding = egui::vec2(10.0, 5.0);
     style.spacing.interact_size.y = 26.0;
 
-    let mut v = if dark { egui::Visuals::dark() } else { egui::Visuals::light() };
+    let mut v = if dark {
+        egui::Visuals::dark()
+    } else {
+        egui::Visuals::light()
+    };
     let rounding = Rounding::same(6.0);
     v.window_rounding = Rounding::same(10.0);
     v.menu_rounding = rounding;
-    for w in [&mut v.widgets.noninteractive, &mut v.widgets.inactive, &mut v.widgets.hovered, &mut v.widgets.active, &mut v.widgets.open] {
+    for w in [
+        &mut v.widgets.noninteractive,
+        &mut v.widgets.inactive,
+        &mut v.widgets.hovered,
+        &mut v.widgets.active,
+        &mut v.widgets.open,
+    ] {
         w.rounding = rounding;
     }
-    v.selection.bg_fill = if dark { Color32::from_rgb(70, 80, 190) } else { Color32::from_rgb(190, 198, 255) };
-    v.selection.stroke = Stroke::new(1.0_f32, if dark { Color32::WHITE } else { Color32::from_rgb(30, 40, 120) });
-    v.hyperlink_color = if dark { Color32::from_rgb(150, 165, 255) } else { Color32::from_rgb(60, 70, 200) };
+    v.selection.bg_fill = if dark {
+        Color32::from_rgb(70, 80, 190)
+    } else {
+        Color32::from_rgb(190, 198, 255)
+    };
+    v.selection.stroke = Stroke::new(
+        1.0_f32,
+        if dark {
+            Color32::WHITE
+        } else {
+            Color32::from_rgb(30, 40, 120)
+        },
+    );
+    v.hyperlink_color = if dark {
+        Color32::from_rgb(150, 165, 255)
+    } else {
+        Color32::from_rgb(60, 70, 200)
+    };
     if dark {
         v.panel_fill = Color32::from_rgb(24, 25, 30);
         v.window_fill = Color32::from_rgb(32, 33, 40);
@@ -124,7 +177,11 @@ pub fn apply(ctx: &egui::Context, dark: bool) {
     style.visuals = v;
     // Pin the theme: otherwise egui follows the system (or browser) theme and, where that
     // differs from this setting, draws its own default style instead of this one.
-    let theme = if dark { egui::Theme::Dark } else { egui::Theme::Light };
+    let theme = if dark {
+        egui::Theme::Dark
+    } else {
+        egui::Theme::Light
+    };
     ctx.set_style_of(theme, style);
     ctx.set_theme(theme);
 }

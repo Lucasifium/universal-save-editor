@@ -32,10 +32,18 @@ fn subtitle(cx: &GameCtx) -> String {
 }
 
 fn notice(ui: &mut Ui, text: &str) {
-    egui::Frame::none().fill(super::blend(ui.visuals().faint_bg_color, GOLD, 0.25)).rounding(8.0).inner_margin(egui::Margin::same(12.0)).show(ui, |ui| {
-        ui.set_width(ui.available_width());
-        ui.label(RichText::new(text).size(14.0).color(ui.visuals().strong_text_color()));
-    });
+    egui::Frame::none()
+        .fill(super::blend(ui.visuals().faint_bg_color, GOLD, 0.25))
+        .rounding(8.0)
+        .inner_margin(egui::Margin::same(12.0))
+        .show(ui, |ui| {
+            ui.set_width(ui.available_width());
+            ui.label(
+                RichText::new(text)
+                    .size(14.0)
+                    .color(ui.visuals().strong_text_color()),
+            );
+        });
     ui.add_space(8.0);
 }
 
@@ -52,13 +60,23 @@ fn rows(ui: &mut Ui, cx: &mut GameCtx, base: &str, id: &str) {
 
 pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
     if let Some(file) = cx.text("/Save/Open to edit JC") {
-        hero(ui, GOLD, &cx.text("/Save/Description").unwrap_or_else(|| "Deus Ex save".into()), &subtitle(cx), |ui| {
-            for (label, p) in [("Save count", "/Save/Save count"), ("Play time (seconds)", "/Save/Play time (seconds)")] {
-                if let Some(v) = cx.text(p) {
-                    super::fact(ui, label, &v, GOLD);
+        hero(
+            ui,
+            GOLD,
+            &cx.text("/Save/Description")
+                .unwrap_or_else(|| "Deus Ex save".into()),
+            &subtitle(cx),
+            |ui| {
+                for (label, p) in [
+                    ("Save count", "/Save/Save count"),
+                    ("Play time (seconds)", "/Save/Play time (seconds)"),
+                ] {
+                    if let Some(v) = cx.text(p) {
+                        super::fact(ui, label, &v, GOLD);
+                    }
                 }
-            }
-        });
+            },
+        );
         notice(ui, &format!("This is SaveInfo.dxs, the save's label. JC Denton is in {file} in the same Save folder: open that file to change his credits, skills and inventory."));
         return;
     }
@@ -76,7 +94,10 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
             ("Skill points", "/JC Denton/Skill points"),
             ("Skill points earned", "/JC Denton/Skill points earned"),
             ("Bioelectric energy", "/JC Denton/Bioelectric energy"),
-            ("Max bioelectric energy", "/JC Denton/Bioelectric energy max"),
+            (
+                "Max bioelectric energy",
+                "/JC Denton/Bioelectric energy max",
+            ),
         ] {
             if cx.get(p).is_some_and(Value::is_number) {
                 cx.tile(ui, label, p, GOLD);
@@ -92,7 +113,11 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
                 for k in keys(cx, "/Health") {
                     cx.attribute(ui, &k, &join("/Health", &k), 100.0, HEALTH);
                 }
-                if keys(cx, "/Health").iter().any(|k| !cx.can_edit(&join("/Health", k))) && live {
+                if keys(cx, "/Health")
+                    .iter()
+                    .any(|k| !cx.can_edit(&join("/Health", k)))
+                    && live
+                {
                     ui.weak("Body parts at full health (100) aren't written in the save, so they can't be changed here.");
                 }
             });

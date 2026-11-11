@@ -39,8 +39,12 @@ fn set_in_value(v: &mut toml_edit::Value, path: &[Seg], new: &toml_edit::Value) 
         return true;
     };
     match (v, first) {
-        (toml_edit::Value::InlineTable(t), Seg::Key(k)) => t.get_mut(k).is_some_and(|v| set_in_value(v, rest, new)),
-        (toml_edit::Value::Array(a), Seg::Idx(i)) => a.get_mut(*i).is_some_and(|v| set_in_value(v, rest, new)),
+        (toml_edit::Value::InlineTable(t), Seg::Key(k)) => {
+            t.get_mut(k).is_some_and(|v| set_in_value(v, rest, new))
+        }
+        (toml_edit::Value::Array(a), Seg::Idx(i)) => {
+            a.get_mut(*i).is_some_and(|v| set_in_value(v, rest, new))
+        }
         _ => false,
     }
 }
@@ -54,7 +58,9 @@ fn set_in_item(item: &mut Item, path: &[Seg], new: &toml_edit::Value) -> bool {
         },
         Item::ArrayOfTables(a) => match path.split_first() {
             Some((Seg::Idx(i), rest)) => match (a.get_mut(*i), rest.split_first()) {
-                (Some(t), Some((Seg::Key(k), rest))) => t.get_mut(k).is_some_and(|i| set_in_item(i, rest, new)),
+                (Some(t), Some((Seg::Key(k), rest))) => {
+                    t.get_mut(k).is_some_and(|i| set_in_item(i, rest, new))
+                }
                 _ => false,
             },
             _ => false,
@@ -68,7 +74,10 @@ impl Backend for TomlBackend {
         if changes.is_empty() {
             return Ok(self.raw.clone().into_bytes());
         }
-        let mut doc: DocumentMut = self.raw.parse().map_err(|e: toml_edit::TomlError| e.to_string())?;
+        let mut doc: DocumentMut = self
+            .raw
+            .parse()
+            .map_err(|e: toml_edit::TomlError| e.to_string())?;
         for (id, v) in changes {
             let new = to_toml(v)?;
             if !set_in_item(doc.as_item_mut(), &self.paths[*id], &new) {
@@ -151,7 +160,10 @@ impl B {
                         let mut m = Map::new();
                         for (k, it) in t.iter() {
                             path.push(Seg::Key(k.to_string()));
-                            m.insert(k.to_string(), self.item(it, &child(&format!("{ptr}/{i}"), k), path));
+                            m.insert(
+                                k.to_string(),
+                                self.item(it, &child(&format!("{ptr}/{i}"), k), path),
+                            );
                             path.pop();
                         }
                         path.pop();
@@ -165,10 +177,18 @@ impl B {
 }
 
 pub fn parse(text: &str) -> Result<TreeDoc, String> {
-    let doc: DocumentMut = text.parse().map_err(|e: toml_edit::TomlError| e.to_string())?;
-    let mut b = B { paths: vec![], editable: HashMap::new() };
+    let doc: DocumentMut = text
+        .parse()
+        .map_err(|e: toml_edit::TomlError| e.to_string())?;
+    let mut b = B {
+        paths: vec![],
+        editable: HashMap::new(),
+    };
     let view = b.item(doc.as_item(), "", &mut vec![]);
-    let backend = TomlBackend { raw: text.to_string(), paths: b.paths };
+    let backend = TomlBackend {
+        raw: text.to_string(),
+        paths: b.paths,
+    };
     Ok(TreeDoc::new(view, b.editable, "TOML", Box::new(backend)))
 }
 
@@ -185,6 +205,11 @@ mod tests {
         doc.set("/party/1/hp", Value::from(55)).unwrap();
         doc.set("/player/name", Value::from("Misty")).unwrap();
         let out = String::from_utf8(doc.to_bytes().unwrap()).unwrap();
-        assert_eq!(out, src.replace("gold = 100", "gold = 999").replace("hp = 20", "hp = 55").replace("\"Ash\"", "\"Misty\""));
+        assert_eq!(
+            out,
+            src.replace("gold = 100", "gold = 999")
+                .replace("hp = 20", "hp = 55")
+                .replace("\"Ash\"", "\"Misty\"")
+        );
     }
 }

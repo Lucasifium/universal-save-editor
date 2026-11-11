@@ -34,7 +34,11 @@ fn convert(orig: &M, v: &Value) -> Result<M, String> {
         M::F64(_) => M::F64(v.as_f64().ok_or("must be a number")?),
         M::Integer(_) => {
             let n = int_in(v, i64::MIN as i128, u64::MAX as i128, "this number")?;
-            if n < 0 { M::from(n as i64) } else { M::from(n as u64) }
+            if n < 0 {
+                M::from(n as i64)
+            } else {
+                M::from(n as u64)
+            }
         }
         _ => return Err("this value can't be edited".into()),
     })
@@ -47,7 +51,8 @@ impl Backend for MsgpackBackend {
         }
         let mut tree = self.tree.clone();
         for (id, v) in changes {
-            let slot = get_mut(&mut tree, &self.paths[*id]).ok_or("couldn't locate an edited value")?;
+            let slot =
+                get_mut(&mut tree, &self.paths[*id]).ok_or("couldn't locate an edited value")?;
             *slot = convert(slot, v)?;
         }
         let mut out = Vec::new();
@@ -68,7 +73,11 @@ impl Backend for MsgpackBackend {
 
     fn check(&self, leaf: usize, v: &Value) -> Result<(), String> {
         let mut t = self.tree.clone();
-        convert(get_mut(&mut t, &self.paths[leaf]).ok_or("missing value")?, v).map(|_| ())
+        convert(
+            get_mut(&mut t, &self.paths[leaf]).ok_or("missing value")?,
+            v,
+        )
+        .map(|_| ())
     }
 
     fn clone_box(&self) -> Box<dyn Backend> {
@@ -98,7 +107,13 @@ impl B {
         match v {
             M::Nil => Value::Null,
             M::Boolean(b) => leaf(self, Value::Bool(*b)),
-            M::Integer(i) => leaf(self, i.as_i64().map(Value::from).or_else(|| i.as_u64().map(Value::from)).unwrap_or(Value::Null)),
+            M::Integer(i) => leaf(
+                self,
+                i.as_i64()
+                    .map(Value::from)
+                    .or_else(|| i.as_u64().map(Value::from))
+                    .unwrap_or(Value::Null),
+            ),
             M::F32(f) => leaf(self, crate::tree::f32_value(*f)),
             M::F64(f) => leaf(self, num(*f)),
             M::String(s) => match s.as_str() {
@@ -136,14 +151,27 @@ impl B {
 pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
     let mut rd = d;
     let tree = rmpv::decode::read_value(&mut rd).map_err(|e| e.to_string())?;
-    let strict = rd.is_empty() && matches!(&tree, M::Map(m) if m.len() >= 2 && m.iter().all(|(k, _)| k.is_str()));
+    let strict = rd.is_empty()
+        && matches!(&tree, M::Map(m) if m.len() >= 2 && m.iter().all(|(k, _)| k.is_str()));
     if !strict {
         return Err("not a MessagePack document".into());
     }
-    let mut b = B { paths: vec![], editable: HashMap::new() };
+    let mut b = B {
+        paths: vec![],
+        editable: HashMap::new(),
+    };
     let view = b.view(&tree, "", &mut vec![]);
-    let backend = MsgpackBackend { raw: d.to_vec(), tree, paths: b.paths };
-    Ok(TreeDoc::new(view, b.editable, "MessagePack", Box::new(backend)))
+    let backend = MsgpackBackend {
+        raw: d.to_vec(),
+        tree,
+        paths: b.paths,
+    };
+    Ok(TreeDoc::new(
+        view,
+        b.editable,
+        "MessagePack",
+        Box::new(backend),
+    ))
 }
 
 #[cfg(test)]
@@ -156,7 +184,10 @@ mod tests {
             (M::from("gold"), M::from(1500)),
             (M::from("name"), M::from("Ash")),
             (M::from("speed"), M::F32(1.5)),
-            (M::from("flags"), M::Array(vec![M::Boolean(true), M::Boolean(false)])),
+            (
+                M::from("flags"),
+                M::Array(vec![M::Boolean(true), M::Boolean(false)]),
+            ),
         ]);
         let mut raw = Vec::new();
         rmpv::encode::write_value(&mut raw, &tree).unwrap();
@@ -167,6 +198,9 @@ mod tests {
         let again = parse(&doc.to_bytes().unwrap()).unwrap();
         assert_eq!(again.view.pointer("/gold").unwrap(), 70000);
         assert_eq!(again.view.pointer("/flags/1").unwrap(), true);
-        assert!(parse(b"\x93\x01\x02\x03").is_err(), "a bare array isn't accepted");
+        assert!(
+            parse(b"\x93\x01\x02\x03").is_err(),
+            "a bare array isn't accepted"
+        );
     }
 }

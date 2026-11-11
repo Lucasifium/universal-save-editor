@@ -12,10 +12,19 @@ pub fn stats_at(d: &[u8]) -> Option<usize> {
     if !d.starts_with(&MARKER) {
         return None;
     }
-    let i64_at = |o: usize| d.get(o..o + 8).map(|b| u64::from_le_bytes(b.try_into().unwrap()));
+    let i64_at = |o: usize| {
+        d.get(o..o + 8)
+            .map(|b| u64::from_le_bytes(b.try_into().unwrap()))
+    };
     let is_guid = |s: &[u8]| {
         s.len() == 36
-            && s.iter().enumerate().all(|(i, &c)| if [8, 13, 18, 23].contains(&i) { c == b'-' } else { c.is_ascii_hexdigit() })
+            && s.iter().enumerate().all(|(i, &c)| {
+                if [8, 13, 18, 23].contains(&i) {
+                    c == b'-'
+                } else {
+                    c.is_ascii_hexdigit()
+                }
+            })
     };
     let ok = |at: usize| {
         let (t, a, b, c) = (i64_at(at), i64_at(at + 8), i64_at(at + 16), i64_at(at + 24));
@@ -23,16 +32,29 @@ pub fn stats_at(d: &[u8]) -> Option<usize> {
     };
     // How many of the four totals have a non-zero low byte: read one byte off, the next
     // total's zero high byte lands in the low byte instead.
-    let score = |at: usize| (0..4).filter(|k| d.get(at + 8 * k).is_some_and(|&b| b != 0)).count();
+    let score = |at: usize| {
+        (0..4)
+            .filter(|k| d.get(at + 8 * k).is_some_and(|&b| b != 0))
+            .count()
+    };
     // A few fields come between the name and the totals, more in newer versions (none in
     // format 24, one byte in 29, 14 bytes in 41): try each gap and keep the best fit.
-    (36..d.len().saturating_sub(48)).filter(|&p| is_guid(&d[p - 36..p])).find_map(|p| {
-        (0..=32).map(|g| p + g).filter(|&at| ok(at)).max_by_key(|&at| (score(at), std::cmp::Reverse(at)))
-    })
+    (36..d.len().saturating_sub(48))
+        .filter(|&p| is_guid(&d[p - 36..p]))
+        .find_map(|p| {
+            (0..=32)
+                .map(|g| p + g)
+                .filter(|&at| ok(at))
+                .max_by_key(|&at| (score(at), std::cmp::Reverse(at)))
+        })
 }
 
 /// (label, offset from the start of the statistics, byte width)
-pub const FIELDS: [(&str, usize, usize); 3] = [("Play time (seconds)", 0, 4), ("Deaths", 32, 4), ("Falls", 36, 4)];
+pub const FIELDS: [(&str, usize, usize); 3] = [
+    ("Play time (seconds)", 0, 4),
+    ("Deaths", 32, 4),
+    ("Falls", 36, 4),
+];
 
 // ------------------------------------------------------------------ the backpack
 
@@ -58,12 +80,24 @@ fn items() -> &'static Items {
     static T: OnceLock<Items> = OnceLock::new();
     T.get_or_init(|| {
         let mut by_id = HashMap::new();
-        for l in include_str!("data/cairn_items.tsv").lines().filter(|l| !l.starts_with('#')) {
+        for l in include_str!("data/cairn_items.tsv")
+            .lines()
+            .filter(|l| !l.starts_with('#'))
+        {
             let mut f = l.split('\t');
-            let (Some(id), Some(code)) = (f.next(), f.next()) else { continue };
+            let (Some(id), Some(code)) = (f.next(), f.next()) else {
+                continue;
+            };
             let Ok(id) = id.parse::<u32>() else { continue };
             // The English name the game shows, else the code name made readable.
-            let name = f.next().map(str::trim).filter(|n| !n.is_empty()).map_or_else(|| pretty(code.trim().trim_start_matches("ITEM_")), str::to_string);
+            let name = f
+                .next()
+                .map(str::trim)
+                .filter(|n| !n.is_empty())
+                .map_or_else(
+                    || pretty(code.trim().trim_start_matches("ITEM_")),
+                    str::to_string,
+                );
             by_id.insert(id, name);
         }
         // Names must be unique to be picked from a list: add the id to any repeat.
@@ -79,7 +113,11 @@ fn items() -> &'static Items {
         let by_name = by_id.iter().map(|(k, v)| (v.clone(), *k)).collect();
         let mut list = vec![NONE.to_string()];
         list.extend(ids.iter().map(|i| by_id[i].clone()));
-        Items { by_id, by_name, list: Arc::new(list) }
+        Items {
+            by_id,
+            by_name,
+            list: Arc::new(list),
+        }
     })
 }
 
@@ -90,7 +128,9 @@ fn pretty(code: &str) -> String {
         .map(|w| {
             let w = w.to_lowercase();
             let mut c = w.chars();
-            c.next().map_or_else(String::new, |f| f.to_uppercase().collect::<String>() + c.as_str())
+            c.next().map_or_else(String::new, |f| {
+                f.to_uppercase().collect::<String>() + c.as_str()
+            })
         })
         .collect::<Vec<_>>()
         .join(" ")
@@ -99,7 +139,11 @@ fn pretty(code: &str) -> String {
 pub fn item_name(id: u32) -> String {
     match id {
         0 => NONE.into(),
-        _ => items().by_id.get(&id).cloned().unwrap_or_else(|| format!("#{id}")),
+        _ => items()
+            .by_id
+            .get(&id)
+            .cloned()
+            .unwrap_or_else(|| format!("#{id}")),
     }
 }
 
@@ -132,11 +176,21 @@ struct Entry {
 }
 
 fn read_entry(d: &[u8], p: &mut usize, placed: bool) -> Option<Entry> {
-    let f32_at = |o: usize| d.get(o..o + 4).map(|b| f32::from_le_bytes(b.try_into().unwrap()));
-    let u32_at = |o: usize| d.get(o..o + 4).map(|b| u32::from_le_bytes(b.try_into().unwrap()));
+    let f32_at = |o: usize| {
+        d.get(o..o + 4)
+            .map(|b| f32::from_le_bytes(b.try_into().unwrap()))
+    };
+    let u32_at = |o: usize| {
+        d.get(o..o + 4)
+            .map(|b| u32::from_le_bytes(b.try_into().unwrap()))
+    };
     let pos = if placed {
         let v = [f32_at(*p)?, f32_at(*p + 4)?, f32_at(*p + 8)?];
-        if !v.iter().all(|x| x.is_finite()) || !(-5.0..40.0).contains(&v[0]) || !(-5.0..40.0).contains(&v[1]) || !(-720.0..=720.0).contains(&v[2]) {
+        if !v.iter().all(|x| x.is_finite())
+            || !(-5.0..40.0).contains(&v[0])
+            || !(-5.0..40.0).contains(&v[1])
+            || !(-720.0..=720.0).contains(&v[2])
+        {
             return None;
         }
         *p += 12;
@@ -169,7 +223,17 @@ fn read_entry(d: &[u8], p: &mut usize, placed: bool) -> Option<Entry> {
         return None;
     }
     *p += 8;
-    Some(Entry { pos, item, content, count, extra, b, uid, t, e })
+    Some(Entry {
+        pos,
+        item,
+        content,
+        count,
+        extra,
+        b,
+        uid,
+        t,
+        e,
+    })
 }
 
 fn write_entry(x: &Entry, out: &mut Vec<u8>) {
@@ -231,7 +295,12 @@ fn find_lists(d: &[u8]) -> Option<Lists> {
         p += 1;
         let b = read_list(d, &mut p, false)?;
         let c = read_list(d, &mut p, false)?;
-        Some(Lists { start, end: p, sep, lists: [a, b, c] })
+        Some(Lists {
+            start,
+            end: p,
+            sep,
+            lists: [a, b, c],
+        })
     })
 }
 
@@ -256,12 +325,31 @@ fn write_lists(l: &Lists) -> Vec<u8> {
 /// Burst and Stoked! show under those names; Extra grip comes from chalk and doesn't run down
 /// off the wall; Stamina and Strength have no line of their own (the Grip line shows the
 /// longest of them and Grip), so they keep the game's internal names.
-pub const BUFFS: [&str; 9] = ["Stamina", "Strength", "Focus", "Grip", "Extra grip", "Temperature", "Stoked!", "Grit", "Burst"];
+pub const BUFFS: [&str; 9] = [
+    "Stamina",
+    "Strength",
+    "Focus",
+    "Grip",
+    "Extra grip",
+    "Temperature",
+    "Stoked!",
+    "Grit",
+    "Burst",
+];
 /// For a buff added to an empty slot: (item it comes from, strength, level), as the game's
 /// own items give them (seen across many saves). Strength and Stoked! never showed up in a
 /// save, so they can only be changed when a save already has them.
-const BUFF_DEFAULTS: [Option<(u32, f32, u32)>; 9] =
-    [Some((230, 3.0, 1)), None, Some((230, 1.0, 1)), Some((230, 0.75, 1)), Some((151, 1.5, 2)), Some((236, 1.0, 1)), None, Some((230, 0.0, 1)), Some((84, 0.35, 1))];
+const BUFF_DEFAULTS: [Option<(u32, f32, u32)>; 9] = [
+    Some((230, 3.0, 1)),
+    None,
+    Some((230, 1.0, 1)),
+    Some((230, 0.75, 1)),
+    Some((151, 1.5, 2)),
+    Some((236, 1.0, 1)),
+    None,
+    Some((230, 0.0, 1)),
+    Some((84, 0.35, 1)),
+];
 
 /// One running buff: what gave it, how strong, and the seconds left. A slot can hold several
 /// (each sip adds one); they run one after the other, so the time shown is their sum.
@@ -288,8 +376,14 @@ struct Boosts {
 /// Then nine slots, each a u16 count and that many 21-byte entries. Checked against every
 /// save of every slot, Story and On the Trail.
 fn find_boosts(d: &[u8], lists_end: usize) -> Option<Boosts> {
-    let f32_at = |o: usize| d.get(o..o + 4).map(|b| f32::from_le_bytes(b.try_into().unwrap()));
-    let u32_at = |o: usize| d.get(o..o + 4).map(|b| u32::from_le_bytes(b.try_into().unwrap()));
+    let f32_at = |o: usize| {
+        d.get(o..o + 4)
+            .map(|b| f32::from_le_bytes(b.try_into().unwrap()))
+    };
+    let u32_at = |o: usize| {
+        d.get(o..o + 4)
+            .map(|b| u32::from_le_bytes(b.try_into().unwrap()))
+    };
     let mut p = lists_end;
     for _ in 0..3 {
         read_list(d, &mut p, false)?;
@@ -319,8 +413,21 @@ fn find_boosts(d: &[u8], lists_end: usize) -> Option<Boosts> {
         p += 2;
         let mut v = Vec::with_capacity(n.min(64));
         for _ in 0..n {
-            let x = Boost { flag: u32_at(p)?, item: u32_at(p + 4)?, amount: f32_at(p + 8)?, level: u32_at(p + 12)?, time: f32_at(p + 16)?, last: *d.get(p + 20)? };
-            if x.flag > 1 || x.level > 1000 || x.last > 1 || !items().by_id.contains_key(&x.item) || !x.amount.is_finite() || !(0.0..1e7).contains(&x.time) {
+            let x = Boost {
+                flag: u32_at(p)?,
+                item: u32_at(p + 4)?,
+                amount: f32_at(p + 8)?,
+                level: u32_at(p + 12)?,
+                time: f32_at(p + 16)?,
+                last: *d.get(p + 20)?,
+            };
+            if x.flag > 1
+                || x.level > 1000
+                || x.last > 1
+                || !items().by_id.contains_key(&x.item)
+                || !x.amount.is_finite()
+                || !(0.0..1e7).contains(&x.time)
+            {
                 return None;
             }
             v.push(x);
@@ -328,7 +435,11 @@ fn find_boosts(d: &[u8], lists_end: usize) -> Option<Boosts> {
         }
         slots.push(v);
     }
-    Some(Boosts { start, end: p, slots })
+    Some(Boosts {
+        start,
+        end: p,
+        slots,
+    })
 }
 
 fn write_boosts(slots: &[Vec<Boost>]) -> Vec<u8> {
@@ -361,7 +472,10 @@ const CLIMBERS: [&str; 2] = ["Aava", "Marco"];
 fn climber_at(d: &[u8], before: usize) -> Option<usize> {
     (24..before.min(200).saturating_sub(4)).find(|&k| {
         let v = u32::from_le_bytes(d[k..k + 4].try_into().unwrap());
-        let distinct = d[k - 22..k - 6].iter().collect::<std::collections::HashSet<_>>().len();
+        let distinct = d[k - 22..k - 6]
+            .iter()
+            .collect::<std::collections::HashSet<_>>()
+            .len();
         (1..=2).contains(&v) && d[k - 6] <= 1 && d[k - 5] <= 1 && distinct >= 12
     })
 }
@@ -391,7 +505,11 @@ struct CairnBackend {
 impl CairnBackend {
     /// A place in the bag for an added item: spread over the bottom; "Shake up bag" settles them.
     fn spot(k: usize) -> [f32; 3] {
-        [1.5 + (k % 6) as f32 * 2.0, 0.6 + (k / 6 % 4) as f32 * 1.1, 0.0]
+        [
+            1.5 + (k % 6) as f32 * 2.0,
+            0.6 + (k / 6 % 4) as f32 * 1.1,
+            0.0,
+        ]
     }
 
     /// Uses block for a piton: as on the player's other pitons, else 10.
@@ -399,7 +517,13 @@ impl CairnBackend {
         if !PITONS.contains(&item) {
             return None;
         }
-        self.lists.lists.iter().flatten().find(|x| x.item == item).and_then(|x| x.extra).or(Some([0, 0, 10, 0, 0]))
+        self.lists
+            .lists
+            .iter()
+            .flatten()
+            .find(|x| x.item == item)
+            .and_then(|x| x.extra)
+            .or(Some([0, 0, 10, 0, 0]))
     }
 }
 
@@ -410,31 +534,63 @@ impl Backend for CairnBackend {
         // The climber comes before the lists, so its place doesn't move.
         for (leaf, v) in changes {
             if let Field::Climber { at } = self.fields[*leaf] {
-                let i = CLIMBERS.iter().position(|c| Some(*c) == v.as_str()).ok_or("unknown climber")?;
+                let i = CLIMBERS
+                    .iter()
+                    .position(|c| Some(*c) == v.as_str())
+                    .ok_or("unknown climber")?;
                 out[at..at + 4].copy_from_slice(&(i as u32 + 1).to_le_bytes());
             }
         }
-        if changes.iter().any(|(l, _)| matches!(self.fields[*l], Field::Item | Field::Content | Field::Count)) {
+        if changes
+            .iter()
+            .any(|(l, _)| matches!(self.fields[*l], Field::Item | Field::Content | Field::Count))
+        {
             // Rebuild the three lists from the rows as they are now.
             let mut lists = self.lists.clone();
-            let mut next_uid = lists.lists.iter().flatten().map(|x| x.uid).max().unwrap_or(0);
+            let mut next_uid = lists
+                .lists
+                .iter()
+                .flatten()
+                .map(|x| x.uid)
+                .max()
+                .unwrap_or(0);
             let mut added = 0;
             for (li, name) in LISTS.iter().enumerate() {
-                let rows = view.pointer(&format!("/{}", esc(name))).and_then(Value::as_object).ok_or("missing list")?;
+                let rows = view
+                    .pointer(&format!("/{}", esc(name)))
+                    .and_then(Value::as_object)
+                    .ok_or("missing list")?;
                 let mut new = Vec::new();
                 for (ri, row) in rows.values().enumerate() {
-                    let item = item_id(row.get("Item").and_then(Value::as_str).unwrap_or(NONE)).ok_or("unknown item")?;
+                    let item = item_id(row.get("Item").and_then(Value::as_str).unwrap_or(NONE))
+                        .ok_or("unknown item")?;
                     if item == 0 {
                         continue;
                     }
-                    let content = item_id(row.get("Contents").and_then(Value::as_str).unwrap_or(NONE)).ok_or("unknown contents")?;
-                    let count = row.get("Count").and_then(Value::as_u64).unwrap_or(1).min(99_999) as u32;
+                    let content =
+                        item_id(row.get("Contents").and_then(Value::as_str).unwrap_or(NONE))
+                            .ok_or("unknown contents")?;
+                    let count = row
+                        .get("Count")
+                        .and_then(Value::as_u64)
+                        .unwrap_or(1)
+                        .min(99_999) as u32;
                     let mut x = match self.lists.lists[li].get(ri) {
                         Some(old) => old.clone(),
                         None => {
                             next_uid += 1;
                             added += 1;
-                            Entry { pos: (li == 0).then(|| Self::spot(added - 1)), item, content: 0, count: 1, extra: self.extra_for(item), b: 0, uid: next_uid, t: 0.0, e: 0 }
+                            Entry {
+                                pos: (li == 0).then(|| Self::spot(added - 1)),
+                                item,
+                                content: 0,
+                                count: 1,
+                                extra: self.extra_for(item),
+                                b: 0,
+                                uid: next_uid,
+                                t: 0.0,
+                                e: 0,
+                            }
                         }
                     };
                     if x.item != item {
@@ -461,23 +617,48 @@ impl Backend for CairnBackend {
             })
             .collect();
         if !touched.is_empty() {
-            let (Some(old), Some(now)) = (&self.boosts, find_boosts(&out, lists_end)) else { return Err("the buffs can't be found in this save".into()) };
+            let (Some(old), Some(now)) = (&self.boosts, find_boosts(&out, lists_end)) else {
+                return Err("the buffs can't be found in this save".into());
+            };
             let mut slots = now.slots.clone();
             for &i in &touched {
                 let base = format!("/Buffs/{}", esc(BUFFS[i]));
-                let secs = view.pointer(&format!("{base}/Seconds left")).and_then(Value::as_f64).unwrap_or(0.0);
+                let secs = view
+                    .pointer(&format!("{base}/Seconds left"))
+                    .and_then(Value::as_f64)
+                    .unwrap_or(0.0);
                 if secs <= 0.0 {
                     slots[i].clear();
                     continue;
                 }
-                let from = item_id(view.pointer(&format!("{base}/From")).and_then(Value::as_str).unwrap_or(NONE)).ok_or("unknown item")?;
-                let amount = view.pointer(&format!("{base}/Strength")).and_then(Value::as_f64).unwrap_or(0.0) as f32;
+                let from = item_id(
+                    view.pointer(&format!("{base}/From"))
+                        .and_then(Value::as_str)
+                        .unwrap_or(NONE),
+                )
+                .ok_or("unknown item")?;
+                let amount = view
+                    .pointer(&format!("{base}/Strength"))
+                    .and_then(Value::as_f64)
+                    .unwrap_or(0.0) as f32;
                 let (item, level) = match (old.slots[i].first(), BUFF_DEFAULTS[i]) {
                     (Some(x), _) => (if from != 0 { from } else { x.item }, x.level),
                     (None, Some((it, _, lv))) => (if from != 0 { from } else { it }, lv),
-                    (None, None) => return Err(format!("{} can't be added: no item in the game gives it", BUFFS[i])),
+                    (None, None) => {
+                        return Err(format!(
+                            "{} can't be added: no item in the game gives it",
+                            BUFFS[i]
+                        ))
+                    }
                 };
-                slots[i] = vec![Boost { flag: 1, item, amount, level, time: secs as f32, last: u8::from(level >= 2) }];
+                slots[i] = vec![Boost {
+                    flag: 1,
+                    item,
+                    amount,
+                    level,
+                    time: secs as f32,
+                    last: u8::from(level >= 2),
+                }];
             }
             out.splice(now.start..now.end, write_boosts(&slots));
         }
@@ -496,10 +677,15 @@ impl Backend for CairnBackend {
     fn check(&self, leaf: usize, v: &Value) -> Result<(), String> {
         match self.fields[leaf] {
             Field::Stat { .. } => int_in(v, 0, 99_999_999, "This value").map(|_| ()),
-            Field::Climber { .. } => CLIMBERS.contains(&v.as_str().unwrap_or("")).then_some(()).ok_or_else(|| "pick Aava or Marco".into()),
+            Field::Climber { .. } => CLIMBERS
+                .contains(&v.as_str().unwrap_or(""))
+                .then_some(())
+                .ok_or_else(|| "pick Aava or Marco".into()),
             Field::Item | Field::Content => {
                 let s = v.as_str().ok_or("expected text")?;
-                item_id(s).map(|_| ()).ok_or_else(|| format!("there's no item called \u{201C}{s}\u{201D}"))
+                item_id(s)
+                    .map(|_| ())
+                    .ok_or_else(|| format!("there's no item called \u{201C}{s}\u{201D}"))
             }
             Field::Count => int_in(v, 0, 99_999, "Count").map(|_| ()),
             Field::BuffTime(i) => {
@@ -509,44 +695,77 @@ impl Backend for CairnBackend {
                 }
                 let empty = self.boosts.as_ref().is_none_or(|b| b.slots[i].is_empty());
                 if t > 0.0 && empty && BUFF_DEFAULTS[i].is_none() {
-                    return Err(format!("{} can't be added: no item in the game gives it", BUFFS[i]));
+                    return Err(format!(
+                        "{} can't be added: no item in the game gives it",
+                        BUFFS[i]
+                    ));
                 }
                 Ok(())
             }
             Field::BuffFrom(_) => {
                 let s = v.as_str().ok_or("expected text")?;
-                item_id(s).map(|_| ()).ok_or_else(|| format!("there's no item called \u{201C}{s}\u{201D}"))
+                item_id(s)
+                    .map(|_| ())
+                    .ok_or_else(|| format!("there's no item called \u{201C}{s}\u{201D}"))
             }
             Field::BuffStrength(_) => {
                 let x = v.as_f64().ok_or("expected a number")?;
-                (0.0..=100.0).contains(&x).then_some(()).ok_or_else(|| "Strength must be between 0 and 100".into())
+                (0.0..=100.0)
+                    .contains(&x)
+                    .then_some(())
+                    .ok_or_else(|| "Strength must be between 0 and 100".into())
             }
         }
     }
 
     fn derived(&self, leaf: usize, view: &Value) -> Vec<(String, Value)> {
-        if let Field::BuffTime(i) | Field::BuffFrom(i) | Field::BuffStrength(i) = self.fields[leaf] {
+        if let Field::BuffTime(i) | Field::BuffFrom(i) | Field::BuffStrength(i) = self.fields[leaf]
+        {
             let base = format!("/Buffs/{}", esc(BUFFS[i]));
-            let secs = view.pointer(&format!("{base}/Seconds left")).and_then(Value::as_f64).unwrap_or(0.0);
-            let from = view.pointer(&format!("{base}/From")).and_then(Value::as_str).unwrap_or(NONE);
+            let secs = view
+                .pointer(&format!("{base}/Seconds left"))
+                .and_then(Value::as_f64)
+                .unwrap_or(0.0);
+            let from = view
+                .pointer(&format!("{base}/From"))
+                .and_then(Value::as_str)
+                .unwrap_or(NONE);
             // A changed slot is saved as one buff with the whole time left.
-            let mut out = vec![(format!("{base}/Stacked"), Value::from(u64::from(secs > 0.0)))];
+            let mut out = vec![(
+                format!("{base}/Stacked"),
+                Value::from(u64::from(secs > 0.0)),
+            )];
             // A buff switched on gets its usual source and strength; one switched off loses them.
             if let Field::BuffTime(_) = self.fields[leaf] {
                 match (secs > 0.0, from == NONE, BUFF_DEFAULTS[i]) {
-                    (false, false, _) => out.extend([(format!("{base}/From"), Value::from(NONE)), (format!("{base}/Strength"), Value::from(0.0))]),
-                    (true, true, Some((item, amount, _))) => out.extend([(format!("{base}/From"), Value::from(item_name(item))), (format!("{base}/Strength"), Value::from(strength(amount)))]),
+                    (false, false, _) => out.extend([
+                        (format!("{base}/From"), Value::from(NONE)),
+                        (format!("{base}/Strength"), Value::from(0.0)),
+                    ]),
+                    (true, true, Some((item, amount, _))) => out.extend([
+                        (format!("{base}/From"), Value::from(item_name(item))),
+                        (format!("{base}/Strength"), Value::from(strength(amount))),
+                    ]),
                     _ => {}
                 }
             }
             return out;
         }
-        let (Field::Item, Some((count, content))) = (self.fields[leaf], self.rows.get(&leaf)) else { return vec![] };
+        let (Field::Item, Some((count, content))) = (self.fields[leaf], self.rows.get(&leaf))
+        else {
+            return vec![];
+        };
         let base = count.rsplit_once('/').map_or("", |p| p.0);
-        let item = view.pointer(&format!("{base}/Item")).and_then(Value::as_str).unwrap_or(NONE);
+        let item = view
+            .pointer(&format!("{base}/Item"))
+            .and_then(Value::as_str)
+            .unwrap_or(NONE);
         let n = view.pointer(count).and_then(Value::as_i64).unwrap_or(0);
         if item == NONE {
-            vec![(count.clone(), Value::from(0)), (content.clone(), Value::from(NONE))]
+            vec![
+                (count.clone(), Value::from(0)),
+                (content.clone(), Value::from(NONE)),
+            ]
         } else if n <= 0 {
             vec![(count.clone(), Value::from(1))]
         } else {
@@ -557,13 +776,18 @@ impl Backend for CairnBackend {
     fn choices(&self, leaf: usize, _view: &Value) -> Option<Arc<Vec<String>>> {
         match self.fields[leaf] {
             Field::Item | Field::Content | Field::BuffFrom(_) => Some(items().list.clone()),
-            Field::Climber { .. } => Some(Arc::new(CLIMBERS.iter().map(|c| c.to_string()).collect())),
+            Field::Climber { .. } => {
+                Some(Arc::new(CLIMBERS.iter().map(|c| c.to_string()).collect()))
+            }
             _ => None,
         }
     }
 
     fn reshapes(&self, leaf: usize) -> bool {
-        matches!(self.fields[leaf], Field::Item | Field::Content | Field::Count)
+        matches!(
+            self.fields[leaf],
+            Field::Item | Field::Content | Field::Count
+        )
     }
 
     fn clone_box(&self) -> Box<dyn Backend> {
@@ -578,7 +802,12 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
     let mut editable = HashMap::new();
     let mut rows = HashMap::new();
     let mut root = Map::new();
-    let mut add = |fields: &mut Vec<Field>, map: &mut Map<String, Value>, ptr: String, key: &str, v: Value, f: Field| {
+    let mut add = |fields: &mut Vec<Field>,
+                   map: &mut Map<String, Value>,
+                   ptr: String,
+                   key: &str,
+                   v: Value,
+                   f: Field| {
         editable.insert(ptr, fields.len());
         fields.push(f);
         map.insert(key.to_string(), v);
@@ -586,12 +815,26 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
     let mut run = Map::new();
     if let Some(at) = climber_at(d, lists.start) {
         let n = u32::from_le_bytes(d[at..at + 4].try_into().unwrap()) as usize;
-        add(&mut fields, &mut run, "/Run/Climber".into(), "Climber", Value::from(CLIMBERS[n - 1]), Field::Climber { at });
+        add(
+            &mut fields,
+            &mut run,
+            "/Run/Climber".into(),
+            "Climber",
+            Value::from(CLIMBERS[n - 1]),
+            Field::Climber { at },
+        );
     }
     if let Some(at) = stats_at(d) {
         for (label, off, _) in FIELDS {
             let n = u32::from_le_bytes(d[at + off..at + off + 4].try_into().unwrap());
-            add(&mut fields, &mut run, format!("/Run/{}", esc(label)), label, Value::from(n), Field::Stat { off });
+            add(
+                &mut fields,
+                &mut run,
+                format!("/Run/{}", esc(label)),
+                label,
+                Value::from(n),
+                Field::Stat { off },
+            );
         }
     }
     if !run.is_empty() {
@@ -606,10 +849,34 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
             let x = list.get(row);
             let mut r = Map::new();
             let item_leaf = fields.len();
-            add(&mut fields, &mut r, format!("{base}/Item"), "Item", Value::from(x.map_or(NONE.to_string(), |x| item_name(x.item))), Field::Item);
-            add(&mut fields, &mut r, format!("{base}/Contents"), "Contents", Value::from(x.map_or(NONE.to_string(), |x| item_name(x.content))), Field::Content);
-            add(&mut fields, &mut r, format!("{base}/Count"), "Count", Value::from(x.map_or(0, |x| x.count)), Field::Count);
-            rows.insert(item_leaf, (format!("{base}/Count"), format!("{base}/Contents")));
+            add(
+                &mut fields,
+                &mut r,
+                format!("{base}/Item"),
+                "Item",
+                Value::from(x.map_or(NONE.to_string(), |x| item_name(x.item))),
+                Field::Item,
+            );
+            add(
+                &mut fields,
+                &mut r,
+                format!("{base}/Contents"),
+                "Contents",
+                Value::from(x.map_or(NONE.to_string(), |x| item_name(x.content))),
+                Field::Content,
+            );
+            add(
+                &mut fields,
+                &mut r,
+                format!("{base}/Count"),
+                "Count",
+                Value::from(x.map_or(0, |x| x.count)),
+                Field::Count,
+            );
+            rows.insert(
+                item_leaf,
+                (format!("{base}/Count"), format!("{base}/Contents")),
+            );
             m.insert(key, Value::Object(r));
         }
         root.insert(name.to_string(), Value::Object(m));
@@ -622,15 +889,42 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
             let base = format!("/Buffs/{}", esc(name));
             let mut r = Map::new();
             let secs: f64 = v.iter().map(|x| x.time as f64).sum();
-            add(&mut fields, &mut r, format!("{base}/Seconds left"), "Seconds left", Value::from(secs.round() as u64), Field::BuffTime(i));
-            add(&mut fields, &mut r, format!("{base}/From"), "From", Value::from(v.first().map_or(NONE.to_string(), |x| item_name(x.item))), Field::BuffFrom(i));
-            add(&mut fields, &mut r, format!("{base}/Strength"), "Strength", Value::from(v.first().map_or(0.0, |x| strength(x.amount))), Field::BuffStrength(i));
+            add(
+                &mut fields,
+                &mut r,
+                format!("{base}/Seconds left"),
+                "Seconds left",
+                Value::from(secs.round() as u64),
+                Field::BuffTime(i),
+            );
+            add(
+                &mut fields,
+                &mut r,
+                format!("{base}/From"),
+                "From",
+                Value::from(v.first().map_or(NONE.to_string(), |x| item_name(x.item))),
+                Field::BuffFrom(i),
+            );
+            add(
+                &mut fields,
+                &mut r,
+                format!("{base}/Strength"),
+                "Strength",
+                Value::from(v.first().map_or(0.0, |x| strength(x.amount))),
+                Field::BuffStrength(i),
+            );
             r.insert("Stacked".into(), Value::from(v.len()));
             m.insert(name.to_string(), Value::Object(r));
         }
         root.insert("Buffs".into(), Value::Object(m));
     }
-    let backend = CairnBackend { raw: Arc::new(d.to_vec()), lists, boosts, fields, rows };
+    let backend = CairnBackend {
+        raw: Arc::new(d.to_vec()),
+        lists,
+        boosts,
+        fields,
+        rows,
+    };
     Ok(TreeDoc::new(Value::Object(root), editable, "Cairn save", Box::new(backend))
         .with_note("Close Cairn (or go back to its title screen) before saving: the game keeps the slot file locked while a climb is loaded. Added items go at the bottom of the bag; \u{201C}Shake up bag\u{201D} in the game settles them."))
 }
@@ -649,32 +943,56 @@ mod backpack {
             let first = decode_with(&raw, &Options::default());
             let mut n = 0;
             for name in first.zip_entries.iter().filter(|n| n.ends_with(".SAV")) {
-                let dec = decode_with(&raw, &Options { zip_entry: Some(name.clone()), ..Options::default() });
-                let Content::Tree(t) = &dec.content else { panic!("{name}: not read as a Cairn save") };
+                let dec = decode_with(
+                    &raw,
+                    &Options {
+                        zip_entry: Some(name.clone()),
+                        ..Options::default()
+                    },
+                );
+                let Content::Tree(t) = &dec.content else {
+                    panic!("{name}: not read as a Cairn save")
+                };
                 let mut t = (**t).clone();
                 let bytes = t.to_bytes().unwrap();
                 let back = super::parse(&bytes).unwrap();
                 assert_eq!(back.view, t.view, "{name}");
-                t.set("/Backpack/Item 1/Count", serde_json::Value::from(7)).unwrap();
+                t.set("/Backpack/Item 1/Count", serde_json::Value::from(7))
+                    .unwrap();
                 let rows = t.view["Backpack"].as_object().unwrap().len();
-                t.set(&format!("/Backpack/Item {rows}/Item"), serde_json::Value::from("Protein bar")).unwrap();
+                t.set(
+                    &format!("/Backpack/Item {rows}/Item"),
+                    serde_json::Value::from("Protein bar"),
+                )
+                .unwrap();
                 let out = t.to_bytes().unwrap();
                 let again = super::parse(&out).unwrap();
-                let items: Vec<&str> = again.view["Backpack"].as_object().unwrap().values().filter_map(|r| r["Item"].as_str()).collect();
+                let items: Vec<&str> = again.view["Backpack"]
+                    .as_object()
+                    .unwrap()
+                    .values()
+                    .filter_map(|r| r["Item"].as_str())
+                    .collect();
                 assert!(items.contains(&"Protein bar"), "{name}: added item missing");
                 assert_eq!(again.view["Backpack"]["Item 1"]["Count"], 7);
                 assert_eq!(again.view.get("Run"), t.view.get("Run"), "{name}");
                 assert!(t.view.get("Buffs").is_some(), "{name}: buffs not found");
-                t.set("/Buffs/Stamina/Seconds left", serde_json::Value::from(900)).unwrap();
-                t.set("/Buffs/Grit/Seconds left", serde_json::Value::from(0)).unwrap();
+                t.set("/Buffs/Stamina/Seconds left", serde_json::Value::from(900))
+                    .unwrap();
+                t.set("/Buffs/Grit/Seconds left", serde_json::Value::from(0))
+                    .unwrap();
                 let buffed = super::parse(&t.to_bytes().unwrap()).unwrap();
-                assert_eq!(buffed.view["Buffs"]["Stamina"]["Seconds left"], 900, "{name}");
+                assert_eq!(
+                    buffed.view["Buffs"]["Stamina"]["Seconds left"], 900,
+                    "{name}"
+                );
                 assert_eq!(buffed.view["Buffs"]["Stamina"]["Stacked"], 1, "{name}");
                 assert_eq!(buffed.view["Buffs"]["Grit"]["Seconds left"], 0, "{name}");
                 assert_eq!(buffed.view["Backpack"], again.view["Backpack"], "{name}");
                 let who = t.view["Run"]["Climber"].as_str().unwrap().to_string();
                 let other = if who == "Aava" { "Marco" } else { "Aava" };
-                t.set("/Run/Climber", serde_json::Value::from(other)).unwrap();
+                t.set("/Run/Climber", serde_json::Value::from(other))
+                    .unwrap();
                 let swapped = super::parse(&t.to_bytes().unwrap()).unwrap();
                 assert_eq!(swapped.view["Run"]["Climber"], other, "{name}");
                 n += 1;
@@ -715,7 +1033,10 @@ mod real {
         let d = std::fs::read(std::env::var("SAVE_EDITOR_CAIRN").unwrap()).unwrap();
         let at = super::stats_at(&d).expect("statistics");
         for (l, o, _) in super::FIELDS {
-            println!("{l}: {}", u32::from_le_bytes(d[at + o..at + o + 4].try_into().unwrap()));
+            println!(
+                "{l}: {}",
+                u32::from_le_bytes(d[at + o..at + o + 4].try_into().unwrap())
+            );
         }
     }
 }
@@ -729,13 +1050,17 @@ mod real_pack {
         use crate::formats::{decode, encode, Content};
         let raw = std::fs::read(std::env::var("SAVE_EDITOR_CAIRN_PACK").unwrap()).unwrap();
         let mut dec = decode(&raw);
-        let Content::Binary(d) = &mut dec.content else { panic!("not binary") };
+        let Content::Binary(d) = &mut dec.content else {
+            panic!("not binary")
+        };
         let at = super::stats_at(d).unwrap() + 36;
         d[at..at + 4].copy_from_slice(&3u32.to_le_bytes());
         let out = encode(&dec.layers, &dec.content).unwrap();
         assert_eq!(out.len(), raw.len());
         let back = decode(&out);
-        let Content::Binary(b) = &back.content else { panic!() };
+        let Content::Binary(b) = &back.content else {
+            panic!()
+        };
         let at = super::stats_at(b).unwrap() + 36;
         assert_eq!(u32::from_le_bytes(b[at..at + 4].try_into().unwrap()), 3);
         println!("falls now 3; pack still {} bytes", out.len());
@@ -755,17 +1080,36 @@ mod every_save {
             let first = decode_with(&raw, &Options::default());
             let (mut ok, mut bad) = (0, vec![]);
             for name in first.zip_entries.iter().filter(|n| n.ends_with(".SAV")) {
-                let opts = Options { zip_entry: Some(name.clone()), ..Options::default() };
+                let opts = Options {
+                    zip_entry: Some(name.clone()),
+                    ..Options::default()
+                };
                 let dec = decode_with(&raw, &opts);
                 match &dec.content {
                     Content::Binary(d) => match super::stats_at(d) {
                         Some(at) if name.ends_with("QUICK.SAV") || true => {
                             ok += 1;
-                            if name.ends_with("QUICK.SAV") || name == first.zip_entries.iter().filter(|n| n.ends_with(".SAV")).last().unwrap() {
-                                println!("  {name}: {} s, deaths {}, falls {}", u32::from_le_bytes(d[at..at + 4].try_into().unwrap()), d[at + 32], d[at + 36]);
+                            if name.ends_with("QUICK.SAV")
+                                || name
+                                    == first
+                                        .zip_entries
+                                        .iter()
+                                        .filter(|n| n.ends_with(".SAV"))
+                                        .last()
+                                        .unwrap()
+                            {
+                                println!(
+                                    "  {name}: {} s, deaths {}, falls {}",
+                                    u32::from_le_bytes(d[at..at + 4].try_into().unwrap()),
+                                    d[at + 32],
+                                    d[at + 36]
+                                );
                             }
                         }
-                        _ => bad.push(format!("{name} (format {})", d.get(4).copied().unwrap_or(0))),
+                        _ => bad.push(format!(
+                            "{name} (format {})",
+                            d.get(4).copied().unwrap_or(0)
+                        )),
                     },
                     _ => bad.push(format!("{name} (not binary)")),
                 }
@@ -783,9 +1127,17 @@ mod one_save {
     fn lists() {
         let d = std::fs::read(std::env::var("SAVE_EDITOR_CAIRN").unwrap()).unwrap();
         match super::find_lists(&d) {
-            Some(l) => println!("at {} to {}: {:?}", l.start, l.end, l.lists.iter().map(|x| x.len()).collect::<Vec<_>>()),
+            Some(l) => println!(
+                "at {} to {}: {:?}",
+                l.start,
+                l.end,
+                l.lists.iter().map(|x| x.len()).collect::<Vec<_>>()
+            ),
             None => println!("no lists"),
         }
-        println!("{:?}", super::parse(&d).map(|t| t.view["Backpack"]["Item 1"].clone()));
+        println!(
+            "{:?}",
+            super::parse(&d).map(|t| t.view["Backpack"]["Item 1"].clone())
+        );
     }
 }

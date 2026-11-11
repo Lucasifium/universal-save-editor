@@ -15,7 +15,9 @@ impl Backend for YamlBackend {
         if changes.is_empty() {
             return Ok(self.raw.clone());
         }
-        serde_yaml::to_string(view).map(String::into_bytes).map_err(|e| e.to_string())
+        serde_yaml::to_string(view)
+            .map(String::into_bytes)
+            .map_err(|e| e.to_string())
     }
 
     fn clone_box(&self) -> Box<dyn Backend> {
@@ -50,7 +52,12 @@ pub fn parse(text: &str) -> Result<TreeDoc, String> {
     }
     let mut editable = HashMap::new();
     register(&view, "", &mut editable);
-    let backend = YamlBackend { raw: text.as_bytes().to_vec() };
-    Ok(TreeDoc::new(view, editable, "YAML", Box::new(backend))
-        .with_note("YAML: saving rewrites the file, so comments and custom formatting are not kept."))
+    let backend = YamlBackend {
+        raw: text.as_bytes().to_vec(),
+    };
+    Ok(
+        TreeDoc::new(view, editable, "YAML", Box::new(backend)).with_note(
+            "YAML: saving rewrites the file, so comments and custom formatting are not kept.",
+        ),
+    )
 }

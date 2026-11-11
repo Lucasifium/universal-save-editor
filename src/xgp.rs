@@ -48,7 +48,10 @@ struct Rd<'a> {
 
 impl<'a> Rd<'a> {
     fn take(&mut self, n: usize) -> Result<&'a [u8], String> {
-        let s = self.d.get(self.p..self.p + n).ok_or("containers.index ends early")?;
+        let s = self
+            .d
+            .get(self.p..self.p + n)
+            .ok_or("containers.index ends early")?;
         self.p += n;
         Ok(s)
     }
@@ -70,8 +73,13 @@ impl<'a> Rd<'a> {
             }
         };
         let raw = self.take(n * 2)?;
-        let units: Vec<u16> = raw.chunks_exact(2).map(|c| u16::from_le_bytes([c[0], c[1]])).collect();
-        Ok(String::from_utf16_lossy(&units).trim_end_matches('\0').to_string())
+        let units: Vec<u16> = raw
+            .chunks_exact(2)
+            .map(|c| u16::from_le_bytes([c[0], c[1]]))
+            .collect();
+        Ok(String::from_utf16_lossy(&units)
+            .trim_end_matches('\0')
+            .to_string())
     }
     fn guid(&mut self) -> Result<String, String> {
         Ok(guid_hex(self.take(16)?))
@@ -109,7 +117,8 @@ pub fn read_container_file(d: &[u8]) -> Result<Vec<(String, String, String)>, St
 
 /// Reads a `wgs\<user>` folder.
 pub fn read_index(dir: &Path) -> Result<Index, String> {
-    let d = std::fs::read(dir.join("containers.index")).map_err(|e| format!("containers.index: {e}"))?;
+    let d = std::fs::read(dir.join("containers.index"))
+        .map_err(|e| format!("containers.index: {e}"))?;
     parse_index(&d, |folder, num| {
         let cdir = dir.join(folder);
         let raw = std::fs::read(cdir.join(format!("container.{num}"))).ok()?;
@@ -118,7 +127,10 @@ pub fn read_index(dir: &Path) -> Result<Index, String> {
 }
 
 /// Parses `containers.index`; `open` returns a container's folder and its `container.<n>`.
-pub fn parse_index(d: &[u8], open: impl Fn(&str, u8) -> Option<(PathBuf, Vec<u8>)>) -> Result<Index, String> {
+pub fn parse_index(
+    d: &[u8],
+    open: impl Fn(&str, u8) -> Option<(PathBuf, Vec<u8>)>,
+) -> Result<Index, String> {
     let mut r = Rd { d, p: 0 };
     r.take(4)?;
     let count = r.i32()?;
@@ -126,12 +138,20 @@ pub fn parse_index(d: &[u8], open: impl Fn(&str, u8) -> Option<(PathBuf, Vec<u8>
         return Err("containers.index: bad container count".into());
     }
     let _display_name = r.utf16(None)?;
-    let package = r.utf16(None)?.split('!').next().unwrap_or_default().to_string();
+    let package = r
+        .utf16(None)?
+        .split('!')
+        .next()
+        .unwrap_or_default()
+        .to_string();
     r.take(8)?; // created (FILETIME)
     r.take(4)?;
     r.utf16(None)?;
     r.take(8)?;
-    let mut idx = Index { package, ..Default::default() };
+    let mut idx = Index {
+        package,
+        ..Default::default()
+    };
     for _ in 0..count {
         let name = r.utf16(None)?;
         r.utf16(None)?;
@@ -142,7 +162,9 @@ pub fn parse_index(d: &[u8], open: impl Fn(&str, u8) -> Option<(PathBuf, Vec<u8>
         r.take(8)?; // modified (FILETIME)
         r.take(16)?;
         let Some((cdir, raw)) = open(&folder, num) else {
-            idx.warnings.push(format!("\u{201C}{name}\u{201D} is missing (the Xbox app may still be syncing)"));
+            idx.warnings.push(format!(
+                "\u{201C}{name}\u{201D} is missing (the Xbox app may still be syncing)"
+            ));
             continue;
         };
         let mut files = vec![];
@@ -176,7 +198,12 @@ pub fn logical_name(path: &Path) -> Option<String> {
     if !is_guid_name(&name) {
         return None;
     }
-    if let Some(hit) = CACHE.lock().ok()?.get_or_insert_with(HashMap::new).get(path) {
+    if let Some(hit) = CACHE
+        .lock()
+        .ok()?
+        .get_or_insert_with(HashMap::new)
+        .get(path)
+    {
         return hit.clone();
     }
     let found = (|| {
@@ -184,7 +211,8 @@ pub fn logical_name(path: &Path) -> Option<String> {
         let idx = read_index(user).ok()?;
         idx.containers.iter().find_map(|c| {
             c.files.iter().find(|f| f.path == path).map(|f| {
-                if c.files.len() == 1 && (f.name == c.name || f.name.is_empty() || f.name == "data") {
+                if c.files.len() == 1 && (f.name == c.name || f.name.is_empty() || f.name == "data")
+                {
                     c.name.clone()
                 } else {
                     format!("{}/{}", c.name, f.name)
@@ -193,7 +221,8 @@ pub fn logical_name(path: &Path) -> Option<String> {
         })
     })();
     if let Ok(mut c) = CACHE.lock() {
-        c.get_or_insert_with(HashMap::new).insert(path.to_path_buf(), found.clone());
+        c.get_or_insert_with(HashMap::new)
+            .insert(path.to_path_buf(), found.clone());
     }
     found
 }
@@ -201,13 +230,22 @@ pub fn logical_name(path: &Path) -> Option<String> {
 /// Every Game Pass user folder (`wgs\<user>_<title>`) for `package` (`*` for every package).
 pub fn user_dirs(packages_root: &Path, package: &str) -> Vec<PathBuf> {
     let pkgs: Vec<PathBuf> = if package == "*" {
-        std::fs::read_dir(packages_root).into_iter().flatten().flatten().map(|e| e.path()).collect()
+        std::fs::read_dir(packages_root)
+            .into_iter()
+            .flatten()
+            .flatten()
+            .map(|e| e.path())
+            .collect()
     } else {
         vec![packages_root.join(package)]
     };
     let mut out = vec![];
     for p in pkgs {
-        for e in std::fs::read_dir(p.join("SystemAppData").join("wgs")).into_iter().flatten().flatten() {
+        for e in std::fs::read_dir(p.join("SystemAppData").join("wgs"))
+            .into_iter()
+            .flatten()
+            .flatten()
+        {
             let n = e.file_name().to_string_lossy().to_string();
             if n != "t" && !n.contains("backup") && e.path().join("containers.index").is_file() {
                 out.push(e.path());
@@ -219,12 +257,23 @@ pub fn user_dirs(packages_root: &Path, package: &str) -> Vec<PathBuf> {
 
 /// The package a blob or user folder belongs to (`…\Packages\<package>\SystemAppData\…`).
 pub fn package_of(path: &Path) -> Option<String> {
-    let parts: Vec<String> = path.components().map(|c| c.as_os_str().to_string_lossy().to_string()).collect();
-    let i = parts.iter().position(|p| p.eq_ignore_ascii_case("SystemAppData"))?;
+    let parts: Vec<String> = path
+        .components()
+        .map(|c| c.as_os_str().to_string_lossy().to_string())
+        .collect();
+    let i = parts
+        .iter()
+        .position(|p| p.eq_ignore_ascii_case("SystemAppData"))?;
     let pkg = parts.get(i.checked_sub(1)?)?;
     // "Publisher.Game_hash": the readable part.
     let short = pkg.split('_').next().unwrap_or(pkg);
-    Some(short.split_once('.').map(|(_, g)| g).unwrap_or(short).to_string())
+    Some(
+        short
+            .split_once('.')
+            .map(|(_, g)| g)
+            .unwrap_or(short)
+            .to_string(),
+    )
 }
 
 #[cfg(test)]
@@ -241,7 +290,9 @@ pub(crate) mod tests {
     }
 
     fn guid_bytes(hex: &str) -> Vec<u8> {
-        let b: Vec<u8> = (0..16).map(|i| u8::from_str_radix(&hex[i * 2..i * 2 + 2], 16).unwrap()).collect();
+        let b: Vec<u8> = (0..16)
+            .map(|i| u8::from_str_radix(&hex[i * 2..i * 2 + 2], 16).unwrap())
+            .collect();
         let order = [3, 2, 1, 0, 5, 4, 7, 6, 8, 9, 10, 11, 12, 13, 14, 15];
         order.iter().map(|&i| b[i]).collect()
     }
@@ -289,9 +340,18 @@ pub(crate) mod tests {
         assert_eq!(idx.containers.len(), 1);
         assert_eq!(idx.containers[0].name, "Slot1");
         assert_eq!(idx.containers[0].files.len(), 2);
-        assert_eq!(std::fs::read(&idx.containers[0].files[0].path).unwrap(), b"hello");
-        assert_eq!(logical_name(&idx.containers[0].files[0].path).as_deref(), Some("Slot1/save.sav"));
-        assert_eq!(package_of(&idx.containers[0].files[0].path).as_deref(), Some("Game"));
+        assert_eq!(
+            std::fs::read(&idx.containers[0].files[0].path).unwrap(),
+            b"hello"
+        );
+        assert_eq!(
+            logical_name(&idx.containers[0].files[0].path).as_deref(),
+            Some("Slot1/save.sav")
+        );
+        assert_eq!(
+            package_of(&idx.containers[0].files[0].path).as_deref(),
+            Some("Game")
+        );
         assert_eq!(user_dirs(&tmp.join("Packages"), "*"), vec![user.clone()]);
         let _ = std::fs::remove_dir_all(&tmp);
     }

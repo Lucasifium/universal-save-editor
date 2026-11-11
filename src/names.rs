@@ -27,8 +27,12 @@ impl Names {
     /// Section layout for RPG Maker saves: player-facing data first, engine state as advanced.
     pub fn rpgmaker_layout(mut self) -> Self {
         self.hide_meta = true;
-        self.priority = ["party", "actors", "variables", "switches"].map(String::from).to_vec();
-        self.advanced = ["system", "screen", "timer", "map", "player", "selfSwitches"].map(String::from).to_vec();
+        self.priority = ["party", "actors", "variables", "switches"]
+            .map(String::from)
+            .to_vec();
+        self.advanced = ["system", "screen", "timer", "map", "player", "selfSwitches"]
+            .map(String::from)
+            .to_vec();
         self
     }
 }
@@ -44,7 +48,12 @@ pub fn friendly_key(key: &str) -> String {
 
 /// Is the raw key different enough from its label to be worth showing?
 pub fn raw_differs(key: &str, label: &str) -> bool {
-    let norm = |s: &str| s.chars().filter(|c| c.is_alphanumeric()).flat_map(char::to_lowercase).collect::<String>();
+    let norm = |s: &str| {
+        s.chars()
+            .filter(|c| c.is_alphanumeric())
+            .flat_map(char::to_lowercase)
+            .collect::<String>()
+    };
     let k = norm(key.strip_prefix("store.").unwrap_or(key));
     !norm(label).starts_with(&k) || k.is_empty()
 }
@@ -55,7 +64,11 @@ pub fn node_label(names: &Names, key: &str, ptr: &str, v: &Value) -> String {
         return n.clone();
     }
     let numeric = !key.is_empty() && key.chars().all(|c| c.is_ascii_digit());
-    let base = if numeric { format!("#{key}") } else { friendly_key(key) };
+    let base = if numeric {
+        format!("#{key}")
+    } else {
+        friendly_key(key)
+    };
     match object_summary(v) {
         Some(s) if numeric => format!("{base} {s}"),
         Some(s) => format!("{base} \u{2014} {s}"),
@@ -63,7 +76,10 @@ pub fn node_label(names: &Names, key: &str, ptr: &str, v: &Value) -> String {
     }
 }
 
-const ACRONYMS: &[&str] = &["hp", "mp", "sp", "tp", "xp", "ap", "id", "ui", "npc", "atk", "def", "agi", "luk", "mat", "mdf", "exp", "lv", "dlc", "pc"];
+const ACRONYMS: &[&str] = &[
+    "hp", "mp", "sp", "tp", "xp", "ap", "id", "ui", "npc", "atk", "def", "agi", "luk", "mat",
+    "mdf", "exp", "lv", "dlc", "pc",
+];
 
 /// "store.max_hp" → "Max HP", "_partyGold" → "Party Gold", "selfSwitches" → "Self Switches".
 pub fn humanize(key: &str) -> String {
@@ -73,8 +89,10 @@ pub fn humanize(key: &str) -> String {
     let mut prev: Option<char> = None;
     for c in key.chars() {
         let boundary = c == '_' || c == '-' || c == ' ' || c == '.';
-        let camel = c.is_uppercase() && prev.is_some_and(|p| p.is_lowercase() || p.is_ascii_digit());
-        let digit_edge = prev.is_some_and(|p| p.is_ascii_digit() != c.is_ascii_digit() && p.is_alphanumeric());
+        let camel =
+            c.is_uppercase() && prev.is_some_and(|p| p.is_lowercase() || p.is_ascii_digit());
+        let digit_edge =
+            prev.is_some_and(|p| p.is_ascii_digit() != c.is_ascii_digit() && p.is_alphanumeric());
         if boundary || camel || digit_edge {
             if !cur.is_empty() {
                 words.push(std::mem::take(&mut cur));
@@ -101,7 +119,9 @@ pub fn humanize(key: &str) -> String {
                 lower.to_uppercase()
             } else {
                 let mut cs = lower.chars();
-                cs.next().map(|f| f.to_uppercase().chain(cs).collect()).unwrap_or_default()
+                cs.next()
+                    .map(|f| f.to_uppercase().chain(cs).collect())
+                    .unwrap_or_default()
             }
         })
         .collect::<Vec<_>>()
@@ -111,7 +131,21 @@ pub fn humanize(key: &str) -> String {
 /// A short name for an object node: its `name`/`title`/... field, if any.
 pub fn object_summary(v: &Value) -> Option<String> {
     let map = v.as_object()?;
-    for k in ["name", "_name", "Name", "displayName", "display_name", "title", "_title", "label", "nickname", "_nickname", "Nickname", "Species", "Item"] {
+    for k in [
+        "name",
+        "_name",
+        "Name",
+        "displayName",
+        "display_name",
+        "title",
+        "_title",
+        "label",
+        "nickname",
+        "_nickname",
+        "Nickname",
+        "Species",
+        "Item",
+    ] {
         if let Some(Value::String(s)) = map.get(k) {
             let s = s.trim();
             if !s.is_empty() {
@@ -130,7 +164,9 @@ pub fn is_rpgmaker(v: &Value) -> bool {
 
 /// Candidate `data/` folders for a save at `save_path`.
 fn data_dir_candidates(save_path: &Path) -> Vec<PathBuf> {
-    let Some(dir) = save_path.parent() else { return vec![] };
+    let Some(dir) = save_path.parent() else {
+        return vec![];
+    };
     let mut out = vec![dir.join("data"), dir.join("www").join("data")];
     if let Some(up) = dir.parent() {
         out.push(up.join("data"));
@@ -143,7 +179,9 @@ fn data_dir_candidates(save_path: &Path) -> Vec<PathBuf> {
 }
 
 pub fn find_rpgmaker_data(save_path: &Path) -> Option<PathBuf> {
-    data_dir_candidates(save_path).into_iter().find(|d| d.join("System.json").is_file())
+    data_dir_candidates(save_path)
+        .into_iter()
+        .find(|d| d.join("System.json").is_file())
 }
 
 fn read_json(path: PathBuf) -> Option<Value> {
@@ -156,7 +194,11 @@ fn db_names(dir: &Path, file: &str) -> HashMap<String, String> {
     let mut out = HashMap::new();
     if let Some(Value::Array(arr)) = read_json(dir.join(file)) {
         for (i, entry) in arr.iter().enumerate() {
-            if let Some(name) = entry.get("name").and_then(Value::as_str).filter(|s| !s.trim().is_empty()) {
+            if let Some(name) = entry
+                .get("name")
+                .and_then(Value::as_str)
+                .filter(|s| !s.trim().is_empty())
+            {
                 out.insert(i.to_string(), name.to_string());
             }
         }
@@ -177,26 +219,46 @@ fn array_ptr(root: &Value, base: &str) -> Option<(String, usize)> {
 }
 
 pub fn rpgmaker_names(root: &Value, data_dir: &Path) -> Names {
-    let mut names = Names { source: Some(data_dir.to_path_buf()), ..Default::default() }.rpgmaker_layout();
+    let mut names = Names {
+        source: Some(data_dir.to_path_buf()),
+        ..Default::default()
+    }
+    .rpgmaker_layout();
     let system = read_json(data_dir.join("System.json")).unwrap_or(Value::Null);
 
-    for (section, sys_key, kind) in [("variables", "variables", "Variable"), ("switches", "switches", "Switch")] {
+    for (section, sys_key, kind) in [
+        ("variables", "variables", "Variable"),
+        ("switches", "switches", "Switch"),
+    ] {
         let labels = system.get(sys_key).and_then(Value::as_array);
-        if let (Some(labels), Some((ptr, len))) = (labels, array_ptr(root, &format!("/{section}/_data"))) {
+        if let (Some(labels), Some((ptr, len))) =
+            (labels, array_ptr(root, &format!("/{section}/_data")))
+        {
             for i in 1..len.min(labels.len()) {
                 let label = labels[i].as_str().unwrap_or("").trim();
-                let text = if label.is_empty() { format!("{kind} {i}") } else { format!("{kind} {i}: {label}") };
+                let text = if label.is_empty() {
+                    format!("{kind} {i}")
+                } else {
+                    format!("{kind} {i}: {label}")
+                };
                 names.by_ptr.insert(format!("{ptr}/{i}"), text);
             }
         }
     }
 
-    for (key, file) in [("_items", "Items.json"), ("_weapons", "Weapons.json"), ("_armors", "Armors.json")] {
+    for (key, file) in [
+        ("_items", "Items.json"),
+        ("_weapons", "Weapons.json"),
+        ("_armors", "Armors.json"),
+    ] {
         let db = db_names(data_dir, file);
         if let Some(Value::Object(owned)) = root.pointer(&format!("/party/{key}")) {
             for id in owned.keys() {
                 if let Some(name) = db.get(id) {
-                    names.by_ptr.insert(format!("/party/{key}/{}", pointer_escape(id)), format!("{name}  (#{id})"));
+                    names.by_ptr.insert(
+                        format!("/party/{key}/{}", pointer_escape(id)),
+                        format!("{name}  (#{id})"),
+                    );
                 }
             }
         }
@@ -206,7 +268,9 @@ pub fn rpgmaker_names(root: &Value, data_dir: &Path) -> Names {
     if let Some((ptr, len)) = array_ptr(root, "/actors/_data") {
         for i in 1..len {
             if let Some(name) = actors.get(&i.to_string()) {
-                names.by_ptr.insert(format!("{ptr}/{i}"), format!("Actor {i}: {name}"));
+                names
+                    .by_ptr
+                    .insert(format!("{ptr}/{i}"), format!("Actor {i}: {name}"));
             }
         }
     }
@@ -214,7 +278,10 @@ pub fn rpgmaker_names(root: &Value, data_dir: &Path) -> Names {
         for i in 0..len {
             let id = root.pointer(&format!("{ptr}/{i}")).and_then(Value::as_u64);
             if let Some(name) = id.and_then(|id| actors.get(&id.to_string())) {
-                names.by_ptr.insert(format!("{ptr}/{i}"), format!("Party slot {}: {name}", i + 1));
+                names.by_ptr.insert(
+                    format!("{ptr}/{i}"),
+                    format!("Party slot {}: {name}", i + 1),
+                );
             }
         }
     }

@@ -23,30 +23,87 @@ use crate::tree::TreeDoc;
 use std::path::Path;
 
 /// skills.2da order (the same in both games).
-pub const SKILLS: [&str; 8] = ["Computer Use", "Demolitions", "Stealth", "Awareness", "Persuade", "Repair", "Security", "Treat Injury"];
+pub const SKILLS: [&str; 8] = [
+    "Computer Use",
+    "Demolitions",
+    "Stealth",
+    "Awareness",
+    "Persuade",
+    "Repair",
+    "Security",
+    "Treat Injury",
+];
 
 /// classes.2da rows (KOTOR 2 adds the prestige classes from 9 on). Checked on sample saves:
 /// Bastila 5, Carth 0, HK-47 6, Jolee 4, Juhani 3, Mission 2, T3-M4 7, Zaalbar 1;
 /// Atton 2 + 5, Bao-Dur 9, Kreia 4, Visas 5, the player 13 (Jedi Watchman).
 const CLASSES: [&str; 17] = [
-    "Soldier", "Scout", "Scoundrel", "Jedi Guardian", "Jedi Consular", "Jedi Sentinel", "Combat Droid", "Expert Droid", "Minion",
-    "Tech Specialist", "Bounty Hunter", "Jedi Weapon Master", "Jedi Master", "Jedi Watchman", "Sith Marauder", "Sith Lord", "Sith Assassin",
+    "Soldier",
+    "Scout",
+    "Scoundrel",
+    "Jedi Guardian",
+    "Jedi Consular",
+    "Jedi Sentinel",
+    "Combat Droid",
+    "Expert Droid",
+    "Minion",
+    "Tech Specialist",
+    "Bounty Hunter",
+    "Jedi Weapon Master",
+    "Jedi Master",
+    "Jedi Watchman",
+    "Sith Marauder",
+    "Sith Lord",
+    "Sith Assassin",
 ];
 
 /// The party NPC numbers (`AVAILNPC<n>`, the party table's lists). Checked against the
 /// creatures' tags in sample saves; KOTOR 2's 10 and 11 (not in the saves we have) follow the
 /// game's NPC_HANHARR and NPC_DISCIPLE script constants.
-const NPCS1: [&str; 9] = ["Bastila", "Canderous", "Carth", "HK-47", "Jolee", "Juhani", "Mission", "T3-M4", "Zaalbar"];
-const NPCS2: [&str; 12] = ["Atton", "Bao-Dur", "Mandalore", "G0-T0", "Handmaiden", "HK-47", "Kreia", "Mira", "T3-M4", "Visas", "Hanharr", "Disciple"];
+const NPCS1: [&str; 9] = [
+    "Bastila",
+    "Canderous",
+    "Carth",
+    "HK-47",
+    "Jolee",
+    "Juhani",
+    "Mission",
+    "T3-M4",
+    "Zaalbar",
+];
+const NPCS2: [&str; 12] = [
+    "Atton",
+    "Bao-Dur",
+    "Mandalore",
+    "G0-T0",
+    "Handmaiden",
+    "HK-47",
+    "Kreia",
+    "Mira",
+    "T3-M4",
+    "Visas",
+    "Hanharr",
+    "Disciple",
+];
 
 fn class_name(c: i64) -> String {
-    usize::try_from(c).ok().and_then(|i| CLASSES.get(i)).map_or_else(|| format!("Class {c}"), |s| s.to_string())
+    usize::try_from(c)
+        .ok()
+        .and_then(|i| CLASSES.get(i))
+        .map_or_else(|| format!("Class {c}"), |s| s.to_string())
 }
 
 /// A file next to `path`, found whatever its case.
 pub(crate) fn sibling(path: Option<&Path>, name: &str) -> Option<std::path::PathBuf> {
     let dir = path?.parent()?;
-    std::fs::read_dir(dir).ok()?.flatten().map(|e| e.path()).find(|p| p.file_name().is_some_and(|n| n.to_string_lossy().eq_ignore_ascii_case(name)))
+    std::fs::read_dir(dir)
+        .ok()?
+        .flatten()
+        .map(|e| e.path())
+        .find(|p| {
+            p.file_name()
+                .is_some_and(|n| n.to_string_lossy().eq_ignore_ascii_case(name))
+        })
 }
 
 fn is_k2(c: &At) -> bool {
@@ -69,7 +126,11 @@ enum File {
 fn which(d: &[u8]) -> Option<File> {
     if is_erf(d, 0) {
         let e = erf_entries(d, 0, d.len())?;
-        let creatures = e.iter().any(|x| x.ty == T_UTC && (x.name.eq_ignore_ascii_case("PC") || x.name.to_ascii_uppercase().starts_with("AVAILNPC")));
+        let creatures = e.iter().any(|x| {
+            x.ty == T_UTC
+                && (x.name.eq_ignore_ascii_case("PC")
+                    || x.name.to_ascii_uppercase().starts_with("AVAILNPC"))
+        });
         return (creatures && e.iter().any(|x| x.ty == T_SAV)).then_some(File::Save);
     }
     let g = Gff::open(d, 0, d.len())?;
@@ -86,7 +147,9 @@ pub fn looks(d: &[u8]) -> bool {
 
 /// Builds one creature's values under `base`; `copies` are other copies written along.
 fn creature(b: &mut Builder, base: &[&str], c: At, copies: &[At]) {
-    let at = |sub: &[&'static str]| -> Vec<&str> { base.iter().copied().chain(sub.iter().copied()).collect() };
+    let at = |sub: &[&'static str]| -> Vec<&str> {
+        base.iter().copied().chain(sub.iter().copied()).collect()
+    };
     let mut one = |sub: &[&'static str], label: &str, lo: i64, hi: i64| {
         let path = at(sub);
         c.edit(b, &path, label, lo, hi, copies);
@@ -94,7 +157,14 @@ fn creature(b: &mut Builder, base: &[&str], c: At, copies: &[At]) {
     one(&["Experience"], "Experience", 0, i32::MAX as i64);
     one(&["Alignment"], "GoodEvil", 0, 100);
     one(&["Skill points"], "SkillPoints", 0, 9999);
-    for (name, label) in [("Strength", "Str"), ("Dexterity", "Dex"), ("Constitution", "Con"), ("Intelligence", "Int"), ("Wisdom", "Wis"), ("Charisma", "Cha")] {
+    for (name, label) in [
+        ("Strength", "Str"),
+        ("Dexterity", "Dex"),
+        ("Constitution", "Con"),
+        ("Intelligence", "Int"),
+        ("Wisdom", "Wis"),
+        ("Charisma", "Cha"),
+    ] {
         one(&["Attributes", name], label, 1, 100);
     }
     for (name, label, lo) in [
@@ -113,9 +183,16 @@ fn creature(b: &mut Builder, base: &[&str], c: At, copies: &[At]) {
         let mirrors: Vec<At> = theirs.iter().filter_map(|l| l.get(i).copied()).collect();
         s.edit(b, &at(&["Skills", SKILLS[i]]), "Rank", 0, 99, &mirrors);
     }
-    let classes: Vec<(i64, i64)> = c.list("ClassList").iter().filter_map(|x| Some((x.int("Class")?, x.int("ClassLevel")?))).collect();
+    let classes: Vec<(i64, i64)> = c
+        .list("ClassList")
+        .iter()
+        .filter_map(|x| Some((x.int("Class")?, x.int("ClassLevel")?)))
+        .collect();
     if !classes.is_empty() {
-        let text: Vec<String> = classes.iter().map(|(k, l)| format!("{} {l}", class_name(*k))).collect();
+        let text: Vec<String> = classes
+            .iter()
+            .map(|(k, l)| format!("{} {l}", class_name(*k)))
+            .collect();
         b.info(&at(&["Classes"]), text.join(" / "));
         b.info(&at(&["Level"]), classes.iter().map(|x| x.1).sum::<i64>());
     }
@@ -128,7 +205,9 @@ fn name_of(c: &At) -> String {
     }
     let tag = c.text("Tag").unwrap_or_default();
     let mut ch = tag.chars();
-    ch.next().map(|f| f.to_uppercase().chain(ch).collect()).unwrap_or_else(|| "Companion".into())
+    ch.next()
+        .map(|f| f.to_uppercase().chain(ch).collect())
+        .unwrap_or_else(|| "Companion".into())
 }
 
 pub fn parse(d: &[u8], path: Option<&Path>) -> Result<TreeDoc, String> {
@@ -144,24 +223,55 @@ fn parse_save(d: &[u8], path: Option<&Path>) -> Result<TreeDoc, String> {
     // Every copy of the player: one per visited module, and the old top-level PC.
     let mut modules: Vec<(String, At)> = vec![];
     for e in top.iter().filter(|e| e.ty == T_SAV) {
-        let Some(inner) = erf_entries(d, e.at, e.at + e.size) else { continue };
-        let pc = inner.iter().find(|x| x.ty == T_IFO && x.name.eq_ignore_ascii_case("Module")).and_then(|x| entry_gff(d, x)).and_then(player_of);
+        let Some(inner) = erf_entries(d, e.at, e.at + e.size) else {
+            continue;
+        };
+        let pc = inner
+            .iter()
+            .find(|x| x.ty == T_IFO && x.name.eq_ignore_ascii_case("Module"))
+            .and_then(|x| entry_gff(d, x))
+            .and_then(player_of);
         if let Some(pc) = pc {
             modules.push((e.name.clone(), pc));
         }
     }
-    let old_pc = top.iter().find(|e| e.ty == T_UTC && e.name.eq_ignore_ascii_case("PC")).and_then(|e| entry_gff(d, e)).map(At::root);
+    let old_pc = top
+        .iter()
+        .find(|e| e.ty == T_UTC && e.name.eq_ignore_ascii_case("PC"))
+        .and_then(|e| entry_gff(d, e))
+        .map(At::root);
     let mut npcs: Vec<(usize, At)> = top
         .iter()
         .filter(|e| e.ty == T_UTC)
-        .filter_map(|e| Some((e.name.to_ascii_uppercase().strip_prefix("AVAILNPC")?.parse::<usize>().ok()?, entry_gff(d, e)?)))
+        .filter_map(|e| {
+            Some((
+                e.name
+                    .to_ascii_uppercase()
+                    .strip_prefix("AVAILNPC")?
+                    .parse::<usize>()
+                    .ok()?,
+                entry_gff(d, e)?,
+            ))
+        })
         .map(|(n, g)| (n, At::root(g)))
         .collect();
     npcs.sort_by_key(|x| x.0);
 
-    let k2 = modules.iter().map(|m| m.1).chain(old_pc).chain(npcs.iter().map(|n| n.1)).any(|c| is_k2(&c));
+    let k2 = modules
+        .iter()
+        .map(|m| m.1)
+        .chain(old_pc)
+        .chain(npcs.iter().map(|n| n.1))
+        .any(|c| is_k2(&c));
     let mut b = Builder::new(d);
-    b.info(&["Save", "Game"], if k2 { "Star Wars: Knights of the Old Republic II" } else { "Star Wars: Knights of the Old Republic" });
+    b.info(
+        &["Save", "Game"],
+        if k2 {
+            "Star Wars: Knights of the Old Republic II"
+        } else {
+            "Star Wars: Knights of the Old Republic"
+        },
+    );
 
     // The module the game was saved in (from savenfo.res beside the save).
     let nfo = sibling(path, "savenfo.res").and_then(|p| std::fs::read(p).ok());
@@ -170,10 +280,18 @@ fn parse_save(d: &[u8], path: Option<&Path>) -> Result<TreeDoc, String> {
     if let Some(area) = nfo_g.and_then(|g| g.text(0, "AREANAME")) {
         b.info(&["Save", "Area"], area);
     }
-    let live = match last.as_deref().and_then(|l| modules.iter().position(|m| m.0.eq_ignore_ascii_case(l))) {
+    let live = match last
+        .as_deref()
+        .and_then(|l| modules.iter().position(|m| m.0.eq_ignore_ascii_case(l)))
+    {
         Some(i) => Some(i),
         // Without savenfo.res: the copy with the most experience (the newest).
-        None => (0..modules.len()).max_by_key(|&i| (modules[i].1.int("Experience").unwrap_or(0), std::cmp::Reverse(i))),
+        None => (0..modules.len()).max_by_key(|&i| {
+            (
+                modules[i].1.int("Experience").unwrap_or(0),
+                std::cmp::Reverse(i),
+            )
+        }),
     };
     let pifo = sibling(path, "pifo.ifo").is_some();
     if let Some(i) = live {
@@ -182,7 +300,13 @@ fn parse_save(d: &[u8], path: Option<&Path>) -> Result<TreeDoc, String> {
     if pifo {
         b.info(&["Save", "Player file"], "pifo.ifo");
     } else if let Some(main) = live.map(|i| modules[i].1).or(old_pc) {
-        let copies: Vec<At> = modules.iter().enumerate().filter(|(i, _)| Some(*i) != live).map(|x| x.1 .1).chain(old_pc.filter(|_| live.is_some())).collect();
+        let copies: Vec<At> = modules
+            .iter()
+            .enumerate()
+            .filter(|(i, _)| Some(*i) != live)
+            .map(|x| x.1 .1)
+            .chain(old_pc.filter(|_| live.is_some()))
+            .collect();
         b.info(&["Save", "Player copies"], copies.len() as u64 + 1);
         let name = main.text("FirstName").unwrap_or_default();
         b.info(&["Player", "Name"], name.trim());
@@ -192,7 +316,10 @@ fn parse_save(d: &[u8], path: Option<&Path>) -> Result<TreeDoc, String> {
     let names: &[&str] = if k2 { &NPCS2 } else { &NPCS1 };
     let mut used: Vec<String> = vec![];
     for (n, c) in &npcs {
-        let mut name = names.get(*n).map(|s| s.to_string()).unwrap_or_else(|| name_of(c));
+        let mut name = names
+            .get(*n)
+            .map(|s| s.to_string())
+            .unwrap_or_else(|| name_of(c));
         if used.contains(&name) {
             name = format!("{name} ({n})");
         }
@@ -200,7 +327,11 @@ fn parse_save(d: &[u8], path: Option<&Path>) -> Result<TreeDoc, String> {
         creature(&mut b, &["Party", &name], *c, &[]);
     }
     let mut doc_items = vec![];
-    if let Some(inv) = top.iter().find(|e| e.name.eq_ignore_ascii_case("INVENTORY")).and_then(|e| entry_gff(d, e)) {
+    if let Some(inv) = top
+        .iter()
+        .find(|e| e.name.eq_ignore_ascii_case("INVENTORY"))
+        .and_then(|e| entry_gff(d, e))
+    {
         let mut seen: Vec<(String, i64)> = vec![];
         for it in At::root(inv).list("ItemList") {
             let tag = it.text("Tag").unwrap_or_default();
@@ -210,10 +341,20 @@ fn parse_save(d: &[u8], path: Option<&Path>) -> Result<TreeDoc, String> {
                 None => seen.push((tag, n)),
             }
         }
-        doc_items = seen.into_iter().map(|(t, n)| if n > 1 { format!("{t} \u{00D7}{n}") } else { t }).collect();
+        doc_items = seen
+            .into_iter()
+            .map(|(t, n)| if n > 1 { format!("{t} \u{00D7}{n}") } else { t })
+            .collect();
     }
     b.info(&["Inventory"], doc_items);
-    let doc = b.finish(if k2 { "Star Wars: KOTOR II save" } else { "Star Wars: KOTOR save" }, Checksum::None);
+    let doc = b.finish(
+        if k2 {
+            "Star Wars: KOTOR II save"
+        } else {
+            "Star Wars: KOTOR save"
+        },
+        Checksum::None,
+    );
     if live.is_none() && old_pc.is_none() && !pifo {
         return Err("no player found in this save".into());
     }
@@ -229,7 +370,14 @@ fn parse_party(d: &[u8]) -> Result<TreeDoc, String> {
     let k2 = r.has("PT_ITEM_COMPONEN") || r.has("PT_INFLUENCE");
     let names: &[&str] = if k2 { &NPCS2 } else { &NPCS1 };
     let mut b = Builder::new(d);
-    b.info(&["Save", "Game"], if k2 { "Star Wars: Knights of the Old Republic II" } else { "Star Wars: Knights of the Old Republic" });
+    b.info(
+        &["Save", "Game"],
+        if k2 {
+            "Star Wars: Knights of the Old Republic II"
+        } else {
+            "Star Wars: Knights of the Old Republic"
+        },
+    );
     if let Some(n) = r.text("PT_PCNAME").filter(|n| !n.is_empty()) {
         b.info(&["Save", "Player"], n);
     }
@@ -239,18 +387,55 @@ fn parse_party(d: &[u8]) -> Result<TreeDoc, String> {
     let max = i32::MAX as i64;
     r.edit(&mut b, &["Party", "Credits"], "PT_GOLD", 0, max, &[]);
     r.edit(&mut b, &["Party", "Party XP"], "PT_XP_POOL", 0, max, &[]);
-    r.edit(&mut b, &["Party", "Components"], "PT_ITEM_COMPONEN", 0, max, &[]);
-    r.edit(&mut b, &["Party", "Chemicals"], "PT_ITEM_CHEMICAL", 0, max, &[]);
-    let npc = |i: i64| usize::try_from(i).ok().and_then(|i| names.get(i)).map_or_else(|| format!("NPC {i}"), |s| s.to_string());
-    let members: Vec<String> = r.list("PT_MEMBERS").iter().filter_map(|m| m.int("PT_MEMBER_ID")).map(npc).collect();
+    r.edit(
+        &mut b,
+        &["Party", "Components"],
+        "PT_ITEM_COMPONEN",
+        0,
+        max,
+        &[],
+    );
+    r.edit(
+        &mut b,
+        &["Party", "Chemicals"],
+        "PT_ITEM_CHEMICAL",
+        0,
+        max,
+        &[],
+    );
+    let npc = |i: i64| {
+        usize::try_from(i)
+            .ok()
+            .and_then(|i| names.get(i))
+            .map_or_else(|| format!("NPC {i}"), |s| s.to_string())
+    };
+    let members: Vec<String> = r
+        .list("PT_MEMBERS")
+        .iter()
+        .filter_map(|m| m.int("PT_MEMBER_ID"))
+        .map(npc)
+        .collect();
     b.info(&["Party", "In the party"], members);
-    let avail: Vec<String> = r.list("PT_AVAIL_NPCS").iter().enumerate().filter(|(_, m)| m.int("PT_NPC_AVAIL").unwrap_or(0) != 0).map(|(i, _)| npc(i as i64)).collect();
+    let avail: Vec<String> = r
+        .list("PT_AVAIL_NPCS")
+        .iter()
+        .enumerate()
+        .filter(|(_, m)| m.int("PT_NPC_AVAIL").unwrap_or(0) != 0)
+        .map(|(i, _)| npc(i as i64))
+        .collect();
     b.info(&["Party", "Available"], avail);
     for (i, m) in r.list("PT_INFLUENCE").iter().enumerate() {
         let name = npc(i as i64);
         match m.int("PT_NPC_INFLUENCE") {
             Some(v) if v >= 0 => {
-                m.edit(&mut b, &["Influence", &name], "PT_NPC_INFLUENCE", 0, 100, &[]);
+                m.edit(
+                    &mut b,
+                    &["Influence", &name],
+                    "PT_NPC_INFLUENCE",
+                    0,
+                    100,
+                    &[],
+                );
             }
             Some(_) => b.info(&["Influence", &name], "not met"),
             None => {}
@@ -270,12 +455,31 @@ fn parse_player(d: &[u8]) -> Result<TreeDoc, String> {
     let pc = player_of(g).ok_or("no player in this file")?;
     let mut b = Builder::new(d);
     let k2 = is_k2(&pc);
-    b.info(&["Save", "Game"], if k2 { "Star Wars: Knights of the Old Republic II" } else { "Star Wars: Knights of the Old Republic" });
+    b.info(
+        &["Save", "Game"],
+        if k2 {
+            "Star Wars: Knights of the Old Republic II"
+        } else {
+            "Star Wars: Knights of the Old Republic"
+        },
+    );
     b.info(&["Save", "Player file"], "pifo.ifo");
-    b.info(&["Player", "Name"], pc.text("FirstName").unwrap_or_default().trim());
+    b.info(
+        &["Player", "Name"],
+        pc.text("FirstName").unwrap_or_default().trim(),
+    );
     creature(&mut b, &["Player"], pc, &[]);
-    Ok(b.finish(if k2 { "Star Wars: KOTOR II save" } else { "Star Wars: KOTOR save" }, Checksum::None)
-        .with_note("pifo.ifo: the player as this auto-save keeps it (the game loads the player from here)."))
+    Ok(b.finish(
+        if k2 {
+            "Star Wars: KOTOR II save"
+        } else {
+            "Star Wars: KOTOR save"
+        },
+        Checksum::None,
+    )
+    .with_note(
+        "pifo.ifo: the player as this auto-save keeps it (the game loads the player from here).",
+    ))
 }
 
 #[cfg(test)]
@@ -303,8 +507,21 @@ mod tests {
             ("Experience", V::Dword(xp)),
             ("GoodEvil", V::Byte(70)),
             ("SkillPoints", V::Word(2)),
-            ("ClassList", V::List(vec![(2, vec![("Class", V::Int(1)), ("ClassLevel", V::Short(8))]), (2, vec![("Class", V::Int(4)), ("ClassLevel", V::Short(3))])])),
-            ("SkillList", V::List((0..8).map(|i| (0, vec![("Rank", V::Byte(i as u8))])).collect())),
+            (
+                "ClassList",
+                V::List(vec![
+                    (2, vec![("Class", V::Int(1)), ("ClassLevel", V::Short(8))]),
+                    (2, vec![("Class", V::Int(4)), ("ClassLevel", V::Short(3))]),
+                ]),
+            ),
+            (
+                "SkillList",
+                V::List(
+                    (0..8)
+                        .map(|i| (0, vec![("Rank", V::Byte(i as u8))]))
+                        .collect(),
+                ),
+            ),
         ];
         if k2 {
             f.push(("ItemComponent", V::Dword(0)));
@@ -313,7 +530,13 @@ mod tests {
     }
 
     fn ifo(pc: Vec<(&'static str, V)>) -> Vec<u8> {
-        gff("IFO ", vec![("Mod_Name", V::Str("m")), ("Mod_PlayerList", V::List(vec![(0, pc)]))])
+        gff(
+            "IFO ",
+            vec![
+                ("Mod_Name", V::Str("m")),
+                ("Mod_PlayerList", V::List(vec![(0, pc)])),
+            ],
+        )
     }
 
     /// The fields of `utc` as a list (to put a player into Module.ifo).
@@ -323,7 +546,14 @@ mod tests {
             ("Str", V::Byte(str_)),
             ("ForcePoints", V::Short(20)),
             ("Experience", V::Dword(xp)),
-            ("SkillList", V::List((0..8).map(|i| (0, vec![("Rank", V::Byte(i as u8))])).collect())),
+            (
+                "SkillList",
+                V::List(
+                    (0..8)
+                        .map(|i| (0, vec![("Rank", V::Byte(i as u8))]))
+                        .collect(),
+                ),
+            ),
         ]
     }
 
@@ -331,10 +561,34 @@ mod tests {
         erf(&[
             ("AVAILNPC0", T_UTC, utc("bastila", "", 1000, 12, k2)),
             ("AVAILNPC2", T_UTC, utc("carth", "Carth", 900, 16, k2)),
-            ("INVENTORY", 0, gff("INV ", vec![("ItemList", V::List(vec![(0, vec![("Tag", V::Str("g_i_medeqpmnt01")), ("StackSize", V::Word(5))])]))])),
+            (
+                "INVENTORY",
+                0,
+                gff(
+                    "INV ",
+                    vec![(
+                        "ItemList",
+                        V::List(vec![(
+                            0,
+                            vec![
+                                ("Tag", V::Str("g_i_medeqpmnt01")),
+                                ("StackSize", V::Word(5)),
+                            ],
+                        )]),
+                    )],
+                ),
+            ),
             ("PC", T_UTC, utc("", "Revan", 100, 10, k2)),
-            ("old_mod", T_SAV, erf(&[("Module", T_IFO, ifo(pc_fields(500, 11)))])),
-            ("new_mod", T_SAV, erf(&[("Module", T_IFO, ifo(pc_fields(800, 13)))])),
+            (
+                "old_mod",
+                T_SAV,
+                erf(&[("Module", T_IFO, ifo(pc_fields(500, 11)))]),
+            ),
+            (
+                "new_mod",
+                T_SAV,
+                erf(&[("Module", T_IFO, ifo(pc_fields(800, 13)))]),
+            ),
         ])
     }
 
@@ -344,39 +598,77 @@ mod tests {
         assert!(looks(&d));
         let mut doc = parse(&d, None).unwrap();
         let v = &doc.view;
-        assert_eq!(v.pointer("/Save/Game"), Some(&Value::from("Star Wars: Knights of the Old Republic")));
+        assert_eq!(
+            v.pointer("/Save/Game"),
+            Some(&Value::from("Star Wars: Knights of the Old Republic"))
+        );
         // Without savenfo.res, the newest copy (most experience) is shown.
         assert_eq!(v.pointer("/Save/Module"), Some(&Value::from("new_mod")));
         assert_eq!(v.pointer("/Player/Experience"), Some(&Value::from(800)));
-        assert_eq!(v.pointer("/Player/Attributes/Strength"), Some(&Value::from(13)));
-        assert_eq!(v.pointer("/Player/Skills/Treat Injury"), Some(&Value::from(7)));
-        assert_eq!(v.pointer("/Party/Bastila/Attributes/Strength"), Some(&Value::from(12)));
-        assert_eq!(v.pointer("/Party/Carth/Classes"), Some(&Value::from("Scout 8 / Jedi Consular 3")));
+        assert_eq!(
+            v.pointer("/Player/Attributes/Strength"),
+            Some(&Value::from(13))
+        );
+        assert_eq!(
+            v.pointer("/Player/Skills/Treat Injury"),
+            Some(&Value::from(7))
+        );
+        assert_eq!(
+            v.pointer("/Party/Bastila/Attributes/Strength"),
+            Some(&Value::from(12))
+        );
+        assert_eq!(
+            v.pointer("/Party/Carth/Classes"),
+            Some(&Value::from("Scout 8 / Jedi Consular 3"))
+        );
         assert_eq!(v.pointer("/Party/Carth/Level"), Some(&Value::from(11)));
-        assert_eq!(v.pointer("/Party/Carth/Health/Max FP"), Some(&Value::from(30)));
-        assert_eq!(v.pointer("/Inventory/0"), Some(&Value::from("g_i_medeqpmnt01 \u{00D7}5")));
+        assert_eq!(
+            v.pointer("/Party/Carth/Health/Max FP"),
+            Some(&Value::from(30))
+        );
+        assert_eq!(
+            v.pointer("/Inventory/0"),
+            Some(&Value::from("g_i_medeqpmnt01 \u{00D7}5"))
+        );
         doc.set("/Player/Experience", Value::from(5000)).unwrap();
-        doc.set("/Player/Attributes/Strength", Value::from(18)).unwrap();
+        doc.set("/Player/Attributes/Strength", Value::from(18))
+            .unwrap();
         doc.set("/Player/Skills/Repair", Value::from(9)).unwrap();
-        doc.set("/Party/Carth/Attributes/Dexterity", Value::from(20)).unwrap();
+        doc.set("/Party/Carth/Attributes/Dexterity", Value::from(20))
+            .unwrap();
         let out = doc.to_bytes().unwrap();
         assert_eq!(out.len(), d.len());
         let again = parse(&out, None).unwrap();
-        assert_eq!(again.view.pointer("/Player/Experience"), Some(&Value::from(5000)));
-        assert_eq!(again.view.pointer("/Party/Carth/Attributes/Dexterity"), Some(&Value::from(20)));
-        assert_eq!(again.view.pointer("/Party/Bastila/Attributes/Dexterity"), Some(&Value::from(14)));
+        assert_eq!(
+            again.view.pointer("/Player/Experience"),
+            Some(&Value::from(5000))
+        );
+        assert_eq!(
+            again.view.pointer("/Party/Carth/Attributes/Dexterity"),
+            Some(&Value::from(20))
+        );
+        assert_eq!(
+            again.view.pointer("/Party/Bastila/Attributes/Dexterity"),
+            Some(&Value::from(14))
+        );
         // Every copy of the player got the edit.
         let top = erf_entries(&out, 0, out.len()).unwrap();
         for e in top.iter().filter(|e| e.ty == T_SAV) {
             let inner = erf_entries(&out, e.at, e.at + e.size).unwrap();
             let pc = player_of(entry_gff(&out, &inner[0]).unwrap()).unwrap();
-            assert_eq!((pc.int("Experience"), pc.int("Str")), (Some(5000), Some(18)));
+            assert_eq!(
+                (pc.int("Experience"), pc.int("Str")),
+                (Some(5000), Some(18))
+            );
             assert_eq!(pc.list("SkillList")[5].int("Rank"), Some(9));
         }
         let old = At::root(entry_gff(&out, top.iter().find(|e| e.name == "PC").unwrap()).unwrap());
         assert_eq!(old.int("Experience"), Some(5000));
         // Untouched values are unchanged.
-        assert_eq!(again.view.pointer("/Player/Skills/Stealth"), Some(&Value::from(2)));
+        assert_eq!(
+            again.view.pointer("/Player/Skills/Stealth"),
+            Some(&Value::from(2))
+        );
     }
 
     #[test]
@@ -395,8 +687,20 @@ mod tests {
                 ("PT_ITEM_CHEMICAL", V::Dword(514)),
                 ("PT_XP_POOL", V::Int(416319)),
                 ("PT_PLAYEDSECONDS", V::Dword(7200)),
-                ("PT_MEMBERS", V::List(vec![(0, vec![("PT_MEMBER_ID", V::Int(9)), ("PT_IS_LEADER", V::Byte(0))])])),
-                ("PT_INFLUENCE", V::List(vec![(0, vec![("PT_NPC_INFLUENCE", V::Int(92))]), (0, vec![("PT_NPC_INFLUENCE", V::Int(-1))])])),
+                (
+                    "PT_MEMBERS",
+                    V::List(vec![(
+                        0,
+                        vec![("PT_MEMBER_ID", V::Int(9)), ("PT_IS_LEADER", V::Byte(0))],
+                    )]),
+                ),
+                (
+                    "PT_INFLUENCE",
+                    V::List(vec![
+                        (0, vec![("PT_NPC_INFLUENCE", V::Int(92))]),
+                        (0, vec![("PT_NPC_INFLUENCE", V::Int(-1))]),
+                    ]),
+                ),
             ],
         );
         assert!(looks(&pt));
@@ -404,9 +708,15 @@ mod tests {
         assert_eq!(p.kind_name, "Star Wars: KOTOR II party table");
         assert_eq!(p.view.pointer("/Party/Credits"), Some(&Value::from(28079)));
         assert_eq!(p.view.pointer("/Party/Components"), Some(&Value::from(346)));
-        assert_eq!(p.view.pointer("/Party/In the party/0"), Some(&Value::from("Visas")));
+        assert_eq!(
+            p.view.pointer("/Party/In the party/0"),
+            Some(&Value::from("Visas"))
+        );
         assert_eq!(p.view.pointer("/Influence/Atton"), Some(&Value::from(92)));
-        assert_eq!(p.view.pointer("/Influence/Bao-Dur"), Some(&Value::from("not met")));
+        assert_eq!(
+            p.view.pointer("/Influence/Bao-Dur"),
+            Some(&Value::from("not met"))
+        );
         assert!(p.set("/Influence/Atton", Value::from(101)).is_err());
         p.set("/Influence/Atton", Value::from(100)).unwrap();
         p.set("/Party/Credits", Value::from(28080)).unwrap();
@@ -418,7 +728,10 @@ mod tests {
         // pifo.ifo: the player alone.
         let pifo = ifo(pc_fields(42, 9));
         let pl = parse(&pifo, None).unwrap();
-        assert_eq!(pl.view.pointer("/Player/Experience"), Some(&Value::from(42)));
+        assert_eq!(
+            pl.view.pointer("/Player/Experience"),
+            Some(&Value::from(42))
+        );
         assert!(pl.view.pointer("/Party").is_none());
     }
 
@@ -429,13 +742,26 @@ mod tests {
     fn real_saves() {
         for dir in std::env::var("SAVE_EDITOR_KOTOR").unwrap().split('|') {
             for name in ["SAVEGAME.sav", "PARTYTABLE.res", "pifo.ifo"] {
-                let Some(p) = sibling(Some(&Path::new(dir).join("x")), name) else { continue };
+                let Some(p) = sibling(Some(&Path::new(dir).join("x")), name) else {
+                    continue;
+                };
                 let d = std::fs::read(&p).unwrap();
-                let mut doc = parse(&d, Some(&p)).unwrap_or_else(|e| panic!("{}: {e}", p.display()));
+                let mut doc =
+                    parse(&d, Some(&p)).unwrap_or_else(|e| panic!("{}: {e}", p.display()));
                 assert_eq!(doc.to_bytes().unwrap(), d, "{}", p.display());
                 let before = doc.view.clone();
-                let (ptr, key) = if name == "PARTYTABLE.res" { ("/Party/Credits", "") } else { ("/Player/Experience", "/Player/Attributes/Strength") };
-                println!("{} {}: {} = {:?}", p.display(), doc.kind_name, ptr, before.pointer(ptr));
+                let (ptr, key) = if name == "PARTYTABLE.res" {
+                    ("/Party/Credits", "")
+                } else {
+                    ("/Player/Experience", "/Player/Attributes/Strength")
+                };
+                println!(
+                    "{} {}: {} = {:?}",
+                    p.display(),
+                    doc.kind_name,
+                    ptr,
+                    before.pointer(ptr)
+                );
                 if before.pointer(ptr).is_none() {
                     println!("{}", serde_json::to_string_pretty(&before["Save"]).unwrap());
                     continue;
@@ -455,7 +781,14 @@ mod tests {
                 }
                 assert_eq!(again.view, want, "{}", p.display());
                 let changed = d.iter().zip(&out).filter(|(a, b)| a != b).count();
-                println!("  edit ok, {changed} bytes changed; {}", serde_json::to_string(&again.view["Party"]).unwrap().chars().take(300).collect::<String>());
+                println!(
+                    "  edit ok, {changed} bytes changed; {}",
+                    serde_json::to_string(&again.view["Party"])
+                        .unwrap()
+                        .chars()
+                        .take(300)
+                        .collect::<String>()
+                );
             }
         }
     }

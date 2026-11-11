@@ -27,7 +27,9 @@ fn invert(b: u8) -> u8 {
 }
 
 fn checksum(d: &[u8]) -> u32 {
-    d.iter().fold(0x14D3u32, |c, &b| c.wrapping_mul(33).wrapping_add(u32::from(b)))
+    d.iter().fold(0x14D3u32, |c, &b| {
+        c.wrapping_mul(33).wrapping_add(u32::from(b))
+    })
 }
 
 fn u32_at(d: &[u8], at: usize) -> Option<u32> {
@@ -36,18 +38,27 @@ fn u32_at(d: &[u8], at: usize) -> Option<u32> {
 
 /// The plain body of a current (0x44) save whose size and checksum are right.
 pub fn unpack(file: &[u8]) -> Option<Vec<u8>> {
-    if file.len() < 13 || u32_at(file, 0)? != VERSION || file[4] != 1 || u32_at(file, file.len() - 4)? as usize != file.len() {
+    if file.len() < 13
+        || u32_at(file, 0)? != VERSION
+        || file[4] != 1
+        || u32_at(file, file.len() - 4)? as usize != file.len()
+    {
         return None;
     }
     let body = &file[9..file.len() - 4];
     let n = body.len();
-    let plain: Vec<u8> = (0..n).map(|i| invert((body[i] >> 4) | (body[n - 1 - i] << 4))).collect();
+    let plain: Vec<u8> = (0..n)
+        .map(|i| invert((body[i] >> 4) | (body[n - 1 - i] << 4)))
+        .collect();
     (checksum(&plain) == u32_at(file, 5)?).then_some(plain)
 }
 
 /// An older (0x40) save: recognised so the player can be told it isn't supported.
 pub fn is_old(file: &[u8]) -> bool {
-    file.len() > 16 && u32_at(file, 0) == Some(0x40) && file[4] == 1 && u32_at(file, file.len() - 4).is_some_and(|n| n as usize + 4 == file.len())
+    file.len() > 16
+        && u32_at(file, 0) == Some(0x40)
+        && file[4] == 1
+        && u32_at(file, file.len() - 4).is_some_and(|n| n as usize + 4 == file.len())
 }
 
 /// The save file for this plain body.
@@ -83,7 +94,10 @@ struct Rd<'a> {
 
 impl<'a> Rd<'a> {
     fn take(&mut self, n: usize) -> R<&'a [u8]> {
-        let s = self.d.get(self.pos..self.pos + n).ok_or("the save ends early")?;
+        let s = self
+            .d
+            .get(self.pos..self.pos + n)
+            .ok_or("the save ends early")?;
         self.pos += n;
         Ok(s)
     }
@@ -110,7 +124,11 @@ impl<'a> Rd<'a> {
             return Err(format!("bad text length at {}", self.pos - 2));
         }
         let b = self.take(2 * n as usize)?;
-        Ok(String::from_utf16_lossy(&b.chunks(2).map(|c| u16::from_le_bytes([c[0], c[1]])).collect::<Vec<_>>()))
+        Ok(String::from_utf16_lossy(
+            &b.chunks(2)
+                .map(|c| u16::from_le_bytes([c[0], c[1]]))
+                .collect::<Vec<_>>(),
+        ))
     }
     fn ff(&mut self, n: usize) -> R<()> {
         if self.take(n)?.iter().all(|&b| b == 0xFF) {
@@ -157,7 +175,11 @@ fn class_name(s: &str) -> String {
     let parts: Vec<&str> = s.split('_').collect();
     match parts.as_slice() {
         [_, mid @ .., sex] if !mid.is_empty() && (*sex == "M" || *sex == "F") => {
-            format!("{} ({})", mid.join(" "), if *sex == "M" { "male" } else { "female" })
+            format!(
+                "{} ({})",
+                mid.join(" "),
+                if *sex == "M" { "male" } else { "female" }
+            )
         }
         _ => s.to_string(),
     }
@@ -248,11 +270,22 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
     r.text()?;
     r.take(84)?;
     let i32_max = i32::MAX as i64;
-    for (k, lo, hi) in [("Level", 1, 100), ("Experience", 0, i32_max), ("Fame level", 0, 100), ("Fame", 0, i32_max)] {
+    for (k, lo, hi) in [
+        ("Level", 1, 100),
+        ("Experience", 0, i32_max),
+        ("Fame level", 0, 100),
+        ("Fame", 0, i32_max),
+    ] {
         b.ranged(&["Progress", k], r.pos, Kind::I32, lo, hi);
         r.take(4)?;
     }
-    b.ranged(&["Health and mana", "Health"], r.pos, Kind::F32, 1, 1_000_000);
+    b.ranged(
+        &["Health and mana", "Health"],
+        r.pos,
+        Kind::F32,
+        1,
+        1_000_000,
+    );
     r.take(4 + 4 + 4)?;
     b.ranged(&["Health and mana", "Mana"], r.pos, Kind::F32, 0, 1_000_000);
     r.take(4 + 4 + 12)?;
@@ -299,10 +332,18 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
     if whole {
         let mut seen: HashMap<String, usize> = HashMap::new();
         for (name, at) in items {
-            let name = if name.trim().is_empty() { "Item".to_string() } else { name };
+            let name = if name.trim().is_empty() {
+                "Item".to_string()
+            } else {
+                name
+            };
             let n = seen.entry(name.clone()).or_default();
             *n += 1;
-            let label = if *n > 1 { format!("{name} ({n})") } else { name };
+            let label = if *n > 1 {
+                format!("{name} ({n})")
+            } else {
+                name
+            };
             b.ranged(&["Items", &label], at, Kind::I32, 1, 100_000);
         }
     }
@@ -442,6 +483,16 @@ mod tests {
             let n = n.to_lowercase();
             n.ends_with(".svb") || n.ends_with(".restore") || n == "backup.tmp"
         };
-        crate::fmt::grimdawn::tests::research("SAVE_EDITOR_TL2", want, "Torchlight II character", &["/Progress/Gold", "/Stats/Strength", "/Health and mana/Mana", "/Progress/Level"]);
+        crate::fmt::grimdawn::tests::research(
+            "SAVE_EDITOR_TL2",
+            want,
+            "Torchlight II character",
+            &[
+                "/Progress/Gold",
+                "/Stats/Strength",
+                "/Health and mana/Mana",
+                "/Progress/Level",
+            ],
+        );
     }
 }

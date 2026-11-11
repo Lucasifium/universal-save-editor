@@ -8,23 +8,50 @@ pub const MAX_RESULTS: usize = 100_000;
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum NumType {
-    U8, I8, U16, I16, U32, I32, U64, I64, F32, F64, Ascii, Utf16,
+    U8,
+    I8,
+    U16,
+    I16,
+    U32,
+    I32,
+    U64,
+    I64,
+    F32,
+    F64,
+    Ascii,
+    Utf16,
 }
 
 impl NumType {
     pub const ALL: [NumType; 12] = [
-        NumType::U8, NumType::I8, NumType::U16, NumType::I16, NumType::U32, NumType::I32,
-        NumType::U64, NumType::I64, NumType::F32, NumType::F64, NumType::Ascii, NumType::Utf16,
+        NumType::U8,
+        NumType::I8,
+        NumType::U16,
+        NumType::I16,
+        NumType::U32,
+        NumType::I32,
+        NumType::U64,
+        NumType::I64,
+        NumType::F32,
+        NumType::F64,
+        NumType::Ascii,
+        NumType::Utf16,
     ];
 
     pub fn name(self) -> &'static str {
         match self {
-            NumType::U8 => "u8", NumType::I8 => "i8",
-            NumType::U16 => "u16", NumType::I16 => "i16",
-            NumType::U32 => "u32", NumType::I32 => "i32",
-            NumType::U64 => "u64", NumType::I64 => "i64",
-            NumType::F32 => "f32", NumType::F64 => "f64",
-            NumType::Ascii => "text (ASCII/UTF-8)", NumType::Utf16 => "text (UTF-16)",
+            NumType::U8 => "u8",
+            NumType::I8 => "i8",
+            NumType::U16 => "u16",
+            NumType::I16 => "i16",
+            NumType::U32 => "u32",
+            NumType::I32 => "i32",
+            NumType::U64 => "u64",
+            NumType::I64 => "i64",
+            NumType::F32 => "f32",
+            NumType::F64 => "f64",
+            NumType::Ascii => "text (ASCII/UTF-8)",
+            NumType::Utf16 => "text (UTF-16)",
         }
     }
 
@@ -50,14 +77,23 @@ impl NumType {
 macro_rules! num_bytes {
     ($t:ty, $s:expr, $be:expr) => {{
         let v: $t = $s.trim().parse().map_err(|e| format!("{e}"))?;
-        if $be { v.to_be_bytes().to_vec() } else { v.to_le_bytes().to_vec() }
+        if $be {
+            v.to_be_bytes().to_vec()
+        } else {
+            v.to_le_bytes().to_vec()
+        }
     }};
 }
 
 macro_rules! num_read {
     ($t:ty, $d:expr, $be:expr) => {{
         let arr = $d.try_into().ok()?;
-        (if $be { <$t>::from_be_bytes(arr) } else { <$t>::from_le_bytes(arr) }).to_string()
+        (if $be {
+            <$t>::from_be_bytes(arr)
+        } else {
+            <$t>::from_le_bytes(arr)
+        })
+        .to_string()
     }};
 }
 
@@ -75,11 +111,15 @@ pub fn encode_value(ty: NumType, text: &str, be: bool) -> Result<Vec<u8>, String
         NumType::F32 => num_bytes!(f32, text, be),
         NumType::F64 => num_bytes!(f64, text, be),
         NumType::Ascii => {
-            if text.is_empty() { return Err("empty text".into()); }
+            if text.is_empty() {
+                return Err("empty text".into());
+            }
             text.as_bytes().to_vec()
         }
         NumType::Utf16 => {
-            if text.is_empty() { return Err("empty text".into()); }
+            if text.is_empty() {
+                return Err("empty text".into());
+            }
             text.encode_utf16()
                 .flat_map(|u| if be { u.to_be_bytes() } else { u.to_le_bytes() })
                 .collect()
@@ -105,11 +145,25 @@ pub fn read_value(ty: NumType, data: &[u8], off: usize, be: bool) -> Option<Stri
         NumType::I64 => num_read!(i64, d, be),
         NumType::F32 => {
             let arr: [u8; 4] = d.try_into().ok()?;
-            fmt_float(if be { f32::from_be_bytes(arr) } else { f32::from_le_bytes(arr) } as f64, true)
+            fmt_float(
+                if be {
+                    f32::from_be_bytes(arr)
+                } else {
+                    f32::from_le_bytes(arr)
+                } as f64,
+                true,
+            )
         }
         NumType::F64 => {
             let arr: [u8; 8] = d.try_into().ok()?;
-            fmt_float(if be { f64::from_be_bytes(arr) } else { f64::from_le_bytes(arr) }, false)
+            fmt_float(
+                if be {
+                    f64::from_be_bytes(arr)
+                } else {
+                    f64::from_le_bytes(arr)
+                },
+                false,
+            )
         }
         NumType::Ascii | NumType::Utf16 => unreachable!(),
     })
@@ -179,8 +233,14 @@ impl ScanMode {
     pub const FIRST: [ScanMode; 3] = [ScanMode::Exact, ScanMode::Between, ScanMode::Unknown];
     /// Modes that narrow an existing scan.
     pub const NEXT: [ScanMode; 8] = [
-        ScanMode::Exact, ScanMode::Changed, ScanMode::Unchanged, ScanMode::Increased,
-        ScanMode::Decreased, ScanMode::IncreasedBy, ScanMode::DecreasedBy, ScanMode::Between,
+        ScanMode::Exact,
+        ScanMode::Changed,
+        ScanMode::Unchanged,
+        ScanMode::Increased,
+        ScanMode::Decreased,
+        ScanMode::IncreasedBy,
+        ScanMode::DecreasedBy,
+        ScanMode::Between,
     ];
 
     pub fn name(self) -> &'static str {
@@ -208,7 +268,15 @@ impl ScanMode {
 
     /// Does the mode compare an earlier copy of the data with a later one?
     pub fn compares(self) -> bool {
-        matches!(self, ScanMode::Changed | ScanMode::Unchanged | ScanMode::Increased | ScanMode::Decreased | ScanMode::IncreasedBy | ScanMode::DecreasedBy)
+        matches!(
+            self,
+            ScanMode::Changed
+                | ScanMode::Unchanged
+                | ScanMode::Increased
+                | ScanMode::Decreased
+                | ScanMode::IncreasedBy
+                | ScanMode::DecreasedBy
+        )
     }
 }
 
@@ -218,7 +286,11 @@ pub fn number_at(ty: NumType, data: &[u8], off: usize, be: bool) -> Option<f64> 
     macro_rules! n {
         ($t:ty) => {{
             let a = d.try_into().ok()?;
-            (if be { <$t>::from_be_bytes(a) } else { <$t>::from_le_bytes(a) }) as f64
+            (if be {
+                <$t>::from_be_bytes(a)
+            } else {
+                <$t>::from_le_bytes(a)
+            }) as f64
         }};
     }
     Some(match ty {
@@ -237,11 +309,17 @@ pub fn number_at(ty: NumType, data: &[u8], off: usize, be: bool) -> Option<f64> 
 }
 
 fn parse_num(text: &str) -> Result<f64, String> {
-    text.trim().parse::<f64>().map_err(|_| format!("\"{}\" is not a number", text.trim()))
+    text.trim()
+        .parse::<f64>()
+        .map_err(|_| format!("\"{}\" is not a number", text.trim()))
 }
 
 fn near(ty: NumType, a: f64, b: f64) -> bool {
-    if ty.is_float() { float_close(a, b) } else { a == b }
+    if ty.is_float() {
+        float_close(a, b)
+    } else {
+        a == b
+    }
 }
 
 /// Runs one scan step.
@@ -276,7 +354,9 @@ pub fn scan(
         });
     }
     if mode == ScanMode::Unknown {
-        return Err("An unknown-value scan keeps every location; it has nothing to test yet".into());
+        return Err(
+            "An unknown-value scan keeps every location; it has nothing to test yet".into(),
+        );
     }
     if mode.compares() && before.is_none() {
         return Err("This scan compares with an earlier copy \u{2014} start a scan first".into());
@@ -290,7 +370,9 @@ pub fn scan(
         }
     };
     let test = |o: usize| -> bool {
-        let Some(v) = number_at(ty, now, o, be) else { return false };
+        let Some(v) = number_at(ty, now, o, be) else {
+            return false;
+        };
         if ty.is_float() && !v.is_finite() {
             return false;
         }
@@ -309,11 +391,20 @@ pub fn scan(
         }
     };
     let out: Vec<usize> = match candidates {
-        Some(c) => c.iter().copied().filter(|&o| test(o)).take(MAX_RESULTS).collect(),
+        Some(c) => c
+            .iter()
+            .copied()
+            .filter(|&o| test(o))
+            .take(MAX_RESULTS)
+            .collect(),
         None => {
             let step = if aligned { size } else { 1 };
             let end = now.len().saturating_sub(size - 1);
-            (0..end).step_by(step).filter(|&o| test(o)).take(MAX_RESULTS).collect()
+            (0..end)
+                .step_by(step)
+                .filter(|&o| test(o))
+                .take(MAX_RESULTS)
+                .collect()
         }
     };
     Ok(out)
@@ -388,7 +479,11 @@ impl HexState {
 
     /// Candidates for the next scan step (`None` while an unknown-value scan keeps everything).
     pub fn candidates(&self) -> Option<&[usize]> {
-        if self.all_locations { None } else { Some(&self.results) }
+        if self.all_locations {
+            None
+        } else {
+            Some(&self.results)
+        }
     }
 
     /// Starts a scan on `data` with the first-scan mode.
@@ -398,7 +493,17 @@ impl HexState {
             self.all_locations = true;
             return Ok("Every location is in play. Change the value in-game, save, then refine with Increased, Decreased or Changed.".into());
         }
-        let res = scan(self.search_type, self.first_mode, None, data, None, &self.search_text, &self.search_text2, self.big_endian, self.aligned)?;
+        let res = scan(
+            self.search_type,
+            self.first_mode,
+            None,
+            data,
+            None,
+            &self.search_text,
+            &self.search_text2,
+            self.big_endian,
+            self.aligned,
+        )?;
         let n = res.len();
         self.set_results(res);
         Ok(format!("{n} possible location(s)"))
@@ -406,8 +511,27 @@ impl HexState {
 
     /// Narrows the scan: `before` is the data the current results came from, `now` the new data.
     pub fn refine(&mut self, before: &[u8], now: &[u8]) -> Result<(usize, usize), String> {
-        let was = if self.all_locations { now.len() / if self.aligned { self.search_type.size().max(1) } else { 1 } } else { self.results.len() };
-        let res = scan(self.search_type, self.next_mode, Some(before), now, self.candidates(), &self.search_text, &self.search_text2, self.big_endian, self.aligned)?;
+        let was = if self.all_locations {
+            now.len()
+                / if self.aligned {
+                    self.search_type.size().max(1)
+                } else {
+                    1
+                }
+        } else {
+            self.results.len()
+        };
+        let res = scan(
+            self.search_type,
+            self.next_mode,
+            Some(before),
+            now,
+            self.candidates(),
+            &self.search_text,
+            &self.search_text2,
+            self.big_endian,
+            self.aligned,
+        )?;
         let n = res.len();
         self.set_results(res);
         Ok((was, n))
@@ -424,7 +548,11 @@ pub fn hex_grid(ui: &mut Ui, data: &[u8], baseline: &[u8], st: &mut HexState) {
     let row_h = ui.text_style_height(&egui::TextStyle::Monospace) + 2.0;
     let rows = data.len().div_ceil(BYTES_PER_ROW).max(1);
     let search_len = match st.search_type {
-        NumType::Ascii | NumType::Utf16 => encode_value(st.search_type, &st.search_text, st.big_endian).map(|p| p.len()).unwrap_or(1),
+        NumType::Ascii | NumType::Utf16 => {
+            encode_value(st.search_type, &st.search_text, st.big_endian)
+                .map(|p| p.len())
+                .unwrap_or(1)
+        }
         t => t.size(),
     };
 
@@ -457,13 +585,19 @@ pub fn hex_grid(ui: &mut Ui, data: &[u8], baseline: &[u8], st: &mut HexState) {
                         .filter(|(&s, l)| off < s + l.ty.size().max(1));
                     let mut text = RichText::new(format!("{:02X}", data[off])).monospace();
                     if off == st.selected {
-                        text = text.background_color(Color32::from_rgb(70, 80, 190)).color(Color32::WHITE);
+                        text = text
+                            .background_color(Color32::from_rgb(70, 80, 190))
+                            .color(Color32::WHITE);
                     } else if baseline.get(off) != Some(&data[off]) {
                         text = text.color(crate::theme::MODIFIED).strong();
                     } else if label.is_some() {
-                        text = text.background_color(Color32::from_rgb(30, 110, 60)).color(Color32::WHITE);
+                        text = text
+                            .background_color(Color32::from_rgb(30, 110, 60))
+                            .color(Color32::WHITE);
                     } else if in_hit {
-                        text = text.background_color(Color32::from_rgb(120, 90, 20)).color(Color32::WHITE);
+                        text = text
+                            .background_color(Color32::from_rgb(120, 90, 20))
+                            .color(Color32::WHITE);
                     } else if data[off] == 0 {
                         text = text.color(Color32::DARK_GRAY);
                     }
@@ -478,7 +612,13 @@ pub fn hex_grid(ui: &mut Ui, data: &[u8], baseline: &[u8], st: &mut HexState) {
                 ui.add_space(8.0);
                 let ascii: String = data[start..end]
                     .iter()
-                    .map(|&b| if b.is_ascii_graphic() || b == b' ' { b as char } else { '.' })
+                    .map(|&b| {
+                        if b.is_ascii_graphic() || b == b' ' {
+                            b as char
+                        } else {
+                            '.'
+                        }
+                    })
                     .collect();
                 ui.monospace(ascii);
             });
@@ -498,14 +638,20 @@ mod tests {
     fn unknown_then_compare_scans() {
         let before = file(&[10, 500, 7, 7, 900]);
         let after = file(&[10, 450, 7, 9, 905]);
-        let mut st = HexState { first_mode: ScanMode::Unknown, ..Default::default() };
+        let mut st = HexState {
+            first_mode: ScanMode::Unknown,
+            ..Default::default()
+        };
         st.start_scan(&before).unwrap();
         assert!(st.all_locations);
         st.next_mode = ScanMode::Decreased;
         st.refine(&before, &after).unwrap();
         assert_eq!(st.results, vec![4]);
 
-        let mut st = HexState { first_mode: ScanMode::Unknown, ..Default::default() };
+        let mut st = HexState {
+            first_mode: ScanMode::Unknown,
+            ..Default::default()
+        };
         st.start_scan(&before).unwrap();
         st.next_mode = ScanMode::IncreasedBy;
         st.search_text = "5".into();
@@ -516,7 +662,12 @@ mod tests {
         st.refine(&after, &after).unwrap();
         assert_eq!(st.results, vec![16]);
 
-        let mut st = HexState { first_mode: ScanMode::Between, search_text: "400".into(), search_text2: "600".into(), ..Default::default() };
+        let mut st = HexState {
+            first_mode: ScanMode::Between,
+            search_text: "400".into(),
+            search_text2: "600".into(),
+            ..Default::default()
+        };
         st.start_scan(&before).unwrap();
         assert_eq!(st.results, vec![4]);
         st.next_mode = ScanMode::Changed;
@@ -528,7 +679,12 @@ mod tests {
     fn unaligned_scan_and_floats() {
         let mut d = vec![0u8; 3];
         d.extend(2.5f32.to_le_bytes());
-        let mut st = HexState { search_type: NumType::F32, search_text: "2.5".into(), aligned: false, ..Default::default() };
+        let mut st = HexState {
+            search_type: NumType::F32,
+            search_text: "2.5".into(),
+            aligned: false,
+            ..Default::default()
+        };
         st.start_scan(&d).unwrap();
         assert_eq!(st.results, vec![3]);
         st.aligned = true;

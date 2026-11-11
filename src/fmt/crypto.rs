@@ -7,14 +7,21 @@
 //!   16 bytes. Key = the 32 hex characters of md5(password). The stored MD5 lets us
 //!   confirm a password is right.
 
-use aes::cipher::{block_padding::Pkcs7, AsyncStreamCipher, BlockDecrypt, BlockDecryptMut, BlockEncrypt, BlockEncryptMut, KeyInit, KeyIvInit};
+use aes::cipher::{
+    block_padding::Pkcs7, AsyncStreamCipher, BlockDecrypt, BlockDecryptMut, BlockEncrypt,
+    BlockEncryptMut, KeyInit, KeyIvInit,
+};
 use md5::{Digest, Md5};
 
 pub const ES3_DEFAULT_PASSWORD: &str = "password";
 
 /// Passwords of games known to use Easy Save 3 encryption with their own password, as
 /// published by those games' open-source save editors (Phasmophobia, Lethal Company, R.E.P.O.).
-pub const ES3_GAME_PASSWORDS: &[&str] = &["t36gref9u84y7f43g", "lcslime14a5", "Why would you want to cheat?... :o It's no fun. :') :'D"];
+pub const ES3_GAME_PASSWORDS: &[&str] = &[
+    "t36gref9u84y7f43g",
+    "lcslime14a5",
+    "Why would you want to cheat?... :o It's no fun. :') :'D",
+];
 
 fn es3_key(password: &str, iv: &[u8]) -> [u8; 16] {
     let mut key = [0u8; 16];
@@ -28,13 +35,19 @@ pub fn es3_decrypt(data: &[u8], password: &str) -> Option<(Vec<u8>, Vec<u8>)> {
     }
     let (iv, body) = data.split_at(16);
     let key = es3_key(password, iv);
-    let plain = cbc::Decryptor::<aes::Aes128>::new(&key.into(), iv.into()).decrypt_padded_vec_mut::<Pkcs7>(body).ok()?;
+    let plain = cbc::Decryptor::<aes::Aes128>::new(&key.into(), iv.into())
+        .decrypt_padded_vec_mut::<Pkcs7>(body)
+        .ok()?;
     Some((iv.to_vec(), plain))
 }
 
 /// Try the player's password (if any), ES3's default and the known games' passwords; accept only a result that
 /// `accept` recognises (JSON, gzip, …) so random data is never "decrypted".
-pub fn es3_decrypt_any(data: &[u8], password: Option<&str>, accept: fn(&[u8]) -> bool) -> Option<(String, Vec<u8>, Vec<u8>)> {
+pub fn es3_decrypt_any(
+    data: &[u8],
+    password: Option<&str>,
+    accept: fn(&[u8]) -> bool,
+) -> Option<(String, Vec<u8>, Vec<u8>)> {
     if std::str::from_utf8(data).is_ok() {
         return None;
     }
@@ -57,7 +70,8 @@ pub fn es3_decrypt_any(data: &[u8], password: Option<&str>, accept: fn(&[u8]) ->
 pub fn es3_encrypt(plain: &[u8], password: &str, iv: &[u8]) -> Result<Vec<u8>, String> {
     let key = es3_key(password, iv);
     let iv16: [u8; 16] = iv.try_into().map_err(|_| "bad IV")?;
-    let body = cbc::Encryptor::<aes::Aes128>::new(&key.into(), &iv16.into()).encrypt_padded_vec_mut::<Pkcs7>(plain);
+    let body = cbc::Encryptor::<aes::Aes128>::new(&key.into(), &iv16.into())
+        .encrypt_padded_vec_mut::<Pkcs7>(plain);
     Ok([iv, &body].concat())
 }
 
@@ -70,7 +84,10 @@ pub struct GodotEnc {
 }
 
 fn godot_key(password: &str) -> [u8; 32] {
-    let hex: String = Md5::digest(password.as_bytes()).iter().map(|b| format!("{b:02x}")).collect();
+    let hex: String = Md5::digest(password.as_bytes())
+        .iter()
+        .map(|b| format!("{b:02x}"))
+        .collect();
     hex.as_bytes().try_into().unwrap()
 }
 
@@ -94,7 +111,14 @@ pub fn godot_decrypt(data: &[u8], password: Option<&str>) -> Option<(GodotEnc, V
             cfb_mode::Decryptor::<aes::Aes256>::new(&key.into(), iv.into()).decrypt(&mut buf);
             buf.truncate(length);
             if Md5::digest(&buf).as_slice() == md5 {
-                return Some((GodotEnc { password: password.into(), iv: Some(iv.to_vec()), mode }, buf));
+                return Some((
+                    GodotEnc {
+                        password: password.into(),
+                        iv: Some(iv.to_vec()),
+                        mode,
+                    },
+                    buf,
+                ));
             }
         }
     }
@@ -107,7 +131,14 @@ pub fn godot_decrypt(data: &[u8], password: Option<&str>) -> Option<(GodotEnc, V
         }
         buf.truncate(length);
         if Md5::digest(&buf).as_slice() == md5 {
-            return Some((GodotEnc { password: password.into(), iv: None, mode }, buf));
+            return Some((
+                GodotEnc {
+                    password: password.into(),
+                    iv: None,
+                    mode,
+                },
+                buf,
+            ));
         }
     }
     None
@@ -148,10 +179,14 @@ pub fn looks_encrypted(d: &[u8]) -> bool {
         counts[b as usize] += 1;
     }
     let n = d.len() as f64;
-    let entropy: f64 = counts.iter().filter(|&&c| c > 0).map(|&c| {
-        let p = c as f64 / n;
-        -p * p.log2()
-    }).sum();
+    let entropy: f64 = counts
+        .iter()
+        .filter(|&&c| c > 0)
+        .map(|&c| {
+            let p = c as f64 / n;
+            -p * p.log2()
+        })
+        .sum();
     entropy > 7.2
 }
 
@@ -173,12 +208,19 @@ mod tests {
     fn godot_round_trip_both_versions() {
         let plain = b"{\"level\": 3, \"name\": \"Ash\"}";
         for iv in [Some(vec![9u8; 16]), None] {
-            let info = GodotEnc { password: "secret".into(), iv, mode: 1 };
+            let info = GodotEnc {
+                password: "secret".into(),
+                iv,
+                mode: 1,
+            };
             let enc = godot_encrypt(plain, &info).unwrap();
             let (got_info, got) = godot_decrypt(&enc, Some("secret")).unwrap();
             assert_eq!(got, plain);
             assert_eq!(got_info, info);
-            assert!(godot_decrypt(&enc, Some("nope")).is_none(), "wrong password must be rejected via MD5");
+            assert!(
+                godot_decrypt(&enc, Some("nope")).is_none(),
+                "wrong password must be rejected via MD5"
+            );
         }
     }
 }
@@ -199,7 +241,9 @@ pub fn terraria_decrypt(data: &[u8]) -> Option<Vec<u8>> {
         return None;
     }
     let k = terraria_key();
-    let plain = cbc::Decryptor::<aes::Aes128>::new(&k.into(), &k.into()).decrypt_padded_vec_mut::<Pkcs7>(data).ok()?;
+    let plain = cbc::Decryptor::<aes::Aes128>::new(&k.into(), &k.into())
+        .decrypt_padded_vec_mut::<Pkcs7>(data)
+        .ok()?;
     // Version, then the "relogic" file signature with file type 3 (player).
     (plain.len() > 12 && &plain[4..11] == b"relogic" && plain[11] == 3).then_some(plain)
 }
@@ -212,7 +256,9 @@ pub fn terraria_encrypt(plain: &[u8]) -> Vec<u8> {
 /// Hollow Knight `user*.dat`: a .NET BinaryFormatter string holding base64 of
 /// AES-256-ECB(PKCS7) JSON with a fixed key.
 const HK_KEY: &[u8; 32] = b"UKu52ePUBwetZ9wNX88o54dnfKRu0T1l";
-const HK_HEADER: [u8; 22] = [0, 1, 0, 0, 0, 0xFF, 0xFF, 0xFF, 0xFF, 1, 0, 0, 0, 0, 0, 0, 0, 6, 1, 0, 0, 0];
+const HK_HEADER: [u8; 22] = [
+    0, 1, 0, 0, 0, 0xFF, 0xFF, 0xFF, 0xFF, 1, 0, 0, 0, 0, 0, 0, 0, 6, 1, 0, 0, 0,
+];
 
 pub fn hollow_knight_decrypt(data: &[u8]) -> Option<Vec<u8>> {
     let rest = data.strip_prefix(&HK_HEADER[..])?;
@@ -234,7 +280,9 @@ pub fn hollow_knight_decrypt(data: &[u8]) -> Option<Vec<u8>> {
         return None;
     }
     use base64::Engine;
-    let mut buf = base64::engine::general_purpose::STANDARD.decode(text).ok()?;
+    let mut buf = base64::engine::general_purpose::STANDARD
+        .decode(text)
+        .ok()?;
     if buf.is_empty() || buf.len() % 16 != 0 {
         return None;
     }
@@ -275,26 +323,38 @@ pub fn hollow_knight_encrypt(plain: &[u8]) -> Vec<u8> {
 /// Fallout Shelter `Vault<n>.sav`: base64 of AES-256-CBC (PKCS7, fixed key and IV) JSON, as
 /// published by the game's open-source save editors.
 const FS_KEY: [u8; 32] = [
-    0xa7, 0xca, 0x9f, 0x33, 0x66, 0xd8, 0x92, 0xc2, 0xf0, 0xbe, 0xf4, 0x17, 0x34, 0x1c, 0xa9, 0x71, 0xb6, 0x9a, 0xe9, 0xf7, 0xba, 0xcc, 0xcf, 0xfc, 0xf4, 0x3c, 0x62, 0xd1, 0xd7, 0xd0, 0x21, 0xf9,
+    0xa7, 0xca, 0x9f, 0x33, 0x66, 0xd8, 0x92, 0xc2, 0xf0, 0xbe, 0xf4, 0x17, 0x34, 0x1c, 0xa9, 0x71,
+    0xb6, 0x9a, 0xe9, 0xf7, 0xba, 0xcc, 0xcf, 0xfc, 0xf4, 0x3c, 0x62, 0xd1, 0xd7, 0xd0, 0x21, 0xf9,
 ];
 const FS_IV: &[u8; 16] = b"tu89geji340t89u2";
 
 pub fn fallout_shelter_decrypt(data: &[u8]) -> Option<Vec<u8>> {
     use base64::Engine;
     let text = std::str::from_utf8(data).ok()?.trim();
-    if text.len() < 24 || !text.bytes().all(|b| b.is_ascii_alphanumeric() || matches!(b, b'+' | b'/' | b'=')) {
+    if text.len() < 24
+        || !text
+            .bytes()
+            .all(|b| b.is_ascii_alphanumeric() || matches!(b, b'+' | b'/' | b'='))
+    {
         return None;
     }
-    let raw = base64::engine::general_purpose::STANDARD.decode(text).ok()?;
+    let raw = base64::engine::general_purpose::STANDARD
+        .decode(text)
+        .ok()?;
     if raw.is_empty() || raw.len() % 16 != 0 {
         return None;
     }
-    let plain = cbc::Decryptor::<aes::Aes256>::new(&FS_KEY.into(), FS_IV.into()).decrypt_padded_vec_mut::<Pkcs7>(&raw).ok()?;
+    let plain = cbc::Decryptor::<aes::Aes256>::new(&FS_KEY.into(), FS_IV.into())
+        .decrypt_padded_vec_mut::<Pkcs7>(&raw)
+        .ok()?;
     plain.first().is_some_and(|&b| b == b'{').then_some(plain)
 }
 
 pub fn fallout_shelter_encrypt(plain: &[u8]) -> Vec<u8> {
     use base64::Engine;
-    let body = cbc::Encryptor::<aes::Aes256>::new(&FS_KEY.into(), FS_IV.into()).encrypt_padded_vec_mut::<Pkcs7>(plain);
-    base64::engine::general_purpose::STANDARD.encode(body).into_bytes()
+    let body = cbc::Encryptor::<aes::Aes256>::new(&FS_KEY.into(), FS_IV.into())
+        .encrypt_padded_vec_mut::<Pkcs7>(plain);
+    base64::engine::general_purpose::STANDARD
+        .encode(body)
+        .into_bytes()
 }
