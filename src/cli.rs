@@ -52,11 +52,12 @@ struct Args {
     json: bool,
     out: Option<PathBuf>,
     password: Option<String>,
+    entry: Option<String>,
     no_backup: bool,
 }
 
 fn parse(args: &[String]) -> Result<Args, String> {
-    let mut a = Args { pos: vec![], json: false, out: None, password: None, no_backup: false };
+    let mut a = Args { pos: vec![], json: false, out: None, password: None, entry: None, no_backup: false };
     let mut it = args.iter();
     while let Some(x) = it.next() {
         match x.as_str() {
@@ -64,6 +65,7 @@ fn parse(args: &[String]) -> Result<Args, String> {
             "--no-backup" => a.no_backup = true,
             "-o" | "--out" => a.out = Some(PathBuf::from(it.next().ok_or("usage: -o needs a file")?)),
             "--password" => a.password = Some(it.next().ok_or("usage: --password needs a value")?.clone()),
+            "--entry" => a.entry = Some(it.next().ok_or("usage: --entry needs a name (see info)")?.clone()),
             _ => a.pos.push(x.clone()),
         }
     }
@@ -82,7 +84,8 @@ fn help() {
          UniversalSaveEditor decode <save> [-o <out>]       the unpacked data (JSON, text or bytes)\n  \
          UniversalSaveEditor encode <save> <data> [-o <out>]  pack edited data the way <save> is packed\n  \
          UniversalSaveEditor games  [--json]                the games the editor knows\n\n\
-         Options: --password <p> (encrypted saves), --json (machine-readable output).\n\
+         Options: --password <p> (encrypted saves), --entry <name> (one save in an archive or\n\
+         memory card, as listed by info), --json (machine-readable output).\n\
          Pointers are JSON pointers as shown by `list` (for example /money or /party/0/hp).\n\
          Values are JSON: 999, 2.5, true, \"text\".\n\
          Writing checks the new file reads back exactly, backs up the old one, and replaces it atomically.",
@@ -91,11 +94,12 @@ fn help() {
     );
 }
 
-fn open(path: &str, password: &Option<String>) -> Result<(PathBuf, Options, formats::Decoded), String> {
+fn open(path: &str, a: &Args) -> Result<(PathBuf, Options, formats::Decoded), String> {
     let p = PathBuf::from(path);
     let raw = std::fs::read(&p).map_err(|e| format!("{path}: {e}"))?;
     let mut opts = Options::for_path(&p);
-    opts.password = password.clone();
+    opts.password = a.password.clone();
+    opts.zip_entry = a.entry.clone();
     let d = formats::decode_with(&raw, &opts);
     Ok((p, opts, d))
 }
@@ -144,7 +148,7 @@ fn go(cmd: &str, args: &[String]) -> Result<(), String> {
         }
         "info" => {
             let f = a.pos.first().ok_or("usage: info <save>")?;
-            let (_, _, d) = open(f, &a.password)?;
+            let (_, _, d) = open(f, &a)?;
             let layers: Vec<String> = d.layers.iter().map(|l| l.name()).collect();
             let size = d.content.to_bytes().map(|b| b.len()).unwrap_or(0);
             let values = root(&d.content).map(|r| {
@@ -161,6 +165,7 @@ fn go(cmd: &str, args: &[String]) -> Result<(), String> {
                     "values": values,
                     "decoded_bytes": size,
                     "hint": d.hint,
+                    "entries": d.zip_entries,
                 });
                 println!("{}", serde_json::to_string_pretty(&out).unwrap());
             } else {
@@ -176,11 +181,15 @@ fn go(cmd: &str, args: &[String]) -> Result<(), String> {
                 if let Some(h) = &d.hint {
                     println!("Note:     {h}");
                 }
+                if !d.zip_entries.is_empty() {
+                    println!("Entries (pick one with --entry):");
+                    d.zip_entries.iter().for_each(|e| println!("  {e}"));
+                }
             }
         }
         "list" => {
             let f = a.pos.first().ok_or("usage: list <save>")?;
-            let (_, _, d) = open(f, &a.password)?;
+            let (_, _, d) = open(f, &a)?;
             let r = root(&d.content).ok_or_else(|| format!("{f} has no named values ({}); use decode, or the window's Value search", d.content.kind()))?;
             let mut v = vec![];
             flatten(r, "", &mut v);
@@ -198,7 +207,7 @@ fn go(cmd: &str, args: &[String]) -> Result<(), String> {
             if ptrs.is_empty() {
                 return Err("usage: get <save> <pointer>...".into());
             }
-            let (_, _, d) = open(f, &a.password)?;
+            let (_, _, d) = open(f, &a)?;
             let r = root(&d.content).ok_or("this save has no named values")?;
             for p in ptrs {
                 let v = r.pointer(p).ok_or_else(|| format!("{p}: not in this save"))?;
@@ -214,7 +223,7 @@ fn go(cmd: &str, args: &[String]) -> Result<(), String> {
             if edits.is_empty() {
                 return Err("usage: set <save> <pointer>=<json>...".into());
             }
-            let (path, opts, mut d) = open(f, &a.password)?;
+            let (path, opts, mut d) = open(f, &a)?;
             for e in edits {
                 let (ptr, text) = e.split_once('=').ok_or_else(|| format!("usage: {e}: write pointer=value"))?;
                 // Bare words are taken as text, so `/name=Ann` works without quotes.
@@ -239,7 +248,7 @@ fn go(cmd: &str, args: &[String]) -> Result<(), String> {
         }
         "decode" => {
             let f = a.pos.first().ok_or("usage: decode <save> [-o <out>]")?;
-            let (_, _, d) = open(f, &a.password)?;
+            let (_, _, d) = open(f, &a)?;
             let bytes = d.content.to_bytes()?;
             match &a.out {
                 Some(o) => std::fs::write(o, &bytes).map_err(|e| format!("{}: {e}", o.display()))?,
@@ -251,7 +260,7 @@ fn go(cmd: &str, args: &[String]) -> Result<(), String> {
         }
         "encode" => {
             let [f, data] = &a.pos[..] else { return Err("usage: encode <save> <edited data> [-o <out>]".into()) };
-            let (path, opts, d) = open(f, &a.password)?;
+            let (path, opts, d) = open(f, &a)?;
             let payload = std::fs::read(data).map_err(|e| format!("{data}: {e}"))?;
             let bytes = formats::encode(&d.layers, &Content::Binary(payload.clone()))?;
             let check = formats::decode_with(&bytes, &opts);
@@ -325,7 +334,7 @@ mod tests {
         assert_eq!(run(&s(&["decode", &g, "-o", &plain.to_string_lossy()])), Some(0));
         std::fs::write(&plain, br#"{"hp": 50}"#).unwrap();
         assert_eq!(run(&s(&["encode", &g, &plain.to_string_lossy(), "--no-backup"])), Some(0));
-        let (_, _, d) = open(&g, &None).unwrap();
+        let (_, _, d) = open(&g, &parse(&[]).unwrap()).unwrap();
         assert_eq!(root(&d.content).unwrap()["hp"], json!(50));
         assert!(matches!(d.layers.first(), Some(formats::Layer::Gzip)));
         assert_eq!(run(&s(&["photo.png"])), None);

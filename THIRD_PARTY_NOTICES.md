@@ -35,6 +35,7 @@ Universal Save Editor is free. It builds on other people's work, listed here wit
 | [flash-lso (Flash shared object reader and writer, used as a library; its test files used for checks only)](https://github.com/ruffle-rs/rust-flash-lso) | the Ruffle project | MIT |
 | [Haxe manual, "Serialization format" (the grammar the Haxe save reader follows; no code used)](https://haxe.org/manual/std-serialization.html) | the Haxe Foundation | layout facts only |
 | [Dead Cells Community Modding Docs, "Save Files" (Dead Cells header, checksum and packing; no code used)](https://n3rdl0rd.github.io/ModDocCE/files/save/) | N3rdL0rd and contributors | layout facts only |
+| [mymc (PlayStation 2 memory card file system and ECC, ported)](https://github.com/ps2dev/mymc) | Ross Ridge | public domain |
 | [drg-editor (Deep Rock Galactic resource and dwarf ids, XP table; sample saves used for checks only, not included)](https://github.com/MrMarble/drg-editor) | MrMarble | MIT |
 | [schedule-one-editor and Schedule-1-Save-File-Editor (Schedule I save file names and fields; sample saves used for checks only, not included)](https://github.com/Rainnny7/schedule-one-editor) | Rainnny7 | MIT |
 | [SOTFEdit (Sons of the Forest item names and carrying limits; sample saves used for checks only, not included)](https://github.com/codengine/SOTFEdit) | codengine | MIT |

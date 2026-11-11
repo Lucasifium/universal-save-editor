@@ -154,6 +154,13 @@ pub enum Layer {
     Haxe { original: Arc<Vec<u8>> },
     /// Dead Cells: the 59-byte header; the chunks are packed again under a new SHA-1.
     DeadCells { header: Arc<Vec<u8>> },
+    /// One save on a PlayStation memory card image: the image, where the raw card starts in
+    /// it, and the save's blocks.
+    Ps1Card { image: Arc<Vec<u8>>, offset: usize, blocks: Vec<usize> },
+    /// One file on a PlayStation 2 memory card image: the image and the file.
+    Ps2Card { image: Arc<Vec<u8>>, file: fmt::memcard::Ps2File },
+    /// DeSmuME `.dsv`: the footer after the raw DS save, kept as it is.
+    Dsv { footer: Arc<Vec<u8>> },
     /// Civilization V `.Civ5Save`: an uncompressed header, then the game as one zlib stream
     /// cut into chunks of up to 64 KiB, each after its u32 length (`chunked`; very old saves
     /// may hold one plain stream), then (older builds) a trailer kept as it is.
@@ -243,6 +250,9 @@ impl Layer {
             Layer::Sol { .. } => "Flash shared object (.sol)".into(),
             Layer::Haxe { .. } => "Haxe serialized save (OpenFL, HaxeFlixel)".into(),
             Layer::DeadCells { .. } => "Dead Cells save (zlib, SHA-1)".into(),
+            Layer::Ps2Card { file, .. } => format!("PlayStation 2 memory card ({})", file.name),
+            Layer::Dsv { .. } => "DeSmuME save (.dsv footer)".into(),
+            Layer::Ps1Card { blocks, .. } => format!("PlayStation memory card (save in block {})", blocks[0]),
             Layer::Civ5 { .. } => "Civilization V save (compressed game data)".into(),
             Layer::Cdpr { sizes, .. } => format!("CD Projekt RED save ({} LZ4 chunks)", sizes.len()),
             Layer::Me1Le { .. } => "Mass Effect (Legendary Edition) save (zlib)".to_string(),
@@ -648,6 +658,14 @@ fn wrap(layer: &Layer, data: Vec<u8>) -> Result<Vec<u8>, String> {
         Layer::Sol { original } => fmt::sol::save(original, &data)?,
         Layer::Haxe { original } => fmt::haxe::save(original, &data)?,
         Layer::DeadCells { header } => fmt::deadcells::close(header, &data)?,
+        Layer::Ps2Card { image, file } => {
+            let card = fmt::memcard::Ps2Card::open(image).ok_or("the memory card image no longer reads")?;
+            card.write_file(image, file, &data)?
+        }
+        Layer::Dsv { footer } => [&data[..], footer].concat(),
+        Layer::Ps1Card { image, offset, blocks } => {
+            fmt::memcard::ps1_write(image, *offset, &fmt::memcard::Ps1Save { name: String::new(), blocks: blocks.clone() }, &data)?
+        }
         Layer::Cdpr { prefix, fzlc, sizes, footer, tagged } => {
             if data.len() != sizes.iter().map(|&n| n as usize).sum::<usize>() {
                 return Err("this save's data can't change size".into());
@@ -817,6 +835,38 @@ fn peel(data: &[u8], ctx: &mut Ctx) -> Option<(Layer, Vec<u8>)> {
         if let Some(json) = fmt::sol::open(data) {
             return Some((Layer::Sol { original: Arc::new(data.to_vec()) }, json));
         }
+    }
+    if let Some(at) = fmt::memcard::dsv_split(data) {
+        return Some((Layer::Dsv { footer: Arc::new(data[at..].to_vec()) }, data[..at].to_vec()));
+    }
+    if let Some(card) = fmt::memcard::Ps2Card::open(data) {
+        let files = card.files(data).unwrap_or_default();
+        if files.is_empty() {
+            ctx.hint = Some("This PlayStation 2 memory card holds no saves the editor can read.".into());
+            return None;
+        }
+        // Default to the first file that isn't the folder's icon or its description.
+        let pick = |f: &&fmt::memcard::Ps2File| {
+            let n = f.name.rsplit('/').next().unwrap_or("").to_ascii_lowercase();
+            n != "icon.sys" && !n.ends_with(".ico") && !n.ends_with(".icn")
+        };
+        let f = ctx.opts.zip_entry.as_ref().and_then(|n| files.iter().find(|f| &f.name == n)).or_else(|| files.iter().find(pick)).unwrap_or(&files[0]).clone();
+        ctx.zip_entries = files.iter().map(|f| f.name.clone()).collect();
+        ctx.hint = Some("PlayStation 2 memory card: Tools › Open another file in this archive lists every file in every save folder. The card's ECC is written again on save; each game checks its own data its own way, so test the edit in the emulator.".into());
+        let bytes = card.read_file(data, &f)?;
+        return Some((Layer::Ps2Card { image: Arc::new(data.to_vec()), file: f }, bytes));
+    }
+    if let Some(offset) = fmt::memcard::ps1_offset(data) {
+        let saves = fmt::memcard::ps1_saves(&data[offset..]);
+        if saves.is_empty() {
+            ctx.hint = Some("This PlayStation memory card is empty.".into());
+            return None;
+        }
+        let s = ctx.opts.zip_entry.as_ref().and_then(|n| saves.iter().find(|s| &s.name == n)).unwrap_or(&saves[0]).clone();
+        ctx.zip_entries = saves.iter().map(|s| s.name.clone()).collect();
+        ctx.hint = Some("PlayStation memory card: the first save is open; Tools › Open another file in this archive lists the others. Each game checks its own data its own way, so use the value search and test the edit in the emulator.".into());
+        let save = fmt::memcard::ps1_read(&data[offset..], &s);
+        return Some((Layer::Ps1Card { image: Arc::new(data.to_vec()), offset, blocks: s.blocks }, save));
     }
     if fmt::deadcells::looks(data) {
         if let Some((header, chunks)) = fmt::deadcells::open(data) {
