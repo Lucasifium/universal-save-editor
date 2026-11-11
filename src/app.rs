@@ -1319,14 +1319,14 @@ impl App {
             Ok(b) => b,
             Err(e) => return self.fail(e),
         };
-        let h = &self.hex;
-        let kept: Vec<usize> = h
-            .results
-            .iter()
-            .copied()
-            .filter(|&o| hex_view::matches_at(h.search_type, &bytes, o, &h.search_text, h.big_endian))
-            .collect();
-        let before = self.hex.results.len();
+        let before_bytes = match self.doc.as_ref().map(|d| d.content.to_bytes()) {
+            Some(Ok(b)) => b,
+            _ => Vec::new(),
+        };
+        let (before, after) = match self.hex.refine(&before_bytes, &bytes) {
+            Ok(n) => n,
+            Err(e) => return self.fail(e),
+        };
         let d = self.doc.as_mut().unwrap();
         d.layers = decoded.layers;
         d.content = Content::Binary(bytes);
@@ -1334,8 +1334,6 @@ impl App {
         self.undo.clear();
         self.redo.clear();
         self.recompute_dirty();
-        self.hex.set_results(kept);
-        let after = self.hex.results.len();
         self.info(format!("Re-read the file: {before} \u{203A} {after} possible locations."));
     }
 
@@ -2362,39 +2360,61 @@ impl App {
 
                 theme::card(ui, |ui| {
                     ui.label(RichText::new("Value search").family(theme::semibold_family()).size(16.0));
-                    ui.weak("1. Search for a value you know (e.g. your gold).  2. Change it in-game and save.  3. Type the new value and press Refine.");
+                    ui.weak("Know the value? Search for it, change it in-game, save, and refine with the new value. Don't know it (a health bar, a hidden counter)? Start with \u{201C}Unknown starting value\u{201D}, then refine with Increased, Decreased or Changed after each in-game save.");
+                    let scanning = h.searched && (h.all_locations || !h.results.is_empty());
+                    let mut start = false;
                     ui.horizontal(|ui| {
                         type_combo(ui, "search_type", &mut h.search_type);
-                        let r = ui.add(TextEdit::singleline(&mut h.search_text).hint_text("value").desired_width(120.0));
-                        if r.lost_focus() && ui.input(|i| i.key_pressed(egui::Key::Enter)) {
-                            match hex_view::search(h.search_type, data, &h.search_text, h.big_endian) {
-                                Ok(res) => {
-                                    status = Some(Ok(format!("{} possible location(s)", res.len())));
-                                    h.set_results(res);
-                                }
-                                Err(e) => status = Some(Err(format!("Invalid value: {e}"))),
+                        let mode = if scanning { &mut h.next_mode } else { &mut h.first_mode };
+                        let modes: &[hex_view::ScanMode] = if scanning { &hex_view::ScanMode::NEXT } else { &hex_view::ScanMode::FIRST };
+                        egui::ComboBox::from_id_salt("scan_mode").selected_text(mode.name()).width(140.0).show_ui(ui, |ui| {
+                            for &m in modes {
+                                ui.selectable_value(mode, m, m.name());
                             }
-                        }
+                        });
                     });
+                    let inputs = if scanning { h.next_mode.inputs() } else { h.first_mode.inputs() };
+                    if inputs > 0 {
+                        ui.horizontal(|ui| {
+                            let hint = if inputs == 2 { "from" } else { "value" };
+                            let r = ui.add(TextEdit::singleline(&mut h.search_text).hint_text(hint).desired_width(110.0));
+                            let mut enter = r.lost_focus() && ui.input(|i| i.key_pressed(egui::Key::Enter));
+                            if inputs == 2 {
+                                let r2 = ui.add(TextEdit::singleline(&mut h.search_text2).hint_text("to").desired_width(110.0));
+                                enter |= r2.lost_focus() && ui.input(|i| i.key_pressed(egui::Key::Enter));
+                            }
+                            if enter {
+                                if scanning { refine = true } else { start = true }
+                            }
+                        });
+                    }
                     ui.horizontal(|ui| {
-                        if ui.button("New search").clicked() {
-                            match hex_view::search(h.search_type, data, &h.search_text, h.big_endian) {
-                                Ok(res) => {
-                                    status = Some(Ok(format!("{} possible location(s)", res.len())));
-                                    h.set_results(res);
-                                }
-                                Err(e) => status = Some(Err(format!("Invalid value: {e}"))),
+                        if ui.button(if scanning { "Start over" } else { "Search" }).clicked() {
+                            if scanning {
+                                h.set_results(Vec::new());
+                                h.searched = false;
+                            } else {
+                                start = true;
                             }
                         }
-                        let can = h.searched && !h.results.is_empty();
                         if ui
-                            .add_enabled(can, egui::Button::new("Refine"))
-                            .on_hover_text("Re-reads the file from disk and keeps only locations that now hold the value above")
+                            .add_enabled(scanning, egui::Button::new("Refine"))
+                            .on_hover_text("Re-reads the file from disk (save in-game first) and keeps only the locations that pass the test above")
                             .clicked()
                         {
                             refine = true;
                         }
+                        ui.checkbox(&mut h.aligned, "Aligned").on_hover_text("Only test offsets that are a multiple of the value size. Faster, and how most games store numbers.");
                     });
+                    if start {
+                        match h.start_scan(data) {
+                            Ok(m) => status = Some(Ok(m)),
+                            Err(e) => status = Some(Err(e)),
+                        }
+                    }
+                    if h.all_locations {
+                        ui.label("Every location is still in play.");
+                    }
                     if h.searched {
                         ui.label(format!("{} result(s){}", h.results.len(), if h.results.len() >= hex_view::MAX_RESULTS { " (capped)" } else { "" }));
                         let mut jump = None;
