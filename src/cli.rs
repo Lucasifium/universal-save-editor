@@ -19,7 +19,7 @@ use crate::formats::{self, Content, Options};
 use serde_json::{json, Value};
 use std::path::{Path, PathBuf};
 
-const COMMANDS: [&str; 8] = ["info", "list", "get", "set", "decode", "encode", "games", "help"];
+const COMMANDS: [&str; 9] = ["info", "list", "get", "set", "decode", "encode", "checksum", "games", "help"];
 
 /// Runs a command if `args` (without the program name) start with one; `None` means "open the
 /// window", with the first argument as a file to open.
@@ -83,6 +83,7 @@ fn help() {
          UniversalSaveEditor set    <save> <pointer>=<json>... [-o <out>] [--no-backup]\n  \
          UniversalSaveEditor decode <save> [-o <out>]       the unpacked data (JSON, text or bytes)\n  \
          UniversalSaveEditor encode <save> <data> [-o <out>]  pack edited data the way <save> is packed\n  \
+         UniversalSaveEditor checksum <save> [<n>|off]      find a checksum; <n> keeps that one fixed on every save\n  \
          UniversalSaveEditor games  [--json]                the games the editor knows\n\n\
          Options: --password <p> (encrypted saves), --entry <name> (one save in an archive or\n\
          memory card, as listed by info), --json (machine-readable output).\n\
@@ -133,6 +134,29 @@ fn go(cmd: &str, args: &[String]) -> Result<(), String> {
     let a = parse(args)?;
     match cmd {
         "help" | "h" => help(),
+        "checksum" => {
+            let f = a.pos.first().ok_or("usage: checksum <save> [<n>|off]")?;
+            let (path, _, d) = open(f, &a)?;
+            let Content::Binary(b) = &d.content else {
+                return Err(format!("{f}: the editor already reads this file ({}); its checksums are handled", formats::describe(&d.layers, &d.content)));
+            };
+            let others: Vec<Vec<u8>> = crate::backups::list(&path).into_iter().filter(|v| v.size as usize == b.len()).take(8).filter_map(|v| std::fs::read(&v.path).ok()).collect();
+            let hits = crate::fmt::sumfind::find(b, &others);
+            match a.pos.get(1).map(String::as_str) {
+                Some("off") => {
+                    crate::fmt::sumfind::remember(&path, None)?;
+                    println!("{f}: no checksum is fixed on save any more");
+                }
+                Some(n) => {
+                    let h = n.parse::<usize>().ok().and_then(|i| hits.get(i.wrapping_sub(1))).ok_or("usage: checksum <save> <n>, with n from the list")?;
+                    crate::fmt::sumfind::remember(&path, Some(*h))?;
+                    println!("{f}: {} is now written again on every save", h.describe());
+                }
+                None if a.json => println!("{}", serde_json::to_string_pretty(&hits.iter().map(|h| h.describe()).collect::<Vec<_>>()).unwrap()),
+                None if hits.is_empty() => println!("{f}: no known checksum at the start or end of the file"),
+                None => hits.iter().enumerate().for_each(|(i, h)| println!("{:>3}  {}", i + 1, h.describe())),
+            }
+        }
         "games" => {
             if a.json {
                 let list: Vec<Value> = crate::games::GAMES

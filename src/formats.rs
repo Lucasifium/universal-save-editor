@@ -27,6 +27,8 @@ pub struct Options {
     pub ext: String,
     /// Where the file is: RE Engine saves are keyed to the Steam account in their path.
     pub path: Option<std::path::PathBuf>,
+    /// A checksum the player chose to keep fixed (Tools › Find checksum).
+    pub sum: Option<fmt::sumfind::Sum>,
 }
 
 impl Options {
@@ -39,7 +41,11 @@ impl Options {
                 ext = n.rsplit_once('.').map(|(_, e)| e.to_lowercase()).filter(|e| !e.contains('/')).unwrap_or_default();
             }
         }
-        Self { ext, path: Some(path.to_path_buf()), ..Default::default() }
+        #[cfg(not(target_arch = "wasm32"))]
+        let sum = fmt::sumfind::remembered(path);
+        #[cfg(target_arch = "wasm32")]
+        let sum = None;
+        Self { ext, path: Some(path.to_path_buf()), sum, ..Default::default() }
     }
 }
 
@@ -157,6 +163,8 @@ pub enum Layer {
     /// One save on a PlayStation memory card image: the image, where the raw card starts in
     /// it, and the save's blocks.
     Ps1Card { image: Arc<Vec<u8>>, offset: usize, blocks: Vec<usize> },
+    /// A checksum found with Tools › Find checksum, written again on save.
+    Sum(fmt::sumfind::Sum),
     /// One file on a PlayStation 2 memory card image: the image and the file.
     Ps2Card { image: Arc<Vec<u8>>, file: fmt::memcard::Ps2File },
     /// DeSmuME `.dsv`: the footer after the raw DS save, kept as it is.
@@ -254,6 +262,7 @@ impl Layer {
             Layer::Sol { .. } => "Flash shared object (.sol)".into(),
             Layer::Haxe { .. } => "Haxe serialized save (OpenFL, HaxeFlixel)".into(),
             Layer::DeadCells { .. } => "Dead Cells save (zlib, SHA-1)".into(),
+            Layer::Sum(s) => format!("Checksum kept fixed ({})", s.describe()),
             Layer::Ps2Card { file, .. } => format!("PlayStation 2 memory card ({})", file.name),
             Layer::Dsv { .. } => "DeSmuME save (.dsv footer)".into(),
             Layer::Ps1Card { blocks, .. } => format!("PlayStation memory card (save in block {})", blocks[0]),
@@ -389,6 +398,15 @@ pub fn decode_with(raw: &[u8], opts: &Options) -> Decoded {
     let content = match cyberpunk {
         Some(doc) => Content::Tree(Box::new(doc)),
         None => classify(data, opts),
+    };
+    // A checksum kept fixed shows as zeros: it is filled in when the file is saved.
+    let content = match (opts.sum, content) {
+        (Some(s), Content::Binary(mut b)) if s.holds(&b) => {
+            b[s.at..s.at + s.algo.width()].fill(0);
+            layers.push(Layer::Sum(s));
+            Content::Binary(b)
+        }
+        (_, c) => c,
     };
     if let (Content::Binary(b), None) = (&content, &ctx.hint) {
         let battery = [512, 8192, 32768, 65536, 131072].iter().any(|&n| (n..=n + 48).contains(&b.len()))
@@ -752,6 +770,11 @@ fn wrap(layer: &Layer, data: Vec<u8>) -> Result<Vec<u8>, String> {
         Layer::Sol { original } => fmt::sol::save(original, &data)?,
         Layer::Haxe { original } => fmt::haxe::save(original, &data)?,
         Layer::DeadCells { header } => fmt::deadcells::close(header, &data)?,
+        Layer::Sum(s) => {
+            let mut d = data;
+            s.fix(&mut d)?;
+            d
+        }
         Layer::Ps2Card { image, file } => {
             let card = fmt::memcard::Ps2Card::open(image).ok_or("the memory card image no longer reads")?;
             card.write_file(image, file, &data)?
