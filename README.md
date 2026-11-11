@@ -256,7 +256,8 @@ way, one file of the save folder at a time: `.mcs` and `.psx` (PlayStation), `.p
 `.max` (Action Replay Max, LZARI-packed), `.cbs` (CodeBreaker, encrypted and zlib-packed),
 `.xps`/`.sps` (Xploder and SharkPort) and PS3 `.psv` (PlayStation and PlayStation 2 saves for the
 PS3, signed again on save). Each is packed back in its own format. Checked on real `.max` and
-`.psu` saves, whose Action Replay packing is reproduced byte for byte.
+`.psu` saves, whose Action Replay packing is reproduced byte for byte, and on `.psv` files signed by
+MemcardRex and Apollo, whose signatures come out the same.
 
 **Unity PlayerPrefs**: many Unity games keep coins, unlocks and settings in PlayerPrefs instead of
 a save file. *Unity games (PlayerPrefs)* lists them: on Windows each Unity game's registry key

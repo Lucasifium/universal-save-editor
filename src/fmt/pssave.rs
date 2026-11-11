@@ -62,11 +62,11 @@ fn join(dir: &str, name: &str) -> String {
 const PSV_MAGIC: &[u8] = b"\0VSP";
 const MAX_MAGIC: &[u8] = b"Ps2PowerSave";
 const CBS_MAGIC: &[u8] = b"CFU\0";
-const XPS_MAGIC: &[u8] = b"SharkPortSave\0\0\0";
+const XPS_MAGIC: &[u8] = b"\x0d\0\0\0SharkPortSave";
 const MAX_HEADER: usize = 0x5C;
 const CBS_HEADER: usize = 0x128;
 const CBS_ENTRY: usize = 64;
-const XPS_ENTRY: usize = 250;
+const XPS_ENTRY_MIN: usize = 70;
 const PSU_ENTRY: usize = 512;
 
 fn mcs_ok(d: &[u8]) -> bool {
@@ -88,7 +88,8 @@ pub fn open(d: &[u8], ext: &str) -> Option<(Kind, Vec<Entry>)> {
     if d.starts_with(CBS_MAGIC) {
         return Some((Kind::Cbs, cbs_files(d)?));
     }
-    if d.get(4..20) == Some(XPS_MAGIC) {
+    // "SharkPortSave" with its length in front, then a version (0 in X-Port files, 2 in SharkPort ones).
+    if d.get(..17) == Some(XPS_MAGIC) {
         return Some((Kind::Xps, xps_files(d)?.0));
     }
     if mcs_ok(d) {
@@ -220,17 +221,27 @@ fn xps_body(d: &[u8]) -> Option<usize> {
     Some(at + 4)
 }
 
+/// An entry header at `at`: its own size comes first (250 bytes in X-Port files, 98 in
+/// SharkPort ones); the name and length are at the same places in both.
+fn xps_entry(d: &[u8], at: usize) -> Option<&[u8]> {
+    let n = u16::from_le_bytes(d.get(at..at + 2)?.try_into().ok()?) as usize;
+    if n < XPS_ENTRY_MIN {
+        return None;
+    }
+    d.get(at..at + n)
+}
+
 fn xps_files(d: &[u8]) -> Option<(Vec<Entry>, usize)> {
     let body = xps_body(d)?;
-    let dir_entry = d.get(body..body + XPS_ENTRY)?;
+    let dir_entry = xps_entry(d, body)?;
     let dir = cstr(&dir_entry[2..66]);
     let count = le32(dir_entry, 66)?.checked_sub(2)? as usize;
-    let mut at = body + XPS_ENTRY;
+    let mut at = body + dir_entry.len();
     let mut out = vec![];
     for _ in 0..count {
-        let e = d.get(at..at + XPS_ENTRY)?;
+        let e = xps_entry(d, at)?;
         let len = le32(e, 66)? as usize;
-        at += XPS_ENTRY;
+        at += e.len();
         out.push(Entry { name: join(&dir, &cstr(&e[2..66])), data: d.get(at..at.checked_add(len)?)?.to_vec() });
         at += len;
     }
@@ -252,6 +263,10 @@ pub fn save(kind: Kind, original: &[u8], name: &str, data: &[u8]) -> Result<Vec<
     let (_, files) = open(original, if kind == Kind::Psx { "psx" } else { "" }).ok_or("the original save no longer reads")?;
     let idx = files.iter().position(|f| f.name == name).ok_or_else(|| format!("{name} isn't in this save"))?;
     let same = files[idx].data.len() == data.len();
+    // Unchanged data keeps the file exactly as it was (repacking needn't give the same bytes).
+    if files[idx].data == data && !matches!(kind, Kind::Psv1 | Kind::Psv2) {
+        return Ok(original.to_vec());
+    }
     let mut files = files;
     files[idx].data = data.to_vec();
     Ok(match kind {
@@ -260,16 +275,27 @@ pub fn save(kind: Kind, original: &[u8], name: &str, data: &[u8]) -> Result<Vec<
                 return Err("a PlayStation save is made of whole 8 KB blocks".into());
             }
             let mut h = original[..0x80].to_vec();
-            put32(&mut h, 4, data.len() as u32);
-            put32(&mut h, 0x38, data.len() as u32);
-            h[0x7F] = h[..0x7F].iter().fold(0, |a, b| a ^ b);
+            if !same {
+                // The size sits at 0x04, and some writers repeat it at 0x38.
+                let old = le32(&h, 4);
+                put32(&mut h, 4, data.len() as u32);
+                if le32(&h, 0x38) == old {
+                    put32(&mut h, 0x38, data.len() as u32);
+                }
+                h[0x7F] = h[..0x7F].iter().fold(0, |a, b| a ^ b);
+            }
             [h, data.to_vec()].concat()
         }
         Kind::Psx => [&original[..0x36], data].concat(),
         Kind::Psv1 => {
             let mut out = [&original[..0x84], data].concat();
-            put32(&mut out, 0x40, data.len() as u32);
-            put32(&mut out, 0x40 + 0x1C, data.len() as u32);
+            if !same {
+                let old = le32(&out, 0x40);
+                put32(&mut out, 0x40, data.len() as u32);
+                if le32(&out, 0x5C) == old {
+                    put32(&mut out, 0x5C, data.len() as u32);
+                }
+            }
             psv_sign(&mut out);
             out
         }
@@ -357,15 +383,16 @@ pub fn save(kind: Kind, original: &[u8], name: &str, data: &[u8]) -> Result<Vec<
         Kind::Xps => {
             let body = xps_body(original).ok_or("the save's header no longer reads")?;
             let (_, end) = xps_files(original).ok_or("the save's files no longer read")?;
-            let mut out = original[..body + XPS_ENTRY].to_vec();
-            let mut at = body + XPS_ENTRY;
+            let first = xps_entry(original, body).ok_or("the save's files no longer read")?.len();
+            let mut out = original[..body + first].to_vec();
+            let mut at = body + first;
             for f in &files {
-                let mut e = original[at..at + XPS_ENTRY].to_vec();
-                let len = le32(&e, 66).unwrap_or_default() as usize;
+                let mut e = xps_entry(original, at).ok_or("the save's files no longer read")?.to_vec();
+                let (n, len) = (e.len(), le32(&e, 66).unwrap_or_default() as usize);
                 put32(&mut e, 66, f.data.len() as u32);
                 out.extend(e);
                 out.extend(&f.data);
-                at += XPS_ENTRY + len;
+                at += n + len;
             }
             let body_len = (out.len() - body) as u32;
             put32(&mut out, body - 4, body_len);
@@ -609,12 +636,38 @@ mod samples {
             let ext = p.extension().map(|x| x.to_string_lossy().to_lowercase()).unwrap_or_default();
             let Ok(d) = std::fs::read(&p) else { continue };
             let Some((kind, files)) = super::open(&d, &ext) else { continue };
+            if matches!(kind, super::Kind::Psv1 | super::Kind::Psv2) {
+                println!("{:?}: signature checks: {}", p.file_name().unwrap(), super::psv_signature(&d).unwrap() == d[0x1C..0x30]);
+            }
             for f in &files {
                 let out = super::save(kind, &d, &f.name, &f.data).unwrap();
                 let (_, again) = super::open(&out, &ext).unwrap();
                 assert!(again.iter().zip(&files).all(|(a, b)| a.name == b.name && a.data == b.data), "{p:?}");
-                if kind != super::Kind::Max {
+                if matches!(kind, super::Kind::Psv1 | super::Kind::Psv2) {
+                    // Signed again: only the signature may differ (when the original's was stale).
+                    assert!(out[..0x1C] == d[..0x1C] && out[0x30..] == d[0x30..], "{p:?} {} changed", f.name);
+                } else if kind != super::Kind::Max {
                     assert!(out == d, "{p:?} {} changed", f.name);
+                }
+            }
+            // An edit (one byte changed, then the file grown by 100 bytes where that's allowed) reads back.
+            let big = files.iter().max_by_key(|f| f.data.len()).unwrap();
+            let mut edited = big.data.clone();
+            let mid = edited.len() / 2;
+            edited[mid] ^= 0x5A;
+            let mut tries = vec![edited.clone()];
+            if !matches!(kind, super::Kind::Mcs | super::Kind::Psx | super::Kind::Psv1) {
+                edited.extend([7u8; 100]);
+                tries.push(edited);
+            }
+            for t in tries {
+                let out = super::save(kind, &d, &big.name, &t).unwrap();
+                let (_, again) = super::open(&out, &ext).unwrap();
+                for f in &again {
+                    assert_eq!(f.data, if f.name == big.name { t.clone() } else { files.iter().find(|g| g.name == f.name).unwrap().data.clone() }, "{p:?}");
+                }
+                if matches!(kind, super::Kind::Psv1 | super::Kind::Psv2) {
+                    assert_eq!(super::psv_signature(&out).unwrap(), out[0x1C..0x30]);
                 }
             }
             if kind == super::Kind::Max {
