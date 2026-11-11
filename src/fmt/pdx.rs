@@ -5,8 +5,7 @@
 //! repeat freely. Values are edited by replacing their text in place, so everything else
 //! in the file stays byte for byte. These files are huge (tens of MB), so each top-level
 //! section shows at most `SECTION_BUDGET` values; the player's own country is always shown
-//! in full. Binary (ironman) saves use token ids whose names aren't published and are only
-//! recognised.
+//! in full. Binary (ironman) saves are read by `pdxbin`.
 
 use crate::tree::{esc, unique_key, Backend, TreeDoc};
 use serde_json::{Map, Value};
@@ -323,10 +322,14 @@ fn magic(d: &[u8]) -> Option<(&'static str, usize)> {
             return Some((name, m.len()));
         }
     }
+    // The newer games' plain text saves (debug mode): a `SAV…` header line, then the text.
+    if let Some(h) = super::pdxbin::SavHeader::read(d).filter(|h| h.kind == 0) {
+        return Some(("Paradox save", h.len));
+    }
     None
 }
 
-/// Binary (ironman) saves: recognised so the app can say why they can't be edited.
+/// Binary (ironman) saves by their first bytes, to name the game when one can't be read.
 pub fn binary_kind(d: &[u8]) -> Option<&'static str> {
     if d.starts_with(b"HOI4bin") {
         return Some("Hearts of Iron IV");
@@ -355,6 +358,9 @@ struct PdxBackend {
     data: Arc<Vec<u8>>,
     utf8: bool,
     leaves: Vec<Leaf>,
+    /// A `SAV…` text file: where its header keeps the metadata length (8 hex digits) and
+    /// where the metadata ends, so the length follows an edit inside it.
+    meta: Option<(usize, usize)>,
 }
 
 impl PdxBackend {
@@ -395,13 +401,20 @@ impl Backend for PdxBackend {
         let mut edits: Vec<(Leaf, Vec<u8>)> = changes.iter().map(|(l, v)| Ok((self.leaves[*l], self.encode(&self.leaves[*l], v)?))).collect::<Result<_, String>>()?;
         edits.sort_by_key(|e| e.0.start);
         let mut out = Vec::with_capacity(self.data.len() + 64);
-        let mut at = 0;
+        let (mut at, mut meta_delta) = (0, 0i64);
         for (leaf, bytes) in edits {
+            if self.meta.is_some_and(|(_, end)| leaf.start < end) {
+                meta_delta += bytes.len() as i64 - (leaf.end - leaf.start) as i64;
+            }
             out.extend_from_slice(&self.data[at..leaf.start]);
             out.extend(bytes);
             at = leaf.end;
         }
         out.extend_from_slice(&self.data[at..]);
+        if let (Some((field, _)), true) = (self.meta, meta_delta != 0) {
+            let old = std::str::from_utf8(&out[field..field + 8]).ok().and_then(|h| i64::from_str_radix(h, 16).ok()).ok_or("the save's header can't be read")?;
+            out[field..field + 8].copy_from_slice(format!("{:08x}", old + meta_delta).as_bytes());
+        }
         Ok(out)
     }
 
@@ -458,10 +471,11 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
     } else {
         name
     };
-    let backend = PdxBackend { data: Arc::new(d.to_vec()), utf8, leaves: b.leaves };
+    let meta = super::pdxbin::SavHeader::read(d).filter(|h| h.kind == 0 && h.meta_len > 0).map(|h| (15, h.len + h.meta_len));
+    let backend = PdxBackend { data: Arc::new(d.to_vec()), utf8, leaves: b.leaves, meta };
     Ok(TreeDoc::new(view, b.editable, kind, Box::new(backend)).with_note(
         "Big sections show their first few thousand values; your own country is shown in full. \
-         Editing an ironman save may turn ironman (and achievements) off.",
+         The game may stop awarding achievements for an edited ironman campaign.",
     ))
 }
 
@@ -494,6 +508,20 @@ mod tests {
         assert!(out.contains("name=\"Ada \\\"A\\\"\""));
         let back = parse(out.as_bytes()).unwrap();
         assert_eq!(back.view, doc.view);
+    }
+
+    #[test]
+    fn sav_text_header_follows_the_metadata() {
+        let meta = "meta_data={\n\tname=\"Ada\"\n}\n";
+        let d = format!("SAV0100aabbccdd{:08x}\n{meta}gold=5\n", meta.len());
+        assert!(looks(d.as_bytes()));
+        let mut doc = parse(d.as_bytes()).unwrap();
+        assert_eq!(doc.view["gold"], 5);
+        doc.set("/meta_data/name", Value::from("Adelaide")).unwrap();
+        doc.set("/gold", Value::from(123456)).unwrap();
+        let out = String::from_utf8(doc.to_bytes().unwrap()).unwrap();
+        assert!(out.starts_with(&format!("SAV0100aabbccdd{:08x}\n", meta.len() + 5)), "{out}");
+        assert!(out.ends_with("gold=123456\n"));
     }
 
     #[test]

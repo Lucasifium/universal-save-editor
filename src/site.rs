@@ -205,6 +205,9 @@ fn card_blurb(what: &str) -> String {
 fn level(g: &GameInfo) -> (&'static str, &'static str) {
     if has_screen(g) {
         ("Game screen", "A screen laid out for this game, with names for its items and values.")
+    } else if g.support.starts_with("Binary saves") {
+        // Paradox games: the catalog text says what is and isn't named.
+        ("Values editor", g.support)
     } else if g.support.starts_with("Hex") || g.support.starts_with("Unpacked") {
         ("Value search", "Find a number you know (money, ammo, experience), or one you don't by how it changes between saves, and change it. The save is shown as raw data: there is no screen for this game yet.")
     } else {

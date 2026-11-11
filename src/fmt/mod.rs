@@ -53,6 +53,7 @@ pub mod haxe;
 pub mod deadcells;
 pub mod memcard;
 pub mod pdx;
+pub mod pdxbin;
 mod rimworld;
 mod oni;
 pub mod oni_map;
@@ -154,6 +155,11 @@ pub fn parse_binary(d: &[u8]) -> Option<TreeDoc> {
     }
     if let Some(t) = parse_aurora(d, None) {
         return Some(t);
+    }
+    if pdxbin::looks(d) {
+        if let Ok(t) = pdxbin::parse(d) {
+            return Some(t);
+        }
     }
     if pokemon12::looks(d) {
         if let Ok(t) = pokemon12::parse(d) {

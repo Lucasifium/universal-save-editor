@@ -107,6 +107,8 @@ Universal Save Editor is free. It builds on other people's work, listed here wit
 | [R.E.P.O-Save-Editor (R.E.P.O. save password and layout)](https://github.com/N0edL/R.E.P.O-Save-Editor) | N0edL | MIT; facts only, no code copied, credited |
 | [PhasmoEditor (Phasmophobia save password and value names)](https://github.com/stth12/PhasmoEditor) | stth12 | facts only (password and value names), credited |
 | [Yurei (Phasmophobia save values: prestige and its badge)](https://github.com/AbstractUmbra/Yurei) | AbstractUmbra | facts only (value names), credited |
+| [jomini (Paradox binary save layout: lexeme ids, number encodings, the `SAV` header and Europa Universalis V's string table)](https://github.com/rakaly/jomini) | Nick Babcock | MIT |
+| [CEParser (field ids for the Europa Universalis IV, Hearts of Iron IV and Crusader Kings II values the game screens show)](https://github.com/wbudz/CEParser) | Witold Budziszewski | MIT |
 
 Copyright notices of the projects above whose code or tables were used:
 
@@ -139,6 +141,8 @@ Copyright notices of the projects above whose code or tables were used:
 - NieR.Automata.Editor (NieR:Automata save layout, item and weapon names, experience table): Copyright (c) 2020 Alexandre Quoniou. Licensed under MIT.
 - nierautomatasaveeditor (NieR:Automata offsets): Copyright (c) 2017 atilion. Licensed under MIT.
 - NieRAutomata_LVL-EXP_Editor (NieR:Automata experience offset): Copyright (c) 2018 Aemony. Licensed under MIT.
+- jomini (Paradox binary save layout): Nick Babcock. Licensed under MIT.
+- CEParser (Paradox field ids): Copyright (c) 2015-2019 Witold Budziszewski. Licensed under MIT.
 
 The MIT, Apache-2.0 and zlib licence texts are included below with the crates that use them.
 

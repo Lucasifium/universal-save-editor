@@ -178,6 +178,10 @@ pub enum Layer {
     Me1Le { block: u32 },
     /// Mass Effect (2008): "RGMH", a version, the header's length, the save image; then a zip.
     Me1Header { header: Arc<Vec<u8>> },
+    /// Paradox `SAV…` save (Crusader Kings III, Victoria 3, Imperator: Rome, Europa
+    /// Universalis V): a header line, sometimes the metadata, then from `zip_at` a zip
+    /// archive that holds `gamestate`.
+    PdxSav { original: Arc<Vec<u8>>, zip_at: usize },
     /// Pathfinder (Owlcat) `.zks`: header, player and party JSON shown as one document.
     Owlcat { archive: Arc<Vec<u8>> },
     /// Borderlands 2 / The Pre-Sequel `.sav`: SHA-1, size, one LZO1X block around the
@@ -257,6 +261,7 @@ impl Layer {
             Layer::Cdpr { sizes, .. } => format!("CD Projekt RED save ({} LZ4 chunks)", sizes.len()),
             Layer::Me1Le { .. } => "Mass Effect (Legendary Edition) save (zlib)".to_string(),
             Layer::Me1Header { .. } => "Mass Effect save (image header)".to_string(),
+            Layer::PdxSav { .. } => "Paradox save archive (gamestate)".to_string(),
             Layer::Owlcat { .. } => "Pathfinder save archive".to_string(),
             Layer::Borderlands { .. } => "Borderlands save (SHA-1, LZO)".to_string(),
             Layer::GrimDawn { .. } => "Grim Dawn character (encrypted, checksummed blocks)".into(),
@@ -367,6 +372,18 @@ pub fn decode_with(raw: &[u8], opts: &Options) -> Decoded {
         Some(Layer::Cdpr { prefix, footer, .. }) => fmt::cyberpunk::parse(&data, prefix.len(), footer),
         // Larian saves: the screen also reads the package's other files (summary, metadata).
         Some(Layer::Larian { archive, file }) => fmt::larian::parse(&data, archive, file),
+        Some(Layer::PdxSav { original, .. }) => pdx_sav_doc(&data, original, opts),
+        // Europa Universalis IV and Crusader Kings II keep the date and the player beside
+        // the game state, in the archive's `meta` entry.
+        Some(Layer::ZipEntry { archive, name }) if name == "gamestate" && fmt::pdxbin::looks(&data) => {
+            let mut meta = Vec::new();
+            if let Ok(mut zip) = zip::ZipArchive::new(Cursor::new(archive.as_slice())) {
+                if let Ok(mut f) = zip.by_name("meta") {
+                    let _ = f.read_to_end(&mut meta);
+                }
+            }
+            fmt::pdxbin::parse_with_meta(&data, &meta).ok()
+        }
         _ => None,
     };
     let content = match cyberpunk {
@@ -390,7 +407,8 @@ pub fn decode_with(raw: &[u8], opts: &Options) -> Decoded {
             );
         } else if let Some(game) = fmt::pdx::binary_kind(b) {
             ctx.hint = Some(format!(
-                "This is a binary (ironman) {game} save. Its values are stored as numbered tokens whose names aren't published,                  so it can only be viewed as hex. Saves made without ironman are text and open fully."
+                "This is a binary (ironman) {game} save, but its data couldn't be read, so it is shown as hex. \
+                 Value search still finds a number you know."
             ));
         } else if matches!(layers.last(), Some(Layer::PngChunk { .. })) {
             ctx.hint = Some("This is the emulator's memory snapshot. Use Value search to find a number you know, then load this state in mGBA.".into());
@@ -451,7 +469,7 @@ fn generic_unzip(data: &[u8], ctx: &mut Ctx) -> Option<(Layer, Vec<u8>)> {
                 // Decoding a big entry just to rank it is slow (Stellaris' gamestate is tens
                 // of MB): text-looking big entries count as editable without it.
                 let editable = if len > 1 << 20 {
-                    !bytes[..len.min(4096)].contains(&0)
+                    !bytes[..len.min(4096)].contains(&0) || fmt::pdxbin::looks(&bytes)
                 } else {
                     !matches!(decode(&bytes).content, Content::Binary(_))
                 };
@@ -471,17 +489,92 @@ fn generic_unzip(data: &[u8], ctx: &mut Ctx) -> Option<(Layer, Vec<u8>)> {
     Some((Layer::ZipEntry { archive: Arc::new(data.to_vec()), name: chosen }, bytes))
 }
 
+/// A Paradox `SAV…` file that ends in a zip: the game state inside it.
+fn peel_pdx_sav(data: &[u8]) -> Option<(Layer, Vec<u8>)> {
+    let h = fmt::pdxbin::SavHeader::read(data).filter(|h| h.zipped())?;
+    let after = h.len + h.meta_len;
+    let zip_at = if data.get(after..after + 4) == Some(b"PK\x03\x04") { after } else { h.len + data[h.len..].windows(4).position(|w| w == b"PK\x03\x04")? };
+    let mut zip = zip::ZipArchive::new(Cursor::new(data)).ok()?;
+    let mut out = Vec::new();
+    zip.by_name("gamestate").ok()?.read_to_end(&mut out).ok()?;
+    Some((Layer::PdxSav { original: Arc::new(data.to_vec()), zip_at }, out))
+}
+
+/// The game state of a Paradox `SAV…` archive: binary (ironman) or text.
+fn pdx_sav_doc(data: &[u8], original: &[u8], opts: &Options) -> Option<TreeDoc> {
+    use fmt::pdxbin::Game;
+    let h = fmt::pdxbin::SavHeader::read(original)?;
+    let game = Game::from_ext(&opts.ext);
+    if !h.binary() {
+        let mut doc = fmt::pdx::parse(data).ok()?;
+        if game == Game::Ck3 {
+            doc.kind_name = "Crusader Kings III save".into();
+        }
+        return Some(doc);
+    }
+    let mut lookup = vec![];
+    if let Ok(mut zip) = zip::ZipArchive::new(Cursor::new(original)) {
+        if let Ok(mut f) = zip.by_name("string_lookup") {
+            let mut raw = Vec::new();
+            if f.read_to_end(&mut raw).is_ok() {
+                lookup = fmt::pdxbin::string_lookup(&raw);
+            }
+        }
+    }
+    fmt::pdxbin::parse_as(data, game, &lookup).ok()
+}
+
 /// Rebuild a zip, replacing `name` with `data` (and re-signing Ren'Py saves).
 fn rezip(archive: &[u8], name: &str, data: &[u8], renpy: bool) -> Result<Vec<u8>, String> {
+    rezip_after(Vec::new(), archive, &[(name, data)], renpy)
+}
+
+/// Writes a Paradox `SAV…` archive back around an edited game state. The metadata is kept
+/// twice, at the start of the game state and on its own (after the header line, or as the
+/// archive's `meta` entry), so the separate copy follows an edit to it.
+fn pdx_sav_wrap(original: &[u8], zip_at: usize, data: &[u8]) -> Result<Vec<u8>, String> {
+    let h = fmt::pdxbin::SavHeader::read(original).ok_or("the save's header can't be read")?;
+    let mut prefix = original[..zip_at].to_vec();
+    let inline = &original[h.len.min(zip_at)..zip_at];
+    if h.binary() && !inline.is_empty() && !data.starts_with(inline) {
+        if let Some(n) = fmt::pdxbin::token_prefix_len(inline, data) {
+            prefix.truncate(h.len);
+            prefix[15..23].copy_from_slice(format!("{n:08x}").as_bytes());
+            prefix.extend_from_slice(&data[..n]);
+        }
+    }
+    let mut meta_entry = None;
+    if h.binary() {
+        if let Ok(mut zip) = zip::ZipArchive::new(Cursor::new(original)) {
+            if let Ok(mut f) = zip.by_name("meta") {
+                let mut old = Vec::new();
+                if f.read_to_end(&mut old).is_ok() && !old.is_empty() && !data.starts_with(&old) {
+                    meta_entry = fmt::pdxbin::token_prefix_len(&old, data).map(|n| &data[..n]);
+                }
+            }
+        }
+    }
+    let mut files = vec![("gamestate", data)];
+    if let Some(m) = meta_entry {
+        files.push(("meta", m));
+    }
+    rezip_after(prefix, original, &files, false)
+}
+
+/// `rezip` for several entries, with the new archive written after `prefix` (its offsets
+/// count from the start of the whole file, as in the original).
+fn rezip_after(prefix: Vec<u8>, archive: &[u8], files: &[(&str, &[u8])], renpy: bool) -> Result<Vec<u8>, String> {
     use zip::write::SimpleFileOptions;
     let err = |e: zip::result::ZipError| e.to_string();
     let deflated = SimpleFileOptions::default().compression_method(zip::CompressionMethod::Deflated);
     let mut src = zip::ZipArchive::new(Cursor::new(archive)).map_err(err)?;
-    let mut out = zip::ZipWriter::new(Cursor::new(Vec::new()));
+    let mut start = Cursor::new(prefix);
+    start.set_position(start.get_ref().len() as u64);
+    let mut out = zip::ZipWriter::new(start);
     for i in 0..src.len() {
         let f = src.by_index_raw(i).map_err(err)?;
         let entry = f.name().to_string();
-        if entry == name {
+        if let Some((_, data)) = files.iter().find(|(n, _)| *n == entry) {
             drop(f);
             out.start_file(entry, deflated).map_err(err)?;
             out.write_all(data).map_err(|e| e.to_string())?;
@@ -491,7 +584,7 @@ fn rezip(archive: &[u8], name: &str, data: &[u8], renpy: bool) -> Result<Vec<u8>
             // Re-sign with the player's own key; without a key, drop the entry so the
             // game asks once and then loads it.
             drop(f);
-            if let Some(sig) = crate::renpy_sign::sign(data) {
+            if let Some(sig) = files.first().and_then(|(_, log)| crate::renpy_sign::sign(log)) {
                 out.start_file("signatures", deflated).map_err(err)?;
                 out.write_all(sig.as_bytes()).map_err(|e| e.to_string())?;
             }
@@ -512,6 +605,7 @@ fn wrap(layer: &Layer, data: Vec<u8>) -> Result<Vec<u8>, String> {
     Ok(match layer {
         Layer::RenpyZip { archive, .. } => rezip(archive, "log", &data, true)?,
         Layer::ZipEntry { archive, name } => rezip(archive, name, &data, false)?,
+        Layer::PdxSav { original, zip_at } => pdx_sav_wrap(original, *zip_at, &data)?,
         Layer::RenpyPersistent { signed } => {
             let mut out = compress(ZlibEncoder::new(Vec::new(), Compression::new(3)), &data)?.finish().map_err(io)?;
             if *signed {
@@ -806,6 +900,11 @@ fn wrap(layer: &Layer, data: Vec<u8>) -> Result<Vec<u8>, String> {
 }
 
 fn peel(data: &[u8], ctx: &mut Ctx) -> Option<(Layer, Vec<u8>)> {
+    if data.starts_with(b"SAV") {
+        if let Some(found) = peel_pdx_sav(data) {
+            return Some(found);
+        }
+    }
     if data.starts_with(b"PK\x03\x04") {
         if let Some(json) = fmt::owlcat::open(data) {
             ctx.hint = Some("Pathfinder save: its party, money and header are shown together; changed parts are written back with their checksums.".into());
@@ -2380,6 +2479,46 @@ mod tests {
             Content::Json { value, .. } => value.pointer(ptr).cloned().unwrap_or(Value::Null),
             _ => Value::Null,
         }
+    }
+
+    /// A Paradox `SAV…` archive: binary metadata after the header line, then a zip whose
+    /// `gamestate` starts with the same metadata. An edit inside the metadata reaches both.
+    #[test]
+    fn pdx_sav_archive_round_trip() {
+        use zip::write::SimpleFileOptions;
+        let id = |n: u16| n.to_le_bytes().to_vec();
+        let text = |t: &str| [id(0x000f), (t.len() as u16).to_le_bytes().to_vec(), t.as_bytes().to_vec()].concat();
+        let meta = [id(0x3155), id(1), id(3), id(0x058f), id(1), id(0x000c), 9i32.to_le_bytes().to_vec(), id(0x001c), id(1), text("Ada"), id(4)].concat();
+        let state = [meta.clone(), id(0x7000), id(1), id(0x0167), 250_000i64.to_le_bytes().to_vec()].concat();
+        let mut file = format!("SAV0103aabbccdd{:08x}\n", meta.len()).into_bytes();
+        file.extend(&meta);
+        let zip_at = file.len();
+        let mut start = Cursor::new(file);
+        start.set_position(zip_at as u64);
+        let mut w = zip::ZipWriter::new(start);
+        w.start_file("gamestate", SimpleFileOptions::default()).unwrap();
+        w.write_all(&state).unwrap();
+        let raw = w.finish().unwrap().into_inner();
+
+        let d = decode_with(&raw, &Options { ext: "ck3".into(), ..Options::default() });
+        assert!(matches!(&d.layers[0], Layer::PdxSav { zip_at: z, .. } if *z == zip_at));
+        let Content::Tree(mut doc) = d.content else { panic!("not a tree") };
+        assert_eq!(doc.kind_name, "Crusader Kings III save (binary)");
+        assert_eq!(doc.view["0x7000"], 2.5);
+        assert_eq!(encode(&d.layers, &Content::Tree(doc.clone())).map(|b| decode(&b).content.to_bytes().unwrap()).unwrap(), state);
+        doc.set("/0x7000", serde_json::json!(7.25)).unwrap();
+        doc.set("/0x3155/0x001c", serde_json::json!("Adelaide")).unwrap();
+        let out = encode(&d.layers, &Content::Tree(doc)).unwrap();
+        let h = fmt::pdxbin::SavHeader::read(&out).unwrap();
+        assert_eq!(h.meta_len, meta.len() + 5);
+        let back = decode_with(&out, &Options { ext: "ck3".into(), ..Options::default() });
+        let Content::Tree(doc) = back.content else { panic!("not a tree") };
+        assert_eq!(doc.view["0x7000"], 7.25);
+        assert_eq!(doc.view["0x3155"]["0x001c"], "Adelaide");
+        // The copy after the header line is the start of the new game state.
+        let state = doc.to_bytes().unwrap();
+        assert_eq!(&out[h.len..h.len + h.meta_len], &state[..h.meta_len]);
+        assert_eq!(&out[h.len + h.meta_len..h.len + h.meta_len + 4], b"PK\x03\x04");
     }
 
     #[test]
