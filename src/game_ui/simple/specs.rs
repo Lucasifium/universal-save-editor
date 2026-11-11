@@ -3,7 +3,7 @@
 
 use super::{List, Max, Section, Shape, Spec, Table};
 
-pub static SPECS: &[Spec] = &[COTL, FALLOUT_SHELTER, DRG, S1_MONEY, S1_RANK, S1_TIME, S1_GAME, SOTF_STATE, SOTF_ITEMS, DMD, CUPHEAD, ANTIMATTER, PVZ];
+pub static SPECS: &[Spec] = &[COTL, FALLOUT_SHELTER, DRG, S1_MONEY, S1_RANK, S1_TIME, S1_GAME, SOTF_STATE, SOTF_ITEMS, DMD, CUPHEAD, ANTIMATTER, PVZ, CELESTE];
 
 // ------------------------------------------------------------------ Cult of the Lamb
 
@@ -733,4 +733,29 @@ const PVZ: Spec = Spec {
     ],
     lists: &[],
     tables: &[],
+};
+
+// ------------------------------------------------------------------ Celeste
+
+const CELESTE: Spec = Spec {
+    name: "Celeste",
+    tab: "Save",
+    accent: (232, 90, 120),
+    kind: Some("XML"),
+    markers: &["/SaveData/UnlockedAreas", "/SaveData/Assists/GameSpeed"],
+    subtitle: "Saves\\0.celeste … 2.celeste. Times are in ticks of 100 nanoseconds (10,000,000 per second).",
+    tiles: &[("Strawberries", "/SaveData/TotalStrawberries"), ("Deaths", "/SaveData/TotalDeaths"), ("Chapters unlocked", "/SaveData/UnlockedAreas")],
+    sections: &[
+        Section { title: "File", rows: &[("Name", "/SaveData/Name"), ("Chapters unlocked (0–10)", "/SaveData/UnlockedAreas"), ("Total strawberries", "/SaveData/TotalStrawberries"), ("Golden strawberries", "/SaveData/TotalGoldenStrawberries"), ("Deaths", "/SaveData/TotalDeaths"), ("Jumps", "/SaveData/TotalJumps"), ("Wall jumps", "/SaveData/TotalWallJumps"), ("Dashes", "/SaveData/TotalDashes"), ("Play time (ticks)", "/SaveData/Time"), ("Cheat mode", "/SaveData/CheatMode"), ("Assist mode", "/SaveData/AssistMode"), ("Variant mode", "/SaveData/VariantMode")] },
+        Section { title: "Assists", rows: &[("GameSpeed", "/SaveData/Assists/GameSpeed"), ("Invincible", "/SaveData/Assists/Invincible"), ("DashMode", "/SaveData/Assists/DashMode"), ("DashAssist", "/SaveData/Assists/DashAssist"), ("InfiniteStamina", "/SaveData/Assists/InfiniteStamina"), ("MirrorMode", "/SaveData/Assists/MirrorMode"), ("ThreeSixtyDashing", "/SaveData/Assists/ThreeSixtyDashing"), ("InvisibleMotion", "/SaveData/Assists/InvisibleMotion"), ("NoGrabbing", "/SaveData/Assists/NoGrabbing"), ("LowFriction", "/SaveData/Assists/LowFriction"), ("SuperDashing", "/SaveData/Assists/SuperDashing"), ("Hiccups", "/SaveData/Assists/Hiccups"), ("PlayAsBadeline", "/SaveData/Assists/PlayAsBadeline")] },
+    ],
+    lists: &[],
+    tables: &[Table {
+        title: "Chapters",
+        path: "/SaveData/Areas/AreaStats",
+        name: &["/@ID"],
+        only: &[],
+        cols: &[("Cassette", "/@Cassette"), ("A done", "/Modes/AreaModeStats/0/@Completed"), ("A full clear", "/Modes/AreaModeStats/0/@FullClear"), ("A heart", "/Modes/AreaModeStats/0/@HeartGem"), ("B done", "/Modes/AreaModeStats/1/@Completed"), ("B full clear", "/Modes/AreaModeStats/1/@FullClear"), ("B heart", "/Modes/AreaModeStats/1/@HeartGem"), ("C done", "/Modes/AreaModeStats/2/@Completed"), ("C full clear", "/Modes/AreaModeStats/2/@FullClear"), ("C heart", "/Modes/AreaModeStats/2/@HeartGem")],
+        names: &[("0", "Prologue"), ("1", "Forsaken City"), ("2", "Old Site"), ("3", "Celestial Resort"), ("4", "Golden Ridge"), ("5", "Mirror Temple"), ("6", "Reflection"), ("7", "The Summit"), ("8", "Epilogue"), ("9", "Core"), ("10", "Farewell")],
+    }],
 };
