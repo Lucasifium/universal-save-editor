@@ -67,3 +67,28 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx, two: bool) {
     }
     ui.weak("Skills and personality go from 0 to 1000; every 100 is one point on the game's bars. Sims carry their file name (user00012 is Characters\\User00012.iff). Townies and visitors are under Other Sims on the Values tab with Advanced on. Not yet tried in the game.");
 }
+
+/// The Sims 4: one tab per household with its funds and the Sims in it.
+pub fn show4(ui: &mut Ui, cx: &mut GameCtx) {
+    let accent = Color32::from_rgb(60, 190, 200);
+    let houses = keys(cx, "/Households");
+    if houses.is_empty() {
+        ui.weak("This save has no households.");
+        return;
+    }
+    let t = tabs(ui, "sims4_house", &houses).min(houses.len() - 1);
+    let base = format!("/Households/{}", pointer_escape(&houses[t]));
+    let sims = cx.text(&format!("{base}/Sims")).unwrap_or_default();
+    let n = if sims.is_empty() { 0 } else { sims.matches("), ").count() + 1 };
+    hero(ui, accent, &houses[t], &format!("The Sims 4  \u{00B7}  {n} Sim{}", if n == 1 { "" } else { "s" }), |ui| {
+        cx.tile(ui, "Funds (\u{00A7})", &format!("{base}/Funds"), accent);
+    });
+    if !sims.is_empty() {
+        panel(ui, "Household members", |ui| {
+            for s in sims.split("), ") {
+                ui.label(if s.ends_with(')') { s.to_string() } else { format!("{s})") });
+            }
+        });
+    }
+    ui.weak("Funds go up to 99,999,999. The game data is stored uncompressed when you save, so the file grows. Sim skills and traits aren't mapped yet. Not yet tried in the game.");
+}
