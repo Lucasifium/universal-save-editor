@@ -2042,8 +2042,12 @@ impl App {
             } else {
                 match crate::backups::set_aside(&path, &name) {
                     Ok(_) => {
-                        self.ok(format!("Set the save aside as \u{201C}{}\u{201D}. The game will start a new game; the editor still holds the old data in memory (don't Save it).", name.trim()));
-                        name.clear();
+                        let label = name.trim().to_string();
+                        // Close the file so its old data can't be saved back over the new game.
+                        self.doc = None;
+                        self.dirty = false;
+                        self.ok(format!("Set the save aside as \u{201C}{label}\u{201D} and closed it. The game will start a new game; once the game has made its new save, open it here and bring the old one back from File \u{203A} Save manager."));
+                        return;
                     }
                     Err(e) => self.fail(format!("Couldn't set the save aside: {e}")),
                 }
