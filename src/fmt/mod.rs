@@ -131,6 +131,7 @@ pub mod p3p;
 mod p3p_tables;
 pub mod ffx2;
 pub mod dead_rising;
+pub mod ff13;
 pub mod p5r;
 pub mod metro;
 pub mod bioshock;
@@ -264,6 +265,11 @@ pub fn parse_binary(d: &[u8]) -> Option<TreeDoc> {
     }
     if metro::looks(d) {
         if let Ok(t) = metro::parse(d) {
+            return Some(t);
+        }
+    }
+    if ff13::looks(d) {
+        if let Ok(t) = ff13::parse(d) {
             return Some(t);
         }
     }

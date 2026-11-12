@@ -3,7 +3,7 @@
 
 use super::{List, Max, Section, Shape, Spec, Table};
 
-pub static SPECS: &[Spec] = &[COTL, FALLOUT_SHELTER, DRG, S1_MONEY, S1_RANK, S1_TIME, S1_GAME, SOTF_STATE, SOTF_GAME, SOTF_WEATHER, SOTF_ITEMS, DMD, CUPHEAD, ANTIMATTER, PVZ, CELESTE, DRGS, KH3, RF4S, SKY1ST, KSP, FFPR, MCD, STONESHARD, ROGUE_TRADER, BIOSHOCK_INFINITE, SPACE_HAVEN, SNOWRUNNER, GRAVEYARD_KEEPER, NFSMW, TOS, GTA3, GTAVC, BITBURNER, TERRA_INVICTA, PRISON];
+pub static SPECS: &[Spec] = &[COTL, FALLOUT_SHELTER, DRG, S1_MONEY, S1_RANK, S1_TIME, S1_GAME, SOTF_STATE, SOTF_GAME, SOTF_WEATHER, SOTF_ITEMS, DMD, CUPHEAD, ANTIMATTER, PVZ, CELESTE, DRGS, KH3, RF4S, SKY1ST, KSP, FFPR, MCD, STONESHARD, ROGUE_TRADER, BIOSHOCK_INFINITE, SPACE_HAVEN, SNOWRUNNER, GRAVEYARD_KEEPER, NFSMW, TOS, GTA3, GTAVC, BITBURNER, TERRA_INVICTA, PRISON, FF13];
 
 // ------------------------------------------------------------------ Cult of the Lamb
 
@@ -1396,6 +1396,21 @@ const PRISON: Spec = Spec {
             ("Failure conditions", "/Settings/FailureConditions"),
         ],
     }],
+    lists: &[],
+    tables: &[],
+};
+
+// ------------------------------------------------------------------ Final Fantasy XIII
+
+const FF13: Spec = Spec {
+    name: "Final Fantasy XIII",
+    tab: "Party",
+    accent: (110, 170, 230),
+    kind: Some(crate::fmt::ff13::KIND),
+    markers: &["/Party/Gil"],
+    subtitle: "ff13-NN.dat. The save is decrypted to edit and encrypted again on save. Gil goes up to 9,999,999.",
+    tiles: &[("Gil", "/Party/Gil")],
+    sections: &[Section { title: "Party", rows: &[("Gil", "/Party/Gil")] }],
     lists: &[],
     tables: &[],
 };
