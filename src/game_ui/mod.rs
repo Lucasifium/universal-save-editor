@@ -43,6 +43,7 @@ mod torment;
 mod totalwar;
 mod trucks;
 mod x4;
+mod mgsv;
 
 use crate::theme;
 use crate::tree::TreeDoc;
@@ -114,6 +115,7 @@ pub enum Game {
     Wonderlands,
     TruckSim,
     X4,
+    Mgsv,
     TotalWar,
     GrimDawn,
     TitanQuest,
@@ -203,6 +205,7 @@ impl Game {
             Game::Wonderlands => "Hero",
             Game::TruckSim => "Driver",
             Game::X4 => "Pilot",
+            Game::Mgsv => "Commander",
             Game::TotalWar => "Campaign",
             Game::GrimDawn | Game::TitanQuest | Game::Torchlight2 => "Character",
             Game::Fallout12 => "Pip-Boy",
@@ -267,6 +270,7 @@ pub fn detect(kind: &str, root: &Value) -> Option<Game> {
         "RE Engine save" if screens2::is_re_slot(root) => Game::ReSlot,
         ".NET BinaryFormatter stream" if screens2::is_green_hell(root) => Game::GreenHell,
         "XML" if x4::is_x4(root) => Game::X4,
+        k if k == crate::fmt::mgsv::KIND => Game::Mgsv,
         _ if screens2::is_hogwarts(root) => Game::Hogwarts,
         "SQLite database" if screens2::is_hogwarts_db(root) => Game::HogwartsDb,
         k if screens2::is_renpy(k, root) => Game::RenPy,
@@ -401,6 +405,7 @@ pub fn show(game: Game, ui: &mut Ui, cx: &mut GameCtx) {
         Game::Wonderlands => borderlands::show_wl(ui, cx),
         Game::TruckSim => trucks::show(ui, cx),
         Game::X4 => x4::show(ui, cx),
+        Game::Mgsv => mgsv::show(ui, cx),
         Game::TotalWar => totalwar::show(ui, cx),
         Game::GrimDawn => arpg::grim_dawn(ui, cx),
         Game::TitanQuest => arpg::titan_quest(ui, cx),
@@ -952,6 +957,7 @@ mod tests {
         assert_eq!(detect("Borderlands 3 character", &json!({})), Some(Game::Borderlands3));
         assert_eq!(detect("Tiny Tina's Wonderlands character", &json!({})), Some(Game::Wonderlands));
         assert_eq!(detect(crate::fmt::sii::KIND, &json!({})), Some(Game::TruckSim));
+        assert_eq!(detect(crate::fmt::mgsv::KIND, &json!({})), Some(Game::Mgsv));
         assert_eq!(detect(crate::fmt::totalwar::KIND, &json!({})), Some(Game::TotalWar));
         assert_eq!(detect("XML", &json!({"savegame": {"info": {"player": {"@money": 1}, "game": {"@build": 1}}, "factions": {}}})), Some(Game::X4));
         assert_eq!(detect("Fallout 2 save", &json!({"Save": {}})), Some(Game::Fallout12));
