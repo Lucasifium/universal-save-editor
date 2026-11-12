@@ -29,6 +29,7 @@ pub mod re5;
 pub mod anno;
 pub mod fable;
 pub mod slime;
+pub mod hzd;
 pub mod gk;
 pub mod civ7;
 pub mod uepack;
@@ -216,6 +217,11 @@ pub fn parse_binary(d: &[u8]) -> Option<TreeDoc> {
     }
     if slime::looks(d) {
         if let Some(t) = slime::parse(d) {
+            return Some(t);
+        }
+    }
+    if hzd::looks(d) {
+        if let Some(t) = hzd::parse(d) {
             return Some(t);
         }
     }

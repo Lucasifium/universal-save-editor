@@ -1890,15 +1890,43 @@ pub fn yakuza_de(ui: &mut Ui, cx: &mut GameCtx) {
     let title = cx.text("/base/m_title").unwrap_or_else(|| if y6 { "Yakuza 6: The Song of Life".into() } else { "Yakuza".into() });
     let sub = cx.text("/base/m_subtitle").unwrap_or_default();
     let party = cx.get("/party/m_chara").and_then(|v| v.as_array().map(Vec::len)).unwrap_or(0);
+    // Kiwami 3 keeps its points in lists (the first is Kiryu's) and its HP per character.
+    let money = if cx.get("/player/point/m_point/1").is_some() { "/player/point/m_point/1" } else { "/player/m_points/m_list/0/m_point/1" };
+    let chars = cx.get("/player/m_chara").and_then(|v| v.as_array().map(Vec::len)).unwrap_or(0);
     hero(ui, accent, &title, &sub, |ui| {
-        cx.tile(ui, "Money (\u{00A5})", "/player/point/m_point/1", accent);
+        cx.tile(ui, "Money (\u{00A5})", money, accent);
         if cx.get("/player/hp/m_max").is_some() {
             cx.tile(ui, "Max HP", "/player/hp/m_max", accent);
             cx.tile(ui, "HP", "/player/hp/m_now", accent);
+        } else if chars > 0 {
+            cx.tile(ui, "Kiryu's max HP", "/player/m_chara/0/hp/m_max", accent);
+            cx.tile(ui, "Kiryu's HP", "/player/m_chara/0/hp/m_now", accent);
         }
     });
+    if party == 0 && chars > 0 {
+        panel(ui, "Characters", |ui| {
+            egui::Grid::new("yde_chara").striped(true).spacing([10.0, 4.0]).show(ui, |ui| {
+                for h in ["", "HP", "Max HP", "Heat", "Max heat"] {
+                    ui.strong(h);
+                }
+                ui.end_row();
+                for i in 0..chars {
+                    let base = format!("/player/m_chara/{i}");
+                    if cx.get(&format!("{base}/hp/m_max")).and_then(|v| v.as_i64()).unwrap_or(0) == 0 {
+                        continue;
+                    }
+                    ui.label(if i == 0 { "Kiryu".to_string() } else { format!("Character {}", i + 1) });
+                    for k in ["hp/m_now", "hp/m_max", "heat/m_now", "heat/m_max"] {
+                        cx.compact(ui, &format!("{base}/{k}"), 70.0);
+                    }
+                    ui.end_row();
+                }
+            });
+            ui.weak("Every character the save keeps stats for, in the save's order; the first is Kiryu.");
+        });
+    }
     // Kiwami 2 and Yakuza 6 keep Kiryu's five experience pools next to the money.
-    if party == 0 && cx.get("/player/point/m_point/6").is_some() {
+    if party == 0 && !title.starts_with("Judgment") && cx.get("/player/point/m_point/6").is_some() {
         panel(ui, "Experience", |ui| {
             let rows: Vec<(String, String)> = (2..=6).map(|i| (format!("Experience pool {}", i - 1), format!("/player/point/m_point/{i}"))).collect();
             value_rows(ui, cx, "yde_exp", &rows);
