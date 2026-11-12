@@ -279,9 +279,11 @@ pub struct App {
     password_prompt: Option<String>,
     /// Checksums found by Tools › Find checksum, while their window is open.
     sum_hits: Option<Vec<crate::fmt::sumfind::Sum>>,
-    /// The name being typed for a kept copy (File › Restore previous version › Keep a copy).
+    /// The name being typed for a kept copy (Backups › Quick restore of an earlier version › Keep a copy).
     backup_name: Option<String>,
-    /// The Backup & restore saves window: `Some((save it is for, backup name being typed, version waiting for a delete/replace confirmation))` while open.
+    /// The name being typed for Backups › Back up and start a new game.
+    new_game_name: Option<String>,
+    /// The Save manager window: `Some((save it is for, backup name being typed, version waiting for a delete/replace confirmation))` while open.
     /// It stays open for a save that was set aside (or is missing), so a backup can be put back.
     manager: Option<(PathBuf, String, Option<(PathBuf, bool)>)>,
     /// Tools › Change Steam account: the IDs found in the save, the one picked, and the new one typed.
@@ -348,6 +350,7 @@ impl App {
             password_prompt: None,
             sum_hits: None,
             backup_name: None,
+            new_game_name: None,
             manager: None,
             rebind: None,
             patches: None,
@@ -886,7 +889,7 @@ impl App {
                 }
                 note = format!(" Original backed up as {}.", file_name(&bak));
             }
-            // Every earlier version stays restorable from File \u{203A} Restore previous version.
+            // Every earlier version stays restorable from Backups \u{203A} Quick restore of an earlier version.
             if let Err(e) = crate::backups::take(path) {
                 return self.fail(format!("Couldn't back up the current file: {e}. Your file was not changed."));
             }
@@ -1194,7 +1197,7 @@ impl App {
             } else if dest.active {
                 ui.colored_label(theme::fg(ui, theme::WARN), format!("This replaces {} (level {}) in slot {}.", dest.name, dest.level, c.to + 1));
             }
-            ui.weak("The file is backed up first (File \u{203A} Restore previous version).");
+            ui.weak("The file is backed up first (Backups \u{203A} Quick restore of an earlier version).");
             ui.add_space(8.0);
             ui.horizontal(|ui| {
                 let ok = c.to != c.from && c.slots[c.from].active;
@@ -1270,7 +1273,7 @@ impl App {
             ui.weak(if WEB {
                 "Your browser downloads the edited file. Keep a copy of the original before you replace it."
             } else {
-                "The current file is kept as a backup \u{2014} File \u{203A} Restore previous version brings it back."
+                "The current file is kept as a backup \u{2014} Backups \u{203A} Quick restore of an earlier version brings it back."
             });
             ui.add_space(8.0);
             ui.horizontal_wrapped(|ui| {
@@ -1497,10 +1500,40 @@ impl App {
                     ui.close_menu();
                     self.revert_all();
                 }
-                if !WEB && ui.add_enabled(has, egui::Button::new("Backup & restore saves\u{2026}")).on_hover_text("Back up the open save, restore an earlier backup, or set the save aside to start a new game").clicked() {
+                ui.separator();
+                if ui.add_enabled(has, egui::Button::new("Export decoded data\u{2026}")).clicked() {
+                    ui.close_menu();
+                    self.export_decoded();
+                }
+                let importable = matches!(self.doc.as_ref().map(|d| &d.content), Some(Content::Binary(_) | Content::Text(_) | Content::Json { .. }));
+                if ui
+                    .add_enabled(importable, egui::Button::new("Import edited data\u{2026}"))
+                    .on_hover_text("Bring back data you exported and edited in another program; it is packed the way this save is packed when you save.")
+                    .clicked()
+                {
+                    ui.close_menu();
+                    self.ask(Ask::Import, None, None);
+                }
+            });
+            ui.menu_button("Backups", |ui| {
+                let on_disk = !WEB && self.doc.as_ref().is_some_and(|d| d.path.is_file());
+                if !WEB && ui.add_enabled(on_disk, egui::Button::new("Back up this save\u{2026}")).on_hover_text("Keeps a named copy of the save file as it is on disk now, until you delete it. The save itself is not changed.").clicked() {
+                    ui.close_menu();
+                    self.backup_name = Some(String::new());
+                }
+                if !WEB && ui.add_enabled(on_disk, egui::Button::new("Back up and start a new game\u{2026}")).on_hover_text("Keeps a named backup, then removes the save file so the game starts a new game. Restore the backup any time to go back.").clicked() {
+                    ui.close_menu();
+                    self.new_game_name = Some(String::new());
+                }
+                if !WEB && ui.add_enabled(has, egui::Button::new("Restore a backup\u{2026}")).on_hover_text("Pick an earlier backup of this save to put back. The current save is backed up first.").clicked() {
                     ui.close_menu();
                     self.manager = self.doc.as_ref().map(|d| (d.path.clone(), String::new(), None));
                 }
+                if !WEB && ui.add_enabled(has, egui::Button::new("Open save manager\u{2026}")).on_hover_text("All backups of this save in one window: restore, compare, delete, name").clicked() {
+                    ui.close_menu();
+                    self.manager = self.doc.as_ref().map(|d| (d.path.clone(), String::new(), None));
+                }
+                ui.separator();
                 let bak = self.doc.as_ref().map(|d| {
                     let mut b = d.path.as_os_str().to_owned();
                     b.push(".bak");
@@ -1510,7 +1543,7 @@ impl App {
                 let has_bak = bak.as_ref().is_some_and(|b| b.exists());
                 let on_disk = !WEB && self.doc.as_ref().is_some_and(|d| d.path.is_file());
                 ui.add_enabled_ui(has_bak || !versions.is_empty() || on_disk, |ui| {
-                    ui.menu_button("Restore previous version", |ui| {
+                    ui.menu_button("Quick restore of an earlier version", |ui| {
                         ui.weak("Taken each time this app saved over the file.");
                         ui.weak("Named copies are kept for good; the 30 newest others are kept.");
                         if !WEB && ui.button("Keep a named copy of the file now\u{2026}").clicked() {
@@ -1585,20 +1618,6 @@ impl App {
                         }
                     });
                 });
-                ui.separator();
-                if ui.add_enabled(has, egui::Button::new("Export decoded data\u{2026}")).clicked() {
-                    ui.close_menu();
-                    self.export_decoded();
-                }
-                let importable = matches!(self.doc.as_ref().map(|d| &d.content), Some(Content::Binary(_) | Content::Text(_) | Content::Json { .. }));
-                if ui
-                    .add_enabled(importable, egui::Button::new("Import edited data\u{2026}"))
-                    .on_hover_text("Bring back data you exported and edited in another program; it is packed the way this save is packed when you save.")
-                    .clicked()
-                {
-                    ui.close_menu();
-                    self.ask(Ask::Import, None, None);
-                }
             });
             ui.menu_button("Edit", |ui| {
                 if ui.add_enabled(!self.undo.is_empty(), egui::Button::new("Undo        Ctrl+Z")).clicked() {
@@ -1912,6 +1931,63 @@ impl App {
         }
     }
 
+    /// Backs the save up under `name`, then removes it and closes it so the game starts a new game. True on success.
+    fn start_new_game(&mut self, path: &Path, name: &str) -> bool {
+        if let Some(game) = crate::running::game_for(path) {
+            self.fail(format!("{game} looks like it's running \u{2014} quit it first."));
+            return false;
+        }
+        match crate::backups::set_aside(path, name) {
+            Ok(_) => {
+                // Close the file so its old data can't be saved back over the new game.
+                self.doc = None;
+                self.dirty = false;
+                self.ok(format!("Backed up as \u{201C}{}\u{201D} and removed the save, so the game starts a new game. Restore it from Backups \u{203A} Restore a backup\u{2026} any time.", name.trim()));
+                true
+            }
+            Err(e) => {
+                self.fail(format!("Couldn't start a new game: {e}"));
+                false
+            }
+        }
+    }
+
+    fn new_game_dialog(&mut self, ctx: &egui::Context) {
+        let Some(mut text) = self.new_game_name.take() else { return };
+        let mut choice = None;
+        modal(ctx, "Back up and start a new game", |ui| {
+            ui.label("The save is backed up under this name and then removed, so the game starts a new game. Restore the backup later to come back to it.");
+            ui.add_space(6.0);
+            let r = ui.add(TextEdit::singleline(&mut text).hint_text("for example: first run").desired_width(280.0));
+            r.request_focus();
+            let ready = !text.trim().is_empty();
+            if r.lost_focus() && ready && ui.input(|i| i.key_pressed(egui::Key::Enter)) {
+                choice = Some(true);
+            }
+            ui.add_space(6.0);
+            ui.horizontal(|ui| {
+                if ui.add_enabled(ready, egui::Button::new(RichText::new("Back up and start new").color(Color32::WHITE)).fill(theme::ACCENT)).clicked() {
+                    choice = Some(true);
+                }
+                if ui.button("Cancel").clicked() {
+                    choice = Some(false);
+                }
+            });
+        });
+        match choice {
+            Some(true) => {
+                let Some(path) = self.doc.as_ref().map(|d| d.path.clone()) else { return };
+                if self.start_new_game(&path, &text) {
+                    self.manager = Some((path, String::new(), None));
+                } else {
+                    self.new_game_name = Some(text);
+                }
+            }
+            Some(false) => {}
+            None => self.new_game_name = Some(text),
+        }
+    }
+
     fn backup_name_dialog(&mut self, ctx: &egui::Context) {
         let Some(mut text) = self.backup_name.take() else { return };
         let mut choice = None;
@@ -1937,7 +2013,7 @@ impl App {
             Some(true) => {
                 let Some(path) = self.doc.as_ref().map(|d| d.path.clone()) else { return };
                 match crate::backups::take_named(&path, &text) {
-                    Ok(_) => self.ok(format!("Kept a copy named \u{201C}{}\u{201D} (File \u{203A} Restore previous version).", text.trim())),
+                    Ok(_) => self.ok(format!("Kept a copy named \u{201C}{}\u{201D} (Backups \u{203A} Quick restore of an earlier version).", text.trim())),
                     Err(e) => {
                         self.fail(format!("Couldn't keep a copy: {e}"));
                         self.backup_name = Some(text);
@@ -1949,7 +2025,7 @@ impl App {
         }
     }
 
-    /// File › Backup & restore saves: named backups (named copies, kept for good) and automatic backups of the
+    /// Backups › Open save manager: named backups (named copies, kept for good) and automatic backups of the
     /// open file, stored next to it. Restoring backs up the current file first.
     fn manager_window(&mut self, ctx: &egui::Context) {
         let Some((path, mut name, mut confirm)) = self.manager.take() else { return };
@@ -1968,7 +2044,7 @@ impl App {
         let has_doc = self.doc.is_some();
         let dirty = self.dirty;
         let newest_dir = versions.first().and_then(|v| v.path.parent()).map(Path::to_path_buf);
-        egui::Window::new("Backup & restore saves").open(&mut open).collapsible(false).default_width(560.0).show(ctx, |ui| {
+        egui::Window::new("Save manager").open(&mut open).collapsible(false).default_width(560.0).show(ctx, |ui| {
             ui.label(RichText::new(file_name(&path)).strong());
             if !path.exists() {
                 ui.label(RichText::new("There is no save file here right now. The game makes a new one when you save in it, or restore a backup below to put one back.").color(theme::fg(ui, theme::WARN)));
@@ -2062,23 +2138,9 @@ impl App {
                 Err(e) => self.fail(format!("Couldn't back up the save: {e}")),
             }
         }
-        if aside {
-            if let Some(game) = crate::running::game_for(&path) {
-                self.fail(format!("{game} looks like it's running \u{2014} quit it first."));
-            } else {
-                match crate::backups::set_aside(&path, &name) {
-                    Ok(_) => {
-                        let label = name.trim().to_string();
-                        // Close the file so its old data can't be saved back over the new game.
-                        self.doc = None;
-                        self.dirty = false;
-                        self.ok(format!("Backed up as \u{201C}{label}\u{201D} and removed the save, so the game starts a new game. Restore it here any time."));
-                        self.manager = Some((path, String::new(), None));
-                        return;
-                    }
-                    Err(e) => self.fail(format!("Couldn't start a new game: {e}")),
-                }
-            }
+        if aside && self.start_new_game(&path, &name) {
+            self.manager = Some((path, String::new(), None));
+            return;
         }
         if let Some(p) = restore {
             let what = find(&p).map(|v| v.name.as_ref().map(|n| format!("\u{201C}{n}\u{201D}")).unwrap_or_else(|| format!("the version from {}", crate::backups::describe(v_when(&versions, &p))))).unwrap_or_default();
@@ -3673,6 +3735,7 @@ impl eframe::App for App {
         self.password_dialog(ctx);
         self.sums_dialog(ctx);
         self.backup_name_dialog(ctx);
+        self.new_game_dialog(ctx);
         self.manager_window(ctx);
         self.rebind_dialog(ctx);
         self.patches_dialog(ctx);

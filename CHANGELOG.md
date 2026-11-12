@@ -13,7 +13,7 @@
 - Many more catalog entries (Kerbal Space Program, The Long Dark, Satisfactory, Civilization VII, Astroneer and others); about 265 games in total
 
 ### Features
-- Save manager: automatic and named backups stored next to the save, restore with a backup of the current file first, and set a save aside to start a new game
+- Save manager (its own Backups menu next to File, Edit, View and Tools): automatic and named backups stored next to the save, restore with a backup of the current file first, and set a save aside to start a new game
 - Verified writes: backups and restores go to a temporary file, are flushed, read back and checked before anything is replaced; an unreadable save is never overwritten
 - Console cheat patches (Save Wizard and script-engine patch files) with a Tools window and `patch` command
 - Single PS1/PS2/PS3 save files (.mcs, .psx, .psu, .max, .cbs, .xps/.sps, .psv), Dreamcast and Sega Saturn saves, encrypted console saves through their patch codes
