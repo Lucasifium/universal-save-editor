@@ -30,6 +30,7 @@ pub mod anno;
 pub mod fable;
 pub mod slime;
 pub mod hzd;
+pub mod sleeping_dogs;
 pub mod gk;
 pub mod civ7;
 pub mod uepack;
@@ -215,6 +216,11 @@ pub fn parse_binary(d: &[u8]) -> Option<TreeDoc> {
     }
     if slime::looks(d) {
         if let Some(t) = slime::parse(d) {
+            return Some(t);
+        }
+    }
+    if sleeping_dogs::looks(d) {
+        if let Some(t) = sleeping_dogs::parse(d) {
             return Some(t);
         }
     }
