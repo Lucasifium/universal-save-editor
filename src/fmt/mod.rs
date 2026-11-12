@@ -20,6 +20,8 @@ pub mod prison;
 pub mod tld;
 pub mod nfsmw;
 pub mod es2;
+pub mod re5;
+pub mod anno;
 pub mod gk;
 pub mod civ7;
 pub mod uepack;
@@ -185,6 +187,16 @@ pub fn parse_binary(d: &[u8]) -> Option<TreeDoc> {
     }
     if let Some(t) = nfsmw::parse(d) {
         return Some(t);
+    }
+    if anno::looks(d) {
+        if let Some(t) = anno::parse(d) {
+            return Some(t);
+        }
+    }
+    if re5::looks(d) {
+        if let Some(t) = re5::parse(d) {
+            return Some(t);
+        }
     }
     if es2::looks(d) {
         if let Some(t) = es2::parse(d) {

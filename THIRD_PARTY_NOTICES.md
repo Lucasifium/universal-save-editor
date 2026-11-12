@@ -132,6 +132,9 @@ Universal Save Editor is free. It builds on other people's work, listed here wit
 | [lib.remnant2.saves (Remnant 2 save header, chunks and CRC-32; facts, no code)](https://github.com/AndrewSav/lib.remnant2.saves) | Andrew Savinykh | MIT |
 | [Graveyard-Keeper-Savefile-Editor (Graveyard Keeper `.dat` layout, value types and the list of field-name hashes, ported)](https://github.com/NetroScript/Graveyard-Keeper-Savefile-Editor) | NetroScript | MIT |
 | [nfsmw-save-editor (Need for Speed: Most Wanted profile offsets and MD5 range; facts, no code)](https://github.com/x07x08/nfsmw-save-editor) | x07x08 | Unlicense |
+| [RE5-Save-Editor (Resident Evil 5 Steam save cipher, checksum ranges, money and points offsets; facts, no code)](https://github.com/shinneider/RE5-Save-Editor) | shinneider | MIT |
+| [FileDBReader (Anno FileDB / BBDom layout; facts, no code)](https://github.com/anno-mods/FileDBReader) | anno-mods | facts only (no licence file; no code used) |
+| [RDAExplorer (Anno RDA 2.2 archive layout; facts, no code)](https://github.com/lysannschlegel/RDAExplorer) | lysannschlegel | facts only (no licence file; no code used) |
 | [astroneer-save (Astroneer container: magic, sizes and the 4 KiB zlib window; facts, no code)](https://github.com/NotFabii/astroneer-save-editor) | NotFabii | MIT |
 | [satisfactory-file-parser (Satisfactory save chunk layout; facts, no code)](https://github.com/etothepii4/satisfactory-file-parser) | etothepii4 | MIT |
 | [civ7-save-editor (Civilization VII container, markers and 24-bit values; facts, no code)](https://github.com/iqqmuT/civ7-save-editor) and [civ7-save-parser (sample saves used for checking, not included)](https://github.com/pydt/civ7-save-parser) | Tuomas Jaakola; Mike Rosack and playyourdamnturn.com | MIT |

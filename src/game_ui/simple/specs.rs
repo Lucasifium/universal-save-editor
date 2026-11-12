@@ -3,7 +3,7 @@
 
 use super::{List, Max, Section, Shape, Spec, Table};
 
-pub static SPECS: &[Spec] = &[COTL, FALLOUT_SHELTER, DRG, S1_MONEY, S1_RANK, S1_TIME, S1_GAME, SOTF_STATE, SOTF_GAME, SOTF_WEATHER, SOTF_ITEMS, DMD, CUPHEAD, ANTIMATTER, PVZ, CELESTE, DRGS, KH3, RF4S, SKY1ST, KSP, FFPR, MCD, STONESHARD, ROGUE_TRADER, BIOSHOCK_INFINITE, SPACE_HAVEN, SNOWRUNNER, GRAVEYARD_KEEPER, NFSMW, TOS, GTA3, GTAVC, BITBURNER, TERRA_INVICTA, PRISON, FF13, SONIC_MANIA, CAVE_STORY_PLUS, CAVE_STORY, LIES_OF_P, TXR, DAVE, MSC, ULTRAKILL, RPGXP];
+pub static SPECS: &[Spec] = &[COTL, FALLOUT_SHELTER, DRG, S1_MONEY, S1_RANK, S1_TIME, S1_GAME, SOTF_STATE, SOTF_GAME, SOTF_WEATHER, SOTF_ITEMS, DMD, CUPHEAD, ANTIMATTER, PVZ, CELESTE, DRGS, KH3, RF4S, SKY1ST, KSP, FFPR, MCD, STONESHARD, ROGUE_TRADER, BIOSHOCK_INFINITE, SPACE_HAVEN, SNOWRUNNER, GRAVEYARD_KEEPER, NFSMW, TOS, GTA3, GTAVC, BITBURNER, TERRA_INVICTA, PRISON, FF13, SONIC_MANIA, CAVE_STORY_PLUS, CAVE_STORY, LIES_OF_P, TXR, DAVE, MSC, ULTRAKILL, RPGXP, RE5, ANNO1800];
 
 // ------------------------------------------------------------------ Cult of the Lamb
 
@@ -1716,4 +1716,34 @@ const RPGXP: Spec = Spec {
         Table { title: "Party (what the menu and battles use)", path: "/Part 9/@actors", name: &["/@name"], only: &[], cols: RPGXP_ACTOR_COLS, names: &[] },
         Table { title: "Every actor (copied in when someone joins the party)", path: "/Part 8/@data", name: &["/@name"], only: &[], cols: RPGXP_ACTOR_COLS, names: &[] },
     ],
+};
+
+// ------------------------------------------------------------------ Resident Evil 5
+
+const RE5: Spec = Spec {
+    name: "Resident Evil 5",
+    tab: "BSAA",
+    accent: (190, 120, 40),
+    kind: Some(crate::fmt::re5::KIND),
+    markers: &["/Save/Money"],
+    subtitle: "savedata.bin of the Steam edition. Money buys and upgrades weapons; exchange points buy the Bonus Features (costumes, filters, infinite ammo, figures).",
+    tiles: &[("Money", "/Save/Money"), ("Exchange points", "/Save/Exchange points")],
+    sections: &[Section { title: "Save", rows: &[("Money", "/Save/Money"), ("Exchange points", "/Save/Exchange points"), ("Saved", "/Save/Saved")] }],
+    lists: &[],
+    tables: &[],
+};
+
+// ------------------------------------------------------------------ Anno 1800
+
+const ANNO1800: Spec = Spec {
+    name: "Anno 1800",
+    tab: "Company",
+    accent: (176, 140, 70),
+    kind: Some(crate::fmt::anno::KIND),
+    markers: &["/Player/Coins"],
+    subtitle: "A .a7s save (Documents\\Anno 1800\\accounts\\<id>\\<profile>\\savegame). Coins are your company's money; the load screen's figure is changed with them. Other amounts of your company's storage are in the Tree, by GUID.",
+    tiles: &[("Coins", "/Player/Coins"), ("Influence", "/Player/Influence")],
+    sections: &[],
+    lists: &[],
+    tables: &[],
 };
