@@ -44,6 +44,9 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
                         cx.set("/Player/FOB wallet GMP", json!(GMP_MAX));
                     }
                 }
+                if ui.button("Max heroism").clicked() {
+                    cx.set("/Player/Heroism", json!(99_999_999));
+                }
                 if ui.button("Clear demon points").clicked() {
                     cx.set("/Player/Demon points", json!(0));
                 }
