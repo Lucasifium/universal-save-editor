@@ -628,6 +628,12 @@ mod tests {
         let (_, s2) = unpack(&packed).unwrap();
         assert_eq!(s, s2, "stream changed after packing");
         eprintln!("repack ok: {} -> {} bytes", data.len(), packed.len());
-        assert!(parse(&s).is_ok());
+        let doc = parse(&s).unwrap();
+        for k in ["Survival", "Player", "Storage"] {
+            let n = doc.view.get(k).and_then(|v| v.as_object()).map_or(0, |o| o.len());
+            eprintln!("view {k}: {n} entries");
+        }
+        eprintln!("view survival: {}", doc.view.get("Survival").map(|v| v.to_string()).unwrap_or_default());
+        eprintln!("view player: {}", doc.view.get("Player").map(|v| v.to_string()).unwrap_or_default());
     }
 }
