@@ -114,6 +114,8 @@ pub enum Layer {
     Bioshock { chunks: Arc<fmt::bioshock::Chunks> },
     /// Final Fantasy XV `.save`: AES-192, shuffled blocks and a tweak; `foot` is the plain footer.
     Ffxv { foot: Arc<Vec<u8>> },
+    /// Forspoken `.save`: the same layer with its own key, and an MD5 of the payload.
+    Forspoken { foot: Arc<Vec<u8>> },
     /// Death Stranding 2: XORed chunks, the game data in LZ4 pieces with an MD5.
     Ds2(Arc<fmt::ds2::Wrap>),
     /// Control (Remedy): two u32 versions, then a CRC-32 of the rest.
@@ -283,6 +285,7 @@ impl Layer {
             Layer::Rgmh { blocks, .. } => format!("BioShock Remastered save ({} zlib blocks)", blocks.len()),
             Layer::RemedyCrc { .. } => "Control save (CRC-32)".into(),
             Layer::Ffxv { .. } => "Final Fantasy XV save encryption".into(),
+            Layer::Forspoken { .. } => "Forspoken save encryption (AES, MD5)".into(),
             Layer::Ds2(_) => "Death Stranding 2 save (XOR, LZ4, MD5)".into(),
             Layer::Rgg(w) => format!("Yakuza save (Dragon Engine: {})", fmt::rgg::games(w)),
             Layer::Bioshock { chunks } => format!("BioShock Infinite save (MD5, {} zlib chunks)", chunks.len()),
@@ -817,6 +820,7 @@ fn wrap(layer: &Layer, data: Vec<u8>) -> Result<Vec<u8>, String> {
         }
         Layer::Ff9 => fmt::ff9::encrypt(&data)?,
         Layer::Ffxv { foot } => fmt::ffxv::encrypt(&data, foot)?,
+        Layer::Forspoken { foot } => fmt::forspoken::encrypt(&data, foot)?,
         Layer::Ds2(w) => fmt::ds2::pack(w, &data)?,
         Layer::P5r { head } => fmt::p5r::pack(head, &data),
         Layer::MetroPlayer { head } => fmt::metro::pack_player(head, &data),
@@ -1385,6 +1389,9 @@ fn peel(data: &[u8], ctx: &mut Ctx) -> Option<(Layer, Vec<u8>)> {
     if data.len() > 117 && data[data.len() - 1] == 2 {
         if let Some((p, foot)) = fmt::ffxv::decrypt(data) {
             return Some((Layer::Ffxv { foot: Arc::new(foot) }, p));
+        }
+        if let Some((p, foot)) = fmt::forspoken::decrypt(data) {
+            return Some((Layer::Forspoken { foot: Arc::new(foot) }, p));
         }
     }
     if data.len() == fmt::ff9::FILE_LEN {
@@ -2881,7 +2888,8 @@ mod tests {
 pub fn companion_files(path: &std::path::Path, bytes: &[u8]) -> Vec<(std::path::PathBuf, Vec<u8>)> {
     let mut out = vec![];
     if path.extension().is_some_and(|e| e.eq_ignore_ascii_case("bin")) {
-        let slot = path.with_extension("binslot");
+        let found = ["binslot", "BINslot", "BINSLOT"].iter().map(|e| path.with_extension(e)).find(|p| p.exists());
+        let slot = found.unwrap_or_else(|| path.with_extension("binslot"));
         if let Ok(mut s) = std::fs::read(&slot) {
             if s.len() >= 0x28 && s.starts_with(b"SAVE") {
                 use md5::Digest;

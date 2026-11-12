@@ -113,6 +113,8 @@ pub mod cyberpunk;
 pub mod kenshi;
 pub mod p3r;
 pub mod p4g;
+pub mod p3p;
+mod p3p_tables;
 pub mod ffx2;
 pub mod dead_rising;
 pub mod p5r;
@@ -124,6 +126,7 @@ pub mod rgg;
 pub mod yakuza0;
 pub mod kiwami;
 pub mod ffxv;
+pub mod forspoken;
 pub mod nier;
 pub mod dbpf;
 pub mod pvz;
@@ -289,6 +292,16 @@ pub fn parse_binary(d: &[u8]) -> Option<TreeDoc> {
     }
     if p4g::looks(d) {
         if let Ok(t) = p4g::parse(d) {
+            return Some(t);
+        }
+    }
+    if forspoken::looks(d) {
+        if let Ok(t) = forspoken::parse(d) {
+            return Some(t);
+        }
+    }
+    if p3p::looks(d) {
+        if let Ok(t) = p3p::parse(d) {
             return Some(t);
         }
     }
