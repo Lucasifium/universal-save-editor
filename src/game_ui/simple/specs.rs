@@ -3,7 +3,7 @@
 
 use super::{List, Max, Section, Shape, Spec, Table};
 
-pub static SPECS: &[Spec] = &[COTL, FALLOUT_SHELTER, DRG, S1_MONEY, S1_RANK, S1_TIME, S1_GAME, SOTF_STATE, SOTF_GAME, SOTF_WEATHER, SOTF_ITEMS, DMD, CUPHEAD, ANTIMATTER, PVZ, CELESTE, DRGS, KH3, RF4S, SKY1ST, KSP, FFPR, MCD, STONESHARD, ROGUE_TRADER, BIOSHOCK_INFINITE, SPACE_HAVEN, SNOWRUNNER, GRAVEYARD_KEEPER, NFSMW, TOS, GTA3, GTAVC, BITBURNER, TERRA_INVICTA, PRISON, FF13, SONIC_MANIA, CAVE_STORY_PLUS, CAVE_STORY, LIES_OF_P, TXR, DAVE, MSC, ULTRAKILL, RPGXP, RE5, ANNO1800, FTK, LEGO_TSS, LEGO_CLASSIC, MYZ, CMS21, MEDIEVAL_DYNASTY, MECHANICUS, ORI, OMORI, ENDER_LILIES, SW2, ES2, MOONLIGHTER, WASTELAND2, ATOM, MORTAL_SHELL, MORTAL_SHELL_2, COTW, BEAMNG, FOREST, YAKUZA3, YAKUZA4, YAKUZA5, ISHIN, SALT, DRAKENSANG, ALPHA, TYRANNY, JEDI_FO];
+pub static SPECS: &[Spec] = &[COTL, FALLOUT_SHELTER, DRG, S1_MONEY, S1_RANK, S1_TIME, S1_GAME, SOTF_STATE, SOTF_GAME, SOTF_WEATHER, SOTF_ITEMS, DMD, CUPHEAD, ANTIMATTER, PVZ, CELESTE, DRGS, KH3, RF4S, SKY1ST, KSP, FFPR, MCD, STONESHARD, ROGUE_TRADER, BIOSHOCK_INFINITE, SPACE_HAVEN, SNOWRUNNER, GRAVEYARD_KEEPER, NFSMW, TOS, GTA3, GTAVC, BITBURNER, TERRA_INVICTA, PRISON, FF13, SONIC_MANIA, CAVE_STORY_PLUS, CAVE_STORY, LIES_OF_P, TXR, DAVE, MSC, ULTRAKILL, RPGXP, RE5, ANNO1800, FTK, LEGO_TSS, LEGO_CLASSIC, MYZ, CMS21, MEDIEVAL_DYNASTY, MECHANICUS, ORI, OMORI, ENDER_LILIES, SW2, ES2, MOONLIGHTER, WASTELAND2, ATOM, MORTAL_SHELL, MORTAL_SHELL_2, COTW, BEAMNG, FOREST, YAKUZA3, YAKUZA4, YAKUZA5, ISHIN, SALT, DRAKENSANG, ALPHA, TYRANNY, JEDI_FO, SR3];
 
 // ------------------------------------------------------------------ Cult of the Lamb
 
@@ -2301,6 +2301,27 @@ const JEDI_FO: Spec = Spec {
                 ("Deaths", "/Progress/Deaths"), ("Revives used", "/Progress/Revives used"),
             ],
         },
+
+// ------------------------------------------------------------------ Saints Row: The Third
+
+const SR3: Spec = Spec {
+    name: "Saints Row: The Third (and Remastered)",
+    tab: "Boss",
+    accent: (150, 60, 190),
+    kind: Some(crate::fmt::sr3::KIND),
+    markers: &["/Player/Cash (in cents)"],
+    subtitle: "sr3save_NN.sr3s_pc. Cash is kept in cents; the save's checksum is rewritten.",
+    tiles: &[("Cash (in cents)", "/Player/Cash (in cents)"), ("Respect level", "/Player/Respect level"), ("Crib stash (in cents)", "/Player/Crib money stash (in cents)")],
+    sections: &[
+        Section {
+            title: "Player",
+            rows: &[
+                ("Cash (in cents)", "/Player/Cash (in cents)"), ("Crib money stash (in cents)", "/Player/Crib money stash (in cents)"),
+                ("Respect level", "/Player/Respect level"), ("Respect in this level", "/Player/Respect in this level"), ("Total respect", "/Player/Total respect"),
+            ],
+        },
+        Section { title: "Statistics", rows: &[("Barnstorms found", "/Statistics/Barnstorms found"), ("Stunt jumps found", "/Statistics/Stunt jumps found")] },
+        Section { title: "Game", rows: &[("Difficulty index (0 to 2)", "/Game/Difficulty index")] },
     ],
     lists: &[],
     tables: &[],
