@@ -1,7 +1,7 @@
 //! The older TT Games LEGO saves on PC, with the stud counter.
 //!
 //! * LEGO Star Wars: The Complete Saga, LEGO Batman: The Videogame and LEGO Indiana Jones:
-//!   The Original Adventures (`SaveGameN.<game>_SavedGame`): an `HMGR` header of 0x2028 bytes
+//!   The Original Adventures and 2 (`SaveGameN.<game>_SavedGame`): an `HMGR` header of 0x2028 bytes
 //!   (title, thumbnail), then the game's save block, then a u32 checksum and a u32 with the
 //!   completion points. The checksum is `0x5c0999 + the sum of every little-endian u32` from
 //!   0x2028 up to it (the same function the Android port of The Complete Saga ships). The stud
@@ -22,11 +22,13 @@ const LSW1_LEN: usize = 532;
 const LSW1_STUDS: usize = 0x204;
 const LSW1_MAX_STUDS: i64 = 9_999_999;
 
-/// (title as shown in the header, file size, offset of the studs from the start of the file)
-const GAMES: [(&str, usize, usize); 3] = [
-    ("LEGO Star Wars: The Complete Saga", 40572, HEADER + 0x7c14),
-    ("LEGO Batman: The Videogame", 40520, HEADER + 0x7bd0),
-    ("LEGO Indiana Jones: The Original Adventures", 40880, HEADER + 0x7d38),
+/// (title, file size, offset of the studs from the start of the file, bytes from the studs
+/// to the completion points)
+const GAMES: [(&str, usize, usize, usize); 4] = [
+    ("LEGO Star Wars: The Complete Saga", 40572, HEADER + 0x7c14, 4),
+    ("LEGO Batman: The Videogame", 40520, HEADER + 0x7bd0, 4),
+    ("LEGO Indiana Jones: The Original Adventures", 40880, HEADER + 0x7d38, 4),
+    ("LEGO Indiana Jones 2: The Adventure Continues", 537600, 537600 - 8 - 394240 - 8, 8),
 ];
 
 fn words_sum(d: &[u8]) -> u32 {
@@ -47,7 +49,7 @@ fn hmgr_game(d: &[u8]) -> Option<(&'static str, usize)> {
     // The checksum matches, and the completion points follow the stud counter.
     let completion = u32at(d, n - 4);
     let at = g.2;
-    (u32at(d, n - 8) == sum && u32::from(u16::from_le_bytes([d[at + 4], d[at + 5]])) == completion).then_some((g.0, at))
+    (u32at(d, n - 8) == sum && u32::from(u16::from_le_bytes([d[at + g.3], d[at + g.3 + 1]])) == completion).then_some((g.0, at))
 }
 
 fn is_lsw1(d: &[u8]) -> bool {
@@ -108,13 +110,13 @@ mod tests {
     use super::*;
     use serde_json::Value;
 
-    fn hmgr(len: usize, at: usize, studs: u32) -> Vec<u8> {
+    fn hmgr(len: usize, at: usize, gap: usize, studs: u32) -> Vec<u8> {
         let mut d = vec![0u8; len];
         d[..4].copy_from_slice(b"HMGR");
         d[8..12].copy_from_slice(&(HEADER as u32).to_le_bytes());
         d[HEADER + 100] = 7;
         d[at..at + 4].copy_from_slice(&studs.to_le_bytes());
-        d[at + 4..at + 6].copy_from_slice(&0x330u16.to_le_bytes());
+        d[at + gap..at + gap + 2].copy_from_slice(&0x330u16.to_le_bytes());
         let n = len;
         d[n - 4..].copy_from_slice(&0x330u32.to_le_bytes());
         fix_hmgr(&mut d);
@@ -123,8 +125,8 @@ mod tests {
 
     #[test]
     fn hmgr_studs_and_checksum() {
-        for (_, len, at) in GAMES {
-            let d = hmgr(len, at, 123_456);
+        for (_, len, at, gap) in GAMES {
+            let d = hmgr(len, at, gap, 123_456);
             assert!(looks(&d));
             let mut doc = parse(&d).unwrap();
             assert_eq!(doc.view.pointer("/Studs"), Some(&Value::from(123_456)));
@@ -135,7 +137,7 @@ mod tests {
             assert_eq!(u32at(&out, len - 8), words_sum(&out[HEADER..len - 8]).wrapping_add(SEED));
             assert!(doc.set("/Studs", Value::from(5_000_000_000u64)).is_err());
         }
-        let mut bad = hmgr(GAMES[0].1, GAMES[0].2, 5);
+        let mut bad = hmgr(GAMES[0].1, GAMES[0].2, 4, 5);
         bad[HEADER + 100] ^= 1;
         assert!(!looks(&bad));
     }
