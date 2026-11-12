@@ -98,11 +98,22 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
     }
     let mut b = Builder::new(d);
     for &(hash, group, label) in FIELDS {
-        if let Some(&(_, at, 4)) = values.iter().find(|v| v.0 == hash) {
-            b.ranged(&[group, label], at, Kind::I32, 0, 999_999_999);
+        // The game stores each number in as few bytes as it needs (1, 2 or 4), so a value can
+        // only grow up to what its current width holds.
+        match values.iter().find(|v| v.0 == hash).map(|v| (v.1, v.2)) {
+            Some((at, 4)) => {
+                b.ranged(&[group, label], at, Kind::I32, 0, 999_999_999);
+            }
+            Some((at, 2)) => {
+                b.ranged(&[group, label], at, Kind::U16, 0, 65_535);
+            }
+            Some((at, 1)) => {
+                b.ranged(&[group, label], at, Kind::U8, 0, 255);
+            }
+            _ => {}
         }
     }
-    Ok(b.finish(KIND, Checksum::None).with_note("Close the game and turn off Ubisoft Connect cloud saves first. Followers raise your level; research points are only saved while you have some unspent, so they can be edited only then."))
+    Ok(b.finish(KIND, Checksum::None).with_note("Close the game and turn off Ubisoft Connect cloud saves first. Followers raise your level; each number is stored in only as many bytes as it needs, so a small value can be raised only up to 255 or 65,535 until the game itself saves a bigger one; research points are only saved while you have some unspent."))
 }
 
 #[cfg(test)]

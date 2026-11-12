@@ -2681,7 +2681,7 @@ const TYRANNY: Spec = Spec {
 // ------------------------------------------------------------------ Star Wars Jedi: Fallen Order
 
 const JEDI_FO: Spec = Spec {
-    name: "Star Wars Jedi: Fallen Order",
+    name: "Star Wars Jedi: Fallen Order / Survivor",
     tab: "Cal Kestis",
     accent: (60, 150, 220),
     kind: Some(crate::fmt::jedi::KIND),
@@ -2749,7 +2749,7 @@ const WD2: Spec = Spec {
     tab: "Marcus",
     accent: (230, 60, 110),
     kind: Some(crate::fmt::wd2::KIND),
-    markers: &["/Player/Money"],
+    markers: &[],
     subtitle: "Numbered .save files in the Ubisoft Connect save folder (2688 or 3619).",
     tiles: &[("Money", "/Player/Money"), ("Followers", "/Player/Followers"), ("Research points", "/Player/Research points")],
     sections: &[
