@@ -1,4 +1,4 @@
-//! Obsidian's Unity saves (Tyranny; Pillars of Eternity use the same layout): the `.savegame` is
+//! Obsidian's Unity saves with an XML object list (Tyranny): the `.savegame` is
 //! a zip whose `MobileObjects.save` is an XML list of every object in the game. The party's
 //! money and camping supplies and each character's experience, attributes and skills are plain
 //! numbers inside it; they are edited in place and the rest of the text is written back exactly.

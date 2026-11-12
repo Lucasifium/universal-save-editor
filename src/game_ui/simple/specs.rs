@@ -2656,7 +2656,7 @@ const TYRANNY: Spec = Spec {
     accent: (190, 90, 60),
     kind: Some(crate::fmt::obsidian::KIND),
     markers: &["/Party/Money", "/Characters"],
-    subtitle: "A .savegame from Saved Games\\Tyranny (a zip; its MobileObjects.save is edited, the rest is kept). Money, camping supplies, and each character's experience, attributes, skill points and skills. Pillars of Eternity saves use the same layout but haven't been checked.",
+    subtitle: "A .savegame from Saved Games\\Tyranny (a zip; its MobileObjects.save is edited, the rest is kept). Money, camping supplies, and each character's experience, attributes, skill points and skills.",
     tiles: &[("Money", "/Party/Money"), ("Camping supplies", "/Party/Camping supplies")],
     sections: &[],
     lists: &[],
