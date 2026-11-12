@@ -160,6 +160,8 @@ pub mod cairn;
 pub mod rgg;
 pub mod yakuza0;
 pub mod kiwami;
+pub mod yakuza_old;
+pub mod ishin;
 pub mod ffxv;
 pub mod forspoken;
 pub mod nier;
@@ -290,6 +292,16 @@ pub fn parse_binary(d: &[u8]) -> Option<TreeDoc> {
     }
     if kiwami::looks(d) {
         if let Ok(t) = kiwami::parse(d) {
+            return Some(t);
+        }
+    }
+    if ishin::looks(d) {
+        if let Ok(t) = ishin::parse(d) {
+            return Some(t);
+        }
+    }
+    if yakuza_old::looks(d) {
+        if let Ok(t) = yakuza_old::parse(d) {
             return Some(t);
         }
     }

@@ -3,7 +3,7 @@
 
 use super::{List, Max, Section, Shape, Spec, Table};
 
-pub static SPECS: &[Spec] = &[COTL, FALLOUT_SHELTER, DRG, S1_MONEY, S1_RANK, S1_TIME, S1_GAME, SOTF_STATE, SOTF_GAME, SOTF_WEATHER, SOTF_ITEMS, DMD, CUPHEAD, ANTIMATTER, PVZ, CELESTE, DRGS, KH3, RF4S, SKY1ST, KSP, FFPR, MCD, STONESHARD, ROGUE_TRADER, BIOSHOCK_INFINITE, SPACE_HAVEN, SNOWRUNNER, GRAVEYARD_KEEPER, NFSMW, TOS, GTA3, GTAVC, BITBURNER, TERRA_INVICTA, PRISON, FF13, SONIC_MANIA, CAVE_STORY_PLUS, CAVE_STORY, LIES_OF_P, TXR, DAVE, MSC, ULTRAKILL, RPGXP, RE5, ANNO1800, FTK, LEGO_TSS, LEGO_CLASSIC, MYZ, CMS21, MEDIEVAL_DYNASTY, MECHANICUS, ORI, OMORI, ENDER_LILIES, SW2, ES2, MOONLIGHTER, WASTELAND2, ATOM, MORTAL_SHELL, MORTAL_SHELL_2, COTW, BEAMNG, FOREST, SALT, DRAKENSANG, ALPHA];
+pub static SPECS: &[Spec] = &[COTL, FALLOUT_SHELTER, DRG, S1_MONEY, S1_RANK, S1_TIME, S1_GAME, SOTF_STATE, SOTF_GAME, SOTF_WEATHER, SOTF_ITEMS, DMD, CUPHEAD, ANTIMATTER, PVZ, CELESTE, DRGS, KH3, RF4S, SKY1ST, KSP, FFPR, MCD, STONESHARD, ROGUE_TRADER, BIOSHOCK_INFINITE, SPACE_HAVEN, SNOWRUNNER, GRAVEYARD_KEEPER, NFSMW, TOS, GTA3, GTAVC, BITBURNER, TERRA_INVICTA, PRISON, FF13, SONIC_MANIA, CAVE_STORY_PLUS, CAVE_STORY, LIES_OF_P, TXR, DAVE, MSC, ULTRAKILL, RPGXP, RE5, ANNO1800, FTK, LEGO_TSS, LEGO_CLASSIC, MYZ, CMS21, MEDIEVAL_DYNASTY, MECHANICUS, ORI, OMORI, ENDER_LILIES, SW2, ES2, MOONLIGHTER, WASTELAND2, ATOM, MORTAL_SHELL, MORTAL_SHELL_2, COTW, BEAMNG, FOREST, YAKUZA3, YAKUZA4, YAKUZA5, ISHIN, SALT, DRAKENSANG, ALPHA];
 
 // ------------------------------------------------------------------ Cult of the Lamb
 
@@ -2478,6 +2478,98 @@ const FOREST: Spec = Spec {
             about: "Raises rocks, sticks, skulls, rope, bones, skins, rabbit fur and circuit boards to the limit the game stores for each in the save. Items with no limit (cloth, leaves, feathers, teeth, sap, tape), tools, weapons, food and story items are left alone.",
         }),
     }],
+    tables: &[],
+};
+
+// ------------------------------------------------------------------ Yakuza 3, 4 and 5 Remastered
+
+const YAKUZA3: Spec = Spec {
+    name: "Yakuza 3 Remastered",
+    tab: "Kiryu",
+    accent: (200, 150, 40),
+    kind: Some(crate::fmt::yakuza_old::KIND_Y3),
+    markers: &["/Kiryu/Money"],
+    subtitle: "savegameN.sav in the Steam remote folder. The save has no checksum; close the game first.",
+    tiles: &[("Money", "/Kiryu/Money"), ("Club money", "/Kiryu/Club money"), ("Experience in hand", "/Kiryu/Experience in hand")],
+    sections: &[Section {
+        title: "Kiryu",
+        rows: &[("Money", "/Kiryu/Money"), ("Club money", "/Kiryu/Club money"), ("Total experience", "/Kiryu/Total experience"), ("Experience in hand", "/Kiryu/Experience in hand")],
+    }],
+    lists: &[],
+    tables: &[],
+};
+
+const YAKUZA4: Spec = Spec {
+    name: "Yakuza 4 Remastered",
+    tab: "Characters",
+    accent: (200, 150, 40),
+    kind: Some(crate::fmt::yakuza_old::KIND_Y4),
+    markers: &["/Kiryu/Money"],
+    subtitle: "savegameN.sav in the Steam remote folder. Each of the four playable characters keeps their own money, experience and skill orbs. The save has no checksum; close the game first.",
+    tiles: &[("Akiyama's money", "/Akiyama/Money"), ("Saejima's money", "/Saejima/Money"), ("Tanimura's money", "/Tanimura/Money"), ("Kiryu's money", "/Kiryu/Money")],
+    sections: &[
+        Section { title: "Akiyama", rows: &[("Money", "/Akiyama/Money"), ("Experience", "/Akiyama/Experience"), ("Experience to next level", "/Akiyama/Experience to next level"), ("Skill orbs", "/Akiyama/Skill orbs")] },
+        Section { title: "Saejima", rows: &[("Money", "/Saejima/Money"), ("Experience", "/Saejima/Experience"), ("Experience to next level", "/Saejima/Experience to next level"), ("Skill orbs", "/Saejima/Skill orbs")] },
+        Section { title: "Tanimura", rows: &[("Money", "/Tanimura/Money"), ("Experience", "/Tanimura/Experience"), ("Experience to next level", "/Tanimura/Experience to next level"), ("Skill orbs", "/Tanimura/Skill orbs")] },
+        Section { title: "Kiryu", rows: &[("Money", "/Kiryu/Money"), ("Experience", "/Kiryu/Experience"), ("Experience to next level", "/Kiryu/Experience to next level"), ("Skill orbs", "/Kiryu/Skill orbs")] },
+        Section { title: "Shared", rows: &[("Eco points", "/Shared/Eco points")] },
+    ],
+    lists: &[],
+    tables: &[],
+};
+
+const YAKUZA5: Spec = Spec {
+    name: "Yakuza 5 Remastered",
+    tab: "Characters",
+    accent: (200, 150, 40),
+    kind: Some(crate::fmt::yakuza_old::KIND_Y5),
+    markers: &["/Haruka/Money"],
+    subtitle: "SAVEGAMEN.sav in the Steam remote folder. Each of the five playable characters keeps their own money, experience and skill orbs. The save has no checksum; close the game first.",
+    tiles: &[("Kiryu's money", "/Kiryu/Money"), ("Saejima's money", "/Saejima/Money"), ("Akiyama's money", "/Akiyama/Money"), ("Shinada's money", "/Shinada/Money"), ("Haruka's money", "/Haruka/Money")],
+    sections: &[
+        Section { title: "Kiryu", rows: &[("Money", "/Kiryu/Money"), ("Experience", "/Kiryu/Experience"), ("Experience to next level", "/Kiryu/Experience to next level"), ("Skill orbs", "/Kiryu/Skill orbs")] },
+        Section { title: "Saejima", rows: &[("Money", "/Saejima/Money"), ("Experience", "/Saejima/Experience"), ("Experience to next level", "/Saejima/Experience to next level"), ("Skill orbs", "/Saejima/Skill orbs")] },
+        Section { title: "Akiyama", rows: &[("Money", "/Akiyama/Money"), ("Experience", "/Akiyama/Experience"), ("Experience to next level", "/Akiyama/Experience to next level"), ("Skill orbs", "/Akiyama/Skill orbs")] },
+        Section { title: "Shinada", rows: &[("Money", "/Shinada/Money"), ("Experience", "/Shinada/Experience"), ("Experience to next level", "/Shinada/Experience to next level"), ("Skill orbs", "/Shinada/Skill orbs")] },
+        Section { title: "Haruka", rows: &[("Money", "/Haruka/Money"), ("Experience", "/Haruka/Experience"), ("Experience to next level", "/Haruka/Experience to next level"), ("Skill orbs", "/Haruka/Skill orbs")] }
+    ],
+    lists: &[],
+    tables: &[],
+};
+
+// ------------------------------------------------------------------ Like a Dragon: Ishin!
+
+const ISHIN: Spec = Spec {
+    name: "Like a Dragon: Ishin!",
+    tab: "Items",
+    accent: (190, 40, 50),
+    kind: Some(crate::fmt::ishin::KIND),
+    markers: &["/Materials", "/Valuables"],
+    subtitle: "data.sav in %APPDATA%\\Sega\\LikeADragonIshin. Food, seafood and crafting materials stack to 999; Virtue buys inventory upgrades at shrines. The wrapper's checksum is rewritten on save. Ryo isn't mapped yet (it stays in the Tree).",
+    tiles: &[("Virtue", "/Valuables/Virtue"), ("Wooden tags", "/Valuables/Wooden Tags"), ("Prize tickets", "/Valuables/Prize Tickets")],
+    sections: &[
+        Section { title: "Valuables", rows: &[("Virtue", "/Valuables/Virtue"), ("Wooden tags", "/Valuables/Wooden Tags"), ("Mahjong sticks", "/Valuables/Mahjong Sticks"), ("Shogi points", "/Valuables/Shogi Points"), ("Prize tickets", "/Valuables/Prize Tickets")] },
+        Section { title: "Style experience", rows: &[("Swordsman", "/Style experience/Swordsman"), ("Gunman", "/Style experience/Gunman"), ("Wild Dancer", "/Style experience/Wild Dancer"), ("Brawler", "/Style experience/Brawler")] },
+        Section { title: "Orbs", rows: &[("Gunman", "/Orbs/Gunman"), ("Wild Dancer", "/Orbs/Wild Dancer"), ("Brawler", "/Orbs/Brawler"), ("Training", "/Orbs/Training")] },
+    ],
+    lists: &[
+        List {
+            title: "Crafting materials",
+            path: "/Materials",
+            shape: Shape::Map,
+            names: &[],
+            max: Some(Max {
+                ids: crate::fmt::ishin::MATERIAL_NAMES,
+                cap: 999,
+                caps: &[],
+                estimate: false,
+                about: "Raises every crafting and upgrade material you already have to 999, the game's stack limit. Food, seafood, ammunition and the valuables are left alone.",
+            }),
+        },
+        List { title: "Food", path: "/Food", shape: Shape::Map, names: &[], max: None },
+        List { title: "Seafood", path: "/Seafood", shape: Shape::Map, names: &[], max: None },
+        List { title: "Ammunition", path: "/Ammo", shape: Shape::Map, names: &[], max: None },
+    ],
     tables: &[],
 };
 
