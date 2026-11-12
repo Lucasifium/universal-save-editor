@@ -258,10 +258,10 @@ impl Walk<'_> {
                             }
                         }
                         Some("ByteProperty") => {
-                            // Per-object records: a length, a zero byte, then more tags.
+                            // Per-object records: a zero byte, then more tags.
                             let n = i32_at(d, t.payload).unwrap_or(0);
-                            if n > 8 && i32_at(d, t.payload + 4) == Some(n - 4) && d.get(t.payload + 8) == Some(&0) {
-                                let _ = self.props(t.payload + 9, pend, depth + 1, Ctx::Plain);
+                            if n > 8 && d.get(t.payload + 4) == Some(&0) {
+                                let _ = self.props(t.payload + 5, pend, depth + 1, Ctx::Plain);
                             }
                         }
                         _ => {}
@@ -554,7 +554,8 @@ mod tests {
         let aarr = ty("ArrayProperty", &[ty("StructProperty", &[ty("UWEGameplayAttributeSaveData", &[ty("/Script/UWEAbilitySystem", &[])])])]);
         inner.extend(tg("AttributeSaveData", aarr, &attrs));
         inner.extend(none());
-        let rec = stream(inner);
+        let mut rec = vec![0u8];
+        rec.extend(inner);
         let mut data = (rec.len() as i32).to_le_bytes().to_vec();
         data.extend(&rec);
         let mut buf = tg("Data", ty("ArrayProperty", &[ty("ByteProperty", &[])]), &data);
