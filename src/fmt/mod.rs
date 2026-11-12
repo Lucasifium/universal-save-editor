@@ -148,6 +148,7 @@ pub mod cave_story;
 pub mod ori;
 pub mod lego_tss;
 pub mod lego_classic;
+pub mod alphaprotocol;
 pub mod roadhog;
 pub mod saltsanc;
 pub mod wasteland2;
@@ -299,6 +300,11 @@ pub fn parse_binary(d: &[u8]) -> Option<TreeDoc> {
     }
     if metro::looks(d) {
         if let Ok(t) = metro::parse(d) {
+            return Some(t);
+        }
+    }
+    if alphaprotocol::looks(d) {
+        if let Ok(t) = alphaprotocol::parse(d) {
             return Some(t);
         }
     }

@@ -3,7 +3,7 @@
 
 use super::{List, Max, Section, Shape, Spec, Table};
 
-pub static SPECS: &[Spec] = &[COTL, FALLOUT_SHELTER, DRG, S1_MONEY, S1_RANK, S1_TIME, S1_GAME, SOTF_STATE, SOTF_GAME, SOTF_WEATHER, SOTF_ITEMS, DMD, CUPHEAD, ANTIMATTER, PVZ, CELESTE, DRGS, KH3, RF4S, SKY1ST, KSP, FFPR, MCD, STONESHARD, ROGUE_TRADER, BIOSHOCK_INFINITE, SPACE_HAVEN, SNOWRUNNER, GRAVEYARD_KEEPER, NFSMW, TOS, GTA3, GTAVC, BITBURNER, TERRA_INVICTA, PRISON, FF13, SONIC_MANIA, CAVE_STORY_PLUS, CAVE_STORY, LIES_OF_P, TXR, DAVE, MSC, ULTRAKILL, RPGXP, RE5, ANNO1800, FTK, LEGO_TSS, LEGO_CLASSIC, MYZ, CMS21, MEDIEVAL_DYNASTY, MECHANICUS, ORI, OMORI, ENDER_LILIES, SW2, ES2, MOONLIGHTER, WASTELAND2, ATOM, MORTAL_SHELL, MORTAL_SHELL_2, COTW, BEAMNG, FOREST, SALT, DRAKENSANG];
+pub static SPECS: &[Spec] = &[COTL, FALLOUT_SHELTER, DRG, S1_MONEY, S1_RANK, S1_TIME, S1_GAME, SOTF_STATE, SOTF_GAME, SOTF_WEATHER, SOTF_ITEMS, DMD, CUPHEAD, ANTIMATTER, PVZ, CELESTE, DRGS, KH3, RF4S, SKY1ST, KSP, FFPR, MCD, STONESHARD, ROGUE_TRADER, BIOSHOCK_INFINITE, SPACE_HAVEN, SNOWRUNNER, GRAVEYARD_KEEPER, NFSMW, TOS, GTA3, GTAVC, BITBURNER, TERRA_INVICTA, PRISON, FF13, SONIC_MANIA, CAVE_STORY_PLUS, CAVE_STORY, LIES_OF_P, TXR, DAVE, MSC, ULTRAKILL, RPGXP, RE5, ANNO1800, FTK, LEGO_TSS, LEGO_CLASSIC, MYZ, CMS21, MEDIEVAL_DYNASTY, MECHANICUS, ORI, OMORI, ENDER_LILIES, SW2, ES2, MOONLIGHTER, WASTELAND2, ATOM, MORTAL_SHELL, MORTAL_SHELL_2, COTW, BEAMNG, FOREST, SALT, DRAKENSANG, ALPHA];
 
 // ------------------------------------------------------------------ Cult of the Lamb
 
@@ -2526,4 +2526,29 @@ const DRAKENSANG: Spec = Spec {
         ],
         names: &[],
     }],
+};
+
+// ------------------------------------------------------------------ Alpha Protocol
+
+const ALPHA: Spec = Spec {
+    name: "Alpha Protocol",
+    tab: "Agent",
+    accent: (170, 150, 110),
+    kind: Some(crate::fmt::alphaprotocol::KIND),
+    markers: &["/Agent/Money", "/Agent/PlayerLevel"],
+    subtitle: "A checkpoint .sav from Documents\\Alpha Protocol\\Checkpoints. Money, experience, skill points, skill ranks, ammunition and gadgets.",
+    tiles: &[("Money", "/Agent/Money"), ("Level", "/Agent/PlayerLevel"), ("Skill points", "/Agent/AdvancementPoints")],
+    sections: &[Section {
+        title: "Agent",
+        rows: &[
+            ("Level", "/Agent/PlayerLevel"), ("Experience", "/Agent/ExperiencePoints"), ("Experience (total)", "/Agent/ExperiencePointsTotal"),
+            ("Skill points to spend", "/Agent/AdvancementPoints"), ("Skill points (total)", "/Agent/AdvancementPointsTotal"), ("Money", "/Agent/Money"),
+        ],
+    }],
+    lists: &[
+        List { title: "Skills", path: "/Skills", shape: Shape::Map, names: &[], max: None },
+        List { title: "Ammunition", path: "/Ammunition", shape: Shape::Map, names: &[], max: None },
+        List { title: "Gadgets (count)", path: "/Gadgets", shape: Shape::Map, names: &[], max: None },
+    ],
+    tables: &[],
 };
