@@ -2,7 +2,7 @@
 //! Universalis IV and Crusader Kings II. As elsewhere, values are found by name and
 //! simply left out when a save doesn't have them.
 
-use super::{columns, fact, hero, panel, tabs, words, GameCtx};
+use super::{columns, crafting, fact, hero, panel, tabs, words, Game, GameCtx};
 use crate::json_view::pointer_escape;
 use eframe::egui::{self, Color32, RichText, Ui};
 use serde_json::Value;
@@ -1046,6 +1046,65 @@ pub fn ff7_remake(ui: &mut Ui, cx: &mut GameCtx) {
             "Characters are numbered in the order the save keeps them (Cloud is usually first). The game can recalculate \
              max HP and MP from level and equipment, so raise the level and experience together for lasting changes.",
         );
+    });
+    ff7r_inventory(ui, cx);
+}
+
+/// FF7 Remake / Rebirth: the inventory by category (amounts, remove) and items to add.
+fn ff7r_inventory(ui: &mut Ui, cx: &mut GameCtx) {
+    let groups = keys_of(cx, "/Inventory");
+    if groups.is_empty() {
+        return;
+    }
+    panel(ui, "Inventory", |ui| {
+        let labels: Vec<String> = groups.iter().map(|g| format!("{g} ({})", keys_of(cx, &join("/Inventory", g)).len())).collect();
+        let t = tabs(ui, "ff7r_inv_tab", &labels);
+        let g = &groups[t.min(groups.len() - 1)];
+        let q = filter_box(ui, "ff7r_inv", "e.g. Potion, Bangle");
+        let base = join("/Inventory", g);
+        let names: Vec<String> = keys_of(cx, &base).into_iter().filter(|k| q.is_empty() || k.to_lowercase().contains(&q)).collect();
+        egui::ScrollArea::vertical().id_salt("ff7r_inv_scroll").max_height(360.0).show(ui, |ui| {
+            egui::Grid::new(("ff7r_inv_grid", g.as_str())).num_columns(3).striped(true).spacing([12.0, 4.0]).show(ui, |ui| {
+                for n in &names {
+                    ui.label(n);
+                    cx.compact(ui, &join(&base, n), 70.0);
+                    let rm = join(&join("/Remove items", g), n);
+                    if cx.get(&rm).is_some() {
+                        cx.compact(ui, &rm, 100.0);
+                    } else {
+                        ui.label("");
+                    }
+                    ui.end_row();
+                }
+            });
+        });
+        crafting::offer(Game::Ff7Remake, ui, cx);
+        ui.weak(
+            "Items and materials go up to 99. Removing frees the slot when you save. Key items, currencies, outfits, \
+             folios and trophies are shown but can't be removed. Armor and accessories someone is wearing can't be removed \
+             (in Rebirth they can't be removed at all, only changed in number).",
+        );
+    });
+    let add = "/Add items";
+    let cats = keys_of(cx, add);
+    if cats.is_empty() {
+        return;
+    }
+    panel(ui, "Add items", |ui| {
+        let q = filter_box(ui, "ff7r_add", "e.g. Elixir, Ring");
+        for c in &cats {
+            let p = join(add, c);
+            let rows: Vec<(String, String)> = keys_of(cx, &p).into_iter().filter(|k| q.is_empty() || k.to_lowercase().contains(&q)).map(|k| (k.clone(), join(&p, &k))).collect();
+            if rows.is_empty() {
+                continue;
+            }
+            let chosen = rows.iter().filter(|(_, p)| cx.text(p).is_some_and(|v| v != "Don't add")).count();
+            let title = if chosen > 0 { format!("{c} ({}, {chosen} to add)", rows.len()) } else { format!("{c} ({})", rows.len()) };
+            egui::CollapsingHeader::new(title).id_salt(("ff7r_add", c.as_str())).default_open(!q.is_empty()).show(ui, |ui| {
+                value_rows(ui, cx, &format!("ff7r_add_{c}"), &rows);
+            });
+        }
+        ui.weak("Only items this save doesn't have yet are listed. Each goes into a free inventory slot when you save; reopen the file to change its amount afterwards.");
     });
 }
 
