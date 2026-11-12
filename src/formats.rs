@@ -3079,6 +3079,8 @@ pub fn companion_files(path: &std::path::Path, bytes: &[u8]) -> Vec<(std::path::
     }
     // Neverwinter Nights: player.bic beside a module save holds the same player.
     out.extend(fmt::nwn::companions(path, bytes));
+    // LEGO Star Wars (2005): CODE.BIN beside LSW.BIN holds the stud count.
+    out.extend(fmt::lego_classic::companions(path, bytes));
     out
 }
 

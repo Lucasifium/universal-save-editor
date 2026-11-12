@@ -3,7 +3,7 @@
 
 use super::{List, Max, Section, Shape, Spec, Table};
 
-pub static SPECS: &[Spec] = &[COTL, FALLOUT_SHELTER, DRG, S1_MONEY, S1_RANK, S1_TIME, S1_GAME, SOTF_STATE, SOTF_GAME, SOTF_WEATHER, SOTF_ITEMS, DMD, CUPHEAD, ANTIMATTER, PVZ, CELESTE, DRGS, KH3, RF4S, SKY1ST, KSP, FFPR, MCD, STONESHARD, ROGUE_TRADER, BIOSHOCK_INFINITE, SPACE_HAVEN, SNOWRUNNER, GRAVEYARD_KEEPER, NFSMW, TOS, GTA3, GTAVC, BITBURNER, TERRA_INVICTA, PRISON, FF13, SONIC_MANIA, CAVE_STORY_PLUS, CAVE_STORY, LIES_OF_P, TXR, DAVE, MSC, ULTRAKILL, RPGXP, RE5, ANNO1800, FTK, LEGO_TSS];
+pub static SPECS: &[Spec] = &[COTL, FALLOUT_SHELTER, DRG, S1_MONEY, S1_RANK, S1_TIME, S1_GAME, SOTF_STATE, SOTF_GAME, SOTF_WEATHER, SOTF_ITEMS, DMD, CUPHEAD, ANTIMATTER, PVZ, CELESTE, DRGS, KH3, RF4S, SKY1ST, KSP, FFPR, MCD, STONESHARD, ROGUE_TRADER, BIOSHOCK_INFINITE, SPACE_HAVEN, SNOWRUNNER, GRAVEYARD_KEEPER, NFSMW, TOS, GTA3, GTAVC, BITBURNER, TERRA_INVICTA, PRISON, FF13, SONIC_MANIA, CAVE_STORY_PLUS, CAVE_STORY, LIES_OF_P, TXR, DAVE, MSC, ULTRAKILL, RPGXP, RE5, ANNO1800, FTK, LEGO_TSS, LEGO_CLASSIC];
 
 // ------------------------------------------------------------------ Cult of the Lamb
 
@@ -1789,6 +1789,21 @@ const LEGO_TSS: Spec = Spec {
     subtitle: "COLLECTABLES.BLOB in a SLOTn folder. The stud wallet is saved twice; both copies are written.",
     tiles: &[("Studs", "/Studs")],
     sections: &[Section { title: "Studs", rows: &[("Studs", "/Studs")] }],
+    lists: &[],
+    tables: &[],
+};
+
+// ------------------------------------------------------------------ Older LEGO games (stud counter)
+
+const LEGO_CLASSIC: Spec = Spec {
+    name: "Older LEGO games",
+    tab: "Studs",
+    accent: (240, 200, 40),
+    kind: Some(crate::fmt::lego_classic::KIND),
+    markers: &["/Studs"],
+    subtitle: "Studs in LEGO Star Wars (2005), The Complete Saga, Batman and Indiana Jones; the save's checksum is rewritten.",
+    tiles: &[("Studs", "/Studs")],
+    sections: &[Section { title: "Studs", rows: &[("Studs", "/Studs"), ("Game", "/Game")] }],
     lists: &[],
     tables: &[],
 };
