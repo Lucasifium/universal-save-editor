@@ -78,19 +78,25 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
     ui.weak("Every variable in the save, named by the game's own names, is in the Tree under Variables.");
 }
 
+/// Mother Base's online caps since 1.07: 1,000,000 of each material (processed and unprocessed
+/// alike) and 30,000 of each plant. Offline storage holds 500,000 and 6,000 on top.
+const MATERIAL_ONLINE_CAP: i64 = 1_000_000;
+const PLANT_ONLINE_CAP: i64 = 30_000;
+
 fn resources(ui: &mut Ui, cx: &mut GameCtx) {
     let rs = names(cx, "Resources");
     if rs.is_empty() {
         return;
     }
     panel(ui, "Mother Base resources", |ui| {
-        if ui.button("Max crafting materials").on_hover_text("Fuel, biological, metals and plants: the online amount to 1,000,000 (the game's own cap for it), processed too").clicked() {
+        if ui.button("Max crafting materials").on_hover_text("Fuel, biological and the three metals to 1,000,000 online, processed too; the eight medicinal plants to 30,000 online (the game's own online caps)").clicked() {
             for (i, n) in rs.iter().enumerate() {
                 if i < 13 {
-                    cx.set(&format!("/Resources/{}/Usable (online)", esc(n)), json!(1_000_000));
+                    let cap = if i < 5 { MATERIAL_ONLINE_CAP } else { PLANT_ONLINE_CAP };
+                    cx.set(&format!("/Resources/{}/Usable (online)", esc(n)), json!(cap));
                 }
                 if i < 5 {
-                    cx.set(&format!("/Resources/{}/Processed (online)", esc(n)), json!(1_000_000));
+                    cx.set(&format!("/Resources/{}/Processed (online)", esc(n)), json!(MATERIAL_ONLINE_CAP));
                 }
             }
         }

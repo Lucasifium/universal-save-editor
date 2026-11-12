@@ -81,11 +81,12 @@ pub fn about(game: Game) -> &'static str {
         }
         Game::DeathStranding2 => {
             "Raises the chiral crystals, resins, metals, ceramics, chemicals and special alloys stored at every \
-             facility you've found to 9999 each, an estimate since the game states no facility limit."
+             facility you've found to the most that kind of facility stores at five stars (for example 960 \
+             chiral crystals at a prepper, 4800 at a knot city). Below five stars the game may store less."
         }
         Game::Metro => {
-            "Raises Artyom's crafting metal and chemicals (Metro Exodus) to 150 each, an estimate of the most \
-             he can carry on Normal; the game may lower them to its own limit when it loads."
+            "Raises Artyom's crafting metal and chemicals (Metro Exodus) to 300 each, the most he carries on \
+             Reader and Ranger Hardcore (Normal allows more)."
         }
         Game::Ffxv => {
             "Raises every treasure (the materials used for elemancy and weapon upgrades) to 99, the most one \
@@ -448,15 +449,36 @@ fn andromeda(cx: &GameCtx) -> Vec<Stack> {
 
 // ------------------------------------------------------------------ Death Stranding 2
 
-/// Estimate: the game states no limit for a facility's stock.
-const DS2_CAP: i64 = 9999;
+/// The most each kind of facility stores at its top connection level, in `fmt::ds2::MATERIALS`
+/// order (chiral crystals, resins, metals, ceramics, chemicals, special alloys). From the
+/// "Materials storage" tables of the Death Stranding wiki's facility pages: knot cities and
+/// forts, distribution centers, labs and observatories, preppers. Two facilities stop at four
+/// stars. A facility the tables don't cover gets the preppers' row, the smallest.
+fn ds2_caps(facility: &str) -> [i64; 6] {
+    const KNOT: [i64; 6] = [4800, 9600, 8000, 9600, 7200, 9600];
+    const CENTER: [i64; 6] = [2400, 4800, 6000, 4800, 3600, 7200];
+    const LAB: [i64; 6] = [1600, 3200, 4000, 3200, 2400, 4800];
+    const LAB_4: [i64; 6] = [1280, 2560, 3200, 2560, 1920, 3840];
+    const PREPPER: [i64; 6] = [960, 1920, 2400, 1920, 1440, 2880];
+    const PREPPER_4: [i64; 6] = [800, 1600, 2000, 1600, 1200, 2400];
+    match facility {
+        "Western Environmental Observatory" => LAB_4,
+        "The Government's Base" => PREPPER_4,
+        "Heartman's Lab" | "The Motherhood" | "Former Geophysics Research Lab" => LAB,
+        f if f.contains("Observatory") => LAB,
+        f if f.contains("Distribution Center") => CENTER,
+        f if f.contains("Knot") || f.starts_with("Ciudad Nudo") => KNOT,
+        _ => PREPPER,
+    }
+}
 
 fn death_stranding2(cx: &GameCtx) -> Vec<Stack> {
     let mut out = vec![];
     for f in object_keys(cx, "/Facilities") {
         let base = format!("/Facilities/{}", pointer_escape(&f));
-        for m in crate::fmt::ds2::MATERIALS {
-            if let Some(s) = single(cx, format!("{base}/{}", pointer_escape(m)), format!("{f}: {m}"), DS2_CAP) {
+        let caps = ds2_caps(&f);
+        for (m, cap) in crate::fmt::ds2::MATERIALS.iter().zip(caps) {
+            if let Some(s) = single(cx, format!("{base}/{}", pointer_escape(m)), format!("{f}: {m}"), cap) {
                 out.push(s);
             }
         }
@@ -466,8 +488,10 @@ fn death_stranding2(cx: &GameCtx) -> Vec<Stack> {
 
 // ------------------------------------------------------------------ Metro Exodus
 
-/// Estimate of the most metal and chemicals Artyom carries on Normal.
-const METRO_CAP: i64 = 150;
+/// The most metal and chemicals Artyom carries: 300 each on Reader and Ranger Hardcore (the
+/// Metro wiki's Crafting page and Steam threads); Normal is reported higher, so 300 is safe on
+/// every difficulty.
+const METRO_CAP: i64 = 300;
 
 fn metro(cx: &GameCtx) -> Vec<Stack> {
     counts_under(cx, "/Inventory", METRO_CAP, |k| k.starts_with("Metal (crafting)") || k.starts_with("Chemicals (crafting)"))
@@ -918,12 +942,20 @@ mod tests {
         let root = json!({"Facilities": {"Port": {"Connection level": 2, "Metals": 10, "Resins": 9999}}});
         let mut cx = ctx(&root);
         assert_eq!(apply(Game::DeathStranding2, &mut cx), 1);
-        assert_eq!(edits(&cx)["/Facilities/Port/Metals"], DS2_CAP);
+        assert_eq!(edits(&cx)["/Facilities/Port/Metals"], 2400, "a prepper's five-star metals");
+        let root = json!({"Facilities": {"South Fort Knot (F6)": {"Chiral crystals": 1}, "F7 North Distribution Center": {"Chiral crystals": 1}, "Heartman's Lab": {"Special alloys": 1}}});
+        let mut cx = ctx(&root);
+        assert_eq!(apply(Game::DeathStranding2, &mut cx), 3);
+        let e = edits(&cx);
+        assert_eq!(e["/Facilities/South Fort Knot (F6)/Chiral crystals"], 4800);
+        assert_eq!(e["/Facilities/F7 North Distribution Center/Chiral crystals"], 2400);
+        assert_eq!(e["/Facilities/Heartman's Lab/Special alloys"], 4800);
 
         let root = json!({"Inventory": {"Military-grade rounds (money)": 5, "Shotgun shells": 4, "Metal (crafting)": 20, "Chemicals (crafting)": 3}});
         let mut cx = ctx(&root);
         assert_eq!(apply(Game::Metro, &mut cx), 2);
         assert_eq!(edits(&cx).len(), 2);
+        assert_eq!(edits(&cx)["/Inventory/Metal (crafting)"], METRO_CAP);
 
         let root = json!({"Items": {"Key items": {"10": 1}, "Treasures": {"20": 4}}});
         let mut cx = ctx(&root);
