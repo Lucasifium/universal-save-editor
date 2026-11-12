@@ -429,7 +429,7 @@ pub fn parse(p: &[u8]) -> Result<TreeDoc, String> {
                         }
                     }
                 }
-                if matches!(key_name.as_str(), "mbmStaffSvarsHeaders" | "mbmStaffSvarsStatusesSync" | "mbmStaffSvarsStatusesNoSync" | "mbmResourceSvars1Fix" | "mbmResourceSvars2Fix") && !arrays.contains_key(&key_name) {
+                if matches!(key_name.as_str(), "mbmStaffSvarsHeaders" | "mbmStaffSvarsStatusesSync" | "mbmStaffSvarsStatusesNoSync" | "mbmResourceSvars1Fix" | "mbmResourceSvars2Fix" | "mbmResourceSvars1Diff" | "mbmClusterSvars") && !arrays.contains_key(&key_name) {
                     arrays.insert(key_name.clone(), (items.iter().map(|v| v.as_u64().unwrap_or(0)).collect::<Vec<_>>(), item_leaves.clone()));
                 }
                 let key = crate::tree::unique_key(&group, &key_name);
@@ -510,17 +510,48 @@ fn add_staff_and_resources(arrays: &HashMap<String, (Vec<u64>, Vec<Leaf>)>, view
             view.insert("Staff".into(), Value::Object(staff));
         }
     }
+    if let Some((c, cl)) = arrays.get("mbmClusterSvars") {
+        const BASES: [&str; 5] = ["Mother Base", "FOB 1", "FOB 2", "FOB 3", "FOB 4"];
+        const PLATFORMS: [&str; 7] = ["Command", "Combat", "R&D", "Base Development", "Support", "Intel", "Medical"];
+        let mut bases = Map::new();
+        for (bi, base) in BASES.iter().enumerate() {
+            let mut plats = Map::new();
+            for (pi, plat) in PLATFORMS.iter().enumerate() {
+                let i = bi * 7 + pi;
+                if i >= c.len() {
+                    break;
+                }
+                let mut m = Map::new();
+                for (label, shift, bits) in [("Grade (0-4)", 12, 4), ("Under construction", 10, 1)] {
+                    let l = field(&cl[i], shift, bits, 0);
+                    m.insert(label.into(), field_value(&l, c[i]));
+                    editable.insert(format!("/Bases/{}/{}/{}", crate::tree::esc(base), crate::tree::esc(plat), crate::tree::esc(label)), leaves.len());
+                    leaves.push(l);
+                }
+                plats.insert((*plat).into(), Value::Object(m));
+            }
+            bases.insert((*base).into(), Value::Object(plats));
+        }
+        view.insert("Bases".into(), Value::Object(bases));
+    }
     if let (Some((u, ul)), Some((pr, pl))) = (arrays.get("mbmResourceSvars1Fix"), arrays.get("mbmResourceSvars2Fix")) {
+        let local = arrays.get("mbmResourceSvars1Diff");
         let mut res = Map::new();
         for (i, name) in RESOURCES.iter().enumerate() {
             if i >= u.len() || i >= pr.len() {
                 break;
             }
             let mut m = Map::new();
-            for (label, raw, l) in [("Usable", u[i], field(&ul[i], 1, 20, 0)), ("Processing", pr[i], field(&pl[i], 3, 20, 0))] {
-                if label == "Processing" && i > 12 {
-                    continue;
+            let mut fields = vec![("Usable (online)", u[i], field(&ul[i], 1, 20, 0))];
+            if let Some((d, dl)) = local {
+                if i >= 11 && i < d.len() {
+                    fields.push(("Usable (local)", d[i], field(&dl[i], 1, 20, 0)));
                 }
+            }
+            if i <= 12 {
+                fields.push(("Processed (online)", pr[i], field(&pl[i], 3, 20, 0)));
+            }
+            for (label, raw, l) in fields {
                 m.insert(label.into(), field_value(&l, raw));
                 editable.insert(format!("/Resources/{}/{label}", crate::tree::esc(name)), leaves.len());
                 leaves.push(l);
@@ -644,6 +675,7 @@ mod tests {
         assert_eq!(key, "TPP_GAME_DATA");
         let mut doc = parse(&p).unwrap();
         println!("{}", doc.view["Player"]);
+        println!("{}", doc.view["Bases"]);
         let staff = doc.view["Staff"].as_object().unwrap();
         println!("staff {}", staff.len());
         let mut hist = std::collections::BTreeMap::new();
@@ -660,15 +692,15 @@ mod tests {
         assert_eq!(again.view.pointer("/Player/GMP"), Some(&123_456.into()));
         doc.set("/Staff/Staff 0006/Rank", "E".into()).unwrap();
         doc.set("/Staff/Staff 0006/Skill", "Ranger Lv3".into()).unwrap();
-        doc.set("/Resources/Fuel/Usable", 999_999.into()).unwrap();
-        doc.set("/Resources/Fuel/Processing", 1_000_000.into()).unwrap();
+        doc.set("/Resources/Fuel/Usable (online)", 999_999.into()).unwrap();
+        doc.set("/Resources/Fuel/Processed (online)", 1_000_000.into()).unwrap();
         let out2 = doc.to_bytes().unwrap();
         let again = parse(&out2).unwrap();
         assert_eq!(again.view.pointer("/Staff/Staff 0006/Rank"), Some(&"E".into()));
         assert_eq!(again.view.pointer("/Staff/Staff 0006/Skill"), Some(&"Ranger Lv3".into()));
         assert_eq!(again.view.pointer("/Staff/Staff 0006/Section"), doc.view.pointer("/Staff/Staff 0006/Section"));
-        assert_eq!(again.view.pointer("/Resources/Fuel/Usable"), Some(&999_999.into()));
-        assert_eq!(again.view.pointer("/Resources/Fuel/Processing"), Some(&1_000_000.into()));
+        assert_eq!(again.view.pointer("/Resources/Fuel/Usable (online)"), Some(&999_999.into()));
+        assert_eq!(again.view.pointer("/Resources/Fuel/Processed (online)"), Some(&1_000_000.into()));
         assert_eq!(again.view.pointer("/Resources/Biological"), doc.view.pointer("/Resources/Biological"));
         assert_eq!(decrypt(&encrypt(key, &out)).unwrap().1[16..], out[16..]);
         assert_eq!(encrypt(key, &p), d, "re-encrypting the unchanged save gives the same file");
