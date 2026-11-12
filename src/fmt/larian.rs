@@ -62,7 +62,18 @@ pub fn save(archive: &[u8], file: &str, plain: &[u8]) -> Result<Vec<u8>, String>
         return Ok(archive.to_vec());
     }
     let packed = lsf::pack(plain, &raw)?;
-    pkg.rebuild(archive, &HashMap::from([(e.name.clone(), packed)]))
+    let mut replace = HashMap::from([(e.name.clone(), packed)]);
+    // Baldur's Gate 3: flag edits are mirrored in the story's own flag list.
+    if is_bg3(&pkg) && file.eq_ignore_ascii_case("Globals.lsf") {
+        if let Some(se) = pkg.find("StorySave.bin") {
+            let story = pkg.file(archive, se).ok_or("StorySave.bin doesn't unpack")?;
+            let old = lsf::unpack(&raw).ok_or("Globals.lsf doesn't unpack")?;
+            if let Some(new_story) = super::bg3_flags::sync_story(&old, plain, &story)? {
+                replace.insert(se.name.clone(), new_story);
+            }
+        }
+    }
+    pkg.rebuild(archive, &replace)
 }
 
 /// The game view of the opened LSF (`plain`), with the rest of the package for context.
@@ -252,7 +263,15 @@ fn bg3(plain: &[u8], archive: &[u8], pkg: &lspk::Package) -> Option<TreeDoc> {
     }
     b.info(&["Party"], Value::Array(party));
     let carried = bg3_carried(&mut b, plain);
-    let note = if carried {
+    let story = pkg.find("StorySave.bin").and_then(|e| pkg.file(archive, e)).and_then(|d| super::osiris::read(&d));
+    let flags = match (&story, Lsf::read(plain)) {
+        (Some(st), Some(l)) => super::bg3_flags::add(&mut b, &l, plain, 0, st),
+        _ => 0,
+    };
+    let note = if flags > 0 {
+        "Baldur's Gate 3: gold and stack sizes of what each companion carries, and the story's flags by name. \
+         A flag changed here is also changed in the story script's own list when the save is written."
+    } else if carried {
         "Baldur's Gate 3: gold and stack sizes of what each companion carries, from the save's entity store. \
          Ability scores and hit points aren't mapped yet."
     } else {
@@ -652,6 +671,52 @@ mod real {
                     let gold: i64 = c.get("Gold").and_then(Value::as_object).map(|m| m.values().filter_map(Value::as_i64).sum()).unwrap_or(0);
                     let items = c.get("Items").and_then(Value::as_object).map_or(0, |m| m.len());
                     println!("   {k}: gold {gold} (total {}), {items} stacked items", c["Gold total"]);
+                }
+                // Story flags: one set flag cleared and one cleared flag set, on a fresh copy.
+                {
+                    let mut fd = decode(&raw);
+                    let Content::Tree(ft) = &mut fd.content else { unreachable!() };
+                    let mut on = None;
+                    let mut off = None;
+                    for (sec, m) in ft.view.get("Story flags").and_then(Value::as_object).cloned().unwrap_or_default() {
+                        for (k, v) in m.as_object().cloned().unwrap_or_default() {
+                            let p = format!("/Story flags/{}/{}", crate::tree::esc(&sec), crate::tree::esc(&k));
+                            if v == json!(1) && on.is_none() { on = Some((p, k)); } else if v == json!(0) && off.is_none() { off = Some((p, k)); }
+                        }
+                    }
+                    let n = ft.view.get("Story flags").and_then(Value::as_object).map_or(0, |m| m.values().map(|x| x.as_object().map_or(0, |o| o.len())).sum::<usize>());
+                    println!("   {n} named flags; clearing {:?}, setting {:?}", on.as_ref().map(|x| &x.1), off.as_ref().map(|x| &x.1));
+                    if let (Some((pon, kon)), Some((poff, koff))) = (on, off) {
+                        ft.set(&pon, json!(0)).unwrap();
+                        ft.set(&poff, json!(1)).unwrap();
+                        let out = encode(&fd.layers, &fd.content).unwrap();
+                        let p2 = lspk::read(&out).unwrap();
+                        assert!(p2.checksum_ok(&out));
+                        let again = decode(&out);
+                        let Content::Tree(t2) = &again.content else { panic!("re-read failed") };
+                        // A cleared flag named only in the story's list has no name left, so it may drop out.
+                        assert!(matches!(t2.view.pointer(&pon), None | Some(&Value::Number(_))) && t2.view.pointer(&pon) != Some(&json!(1)));
+                        assert_eq!(t2.view.pointer(&poff), Some(&json!(1)));
+                        let st = crate::fmt::osiris::read(&p2.file(&out, p2.find("StorySave.bin").unwrap()).unwrap()).unwrap();
+                        let st0 = crate::fmt::osiris::read(&pkg.file(&raw, pkg.find("StorySave.bin").unwrap()).unwrap()).unwrap();
+                        let list = |s: &crate::fmt::osiris::Story| -> Vec<String> { s.db("DB_GlobalFlag").unwrap().facts.iter().filter_map(|f| match &f.values[0] { crate::fmt::osiris::Val::Str(x) => Some(crate::fmt::osiris::strip_guid(x).to_string()), _ => None }).collect() };
+                        let (a, b) = (list(&st0), list(&st));
+                        let base = |k: &str| k.split(" (").next().unwrap().to_string();
+                        assert!(a.contains(&base(&kon)) && !b.contains(&base(&kon)), "cleared flag left the story's list");
+                        assert!(!a.contains(&base(&koff)) && b.contains(&base(&koff)), "set flag joined the story's list");
+                        assert_eq!(a.len(), b.len());
+                        // Every other database is unchanged.
+                        for (x, y) in st0.databases.iter().zip(&st.databases) {
+                            if x.name != "DB_GlobalFlag" {
+                                assert_eq!(x.facts.len(), y.facts.len(), "{}", x.name);
+                            }
+                        }
+                        for e in &pkg.entries {
+                            if e.name != file && e.name != "StorySave.bin" {
+                                assert_eq!(pkg.file(&raw, e).unwrap(), p2.file(&out, p2.find(&e.name).unwrap()).unwrap(), "{}", e.name);
+                            }
+                        }
+                    }
                 }
                 let target = chars.iter().find_map(|(k, c)| {
                     c.get("Gold")?.as_object()?.iter().find_map(|(n, v)| {

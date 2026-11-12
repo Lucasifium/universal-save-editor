@@ -149,6 +149,7 @@ pub fn bg3(ui: &mut Ui, cx: &mut GameCtx) {
         ui.weak("From the save's own summary.");
     });
     bg3_carried(ui, cx, gold);
+    super::screens2::story(ui, cx, gold);
 }
 
 /// Gold and stack sizes of what each companion carries (see `fmt::larian::bg3_carried`).

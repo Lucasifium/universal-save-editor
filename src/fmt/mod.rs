@@ -50,6 +50,8 @@ pub mod darkest;
 pub mod larian;
 pub mod lsf;
 pub mod lsmf;
+pub mod osiris;
+pub mod bg3_flags;
 pub mod lspk;
 pub mod lzari;
 pub mod crypto;

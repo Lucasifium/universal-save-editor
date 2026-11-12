@@ -81,7 +81,7 @@ Universal Save Editor is free. It builds on other people's work, listed here wit
 | [DrKahls-Time-Machine (Cuphead save field names; sample save used for checks only, not included)](https://github.com/GeopJr/DrKahls-Time-Machine) | GeopJr | Unlicense |
 | [Antimatter-Dimensions-Save-Editor (export text layout and save field names; sample saves used for checks only, not included)](https://github.com/Sato-Isolated/Antimatter-Dimensions-Save-Editor) | Sato-Isolated | MIT |
 | [uesave-rs (Unreal property-tag save layout)](https://github.com/trumank/uesave-rs) | trumank | MIT; file layout facts only, no code copied, credited |
-| [LSLib (Larian LSPK package and LSF resource layouts, ported)](https://github.com/Norbyte/lslib) | Norbyte | MIT |
+| [LSLib (Larian LSPK package, LSF resource and Osiris story layouts, ported)](https://github.com/Norbyte/lslib) | Norbyte | MIT |
 | [pLarianSaveTools (Divinity: Original Sin 2 save layout)](https://github.com/patimweb-labs/pLarianSaveTools) | patimweb-labs | facts only (file layouts, ids and names), credited |
 | [bg3-savefile-parser (Baldur's Gate 3 save layout)](https://github.com/DanFinchUK/bg3-savefile-parser) | DanFinchUK | facts only (file layouts, ids and names), credited |
 | [FFXVSaveCrypt (Final Fantasy XV save encryption)](https://github.com/Surihix/FFXVSaveCrypt) | Surihix | facts only (key, footer and block shuffle), credited |
@@ -198,7 +198,7 @@ Copyright notices of the projects above whose code or tables were used:
 - vampire-survivors-save-editor (Vampire Survivors checksum and number styles): Copyright (c) 2026 chrisdfennell. Licensed under MIT.
 - DarkestDungeonSaveEditor (Darkest Dungeon DSON format and its type rules, ported): Copyright (c) 2018 robojumper. Licensed under MIT.
 - game-tools-collection (Octopath Traveler II character and job ids; Golden Sun Djinn counts and file-select totals; Final Fantasy X ability, overdrive, item, key item and Monster Arena layout and names): Copyright (c) 2024 RyudoSynbios. Licensed under MIT.
-- LSLib (Larian LSPK package and LSF resource layouts, ported): Copyright (c) Norbyte. Licensed under MIT.
+- LSLib (Larian LSPK package, LSF resource and Osiris story layouts, ported): Copyright (c) Norbyte. Licensed under MIT.
 - valheim-fch-editor (Valheim character layout, skill ids): Copyright (c) 2021 cQuaid. Licensed under MIT.
 - obababot (Golden Sun save layout; item, class and Djinn name tables): Copyright (c) 2020 Dyrati. Licensed under MIT.
 - golden_sun_save_converter and golden_sun_password_exporter (Golden Sun save blocks and checksum): Copyright (c) 2022 Hambaka. Licensed under MIT.
