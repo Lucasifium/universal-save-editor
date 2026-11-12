@@ -3,7 +3,7 @@
 
 use super::{List, Max, Section, Shape, Spec, Table};
 
-pub static SPECS: &[Spec] = &[COTL, FALLOUT_SHELTER, DRG, S1_MONEY, S1_RANK, S1_TIME, S1_GAME, SOTF_STATE, SOTF_GAME, SOTF_WEATHER, SOTF_ITEMS, DMD, CUPHEAD, ANTIMATTER, PVZ, CELESTE, DRGS, KH3, RF4S, SKY1ST, KSP, FFPR, MCD, STONESHARD, ROGUE_TRADER, BIOSHOCK_INFINITE, SPACE_HAVEN, SNOWRUNNER, GRAVEYARD_KEEPER, NFSMW, TOS, GTA3, GTAVC, BITBURNER, TERRA_INVICTA, PRISON, FF13, SONIC_MANIA, CAVE_STORY_PLUS, CAVE_STORY, LIES_OF_P, TXR, DAVE, MSC, ULTRAKILL, RPGXP, RE5, ANNO1800, FTK, LEGO_TSS, LEGO_CLASSIC, MYZ, CMS21, MEDIEVAL_DYNASTY, MECHANICUS, ORI, OMORI, ENDER_LILIES, SW2, ES2, MOONLIGHTER, WASTELAND2, ATOM, MORTAL_SHELL, MORTAL_SHELL_2, COTW, BEAMNG, FOREST, YAKUZA3, YAKUZA4, YAKUZA5, ISHIN, SALT, DRAKENSANG, ALPHA, TYRANNY, JEDI_FO, SR3, WD2, FABLE, WANDERING_SWORD, STELLAR_BLADE, PRAGMATA];
+pub static SPECS: &[Spec] = &[COTL, FALLOUT_SHELTER, DRG, S1_MONEY, S1_RANK, S1_TIME, S1_GAME, SOTF_STATE, SOTF_GAME, SOTF_WEATHER, SOTF_ITEMS, DMD, CUPHEAD, ANTIMATTER, PVZ, CELESTE, DRGS, KH3, RF4S, SKY1ST, KSP, FFPR, MCD, STONESHARD, ROGUE_TRADER, BIOSHOCK_INFINITE, SPACE_HAVEN, SNOWRUNNER, GRAVEYARD_KEEPER, NFSMW, TOS, GTA3, GTAVC, BITBURNER, TERRA_INVICTA, PRISON, FF13, SONIC_MANIA, CAVE_STORY_PLUS, CAVE_STORY, LIES_OF_P, TXR, DAVE, MSC, ULTRAKILL, RPGXP, RE5, ANNO1800, FTK, LEGO_TSS, LEGO_CLASSIC, MYZ, CMS21, MEDIEVAL_DYNASTY, MECHANICUS, ORI, OMORI, ENDER_LILIES, SW2, ES2, MOONLIGHTER, WASTELAND2, ATOM, MORTAL_SHELL, MORTAL_SHELL_2, COTW, BEAMNG, FOREST, YAKUZA3, YAKUZA4, YAKUZA5, ISHIN, SALT, DRAKENSANG, ALPHA, TYRANNY, JEDI_FO, SR3, WD2, FABLE, WANDERING_SWORD, STELLAR_BLADE, PRAGMATA, SLIME_RANCHER];
 
 // ------------------------------------------------------------------ Cult of the Lamb
 
@@ -2944,4 +2944,22 @@ const PRAGMATA: Spec = Spec {
             names: PRAGMATA_PERKS,
         },
     ],
+};
+
+// ------------------------------------------------------------------ Slime Rancher
+
+const SLIME_RANCHER: Spec = Spec {
+    name: "Slime Rancher",
+    tab: "Ranch",
+    accent: (230, 120, 170),
+    kind: Some(crate::fmt::slime::KIND),
+    markers: &["/Player/Newbucks"],
+    subtitle: "A .sav in %USERPROFILE%\\AppData\\LocalLow\\Monomi Park\\Slime Rancher (the first game; Slime Rancher 2 isn't read yet). The load screen's newbucks are changed with yours. Energy above your maximum is cut back by the game.",
+    tiles: &[("Newbucks", "/Player/Newbucks"), ("Slime keys", "/Player/Slime keys")],
+    sections: &[Section {
+        title: "Beatrix",
+        rows: &[("Newbucks", "/Player/Newbucks"), ("Health", "/Player/Health"), ("Energy", "/Player/Energy"), ("Radiation", "/Player/Radiation"), ("Slime keys", "/Player/Slime keys")],
+    }],
+    lists: &[],
+    tables: &[],
 };
