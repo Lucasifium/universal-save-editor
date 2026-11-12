@@ -133,6 +133,7 @@ pub mod ffx2;
 pub mod dead_rising;
 pub mod ff13;
 pub mod p5r;
+pub mod sonic_mania;
 pub mod metro;
 pub mod bioshock;
 pub mod rgmh;
@@ -265,6 +266,11 @@ pub fn parse_binary(d: &[u8]) -> Option<TreeDoc> {
     }
     if metro::looks(d) {
         if let Ok(t) = metro::parse(d) {
+            return Some(t);
+        }
+    }
+    if sonic_mania::looks(d) {
+        if let Ok(t) = sonic_mania::parse(d) {
             return Some(t);
         }
     }

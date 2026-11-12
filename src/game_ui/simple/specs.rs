@@ -3,7 +3,7 @@
 
 use super::{List, Max, Section, Shape, Spec, Table};
 
-pub static SPECS: &[Spec] = &[COTL, FALLOUT_SHELTER, DRG, S1_MONEY, S1_RANK, S1_TIME, S1_GAME, SOTF_STATE, SOTF_GAME, SOTF_WEATHER, SOTF_ITEMS, DMD, CUPHEAD, ANTIMATTER, PVZ, CELESTE, DRGS, KH3, RF4S, SKY1ST, KSP, FFPR, MCD, STONESHARD, ROGUE_TRADER, BIOSHOCK_INFINITE, SPACE_HAVEN, SNOWRUNNER, GRAVEYARD_KEEPER, NFSMW, TOS, GTA3, GTAVC, BITBURNER, TERRA_INVICTA, PRISON, FF13];
+pub static SPECS: &[Spec] = &[COTL, FALLOUT_SHELTER, DRG, S1_MONEY, S1_RANK, S1_TIME, S1_GAME, SOTF_STATE, SOTF_GAME, SOTF_WEATHER, SOTF_ITEMS, DMD, CUPHEAD, ANTIMATTER, PVZ, CELESTE, DRGS, KH3, RF4S, SKY1ST, KSP, FFPR, MCD, STONESHARD, ROGUE_TRADER, BIOSHOCK_INFINITE, SPACE_HAVEN, SNOWRUNNER, GRAVEYARD_KEEPER, NFSMW, TOS, GTA3, GTAVC, BITBURNER, TERRA_INVICTA, PRISON, FF13, SONIC_MANIA];
 
 // ------------------------------------------------------------------ Cult of the Lamb
 
@@ -1413,4 +1413,42 @@ const FF13: Spec = Spec {
     sections: &[Section { title: "Party", rows: &[("Gil", "/Party/Gil")] }],
     lists: &[],
     tables: &[],
+};
+
+// ------------------------------------------------------------------ Sonic Mania
+
+const SONIC_MANIA: Spec = Spec {
+    name: "Sonic Mania",
+    tab: "Slots",
+    accent: (50, 120, 230),
+    kind: Some(crate::fmt::sonic_mania::KIND),
+    markers: &["/Mania slot 1/Lives", "/Encore slot 1/Lives"],
+    subtitle: "SaveData.bin: eight Mania Mode and three Encore Mode slots. Emeralds are a bit field (127 = all seven).",
+    tiles: &[],
+    sections: &[],
+    lists: &[],
+    tables: &[
+        Table {
+            title: "Mania Mode slots",
+            path: "",
+            name: &[],
+            only: &["Mania slot 1", "Mania slot 2", "Mania slot 3", "Mania slot 4", "Mania slot 5", "Mania slot 6", "Mania slot 7", "Mania slot 8"],
+            cols: &[
+                ("State", "/State"), ("Character", "/Character"), ("Zone", "/Zone"), ("Lives", "/Lives"), ("Score", "/Score"),
+                ("Emeralds", "/Chaos Emeralds (127 = all seven)"), ("Continues", "/Continues"), ("Next special stage", "/Next special stage"),
+            ],
+            names: &[],
+        },
+        Table {
+            title: "Encore Mode slots",
+            path: "",
+            name: &[],
+            only: &["Encore slot 1", "Encore slot 2", "Encore slot 3"],
+            cols: &[
+                ("State", "/State"), ("Zone", "/Zone"), ("Score", "/Score"),
+                ("Emeralds", "/Chaos Emeralds (127 = all seven)"), ("Continues", "/Continues"), ("Next special stage", "/Next special stage"),
+            ],
+            names: &[],
+        },
+    ],
 };
