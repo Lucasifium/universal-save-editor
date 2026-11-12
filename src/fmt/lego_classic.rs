@@ -21,6 +21,8 @@ const MAX_STUDS: i64 = 4_000_000_000;
 const LSW1_LEN: usize = 532;
 const LSW1_STUDS: usize = 0x204;
 const LSW1_MAX_STUDS: i64 = 9_999_999;
+const LSW2_LEN: usize = 1008;
+const LSW2_STUDS: usize = 0x383;
 
 /// (title, file size, offset of the studs from the start of the file, bytes from the studs
 /// to the completion points)
@@ -82,8 +84,12 @@ fn is_lsw1(d: &[u8]) -> bool {
     d.len() == LSW1_LEN && u32at(d, LSW1_LEN - 4) == words_sum(&d[..LSW1_LEN - 4]) && u32at(d, LSW1_STUDS) <= LSW1_MAX_STUDS as u32
 }
 
+fn is_lsw2(d: &[u8]) -> bool {
+    d.len() == LSW2_LEN && u32at(d, LSW2_LEN - 4) == words_sum(&d[..LSW2_LEN - 4])
+}
+
 pub fn looks(d: &[u8]) -> bool {
-    hmgr_game(d).is_some() || newer_game(d).is_some() || is_lsw1(d)
+    hmgr_game(d).is_some() || newer_game(d).is_some() || is_lsw1(d) || is_lsw2(d)
 }
 
 fn fix_hmgr(d: &mut Vec<u8>) {
@@ -122,6 +128,11 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
         return Ok(b.finish(KIND, Checksum::Custom(fix_lsw1)).with_note(
             "Close the game first. The checksum is rewritten, and CODE.BIN beside LSW.BIN is rewritten with the stud count.",
         ));
+    }
+    if is_lsw2(d) {
+        b.ranged(&["Studs"], LSW2_STUDS, Kind::U32, 0, MAX_STUDS);
+        b.info(&["Game"], "LEGO Star Wars II: The Original Trilogy");
+        return Ok(b.finish(KIND, Checksum::Custom(fix_lsw1)).with_note("Close the game first. The checksum is rewritten."));
     }
     Err("not an older LEGO save".into())
 }
@@ -207,6 +218,27 @@ mod tests {
                 assert!(!looks(&d));
             }
         }
+    }
+
+    #[test]
+    fn lsw2_studs_and_checksum() {
+        let mut d = vec![0u8; LSW2_LEN];
+        d[0x10] = 9;
+        d[LSW2_STUDS..LSW2_STUDS + 4].copy_from_slice(&1_361_272_840u32.to_le_bytes());
+        d[0x388] = 0xa2;
+        fix_lsw1(&mut d);
+        assert!(looks(&d));
+        let mut doc = parse(&d).unwrap();
+        assert_eq!(doc.view.pointer("/Studs"), Some(&Value::from(1_361_272_840u32)));
+        assert_eq!(doc.to_bytes().unwrap(), d);
+        doc.set("/Studs", Value::from(4_000_000_000u64)).unwrap();
+        let out = doc.to_bytes().unwrap();
+        assert_eq!(u32at(&out, LSW2_STUDS), 4_000_000_000);
+        assert_eq!(out[0x388], 0xa2);
+        assert_eq!(u32at(&out, LSW2_LEN - 4), words_sum(&out[..LSW2_LEN - 4]));
+        assert!(companions(std::path::Path::new("savegame.bin"), &out).is_empty());
+        d[0x10] ^= 1;
+        assert!(!looks(&d));
     }
 
     #[test]
