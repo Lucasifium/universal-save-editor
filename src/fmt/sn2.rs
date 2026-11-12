@@ -230,7 +230,8 @@ impl Walk<'_> {
                 ("CurrentValue", "FloatProperty") if t.size == 4 => cur = Some(t.payload),
                 ("InventoryClass", "ObjectProperty" | "SoftObjectProperty") => {
                     if let Some((s, _)) = fstring(d, t.payload) {
-                        self.container = if s.contains("Character") { "Player".into() } else { pretty(&s, &["BP_"]) };
+                        // The player's own bag has no class saved; the character class is a template.
+                        self.container = if s.is_empty() || s.contains("Character") { "Player".into() } else { pretty(&s, &["BP_"]) };
                     }
                 }
                 _ => {}
