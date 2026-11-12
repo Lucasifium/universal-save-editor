@@ -16,7 +16,10 @@
 //!   5-7, Star Wars III, Pirates of the Caribbean, Batman 2, City Undercover): the same `HMGR`
 //!   header, then a byte-packed save block with no checksum. The stud wallet is a u64 at a
 //!   fixed place, followed by two u16 counters. Pirates keeps five copies of the block, all
-//!   written.
+//!   written. Marvel Super Heroes and The Lord of the Rings have the same file size as Batman 2,
+//!   so the title in the header tells them apart.
+//! * The games after those (The Hobbit, Jurassic World, Batman 3, The Force Awakens, The
+//!   Incredibles, DC Super-Villains, Marvel Super Heroes 2) drop the header; see `BARE`.
 
 use super::fields::{Builder, Checksum, Kind};
 use crate::tree::TreeDoc;
@@ -43,15 +46,38 @@ const GAMES: [(&str, usize, usize, usize); 4] = [
 
 const NEWER_MAX_STUDS: i64 = 999_999_999_999;
 
-/// (title, file size, offset of the studs from the end of the header, copies, bytes between
-/// copies)
-const NEWER: [(&str, usize, usize, usize, usize); 6] = [
-    ("LEGO Harry Potter: Years 1-4", 397364, 0x1a84, 1, 0),
-    ("LEGO Harry Potter: Years 5-7", 353936, 0x1a80, 1, 0),
-    ("LEGO Star Wars III: The Clone Wars", 110648, 0x6240, 1, 0),
-    ("LEGO Pirates of the Caribbean", 315448, 0x80b0, 5, 0xdd50),
-    ("LEGO Batman 2: DC Super Heroes", 97336, 0xa958, 1, 0),
-    ("LEGO City Undercover", 2579512, 0xfb20, 1, 0),
+/// (title, a word from the title in the header, file size, offset of the studs from the end of
+/// the header, copies, bytes between copies)
+type Newer = (&'static str, &'static str, usize, usize, usize, usize);
+const NEWER: [Newer; 8] = [
+    ("LEGO Harry Potter: Years 1-4", "Harry Potter", 397364, 0x1a84, 1, 0),
+    ("LEGO Harry Potter: Years 5-7", "Harry Potter", 353936, 0x1a80, 1, 0),
+    ("LEGO Star Wars III: The Clone Wars", "Star Wars", 110648, 0x6240, 1, 0),
+    ("LEGO Pirates of the Caribbean", "Pirates", 315448, 0x80b0, 5, 0xdd50),
+    ("LEGO Batman 2: DC Super Heroes", "Batman", 97336, 0xa958, 1, 0),
+    ("LEGO City Undercover", "City Undercover", 2579512, 0xfb20, 1, 0),
+    ("LEGO Marvel Super Heroes", "MARVEL", 97336, 0x4508, 1, 0),
+    ("LEGO The Lord of the Rings", "Lord of the Rings", 97336, 0xaa90, 1, 0),
+];
+
+/// The games after those drop the `HMGR` header: the file starts with an 8-byte engine id.
+/// The stud wallet is a u64 at a fixed place; in the tagged ones it is written twice in a row
+/// between two field tags (the second one is always `6e 48 54 eb`), and the whole block is
+/// saved more than once. (title, file size, engine id, offset of the (second) u64, copies,
+/// bytes between copies, tagged)
+type Bare = (&'static str, usize, [u8; 8], usize, usize, usize, bool);
+const V1: [u8; 8] = [1, 0, 0, 0, 0x5b, 0xf2, 0x12, 0x8f];
+const V2: [u8; 8] = [2, 0, 0, 0, 0x7a, 0xd8, 0x5e, 0xd2];
+const V3: [u8; 8] = [3, 0, 0, 0, 0xc5, 0x8b, 0x45, 0x11];
+const TAG_END: [u8; 4] = [0x6e, 0x48, 0x54, 0xeb];
+const BARE: [Bare; 7] = [
+    ("LEGO The Hobbit", 262164, V1, 0xd19c, 2, 0x20a64, false),
+    ("LEGO Jurassic World", 163860, V1, 0x260f, 2, 0x24493, true),
+    ("LEGO Batman 3: Beyond Gotham", 307220, V1, 0xf7d4, 4, 0x11833, true),
+    ("LEGO Star Wars: The Force Awakens", 307224, V2, 0x8dbf, 4, 0x13a47, true),
+    ("LEGO The Incredibles", 358424, V1, 0x1c35b, 2, 0x1e6df, true),
+    ("LEGO DC Super-Villains", 358424, V1, 0x22cca, 2, 0x241fb, true),
+    ("LEGO Marvel Super Heroes 2", 358424, V3, 0x22582, 2, 0x23a1b, true),
 ];
 
 fn words_sum(d: &[u8]) -> u32 {
@@ -75,7 +101,12 @@ fn hmgr_game(d: &[u8]) -> Option<(&'static str, usize)> {
     (u32at(d, n - 8) == sum && u32::from(u16::from_le_bytes([d[at + g.3], d[at + g.3 + 1]])) == completion).then_some((g.0, at))
 }
 
-fn newer_game(d: &[u8]) -> Option<&'static (&'static str, usize, usize, usize, usize)> {
+fn header_title(d: &[u8]) -> String {
+    let w: Vec<u16> = d[0x28..0x228].chunks_exact(2).map(|c| u16::from_le_bytes([c[0], c[1]])).take_while(|&c| c != 0).collect();
+    String::from_utf16_lossy(&w)
+}
+
+fn newer_game(d: &[u8]) -> Option<&'static Newer> {
     if d.len() < HEADER + 16 || !d.starts_with(b"HMGR") || u32at(d, 8) as usize != HEADER {
         return None;
     }
@@ -83,10 +114,35 @@ fn newer_game(d: &[u8]) -> Option<&'static (&'static str, usize, usize, usize, u
     if d[0x28..0x30] != *b"L\0E\0G\0O\0" {
         return None;
     }
-    let g = NEWER.iter().find(|g| g.1 == d.len())?;
+    let title = header_title(d);
+    let g = NEWER.iter().find(|g| g.2 == d.len() && title.contains(g.1))?;
     // Every copy holds the same wallet.
-    let first = &d[HEADER + g.2..HEADER + g.2 + 8];
-    (1..g.3).all(|k| &d[HEADER + g.2 + k * g.4..HEADER + g.2 + k * g.4 + 8] == first).then_some(g)
+    let first = &d[HEADER + g.3..HEADER + g.3 + 8];
+    (1..g.4).all(|k| &d[HEADER + g.3 + k * g.5..HEADER + g.3 + k * g.5 + 8] == first).then_some(g)
+}
+
+/// Every place a bare save keeps its wallet, if all of them hold the same number.
+fn bare_game(d: &[u8]) -> Option<(&'static str, Vec<usize>)> {
+    if d.len() < 16 {
+        return None;
+    }
+    BARE.iter().find_map(|&(title, len, id, at, copies, stride, tagged)| {
+        if d.len() != len || d[..8] != id {
+            return None;
+        }
+        let mut places = vec![];
+        for k in 0..copies {
+            let p = at + k * stride;
+            if tagged {
+                if d[p + 8..p + 12] != TAG_END || d[p - 8..p] != d[p..p + 8] {
+                    return None;
+                }
+                places.push(p - 8);
+            }
+            places.push(p);
+        }
+        places.iter().all(|&p| d[p..p + 8] == d[at..at + 8]).then_some((title, places))
+    })
 }
 
 fn is_lsw1(d: &[u8]) -> bool {
@@ -98,7 +154,7 @@ fn is_lsw2(d: &[u8]) -> bool {
 }
 
 pub fn looks(d: &[u8]) -> bool {
-    hmgr_game(d).is_some() || newer_game(d).is_some() || is_lsw1(d) || is_lsw2(d)
+    hmgr_game(d).is_some() || newer_game(d).is_some() || bare_game(d).is_some() || is_lsw1(d) || is_lsw2(d)
 }
 
 fn fix_hmgr(d: &mut Vec<u8>) {
@@ -123,7 +179,15 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
             "Close the game first. The checksum is rewritten.",
         ));
     }
-    if let Some(&(title, _, at, copies, stride)) = newer_game(d) {
+    if let Some((title, places)) = bare_game(d) {
+        b.ranged(&["Studs"], places[0], Kind::U64, 0, NEWER_MAX_STUDS);
+        for &p in &places[1..] {
+            b.mirror(&["Studs"], p);
+        }
+        b.info(&["Game"], title);
+        return Ok(b.finish(KIND, Checksum::None).with_note("Close the game first. The game keeps the stud wallet in several places; all of them are written."));
+    }
+    if let Some(&(title, _, _, at, copies, stride)) = newer_game(d) {
         b.ranged(&["Studs"], HEADER + at, Kind::U64, 0, NEWER_MAX_STUDS);
         for k in 1..copies {
             b.mirror(&["Studs"], HEADER + at + k * stride);
@@ -198,11 +262,11 @@ mod tests {
 
     #[test]
     fn newer_studs_every_copy() {
-        for &(title, len, at, copies, stride) in &NEWER {
+        for &(title, key, len, at, copies, stride) in &NEWER {
             let mut d = vec![0u8; len];
             d[..4].copy_from_slice(b"HMGR");
             d[8..12].copy_from_slice(&(HEADER as u32).to_le_bytes());
-            for (i, c) in "LEGO".encode_utf16().enumerate() {
+            for (i, c) in format!("LEGO® {key}").encode_utf16().enumerate() {
                 d[0x28 + 2 * i..0x2a + 2 * i].copy_from_slice(&c.to_le_bytes());
             }
             for k in 0..copies {
@@ -226,6 +290,38 @@ mod tests {
                 d[HEADER + at + stride] ^= 1;
                 assert!(!looks(&d));
             }
+        }
+    }
+
+    #[test]
+    fn bare_studs_every_place() {
+        for &(title, len, id, at, copies, stride, tagged) in &BARE {
+            let mut d = vec![0u8; len];
+            d[..8].copy_from_slice(&id);
+            let mut places = vec![];
+            for k in 0..copies {
+                let p = at + k * stride;
+                if tagged {
+                    d[p + 8..p + 12].copy_from_slice(&TAG_END);
+                    places.push(p - 8);
+                }
+                places.push(p);
+            }
+            for &p in &places {
+                d[p..p + 8].copy_from_slice(&10_212_618_240u64.to_le_bytes());
+            }
+            assert!(looks(&d), "{title}");
+            let mut doc = parse(&d).unwrap();
+            assert_eq!(doc.view.pointer("/Game"), Some(&Value::from(title)));
+            assert_eq!(doc.view.pointer("/Studs"), Some(&Value::from(10_212_618_240u64)));
+            assert_eq!(doc.to_bytes().unwrap(), d);
+            doc.set("/Studs", Value::from(777_777_770u64)).unwrap();
+            let out = doc.to_bytes().unwrap();
+            for &p in &places {
+                assert_eq!(out[p..p + 8], 777_777_770u64.to_le_bytes(), "{title}");
+            }
+            d[places[places.len() - 1]] ^= 1;
+            assert!(!looks(&d), "{title}");
         }
     }
 
