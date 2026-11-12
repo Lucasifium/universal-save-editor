@@ -44,6 +44,7 @@ Universal Save Editor is free. It builds on other people's work, listed here wit
 | [SII_Decrypt by Mario Gruber, and its C++ port SII-Decrypt-cpp (ScsC wrapper layout and key for Euro Truck Simulator 2 and American Truck Simulator saves, ported)](https://github.com/liam-dong/SII-Decrypt-cpp) | TheLazyTomcat (Mario Gruber); liam-dong | MPL-2.0; MIT |
 | [ets-vibes game.sii notes (unit and property names of Euro Truck Simulator 2 saves; facts only)](https://github.com/CarlosEduJs/ets-vibes) | CarlosEduJs | facts only (file layouts and names), credited |
 | [total-war-save-parser (Total War ESF save layout: records, blocks, value types and the compressed campaign block; layout read, new implementation)](https://github.com/IMRZ/total-war-save-parser), after the PackFileManager EsfLib | IMRZ and MrSoul42 | MIT |
+| [tpp-mod (Metal Gear Solid V staff, resource and variable bit layouts, and skill and section names; ported)](https://github.com/alicealys/tpp-mod) | alicealys and contributors | GPL-3.0 |
 | [Megabonk-Save-Decryptor (Megabonk save key and IV; facts only)](https://github.com/GuardianN06/Megabonk-Save-Decryptor) | GuardianN06 | facts only (key and layout), credited |
 | [Eiyuden-Chronicle-Save-Editor (Eiyuden Chronicle save key and IV; facts only)](https://github.com/TheSparda/Eiyuden-Chronicle-Save-Editor) | TheSparda | facts only (key and layout), credited |
 | [SuikodenSaveDecrypter (Suikoden I & II HD save encryption, ported)](https://github.com/d3xMachina/SuikodenSaveDecrypter) | d3xMachina | MIT |

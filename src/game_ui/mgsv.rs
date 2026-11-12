@@ -2,7 +2,7 @@
 //! Mother Base switches and the lifetime statistics.
 
 use super::{hero, panel, GameCtx};
-use eframe::egui::{Color32, Grid, Ui};
+use eframe::egui::{Color32, Grid, ScrollArea, Ui};
 use serde_json::{json, Value};
 
 const ACCENT: Color32 = Color32::from_rgb(214, 170, 60);
@@ -52,6 +52,8 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
             ui.weak("GMP is capped at 99,999,999 in the game. Close the game and turn Steam Cloud off for it before editing.");
         });
     }
+    resources(ui, cx);
+    staff(ui, cx);
     let flags: Vec<String> = names(cx, "Mother Base").into_iter().filter(|n| n.starts_with("mbmIsOpened") && n.ends_with("Section")).collect();
     if !flags.is_empty() || cx.get("/Mother Base").is_some() {
         panel(ui, "Mother Base", |ui| {
@@ -70,4 +72,101 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
         panel(ui, "Statistics", |ui| grid(ui, cx, "Statistics", "mgsv_stats"));
     }
     ui.weak("Every variable in the save, named by the game's own names, is in the Tree under Variables.");
+}
+
+fn resources(ui: &mut Ui, cx: &mut GameCtx) {
+    let rs = names(cx, "Resources");
+    if rs.is_empty() {
+        return;
+    }
+    panel(ui, "Mother Base resources", |ui| {
+        if ui.button("Max crafting materials").on_hover_text("Fuel, biological, metals and plants to 999,999 usable; fuel, biological and metals also to 1,000,000 processed (an estimate of the cap)").clicked() {
+            for (i, n) in rs.iter().enumerate() {
+                if i < 13 {
+                    cx.set(&format!("/Resources/{}/Usable", esc(n)), json!(999_999));
+                }
+                if i < 5 {
+                    cx.set(&format!("/Resources/{}/Processing", esc(n)), json!(1_000_000));
+                }
+            }
+        }
+        Grid::new("mgsv_res").num_columns(3).spacing([14.0, 4.0]).show(ui, |ui| {
+            ui.strong("Resource");
+            ui.strong("Usable");
+            ui.strong("Processing");
+            ui.end_row();
+            for n in &rs {
+                ui.label(n);
+                cx.editor(ui, &format!("/Resources/{}/Usable", esc(n)), 90.0);
+                cx.editor(ui, &format!("/Resources/{}/Processing", esc(n)), 90.0);
+                ui.end_row();
+            }
+        });
+        ui.weak("Counts as the save stores them. Check them against the in-game resource screen before relying on them.");
+    });
+}
+
+fn staff(ui: &mut Ui, cx: &mut GameCtx) {
+    let all = names(cx, "Staff");
+    if all.is_empty() {
+        return;
+    }
+    panel(ui, &format!("Staff ({})", all.len()), |ui| {
+        ui.horizontal_wrapped(|ui| {
+            if ui.button("Everyone to S++").clicked() {
+                for n in &all {
+                    cx.set(&format!("/Staff/{}/Rank", esc(n)), json!("S++"));
+                }
+            }
+            if ui.button("Max stat bonus").clicked() {
+                for n in &all {
+                    cx.set(&format!("/Staff/{}/Stat bonus", esc(n)), json!(3));
+                }
+            }
+            if ui.button("Max morale").clicked() {
+                for n in &all {
+                    cx.set(&format!("/Staff/{}/Morale", esc(n)), json!(15));
+                }
+            }
+            if ui.button("Max proficiency").clicked() {
+                for n in &all {
+                    cx.set(&format!("/Staff/{}/Proficiency", esc(n)), json!(15));
+                }
+            }
+            if ui.button("Heal everyone").clicked() {
+                for n in &all {
+                    cx.set(&format!("/Staff/{}/Symptomatic", esc(n)), json!(false));
+                }
+            }
+        });
+        let filter_id = ui.id().with("mgsv_section");
+        let mut filter: String = ui.memory_mut(|m| m.data.get_temp::<String>(filter_id)).unwrap_or_else(|| "All sections".into());
+        ui.horizontal(|ui| {
+            ui.label("Show");
+            eframe::egui::ComboBox::from_id_salt("mgsv_sec_filter").selected_text(&filter).show_ui(ui, |ui| {
+                for s in ["All sections", "Combat", "R&D", "Base Development", "Support", "Intel", "Medical", "Security", "Sickbay", "Brig", "Unassigned"] {
+                    ui.selectable_value(&mut filter, s.to_string(), s);
+                }
+            });
+        });
+        ui.memory_mut(|m| m.data.insert_temp(filter_id, filter.clone()));
+        let shown: Vec<&String> = all.iter().filter(|n| filter == "All sections" || cx.text(&format!("/Staff/{}/Section", esc(n))).as_deref() == Some(filter.as_str())).collect();
+        ui.label(format!("{} shown. Staff have no names in the save; they are listed by slot.", shown.len()));
+        ScrollArea::vertical().max_height(360.0).id_salt("mgsv_staff").show_rows(ui, 26.0, shown.len(), |ui, range| {
+            for i in range {
+                let n = shown[i];
+                ui.horizontal(|ui| {
+                    ui.label(n.as_str());
+                    for f in ["Section", "Rank", "Skill"] {
+                        cx.editor(ui, &format!("/Staff/{}/{}", esc(n), f), 150.0);
+                    }
+                    for f in ["Morale", "Proficiency", "Stat bonus"] {
+                        ui.label(f);
+                        cx.editor(ui, &format!("/Staff/{}/{}", esc(n), f), 50.0);
+                    }
+                });
+            }
+        });
+        ui.weak("Rank is the staff member's stat rank (S++ is the top); every other stat follows from rank and stat distribution. The rest of each member's fields are in the Tree.");
+    });
 }
