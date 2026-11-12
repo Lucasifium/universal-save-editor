@@ -281,6 +281,8 @@ pub struct App {
     sum_hits: Option<Vec<crate::fmt::sumfind::Sum>>,
     /// The name being typed for a kept copy (File › Restore previous version › Keep a copy).
     backup_name: Option<String>,
+    /// The Save manager window: `Some((slot name being typed, version waiting for a delete/replace confirmation))` while open.
+    manager: Option<(String, Option<(PathBuf, bool)>)>,
     /// Tools › Change Steam account: the IDs found in the save, the one picked, and the new one typed.
     rebind: Option<(Vec<u64>, usize, String)>,
     patches: Option<Patches>,
@@ -344,6 +346,7 @@ impl App {
             password_prompt: None,
             sum_hits: None,
             backup_name: None,
+            manager: None,
             rebind: None,
             patches: None,
             compare: None,
@@ -1484,6 +1487,10 @@ impl App {
                     ui.close_menu();
                     self.revert_all();
                 }
+                if !WEB && ui.add_enabled(has, egui::Button::new("Save manager\u{2026}")).on_hover_text("Backups and save slots for the open file").clicked() {
+                    ui.close_menu();
+                    self.manager = Some((String::new(), None));
+                }
                 let bak = self.doc.as_ref().map(|d| {
                     let mut b = d.path.as_os_str().to_owned();
                     b.push(".bak");
@@ -1931,6 +1938,136 @@ impl App {
             }
             Some(false) => {}
             None => self.backup_name = Some(text),
+        }
+    }
+
+    /// File › Save manager: slots (named copies, kept for good) and automatic backups of the
+    /// open file, stored next to it. Restoring backs up the current file first.
+    fn manager_window(&mut self, ctx: &egui::Context) {
+        let Some((mut name, mut confirm)) = self.manager.take() else { return };
+        let Some(path) = self.doc.as_ref().map(|d| d.path.clone()) else { return };
+        let versions = crate::backups::list(&path);
+        let mut open = true;
+        let mut restore = None;
+        let mut compare = None;
+        let mut delete = None;
+        let mut unname = None;
+        let mut keep = false;
+        let mut aside = false;
+        egui::Window::new("Save manager").open(&mut open).collapsible(false).default_width(560.0).show(ctx, |ui| {
+            ui.label(RichText::new(file_name(&path)).strong());
+            if let Some(dir) = crate::backups::folder(&path) {
+                ui.weak(format!("Kept in {} \u{2014} a folder of its own next to the save, with files no game reads as saves.", dir.display()));
+            }
+            ui.add_space(6.0);
+            ui.horizontal(|ui| {
+                ui.add(TextEdit::singleline(&mut name).hint_text("slot name, e.g. first playthrough").desired_width(260.0));
+                let ready = !name.trim().is_empty() && path.is_file();
+                if ui.add_enabled(ready, egui::Button::new("Back up to a slot")).on_hover_text("Keeps a copy of the file as it is on disk now; the file is left as is").clicked() {
+                    keep = true;
+                }
+                if ui.add_enabled(ready, egui::Button::new("Set aside and start fresh")).on_hover_text("Keeps a copy in a slot, then removes the live save so the game starts a new game").clicked() {
+                    aside = true;
+                }
+            });
+            ui.weak("Games that hold only one save: set the old one aside, play a new game, and bring the old one back here later.");
+            ui.separator();
+            if versions.is_empty() {
+                ui.label("Nothing kept yet. Backups are taken automatically each time you save.");
+            }
+            ScrollArea::vertical().max_height(380.0).show(ui, |ui| {
+                for (title, named) in [("Slots", true), ("Automatic backups (newest 30 kept)", false)] {
+                    let rows: Vec<&crate::backups::Version> = versions.iter().filter(|v| v.name.is_some() == named).collect();
+                    if rows.is_empty() {
+                        continue;
+                    }
+                    ui.strong(title);
+                    for v in rows {
+                        ui.horizontal(|ui| {
+                            let when = crate::backups::describe(v.when);
+                            let label = match &v.name {
+                                Some(n) => format!("\u{201C}{n}\u{201D} \u{2014} {when} ({})", human_size(v.size as usize)),
+                                None => format!("{when} ({})", human_size(v.size as usize)),
+                            };
+                            ui.label(label);
+                            if confirm.as_ref().is_some_and(|(p, _)| *p == v.path) {
+                                let is_restore = confirm.as_ref().is_some_and(|(_, r)| *r);
+                                if ui.button(if is_restore { "Yes, restore" } else { "Yes, delete" }).clicked() {
+                                    if is_restore { restore = Some(v.path.clone()) } else { delete = Some(v.path.clone()) }
+                                    confirm = None;
+                                }
+                                if ui.button("No").clicked() {
+                                    confirm = None;
+                                }
+                            } else {
+                                if ui.small_button("Restore").on_hover_text("Puts this back. The file as it is now is backed up first.").clicked() {
+                                    confirm = Some((v.path.clone(), true));
+                                }
+                                if path.is_file() && ui.small_button("Compare").clicked() {
+                                    compare = Some(v.path.clone());
+                                }
+                                if v.name.is_some() && ui.small_button("Unname").on_hover_text("Let it be cleared out in time like the others").clicked() {
+                                    unname = Some(v.path.clone());
+                                }
+                                if ui.small_button("Delete").clicked() {
+                                    confirm = Some((v.path.clone(), false));
+                                }
+                            }
+                        });
+                    }
+                    ui.add_space(6.0);
+                }
+            });
+            if let Some(dir) = crate::backups::folder(&path).filter(|d| d.is_dir()) {
+                if let Some(label) = platform::reveal_label() {
+                    if ui.button(label.replace("file", "backups")).clicked() {
+                        platform::reveal(&dir);
+                    }
+                }
+            }
+        });
+        let find = |p: &PathBuf| versions.iter().find(|v| v.path == *p);
+        if keep {
+            match crate::backups::take_named(&path, &name) {
+                Ok(_) => {
+                    self.ok(format!("Kept a slot named \u{201C}{}\u{201D}.", name.trim()));
+                    name.clear();
+                }
+                Err(e) => self.fail(format!("Couldn't keep a slot: {e}")),
+            }
+        }
+        if aside {
+            if let Some(game) = crate::running::game_for(&path) {
+                self.fail(format!("{game} looks like it's running \u{2014} quit it first."));
+            } else {
+                match crate::backups::set_aside(&path, &name) {
+                    Ok(_) => {
+                        self.ok(format!("Set the save aside as \u{201C}{}\u{201D}. The game will start a new game; the editor still holds the old data in memory (don't Save it).", name.trim()));
+                        name.clear();
+                    }
+                    Err(e) => self.fail(format!("Couldn't set the save aside: {e}")),
+                }
+            }
+        }
+        if let Some(p) = restore {
+            let what = find(&p).map(|v| v.name.as_ref().map(|n| format!("\u{201C}{n}\u{201D}")).unwrap_or_else(|| format!("the version from {}", crate::backups::describe(v_when(&versions, &p))))).unwrap_or_default();
+            self.restore_from(&p, &what);
+        }
+        if let Some(p) = compare {
+            self.compare_with(p);
+        }
+        if let Some(v) = unname.as_ref().and_then(find) {
+            if let Err(e) = crate::backups::unlock(v) {
+                self.fail(format!("Couldn't change that copy: {e}"));
+            }
+        }
+        if let Some(v) = delete.as_ref().and_then(find) {
+            if let Err(e) = crate::backups::remove(v) {
+                self.fail(format!("Couldn't delete it: {e}"));
+            }
+        }
+        if open {
+            self.manager = Some((name, confirm));
         }
     }
 
@@ -3492,6 +3629,7 @@ impl eframe::App for App {
         self.password_dialog(ctx);
         self.sums_dialog(ctx);
         self.backup_name_dialog(ctx);
+        self.manager_window(ctx);
         self.rebind_dialog(ctx);
         self.patches_dialog(ctx);
         self.poll_loading(ctx, now);
@@ -3566,6 +3704,10 @@ fn write_in_place(path: &Path, bytes: &[u8]) -> Result<(), String> {
         }
         Ok(())
     }
+}
+
+fn v_when(v: &[crate::backups::Version], p: &PathBuf) -> u64 {
+    v.iter().find(|x| x.path == *p).map(|x| x.when).unwrap_or(0)
 }
 
 fn modal(ctx: &egui::Context, title: &str, add: impl FnOnce(&mut egui::Ui)) {

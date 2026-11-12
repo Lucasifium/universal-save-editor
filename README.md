@@ -485,7 +485,7 @@ The same program runs commands without opening the window, for scripts and batch
 `--password <p>` opens encrypted saves, like *Tools › Decrypt with password*; `--entry <name>`
 picks one save inside an archive or memory card (`info` lists them). Writing is as careful
 as the window: the new file must read back exactly before anything is written, the old file is
-backed up first (*File › Restore previous version* lists the copies) and the write is atomic.
+backed up first (*File › Save manager* lists the copies) and the write is atomic.
 `decode` then `encode` lets any other tool edit the unpacked data while the editor handles the
 compression, encryption and checksums.
 
@@ -510,7 +510,7 @@ compression, encryption and checksums.
   read back exactly as shown on screen, the save is aborted and your file is left untouched.
 - **Atomic writes**: the save goes to a temp file and is then swapped in, so a crash can't leave a
   half-written save.
-- **Backups**: every save first copies the file as it was into the app's folder (`backups\<name>-<hash>`, last 30 kept); *File › Restore previous version* brings any of them back or compares one with the open file, byte by byte or value by value. *Keep a named copy* there saves the file as it is now under a name (before a boss, say), and named copies are never cleared out. The backups can go to a folder you choose instead (a synced folder, another drive). The very first original is also kept as `<name>.bak`
+- **Save manager and backups**: *File › Save manager* is built into the editor. Every save first copies the file as it was, and those copies sit next to the save in a folder of their own (`Save Editor Backups/<file name>/`, last 30 kept) with a `.sebak` extension, so a game never loads or overwrites them as saves. The manager lists them with *Restore* (the current file is backed up first, so a restore can be undone), *Compare* (byte by byte or value by value) and *Delete*. *Back up to a slot* keeps a named copy for good (before a boss, say), and *Set aside and start fresh* keeps a slot and removes the live save so a one-save game starts a new game; bring the old one back from the same list later. Backups can instead go to a folder you choose (a synced folder, another drive); copies from older versions in the app's folder are still listed. The very first original is also kept as `<name>.bak`
 - **Export and import**: *File › Export decoded data* writes the unpacked data (JSON, text or bytes) for any other tool; *File › Import edited data* brings the edited file back, and saving packs, encrypts and checksums it the way the save was
 - **Game running**: if the game that owns the save is running, the app says so when opening and warns before saving (games write their save back when they autosave or quit)
 - **Review before saving**: Save lists every change in words first (can be turned off in that dialog)

@@ -1,9 +1,11 @@
 //! Timestamped copies of a save, taken every time the app writes over it, so any earlier
-//! version can be brought back. They live in the app's own folder (not next to the save,
-//! where a game or its cloud sync might trip over them):
-//! `<config>/backups/<file name>-<path hash>/<unix seconds>.<ext>`, or under a folder the
-//! player chose. A copy the player names (`<unix seconds>~<name>.<ext>`) is kept for good: only
-//! unnamed copies are pruned.
+//! version can be brought back. By default they sit next to the save, in
+//! `<save folder>/Save Editor Backups/<file name>/<unix seconds>.sebak`: one level down in a
+//! folder of their own and with an extension no game looks for, so a game never loads or
+//! overwrites them as saves. A player can instead keep them under a folder of their choice
+//! (`<folder>/<file name>-<path hash>/<unix seconds>.<ext>`); older copies in the app's own
+//! folder (`<config>/backups`) are still listed. A copy the player names
+//! (`<unix seconds>~<name>`) is a slot and is kept for good: only unnamed copies are pruned.
 
 use std::path::{Path, PathBuf};
 use std::time::{SystemTime, UNIX_EPOCH};
@@ -43,8 +45,23 @@ pub fn root() -> Option<PathBuf> {
     ROOT.read().ok().and_then(|r| r.clone()).or_else(|| crate::platform::config_dir().map(|d| d.join("backups")))
 }
 
-/// Where the versions of `save` are kept.
+/// Name of the folder, next to a save, that holds its backups and slots.
+pub const BESIDE: &str = "Save Editor Backups";
+
+/// Where new versions of `save` go: next to it, unless the player chose another folder.
 pub fn folder(save: &Path) -> Option<PathBuf> {
+    let custom = ROOT.read().ok().and_then(|r| r.clone());
+    if custom.is_none() {
+        if let Some(parent) = save.parent().filter(|p| !p.as_os_str().is_empty()).or(Some(Path::new("."))) {
+            let name = save.file_name()?.to_string_lossy().to_string();
+            return Some(parent.join(BESIDE).join(name));
+        }
+    }
+    elsewhere(save)
+}
+
+/// The per-save folder under the app's own folder or the chosen one.
+fn elsewhere(save: &Path) -> Option<PathBuf> {
     let full = std::fs::canonicalize(save).unwrap_or_else(|_| save.to_path_buf());
     let name: String = save
         .file_name()
@@ -54,12 +71,29 @@ pub fn folder(save: &Path) -> Option<PathBuf> {
     root().map(|d| d.join(format!("{name}-{:08x}", hash(&key))))
 }
 
+/// The default app-folder location older releases used.
+fn legacy(save: &Path) -> Option<PathBuf> {
+    let base = crate::platform::config_dir().map(|d| d.join("backups"))?;
+    let full = std::fs::canonicalize(save).unwrap_or_else(|_| save.to_path_buf());
+    let name: String = save
+        .file_name()
+        .map(|n| n.to_string_lossy().chars().map(|c| if c.is_alphanumeric() || "._-".contains(c) { c } else { '_' }).collect())
+        .unwrap_or_else(|| "save".into());
+    Some(base.join(format!("{name}-{:08x}", hash(&full.to_string_lossy().to_lowercase()))))
+}
+
 /// Every kept version of `save`, newest first.
 pub fn list(save: &Path) -> Vec<Version> {
-    let Some(dir) = folder(save) else { return vec![] };
-    let Ok(rd) = std::fs::read_dir(&dir) else { return vec![] };
-    let mut out: Vec<Version> = rd
-        .flatten()
+    let mut dirs: Vec<PathBuf> = vec![];
+    for d in [folder(save), elsewhere(save), legacy(save)].into_iter().flatten() {
+        if !dirs.contains(&d) {
+            dirs.push(d);
+        }
+    }
+    let mut out: Vec<Version> = dirs
+        .iter()
+        .filter_map(|d| std::fs::read_dir(d).ok())
+        .flat_map(|rd| rd.flatten())
         .filter_map(|e| {
             let p = e.path();
             let stem = p.file_stem()?.to_str()?;
@@ -110,8 +144,14 @@ fn copy(save: &Path, name: Option<&str>) -> Result<Option<PathBuf>, String> {
             }
         }
     }
-    std::fs::create_dir_all(&dir).map_err(|e| e.to_string())?;
-    let ext = save.extension().map(|e| format!(".{}", e.to_string_lossy())).unwrap_or_default();
+    let mut dir = dir;
+    if std::fs::create_dir_all(&dir).is_err() {
+        // The save's own folder can't be written to (read-only, or a device that forbids it).
+        dir = elsewhere(save).ok_or("no folder for backups on this device")?;
+        std::fs::create_dir_all(&dir).map_err(|e| e.to_string())?;
+    }
+    let beside = dir.parent().and_then(|p| p.file_name()).is_some_and(|n| n == BESIDE);
+    let ext = if beside { ".sebak".to_string() } else { save.extension().map(|e| format!(".{}", e.to_string_lossy())).unwrap_or_default() };
     let tag = name.map(|n| format!("~{n}")).unwrap_or_default();
     let t = now();
     let mut dest = dir.join(format!("{t}{tag}{ext}"));
@@ -125,6 +165,32 @@ fn copy(save: &Path, name: Option<&str>) -> Result<Option<PathBuf>, String> {
         let _ = std::fs::remove_file(&old.path);
     }
     Ok(Some(dest))
+}
+
+/// Deletes one kept copy (a slot or a backup); drops the folder if it was the last.
+pub fn remove(v: &Version) -> Result<(), String> {
+    std::fs::remove_file(&v.path).map_err(|e| e.to_string())?;
+    if let Some(dir) = v.path.parent() {
+        let _ = std::fs::remove_dir(dir); // only succeeds when empty
+        if dir.parent().and_then(|p| p.file_name()).is_some_and(|n| n == BESIDE) {
+            if let Some(b) = dir.parent() {
+                let _ = std::fs::remove_dir(b);
+            }
+        }
+    }
+    Ok(())
+}
+
+/// Puts a copy aside under `name` and then removes the live save, so the game starts a new
+/// game with no save. The copy is read back and compared before the file is removed.
+pub fn set_aside(save: &Path, name: &str) -> Result<PathBuf, String> {
+    let kept = take_named(save, name)?;
+    let (a, b) = (std::fs::read(save).map_err(|e| e.to_string())?, std::fs::read(&kept).map_err(|e| e.to_string())?);
+    if a != b {
+        return Err("the copy doesn't match the save; nothing was removed".into());
+    }
+    std::fs::remove_file(save).map_err(|e| e.to_string())?;
+    Ok(kept)
 }
 
 /// "3 minutes ago", "yesterday 14:02 UTC"-style label for a version.
@@ -161,9 +227,11 @@ fn civil(days: u64) -> (i64, u32, u32) {
 #[cfg(test)]
 mod tests {
     use super::*;
+    static LOCK: std::sync::Mutex<()> = std::sync::Mutex::new(());
 
     #[test]
     fn named_copies_are_kept() {
+        let _g = LOCK.lock().unwrap_or_else(|e| e.into_inner());
         let dir = std::env::temp_dir().join(format!("use-backup-test-{}", std::process::id()));
         std::fs::create_dir_all(&dir).unwrap();
         set_root(Some(dir.join("b")));
@@ -181,6 +249,37 @@ mod tests {
         unlock(named).unwrap();
         assert!(list(&save).iter().all(|v| v.name.is_none()));
         set_root(None);
+        let _ = std::fs::remove_dir_all(&dir);
+    }
+
+    #[test]
+    fn sits_beside_the_save_and_is_not_a_save() {
+        let _g = LOCK.lock().unwrap_or_else(|e| e.into_inner());
+        let dir = std::env::temp_dir().join(format!("use-beside-test-{}", std::process::id()));
+        std::fs::create_dir_all(&dir).unwrap();
+        set_root(None);
+        let save = dir.join("game.sav");
+        std::fs::write(&save, b"first").unwrap();
+        let kept = set_aside(&save, "run one").unwrap();
+        assert!(!save.exists(), "live save cleared for a new game");
+        assert!(kept.starts_with(dir.join(BESIDE).join("game.sav")));
+        assert_eq!(kept.extension().unwrap(), "sebak");
+        // Nothing but the backup folder was added next to the save.
+        let names: Vec<_> = std::fs::read_dir(&dir).unwrap().flatten().map(|e| e.file_name()).collect();
+        assert_eq!(names, vec![std::ffi::OsString::from(BESIDE)]);
+        std::fs::write(&save, b"second").unwrap();
+        let v = list(&save);
+        assert_eq!(v.len(), 1);
+        assert_eq!(v[0].name.as_deref(), Some("run one"));
+        // Restoring puts the first back, after taking the second.
+        take(&save).unwrap();
+        std::fs::copy(&v[0].path, &save).unwrap();
+        assert_eq!(std::fs::read(&save).unwrap(), b"first");
+        assert_eq!(list(&save).len(), 2);
+        for v in list(&save) {
+            remove(&v).unwrap();
+        }
+        assert!(!dir.join(BESIDE).exists());
         let _ = std::fs::remove_dir_all(&dir);
     }
 
