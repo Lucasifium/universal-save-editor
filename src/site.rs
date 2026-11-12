@@ -333,6 +333,7 @@ const WHY: &str = r#"<ul>
 <li><strong>Checksum finder.</strong> For a save it doesn't know, the editor looks for a CRC, sum or hash near the start or end of the file and writes it again every time you save.</li>
 <li><strong>Console cheat patches.</strong> About 2,400 PlayStation 1 to 4, PSP, Vita and Dreamcast games have ready-made cheats from the Apollo patch collection built in: pick the codes and apply them. Encrypted saves from about 80 PS3, PS4, PSP and Vita games open already decrypted, and are encrypted again on save.</li>
 <li><strong>Dreamcast saves.</strong> VMU <code>.vms</code> files and Nexus <code>.dci</code> files open with their header CRC and byte order handled, and are written back the same way.</li>
+<li><strong>Sega Saturn saves.</strong> Single <code>.bup</code>, <code>.sro</code>, <code>.xml</code>, <code>.b64</code> and <code>.cms</code> saves, and whole backup RAM images from Mednafen, Beetle, Yabause, Kronos and SAROO, one save at a time.</li>
 <li><strong>Steam account switch.</strong> Finds the Steam IDs inside a save and changes them to another account, for saves copied between accounts or co-op hosts.</li>
 <li><strong>Command line too.</strong> <code>info</code>, <code>list</code>, <code>get</code>, <code>set</code>, <code>decode</code> and <code>encode</code> work from scripts, with the same checks and backups as the window.</li>
 <li><strong>Open source.</strong> Anyone can read the code (GPL-3.0).</li>

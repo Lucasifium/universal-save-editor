@@ -35,6 +35,8 @@ Universal Save Editor is free. It builds on other people's work, listed here wit
 | [offzip and packzip (finding and repacking zlib streams inside a save, as adapted in apollo-lib; ported)](https://aluigi.altervista.org/mytoolz.htm) | Luigi Auriemma | GPL-2.0-or-later, used under GPL-3.0 |
 | [psv-save-converter (PS1 and PS2 single-save layouts, the CodeBreaker cipher state and the PS3 `.psv` signature, ported)](https://github.com/bucanero/psv-save-converter), after ps3-psvresigner (dots-tb), CheatDevicePS2 (root670) and PSV-Exporter (PMStanley) | Damian Parrino (bucanero) and the authors it credits | GPL-3.0-or-later |
 | [Apollo DC save tools (VMS header CRC and Nexus DCI layout, facts used)](https://github.com/bucanero/apollo-dc), after Marcus Comstedt's VMU file system notes | Damian Parrino (bucanero); Marcus Comstedt | GPL-3.0-or-later |
+| [saturn-save-tools (Saturn single-save layouts and backup RAM reading, ported)](https://github.com/bucanero/saturn-save-tools) | Damian Parrino (bucanero) | GPL-3.0-or-later |
+| [SAROO savetool (backup RAM, SS_SAVE.BIN and SS_MEMS.BIN layouts, ported)](https://github.com/tpunix/SAROO) | tpunix | GPL-3.0 |
 | LZARI (the compression in Action Replay Max saves, ported) | Haruhiko Okumura; memory-buffer version by Luigi Auriemma and Wesley Castro | free use, as its author states |
 | [save-decrypters (per-game test vectors used for checks only)](https://github.com/bucanero/save-decrypters) | Damian Parrino (bucanero) and contributors | GPL-3.0-or-later |
 | CRC routines (as used in apollo-lib) | Michael Barr | public domain |

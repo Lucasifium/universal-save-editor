@@ -324,6 +324,15 @@ open the same way, with their swapped byte order undone and put back. Saves whos
 unused open as plain data. Checked on 300 real saves from the Apollo save database: every save with
 a CRC came back byte for byte.
 
+**Sega Saturn saves**: single saves from PC and flash-cart tools open without their header: `.bup`
+(Pseudo Saturn Kai), `.sro` (SAROO, CRC-32 worked out again on save), `.xml` (SS Backup RAM Parser),
+`.b64` (Save Game Manager) and `.cms` (PC Comms Link). Whole backup memory images open one save at a
+time (Tools › Open another file in this archive lists the rest): the console's backup RAM as
+emulators store it (Mednafen and Beetle `.bkr`, Yabause and Kronos `bkram.bin`) and SAROO's
+`SS_SAVE.BIN` and `SS_MEMS.BIN`. A save in an image keeps its size and its bytes go back where they
+came from. Checked on 170 real saves from saturn-save-tools in both `.bup` and `.sro` form, and on
+Comms Link block dumps, which read the same as the matching `.bup` files.
+
 Big files open on a worker thread, and unpacking and decryption use every core.
 
 ## What it opens
