@@ -183,6 +183,10 @@ pub enum Layer {
     Vms { off: usize },
     /// A single PS1/PS2 save exported by a cheat device or PC tool; `name` is the file open.
     PsSave { kind: fmt::pssave::Kind, original: Arc<Vec<u8>>, name: String },
+    /// A single Sega Saturn save exported by a PC or flash-cart tool.
+    Saturn { kind: fmt::saturn::Kind, original: Arc<Vec<u8>>, name: String },
+    /// One save in a Saturn backup memory image, written back to the bytes it was read from.
+    SaturnImage { kind: fmt::saturn::Image, image: Arc<Vec<u8>>, save: fmt::saturn::Save },
     /// DeSmuME `.dsv`: the footer after the raw DS save, kept as it is.
     Dsv { footer: Arc<Vec<u8>> },
     /// Civilization V `.Civ5Save`: an uncompressed header, then the game as one zlib stream
@@ -292,6 +296,8 @@ impl Layer {
             Layer::Apollo { id, .. } => format!("Console save unpacked by its patch file ({id})"),
             Layer::Dci { .. } => "Dreamcast save (.dci, Nexus)".into(),
             Layer::Vms { .. } => "Dreamcast VMU file (CRC kept right)".into(),
+            Layer::Saturn { kind, name, .. } => format!("{} ({name})", kind.label()),
+            Layer::SaturnImage { kind, save, .. } => format!("{} ({})", kind.label(), save.name),
             Layer::Dsv { .. } => "DeSmuME save (.dsv footer)".into(),
             Layer::Ps1Card { blocks, .. } => format!("PlayStation memory card (save in block {})", blocks[0]),
             Layer::Civ5 { .. } => "Civilization V save (compressed game data)".into(),
@@ -833,6 +839,8 @@ fn wrap(layer: &Layer, data: Vec<u8>) -> Result<Vec<u8>, String> {
             card.write_file(image, file, &data)?
         }
         Layer::Dsv { footer } => [&data[..], footer].concat(),
+        Layer::Saturn { kind, original, .. } => fmt::saturn::save(*kind, original, &data)?,
+        Layer::SaturnImage { image, save, .. } => fmt::saturn::write(image, save, &data)?,
         Layer::PsSave { kind, original, name } => fmt::pssave::save(*kind, original, name, &data)?,
         Layer::Dci { header } => fmt::dreamcast::dci_close(header, &data)?,
         Layer::Vms { off } => fmt::dreamcast::vms_close(&data, *off)?,
@@ -1050,6 +1058,32 @@ fn peel(data: &[u8], ctx: &mut Ctx) -> Option<(Layer, Vec<u8>)> {
             ctx.hint = Some("Dreamcast VMU save: the file's CRC shows as zeros and is written again on save. Use the value search to find a number you know, and test the edit in the emulator.".into());
             return Some((Layer::Vms { off }, fmt::dreamcast::vms_open(data, off)));
         }
+    }
+    if let Some((kind, name, inner)) = fmt::saturn::open(data, &ctx.opts.ext) {
+        ctx.hint = Some(format!(
+            "{}: the save's data is open without its header{}. Each game checks its own data its own way, so use the value search and test the edit in the emulator.",
+            kind.label(),
+            match kind {
+                fmt::saturn::Kind::Sro => ", and its CRC is worked out again on save",
+                fmt::saturn::Kind::Cms => ", with its block headers left out",
+                _ => "",
+            }
+        ));
+        return Some((Layer::Saturn { kind, original: Arc::new(data.to_vec()), name }, inner));
+    }
+    if let Some((kind, saves)) = fmt::saturn::image(data) {
+        if saves.is_empty() {
+            ctx.hint = Some(format!("This {} holds no saves.", kind.label()));
+            return None;
+        }
+        let s = ctx.opts.zip_entry.as_ref().and_then(|n| saves.iter().find(|s| &s.name == n)).unwrap_or(&saves[0]).clone();
+        ctx.zip_entries = saves.iter().map(|s| s.name.clone()).collect();
+        ctx.hint = Some(format!(
+            "{}: one save is open; Tools › Open another file in this archive lists the others. Its bytes are written back where they came from, so the save keeps its size. Each game checks its own data its own way, so use the value search and test the edit in the emulator.",
+            kind.label()
+        ));
+        let inner = fmt::saturn::read(data, &s);
+        return Some((Layer::SaturnImage { kind, image: Arc::new(data.to_vec()), save: s }, inner));
     }
     if let Some((kind, files)) = fmt::pssave::open(data, &ctx.opts.ext) {
         let pick = |f: &&fmt::pssave::Entry| {
