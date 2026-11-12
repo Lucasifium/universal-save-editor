@@ -180,12 +180,8 @@ fn inventory(b: &mut Builder, d: &[u8], t: Table) {
         }
         let group = t.group(kind);
         let base = names.get(&(id as u32)).map_or_else(|| format!("{group} {id}"), |n| n.to_string());
-        let mut name = base.clone();
-        let mut n = 2;
-        while !used.insert((group, name.clone())) {
-            name = format!("{base} ({n})");
-            n += 1;
-        }
+        // A second entry of the same item is named by its slot, which stays the same when others change.
+        let name = if used.insert((group, base.clone())) { base } else { format!("{base} (slot {})", k + 1) };
         let qty = t.id_at(k) + 4;
         let path = ["Inventory", group, name.as_str()];
         if !t.countable(kind) {
@@ -214,8 +210,10 @@ fn tag(t: Table) -> char {
     if t == Table::Rebirth { 'B' } else { 'M' }
 }
 
-/// Saves the items chosen under "Add items" (into free slots) and "Remove items".
+/// Saves the items chosen under "Add items" (into free slots) and "Remove items", and the
+/// materia chosen to add or remove.
 fn post(out: &mut Vec<u8>, chosen: &[(std::sync::Arc<str>, String)]) -> Result<(), String> {
+    post_materia(out, chosen)?;
     let put = |out: &mut Vec<u8>, at: usize, v: u32| out[at..at + 4].copy_from_slice(&v.to_le_bytes());
     for (tag, choice) in chosen {
         let t = if tag.starts_with('B') { Table::Rebirth } else { Table::Remake };
@@ -278,6 +276,183 @@ fn post(out: &mut Vec<u8>, chosen: &[(std::sync::Arc<str>, String)]) -> Result<(
     Ok(())
 }
 
+// ------------------------------------------------------------------ materia
+
+/// Remake: 1000 materia records of 0x20 bytes: level, wearer (9 = nobody), owned flag, 0,
+/// id, AP, 0, timestamp, 0, slot number + 1, 0. Characters, weapons and summon slots point at
+/// a record by its slot number (tables below).
+const REMAKE_MATERIA: usize = 0x1840;
+const REMAKE_CHAR_MATERIA: usize = 0x40DD0; // 8 × 0x30, slots at +0x10
+const REMAKE_WEAPON_MATERIA: usize = 0x40F50; // 0x78 × 0x30, slots at +0x10
+const REMAKE_SUMMONS: usize = 0x44ED4; // 8 slot numbers
+/// Rebirth: 1000 inventory records like the item table's (type 6) and, in the same order,
+/// 1000 detail records: instance number, id, AP, 0, level, wearer (16 = nobody).
+const REBIRTH_MATERIA_INV: usize = 0x60A68;
+const REBIRTH_MATERIA: usize = 0xBFA68;
+const MATERIA_SLOTS: usize = 1000;
+
+fn materia_ok(d: &[u8], rebirth: bool) -> bool {
+    if rebirth {
+        (0..MATERIA_SLOTS).all(|k| u32_at(d, REBIRTH_MATERIA_INV + k * 0x20 + 4) == Some(0x927C0 + k as u32))
+    } else {
+        d.len() >= REMAKE_SUMMONS + 32
+            && (0..MATERIA_SLOTS).all(|k| {
+                let r = REMAKE_MATERIA + k * 0x20;
+                let idx = u32_at(d, r + 0x18).unwrap_or(u32::MAX);
+                idx == 0 || idx == k as u32 + 1
+            })
+    }
+}
+
+/// Remake: materia slot numbers someone or some weapon holds.
+fn remake_slotted(d: &[u8]) -> std::collections::HashSet<i32> {
+    let mut held = std::collections::HashSet::new();
+    let mut take = |at: usize, n: usize| {
+        for j in 0..n {
+            if let Some(v) = u32_at(d, at + 4 * j) {
+                held.insert(v as i32);
+            }
+        }
+    };
+    for c in 0..8 {
+        take(REMAKE_CHAR_MATERIA + c * 0x30 + 0x10, 8);
+    }
+    for w in 0..0x78 {
+        take(REMAKE_WEAPON_MATERIA + w * 0x30 + 0x10, 8);
+    }
+    take(REMAKE_SUMMONS, 8);
+    held.remove(&-1);
+    held
+}
+
+fn materia(b: &mut Builder, d: &[u8], rebirth: bool) {
+    let held = if rebirth { Default::default() } else { remake_slotted(d) };
+    let mut owned = std::collections::HashSet::new();
+    for k in 0..MATERIA_SLOTS {
+        let (id, level, free, ap_at, lv_at) = if rebirth {
+            let r = REBIRTH_MATERIA + k * 0x20;
+            let id = u32_at(d, r + 4).map_or(-1, |v| v as i32);
+            (id, d[r + 0x10], d[r + 0x11] == 16, r + 8, r + 0x10)
+        } else {
+            let r = REMAKE_MATERIA + k * 0x20;
+            let id = u32_at(d, r + 4).map_or(0, |v| v as i32);
+            let id = if d[r + 2] == 0 { 0 } else { id };
+            (id, d[r], d[r + 1] == 9 && !held.contains(&(k as i32)), r + 8, r)
+        };
+        if id <= 0 {
+            continue;
+        }
+        owned.insert(id as u32);
+        let base = if rebirth {
+            items::REBIRTH_MATERIA.iter().find(|m| m.0 == id as u32).map(|m| m.1.to_string())
+        } else {
+            items::REMAKE_MATERIA.iter().find(|m| m.0 == id as u32).map(|m| m.1.to_string())
+        }
+        .unwrap_or_else(|| format!("Materia {id}"));
+        // Keyed by slot so a name always means the same record (copies are common).
+        let name = format!("{base} #{}", k + 1);
+        let ap_table = if rebirth { items::REBIRTH_MATERIA.iter().find(|m| m.0 == id as u32).map(|m| m.3) } else { None };
+        match ap_table {
+            Some(ap) if !ap.is_empty() => {
+                let top = ap.len() as i64;
+                b.ranged(&["Materia", &name, "Level"], lv_at, Kind::U8, 1, top.max(i64::from(level)));
+                let max_ap = i64::from(*ap.last().unwrap_or(&0));
+                let have = i64::from(u32_at(d, ap_at).unwrap_or(0));
+                b.ranged(&["Materia", &name, "AP"], ap_at, Kind::U32, 0, max_ap.max(have));
+            }
+            _ => {
+                b.info(&["Materia", &name, "Level"], level);
+                b.info(&["Materia", &name, "AP"], u32_at(d, ap_at).unwrap_or(0));
+            }
+        }
+        b.info(&["Materia", &name, "Equipped"], if free { "No" } else { "Yes" });
+        if free {
+            b.option(&["Remove materia", &name], vec!["Keep".into(), "Remove".into()], format!("{}r{k}", if rebirth { 'B' } else { 'M' }));
+        }
+    }
+    let list: Vec<(u32, &str, u8)> =
+        if rebirth { items::REBIRTH_MATERIA.iter().map(|m| (m.0, m.1, m.2)).collect() } else { items::REMAKE_MATERIA.to_vec() };
+    for (id, name, kind) in list {
+        // One of each summon.
+        let summon = kind == 4;
+        if summon && owned.contains(&id) {
+            continue;
+        }
+        let choices: Vec<String> = if summon { vec!["Don't add".into(), "Add".into()] } else { ["Don't add", "Add 1", "Add 2", "Add 3", "Add 5"].iter().map(|s| s.to_string()).collect() };
+        b.option(&["Add materia", items::MATERIA_KINDS[usize::from(kind).min(4)], name], choices, format!("{}m{id}", if rebirth { 'B' } else { 'M' }));
+    }
+}
+
+/// Saves the materia chosen under "Remove materia" and "Add materia".
+fn post_materia(out: &mut [u8], chosen: &[(std::sync::Arc<str>, String)]) -> Result<(), String> {
+    let put = |out: &mut [u8], at: usize, v: u32| out[at..at + 4].copy_from_slice(&v.to_le_bytes());
+    for (tag, choice) in chosen {
+        let rebirth = tag.starts_with('B');
+        let Some(k) = tag[1..].strip_prefix('r') else { continue };
+        if choice != "Remove" {
+            continue;
+        }
+        let k: usize = k.parse().map_err(|_| "bad request")?;
+        if rebirth {
+            let a = REBIRTH_MATERIA_INV + k * 0x20;
+            out[a + 2] = 0xFF;
+            put(out, a + 8, u32::MAX);
+            out[a + 0xC..a + 0x20].fill(0);
+            let r = REBIRTH_MATERIA + k * 0x20;
+            out[r..r + 0x20].fill(0);
+            put(out, r, u32::MAX);
+            put(out, r + 4, u32::MAX);
+            out[r + 0x10] = 1;
+            out[r + 0x11] = 16;
+        } else {
+            let r = REMAKE_MATERIA + k * 0x20;
+            out[r..r + 0x20].fill(0);
+            out[r + 1] = 9;
+        }
+    }
+    for (tag, choice) in chosen {
+        let rebirth = tag.starts_with('B');
+        let Some(id) = tag[1..].strip_prefix('m') else { continue };
+        let n: usize = match choice.as_str() {
+            "Add" | "Add 1" => 1,
+            "Add 2" => 2,
+            "Add 3" => 3,
+            "Add 5" => 5,
+            _ => continue,
+        };
+        let id: u32 = id.parse().map_err(|_| "bad request")?;
+        for _ in 0..n {
+            if rebirth {
+                let k = (0..MATERIA_SLOTS).find(|&k| u32_at(out, REBIRTH_MATERIA_INV + k * 0x20 + 8) == Some(u32::MAX)).ok_or("no free materia slot left; remove some materia first")?;
+                let order = (0..MATERIA_SLOTS).filter_map(|j| u32_at(out, REBIRTH_MATERIA_INV + j * 0x20 + 0x10)).max().unwrap_or(0);
+                let a = REBIRTH_MATERIA_INV + k * 0x20;
+                out[a + 2] = 6;
+                put(out, a + 8, id);
+                put(out, a + 0xC, 1);
+                put(out, a + 0x10, order + 1);
+                let r = REBIRTH_MATERIA + k * 0x20;
+                out[r..r + 0x20].fill(0);
+                put(out, r, 0x927C0 + k as u32);
+                put(out, r + 4, id);
+                out[r + 0x10] = 1;
+                out[r + 0x11] = 16;
+            } else {
+                let k = (0..MATERIA_SLOTS).find(|&k| out[REMAKE_MATERIA + k * 0x20 + 2] == 0 && u32_at(out, REMAKE_MATERIA + k * 0x20 + 4) == Some(0)).ok_or("no free materia slot left; remove some materia first")?;
+                let newest = (0..MATERIA_SLOTS).filter_map(|j| u32_at(out, REMAKE_MATERIA + j * 0x20 + 0x10)).max().unwrap_or(0);
+                let r = REMAKE_MATERIA + k * 0x20;
+                out[r..r + 0x20].fill(0);
+                out[r] = 1;
+                out[r + 1] = 9;
+                out[r + 2] = 1;
+                put(out, r + 4, id);
+                put(out, r + 0x10, newest + 1);
+                put(out, r + 0x18, k as u32 + 1);
+            }
+        }
+    }
+    Ok(())
+}
+
 pub fn looks(d: &[u8]) -> bool {
     layout(d).is_some()
 }
@@ -320,10 +495,12 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
     if let Some(t) = table {
         inventory(&mut b, d, t);
     }
+    if materia_ok(d, rebirth) {
+        materia(&mut b, d, rebirth);
+    }
     Ok(b.finish_with(&format!("{game} save"), Checksum::None, Some(post)).with_note(
-        "Gil, the inventory (add, remove and change amounts), party levels, HP, MP and experience. The game may \
-         recalculate max HP and MP from level and equipment when it loads. Weapons and materia are kept in other tables \
-         and aren't listed yet.",
+        "Gil, the inventory and materia (add, remove and change amounts), party levels, HP, MP and experience. The game \
+         may recalculate max HP and MP from level and equipment when it loads. Weapons aren't listed.",
     ))
 }
 
@@ -410,6 +587,41 @@ mod tests {
         assert_eq!(doc.view.pointer("/Inventory/Accessories/Talisman").unwrap(), 1);
         let k = (0..SLOTS).find(|&k| t.id(&out, k) == 9020).unwrap();
         assert_eq!(t.kind(&out, k), 9);
+    }
+
+    #[test]
+    fn remake_materia() {
+        let mut d = remake_slot();
+        d.resize(0x45000, 0);
+        for k in 0..MATERIA_SLOTS {
+            d[REMAKE_MATERIA + k * 0x20 + 1] = 9;
+        }
+        for (at, n) in [(REMAKE_CHAR_MATERIA, 8), (REMAKE_WEAPON_MATERIA, 0x78)] {
+            for j in 0..n {
+                d[at + j * 0x30 + 0x10..at + j * 0x30 + 0x30].fill(0xFF);
+            }
+        }
+        d[REMAKE_SUMMONS..REMAKE_SUMMONS + 32].fill(0xFF);
+        // Fire in slot 0 (held by a weapon), Healing in slot 1 (free).
+        for (k, id) in [(0usize, 10004u32), (1, 10001)] {
+            let r = REMAKE_MATERIA + k * 0x20;
+            d[r] = 2;
+            d[r + 2] = 1;
+            d[r + 4..r + 8].copy_from_slice(&id.to_le_bytes());
+            d[r + 0x18..r + 0x1C].copy_from_slice(&(k as u32 + 1).to_le_bytes());
+        }
+        d[REMAKE_WEAPON_MATERIA + 0x10..REMAKE_WEAPON_MATERIA + 0x14].copy_from_slice(&0u32.to_le_bytes());
+        let mut doc = parse(&d).unwrap();
+        assert_eq!(doc.view.pointer("/Materia/Fire #1/Equipped").unwrap(), "Yes");
+        assert!(doc.view.pointer("/Remove materia/Fire #1").is_none());
+        doc.set("/Remove materia/Healing #2", serde_json::Value::from("Remove")).unwrap();
+        doc.set("/Add materia/Summon/Shiva", serde_json::Value::from("Add")).unwrap();
+        doc.set("/Add materia/Magic/Ice", serde_json::Value::from("Add 2")).unwrap();
+        let doc = parse(&doc.to_bytes().unwrap()).unwrap();
+        let mut names: Vec<String> = doc.view["Materia"].as_object().unwrap().keys().map(|k| k.split(" #").next().unwrap().to_string()).collect();
+        names.sort();
+        assert_eq!(names, ["Fire", "Ice", "Ice", "Shiva"]);
+        assert!(doc.view.pointer("/Add materia/Summon/Shiva").is_none());
     }
 
     #[test]

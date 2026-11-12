@@ -1050,6 +1050,65 @@ pub fn ff7_remake(ui: &mut Ui, cx: &mut GameCtx) {
     ff7r_inventory(ui, cx);
 }
 
+/// FF7 Remake / Rebirth: owned materia (level, AP, remove) and materia to add.
+fn ff7r_materia(ui: &mut Ui, cx: &mut GameCtx) {
+    let all = keys_of(cx, "/Materia");
+    if all.is_empty() {
+        return;
+    }
+    panel(ui, &format!("Materia ({})", all.len()), |ui| {
+        let q = filter_box(ui, "ff7r_materia", "e.g. Fire, Magnify");
+        let shown: Vec<&String> = all.iter().filter(|k| q.is_empty() || k.to_lowercase().contains(&q)).collect();
+        egui::ScrollArea::vertical().id_salt("ff7r_materia_scroll").max_height(360.0).show(ui, |ui| {
+            egui::Grid::new("ff7r_materia_grid").num_columns(5).striped(true).spacing([12.0, 4.0]).show(ui, |ui| {
+                for h in ["", "Level", "AP", "Equipped", ""] {
+                    ui.strong(h);
+                }
+                ui.end_row();
+                for m in shown {
+                    let p = join("/Materia", m);
+                    ui.label(m.as_str());
+                    cx.compact(ui, &join(&p, "Level"), 40.0);
+                    cx.compact(ui, &join(&p, "AP"), 70.0);
+                    ui.label(cx.text(&join(&p, "Equipped")).unwrap_or_default());
+                    let rm = join("/Remove materia", m);
+                    if cx.get(&rm).is_some() {
+                        cx.compact(ui, &rm, 100.0);
+                    } else {
+                        ui.label("");
+                    }
+                    ui.end_row();
+                }
+            });
+        });
+        ui.weak(
+            "Each materia is listed with its slot number, since a save often has several of one kind. Materia someone \
+             has equipped can't be removed. In Rebirth, level and AP can be changed up to the materia's top level.",
+        );
+    });
+    let add = "/Add materia";
+    let kinds = keys_of(cx, add);
+    if kinds.is_empty() {
+        return;
+    }
+    panel(ui, "Add materia", |ui| {
+        let q = filter_box(ui, "ff7r_add_materia", "e.g. Fire, Ifrit");
+        for c in &kinds {
+            let p = join(add, c);
+            let rows: Vec<(String, String)> = keys_of(cx, &p).into_iter().filter(|k| q.is_empty() || k.to_lowercase().contains(&q)).map(|k| (k.clone(), join(&p, &k))).collect();
+            if rows.is_empty() {
+                continue;
+            }
+            let chosen = rows.iter().filter(|(_, p)| cx.text(p).is_some_and(|v| v != "Don't add")).count();
+            let title = if chosen > 0 { format!("{c} materia ({}, {chosen} to add)", rows.len()) } else { format!("{c} materia ({})", rows.len()) };
+            egui::CollapsingHeader::new(title).id_salt(("ff7r_add_materia", c.as_str())).default_open(!q.is_empty()).show(ui, |ui| {
+                value_rows(ui, cx, &format!("ff7r_add_materia_{c}"), &rows);
+            });
+        }
+        ui.weak("New materia start at level 1 with no AP and go into free materia slots when you save. Summons you already own aren't listed.");
+    });
+}
+
 /// FF7 Remake / Rebirth: the inventory by category (amounts, remove) and items to add.
 fn ff7r_inventory(ui: &mut Ui, cx: &mut GameCtx) {
     let groups = keys_of(cx, "/Inventory");
@@ -1085,6 +1144,7 @@ fn ff7r_inventory(ui: &mut Ui, cx: &mut GameCtx) {
              (in Rebirth they can't be removed at all, only changed in number).",
         );
     });
+    ff7r_materia(ui, cx);
     let add = "/Add items";
     let cats = keys_of(cx, add);
     if cats.is_empty() {
