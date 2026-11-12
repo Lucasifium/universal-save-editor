@@ -170,6 +170,20 @@ pub enum Layer {
     RegFile(Arc<fmt::regfile::Meta>),
     /// A Flash / AIR shared object (`.sol`): the original file, whose values are replaced.
     Sol { original: Arc<Vec<u8>> },
+    /// The Long Dark slot file: LZF JSON holding more LZF/base64 and JSON-in-string levels.
+    Tld { wrapped: fmt::tld::Wrapped },
+    /// Civilization VII: header, chunked zlib, footer.
+    Civ7 { info: fmt::civ7::Info },
+    /// Astroneer container: zlib streams of a GVAS file.
+    Astroneer,
+    /// Satisfactory: a header, then zlib chunks.
+    Satisfactory { info: fmt::uepack::SatInfo },
+    /// Stoneshard `data.sav`: zlib, JSON, then an MD5 with a salt made from the folder names.
+    Stoneshard { salt: String },
+    /// Minecraft Dungeons: `D001` header, AES-256-ECB, JSON.
+    Mcd,
+    /// Final Fantasy Pixel Remaster slot: base64, Rijndael-256, deflate, JSON with JSON in strings.
+    Ffpr { wrapped: fmt::tld::Wrapped, bom: bool },
     /// Haxe serialization (OpenFL and HaxeFlixel saves): the original text, whose values are
     /// replaced.
     Haxe { original: Arc<Vec<u8>> },
@@ -311,6 +325,13 @@ impl Layer {
             Layer::Citrus { .. } => "Monster Hunter Rise save encryption".into(),
             Layer::RegFile(_) => "Registry values (Unity PlayerPrefs)".into(),
             Layer::Sol { .. } => "Flash shared object (.sol)".into(),
+            Layer::Mcd => "Minecraft Dungeons save encryption (AES)".into(),
+            Layer::Stoneshard { .. } => "Stoneshard save (zlib and MD5)".into(),
+            Layer::Astroneer => "Astroneer save (zlib)".into(),
+            Layer::Satisfactory { .. } => "Satisfactory save (zlib chunks)".into(),
+            Layer::Civ7 { .. } => "Civilization VII save (zlib chunks)".into(),
+            Layer::Tld { .. } => "The Long Dark save (nested LZF)".into(),
+            Layer::Ffpr { .. } => "Final Fantasy Pixel Remaster save encryption".into(),
             Layer::Haxe { .. } => "Haxe serialized save (OpenFL, HaxeFlixel)".into(),
             Layer::DeadCells { .. } => "Dead Cells save (zlib, SHA-1)".into(),
             Layer::LegoTt => "LEGO Batman: Legacy of the Dark Knight save encryption".into(),
@@ -870,6 +891,13 @@ fn wrap(layer: &Layer, data: Vec<u8>) -> Result<Vec<u8>, String> {
         Layer::Citrus { original, curve, steam } => fmt::citrus::encrypt(&data, original, *curve, *steam)?,
         Layer::RegFile(meta) => fmt::regfile::save(meta, &data)?,
         Layer::Sol { original } => fmt::sol::save(original, &data)?,
+        Layer::Mcd => fmt::mcd::pack(&data),
+        Layer::Stoneshard { salt } => fmt::stoneshard::pack(salt, &data)?,
+        Layer::Astroneer => fmt::uepack::astro_pack(&data),
+        Layer::Satisfactory { info } => fmt::uepack::sat_pack(info, &data)?,
+        Layer::Civ7 { info } => fmt::civ7::pack(info, &data)?,
+        Layer::Tld { wrapped } => fmt::tld::pack(wrapped, &data)?,
+        Layer::Ffpr { wrapped, bom } => fmt::ffpr::pack(wrapped, *bom, &data)?,
         Layer::Haxe { original } => fmt::haxe::save(original, &data)?,
         Layer::DeadCells { header } => fmt::deadcells::close(header, &data)?,
         Layer::Katana { kind, plain } => fmt::katana::close(*kind, plain, &data)?,
@@ -1089,6 +1117,45 @@ fn peel(data: &[u8], ctx: &mut Ctx) -> Option<(Layer, Vec<u8>)> {
         if let Some(xml) = fmt::wasteland3::open(data) {
             return Some((Layer::Wasteland3 { original: Arc::new(data.to_vec()) }, xml));
         }
+    }
+    if data.starts_with(b"CIV7") {
+        if let Some((info, un)) = fmt::civ7::open(data) {
+            ctx.hint = Some("Civilization VII save: unpacked for you and packed again on save. Where the save keeps its players' gold and influence in a known place they are on the Tree; any other number can be found with Value search.".into());
+            return Some((Layer::Civ7 { info }, un));
+        }
+    }
+    if let Some(body) = fmt::uepack::astro_open(data) {
+        ctx.hint = Some("Astroneer save: unpacked for you and packed again on save. Use Value search to find a number you know (for example your Bytes), then change it.".into());
+        return Some((Layer::Astroneer, body));
+    }
+    if data.len() > 400 && ctx.opts.ext.eq_ignore_ascii_case("sav") {
+        if let Some((info, body)) = fmt::uepack::sat_open(data) {
+            ctx.hint = Some("Satisfactory save: unpacked for you and packed again on save. Use Value search to find a number you know, then change it.".into());
+            return Some((Layer::Satisfactory { info }, body));
+        }
+    }
+    if data.first() == Some(&0x78) {
+        let path = ctx.opts.path.clone().unwrap_or_default();
+        if let Some((salt, ok, json)) = fmt::stoneshard::open(data, &path.to_string_lossy()) {
+            ctx.hint = Some(if ok {
+                "Stoneshard save: unpacked for you; its MD5 is worked out again and it is packed again on save.".into()
+            } else {
+                "Stoneshard save: unpacked for you. Its checksum depends on the folder names (characters_v1\\character_N\\<save folder>\\data.sav) and didn't match here, so open the file from its own folder before saving.".into()
+            });
+            return Some((Layer::Stoneshard { salt }, json));
+        }
+    }
+    if let Some(json) = fmt::mcd::open(data) {
+        ctx.hint = Some("Minecraft Dungeons save: decrypted for you and encrypted again on save.".into());
+        return Some((Layer::Mcd, json));
+    }
+    if let Some((wrapped, json)) = fmt::ffpr::open(data) {
+        ctx.hint = Some("Final Fantasy Pixel Remaster save: decrypted for you (the character data kept as text inside it is opened too) and encrypted again on save.".into());
+        return Some((Layer::Ffpr { wrapped, bom: data.starts_with(b"\xEF\xBB\xBF") }, json));
+    }
+    if let Some((wrapped, json)) = fmt::tld::open(data) {
+        ctx.hint = Some("The Long Dark save: its compressed levels are opened for you and packed again on save.".into());
+        return Some((Layer::Tld { wrapped }, json));
     }
     if data.starts_with(BOM) {
         return Some((Layer::Utf8Bom, data[BOM.len()..].to_vec()));
@@ -2984,4 +3051,19 @@ mod civ5_tests {
         assert!(super::KNOWN_XOR_KEYS.iter().any(|(g, key)| *g == "CloverPit" && key.as_bytes() == k));
     }
 
+}
+
+#[cfg(test)]
+mod gzip_name_tests {
+    use super::*;
+
+    #[test]
+    fn ocs_gzip_json_opens_by_name() {
+        use std::io::Write;
+        let mut z = flate2::write::GzEncoder::new(Vec::new(), flate2::Compression::default());
+        z.write_all(br#"{"Name":"Test","Level":5}"#).unwrap();
+        let gz = z.finish().unwrap();
+        let d = decode_with(&gz, &Options::for_path(std::path::Path::new("player.ocs")));
+        assert!(matches!(d.content, Content::Json { .. }), "{}", describe(&d.layers, &d.content));
+    }
 }

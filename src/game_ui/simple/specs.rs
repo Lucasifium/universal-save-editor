@@ -3,7 +3,7 @@
 
 use super::{List, Max, Section, Shape, Spec, Table};
 
-pub static SPECS: &[Spec] = &[COTL, FALLOUT_SHELTER, DRG, S1_MONEY, S1_RANK, S1_TIME, S1_GAME, SOTF_STATE, SOTF_GAME, SOTF_WEATHER, SOTF_ITEMS, DMD, CUPHEAD, ANTIMATTER, PVZ, CELESTE, DRGS, KH3, RF4S, SKY1ST];
+pub static SPECS: &[Spec] = &[COTL, FALLOUT_SHELTER, DRG, S1_MONEY, S1_RANK, S1_TIME, S1_GAME, SOTF_STATE, SOTF_GAME, SOTF_WEATHER, SOTF_ITEMS, DMD, CUPHEAD, ANTIMATTER, PVZ, CELESTE, DRGS, KH3, RF4S, SKY1ST, KSP, FFPR, MCD, STONESHARD];
 
 // ------------------------------------------------------------------ Cult of the Lamb
 
@@ -932,5 +932,87 @@ const SKY1ST: Spec = Spec {
             about: "Sets all eight sepith to 9,999, the most the game holds.",
         }),
     }],
+    tables: &[],
+};
+
+// ------------------------------------------------------------------ Kerbal Space Program
+
+const KSP: Spec = Spec {
+    name: "Kerbal Space Program",
+    tab: "Space program",
+    accent: (240, 140, 30),
+    kind: Some(crate::fmt::ksp::KIND),
+    markers: &["/GAME/SCENARIO: Funding/funds"],
+    subtitle: "Career funds, science and reputation (sandbox saves keep these at their defaults)",
+    tiles: &[("Funds", "/GAME/SCENARIO: Funding/funds"), ("Science", "/GAME/SCENARIO: ResearchAndDevelopment/sci"), ("Reputation", "/GAME/SCENARIO: Reputation/rep")],
+    sections: &[],
+    lists: &[],
+    tables: &[],
+};
+
+// ------------------------------------------------------------------ Final Fantasy Pixel Remaster
+
+const FFPR: Spec = Spec {
+    name: "Final Fantasy Pixel Remaster (I-VI)",
+    tab: "Party",
+    accent: (60, 110, 200),
+    kind: None,
+    markers: &["/userData/owendGil", "/userData/ownedCharacterList"],
+    subtitle: "One save slot of FINAL FANTASY I to VI Pixel Remaster (a character's number is its id in the game)",
+    tiles: &[("Gil", "/userData/owendGil"), ("Total gil", "/userData/totalGil"), ("Steps", "/userData/steps")],
+    sections: &[Section {
+        title: "Progress",
+        rows: &[("Battles", "/userData/battleCount"), ("Escapes", "/userData/escapeCount"), ("Chests opened", "/userData/openChestCount"), ("Monsters defeated", "/userData/monstersKilledCount"), ("Times saved", "/userData/saveCompleteCount")],
+    }],
+    lists: &[
+        List { title: "Items", path: "/userData/normalOwnedItemList/target", shape: Shape::Array { id_key: "contentId", qty_keys: &["count"] }, names: &[], max: None },
+        List { title: "Key items", path: "/userData/importantOwendItemList/target", shape: Shape::Array { id_key: "contentId", qty_keys: &["count"] }, names: &[], max: None },
+    ],
+    tables: &[Table {
+        title: "Characters",
+        path: "/userData/ownedCharacterList/target",
+        name: &["/id"],
+        cols: &[
+            ("Experience", "/currentExp"), ("HP", "/parameter/currentHP"), ("MP", "/parameter/currentMP"), ("Bonus max HP", "/parameter/addtionalMaxHp"), ("Bonus max MP", "/parameter/addtionalMaxMp"),
+            ("Bonus power", "/parameter/addtionalPower"), ("Bonus vitality", "/parameter/addtionalVitality"), ("Bonus agility", "/parameter/addtionalAgility"), ("Bonus intelligence", "/parameter/addtionalIntelligence"), ("Bonus spirit", "/parameter/addtionalSpirit"), ("Bonus magic", "/parameter/addtionalMagic"), ("Bonus luck", "/parameter/addtionalLuck"),
+        ],
+        only: &[],
+        names: &[],
+    }],
+};
+
+// ------------------------------------------------------------------ Minecraft Dungeons
+
+const MCD: Spec = Spec {
+    name: "Minecraft Dungeons",
+    tab: "Hero",
+    accent: (90, 170, 70),
+    kind: None,
+    markers: &["/currency", "/playerId", "/xp"],
+    subtitle: "A hero's save (Players\\Active\\*.dat), decrypted; items and enchantments are in the Tree",
+    tiles: &[("Experience", "/xp"), ("Total gear power", "/totalGearPower")],
+    sections: &[],
+    lists: &[List { title: "Currency", path: "/currency", shape: Shape::Array { id_key: "type", qty_keys: &["count"] }, names: &[("Emerald", "Emeralds"), ("Gold", "Gold"), ("EyeOfEnder", "Eyes of Ender")], max: None }],
+    tables: &[],
+};
+
+// ------------------------------------------------------------------ Stoneshard
+
+const STONESHARD: Spec = Spec {
+    name: "Stoneshard",
+    tab: "Character",
+    accent: (170, 60, 50),
+    kind: None,
+    markers: &["/characterDataMap/LVL", "/characterDataMap/XP"],
+    subtitle: "One character's data.sav; unspent points let you respec in the game",
+    tiles: &[("Level", "/characterDataMap/LVL"), ("Experience", "/characterDataMap/XP"), ("Ability points", "/characterDataMap/SP")],
+    sections: &[Section {
+        title: "Attributes",
+        rows: &[
+            ("Unspent attribute points", "/characterDataMap/AP"), ("Strength", "/characterDataMap/STR"), ("Agility", "/characterDataMap/AGL"),
+            ("Perception", "/characterDataMap/PRC"), ("Vitality", "/characterDataMap/Vitality"), ("Willpower", "/characterDataMap/WIL"),
+        ],
+    }],
+    lists: &[],
     tables: &[],
 };

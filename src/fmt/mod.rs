@@ -12,6 +12,13 @@ pub mod pssave;
 pub mod dreamcast;
 pub mod saturn;
 pub mod keyed;
+pub mod ksp;
+pub mod tld;
+pub mod civ7;
+pub mod uepack;
+pub mod stoneshard;
+pub mod mcd;
+pub mod ffpr;
 pub mod fantasian;
 pub mod kh3;
 mod kh3_tables;
@@ -157,6 +164,9 @@ use crate::tree::TreeDoc;
 
 /// Binary formats with a recognisable signature (checked before text detection).
 pub fn parse_binary(d: &[u8]) -> Option<TreeDoc> {
+    if let Some(t) = civ7::parse(d) {
+        return Some(t);
+    }
     // Checksummed JSON: before the plain JSON reader gets it.
     if vampire::looks(d) {
         if let Ok(t) = vampire::parse(d) {
@@ -586,6 +596,11 @@ pub fn parse_text(text: &str, ext: &str) -> Option<TreeDoc> {
         return Some(doc);
     }
     let t = text.trim_start();
+    if ksp::looks(text) {
+        if let Ok(doc) = ksp::parse(text) {
+            return Some(doc);
+        }
+    }
     if lua::looks(t) {
         if let Ok(doc) = lua::parse(text) {
             return Some(doc);
