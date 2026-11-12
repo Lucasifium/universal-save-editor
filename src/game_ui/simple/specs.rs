@@ -3,7 +3,7 @@
 
 use super::{List, Max, Section, Shape, Spec, Table};
 
-pub static SPECS: &[Spec] = &[COTL, FALLOUT_SHELTER, DRG, S1_MONEY, S1_RANK, S1_TIME, S1_GAME, SOTF_STATE, SOTF_GAME, SOTF_WEATHER, SOTF_ITEMS, DMD, CUPHEAD, ANTIMATTER, PVZ, CELESTE, DRGS, KH3, RF4S, SKY1ST, KSP, FFPR, MCD, STONESHARD, ROGUE_TRADER, BIOSHOCK_INFINITE, SPACE_HAVEN, SNOWRUNNER, GRAVEYARD_KEEPER, NFSMW, TOS, GTA3, GTAVC, BITBURNER, TERRA_INVICTA, PRISON, FF13, SONIC_MANIA, CAVE_STORY_PLUS, CAVE_STORY, LIES_OF_P, TXR, DAVE, MSC, ULTRAKILL, RPGXP, RE5, ANNO1800, FTK, LEGO_TSS, LEGO_CLASSIC, MYZ, CMS21, MEDIEVAL_DYNASTY, MECHANICUS, ORI, OMORI, ENDER_LILIES, SW2, ES2, MOONLIGHTER, WASTELAND2, ATOM, MORTAL_SHELL, MORTAL_SHELL_2, COTW, BEAMNG, FOREST, YAKUZA3, YAKUZA4, YAKUZA5, ISHIN, SALT, DRAKENSANG, ALPHA, TYRANNY, JEDI_FO, SR3, WD2, FABLE, WANDERING_SWORD, STELLAR_BLADE, PRAGMATA, SLIME_RANCHER];
+pub static SPECS: &[Spec] = &[COTL, FALLOUT_SHELTER, DRG, S1_MONEY, S1_RANK, S1_TIME, S1_GAME, SOTF_STATE, SOTF_GAME, SOTF_WEATHER, SOTF_ITEMS, DMD, CUPHEAD, ANTIMATTER, PVZ, CELESTE, DRGS, KH3, RF4S, SKY1ST, KSP, FFPR, MCD, STONESHARD, ROGUE_TRADER, BIOSHOCK_INFINITE, SPACE_HAVEN, SNOWRUNNER, GRAVEYARD_KEEPER, NFSMW, TOS, GTA3, GTAVC, BITBURNER, TERRA_INVICTA, PRISON, FF13, SONIC_MANIA, CAVE_STORY_PLUS, CAVE_STORY, LIES_OF_P, TXR, DAVE, MSC, ULTRAKILL, RPGXP, RE5, ANNO1800, FTK, LEGO_TSS, LEGO_CLASSIC, MYZ, CMS21, MEDIEVAL_DYNASTY, MECHANICUS, ORI, OMORI, ENDER_LILIES, SW2, ES2, MOONLIGHTER, WASTELAND2, ATOM, MORTAL_SHELL, MORTAL_SHELL_2, COTW, BEAMNG, FOREST, YAKUZA3, YAKUZA4, YAKUZA5, ISHIN, SALT, DRAKENSANG, ALPHA, TYRANNY, JEDI_FO, SR3, SR4, WD2, FABLE, WANDERING_SWORD, STELLAR_BLADE, PRAGMATA, SLIME_RANCHER];
 
 // ------------------------------------------------------------------ Cult of the Lamb
 
@@ -2738,6 +2738,27 @@ const SR3: Spec = Spec {
         Section { title: "Statistics", rows: &[("Barnstorms found", "/Statistics/Barnstorms found"), ("Stunt jumps found", "/Statistics/Stunt jumps found")] },
         Section { title: "Game", rows: &[("Difficulty index (0 to 2)", "/Game/Difficulty index")] },
     ],
+    lists: &[],
+    tables: &[],
+};
+
+// ------------------------------------------------------------------ Saints Row IV
+
+const SR4: Spec = Spec {
+    name: "Saints Row IV",
+    tab: "President",
+    accent: (120, 70, 200),
+    kind: Some(crate::fmt::sr4::KIND),
+    markers: &["/Player/Cash (in cents)"],
+    subtitle: "sr4save_N.sr4s_pc. Cash is kept in cents; the save's checksum is rewritten.",
+    tiles: &[("Cash (in cents)", "/Player/Cash (in cents)"), ("Data clusters", "/Player/Data clusters"), ("Respect level", "/Player/Respect level")],
+    sections: &[Section {
+        title: "Player",
+        rows: &[
+            ("Cash (in cents)", "/Player/Cash (in cents)"), ("Data clusters", "/Player/Data clusters"),
+            ("Respect level (from 0)", "/Player/Respect level"), ("Respect in this level", "/Player/Respect in this level"), ("Total respect", "/Player/Total respect"),
+        ],
+    }],
     lists: &[],
     tables: &[],
 };
