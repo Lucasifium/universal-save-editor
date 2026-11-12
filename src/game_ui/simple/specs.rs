@@ -3,7 +3,7 @@
 
 use super::{List, Max, Section, Shape, Spec, Table};
 
-pub static SPECS: &[Spec] = &[COTL, FALLOUT_SHELTER, DRG, S1_MONEY, S1_RANK, S1_TIME, S1_GAME, SOTF_STATE, SOTF_GAME, SOTF_WEATHER, SOTF_ITEMS, DMD, CUPHEAD, ANTIMATTER, PVZ, CELESTE, DRGS, KH3, RF4S, SKY1ST, KSP, FFPR, MCD, STONESHARD, ROGUE_TRADER, BIOSHOCK_INFINITE];
+pub static SPECS: &[Spec] = &[COTL, FALLOUT_SHELTER, DRG, S1_MONEY, S1_RANK, S1_TIME, S1_GAME, SOTF_STATE, SOTF_GAME, SOTF_WEATHER, SOTF_ITEMS, DMD, CUPHEAD, ANTIMATTER, PVZ, CELESTE, DRGS, KH3, RF4S, SKY1ST, KSP, FFPR, MCD, STONESHARD, ROGUE_TRADER, BIOSHOCK_INFINITE, SPACE_HAVEN];
 
 // ------------------------------------------------------------------ Cult of the Lamb
 
@@ -1058,4 +1058,68 @@ const BIOSHOCK_INFINITE: Spec = Spec {
     }],
     lists: &[],
     tables: &[],
+};
+
+// ------------------------------------------------------------------ Space Haven
+
+const SH_CREW_COLS: &[(&str, &str)] = &[
+    ("Health", "/props/Health/@v"), ("Food", "/props/Food/@v"), ("Rest", "/props/Rest/@v"), ("Comfort", "/props/Comfort/@v"),
+    ("Mood", "/props/Mood/@v"),
+    ("Bravery", "/pers/attr/a/0/@points"), ("Zest", "/pers/attr/a/1/@points"), ("Intelligence", "/pers/attr/a/2/@points"),
+    ("Perception", "/pers/attr/a/3/@points"),
+    ("Mining", "/pers/skills/s/0/@level"), ("Botany", "/pers/skills/s/1/@level"), ("Construct", "/pers/skills/s/2/@level"),
+    ("Industry", "/pers/skills/s/3/@level"), ("Medical", "/pers/skills/s/4/@level"), ("Navigation", "/pers/skills/s/5/@level"),
+    ("Gunner", "/pers/skills/s/6/@level"), ("Shielding", "/pers/skills/s/7/@level"), ("Operations", "/pers/skills/s/8/@level"),
+    ("Research", "/pers/skills/s/10/@level"), ("Weapons", "/pers/skills/s/11/@level"), ("Piloting", "/pers/skills/s/12/@level"),
+];
+
+const SPACE_HAVEN: Spec = Spec {
+    name: "Space Haven",
+    tab: "Fleet",
+    accent: (64, 160, 200),
+    kind: Some("XML"),
+    markers: &["/game/playerBank/@ca", "/game/ships", "/game/clock"],
+    subtitle: "Skills run 0 to 8 and attributes 0 to 10. A skill can only be trained up to its own limit, so raising a level here past what a crew member could reach is kept as typed",
+    tiles: &[("Credits", "/game/playerBank/@ca"), ("Day", "/game/clock/@days"), ("Hour", "/game/clock/@hours")],
+    sections: &[
+        Section {
+            title: "Credits and clock",
+            rows: &[
+                ("Credits available", "/game/playerBank/@ca"), ("Credits reserved", "/game/playerBank/@cr"),
+                ("Day", "/game/clock/@days"), ("Hour", "/game/clock/@hours"), ("Minute", "/game/clock/@minutes"),
+            ],
+        },
+        Section {
+            title: "Difficulty",
+            rows: &[
+                ("Mood", "/game/settings/diff/@moodDifficulty"), ("Enemy targeting", "/game/settings/diff/@npcTargeting"),
+                ("Quests", "/game/settings/diff/@questDifficulty"), ("Sandbox", "/game/settings/diff/@sandbox"),
+                ("Enemies", "/game/settings/diff/@enemiesEnabled"), ("Friends", "/game/settings/diff/@friendsEnabled"),
+                ("Lovers", "/game/settings/diff/@loversEnabled"),
+            ],
+        },
+    ],
+    lists: &[],
+    tables: &[Table {
+        title: "Crew of the first ship",
+        path: "/game/ships/ship/0/characters/c",
+        name: &["/@name", "/@lname"],
+        only: &[],
+        cols: SH_CREW_COLS,
+        names: &[],
+    }, Table {
+        title: "Crew of the second ship",
+        path: "/game/ships/ship/1/characters/c",
+        name: &["/@name", "/@lname"],
+        only: &[],
+        cols: SH_CREW_COLS,
+        names: &[],
+    }, Table {
+        title: "Crew of the third ship",
+        path: "/game/ships/ship/2/characters/c",
+        name: &["/@name", "/@lname"],
+        only: &[],
+        cols: SH_CREW_COLS,
+        names: &[],
+    }],
 };
