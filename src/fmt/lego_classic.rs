@@ -31,6 +31,18 @@ const GAMES: [(&str, usize, usize, usize); 4] = [
     ("LEGO Indiana Jones 2: The Adventure Continues", 537600, 537600 - 8 - 394240 - 8, 8),
 ];
 
+const NEWER_MAX_STUDS: i64 = 999_999_999_999;
+
+/// (title, file size, offset of the studs from the end of the header, copies, bytes between
+/// copies)
+const NEWER: [(&str, usize, usize, usize, usize); 5] = [
+    ("LEGO Harry Potter: Years 1-4", 397364, 0x1a84, 1, 0),
+    ("LEGO Harry Potter: Years 5-7", 353936, 0x1a80, 1, 0),
+    ("LEGO Star Wars III: The Clone Wars", 110648, 0x6240, 1, 0),
+    ("LEGO Pirates of the Caribbean", 315448, 0x80b0, 5, 0xdd50),
+    ("LEGO Batman 2: DC Super Heroes", 97336, 0xa958, 1, 0),
+];
+
 fn words_sum(d: &[u8]) -> u32 {
     d.chunks_exact(4).fold(0u32, |a, c| a.wrapping_add(u32::from_le_bytes(c.try_into().unwrap())))
 }
@@ -52,12 +64,26 @@ fn hmgr_game(d: &[u8]) -> Option<(&'static str, usize)> {
     (u32at(d, n - 8) == sum && u32::from(u16::from_le_bytes([d[at + g.3], d[at + g.3 + 1]])) == completion).then_some((g.0, at))
 }
 
+fn newer_game(d: &[u8]) -> Option<&'static (&'static str, usize, usize, usize, usize)> {
+    if d.len() < HEADER + 16 || !d.starts_with(b"HMGR") || u32at(d, 8) as usize != HEADER {
+        return None;
+    }
+    // The title in the header is UTF-16 and starts with "LEGO".
+    if d[0x28..0x30] != *b"L\0E\0G\0O\0" {
+        return None;
+    }
+    let g = NEWER.iter().find(|g| g.1 == d.len())?;
+    // Every copy holds the same wallet.
+    let first = &d[HEADER + g.2..HEADER + g.2 + 8];
+    (1..g.3).all(|k| &d[HEADER + g.2 + k * g.4..HEADER + g.2 + k * g.4 + 8] == first).then_some(g)
+}
+
 fn is_lsw1(d: &[u8]) -> bool {
     d.len() == LSW1_LEN && u32at(d, LSW1_LEN - 4) == words_sum(&d[..LSW1_LEN - 4]) && u32at(d, LSW1_STUDS) <= LSW1_MAX_STUDS as u32
 }
 
 pub fn looks(d: &[u8]) -> bool {
-    hmgr_game(d).is_some() || is_lsw1(d)
+    hmgr_game(d).is_some() || newer_game(d).is_some() || is_lsw1(d)
 }
 
 fn fix_hmgr(d: &mut Vec<u8>) {
@@ -81,6 +107,14 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
         return Ok(b.finish(KIND, Checksum::Custom(fix_hmgr)).with_note(
             "Close the game first. The checksum is rewritten.",
         ));
+    }
+    if let Some(&(title, _, at, copies, stride)) = newer_game(d) {
+        b.ranged(&["Studs"], HEADER + at, Kind::U64, 0, NEWER_MAX_STUDS);
+        for k in 1..copies {
+            b.mirror(&["Studs"], HEADER + at + k * stride);
+        }
+        b.info(&["Game"], title);
+        return Ok(b.finish(KIND, Checksum::None).with_note("Close the game first."));
     }
     if is_lsw1(d) {
         b.ranged(&["Studs"], LSW1_STUDS, Kind::U32, 0, LSW1_MAX_STUDS);
@@ -140,6 +174,39 @@ mod tests {
         let mut bad = hmgr(GAMES[0].1, GAMES[0].2, 4, 5);
         bad[HEADER + 100] ^= 1;
         assert!(!looks(&bad));
+    }
+
+    #[test]
+    fn newer_studs_every_copy() {
+        for &(title, len, at, copies, stride) in &NEWER {
+            let mut d = vec![0u8; len];
+            d[..4].copy_from_slice(b"HMGR");
+            d[8..12].copy_from_slice(&(HEADER as u32).to_le_bytes());
+            for (i, c) in "LEGO".encode_utf16().enumerate() {
+                d[0x28 + 2 * i..0x2a + 2 * i].copy_from_slice(&c.to_le_bytes());
+            }
+            for k in 0..copies {
+                let p = HEADER + at + k * stride;
+                d[p..p + 8].copy_from_slice(&5_978_596_090u64.to_le_bytes());
+            }
+            assert!(looks(&d), "{title}");
+            let mut doc = parse(&d).unwrap();
+            assert_eq!(doc.view.pointer("/Studs"), Some(&Value::from(5_978_596_090u64)));
+            assert_eq!(doc.view.pointer("/Game"), Some(&Value::from(title)));
+            assert_eq!(doc.to_bytes().unwrap(), d);
+            doc.set("/Studs", Value::from(999_999_999_999u64)).unwrap();
+            let out = doc.to_bytes().unwrap();
+            assert_eq!(out.len(), len);
+            for k in 0..copies {
+                let p = HEADER + at + k * stride;
+                assert_eq!(out[p..p + 8], 999_999_999_999u64.to_le_bytes());
+            }
+            assert!(doc.set("/Studs", Value::from(1_000_000_000_000u64)).is_err());
+            if copies > 1 {
+                d[HEADER + at + stride] ^= 1;
+                assert!(!looks(&d));
+            }
+        }
     }
 
     #[test]
