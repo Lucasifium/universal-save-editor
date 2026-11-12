@@ -499,6 +499,14 @@ pub fn decode_with(raw: &[u8], opts: &Options) -> Decoded {
         }
         _ => None,
     };
+    // A template the player wrote for this game comes before the editor's own guesses.
+    let cyberpunk = cyberpunk.or_else(|| {
+        let (t, file) = fmt::template::find(&data, &opts.ext)?;
+        if let Some(s) = t.sum() {
+            layers.push(Layer::Sum(s));
+        }
+        Some(t.parse(&data, &file))
+    });
     let content = match cyberpunk {
         Some(doc) => Content::Tree(Box::new(doc)),
         None => classify(data, opts),

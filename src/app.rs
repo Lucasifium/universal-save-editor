@@ -1668,6 +1668,21 @@ impl App {
                     ui.close_menu();
                     self.find_sums();
                 }
+                #[cfg(not(any(target_arch = "wasm32", target_os = "android")))]
+                if ui
+                    .button("Templates folder\u{2026}")
+                    .on_hover_text("Your own templates for games the editor doesn't know: a JSON file per game that says where each value is. The folder has a guide with an example.")
+                    .clicked()
+                {
+                    ui.close_menu();
+                    match crate::fmt::template::ensure_dir() {
+                        Ok(d) => {
+                            crate::platform::reveal(&d.join("README.txt"));
+                            self.ok(format!("Templates folder: {}", d.display()));
+                        }
+                        Err(e) => self.fail(format!("Couldn't make the templates folder: {e}")),
+                    }
+                }
                 if ui
                     .add_enabled(has, egui::Button::new("Compare with another save\u{2026}"))
                     .on_hover_text("List every value that differs from another save \u{2014} handy for finding which value is your gold, HP, etc.")
