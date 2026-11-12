@@ -10513,3 +10513,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 | [doukutsu-rs (Cave Story profile layout, src/game/profile.rs)](https://github.com/doukutsu-rs/doukutsu-rs) | doukutsu-rs contributors | MIT (layout facts only, no code used) |
 | [Sonic Mania Save Editor (SaveData.bin slot layout; its sample saves used for checks only, not included)](https://github.com/jcfieldsdev/sonic-mania-save-editor) | jcfieldsdev | MIT (layout facts only, no code used) |
 | [SymphoniaSaveEdit (Tales of Symphonia PC save layout and item names; sample save from the public Game-Saves collection used for checks only, not included)](https://github.com/Meth962/SymphoniaSaveEdit) | Meth962 | facts only (no licence file; no code used) |
+
+## Metal Gear Solid V save variable names
+
+`src/fmt/mgsv_vars.txt` is a list of the names of MGSV save variables (the game's own Lua variable names), used to name hashed fields. The file encryption, container layout and the name hash (CityHash64-based StrCode32) were worked out independently from the game's saves and public format descriptions.
