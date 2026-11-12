@@ -307,6 +307,12 @@ their searches, checksum and hash fixes, ciphers and zlib streams. Codes written
 aren't supported. A patch meant for another region or version of the game can damage a save, so
 keep the backup.
 
+**JSON saves with a key built into the game**: Megabonk (AES), Eiyuden Chronicle: Hundred Heroes
+(Triple-DES), Suikoden I & II HD Remaster (AES with a salt, which is kept), Bounty of One, Idle Slayer
+and CloverPit (XOR) open already decrypted, show every value by name, and are encrypted again on save.
+A key is only used when it gives back JSON. Bounty of One was checked on a public sample save; the
+others follow the published keys and are not yet tried on real saves.
+
 **Encrypted console saves**: about 80 PlayStation 3, PlayStation 4, PSP and Vita games (189 title
 IDs) whose saves are encrypted, compressed or checksummed (Grand Theft Auto V, Red Dead Redemption 2,
 Shin Megami Tensei V, Dynasty Warriors 8, Metal Gear Solid, Resident Evil, Silent Hill and Like a
