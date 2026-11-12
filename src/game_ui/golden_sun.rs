@@ -84,12 +84,14 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
     let story = keys(cx, &sub("Story"));
     if !story.is_empty() {
         panel(ui, "Story", |ui| {
-            ui.horizontal_wrapped(|ui| {
-                for k in &story {
-                    cx.chip(ui, k, &join(&sub("Story"), k), ACCENT);
-                }
+            super::screens2::story_guard(ui, |ui| {
+                ui.horizontal_wrapped(|ui| {
+                    for k in &story {
+                        cx.chip(ui, k, &join(&sub("Story"), k), ACCENT);
+                    }
+                });
+                ui.weak("The choices the password carries into The Lost Age. Click one to turn it on or off; the scene behind it isn't replayed.");
             });
-            ui.weak("The choices the password carries into The Lost Age. Click one to turn it on or off; the scene behind it isn't replayed.");
         });
     }
 

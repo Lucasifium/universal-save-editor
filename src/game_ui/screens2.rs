@@ -364,34 +364,36 @@ pub fn renpy(ui: &mut Ui, cx: &mut GameCtx) {
             }
         }
     });
-    let q = filter_box(ui, "renpy", "e.g. money, love, day");
-    let keep = |k: &str| q.is_empty() || k.to_lowercase().contains(&q);
-    panel(ui, "Numbers", |ui| {
-        let rows: Vec<(String, String)> = numbers.iter().filter(|k| keep(k)).map(|k| ((*k).clone(), ptr_of[*k].clone())).collect();
-        if rows.is_empty() {
-            ui.weak("None match.");
-        }
-        egui::ScrollArea::vertical().id_salt("renpy_num").max_height(360.0).show(ui, |ui| value_rows(ui, cx, "renpy_n", &rows));
-    });
-    panel(ui, "Flags", |ui| {
-        let shown: Vec<&&String> = flags.iter().filter(|k| keep(k)).collect();
-        if shown.is_empty() {
-            ui.weak("None match.");
-        }
-        egui::ScrollArea::vertical().id_salt("renpy_flags").max_height(260.0).show(ui, |ui| {
-            ui.horizontal_wrapped(|ui| {
-                for k in shown {
-                    cx.chip(ui, k, &ptr_of[*k], accent);
-                }
+    story_guard(ui, |ui| {
+        let q = filter_box(ui, "renpy", "e.g. money, love, day");
+        let keep = |k: &str| q.is_empty() || k.to_lowercase().contains(&q);
+        panel(ui, "Numbers", |ui| {
+            let rows: Vec<(String, String)> = numbers.iter().filter(|k| keep(k)).map(|k| ((*k).clone(), ptr_of[*k].clone())).collect();
+            if rows.is_empty() {
+                ui.weak("None match.");
+            }
+            egui::ScrollArea::vertical().id_salt("renpy_num").max_height(360.0).show(ui, |ui| value_rows(ui, cx, "renpy_n", &rows));
+        });
+        panel(ui, "Flags", |ui| {
+            let shown: Vec<&&String> = flags.iter().filter(|k| keep(k)).collect();
+            if shown.is_empty() {
+                ui.weak("None match.");
+            }
+            egui::ScrollArea::vertical().id_salt("renpy_flags").max_height(260.0).show(ui, |ui| {
+                ui.horizontal_wrapped(|ui| {
+                    for k in shown {
+                        cx.chip(ui, k, &ptr_of[*k], accent);
+                    }
+                });
             });
         });
-    });
-    panel(ui, "Text", |ui| {
-        let rows: Vec<(String, String)> = texts.iter().filter(|k| keep(k)).map(|k| ((*k).clone(), ptr_of[*k].clone())).collect();
-        if rows.is_empty() {
-            ui.weak("None match.");
-        }
-        egui::ScrollArea::vertical().id_salt("renpy_txt").max_height(220.0).show(ui, |ui| value_rows(ui, cx, "renpy_t", &rows));
+        panel(ui, "Text", |ui| {
+            let rows: Vec<(String, String)> = texts.iter().filter(|k| keep(k)).map(|k| ((*k).clone(), ptr_of[*k].clone())).collect();
+            if rows.is_empty() {
+                ui.weak("None match.");
+            }
+            egui::ScrollArea::vertical().id_salt("renpy_txt").max_height(220.0).show(ui, |ui| value_rows(ui, cx, "renpy_t", &rows));
+        });
     });
     ui.weak("These are the game's own variable names; values inside characters or other objects are shown as name.value. Each save keeps its own copy; the Values tab also shows lists.");
 }
@@ -584,7 +586,7 @@ pub(super) fn story(ui: &mut Ui, cx: &mut GameCtx, accent: Color32) {
     if flags.is_empty() && numbers.is_empty() {
         return;
     }
-    panel(ui, "Story", |ui| {
+    panel(ui, "Story", |ui| story_guard(ui, |ui| {
         let q = filter_box(ui, "me_story", "loyal, romance, dead\u{2026}");
         let mut sections = flags.clone();
         for n in &numbers {
@@ -619,7 +621,7 @@ pub(super) fn story(ui: &mut Ui, cx: &mut GameCtx, accent: Color32) {
             "Click a flag to turn it on or off. These are the game's own story records: changing one doesn't replay the scene behind it, \
              and flags that contradict each other (alive and dead, two romances) can confuse later scenes, so change few at a time and keep the backup.",
         );
-    });
+    }));
 }
 
 fn power_list(ui: &mut Ui, cx: &mut GameCtx, base: &str, id: &str, accent: Color32) {
@@ -1364,6 +1366,7 @@ pub fn witcher3(ui: &mut Ui, cx: &mut GameCtx) {
         }
         ui.weak("The game decides the level from the total experience when it loads, so change both together.");
     });
+    story(ui, cx, accent);
 }
 
 // ------------------------------------------------------------------ Cyberpunk 2077
@@ -2221,15 +2224,49 @@ fn gow_add_panel(ui: &mut Ui, cx: &mut GameCtx, base: &str, id: &str, note: &str
     });
 }
 
+/// Asked of the app: open the "Back up this save" dialog (set by [`story_guard`]).
+pub const STORY_BACKUP_REQUEST: &str = "story_backup_request";
+
+/// The warning shown above every story and choice editor, and its lock: the controls inside
+/// stay disabled until the person keeps a named backup or says they accept the risk (once per
+/// run of the editor).
+pub(crate) fn story_guard(ui: &mut Ui, body: impl FnOnce(&mut Ui)) {
+    let ack = egui::Id::new("story_edits_acknowledged");
+    let ok = ui.ctx().data(|d| d.get_temp::<bool>(ack)).unwrap_or(false);
+    let warn = crate::theme::fg(ui, crate::theme::WARN);
+    egui::Frame::group(ui.style()).stroke(egui::Stroke::new(1.0_f32, warn)).show(ui, |ui| {
+        ui.label(RichText::new("Experimental: editing story decisions").strong().color(warn));
+        ui.label(
+            "Changing story flags and choices can break quests, soft-lock the game or stop it from being completed. Treat it as experimental, \
+             with no guarantee the save can still be finished, and use it only if you know what you're doing. Keep a backup first so you can \
+             go back (Backups \u{203A} Open save manager restores it). The file as it was is also backed up automatically when you save.",
+        );
+        if !ok {
+            ui.horizontal_wrapped(|ui| {
+                if !cfg!(target_arch = "wasm32") && ui.button("Back up this save first\u{2026}").clicked() {
+                    ui.ctx().data_mut(|d| {
+                        d.insert_temp(egui::Id::new(STORY_BACKUP_REQUEST), true);
+                        d.insert_temp(ack, true);
+                    });
+                }
+                if ui.button("I understand, let me edit").clicked() {
+                    ui.ctx().data_mut(|d| d.insert_temp(ack, true));
+                }
+            });
+        }
+    });
+    ui.add_enabled_ui(ok, body);
+}
+
 /// The keys of the object at `p`, in order.
 /// A filterable list of an Infinity Engine save's global variables.
 pub(super) fn panel_globals(ui: &mut Ui, cx: &mut GameCtx, names: &[String]) {
-    panel(ui, &format!("Global variables ({})", names.len()), |ui| {
+    panel(ui, &format!("Global variables ({})", names.len()), |ui| story_guard(ui, |ui| {
         let q = filter_box(ui, "ie_globals", "e.g. CHAPTER, JOINED, QUEST");
         let rows: Vec<(String, String)> = names.iter().filter(|k| q.is_empty() || k.to_lowercase().contains(&q)).take(400).map(|k| (k.clone(), join("/Global variables", k))).collect();
         egui::ScrollArea::vertical().id_salt("ie_globals_scroll").max_height(320.0).show(ui, |ui| value_rows(ui, cx, "ie_g", &rows));
         ui.weak("The game's own story counters: quest stages, who has joined or died, what was said. Most are 0 or 1, some count up. Changing one can skip or repeat a scene, so change few and keep the backup. Shows 400 at a time: use the filter.");
-    });
+    }));
 }
 
 fn keys_of(cx: &GameCtx, p: &str) -> Vec<String> {

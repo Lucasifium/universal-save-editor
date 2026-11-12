@@ -35,6 +35,7 @@ mod fallout3nv;
 mod nier;
 mod sims;
 mod screens2;
+pub use screens2::STORY_BACKUP_REQUEST;
 mod simple;
 mod starbound;
 mod survival;

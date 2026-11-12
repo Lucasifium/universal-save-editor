@@ -21,6 +21,14 @@ const PLAYER_BASE: u32 = 0x07;
 const CAPS: u32 = 0x0F;
 const ACHR: u8 = 1;
 const NPC: u8 = 10;
+const REPU: u8 = 43;
+/// New Vegas reputations (REPU forms in FalloutNV.esm) by form id. Each changed reputation
+/// record holds two f32 + `|`: fame, then infamy.
+const REPUTATIONS: [(u32, &str); 13] = [
+    (0x000F_FAE8, "Boomers"), (0x0011_E662, "Brotherhood of Steel"), (0x000F_43DD, "Caesar's Legion"), (0x0012_4AD1, "Followers of the Apocalypse"),
+    (0x0012_9A7A, "Freeside"), (0x0010_4C22, "Goodsprings"), (0x0011_989B, "Great Khans"), (0x000F_43DE, "NCR"), (0x0012_9A79, "Novac"),
+    (0x0015_58E6, "Powder Gangers"), (0x000F_2406, "Primm"), (0x0011_8F61, "The Strip"), (0x0011_6F16, "White Glove Society"),
+];
 /// Actor value codes in the second array.
 const AV_KARMA: usize = 23;
 const AV_XP: usize = 24;
@@ -124,6 +132,7 @@ fn parse_inner(d: &[u8]) -> Option<TreeDoc> {
     let fids: Vec<u32> = (0..n_fids).map(|i| u32_at(d, fid_off + 4 + 4 * i)).collect::<Option<_>>()?;
     // Walk the changed forms for the two records needed.
     let (mut player, mut base) = (None, None);
+    let mut reps = vec![];
     let mut p = forms_off;
     for _ in 0..forms_n {
         let r: [u8; 3] = d.get(p..p + 3)?.try_into().ok()?;
@@ -142,6 +151,11 @@ fn parse_inner(d: &[u8]) -> Option<TreeDoc> {
         match (resolve(r, &fids), ty & 63) {
             (PLAYER_REF, ACHR) => player = Some(Record { flags, at, len }),
             (PLAYER_BASE, NPC) => base = Some(Record { flags, at, len }),
+            (fid, REPU) if fnv && len == 10 && d[at + 4] == 0x7C && d[at + 9] == 0x7C => {
+                if let Some((_, name)) = REPUTATIONS.iter().find(|r| r.0 == fid) {
+                    reps.push((*name, at));
+                }
+            }
             _ => {}
         }
         p = at + len;
@@ -220,6 +234,12 @@ fn parse_inner(d: &[u8]) -> Option<TreeDoc> {
                 b.ranged(&["S.P.E.C.I.A.L.", n], at + i, Kind::U8, 1, 10);
             }
         }
+    }
+    // Reputation with each faction the player has dealt with: fame and infamy.
+    reps.sort();
+    for (name, at) in reps {
+        b.ranged(&["Story numbers", "Reputation", &format!("{name} fame")], at, Kind::F32Int, 0, 10_000);
+        b.ranged(&["Story numbers", "Reputation", &format!("{name} infamy")], at + 5, Kind::F32Int, 0, 10_000);
     }
     Some(b.finish(KIND, Checksum::None))
 }
@@ -380,6 +400,16 @@ mod tests {
                 doc.set("/Character/Bottle caps", Value::from(c + 1)).unwrap();
                 let out = doc.to_bytes().unwrap();
                 assert_eq!(parse(&out).unwrap().view.pointer("/Character/Bottle caps"), Some(&Value::from(c + 1)));
+            }
+            let reps = doc.view.pointer("/Story numbers/Reputation").cloned();
+            println!("  reputation: {}", reps.as_ref().map(|r| r.to_string()).unwrap_or_default());
+            if let Some(k) = reps.as_ref().and_then(Value::as_object).and_then(|m| m.keys().find(|k| k.ends_with("fame")).cloned()) {
+                let p = format!("/Story numbers/Reputation/{k}");
+                doc.set(&p, Value::from(77)).unwrap();
+                let out = doc.to_bytes().unwrap();
+                let changed = (0..out.len()).filter(|&i| out[i] != d[i]).count();
+                assert!(changed <= 4, "{changed} bytes changed");
+                assert_eq!(parse(&out).unwrap().view.pointer(&p), Some(&Value::from(77)));
             }
         }
     }

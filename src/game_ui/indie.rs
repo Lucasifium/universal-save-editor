@@ -312,13 +312,15 @@ pub fn undertale(ui: &mut Ui, cx: &mut GameCtx) {
     };
     if !route.is_empty() {
         panel(ui, "Route and counters", |ui| {
-            let list: Vec<(String, String)> = route.iter().map(|k| (k.clone(), join("/Route and counters", k))).collect();
-            let list: Vec<(&str, String)> = list.iter().map(|(a, b)| (a.as_str(), b.clone())).collect();
-            rows(ui, cx, "ut_route", &list, 220.0);
-            ui.weak(
-                "The game's own record of how you played: kills per area decide the Genocide and Neutral endings, and the flags below them mark the fights \
-                 you won. Flags that disagree with each other (a Pacifist ending with kills counted) give odd dialogue. Most flags are 0 or 1.",
-            );
+            super::screens2::story_guard(ui, |ui| {
+                let list: Vec<(String, String)> = route.iter().map(|k| (k.clone(), join("/Route and counters", k))).collect();
+                let list: Vec<(&str, String)> = list.iter().map(|(a, b)| (a.as_str(), b.clone())).collect();
+                rows(ui, cx, "ut_route", &list, 220.0);
+                ui.weak(
+                    "The game's own record of how you played: kills per area decide the Genocide and Neutral endings, and the flags below them mark the fights \
+                     you won. Flags that disagree with each other (a Pacifist ending with kills counted) give odd dialogue. Most flags are 0 or 1.",
+                );
+            });
         });
     }
     ui.weak("The load menu shows the name, LV and time from undertale.ini in the same folder; the game itself loads file0.");

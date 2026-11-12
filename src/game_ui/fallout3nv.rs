@@ -55,4 +55,5 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
     panel(ui, "About the numbers", |ui| {
         ui.weak("Experience sets the level the game works out; the level shown is from the save's header and catches up when you next gain experience. Karma runs from \u{2212}1000 to 1000.");
     });
+    super::screens2::story(ui, cx, accent);
 }
