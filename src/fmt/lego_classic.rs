@@ -9,6 +9,14 @@
 //! * LEGO Star Wars: The Video Game (2005) `LSW.BIN` (532 bytes): the stud counter is the u32
 //!   at 0x204, the last u32 is the plain sum of all the words before it, and the game keeps
 //!   the same stud count in `CODE.BIN` beside it, which is rewritten too.
+//! * LEGO Star Wars II: The Original Trilogy `savegame.bin` (1008 bytes): the same plain sum in
+//!   the last u32; the stud counter is the u32 at 0x383, right before the u16 that `code.bin`
+//!   copies (which isn't the studs here, so `code.bin` is left alone).
+//! * The later games of that engine (`GAME1.<game>SaveGameData`: Harry Potter Years 1-4 and
+//!   5-7, Star Wars III, Pirates of the Caribbean, Batman 2, City Undercover): the same `HMGR`
+//!   header, then a byte-packed save block with no checksum. The stud wallet is a u64 at a
+//!   fixed place, followed by two u16 counters. Pirates keeps five copies of the block, all
+//!   written.
 
 use super::fields::{Builder, Checksum, Kind};
 use crate::tree::TreeDoc;
@@ -37,12 +45,13 @@ const NEWER_MAX_STUDS: i64 = 999_999_999_999;
 
 /// (title, file size, offset of the studs from the end of the header, copies, bytes between
 /// copies)
-const NEWER: [(&str, usize, usize, usize, usize); 5] = [
+const NEWER: [(&str, usize, usize, usize, usize); 6] = [
     ("LEGO Harry Potter: Years 1-4", 397364, 0x1a84, 1, 0),
     ("LEGO Harry Potter: Years 5-7", 353936, 0x1a80, 1, 0),
     ("LEGO Star Wars III: The Clone Wars", 110648, 0x6240, 1, 0),
     ("LEGO Pirates of the Caribbean", 315448, 0x80b0, 5, 0xdd50),
     ("LEGO Batman 2: DC Super Heroes", 97336, 0xa958, 1, 0),
+    ("LEGO City Undercover", 2579512, 0xfb20, 1, 0),
 ];
 
 fn words_sum(d: &[u8]) -> u32 {

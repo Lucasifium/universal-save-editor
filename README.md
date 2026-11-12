@@ -3,7 +3,7 @@
 > **Free, and it always will be.** No price, no ads, no account, no paid version, no online service, no
 > rate limits. If anyone is charging you for this, it isn't from here.
 
-An offline save editor and save manager for 300+ (304) PC games (edit saves, and back up, name and restore them): Cairn, Terraria (characters and a world map editor),
+An offline save editor and save manager for 300+ (305) PC games (edit saves, and back up, name and restore them): Cairn, Terraria (characters and a world map editor),
 Oxygen Not Included, RimWorld, Stardew Valley, Onimusha: Way of the Sword, Elden Ring, Dark Souls,
 Cyberpunk 2077, the Persona, Yakuza and Final Fantasy games, Ren'Py visual novels, RPG Maker games
 and more (the full list is below). Written in Rust (egui). Nothing is uploaded anywhere, and there are
@@ -77,11 +77,12 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 | LEGO Indiana Jones 2: The Adventure Continues | *Studs*: the stud counter (the save's checksum is rewritten). Checked on public saves, not yet tried in the game |
 | LEGO Harry Potter: Years 1-4 | *Studs*: the stud wallet (the save has no checksum). Checked on public saves, not yet tried in the game |
 | LEGO Harry Potter: Years 5-7 | *Studs*: the stud wallet (the save has no checksum). Checked on public saves, not yet tried in the game |
+| LEGO City Undercover | *Studs*: the stud wallet (the save has no checksum). Checked on public saves, not yet tried in the game |
 | LEGO Star Wars II: The Original Trilogy | *Studs*: the stud counter (`savegame.bin`; the checksum is rewritten). Checked on public saves, not yet tried in the game |
 | LEGO Star Wars III: The Clone Wars | *Studs*: the stud wallet (the save has no checksum). Checked on public saves, not yet tried in the game |
 | LEGO Pirates of the Caribbean | *Studs*: the stud wallet (the save keeps five copies of it; all are written). Checked on public saves, not yet tried in the game |
 | LEGO Batman 2: DC Super Heroes | *Studs*: the stud wallet (the save has no checksum). Checked on public saves, not yet tried in the game |
-| Older LEGO games (TT Games: Marvel, Harry Potter Collection, Jurassic World, Batman 3, The Hobbit, The Lord of the Rings, City Undercover, DC Super-Villains, The Incredibles, Worlds) | The saves are found for you (Select game); they open in the Hex view for Value search. No dedicated screen yet |
+| Older LEGO games (TT Games: Marvel, Harry Potter Collection, Jurassic World, Batman 3, The Hobbit, The Lord of the Rings, DC Super-Villains, The Incredibles, Worlds) | The saves are found for you (Select game); they open in the Hex view for Value search. No dedicated screen yet |
 | Everspace 2 | *Pilot*: credits, level, experience and device upgrade tokens; every crafting resource by name, with a **Max crafting materials** button (ores, crystals, scrap metal and basic crafting resources to 99,999, an estimate: the game states no cap; catalysts, rift and faction resources left alone). The save's zlib wrapper is handled for you; ships, items and missions are in the Tree (checked on a public save, not yet tried in the game) |
 | Moonlighter | *Will*: gold, days passed and the banker's invested money; the backpack and equipped items by name with count (enchantment levels in the Tree). The `gameslot` file opens as JSON (checked on a public save, not yet tried in the game) |
 | Wasteland 2 | *Rangers*: each ranger's level, experience, health, attribute, skill and trait points, kills and the seven attributes (skills and items are in the Tree); the save's `<@>` name markers are kept as they are (checked on a public save, not yet tried in the game) |
