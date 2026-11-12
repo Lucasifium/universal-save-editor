@@ -37,10 +37,8 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
     if let Some(m) = cx.text("/Save/Map") {
         sub.push(format!("Map {m}"));
     }
-    for k in ["Chapter", "Difficulty"] {
-        if let Some(v) = cx.text(&join("/Save", k)) {
-            sub.push(v);
-        }
+    if let Some(v) = cx.text("/Save/Chapter") {
+        sub.push(v);
     }
     if let Some(w) = cx.text("/Player/Weapon in hand") {
         sub.push(format!("holding the {w}"));
@@ -61,6 +59,7 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
         if let Some(s) = cx.text("/Player/HEV suit") {
             fact(ui, "HEV suit", &s, accent);
         }
+        cx.tile(ui, "Difficulty", "/Save/Difficulty", accent);
     });
     if alyx {
         super::crafting::offer(super::Game::HalfLife2, ui, cx);
