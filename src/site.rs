@@ -322,7 +322,7 @@ fn website_schema(app: &str, crumb: Option<(&str, &str)>) -> String {
 const WHY: &str = r#"<ul>
 <li><strong>Free, forever.</strong> No price, no ads, no account, no paid tier.</li>
 <li><strong>Offline.</strong> Your save never leaves your computer: nothing is uploaded, so there are no file size limits, queues or rate limits.</li>
-<li><strong>Safe.</strong> Every save is checked by reading it back before it's written, and the old file is backed up first (File &rsaquo; Save manager).</li>
+<li><strong>Safe.</strong> Every save is checked by reading it back before it's written, and the old file is backed up first (File &rsaquo; Backup &amp; restore saves).</li>
 <li><strong>Works on games it doesn't know.</strong> Value search finds a number you know, or one you don't (a health bar, a hidden counter): scan, play, save, then keep what increased, decreased, changed or stayed the same.</li>
 <li><strong>Linux and Steam Deck.</strong> <em>Select game</em> also looks inside Proton and Wine prefixes, where Windows games run through Steam Play keep their saves.</li>
 <li><strong>Xbox app and PC Game Pass.</strong> Saves hidden in the Xbox app's container are listed under the names the game gave them and open with the same screens as the Steam saves.</li>
@@ -335,7 +335,7 @@ const WHY: &str = r#"<ul>
 <li><strong>Dreamcast saves.</strong> VMU <code>.vms</code> files and Nexus <code>.dci</code> files open with their header CRC and byte order handled, and are written back the same way.</li>
 <li><strong>Sega Saturn saves.</strong> Single <code>.bup</code>, <code>.sro</code>, <code>.xml</code>, <code>.b64</code> and <code>.cms</code> saves, and whole backup RAM images from Mednafen, Beetle, Yabause, Kronos and SAROO, one save at a time.</li>
 <li><strong>Steam account switch.</strong> Finds the Steam IDs inside a save and changes them to another account, for saves copied between accounts or co-op hosts.</li>
-<li><strong>Save manager.</strong> Backups and named save slots kept in a folder next to each save, where no game loads them. Restore any copy (the current file is backed up first), compare, or set a one-save game aside to start a new run and bring the old one back later.</li>
+<li><strong>Backup &amp; restore saves.</strong> Automatic and named backups kept in a folder next to each save, where no game loads them. Restore any backup (the current save is backed up first), compare it, or back up and start a new game on a one-save game and restore the old one later.</li>
 <li><strong>Command line too.</strong> <code>info</code>, <code>list</code>, <code>get</code>, <code>set</code>, <code>decode</code> and <code>encode</code> work from scripts, with the same checks and backups as the window.</li>
 <li><strong>Open source.</strong> Anyone can read the code (GPL-3.0).</li>
 </ul>"#;
@@ -437,7 +437,7 @@ fn build_site() {
         let _ = write!(
             body,
             r#"<h1>{h} save editor</h1>
-<p class="lead">Edit your {n} save on your own PC with Universal Save Editor, a free, offline save editor for {many}+ ({total}) games. Nothing is uploaded and there are no limits.</p>
+<p class="lead">Edit your {n} save on your own PC with Universal Save Editor, a free, offline save editor and manager for {many}+ ({total}) games. Back up, restore and start new runs from the same window. Nothing is uploaded and there are no limits.</p>
 <div class="badges"><span class="badge free">Free forever</span><span class="badge">Offline</span><span class="badge">Open source</span><span class="badge">{lvl}</span></div>
 <a class="btn" href="{DOWNLOAD}">Download for free</a><a class="btn alt" href="../{WEB_APP}">Use it in your browser</a>
 <h2>What you can edit</h2>
@@ -476,10 +476,10 @@ fn build_site() {
     }
 
     let full = GAMES.iter().filter(|g| has_screen(g)).count();
-    let desc = format!("Universal Save Editor is a free, offline save editor for {}+ ({}) PC games, including Elden Ring, Skyrim, Stardew Valley, Cyberpunk 2077 and Dark Souls III. Nothing is uploaded.", GAMES.len() / 10 * 10, GAMES.len());
+    let desc = format!("Universal Save Editor is a free, offline save editor and manager for {}+ ({}) PC games, including Elden Ring, Skyrim, Stardew Valley and Cyberpunk 2077. Nothing is uploaded.", GAMES.len() / 10 * 10, GAMES.len());
     let body = format!(
-        r#"<h1>Universal Save Editor: a free save editor for {n} games</h1>
-<p class="lead">Universal Save Editor edits your saves on your own computer: no uploads, no accounts, no rate limits. It's free, and always will be.</p>
+        r#"<h1>Universal Save Editor: a free save editor and manager for {n} games</h1>
+<p class="lead">Universal Save Editor edits and manages your saves on your own computer (backups, named save slots, restore, and back up and start a new game): no uploads, no accounts, no rate limits. It's free, and always will be.</p>
 <div class="badges"><span class="badge free">Free forever</span><span class="badge">Offline</span><span class="badge">Open source</span><span class="badge">Windows · Linux · Browser</span></div>
 <a class="btn" href="{DOWNLOAD}">Download for free</a><a class="btn alt" href="{WEB_APP}">Use it in your browser</a>
 <div class="card"><strong>Don't want to run a program?</strong> <a href="{WEB_APP}">The browser version</a> is the same editor, running inside the web page on your own computer: your save is never uploaded. It can't search your folders for saves or back them up for you, so open the file yourself and keep a copy; saving downloads the edited file. A few saves need the downloaded app (SQLite saves, and Palworld or Hogwarts Legacy saves).</div>
@@ -496,7 +496,7 @@ fn build_site() {
 "#,
         n = GAMES.len(),
     );
-    std::fs::write(out.join("index.html"), page(&format!("Universal Save Editor - Free Offline Save Editor for {}+ ({}) Games", GAMES.len() / 10 * 10, GAMES.len()), &desc, "", &body, &website_schema(&schema("Universal Save Editor", &desc, &format!("{SITE}/")), None))).unwrap();
+    std::fs::write(out.join("index.html"), page(&format!("Universal Save Editor - Free Offline Save Editor and Manager for {}+ ({}) Games", GAMES.len() / 10 * 10, GAMES.len()), &desc, "", &body, &website_schema(&schema("Universal Save Editor", &desc, &format!("{SITE}/")), None))).unwrap();
 
     let mut sm = String::from("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n");
     for u in &urls {
@@ -505,7 +505,7 @@ fn build_site() {
     sm.push_str("</urlset>\n");
     std::fs::write(out.join("sitemap.xml"), sm).unwrap();
     // GitHub Pages serves this for unknown addresses; keep it out of the index.
-    let nf = page("Page not found | Universal Save Editor", "That page doesn't exist. Find your game on the Universal Save Editor home page.", "", "<h1>Page not found</h1>\n<p class=\"lead\">That address doesn't exist. Every supported game is listed on the <a href=\"/universal-save-editor/#games\">home page</a>.</p>", &schema("Universal Save Editor", "Free, offline save editor for PC games.", &format!("{SITE}/")))
+    let nf = page("Page not found | Universal Save Editor", "That page doesn't exist. Find your game on the Universal Save Editor home page.", "", "<h1>Page not found</h1>\n<p class=\"lead\">That address doesn't exist. Every supported game is listed on the <a href=\"/universal-save-editor/#games\">home page</a>.</p>", &schema("Universal Save Editor", "Free, offline save editor and manager for PC games.", &format!("{SITE}/")))
         .replace("<meta charset=\"utf-8\">", "<meta charset=\"utf-8\">\n<meta name=\"robots\" content=\"noindex\">")
         .replace("href=\"./style.css\"", "href=\"/universal-save-editor/style.css\"")
         .replace("href=\"./#games\"", "href=\"/universal-save-editor/#games\"")

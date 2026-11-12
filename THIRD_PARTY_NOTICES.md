@@ -158,6 +158,8 @@ Universal Save Editor is free. It builds on other people's work, listed here wit
 | [Yurei (Phasmophobia save values: prestige and its badge)](https://github.com/AbstractUmbra/Yurei) | AbstractUmbra | facts only (value names), credited |
 | [jomini (Paradox binary save layout: lexeme ids, number encodings, the `SAV` header and Europa Universalis V's string table)](https://github.com/rakaly/jomini) | Nick Babcock | MIT |
 | [CEParser (field ids for the Europa Universalis IV, Hearts of Iron IV and Crusader Kings II values the game screens show)](https://github.com/wbudz/CEParser) | Witold Budziszewski | MIT |
+| [Kingdom Save Editor (Final Fantasy VII Remake item names, inventory layout)](https://github.com/Xeeynamo/KingdomSaveEditor) | Luciano Ciccariello and contributors | GPL-3.0-or-later |
+| [FF7 Rebirth Save Editor (Final Fantasy VII Rebirth item IDs, names and inventory types; facts only, no code)](https://ff-7-rebirth-save-editor.vercel.app/) | its author | facts only (file layouts, ids and names), credited |
 
 Copyright notices of the projects above whose code or tables were used:
 

@@ -114,9 +114,17 @@ pub fn about(game: Game) -> &'static str {
              slot already has are raised. Power Stones and Oni Stones (skill currencies), Oni Cloth (each \
              makes one Hozuki Pouch), tributes, medicine and key items are left alone."
         }
+        Game::Ff7Remake => {
+            "Raises the crafting materials in the Materials list (herbs, ores, wood, gems, beast parts and the \
+             rest the Item Transmuter uses) to 99, the most one slot holds. Key items, folios and Treasure Trove \
+             trophies are separate lists and are left alone."
+        }
         _ => "",
     }
 }
+
+/// Final Fantasy VII Rebirth's stack size for materials (shown as 99 in game).
+const FF7_REBIRTH_CAP: i64 = 99;
 
 /// The material stacks in this save, or why the button isn't offered for it.
 pub fn stacks(game: Game, cx: &GameCtx) -> Result<Vec<Stack>, &'static str> {
@@ -139,6 +147,8 @@ pub fn stacks(game: Game, cx: &GameCtx) -> Result<Vec<Stack>, &'static str> {
         Game::Starbound => Ok(starbound(cx)),
         Game::Expedition33 => Ok(expedition33(cx)),
         Game::Onimusha => Ok(onimusha(cx)),
+        Game::Ff7Remake if cx.get("/Inventory/Materials").is_some() => Ok(counts_under(cx, "/Inventory/Materials", FF7_REBIRTH_CAP, |_| true)),
+        Game::Ff7Remake => Err("Only Final Fantasy VII Rebirth has crafting materials."),
         _ => Err("This game has no crafting materials list."),
     }
 }

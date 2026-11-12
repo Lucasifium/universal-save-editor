@@ -118,6 +118,7 @@ pub mod xcom2;
 pub mod xcom_eu;
 pub mod ff7;
 pub mod ff7r;
+mod ff7r_items;
 pub mod ff9;
 pub mod sgd;
 pub mod dl1;

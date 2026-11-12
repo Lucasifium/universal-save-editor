@@ -281,7 +281,7 @@ pub struct App {
     sum_hits: Option<Vec<crate::fmt::sumfind::Sum>>,
     /// The name being typed for a kept copy (File › Restore previous version › Keep a copy).
     backup_name: Option<String>,
-    /// The Save manager window: `Some((slot name being typed, version waiting for a delete/replace confirmation))` while open.
+    /// The Backup & restore saves window: `Some((slot name being typed, version waiting for a delete/replace confirmation))` while open.
     manager: Option<(String, Option<(PathBuf, bool)>)>,
     /// Tools › Change Steam account: the IDs found in the save, the one picked, and the new one typed.
     rebind: Option<(Vec<u64>, usize, String)>,
@@ -1487,7 +1487,7 @@ impl App {
                     ui.close_menu();
                     self.revert_all();
                 }
-                if !WEB && ui.add_enabled(has, egui::Button::new("Save manager\u{2026}")).on_hover_text("Backups and save slots for the open file").clicked() {
+                if !WEB && ui.add_enabled(has, egui::Button::new("Backup & restore saves\u{2026}")).on_hover_text("Back up the open save, restore an earlier backup, or set the save aside to start a new game").clicked() {
                     ui.close_menu();
                     self.manager = Some((String::new(), None));
                 }
@@ -1941,7 +1941,7 @@ impl App {
         }
     }
 
-    /// File › Save manager: slots (named copies, kept for good) and automatic backups of the
+    /// File › Backup & restore saves: named backups (named copies, kept for good) and automatic backups of the
     /// open file, stored next to it. Restoring backs up the current file first.
     fn manager_window(&mut self, ctx: &egui::Context) {
         let Some((mut name, mut confirm)) = self.manager.take() else { return };
@@ -1954,29 +1954,29 @@ impl App {
         let mut unname = None;
         let mut keep = false;
         let mut aside = false;
-        egui::Window::new("Save manager").open(&mut open).collapsible(false).default_width(560.0).show(ctx, |ui| {
+        egui::Window::new("Backup & restore saves").open(&mut open).collapsible(false).default_width(560.0).show(ctx, |ui| {
             ui.label(RichText::new(file_name(&path)).strong());
             if let Some(dir) = crate::backups::folder(&path) {
-                ui.weak(format!("Kept in {} \u{2014} a folder of its own next to the save, with files no game reads as saves.", dir.display()));
+                ui.weak(format!("Backups are stored in {} \u{2014} a folder next to the save, with files no game reads as saves.", dir.display()));
             }
             ui.add_space(6.0);
             ui.horizontal(|ui| {
-                ui.add(TextEdit::singleline(&mut name).hint_text("slot name, e.g. first playthrough").desired_width(260.0));
+                ui.add(TextEdit::singleline(&mut name).hint_text("name this backup, e.g. first playthrough").desired_width(260.0));
                 let ready = !name.trim().is_empty() && path.is_file();
-                if ui.add_enabled(ready, egui::Button::new("Back up to a slot")).on_hover_text("Keeps a copy of the file as it is on disk now; the file is left as is").clicked() {
+                if ui.add_enabled(ready, egui::Button::new("Back up this save")).on_hover_text("Saves a named copy of the file as it is on disk now. It is kept until you delete it; the save itself is not changed.").clicked() {
                     keep = true;
                 }
-                if ui.add_enabled(ready, egui::Button::new("Set aside and start fresh")).on_hover_text("Keeps a copy in a slot, then removes the live save so the game starts a new game").clicked() {
+                if ui.add_enabled(ready, egui::Button::new("Back up and start a new game")).on_hover_text("Saves a named backup, then removes the current save file so the game starts a new game. Restore the backup later to go back.").clicked() {
                     aside = true;
                 }
             });
-            ui.weak("Games that hold only one save: set the old one aside, play a new game, and bring the old one back here later.");
+            ui.weak("For games with a single save: use \u{201C}Back up and start a new game\u{201D}, play a new run, and restore the old backup later.");
             ui.separator();
             if versions.is_empty() {
-                ui.label("Nothing kept yet. Backups are taken automatically each time you save.");
+                ui.label("No backups yet. One is made automatically each time you save, or press \u{201C}Back up this save\u{201D}.");
             }
             ScrollArea::vertical().max_height(380.0).show(ui, |ui| {
-                for (title, named) in [("Slots", true), ("Automatic backups (newest 30 kept)", false)] {
+                for (title, named) in [("Named backups (kept until you delete them)", true), ("Automatic backups (made each time you save; newest 30 kept)", false)] {
                     let rows: Vec<&crate::backups::Version> = versions.iter().filter(|v| v.name.is_some() == named).collect();
                     if rows.is_empty() {
                         continue;
@@ -1992,7 +1992,7 @@ impl App {
                             ui.label(label);
                             if confirm.as_ref().is_some_and(|(p, _)| *p == v.path) {
                                 let is_restore = confirm.as_ref().is_some_and(|(_, r)| *r);
-                                if ui.button(if is_restore { "Yes, restore" } else { "Yes, delete" }).clicked() {
+                                if ui.button(if is_restore { "Yes, restore" } else { "Yes, delete backup" }).clicked() {
                                     if is_restore { restore = Some(v.path.clone()) } else { delete = Some(v.path.clone()) }
                                     confirm = None;
                                 }
@@ -2000,16 +2000,16 @@ impl App {
                                     confirm = None;
                                 }
                             } else {
-                                if ui.small_button("Restore").on_hover_text("Puts this back. The file as it is now is backed up first.").clicked() {
+                                if ui.small_button("Restore this backup").on_hover_text("Replaces the current save with this backup. The current save is backed up first, so you can undo it.").clicked() {
                                     confirm = Some((v.path.clone(), true));
                                 }
-                                if path.is_file() && ui.small_button("Compare").clicked() {
+                                if path.is_file() && ui.small_button("Compare").on_hover_text("Shows what differs between this backup and the open save").clicked() {
                                     compare = Some(v.path.clone());
                                 }
-                                if v.name.is_some() && ui.small_button("Unname").on_hover_text("Let it be cleared out in time like the others").clicked() {
+                                if v.name.is_some() && ui.small_button("Make automatic").on_hover_text("Stops keeping this backup for good; it is cleared out in time like the automatic ones").clicked() {
                                     unname = Some(v.path.clone());
                                 }
-                                if ui.small_button("Delete").clicked() {
+                                if ui.small_button("Delete backup").on_hover_text("Permanently removes this backup").clicked() {
                                     confirm = Some((v.path.clone(), false));
                                 }
                             }
@@ -2030,10 +2030,10 @@ impl App {
         if keep {
             match crate::backups::take_named(&path, &name) {
                 Ok(_) => {
-                    self.ok(format!("Kept a slot named \u{201C}{}\u{201D}.", name.trim()));
+                    self.ok(format!("Backed up this save as \u{201C}{}\u{201D}.", name.trim()));
                     name.clear();
                 }
-                Err(e) => self.fail(format!("Couldn't keep a slot: {e}")),
+                Err(e) => self.fail(format!("Couldn't back up the save: {e}")),
             }
         }
         if aside {
@@ -2046,7 +2046,7 @@ impl App {
                         // Close the file so its old data can't be saved back over the new game.
                         self.doc = None;
                         self.dirty = false;
-                        self.ok(format!("Set the save aside as \u{201C}{label}\u{201D} and closed it. The game will start a new game; once the game has made its new save, open it here and bring the old one back from File \u{203A} Save manager."));
+                        self.ok(format!("Backed up the save as \u{201C}{label}\u{201D}, removed the save file and closed it here. The game will start a new game. Once it has made its new save, open that file and use File \u{203A} Backup & restore saves to restore this backup."));
                         return;
                     }
                     Err(e) => self.fail(format!("Couldn't set the save aside: {e}")),
