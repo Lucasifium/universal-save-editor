@@ -318,6 +318,12 @@ on save. A save is only opened this way when packing it again gives back exactly
 checksums stored inside the data show as zeros and are filled in on save. Checked byte for byte on 18
 real encrypted saves from the save-decrypters project.
 
+**Dreamcast saves**: VMU save files (`.vms`, with or without their `.vmi`) open with the header's
+CRC kept right: it shows as zeros and is worked out again on save. Nexus memory card `.dci` files
+open the same way, with their swapped byte order undone and put back. Saves whose header CRC is
+unused open as plain data. Checked on 300 real saves from the Apollo save database: every save with
+a CRC came back byte for byte.
+
 Big files open on a worker thread, and unpacking and decryption use every core.
 
 ## What it opens

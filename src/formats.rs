@@ -177,6 +177,10 @@ pub enum Layer {
     /// A console save unpacked by its patch file's own codes (decrypt, decompress), packed
     /// again by the rest of them; `var` is the unpacked stream shown, if the codes made one.
     Apollo { id: String, file: String, var: Option<String>, original: Arc<Vec<u8>> },
+    /// A Nexus `.DCI` Dreamcast save: the card's directory entry in front of the blocks.
+    Dci { header: Arc<Vec<u8>> },
+    /// A Dreamcast VMS file: its header CRC (at `off`) shows as zeros and is written on save.
+    Vms { off: usize },
     /// A single PS1/PS2 save exported by a cheat device or PC tool; `name` is the file open.
     PsSave { kind: fmt::pssave::Kind, original: Arc<Vec<u8>>, name: String },
     /// DeSmuME `.dsv`: the footer after the raw DS save, kept as it is.
@@ -286,6 +290,8 @@ impl Layer {
             Layer::Ps2Card { file, .. } => format!("PlayStation 2 memory card ({})", file.name),
             Layer::PsSave { kind, name, .. } => format!("{} ({name})", kind.label()),
             Layer::Apollo { id, .. } => format!("Console save unpacked by its patch file ({id})"),
+            Layer::Dci { .. } => "Dreamcast save (.dci, Nexus)".into(),
+            Layer::Vms { .. } => "Dreamcast VMU file (CRC kept right)".into(),
             Layer::Dsv { .. } => "DeSmuME save (.dsv footer)".into(),
             Layer::Ps1Card { blocks, .. } => format!("PlayStation memory card (save in block {})", blocks[0]),
             Layer::Civ5 { .. } => "Civilization V save (compressed game data)".into(),
@@ -828,6 +834,8 @@ fn wrap(layer: &Layer, data: Vec<u8>) -> Result<Vec<u8>, String> {
         }
         Layer::Dsv { footer } => [&data[..], footer].concat(),
         Layer::PsSave { kind, original, name } => fmt::pssave::save(*kind, original, name, &data)?,
+        Layer::Dci { header } => fmt::dreamcast::dci_close(header, &data)?,
+        Layer::Vms { off } => fmt::dreamcast::vms_close(&data, *off)?,
         Layer::Apollo { id, file, var, original } => crate::apollo::console::close(id, file, var, original, &data)?,
         Layer::Ps1Card { image, offset, blocks } => {
             fmt::memcard::ps1_write(image, *offset, &fmt::memcard::Ps1Save { name: String::new(), blocks: blocks.clone() }, &data)?
@@ -1031,6 +1039,17 @@ fn peel(data: &[u8], ctx: &mut Ctx) -> Option<(Layer, Vec<u8>)> {
     if let Some((kind, plain)) = fmt::katana::open(data) {
         let inner = fmt::katana::content(kind, &plain);
         return Some((Layer::Katana { kind, plain: Arc::new(plain) }, inner));
+    }
+    if ctx.opts.ext == "dci" {
+        if let Some((header, blocks)) = fmt::dreamcast::dci_open(data) {
+            return Some((Layer::Dci { header: Arc::new(header) }, blocks));
+        }
+    }
+    if matches!(ctx.opts.ext.as_str(), "vms" | "dci") {
+        if let Some(off) = fmt::dreamcast::vms_header(data) {
+            ctx.hint = Some("Dreamcast VMU save: the file's CRC shows as zeros and is written again on save. Use the value search to find a number you know, and test the edit in the emulator.".into());
+            return Some((Layer::Vms { off }, fmt::dreamcast::vms_open(data, off)));
+        }
     }
     if let Some((kind, files)) = fmt::pssave::open(data, &ctx.opts.ext) {
         let pick = |f: &&fmt::pssave::Entry| {
