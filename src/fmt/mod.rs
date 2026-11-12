@@ -14,6 +14,7 @@ pub mod saturn;
 pub mod keyed;
 pub mod ksp;
 pub mod tld;
+pub mod nfsmw;
 pub mod gk;
 pub mod civ7;
 pub mod uepack;
@@ -169,6 +170,9 @@ use crate::tree::TreeDoc;
 /// Binary formats with a recognisable signature (checked before text detection).
 pub fn parse_binary(d: &[u8]) -> Option<TreeDoc> {
     if let Some(t) = civ7::parse(d) {
+        return Some(t);
+    }
+    if let Some(t) = nfsmw::parse(d) {
         return Some(t);
     }
     // Checksummed JSON: before the plain JSON reader gets it.
