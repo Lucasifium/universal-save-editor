@@ -41,6 +41,7 @@ mod terraria;
 mod terraria_world;
 mod torment;
 mod trucks;
+mod x4;
 
 use crate::theme;
 use crate::tree::TreeDoc;
@@ -111,6 +112,7 @@ pub enum Game {
     Borderlands3,
     Wonderlands,
     TruckSim,
+    X4,
     GrimDawn,
     TitanQuest,
     Torchlight2,
@@ -198,6 +200,7 @@ impl Game {
             Game::Borderlands | Game::Borderlands3 => "Vault Hunter",
             Game::Wonderlands => "Hero",
             Game::TruckSim => "Driver",
+            Game::X4 => "Pilot",
             Game::GrimDawn | Game::TitanQuest | Game::Torchlight2 => "Character",
             Game::Fallout12 => "Pip-Boy",
             Game::DeusEx => "JC Denton",
@@ -260,6 +263,7 @@ pub fn detect(kind: &str, root: &Value) -> Option<Game> {
         "RE Engine save" if dashboards::ree_slots(root).is_some() => Game::Onimusha,
         "RE Engine save" if screens2::is_re_slot(root) => Game::ReSlot,
         ".NET BinaryFormatter stream" if screens2::is_green_hell(root) => Game::GreenHell,
+        "XML" if x4::is_x4(root) => Game::X4,
         _ if screens2::is_hogwarts(root) => Game::Hogwarts,
         "SQLite database" if screens2::is_hogwarts_db(root) => Game::HogwartsDb,
         k if screens2::is_renpy(k, root) => Game::RenPy,
@@ -392,6 +396,7 @@ pub fn show(game: Game, ui: &mut Ui, cx: &mut GameCtx) {
         Game::Borderlands3 => borderlands::show3(ui, cx),
         Game::Wonderlands => borderlands::show_wl(ui, cx),
         Game::TruckSim => trucks::show(ui, cx),
+        Game::X4 => x4::show(ui, cx),
         Game::GrimDawn => arpg::grim_dawn(ui, cx),
         Game::TitanQuest => arpg::titan_quest(ui, cx),
         Game::Torchlight2 => arpg::torchlight2(ui, cx),
@@ -940,6 +945,9 @@ mod tests {
         assert_eq!(detect("JSON", &json!({"player": {"Money": 1}, "party": {"m_EntityData": []}})), Some(Game::Pathfinder));
         assert_eq!(detect("Borderlands: The Pre-Sequel character", &json!({})), Some(Game::Borderlands));
         assert_eq!(detect("Borderlands 3 character", &json!({})), Some(Game::Borderlands3));
+        assert_eq!(detect("Tiny Tina's Wonderlands character", &json!({})), Some(Game::Wonderlands));
+        assert_eq!(detect(crate::fmt::sii::KIND, &json!({})), Some(Game::TruckSim));
+        assert_eq!(detect("XML", &json!({"savegame": {"info": {"player": {"@money": 1}, "game": {"@build": 1}}, "factions": {}}})), Some(Game::X4));
         assert_eq!(detect("Fallout 2 save", &json!({"Save": {}})), Some(Game::Fallout12));
         assert_eq!(detect("Deus Ex map save", &json!({})), Some(Game::DeusEx));
         assert_eq!(detect(crate::fmt::infinity::KIND, &json!({})), Some(Game::Infinity));
