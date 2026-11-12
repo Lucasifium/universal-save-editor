@@ -3,7 +3,7 @@
 
 use super::{List, Max, Section, Shape, Spec, Table};
 
-pub static SPECS: &[Spec] = &[COTL, FALLOUT_SHELTER, DRG, S1_MONEY, S1_RANK, S1_TIME, S1_GAME, SOTF_STATE, SOTF_GAME, SOTF_WEATHER, SOTF_ITEMS, DMD, CUPHEAD, ANTIMATTER, PVZ, CELESTE, DRGS, KH3, RF4S, SKY1ST, KSP, FFPR, MCD, STONESHARD, ROGUE_TRADER, BIOSHOCK_INFINITE, SPACE_HAVEN, SNOWRUNNER, GRAVEYARD_KEEPER, NFSMW, TOS, GTA3, GTAVC, BITBURNER, TERRA_INVICTA, PRISON, FF13, SONIC_MANIA, CAVE_STORY_PLUS, CAVE_STORY, LIES_OF_P, TXR, DAVE, MSC, ULTRAKILL, RPGXP, RE5, ANNO1800, FTK];
+pub static SPECS: &[Spec] = &[COTL, FALLOUT_SHELTER, DRG, S1_MONEY, S1_RANK, S1_TIME, S1_GAME, SOTF_STATE, SOTF_GAME, SOTF_WEATHER, SOTF_ITEMS, DMD, CUPHEAD, ANTIMATTER, PVZ, CELESTE, DRGS, KH3, RF4S, SKY1ST, KSP, FFPR, MCD, STONESHARD, ROGUE_TRADER, BIOSHOCK_INFINITE, SPACE_HAVEN, SNOWRUNNER, GRAVEYARD_KEEPER, NFSMW, TOS, GTA3, GTAVC, BITBURNER, TERRA_INVICTA, PRISON, FF13, SONIC_MANIA, CAVE_STORY_PLUS, CAVE_STORY, LIES_OF_P, TXR, DAVE, MSC, ULTRAKILL, RPGXP, RE5, ANNO1800, FTK, LEGO_TSS];
 
 // ------------------------------------------------------------------ Cult of the Lamb
 
@@ -1777,4 +1777,18 @@ const FTK: Spec = Spec {
         ],
         names: &[],
     }],
+};
+// ------------------------------------------------------------------ LEGO Star Wars: The Skywalker Saga
+
+const LEGO_TSS: Spec = Spec {
+    name: "LEGO Star Wars: The Skywalker Saga",
+    tab: "Studs",
+    accent: (240, 200, 40),
+    kind: Some(crate::fmt::lego_tss::KIND),
+    markers: &["/Studs"],
+    subtitle: "COLLECTABLES.BLOB in a SLOTn folder. The stud wallet is saved twice; both copies are written.",
+    tiles: &[("Studs", "/Studs")],
+    sections: &[Section { title: "Studs", rows: &[("Studs", "/Studs")] }],
+    lists: &[],
+    tables: &[],
 };

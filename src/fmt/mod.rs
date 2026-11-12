@@ -141,6 +141,7 @@ pub mod dead_rising;
 pub mod ff13;
 pub mod p5r;
 pub mod cave_story;
+pub mod lego_tss;
 pub mod sonic_mania;
 pub mod metro;
 pub mod bioshock;
@@ -289,6 +290,11 @@ pub fn parse_binary(d: &[u8]) -> Option<TreeDoc> {
     }
     if metro::looks(d) {
         if let Ok(t) = metro::parse(d) {
+            return Some(t);
+        }
+    }
+    if lego_tss::looks(d) {
+        if let Ok(t) = lego_tss::parse(d) {
             return Some(t);
         }
     }
