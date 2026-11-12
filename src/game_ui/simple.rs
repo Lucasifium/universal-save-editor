@@ -122,7 +122,8 @@ fn entries(cx: &GameCtx, l: &List) -> Vec<(String, String)> {
             .collect(),
         (Shape::Map, Value::Object(m)) => m
             .iter()
-            .filter(|(_, v)| v.is_number())
+            // "@c" is RPG Maker MV's object-reference counter, not an item.
+            .filter(|(k, v)| v.is_number() && k.as_str() != "@c")
             .map(|(k, _)| (k.clone(), format!("{}/{}", l.path, crate::json_view::pointer_escape(k))))
             .collect(),
         (Shape::Records { qty_key }, Value::Object(m)) => m

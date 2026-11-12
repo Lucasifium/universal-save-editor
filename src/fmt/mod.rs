@@ -142,6 +142,7 @@ pub mod dead_rising;
 pub mod ff13;
 pub mod p5r;
 pub mod cave_story;
+pub mod ori;
 pub mod lego_tss;
 pub mod lego_classic;
 pub mod sonic_mania;
@@ -302,6 +303,11 @@ pub fn parse_binary(d: &[u8]) -> Option<TreeDoc> {
     }
     if lego_classic::looks(d) {
         if let Ok(t) = lego_classic::parse(d) {
+            return Some(t);
+        }
+    }
+    if ori::looks(d) {
+        if let Ok(t) = ori::parse(d) {
             return Some(t);
         }
     }

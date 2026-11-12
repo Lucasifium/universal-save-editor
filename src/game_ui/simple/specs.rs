@@ -3,7 +3,7 @@
 
 use super::{List, Max, Section, Shape, Spec, Table};
 
-pub static SPECS: &[Spec] = &[COTL, FALLOUT_SHELTER, DRG, S1_MONEY, S1_RANK, S1_TIME, S1_GAME, SOTF_STATE, SOTF_GAME, SOTF_WEATHER, SOTF_ITEMS, DMD, CUPHEAD, ANTIMATTER, PVZ, CELESTE, DRGS, KH3, RF4S, SKY1ST, KSP, FFPR, MCD, STONESHARD, ROGUE_TRADER, BIOSHOCK_INFINITE, SPACE_HAVEN, SNOWRUNNER, GRAVEYARD_KEEPER, NFSMW, TOS, GTA3, GTAVC, BITBURNER, TERRA_INVICTA, PRISON, FF13, SONIC_MANIA, CAVE_STORY_PLUS, CAVE_STORY, LIES_OF_P, TXR, DAVE, MSC, ULTRAKILL, RPGXP, RE5, ANNO1800, FTK, LEGO_TSS, LEGO_CLASSIC, MYZ, CMS21, MEDIEVAL_DYNASTY, MECHANICUS];
+pub static SPECS: &[Spec] = &[COTL, FALLOUT_SHELTER, DRG, S1_MONEY, S1_RANK, S1_TIME, S1_GAME, SOTF_STATE, SOTF_GAME, SOTF_WEATHER, SOTF_ITEMS, DMD, CUPHEAD, ANTIMATTER, PVZ, CELESTE, DRGS, KH3, RF4S, SKY1ST, KSP, FFPR, MCD, STONESHARD, ROGUE_TRADER, BIOSHOCK_INFINITE, SPACE_HAVEN, SNOWRUNNER, GRAVEYARD_KEEPER, NFSMW, TOS, GTA3, GTAVC, BITBURNER, TERRA_INVICTA, PRISON, FF13, SONIC_MANIA, CAVE_STORY_PLUS, CAVE_STORY, LIES_OF_P, TXR, DAVE, MSC, ULTRAKILL, RPGXP, RE5, ANNO1800, FTK, LEGO_TSS, LEGO_CLASSIC, MYZ, CMS21, MEDIEVAL_DYNASTY, MECHANICUS, ORI, OMORI, ENDER_LILIES];
 
 // ------------------------------------------------------------------ Cult of the Lamb
 
@@ -1966,4 +1966,103 @@ const MECHANICUS: Spec = Spec {
         cols: &[("Level", "/Level"), ("XP", "/XP"), ("Skill points", "/Skill points"), ("Slot points", "/Slot points"), ("Augment capacity", "/Augment capacity"), ("Health", "/Health")],
         names: &[],
     }],
+};
+
+// ------------------------------------------------------------------ Ori and the Blind Forest
+
+const ORI: Spec = Spec {
+    name: "Ori and the Blind Forest",
+    tab: "Ori",
+    accent: (90, 170, 230),
+    kind: Some(crate::fmt::ori::KIND),
+    markers: &["/Ori"],
+    subtitle: "saveFile<n>.sav: level, ability points, life and energy cells, keystones, mapstones and every skill and ability-tree upgrade.",
+    tiles: &[("Level", "/Ori/Level"), ("Ability points", "/Ori/Ability points"), ("Keystones", "/Ori/Keystones"), ("Mapstones", "/Ori/Mapstones")],
+    sections: &[
+        Section {
+            title: "Ori",
+            rows: &[
+                ("Level", "/Ori/Level"), ("Experience", "/Ori/Experience"), ("Ability points", "/Ori/Ability points"),
+                ("Life (4 per cell)", "/Ori/Life (4 per cell)"), ("Max life (4 per cell)", "/Ori/Max life (4 per cell)"),
+                ("Energy", "/Ori/Energy"), ("Max energy", "/Ori/Max energy"), ("Keystones", "/Ori/Keystones"),
+                ("Mapstones", "/Ori/Mapstones"), ("Deaths", "/Ori/Deaths"),
+            ],
+        },
+        Section { title: "Skills", rows: &[("Spirit Flame", "/Skills/Spirit Flame"), ("Wall Jump", "/Skills/Wall Jump"), ("Charge Flame", "/Skills/Charge Flame"), ("Double Jump", "/Skills/Double Jump"), ("Bash", "/Skills/Bash"), ("Stomp", "/Skills/Stomp"), ("Glide", "/Skills/Glide"), ("Climb", "/Skills/Climb"), ("Charge Jump", "/Skills/Charge Jump"), ("Dash", "/Skills/Dash"), ("Light Burst", "/Skills/Light Burst")] },
+        Section { title: "Ability tree", rows: &[("Spirit Efficiency", "/Ability tree/Spirit Efficiency"), ("Water Breath", "/Ability tree/Water Breath"), ("Charge Flame Blast", "/Ability tree/Charge Flame Blast"), ("Charge Flame Burn", "/Ability tree/Charge Flame Burn"), ("Triple Jump", "/Ability tree/Triple Jump"), ("Ultra Defense", "/Ability tree/Ultra Defense"), ("Life Efficiency", "/Ability tree/Life Efficiency"), ("Sense", "/Ability tree/Sense"), ("Ultra Stomp", "/Ability tree/Ultra Stomp"), ("Quick Flame", "/Ability tree/Quick Flame"), ("Map Markers", "/Ability tree/Map Markers"), ("Energy Efficiency", "/Ability tree/Energy Efficiency"), ("Life Markers", "/Ability tree/Life Markers"), ("Energy Markers", "/Ability tree/Energy Markers"), ("Ability Markers", "/Ability tree/Ability Markers"), ("Rekindle", "/Ability tree/Rekindle"), ("Regroup", "/Ability tree/Regroup"), ("Charge Flame Efficiency", "/Ability tree/Charge Flame Efficiency"), ("Ultra Soul Link", "/Ability tree/Ultra Soul Link"), ("Soul Link Efficiency", "/Ability tree/Soul Link Efficiency"), ("Split Flame", "/Ability tree/Split Flame"), ("Spark Flame", "/Ability tree/Spark Flame"), ("Cinder Flame", "/Ability tree/Cinder Flame"), ("Ultra Split Flame", "/Ability tree/Ultra Split Flame"), ("Ultra Light Burst", "/Ability tree/Ultra Light Burst"), ("Charge Dash", "/Ability tree/Charge Dash"), ("Air Dash", "/Ability tree/Air Dash"), ("Magnet", "/Ability tree/Magnet"), ("Ultra Magnet", "/Ability tree/Ultra Magnet"), ("Rapid Flame", "/Ability tree/Rapid Flame")] },
+        Section { title: "This save", rows: &[("Area", "/Save/Area"), ("Completion (%)", "/Save/Completion (%)"), ("Play time", "/Save/Play time")] },
+    ],
+    lists: &[],
+    tables: &[],
+};
+
+// ------------------------------------------------------------------ OMORI
+
+const OMORI_ITEMS: &[(&str, &str)] = &[("2", "Cold Steak"), ("3", "Microwaved Steak"), ("4", "Snacktime"), ("7", "Rubberband"), ("13", "Tofu"), ("14", "Candy"), ("15", "Smores"), ("16", "Granola Bar"), ("17", "Bread"), ("18", "Nachos"), ("19", "Chicken Wing"), ("20", "Hot Dog"), ("21", "Waffle"), ("22", "Pancake"), ("23", "Pizza Slice"), ("24", "Fish Taco"), ("25", "Cheeseburger"), ("26", "Chocolate"), ("27", "Donut"), ("28", "Ramen"), ("29", "Spaghetti"), ("30", "Popcorn"), ("31", "Fries"), ("32", "Cheese Wheel"), ("33", "Whole Chicken"), ("34", "Whole Pizza"), ("35", "Sno-Cone"), ("36", "Tomato"), ("37", "Combo Meal"), ("38", "Dino Clumps"), ("39", "Dino Pasta"), ("41", "Mari'S Cookie"), ("42", "Mari'S Cookie"), ("46", "Plum Juice"), ("47", "Apple Juice"), ("48", "Cherry Soda"), ("49", "Star Fruit Soda"), ("50", "Breadfruit Juice"), ("51", "Tasty Soda"), ("52", "Lemonade"), ("53", "Peach Soda"), ("54", "Butt Peach Soda"), ("55", "Orange Juice"), ("56", "Pineapple Juice"), ("57", "Grape Soda"), ("58", "Banana Smoothie"), ("59", "Mango Smoothie"), ("60", "Berry Smoothie"), ("61", "Melon Smoothie"), ("62", "S.Berry Smoothie"), ("63", "Watermelon Juice"), ("64", "Dino Melon Soda"), ("65", "Dino Smoothie"), ("66", "Bottled Water"), ("67", "Fruit Juice?"), ("68", "Prune Juice"), ("69", "Rotten Milk"), ("70", "Milk"), ("73", "Can"), ("74", "Glass Bottle"), ("75", "Cardboard"), ("76", "Dead Batteries"), ("77", "Computer Part"), ("78", "Jacks"), ("79", "Rubber Band"), ("80", "Dynamite"), ("81", "Sparkler"), ("82", "Confetti"), ("83", "Poetry Book"), ("84", "Rain Cloud"), ("85", "Present"), ("86", "Air Horn"), ("87", "Dandelion"), ("88", "Mush"), ("89", "Life Jam"), ("91", "Coffee"), ("92", "Dino Jam"), ("93", "Mystery Potion"), ("94", "Big Rubber Band"), ("95", "Pearl"), ("96", "Jam Packets"), ("101", "Donut"), ("102", "Candy"), ("103", "Salad"), ("104", "Bread"), ("105", "Chocolate"), ("106", "Pizza Slice"), ("107", "Hero Sandwich"), ("108", "Caramel Apple"), ("109", "Whole Pizza"), ("110", "Pie"), ("111", "Big Bag Of Candy"), ("112", "Slice Of Cake"), ("113", "Bandage"), ("114", "First Aid Kit"), ("115", "Hamburger"), ("116", "Meat"), ("117", "Fish"), ("118", "Pepper Spray"), ("120", "Tasty Soda"), ("121", "Orange Joe"), ("122", "Apple Juice"), ("123", "Orange Juice"), ("124", "Coffee"), ("125", "Small Sketch"), ("128", "Foe Facts!"), ("129", "Junkyard Key"), ("130", "Special Mixtape"), ("131", "Show Tickets"), ("132", "Cool Key Card"), ("133", "V.I.P. Key Card"), ("134", "Wooden Track"), ("135", "Slimy Key Card"), ("136", "Emotion Chart"), ("138", "Cold Steak"), ("139", "Lukewarm Steak"), ("140", "Hero'S Gift"), ("141", "\"Pizza\" Order"), ("142", "Bakery Order"), ("143", "Homecooked Meal"), ("144", "Microwaved Meal"), ("146", "Toy Box Key"), ("151", "Light Bulb"), ("153", "Toy Box Key"), ("157", "Sheet Music"), ("158", "Flower Crown"), ("161", "Joke Book"), ("162", "Big Airhorn"), ("163", "B.E.D."), ("164", "Blackmail"), ("165", "Strange List"), ("166", "Interesting Book"), ("167", "Thingamabob"), ("168", "Whatchamacallit"), ("169", "Doohickey"), ("170", "Care Package"), ("171", "Giant Check"), ("172", "Spooky Map"), ("173", "Batteries"), ("174", "Orange Crest"), ("176", "Teddy Bear"), ("177", "Rat Meat"), ("178", "Snot"), ("179", "Scrap Metal"), ("180", "Thank-You Fossil"), ("181", "Pessi'S Thing"), ("185", "Potato Spoon"), ("186", "Plastic Spoon"), ("187", "Wooden Spoon"), ("188", "Silver Spoon"), ("190", "Butt Certificate"), ("191", "Flower Puzzle"), ("192", "Ancient Code"), ("195", "Seashell"), ("196", "Rare Card"), ("197", "Small Sketch"), ("198", "Nostalgic Cd"), ("199", "Celestial Cd"), ("200", "Merry Cd"), ("201", "Devilish Cd"), ("202", "Otherworldly Cd"), ("203", "Lively Cd"), ("204", "Brutal Cd"), ("205", "Ethereal Cd"), ("206", "Ghoulish Cd"), ("207", "Tranquil Cd"), ("208", "Chill Cd"), ("209", "Dynamic Cd"), ("210", "Secret Cd"), ("211", "Trash"), ("212", "Bubble Wrap"), ("213", "Arcade Piece"), ("214", "Flower Clip"), ("215", "Prescription"), ("216", "Id Card"), ("217", "Lunchbox"), ("218", "Letter For Dad"), ("219", "Garden Shears"), ("220", "Green Flyer"), ("221", "Blue Flyer"), ("222", "Tv Remote"), ("223", "Granny'S Medicine"), ("224", "Floor Lamp"), ("225", "Flowers"), ("226", "Missing Teeth"), ("227", "Coin"), ("241", "Sprout Mole Masks"), ("242", "Matchbox"), ("243", "Bad Drawing"), ("244", "Clems"), ("246", "Recipe 4 Disaster"), ("247", "Sheet Music"), ("248", "Pyramid Key"), ("249", "Treasure Map"), ("250", "Train Pass"), ("251", "Sno-Cone Ticket"), ("252", "Actual Mole"), ("254", "Self-Help Guide"), ("286", "Tomato (Backup)"), ("287", "Combo Meal (Backup)"), ("401", "Mixtape"), ("410", "Sugar"), ("411", "All-Purpose Flour"), ("412", "Garden Soil"), ("413", "Strawberries"), ("414", "Pineberries"), ("415", "Bottles Of Fruit Juice"), ("416", "Stick Of Butter"), ("417", "Jar Of Pickles"), ("418", "Blue Fish"), ("419", "Egg"), ("420", "Leather Shoe"), ("421", "Roast Chicken"), ("700", "Twenty Dollars"), ("703", "'Key' Ingredient"), ("800", "Yellow Keychain"), ("801", "Green Keychain"), ("802", "Pink Keychain"), ("803", "Amazing Keychain"), ("804", "Purple Ball"), ("805", "Pink Ball"), ("806", "Green Ball"), ("807", "Red Hand"), ("808", "Green Hand"), ("809", "Purple Hand"), ("810", "Green Slinky"), ("811", "Blue Slinky"), ("812", "Yellow Slinky"), ("876", "Dreamworld Album (Hidden)"), ("877", "DW Polaroid 1"), ("878", "DW Polaroid 2"), ("879", "DW Polaroid 3"), ("880", "DW Polaroid 4"), ("881", "DW Polaroid 5"), ("882", "DW Polaroid 6"), ("883", "DW Polaroid 7"), ("884", "DW Polaroid 8"), ("885", "DW Polaroid 9"), ("886", "DW Polaroid 10"), ("887", "DW Polaroid 11"), ("888", "DW Polaroid 12"), ("889", "BlackSpace Album (Hidden)"), ("890", "BS Polaroid 1"), ("891", "BS Polaroid 2"), ("892", "BS Polaroid 3"), ("893", "BS Polaroid 4"), ("894", "BS Polaroid 5"), ("895", "BS Polaroid 6"), ("896", "BS Polaroid 7"), ("897", "BS Polaroid 8"), ("898", "BS Polaroid 9"), ("899", "BS Polaroid 10"), ("900", "BS Polaroid 11"), ("901", "BS Polaroid 12"), ("902", "BS Polaroid 13"), ("903", "BS Polaroid 14"), ("904", "BS Polaroid 15"), ("905", "BS Polaroid 16"), ("906", "BS Polaroid 17"), ("907", "BS Polaroid 18"), ("908", "BS Polaroid 19"), ("909", "BS Polaroid 20"), ("910", "BS Polaroid 21"), ("911", "BS Polaroid 22"), ("912", "BS Polaroid 23"), ("913", "BS Polaroid 24"), ("914", "Faraway Album (Hidden)"), ("915", "FA Polaroid 1"), ("916", "FA Polaroid 2"), ("917", "FA Polaroid 3"), ("918", "FA Polaroid 4"), ("919", "FA Polaroid 5"), ("920", "FA Polaroid 6"), ("921", "FA Polaroid 7"), ("922", "FA Polaroid 8"), ("923", "FA Polaroid 9"), ("924", "FA Polaroid 10"), ("925", "FA Polaroid 11"), ("926", "FA Polaroid 12"), ("927", "FA Polaroid 13"), ("928", "FA Polaroid 14"), ("929", "FA Polaroid 15"), ("930", "FA Polaroid 16"), ("931", "FA Polaroid 17"), ("932", "FA Polaroid 18"), ("933", "FA Polaroid 19"), ("934", "FA Polaroid 20"), ("935", "FA Polaroid 21"), ("936", "FA Polaroid 22"), ("937", "FA Polaroid 23"), ("938", "FA Polaroid 24"), ("939", "FA Polaroid 25"), ("940", "FA Polaroid 26"), ("941", "FA Polaroid 27"), ("942", "FA Polaroid 28"), ("943", "FA Polaroid 29"), ("944", "FA Polaroid 30"), ("945", "FA Polaroid 31"), ("946", "FA Polaroid 32"), ("947", "FA Polaroid 33"), ("948", "FA Polaroid 34"), ("949", "FA Polaroid 35"), ("950", "FA Polaroid 36"), ("951", "FA Polaroid 37"), ("952", "FA Polaroid 38"), ("953", "FA Polaroid 39"), ("954", "FA Polaroid 40"), ("955", "FA Polaroid 41"), ("956", "FA Polaroid 42"), ("957", "FA Polaroid 43"), ("958", "FA Polaroid 44"), ("959", "FA Polaroid 45"), ("960", "FA Polaroid 46"), ("961", "FA Polaroid 47"), ("962", "FA Polaroid 48"), ("963", "DW Polaroid 13"), ("964", "Blurry Photo"), ("966", "Photo Album"), ("967", "Photo Album"), ("968", "Photo Album"), ("970", "FA Polaroid 1"), ("971", "FA Polaroid 4"), ("972", "FA Polaroid 5"), ("973", "FA Polaroid 8"), ("974", "FA Polaroid 9"), ("975", "FA Polaroid 10"), ("976", "FA Polaroid 11"), ("977", "FA Polaroid 12"), ("978", "FA Polaroid 16"), ("979", "FA Polaroid 18"), ("980", "FA Polaroid 19"), ("981", "FA Polaroid 20"), ("982", "FA Polaroid 21"), ("983", "FA Polaroid 22"), ("984", "FA Polaroid 25"), ("985", "FA Polaroid 26"), ("986", "FA Polaroid 27"), ("987", "FA Polaroid 31"), ("988", "FA Polaroid 32"), ("989", "FA Polaroid 33"), ("990", "FA Polaroid 34"), ("991", "FA Polaroid 35"), ("992", "FA Polaroid 38"), ("993", "FA Polaroid 43"), ("994", "FA Polaroid 44")];
+const OMORI_WEAPONS: &[(&str, &str)] = &[("2", "Shiny Knife"), ("3", "Knife"), ("4", "Dull Knife"), ("5", "Rusty Knife"), ("6", "Red Knife"), ("8", "Fly Swatter"), ("9", "Hands"), ("10", "Violin"), ("11", "Violin"), ("12", "Violin"), ("14", "Stuffed Toy"), ("15", "Comet Hammer"), ("16", "Body Pillow"), ("17", "Pool Noodle"), ("18", "Cool Noodle"), ("19", "Hero'S Trophy"), ("20", "Mailbox"), ("21", "Baguette"), ("22", "Baseball Bat"), ("23", "Lol Sword"), ("25", "Nail Bat"), ("28", "Rubber Ball"), ("29", "Meteor Ball"), ("30", "Blood Orange"), ("31", "Jack"), ("32", "Beach Ball"), ("33", "Coconut"), ("34", "Globe"), ("35", "Chicken Ball"), ("36", "Snowball"), ("37", "Basketball"), ("42", "Basketball"), ("45", "Spatula"), ("46", "Rolling Pin"), ("47", "Teapot"), ("48", "Frying Pan"), ("49", "Blender"), ("50", "Baking Pan"), ("51", "Tenderizer"), ("52", "Ol' Reliable"), ("53", "Shucker"), ("55", "Fist"), ("61", "Steak Knife"), ("62", "Sweetheart Bust"), ("110", "Steak Knife"), ("112", "Shiny Knife"), ("113", "Knife"), ("114", "Dull Knife")];
+const OMORI_CHARMS: &[(&str, &str)] = &[("2", "\"Gold\" Watch"), ("4", "3D Glasses"), ("5", "3-Leaf Clover"), ("6", "4-Leaf Clover"), ("7", "5-Leaf Clover"), ("8", "Appendix"), ("9", "Baby Chicken"), ("10", "Backpack"), ("11", "Baseball Cap"), ("12", "Binoculars"), ("13", "Blanket"), ("14", "Book"), ("15", "Bow-Tie"), ("16", "Bracelet"), ("17", "Breadphones"), ("18", "Bubble Wrap"), ("19", "Bunny Ears"), ("20", "Cactus"), ("21", "Cat Ears"), ("22", "Cellphone"), ("23", "Clam Coin"), ("24", "Cool Glasses"), ("25", "Bottle Cap"), ("26", "Cough Mask"), ("27", "Daisy"), ("28", "Eye Patch"), ("29", "Faux Tail"), ("30", "Fedora"), ("31", "Finger"), ("32", "Flower Clip"), ("33", "Fox Tail"), ("34", "Friendship Bracelet"), ("35", "Nerdy Glasses"), ("36", "Gold Watch"), ("37", "Hard Hat"), ("38", "Headband"), ("39", "Heart String"), ("40", "High Heels"), ("41", "Homework"), ("42", "Inner Tube"), ("43", "Lucky Token"), ("44", "Magical Bean"), ("45", "Monocle"), ("46", "Mustache"), ("47", "Onion Ring"), ("48", "Oven Mitts"), ("49", "Paper Bag"), ("50", "Hector"), ("51", "Pretty Bow"), ("52", "Punching Bag"), ("53", "Rabbit Foot"), ("54", "Red Ribbon"), ("55", "Deep Poetry Book"), ("56", "Rubber Duck"), ("57", "Sales Tag"), ("58", "Seashell Necklace"), ("59", "Seer Goggles"), ("60", "Top Hat"), ("61", "Pet Rock"), ("62", "Hector Jr"), ("63", "Wedding Ring"), ("64", "Wishbone"), ("65", "Veggie Kid"), ("66", "Watering Pail"), ("67", "Rake"), ("68", "Scarf"), ("69", "Teddy Bear"), ("70", "Cotton Ball"), ("71", "Flashlight"), ("72", "Universal Remote"), ("73", "Chef'S Hat"), ("74", "Tv Remote"), ("75", "Sunscreen"), ("76", "Contract"), ("77", "Flower Crown"), ("78", "Abbi'S Eye"), ("81", "Red Hand"), ("82", "Green Hand"), ("83", "Purple Hand"), ("84", "Purple Ball"), ("85", "Pink Ball"), ("86", "Green Ball"), ("87", "Green Slinky"), ("88", "Blue Slinky"), ("89", "Yellow Slinky"), ("90", "Yellow Keychain"), ("91", "Green Keychain"), ("92", "Pink Keychain"), ("93", "Chimera Keychain"), ("94", "Pet Rock"), ("95", "Flower Clip"), ("96", "Red Headband"), ("97", "Orange Headband"), ("98", "Cool Glasses"), ("99", "Seashell Necklace"), ("100", "Gold Watch"), ("101", "\"Gold\" Watch"), ("102", "Fedora"), ("103", "Rabbit Foot"), ("104", "Teddy Bear"), ("105", "\"You Rock\" Cap"), ("106", "Pinwheel"), ("107", "Paint Brush"), ("108", "Cool Bottlecap"), ("109", "Kel'S Pet Rock"), ("120", "Tulip Hairstick"), ("121", "Gladiolus Hairband"), ("122", "Cactus Hairclip"), ("123", "Rose Hairclip")];
+
+const OMORI: Spec = Spec {
+    name: "OMORI",
+    tab: "OMORI",
+    accent: (150, 110, 200),
+    kind: None,
+    markers: &["/party/_stressEnergyCount", "/party/_blackLetters", "/actors/_data/@a"],
+    subtitle: "file<n>.rpgsave in www\\save: Clams, each friend's level, heart and juice in Headspace and Faraway Town, and every snack, toy, weapon and charm you carry.",
+    tiles: &[("Clams", "/party/_gold"), ("Steps", "/party/_steps")],
+    sections: &[],
+    lists: &[
+        List { title: "Snacks, toys and key items", path: "/party/_items", shape: Shape::Map, names: OMORI_ITEMS, max: None },
+        List { title: "Weapons", path: "/party/_weapons", shape: Shape::Map, names: OMORI_WEAPONS, max: None },
+        List { title: "Charms", path: "/party/_armors", shape: Shape::Map, names: OMORI_CHARMS, max: None },
+    ],
+    tables: &[Table {
+        title: "Friends",
+        path: "/actors/_data/@a",
+        name: &["/_actorId"],
+        cols: &[("Level", "/_level"), ("Heart", "/_hp"), ("Juice", "/_mp")],
+        only: &["1", "2", "3", "4", "8", "9", "10", "11"],
+        names: &[("1", "OMORI"), ("2", "AUBREY"), ("3", "KEL"), ("4", "HERO"), ("8", "SUNNY (Faraway Town)"), ("9", "AUBREY (Faraway Town)"), ("10", "KEL (Faraway Town)"), ("11", "HERO (Faraway Town)")],
+    }],
+};
+
+// ------------------------------------------------------------------ ENDER LILIES
+
+const ENDER_LILIES: Spec = Spec {
+    name: "ENDER LILIES: Quietus of the Knights",
+    tab: "Lily",
+    accent: (200, 205, 230),
+    kind: Some("Unreal Engine save (SaveData)"),
+    markers: &["/Player/Inventory", "/Player/SpiritEquip", "/GameMode/GameStats"],
+    subtitle: "GameSlot_<n>.sav: Lily's level and blight, prayer heals, the spirit-upgrade materials and every spirit's level.",
+    tiles: &[("Level", "/Player/Parameters/Level"), ("Blight (experience)", "/Player/Parameters/ExpPoint"), ("Prayer level", "/Player/Heals/HealPowerLevel")],
+    sections: &[Section {
+        title: "Lily",
+        rows: &[
+            ("Level", "/Player/Parameters/Level"), ("Blight (experience)", "/Player/Parameters/ExpPoint"),
+            ("Prayer (heal) level", "/Player/Heals/HealPowerLevel"), ("Prayers left", "/Player/Heals/CurrHealCount"),
+            ("Relic slots", "/Player/PassiveEquip/SlotCount"), ("Play time (seconds)", "/GameMode/GameStats/PlayTime"),
+        ],
+    }],
+    lists: &[
+        List {
+            title: "Spirit upgrade materials",
+            path: "/Player/Inventory/Currencies",
+            shape: Shape::Map,
+            names: &[
+                ("ECurrencyType::Spirit_Lv1", "Stagnant Blight"),
+                ("ECurrencyType::Spirit_Lv2", "Furious Blight"),
+                ("ECurrencyType::Spirit_Lv3", "Ancient Souls"),
+            ],
+            max: Some(Max {
+                ids: &["ECurrencyType::Spirit_Lv1", "ECurrencyType::Spirit_Lv2"],
+                cap: 999,
+                caps: &[],
+                estimate: true,
+                about: "Fills Stagnant and Furious Blight to 999, the most players report the game holds. Ancient Souls (found once each) are left alone.",
+            }),
+        },
+        List { title: "Spirit levels", path: "/Player/Inventory/ItemSpiritLevels", shape: Shape::Map, names: &[], max: None },
+    ],
+    tables: &[],
 };
