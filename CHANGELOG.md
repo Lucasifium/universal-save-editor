@@ -1,5 +1,8 @@
 # Changelog
 
+## Unreleased
+- Save manager (File › Save manager): backups and named save slots stored next to the save, restore with an automatic backup first, and set a save aside to start a new game
+
 ## 0.3.0
 
 ### New game screens
