@@ -195,7 +195,9 @@ fn pretty(path: &str, strip: &[&str]) -> String {
         }
         prev = Some(c);
     }
-    out
+    // "Item Type" is the data asset's own suffix (also in the middle: "… Item Type 01").
+    let out = out.replace(" Item Type", "");
+    out.trim().to_string()
 }
 
 impl Walk<'_> {
@@ -226,7 +228,7 @@ impl Walk<'_> {
                 ("Name", "StrProperty") => an = fstring(d, t.payload).map(|x| x.0),
                 ("BaseValue", "FloatProperty") if t.size == 4 => base = Some(t.payload),
                 ("CurrentValue", "FloatProperty") if t.size == 4 => cur = Some(t.payload),
-                ("InventoryClass", "SoftObjectProperty") => {
+                ("InventoryClass", "ObjectProperty" | "SoftObjectProperty") => {
                     if let Some((s, _)) = fstring(d, t.payload) {
                         self.container = if s.contains("Character") { "Player".into() } else { pretty(&s, &["BP_"]) };
                     }
@@ -536,11 +538,7 @@ mod tests {
 
     fn sample() -> Vec<u8> {
         // SaveData: Map<Guid, UWESaveBuffer>, one entry whose Data holds an inventory.
-        let mut inner = tg("InventoryClass", ty("SoftObjectProperty", &[]), &{
-            let mut v = fs("/Game/Blueprints/Character/Player/BP_Character_01.BP_Character_01_C");
-            v.extend(fs(""));
-            v
-        });
+        let mut inner = tg("InventoryClass", ty("ObjectProperty", &[]), &fs("/Game/Blueprints/Character/Player/BP_Character_01.BP_Character_01_C"));
         let mut items = 2i32.to_le_bytes().to_vec();
         items.extend(item("/Game/Data/ItemType/Resource/DA_Titanium_ItemType.DA_Titanium_ItemType", 7));
         items.extend(item("/Game/Data/ItemType/Resource/DA_PlantMatter_ItemType.DA_PlantMatter_ItemType", 3));
@@ -598,6 +596,7 @@ mod tests {
     fn pretty_names() {
         assert_eq!(pretty("/Game/Data/ItemType/Resource/DA_PlantMatter_ItemType.DA_PlantMatter_ItemType", &["DA_"]), "Plant Matter");
         assert_eq!(pretty("/Game/Blueprints/BaseBuilding/BP_Locker_Wall.BP_Locker_Wall_C", &["BP_"]), "Locker Wall");
+        assert_eq!(pretty("/Game/Data/DA_Oxygen_Tank_Medium_Equippable_ItemType.DA_Oxygen_Tank_Medium_Equippable_ItemType", &["DA_"]), "Oxygen Tank Medium Equippable");
     }
 
     /// Runs against a real save when SN2_SAVE names one (needs an Oodle library); prints what was found.
