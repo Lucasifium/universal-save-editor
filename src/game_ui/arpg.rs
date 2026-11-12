@@ -93,7 +93,7 @@ pub fn grim_dawn(ui: &mut Ui, cx: &mut GameCtx) {
     }
     sub.push(cx.text("/Character/Difficulty").map(|d| format!("{d} difficulty")).unwrap_or_default());
     hero(ui, accent, &name, &subtitle(sub), |ui| {
-        for (label, p) in [("Level", "/Character/Level"), ("Experience", "/Character/Experience"), ("Iron bits", "/Character/Money"), ("Tributes", "/Character/Tributes")] {
+        for (label, p) in [("Level", "/Character/Level"), ("Experience", "/Character/Experience"), ("Iron bits", "/Character/Money"), ("Tributes", "/Character/Tributes"), ("Difficulty", "/Character/Difficulty"), ("Highest difficulty unlocked", "/Character/Highest difficulty")] {
             cx.tile(ui, label, p, accent);
         }
     });
@@ -248,7 +248,7 @@ pub fn torchlight2(ui: &mut Ui, cx: &mut GameCtx) {
         sub.push(format!("{:.1} hours", s / 3600.0));
     }
     hero(ui, accent, &name, &subtitle(sub), |ui| {
-        for (label, p) in [("Level", "/Progress/Level"), ("Experience", "/Progress/Experience"), ("Gold", "/Progress/Gold"), ("Fame level", "/Progress/Fame level"), ("Fame", "/Progress/Fame")] {
+        for (label, p) in [("Level", "/Progress/Level"), ("Experience", "/Progress/Experience"), ("Gold", "/Progress/Gold"), ("Fame level", "/Progress/Fame level"), ("Fame", "/Progress/Fame"), ("Difficulty", "/Hero/Difficulty")] {
             cx.tile(ui, label, p, accent);
         }
     });

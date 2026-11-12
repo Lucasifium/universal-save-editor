@@ -123,11 +123,12 @@ impl<'a> Rd<'a> {
 
 /// Header and the start of the hero block, up to the name; returns the class, difficulty,
 /// hardcore flag and NG+ cycle.
-fn header(r: &mut Rd) -> R<(String, i32, u8, i32)> {
+fn header(r: &mut Rd) -> R<(String, i32, usize, u8, i32)> {
     let class = r.text()?;
     if class.is_empty() || !class.chars().all(|c| c.is_ascii_alphanumeric() || c == '_') {
         return Err("not a Torchlight II character".into());
     }
+    let diff_at = r.pos;
     let diff = r.i32()?;
     let hc = r.u8()?;
     let ng = r.i32()?;
@@ -145,7 +146,7 @@ fn header(r: &mut Rd) -> R<(String, i32, u8, i32)> {
     }
     r.take(11)?;
     r.ff(8)?;
-    Ok((class, diff, hc, ng))
+    Ok((class, diff, diff_at, hc, ng))
 }
 
 pub fn looks(d: &[u8]) -> bool {
@@ -228,7 +229,7 @@ fn item(r: &mut Rd) -> R<(String, usize)> {
 pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
     let mut b = Builder::new(d);
     let mut r = Rd { d, pos: 0 };
-    let (class, diff, hc, ng) = header(&mut r)?;
+    let (class, diff, diff_at, hc, ng) = header(&mut r)?;
     let hero_end = {
         // The hero block's length is the i32 just before the 11 + 8 bytes read last.
         let at = r.pos - 23;
@@ -236,8 +237,8 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
     };
     b.info(&["Hero", "Class"], class_name(&class));
     b.info(&["Hero", "Class id"], class);
-    if let Some(n) = DIFFICULTY.get(diff as usize) {
-        b.info(&["Hero", "Difficulty"], *n);
+    if (0..DIFFICULTY.len() as i32).contains(&diff) {
+        b.named(&["Hero", "Difficulty"], diff_at, Kind::I32, &DIFFICULTY);
     }
     b.info(&["Hero", "Hardcore"], hc != 0);
     b.info(&["Hero", "New game plus"], ng);
