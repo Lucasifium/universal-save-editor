@@ -3,7 +3,7 @@
 
 use super::{List, Max, Section, Shape, Spec, Table};
 
-pub static SPECS: &[Spec] = &[COTL, FALLOUT_SHELTER, DRG, S1_MONEY, S1_RANK, S1_TIME, S1_GAME, SOTF_STATE, SOTF_GAME, SOTF_WEATHER, SOTF_ITEMS, DMD, CUPHEAD, ANTIMATTER, PVZ, CELESTE, DRGS, KH3, RF4S, SKY1ST, KSP, FFPR, MCD, STONESHARD, ROGUE_TRADER, BIOSHOCK_INFINITE, SPACE_HAVEN, SNOWRUNNER, GRAVEYARD_KEEPER, NFSMW, TOS, GTA3, GTAVC, BITBURNER, TERRA_INVICTA, PRISON, FF13, SONIC_MANIA, CAVE_STORY_PLUS, CAVE_STORY, LIES_OF_P, TXR, DAVE, MSC, ULTRAKILL, RPGXP, RE5, ANNO1800, FTK, LEGO_TSS, LEGO_CLASSIC, MYZ, CMS21, MEDIEVAL_DYNASTY, MECHANICUS, ORI, OMORI, ENDER_LILIES, SW2, ES2, MOONLIGHTER, WASTELAND2, ATOM, MORTAL_SHELL, MORTAL_SHELL_2, COTW, BEAMNG, FOREST, YAKUZA3, YAKUZA4, YAKUZA5, ISHIN, SALT, DRAKENSANG, ALPHA, TYRANNY, JEDI_FO, SR3, WD2, FABLE, WANDERING_SWORD];
+pub static SPECS: &[Spec] = &[COTL, FALLOUT_SHELTER, DRG, S1_MONEY, S1_RANK, S1_TIME, S1_GAME, SOTF_STATE, SOTF_GAME, SOTF_WEATHER, SOTF_ITEMS, DMD, CUPHEAD, ANTIMATTER, PVZ, CELESTE, DRGS, KH3, RF4S, SKY1ST, KSP, FFPR, MCD, STONESHARD, ROGUE_TRADER, BIOSHOCK_INFINITE, SPACE_HAVEN, SNOWRUNNER, GRAVEYARD_KEEPER, NFSMW, TOS, GTA3, GTAVC, BITBURNER, TERRA_INVICTA, PRISON, FF13, SONIC_MANIA, CAVE_STORY_PLUS, CAVE_STORY, LIES_OF_P, TXR, DAVE, MSC, ULTRAKILL, RPGXP, RE5, ANNO1800, FTK, LEGO_TSS, LEGO_CLASSIC, MYZ, CMS21, MEDIEVAL_DYNASTY, MECHANICUS, ORI, OMORI, ENDER_LILIES, SW2, ES2, MOONLIGHTER, WASTELAND2, ATOM, MORTAL_SHELL, MORTAL_SHELL_2, COTW, BEAMNG, FOREST, YAKUZA3, YAKUZA4, YAKUZA5, ISHIN, SALT, DRAKENSANG, ALPHA, TYRANNY, JEDI_FO, SR3, WD2, FABLE, WANDERING_SWORD, STELLAR_BLADE, PRAGMATA];
 
 // ------------------------------------------------------------------ Cult of the Lamb
 
@@ -2794,4 +2794,154 @@ const WANDERING_SWORD: Spec = Spec {
     }],
     lists: &[],
     tables: &[],
+};
+
+// ------------------------------------------------------------------ Stellar Blade
+
+const STELLAR_BLADE_ITEMS: &[(&str, &str)] = &[
+    ("BetaCrystal", "Beta crystal (probably the Gold balance)"), ("LowDensityWafer", "Low-density wafer (nano element)"), ("HighDensityWafer", "High-density wafer (nano element)"),
+    ("2DQuantumWafer", "2D quantum wafer (nano element)"), ("PolymerOrganicFilm", "Polymer organic film"), ("ElastomerFiber", "Elastomer fiber"),
+    ("ECelluloseRayon", "Cellulose rayon"), ("BodyCore", "Body core"), ("betacore", "Beta core"), ("BurstCore", "Burst core"),
+    ("DroneCore", "Drone core"), ("GearCore", "Gear core"), ("WeaponCore_Damaged", "Damaged weapon core"), ("SPInitializer", "Skill reset item"),
+    ("HP_Potion", "Health potion"), ("HP_Potion_Small", "Small health potion"), ("Recovery_HP_Potion", "Recovery potion"),
+    ("ResurrectionItem", "Resurrection item"), ("PulseGrenade", "Pulse grenade"), ("HealGrenade", "Heal grenade"),
+    ("ConcussionGrenade", "Concussion grenade"), ("FlashGrenade", "Flash grenade"), ("TrapGrenade", "Trap grenade"),
+    ("Bullet_Normal", "Standard rounds"), ("Bullet_Scatter", "Scatter rounds"), ("Bullet_Railgun", "Railgun rounds"),
+    ("Bullet_Explosive", "Explosive rounds"), ("Bullet_Missile", "Missiles"), ("ETC_Item_VendingMachineCoin", "Vending machine coin"),
+    ("Money_JunkIron_A", "Junk iron A"), ("Money_JunkIron_B", "Junk iron B"), ("Money_JunkIron_C", "Junk iron C"),
+];
+
+const STELLAR_BLADE: Spec = Spec {
+    name: "Stellar Blade",
+    tab: "Eve",
+    accent: (200, 205, 220),
+    kind: Some("Unreal Engine save (SBSaveGame)"),
+    markers: &["/DataMap_SBActor/PlayerActor/HP", "/DataMap_SBItem/Item/Inventory"],
+    subtitle: "StellarBladeSave00.sav in %LOCALAPPDATA%\\SB\\Saved\\SaveGames\\<Steam id>. Item names are the game's internal ids; the save's CRC-32 is written again on save. Checked on a real early-game save, not yet tried in the game.",
+    tiles: &[("Skill points", "/DataMap_SBActor/PlayerActor/SP"), ("Level", "/DataMap_SBActor/PlayerActor/SPLevel"), ("Beta gauge", "/DataMap_SBActor/PlayerActor/BetaGauge")],
+    sections: &[
+        Section {
+            title: "Eve",
+            rows: &[
+                ("Health", "/DataMap_SBActor/PlayerActor/HP"), ("Shield", "/DataMap_SBActor/PlayerActor/Shield"),
+                ("Stamina", "/DataMap_SBActor/PlayerActor/Stamina"), ("Beta gauge", "/DataMap_SBActor/PlayerActor/BetaGauge"),
+                ("Burst gauge", "/DataMap_SBActor/PlayerActor/BurstGauge"), ("Tachy gauge", "/DataMap_SBActor/PlayerActor/TachyGauge"),
+                ("Skill points", "/DataMap_SBActor/PlayerActor/SP"), ("Level", "/DataMap_SBActor/PlayerActor/SPLevel"),
+                ("Experience", "/DataMap_SBActor/PlayerActor/SPExp"),
+            ],
+        },
+        Section {
+            title: "Game",
+            rows: &[
+                ("Play time (seconds)", "/DataMap_int32/PlayTime"), ("Difficulty setting", "/DataMap_int32/GameDifficulty"),
+                ("New Game+ playthroughs", "/DataMap_int32/NewGamePlusPlayCount"), ("Current map", "/DataMap_FString/MapName"),
+            ],
+        },
+    ],
+    lists: &[List {
+        title: "Gold, materials and consumables",
+        path: "/DataMap_SBItem/Item/Inventory",
+        shape: Shape::Array { id_key: "/ItemInstance/ItemAlias", qty_keys: &["/ItemInstance/ItemCount", "/ItemInstance/ItemChargeCount"] },
+        names: STELLAR_BLADE_ITEMS,
+        max: Some(Max {
+            ids: &["LowDensityWafer", "HighDensityWafer", "2DQuantumWafer", "PolymerOrganicFilm", "ElastomerFiber", "ECelluloseRayon"],
+            cap: 9999,
+            caps: &[],
+            estimate: true,
+            about: "Raises the six nano-element and polymer crafting materials you already have to 9,999. The game's stack figure for them is 1,000 per slot but real saves hold more, so the cap is an estimate. Gold, cores, bait, grenades, potions, gear and key items are left alone.",
+        }),
+    }],
+    tables: &[],
+};
+
+// ------------------------------------------------------------------ Pragmata
+
+const PRAGMATA_ITEMS: &[(&str, &str)] = &[
+    ("37185847", "It00043"), ("60698712", "It10016"), ("179699175", "It00020"), ("187746965", "It00034"), ("410847773",
+    "It00052"), ("456045304", "It00060"), ("477967137", "It32010"), ("546576816", "It10020"), ("558265447", "It30002"),
+    ("594303752", "It50000"), ("619773764", "It32001"), ("659273485", "It31015"), ("662500995", "It32003"), ("663376744",
+    "It00026"), ("701076331", "It00035"), ("725482672", "It50020"), ("772735750", "It00054"), ("827358611", "It32102"),
+    ("890096294", "It31003"), ("902949829", "It32005"), ("972633138", "It31005"), ("1010019990", "It10025"), ("1049082274",
+    "It31001"), ("1123299822", "It10017"), ("1179591319", "It00021"), ("1247845661", "It00032"), ("1273641536", "It32004"),
+    ("1363364141", "It50010"), ("1449550544", "It10010"), ("1566293329", "It32002"), ("1591402201", "It10013"), ("1629885634",
+    "It31018"), ("1650242729", "It10023"), ("1669182627", "It30006"), ("1764290202", "It00042"), ("1786547206", "It00053"),
+    ("1802091743", "It00041"), ("1852445624", "It00022"), ("1855745451", "It31012"), ("1883713603", "It00027"), ("1887847758",
+    "It30004"), ("1931569026", "It00062"), ("1942031930", "It30000"), ("1951767408", "It10019"), ("1966150077", "It10018"),
+    ("1984889503", "It00033"), ("2009356002", "It31017"), ("2037365272", "It32007"), ("2041150774", "It31002"), ("2074518467",
+    "It00023"), ("2107318115", "It00036"), ("2142691531", "It10000"), ("2202646009", "It00028"), ("2214733431", "It31016"),
+    ("2227368435", "It00025"), ("2429803748", "It00051"), ("2577669408", "It32000"), ("2658089936", "It32200"), ("2716541145",
+    "It10012"), ("2817286685", "It10011"), ("2819440956", "It31007"), ("2838867836", "It32006"), ("2863592220", "It31013"),
+    ("2870192522", "It00010"), ("2947257529", "It31008"), ("2995522671", "It31004"), ("3018310814", "It00044"), ("3036423139",
+    "It30003"), ("3084090558", "It10015"), ("3090659029", "It30001"), ("3118172021", "It31000"), ("3136906403", "It10024"),
+    ("3279827537", "It30007"), ("3287219028", "It31011"), ("3319989394", "It32100"), ("3440652198", "It10021"), ("3530230425",
+    "It60000"), ("3549133694", "It00039"), ("3558176768", "It32009"), ("3604778020", "It31009"), ("3720674438", "It32008"),
+    ("3746788365", "It30005"), ("3800993639", "It99999"), ("3820139266", "It31010"), ("3929263919", "It10014"), ("3940343410",
+    "It00061"), ("3970737334", "It10022"), ("4023811948", "It32101"), ("4128867654", "It31014"), ("4235794659", "It31006")
+];
+
+const PRAGMATA_WEAPONS: &[(&str, &str)] = &[
+    ("163051433", "It03100"), ("494541585", "It01600"), ("713657173", "It01200"), ("775612873", "It01500"), ("860467045",
+    "It01400"), ("1028629837", "It01000"), ("1107688515", "It02700"), ("1504483110", "It02100"), ("2427932221", "It01300"),
+    ("2600790876", "It01900"), ("2620883957", "It01800"), ("2629333698", "It02300"), ("3183340999", "It02200"), ("3320209826",
+    "It02600"), ("3516715133", "It04000"), ("3613536690", "It01700"), ("4281100518", "It02500")
+];
+
+const PRAGMATA_PERKS: &[(&str, &str)] = &[
+    ("110906079", "Pe21015"), ("155565408", "Pe00006"), ("271799045", "Pe21014"), ("450124851", "Pe13630"), ("560564079",
+    "Pe21002"), ("598897470", "Pe20007"), ("690202999", "Pe30000"), ("841271601", "Pe20004"), ("911942583", "Pe00000"),
+    ("1040890151", "Pe21009"), ("1042964762", "Pe20002"), ("1147259676", "Pe13650"), ("1189307844", "Pe13640"), ("1218555137",
+    "Pe30022"), ("1317660761", "Pe00001"), ("1379549660", "Pe30001"), ("1420355279", "Pe21018"), ("1585667794", "Pe00003"),
+    ("1596387545", "Pe20011"), ("1611914211", "Pe21013"), ("1698913819", "Pe21011"), ("1740597971", "Pe20003"), ("1908354787",
+    "Pe20001"), ("1908363473", "Pe30002"), ("2169297064", "Pe20010"), ("2208997515", "Pe20005"), ("2237314716", "Pe30013"),
+    ("2253119052", "Pe30017"), ("2313963936", "Pe20006"), ("2365119386", "Pe20008"), ("2420827925", "Pe30018"), ("2481915581",
+    "Pe30019"), ("2544407042", "Pe30021"), ("2605892101", "Pe21007"), ("2620558456", "Pe20000"), ("2722744742", "Pe21010"),
+    ("2760485071", "Pe30023"), ("2797002247", "Pe21016"), ("2820153309", "Pe60001"), ("2897315983", "Pe21012"), ("2960685315",
+    "Pe30020"), ("3000094269", "Pe13660"), ("3032724676", "Pe21003"), ("3035662856", "Pe21004"), ("3074270727", "Pe00007"),
+    ("3219377548", "Pe21017"), ("3245834254", "Pe21001"), ("3307507513", "Pe30024"), ("3345336964", "Pe13600"), ("3372994762",
+    "Pe30003"), ("3523414087", "Pe21008"), ("3553535700", "Pe30005"), ("3575509088", "Pe13620"), ("3713912905", "Pe20009"),
+    ("3735227779", "Pe13610"), ("3810885086", "Pe60000"), ("3840123116", "Pe30012"), ("3889127890", "Pe00004"), ("4063943238",
+    "Pe00005"), ("4085891812", "Pe00002"), ("4133191251", "Pe30015"), ("4191270525", "Pe20012"), ("4251594225", "Pe30007"),
+    ("4252418028", "Pe21006")
+];
+
+const PRAGMATA: Spec = Spec {
+    name: "Pragmata",
+    tab: "Hugh & Diana",
+    accent: (120, 190, 230),
+    kind: Some("RE Engine save"),
+    markers: &["/#7c416083/_GameSaveDataList/@4249498766/_InventoryItems", "/#7c416083/_GameSaveDataList/@3874718496/_PurchaseWeapons"],
+    subtitle: "data000.bin and the slot files in Steam\\userdata\\<account>\\3357650\\remote\\win64_save, opened with your own Steam account. Items, weapons and perks are listed by the game's own codes (its text files, which hold the names, aren't read). Checked on real saves, not yet tried in the game.",
+    tiles: &[("Difficulty rank points", "/#7c416083/_GameSaveDataList/@3086865873/RankPoint"), ("New Game+ playthroughs", "/#7c416083/_GameSaveDataList/@60430928/_CurrentCampaignPlaythroughCount")],
+    sections: &[Section {
+        title: "Progress",
+        rows: &[
+            ("Difficulty rank points", "/#7c416083/_GameSaveDataList/@3086865873/RankPoint"), ("Stored rank points", "/#7c416083/_GameSaveDataList/@3086865873/StoredRankPoint"),
+            ("New Game+ playthroughs", "/#7c416083/_GameSaveDataList/@60430928/_CurrentCampaignPlaythroughCount"), ("Game time (microseconds)", "/#7c416083/_GameSaveDataList/@3540344843/_GameElapsedTime"),
+        ],
+    }],
+    lists: &[List {
+        title: "Items and currencies",
+        path: "/#7c416083/_GameSaveDataList/@4249498766/_InventoryItems",
+        shape: Shape::Array { id_key: "_ID", qty_keys: &["_Quantity"] },
+        names: PRAGMATA_ITEMS,
+        max: None,
+    }],
+    tables: &[
+        Table {
+            title: "Weapons",
+            path: "/#7c416083/_GameSaveDataList/@3874718496/_PurchaseWeapons",
+            name: &["/_ID"],
+            only: &[],
+            cols: &[("Level", "/_Level"), ("Unlocked", "/_Unlock")],
+            names: PRAGMATA_WEAPONS,
+        },
+        Table {
+            title: "Perks",
+            path: "/#7c416083/_GameSaveDataList/@3656688439/EquipmentPerkSaveData/PossessionPerkUnits",
+            name: &["/_ID"],
+            only: &[],
+            cols: &[("Level", "/_Level"), ("Unlocked", "/_Unlock")],
+            names: PRAGMATA_PERKS,
+        },
+    ],
 };

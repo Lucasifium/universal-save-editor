@@ -87,7 +87,7 @@ impl Spec {
             Some(k) => kind == k,
             None => kind == "JSON",
         };
-        kind_ok && self.markers.iter().all(|m| root.pointer(m).is_some())
+        kind_ok && self.markers.iter().all(|m| root.pointer(&resolve(root, m)).is_some())
     }
 }
 
@@ -100,36 +100,93 @@ pub fn tab_label(i: u16) -> &'static str {
     SPECS[i as usize].tab
 }
 
+/// Resolves `@<hash>` steps in a spec pointer: inside an array of managers that each carry a
+/// `_Hash` (RE Engine saves, whose lists change order between saves), `@123` means the entry
+/// whose `_Hash` is 123.
+pub fn resolve(root: &Value, p: &str) -> String {
+    if !p.contains("/@") {
+        return p.to_string();
+    }
+    let mut out = String::new();
+    let mut cur = Some(root);
+    for seg in p.split('/').skip(1) {
+        let seg = match (seg.strip_prefix('@').and_then(|h| h.parse::<u64>().ok()), cur) {
+            (Some(h), Some(Value::Array(a))) => match a.iter().position(|e| e.get("_Hash").and_then(Value::as_u64) == Some(h)) {
+                Some(i) => i.to_string(),
+                None => return "/\u{0}no such entry".to_string(),
+            },
+            _ => seg.to_string(),
+        };
+        cur = match cur {
+            Some(Value::Array(a)) => seg.parse::<usize>().ok().and_then(|i| a.get(i)),
+            Some(v) => v.get(seg.replace("~1", "/").replace("~0", "~")),
+            None => None,
+        };
+        out.push('/');
+        out.push_str(&seg);
+    }
+    out
+}
+
 fn qty_path(base: &str, i: usize, key: &str) -> String {
+    // A key that starts with "/" is a pointer inside the entry (an item record nested in the entry).
+    if key.starts_with('/') {
+        return format!("{base}/{i}{key}");
+    }
     format!("{base}/{i}/{}", crate::json_view::pointer_escape(key))
+}
+
+/// A field of an array entry: plain key, or a pointer inside the entry when it starts with "/".
+fn field<'a>(e: &'a Value, key: &str) -> Option<&'a Value> {
+    if key.starts_with('/') {
+        e.pointer(key)
+    } else {
+        e.get(key)
+    }
+}
+
+/// Puts a field into a new array entry, nesting objects for a pointer key.
+#[cfg(test)]
+fn put_field(o: &mut serde_json::Map<String, Value>, key: &str, v: Value) {
+    match key.strip_prefix('/').and_then(|k| k.split_once('/')) {
+        Some((head, rest)) => {
+            let inner = o.entry(head.to_string()).or_insert_with(|| serde_json::json!({}));
+            put_field(inner.as_object_mut().unwrap(), &format!("/{rest}"), v);
+        }
+        None => {
+            o.insert(key.trim_start_matches('/').to_string(), v);
+        }
+    }
 }
 
 /// What one list entry is: (id as text, pointer of its count).
 fn entries(cx: &GameCtx, l: &List) -> Vec<(String, String)> {
-    let Some(v) = cx.get(l.path) else { return vec![] };
+    let path = resolve(cx.root, l.path);
+    let l_path = path.as_str();
+    let Some(v) = cx.get(l_path) else { return vec![] };
     match (&l.shape, v) {
         (Shape::Array { id_key, qty_keys }, Value::Array(a)) => a
             .iter()
             .enumerate()
             .filter_map(|(i, e)| {
-                let id = match e.get(*id_key)? {
+                let id = match field(e, id_key)? {
                     Value::String(s) => s.clone(),
                     n => n.as_i64().map(|n| n.to_string()).or_else(|| n.as_f64().map(|f| f.to_string()))?,
                 };
-                e.get(qty_keys[0])?.as_f64()?;
-                Some((id, qty_path(l.path, i, qty_keys[0])))
+                field(e, qty_keys[0])?.as_f64()?;
+                Some((id, qty_path(l_path, i, qty_keys[0])))
             })
             .collect(),
         (Shape::Map, Value::Object(m)) => m
             .iter()
             // "@c" is RPG Maker MV's object-reference counter, not an item.
             .filter(|(k, v)| v.is_number() && k.as_str() != "@c")
-            .map(|(k, _)| (k.clone(), format!("{}/{}", l.path, crate::json_view::pointer_escape(k))))
+            .map(|(k, _)| (k.clone(), format!("{}/{}", l_path, crate::json_view::pointer_escape(k))))
             .collect(),
         (Shape::Records { qty_key }, Value::Object(m)) => m
             .iter()
             .filter(|(_, v)| v.get(*qty_key).is_some_and(|n| n.is_number()))
-            .map(|(k, _)| (k.clone(), format!("{}/{}/{}", l.path, crate::json_view::pointer_escape(k), crate::json_view::pointer_escape(qty_key))))
+            .map(|(k, _)| (k.clone(), format!("{}/{}/{}", l_path, crate::json_view::pointer_escape(k), crate::json_view::pointer_escape(qty_key))))
             .collect(),
         _ => vec![],
     }
@@ -150,7 +207,19 @@ fn name_of(l: &List, id: &str) -> String {
 /// Sets a list entry's count, and its mirrored copies.
 fn set_count(cx: &mut GameCtx, l: &List, count_path: &str, v: Value) {
     if let Shape::Array { qty_keys, .. } = &l.shape {
-        if let Some((base, _)) = count_path.rsplit_once('/') {
+        if qty_keys[0].starts_with('/') {
+            // Pointer keys: a copy follows the count only while it equals it (a grenade's
+            // charges are not its count).
+            let old = cx.get(count_path).cloned();
+            if let Some(base) = count_path.strip_suffix(qty_keys[0]) {
+                for k in qty_keys.iter().skip(1) {
+                    let p = format!("{base}{k}");
+                    if cx.get(&p).is_some() && cx.get(&p).cloned() == old {
+                        cx.set(&p, v.clone());
+                    }
+                }
+            }
+        } else if let Some((base, _)) = count_path.rsplit_once('/') {
             for k in qty_keys.iter().skip(1) {
                 let p = format!("{base}/{}", crate::json_view::pointer_escape(k));
                 if cx.get(&p).is_some() {
@@ -193,19 +262,22 @@ fn filter(ui: &mut Ui, id: &str) -> String {
 pub fn show(i: u16, ui: &mut Ui, cx: &mut GameCtx) {
     let s = &SPECS[i as usize];
     let accent = Color32::from_rgb(s.accent.0, s.accent.1, s.accent.2);
+    let tiles: Vec<(&str, String)> = s.tiles.iter().map(|(c, p)| (*c, resolve(cx.root, p))).collect();
     hero(ui, accent, s.name, s.subtitle, |ui| {
-        for (cap, p) in s.tiles {
+        for (cap, p) in &tiles {
             if cx.get(p).is_some() {
                 cx.tile(ui, cap, p, accent);
             }
         }
     });
-    let visible: Vec<&Section> = s.sections.iter().filter(|sec| sec.rows.iter().any(|(_, p)| cx.get(p).is_some())).collect();
+    let rows_of = |sec: &Section| -> Vec<(&'static str, String)> { sec.rows.iter().map(|(l, p)| (*l, resolve(cx.root, p))).collect() };
+    let visible: Vec<(&Section, Vec<(&str, String)>)> =
+        s.sections.iter().map(|sec| (sec, rows_of(sec))).filter(|(_, rows)| rows.iter().any(|(_, p)| cx.get(p).is_some())).collect();
     columns(ui, 360.0, visible.len(), |ui, k| {
-        let sec = visible[k];
+        let (sec, rows) = &visible[k];
         panel(ui, sec.title, |ui| {
             egui::Grid::new(("simple_grid", i, k)).num_columns(2).spacing([14.0, 5.0]).show(ui, |ui| {
-                for (label, p) in sec.rows {
+                for (label, p) in rows {
                     cx.grid_row(ui, label, p, 110.0);
                 }
             });
@@ -214,7 +286,9 @@ pub fn show(i: u16, ui: &mut Ui, cx: &mut GameCtx) {
     for (ti, t) in s.tables.iter().enumerate() {
         // Rows of an array are numbered; rows of an object (the nodes of a text save, or the
         // named records of a binary one) are its keys, which name the row when `name` is empty.
-        let rows: Vec<(String, String)> = match cx.get(t.path) {
+        let t_path = resolve(cx.root, t.path);
+        let t_path = t_path.as_str();
+        let rows: Vec<(String, String)> = match cx.get(t_path) {
             Some(Value::Array(a)) => (0..a.len()).map(|i| (i.to_string(), String::new())).collect(),
             Some(Value::Object(o)) if !o.is_empty() && o.iter().all(|(k, v)| v.is_object() && !k.starts_with('@')) => {
                 o.keys().map(|k| (k.replace('~', "~0").replace('/', "~1"), k.clone())).collect()
@@ -238,7 +312,7 @@ pub fn show(i: u16, ui: &mut Ui, cx: &mut GameCtx) {
                         let name = if t.name.is_empty() {
                             key_name.clone()
                         } else {
-                            t.name.iter().filter_map(|k| cx.text(&format!("{}/{key}{k}", t.path))).collect::<Vec<_>>().join(" ")
+                            t.name.iter().filter_map(|k| cx.text(&format!("{t_path}/{key}{k}"))).collect::<Vec<_>>().join(" ")
                         };
                         if !q.is_empty() && !name.to_lowercase().contains(&q) {
                             continue;
@@ -249,7 +323,7 @@ pub fn show(i: u16, ui: &mut Ui, cx: &mut GameCtx) {
                         let name = t.names.iter().find(|(id, _)| *id == name).map_or(name, |(_, n)| n.to_string());
                         ui.label(if name.is_empty() { format!("#{}", r + 1) } else { name });
                         for (_, k) in t.cols {
-                            let p = format!("{}/{key}{k}", t.path);
+                            let p = format!("{t_path}/{key}{k}");
                             if cx.get(&p).is_some() {
                                 cx.cell(ui, &p, 64.0);
                             } else {
@@ -343,10 +417,10 @@ mod tests {
                         .iter()
                         .map(|id| {
                             let mut o = serde_json::Map::new();
-                            o.insert(id_key.to_string(), id.parse::<i64>().map_or_else(|_| json!(id), |n| json!(n)));
+                            put_field(&mut o, id_key, id.parse::<i64>().map_or_else(|_| json!(id), |n| json!(n)));
                             let low = l.max.as_ref().is_some_and(|m| m.ids.contains(id));
                             for k in *qty_keys {
-                                o.insert(k.to_string(), json!(if low { 0 } else { 3 }));
+                                put_field(&mut o, k, json!(if low { 0 } else { 3 }));
                             }
                             Value::Object(o)
                         })
@@ -388,6 +462,17 @@ mod tests {
     }
 
     #[test]
+    fn hash_steps_find_the_entry_wherever_it_sits() {
+        let a = json!({"m": [{"_Hash": 5, "x": 1}, {"_Hash": 9, "x": 2}]});
+        let b = json!({"m": [{"_Hash": 9, "x": 2}, {"_Hash": 7}, {"_Hash": 5, "x": 1}]});
+        for root in [&a, &b] {
+            assert_eq!(root.pointer(&resolve(root, "/m/@9/x")).and_then(Value::as_i64), Some(2));
+            assert_eq!(root.pointer(&resolve(root, "/m/@5/x")).and_then(Value::as_i64), Some(1));
+        }
+        assert!(a.pointer(&resolve(&a, "/m/@7/x")).is_none());
+    }
+
+    #[test]
     fn every_spec_detects_draws_and_maxes() {
         for (i, s) in SPECS.iter().enumerate() {
             let root = synthetic(s);
@@ -418,11 +503,11 @@ mod tests {
                 match &l.shape {
                     Shape::Array { id_key, qty_keys } => {
                         for e in arr.as_array().unwrap() {
-                            let id = match &e[*id_key] { Value::String(s) => s.clone(), n => n.to_string() };
+                            let id = match field(e, id_key).unwrap() { Value::String(s) => s.clone(), n => n.to_string() };
                             let cap = m.caps.iter().find(|(c, _)| *c == id).map_or(m.cap, |(_, c)| *c);
                             let want = if m.ids.contains(&id.as_str()) { cap } else { 3 };
                             for k in *qty_keys {
-                                assert_eq!(e[*k].as_i64(), Some(want), "{} {id} {k}", s.name);
+                                assert_eq!(field(e, k).unwrap().as_i64(), Some(want), "{} {id} {k}", s.name);
                             }
                         }
                     }
@@ -453,7 +538,9 @@ mod tests {
         let list = std::env::var("SAVE_EDITOR_SIMPLE").expect("SAVE_EDITOR_SIMPLE");
         for f in list.split('|').filter(|s| !s.is_empty()) {
             let path = std::path::Path::new(f);
-            let d = decode_with(&std::fs::read(path).unwrap(), &Options::for_path(path));
+            let mut o = Options::for_path(path);
+            o.password = std::env::var("SAVE_EDITOR_PASSWORD").ok();
+            let d = decode_with(&std::fs::read(path).unwrap(), &o);
             let (kind, root) = match &d.content {
                 Content::Tree(t) => (t.kind_name.clone(), t.view.clone()),
                 Content::Json { value, .. } => ("JSON".to_string(), value.clone()),
@@ -462,7 +549,7 @@ mod tests {
             let g = super::super::detect(&kind, &root);
             let Some(super::super::Game::Simple(i)) = g else { panic!("{f}: kind {kind:?} detected as {g:?}") };
             let s = &SPECS[i as usize];
-            let shown = s.sections.iter().flat_map(|sec| sec.rows).filter(|(_, p)| root.pointer(p).is_some()).count();
+            let shown = s.sections.iter().flat_map(|sec| sec.rows).filter(|(_, p)| root.pointer(&resolve(&root, p)).is_some()).count();
             let total: usize = s.sections.iter().map(|sec| sec.rows.len()).sum();
             println!("{f}: {} ({shown} of {total} values present)", s.name);
         }
