@@ -483,6 +483,7 @@ fn build_site() {
 <div class="badges"><span class="badge free">Free forever</span><span class="badge">Offline</span><span class="badge">Open source</span><span class="badge">Windows · Linux · Browser</span></div>
 <a class="btn" href="{DOWNLOAD}">Download for free</a><a class="btn alt" href="{WEB_APP}">Use it in your browser</a>
 <div class="card"><strong>Don't want to run a program?</strong> <a href="{WEB_APP}">The browser version</a> is the same editor, running inside the web page on your own computer: your save is never uploaded. It can't search your folders for saves or back them up for you, so open the file yourself and keep a copy; saving downloads the edited file. A few saves need the downloaded app (SQLite saves, and Palworld or Hogwarts Legacy saves).</div>
+<p><strong>Verify your download:</strong> every release has a <code>SHA256SUMS.txt</code>. Compare it with <code>sha256sum UniversalSaveEditor-linux-x64.tar.gz</code> (Linux) or <code>certutil -hashfile UniversalSaveEditor-windows-x64.exe SHA256</code> (Windows). The builds are not code-signed, so Windows may warn about a new file; a matching checksum shows it is the one published here.</p>
 <h2>Why download a save editor?</h2>
 {WHY}
 <h2 id="games">Games ({n})</h2>
