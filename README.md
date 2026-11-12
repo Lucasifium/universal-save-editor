@@ -313,6 +313,12 @@ and CloverPit (XOR) open already decrypted, show every value by name, and are en
 A key is only used when it gives back JSON. Bounty of One was checked on a public sample save; the
 others follow the published keys and are not yet tried on real saves.
 
+**FANTASIAN Neo Dimension**: `root.json` holds every save slot, each encrypted on its own. One slot
+opens at a time (Tools › Open another file in this archive lists the rest), decrypted and shown as one
+object whose values (`GameSystemInfo` and the rest) open as JSON by name. Only that slot is encrypted
+again on save; the rest of the file stays byte for byte. Built from the published format and not yet
+tried on a real save.
+
 **Encrypted console saves**: about 80 PlayStation 3, PlayStation 4, PSP and Vita games (189 title
 IDs) whose saves are encrypted, compressed or checksummed (Grand Theft Auto V, Red Dead Redemption 2,
 Shin Megami Tensei V, Dynasty Warriors 8, Metal Gear Solid, Resident Evil, Silent Hill and Like a

@@ -190,6 +190,8 @@ pub enum Layer {
     Saturn { kind: fmt::saturn::Kind, original: Arc<Vec<u8>>, name: String },
     /// One save in a Saturn backup memory image, written back to the bytes it was read from.
     SaturnImage { kind: fmt::saturn::Image, image: Arc<Vec<u8>>, save: fmt::saturn::Save },
+    /// FANTASIAN Neo Dimension `root.json`: one encrypted record of it.
+    Fantasian { original: Arc<Vec<u8>>, record: fmt::fantasian::Record },
     /// DeSmuME `.dsv`: the footer after the raw DS save, kept as it is.
     Dsv { footer: Arc<Vec<u8>> },
     /// Civilization V `.Civ5Save`: an uncompressed header, then the game as one zlib stream
@@ -305,6 +307,7 @@ impl Layer {
             Layer::Vms { .. } => "Dreamcast VMU file (CRC kept right)".into(),
             Layer::Saturn { kind, name, .. } => format!("{} ({name})", kind.label()),
             Layer::SaturnImage { kind, save, .. } => format!("{} ({})", kind.label(), save.name),
+            Layer::Fantasian { record, .. } => format!("FANTASIAN Neo Dimension save ({})", record.name),
             Layer::Dsv { .. } => "DeSmuME save (.dsv footer)".into(),
             Layer::Ps1Card { blocks, .. } => format!("PlayStation memory card (save in block {})", blocks[0]),
             Layer::Civ5 { .. } => "Civilization V save (compressed game data)".into(),
@@ -847,6 +850,7 @@ fn wrap(layer: &Layer, data: Vec<u8>) -> Result<Vec<u8>, String> {
             card.write_file(image, file, &data)?
         }
         Layer::Dsv { footer } => [&data[..], footer].concat(),
+        Layer::Fantasian { original, record } => fmt::fantasian::close(original, record, &data)?,
         Layer::Saturn { kind, original, .. } => fmt::saturn::save(*kind, original, &data)?,
         Layer::SaturnImage { image, save, .. } => fmt::saturn::write(image, save, &data)?,
         Layer::PsSave { kind, original, name } => fmt::pssave::save(*kind, original, name, &data)?,
@@ -1139,6 +1143,16 @@ fn peel(data: &[u8], ctx: &mut Ctx) -> Option<(Layer, Vec<u8>)> {
         ctx.hint = Some("PlayStation memory card: the first save is open; Tools › Open another file in this archive lists the others. Each game checks its own data its own way, so use the value search and test the edit in the emulator.".into());
         let save = fmt::memcard::ps1_read(&data[offset..], &s);
         return Some((Layer::Ps1Card { image: Arc::new(data.to_vec()), offset, blocks: s.blocks }, save));
+    }
+    if fmt::fantasian::looks(data) {
+        if let Some(recs) = fmt::fantasian::records(data) {
+            let pick = ctx.opts.zip_entry.as_ref().and_then(|n| recs.iter().find(|r| &r.name == n)).or_else(|| recs.iter().find(|r| r.span.1 > r.span.0)).or(recs.first());
+            if let Some((record, shown)) = pick.cloned().and_then(|r| fmt::fantasian::open(data, r)) {
+                ctx.zip_entries = recs.iter().map(|r| r.name.clone()).collect();
+                ctx.hint = Some("FANTASIAN Neo Dimension save: one save slot is open, decrypted (Tools \u{203A} Open another file in this archive lists the others). It is encrypted again on save and the other slots are left as they were.".into());
+                return Some((Layer::Fantasian { original: Arc::new(data.to_vec()), record }, shown));
+            }
+        }
     }
     if fmt::deadcells::looks(data) {
         if let Some((header, chunks)) = fmt::deadcells::open(data) {
