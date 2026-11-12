@@ -2074,7 +2074,9 @@ pub fn death_stranding2(ui: &mut Ui, cx: &mut GameCtx) {
 pub fn death_stranding1(ui: &mut Ui, cx: &mut GameCtx) {
     let accent = Color32::from_rgb(200, 150, 60);
     let sub = cx.int("/Save/Connected facilities").map(|n| format!("{n} facilities connected")).unwrap_or_default();
-    hero(ui, accent, "Death Stranding", &sub, |_| {});
+    hero(ui, accent, "Death Stranding", &sub, |ui| {
+        cx.tile(ui, "Likes received", "/Likes/Likes received", accent);
+    });
     let names: Vec<String> = match cx.get("/Facilities") {
         Some(Value::Object(m)) => m.keys().cloned().collect(),
         _ => vec![],

@@ -29,6 +29,8 @@ const MAGIC: [u8; 4] = [0x1D, 0x1E, 0x39, 0xC0];
 const PIECE: usize = 256 * 1024;
 const FACILITY_MARK: [u8; 10] = [0xD5, 0x98, 0x82, 0x17, 0x05, 0xF1, 0xC4, 0x89, 0x55, 0x29];
 const RECORD: usize = 152;
+/// The porter's record (id `9B21C18E 8E6BDE55`): an encrypted block, then plain counters.
+const PORTER_ID: [u8; 8] = [0x9B, 0x21, 0xC1, 0x8E, 0x8E, 0x6B, 0xDE, 0x55];
 
 pub use super::ds2::MATERIALS;
 
@@ -237,6 +239,16 @@ pub fn pack(w: &Wrap, data: &[u8]) -> Result<Vec<u8>, String> {
 
 // ------------------------------------------------------------------ game data
 
+/// Start of the plain counters after the porter's record: found by the table that follows them
+/// (pairs of small ids, each followed by two float maxima `FF FF 7F 7F`).
+fn porter_counters(p: &[u8]) -> Option<usize> {
+    let id = p.windows(8).position(|w| w == PORTER_ID)?;
+    let u = |at: usize| p.get(at..at + 4).map(|b| u32::from_le_bytes(b.try_into().unwrap()));
+    (id..(id + 16_384).min(p.len())).find(|&at| {
+        u(at + 112) == Some(106) && u(at + 116) == Some(109) && u(at + 120) == Some(0x7F7F_FFFF) && u(at + 124) == Some(0x7F7F_FFFF) && u(at + 128) == Some(106)
+    })
+}
+
 fn facility_table(p: &[u8]) -> Option<usize> {
     let at = p.windows(FACILITY_MARK.len()).position(|w| w == FACILITY_MARK)?;
     Some(at + 13)
@@ -290,7 +302,12 @@ pub fn parse(p: &[u8]) -> Result<TreeDoc, String> {
         }
     }
     b.info(&["Save", "Connected facilities"], connected);
-    Ok(b.finish(KIND, Checksum::None).with_note("Each facility's material stocks; the data's MD5 is written again on save."))
+    // Likes: the counter at +80 goes up with every delivery and never down (about 350 a
+    // completed order in public saves).
+    if let Some(at) = porter_counters(p) {
+        b.ranged(&["Likes", "Likes received"], at + 80, Kind::U32, 0, 99_999_999);
+    }
+    Ok(b.finish(KIND, Checksum::None).with_note("Each facility's material stocks and the likes counter; the data's MD5 is written again on save."))
 }
 
 #[cfg(test)]
@@ -312,6 +329,13 @@ mod tests {
             p[r + 0x9A..r + 0x9C].copy_from_slice(&level.to_le_bytes());
             p[r + 0x34 + 16..r + 0x34 + 20].copy_from_slice(&metals.to_le_bytes());
         }
+        let id = 0x1000;
+        p[id..id + 8].copy_from_slice(&PORTER_ID);
+        let c = id + 9 + 64;
+        p[c + 80..c + 84].copy_from_slice(&59027u32.to_le_bytes());
+        for (o, v) in [(112, 106u32), (116, 109), (120, 0x7F7F_FFFF), (124, 0x7F7F_FFFF), (128, 106)] {
+            p[c + o..c + o + 4].copy_from_slice(&v.to_le_bytes());
+        }
         fix_md5(&mut p);
         p
     }
@@ -326,6 +350,7 @@ mod tests {
         assert_eq!(doc.view.pointer("/Facilities/Distribution Center West of Capital Knot City/Metals").unwrap(), 4934);
         assert!(doc.view.pointer("/Facilities/Waystation West of Capital Knot City").is_none(), "unconnected and empty");
         assert_eq!(doc.view.pointer("/Save/Connected facilities").unwrap(), 2);
+        assert_eq!(doc.view.pointer("/Likes/Likes received").unwrap(), 59027);
         doc.set("/Facilities/Capital Knot City/Metals", serde_json::Value::from(4000)).unwrap();
         let mut edited = doc.to_bytes().unwrap();
         assert!(!looks_data(&edited), "the MD5 no longer matches until it is written again");
