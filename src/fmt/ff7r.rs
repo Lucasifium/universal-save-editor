@@ -4,8 +4,14 @@
 //! per character (0x40 bytes in Remake, 0x100 in Rebirth) starting with the level, with
 //! current/max HP, current/max MP and experience at +0x10.
 //!
-//! Worked out from the player's own saves (current HP below max where a slot was saved
-//! hurt, levels matching the game's caps); only these values are offered.
+//! The inventory is a fixed table of 2048 records further in. Remake: 0x18-byte records at
+//! 0x34DD8 (id, quantity, category, 0, then a timestamp); gil is id 20 in category 1.
+//! Rebirth: 0x20-byte records at 0x4FA50 (id, quantity, …, then a running number from
+//! 100000 at +0x1C); gil is id 1, Moogle Medals id 2 and Gold Saucer Points id 11.
+//!
+//! Worked out from real saves (current HP below max where a slot was saved hurt, levels
+//! matching the game's caps, and currency amounts matching what a memory table showed for
+//! the same slot); only these values are offered.
 
 use super::fields::{Builder, Checksum, Kind};
 use crate::tree::TreeDoc;
@@ -46,6 +52,21 @@ fn layout(d: &[u8]) -> Option<(usize, usize)> {
     }).map(|s| (s, n))
 }
 
+/// Remake: the gil record's quantity offset.
+fn remake_gil(d: &[u8]) -> Option<usize> {
+    const BASE: usize = 0x34DD8;
+    (0..2048).map(|k| BASE + k * 0x18).find(|&r| u32_at(d, r) == Some(20) && u32_at(d, r + 8) == Some(1) && u32_at(d, r + 0xC) == Some(0)).map(|r| r + 4)
+}
+
+/// Rebirth: quantity offsets of the given item ids, if the table is where it should be.
+fn rebirth_items(d: &[u8], ids: &[u32]) -> Vec<Option<usize>> {
+    const BASE: usize = 0x4FA50;
+    let table = (0..2048).all(|k| u32_at(d, BASE + k * 0x20 + 0x1C) == Some(100_000 + k as u32));
+    ids.iter()
+        .map(|&id| if table { (0..2048).map(|k| BASE + k * 0x20).find(|&r| u32_at(d, r) == Some(id)).map(|r| r + 4) } else { None })
+        .collect()
+}
+
 pub fn looks(d: &[u8]) -> bool {
     layout(d).is_some()
 }
@@ -57,6 +78,16 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
     let game = if rebirth { "Final Fantasy VII Rebirth" } else { "Final Fantasy VII Remake" };
     b.info(&["Game"], game);
     let cap = if rebirth { 70 } else { 50 };
+    if rebirth {
+        let found = rebirth_items(d, &[1, 2, 11]);
+        for (at, (name, max)) in found.into_iter().zip([("Gil", 9_999_999), ("Moogle Medals", 9_999_999), ("Gold Saucer Points", 9_999_999)]) {
+            if let Some(at) = at {
+                b.ranged(&[name], at, Kind::U32, 0, max);
+            }
+        }
+    } else if let Some(at) = remake_gil(d) {
+        b.ranged(&["Gil"], at, Kind::U32, 0, 99_999_999);
+    }
     for k in 0..n {
         let r = FIRST + k * stride;
         if u32_at(d, r + 0x14).unwrap_or(0) == 0 {
@@ -73,8 +104,8 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
         b.ranged(&["Party", w, "Experience"], r + 0x20, Kind::U32, 0, 99_999_999);
     }
     Ok(b.finish(&format!("{game} save"), Checksum::None).with_note(
-        "Party levels, HP, MP and experience. The game may recalculate max HP and MP from level and equipment when it loads; \
-         for gil and items use Value search with an amount you know.",
+        "Gil, party levels, HP, MP and experience. The game may recalculate max HP and MP from level and equipment when it loads; \
+         for items use Value search with an amount you know.",
     ))
 }
 
@@ -103,6 +134,48 @@ mod tests {
         assert_eq!(u32_at(&out, FIRST + 0x40 + 0x20), Some(12345));
     }
 
+    #[test]
+    fn currencies() {
+        // Remake: gil record in the 0x18-byte table.
+        let mut d = vec![0u8; 0x41000];
+        d[..4].copy_from_slice(&[0, 0, 1, 0]);
+        d[0x10..0x20].copy_from_slice(MARK);
+        d[0x20] = 1;
+        d[FIRST] = 10;
+        d[FIRST + 0x14] = 100;
+        let r = 0x34DD8 + 3 * 0x18;
+        d[r] = 20;
+        d[r + 4..r + 8].copy_from_slice(&1234u32.to_le_bytes());
+        d[r + 8] = 1;
+        let mut doc = parse(&d).unwrap();
+        assert_eq!(doc.view.pointer("/Gil").unwrap(), 1234);
+        doc.set("/Gil", serde_json::Value::from(99_999_999)).unwrap();
+        assert!(doc.set("/Gil", serde_json::Value::from(100_000_000)).is_err());
+        assert_eq!(u32_at(&doc.to_bytes().unwrap(), r + 4), Some(99_999_999));
+
+        // Rebirth: 0x20-byte table with running numbers.
+        let mut d = vec![0u8; 0x60000];
+        d[..4].copy_from_slice(&[0, 0, 1, 0]);
+        d[0x10..0x20].copy_from_slice(MARK);
+        d[0x20] = 2;
+        d[FIRST] = 10;
+        d[FIRST + 0x14] = 100;
+        d[FIRST + 0x54..FIRST + 0x58].copy_from_slice(&[0xFF; 4]); // rules out 0x40 records
+        for k in 0..2048 {
+            let r = 0x4FA50 + k * 0x20;
+            d[r + 0x1C..r + 0x20].copy_from_slice(&(100_000 + k as u32).to_le_bytes());
+        }
+        let r = 0x4FA50 + 4 * 0x20;
+        d[r] = 1;
+        d[r + 4..r + 8].copy_from_slice(&500u32.to_le_bytes());
+        let mut doc = parse(&d).unwrap();
+        assert_eq!(doc.view.pointer("/Game").unwrap(), "Final Fantasy VII Rebirth");
+        assert_eq!(doc.view.pointer("/Gil").unwrap(), 500);
+        assert!(doc.view.pointer("/Moogle Medals").is_none());
+        doc.set("/Gil", serde_json::Value::from(9_999_999)).unwrap();
+        assert_eq!(u32_at(&doc.to_bytes().unwrap(), r + 4), Some(9_999_999));
+    }
+
     /// Research aid: SAVE_EDITOR_FF7R_DIR = a folder of Remake/Rebirth saves (read only).
     #[test]
     #[ignore]
@@ -114,7 +187,7 @@ mod tests {
                 Ok(doc) => {
                     assert_eq!(doc.to_bytes().unwrap(), d);
                     let lv: Vec<String> = doc.view["Party"].as_object().unwrap().values().map(|c| c["Level"].to_string()).collect();
-                    println!("{:?}: {} levels {:?}", e.file_name(), doc.kind_name, lv);
+                    println!("{:?}: {} levels {:?} gil {}", e.file_name(), doc.kind_name, lv, doc.view["Gil"]);
                 }
                 Err(err) => println!("{:?}: {err}", e.file_name()),
             }

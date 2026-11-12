@@ -114,7 +114,6 @@ fn readme_row(g: &GameInfo, rows: &[(String, String)]) -> Option<(usize, String)
     let alias = match g.name {
         n if n.starts_with("Dark Souls") => Some("Elden Ring, Dark Souls"),
         n if n.starts_with("Enderal") => Some("Skyrim, Fallout 4"),
-        "Final Fantasy VII Rebirth" => Some("Final Fantasy VII Remake"),
         "Final Fantasy X / X-2 HD Remaster" => Some("Final Fantasy X (HD Remaster"),
         n if n.starts_with("Mass Effect Legendary Edition (ME2") || n.starts_with("Mass Effect Legendary Edition (ME3") => Some("Mass Effect 2, Mass Effect 3"),
         "Yakuza: Like a Dragon" => Some("Yakuza Kiwami 2, Like a Dragon"),

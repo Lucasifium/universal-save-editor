@@ -1018,7 +1018,11 @@ pub fn ff7_remake(ui: &mut Ui, cx: &mut GameCtx) {
         Some(Value::Object(m)) => m.keys().cloned().collect(),
         _ => vec![],
     };
-    hero(ui, accent, &game, &format!("{} party members in this slot", members.len()), |_| {});
+    hero(ui, accent, &game, &format!("{} party members in this slot", members.len()), |ui| {
+        for k in ["Gil", "Moogle Medals", "Gold Saucer Points"] {
+            cx.tile(ui, k, &format!("/{k}"), accent);
+        }
+    });
     panel(ui, "Party", |ui| {
         egui::ScrollArea::horizontal().id_salt("ff7r_scroll").show(ui, |ui| {
         egui::Grid::new("ff7r_party").num_columns(7).striped(true).spacing([12.0, 4.0]).show(ui, |ui| {
