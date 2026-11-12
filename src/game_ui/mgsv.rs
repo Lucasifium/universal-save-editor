@@ -52,6 +52,7 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
             ui.weak("GMP is capped at 99,999,999 in the game. Close the game and turn Steam Cloud off for it before editing.");
         });
     }
+    bases(ui, cx);
     resources(ui, cx);
     staff(ui, cx);
     let flags: Vec<String> = names(cx, "Mother Base").into_iter().filter(|n| n.starts_with("mbmIsOpened") && n.ends_with("Section")).collect();
@@ -80,29 +81,35 @@ fn resources(ui: &mut Ui, cx: &mut GameCtx) {
         return;
     }
     panel(ui, "Mother Base resources", |ui| {
-        if ui.button("Max crafting materials").on_hover_text("Fuel, biological, metals and plants to 999,999 usable; fuel, biological and metals also to 1,000,000 processed (an estimate of the cap)").clicked() {
+        if ui.button("Max crafting materials").on_hover_text("Fuel, biological, metals and plants: the online amount to 1,000,000 (the game's own cap for it), processed too").clicked() {
             for (i, n) in rs.iter().enumerate() {
                 if i < 13 {
-                    cx.set(&format!("/Resources/{}/Usable", esc(n)), json!(999_999));
+                    cx.set(&format!("/Resources/{}/Usable (online)", esc(n)), json!(1_000_000));
                 }
                 if i < 5 {
-                    cx.set(&format!("/Resources/{}/Processing", esc(n)), json!(1_000_000));
+                    cx.set(&format!("/Resources/{}/Processed (online)", esc(n)), json!(1_000_000));
                 }
             }
         }
-        Grid::new("mgsv_res").num_columns(3).spacing([14.0, 4.0]).show(ui, |ui| {
+        Grid::new("mgsv_res").num_columns(5).spacing([14.0, 4.0]).show(ui, |ui| {
             ui.strong("Resource");
-            ui.strong("Usable");
-            ui.strong("Processing");
+            ui.strong("Owned");
+            ui.strong("Online");
+            ui.strong("Local");
+            ui.strong("Processed (online)");
             ui.end_row();
             for n in &rs {
                 ui.label(n);
-                cx.editor(ui, &format!("/Resources/{}/Usable", esc(n)), 90.0);
-                cx.editor(ui, &format!("/Resources/{}/Processing", esc(n)), 90.0);
+                let p = |f: &str| format!("/Resources/{}/{f}", esc(n));
+                let total = cx.int(&p("Usable (online)")).unwrap_or(0) + cx.int(&p("Usable (local)")).unwrap_or(0);
+                ui.label(total.to_string());
+                cx.editor(ui, &p("Usable (online)"), 90.0);
+                cx.editor(ui, &p("Usable (local)"), 90.0);
+                cx.editor(ui, &p("Processed (online)"), 90.0);
                 ui.end_row();
             }
         });
-        ui.weak("Counts as the save stores them. Check them against the in-game resource screen before relying on them.");
+        ui.weak("The game shows Owned = online + local (the number with the globe is the online part). Checked against the in-game vehicle, walker gear and placed-weapon screens.");
     });
 }
 
@@ -168,5 +175,37 @@ fn staff(ui: &mut Ui, cx: &mut GameCtx) {
             }
         });
         ui.weak("Rank is the staff member's stat rank (S++ is the top); every other stat follows from rank and stat distribution. The rest of each member's fields are in the Tree.");
+    });
+}
+
+fn bases(ui: &mut Ui, cx: &mut GameCtx) {
+    let bs = names(cx, "Bases");
+    if bs.is_empty() {
+        return;
+    }
+    panel(ui, "Mother Base and FOB platforms", |ui| {
+        if ui.button("Finish every platform (grade 4)").clicked() {
+            for b in &bs {
+                for pl in names(cx, &format!("Bases/{}", esc(b))) {
+                    let p = format!("/Bases/{}/{}", esc(b), esc(&pl));
+                    cx.set(&format!("{p}/Grade (0-4)"), json!(4));
+                    cx.set(&format!("{p}/Under construction"), json!(false));
+                }
+            }
+        }
+        for b in &bs {
+            ui.collapsing(b.as_str(), |ui| {
+                Grid::new(format!("mgsv_base_{b}")).num_columns(3).spacing([14.0, 4.0]).show(ui, |ui| {
+                    for pl in names(cx, &format!("Bases/{}", esc(b))) {
+                        ui.label(&pl);
+                        let p = format!("/Bases/{}/{}", esc(b), esc(&pl));
+                        cx.editor(ui, &format!("{p}/Grade (0-4)"), 50.0);
+                        cx.editor(ui, &format!("{p}/Under construction"), 50.0);
+                        ui.end_row();
+                    }
+                });
+            });
+        }
+        ui.weak("The save lists 35 platform slots in order: Mother Base, then FOB 1 to 4, each Command, Combat, R&D, Base Development, Support, Intel, Medical (matches the in-game base screens). Not every FOB platform exists until built in the game.");
     });
 }
