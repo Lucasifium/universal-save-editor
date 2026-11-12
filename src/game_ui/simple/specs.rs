@@ -3,7 +3,7 @@
 
 use super::{List, Max, Section, Shape, Spec, Table};
 
-pub static SPECS: &[Spec] = &[COTL, FALLOUT_SHELTER, DRG, S1_MONEY, S1_RANK, S1_TIME, S1_GAME, SOTF_STATE, SOTF_GAME, SOTF_WEATHER, SOTF_ITEMS, DMD, CUPHEAD, ANTIMATTER, PVZ, CELESTE, DRGS, KH3, RF4S, SKY1ST, KSP, FFPR, MCD, STONESHARD, ROGUE_TRADER, BIOSHOCK_INFINITE, SPACE_HAVEN, SNOWRUNNER, GRAVEYARD_KEEPER, NFSMW, TOS, GTA3, GTAVC, BITBURNER, TERRA_INVICTA, PRISON, FF13, SONIC_MANIA, CAVE_STORY_PLUS, CAVE_STORY, LIES_OF_P, TXR, DAVE, MSC, ULTRAKILL, RPGXP, RE5, ANNO1800, FTK, LEGO_TSS, LEGO_CLASSIC, MYZ, CMS21, MEDIEVAL_DYNASTY, MECHANICUS, SR3, JEDI_FO];
+pub static SPECS: &[Spec] = &[COTL, FALLOUT_SHELTER, DRG, S1_MONEY, S1_RANK, S1_TIME, S1_GAME, SOTF_STATE, SOTF_GAME, SOTF_WEATHER, SOTF_ITEMS, DMD, CUPHEAD, ANTIMATTER, PVZ, CELESTE, DRGS, KH3, RF4S, SKY1ST, KSP, FFPR, MCD, STONESHARD, ROGUE_TRADER, BIOSHOCK_INFINITE, SPACE_HAVEN, SNOWRUNNER, GRAVEYARD_KEEPER, NFSMW, TOS, GTA3, GTAVC, BITBURNER, TERRA_INVICTA, PRISON, FF13, SONIC_MANIA, CAVE_STORY_PLUS, CAVE_STORY, LIES_OF_P, TXR, DAVE, MSC, ULTRAKILL, RPGXP, RE5, ANNO1800, FTK, LEGO_TSS, LEGO_CLASSIC, MYZ, CMS21, MEDIEVAL_DYNASTY, MECHANICUS, SR3, WD2, JEDI_FO];
 
 // ------------------------------------------------------------------ Cult of the Lamb
 
@@ -2023,6 +2023,24 @@ const SR3: Spec = Spec {
         },
         Section { title: "Statistics", rows: &[("Barnstorms found", "/Statistics/Barnstorms found"), ("Stunt jumps found", "/Statistics/Stunt jumps found")] },
         Section { title: "Game", rows: &[("Difficulty index (0 to 2)", "/Game/Difficulty index")] },
+    ],
+    lists: &[],
+    tables: &[],
+};
+
+// ------------------------------------------------------------------ Watch Dogs 2
+
+const WD2: Spec = Spec {
+    name: "Watch Dogs 2",
+    tab: "Marcus",
+    accent: (230, 60, 110),
+    kind: Some(crate::fmt::wd2::KIND),
+    markers: &["/Player/Money"],
+    subtitle: "Numbered .save files in the Ubisoft Connect save folder (2688 or 3619).",
+    tiles: &[("Money", "/Player/Money"), ("Followers", "/Player/Followers"), ("Research points", "/Player/Research points")],
+    sections: &[
+        Section { title: "Player", rows: &[("Money", "/Player/Money"), ("Followers", "/Player/Followers"), ("Research points", "/Player/Research points")] },
+        Section { title: "Totals", rows: &[("Money earned in total", "/Totals/Money earned in total"), ("Followers gained in total", "/Totals/Followers gained in total")] },
     ],
     lists: &[],
     tables: &[],

@@ -3,7 +3,7 @@
 > **Free, and it always will be.** No price, no ads, no account, no paid version, no online service, no
 > rate limits. If anyone is charging you for this, it isn't from here.
 
-An offline save editor and save manager for 280+ (288) PC games (edit saves, and back up, name and restore them): Cairn, Terraria (characters and a world map editor),
+An offline save editor and save manager for 280+ (289) PC games (edit saves, and back up, name and restore them): Cairn, Terraria (characters and a world map editor),
 Oxygen Not Included, RimWorld, Stardew Valley, Onimusha: Way of the Sword, Elden Ring, Dark Souls,
 Cyberpunk 2077, the Persona, Yakuza and Final Fantasy games, Ren'Py visual novels, RPG Maker games
 and more (the full list is below). Written in Rust (egui). Nothing is uploaded anywhere, and there are
@@ -160,6 +160,7 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 | SnowRunner | *Garage*: money, rank, experience, the statistics (money earned and spent, trucks and add-ons bought and sold, sessions), the difficulty factors and the trucks in the warehouse. The save is JSON followed by a NUL byte, which is kept (checked on two real saves, not yet tried in the game) |
 | Star Wars Jedi: Fallen Order | *Cal Kestis*: unspent and total skill points, XP toward the next point, stims carried and capacity, health and Force upgrades and fragments, secrets and map sections, deaths and revives. The zlib-packed actor records are opened and packed again on save (checked on a public save, not yet tried in the game) |
 | Saints Row: The Third (and Remastered) | *Boss*: cash and the crib stash (the game keeps them in cents), respect level and respect, stunt jumps, barnstorms and difficulty (`sr3save_NN.sr3s_pc`); the save's CRC-32 is rewritten (checked on public saves, not yet tried in the game) |
+| Watch Dogs 2 | *Marcus*: money, followers and research points (while some are unspent), and the lifetime totals, changed in place in the save's object tree (checked on public saves, not yet tried in the game) |
 | Grand Theft Auto III | *Player*: money (both copies the game keeps), hidden packages, and the statistics (progress, missions, stunt jumps, days, times arrested and died, kills); the save's checksum is rewritten (checked on public saves, not yet tried in the game) |
 | Grand Theft Auto: Vice City | *Player*: money (both copies the game keeps), hidden packages, and the statistics (progress, stunt jumps, days, times arrested and died, kills); the save's checksum is rewritten (checked on public saves, not yet tried in the game) |
 | Bitburner | *Player*: money, BitNode, karma, HP, the skill levels and the experience behind them (an exported save; the JSON nested inside it is opened as one; checked on a real save, not yet tried in the game) |

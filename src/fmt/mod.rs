@@ -160,6 +160,7 @@ pub mod pvz;
 pub mod gta3;
 pub mod jedi;
 pub mod sr3;
+pub mod wd2;
 pub mod tos;
 pub mod sims1;
 pub mod sims2;
@@ -452,6 +453,11 @@ pub fn parse_binary(d: &[u8]) -> Option<TreeDoc> {
     }
     if jedi::looks(d) {
         if let Ok(t) = jedi::parse(d) {
+            return Some(t);
+        }
+    }
+    if wd2::looks(d) {
+        if let Ok(t) = wd2::parse(d) {
             return Some(t);
         }
     }
