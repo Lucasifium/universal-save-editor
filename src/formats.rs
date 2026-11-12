@@ -64,8 +64,8 @@ pub enum Layer {
     Utf8Bom,
     /// JSON text followed by NUL bytes (SnowRunner's `CompleteSave.cfg` ends in one).
     NulPadded(usize),
-    /// UTF-16 text with a byte-order mark (converted to UTF-8 for editing).
-    Utf16 { big_endian: bool },
+    /// UTF-16 text (converted to UTF-8 for editing), with or without a byte-order mark.
+    Utf16 { big_endian: bool, bom: bool },
     /// gzip stream (magic 1F 8B).
     Gzip,
     /// Raw zlib stream.
@@ -280,7 +280,9 @@ impl Layer {
             Layer::ZipEntry { name, .. } => format!("zip archive ({name})"),
             Layer::Utf8Bom => "UTF-8 BOM".into(),
             Layer::NulPadded(_) => "JSON followed by a NUL byte".into(),
-            Layer::Utf16 { big_endian } => format!("UTF-16 {}", if *big_endian { "BE" } else { "LE" }),
+            Layer::Utf16 { big_endian, bom } => {
+                format!("UTF-16 {}{}", if *big_endian { "BE" } else { "LE" }, if *bom { "" } else { " (no BOM)" })
+            }
             Layer::Gzip => "gzip".into(),
             Layer::Zlib => "zlib".into(),
             Layer::Deflate => "deflate".into(),
@@ -764,9 +766,13 @@ fn wrap(layer: &Layer, data: Vec<u8>) -> Result<Vec<u8>, String> {
         }
         Layer::Utf8Bom => [BOM, &data].concat(),
         Layer::NulPadded(n) => [data, vec![0u8; *n]].concat(),
-        Layer::Utf16 { big_endian } => {
+        Layer::Utf16 { big_endian, bom } => {
             let s = String::from_utf8(data).map_err(|_| "UTF-16 layer needs text".to_string())?;
-            let mut out = if *big_endian { vec![0xFE, 0xFF] } else { vec![0xFF, 0xFE] };
+            let mut out = match (bom, big_endian) {
+                (false, _) => vec![],
+                (true, true) => vec![0xFE, 0xFF],
+                (true, false) => vec![0xFF, 0xFE],
+            };
             for u in s.encode_utf16() {
                 out.extend_from_slice(&if *big_endian { u.to_be_bytes() } else { u.to_le_bytes() });
             }
@@ -2232,12 +2238,14 @@ fn peel_bundle(data: &[u8], ctx: &mut Ctx) -> Option<(Layer, Vec<u8>)> {
 }
 
 fn peel_utf16(data: &[u8]) -> Option<(Layer, Vec<u8>)> {
-    let big_endian = match data.get(..2)? {
-        [0xFF, 0xFE] => false,
-        [0xFE, 0xFF] => true,
+    let (big_endian, bom) = match data.get(..2)? {
+        [0xFF, 0xFE] => (false, true),
+        [0xFE, 0xFF] => (true, true),
+        // No mark: only JSON written as UTF-16 LE ("{\0\"\0..."), checked over its first characters.
+        [b'{' | b'[', 0] if data.len() >= 8 && data.iter().take(64).skip(1).step_by(2).all(|b| *b == 0) => (false, false),
         _ => return None,
     };
-    let body = &data[2..];
+    let body = if bom { &data[2..] } else { data };
     if body.len() % 2 != 0 {
         return None;
     }
@@ -2246,7 +2254,10 @@ fn peel_utf16(data: &[u8]) -> Option<(Layer, Vec<u8>)> {
         .map(|c| if big_endian { u16::from_be_bytes([c[0], c[1]]) } else { u16::from_le_bytes([c[0], c[1]]) })
         .collect();
     let s = String::from_utf16(&units).ok()?;
-    is_printable(&s).then(|| (Layer::Utf16 { big_endian }, s.into_bytes()))
+    if !bom && serde_json::from_str::<serde_json::Value>(&s).is_err() {
+        return None;
+    }
+    is_printable(&s).then(|| (Layer::Utf16 { big_endian, bom }, s.into_bytes()))
 }
 
 /// Single-byte XOR obfuscation: try the keys that would turn the first byte into
@@ -2860,8 +2871,9 @@ mod tests {
             vec![Layer::Snappy],
             vec![Layer::Xz],
             vec![Layer::Bzip2],
-            vec![Layer::Utf16 { big_endian: false }],
-            vec![Layer::Utf16 { big_endian: true }],
+            vec![Layer::Utf16 { big_endian: false, bom: true }],
+            vec![Layer::Utf16 { big_endian: true, bom: true }],
+            vec![Layer::Utf16 { big_endian: false, bom: false }],
             vec![Layer::Xor(0x5A)],
             vec![Layer::Base64Lines { width: 16, crlf: true }],
             vec![Layer::Es3 { password: "password".into(), iv: vec![3; 16] }],

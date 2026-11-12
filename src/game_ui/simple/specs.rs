@@ -3,7 +3,7 @@
 
 use super::{List, Max, Section, Shape, Spec, Table};
 
-pub static SPECS: &[Spec] = &[COTL, FALLOUT_SHELTER, DRG, S1_MONEY, S1_RANK, S1_TIME, S1_GAME, SOTF_STATE, SOTF_GAME, SOTF_WEATHER, SOTF_ITEMS, DMD, CUPHEAD, ANTIMATTER, PVZ, CELESTE, DRGS, KH3, RF4S, SKY1ST, KSP, FFPR, MCD, STONESHARD, ROGUE_TRADER, BIOSHOCK_INFINITE, SPACE_HAVEN, SNOWRUNNER, GRAVEYARD_KEEPER, NFSMW, TOS, GTA3, GTAVC, BITBURNER, TERRA_INVICTA, PRISON, FF13, SONIC_MANIA, CAVE_STORY_PLUS, CAVE_STORY, LIES_OF_P, TXR, DAVE, MSC, ULTRAKILL, RPGXP, RE5, ANNO1800];
+pub static SPECS: &[Spec] = &[COTL, FALLOUT_SHELTER, DRG, S1_MONEY, S1_RANK, S1_TIME, S1_GAME, SOTF_STATE, SOTF_GAME, SOTF_WEATHER, SOTF_ITEMS, DMD, CUPHEAD, ANTIMATTER, PVZ, CELESTE, DRGS, KH3, RF4S, SKY1ST, KSP, FFPR, MCD, STONESHARD, ROGUE_TRADER, BIOSHOCK_INFINITE, SPACE_HAVEN, SNOWRUNNER, GRAVEYARD_KEEPER, NFSMW, TOS, GTA3, GTAVC, BITBURNER, TERRA_INVICTA, PRISON, FF13, SONIC_MANIA, CAVE_STORY_PLUS, CAVE_STORY, LIES_OF_P, TXR, DAVE, MSC, ULTRAKILL, RPGXP, RE5, ANNO1800, FTK];
 
 // ------------------------------------------------------------------ Cult of the Lamb
 
@@ -1746,4 +1746,35 @@ const ANNO1800: Spec = Spec {
     sections: &[],
     lists: &[],
     tables: &[],
+};
+
+// ------------------------------------------------------------------ For The King
+
+const FTK: Spec = Spec {
+    name: "For The King",
+    tab: "Party",
+    accent: (196, 150, 60),
+    kind: None,
+    markers: &["/m_GameInfo/m_GameDefinition", "/m_PlayerSerialize", "/m_GameStates/m_GameFlowStates/m_LifePool/$content"],
+    subtitle: "An adventure save (.run) in the game's save folder. Each hero keeps their own gold. Health above the hero's maximum is cut back by the game; the life pool is how many times the party can still be revived.",
+    tiles: &[("Life pool", "/m_GameStates/m_GameFlowStates/m_LifePool/$content")],
+    sections: &[Section {
+        title: "Adventure",
+        rows: &[
+            ("Life pool", "/m_GameStates/m_GameFlowStates/m_LifePool/$content"), ("Extra life pool", "/m_GameStates/m_GameFlowStates/m_LifePoolMaxMod/$content"),
+        ],
+    }],
+    lists: &[],
+    tables: &[Table {
+        title: "Heroes",
+        path: "/m_PlayerSerialize",
+        name: &["/m_InstData/3/$content"],
+        only: &[],
+        cols: &[
+            ("Gold", "/m_StateCSData/m_Gold/$content"), ("Level", "/m_StateCSData/m_PlayerLevel/$content"), ("XP", "/m_StateCSData/m_PlayerXP/$content"),
+            ("Health", "/m_StateCSData/m_HealthCurrent/$content"), ("Focus", "/m_StateCSData/m_FocusPoints/$content"),
+            ("Max health +", "/m_StateCSData/m_AugmentedMaxHealth/$content"), ("Max focus +", "/m_StateCSData/m_AugmentedMaxFocus/$content"),
+        ],
+        names: &[],
+    }],
 };
