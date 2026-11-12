@@ -16,6 +16,7 @@ pub mod fantasian;
 pub mod kh3;
 mod kh3_tables;
 pub mod rf4s;
+pub mod sky1st;
 pub mod titanquest;
 pub mod torchlight2;
 pub mod dragonage;
@@ -266,6 +267,11 @@ pub fn parse_binary(d: &[u8]) -> Option<TreeDoc> {
     }
     if ffx2::looks(d) {
         if let Ok(t) = ffx2::parse(d) {
+            return Some(t);
+        }
+    }
+    if sky1st::looks(d) {
+        if let Ok(t) = sky1st::parse(d) {
             return Some(t);
         }
     }

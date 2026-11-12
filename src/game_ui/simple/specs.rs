@@ -3,7 +3,7 @@
 
 use super::{List, Max, Section, Shape, Spec, Table};
 
-pub static SPECS: &[Spec] = &[COTL, FALLOUT_SHELTER, DRG, S1_MONEY, S1_RANK, S1_TIME, S1_GAME, SOTF_STATE, SOTF_GAME, SOTF_WEATHER, SOTF_ITEMS, DMD, CUPHEAD, ANTIMATTER, PVZ, CELESTE, DRGS, KH3, RF4S];
+pub static SPECS: &[Spec] = &[COTL, FALLOUT_SHELTER, DRG, S1_MONEY, S1_RANK, S1_TIME, S1_GAME, SOTF_STATE, SOTF_GAME, SOTF_WEATHER, SOTF_ITEMS, DMD, CUPHEAD, ANTIMATTER, PVZ, CELESTE, DRGS, KH3, RF4S, SKY1ST];
 
 // ------------------------------------------------------------------ Cult of the Lamb
 
@@ -893,6 +893,43 @@ const RF4S: Spec = Spec {
             caps: &[],
             estimate: false,
             about: "Sets lumber and material stone to 50,000, the most the game keeps. Fertilizer is left alone.",
+        }),
+    }],
+    tables: &[],
+};
+
+// ------------------------------------------------------------------ Trails in the Sky 1st Chapter
+
+const SKY1ST: Spec = Spec {
+    name: "Trails in the Sky 1st Chapter",
+    tab: "Bracers",
+    accent: (200, 150, 60),
+    kind: Some(crate::fmt::sky1st::KIND),
+    markers: &["/Party/Mira"],
+    subtitle: "",
+    tiles: &[("Mira", "/Party/Mira")],
+    sections: &[
+        Section {
+            title: "Characters 1 to 4",
+            rows: &[
+                ("1: experience", "/Characters/Character 1/Experience"), ("1: max HP", "/Characters/Character 1/Max HP"), ("1: max EP", "/Characters/Character 1/Max EP"),
+                ("2: experience", "/Characters/Character 2/Experience"), ("2: max HP", "/Characters/Character 2/Max HP"), ("2: max EP", "/Characters/Character 2/Max EP"),
+                ("3: experience", "/Characters/Character 3/Experience"), ("3: max HP", "/Characters/Character 3/Max HP"), ("3: max EP", "/Characters/Character 3/Max EP"),
+                ("4: experience", "/Characters/Character 4/Experience"), ("4: max HP", "/Characters/Character 4/Max HP"), ("4: max EP", "/Characters/Character 4/Max EP"),
+            ],
+        },
+    ],
+    lists: &[List {
+        title: "Sepith",
+        path: "/Sepith",
+        shape: Shape::Map,
+        names: &[],
+        max: Some(Max {
+            ids: &["Earth", "Water", "Fire", "Wind", "Time", "Space", "Mirage", "Mass"],
+            cap: crate::fmt::sky1st::SEPITH_CAP,
+            caps: &[],
+            estimate: false,
+            about: "Sets all eight sepith to 9,999, the most the game holds.",
         }),
     }],
     tables: &[],
