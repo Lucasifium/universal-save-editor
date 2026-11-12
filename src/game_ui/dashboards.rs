@@ -1035,7 +1035,7 @@ pub fn onimusha(ui: &mut Ui, cx: &mut GameCtx) {
             ui.weak("The game shows these counts as On Hand and In Storage. Key items (weapons, the bow) have no count.");
             ui.add_space(4.0);
             onimusha_add_material(ui, cx, &items, i);
-            super::crafting::offer(super::Game::Onimusha, ui, cx);
+            super::crafting::onimusha_button(ui, cx, i);
         });
     }
     // Charms: unused entries hold the "no charm" ID 325704896. Level 0 is the

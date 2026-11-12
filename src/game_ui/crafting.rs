@@ -117,9 +117,9 @@ pub fn about(game: Game) -> &'static str {
              game states no limit. Lumina, Recoat and story items are left alone."
         }
         Game::Onimusha => {
-            "Sets the upgrade materials on hand in every save slot (Hempen, Cotton and Fine Silk Cloth, \
+            "Sets the upgrade materials on hand in the save slot you're viewing (Hempen, Cotton and Fine Silk Cloth, \
              Leather, Whetstone, Iron, Tempered Iron, Tamahagane, Malicite, Malicite Mass, Byakue's Talisman \
-             and Dohatsu-ten's Horn) to 999, the most the game holds. Materials a slot doesn't have yet are \
+             and Dohatsu-ten's Horn) to 999, the most the game holds. Materials the slot doesn't have yet are \
              added the way the game adds a newly found item (Byakue's Talisman and Dohatsu-ten's Horn \
              only once that Genma is beaten). Power Stones and Oni Stones (skill currencies), \
              Oni Cloth (each makes one Hozuki Pouch), tributes, medicine and key items are left alone."
@@ -167,6 +167,11 @@ pub fn stacks(game: Game, cx: &GameCtx) -> Result<Vec<Stack>, &'static str> {
 /// Raises every material stack below its cap. Returns how many stacks changed.
 pub fn apply(game: Game, cx: &mut GameCtx) -> usize {
     let Ok(list) = stacks(game, cx) else { return 0 };
+    raise(&list, cx)
+}
+
+/// Raises (or creates) each stack in `list` that is below its cap.
+fn raise(list: &[Stack], cx: &mut GameCtx) -> usize {
     let mut n = 0;
     for s in list.iter().filter(|s| s.have < s.cap) {
         for (p, v) in &s.create {
@@ -182,7 +187,13 @@ pub fn apply(game: Game, cx: &mut GameCtx) -> usize {
 
 /// The "Max crafting materials" button (or a note on why it isn't offered).
 pub fn button(game: Game, ui: &mut Ui, cx: &mut GameCtx) {
-    match stacks(game, cx) {
+    let list = stacks(game, cx);
+    button_for(game, list, "this save", ui, cx);
+}
+
+/// The button for the stacks in `list` (`scope` names where they are, for the hover text).
+fn button_for(game: Game, list: Result<Vec<Stack>, &'static str>, scope: &str, ui: &mut Ui, cx: &mut GameCtx) {
+    match list {
         Err(why) => {
             ui.weak(why);
         }
@@ -193,13 +204,20 @@ pub fn button(game: Game, ui: &mut Ui, cx: &mut GameCtx) {
                 1 => "Max crafting materials (1 stack)".to_string(),
                 n => format!("Max crafting materials ({n} stacks)"),
             };
-            let why_off = if list.is_empty() { "No crafting materials in this save." } else { "Every crafting material is already a full stack." };
+            let why_off = if list.is_empty() { format!("No crafting materials in {scope}.") } else { "Every crafting material is already a full stack.".to_string() };
             let r = ui.add_enabled(low > 0, egui::Button::new(label)).on_hover_text(about(game)).on_disabled_hover_text(why_off);
             if r.clicked() {
-                apply(game, cx);
+                raise(&list, cx);
             }
         }
     }
+}
+
+/// Onimusha's button, for the one save slot on screen (`slot`, an index into the slot list).
+pub fn onimusha_button(ui: &mut Ui, cx: &mut GameCtx, slot: usize) {
+    let Some(base) = super::dashboards::ree_slots(cx.root) else { return };
+    let list = onimusha_slot(cx, &base, slot);
+    button_for(Game::Onimusha, Ok(list), "this save slot", ui, cx);
 }
 
 /// The button, only where this save has the game's crafting materials list (nothing otherwise).
@@ -655,33 +673,37 @@ pub fn onimusha_new_entry(items: &str, k: usize, id: i64, order: i64, count: i64
     ]
 }
 
-/// Every used save slot's material entries; the count raised is EquipNum (on hand).
-/// Materials the slot doesn't have yet get a new entry, as long as the list has room.
+/// Every used save slot's material entries (for the catalog and tests; the screen's button
+/// works on one slot, see `onimusha_slot`).
 fn onimusha(cx: &GameCtx) -> Vec<Stack> {
     let Some(base) = super::dashboards::ree_slots(cx.root) else { return vec![] };
     let slots = cx.get(&base).and_then(Value::as_array).map_or(0, Vec::len);
+    (0..slots).filter(|i| cx.int(&format!("{base}/{i}/_Data/_ResourceData/PlayTime")).unwrap_or(0) > 0).flat_map(|i| onimusha_slot(cx, &base, i)).collect()
+}
+
+/// One save slot's material entries; the count raised is EquipNum (on hand). Materials the
+/// slot doesn't have yet get a new entry, as long as the list has room.
+pub fn onimusha_slot(cx: &GameCtx, base: &str, i: usize) -> Vec<Stack> {
     let mut out = vec![];
-    for i in (0..slots).filter(|i| cx.int(&format!("{base}/{i}/_Data/_ResourceData/PlayTime")).unwrap_or(0) > 0) {
-        let items = format!("{base}/{i}/_Data/_Items");
-        let n = cx.get(&items).and_then(Value::as_array).map_or(0, Vec::len);
-        let mut owned = HashSet::new();
-        for k in 0..n {
-            let Some(id) = cx.int(&format!("{items}/{k}/ItemID")) else { continue };
-            let Some((_, name)) = ONIMUSHA.iter().find(|(m, _)| *m == id) else { continue };
-            owned.insert(id);
-            if let Some(s) = single(cx, format!("{items}/{k}/EquipNum"), (*name).to_string(), ONIMUSHA_CAP) {
-                out.push(s);
-            }
+    let items = format!("{base}/{i}/_Data/_Items");
+    let n = cx.get(&items).and_then(Value::as_array).map_or(0, Vec::len);
+    let mut owned = HashSet::new();
+    for k in 0..n {
+        let Some(id) = cx.int(&format!("{items}/{k}/ItemID")) else { continue };
+        let Some((_, name)) = ONIMUSHA.iter().find(|(m, _)| *m == id) else { continue };
+        owned.insert(id);
+        if let Some(s) = single(cx, format!("{items}/{k}/EquipNum"), (*name).to_string(), ONIMUSHA_CAP) {
+            out.push(s);
         }
-        let (free, next) = onimusha_free(cx, &items);
-        let has = |id: i64| (0..n).any(|k| cx.int(&format!("{items}/{k}/ItemID")) == Some(id));
-        let beaten = |id: &i64| ONIMUSHA_BOSS.iter().find(|(m, _)| m == id).is_none_or(|(_, note)| has(*note));
-        let missing = ONIMUSHA.iter().filter(|(id, _)| !owned.contains(id) && beaten(id));
-        for ((n, (id, name)), k) in missing.enumerate().zip(free) {
-            let mut create = onimusha_new_entry(&items, k, *id, next + n as i64, 0);
-            let count = create.pop().expect("count").0;
-            out.push(Stack { paths: vec![count], name: (*name).to_string(), have: 0, cap: ONIMUSHA_CAP, create });
-        }
+    }
+    let (free, next) = onimusha_free(cx, &items);
+    let has = |id: i64| (0..n).any(|k| cx.int(&format!("{items}/{k}/ItemID")) == Some(id));
+    let beaten = |id: &i64| ONIMUSHA_BOSS.iter().find(|(m, _)| m == id).is_none_or(|(_, note)| has(*note));
+    let missing = ONIMUSHA.iter().filter(|(id, _)| !owned.contains(id) && beaten(id));
+    for ((n, (id, name)), k) in missing.enumerate().zip(free) {
+        let mut create = onimusha_new_entry(&items, k, *id, next + n as i64, 0);
+        let count = create.pop().expect("count").0;
+        out.push(Stack { paths: vec![count], name: (*name).to_string(), have: 0, cap: ONIMUSHA_CAP, create });
     }
     out
 }
@@ -1115,6 +1137,13 @@ mod tests {
         let root = json!({"SaveData": {"Slots": [many]}});
         assert!(names_of(&root).iter().any(|n| n == "Byakue's Talisman"));
         assert_eq!(names_of(&root).len(), 2 + 9);
+
+        // The screen's button only touches the slot on screen.
+        let root = json!({"SaveData": {"Slots": [slot(100), slot(100), slot(100)]}});
+        let mut cx = ctx(&root);
+        let one = onimusha_slot(&cx, "/SaveData/Slots", 1);
+        assert_eq!(raise(&one, &mut cx), 3);
+        assert!(cx.edits.iter().all(|(p, _)| p.starts_with("/SaveData/Slots/1/")), "{:?}", cx.edits);
 
         // A full list gains nothing; a used entry after the blanks blocks them.
         let mut full = slot(1);
