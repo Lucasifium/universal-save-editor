@@ -12,6 +12,7 @@ pub mod pssave;
 pub mod dreamcast;
 pub mod saturn;
 pub mod keyed;
+pub mod fantasian;
 pub mod titanquest;
 pub mod torchlight2;
 pub mod dragonage;
