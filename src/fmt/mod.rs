@@ -16,6 +16,9 @@ pub mod dreamcast;
 pub mod saturn;
 pub mod keyed;
 pub mod ksp;
+pub mod adf;
+pub mod forest;
+pub mod forest_items;
 pub mod mechanicus;
 pub mod prison;
 pub mod tld;
@@ -310,6 +313,16 @@ pub fn parse_binary(d: &[u8]) -> Option<TreeDoc> {
     }
     if ori::looks(d) {
         if let Ok(t) = ori::parse(d) {
+            return Some(t);
+        }
+    }
+    if forest::looks(d) {
+        if let Ok(t) = forest::parse(d) {
+            return Some(t);
+        }
+    }
+    if adf::looks(d) {
+        if let Ok(t) = adf::parse(d) {
             return Some(t);
         }
     }

@@ -3,7 +3,7 @@
 
 use super::{List, Max, Section, Shape, Spec, Table};
 
-pub static SPECS: &[Spec] = &[COTL, FALLOUT_SHELTER, DRG, S1_MONEY, S1_RANK, S1_TIME, S1_GAME, SOTF_STATE, SOTF_GAME, SOTF_WEATHER, SOTF_ITEMS, DMD, CUPHEAD, ANTIMATTER, PVZ, CELESTE, DRGS, KH3, RF4S, SKY1ST, KSP, FFPR, MCD, STONESHARD, ROGUE_TRADER, BIOSHOCK_INFINITE, SPACE_HAVEN, SNOWRUNNER, GRAVEYARD_KEEPER, NFSMW, TOS, GTA3, GTAVC, BITBURNER, TERRA_INVICTA, PRISON, FF13, SONIC_MANIA, CAVE_STORY_PLUS, CAVE_STORY, LIES_OF_P, TXR, DAVE, MSC, ULTRAKILL, RPGXP, RE5, ANNO1800, FTK, LEGO_TSS, LEGO_CLASSIC, MYZ, CMS21, MEDIEVAL_DYNASTY, MECHANICUS, ORI, OMORI, ENDER_LILIES, SW2, ES2, MOONLIGHTER, WASTELAND2, ATOM, MORTAL_SHELL, MORTAL_SHELL_2];
+pub static SPECS: &[Spec] = &[COTL, FALLOUT_SHELTER, DRG, S1_MONEY, S1_RANK, S1_TIME, S1_GAME, SOTF_STATE, SOTF_GAME, SOTF_WEATHER, SOTF_ITEMS, DMD, CUPHEAD, ANTIMATTER, PVZ, CELESTE, DRGS, KH3, RF4S, SKY1ST, KSP, FFPR, MCD, STONESHARD, ROGUE_TRADER, BIOSHOCK_INFINITE, SPACE_HAVEN, SNOWRUNNER, GRAVEYARD_KEEPER, NFSMW, TOS, GTA3, GTAVC, BITBURNER, TERRA_INVICTA, PRISON, FF13, SONIC_MANIA, CAVE_STORY_PLUS, CAVE_STORY, LIES_OF_P, TXR, DAVE, MSC, ULTRAKILL, RPGXP, RE5, ANNO1800, FTK, LEGO_TSS, LEGO_CLASSIC, MYZ, CMS21, MEDIEVAL_DYNASTY, MECHANICUS, ORI, OMORI, ENDER_LILIES, SW2, ES2, MOONLIGHTER, WASTELAND2, ATOM, MORTAL_SHELL, MORTAL_SHELL_2, COTW, BEAMNG, FOREST];
 
 // ------------------------------------------------------------------ Cult of the Lamb
 
@@ -2419,6 +2419,63 @@ const MORTAL_SHELL_2: Spec = Spec {
             caps: &[],
             estimate: true,
             about: "Raises the Tarforge smithing materials (Ventrium, Laterite, Dorsalite, Thoracium and Thoracium Prime) you already have. Keys, artifacts, tools and upgrade items are left alone.",
+        }),
+    }],
+    tables: &[],
+};
+
+// ------------------------------------------------------------------ theHunter: Call of the Wild
+
+const COTW: Spec = Spec {
+    name: "theHunter: Call of the Wild",
+    tab: "Hunter",
+    accent: (200, 150, 60),
+    kind: Some(crate::fmt::adf::KIND),
+    markers: &["/Hunter/Cash"],
+    subtitle: "thp_player_profile_adf in your Saves folder (each slot folder keeps its own copy). Close the game first; skill points already spent are stored per skill tree and are not shown.",
+    tiles: &[("Cash", "/Hunter/Cash"), ("Level", "/Hunter/Level"), ("XP", "/Hunter/XP")],
+    sections: &[Section { title: "Points", rows: &[("Skill points", "/Hunter/Skill points"), ("Perk points", "/Hunter/Perk points")] }],
+    lists: &[],
+    tables: &[],
+};
+
+// ------------------------------------------------------------------ BeamNG.drive
+
+const BEAMNG: Spec = Spec {
+    name: "BeamNG.drive",
+    tab: "Career",
+    accent: (240, 120, 30),
+    kind: None,
+    markers: &["/money/value", "/beamXP/value"],
+    subtitle: "career/playerAttributes.json inside a career save slot's newest autosave folder (the game loads the newest of its rotating autosaves, so edit that one). Each branch (the career's skill lines) keeps its own value, shown in the Tree tab.",
+    tiles: &[("Money", "/money/value"), ("BeamXP", "/beamXP/value")],
+    sections: &[],
+    lists: &[],
+    tables: &[],
+};
+
+// ------------------------------------------------------------------ The Forest
+
+const FOREST: Spec = Spec {
+    name: "The Forest",
+    tab: "Survivor",
+    accent: (90, 140, 70),
+    kind: Some(crate::fmt::forest::KIND),
+    markers: &["/Inventory"],
+    subtitle: "The __RESUME__ file of a single-player or multiplayer slot. The inventory holds what the player carries; the game's own limit for each item is stored with it (Max amount, -1 for no limit).",
+    tiles: &[],
+    sections: &[],
+    lists: &[List {
+        title: "Inventory",
+        path: "/Inventory",
+        shape: Shape::Records { qty_key: "Amount" },
+        names: &[],
+        max: Some(Max {
+            ids: &["Rock", "Stick", "Skull", "Rope", "Bone", "Lizard Skin", "Deer Skin", "Boar Skin", "Raccoon Skin", "Rabbit Fur", "Circuit Board"],
+            cap: 10,
+            caps: &[("Rock", 5), ("Skull", 4), ("Rope", 4), ("Bone", 15), ("Circuit Board", 5)],
+            estimate: false,
+            about: "Raises rocks, sticks, skulls, rope, bones, skins, rabbit fur and circuit boards to the limit the game stores for each in the save. Items with no limit (cloth, leaves, feathers, teeth, sap, tape), tools, weapons, food and story items are left alone.",
         }),
     }],
     tables: &[],
