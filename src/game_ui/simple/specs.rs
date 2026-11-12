@@ -2982,6 +2982,9 @@ const SLIME_RANCHER: Spec = Spec {
         rows: &[("Newbucks", "/Player/Newbucks"), ("Health", "/Player/Health"), ("Energy", "/Player/Energy"), ("Radiation", "/Player/Radiation"), ("Slime keys", "/Player/Slime keys")],
     }],
     lists: &[],
+    tables: &[],
+};
+
 // ------------------------------------------------------------------ Subnautica 2
 
 const SUBNAUTICA2: Spec = Spec {
