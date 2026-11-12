@@ -3,7 +3,7 @@
 
 use super::{List, Max, Section, Shape, Spec, Table};
 
-pub static SPECS: &[Spec] = &[COTL, FALLOUT_SHELTER, DRG, S1_MONEY, S1_RANK, S1_TIME, S1_GAME, SOTF_STATE, SOTF_GAME, SOTF_WEATHER, SOTF_ITEMS, DMD, CUPHEAD, ANTIMATTER, PVZ, CELESTE, DRGS, KH3, RF4S, SKY1ST, KSP, FFPR, MCD, STONESHARD, ROGUE_TRADER, BIOSHOCK_INFINITE, SPACE_HAVEN, SNOWRUNNER, GRAVEYARD_KEEPER, NFSMW, TOS, GTA3, GTAVC, BITBURNER, TERRA_INVICTA, PRISON, FF13, SONIC_MANIA, CAVE_STORY_PLUS, CAVE_STORY, LIES_OF_P, TXR, DAVE, MSC, ULTRAKILL, RPGXP, RE5, ANNO1800, FTK, LEGO_TSS, LEGO_CLASSIC, MYZ, CMS21, MEDIEVAL_DYNASTY, MECHANICUS, ORI, OMORI, ENDER_LILIES, SW2, ES2, MOONLIGHTER, WASTELAND2, ATOM, MORTAL_SHELL, MORTAL_SHELL_2, COTW, BEAMNG, FOREST, YAKUZA3, YAKUZA4, YAKUZA5, ISHIN, SALT, DRAKENSANG, ALPHA];
+pub static SPECS: &[Spec] = &[COTL, FALLOUT_SHELTER, DRG, S1_MONEY, S1_RANK, S1_TIME, S1_GAME, SOTF_STATE, SOTF_GAME, SOTF_WEATHER, SOTF_ITEMS, DMD, CUPHEAD, ANTIMATTER, PVZ, CELESTE, DRGS, KH3, RF4S, SKY1ST, KSP, FFPR, MCD, STONESHARD, ROGUE_TRADER, BIOSHOCK_INFINITE, SPACE_HAVEN, SNOWRUNNER, GRAVEYARD_KEEPER, NFSMW, TOS, GTA3, GTAVC, BITBURNER, TERRA_INVICTA, PRISON, FF13, SONIC_MANIA, CAVE_STORY_PLUS, CAVE_STORY, LIES_OF_P, TXR, DAVE, MSC, ULTRAKILL, RPGXP, RE5, ANNO1800, FTK, LEGO_TSS, LEGO_CLASSIC, MYZ, CMS21, MEDIEVAL_DYNASTY, MECHANICUS, ORI, OMORI, ENDER_LILIES, SW2, ES2, MOONLIGHTER, WASTELAND2, ATOM, MORTAL_SHELL, MORTAL_SHELL_2, COTW, BEAMNG, FOREST, YAKUZA3, YAKUZA4, YAKUZA5, ISHIN, SALT, DRAKENSANG, ALPHA, TYRANNY];
 
 // ------------------------------------------------------------------ Cult of the Lamb
 
@@ -2646,4 +2646,34 @@ const ALPHA: Spec = Spec {
         List { title: "Gadgets (count)", path: "/Gadgets", shape: Shape::Map, names: &[], max: None },
     ],
     tables: &[],
+};
+
+// ------------------------------------------------------------------ Tyranny
+
+const TYRANNY: Spec = Spec {
+    name: "Tyranny",
+    tab: "Party",
+    accent: (190, 90, 60),
+    kind: Some(crate::fmt::obsidian::KIND),
+    markers: &["/Party/Money", "/Characters"],
+    subtitle: "A .savegame from Saved Games\\Tyranny (a zip; its MobileObjects.save is edited, the rest is kept). Money, camping supplies, and each character's experience, attributes, skill points and skills. Pillars of Eternity saves use the same layout but haven't been checked.",
+    tiles: &[("Money", "/Party/Money"), ("Camping supplies", "/Party/Camping supplies")],
+    sections: &[],
+    lists: &[],
+    tables: &[Table {
+        title: "Characters",
+        path: "/Characters",
+        name: &["/Name"],
+        only: &[],
+        cols: &[
+            ("Experience", "/Experience"), ("Attribute pts", "/AttributePoints"), ("Talent pts", "/TalentPoints"),
+            ("Resolve", "/Resolve"), ("Might", "/Might"), ("Finesse", "/Finesse"), ("Quickness", "/Quickness"), ("Wits", "/Wits"), ("Vitality", "/Vitality"),
+            ("Lore", "/LoreSkill"), ("Athletics", "/AthleticsSkill"), ("Stealth", "/StealthSkill"), ("Mechanics", "/MechanicsSkill"),
+            ("One-handed", "/OneHandedSkill"), ("Dual wield", "/DualWieldSkill"), ("Two-handed", "/TwoHandedSkill"), ("Staff", "/StaffSkill"),
+            ("Unarmed", "/UnarmedSkill"), ("Bows", "/BowsSkill"), ("Magical weapons", "/MagicalWeaponSkill"),
+            ("Light armor", "/LightArmorSkill"), ("Heavy armor", "/HeavyArmorSkill"), ("Parry", "/ParrySkill"), ("Dodge", "/DodgeSkill"),
+            ("Engagement", "/EngagementSkill"), ("Protection", "/ProtectionSkill"),
+        ],
+        names: &[("Player_NewCharacter(Clone)_0", "Player character")],
+    }],
 };

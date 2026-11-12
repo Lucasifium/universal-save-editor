@@ -3,7 +3,7 @@
 > **Free, and it always will be.** No price, no ads, no account, no paid version, no online service, no
 > rate limits. If anyone is charging you for this, it isn't from here.
 
-An offline save editor and save manager for 300+ (304) PC games (edit saves, and back up, name and restore them): Cairn, Terraria (characters and a world map editor),
+An offline save editor and save manager for 300+ (305) PC games (edit saves, and back up, name and restore them): Cairn, Terraria (characters and a world map editor),
 Oxygen Not Included, RimWorld, Stardew Valley, Onimusha: Way of the Sword, Elden Ring, Dark Souls,
 Cyberpunk 2077, the Persona, Yakuza and Final Fantasy games, Ren'Py visual novels, RPG Maker games
 and more (the full list is below). Written in Rust (egui). Nothing is uploaded anywhere, and there are
@@ -143,6 +143,7 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 | Grim Dawn | *Character*: money, level, experience, unspent attribute, skill and devotion points, attributes, skill ranks, item stack sizes, and *Factions*: each faction's reputation (up to the 25000 cap) and whether it is unlocked. The save is decrypted, then encrypted again with fresh checksums. Not yet tried in the game |
 | Titan Quest Anniversary Edition | *Character*: level, experience, money, unspent points, the five attributes and skill levels (stash files aren't read). Not yet tried in the game |
 | Torchlight II | *Character*: level, experience, fame, gold, unspent points, the four stats, health, mana and item stacks; scrambled again with its checksum (the older 0x40 format isn't supported). Not yet tried in the game |
+| Tyranny | *Party*: money, camping supplies, and each character's experience, attribute and talent points, attributes and skills from the `.savegame` zip (checked on a public save, not yet tried in the game) |
 | Dragon Age: Origins, Awakening | Party money; the Warden's and followers' level, experience, attributes and unspent points, approval, and backpack stack sizes. Tried on saves from one playthrough; Awakening saves not yet tried |
 | Divinity: Original Sin 2 Definitive Edition | Each player character's experience, vitality, attributes, unspent points and gold; the package is packed again with its checksum on save. Not yet tried in the game |
 | Icewind Dale: Enhanced Edition | Party gold and reputation; each party member's experience, hit points, levels, abilities, alignment and item stacks or charges (`BALDUR.gam`, the Baldur's Gate: EE layout); every global variable by name (quest stages, who has joined). No Icewind Dale save has been tried yet |

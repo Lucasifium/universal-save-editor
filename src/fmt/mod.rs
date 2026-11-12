@@ -149,6 +149,7 @@ pub mod ori;
 pub mod lego_tss;
 pub mod lego_classic;
 pub mod alphaprotocol;
+pub mod obsidian;
 pub mod roadhog;
 pub mod saltsanc;
 pub mod wasteland2;
@@ -728,6 +729,11 @@ pub fn parse_binary_late(d: &[u8]) -> Option<TreeDoc> {
 pub fn parse_text(text: &str, ext: &str) -> Option<TreeDoc> {
     if roadhog::looks(text.as_bytes()) {
         if let Ok(doc) = roadhog::parse(text.as_bytes()) {
+            return Some(doc);
+        }
+    }
+    if obsidian::looks(text) {
+        if let Ok(doc) = obsidian::parse(text) {
             return Some(doc);
         }
     }
