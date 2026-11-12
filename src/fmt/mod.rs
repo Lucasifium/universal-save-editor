@@ -90,6 +90,7 @@ pub mod lua;
 pub mod luabins;
 pub mod marshal;
 pub mod msgpack;
+pub mod ac8;
 pub mod cbor;
 pub mod nbt;
 pub mod nrbf;

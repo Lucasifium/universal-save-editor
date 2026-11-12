@@ -401,7 +401,7 @@ IDs and keys read-only, 0/1 check-constrained columns shown as switches), Python
 
 **Wrappers** — gzip, zlib, raw deflate, zstd, LZ4, Snappy (framed), xz, bzip2, zip (pick any entry), Base64 (plain or
 line-wrapped), UTF-8 BOM, UTF-16, XOR, Easy Save 3 AES, Godot AES, Terraria AES, Hollow Knight AES,
-FromSoftware BND4 (MD5 + AES), Minecraft region chunks, mGBA PNG save states, Supergiant (Adler-32 + LZ4), Stellar Blade's EVAS envelope (CRC-32 written again).
+FromSoftware BND4 (MD5 + AES), Minecraft region chunks, mGBA PNG save states, Supergiant (Adler-32 + LZ4), Stellar Blade's EVAS envelope (CRC-32 written again), Ace Combat 8's packed save data (checksum written again).
 
 **Anything else** opens in the hex editor with value search and named offsets.
 

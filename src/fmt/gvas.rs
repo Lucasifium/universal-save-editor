@@ -609,6 +609,15 @@ impl Backend for GvasBackend {
 }
 
 pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
+    match parse_as(d, false) {
+        Err(e) if e.starts_with("unexpected data after properties") => parse_as(d, true).map_err(|_| e),
+        r => r,
+    }
+}
+
+/// `sections`: the properties are several lists one after another (Ace Combat 8 packs its
+/// save that way), each shown as "Section n".
+fn parse_as(d: &[u8], sections: bool) -> Result<TreeDoc, String> {
     let mut p = P { d, pos: 0, leaves: vec![], editable: HashMap::new(), full_types: false, lwc: false };
     if p.take(4)? != b"GVAS" {
         return Err("not GVAS".into());
@@ -633,7 +642,17 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
     if p.full_types {
         p.u8()?; // flags byte after the class name (0)
     }
-    let props = p.props("", &[], None)?;
+    let props = if sections {
+        let mut out = Map::new();
+        while p.pos < d.len() {
+            let key = format!("Section {}", out.len() + 1);
+            let m = p.props(&child("", &key), &[], None)?;
+            out.insert(key, Value::Object(m));
+        }
+        out
+    } else {
+        p.props("", &[], None)?
+    };
     let trailing = d.len() - p.pos;
     if trailing > 16 && d[p.pos..].iter().any(|&b| b != 0) {
         return Err(format!("unexpected data after properties ({trailing} bytes)"));
@@ -645,7 +664,7 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
 }
 
 #[cfg(test)]
-mod tests {
+pub(crate) mod tests {
     use super::*;
 
     fn fs(s: &str) -> Vec<u8> {
@@ -851,6 +870,29 @@ mod tests {
         v.extend(fs("None"));
         v.extend(0i32.to_le_bytes());
         v
+    }
+
+    /// Several property lists one after another (how Ace Combat 8 packs its save).
+    pub(crate) fn sections5() -> Vec<u8> {
+        let mut v = sample5();
+        let header = v.len() - v.windows(8).rev().position(|w| w == b"\x05\x00\x00\x00Gold").map(|i| i + 8).unwrap();
+        v.truncate(header);
+        v.extend(prop5("Gold", tn("IntProperty", &[]), 0, &1500i32.to_le_bytes()));
+        v.extend(fs("None"));
+        v.extend(prop5("Rank", tn("IntProperty", &[]), 0, &3i32.to_le_bytes()));
+        v.extend(fs("None"));
+        v
+    }
+
+    #[test]
+    fn several_property_lists() {
+        let raw = sections5();
+        let mut doc = parse(&raw).unwrap();
+        assert_eq!(doc.view.pointer("/Section 1/Gold").unwrap(), &json!(1500));
+        assert_eq!(doc.view.pointer("/Section 2/Rank").unwrap(), &json!(3));
+        doc.set("/Section 2/Rank", json!(9)).unwrap();
+        let again = parse(&doc.to_bytes().unwrap()).unwrap();
+        assert_eq!(again.view.pointer("/Section 2/Rank").unwrap(), &json!(9));
     }
 
     #[test]
