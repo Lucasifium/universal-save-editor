@@ -57,6 +57,9 @@ sha3 = "0.10"
 # Flash and AIR shared objects (.sol), read and written by Ruffle's parser.
 flash-lso = "0.7"
 lzokay-native = "0.1"
+# More wrappers: CBOR documents, Snappy frames and Brotli streams.
+ciborium = "0.2"
+snap = "1"
 
 # Not in the browser version: SQLite is C built against the platform's C library, and there
 # are no installed games to load Oodle from.
