@@ -83,6 +83,8 @@ pub enum Layer {
     Ac8(fmt::ac8::Packed),
     Xz,
     Bzip2,
+    /// Euro / American Truck Simulator "ScsC" file: zlib text under AES-256-CBC and an HMAC.
+    Scsc,
     /// Plain standard base64 text.
     Base64,
     /// Base64 wrapped into fixed-width lines.
@@ -285,6 +287,7 @@ impl Layer {
             Layer::Prey { .. } => "Prey save (RC4, zlib chunks, MD5 written again)".into(),
             Layer::Ac8(_) => "Ace Combat 8 packed data (checksum written again)".into(),
             Layer::Xz => "xz".into(),
+            Layer::Scsc => "ScsC (truck simulator save: zlib, AES-256 and checksum)".into(),
             Layer::Bzip2 => "bzip2".into(),
             Layer::Base64 => "Base64".into(),
             Layer::Base64Lines { .. } => "Base64 (wrapped lines)".into(),
@@ -779,6 +782,15 @@ fn wrap(layer: &Layer, data: Vec<u8>) -> Result<Vec<u8>, String> {
             out
         }
         Layer::Snappy => compress(snap::write::FrameEncoder::new(Vec::new()), &data)?.into_inner().map_err(|e| e.to_string())?,
+        Layer::Scsc => {
+            // The IV only has to differ between saves; derive it from the clock and the data.
+            use sha2::Digest;
+            let now = std::time::SystemTime::now().duration_since(std::time::UNIX_EPOCH).map_or(0, |d| d.as_nanos());
+            let h = sha2::Sha256::new().chain_update(now.to_le_bytes()).chain_update(&data).finalize();
+            let mut iv = [0u8; 16];
+            iv.copy_from_slice(&h[..16]);
+            fmt::sii::encrypt(&data, iv)?
+        }
         Layer::Xz => {
             let mut out = Vec::new();
             lzma_rs::xz_compress(&mut &data[..], &mut out).map_err(io)?;
@@ -1389,6 +1401,13 @@ fn peel(data: &[u8], ctx: &mut Ctx) -> Option<(Layer, Vec<u8>)> {
     }
     if let Some(r) = peel_utf16(data) {
         return Some(r);
+    }
+    if fmt::sii::looks_encrypted(data) {
+        match fmt::sii::decrypt(data) {
+            Ok(v) if v.starts_with(b"SiiN") => return Some((Layer::Scsc, v)),
+            Ok(_) => ctx.hint = Some("This truck simulator save is in the game's binary format. In the game's config.cfg set g_save_format to 2 (text), load and save once, then open the new file.".into()),
+            Err(_) => {}
+        }
     }
     if data.starts_with(&[0x1F, 0x8B]) {
         if let Ok(v) = gunzip(data) {
@@ -2423,6 +2442,19 @@ mod tests {
         match decoded.content {
             Content::Json { value, .. } => assert_eq!(value["gold"], 1500),
             other => panic!("expected JSON, got {}", other.kind()),
+        }
+    }
+
+    #[test]
+    fn truck_simulator_scsc() {
+        let text = "SiiNunit\n{\nbank : _nameless.1.2 {\n money_account: 1500\n}\n}\n";
+        let bytes = encode(&[Layer::Scsc], &Content::Text(text.into())).unwrap();
+        assert!(bytes.starts_with(b"ScsC"));
+        let decoded = decode(&bytes);
+        assert_eq!(decoded.layers, vec![Layer::Scsc]);
+        match decoded.content {
+            Content::Tree(t) => assert_eq!(t.view.pointer("/bank/money_account"), Some(&1500.into())),
+            other => panic!("expected a tree, got {}", other.kind()),
         }
     }
 

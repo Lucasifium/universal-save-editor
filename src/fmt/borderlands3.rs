@@ -7,9 +7,14 @@
 //! There's no checksum. An edit rewrites the fields it touches, then the payload is
 //! encrypted again and its length updated; the header is copied as it was.
 //!
+//! Tiny Tina's Wonderlands uses the same encryption and protobuf, under the save type
+//! `BPSaveGame_Default_C` (build id `DAFFODIL-…`); it has its own experience curve, a
+//! level cap of 40, gold and moon orbs, and spell ammo.
+//!
 //! Keys, header layout, currency hashes, the experience table, SDU limits and item flags
 //! from apocalyptech's bl3-cli-saveedit (zlib); field numbers from the published
-//! OakSave protobuf schema (gibbed's Borderlands3Protos, facts only).
+//! OakSave protobuf schema (gibbed's Borderlands3Protos, facts only). Wonderlands: the
+//! experience formula and the save type from TTWLSaveEditor (GPL-3.0).
 
 use super::borderlands::pb;
 use crate::tree::{Backend, Patches, TreeDoc};
@@ -38,6 +43,41 @@ const XP: [u64; 72] = [
 
 pub fn level_for(xp: u64) -> i64 {
     XP.iter().rposition(|&need| xp >= need).unwrap_or(0) as i64 + 1
+}
+
+/// Wonderlands: highest level, and the experience each level needs.
+pub const WL_MAX_LEVEL: i64 = 40;
+
+fn wl_xp(level: i64) -> u64 {
+    if level <= 1 {
+        0
+    } else {
+        ((level as f64).powf(2.8) * 65.0).ceil() as u64 - 65
+    }
+}
+
+fn level_of(xp: u64, wl: bool) -> i64 {
+    if wl {
+        (1..=WL_MAX_LEVEL).rev().find(|&l| xp >= wl_xp(l)).unwrap_or(1)
+    } else {
+        level_for(xp)
+    }
+}
+
+fn xp_of(level: i64, wl: bool) -> u64 {
+    if wl {
+        wl_xp(level)
+    } else {
+        XP[level as usize - 1]
+    }
+}
+
+fn max_level(wl: bool) -> i64 {
+    if wl {
+        WL_MAX_LEVEL
+    } else {
+        MAX_LEVEL
+    }
 }
 
 /// SDU object → (name, highest level).
@@ -100,6 +140,8 @@ fn slot_name(path: &str) -> String {
 struct Layout {
     /// Where the payload length is; the payload follows it to the end of the file.
     len_at: usize,
+    /// A Tiny Tina's Wonderlands save.
+    wl: bool,
 }
 
 fn layout(d: &[u8]) -> Option<Layout> {
@@ -120,17 +162,18 @@ fn layout(d: &[u8]) -> Option<Layout> {
         return None;
     }
     // Package version, engine version (3 × u16 + build), build id.
-    let (_, at) = fstring(4 + 4 + 4 + 6 + 4)?;
+    let (build, at) = fstring(4 + 4 + 4 + 6 + 4)?;
     let count = u32_at(at + 4)? as usize;
     if count > 4096 {
         return None;
     }
     let (kind, at) = fstring(at + 8 + count * 20)?;
-    if kind != "OakSaveGame" {
+    let wl = kind == "BPSaveGame_Default_C" && build.starts_with("DAFFODIL");
+    if kind != "OakSaveGame" && !wl {
         return None;
     }
     let len = u32_at(at)? as usize;
-    (at + 4 + len == d.len()).then_some(Layout { len_at: at })
+    (at + 4 + len == d.len()).then_some(Layout { len_at: at, wl })
 }
 
 pub fn looks(d: &[u8]) -> bool {
@@ -196,6 +239,7 @@ struct Bl3Backend {
     file: Arc<Vec<u8>>,
     proto: Arc<Vec<u8>>,
     len_at: usize,
+    wl: bool,
     targets: Vec<Target>,
 }
 
@@ -206,7 +250,7 @@ fn whole(v: &Value) -> Result<i64, String> {
 impl Bl3Backend {
     fn range(&self, t: &Target) -> (i64, i64) {
         match t {
-            Target::Level => (1, MAX_LEVEL),
+            Target::Level => (1, max_level(self.wl)),
             Target::Experience | Target::SkillPoints | Target::Currency(_) => (0, i64::from(i32::MAX)),
             Target::Ammo(_) => (0, 99_999),
             Target::Sdu(_, max) => (0, *max),
@@ -288,16 +332,16 @@ impl Backend for Bl3Backend {
     fn derived(&self, leaf: usize, view: &Value) -> Vec<(String, Value)> {
         match self.targets[leaf] {
             Target::Level => {
-                let lv = view.pointer("/Character/Level").and_then(Value::as_i64).unwrap_or(1).clamp(1, MAX_LEVEL);
+                let lv = view.pointer("/Character/Level").and_then(Value::as_i64).unwrap_or(1).clamp(1, max_level(self.wl));
                 let xp = view.pointer("/Character/Experience").and_then(Value::as_u64).unwrap_or(0);
-                if level_for(xp) == lv {
+                if level_of(xp, self.wl) == lv {
                     return vec![];
                 }
-                vec![("/Character/Experience".into(), XP[lv as usize - 1].into())]
+                vec![("/Character/Experience".into(), xp_of(lv, self.wl).into())]
             }
             Target::Experience => {
                 let xp = view.pointer("/Character/Experience").and_then(Value::as_u64).unwrap_or(0);
-                vec![("/Character/Level".into(), level_for(xp).into())]
+                vec![("/Character/Level".into(), level_of(xp, self.wl).into())]
             }
             _ => vec![],
         }
@@ -309,9 +353,11 @@ impl Backend for Bl3Backend {
 }
 
 pub const KIND: &str = "Borderlands 3 character";
+pub const KIND_WL: &str = "Tiny Tina's Wonderlands character";
 
 pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
-    let lay = layout(d).ok_or("not a Borderlands 3 character")?;
+    let lay = layout(d).ok_or("not a Borderlands 3 or Wonderlands character")?;
+    let wl = lay.wl;
     let mut proto = d[lay.len_at + 4..].to_vec();
     decrypt(&mut proto);
     let top = pb::fields(&proto).ok_or("the character data couldn't be read (is this a console save?)")?;
@@ -328,12 +374,15 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
         view.entry(group.to_string()).or_insert_with(|| Value::Object(Map::new())).as_object_mut().unwrap().insert(key.to_string(), v);
     };
     let class = CLASSES.iter().find(|c| c.0 == object(&class_path));
+    let (money_label, orb_label) = if wl { ("Gold", "Moon orbs") } else { ("Money", "Eridium") };
     let name = pb::first(&top, 43).and_then(|f| f.text()).unwrap_or_default();
     add(&mut view, "Character", "Name", name.into(), None);
     add(&mut view, "Character", "Class", class.map_or_else(|| object(&class_path).to_string(), |c| c.1.to_string()).into(), None);
-    add(&mut view, "Character", "Vault hunter", class.map_or("", |c| c.2).into(), None);
+    if !wl {
+        add(&mut view, "Character", "Vault hunter", class.map_or("", |c| c.2).into(), None);
+    }
     let xp = pb::first(&top, 7).and_then(|f| f.int()).unwrap_or(0);
-    add(&mut view, "Character", "Level", level_for(xp).into(), Some(Target::Level));
+    add(&mut view, "Character", "Level", level_of(xp, wl).into(), Some(Target::Level));
     add(&mut view, "Character", "Experience", xp.into(), Some(Target::Experience));
     let ability = pb::first(&top, 13).and_then(|f| f.bytes()).and_then(pb::fields);
     let points = ability.as_ref().and_then(|a| pb::first(a, 1)).and_then(|f| f.int()).unwrap_or(0);
@@ -346,7 +395,7 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
             Some((pb::first(&i, 1)?.int()?, pb::first(&i, 2).and_then(|x| x.int()).unwrap_or(0)))
         })
         .collect();
-    for (hash, label) in [(MONEY, "Money"), (ERIDIUM, "Eridium")] {
+    for (hash, label) in [(MONEY, money_label), (ERIDIUM, orb_label)] {
         let n = currencies.iter().find(|c| c.0 == hash).map_or(0, |c| c.1);
         add(&mut view, "Currency", label, n.into(), Some(Target::Currency(hash)));
     }
@@ -394,9 +443,9 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
         .collect();
     view.insert("Inventory".into(), Value::Array(items));
 
-    let backend = Bl3Backend { file: Arc::new(d.to_vec()), proto: Arc::new(proto), len_at: lay.len_at, targets };
-    Ok(TreeDoc::new(Value::Object(view), editable, KIND, Box::new(backend)).with_note(
-        "Level (set through experience), skill points, money, Eridium, ammo and SDU levels can be changed; the save is encrypted again when you save. \
+    let backend = Bl3Backend { file: Arc::new(d.to_vec()), proto: Arc::new(proto), len_at: lay.len_at, wl, targets };
+    Ok(TreeDoc::new(Value::Object(view), editable, if wl { KIND_WL } else { KIND }, Box::new(backend)).with_note(
+        "Level (set through experience), skill points, money, Eridium (moon orbs), ammo and SDU levels can be changed; the save is encrypted again when you save. \
          Items are shown, not edited. Turn off cloud saves for the game first, or the old save may come back.",
     ))
 }
@@ -407,6 +456,10 @@ mod tests {
 
     /// A synthetic BL3 save: header with two format GUIDs, then an encrypted character.
     fn sample() -> Vec<u8> {
+        sample_of(b"OAK-TEST\0", b"OakSaveGame\0")
+    }
+
+    fn sample_of(build: &[u8], kind: &[u8]) -> Vec<u8> {
         let mut p = vec![];
         p.extend(pb::int_field(1, 3));
         p.extend(pb::bytes_field(4, &pb::bytes_field(1, b"/Game/PlayerCharacters/Gunner/PlayerClassId_Gunner.PlayerClassId_Gunner")));
@@ -444,13 +497,13 @@ mod tests {
             d.extend(v.to_le_bytes());
         }
         d.extend([4, 0, 20, 0, 3, 0, 1, 2, 3, 4]);
-        let s = b"OAK-TEST\0";
+        let s = build;
         d.extend((s.len() as i32).to_le_bytes());
         d.extend(s);
         d.extend(3u32.to_le_bytes());
         d.extend(2u32.to_le_bytes());
         d.extend([0xAB; 40]);
-        let s = b"OakSaveGame\0";
+        let s = kind;
         d.extend((s.len() as i32).to_le_bytes());
         d.extend(s);
         d.extend((p.len() as u32).to_le_bytes());
@@ -501,6 +554,24 @@ mod tests {
         assert_eq!(out[..at], d[..at], "header kept");
         let again = parse(&out).unwrap();
         assert_eq!(again.view, doc.view);
+    }
+
+    #[test]
+    fn wonderlands() {
+        let d = sample_of(b"DAFFODIL-PATCHDIESEL-82\0", b"BPSaveGame_Default_C\0");
+        assert!(looks(&d));
+        let mut doc = parse(&d).unwrap();
+        assert_eq!(doc.kind_name, KIND_WL);
+        assert_eq!(doc.view.pointer("/Currency/Gold"), Some(&500.into()));
+        assert_eq!(doc.view.pointer("/Currency/Moon orbs"), Some(&0.into()));
+        doc.set("/Character/Level", 40.into()).unwrap();
+        assert_eq!(doc.view.pointer("/Character/Experience"), Some(&wl_xp(40).into()));
+        assert!(doc.set("/Character/Level", 41.into()).is_err());
+        doc.set("/Currency/Moon orbs", 99.into()).unwrap();
+        let again = parse(&doc.to_bytes().unwrap()).unwrap();
+        assert_eq!(again.view.pointer("/Currency/Moon orbs"), Some(&99.into()));
+        assert_eq!(again.view.pointer("/Character/Level"), Some(&40.into()));
+        assert_eq!(level_of(wl_xp(12), true), 12);
     }
 
     #[test]

@@ -270,3 +270,14 @@ pub fn show3(ui: &mut Ui, cx: &mut GameCtx) {
         ui.weak("Gear is shown with its slot, marks and serial check; its parts need the game's item database, so it isn't edited here. Level follows experience: changing one sets the other.");
     });
 }
+
+/// Tiny Tina's Wonderlands.
+pub fn show_wl(ui: &mut Ui, cx: &mut GameCtx) {
+    header(ui, cx, "Tiny Tina's Wonderlands");
+    ammo_panel(ui, cx, false, "Ammo above what the character can hold is cut back by the game. Level goes up to 40.");
+    let n = cx.get("/Inventory").and_then(Value::as_array).map_or(0, Vec::len);
+    panel(ui, &format!("Loot ({n})"), |ui| {
+        loot_table(ui, cx, "wl_inv", "/Inventory", &["Slot", "Favorite", "Junk", "Serial version", "Serial check"]);
+        ui.weak("Gear is shown with its slot, marks and serial check; its parts need the game's item database, so it isn't edited here. Level follows experience: changing one sets the other.");
+    });
+}
