@@ -3,7 +3,7 @@
 
 use super::{List, Max, Section, Shape, Spec, Table};
 
-pub static SPECS: &[Spec] = &[COTL, FALLOUT_SHELTER, DRG, S1_MONEY, S1_RANK, S1_TIME, S1_GAME, SOTF_STATE, SOTF_GAME, SOTF_WEATHER, SOTF_ITEMS, DMD, CUPHEAD, ANTIMATTER, PVZ, CELESTE, DRGS, KH3];
+pub static SPECS: &[Spec] = &[COTL, FALLOUT_SHELTER, DRG, S1_MONEY, S1_RANK, S1_TIME, S1_GAME, SOTF_STATE, SOTF_GAME, SOTF_WEATHER, SOTF_ITEMS, DMD, CUPHEAD, ANTIMATTER, PVZ, CELESTE, DRGS, KH3, RF4S];
 
 // ------------------------------------------------------------------ Cult of the Lamb
 
@@ -861,5 +861,39 @@ const KH3: Spec = Spec {
         },
         List { title: "Items", path: "/Items", shape: Shape::Map, names: &[], max: None },
     ],
+    tables: &[],
+};
+
+// ------------------------------------------------------------------ Rune Factory 4 Special
+
+const RF4S: Spec = Spec {
+    name: "Rune Factory 4 Special",
+    tab: "Farmer",
+    accent: (110, 170, 70),
+    kind: Some(crate::fmt::rf4s::KIND),
+    markers: &["/Player/Money"],
+    subtitle: "",
+    tiles: &[("Money", "/Player/Money"), ("Order points", "/Player/Order points"), ("Tourists", "/Player/Tourists")],
+    sections: &[Section {
+        title: "Player",
+        rows: &[
+            ("HP", "/Player/HP"), ("Max HP", "/Player/Max HP"), ("RP", "/Player/RP"), ("Max RP", "/Player/Max RP"),
+            ("Strength", "/Player/Strength"), ("Intelligence", "/Player/Intelligence"), ("Vitality", "/Player/Vitality"),
+            ("Platform", "/Save/Platform"),
+        ],
+    }],
+    lists: &[List {
+        title: "Materials",
+        path: "/Materials",
+        shape: Shape::Map,
+        names: &[],
+        max: Some(Max {
+            ids: &["Lumber", "Material stone"],
+            cap: crate::fmt::rf4s::MATERIAL_CAP,
+            caps: &[],
+            estimate: false,
+            about: "Sets lumber and material stone to 50,000, the most the game keeps. Fertilizer is left alone.",
+        }),
+    }],
     tables: &[],
 };

@@ -45,6 +45,7 @@ Universal Save Editor is free. It builds on other people's work, listed here wit
 | [cloverpit-save-editor (CloverPit password and key derivation, ported)](https://github.com/jexxme/cloverpit-save-editor), with [Serialize-Deserialize-Save-CloverPit](https://github.com/mikhael-coder/Serialize-Deserialize-Save-CloverPit) (MIT) | jexxme; mikhael-coder | GPL-3.0; MIT |
 | [FantasianND-Save-Editor (FANTASIAN Neo Dimension save format, key and IV, ported)](https://github.com/mathcodergamer/FantasianND-Save-Editor), with [Fantasian-Save-Transfer](https://github.com/RobThePCGuy/Fantasian-Save-Transfer) | mathcodergamer; RobThePCGuy | GPL-3.0 |
 | [kh3-save-editor (Kingdom Hearts III save encryption, key, checksums, field positions and item names, ported; its test vectors used for checks)](https://github.com/thirteenth-order/kh3-save-editor) | thirteenth-order | GPL-3.0 |
+| [rf4s_pc_saveedit (Rune Factory 4 Special save layout, CRC span and value limits)](https://github.com/rikimtasu/rf4s_pc_saveedit) | rikimtasu | GPL-3.0 |
 | LZARI (the compression in Action Replay Max saves, ported) | Haruhiko Okumura; memory-buffer version by Luigi Auriemma and Wesley Castro | free use, as its author states |
 | [save-decrypters (per-game test vectors used for checks only)](https://github.com/bucanero/save-decrypters) | Damian Parrino (bucanero) and contributors | GPL-3.0-or-later |
 | CRC routines (as used in apollo-lib) | Michael Barr | public domain |
