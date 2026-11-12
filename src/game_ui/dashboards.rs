@@ -914,6 +914,46 @@ fn onimusha_charm(id: i64) -> Option<&'static str> {
     T.get_or_init(|| id_names(include_str!("../fmt/data/onimusha_charms.tsv"))).get(&i64::from(id as u32)).copied()
 }
 
+/// "Add material": gives this slot an upgrade material it doesn't have yet, in the next
+/// unused item entry, the way the game adds a newly found item.
+fn onimusha_add_material(ui: &mut Ui, cx: &mut GameCtx, items: &str, slot: usize) {
+    use super::crafting::{onimusha_free, onimusha_new_entry, ONIMUSHA, ONIMUSHA_CAP};
+    let owned: std::collections::HashSet<i64> =
+        cx.get(items).and_then(Value::as_array).map(|a| a.iter().filter_map(|e| e.get("ItemID")?.as_i64()).collect()).unwrap_or_default();
+    let missing: Vec<(i64, &str)> = ONIMUSHA.iter().copied().filter(|(id, _)| !owned.contains(id)).collect();
+    if missing.is_empty() {
+        return;
+    }
+    let (free, next) = onimusha_free(cx, items);
+    let id = ui.make_persistent_id(("oni_add", slot));
+    let (mut pick, mut count) = ui.data(|d| d.get_temp::<(i64, i64)>(id)).unwrap_or((missing[0].0, ONIMUSHA_CAP));
+    if !missing.iter().any(|(m, _)| *m == pick) {
+        pick = missing[0].0;
+    }
+    let mut add = false;
+    ui.horizontal_wrapped(|ui| {
+        ui.label("Add material:");
+        let current = missing.iter().find(|(m, _)| *m == pick).map_or("", |(_, n)| n);
+        egui::ComboBox::from_id_salt(("oni_add_pick", slot)).selected_text(current).show_ui(ui, |ui| {
+            for (m, n) in &missing {
+                ui.selectable_value(&mut pick, *m, *n);
+            }
+        });
+        ui.add(egui::DragValue::new(&mut count).range(1..=ONIMUSHA_CAP));
+        add = ui
+            .add_enabled(!free.is_empty(), egui::Button::new("Add"))
+            .on_hover_text("Adds it on hand, in the next unused entry of the item list, as if just picked up.")
+            .on_disabled_hover_text("The item list has no unused entries left.")
+            .clicked();
+    });
+    ui.data_mut(|d| d.insert_temp(id, (pick, count)));
+    if let (true, Some(&k)) = (add, free.first()) {
+        for (p, v) in onimusha_new_entry(items, k, pick, next, count.clamp(1, ONIMUSHA_CAP)) {
+            cx.set(&p, v);
+        }
+    }
+}
+
 pub fn onimusha(ui: &mut Ui, cx: &mut GameCtx) {
     let accent = Color32::from_rgb(190, 50, 60);
     let Some(base) = ree_slots(cx.root) else { return };
@@ -993,6 +1033,7 @@ pub fn onimusha(ui: &mut Ui, cx: &mut GameCtx) {
             });
             ui.weak("The game shows these counts as On Hand and In Storage. Key items (weapons, the bow) have no count.");
             ui.add_space(4.0);
+            onimusha_add_material(ui, cx, &items, i);
             super::crafting::offer(super::Game::Onimusha, ui, cx);
         });
     }

@@ -1,5 +1,6 @@
-//! "Max crafting materials": raises every crafting material already in the save to the
-//! most one stack holds in that game. Nothing new is added and nothing else is touched.
+//! "Max crafting materials": raises every crafting material in the save to the most one
+//! stack holds in that game. Where a game's item list has room for new entries (Onimusha),
+//! materials not owned yet are added too. Nothing else is touched.
 //!
 //! Each game has its own list, made from public sources (the games' wikis) and kept to
 //! plain materials: no quest or story items, no boss summons or boss drops, no keys,
@@ -22,6 +23,8 @@ pub struct Stack {
     pub name: String,
     pub have: i64,
     pub cap: i64,
+    /// Values written first when the material isn't in the save yet (a new entry).
+    pub create: Vec<(String, Value)>,
 }
 
 /// What the button does in `game`, for its hover text and the catalog.
@@ -109,11 +112,12 @@ pub fn about(game: Game) -> &'static str {
              game states no limit. Lumina, Recoat and story items are left alone."
         }
         Game::Onimusha => {
-            "Raises the upgrade materials on hand in every save slot (Hempen, Cotton and Fine Silk Cloth, \
+            "Sets the upgrade materials on hand in every save slot (Hempen, Cotton and Fine Silk Cloth, \
              Leather, Whetstone, Iron, Tempered Iron, Tamahagane, Malicite, Malicite Mass, Byakue's Talisman \
-             and Dohatsu-ten's Horn) to 99, an estimate since the game states no limit. Only materials the \
-             slot already has are raised. Power Stones and Oni Stones (skill currencies), Oni Cloth (each \
-             makes one Hozuki Pouch), tributes, medicine and key items are left alone."
+             and Dohatsu-ten's Horn) to 999, the most the game holds. Materials a slot doesn't have yet are \
+             added the way the game adds a newly found item (Byakue's Talisman and Dohatsu-ten's Horn \
+             only once that Genma is beaten). Power Stones and Oni Stones (skill currencies), \
+             Oni Cloth (each makes one Hozuki Pouch), tributes, medicine and key items are left alone."
         }
         Game::Ff7Remake => {
             "Raises the crafting materials in the Materials list (herbs, ores, wood, gems, beast parts and the \
@@ -159,6 +163,9 @@ pub fn apply(game: Game, cx: &mut GameCtx) -> usize {
     let Ok(list) = stacks(game, cx) else { return 0 };
     let mut n = 0;
     for s in list.iter().filter(|s| s.have < s.cap) {
+        for (p, v) in &s.create {
+            cx.set(p, v.clone());
+        }
         for p in &s.paths {
             cx.set(p, Value::from(s.cap));
         }
@@ -239,7 +246,7 @@ fn terraria(cx: &GameCtx) -> Result<Vec<Stack>, &'static str> {
             let stack = format!("{p}/Stack");
             if let (true, Some(have)) = (names.contains(&item), cx.int(&stack)) {
                 if have > 0 {
-                    out.push(Stack { paths: vec![stack], name: item, have, cap: 9999 });
+                    out.push(Stack { paths: vec![stack], name: item, have, cap: 9999, create: vec![] });
                 }
             }
         }
@@ -296,7 +303,7 @@ fn stardew(cx: &GameCtx) -> Vec<Stack> {
         }
         let paths: Vec<String> = ["stack", "Stack"].iter().map(|k| format!("{p}/{k}")).filter(|q| cx.int(q).is_some()).collect();
         let Some(have) = paths.first().and_then(|q| cx.int(q)) else { continue };
-        out.push(Stack { paths, name, have, cap: 999 });
+        out.push(Stack { paths, name, have, cap: 999, create: vec![] });
     }
     out
 }
@@ -309,14 +316,14 @@ fn nier(cx: &GameCtx) -> Vec<Stack> {
         .into_iter()
         .filter_map(|k| {
             let p = format!("/Materials/{}", pointer_escape(&k));
-            Some(Stack { have: cx.int(&p)?, paths: vec![p], name: k, cap: 99 })
+            Some(Stack { have: cx.int(&p)?, paths: vec![p], name: k, cap: 99, create: vec![] })
         })
         .collect()
 }
 
 /// One stack per value at `p` that holds a number.
 fn single(cx: &GameCtx, p: String, name: String, cap: i64) -> Option<Stack> {
-    Some(Stack { have: cx.int(&p)?, paths: vec![p], name, cap })
+    Some(Stack { have: cx.int(&p)?, paths: vec![p], name, cap, create: vec![] })
 }
 
 /// The number values under the object at `base` whose key passes `keep`.
@@ -554,14 +561,20 @@ fn expedition33(cx: &GameCtx) -> Vec<Stack> {
 
 // ------------------------------------------------------------------ Onimusha: Way of the Sword
 
-/// Estimate: the game states no limit for materials (its own item-capacity setting leaves
-/// materials out), and no upgrade needs anywhere near this many.
-const ONIMUSHA_CAP: i64 = 99;
+/// The most one material entry holds (the game's own limit for items on hand).
+pub const ONIMUSHA_CAP: i64 = 999;
+
+/// ItemID of an unused item entry.
+const ONIMUSHA_EMPTY: i64 = 46;
+
+/// Each item entry's acquisition number (the game numbers items in the order they were
+/// first picked up and gives a new one the next number).
+const ONIMUSHA_ORDER: &str = "#3cfa8eb4";
 
 /// ItemIDs of the equipment upgrade materials (the clothing, sword and Oni Gauntlet upgrade
 /// costs in public guides). Byakue's Talisman and Dohatsu-ten's Horn drop again from their
 /// Genma in rifts, so they are plain materials once owned.
-const ONIMUSHA: [(i64, &str); 12] = [
+pub const ONIMUSHA: [(i64, &str); 12] = [
     (32727, "Hempen Cloth"),
     (6729, "Cotton Cloth"),
     (7568, "Leather"),
@@ -576,7 +589,40 @@ const ONIMUSHA: [(i64, &str); 12] = [
     (15668, "Dohatsu-ten's Horn"),
 ];
 
+/// Boss materials and the Genma Note the slot gets for beating that boss: the button only
+/// adds a boss material the player hasn't found yet once the boss is beaten.
+const ONIMUSHA_BOSS: [(i64, i64); 2] = [(11192, 336), (15668, 14467)];
+
+/// Where new items can go in one slot's item list (`items`), in the order the game fills
+/// them, and the acquisition number the first one gets. The game keeps its items together
+/// and puts a newly picked-up item in the first unused entry after the last one in use, so
+/// only blank entries after that are offered.
+pub fn onimusha_free(cx: &GameCtx, items: &str) -> (Vec<usize>, i64) {
+    let Some(list) = cx.get(items).and_then(Value::as_array) else { return (vec![], 0) };
+    let id = |e: &Value| e.get("ItemID").and_then(Value::as_i64);
+    let after = list.iter().rposition(|e| id(e).is_some_and(|i| i != ONIMUSHA_EMPTY)).map_or(0, |k| k + 1);
+    let blank = |e: &Value| {
+        id(e) == Some(ONIMUSHA_EMPTY)
+            && ["EquipNum", "BoxNum", ONIMUSHA_ORDER].iter().all(|f| e.get(*f).and_then(Value::as_i64) == Some(0))
+            && e.as_object().is_some_and(|o| o.values().all(|v| v.is_i64()))
+    };
+    let free = (after..list.len()).filter(|&k| blank(&list[k])).collect();
+    let next = list.iter().filter_map(|e| e.get(ONIMUSHA_ORDER)?.as_i64()).max().unwrap_or(0) + 1;
+    (free, next)
+}
+
+/// The values that make entry `k` of `items` a new item: its ID, acquisition number and
+/// count on hand.
+pub fn onimusha_new_entry(items: &str, k: usize, id: i64, order: i64, count: i64) -> Vec<(String, Value)> {
+    vec![
+        (format!("{items}/{k}/ItemID"), Value::from(id)),
+        (format!("{items}/{k}/{ONIMUSHA_ORDER}"), Value::from(order)),
+        (format!("{items}/{k}/EquipNum"), Value::from(count)),
+    ]
+}
+
 /// Every used save slot's material entries; the count raised is EquipNum (on hand).
+/// Materials the slot doesn't have yet get a new entry, as long as the list has room.
 fn onimusha(cx: &GameCtx) -> Vec<Stack> {
     let Some(base) = super::dashboards::ree_slots(cx.root) else { return vec![] };
     let slots = cx.get(&base).and_then(Value::as_array).map_or(0, Vec::len);
@@ -584,12 +630,23 @@ fn onimusha(cx: &GameCtx) -> Vec<Stack> {
     for i in (0..slots).filter(|i| cx.int(&format!("{base}/{i}/_Data/_ResourceData/PlayTime")).unwrap_or(0) > 0) {
         let items = format!("{base}/{i}/_Data/_Items");
         let n = cx.get(&items).and_then(Value::as_array).map_or(0, Vec::len);
+        let mut owned = HashSet::new();
         for k in 0..n {
             let Some(id) = cx.int(&format!("{items}/{k}/ItemID")) else { continue };
             let Some((_, name)) = ONIMUSHA.iter().find(|(m, _)| *m == id) else { continue };
+            owned.insert(id);
             if let Some(s) = single(cx, format!("{items}/{k}/EquipNum"), (*name).to_string(), ONIMUSHA_CAP) {
                 out.push(s);
             }
+        }
+        let (free, next) = onimusha_free(cx, &items);
+        let has = |id: i64| (0..n).any(|k| cx.int(&format!("{items}/{k}/ItemID")) == Some(id));
+        let beaten = |id: &i64| ONIMUSHA_BOSS.iter().find(|(m, _)| m == id).is_none_or(|(_, note)| has(*note));
+        let missing = ONIMUSHA.iter().filter(|(id, _)| !owned.contains(id) && beaten(id));
+        for ((n, (id, name)), k) in missing.enumerate().zip(free) {
+            let mut create = onimusha_new_entry(&items, k, *id, next + n as i64, 0);
+            let count = create.pop().expect("count").0;
+            out.push(Stack { paths: vec![count], name: (*name).to_string(), have: 0, cap: ONIMUSHA_CAP, create });
         }
     }
     out
@@ -692,7 +749,7 @@ fn valheim(cx: &GameCtx) -> Vec<Stack> {
         let Some(&cap) = caps.get(prefab) else { continue };
         let p = format!("/Inventory/{}/Stack", pointer_escape(&k));
         if let Some(have) = cx.int(&p) {
-            out.push(Stack { paths: vec![p], name: prefab.to_string(), have, cap });
+            out.push(Stack { paths: vec![p], name: prefab.to_string(), have, cap, create: vec![] });
         }
     }
     out
@@ -725,7 +782,7 @@ fn minecraft(cx: &GameCtx) -> Vec<Stack> {
             // Before 1.20.5 the count is a byte named Count; since then an int named count.
             let Some(c) = ["Count", "count"].iter().map(|k| format!("{p}/{k}")).find(|q| cx.int(q).is_some()) else { continue };
             let have = cx.int(&c).unwrap_or(0);
-            out.push(Stack { paths: vec![c], name: short.to_string(), have, cap: 64 });
+            out.push(Stack { paths: vec![c], name: short.to_string(), have, cap: 64, create: vec![] });
         }
     }
     out
@@ -980,20 +1037,52 @@ mod tests {
 
     #[test]
     fn onimusha_materials_in_used_slots() {
+        let blank = || json!({"ItemID": 46, "EquipNum": 0, "#3cfa8eb4": 0, "BoxNum": 0, "#c07fb0ec": 0});
         let slot = |play: i64| json!({"_Data": {"_ResourceData": {"PlayTime": play}, "_Items": [
-            {"ItemID": 16424, "EquipNum": 3, "BoxNum": 1},
-            {"ItemID": 1080394368, "EquipNum": 2, "BoxNum": 0},
-            {"ItemID": 2901, "EquipNum": 1, "BoxNum": 0},
-            {"ItemID": 1544132352, "EquipNum": 99, "BoxNum": 0},
-            {"ItemID": 46, "EquipNum": 0, "BoxNum": 0}
+            blank(),
+            {"ItemID": 16424, "EquipNum": 3, "#3cfa8eb4": 7, "BoxNum": 1, "#c07fb0ec": 0},
+            {"ItemID": 1080394368, "EquipNum": 2, "#3cfa8eb4": 30, "BoxNum": 0, "#c07fb0ec": 0},
+            {"ItemID": 2901, "EquipNum": 1, "#3cfa8eb4": 4, "BoxNum": 0, "#c07fb0ec": 0},
+            {"ItemID": 1544132352, "EquipNum": 999, "#3cfa8eb4": 12, "BoxNum": 0, "#c07fb0ec": 0},
+            blank(), blank()
         ]}});
         let root = json!({"SaveData": {"Slots": [slot(100), slot(0)]}});
         let mut cx = ctx(&root);
-        assert_eq!(stacks(Game::Onimusha, &cx).unwrap().len(), 2);
-        assert_eq!(apply(Game::Onimusha, &mut cx), 1);
+        let list = stacks(Game::Onimusha, &cx).unwrap();
+        // Iron and Tamahagane are owned; the two blank entries after the last item take the
+        // first two missing materials (the blank one before them is left alone).
+        assert_eq!(list.len(), 4);
+        assert_eq!(onimusha_free(&cx, "/SaveData/Slots/0/_Data/_Items"), (vec![5, 6], 31));
+        assert_eq!(apply(Game::Onimusha, &mut cx), 3);
         let e = edits(&cx);
-        assert_eq!(e.len(), 1);
-        assert_eq!(e["/SaveData/Slots/0/_Data/_Items/0/EquipNum"], ONIMUSHA_CAP);
+        let items = "/SaveData/Slots/0/_Data/_Items";
+        assert_eq!(e[&format!("{items}/1/EquipNum")], ONIMUSHA_CAP);
+        assert_eq!(e[&format!("{items}/5/ItemID")], 32727);
+        assert_eq!(e[&format!("{items}/5/#3cfa8eb4")], 31);
+        assert_eq!(e[&format!("{items}/5/EquipNum")], ONIMUSHA_CAP);
+        assert_eq!(e[&format!("{items}/6/ItemID")], 6729);
+        assert_eq!(e[&format!("{items}/6/#3cfa8eb4")], 32);
+        assert_eq!(e.len(), 7);
+        assert!(e.keys().all(|k| k.starts_with(items)));
+
+        // Boss materials wait for the boss's Genma Note.
+        let mut many = slot(1);
+        many["_Data"]["_Items"].as_array_mut().unwrap().extend((0..20).map(|_| blank()));
+        let root = json!({"SaveData": {"Slots": [many.clone()]}});
+        let names_of = |root: &Value| stacks(Game::Onimusha, &ctx(root)).unwrap().into_iter().map(|s| s.name).collect::<Vec<_>>();
+        assert!(!names_of(&root).iter().any(|n| n == "Byakue's Talisman"));
+        many["_Data"]["_Items"][5] = json!({"ItemID": 336, "EquipNum": 1, "#3cfa8eb4": 9, "BoxNum": 0, "#c07fb0ec": 0});
+        let root = json!({"SaveData": {"Slots": [many]}});
+        assert!(names_of(&root).iter().any(|n| n == "Byakue's Talisman"));
+        assert_eq!(names_of(&root).len(), 2 + 9);
+
+        // A full list gains nothing; a used entry after the blanks blocks them.
+        let mut full = slot(1);
+        full["_Data"]["_Items"][6] = json!({"ItemID": 14370, "EquipNum": 1, "#3cfa8eb4": 2, "BoxNum": 0, "#c07fb0ec": 0});
+        let root = json!({"SaveData": {"Slots": [full]}});
+        let cx = ctx(&root);
+        assert_eq!(stacks(Game::Onimusha, &cx).unwrap().len(), 2);
+
         let names = include_str!("../fmt/data/onimusha_items.tsv");
         for (id, n) in ONIMUSHA {
             assert!(names.lines().any(|l| l == format!("{id}\t{n}")), "{n}");
