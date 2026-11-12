@@ -3,7 +3,7 @@
 
 use super::{List, Max, Section, Shape, Spec, Table};
 
-pub static SPECS: &[Spec] = &[COTL, FALLOUT_SHELTER, DRG, S1_MONEY, S1_RANK, S1_TIME, S1_GAME, SOTF_STATE, SOTF_GAME, SOTF_WEATHER, SOTF_ITEMS, DMD, CUPHEAD, ANTIMATTER, PVZ, CELESTE, DRGS, KH3, RF4S, SKY1ST, KSP, FFPR, MCD, STONESHARD, ROGUE_TRADER, BIOSHOCK_INFINITE, SPACE_HAVEN, SNOWRUNNER];
+pub static SPECS: &[Spec] = &[COTL, FALLOUT_SHELTER, DRG, S1_MONEY, S1_RANK, S1_TIME, S1_GAME, SOTF_STATE, SOTF_GAME, SOTF_WEATHER, SOTF_ITEMS, DMD, CUPHEAD, ANTIMATTER, PVZ, CELESTE, DRGS, KH3, RF4S, SKY1ST, KSP, FFPR, MCD, STONESHARD, ROGUE_TRADER, BIOSHOCK_INFINITE, SPACE_HAVEN, SNOWRUNNER, GRAVEYARD_KEEPER, NFSMW, TOS, GTA3, GTAVC];
 
 // ------------------------------------------------------------------ Cult of the Lamb
 
@@ -1168,4 +1168,143 @@ const SNOWRUNNER: Spec = Spec {
         cols: &[("Repairs", "/repairs"), ("Gearbox damage", "/gearboxDamage"), ("Suspension damage", "/suspensionDamage")],
         names: &[],
     }],
+};
+
+// ------------------------------------------------------------------ Graveyard Keeper
+
+const GRAVEYARD_KEEPER: Spec = Spec {
+    name: "Graveyard Keeper",
+    tab: "Keeper",
+    accent: (120, 150, 70),
+    kind: Some(crate::fmt::gk::KIND),
+    markers: &["/_inventory/_params/_money"],
+    subtitle: "Money is counted in silver (100 = 1 gold, with copper as the decimals); technology points (red, green and blue) are in the Tree under _res_v",
+    tiles: &[("Money (silver)", "/_inventory/_params/_money"), ("Health", "/_inventory/_params/_hp")],
+    sections: &[],
+    lists: &[],
+    tables: &[],
+};
+
+// ------------------------------------------------------------------ Need for Speed: Most Wanted
+
+const NFSMW: Spec = Spec {
+    name: "Need for Speed: Most Wanted (2005)",
+    tab: "Driver",
+    accent: (210, 160, 30),
+    kind: Some(crate::fmt::nfsmw::KIND),
+    markers: &["/Profile/Money"],
+    subtitle: "A 2005 profile (PC or PlayStation 2); the file's MD5 is made again on save",
+    tiles: &[("Money", "/Profile/Money"), ("Pursuit bounty", "/Profile/Pursuit bounty")],
+    sections: &[],
+    lists: &[],
+    tables: &[],
+};
+
+// ------------------------------------------------------------------ Tales of Symphonia
+
+const TOS: Spec = Spec {
+    name: "Tales of Symphonia",
+    tab: "Party",
+    accent: (230, 170, 60),
+    kind: Some(crate::fmt::tos::KIND),
+    markers: &["/Party/Gald", "/Characters/Lloyd/Level"],
+    subtitle: "TOSSaveData0.dat. Gald is kept in two places and both are written. Item counts go up to 20.",
+    tiles: &[("Gald", "/Party/Gald"), ("Grade (x100)", "/Party/Grade points (stored x100)"), ("Battles", "/Party/Battles")],
+    sections: &[Section {
+        title: "Party and records",
+        rows: &[
+            ("Gald", "/Party/Gald"), ("Most gald held", "/Party/Most gald held"), ("Total gald spent", "/Party/Total gald spent"),
+            ("Grade points (x100)", "/Party/Grade points (stored x100)"), ("Battles", "/Party/Battles"), ("Escapes", "/Party/Escapes"),
+            ("Times saved", "/Party/Times saved"), ("Times cleared", "/Party/Times the game was cleared"),
+            ("Play time (frames, 60 a second)", "/Party/Play time (frames, 60 a second)"),
+        ],
+    }],
+    lists: &[List {
+        title: "Items",
+        path: "/Items",
+        shape: Shape::Map,
+        names: &[],
+        max: None,
+    }],
+    tables: &[Table {
+        title: "Characters",
+        path: "/Characters",
+        name: &[],
+        only: &[],
+        cols: &[
+            ("Level", "/Level"), ("Experience", "/Experience"), ("HP", "/HP"), ("Max HP", "/Max HP"), ("TP", "/TP"), ("Max TP", "/Max TP"),
+            ("Strength", "/Strength"), ("Attack", "/Attack"), ("Attack 2", "/Attack 2"), ("Defense", "/Defense"), ("Luck", "/Luck"),
+            ("Accuracy", "/Accuracy"), ("Evasion", "/Evasion"), ("Intelligence", "/Intelligence"), ("Overlimit %", "/Overlimit (%)"), ("Affection", "/Affection"),
+        ],
+        names: &[],
+    }],
+};
+
+// ------------------------------------------------------------------ Grand Theft Auto III
+
+const GTA3: Spec = Spec {
+    name: "Grand Theft Auto III",
+    tab: "Player",
+    accent: (210, 120, 60),
+    kind: Some(crate::fmt::gta3::KIND),
+    markers: &["/Player/Money", "/Statistics/Progress made"],
+    subtitle: "GTA3sf*.b. Money is kept in two places; the save's checksum is rewritten.",
+    tiles: &[("Money", "/Player/Money"), ("Progress", "/Statistics/Progress made"), ("Packages", "/Player/Hidden packages collected")],
+    sections: &[
+        Section {
+            title: "Player",
+            rows: &[
+                ("Money", "/Player/Money"), ("Money shown on screen", "/Player/Money shown on screen"),
+                ("Hidden packages collected", "/Player/Hidden packages collected"), ("Hidden packages in the game", "/Player/Hidden packages in the game"),
+            ],
+        },
+        Section {
+            title: "Statistics",
+            rows: &[
+                ("Progress made", "/Statistics/Progress made"), ("Total progress in the game", "/Statistics/Total progress in the game"),
+                ("Missions passed", "/Statistics/Missions passed"), ("Missions given", "/Statistics/Missions given"),
+                ("Unique stunt jumps found", "/Statistics/Unique stunt jumps found"), ("Total unique stunt jumps", "/Statistics/Total unique stunt jumps"),
+                ("Days passed", "/Statistics/Days passed"), ("Times arrested", "/Statistics/Times arrested"), ("Times died", "/Statistics/Times died"),
+                ("People killed by the player", "/Statistics/People killed by the player"), ("Cars exploded", "/Statistics/Cars exploded"),
+                ("Rounds fired", "/Statistics/Rounds fired"), ("Helicopters destroyed", "/Statistics/Helicopters destroyed"),
+            ],
+        },
+    ],
+    lists: &[],
+    tables: &[],
+};
+
+// ------------------------------------------------------------------ Grand Theft Auto: Vice City
+
+const GTAVC: Spec = Spec {
+    name: "Grand Theft Auto: Vice City",
+    tab: "Player",
+    accent: (240, 110, 170),
+    kind: Some(crate::fmt::gta3::KIND_VC),
+    markers: &["/Player/Money", "/Statistics/Progress made"],
+    subtitle: "GTAVCsf*.b. Money is kept in two places; the save's checksum is rewritten.",
+    tiles: &[("Money", "/Player/Money"), ("Progress", "/Statistics/Progress made"), ("Packages", "/Player/Hidden packages collected")],
+    sections: &[
+        Section {
+            title: "Player",
+            rows: &[
+                ("Money", "/Player/Money"), ("Money shown on screen", "/Player/Money shown on screen"),
+                ("Hidden packages collected", "/Player/Hidden packages collected"), ("Hidden packages in the game", "/Player/Hidden packages in the game"),
+            ],
+        },
+        Section {
+            title: "Statistics",
+            rows: &[
+                ("Progress made", "/Statistics/Progress made"), ("Total progress in the game", "/Statistics/Total progress in the game"),
+                ("Missions given", "/Statistics/Missions given"),
+                ("Unique stunt jumps found", "/Statistics/Unique stunt jumps found"), ("Total unique stunt jumps", "/Statistics/Total unique stunt jumps"),
+                ("Days passed", "/Statistics/Days passed"), ("Times arrested", "/Statistics/Times arrested"), ("Times died", "/Statistics/Times died"),
+                ("People killed by the player", "/Statistics/People killed by the player"), ("Cars exploded", "/Statistics/Cars exploded"),
+                ("Boats exploded", "/Statistics/Boats exploded"), ("Rounds fired", "/Statistics/Rounds fired"),
+                ("Helicopters destroyed", "/Statistics/Helicopters destroyed"),
+            ],
+        },
+    ],
+    lists: &[],
+    tables: &[],
 };

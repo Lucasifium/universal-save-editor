@@ -128,6 +128,10 @@ fn entries(cx: &GameCtx, l: &List) -> Vec<(String, String)> {
 }
 
 fn name_of(l: &List, id: &str) -> String {
+    // A map keyed by names (a binary save read by name) needs no table of names.
+    if matches!(l.shape, Shape::Map) && l.names.is_empty() {
+        return id.to_string();
+    }
     l.names.iter().find(|(i, _)| *i == id).map_or_else(|| format!("Item {id}"), |(_, n)| n.to_string())
 }
 
@@ -196,10 +200,16 @@ pub fn show(i: u16, ui: &mut Ui, cx: &mut GameCtx) {
         });
     });
     for (ti, t) in s.tables.iter().enumerate() {
-        let n = match cx.get(t.path) {
-            Some(Value::Array(a)) => a.len(),
-            _ => 0,
+        // Rows of an array are numbered; rows of an object (the nodes of a text save, or the
+        // named records of a binary one) are its keys, which name the row when `name` is empty.
+        let rows: Vec<(String, String)> = match cx.get(t.path) {
+            Some(Value::Array(a)) => (0..a.len()).map(|i| (i.to_string(), String::new())).collect(),
+            Some(Value::Object(o)) if !o.is_empty() && o.iter().all(|(k, v)| v.is_object() && !k.starts_with('@')) => {
+                o.keys().map(|k| (k.replace('~', "~0").replace('/', "~1"), k.clone())).collect()
+            }
+            _ => Vec::new(),
         };
+        let n = rows.len();
         if n == 0 {
             continue;
         }
@@ -212,8 +222,12 @@ pub fn show(i: u16, ui: &mut Ui, cx: &mut GameCtx) {
                         ui.label(egui::RichText::new(*h).strong());
                     }
                     ui.end_row();
-                    for r in 0..n {
-                        let name = t.name.iter().filter_map(|k| cx.text(&format!("{}/{r}{k}", t.path))).collect::<Vec<_>>().join(" ");
+                    for (r, (key, key_name)) in rows.iter().enumerate() {
+                        let name = if t.name.is_empty() {
+                            key_name.clone()
+                        } else {
+                            t.name.iter().filter_map(|k| cx.text(&format!("{}/{key}{k}", t.path))).collect::<Vec<_>>().join(" ")
+                        };
                         if !q.is_empty() && !name.to_lowercase().contains(&q) {
                             continue;
                         }
@@ -223,7 +237,7 @@ pub fn show(i: u16, ui: &mut Ui, cx: &mut GameCtx) {
                         let name = t.names.iter().find(|(id, _)| *id == name).map_or(name, |(_, n)| n.to_string());
                         ui.label(if name.is_empty() { format!("#{}", r + 1) } else { name });
                         for (_, k) in t.cols {
-                            let p = format!("{}/{r}{k}", t.path);
+                            let p = format!("{}/{key}{k}", t.path);
                             if cx.get(&p).is_some() {
                                 cx.cell(ui, &p, 64.0);
                             } else {

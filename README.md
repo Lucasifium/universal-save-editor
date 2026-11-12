@@ -149,12 +149,17 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 | Kerbal Space Program | *Space Center*: funds, science, reputation, the level of each Space Center facility, and a table of every Kerbal (courage, stupidity, veteran, extra XP, trait, state). The `persistent.sfs` text is read as a tree and only the values you change are rewritten (checked on real career saves, not yet tried in the game) |
 | Space Haven | *Fleet*: credits, the day and time, the difficulty options, and a table of each ship's crew with health, food, rest, comfort, mood, the four attributes and every skill level. The save's XML is edited in place, so everything you don't change stays as it was. Resources in storage are not covered (checked on a real save, not yet tried in the game) |
 | SnowRunner | *Garage*: money, rank, experience, the statistics (money earned and spent, trucks and add-ons bought and sold, sessions), the difficulty factors and the trucks in the warehouse. The save is JSON followed by a NUL byte, which is kept (checked on two real saves, not yet tried in the game) |
+| Grand Theft Auto III | *Player*: money (both copies the game keeps), hidden packages, and the statistics (progress, missions, stunt jumps, days, times arrested and died, kills); the save's checksum is rewritten (checked on public saves, not yet tried in the game) |
+| Grand Theft Auto: Vice City | *Player*: money (both copies the game keeps), hidden packages, and the statistics (progress, stunt jumps, days, times arrested and died, kills); the save's checksum is rewritten (checked on public saves, not yet tried in the game) |
+| Tales of Symphonia | *Party*: gald (written in both places the game keeps it), grade points, the records, all nine characters (level, experience, HP, TP, strength, attack, defense, luck, accuracy, evasion, intelligence, overlimit, affection) and every item up to 20 (checked on a real save, not yet tried in the game) |
 | Kenshi | *Faction*: the player's cats |
 | Kerbal Space Program | *Space program*: career funds, science and reputation, from the save's ConfigNode text (only the values you change are rewritten; every other value, vessel and Kerbal is in the Tree). Checked on public sample saves, not yet tried in the game |
 | Palworld | *Player*: technology points, ancient technology points, Lifmunk effigies and the record counters |
 | Final Fantasy Pixel Remaster (I–VI, PC) | *Party*: one save slot, decrypted (PBKDF2 key, Rijndael with a 256-bit block, deflate) with the character and inventory data that the game keeps as text inside it opened too, and encrypted again on save; gil, total gil, steps, battle and chest counters, every character's experience, HP / MP and bonus stats, and the item and key-item counts. Checked on public sample saves of FF I–IV against the reference tool's own decryption; not yet tried in the game |
 | Minecraft Dungeons | *Hero*: the character `.dat` is decrypted (AES, the key as published by MCDSaveEdit) and encrypted again on save; experience, total gear power and the emerald, gold and Eye of Ender counts, with items and enchantments in the Tree. The decryption was checked on a public sample save; not yet tried in the game |
 | Stoneshard | *Character*: level, experience, ability points, unspent attribute points and the six attributes of a character's `data.sav`, which is unpacked (zlib) and packed again with its MD5 (the salt comes from the save's folder names, so open it from its own folder). Built from the published layout; not yet tried on a real save |
+| Graveyard Keeper | *Keeper*: money (in silver; 100 = 1 gold) and health, with every other value of the save (technology points, inventory, world objects) in the Tree under the names the game uses. The typed value tree of the `.dat` is read and written again, keeping each value's type. Built from the published layout; not yet tried on a real save |
+| Need for Speed: Most Wanted (2005) | *Driver*: money and pursuit bounty of a profile file (63,596 bytes on PC, 62,689 on PlayStation 2), with the file's MD5 made again on save. Opens by its layout, wherever the file is kept; built from the published offsets, not yet tried on a real profile |
 | Final Fantasy IX (Steam) | *Party*: every saved game in `SavedData_ww.dat` (decrypted and encrypted again): gil, and each character's level, experience, HP / MP and base stats |
 | Death Stranding 2: On the Beach | *Facilities*: the material stocks (chiral crystals, resins, metals, ceramics, chemicals, special alloys) at every facility you've found, with its connection level, and a **Max crafting materials** button that fills them to 9999 (an estimate); likes from NPCs and other porters and likes given; day, time of day and play time. Unpacked (XOR, LZ4) and packed again with the save's MD5 on save; pieces that didn't change keep their bytes. Not yet tried in the game |
 | Final Fantasy XV (Windows Edition) | *Party*: gil, ability points and medals; every character's level, HP / MP and stats, the experience waiting to be banked at the next rest, total experience and kills; item amounts in every bag (by the game's item number), with a **Max crafting materials** button that fills every treasure to 99. Decrypted (AES-192, shuffled blocks) and encrypted again on save. Not yet tried in the game |
@@ -343,11 +348,13 @@ others follow the published keys and are not yet tried on real saves.
 `global`) and JSON inside strings. All of it opens as one tree, and every level is packed again on
 save. Built from the published layout and not yet tried on a real save.
 
-**Compressed containers opened for Value search**: Astroneer (`.savegame`, written back as zlib with the
+**Compressed containers opened for Value search**: Remnant 2 (`profile.sav`, `save_N.sav`; the unpacked data is
+searched and its CRC-32 is made again on save), Astroneer (`.savegame`, written back as zlib with the
 4 KiB window header the game wants), Satisfactory (`.sav`, 128 KiB zlib chunks, header kept) and
 Civilization VII (`.Civ7Save`, chunked zlib between a header and a footer; each player's gold and influence
 are on the Tree where the save keeps them in the known place). Craftopia's `.ocs` is gzip over JSON and opens
-by name. The Satisfactory and Civilization VII containers were checked on public sample saves (unpack, repack and
+by name. Avatar: Frontiers of Pandora, Final Fantasy VIII Remastered and Okami HD are listed with their save
+folders and open in the Hex view for Value search. The Satisfactory and Civilization VII containers were checked on public sample saves (unpack, repack and
 read back); none has been tried in its game yet.
 
 **FANTASIAN Neo Dimension**: `root.json` holds every save slot, each encrypted on its own. One slot
