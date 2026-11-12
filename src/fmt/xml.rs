@@ -235,6 +235,8 @@ pub fn looks_like_xml(t: &str) -> bool {
 struct Builder {
     leaves: Vec<Leaf>,
     editable: HashMap<String, usize>,
+    /// Element names that are always shown as a list, even when there is only one.
+    lists: &'static [&'static str],
 }
 
 impl Builder {
@@ -295,7 +297,7 @@ impl Builder {
         }
         for name in order {
             let p = child(ptr, name);
-            if counts[name] == 1 {
+            if counts[name] == 1 && !self.lists.contains(&name) {
                 let c = e.children.iter().find(|c| c.name == name).unwrap();
                 let v = self.view(c, &p);
                 map.insert(name.to_string(), v);
@@ -353,13 +355,20 @@ impl Backend for XmlBackend {
 }
 
 pub fn parse(text: &str) -> Result<TreeDoc, String> {
+    parse_with(text, text.as_bytes(), &[])
+}
+
+/// Reads `text` (the file's text, possibly with a few characters swapped for same-length ones
+/// so it reads as XML) but writes edits into `raw`, the file as it was; `lists` names the
+/// elements to show as lists even when they occur once.
+pub fn parse_with(text: &str, raw: &[u8], lists: &'static [&'static str]) -> Result<TreeDoc, String> {
     let root = parse_root(text)?;
-    let mut b = Builder { leaves: vec![], editable: HashMap::new() };
+    let mut b = Builder { leaves: vec![], editable: HashMap::new(), lists };
     let mut map = Map::new();
     let ptr = child("", &root.name);
     let v = b.view(&root, &ptr);
     map.insert(root.name.clone(), v);
-    let backend = XmlBackend { raw: text.as_bytes().to_vec(), leaves: b.leaves };
+    let backend = XmlBackend { raw: raw.to_vec(), leaves: b.leaves };
     Ok(TreeDoc::new(Value::Object(map), b.editable, "XML", Box::new(backend)))
 }
 

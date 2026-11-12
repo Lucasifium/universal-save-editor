@@ -197,6 +197,37 @@ impl P<'_> {
         }
         Ok(Value::Object(m))
     }
+    /// The counted list of save objects that follows the properties in some UE 5 saves.
+    fn save_objects(&mut self) -> Result<Map<String, Value>, String> {
+        if self.i32()? != 0 {
+            return Err("no save objects".into());
+        }
+        let n = self.count()?;
+        let mut out = Map::new();
+        for _ in 0..n {
+            let class = self.fstring()?;
+            if !class.starts_with('/') {
+                return Err("bad save object".into());
+            }
+            self.take(16)?; // GUID
+            self.i32()?;
+            self.u8()?;
+            let short = class.rsplit('.').next().unwrap_or(&class).to_string();
+            let key = unique_key(&out, &short);
+            let props = self.props(&child("/SaveObjects", &key), &[], None)?;
+            self.i32()?;
+            out.insert(key, Value::Object(props));
+        }
+        if self.d.len() - self.pos >= 10 {
+            // A last, unnamed property list.
+            self.i32()?;
+            self.u8()?;
+            let props = self.props(&child("/SaveObjects", "Trailer"), &[], None)?;
+            self.i32()?;
+            out.insert("Trailer".to_string(), Value::Object(props));
+        }
+        Ok(out)
+    }
     /// A property list terminated by "None".
     fn props(&mut self, ptr: &str, sizes: &[usize], end: Option<usize>) -> Result<Map<String, Value>, String> {
         let mut m = Map::new();
@@ -609,23 +640,27 @@ impl Backend for GvasBackend {
 }
 
 pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
-    match parse_as(d, false) {
-        Err(e) if e.starts_with("unexpected data after properties") => parse_as(d, true).map_err(|_| e),
+    match parse_as(d, false, false) {
+        Err(e) if e.starts_with("unexpected data after properties") => parse_as(d, true, false).map_err(|_| e),
+        // Mortal Shell (UE 4.25) puts an 8-byte timestamp between the class name and the properties.
+        Err(e) => parse_as(d, false, true).map_err(|_| e),
         r => r,
     }
 }
 
 /// `sections`: the properties are several lists one after another (Ace Combat 8 packs its
 /// save that way), each shown as "Section n".
-fn parse_as(d: &[u8], sections: bool) -> Result<TreeDoc, String> {
+fn parse_as(d: &[u8], sections: bool, stamp: bool) -> Result<TreeDoc, String> {
     let mut p = P { d, pos: 0, leaves: vec![], editable: HashMap::new(), full_types: false, lwc: false };
     if p.take(4)? != b"GVAS" {
         return Err("not GVAS".into());
     }
     let save_version = p.i32()?;
     p.i32()?; // UE4 package version
-    if save_version >= 3 {
-        p.i32()?; // UE5 package version
+    // UE5 package version (some UE4.25 games write save version 3 without it: the engine
+    // major version, 4, follows directly instead).
+    if save_version >= 3 && !matches!(p.d.get(p.pos..p.pos + 2), Some(&[4, 0])) {
+        p.i32()?;
     }
     let engine = p.take(10)?; // engine major/minor/patch + changelist
     let (major, minor) = (u16::from_le_bytes([engine[0], engine[1]]), u16::from_le_bytes([engine[2], engine[3]]));
@@ -642,6 +677,9 @@ fn parse_as(d: &[u8], sections: bool) -> Result<TreeDoc, String> {
     if p.full_types {
         p.u8()?; // flags byte after the class name (0)
     }
+    if stamp {
+        p.take(8)?;
+    }
     let props = if sections {
         let mut out = Map::new();
         while p.pos < d.len() {
@@ -653,6 +691,22 @@ fn parse_as(d: &[u8], sections: bool) -> Result<TreeDoc, String> {
     } else {
         p.props("", &[], None)?
     };
+    let mut props = props;
+    if p.full_types && d.len() - p.pos > 16 && d[p.pos..].iter().any(|&b| b != 0) {
+        // Some UE 5 games (Mortal Shell II) follow the properties with a counted list of
+        // save objects, each a class, a GUID and its own property list.
+        let (pos, leaves) = (p.pos, p.leaves.len());
+        match p.save_objects() {
+            Ok(objs) => {
+                props.insert("SaveObjects".to_string(), Value::Object(objs));
+            }
+            Err(_) => {
+                p.pos = pos;
+                p.leaves.truncate(leaves);
+                p.editable.retain(|_, id| *id < leaves);
+            }
+        }
+    }
     let trailing = d.len() - p.pos;
     if trailing > 16 && d[p.pos..].iter().any(|&b| b != 0) {
         return Err(format!("unexpected data after properties ({trailing} bytes)"));
@@ -882,6 +936,69 @@ pub(crate) mod tests {
         v.extend(prop5("Rank", tn("IntProperty", &[]), 0, &3i32.to_le_bytes()));
         v.extend(fs("None"));
         v
+    }
+
+    /// UE 5.6: a counted list of save objects (class, GUID, own properties) follows the
+    /// properties, then one more empty list.
+    #[test]
+    fn save_objects_follow_the_properties() {
+        let int = || tn("IntProperty", &[]);
+        let mut v = b"GVAS".to_vec();
+        v.extend(3i32.to_le_bytes());
+        v.extend(522i32.to_le_bytes());
+        v.extend(1012i32.to_le_bytes());
+        v.extend([5, 0, 6, 0, 1, 0, 0, 0, 0, 0x80]);
+        v.extend(fs("++Game+Release"));
+        v.extend(3i32.to_le_bytes());
+        v.extend(0i32.to_le_bytes());
+        v.extend(fs("/Script/Game.SaveGame"));
+        v.push(0);
+        v.extend(prop5("Slot", int(), 0, &2i32.to_le_bytes()));
+        v.extend(fs("None"));
+        v.extend(0i32.to_le_bytes());
+        v.extend(2i32.to_le_bytes());
+        for (class, gold) in [("/Game/Save/BP_Player.BP_Player_C", 580i32), ("/Game/Save/BP_Player.BP_Player_C", 9)] {
+            v.extend(fs(class));
+            v.extend([7u8; 16]);
+            v.extend(0i32.to_le_bytes());
+            v.push(0);
+            v.extend(prop5("Gold", int(), 0, &gold.to_le_bytes()));
+            v.extend(fs("None"));
+            v.extend(0i32.to_le_bytes());
+        }
+        v.extend(0i32.to_le_bytes());
+        v.push(0);
+        v.extend(fs("None"));
+        v.extend(0i32.to_le_bytes());
+        let mut doc = parse(&v).unwrap();
+        assert_eq!(doc.view_and_editable().0.pointer("/SaveObjects/BP_Player_C/Gold"), Some(&json!(580)));
+        assert_eq!(doc.view_and_editable().0.pointer("/SaveObjects/BP_Player_C (2)/Gold"), Some(&json!(9)));
+        doc.set("/SaveObjects/BP_Player_C/Gold", json!(99999)).unwrap();
+        let mut again = parse(&doc.to_bytes().unwrap()).unwrap();
+        assert_eq!(again.view_and_editable().0.pointer("/SaveObjects/BP_Player_C/Gold"), Some(&json!(99999)));
+        assert_eq!(again.view_and_editable().0.pointer("/SaveObjects/BP_Player_C (2)/Gold"), Some(&json!(9)));
+    }
+
+    /// UE 4.25 with save version 3 (no UE 5 package version) and an 8-byte timestamp after
+    /// the class name (Mortal Shell).
+    #[test]
+    fn ue4_save_version_3_with_a_timestamp() {
+        let mut v = b"GVAS".to_vec();
+        v.extend(3i32.to_le_bytes());
+        v.extend(518i32.to_le_bytes());
+        v.extend([4, 0, 25, 0, 0, 0, 0, 0, 0, 0]);
+        v.extend(fs("++UE4+Release-4.25Plus"));
+        v.extend(3i32.to_le_bytes());
+        v.extend(0i32.to_le_bytes());
+        v.extend(fs("/Game/Blueprints/Save.Save_C"));
+        v.extend([1, 2, 3, 4, 5, 6, 7, 8]);
+        v.extend(prop("Tar", "IntProperty", &[], &680i32.to_le_bytes(), false));
+        v.extend(fs("None"));
+        v.extend(0i32.to_le_bytes());
+        let mut doc = parse(&v).unwrap();
+        assert_eq!(doc.view_and_editable().0.pointer("/Tar"), Some(&json!(680)));
+        doc.set("/Tar", json!(5000)).unwrap();
+        assert_eq!(doc.to_bytes().unwrap().len(), v.len());
     }
 
     #[test]

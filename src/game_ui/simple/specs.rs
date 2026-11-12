@@ -3,7 +3,7 @@
 
 use super::{List, Max, Section, Shape, Spec, Table};
 
-pub static SPECS: &[Spec] = &[COTL, FALLOUT_SHELTER, DRG, S1_MONEY, S1_RANK, S1_TIME, S1_GAME, SOTF_STATE, SOTF_GAME, SOTF_WEATHER, SOTF_ITEMS, DMD, CUPHEAD, ANTIMATTER, PVZ, CELESTE, DRGS, KH3, RF4S, SKY1ST, KSP, FFPR, MCD, STONESHARD, ROGUE_TRADER, BIOSHOCK_INFINITE, SPACE_HAVEN, SNOWRUNNER, GRAVEYARD_KEEPER, NFSMW, TOS, GTA3, GTAVC, BITBURNER, TERRA_INVICTA, PRISON, FF13, SONIC_MANIA, CAVE_STORY_PLUS, CAVE_STORY, LIES_OF_P, TXR, DAVE, MSC, ULTRAKILL, RPGXP, RE5, ANNO1800, FTK, LEGO_TSS, LEGO_CLASSIC];
+pub static SPECS: &[Spec] = &[COTL, FALLOUT_SHELTER, DRG, S1_MONEY, S1_RANK, S1_TIME, S1_GAME, SOTF_STATE, SOTF_GAME, SOTF_WEATHER, SOTF_ITEMS, DMD, CUPHEAD, ANTIMATTER, PVZ, CELESTE, DRGS, KH3, RF4S, SKY1ST, KSP, FFPR, MCD, STONESHARD, ROGUE_TRADER, BIOSHOCK_INFINITE, SPACE_HAVEN, SNOWRUNNER, GRAVEYARD_KEEPER, NFSMW, TOS, GTA3, GTAVC, BITBURNER, TERRA_INVICTA, PRISON, FF13, SONIC_MANIA, CAVE_STORY_PLUS, CAVE_STORY, LIES_OF_P, TXR, DAVE, MSC, ULTRAKILL, RPGXP, RE5, ANNO1800, FTK, LEGO_TSS, LEGO_CLASSIC, MYZ, CMS21, MEDIEVAL_DYNASTY, MECHANICUS, ORI, OMORI, ENDER_LILIES, SW2, ES2, MOONLIGHTER, WASTELAND2, ATOM, MORTAL_SHELL, MORTAL_SHELL_2, COTW, BEAMNG, FOREST];
 
 // ------------------------------------------------------------------ Cult of the Lamb
 
@@ -1805,5 +1805,678 @@ const LEGO_CLASSIC: Spec = Spec {
     tiles: &[("Studs", "/Studs")],
     sections: &[Section { title: "Studs", rows: &[("Studs", "/Studs"), ("Game", "/Game")] }],
     lists: &[],
+    tables: &[],
+};
+
+// ------------------------------------------------------------------ Mutant Year Zero: Road to Eden
+
+const MYZ: Spec = Spec {
+    name: "Mutant Year Zero: Road to Eden",
+    tab: "Squad",
+    accent: (150, 170, 70),
+    kind: Some("Unreal Engine save (ZoneSavegame)"),
+    markers: &["/Inventory/Scrap", "/PlayerUnits"],
+    subtitle: "A Slot or Autosave file in the SaveGames folder. Scrap and weapon parts are the Ark's shared stock; each squad member has their own level, health and mutation points.",
+    tiles: &[("Scrap", "/Inventory/Scrap"), ("Weapon parts", "/Inventory/WeaponParts"), ("Medpacks", "/Inventory/Medpacks")],
+    sections: &[
+        Section {
+            title: "The Ark",
+            rows: &[
+                ("Artifact points available", "/Ark/AvailableArtifactPoints"), ("Artifact points spent", "/Ark/SpentArtifactPoints"),
+                ("Population", "/Ark/Population"), ("Food quality", "/Ark/FoodQuality"), ("Recruits this week", "/Ark/AvailableRecruitsThisWeek"),
+                ("Electricity level", "/Ark/ElectricityLevel"), ("Science level", "/Ark/ScienceLevel"), ("Living level", "/Ark/LivingLevel"),
+            ],
+        },
+        Section { title: "Squad", rows: &[("Squad level", "/SquadXPData/SquadLevel"), ("Elias level", "/EliasLevel"), ("Week", "/CurrentWeek")] },
+    ],
+    lists: &[List {
+        title: "Shared stock",
+        path: "/Inventory",
+        shape: Shape::Map,
+        names: &[],
+        max: Some(Max {
+            ids: &["Scrap", "WeaponParts"],
+            cap: 999,
+            caps: &[],
+            estimate: true,
+            about: "Raises scrap and weapon parts to 999 (an estimate: no public source states a cap). Medpacks, artifacts, notes and gear are left alone.",
+        }),
+    }],
+    tables: &[Table {
+        title: "Squad members",
+        path: "/PlayerUnits",
+        name: &["/UniqueCharacterName"],
+        only: &[],
+        cols: &[
+            ("Level", "/Level"), ("XP", "/Experience"), ("Max health", "/MaxHitpoints"), ("Health", "/Hitpoints"),
+            ("Max sanity", "/MaxSanity"), ("Sanity", "/Sanity"), ("Mutation points", "/MutationPoints"),
+        ],
+        names: &[],
+    }],
+};
+
+// ------------------------------------------------------------------ Car Mechanic Simulator 2021
+
+const CMS21: Spec = Spec {
+    name: "Car Mechanic Simulator 2021",
+    tab: "Mechanic",
+    accent: (230, 120, 40),
+    kind: None,
+    markers: &["/globalDataWrapper/PlayerMoney", "/carsInGarage"],
+    subtitle: "A profile file (profile0.cms21 …) in the game's Save folder; the Backup folder keeps an older copy, so edit the one the game loads.",
+    tiles: &[("Money", "/globalDataWrapper/PlayerMoney"), ("Level", "/globalDataWrapper/PlayerLevel"), ("XP", "/globalDataWrapper/PlayerExp"), ("Scrap", "/globalDataWrapper/PlayerScraps")],
+    sections: &[
+        Section {
+            title: "Profile",
+            rows: &[("Name", "/Name"), ("Play time", "/PlayTime"), ("Difficulty", "/Difficulty"), ("Best race time", "/BestRaceTime"), ("Top speed", "/TopSpeed"), ("Finished tutorial", "/FinishedTutorial")],
+        },
+        Section {
+            title: "Garage and missions",
+            rows: &[
+                ("Parking levels unlocked", "/globalDataWrapper/UnlockedParkingLevels"), ("Barns found", "/globalDataWrapper/BarnsAmount"),
+                ("Missions finished", "/globalDataWrapper/MissionsFinished"), ("Warehouses unlocked", "/warehouseData/amountOfUnlockedWarehouses"),
+            ],
+        },
+    ],
+    lists: &[],
+    tables: &[],
+};
+
+// ------------------------------------------------------------------ Medieval Dynasty
+
+const MEDIEVAL_DYNASTY: Spec = Spec {
+    name: "Medieval Dynasty",
+    tab: "Settler",
+    accent: (170, 130, 70),
+    kind: Some("Unreal Engine save (SAVE_Game_C)"),
+    markers: &["/DynastyReputation", "/PlayerData"],
+    subtitle: "A Quicksave or Autosave file. Money is the Coin item in the bag; skill levels and the four technology point pools are below.",
+    tiles: &[("Reputation", "/DynastyReputation"), ("Tax", "/CurrentTax")],
+    sections: &[
+        Section {
+            title: "Needs",
+            rows: &[
+                ("Health", "/PlayerData/Stats_57_CF87A144455D92DB6C482FB22BA8C487/Health_5_87035C8C4554FD207A64F392A82F8C80"),
+                ("Stamina", "/PlayerData/Stats_57_CF87A144455D92DB6C482FB22BA8C487/Stamina_9_BDAAE3B24DB2260CE2A8E291179CE762"),
+                ("Food", "/PlayerData/Stats_57_CF87A144455D92DB6C482FB22BA8C487/Food_3_AB4C50FD4267F3D70946EABDE7841042"),
+                ("Water", "/PlayerData/Stats_57_CF87A144455D92DB6C482FB22BA8C487/Water_7_D4D5072F4C90181D22D20584CF754102"),
+                ("Age", "/PlayerData/Age_17_95D4C25B404796B039F50EAB60304D82"),
+            ],
+        },
+        Section {
+            title: "Technology points",
+            rows: &[
+                ("Building", "/TechnologyPoints/Building_2_1C1D5F674D6813156020C48175C195CD"),
+                ("Survival", "/TechnologyPoints/Survival_6_6503F9984203857C64CE4499504F6D5B"),
+                ("Farming", "/TechnologyPoints/Farming_7_B3769E3E4F33E547F9CE24837510332E"),
+                ("Crafting", "/TechnologyPoints/Crafting_8_538BF3D54E1E6799C4919CB13D94A5C4"),
+            ],
+        },
+        Section {
+            title: "Skill levels",
+            rows: &[
+                ("Extraction", "/PlayerData/Skills_27_BC25071441646825BA0361A6C186A2B6/E_L_62_87035C8C4554FD207A64F392A82F8C80"),
+                ("Hunting", "/PlayerData/Skills_27_BC25071441646825BA0361A6C186A2B6/H_L_65_BDAAE3B24DB2260CE2A8E291179CE762"),
+                ("Farming", "/PlayerData/Skills_27_BC25071441646825BA0361A6C186A2B6/F_L_83_AB4C50FD4267F3D70946EABDE7841042"),
+                ("Diplomacy", "/PlayerData/Skills_27_BC25071441646825BA0361A6C186A2B6/D_L_71_D4D5072F4C90181D22D20584CF754102"),
+                ("Survival", "/PlayerData/Skills_27_BC25071441646825BA0361A6C186A2B6/S_L_74_380CB82E4C3CAFE24FB611B17954B35F"),
+                ("Crafting", "/PlayerData/Skills_27_BC25071441646825BA0361A6C186A2B6/C_L_80_2067C5474E664F95D07DB69DD2B8968B"),
+            ],
+        },
+    ],
+    lists: &[List {
+        title: "Bag",
+        path: "/PlayerData/EQ_58_E8A95A55473CB02502A1959F9FCF1D1C",
+        shape: Shape::Array { id_key: "ID_8_4F27866A4A6D5E95B59001A7FC0A0EB3", qty_keys: &["Count_5_C53A69004BB01EEBBA02CD86D4CBA6C6"] },
+        names: &[],
+        max: Some(Max {
+            ids: &["Log", "Stick", "Clay", "Plank", "Rock", "Leather", "Straw", "Salt", "Fur", "Wool", "Daub", "Feather", "Firewood", "LinenThread", "WoolThread"],
+            cap: 999,
+            caps: &[],
+            estimate: true,
+            about: "Raises the plain building and crafting materials in the bag (wood, stone, clay, leather, straw, salt, fur, wool, daub, feathers, thread) to 999, an estimate: the game limits what fits by weight and no public source gives a stack cap. Money, tools, food and clothing are left alone.",
+        }),
+    }],
+    tables: &[],
+};
+
+// ------------------------------------------------------------------ Warhammer 40,000: Mechanicus
+
+const MECHANICUS: Spec = Spec {
+    name: "Warhammer 40,000: Mechanicus",
+    tab: "Cadmus",
+    accent: (200, 60, 50),
+    kind: Some(crate::fmt::mechanicus::KIND),
+    markers: &["/Ark/Blackstone"],
+    subtitle: "Meta.sav of a save slot. Blackstone is the Ark's research currency; SaveState.sav (the game's checksum of this file) is updated when you save.",
+    tiles: &[("Blackstone", "/Ark/Blackstone"), ("Cognition bonus points", "/Ark/Cognition bonus points")],
+    sections: &[Section {
+        title: "Ark",
+        rows: &[
+            ("Extra deployment points", "/Ark/Extra deployment points"), ("Troop deployment cost reduction", "/Ark/Troop deployment cost reduction"),
+            ("Techpriest slots", "/Ark/Techpriest slots"), ("Troop slots", "/Ark/Troop slots"),
+        ],
+    }],
+    lists: &[],
+    tables: &[Table {
+        title: "Techpriests",
+        path: "/Techpriests",
+        name: &["/Name"],
+        only: &[],
+        cols: &[("Level", "/Level"), ("XP", "/XP"), ("Skill points", "/Skill points"), ("Slot points", "/Slot points"), ("Augment capacity", "/Augment capacity"), ("Health", "/Health")],
+        names: &[],
+    }],
+};
+
+// ------------------------------------------------------------------ Ori and the Blind Forest
+
+const ORI: Spec = Spec {
+    name: "Ori and the Blind Forest",
+    tab: "Ori",
+    accent: (90, 170, 230),
+    kind: Some(crate::fmt::ori::KIND),
+    markers: &["/Ori"],
+    subtitle: "saveFile<n>.sav: level, ability points, life and energy cells, keystones, mapstones and every skill and ability-tree upgrade.",
+    tiles: &[("Level", "/Ori/Level"), ("Ability points", "/Ori/Ability points"), ("Keystones", "/Ori/Keystones"), ("Mapstones", "/Ori/Mapstones")],
+    sections: &[
+        Section {
+            title: "Ori",
+            rows: &[
+                ("Level", "/Ori/Level"), ("Experience", "/Ori/Experience"), ("Ability points", "/Ori/Ability points"),
+                ("Life (4 per cell)", "/Ori/Life (4 per cell)"), ("Max life (4 per cell)", "/Ori/Max life (4 per cell)"),
+                ("Energy", "/Ori/Energy"), ("Max energy", "/Ori/Max energy"), ("Keystones", "/Ori/Keystones"),
+                ("Mapstones", "/Ori/Mapstones"), ("Deaths", "/Ori/Deaths"),
+            ],
+        },
+        Section { title: "Skills", rows: &[("Spirit Flame", "/Skills/Spirit Flame"), ("Wall Jump", "/Skills/Wall Jump"), ("Charge Flame", "/Skills/Charge Flame"), ("Double Jump", "/Skills/Double Jump"), ("Bash", "/Skills/Bash"), ("Stomp", "/Skills/Stomp"), ("Glide", "/Skills/Glide"), ("Climb", "/Skills/Climb"), ("Charge Jump", "/Skills/Charge Jump"), ("Dash", "/Skills/Dash"), ("Light Burst", "/Skills/Light Burst")] },
+        Section { title: "Ability tree", rows: &[("Spirit Efficiency", "/Ability tree/Spirit Efficiency"), ("Water Breath", "/Ability tree/Water Breath"), ("Charge Flame Blast", "/Ability tree/Charge Flame Blast"), ("Charge Flame Burn", "/Ability tree/Charge Flame Burn"), ("Triple Jump", "/Ability tree/Triple Jump"), ("Ultra Defense", "/Ability tree/Ultra Defense"), ("Life Efficiency", "/Ability tree/Life Efficiency"), ("Sense", "/Ability tree/Sense"), ("Ultra Stomp", "/Ability tree/Ultra Stomp"), ("Quick Flame", "/Ability tree/Quick Flame"), ("Map Markers", "/Ability tree/Map Markers"), ("Energy Efficiency", "/Ability tree/Energy Efficiency"), ("Life Markers", "/Ability tree/Life Markers"), ("Energy Markers", "/Ability tree/Energy Markers"), ("Ability Markers", "/Ability tree/Ability Markers"), ("Rekindle", "/Ability tree/Rekindle"), ("Regroup", "/Ability tree/Regroup"), ("Charge Flame Efficiency", "/Ability tree/Charge Flame Efficiency"), ("Ultra Soul Link", "/Ability tree/Ultra Soul Link"), ("Soul Link Efficiency", "/Ability tree/Soul Link Efficiency"), ("Split Flame", "/Ability tree/Split Flame"), ("Spark Flame", "/Ability tree/Spark Flame"), ("Cinder Flame", "/Ability tree/Cinder Flame"), ("Ultra Split Flame", "/Ability tree/Ultra Split Flame"), ("Ultra Light Burst", "/Ability tree/Ultra Light Burst"), ("Charge Dash", "/Ability tree/Charge Dash"), ("Air Dash", "/Ability tree/Air Dash"), ("Magnet", "/Ability tree/Magnet"), ("Ultra Magnet", "/Ability tree/Ultra Magnet"), ("Rapid Flame", "/Ability tree/Rapid Flame")] },
+        Section { title: "This save", rows: &[("Area", "/Save/Area"), ("Completion (%)", "/Save/Completion (%)"), ("Play time", "/Save/Play time")] },
+    ],
+    lists: &[],
+    tables: &[],
+};
+
+// ------------------------------------------------------------------ OMORI
+
+const OMORI_ITEMS: &[(&str, &str)] = &[("2", "Cold Steak"), ("3", "Microwaved Steak"), ("4", "Snacktime"), ("7", "Rubberband"), ("13", "Tofu"), ("14", "Candy"), ("15", "Smores"), ("16", "Granola Bar"), ("17", "Bread"), ("18", "Nachos"), ("19", "Chicken Wing"), ("20", "Hot Dog"), ("21", "Waffle"), ("22", "Pancake"), ("23", "Pizza Slice"), ("24", "Fish Taco"), ("25", "Cheeseburger"), ("26", "Chocolate"), ("27", "Donut"), ("28", "Ramen"), ("29", "Spaghetti"), ("30", "Popcorn"), ("31", "Fries"), ("32", "Cheese Wheel"), ("33", "Whole Chicken"), ("34", "Whole Pizza"), ("35", "Sno-Cone"), ("36", "Tomato"), ("37", "Combo Meal"), ("38", "Dino Clumps"), ("39", "Dino Pasta"), ("41", "Mari'S Cookie"), ("42", "Mari'S Cookie"), ("46", "Plum Juice"), ("47", "Apple Juice"), ("48", "Cherry Soda"), ("49", "Star Fruit Soda"), ("50", "Breadfruit Juice"), ("51", "Tasty Soda"), ("52", "Lemonade"), ("53", "Peach Soda"), ("54", "Butt Peach Soda"), ("55", "Orange Juice"), ("56", "Pineapple Juice"), ("57", "Grape Soda"), ("58", "Banana Smoothie"), ("59", "Mango Smoothie"), ("60", "Berry Smoothie"), ("61", "Melon Smoothie"), ("62", "S.Berry Smoothie"), ("63", "Watermelon Juice"), ("64", "Dino Melon Soda"), ("65", "Dino Smoothie"), ("66", "Bottled Water"), ("67", "Fruit Juice?"), ("68", "Prune Juice"), ("69", "Rotten Milk"), ("70", "Milk"), ("73", "Can"), ("74", "Glass Bottle"), ("75", "Cardboard"), ("76", "Dead Batteries"), ("77", "Computer Part"), ("78", "Jacks"), ("79", "Rubber Band"), ("80", "Dynamite"), ("81", "Sparkler"), ("82", "Confetti"), ("83", "Poetry Book"), ("84", "Rain Cloud"), ("85", "Present"), ("86", "Air Horn"), ("87", "Dandelion"), ("88", "Mush"), ("89", "Life Jam"), ("91", "Coffee"), ("92", "Dino Jam"), ("93", "Mystery Potion"), ("94", "Big Rubber Band"), ("95", "Pearl"), ("96", "Jam Packets"), ("101", "Donut"), ("102", "Candy"), ("103", "Salad"), ("104", "Bread"), ("105", "Chocolate"), ("106", "Pizza Slice"), ("107", "Hero Sandwich"), ("108", "Caramel Apple"), ("109", "Whole Pizza"), ("110", "Pie"), ("111", "Big Bag Of Candy"), ("112", "Slice Of Cake"), ("113", "Bandage"), ("114", "First Aid Kit"), ("115", "Hamburger"), ("116", "Meat"), ("117", "Fish"), ("118", "Pepper Spray"), ("120", "Tasty Soda"), ("121", "Orange Joe"), ("122", "Apple Juice"), ("123", "Orange Juice"), ("124", "Coffee"), ("125", "Small Sketch"), ("128", "Foe Facts!"), ("129", "Junkyard Key"), ("130", "Special Mixtape"), ("131", "Show Tickets"), ("132", "Cool Key Card"), ("133", "V.I.P. Key Card"), ("134", "Wooden Track"), ("135", "Slimy Key Card"), ("136", "Emotion Chart"), ("138", "Cold Steak"), ("139", "Lukewarm Steak"), ("140", "Hero'S Gift"), ("141", "\"Pizza\" Order"), ("142", "Bakery Order"), ("143", "Homecooked Meal"), ("144", "Microwaved Meal"), ("146", "Toy Box Key"), ("151", "Light Bulb"), ("153", "Toy Box Key"), ("157", "Sheet Music"), ("158", "Flower Crown"), ("161", "Joke Book"), ("162", "Big Airhorn"), ("163", "B.E.D."), ("164", "Blackmail"), ("165", "Strange List"), ("166", "Interesting Book"), ("167", "Thingamabob"), ("168", "Whatchamacallit"), ("169", "Doohickey"), ("170", "Care Package"), ("171", "Giant Check"), ("172", "Spooky Map"), ("173", "Batteries"), ("174", "Orange Crest"), ("176", "Teddy Bear"), ("177", "Rat Meat"), ("178", "Snot"), ("179", "Scrap Metal"), ("180", "Thank-You Fossil"), ("181", "Pessi'S Thing"), ("185", "Potato Spoon"), ("186", "Plastic Spoon"), ("187", "Wooden Spoon"), ("188", "Silver Spoon"), ("190", "Butt Certificate"), ("191", "Flower Puzzle"), ("192", "Ancient Code"), ("195", "Seashell"), ("196", "Rare Card"), ("197", "Small Sketch"), ("198", "Nostalgic Cd"), ("199", "Celestial Cd"), ("200", "Merry Cd"), ("201", "Devilish Cd"), ("202", "Otherworldly Cd"), ("203", "Lively Cd"), ("204", "Brutal Cd"), ("205", "Ethereal Cd"), ("206", "Ghoulish Cd"), ("207", "Tranquil Cd"), ("208", "Chill Cd"), ("209", "Dynamic Cd"), ("210", "Secret Cd"), ("211", "Trash"), ("212", "Bubble Wrap"), ("213", "Arcade Piece"), ("214", "Flower Clip"), ("215", "Prescription"), ("216", "Id Card"), ("217", "Lunchbox"), ("218", "Letter For Dad"), ("219", "Garden Shears"), ("220", "Green Flyer"), ("221", "Blue Flyer"), ("222", "Tv Remote"), ("223", "Granny'S Medicine"), ("224", "Floor Lamp"), ("225", "Flowers"), ("226", "Missing Teeth"), ("227", "Coin"), ("241", "Sprout Mole Masks"), ("242", "Matchbox"), ("243", "Bad Drawing"), ("244", "Clems"), ("246", "Recipe 4 Disaster"), ("247", "Sheet Music"), ("248", "Pyramid Key"), ("249", "Treasure Map"), ("250", "Train Pass"), ("251", "Sno-Cone Ticket"), ("252", "Actual Mole"), ("254", "Self-Help Guide"), ("286", "Tomato (Backup)"), ("287", "Combo Meal (Backup)"), ("401", "Mixtape"), ("410", "Sugar"), ("411", "All-Purpose Flour"), ("412", "Garden Soil"), ("413", "Strawberries"), ("414", "Pineberries"), ("415", "Bottles Of Fruit Juice"), ("416", "Stick Of Butter"), ("417", "Jar Of Pickles"), ("418", "Blue Fish"), ("419", "Egg"), ("420", "Leather Shoe"), ("421", "Roast Chicken"), ("700", "Twenty Dollars"), ("703", "'Key' Ingredient"), ("800", "Yellow Keychain"), ("801", "Green Keychain"), ("802", "Pink Keychain"), ("803", "Amazing Keychain"), ("804", "Purple Ball"), ("805", "Pink Ball"), ("806", "Green Ball"), ("807", "Red Hand"), ("808", "Green Hand"), ("809", "Purple Hand"), ("810", "Green Slinky"), ("811", "Blue Slinky"), ("812", "Yellow Slinky"), ("876", "Dreamworld Album (Hidden)"), ("877", "DW Polaroid 1"), ("878", "DW Polaroid 2"), ("879", "DW Polaroid 3"), ("880", "DW Polaroid 4"), ("881", "DW Polaroid 5"), ("882", "DW Polaroid 6"), ("883", "DW Polaroid 7"), ("884", "DW Polaroid 8"), ("885", "DW Polaroid 9"), ("886", "DW Polaroid 10"), ("887", "DW Polaroid 11"), ("888", "DW Polaroid 12"), ("889", "BlackSpace Album (Hidden)"), ("890", "BS Polaroid 1"), ("891", "BS Polaroid 2"), ("892", "BS Polaroid 3"), ("893", "BS Polaroid 4"), ("894", "BS Polaroid 5"), ("895", "BS Polaroid 6"), ("896", "BS Polaroid 7"), ("897", "BS Polaroid 8"), ("898", "BS Polaroid 9"), ("899", "BS Polaroid 10"), ("900", "BS Polaroid 11"), ("901", "BS Polaroid 12"), ("902", "BS Polaroid 13"), ("903", "BS Polaroid 14"), ("904", "BS Polaroid 15"), ("905", "BS Polaroid 16"), ("906", "BS Polaroid 17"), ("907", "BS Polaroid 18"), ("908", "BS Polaroid 19"), ("909", "BS Polaroid 20"), ("910", "BS Polaroid 21"), ("911", "BS Polaroid 22"), ("912", "BS Polaroid 23"), ("913", "BS Polaroid 24"), ("914", "Faraway Album (Hidden)"), ("915", "FA Polaroid 1"), ("916", "FA Polaroid 2"), ("917", "FA Polaroid 3"), ("918", "FA Polaroid 4"), ("919", "FA Polaroid 5"), ("920", "FA Polaroid 6"), ("921", "FA Polaroid 7"), ("922", "FA Polaroid 8"), ("923", "FA Polaroid 9"), ("924", "FA Polaroid 10"), ("925", "FA Polaroid 11"), ("926", "FA Polaroid 12"), ("927", "FA Polaroid 13"), ("928", "FA Polaroid 14"), ("929", "FA Polaroid 15"), ("930", "FA Polaroid 16"), ("931", "FA Polaroid 17"), ("932", "FA Polaroid 18"), ("933", "FA Polaroid 19"), ("934", "FA Polaroid 20"), ("935", "FA Polaroid 21"), ("936", "FA Polaroid 22"), ("937", "FA Polaroid 23"), ("938", "FA Polaroid 24"), ("939", "FA Polaroid 25"), ("940", "FA Polaroid 26"), ("941", "FA Polaroid 27"), ("942", "FA Polaroid 28"), ("943", "FA Polaroid 29"), ("944", "FA Polaroid 30"), ("945", "FA Polaroid 31"), ("946", "FA Polaroid 32"), ("947", "FA Polaroid 33"), ("948", "FA Polaroid 34"), ("949", "FA Polaroid 35"), ("950", "FA Polaroid 36"), ("951", "FA Polaroid 37"), ("952", "FA Polaroid 38"), ("953", "FA Polaroid 39"), ("954", "FA Polaroid 40"), ("955", "FA Polaroid 41"), ("956", "FA Polaroid 42"), ("957", "FA Polaroid 43"), ("958", "FA Polaroid 44"), ("959", "FA Polaroid 45"), ("960", "FA Polaroid 46"), ("961", "FA Polaroid 47"), ("962", "FA Polaroid 48"), ("963", "DW Polaroid 13"), ("964", "Blurry Photo"), ("966", "Photo Album"), ("967", "Photo Album"), ("968", "Photo Album"), ("970", "FA Polaroid 1"), ("971", "FA Polaroid 4"), ("972", "FA Polaroid 5"), ("973", "FA Polaroid 8"), ("974", "FA Polaroid 9"), ("975", "FA Polaroid 10"), ("976", "FA Polaroid 11"), ("977", "FA Polaroid 12"), ("978", "FA Polaroid 16"), ("979", "FA Polaroid 18"), ("980", "FA Polaroid 19"), ("981", "FA Polaroid 20"), ("982", "FA Polaroid 21"), ("983", "FA Polaroid 22"), ("984", "FA Polaroid 25"), ("985", "FA Polaroid 26"), ("986", "FA Polaroid 27"), ("987", "FA Polaroid 31"), ("988", "FA Polaroid 32"), ("989", "FA Polaroid 33"), ("990", "FA Polaroid 34"), ("991", "FA Polaroid 35"), ("992", "FA Polaroid 38"), ("993", "FA Polaroid 43"), ("994", "FA Polaroid 44")];
+const OMORI_WEAPONS: &[(&str, &str)] = &[("2", "Shiny Knife"), ("3", "Knife"), ("4", "Dull Knife"), ("5", "Rusty Knife"), ("6", "Red Knife"), ("8", "Fly Swatter"), ("9", "Hands"), ("10", "Violin"), ("11", "Violin"), ("12", "Violin"), ("14", "Stuffed Toy"), ("15", "Comet Hammer"), ("16", "Body Pillow"), ("17", "Pool Noodle"), ("18", "Cool Noodle"), ("19", "Hero'S Trophy"), ("20", "Mailbox"), ("21", "Baguette"), ("22", "Baseball Bat"), ("23", "Lol Sword"), ("25", "Nail Bat"), ("28", "Rubber Ball"), ("29", "Meteor Ball"), ("30", "Blood Orange"), ("31", "Jack"), ("32", "Beach Ball"), ("33", "Coconut"), ("34", "Globe"), ("35", "Chicken Ball"), ("36", "Snowball"), ("37", "Basketball"), ("42", "Basketball"), ("45", "Spatula"), ("46", "Rolling Pin"), ("47", "Teapot"), ("48", "Frying Pan"), ("49", "Blender"), ("50", "Baking Pan"), ("51", "Tenderizer"), ("52", "Ol' Reliable"), ("53", "Shucker"), ("55", "Fist"), ("61", "Steak Knife"), ("62", "Sweetheart Bust"), ("110", "Steak Knife"), ("112", "Shiny Knife"), ("113", "Knife"), ("114", "Dull Knife")];
+const OMORI_CHARMS: &[(&str, &str)] = &[("2", "\"Gold\" Watch"), ("4", "3D Glasses"), ("5", "3-Leaf Clover"), ("6", "4-Leaf Clover"), ("7", "5-Leaf Clover"), ("8", "Appendix"), ("9", "Baby Chicken"), ("10", "Backpack"), ("11", "Baseball Cap"), ("12", "Binoculars"), ("13", "Blanket"), ("14", "Book"), ("15", "Bow-Tie"), ("16", "Bracelet"), ("17", "Breadphones"), ("18", "Bubble Wrap"), ("19", "Bunny Ears"), ("20", "Cactus"), ("21", "Cat Ears"), ("22", "Cellphone"), ("23", "Clam Coin"), ("24", "Cool Glasses"), ("25", "Bottle Cap"), ("26", "Cough Mask"), ("27", "Daisy"), ("28", "Eye Patch"), ("29", "Faux Tail"), ("30", "Fedora"), ("31", "Finger"), ("32", "Flower Clip"), ("33", "Fox Tail"), ("34", "Friendship Bracelet"), ("35", "Nerdy Glasses"), ("36", "Gold Watch"), ("37", "Hard Hat"), ("38", "Headband"), ("39", "Heart String"), ("40", "High Heels"), ("41", "Homework"), ("42", "Inner Tube"), ("43", "Lucky Token"), ("44", "Magical Bean"), ("45", "Monocle"), ("46", "Mustache"), ("47", "Onion Ring"), ("48", "Oven Mitts"), ("49", "Paper Bag"), ("50", "Hector"), ("51", "Pretty Bow"), ("52", "Punching Bag"), ("53", "Rabbit Foot"), ("54", "Red Ribbon"), ("55", "Deep Poetry Book"), ("56", "Rubber Duck"), ("57", "Sales Tag"), ("58", "Seashell Necklace"), ("59", "Seer Goggles"), ("60", "Top Hat"), ("61", "Pet Rock"), ("62", "Hector Jr"), ("63", "Wedding Ring"), ("64", "Wishbone"), ("65", "Veggie Kid"), ("66", "Watering Pail"), ("67", "Rake"), ("68", "Scarf"), ("69", "Teddy Bear"), ("70", "Cotton Ball"), ("71", "Flashlight"), ("72", "Universal Remote"), ("73", "Chef'S Hat"), ("74", "Tv Remote"), ("75", "Sunscreen"), ("76", "Contract"), ("77", "Flower Crown"), ("78", "Abbi'S Eye"), ("81", "Red Hand"), ("82", "Green Hand"), ("83", "Purple Hand"), ("84", "Purple Ball"), ("85", "Pink Ball"), ("86", "Green Ball"), ("87", "Green Slinky"), ("88", "Blue Slinky"), ("89", "Yellow Slinky"), ("90", "Yellow Keychain"), ("91", "Green Keychain"), ("92", "Pink Keychain"), ("93", "Chimera Keychain"), ("94", "Pet Rock"), ("95", "Flower Clip"), ("96", "Red Headband"), ("97", "Orange Headband"), ("98", "Cool Glasses"), ("99", "Seashell Necklace"), ("100", "Gold Watch"), ("101", "\"Gold\" Watch"), ("102", "Fedora"), ("103", "Rabbit Foot"), ("104", "Teddy Bear"), ("105", "\"You Rock\" Cap"), ("106", "Pinwheel"), ("107", "Paint Brush"), ("108", "Cool Bottlecap"), ("109", "Kel'S Pet Rock"), ("120", "Tulip Hairstick"), ("121", "Gladiolus Hairband"), ("122", "Cactus Hairclip"), ("123", "Rose Hairclip")];
+
+const OMORI: Spec = Spec {
+    name: "OMORI",
+    tab: "OMORI",
+    accent: (150, 110, 200),
+    kind: None,
+    markers: &["/party/_stressEnergyCount", "/party/_blackLetters", "/actors/_data/@a"],
+    subtitle: "file<n>.rpgsave in www\\save: Clams, each friend's level, heart and juice in Headspace and Faraway Town, and every snack, toy, weapon and charm you carry.",
+    tiles: &[("Clams", "/party/_gold"), ("Steps", "/party/_steps")],
+    sections: &[],
+    lists: &[
+        List { title: "Snacks, toys and key items", path: "/party/_items", shape: Shape::Map, names: OMORI_ITEMS, max: None },
+        List { title: "Weapons", path: "/party/_weapons", shape: Shape::Map, names: OMORI_WEAPONS, max: None },
+        List { title: "Charms", path: "/party/_armors", shape: Shape::Map, names: OMORI_CHARMS, max: None },
+    ],
+    tables: &[Table {
+        title: "Friends",
+        path: "/actors/_data/@a",
+        name: &["/_actorId"],
+        cols: &[("Level", "/_level"), ("Heart", "/_hp"), ("Juice", "/_mp")],
+        only: &["1", "2", "3", "4", "8", "9", "10", "11"],
+        names: &[("1", "OMORI"), ("2", "AUBREY"), ("3", "KEL"), ("4", "HERO"), ("8", "SUNNY (Faraway Town)"), ("9", "AUBREY (Faraway Town)"), ("10", "KEL (Faraway Town)"), ("11", "HERO (Faraway Town)")],
+    }],
+};
+
+// ------------------------------------------------------------------ ENDER LILIES
+
+const ENDER_LILIES: Spec = Spec {
+    name: "ENDER LILIES: Quietus of the Knights",
+    tab: "Lily",
+    accent: (200, 205, 230),
+    kind: Some("Unreal Engine save (SaveData)"),
+    markers: &["/Player/Inventory", "/Player/SpiritEquip", "/GameMode/GameStats"],
+    subtitle: "GameSlot_<n>.sav: Lily's level and blight, prayer heals, the spirit-upgrade materials and every spirit's level.",
+    tiles: &[("Level", "/Player/Parameters/Level"), ("Blight (experience)", "/Player/Parameters/ExpPoint"), ("Prayer level", "/Player/Heals/HealPowerLevel")],
+    sections: &[Section {
+        title: "Lily",
+        rows: &[
+            ("Level", "/Player/Parameters/Level"), ("Blight (experience)", "/Player/Parameters/ExpPoint"),
+            ("Prayer (heal) level", "/Player/Heals/HealPowerLevel"), ("Prayers left", "/Player/Heals/CurrHealCount"),
+            ("Relic slots", "/Player/PassiveEquip/SlotCount"), ("Play time (seconds)", "/GameMode/GameStats/PlayTime"),
+        ],
+    }],
+    lists: &[
+        List {
+            title: "Spirit upgrade materials",
+            path: "/Player/Inventory/Currencies",
+            shape: Shape::Map,
+            names: &[
+                ("ECurrencyType::Spirit_Lv1", "Stagnant Blight"),
+                ("ECurrencyType::Spirit_Lv2", "Furious Blight"),
+                ("ECurrencyType::Spirit_Lv3", "Ancient Souls"),
+            ],
+            max: Some(Max {
+                ids: &["ECurrencyType::Spirit_Lv1", "ECurrencyType::Spirit_Lv2"],
+                cap: 999,
+                caps: &[],
+                estimate: true,
+                about: "Fills Stagnant and Furious Blight to 999, the most players report the game holds. Ancient Souls (found once each) are left alone.",
+            }),
+        },
+        List { title: "Spirit levels", path: "/Player/Inventory/ItemSpiritLevels", shape: Shape::Map, names: &[], max: None },
+    ],
+    tables: &[],
+};
+
+// ------------------------------------------------------------------ Shadow Warrior 2
+
+const SW2: Spec = Spec {
+    name: "Shadow Warrior 2",
+    tab: "Lo Wang",
+    accent: (214, 60, 48),
+    kind: Some(crate::fmt::roadhog::KIND),
+    markers: &["/PlayerTemplate/Stats/Money", "/PlayerTemplate/Stats/Level"],
+    subtitle: "save_auto.bin and the other .bin saves in the game's save folder (each is a zip; the text inside is opened for you). Weapons and upgrades are in the Tree tab under PlayerTemplate.",
+    tiles: &[
+        ("Level", "/PlayerTemplate/Stats/Level"), ("Money", "/PlayerTemplate/Stats/Money"),
+        ("Crystal points", "/PlayerTemplate/Stats/CrystalPoints"), ("Perk points", "/PlayerTemplate/Stats/PerksPoints"),
+    ],
+    sections: &[
+        Section {
+            title: "Lo Wang",
+            rows: &[
+                ("Level", "/PlayerTemplate/Stats/Level"), ("Experience", "/PlayerTemplate/Stats/XP"), ("Money", "/PlayerTemplate/Stats/Money"),
+                ("Crystal points", "/PlayerTemplate/Stats/CrystalPoints"), ("Perk points", "/PlayerTemplate/Stats/PerksPoints"),
+                ("Health", "/PlayerTemplate/Stats/HP"), ("Mana (chi)", "/PlayerTemplate/Stats/Mana"), ("Rage", "/PlayerTemplate/Stats/Rage"),
+            ],
+        },
+        Section {
+            title: "Ammunition",
+            rows: &[
+                ("Light bullets", "/PlayerTemplate/Stats/Ammo_Bullet_Light"), ("Medium bullets", "/PlayerTemplate/Stats/Ammo_Bullet_Medium"),
+                ("Heavy bullets", "/PlayerTemplate/Stats/Ammo_Bullet_Heavy"), ("Shells", "/PlayerTemplate/Stats/Ammo_Shell"),
+                ("Energy", "/PlayerTemplate/Stats/Ammo_Energy"), ("Plasma", "/PlayerTemplate/Stats/Ammo_Plasma"),
+                ("Rockets", "/PlayerTemplate/Stats/Ammo_Rocket"), ("Grenades", "/PlayerTemplate/Stats/Ammo_Grenade"),
+                ("Bolts", "/PlayerTemplate/Stats/Ammo_Bolt"), ("Arrows", "/PlayerTemplate/Stats/Ammo_Arrow"),
+                ("Chainsaw fuel", "/PlayerTemplate/Stats/Ammo_Chainsaw"),
+            ],
+        },
+    ],
+    lists: &[],
+    tables: &[],
+};
+
+// ------------------------------------------------------------------ Everspace 2
+
+const ES2_NAMES: &[(&str, &str)] = &[("crafting_resource_basic", "Crafting Resource (basic)"), ("crafting_resource_common", "Crafting Resource (common)"), ("crystal_aetheum_common", "Crystal Aetheum (common)"), ("crystal_aetheum_uncommon", "Crystal Aetheum (uncommon)"), ("scrap_metal", "Scrap Metal"), ("ore_iron_common", "Ore Iron (common)"), ("cooling_unit", "Cooling Unit"), ("power_casing", "Power Casing"), ("ore_copper_common", "Ore Copper (common)"), ("device_reset_item", "Device Reset Item"), ("plasma", "Plasma"), ("wiring_kit", "Wiring Kit"), ("biomass", "Biomass"), ("ore_iron_uncommon", "Ore Iron (uncommon)"), ("crafting_resource_uncommon", "Crafting Resource (uncommon)"), ("ore_titanium_uncommon", "Ore Titanium (uncommon)"), ("heat_detector", "Heat Detector"), ("hadron_buffers", "Hadron Buffers"), ("charge_compensator", "Charge Compensator"), ("dark_matter", "Dark Matter"), ("crystal_culver_uncommon", "Crystal Culver (uncommon)"), ("neutron_membrane", "Neutron Membrane"), ("power_cell", "Power Cell"), ("supra_gel", "Supra Gel"), ("crystal_culver_rare", "Crystal Culver (rare)"), ("crystal_mallemite_uncommon", "Crystal Mallemite (uncommon)"), ("crystal_mallemite_rare", "Crystal Mallemite (rare)"), ("crystal_diode", "Crystal Diode"), ("ore_insidium_uncommon", "Ore Insidium (uncommon)"), ("ore_insidium_rare", "Ore Insidium (rare)"), ("ore_baromite_rare", "Ore Baromite (rare)"), ("crafting_resource_rare", "Crafting Resource (rare)"), ("particle_modulator", "Particle Modulator"), ("ore_clygon_rare", "Ore Clygon (rare)"), ("solar_particles", "Solar Particles"), ("power_unit_hx1", "Power Unit Hx1"), ("ore_titanium_rare", "Ore Titanium (rare)"), ("crafting_resource_superior", "Crafting Resource (superior)"), ("proton_capacitor", "Proton Capacitor"), ("quantum_conductor", "Quantum Conductor"), ("pulse_mutator", "Pulse Mutator"), ("signal_circulator", "Signal Circulator"), ("fusion_core", "Fusion Core"), ("ore_coruscate_superior", "Ore Coruscate (superior)"), ("crystal_phazium_superior", "Crystal Phazium (superior)"), ("crystal_phazium_rare", "Crystal Phazium (rare)"), ("ore_baromite_superior", "Ore Baromite (superior)"), ("dark_energy", "Dark Energy"), ("ore_glacit_superior", "Ore Glacit (superior)"), ("rift_resource", "Rift Resource"), ("ore_copper_uncommon", "Ore Copper (uncommon)"), ("bio_processor", "Bio Processor"), ("multiphase_propellant", "Multiphase Propellant"), ("echo_canceller", "Echo Canceller"), ("tachyon_emitter", "Tachyon Emitter"), ("resistor_array", "Resistor Array"), ("fission_controller", "Fission Controller"), ("gauss_receptor", "Gauss Receptor"), ("crafting_resource_ascendant", "Crafting Resource (ascendant)"), ("eshahar_fragments", "Eshahar Fragments"), ("ore_clygon_superior", "Ore Clygon (superior)"), ("resources_okkar", "Resources Okkar"), ("ore_leviathan_uncommon", "Ore Leviathan (uncommon)"), ("ore_leviathan_superior", "Ore Leviathan (superior)"), ("leviathan_attractant", "Leviathan Attractant"), ("crafting_resource_legendary", "Crafting Resource (legendary)"), ("organic_conduit", "Organic Conduit"), ("crystal_okkar1_rare", "Crystal Okkar1 (rare)"), ("okkar_component_1", "Okkar Component 1"), ("okkar_component_2", "Okkar Component 2"), ("ore_okkar1_rare", "Ore Okkar1 (rare)"), ("ore_okkar1_uncommon", "Ore Okkar1 (uncommon)"), ("crystal_okkar1_uncommon", "Crystal Okkar1 (uncommon)"), ("resources_okkar_special", "Resources Okkar Special"), ("crystal_okkar_refined", "Crystal Okkar Refined"), ("ancient_shielding_component", "Ancient Shielding Component")];
+
+const ES2: Spec = Spec {
+    name: "Everspace 2",
+    tab: "Pilot",
+    accent: (64, 160, 230),
+    kind: Some("Unreal Engine save (PlayerData)"),
+    markers: &["/credits", "/PlayerLevel", "/CraftingResourcesSaveState/Cargo"],
+    subtitle: "ES2_<date>.sav in the game's SaveGames folder (the packed Unreal save is unpacked for you; big saves take a few seconds to open). Ships, items and missions are in the Tree tab.",
+    tiles: &[("Credits", "/credits"), ("Level", "/PlayerLevel"), ("Experience", "/XP"), ("Device upgrade tokens", "/DeviceUpgradeTokens")],
+    sections: &[Section {
+        title: "Pilot",
+        rows: &[
+            ("Credits", "/credits"), ("Level", "/PlayerLevel"), ("Experience", "/XP"), ("Device upgrade tokens", "/DeviceUpgradeTokens"),
+        ],
+    }],
+    lists: &[List {
+        title: "Crafting resources",
+        path: "/CraftingResourcesSaveState/Cargo",
+        shape: Shape::Array { id_key: "ItemTemplateID", qty_keys: &["Amount"] },
+        names: ES2_NAMES,
+        max: Some(Max {
+            ids: &["crafting_resource_basic", "crafting_resource_common", "crystal_aetheum_common", "crystal_aetheum_uncommon", "scrap_metal", "ore_iron_common", "ore_copper_common", "ore_iron_uncommon", "crafting_resource_uncommon", "ore_titanium_uncommon", "crystal_culver_uncommon", "crystal_culver_rare", "crystal_mallemite_uncommon", "crystal_mallemite_rare", "crystal_diode", "ore_insidium_uncommon", "ore_insidium_rare", "ore_baromite_rare", "crafting_resource_rare", "ore_clygon_rare", "ore_titanium_rare", "crafting_resource_superior", "ore_coruscate_superior", "crystal_phazium_superior", "crystal_phazium_rare", "ore_baromite_superior", "ore_glacit_superior", "ore_copper_uncommon", "crafting_resource_ascendant", "ore_clygon_superior", "crafting_resource_legendary"],
+            cap: 99_999,
+            caps: &[],
+            estimate: true,
+            about: "Raises the ores, crystals, scrap metal and basic crafting resources you already have to 99,999 (the game states no cap, so this is an estimate). Catalysts, components, rift and faction resources and story items are left alone.",
+        }),
+    }],
+    tables: &[],
+};
+
+// ------------------------------------------------------------------ Moonlighter
+
+const MOONLIGHTER: Spec = Spec {
+    name: "Moonlighter",
+    tab: "Will",
+    accent: (226, 160, 56),
+    kind: None,
+    markers: &["/gameSlot/willGold", "/gameSlot/willInventory"],
+    subtitle: "The gameslot file in the game's save folder. Enchantment levels run 0 to 3. Gold is Will's gold; the banker's invested money is separate.",
+    tiles: &[("Gold", "/gameSlot/willGold"), ("Days passed", "/gameSlot/daysPassed")],
+    sections: &[Section {
+        title: "Will and the shop",
+        rows: &[
+            ("Gold", "/gameSlot/willGold"), ("Days passed", "/gameSlot/daysPassed"), ("Money invested with the banker", "/gameSlot/bankerSaveInfo/moneyInvested"),
+            ("Cultures defeated", "/gameSlot/culturesDefeated"), ("Equipped weapon set", "/gameSlot/equippedWeaponSet"),
+        ],
+    }],
+    lists: &[
+        List { title: "Backpack", path: "/gameSlot/willInventory", shape: Shape::Array { id_key: "name", qty_keys: &["quantity"] }, names: &[], max: None },
+        List { title: "Equipped", path: "/gameSlot/willEquippedItems", shape: Shape::Array { id_key: "name", qty_keys: &["quantity"] }, names: &[], max: None },
+    ],
+    tables: &[],
+};
+
+// ------------------------------------------------------------------ Wasteland 2
+
+const WASTELAND2: Spec = Spec {
+    name: "Wasteland 2",
+    tab: "Rangers",
+    accent: (196, 120, 48),
+    kind: Some(crate::fmt::wasteland2::KIND),
+    markers: &["/save/pcs/pc/0/xp"],
+    subtitle: "<save name>.xml in a folder under Save Games (the .bin beside it is not needed). Character names are shown but not edited. Skills are in the Tree under each ranger's skillXps.",
+    tiles: &[],
+    sections: &[],
+    lists: &[],
+    tables: &[Table {
+        title: "Rangers",
+        path: "/save/pcs/pc",
+        name: &["/portraitName"],
+        only: &[],
+        cols: &[
+            ("Level", "/level"), ("XP", "/xp"), ("Health", "/curHp"), ("Attribute points", "/availableAttributePoints"),
+            ("Skill points", "/availableSkillPoints"), ("Trait points", "/availableTraitPoints"), ("Kills", "/noOfKills"),
+            ("Coordination", "/attributes/pair/0/value"), ("Luck", "/attributes/pair/1/value"), ("Awareness", "/attributes/pair/2/value"),
+            ("Strength", "/attributes/pair/3/value"), ("Speed", "/attributes/pair/4/value"), ("Intelligence", "/attributes/pair/5/value"),
+            ("Charisma", "/attributes/pair/6/value"),
+        ],
+        names: &[],
+    }],
+};
+
+// ------------------------------------------------------------------ ATOM RPG
+
+const ATOM: Spec = Spec {
+    name: "ATOM RPG",
+    tab: "Party",
+    accent: (150, 130, 80),
+    kind: None,
+    markers: &["/0/class", "/0/stats/xp", "/0/stats/level"],
+    subtitle: "Save_N_v10.as in the game's save folder (the game's own packing is opened and closed for you; the character file player.dat is shown). The party and the money are here; other entries are the levels. Rubles are the Money item in the player's inventory.",
+    tiles: &[],
+    sections: &[],
+    lists: &[
+        List { title: "Inventory (character 1)", path: "/0/inventory", shape: Shape::Array { id_key: "proto", qty_keys: &["count"] }, names: &[("Money", "Rubles")], max: None },
+        List { title: "Inventory (character 2)", path: "/1/inventory", shape: Shape::Array { id_key: "proto", qty_keys: &["count"] }, names: &[("Money", "Rubles")], max: None },
+        List { title: "Inventory (character 3)", path: "/2/inventory", shape: Shape::Array { id_key: "proto", qty_keys: &["count"] }, names: &[("Money", "Rubles")], max: None },
+        List { title: "Inventory (character 4)", path: "/3/inventory", shape: Shape::Array { id_key: "proto", qty_keys: &["count"] }, names: &[("Money", "Rubles")], max: None },
+        List { title: "Inventory (character 5)", path: "/4/inventory", shape: Shape::Array { id_key: "proto", qty_keys: &["count"] }, names: &[("Money", "Rubles")], max: None },
+        List { title: "Inventory (character 6)", path: "/5/inventory", shape: Shape::Array { id_key: "proto", qty_keys: &["count"] }, names: &[("Money", "Rubles")], max: None },
+    ],
+    tables: &[Table {
+        title: "Party",
+        path: "",
+        name: &["/character"],
+        only: &[],
+        cols: &[
+            ("Level", "/stats/level"), ("XP", "/stats/xp"), ("Strength", "/stats/strength"), ("Perception", "/stats/perception"),
+            ("Endurance", "/stats/endurance"), ("Charisma", "/stats/charisma"), ("Intelligence", "/stats/intelligence"),
+            ("Agility", "/stats/agility"), ("Luck", "/stats/luck"), ("Skill points", "/stats/freeSkillPoints"),
+            ("Stat points", "/stats/freeStatPoints"), ("Perk points", "/stats/freeSpecPoints"),
+            ("Small Guns", "/stats/skills/SmallGuns"), ("Big Guns", "/stats/skills/BigGuns"), ("Automatic Firearms", "/stats/skills/AutomaticFirearms"), ("Unarmed", "/stats/skills/Unarmed"), ("Melee Weapons", "/stats/skills/MeleeWeapons"), ("Throwing", "/stats/skills/Throwing"), ("First Aid", "/stats/skills/FirstAid"), ("Crafting", "/stats/skills/Crafting"), ("Sneak", "/stats/skills/Sneak"), ("Lockpick", "/stats/skills/Lockpick"), ("Steal", "/stats/skills/Steal"), ("Alertness", "/stats/skills/Alertness"), ("Science", "/stats/skills/Science"), ("Speech", "/stats/skills/Speech"), ("Barter", "/stats/skills/Barter"), ("Gambling", "/stats/skills/Gambling"), ("Outdoorsman", "/stats/skills/Outdoorsman"),
+        ],
+        names: &[],
+    }],
+};
+
+// ------------------------------------------------------------------ Mortal Shell
+
+const MORTAL_SHELL: Spec = Spec {
+    name: "Mortal Shell",
+    tab: "Fallgrim",
+    accent: (150, 140, 120),
+    kind: Some("Unreal Engine save (ServerSaveGame_C)"),
+    markers: &["/SaveGameFile/NamedInts_82_CB032F6F45A54ED7B3582AB3AF6AC3F2/BoneShards"],
+    subtitle: "GPData_<slot>.sav in Documents\\My Games\\MortalShell\\Dungeonhaven\\Saved\\SaveGames. Tar is stored as BoneShards; the Storm Mode run keeps its own copy. Inventory item names are stored as game text and are not shown.",
+    tiles: &[("Tar", "/SaveGameFile/NamedInts_82_CB032F6F45A54ED7B3582AB3AF6AC3F2/BoneShards"), ("Max health", "/SaveGameFile/PlayerMaxHealth_7_329129454F2E3E21AAC8A2A0554AEBE1"), ("Deaths", "/SaveGameFile/TotalPlayerDeaths_19_3F1ADF634C3F62BBD1BEC4B7DF4B0301")],
+    sections: &[
+        Section {
+            title: "Tar and shell points",
+            rows: &[
+            ("Tar", "/SaveGameFile/NamedInts_82_CB032F6F45A54ED7B3582AB3AF6AC3F2/BoneShards"),
+            ("Tar gained in total", "/SaveGameFile/NamedInts_82_CB032F6F45A54ED7B3582AB3AF6AC3F2/BoneShardsEverGained"),
+            ("Tar lost on death", "/SaveGameFile/NamedInts_82_CB032F6F45A54ED7B3582AB3AF6AC3F2/BoneShardsLost"),
+            ("Balanced shell points", "/SaveGameFile/NamedInts_82_CB032F6F45A54ED7B3582AB3AF6AC3F2/BalancedShellPoints"),
+            ("Heavy shell points", "/SaveGameFile/NamedInts_82_CB032F6F45A54ED7B3582AB3AF6AC3F2/HeavyShellPoints"),
+            ("Ninja shell points", "/SaveGameFile/NamedInts_82_CB032F6F45A54ED7B3582AB3AF6AC3F2/NinjaShellPoints"),
+            ("Hadern shell points", "/SaveGameFile/NamedInts_82_CB032F6F45A54ED7B3582AB3AF6AC3F2/HadernShellPoints"),
+            ],
+        },
+        Section {
+            title: "Character",
+            rows: &[
+            ("Max health", "/SaveGameFile/PlayerMaxHealth_7_329129454F2E3E21AAC8A2A0554AEBE1"),
+            ("Deaths", "/SaveGameFile/TotalPlayerDeaths_19_3F1ADF634C3F62BBD1BEC4B7DF4B0301"),
+            ("New Game+ level", "/SaveGameFile/NewGamePlusLevel_98_0DCE90C549CCEE82E941888FFD7D0984"),
+            ("Death statue uses", "/SaveGameFile/PlayerDeathStatueUsedCounter_67_AB6D290345536982E2EB93B982821F1F"),
+            ],
+        },
+        Section {
+            title: "Storm Mode run",
+            rows: &[
+            ("Tar", "/StormModeSaveFile/NamedInts_StormMode_31_CF554F674F568B81370C968E9EF1459F/BoneShards"),
+            ("Tar gained in total", "/StormModeSaveFile/NamedInts_StormMode_31_CF554F674F568B81370C968E9EF1459F/BoneShardsEverGained"),
+            ("Glimpses", "/StormModeSaveFile/NamedInts_StormMode_31_CF554F674F568B81370C968E9EF1459F/StormModeGlimpses"),
+            ("Glimpses gained in total", "/StormModeSaveFile/NamedInts_StormMode_31_CF554F674F568B81370C968E9EF1459F/StormModeGlimpsesEverGained"),
+            ("Max health", "/StormModeSaveFile/MaxHealth_89_747BF7B7416D17384FCE89AC1280800B"),
+            ("Deaths", "/StormModeSaveFile/NamedInts_StormMode_31_CF554F674F568B81370C968E9EF1459F/StormMode_TotalDeaths"),
+            ],
+        },
+    ],
+    lists: &[],
+    tables: &[],
+};
+
+// ------------------------------------------------------------------ Mortal Shell II
+
+const MORTAL_SHELL_2: Spec = Spec {
+    name: "Mortal Shell II",
+    tab: "Harbinger",
+    accent: (176, 120, 96),
+    kind: Some("Unreal Engine save (SpartaSaveGame)"),
+    markers: &["/SaveObjects/BP_SpartaPlayerSaveObject_C/CumulativeGold", "/SaveObjects/BP_SpartaPlayerSaveObject_C/DropItems"],
+    subtitle: "WorldState_<n>.sav in %LOCALAPPDATA%\\MortalShell2\\Saved\\SaveGames. Gold, Gloom and Glimpses held are stored with the items; the lifetime totals are kept separately, so change both together.",
+    tiles: &[("Gold", "/SaveObjects/BP_SpartaPlayerSaveObject_C/DropItems/~1Game~1Sparta~1Items~1Pickups~1ID_Gold.ID_Gold_C"), ("Gloom", "/SaveObjects/BP_SpartaPlayerSaveObject_C/DropItems/~1Game~1Sparta~1Items~1Pickups~1ID_Gloom.ID_Gloom_C"), ("Glimpses", "/SaveObjects/BP_SpartaPlayerSaveObject_C/DropItems/~1Game~1Sparta~1Items~1Pickups~1ID_Glimpses.ID_Glimpses_C")],
+    sections: &[Section {
+        title: "Totals",
+        rows: &[
+            ("Gold earned in total", "/SaveObjects/BP_SpartaPlayerSaveObject_C/CumulativeGold"),
+            ("Gloom earned in total", "/SaveObjects/BP_SpartaPlayerSaveObject_C/CumulativeGloom"),
+            ("Glimpses earned in total", "/SaveObjects/BP_SpartaPlayerSaveObject_C/CumulativeGlimpses"),
+            ("Play time (seconds)", "/SaveObjects/BP_SpartaPlayerSaveObject_C/TotalPlayTimeSeconds"),
+            ("Prologue finished", "/SaveObjects/BP_SpartaPlayerSaveObject_C/FinishedPrologue"),
+        ],
+    },
+    Section {
+        title: "Unlocked shells, weapons and seals",
+        rows: &[
+            ("Shell: Eredrim", "/SaveObjects/BP_SpartaPlayerSaveObject_C/EquipmentUnlockState/CharacterId.Player.Shell.Eredrim"),
+            ("Shell: Genessa", "/SaveObjects/BP_SpartaPlayerSaveObject_C/EquipmentUnlockState/CharacterId.Player.Shell.Genessa"),
+            ("Shell: Gragu", "/SaveObjects/BP_SpartaPlayerSaveObject_C/EquipmentUnlockState/CharacterId.Player.Shell.Gragu"),
+            ("Shell: Harros", "/SaveObjects/BP_SpartaPlayerSaveObject_C/EquipmentUnlockState/CharacterId.Player.Shell.Harros"),
+            ("Shell: Knight Lady", "/SaveObjects/BP_SpartaPlayerSaveObject_C/EquipmentUnlockState/CharacterId.Player.Shell.KnightLady"),
+            ("Shell: Necrophage", "/SaveObjects/BP_SpartaPlayerSaveObject_C/EquipmentUnlockState/CharacterId.Player.Shell.Necrophage.Default"),
+            ("Shell: Smert", "/SaveObjects/BP_SpartaPlayerSaveObject_C/EquipmentUnlockState/CharacterId.Player.Shell.Smert"),
+            ("Shell: Solomon", "/SaveObjects/BP_SpartaPlayerSaveObject_C/EquipmentUnlockState/CharacterId.Player.Shell.Solomon"),
+            ("Shell: Thorn", "/SaveObjects/BP_SpartaPlayerSaveObject_C/EquipmentUnlockState/CharacterId.Player.Shell.Thorn"),
+            ("Shell: Tiel", "/SaveObjects/BP_SpartaPlayerSaveObject_C/EquipmentUnlockState/CharacterId.Player.Shell.Tiel"),
+            ("Weapon: Axatana", "/SaveObjects/BP_SpartaPlayerSaveObject_C/EquipmentUnlockState/Weapon.Axatana"),
+            ("Weapon: Ballistazooka", "/SaveObjects/BP_SpartaPlayerSaveObject_C/EquipmentUnlockState/Weapon.Ballistazooka"),
+            ("Weapon: Battle Axe", "/SaveObjects/BP_SpartaPlayerSaveObject_C/EquipmentUnlockState/Weapon.BattleAxe"),
+            ("Weapon: Black Needle", "/SaveObjects/BP_SpartaPlayerSaveObject_C/EquipmentUnlockState/Weapon.BlackNeedle"),
+            ("Weapon: Clockwork Scythe", "/SaveObjects/BP_SpartaPlayerSaveObject_C/EquipmentUnlockState/Weapon.ClockworkScythe"),
+            ("Weapon: Crossbow", "/SaveObjects/BP_SpartaPlayerSaveObject_C/EquipmentUnlockState/Weapon.Crossbow"),
+            ("Weapon: Cursed Child", "/SaveObjects/BP_SpartaPlayerSaveObject_C/EquipmentUnlockState/Weapon.CursedChild"),
+            ("Weapon: Dagger Axe", "/SaveObjects/BP_SpartaPlayerSaveObject_C/EquipmentUnlockState/Weapon.DaggerAxe"),
+            ("Weapon: Haderns Sword", "/SaveObjects/BP_SpartaPlayerSaveObject_C/EquipmentUnlockState/Weapon.HadernsSword"),
+            ("Weapon: Heavy Hammer", "/SaveObjects/BP_SpartaPlayerSaveObject_C/EquipmentUnlockState/Weapon.HeavyHammer"),
+            ("Lute: Simple", "/SaveObjects/BP_SpartaPlayerSaveObject_C/EquipmentUnlockState/Weapon.Lute.Simple"),
+            ("Weapon: Machine Gun", "/SaveObjects/BP_SpartaPlayerSaveObject_C/EquipmentUnlockState/Weapon.MachineGun"),
+            ("Weapon: Martyrs Blade", "/SaveObjects/BP_SpartaPlayerSaveObject_C/EquipmentUnlockState/Weapon.MartyrsBlade"),
+            ("Weapon: Nail Shotgun", "/SaveObjects/BP_SpartaPlayerSaveObject_C/EquipmentUnlockState/Weapon.NailShotgun"),
+            ("Weapon: Parasite Gun", "/SaveObjects/BP_SpartaPlayerSaveObject_C/EquipmentUnlockState/Weapon.ParasiteGun"),
+            ("Seal: Default", "/SaveObjects/BP_SpartaPlayerSaveObject_C/EquipmentUnlockState/Weapon.Seal.Default"),
+            ("Seal: Infinite", "/SaveObjects/BP_SpartaPlayerSaveObject_C/EquipmentUnlockState/Weapon.Seal.Infinite"),
+            ("Seal: Slayer", "/SaveObjects/BP_SpartaPlayerSaveObject_C/EquipmentUnlockState/Weapon.Seal.Slayer"),
+            ("Seal: Stone", "/SaveObjects/BP_SpartaPlayerSaveObject_C/EquipmentUnlockState/Weapon.Seal.Stone"),
+            ("Weapon: Trebuchaxe", "/SaveObjects/BP_SpartaPlayerSaveObject_C/EquipmentUnlockState/Weapon.Trebuchaxe"),
+        ],
+    }],
+    lists: &[List {
+        title: "Items",
+        path: "/SaveObjects/BP_SpartaPlayerSaveObject_C/DropItems",
+        shape: Shape::Map,
+        names: &[
+            ("/Game/Sparta/Items/Pickups/ID_Gloom.ID_Gloom_C", "Gloom"),
+            ("/Game/Sparta/Items/Pickups/ID_Gold.ID_Gold_C", "Gold"),
+            ("/Game/Sparta/Items/Pickups/PermProgression/ID/ID_PP_Moonshine_Inferior.ID_PP_Moonshine_Inferior_C", "Inferior Moonshine"),
+            ("/Game/Sparta/Items/Pickups/Tarforge/ID_Tarforge_ForgeMode_Weapon.ID_Tarforge_ForgeMode_Weapon_C", "Tarforge: enhance weapons"),
+            ("/Game/Sparta/Items/Pickups/ID_Glimpses.ID_Glimpses_C", "Glimpses"),
+            ("/Game/Sparta/Items/Pickups/PermProgression/ID/ID_PP_Effigy_Burned.ID_PP_Effigy_Burned_C", "Upgrade: Effigy Burned"),
+            ("/Game/Sparta/Items/Pickups/Tarforge/ID_TFM_01_Ventrium.ID_TFM_01_Ventrium_C", "Ventrium"),
+            ("/Game/Sparta/Items/Pickups/Core/ID_Ovum.ID_Ovum_C", "Ovum"),
+            ("/Game/Sparta/Items/Map/ID_MapUnlock.ID_MapUnlock_C", "Map"),
+            ("/Game/Sparta/Items/Pickups/Tarforge/ID_TFM_03_Dorsalite.ID_TFM_03_Dorsalite_C", "Dorsalite"),
+            ("/Game/Sparta/Items/Pickups/PermProgression/ID/ID_PP_MartyrAsh.ID_PP_MartyrAsh_C", "Upgrade: Martyr Ash"),
+            ("/Game/Sparta/Items/Pickups/PermProgression/ID/ID_PP_Bloodseed.ID_PP_Bloodseed_C", "Upgrade: Bloodseed"),
+            ("/Game/Sparta/Items/Pickups/PermProgression/ID/ID_PP_Gear_Strange.ID_PP_Gear_Strange_C", "Upgrade: Gear Strange"),
+            ("/Game/Sparta/Items/Pickups/PermProgression/ID/ID_PP_HealingAmount.ID_PP_HealingAmount_C", "Upgrade: Healing Amount"),
+            ("/Game/Sparta/Items/Pickups/PermProgression/ID/ID_PP_HealingCharge.ID_PP_HealingCharge_C", "Upgrade: Healing Charge"),
+            ("/Game/Sparta/Items/Pickups/PermProgression/ID/ID_PP_Mango.ID_PP_Mango_C", "Upgrade: Mango"),
+            ("/Game/Sparta/Items/Pickups/ID_BagheadMoonshine.ID_BagheadMoonshine_C", "Baghead Moonshine"),
+            ("/Game/Sparta/Items/Pickups/PermProgression/ID/ID_PP_Tarspore.ID_PP_Tarspore_C", "Upgrade: Tarspore"),
+            ("/Game/Sparta/Items/Pickups/PermProgression/ID/ID_PP_ParadoxicalScripture.ID_PP_ParadoxicalScripture_C", "Upgrade: Paradoxical Scripture"),
+            ("/Game/Sparta/Items/Pickups/PermProgression/ID/ID_PP_UniqueScripture.ID_PP_UniqueScripture_C", "Upgrade: Unique Scripture"),
+            ("/Game/Sparta/Items/Pickups/PermProgression/ID/ID_PP_Mushroom_Weltcap.ID_PP_Mushroom_Weltcap_C", "Upgrade: Mushroom Weltcap"),
+            ("/Game/Sparta/Items/Pickups/PermProgression/ID/ID_PP_Trollweed.ID_PP_Trollweed_C", "Upgrade: Trollweed"),
+            ("/Game/Sparta/Items/Pickups/PermProgression/ID/ID_PP_Sheep.ID_PP_Sheep_C", "Upgrade: Sheep"),
+            ("/Game/Sparta/Items/Pickups/PermProgression/ID/ID_PP_Grisha.ID_PP_Grisha_C", "Upgrade: Grisha"),
+            ("/Game/Sparta/Items/Pickups/Tarforge/ID_TFM_02_Laterite.ID_TFM_02_Laterite_C", "Laterite"),
+            ("/Game/Sparta/Items/Pickups/Tarforge/ID_TFM_04_Thoracium.ID_TFM_04_Thoracium_C", "Thoracium"),
+            ("/Game/Sparta/Items/Pickups/Tarforge/ID_TFM_05_Thoracium_Prime.ID_TFM_05_Thoracium_Prime_C", "Thoracium Prime"),
+            ("/Game/Sparta/Items/Pickups/Tardust/ID_Tarcore.ID_Tarcore_C", "Tarcore"),
+            ("/Game/Sparta/Items/Pickups/ID_Common_Old_Artifact.ID_Common_Old_Artifact_C", "Common Old Artifact"),
+            ("/Game/Sparta/Items/Pickups/ID_Rare_Old_Artifact.ID_Rare_Old_Artifact_C", "Rare Old Artifact"),
+            ("/Game/Sparta/Items/Pickups/ID_Ancient_Artifact.ID_Ancient_Artifact_C", "Ancient Artifact"),
+            ("/Game/Sparta/Items/Pickups/ID_Epic_Old_Artifact.ID_Epic_Old_Artifact_C", "Epic Old Artifact"),
+            ("/Game/Sparta/Items/Pickups/ID_Artifact_MarshPearl.ID_Artifact_MarshPearl_C", "Artifact Marsh Pearl"),
+            ("/Game/Sparta/Items/Pickups/ID_Legendary_Old_Artifact.ID_Legendary_Old_Artifact_C", "Legendary Old Artifact"),
+            ("/Game/Sparta/Items/Pickups/ID_Specimen.ID_Specimen_C", "Specimen"),
+            ("/Game/Sparta/Items/Pickups/ID_MushroomVillageKey.ID_MushroomVillageKey_C", "Mushroom Village Key"),
+            ("/Game/Sparta/Items/Pickups/ID_MissingLever.ID_MissingLever_C", "Missing Lever"),
+            ("/Game/Sparta/Items/Pickups/ID_MissingCannonBall.ID_MissingCannonBall_C", "Missing Cannon Ball"),
+            ("/Game/Sparta/Items/Pickups/ID_GraveyardCryptKey.ID_GraveyardCryptKey_C", "Graveyard Crypt Key"),
+            ("/Game/Sparta/Items/Pickups/ID_GrishaCageKey.ID_GrishaCageKey_C", "Grisha Cage Key"),
+            ("/Game/Sparta/Items/Pickups/ID_MemoryTiel_TheContract_Key.ID_MemoryTiel_TheContract_Key_C", "Memory Tiel The Contract Key"),
+            ("/Game/Sparta/Items/Pickups/ID_KS_GenessaIncenseBurner.ID_KS_GenessaIncenseBurner_C", "KS Genessa Incense Burner"),
+            ("/Game/Sparta/Items/Pickups/Tarforge/ID_Tarforge_ForgeMode_Sidearm.ID_Tarforge_ForgeMode_Sidearm_C", "Tarforge: enhance sidearms"),
+            ("/Game/Sparta/Items/Pickups/Tarforge/ID_Tarforge_SmeltMode.ID_Tarforge_SmeltMode_C", "Tarforge: smelting"),
+            ("/Game/Sparta/Items/Pickups/Tarforge/ID_Tarforge_TarstoneMode.ID_Tarforge_TarstoneMode_C", "Tarforge: Tarstones"),
+            ("/Game/Sparta/Items/Pickups/ID_Map_Weapon_ObsidianHammer.ID_Map_Weapon_ObsidianHammer_C", "Map Weapon Obsidian Hammer"),
+            ("/Game/Sparta/Items/Pickups/ID_Map_Weapon_GreatMartyrSword.ID_Map_Weapon_GreatMartyrSword_C", "Map Weapon Great Martyr Sword"),
+            ("/Game/Sparta/Items/Pickups/ID_Map_Weapon_AxeDagger.ID_Map_Weapon_AxeDagger_C", "Map Weapon Axe Dagger"),
+            ("/Game/Sparta/Items/Pickups/ID_Map_Weapon_BlackNeedle.ID_Map_Weapon_BlackNeedle_C", "Map Weapon Black Needle"),
+            ("/Game/Sparta/Items/Pickups/ID_GrimoriumObscurum.ID_GrimoriumObscurum_C", "Grimorium Obscurum"),
+            ("/Game/Sparta/Items/Pickups/ID_FastTravel.ID_FastTravel_C", "Fast travel"),
+            ("/Game/Sparta/Items/Pickups/ID_BlackMarrowKey.ID_BlackMarrowKey_C", "Black Marrow Key"),
+            ("/Game/Sparta/Items/Pickups/ID_EndlessCore.ID_EndlessCore_C", "Endless Core"),
+            ("/Game/Sparta/Items/Pickups/ID_VlasCageKey.ID_VlasCageKey_C", "Vlas Cage Key"),
+            ("/Game/Sparta/Items/Pickups/ID_Artifact_FinalBoss.ID_Artifact_FinalBoss_C", "Artifact Final Boss"),
+            ("/Game/Sparta/Items/Pickups/ID_Artifact_TwinSesters.ID_Artifact_TwinSesters_C", "Artifact Twin Sesters"),
+            ("/Game/Sparta/Items/Pickups/ID_Artifact_Monolith.ID_Artifact_Monolith_C", "Artifact Monolith"),
+            ("/Game/Sparta/Items/Pickups/ID_Artifact_Offspring.ID_Artifact_Offspring_C", "Artifact Offspring"),
+            ("/Game/Sparta/Items/Pickups/ID_Artifact_ParasiteGolem.ID_Artifact_ParasiteGolem_C", "Artifact Parasite Golem"),
+            ("/Game/Sparta/Items/Pickups/ID_MethersFlesh.ID_MethersFlesh_C", "Methers Flesh"),
+            ("/Game/Sparta/Items/Pickups/ID_SacredGland_Fire.ID_SacredGland_Fire_C", "Sacred Gland Fire"),
+            ("/Game/Sparta/Items/Pickups/ID_SacredGland_Cathedral.ID_SacredGland_Cathedral_C", "Sacred Gland Cathedral"),
+            ("/Game/Sparta/Items/Pickups/ID_SacredGland_Snow.ID_SacredGland_Snow_C", "Sacred Gland Snow"),
+            ("/Game/Sparta/Items/Pickups/ID_ThestusFlame.ID_ThestusFlame_C", "Thestus Flame"),
+            ("/Game/Sparta/Items/Pickups/ID_IceCrown.ID_IceCrown_C", "Ice Crown"),
+            ("/Game/Sparta/Items/Pickups/ID_ElectricConduit.ID_ElectricConduit_C", "Electric Conduit"),
+            ("/Game/Sparta/Items/Pickups/ID_VratkoFeetPic_01.ID_VratkoFeetPic_01_C", "Vratko Feet Pic 01"),
+            ("/Game/Sparta/Items/Pickups/ID_VratkoFeetPic_02.ID_VratkoFeetPic_02_C", "Vratko Feet Pic 02"),
+            ("/Game/Sparta/Items/Pickups/ID_VratkoFeetPic_03.ID_VratkoFeetPic_03_C", "Vratko Feet Pic 03"),
+            ("/Game/Sparta/Items/Pickups/ID_VratkoFeetPic_04.ID_VratkoFeetPic_04_C", "Vratko Feet Pic 04"),
+            ("/Game/Sparta/Items/Pickups/ID_VratkoFeetPic_05.ID_VratkoFeetPic_05_C", "Vratko Feet Pic 05"),
+            ("/Game/Sparta/Items/Pickups/ID_VratkoFeetPic_06.ID_VratkoFeetPic_06_C", "Vratko Feet Pic 06"),
+        ],
+        max: Some(Max {
+            ids: &[
+                "/Game/Sparta/Items/Pickups/Tarforge/ID_TFM_01_Ventrium.ID_TFM_01_Ventrium_C",
+                "/Game/Sparta/Items/Pickups/Tarforge/ID_TFM_03_Dorsalite.ID_TFM_03_Dorsalite_C",
+                "/Game/Sparta/Items/Pickups/Tarforge/ID_TFM_02_Laterite.ID_TFM_02_Laterite_C",
+                "/Game/Sparta/Items/Pickups/Tarforge/ID_TFM_04_Thoracium.ID_TFM_04_Thoracium_C",
+                "/Game/Sparta/Items/Pickups/Tarforge/ID_TFM_05_Thoracium_Prime.ID_TFM_05_Thoracium_Prime_C",
+            ],
+            cap: 99,
+            caps: &[],
+            estimate: true,
+            about: "Raises the Tarforge smithing materials (Ventrium, Laterite, Dorsalite, Thoracium and Thoracium Prime) you already have. Keys, artifacts, tools and upgrade items are left alone.",
+        }),
+    }],
+    tables: &[],
+};
+
+// ------------------------------------------------------------------ theHunter: Call of the Wild
+
+const COTW: Spec = Spec {
+    name: "theHunter: Call of the Wild",
+    tab: "Hunter",
+    accent: (200, 150, 60),
+    kind: Some(crate::fmt::adf::KIND),
+    markers: &["/Hunter/Cash"],
+    subtitle: "thp_player_profile_adf in your Saves folder (each slot folder keeps its own copy). Close the game first; skill points already spent are stored per skill tree and are not shown.",
+    tiles: &[("Cash", "/Hunter/Cash"), ("Level", "/Hunter/Level"), ("XP", "/Hunter/XP")],
+    sections: &[Section { title: "Points", rows: &[("Skill points", "/Hunter/Skill points"), ("Perk points", "/Hunter/Perk points")] }],
+    lists: &[],
+    tables: &[],
+};
+
+// ------------------------------------------------------------------ BeamNG.drive
+
+const BEAMNG: Spec = Spec {
+    name: "BeamNG.drive",
+    tab: "Career",
+    accent: (240, 120, 30),
+    kind: None,
+    markers: &["/money/value", "/beamXP/value"],
+    subtitle: "career/playerAttributes.json inside a career save slot's newest autosave folder (the game loads the newest of its rotating autosaves, so edit that one). Each branch (the career's skill lines) keeps its own value, shown in the Tree tab.",
+    tiles: &[("Money", "/money/value"), ("BeamXP", "/beamXP/value")],
+    sections: &[],
+    lists: &[],
+    tables: &[],
+};
+
+// ------------------------------------------------------------------ The Forest
+
+const FOREST: Spec = Spec {
+    name: "The Forest",
+    tab: "Survivor",
+    accent: (90, 140, 70),
+    kind: Some(crate::fmt::forest::KIND),
+    markers: &["/Inventory"],
+    subtitle: "The __RESUME__ file of a single-player or multiplayer slot. The inventory holds what the player carries; the game's own limit for each item is stored with it (Max amount, -1 for no limit).",
+    tiles: &[],
+    sections: &[],
+    lists: &[List {
+        title: "Inventory",
+        path: "/Inventory",
+        shape: Shape::Records { qty_key: "Amount" },
+        names: &[],
+        max: Some(Max {
+            ids: &["Rock", "Stick", "Skull", "Rope", "Bone", "Lizard Skin", "Deer Skin", "Boar Skin", "Raccoon Skin", "Rabbit Fur", "Circuit Board"],
+            cap: 10,
+            caps: &[("Rock", 5), ("Skull", 4), ("Rope", 4), ("Bone", 15), ("Circuit Board", 5)],
+            estimate: false,
+            about: "Raises rocks, sticks, skulls, rope, bones, skins, rabbit fur and circuit boards to the limit the game stores for each in the save. Items with no limit (cloth, leaves, feathers, teeth, sap, tape), tools, weapons, food and story items are left alone.",
+        }),
+    }],
     tables: &[],
 };

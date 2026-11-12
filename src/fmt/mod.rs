@@ -16,6 +16,10 @@ pub mod dreamcast;
 pub mod saturn;
 pub mod keyed;
 pub mod ksp;
+pub mod adf;
+pub mod forest;
+pub mod forest_items;
+pub mod mechanicus;
 pub mod prison;
 pub mod tld;
 pub mod nfsmw;
@@ -142,8 +146,11 @@ pub mod dead_rising;
 pub mod ff13;
 pub mod p5r;
 pub mod cave_story;
+pub mod ori;
 pub mod lego_tss;
 pub mod lego_classic;
+pub mod roadhog;
+pub mod wasteland2;
 pub mod sonic_mania;
 pub mod metro;
 pub mod bioshock;
@@ -302,6 +309,21 @@ pub fn parse_binary(d: &[u8]) -> Option<TreeDoc> {
     }
     if lego_classic::looks(d) {
         if let Ok(t) = lego_classic::parse(d) {
+            return Some(t);
+        }
+    }
+    if ori::looks(d) {
+        if let Ok(t) = ori::parse(d) {
+            return Some(t);
+        }
+    }
+    if forest::looks(d) {
+        if let Ok(t) = forest::parse(d) {
+            return Some(t);
+        }
+    }
+    if adf::looks(d) {
+        if let Ok(t) = adf::parse(d) {
             return Some(t);
         }
     }
@@ -681,6 +703,11 @@ pub fn parse_binary_late(d: &[u8]) -> Option<TreeDoc> {
 
 /// Text formats. Ambiguous ones (YAML, TOML) are only trusted by file extension.
 pub fn parse_text(text: &str, ext: &str) -> Option<TreeDoc> {
+    if roadhog::looks(text.as_bytes()) {
+        if let Ok(doc) = roadhog::parse(text.as_bytes()) {
+            return Some(doc);
+        }
+    }
     if let Some(doc) = undertale::parse(text) {
         return Some(doc);
     }
@@ -693,6 +720,11 @@ pub fn parse_text(text: &str, ext: &str) -> Option<TreeDoc> {
         }
     }
     let t = text.trim_start();
+    if mechanicus::looks(text) {
+        if let Ok(doc) = mechanicus::parse(text) {
+            return Some(doc);
+        }
+    }
     if prison::looks(text) {
         if let Ok(doc) = prison::parse(text) {
             return Some(doc);
@@ -705,6 +737,11 @@ pub fn parse_text(text: &str, ext: &str) -> Option<TreeDoc> {
     }
     if lua::looks(t) {
         if let Ok(doc) = lua::parse(text) {
+            return Some(doc);
+        }
+    }
+    if t.starts_with("<save><version>") {
+        if let Ok(doc) = wasteland2::parse(text) {
             return Some(doc);
         }
     }

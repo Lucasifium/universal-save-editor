@@ -251,6 +251,9 @@ pub enum Layer {
     Me1Le { block: u32 },
     /// Mass Effect (2008): "RGMH", a version, the header's length, the save image; then a zip.
     Me1Header { header: Arc<Vec<u8>> },
+    /// Everspace 2: `DE C0 DE 00`, a version, the unpacked and the packed size, then one zlib
+    /// stream holding the Unreal save.
+    Es2Wrap { version: u32 },
     /// Paradox `SAV…` save (Crusader Kings III, Victoria 3, Imperator: Rome, Europa
     /// Universalis V): a header line, sometimes the metadata, then from `zip_at` a zip
     /// archive that holds `gamestate`.
@@ -369,6 +372,7 @@ impl Layer {
             Layer::Cdpr { sizes, .. } => format!("CD Projekt RED save ({} LZ4 chunks)", sizes.len()),
             Layer::Me1Le { .. } => "Mass Effect (Legendary Edition) save (zlib)".to_string(),
             Layer::Me1Header { .. } => "Mass Effect save (image header)".to_string(),
+            Layer::Es2Wrap { .. } => "Everspace 2 save (zlib)".to_string(),
             Layer::PdxSav { .. } => "Paradox save archive (gamestate)".to_string(),
             Layer::Owlcat { .. } => "Pathfinder save archive".to_string(),
             Layer::Borderlands { .. } => "Borderlands save (SHA-1, LZO)".to_string(),
@@ -1018,6 +1022,15 @@ fn wrap(layer: &Layer, data: Vec<u8>) -> Result<Vec<u8>, String> {
         Layer::Torchlight2 => fmt::torchlight2::pack(&data),
         Layer::Larian { archive, file } => fmt::larian::save(archive, file, &data)?,
         Layer::Wasteland3 { original } => fmt::wasteland3::pack(original, &data)?,
+        Layer::Es2Wrap { version } => {
+            let packed = compress(ZlibEncoder::new(Vec::new(), Compression::default()), &data)?.finish().map_err(io)?;
+            let mut out = vec![0xDE, 0xC0, 0xDE, 0x00];
+            out.extend(version.to_le_bytes());
+            out.extend((data.len() as u32).to_le_bytes());
+            out.extend((packed.len() as u32).to_le_bytes());
+            out.extend(packed);
+            out
+        }
         Layer::Me1Header { header } => {
             let mut out = header.to_vec();
             out.extend_from_slice(&data);
@@ -1392,6 +1405,16 @@ fn peel(data: &[u8], ctx: &mut Ctx) -> Option<(Layer, Vec<u8>)> {
     }
     if let Some(r) = peel_cdpr(data, ctx) {
         return Some(r);
+    }
+    if data.starts_with(&[0xDE, 0xC0, 0xDE, 0x00]) && data.len() > 20 {
+        let u = |at: usize| u32::from_le_bytes(data[at..at + 4].try_into().unwrap());
+        if u(12) as usize == data.len() - 16 {
+            if let Ok((v, rest)) = inflate_with_rest(&data[16..]) {
+                if rest.is_empty() && v.len() == u(8) as usize {
+                    return Some((Layer::Es2Wrap { version: u(4) }, v));
+                }
+            }
+        }
     }
     if data.starts_with(b"RGMH") {
         let len = data.get(8..12).map(|b| u32::from_le_bytes(b.try_into().unwrap()) as usize)?;
@@ -2500,6 +2523,8 @@ mod tests {
     #[test]
     fn zlib() { roundtrip(&[Layer::Zlib]); }
     #[test]
+    fn everspace_2_wrapper() { roundtrip(&[Layer::Es2Wrap { version: 2 }]); }
+    #[test]
     fn base64_gzip() { roundtrip(&[Layer::Base64, Layer::Gzip]); }
     #[test]
     fn fallout_shelter_layer() { roundtrip(&[Layer::FalloutShelter]); }
@@ -3081,6 +3106,8 @@ pub fn companion_files(path: &std::path::Path, bytes: &[u8]) -> Vec<(std::path::
     out.extend(fmt::nwn::companions(path, bytes));
     // LEGO Star Wars (2005): CODE.BIN beside LSW.BIN holds the stud count.
     out.extend(fmt::lego_classic::companions(path, bytes));
+    // Warhammer 40,000: Mechanicus: SaveState.sav holds the CRC-32 of Meta.sav.
+    out.extend(fmt::mechanicus::companions(path, bytes));
     out
 }
 
