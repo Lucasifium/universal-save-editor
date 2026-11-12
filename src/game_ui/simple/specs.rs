@@ -3,7 +3,7 @@
 
 use super::{List, Max, Section, Shape, Spec, Table};
 
-pub static SPECS: &[Spec] = &[COTL, FALLOUT_SHELTER, DRG, S1_MONEY, S1_RANK, S1_TIME, S1_GAME, SOTF_STATE, SOTF_GAME, SOTF_WEATHER, SOTF_ITEMS, DMD, CUPHEAD, ANTIMATTER, PVZ, CELESTE, DRGS, KH3, RF4S, SKY1ST, KSP, FFPR, MCD, STONESHARD, ROGUE_TRADER, BIOSHOCK_INFINITE, SPACE_HAVEN, SNOWRUNNER, GRAVEYARD_KEEPER, NFSMW, TOS, GTA3, GTAVC, BITBURNER, TERRA_INVICTA, PRISON, FF13, SONIC_MANIA, CAVE_STORY_PLUS, CAVE_STORY, LIES_OF_P, TXR, DAVE, MSC, ULTRAKILL, RPGXP, RE5, ANNO1800, FTK, LEGO_TSS, LEGO_CLASSIC, MYZ, CMS21, MEDIEVAL_DYNASTY, MECHANICUS, ORI, OMORI, ENDER_LILIES, SW2, ES2, MOONLIGHTER, WASTELAND2, ATOM, MORTAL_SHELL, MORTAL_SHELL_2, COTW, BEAMNG, FOREST, YAKUZA3, YAKUZA4, YAKUZA5, ISHIN, SALT, DRAKENSANG, ALPHA, TYRANNY, JEDI_FO, SR3, SR4, WD2, FABLE, WANDERING_SWORD, STELLAR_BLADE, PRAGMATA, SLIME_RANCHER, SUBNAUTICA2];
+pub static SPECS: &[Spec] = &[COTL, FALLOUT_SHELTER, DRG, S1_MONEY, S1_RANK, S1_TIME, S1_GAME, SOTF_STATE, SOTF_GAME, SOTF_WEATHER, SOTF_ITEMS, DMD, CUPHEAD, ANTIMATTER, PVZ, CELESTE, DRGS, KH3, RF4S, SKY1ST, KSP, FFPR, MCD, STONESHARD, ROGUE_TRADER, BIOSHOCK_INFINITE, SPACE_HAVEN, SNOWRUNNER, GRAVEYARD_KEEPER, NFSMW, TOS, GTA3, GTAVC, BITBURNER, TERRA_INVICTA, PRISON, FF13, SONIC_MANIA, CAVE_STORY_PLUS, CAVE_STORY, LIES_OF_P, TXR, DAVE, MSC, ULTRAKILL, RPGXP, RE5, ANNO1800, FTK, LEGO_TSS, LEGO_CLASSIC, MYZ, CMS21, MEDIEVAL_DYNASTY, MECHANICUS, ORI, OMORI, ENDER_LILIES, SW2, ES2, MOONLIGHTER, WASTELAND2, ATOM, MORTAL_SHELL, MORTAL_SHELL_2, COTW, BEAMNG, FOREST, YAKUZA3, YAKUZA4, YAKUZA5, ISHIN, SALT, DRAKENSANG, ALPHA, TYRANNY, JEDI_FO, SR3, SR4, WD2, FABLE, WANDERING_SWORD, STELLAR_BLADE, PRAGMATA, SLIME_RANCHER, SUBNAUTICA2, HZD];
 
 // ------------------------------------------------------------------ Cult of the Lamb
 
@@ -3008,5 +3008,23 @@ const SUBNAUTICA2: Spec = Spec {
         List { title: "Player inventory", path: "/Player", shape: Shape::Map, names: &[], max: None },
         List { title: "Lockers, vehicles and other storage", path: "/Storage", shape: Shape::Map, names: &[], max: None },
     ],
+    tables: &[],
+};
+
+// ------------------------------------------------------------------ Horizon Zero Dawn
+
+const HZD: Spec = Spec {
+    name: "Horizon Zero Dawn",
+    tab: "Aloy",
+    accent: (222, 120, 60),
+    kind: Some(crate::fmt::hzd::KIND),
+    markers: &["/Aloy/Metal shards"],
+    subtitle: "checkpoint.dat in Documents\\Horizon Zero Dawn\\Saved Game\\<slot> (the PC Complete Edition). The save's checksum is made again on save. Level and experience are shown but not changed.",
+    tiles: &[("Metal shards", "/Aloy/Metal shards"), ("Skill points", "/Aloy/Skill points"), ("Level", "/Aloy/Level")],
+    sections: &[Section {
+        title: "Aloy",
+        rows: &[("Metal shards", "/Aloy/Metal shards"), ("Skill points", "/Aloy/Skill points"), ("Level", "/Aloy/Level"), ("Experience", "/Aloy/Experience")],
+    }],
+    lists: &[],
     tables: &[],
 };
