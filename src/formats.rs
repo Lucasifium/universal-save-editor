@@ -88,6 +88,9 @@ pub enum Layer {
     Xor(u8),
     /// XOR with a repeating text key some games are known to use (Slay the Spire: "key").
     XorKey(String),
+    /// A JSON save encrypted with a key built into the game (Megabonk, Eiyuden Chronicle,
+    /// Suikoden I & II HD).
+    Keyed(fmt::keyed::Wrap),
     /// A PNG with the data in a private zlib chunk (mGBA save states: `gbAs`).
     PngChunk { png: Arc<Vec<u8>>, chunk: [u8; 4] },
     /// A bundle of named files (Barotrauma `.save`: UTF-16 name, length, bytes, …).
@@ -253,7 +256,11 @@ impl Layer {
             Layer::RpgMzZlib => "zlib-as-text (RPG Maker MZ)".into(),
             Layer::JsEscape => "URL-escaped (TyranoScript)".into(),
             Layer::Xor(k) => format!("XOR 0x{k:02X}"),
-            Layer::XorKey(k) => format!("XOR \u{201C}{k}\u{201D}"),
+            Layer::XorKey(k) => match KNOWN_XOR_KEYS.iter().find(|(_, key)| key.as_bytes() == k.as_bytes()) {
+                Some((game, _)) if !game.is_empty() => format!("XOR with {game}'s key"),
+                _ => format!("XOR \u{201C}{k}\u{201D}"),
+            },
+            Layer::Keyed(w) => w.label().into(),
             Layer::PngChunk { chunk, .. } => format!("mGBA save state ({})", String::from_utf8_lossy(chunk)),
             Layer::FileBundle { name, .. } => format!("file bundle ({name})"),
             Layer::Palworld { .. } => "Palworld container".into(),
@@ -734,6 +741,7 @@ fn wrap(layer: &Layer, data: Vec<u8>) -> Result<Vec<u8>, String> {
         }
         Layer::Xor(k) => data.iter().map(|b| b ^ k).collect(),
         Layer::XorKey(k) => xor_key(&data, k.as_bytes()),
+        Layer::Keyed(w) => fmt::keyed::close(w, &data),
         Layer::PngChunk { png, chunk } => png_replace(png, chunk, &compress(ZlibEncoder::new(Vec::new(), Compression::default()), &data)?.finish().map_err(io)?)?,
         Layer::FileBundle { files, name } => {
             let mut out = Vec::new();
@@ -1368,6 +1376,10 @@ fn peel(data: &[u8], ctx: &mut Ctx) -> Option<(Layer, Vec<u8>)> {
     if let Some((password, iv, plain)) = fmt::crypto::es3_decrypt_any(data, ctx.opts.password.as_deref(), is_recognisable) {
         return Some((Layer::Es3 { password, iv }, plain));
     }
+    if let Some((w, plain)) = fmt::keyed::open(data) {
+        ctx.hint = Some(format!("{} save: decrypted for you and encrypted again on save.", w.game()));
+        return Some((Layer::Keyed(w), plain));
+    }
     if let Some((k, plain)) = peel_known_xor(data) {
         return Some((Layer::XorKey(k), plain));
     }
@@ -1790,8 +1802,18 @@ fn peel_region(data: &[u8], ctx: &mut Ctx) -> Option<(Layer, Vec<u8>)> {
     Some((Layer::Region { archive: Arc::new(data.to_vec()), index, kind }, nbt))
 }
 
-/// Repeating-key XOR keys used by known games.
-const KNOWN_XOR_KEYS: &[&str] = &["key"];
+/// Repeating-key XOR keys used by known games, with the game's name.
+const KNOWN_XOR_KEYS: &[(&str, &str)] = &[
+    ("", "key"),
+    // Bounty of One (gamedata.sav), as game-bounty-of-one-save-editor (n0isy, MIT) gives it.
+    ("Bounty of One", "cheh"),
+    // Idle Slayer (savedata.sav), the phrase the game itself leaves in the file.
+    ("Idle Slayer", "If you manage to get this string you are allowed to hack the game all you want"),
+    // CloverPit (GameDataFull.json): the game's password "uoiyiuh_+=-5216gh;lj??!/345" with each
+    // byte XORed with the one (its value mod the length) places further on, as
+    // cloverpit-save-editor (jexxme, GPL-3.0) and Serialize-Deserialize-Save-CloverPit (MIT) do.
+    ("CloverPit", "H\x06\\\x11\x06C\x01`\x18UB\x18\x19\x1a\x00JZ\x1a\x00QVFNG\x0c\x1b\x01"),
+];
 
 fn xor_key(data: &[u8], key: &[u8]) -> Vec<u8> {
     data.iter().zip(key.iter().cycle()).map(|(b, k)| b ^ k).collect()
@@ -1801,7 +1823,7 @@ fn peel_known_xor(data: &[u8]) -> Option<(String, Vec<u8>)> {
     if std::str::from_utf8(data).is_ok_and(|t| parse_json(t.trim()).is_some()) {
         return None;
     }
-    KNOWN_XOR_KEYS.iter().find_map(|k| {
+    KNOWN_XOR_KEYS.iter().find_map(|(_, k)| {
         let plain = xor_key(data, k.as_bytes());
         std::str::from_utf8(&plain).ok().and_then(|t| parse_json(t.trim())).map(|_| (k.to_string(), plain))
     })
@@ -2847,4 +2869,12 @@ mod civ5_tests {
         assert_eq!(trailer.as_slice(), b"\x01\x00\x00\x00tail");
         assert_eq!(wrap(&back, data).unwrap(), file);
     }
+
+    #[test]
+    fn cloverpit_key_is_the_derived_password() {
+        let p = b"uoiyiuh_+=-5216gh;lj??!/345";
+        let k: Vec<u8> = (0..p.len()).map(|i| p[(i + p[i] as usize % p.len()) % p.len()] ^ p[i]).collect();
+        assert!(super::KNOWN_XOR_KEYS.iter().any(|(g, key)| *g == "CloverPit" && key.as_bytes() == k));
+    }
+
 }

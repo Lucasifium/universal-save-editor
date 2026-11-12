@@ -37,6 +37,12 @@ Universal Save Editor is free. It builds on other people's work, listed here wit
 | [Apollo DC save tools (VMS header CRC and Nexus DCI layout, facts used)](https://github.com/bucanero/apollo-dc), after Marcus Comstedt's VMU file system notes | Damian Parrino (bucanero); Marcus Comstedt | GPL-3.0-or-later |
 | [saturn-save-tools (Saturn single-save layouts and backup RAM reading, ported)](https://github.com/bucanero/saturn-save-tools) | Damian Parrino (bucanero) | GPL-3.0-or-later |
 | [SAROO savetool (backup RAM, SS_SAVE.BIN and SS_MEMS.BIN layouts, ported)](https://github.com/tpunix/SAROO) | tpunix | GPL-3.0 |
+| [Megabonk-Save-Decryptor (Megabonk save key and IV; facts only)](https://github.com/GuardianN06/Megabonk-Save-Decryptor) | GuardianN06 | facts only (key and layout), credited |
+| [Eiyuden-Chronicle-Save-Editor (Eiyuden Chronicle save key and IV; facts only)](https://github.com/TheSparda/Eiyuden-Chronicle-Save-Editor) | TheSparda | facts only (key and layout), credited |
+| [SuikodenSaveDecrypter (Suikoden I & II HD save encryption, ported)](https://github.com/d3xMachina/SuikodenSaveDecrypter) | d3xMachina | MIT |
+| [game-bounty-of-one-save-editor (Bounty of One XOR key)](https://github.com/n0isy/game-bounty-of-one-save-editor) | n0isy | MIT |
+| [idle-slayer-editor (Idle Slayer XOR phrase; facts only)](https://github.com/Tocdor-creator/idle-slayer-editor) | Tocdor-creator | facts only, credited |
+| [cloverpit-save-editor (CloverPit password and key derivation, ported)](https://github.com/jexxme/cloverpit-save-editor), with [Serialize-Deserialize-Save-CloverPit](https://github.com/mikhael-coder/Serialize-Deserialize-Save-CloverPit) (MIT) | jexxme; mikhael-coder | GPL-3.0; MIT |
 | LZARI (the compression in Action Replay Max saves, ported) | Haruhiko Okumura; memory-buffer version by Luigi Auriemma and Wesley Castro | free use, as its author states |
 | [save-decrypters (per-game test vectors used for checks only)](https://github.com/bucanero/save-decrypters) | Damian Parrino (bucanero) and contributors | GPL-3.0-or-later |
 | CRC routines (as used in apollo-lib) | Michael Barr | public domain |
