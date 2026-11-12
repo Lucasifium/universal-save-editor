@@ -85,6 +85,20 @@ pub fn dos2(ui: &mut Ui, cx: &mut GameCtx) {
         ui.label(RichText::new(format!("{} gold on {}", fmt_num(gold_of(cx, &base) as f64), members[t])).color(theme_fg(ui, gold)));
         ui.weak("Each line is a stack of coins in this character's inventory (named by its stats entry).");
     });
+    let things = keys(cx, &at("Inventory"));
+    if !things.is_empty() {
+        panel(ui, &format!("Inventory ({} stacks)", things.len()), |ui| {
+            egui::ScrollArea::vertical().id_salt(("dos2_inv", t)).max_height(320.0).show(ui, |ui| {
+                columns(ui, 300.0, things.len(), |ui, i| {
+                    cx.row_fixed(ui, &things[i].replace('_', " "), &format!("{base}/Inventory/{}", esc(&things[i])), 190.0, 60.0);
+                });
+            });
+            ui.weak(
+                "How many of each item this character carries directly (items inside bags aren't listed), named by the game's item entry. \
+                 Change a stack size; adding or removing items isn't possible here, and the game may trim a stack to what the item allows.",
+            );
+        });
+    }
 }
 
 fn theme_fg(ui: &Ui, c: Color32) -> Color32 {

@@ -126,10 +126,16 @@ fn dos2(plain: &[u8], archive: &[u8], pkg: &lspk::Package) -> Option<TreeDoc> {
     }
     // Coin stacks by the inventory that holds them.
     let mut gold: HashMap<i64, Vec<usize>> = HashMap::new();
+    let mut bags: HashMap<i64, Vec<usize>> = HashMap::new();
     for item in l.at_path(&["Items", "ItemFactory", "Items", "Item"]) {
         let (Some(stats), Some(parent)) = (l.string_of(item, "Stats"), l.int_of(item, "Parent")) else { continue };
-        if is_gold(&stats) && l.attr(item, "Amount").is_some() {
+        if l.attr(item, "Amount").is_none() {
+            continue;
+        }
+        if is_gold(&stats) {
             gold.entry(parent).or_default().push(item);
+        } else {
+            bags.entry(parent).or_default().push(item);
         }
     }
     let mut seen = HashMap::new();
@@ -173,6 +179,19 @@ fn dos2(plain: &[u8], archive: &[u8], pkg: &lspk::Package) -> Option<TreeDoc> {
             let Some(a) = l.attr(item, "Amount") else { continue };
             if let Some(kind) = lsf::kind(a.ty).filter(|k| matches!(k, Kind::I32 | Kind::U32)) {
                 b.ranged(&cat(&base, &["Gold", k.as_str()]), a.at, kind, 1, i64::from(i32::MAX));
+            }
+        }
+        // Everything else the character carries directly (not inside a bag): stack sizes by item.
+        let mut names = HashMap::new();
+        for &item in inv.and_then(|i| bags.get(&i)).into_iter().flatten() {
+            let stats = l.string_of(item, "Stats").unwrap_or_default();
+            if stats.is_empty() {
+                continue;
+            }
+            let k = unique(&mut names, stats);
+            let Some(a) = l.attr(item, "Amount") else { continue };
+            if let Some(kind) = lsf::kind(a.ty).filter(|k| matches!(k, Kind::I32 | Kind::U32)) {
+                b.ranged(&cat(&base, &["Inventory", k.as_str()]), a.at, kind, 1, i64::from(i32::MAX));
             }
         }
     }
@@ -272,6 +291,7 @@ mod tests {
         nodes.push(("Items", items + 1, vec![]));
         nodes.push(("Item", items + 2, vec![("Stats", 22, s("Small_Gold")), ("Parent", 24, u64v(77)), ("Amount", 4, i32v(309))]));
         nodes.push(("Item", items + 2, vec![("Stats", 22, s("ITEM_EmptyCupGold")), ("Parent", 24, u64v(77)), ("Amount", 4, i32v(1))]));
+        nodes.push(("Item", items + 2, vec![("Stats", 22, s("CON_Potion_Health")), ("Parent", 24, u64v(77)), ("Amount", 4, i32v(6))]));
         let globals = lsf_build(&nodes, true);
         let meta = lsf_build(&[("MetaData", -1, vec![]), ("MetaData", 0, vec![("Level", 22, s("TestRegion"))])], true);
         pkg_build(13, &[("globals.lsf", &globals), ("meta.lsf", &meta), ("test.png", b"png")], 0x21)
@@ -290,6 +310,8 @@ mod tests {
         assert_eq!(v.pointer("/Party/Testa/Attributes/Wits"), Some(&json!(14)));
         assert_eq!(v.pointer("/Party/Testa/Points/Attribute points"), Some(&json!(2)));
         assert_eq!(v.pointer("/Party/Testa/Gold/Small_Gold"), Some(&json!(309)));
+        assert_eq!(v.pointer("/Party/Testa/Inventory/CON_Potion_Health"), Some(&json!(6)));
+        assert!(v.pointer("/Party/Testa/Inventory/ITEM_EmptyCupGold").is_some(), "other items are listed");
         assert_eq!(v.pointer("/Party/Testa/Gold").and_then(Value::as_object).map(|m| m.len()), Some(1), "a gold cup isn't gold");
         assert_eq!(v.pointer("/Save/Region"), Some(&json!("TestRegion")));
         assert_eq!(v.pointer("/Party").and_then(Value::as_object).map(|m| m.len()), Some(1), "NPCs aren't in the party");
@@ -299,6 +321,7 @@ mod tests {
         t.set("/Party/Testa/Experience", json!(3351)).unwrap();
         t.set("/Party/Testa/Attributes/Strength", json!(12)).unwrap();
         t.set("/Party/Testa/Gold/Small_Gold", json!(310)).unwrap();
+        t.set("/Party/Testa/Inventory/CON_Potion_Health", json!(99)).unwrap();
         assert!(t.set("/Party/Testa/Gold/Small_Gold", json!(0)).is_err());
         let out = crate::formats::encode(&d.layers, &d.content).unwrap();
         let p = lspk::read(&out).unwrap();
@@ -308,6 +331,7 @@ mod tests {
         assert_eq!(t2.view.pointer("/Party/Testa/Experience"), Some(&json!(3351)));
         assert_eq!(t2.view.pointer("/Party/Testa/Attributes/Strength"), Some(&json!(12)));
         assert_eq!(t2.view.pointer("/Party/Testa/Gold/Small_Gold"), Some(&json!(310)));
+        assert_eq!(t2.view.pointer("/Party/Testa/Inventory/CON_Potion_Health"), Some(&json!(99)));
         assert_eq!(t2.view.pointer("/Party/Testa/Attributes/Wits"), Some(&json!(14)));
         // The other files are untouched.
         let q = lspk::read(&raw).unwrap();

@@ -578,7 +578,7 @@ pub fn mass_effect(ui: &mut Ui, cx: &mut GameCtx) {
 
 /// Mass Effect 2 and 3 story flags (loyalty, romance, who lived, imported choices) and the
 /// numbers beside them, by section.
-fn story(ui: &mut Ui, cx: &mut GameCtx, accent: Color32) {
+pub(super) fn story(ui: &mut Ui, cx: &mut GameCtx, accent: Color32) {
     let flags = keys_of(cx, "/Story flags");
     let numbers = keys_of(cx, "/Story numbers");
     if flags.is_empty() && numbers.is_empty() {
