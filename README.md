@@ -396,10 +396,10 @@ possible only the values you edit are rewritten — everything else stays byte-f
 | Palworld (older) | `.sav` with `PlZ` header | round-trip tests (newer `PlM` saves are covered by the Palworld row) |
 
 **Data formats** — JSON, XML (span-patched, keeps formatting), INI/CFG, TOML (keeps comments),
-YAML (`.yml`/`.yaml`), Apple plist (binary and XML), MessagePack, BSON, SQLite (real `UPDATE`s;
+YAML (`.yml`/`.yaml`), Apple plist (binary and XML), MessagePack, CBOR, BSON, SQLite (real `UPDATE`s;
 IDs and keys read-only, 0/1 check-constrained columns shown as switches), Python pickle.
 
-**Wrappers** — gzip, zlib, raw deflate, zstd, LZ4, xz, bzip2, zip (pick any entry), Base64 (plain or
+**Wrappers** — gzip, zlib, raw deflate, zstd, LZ4, Snappy (framed), xz, bzip2, zip (pick any entry), Base64 (plain or
 line-wrapped), UTF-8 BOM, UTF-16, XOR, Easy Save 3 AES, Godot AES, Terraria AES, Hollow Knight AES,
 FromSoftware BND4 (MD5 + AES), Minecraft region chunks, mGBA PNG save states, Supergiant (Adler-32 + LZ4).
 

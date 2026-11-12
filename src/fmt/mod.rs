@@ -90,6 +90,7 @@ pub mod lua;
 pub mod luabins;
 pub mod marshal;
 pub mod msgpack;
+pub mod cbor;
 pub mod nbt;
 pub mod nrbf;
 pub mod fields;
@@ -553,7 +554,7 @@ pub fn parse_binary_late(d: &[u8]) -> Option<TreeDoc> {
             return Some(t);
         }
     }
-    godot::parse(d).ok().or_else(|| msgpack::parse(d).ok())
+    godot::parse(d).ok().or_else(|| msgpack::parse(d).ok()).or_else(|| cbor::parse(d).ok())
 }
 
 /// Text formats. Ambiguous ones (YAML, TOML) are only trusted by file extension.

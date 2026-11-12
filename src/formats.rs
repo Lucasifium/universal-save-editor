@@ -72,6 +72,7 @@ pub enum Layer {
     Deflate,
     Zstd,
     Lz4,
+    Snappy,
     Xz,
     Bzip2,
     /// Plain standard base64 text.
@@ -252,6 +253,7 @@ impl Layer {
             Layer::Deflate => "deflate".into(),
             Layer::Zstd => "zstd".into(),
             Layer::Lz4 => "LZ4".into(),
+            Layer::Snappy => "Snappy".into(),
             Layer::Xz => "xz".into(),
             Layer::Bzip2 => "bzip2".into(),
             Layer::Base64 => "Base64".into(),
@@ -718,6 +720,7 @@ fn wrap(layer: &Layer, data: Vec<u8>) -> Result<Vec<u8>, String> {
         Layer::Deflate => compress(flate2::write::DeflateEncoder::new(Vec::new(), Compression::default()), &data)?.finish().map_err(io)?,
         Layer::Zstd => zstd::encode_all(&data[..], 3).map_err(io)?,
         Layer::Lz4 => compress(lz4_flex::frame::FrameEncoder::new(Vec::new()), &data)?.finish().map_err(|e| e.to_string())?,
+        Layer::Snappy => compress(snap::write::FrameEncoder::new(Vec::new()), &data)?.into_inner().map_err(|e| e.to_string())?,
         Layer::Xz => {
             let mut out = Vec::new();
             lzma_rs::xz_compress(&mut &data[..], &mut out).map_err(io)?;
@@ -1271,6 +1274,12 @@ fn peel(data: &[u8], ctx: &mut Ctx) -> Option<(Layer, Vec<u8>)> {
     if data.starts_with(&[0x28, 0xB5, 0x2F, 0xFD]) {
         if let Ok(v) = zstd::decode_all(data) {
             return Some((Layer::Zstd, v));
+        }
+    }
+    if data.starts_with(b"\xff\x06\x00\x00sNaPpY") {
+        let mut v = Vec::new();
+        if snap::read::FrameDecoder::new(data).read_to_end(&mut v).is_ok() {
+            return Some((Layer::Snappy, v));
         }
     }
     if data.starts_with(&[0x04, 0x22, 0x4D, 0x18]) {
@@ -2633,6 +2642,7 @@ mod tests {
         for layers in [
             vec![Layer::Zstd],
             vec![Layer::Lz4],
+            vec![Layer::Snappy],
             vec![Layer::Xz],
             vec![Layer::Bzip2],
             vec![Layer::Utf16 { big_endian: false }],
