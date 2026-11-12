@@ -437,7 +437,7 @@ fn build_site() {
         let _ = write!(
             body,
             r#"<h1>{h} save editor</h1>
-<p class="lead">Edit your {n} save on your own PC with Universal Save Editor, a free, offline save editor for {many}+ ({total}) games. Nothing is uploaded and there are no limits.</p>
+<p class="lead">Edit your {n} save on your own PC with Universal Save Editor, a free, offline save editor and manager for {many}+ ({total}) games. Back up, restore and start new runs from the same window. Nothing is uploaded and there are no limits.</p>
 <div class="badges"><span class="badge free">Free forever</span><span class="badge">Offline</span><span class="badge">Open source</span><span class="badge">{lvl}</span></div>
 <a class="btn" href="{DOWNLOAD}">Download for free</a><a class="btn alt" href="../{WEB_APP}">Use it in your browser</a>
 <h2>What you can edit</h2>
@@ -476,10 +476,10 @@ fn build_site() {
     }
 
     let full = GAMES.iter().filter(|g| has_screen(g)).count();
-    let desc = format!("Universal Save Editor is a free, offline save editor for {}+ ({}) PC games, including Elden Ring, Skyrim, Stardew Valley, Cyberpunk 2077 and Dark Souls III. Nothing is uploaded.", GAMES.len() / 10 * 10, GAMES.len());
+    let desc = format!("Universal Save Editor is a free, offline save editor and manager for {}+ ({}) PC games, including Elden Ring, Skyrim, Stardew Valley and Cyberpunk 2077. Nothing is uploaded.", GAMES.len() / 10 * 10, GAMES.len());
     let body = format!(
-        r#"<h1>Universal Save Editor: a free save editor for {n} games</h1>
-<p class="lead">Universal Save Editor edits your saves on your own computer: no uploads, no accounts, no rate limits. It's free, and always will be.</p>
+        r#"<h1>Universal Save Editor: a free save editor and manager for {n} games</h1>
+<p class="lead">Universal Save Editor edits and manages your saves on your own computer (backups, named save slots, restore, and back up and start a new game): no uploads, no accounts, no rate limits. It's free, and always will be.</p>
 <div class="badges"><span class="badge free">Free forever</span><span class="badge">Offline</span><span class="badge">Open source</span><span class="badge">Windows · Linux · Browser</span></div>
 <a class="btn" href="{DOWNLOAD}">Download for free</a><a class="btn alt" href="{WEB_APP}">Use it in your browser</a>
 <div class="card"><strong>Don't want to run a program?</strong> <a href="{WEB_APP}">The browser version</a> is the same editor, running inside the web page on your own computer: your save is never uploaded. It can't search your folders for saves or back them up for you, so open the file yourself and keep a copy; saving downloads the edited file. A few saves need the downloaded app (SQLite saves, and Palworld or Hogwarts Legacy saves).</div>
@@ -496,7 +496,7 @@ fn build_site() {
 "#,
         n = GAMES.len(),
     );
-    std::fs::write(out.join("index.html"), page(&format!("Universal Save Editor - Free Offline Save Editor for {}+ ({}) Games", GAMES.len() / 10 * 10, GAMES.len()), &desc, "", &body, &website_schema(&schema("Universal Save Editor", &desc, &format!("{SITE}/")), None))).unwrap();
+    std::fs::write(out.join("index.html"), page(&format!("Universal Save Editor - Free Offline Save Editor and Manager for {}+ ({}) Games", GAMES.len() / 10 * 10, GAMES.len()), &desc, "", &body, &website_schema(&schema("Universal Save Editor", &desc, &format!("{SITE}/")), None))).unwrap();
 
     let mut sm = String::from("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n");
     for u in &urls {
@@ -505,7 +505,7 @@ fn build_site() {
     sm.push_str("</urlset>\n");
     std::fs::write(out.join("sitemap.xml"), sm).unwrap();
     // GitHub Pages serves this for unknown addresses; keep it out of the index.
-    let nf = page("Page not found | Universal Save Editor", "That page doesn't exist. Find your game on the Universal Save Editor home page.", "", "<h1>Page not found</h1>\n<p class=\"lead\">That address doesn't exist. Every supported game is listed on the <a href=\"/universal-save-editor/#games\">home page</a>.</p>", &schema("Universal Save Editor", "Free, offline save editor for PC games.", &format!("{SITE}/")))
+    let nf = page("Page not found | Universal Save Editor", "That page doesn't exist. Find your game on the Universal Save Editor home page.", "", "<h1>Page not found</h1>\n<p class=\"lead\">That address doesn't exist. Every supported game is listed on the <a href=\"/universal-save-editor/#games\">home page</a>.</p>", &schema("Universal Save Editor", "Free, offline save editor and manager for PC games.", &format!("{SITE}/")))
         .replace("<meta charset=\"utf-8\">", "<meta charset=\"utf-8\">\n<meta name=\"robots\" content=\"noindex\">")
         .replace("href=\"./style.css\"", "href=\"/universal-save-editor/style.css\"")
         .replace("href=\"./#games\"", "href=\"/universal-save-editor/#games\"")
