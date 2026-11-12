@@ -10496,3 +10496,5 @@ ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ```
+| [Kerbal Space Program save format (the `persistent.sfs` node layout and scenario names; career saves from the krpc and RemoteTech repositories used for checks only, not included)](https://wiki.kerbalspaceprogram.com/wiki/Save_file_format) | community documentation, krpc (LGPL-3.0), RemoteTech (MIT) | facts only, no code used |
+| [Space-Haven-SaveGameEditor (Space Haven attribute and skill ids and the save's field names; sample save from Space-Haven-Save-Game-Editor used for checks only, not included)](https://github.com/Gianotto/Space-Haven-SaveGameEditor) | Victor Gianotto, Moragar360 | MIT |
