@@ -3,6 +3,7 @@
 pub mod bethesda;
 pub mod borderlands;
 pub mod borderlands3;
+pub mod sii;
 pub mod bsonf;
 pub mod civ6;
 pub mod containers;
@@ -631,6 +632,11 @@ pub fn parse_text(text: &str, ext: &str) -> Option<TreeDoc> {
     }
     if let Some(doc) = es3::parse(text) {
         return Some(doc);
+    }
+    if sii::looks(text) {
+        if let Ok(doc) = sii::parse(text) {
+            return Some(doc);
+        }
     }
     let t = text.trim_start();
     if prison::looks(text) {
