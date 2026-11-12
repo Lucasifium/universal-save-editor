@@ -73,6 +73,8 @@ pub enum Layer {
     Zstd,
     Lz4,
     Snappy,
+    /// Stellar Blade's EVAS v1: an 8-byte prefix, the GVAS save, then a CRC-32 of the save.
+    Evas,
     Xz,
     Bzip2,
     /// Plain standard base64 text.
@@ -254,6 +256,7 @@ impl Layer {
             Layer::Zstd => "zstd".into(),
             Layer::Lz4 => "LZ4".into(),
             Layer::Snappy => "Snappy".into(),
+            Layer::Evas => "EVAS envelope (CRC-32 written again)".into(),
             Layer::Xz => "xz".into(),
             Layer::Bzip2 => "bzip2".into(),
             Layer::Base64 => "Base64".into(),
@@ -720,6 +723,14 @@ fn wrap(layer: &Layer, data: Vec<u8>) -> Result<Vec<u8>, String> {
         Layer::Deflate => compress(flate2::write::DeflateEncoder::new(Vec::new(), Compression::default()), &data)?.finish().map_err(io)?,
         Layer::Zstd => zstd::encode_all(&data[..], 3).map_err(io)?,
         Layer::Lz4 => compress(lz4_flex::frame::FrameEncoder::new(Vec::new()), &data)?.finish().map_err(|e| e.to_string())?,
+        Layer::Evas => {
+            let mut h = flate2::Crc::new();
+            h.update(&data);
+            let mut out = b"EVAS\x01\x00\x00\x00".to_vec();
+            out.extend_from_slice(&data);
+            out.extend_from_slice(&h.sum().to_le_bytes());
+            out
+        }
         Layer::Snappy => compress(snap::write::FrameEncoder::new(Vec::new()), &data)?.into_inner().map_err(|e| e.to_string())?,
         Layer::Xz => {
             let mut out = Vec::new();
@@ -1009,6 +1020,15 @@ fn wrap(layer: &Layer, data: Vec<u8>) -> Result<Vec<u8>, String> {
 }
 
 fn peel(data: &[u8], ctx: &mut Ctx) -> Option<(Layer, Vec<u8>)> {
+    // EVAS v1 (Stellar Blade): only when the stored CRC-32 matches.
+    if data.len() >= 16 && data.starts_with(b"EVAS\x01\x00\x00\x00GVAS") {
+        let body = &data[8..data.len() - 4];
+        let mut h = flate2::Crc::new();
+        h.update(body);
+        if h.sum().to_le_bytes() == data[data.len() - 4..] {
+            return Some((Layer::Evas, body.to_vec()));
+        }
+    }
     if data.starts_with(b"SAV") {
         if let Some(found) = peel_pdx_sav(data) {
             return Some(found);
@@ -2634,6 +2654,21 @@ mod tests {
         let d = decode_with(&jkr, &opts);
         assert_eq!(d.layers, vec![Layer::Deflate]);
         assert!(matches!(&d.content, Content::Tree(t) if t.view["dollars"] == 4));
+    }
+
+    #[test]
+    fn evas_envelope_round_trip() {
+        let body = b"GVAS\x03\x00\x00\x00 rest of the save".to_vec();
+        let raw = wrap(&Layer::Evas, body.clone()).unwrap();
+        assert_eq!(&raw[..8], b"EVAS\x01\x00\x00\x00");
+        let opts = Options::default();
+        let mut ctx = Ctx { opts: &opts, zip_entries: vec![], hint: None };
+        let (layer, inner) = peel(&raw, &mut ctx).unwrap();
+        assert_eq!(layer, Layer::Evas);
+        assert_eq!(inner, body);
+        let mut bad = raw.clone();
+        bad[12] ^= 1;
+        assert!(!matches!(peel(&bad, &mut ctx), Some((Layer::Evas, _))));
     }
 
     #[test]
