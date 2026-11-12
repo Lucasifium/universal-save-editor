@@ -118,6 +118,15 @@ Universal Save Editor is free. It builds on other people's work, listed here wit
 | [game-tools-collection (Octopath Traveler II character and job ids; Golden Sun Djinn counts and file-select totals; Final Fantasy X ability, overdrive, item, key item and Monster Arena layout and names)](https://github.com/RyudoSynbios/game-tools-collection) | RyudoSynbios | MIT |
 | [octopath-save-editor (Octopath Traveler save paths and property names)](https://github.com/AppleBoiy/octopath-save-editor) | AppleBoiy | facts only (file layouts, ids and names), credited |
 | [Darkest Dungeon 2 save editor (save files and value names)](https://github.com/Hyena68/Darkest-Dungeon-SAVE-EDITOR) | Hyena68 | facts only (file layouts, ids and names), credited |
+| [final_fantasy_pixel_remaster_save_decrypter (Pixel Remaster key derivation, cipher parameters and file layering, ported)](https://github.com/ReverseTelnet/final_fantasy_pixel_remaster_save_decrypter) | ReverseTelnet | GPL-3.0 |
+| [ffpr-save-cypher (Pixel Remaster 256-bit-block Rijndael padding and layout; facts, no code)](https://github.com/KiameV/ffpr-save-cypher) and [final-fantasy-pr-save-editor (save field names)](https://github.com/KiameV/final-fantasy-pr-save-editor) | KiameV | MIT |
+| [MCDSaveEdit and DungeonTools (Minecraft Dungeons save key, header and JSON field names; facts only)](https://github.com/CutFlame/MCDSaveEdit) | CutFlame | MIT (MCDSaveEdit); AGPL-3.0 (DungeonTools), facts only |
+| [stoneshard-save-editor (Stoneshard save layout, MD5 salt and character fields; facts only)](https://github.com/denbkh/stoneshard-save-editor) | denbkh | Apache-2.0 |
+| [astroneer-save (Astroneer container: magic, sizes and the 4 KiB zlib window; facts, no code)](https://github.com/NotFabii/astroneer-save-editor) | NotFabii | MIT |
+| [satisfactory-file-parser (Satisfactory save chunk layout; facts, no code)](https://github.com/etothepii4/satisfactory-file-parser) | etothepii4 | MIT |
+| [civ7-save-editor (Civilization VII container, markers and 24-bit values; facts, no code)](https://github.com/iqqmuT/civ7-save-editor) and [civ7-save-parser (sample saves used for checking, not included)](https://github.com/pydt/civ7-save-parser) | Tuomas Jaakola; Mike Rosack and playyourdamnturn.com | MIT |
+| [CraftopiaSavefileEditor (.ocs is gzip over JSON; facts only)](https://github.com/rinjugatla/CraftopiaSavefileEditor) | rinjugatla | MIT |
+| [The Long Dark Save Editor (save layering: LZF, base64 and JSON in strings; facts, no code)](https://github.com/FINDarkside/TLD-Save-Editor) | FINDarkside | MIT |
 | [wasteland-3-savegame-decoder (Wasteland 3 save header and LZF body; facts, no code)](https://github.com/nharrer/wasteland-3-savegame-decoder) | nharrer | MIT |
 | [wl3 (Wasteland 3 save re-packing: header sizes; facts, no code)](https://github.com/xeus2001/wl3) | xeus2001 | MIT |
 | [w3se (Wasteland 3 save paths for money, attributes and items)](https://github.com/stolinator/w3se) | stolinator | facts only (file layouts, ids and names), credited |

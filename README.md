@@ -146,7 +146,11 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 | Dying Light 2 / The Beast | *Survivor*: money, health, the Traversal / Combat / Inhibitor levels and points, every skill's level (Techland's self-describing save format; every saved number is in *Values*) |
 | Dying Light | *Survivor*: the skill tree levels (every copy the save keeps) |
 | Kenshi | *Faction*: the player's cats |
+| Kerbal Space Program | *Space program*: career funds, science and reputation, from the save's ConfigNode text (only the values you change are rewritten; every other value, vessel and Kerbal is in the Tree). Checked on public sample saves, not yet tried in the game |
 | Palworld | *Player*: technology points, ancient technology points, Lifmunk effigies and the record counters |
+| Final Fantasy Pixel Remaster (I–VI, PC) | *Party*: one save slot, decrypted (PBKDF2 key, Rijndael with a 256-bit block, deflate) with the character and inventory data that the game keeps as text inside it opened too, and encrypted again on save; gil, total gil, steps, battle and chest counters, every character's experience, HP / MP and bonus stats, and the item and key-item counts. Checked on public sample saves of FF I–IV against the reference tool's own decryption; not yet tried in the game |
+| Minecraft Dungeons | *Hero*: the character `.dat` is decrypted (AES, the key as published by MCDSaveEdit) and encrypted again on save; experience, total gear power and the emerald, gold and Eye of Ender counts, with items and enchantments in the Tree. The decryption was checked on a public sample save; not yet tried in the game |
+| Stoneshard | *Character*: level, experience, ability points, unspent attribute points and the six attributes of a character's `data.sav`, which is unpacked (zlib) and packed again with its MD5 (the salt comes from the save's folder names, so open it from its own folder). Built from the published layout; not yet tried on a real save |
 | Final Fantasy IX (Steam) | *Party*: every saved game in `SavedData_ww.dat` (decrypted and encrypted again): gil, and each character's level, experience, HP / MP and base stats |
 | Death Stranding 2: On the Beach | *Facilities*: the material stocks (chiral crystals, resins, metals, ceramics, chemicals, special alloys) at every facility you've found, with its connection level, and a **Max crafting materials** button that fills them to 9999 (an estimate); likes from NPCs and other porters and likes given; day, time of day and play time. Unpacked (XOR, LZ4) and packed again with the save's MD5 on save; pieces that didn't change keep their bytes. Not yet tried in the game |
 | Final Fantasy XV (Windows Edition) | *Party*: gil, ability points and medals; every character's level, HP / MP and stats, the experience waiting to be banked at the next rest, total experience and kills; item amounts in every bag (by the game's item number), with a **Max crafting materials** button that fills every treasure to 99. Decrypted (AES-192, shuffled blocks) and encrypted again on save. Not yet tried in the game |
@@ -317,6 +321,17 @@ keep the backup.
 and CloverPit (XOR) open already decrypted, show every value by name, and are encrypted again on save.
 A key is only used when it gives back JSON. Bounty of One was checked on a public sample save; the
 others follow the published keys and are not yet tried on real saves.
+
+**The Long Dark**: the slot file is LZF-packed JSON that holds more LZF/base64 entries (`boot`,
+`global`) and JSON inside strings. All of it opens as one tree, and every level is packed again on
+save. Built from the published layout and not yet tried on a real save.
+
+**Compressed containers opened for Value search**: Astroneer (`.savegame`, written back as zlib with the
+4 KiB window header the game wants), Satisfactory (`.sav`, 128 KiB zlib chunks, header kept) and
+Civilization VII (`.Civ7Save`, chunked zlib between a header and a footer; each player's gold and influence
+are on the Tree where the save keeps them in the known place). Craftopia's `.ocs` is gzip over JSON and opens
+by name. The Satisfactory and Civilization VII containers were checked on public sample saves (unpack, repack and
+read back); none has been tried in its game yet.
 
 **FANTASIAN Neo Dimension**: `root.json` holds every save slot, each encrypted on its own. One slot
 opens at a time (Tools › Open another file in this archive lists the rest), decrypted and shown as one

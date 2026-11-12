@@ -19,7 +19,16 @@ use std::sync::Arc;
 
 /// Unpacks a raw LibLZF stream; `size` is the expected unpacked size.
 pub fn lzf_decompress(src: &[u8], size: usize) -> Result<Vec<u8>, String> {
-    let mut out: Vec<u8> = Vec::with_capacity(size);
+    let out = lzf_inflate(src, size)?;
+    if out.len() != size {
+        return Err(format!("LZF data unpacks to {} bytes, the header says {size}", out.len()));
+    }
+    Ok(out)
+}
+
+/// Unpacks a raw LibLZF stream of unknown size, up to `limit` bytes.
+pub fn lzf_inflate(src: &[u8], size: usize) -> Result<Vec<u8>, String> {
+    let mut out: Vec<u8> = Vec::with_capacity(size.min(1 << 24));
     let mut i = 0;
     while i < src.len() {
         let ctrl = src[i] as usize;
@@ -51,9 +60,6 @@ pub fn lzf_decompress(src: &[u8], size: usize) -> Result<Vec<u8>, String> {
         if out.len() > size {
             return Err("LZF data unpacks to more than the header says".into());
         }
-    }
-    if out.len() != size {
-        return Err(format!("LZF data unpacks to {} bytes, the header says {size}", out.len()));
     }
     Ok(out)
 }
