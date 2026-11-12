@@ -10503,3 +10503,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 | [Kerbal Space Program save format (the `persistent.sfs` node layout and scenario names; career saves from the krpc and RemoteTech repositories used for checks only, not included)](https://wiki.kerbalspaceprogram.com/wiki/Save_file_format) | community documentation, krpc (LGPL-3.0), RemoteTech (MIT) | facts only, no code used |
 | [Space-Haven-SaveGameEditor (Space Haven attribute and skill ids and the save's field names; sample save from Space-Haven-Save-Game-Editor used for checks only, not included)](https://github.com/Gianotto/Space-Haven-SaveGameEditor) | Victor Gianotto, Moragar360 | MIT |
 | SnowRunner save layout (field names; real saves from public repositories used for checks only, not included) | sabrecat42/my-dotfiles, hypercyclist/snowrunner_save_editor | facts only (no code used) |
+
+## Metal Gear Solid V save variable names
+
+`src/fmt/mgsv_vars.txt` is a list of the names of MGSV save variables (the game's own Lua variable names), used to name hashed fields. The file encryption, container layout and the name hash (CityHash64-based StrCode32) were worked out independently from the game's saves and public format descriptions.
