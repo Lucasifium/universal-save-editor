@@ -3,7 +3,7 @@
 
 use super::{List, Max, Section, Shape, Spec, Table};
 
-pub static SPECS: &[Spec] = &[COTL, FALLOUT_SHELTER, DRG, S1_MONEY, S1_RANK, S1_TIME, S1_GAME, SOTF_STATE, SOTF_GAME, SOTF_WEATHER, SOTF_ITEMS, DMD, CUPHEAD, ANTIMATTER, PVZ, CELESTE, DRGS, KH3, RF4S, SKY1ST, KSP, FFPR, MCD, STONESHARD, ROGUE_TRADER, BIOSHOCK_INFINITE, SPACE_HAVEN, SNOWRUNNER, GRAVEYARD_KEEPER, NFSMW, TOS, GTA3, GTAVC, BITBURNER, TERRA_INVICTA, PRISON, FF13, SONIC_MANIA, CAVE_STORY_PLUS, CAVE_STORY, LIES_OF_P, TXR, DAVE, MSC, ULTRAKILL, RPGXP, RE5, ANNO1800, FTK, LEGO_TSS, LEGO_CLASSIC, MYZ, CMS21, MEDIEVAL_DYNASTY, MECHANICUS, ORI, OMORI, ENDER_LILIES, SW2, ES2, MOONLIGHTER, WASTELAND2, ATOM, MORTAL_SHELL, MORTAL_SHELL_2, COTW, BEAMNG, FOREST, YAKUZA3, YAKUZA4, YAKUZA5, ISHIN, SALT, DRAKENSANG, ALPHA, TYRANNY, JEDI_FO, SR3, WD2];
+pub static SPECS: &[Spec] = &[COTL, FALLOUT_SHELTER, DRG, S1_MONEY, S1_RANK, S1_TIME, S1_GAME, SOTF_STATE, SOTF_GAME, SOTF_WEATHER, SOTF_ITEMS, DMD, CUPHEAD, ANTIMATTER, PVZ, CELESTE, DRGS, KH3, RF4S, SKY1ST, KSP, FFPR, MCD, STONESHARD, ROGUE_TRADER, BIOSHOCK_INFINITE, SPACE_HAVEN, SNOWRUNNER, GRAVEYARD_KEEPER, NFSMW, TOS, GTA3, GTAVC, BITBURNER, TERRA_INVICTA, PRISON, FF13, SONIC_MANIA, CAVE_STORY_PLUS, CAVE_STORY, LIES_OF_P, TXR, DAVE, MSC, ULTRAKILL, RPGXP, RE5, ANNO1800, FTK, LEGO_TSS, LEGO_CLASSIC, MYZ, CMS21, MEDIEVAL_DYNASTY, MECHANICUS, ORI, OMORI, ENDER_LILIES, SW2, ES2, MOONLIGHTER, WASTELAND2, ATOM, MORTAL_SHELL, MORTAL_SHELL_2, COTW, BEAMNG, FOREST, YAKUZA3, YAKUZA4, YAKUZA5, ISHIN, SALT, DRAKENSANG, ALPHA, TYRANNY, JEDI_FO, SR3, WD2, SUBNAUTICA2];
 
 // ------------------------------------------------------------------ Cult of the Lamb
 
@@ -2757,5 +2757,31 @@ const WD2: Spec = Spec {
         Section { title: "Totals", rows: &[("Money earned in total", "/Totals/Money earned in total"), ("Followers gained in total", "/Totals/Followers gained in total")] },
     ],
     lists: &[],
+    tables: &[],
+};
+
+// ------------------------------------------------------------------ Subnautica 2
+
+const SUBNAUTICA2: Spec = Spec {
+    name: "Subnautica 2",
+    tab: "Survival",
+    accent: (46, 196, 214),
+    kind: Some("Subnautica 2 save"),
+    markers: &["/Save"],
+    subtitle: "savegame_<n>.sav in %LOCALAPPDATA%\\Subnautica2\\Saved\\SaveGames. Edits the current save; the previous-checkpoint copy is left alone. Needs the Oodle library of any game on this PC. Resources don't stack in this game, so there is no max-materials button.",
+    tiles: &[("Health", "/Survival/Health"), ("Oxygen", "/Survival/Oxygen"), ("Food", "/Survival/Food"), ("Water", "/Survival/Water")],
+    sections: &[Section {
+        title: "Survival",
+        rows: &[
+            ("Health", "/Survival/Health"), ("Health (maximum)", "/Survival/Health (maximum)"),
+            ("Oxygen", "/Survival/Oxygen"), ("Oxygen (maximum)", "/Survival/Oxygen (maximum)"),
+            ("Food", "/Survival/Food"), ("Food (maximum)", "/Survival/Food (maximum)"),
+            ("Water", "/Survival/Water"), ("Water (maximum)", "/Survival/Water (maximum)"),
+        ],
+    }],
+    lists: &[
+        List { title: "Player inventory", path: "/Player", shape: Shape::Map, names: &[], max: None },
+        List { title: "Lockers, vehicles and other storage", path: "/Storage", shape: Shape::Map, names: &[], max: None },
+    ],
     tables: &[],
 };

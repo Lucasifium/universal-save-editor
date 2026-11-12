@@ -126,6 +126,7 @@ pub mod fallout12;
 pub mod fos;
 pub mod deusex;
 pub mod xcom2;
+pub mod sn2;
 pub mod xcom_eu;
 pub mod ff7;
 pub mod ff7r;
@@ -586,6 +587,11 @@ pub fn parse_binary(d: &[u8]) -> Option<TreeDoc> {
     }
     if civ6::looks(d) {
         if let Ok(t) = civ6::parse(d) {
+            return Some(t);
+        }
+    }
+    if sn2::looks(d) {
+        if let Ok(t) = sn2::parse(d) {
             return Some(t);
         }
     }
