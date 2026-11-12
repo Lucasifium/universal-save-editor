@@ -282,6 +282,51 @@ struct Leaf {
     at: usize,
     bit: u8,
     ty: Ty,
+    /// A bit field inside the stored number (0 bits: the whole number).
+    shift: u8,
+    bits: u8,
+    /// Named values for the field: 1 rank, 2 section, 3 skill.
+    list: u8,
+}
+
+const RANKS: [&str; 10] = ["E", "D", "C", "B", "A", "A+", "A++", "S", "S+", "S++"];
+const SECTIONS: [&str; 13] = ["Unassigned", "Combat", "R&D", "Base Development", "Support", "Intel", "Medical", "Security", "Sickbay", "Brig", "Quarantine", "Waiting room 1", "Waiting room 2"];
+const SKILLS: &[(usize, &str)] = &[
+    (1, "Reflex"), (2, "Ninja"), (3, "Athlete"), (4, "Locksmith"), (5, "Fulton expert"), (6, "Quick reload"), (7, "Study"), (8, "Lucky"), (9, "Grappler"), (10, "Big mouth"),
+    (11, "Botanist"), (12, "Quick draw"), (13, "Scout sniper"), (14, "Physical Lv1"), (15, "Physical Lv2"), (16, "Physical Lv3"), (17, "Precision Lv1"), (18, "Precision Lv2"),
+    (19, "Precision Lv3"), (20, "Medical Lv1"), (21, "Medical Lv2"), (22, "Medical Lv3"), (23, "Gunsmith: handgun"), (24, "Gunsmith: submachine gun"), (25, "Gunsmith: assault rifle"),
+    (26, "Gunsmith: shotgun"), (27, "Gunsmith: grenade launcher"), (28, "Gunsmith: sniper rifle"), (29, "Gunsmith: machine gun"), (30, "Gunsmith: missile"), (31, "Master gunsmith"),
+    (32, "Tranquilizer engineer"), (33, "Suppressor engineer"), (34, "Homing missile engineer"), (35, "Zoologist"), (36, "Sleeping gas engineer"), (37, "Electric engineer"),
+    (38, "Electromagnetic net engineer"), (39, "Waterproof engineer"), (40, "Radar engineer"), (41, "Metamaterial engineer"), (42, "Drug engineer"), (43, "Mechanical engineer"),
+    (44, "Mechatronics engineer"), (45, "Cybernetics engineer"), (46, "Rocket control engineer"), (47, "Electric spinning engineer"), (48, "Material engineer"), (49, "Haulage engineer"),
+    (50, "Remote control engineer"), (51, "Monitor engineer"), (52, "Active protect engineer"), (53, "Attitude control engineer"), (54, "Bipedalism weapon development"),
+    (55, "Russian translator"), (56, "Afrikaans translator"), (57, "Kikongo translator"), (58, "Pashto translator"), (59, "Surgeon"), (60, "Physician"), (61, "Counselor"),
+    (62, "Parasite researcher"), (63, "Troublemaker: violence"), (64, "Troublemaker: intemperance"), (65, "Troublemaker: harassment"), (66, "Moodmaker"), (67, "Tactics instructor"),
+    (68, "Mother Base vice commander"), (69, "Defender Lv1"), (70, "Defender Lv2"), (71, "Defender Lv3"), (72, "Sentry Lv1"), (73, "Sentry Lv2"), (74, "Sentry Lv3"),
+    (75, "Ranger Lv1"), (76, "Ranger Lv2"), (77, "Ranger Lv3"), (78, "Medic Lv1"), (79, "Medic Lv2"), (80, "Medic Lv3"), (81, "Liquid carbon missile engineer Lv1"),
+    (82, "Liquid carbon missile engineer Lv2"), (83, "Liquid carbon missile engineer Lv3"), (84, "Interceptor missile engineer Lv1"), (85, "Interceptor missile engineer Lv2"),
+    (86, "Interceptor missile engineer Lv3"),
+];
+
+fn names_of(list: u8) -> Vec<String> {
+    match list {
+        1 => RANKS.iter().map(|s| s.to_string()).collect(),
+        2 => SECTIONS.iter().map(|s| s.to_string()).collect(),
+        _ => (0..128).map(|i| SKILLS.iter().find(|(n, _)| *n == i).map_or_else(|| if i == 0 { "None".to_string() } else { format!("Skill {i}") }, |(_, n)| n.to_string())).collect(),
+    }
+}
+
+/// The number a field holds, shown as its name when it has one.
+fn field_value(l: &Leaf, raw: u64) -> Value {
+    let v = if l.bits > 0 { (raw >> l.shift) & ((1u64 << l.bits) - 1) } else { raw };
+    if l.list > 0 {
+        let names = names_of(l.list);
+        return Value::String(names.get(v as usize).cloned().unwrap_or_else(|| format!("Unknown {v}")));
+    }
+    if l.bits == 1 {
+        return (v == 1).into();
+    }
+    v.into()
 }
 
 fn u32_at(d: &[u8], p: usize) -> Option<usize> {
@@ -319,6 +364,7 @@ pub fn parse(p: &[u8]) -> Result<TreeDoc, String> {
     let mut editable = HashMap::new();
     let mut leaves: Vec<Leaf> = vec![];
     let mut seen_player: Vec<&str> = vec![];
+    let mut arrays: HashMap<String, (Vec<u64>, Vec<Leaf>)> = HashMap::new();
     let mut extra: std::collections::BTreeMap<&'static str, Map<String, Value>> = Default::default();
     for (bi, base) in blocks(p).ok_or_else(bad)?.into_iter().enumerate() {
         let nsec = *p.get(base + 3).ok_or_else(bad)? as usize;
@@ -361,7 +407,7 @@ pub fn parse(p: &[u8]) -> Result<TreeDoc, String> {
                         Ty::U16 => u16::from_le_bytes(bytes.try_into().unwrap()).into(),
                     };
                     items.push(v);
-                    item_leaves.push(Leaf { at, bit, ty });
+                    item_leaves.push(Leaf { at, bit, ty, shift: 0, bits: 0, list: 0 });
                 }
                 if let Some((n, label)) = named.get(&hash) {
                     if count == 1 && !seen_player.contains(n) {
@@ -383,6 +429,9 @@ pub fn parse(p: &[u8]) -> Result<TreeDoc, String> {
                         }
                     }
                 }
+                if matches!(key_name.as_str(), "mbmStaffSvarsHeaders" | "mbmStaffSvarsStatusesSync" | "mbmStaffSvarsStatusesNoSync" | "mbmResourceSvars1Fix" | "mbmResourceSvars2Fix") && !arrays.contains_key(&key_name) {
+                    arrays.insert(key_name.clone(), (items.iter().map(|v| v.as_u64().unwrap_or(0)).collect::<Vec<_>>(), item_leaves.clone()));
+                }
                 let key = crate::tree::unique_key(&group, &key_name);
                 if count == 1 {
                     editable.insert(format!("/Variables/{}/{}", crate::tree::esc(&format!("Block {bi}, section {id}")), crate::tree::esc(&key)), leaves.len());
@@ -402,6 +451,7 @@ pub fn parse(p: &[u8]) -> Result<TreeDoc, String> {
     if !player.is_empty() {
         view.insert("Player".into(), Value::Object(player));
     }
+    add_staff_and_resources(&arrays, &mut view, &mut editable, &mut leaves);
     for g in ["Mother Base", "Statistics"] {
         if let Some(m) = extra.remove(g) {
             view.insert(g.into(), Value::Object(m));
@@ -413,6 +463,72 @@ pub fn parse(p: &[u8]) -> Result<TreeDoc, String> {
         "Variables are named by the hash of their Lua name; the few the Player screen uses are named. \
          The save's MD5 and encryption are redone on save. Turn off Steam Cloud first, and edit the file the game reads (in 311340\\remote for the PC version), not only the backup copy.",
     ))
+}
+
+const RESOURCES: [&str; 39] = [
+    "Fuel", "Biological", "Common metal", "Minor metal", "Precious metal", "Wormwood", "Black carrot", "Golden crescent", "Tarragon", "African peach", "Digitalis (purple)",
+    "Digitalis (luteum)", "Haoma", "4WD (east)", "4WD (west)", "Truck (east)", "Truck (west)", "Armored vehicle (east)", "Armored vehicle (west)", "Armored vehicle (east, rocket)",
+    "Wheeled armored vehicle (west)", "Tank (east)", "Tank (west)", "Walker Gear (Proto Heuy)", "Walker Gear (Soviet battle)", "Walker Gear (Soviet support)", "Walker Gear (CFA battle)",
+    "Walker Gear (CFA support)", "Nuclear weapons", "Nuclear waste", "Parasite: fog", "Parasite: camouflage", "Parasite: curing", "Parasite: reserve", "Emplacement gun (east)",
+    "Emplacement gun (west)", "Mortar", "Anti-air gatling gun (east)", "Anti-air gatling gun (west)",
+];
+
+/// Staff and Mother Base resources, decoded from the packed variables (bit layouts after the
+/// GPL-3.0 tpp-mod's structure definitions).
+fn add_staff_and_resources(arrays: &HashMap<String, (Vec<u64>, Vec<Leaf>)>, view: &mut Map<String, Value>, editable: &mut HashMap<String, usize>, leaves: &mut Vec<Leaf>) {
+    let field = |l: &Leaf, shift: u8, bits: u8, list: u8| Leaf { shift, bits, list, ..l.clone() };
+    if let (Some((h, hl)), Some((st, sl))) = (arrays.get("mbmStaffSvarsHeaders"), arrays.get("mbmStaffSvarsStatusesSync")) {
+        let ns = arrays.get("mbmStaffSvarsStatusesNoSync");
+        let mut staff = Map::new();
+        for i in 0..h.len().min(st.len()) {
+            if h[i] == 0 && st[i] == 0 {
+                continue;
+            }
+            let mut m = Map::new();
+            let mut add = |name: &str, raw: u64, l: Leaf| {
+                m.insert(name.into(), field_value(&l, raw));
+                editable.insert(format!("/Staff/{}/{}", crate::tree::esc(&format!("Staff {:04}", i + 1)), crate::tree::esc(name)), leaves.len());
+                leaves.push(l);
+            };
+            for (name, shift, bits, list) in [("Rank", 3, 4, 1), ("Skill", 13, 7, 3), ("Stat bonus", 1, 2, 0), ("Stat distribution", 7, 6, 0), ("Stats suppressed", 0, 1, 0), ("Face", 20, 10, 0)] {
+                add(name, h[i], field(&hl[i], shift, bits, list));
+            }
+            for (name, shift, bits, list) in [
+                ("Section", 27, 4, 2), ("Combat team", 0, 4, 0), ("Morale", 22, 4, 0), ("Proficiency", 8, 4, 0), ("Health level", 17, 3, 0), ("Symptomatic", 16, 1, 0),
+                ("DS medal", 12, 1, 0), ("DS cross", 13, 1, 0), ("Honor medal", 14, 1, 0),
+            ] {
+                add(name, st[i], field(&sl[i], shift, bits, list));
+            }
+            if let Some((n, nl)) = ns {
+                if i < n.len() {
+                    add("Locked", n[i], field(&nl[i], 0, 1, 0));
+                }
+            }
+            staff.insert(format!("Staff {:04}", i + 1), Value::Object(m));
+        }
+        if !staff.is_empty() {
+            view.insert("Staff".into(), Value::Object(staff));
+        }
+    }
+    if let (Some((u, ul)), Some((pr, pl))) = (arrays.get("mbmResourceSvars1Fix"), arrays.get("mbmResourceSvars2Fix")) {
+        let mut res = Map::new();
+        for (i, name) in RESOURCES.iter().enumerate() {
+            if i >= u.len() || i >= pr.len() {
+                break;
+            }
+            let mut m = Map::new();
+            for (label, raw, l) in [("Usable", u[i], field(&ul[i], 1, 20, 0)), ("Processing", pr[i], field(&pl[i], 3, 20, 0))] {
+                if label == "Processing" && i > 12 {
+                    continue;
+                }
+                m.insert(label.into(), field_value(&l, raw));
+                editable.insert(format!("/Resources/{}/{label}", crate::tree::esc(name)), leaves.len());
+                leaves.push(l);
+            }
+            res.insert((*name).into(), Value::Object(m));
+        }
+        view.insert("Resources".into(), Value::Object(res));
+    }
 }
 
 #[derive(Clone, Debug)]
@@ -427,7 +543,26 @@ impl Backend for MgsvBackend {
         for (id, v) in changes {
             let l = &self.leaves[*id];
             self.check(*id, v)?;
-            let n = v.as_f64().or_else(|| v.as_bool().map(|b| b as u8 as f64)).ok_or("expected a number")?;
+            let n = if l.list > 0 { 0.0 } else { v.as_f64().or_else(|| v.as_bool().map(|b| b as u8 as f64)).ok_or("expected a number")? };
+            if l.bits > 0 || l.list > 0 {
+                let new = if l.list > 0 {
+                    let name = v.as_str().ok_or("expected a name")?;
+                    names_of(l.list).iter().position(|x| x == name).ok_or("not a known value")? as u64
+                } else {
+                    n as u64
+                };
+                let w = l.ty.width();
+                let mut raw = 0u64;
+                for (k, b) in p[l.at..l.at + w].iter().enumerate() {
+                    raw |= (*b as u64) << (8 * k);
+                }
+                let mask = ((1u64 << l.bits) - 1) << l.shift;
+                raw = (raw & !mask) | ((new << l.shift) & mask);
+                for k in 0..w {
+                    p[l.at + k] = (raw >> (8 * k)) as u8;
+                }
+                continue;
+            }
             match l.ty {
                 Ty::Bool => {
                     let on = v.as_bool().unwrap_or(n != 0.0);
@@ -452,9 +587,14 @@ impl Backend for MgsvBackend {
     }
 
     fn check(&self, leaf: usize, v: &Value) -> Result<(), String> {
-        let ty = self.leaves[leaf].ty;
+        let l = &self.leaves[leaf];
+        if l.list > 0 {
+            let name = v.as_str().ok_or("pick a value from the list")?;
+            return if names_of(l.list).iter().any(|x| x == name) { Ok(()) } else { Err("not a known value".into()) };
+        }
+        let ty = l.ty;
         let n = v.as_f64().or_else(|| v.as_bool().map(|b| b as u8 as f64)).ok_or("expected a number")?;
-        let (lo, hi) = ty.range();
+        let (lo, hi) = if l.bits > 0 { (0.0, ((1u64 << l.bits) - 1) as f64) } else { ty.range() };
         if n < lo || n > hi {
             return Err(format!("must be between {lo} and {hi}"));
         }
@@ -462,6 +602,11 @@ impl Backend for MgsvBackend {
             return Err("expected a whole number".into());
         }
         Ok(())
+    }
+
+    fn choices(&self, leaf: usize, _view: &Value) -> Option<Arc<Vec<String>>> {
+        let l = self.leaves.get(leaf)?;
+        (l.list > 0).then(|| Arc::new(names_of(l.list)))
     }
 
     fn clone_box(&self) -> Box<dyn Backend> {
@@ -499,6 +644,13 @@ mod tests {
         assert_eq!(key, "TPP_GAME_DATA");
         let mut doc = parse(&p).unwrap();
         println!("{}", doc.view["Player"]);
+        let staff = doc.view["Staff"].as_object().unwrap();
+        println!("staff {}", staff.len());
+        let mut hist = std::collections::BTreeMap::new();
+        for v in staff.values() { *hist.entry(format!("{}/{}", v["Rank"], v["Section"])).or_insert(0) += 1; }
+        println!("{hist:?}");
+        println!("{}", staff.values().nth(5).unwrap());
+        println!("{}", doc.view["Resources"]);
         for (g, v) in doc.view["Variables"].as_object().unwrap() { println!("{g}: {} vars", v.as_object().unwrap().len()); }
         println!("{:?}", doc.view["Variables"].as_object().unwrap().values().flat_map(|v| v.as_object().unwrap().keys()).filter(|k| !k.chars().all(|c| c.is_ascii_hexdigit())).collect::<Vec<_>>());
         assert_eq!(doc.to_bytes().unwrap(), p);
@@ -506,6 +658,18 @@ mod tests {
         let out = doc.to_bytes().unwrap();
         let again = parse(&out).unwrap();
         assert_eq!(again.view.pointer("/Player/GMP"), Some(&123_456.into()));
+        doc.set("/Staff/Staff 0006/Rank", "E".into()).unwrap();
+        doc.set("/Staff/Staff 0006/Skill", "Ranger Lv3".into()).unwrap();
+        doc.set("/Resources/Fuel/Usable", 999_999.into()).unwrap();
+        doc.set("/Resources/Fuel/Processing", 1_000_000.into()).unwrap();
+        let out2 = doc.to_bytes().unwrap();
+        let again = parse(&out2).unwrap();
+        assert_eq!(again.view.pointer("/Staff/Staff 0006/Rank"), Some(&"E".into()));
+        assert_eq!(again.view.pointer("/Staff/Staff 0006/Skill"), Some(&"Ranger Lv3".into()));
+        assert_eq!(again.view.pointer("/Staff/Staff 0006/Section"), doc.view.pointer("/Staff/Staff 0006/Section"));
+        assert_eq!(again.view.pointer("/Resources/Fuel/Usable"), Some(&999_999.into()));
+        assert_eq!(again.view.pointer("/Resources/Fuel/Processing"), Some(&1_000_000.into()));
+        assert_eq!(again.view.pointer("/Resources/Biological"), doc.view.pointer("/Resources/Biological"));
         assert_eq!(decrypt(&encrypt(key, &out)).unwrap().1[16..], out[16..]);
         assert_eq!(encrypt(key, &p), d, "re-encrypting the unchanged save gives the same file");
     }
