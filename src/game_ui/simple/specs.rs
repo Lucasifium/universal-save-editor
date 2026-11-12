@@ -3,7 +3,7 @@
 
 use super::{List, Max, Section, Shape, Spec, Table};
 
-pub static SPECS: &[Spec] = &[COTL, FALLOUT_SHELTER, DRG, S1_MONEY, S1_RANK, S1_TIME, S1_GAME, SOTF_STATE, SOTF_GAME, SOTF_WEATHER, SOTF_ITEMS, DMD, CUPHEAD, ANTIMATTER, PVZ, CELESTE, DRGS, KH3, RF4S, SKY1ST, KSP, FFPR, MCD, STONESHARD, ROGUE_TRADER, BIOSHOCK_INFINITE, SPACE_HAVEN, SNOWRUNNER, GRAVEYARD_KEEPER, NFSMW, TOS, GTA3, GTAVC, BITBURNER, TERRA_INVICTA, PRISON, FF13, SONIC_MANIA];
+pub static SPECS: &[Spec] = &[COTL, FALLOUT_SHELTER, DRG, S1_MONEY, S1_RANK, S1_TIME, S1_GAME, SOTF_STATE, SOTF_GAME, SOTF_WEATHER, SOTF_ITEMS, DMD, CUPHEAD, ANTIMATTER, PVZ, CELESTE, DRGS, KH3, RF4S, SKY1ST, KSP, FFPR, MCD, STONESHARD, ROGUE_TRADER, BIOSHOCK_INFINITE, SPACE_HAVEN, SNOWRUNNER, GRAVEYARD_KEEPER, NFSMW, TOS, GTA3, GTAVC, BITBURNER, TERRA_INVICTA, PRISON, FF13, SONIC_MANIA, CAVE_STORY_PLUS, CAVE_STORY];
 
 // ------------------------------------------------------------------ Cult of the Lamb
 
@@ -1450,5 +1450,47 @@ const SONIC_MANIA: Spec = Spec {
             ],
             names: &[],
         },
+    ],
+};
+
+// ------------------------------------------------------------------ Cave Story
+
+const CAVE_STORY_PLUS: Spec = Spec {
+    name: "Cave Story+",
+    tab: "Quote",
+    accent: (200, 60, 50),
+    kind: Some(crate::fmt::cave_story::KIND),
+    markers: &["/Slot 1/Health"],
+    subtitle: "Profile.dat next to CaveStory+.exe: up to three save slots. Equipment, items and the stage are shown for reference.",
+    tiles: &[],
+    sections: &[],
+    lists: &[],
+    tables: &[
+        Table {
+            title: "Save slots",
+            path: "",
+            name: &[],
+            only: &["Slot 1", "Slot 2", "Slot 3"],
+            cols: &[("Difficulty", "/Difficulty"), ("Health", "/Health"), ("Max health", "/Max health"), ("Whimsical stars", "/Whimsical stars")],
+            names: &[],
+        },
+        Table { title: "Slot 1: weapons", path: "/Slot 1/Weapons", name: &[], only: &[], cols: &[("Type", "/Type"), ("Level", "/Level"), ("Energy", "/Energy"), ("Ammo", "/Ammo"), ("Max ammo (0 = unlimited)", "/Max ammo (0 = unlimited)")], names: &[] },
+        Table { title: "Slot 2: weapons", path: "/Slot 2/Weapons", name: &[], only: &[], cols: &[("Type", "/Type"), ("Level", "/Level"), ("Energy", "/Energy"), ("Ammo", "/Ammo"), ("Max ammo (0 = unlimited)", "/Max ammo (0 = unlimited)")], names: &[] },
+        Table { title: "Slot 3: weapons", path: "/Slot 3/Weapons", name: &[], only: &[], cols: &[("Type", "/Type"), ("Level", "/Level"), ("Energy", "/Energy"), ("Ammo", "/Ammo"), ("Max ammo (0 = unlimited)", "/Max ammo (0 = unlimited)")], names: &[] },
+    ],
+};
+
+const CAVE_STORY: Spec = Spec {
+    name: "Cave Story",
+    tab: "Quote",
+    accent: (200, 60, 50),
+    kind: Some(crate::fmt::cave_story::KIND),
+    markers: &["/Profile/Health"],
+    subtitle: "Profile.dat of the freeware release: one save.",
+    tiles: &[("Health", "/Profile/Health"), ("Max health", "/Profile/Max health"), ("Whimsical stars", "/Profile/Whimsical stars")],
+    sections: &[Section { title: "Quote", rows: &[("Health", "/Profile/Health"), ("Max health", "/Profile/Max health"), ("Whimsical stars", "/Profile/Whimsical stars"), ("Stage number", "/Profile/Stage number"), ("Equipment", "/Profile/Equipment"), ("Items", "/Profile/Items")] }],
+    lists: &[],
+    tables: &[
+        Table { title: "Weapons", path: "/Profile/Weapons", name: &[], only: &[], cols: &[("Type", "/Type"), ("Level", "/Level"), ("Energy", "/Energy"), ("Ammo", "/Ammo"), ("Max ammo (0 = unlimited)", "/Max ammo (0 = unlimited)")], names: &[] },
     ],
 };

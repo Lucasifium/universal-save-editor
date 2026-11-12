@@ -3,7 +3,7 @@
 > **Free, and it always will be.** No price, no ads, no account, no paid version, no online service, no
 > rate limits. If anyone is charging you for this, it isn't from here.
 
-An offline save editor and save manager for 260+ (264) PC games (edit saves, and back up, name and restore them): Cairn, Terraria (characters and a world map editor),
+An offline save editor and save manager for 260+ (265) PC games (edit saves, and back up, name and restore them): Cairn, Terraria (characters and a world map editor),
 Oxygen Not Included, RimWorld, Stardew Valley, Onimusha: Way of the Sword, Elden Ring, Dark Souls,
 Cyberpunk 2077, the Persona, Yakuza and Final Fantasy games, Ren'Py visual novels, RPG Maker games
 and more (the full list is below). Written in Rust (egui). Nothing is uploaded anywhere, and there are
@@ -84,6 +84,7 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 | Fallout 3 | Bottle caps, experience, karma, S.P.E.C.I.A.L. and the points added to each skill (checked on real saves, not yet tried in the game) |
 | Fallout: New Vegas | Bottle caps, experience, karma, S.P.E.C.I.A.L. and the points added to each skill (checked on real saves, not yet tried in the game) |
 | Fallout, Fallout 2 | *Pip-Boy*: level, experience, skill points, hit points, radiation, poison, S.P.E.C.I.A.L., skills, the two traits, the tagged skills, every perk's rank, kill counts, bottle caps and the count of each item carried (with loaded rounds). The save's own layout is worked out each time, so mods that add items still open |
+| Cave Story+ | *Quote*: every save slot's difficulty (Normal, Easy or Hard), health, max health and Whimsical Stars, and each weapon's type, level, energy and ammo; equipment, items and the stage are listed. The freeware Cave Story's `Profile.dat` opens too (checked on public saves, not yet tried in the game) |
 | Celeste | *Save*: strawberries, deaths, jumps and the other totals, chapters unlocked, the assist options, and for every chapter the cassette and the A, B and C sides' completion, full clear and heart. Open `0.celeste` (checked on a public save, not yet tried in the game) |
 | Deep Rock Galactic: Survivor | *Profile*: credits, the minerals and Power Cores, player rank, each class's XP and rank, and the stat upgrade levels. Open `drgs.dat` (checked on a public save, not yet tried in the game) |
 | Plants vs. Zombies (Game of the Year Edition) | *Profile*: money (stored divided by 10), Adventure level and completions, Crazy Dave's shop (the nine plants, tools, cleaners), fertilizer, bug spray, chocolate and tree food, seed slots, Tree of Wisdom, Survival progress; the Zen Garden's plants; mini-game and puzzle trophies on the *Values* tab. Open `user1.dat` (checked on a public save, not yet tried in the game) |

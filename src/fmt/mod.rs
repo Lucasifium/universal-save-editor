@@ -134,6 +134,7 @@ pub mod ffx2;
 pub mod dead_rising;
 pub mod ff13;
 pub mod p5r;
+pub mod cave_story;
 pub mod sonic_mania;
 pub mod metro;
 pub mod bioshock;
@@ -267,6 +268,11 @@ pub fn parse_binary(d: &[u8]) -> Option<TreeDoc> {
     }
     if metro::looks(d) {
         if let Ok(t) = metro::parse(d) {
+            return Some(t);
+        }
+    }
+    if cave_story::looks(d) {
+        if let Ok(t) = cave_story::parse(d) {
             return Some(t);
         }
     }
