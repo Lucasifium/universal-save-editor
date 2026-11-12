@@ -137,7 +137,7 @@ fn entries(cx: &GameCtx, l: &List) -> Vec<(String, String)> {
 
 fn name_of(l: &List, id: &str) -> String {
     // A map keyed by names (a binary save read by name) needs no table of names.
-    if matches!(l.shape, Shape::Map) && l.names.is_empty() {
+    if l.names.is_empty() && (matches!(l.shape, Shape::Map) || id.parse::<f64>().is_err()) {
         return id.to_string();
     }
     // Text ids (a game's own item names) read fine as they are; numeric ids get "Item <id>".

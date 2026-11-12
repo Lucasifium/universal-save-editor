@@ -3,7 +3,7 @@
 
 use super::{List, Max, Section, Shape, Spec, Table};
 
-pub static SPECS: &[Spec] = &[COTL, FALLOUT_SHELTER, DRG, S1_MONEY, S1_RANK, S1_TIME, S1_GAME, SOTF_STATE, SOTF_GAME, SOTF_WEATHER, SOTF_ITEMS, DMD, CUPHEAD, ANTIMATTER, PVZ, CELESTE, DRGS, KH3, RF4S, SKY1ST, KSP, FFPR, MCD, STONESHARD, ROGUE_TRADER, BIOSHOCK_INFINITE, SPACE_HAVEN, SNOWRUNNER, GRAVEYARD_KEEPER, NFSMW, TOS, GTA3, GTAVC, BITBURNER, TERRA_INVICTA, PRISON, FF13, SONIC_MANIA, CAVE_STORY_PLUS, CAVE_STORY, LIES_OF_P, TXR, DAVE, MSC, ULTRAKILL, RPGXP, RE5, ANNO1800, FTK, LEGO_TSS, LEGO_CLASSIC, MYZ, CMS21, MEDIEVAL_DYNASTY, MECHANICUS, ORI, OMORI, ENDER_LILIES];
+pub static SPECS: &[Spec] = &[COTL, FALLOUT_SHELTER, DRG, S1_MONEY, S1_RANK, S1_TIME, S1_GAME, SOTF_STATE, SOTF_GAME, SOTF_WEATHER, SOTF_ITEMS, DMD, CUPHEAD, ANTIMATTER, PVZ, CELESTE, DRGS, KH3, RF4S, SKY1ST, KSP, FFPR, MCD, STONESHARD, ROGUE_TRADER, BIOSHOCK_INFINITE, SPACE_HAVEN, SNOWRUNNER, GRAVEYARD_KEEPER, NFSMW, TOS, GTA3, GTAVC, BITBURNER, TERRA_INVICTA, PRISON, FF13, SONIC_MANIA, CAVE_STORY_PLUS, CAVE_STORY, LIES_OF_P, TXR, DAVE, MSC, ULTRAKILL, RPGXP, RE5, ANNO1800, FTK, LEGO_TSS, LEGO_CLASSIC, MYZ, CMS21, MEDIEVAL_DYNASTY, MECHANICUS, ORI, OMORI, ENDER_LILIES, SW2, ES2, MOONLIGHTER, WASTELAND2, ATOM];
 
 // ------------------------------------------------------------------ Cult of the Lamb
 
@@ -2065,4 +2065,163 @@ const ENDER_LILIES: Spec = Spec {
         List { title: "Spirit levels", path: "/Player/Inventory/ItemSpiritLevels", shape: Shape::Map, names: &[], max: None },
     ],
     tables: &[],
+};
+
+// ------------------------------------------------------------------ Shadow Warrior 2
+
+const SW2: Spec = Spec {
+    name: "Shadow Warrior 2",
+    tab: "Lo Wang",
+    accent: (214, 60, 48),
+    kind: Some(crate::fmt::roadhog::KIND),
+    markers: &["/PlayerTemplate/Stats/Money", "/PlayerTemplate/Stats/Level"],
+    subtitle: "save_auto.bin and the other .bin saves in the game's save folder (each is a zip; the text inside is opened for you). Weapons and upgrades are in the Tree tab under PlayerTemplate.",
+    tiles: &[
+        ("Level", "/PlayerTemplate/Stats/Level"), ("Money", "/PlayerTemplate/Stats/Money"),
+        ("Crystal points", "/PlayerTemplate/Stats/CrystalPoints"), ("Perk points", "/PlayerTemplate/Stats/PerksPoints"),
+    ],
+    sections: &[
+        Section {
+            title: "Lo Wang",
+            rows: &[
+                ("Level", "/PlayerTemplate/Stats/Level"), ("Experience", "/PlayerTemplate/Stats/XP"), ("Money", "/PlayerTemplate/Stats/Money"),
+                ("Crystal points", "/PlayerTemplate/Stats/CrystalPoints"), ("Perk points", "/PlayerTemplate/Stats/PerksPoints"),
+                ("Health", "/PlayerTemplate/Stats/HP"), ("Mana (chi)", "/PlayerTemplate/Stats/Mana"), ("Rage", "/PlayerTemplate/Stats/Rage"),
+            ],
+        },
+        Section {
+            title: "Ammunition",
+            rows: &[
+                ("Light bullets", "/PlayerTemplate/Stats/Ammo_Bullet_Light"), ("Medium bullets", "/PlayerTemplate/Stats/Ammo_Bullet_Medium"),
+                ("Heavy bullets", "/PlayerTemplate/Stats/Ammo_Bullet_Heavy"), ("Shells", "/PlayerTemplate/Stats/Ammo_Shell"),
+                ("Energy", "/PlayerTemplate/Stats/Ammo_Energy"), ("Plasma", "/PlayerTemplate/Stats/Ammo_Plasma"),
+                ("Rockets", "/PlayerTemplate/Stats/Ammo_Rocket"), ("Grenades", "/PlayerTemplate/Stats/Ammo_Grenade"),
+                ("Bolts", "/PlayerTemplate/Stats/Ammo_Bolt"), ("Arrows", "/PlayerTemplate/Stats/Ammo_Arrow"),
+                ("Chainsaw fuel", "/PlayerTemplate/Stats/Ammo_Chainsaw"),
+            ],
+        },
+    ],
+    lists: &[],
+    tables: &[],
+};
+
+// ------------------------------------------------------------------ Everspace 2
+
+const ES2_NAMES: &[(&str, &str)] = &[("crafting_resource_basic", "Crafting Resource (basic)"), ("crafting_resource_common", "Crafting Resource (common)"), ("crystal_aetheum_common", "Crystal Aetheum (common)"), ("crystal_aetheum_uncommon", "Crystal Aetheum (uncommon)"), ("scrap_metal", "Scrap Metal"), ("ore_iron_common", "Ore Iron (common)"), ("cooling_unit", "Cooling Unit"), ("power_casing", "Power Casing"), ("ore_copper_common", "Ore Copper (common)"), ("device_reset_item", "Device Reset Item"), ("plasma", "Plasma"), ("wiring_kit", "Wiring Kit"), ("biomass", "Biomass"), ("ore_iron_uncommon", "Ore Iron (uncommon)"), ("crafting_resource_uncommon", "Crafting Resource (uncommon)"), ("ore_titanium_uncommon", "Ore Titanium (uncommon)"), ("heat_detector", "Heat Detector"), ("hadron_buffers", "Hadron Buffers"), ("charge_compensator", "Charge Compensator"), ("dark_matter", "Dark Matter"), ("crystal_culver_uncommon", "Crystal Culver (uncommon)"), ("neutron_membrane", "Neutron Membrane"), ("power_cell", "Power Cell"), ("supra_gel", "Supra Gel"), ("crystal_culver_rare", "Crystal Culver (rare)"), ("crystal_mallemite_uncommon", "Crystal Mallemite (uncommon)"), ("crystal_mallemite_rare", "Crystal Mallemite (rare)"), ("crystal_diode", "Crystal Diode"), ("ore_insidium_uncommon", "Ore Insidium (uncommon)"), ("ore_insidium_rare", "Ore Insidium (rare)"), ("ore_baromite_rare", "Ore Baromite (rare)"), ("crafting_resource_rare", "Crafting Resource (rare)"), ("particle_modulator", "Particle Modulator"), ("ore_clygon_rare", "Ore Clygon (rare)"), ("solar_particles", "Solar Particles"), ("power_unit_hx1", "Power Unit Hx1"), ("ore_titanium_rare", "Ore Titanium (rare)"), ("crafting_resource_superior", "Crafting Resource (superior)"), ("proton_capacitor", "Proton Capacitor"), ("quantum_conductor", "Quantum Conductor"), ("pulse_mutator", "Pulse Mutator"), ("signal_circulator", "Signal Circulator"), ("fusion_core", "Fusion Core"), ("ore_coruscate_superior", "Ore Coruscate (superior)"), ("crystal_phazium_superior", "Crystal Phazium (superior)"), ("crystal_phazium_rare", "Crystal Phazium (rare)"), ("ore_baromite_superior", "Ore Baromite (superior)"), ("dark_energy", "Dark Energy"), ("ore_glacit_superior", "Ore Glacit (superior)"), ("rift_resource", "Rift Resource"), ("ore_copper_uncommon", "Ore Copper (uncommon)"), ("bio_processor", "Bio Processor"), ("multiphase_propellant", "Multiphase Propellant"), ("echo_canceller", "Echo Canceller"), ("tachyon_emitter", "Tachyon Emitter"), ("resistor_array", "Resistor Array"), ("fission_controller", "Fission Controller"), ("gauss_receptor", "Gauss Receptor"), ("crafting_resource_ascendant", "Crafting Resource (ascendant)"), ("eshahar_fragments", "Eshahar Fragments"), ("ore_clygon_superior", "Ore Clygon (superior)"), ("resources_okkar", "Resources Okkar"), ("ore_leviathan_uncommon", "Ore Leviathan (uncommon)"), ("ore_leviathan_superior", "Ore Leviathan (superior)"), ("leviathan_attractant", "Leviathan Attractant"), ("crafting_resource_legendary", "Crafting Resource (legendary)"), ("organic_conduit", "Organic Conduit"), ("crystal_okkar1_rare", "Crystal Okkar1 (rare)"), ("okkar_component_1", "Okkar Component 1"), ("okkar_component_2", "Okkar Component 2"), ("ore_okkar1_rare", "Ore Okkar1 (rare)"), ("ore_okkar1_uncommon", "Ore Okkar1 (uncommon)"), ("crystal_okkar1_uncommon", "Crystal Okkar1 (uncommon)"), ("resources_okkar_special", "Resources Okkar Special"), ("crystal_okkar_refined", "Crystal Okkar Refined"), ("ancient_shielding_component", "Ancient Shielding Component")];
+
+const ES2: Spec = Spec {
+    name: "Everspace 2",
+    tab: "Pilot",
+    accent: (64, 160, 230),
+    kind: Some("Unreal Engine save (PlayerData)"),
+    markers: &["/credits", "/PlayerLevel", "/CraftingResourcesSaveState/Cargo"],
+    subtitle: "ES2_<date>.sav in the game's SaveGames folder (the packed Unreal save is unpacked for you; big saves take a few seconds to open). Ships, items and missions are in the Tree tab.",
+    tiles: &[("Credits", "/credits"), ("Level", "/PlayerLevel"), ("Experience", "/XP"), ("Device upgrade tokens", "/DeviceUpgradeTokens")],
+    sections: &[Section {
+        title: "Pilot",
+        rows: &[
+            ("Credits", "/credits"), ("Level", "/PlayerLevel"), ("Experience", "/XP"), ("Device upgrade tokens", "/DeviceUpgradeTokens"),
+        ],
+    }],
+    lists: &[List {
+        title: "Crafting resources",
+        path: "/CraftingResourcesSaveState/Cargo",
+        shape: Shape::Array { id_key: "ItemTemplateID", qty_keys: &["Amount"] },
+        names: ES2_NAMES,
+        max: Some(Max {
+            ids: &["crafting_resource_basic", "crafting_resource_common", "crystal_aetheum_common", "crystal_aetheum_uncommon", "scrap_metal", "ore_iron_common", "ore_copper_common", "ore_iron_uncommon", "crafting_resource_uncommon", "ore_titanium_uncommon", "crystal_culver_uncommon", "crystal_culver_rare", "crystal_mallemite_uncommon", "crystal_mallemite_rare", "crystal_diode", "ore_insidium_uncommon", "ore_insidium_rare", "ore_baromite_rare", "crafting_resource_rare", "ore_clygon_rare", "ore_titanium_rare", "crafting_resource_superior", "ore_coruscate_superior", "crystal_phazium_superior", "crystal_phazium_rare", "ore_baromite_superior", "ore_glacit_superior", "ore_copper_uncommon", "crafting_resource_ascendant", "ore_clygon_superior", "crafting_resource_legendary"],
+            cap: 99_999,
+            caps: &[],
+            estimate: true,
+            about: "Raises the ores, crystals, scrap metal and basic crafting resources you already have to 99,999 (the game states no cap, so this is an estimate). Catalysts, components, rift and faction resources and story items are left alone.",
+        }),
+    }],
+    tables: &[],
+};
+
+// ------------------------------------------------------------------ Moonlighter
+
+const MOONLIGHTER: Spec = Spec {
+    name: "Moonlighter",
+    tab: "Will",
+    accent: (226, 160, 56),
+    kind: None,
+    markers: &["/gameSlot/willGold", "/gameSlot/willInventory"],
+    subtitle: "The gameslot file in the game's save folder. Enchantment levels run 0 to 3. Gold is Will's gold; the banker's invested money is separate.",
+    tiles: &[("Gold", "/gameSlot/willGold"), ("Days passed", "/gameSlot/daysPassed")],
+    sections: &[Section {
+        title: "Will and the shop",
+        rows: &[
+            ("Gold", "/gameSlot/willGold"), ("Days passed", "/gameSlot/daysPassed"), ("Money invested with the banker", "/gameSlot/bankerSaveInfo/moneyInvested"),
+            ("Cultures defeated", "/gameSlot/culturesDefeated"), ("Equipped weapon set", "/gameSlot/equippedWeaponSet"),
+        ],
+    }],
+    lists: &[
+        List { title: "Backpack", path: "/gameSlot/willInventory", shape: Shape::Array { id_key: "name", qty_keys: &["quantity"] }, names: &[], max: None },
+        List { title: "Equipped", path: "/gameSlot/willEquippedItems", shape: Shape::Array { id_key: "name", qty_keys: &["quantity"] }, names: &[], max: None },
+    ],
+    tables: &[],
+};
+
+// ------------------------------------------------------------------ Wasteland 2
+
+const WASTELAND2: Spec = Spec {
+    name: "Wasteland 2",
+    tab: "Rangers",
+    accent: (196, 120, 48),
+    kind: Some(crate::fmt::wasteland2::KIND),
+    markers: &["/save/pcs/pc/0/xp"],
+    subtitle: "<save name>.xml in a folder under Save Games (the .bin beside it is not needed). Character names are shown but not edited. Skills are in the Tree under each ranger's skillXps.",
+    tiles: &[],
+    sections: &[],
+    lists: &[],
+    tables: &[Table {
+        title: "Rangers",
+        path: "/save/pcs/pc",
+        name: &["/portraitName"],
+        only: &[],
+        cols: &[
+            ("Level", "/level"), ("XP", "/xp"), ("Health", "/curHp"), ("Attribute points", "/availableAttributePoints"),
+            ("Skill points", "/availableSkillPoints"), ("Trait points", "/availableTraitPoints"), ("Kills", "/noOfKills"),
+            ("Coordination", "/attributes/pair/0/value"), ("Luck", "/attributes/pair/1/value"), ("Awareness", "/attributes/pair/2/value"),
+            ("Strength", "/attributes/pair/3/value"), ("Speed", "/attributes/pair/4/value"), ("Intelligence", "/attributes/pair/5/value"),
+            ("Charisma", "/attributes/pair/6/value"),
+        ],
+        names: &[],
+    }],
+};
+
+// ------------------------------------------------------------------ ATOM RPG
+
+const ATOM: Spec = Spec {
+    name: "ATOM RPG",
+    tab: "Party",
+    accent: (150, 130, 80),
+    kind: None,
+    markers: &["/0/class", "/0/stats/xp", "/0/stats/level"],
+    subtitle: "Save_N_v10.as in the game's save folder (the game's own packing is opened and closed for you; the character file player.dat is shown). The party and the money are here; other entries are the levels. Rubles are the Money item in the player's inventory.",
+    tiles: &[],
+    sections: &[],
+    lists: &[
+        List { title: "Inventory (character 1)", path: "/0/inventory", shape: Shape::Array { id_key: "proto", qty_keys: &["count"] }, names: &[("Money", "Rubles")], max: None },
+        List { title: "Inventory (character 2)", path: "/1/inventory", shape: Shape::Array { id_key: "proto", qty_keys: &["count"] }, names: &[("Money", "Rubles")], max: None },
+        List { title: "Inventory (character 3)", path: "/2/inventory", shape: Shape::Array { id_key: "proto", qty_keys: &["count"] }, names: &[("Money", "Rubles")], max: None },
+        List { title: "Inventory (character 4)", path: "/3/inventory", shape: Shape::Array { id_key: "proto", qty_keys: &["count"] }, names: &[("Money", "Rubles")], max: None },
+        List { title: "Inventory (character 5)", path: "/4/inventory", shape: Shape::Array { id_key: "proto", qty_keys: &["count"] }, names: &[("Money", "Rubles")], max: None },
+        List { title: "Inventory (character 6)", path: "/5/inventory", shape: Shape::Array { id_key: "proto", qty_keys: &["count"] }, names: &[("Money", "Rubles")], max: None },
+    ],
+    tables: &[Table {
+        title: "Party",
+        path: "",
+        name: &["/character"],
+        only: &[],
+        cols: &[
+            ("Level", "/stats/level"), ("XP", "/stats/xp"), ("Strength", "/stats/strength"), ("Perception", "/stats/perception"),
+            ("Endurance", "/stats/endurance"), ("Charisma", "/stats/charisma"), ("Intelligence", "/stats/intelligence"),
+            ("Agility", "/stats/agility"), ("Luck", "/stats/luck"), ("Skill points", "/stats/freeSkillPoints"),
+            ("Stat points", "/stats/freeStatPoints"), ("Perk points", "/stats/freeSpecPoints"),
+            ("Small Guns", "/stats/skills/SmallGuns"), ("Big Guns", "/stats/skills/BigGuns"), ("Automatic Firearms", "/stats/skills/AutomaticFirearms"), ("Unarmed", "/stats/skills/Unarmed"), ("Melee Weapons", "/stats/skills/MeleeWeapons"), ("Throwing", "/stats/skills/Throwing"), ("First Aid", "/stats/skills/FirstAid"), ("Crafting", "/stats/skills/Crafting"), ("Sneak", "/stats/skills/Sneak"), ("Lockpick", "/stats/skills/Lockpick"), ("Steal", "/stats/skills/Steal"), ("Alertness", "/stats/skills/Alertness"), ("Science", "/stats/skills/Science"), ("Speech", "/stats/skills/Speech"), ("Barter", "/stats/skills/Barter"), ("Gambling", "/stats/skills/Gambling"), ("Outdoorsman", "/stats/skills/Outdoorsman"),
+        ],
+        names: &[],
+    }],
 };

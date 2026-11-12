@@ -145,6 +145,8 @@ pub mod cave_story;
 pub mod ori;
 pub mod lego_tss;
 pub mod lego_classic;
+pub mod roadhog;
+pub mod wasteland2;
 pub mod sonic_mania;
 pub mod metro;
 pub mod bioshock;
@@ -687,6 +689,11 @@ pub fn parse_binary_late(d: &[u8]) -> Option<TreeDoc> {
 
 /// Text formats. Ambiguous ones (YAML, TOML) are only trusted by file extension.
 pub fn parse_text(text: &str, ext: &str) -> Option<TreeDoc> {
+    if roadhog::looks(text.as_bytes()) {
+        if let Ok(doc) = roadhog::parse(text.as_bytes()) {
+            return Some(doc);
+        }
+    }
     if let Some(doc) = undertale::parse(text) {
         return Some(doc);
     }
@@ -716,6 +723,11 @@ pub fn parse_text(text: &str, ext: &str) -> Option<TreeDoc> {
     }
     if lua::looks(t) {
         if let Ok(doc) = lua::parse(text) {
+            return Some(doc);
+        }
+    }
+    if t.starts_with("<save><version>") {
+        if let Ok(doc) = wasteland2::parse(text) {
             return Some(doc);
         }
     }
