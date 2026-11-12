@@ -99,6 +99,7 @@ pub mod luabins;
 pub mod marshal;
 pub mod msgpack;
 pub mod ac8;
+pub mod bsinfinite;
 pub mod cbor;
 pub mod nbt;
 pub mod nrbf;
@@ -286,6 +287,9 @@ pub fn parse_binary(d: &[u8]) -> Option<TreeDoc> {
         if let Ok(t) = ffx2::parse(d) {
             return Some(t);
         }
+    }
+    if let Ok(t) = bsinfinite::parse(d) {
+        return Some(t);
     }
     if sky1st::looks(d) {
         if let Ok(t) = sky1st::parse(d) {
