@@ -143,6 +143,8 @@ pub mod forspoken;
 pub mod nier;
 pub mod dbpf;
 pub mod pvz;
+pub mod gta3;
+pub mod tos;
 pub mod sims1;
 pub mod sims2;
 pub mod sims4;
@@ -384,6 +386,16 @@ pub fn parse_binary(d: &[u8]) -> Option<TreeDoc> {
     }
     if nier::looks(d) {
         if let Ok(t) = nier::parse(d) {
+            return Some(t);
+        }
+    }
+    if gta3::looks(d) {
+        if let Ok(t) = gta3::parse(d) {
+            return Some(t);
+        }
+    }
+    if tos::looks(d) {
+        if let Ok(t) = tos::parse(d) {
             return Some(t);
         }
     }
