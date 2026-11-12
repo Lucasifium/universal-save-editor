@@ -352,6 +352,11 @@ pub fn parse_binary(d: &[u8]) -> Option<TreeDoc> {
             return Some(t);
         }
     }
+    if kenshi::looks_platoon(d) {
+        if let Ok(t) = kenshi::parse_platoon(d) {
+            return Some(t);
+        }
+    }
     if witcher3::looks(d) {
         if let Ok(t) = witcher3::parse(d) {
             return Some(t);

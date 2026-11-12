@@ -1264,7 +1264,134 @@ pub fn kenshi(ui: &mut Ui, cx: &mut GameCtx) {
     hero(ui, accent, "Kenshi", "Your faction", |ui| {
         cx.tile(ui, "Cats", "/Player/Money (cats)", accent);
     });
-    ui.weak("Characters' stats are in the platoon files next to this save; open one of those with Open\u{2026} and use Value search.");
+    ui.weak("Each squad's characters (attributes, skills, health) are in the save's platoon folder: open the file named after your faction, such as platoon\\Nameless_0.platoon, for its Squad screen.");
+}
+
+fn kenshi_keys(cx: &GameCtx, p: &str) -> Vec<String> {
+    match cx.get(p) {
+        Some(Value::Object(m)) => m.keys().cloned().collect(),
+        _ => vec![],
+    }
+}
+
+/// Every attribute and skill of one member to 100 (the game's own cap).
+fn kenshi_max(cx: &mut GameCtx, base: &str) -> usize {
+    let mut n = 0;
+    for group in ["Attributes", "Skills"] {
+        let g = join(base, group);
+        for k in kenshi_keys(cx, &g) {
+            let p = join(&g, &k);
+            if cx.can_edit(&p) && cx.num(&p).is_some_and(|v| v < 100.0) {
+                cx.set(&p, Value::from(100.0));
+                n += 1;
+            }
+        }
+    }
+    n
+}
+
+pub fn kenshi_squad(ui: &mut Ui, cx: &mut GameCtx) {
+    let accent = Color32::from_rgb(170, 130, 80);
+    let members = kenshi_keys(cx, "/Members");
+    let player = cx.flag("/Squad/Player's squad");
+    let sub = if player { "Your squad" } else { "A squad of another faction" };
+    hero(ui, accent, "Kenshi", sub, |ui| {
+        fact(ui, "Members", &members.len().to_string(), accent);
+        if ui.button("Max everyone's stats").on_hover_text("Every attribute and skill of every member in this file to 100, the most the game allows.").clicked() {
+            for m in &members {
+                kenshi_max(cx, &join("/Members", m));
+            }
+        }
+    });
+    if members.is_empty() {
+        return;
+    }
+    let t = tabs(ui, "kenshi_squad", &members);
+    let base = join("/Members", &members[t]);
+    let mut line = vec![];
+    if cx.flag(&join(&base, "Squad leader")) {
+        line.push("Squad leader");
+    }
+    if !cx.flag(&join(&base, "Player's")) {
+        line.push("Not in your faction");
+    }
+    if !line.is_empty() {
+        ui.weak(line.join("  \u{00B7}  "));
+    }
+    let attrs = join(&base, "Attributes");
+    let skills = join(&base, "Skills");
+    columns(ui, 360.0, 2, |ui, i| {
+        if i == 0 {
+            panel(ui, "Attributes", |ui| {
+                for k in kenshi_keys(cx, &attrs) {
+                    cx.attribute(ui, &k, &join(&attrs, &k), 100.0, accent);
+                }
+                if ui.button("Max this character").on_hover_text("Every attribute and skill to 100.").clicked() {
+                    kenshi_max(cx, &base);
+                }
+            });
+            kenshi_health(ui, cx, &base);
+        } else {
+            panel(ui, "Skills", |ui| {
+                for k in kenshi_keys(cx, &skills) {
+                    cx.attribute(ui, &k, &join(&skills, &k), 100.0, accent);
+                }
+                ui.weak("0\u{2013}100. Skills never trained sit a little below zero; the game levels them up from there.");
+            });
+        }
+    });
+}
+
+fn kenshi_health(ui: &mut Ui, cx: &mut GameCtx, base: &str) {
+    let health = join(base, "Health");
+    let parts = kenshi_keys(cx, &health);
+    if parts.is_empty() {
+        return;
+    }
+    let limbs = join(base, "Limbs");
+    panel(ui, "Health", |ui| {
+        egui::Grid::new(("kenshi_hp", base)).num_columns(2).spacing([12.0, 6.0]).show(ui, |ui| {
+            for p in &parts {
+                cx.grid_row(ui, p, &join(&health, p), 90.0);
+            }
+            let cond = join(base, "Condition");
+            for k in kenshi_keys(cx, &cond) {
+                cx.grid_row(ui, &k, &join(&cond, &k), 90.0);
+            }
+        });
+        ui.horizontal_wrapped(|ui| {
+            let status = join(base, "Status");
+            for k in kenshi_keys(cx, &status) {
+                cx.chip(ui, &k, &join(&status, &k), Color32::from_rgb(190, 70, 60));
+            }
+        });
+        // A part's most health comes from the race in the game's data, not from the save, so
+        // there is no "full health" to fill up to here: parts are typed in.
+        let tip = "Clears dead, unconscious, coma and incapacitated and ends bleeding. Raise any part below zero above it too, or the character falls again.";
+        if ui.button("Revive").on_hover_text(tip).clicked() {
+            let bleed = join(&join(base, "Condition"), "Bleeding");
+            if cx.num(&bleed).is_some_and(|v| v > 0.0) {
+                cx.set(&bleed, Value::from(0.0));
+            }
+            let status = join(base, "Status");
+            for k in kenshi_keys(cx, &status) {
+                if cx.flag(&join(&status, &k)) {
+                    cx.set(&join(&status, &k), Value::Bool(false));
+                }
+            }
+        }
+        ui.weak("Each part's health. The game keeps the most a part can have in its race data, not in the save, so it isn't shown here; healthy humans have the same value on every part.");
+        let limb_names = kenshi_keys(cx, &limbs);
+        if !limb_names.is_empty() {
+            ui.add_space(6.0);
+            egui::Grid::new(("kenshi_limbs", base)).num_columns(2).spacing([12.0, 6.0]).show(ui, |ui| {
+                for l in &limb_names {
+                    cx.grid_row(ui, l, &join(&limbs, l), 110.0);
+                }
+            });
+            ui.weak("A lost limb also needs its health above zero to come back. Robotic limbs are read from very few saves.");
+        }
+    });
 }
 
 // ------------------------------------------------------------------ Palworld (player file)

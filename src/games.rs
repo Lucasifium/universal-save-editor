@@ -50,6 +50,7 @@ pub struct GameInfo {
 }
 
 const FULL: &str = "Game screen";
+const KENSHI: &str = "Game screen: the faction's cats (quick.save) and, in each squad's .platoon file, every member's attributes and skills, the health of each body part, blood, hunger, bleeding, lost or robotic limbs and the dead, unconscious and coma flags, with a button to max everyone's stats. Checked on public saves, not yet tried in the game";
 const VALUES: &str = "Values and Tree";
 const HEX: &str = "Hex view and Value search (find a number you know, then change it)";
 const METRO: &str = "Game screen for the level saves (.player); the auto save is unpacked for Value search. Metro Exodus has a Max crafting materials button that fills metal and chemicals to 150 (an estimate of the Normal limit)";
@@ -220,7 +221,7 @@ pub const GAMES: &[GameInfo] = &[
     game!("Icewind Dale: Enhanced Edition", IE_IWD, r"Documents\Icewind Dale - Enhanced Edition\save\<nnnnnnnnn-Name>", r"ICEWIND.gam", [(Documents, r"Icewind Dale - Enhanced Edition\save"), (Documents, r"Icewind Dale - Enhanced Edition\mpsave")], ["*.gam"], 2),
     game!("Idle Slayer", "Opens as JSON, every value by name. The save's XOR encryption is removed and put back on save (not yet tried on a real save)", r"%USERPROFILE%\AppData\LocalLow\Pablo Leban\Idle Slayer", "savedata.sav", [(LocalLow, r"Pablo Leban\Idle Slayer")], ["*.sav"], 1),
     game!("Judgment", RGG_JUDGMENT, r"%APPDATA%\Sega\Judgment\Steam\<Steam id>", r"data.sav", [(AppData, r"Sega\Judgment\Steam\*")], ["*.sav"], 2),
-    game!("Kenshi", FULL, r"%LOCALAPPDATA%\kenshi\save\<save name>", r"quick.save", [(LocalAppData, r"kenshi\save"), (SteamGame("Kenshi"), r"save")], ["quick.save"], 2),
+    game!("Kenshi", KENSHI, r"%LOCALAPPDATA%\kenshi\save\<save name>", r"quick.save (the faction), platoon\Nameless_0.platoon (your squad, named after your faction)", [(LocalAppData, r"kenshi\save"), (SteamGame("Kenshi"), r"save")], ["quick.save", "Nameless_*.platoon"], 3),
     game!("Kerbal Space Program", FULL, r"<game folder>\saves\<save name> (Steam: steamapps\common\Kerbal Space Program\saves)", "persistent.sfs (and the quicksaves beside it)", [(SteamGame("Kerbal Space Program"), r"saves\*")], ["*.sfs"], 2),
     game!("Kingdom Hearts III", FULL, r"Documents\KINGDOM HEARTS III\Steam\<Steam id>\SaveGames\kh3sv2\data (Epic: …\Epic Games Store\1638\…)", "KHIII_slot0.bin …", [(Documents, r"KINGDOM HEARTS III\*\*\SaveGames\kh3sv2\data")], ["KHIII_*.bin"], 1),
     game!("Kingdom Two Crowns", "Unpacked from gzip and opened as JSON: coins, gems, islands, units and mounts, every value by name; packed again on save", r"%USERPROFILE%\AppData\LocalLow\noio\Kingdom Two Crowns\Release (macOS: ~/Library/Application Support/nl.noio.kingdom-two-crowns/Release)", r"global-v35 and the slot files beside it", [(LocalLow, r"noio\Kingdom Two Crowns\Release"), (LocalLow, r"noio\KingdomTwoCrowns\Release")], ["global-v*"], 1),
