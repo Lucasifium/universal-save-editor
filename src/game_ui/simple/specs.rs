@@ -2267,61 +2267,8 @@ const MORTAL_SHELL: Spec = Spec {
             ("Glimpses gained in total", "/StormModeSaveFile/NamedInts_StormMode_31_CF554F674F568B81370C968E9EF1459F/StormModeGlimpsesEverGained"),
             ("Max health", "/StormModeSaveFile/MaxHealth_89_747BF7B7416D17384FCE89AC1280800B"),
             ("Deaths", "/StormModeSaveFile/NamedInts_StormMode_31_CF554F674F568B81370C968E9EF1459F/StormMode_TotalDeaths"),
-// ------------------------------------------------------------------ Star Wars Jedi: Fallen Order
-
-const JEDI_FO: Spec = Spec {
-    name: "Star Wars Jedi: Fallen Order",
-    tab: "Cal Kestis",
-    accent: (60, 150, 220),
-    kind: Some(crate::fmt::jedi::KIND),
-    markers: &["/Skill points/Unspent skill points"],
-    subtitle: "SaveGame00.sav. The zlib-packed actor records are opened and packed again on save.",
-    tiles: &[("Unspent skill points", "/Skill points/Unspent skill points"), ("Stims", "/Health and Force/Stims carried"), ("Deaths", "/Progress/Deaths")],
-    sections: &[
-        Section {
-            title: "Skill points",
-            rows: &[
-                ("Unspent skill points", "/Skill points/Unspent skill points"), ("Total skill points earned", "/Skill points/Total skill points earned"),
-                ("XP collected toward the next point", "/Skill points/XP collected toward the next point"),
             ],
         },
-        Section {
-            title: "Health and Force",
-            rows: &[
-                ("Stims carried", "/Health and Force/Stims carried"), ("Stim capacity", "/Health and Force/Stim capacity"),
-                ("Health upgrades found", "/Health and Force/Health upgrades found"), ("Force upgrades found", "/Health and Force/Force upgrades found"),
-                ("Health upgrade fragments", "/Health and Force/Health upgrade fragments"), ("Force upgrade fragments", "/Health and Force/Force upgrade fragments"),
-            ],
-        },
-        Section {
-            title: "Progress",
-            rows: &[
-                ("Secrets collected", "/Progress/Secrets collected"), ("Secrets in the game", "/Progress/Secrets in the game"),
-                ("Map sections explored", "/Progress/Map sections explored"), ("Map sections in the game", "/Progress/Map sections in the game"),
-                ("Deaths", "/Progress/Deaths"), ("Revives used", "/Progress/Revives used"),
-            ],
-        },
-
-// ------------------------------------------------------------------ Saints Row: The Third
-
-const SR3: Spec = Spec {
-    name: "Saints Row: The Third (and Remastered)",
-    tab: "Boss",
-    accent: (150, 60, 190),
-    kind: Some(crate::fmt::sr3::KIND),
-    markers: &["/Player/Cash (in cents)"],
-    subtitle: "sr3save_NN.sr3s_pc. Cash is kept in cents; the save's checksum is rewritten.",
-    tiles: &[("Cash (in cents)", "/Player/Cash (in cents)"), ("Respect level", "/Player/Respect level"), ("Crib stash (in cents)", "/Player/Crib money stash (in cents)")],
-    sections: &[
-        Section {
-            title: "Player",
-            rows: &[
-                ("Cash (in cents)", "/Player/Cash (in cents)"), ("Crib money stash (in cents)", "/Player/Crib money stash (in cents)"),
-                ("Respect level", "/Player/Respect level"), ("Respect in this level", "/Player/Respect in this level"), ("Total respect", "/Player/Total respect"),
-            ],
-        },
-        Section { title: "Statistics", rows: &[("Barnstorms found", "/Statistics/Barnstorms found"), ("Stunt jumps found", "/Statistics/Stunt jumps found")] },
-        Section { title: "Game", rows: &[("Difficulty index (0 to 2)", "/Game/Difficulty index")] },
     ],
     lists: &[],
     tables: &[],
@@ -2566,19 +2513,6 @@ const YAKUZA4: Spec = Spec {
         Section { title: "Tanimura", rows: &[("Money", "/Tanimura/Money"), ("Experience", "/Tanimura/Experience"), ("Experience to next level", "/Tanimura/Experience to next level"), ("Skill orbs", "/Tanimura/Skill orbs")] },
         Section { title: "Kiryu", rows: &[("Money", "/Kiryu/Money"), ("Experience", "/Kiryu/Experience"), ("Experience to next level", "/Kiryu/Experience to next level"), ("Skill orbs", "/Kiryu/Skill orbs")] },
         Section { title: "Shared", rows: &[("Eco points", "/Shared/Eco points")] },
-// ------------------------------------------------------------------ Watch Dogs 2
-
-const WD2: Spec = Spec {
-    name: "Watch Dogs 2",
-    tab: "Marcus",
-    accent: (230, 60, 110),
-    kind: Some(crate::fmt::wd2::KIND),
-    markers: &["/Player/Money"],
-    subtitle: "Numbered .save files in the Ubisoft Connect save folder (2688 or 3619).",
-    tiles: &[("Money", "/Player/Money"), ("Followers", "/Player/Followers"), ("Research points", "/Player/Research points")],
-    sections: &[
-        Section { title: "Player", rows: &[("Money", "/Player/Money"), ("Followers", "/Player/Followers"), ("Research points", "/Player/Research points")] },
-        Section { title: "Totals", rows: &[("Money earned in total", "/Totals/Money earned in total"), ("Followers gained in total", "/Totals/Followers gained in total")] },
     ],
     lists: &[],
     tables: &[],
@@ -2742,4 +2676,86 @@ const TYRANNY: Spec = Spec {
         ],
         names: &[("Player_NewCharacter(Clone)_0", "Player character")],
     }],
+};
+
+// ------------------------------------------------------------------ Star Wars Jedi: Fallen Order
+
+const JEDI_FO: Spec = Spec {
+    name: "Star Wars Jedi: Fallen Order",
+    tab: "Cal Kestis",
+    accent: (60, 150, 220),
+    kind: Some(crate::fmt::jedi::KIND),
+    markers: &["/Skill points/Unspent skill points"],
+    subtitle: "SaveGame00.sav. The zlib-packed actor records are opened and packed again on save.",
+    tiles: &[("Unspent skill points", "/Skill points/Unspent skill points"), ("Stims", "/Health and Force/Stims carried"), ("Deaths", "/Progress/Deaths")],
+    sections: &[
+        Section {
+            title: "Skill points",
+            rows: &[
+                ("Unspent skill points", "/Skill points/Unspent skill points"), ("Total skill points earned", "/Skill points/Total skill points earned"),
+                ("XP collected toward the next point", "/Skill points/XP collected toward the next point"),
+            ],
+        },
+        Section {
+            title: "Health and Force",
+            rows: &[
+                ("Stims carried", "/Health and Force/Stims carried"), ("Stim capacity", "/Health and Force/Stim capacity"),
+                ("Health upgrades found", "/Health and Force/Health upgrades found"), ("Force upgrades found", "/Health and Force/Force upgrades found"),
+                ("Health upgrade fragments", "/Health and Force/Health upgrade fragments"), ("Force upgrade fragments", "/Health and Force/Force upgrade fragments"),
+            ],
+        },
+        Section {
+            title: "Progress",
+            rows: &[
+                ("Secrets collected", "/Progress/Secrets collected"), ("Secrets in the game", "/Progress/Secrets in the game"),
+                ("Map sections explored", "/Progress/Map sections explored"), ("Map sections in the game", "/Progress/Map sections in the game"),
+                ("Deaths", "/Progress/Deaths"), ("Revives used", "/Progress/Revives used"),
+            ],
+        },
+    ],
+    lists: &[],
+    tables: &[],
+};
+
+// ------------------------------------------------------------------ Saints Row: The Third
+
+const SR3: Spec = Spec {
+    name: "Saints Row: The Third (and Remastered)",
+    tab: "Boss",
+    accent: (150, 60, 190),
+    kind: Some(crate::fmt::sr3::KIND),
+    markers: &["/Player/Cash (in cents)"],
+    subtitle: "sr3save_NN.sr3s_pc. Cash is kept in cents; the save's checksum is rewritten.",
+    tiles: &[("Cash (in cents)", "/Player/Cash (in cents)"), ("Respect level", "/Player/Respect level"), ("Crib stash (in cents)", "/Player/Crib money stash (in cents)")],
+    sections: &[
+        Section {
+            title: "Player",
+            rows: &[
+                ("Cash (in cents)", "/Player/Cash (in cents)"), ("Crib money stash (in cents)", "/Player/Crib money stash (in cents)"),
+                ("Respect level", "/Player/Respect level"), ("Respect in this level", "/Player/Respect in this level"), ("Total respect", "/Player/Total respect"),
+            ],
+        },
+        Section { title: "Statistics", rows: &[("Barnstorms found", "/Statistics/Barnstorms found"), ("Stunt jumps found", "/Statistics/Stunt jumps found")] },
+        Section { title: "Game", rows: &[("Difficulty index (0 to 2)", "/Game/Difficulty index")] },
+    ],
+    lists: &[],
+    tables: &[],
+};
+
+// ------------------------------------------------------------------ Watch Dogs 2
+
+const WD2: Spec = Spec {
+    name: "Watch Dogs 2",
+    tab: "Marcus",
+    accent: (230, 60, 110),
+    kind: Some(crate::fmt::wd2::KIND),
+    markers: &["/Player/Money"],
+    subtitle: "Numbered .save files in the Ubisoft Connect save folder (2688 or 3619).",
+    tiles: &[("Money", "/Player/Money"), ("Followers", "/Player/Followers"), ("Research points", "/Player/Research points")],
+    sections: &[
+        Section { title: "Player", rows: &[("Money", "/Player/Money"), ("Followers", "/Player/Followers"), ("Research points", "/Player/Research points")] },
+        Section { title: "Totals", rows: &[("Money earned in total", "/Totals/Money earned in total"), ("Followers gained in total", "/Totals/Followers gained in total")] },
+    ],
+    lists: &[],
+    tables: &[],
 };

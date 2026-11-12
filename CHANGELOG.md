@@ -1,5 +1,26 @@
 # Changelog
 
+## 0.5.0
+
+### New game screens
+- Metal Gear Solid V: The Phantom Pain (decrypts the save; GMP, heroism, staff, resources, Mother Base and FOB), Tiny Tina's Wonderlands, Euro Truck Simulator 2 and American Truck Simulator, X4: Foundations, Total War: Warhammer II and Troy
+- Mortal Shell and Mortal Shell II, Shadow Warrior 2, Everspace 2, Moonlighter, Wasteland 2, ATOM RPG, Ori and the Blind Forest, OMORI, ENDER LILIES
+- Warhammer 40,000: Mechanicus, Mutant Year Zero, Car Mechanic Simulator 2021, Medieval Dynasty, For The King, Resident Evil 5 (Steam), Anno 1800
+- Lies of P, Tokyo Xtreme Racer, Dave the Diver, My Summer Car, ULTRAKILL, RPG Maker XP games, Divinity: Original Sin Enhanced Edition
+- Alpha Protocol, Drakensang, Salt and Sanctuary, theHunter: Call of the Wild, BeamNG.drive, The Forest
+- Yakuza 3, 4 and 5 Remastered, Like a Dragon: Ishin! and Gaiden, Tyranny, Death Stranding facility stocks
+- Star Wars Jedi: Fallen Order, Saints Row: The Third, Watch Dogs 2
+- LEGO stud counters and wallets: Star Wars (2005), The Complete Saga, III, The Skywalker Saga, Batman 1 and 2, Indiana Jones 1 and 2, Harry Potter 1-7, Pirates of the Caribbean, City Undercover
+
+### Existing games expanded
+- Difficulty selectors for Minecraft, Grim Dawn, Torchlight II and Half-Life
+- Baldur's Gate 3 gold and item stack sizes; KOTOR story variables; Original Sin item stacks
+- Max crafting materials now uses each game's own cap (Death Stranding 2, Metro Exodus, MGSV plants); Onimusha upgrade materials added to slots that lack them
+- Unreal saves: UE 4.25 timestamp headers and UE 5 save-object lists; UTF-16 JSON without a byte-order mark
+
+### Features
+- The save manager has its own Backups menu
+
 ## 0.4.0
 
 ### New game screens
