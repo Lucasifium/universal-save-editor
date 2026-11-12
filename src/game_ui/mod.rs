@@ -40,6 +40,7 @@ mod survival;
 mod terraria;
 mod terraria_world;
 mod torment;
+mod trucks;
 
 use crate::theme;
 use crate::tree::TreeDoc;
@@ -108,6 +109,8 @@ pub enum Game {
     Cairn,
     Borderlands,
     Borderlands3,
+    Wonderlands,
+    TruckSim,
     GrimDawn,
     TitanQuest,
     Torchlight2,
@@ -193,6 +196,8 @@ impl Game {
             Game::GowRagnarok => "Kratos",
             Game::Cairn => "Climber",
             Game::Borderlands | Game::Borderlands3 => "Vault Hunter",
+            Game::Wonderlands => "Hero",
+            Game::TruckSim => "Driver",
             Game::GrimDawn | Game::TitanQuest | Game::Torchlight2 => "Character",
             Game::Fallout12 => "Pip-Boy",
             Game::DeusEx => "JC Denton",
@@ -290,6 +295,8 @@ pub fn detect(kind: &str, root: &Value) -> Option<Game> {
         "Cairn save" => Game::Cairn,
         crate::fmt::borderlands::KIND_BL2 | crate::fmt::borderlands::KIND_TPS => Game::Borderlands,
         crate::fmt::borderlands3::KIND => Game::Borderlands3,
+        crate::fmt::borderlands3::KIND_WL => Game::Wonderlands,
+        crate::fmt::sii::KIND => Game::TruckSim,
         "Grim Dawn character" => Game::GrimDawn,
         "Titan Quest character" => Game::TitanQuest,
         "Torchlight II character" => Game::Torchlight2,
@@ -383,6 +390,8 @@ pub fn show(game: Game, ui: &mut Ui, cx: &mut GameCtx) {
         Game::Cairn => cairn::show(ui, cx),
         Game::Borderlands => borderlands::show(ui, cx),
         Game::Borderlands3 => borderlands::show3(ui, cx),
+        Game::Wonderlands => borderlands::show_wl(ui, cx),
+        Game::TruckSim => trucks::show(ui, cx),
         Game::GrimDawn => arpg::grim_dawn(ui, cx),
         Game::TitanQuest => arpg::titan_quest(ui, cx),
         Game::Torchlight2 => arpg::torchlight2(ui, cx),
