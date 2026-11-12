@@ -116,6 +116,9 @@ pub enum Layer {
     Palworld { double: bool },
     /// Palworld 0.6+ `.sav`: the same header ("PlM1") around Oodle-compressed GVAS data.
     PalworldOodle,
+    /// Subnautica 2 `.sav`: a GSWU wrapper around an Unreal save with Oodle blocks; the current
+    /// save's data is the plain part.
+    Sn2(Arc<fmt::sn2::Layout>),
     /// Final Fantasy IX (Steam): every section of SavedData_ww.dat encrypted on its own.
     Ff9,
     /// Persona 5 Royal (PC): encrypted, zlib-packed game data; `head` is the file up to the data, decrypted.
@@ -322,6 +325,7 @@ impl Layer {
             Layer::FileBundle { name, .. } => format!("file bundle ({name})"),
             Layer::Palworld { .. } => "Palworld container".into(),
             Layer::PalworldOodle => "Palworld container (Oodle)".into(),
+            Layer::Sn2(_) => "Subnautica 2 save (Oodle blocks)".into(),
             Layer::Ff9 => "Final Fantasy IX save encryption".into(),
             Layer::P5r { .. } => "Persona 5 Royal save (encrypted, zlib)".into(),
             Layer::Ff13 { .. } => "Final Fantasy XIII save encryption".into(),
@@ -932,6 +936,7 @@ fn wrap(layer: &Layer, data: Vec<u8>) -> Result<Vec<u8>, String> {
         Layer::Rgmh { original, blocks } => fmt::rgmh::pack_from(original, blocks, &data)?,
         Layer::Copeck { pack, entry, .. } => copeck_put(pack, *entry, &data)?,
         Layer::MetroDezp { layout } => fmt::metro::pack_dezp(layout, &data)?,
+        Layer::Sn2(l) => fmt::sn2::pack(l, &data)?,
         Layer::PalworldOodle => {
             let packed = crate::oodle::compress(&data).ok_or("Oodle couldn't pack the save again (no Oodle library found)")?;
             let mut out = (data.len() as u32).to_le_bytes().to_vec();
@@ -1624,6 +1629,20 @@ fn peel(data: &[u8], ctx: &mut Ctx) -> Option<(Layer, Vec<u8>)> {
     }
     if let Some(r) = peel_hogwarts(data, ctx) {
         return Some(r);
+    }
+    if data.starts_with(b"GSWU") {
+        match fmt::sn2::unpack(data) {
+            Ok((l, p)) => {
+                if let Some(lib) = crate::oodle::location() {
+                    ctx.hint = Some(format!("Subnautica 2's Oodle compression is read and written with the Oodle library from {}.", lib.display()));
+                }
+                return Some((Layer::Sn2(Arc::new(l)), p));
+            }
+            Err(e) => {
+                ctx.hint = Some(e);
+                return None;
+            }
+        }
     }
     if data.len() > 12 && &data[8..11] == b"PlM" {
         let raw = u32::from_le_bytes(data[0..4].try_into().unwrap()) as usize;
