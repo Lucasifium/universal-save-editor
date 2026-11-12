@@ -9,6 +9,10 @@
 //!   key and IV made from the salt and a password with SHA-256 (as SuikodenSaveDecrypter by
 //!   d3xMachina, MIT, does it). The salt is kept, so an unchanged save comes back the same.
 //!
+//! - Dave the Diver (`GameSave_NN_GD.sav`): each character of the JSON text XORed with the
+//!   repeating key `GameData`, then written as UTF-8 (so a name with non-ASCII letters keeps the
+//!   key in step with characters, not bytes). Worked out from public saves.
+//!
 //! A cipher is only used when it gives back JSON, so other files are never taken for these.
 
 use aes::cipher::{block_padding::Pkcs7, BlockDecryptMut, BlockEncryptMut, KeyIvInit};
@@ -21,6 +25,7 @@ pub enum Wrap {
     Eiyuden,
     /// The salt in front of the data.
     Suikoden(Vec<u8>),
+    DaveTheDiver,
 }
 
 impl Wrap {
@@ -29,6 +34,7 @@ impl Wrap {
             Wrap::Megabonk => "Megabonk save encryption (AES)",
             Wrap::Eiyuden => "Eiyuden Chronicle save encryption (Triple-DES)",
             Wrap::Suikoden(_) => "Suikoden I & II HD save encryption (AES)",
+            Wrap::DaveTheDiver => "Dave the Diver save encryption (XOR)",
         }
     }
     pub fn game(&self) -> &'static str {
@@ -36,6 +42,7 @@ impl Wrap {
             Wrap::Megabonk => "Megabonk",
             Wrap::Eiyuden => "Eiyuden Chronicle: Hundred Heroes",
             Wrap::Suikoden(_) => "Suikoden I & II HD Remaster",
+            Wrap::DaveTheDiver => "Dave the Diver",
         }
     }
 }
@@ -103,7 +110,21 @@ fn aes256_enc(key: &[u8; 32], iv: &[u8; 16], d: &[u8]) -> Vec<u8> {
     cbc::Encryptor::<aes::Aes256>::new(key.into(), iv.into()).encrypt_padded_vec_mut::<Pkcs7>(d)
 }
 
+const DAVE_KEY: &[u8; 8] = b"GameData";
+
+/// XORs each character with the key (the same both ways).
+fn dave_xor(text: &str) -> String {
+    text.chars().enumerate().map(|(i, c)| char::from_u32(c as u32 ^ DAVE_KEY[i % 8] as u32).unwrap_or(c)).collect()
+}
+
 pub fn open(d: &[u8]) -> Option<(Wrap, Vec<u8>)> {
+    if d.len() > 2 && d[0] ^ DAVE_KEY[0] == b'{' && d[1] ^ DAVE_KEY[1] == b'"' {
+        let text = std::str::from_utf8(d).ok()?;
+        let plain = dave_xor(text).into_bytes();
+        if looks_json(&plain) && serde_json::from_slice::<serde_json::Value>(&plain).is_ok() {
+            return Some((Wrap::DaveTheDiver, plain));
+        }
+    }
     if let Some(rest) = d.strip_prefix(SUIKODEN_HEAD) {
         let text: Vec<u8> = rest.iter().copied().filter(|b| !b.is_ascii_whitespace()).collect();
         let raw = base64::engine::general_purpose::STANDARD.decode(text).ok()?;
@@ -130,6 +151,7 @@ pub fn open(d: &[u8]) -> Option<(Wrap, Vec<u8>)> {
 
 pub fn close(w: &Wrap, plain: &[u8]) -> Vec<u8> {
     match w {
+        Wrap::DaveTheDiver => dave_xor(&String::from_utf8_lossy(plain)).into_bytes(),
         Wrap::Megabonk => aes256_enc(&MEGABONK_KEY, &MEGABONK_IV, plain),
         Wrap::Eiyuden => cbc::Encryptor::<des::TdesEde3>::new(&EIYUDEN_KEY.into(), &EIYUDEN_IV.into()).encrypt_padded_vec_mut::<Pkcs7>(plain),
         Wrap::Suikoden(salt) => {
@@ -148,7 +170,7 @@ mod tests {
     #[test]
     fn round_trips() {
         let json = br#"{"gold": 123, "name": "x"}"#;
-        for w in [Wrap::Megabonk, Wrap::Eiyuden, Wrap::Suikoden(vec![7; 16])] {
+        for w in [Wrap::Megabonk, Wrap::Eiyuden, Wrap::Suikoden(vec![7; 16]), Wrap::DaveTheDiver] {
             let enc = close(&w, json);
             let (w2, plain) = open(&enc).unwrap();
             assert_eq!(w2, w);

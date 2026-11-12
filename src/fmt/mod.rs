@@ -19,6 +19,7 @@ pub mod ksp;
 pub mod prison;
 pub mod tld;
 pub mod nfsmw;
+pub mod es2;
 pub mod gk;
 pub mod civ7;
 pub mod uepack;
@@ -184,6 +185,11 @@ pub fn parse_binary(d: &[u8]) -> Option<TreeDoc> {
     }
     if let Some(t) = nfsmw::parse(d) {
         return Some(t);
+    }
+    if es2::looks(d) {
+        if let Some(t) = es2::parse(d) {
+            return Some(t);
+        }
     }
     // Checksummed JSON: before the plain JSON reader gets it.
     if vampire::looks(d) {

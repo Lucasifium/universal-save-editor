@@ -25,6 +25,8 @@ pub enum Shape {
     Array { id_key: &'static str, qty_keys: &'static [&'static str] },
     /// An object of `name: count` (the name is the id).
     Map,
+    /// An object of records keyed by id, each holding its count under `qty_key`.
+    Records { qty_key: &'static str },
 }
 
 /// The "Max crafting materials" button of a list.
@@ -122,6 +124,11 @@ fn entries(cx: &GameCtx, l: &List) -> Vec<(String, String)> {
             .iter()
             .filter(|(_, v)| v.is_number())
             .map(|(k, _)| (k.clone(), format!("{}/{}", l.path, crate::json_view::pointer_escape(k))))
+            .collect(),
+        (Shape::Records { qty_key }, Value::Object(m)) => m
+            .iter()
+            .filter(|(_, v)| v.get(*qty_key).is_some_and(|n| n.is_number()))
+            .map(|(k, _)| (k.clone(), format!("{}/{}/{}", l.path, crate::json_view::pointer_escape(k), crate::json_view::pointer_escape(qty_key))))
             .collect(),
         _ => vec![],
     }
@@ -347,6 +354,13 @@ mod tests {
                         ids.iter().map(|id| (id.to_string(), json!(if l.max.as_ref().is_some_and(|m| m.ids.contains(id)) { 0 } else { 3 }))).collect();
                     set_path(&mut root, l.path, Value::Object(o));
                 }
+                Shape::Records { qty_key } => {
+                    let o: serde_json::Map<String, Value> = ids
+                        .iter()
+                        .map(|id| (id.to_string(), json!({ *qty_key: if l.max.as_ref().is_some_and(|m| m.ids.contains(id)) { 0 } else { 3 } })))
+                        .collect();
+                    set_path(&mut root, l.path, Value::Object(o));
+                }
             }
         }
         root
@@ -412,6 +426,13 @@ mod tests {
                             let cap = m.caps.iter().find(|(c, _)| *c == id.as_str()).map_or(m.cap, |(_, c)| *c);
                             let want = if m.ids.contains(&id.as_str()) { cap } else { 3 };
                             assert_eq!(v.as_i64(), Some(want), "{} {id}", s.name);
+                        }
+                    }
+                    Shape::Records { qty_key } => {
+                        for (id, v) in arr.as_object().unwrap() {
+                            let cap = m.caps.iter().find(|(c, _)| *c == id.as_str()).map_or(m.cap, |(_, c)| *c);
+                            let want = if m.ids.contains(&id.as_str()) { cap } else { 3 };
+                            assert_eq!(v[*qty_key].as_i64(), Some(want), "{} {id}", s.name);
                         }
                     }
                 }

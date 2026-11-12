@@ -3,7 +3,7 @@
 > **Free, and it always will be.** No price, no ads, no account, no paid version, no online service, no
 > rate limits. If anyone is charging you for this, it isn't from here.
 
-An offline save editor and save manager for 270+ (272) PC games (edit saves, and back up, name and restore them): Cairn, Terraria (characters and a world map editor),
+An offline save editor and save manager for 270+ (279) PC games (edit saves, and back up, name and restore them): Cairn, Terraria (characters and a world map editor),
 Oxygen Not Included, RimWorld, Stardew Valley, Onimusha: Way of the Sword, Elden Ring, Dark Souls,
 Cyberpunk 2077, the Persona, Yakuza and Final Fantasy games, Ren'Py visual novels, RPG Maker games
 and more (the full list is below). Written in Rust (egui). Nothing is uploaded anywhere, and there are
@@ -158,6 +158,13 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 | Prison Architect | *Prison*: the bank balance, play time and the main prison settings, changed in place in the large text save (checked on public saves, not yet tried in the game) |
 | Final Fantasy XIII | *Party*: gil (the save is decrypted to edit and encrypted again, with its checksum rewritten; checked on public saves, not yet tried in the game) |
 | Sonic Mania | *Slots*: all eight Mania Mode and three Encore Mode slots (state, character, zone, lives, score, Chaos Emeralds, continues, next special stage), changed in place (checked on public saves, not yet tried in the game) |
+| Lies of P | *Pinocchio*: Ergo, level, humanity, the six stats and every item's count, with a **Max crafting materials** button that raises the Moonstones for normal and special weapons and Legion Calibers you have to 99 (an estimate), leaving quest items and consumables alone (checked on a public save, not yet tried in the game) |
+| Tokyo Xtreme Racer (2025) | *Driver*: CP (money) and its limit, PP, garage size, the day, and the battle records (checked on a public save, not yet tried in the game) |
+| Dave the Diver | *Dave*: gold, Bei, chef flames, research and trust points, and every sushi ingredient's stock, with a **Max crafting materials** button that fills the ingredients you have to 999; the save's encryption is removed and put back for you (checked on public saves, not yet tried in the game) |
+| My Summer Car | *Finland*: money and the needs (hunger, thirst, fatigue, stress, urine, dirtiness); every other single value of `defaultES2File.txt` (Easy Save 2) is in the Tree by name (checked on a public save, not yet tried in the game) |
+| ULTRAKILL | *V1*: points (P) and every weapon variant and arm, owned or not, in `generalprogress.bepis`; each level file's ranks and secrets open too (checked on public saves, not yet tried in the game) |
+| RPG Maker XP games | *Party*: gold, steps, the party and every actor (level, EXP, HP, SP and stat bonuses), and the items, weapons and armour you carry by database number (checked on public To the Moon saves) |
+| Divinity: Original Sin Enhanced Edition | *Party*: each party member's experience, vitality and gold, on the Original Sin 2 screen; the `.lsv` package is unpacked and packed again (checked on a public save, not yet tried in the game) |
 | Tales of Symphonia | *Party*: gald (written in both places the game keeps it), grade points, the records, all nine characters (level, experience, HP, TP, strength, attack, defense, luck, accuracy, evasion, intelligence, overlimit, affection) and every item up to 20 (checked on a real save, not yet tried in the game) |
 | Kenshi | *Squad*: every member's attributes and skills (up to 100, with a button to max the whole squad), the health of each body part, blood, hunger, bleeding and lost or robotic limbs, and reviving the dead, unconscious or those in a coma. Open a squad's file from the save's `platoon` folder (yours is named after your faction, `Nameless_0.platoon` by default); `quick.save` opens on a *Faction* screen with the cats. Values are found by name in the file and changed in place (checked on public saves, not yet tried in the game) |
 | Kerbal Space Program | *Space program*: career funds, science and reputation, from the save's ConfigNode text (only the values you change are rewritten; every other value, vessel and Kerbal is in the Tree). Checked on public sample saves, not yet tried in the game |

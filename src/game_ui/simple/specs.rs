@@ -3,7 +3,7 @@
 
 use super::{List, Max, Section, Shape, Spec, Table};
 
-pub static SPECS: &[Spec] = &[COTL, FALLOUT_SHELTER, DRG, S1_MONEY, S1_RANK, S1_TIME, S1_GAME, SOTF_STATE, SOTF_GAME, SOTF_WEATHER, SOTF_ITEMS, DMD, CUPHEAD, ANTIMATTER, PVZ, CELESTE, DRGS, KH3, RF4S, SKY1ST, KSP, FFPR, MCD, STONESHARD, ROGUE_TRADER, BIOSHOCK_INFINITE, SPACE_HAVEN, SNOWRUNNER, GRAVEYARD_KEEPER, NFSMW, TOS, GTA3, GTAVC, BITBURNER, TERRA_INVICTA, PRISON, FF13, SONIC_MANIA, CAVE_STORY_PLUS, CAVE_STORY];
+pub static SPECS: &[Spec] = &[COTL, FALLOUT_SHELTER, DRG, S1_MONEY, S1_RANK, S1_TIME, S1_GAME, SOTF_STATE, SOTF_GAME, SOTF_WEATHER, SOTF_ITEMS, DMD, CUPHEAD, ANTIMATTER, PVZ, CELESTE, DRGS, KH3, RF4S, SKY1ST, KSP, FFPR, MCD, STONESHARD, ROGUE_TRADER, BIOSHOCK_INFINITE, SPACE_HAVEN, SNOWRUNNER, GRAVEYARD_KEEPER, NFSMW, TOS, GTA3, GTAVC, BITBURNER, TERRA_INVICTA, PRISON, FF13, SONIC_MANIA, CAVE_STORY_PLUS, CAVE_STORY, LIES_OF_P, TXR, DAVE, MSC, ULTRAKILL, RPGXP];
 
 // ------------------------------------------------------------------ Cult of the Lamb
 
@@ -1492,5 +1492,228 @@ const CAVE_STORY: Spec = Spec {
     lists: &[],
     tables: &[
         Table { title: "Weapons", path: "/Profile/Weapons", name: &[], only: &[], cols: &[("Type", "/Type"), ("Level", "/Level"), ("Energy", "/Energy"), ("Ammo", "/Ammo"), ("Max ammo (0 = unlimited)", "/Max ammo (0 = unlimited)")], names: &[] },
+    ],
+};
+
+// ------------------------------------------------------------------ Lies of P
+
+const LIES_OF_P: Spec = Spec {
+    name: "Lies of P",
+    tab: "Pinocchio",
+    accent: (196, 160, 92),
+    kind: Some("Unreal Engine save (LCharacterSaveGame)"),
+    markers: &["/CharacterSaveData/PlayerLevel", "/CharacterSaveData/FirstStatSimpleList"],
+    subtitle: "SaveData-<n>_Character_<slot>.sav. Ergo held is what you can spend; the level is kept with the stats, so raise both together.",
+    tiles: &[("Ergo", "/CharacterSaveData/AcquisitionSoul"), ("Level", "/CharacterSaveData/PlayerLevel"), ("Humanity", "/CharacterSaveData/HumanityLevel")],
+    sections: &[Section {
+        title: "Character",
+        rows: &[
+            ("Ergo", "/CharacterSaveData/AcquisitionSoul"), ("Level", "/CharacterSaveData/PlayerLevel"),
+            ("Ergo for next level", "/CharacterSaveData/NextLevelUpRequireSoul"), ("Humanity level", "/CharacterSaveData/HumanityLevel"),
+            ("Humanity gained", "/CharacterSaveData/AcquisitionHumanity"), ("Golden Lie harvests ready", "/CharacterSaveData/GoldenTreeHarvestableCount"),
+            ("Deaths", "/CharacterSaveData/YouDieCount"), ("Play time (seconds)", "/CharacterSaveData/CharacterPlayTime"),
+        ],
+    }],
+    lists: &[List {
+        title: "Items",
+        path: "/CharacterSaveData/CharacterItem/PlayerItems",
+        shape: Shape::Array { id_key: "FirstCodeName", qty_keys: &["Count"] },
+        names: &[
+            ("Reinforce_Blade_Common_G1", "Hidden Moonstone"), ("Reinforce_Blade_Common_G2", "Crescent Moonstone"),
+            ("Reinforce_Blade_Common_G3", "Half Moonstone"), ("Reinforce_Blade_Common_G4", "Full Moonstone"),
+            ("Reinforce_Hero_G1", "Dark Moon Moonstone of the Covenant"), ("Reinforce_Hero_G2", "Full Moonstone of the Covenant"),
+            ("Reinforce_SlaveArm_G1", "Legion Caliber"), ("Exchange_GoldenFruit", "Gold Coin Fruit"),
+            ("Consume_Rechargeable_1", "Pulse Cell"), ("Helpmate_Material", "Star Fragment"),
+        ],
+        max: Some(Max {
+            ids: &[
+                "Reinforce_Blade_Common_G1", "Reinforce_Blade_Common_G2", "Reinforce_Blade_Common_G3", "Reinforce_Blade_Common_G4",
+                "Reinforce_Hero_G1", "Reinforce_Hero_G2", "Reinforce_SlaveArm_G1",
+            ],
+            cap: 99,
+            caps: &[],
+            estimate: true,
+            about: "Raises the Moonstones for normal and special weapons and Legion Calibers you already have. Quest items, Quartz and consumables are left alone.",
+        }),
+    }],
+    tables: &[Table {
+        title: "Stats",
+        path: "/CharacterSaveData/FirstStatSimpleList",
+        name: &["/StatType"],
+        only: &[],
+        cols: &[("Points", "/StatData")],
+        names: &[
+            ("ELFirstStat::E_VITALITY", "Vitality"), ("ELFirstStat::E_VIGOR", "Vigor"), ("ELFirstStat::E_TENACITY", "Tenacity (unused)"),
+            ("ELFirstStat::E_CAPACITY", "Capacity"), ("ELFirstStat::E_MOTIVITY", "Motivity"), ("ELFirstStat::E_TECHNIQUE", "Technique"),
+            ("ELFirstStat::E_ADVANCE", "Advance"),
+        ],
+    }],
+};
+
+// ------------------------------------------------------------------ Tokyo Xtreme Racer (2025)
+
+const TXR: Spec = Spec {
+    name: "Tokyo Xtreme Racer (2025)",
+    tab: "Driver",
+    accent: (230, 70, 60),
+    kind: Some("Unreal Engine save (BP_SaveData_C)"),
+    markers: &["/user_info/Cp", "/user_info/PP"],
+    subtitle: "UserData_00.sav. CP is money and cannot go above the CP limit next to it; PP buys perks.",
+    tiles: &[("CP", "/user_info/Cp"), ("PP", "/user_info/PP"), ("Garage size", "/user_info/MaxGarageMyCarNum")],
+    sections: &[
+        Section {
+            title: "Money and points",
+            rows: &[
+                ("CP", "/user_info/Cp"), ("CP limit", "/user_info/UpperLimitCP"), ("CP earned", "/user_info/CumulativeAcquisitionCP"),
+                ("PP", "/user_info/PP"), ("PP limit", "/user_info/UpperLimitPP"), ("PP earned", "/user_info/CumulativeAcquisitionPP"),
+                ("Garage size", "/user_info/MaxGarageMyCarNum"), ("Day", "/user_info/Day"),
+            ],
+        },
+        Section {
+            title: "Records",
+            rows: &[
+                ("Battles", "/user_info/BattleNum"), ("Wins", "/user_info/WinNum"), ("Draws", "/user_info/DrawNum"),
+                ("Longest winning streak", "/user_info/MaxWiningStreak"), ("Rivals beaten", "/user_info/NumOfRivalDefeated"),
+                ("Teams beaten", "/user_info/NumOfTeamDefeated"), ("Wanderers beaten", "/user_info/NumOfWandererDefeated"),
+                ("Top speed", "/user_info/MaxSpeed"), ("Distance driven", "/user_info/TotalMileages"),
+            ],
+        },
+    ],
+    lists: &[],
+    tables: &[],
+};
+
+// ------------------------------------------------------------------ Dave the Diver
+
+const DAVE: Spec = Spec {
+    name: "Dave the Diver",
+    tab: "Dave",
+    accent: (40, 150, 210),
+    kind: None,
+    markers: &["/PlayerInfo/m_Gold", "/Ingredients"],
+    subtitle: "GameSave_NN_GD.sav, decrypted for you and encrypted again on save. Gold is the sushi bar's money; Bei buys gear from Duff and Cobra.",
+    tiles: &[("Gold", "/PlayerInfo/m_Gold"), ("Bei", "/PlayerInfo/m_Bei"), ("Chef flames", "/PlayerInfo/m_ChefFlame")],
+    sections: &[Section {
+        title: "Dave",
+        rows: &[
+            ("Gold", "/PlayerInfo/m_Gold"), ("Bei", "/PlayerInfo/m_Bei"), ("Chef flames", "/PlayerInfo/m_ChefFlame"),
+            ("Research points", "/PlayerInfo/m_researchPoint"), ("Trust points", "/PlayerInfo/m_trustPoint"),
+            ("Deepest dive (m)", "/PlayerInfo/m_BestReachDepth"), ("Dives", "/GameInfo/totalDivingCount"),
+        ],
+    }],
+    lists: &[List {
+        title: "Ingredients",
+        path: "/Ingredients",
+        shape: Shape::Records { qty_key: "count" },
+        names: &[],
+        max: Some(Max {
+            ids: DAVE_INGREDIENTS,
+            cap: 999,
+            caps: &[],
+            estimate: true,
+            about: "Raises every fish and farm ingredient you already have, the stock the sushi bar cooks from. Gold, Bei and gear are left alone.",
+        }),
+    }],
+    tables: &[],
+};
+
+const DAVE_INGREDIENTS: &[&str] = &[
+    "1021002", "1021003", "1021004", "1021005", "1021006", "1021007", "1021008", "1021009", "1021010", "1021011", "1021012", "1021013",
+    "1021014", "1021015", "1021016", "1021017", "1021018", "1021019", "1021020", "1021022", "1021023", "1021027", "1021028", "1021029",
+    "1021031", "1021032", "1021033", "1021034", "1021036", "1021040", "1021060", "1021101", "1021102", "1021103", "1021105", "1021106",
+    "1021107", "1021108", "1021109", "1021110", "1021111", "1021112", "1021113", "1021114", "1021115", "1021116", "1021118", "1021121",
+    "1021123", "1021129", "1021130", "1021131", "1021134", "1021136", "1021201", "1021202", "1021205", "1021208", "1021211", "1021212",
+    "1021214", "1021215", "1021217", "1021218", "1021219", "1021220", "1021222", "1021301", "1021302", "1021303", "1021304", "1021305",
+    "1021306", "1021401", "1021402", "1021403", "1021405", "1021407", "1021408", "1021410", "1021412", "1021413", "1021415", "1021501",
+    "1021502", "1021503", "1021504", "1021505", "1021508", "1021550", "1022025", "1023001", "1023003", "1023005", "1023007", "1023009",
+    "1023011", "1023013", "1023015", "1023017", "1023019", "1023021", "1023023", "1023025", "1023027", "1023028", "1023029", "1023030",
+    "1023031", "1023032", "1023035", "1023037", "1023039", "1023043", "1023045", "1023047", "1023049", "1023051", "1023053", "1023055",
+    "1023059", "1023061", "1023063", "1023065", "1025901", "1025902", "1025903", "1025904", "1025905", "1025906", "1025907", "1025908",
+    "1025909", "1025910", "1026001", "1026002", "1026003", "1026004", "1026005", "1026006", "1026007", "1026008", "1026009", "1026010",
+    "1026951", "1026952", "1027001", "1027002", "1027004", "1027008", "1027014", "1027016", "1027017", "1027018", "1027101", "1027102",
+    "1027103", "1027104", "1027106", "1027107", "1027108", "1027109",
+];
+
+// ------------------------------------------------------------------ My Summer Car
+
+const MSC: Spec = Spec {
+    name: "My Summer Car",
+    tab: "Finland",
+    accent: (214, 168, 46),
+    kind: Some(crate::fmt::es2::KIND),
+    markers: &["/PlayerMoney", "/PlayerHunger"],
+    subtitle: "defaultES2File.txt (items.txt holds the shop items). Money is in marks. The needs run from 0 (fine) to 100 (passing out); hunger, thirst and the rest are best set low.",
+    tiles: &[("Money (mk)", "/PlayerMoney"), ("Hunger", "/PlayerHunger"), ("Thirst", "/PlayerThirst"), ("Fatigue", "/PlayerFatigue")],
+    sections: &[Section {
+        title: "Player",
+        rows: &[
+            ("Money (mk)", "/PlayerMoney"), ("Hunger", "/PlayerHunger"), ("Thirst", "/PlayerThirst"), ("Fatigue", "/PlayerFatigue"),
+            ("Stress", "/PlayerStress"), ("Urine", "/PlayerUrine"), ("Dirtiness", "/PlayerDirtiness"),
+        ],
+    }],
+    lists: &[],
+    tables: &[],
+};
+
+// ------------------------------------------------------------------ ULTRAKILL
+
+const ULTRAKILL: Spec = Spec {
+    name: "ULTRAKILL",
+    tab: "V1",
+    accent: (200, 30, 40),
+    kind: Some(".NET BinaryFormatter (GameProgressMoneyAndGear)"),
+    markers: &["/money", "/rev0"],
+    subtitle: "generalprogress.bepis in the save slot folder. Each weapon variant is 1 when owned and 0 when not; the level files (lvlNprogress.bepis) hold ranks and secrets.",
+    tiles: &[("Points (P)", "/money")],
+    sections: &[
+        Section {
+            title: "Revolver and shotgun",
+            rows: &[
+                ("Piercer", "/rev0"), ("Marksman", "/rev1"), ("Sharpshooter", "/rev2"), ("Slab revolvers", "/revalt"),
+                ("Core Eject", "/sho0"), ("Pump Charge", "/sho1"), ("Sawed-On", "/sho2"),
+            ],
+        },
+        Section {
+            title: "Nailgun, railcannon, rockets, arms",
+            rows: &[
+                ("Attractor", "/nai0"), ("Overheat", "/nai1"), ("JumpStart", "/nai2"), ("Sawblade launchers", "/naialt"),
+                ("Electric railcannon", "/rai0"), ("Screwdriver", "/rai1"), ("Malicious", "/rai2"),
+                ("Freezeframe", "/rock0"), ("S.R.S. Cannon", "/rock1"), ("Firestarter", "/rock2"),
+                ("Knuckleblaster", "/arm1"), ("Whiplash", "/arm2"),
+            ],
+        },
+        Section {
+            title: "Progress",
+            rows: &[("Tutorial beaten", "/tutorialBeat"), ("Intro seen", "/introSeen"), ("Clash mode unlocked", "/clashModeUnlocked")],
+        },
+    ],
+    lists: &[],
+    tables: &[],
+};
+
+// ------------------------------------------------------------------ RPG Maker XP games
+
+const RPGXP_ACTOR_COLS: &[(&str, &str)] = &[
+    ("Level", "/@level"), ("EXP", "/@exp"), ("HP", "/@hp"), ("SP", "/@sp"), ("Max HP +", "/@maxhp_plus"), ("Max SP +", "/@maxsp_plus"),
+    ("STR +", "/@str_plus"), ("DEX +", "/@dex_plus"), ("AGI +", "/@agi_plus"), ("INT +", "/@int_plus"),
+];
+
+const RPGXP: Spec = Spec {
+    name: "RPG Maker XP game",
+    tab: "Party",
+    accent: (90, 130, 200),
+    kind: Some("RPG Maker XP/VX/Ace (Ruby Marshal)"),
+    markers: &["/Part 9/@gold", "/Part 8/@data", "/Part 9/@items"],
+    subtitle: "SaveN.rxdata. Items, weapons and armour are listed by their number in the game's database (Data/Items.rxdata), with how many you carry. HP and SP above the maximum are cut back by the game. The save keeps the party and every actor as separate copies, so change a party member in both tables.",
+    tiles: &[("Gold", "/Part 9/@gold"), ("Steps", "/Part 9/@steps")],
+    sections: &[],
+    lists: &[
+        List { title: "Items (by database number)", path: "/Part 9/@items", shape: Shape::Map, names: &[], max: None },
+        List { title: "Weapons (by database number)", path: "/Part 9/@weapons", shape: Shape::Map, names: &[], max: None },
+        List { title: "Armour (by database number)", path: "/Part 9/@armors", shape: Shape::Map, names: &[], max: None },
+    ],
+    tables: &[
+        Table { title: "Party (what the menu and battles use)", path: "/Part 9/@actors", name: &["/@name"], only: &[], cols: RPGXP_ACTOR_COLS, names: &[] },
+        Table { title: "Every actor (copied in when someone joins the party)", path: "/Part 8/@data", name: &["/@name"], only: &[], cols: RPGXP_ACTOR_COLS, names: &[] },
     ],
 };
