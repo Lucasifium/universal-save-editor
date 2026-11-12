@@ -2759,3 +2759,18 @@ const WD2: Spec = Spec {
     lists: &[],
     tables: &[],
 };
+
+// ------------------------------------------------------------------ Fable: The Lost Chapters
+
+const FABLE: Spec = Spec {
+    name: "Fable: The Lost Chapters",
+    tab: "Albion",
+    accent: (170, 130, 60),
+    kind: Some(crate::fmt::fable::KIND),
+    markers: &["/Hero/Gold"],
+    subtitle: "AutoSave or a Manual - Save file in Documents\\My Games\\Fable\\Saves\\<hero name>. Morality runs from evil (negative) to good (positive); the game keeps it within its own limits. Age changes how old the hero looks.",
+    tiles: &[("Gold", "/Hero/Gold"), ("Morality", "/Hero/Morality"), ("Renown level", "/Hero/Renown level")],
+    sections: &[Section { title: "Hero", rows: &[("Gold", "/Hero/Gold"), ("Morality", "/Hero/Morality"), ("Renown level", "/Hero/Renown level"), ("Age", "/Hero/Age")] }],
+    lists: &[],
+    tables: &[],
+};

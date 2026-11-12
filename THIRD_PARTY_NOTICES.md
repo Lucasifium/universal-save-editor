@@ -134,6 +134,7 @@ Universal Save Editor is free. It builds on other people's work, listed here wit
 | [Graveyard-Keeper-Savefile-Editor (Graveyard Keeper `.dat` layout, value types and the list of field-name hashes, ported)](https://github.com/NetroScript/Graveyard-Keeper-Savefile-Editor) | NetroScript | MIT |
 | [nfsmw-save-editor (Need for Speed: Most Wanted profile offsets and MD5 range; facts, no code)](https://github.com/x07x08/nfsmw-save-editor) | x07x08 | Unlicense |
 | [RE5-Save-Editor (Resident Evil 5 Steam save cipher, checksum ranges, money and points offsets; facts, no code)](https://github.com/shinneider/RE5-Save-Editor) | shinneider | MIT |
+| [FableDecomp (Fable: The Lost Chapters save container, checksum, entity cells and hero stat fields; facts, no code)](https://github.com/BuffJesus/FableDecomp) | FableDecomp contributors | MIT |
 | [FileDBReader (Anno FileDB / BBDom layout; facts, no code)](https://github.com/anno-mods/FileDBReader) | anno-mods | facts only (no licence file; no code used) |
 | [RDAExplorer (Anno RDA 2.2 archive layout; facts, no code)](https://github.com/lysannschlegel/RDAExplorer) | lysannschlegel | facts only (no licence file; no code used) |
 | [astroneer-save (Astroneer container: magic, sizes and the 4 KiB zlib window; facts, no code)](https://github.com/NotFabii/astroneer-save-editor) | NotFabii | MIT |

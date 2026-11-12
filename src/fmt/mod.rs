@@ -27,6 +27,7 @@ pub mod nfsmw;
 pub mod es2;
 pub mod re5;
 pub mod anno;
+pub mod fable;
 pub mod gk;
 pub mod civ7;
 pub mod uepack;
@@ -207,6 +208,11 @@ pub fn parse_binary(d: &[u8]) -> Option<TreeDoc> {
     }
     if let Some(t) = nfsmw::parse(d) {
         return Some(t);
+    }
+    if fable::looks(d) {
+        if let Some(t) = fable::parse(d) {
+            return Some(t);
+        }
     }
     if anno::looks(d) {
         if let Some(t) = anno::parse(d) {
