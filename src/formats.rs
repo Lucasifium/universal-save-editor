@@ -62,6 +62,8 @@ pub enum Layer {
     ZipEntry { archive: Arc<Vec<u8>>, name: String },
     /// UTF-8 byte-order mark in front of the text.
     Utf8Bom,
+    /// JSON text followed by NUL bytes (SnowRunner's `CompleteSave.cfg` ends in one).
+    NulPadded(usize),
     /// UTF-16 text with a byte-order mark (converted to UTF-8 for editing).
     Utf16 { big_endian: bool },
     /// gzip stream (magic 1F 8B).
@@ -271,6 +273,7 @@ impl Layer {
             Layer::RenpyPersistent { .. } => "Ren'Py persistent (zlib + signature)".into(),
             Layer::ZipEntry { name, .. } => format!("zip archive ({name})"),
             Layer::Utf8Bom => "UTF-8 BOM".into(),
+            Layer::NulPadded(_) => "JSON followed by a NUL byte".into(),
             Layer::Utf16 { big_endian } => format!("UTF-16 {}", if *big_endian { "BE" } else { "LE" }),
             Layer::Gzip => "gzip".into(),
             Layer::Zlib => "zlib".into(),
@@ -751,6 +754,7 @@ fn wrap(layer: &Layer, data: Vec<u8>) -> Result<Vec<u8>, String> {
             out
         }
         Layer::Utf8Bom => [BOM, &data].concat(),
+        Layer::NulPadded(n) => [data, vec![0u8; *n]].concat(),
         Layer::Utf16 { big_endian } => {
             let s = String::from_utf8(data).map_err(|_| "UTF-16 layer needs text".to_string())?;
             let mut out = if *big_endian { vec![0xFE, 0xFF] } else { vec![0xFF, 0xFE] };
@@ -1176,6 +1180,13 @@ fn peel(data: &[u8], ctx: &mut Ctx) -> Option<(Layer, Vec<u8>)> {
     }
     if data.starts_with(BOM) {
         return Some((Layer::Utf8Bom, data[BOM.len()..].to_vec()));
+    }
+    if data.last() == Some(&0) {
+        let end = data.iter().rposition(|&b| b != 0).map_or(0, |i| i + 1);
+        let body = &data[..end];
+        if matches!(body.first(), Some(b'{' | b'[')) && std::str::from_utf8(body).is_ok_and(|t| parse_json(t.trim()).is_some()) {
+            return Some((Layer::NulPadded(data.len() - end), body.to_vec()));
+        }
     }
     if fmt::sol::looks(data) {
         if let Some(json) = fmt::sol::open(data) {
@@ -2445,6 +2456,8 @@ mod tests {
     }
     #[test]
     fn bom() { roundtrip(&[Layer::Utf8Bom]); }
+    #[test]
+    fn nul_padded_json() { roundtrip(&[Layer::NulPadded(1)]); }
 
     fn set(content: &mut Content, ptr: &str, v: Value) {
         let Content::Tree(p) = content else { panic!("expected a tree, got {}", content.kind()) };
