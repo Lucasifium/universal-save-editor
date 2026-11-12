@@ -13,6 +13,7 @@ pub mod dreamcast;
 pub mod saturn;
 pub mod keyed;
 pub mod ksp;
+pub mod prison;
 pub mod tld;
 pub mod nfsmw;
 pub mod gk;
@@ -619,6 +620,11 @@ pub fn parse_text(text: &str, ext: &str) -> Option<TreeDoc> {
         return Some(doc);
     }
     let t = text.trim_start();
+    if prison::looks(text) {
+        if let Ok(doc) = prison::parse(text) {
+            return Some(doc);
+        }
+    }
     if ksp::looks(text) {
         if let Ok(doc) = ksp::parse(text) {
             return Some(doc);

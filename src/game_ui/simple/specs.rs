@@ -3,7 +3,7 @@
 
 use super::{List, Max, Section, Shape, Spec, Table};
 
-pub static SPECS: &[Spec] = &[COTL, FALLOUT_SHELTER, DRG, S1_MONEY, S1_RANK, S1_TIME, S1_GAME, SOTF_STATE, SOTF_GAME, SOTF_WEATHER, SOTF_ITEMS, DMD, CUPHEAD, ANTIMATTER, PVZ, CELESTE, DRGS, KH3, RF4S, SKY1ST, KSP, FFPR, MCD, STONESHARD, ROGUE_TRADER, BIOSHOCK_INFINITE, SPACE_HAVEN, SNOWRUNNER, GRAVEYARD_KEEPER, NFSMW, TOS, GTA3, GTAVC, BITBURNER, TERRA_INVICTA];
+pub static SPECS: &[Spec] = &[COTL, FALLOUT_SHELTER, DRG, S1_MONEY, S1_RANK, S1_TIME, S1_GAME, SOTF_STATE, SOTF_GAME, SOTF_WEATHER, SOTF_ITEMS, DMD, CUPHEAD, ANTIMATTER, PVZ, CELESTE, DRGS, KH3, RF4S, SKY1ST, KSP, FFPR, MCD, STONESHARD, ROGUE_TRADER, BIOSHOCK_INFINITE, SPACE_HAVEN, SNOWRUNNER, GRAVEYARD_KEEPER, NFSMW, TOS, GTA3, GTAVC, BITBURNER, TERRA_INVICTA, PRISON];
 
 // ------------------------------------------------------------------ Cult of the Lamb
 
@@ -1372,4 +1372,30 @@ const TERRA_INVICTA: Spec = Spec {
         cols: &[("Money", "/Value/resources/Money"), ("Influence", "/Value/resources/Influence"), ("Operations", "/Value/resources/Operations"), ("Research", "/Value/resources/Research"), ("Projects", "/Value/resources/Projects"), ("Boost", "/Value/resources/Boost"), ("MissionControl", "/Value/resources/MissionControl"), ("Water", "/Value/resources/Water"), ("Volatiles", "/Value/resources/Volatiles"), ("Metals", "/Value/resources/Metals"), ("NobleMetals", "/Value/resources/NobleMetals"), ("Fissiles", "/Value/resources/Fissiles"), ("Antimatter", "/Value/resources/Antimatter"), ("Exotics", "/Value/resources/Exotics")],
         names: &[],
     }],
+};
+
+// ------------------------------------------------------------------ Prison Architect
+
+const PRISON: Spec = Spec {
+    name: "Prison Architect",
+    tab: "Prison",
+    accent: (230, 140, 40),
+    kind: Some(crate::fmt::prison::KIND),
+    markers: &["/Finance/Balance"],
+    subtitle: "A .prison save. Only the bank balance and the top-level settings are shown; the rest of the file is left byte for byte as it was.",
+    tiles: &[("Balance", "/Finance/Balance")],
+    sections: &[Section {
+        title: "Settings",
+        rows: &[
+            ("Seconds played", "/Settings/SecondsPlayed"), ("Time index", "/Settings/TimeIndex"),
+            ("Time warp factor", "/Settings/TimeWarpFactor"), ("Food quantity", "/Settings/FoodQuantity"),
+            ("Food variation", "/Settings/FoodVariation"), ("Staff have guard keys", "/Settings/StaffHaveGuardKeys"),
+            ("Electricity", "/Settings/EnabledElectricity"), ("Water", "/Settings/EnabledWater"),
+            ("Food", "/Settings/EnabledFood"), ("Misconduct", "/Settings/EnabledMisconduct"),
+            ("Gangs", "/Settings/EnabledGangs"), ("Decay", "/Settings/EnabledDecay"),
+            ("Failure conditions", "/Settings/FailureConditions"),
+        ],
+    }],
+    lists: &[],
+    tables: &[],
 };
