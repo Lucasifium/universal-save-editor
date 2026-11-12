@@ -37,6 +37,8 @@ Universal Save Editor is free. It builds on other people's work, listed here wit
 | [Apollo DC save tools (VMS header CRC and Nexus DCI layout, facts used)](https://github.com/bucanero/apollo-dc), after Marcus Comstedt's VMU file system notes | Damian Parrino (bucanero); Marcus Comstedt | GPL-3.0-or-later |
 | [saturn-save-tools (Saturn single-save layouts and backup RAM reading, ported)](https://github.com/bucanero/saturn-save-tools) | Damian Parrino (bucanero) | GPL-3.0-or-later |
 | [SAROO savetool (backup RAM, SS_SAVE.BIN and SS_MEMS.BIN layouts, ported)](https://github.com/tpunix/SAROO) | tpunix | GPL-3.0 |
+| [P3P Save Editor (Persona 3 Portable save layout, item and Persona names; ported)](https://github.com/Nightingale04/P3P_Save_Editor) | Nightingale04 | GPL-3.0 |
+| [LuminousSaveCrypt (Forspoken save key and integrity hash; ported)](https://github.com/Rinual/LuminousSaveCrypt), after FFXVSaveCrypt by Surihix | Rinual | GPL-3.0 |
 | [Megabonk-Save-Decryptor (Megabonk save key and IV; facts only)](https://github.com/GuardianN06/Megabonk-Save-Decryptor) | GuardianN06 | facts only (key and layout), credited |
 | [Eiyuden-Chronicle-Save-Editor (Eiyuden Chronicle save key and IV; facts only)](https://github.com/TheSparda/Eiyuden-Chronicle-Save-Editor) | TheSparda | facts only (key and layout), credited |
 | [SuikodenSaveDecrypter (Suikoden I & II HD save encryption, ported)](https://github.com/d3xMachina/SuikodenSaveDecrypter) | d3xMachina | MIT |

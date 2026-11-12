@@ -89,6 +89,14 @@ fn footer_ok(d: &[u8]) -> bool {
 
 /// Decrypts a Final Fantasy XV `.save`: (plain data, footer to pack it again with).
 pub fn decrypt(d: &[u8]) -> Option<(Vec<u8>, Vec<u8>)> {
+    let (plain, foot) = decrypt_with(&KEY, d)?;
+    // The header: format version 4 and a zero, then the schema's offset.
+    let le = |at: usize| u32::from_le_bytes(plain[at..at + 4].try_into().unwrap()) as usize;
+    (le(4) == 4 && le(8) == 0 && le(12) < plain.len()).then_some((plain, foot))
+}
+
+/// The outer layer alone, with the game's own key (Forspoken uses the same layer).
+pub fn decrypt_with(key: &[u8; 24], d: &[u8]) -> Option<(Vec<u8>, Vec<u8>)> {
     if !footer_ok(d) {
         return None;
     }
@@ -102,23 +110,25 @@ pub fn decrypt(d: &[u8]) -> Option<(Vec<u8>, Vec<u8>)> {
     for i in 1..n {
         swap_blocks(&mut b, i, ks[i]);
     }
-    let plain = cbc::Decryptor::<aes::Aes192>::new(&KEY.into(), &iv.into())
+    let plain = cbc::Decryptor::<aes::Aes192>::new(&(*key).into(), &iv.into())
         .decrypt_padded_mut::<aes::cipher::block_padding::NoPadding>(&mut b)
         .ok()?
         .to_vec();
-    // The header: format version 4 and a zero, then the schema's offset.
-    let le = |at: usize| u32::from_le_bytes(plain[at..at + 4].try_into().unwrap()) as usize;
-    (le(4) == 4 && le(8) == 0 && le(12) < plain.len()).then(|| (plain, foot.to_vec()))
+    Some((plain, foot.to_vec()))
 }
 
 pub fn encrypt(plain: &[u8], foot: &[u8]) -> Result<Vec<u8>, String> {
+    encrypt_with(&KEY, plain, foot)
+}
+
+pub fn encrypt_with(key: &[u8; 24], plain: &[u8], foot: &[u8]) -> Result<Vec<u8>, String> {
     if plain.len() % 16 != 0 || foot.len() != FOOTER {
         return Err("Final Fantasy XV saves must stay a whole number of 16-byte blocks".into());
     }
     let iv: [u8; 16] = foot[..16].try_into().unwrap();
     let tweak = &foot[16..32];
     let seed = u32::from_le_bytes(foot[32..36].try_into().unwrap());
-    let mut b = cbc::Encryptor::<aes::Aes192>::new(&KEY.into(), &iv.into()).encrypt_padded_vec_mut::<aes::cipher::block_padding::NoPadding>(plain);
+    let mut b = cbc::Encryptor::<aes::Aes192>::new(&(*key).into(), &iv.into()).encrypt_padded_vec_mut::<aes::cipher::block_padding::NoPadding>(plain);
     let n = b.len() / 16;
     let ks = swaps(seed, n);
     for i in (1..n).rev() {
