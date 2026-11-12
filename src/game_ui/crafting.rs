@@ -87,6 +87,11 @@ pub fn about(game: Game) -> &'static str {
              facility you've found to the most that kind of facility stores at five stars (for example 960 \
              chiral crystals at a prepper, 4800 at a knot city). Below five stars the game may store less."
         }
+        Game::DeathStranding1 => {
+            "Raises the chiral crystals, resins, metals, ceramics, chemicals and special alloys stored at every \
+             facility you've found to an estimate of the most it stores at five stars (for example 2400 chiral \
+             crystals at a distribution center or prepper, 4800 at a knot city). Below five stars the game may store less."
+        }
         Game::Metro => {
             "Raises Artyom's crafting metal and chemicals (Metro Exodus) to 300 each, the most he carries on \
              Reader and Ranger Hardcore (Normal allows more)."
@@ -145,6 +150,7 @@ pub fn stacks(game: Game, cx: &GameCtx) -> Result<Vec<Stack>, &'static str> {
         Game::GowRagnarok => Ok(gow_ragnarok(cx)),
         Game::Andromeda => Ok(andromeda(cx)),
         Game::DeathStranding2 => Ok(death_stranding2(cx)),
+        Game::DeathStranding1 => Ok(death_stranding1(cx)),
         Game::Metro => Ok(metro(cx)),
         Game::Ffxv => Ok(ffxv(cx)),
         Game::Kotor => some(fixed(cx, &[("/Party/Components", "Components"), ("/Party/Chemicals", "Chemicals")], KOTOR2_CAP), "Only KOTOR II's party table has components and chemicals."),
@@ -485,6 +491,34 @@ fn death_stranding2(cx: &GameCtx) -> Vec<Stack> {
         let base = format!("/Facilities/{}", pointer_escape(&f));
         let caps = ds2_caps(&f);
         for (m, cap) in crate::fmt::ds2::MATERIALS.iter().zip(caps) {
+            if let Some(s) = single(cx, format!("{base}/{}", pointer_escape(m)), format!("{f}: {m}"), cap) {
+                out.push(s);
+            }
+        }
+    }
+    out
+}
+
+// ------------------------------------------------------------------ Death Stranding
+
+/// Estimate: no public table gives Death Stranding's facility storage, so knot cities use
+/// Death Stranding 2's five-star knot row and every other facility its distribution-center row
+/// (public saves show preppers holding more metals than Death Stranding 2's prepper cap).
+fn ds1_caps(facility: &str) -> [i64; 6] {
+    const KNOT: [i64; 6] = [4800, 9600, 8000, 9600, 7200, 9600];
+    const OTHER: [i64; 6] = [2400, 4800, 6000, 4800, 3600, 7200];
+    if facility.ends_with("Knot City") && !facility.contains("Distribution Center") && !facility.contains("Waystation") {
+        KNOT
+    } else {
+        OTHER
+    }
+}
+
+fn death_stranding1(cx: &GameCtx) -> Vec<Stack> {
+    let mut out = vec![];
+    for f in object_keys(cx, "/Facilities") {
+        let base = format!("/Facilities/{}", pointer_escape(&f));
+        for (m, cap) in crate::fmt::ds1::MATERIALS.iter().zip(ds1_caps(&f)) {
             if let Some(s) = single(cx, format!("{base}/{}", pointer_escape(m)), format!("{f}: {m}"), cap) {
                 out.push(s);
             }
@@ -1007,6 +1041,12 @@ mod tests {
         assert_eq!(e["/Facilities/South Fort Knot (F6)/Chiral crystals"], 4800);
         assert_eq!(e["/Facilities/F7 North Distribution Center/Chiral crystals"], 2400);
         assert_eq!(e["/Facilities/Heartman's Lab/Special alloys"], 4800);
+        let root = json!({"Facilities": {"Capital Knot City": {"Metals": 1}, "Distribution Center West of Capital Knot City": {"Metals": 1}, "Engineer": {"Metals": 9000}}});
+        let mut cx = ctx(&root);
+        assert_eq!(apply(Game::DeathStranding1, &mut cx), 2);
+        let e = edits(&cx);
+        assert_eq!(e["/Facilities/Capital Knot City/Metals"], 8000);
+        assert_eq!(e["/Facilities/Distribution Center West of Capital Knot City/Metals"], 6000);
 
         let root = json!({"Inventory": {"Military-grade rounds (money)": 5, "Shotgun shells": 4, "Metal (crafting)": 20, "Chemicals (crafting)": 3}});
         let mut cx = ctx(&root);

@@ -36,7 +36,7 @@ fn fmix(mut k: u64) -> u64 {
 }
 
 /// MurmurHash3 x64-128 (seed 42) of the seed bytes followed by the rest of the key material.
-fn key(seed: [u8; 4]) -> [u8; 16] {
+pub(crate) fn key(seed: [u8; 4]) -> [u8; 16] {
     let mut m = KEY_MATERIAL;
     m[..4].copy_from_slice(&seed);
     let (c1, c2, s) = (0x87C3_7B91_1142_53D5u64, 0x4CF5_AD43_2745_937Fu64, 0x2Au64);
@@ -60,7 +60,7 @@ fn key(seed: [u8; 4]) -> [u8; 16] {
     out
 }
 
-fn xor(b: &[u8], k: &[u8; 16]) -> Vec<u8> {
+pub(crate) fn xor(b: &[u8], k: &[u8; 16]) -> Vec<u8> {
     b.iter().enumerate().map(|(i, &x)| x ^ k[i & 15]).collect()
 }
 

@@ -130,6 +130,8 @@ pub enum Layer {
     Ao { kai: Option<Arc<Vec<u8>>> },
     /// Death Stranding 2: XORed chunks, the game data in LZ4 pieces with an MD5.
     Ds2(Arc<fmt::ds2::Wrap>),
+    /// Death Stranding: sizes header, XOR, Oodle Kraken image with an MD5.
+    Ds1(Arc<fmt::ds1::Wrap>),
     /// Control (Remedy): two u32 versions, then a CRC-32 of the rest.
     RemedyCrc { head: [u8; 8] },
     /// Yakuza (Dragon Engine): XORed JSON and a check of it at the end.
@@ -324,6 +326,7 @@ impl Layer {
             Layer::Ao { kai } => if kai.is_some() { "Ao no Kiseki KAI save encryption (AES)".into() } else { "Trails to Azure save (zstd)".into() },
             Layer::Forspoken { .. } => "Forspoken save encryption (AES, MD5)".into(),
             Layer::Ds2(_) => "Death Stranding 2 save (XOR, LZ4, MD5)".into(),
+            Layer::Ds1(_) => "Death Stranding save (XOR, Oodle, MD5)".into(),
             Layer::Rgg(w) => format!("Yakuza save (Dragon Engine: {})", fmt::rgg::games(w)),
             Layer::Bioshock { chunks } => format!("BioShock Infinite save (MD5, {} zlib chunks)", chunks.len()),
             Layer::Copeck { name, .. } => format!("Cairn save pack ({name})"),
@@ -897,6 +900,7 @@ fn wrap(layer: &Layer, data: Vec<u8>) -> Result<Vec<u8>, String> {
         }
         Layer::Forspoken { foot } => fmt::forspoken::encrypt(&data, foot)?,
         Layer::Ds2(w) => fmt::ds2::pack(w, &data)?,
+        Layer::Ds1(w) => fmt::ds1::pack(w, &data)?,
         Layer::P5r { head } => fmt::p5r::pack(head, &data),
         Layer::Ff13 { head } => fmt::ff13::pack(head, &data),
         Layer::MetroPlayer { head } => fmt::metro::pack_player(head, &data),
@@ -1556,6 +1560,18 @@ fn peel(data: &[u8], ctx: &mut Ctx) -> Option<(Layer, Vec<u8>)> {
     if fmt::ds2::looks(data) {
         if let Some((w, p)) = fmt::ds2::unpack(data) {
             return Some((Layer::Ds2(Arc::new(w)), p));
+        }
+    }
+    if fmt::ds1::looks(data) {
+        if let Some((w, p)) = fmt::ds1::unpack(data) {
+            if let Some(lib) = crate::oodle::location() {
+                ctx.hint = Some(format!("Death Stranding's Oodle compression is read and written with the Oodle library from {}.", lib.display()));
+            }
+            return Some((Layer::Ds1(Arc::new(w)), p));
+        }
+        if fmt::ds1::needs_oodle(data) {
+            ctx.hint = Some(crate::oodle::MISSING.into());
+            return None;
         }
     }
     if data.len() > 117 && data[data.len() - 1] == 2 {

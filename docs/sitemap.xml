@@ -2,6 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url><loc>https://lucasifium.github.io/universal-save-editor/</loc></url>
 <url><loc>https://lucasifium.github.io/universal-save-editor/app/</loc></url>
+<url><loc>https://lucasifium.github.io/universal-save-editor/american-truck-simulator-save-editor/</loc></url>
 <url><loc>https://lucasifium.github.io/universal-save-editor/antimatter-dimensions-save-editor/</loc></url>
 <url><loc>https://lucasifium.github.io/universal-save-editor/balatro-save-editor/</loc></url>
 <url><loc>https://lucasifium.github.io/universal-save-editor/baldurs-gate-3-save-editor/</loc></url>
@@ -31,6 +32,7 @@
 <url><loc>https://lucasifium.github.io/universal-save-editor/dead-rising-2-save-editor/</loc></url>
 <url><loc>https://lucasifium.github.io/universal-save-editor/dead-rising-2-off-the-record-save-editor/</loc></url>
 <url><loc>https://lucasifium.github.io/universal-save-editor/death-must-die-save-editor/</loc></url>
+<url><loc>https://lucasifium.github.io/universal-save-editor/death-stranding-save-editor/</loc></url>
 <url><loc>https://lucasifium.github.io/universal-save-editor/death-stranding-2-on-the-beach-save-editor/</loc></url>
 <url><loc>https://lucasifium.github.io/universal-save-editor/deep-rock-galactic-save-editor/</loc></url>
 <url><loc>https://lucasifium.github.io/universal-save-editor/deep-rock-galactic-survivor-save-editor/</loc></url>
@@ -85,6 +87,7 @@
 <url><loc>https://lucasifium.github.io/universal-save-editor/lego-batman-2-dc-super-heroes-save-editor/</loc></url>
 <url><loc>https://lucasifium.github.io/universal-save-editor/lego-batman-legacy-of-the-dark-knight-save-editor/</loc></url>
 <url><loc>https://lucasifium.github.io/universal-save-editor/lego-batman-the-videogame-save-editor/</loc></url>
+<url><loc>https://lucasifium.github.io/universal-save-editor/lego-city-undercover-save-editor/</loc></url>
 <url><loc>https://lucasifium.github.io/universal-save-editor/lego-harry-potter-years-1-4-save-editor/</loc></url>
 <url><loc>https://lucasifium.github.io/universal-save-editor/lego-harry-potter-years-5-7-save-editor/</loc></url>
 <url><loc>https://lucasifium.github.io/universal-save-editor/lego-indiana-jones-2-the-adventure-continues-save-editor/</loc></url>
@@ -109,6 +112,7 @@
 <url><loc>https://lucasifium.github.io/universal-save-editor/metro-last-light-redux-save-editor/</loc></url>
 <url><loc>https://lucasifium.github.io/universal-save-editor/minecraft-save-editor/</loc></url>
 <url><loc>https://lucasifium.github.io/universal-save-editor/minecraft-dungeons-save-editor/</loc></url>
+<url><loc>https://lucasifium.github.io/universal-save-editor/mortal-shell-save-editor/</loc></url>
 <url><loc>https://lucasifium.github.io/universal-save-editor/mutant-year-zero-road-to-eden-save-editor/</loc></url>
 <url><loc>https://lucasifium.github.io/universal-save-editor/neverwinter-nights-enhanced-edition-save-editor/</loc></url>
 <url><loc>https://lucasifium.github.io/universal-save-editor/nier-automata-save-editor/</loc></url>
@@ -136,6 +140,7 @@
 <url><loc>https://lucasifium.github.io/universal-save-editor/rune-factory-4-special-save-editor/</loc></url>
 <url><loc>https://lucasifium.github.io/universal-save-editor/schedule-i-save-editor/</loc></url>
 <url><loc>https://lucasifium.github.io/universal-save-editor/sekiro-shadows-die-twice-save-editor/</loc></url>
+<url><loc>https://lucasifium.github.io/universal-save-editor/shadow-warrior-2-save-editor/</loc></url>
 <url><loc>https://lucasifium.github.io/universal-save-editor/skyrim-save-editor/</loc></url>
 <url><loc>https://lucasifium.github.io/universal-save-editor/slay-the-spire-save-editor/</loc></url>
 <url><loc>https://lucasifium.github.io/universal-save-editor/snowrunner-save-editor/</loc></url>
@@ -199,7 +204,6 @@
 <url><loc>https://lucasifium.github.io/universal-save-editor/dead-cells-save-editor/</loc></url>
 <url><loc>https://lucasifium.github.io/universal-save-editor/dead-rising-3-save-editor/</loc></url>
 <url><loc>https://lucasifium.github.io/universal-save-editor/dead-rising-deluxe-remaster-save-editor/</loc></url>
-<url><loc>https://lucasifium.github.io/universal-save-editor/death-stranding-save-editor/</loc></url>
 <url><loc>https://lucasifium.github.io/universal-save-editor/deathloop-save-editor/</loc></url>
 <url><loc>https://lucasifium.github.io/universal-save-editor/deus-ex-human-revolution-save-editor/</loc></url>
 <url><loc>https://lucasifium.github.io/universal-save-editor/deus-ex-mankind-divided-save-editor/</loc></url>
@@ -222,7 +226,6 @@
 <url><loc>https://lucasifium.github.io/universal-save-editor/koei-tecmo-games-save-editor/</loc></url>
 <url><loc>https://lucasifium.github.io/universal-save-editor/kunitsu-gami-path-of-the-goddess-save-editor/</loc></url>
 <url><loc>https://lucasifium.github.io/universal-save-editor/lego-batman-3-beyond-gotham-save-editor/</loc></url>
-<url><loc>https://lucasifium.github.io/universal-save-editor/lego-city-undercover-save-editor/</loc></url>
 <url><loc>https://lucasifium.github.io/universal-save-editor/lego-dc-super-villains-save-editor/</loc></url>
 <url><loc>https://lucasifium.github.io/universal-save-editor/lego-harry-potter-collection-save-editor/</loc></url>
 <url><loc>https://lucasifium.github.io/universal-save-editor/lego-jurassic-world-save-editor/</loc></url>
