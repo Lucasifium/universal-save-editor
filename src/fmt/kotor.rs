@@ -17,7 +17,7 @@
 //! layout matches the public BioWare GFF/ERF descriptions, xoreos, KotOR Savegame Editor and
 //! sotor (all GPL; facts only).
 
-use super::fields::{Builder, Checksum};
+use super::fields::{Builder, Checksum, Kind};
 use super::gff::{entry_gff, erf_entries, is_erf, At, Gff, T_IFO, T_SAV, T_UTC};
 use crate::tree::TreeDoc;
 use serde_json::{Map, Value};
@@ -65,6 +65,7 @@ enum File {
     Save,
     Party,
     Player,
+    Globals,
 }
 
 fn which(d: &[u8]) -> Option<File> {
@@ -76,6 +77,7 @@ fn which(d: &[u8]) -> Option<File> {
     let g = Gff::open(d, 0, d.len())?;
     match &g.file_type {
         b"PT  " if g.get(0, "PT_GOLD").is_some() => Some(File::Party),
+        b"GLOB" if g.get(0, "ValBoolean").is_some() || g.get(0, "ValNumber").is_some() => Some(File::Globals),
         b"IFO " if player_of(g).is_some() => Some(File::Player),
         _ => None,
     }
@@ -137,6 +139,7 @@ pub fn parse(d: &[u8], path: Option<&Path>) -> Result<TreeDoc, String> {
         File::Save => parse_save(d, path),
         File::Party => parse_party(d),
         File::Player => parse_player(d),
+        File::Globals => parse_globals(d),
     }
 }
 
@@ -271,6 +274,44 @@ fn parse_party(d: &[u8]) -> Result<TreeDoc, String> {
     ))
 }
 
+/// `GLOBALVARS.res`: the story's global booleans and numbers. The names are in the lists
+/// `CatBoolean` / `CatNumber` (one `Name` each, in order); the values are in the byte blobs
+/// `ValBoolean` (one bit per flag, lowest bit first) and `ValNumber` (one byte per number).
+fn parse_globals(d: &[u8]) -> Result<TreeDoc, String> {
+    let g = Gff::open(d, 0, d.len()).ok_or("broken globals file")?;
+    let r = At::root(g);
+    let mut b = Builder::new(d);
+    b.info(&["Save", "File"], "GLOBALVARS.res");
+    let mut seen = std::collections::HashSet::new();
+    let mut label = |name: String, i: usize| if seen.insert(name.clone()) { name } else { format!("{name} ({i})") };
+    let mut count = 0;
+    let flags = g.get(0, "ValBoolean").and_then(|f| g.void_of(&f));
+    for (i, n) in r.list("CatBoolean").iter().enumerate() {
+        let (Some((at, len)), Some(name)) = (flags, n.text("Name")) else { break };
+        if i / 8 >= len {
+            break;
+        }
+        count += b.bits(&["Story flags", "Global flags", &label(name, i)], at + i / 8, Kind::U8, (i % 8) as u32, 1, 0, 0, 1).is_some() as usize;
+    }
+    let nums = g.get(0, "ValNumber").and_then(|f| g.void_of(&f));
+    let mut seen2 = std::collections::HashSet::new();
+    for (i, n) in r.list("CatNumber").iter().enumerate() {
+        let (Some((at, len)), Some(name)) = (nums, n.text("Name")) else { break };
+        if i >= len {
+            break;
+        }
+        let key = if seen2.insert(name.clone()) { name } else { format!("{name} ({i})") };
+        count += b.ranged(&["Story numbers", "Global numbers", &key], at + i, Kind::U8, 0, 255).is_some() as usize;
+    }
+    if count == 0 {
+        return Err("no global variables in this file".into());
+    }
+    Ok(b.finish("Star Wars: KOTOR globals", Checksum::None).with_note(
+        "GLOBALVARS.res: the story's global flags and numbers (who you saved, light and dark side choices, quest steps), by the game's own names. \
+         Changing one doesn't replay the scene behind it, and flags that contradict each other can confuse later dialogue.",
+    ))
+}
+
 fn parse_player(d: &[u8]) -> Result<TreeDoc, String> {
     let g = Gff::open(d, 0, d.len()).ok_or("broken player file")?;
     let pc = player_of(g).ok_or("no player in this file")?;
@@ -386,6 +427,36 @@ mod tests {
         assert_eq!(old.int("Experience"), Some(5000));
         // Untouched values are unchanged.
         assert_eq!(again.view.pointer("/Player/Skills/Stealth"), Some(&Value::from(2)));
+    }
+
+    #[test]
+    fn global_variables_edit_in_place() {
+        let g = gff(
+            "GLOB",
+            vec![
+                ("CatBoolean", V::List(vec![(0, vec![("Name", V::Str("K_SWG_FIRST"))]), (0, vec![("Name", V::Str("K_CAPTURED_LEV"))]), (0, vec![("Name", V::Str("K_SWG_THIRD"))])])),
+                ("CatNumber", V::List(vec![(0, vec![("Name", V::Str("K_CURRENT_PLANET"))]), (0, vec![("Name", V::Str("K_STAR_MAP"))])])),
+                ("ValBoolean", V::Void(vec![0b0000_0101])),
+                ("ValNumber", V::Void(vec![3, 40])),
+            ],
+        );
+        assert!(looks(&g));
+        let mut doc = parse(&g, None).unwrap();
+        assert_eq!(doc.kind_name, "Star Wars: KOTOR globals");
+        assert_eq!(doc.view.pointer("/Story flags/Global flags/K_SWG_FIRST"), Some(&Value::from(1)));
+        assert_eq!(doc.view.pointer("/Story flags/Global flags/K_CAPTURED_LEV"), Some(&Value::from(0)));
+        assert_eq!(doc.view.pointer("/Story flags/Global flags/K_SWG_THIRD"), Some(&Value::from(1)));
+        assert_eq!(doc.view.pointer("/Story numbers/Global numbers/K_STAR_MAP"), Some(&Value::from(40)));
+        doc.set("/Story flags/Global flags/K_CAPTURED_LEV", Value::from(1)).unwrap();
+        doc.set("/Story flags/Global flags/K_SWG_FIRST", Value::from(0)).unwrap();
+        doc.set("/Story numbers/Global numbers/K_STAR_MAP", Value::from(255)).unwrap();
+        let out = doc.to_bytes().unwrap();
+        let back = parse(&out, None).unwrap();
+        assert_eq!(back.view.pointer("/Story flags/Global flags/K_CAPTURED_LEV"), Some(&Value::from(1)));
+        assert_eq!(back.view.pointer("/Story flags/Global flags/K_SWG_FIRST"), Some(&Value::from(0)));
+        assert_eq!(back.view.pointer("/Story flags/Global flags/K_SWG_THIRD"), Some(&Value::from(1)));
+        assert_eq!(back.view.pointer("/Story numbers/Global numbers/K_STAR_MAP"), Some(&Value::from(255)));
+        assert_eq!(out.len(), g.len());
     }
 
     #[test]

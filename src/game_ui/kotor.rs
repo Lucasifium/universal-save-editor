@@ -31,11 +31,21 @@ fn list(cx: &GameCtx, p: &str) -> Vec<String> {
 }
 
 pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
+    if cx.get("/Story flags").is_some() || cx.get("/Story numbers").is_some() {
+        hero(ui, GOLD, &short_game_or(cx), "Story variables", |_| {});
+        super::screens2::story(ui, cx, GOLD);
+        return;
+    }
     if cx.get("/Party/Credits").is_some() {
         party_table(ui, cx);
     } else {
         save(ui, cx);
     }
+}
+
+fn short_game_or(cx: &GameCtx) -> String {
+    let g = short_game(cx);
+    if g.is_empty() { "Knights of the Old Republic".into() } else { g }
 }
 
 fn short_game(cx: &GameCtx) -> String {

@@ -1,5 +1,5 @@
 //! Larian saves: Divinity: Original Sin 2 (the party, editable) and Baldur's Gate 3 (the
-//! save's own party summary, read-only). See `fmt/larian.rs`.
+//! save's party summary, and gold and stack sizes of what each companion carries). See `fmt/larian.rs`.
 
 use super::{columns, fact, fmt_num, hero, panel, tabs, GameCtx};
 use crate::fmt::larian::ATTRIBUTES;
@@ -85,6 +85,20 @@ pub fn dos2(ui: &mut Ui, cx: &mut GameCtx) {
         ui.label(RichText::new(format!("{} gold on {}", fmt_num(gold_of(cx, &base) as f64), members[t])).color(theme_fg(ui, gold)));
         ui.weak("Each line is a stack of coins in this character's inventory (named by its stats entry).");
     });
+    let things = keys(cx, &at("Inventory"));
+    if !things.is_empty() {
+        panel(ui, &format!("Inventory ({} stacks)", things.len()), |ui| {
+            egui::ScrollArea::vertical().id_salt(("dos2_inv", t)).max_height(320.0).show(ui, |ui| {
+                columns(ui, 300.0, things.len(), |ui, i| {
+                    cx.row_fixed(ui, &things[i].replace('_', " "), &format!("{base}/Inventory/{}", esc(&things[i])), 190.0, 60.0);
+                });
+            });
+            ui.weak(
+                "How many of each item this character carries directly (items inside bags aren't listed), named by the game's item entry. \
+                 Change a stack size; adding or removing items isn't possible here, and the game may trim a stack to what the item allows.",
+            );
+        });
+    }
 }
 
 fn theme_fg(ui: &Ui, c: Color32) -> Color32 {
@@ -132,9 +146,49 @@ pub fn bg3(ui: &mut Ui, cx: &mut GameCtx) {
             });
         });
         ui.add_space(6.0);
-        ui.weak(
-            "From the save's own summary. Ability scores, hit points and gold are kept in a packed part of the save \
-             that isn't mapped yet, so nothing here can be changed.",
-        );
+        ui.weak("From the save's own summary.");
     });
+    bg3_carried(ui, cx, gold);
+}
+
+/// Gold and stack sizes of what each companion carries (see `fmt::larian::bg3_carried`).
+fn bg3_carried(ui: &mut Ui, cx: &mut GameCtx, gold: Color32) {
+    let people = keys(cx, "/Characters");
+    if people.is_empty() {
+        ui.weak("Gold and items aren't readable in this save, so nothing here can be changed.");
+        return;
+    }
+    let t = tabs(ui, "bg3_who", &people);
+    let base = format!("/Characters/{}", esc(&people[t]));
+    let piles = keys(cx, &format!("{base}/Gold"));
+    let sum: i64 = piles.iter().filter_map(|k| cx.int(&format!("{base}/Gold/{}", esc(k)))).sum();
+    panel(ui, "Gold", |ui| {
+        ui.label(RichText::new(format!("{} gold on {}", fmt_num(sum as f64), people[t])).strong().color(theme_fg(ui, gold)));
+        if piles.is_empty() {
+            ui.weak("No coins on this character.");
+            return;
+        }
+        egui::Grid::new(("bg3_gold", t)).num_columns(2).spacing([14.0, 6.0]).show(ui, |ui| {
+            for k in &piles {
+                cx.grid_row(ui, k, &format!("{base}/Gold/{}", esc(k)), 120.0);
+            }
+        });
+        ui.weak("Each line is one stack of coins in this character's inventory.");
+    });
+    let things = keys(cx, &format!("{base}/Items"));
+    if !things.is_empty() {
+        panel(ui, &format!("Stacked items ({})", things.len()), |ui| {
+            let q = super::screens2::filter_box(ui, &format!("bg3_items{t}"), "potion, arrow, scroll\u{2026}");
+            let shown: Vec<&String> = things.iter().filter(|k| q.is_empty() || k.to_lowercase().contains(&q)).collect();
+            egui::ScrollArea::vertical().id_salt(("bg3_inv", t)).max_height(360.0).show(ui, |ui| {
+                columns(ui, 300.0, shown.len(), |ui, i| {
+                    cx.row_fixed(ui, &shown[i].replace('_', " "), &format!("{base}/Items/{}", esc(shown[i])), 190.0, 60.0);
+                });
+            });
+            ui.weak(
+                "Stack sizes of what this character carries, by the game's item name. Items can't be added or removed here. \
+                 A stack the game split just before saving shows as read-only.",
+            );
+        });
+    }
 }

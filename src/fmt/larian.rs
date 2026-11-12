@@ -10,9 +10,9 @@
 //! `Small_Gold`) whose `Parent` is the character's inventory and whose `Amount` is the
 //! number of coins. All of these are plain numbers, changed in place.
 //!
-//! Baldur's Gate 3 keeps character state in a packed entity store inside `Globals.lsf`
-//! that isn't mapped here; the save's own summary (`SaveInfo.json`, `meta.lsf`) is shown
-//! read-only.
+//! Baldur's Gate 3: `Globals.lsf` is opened. Stack sizes (gold too) live in its packed entity
+//! store (`lsmf.rs`); see `bg3_carried`. Ability scores and hit points, also in that store,
+//! aren't mapped yet; the save's own summary (`SaveInfo.json`, `meta.lsf`) is shown read-only.
 
 use super::fields::{Builder, Checksum, Kind};
 use super::lsf::{self, Lsf};
@@ -36,9 +36,17 @@ fn is_bg3(pkg: &lspk::Package) -> bool {
     pkg.find("SaveInfo.json").is_some()
 }
 
-/// The LSF file the editor opens: `globals.lsf` (DOS2) or `meta.lsf` (BG3), unpacked.
+/// The LSF file the editor opens: `globals.lsf` (DOS2) or `Globals.lsf` (BG3, falling back to
+/// `meta.lsf` when the world doesn't read), unpacked.
 pub fn open(data: &[u8]) -> Option<(String, Vec<u8>)> {
     let pkg = lspk::read(data)?;
+    if is_bg3(&pkg) {
+        if let Some(e) = pkg.find("Globals.lsf") {
+            if let Some(plain) = pkg.file(data, e).and_then(|r| lsf::unpack(&r)).filter(|p| Lsf::read(p).is_some()) {
+                return Some((e.name.clone(), plain));
+            }
+        }
+    }
     let e = if is_bg3(&pkg) { pkg.find("meta.lsf") } else { pkg.find("globals.lsf") }?;
     let plain = lsf::unpack(&pkg.file(data, e)?)?;
     Some((e.name.clone(), plain))
@@ -126,10 +134,16 @@ fn dos2(plain: &[u8], archive: &[u8], pkg: &lspk::Package) -> Option<TreeDoc> {
     }
     // Coin stacks by the inventory that holds them.
     let mut gold: HashMap<i64, Vec<usize>> = HashMap::new();
+    let mut bags: HashMap<i64, Vec<usize>> = HashMap::new();
     for item in l.at_path(&["Items", "ItemFactory", "Items", "Item"]) {
         let (Some(stats), Some(parent)) = (l.string_of(item, "Stats"), l.int_of(item, "Parent")) else { continue };
-        if is_gold(&stats) && l.attr(item, "Amount").is_some() {
+        if l.attr(item, "Amount").is_none() {
+            continue;
+        }
+        if is_gold(&stats) {
             gold.entry(parent).or_default().push(item);
+        } else {
+            bags.entry(parent).or_default().push(item);
         }
     }
     let mut seen = HashMap::new();
@@ -173,6 +187,19 @@ fn dos2(plain: &[u8], archive: &[u8], pkg: &lspk::Package) -> Option<TreeDoc> {
             let Some(a) = l.attr(item, "Amount") else { continue };
             if let Some(kind) = lsf::kind(a.ty).filter(|k| matches!(k, Kind::I32 | Kind::U32)) {
                 b.ranged(&cat(&base, &["Gold", k.as_str()]), a.at, kind, 1, i64::from(i32::MAX));
+            }
+        }
+        // Everything else the character carries directly (not inside a bag): stack sizes by item.
+        let mut names = HashMap::new();
+        for &item in inv.and_then(|i| bags.get(&i)).into_iter().flatten() {
+            let stats = l.string_of(item, "Stats").unwrap_or_default();
+            if stats.is_empty() {
+                continue;
+            }
+            let k = unique(&mut names, stats);
+            let Some(a) = l.attr(item, "Amount") else { continue };
+            if let Some(kind) = lsf::kind(a.ty).filter(|k| matches!(k, Kind::I32 | Kind::U32)) {
+                b.ranged(&cat(&base, &["Inventory", k.as_str()]), a.at, kind, 1, i64::from(i32::MAX));
             }
         }
     }
@@ -224,10 +251,134 @@ fn bg3(plain: &[u8], archive: &[u8], pkg: &lspk::Package) -> Option<TreeDoc> {
         }));
     }
     b.info(&["Party"], Value::Array(party));
-    Some(b.finish(BG3, Checksum::None).with_note(
-        "Baldur's Gate 3: the party summary is shown read-only. Character stats, hit points and gold \
-         live in a packed part of the save that isn't mapped yet.",
-    ))
+    let carried = bg3_carried(&mut b, plain);
+    let note = if carried {
+        "Baldur's Gate 3: gold and stack sizes of what each companion carries, from the save's entity store. \
+         Ability scores and hit points aren't mapped yet."
+    } else {
+        "Baldur's Gate 3: the party summary is shown read-only."
+    };
+    Some(b.finish(BG3, Checksum::None).with_note(note))
+}
+
+/// Origin characters by root template (the GUIDs the game's own scripts use).
+const ORIGINS: [(&str, &str); 10] = [
+    ("3ed74f06-3c60-42dc-83f6-f034cb47c679", "Shadowheart"),
+    ("c7c13742-bacd-460a-8f65-f864fe41f255", "Astarion"),
+    ("ad9af97d-75da-406a-ae13-7071c563f604", "Gale"),
+    ("58a69333-40bf-8358-1d17-fff240d7fb12", "Lae'zel"),
+    ("c774d764-4a17-48dc-b470-32ace9ce447d", "Wyll"),
+    ("2c76687d-93a2-477b-8b18-8a14b549304c", "Karlach"),
+    ("25721313-0c15-4935-8176-9f134385451b", "Minthara"),
+    ("7628bc0e-52b8-42a7-856a-13a6fd413323", "Halsin"),
+    ("91b6b200-7d00-4d62-8dc9-99e8339dfa1a", "Jaheira"),
+    ("0de603c5-42e2-4811-9dad-f652de080eba", "Minsc"),
+];
+
+/// A GUID attribute as text, in the order Larian's tools print it (the last eight bytes are
+/// stored in swapped pairs).
+pub fn guid_text(g: &[u8]) -> String {
+    if g.len() < 16 {
+        return String::new();
+    }
+    let d1 = u32::from_le_bytes(g[0..4].try_into().unwrap());
+    let d2 = u16::from_le_bytes(g[4..6].try_into().unwrap());
+    let d3 = u16::from_le_bytes(g[6..8].try_into().unwrap());
+    let t: Vec<u8> = g[8..16].chunks(2).flat_map(|p| [p[1], p[0]]).collect();
+    format!("{d1:08x}-{d2:04x}-{d3:04x}-{:02x}{:02x}-{}", t[0], t[1], t[2..].iter().map(|b| format!("{b:02x}")).collect::<String>())
+}
+
+/// Coins: `OBJ_GoldCoin` and the gold piles found in the world.
+pub fn bg3_is_gold(stats: &str) -> bool {
+    matches!(stats, "OBJ_GoldCoin" | "OBJ_GoldPile") || stats.starts_with("LOOT_Gold")
+}
+
+/// What each player character carries, from `Globals.lsf`: a carried item's position is its
+/// holder's position, the `Creators` table (in step with `Items`) gives each item's entity, and
+/// the entity store holds the stack sizes. Each stack size whose item has a single entry is
+/// editable; gold is summed per character and its stacks are listed under "Gold".
+fn bg3_carried(b: &mut Builder, plain: &[u8]) -> bool {
+    let Some(l) = Lsf::read(plain) else { return false };
+    let Some(&na) = l.at_path(&["NewAge"]).first() else { return false };
+    let Some(blob_at) = l.attr(na, "NewAge").filter(|a| a.ty == 25 && a.at + a.len <= plain.len()) else { return false };
+    let blob = &plain[blob_at.at..blob_at.at + blob_at.len];
+    let stacks = super::lsmf::stacks(blob);
+    if stacks.is_empty() {
+        return false;
+    }
+    let items = l.at_path(&["Items", "ItemFactory", "Items", "Item"]);
+    let creators = l.at_path(&["Items", "ItemFactory", "Creators", "Creator"]);
+    if items.len() != creators.len() {
+        return false;
+    }
+    let pos = |n: usize| l.attr(n, "Translate").filter(|a| a.len == 12).map(|a| &plain[a.at..a.at + 12]);
+    // Player characters and what they carry (character creation's stand-ins left out).
+    let mut people: Vec<(usize, Option<&str>, Vec<(usize, usize)>)> = vec![];
+    for c in l.at_path(&["Characters", "CharacterFactory", "Characters", "Character"]) {
+        if l.child(c, "PlayerData").is_none() || l.string_of(c, "Level").is_some_and(|s| s.starts_with("SYS_CC")) {
+            continue;
+        }
+        let Some(here) = pos(c) else { continue };
+        let mine: Vec<(usize, usize)> = items.iter().zip(&creators).filter(|(i, _)| pos(**i) == Some(here)).map(|(i, c)| (*i, *c)).collect();
+        if mine.is_empty() {
+            continue;
+        }
+        let tmpl = l.attr(c, "CurrentTemplate").filter(|a| a.len == 16).map(|a| guid_text(&plain[a.at..a.at + 16])).unwrap_or_default();
+        let origin = ORIGINS.iter().find(|(g, _)| *g == tmpl).map(|o| o.1);
+        people.push((c, origin, mine));
+    }
+    // The custom character carries the most of the characters that aren't origins; the
+    // others are hirelings and the like.
+    let you = people.iter().enumerate().filter(|p| p.1 .1.is_none()).max_by_key(|p| p.1 .2.len()).map(|p| p.0);
+    let mut seen = HashMap::new();
+    let mut any = false;
+    let mut others = 0;
+    for (n, (_c, origin, mine)) in people.into_iter().enumerate() {
+        let name = match origin {
+            Some(o) => o.to_string(),
+            None if Some(n) == you => "Your character".to_string(),
+            None => {
+                others += 1;
+                format!("Other character {others}")
+            }
+        };
+        let key = unique(&mut seen, name);
+        let mut gold_total = 0u64;
+        let mut names = HashMap::new();
+        let mut golds = 0;
+        let mut had = false;
+        for (item, cr) in mine {
+            let Some(e) = l.attr(cr, "Entity").filter(|a| a.len == 16) else { continue };
+            let g: [u8; 16] = plain[e.at..e.at + 16].try_into().unwrap();
+            let Some(st) = stacks.get(&g) else { continue };
+            let stats = l.string_of(item, "Stats").unwrap_or_default();
+            if stats.is_empty() {
+                continue;
+            }
+            let gold = bg3_is_gold(&stats);
+            if gold {
+                gold_total += st.total(blob);
+            }
+            let label = if gold {
+                golds += 1;
+                format!("Stack {golds}")
+            } else {
+                unique(&mut names, stats)
+            };
+            let path = if gold { vec!["Characters", key.as_str(), "Gold", label.as_str()] } else { vec!["Characters", key.as_str(), "Items", label.as_str()] };
+            if st.amounts.len() == 1 {
+                b.ranged(&path, blob_at.at + st.amounts[0], Kind::U32, 1, i64::from(i32::MAX));
+            } else {
+                b.info(&path, st.total(blob));
+            }
+            any = true;
+            had = true;
+        }
+        if had {
+            b.info(&["Characters", key.as_str(), "Gold total"], gold_total);
+        }
+    }
+    any
 }
 
 #[cfg(test)]
@@ -272,6 +423,7 @@ mod tests {
         nodes.push(("Items", items + 1, vec![]));
         nodes.push(("Item", items + 2, vec![("Stats", 22, s("Small_Gold")), ("Parent", 24, u64v(77)), ("Amount", 4, i32v(309))]));
         nodes.push(("Item", items + 2, vec![("Stats", 22, s("ITEM_EmptyCupGold")), ("Parent", 24, u64v(77)), ("Amount", 4, i32v(1))]));
+        nodes.push(("Item", items + 2, vec![("Stats", 22, s("CON_Potion_Health")), ("Parent", 24, u64v(77)), ("Amount", 4, i32v(6))]));
         let globals = lsf_build(&nodes, true);
         let meta = lsf_build(&[("MetaData", -1, vec![]), ("MetaData", 0, vec![("Level", 22, s("TestRegion"))])], true);
         pkg_build(13, &[("globals.lsf", &globals), ("meta.lsf", &meta), ("test.png", b"png")], 0x21)
@@ -290,6 +442,8 @@ mod tests {
         assert_eq!(v.pointer("/Party/Testa/Attributes/Wits"), Some(&json!(14)));
         assert_eq!(v.pointer("/Party/Testa/Points/Attribute points"), Some(&json!(2)));
         assert_eq!(v.pointer("/Party/Testa/Gold/Small_Gold"), Some(&json!(309)));
+        assert_eq!(v.pointer("/Party/Testa/Inventory/CON_Potion_Health"), Some(&json!(6)));
+        assert!(v.pointer("/Party/Testa/Inventory/ITEM_EmptyCupGold").is_some(), "other items are listed");
         assert_eq!(v.pointer("/Party/Testa/Gold").and_then(Value::as_object).map(|m| m.len()), Some(1), "a gold cup isn't gold");
         assert_eq!(v.pointer("/Save/Region"), Some(&json!("TestRegion")));
         assert_eq!(v.pointer("/Party").and_then(Value::as_object).map(|m| m.len()), Some(1), "NPCs aren't in the party");
@@ -299,6 +453,7 @@ mod tests {
         t.set("/Party/Testa/Experience", json!(3351)).unwrap();
         t.set("/Party/Testa/Attributes/Strength", json!(12)).unwrap();
         t.set("/Party/Testa/Gold/Small_Gold", json!(310)).unwrap();
+        t.set("/Party/Testa/Inventory/CON_Potion_Health", json!(99)).unwrap();
         assert!(t.set("/Party/Testa/Gold/Small_Gold", json!(0)).is_err());
         let out = crate::formats::encode(&d.layers, &d.content).unwrap();
         let p = lspk::read(&out).unwrap();
@@ -308,12 +463,98 @@ mod tests {
         assert_eq!(t2.view.pointer("/Party/Testa/Experience"), Some(&json!(3351)));
         assert_eq!(t2.view.pointer("/Party/Testa/Attributes/Strength"), Some(&json!(12)));
         assert_eq!(t2.view.pointer("/Party/Testa/Gold/Small_Gold"), Some(&json!(310)));
+        assert_eq!(t2.view.pointer("/Party/Testa/Inventory/CON_Potion_Health"), Some(&json!(99)));
         assert_eq!(t2.view.pointer("/Party/Testa/Attributes/Wits"), Some(&json!(14)));
         // The other files are untouched.
         let q = lspk::read(&raw).unwrap();
         for n in ["meta.lsf", "test.png"] {
             assert_eq!(p.file(&out, p.find(n).unwrap()), q.file(&raw, q.find(n).unwrap()));
         }
+    }
+
+    /// A tiny entity store: two entities, one stack record giving the second a stack of `amount`.
+    fn lsmf_blob(guids: [[u8; 16]; 2], amount: u32) -> Vec<u8> {
+        let names = b"\0core.v0.EntityIdgame.inventory.v0.NewStackComponentgame.inventory.v0.StackEntry".to_vec();
+        let comps: [(usize, usize, u32, u64); 3] = [(1, 16, 16, 2), (17, 35, 8, 1), (52, 28, 8, 1)];
+        // Layout: header 48 | entity ids (32) | stack component (8) | entries (8) | record (32) | members (8) | names | descriptors
+        let (eid, ns, se, rec, mem) = (48usize, 80usize, 88usize, 96usize, 128usize);
+        let names_off = 136usize;
+        let desc_rel = names.len() as u32;
+        let mut b = vec![0u8; names_off];
+        b[0..4].copy_from_slice(b"LSMF");
+        b[16..24].copy_from_slice(&((names_off - 48) as u64).to_le_bytes());
+        b[24..32].copy_from_slice(&(names.len() as u64).to_le_bytes());
+        b[32..36].copy_from_slice(&desc_rel.to_le_bytes());
+        b[36..38].copy_from_slice(&3u16.to_le_bytes());
+        b[eid..eid + 16].copy_from_slice(&guids[0]);
+        b[eid + 16..eid + 32].copy_from_slice(&guids[1]);
+        b[ns..ns + 8].copy_from_slice(&((rec - 48) as u64).to_le_bytes());
+        b[se..se + 2].copy_from_slice(&0u16.to_le_bytes());
+        b[se + 4..se + 8].copy_from_slice(&amount.to_le_bytes());
+        for (k, v) in [(mem - 48) as u64, (mem + 8 - 48) as u64, (se - 48) as u64, (se + 8 - 48) as u64].into_iter().enumerate() {
+            b[rec + 8 * k..rec + 8 * k + 8].copy_from_slice(&v.to_le_bytes());
+        }
+        b[mem..mem + 8].copy_from_slice(&((eid + 16 - 48) as u64).to_le_bytes());
+        b.extend(&names);
+        for (i, (no, nl, elem, rows)) in comps.into_iter().enumerate() {
+            let off = [eid, ns, se][i] as u64;
+            let mut d = vec![0u8; 48];
+            d[0..8].copy_from_slice(&(no as u64).to_le_bytes());
+            d[8..12].copy_from_slice(&(nl as u32).to_le_bytes());
+            d[24..28].copy_from_slice(&elem.to_le_bytes());
+            d[32..40].copy_from_slice(&rows.to_le_bytes());
+            d[40..48].copy_from_slice(&off.to_le_bytes());
+            b.extend(d);
+        }
+        b
+    }
+
+    #[test]
+    fn bg3_gold_and_stacks_edit_in_the_entity_store() {
+        let g = |n: u8| [n; 16];
+        // Shadowheart's root template, as the save stores it.
+        let sh: Vec<u8> = vec![0x06, 0x4f, 0xd7, 0x3e, 0x60, 0x3c, 0xdc, 0x42, 0xf6, 0x83, 0x34, 0xf0, 0x47, 0xcb, 0x79, 0xc6];
+        assert_eq!(guid_text(&sh), "3ed74f06-3c60-42dc-83f6-f034cb47c679");
+        let here: Vec<u8> = [1.5f32, 2.0, -3.25].iter().flat_map(|f| f.to_le_bytes()).collect();
+        let away: Vec<u8> = [9.0f32, 9.0, 9.0].iter().flat_map(|f| f.to_le_bytes()).collect();
+        let blob = lsmf_blob([g(7), g(8)], 766);
+        assert_eq!(super::super::lsmf::stacks(&blob).get(&g(8)).map(|s| s.total(&blob)), Some(766));
+        let nodes: Vec<(&str, i32, Vec<(&str, u32, Vec<u8>)>)> = vec![
+            ("NewAge", -1, vec![("NewAge", 25, blob.clone())]),
+            ("Characters", -1, vec![]),
+            ("CharacterFactory", 1, vec![]),
+            ("Characters", 2, vec![]),
+            ("Character", 3, vec![("Translate", 12, here.clone()), ("CurrentTemplate", 31, sh.clone()), ("Level", 22, s("WLD_Main_A"))]),
+            ("PlayerData", 4, vec![]),
+            ("Items", -1, vec![]),
+            ("ItemFactory", 6, vec![]),
+            ("Creators", 7, vec![]),
+            ("Creator", 8, vec![("Entity", 31, g(8).to_vec())]),
+            ("Creator", 8, vec![("Entity", 31, g(7).to_vec())]),
+            ("Items", 7, vec![]),
+            ("Item", 11, vec![("Translate", 12, here.clone()), ("Stats", 22, s("OBJ_GoldCoin")), ("Amount", 4, i32v(3))]),
+            ("Item", 11, vec![("Translate", 12, away), ("Stats", 22, s("OBJ_GoldPile"))]),
+        ];
+        let globals = lsf_build(&nodes, true);
+        let meta = lsf_build(&[("MetaData", -1, vec![]), ("MetaData", 0, vec![("LeaderName", 23, s("Hero"))])], true);
+        let info = br#"{"Active Party":{"Characters":[]},"Save Name":"Test"}"#;
+        let raw = pkg_build(18, &[("meta.lsf", &meta), ("SaveInfo.json", info), ("Globals.lsf", &globals)], 0x23);
+        let mut d = crate::formats::decode(&raw);
+        let crate::formats::Content::Tree(t) = &mut d.content else { panic!("not read") };
+        assert_eq!(t.kind_name, BG3);
+        let p = "/Characters/Shadowheart/Gold/Stack 1";
+        assert_eq!(t.view.pointer(p), Some(&json!(766)), "the entity store's count, not the stale Amount");
+        assert!(t.view.pointer("/Characters/Other character 1").is_none(), "gold on the floor isn't carried");
+        assert_eq!(crate::formats::encode(&d.layers, &d.content).unwrap(), raw, "no edit keeps the file");
+        let crate::formats::Content::Tree(t) = &mut d.content else { unreachable!() };
+        t.set(p, json!(5000)).unwrap();
+        assert!(t.set(p, json!(0)).is_err());
+        let out = crate::formats::encode(&d.layers, &d.content).unwrap();
+        assert!(lspk::read(&out).unwrap().checksum_ok(&out));
+        let again = crate::formats::decode(&out);
+        let crate::formats::Content::Tree(t2) = &again.content else { panic!("re-read failed") };
+        assert_eq!(t2.view.pointer(p), Some(&json!(5000)));
+        assert_eq!(t2.view.pointer("/Save/Leader"), Some(&json!("Hero")));
     }
 
     #[test]
@@ -354,7 +595,7 @@ mod real {
             println!("{}", serde_json::to_string_pretty(&t.view).unwrap().chars().take(3000).collect::<String>());
             assert!(crate::game_ui::detect(&t.kind_name, &t.view).is_some(), "no screen");
             // Rebuilding the package with nothing replaced keeps every file's bytes and place.
-            let (file, plain) = open(&raw).unwrap();
+            let (file, _plain) = open(&raw).unwrap();
             let same = pkg.rebuild(&raw, &HashMap::new()).unwrap();
             let list_at = pkg.entries.iter().map(|e| e.offset + e.size_on_disk).max().unwrap() as usize;
             assert_eq!(same[40..list_at], raw[40..list_at], "{path}: file data laid out as the game does");
@@ -405,21 +646,38 @@ mod real {
                     std::fs::write(std::path::Path::new(&dir).join(name), &out).unwrap();
                 }
             } else {
-                // BG3: a raw change to meta.lsf (its seed) goes through the zstd package writer.
-                let l = Lsf::read(&plain).unwrap();
-                let m = l.at_path(&["MetaData", "MetaData"])[0];
-                let a = l.attr(m, "Seed").unwrap();
-                let mut edited = plain.clone();
-                edited[a.at] ^= 1;
-                let out = save(&raw, &file, &edited).unwrap();
+                // BG3: one stack size changed through the entity store, then the package written again.
+                let chars = t.view.get("Characters").and_then(Value::as_object).cloned().unwrap_or_default();
+                for (k, c) in &chars {
+                    let gold: i64 = c.get("Gold").and_then(Value::as_object).map(|m| m.values().filter_map(Value::as_i64).sum()).unwrap_or(0);
+                    let items = c.get("Items").and_then(Value::as_object).map_or(0, |m| m.len());
+                    println!("   {k}: gold {gold} (total {}), {items} stacked items", c["Gold total"]);
+                }
+                let target = chars.iter().find_map(|(k, c)| {
+                    c.get("Gold")?.as_object()?.iter().find_map(|(n, v)| {
+                        let p = format!("/Characters/{}/Gold/{}", crate::tree::esc(k), crate::tree::esc(n));
+                        t.editable.contains_key(&p).then(|| Some((p, v.as_i64()?))).flatten()
+                    })
+                });
+                let Some((p, g)) = target else { println!("   no gold stack to edit"); continue };
+                t.set(&p, json!(g + 1234)).unwrap();
+                let before = t.view.clone();
+                let out = encode(&d.layers, &d.content).unwrap();
                 let p2 = lspk::read(&out).unwrap();
                 assert!(p2.checksum_ok(&out), "{path}: checksum after the edit");
-                let (f2, plain2) = open(&out).unwrap();
-                assert_eq!(f2, file);
-                assert_eq!(plain2, edited);
+                let again = decode(&out);
+                let Content::Tree(t2) = &again.content else { panic!("re-read failed") };
+                assert_eq!(t2.view.pointer(&p), before.pointer(&p), "{path}: the edit reads back");
                 for e in &pkg.entries {
-                    if e.name != file {
-                        assert_eq!(pkg.file(&raw, e).unwrap(), p2.file(&out, p2.find(&e.name).unwrap()).unwrap(), "{}", e.name);
+                    let a = pkg.file(&raw, e).unwrap();
+                    let b = p2.file(&out, p2.find(&e.name).unwrap()).unwrap();
+                    if e.name == file {
+                        let (ua, ub) = (lsf::unpack(&a).unwrap(), lsf::unpack(&b).unwrap());
+                        assert_eq!(ua.len(), ub.len());
+                        let diff = ua.iter().zip(&ub).filter(|(x, y)| x != y).count();
+                        assert!((1..=4).contains(&diff), "{diff} bytes changed");
+                    } else {
+                        assert_eq!(a, b, "{}", e.name);
                     }
                 }
             }

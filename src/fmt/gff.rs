@@ -143,6 +143,17 @@ impl<'a> Gff<'a> {
         })
     }
 
+    /// Where a VOID field's bytes start in the file and how many there are.
+    pub fn void_of(&self, f: &Field) -> Option<(usize, usize)> {
+        if f.ty != 13 {
+            return None;
+        }
+        let at = self.data_at(f, 4)?;
+        let n = u32_at(self.d, at)? as usize;
+        self.data_at(f, 4 + n)?;
+        Some((at + 4, n))
+    }
+
     /// A whole number's value (BYTE … INT, DWORD64, and CHAR as signed).
     pub fn int_of(&self, f: &Field) -> Option<i64> {
         if f.ty == 1 {
@@ -326,6 +337,7 @@ pub mod build {
         Dword(u32),
         Int(i32),
         Str(&'static str),
+        Void(Vec<u8>),
         Loc(i32, &'static str),
         Struct(u32, Vec<(&'static str, V)>),
         List(Vec<(u32, Vec<(&'static str, V)>)>),
@@ -369,6 +381,12 @@ pub mod build {
                         self.data.extend((s.len() as u32).to_le_bytes());
                         self.data.extend(s.as_bytes());
                         (10, at)
+                    }
+                    V::Void(b) => {
+                        let at = self.data.len() as u32;
+                        self.data.extend((b.len() as u32).to_le_bytes());
+                        self.data.extend(b);
+                        (13, at)
                     }
                     V::Loc(strref, s) => {
                         let at = self.data.len() as u32;
