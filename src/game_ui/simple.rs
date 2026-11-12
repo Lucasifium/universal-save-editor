@@ -139,7 +139,11 @@ fn name_of(l: &List, id: &str) -> String {
     if matches!(l.shape, Shape::Map) && l.names.is_empty() {
         return id.to_string();
     }
-    l.names.iter().find(|(i, _)| *i == id).map_or_else(|| format!("Item {id}"), |(_, n)| n.to_string())
+    // Text ids (a game's own item names) read fine as they are; numeric ids get "Item <id>".
+    l.names.iter().find(|(i, _)| *i == id).map_or_else(
+        || if id.parse::<f64>().is_ok() { format!("Item {id}") } else { id.to_string() },
+        |(_, n)| n.to_string(),
+    )
 }
 
 /// Sets a list entry's count, and its mirrored copies.

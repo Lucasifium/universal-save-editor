@@ -3,7 +3,7 @@
 > **Free, and it always will be.** No price, no ads, no account, no paid version, no online service, no
 > rate limits. If anyone is charging you for this, it isn't from here.
 
-An offline save editor and save manager for 280+ (283) PC games (edit saves, and back up, name and restore them): Cairn, Terraria (characters and a world map editor),
+An offline save editor and save manager for 280+ (286) PC games (edit saves, and back up, name and restore them): Cairn, Terraria (characters and a world map editor),
 Oxygen Not Included, RimWorld, Stardew Valley, Onimusha: Way of the Sword, Elden Ring, Dark Souls,
 Cyberpunk 2077, the Persona, Yakuza and Final Fantasy games, Ren'Py visual novels, RPG Maker games
 and more (the full list is below). Written in Rust (egui). Nothing is uploaded anywhere, and there are
@@ -229,6 +229,9 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 | Neverwinter Nights: Enhanced Edition | *Character*: gold, experience, ability scores, hit points, alignment, skills and item stack sizes of the player (the module .sav, with player.bic kept in step) or a vault character (.bic). Not yet tried in the game |
 | Darkest Dungeon | *Hamlet*: the estate (gold, busts, portraits, deeds, crests, blueprints, shards), how many of each trinket and estate item it holds, and the roster (each hero's resolve XP, stress, HP, weapon and armour rank, skill upgrade levels), changed in place. Open persist.estate.json or persist.roster.json |
 | Ren'Py visual novels | *Story*: the game's numbers, flags and text variables with a filter, money and the like up front |
+| Mutant Year Zero: Road to Eden | *Squad*: scrap, weapon parts and medpacks, the Ark's artifact points, population and levels, the squad level, and each squad member's level, XP, health, sanity and mutation points, with a **Max crafting materials** button that raises scrap and weapon parts to 999 (an estimate), leaving artifacts and gear alone (checked on a public save, not yet tried in the game) |
+| Car Mechanic Simulator 2021 | *Mechanic*: money, level, XP and scrap, the profile's name, play time and difficulty, the unlocked parking levels, barns and warehouses (checked on a public save, not yet tried in the game) |
+| Medieval Dynasty | *Settler*: health, stamina, food and water, reputation, tax, the four technology point pools, the six skill levels and every stack in the bag (money is the Coin item), with a **Max crafting materials** button that raises the plain building and crafting materials to 999 (an estimate), leaving money, tools, food and clothing alone (checked on a public save, not yet tried in the game) |
 
 ## Credits for God of War
 

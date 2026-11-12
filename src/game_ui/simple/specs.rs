@@ -3,7 +3,7 @@
 
 use super::{List, Max, Section, Shape, Spec, Table};
 
-pub static SPECS: &[Spec] = &[COTL, FALLOUT_SHELTER, DRG, S1_MONEY, S1_RANK, S1_TIME, S1_GAME, SOTF_STATE, SOTF_GAME, SOTF_WEATHER, SOTF_ITEMS, DMD, CUPHEAD, ANTIMATTER, PVZ, CELESTE, DRGS, KH3, RF4S, SKY1ST, KSP, FFPR, MCD, STONESHARD, ROGUE_TRADER, BIOSHOCK_INFINITE, SPACE_HAVEN, SNOWRUNNER, GRAVEYARD_KEEPER, NFSMW, TOS, GTA3, GTAVC, BITBURNER, TERRA_INVICTA, PRISON, FF13, SONIC_MANIA, CAVE_STORY_PLUS, CAVE_STORY, LIES_OF_P, TXR, DAVE, MSC, ULTRAKILL, RPGXP, RE5, ANNO1800, FTK, LEGO_TSS, LEGO_CLASSIC];
+pub static SPECS: &[Spec] = &[Spec] = &[COTL, FALLOUT_SHELTER, DRG, S1_MONEY, S1_RANK, S1_TIME, S1_GAME, SOTF_STATE, SOTF_GAME, SOTF_WEATHER, SOTF_ITEMS, DMD, CUPHEAD, ANTIMATTER, PVZ, CELESTE, DRGS, KH3, RF4S, SKY1ST, KSP, FFPR, MCD, STONESHARD, ROGUE_TRADER, BIOSHOCK_INFINITE, SPACE_HAVEN, SNOWRUNNER, GRAVEYARD_KEEPER, NFSMW, TOS, GTA3, GTAVC, BITBURNER, TERRA_INVICTA, PRISON, FF13, SONIC_MANIA, CAVE_STORY_PLUS, CAVE_STORY, LIES_OF_P, TXR, DAVE, MSC, ULTRAKILL, RPGXP, RE5, ANNO1800, FTK, LEGO_TSS, LEGO_CLASSIC, MYZ, CMS21, MEDIEVAL_DYNASTY];
 
 // ------------------------------------------------------------------ Cult of the Lamb
 
@@ -1805,5 +1805,137 @@ const LEGO_CLASSIC: Spec = Spec {
     tiles: &[("Studs", "/Studs")],
     sections: &[Section { title: "Studs", rows: &[("Studs", "/Studs"), ("Game", "/Game")] }],
     lists: &[],
+    tables: &[],
+};
+
+// ------------------------------------------------------------------ Mutant Year Zero: Road to Eden
+
+const MYZ: Spec = Spec {
+    name: "Mutant Year Zero: Road to Eden",
+    tab: "Squad",
+    accent: (150, 170, 70),
+    kind: Some("Unreal Engine save (ZoneSavegame)"),
+    markers: &["/Inventory/Scrap", "/PlayerUnits"],
+    subtitle: "A Slot or Autosave file in the SaveGames folder. Scrap and weapon parts are the Ark's shared stock; each squad member has their own level, health and mutation points.",
+    tiles: &[("Scrap", "/Inventory/Scrap"), ("Weapon parts", "/Inventory/WeaponParts"), ("Medpacks", "/Inventory/Medpacks")],
+    sections: &[
+        Section {
+            title: "The Ark",
+            rows: &[
+                ("Artifact points available", "/Ark/AvailableArtifactPoints"), ("Artifact points spent", "/Ark/SpentArtifactPoints"),
+                ("Population", "/Ark/Population"), ("Food quality", "/Ark/FoodQuality"), ("Recruits this week", "/Ark/AvailableRecruitsThisWeek"),
+                ("Electricity level", "/Ark/ElectricityLevel"), ("Science level", "/Ark/ScienceLevel"), ("Living level", "/Ark/LivingLevel"),
+            ],
+        },
+        Section { title: "Squad", rows: &[("Squad level", "/SquadXPData/SquadLevel"), ("Elias level", "/EliasLevel"), ("Week", "/CurrentWeek")] },
+    ],
+    lists: &[List {
+        title: "Shared stock",
+        path: "/Inventory",
+        shape: Shape::Map,
+        names: &[],
+        max: Some(Max {
+            ids: &["Scrap", "WeaponParts"],
+            cap: 999,
+            caps: &[],
+            estimate: true,
+            about: "Raises scrap and weapon parts to 999 (an estimate: no public source states a cap). Medpacks, artifacts, notes and gear are left alone.",
+        }),
+    }],
+    tables: &[Table {
+        title: "Squad members",
+        path: "/PlayerUnits",
+        name: &["/UniqueCharacterName"],
+        only: &[],
+        cols: &[
+            ("Level", "/Level"), ("XP", "/Experience"), ("Max health", "/MaxHitpoints"), ("Health", "/Hitpoints"),
+            ("Max sanity", "/MaxSanity"), ("Sanity", "/Sanity"), ("Mutation points", "/MutationPoints"),
+        ],
+        names: &[],
+    }],
+};
+
+// ------------------------------------------------------------------ Car Mechanic Simulator 2021
+
+const CMS21: Spec = Spec {
+    name: "Car Mechanic Simulator 2021",
+    tab: "Mechanic",
+    accent: (230, 120, 40),
+    kind: None,
+    markers: &["/globalDataWrapper/PlayerMoney", "/carsInGarage"],
+    subtitle: "A profile file (profile0.cms21 …) in the game's Save folder; the Backup folder keeps an older copy, so edit the one the game loads.",
+    tiles: &[("Money", "/globalDataWrapper/PlayerMoney"), ("Level", "/globalDataWrapper/PlayerLevel"), ("XP", "/globalDataWrapper/PlayerExp"), ("Scrap", "/globalDataWrapper/PlayerScraps")],
+    sections: &[
+        Section {
+            title: "Profile",
+            rows: &[("Name", "/Name"), ("Play time", "/PlayTime"), ("Difficulty", "/Difficulty"), ("Best race time", "/BestRaceTime"), ("Top speed", "/TopSpeed"), ("Finished tutorial", "/FinishedTutorial")],
+        },
+        Section {
+            title: "Garage and missions",
+            rows: &[
+                ("Parking levels unlocked", "/globalDataWrapper/UnlockedParkingLevels"), ("Barns found", "/globalDataWrapper/BarnsAmount"),
+                ("Missions finished", "/globalDataWrapper/MissionsFinished"), ("Warehouses unlocked", "/warehouseData/amountOfUnlockedWarehouses"),
+            ],
+        },
+    ],
+    lists: &[],
+    tables: &[],
+};
+
+// ------------------------------------------------------------------ Medieval Dynasty
+
+const MEDIEVAL_DYNASTY: Spec = Spec {
+    name: "Medieval Dynasty",
+    tab: "Settler",
+    accent: (170, 130, 70),
+    kind: Some("Unreal Engine save (SAVE_Game_C)"),
+    markers: &["/DynastyReputation", "/PlayerData"],
+    subtitle: "A Quicksave or Autosave file. Money is the Coin item in the bag; skill levels and the four technology point pools are below.",
+    tiles: &[("Reputation", "/DynastyReputation"), ("Tax", "/CurrentTax")],
+    sections: &[
+        Section {
+            title: "Needs",
+            rows: &[
+                ("Health", "/PlayerData/Stats_57_CF87A144455D92DB6C482FB22BA8C487/Health_5_87035C8C4554FD207A64F392A82F8C80"),
+                ("Stamina", "/PlayerData/Stats_57_CF87A144455D92DB6C482FB22BA8C487/Stamina_9_BDAAE3B24DB2260CE2A8E291179CE762"),
+                ("Food", "/PlayerData/Stats_57_CF87A144455D92DB6C482FB22BA8C487/Food_3_AB4C50FD4267F3D70946EABDE7841042"),
+                ("Water", "/PlayerData/Stats_57_CF87A144455D92DB6C482FB22BA8C487/Water_7_D4D5072F4C90181D22D20584CF754102"),
+                ("Age", "/PlayerData/Age_17_95D4C25B404796B039F50EAB60304D82"),
+            ],
+        },
+        Section {
+            title: "Technology points",
+            rows: &[
+                ("Building", "/TechnologyPoints/Building_2_1C1D5F674D6813156020C48175C195CD"),
+                ("Survival", "/TechnologyPoints/Survival_6_6503F9984203857C64CE4499504F6D5B"),
+                ("Farming", "/TechnologyPoints/Farming_7_B3769E3E4F33E547F9CE24837510332E"),
+                ("Crafting", "/TechnologyPoints/Crafting_8_538BF3D54E1E6799C4919CB13D94A5C4"),
+            ],
+        },
+        Section {
+            title: "Skill levels",
+            rows: &[
+                ("Extraction", "/PlayerData/Skills_27_BC25071441646825BA0361A6C186A2B6/E_L_62_87035C8C4554FD207A64F392A82F8C80"),
+                ("Hunting", "/PlayerData/Skills_27_BC25071441646825BA0361A6C186A2B6/H_L_65_BDAAE3B24DB2260CE2A8E291179CE762"),
+                ("Farming", "/PlayerData/Skills_27_BC25071441646825BA0361A6C186A2B6/F_L_83_AB4C50FD4267F3D70946EABDE7841042"),
+                ("Diplomacy", "/PlayerData/Skills_27_BC25071441646825BA0361A6C186A2B6/D_L_71_D4D5072F4C90181D22D20584CF754102"),
+                ("Survival", "/PlayerData/Skills_27_BC25071441646825BA0361A6C186A2B6/S_L_74_380CB82E4C3CAFE24FB611B17954B35F"),
+                ("Crafting", "/PlayerData/Skills_27_BC25071441646825BA0361A6C186A2B6/C_L_80_2067C5474E664F95D07DB69DD2B8968B"),
+            ],
+        },
+    ],
+    lists: &[List {
+        title: "Bag",
+        path: "/PlayerData/EQ_58_E8A95A55473CB02502A1959F9FCF1D1C",
+        shape: Shape::Array { id_key: "ID_8_4F27866A4A6D5E95B59001A7FC0A0EB3", qty_keys: &["Count_5_C53A69004BB01EEBBA02CD86D4CBA6C6"] },
+        names: &[],
+        max: Some(Max {
+            ids: &["Log", "Stick", "Clay", "Plank", "Rock", "Leather", "Straw", "Salt", "Fur", "Wool", "Daub", "Feather", "Firewood", "LinenThread", "WoolThread"],
+            cap: 999,
+            caps: &[],
+            estimate: true,
+            about: "Raises the plain building and crafting materials in the bag (wood, stone, clay, leather, straw, salt, fur, wool, daub, feathers, thread) to 999, an estimate: the game limits what fits by weight and no public source gives a stack cap. Money, tools, food and clothing are left alone.",
+        }),
+    }],
     tables: &[],
 };
