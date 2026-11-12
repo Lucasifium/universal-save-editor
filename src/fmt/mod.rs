@@ -22,6 +22,7 @@ pub mod ffpr;
 pub mod fantasian;
 pub mod kh3;
 mod kh3_tables;
+pub mod prey;
 pub mod rf4s;
 pub mod sky1st;
 pub mod titanquest;

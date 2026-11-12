@@ -51,6 +51,7 @@ Universal Save Editor is free. It builds on other people's work, listed here wit
 | [rf4s_pc_saveedit (Rune Factory 4 Special save layout, CRC span and value limits)](https://github.com/rikimtasu/rf4s_pc_saveedit) | rikimtasu | GPL-3.0 |
 | [ac8-save-editor (Ace Combat 8 packed data layout and checksum salt)](https://github.com/RivaTesu/ac8-save-editor) | RivaTesu | MIT |
 | [bioshock-infinite-profile-manager (BioShock Infinite player state, infusion item ids, currency block and limits)](https://github.com/Baistus/bioshock-infinite-profile-manager) | Baistus | MIT |
+| [prey-save-editor (Prey save container: RC4 key, chunks and MD5)](https://github.com/Shere-Khan510/prey-save-editor) | Shere-Khan510 | MIT |
 | [stellar-blade-all-in-one (Stellar Blade EVAS envelope and its CRC-32)](https://github.com/birxx284/stellar-blade-all-in-one) | birxx284 | Apache-2.0 |
 | [TrailsintheSky1stChapter (Trails in the Sky 1st Chapter save checksum and field positions)](https://github.com/turtle-insect/TrailsintheSky1stChapter) | turtle-insect | GPL-3.0 |
 | LZARI (the compression in Action Replay Max saves, ported) | Haruhiko Okumura; memory-buffer version by Luigi Auriemma and Wesley Castro | free use, as its author states |
