@@ -40,6 +40,7 @@ mod survival;
 mod terraria;
 mod terraria_world;
 mod torment;
+mod totalwar;
 mod trucks;
 mod x4;
 
@@ -113,6 +114,7 @@ pub enum Game {
     Wonderlands,
     TruckSim,
     X4,
+    TotalWar,
     GrimDawn,
     TitanQuest,
     Torchlight2,
@@ -201,6 +203,7 @@ impl Game {
             Game::Wonderlands => "Hero",
             Game::TruckSim => "Driver",
             Game::X4 => "Pilot",
+            Game::TotalWar => "Campaign",
             Game::GrimDawn | Game::TitanQuest | Game::Torchlight2 => "Character",
             Game::Fallout12 => "Pip-Boy",
             Game::DeusEx => "JC Denton",
@@ -301,6 +304,7 @@ pub fn detect(kind: &str, root: &Value) -> Option<Game> {
         crate::fmt::borderlands3::KIND => Game::Borderlands3,
         crate::fmt::borderlands3::KIND_WL => Game::Wonderlands,
         crate::fmt::sii::KIND => Game::TruckSim,
+        crate::fmt::totalwar::KIND => Game::TotalWar,
         "Grim Dawn character" => Game::GrimDawn,
         "Titan Quest character" => Game::TitanQuest,
         "Torchlight II character" => Game::Torchlight2,
@@ -397,6 +401,7 @@ pub fn show(game: Game, ui: &mut Ui, cx: &mut GameCtx) {
         Game::Wonderlands => borderlands::show_wl(ui, cx),
         Game::TruckSim => trucks::show(ui, cx),
         Game::X4 => x4::show(ui, cx),
+        Game::TotalWar => totalwar::show(ui, cx),
         Game::GrimDawn => arpg::grim_dawn(ui, cx),
         Game::TitanQuest => arpg::titan_quest(ui, cx),
         Game::Torchlight2 => arpg::torchlight2(ui, cx),
@@ -947,6 +952,7 @@ mod tests {
         assert_eq!(detect("Borderlands 3 character", &json!({})), Some(Game::Borderlands3));
         assert_eq!(detect("Tiny Tina's Wonderlands character", &json!({})), Some(Game::Wonderlands));
         assert_eq!(detect(crate::fmt::sii::KIND, &json!({})), Some(Game::TruckSim));
+        assert_eq!(detect(crate::fmt::totalwar::KIND, &json!({})), Some(Game::TotalWar));
         assert_eq!(detect("XML", &json!({"savegame": {"info": {"player": {"@money": 1}, "game": {"@build": 1}}, "factions": {}}})), Some(Game::X4));
         assert_eq!(detect("Fallout 2 save", &json!({"Save": {}})), Some(Game::Fallout12));
         assert_eq!(detect("Deus Ex map save", &json!({})), Some(Game::DeusEx));

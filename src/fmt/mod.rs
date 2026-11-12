@@ -4,6 +4,7 @@ pub mod bethesda;
 pub mod borderlands;
 pub mod borderlands3;
 pub mod sii;
+pub mod totalwar;
 pub mod bsonf;
 pub mod civ6;
 pub mod containers;
@@ -557,6 +558,11 @@ pub fn parse_binary(d: &[u8]) -> Option<TreeDoc> {
     }
     if borderlands::looks(d) {
         if let Ok(t) = borderlands::parse(d) {
+            return Some(t);
+        }
+    }
+    if totalwar::looks(d) {
+        if let Ok(t) = totalwar::parse(d) {
             return Some(t);
         }
     }
