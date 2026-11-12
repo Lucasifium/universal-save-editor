@@ -165,8 +165,9 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           ls -l dist
+          awk -v v="${TAG#v}" '/^## /{f=($2==v);next} f' CHANGELOG.md > release-notes.md
           if gh release view "$TAG" >/dev/null 2>&1; then
             gh release upload "$TAG" dist/* --clobber
           else
-            gh release create "$TAG" dist/* --title "$TAG" --notes-file CHANGELOG.md --target "$GITHUB_SHA"
+            gh release create "$TAG" dist/* --title "$TAG" --notes-file release-notes.md --target "$GITHUB_SHA"
           fi

@@ -1,8 +1,24 @@
 # Changelog
 
-## Unreleased
-- Backup & restore saves (File › Backup & restore saves): automatic and named backups stored next to the save, restore with a backup of the current file first, and back up and start a new game
-- Backups and restores are written to a temporary file, flushed, read back and checked before they replace anything; a save that can't be read is never overwritten; a save set aside for a new game can be restored straight from the window or Recent files
+## 0.4.0
+
+### New game screens
+- Persona 3 Reload and Persona 3 Portable; Celeste; Sons of the Forest clock and weather
+- The Sims 4 households; Deep Rock Galactic: Survivor
+- Kingdom Hearts III, Trails to Azure / Ao no Kiseki KAI, Trails in the Sky 1st Chapter, Rune Factory 4 Special, FANTASIAN Neo Dimension
+- Final Fantasy XIII (PC), Final Fantasy VIII Remastered and Pixel Remaster I-VI, Tales of Symphonia, GTA III and Vice City
+- Warhammer 40,000: Rogue Trader, BioShock Infinite, Prey (2017), Ace Combat 8, Stellar Blade
+- SnowRunner garage, Space Haven fleet, Terra Invicta factions, Bitburner, Prison Architect, Sonic Mania, Need for Speed: Most Wanted (2005)
+- FF7 Remake and Rebirth: gil, inventory and materia; Kenshi squad stats; Cave Story+ and Cave Story
+- Many more catalog entries (Kerbal Space Program, The Long Dark, Satisfactory, Civilization VII, Astroneer and others); about 265 games in total
+
+### Features
+- Save manager: automatic and named backups stored next to the save, restore with a backup of the current file first, and set a save aside to start a new game
+- Verified writes: backups and restores go to a temporary file, are flushed, read back and checked before anything is replaced; an unreadable save is never overwritten
+- Console cheat patches (Save Wizard and script-engine patch files) with a Tools window and `patch` command
+- Single PS1/PS2/PS3 save files (.mcs, .psx, .psu, .max, .cbs, .xps/.sps, .psv), Dreamcast and Sega Saturn saves, encrypted console saves through their patch codes
+- Templates: a JSON file per unknown game names its values and checksum
+- Keyed JSON, CBOR, Snappy, Unreal multi-section and typed-tree saves open as values; keyed-JSON games such as Megabonk and Eiyuden Chronicle
 
 ## 0.3.0
 
