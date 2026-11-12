@@ -471,14 +471,13 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
     }
     let maps = c.files.iter().filter(|f| f.0.to_ascii_lowercase().ends_with(".hl1")).count();
     b.info(&["Save", "Maps in this save"], maps as i64);
-    if let Some(s) = records(d, lv.data.0, lv.data.1).iter().take(64).find(|r| lv.names.of(r) == "skillLevel" && r.len == 4).and_then(|r| i32_at(d, r.at)) {
-        let s = match s {
-            1 => "Easy".to_string(),
-            2 => "Medium".to_string(),
-            3 => "Hard".to_string(),
-            n => n.to_string(),
-        };
-        b.info(&["Save", "Difficulty"], s);
+    if let Some(r) = records(d, lv.data.0, lv.data.1).iter().take(64).find(|r| lv.names.of(r) == "skillLevel" && r.len == 4) {
+        let opts = [("Easy".to_string(), 1u64), ("Medium".to_string(), 2), ("Hard".to_string(), 3)];
+        if b.pick(&["Save", "Difficulty"], r.at, Kind::I32, &opts).is_none() {
+            if let Some(s) = i32_at(d, r.at) {
+                b.info(&["Save", "Difficulty"], s.to_string());
+            }
+        }
     }
 
     // Health and suit.

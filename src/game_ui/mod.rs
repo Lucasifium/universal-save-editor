@@ -626,6 +626,35 @@ impl GameCtx<'_> {
         });
     }
 
+    /// A difficulty (or game mode) selector: one button per level, writing the value in the
+    /// type the save already uses (number or text). `levels` are (name, stored value).
+    pub fn difficulty(&mut self, ui: &mut Ui, caption: &str, p: &str, levels: &[(&str, Value)]) {
+        let Some(cur) = self.get(p).cloned() else { return };
+        let editable = self.can_edit(p);
+        let same = |a: &Value, b: &Value| match (a.as_f64(), b.as_f64()) {
+            (Some(x), Some(y)) => x == y,
+            _ => a == b,
+        };
+        let modified = self.modified(p);
+        let mut pick = None;
+        ui.horizontal_wrapped(|ui| {
+            let c = if modified { theme::MODIFIED } else { ui.visuals().text_color() };
+            ui.label(RichText::new(caption).color(c));
+            for (name, v) in levels {
+                let on = same(&cur, v);
+                if ui.add_enabled(editable, egui::SelectableLabel::new(on, *name)).clicked() && !on {
+                    pick = Some(v.clone());
+                }
+            }
+            if !levels.iter().any(|(_, v)| same(&cur, v)) {
+                ui.weak(format!("(now {})", widgets::display(&cur)));
+            }
+        });
+        if let Some(v) = pick {
+            self.set(p, v);
+        }
+    }
+
     /// A toggle chip for an on/off value.
     pub fn chip(&mut self, ui: &mut Ui, label: &str, p: &str, color: Color32) {
         let Some(v) = self.get(p).cloned() else { return };

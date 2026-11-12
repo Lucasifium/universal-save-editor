@@ -55,6 +55,8 @@ type R<T> = Result<T, String>;
 enum Rec {
     Info(Vec<String>, Value),
     Field(Vec<String>, usize, Kind, i64, i64),
+    /// A byte with a name for each value (drop-down).
+    Named(Vec<String>, usize, &'static [&'static str]),
     /// Write the field at this path to `at` as well.
     Mirror(Vec<String>, usize),
 }
@@ -290,11 +292,11 @@ fn block(c: &mut Cur, id: u32, end: usize, header_level: usize) -> R<()> {
     match id {
         1 => {
             c.bytes(2)?;
-            let last = c.byte()?;
-            let most = c.byte()?;
-            for (k, d) in [("Difficulty", last), ("Highest difficulty", most)] {
-                if let Some(n) = DIFFICULTY.get(d as usize) {
-                    c.info(&["Character", k], *n);
+            for k in ["Difficulty", "Highest difficulty"] {
+                let at = c.at();
+                let d = c.byte()?;
+                if (d as usize) < DIFFICULTY.len() {
+                    c.recs.push(Rec::Named(p(&["Character", k]), at, &DIFFICULTY));
                 }
             }
             c.field(&["Character", "Money"], Kind::U32, 0, i32::MAX as i64)?;
@@ -645,6 +647,9 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
             Rec::Info(path, v) => b.info(&path.iter().map(String::as_str).collect::<Vec<_>>(), v),
             Rec::Field(path, at, kind, lo, hi) => {
                 b.ranged(&path.iter().map(String::as_str).collect::<Vec<_>>(), at, kind, lo, hi);
+            }
+            Rec::Named(path, at, names) => {
+                b.named(&path.iter().map(String::as_str).collect::<Vec<_>>(), at, Kind::U8, names);
             }
             Rec::Mirror(path, at) => b.mirror(&path.iter().map(String::as_str).collect::<Vec<_>>(), at),
         }

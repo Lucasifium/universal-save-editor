@@ -389,8 +389,9 @@ pub fn minecraft(ui: &mut Ui, cx: &mut GameCtx) {
     };
     let right = |ui: &mut Ui, cx: &mut GameCtx| {
         panel(ui, "World", |ui| {
-            grid(ui, cx, "mc_world", &[("Difficulty", join(d, "Difficulty")), ("Cheats", join(d, "allowCommands")), ("Day time", join(d, "DayTime")), ("Raining", join(d, "raining")), ("Thundering", join(d, "thundering"))]);
-            ui.weak("Difficulty: 0 Peaceful, 1 Easy, 2 Normal, 3 Hard. Day time 0 is sunrise, 6000 noon, 13000 night.");
+            cx.difficulty(ui, "Difficulty", &join(d, "Difficulty"), &[("Peaceful", 0.into()), ("Easy", 1.into()), ("Normal", 2.into()), ("Hard", 3.into())]);
+            grid(ui, cx, "mc_world", &[("Cheats", join(d, "allowCommands")), ("Day time", join(d, "DayTime")), ("Raining", join(d, "raining")), ("Thundering", join(d, "thundering"))]);
+            ui.weak("Day time 0 is sunrise, 6000 noon, 13000 night.");
         });
     };
     if wide {
