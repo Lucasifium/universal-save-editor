@@ -124,6 +124,8 @@ Universal Save Editor is free. It builds on other people's work, listed here wit
 | [ffpr-save-cypher (Pixel Remaster 256-bit-block Rijndael padding and layout; facts, no code)](https://github.com/KiameV/ffpr-save-cypher) and [final-fantasy-pr-save-editor (save field names)](https://github.com/KiameV/final-fantasy-pr-save-editor) | KiameV | MIT |
 | [MCDSaveEdit and DungeonTools (Minecraft Dungeons save key, header and JSON field names; facts only)](https://github.com/CutFlame/MCDSaveEdit) | CutFlame | MIT (MCDSaveEdit); AGPL-3.0 (DungeonTools), facts only |
 | [stoneshard-save-editor (Stoneshard save layout, MD5 salt and character fields; facts only)](https://github.com/denbkh/stoneshard-save-editor) | denbkh | Apache-2.0 |
+| [lib.remnant2.saves (Remnant 2 save header, chunks and CRC-32; facts, no code)](https://github.com/AndrewSav/lib.remnant2.saves) | Andrew Savinykh | MIT |
+| [Graveyard-Keeper-Savefile-Editor (Graveyard Keeper `.dat` layout, value types and the list of field-name hashes, ported)](https://github.com/NetroScript/Graveyard-Keeper-Savefile-Editor) | NetroScript | MIT |
 | [astroneer-save (Astroneer container: magic, sizes and the 4 KiB zlib window; facts, no code)](https://github.com/NotFabii/astroneer-save-editor) | NotFabii | MIT |
 | [satisfactory-file-parser (Satisfactory save chunk layout; facts, no code)](https://github.com/etothepii4/satisfactory-file-parser) | etothepii4 | MIT |
 | [civ7-save-editor (Civilization VII container, markers and 24-bit values; facts, no code)](https://github.com/iqqmuT/civ7-save-editor) and [civ7-save-parser (sample saves used for checking, not included)](https://github.com/pydt/civ7-save-parser) | Tuomas Jaakola; Mike Rosack and playyourdamnturn.com | MIT |

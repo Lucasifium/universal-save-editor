@@ -14,6 +14,7 @@ pub mod saturn;
 pub mod keyed;
 pub mod ksp;
 pub mod tld;
+pub mod gk;
 pub mod civ7;
 pub mod uepack;
 pub mod stoneshard;

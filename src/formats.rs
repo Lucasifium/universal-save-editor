@@ -334,7 +334,7 @@ impl Layer {
             Layer::Mcd => "Minecraft Dungeons save encryption (AES)".into(),
             Layer::Stoneshard { .. } => "Stoneshard save (zlib and MD5)".into(),
             Layer::Astroneer => "Astroneer save (zlib)".into(),
-            Layer::Satisfactory { .. } => "Satisfactory save (zlib chunks)".into(),
+            Layer::Satisfactory { info } => if info.r2 { "Remnant 2 save (zlib chunks)".into() } else { "Satisfactory save (zlib chunks)".into() },
             Layer::Civ7 { .. } => "Civilization VII save (zlib chunks)".into(),
             Layer::Tld { .. } => "The Long Dark save (nested LZF)".into(),
             Layer::Ffpr { .. } => "Final Fantasy Pixel Remaster save encryption".into(),
@@ -1151,7 +1151,11 @@ fn peel(data: &[u8], ctx: &mut Ctx) -> Option<(Layer, Vec<u8>)> {
     }
     if data.len() > 400 && ctx.opts.ext.eq_ignore_ascii_case("sav") {
         if let Some((info, body)) = fmt::uepack::sat_open(data) {
-            ctx.hint = Some("Satisfactory save: unpacked for you and packed again on save. Use Value search to find a number you know, then change it.".into());
+            ctx.hint = Some(if info.r2 {
+                "Remnant 2 save: unpacked for you; its CRC-32 is worked out again and it is packed again on save. Use Value search to find a number you know (for example your Scrap), then change it.".into()
+            } else {
+                "Satisfactory save: unpacked for you and packed again on save. Use Value search to find a number you know, then change it.".into()
+            });
             return Some((Layer::Satisfactory { info }, body));
         }
     }

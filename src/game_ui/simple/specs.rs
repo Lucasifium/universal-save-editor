@@ -3,7 +3,7 @@
 
 use super::{List, Max, Section, Shape, Spec, Table};
 
-pub static SPECS: &[Spec] = &[COTL, FALLOUT_SHELTER, DRG, S1_MONEY, S1_RANK, S1_TIME, S1_GAME, SOTF_STATE, SOTF_GAME, SOTF_WEATHER, SOTF_ITEMS, DMD, CUPHEAD, ANTIMATTER, PVZ, CELESTE, DRGS, KH3, RF4S, SKY1ST, KSP, FFPR, MCD, STONESHARD, ROGUE_TRADER, BIOSHOCK_INFINITE, SPACE_HAVEN, SNOWRUNNER];
+pub static SPECS: &[Spec] = &[COTL, FALLOUT_SHELTER, DRG, S1_MONEY, S1_RANK, S1_TIME, S1_GAME, SOTF_STATE, SOTF_GAME, SOTF_WEATHER, SOTF_ITEMS, DMD, CUPHEAD, ANTIMATTER, PVZ, CELESTE, DRGS, KH3, RF4S, SKY1ST, KSP, FFPR, MCD, STONESHARD, ROGUE_TRADER, BIOSHOCK_INFINITE, SPACE_HAVEN, SNOWRUNNER, GRAVEYARD_KEEPER];
 
 // ------------------------------------------------------------------ Cult of the Lamb
 
@@ -1168,4 +1168,19 @@ const SNOWRUNNER: Spec = Spec {
         cols: &[("Repairs", "/repairs"), ("Gearbox damage", "/gearboxDamage"), ("Suspension damage", "/suspensionDamage")],
         names: &[],
     }],
+};
+
+// ------------------------------------------------------------------ Graveyard Keeper
+
+const GRAVEYARD_KEEPER: Spec = Spec {
+    name: "Graveyard Keeper",
+    tab: "Keeper",
+    accent: (120, 150, 70),
+    kind: Some(crate::fmt::gk::KIND),
+    markers: &["/_inventory/_params/_money"],
+    subtitle: "Money is counted in silver (100 = 1 gold, with copper as the decimals); technology points (red, green and blue) are in the Tree under _res_v",
+    tiles: &[("Money (silver)", "/_inventory/_params/_money"), ("Health", "/_inventory/_params/_hp")],
+    sections: &[],
+    lists: &[],
+    tables: &[],
 };
