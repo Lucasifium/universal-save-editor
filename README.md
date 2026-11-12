@@ -301,6 +301,12 @@ SHA-256 stored at the start or end of the file, over the bytes after it, before 
 file. Earlier copies of the file (from *File › Restore previous version*) weed out chance matches.
 Pick one and it is written again every time you save that file; it shows as zeros while editing.
 
+**Your own templates** (*Tools › Templates folder*, desktop only): for a game the editor doesn't
+know, write a small JSON file that says how to recognise its saves (size, magic bytes, extension)
+and where each value is (offset, type, limits, drop-down names, copies kept in step, optional
+checksum). A save that matches opens as a list of those values, changed in place. The folder has a
+guide with an example; templates are easy to share with other players.
+
 **Change Steam account in this save** (*Tools*, or `steamid` on the command line): finds the 64-bit
 Steam IDs stored in the save's data (as bytes, numbers or text) and changes every copy to another
 account, picked from the accounts on this computer or typed in, so a save copied from another

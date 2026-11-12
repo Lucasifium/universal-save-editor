@@ -70,6 +70,7 @@ pub mod haxe;
 pub mod deadcells;
 pub mod memcard;
 pub mod sumfind;
+pub mod template;
 pub mod katana;
 pub mod ttgames;
 pub mod pdx;
