@@ -640,17 +640,18 @@ impl Backend for GvasBackend {
 }
 
 pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
-    match parse_as(d, false, false) {
-        Err(e) if e.starts_with("unexpected data after properties") => parse_as(d, true, false).map_err(|_| e),
-        // Mortal Shell (UE 4.25) puts an 8-byte timestamp between the class name and the properties.
-        Err(e) => parse_as(d, false, true).map_err(|_| e),
+    match parse_as(d, false, 0) {
+        Err(e) if e.starts_with("unexpected data after properties") => parse_as(d, true, 0).map_err(|_| e),
+        // Mortal Shell (UE 4.25) puts an 8-byte timestamp between the class name and the
+        // properties; Wandering Sword (UE 4.26) a 4-byte zero.
+        Err(e) => parse_as(d, false, 8).or_else(|_| parse_as(d, false, 4)).map_err(|_| e),
         r => r,
     }
 }
 
 /// `sections`: the properties are several lists one after another (Ace Combat 8 packs its
 /// save that way), each shown as "Section n".
-fn parse_as(d: &[u8], sections: bool, stamp: bool) -> Result<TreeDoc, String> {
+fn parse_as(d: &[u8], sections: bool, stamp: usize) -> Result<TreeDoc, String> {
     let mut p = P { d, pos: 0, leaves: vec![], editable: HashMap::new(), full_types: false, lwc: false };
     if p.take(4)? != b"GVAS" {
         return Err("not GVAS".into());
@@ -677,8 +678,8 @@ fn parse_as(d: &[u8], sections: bool, stamp: bool) -> Result<TreeDoc, String> {
     if p.full_types {
         p.u8()?; // flags byte after the class name (0)
     }
-    if stamp {
-        p.take(8)?;
+    if stamp > 0 {
+        p.take(stamp)?;
     }
     let props = if sections {
         let mut out = Map::new();
@@ -708,7 +709,9 @@ fn parse_as(d: &[u8], sections: bool, stamp: bool) -> Result<TreeDoc, String> {
         }
     }
     let trailing = d.len() - p.pos;
-    if trailing > 16 && d[p.pos..].iter().any(|&b| b != 0) {
+    // Wandering Sword (the 4-byte header variant) follows its properties with its own
+    // binary records; they are kept byte for byte.
+    if trailing > 16 && stamp != 4 && d[p.pos..].iter().any(|&b| b != 0) {
         return Err(format!("unexpected data after properties ({trailing} bytes)"));
     }
     let short = class.rsplit('.').next().unwrap_or(&class).to_string();
@@ -1061,3 +1064,4 @@ mod research {
         }
     }
 }
+

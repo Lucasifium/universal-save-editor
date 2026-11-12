@@ -3,7 +3,7 @@
 
 use super::{List, Max, Section, Shape, Spec, Table};
 
-pub static SPECS: &[Spec] = &[COTL, FALLOUT_SHELTER, DRG, S1_MONEY, S1_RANK, S1_TIME, S1_GAME, SOTF_STATE, SOTF_GAME, SOTF_WEATHER, SOTF_ITEMS, DMD, CUPHEAD, ANTIMATTER, PVZ, CELESTE, DRGS, KH3, RF4S, SKY1ST, KSP, FFPR, MCD, STONESHARD, ROGUE_TRADER, BIOSHOCK_INFINITE, SPACE_HAVEN, SNOWRUNNER, GRAVEYARD_KEEPER, NFSMW, TOS, GTA3, GTAVC, BITBURNER, TERRA_INVICTA, PRISON, FF13, SONIC_MANIA, CAVE_STORY_PLUS, CAVE_STORY, LIES_OF_P, TXR, DAVE, MSC, ULTRAKILL, RPGXP, RE5, ANNO1800, FTK, LEGO_TSS, LEGO_CLASSIC, MYZ, CMS21, MEDIEVAL_DYNASTY, MECHANICUS, ORI, OMORI, ENDER_LILIES, SW2, ES2, MOONLIGHTER, WASTELAND2, ATOM, MORTAL_SHELL, MORTAL_SHELL_2, COTW, BEAMNG, FOREST, YAKUZA3, YAKUZA4, YAKUZA5, ISHIN, SALT, DRAKENSANG, ALPHA, TYRANNY, JEDI_FO, SR3, WD2];
+pub static SPECS: &[Spec] = &[COTL, FALLOUT_SHELTER, DRG, S1_MONEY, S1_RANK, S1_TIME, S1_GAME, SOTF_STATE, SOTF_GAME, SOTF_WEATHER, SOTF_ITEMS, DMD, CUPHEAD, ANTIMATTER, PVZ, CELESTE, DRGS, KH3, RF4S, SKY1ST, KSP, FFPR, MCD, STONESHARD, ROGUE_TRADER, BIOSHOCK_INFINITE, SPACE_HAVEN, SNOWRUNNER, GRAVEYARD_KEEPER, NFSMW, TOS, GTA3, GTAVC, BITBURNER, TERRA_INVICTA, PRISON, FF13, SONIC_MANIA, CAVE_STORY_PLUS, CAVE_STORY, LIES_OF_P, TXR, DAVE, MSC, ULTRAKILL, RPGXP, RE5, ANNO1800, FTK, LEGO_TSS, LEGO_CLASSIC, MYZ, CMS21, MEDIEVAL_DYNASTY, MECHANICUS, ORI, OMORI, ENDER_LILIES, SW2, ES2, MOONLIGHTER, WASTELAND2, ATOM, MORTAL_SHELL, MORTAL_SHELL_2, COTW, BEAMNG, FOREST, YAKUZA3, YAKUZA4, YAKUZA5, ISHIN, SALT, DRAKENSANG, ALPHA, TYRANNY, JEDI_FO, SR3, WD2, FABLE, WANDERING_SWORD];
 
 // ------------------------------------------------------------------ Cult of the Lamb
 
@@ -2771,6 +2771,27 @@ const FABLE: Spec = Spec {
     subtitle: "AutoSave or a Manual - Save file in Documents\\My Games\\Fable\\Saves\\<hero name>. Morality runs from evil (negative) to good (positive); the game keeps it within its own limits. Age changes how old the hero looks.",
     tiles: &[("Gold", "/Hero/Gold"), ("Morality", "/Hero/Morality"), ("Renown level", "/Hero/Renown level")],
     sections: &[Section { title: "Hero", rows: &[("Gold", "/Hero/Gold"), ("Morality", "/Hero/Morality"), ("Renown level", "/Hero/Renown level"), ("Age", "/Hero/Age")] }],
+    lists: &[],
+    tables: &[],
+};
+
+// ------------------------------------------------------------------ Wandering Sword
+
+const WANDERING_SWORD: Spec = Spec {
+    name: "Wandering Sword",
+    tab: "Jianghu",
+    accent: (176, 64, 48),
+    kind: Some("Unreal Engine save (JHSaveGame)"),
+    markers: &["/Money", "/MapName"],
+    subtitle: "<n>.sav: your money; the map, mount and play time are shown for reference. Characters and items are kept in the game's own records after the save's properties and are left as they are.",
+    tiles: &[("Money", "/Money")],
+    sections: &[Section {
+        title: "This save",
+        rows: &[
+            ("Money", "/Money"), ("Map", "/MapName"), ("Mount", "/SelectedMountId"),
+            ("Play time (seconds)", "/SaveGameTime"), ("Difficulty", "/DifficultyMode"),
+        ],
+    }],
     lists: &[],
     tables: &[],
 };

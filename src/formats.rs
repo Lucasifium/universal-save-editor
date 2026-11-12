@@ -75,6 +75,8 @@ pub enum Layer {
     Zstd,
     Lz4,
     Snappy,
+    /// A 12-byte header (12, unpacked size, packed size) and one zlib stream (Wandering Sword).
+    SizedZlib,
     /// Stellar Blade's EVAS v1: an 8-byte prefix, the GVAS save, then a CRC-32 of the save.
     Evas,
     /// Prey (2017): RC4 over zlib chunks and an MD5'd XMLCPB header.
@@ -297,6 +299,7 @@ impl Layer {
             Layer::Lz4 => "LZ4".into(),
             Layer::Snappy => "Snappy".into(),
             Layer::Evas => "EVAS envelope (CRC-32 written again)".into(),
+            Layer::SizedZlib => "zlib with a size header".into(),
             Layer::Prey { .. } => "Prey save (RC4, zlib chunks, MD5 written again)".into(),
             Layer::Ac8(_) => "Ace Combat 8 packed data (checksum written again)".into(),
             Layer::JediFo(_) => "Jedi: Fallen Order actor records (zlib)".into(),
@@ -796,6 +799,14 @@ fn wrap(layer: &Layer, data: Vec<u8>) -> Result<Vec<u8>, String> {
         Layer::Ac8(p) => fmt::ac8::close(p, &data)?,
         Layer::JediFo(p) => fmt::jedi::close(p, &data)?,
         Layer::Prey { header } => fmt::prey::close(header, &data)?,
+        Layer::SizedZlib => {
+            let packed = compress(ZlibEncoder::new(Vec::new(), Compression::default()), &data)?.finish().map_err(io)?;
+            let mut out = 12u32.to_le_bytes().to_vec();
+            out.extend((data.len() as u32).to_le_bytes());
+            out.extend((packed.len() as u32).to_le_bytes());
+            out.extend(packed);
+            out
+        }
         Layer::Evas => {
             let mut h = flate2::Crc::new();
             h.update(&data);
@@ -1139,6 +1150,17 @@ fn peel(data: &[u8], ctx: &mut Ctx) -> Option<(Layer, Vec<u8>)> {
     if data.starts_with(b"CRY3SDK") {
         if let Some((inner, header)) = fmt::prey::open(data) {
             return Some((Layer::Prey { header: Arc::new(header) }, inner));
+        }
+    }
+    // 12-byte size header and a zlib stream: only when both sizes match.
+    if data.len() > 14 && data[..4] == [12, 0, 0, 0] && data[12] == 0x78 {
+        let raw = u32::from_le_bytes(data[4..8].try_into().unwrap()) as usize;
+        let packed = u32::from_le_bytes(data[8..12].try_into().unwrap()) as usize;
+        if packed == data.len() - 12 && raw > 0 && raw < (1 << 30) {
+            let mut out = Vec::with_capacity(raw);
+            if flate2::read::ZlibDecoder::new(&data[12..]).read_to_end(&mut out).is_ok() && out.len() == raw {
+                return Some((Layer::SizedZlib, out));
+            }
         }
     }
     // EVAS v1 (Stellar Blade): only when the stored CRC-32 matches.
@@ -2964,6 +2986,16 @@ mod tests {
             assert_eq!(d.layers, vec![Layer::Palworld { double }]);
             assert!(same_data(&d.content, &content));
         }
+    }
+
+    #[test]
+    fn sized_zlib_round_trip() {
+        let content = Content::Binary(b"GVAS some unreal save bytes".repeat(20));
+        let raw = encode(&[Layer::SizedZlib], &content).unwrap();
+        assert_eq!(&raw[..4], &[12, 0, 0, 0]);
+        let d = decode(&raw);
+        assert_eq!(d.layers, vec![Layer::SizedZlib]);
+        assert!(same_data(&d.content, &content));
     }
 
     #[test]

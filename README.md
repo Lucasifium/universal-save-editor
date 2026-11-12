@@ -3,7 +3,7 @@
 > **Free, and it always will be.** No price, no ads, no account, no paid version, no online service, no
 > rate limits. If anyone is charging you for this, it isn't from here.
 
-An offline save editor and save manager for 310+ (310) PC games (edit saves, and back up, name and restore them): Cairn, Terraria (characters and a world map editor),
+An offline save editor and save manager for 310+ (311) PC games (edit saves, and back up, name and restore them): Cairn, Terraria (characters and a world map editor),
 Oxygen Not Included, RimWorld, Stardew Valley, Onimusha: Way of the Sword, Elden Ring, Dark Souls,
 Cyberpunk 2077, the Persona, Yakuza and Final Fantasy games, Ren'Py visual novels, RPG Maker games
 and more (the full list is below). Written in Rust (egui). Nothing is uploaded anywhere, and there are
@@ -124,6 +124,7 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 | Plants vs. Zombies (Game of the Year Edition) | *Profile*: money (stored divided by 10), Adventure level and completions, Crazy Dave's shop (the nine plants, tools, cleaners), fertilizer, bug spray, chocolate and tree food, seed slots, Tree of Wisdom, Survival progress; the Zen Garden's plants; mini-game and puzzle trophies on the *Values* tab. Open `user1.dat` (checked on a public save, not yet tried in the game) |
 | OMORI | *OMORI*: Clams, each friend's level, heart and juice in Headspace and Faraway Town, and every snack, toy, weapon and charm by name, in `file1.rpgsave`… (`www\save` in the game folder) (checked on public saves, not yet tried in the game) |
 | ENDER LILIES: Quietus of the Knights | *Lily*: level, blight (experience), prayer level and prayers left, Stagnant Blight, Furious Blight and Ancient Souls with a **Max crafting materials** button that fills both blights to 999 (the most players report; Ancient Souls are left alone), and every spirit's level (checked on public saves, not yet tried in the game) |
+| Wandering Sword | *Jianghu*: money, with the map, mount, play time and difficulty shown; the save's zlib wrapping is removed and put back for you (checked on public saves, not yet tried in the game) |
 | Ori and the Blind Forest | *Ori*: level, experience, ability points, life and energy cells, keystones, mapstones and deaths, and every skill and ability-tree upgrade to tick on or off, in Definitive Edition and original saves (`saveFile0.sav`…); the load menu's copy of life and energy is kept in step (checked on a public save, not yet tried in the game) |
 | Phasmophobia | Money, level, prestige and experience, how many of each item you own, item tiers and their unlocks, and the journal's statistics (`SaveFile.txt`); decrypted and encrypted again on save (checked on public test saves, not yet tried in the game) |
 | Lethal Company | Credits, the profit quota and what is paid towards it, quotas passed, the deadline, the current moon (by name), ship items and suits owned (add or remove), every piece of scrap's sell value, ship upgrades in storage and statistics (`LCSaveFile1`–`3`); experience and rank (`LCGeneralSaveData`); decrypted and encrypted again on save (checked on public saves, not yet tried in the game) |
