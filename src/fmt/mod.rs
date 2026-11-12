@@ -149,6 +149,7 @@ pub mod ori;
 pub mod lego_tss;
 pub mod lego_classic;
 pub mod roadhog;
+pub mod saltsanc;
 pub mod wasteland2;
 pub mod sonic_mania;
 pub mod metro;
@@ -298,6 +299,11 @@ pub fn parse_binary(d: &[u8]) -> Option<TreeDoc> {
     }
     if metro::looks(d) {
         if let Ok(t) = metro::parse(d) {
+            return Some(t);
+        }
+    }
+    if saltsanc::looks(d) {
+        if let Ok(t) = saltsanc::parse(d) {
             return Some(t);
         }
     }

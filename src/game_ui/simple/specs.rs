@@ -3,7 +3,7 @@
 
 use super::{List, Max, Section, Shape, Spec, Table};
 
-pub static SPECS: &[Spec] = &[COTL, FALLOUT_SHELTER, DRG, S1_MONEY, S1_RANK, S1_TIME, S1_GAME, SOTF_STATE, SOTF_GAME, SOTF_WEATHER, SOTF_ITEMS, DMD, CUPHEAD, ANTIMATTER, PVZ, CELESTE, DRGS, KH3, RF4S, SKY1ST, KSP, FFPR, MCD, STONESHARD, ROGUE_TRADER, BIOSHOCK_INFINITE, SPACE_HAVEN, SNOWRUNNER, GRAVEYARD_KEEPER, NFSMW, TOS, GTA3, GTAVC, BITBURNER, TERRA_INVICTA, PRISON, FF13, SONIC_MANIA, CAVE_STORY_PLUS, CAVE_STORY, LIES_OF_P, TXR, DAVE, MSC, ULTRAKILL, RPGXP, RE5, ANNO1800, FTK, LEGO_TSS, LEGO_CLASSIC, MYZ, CMS21, MEDIEVAL_DYNASTY, MECHANICUS, ORI, OMORI, ENDER_LILIES, SW2, ES2, MOONLIGHTER, WASTELAND2, ATOM, MORTAL_SHELL, MORTAL_SHELL_2, COTW, BEAMNG, FOREST];
+pub static SPECS: &[Spec] = &[COTL, FALLOUT_SHELTER, DRG, S1_MONEY, S1_RANK, S1_TIME, S1_GAME, SOTF_STATE, SOTF_GAME, SOTF_WEATHER, SOTF_ITEMS, DMD, CUPHEAD, ANTIMATTER, PVZ, CELESTE, DRGS, KH3, RF4S, SKY1ST, KSP, FFPR, MCD, STONESHARD, ROGUE_TRADER, BIOSHOCK_INFINITE, SPACE_HAVEN, SNOWRUNNER, GRAVEYARD_KEEPER, NFSMW, TOS, GTA3, GTAVC, BITBURNER, TERRA_INVICTA, PRISON, FF13, SONIC_MANIA, CAVE_STORY_PLUS, CAVE_STORY, LIES_OF_P, TXR, DAVE, MSC, ULTRAKILL, RPGXP, RE5, ANNO1800, FTK, LEGO_TSS, LEGO_CLASSIC, MYZ, CMS21, MEDIEVAL_DYNASTY, MECHANICUS, ORI, OMORI, ENDER_LILIES, SW2, ES2, MOONLIGHTER, WASTELAND2, ATOM, MORTAL_SHELL, MORTAL_SHELL_2, COTW, BEAMNG, FOREST, SALT];
 
 // ------------------------------------------------------------------ Cult of the Lamb
 
@@ -2478,5 +2478,24 @@ const FOREST: Spec = Spec {
             about: "Raises rocks, sticks, skulls, rope, bones, skins, rabbit fur and circuit boards to the limit the game stores for each in the save. Items with no limit (cloth, leaves, feathers, teeth, sap, tape), tools, weapons, food and story items are left alone.",
         }),
     }],
+// ------------------------------------------------------------------ Salt and Sanctuary
+
+const SALT: Spec = Spec {
+    name: "Salt and Sanctuary",
+    tab: "Character",
+    accent: (196, 180, 150),
+    kind: Some(crate::fmt::saltsanc::KIND),
+    markers: &["/Character/Salt", "/Character/Gold"],
+    subtitle: "datN.slv in the game's savedata folder (one file per character). Salt and gold are what the character carries. Items and the skill tree are not edited yet.",
+    tiles: &[("Salt", "/Character/Salt"), ("Gold", "/Character/Gold"), ("Level", "/Character/Level")],
+    sections: &[Section {
+        title: "Character",
+        rows: &[
+            ("Level", "/Character/Level"), ("Salt", "/Character/Salt"), ("Gold", "/Character/Gold"), ("Kills", "/Character/Kills"),
+            ("Deaths", "/Character/Deaths"), ("Sanctuary rests", "/Character/Sanctuary rests"), ("Corruption", "/Character/Corruption"),
+            ("Playthrough (0 = first)", "/Character/Playthrough"),
+        ],
+    }],
+    lists: &[],
     tables: &[],
 };
