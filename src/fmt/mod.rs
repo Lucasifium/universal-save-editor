@@ -16,6 +16,7 @@ pub mod dreamcast;
 pub mod saturn;
 pub mod keyed;
 pub mod ksp;
+pub mod mechanicus;
 pub mod prison;
 pub mod tld;
 pub mod nfsmw;
@@ -692,6 +693,11 @@ pub fn parse_text(text: &str, ext: &str) -> Option<TreeDoc> {
         }
     }
     let t = text.trim_start();
+    if mechanicus::looks(text) {
+        if let Ok(doc) = mechanicus::parse(text) {
+            return Some(doc);
+        }
+    }
     if prison::looks(text) {
         if let Ok(doc) = prison::parse(text) {
             return Some(doc);

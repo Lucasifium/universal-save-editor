@@ -3081,6 +3081,8 @@ pub fn companion_files(path: &std::path::Path, bytes: &[u8]) -> Vec<(std::path::
     out.extend(fmt::nwn::companions(path, bytes));
     // LEGO Star Wars (2005): CODE.BIN beside LSW.BIN holds the stud count.
     out.extend(fmt::lego_classic::companions(path, bytes));
+    // Warhammer 40,000: Mechanicus: SaveState.sav holds the CRC-32 of Meta.sav.
+    out.extend(fmt::mechanicus::companions(path, bytes));
     out
 }
 

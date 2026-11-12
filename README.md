@@ -232,6 +232,7 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 | Mutant Year Zero: Road to Eden | *Squad*: scrap, weapon parts and medpacks, the Ark's artifact points, population and levels, the squad level, and each squad member's level, XP, health, sanity and mutation points, with a **Max crafting materials** button that raises scrap and weapon parts to 999 (an estimate), leaving artifacts and gear alone (checked on a public save, not yet tried in the game) |
 | Car Mechanic Simulator 2021 | *Mechanic*: money, level, XP and scrap, the profile's name, play time and difficulty, the unlocked parking levels, barns and warehouses (checked on a public save, not yet tried in the game) |
 | Medieval Dynasty | *Settler*: health, stamina, food and water, reputation, tax, the four technology point pools, the six skill levels and every stack in the bag (money is the Coin item), with a **Max crafting materials** button that raises the plain building and crafting materials to 999 (an estimate), leaving money, tools, food and clothing alone (checked on a public save, not yet tried in the game) |
+| Warhammer 40,000: Mechanicus | *Cadmus*: Blackstone, the Ark's bonus points and slots, and each Techpriest's level, XP, skill points, slot points and augment capacity; the save's own text dialect is patched in place and the checksum in `SaveState.sav` is rewritten for you (checked on public saves, not yet tried in the game) |
 
 ## Credits for God of War
 

@@ -3,7 +3,7 @@
 
 use super::{List, Max, Section, Shape, Spec, Table};
 
-pub static SPECS: &[Spec] = &[Spec] = &[COTL, FALLOUT_SHELTER, DRG, S1_MONEY, S1_RANK, S1_TIME, S1_GAME, SOTF_STATE, SOTF_GAME, SOTF_WEATHER, SOTF_ITEMS, DMD, CUPHEAD, ANTIMATTER, PVZ, CELESTE, DRGS, KH3, RF4S, SKY1ST, KSP, FFPR, MCD, STONESHARD, ROGUE_TRADER, BIOSHOCK_INFINITE, SPACE_HAVEN, SNOWRUNNER, GRAVEYARD_KEEPER, NFSMW, TOS, GTA3, GTAVC, BITBURNER, TERRA_INVICTA, PRISON, FF13, SONIC_MANIA, CAVE_STORY_PLUS, CAVE_STORY, LIES_OF_P, TXR, DAVE, MSC, ULTRAKILL, RPGXP, RE5, ANNO1800, FTK, LEGO_TSS, LEGO_CLASSIC, MYZ, CMS21, MEDIEVAL_DYNASTY];
+pub static SPECS: &[Spec] = &[Spec] = &[Spec] = &[COTL, FALLOUT_SHELTER, DRG, S1_MONEY, S1_RANK, S1_TIME, S1_GAME, SOTF_STATE, SOTF_GAME, SOTF_WEATHER, SOTF_ITEMS, DMD, CUPHEAD, ANTIMATTER, PVZ, CELESTE, DRGS, KH3, RF4S, SKY1ST, KSP, FFPR, MCD, STONESHARD, ROGUE_TRADER, BIOSHOCK_INFINITE, SPACE_HAVEN, SNOWRUNNER, GRAVEYARD_KEEPER, NFSMW, TOS, GTA3, GTAVC, BITBURNER, TERRA_INVICTA, PRISON, FF13, SONIC_MANIA, CAVE_STORY_PLUS, CAVE_STORY, LIES_OF_P, TXR, DAVE, MSC, ULTRAKILL, RPGXP, RE5, ANNO1800, FTK, LEGO_TSS, LEGO_CLASSIC, MYZ, CMS21, MEDIEVAL_DYNASTY, Spec] = &[COTL, MECHANICUS];
 
 // ------------------------------------------------------------------ Cult of the Lamb
 
@@ -1938,4 +1938,32 @@ const MEDIEVAL_DYNASTY: Spec = Spec {
         }),
     }],
     tables: &[],
+};
+
+// ------------------------------------------------------------------ Warhammer 40,000: Mechanicus
+
+const MECHANICUS: Spec = Spec {
+    name: "Warhammer 40,000: Mechanicus",
+    tab: "Cadmus",
+    accent: (200, 60, 50),
+    kind: Some(crate::fmt::mechanicus::KIND),
+    markers: &["/Ark/Blackstone"],
+    subtitle: "Meta.sav of a save slot. Blackstone is the Ark's research currency; SaveState.sav (the game's checksum of this file) is updated when you save.",
+    tiles: &[("Blackstone", "/Ark/Blackstone"), ("Cognition bonus points", "/Ark/Cognition bonus points")],
+    sections: &[Section {
+        title: "Ark",
+        rows: &[
+            ("Extra deployment points", "/Ark/Extra deployment points"), ("Troop deployment cost reduction", "/Ark/Troop deployment cost reduction"),
+            ("Techpriest slots", "/Ark/Techpriest slots"), ("Troop slots", "/Ark/Troop slots"),
+        ],
+    }],
+    lists: &[],
+    tables: &[Table {
+        title: "Techpriests",
+        path: "/Techpriests",
+        name: &["/Name"],
+        only: &[],
+        cols: &[("Level", "/Level"), ("XP", "/XP"), ("Skill points", "/Skill points"), ("Slot points", "/Slot points"), ("Augment capacity", "/Augment capacity"), ("Health", "/Health")],
+        names: &[],
+    }],
 };
