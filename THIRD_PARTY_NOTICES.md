@@ -156,6 +156,7 @@ Universal Save Editor is free. It builds on other people's work, listed here wit
 | [valheim-save-tools (Valheim character layout by version)](https://github.com/Kakoen/valheim-save-tools) | Kakoen | facts only (file layouts, ids and names), credited |
 | [valheim-character-editor (newer Valheim layouts, skill ids)](https://github.com/bkaznowski/valheim-character-editor) | bkaznowski | facts only (file layouts, ids and names), credited |
 | [obababot (Golden Sun save layout; item, class and Djinn name tables)](https://github.com/Dyrati/obababot) | Dyrati | MIT |
+| [Golden Sun Password Transfer (story event flag numbers)](https://github.com/Dyrati/Golden-Sun-Password-Transfer) | Dyrati | MIT |
 | [golden_sun_save_converter and golden_sun_password_exporter (Golden Sun save blocks and checksum)](https://github.com/Hambaka/golden_sun_save_converter) | Hambaka | MIT |
 | [NieR.Automata.Editor (NieR:Automata save layout, item and weapon names, experience table)](https://github.com/MysteryDash/NieR.Automata.Editor) | Alexandre Quoniou | MIT |
 | [nierautomatasaveeditor (NieR:Automata money, experience and item offsets)](https://github.com/atilion/nierautomatasaveeditor) | atilion | MIT; offsets only, credited |
@@ -202,6 +203,7 @@ Copyright notices of the projects above whose code or tables were used:
 - LSLib (Larian LSPK package, LSF resource and Osiris story layouts, ported): Copyright (c) Norbyte. Licensed under MIT.
 - valheim-fch-editor (Valheim character layout, skill ids): Copyright (c) 2021 cQuaid. Licensed under MIT.
 - obababot (Golden Sun save layout; item, class and Djinn name tables): Copyright (c) 2020 Dyrati. Licensed under MIT.
+- Golden Sun Password Transfer (story event flag numbers): Copyright (c) 2023 Dyrati. Licensed under MIT.
 - golden_sun_save_converter and golden_sun_password_exporter (Golden Sun save blocks and checksum): Copyright (c) 2022 Hambaka. Licensed under MIT.
 - NieR.Automata.Editor (NieR:Automata save layout, item and weapon names, experience table): Copyright (c) 2020 Alexandre Quoniou. Licensed under MIT.
 - nierautomatasaveeditor (NieR:Automata offsets): Copyright (c) 2017 atilion. Licensed under MIT.
