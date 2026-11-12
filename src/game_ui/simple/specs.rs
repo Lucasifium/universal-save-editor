@@ -3,7 +3,7 @@
 
 use super::{List, Max, Section, Shape, Spec, Table};
 
-pub static SPECS: &[Spec] = &[COTL, FALLOUT_SHELTER, DRG, S1_MONEY, S1_RANK, S1_TIME, S1_GAME, SOTF_STATE, SOTF_GAME, SOTF_WEATHER, SOTF_ITEMS, DMD, CUPHEAD, ANTIMATTER, PVZ, CELESTE, DRGS, KH3, RF4S, SKY1ST, KSP, FFPR, MCD, STONESHARD, ROGUE_TRADER, BIOSHOCK_INFINITE, SPACE_HAVEN, SNOWRUNNER, GRAVEYARD_KEEPER, NFSMW, TOS, GTA3, GTAVC, BITBURNER];
+pub static SPECS: &[Spec] = &[COTL, FALLOUT_SHELTER, DRG, S1_MONEY, S1_RANK, S1_TIME, S1_GAME, SOTF_STATE, SOTF_GAME, SOTF_WEATHER, SOTF_ITEMS, DMD, CUPHEAD, ANTIMATTER, PVZ, CELESTE, DRGS, KH3, RF4S, SKY1ST, KSP, FFPR, MCD, STONESHARD, ROGUE_TRADER, BIOSHOCK_INFINITE, SPACE_HAVEN, SNOWRUNNER, GRAVEYARD_KEEPER, NFSMW, TOS, GTA3, GTAVC, BITBURNER, TERRA_INVICTA];
 
 // ------------------------------------------------------------------ Cult of the Lamb
 
@@ -1350,4 +1350,26 @@ const BITBURNER: Spec = Spec {
     ],
     lists: &[],
     tables: &[],
+};
+
+// ------------------------------------------------------------------ Terra Invicta
+
+const TERRA_INVICTA: Spec = Spec {
+    name: "Terra Invicta",
+    tab: "Factions",
+    accent: (80, 150, 230),
+    kind: None,
+    markers: &["/gamestates/PavonisInteractive.TerraInvicta.TIFactionState"],
+    subtitle: "A save (.gz or the JSON inside it). Every faction's stockpile is listed, yours and the AI's. Saves from an ironman campaign aren't covered.",
+    tiles: &[],
+    sections: &[],
+    lists: &[],
+    tables: &[Table {
+        title: "Faction resources",
+        path: "/gamestates/PavonisInteractive.TerraInvicta.TIFactionState",
+        name: &["/Value/displayName"],
+        only: &[],
+        cols: &[("Money", "/Value/resources/Money"), ("Influence", "/Value/resources/Influence"), ("Operations", "/Value/resources/Operations"), ("Research", "/Value/resources/Research"), ("Projects", "/Value/resources/Projects"), ("Boost", "/Value/resources/Boost"), ("MissionControl", "/Value/resources/MissionControl"), ("Water", "/Value/resources/Water"), ("Volatiles", "/Value/resources/Volatiles"), ("Metals", "/Value/resources/Metals"), ("NobleMetals", "/Value/resources/NobleMetals"), ("Fissiles", "/Value/resources/Fissiles"), ("Antimatter", "/Value/resources/Antimatter"), ("Exotics", "/Value/resources/Exotics")],
+        names: &[],
+    }],
 };
