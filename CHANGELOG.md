@@ -1,7 +1,7 @@
 # Changelog
 
 ## Unreleased
-- Save manager (File › Save manager): backups and named save slots stored next to the save, restore with an automatic backup first, and set a save aside to start a new game
+- Backup & restore saves (File › Backup & restore saves): automatic and named backups stored next to the save, restore with a backup of the current file first, and back up and start a new game
 
 ## 0.3.0
 
