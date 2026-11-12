@@ -3,7 +3,7 @@
 
 use super::{List, Max, Section, Shape, Spec, Table};
 
-pub static SPECS: &[Spec] = &[COTL, FALLOUT_SHELTER, DRG, S1_MONEY, S1_RANK, S1_TIME, S1_GAME, SOTF_STATE, SOTF_GAME, SOTF_WEATHER, SOTF_ITEMS, DMD, CUPHEAD, ANTIMATTER, PVZ, CELESTE, DRGS, KH3, RF4S, SKY1ST, KSP, FFPR, MCD, STONESHARD, ROGUE_TRADER];
+pub static SPECS: &[Spec] = &[COTL, FALLOUT_SHELTER, DRG, S1_MONEY, S1_RANK, S1_TIME, S1_GAME, SOTF_STATE, SOTF_GAME, SOTF_WEATHER, SOTF_ITEMS, DMD, CUPHEAD, ANTIMATTER, PVZ, CELESTE, DRGS, KH3, RF4S, SKY1ST, KSP, FFPR, MCD, STONESHARD, ROGUE_TRADER, BIOSHOCK_INFINITE];
 
 // ------------------------------------------------------------------ Cult of the Lamb
 
@@ -1040,4 +1040,22 @@ const ROGUE_TRADER: Spec = Spec {
     }],
     lists: &[],
     tables: &[Table { title: "Reputation", path: "/player/FractionsReputation", name: &["/Key"], cols: &[("Reputation", "/Value")], only: &[], names: &[] }],
+};
+
+// ------------------------------------------------------------------ BioShock Infinite
+
+const BIOSHOCK_INFINITE: Spec = Spec {
+    name: "BioShock Infinite",
+    tab: "Booker",
+    accent: (90, 150, 200),
+    kind: Some(crate::fmt::bsinfinite::KIND),
+    markers: &[],
+    subtitle: "Infusion levels go from 0 to 10; a kind you've never picked has no entry yet.",
+    tiles: &[("Silver Eagles", "/Booker/Silver Eagles"), ("Lockpicks", "/Booker/Lockpicks"), ("Salts", "/Booker/Salts")],
+    sections: &[Section {
+        title: "Infusions",
+        rows: &[("Health", "/Infusions/Health"), ("Shield", "/Infusions/Shield"), ("Salts", "/Infusions/Salts")],
+    }],
+    lists: &[],
+    tables: &[],
 };
