@@ -6,6 +6,7 @@ Universal Save Editor is free. It builds on other people's work, listed here wit
 
 | What | By | Licence |
 |---|---|---|
+| [IdolRecomp-Saints-Row-The-Third save format notes (Saints Row: The Third save offsets and checksum)](https://github.com/PurrsianMilkman/IdolRecomp-Saints-Row-The-Third) | Purrsian | MIT |
 | [Elden Ring, Dark Souls III, Dark Souls II save editors (item, weapon and flag tables)](https://github.com/alfizari/Elden-Ring-Save-Editor) | alfizari | MIT |
 | [Dark Souls Remastered and Sekiro save editors (item tables)](https://github.com/alfizari/Sekiro-Save-Editor) | alfizari | Apache-2.0 |
 | [ER-Save-Editor (Elden Ring item names)](https://github.com/ClayAmore/ER-Save-Editor) | ClayAmore | Apache-2.0 |
