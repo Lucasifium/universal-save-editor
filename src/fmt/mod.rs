@@ -170,6 +170,7 @@ pub mod nier;
 pub mod dbpf;
 pub mod pvz;
 pub mod gta3;
+pub mod jedi;
 pub mod tos;
 pub mod sims1;
 pub mod sims2;
@@ -498,6 +499,11 @@ pub fn parse_binary(d: &[u8]) -> Option<TreeDoc> {
     }
     if nier::looks(d) {
         if let Ok(t) = nier::parse(d) {
+            return Some(t);
+        }
+    }
+    if jedi::looks(d) {
+        if let Ok(t) = jedi::parse(d) {
             return Some(t);
         }
     }
