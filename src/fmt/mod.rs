@@ -113,6 +113,7 @@ pub mod cyberpunk;
 pub mod kenshi;
 pub mod p3r;
 pub mod p4g;
+pub mod ao;
 pub mod p3p;
 mod p3p_tables;
 pub mod ffx2;
@@ -297,6 +298,11 @@ pub fn parse_binary(d: &[u8]) -> Option<TreeDoc> {
     }
     if forspoken::looks(d) {
         if let Ok(t) = forspoken::parse(d) {
+            return Some(t);
+        }
+    }
+    if ao::looks(d) {
+        if let Ok(t) = ao::parse(d) {
             return Some(t);
         }
     }
