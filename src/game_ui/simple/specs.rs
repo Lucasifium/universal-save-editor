@@ -3,7 +3,7 @@
 
 use super::{List, Max, Section, Shape, Spec, Table};
 
-pub static SPECS: &[Spec] = &[COTL, FALLOUT_SHELTER, DRG, S1_MONEY, S1_RANK, S1_TIME, S1_GAME, SOTF_STATE, SOTF_GAME, SOTF_WEATHER, SOTF_ITEMS, DMD, CUPHEAD, ANTIMATTER, PVZ, CELESTE, DRGS, KH3, RF4S, SKY1ST, KSP, FFPR, MCD, STONESHARD, ROGUE_TRADER, BIOSHOCK_INFINITE, SPACE_HAVEN, SNOWRUNNER, GRAVEYARD_KEEPER, NFSMW, TOS, GTA3, GTAVC, BITBURNER, TERRA_INVICTA, PRISON, FF13, SONIC_MANIA, CAVE_STORY_PLUS, CAVE_STORY, LIES_OF_P, TXR, DAVE, MSC, ULTRAKILL, RPGXP, RE5, ANNO1800, FTK, LEGO_TSS, LEGO_CLASSIC, MYZ, CMS21, MEDIEVAL_DYNASTY, MECHANICUS];
+pub static SPECS: &[Spec] = &[COTL, FALLOUT_SHELTER, DRG, S1_MONEY, S1_RANK, S1_TIME, S1_GAME, SOTF_STATE, SOTF_GAME, SOTF_WEATHER, SOTF_ITEMS, DMD, CUPHEAD, ANTIMATTER, PVZ, CELESTE, DRGS, KH3, RF4S, SKY1ST, KSP, FFPR, MCD, STONESHARD, ROGUE_TRADER, BIOSHOCK_INFINITE, SPACE_HAVEN, SNOWRUNNER, GRAVEYARD_KEEPER, NFSMW, TOS, GTA3, GTAVC, BITBURNER, TERRA_INVICTA, PRISON, FF13, SONIC_MANIA, CAVE_STORY_PLUS, CAVE_STORY, LIES_OF_P, TXR, DAVE, MSC, ULTRAKILL, RPGXP, RE5, ANNO1800, FTK, LEGO_TSS, LEGO_CLASSIC, MYZ, CMS21, MEDIEVAL_DYNASTY, MECHANICUS, JEDI_FO];
 
 // ------------------------------------------------------------------ Cult of the Lamb
 
@@ -1966,4 +1966,43 @@ const MECHANICUS: Spec = Spec {
         cols: &[("Level", "/Level"), ("XP", "/XP"), ("Skill points", "/Skill points"), ("Slot points", "/Slot points"), ("Augment capacity", "/Augment capacity"), ("Health", "/Health")],
         names: &[],
     }],
+};
+
+// ------------------------------------------------------------------ Star Wars Jedi: Fallen Order
+
+const JEDI_FO: Spec = Spec {
+    name: "Star Wars Jedi: Fallen Order",
+    tab: "Cal Kestis",
+    accent: (60, 150, 220),
+    kind: Some(crate::fmt::jedi::KIND),
+    markers: &["/Skill points/Unspent skill points"],
+    subtitle: "SaveGame00.sav. The zlib-packed actor records are opened and packed again on save.",
+    tiles: &[("Unspent skill points", "/Skill points/Unspent skill points"), ("Stims", "/Health and Force/Stims carried"), ("Deaths", "/Progress/Deaths")],
+    sections: &[
+        Section {
+            title: "Skill points",
+            rows: &[
+                ("Unspent skill points", "/Skill points/Unspent skill points"), ("Total skill points earned", "/Skill points/Total skill points earned"),
+                ("XP collected toward the next point", "/Skill points/XP collected toward the next point"),
+            ],
+        },
+        Section {
+            title: "Health and Force",
+            rows: &[
+                ("Stims carried", "/Health and Force/Stims carried"), ("Stim capacity", "/Health and Force/Stim capacity"),
+                ("Health upgrades found", "/Health and Force/Health upgrades found"), ("Force upgrades found", "/Health and Force/Force upgrades found"),
+                ("Health upgrade fragments", "/Health and Force/Health upgrade fragments"), ("Force upgrade fragments", "/Health and Force/Force upgrade fragments"),
+            ],
+        },
+        Section {
+            title: "Progress",
+            rows: &[
+                ("Secrets collected", "/Progress/Secrets collected"), ("Secrets in the game", "/Progress/Secrets in the game"),
+                ("Map sections explored", "/Progress/Map sections explored"), ("Map sections in the game", "/Progress/Map sections in the game"),
+                ("Deaths", "/Progress/Deaths"), ("Revives used", "/Progress/Revives used"),
+            ],
+        },
+    ],
+    lists: &[],
+    tables: &[],
 };

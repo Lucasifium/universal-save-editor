@@ -3,7 +3,7 @@
 > **Free, and it always will be.** No price, no ads, no account, no paid version, no online service, no
 > rate limits. If anyone is charging you for this, it isn't from here.
 
-An offline save editor and save manager for 280+ (287) PC games (edit saves, and back up, name and restore them): Cairn, Terraria (characters and a world map editor),
+An offline save editor and save manager for 280+ (288) PC games (edit saves, and back up, name and restore them): Cairn, Terraria (characters and a world map editor),
 Oxygen Not Included, RimWorld, Stardew Valley, Onimusha: Way of the Sword, Elden Ring, Dark Souls,
 Cyberpunk 2077, the Persona, Yakuza and Final Fantasy games, Ren'Py visual novels, RPG Maker games
 and more (the full list is below). Written in Rust (egui). Nothing is uploaded anywhere, and there are
@@ -158,6 +158,7 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 | Kerbal Space Program | *Space Center*: funds, science, reputation, the level of each Space Center facility, and a table of every Kerbal (courage, stupidity, veteran, extra XP, trait, state). The `persistent.sfs` text is read as a tree and only the values you change are rewritten (checked on real career saves, not yet tried in the game) |
 | Space Haven | *Fleet*: credits, the day and time, the difficulty options, and a table of each ship's crew with health, food, rest, comfort, mood, the four attributes and every skill level. The save's XML is edited in place, so everything you don't change stays as it was. Resources in storage are not covered (checked on a real save, not yet tried in the game) |
 | SnowRunner | *Garage*: money, rank, experience, the statistics (money earned and spent, trucks and add-ons bought and sold, sessions), the difficulty factors and the trucks in the warehouse. The save is JSON followed by a NUL byte, which is kept (checked on two real saves, not yet tried in the game) |
+| Star Wars Jedi: Fallen Order | *Cal Kestis*: unspent and total skill points, XP toward the next point, stims carried and capacity, health and Force upgrades and fragments, secrets and map sections, deaths and revives. The zlib-packed actor records are opened and packed again on save (checked on a public save, not yet tried in the game) |
 | Grand Theft Auto III | *Player*: money (both copies the game keeps), hidden packages, and the statistics (progress, missions, stunt jumps, days, times arrested and died, kills); the save's checksum is rewritten (checked on public saves, not yet tried in the game) |
 | Grand Theft Auto: Vice City | *Player*: money (both copies the game keeps), hidden packages, and the statistics (progress, stunt jumps, days, times arrested and died, kills); the save's checksum is rewritten (checked on public saves, not yet tried in the game) |
 | Bitburner | *Player*: money, BitNode, karma, HP, the skill levels and the experience behind them (an exported save; the JSON nested inside it is opened as one; checked on a real save, not yet tried in the game) |
