@@ -5,7 +5,7 @@
 
 use super::{columns, fact, hero, panel, tabs, GameCtx};
 use crate::json_view::pointer_escape;
-use eframe::egui::{Color32, Ui};
+use eframe::egui::{self, Color32, Ui};
 use serde_json::Value;
 use std::cell::RefCell;
 use std::collections::HashMap;
@@ -177,5 +177,37 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
                 ui.weak("Experience is shared by the party; raising it gives level-ups to pick in the game.");
             });
         }
+    });
+    story_flags(ui, cx, wotr);
+}
+
+/// Kingmaker's story flags (`player.m_UnlockableFlags`): each a blueprint GUID and a number,
+/// named from the game's blueprint list. Wrath's flag names aren't known, so it has none.
+fn story_flags(ui: &mut Ui, cx: &mut GameCtx, wotr: bool) {
+    const AT: &str = "/player/m_UnlockableFlags/m_UnlockedFlags";
+    let Some(Value::Array(list)) = cx.get(AT) else { return };
+    let mut rows: Vec<(String, String)> = list
+        .iter()
+        .enumerate()
+        .filter_map(|(i, e)| {
+            let name = if wotr { None } else { e.get("Key").and_then(Value::as_str).and_then(crate::fmt::owlcat::kingmaker_flag) }?;
+            e.get("Value").filter(|v| v.is_i64() || v.is_u64())?;
+            Some((name.to_string(), format!("{AT}/{i}/Value")))
+        })
+        .collect();
+    if rows.is_empty() {
+        return;
+    }
+    rows.sort_by_key(|r| r.0.to_lowercase());
+    panel(ui, &format!("Story flags ({})", rows.len()), |ui| {
+        super::screens2::story_guard(ui, |ui| {
+            let q = super::screens2::filter_box(ui, "pf_flags", "e.g. Romance, Amiri, Unlock");
+            egui::ScrollArea::vertical().id_salt("pf_flags_scroll").max_height(340.0).show(ui, |ui| {
+                for (n, p) in rows.iter().filter(|r| q.is_empty() || r.0.to_lowercase().contains(&q)).take(400) {
+                    cx.row_fixed(ui, n, p, 320.0, 90.0);
+                }
+            });
+            ui.weak("The game's own story and unlock flags: most are 0 or 1, some count up. Shows 400 at a time: use the filter.");
+        });
     });
 }

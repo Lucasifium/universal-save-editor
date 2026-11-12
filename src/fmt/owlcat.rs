@@ -130,9 +130,23 @@ pub fn name(guid: &str, wotr: bool) -> Option<String> {
     hits().find(|x| x.1 == game).or_else(|| hits().find(|x| x.1.is_empty())).map(|x| x.2.clone())
 }
 
+/// A Pathfinder: Kingmaker story flag's name by blueprint GUID.
+pub fn kingmaker_flag(guid: &str) -> Option<&'static str> {
+    static T: OnceLock<HashMap<&'static str, &'static str>> = OnceLock::new();
+    T.get_or_init(|| include_str!("data/owlcat_flags.tsv").lines().filter(|l| !l.starts_with('#')).filter_map(|l| l.split_once('\t')).collect())
+        .get(guid)
+        .copied()
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn kingmaker_flag_names() {
+        assert_eq!(kingmaker_flag("741f9fdc26dbbe44ca200371a83f90b1").is_some(), true);
+        assert_eq!(kingmaker_flag("0000"), None);
+    }
 
     fn zks(player: &str, party: &str) -> Vec<u8> {
         let mut z = zip::ZipWriter::new(Cursor::new(Vec::new()));
