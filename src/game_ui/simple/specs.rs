@@ -3,7 +3,7 @@
 
 use super::{List, Max, Section, Shape, Spec, Table};
 
-pub static SPECS: &[Spec] = &[COTL, FALLOUT_SHELTER, DRG, S1_MONEY, S1_RANK, S1_TIME, S1_GAME, SOTF_STATE, SOTF_GAME, SOTF_WEATHER, SOTF_ITEMS, DMD, CUPHEAD, ANTIMATTER, PVZ, CELESTE, DRGS, KH3, RF4S, SKY1ST, KSP, FFPR, MCD, STONESHARD, ROGUE_TRADER, BIOSHOCK_INFINITE, SPACE_HAVEN, SNOWRUNNER, GRAVEYARD_KEEPER, NFSMW, TOS, GTA3, GTAVC];
+pub static SPECS: &[Spec] = &[COTL, FALLOUT_SHELTER, DRG, S1_MONEY, S1_RANK, S1_TIME, S1_GAME, SOTF_STATE, SOTF_GAME, SOTF_WEATHER, SOTF_ITEMS, DMD, CUPHEAD, ANTIMATTER, PVZ, CELESTE, DRGS, KH3, RF4S, SKY1ST, KSP, FFPR, MCD, STONESHARD, ROGUE_TRADER, BIOSHOCK_INFINITE, SPACE_HAVEN, SNOWRUNNER, GRAVEYARD_KEEPER, NFSMW, TOS, GTA3, GTAVC, BITBURNER];
 
 // ------------------------------------------------------------------ Cult of the Lamb
 
@@ -1302,6 +1302,49 @@ const GTAVC: Spec = Spec {
                 ("People killed by the player", "/Statistics/People killed by the player"), ("Cars exploded", "/Statistics/Cars exploded"),
                 ("Boats exploded", "/Statistics/Boats exploded"), ("Rounds fired", "/Statistics/Rounds fired"),
                 ("Helicopters destroyed", "/Statistics/Helicopters destroyed"),
+            ],
+        },
+    ],
+    lists: &[],
+    tables: &[],
+};
+
+// ------------------------------------------------------------------ Bitburner
+
+const BITBURNER: Spec = Spec {
+    name: "Bitburner",
+    tab: "Player",
+    accent: (60, 200, 90),
+    kind: None,
+    markers: &["/data/PlayerSave/data/money", "/data/PlayerSave/data/skills/hacking"],
+    subtitle: "An exported save (bitburnerSave_*.json). Skill levels are worked out from experience when the game loads, so raise the experience too if a skill doesn't stick.",
+    tiles: &[("Money", "/data/PlayerSave/data/money"), ("Hacking", "/data/PlayerSave/data/skills/hacking"), ("BitNode", "/data/PlayerSave/data/bitNodeN")],
+    sections: &[
+        Section {
+            title: "Player",
+            rows: &[
+                ("Money", "/data/PlayerSave/data/money"), ("Current BitNode", "/data/PlayerSave/data/bitNodeN"),
+                ("City", "/data/PlayerSave/data/city"), ("Karma", "/data/PlayerSave/data/karma"),
+                ("People killed", "/data/PlayerSave/data/numPeopleKilled"), ("Entropy", "/data/PlayerSave/data/entropy"),
+                ("HP", "/data/PlayerSave/data/hp/current"), ("Max HP", "/data/PlayerSave/data/hp/max"),
+            ],
+        },
+        Section {
+            title: "Skill levels",
+            rows: &[
+                ("Hacking", "/data/PlayerSave/data/skills/hacking"), ("Strength", "/data/PlayerSave/data/skills/strength"),
+                ("Defense", "/data/PlayerSave/data/skills/defense"), ("Dexterity", "/data/PlayerSave/data/skills/dexterity"),
+                ("Agility", "/data/PlayerSave/data/skills/agility"), ("Charisma", "/data/PlayerSave/data/skills/charisma"),
+                ("Intelligence", "/data/PlayerSave/data/skills/intelligence"),
+            ],
+        },
+        Section {
+            title: "Experience",
+            rows: &[
+                ("Hacking", "/data/PlayerSave/data/exp/hacking"), ("Strength", "/data/PlayerSave/data/exp/strength"),
+                ("Defense", "/data/PlayerSave/data/exp/defense"), ("Dexterity", "/data/PlayerSave/data/exp/dexterity"),
+                ("Agility", "/data/PlayerSave/data/exp/agility"), ("Charisma", "/data/PlayerSave/data/exp/charisma"),
+                ("Intelligence", "/data/PlayerSave/data/exp/intelligence"),
             ],
         },
     ],
