@@ -17,11 +17,13 @@ pub struct Settings {
     pub confirm_save: bool,
     /// Where backups go, when the player chose a folder (otherwise the app's own folder).
     pub backup_dir: Option<PathBuf>,
+    /// Folders chosen for backups before, still searched for the copies made there.
+    pub earlier_backup_dirs: Vec<PathBuf>,
 }
 
 impl Default for Settings {
     fn default() -> Self {
-        Self { recent: vec![], dark: true, zoom: 1.0, show_raw_keys: false, show_advanced: false, confirm_save: true, backup_dir: None }
+        Self { recent: vec![], dark: true, zoom: 1.0, show_raw_keys: false, show_advanced: false, confirm_save: true, backup_dir: None, earlier_backup_dirs: vec![] }
     }
 }
 
@@ -44,6 +46,9 @@ impl Settings {
         s.show_advanced = v["show_advanced"].as_bool().unwrap_or(false);
         s.confirm_save = v["confirm_save"].as_bool().unwrap_or(true);
         s.backup_dir = v["backup_dir"].as_str().filter(|d| !d.is_empty()).map(PathBuf::from);
+        if let Some(r) = v["earlier_backup_dirs"].as_array() {
+            s.earlier_backup_dirs = r.iter().filter_map(|x| x.as_str()).filter(|d| !d.is_empty()).map(PathBuf::from).collect();
+        }
         s
     }
 
@@ -57,11 +62,26 @@ impl Settings {
             "show_advanced": self.show_advanced,
             "confirm_save": self.confirm_save,
             "backup_dir": self.backup_dir.as_ref().map(|d| d.to_string_lossy().to_string()),
+            "earlier_backup_dirs": self.earlier_backup_dirs.iter().map(|p| p.to_string_lossy()).collect::<Vec<_>>(),
         });
         if let Some(dir) = p.parent() {
             let _ = std::fs::create_dir_all(dir);
         }
         let _ = std::fs::write(p, serde_json::to_string_pretty(&v).unwrap_or_default());
+    }
+
+    /// Switches backups to `dir` (`None`: the default), remembering the folder used until now
+    /// so the copies already in it stay listed.
+    pub fn set_backup_dir(&mut self, dir: Option<PathBuf>) {
+        if let Some(old) = self.backup_dir.take() {
+            if !self.earlier_backup_dirs.contains(&old) {
+                self.earlier_backup_dirs.push(old);
+            }
+        }
+        self.backup_dir = dir;
+        crate::backups::set_root(self.backup_dir.clone());
+        crate::backups::set_earlier_roots(self.earlier_backup_dirs.clone());
+        self.save();
     }
 
     pub fn push_recent(&mut self, p: &std::path::Path) {

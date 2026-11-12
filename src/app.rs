@@ -281,8 +281,9 @@ pub struct App {
     sum_hits: Option<Vec<crate::fmt::sumfind::Sum>>,
     /// The name being typed for a kept copy (File › Restore previous version › Keep a copy).
     backup_name: Option<String>,
-    /// The Backup & restore saves window: `Some((slot name being typed, version waiting for a delete/replace confirmation))` while open.
-    manager: Option<(String, Option<(PathBuf, bool)>)>,
+    /// The Backup & restore saves window: `Some((save it is for, backup name being typed, version waiting for a delete/replace confirmation))` while open.
+    /// It stays open for a save that was set aside (or is missing), so a backup can be put back.
+    manager: Option<(PathBuf, String, Option<(PathBuf, bool)>)>,
     /// Tools › Change Steam account: the IDs found in the save, the one picked, and the new one typed.
     rebind: Option<(Vec<u64>, usize, String)>,
     patches: Option<Patches>,
@@ -308,6 +309,7 @@ impl App {
     pub fn new(cc: &eframe::CreationContext<'_>, initial: Option<PathBuf>) -> Self {
         let settings = Settings::load();
         crate::backups::set_root(settings.backup_dir.clone());
+        crate::backups::set_earlier_roots(settings.earlier_backup_dirs.clone());
         let has_icons = theme::install_fonts(&cc.egui_ctx);
         theme::apply(&cc.egui_ctx, settings.dark);
         cc.egui_ctx.set_zoom_factor(settings.zoom);
@@ -455,10 +457,8 @@ impl App {
             Ask::Import => self.import_from(&p),
             Ask::Patch => self.load_patch_file(&p),
             Ask::BackupDir => {
-                crate::backups::set_root(Some(p.clone()));
-                self.ok(format!("Backups now go to {}. Earlier ones stay where they were.", p.display()));
-                self.settings.backup_dir = Some(p);
-                self.settings.save();
+                self.ok(format!("Backups now go to {}. Earlier ones stay where they were and are still listed.", p.display()));
+                self.settings.set_backup_dir(Some(p));
             }
         }
     }
@@ -1319,18 +1319,28 @@ impl App {
     /// Put `from` (a backup) back in place of the open file. The file as it is now is
     /// backed up first, so a restore can itself be undone.
     fn restore_from(&mut self, from: &Path, what: &str) {
-        let Some(doc) = &self.doc else { return };
-        let path = doc.path.clone();
+        let Some(path) = self.doc.as_ref().map(|d| d.path.clone()) else { return };
+        if self.dirty {
+            return self.fail("You have unsaved changes. Save or revert them first, then restore.");
+        }
+        self.restore_to(&path, from, what);
+    }
+
+    /// Put `from` back as `path` (which may be missing, after Back up and start a new game)
+    /// and open it.
+    fn restore_to(&mut self, path: &Path, from: &Path, what: &str) {
+        let path = path.to_path_buf();
+        if self.dirty && self.doc.as_ref().is_some_and(|d| d.path != path) {
+            return self.fail(format!("Save or revert the changes to {} first.", self.doc.as_ref().map(|d| file_name(&d.path)).unwrap_or_default()));
+        }
         if let Some(game) = crate::running::game_for(&path) {
             return self.fail(format!("{game} looks like it's running \u{2014} quit it first, or it may overwrite the restored file."));
         }
-        if let Err(e) = crate::backups::take(&path) {
-            return self.fail(format!("Couldn't back up the current file first: {e}"));
-        }
-        match crate::vfs::copy(from, &path) {
-            Ok(_) => {
+        match crate::backups::restore(&path, from) {
+            Ok(()) => {
                 if let Ok(bytes) = crate::vfs::read(&path) {
                     for (other, data) in formats::companion_files(&path, &bytes) {
+                        let _ = crate::backups::take(&other);
                         let _ = crate::vfs::write(&other, data);
                     }
                 }
@@ -1489,7 +1499,7 @@ impl App {
                 }
                 if !WEB && ui.add_enabled(has, egui::Button::new("Backup & restore saves\u{2026}")).on_hover_text("Back up the open save, restore an earlier backup, or set the save aside to start a new game").clicked() {
                     ui.close_menu();
-                    self.manager = Some((String::new(), None));
+                    self.manager = self.doc.as_ref().map(|d| (d.path.clone(), String::new(), None));
                 }
                 let bak = self.doc.as_ref().map(|d| {
                     let mut b = d.path.as_os_str().to_owned();
@@ -1554,9 +1564,7 @@ impl App {
                                     self.ask(Ask::BackupDir, self.settings.backup_dir.clone(), None);
                                 }
                                 if self.settings.backup_dir.is_some() && ui.small_button("Back to the default folder").clicked() {
-                                    crate::backups::set_root(None);
-                                    self.settings.backup_dir = None;
-                                    self.settings.save();
+                                    self.settings.set_backup_dir(None);
                                 }
                             });
                         }
@@ -1944,8 +1952,11 @@ impl App {
     /// File › Backup & restore saves: named backups (named copies, kept for good) and automatic backups of the
     /// open file, stored next to it. Restoring backs up the current file first.
     fn manager_window(&mut self, ctx: &egui::Context) {
-        let Some((mut name, mut confirm)) = self.manager.take() else { return };
-        let Some(path) = self.doc.as_ref().map(|d| d.path.clone()) else { return };
+        let Some((path, mut name, mut confirm)) = self.manager.take() else { return };
+        // Another file was opened: this window was for the one before.
+        if self.doc.as_ref().is_some_and(|d| d.path != path) {
+            return;
+        }
         let versions = crate::backups::list(&path);
         let mut open = true;
         let mut restore = None;
@@ -1954,14 +1965,24 @@ impl App {
         let mut unname = None;
         let mut keep = false;
         let mut aside = false;
+        let has_doc = self.doc.is_some();
+        let dirty = self.dirty;
+        let newest_dir = versions.first().and_then(|v| v.path.parent()).map(Path::to_path_buf);
         egui::Window::new("Backup & restore saves").open(&mut open).collapsible(false).default_width(560.0).show(ctx, |ui| {
             ui.label(RichText::new(file_name(&path)).strong());
+            if !path.exists() {
+                ui.label(RichText::new("There is no save file here right now. The game makes a new one when you save in it, or restore a backup below to put one back.").color(theme::fg(ui, theme::WARN)));
+            }
             if let Some(dir) = crate::backups::folder(&path) {
-                ui.weak(format!("Backups are stored in {} \u{2014} a folder next to the save, with files no game reads as saves.", dir.display()));
+                let note = if self.settings.backup_dir.is_some() { "the folder you chose for backups" } else { "a folder next to the save, with files no game reads as saves" };
+                ui.weak(format!("Backups are stored in {} \u{2014} {note}.", dir.display()));
+                if let Some(other) = newest_dir.as_ref().filter(|d| **d != dir) {
+                    ui.weak(format!("The newest backup is in {} (the folder above couldn't be written to, or it was made earlier).", other.display()));
+                }
             }
             ui.add_space(6.0);
             ui.horizontal(|ui| {
-                ui.add(TextEdit::singleline(&mut name).hint_text("name this backup, e.g. first playthrough").desired_width(260.0));
+                ui.add(TextEdit::singleline(&mut name).hint_text("backup name, e.g. first run").desired_width(260.0));
                 let ready = !name.trim().is_empty() && path.is_file();
                 if ui.add_enabled(ready, egui::Button::new("Back up this save")).on_hover_text("Saves a named copy of the file as it is on disk now. It is kept until you delete it; the save itself is not changed.").clicked() {
                     keep = true;
@@ -1992,7 +2013,12 @@ impl App {
                             ui.label(label);
                             if confirm.as_ref().is_some_and(|(p, _)| *p == v.path) {
                                 let is_restore = confirm.as_ref().is_some_and(|(_, r)| *r);
-                                if ui.button(if is_restore { "Yes, restore" } else { "Yes, delete backup" }).clicked() {
+                                let yes = match (is_restore, has_doc && dirty) {
+                                    (true, true) => "Yes, restore (your unsaved changes are dropped)",
+                                    (true, false) => "Yes, restore",
+                                    _ => "Yes, delete backup",
+                                };
+                                if ui.button(yes).clicked() {
                                     if is_restore { restore = Some(v.path.clone()) } else { delete = Some(v.path.clone()) }
                                     confirm = None;
                                 }
@@ -2003,7 +2029,7 @@ impl App {
                                 if ui.small_button("Restore this backup").on_hover_text("Replaces the current save with this backup. The current save is backed up first, so you can undo it.").clicked() {
                                     confirm = Some((v.path.clone(), true));
                                 }
-                                if path.is_file() && ui.small_button("Compare").on_hover_text("Shows what differs between this backup and the open save").clicked() {
+                                if has_doc && path.is_file() && ui.small_button("Compare").on_hover_text("Shows what differs between this backup and the open save").clicked() {
                                     compare = Some(v.path.clone());
                                 }
                                 if v.name.is_some() && ui.small_button("Make automatic").on_hover_text("Stops keeping this backup for good; it is cleared out in time like the automatic ones").clicked() {
@@ -2018,7 +2044,7 @@ impl App {
                     ui.add_space(6.0);
                 }
             });
-            if let Some(dir) = crate::backups::folder(&path).filter(|d| d.is_dir()) {
+            if let Some(dir) = newest_dir.clone().or_else(|| crate::backups::folder(&path)).filter(|d| d.is_dir()) {
                 if let Some(label) = platform::reveal_label() {
                     if ui.button(label.replace("file", "backups")).clicked() {
                         platform::reveal(&dir);
@@ -2046,32 +2072,36 @@ impl App {
                         // Close the file so its old data can't be saved back over the new game.
                         self.doc = None;
                         self.dirty = false;
-                        self.ok(format!("Backed up the save as \u{201C}{label}\u{201D}, removed the save file and closed it here. The game will start a new game. Once it has made its new save, open that file and use File \u{203A} Backup & restore saves to restore this backup."));
+                        self.ok(format!("Backed up as \u{201C}{label}\u{201D} and removed the save, so the game starts a new game. Restore it here any time."));
+                        self.manager = Some((path, String::new(), None));
                         return;
                     }
-                    Err(e) => self.fail(format!("Couldn't set the save aside: {e}")),
+                    Err(e) => self.fail(format!("Couldn't start a new game: {e}")),
                 }
             }
         }
         if let Some(p) = restore {
             let what = find(&p).map(|v| v.name.as_ref().map(|n| format!("\u{201C}{n}\u{201D}")).unwrap_or_else(|| format!("the version from {}", crate::backups::describe(v_when(&versions, &p))))).unwrap_or_default();
-            self.restore_from(&p, &what);
+            self.restore_to(&path, &p, &what);
         }
         if let Some(p) = compare {
             self.compare_with(p);
         }
         if let Some(v) = unname.as_ref().and_then(find) {
-            if let Err(e) = crate::backups::unlock(v) {
-                self.fail(format!("Couldn't change that copy: {e}"));
+            match crate::backups::unlock(v) {
+                Ok(()) => self.ok("That backup is automatic now: it is cleared out in time like the others."),
+                Err(e) => self.fail(format!("Couldn't change that copy: {e}")),
             }
         }
         if let Some(v) = delete.as_ref().and_then(find) {
-            if let Err(e) = crate::backups::remove(v) {
-                self.fail(format!("Couldn't delete it: {e}"));
+            match crate::backups::remove(v) {
+                Ok(()) => self.ok("Deleted the backup."),
+                Err(e) => self.fail(format!("Couldn't delete it: {e}")),
             }
         }
-        if open {
-            self.manager = Some((name, confirm));
+        // A restore opens the file, which closes this window unless it is still wanted.
+        if open && self.manager.is_none() {
+            self.manager = Some((path, name, confirm));
         }
     }
 
@@ -3270,6 +3300,7 @@ impl App {
 
     fn welcome(&mut self, ui: &mut egui::Ui) {
         let mut open: Option<PathBuf> = None;
+        let mut restore_missing: Option<PathBuf> = None;
         let mut browse: Option<Option<PathBuf>> = None;
         ScrollArea::vertical().auto_shrink([false, false]).show(ui, |ui| {
             ui.vertical_centered(|ui| {
@@ -3317,6 +3348,12 @@ impl App {
                                         open = Some(p.clone());
                                     }
                                     let folder = p.parent().map(|d| d.display().to_string()).unwrap_or_default();
+                                    if !exists && !WEB && !crate::backups::list(p).is_empty() {
+                                        // Set aside for a new game (or deleted): its backups can bring it back.
+                                        if ui.small_button("Restore a backup\u{2026}").on_hover_text("The file isn't there any more, but it has backups").clicked() {
+                                            restore_missing = Some(p.clone());
+                                        }
+                                    }
                                     ui.add(egui::Label::new(RichText::new(if exists { folder } else { "(file no longer exists)".into() }).weak().size(12.5)).truncate());
                                 });
                             }
@@ -3374,6 +3411,9 @@ impl App {
                 });
             });
         });
+        if let Some(p) = restore_missing {
+            self.manager = Some((p, String::new(), None));
+        }
         if let Some(p) = open {
             self.request_open(p);
         }
@@ -3699,14 +3739,8 @@ fn write_in_place(path: &Path, bytes: &[u8]) -> Result<(), String> {
     }
     #[cfg(not(target_arch = "wasm32"))]
     {
-        let mut tmp = path.as_os_str().to_owned();
-        tmp.push(".saving");
-        let tmp = PathBuf::from(tmp);
-        if let Err(e) = std::fs::write(&tmp, bytes).and_then(|_| std::fs::rename(&tmp, path)) {
-            let _ = std::fs::remove_file(&tmp);
-            return Err(e.to_string());
-        }
-        Ok(())
+        // Written beside it, flushed, read back and checked, and only then renamed over it.
+        crate::backups::write_verified(path, bytes, true)
     }
 }
 

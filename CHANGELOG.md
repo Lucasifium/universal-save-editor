@@ -2,6 +2,7 @@
 
 ## Unreleased
 - Backup & restore saves (File › Backup & restore saves): automatic and named backups stored next to the save, restore with a backup of the current file first, and back up and start a new game
+- Backups and restores are written to a temporary file, flushed, read back and checked before they replace anything; a save that can't be read is never overwritten; a save set aside for a new game can be restored straight from the window or Recent files
 
 ## 0.3.0
 
