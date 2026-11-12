@@ -3,7 +3,7 @@
 
 use super::{List, Max, Section, Shape, Spec, Table};
 
-pub static SPECS: &[Spec] = &[COTL, FALLOUT_SHELTER, DRG, S1_MONEY, S1_RANK, S1_TIME, S1_GAME, SOTF_STATE, SOTF_GAME, SOTF_WEATHER, SOTF_ITEMS, DMD, CUPHEAD, ANTIMATTER, PVZ, CELESTE, DRGS];
+pub static SPECS: &[Spec] = &[COTL, FALLOUT_SHELTER, DRG, S1_MONEY, S1_RANK, S1_TIME, S1_GAME, SOTF_STATE, SOTF_GAME, SOTF_WEATHER, SOTF_ITEMS, DMD, CUPHEAD, ANTIMATTER, PVZ, CELESTE, DRGS, KH3];
 
 // ------------------------------------------------------------------ Cult of the Lamb
 
@@ -814,4 +814,52 @@ const DRGS: Spec = Spec {
         Table { title: "Classes", path: "/ClassRanks", name: &["/ClassType"], only: &[], cols: &[("XP", "/Xp"), ("Rank", "/Rank")], names: &[] },
         Table { title: "Stat upgrades", path: "/MetaStatUpgrades", name: &["/Id"], only: &[], cols: &[("Level", "/Level")], names: &[] },
     ],
+};
+
+// ------------------------------------------------------------------ Kingdom Hearts III
+
+const KH3: Spec = Spec {
+    name: "Kingdom Hearts III",
+    tab: "Sora",
+    accent: (70, 120, 220),
+    kind: Some(crate::fmt::kh3::KIND),
+    markers: &["/Sora/Munny"],
+    subtitle: "",
+    tiles: &[("Munny", "/Sora/Munny"), ("Level", "/Sora/Level"), ("Total EXP", "/Sora/Total EXP")],
+    sections: &[
+        Section {
+            title: "Sora",
+            rows: &[
+                ("Play time (seconds)", "/Sora/Play time (seconds)"), ("Enemies defeated", "/Sora/Enemies defeated"),
+                ("Crabs collected", "/Sora/Crabs collected"), ("Bonus HP", "/Sora/Bonus HP"), ("Bonus MP", "/Sora/Bonus MP"),
+                ("Bonus strength", "/Sora/Bonus strength"), ("Bonus magic", "/Sora/Bonus magic"), ("Bonus defense", "/Sora/Bonus defense"),
+                ("Difficulty", "/Save/Difficulty"), ("Munny earned", "/Save/Munny earned"), ("Munny spent", "/Save/Munny spent"),
+            ],
+        },
+        Section {
+            title: "Sora, Donald and Goofy",
+            rows: &[
+                ("Sora HP", "/Characters/Sora/HP"), ("Sora MP", "/Characters/Sora/MP"), ("Sora focus", "/Characters/Sora/Focus"),
+                ("Sora AP boosts", "/Characters/Sora/AP boosts"), ("Donald HP", "/Characters/Donald/HP"), ("Donald MP", "/Characters/Donald/MP"),
+                ("Goofy HP", "/Characters/Goofy/HP"), ("Goofy MP", "/Characters/Goofy/MP"),
+            ],
+        },
+    ],
+    lists: &[
+        List {
+            title: "Synthesis materials",
+            path: "/Synthesis materials",
+            shape: Shape::Map,
+            names: &[],
+            max: Some(Max {
+                ids: &["Blazing Shard", "Blazing Stone", "Blazing Gem", "Blazing Crystal", "Frost Shard", "Frost Stone", "Frost Gem", "Frost Crystal", "Lightning Shard", "Lightning Stone", "Lightning Gem", "Lightning Crystal", "Lucid Shard", "Lucid Stone", "Lucid Gem", "Lucid Crystal", "Pulsing Shard", "Pulsing Stone", "Pulsing Gem", "Pulsing Crystal", "Writhing Shard", "Writhing Stone", "Writhing Gem", "Writhing Crystal", "Betwixt Shard", "Betwixt Stone", "Betwixt Gem", "Betwixt Crystal", "Twilight Shard", "Twilight Stone", "Twilight Gem", "Twilight Crystal", "Mythril Shard", "Mythril Stone", "Mythril Gem", "Mythril Crystal", "Sinister Shard", "Sinister Stone", "Sinister Gem", "Sinister Crystal", "Soothing Shard", "Soothing Stone", "Soothing Gem", "Soothing Crystal", "Wellspring Shard", "Wellspring Stone", "Wellspring Gem", "Wellspring Crystal", "Hungry Shard", "Hungry Stone", "Hungry Gem", "Hungry Crystal", "Fluorite", "Damascus", "Adamantite", "Orichalcum", "Orichalcum+", "Electrum", "Evanescent Crystal", "Illusory Crystal"],
+                cap: crate::fmt::kh3::MATERIAL_CAP,
+                caps: &[],
+                estimate: true,
+                about: "Sets every synthesis material to 99, the stack the game's menus show as full.",
+            }),
+        },
+        List { title: "Items", path: "/Items", shape: Shape::Map, names: &[], max: None },
+    ],
+    tables: &[],
 };
