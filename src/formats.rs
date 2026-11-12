@@ -116,6 +116,8 @@ pub enum Layer {
     Ffxv { foot: Arc<Vec<u8>> },
     /// Forspoken `.save`: the same layer with its own key, and an MD5 of the payload.
     Forspoken { foot: Arc<Vec<u8>> },
+    /// Trails to Azure / Ao no Kiseki KAI: a zstd frame, or (KAI) AES over the converted payload.
+    Ao { kai: Option<Arc<Vec<u8>>> },
     /// Death Stranding 2: XORed chunks, the game data in LZ4 pieces with an MD5.
     Ds2(Arc<fmt::ds2::Wrap>),
     /// Control (Remedy): two u32 versions, then a CRC-32 of the rest.
@@ -285,6 +287,7 @@ impl Layer {
             Layer::Rgmh { blocks, .. } => format!("BioShock Remastered save ({} zlib blocks)", blocks.len()),
             Layer::RemedyCrc { .. } => "Control save (CRC-32)".into(),
             Layer::Ffxv { .. } => "Final Fantasy XV save encryption".into(),
+            Layer::Ao { kai } => if kai.is_some() { "Ao no Kiseki KAI save encryption (AES)".into() } else { "Trails to Azure save (zstd)".into() },
             Layer::Forspoken { .. } => "Forspoken save encryption (AES, MD5)".into(),
             Layer::Ds2(_) => "Death Stranding 2 save (XOR, LZ4, MD5)".into(),
             Layer::Rgg(w) => format!("Yakuza save (Dragon Engine: {})", fmt::rgg::games(w)),
@@ -820,6 +823,12 @@ fn wrap(layer: &Layer, data: Vec<u8>) -> Result<Vec<u8>, String> {
         }
         Layer::Ff9 => fmt::ff9::encrypt(&data)?,
         Layer::Ffxv { foot } => fmt::ffxv::encrypt(&data, foot)?,
+        Layer::Ao { kai: None } => fmt::ao::zstd_pack(&data)?,
+        Layer::Ao { kai: Some(o) } => {
+            let mut d = data.clone();
+            fmt::ao::fix_sums(&mut d);
+            fmt::ao::cle_pack(&d, o)?
+        }
         Layer::Forspoken { foot } => fmt::forspoken::encrypt(&data, foot)?,
         Layer::Ds2(w) => fmt::ds2::pack(w, &data)?,
         Layer::P5r { head } => fmt::p5r::pack(head, &data),
@@ -1393,6 +1402,12 @@ fn peel(data: &[u8], ctx: &mut Ctx) -> Option<(Layer, Vec<u8>)> {
         if let Some((p, foot)) = fmt::forspoken::decrypt(data) {
             return Some((Layer::Forspoken { foot: Arc::new(foot) }, p));
         }
+    }
+    if let Some(p) = fmt::ao::unzstd(data) {
+        return Some((Layer::Ao { kai: None }, p));
+    }
+    if let Some((p, orig)) = fmt::ao::uncle(data) {
+        return Some((Layer::Ao { kai: Some(Arc::new(orig)) }, p));
     }
     if data.len() == fmt::ff9::FILE_LEN {
         if let Some(p) = fmt::ff9::decrypt(data) {

@@ -39,6 +39,7 @@ Universal Save Editor is free. It builds on other people's work, listed here wit
 | [SAROO savetool (backup RAM, SS_SAVE.BIN and SS_MEMS.BIN layouts, ported)](https://github.com/tpunix/SAROO) | tpunix | GPL-3.0 |
 | [P3P Save Editor (Persona 3 Portable save layout, item and Persona names; ported)](https://github.com/Nightingale04/P3P_Save_Editor) | Nightingale04 | GPL-3.0 |
 | [LuminousSaveCrypt (Forspoken save key and integrity hash; ported)](https://github.com/Rinual/LuminousSaveCrypt), after FFXVSaveCrypt by Surihix | Rinual | GPL-3.0 |
+| [BZH Ao no Kiseki save editor (Trails to Azure / Ao no Kiseki save offsets and checksum)](https://github.com/424778940z/BZH_AO_NO_KISEKI_Savedata_Editor), in the form adapted for the NISA and KAI releases by [ao-save-editor](https://github.com/lmaple0/ao-save-editor) (container details; facts only) | 424778940z; lmaple0 | GPL-3.0 (BZH); facts only (ao-save-editor), credited |
 | [Megabonk-Save-Decryptor (Megabonk save key and IV; facts only)](https://github.com/GuardianN06/Megabonk-Save-Decryptor) | GuardianN06 | facts only (key and layout), credited |
 | [Eiyuden-Chronicle-Save-Editor (Eiyuden Chronicle save key and IV; facts only)](https://github.com/TheSparda/Eiyuden-Chronicle-Save-Editor) | TheSparda | facts only (key and layout), credited |
 | [SuikodenSaveDecrypter (Suikoden I & II HD save encryption, ported)](https://github.com/d3xMachina/SuikodenSaveDecrypter) | d3xMachina | MIT |
