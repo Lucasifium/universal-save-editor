@@ -3,7 +3,7 @@
 
 use super::{List, Max, Section, Shape, Spec, Table};
 
-pub static SPECS: &[Spec] = &[COTL, FALLOUT_SHELTER, DRG, S1_MONEY, S1_RANK, S1_TIME, S1_GAME, SOTF_STATE, SOTF_GAME, SOTF_WEATHER, SOTF_ITEMS, DMD, CUPHEAD, ANTIMATTER, PVZ, CELESTE, DRGS, KH3, RF4S, SKY1ST, KSP, FFPR, MCD, STONESHARD, ROGUE_TRADER, BIOSHOCK_INFINITE, SPACE_HAVEN, SNOWRUNNER, GRAVEYARD_KEEPER, NFSMW, TOS, GTA3, GTAVC, BITBURNER, TERRA_INVICTA, PRISON, FF13, SONIC_MANIA, CAVE_STORY_PLUS, CAVE_STORY, LIES_OF_P, TXR, DAVE, MSC, ULTRAKILL, RPGXP, RE5, ANNO1800, FTK, LEGO_TSS, LEGO_CLASSIC, MYZ, CMS21, MEDIEVAL_DYNASTY, MECHANICUS, ORI, OMORI, ENDER_LILIES, SW2, ES2, MOONLIGHTER, WASTELAND2, ATOM, MORTAL_SHELL, MORTAL_SHELL_2, COTW, BEAMNG, FOREST, YAKUZA3, YAKUZA4, YAKUZA5, ISHIN, SALT, DRAKENSANG, ALPHA, TYRANNY, JEDI_FO, SR3];
+pub static SPECS: &[Spec] = &[COTL, FALLOUT_SHELTER, DRG, S1_MONEY, S1_RANK, S1_TIME, S1_GAME, SOTF_STATE, SOTF_GAME, SOTF_WEATHER, SOTF_ITEMS, DMD, CUPHEAD, ANTIMATTER, PVZ, CELESTE, DRGS, KH3, RF4S, SKY1ST, KSP, FFPR, MCD, STONESHARD, ROGUE_TRADER, BIOSHOCK_INFINITE, SPACE_HAVEN, SNOWRUNNER, GRAVEYARD_KEEPER, NFSMW, TOS, GTA3, GTAVC, BITBURNER, TERRA_INVICTA, PRISON, FF13, SONIC_MANIA, CAVE_STORY_PLUS, CAVE_STORY, LIES_OF_P, TXR, DAVE, MSC, ULTRAKILL, RPGXP, RE5, ANNO1800, FTK, LEGO_TSS, LEGO_CLASSIC, MYZ, CMS21, MEDIEVAL_DYNASTY, MECHANICUS, ORI, OMORI, ENDER_LILIES, SW2, ES2, MOONLIGHTER, WASTELAND2, ATOM, MORTAL_SHELL, MORTAL_SHELL_2, COTW, BEAMNG, FOREST, YAKUZA3, YAKUZA4, YAKUZA5, ISHIN, SALT, DRAKENSANG, ALPHA, TYRANNY, JEDI_FO, SR3, WD2];
 
 // ------------------------------------------------------------------ Cult of the Lamb
 
@@ -2566,6 +2566,19 @@ const YAKUZA4: Spec = Spec {
         Section { title: "Tanimura", rows: &[("Money", "/Tanimura/Money"), ("Experience", "/Tanimura/Experience"), ("Experience to next level", "/Tanimura/Experience to next level"), ("Skill orbs", "/Tanimura/Skill orbs")] },
         Section { title: "Kiryu", rows: &[("Money", "/Kiryu/Money"), ("Experience", "/Kiryu/Experience"), ("Experience to next level", "/Kiryu/Experience to next level"), ("Skill orbs", "/Kiryu/Skill orbs")] },
         Section { title: "Shared", rows: &[("Eco points", "/Shared/Eco points")] },
+// ------------------------------------------------------------------ Watch Dogs 2
+
+const WD2: Spec = Spec {
+    name: "Watch Dogs 2",
+    tab: "Marcus",
+    accent: (230, 60, 110),
+    kind: Some(crate::fmt::wd2::KIND),
+    markers: &["/Player/Money"],
+    subtitle: "Numbered .save files in the Ubisoft Connect save folder (2688 or 3619).",
+    tiles: &[("Money", "/Player/Money"), ("Followers", "/Player/Followers"), ("Research points", "/Player/Research points")],
+    sections: &[
+        Section { title: "Player", rows: &[("Money", "/Player/Money"), ("Followers", "/Player/Followers"), ("Research points", "/Player/Research points")] },
+        Section { title: "Totals", rows: &[("Money earned in total", "/Totals/Money earned in total"), ("Followers gained in total", "/Totals/Followers gained in total")] },
     ],
     lists: &[],
     tables: &[],
