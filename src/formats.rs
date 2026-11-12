@@ -85,6 +85,8 @@ pub enum Layer {
     Bzip2,
     /// Euro / American Truck Simulator "ScsC" file: zlib text under AES-256-CBC and an HMAC.
     Scsc,
+    /// Metal Gear Solid V save: XOR stream keyed by the MD5 of the file's name.
+    Mgsv { key: &'static str },
     /// Plain standard base64 text.
     Base64,
     /// Base64 wrapped into fixed-width lines.
@@ -289,6 +291,7 @@ impl Layer {
             Layer::Prey { .. } => "Prey save (RC4, zlib chunks, MD5 written again)".into(),
             Layer::Ac8(_) => "Ace Combat 8 packed data (checksum written again)".into(),
             Layer::Xz => "xz".into(),
+            Layer::Mgsv { .. } => "Metal Gear Solid V save encryption".into(),
             Layer::Scsc => "ScsC (truck simulator save: zlib, AES-256 and checksum)".into(),
             Layer::Bzip2 => "bzip2".into(),
             Layer::Base64 => "Base64".into(),
@@ -785,6 +788,7 @@ fn wrap(layer: &Layer, data: Vec<u8>) -> Result<Vec<u8>, String> {
             out
         }
         Layer::Snappy => compress(snap::write::FrameEncoder::new(Vec::new()), &data)?.into_inner().map_err(|e| e.to_string())?,
+        Layer::Mgsv { key } => fmt::mgsv::encrypt(key, &data),
         Layer::Scsc => {
             // The IV only has to differ between saves; derive it from the clock and the data.
             use sha2::Digest;
@@ -1409,6 +1413,9 @@ fn peel(data: &[u8], ctx: &mut Ctx) -> Option<(Layer, Vec<u8>)> {
     }
     if let Some(r) = peel_utf16(data) {
         return Some(r);
+    }
+    if let Some((key, v)) = fmt::mgsv::decrypt(data) {
+        return Some((Layer::Mgsv { key }, v));
     }
     if fmt::sii::looks_encrypted(data) {
         match fmt::sii::decrypt(data) {
