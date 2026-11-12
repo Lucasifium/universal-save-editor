@@ -3,7 +3,7 @@
 
 use super::{List, Max, Section, Shape, Spec, Table};
 
-pub static SPECS: &[Spec] = &[COTL, FALLOUT_SHELTER, DRG, S1_MONEY, S1_RANK, S1_TIME, S1_GAME, SOTF_STATE, SOTF_GAME, SOTF_WEATHER, SOTF_ITEMS, DMD, CUPHEAD, ANTIMATTER, PVZ, CELESTE, DRGS, KH3, RF4S, SKY1ST, KSP, FFPR, MCD, STONESHARD, ROGUE_TRADER, BIOSHOCK_INFINITE, SPACE_HAVEN];
+pub static SPECS: &[Spec] = &[COTL, FALLOUT_SHELTER, DRG, S1_MONEY, S1_RANK, S1_TIME, S1_GAME, SOTF_STATE, SOTF_GAME, SOTF_WEATHER, SOTF_ITEMS, DMD, CUPHEAD, ANTIMATTER, PVZ, CELESTE, DRGS, KH3, RF4S, SKY1ST, KSP, FFPR, MCD, STONESHARD, ROGUE_TRADER, BIOSHOCK_INFINITE, SPACE_HAVEN, SNOWRUNNER];
 
 // ------------------------------------------------------------------ Cult of the Lamb
 
@@ -1120,6 +1120,52 @@ const SPACE_HAVEN: Spec = Spec {
         name: &["/@name", "/@lname"],
         only: &[],
         cols: SH_CREW_COLS,
+        names: &[],
+    }],
+};
+
+// ------------------------------------------------------------------ SnowRunner
+
+const SNOWRUNNER: Spec = Spec {
+    name: "SnowRunner",
+    tab: "Garage",
+    accent: (214, 138, 30),
+    kind: None,
+    markers: &["/CompleteSave/SslValue/persistentProfileData/money", "/CompleteSave/SslValue/persistentProfileData/rank", "/CompleteSave/SslValue/gameTime"],
+    subtitle: "The rank follows the experience the game expects for it: after changing one, check the other in the game",
+    tiles: &[("Money", "/CompleteSave/SslValue/persistentProfileData/money"), ("Rank", "/CompleteSave/SslValue/persistentProfileData/rank"), ("Experience", "/CompleteSave/SslValue/persistentProfileData/experience")],
+    sections: &[
+        Section {
+            title: "Profile",
+            rows: &[
+                ("Money", "/CompleteSave/SslValue/persistentProfileData/money"), ("Rank", "/CompleteSave/SslValue/persistentProfileData/rank"),
+                ("Experience", "/CompleteSave/SslValue/persistentProfileData/experience"), ("Hard mode", "/CompleteSave/SslValue/isHardMode"),
+                ("Last level", "/CompleteSave/SslValue/lastLoadedLevel"),
+            ],
+        },
+        Section {
+            title: "Statistics",
+            rows: &[("Money earned", "/CompleteSave/SslValue/gameStat/MONEY_EARNED"), ("Money spent", "/CompleteSave/SslValue/gameStat/MONEY_SPENT"), ("Trucks bought", "/CompleteSave/SslValue/gameStat/TRUCK_BOUGHT"), ("Trucks sold", "/CompleteSave/SslValue/gameStat/TRUCK_SOLD"), ("Trailers bought", "/CompleteSave/SslValue/gameStat/TRAILER_BOUGHT"), ("Trailers sold", "/CompleteSave/SslValue/gameStat/TRAILER_SOLD"), ("Add-ons bought", "/CompleteSave/SslValue/gameStat/ADDON_BOUGHT"), ("Add-ons sold", "/CompleteSave/SslValue/gameStat/ADDON_SOLD"), ("Sessions played", "/CompleteSave/SslValue/gameStat/SESSION_NUMBER")],
+        },
+        Section {
+            title: "Difficulty",
+            rows: &[
+                ("Truck prices", "/CompleteSave/SslValue/gameDifficultySettings/truckPricingFactor"), ("Trailer prices", "/CompleteSave/SslValue/gameDifficultySettings/trailerPricingFactor"),
+                ("Add-on prices", "/CompleteSave/SslValue/gameDifficultySettings/addonPricingFactor"), ("Selling price", "/CompleteSave/SslValue/gameDifficultySettings/sellMultiplier"),
+                ("Fuel price", "/CompleteSave/SslValue/gameDifficultySettings/fuelPriceFactor"), ("Contract payouts", "/CompleteSave/SslValue/gameDifficultySettings/contractsPayoutsFactor"),
+                ("Task and contest payouts", "/CompleteSave/SslValue/gameDifficultySettings/tasksAndContestsPayoutsFactor"),
+                ("Vehicle damage", "/CompleteSave/SslValue/gameDifficultySettings/vehicleDamageFactor"), ("Can skip time", "/CompleteSave/SslValue/gameDifficultySettings/isAbleToSkipTime"),
+                ("Garage refuel", "/CompleteSave/SslValue/gameDifficultySettings/isGarageRefuelAvailable"),
+            ],
+        },
+    ],
+    lists: &[],
+    tables: &[Table {
+        title: "Trucks in the warehouse",
+        path: "/CompleteSave/SslValue/persistentProfileData/trucksInWarehouse",
+        name: &["/type"],
+        only: &[],
+        cols: &[("Repairs", "/repairs"), ("Gearbox damage", "/gearboxDamage"), ("Suspension damage", "/suspensionDamage")],
         names: &[],
     }],
 };
