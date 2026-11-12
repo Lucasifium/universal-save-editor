@@ -2478,6 +2478,9 @@ const FOREST: Spec = Spec {
             about: "Raises rocks, sticks, skulls, rope, bones, skins, rabbit fur and circuit boards to the limit the game stores for each in the save. Items with no limit (cloth, leaves, feathers, teeth, sap, tape), tools, weapons, food and story items are left alone.",
         }),
     }],
+    tables: &[],
+};
+
 // ------------------------------------------------------------------ Salt and Sanctuary
 
 const SALT: Spec = Spec {
