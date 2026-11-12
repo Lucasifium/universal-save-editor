@@ -3,7 +3,7 @@
 
 use super::{List, Max, Section, Shape, Spec, Table};
 
-pub static SPECS: &[Spec] = &[COTL, FALLOUT_SHELTER, DRG, S1_MONEY, S1_RANK, S1_TIME, S1_GAME, SOTF_STATE, SOTF_GAME, SOTF_WEATHER, SOTF_ITEMS, DMD, CUPHEAD, ANTIMATTER, PVZ, CELESTE, DRGS, KH3, RF4S, SKY1ST, KSP, FFPR, MCD, STONESHARD, ROGUE_TRADER, BIOSHOCK_INFINITE, SPACE_HAVEN, SNOWRUNNER, GRAVEYARD_KEEPER, NFSMW, TOS, GTA3, GTAVC, BITBURNER, TERRA_INVICTA, PRISON, FF13, SONIC_MANIA, CAVE_STORY_PLUS, CAVE_STORY, LIES_OF_P, TXR, DAVE, MSC, ULTRAKILL, RPGXP, RE5, ANNO1800, FTK, LEGO_TSS, LEGO_CLASSIC, MYZ, CMS21, MEDIEVAL_DYNASTY, MECHANICUS, ORI, OMORI, ENDER_LILIES, SW2, ES2, MOONLIGHTER, WASTELAND2, ATOM, MORTAL_SHELL, MORTAL_SHELL_2, COTW, BEAMNG, FOREST, SALT];
+pub static SPECS: &[Spec] = &[COTL, FALLOUT_SHELTER, DRG, S1_MONEY, S1_RANK, S1_TIME, S1_GAME, SOTF_STATE, SOTF_GAME, SOTF_WEATHER, SOTF_ITEMS, DMD, CUPHEAD, ANTIMATTER, PVZ, CELESTE, DRGS, KH3, RF4S, SKY1ST, KSP, FFPR, MCD, STONESHARD, ROGUE_TRADER, BIOSHOCK_INFINITE, SPACE_HAVEN, SNOWRUNNER, GRAVEYARD_KEEPER, NFSMW, TOS, GTA3, GTAVC, BITBURNER, TERRA_INVICTA, PRISON, FF13, SONIC_MANIA, CAVE_STORY_PLUS, CAVE_STORY, LIES_OF_P, TXR, DAVE, MSC, ULTRAKILL, RPGXP, RE5, ANNO1800, FTK, LEGO_TSS, LEGO_CLASSIC, MYZ, CMS21, MEDIEVAL_DYNASTY, MECHANICUS, ORI, OMORI, ENDER_LILIES, SW2, ES2, MOONLIGHTER, WASTELAND2, ATOM, MORTAL_SHELL, MORTAL_SHELL_2, COTW, BEAMNG, FOREST, SALT, DRAKENSANG];
 
 // ------------------------------------------------------------------ Cult of the Lamb
 
@@ -2498,4 +2498,32 @@ const SALT: Spec = Spec {
     }],
     lists: &[],
     tables: &[],
+};
+
+// ------------------------------------------------------------------ Drakensang
+
+const DRAKENSANG: Spec = Spec {
+    name: "Drakensang",
+    tab: "Heroes",
+    accent: (176, 120, 70),
+    kind: Some("SQLite database"),
+    markers: &["/_Instance_PC/0/Stufe", "/_Instance_PC/0/UpgradeXP"],
+    subtitle: "savegame.dsa in a savegame_N folder (a SQLite database; the screenshot and .nfo beside it are not needed). Heroes with a party slot of 0 or more are in your party; the other rows are the characters in cutscenes and other places. Adventure points to spend are in \"Spendable AP\". Items and money are in the Tree.",
+    tiles: &[],
+    sections: &[],
+    lists: &[],
+    tables: &[Table {
+        title: "Heroes",
+        path: "/_Instance_PC",
+        name: &["/Name"],
+        only: &[],
+        cols: &[
+            ("Party slot", "/PartySlotId"), ("Level", "/Stufe"), ("AP earned", "/XP"), ("Spendable AP", "/UpgradeXP"),
+            ("Life", "/LE"), ("Endurance", "/AU"), ("Astral energy", "/AE"),
+            ("Courage", "/MU"), ("Cleverness", "/KL"), ("Intuition", "/IN"), ("Charisma", "/CH"),
+            ("Dexterity", "/FF"), ("Agility", "/GE"), ("Constitution", "/KO"), ("Strength", "/KK"),
+            ("Armbrust", "/TaArmbrust"), ("Dolche", "/TaDolche"), ("Fechtwaffen", "/TaFechtwaffen"), ("Hiebwaffen", "/TaHiebwaffen"), ("Saebel", "/TaSaebel"), ("Schwerter", "/TaSchwerter"), ("Speere", "/TaSpeere"), ("Staebe", "/TaStaebe"), ("Zw Hiebwaffen", "/TaZwHiebwaffen"), ("Zw Schwerter", "/TaZwSchwerter"), ("Raufen", "/TaRaufen"), ("Bogen", "/TaBogen"), ("Wurfwaffen", "/TaWurfwaffen"), ("Schleichen", "/TaSchleichen"), ("Selbstbeherrschung", "/TaSelbstbeherrschung"), ("Sinnenschaerfe", "/TaSinnenschaerfe"), ("Taschendiebstahl", "/TaTaschendiebstahl"), ("Zwergennase", "/TaZwergennase"), ("Fallenstellen", "/TaFallenstellen"), ("Pflanzenkunde", "/TaPflanzenkunde"), ("Tierkunde", "/TaTierkunde"), ("Wildnisleben", "/TaWildnisleben"), ("Magiekunde", "/TaMagiekunde"), ("Heilkunde Wunden", "/TaHeilkundeWunden"), ("Heilkunde Gift", "/TaHeilkundeGift"), ("Gassenwissen", "/TaGassenwissen"), ("Alchimie", "/TaAlchimie"), ("Bogenbau", "/TaBogenbau"), ("Schmieden", "/TaSchmieden"), ("Fallen Entschaerfen", "/TaFallenEntschaerfen"), ("Schloesser", "/TaSchloesser"), ("Feilschen", "/TaFeilschen"), ("Etikette", "/TaEtikette"), ("Einschuechtern", "/TaEinschuechtern"), ("Betoeren", "/TaBetoeren"), ("Ueberreden", "/TaUeberreden"), ("Menschenkenntnis", "/TaMenschenkenntnis"), ("rget Size", "/TargetSize"), ("rget Entity Id", "/TargetEntityId"),
+        ],
+        names: &[],
+    }],
 };
