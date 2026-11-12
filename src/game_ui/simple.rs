@@ -122,7 +122,8 @@ fn entries(cx: &GameCtx, l: &List) -> Vec<(String, String)> {
             .collect(),
         (Shape::Map, Value::Object(m)) => m
             .iter()
-            .filter(|(_, v)| v.is_number())
+            // "@c" is RPG Maker MV's object-reference counter, not an item.
+            .filter(|(k, v)| v.is_number() && k.as_str() != "@c")
             .map(|(k, _)| (k.clone(), format!("{}/{}", l.path, crate::json_view::pointer_escape(k))))
             .collect(),
         (Shape::Records { qty_key }, Value::Object(m)) => m
@@ -136,7 +137,7 @@ fn entries(cx: &GameCtx, l: &List) -> Vec<(String, String)> {
 
 fn name_of(l: &List, id: &str) -> String {
     // A map keyed by names (a binary save read by name) needs no table of names.
-    if matches!(l.shape, Shape::Map) && l.names.is_empty() {
+    if l.names.is_empty() && (matches!(l.shape, Shape::Map) || id.parse::<f64>().is_err()) {
         return id.to_string();
     }
     // Text ids (a game's own item names) read fine as they are; numeric ids get "Item <id>".

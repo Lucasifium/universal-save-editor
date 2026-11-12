@@ -265,6 +265,7 @@ pub fn detect(kind: &str, root: &Value) -> Option<Game> {
         _ if indie::is_silksong(root) => Game::Silksong,
         _ if has("/playerData/geo") => Game::HollowKnight,
         _ if has("/current_health") && has("/relics") && has("/cards") => Game::SlayTheSpire,
+        _ if has("/party/_stressEnergyCount") && simple::detect(kind, root).is_some() => return simple::detect(kind, root).map(Game::Simple),
         _ if has("/actors/_data/@a") && has("/party/_actors/@a") => Game::RpgMaker,
         "RE Engine save" if dashboards::ree_slots(root).is_some() => Game::Onimusha,
         "RE Engine save" if screens2::is_re_slot(root) => Game::ReSlot,
