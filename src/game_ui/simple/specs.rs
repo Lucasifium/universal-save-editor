@@ -3,7 +3,7 @@
 
 use super::{List, Max, Section, Shape, Spec, Table};
 
-pub static SPECS: &[Spec] = &[COTL, FALLOUT_SHELTER, DRG, S1_MONEY, S1_RANK, S1_TIME, S1_GAME, SOTF_STATE, SOTF_GAME, SOTF_WEATHER, SOTF_ITEMS, DMD, CUPHEAD, ANTIMATTER, PVZ, CELESTE, DRGS, KH3, RF4S, SKY1ST, KSP, FFPR, MCD, STONESHARD];
+pub static SPECS: &[Spec] = &[COTL, FALLOUT_SHELTER, DRG, S1_MONEY, S1_RANK, S1_TIME, S1_GAME, SOTF_STATE, SOTF_GAME, SOTF_WEATHER, SOTF_ITEMS, DMD, CUPHEAD, ANTIMATTER, PVZ, CELESTE, DRGS, KH3, RF4S, SKY1ST, KSP, FFPR, MCD, STONESHARD, ROGUE_TRADER];
 
 // ------------------------------------------------------------------ Cult of the Lamb
 
@@ -1015,4 +1015,29 @@ const STONESHARD: Spec = Spec {
     }],
     lists: &[],
     tables: &[],
+};
+
+// ------------------------------------------------------------------ Warhammer 40,000: Rogue Trader
+// Paths from Arcemi's save editor (MPL-2.0, facts only).
+
+const ROGUE_TRADER: Spec = Spec {
+    name: "Warhammer 40,000: Rogue Trader",
+    tab: "Dynasty",
+    accent: (196, 152, 64),
+    kind: None,
+    markers: &["/player/Scrap/m_Value", "/player/ProfitFactor", "/party"],
+    subtitle: "",
+    tiles: &[("Scrap", "/player/Scrap/m_Value"), ("Profit Factor", "/player/ProfitFactor/InitialValue"), ("Navigator's insight", "/player/WarpTravelState/NavigatorResource")],
+    sections: &[Section {
+        title: "Difficulty",
+        rows: &[
+            ("Preset", "/player/MinDifficultyController/MinDifficulty/GameDifficulty"),
+            ("Only one save", "/player/MinDifficultyController/MinDifficulty/OnlyOneSave"),
+            ("Respec allowed", "/player/MinDifficultyController/MinDifficulty/RespecAllowed"),
+            ("Skill test modifier (%)", "/player/MinDifficultyController/MinDifficulty/SkillCheckModifier"),
+            ("Enemy wounds modifier (%)", "/player/MinDifficultyController/MinDifficulty/EnemyHitPointsPercentModifier"),
+        ],
+    }],
+    lists: &[],
+    tables: &[Table { title: "Reputation", path: "/player/FractionsReputation", name: &["/Key"], cols: &[("Reputation", "/Value")], only: &[], names: &[] }],
 };
