@@ -13,6 +13,8 @@ pub mod dreamcast;
 pub mod saturn;
 pub mod keyed;
 pub mod fantasian;
+pub mod kh3;
+mod kh3_tables;
 pub mod titanquest;
 pub mod torchlight2;
 pub mod dragonage;
@@ -263,6 +265,11 @@ pub fn parse_binary(d: &[u8]) -> Option<TreeDoc> {
     }
     if ffx2::looks(d) {
         if let Ok(t) = ffx2::parse(d) {
+            return Some(t);
+        }
+    }
+    if kh3::looks(d) {
+        if let Ok(t) = kh3::parse(d) {
             return Some(t);
         }
     }

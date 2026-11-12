@@ -192,6 +192,8 @@ pub enum Layer {
     SaturnImage { kind: fmt::saturn::Image, image: Arc<Vec<u8>>, save: fmt::saturn::Save },
     /// FANTASIAN Neo Dimension `root.json`: one encrypted record of it.
     Fantasian { original: Arc<Vec<u8>>, record: fmt::fantasian::Record },
+    /// Kingdom Hearts III (PC): AES under the owner's account id, a CRC and an MD5.
+    Kh3 { account: String },
     /// DeSmuME `.dsv`: the footer after the raw DS save, kept as it is.
     Dsv { footer: Arc<Vec<u8>> },
     /// Civilization V `.Civ5Save`: an uncompressed header, then the game as one zlib stream
@@ -308,6 +310,7 @@ impl Layer {
             Layer::Saturn { kind, name, .. } => format!("{} ({name})", kind.label()),
             Layer::SaturnImage { kind, save, .. } => format!("{} ({})", kind.label(), save.name),
             Layer::Fantasian { record, .. } => format!("FANTASIAN Neo Dimension save ({})", record.name),
+            Layer::Kh3 { .. } => "Kingdom Hearts III save encryption".into(),
             Layer::Dsv { .. } => "DeSmuME save (.dsv footer)".into(),
             Layer::Ps1Card { blocks, .. } => format!("PlayStation memory card (save in block {})", blocks[0]),
             Layer::Civ5 { .. } => "Civilization V save (compressed game data)".into(),
@@ -850,6 +853,7 @@ fn wrap(layer: &Layer, data: Vec<u8>) -> Result<Vec<u8>, String> {
             card.write_file(image, file, &data)?
         }
         Layer::Dsv { footer } => [&data[..], footer].concat(),
+        Layer::Kh3 { account } => fmt::kh3::close(account, &data)?,
         Layer::Fantasian { original, record } => fmt::fantasian::close(original, record, &data)?,
         Layer::Saturn { kind, original, .. } => fmt::saturn::save(*kind, original, &data)?,
         Layer::SaturnImage { image, save, .. } => fmt::saturn::write(image, save, &data)?,
@@ -1143,6 +1147,18 @@ fn peel(data: &[u8], ctx: &mut Ctx) -> Option<(Layer, Vec<u8>)> {
         ctx.hint = Some("PlayStation memory card: the first save is open; Tools › Open another file in this archive lists the others. Each game checks its own data its own way, so use the value search and test the edit in the emulator.".into());
         let save = fmt::memcard::ps1_read(&data[offset..], &s);
         return Some((Layer::Ps1Card { image: Arc::new(data.to_vec()), offset, blocks: s.blocks }, save));
+    }
+    if data.len() > 33 && (data.len() - 17) % 16 == 0 && data[data.len() - 17] == 0x08 {
+        let path = ctx.opts.path.clone().unwrap_or_default();
+        let mut extra: Vec<String> = ctx.opts.password.as_deref().map(|p| p.trim().to_string()).into_iter().collect();
+        extra.extend(fmt::mandarin::accounts_for(&path).into_iter().map(|n| if n <= u32::MAX as u64 { n + 76_561_197_960_265_728 } else { n }.to_string()));
+        if let Some((account, plain)) = fmt::kh3::open(data, &fmt::kh3::candidates(&path.to_string_lossy(), &extra)) {
+            ctx.hint = Some("Kingdom Hearts III save: decrypted for you; its CRC and MD5 are worked out again and it is encrypted again on save.".into());
+            return Some((Layer::Kh3 { account }, plain));
+        }
+        if path.to_string_lossy().to_ascii_lowercase().contains("kingdom hearts iii") {
+            ctx.hint = Some("This looks like an encrypted Kingdom Hearts III save, but the Steam account that opens it wasn't found. Open it from its own folder (…\\KINGDOM HEARTS III\\Steam\\<Steam id>\\SaveGames), or type the 17-digit Steam id into Tools \u{203A} Decrypt with password.".into());
+        }
     }
     if fmt::fantasian::looks(data) {
         if let Some(recs) = fmt::fantasian::records(data) {
