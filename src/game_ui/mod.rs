@@ -28,6 +28,7 @@ mod lego;
 mod octopath;
 mod oni_map;
 mod pathfinder;
+mod planet_crafter;
 mod pokemon;
 mod expedition33;
 mod fallout3nv;
@@ -155,6 +156,7 @@ pub enum Game {
     DeadRising,
     DeadRising2,
     LegoBatman,
+    PlanetCrafter,
     /// A table-driven screen (see `simple.rs`).
     Simple(u16),
 }
@@ -238,6 +240,7 @@ impl Game {
             Game::Repo => "Team",
             Game::DeadRising | Game::DeadRising2 => "Survivor",
             Game::LegoBatman => "Studs",
+            Game::PlanetCrafter => "Terraformer",
             Game::Simple(i) => simple::tab_label(i),
             _ => "Character",
         }
@@ -340,6 +343,7 @@ pub fn detect(kind: &str, root: &Value) -> Option<Game> {
         crate::fmt::dead_rising::KIND_DR1 => Game::DeadRising,
         crate::fmt::dead_rising::KIND_DR2 | crate::fmt::dead_rising::KIND_OTR => Game::DeadRising2,
         crate::fmt::ttgames::KIND => Game::LegoBatman,
+        crate::fmt::planet_crafter::KIND => Game::PlanetCrafter,
         crate::fmt::goldensun::KIND_GS1 | crate::fmt::goldensun::KIND_GS2 => Game::GoldenSun,
         _ if coop::is_phasmophobia(root) => Game::Phasmophobia,
         _ if coop::is_lethal_company(root) => Game::LethalCompany,
@@ -444,6 +448,7 @@ pub fn show(game: Game, ui: &mut Ui, cx: &mut GameCtx) {
         Game::DeadRising => dead_rising::dead_rising(ui, cx),
         Game::DeadRising2 => dead_rising::dead_rising2(ui, cx),
         Game::LegoBatman => lego::show(ui, cx),
+        Game::PlanetCrafter => planet_crafter::show(ui, cx),
         Game::Simple(i) => simple::show(i, ui, cx),
         Game::RenPy => screens2::renpy(ui, cx),
         Game::MassEffect => screens2::mass_effect(ui, cx),

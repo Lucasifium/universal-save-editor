@@ -20,6 +20,7 @@ pub mod adf;
 pub mod forest;
 pub mod forest_items;
 pub mod mechanicus;
+pub mod planet_crafter;
 pub mod prison;
 pub mod tld;
 pub mod nfsmw;
@@ -776,6 +777,11 @@ pub fn parse_text(text: &str, ext: &str) -> Option<TreeDoc> {
     let t = text.trim_start();
     if mechanicus::looks(text) {
         if let Ok(doc) = mechanicus::parse(text) {
+            return Some(doc);
+        }
+    }
+    if planet_crafter::looks(text) {
+        if let Ok(doc) = planet_crafter::parse(text) {
             return Some(doc);
         }
     }
