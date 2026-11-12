@@ -340,10 +340,29 @@ const WHY: &str = r#"<ul>
 <li><strong>Open source.</strong> Anyone can read the code (GPL-3.0).</li>
 </ul>"#;
 
+/// Rewrites "N+ (M) PC games" (or "N+ PC games") to the current registry numbers.
+fn with_game_count(text: &str) -> String {
+    const TAIL: &str = " PC games";
+    let Some(i) = text.find(TAIL) else { return text.to_string() };
+    let head = &text[..i];
+    let start = head.rfind(|c: char| !(c.is_ascii_digit() || "+ ()".contains(c))).map(|k| k + 1).unwrap_or(0);
+    let start = start + head[start..].len() - head[start..].trim_start_matches(' ').len();
+    format!("{}{}+ ({}){}", &text[..start], GAMES.len() / 10 * 10, GAMES.len(), &text[i..])
+}
+
 #[test]
 #[ignore]
 fn build_site() {
     let out = std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join("docs");
+    // Keep the bracketed game count in the README and Cargo.toml current.
+    for f in ["README.md", "Cargo.toml"] {
+        let path = std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join(f);
+        let text = std::fs::read_to_string(&path).unwrap();
+        let fixed = with_game_count(&text);
+        if fixed != text {
+            std::fs::write(&path, fixed).unwrap();
+        }
+    }
     // Start over, except for the browser version, which web/build.sh builds separately.
     for e in std::fs::read_dir(&out).into_iter().flatten().flatten() {
         if e.file_name() != "app" {
@@ -418,7 +437,7 @@ fn build_site() {
         let _ = write!(
             body,
             r#"<h1>{h} save editor</h1>
-<p class="lead">Edit your {n} save on your own PC with Universal Save Editor, a free, offline save editor for {many}+ games. Nothing is uploaded and there are no limits.</p>
+<p class="lead">Edit your {n} save on your own PC with Universal Save Editor, a free, offline save editor for {many}+ ({total}) games. Nothing is uploaded and there are no limits.</p>
 <div class="badges"><span class="badge free">Free forever</span><span class="badge">Offline</span><span class="badge">Open source</span><span class="badge">{lvl}</span></div>
 <a class="btn" href="{DOWNLOAD}">Download for free</a><a class="btn alt" href="../{WEB_APP}">Use it in your browser</a>
 <h2>What you can edit</h2>
@@ -438,6 +457,7 @@ fn build_site() {
 "#,
             h = esc(&search),
             many = GAMES.len() / 10 * 10,
+            total = GAMES.len(),
             n = esc(g.name),
             what = what.as_deref().map(md).unwrap_or_else(|| esc(lvl_note)),
             folder = esc(g.folder),
@@ -456,7 +476,7 @@ fn build_site() {
     }
 
     let full = GAMES.iter().filter(|g| has_screen(g)).count();
-    let desc = format!("Universal Save Editor is a free, offline save editor for {}+ PC games, including Elden Ring, Skyrim, Stardew Valley, Cyberpunk 2077 and Dark Souls III. Nothing is uploaded.", GAMES.len() / 10 * 10);
+    let desc = format!("Universal Save Editor is a free, offline save editor for {}+ ({}) PC games, including Elden Ring, Skyrim, Stardew Valley, Cyberpunk 2077 and Dark Souls III. Nothing is uploaded.", GAMES.len() / 10 * 10, GAMES.len());
     let body = format!(
         r#"<h1>Universal Save Editor: a free save editor for {n} games</h1>
 <p class="lead">Universal Save Editor edits your saves on your own computer: no uploads, no accounts, no rate limits. It's free, and always will be.</p>
@@ -476,7 +496,7 @@ fn build_site() {
 "#,
         n = GAMES.len(),
     );
-    std::fs::write(out.join("index.html"), page(&format!("Universal Save Editor - Free Offline Save Editor for {}+ Games", GAMES.len() / 10 * 10), &desc, "", &body, &website_schema(&schema("Universal Save Editor", &desc, &format!("{SITE}/")), None))).unwrap();
+    std::fs::write(out.join("index.html"), page(&format!("Universal Save Editor - Free Offline Save Editor for {}+ ({}) Games", GAMES.len() / 10 * 10, GAMES.len()), &desc, "", &body, &website_schema(&schema("Universal Save Editor", &desc, &format!("{SITE}/")), None))).unwrap();
 
     let mut sm = String::from("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n");
     for u in &urls {
@@ -500,4 +520,14 @@ fn build_site() {
     let n = slugs.len();
     slugs.dedup();
     assert_eq!(n, slugs.len(), "two games share a page name");
+}
+
+/// The README and Cargo.toml say "N+ (count) games"; keep the bracketed count equal to the registry.
+#[test]
+fn readme_game_count_matches_registry() {
+    let root = std::path::Path::new(env!("CARGO_MANIFEST_DIR"));
+    for f in ["README.md", "Cargo.toml"] {
+        let text = std::fs::read_to_string(root.join(f)).unwrap();
+        assert!(with_game_count(&text) == text, "{f} has a stale game count: run `cargo test --release --lib build_site -- --ignored`");
+    }
 }
