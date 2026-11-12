@@ -1,5 +1,5 @@
 //! Star Wars Jedi: Fallen Order (`SaveGame00.sav`, `Backup00.sav`, an Unreal Engine 4.21
-//! save). The GVAS file holds one byte array, `CompressedActorRecords`, that is a zlib stream;
+//! save) and Star Wars Jedi: Survivor (`SaveGameNN.sav`, the same layout). The GVAS file holds one byte array, `CompressedActorRecords`, that is a zlib stream;
 //! inflated it is a list of actor records, each with a `UniqueIdentifier` and a byte array
 //! (`ActorData` or `ComponentData`) that is a property list of its own.
 //!
