@@ -3,7 +3,7 @@
 
 use super::{List, Max, Section, Shape, Spec, Table};
 
-pub static SPECS: &[Spec] = &[COTL, FALLOUT_SHELTER, DRG, S1_MONEY, S1_RANK, S1_TIME, S1_GAME, SOTF_STATE, SOTF_GAME, SOTF_WEATHER, SOTF_ITEMS, DMD, CUPHEAD, ANTIMATTER, PVZ, CELESTE, DRGS, KH3, RF4S, SKY1ST, KSP, FFPR, MCD, STONESHARD, ROGUE_TRADER, BIOSHOCK_INFINITE, SPACE_HAVEN, SNOWRUNNER, GRAVEYARD_KEEPER, NFSMW, TOS, GTA3, GTAVC, BITBURNER, TERRA_INVICTA, PRISON, FF13, SONIC_MANIA, CAVE_STORY_PLUS, CAVE_STORY, LIES_OF_P, TXR, DAVE, MSC, ULTRAKILL, RPGXP, RE5, ANNO1800, FTK, LEGO_TSS, LEGO_CLASSIC, MYZ, CMS21, MEDIEVAL_DYNASTY, MECHANICUS, ORI, OMORI, ENDER_LILIES, SW2, ES2, MOONLIGHTER, WASTELAND2, ATOM, MORTAL_SHELL, MORTAL_SHELL_2, COTW, BEAMNG, FOREST, YAKUZA3, YAKUZA4, YAKUZA5, ISHIN, SALT, DRAKENSANG, ALPHA, TYRANNY, JEDI_FO, SR3, SR4, WD2, FABLE, WANDERING_SWORD, STELLAR_BLADE, PRAGMATA, SLIME_RANCHER, SUBNAUTICA2, HZD, SLEEPING_DOGS, DXMD, ATOMIC_HEART];
+pub static SPECS: &[Spec] = &[COTL, FALLOUT_SHELTER, DRG, S1_MONEY, S1_RANK, S1_TIME, S1_GAME, SOTF_STATE, SOTF_GAME, SOTF_WEATHER, SOTF_ITEMS, DMD, CUPHEAD, ANTIMATTER, PVZ, CELESTE, DRGS, KH3, RF4S, SKY1ST, KSP, FFPR, MCD, STONESHARD, ROGUE_TRADER, BIOSHOCK_INFINITE, SPACE_HAVEN, SNOWRUNNER, GRAVEYARD_KEEPER, NFSMW, TOS, GTA3, GTAVC, BITBURNER, TERRA_INVICTA, PRISON, FF13, SONIC_MANIA, CAVE_STORY_PLUS, CAVE_STORY, LIES_OF_P, TXR, DAVE, MSC, ULTRAKILL, RPGXP, RE5, ANNO1800, FTK, LEGO_TSS, LEGO_CLASSIC, MYZ, CMS21, MEDIEVAL_DYNASTY, MECHANICUS, ORI, OMORI, ENDER_LILIES, SW2, ES2, MOONLIGHTER, WASTELAND2, ATOM, MORTAL_SHELL, MORTAL_SHELL_2, COTW, BEAMNG, FOREST, YAKUZA3, YAKUZA4, YAKUZA5, ISHIN, SALT, DRAKENSANG, ALPHA, TYRANNY, JEDI_FO, SR3, SR4, WD2, FABLE, WANDERING_SWORD, STELLAR_BLADE, PRAGMATA, SLIME_RANCHER, SUBNAUTICA2, HZD, SLEEPING_DOGS, DXMD, ATOMIC_HEART, DISHONORED2];
 
 // ------------------------------------------------------------------ Cult of the Lamb
 
@@ -3107,5 +3107,35 @@ const ATOMIC_HEART: Spec = Spec {
             about: "Raises metal parts, synthetic material, biomaterial, superconductors, chemicals, energy cells and microelectronics you already hold to 999 (an estimate: no public source states the stack limit, and saves with 437 are known). Neural modules are left alone.",
         }),
     }],
+    tables: &[],
+};
+
+// ------------------------------------------------------------------ Dishonored 2
+const DISHONORED2: Spec = Spec {
+    name: "Dishonored 2",
+    tab: "Bonecharms",
+    accent: (150, 110, 70),
+    kind: Some(crate::fmt::dishonored2::KIND),
+    markers: &["/Crafting/Raw Whalebone"],
+    subtitle: "savegame\\SLOT<n>\\checkpoint.dat: Raw Whalebone, runes and ammo. Each ammo count goes up to what the save says the player can carry. The save is unpacked and packed again, with its check value, on save.",
+    tiles: &[("Raw Whalebone", "/Crafting/Raw Whalebone"), ("Runes", "/Inventory/Runes")],
+    sections: &[Section {
+        title: "Save",
+        rows: &[("Map", "/Save/Map"), ("Bonecharm traits learned", "/Save/Bonecharm traits learned")],
+    }],
+    lists: &[List {
+        title: "Crafting materials",
+        path: "/Crafting",
+        shape: Shape::Map,
+        names: &[],
+        max: Some(Max {
+            ids: &["Raw Whalebone"],
+            cap: crate::fmt::dishonored2::WHALEBONE_MAX,
+            caps: &[],
+            estimate: true,
+            about: "Sets Raw Whalebone to 999. The game shows no limit and no public source states one, so 999 is a safe three-digit amount.",
+        }),
+    },
+    List { title: "Runes and ammo", path: "/Inventory", shape: Shape::Map, names: &[], max: None }],
     tables: &[],
 };
