@@ -3055,7 +3055,7 @@ const DXMD: Spec = Spec {
     accent: (214, 160, 50),
     kind: Some(crate::fmt::dxmd::KIND),
     markers: &["/Adam/Credits"],
-    subtitle: "DXNGsavegame0000.dat ... in Steam\\userdata\\<account>\\337000\\remote. The game state is unpacked and packed again on save. Experience is shown but not changed. Ammo stacks are listed in the order the save keeps them.",
+    subtitle: "DXNGsavegame0000.dat ... in Steam\\userdata\\<account>\\337000\\remote. The game state is unpacked and packed again on save. Close the game and turn Steam Cloud off for it first, or Steam may bring the old save back. Experience is shown but not changed. Ammo stacks are listed in the order the save keeps them.",
     tiles: &[("Credits", "/Adam/Credits"), ("Praxis kits", "/Adam/Praxis kits"), ("Crafting parts", "/Crafting/Crafting parts")],
     sections: &[Section {
         title: "Adam Jensen",
