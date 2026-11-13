@@ -152,6 +152,7 @@ mod p3p_tables;
 pub mod ffx2;
 pub mod dead_rising;
 pub mod ff13;
+pub mod ffr;
 pub mod p5r;
 pub mod cave_story;
 pub mod ori;
@@ -747,6 +748,8 @@ pub fn parse_binary(d: &[u8]) -> Option<TreeDoc> {
         let mut t = gvas::parse(d).ok()?;
         if ttgames::is_lego(&t.view) {
             t.kind_name = ttgames::KIND.into();
+        } else if t.view.pointer("/Player/currentMoney").is_some() && t.view.pointer("/unitParameterList").is_some() && t.view.pointer("/visionList").is_some() {
+            t.kind_name = ffr::KIND.into();
         }
         return Some(t);
     }
