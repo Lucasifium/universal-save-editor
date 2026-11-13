@@ -51,8 +51,6 @@ impl Settings {
         s.confirm_save = v["confirm_save"].as_bool().unwrap_or(true);
         s.hex_guide = v["hex_guide"].as_bool().unwrap_or(true);
         s.backup_dir = v["backup_dir"].as_str().filter(|d| !d.is_empty()).map(PathBuf::from);
-        s.backup_keep = v["backup_keep"].as_u64().map_or(crate::backups::KEEP, |n| (n as usize).clamp(crate::backups::KEEP_MIN, crate::backups::KEEP_MAX));
-        crate::backups::set_keep(s.backup_keep);
         if let Some(r) = v["earlier_backup_dirs"].as_array() {
             s.earlier_backup_dirs = r.iter().filter_map(|x| x.as_str()).filter(|d| !d.is_empty()).map(PathBuf::from).collect();
         }
@@ -71,7 +69,6 @@ impl Settings {
             "confirm_save": self.confirm_save,
             "hex_guide": self.hex_guide,
             "backup_dir": self.backup_dir.as_ref().map(|d| d.to_string_lossy().to_string()),
-            "backup_keep": self.backup_keep,
             "earlier_backup_dirs": self.earlier_backup_dirs.iter().map(|p| p.to_string_lossy()).collect::<Vec<_>>(),
             "backup_keep": self.backup_keep,
         });

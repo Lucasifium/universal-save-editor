@@ -666,7 +666,6 @@ show as boxes there.
 Theme (dark/light), zoom (Ctrl +/−), recent files and view toggles are remembered in
 `settings.json` in `%APPDATA%\UniversalSaveEditor` (Windows), `~/Library/Application Support/UniversalSaveEditor`
 (macOS), `~/.config/UniversalSaveEditor` (Linux) or the app's private storage (Android).
-The number of automatic backups kept per save (30 by default, 5 to 500) is set in the Backups menu.
 
 ## Tests
 

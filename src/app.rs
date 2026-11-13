@@ -1906,20 +1906,6 @@ impl App {
                                 pick = bak.clone().map(|b| (b, "the original".to_string()));
                             }
                         }
-                        ui.separator();
-                        ui.horizontal(|ui| {
-                            ui.label("Automatic backups to keep");
-                            let mut n = self.settings.backup_keep;
-                            if ui
-                                .add(egui::DragValue::new(&mut n).range(crate::backups::KEEP_MIN..=crate::backups::KEEP_MAX).speed(0.2))
-                                .on_hover_text("How many automatic backups to keep per save before the oldest is removed. Named copies are never removed. Lowering it removes older copies the next time you save.")
-                                .changed()
-                            {
-                                self.settings.backup_keep = n;
-                                crate::backups::set_keep(n);
-                                self.settings.save();
-                            }
-                        });
                         if let Some(dir) = self.doc.as_ref().and_then(|d| crate::backups::folder(&d.path)) {
                             if dir.is_dir() {
                                 if let Some(label) = platform::reveal_label() {
@@ -2441,7 +2427,7 @@ impl App {
                 ui.label("No backups yet. One is made automatically each time you save, or press \u{201C}Back up this save\u{201D}.");
             }
             ScrollArea::vertical().max_height(380.0).show(ui, |ui| {
-                for (title, named) in [("Named backups (kept until you delete them)", true), (format!("Automatic backups (made each time you save; newest {} kept)", crate::backups::keep_count()).as_str(), false)] {
+                for (title, named) in [("Named backups (kept until you delete them)", true), (format!("Automatic backups (made each time you save; newest {} kept)", crate::backups::keep()).as_str(), false)] {
                     let rows: Vec<&crate::backups::Version> = versions.iter().filter(|v| v.name.is_some() == named).collect();
                     if rows.is_empty() {
                         continue;

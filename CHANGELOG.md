@@ -8,7 +8,7 @@
 - Save-wide buttons on game screens are gathered in one Quick actions strip
 - Short risk notes on hover and in the save confirmation; read-only values give a reason
 - Slay the Spire's add box offers the ids already in the save
-- The number of automatic backups kept is a setting; Skyrim and Fallout 4 saves show character, level and place in the save finder
+- Skyrim and Fallout 4 saves show character, level and place in the save finder
 
 ### Clearer interface
 - Arrows, the remove button and other symbols no longer show as empty boxes on Linux, macOS, Android and in the browser
