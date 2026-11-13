@@ -3046,3 +3046,30 @@ const SLEEPING_DOGS: Spec = Spec {
     lists: &[],
     tables: &[],
 };
+
+// ------------------------------------------------------------------ Atomic Heart
+
+const ATOMIC_HEART: Spec = Spec {
+    name: "Atomic Heart",
+    tab: "P-3",
+    accent: (200, 60, 50),
+    kind: Some(crate::fmt::atomic_heart::KIND),
+    markers: &["/Save/Stacks found"],
+    subtitle: "<n>.sav in %LOCALAPPDATA%\\AtomicHeart\\Saved\\SaveGames. The save's Oodle data is unpacked and packed again with the Oodle library of any game on this PC, and its SHA-1 is made again. Only stacks the save already holds are listed: pick up one of an item in the game first to add it.",
+    tiles: &[("Neuropolymer", "/Special/Neuropolymer")],
+    sections: &[Section { title: "Special", rows: &[("Neuropolymer", "/Special/Neuropolymer")] }],
+    lists: &[List {
+        title: "Resources",
+        path: "/Resources",
+        shape: Shape::Map,
+        names: &[],
+        max: Some(Max {
+            ids: &["Metal parts", "Synthetic material", "Biomaterial", "Superconductors", "Chemicals", "Energy cells", "Microelectronics"],
+            cap: 999,
+            caps: &[],
+            estimate: true,
+            about: "Raises metal parts, synthetic material, biomaterial, superconductors, chemicals, energy cells and microelectronics you already hold to 999 (an estimate: no public source states the stack limit, and saves with 437 are known). Neural modules are left alone.",
+        }),
+    }],
+    tables: &[],
+};

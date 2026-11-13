@@ -622,6 +622,11 @@ pub fn parse_binary(d: &[u8]) -> Option<TreeDoc> {
             return Some(t);
         }
     }
+    if atomic_heart::stream_looks(d) {
+        if let Ok(t) = atomic_heart::parse(d) {
+            return Some(t);
+        }
+    }
     if sn2::looks(d) {
         if let Ok(t) = sn2::parse(d) {
             return Some(t);

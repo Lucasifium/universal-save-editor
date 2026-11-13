@@ -3,7 +3,7 @@
 > **Free, and it always will be.** No price, no ads, no account, no paid version, no online service, no
 > rate limits. If anyone is charging you for this, it isn't from here.
 
-An offline save editor and save manager for 310+ (316) PC games (edit saves, and back up, name and restore them): Cairn, Terraria (characters and a world map editor),
+An offline save editor and save manager for 310+ (317) PC games (edit saves, and back up, name and restore them): Cairn, Terraria (characters and a world map editor),
 Oxygen Not Included, RimWorld, Stardew Valley, Onimusha: Way of the Sword, Elden Ring, Dark Souls,
 Cyberpunk 2077, the Persona, Yakuza and Final Fantasy games, Ren'Py visual novels, RPG Maker games
 and more (the full list is below). Written in Rust (egui). Nothing is uploaded anywhere, and there are
@@ -98,6 +98,7 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 | Moonlighter | *Will*: gold, days passed and the banker's invested money; the backpack and equipped items by name with count (enchantment levels in the Tree). The `gameslot` file opens as JSON (checked on a public save, not yet tried in the game) |
 | Wasteland 2 | *Rangers*: each ranger's level, experience, health, attribute, skill and trait points, kills and the seven attributes (skills and items are in the Tree); the save's `<@>` name markers are kept as they are (checked on a public save, not yet tried in the game) |
 | ATOM RPG | *Party*: every party member's level, experience, seven attributes, seventeen skills and free skill, stat and perk points; each member's inventory with counts (the player's rubles are the Money item). The gzip packing is handled for you (checked on a public save, not yet tried in the game) |
+| Atomic Heart | *P-3*: metal parts, synthetic material, biomaterial, superconductors, chemicals, energy cells and microelectronics with a Max crafting materials button, plus neural modules and neuropolymer (stacks the save already holds). The save's Oodle data is unpacked and packed again with the Oodle library of any game on this PC, and its SHA-1 is made again (checked on public and real saves, not yet tried in the game) |
 | Alpha Protocol | *Agent*: money, level, experience, skill points, skill ranks, ammunition and gadget counts from a checkpoint `.sav` (checked on a public save, not yet tried in the game) |
 | Salt and Sanctuary | *Character*: level, salt, gold, kills, deaths, sanctuary rests, corruption and the playthrough number from `datN.slv` (items and the skill tree are not edited yet; checked on public saves, not yet tried in the game) |
 | Drakensang: The Dark Eye | *Heroes*: each hero's level, adventure points (earned and to spend), life, endurance, astral energy, the eight attributes and every talent, with the party slot to tell your party from the cutscene copies (the SQLite `savegame.dsa` is edited in place; checked on a public save, not yet tried in the game) |
