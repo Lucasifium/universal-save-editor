@@ -555,6 +555,15 @@ Encrypted saves: *Tools › Decrypt with password* (Easy Save 3, Godot). Archive
 *Tools › Compare with another save* lists every value that differs between the open save and
 another one (e.g. before and after you earned gold), with a one-click **Use theirs**.
 
+## Several saves at once
+
+Opening another save while one is open puts it in a new tab (Ctrl+T also opens one; Ctrl+W closes
+the tab, Ctrl+Tab moves between tabs). Each tab keeps its own changes, undo history and view. In
+the Values view, right-click a value and choose *Copy value*, or right-click a group heading and
+choose *Copy all of …*; then, in another tab, *Paste into this save* writes those values to the
+same places (for moving a character or an inventory between slots of the same game), or
+right-click any value › *Paste here* for a single value. A paste is one Undo step.
+
 ## Editing
 
 - **Values** (default view): every editable value in one aligned list, grouped into collapsible
