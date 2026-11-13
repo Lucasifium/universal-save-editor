@@ -652,8 +652,17 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
 /// `sections`: the properties are several lists one after another (Ace Combat 8 packs its
 /// save that way), each shown as "Section n".
 fn parse_as(d: &[u8], sections: bool, stamp: usize) -> Result<TreeDoc, String> {
+    parse_as_magic(d, sections, stamp, b"GVAS")
+}
+
+/// SaveExtension slot files (Atomic Heart) start with the number 1 where `GVAS` would be.
+pub fn parse_slot(d: &[u8]) -> Result<TreeDoc, String> {
+    parse_as_magic(d, false, 0, &[1, 0, 0, 0])
+}
+
+fn parse_as_magic(d: &[u8], sections: bool, stamp: usize, magic: &[u8]) -> Result<TreeDoc, String> {
     let mut p = P { d, pos: 0, leaves: vec![], editable: HashMap::new(), full_types: false, lwc: false };
-    if p.take(4)? != b"GVAS" {
+    if p.take(4)? != magic {
         return Err("not GVAS".into());
     }
     let save_version = p.i32()?;
@@ -1065,3 +1074,16 @@ mod research {
     }
 }
 
+
+#[cfg(test)]
+mod research_slot {
+    #[test]
+    #[ignore]
+    fn slot_error() {
+        let Ok(f) = std::env::var("SAVE_EDITOR_SLOT") else { return };
+        match super::parse_slot(&std::fs::read(f).unwrap()) {
+            Ok(t) => println!("OK {}", t.kind_name),
+            Err(e) => println!("ERR {e}"),
+        }
+    }
+}
