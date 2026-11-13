@@ -5,6 +5,7 @@
 ### Value editing and game screens
 - Red Dead Redemption (PC) game screen: money, honor, fame, Dead Eye and consumables; saves are decrypted and encrypted again with their CRC-32
 - Red Dead Redemption 2 (PC) game screen: cash, honor, cores and XP, camp funds, the satchel's ammunition, consumables, herbs and provisions with a Max crafting materials button, horses, statistics and the clock; every checksum is written again
+- Red Dead Redemption 2: challenge ranks for the nine story challenges, compendium ticks (animals, plants, fish, horses, weapons, equipment), and adding supplies the satchel lacks (experimental)
 - Numbers show the range the save accepts on hover; a right-click menu on every value (copy value, name or path, set to minimum or maximum, revert, show in Tree)
 - The Tree has a filter box; game screens have a find box (Ctrl+F) that highlights and scrolls to a label
 - Save-wide buttons on game screens are gathered in one Quick actions strip

@@ -660,6 +660,323 @@ fn pretty(n: &str) -> String {
     s + used
 }
 
+// ------------------------------------------------------------------ RDR2: adding satchel items
+
+/// Where a new satchel record goes: the existing records it is modelled on and the blocks
+/// that grow (all in the first frame, the one the inventory lives in).
+struct Plan {
+    /// The cash record the new records copy (owner, flags), and its GUID's high half.
+    source: usize,
+    /// 1-based PMAP numbers of the item block, the block holding the item array, and the
+    /// block of pointers the array points into.
+    item_block: usize,
+    root_block: usize,
+    ref_block: usize,
+    array_at: usize,
+    ref_offset: usize,
+    count: usize,
+    /// Every GUID already in the frame (records and owners).
+    used: std::collections::HashSet<[u8; 8]>,
+    /// Items already in the satchel.
+    owned: std::collections::HashSet<u32>,
+}
+
+/// An extended PSO pointer to `offset` inside block `block`.
+fn pointer_bytes(block: usize, offset: usize) -> [u8; 8] {
+    let mut w = [0u8; 8];
+    w[..4].copy_from_slice(&((block as u32) | (((offset & 0xFFF) as u32) << 20)).to_be_bytes());
+    w[4..].copy_from_slice(&((offset >> 12) as u32).to_le_bytes());
+    w
+}
+
+impl Save2<'_> {
+    fn plan(&self) -> Option<Plan> {
+        let p = self.p;
+        let items = self.items();
+        let inv = ph("SavegameInventoryItem");
+        let f = self.frames.first()?;
+        if items.is_empty() || items.iter().any(|i| i.0 != 0) {
+            return None;
+        }
+        // The record layout the new records are written in.
+        let (size, _) = f.structs.get(&inv)?;
+        let at = |n: &str, k: u8, sub: u8| member(f, inv, n, k, sub).map(|m| m.0);
+        if *size != 48
+            || at("Guid", 31, 0)? != 8
+            || at("ParentGuid", 31, 0)? != 16
+            || at("ItemId", 11, 7)? != 24
+            || at("SlotId", 6, 0)? != 28
+            || at("Equipped", 0, 0)? != 32
+            || at("Quantity", 31, 0)? != 40
+        {
+            return None;
+        }
+        let cash = name_hash("CURRENCY_CASH");
+        let cash: Vec<usize> = items.iter().filter(|i| i.1 == inv && be32(p, i.3[1]) == Some(cash)).map(|i| i.2).collect();
+        let [source] = cash[..] else { return None };
+        if be32(p, source + 28) != Some(name_hash("SLOTID_CURRENCY")) || p[source + 8..source + 16] == [0; 8] || p[source + 16..source + 24] == [0; 8] {
+            return None;
+        }
+        // The owner (the character) must be one known record.
+        let character = ph("CPedInventorySaveStructure__CharacterItem");
+        if items.iter().filter(|i| i.1 == character && p[i.3[0]..i.3[0] + 8] == p[source + 16..source + 24]).count() != 1 {
+            return None;
+        }
+        // The array of item pointers in the inventory in use.
+        let rows = self.rows("CPedInventorySaveStructure", &[("playerInventory", 12, 0), ("backupInventory", 12, 0), ("usingBackupInventory", 0, 0)]);
+        let [(0, _, m)] = &rows[..] else { return None };
+        let flag = p[m[2]];
+        if flag > 1 {
+            return None;
+        }
+        let field = if flag == 1 { "backupInventory" } else { "playerInventory" };
+        let (_, link) = member(f, ph("CPedInventorySaveStructure"), field, 12, 0)?;
+        let (arr, _) = member(f, link, "items", 13, 0)?;
+        let array_at = m[flag as usize] + arr;
+        let count = u16::from_be_bytes(p.get(array_at + 8..array_at + 10)?.try_into().ok()?) as usize;
+        if count != items.len() || count >= 4000 {
+            return None;
+        }
+        let w = be32(p, array_at)?;
+        let ref_block = (w & 0xFFF) as usize;
+        let ref_offset = (w >> 20) as usize | ((le32(p, array_at + 4)? as usize) << 12);
+        let one = |pred: &dyn Fn(&(u32, usize, usize)) -> bool| -> Option<usize> {
+            let v: Vec<usize> = f.blocks.iter().enumerate().filter(|(_, b)| pred(b)).map(|(i, _)| i + 1).collect();
+            match v[..] {
+                [n] => Some(n),
+                _ => None,
+            }
+        };
+        let item_block = one(&|b| b.0 == inv && b.1 <= source && source + 48 <= b.1 + b.2 && b.2 % 48 == 0)?;
+        let root_block = one(&|b| b.1 <= array_at && array_at + 16 <= b.1 + b.2)?;
+        let rb = *f.blocks.get(ref_block.checked_sub(1)?)?;
+        if rb.0 != 12 || rb.2 % 8 != 0 || ref_offset + count * 8 > rb.2 {
+            return None;
+        }
+        if item_block == root_block || item_block == ref_block || root_block == ref_block {
+            return None;
+        }
+        let mut used = std::collections::HashSet::new();
+        for &(h, start, len) in &f.blocks {
+            let Some(&(sz, _)) = f.structs.get(&h) else { continue };
+            let g = member(f, h, "Guid", 31, 0);
+            let o = member(f, h, "ParentGuid", 31, 0);
+            if g.is_none() || !(1..=4096).contains(&sz) || len % sz != 0 {
+                continue;
+            }
+            for r in (start..start + len).step_by(sz) {
+                for (off, _) in [g, o].into_iter().flatten() {
+                    used.insert(p[r + off..r + off + 8].try_into().ok()?);
+                }
+            }
+        }
+        let satchel = name_hash("SLOTID_SATCHEL");
+        let owned = items.iter().filter(|i| i.1 == inv && be32(p, i.2 + 28) == Some(satchel)).filter_map(|i| be32(p, i.3[1])).collect();
+        Some(Plan { source, item_block, root_block, ref_block, array_at, ref_offset, count, used, owned })
+    }
+}
+
+/// The RSAV directory: the start of each chunk's payload and the end of its data, with the
+/// directory slot that records each later chunk's offset.
+fn directory(p: &[u8], frames: &[(usize, usize)]) -> Option<Vec<(Option<usize>, usize, usize)>> {
+    let s = HEAD_2;
+    if p.get(s..s + 4)? != b"RSAV" {
+        return None;
+    }
+    let (version, offset, length, count) = (le32(p, s + 4)?, le32(p, s + 8)? as usize, le32(p, s + 12)? as usize, le32(p, s + 16)? as usize);
+    if version != 3 || count > 64 || 20 + count * 16 > offset || offset % 16 != 0 || frames.len() != count + 1 {
+        return None;
+    }
+    let mut chunks = vec![(None, offset, length)];
+    for n in 0..count {
+        let slot = s + 20 + n * 16;
+        if le32(p, slot + 4)? != 0 {
+            return None;
+        }
+        chunks.push((Some(slot + 8), le32(p, slot + 8)? as usize, le32(p, slot + 12)? as usize));
+    }
+    let mut out = Vec::new();
+    let mut previous: Option<usize> = None;
+    for (n, ((slot, offset, length), &(psin, chks))) in chunks.into_iter().zip(frames).enumerate() {
+        let begin = s + offset;
+        let payload = begin + 16;
+        let end = payload + length;
+        if offset % 16 != 0 || length % 16 != 0 || end + 16 > p.len() || previous.is_some_and(|e| e != begin) {
+            return None;
+        }
+        let (tag, close) = if n == 0 { (b"CODE".to_vec(), b"ENDC") } else { (format!("S{:03}", n - 1).into_bytes(), b"ENDS") };
+        if p[begin..begin + 4] != tag[..] || p[begin + 4..payload] != [0; 12] || &p[end..end + 4] != close || p[end + 4..end + 16] != [0; 12] {
+            return None;
+        }
+        if psin != payload || end < chks + 20 || end - chks - 20 >= 16 {
+            return None;
+        }
+        out.push((slot, payload, end));
+        previous = Some(end + 16);
+    }
+    (previous == Some(p.len())).then_some(out)
+}
+
+/// Moves blocks of the first frame to the end of its data with new contents (block numbers,
+/// the old bytes and every other chunk stay as they are), then fixes the sizes that change.
+fn replace_blocks(p: &[u8], new: &[(usize, Vec<u8>)]) -> Option<Vec<u8>> {
+    let r = regions(p)?;
+    let dir = directory(p, &r)?;
+    let (fb, fc) = r[0];
+    let f = frame(p, fb, fc)?;
+    let old_size = be32(p, fb + 4)? as usize;
+    let map_at = fb + old_size;
+    let map_size = be32(p, map_at + 4)? as usize;
+    let mut mapping = p[map_at..map_at + map_size].to_vec();
+    let head = if u16::from_be_bytes([mapping[12], mapping[13]]) != 0 { 16 } else { 24 };
+    let mut data = p[fb..map_at].to_vec();
+    for (block, value) in new {
+        let (_, _, len) = *f.blocks.get(block.checked_sub(1)?)?;
+        if value.len() < len || value.len() > 16 << 20 {
+            return None;
+        }
+        data.resize(data.len().next_multiple_of(16), 0);
+        let off = data.len();
+        data.extend_from_slice(value);
+        let e = head + (block - 1) * 16;
+        mapping[e + 4..e + 8].copy_from_slice(&(off as u32).to_be_bytes());
+        mapping[e + 12..e + 16].copy_from_slice(&(value.len() as u32).to_be_bytes());
+    }
+    // Keep the frame's size the same modulo 16, so everything after stays aligned.
+    let pad = (old_size as isize - data.len() as isize).rem_euclid(16) as usize;
+    data.resize(data.len() + pad, 0);
+    let delta = data.len().checked_sub(old_size)?;
+    let n = data.len() as u32;
+    data[4..8].copy_from_slice(&n.to_be_bytes());
+    let mut body = data;
+    body.extend_from_slice(&mapping);
+    body.extend_from_slice(&p[map_at + map_size..fc]);
+    let mut check = p[fc..fc + 20].to_vec();
+    check[8..12].copy_from_slice(&((body.len() + 20) as u32).to_be_bytes());
+    let (_, payload, _) = dir[0];
+    let mut out = p[..payload].to_vec();
+    out.extend_from_slice(&body);
+    out.extend_from_slice(&check);
+    out.extend_from_slice(&p[fc + 20..]);
+    let code_len = le32(p, HEAD_2 + 12)? as usize;
+    out[HEAD_2 + 12..HEAD_2 + 16].copy_from_slice(&((code_len + delta) as u32).to_le_bytes());
+    for (slot, _, _) in &dir[1..] {
+        let slot = (*slot)?;
+        let v = le32(p, slot)? as usize + delta;
+        out[slot..slot + 4].copy_from_slice(&(v as u32).to_le_bytes());
+    }
+    // Fresh checksums, then check the result reads back: same blocks (new contents where
+    // asked), the other chunks byte for byte.
+    let out = unpack_2(&pack_2(&out).ok()?)?;
+    let r2 = regions(&out)?;
+    let dir2 = directory(&out, &r2)?;
+    let f2 = frame(&out, r2[0].0, r2[0].1)?;
+    if f2.blocks.len() != f.blocks.len() || r2.len() != r.len() {
+        return None;
+    }
+    for (n, (a, b)) in f.blocks.iter().zip(&f2.blocks).enumerate() {
+        let want = new.iter().find(|(k, _)| *k == n + 1).map_or(&p[a.1..a.1 + a.2], |(_, v)| &v[..]);
+        if a.0 != b.0 || &out[b.1..b.1 + b.2] != want {
+            return None;
+        }
+    }
+    for ((_, pa, ea), (_, pb, eb)) in dir.iter().zip(&dir2).skip(1) {
+        if p[*pa..*ea + 16] != out[*pb..*eb + 16] {
+            return None;
+        }
+    }
+    Some(out)
+}
+
+/// Adds new satchel stacks: (item, quantity).
+fn add_items(p: &[u8], req: &[(u32, i64)]) -> Result<Vec<u8>, String> {
+    const NO: &str = "the satchel's layout in this save isn't one the editor knows, so no items were added";
+    let r = regions(p).ok_or(NO)?;
+    let frames: Vec<Frame> = r.iter().map(|&(b, c)| frame(p, b, c)).collect::<Option<_>>().ok_or(NO)?;
+    let s = Save2 { p, frames };
+    let mut plan = s.plan().ok_or(NO)?;
+    if req.iter().any(|(h, _)| plan.owned.contains(h)) {
+        return Err("an item to add is already in the satchel; change its amount instead".into());
+    }
+    let f = &s.frames[0];
+    let block = |n: usize| -> Vec<u8> {
+        let (_, at, len) = f.blocks[n - 1];
+        p[at..at + len].to_vec()
+    };
+    let mut items = block(plan.item_block);
+    let mut refs = block(plan.ref_block);
+    let mut root = block(plan.root_block);
+    let (_, ref_at, _) = f.blocks[plan.ref_block - 1];
+    let new_ref = refs.len();
+    refs.extend_from_slice(&p[ref_at + plan.ref_offset..ref_at + plan.ref_offset + plan.count * 8]);
+    let src: [u8; 48] = p[plan.source..plan.source + 48].try_into().map_err(|_| NO)?;
+    let satchel = name_hash("SLOTID_SATCHEL");
+    for (n, &(h, q)) in req.iter().enumerate() {
+        let mut guid = [0u8; 8];
+        guid[..4].copy_from_slice(&src[8..12]);
+        let mut seed = h ^ (plan.count as u32 + n as u32).wrapping_mul(0x9E37_79B9);
+        let mut tries = 0;
+        loop {
+            seed = jenkins_oaat(&seed.to_be_bytes(), 0x5EED_0001);
+            guid[4..].copy_from_slice(&seed.to_be_bytes());
+            if guid != [0; 8] && plan.used.insert(guid) {
+                break;
+            }
+            tries += 1;
+            if tries > 1000 {
+                return Err(NO.into());
+            }
+        }
+        let mut rec = src;
+        rec[8..16].copy_from_slice(&guid);
+        rec[24..28].copy_from_slice(&h.to_be_bytes());
+        rec[28..32].copy_from_slice(&satchel.to_be_bytes());
+        rec[32] = 0;
+        rec[40..48].copy_from_slice(&q.to_be_bytes());
+        refs.extend_from_slice(&pointer_bytes(plan.item_block, items.len()));
+        items.extend_from_slice(&rec);
+    }
+    let (_, root_at, _) = f.blocks[plan.root_block - 1];
+    let rel = plan.array_at - root_at;
+    root[rel..rel + 8].copy_from_slice(&pointer_bytes(plan.ref_block, new_ref));
+    let total = (plan.count + req.len()) as u16;
+    root[rel + 8..rel + 10].copy_from_slice(&total.to_be_bytes());
+    root[rel + 10..rel + 12].copy_from_slice(&total.to_be_bytes());
+    let mut new = vec![(plan.item_block, items), (plan.ref_block, refs), (plan.root_block, root)];
+    new.sort_by_key(|x| x.0);
+    let out = replace_blocks(p, &new).ok_or(NO)?;
+    // The new stacks must read back as satchel items.
+    let r = regions(&out).ok_or(NO)?;
+    let frames: Vec<Frame> = r.iter().map(|&(b, c)| frame(&out, b, c)).collect::<Option<_>>().ok_or(NO)?;
+    let s2 = Save2 { p: &out, frames };
+    let after = s2.plan().ok_or(NO)?;
+    if after.count != plan.count + req.len() || req.iter().any(|(h, _)| !after.owned.contains(h)) {
+        return Err(NO.into());
+    }
+    Ok(out)
+}
+
+/// The supplies the screen offers to add, with their amounts.
+fn add_choices(ammo: bool) -> Vec<String> {
+    let v: &[&str] = if ammo { &["Don't add", "Add 10", "Add 100", "Add 999"] } else { &["Don't add", "Add 1", "Add 10", "Add 99"] };
+    v.iter().map(|s| s.to_string()).collect()
+}
+
+/// Saving step for "Add to satchel": the tag is the item's hash in hex.
+fn post_2(out: &mut Vec<u8>, chosen: &[(std::sync::Arc<str>, String)]) -> Result<(), String> {
+    let mut req = Vec::new();
+    for (tag, name) in chosen {
+        let Some(n) = name.strip_prefix("Add ") else { continue };
+        let q: i64 = n.parse().map_err(|_| "unknown amount".to_string())?;
+        let h = u32::from_str_radix(tag, 16).map_err(|_| "unknown item".to_string())?;
+        req.push((h, q));
+    }
+    if !req.is_empty() {
+        *out = add_items(out, &req)?;
+    }
+    Ok(())
+}
+
 /// Most of one item the screen lets you set: the stack size items reach with the Legend of
 /// the East satchel.
 pub const RDR2_STACK_MAX: i64 = 99;
@@ -859,6 +1176,80 @@ pub fn parse_2(p: &[u8]) -> Option<TreeDoc> {
         }
     }
 
+    // Challenges: the nine story challenge lines and the rank (0 to 10) reached in each.
+    const CHALLENGES: [(&str, &str); 9] = [
+        ("BAND", "Bandit"),
+        ("EXPL", "Explorer"),
+        ("GAMB", "Gambler"),
+        ("HERB", "Herbalist"),
+        ("HORSE", "Horseman"),
+        ("HUNT", "Master Hunter"),
+        ("SHOT", "Sharpshooter"),
+        ("SURV", "Survivalist"),
+        ("WEAP", "Weapons Expert"),
+    ];
+    let lines = s.rows("CSaveChallengeLinear", &[("name", 11, 11), ("rank", 6, 0)]);
+    for (key, title) in CHALLENGES {
+        let h = name_hash(&format!("SP_CHAL_{key}_ROOT"));
+        let hits: Vec<usize> = lines.iter().filter(|r| be32(p, r.2[0]) == Some(h)).map(|r| r.2[1]).collect();
+        if let [at] = hits[..] {
+            if be32(p, at).is_some_and(|v| v <= 10) {
+                b.ranged(&["Challenges", title, "Rank"], at, Kind::U32, 0, 10);
+                any = true;
+            }
+        }
+    }
+
+    // Compendium: what Arthur has studied, discovered or owned, per entry.
+    {
+        let known: HashMap<u32, &str> = super::rdr2_compendium::NAMES.iter().copied().collect();
+        let book: [(&str, &str, &[(&str, &str)]); 6] = [
+            ("ItemAnimal", "Animals", &[("wasObserved", "Studied"), ("wasDiscovered", "Discovered")]),
+            ("ItemHerb", "Plants", &[("wasObserved", "Studied")]),
+            ("ItemFish", "Fish", &[("wasObserved", "Studied")]),
+            ("ItemHorse", "Horses", &[("wasObserved", "Studied")]),
+            ("ItemWeapon", "Weapons", &[("hasOwned", "Owned")]),
+            ("ItemEquipment", "Equipment", &[("owned", "Owned")]),
+        ];
+        for (st, title, flags) in book {
+            let mut want = vec![("name", 11u8, 7u8)];
+            want.extend(flags.iter().map(|(f, _)| (*f, 0u8, 0u8)));
+            let rows = s.rows(&format!("CSaveCompendium__{st}"), &want);
+            let mut count: HashMap<u32, usize> = HashMap::new();
+            for r in &rows {
+                *count.entry(be32(p, r.2[0])?).or_default() += 1;
+            }
+            let mut labels = std::collections::HashSet::new();
+            for r in &rows {
+                let id = be32(p, r.2[0])?;
+                if count[&id] != 1 || r.2[1..].iter().any(|&a| p[a] > 1) {
+                    continue;
+                }
+                let mut label = known.get(&id).map_or_else(|| format!("Entry {id:08X}"), |n| n.to_string());
+                if !labels.insert(label.clone()) {
+                    label = format!("{label} ({id:08X})");
+                }
+                for (i, (_, t)) in flags.iter().enumerate() {
+                    b.field(&["Compendium", title, &label, t], r.2[i + 1], Kind::B8);
+                }
+                any = true;
+            }
+        }
+    }
+
+    // New satchel stacks: offered only when the inventory's layout is fully understood.
+    if let Some(plan) = s.plan() {
+        for (name, group) in super::rdr2_compendium::SUPPLIES {
+            let h = name_hash(name);
+            if plan.owned.contains(&h) {
+                continue;
+            }
+            let label = pretty(name);
+            b.option(&["Add to satchel", &label, "Add"], add_choices(name.starts_with("AMMO_")), format!("{h:08X}"));
+            b.info(&["Add to satchel", &label, "Group"], *group);
+        }
+    }
+
     let clock = s.rows("CSimpleVariablesSaveStructure", &[("GameClockHour", 6, 0), ("GameClockMinute", 6, 0), ("GameClockSecond", 6, 0)]);
     if let [(_, _, m)] = &clock[..] {
         for (i, (t, hi)) in [("Hour", 23), ("Minute", 59), ("Second", 59)].into_iter().enumerate() {
@@ -875,7 +1266,7 @@ pub fn parse_2(p: &[u8]) -> Option<TreeDoc> {
     if !title.is_empty() {
         b.info(&["Save", "Title"], title);
     }
-    any.then(|| b.finish(KIND_2, Checksum::None))
+    any.then(|| b.finish_with(KIND_2, Checksum::None, Some(post_2)))
 }
 
 #[cfg(test)]
@@ -951,6 +1342,52 @@ mod tests {
         assert_eq!(name_hash("CURRENCY_CASH"), name_hash("currency_cash"));
     }
 
+    /// Challenge ranks, compendium ticks and new satchel stacks survive saving.
+    fn rdr2_extras(name: &str, plain: &[u8]) {
+        use serde_json::{json, Value};
+        let mut doc = parse_2(plain).unwrap();
+        let view = doc.view.clone();
+        let rank = view.pointer("/Challenges").and_then(Value::as_object).and_then(|o| o.keys().next().cloned());
+        if let Some(r) = &rank {
+            doc.set(&format!("/Challenges/{r}/Rank"), json!(3)).unwrap();
+            assert!(doc.set(&format!("/Challenges/{r}/Rank"), json!(11)).is_err());
+        }
+        let animal = view.pointer("/Compendium/Animals").and_then(Value::as_object).and_then(|o| o.iter().find(|(_, v)| v["Studied"] == json!(false)).map(|(k, _)| k.clone()));
+        if let Some(a) = &animal {
+            doc.set(&format!("/Compendium/Animals/{a}/Studied"), json!(true)).unwrap();
+        }
+        let adds: Vec<String> = view.pointer("/Add to satchel").and_then(Value::as_object).map(|o| o.keys().cloned().collect()).unwrap_or_default();
+        let pick: Vec<&String> = adds.iter().filter(|k| ["Herb Yarrow", "Arrow Fire", "Medicine", "Coffee"].contains(&k.as_str())).collect();
+        for k in &pick {
+            let amount = if k.starts_with("Arrow") { "Add 100" } else { "Add 10" };
+            doc.set(&format!("/Add to satchel/{k}/Add"), json!(amount)).unwrap();
+        }
+        let out = doc.to_bytes().unwrap();
+        let enc = pack_2(&out).unwrap();
+        assert_eq!(enc.len() % 16, HEAD_2 % 16, "{name}: whole AES blocks");
+        let back = unpack_2(&enc).expect("grown save decrypts with valid checksums");
+        let again = parse_2(&back).expect("grown save opens");
+        if let Some(r) = &rank {
+            assert_eq!(again.view.pointer(&format!("/Challenges/{r}/Rank")), Some(&json!(3)), "{name}");
+        }
+        if let Some(a) = &animal {
+            assert_eq!(again.view.pointer(&format!("/Compendium/Animals/{a}/Studied")), Some(&json!(true)), "{name}");
+        }
+        for k in &pick {
+            let (group, q) = if k.starts_with("Arrow") { ("Ammunition", 100) } else { ("Consumables", 10) };
+            assert_eq!(again.view.pointer(&format!("/{group}/{k}")), Some(&json!(q)), "{name}: added {k}");
+            assert!(again.view.pointer(&format!("/Add to satchel/{k}")).is_none(), "{name}: {k} no longer offered");
+        }
+        // Everything else reads the same.
+        for p in ["/Arthur", "/Camp", "/Statistics", "/World", "/Horses", "/Compendium/Plants", "/Bounties"] {
+            assert_eq!(again.view.pointer(p), view.pointer(p), "{name} {p}");
+        }
+        eprintln!("{name}: challenge {rank:?}, animal {animal:?}, added {pick:?}, {} -> {} bytes", plain.len(), back.len());
+        if let Some(o) = std::env::var_os("RDR_OUT") {
+            std::fs::write(std::path::Path::new(&o).join(format!("{name}.grown")), &enc).unwrap();
+        }
+    }
+
     /// Runs on real saves: RDR_SAVES names a folder of RDR2SAVE*.SAV and SRDR3* files.
     #[test]
     fn real_saves() {
@@ -1002,6 +1439,9 @@ mod tests {
             let enc = if looks_1(&plain) { pack_1(&out).unwrap() } else { pack_2(&out).unwrap() };
             let back = if looks_1(&plain) { unpack_1(&enc) } else { unpack_2(&enc) };
             assert!(back.is_some_and(|b| b[8..] == out[8..] || looks_2(&b)), "{name}: edited save decrypts with valid checksums");
+            if looks_2(&plain) {
+                rdr2_extras(&name, &plain);
+            }
             if let Some(o) = std::env::var_os("RDR_OUT") {
                 std::fs::write(std::path::Path::new(&o).join(&name), &enc).unwrap();
             }

@@ -144,6 +144,7 @@ pub mod atomic_heart;
 pub mod deathloop;
 pub mod rdr;
 mod rdr2_names;
+mod rdr2_compendium;
 pub mod xcom_eu;
 pub mod ff7;
 pub mod ff7r;

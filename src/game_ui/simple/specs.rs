@@ -3228,7 +3228,7 @@ const RDR2: Spec = Spec {
     accent: (160, 30, 30),
     kind: Some(crate::fmt::rdr::KIND_2),
     markers: &["/Arthur"],
-    subtitle: "SRDR3<nnnn> in Documents\\Rockstar Games\\Red Dead Redemption 2\\Profiles\\<id> (story mode, PC). The save is decrypted, and its checksums are written again and it is encrypted when you save. Only stacks already in the satchel are listed; weapons keep their own loaded ammo, which is left alone. Honor and camp funds also update the matching saved statistic. Turn Steam/Rockstar cloud saves off for the game first, or the old save may come back.",
+    subtitle: "SRDR3<nnnn> in Documents\\Rockstar Games\\Red Dead Redemption 2\\Profiles\\<id> (story mode, PC). The save is decrypted, and its checksums are written again and it is encrypted when you save. Satchel stacks can be changed, and supplies the satchel lacks can be added (Add to satchel: an experimental step that grows the save; keep a backup). Weapons keep their own loaded ammo, which is left alone. Challenge ranks and compendium ticks change the record only: they do not hand out rewards. Compendium entries whose name is not known yet are shown by their number. Honor and camp funds also update the matching saved statistic. Turn Steam/Rockstar cloud saves off for the game first, or the old save may come back.",
     tiles: &[("Cash ($)", "/Arthur/Cash ($)"), ("Honor", "/Arthur/Honor"), ("Camp funds ($)", "/Camp/Camp funds ($)")],
     sections: &[
         Section {
@@ -3278,5 +3278,14 @@ const RDR2: Spec = Spec {
         },
         List { title: "Statistics", path: "/Statistics", shape: Shape::Map, names: &[], max: None },
     ],
-    tables: &[],
+    tables: &[
+        Table { title: "Challenges (rank 0 to 10)", path: "/Challenges", name: &[], cols: &[("Rank", "/Rank")], only: &[], names: &[] },
+        Table { title: "Add to satchel", path: "/Add to satchel", name: &[], cols: &[("Add", "/Add"), ("Group", "/Group")], only: &[], names: &[] },
+        Table { title: "Compendium: animals", path: "/Compendium/Animals", name: &[], cols: &[("Studied", "/Studied"), ("Discovered", "/Discovered")], only: &[], names: &[] },
+        Table { title: "Compendium: plants", path: "/Compendium/Plants", name: &[], cols: &[("Studied", "/Studied")], only: &[], names: &[] },
+        Table { title: "Compendium: fish", path: "/Compendium/Fish", name: &[], cols: &[("Studied", "/Studied")], only: &[], names: &[] },
+        Table { title: "Compendium: horses", path: "/Compendium/Horses", name: &[], cols: &[("Studied", "/Studied")], only: &[], names: &[] },
+        Table { title: "Compendium: weapons", path: "/Compendium/Weapons", name: &[], cols: &[("Owned", "/Owned")], only: &[], names: &[] },
+        Table { title: "Compendium: equipment", path: "/Compendium/Equipment", name: &[], cols: &[("Owned", "/Owned")], only: &[], names: &[] },
+    ],
 };

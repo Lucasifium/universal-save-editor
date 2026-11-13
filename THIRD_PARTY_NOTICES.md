@@ -27,7 +27,8 @@ Universal Save Editor is free. It builds on other people's work, listed here wit
 | [civ6-save-parser (Civilization VI save layout, ported)](https://github.com/pydt/civ6-save-parser) | Mike Rosack and playyourdamnturn.com | MIT |
 | [halbu (Diablo II character layout, skill names)](https://github.com/feored/halbu) | feor | MIT |
 | [d2s (Diablo II save layout)](https://github.com/dschu012/d2s) | dschu012 | facts only (file layouts, ids and names), credited |
-| [Universal Save Editor by DanCarrillo11 (Red Dead Redemption 2 PC save layout, checksum, structure and script-global locations, and item names, ported)](https://github.com/DanCarrillo11/UniversalSaveEditor) | DanCarrillo11 | GPL-3.0 |
+| [Universal Save Editor by DanCarrillo11 (Red Dead Redemption 2 PC save layout, checksum, structure and script-global locations, item names, compendium flags and adding satchel stacks, ported)](https://github.com/DanCarrillo11/UniversalSaveEditor) | DanCarrillo11 | GPL-3.0 |
+| [rdr3_discoveries by femga (Red Dead Redemption 2 compendium texture and challenge names, facts only)](https://github.com/femga/rdr3_discoveries) | femga | facts only (no licence) |
 | [RDR Save Crypto (Red Dead Redemption and Red Dead Redemption 2 save keys)](https://github.com/Dxian998/RDR-Save-Crypto) | Dxian998 | MIT |
 | [apollo-patches (Red Dead Redemption money, honor and fame positions)](https://github.com/bucanero/apollo-patches) | bucanero and contributors | GPL-3.0 |
 | [CodeX.Games.RDR1 (Red Dead Redemption item names, used to recognise item hashes)](https://github.com/Foxxyyy/CodeX.Games.RDR1) | Foxxyyy | facts only (names), credited |
