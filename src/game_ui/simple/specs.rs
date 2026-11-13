@@ -3137,6 +3137,8 @@ const DISHONORED2: Spec = Spec {
         }),
     },
     List { title: "Runes and ammo", path: "/Inventory", shape: Shape::Map, names: &[], max: None }],
+    tables: &[],
+};
 
 // ------------------------------------------------------------------ Deathloop
 
