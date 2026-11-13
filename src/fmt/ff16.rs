@@ -357,6 +357,24 @@ pub fn unpack(png: &[u8], pick: Option<&str>) -> Result<(usize, Vec<String>, Vec
     Ok((i, all.iter().map(|e| e.name.clone()).collect(), data))
 }
 
+/// The unpacked game and system saves start with a 16-byte header: `u32` 16, the CRC-32 of
+/// everything after the header, and a format version. The game skips a save whose CRC is wrong,
+/// so it is written again here.
+pub fn with_crc(data: &[u8]) -> Vec<u8> {
+    let mut d = data.to_vec();
+    if d.len() > 16 && d[0..4] == 16u32.to_le_bytes() {
+        let mut h = flate2::Crc::new();
+        h.update(&d[16..]);
+        d[4..8].copy_from_slice(&h.sum().to_le_bytes());
+    }
+    d
+}
+
+/// Whether the save's own CRC-32 matches its data.
+pub fn crc_ok(data: &[u8]) -> bool {
+    data.len() <= 16 || data[0..4] != 16u32.to_le_bytes() || with_crc(data) == data
+}
+
 /// The new `faTh` chunk with entry `index` replaced by `data`.
 pub fn repack_chunk(c: &[u8], index: usize, data: &[u8]) -> Result<Vec<u8>, String> {
     let mut all = entries(c)?;
@@ -364,7 +382,8 @@ pub fn repack_chunk(c: &[u8], index: usize, data: &[u8]) -> Result<Vec<u8>, Stri
         .get_mut(index)
         .ok_or("the save is missing from its archive")?;
     let id = dictionary_id(&e.data).ok_or("the save is too short")?;
-    e.data = pack_with_id(data, id)?;
+    let data = with_crc(data);
+    e.data = pack_with_id(&data, id)?;
     e.unpacked = data.len() as u64;
     Ok(build(&all))
 }
@@ -395,6 +414,21 @@ mod tests {
             xor(&mut x);
             assert_eq!(x, d);
         }
+    }
+
+    #[test]
+    fn crc_is_written_again() {
+        let mut d = vec![0u8; 64];
+        d[0] = 16;
+        d[20] = 5;
+        assert!(!crc_ok(&d));
+        let fixed = with_crc(&d);
+        assert!(crc_ok(&fixed));
+        let mut h = flate2::Crc::new();
+        h.update(&d[16..]);
+        assert_eq!(fixed[4..8], h.sum().to_le_bytes());
+        // Data without the header is left alone.
+        assert_eq!(with_crc(&[1, 2, 3]), vec![1, 2, 3]);
     }
 
     #[test]
@@ -545,6 +579,7 @@ mod tests {
             assert_eq!(build(&all), c, "layout differs for {:?}", f.path());
             for (i, e) in all.iter().enumerate() {
                 let (_, _, data) = unpack(&png, Some(&e.name)).unwrap();
+                assert!(crc_ok(&data), "stored CRC-32 doesn't match for {:?}", f.path());
                 let mut edited = data.clone();
                 edited[0x24] ^= 1;
                 let c2 = repack_chunk(c, i, &edited).unwrap();
@@ -554,7 +589,9 @@ mod tests {
                 }
                 let back = entries(&c2).unwrap();
                 let dict = dictionary(dictionary_id(&back[i].data).unwrap()).unwrap();
-                assert_eq!(unpack_with(&back[i].data, &dict).unwrap(), edited);
+                let again = unpack_with(&back[i].data, &dict).unwrap();
+                assert!(crc_ok(&again));
+                assert_eq!(again, with_crc(&edited));
                 n += 1;
             }
         }
