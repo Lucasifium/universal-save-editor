@@ -114,11 +114,11 @@ fn sheet(ui: &mut Ui, cx: &mut GameCtx) {
             panel(ui, "Skills", |ui| {
                 for k in keys(cx, "/Skills") {
                     let tag = tagged.iter().any(|t| *t == k);
-                    let label = if tag { format!("\u{25C6} {k}") } else { k.clone() };
+                    let label = if tag { format!("\u{2605} {k}") } else { k.clone() };
                     cx.row_fixed(ui, &label, &join("/Skills", &k), 150.0, 70.0);
                 }
                 ui.add_space(4.0);
-                ui.label(RichText::new("Points put into each skill (the sheet adds the starting value from S.P.E.C.I.A.L. on top; tagged skills \u{25C6} count them twice).").size(12.0).color(DIM));
+                ui.label(RichText::new("Points put into each skill (the sheet adds the starting value from S.P.E.C.I.A.L. on top; tagged skills \u{2605} count them twice).").size(12.0).color(DIM));
             });
         }
     });
@@ -201,7 +201,7 @@ fn sheet(ui: &mut Ui, cx: &mut GameCtx) {
         });
         ui.label(
             RichText::new(
-                "Item names come from a short list the game's own code refers to; other items show their prototype number (the names are in the game's data files). \u{21B3} marks items inside a container above.",
+                "Item names come from a short list the game's own code refers to; other items show their prototype number (the names are in the game's data files). \u{203A} marks items inside a container above.",
             )
             .size(12.0)
             .color(DIM),

@@ -893,10 +893,15 @@ pub fn diablo2(ui: &mut Ui, cx: &mut GameCtx) {
         } else {
             panel(ui, "Life and mana", |ui| {
                 egui::Grid::new("d2_life").num_columns(4).spacing([10.0, 6.0]).show(ui, |ui| {
+                    ui.label("");
+                    ui.weak("Current");
+                    ui.label("");
+                    ui.weak("Base max").on_hover_text("The maximum before items and bonuses; the game adds those on top");
+                    ui.end_row();
                     for (a, b) in [("Life", "Max life"), ("Mana", "Max mana"), ("Stamina", "Max stamina")] {
                         ui.label(a);
                         cx.compact(ui, &join("/Life and mana", a), 84.0);
-                        ui.label("of");
+                        ui.label("/");
                         cx.compact(ui, &join("/Life and mana", b), 84.0);
                         ui.end_row();
                     }

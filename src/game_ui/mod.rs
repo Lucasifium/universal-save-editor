@@ -167,6 +167,31 @@ pub enum Game {
 }
 
 impl Game {
+    /// The game's name, for saves whose format is generic (JSON, XML, a database) so the
+    /// file-type chip can say which game it is. `None` where the format already names it.
+    pub fn name(self) -> Option<&'static str> {
+        Some(match self {
+            Game::Hades => "Hades",
+            Game::Stardew => "Stardew Valley",
+            Game::Minecraft => "Minecraft",
+            Game::Balatro => "Balatro",
+            Game::Silksong => "Hollow Knight: Silksong",
+            Game::HollowKnight => "Hollow Knight",
+            Game::SlayTheSpire => "Slay the Spire",
+            Game::Pathfinder => "Pathfinder",
+            Game::RenPy => "Ren'Py",
+            Game::Phasmophobia => "Phasmophobia",
+            Game::LethalCompany => "Lethal Company",
+            Game::Repo => "R.E.P.O.",
+            Game::Subnautica => "Subnautica",
+            Game::DarkestDungeon2 => "Darkest Dungeon II",
+            Game::GreenHell => "Green Hell",
+            Game::X4 => "X4: Foundations",
+            Game::Simple(i) => simple::game_name(i),
+            _ => return None,
+        })
+    }
+
     /// Name of the tab that shows the screen.
     pub fn tab_label(self) -> &'static str {
         match self {

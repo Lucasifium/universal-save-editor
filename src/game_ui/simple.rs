@@ -96,6 +96,10 @@ pub fn detect(kind: &str, root: &Value) -> Option<u16> {
     SPECS.iter().position(|s| s.matches(kind, root)).map(|i| i as u16)
 }
 
+pub fn game_name(i: u16) -> &'static str {
+    SPECS[i as usize].name
+}
+
 pub fn tab_label(i: u16) -> &'static str {
     SPECS[i as usize].tab
 }

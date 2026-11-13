@@ -483,7 +483,7 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
     for (n, it) in l.items.iter().enumerate() {
         let idx = it.pid & 0xFF_FFFF;
         let name = item_name(f2, it.pid).map(str::to_string).unwrap_or_else(|| format!("Item #{idx}"));
-        let label = format!("{:0width$} {}{name}", n + 1, if it.depth > 0 { "\u{21B3} " } else { "" });
+        let label = format!("{:0width$} {}{name}", n + 1, if it.depth > 0 { "\u{203A} " } else { "" });
         let qty = i32_at(d, it.qty_at).unwrap_or(0);
         if l.ambiguous {
             b.info(&["Inventory", &label, "Count"], i64::from(qty));

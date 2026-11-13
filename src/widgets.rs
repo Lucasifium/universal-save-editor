@@ -71,11 +71,11 @@ pub fn icon(has_icons: bool, glyph: &str, fallback: &str) -> RichText {
 }
 
 fn escape_breaks(s: &str) -> String {
-    s.replace('\n', "\u{23CE}").replace('\r', "\u{240D}")
+    s.replace('\n', "\u{21A9}").replace('\r', "\u{00B6}")
 }
 
 fn unescape_breaks(s: &str) -> String {
-    s.replace('\u{23CE}', "\n").replace('\u{240D}', "\r")
+    s.replace('\u{21A9}', "\n").replace('\u{00B6}', "\r")
 }
 
 /// Parse user input for a number, keeping integers as integers.
@@ -173,7 +173,7 @@ pub fn value_editor(ui: &mut Ui, id_src: &str, v: &Value, editable: bool, width:
             let mut text = escape_breaks(s);
             let id = ui.make_persistent_id(("str", id_src));
             let resp = ui.add(TextEdit::singleline(&mut text).id(id).desired_width(width));
-            let resp = if s.contains(['\n', '\r']) { resp.on_hover_text("\u{23CE} marks a line break") } else { resp };
+            let resp = if s.contains(['\n', '\r']) { resp.on_hover_text("\u{21A9} marks a line break (\u{00B6} a carriage return)") } else { resp };
             resp.changed().then(|| Value::String(unescape_breaks(&text)))
         }
         Value::Number(n) => {
@@ -191,7 +191,10 @@ pub fn value_editor(ui: &mut Ui, id_src: &str, v: &Value, editable: bool, width:
                 n.to_string()
             };
             let valid = parse_number(&buf, integer).is_some();
-            let mut edit = TextEdit::singleline(&mut buf).id(id).desired_width(width.min(160.0));
+            // Wide enough for what it holds: a fixed box cut "3270" down to "327".
+            let text_w = ui.fonts(|f| f.layout_no_wrap(buf.clone(), egui::TextStyle::Body.resolve(ui.style()), Color32::WHITE).size().x);
+            let w = width.min(160.0).max((text_w + 20.0).min(260.0));
+            let mut edit = TextEdit::singleline(&mut buf).id(id).desired_width(w);
             if !valid {
                 edit = edit.text_color(theme::ERR);
             }
@@ -210,12 +213,14 @@ pub fn value_editor(ui: &mut Ui, id_src: &str, v: &Value, editable: bool, width:
             }
             let _ = resp;
             if integer && !COMPACT.with(|c| c.get()) {
-                if let Some(i) = n.as_i64() {
-                    if ui.small_button("\u{2212}").on_hover_text("Decrease by 1").clicked() {
-                        out = Some(Value::from(i.saturating_sub(1)));
+                // Big values (experience, gold) are typed, not stepped.
+                if let Some(i) = n.as_i64().filter(|i| i.unsigned_abs() <= 5000) {
+                    let step = ui.input(|inp| if inp.modifiers.ctrl || inp.modifiers.command { 100 } else if inp.modifiers.shift { 10 } else { 1 });
+                    if ui.small_button("\u{2212}").on_hover_text("Decrease by 1 (Shift: 10, Ctrl: 100)").clicked() {
+                        out = Some(Value::from(i.saturating_sub(step)));
                     }
-                    if ui.small_button("+").on_hover_text("Increase by 1").clicked() {
-                        out = Some(Value::from(i.saturating_add(1)));
+                    if ui.small_button("+").on_hover_text("Increase by 1 (Shift: 10, Ctrl: 100)").clicked() {
+                        out = Some(Value::from(i.saturating_add(step)));
                     }
                 }
             }

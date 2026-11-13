@@ -682,19 +682,25 @@ pub fn slay_the_spire(ui: &mut Ui, cx: &mut GameCtx) {
         panel(ui, &format!("{title} ({})", items.len()), |ui| {
             // The name column keeps its width: a grid otherwise sizes it from the narrowest first frame.
             egui::Grid::new(("sts", title)).num_columns(3).striped(true).spacing([8.0, 3.0]).min_col_width(150.0).show(ui, |ui| {
+                if items.first().is_some_and(Value::is_object) {
+                    ui.weak("Card");
+                    ui.weak("Upgrades").on_hover_text("How many times the card was upgraded (0 = not upgraded; most cards take 1)");
+                    ui.label("");
+                    ui.end_row();
+                }
                 for (n, it) in items.iter().enumerate() {
                     let ip = format!("{p}/{n}");
                     if it.is_object() {
                         cx.editor(ui, &format!("{ip}/id"), 150.0);
                         ui.horizontal(|ui| {
-                            ui.weak("+");
+                            ui.weak("+").on_hover_text("Upgrade count");
                             cx.editor(ui, &format!("{ip}/upgrades"), 34.0);
                         });
                     } else {
                         cx.editor(ui, &ip, 150.0);
                         ui.label("");
                     }
-                    if ui.small_button("\u{2715}").on_hover_text("Remove").clicked() {
+                    if ui.small_button("\u{00D7}").on_hover_text("Remove").clicked() {
                         let mut left = items.clone();
                         left.remove(n);
                         change = Some((p.to_string(), Value::Array(left)));
@@ -846,7 +852,7 @@ pub fn rpg_maker(ui: &mut Ui, cx: &mut GameCtx) {
                 for id in ids {
                     ui.label(format!("#{id}"));
                     cx.editor(ui, &format!("{base}/{id}"), 70.0);
-                    if ui.small_button("\u{2715}").on_hover_text("Remove from the party").clicked() {
+                    if ui.small_button("\u{00D7}").on_hover_text("Remove from the party").clicked() {
                         let mut left = held.clone();
                         left.remove(id);
                         change = Some((base.clone(), Value::Object(left)));
@@ -1267,7 +1273,7 @@ pub fn subnautica(ui: &mut Ui, cx: &mut GameCtx) {
             for (k, label) in [("seamothPresent", "Seamoth"), ("exosuitPresent", "Prawn Suit"), ("cyclopsPresent", "Cyclops"), ("rocketPresent", "Neptune rocket"), ("basePresent", "Base")] {
                 if cx.get(&format!("/{k}")).is_some() {
                     let have = cx.flag(&format!("/{k}"));
-                    ui.label(RichText::new(format!("{} {label}", if have { "\u{2713}" } else { "\u{2717}" })).color(if have { theme_ok(ui) } else { ui.visuals().weak_text_color() }));
+                    ui.label(RichText::new(format!("{} {label}", if have { "[x]" } else { "[ ]" })).color(if have { theme_ok(ui) } else { ui.visuals().weak_text_color() }));
                 }
             }
         });

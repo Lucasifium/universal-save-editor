@@ -153,7 +153,7 @@ impl FileBrowser {
                     }
                 });
                 ui.horizontal(|ui| {
-                    if ui.add_enabled(self.dir.parent().is_some(), egui::Button::new("\u{2B06} Up")).clicked() {
+                    if ui.add_enabled(self.dir.parent().is_some(), egui::Button::new("Up")).clicked() {
                         if let Some(p) = self.dir.parent().map(Path::to_path_buf) {
                             self.go(p);
                         }

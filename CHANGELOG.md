@@ -1,5 +1,18 @@
 # Changelog
 
+## Unreleased
+
+### Clearer interface
+- Arrows, the remove button and other symbols no longer show as empty boxes on Linux, macOS, Android and in the browser
+- Escape closes dialogs; File has Reload from disk and Close file; View has Review changes before saving
+- The Backups menu says each thing once (Back up now, Backups for this save, Quick restore); the backup folder setting is in the save manager
+- Menu shortcuts line up; recent files show their folder; greyed-out Tools items say why
+- The file-type chip names the game on saves that are plain JSON or XML
+- Long notes about an opened file show under the toolbar instead of being cut off in the status bar
+- A reminder about Steam Cloud after saving a file in a Steam userdata folder
+- Number boxes fit their value; big numbers lose the -/+ buttons, Shift and Ctrl step by 10 and 100
+- Game screens no longer run slightly wider than the window; Slay the Spire and Diablo II columns are labelled
+
 ## 0.5.1
 
 ### New game screens
