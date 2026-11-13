@@ -133,6 +133,8 @@ pub enum Layer {
     Ffr { head: Arc<Vec<u8>> },
     /// Metro `.player`: "artm" + build string, one LZ4 block, CRC-32.
     MetroPlayer { head: Arc<Vec<u8>> },
+    /// Dishonored (2012): sections of Unreal Engine 3 zlib chunks, unpacked one after another.
+    Ue3Pkg(Arc<fmt::ue3pkg::Layout>),
     /// BioShock Infinite: MD5 header, Unreal Engine 3 zlib chunks unpacked in place.
     Bioshock { chunks: Arc<fmt::bioshock::Chunks> },
     /// Final Fantasy XV `.save`: AES-192, shuffled blocks and a tweak; `foot` is the plain footer.
@@ -347,6 +349,7 @@ impl Layer {
             Layer::Ds2(_) => "Death Stranding 2 save (XOR, LZ4, MD5)".into(),
             Layer::Ds1(_) => "Death Stranding save (XOR, Oodle, MD5)".into(),
             Layer::Rgg(w) => format!("Yakuza save (Dragon Engine: {})", fmt::rgg::games(w)),
+            Layer::Ue3Pkg(_) => "Dishonored save (zlib chunks)".into(),
             Layer::Bioshock { chunks } => format!("BioShock Infinite save (MD5, {} zlib chunks)", chunks.len()),
             Layer::Copeck { name, .. } => format!("Cairn save pack ({name})"),
             Layer::MetroDezp { .. } => "Metro auto save (LZ4)".into(),
@@ -934,6 +937,7 @@ fn wrap(layer: &Layer, data: Vec<u8>) -> Result<Vec<u8>, String> {
         Layer::Ffr { head } => fmt::ffr::pack(head, &data),
         Layer::MetroPlayer { head } => fmt::metro::pack_player(head, &data),
         Layer::Bioshock { chunks } => fmt::bioshock::pack(chunks, &data)?,
+        Layer::Ue3Pkg(l) => fmt::ue3pkg::pack(l, &data)?,
         Layer::Rgg(w) => fmt::rgg::encrypt(w, &data),
         Layer::RemedyCrc { head } => {
             let mut h = flate2::Crc::new();
@@ -1561,6 +1565,9 @@ fn peel(data: &[u8], ctx: &mut Ctx) -> Option<(Layer, Vec<u8>)> {
     if data.len() > 64 {
         if let Some((chunks, p)) = fmt::bioshock::unpack(data) {
             return Some((Layer::Bioshock { chunks: Arc::new(chunks) }, p));
+        }
+        if let Some((l, p)) = fmt::ue3pkg::unpack(data) {
+            return Some((Layer::Ue3Pkg(Arc::new(l)), p));
         }
     }
     if data.len() > 16 && data[..4] == data[4..8] && u32::from_le_bytes(data[..4].try_into().unwrap()) < 64 {
