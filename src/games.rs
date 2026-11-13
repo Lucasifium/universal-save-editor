@@ -671,7 +671,9 @@ fn walk(dir: &Path, depth: usize, g: &GameInfo, out: &mut Vec<Found>) {
                 || lower.contains(".v.")
                 || lower.contains("_temp");
             if !backup && g.patterns.iter().any(|pat| wildcard(pat, &name)) {
-                out.push(Found { path: p, modified: meta.modified().ok(), size: meta.len(), label: None });
+                // A save's character, level and place, when its header gives them.
+                let label = crate::preview::peek(&p).map(|peek| format!("{name} \u{2014} {peek}"));
+                out.push(Found { path: p, modified: meta.modified().ok(), size: meta.len(), label });
             }
         }
     }

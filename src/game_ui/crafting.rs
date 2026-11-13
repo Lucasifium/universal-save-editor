@@ -205,8 +205,7 @@ fn button_for(game: Game, list: Result<Vec<Stack>, &'static str>, scope: &str, u
                 n => format!("Max crafting materials ({n} stacks)"),
             };
             let why_off = if list.is_empty() { format!("No crafting materials in {scope}.") } else { "Every crafting material is already a full stack.".to_string() };
-            let r = ui.add_enabled(low > 0, egui::Button::new(label)).on_hover_text(about(game)).on_disabled_hover_text(why_off);
-            if r.clicked() {
+            if super::quick_action(ui, &label, about(game), low > 0, &why_off) {
                 raise(&list, cx);
             }
         }

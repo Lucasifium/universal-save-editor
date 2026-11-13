@@ -22,7 +22,7 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
     });
     panel(ui, &format!("Factions ({})", keys.len()), |ui| {
         if let Some(k) = &mine {
-            if ui.button("Set your treasury to 9,999,999").clicked() {
+            if super::quick_button(ui, "Set your treasury to 9,999,999", "") {
                 cx.set(&format!("/Factions/{}/Treasury", k.replace('~', "~0").replace('/', "~1")), json!(9_999_999));
             }
         }

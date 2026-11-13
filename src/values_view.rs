@@ -176,6 +176,8 @@ pub struct ViewCtx<'a> {
     /// tick was clicked this frame.
     pub ticked: Option<&'a HashSet<usize>>,
     pub toggle_tick: Vec<usize>,
+    /// "Show in Tree" was chosen for this pointer.
+    pub show_in_tree: Option<String>,
 }
 
 /// What bulk edit does to each ticked value.
@@ -337,14 +339,24 @@ pub fn show(ui: &mut Ui, model: &Model, disp: &[Disp], collapsed: &HashSet<usize
                                     }
                                     ui.weak(format!("key: {}   ({})", r.raw_key, widgets::type_name(v)));
                                     ui.weak(format!("path: {}", r.ptr));
+                                    if let Some(note) = ctx.tree.and_then(|t| crate::risks::note(&t.kind_name, &r.ptr)) {
+                                        ui.label(format!("Note: {note}"));
+                                    }
                                 });
                             });
                             // Value column.
                             let w = (ui.available_width() - 120.0).clamp(120.0, 420.0);
                             let choices = if r.editable { ctx.tree.and_then(|t| t.choices(&r.ptr)) } else { None };
+                            let opts = widgets::EditOpts { tree: ctx.tree, baseline: Some(ctx.baseline), name: Some(&r.name), kind: ctx.tree.map(|t| t.kind_name.as_str()), show_in_tree: true };
                             let edit = match (choices, v) {
                                 (Some(list), Value::String(cur)) => widgets::choice_editor(ui, &r.ptr, cur, &list, w),
-                                _ => widgets::value_editor(ui, &r.ptr, v, r.editable, w),
+                                _ => {
+                                    let o = widgets::value_editor_ex(ui, &r.ptr, v, r.editable, w, &opts);
+                                    if o.go_to_tree {
+                                        ctx.show_in_tree = Some(r.ptr.clone());
+                                    }
+                                    o.edit
+                                }
                             };
                             if let Some(nv) = edit {
                                 ctx.edits.push((r.ptr.clone(), nv));

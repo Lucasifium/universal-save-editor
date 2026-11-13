@@ -39,7 +39,7 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
                 cx.label(ui, "ADR classes (bitmask 0\u{2013}63)", "/driver_player/adr");
                 cx.editor(ui, "/driver_player/adr", 60.0);
             });
-            if ui.button("Max all skills").clicked() {
+            if super::quick_button(ui, "Max all skills", "") {
                 for (_, key, max) in SKILLS {
                     cx.set(&format!("/driver_player/{key}"), json!(max as i64));
                 }
@@ -65,7 +65,7 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
                 });
             }
             ui.horizontal_wrapped(|ui| {
-                if ui.button("Fill every tank").clicked() {
+                if super::quick_button(ui, "Fill every tank", "") {
                     for t in &trucks {
                         let p = format!("{t}/fuel_relative");
                         if cx.get(&p).is_some() {
@@ -73,7 +73,7 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
                         }
                     }
                 }
-                if ui.button("Repair every vehicle").clicked() {
+                if super::quick_button(ui, "Repair every vehicle", "") {
                     for t in units(cx, "vehicle").into_iter().chain(units(cx, "trailer")) {
                         for w in WEAR.iter().chain(&["body_wear", "body_wear_unfixable", "wheels_wear"]) {
                             let p = format!("{t}/{w}");

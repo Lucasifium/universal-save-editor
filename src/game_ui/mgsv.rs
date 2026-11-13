@@ -38,13 +38,13 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
     if cx.get("/Player").is_some() {
         panel(ui, "Player", |ui| {
             ui.horizontal(|ui| {
-                if ui.button("Max GMP").clicked() {
+                if super::quick_button(ui, "Max GMP", "") {
                     cx.set("/Player/GMP", json!(GMP_MAX));
                     if cx.get("/Player/FOB wallet GMP").is_some() {
                         cx.set("/Player/FOB wallet GMP", json!(GMP_MAX));
                     }
                 }
-                if ui.button("Max heroism").clicked() {
+                if super::quick_button(ui, "Max heroism", "") {
                     cx.set("/Player/Heroism", json!(99_999_999));
                 }
                 if ui.button("Clear demon points").clicked() {
@@ -61,7 +61,7 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
     let flags: Vec<String> = names(cx, "Mother Base").into_iter().filter(|n| n.starts_with("mbmIsOpened") && n.ends_with("Section")).collect();
     if !flags.is_empty() || cx.get("/Mother Base").is_some() {
         panel(ui, "Mother Base", |ui| {
-            if ui.button("Open every Mother Base section").clicked() {
+            if super::quick_button(ui, "Open every Mother Base section", "") {
                 for n in &flags {
                     let p = format!("/Mother Base/{}", esc(n));
                     let on = if cx.get(&p).map_or(false, Value::is_boolean) { json!(true) } else { json!(1) };
@@ -89,7 +89,7 @@ fn resources(ui: &mut Ui, cx: &mut GameCtx) {
         return;
     }
     panel(ui, "Mother Base resources", |ui| {
-        if ui.button("Max crafting materials").on_hover_text("Fuel, biological and the three metals to 1,000,000 online, processed too; the eight medicinal plants to 30,000 online (the game's own online caps)").clicked() {
+        if super::quick_button(ui, "Max crafting materials", "Fuel, biological and the three metals to 1,000,000 online, processed too; the eight medicinal plants to 30,000 online (the game's own online caps)") {
             for (i, n) in rs.iter().enumerate() {
                 if i < 13 {
                     let cap = if i < 5 { MATERIAL_ONLINE_CAP } else { PLANT_ONLINE_CAP };
@@ -129,27 +129,27 @@ fn staff(ui: &mut Ui, cx: &mut GameCtx) {
     }
     panel(ui, &format!("Staff ({})", all.len()), |ui| {
         ui.horizontal_wrapped(|ui| {
-            if ui.button("Everyone to S++").clicked() {
+            if super::quick_button(ui, "Everyone to S++", "") {
                 for n in &all {
                     cx.set(&format!("/Staff/{}/Rank", esc(n)), json!("S++"));
                 }
             }
-            if ui.button("Max stat bonus").clicked() {
+            if super::quick_button(ui, "Max stat bonus", "") {
                 for n in &all {
                     cx.set(&format!("/Staff/{}/Stat bonus", esc(n)), json!(3));
                 }
             }
-            if ui.button("Max morale").clicked() {
+            if super::quick_button(ui, "Max morale", "") {
                 for n in &all {
                     cx.set(&format!("/Staff/{}/Morale", esc(n)), json!(15));
                 }
             }
-            if ui.button("Max proficiency").clicked() {
+            if super::quick_button(ui, "Max proficiency", "") {
                 for n in &all {
                     cx.set(&format!("/Staff/{}/Proficiency", esc(n)), json!(15));
                 }
             }
-            if ui.button("Heal everyone").clicked() {
+            if super::quick_button(ui, "Heal everyone", "") {
                 for n in &all {
                     cx.set(&format!("/Staff/{}/Symptomatic", esc(n)), json!(false));
                 }
@@ -193,7 +193,7 @@ fn bases(ui: &mut Ui, cx: &mut GameCtx) {
         return;
     }
     panel(ui, "Mother Base and FOB platforms", |ui| {
-        if ui.button("Finish every platform (grade 4)").clicked() {
+        if super::quick_button(ui, "Finish every platform (grade 4)", "") {
             for b in &bs {
                 for pl in names(cx, &format!("Bases/{}", esc(b))) {
                     let p = format!("/Bases/{}/{}", esc(b), esc(&pl));

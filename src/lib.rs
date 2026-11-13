@@ -26,9 +26,11 @@ mod pickle;
 mod par;
 mod platform;
 mod presets;
+mod preview;
 #[cfg(not(target_arch = "wasm32"))]
 mod playerprefs;
 mod renpy_sign;
+mod risks;
 mod running;
 mod settings;
 mod steamid;

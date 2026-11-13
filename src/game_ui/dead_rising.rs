@@ -22,7 +22,7 @@ pub fn dead_rising(ui: &mut Ui, cx: &mut GameCtx) {
         if ui.add_enabled(skills != DR1_ALL_SKILLS && cx.can_edit("/Frank/Skills"), eframe::egui::Button::new("Learn all skills")).clicked() {
             cx.set("/Frank/Skills", Value::from(DR1_ALL_SKILLS));
         }
-        if ui.button("Level 50 with full health").clicked() {
+        if super::quick_button(ui, "Level 50 with full health", "") {
             cx.set("/Frank/Level", Value::from(50));
             cx.set("/Frank/Max health", Value::from(12_000));
             cx.set("/Frank/Skills", Value::from(DR1_ALL_SKILLS));
@@ -44,7 +44,7 @@ pub fn dead_rising2(ui: &mut Ui, cx: &mut GameCtx) {
         for (k, _, hi) in DR2_STAT_NAMES.iter().skip(3) {
             cx.attribute(ui, k, &p(k), *hi as f64, ACCENT);
         }
-        if ui.button("Max level and stats").clicked() {
+        if super::quick_button(ui, "Max level and stats", "") {
             for (k, _, hi) in DR2_STAT_NAMES {
                 if k != "PP" && k != "Money" {
                     cx.set(&p(k), Value::from(hi));

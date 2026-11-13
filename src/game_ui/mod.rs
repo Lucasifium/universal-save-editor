@@ -37,6 +37,53 @@ mod nier;
 mod sims;
 mod screens2;
 pub use screens2::STORY_BACKUP_REQUEST;
+
+/// Temp-data keys of the screen find box: needle, current match, running count, last count.
+pub const FIND_NEEDLE: &str = "game_find_needle";
+pub const FIND_TARGET: &str = "game_find_target";
+pub const FIND_SEEN: &str = "game_find_seen";
+pub const FIND_COUNT: &str = "game_find_count";
+
+/// Starts a frame of the screen find box.
+pub fn begin_find(ctx: &egui::Context, needle: &str, target: usize) {
+    let previous = ctx.data(|d| d.get_temp::<usize>(egui::Id::new(FIND_SEEN))).unwrap_or(0);
+    ctx.data_mut(|d| {
+        d.insert_temp(egui::Id::new(FIND_COUNT), previous);
+        d.insert_temp(egui::Id::new(FIND_NEEDLE), needle.trim().to_lowercase());
+        d.insert_temp(egui::Id::new(FIND_TARGET), target);
+        d.insert_temp(egui::Id::new(FIND_SEEN), 0usize);
+    });
+}
+
+/// A label that matches the find box gets a highlight, and the current match is scrolled to.
+/// Call with the rectangle the label occupies.
+pub fn find_mark(ui: &Ui, rect: egui::Rect, text: &str) {
+    let ctx = ui.ctx();
+    let needle = ctx.data(|d| d.get_temp::<String>(egui::Id::new(FIND_NEEDLE))).unwrap_or_default();
+    if needle.is_empty() || !text.to_lowercase().contains(&needle) {
+        return;
+    }
+    let (target, index) = ctx.data_mut(|d| {
+        let seen = d.get_temp::<usize>(egui::Id::new(FIND_SEEN)).unwrap_or(0);
+        d.insert_temp(egui::Id::new(FIND_SEEN), seen + 1);
+        (d.get_temp::<usize>(egui::Id::new(FIND_TARGET)).unwrap_or(0), seen)
+    });
+    let current = index == target;
+    let color = if current { theme::MODIFIED } else { theme::ACCENT };
+    ui.painter().rect_stroke(rect.expand(2.0), 4.0, egui::Stroke::new(if current { 2.0 } else { 1.0 }, color));
+    if current {
+        // Scroll once per search / Next press, not on every frame.
+        let key = format!("{needle}#{target}");
+        let id = egui::Id::new("game_find_scrolled");
+        if ctx.data(|d| d.get_temp::<String>(id)).as_deref() != Some(&key) {
+            ui.scroll_to_rect(rect, Some(egui::Align::Center));
+            ctx.data_mut(|d| d.insert_temp(id, key));
+        }
+    }
+}
+
+/// Temp-data key where a value's "Show in Tree" request (its pointer) is left for the app.
+pub const SHOW_IN_TREE: &str = "show_in_tree_request";
 mod simple;
 mod starbound;
 mod survival;
@@ -397,7 +444,89 @@ pub fn detect(kind: &str, root: &Value) -> Option<Game> {
     })
 }
 
+/// One save-wide action offered in the strip at the top of a screen.
+#[derive(Clone, PartialEq)]
+struct QuickAction {
+    label: String,
+    tip: String,
+    enabled: bool,
+    why_off: String,
+}
+
+const QA_NOW: &str = "quick_actions_now";
+const QA_SHOWN: &str = "quick_actions_shown";
+const QA_CLICK: &str = "quick_actions_click";
+
+/// A save-wide action such as "Max crafting materials". It doesn't draw where it is called:
+/// every screen lists these in one "Quick actions" strip at its top, so the player learns
+/// where to look once. Returns true on the frame the player clicked it.
+pub fn quick_button(ui: &Ui, label: impl AsRef<str>, tip: impl AsRef<str>) -> bool {
+    quick_action(ui, label.as_ref(), tip.as_ref(), true, "")
+}
+
+/// Like [`quick_button`], greyed out (with `why_off` as the hover text) when `enabled` is false.
+pub fn quick_action(ui: &Ui, label: &str, tip: &str, enabled: bool, why_off: &str) -> bool {
+    let ctx = ui.ctx();
+    let action = QuickAction { label: label.to_string(), tip: tip.to_string(), enabled, why_off: why_off.to_string() };
+    ctx.data_mut(|d| {
+        let list = d.get_temp_mut_or_default::<Vec<QuickAction>>(egui::Id::new(QA_NOW));
+        if !list.iter().any(|a| a.label == action.label) {
+            list.push(action);
+        }
+    });
+    if !enabled {
+        return false;
+    }
+    let id = egui::Id::new(QA_CLICK);
+    let hit = ctx.data(|d| d.get_temp::<String>(id)).as_deref() == Some(label);
+    if hit {
+        ctx.data_mut(|d| d.remove_temp::<String>(id));
+    }
+    hit
+}
+
+/// Draws the strip from the actions the screen registered on the previous frame (a screen
+/// registers them as it draws, so they show one frame later).
+fn quick_strip(ui: &mut Ui) {
+    let ctx = ui.ctx().clone();
+    let now: Vec<QuickAction> = ctx.data_mut(|d| d.remove_temp::<Vec<QuickAction>>(egui::Id::new(QA_NOW))).unwrap_or_default();
+    let shown: Vec<QuickAction> = ctx.data(|d| d.get_temp(egui::Id::new(QA_SHOWN))).unwrap_or_default();
+    // Anything not consumed last frame was for a button that is gone.
+    ctx.data_mut(|d| d.remove_temp::<String>(egui::Id::new(QA_CLICK)));
+    if now != shown {
+        ctx.request_repaint();
+    }
+    ctx.data_mut(|d| d.insert_temp(egui::Id::new(QA_SHOWN), now));
+    let list: Vec<QuickAction> = ctx.data(|d| d.get_temp(egui::Id::new(QA_SHOWN))).unwrap_or_default();
+    if list.is_empty() {
+        return;
+    }
+    theme::card(ui, |ui| {
+        ui.horizontal_wrapped(|ui| {
+            ui.label(RichText::new("Quick actions").family(theme::semibold_family()));
+            for a in &list {
+                let mut r = ui.add_enabled(a.enabled, egui::Button::new(&a.label));
+                if !a.tip.is_empty() {
+                    r = r.on_hover_text(&a.tip);
+                }
+                if !a.enabled && !a.why_off.is_empty() {
+                    r = r.on_disabled_hover_text(&a.why_off);
+                }
+                if r.clicked() {
+                    ctx.data_mut(|d| d.insert_temp(egui::Id::new(QA_CLICK), a.label.clone()));
+                }
+            }
+        });
+    });
+    ui.add_space(8.0);
+}
+
 pub fn show(game: Game, ui: &mut Ui, cx: &mut GameCtx) {
+    quick_strip(ui);
+    show_screen(game, ui, cx);
+}
+
+fn show_screen(game: Game, ui: &mut Ui, cx: &mut GameCtx) {
     match game {
         Game::EldenRing | Game::DarkSouls3 | Game::DarkSouls2 | Game::DarkSouls1 | Game::Sekiro => fromsoft::show(game, ui, cx),
         Game::Terraria => terraria::show(ui, cx),
@@ -574,10 +703,17 @@ impl GameCtx<'_> {
         let editable = self.can_edit(p);
         let choices = if editable { self.tree.and_then(|t| t.choices(p)) } else { None };
         // One group, so a number's box and its −/+ stay in one cell of a grid.
+        let opts = widgets::EditOpts { tree: self.tree, baseline: Some(self.baseline), name: None, kind: self.tree.map(|t| t.kind_name.as_str()), show_in_tree: true };
         let out = ui
             .horizontal(|ui| match (&choices, &v) {
                 (Some(list), Value::String(cur)) => widgets::choice_editor(ui, p, cur, list, width),
-                _ => widgets::value_editor(ui, p, &v, editable, width),
+                _ => {
+                    let o = widgets::value_editor_ex(ui, p, &v, editable, width, &opts);
+                    if o.go_to_tree {
+                        ui.ctx().data_mut(|d| d.insert_temp(egui::Id::new(SHOW_IN_TREE), p.to_string()));
+                    }
+                    o.edit
+                }
             })
             .inner;
         if let Some(nv) = out {
@@ -618,7 +754,8 @@ impl GameCtx<'_> {
             let c = if self.modified(p) { theme::MODIFIED } else { ui.visuals().text_color() };
             ui.allocate_ui_with_layout(egui::vec2(label_w, 22.0), egui::Layout::left_to_right(egui::Align::Center), |ui| {
                 ui.set_width(label_w);
-                ui.add(egui::Label::new(RichText::new(label).color(c)).truncate());
+                let r = ui.add(egui::Label::new(RichText::new(label).color(c)).truncate());
+                find_mark(ui, r.rect, label);
             });
             self.editor(ui, p, width);
         });
@@ -627,7 +764,8 @@ impl GameCtx<'_> {
     /// A field's label, orange when it was changed.
     pub fn label(&self, ui: &mut Ui, label: &str, p: &str) {
         let c = if self.modified(p) { theme::MODIFIED } else { ui.visuals().text_color() };
-        ui.label(RichText::new(label).color(c));
+        let r = ui.label(RichText::new(label).color(c));
+        find_mark(ui, r.rect, label);
     }
 
     /// A compact tile: small caption, big value with its editor.
@@ -640,7 +778,8 @@ impl GameCtx<'_> {
         let digits = self.get(p).map(|v| v.to_string().len()).unwrap_or(0) as f32;
         let need = digits * 11.0 + 18.0;
         tile_frame_min(ui, accent, modified, need + 76.0, |ui| {
-            ui.label(RichText::new(caption).size(12.5).color(ui.visuals().weak_text_color()));
+            let r = ui.label(RichText::new(caption).size(12.5).color(ui.visuals().weak_text_color()));
+            find_mark(ui, r.rect, caption);
             ui.horizontal(|ui| {
                 ui.style_mut().override_font_id = Some(FontId::proportional(18.0));
                 // Whole numbers leave room for −/+; decimals use the whole width.
@@ -658,7 +797,8 @@ impl GameCtx<'_> {
             let c = if self.modified(p) { theme::MODIFIED } else { ui.visuals().strong_text_color() };
             ui.allocate_ui_with_layout(egui::vec2(110.0, 24.0), egui::Layout::left_to_right(egui::Align::Center), |ui| {
                 ui.set_width(110.0);
-                ui.add(egui::Label::new(RichText::new(name).color(c)).truncate());
+                let r = ui.add(egui::Label::new(RichText::new(name).color(c)).truncate());
+                find_mark(ui, r.rect, name);
             });
             // Decimals need a wider box than whole numbers.
             self.editor(ui, p, if n.fract().abs() > 1e-9 { 84.0 } else { 52.0 });
@@ -680,7 +820,8 @@ impl GameCtx<'_> {
         let mut pick = None;
         ui.horizontal_wrapped(|ui| {
             let c = if modified { theme::MODIFIED } else { ui.visuals().text_color() };
-            ui.label(RichText::new(caption).color(c));
+            let r = ui.label(RichText::new(caption).color(c));
+            find_mark(ui, r.rect, caption);
             for (name, v) in levels {
                 let on = same(&cur, v);
                 if ui.add_enabled(editable, egui::SelectableLabel::new(on, *name)).clicked() && !on {
@@ -709,6 +850,7 @@ impl GameCtx<'_> {
             btn = btn.stroke(egui::Stroke::new(1.5_f32, theme::MODIFIED));
         }
         let r = ui.add_enabled(editable, btn);
+        find_mark(ui, r.rect, label);
         if r.clicked() {
             // Keep the value's own type: true/false, 1/0 or "true"/"false".
             let nv = match v {
@@ -728,7 +870,8 @@ pub fn hero(ui: &mut Ui, accent: Color32, title: &str, subtitle: &str, add: impl
     let fill = blend(ui.visuals().faint_bg_color, accent, 0.18);
     let resp = egui::Frame::none().fill(fill).rounding(10.0).inner_margin(egui::Margin::symmetric(18.0, 14.0)).show(ui, |ui| {
         ui.set_width(ui.available_width());
-        ui.label(RichText::new(title).family(theme::semibold_family()).size(26.0).color(ui.visuals().strong_text_color()));
+        let r = ui.label(RichText::new(title).family(theme::semibold_family()).size(26.0).color(ui.visuals().strong_text_color()));
+        find_mark(ui, r.rect, title);
         if !subtitle.is_empty() {
             ui.label(RichText::new(subtitle).size(14.0).color(theme::fg(ui, accent)));
         }
@@ -743,7 +886,8 @@ pub fn hero(ui: &mut Ui, accent: Color32, title: &str, subtitle: &str, add: impl
 /// A titled card.
 pub fn panel(ui: &mut Ui, title: &str, add: impl FnOnce(&mut Ui)) {
     theme::card(ui, |ui| {
-        ui.label(RichText::new(title).family(theme::semibold_family()).size(16.0));
+        let r = ui.label(RichText::new(title).family(theme::semibold_family()).size(16.0));
+        find_mark(ui, r.rect, title);
         ui.add_space(4.0);
         add(ui);
     });
@@ -785,7 +929,8 @@ pub fn tile_frame_min(ui: &mut Ui, accent: Color32, modified: bool, min: f32, ad
 /// A read-only figure in the same style as `tile`.
 pub fn fact(ui: &mut Ui, caption: &str, value: &str, accent: Color32) {
     tile_frame(ui, accent, false, |ui| {
-        ui.label(RichText::new(caption).size(12.5).color(ui.visuals().weak_text_color()));
+        let r = ui.label(RichText::new(caption).size(12.5).color(ui.visuals().weak_text_color()));
+        find_mark(ui, r.rect, caption);
         ui.label(RichText::new(value).size(18.0).color(ui.visuals().strong_text_color()));
     });
 }
@@ -810,7 +955,8 @@ pub fn meter(ui: &mut Ui, label: &str, cur: f64, max: f64, color: Color32) {
     ui.horizontal(|ui| {
         ui.allocate_ui_with_layout(egui::vec2(70.0, 18.0), egui::Layout::left_to_right(egui::Align::Center), |ui| {
             ui.set_width(70.0);
-            ui.label(RichText::new(label).strong());
+            let r = ui.label(RichText::new(label).strong());
+            find_mark(ui, r.rect, label);
         });
         let w = (ui.available_width() - 4.0).max(60.0);
         let frac = if max > 0.0 { (cur / max) as f32 } else { 0.0 };
@@ -888,7 +1034,7 @@ pub fn max_crafting_materials(game: Game, cx: &mut GameCtx) -> usize {
 
 /// The "max upgrade materials" button: `what` names the amount ("99 of each").
 pub fn materials_button(ui: &mut Ui, what: &str, tip: &str) -> bool {
-    ui.button(format!("Max upgrade materials ({what})")).on_hover_text(tip).clicked()
+    quick_button(ui, format!("Max upgrade materials ({what})"), tip)
 }
 
 // ------------------------------------------------------------------ item grids
@@ -933,6 +1079,9 @@ pub fn cell_grid(ui: &mut Ui, cells: &[Cell], cols: usize, selected: Option<usiz
                     if let Some(n) = cell.count.filter(|&n| n > 1) {
                         ui.painter().text(rect.right_bottom() - egui::vec2(4.0, 3.0), egui::Align2::RIGHT_BOTTOM, fmt_num(n as f64), FontId::proportional(11.0), theme::fg(ui, accent));
                     }
+                }
+                if !cell.empty {
+                    find_mark(ui, rect, &cell.title);
                 }
                 let resp = resp.on_hover_text(if cell.empty { "(empty)".to_string() } else { cell.title.clone() });
                 if resp.clicked() {
@@ -1062,6 +1211,48 @@ mod tests {
         assert_eq!(detect("Valheim character", &json!({})), Some(Game::Valheim));
         assert_eq!(detect("Golden Sun save", &json!({})), Some(Game::GoldenSun));
         assert_eq!(detect("Golden Sun: The Lost Age save", &json!({})), Some(Game::GoldenSun));
+    }
+
+    #[test]
+    fn quick_actions_register_and_report_clicks() {
+        let ctx = egui::Context::default();
+        crate::theme::install_fonts(&ctx);
+        let run = |ctx: &egui::Context, click: Option<&str>| {
+            let mut got = false;
+            let _ = ctx.run(egui::RawInput { screen_rect: Some(egui::Rect::from_min_size(egui::Pos2::ZERO, egui::vec2(800.0, 600.0))), ..Default::default() }, |ctx| {
+                egui::CentralPanel::default().show(ctx, |ui| {
+                    quick_strip(ui);
+                    if let Some(c) = click {
+                        ctx.data_mut(|d| d.insert_temp(egui::Id::new(QA_CLICK), c.to_string()));
+                    }
+                    got = quick_button(ui, "Max gold", "tip");
+                });
+            });
+            got
+        };
+        assert!(!run(&ctx, None), "no click, no result");
+        let shown: Vec<QuickAction> = ctx.data(|d| d.get_temp(egui::Id::new(QA_NOW))).unwrap_or_default();
+        assert_eq!(shown.len(), 1, "the screen registered its action");
+        assert!(run(&ctx, Some("Max gold")), "a click on the strip reaches the screen's button");
+        assert!(!run(&ctx, None), "and is reported once");
+    }
+
+    #[test]
+    fn find_marks_count_matches() {
+        let ctx = egui::Context::default();
+        crate::theme::install_fonts(&ctx);
+        let _ = ctx.run(egui::RawInput { screen_rect: Some(egui::Rect::from_min_size(egui::Pos2::ZERO, egui::vec2(800.0, 600.0))), ..Default::default() }, |ctx| {
+            begin_find(ctx, " Lock", 0);
+            egui::CentralPanel::default().show(ctx, |ui| {
+                for label in ["Lockpick", "Sneak", "Unlocking tools"] {
+                    let r = ui.label(label);
+                    find_mark(ui, r.rect, label);
+                }
+            });
+        });
+        assert_eq!(ctx.data(|d| d.get_temp::<usize>(egui::Id::new(FIND_SEEN))), Some(2));
+        begin_find(&ctx, "", 0);
+        assert_eq!(ctx.data(|d| d.get_temp::<usize>(egui::Id::new(FIND_COUNT))), Some(2), "last frame's count is kept for the find box");
     }
 
     #[test]

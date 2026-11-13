@@ -929,7 +929,7 @@ pub fn diablo2(ui: &mut Ui, cx: &mut GameCtx) {
                 let keys = keys_of(cx, base);
                 let on = keys.iter().filter(|k| cx.flag(&join(base, k))).count();
                 egui::CollapsingHeader::new(format!("{}  ({on} of {})", base.trim_start_matches("/Waypoints: "), keys.len())).id_salt(("d2_wp", base)).show(ui, |ui| {
-                    if ui.small_button("Open every waypoint").clicked() {
+                    if super::quick_button(ui, "Open every waypoint", "") {
                         for k in &keys {
                             cx.set(&join(base, k), Value::from(1));
                         }
@@ -1424,7 +1424,7 @@ pub fn kenshi_squad(ui: &mut Ui, cx: &mut GameCtx) {
     let sub = if player { "Your squad" } else { "A squad of another faction" };
     hero(ui, accent, "Kenshi", sub, |ui| {
         fact(ui, "Members", &members.len().to_string(), accent);
-        if ui.button("Max everyone's stats").on_hover_text("Every attribute and skill of every member in this file to 100, the most the game allows.").clicked() {
+        if super::quick_button(ui, "Max everyone's stats", "Every attribute and skill of every member in this file to 100, the most the game allows.") {
             for m in &members {
                 kenshi_max(cx, &join("/Members", m));
             }
@@ -1740,7 +1740,7 @@ pub fn ffx(ui: &mut Ui, cx: &mut GameCtx) {
         3 => {
             panel(ui, "Items", |ui| {
                 let slots = keys_of(cx, "/Items");
-                if ui.button("Set every stack to 99").on_hover_text("Raises the count of each item you already hold to 99.").clicked() {
+                if super::quick_button(ui, "Set every stack to 99", "Raises the count of each item you already hold to 99.") {
                     for s in &slots {
                         let p = join("/Items", s);
                         if cx.text(&join(&p, "Item")).is_some_and(|t| t != "(empty)") {
@@ -1781,7 +1781,7 @@ pub fn ffx(ui: &mut Ui, cx: &mut GameCtx) {
         _ => {
             panel(ui, "Monster Arena", |ui| {
                 let regions = keys_of(cx, "/Monster Arena");
-                if ui.button("Capture 10 of every fiend").on_hover_text("Sets every area's fiends to 10 captured. The arena's own creations are left alone.").clicked() {
+                if super::quick_button(ui, "Capture 10 of every fiend", "Sets every area's fiends to 10 captured. The arena's own creations are left alone.") {
                     for r in &regions {
                         if r.contains("Conquest") || r == "Original" {
                             continue;

@@ -158,7 +158,7 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
         }
     } else if t == item_tab {
         panel(ui, "Items", |ui| {
-            if ui.button(format!("Max consumables ({STACK} each)")).on_hover_text("Raises the consumable stacks you already carry to 99. Key items are left alone.").clicked() {
+            if super::quick_button(ui, format!("Max consumables ({STACK} each)"), "Raises the consumable stacks you already carry to 99. Key items are left alone.") {
                 max_consumables(cx);
             }
             egui::Grid::new("ffr_items").num_columns(2).spacing([12.0, 6.0]).show(ui, |ui| {

@@ -160,7 +160,7 @@ pub fn lethal_company(ui: &mut Ui, cx: &mut GameCtx) {
     if let Some(Value::Array(vals)) = cx.get(&val("shipScrapValues")).cloned() {
         if !vals.is_empty() {
             panel(ui, "Scrap on the ship (sell value)", |ui| {
-                if ui.button("Raise every scrap item to 200").on_hover_text("Sets each piece of scrap to a sell value of 200 if it is worth less.").clicked() {
+                if super::quick_button(ui, "Raise every scrap item to 200", "Sets each piece of scrap to a sell value of 200 if it is worth less.") {
                     for (n, v) in vals.iter().enumerate() {
                         if v.as_i64().is_some_and(|x| x < 200) {
                             cx.set(&format!("{}/{n}", val("shipScrapValues")), Value::from(200));

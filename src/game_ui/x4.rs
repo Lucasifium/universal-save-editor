@@ -61,7 +61,7 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
         let mut buf = ui.memory_mut(|m| *m.data.get_temp_mut_or_insert_with(ui.id().with("x4money"), || now));
         ui.horizontal(|ui| {
             ui.add(eframe::egui::DragValue::new(&mut buf).speed(1000.0).range(0..=i64::MAX / 4));
-            if ui.button("Set credits everywhere").clicked() {
+            if super::quick_button(ui, "Set credits everywhere", "") {
                 for p in &paths {
                     cx.set(p, json!(buf));
                 }

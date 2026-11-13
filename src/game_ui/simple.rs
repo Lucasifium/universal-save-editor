@@ -347,12 +347,13 @@ pub fn show(i: u16, ui: &mut Ui, cx: &mut GameCtx) {
         }
         panel(ui, l.title, |ui| {
             if let Some(m) = &l.max {
-                ui.horizontal(|ui| {
-                    let tip = format!("{}{}", m.about, if m.estimate { " The cap is an estimate from community guides." } else { "" });
-                    if ui.button(format!("Max crafting materials ({})", m.cap)).on_hover_text(tip).clicked() {
-                        apply_max(cx, l);
-                    }
-                });
+                let tip = format!("{}{}", m.about, if m.estimate { " The cap is an estimate from community guides." } else { "" });
+                // With several lists, the label names which one the action is for.
+                let many = s.lists.iter().filter(|x| x.max.is_some()).count() > 1;
+                let label = if many { format!("Max crafting materials: {} ({})", l.title, m.cap) } else { format!("Max crafting materials ({})", m.cap) };
+                if super::quick_button(ui, label, tip) {
+                    apply_max(cx, l);
+                }
             }
             let q = filter(ui, &format!("{i}/{li}"));
             egui::Grid::new(("simple_list", i, li)).num_columns(2).spacing([14.0, 4.0]).show(ui, |ui| {

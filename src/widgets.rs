@@ -143,6 +143,27 @@ pub fn choice_editor(ui: &mut Ui, id_src: &str, current: &str, list: &[String], 
     out
 }
 
+/// A box for typing an id with a filterable drop-down of known ones beside it. The typed text
+/// is always accepted, so ids the list doesn't know can still be entered.
+pub fn id_picker(ui: &mut Ui, id_src: &str, text: &mut String, known: &[String], hint: &str, width: f32) {
+    ui.add(TextEdit::singleline(text).hint_text(hint).desired_width(width));
+    if known.is_empty() {
+        return;
+    }
+    let shown = text.trim().to_lowercase();
+    let list: Vec<&String> = known.iter().filter(|k| shown.is_empty() || k.to_lowercase().contains(&shown)).collect();
+    egui::ComboBox::from_id_salt(("id_picker", id_src)).selected_text("From this save").width(140.0).height(300.0).show_ui(ui, |ui| {
+        if list.is_empty() {
+            ui.weak("Nothing in this save matches");
+        }
+        for k in list {
+            if ui.selectable_label(false, k).clicked() {
+                *text = k.clone();
+            }
+        }
+    });
+}
+
 thread_local! {
     static COMPACT: std::cell::Cell<bool> = const { std::cell::Cell::new(false) };
 }
@@ -155,17 +176,121 @@ pub fn compact<R>(f: impl FnOnce() -> R) -> R {
     r
 }
 
-pub fn value_editor(ui: &mut Ui, id_src: &str, v: &Value, editable: bool, width: f32) -> Option<Value> {
+/// What the editors may offer beyond typing: the format's accepted range, the opened
+/// value (for Revert) and the name to copy. All optional.
+#[derive(Default, Clone, Copy)]
+pub struct EditOpts<'a> {
+    pub tree: Option<&'a crate::tree::TreeDoc>,
+    pub baseline: Option<&'a Value>,
+    pub name: Option<&'a str>,
+    /// The kind of save ("Elden Ring character"), to pick risk notes.
+    pub kind: Option<&'a str>,
+    /// Offer "Show in Tree" in the right-click menu.
+    pub show_in_tree: bool,
+}
+
+/// An editor's result: the new value if it changed, and whether "Show in Tree" was chosen.
+#[derive(Default)]
+pub struct EditOut {
+    pub edit: Option<Value>,
+    pub go_to_tree: bool,
+}
+
+fn copy_form(v: &Value) -> String {
+    match v {
+        Value::String(s) => s.clone(),
+        other => other.to_string(),
+    }
+}
+
+/// The right-click menu of a value: copy, range shortcuts, revert, show in Tree.
+fn value_menu(resp: &Response, ptr: &str, v: &Value, editable: bool, opts: &EditOpts, out: &mut EditOut) {
+    resp.context_menu(|ui| {
+        if ui.button("Copy value").clicked() {
+            ui.ctx().copy_text(copy_form(v));
+            ui.close_menu();
+        }
+        if let Some(n) = opts.name {
+            if ui.button("Copy name").clicked() {
+                ui.ctx().copy_text(n.to_string());
+                ui.close_menu();
+            }
+        }
+        if !ptr.is_empty() && ui.button("Copy path").clicked() {
+            ui.ctx().copy_text(ptr.to_string());
+            ui.close_menu();
+        }
+        if editable {
+            if let Some((lo, hi)) = opts.tree.and_then(|t| t.range(ptr)) {
+                ui.separator();
+                if &hi != v && ui.button(format!("Set to maximum ({})", display(&hi))).on_hover_text("The largest value this field accepts").clicked() {
+                    out.edit = Some(hi);
+                    ui.close_menu();
+                }
+                if &lo != v && ui.button(format!("Set to minimum ({})", display(&lo))).on_hover_text("The smallest value this field accepts").clicked() {
+                    out.edit = Some(lo);
+                    ui.close_menu();
+                }
+            }
+            if let Some(orig) = opts.baseline.and_then(|b| b.pointer(ptr)).filter(|o| *o != v) {
+                ui.separator();
+                if ui.button(format!("Revert to original ({})", display(orig))).clicked() {
+                    out.edit = Some(orig.clone());
+                    ui.close_menu();
+                }
+            }
+        }
+        if opts.show_in_tree && !ptr.is_empty() {
+            ui.separator();
+            if ui.button("Show in Tree").clicked() {
+                out.go_to_tree = true;
+                ui.close_menu();
+            }
+        }
+    });
+}
+
+/// Hover text for a value: the range the save file accepts (numbers) and a risk note.
+fn hover_extra(opts: &EditOpts, ptr: &str, v: &Value) -> Option<String> {
+    let mut lines: Vec<String> = vec![];
+    if matches!(v, Value::Number(_)) {
+        if let Some((lo, hi)) = opts.tree.and_then(|t| t.range(ptr)) {
+            lines.push(format!("The save file accepts {} to {} (the game may expect less). Right-click for Max.", display(&lo), display(&hi)));
+        }
+    }
+    if let Some(note) = opts.kind.and_then(|k| crate::risks::note(k, ptr)) {
+        lines.push(format!("Note: {note}"));
+    }
+    (!lines.is_empty()).then(|| lines.join("\n"))
+}
+
+/// `value_editor` with the right-click menu and range hint (`id_src` is the value's pointer).
+pub fn value_editor_ex(ui: &mut Ui, id_src: &str, v: &Value, editable: bool, width: f32, opts: &EditOpts) -> EditOut {
+    let mut out = EditOut::default();
+    let (edit, resp) = editor_body(ui, id_src, v, editable, width, opts);
+    out.edit = edit;
+    if let Some(r) = resp {
+        value_menu(&r, id_src, v, editable, opts, &mut out);
+    }
+    out
+}
+
+fn editor_body(ui: &mut Ui, id_src: &str, v: &Value, editable: bool, width: f32, opts: &EditOpts) -> (Option<Value>, Option<Response>) {
     if !editable {
-        ui.label(RichText::new(display(v)).weak().italics()).on_hover_text("Read-only: this value can't be edited safely");
-        return None;
+        let why = opts.tree.map(|t| t.read_only_reason(id_src)).filter(|w| !w.is_empty()).unwrap_or_else(|| "Read-only: this value can't be edited safely".into());
+        let r = ui.label(RichText::new(display(v)).weak().italics()).on_hover_text(why);
+        return (None, Some(r));
     }
     match v {
         Value::Bool(b) => {
             let mut on = *b;
-            let changed = toggle(ui, &mut on).changed();
+            let mut r = toggle(ui, &mut on);
+            if let Some(t) = r.hovered().then(|| hover_extra(opts, id_src, v)).flatten() {
+                r = r.on_hover_text(t);
+            }
+            let changed = r.changed();
             ui.label(if on { "On" } else { "Off" });
-            changed.then_some(Value::Bool(on))
+            (changed.then_some(Value::Bool(on)), Some(r))
         }
         Value::String(s) => {
             // Line breaks are shown as visible symbols so a one-line box can't
@@ -174,7 +299,11 @@ pub fn value_editor(ui: &mut Ui, id_src: &str, v: &Value, editable: bool, width:
             let id = ui.make_persistent_id(("str", id_src));
             let resp = ui.add(TextEdit::singleline(&mut text).id(id).desired_width(width));
             let resp = if s.contains(['\n', '\r']) { resp.on_hover_text("\u{21A9} marks a line break (\u{00B6} a carriage return)") } else { resp };
-            resp.changed().then(|| Value::String(unescape_breaks(&text)))
+            let resp = match resp.hovered().then(|| hover_extra(opts, id_src, v)).flatten() {
+                Some(t) => resp.on_hover_text(t),
+                None => resp,
+            };
+            (resp.changed().then(|| Value::String(unescape_breaks(&text))), Some(resp))
         }
         Value::Number(n) => {
             let integer = n.as_i64().is_some() || n.as_u64().is_some();
@@ -210,8 +339,11 @@ pub fn value_editor(ui: &mut Ui, id_src: &str, v: &Value, editable: bool, width:
             }
             if !valid {
                 resp = resp.on_hover_text(if integer { "Enter a whole number, e.g. 1500" } else { "Enter a number, e.g. 2.5" });
+            } else if resp.hovered() {
+                if let Some(hint) = hover_extra(opts, id_src, v) {
+                    resp = resp.on_hover_text(hint);
+                }
             }
-            let _ = resp;
             if integer && !COMPACT.with(|c| c.get()) {
                 // Big values (experience, gold) are typed, not stepped.
                 if let Some(i) = n.as_i64().filter(|i| i.unsigned_abs() <= 5000) {
@@ -224,13 +356,13 @@ pub fn value_editor(ui: &mut Ui, id_src: &str, v: &Value, editable: bool, width:
                     }
                 }
             }
-            out
+            (out, Some(resp))
         }
         Value::Null => {
-            ui.label(RichText::new("empty").weak().italics());
-            None
+            let r = ui.label(RichText::new("empty").weak().italics());
+            (None, Some(r))
         }
-        _ => None,
+        _ => (None, None),
     }
 }
 

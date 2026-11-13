@@ -308,6 +308,14 @@ pub struct App {
     disp: Vec<Disp>,
     disp_key: Option<(String, bool, u64, u64, u64)>,
     scroll_to_row: Option<usize>,
+    /// Text typed in the game screen's find box, and which match is current.
+    game_find: String,
+    game_find_idx: usize,
+    focus_game_find: bool,
+    /// Tree search: pointers kept for (search, model_gen, edit_gen).
+    tree_visible: Option<(HashSet<String>, (String, u64, u64))>,
+    /// "Show in Tree": the value to reveal and when that began.
+    tree_reveal: Option<(String, f64)>,
     raw_text: String,
     raw_error: Option<String>,
     show_changes: bool,
@@ -407,6 +415,11 @@ impl App {
             disp: vec![],
             disp_key: None,
             scroll_to_row: None,
+            game_find: String::new(),
+            game_find_idx: 0,
+            focus_game_find: false,
+            tree_visible: None,
+            tree_reveal: None,
             raw_text: String::new(),
             raw_error: None,
             show_changes: false,
@@ -1192,6 +1205,7 @@ impl App {
             }
             (c, b) => {
                 let (Some(cv), Some(bv)) = (root(c), root(b)) else { return vec![] };
+                let noted: std::cell::RefCell<HashSet<&str>> = Default::default();
                 self.touched
                     .iter()
                     .filter(|p| cv.pointer(p) != bv.pointer(p))
@@ -1206,7 +1220,15 @@ impl App {
                         let old = bv.pointer(p).map(widgets::display).unwrap_or_else(|| "(none)".into());
                         let new = cv.pointer(p).map(widgets::display).unwrap_or_else(|| "(none)".into());
                         let at = if context.is_empty() { name } else { format!("{context} \u{203A} {name}") };
-                        format!("{at}: {old} -> {new}")
+                        let kind = match &d.content {
+                            Content::Tree(t) => t.kind_name.as_str(),
+                            _ => "JSON",
+                        };
+                        // Each note once, on the first value it applies to.
+                        match crate::risks::note(kind, p).filter(|n| noted.borrow_mut().insert(*n)) {
+                            Some(note) => format!("{at}: {old} -> {new}  (note: {note})"),
+                            None => format!("{at}: {old} -> {new}"),
+                        }
                     })
                     .collect()
             }
@@ -1884,6 +1906,20 @@ impl App {
                                 pick = bak.clone().map(|b| (b, "the original".to_string()));
                             }
                         }
+                        ui.separator();
+                        ui.horizontal(|ui| {
+                            ui.label("Automatic backups to keep");
+                            let mut n = self.settings.backup_keep;
+                            if ui
+                                .add(egui::DragValue::new(&mut n).range(crate::backups::KEEP_MIN..=crate::backups::KEEP_MAX).speed(0.2))
+                                .on_hover_text("How many automatic backups to keep per save before the oldest is removed. Named copies are never removed. Lowering it removes older copies the next time you save.")
+                                .changed()
+                            {
+                                self.settings.backup_keep = n;
+                                crate::backups::set_keep(n);
+                                self.settings.save();
+                            }
+                        });
                         if let Some(dir) = self.doc.as_ref().and_then(|d| crate::backups::folder(&d.path)) {
                             if dir.is_dir() {
                                 if let Some(label) = platform::reveal_label() {
@@ -1915,6 +1951,7 @@ impl App {
                 if ui.add_enabled(has, egui::Button::new("Find\u{2026}").shortcut_text("Ctrl+F")).clicked() {
                     ui.close_menu();
                     self.focus_search = true;
+                    self.focus_game_find = self.tab == Tab::Game;
                 }
                 ui.separator();
                 if ui.add_enabled(self.dirty, egui::Button::new("Copy changes as text")).on_hover_text("The list of changes, to paste when asking for help or sharing what you did").clicked() {
@@ -2404,7 +2441,7 @@ impl App {
                 ui.label("No backups yet. One is made automatically each time you save, or press \u{201C}Back up this save\u{201D}.");
             }
             ScrollArea::vertical().max_height(380.0).show(ui, |ui| {
-                for (title, named) in [("Named backups (kept until you delete them)", true), ("Automatic backups (made each time you save; newest 30 kept)", false)] {
+                for (title, named) in [("Named backups (kept until you delete them)", true), (format!("Automatic backups (made each time you save; newest {} kept)", crate::backups::keep_count()).as_str(), false)] {
                     let rows: Vec<&crate::backups::Version> = versions.iter().filter(|v| v.name.is_some() == named).collect();
                     if rows.is_empty() {
                         continue;
@@ -3134,7 +3171,10 @@ impl App {
                 }
                 return;
             }
-            if self.tab == Tab::Values {
+            if self.tab == Tab::Game {
+                self.game_find_box(ui);
+            }
+            if matches!(self.tab, Tab::Values | Tab::Tree) {
                 if hi {
                     ui.label(RichText::new(icon::SEARCH).family(theme::icons_family()).weak());
                 }
@@ -3143,7 +3183,7 @@ impl App {
                 let r = ui.add(
                     TextEdit::singleline(&mut self.search)
                         .id(id)
-                        .hint_text("Search names or values  (Ctrl+F)")
+                        .hint_text(if self.tab == Tab::Tree { "Filter the tree by name or value  (Ctrl+F)" } else { "Search names or values  (Ctrl+F)" })
                         .desired_width(w),
                 );
                 if r.changed() {
@@ -3177,6 +3217,46 @@ impl App {
         }
         ui.add_space(4.0);
         self.structured_body(ui, now);
+    }
+
+    /// The find box of a game screen: highlights and scrolls to labels on the visible tab.
+    fn game_find_box(&mut self, ui: &mut egui::Ui) {
+        let id = egui::Id::new("game_find_box");
+        let before = self.game_find.clone();
+        let r = ui.add(TextEdit::singleline(&mut self.game_find).id(id).hint_text("Find on this screen  (Ctrl+F)").desired_width(200.0));
+        if self.focus_game_find {
+            r.request_focus();
+            self.focus_game_find = false;
+        }
+        if before != self.game_find {
+            self.game_find_idx = 0;
+        }
+        let total = ui.ctx().data(|d| d.get_temp::<usize>(egui::Id::new(crate::game_ui::FIND_COUNT))).unwrap_or(0);
+        if !self.game_find.trim().is_empty() {
+            if total == 0 {
+                ui.weak("no match on this tab");
+            } else {
+                self.game_find_idx %= total;
+                ui.weak(format!("{} of {}", self.game_find_idx + 1, total));
+                let enter = r.lost_focus() && ui.input(|i| i.key_pressed(egui::Key::Enter));
+                let back = ui.input(|i| i.modifiers.shift);
+                if ui.small_button("Next").clicked() || (enter && !back) {
+                    self.game_find_idx = (self.game_find_idx + 1) % total;
+                    if enter {
+                        r.request_focus();
+                    }
+                }
+                if ui.small_button("Prev").clicked() || (enter && back) {
+                    self.game_find_idx = (self.game_find_idx + total - 1) % total;
+                    if enter {
+                        r.request_focus();
+                    }
+                }
+            }
+            if ui.small_button("Clear").clicked() || ((r.has_focus() || r.lost_focus()) && ui.input(|i| i.key_pressed(egui::Key::Escape))) {
+                self.game_find.clear();
+            }
+        }
     }
 
     /// The Raw keys / Advanced toggles.
@@ -3231,6 +3311,7 @@ impl App {
                 // Minus the vertical scrollbar, or the content is a little wider than the window.
                 let sb = ui.spacing().scroll.bar_width + ui.spacing().scroll.bar_inner_margin + ui.spacing().scroll.bar_outer_margin;
                 let w = (ui.available_width() - sb).max(100.0);
+                crate::game_ui::begin_find(ui.ctx(), &self.game_find, self.game_find_idx);
                 ScrollArea::both().auto_shrink([false, false]).max_width(w + sb).show(ui, |ui| {
                     ui.set_max_width(w.min(1200.0));
                     crate::game_ui::show(game, ui, &mut cx);
@@ -3238,6 +3319,11 @@ impl App {
                     ui.weak("Everything else in this save is in the Values and Tree tabs.");
                 });
                 edits = cx.edits;
+                if let Some(p) = ui.ctx().data_mut(|d| d.remove_temp::<String>(egui::Id::new(crate::game_ui::SHOW_IN_TREE))) {
+                    self.search.clear();
+                    self.tree_reveal = Some((p, ui.input(|i| i.time)));
+                    self.tab = Tab::Tree;
+                }
                 // A story panel asked for a named backup before its first edit.
                 let want = egui::Id::new(crate::game_ui::STORY_BACKUP_REQUEST);
                 if ui.ctx().data_mut(|d| d.remove_temp::<bool>(want)).unwrap_or(false) && !WEB && d.path.is_file() {
@@ -3261,7 +3347,46 @@ impl App {
                     _ => None,
                 };
                 let value_x = ui.min_rect().left() + (ui.available_width() * 0.42).clamp(140.0, 480.0);
-                let mut ctx = TreeCtx { names: &d.names, editable, baseline: b, show_raw_keys: self.settings.show_raw_keys, value_x, edits: vec![] };
+                let needle = self.search.trim().to_string();
+                if needle.is_empty() {
+                    self.tree_visible = None;
+                } else {
+                    let key = (needle.clone(), self.model_gen, self.edit_gen);
+                    if self.tree_visible.as_ref().map(|t| &t.1) != Some(&key) {
+                        self.tree_visible = Some((json_view::filter_ptrs(r, &d.names, &needle), key));
+                    }
+                    if self.tree_visible.as_ref().is_some_and(|t| t.0.is_empty()) {
+                        ui.add_space(40.0);
+                        ui.vertical_centered(|ui| {
+                            ui.label(format!("Nothing in the tree matches \u{201C}{needle}\u{201D}."));
+                            ui.weak("The filter looks at names, keys and current values.");
+                        });
+                        return;
+                    }
+                }
+                let now_t = ui.input(|i| i.time);
+                if self.tree_reveal.as_ref().is_some_and(|(_, t0)| now_t - t0 > 4.0) {
+                    self.tree_reveal = None;
+                }
+                let reveal_scroll = self.tree_reveal.as_ref().is_some_and(|(_, t0)| now_t - t0 < 0.7);
+                if self.tree_reveal.is_some() {
+                    ui.ctx().request_repaint_after(std::time::Duration::from_millis(100));
+                }
+                let mut ctx = TreeCtx {
+                    names: &d.names,
+                    editable,
+                    baseline: b,
+                    show_raw_keys: self.settings.show_raw_keys,
+                    value_x,
+                    edits: vec![],
+                    tree: match &d.content {
+                        Content::Tree(t) => Some(&**t),
+                        _ => None,
+                    },
+                    visible: self.tree_visible.as_ref().map(|t| &t.0),
+                    reveal: self.tree_reveal.as_ref().map(|(p, _)| p.as_str()),
+                    reveal_scroll,
+                };
                 ScrollArea::vertical().auto_shrink([false, false]).show(ui, |ui| json_view::tree_ui(ui, r, &mut ctx));
                 edits = ctx.edits;
             }
@@ -3274,6 +3399,7 @@ impl App {
                 // On very large saves, searching every value takes a moment: wait until
                 // typing pauses instead of re-searching on every key press.
                 let t = ui.input(|i| i.time);
+                let now_t_values = t;
                 let typing = self.model.rows.len() > 50_000 && t - self.search_typed_at < 0.3 && self.disp_key.is_some();
                 if typing {
                     ui.ctx().request_repaint_after(std::time::Duration::from_millis(120));
@@ -3311,8 +3437,14 @@ impl App {
                     scroll_to: self.scroll_to_row.take(),
                     ticked: ticked.as_ref(),
                     toggle_tick: vec![],
+                    show_in_tree: None,
                 };
                 values_view::show(ui, &self.model, &self.disp, &self.collapsed, &mut ctx);
+                if let Some(p) = ctx.show_in_tree.take() {
+                    self.search.clear();
+                    self.tree_reveal = Some((p, now_t_values));
+                    self.tab = Tab::Tree;
+                }
                 if let Some(sec) = ctx.toggle_section {
                     if !self.collapsed.remove(&sec) {
                         self.collapsed.insert(sec);
@@ -4079,7 +4211,8 @@ impl eframe::App for App {
         let structured = self.doc.as_ref().is_some_and(|d| root(&d.content).is_some());
         if structured && ctx.input_mut(|i| i.consume_key(egui::Modifiers::COMMAND, egui::Key::F)) {
             self.focus_search = true;
-            self.tab = if self.tab == Tab::Raw { Tab::Raw } else { Tab::Values };
+            self.focus_game_find = self.tab == Tab::Game;
+            self.tab = if matches!(self.tab, Tab::Raw | Tab::Tree | Tab::Game) { self.tab } else { Tab::Values };
         }
         if no_text_focus {
             if ctx.input_mut(|i| i.consume_key(egui::Modifiers::COMMAND | egui::Modifiers::SHIFT, egui::Key::Z))

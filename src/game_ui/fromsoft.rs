@@ -470,13 +470,13 @@ fn progress(ui: &mut Ui, cx: &mut GameCtx) {
                 }
             };
             if t == 0 {
-                if ui.button("Unlock base game graces").clicked() {
+                if super::quick_button(ui, "Unlock base game graces", "") {
                     tick(cx, &|k| !dlc.contains(k));
                 }
-                if ui.button("Unlock Shadow of the Erdtree graces").on_hover_text("Only useful if you own the DLC").clicked() {
+                if super::quick_button(ui, "Unlock Shadow of the Erdtree graces", "Only useful if you own the DLC") {
                     tick(cx, &|k| dlc.contains(k));
                 }
-            } else if ui.button("Mark every boss defeated").on_hover_text("Bosses marked defeated stay gone; their rewards aren't given.").clicked() {
+            } else if super::quick_button(ui, "Mark every boss defeated", "Bosses marked defeated stay gone; their rewards aren't given.") {
                 tick(cx, &|_| true);
             }
         });

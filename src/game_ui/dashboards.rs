@@ -5,6 +5,7 @@
 use super::{cell_grid, columns, fact, fmt_num, hero, meter, panel, select, selection, tabs, words, Cell, GameCtx};
 use crate::json_view::pointer_escape;
 use eframe::egui::{self, Color32, RichText, Ui};
+use crate::widgets;
 use serde_json::Value;
 
 fn keys(cx: &GameCtx, p: &str) -> Vec<String> {
@@ -271,7 +272,7 @@ pub fn stardew(ui: &mut Ui, cx: &mut GameCtx) {
         panel(ui, "Friendships", |ui| {
             let single = friends == 1 && cx.get(&join(p, "friendshipData/item/0")).is_none();
             let base = move |n: usize| if single { join(p, "friendshipData/item") } else { join(p, &format!("friendshipData/item/{n}")) };
-            if ui.button("Raise everyone to 8 hearts").on_hover_text("2000 points. Romance candidates stop at 8 hearts until you give them a bouquet; others go to 10.").clicked() {
+            if super::quick_button(ui, "Raise everyone to 8 hearts", "2000 points. Romance candidates stop at 8 hearts until you give them a bouquet; others go to 10.") {
                 for n in 0..friends {
                     let pts = format!("{}/value/Friendship/Points", base(n));
                     if cx.int(&pts).is_some_and(|v| v < 2000) {
@@ -718,8 +719,13 @@ pub fn slay_the_spire(ui: &mut Ui, cx: &mut GameCtx) {
             });
             let id = egui::Id::new(("sts_add", title));
             let mut name = ui.data(|d| d.get_temp::<String>(id)).unwrap_or_default();
+            // Ids already in this save, so a card, relic or potion that is there can be picked
+            // instead of typed (the game's own spelling matters).
+            let mut known: Vec<String> = items.iter().filter_map(|it| it.as_str().or_else(|| it.get("id").and_then(|v| v.as_str()))).map(str::to_string).collect();
+            known.sort();
+            known.dedup();
             ui.horizontal(|ui| {
-                ui.add(egui::TextEdit::singleline(&mut name).hint_text("internal id, e.g. Strike_R").desired_width(150.0));
+                widgets::id_picker(ui, title, &mut name, &known, "internal id, e.g. Strike_R", 150.0);
                 if ui.button("Add").clicked() && !name.trim().is_empty() {
                     let mut more = items.clone();
                     more.push(match i {

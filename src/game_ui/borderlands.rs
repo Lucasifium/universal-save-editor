@@ -144,7 +144,7 @@ fn ammo_panel(ui: &mut Ui, cx: &mut GameCtx, capacity: bool, note: &str) {
         if capacity {
             ui.add_space(4.0);
             ui.horizontal_wrapped(|ui| {
-                if ui.button("Fill all ammo").on_hover_text("Set each ammo type to what its SDU level holds (without relic or class mod bonuses).").clicked() {
+                if super::quick_button(ui, "Fill all ammo", "Set each ammo type to what its SDU level holds (without relic or class mod bonuses).") {
                     for n in &ammo {
                         let ap = join("/Ammo", n);
                         if let Some(cap) = cx.int(&join("/SDU upgrades", n)).and_then(|lv| ammo_capacity(n, lv)) {
@@ -154,7 +154,7 @@ fn ammo_panel(ui: &mut Ui, cx: &mut GameCtx, capacity: bool, note: &str) {
                         }
                     }
                 }
-                if ui.button(format!("Max ammo SDUs ({MAX_AMMO_SDU})")).on_hover_text("Every ammo SDU to the highest black market level.").clicked() {
+                if super::quick_button(ui, format!("Max ammo SDUs ({MAX_AMMO_SDU})"), "Every ammo SDU to the highest black market level.") {
                     for n in &sdus {
                         let sp = join("/SDU upgrades", n);
                         if cx.can_edit(&sp) && cx.int(&sp) != Some(MAX_AMMO_SDU) {
