@@ -9,7 +9,8 @@
 //! checksum back.
 //!
 //! Layout facts from Dyrati's obababot (`gsfuncs.py`, MIT) and Hambaka's Golden Sun save
-//! tools (MIT); name tables from obababot's data. Checked against sample saves.
+//! tools (MIT); name tables from obababot's data; story event flags from Dyrati's Golden Sun
+//! password transfer script (MIT). Checked against sample saves.
 
 use super::fields::{Builder, Checksum, Kind};
 use crate::tree::TreeDoc;
@@ -26,6 +27,10 @@ const GS2_DATES: [(u16, &str); 6] =
     [(0x198A, "Japan"), (0x1C85, "USA / Europe"), (0x1D97, "Germany"), (0x1DC7, "Spain"), (0x1D98, "France"), (0x1DC8, "Italy")];
 pub const MEMBERS: [&str; 8] = ["Isaac", "Garet", "Ivan", "Mia", "Felix", "Jenna", "Sheba", "Piers"];
 pub const ELEMENTS: [&str; 4] = ["Venus", "Mercury", "Mars", "Jupiter"];
+/// Golden Sun story events that the password carries into The Lost Age, with their event
+/// flag numbers (from Dyrati's Golden Sun password transfer script, MIT).
+const GS1_STORY: [(&str, usize); 6] =
+    [("Saved Hammet", 0x941), ("Beat Colosso", 0x951), ("Hsu died", 0x8B3), ("Beat Deadbeard", 0x8D1), ("Returned to Vale", 0x81E), ("Returned to Vault", 0x868)];
 /// Size of one party member's record.
 const PC: usize = 0x14C;
 
@@ -318,6 +323,13 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
         let secs = u32_at(d, base + 0x244) / 60;
         b.info(&[f, "Play time"], format!("{}:{:02}:{:02}", secs / 3600, secs / 60 % 60, secs % 60));
         b.ranged(&[f, "Coins"], base + 0x250, Kind::U32, 0, 99_999_999);
+        if g == Game::GoldenSun {
+            // The story events the transfer password carries into The Lost Age (event flag n is
+            // bit n % 8 of byte 0x40 + n / 8).
+            for (name, n) in GS1_STORY {
+                b.bits(&[f, "Story", name], base + 0x40 + n / 8, Kind::U8, (n % 8) as u32, 1, 0, 0, 1);
+            }
+        }
 
         // Party, in marching order.
         let mask = d[base + 0x40];
@@ -458,6 +470,30 @@ mod tests {
         d[r + 0xDA..r + 0xDC].copy_from_slice(&(180u16 | 2 << 11).to_le_bytes());
         let s = block_sum(d, at, size);
         d[at + 8..at + 10].copy_from_slice(&s.to_le_bytes());
+    }
+
+    #[test]
+    fn golden_sun_story_flags_edit_in_place() {
+        let mut d = flash(Game::GoldenSun, 0, 3, 7);
+        let at = 3 * 0x1000;
+        // Hsu died (0x8B3): bit 3 of byte 0x40 + 0x116.
+        d[at + 0x10 + 0x40 + 0x116] |= 1 << 3;
+        let s = block_sum(&d, at, 0x1000);
+        d[at + 8..at + 10].copy_from_slice(&s.to_le_bytes());
+        let mut doc = parse(&d).unwrap();
+        assert_eq!(doc.view.pointer("/File 1/Story/Hsu died"), Some(&Value::from(1)));
+        assert_eq!(doc.view.pointer("/File 1/Story/Beat Colosso"), Some(&Value::from(0)));
+        doc.set("/File 1/Story/Beat Colosso", Value::from(1)).unwrap();
+        doc.set("/File 1/Story/Hsu died", Value::from(0)).unwrap();
+        let out = doc.to_bytes().unwrap();
+        assert_eq!(u16_at(&out, at + 8), block_sum(&out, at, 0x1000));
+        // Beat Colosso (0x951): bit 1 of byte 0x40 + 0x12A; the party bits next to it untouched.
+        assert_eq!(out[at + 0x10 + 0x40 + 0x12A], d[at + 0x10 + 0x40 + 0x12A] | 2);
+        assert_eq!(out[at + 0x10 + 0x40 + 0x116], d[at + 0x10 + 0x40 + 0x116] & !(1 << 3));
+        let changed: Vec<usize> = (0..out.len()).filter(|&i| out[i] != d[i]).collect();
+        assert!(changed.iter().all(|&i| [at + 8, at + 9, at + 0x10 + 0x40 + 0x12A, at + 0x10 + 0x40 + 0x116].contains(&i)));
+        // The Lost Age has no such list.
+        assert!(parse(&flash(Game::LostAge, 0, 1, 3)).unwrap().view.pointer("/File 1/Story").is_none());
     }
 
     #[test]

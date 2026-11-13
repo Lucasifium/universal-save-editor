@@ -132,14 +132,16 @@ pub fn wasteland3(ui: &mut Ui, cx: &mut GameCtx) {
     let story = keys(cx, "/Story values");
     if !story.is_empty() {
         panel(ui, "Story values", |ui| {
-            egui::CollapsingHeader::new(format!("{} quest and tutorial records", story.len())).id_salt("w3_story").show(ui, |ui| {
-                let q = filter(ui, "w3_story", "name");
-                for k in story {
-                    if q.is_empty() || k.to_lowercase().contains(&q.to_lowercase()) {
-                        cx.row_fixed(ui, &k, &join("/Story values", &k), 380.0, 70.0);
+            super::screens2::story_guard(ui, |ui| {
+                egui::CollapsingHeader::new(format!("{} quest and tutorial records", story.len())).id_salt("w3_story").show(ui, |ui| {
+                    let q = filter(ui, "w3_story", "name");
+                    for k in story {
+                        if q.is_empty() || k.to_lowercase().contains(&q.to_lowercase()) {
+                            cx.row_fixed(ui, &k, &join("/Story values", &k), 380.0, 70.0);
+                        }
                     }
-                }
-                ui.weak("The game's own quest counters. Changing one can skip or repeat a scene; keep the backup.");
+                    ui.weak("The game's own quest counters. Changing one can skip or repeat a scene; keep the backup.");
+                });
             });
         });
     }

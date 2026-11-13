@@ -2879,6 +2879,11 @@ impl App {
                     ui.weak("Everything else in this save is in the Values and Tree tabs.");
                 });
                 edits = cx.edits;
+                // A story panel asked for a named backup before its first edit.
+                let want = egui::Id::new(crate::game_ui::STORY_BACKUP_REQUEST);
+                if ui.ctx().data_mut(|d| d.remove_temp::<bool>(want)).unwrap_or(false) && !WEB && d.path.is_file() {
+                    self.backup_name = Some(String::new());
+                }
                 if let Some(e) = cx.open_entry {
                     self.reopen_with(|o| o.zip_entry = Some(e));
                     return;

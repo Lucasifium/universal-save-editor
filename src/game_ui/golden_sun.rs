@@ -81,6 +81,20 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
         member(ui, cx, &p, &party[i]);
     });
 
+    let story = keys(cx, &sub("Story"));
+    if !story.is_empty() {
+        panel(ui, "Story", |ui| {
+            super::screens2::story_guard(ui, |ui| {
+                ui.horizontal_wrapped(|ui| {
+                    for k in &story {
+                        cx.chip(ui, k, &join(&sub("Story"), k), ACCENT);
+                    }
+                });
+                ui.weak("The choices the password carries into The Lost Age. Click one to turn it on or off; the scene behind it isn't replayed.");
+            });
+        });
+    }
+
     panel(ui, "Djinn", |ui| djinn_grid(ui, cx, &sub("Party"), &party, if lost_age { 18 } else { 7 }));
     ui.weak(
         "Pick who holds each Djinni, set or on standby, or nobody. The game works out class and Psynergy from the set Djinn the next time you change Djinn in its own menu, \

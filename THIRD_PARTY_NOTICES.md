@@ -81,7 +81,7 @@ Universal Save Editor is free. It builds on other people's work, listed here wit
 | [DrKahls-Time-Machine (Cuphead save field names; sample save used for checks only, not included)](https://github.com/GeopJr/DrKahls-Time-Machine) | GeopJr | Unlicense |
 | [Antimatter-Dimensions-Save-Editor (export text layout and save field names; sample saves used for checks only, not included)](https://github.com/Sato-Isolated/Antimatter-Dimensions-Save-Editor) | Sato-Isolated | MIT |
 | [uesave-rs (Unreal property-tag save layout)](https://github.com/trumank/uesave-rs) | trumank | MIT; file layout facts only, no code copied, credited |
-| [LSLib (Larian LSPK package and LSF resource layouts, ported)](https://github.com/Norbyte/lslib) | Norbyte | MIT |
+| [LSLib (Larian LSPK package, LSF resource and Osiris story layouts, ported)](https://github.com/Norbyte/lslib) | Norbyte | MIT |
 | [pLarianSaveTools (Divinity: Original Sin 2 save layout)](https://github.com/patimweb-labs/pLarianSaveTools) | patimweb-labs | facts only (file layouts, ids and names), credited |
 | [bg3-savefile-parser (Baldur's Gate 3 save layout)](https://github.com/DanFinchUK/bg3-savefile-parser) | DanFinchUK | facts only (file layouts, ids and names), credited |
 | [FFXVSaveCrypt (Final Fantasy XV save encryption)](https://github.com/Surihix/FFXVSaveCrypt) | Surihix | facts only (key, footer and block shuffle), credited |
@@ -90,7 +90,7 @@ Universal Save Editor is free. It builds on other people's work, listed here wit
 | [ds2-peko-check (Death Stranding 2 save sections, facility names)](https://github.com/binsento-netizen/ds2-peko-check) | binsento-netizen | MIT; file layout facts and the facility list only, no code copied, credited |
 | [DeathStrandingSaveDataResigner (Death Stranding key derivation and `checkpoint.dat` header)](https://github.com/mi5hmash/DeathStrandingSaveDataResigner) | mi5hmash | MIT; key derivation and file layout facts only, no code copied, credited |
 | [Gibbed.MassEffectAndromeda (Mass Effect: Andromeda save layout)](https://github.com/gibbed/Gibbed.MassEffectAndromeda) | Rick (gibbed) | zlib; save layout ported, party member names, credited |
-| [Arcemi Pathfinder save editor (Pathfinder and Rogue Trader save layout; class, race and companion names)](https://github.com/jaygumji/ArcemiPathfinderKingmakerTools) | jaygumji | facts only (file layouts, ids and names), credited |
+| [Arcemi Pathfinder save editor (Pathfinder and Rogue Trader save layout; class, race and companion names; Kingmaker story flag names)](https://github.com/jaygumji/ArcemiPathfinderKingmakerTools) | jaygumji | facts only (file layouts, ids and names), credited |
 | [Trilogy Save Editor (Mass Effect save layouts, item and talent names; the Mass Effect 2 and 3 story flag tables in `src/fmt/data/me2_plot.tsv` and `me3_plot.tsv` are converted from its plot databases)](https://github.com/KarlitosVII/trilogy-save-editor) | Karlitos | CeCILL-2.1 (compatible with the GNU GPL, article 5.3.4) |
 | [xoreos (KOTOR and Neverwinter Nights save layout)](https://github.com/xoreos/xoreos) | the xoreos team | facts only (file layouts, ids and names), credited |
 | [KotOR Savegame Editor (KOTOR save fields, party table, NPC numbers)](https://github.com/Fair-Strides/KotOR-Save-Editor) | tk102, Fair-Strides and contributors | facts only (file layouts, ids and names), credited |
@@ -156,6 +156,7 @@ Universal Save Editor is free. It builds on other people's work, listed here wit
 | [valheim-save-tools (Valheim character layout by version)](https://github.com/Kakoen/valheim-save-tools) | Kakoen | facts only (file layouts, ids and names), credited |
 | [valheim-character-editor (newer Valheim layouts, skill ids)](https://github.com/bkaznowski/valheim-character-editor) | bkaznowski | facts only (file layouts, ids and names), credited |
 | [obababot (Golden Sun save layout; item, class and Djinn name tables)](https://github.com/Dyrati/obababot) | Dyrati | MIT |
+| [Golden Sun Password Transfer (story event flag numbers)](https://github.com/Dyrati/Golden-Sun-Password-Transfer) | Dyrati | MIT |
 | [golden_sun_save_converter and golden_sun_password_exporter (Golden Sun save blocks and checksum)](https://github.com/Hambaka/golden_sun_save_converter) | Hambaka | MIT |
 | [NieR.Automata.Editor (NieR:Automata save layout, item and weapon names, experience table)](https://github.com/MysteryDash/NieR.Automata.Editor) | Alexandre Quoniou | MIT |
 | [nierautomatasaveeditor (NieR:Automata money, experience and item offsets)](https://github.com/atilion/nierautomatasaveeditor) | atilion | MIT; offsets only, credited |
@@ -199,9 +200,10 @@ Copyright notices of the projects above whose code or tables were used:
 - vampire-survivors-save-editor (Vampire Survivors checksum and number styles): Copyright (c) 2026 chrisdfennell. Licensed under MIT.
 - DarkestDungeonSaveEditor (Darkest Dungeon DSON format and its type rules, ported): Copyright (c) 2018 robojumper. Licensed under MIT.
 - game-tools-collection (Octopath Traveler II character and job ids; Golden Sun Djinn counts and file-select totals; Final Fantasy X ability, overdrive, item, key item and Monster Arena layout and names): Copyright (c) 2024 RyudoSynbios. Licensed under MIT.
-- LSLib (Larian LSPK package and LSF resource layouts, ported): Copyright (c) Norbyte. Licensed under MIT.
+- LSLib (Larian LSPK package, LSF resource and Osiris story layouts, ported): Copyright (c) Norbyte. Licensed under MIT.
 - valheim-fch-editor (Valheim character layout, skill ids): Copyright (c) 2021 cQuaid. Licensed under MIT.
 - obababot (Golden Sun save layout; item, class and Djinn name tables): Copyright (c) 2020 Dyrati. Licensed under MIT.
+- Golden Sun Password Transfer (story event flag numbers): Copyright (c) 2023 Dyrati. Licensed under MIT.
 - golden_sun_save_converter and golden_sun_password_exporter (Golden Sun save blocks and checksum): Copyright (c) 2022 Hambaka. Licensed under MIT.
 - NieR.Automata.Editor (NieR:Automata save layout, item and weapon names, experience table): Copyright (c) 2020 Alexandre Quoniou. Licensed under MIT.
 - nierautomatasaveeditor (NieR:Automata offsets): Copyright (c) 2017 atilion. Licensed under MIT.
