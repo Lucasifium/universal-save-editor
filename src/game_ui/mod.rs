@@ -33,6 +33,7 @@ mod pokemon;
 mod expedition33;
 mod ffr;
 mod fallout3nv;
+mod ff16;
 mod nier;
 mod sims;
 mod screens2;
@@ -209,6 +210,7 @@ pub enum Game {
     LegoBatman,
     PlanetCrafter,
     FfResonance,
+    Ff16,
     /// A table-driven screen (see `simple.rs`).
     Simple(u16),
 }
@@ -320,6 +322,7 @@ impl Game {
             Game::LegoBatman => "Studs",
             Game::PlanetCrafter => "Terraformer",
             Game::FfResonance => "Party",
+            Game::Ff16 => "Clive",
             Game::Simple(i) => simple::tab_label(i),
             _ => "Character",
         }
@@ -425,6 +428,7 @@ pub fn detect(kind: &str, root: &Value) -> Option<Game> {
         crate::fmt::ttgames::KIND => Game::LegoBatman,
         crate::fmt::planet_crafter::KIND => Game::PlanetCrafter,
         crate::fmt::ffr::KIND => Game::FfResonance,
+        crate::fmt::ff16::KIND => Game::Ff16,
         crate::fmt::goldensun::KIND_GS1 | crate::fmt::goldensun::KIND_GS2 => Game::GoldenSun,
         _ if coop::is_phasmophobia(root) => Game::Phasmophobia,
         _ if coop::is_lethal_company(root) => Game::LethalCompany,
@@ -614,6 +618,7 @@ fn show_screen(game: Game, ui: &mut Ui, cx: &mut GameCtx) {
         Game::LegoBatman => lego::show(ui, cx),
         Game::PlanetCrafter => planet_crafter::show(ui, cx),
         Game::FfResonance => ffr::show(ui, cx),
+        Game::Ff16 => ff16::show(ui, cx),
         Game::Simple(i) => simple::show(i, ui, cx),
         Game::RenPy => screens2::renpy(ui, cx),
         Game::MassEffect => screens2::mass_effect(ui, cx),

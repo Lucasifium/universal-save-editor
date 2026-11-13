@@ -110,6 +110,9 @@ pub enum Layer {
     Keyed(fmt::keyed::Wrap),
     /// A PNG with the data in a private zlib chunk (mGBA save states: `gbAs`).
     PngChunk { png: Arc<Vec<u8>>, chunk: [u8; 4] },
+    /// Final Fantasy XVI: a PNG whose `faTh` chunk is an archive of XORed zlib streams that use
+    /// a dictionary from the game; `entry` is the save being edited.
+    Ff16 { png: Arc<Vec<u8>>, entry: usize, name: String },
     /// A bundle of named files (Barotrauma `.save`: UTF-16 name, length, bytes, …).
     FileBundle { files: Arc<Vec<(String, Vec<u8>)>>, name: String },
     /// Palworld `.sav`: header + zlib (once or twice) around an Unreal GVAS save.
@@ -330,6 +333,7 @@ impl Layer {
             },
             Layer::Keyed(w) => w.label().into(),
             Layer::PngChunk { chunk, .. } => format!("mGBA save state ({})", String::from_utf8_lossy(chunk)),
+            Layer::Ff16 { name, .. } => format!("Final Fantasy XVI save ({name})"),
             Layer::FileBundle { name, .. } => format!("file bundle ({name})"),
             Layer::Palworld { .. } => "Palworld container".into(),
             Layer::PalworldOodle => "Palworld container (Oodle)".into(),
@@ -872,6 +876,10 @@ fn wrap(layer: &Layer, data: Vec<u8>) -> Result<Vec<u8>, String> {
         Layer::Xor(k) => data.iter().map(|b| b ^ k).collect(),
         Layer::XorKey(k) => xor_key(&data, k.as_bytes()),
         Layer::Keyed(w) => fmt::keyed::close(w, &data),
+        Layer::Ff16 { png, entry, .. } => {
+            let c = fmt::ff16::chunk(png).ok_or("the save's picture has lost its save data")?;
+            png_replace(png, &fmt::ff16::CHUNK, &fmt::ff16::repack_chunk(c, *entry, &data)?)?
+        }
         Layer::PngChunk { png, chunk } => png_replace(png, chunk, &compress(ZlibEncoder::new(Vec::new(), Compression::default()), &data)?.finish().map_err(io)?)?,
         Layer::FileBundle { files, name } => {
             let mut out = Vec::new();
@@ -1751,6 +1759,21 @@ fn peel(data: &[u8], ctx: &mut Ctx) -> Option<(Layer, Vec<u8>)> {
     }
     if let Some((k, plain)) = peel_known_xor(data) {
         return Some((Layer::XorKey(k), plain));
+    }
+    if fmt::ff16::looks(data) {
+        match fmt::ff16::unpack(data, ctx.opts.zip_entry.as_deref()) {
+            Ok((entry, names, plain)) => {
+                let name = names[entry].clone();
+                if names.len() > 1 {
+                    ctx.zip_entries = names;
+                }
+                return Some((Layer::Ff16 { png: Arc::new(data.to_vec()), entry, name }, plain));
+            }
+            Err(e) => {
+                ctx.hint = Some(e);
+                return None;
+            }
+        }
     }
     if data.starts_with(b"\x89PNG\r\n\x1a\n") {
         if let Some((chunk, body)) = png_find(data, &[*b"gbAs"]) {

@@ -138,6 +138,7 @@ pub mod fos;
 pub mod deusex;
 pub mod xcom2;
 pub mod sn2;
+pub mod ff16;
 pub mod atomic_heart;
 pub mod deathloop;
 pub mod xcom_eu;
@@ -545,6 +546,11 @@ pub fn parse_binary(d: &[u8]) -> Option<TreeDoc> {
     }
     if torchlight2::looks(d) {
         if let Ok(t) = torchlight2::parse(d) {
+            return Some(t);
+        }
+    }
+    if ff16::looks_save(d) {
+        if let Ok(t) = ff16::parse_save(d) {
             return Some(t);
         }
     }
