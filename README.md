@@ -13,7 +13,7 @@ no rate limits.
 
 **No install:** the [browser version](https://lucasifium.github.io/universal-save-editor/app/) is the same
 editor compiled to WebAssembly. It runs inside the page on your own computer and never uploads the save;
-saving downloads the edited file. It can't search your folders (*Select game*), keep backups, or open
+saving downloads the edited file. It can't search your folders (*Find my game's saves*), keep backups, or open
 SQLite saves and the saves of Palworld and Hogwarts Legacy: use the downloaded app for those.
 
 ## Why this exists
@@ -93,7 +93,7 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 | LEGO The Incredibles | *Studs*: the stud wallet (the game keeps it in several places in the save; all of them are written). Checked on public saves, not yet tried in the game |
 | LEGO DC Super-Villains | *Studs*: the stud wallet (the game keeps it in several places in the save; all of them are written). Checked on public saves, not yet tried in the game |
 | LEGO Marvel Super Heroes 2 | *Studs*: the stud wallet (the game keeps it in several places in the save; all of them are written). Checked on public saves, not yet tried in the game |
-| Older LEGO games (TT Games: Harry Potter Collection, Marvel's Avengers, Worlds) | The saves are found for you (Select game); they open in the Hex view for Value search. No dedicated screen yet |
+| Older LEGO games (TT Games: Harry Potter Collection, Marvel's Avengers, Worlds) | The saves are found for you (Find my game's saves); they open in the Hex view for Value search. No dedicated screen yet |
 | Everspace 2 | *Pilot*: credits, level, experience and device upgrade tokens; every crafting resource by name, with a **Max crafting materials** button (ores, crystals, scrap metal and basic crafting resources to 99,999, an estimate: the game states no cap; catalysts, rift and faction resources left alone). The save's zlib wrapper is handled for you; ships, items and missions are in the Tree (checked on a public save, not yet tried in the game) |
 | Moonlighter | *Will*: gold, days passed and the banker's invested money; the backpack and equipped items by name with count (enchantment levels in the Tree). The `gameslot` file opens as JSON (checked on a public save, not yet tried in the game) |
 | Wasteland 2 | *Rangers*: each ranger's level, experience, health, attribute, skill and trait points, kills and the seven attributes (skills and items are in the Tree); the save's `<@>` name markers are kept as they are (checked on a public save, not yet tried in the game) |
@@ -327,15 +327,19 @@ binary and stays an ironman save. It isn't converted to a normal one.
 - **Text instead.** Hearts of Iron IV writes text saves when `save_as_binary=no` is set in its
   `settings.txt`, and the newer games write text saves in debug mode. Text saves open with every name.
 
-## Select game
+## Find my game's saves
 
-*Select game* (toolbar and File menu) lists every game the editor knows — nearly 190, Mass Effect 1–3, the Legendary Edition and Andromeda among them — with where it
+The start page lists **Your games**: every game in the list whose saves were found on this computer,
+newest first, each one click away from its newest save. *Find my game's saves* (the big button on the
+start page, *Find saves* in the toolbar and the File menu) lists every game the editor knows — nearly 190, Mass Effect 1–3, the Legendary Edition and Andromeda among them — with where it
 usually keeps its saves and what the files are called, and finds them on your computer (Steam
 libraries and `userdata`, Documents wherever Windows has it, AppData, Saved Games, Ubisoft
 Connect). On Linux and the Steam Deck it also looks inside Proton prefixes
 (`steamapps/compatdata/<app id>/pfx` in every Steam library, including Flatpak Steam and SD cards)
 and the usual Wine, Heroic, Lutris and Bottles prefixes, so Windows games run through Steam Play
-show up too.
+show up too. Games with saves on this computer come first under *On this computer* (*Only games
+found here* hides the rest), and each game has a badge for how far the editor goes with it:
+*Screen* (a screen of its own), *Values* (every value by name) or *Hex* (hex view and value search).
 
 **Flash and AIR games**: `.sol` shared objects (AMF0 and AMF3) open with every value by name and
 are written back with each value's own type; anything the editor doesn't show (dates, byte arrays,
@@ -615,9 +619,15 @@ compression, encryption and checksums.
 
 - **Verified saves**: the new file is decoded again *before* anything is written. If it doesn't
   read back exactly as shown on screen, the save is aborted and your file is left untouched.
+- **Changed on disk**: if the save was written by something else after it was opened (the game
+  autosaved, a cloud sync ran), saving stops and asks: reload the newer file, save anyway (the newer
+  file is backed up first) or cancel. Coming back to the window after the file changed shows a
+  notice with *Reload*.
+- **Errors stand out**: a failed save or restore shows as a red banner under the toolbar that stays
+  until dismissed, not just a line in the status bar.
 - **Atomic writes**: the save goes to a temp file and is then swapped in, so a crash can't leave a
   half-written save.
-- **Save manager**: the *Backups* menu (next to File, Edit, View and Tools) is built into the editor: *Back up now…*, *Back up and start a new game…*, *Backups for this save…* and *Quick restore*. Every save first makes an automatic backup of the file as it was (last 30 kept). Those backups sit next to the save in a folder of their own (`Save Editor Backups/<file name>/`) with a `.sebak` extension, so a game never loads or overwrites them as saves. The save manager window lists them with *Restore this backup* (the current file is backed up first, so a restore can be undone), *Compare* (byte by byte or value by value) and *Delete backup*. *Back up this save* makes a named backup that is kept until you delete it (before a boss, say). *Back up and start a new game* makes a named backup and then removes the current save file, so a one-save game starts a new run (the file is closed in the editor so the old data can't be saved back); restore the backup later to go back. The window stays open after that, and *Recent files* offers *Restore a backup…* for a save that is gone, so a backup can be put back even before the game has made a new save. Every backup and every restore is written to a temporary file, flushed to disk, read back and compared before it replaces anything, and nothing is overwritten if the current file can't be read and backed up first (a game holding it locked, say). If the save's folder can't be written to, backups go to the app's own folder instead. Backups can instead go to a folder you choose (a synced folder, another drive); copies from older versions in the app's folder, and in folders chosen before, are still listed. The very first original is also kept as `<name>.bak`
+- **Save manager**: the *Backups* menu (next to File, Edit, View and Tools) is built into the editor: *Back up now…*, *Back up and start a new game…*, *Backups for this save…* and *Quick restore*. Every save first makes an automatic backup of the file as it was (last 30 kept; change the number in *Edit › Preferences*). Those backups sit next to the save in a folder of their own (`Save Editor Backups/<file name>/`) with a `.sebak` extension, so a game never loads or overwrites them as saves. The save manager window lists them with *Restore this backup* (the current file is backed up first, so a restore can be undone), *Compare* (byte by byte or value by value) and *Delete backup*. *Back up this save* makes a named backup that is kept until you delete it (before a boss, say). *Back up and start a new game* makes a named backup and then removes the current save file, so a one-save game starts a new run (the file is closed in the editor so the old data can't be saved back); restore the backup later to go back. The window stays open after that, and *Recent files* offers *Restore a backup…* for a save that is gone, so a backup can be put back even before the game has made a new save. Every backup and every restore is written to a temporary file, flushed to disk, read back and compared before it replaces anything, and nothing is overwritten if the current file can't be read and backed up first (a game holding it locked, say). If the save's folder can't be written to, backups go to the app's own folder instead. Backups can instead go to a folder you choose (a synced folder, another drive); copies from older versions in the app's folder, and in folders chosen before, are still listed. The very first original is also kept as `<name>.bak`
 - **Story decisions are experimental**: changing story flags, choices, reputations or quest records can break quests, soft-lock the game or leave a save that can no longer be finished. There is no guarantee the game can still be completed, so use these panels only if you know what you're doing. Each story panel stays locked until you either make a named backup (*Back up this save first…* opens the save manager's backup) or say you accept the risk, and the file is backed up automatically before every save so you can go back.
 - **Export and import**: *File › Export decoded data* writes the unpacked data (JSON, text or bytes) for any other tool; *File › Import edited data* brings the edited file back, and saving packs, encrypts and checksums it the way the save was
 - **Game running**: if the game that owns the save is running, the app says so when opening and warns before saving (games write their save back when they autosave or quit)
@@ -634,6 +644,16 @@ compression, encryption and checksums.
 - Ren'Py 8.1+ saves are re-signed with your own Ren'Py key so the game loads them normally.
 
 ## Preferences
+
+*Edit › Preferences* has the theme (dark/light), zoom, *Review changes before saving*, how many
+automatic backups to keep per save and where backups go. *Help* has the keyboard shortcuts, the
+supported games, the website, *Report a problem* and *Request a game* (open a form on GitHub with the
+version and system filled in; your save is never sent), licences and *About* with the version.
+
+Japanese, Chinese and Korean names in saves use your system's fonts (Yu Gothic, Microsoft YaHei and
+Malgun Gothic on Windows; Noto CJK and similar on Linux; Hiragino and Apple SD Gothic on macOS),
+loaded only when a save needs them. The browser version can't reach system fonts, so such names may
+show as boxes there.
 
 Theme (dark/light), zoom (Ctrl +/−), recent files and view toggles are remembered in
 `settings.json` in `%APPDATA%\UniversalSaveEditor` (Windows), `~/Library/Application Support/UniversalSaveEditor`

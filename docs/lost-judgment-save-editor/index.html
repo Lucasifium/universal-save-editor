@@ -25,12 +25,12 @@
 <h2>What you can edit</h2>
 <div class="card">Every value in the save, by name, with a filter. There is no screen laid out for this game yet.</div>
 <h2>Where Lost Judgment keeps its saves</h2>
-<div class="card"><p>Folder: <code>%APPDATA%\Sega\LostJudgment\Steam\&lt;Steam id&gt;</code></p><p>Files: <code>data.sav</code></p><p>You don't need to find it yourself: choose <em>Select game</em> in the editor, pick Lost Judgment, and it lists the saves it finds. (The browser version can't look through your folders: open the file from this folder yourself.)</p></div>
+<div class="card"><p>Folder: <code>%APPDATA%\Sega\LostJudgment\Steam\&lt;Steam id&gt;</code></p><p>Files: <code>data.sav</code></p><p>You don't need to find it yourself: choose <em>Find my game's saves</em> in the editor, pick Lost Judgment, and it lists the saves it finds. (The browser version can't look through your folders: open the file from this folder yourself.)</p></div>
 <h2>How to edit your Lost Judgment save</h2>
 <ol>
 <li><a href="https://github.com/Lucasifium/universal-save-editor/releases/latest">Download Universal Save Editor</a> for Windows or Linux; just run it. Rather not install anything? <a href="../app/">Use it in your browser</a> instead: it runs on your computer too, and saving downloads the edited file.</li>
 <li>Close the game, so it doesn't write over your changes.</li>
-<li>Choose <em>Select game</em>, pick <strong>Lost Judgment</strong> and open your save (or drag the save file onto the window).</li>
+<li>Choose <em>Find my game's saves</em>, pick <strong>Lost Judgment</strong> and open your save (or drag the save file onto the window).</li>
 <li>Change what you want, then <em>Save</em>. The editor checks the new file and backs up the old one first.</li>
 </ol>
 <h2>Why use it</h2>
@@ -39,7 +39,7 @@
 <li><strong>Offline.</strong> Your save never leaves your computer: nothing is uploaded, so there are no file size limits, queues or rate limits.</li>
 <li><strong>Safe.</strong> Every save is checked by reading it back before it's written, and the old file is backed up first (Backups &rsaquo; Open save manager).</li>
 <li><strong>Works on games it doesn't know.</strong> Value search finds a number you know, or one you don't (a health bar, a hidden counter): scan, play, save, then keep what increased, decreased, changed or stayed the same.</li>
-<li><strong>Linux and Steam Deck.</strong> <em>Select game</em> also looks inside Proton and Wine prefixes, where Windows games run through Steam Play keep their saves.</li>
+<li><strong>Linux and Steam Deck.</strong> <em>Find my game's saves</em> also looks inside Proton and Wine prefixes, where Windows games run through Steam Play keep their saves.</li>
 <li><strong>Xbox app and PC Game Pass.</strong> Saves hidden in the Xbox app's container are listed under the names the game gave them and open with the same screens as the Steam saves.</li>
 <li><strong>Unity PlayerPrefs.</strong> Coins and unlocks that Unity games keep in the Windows registry (or prefs files on Linux and macOS) open by name and are written back on save.</li>
 <li><strong>Flash and Haxe saves.</strong> Flash and AIR <code>.sol</code> files and the Haxe saves of OpenFL and HaxeFlixel games (Friday Night Funkin' among them) open with every value by name.</li>
@@ -52,6 +52,9 @@
 <li><strong>Dreamcast saves.</strong> VMU <code>.vms</code> files and Nexus <code>.dci</code> files open with their header CRC and byte order handled, and are written back the same way.</li>
 <li><strong>Sega Saturn saves.</strong> Single <code>.bup</code>, <code>.sro</code>, <code>.xml</code>, <code>.b64</code> and <code>.cms</code> saves, and whole backup RAM images from Mednafen, Beetle, Yabause, Kronos and SAROO, one save at a time.</li>
 <li><strong>Steam account switch.</strong> Finds the Steam IDs inside a save and changes them to another account, for saves copied between accounts or co-op hosts.</li>
+<li><strong>Finds your games.</strong> The start page lists the games whose saves are on this computer, newest first, one click from the latest save; <em>Find my game's saves</em> shows them first, with a badge for how much of each game can be edited.</li>
+<li><strong>Never writes over a newer save.</strong> If the game or a cloud sync saved the file after you opened it, saving stops and asks (reload, or save anyway with the newer file backed up first).</li>
+<li><strong>Japanese, Chinese and Korean names.</strong> Shown with your computer's own fonts in the downloaded app.</li>
 <li><strong>Save manager (Backups menu).</strong> Automatic and named backups kept in a folder next to each save, where no game loads them. Restore any backup (the current save is backed up first), compare it, or back up and start a new game on a one-save game and restore the old one later. Every backup is flushed to disk and checked before anything is replaced.</li>
 <li><strong>Command line too.</strong> <code>info</code>, <code>list</code>, <code>get</code>, <code>set</code>, <code>decode</code> and <code>encode</code> work from scripts, with the same checks and backups as the window.</li>
 <li><strong>Open source.</strong> Anyone can read the code (GPL-3.0).</li>

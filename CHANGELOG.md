@@ -20,6 +20,16 @@
 - The hex view has a step-by-step guide for finding a value, and the search can refine by itself each time the game saves
 - Copy the list of changes as text (Edit menu, Changes panel)
 
+### Safer saving and an easier start
+- Saving stops and asks when the save changed on disk since it was opened (the game autosaved, cloud sync): reload, save anyway (the newer file is backed up first) or cancel; a notice with Reload appears when you come back to the window
+- Failures show as a red banner under the toolbar until dismissed
+- Japanese, Chinese and Korean names show with the system's fonts on Windows, Linux and macOS
+- The start page lists Your games: games whose saves were found, newest first, one click to open; Find my game's saves is the main button
+- Find my game's saves lists the games found on this computer first, can hide the rest, and shows a Screen, Values or Hex badge per game with a filter
+- Edit › Preferences (theme, zoom, review before saving, the hex-view guide, how many automatic backups to keep, backup folder) and a Help menu (shortcuts, supported games, website, Report a problem, Request a game, licences, About)
+- Issue forms on GitHub for save problems and game requests
+- Dialogs and the save manager fit narrow windows
+
 ## 0.5.1
 
 ### New game screens
