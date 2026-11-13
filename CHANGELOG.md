@@ -1,11 +1,20 @@
 # Changelog
 
-## Unreleased
+## 0.6.0
+
+### New game screens
+- Final Fantasy XVI: gil, Ability Points, consumables and materials with Max crafting materials (the save's archive is read with the compression dictionary from your own installed game)
+- Dishonored (coins), Dishonored 2 (Raw Whalebone with Max crafting materials, runes, ammunition) and Deathloop (Residuum, stress, loop progress)
+- Pokémon Infinite Fusion: trainer, badges, difficulty, party and PC Pokémon, bag (not yet tried in the game)
+- Red Dead Redemption and Red Dead Redemption 2 (PC): money, honor, cores, camp funds, satchel supplies, horses, statistics; RDR2 also has story challenge ranks and compendium ticks
+- Final Fantasy Resonance: Gil, characters, Visions, items and artifacts
+- Atomic Heart (crafting materials with a max button, neuropolymer), Deus Ex: Mankind Divided (credits, Praxis kits, crafting parts, ammo), World of Horror (unlocks, last run, settings)
+- Story flags and choices for Baldur's Gate 3, Pathfinder: Kingmaker, The Witcher 3, Fallout: New Vegas and Golden Sun
+
+### Experimental
+- Red Dead Redemption 2: adding supplies the satchel lacks is experimental and has not been tried in the game yet; keep a backup
 
 ### Value editing and game screens
-- Red Dead Redemption (PC) game screen: money, honor, fame, Dead Eye and consumables; saves are decrypted and encrypted again with their CRC-32
-- Red Dead Redemption 2 (PC) game screen: cash, honor, cores and XP, camp funds, the satchel's ammunition, consumables, herbs and provisions with a Max crafting materials button, horses, statistics and the clock; every checksum is written again
-- Red Dead Redemption 2: challenge ranks for the nine story challenges, compendium ticks (animals, plants, fish, horses, weapons, equipment), and adding supplies the satchel lacks (experimental)
 - Numbers show the range the save accepts on hover; a right-click menu on every value (copy value, name or path, set to minimum or maximum, revert, show in Tree)
 - The Tree has a filter box; game screens have a find box (Ctrl+F) that highlights and scrolls to a label
 - Save-wide buttons on game screens are gathered in one Quick actions strip
