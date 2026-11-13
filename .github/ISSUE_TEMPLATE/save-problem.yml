@@ -1,0 +1,48 @@
+name: A save didn't open or edit correctly
+description: A save that won't open, opens wrongly, or doesn't work in the game after editing.
+labels: ["save problem"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting this. Please don't attach a save unless you're happy for it to be public: saves can hold your character names, Steam ID or other account details.
+        If the editor wrote the save, the previous version is in Backups (or the `.bak` file next to the save), so you can put it back.
+  - type: input
+    id: game
+    attributes:
+      label: Game
+      description: The game and, if you know it, its version and store (Steam, GOG, Game Pass, console).
+      placeholder: e.g. Stardew Valley 1.6, Steam
+    validations:
+      required: true
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened
+      description: What you did, what you expected, and what happened instead. Copy any message the editor showed.
+    validations:
+      required: true
+  - type: input
+    id: format
+    attributes:
+      label: What the editor detected
+      description: The coloured label next to the file name in the editor (filled in when you use Help › Report a problem).
+  - type: input
+    id: version
+    attributes:
+      label: Editor version
+      description: Shown in Help › About.
+    validations:
+      required: true
+  - type: dropdown
+    id: platform
+    attributes:
+      label: Where you ran it
+      options:
+        - Windows
+        - Linux
+        - macOS
+        - Android
+        - Browser
+    validations:
+      required: true

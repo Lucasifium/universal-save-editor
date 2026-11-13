@@ -10,8 +10,22 @@
 use std::path::{Path, PathBuf};
 use std::time::{SystemTime, UNIX_EPOCH};
 
-/// Versions kept per save; the oldest go first.
+/// Versions kept per save unless the player chose another number; the oldest go first.
 pub const KEEP: usize = 30;
+/// The fewest automatic backups the player can choose to keep.
+pub const KEEP_MIN: usize = 5;
+pub const KEEP_MAX: usize = 500;
+
+static KEEP_N: std::sync::atomic::AtomicUsize = std::sync::atomic::AtomicUsize::new(KEEP);
+
+/// How many automatic (unnamed) backups to keep per save, from Preferences.
+pub fn set_keep(n: usize) {
+    KEEP_N.store(n.clamp(KEEP_MIN, KEEP_MAX), std::sync::atomic::Ordering::Relaxed);
+}
+
+pub fn keep() -> usize {
+    KEEP_N.load(std::sync::atomic::Ordering::Relaxed)
+}
 
 pub struct Version {
     pub path: PathBuf,
@@ -282,7 +296,7 @@ fn copy(save: &Path, name: Option<&str>, keep: Option<&Path>) -> Result<Option<P
         return Err(if errors.is_empty() { "no folder for backups on this device".into() } else { errors.join("; ") });
     };
     // Only once the new copy is safely on disk do the oldest unnamed ones go.
-    for old in versions.iter().filter(|v| v.name.is_none() && Some(v.path.as_path()) != keep).skip(KEEP - 1) {
+    for old in versions.iter().filter(|v| v.name.is_none() && Some(v.path.as_path()) != keep).skip(self::keep() - 1) {
         let _ = std::fs::remove_file(&old.path);
     }
     Ok(Some(dest))

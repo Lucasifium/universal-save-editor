@@ -805,3 +805,65 @@ mod tests {
         }
     }
 }
+
+/// How far the editor goes with a game, for the badge in Select game.
+#[derive(Clone, Copy, PartialEq, Eq, Debug)]
+pub enum Level {
+    /// A screen of its own (character, inventory…).
+    Screen,
+    /// Every value listed by name (Values and Tree).
+    Values,
+    /// Hex view and value search only.
+    Hex,
+}
+
+impl Level {
+    pub const ALL: [Level; 3] = [Level::Screen, Level::Values, Level::Hex];
+
+    pub fn label(self) -> &'static str {
+        match self {
+            Level::Screen => "Screen",
+            Level::Values => "Values",
+            Level::Hex => "Hex",
+        }
+    }
+
+    pub fn hint(self) -> &'static str {
+        match self {
+            Level::Screen => "Has a screen of its own for this game",
+            Level::Values => "Its values are listed by name in Values and Tree",
+            Level::Hex => "Opens in the hex view: find a number you know with Value search, then change it",
+        }
+    }
+}
+
+pub fn level(g: &GameInfo) -> Level {
+    let s = g.support.to_lowercase();
+    if s.starts_with("game screen") {
+        Level::Screen
+    } else if s.starts_with("hex") || (s.contains("value search") && !s.contains("tree") && !s.contains("values")) {
+        Level::Hex
+    } else {
+        Level::Values
+    }
+}
+
+#[cfg(test)]
+mod level_tests {
+    #[test]
+    #[ignore]
+    fn dump_levels() {
+        for g in super::GAMES {
+            if super::level(g) != super::Level::Screen {
+                println!("{:?}\t{}\t{}", super::level(g), g.name, g.support);
+            }
+        }
+    }
+
+    #[test]
+    fn every_level_used() {
+        for l in super::Level::ALL {
+            assert!(super::GAMES.iter().any(|g| super::level(g) == l), "{l:?}");
+        }
+    }
+}

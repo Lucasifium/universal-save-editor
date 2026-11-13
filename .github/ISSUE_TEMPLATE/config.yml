@@ -1,0 +1,5 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Supported games and what each one can edit
+    url: https://lucasifium.github.io/universal-save-editor/
+    about: Check the list first; the page for each game says what can be changed.

@@ -13,6 +13,11 @@ use serde_json::{json, Value};
 use std::collections::HashSet;
 use std::path::{Path, PathBuf};
 
+mod help;
+mod home;
+mod safety;
+
+use safety::Stamp;
 mod tools;
 use tools::{Bulk, NamesAction, PresetApply, PresetSave, ShareNames};
 
@@ -73,6 +78,9 @@ struct Doc {
     zip_entries: Vec<String>,
     /// The game screen for this save, if there is one.
     game: Option<crate::game_ui::Game>,
+    /// The file's size and time when it was read or last saved, to notice when something
+    /// else (the game, cloud sync) writes it in the meantime.
+    stamp: Option<Stamp>,
 }
 
 fn root(c: &Content) -> Option<&Value> {
@@ -114,6 +122,10 @@ struct Prepared {
     game: Option<crate::game_ui::Game>,
     model: Model,
     running: Option<String>,
+    /// Taken just before the file was read.
+    stamp: Option<Stamp>,
+    /// It has Japanese, Chinese or Korean text (the fonts for it are loaded when needed).
+    cjk: bool,
 }
 
 fn prepare(path: &Path, decoded: formats::Decoded) -> Prepared {
@@ -148,32 +160,46 @@ fn prepare(path: &Path, decoded: formats::Decoded) -> Prepared {
         Content::Tree(t) => values_view::build(&t.view, &names, Some(&t.editable)),
         _ => Model::default(),
     };
-    Prepared { baseline: decoded.content.clone(), decoded, names, note, game, model, running: crate::running::game_for(path) }
+    let cjk = safety::content_has_cjk(&decoded.content);
+    Prepared { baseline: decoded.content.clone(), decoded, names, note, game, model, running: crate::running::game_for(path), stamp: None, cjk }
 }
 
-/// The "Select game" dialog: the game list, which game is picked, and the saves found for
+/// The "Find my game's saves" dialog: the game list, which game is picked, and the saves found for
 /// each game (filled in by a background search).
 struct GamePicker {
     query: String,
     picked: Option<usize>,
     /// For entries covering many games (Ren'Py, RPG Maker…): the game whose saves are shown.
     group: Option<String>,
-    found: std::sync::Arc<std::sync::Mutex<Vec<Option<Vec<crate::games::Found>>>>>,
+    found: SaveSearch,
+    /// "Only games found here": `None` until the player changes it (then on once the search
+    /// finds something).
+    only_found: Option<bool>,
+    /// Only games with this much support.
+    level: Option<crate::games::Level>,
+}
+
+/// The saves found for each game in the catalog (`None`: not looked at yet).
+type SaveSearch = std::sync::Arc<std::sync::Mutex<Vec<Option<Vec<crate::games::Found>>>>>;
+
+/// Looks for every game's saves on a worker thread.
+fn search_saves() -> SaveSearch {
+    let found: SaveSearch = std::sync::Arc::new(std::sync::Mutex::new(vec![None; crate::games::GAMES.len()]));
+    let out = found.clone();
+    std::thread::spawn(move || {
+        for (i, g) in crate::games::GAMES.iter().enumerate() {
+            let f = crate::games::find(g);
+            if let Ok(mut v) = out.lock() {
+                v[i] = Some(f);
+            }
+        }
+    });
+    found
 }
 
 impl GamePicker {
-    fn new() -> Self {
-        let found = std::sync::Arc::new(std::sync::Mutex::new(vec![None; crate::games::GAMES.len()]));
-        let out = found.clone();
-        std::thread::spawn(move || {
-            for (i, g) in crate::games::GAMES.iter().enumerate() {
-                let f = crate::games::find(g);
-                if let Ok(mut v) = out.lock() {
-                    v[i] = Some(f);
-                }
-            }
-        });
-        Self { query: String::new(), picked: None, group: None, found }
+    fn with(found: SaveSearch) -> Self {
+        Self { query: String::new(), picked: None, group: None, found, only_found: None, level: None }
     }
 }
 
@@ -315,6 +341,24 @@ pub struct App {
     running: Option<String>,
     /// The built-in file browser, where there are no native dialogs (Android).
     browser: Option<(Ask, FileBrowser)>,
+    /// A failure, shown under the toolbar until dismissed.
+    banner: Option<String>,
+    /// The open file was changed on disk by something else since it was read or saved.
+    disk_changed: bool,
+    /// The changed file the player chose to keep working past ("Keep what's shown").
+    disk_seen: Option<Stamp>,
+    /// Saving over a file that changed on disk: waiting for Reload / Save anyway / Cancel.
+    stale_save: Option<PathBuf>,
+    /// "Save anyway" was chosen for the next save.
+    stale_ok: bool,
+    /// Whether the window had the keyboard focus last frame (a file check runs on return).
+    focused: bool,
+    /// The saves found on this computer, for "Your games" on the start page and Find my game's saves.
+    saves_found: Option<SaveSearch>,
+    prefs_open: bool,
+    help: Option<help::Window>,
+    /// Load the Japanese, Chinese and Korean fonts on the next frame.
+    need_cjk: bool,
     #[cfg(target_os = "android")]
     keyboard_shown: bool,
     /// Browser version: what the file being picked is for, and the context to wake when it's in.
@@ -329,6 +373,7 @@ impl App {
         let settings = Settings::load();
         crate::backups::set_root(settings.backup_dir.clone());
         crate::backups::set_earlier_roots(settings.earlier_backup_dirs.clone());
+        crate::backups::set_keep(settings.backup_keep);
         let has_icons = theme::install_fonts(&cc.egui_ctx);
         theme::apply(&cc.egui_ctx, settings.dark);
         cc.egui_ctx.set_zoom_factor(settings.zoom);
@@ -384,6 +429,17 @@ impl App {
             loading: None,
             running: None,
             browser: None,
+            banner: None,
+            disk_changed: false,
+            disk_seen: None,
+            stale_save: None,
+            stale_ok: false,
+            focused: true,
+            // Phones and the browser can't look through folders.
+            saves_found: (!cfg!(target_os = "android") && !WEB && std::env::var_os("SAVE_EDITOR_NO_SEARCH").is_none()).then(search_saves),
+            prefs_open: false,
+            help: None,
+            need_cjk: false,
             #[cfg(target_os = "android")]
             keyboard_shown: false,
             #[cfg(target_arch = "wasm32")]
@@ -395,7 +451,7 @@ impl App {
         // picks the first game whose name contains that.
         let initial = match initial {
             Some(p) if p.to_string_lossy().starts_with("--select-game") => {
-                let mut gp = GamePicker::new();
+                let mut gp = app.picker();
                 if let Some((_, q)) = p.to_string_lossy().split_once('=') {
                     let q = q.to_lowercase();
                     gp.picked = crate::games::GAMES.iter().position(|g| g.name.to_lowercase().contains(&q));
@@ -408,7 +464,17 @@ impl App {
         if let Some(p) = initial {
             app.load_async(&p);
         }
+        for p in app.settings.recent.clone() {
+            theme::cjk_for(&cc.egui_ctx, &p.to_string_lossy());
+        }
         app
+    }
+
+    /// Find my game's saves, with a fresh search (the start page shows its results too).
+    fn picker(&mut self) -> GamePicker {
+        let found = search_saves();
+        self.saves_found = Some(found.clone());
+        GamePicker::with(found)
     }
 
     fn info(&mut self, msg: impl Into<String>) {
@@ -422,6 +488,7 @@ impl App {
     fn fail(&mut self, msg: impl Into<String>) {
         self.status = msg.into();
         self.status_kind = StatusKind::Err;
+        self.banner = Some(self.status.clone());
     }
 
     /// Asks for a file or folder: a native dialog on desktop, the built-in browser on Android.
@@ -518,6 +585,8 @@ impl App {
         self.last_edit = None;
         self.running = None;
         self.doc_note.clear();
+        self.disk_changed = false;
+        self.stale_save = None;
         self.model = Model::default();
         self.model_gen += 1;
         self.info("Closed the file.");
@@ -533,6 +602,12 @@ impl App {
             self.preset_save = None;
         } else if self.preset_apply.is_some() {
             self.preset_apply = None;
+        } else if self.stale_save.is_some() {
+            self.stale_save = None;
+        } else if self.help.is_some() {
+            self.help = None;
+        } else if self.prefs_open {
+            self.prefs_open = false;
         } else if self.save_review.is_some() {
             self.save_review = None;
         } else if self.confirm_close {
@@ -586,9 +661,10 @@ impl App {
         let (tx, rx) = std::sync::mpsc::channel();
         let (p, o) = (path.to_path_buf(), opts.clone());
         std::thread::spawn(move || {
+            let stamp = safety::stamp(&p);
             let r = crate::vfs::read(&p)
                 .map_err(|e| format!("Couldn't open {}: {e}", p.display()))
-                .map(|raw| (raw.len(), prepare(&p, formats::decode_with(&raw, &o))));
+                .map(|raw| (raw.len(), Prepared { stamp, ..prepare(&p, formats::decode_with(&raw, &o)) }));
             let _ = tx.send(r);
         });
         self.loading = Some(Loading { path: path.to_path_buf(), opts, started: f64::NAN, rx });
@@ -638,17 +714,19 @@ impl App {
 
     /// Load with explicit options (password, zip entry).
     fn load_with(&mut self, path: &Path, opts: formats::Options) {
+        let stamp = safety::stamp(path);
         let raw = match crate::vfs::read(path) {
             Ok(r) => r,
             Err(e) => return self.fail(format!("Couldn't open {}: {e}", path.display())),
         };
-        let prepared = prepare(path, formats::decode_with(&raw, &opts));
+        let prepared = Prepared { stamp, ..prepare(path, formats::decode_with(&raw, &opts)) };
         self.finish_load(path, opts, raw.len(), prepared);
     }
 
     /// Shows a decoded file (from `load_with` or the worker thread).
     fn finish_load(&mut self, path: &Path, opts: formats::Options, raw_len: usize, p: Prepared) {
-        let Prepared { decoded, baseline, names, note, game, model, running } = p;
+        let Prepared { decoded, baseline, names, note, game, model, running, stamp, cjk } = p;
+        self.need_cjk |= cjk || theme::has_cjk(&path.to_string_lossy());
         let desc = friendly_kind(&decoded.layers, &decoded.content);
         self.doc = Some(Doc {
             path: path.to_path_buf(),
@@ -659,7 +737,12 @@ impl App {
             opts,
             zip_entries: decoded.zip_entries,
             game,
+            stamp,
         });
+        self.disk_changed = false;
+        self.disk_seen = None;
+        self.stale_save = None;
+        self.stale_ok = false;
         self.undo.clear();
         self.redo.clear();
         self.touched.clear();
@@ -983,6 +1066,11 @@ impl App {
             return self.fail("The Raw JSON has a syntax error \u{2014} fix it before saving.");
         }
         let Some(doc) = &self.doc else { return };
+        // Something else wrote the file since it was read: don't silently put older data over it.
+        if !std::mem::take(&mut self.stale_ok) && doc.path == path && safety::changed(&doc.path, doc.stamp.as_ref()) {
+            self.stale_save = Some(path.to_path_buf());
+            return;
+        }
         let bytes = match formats::encode(&doc.layers, &doc.content) {
             Ok(b) => b,
             Err(e) => return self.fail(format!("Couldn't build the save file: {e}")),
@@ -1040,6 +1128,9 @@ impl App {
         let persistent = check.layers.iter().any(|l| matches!(l, Layer::RenpyPersistent { .. }));
         let d = self.doc.as_mut().unwrap();
         d.path = path.to_path_buf();
+        d.stamp = safety::stamp(path);
+        self.disk_changed = false;
+        self.disk_seen = None;
         d.layers = check.layers;
         d.content = check.content;
         d.baseline = d.content.clone();
@@ -1134,15 +1225,35 @@ impl App {
         let wide = screen.width() > 820.0;
         // A fixed size that always fits: the lists inside fill whatever they're given.
         let size = egui::vec2((screen.width() - 40.0).min(900.0), (screen.height() - 90.0).min(620.0));
-        egui::Window::new("Select game")
+        egui::Window::new("Find my game's saves")
             .collapsible(false)
             .resizable(false)
             .fixed_size(size)
             .anchor(egui::Align2::CENTER_CENTER, [0.0, 0.0])
             .show(ctx, |ui| {
-                ui.horizontal(|ui| {
+                let searching = found.iter().any(Option::is_none);
+                let here = |i: usize| found[i].as_ref().is_some_and(|f| !f.is_empty());
+                let any_here = (0..found.len()).any(here);
+                let only = gp.only_found.unwrap_or(!searching && any_here);
+                ui.horizontal_wrapped(|ui| {
                     ui.label("Search:");
-                    ui.add(TextEdit::singleline(&mut gp.query).hint_text("game name").desired_width(220.0));
+                    ui.add(TextEdit::singleline(&mut gp.query).hint_text("game name").desired_width(200.0));
+                    let mut o = only;
+                    if ui
+                        .checkbox(&mut o, "Only games found here")
+                        .on_hover_text("Show only the games whose saves were found on this computer. Typing a name searches every game.")
+                        .changed()
+                    {
+                        gp.only_found = Some(o);
+                    }
+                    egui::ComboBox::from_id_salt("gp_level")
+                        .selected_text(gp.level.map_or("Any support", |l| l.label()))
+                        .show_ui(ui, |ui| {
+                            ui.selectable_value(&mut gp.level, None, "Any support");
+                            for l in crate::games::Level::ALL {
+                                ui.selectable_value(&mut gp.level, Some(l), l.label()).on_hover_text(l.hint());
+                            }
+                        });
                     ui.with_layout(egui::Layout::right_to_left(egui::Align::Center), |ui| {
                         if ui.button("Close").clicked() {
                             close = true;
@@ -1152,22 +1263,64 @@ impl App {
                 ui.weak("Pick a game to see where it keeps its saves and the ones on this computer. Open\u{2026} and dragging a file onto the window still work for anything else.");
                 ui.separator();
                 let q = gp.query.trim().to_lowercase();
-                let shown: Vec<usize> = (0..crate::games::GAMES.len()).filter(|&i| q.is_empty() || crate::games::GAMES[i].name.to_lowercase().contains(&q)).collect();
-                let list = |ui: &mut egui::Ui, picked: &mut Option<usize>| {
+                let level = gp.level;
+                let matches = |i: usize| {
+                    let g = &crate::games::GAMES[i];
+                    (q.is_empty() || g.name.to_lowercase().contains(&q)) && level.is_none_or(|l| crate::games::level(g) == l)
+                };
+                // Games with saves on this computer first, then the rest; a typed name looks through all of them.
+                let found_here: Vec<usize> = (0..crate::games::GAMES.len()).filter(|&i| here(i) && matches(i)).collect();
+                let others: Vec<usize> = if only && q.is_empty() { vec![] } else { (0..crate::games::GAMES.len()).filter(|&i| !here(i) && matches(i)).collect() };
+                let hidden = if only && q.is_empty() { (0..crate::games::GAMES.len()).filter(|&i| !here(i) && matches(i)).count() } else { 0 };
+                let mut show_all = false;
+                let list = |ui: &mut egui::Ui, picked: &mut Option<usize>, show_all: &mut bool| {
                     ScrollArea::vertical().id_salt("gp_list").auto_shrink([false, false]).show(ui, |ui| {
-                        for &i in &shown {
+                        let row = |ui: &mut egui::Ui, i: usize, picked: &mut Option<usize>| {
                             let g = &crate::games::GAMES[i];
                             let n = match &found[i] {
                                 Some(f) if f.is_empty() => "none found".to_string(),
                                 Some(f) => format!("{} found", f.len()),
                                 None => "looking\u{2026}".to_string(),
                             };
-                            let r = ui.selectable_label(*picked == Some(i), format!("{}  \u{00B7}  {n}", g.name));
-                            if r.clicked() {
-                                *picked = Some(i);
+                            ui.horizontal(|ui| {
+                                let l = crate::games::level(g);
+                                let color = match l {
+                                    crate::games::Level::Screen => theme::OK,
+                                    crate::games::Level::Values => theme::ACCENT,
+                                    crate::games::Level::Hex => theme::WARN,
+                                };
+                                let r = ui.selectable_label(*picked == Some(i), format!("{}  \u{00B7}  {n}", g.name));
+                                if r.clicked() {
+                                    *picked = Some(i);
+                                }
+                                Self::chip(ui, l.label(), color).on_hover_text(l.hint());
+                            });
+                        };
+                        if !found_here.is_empty() {
+                            ui.label(RichText::new("On this computer").strong());
+                            for &i in &found_here {
+                                row(ui, i, picked);
+                            }
+                            if !others.is_empty() {
+                                ui.add_space(6.0);
+                                ui.label(RichText::new("Other games").strong());
+                            }
+                        } else if searching && only && q.is_empty() {
+                            ui.horizontal(|ui| {
+                                ui.spinner();
+                                ui.weak("Looking for saves on this computer\u{2026}");
+                            });
+                        }
+                        for &i in &others {
+                            row(ui, i, picked);
+                        }
+                        if hidden > 0 {
+                            ui.add_space(6.0);
+                            if ui.link(format!("Show the other {hidden} games")).clicked() {
+                                *show_all = true;
                             }
                         }
-                        if shown.is_empty() {
+                        if found_here.is_empty() && others.is_empty() && hidden == 0 {
                             ui.weak("No game matches. Use Open\u{2026} to pick the file yourself.");
                         }
                     });
@@ -1265,11 +1418,11 @@ impl App {
                 let before = gp.picked;
                 if wide {
                     ui.columns(2, |c| {
-                        list(&mut c[0], &mut gp.picked);
+                        list(&mut c[0], &mut gp.picked, &mut show_all);
                         details(&mut c[1], gp.picked, &mut gp.group, &mut open);
                     });
                 } else if gp.picked.is_none() {
-                    list(ui, &mut gp.picked);
+                    list(ui, &mut gp.picked, &mut show_all);
                 } else {
                     if ui.button("\u{2039} All games").clicked() {
                         gp.picked = None;
@@ -1278,6 +1431,9 @@ impl App {
                 }
                 if gp.picked != before {
                     gp.group = None;
+                }
+                if show_all {
+                    gp.only_found = Some(false);
                 }
             });
         if close {
@@ -1598,9 +1754,9 @@ impl App {
                     ui.close_menu();
                     self.ask(Ask::Open, None, None);
                 }
-                if !cfg!(target_os = "android") && !WEB && ui.button("Select game\u{2026}").clicked() {
+                if !cfg!(target_os = "android") && !WEB && ui.button("Find my game's saves\u{2026}").on_hover_text("Pick a game to see the saves it has on this computer").clicked() {
                     ui.close_menu();
-                    self.game_picker = Some(GamePicker::new());
+                    self.game_picker = Some(self.picker());
                 }
                 ui.menu_button("Open recent", |ui| {
                     let recent = self.settings.recent.clone();
@@ -1688,7 +1844,7 @@ impl App {
                 ui.add_enabled_ui(has_bak || !versions.is_empty() || on_disk, |ui| {
                     ui.menu_button("Quick restore", |ui| {
                         ui.weak("Automatic backups are taken each time this app saves over the file.");
-                        ui.weak("Named backups are kept for good; the 30 newest automatic ones are kept.");
+                        ui.weak(format!("Named backups are kept for good; the {} newest automatic ones are kept.", crate::backups::keep()));
                         ui.separator();
                         let mut pick = None;
                         let mut compare = None;
@@ -1765,6 +1921,11 @@ impl App {
                     ui.close_menu();
                     let ctx = ui.ctx().clone();
                     self.copy_changes(&ctx);
+                }
+                ui.separator();
+                if ui.button("Preferences\u{2026}").clicked() {
+                    ui.close_menu();
+                    self.prefs_open = true;
                 }
             });
             ui.menu_button("View", |ui| {
@@ -1925,6 +2086,7 @@ impl App {
                     }
                 }
             });
+            self.help_menu(ui);
         });
     }
 
@@ -2007,7 +2169,8 @@ impl App {
         let binary = matches!(self.doc.as_ref().map(|d| &d.content), Some(Content::Binary(_)));
         egui::Window::new(format!("Compare with {other_name}"))
             .open(&mut open)
-            .default_size([620.0, 460.0])
+            .default_size([fit(ctx, 620.0), 460.0])
+            .max_width(fit(ctx, 1400.0))
             .show(ctx, |ui| {
                 ui.weak("Values that differ between this save and the other one. \u{201C}Use theirs\u{201D} copies the other save's value into this one.");
                 ui.separator();
@@ -2202,7 +2365,7 @@ impl App {
         let has_doc = self.doc.is_some();
         let dirty = self.dirty;
         let newest_dir = versions.first().and_then(|v| v.path.parent()).map(Path::to_path_buf);
-        egui::Window::new("Save manager").open(&mut open).collapsible(false).default_width(560.0).show(ctx, |ui| {
+        egui::Window::new("Save manager").open(&mut open).collapsible(false).default_width(fit(ctx, 560.0)).max_width(fit(ctx, 900.0)).show(ctx, |ui| {
             ui.label(RichText::new(file_name(&path)).strong());
             if !path.exists() {
                 ui.label(RichText::new("There is no save file here right now. The game makes a new one when you save in it, or restore a backup below to put one back.").color(theme::fg(ui, theme::WARN)));
@@ -2415,7 +2578,8 @@ impl App {
         egui::Window::new("Cheat patches")
             .collapsible(false)
             .resizable(true)
-            .default_size([560.0, 520.0])
+            .default_size([fit(ctx, 560.0), 520.0])
+            .max_width(fit(ctx, 1400.0))
             .order(egui::Order::Foreground)
             .anchor(egui::Align2::CENTER_CENTER, [0.0, 0.0])
             .show(ctx, |ui| {
@@ -2787,9 +2951,9 @@ impl App {
             }
             if !cfg!(target_os = "android")
                 && !WEB
-                && ui.button("Select game").on_hover_text("Pick a game from the list to see the saves it has on this computer").clicked()
+                && ui.button("Find saves").on_hover_text("Pick a game from the list to see the saves it has on this computer").clicked()
             {
-                self.game_picker = Some(GamePicker::new());
+                self.game_picker = Some(self.picker());
             }
             let save_btn = if self.dirty {
                 egui::Button::new(widgets::icon_text_colored(ui, hi, icon::SAVE, "Save", Color32::WHITE)).fill(theme::ACCENT)
@@ -2914,7 +3078,12 @@ impl App {
                 if self.has_icons && !glyph.is_empty() {
                     ui.label(RichText::new(glyph).family(theme::icons_family()).color(color).size(12.0));
                 }
-                ui.add(egui::Label::new(RichText::new(&self.status).color(color)).truncate()).on_hover_text(&self.status);
+                if self.status_kind == StatusKind::Err && self.banner.as_deref() == Some(self.status.as_str()) {
+                    // The whole message is in the banner at the top.
+                    ui.label(RichText::new("Something went wrong \u{2014} see the message at the top.").color(color));
+                } else {
+                    ui.add(egui::Label::new(RichText::new(&self.status).color(color)).truncate()).on_hover_text(&self.status);
+                }
             });
         });
     }
@@ -3630,11 +3799,36 @@ impl App {
                     "Edit game saves safely \u{2014} everything stays on this computer."
                 });
                 ui.add_space(14.0);
-                let btn = egui::Button::new(widgets::icon_text_colored(ui, self.has_icons, icon::OPEN, "Open a save file", Color32::WHITE))
-                    .fill(theme::ACCENT)
-                    .min_size(egui::vec2(220.0, 40.0));
-                if ui.add(btn).clicked() {
-                    browse = Some(None);
+                if self.saves_found.is_some() {
+                    // Finding the saves for you comes first; picking the file yourself is the other way in.
+                    let find = egui::Button::new(RichText::new("Find my game's saves").color(Color32::WHITE)).fill(theme::ACCENT).min_size(egui::vec2(220.0, 40.0));
+                    let file = egui::Button::new(widgets::icon_text(ui, self.has_icons, icon::OPEN, "Open a file\u{2026}")).min_size(egui::vec2(160.0, 40.0));
+                    let w = 220.0 + 160.0 + ui.spacing().item_spacing.x;
+                    let side_by_side = ui.available_width() >= w + 16.0;
+                    let mut clicks = (false, false);
+                    if side_by_side {
+                        ui.allocate_ui_with_layout(egui::vec2(w, 40.0), egui::Layout::left_to_right(egui::Align::Center), |ui| {
+                            clicks.0 = ui.add(find).on_hover_text("Pick your game from the list; its saves on this computer are found for you").clicked();
+                            clicks.1 = ui.add(file).clicked();
+                        });
+                    } else {
+                        clicks.0 = ui.add(find).clicked();
+                        clicks.1 = ui.add(file).clicked();
+                    }
+                    if clicks.0 {
+                        let search = self.saves_found.clone().unwrap_or_else(search_saves);
+                        self.game_picker = Some(GamePicker::with(search));
+                    }
+                    if clicks.1 {
+                        browse = Some(None);
+                    }
+                } else {
+                    let btn = egui::Button::new(widgets::icon_text_colored(ui, self.has_icons, icon::OPEN, "Open a save file", Color32::WHITE))
+                        .fill(theme::ACCENT)
+                        .min_size(egui::vec2(220.0, 40.0));
+                    if ui.add(btn).clicked() {
+                        browse = Some(None);
+                    }
                 }
                 ui.add_space(4.0);
                 if !cfg!(target_os = "android") {
@@ -3645,6 +3839,12 @@ impl App {
                 let w = ui.available_width().min(680.0);
                 ui.allocate_ui(egui::vec2(w, 0.0), |ui| {
                     ui.with_layout(egui::Layout::top_down(egui::Align::Min), |ui| {
+                        if let Some(p) = self.your_games(ui) {
+                            open = Some(p);
+                        }
+                        if self.saves_found.is_some() {
+                            ui.add_space(8.0);
+                        }
                         theme::card(ui, |ui| {
                             ui.label(RichText::new("Recent files").family(theme::semibold_family()).size(16.0));
                             if self.settings.recent.is_empty() {
@@ -3697,7 +3897,7 @@ impl App {
                                 "{} games, {} of them with a screen of their own: Elden Ring, Baldur's Gate, Mass Effect, Final Fantasy, Stardew Valley, Terraria, Cyberpunk 2077 and many more \u{00B7} Pok\u{00E9}mon Gen I\u{2013}III (emulator saves) \u{00B7} {}",
                                 crate::games::GAMES.len(),
                                 crate::games::GAMES.iter().filter(|g| g.support.starts_with("Game screen")).count(),
-                                if WEB { "the full list is on the website" } else { "Select game lists them all" },
+                                if WEB { "the full list is on the website" } else { "Find my game's saves lists them all" },
                             );
                             let data_formats = if WEB {
                                 "JSON \u{00B7} XML \u{00B7} INI/CFG \u{00B7} TOML \u{00B7} YAML \u{00B7} plist \u{00B7} MessagePack \u{00B7} BSON \u{00B7} Python pickle (SQLite needs the downloaded app)"
@@ -3778,6 +3978,11 @@ fn friendly_kind(layers: &[Layer], content: &Content) -> String {
 }
 
 /// Phone-sized window: rows that are side by side on desktop wrap or stack instead.
+/// A window width that fits on the screen (phones, small browser windows), at most `want`.
+fn fit(ctx: &egui::Context, want: f32) -> f32 {
+    want.min(ctx.screen_rect().width() - 24.0).max(200.0)
+}
+
 fn narrow(ui: &egui::Ui) -> bool {
     ui.ctx().screen_rect().width() < 640.0
 }
@@ -3934,6 +4139,11 @@ impl eframe::App for App {
                 self.doc_note.clear();
             }
         }
+        self.check_disk(ctx);
+        self.banners(ctx);
+        if std::mem::take(&mut self.need_cjk) {
+            theme::enable_cjk(ctx);
+        }
         egui::TopBottomPanel::bottom("status").show(ctx, |ui| {
             ui.add_space(2.0);
             self.status_bar(ui);
@@ -4063,6 +4273,9 @@ impl eframe::App for App {
         self.share_names_dialog(ctx);
         self.poll_auto_refine(ctx, now);
         self.compare_window(ctx, now);
+        self.stale_dialog(ctx);
+        self.prefs_window(ctx);
+        self.help_window(ctx);
         self.browser_window(ctx);
         // Android: bring up the on-screen keyboard while a text field has focus.
         #[cfg(target_os = "android")]
@@ -4139,6 +4352,7 @@ fn modal(ctx: &egui::Context, title: &str, add: impl FnOnce(&mut egui::Ui)) {
     egui::Window::new(title)
         .collapsible(false)
         .resizable(false)
+        .max_width(fit(ctx, 640.0))
         .order(egui::Order::Foreground)
         .anchor(egui::Align2::CENTER_CENTER, [0.0, 0.0])
         .show(ctx, add);

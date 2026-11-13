@@ -1,4 +1,5 @@
-//! Look & feel: Windows system fonts (with egui fallbacks), icon glyphs and colours.
+//! Look & feel: Windows system fonts (with egui fallbacks and the system's Japanese, Chinese and
+//! Korean fonts when a save needs them), icon glyphs and colours.
 
 use eframe::egui::{self, Color32, FontData, FontDefinitions, FontFamily, FontId, Rounding, Stroke, TextStyle};
 
@@ -37,6 +38,85 @@ fn load(path: &str) -> Option<FontData> {
 
 /// Install fonts. Returns true if an icon font is available.
 pub fn install_fonts(ctx: &egui::Context) -> bool {
+    let (fonts, has_icons) = definitions(false);
+    ctx.set_fonts(fonts);
+    has_icons
+}
+
+static CJK_ON: std::sync::atomic::AtomicBool = std::sync::atomic::AtomicBool::new(false);
+
+/// Whether `s` has Japanese, Chinese or Korean characters, which the main fonts don't have.
+pub fn has_cjk(s: &str) -> bool {
+    s.chars().any(|c| {
+        matches!(c as u32,
+            0x1100..=0x11FF | 0x2E80..=0x2FDF | 0x3000..=0x30FF | 0x3100..=0x31FF | 0x3200..=0x9FFF
+            | 0xA960..=0xA97F | 0xAC00..=0xD7FF | 0xF900..=0xFAFF | 0xFE30..=0xFE4F | 0xFF00..=0xFFEF | 0x20000..=0x3134F)
+    })
+}
+
+/// Adds the computer's Japanese, Chinese and Korean fonts as fallbacks, the first time text
+/// that needs them shows up (they are large, so they aren't read at start-up). Returns false
+/// when none was found (always, in the browser version).
+pub fn enable_cjk(ctx: &egui::Context) -> bool {
+    use std::sync::atomic::Ordering;
+    if CJK_ON.load(Ordering::Relaxed) {
+        return true;
+    }
+    if cjk_fonts().is_empty() {
+        return false;
+    }
+    CJK_ON.store(true, Ordering::Relaxed);
+    let (fonts, _) = definitions(true);
+    ctx.set_fonts(fonts);
+    true
+}
+
+/// `enable_cjk` when `text` needs it.
+pub fn cjk_for(ctx: &egui::Context, text: &str) {
+    if has_cjk(text) {
+        enable_cjk(ctx);
+    }
+}
+
+/// Font files with Japanese, Chinese and Korean characters on this computer, one per script
+/// where the system splits them, most complete first.
+fn cjk_fonts() -> Vec<String> {
+    if cfg!(target_arch = "wasm32") {
+        return vec![];
+    }
+    let win = std::env::var("WINDIR").unwrap_or_else(|_| "C:\\Windows".into());
+    let w = |name: &str| format!("{win}\\Fonts\\{name}");
+    let groups: Vec<Vec<String>> = if cfg!(windows) {
+        vec![
+            // Japanese (kana and kanji), then Simplified Chinese, then Korean (hangul).
+            vec![w("YuGothM.ttc"), w("YuGothR.ttc"), w("meiryo.ttc"), w("msgothic.ttc")],
+            vec![w("msyh.ttc"), w("msyh.ttf"), w("simsun.ttc")],
+            vec![w("malgun.ttf"), w("gulim.ttc")],
+        ]
+    } else if cfg!(target_os = "macos") {
+        vec![
+            vec!["/System/Library/Fonts/Hiragino Sans GB.ttc".into(), "/System/Library/Fonts/STHeiti Light.ttc".into(), "/System/Library/Fonts/Supplemental/Arial Unicode.ttf".into(), "/Library/Fonts/Arial Unicode.ttf".into()],
+            vec!["/System/Library/Fonts/AppleSDGothicNeo.ttc".into()],
+        ]
+    } else if cfg!(target_os = "android") {
+        vec![vec!["/system/fonts/NotoSansCJK-Regular.ttc".into(), "/system/fonts/NotoSansSC-Regular.otf".into(), "/system/fonts/DroidSansFallback.ttf".into()]]
+    } else {
+        vec![vec![
+            "/usr/share/fonts/opentype/noto/NotoSansCJK-Regular.ttc".into(),
+            "/usr/share/fonts/noto-cjk/NotoSansCJK-Regular.ttc".into(),
+            "/usr/share/fonts/google-noto-cjk/NotoSansCJK-Regular.ttc".into(),
+            "/usr/share/fonts/google-noto-sans-cjk-vf-fonts/NotoSansCJK-VF.ttc".into(),
+            "/usr/share/fonts/noto-cjk/NotoSansCJKsc-Regular.otf".into(),
+            "/usr/share/fonts/truetype/wqy/wqy-microhei.ttc".into(),
+            "/usr/share/fonts/wenquanyi/wqy-microhei/wqy-microhei.ttc".into(),
+            "/usr/share/fonts/truetype/droid/DroidSansFallbackFull.ttf".into(),
+            "/usr/share/fonts/google-droid/DroidSansFallbackFull.ttf".into(),
+        ]]
+    };
+    groups.into_iter().filter_map(|g| g.into_iter().find(|p| std::path::Path::new(p).is_file())).collect()
+}
+
+fn definitions(cjk: bool) -> (FontDefinitions, bool) {
     let mut fonts = FontDefinitions::default();
     let win = std::env::var("WINDIR").unwrap_or_else(|_| "C:\\Windows".into());
     let f = |name: &str| format!("{win}\\Fonts\\{name}");
@@ -61,6 +141,19 @@ pub fn install_fonts(ctx: &egui::Context) -> bool {
         }
     }
 
+    // Japanese, Chinese and Korean last: only for characters nothing before them has.
+    if cjk {
+        for (i, path) in cjk_fonts().iter().enumerate() {
+            if let Some(d) = load(path) {
+                let name = format!("cjk{i}");
+                fonts.font_data.insert(name.clone(), d);
+                for fam in [FontFamily::Proportional, FontFamily::Monospace] {
+                    fonts.families.entry(fam).or_default().push(name.clone());
+                }
+            }
+        }
+    }
+
     let mut semibold = Vec::new();
     if let Some(d) = load(&f("seguisb.ttf")) {
         fonts.font_data.insert("segoe_sb".into(), d);
@@ -79,9 +172,9 @@ pub fn install_fonts(ctx: &egui::Context) -> bool {
     icon_fam.extend(fonts.families[&FontFamily::Proportional].iter().cloned());
     fonts.families.insert(icons_family(), icon_fam);
 
-    ctx.set_fonts(fonts);
-    has_icons
+    (fonts, has_icons)
 }
+
 
 pub fn apply(ctx: &egui::Context, dark: bool) {
     let mut style = (*ctx.style_of(if dark { egui::Theme::Dark } else { egui::Theme::Light })).clone();
