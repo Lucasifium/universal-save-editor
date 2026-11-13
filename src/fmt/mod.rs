@@ -135,6 +135,7 @@ pub mod fos;
 pub mod deusex;
 pub mod xcom2;
 pub mod sn2;
+pub mod ff16;
 pub mod atomic_heart;
 pub mod xcom_eu;
 pub mod ff7;

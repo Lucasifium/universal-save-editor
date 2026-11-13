@@ -543,7 +543,7 @@ IDs and keys read-only, 0/1 check-constrained columns shown as switches), Python
 
 **Wrappers** — gzip, zlib, raw deflate, zstd, LZ4, Snappy (framed), xz, bzip2, zip (pick any entry), Base64 (plain or
 line-wrapped), UTF-8 BOM, UTF-16, XOR, Easy Save 3 AES, Godot AES, Terraria AES, Hollow Knight AES,
-FromSoftware BND4 (MD5 + AES), Minecraft region chunks, mGBA PNG save states, Supergiant (Adler-32 + LZ4), Stellar Blade's EVAS envelope (CRC-32 written again), Ace Combat 8's packed save data (checksum written again), Prey (2017) (RC4 and zlib chunks, MD5 written again).
+FromSoftware BND4 (MD5 + AES), Minecraft region chunks, mGBA PNG save states, Final Fantasy XVI slot pictures (XOR and zlib with the game's own dictionary, read from your installed copy of the game), Supergiant (Adler-32 + LZ4), Stellar Blade's EVAS envelope (CRC-32 written again), Ace Combat 8's packed save data (checksum written again), Prey (2017) (RC4 and zlib chunks, MD5 written again).
 
 **Anything else** opens in the hex editor with value search and named offsets.
 
@@ -709,6 +709,7 @@ save + re-open comparison, and damaged/truncated copies to make sure nothing cra
 - **Built on others' work.** Save layouts and item tables from other open-source editors are used under
   their licences (MIT, Apache-2.0, zlib, GPL), and every crate compiled into the program is listed with its
   licence. See [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
+- **Final Fantasy XVI** support was worked out independently from the game's own program and saves. No third-party Final Fantasy XVI tools, their code or their documentation were used.
 - **Built with help from Claude (Anthropic).**
 - **Use at your own risk.** Back up your saves first. Editing saves is meant for single-player games:
   don't use edited saves in online or multiplayer modes, where it can break the game's rules and get
