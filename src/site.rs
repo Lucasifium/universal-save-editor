@@ -265,7 +265,7 @@ fn page(title: &str, desc: &str, path: &str, body: &str, schema: &str) -> String
 <main>
 {body}
 </main>
-<footer><div class="in">Universal Save Editor is free, and always will be. Open source under the GPL-3.0. Not affiliated with any game developer or publisher; game names and trademarks belong to their owners. Always keep a backup of your saves.</div></footer>
+<footer><div class="in">Universal Save Editor is free, and always will be. Open source under the GPL-3.0. Not affiliated with any game developer or publisher; game names and trademarks belong to their owners. Always keep a backup of your saves. <a href="{root}code-signing/">Code signing policy</a>.</div></footer>
 </body>
 </html>
 "#,
@@ -519,8 +519,23 @@ fn build_site() {
         .replace("href=\"./style.css\"", "href=\"/universal-save-editor/style.css\"")
         .replace("href=\"./#games\"", "href=\"/universal-save-editor/#games\"")
         .replace("href=\"./app/\"", "href=\"/universal-save-editor/app/\"")
+        .replace("href=\"./code-signing/\"", "href=\"/universal-save-editor/code-signing/\"")
         .replace("href=\"./\"", "href=\"/universal-save-editor/\"");
     std::fs::write(out.join("404.html"), nf).unwrap();
+    let signing = r#"<h1>Code signing policy</h1>
+<p class="lead">How the Windows downloads of Universal Save Editor are built and signed.</p>
+<p>Every download on the <a href="https://github.com/Lucasifium/universal-save-editor/releases">Releases page</a> is built by GitHub Actions from the source code in the <a href="https://github.com/Lucasifium/universal-save-editor">public repository</a>, by the release workflow kept in that repository. Nothing is built or uploaded by hand. Each release lists a <code>SHA256SUMS.txt</code> so a download can be checked against what the workflow produced.</p>
+<p>The project has applied to <a href="https://signpath.org/">SignPath Foundation</a> for free code signing of its Windows programs. Once accepted, every Windows release is signed by SignPath after the workflow builds it, and only after a person on the team approves that release. Until then the Windows downloads are not signed.</p>
+<h2>Team roles</h2>
+<ul>
+<li>Committers and reviewers: <a href="https://github.com/Lucasifium">Lucasifium</a></li>
+<li>Approvers: <a href="https://github.com/Lucasifium">Lucasifium</a></li>
+</ul>
+<h2>Privacy</h2>
+<p>This program will not transfer any information to other networked systems unless specifically requested by the user or the person installing or operating it. It edits save files on your own computer and makes no network connections of its own; the Help menu only opens web pages in your browser when you choose to.</p>"#;
+    let dir = out.join("code-signing");
+    std::fs::create_dir_all(&dir).unwrap();
+    std::fs::write(dir.join("index.html"), page("Code signing policy | Universal Save Editor", "How the Universal Save Editor downloads are built and signed.", "code-signing/", signing, &schema("Universal Save Editor", "Free, offline save editor and manager for PC games.", &format!("{SITE}/")))).unwrap();
     std::fs::write(out.join("robots.txt"), format!("User-agent: *\nAllow: /\nSitemap: {SITE}/sitemap.xml\n")).unwrap();
     println!("{} pages; full-editor games without a README row: {unmatched:?}", urls.len());
     // Every page needs its own slug.

@@ -28,8 +28,8 @@ fn main() {
     if os == "windows" {
         let mut res = winresource::WindowsResource::new();
         res.set_icon(ico_path.to_str().unwrap());
-        res.set("FileDescription", "UniversalSaveEditor");
-        res.set("ProductName", "UniversalSaveEditor");
+        res.set("FileDescription", "Universal Save Editor");
+        res.set("ProductName", "Universal Save Editor");
         if let Err(e) = res.compile() {
             println!("cargo:warning=could not embed icon: {e}");
         }

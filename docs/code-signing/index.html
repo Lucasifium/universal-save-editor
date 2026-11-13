@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Code signing policy | Universal Save Editor</title>
+<meta name="description" content="How the Universal Save Editor downloads are built and signed.">
+<link rel="canonical" href="https://lucasifium.github.io/universal-save-editor/code-signing/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Universal Save Editor">
+<meta property="og:title" content="Code signing policy | Universal Save Editor">
+<meta property="og:description" content="How the Universal Save Editor downloads are built and signed.">
+<meta property="og:url" content="https://lucasifium.github.io/universal-save-editor/code-signing/">
+<meta name="twitter:card" content="summary">
+<link rel="stylesheet" href="../style.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareApplication","name":"Universal Save Editor","description":"Free, offline save editor and manager for PC games.","url":"https://lucasifium.github.io/universal-save-editor/","applicationCategory":"UtilitiesApplication","operatingSystem":"Windows, Linux, web browser","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"license":"https://www.gnu.org/licenses/gpl-3.0.html","downloadUrl":"https://github.com/Lucasifium/universal-save-editor/releases/latest"}</script>
+</head>
+<body>
+<header><div class="in"><a class="brand" href="../">Universal Save Editor</a><nav><a href="../#games">Games</a><a href="../app/">Use in browser</a><a href="https://github.com/Lucasifium/universal-save-editor/releases/latest">Download</a><a href="https://github.com/Lucasifium/universal-save-editor">Source</a></nav></div></header>
+<main>
+<h1>Code signing policy</h1>
+<p class="lead">How the Windows downloads of Universal Save Editor are built and signed.</p>
+<p>Every download on the <a href="https://github.com/Lucasifium/universal-save-editor/releases">Releases page</a> is built by GitHub Actions from the source code in the <a href="https://github.com/Lucasifium/universal-save-editor">public repository</a>, by the release workflow kept in that repository. Nothing is built or uploaded by hand. Each release lists a <code>SHA256SUMS.txt</code> so a download can be checked against what the workflow produced.</p>
+<p>The project has applied to <a href="https://signpath.org/">SignPath Foundation</a> for free code signing of its Windows programs. Once accepted, every Windows release is signed by SignPath after the workflow builds it, and only after a person on the team approves that release. Until then the Windows downloads are not signed.</p>
+<h2>Team roles</h2>
+<ul>
+<li>Committers and reviewers: <a href="https://github.com/Lucasifium">Lucasifium</a></li>
+<li>Approvers: <a href="https://github.com/Lucasifium">Lucasifium</a></li>
+</ul>
+<h2>Privacy</h2>
+<p>This program will not transfer any information to other networked systems unless specifically requested by the user or the person installing or operating it. It edits save files on your own computer and makes no network connections of its own; the Help menu only opens web pages in your browser when you choose to.</p>
+</main>
+<footer><div class="in">Universal Save Editor is free, and always will be. Open source under the GPL-3.0. Not affiliated with any game developer or publisher; game names and trademarks belong to their owners. Always keep a backup of your saves. <a href="../code-signing/">Code signing policy</a>.</div></footer>
+</body>
+</html>

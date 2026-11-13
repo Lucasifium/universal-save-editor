@@ -63,6 +63,6 @@
 <script>var all=document.getElementById('all');if(location.hash==='#games')all.open=true;window.addEventListener('hashchange',function(){if(location.hash==='#games')all.open=true});document.getElementById('q').addEventListener('input',function(){var q=this.value.toLowerCase().trim(),n=0;if(q)all.open=true;document.querySelectorAll('#list li').forEach(function(li){var hit=li.querySelector('span').textContent.toLowerCase().indexOf(q)>=0;li.style.display=hit?'':'none';if(hit)n++});document.getElementById('none').style.display=n?'none':'block'})</script>
 
 </main>
-<footer><div class="in">Universal Save Editor is free, and always will be. Open source under the GPL-3.0. Not affiliated with any game developer or publisher; game names and trademarks belong to their owners. Always keep a backup of your saves.</div></footer>
+<footer><div class="in">Universal Save Editor is free, and always will be. Open source under the GPL-3.0. Not affiliated with any game developer or publisher; game names and trademarks belong to their owners. Always keep a backup of your saves. <a href="./code-signing/">Code signing policy</a>.</div></footer>
 </body>
 </html>

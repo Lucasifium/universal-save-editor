@@ -61,6 +61,8 @@ Ready-made builds are on the [Releases page](../../releases):
 
 **Windows SmartScreen:** the first time you run a new release, Windows may show "Windows protected your PC". That message means the file is new and unsigned, not that anything harmful was found. Click **More info**, then **Run anyway**. Check the checksum first if you want to be sure.
 
+**Code signing:** the builds are made by GitHub Actions from this repository's source; see the [code signing policy](https://lucasifium.github.io/universal-save-editor/code-signing/). The project has applied to SignPath Foundation for free signing of the Windows programs.
+
 **Install with Scoop (Windows):** `scoop install https://raw.githubusercontent.com/Lucasifium/universal-save-editor/main/packaging/scoop/universal-save-editor.json` installs the program and a Start menu shortcut; `scoop update universal-save-editor` gets new releases. A Scoop install checks the download against the published checksum and doesn't trigger SmartScreen.
 
 There is also a browser version on the project website. There is no ready-made Android app: the source is in the repo, and you can build the APK yourself (Android 8+) as described in [BUILDING.md](BUILDING.md).
