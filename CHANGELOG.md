@@ -1,5 +1,20 @@
 # Changelog
 
+## 0.5.1
+
+### New game screens
+- Sleeping Dogs: Definitive Edition, Horizon Zero Dawn, Judgment, Yakuza Kiwami 3 and Dark Ties
+- Subnautica 2, Saints Row IV, Slime Rancher, Stellar Blade, Pragmata, Wandering Sword, Fable: The Lost Chapters, The Planet Crafter
+- Stud wallets for more LEGO games: Marvel Super Heroes 1 and 2, The Lord of the Rings, The Hobbit, Jurassic World, Batman 3, The Force Awakens, The Incredibles, DC Super-Villains
+
+### Existing games expanded
+- Watch Dogs 2 opens every progress save; Jedi: Survivor uses the Jedi screen
+- Death Stranding shows and edits likes received
+- Onimusha: Max crafting materials only changes the save slot on screen
+
+### Features
+- Releases include SHA256SUMS.txt for checking downloads
+
 ## 0.5.0
 
 ### New game screens
