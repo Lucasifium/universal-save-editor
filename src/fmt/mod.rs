@@ -32,6 +32,7 @@ pub mod slime;
 pub mod hzd;
 pub mod sleeping_dogs;
 pub mod dxmd;
+pub mod dishonored2;
 pub mod gk;
 pub mod civ7;
 pub mod uepack;
@@ -227,6 +228,11 @@ pub fn parse_binary(d: &[u8]) -> Option<TreeDoc> {
     }
     if dxmd::looks(d) {
         if let Some(t) = dxmd::parse(d) {
+            return Some(t);
+        }
+    }
+    if dishonored2::looks(d) {
+        if let Some(t) = dishonored2::parse(d) {
             return Some(t);
         }
     }

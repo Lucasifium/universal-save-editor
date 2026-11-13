@@ -110,7 +110,10 @@ def winget(version, hashes):
                 os.rmdir(p)
     d = os.path.join(root, version)
     os.makedirs(d, exist_ok=True)
+    kinds = {f"{ID}.yaml": "version", f"{ID}.installer.yaml": "installer", f"{ID}.locale.en-US.yaml": "defaultLocale"}
     for name, text in files.items():
+        # winget refuses manifests without this first line.
+        text = f"# yaml-language-server: $schema=https://aka.ms/winget-manifest.{kinds[name]}.1.9.0.schema.json\n" + text
         with open(os.path.join(d, name), "w", encoding="utf-8", newline="\n") as f:
             f.write(text)
 
