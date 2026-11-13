@@ -178,6 +178,12 @@ pub struct ViewCtx<'a> {
     pub toggle_tick: Vec<usize>,
     /// "Show in Tree" was chosen for this pointer.
     pub show_in_tree: Option<String>,
+    /// A single copied value is waiting: offer "Paste here" on each value.
+    pub can_paste_one: bool,
+    /// Asked to copy: what it is and the (pointer, value) pairs.
+    pub copy: Option<(String, Vec<(String, Value)>)>,
+    /// Asked to paste the copied value into this pointer.
+    pub paste_at: Option<String>,
 }
 
 /// What bulk edit does to each ticked value.
@@ -291,6 +297,18 @@ pub fn show(ui: &mut Ui, model: &Model, disp: &[Disp], collapsed: &HashSet<usize
                     if resp.clicked() {
                         ctx.toggle_section = Some(sec);
                     }
+                    resp.context_menu(|ui| {
+                        if ui.button(format!("Copy all of {} for another save", s.title)).clicked() {
+                            let values: Vec<(String, Value)> = model
+                                .rows
+                                .iter()
+                                .filter(|r| r.section == sec && r.editable)
+                                .filter_map(|r| Some((r.ptr.clone(), ctx.root.pointer(&r.ptr)?.clone())))
+                                .collect();
+                            ctx.copy = Some((s.title.clone(), values));
+                            ui.close_menu();
+                        }
+                    });
                 }
                 Disp::Item(i) => {
                     let r = &model.rows[i];
@@ -332,7 +350,18 @@ pub fn show(ui: &mut Ui, model: &Model, disp: &[Disp], collapsed: &HashSet<usize
                                     let small = FontId::new(font.size * 0.82, font.family.clone());
                                     job.append(&r.raw_key, 8.0, TextFormat::simple(small, Color32::from_rgb(120, 150, 185)));
                                 }
-                                ui.add(egui::Label::new(job).truncate()).on_hover_ui(|ui| {
+                                let label = ui.add(egui::Label::new(job).truncate().sense(Sense::click()));
+                                label.context_menu(|ui| {
+                                    if ui.button("Copy for another save").on_hover_text("Then paste it into another open save (or another field)").clicked() {
+                                        ctx.copy = Some((r.name.clone(), vec![(r.ptr.clone(), v.clone())]));
+                                        ui.close_menu();
+                                    }
+                                    if ctx.can_paste_one && r.editable && ui.button("Paste here").clicked() {
+                                        ctx.paste_at = Some(r.ptr.clone());
+                                        ui.close_menu();
+                                    }
+                                });
+                                label.on_hover_ui(|ui| {
                                     ui.label(RichText::new(&r.name).strong());
                                     if !r.context.is_empty() {
                                         ui.label(format!("in {}", r.context));

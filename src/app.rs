@@ -20,6 +20,7 @@ mod safety;
 use safety::Stamp;
 mod tools;
 use tools::{Bulk, NamesAction, PresetApply, PresetSave, ShareNames};
+mod tabs;
 
 /// The browser version: no folders to look through, files arrive from the page's picker and
 /// leave as downloads.
@@ -367,6 +368,8 @@ pub struct App {
     help: Option<help::Window>,
     /// Load the Japanese, Chinese and Korean fonts on the next frame.
     need_cjk: bool,
+    /// Other open files (see `tabs`) and copied values.
+    tabs: tabs::Tabs,
     #[cfg(target_os = "android")]
     keyboard_shown: bool,
     /// Browser version: what the file being picked is for, and the context to wake when it's in.
@@ -453,6 +456,7 @@ impl App {
             prefs_open: false,
             help: None,
             need_cjk: false,
+            tabs: tabs::Tabs::new(),
             #[cfg(target_os = "android")]
             keyboard_shown: false,
             #[cfg(target_arch = "wasm32")]
@@ -588,20 +592,10 @@ impl App {
         }
     }
 
-    /// Closes the open file and returns to the start page.
+    /// Closes the open file: shows the next tab, or the start page if it was the only one.
     fn close_file(&mut self) {
-        self.doc = None;
         self.dirty = false;
-        self.undo.clear();
-        self.redo.clear();
-        self.touched.clear();
-        self.last_edit = None;
-        self.running = None;
-        self.doc_note.clear();
-        self.disk_changed = false;
-        self.stale_save = None;
-        self.model = Model::default();
-        self.model_gen += 1;
+        self.drop_tab(self.tabs.active);
         self.info("Closed the file.");
     }
 
@@ -652,12 +646,9 @@ impl App {
         }
     }
 
+    /// Opens a file the user picked: in a new tab when another file is open.
     fn request_open(&mut self, path: PathBuf) {
-        if self.dirty {
-            self.pending_open = Some(path);
-        } else {
-            self.load_async(&path);
-        }
+        self.open_in_tab(path);
     }
 
     /// Opens `path`; a big file is read and decoded on a worker thread while the window
@@ -3198,6 +3189,9 @@ impl App {
         if narrow(ui) && matches!(self.tab, Tab::Values | Tab::Tree) {
             ui.horizontal(|ui| self.view_options(ui));
         }
+        if self.tab == Tab::Values {
+            self.clip_bar(ui);
+        }
         if self.tab == Tab::Values && self.bulk.is_some() {
             self.bulk_bar(ui, now);
         }
@@ -3276,6 +3270,7 @@ impl App {
     fn structured_body(&mut self, ui: &mut egui::Ui, now: f64) {
         let hi = self.has_icons;
         let mut edits: Vec<(String, Value)> = Vec::new();
+        let (mut copy, mut paste_at) = (None, None);
         match self.tab {
             Tab::Game => {
                 let d = self.doc.as_ref().unwrap();
@@ -3424,8 +3419,13 @@ impl App {
                     ticked: ticked.as_ref(),
                     toggle_tick: vec![],
                     show_in_tree: None,
+                    can_paste_one: self.tabs.clip.as_ref().is_some_and(|c| c.values.len() == 1),
+                    copy: None,
+                    paste_at: None,
                 };
                 values_view::show(ui, &self.model, &self.disp, &self.collapsed, &mut ctx);
+                copy = ctx.copy.take();
+                paste_at = ctx.paste_at.take();
                 if let Some(p) = ctx.show_in_tree.take() {
                     self.search.clear();
                     self.tree_reveal = Some((p, now_t_values));
@@ -3444,6 +3444,12 @@ impl App {
         }
         for (ptr, v) in edits {
             self.apply_edit(ptr, v, now);
+        }
+        if let Some((what, values)) = copy {
+            self.copy_values(what, values);
+        }
+        if let Some(p) = paste_at {
+            self.paste_one_at(&p);
         }
     }
 
@@ -4209,6 +4215,7 @@ impl eframe::App for App {
                 self.undo_redo(true);
             }
         }
+        self.tab_keys(ctx);
         // Remember zoom.
         let zoom = ctx.zoom_factor();
         if (zoom - self.settings.zoom).abs() > 0.001 {
@@ -4216,8 +4223,9 @@ impl eframe::App for App {
             self.settings.save();
         }
         // Don't lose work on close.
-        if ctx.input(|i| i.viewport().close_requested()) && self.dirty && !self.allow_close {
+        if ctx.input(|i| i.viewport().close_requested()) && self.any_dirty() && !self.allow_close {
             ctx.send_viewport_cmd(egui::ViewportCommand::CancelClose);
+            self.show_first_dirty();
             self.confirm_close = true;
         }
 
@@ -4244,6 +4252,7 @@ impl eframe::App for App {
         }
         egui::TopBottomPanel::top("menu").show(ctx, |ui| self.menu_bar(ui));
         egui::TopBottomPanel::top("toolbar").show(ctx, |ui| self.toolbar(ui));
+        self.tab_strip(ctx);
         if self.doc.is_some() && !self.doc_note.is_empty() {
             let mut dismiss = false;
             egui::TopBottomPanel::top("doc_note").show(ctx, |ui| {

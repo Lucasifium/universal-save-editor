@@ -59,6 +59,10 @@ Ready-made builds are on the [Releases page](../../releases):
 
 **Verify your download:** each release also has a `SHA256SUMS.txt`. Put it next to the file and run `sha256sum -c --ignore-missing SHA256SUMS.txt` (Linux), or on Windows run `certutil -hashfile UniversalSaveEditor-windows-x64.exe SHA256` and compare the result with the matching line. The builds are not code-signed, so Windows SmartScreen or an antivirus may warn about a new file; matching the checksum shows it is the file published here.
 
+**Windows SmartScreen:** the first time you run a new release, Windows may show "Windows protected your PC". That message means the file is new and unsigned, not that anything harmful was found. Click **More info**, then **Run anyway**. Check the checksum first if you want to be sure.
+
+**Install with Scoop (Windows):** `scoop install https://raw.githubusercontent.com/Lucasifium/universal-save-editor/main/packaging/scoop/universal-save-editor.json` installs the program and a Start menu shortcut; `scoop update universal-save-editor` gets new releases. A Scoop install checks the download against the published checksum and doesn't trigger SmartScreen.
+
 There is also a browser version on the project website. There is no ready-made Android app: the source is in the repo, and you can build the APK yourself (Android 8+) as described in [BUILDING.md](BUILDING.md).
 
 ## Game screens

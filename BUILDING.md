@@ -20,3 +20,10 @@ installs updates signed with the same key, so keep it.
 
 The browser version is built with `web/build.sh` (needs the `wasm32-unknown-unknown` target and a
 matching `wasm-bindgen-cli`) into `docs/app/`.
+
+## Package-manager manifests
+
+After a release is published, run `python3 -I packaging/manifests.py` to refresh the Scoop manifest
+(`packaging/scoop/`) and the winget manifests (`packaging/winget/<version>/`) from that release's
+`SHA256SUMS.txt`, and commit them. The winget files go into a pull request to `microsoft/winget-pkgs` under
+`manifests/l/Lucasifium/UniversalSaveEditor/<version>/`.
