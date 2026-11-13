@@ -1,6 +1,7 @@
 //! The friendly "Values" view: every editable value in one aligned, searchable
 //! table, grouped into collapsible sections.
 
+use crate::i18n::tr;
 use crate::json_view::pointer_escape;
 use crate::names::{self, Names};
 use crate::theme;
@@ -298,7 +299,7 @@ pub fn show(ui: &mut Ui, model: &Model, disp: &[Disp], collapsed: &HashSet<usize
                         ctx.toggle_section = Some(sec);
                     }
                     resp.context_menu(|ui| {
-                        if ui.button(format!("Copy all of {} for another save", s.title)).clicked() {
+                        if ui.button(crate::i18n::trf("Copy all of {0} for another save", &[&s.title])).clicked() {
                             let values: Vec<(String, Value)> = model
                                 .rows
                                 .iter()
@@ -352,11 +353,11 @@ pub fn show(ui: &mut Ui, model: &Model, disp: &[Disp], collapsed: &HashSet<usize
                                 }
                                 let label = ui.add(egui::Label::new(job).truncate().sense(Sense::click()));
                                 label.context_menu(|ui| {
-                                    if ui.button("Copy for another save").on_hover_text("Then paste it into another open save (or another field)").clicked() {
+                                    if ui.button(tr("Copy for another save")).on_hover_text(tr("Then paste it into another open save (or another field)")).clicked() {
                                         ctx.copy = Some((r.name.clone(), vec![(r.ptr.clone(), v.clone())]));
                                         ui.close_menu();
                                     }
-                                    if ctx.can_paste_one && r.editable && ui.button("Paste here").clicked() {
+                                    if ctx.can_paste_one && r.editable && ui.button(tr("Paste here")).clicked() {
                                         ctx.paste_at = Some(r.ptr.clone());
                                         ui.close_menu();
                                     }

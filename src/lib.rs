@@ -33,6 +33,7 @@ mod renpy_sign;
 mod risks;
 mod running;
 mod settings;
+mod i18n;
 mod steamid;
 mod theme;
 mod values_view;

@@ -1,0 +1,1270 @@
+# src/app.rs
+
+The browser version can't open folders — use the desktop app for this.
+= ブラウザ版ではフォルダーを開けません。デスクトップアプリをご利用ください。
+
+Closed the file.
+= ファイルを閉じました。
+
+Opening
+= 開いています
+
+Opening the file stopped unexpectedly.
+= ファイルを開く処理が予期せず停止しました。
+
+All changes reverted.
+= すべての変更を元に戻しました。
+
+The Raw JSON has a syntax error — fix it before saving.
+= Raw JSON に構文エラーがあります。保存する前に修正してください。
+
+Save aborted: the re-encoded file didn't read back identically. Your file was not changed.
+= 保存を中止しました：再エンコードしたファイルが元通りに読み戻せませんでした。ファイルは変更されていません。
+
+Find my game's saves
+= 自分のゲームのセーブデータを探す
+
+Search:
+= 検索：
+
+game name
+= ゲーム名
+
+Only games found here
+= ここにあるゲームのみ
+
+Show only the games whose saves were found on this computer. Typing a name searches every game.
+= このコンピューターでセーブデータが見つかったゲームのみ表示します。名前を入力すると全ゲームを検索します。
+
+Any support
+= すべての対応状況
+
+Close
+= 閉じる
+
+Pick a game to see where it keeps its saves and the ones on this computer. Open… and dragging a file onto the window still work for anything else.
+= ゲームを選ぶと、セーブデータの保存場所とこのコンピューター上のセーブデータが表示されます。それ以外は「開く…」やウィンドウへのファイルのドラッグでも開けます。
+
+On this computer
+= このコンピューター上
+
+Other games
+= その他のゲーム
+
+Looking for saves on this computer…
+= このコンピューターでセーブデータを探しています…
+
+No game matches. Use Open… to pick the file yourself.
+= 該当するゲームがありません。「開く…」でファイルを直接選んでください。
+
+Choose a game from the list.
+= 一覧からゲームを選んでください。
+
+Looking for saves…
+= セーブデータを探しています…
+
+If the game keeps them somewhere else (another drive, a cloud folder), use Open… to pick the file.
+= ゲームが別の場所（別のドライブやクラウドフォルダーなど）に保存している場合は、「開く…」でファイルを選んでください。
+
+‹ All games
+= ‹ すべてのゲーム
+
+Copy character
+= キャラクターをコピー
+
+Copy
+= コピー
+
+Into
+= コピー先
+
+The file is backed up first (Backups › Quick restore).
+= ファイルは先にバックアップされます（バックアップ › クイック復元）。
+
+Cancel
+= キャンセル
+
+Save changes?
+= 変更を保存しますか？
+
+(nothing that the list can describe)
+= （一覧で説明できるものはありません）
+
+This save is in a Steam Cloud folder. If Steam asks which save to keep, choose the local one.
+= このセーブデータは Steam Cloud フォルダー内にあります。Steam からどちらを残すか尋ねられたら、ローカルのものを選んでください。
+
+Check again
+= 再確認
+
+Don't show this list again
+= この一覧を再び表示しない
+
+You have unsaved changes. Save or revert them first, then restore.
+= 未保存の変更があります。先に保存するか破棄してから、復元してください。
+
+The Raw JSON has a syntax error.
+= Raw JSON に構文エラーがあります。
+
+Save or revert your changes before importing.
+= インポートの前に、変更を保存するか破棄してください。
+
+The imported data doesn't pack back into this kind of save (wrong file, or edited into another format).
+= インポートしたデータをこの種類のセーブデータに戻して格納できません（ファイルが違うか、別の形式に編集されています）。
+
+Save or revert your changes before switching to the hex view.
+= 16進ビューに切り替える前に、変更を保存するか破棄してください。
+
+Showing the decoded data as hex. Saving re-applies the original encoding.
+= デコードしたデータを16進で表示しています。保存時に元のエンコードが再適用されます。
+
+Refine re-reads the file from disk — save or revert your changes first.
+= 「絞り込み」はディスクからファイルを再読み込みします。先に変更を保存するか破棄してください。
+
+File
+= ファイル
+
+Open…
+= 開く…
+
+Find my game's saves…
+= 自分のゲームのセーブデータを探す…
+
+Pick a game to see the saves it has on this computer
+= ゲームを選ぶと、このコンピューター上のセーブデータが表示されます
+
+Open recent
+= 最近使ったファイル
+
+Nothing yet
+= まだありません
+
+Save
+= 保存
+
+Save a copy as…
+= 名前を付けてコピーを保存…
+
+Reload from disk
+= ディスクから再読み込み
+
+Reads the file again, for when the game or another program changed it. Unsaved changes are dropped (you are asked first).
+= ファイルを再読み込みします。ゲームや他のプログラムが変更した場合に使います。未保存の変更は破棄されます（先に確認します）。
+
+Close file
+= ファイルを閉じる
+
+Revert all changes
+= すべての変更を破棄
+
+Export decoded data…
+= デコードしたデータをエクスポート…
+
+Import edited data…
+= 編集したデータをインポート…
+
+Bring back data you exported and edited in another program; it is packed the way this save is packed when you save.
+= エクスポートして他のプログラムで編集したデータを取り込みます。保存時に、このセーブデータと同じ形式にパックされます。
+
+Backups
+= バックアップ
+
+Back up now…
+= 今すぐバックアップ…
+
+Keeps a named backup of the save file as it is on disk now, until you delete it. The save itself is not changed.
+= ディスク上の現在のセーブデータを、名前を付けたバックアップとして削除するまで保管します。セーブデータ自体は変更されません。
+
+Back up and start a new game…
+= バックアップして新しいゲームを開始…
+
+Keeps a named backup, then removes the save file so the game starts a new game. Restore the backup any time to go back.
+= 名前を付けてバックアップし、セーブデータを削除してゲームを最初から始められるようにします。バックアップはいつでも復元して元に戻せます。
+
+Backups for this save…
+= このセーブデータのバックアップ…
+
+All backups of this save in one window: restore, compare, delete, name. Restoring backs up the current save first.
+= このセーブデータのバックアップを1つのウィンドウに一覧表示：復元、比較、削除、名前付け。復元前に現在のセーブデータをバックアップします。
+
+Quick restore
+= クイック復元
+
+Automatic backups are taken each time this app saves over the file.
+= 自動バックアップは、このアプリがファイルを上書き保存するたびに作成されます。
+
+Put this version back
+= このバージョンに戻す
+
+Compare
+= 比較
+
+List what differs between this version and the open file
+= このバージョンと開いているファイルの違いを一覧表示
+
+Unname
+= 名前を解除
+
+Let this copy be cleared out in time like the others
+= このコピーを他と同様に、時間が経つと自動で削除されるようにします
+
+The original, from before the first save (.bak)
+= 最初の保存前の元データ (.bak)
+
+Edit
+= 編集
+
+Undo
+= 元に戻す
+
+Redo
+= やり直す
+
+Find…
+= 検索…
+
+Copy changes as text
+= 変更内容をテキストとしてコピー
+
+The list of changes, to paste when asking for help or sharing what you did
+= 変更の一覧です。ヘルプを求めるときや、行った内容を共有するときに貼り付けられます。
+
+Preferences…
+= 環境設定…
+
+View
+= 表示
+
+Show advanced values
+= 詳細な値を表示
+
+Show raw key names
+= 生のキー名を表示
+
+Changes panel
+= 変更パネル
+
+Review changes before saving
+= 保存前に変更を確認
+
+Lists what changed and checks whether the game is running each time you save.
+= 保存のたびに、変更内容を一覧表示し、ゲームが起動中かどうかを確認します。
+
+Zoom: Ctrl + / Ctrl − / Ctrl 0
+= ズーム：Ctrl + / Ctrl − / Ctrl 0
+
+Show decoded data as hex
+= デコードしたデータを16進で表示
+
+Tools
+= ツール
+
+Locate game data folder (RPG Maker names)…
+= ゲームのデータフォルダーを指定（RPG Maker の名前）…
+
+Only for RPG Maker saves.
+= RPG Maker のセーブデータ専用です。
+
+Decrypt with password…
+= パスワードで復号…
+
+Open a save first.
+= 先にセーブデータを開いてください。
+
+For encrypted saves (Easy Save 3, Godot). Easy Save's default password is tried automatically.
+= 暗号化されたセーブデータ用（Easy Save 3、Godot）。Easy Save の既定のパスワードは自動的に試行されます。
+
+Change Steam account in this save…
+= このセーブデータの Steam アカウントを変更…
+
+Finds the Steam IDs stored in the save and changes them to another account's, so a save copied from a friend or another account loads.
+= セーブデータ内に保存されている Steam ID を検出し、別のアカウントのものに変更します。友人や別のアカウントからコピーしたセーブデータを読み込めるようになります。
+
+Cheat patches…
+= チートパッチ…
+
+Only for saves opened in the hex view, which means a format the editor doesn't understand yet.
+= 16進ビューで開いたセーブデータ専用です（エディターがまだ対応していない形式のものです）。
+
+Ready-made cheats for console saves (PlayStation 1–4, PSP, Vita, Dreamcast) from the Apollo patch collection.
+= Apollo のパッチ集に含まれる、コンソール用セーブデータ（PlayStation 1–4、PSP、Vita、Dreamcast）向けの既製チートです。
+
+Find checksum…
+= チェックサムを検索…
+
+Looks for a checksum in a save the editor doesn't know (CRC, Adler, sums, MD5, SHA) and keeps it right whenever you save.
+= エディターが未対応のセーブデータからチェックサム（CRC、Adler、合計、MD5、SHA）を探し、保存のたびに正しい値に保ちます。
+
+Templates folder…
+= テンプレートフォルダー…
+
+Your own templates for games the editor doesn't know: a JSON file per game that says where each value is. The folder has a guide with an example.
+= エディターが未対応のゲーム用の独自テンプレートです。各値の位置を示す JSON ファイルをゲームごとに用意します。フォルダーに例付きのガイドがあります。
+
+Presets
+= プリセット
+
+Save changes as a preset…
+= 変更をプリセットとして保存…
+
+Keep the changes you made, to make them again on another save or slot
+= 行った変更を保存し、別のセーブデータやスロットで再現できます
+
+Apply a preset…
+= プリセットを適用…
+
+Make a saved set of changes on this save
+= 保存済みの変更セットをこのセーブデータに適用します
+
+Compare with another save…
+= 別のセーブデータと比較…
+
+List every value that differs from another save — handy for finding which value is your gold, HP, etc.
+= 別のセーブデータと異なる値をすべて一覧表示します。所持金や HP などの値を見つけるのに便利です。
+
+Open another file in this archive
+= このアーカイブ内の別のファイルを開く
+
+Copy character to another slot…
+= キャラクターを別のスロットにコピー…
+
+Duplicate an Elden Ring character, e.g. to try something out on the copy
+= Elden Ring のキャラクターを複製します。コピーで試したいときなどに。
+
+Save or revert your changes first — copying works on the file as it is on disk.
+= 先に変更を保存するか破棄してください。コピーはディスク上のファイルに対して行われます。
+
+Save or revert your changes first.
+= 先に変更を保存するか破棄してください。
+
+Those two files aren't the same kind of save, so they can't be compared.
+= 2つのファイルは種類の異なるセーブデータのため、比較できません。
+
+Values that differ between this save and the other one. “Use theirs” copies the other save's value into this one.
+= このセーブデータと相手のセーブデータで異なる値です。「相手の値を使う」で、相手の値をこのセーブデータにコピーします。
+
+No differences — the saves hold the same values.
+= 違いはありません。セーブデータの値は同じです。
+
+Use theirs
+= 相手の値を使う
+
+Back up and start a new game
+= バックアップして新しいゲームを開始
+
+The save is backed up under this name and then removed, so the game starts a new game. Restore the backup later to come back to it.
+= バックアップをこの名前で作成してからセーブデータを削除し、ゲームを最初から始められるようにします。後でバックアップを復元すれば元に戻れます。
+
+for example: first run
+= 例：最初のプレイ
+
+Back up and start new
+= バックアップして新規開始
+
+Keep a named copy
+= 名前付きコピーを保管
+
+A copy of the file as it is on disk now, kept until you remove it.
+= ディスク上の現在のファイルのコピーを、削除するまで保管します。
+
+for example: before the final boss
+= 例：ラスボス前
+
+Keep
+= 保管
+
+Save manager
+= セーブマネージャー
+
+There is no save file here right now. The game makes a new one when you save in it, or restore a backup below to put one back.
+= 現在ここにセーブデータはありません。ゲーム内でセーブすると新しく作られます。または、下のバックアップを復元して戻すこともできます。
+
+Keep backups in another folder…
+= バックアップを別のフォルダーに保存…
+
+Back to the default folder
+= 既定のフォルダーに戻す
+
+backup name, e.g. first run
+= バックアップ名（例：最初のプレイ）
+
+Back up this save
+= このセーブデータをバックアップ
+
+Saves a named copy of the file as it is on disk now. It is kept until you delete it; the save itself is not changed.
+= ディスク上の現在のファイルを、名前を付けたコピーとして保存します。削除するまで保管され、セーブデータ自体は変更されません。
+
+Saves a named backup, then removes the current save file so the game starts a new game. Restore the backup later to go back.
+= 名前付きバックアップを作成してから現在のセーブデータを削除し、ゲームを最初から始められるようにします。後でバックアップを復元すれば元に戻れます。
+
+For games with a single save: use “Back up and start a new game”, play a new run, and restore the old backup later.
+= セーブデータを1つしか持てないゲーム向け：「バックアップして新しいゲームを開始」を使って新しくプレイし、後で古いバックアップを復元します。
+
+No backups yet. One is made automatically each time you save, or press “Back up this save”.
+= バックアップはまだありません。保存のたびに自動で作成されます。「このセーブデータをバックアップ」を押しても作成できます。
+
+No
+= いいえ
+
+Restore this backup
+= このバックアップを復元
+
+Replaces the current save with this backup. The current save is backed up first, so you can undo it.
+= 現在のセーブデータをこのバックアップで置き換えます。現在のセーブデータは先にバックアップされるので、元に戻せます。
+
+Shows what differs between this backup and the open save
+= このバックアップと開いているセーブデータの違いを表示します
+
+Make automatic
+= 自動バックアップにする
+
+Stops keeping this backup for good; it is cleared out in time like the automatic ones
+= このバックアップの永久保管をやめ、自動バックアップと同様に時間が経つと削除されます
+
+Delete backup
+= バックアップを削除
+
+Permanently removes this backup
+= このバックアップを完全に削除します
+
+That backup is automatic now: it is cleared out in time like the others.
+= そのバックアップは自動バックアップになりました。他と同様に、時間が経つと削除されます。
+
+Deleted the backup.
+= バックアップを削除しました。
+
+That file has no cheat codes in it.
+= そのファイルにチートコードはありません。
+
+Cheat patches
+= チートパッチ
+
+Game:
+= ゲーム：
+
+name or title ID (SLUS-20312, BLES00371…)
+= 名前またはタイトル ID（SLUS-20312、BLES00371…）
+
+Open patch file…
+= パッチファイルを開く…
+
+No patches were found from this save's file or folder name. Type the game's name or title ID.
+= このセーブデータのファイル名やフォルダー名からはパッチが見つかりませんでした。ゲーム名またはタイトル ID を入力してください。
+
+This save was unpacked with the patch file's own codes when it opened; they run again when you save.
+= このセーブデータは、開く際にパッチファイル自身のコードで展開されました。保存時にそのコードが再び実行されます。
+
+Show codes for other files too
+= 他のファイル用のコードも表示
+
+This one is a Python script, which only Apollo itself can run.
+= これは Python スクリプトで、Apollo 本体でしか実行できません。
+
+Big-endian (PS3)
+= ビッグエンディアン (PS3)
+
+Byte order for numbers in the codes. Set from the patch file's console; change it only if you know the save uses the other one.
+= コード内の数値のバイト順です。パッチファイルのコンソールから設定されます。セーブデータが逆のバイト順だと分かっている場合のみ変更してください。
+
+Back up first: a code meant for another version of the game can damage the save. Codes change the data now; save to write the file.
+= 先にバックアップを取ってください。別バージョンのゲーム用のコードはセーブデータを壊す可能性があります。コードは今すぐデータを変更します。ファイルに書き込むには保存してください。
+
+The codes didn't change anything (the values may already be set).
+= コードによる変更はありませんでした（値がすでに設定済みの可能性があります）。
+
+No Steam ID was found in this save's data (some games key the save to the account in other ways).
+= このセーブデータに Steam ID は見つかりませんでした（ゲームによっては別の方法でアカウントと紐付けています）。
+
+Change Steam account in this save
+= このセーブデータの Steam アカウントを変更
+
+Steam IDs in this save:
+= このセーブデータ内の Steam ID：
+
+Change it to:
+= 変更後：
+
+17-digit Steam ID or account number
+= 17桁の Steam ID またはアカウント番号
+
+Accounts on this computer:
+= このコンピューター上のアカウント：
+
+Every copy of the ID changes; save to write the file. Some games also check the folder the save sits in.
+= ID はすべて変更されます。ファイルに書き込むには保存してください。ゲームによっては、セーブデータのあるフォルダーも確認します。
+
+Change
+= 変更
+
+Find checksum
+= チェックサムを検索
+
+No checksum the editor knows was found at the start or end of this file.
+= エディターが認識できるチェックサムは、このファイルの先頭にも末尾にも見つかりませんでした。
+
+It may be encrypted, compressed, or checked with something the game made up. The value search still works on it.
+= 暗号化や圧縮がされているか、ゲーム独自の方式で検証されている可能性があります。値の検索は引き続き使えます。
+
+Pick one to have it written again every time you save. Saving a few times and searching again narrows a long list.
+= 1つ選ぶと、保存のたびに書き直されます。数回保存して再度検索すると、長い一覧を絞り込めます。
+
+(kept fixed)
+= （固定中）
+
+Keep fixed
+= 固定する
+
+Stop fixing the checksum
+= チェックサムの固定をやめる
+
+The checksum will be written again every time you save this file.
+= このファイルを保存するたびに、チェックサムが書き直されます。
+
+Decrypt with password
+= パスワードで復号
+
+Some games encrypt their saves with a password built into the game.
+= ゲームによっては、ゲームに組み込まれたパスワードでセーブデータを暗号化しています。
+
+Supported: Easy Save 3 (Unity) and Godot encrypted files. Easy Save's default password is tried automatically.
+= 対応：Easy Save 3 (Unity) と Godot の暗号化ファイル。Easy Save の既定のパスワードは自動的に試行されます。
+
+password
+= パスワード
+
+Decrypt
+= 復号
+
+That password didn't decrypt the file (or the encryption isn't one this editor knows).
+= そのパスワードではファイルを復号できませんでした（または、このエディターが対応していない暗号化です）。
+
+Open
+= 開く
+
+Open a save file (Ctrl+O)
+= セーブデータを開く (Ctrl+O)
+
+Find saves
+= セーブデータを探す
+
+Pick a game from the list to see the saves it has on this computer
+= 一覧からゲームを選ぶと、このコンピューター上のセーブデータが表示されます
+
+Save changes to the file (Ctrl+S)
+= 変更をファイルに保存 (Ctrl+S)
+
+Ctrl+Z
+= Ctrl+Z
+
+Ctrl+Y
+= Ctrl+Y
+
+Ren'Py 8.1+ signs its saves. Your Ren'Py key was found on this PC, so edited saves are re-signed and load normally.
+= Ren'Py 8.1 以降はセーブデータに署名します。この PC で Ren'Py のキーが見つかったため、編集したセーブデータは再署名され、通常どおり読み込めます。
+
+The game was running when this file was opened. Quit it before saving, or it may overwrite your changes.
+= ファイルを開いたときにゲームが実行中でした。保存する前にゲームを終了してください。そうしないと変更が上書きされる可能性があります。
+
+Point to the game's data folder to see variable, switch and item names
+= ゲームのデータフォルダーを指定すると、変数・スイッチ・アイテムの名前が表示されます
+
+List everything you've changed since the last save
+= 前回の保存以降に変更したものをすべて一覧表示
+
+No unsaved changes
+= 未保存の変更はありません
+
+Something went wrong — see the message at the top.
+= 問題が発生しました。上部のメッセージを確認してください。
+
+This game's own screen: its stats, inventory and more, laid out like the game
+= ゲーム画面：ステータスやインベントリなどを、ゲームと同じレイアウトで表示
+
+Values
+= 値
+
+Every editable value in a simple list
+= 編集できるすべての値をシンプルな一覧で表示
+
+Tree
+= ツリー
+
+The full structure of the save, as nested groups
+= セーブデータの全体構造を入れ子のグループで表示
+
+Raw JSON
+= Raw JSON
+
+Edit the JSON text directly
+= JSON テキストを直接編集
+
+Apply
+= 適用
+
+Raw JSON applied.
+= Raw JSON を適用しました。
+
+Clear
+= クリア
+
+Bulk edit
+= 一括編集
+
+Tick several values and set them all at once, or add to or multiply them
+= 複数の値にチェックを入れて、まとめて設定したり、加算・乗算したりできます
+
+Find on this screen  (Ctrl+F)
+= この画面内を検索  (Ctrl+F)
+
+no match on this tab
+= このタブには一致なし
+
+Next
+= 次へ
+
+Prev
+= 前へ
+
+Raw keys
+= 生のキー
+
+Everything else in this save is in the Values and Tree tabs.
+= このセーブデータのそれ以外の内容は、「値」タブと「ツリー」タブにあります。
+
+The filter looks at names, keys and current values.
+= フィルターは名前、キー、現在の値を対象にします。
+
+No editable values here. Try turning on Advanced, or use the Tree view.
+= ここに編集できる値はありません。「詳細」をオンにするか、ツリー表示を使ってください。
+
+Try part of a name (“gold”) or a current value (“1500”).
+= 名前の一部（「gold」）や現在の値（「1500」）で試してください。
+
+Advanced values are hidden — tick Advanced to search them too.
+= 詳細な値は非表示です。「詳細」にチェックを入れるとそれらも検索できます。
+
+Changes
+= 変更
+
+Since you opened or last saved this file.
+= このファイルを開いた時点、または最後に保存した時点からの変更です。
+
+Copy as text
+= テキストとしてコピー
+
+Copy the list of changes, to paste when asking for help or sharing what you did
+= 変更の一覧をコピーします。ヘルプを求めるときや、行った内容を共有するときに貼り付けられます。
+
+Save as preset…
+= プリセットとして保存…
+
+Keep these changes to make them again on another save or slot
+= これらの変更を保存し、別のセーブデータやスロットで再現できます
+
+Revert all
+= すべて破棄
+
+Put every value back as it was when the file was opened or last saved
+= ファイルを開いた時点、または最後に保存した時点の状態にすべての値を戻します
+
+No changes yet.
+= まだ変更はありません。
+
+Revert
+= 破棄
+
+No changes yet. Edited values are highlighted in orange.
+= まだ変更はありません。編集した値はオレンジで強調表示されます。
+
+Whole document (Raw JSON edit)
+= ドキュメント全体 (Raw JSON 編集)
+
+Show in list
+= 一覧で表示
+
+Cairn saves in this slot
+= このスロットの Cairn のセーブデータ
+
+This save's run
+= このセーブデータのプレイ
+
+As on the game's slot card. The card's own copy of the play time updates the next time the game saves.
+= ゲームのスロットカードと同じ表示です。カード側のプレイ時間は、次にゲームが保存されたときに更新されます。
+
+Named values
+= 名前付きの値
+
+Binary saves have no names. Find a value with Value search, click it, then name it here — names are remembered for this file.
+= バイナリ形式のセーブデータには名前がありません。「値の検索」で値を見つけてクリックし、ここで名前を付けてください。名前はこのファイルについて記憶されます。
+
+Set
+= 設定
+
+Write this value (or press Enter)
+= この値を書き込む（または Enter キーを押す）
+
+Forget this name (the value is not changed)
+= この名前を削除します（値は変更されません）
+
+Add
+= 追加
+
+Value search
+= 値の検索
+
+Don't know the number (a health bar, a hidden counter)? Start with “Unknown starting value”, then refine with Increased, Decreased or Changed after each in-game save.
+= 数値が分からない場合（体力バーや隠しカウンターなど）は、「不明な開始値」から始め、ゲーム内で保存するたびに「増加」「減少」「変化」で絞り込んでください。
+
+Know the value? Search for it, change it in-game, save, and refine with the new value. Don't know it (a health bar, a hidden counter)? Start with “Unknown starting value”, then refine with Increased, Decreased or Changed after each in-game save.
+= 値が分かっている場合：その値を検索し、ゲーム内で変更して保存し、新しい値で絞り込みます。分からない場合（体力バーや隠しカウンターなど）は、「不明な開始値」から始め、ゲーム内で保存するたびに「増加」「減少」「変化」で絞り込んでください。
+
+to
+= ～
+
+Refine
+= 絞り込み
+
+Re-reads the file from disk (save in-game first) and keeps only the locations that pass the test above
+= ディスクからファイルを再読み込みし（先にゲーム内で保存）、上のテストに合格した位置だけを残します
+
+Aligned
+= アラインあり
+
+Only test offsets that are a multiple of the value size. Faster, and how most games store numbers.
+= 値のサイズの倍数のオフセットだけを調べます。高速で、ほとんどのゲームの数値の格納方法に合います。
+
+Refine by itself each time the game saves
+= ゲームが保存するたびに自動で絞り込み
+
+Watches the file and refines with the test above as soon as the game writes it again
+= ファイルを監視し、ゲームが再び書き込んだらすぐに上のテストで絞り込みます
+
+Every location is still in play.
+= すべての位置がまだ候補に残っています。
+
+Big-endian
+= ビッグエンディアン
+
+Most PC games use little-endian (unticked)
+= ほとんどの PC ゲームはリトルエンディアンです（チェックなし）
+
+Go to
+= 移動
+
+hex offset
+= 16進オフセット
+
+Go
+= 移動
+
+Click to edit as this type
+= クリックしてこの型として編集
+
+new value
+= 新しい値
+
+Write
+= 書き込み
+
+Pick your game from the list; its saves on this computer are found for you
+= 一覧からゲームを選ぶと、このコンピューター上のセーブデータが自動で見つかります
+
+or drag a file anywhere onto this window
+= または、ファイルをこのウィンドウの好きな場所にドラッグ
+
+Recent files
+= 最近使ったファイル
+
+Files you open will appear here.
+= 開いたファイルがここに表示されます。
+
+Restore a backup…
+= バックアップを復元…
+
+The file isn't there any more, but it has backups
+= ファイルはもう存在しませんが、バックアップがあります
+
+Find your saves
+= セーブデータを探す
+
+RPG Maker games usually keep saves in a “save” folder next to the game.
+= RPG Maker のゲームでは通常、ゲームの隣にある「save」フォルダーにセーブデータがあります。
+
+What it can open
+= 開けるもの
+
+Dismiss
+= 閉じる
+
+(empty file)
+= （空のファイル）
+
+Unsaved changes
+= 未保存の変更
+
+You have unsaved changes. Save them before closing this file?
+= 未保存の変更があります。このファイルを閉じる前に保存しますか？
+
+Save and close
+= 保存して閉じる
+
+Close without saving
+= 保存せずに閉じる
+
+Don't save
+= 保存しない
+
+You have unsaved changes. Save them before closing?
+= 未保存の変更があります。閉じる前に保存しますか？
+
+# src/app/help.rs
+
+Help
+= ヘルプ
+
+Keyboard shortcuts
+= キーボードショートカット
+
+Supported games (website)
+= 対応ゲーム (Web サイト)
+
+Supported games…
+= 対応ゲーム…
+
+Every game in the list, with what can be edited and where its saves are
+= 一覧のすべてのゲームについて、編集できる内容とセーブデータの場所を掲載
+
+Website
+= Web サイト
+
+Report a problem…
+= 問題を報告…
+
+Opens a form on GitHub. The version and system are filled in; your save is not sent.
+= GitHub のフォームを開きます。バージョンとシステム情報は入力済みで、セーブデータは送信されません。
+
+Request a game…
+= ゲームをリクエスト…
+
+Opens a form on GitHub
+= GitHub のフォームを開きます
+
+Licences and credits
+= ライセンスとクレジット
+
+On a Mac, use Cmd instead of Ctrl.
+= Mac では Ctrl の代わりに Cmd を使います。
+
+It builds on save-format research, tables and code from many other projects, each listed with its author and licence in the third-party notices.
+= 多くの他のプロジェクトによるセーブ形式の調査、テーブル、コードを基にしており、それぞれの作者とライセンスはサードパーティの通知に記載しています。
+
+The interface uses egui and eframe (MIT or Apache-2.0).
+= インターフェースには egui と eframe (MIT または Apache-2.0) を使用しています。
+
+Edit game saves safely. Everything stays on your device: nothing is uploaded, and every save is backed up before it is written.
+= ゲームのセーブデータを安全に編集できます。すべてお使いのデバイス内で完結し、何もアップロードされません。書き込む前に必ずバックアップされます。
+
+In the browser, Japanese, Chinese and Korean names may show as boxes. The downloadable app uses your computer's fonts for them.
+= ブラウザ版では、日本語・中国語・韓国語の名前が四角形（□）で表示されることがあります。ダウンロード版のアプリでは、お使いのコンピューターのフォントが使われます。
+
+Preferences
+= 環境設定
+
+Look
+= 外観
+
+Language:
+= 言語：
+
+Same as the system
+= システムに合わせる
+
+Menus, buttons and messages. Game screens and value names stay as the game has them.
+= メニュー、ボタン、メッセージが対象です。ゲーム画面と値の名前は、ゲームのままになります。
+
+Theme:
+= テーマ：
+
+Dark
+= ダーク
+
+Light
+= ライト
+
+Zoom:
+= ズーム：
+
+Reset
+= リセット
+
+Show the find-a-value guide in the hex view
+= 16進ビューに値の探し方ガイドを表示
+
+Saving
+= 保存
+
+Show the list of changes, and warn when the game is running, before writing the save
+= セーブデータを書き込む前に、変更の一覧を表示し、ゲームが実行中なら警告する
+
+Automatic backups to keep per save:
+= セーブデータごとに保持する自動バックアップ数：
+
+A backup is taken every time this app writes a save. Named backups are always kept.
+= このアプリがセーブデータを書き込むたびにバックアップが作られます。名前付きバックアップは常に保持されます。
+
+Backups go:
+= バックアップの保存先：
+
+Choose a folder…
+= フォルダーを選択…
+
+Back to the default
+= 既定に戻す
+
+# src/app/home.rs
+
+Your games
+= あなたのゲーム
+
+looking for saves on this computer…
+= このコンピューターでセーブデータを探しています…
+
+Click a game to open its newest save.
+= ゲームをクリックすると最新のセーブデータを開きます。
+
+Other saves…
+= その他のセーブデータ…
+
+# src/app/safety.rs
+
+Keep what's shown
+= 表示中の内容を保持
+
+Hide this. Saving still asks before writing over the newer file.
+= これを非表示にします。保存時は、新しいファイルを上書きする前にこれまでどおり確認します。
+
+The save changed on disk
+= ディスク上のセーブデータが変更されました
+
+Saving now would put the version you opened, with your changes, over that newer file.
+= 今保存すると、開いたバージョンに変更を加えたものが、その新しいファイルを上書きします。
+
+Either way, whatever is on disk now is backed up before anything is written.
+= どちらを選んでも、書き込む前にディスク上の現在の内容がバックアップされます。
+
+Reload the newer file
+= 新しいファイルを再読み込み
+
+Open what's on disk now. Your unsaved changes are dropped.
+= ディスク上の現在の内容を開きます。未保存の変更は破棄されます。
+
+Save anyway
+= それでも保存
+
+Not saved. Your changes are still here.
+= 保存されていません。変更はそのまま残っています。
+
+# src/app/tabs.rs
+
+Close this tab (Ctrl+W)
+= このタブを閉じる (Ctrl+W)
+
+Open another save in a new tab (Ctrl+T)
+= 別のセーブデータを新しいタブで開く (Ctrl+T)
+
+Pasted. Save to keep it, or Undo.
+= 貼り付けました。保存して確定するか、元に戻してください。
+
+That field already has this value.
+= その項目にはすでにこの値が入っています。
+
+This field can't take the copied value.
+= この項目にコピーした値は使えません。
+
+Paste into this save
+= このセーブデータに貼り付け
+
+Writes the copied values to the same places in this save. One Undo takes it back.
+= コピーした値を、このセーブデータの同じ場所に書き込みます。「元に戻す」1回で取り消せます。
+
+or right-click a value › Paste here
+= または、値を右クリック › ここに貼り付け
+
+Forget the copied values
+= コピーした値を破棄
+
+# src/app/tools.rs
+
+Ticks every editable value in the list below. Search first to pick a group, e.g. “count” or a section's name.
+= 下の一覧の編集できる値をすべてチェックします。先に検索してグループを絞り込んでください（例：「count」やセクション名）。
+
+Untick all
+= すべてのチェックを外す
+
+Changes every ticked value; one Undo puts them all back
+= チェックした値をすべて変更します。「元に戻す」1回ですべて戻せます
+
+Done
+= 完了
+
+No changes to copy yet.
+= コピーする変更はまだありません。
+
+Make some changes first: a preset keeps the changes you made, to make them again on another save.
+= 先に変更を行ってください。プリセットは行った変更を保存し、別のセーブデータで再現できます。
+
+Save changes as a preset
+= 変更をプリセットとして保存
+
+for example: max gold and potions
+= 例：所持金とポーションを最大に
+
+Replace a preset with the same name
+= 同じ名前のプリセットを置き換える
+
+Your browser downloads the preset; open it again with Apply preset.
+= ブラウザーがプリセットをダウンロードします。再び使うには「プリセットを適用」で開いてください。
+
+Save preset
+= プリセットを保存
+
+Your browser downloaded the preset.
+= ブラウザーがプリセットをダウンロードしました。
+
+Apply a preset
+= プリセットを適用
+
+No presets yet.
+= プリセットはまだありません。
+
+Make some changes, then use Save changes as a preset (in the Changes panel or Tools › Presets). Presets shared by others open with Open a preset file.
+= 変更を行ってから、「変更をプリセットとして保存」（変更パネルまたは ツール › プリセット）を使います。他の人が共有したプリセットは「プリセットファイルを開く」で開けます。
+
+Delete
+= 削除
+
+Delete this preset (saves are not changed)
+= このプリセットを削除（セーブデータは変更されません）
+
+Open a preset file…
+= プリセットファイルを開く…
+
+Presets folder
+= プリセットフォルダー
+
+Use these names for every save of this game
+= このゲームのすべてのセーブデータでこれらの名前を使う
+
+Makes a template from your names, so every save of the game opens with these values listed by name, ready to change. Use View › Show decoded data as hex to find more values later.
+= 付けた名前からテンプレートを作成します。以後、このゲームのどのセーブデータでも、これらの値が名前付きで一覧に表示され、すぐに変更できます。他の値は後で 表示 › デコードしたデータを16進で表示 を使って探せます。
+
+Game
+= ゲーム
+
+the game's name
+= ゲーム名
+
+Recognise its saves by:
+= セーブデータの判別方法：
+
+Only if every save of the game is the same size
+= ゲームのすべてのセーブデータが同じサイズの場合のみ
+
+Replace a template with the same name
+= 同じ名前のテンプレートを置き換える
+
+Make template
+= テンプレートを作成
+
+Use for every save…
+= すべてのセーブデータで使う…
+
+Make a template from these names, so every save of this game opens with them listed
+= これらの名前からテンプレートを作成し、このゲームのどのセーブデータでも一覧に表示されるようにします
+
+Export…
+= エクスポート…
+
+Save these names to a file to share or keep
+= これらの名前をファイルに保存して、共有または保管します
+
+Import…
+= インポート…
+
+Add names from a file someone shared (exported names or a template)
+= 他の人が共有したファイル（エクスポートした名前またはテンプレート）から名前を追加します
+
+Find a value, step by step
+= 値の探し方（ステップごと）
+
+Hide
+= 非表示
+
+Bring it back from Value search
+= 「値の検索」から再表示できます
+
+Watches the file and refines with the test chosen in Value search as soon as the game writes it again
+= ファイルを監視し、ゲームが再び書き込んだらすぐに「値の検索」で選んだテストで絞り込みます
+
+No luck? Try another number type, or
+= うまくいかない場合は、別の数値型を試すか、
+
+The game saved, but you have unsaved changes here, so refining stopped. Revert or save them, then refine.
+= ゲームは保存されましたが、こちらに未保存の変更があるため、絞り込みを停止しました。変更を破棄または保存してから絞り込んでください。
+
+# src/values_view.rs
+
+Copy for another save
+= 別のセーブデータ用にコピー
+
+Then paste it into another open save (or another field)
+= その後、開いている別のセーブデータ（または別の項目）に貼り付けられます
+
+Paste here
+= ここに貼り付け
+
+# src/widgets.rs
+
+Type to filter…
+= 入力して絞り込み…
+
+Nothing in this save matches
+= このセーブデータに一致するものはありません
+
+Copy value
+= 値をコピー
+
+Copy name
+= 名前をコピー
+
+Copy path
+= パスをコピー
+
+The largest value this field accepts
+= この項目で受け付ける最大値
+
+The smallest value this field accepts
+= この項目で受け付ける最小値
+
+Show in Tree
+= ツリーで表示
+
+↩ marks a line break (¶ a carriage return)
+= ↩ は改行、¶ は復帰（CR）を表します
+
+Decrease by 1 (Shift: 10, Ctrl: 100)
+= 1減らす (Shift: 10、Ctrl: 100)
+
+Increase by 1 (Shift: 10, Ctrl: 100)
+= 1増やす (Shift: 10、Ctrl: 100)
+
+empty
+= 空
+
+# src/file_browser.rs
+
+Allow “All files access” so the editor can open and save game saves on your phone.
+= エディターがスマートフォン上のゲームのセーブデータを開いて保存できるように、「すべてのファイルへのアクセス」を許可してください。
+
+Allow access…
+= アクセスを許可…
+
+Up
+= 上へ
+
+File name:
+= ファイル名：
+
+(empty folder)
+= （空のフォルダー）
+
+# src/hex_view.rs and view options
+
+Exact value
+= 値が一致
+
+Value between
+= 値の範囲
+
+Unknown starting value
+= 不明な開始値
+
+Changed
+= 変化
+
+Unchanged
+= 変化なし
+
+Increased
+= 増加
+
+Decreased
+= 減少
+
+Increased by
+= 指定量増加
+
+Decreased by
+= 指定量減少
+
+Advanced
+= 詳細
+
+# tabs, copy and paste, status
+
+Opened {0} ({1}) — {2}.
+= {0} を開きました（{1}）— {2}。
+
+Changes ({0})
+= 変更（{0}）
+
+Filter the tree by name or value  (Ctrl+F)
+= 名前または値でツリーを絞り込み  (Ctrl+F)
+
+Search names or values  (Ctrl+F)
+= 名前または値を検索  (Ctrl+F)
+
+1 unsaved change
+= 未保存の変更 1 件
+
+{0} unsaved changes
+= 未保存の変更 {0} 件
+
+Saved and verified ({0}).
+= 保存して確認しました（{0}）。
+
+You have unsaved changes. Save them before opening {0}?
+= 未保存の変更があります。{0} を開く前に保存しますか？
+
+Showing {0}.
+= {0} を表示中。
+
+New tab
+= 新しいタブ
+
+Copied: {0} from {1}
+= コピー済み：{1} の {0}
+
+Copied: {0} ({1} values) from {2}
+= コピー済み：{2} の {0}（{1} 個の値）
+
+Copied {0}. Open another save (or tab) and paste it there.
+= {0} をコピーしました。別のセーブデータ（またはタブ）を開いて貼り付けてください。
+
+Copied {0} ({1} values). Open another save (or tab) and use Paste.
+= {0}（{1} 個の値）をコピーしました。別のセーブデータ（またはタブ）を開いて貼り付けを使ってください。
+
+Copy all of {0} for another save
+= {0} をすべて別のセーブデータ用にコピー
+
+{0}: this save already has the same values.
+= {0}：このセーブデータには既に同じ値があります。
+
+{0} isn't in this save in the same place, so nothing was pasted.
+= {0} はこのセーブデータの同じ位置にないため、何も貼り付けませんでした。
+
+Pasted {0} from {1}. Save to keep it, or Undo.
+= {1} の {0} を貼り付けました。保存して確定するか、元に戻してください。
+
+Pasted {0} values of {1} from {2}; {3} aren't in this save and were left out.
+= {2} の {1} から {0} 個の値を貼り付けました。{3} 個はこのセーブデータにないため除外しました。
+

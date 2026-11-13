@@ -1,0 +1,1270 @@
+# src/app.rs
+
+The browser version can't open folders — use the desktop app for this.
+= La version navigateur ne peut pas ouvrir de dossiers — utilisez l'application de bureau.
+
+Closed the file.
+= Fichier fermé.
+
+Opening
+= Ouverture
+
+Opening the file stopped unexpectedly.
+= L'ouverture du fichier s'est arrêtée de façon inattendue.
+
+All changes reverted.
+= Toutes les modifications ont été annulées.
+
+The Raw JSON has a syntax error — fix it before saving.
+= Le Raw JSON contient une erreur de syntaxe — corrigez-la avant d'enregistrer.
+
+Save aborted: the re-encoded file didn't read back identically. Your file was not changed.
+= Enregistrement annulé : le fichier ré-encodé n'a pas été relu à l'identique. Votre fichier n'a pas été modifié.
+
+Find my game's saves
+= Trouver les sauvegardes de mon jeu
+
+Search:
+= Recherche :
+
+game name
+= nom du jeu
+
+Only games found here
+= Jeux trouvés uniquement
+
+Show only the games whose saves were found on this computer. Typing a name searches every game.
+= Afficher uniquement les jeux dont les sauvegardes ont été trouvées sur cet ordinateur. Saisir un nom recherche dans tous les jeux.
+
+Any support
+= Toute prise en charge
+
+Close
+= Fermer
+
+Pick a game to see where it keeps its saves and the ones on this computer. Open… and dragging a file onto the window still work for anything else.
+= Choisissez un jeu pour voir où il range ses sauvegardes et lesquelles se trouvent sur cet ordinateur. Ouvrir… et le glisser-déposer d'un fichier sur la fenêtre fonctionnent toujours pour le reste.
+
+On this computer
+= Sur cet ordinateur
+
+Other games
+= Autres jeux
+
+Looking for saves on this computer…
+= Recherche de sauvegardes sur cet ordinateur…
+
+No game matches. Use Open… to pick the file yourself.
+= Aucun jeu correspondant. Utilisez Ouvrir… pour choisir le fichier vous-même.
+
+Choose a game from the list.
+= Choisissez un jeu dans la liste.
+
+Looking for saves…
+= Recherche de sauvegardes…
+
+If the game keeps them somewhere else (another drive, a cloud folder), use Open… to pick the file.
+= Si le jeu les range ailleurs (autre disque, dossier cloud), utilisez Ouvrir… pour choisir le fichier.
+
+‹ All games
+= ‹ Tous les jeux
+
+Copy character
+= Copier le personnage
+
+Copy
+= Copier
+
+Into
+= Vers
+
+The file is backed up first (Backups › Quick restore).
+= Le fichier est d'abord copié par sécurité (Copies de secours › Restauration rapide).
+
+Cancel
+= Annuler
+
+Save changes?
+= Enregistrer les modifications ?
+
+(nothing that the list can describe)
+= (rien que la liste puisse décrire)
+
+This save is in a Steam Cloud folder. If Steam asks which save to keep, choose the local one.
+= Cette sauvegarde se trouve dans un dossier Steam Cloud. Si Steam demande laquelle conserver, choisissez la locale.
+
+Check again
+= Vérifier à nouveau
+
+Don't show this list again
+= Ne plus afficher cette liste
+
+You have unsaved changes. Save or revert them first, then restore.
+= Vous avez des modifications non enregistrées. Enregistrez-les ou annulez-les, puis restaurez.
+
+The Raw JSON has a syntax error.
+= Le Raw JSON contient une erreur de syntaxe.
+
+Save or revert your changes before importing.
+= Enregistrez ou annulez vos modifications avant d'importer.
+
+The imported data doesn't pack back into this kind of save (wrong file, or edited into another format).
+= Les données importées ne se reconditionnent pas en ce type de sauvegarde (mauvais fichier, ou modifié dans un autre format).
+
+Save or revert your changes before switching to the hex view.
+= Enregistrez ou annulez vos modifications avant de passer à la vue hexadécimale.
+
+Showing the decoded data as hex. Saving re-applies the original encoding.
+= Les données décodées sont affichées en hexadécimal. L'enregistrement réapplique l'encodage d'origine.
+
+Refine re-reads the file from disk — save or revert your changes first.
+= Affiner relit le fichier depuis le disque — enregistrez ou annulez d'abord vos modifications.
+
+File
+= Fichier
+
+Open…
+= Ouvrir…
+
+Find my game's saves…
+= Trouver les sauvegardes de mon jeu…
+
+Pick a game to see the saves it has on this computer
+= Choisissez un jeu pour voir ses sauvegardes sur cet ordinateur
+
+Open recent
+= Ouvrir récent
+
+Nothing yet
+= Rien pour l'instant
+
+Save
+= Enregistrer
+
+Save a copy as…
+= Enregistrer une copie sous…
+
+Reload from disk
+= Recharger depuis le disque
+
+Reads the file again, for when the game or another program changed it. Unsaved changes are dropped (you are asked first).
+= Relit le fichier, au cas où le jeu ou un autre programme l'aurait modifié. Les modifications non enregistrées sont perdues (confirmation demandée).
+
+Close file
+= Fermer le fichier
+
+Revert all changes
+= Annuler toutes les modifications
+
+Export decoded data…
+= Exporter les données décodées…
+
+Import edited data…
+= Importer les données modifiées…
+
+Bring back data you exported and edited in another program; it is packed the way this save is packed when you save.
+= Rapporte des données exportées puis modifiées dans un autre programme ; elles sont reconditionnées à l'enregistrement comme cette sauvegarde.
+
+Backups
+= Copies de secours
+
+Back up now…
+= Copier maintenant…
+
+Keeps a named backup of the save file as it is on disk now, until you delete it. The save itself is not changed.
+= Conserve une copie de secours nommée du fichier tel qu'il est sur le disque, jusqu'à sa suppression. La sauvegarde elle-même n'est pas modifiée.
+
+Back up and start a new game…
+= Copier et démarrer une nouvelle partie…
+
+Keeps a named backup, then removes the save file so the game starts a new game. Restore the backup any time to go back.
+= Conserve une copie de secours nommée, puis supprime le fichier de sauvegarde pour que le jeu démarre une nouvelle partie. Restaurez la copie à tout moment pour revenir en arrière.
+
+Backups for this save…
+= Copies de secours de cette sauvegarde…
+
+All backups of this save in one window: restore, compare, delete, name. Restoring backs up the current save first.
+= Toutes les copies de secours de cette sauvegarde dans une fenêtre : restaurer, comparer, supprimer, nommer. La restauration copie d'abord la sauvegarde actuelle.
+
+Quick restore
+= Restauration rapide
+
+Automatic backups are taken each time this app saves over the file.
+= Des copies automatiques sont créées à chaque enregistrement par cette application.
+
+Put this version back
+= Remettre cette version
+
+Compare
+= Comparer
+
+List what differs between this version and the open file
+= Lister les différences entre cette version et le fichier ouvert
+
+Unname
+= Retirer le nom
+
+Let this copy be cleared out in time like the others
+= Cette copie sera supprimée avec le temps comme les autres
+
+The original, from before the first save (.bak)
+= L'original, d'avant le premier enregistrement (.bak)
+
+Edit
+= Édition
+
+Undo
+= Annuler
+
+Redo
+= Rétablir
+
+Find…
+= Rechercher…
+
+Copy changes as text
+= Copier les modifications en texte
+
+The list of changes, to paste when asking for help or sharing what you did
+= La liste des modifications, à coller pour demander de l'aide ou partager ce que vous avez fait
+
+Preferences…
+= Préférences…
+
+View
+= Affichage
+
+Show advanced values
+= Afficher les valeurs avancées
+
+Show raw key names
+= Afficher les noms de clés bruts
+
+Changes panel
+= Panneau des modifications
+
+Review changes before saving
+= Vérifier les modifications avant d'enregistrer
+
+Lists what changed and checks whether the game is running each time you save.
+= Liste les modifications et vérifie si le jeu est lancé à chaque enregistrement.
+
+Zoom: Ctrl + / Ctrl − / Ctrl 0
+= Zoom : Ctrl + / Ctrl − / Ctrl 0
+
+Show decoded data as hex
+= Afficher les données décodées en hexadécimal
+
+Tools
+= Outils
+
+Locate game data folder (RPG Maker names)…
+= Localiser le dossier de données du jeu (noms RPG Maker)…
+
+Only for RPG Maker saves.
+= Uniquement pour les sauvegardes RPG Maker.
+
+Decrypt with password…
+= Déchiffrer avec un mot de passe…
+
+Open a save first.
+= Ouvrez d'abord une sauvegarde.
+
+For encrypted saves (Easy Save 3, Godot). Easy Save's default password is tried automatically.
+= Pour les sauvegardes chiffrées (Easy Save 3, Godot). Le mot de passe par défaut d'Easy Save est essayé automatiquement.
+
+Change Steam account in this save…
+= Changer de compte Steam dans cette sauvegarde…
+
+Finds the Steam IDs stored in the save and changes them to another account's, so a save copied from a friend or another account loads.
+= Trouve les ID Steam enregistrés dans la sauvegarde et les remplace par ceux d'un autre compte, pour qu'une sauvegarde copiée d'un ami ou d'un autre compte se charge.
+
+Cheat patches…
+= Patchs de triche…
+
+Only for saves opened in the hex view, which means a format the editor doesn't understand yet.
+= Uniquement pour les sauvegardes ouvertes en vue hexadécimale, c'est-à-dire un format que l'éditeur ne comprend pas encore.
+
+Ready-made cheats for console saves (PlayStation 1–4, PSP, Vita, Dreamcast) from the Apollo patch collection.
+= Cheats prêts à l'emploi pour les sauvegardes de console (PlayStation 1–4, PSP, Vita, Dreamcast) issus de la collection de patchs Apollo.
+
+Find checksum…
+= Trouver la somme de contrôle…
+
+Looks for a checksum in a save the editor doesn't know (CRC, Adler, sums, MD5, SHA) and keeps it right whenever you save.
+= Cherche une somme de contrôle dans une sauvegarde inconnue (CRC, Adler, sommes, MD5, SHA) et la maintient correcte à chaque enregistrement.
+
+Templates folder…
+= Dossier des modèles…
+
+Your own templates for games the editor doesn't know: a JSON file per game that says where each value is. The folder has a guide with an example.
+= Vos propres modèles pour les jeux inconnus de l'éditeur : un fichier JSON par jeu indiquant où se trouve chaque valeur. Le dossier contient un guide avec un exemple.
+
+Presets
+= Préréglages
+
+Save changes as a preset…
+= Enregistrer les modifications comme préréglage…
+
+Keep the changes you made, to make them again on another save or slot
+= Mémorise vos modifications pour les refaire sur une autre sauvegarde ou un autre emplacement
+
+Apply a preset…
+= Appliquer un préréglage…
+
+Make a saved set of changes on this save
+= Applique un ensemble de modifications enregistré à cette sauvegarde
+
+Compare with another save…
+= Comparer avec une autre sauvegarde…
+
+List every value that differs from another save — handy for finding which value is your gold, HP, etc.
+= Liste toutes les valeurs différentes d'une autre sauvegarde — pratique pour trouver l'or, les PV, etc.
+
+Open another file in this archive
+= Ouvrir un autre fichier de cette archive
+
+Copy character to another slot…
+= Copier le personnage vers un autre emplacement…
+
+Duplicate an Elden Ring character, e.g. to try something out on the copy
+= Dupliquer un personnage d'Elden Ring, par ex. pour tester quelque chose sur la copie
+
+Save or revert your changes first — copying works on the file as it is on disk.
+= Enregistrez ou annulez d'abord vos modifications — la copie utilise le fichier tel qu'il est sur le disque.
+
+Save or revert your changes first.
+= Enregistrez ou annulez d'abord vos modifications.
+
+Those two files aren't the same kind of save, so they can't be compared.
+= Ces deux fichiers ne sont pas le même type de sauvegarde et ne peuvent pas être comparés.
+
+Values that differ between this save and the other one. “Use theirs” copies the other save's value into this one.
+= Valeurs qui diffèrent entre cette sauvegarde et l'autre. « Prendre l'autre » copie la valeur de l'autre sauvegarde dans celle-ci.
+
+No differences — the saves hold the same values.
+= Aucune différence — les sauvegardes contiennent les mêmes valeurs.
+
+Use theirs
+= Prendre l'autre
+
+Back up and start a new game
+= Copier et démarrer une nouvelle partie
+
+The save is backed up under this name and then removed, so the game starts a new game. Restore the backup later to come back to it.
+= La sauvegarde est copiée sous ce nom puis supprimée, pour que le jeu démarre une nouvelle partie. Restaurez la copie plus tard pour y revenir.
+
+for example: first run
+= par exemple : première partie
+
+Back up and start new
+= Copier et redémarrer
+
+Keep a named copy
+= Garder une copie nommée
+
+A copy of the file as it is on disk now, kept until you remove it.
+= Une copie du fichier tel qu'il est sur le disque, conservée jusqu'à sa suppression.
+
+for example: before the final boss
+= par exemple : avant le boss final
+
+Keep
+= Garder
+
+Save manager
+= Gestionnaire de sauvegardes
+
+There is no save file here right now. The game makes a new one when you save in it, or restore a backup below to put one back.
+= Il n'y a pas de fichier de sauvegarde ici pour le moment. Le jeu en crée un à votre prochain enregistrement, ou restaurez une copie de secours ci-dessous.
+
+Keep backups in another folder…
+= Garder les copies dans un autre dossier…
+
+Back to the default folder
+= Revenir au dossier par défaut
+
+backup name, e.g. first run
+= nom de la copie, p. ex. première partie
+
+Back up this save
+= Copier cette sauvegarde
+
+Saves a named copy of the file as it is on disk now. It is kept until you delete it; the save itself is not changed.
+= Enregistre une copie nommée du fichier tel qu'il est sur le disque. Elle est conservée jusqu'à sa suppression ; la sauvegarde elle-même n'est pas modifiée.
+
+Saves a named backup, then removes the current save file so the game starts a new game. Restore the backup later to go back.
+= Enregistre une copie de secours nommée, puis supprime le fichier de sauvegarde actuel pour que le jeu démarre une nouvelle partie. Restaurez la copie plus tard pour revenir en arrière.
+
+For games with a single save: use “Back up and start a new game”, play a new run, and restore the old backup later.
+= Pour les jeux à sauvegarde unique : utilisez « Copier et démarrer une nouvelle partie », jouez une nouvelle partie, puis restaurez l'ancienne copie plus tard.
+
+No backups yet. One is made automatically each time you save, or press “Back up this save”.
+= Aucune copie de secours pour l'instant. Une est créée automatiquement à chaque enregistrement, ou appuyez sur « Copier cette sauvegarde ».
+
+No
+= Non
+
+Restore this backup
+= Restaurer cette copie
+
+Replaces the current save with this backup. The current save is backed up first, so you can undo it.
+= Remplace la sauvegarde actuelle par cette copie. La sauvegarde actuelle est d'abord copiée, ce qui permet d'annuler.
+
+Shows what differs between this backup and the open save
+= Affiche les différences entre cette copie et la sauvegarde ouverte
+
+Make automatic
+= Rendre automatique
+
+Stops keeping this backup for good; it is cleared out in time like the automatic ones
+= Ne conserve plus cette copie définitivement ; elle sera supprimée avec le temps comme les automatiques
+
+Delete backup
+= Supprimer la copie
+
+Permanently removes this backup
+= Supprime définitivement cette copie
+
+That backup is automatic now: it is cleared out in time like the others.
+= Cette copie est maintenant automatique : elle sera supprimée avec le temps comme les autres.
+
+Deleted the backup.
+= Copie supprimée.
+
+That file has no cheat codes in it.
+= Ce fichier ne contient aucun code de triche.
+
+Cheat patches
+= Patchs de triche
+
+Game:
+= Jeu :
+
+name or title ID (SLUS-20312, BLES00371…)
+= nom ou ID de titre (SLUS-20312, BLES00371…)
+
+Open patch file…
+= Ouvrir un fichier de patch…
+
+No patches were found from this save's file or folder name. Type the game's name or title ID.
+= Aucun patch trouvé d'après le nom de fichier ou de dossier de cette sauvegarde. Saisissez le nom du jeu ou son ID de titre.
+
+This save was unpacked with the patch file's own codes when it opened; they run again when you save.
+= Cette sauvegarde a été dépaquetée à l'ouverture avec les codes propres au fichier de patch ; ils sont réexécutés à l'enregistrement.
+
+Show codes for other files too
+= Afficher aussi les codes pour d'autres fichiers
+
+This one is a Python script, which only Apollo itself can run.
+= Ceci est un script Python que seul Apollo peut exécuter.
+
+Big-endian (PS3)
+= Big-endian (PS3)
+
+Byte order for numbers in the codes. Set from the patch file's console; change it only if you know the save uses the other one.
+= Ordre des octets des nombres dans les codes. Défini d'après la console du fichier de patch ; ne le changez que si la sauvegarde utilise l'autre.
+
+Back up first: a code meant for another version of the game can damage the save. Codes change the data now; save to write the file.
+= Faites d'abord une copie de secours : un code prévu pour une autre version du jeu peut endommager la sauvegarde. Les codes modifient les données maintenant ; enregistrez pour écrire le fichier.
+
+The codes didn't change anything (the values may already be set).
+= Les codes n'ont rien changé (les valeurs sont peut-être déjà définies).
+
+No Steam ID was found in this save's data (some games key the save to the account in other ways).
+= Aucun ID Steam trouvé dans les données de cette sauvegarde (certains jeux lient la sauvegarde au compte autrement).
+
+Change Steam account in this save
+= Changer de compte Steam dans cette sauvegarde
+
+Steam IDs in this save:
+= ID Steam dans cette sauvegarde :
+
+Change it to:
+= Remplacer par :
+
+17-digit Steam ID or account number
+= ID Steam à 17 chiffres ou numéro de compte
+
+Accounts on this computer:
+= Comptes sur cet ordinateur :
+
+Every copy of the ID changes; save to write the file. Some games also check the folder the save sits in.
+= Chaque occurrence de l'ID est modifiée ; enregistrez pour écrire le fichier. Certains jeux vérifient aussi le dossier de la sauvegarde.
+
+Change
+= Changer
+
+Find checksum
+= Trouver la somme de contrôle
+
+No checksum the editor knows was found at the start or end of this file.
+= Aucune somme de contrôle connue n'a été trouvée au début ou à la fin de ce fichier.
+
+It may be encrypted, compressed, or checked with something the game made up. The value search still works on it.
+= Elle est peut-être chiffrée, compressée, ou vérifiée par un mécanisme propre au jeu. La recherche de valeur fonctionne quand même.
+
+Pick one to have it written again every time you save. Saving a few times and searching again narrows a long list.
+= Choisissez-en une pour qu'elle soit réécrite à chaque enregistrement. Enregistrer plusieurs fois et relancer la recherche raccourcit une longue liste.
+
+(kept fixed)
+= (maintenue)
+
+Keep fixed
+= Maintenir
+
+Stop fixing the checksum
+= Ne plus maintenir la somme de contrôle
+
+The checksum will be written again every time you save this file.
+= La somme de contrôle sera réécrite à chaque enregistrement de ce fichier.
+
+Decrypt with password
+= Déchiffrer avec un mot de passe
+
+Some games encrypt their saves with a password built into the game.
+= Certains jeux chiffrent leurs sauvegardes avec un mot de passe intégré au jeu.
+
+Supported: Easy Save 3 (Unity) and Godot encrypted files. Easy Save's default password is tried automatically.
+= Pris en charge : fichiers chiffrés Easy Save 3 (Unity) et Godot. Le mot de passe par défaut d'Easy Save est essayé automatiquement.
+
+password
+= mot de passe
+
+Decrypt
+= Déchiffrer
+
+That password didn't decrypt the file (or the encryption isn't one this editor knows).
+= Ce mot de passe n'a pas déchiffré le fichier (ou le chiffrement n'est pas connu de cet éditeur).
+
+Open
+= Ouvrir
+
+Open a save file (Ctrl+O)
+= Ouvrir un fichier de sauvegarde (Ctrl+O)
+
+Find saves
+= Trouver les sauvegardes
+
+Pick a game from the list to see the saves it has on this computer
+= Choisissez un jeu dans la liste pour voir ses sauvegardes sur cet ordinateur
+
+Save changes to the file (Ctrl+S)
+= Enregistrer les modifications dans le fichier (Ctrl+S)
+
+Ctrl+Z
+= Ctrl+Z
+
+Ctrl+Y
+= Ctrl+Y
+
+Ren'Py 8.1+ signs its saves. Your Ren'Py key was found on this PC, so edited saves are re-signed and load normally.
+= Ren'Py 8.1+ signe ses sauvegardes. Votre clé Ren'Py a été trouvée sur ce PC : les sauvegardes modifiées sont re-signées et se chargent normalement.
+
+The game was running when this file was opened. Quit it before saving, or it may overwrite your changes.
+= Le jeu était lancé à l'ouverture de ce fichier. Quittez-le avant d'enregistrer, sinon il pourrait écraser vos modifications.
+
+Point to the game's data folder to see variable, switch and item names
+= Indiquez le dossier de données du jeu pour voir les noms des variables, interrupteurs et objets
+
+List everything you've changed since the last save
+= Lister tout ce que vous avez modifié depuis le dernier enregistrement
+
+No unsaved changes
+= Aucune modification non enregistrée
+
+Something went wrong — see the message at the top.
+= Une erreur s'est produite — voir le message en haut.
+
+This game's own screen: its stats, inventory and more, laid out like the game
+= L'écran propre au jeu : statistiques, inventaire et plus, disposés comme dans le jeu
+
+Values
+= Valeurs
+
+Every editable value in a simple list
+= Toutes les valeurs modifiables dans une liste simple
+
+Tree
+= Arbre
+
+The full structure of the save, as nested groups
+= La structure complète de la sauvegarde, en groupes imbriqués
+
+Raw JSON
+= Raw JSON
+
+Edit the JSON text directly
+= Modifier directement le texte JSON
+
+Apply
+= Appliquer
+
+Raw JSON applied.
+= Raw JSON appliqué.
+
+Clear
+= Effacer
+
+Bulk edit
+= Modification en masse
+
+Tick several values and set them all at once, or add to or multiply them
+= Cochez plusieurs valeurs pour les définir toutes d'un coup, leur ajouter ou les multiplier
+
+Find on this screen  (Ctrl+F)
+= Rechercher sur cet écran  (Ctrl+F)
+
+no match on this tab
+= aucune correspondance dans cet onglet
+
+Next
+= Suivant
+
+Prev
+= Préc.
+
+Raw keys
+= Clés brutes
+
+Everything else in this save is in the Values and Tree tabs.
+= Tout le reste de cette sauvegarde se trouve dans les onglets Valeurs et Arbre.
+
+The filter looks at names, keys and current values.
+= Le filtre porte sur les noms, les clés et les valeurs actuelles.
+
+No editable values here. Try turning on Advanced, or use the Tree view.
+= Aucune valeur modifiable ici. Essayez d'activer Avancé, ou utilisez la vue Arbre.
+
+Try part of a name (“gold”) or a current value (“1500”).
+= Essayez une partie d'un nom (« gold ») ou une valeur actuelle (« 1500 »).
+
+Advanced values are hidden — tick Advanced to search them too.
+= Les valeurs avancées sont masquées — cochez Avancé pour les inclure dans la recherche.
+
+Changes
+= Modifications
+
+Since you opened or last saved this file.
+= Depuis l'ouverture ou le dernier enregistrement de ce fichier.
+
+Copy as text
+= Copier en texte
+
+Copy the list of changes, to paste when asking for help or sharing what you did
+= Copie la liste des modifications, à coller pour demander de l'aide ou partager ce que vous avez fait
+
+Save as preset…
+= Enregistrer comme préréglage…
+
+Keep these changes to make them again on another save or slot
+= Mémorise ces modifications pour les refaire sur une autre sauvegarde ou un autre emplacement
+
+Revert all
+= Tout annuler
+
+Put every value back as it was when the file was opened or last saved
+= Remet chaque valeur comme à l'ouverture ou au dernier enregistrement du fichier
+
+No changes yet.
+= Aucune modification pour l'instant.
+
+Revert
+= Annuler
+
+No changes yet. Edited values are highlighted in orange.
+= Aucune modification pour l'instant. Les valeurs modifiées sont surlignées en orange.
+
+Whole document (Raw JSON edit)
+= Document entier (modification du Raw JSON)
+
+Show in list
+= Afficher dans la liste
+
+Cairn saves in this slot
+= Sauvegardes Cairn dans cet emplacement
+
+This save's run
+= La partie de cette sauvegarde
+
+As on the game's slot card. The card's own copy of the play time updates the next time the game saves.
+= Comme sur la fiche d'emplacement du jeu. Le temps de jeu de la fiche elle-même se met à jour au prochain enregistrement du jeu.
+
+Named values
+= Valeurs nommées
+
+Binary saves have no names. Find a value with Value search, click it, then name it here — names are remembered for this file.
+= Les sauvegardes binaires n'ont pas de noms. Trouvez une valeur avec la Recherche de valeur, cliquez dessus, puis nommez-la ici — les noms sont mémorisés pour ce fichier.
+
+Set
+= Définir
+
+Write this value (or press Enter)
+= Écrire cette valeur (ou appuyer sur Entrée)
+
+Forget this name (the value is not changed)
+= Oublier ce nom (la valeur n'est pas modifiée)
+
+Add
+= Ajouter
+
+Value search
+= Recherche de valeur
+
+Don't know the number (a health bar, a hidden counter)? Start with “Unknown starting value”, then refine with Increased, Decreased or Changed after each in-game save.
+= Vous ne connaissez pas le nombre (barre de vie, compteur caché) ? Commencez par « Valeur de départ inconnue », puis affinez avec Augmenté, Diminué ou Modifié après chaque sauvegarde en jeu.
+
+Know the value? Search for it, change it in-game, save, and refine with the new value. Don't know it (a health bar, a hidden counter)? Start with “Unknown starting value”, then refine with Increased, Decreased or Changed after each in-game save.
+= Vous connaissez la valeur ? Cherchez-la, changez-la en jeu, enregistrez, puis affinez avec la nouvelle valeur. Vous ne la connaissez pas (barre de vie, compteur caché) ? Commencez par « Valeur de départ inconnue », puis affinez avec Augmenté, Diminué ou Modifié après chaque sauvegarde en jeu.
+
+to
+= à
+
+Refine
+= Affiner
+
+Re-reads the file from disk (save in-game first) and keeps only the locations that pass the test above
+= Relit le fichier depuis le disque (enregistrez d'abord en jeu) et ne garde que les emplacements qui passent le test ci-dessus
+
+Aligned
+= Aligné
+
+Only test offsets that are a multiple of the value size. Faster, and how most games store numbers.
+= Ne teste que les décalages multiples de la taille de la valeur. Plus rapide, et c'est ainsi que la plupart des jeux stockent les nombres.
+
+Refine by itself each time the game saves
+= Affiner automatiquement à chaque enregistrement du jeu
+
+Watches the file and refines with the test above as soon as the game writes it again
+= Surveille le fichier et affine avec le test ci-dessus dès que le jeu l'écrit à nouveau
+
+Every location is still in play.
+= Tous les emplacements sont encore en lice.
+
+Big-endian
+= Big-endian
+
+Most PC games use little-endian (unticked)
+= La plupart des jeux PC utilisent le little-endian (décoché)
+
+Go to
+= Aller à
+
+hex offset
+= décalage hexadécimal
+
+Go
+= OK
+
+Click to edit as this type
+= Cliquez pour modifier comme ce type
+
+new value
+= nouvelle valeur
+
+Write
+= Écrire
+
+Pick your game from the list; its saves on this computer are found for you
+= Choisissez votre jeu dans la liste ; ses sauvegardes sur cet ordinateur sont trouvées pour vous
+
+or drag a file anywhere onto this window
+= ou glissez un fichier n'importe où dans cette fenêtre
+
+Recent files
+= Fichiers récents
+
+Files you open will appear here.
+= Les fichiers que vous ouvrez apparaîtront ici.
+
+Restore a backup…
+= Restaurer une copie de secours…
+
+The file isn't there any more, but it has backups
+= Le fichier n'existe plus, mais il a des copies de secours
+
+Find your saves
+= Trouver vos sauvegardes
+
+RPG Maker games usually keep saves in a “save” folder next to the game.
+= Les jeux RPG Maker rangent généralement leurs sauvegardes dans un dossier « save » à côté du jeu.
+
+What it can open
+= Ce qu'il peut ouvrir
+
+Dismiss
+= Ignorer
+
+(empty file)
+= (fichier vide)
+
+Unsaved changes
+= Modifications non enregistrées
+
+You have unsaved changes. Save them before closing this file?
+= Vous avez des modifications non enregistrées. Les enregistrer avant de fermer ce fichier ?
+
+Save and close
+= Enregistrer et fermer
+
+Close without saving
+= Fermer sans enregistrer
+
+Don't save
+= Ne pas enregistrer
+
+You have unsaved changes. Save them before closing?
+= Vous avez des modifications non enregistrées. Les enregistrer avant de fermer ?
+
+# src/app/help.rs
+
+Help
+= Aide
+
+Keyboard shortcuts
+= Raccourcis clavier
+
+Supported games (website)
+= Jeux pris en charge (site web)
+
+Supported games…
+= Jeux pris en charge…
+
+Every game in the list, with what can be edited and where its saves are
+= Tous les jeux de la liste, avec ce qui est modifiable et l'emplacement des sauvegardes
+
+Website
+= Site web
+
+Report a problem…
+= Signaler un problème…
+
+Opens a form on GitHub. The version and system are filled in; your save is not sent.
+= Ouvre un formulaire sur GitHub. La version et le système sont préremplis ; votre sauvegarde n'est pas envoyée.
+
+Request a game…
+= Demander un jeu…
+
+Opens a form on GitHub
+= Ouvre un formulaire sur GitHub
+
+Licences and credits
+= Licences et crédits
+
+On a Mac, use Cmd instead of Ctrl.
+= Sur Mac, utilisez Cmd au lieu de Ctrl.
+
+It builds on save-format research, tables and code from many other projects, each listed with its author and licence in the third-party notices.
+= Il s'appuie sur des recherches sur les formats de sauvegarde, des tables et du code de nombreux autres projets, chacun listé avec son auteur et sa licence dans les mentions tierces.
+
+The interface uses egui and eframe (MIT or Apache-2.0).
+= L'interface utilise egui et eframe (MIT ou Apache-2.0).
+
+Edit game saves safely. Everything stays on your device: nothing is uploaded, and every save is backed up before it is written.
+= Modifiez vos sauvegardes en toute sécurité. Tout reste sur votre appareil : rien n'est envoyé, et chaque sauvegarde est copiée avant d'être écrite.
+
+In the browser, Japanese, Chinese and Korean names may show as boxes. The downloadable app uses your computer's fonts for them.
+= Dans le navigateur, les noms japonais, chinois et coréens peuvent s'afficher sous forme de carrés. L'application téléchargeable utilise les polices de votre ordinateur.
+
+Preferences
+= Préférences
+
+Look
+= Apparence
+
+Language:
+= Langue :
+
+Same as the system
+= Identique au système
+
+Menus, buttons and messages. Game screens and value names stay as the game has them.
+= Menus, boutons et messages. Les écrans du jeu et les noms de valeurs restent ceux du jeu.
+
+Theme:
+= Thème :
+
+Dark
+= Sombre
+
+Light
+= Clair
+
+Zoom:
+= Zoom :
+
+Reset
+= Réinitialiser
+
+Show the find-a-value guide in the hex view
+= Afficher le guide de recherche de valeur dans la vue hexadécimale
+
+Saving
+= Enregistrement
+
+Show the list of changes, and warn when the game is running, before writing the save
+= Afficher la liste des modifications et avertir si le jeu est lancé avant d'écrire la sauvegarde
+
+Automatic backups to keep per save:
+= Copies automatiques à garder par sauvegarde :
+
+A backup is taken every time this app writes a save. Named backups are always kept.
+= Une copie est créée à chaque écriture d'une sauvegarde par cette application. Les copies nommées sont toujours conservées.
+
+Backups go:
+= Copies enregistrées dans :
+
+Choose a folder…
+= Choisir un dossier…
+
+Back to the default
+= Revenir au défaut
+
+# src/app/home.rs
+
+Your games
+= Vos jeux
+
+looking for saves on this computer…
+= recherche de sauvegardes sur cet ordinateur…
+
+Click a game to open its newest save.
+= Cliquez sur un jeu pour ouvrir sa sauvegarde la plus récente.
+
+Other saves…
+= Autres sauvegardes…
+
+# src/app/safety.rs
+
+Keep what's shown
+= Garder ce qui est affiché
+
+Hide this. Saving still asks before writing over the newer file.
+= Masquer. L'enregistrement demandera toujours confirmation avant d'écraser le fichier plus récent.
+
+The save changed on disk
+= La sauvegarde a changé sur le disque
+
+Saving now would put the version you opened, with your changes, over that newer file.
+= Enregistrer maintenant écraserait ce fichier plus récent par la version ouverte, avec vos modifications.
+
+Either way, whatever is on disk now is backed up before anything is written.
+= Dans tous les cas, ce qui se trouve actuellement sur le disque est copié avant toute écriture.
+
+Reload the newer file
+= Recharger le fichier plus récent
+
+Open what's on disk now. Your unsaved changes are dropped.
+= Ouvre ce qui est sur le disque. Vos modifications non enregistrées sont perdues.
+
+Save anyway
+= Enregistrer quand même
+
+Not saved. Your changes are still here.
+= Non enregistré. Vos modifications sont toujours là.
+
+# src/app/tabs.rs
+
+Close this tab (Ctrl+W)
+= Fermer cet onglet (Ctrl+W)
+
+Open another save in a new tab (Ctrl+T)
+= Ouvrir une autre sauvegarde dans un nouvel onglet (Ctrl+T)
+
+Pasted. Save to keep it, or Undo.
+= Collé. Enregistrez pour conserver, ou Annuler.
+
+That field already has this value.
+= Ce champ a déjà cette valeur.
+
+This field can't take the copied value.
+= Ce champ ne peut pas recevoir la valeur copiée.
+
+Paste into this save
+= Coller dans cette sauvegarde
+
+Writes the copied values to the same places in this save. One Undo takes it back.
+= Écrit les valeurs copiées aux mêmes endroits dans cette sauvegarde. Un seul Annuler suffit pour tout défaire.
+
+or right-click a value › Paste here
+= ou clic droit sur une valeur › Coller ici
+
+Forget the copied values
+= Oublier les valeurs copiées
+
+# src/app/tools.rs
+
+Ticks every editable value in the list below. Search first to pick a group, e.g. “count” or a section's name.
+= Coche chaque valeur modifiable de la liste ci-dessous. Cherchez d'abord pour choisir un groupe, p. ex. « count » ou le nom d'une section.
+
+Untick all
+= Tout décocher
+
+Changes every ticked value; one Undo puts them all back
+= Modifie chaque valeur cochée ; un seul Annuler les rétablit toutes
+
+Done
+= Terminé
+
+No changes to copy yet.
+= Aucune modification à copier pour l'instant.
+
+Make some changes first: a preset keeps the changes you made, to make them again on another save.
+= Faites d'abord quelques modifications : un préréglage mémorise vos modifications pour les refaire sur une autre sauvegarde.
+
+Save changes as a preset
+= Enregistrer les modifications comme préréglage
+
+for example: max gold and potions
+= par exemple : or et potions au maximum
+
+Replace a preset with the same name
+= Remplacer un préréglage du même nom
+
+Your browser downloads the preset; open it again with Apply preset.
+= Votre navigateur télécharge le préréglage ; rouvrez-le avec Appliquer un préréglage.
+
+Save preset
+= Enregistrer le préréglage
+
+Your browser downloaded the preset.
+= Votre navigateur a téléchargé le préréglage.
+
+Apply a preset
+= Appliquer un préréglage
+
+No presets yet.
+= Aucun préréglage pour l'instant.
+
+Make some changes, then use Save changes as a preset (in the Changes panel or Tools › Presets). Presets shared by others open with Open a preset file.
+= Faites des modifications, puis utilisez Enregistrer les modifications comme préréglage (dans le panneau des modifications ou Outils › Préréglages). Les préréglages partagés par d'autres s'ouvrent avec Ouvrir un fichier de préréglage.
+
+Delete
+= Supprimer
+
+Delete this preset (saves are not changed)
+= Supprimer ce préréglage (les sauvegardes ne sont pas modifiées)
+
+Open a preset file…
+= Ouvrir un fichier de préréglage…
+
+Presets folder
+= Dossier des préréglages
+
+Use these names for every save of this game
+= Utiliser ces noms pour chaque sauvegarde de ce jeu
+
+Makes a template from your names, so every save of the game opens with these values listed by name, ready to change. Use View › Show decoded data as hex to find more values later.
+= Crée un modèle à partir de vos noms, pour que chaque sauvegarde du jeu s'ouvre avec ces valeurs nommées, prêtes à modifier. Utilisez Affichage › Afficher les données décodées en hexadécimal pour trouver d'autres valeurs plus tard.
+
+Game
+= Jeu
+
+the game's name
+= nom du jeu
+
+Recognise its saves by:
+= Reconnaître ses sauvegardes par :
+
+Only if every save of the game is the same size
+= Seulement si toutes les sauvegardes du jeu ont la même taille
+
+Replace a template with the same name
+= Remplacer un modèle du même nom
+
+Make template
+= Créer le modèle
+
+Use for every save…
+= Utiliser pour chaque sauvegarde…
+
+Make a template from these names, so every save of this game opens with them listed
+= Crée un modèle à partir de ces noms, pour que chaque sauvegarde de ce jeu s'ouvre avec eux
+
+Export…
+= Exporter…
+
+Save these names to a file to share or keep
+= Enregistre ces noms dans un fichier à partager ou conserver
+
+Import…
+= Importer…
+
+Add names from a file someone shared (exported names or a template)
+= Ajoute des noms depuis un fichier partagé (noms exportés ou modèle)
+
+Find a value, step by step
+= Trouver une valeur, pas à pas
+
+Hide
+= Masquer
+
+Bring it back from Value search
+= Le rétablir depuis la Recherche de valeur
+
+Watches the file and refines with the test chosen in Value search as soon as the game writes it again
+= Surveille le fichier et affine avec le test choisi dans la Recherche de valeur dès que le jeu l'écrit à nouveau
+
+No luck? Try another number type, or
+= Pas de chance ? Essayez un autre type de nombre, ou
+
+The game saved, but you have unsaved changes here, so refining stopped. Revert or save them, then refine.
+= Le jeu a enregistré, mais vous avez des modifications non enregistrées ici, donc l'affinage s'est arrêté. Annulez-les ou enregistrez-les, puis affinez.
+
+# src/values_view.rs
+
+Copy for another save
+= Copier pour une autre sauvegarde
+
+Then paste it into another open save (or another field)
+= Collez-la ensuite dans une autre sauvegarde ouverte (ou un autre champ)
+
+Paste here
+= Coller ici
+
+# src/widgets.rs
+
+Type to filter…
+= Saisir pour filtrer…
+
+Nothing in this save matches
+= Rien dans cette sauvegarde ne correspond
+
+Copy value
+= Copier la valeur
+
+Copy name
+= Copier le nom
+
+Copy path
+= Copier le chemin
+
+The largest value this field accepts
+= La plus grande valeur acceptée par ce champ
+
+The smallest value this field accepts
+= La plus petite valeur acceptée par ce champ
+
+Show in Tree
+= Afficher dans l'arbre
+
+↩ marks a line break (¶ a carriage return)
+= ↩ marque un saut de ligne (¶ un retour chariot)
+
+Decrease by 1 (Shift: 10, Ctrl: 100)
+= Diminuer de 1 (Shift : 10, Ctrl : 100)
+
+Increase by 1 (Shift: 10, Ctrl: 100)
+= Augmenter de 1 (Shift : 10, Ctrl : 100)
+
+empty
+= vide
+
+# src/file_browser.rs
+
+Allow “All files access” so the editor can open and save game saves on your phone.
+= Autorisez « Accès à tous les fichiers » pour que l'éditeur puisse ouvrir et enregistrer les sauvegardes sur votre téléphone.
+
+Allow access…
+= Autoriser l'accès…
+
+Up
+= Remonter
+
+File name:
+= Nom du fichier :
+
+(empty folder)
+= (dossier vide)
+
+# src/hex_view.rs and view options
+
+Exact value
+= Valeur exacte
+
+Value between
+= Valeur entre
+
+Unknown starting value
+= Valeur de départ inconnue
+
+Changed
+= Modifié
+
+Unchanged
+= Inchangé
+
+Increased
+= Augmenté
+
+Decreased
+= Diminué
+
+Increased by
+= Augmenté de
+
+Decreased by
+= Diminué de
+
+Advanced
+= Avancé
+
+# tabs, copy and paste, status
+
+Opened {0} ({1}) — {2}.
+= {0} ouvert ({1}) — {2}.
+
+Changes ({0})
+= Modifications ({0})
+
+Filter the tree by name or value  (Ctrl+F)
+= Filtrer l'arbre par nom ou valeur  (Ctrl+F)
+
+Search names or values  (Ctrl+F)
+= Rechercher des noms ou des valeurs  (Ctrl+F)
+
+1 unsaved change
+= 1 modification non enregistrée
+
+{0} unsaved changes
+= {0} modifications non enregistrées
+
+Saved and verified ({0}).
+= Enregistré et vérifié ({0}).
+
+You have unsaved changes. Save them before opening {0}?
+= Vous avez des modifications non enregistrées. Les enregistrer avant d'ouvrir {0} ?
+
+Showing {0}.
+= Affichage de {0}.
+
+New tab
+= Nouvel onglet
+
+Copied: {0} from {1}
+= Copié : {0} depuis {1}
+
+Copied: {0} ({1} values) from {2}
+= Copié : {0} ({1} valeurs) depuis {2}
+
+Copied {0}. Open another save (or tab) and paste it there.
+= {0} copié. Ouvrez une autre sauvegarde (ou un autre onglet) et collez-le.
+
+Copied {0} ({1} values). Open another save (or tab) and use Paste.
+= {0} copié ({1} valeurs). Ouvrez une autre sauvegarde (ou un autre onglet) et utilisez Coller.
+
+Copy all of {0} for another save
+= Copier tout {0} pour une autre sauvegarde
+
+{0}: this save already has the same values.
+= {0} : cette sauvegarde a déjà les mêmes valeurs.
+
+{0} isn't in this save in the same place, so nothing was pasted.
+= {0} n'est pas au même endroit dans cette sauvegarde, rien n'a été collé.
+
+Pasted {0} from {1}. Save to keep it, or Undo.
+= {0} collé depuis {1}. Enregistrez pour le garder, ou annulez.
+
+Pasted {0} values of {1} from {2}; {3} aren't in this save and were left out.
+= {0} valeurs de {1} collées depuis {2} ; {3} n'existent pas dans cette sauvegarde et ont été ignorées.
+

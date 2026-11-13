@@ -1,4 +1,5 @@
 use crate::file_browser::{self, FileBrowser};
+use crate::i18n::tr;
 use crate::formats::{self, Content, Layer};
 use crate::platform;
 use crate::hex_view::{self, HexState, NumType, OffsetLabel};
@@ -382,6 +383,11 @@ pub struct App {
 impl App {
     pub fn new(cc: &eframe::CreationContext<'_>, initial: Option<PathBuf>) -> Self {
         let settings = Settings::load();
+        crate::i18n::set(settings.language.as_deref());
+        if crate::i18n::current().cjk && !theme::cjk_available() {
+            // Without a font for it, the menus would be boxes.
+            crate::i18n::set(Some("en"));
+        }
         crate::backups::set_root(settings.backup_dir.clone());
         crate::backups::set_earlier_roots(settings.earlier_backup_dirs.clone());
         crate::backups::set_keep(settings.backup_keep);
@@ -455,7 +461,8 @@ impl App {
             saves_found: (!cfg!(target_os = "android") && !WEB && std::env::var_os("SAVE_EDITOR_NO_SEARCH").is_none()).then(search_saves),
             prefs_open: false,
             help: None,
-            need_cjk: false,
+            // Japanese and Chinese menus need those fonts from the start.
+            need_cjk: crate::i18n::current().cjk,
             tabs: tabs::Tabs::new(),
             #[cfg(target_os = "android")]
             keyboard_shown: false,
@@ -537,7 +544,7 @@ impl App {
                     crate::web::pick_file(&self.ctx);
                 }
                 file_browser::Mode::SaveFile => self.answered(what, PathBuf::from(name.unwrap_or_else(|| "save".into()))),
-                file_browser::Mode::Folder => self.fail("The browser version can't open folders \u{2014} use the desktop app for this."),
+                file_browser::Mode::Folder => self.fail(tr("The browser version can't open folders \u{2014} use the desktop app for this.")),
             }
         }
         #[cfg(not(any(target_os = "android", target_arch = "wasm32")))]
@@ -596,7 +603,7 @@ impl App {
     fn close_file(&mut self) {
         self.dirty = false;
         self.drop_tab(self.tabs.active);
-        self.info("Closed the file.");
+        self.info(tr("Closed the file."));
     }
 
     /// Escape: closes the dialog on top (the one drawn last), or does nothing when none is open.
@@ -692,7 +699,7 @@ impl App {
             Err(std::sync::mpsc::TryRecvError::Empty) => {
                 let name = file_name(&l.path);
                 let secs = now - l.started;
-                modal(ctx, "Opening", |ui| {
+                modal(ctx, tr("Opening"), |ui| {
                     ui.horizontal(|ui| {
                         ui.spinner();
                         ui.label(format!("Reading {name}\u{2026}"));
@@ -705,7 +712,7 @@ impl App {
             }
             Err(_) => {
                 self.loading = None;
-                self.fail("Opening the file stopped unexpectedly.");
+                self.fail(tr("Opening the file stopped unexpectedly."));
             }
         }
     }
@@ -764,7 +771,7 @@ impl App {
         self.settings.push_recent(path);
         self.running = running;
         self.doc_note = note.trim().to_string();
-        self.info(format!("Opened {} ({}) \u{2014} {desc}.", file_name(path), human_size(raw_len)));
+        self.info(crate::i18n::trf("Opened {0} ({1}) \u{2014} {2}.", &[&file_name(path), &human_size(raw_len), &desc]));
     }
 
     fn rebuild_model(&mut self) {
@@ -1004,7 +1011,7 @@ impl App {
         self.rebuild_model();
         self.edit_gen += 1;
         self.recompute_dirty();
-        self.ok("All changes reverted.");
+        self.ok(tr("All changes reverted."));
     }
 
     // ------------------------------------------------------------ hex labels (sidecar)
@@ -1067,7 +1074,7 @@ impl App {
 
     fn save_to(&mut self, path: &Path) {
         if !self.commit_raw() {
-            return self.fail("The Raw JSON has a syntax error \u{2014} fix it before saving.");
+            return self.fail(tr("The Raw JSON has a syntax error \u{2014} fix it before saving."));
         }
         let Some(doc) = &self.doc else { return };
         // Something else wrote the file since it was read: don't silently put older data over it.
@@ -1082,7 +1089,7 @@ impl App {
         // Verify before touching the disk: the new file must decode to exactly what's on screen.
         let check = formats::decode_with(&bytes, &doc.opts);
         if !formats::same_layers(&check.layers, &doc.layers) || !formats::verified(&check.content, &doc.content) {
-            return self.fail("Save aborted: the re-encoded file didn't read back identically. Your file was not changed.");
+            return self.fail(tr("Save aborted: the re-encoded file didn't read back identically. Your file was not changed."));
         }
 
         let mut note = String::new();
@@ -1153,7 +1160,7 @@ impl App {
             ""
         };
         let cloud = if in_steam_cloud(path) { " If Steam asks which save to keep, choose the local one." } else { "" };
-        self.ok(format!("Saved and verified ({}).{note}{extra}{cloud}", human_size(bytes.len())));
+        self.ok(format!("{}{note}{extra}{cloud}", crate::i18n::trf("Saved and verified ({0}).", &[&human_size(bytes.len())])));
     }
 
     fn save(&mut self) {
@@ -1166,7 +1173,7 @@ impl App {
     fn save_clicked(&mut self) {
         let Some(path) = self.doc.as_ref().map(|d| d.path.clone()) else { return };
         if !self.commit_raw() {
-            return self.fail("The Raw JSON has a syntax error \u{2014} fix it before saving.");
+            return self.fail(tr("The Raw JSON has a syntax error \u{2014} fix it before saving."));
         }
         let running = crate::running::game_for(&path);
         if running.is_none() && !self.settings.confirm_save {
@@ -1238,7 +1245,7 @@ impl App {
         let wide = screen.width() > 820.0;
         // A fixed size that always fits: the lists inside fill whatever they're given.
         let size = egui::vec2((screen.width() - 40.0).min(900.0), (screen.height() - 90.0).min(620.0));
-        egui::Window::new("Find my game's saves")
+        egui::Window::new(tr("Find my game's saves"))
             .collapsible(false)
             .resizable(false)
             .fixed_size(size)
@@ -1249,12 +1256,12 @@ impl App {
                 let any_here = (0..found.len()).any(here);
                 let only = gp.only_found.unwrap_or(!searching && any_here);
                 ui.horizontal_wrapped(|ui| {
-                    ui.label("Search:");
-                    ui.add(TextEdit::singleline(&mut gp.query).hint_text("game name").desired_width(200.0));
+                    ui.label(tr("Search:"));
+                    ui.add(TextEdit::singleline(&mut gp.query).hint_text(tr("game name")).desired_width(200.0));
                     let mut o = only;
                     if ui
-                        .checkbox(&mut o, "Only games found here")
-                        .on_hover_text("Show only the games whose saves were found on this computer. Typing a name searches every game.")
+                        .checkbox(&mut o, tr("Only games found here"))
+                        .on_hover_text(tr("Show only the games whose saves were found on this computer. Typing a name searches every game."))
                         .changed()
                     {
                         gp.only_found = Some(o);
@@ -1262,18 +1269,18 @@ impl App {
                     egui::ComboBox::from_id_salt("gp_level")
                         .selected_text(gp.level.map_or("Any support", |l| l.label()))
                         .show_ui(ui, |ui| {
-                            ui.selectable_value(&mut gp.level, None, "Any support");
+                            ui.selectable_value(&mut gp.level, None, tr("Any support"));
                             for l in crate::games::Level::ALL {
                                 ui.selectable_value(&mut gp.level, Some(l), l.label()).on_hover_text(l.hint());
                             }
                         });
                     ui.with_layout(egui::Layout::right_to_left(egui::Align::Center), |ui| {
-                        if ui.button("Close").clicked() {
+                        if ui.button(tr("Close")).clicked() {
                             close = true;
                         }
                     });
                 });
-                ui.weak("Pick a game to see where it keeps its saves and the ones on this computer. Open\u{2026} and dragging a file onto the window still work for anything else.");
+                ui.weak(tr("Pick a game to see where it keeps its saves and the ones on this computer. Open\u{2026} and dragging a file onto the window still work for anything else."));
                 ui.separator();
                 let q = gp.query.trim().to_lowercase();
                 let level = gp.level;
@@ -1310,18 +1317,18 @@ impl App {
                             });
                         };
                         if !found_here.is_empty() {
-                            ui.label(RichText::new("On this computer").strong());
+                            ui.label(RichText::new(tr("On this computer")).strong());
                             for &i in &found_here {
                                 row(ui, i, picked);
                             }
                             if !others.is_empty() {
                                 ui.add_space(6.0);
-                                ui.label(RichText::new("Other games").strong());
+                                ui.label(RichText::new(tr("Other games")).strong());
                             }
                         } else if searching && only && q.is_empty() {
                             ui.horizontal(|ui| {
                                 ui.spinner();
-                                ui.weak("Looking for saves on this computer\u{2026}");
+                                ui.weak(tr("Looking for saves on this computer\u{2026}"));
                             });
                         }
                         for &i in &others {
@@ -1334,13 +1341,13 @@ impl App {
                             }
                         }
                         if found_here.is_empty() && others.is_empty() && hidden == 0 {
-                            ui.weak("No game matches. Use Open\u{2026} to pick the file yourself.");
+                            ui.weak(tr("No game matches. Use Open\u{2026} to pick the file yourself."));
                         }
                     });
                 };
                 let details = |ui: &mut egui::Ui, picked: Option<usize>, group: &mut Option<String>, open: &mut Option<PathBuf>| {
                     let Some(i) = picked else {
-                        ui.weak("Choose a game from the list.");
+                        ui.weak(tr("Choose a game from the list."));
                         return;
                     };
                     let g = &crate::games::GAMES[i];
@@ -1356,12 +1363,12 @@ impl App {
                         None => {
                             ui.horizontal(|ui| {
                                 ui.spinner();
-                                ui.label("Looking for saves\u{2026}");
+                                ui.label(tr("Looking for saves\u{2026}"));
                             });
                         }
                         Some(f) if f.is_empty() => {
                             ui.colored_label(theme::fg(ui, theme::WARN), "No saves found on this computer.");
-                            ui.weak("If the game keeps them somewhere else (another drive, a cloud folder), use Open\u{2026} to pick the file.");
+                            ui.weak(tr("If the game keeps them somewhere else (another drive, a cloud folder), use Open\u{2026} to pick the file."));
                         }
                         Some(f) => {
                             let cards = |ui: &mut egui::Ui, saves: &[&crate::games::Found], open: &mut Option<PathBuf>| {
@@ -1437,7 +1444,7 @@ impl App {
                 } else if gp.picked.is_none() {
                     list(ui, &mut gp.picked, &mut show_all);
                 } else {
-                    if ui.button("\u{2039} All games").clicked() {
+                    if ui.button(tr("\u{2039} All games")).clicked() {
                         gp.picked = None;
                     }
                     details(ui, gp.picked, &mut gp.group, &mut open);
@@ -1468,16 +1475,16 @@ impl App {
             }
         };
         let mut choice = None;
-        modal(ctx, "Copy character", |ui| {
+        modal(ctx, tr("Copy character"), |ui| {
             egui::Grid::new("copy_slots").num_columns(2).spacing([12.0, 8.0]).show(ui, |ui| {
-                ui.label("Copy");
+                ui.label(tr("Copy"));
                 egui::ComboBox::from_id_salt("copy_from").width(260.0).selected_text(label(c.from, &c.slots[c.from])).show_ui(ui, |ui| {
                     for (i, s) in c.slots.iter().enumerate().filter(|(_, s)| s.active) {
                         ui.selectable_value(&mut c.from, i, label(i, s));
                     }
                 });
                 ui.end_row();
-                ui.label("Into");
+                ui.label(tr("Into"));
                 egui::ComboBox::from_id_salt("copy_to").width(260.0).selected_text(label(c.to, &c.slots[c.to])).show_ui(ui, |ui| {
                     for (i, s) in c.slots.iter().enumerate() {
                         ui.selectable_value(&mut c.to, i, label(i, s));
@@ -1491,14 +1498,14 @@ impl App {
             } else if dest.active {
                 ui.colored_label(theme::fg(ui, theme::WARN), format!("This replaces {} (level {}) in slot {}.", dest.name, dest.level, c.to + 1));
             }
-            ui.weak("The file is backed up first (Backups \u{203A} Quick restore).");
+            ui.weak(tr("The file is backed up first (Backups \u{203A} Quick restore)."));
             ui.add_space(8.0);
             ui.horizontal(|ui| {
                 let ok = c.to != c.from && c.slots[c.from].active;
-                if ui.add_enabled(ok, egui::Button::new(RichText::new("Copy").color(Color32::WHITE)).fill(theme::ACCENT)).clicked() {
+                if ui.add_enabled(ok, egui::Button::new(RichText::new(tr("Copy")).color(Color32::WHITE)).fill(theme::ACCENT)).clicked() {
                     choice = Some(true);
                 }
-                if ui.button("Cancel").clicked() {
+                if ui.button(tr("Cancel")).clicked() {
                     choice = Some(false);
                 }
             });
@@ -1542,7 +1549,7 @@ impl App {
         let Some(r) = &self.save_review else { return };
         let mut choice = None;
         let mut dont_ask = !self.settings.confirm_save;
-        modal(ctx, "Save changes?", |ui| {
+        modal(ctx, tr("Save changes?"), |ui| {
             ui.set_max_width(520.0);
             if let Some(game) = &r.running {
                 theme::card(ui, |ui| {
@@ -1560,12 +1567,12 @@ impl App {
                     ui.label(format!("\u{2022} {l}"));
                 }
                 if r.lines.is_empty() {
-                    ui.weak("(nothing that the list can describe)");
+                    ui.weak(tr("(nothing that the list can describe)"));
                 }
             });
             ui.add_space(4.0);
             if in_steam_cloud(&r.path) {
-                ui.weak("This save is in a Steam Cloud folder. If Steam asks which save to keep, choose the local one.");
+                ui.weak(tr("This save is in a Steam Cloud folder. If Steam asks which save to keep, choose the local one."));
             }
             ui.weak(if WEB {
                 "Your browser downloads the edited file. Keep a copy of the original before you replace it."
@@ -1578,13 +1585,13 @@ impl App {
                 if ui.add(egui::Button::new(RichText::new(label).color(Color32::WHITE)).fill(theme::ACCENT)).clicked() {
                     choice = Some(0);
                 }
-                if r.running.is_some() && ui.button("Check again").clicked() {
+                if r.running.is_some() && ui.button(tr("Check again")).clicked() {
                     choice = Some(1);
                 }
-                if ui.button("Cancel").clicked() {
+                if ui.button(tr("Cancel")).clicked() {
                     choice = Some(2);
                 }
-                ui.checkbox(&mut dont_ask, "Don't show this list again");
+                ui.checkbox(&mut dont_ask, tr("Don't show this list again"));
             });
         });
         if dont_ask == self.settings.confirm_save {
@@ -1621,7 +1628,7 @@ impl App {
     fn restore_from(&mut self, from: &Path, what: &str) {
         let Some(path) = self.doc.as_ref().map(|d| d.path.clone()) else { return };
         if self.dirty {
-            return self.fail("You have unsaved changes. Save or revert them first, then restore.");
+            return self.fail(tr("You have unsaved changes. Save or revert them first, then restore."));
         }
         self.restore_to(&path, from, what);
     }
@@ -1654,7 +1661,7 @@ impl App {
 
     fn export_decoded(&mut self) {
         if !self.commit_raw() {
-            return self.fail("The Raw JSON has a syntax error.");
+            return self.fail(tr("The Raw JSON has a syntax error."));
         }
         let Some(doc) = &self.doc else { return };
         let ext = match &doc.content {
@@ -1668,7 +1675,7 @@ impl App {
 
     fn import_from(&mut self, src: &Path) {
         if self.dirty {
-            return self.fail("Save or revert your changes before importing.");
+            return self.fail(tr("Save or revert your changes before importing."));
         }
         let Some(doc) = &self.doc else { return };
         let payload = match crate::vfs::read(src) {
@@ -1681,7 +1688,7 @@ impl App {
         };
         let check = formats::decode_with(&bytes, &doc.opts);
         if !formats::same_layers(&check.layers, &doc.layers) || std::mem::discriminant(&check.content) != std::mem::discriminant(&doc.content) {
-            return self.fail("The imported data doesn't pack back into this kind of save (wrong file, or edited into another format).");
+            return self.fail(tr("The imported data doesn't pack back into this kind of save (wrong file, or edited into another format)."));
         }
         let d = self.doc.as_mut().unwrap();
         d.content = check.content;
@@ -1710,7 +1717,7 @@ impl App {
 
     fn view_as_hex(&mut self) {
         if self.dirty {
-            return self.fail("Save or revert your changes before switching to the hex view.");
+            return self.fail(tr("Save or revert your changes before switching to the hex view."));
         }
         let Some(doc) = &mut self.doc else { return };
         match doc.content.to_bytes() {
@@ -1718,7 +1725,7 @@ impl App {
                 doc.content = Content::Binary(b);
                 doc.baseline = doc.content.clone();
                 self.rebuild_model();
-                self.ok("Showing the decoded data as hex. Saving re-applies the original encoding.");
+                self.ok(tr("Showing the decoded data as hex. Saving re-applies the original encoding."));
             }
             Err(e) => self.fail(e),
         }
@@ -1726,7 +1733,7 @@ impl App {
 
     fn refine_from_disk(&mut self) {
         if self.dirty {
-            return self.fail("Refine re-reads the file from disk \u{2014} save or revert your changes first.");
+            return self.fail(tr("Refine re-reads the file from disk \u{2014} save or revert your changes first."));
         }
         let Some(path) = self.doc.as_ref().map(|d| d.path.clone()) else { return };
         let raw = match crate::vfs::read(&path) {
@@ -1762,19 +1769,19 @@ impl App {
     fn menu_bar(&mut self, ui: &mut egui::Ui) {
         egui::menu::bar(ui, |ui| {
             let has = self.doc.is_some();
-            ui.menu_button("File", |ui| {
-                if ui.add(egui::Button::new("Open\u{2026}").shortcut_text("Ctrl+O")).clicked() {
+            ui.menu_button(tr("File"), |ui| {
+                if ui.add(egui::Button::new(tr("Open\u{2026}")).shortcut_text("Ctrl+O")).clicked() {
                     ui.close_menu();
                     self.ask(Ask::Open, None, None);
                 }
-                if !cfg!(target_os = "android") && !WEB && ui.button("Find my game's saves\u{2026}").on_hover_text("Pick a game to see the saves it has on this computer").clicked() {
+                if !cfg!(target_os = "android") && !WEB && ui.button(tr("Find my game's saves\u{2026}")).on_hover_text(tr("Pick a game to see the saves it has on this computer")).clicked() {
                     ui.close_menu();
                     self.game_picker = Some(self.picker());
                 }
-                ui.menu_button("Open recent", |ui| {
+                ui.menu_button(tr("Open recent"), |ui| {
                     let recent = self.settings.recent.clone();
                     if recent.is_empty() {
-                        ui.weak("Nothing yet");
+                        ui.weak(tr("Nothing yet"));
                     }
                     for p in recent {
                         if ui.add_enabled(crate::vfs::exists(&p), egui::Button::new(recent_label(&p))).on_hover_text(p.display().to_string()).clicked() {
@@ -1784,18 +1791,18 @@ impl App {
                     }
                 });
                 ui.separator();
-                if ui.add_enabled(has, egui::Button::new("Save").shortcut_text("Ctrl+S")).clicked() {
+                if ui.add_enabled(has, egui::Button::new(tr("Save")).shortcut_text("Ctrl+S")).clicked() {
                     ui.close_menu();
                     self.save_clicked();
                 }
-                if ui.add_enabled(has, egui::Button::new("Save a copy as\u{2026}")).clicked() {
+                if ui.add_enabled(has, egui::Button::new(tr("Save a copy as\u{2026}"))).clicked() {
                     ui.close_menu();
                     self.save_as();
                 }
                 let on_disk_file = self.doc.as_ref().is_some_and(|d| crate::vfs::exists(&d.path));
                 if ui
-                    .add_enabled(on_disk_file, egui::Button::new("Reload from disk"))
-                    .on_hover_text("Reads the file again, for when the game or another program changed it. Unsaved changes are dropped (you are asked first).")
+                    .add_enabled(on_disk_file, egui::Button::new(tr("Reload from disk")))
+                    .on_hover_text(tr("Reads the file again, for when the game or another program changed it. Unsaved changes are dropped (you are asked first)."))
                     .clicked()
                 {
                     ui.close_menu();
@@ -1803,7 +1810,7 @@ impl App {
                         self.request_open(p);
                     }
                 }
-                if ui.add_enabled(has, egui::Button::new("Close file")).clicked() {
+                if ui.add_enabled(has, egui::Button::new(tr("Close file"))).clicked() {
                     ui.close_menu();
                     if self.dirty {
                         self.pending_close = true;
@@ -1812,36 +1819,36 @@ impl App {
                     }
                 }
                 ui.separator();
-                if ui.add_enabled(self.dirty, egui::Button::new("Revert all changes")).clicked() {
+                if ui.add_enabled(self.dirty, egui::Button::new(tr("Revert all changes"))).clicked() {
                     ui.close_menu();
                     self.revert_all();
                 }
                 ui.separator();
-                if ui.add_enabled(has, egui::Button::new("Export decoded data\u{2026}")).clicked() {
+                if ui.add_enabled(has, egui::Button::new(tr("Export decoded data\u{2026}"))).clicked() {
                     ui.close_menu();
                     self.export_decoded();
                 }
                 let importable = matches!(self.doc.as_ref().map(|d| &d.content), Some(Content::Binary(_) | Content::Text(_) | Content::Json { .. }));
                 if ui
-                    .add_enabled(importable, egui::Button::new("Import edited data\u{2026}"))
-                    .on_hover_text("Bring back data you exported and edited in another program; it is packed the way this save is packed when you save.")
+                    .add_enabled(importable, egui::Button::new(tr("Import edited data\u{2026}")))
+                    .on_hover_text(tr("Bring back data you exported and edited in another program; it is packed the way this save is packed when you save."))
                     .clicked()
                 {
                     ui.close_menu();
                     self.ask(Ask::Import, None, None);
                 }
             });
-            ui.menu_button("Backups", |ui| {
+            ui.menu_button(tr("Backups"), |ui| {
                 let on_disk = !WEB && self.doc.as_ref().is_some_and(|d| d.path.is_file());
-                if !WEB && ui.add_enabled(on_disk, egui::Button::new("Back up now\u{2026}")).on_hover_text("Keeps a named backup of the save file as it is on disk now, until you delete it. The save itself is not changed.").clicked() {
+                if !WEB && ui.add_enabled(on_disk, egui::Button::new(tr("Back up now\u{2026}"))).on_hover_text(tr("Keeps a named backup of the save file as it is on disk now, until you delete it. The save itself is not changed.")).clicked() {
                     ui.close_menu();
                     self.backup_name = Some(String::new());
                 }
-                if !WEB && ui.add_enabled(on_disk, egui::Button::new("Back up and start a new game\u{2026}")).on_hover_text("Keeps a named backup, then removes the save file so the game starts a new game. Restore the backup any time to go back.").clicked() {
+                if !WEB && ui.add_enabled(on_disk, egui::Button::new(tr("Back up and start a new game\u{2026}"))).on_hover_text(tr("Keeps a named backup, then removes the save file so the game starts a new game. Restore the backup any time to go back.")).clicked() {
                     ui.close_menu();
                     self.new_game_name = Some(String::new());
                 }
-                if !WEB && ui.add_enabled(has, egui::Button::new("Backups for this save\u{2026}")).on_hover_text("All backups of this save in one window: restore, compare, delete, name. Restoring backs up the current save first.").clicked() {
+                if !WEB && ui.add_enabled(has, egui::Button::new(tr("Backups for this save\u{2026}"))).on_hover_text(tr("All backups of this save in one window: restore, compare, delete, name. Restoring backs up the current save first.")).clicked() {
                     ui.close_menu();
                     self.manager = self.doc.as_ref().map(|d| (d.path.clone(), String::new(), None));
                 }
@@ -1855,8 +1862,8 @@ impl App {
                 let has_bak = bak.as_ref().is_some_and(|b| b.exists());
                 let on_disk = !WEB && self.doc.as_ref().is_some_and(|d| d.path.is_file());
                 ui.add_enabled_ui(has_bak || !versions.is_empty() || on_disk, |ui| {
-                    ui.menu_button("Quick restore", |ui| {
-                        ui.weak("Automatic backups are taken each time this app saves over the file.");
+                    ui.menu_button(tr("Quick restore"), |ui| {
+                        ui.weak(tr("Automatic backups are taken each time this app saves over the file."));
                         ui.weak(format!("Named backups are kept for good; the {} newest automatic ones are kept.", crate::backups::keep()));
                         ui.separator();
                         let mut pick = None;
@@ -1870,13 +1877,13 @@ impl App {
                                         Some(n) => format!("\u{201C}{n}\u{201D} \u{2014} {when} ({})", human_size(v.size as usize)),
                                         None => format!("{when} ({})", human_size(v.size as usize)),
                                     };
-                                    if ui.button(label).on_hover_text("Put this version back").clicked() {
+                                    if ui.button(label).on_hover_text(tr("Put this version back")).clicked() {
                                         pick = Some((v.path.clone(), format!("the version from {when}")));
                                     }
-                                    if ui.small_button("Compare").on_hover_text("List what differs between this version and the open file").clicked() {
+                                    if ui.small_button(tr("Compare")).on_hover_text(tr("List what differs between this version and the open file")).clicked() {
                                         compare = Some(v.path.clone());
                                     }
-                                    if v.name.is_some() && ui.small_button("Unname").on_hover_text("Let this copy be cleared out in time like the others").clicked() {
+                                    if v.name.is_some() && ui.small_button(tr("Unname")).on_hover_text(tr("Let this copy be cleared out in time like the others")).clicked() {
                                         unlock = Some(i);
                                     }
                                 });
@@ -1893,7 +1900,7 @@ impl App {
                         }
                         if has_bak {
                             ui.separator();
-                            if ui.button("The original, from before the first save (.bak)").clicked() {
+                            if ui.button(tr("The original, from before the first save (.bak)")).clicked() {
                                 pick = bak.clone().map(|b| (b, "the original".to_string()));
                             }
                         }
@@ -1915,41 +1922,41 @@ impl App {
                     });
                 });
             });
-            ui.menu_button("Edit", |ui| {
-                if ui.add_enabled(!self.undo.is_empty(), egui::Button::new("Undo").shortcut_text("Ctrl+Z")).clicked() {
+            ui.menu_button(tr("Edit"), |ui| {
+                if ui.add_enabled(!self.undo.is_empty(), egui::Button::new(tr("Undo")).shortcut_text("Ctrl+Z")).clicked() {
                     ui.close_menu();
                     self.undo_redo(true);
                 }
-                if ui.add_enabled(!self.redo.is_empty(), egui::Button::new("Redo").shortcut_text("Ctrl+Y")).clicked() {
+                if ui.add_enabled(!self.redo.is_empty(), egui::Button::new(tr("Redo")).shortcut_text("Ctrl+Y")).clicked() {
                     ui.close_menu();
                     self.undo_redo(false);
                 }
                 ui.separator();
-                if ui.add_enabled(has, egui::Button::new("Find\u{2026}").shortcut_text("Ctrl+F")).clicked() {
+                if ui.add_enabled(has, egui::Button::new(tr("Find\u{2026}")).shortcut_text("Ctrl+F")).clicked() {
                     ui.close_menu();
                     self.focus_search = true;
                     self.focus_game_find = self.tab == Tab::Game;
                 }
                 ui.separator();
-                if ui.add_enabled(self.dirty, egui::Button::new("Copy changes as text")).on_hover_text("The list of changes, to paste when asking for help or sharing what you did").clicked() {
+                if ui.add_enabled(self.dirty, egui::Button::new(tr("Copy changes as text"))).on_hover_text(tr("The list of changes, to paste when asking for help or sharing what you did")).clicked() {
                     ui.close_menu();
                     let ctx = ui.ctx().clone();
                     self.copy_changes(&ctx);
                 }
                 ui.separator();
-                if ui.button("Preferences\u{2026}").clicked() {
+                if ui.button(tr("Preferences\u{2026}")).clicked() {
                     ui.close_menu();
                     self.prefs_open = true;
                 }
             });
-            ui.menu_button("View", |ui| {
+            ui.menu_button(tr("View"), |ui| {
                 let mut changed = false;
-                changed |= ui.checkbox(&mut self.settings.show_advanced, "Show advanced values").changed();
-                changed |= ui.checkbox(&mut self.settings.show_raw_keys, "Show raw key names").changed();
-                ui.checkbox(&mut self.show_changes, "Changes panel");
+                changed |= ui.checkbox(&mut self.settings.show_advanced, tr("Show advanced values")).changed();
+                changed |= ui.checkbox(&mut self.settings.show_raw_keys, tr("Show raw key names")).changed();
+                ui.checkbox(&mut self.show_changes, tr("Changes panel"));
                 changed |= ui
-                    .checkbox(&mut self.settings.confirm_save, "Review changes before saving")
-                    .on_hover_text("Lists what changed and checks whether the game is running each time you save.")
+                    .checkbox(&mut self.settings.confirm_save, tr("Review changes before saving"))
+                    .on_hover_text(tr("Lists what changed and checks whether the game is running each time you save."))
                     .changed();
                 ui.separator();
                 if ui.radio(self.settings.dark, "Dark theme").clicked() && !self.settings.dark {
@@ -1963,10 +1970,10 @@ impl App {
                     changed = true;
                 }
                 ui.separator();
-                ui.weak("Zoom: Ctrl + / Ctrl \u{2212} / Ctrl 0");
+                ui.weak(tr("Zoom: Ctrl + / Ctrl \u{2212} / Ctrl 0"));
                 ui.separator();
                 let structured = self.doc.as_ref().is_some_and(|d| !matches!(d.content, Content::Binary(_)));
-                if ui.add_enabled(structured, egui::Button::new("Show decoded data as hex")).clicked() {
+                if ui.add_enabled(structured, egui::Button::new(tr("Show decoded data as hex"))).clicked() {
                     ui.close_menu();
                     self.view_as_hex();
                 }
@@ -1974,26 +1981,26 @@ impl App {
                     self.settings.save();
                 }
             });
-            ui.menu_button("Tools", |ui| {
+            ui.menu_button(tr("Tools"), |ui| {
                 let is_rpg = matches!(&self.doc, Some(Doc { content: Content::Json { value, .. }, .. }) if names::is_rpgmaker(value));
-                if !WEB && ui.add_enabled(is_rpg, egui::Button::new("Locate game data folder (RPG Maker names)\u{2026}")).on_disabled_hover_text("Only for RPG Maker saves.").clicked() {
+                if !WEB && ui.add_enabled(is_rpg, egui::Button::new(tr("Locate game data folder (RPG Maker names)\u{2026}"))).on_disabled_hover_text(tr("Only for RPG Maker saves.")).clicked() {
                     ui.close_menu();
                     self.locate_data_dir();
                 }
                 let has = self.doc.is_some();
                 if ui
-                    .add_enabled(has, egui::Button::new("Decrypt with password\u{2026}"))
-                    .on_disabled_hover_text("Open a save first.")
-                    .on_hover_text("For encrypted saves (Easy Save 3, Godot). Easy Save's default password is tried automatically.")
+                    .add_enabled(has, egui::Button::new(tr("Decrypt with password\u{2026}")))
+                    .on_disabled_hover_text(tr("Open a save first."))
+                    .on_hover_text(tr("For encrypted saves (Easy Save 3, Godot). Easy Save's default password is tried automatically."))
                     .clicked()
                 {
                     ui.close_menu();
                     self.password_prompt = Some(self.doc.as_ref().and_then(|d| d.opts.password.clone()).unwrap_or_default());
                 }
                 if ui
-                    .add_enabled(has, egui::Button::new("Change Steam account in this save\u{2026}"))
-                    .on_disabled_hover_text("Open a save first.")
-                    .on_hover_text("Finds the Steam IDs stored in the save and changes them to another account's, so a save copied from a friend or another account loads.")
+                    .add_enabled(has, egui::Button::new(tr("Change Steam account in this save\u{2026}")))
+                    .on_disabled_hover_text(tr("Open a save first."))
+                    .on_hover_text(tr("Finds the Steam IDs stored in the save and changes them to another account's, so a save copied from a friend or another account loads."))
                     .clicked()
                 {
                     ui.close_menu();
@@ -2001,18 +2008,18 @@ impl App {
                 }
                 let binary = matches!(self.doc.as_ref().map(|d| &d.content), Some(Content::Binary(_)));
                 if ui
-                    .add_enabled(binary, egui::Button::new("Cheat patches\u{2026}"))
-                    .on_disabled_hover_text("Only for saves opened in the hex view, which means a format the editor doesn't understand yet.")
-                    .on_hover_text("Ready-made cheats for console saves (PlayStation 1\u{2013}4, PSP, Vita, Dreamcast) from the Apollo patch collection.")
+                    .add_enabled(binary, egui::Button::new(tr("Cheat patches\u{2026}")))
+                    .on_disabled_hover_text(tr("Only for saves opened in the hex view, which means a format the editor doesn't understand yet."))
+                    .on_hover_text(tr("Ready-made cheats for console saves (PlayStation 1\u{2013}4, PSP, Vita, Dreamcast) from the Apollo patch collection."))
                     .clicked()
                 {
                     ui.close_menu();
                     self.start_patches();
                 }
                 if ui
-                    .add_enabled(binary, egui::Button::new("Find checksum\u{2026}"))
-                    .on_disabled_hover_text("Only for saves opened in the hex view, which means a format the editor doesn't understand yet.")
-                    .on_hover_text("Looks for a checksum in a save the editor doesn't know (CRC, Adler, sums, MD5, SHA) and keeps it right whenever you save.")
+                    .add_enabled(binary, egui::Button::new(tr("Find checksum\u{2026}")))
+                    .on_disabled_hover_text(tr("Only for saves opened in the hex view, which means a format the editor doesn't understand yet."))
+                    .on_hover_text(tr("Looks for a checksum in a save the editor doesn't know (CRC, Adler, sums, MD5, SHA) and keeps it right whenever you save."))
                     .clicked()
                 {
                     ui.close_menu();
@@ -2020,8 +2027,8 @@ impl App {
                 }
                 #[cfg(not(any(target_arch = "wasm32", target_os = "android")))]
                 if ui
-                    .button("Templates folder\u{2026}")
-                    .on_hover_text("Your own templates for games the editor doesn't know: a JSON file per game that says where each value is. The folder has a guide with an example.")
+                    .button(tr("Templates folder\u{2026}"))
+                    .on_hover_text(tr("Your own templates for games the editor doesn't know: a JSON file per game that says where each value is. The folder has a guide with an example."))
                     .clicked()
                 {
                     ui.close_menu();
@@ -2033,24 +2040,24 @@ impl App {
                         Err(e) => self.fail(format!("Couldn't make the templates folder: {e}")),
                     }
                 }
-                ui.menu_button("Presets", |ui| {
+                ui.menu_button(tr("Presets"), |ui| {
                     if ui
-                        .add_enabled(self.dirty, egui::Button::new("Save changes as a preset\u{2026}"))
-                        .on_hover_text("Keep the changes you made, to make them again on another save or slot")
+                        .add_enabled(self.dirty, egui::Button::new(tr("Save changes as a preset\u{2026}")))
+                        .on_hover_text(tr("Keep the changes you made, to make them again on another save or slot"))
                         .clicked()
                     {
                         ui.close_menu();
                         self.start_preset_save();
                     }
-                    if ui.add_enabled(has, egui::Button::new("Apply a preset\u{2026}")).on_hover_text("Make a saved set of changes on this save").clicked() {
+                    if ui.add_enabled(has, egui::Button::new(tr("Apply a preset\u{2026}"))).on_hover_text(tr("Make a saved set of changes on this save")).clicked() {
                         ui.close_menu();
                         self.start_preset_apply();
                     }
                 });
                 if ui
-                    .add_enabled(has, egui::Button::new("Compare with another save\u{2026}"))
-                    .on_disabled_hover_text("Open a save first.")
-                    .on_hover_text("List every value that differs from another save \u{2014} handy for finding which value is your gold, HP, etc.")
+                    .add_enabled(has, egui::Button::new(tr("Compare with another save\u{2026}")))
+                    .on_disabled_hover_text(tr("Open a save first."))
+                    .on_hover_text(tr("List every value that differs from another save \u{2014} handy for finding which value is your gold, HP, etc."))
                     .clicked()
                 {
                     ui.close_menu();
@@ -2058,7 +2065,7 @@ impl App {
                 }
                 let entries = self.doc.as_ref().map(|d| d.zip_entries.clone()).unwrap_or_default();
                 if entries.len() > 1 {
-                    ui.menu_button("Open another file in this archive", |ui| {
+                    ui.menu_button(tr("Open another file in this archive"), |ui| {
                         let current = self.doc.as_ref().and_then(|d| {
                             d.layers.iter().find_map(|l| match l {
                                 Layer::ZipEntry { name, .. } | Layer::Copeck { name, .. } => Some(name.clone()),
@@ -2079,13 +2086,13 @@ impl App {
                 });
                 if let Some(slots) = archive.and_then(|a| crate::fmt::slot_copy::er_slots(&a)) {
                     if ui
-                        .button("Copy character to another slot\u{2026}")
-                        .on_hover_text("Duplicate an Elden Ring character, e.g. to try something out on the copy")
+                        .button(tr("Copy character to another slot\u{2026}"))
+                        .on_hover_text(tr("Duplicate an Elden Ring character, e.g. to try something out on the copy"))
                         .clicked()
                     {
                         ui.close_menu();
                         if self.dirty {
-                            self.fail("Save or revert your changes first \u{2014} copying works on the file as it is on disk.");
+                            self.fail(tr("Save or revert your changes first \u{2014} copying works on the file as it is on disk."));
                         } else {
                             let to = slots.iter().position(|s| !s.active).unwrap_or(1);
                             self.copy_slots = Some(CopySlots { slots, from: 0, to });
@@ -2107,7 +2114,7 @@ impl App {
     /// Re-read the open file with changed decode options (password, zip entry).
     fn reopen_with(&mut self, change: impl FnOnce(&mut formats::Options)) {
         if self.dirty {
-            return self.fail("Save or revert your changes first.");
+            return self.fail(tr("Save or revert your changes first."));
         }
         let Some(d) = &self.doc else { return };
         let path = d.path.clone();
@@ -2166,7 +2173,7 @@ impl App {
                     }
                     out
                 }
-                _ => return self.fail("Those two files aren't the same kind of save, so they can't be compared."),
+                _ => return self.fail(tr("Those two files aren't the same kind of save, so they can't be compared.")),
             },
         };
         let n = diffs.len();
@@ -2186,10 +2193,10 @@ impl App {
             .default_size([fit(ctx, 620.0), 460.0])
             .max_width(fit(ctx, 1400.0))
             .show(ctx, |ui| {
-                ui.weak("Values that differ between this save and the other one. \u{201C}Use theirs\u{201D} copies the other save's value into this one.");
+                ui.weak(tr("Values that differ between this save and the other one. \u{201C}Use theirs\u{201D} copies the other save's value into this one."));
                 ui.separator();
                 if cmp.diffs.is_empty() {
-                    ui.label("No differences \u{2014} the saves hold the same values.");
+                    ui.label(tr("No differences \u{2014} the saves hold the same values."));
                 }
                 ScrollArea::vertical().auto_shrink([false, false]).show_rows(ui, 26.0, cmp.diffs.len(), |ui, range| {
                     for (p, original, theirs) in &cmp.diffs[range] {
@@ -2232,7 +2239,7 @@ impl App {
                             let editable = self.model.by_ptr.get(p.as_str()).is_some_and(|&i| self.model.rows[i].editable);
                             let scalar = theirs.as_ref().is_some_and(|t| t.is_number() || t.is_string() || t.is_boolean());
                             if let (true, false, true, Some(t), Some(_)) = (editable, binary, scalar, theirs, &mine) {
-                                if ui.small_button("Use theirs").clicked() {
+                                if ui.small_button(tr("Use theirs")).clicked() {
                                     take = Some((p.clone(), t.clone()));
                                 }
                             }
@@ -2288,10 +2295,10 @@ impl App {
     fn new_game_dialog(&mut self, ctx: &egui::Context) {
         let Some(mut text) = self.new_game_name.take() else { return };
         let mut choice = None;
-        modal(ctx, "Back up and start a new game", |ui| {
-            ui.label("The save is backed up under this name and then removed, so the game starts a new game. Restore the backup later to come back to it.");
+        modal(ctx, tr("Back up and start a new game"), |ui| {
+            ui.label(tr("The save is backed up under this name and then removed, so the game starts a new game. Restore the backup later to come back to it."));
             ui.add_space(6.0);
-            let r = ui.add(TextEdit::singleline(&mut text).hint_text("for example: first run").desired_width(280.0));
+            let r = ui.add(TextEdit::singleline(&mut text).hint_text(tr("for example: first run")).desired_width(280.0));
             r.request_focus();
             let ready = !text.trim().is_empty();
             if r.lost_focus() && ready && ui.input(|i| i.key_pressed(egui::Key::Enter)) {
@@ -2299,10 +2306,10 @@ impl App {
             }
             ui.add_space(6.0);
             ui.horizontal(|ui| {
-                if ui.add_enabled(ready, egui::Button::new(RichText::new("Back up and start new").color(Color32::WHITE)).fill(theme::ACCENT)).clicked() {
+                if ui.add_enabled(ready, egui::Button::new(RichText::new(tr("Back up and start new")).color(Color32::WHITE)).fill(theme::ACCENT)).clicked() {
                     choice = Some(true);
                 }
-                if ui.button("Cancel").clicked() {
+                if ui.button(tr("Cancel")).clicked() {
                     choice = Some(false);
                 }
             });
@@ -2324,20 +2331,20 @@ impl App {
     fn backup_name_dialog(&mut self, ctx: &egui::Context) {
         let Some(mut text) = self.backup_name.take() else { return };
         let mut choice = None;
-        modal(ctx, "Keep a named copy", |ui| {
-            ui.label("A copy of the file as it is on disk now, kept until you remove it.");
+        modal(ctx, tr("Keep a named copy"), |ui| {
+            ui.label(tr("A copy of the file as it is on disk now, kept until you remove it."));
             ui.add_space(6.0);
-            let r = ui.add(TextEdit::singleline(&mut text).hint_text("for example: before the final boss").desired_width(280.0));
+            let r = ui.add(TextEdit::singleline(&mut text).hint_text(tr("for example: before the final boss")).desired_width(280.0));
             r.request_focus();
             if r.lost_focus() && ui.input(|i| i.key_pressed(egui::Key::Enter)) {
                 choice = Some(true);
             }
             ui.add_space(6.0);
             ui.horizontal(|ui| {
-                if ui.add(egui::Button::new(RichText::new("Keep").color(Color32::WHITE)).fill(theme::ACCENT)).clicked() {
+                if ui.add(egui::Button::new(RichText::new(tr("Keep")).color(Color32::WHITE)).fill(theme::ACCENT)).clicked() {
                     choice = Some(true);
                 }
-                if ui.button("Cancel").clicked() {
+                if ui.button(tr("Cancel")).clicked() {
                     choice = Some(false);
                 }
             });
@@ -2379,10 +2386,10 @@ impl App {
         let has_doc = self.doc.is_some();
         let dirty = self.dirty;
         let newest_dir = versions.first().and_then(|v| v.path.parent()).map(Path::to_path_buf);
-        egui::Window::new("Save manager").open(&mut open).collapsible(false).default_width(fit(ctx, 560.0)).max_width(fit(ctx, 900.0)).show(ctx, |ui| {
+        egui::Window::new(tr("Save manager")).open(&mut open).collapsible(false).default_width(fit(ctx, 560.0)).max_width(fit(ctx, 900.0)).show(ctx, |ui| {
             ui.label(RichText::new(file_name(&path)).strong());
             if !path.exists() {
-                ui.label(RichText::new("There is no save file here right now. The game makes a new one when you save in it, or restore a backup below to put one back.").color(theme::fg(ui, theme::WARN)));
+                ui.label(RichText::new(tr("There is no save file here right now. The game makes a new one when you save in it, or restore a backup below to put one back.")).color(theme::fg(ui, theme::WARN)));
             }
             if let Some(dir) = crate::backups::folder(&path) {
                 let note = if self.settings.backup_dir.is_some() { "the folder you chose for backups" } else { "a folder next to the save, with files no game reads as saves" };
@@ -2392,10 +2399,10 @@ impl App {
                 }
                 if !WEB && !cfg!(target_os = "android") {
                     ui.horizontal(|ui| {
-                        if ui.small_button("Keep backups in another folder\u{2026}").clicked() {
+                        if ui.small_button(tr("Keep backups in another folder\u{2026}")).clicked() {
                             change_dir = true;
                         }
-                        if self.settings.backup_dir.is_some() && ui.small_button("Back to the default folder").clicked() {
+                        if self.settings.backup_dir.is_some() && ui.small_button(tr("Back to the default folder")).clicked() {
                             reset_dir = true;
                         }
                     });
@@ -2403,19 +2410,19 @@ impl App {
             }
             ui.add_space(6.0);
             ui.horizontal(|ui| {
-                ui.add(TextEdit::singleline(&mut name).hint_text("backup name, e.g. first run").desired_width(260.0));
+                ui.add(TextEdit::singleline(&mut name).hint_text(tr("backup name, e.g. first run")).desired_width(260.0));
                 let ready = !name.trim().is_empty() && path.is_file();
-                if ui.add_enabled(ready, egui::Button::new("Back up this save")).on_hover_text("Saves a named copy of the file as it is on disk now. It is kept until you delete it; the save itself is not changed.").clicked() {
+                if ui.add_enabled(ready, egui::Button::new(tr("Back up this save"))).on_hover_text(tr("Saves a named copy of the file as it is on disk now. It is kept until you delete it; the save itself is not changed.")).clicked() {
                     keep = true;
                 }
-                if ui.add_enabled(ready, egui::Button::new("Back up and start a new game")).on_hover_text("Saves a named backup, then removes the current save file so the game starts a new game. Restore the backup later to go back.").clicked() {
+                if ui.add_enabled(ready, egui::Button::new(tr("Back up and start a new game"))).on_hover_text(tr("Saves a named backup, then removes the current save file so the game starts a new game. Restore the backup later to go back.")).clicked() {
                     aside = true;
                 }
             });
-            ui.weak("For games with a single save: use \u{201C}Back up and start a new game\u{201D}, play a new run, and restore the old backup later.");
+            ui.weak(tr("For games with a single save: use \u{201C}Back up and start a new game\u{201D}, play a new run, and restore the old backup later."));
             ui.separator();
             if versions.is_empty() {
-                ui.label("No backups yet. One is made automatically each time you save, or press \u{201C}Back up this save\u{201D}.");
+                ui.label(tr("No backups yet. One is made automatically each time you save, or press \u{201C}Back up this save\u{201D}."));
             }
             ScrollArea::vertical().max_height(380.0).show(ui, |ui| {
                 for (title, named) in [("Named backups (kept until you delete them)", true), (format!("Automatic backups (made each time you save; newest {} kept)", crate::backups::keep()).as_str(), false)] {
@@ -2443,20 +2450,20 @@ impl App {
                                     if is_restore { restore = Some(v.path.clone()) } else { delete = Some(v.path.clone()) }
                                     confirm = None;
                                 }
-                                if ui.button("No").clicked() {
+                                if ui.button(tr("No")).clicked() {
                                     confirm = None;
                                 }
                             } else {
-                                if ui.small_button("Restore this backup").on_hover_text("Replaces the current save with this backup. The current save is backed up first, so you can undo it.").clicked() {
+                                if ui.small_button(tr("Restore this backup")).on_hover_text(tr("Replaces the current save with this backup. The current save is backed up first, so you can undo it.")).clicked() {
                                     confirm = Some((v.path.clone(), true));
                                 }
-                                if has_doc && path.is_file() && ui.small_button("Compare").on_hover_text("Shows what differs between this backup and the open save").clicked() {
+                                if has_doc && path.is_file() && ui.small_button(tr("Compare")).on_hover_text(tr("Shows what differs between this backup and the open save")).clicked() {
                                     compare = Some(v.path.clone());
                                 }
-                                if v.name.is_some() && ui.small_button("Make automatic").on_hover_text("Stops keeping this backup for good; it is cleared out in time like the automatic ones").clicked() {
+                                if v.name.is_some() && ui.small_button(tr("Make automatic")).on_hover_text(tr("Stops keeping this backup for good; it is cleared out in time like the automatic ones")).clicked() {
                                     unname = Some(v.path.clone());
                                 }
-                                if ui.small_button("Delete backup").on_hover_text("Permanently removes this backup").clicked() {
+                                if ui.small_button(tr("Delete backup")).on_hover_text(tr("Permanently removes this backup")).clicked() {
                                     confirm = Some((v.path.clone(), false));
                                 }
                             }
@@ -2502,13 +2509,13 @@ impl App {
         }
         if let Some(v) = unname.as_ref().and_then(find) {
             match crate::backups::unlock(v) {
-                Ok(()) => self.ok("That backup is automatic now: it is cleared out in time like the others."),
+                Ok(()) => self.ok(tr("That backup is automatic now: it is cleared out in time like the others.")),
                 Err(e) => self.fail(format!("Couldn't change that copy: {e}")),
             }
         }
         if let Some(v) = delete.as_ref().and_then(find) {
             match crate::backups::remove(v) {
-                Ok(()) => self.ok("Deleted the backup."),
+                Ok(()) => self.ok(tr("Deleted the backup.")),
                 Err(e) => self.fail(format!("Couldn't delete it: {e}")),
             }
         }
@@ -2576,7 +2583,7 @@ impl App {
         };
         let codes = crate::apollo::parse(&text, latin1);
         if codes.is_empty() {
-            return self.fail("That file has no cheat codes in it.");
+            return self.fail(tr("That file has no cheat codes in it."));
         }
         let name = path.file_name().map(|n| n.to_string_lossy().into_owned()).unwrap_or_default();
         let (id, title) = crate::apollo::header(&text);
@@ -2589,7 +2596,7 @@ impl App {
         let Some(mut p) = self.patches.take() else { return };
         let mut choice = None;
         let mut open_file = false;
-        egui::Window::new("Cheat patches")
+        egui::Window::new(tr("Cheat patches"))
             .collapsible(false)
             .resizable(true)
             .default_size([fit(ctx, 560.0), 520.0])
@@ -2598,12 +2605,12 @@ impl App {
             .anchor(egui::Align2::CENTER_CENTER, [0.0, 0.0])
             .show(ctx, |ui| {
                 ui.horizontal(|ui| {
-                    ui.label("Game:");
-                    let r = ui.add(TextEdit::singleline(&mut p.query).hint_text("name or title ID (SLUS-20312, BLES00371\u{2026})").desired_width(300.0));
+                    ui.label(tr("Game:"));
+                    let r = ui.add(TextEdit::singleline(&mut p.query).hint_text(tr("name or title ID (SLUS-20312, BLES00371\u{2026})")).desired_width(300.0));
                     if r.changed() && p.query.trim().len() >= 2 {
                         p.found = crate::apollo::db::search(&p.query, 40);
                     }
-                    if !WEB && ui.button("Open patch file\u{2026}").clicked() {
+                    if !WEB && ui.button(tr("Open patch file\u{2026}")).clicked() {
                         open_file = true;
                     }
                 });
@@ -2617,11 +2624,11 @@ impl App {
                         }
                     });
                 } else if p.codes.is_empty() {
-                    ui.weak("No patches were found from this save's file or folder name. Type the game's name or title ID.");
+                    ui.weak(tr("No patches were found from this save's file or folder name. Type the game's name or title ID."));
                 }
                 if p.codes.is_empty() {
                     ui.add_space(6.0);
-                    if ui.button("Close").clicked() {
+                    if ui.button(tr("Close")).clicked() {
                         choice = Some(false);
                     }
                     return;
@@ -2636,9 +2643,9 @@ impl App {
                     ui.weak(format!("None of these codes name \u{201C}{}\u{201D}; they may be for another file in the save folder.", p.file));
                 }
                 if p.layer.is_some() {
-                    ui.weak("This save was unpacked with the patch file's own codes when it opened; they run again when you save.");
+                    ui.weak(tr("This save was unpacked with the patch file's own codes when it opened; they run again when you save."));
                 }
-                ui.checkbox(&mut p.all_files, "Show codes for other files too");
+                ui.checkbox(&mut p.all_files, tr("Show codes for other files too"));
                 ScrollArea::vertical().id_salt("patch_codes").max_height(300.0).show(ui, |ui| {
                     for i in 0..p.codes.len() {
                         let c = &p.codes[i];
@@ -2662,7 +2669,7 @@ impl App {
                             }
                             let r = ui.add_enabled(usable, egui::Checkbox::new(&mut p.on[i], name));
                             if !usable {
-                                r.on_disabled_hover_text("This one is a Python script, which only Apollo itself can run.");
+                                r.on_disabled_hover_text(tr("This one is a Python script, which only Apollo itself can run."));
                             } else if !here {
                                 r.on_hover_text(format!("Written for {}", c.file));
                             }
@@ -2680,17 +2687,17 @@ impl App {
                 });
                 ui.add_space(4.0);
                 ui.horizontal(|ui| {
-                    ui.checkbox(&mut p.big_endian, "Big-endian (PS3)")
-                        .on_hover_text("Byte order for numbers in the codes. Set from the patch file's console; change it only if you know the save uses the other one.");
+                    ui.checkbox(&mut p.big_endian, tr("Big-endian (PS3)"))
+                        .on_hover_text(tr("Byte order for numbers in the codes. Set from the patch file's console; change it only if you know the save uses the other one."));
                 });
-                ui.weak("Back up first: a code meant for another version of the game can damage the save. Codes change the data now; save to write the file.");
+                ui.weak(tr("Back up first: a code meant for another version of the game can damage the save. Codes change the data now; save to write the file."));
                 ui.add_space(6.0);
                 ui.horizontal(|ui| {
                     let n = p.ticked();
                     if ui.add_enabled(n > 0, egui::Button::new(RichText::new(format!("Apply {n} code{}", if n == 1 { "" } else { "s" })).color(Color32::WHITE)).fill(theme::ACCENT)).clicked() {
                         choice = Some(true);
                     }
-                    if ui.button("Close").clicked() {
+                    if ui.button(tr("Close")).clicked() {
                         choice = Some(false);
                     }
                 });
@@ -2730,7 +2737,7 @@ impl App {
         }
         if out == *data {
             if failed.is_empty() {
-                self.info("The codes didn't change anything (the values may already be set).");
+                self.info(tr("The codes didn't change anything (the values may already be set)."));
             } else {
                 self.fail(format!("Nothing was changed. {}", failed.join("; ")));
             }
@@ -2757,7 +2764,7 @@ impl App {
     fn start_rebind(&mut self) {
         let ids = self.ids_in_save();
         if ids.is_empty() {
-            return self.fail("No Steam ID was found in this save's data (some games key the save to the account in other ways).");
+            return self.fail(tr("No Steam ID was found in this save's data (some games key the save to the account in other ways)."));
         }
         self.rebind = Some((ids, 0, String::new()));
     }
@@ -2769,17 +2776,17 @@ impl App {
         #[cfg(target_arch = "wasm32")]
         let locals: Vec<u64> = vec![];
         let mut choice = None;
-        modal(ctx, "Change Steam account in this save", |ui| {
-            ui.label("Steam IDs in this save:");
+        modal(ctx, tr("Change Steam account in this save"), |ui| {
+            ui.label(tr("Steam IDs in this save:"));
             for (i, id) in ids.iter().enumerate() {
                 ui.radio_value(&mut pick, i, format!("{id} (account {})", id - crate::steamid::BASE));
             }
             ui.add_space(6.0);
-            ui.label("Change it to:");
-            ui.add(TextEdit::singleline(&mut text).hint_text("17-digit Steam ID or account number").desired_width(280.0));
+            ui.label(tr("Change it to:"));
+            ui.add(TextEdit::singleline(&mut text).hint_text(tr("17-digit Steam ID or account number")).desired_width(280.0));
             if !locals.is_empty() {
                 ui.horizontal_wrapped(|ui| {
-                    ui.weak("Accounts on this computer:");
+                    ui.weak(tr("Accounts on this computer:"));
                     for id in &locals {
                         if ui.small_button((id - crate::steamid::BASE).to_string()).clicked() {
                             text = id.to_string();
@@ -2787,14 +2794,14 @@ impl App {
                     }
                 });
             }
-            ui.weak("Every copy of the ID changes; save to write the file. Some games also check the folder the save sits in.");
+            ui.weak(tr("Every copy of the ID changes; save to write the file. Some games also check the folder the save sits in."));
             ui.add_space(6.0);
             ui.horizontal(|ui| {
                 let ok = crate::steamid::parse(&text).is_some();
-                if ui.add_enabled(ok, egui::Button::new(RichText::new("Change").color(Color32::WHITE)).fill(theme::ACCENT)).clicked() {
+                if ui.add_enabled(ok, egui::Button::new(RichText::new(tr("Change")).color(Color32::WHITE)).fill(theme::ACCENT)).clicked() {
                     choice = Some(true);
                 }
-                if ui.button("Cancel").clicked() {
+                if ui.button(tr("Cancel")).clicked() {
                     choice = Some(false);
                 }
             });
@@ -2855,30 +2862,30 @@ impl App {
         let current = self.doc.as_ref().and_then(|d| d.opts.sum);
         let mut close = false;
         let mut pick: Option<Option<crate::fmt::sumfind::Sum>> = None;
-        modal(ctx, "Find checksum", |ui| {
+        modal(ctx, tr("Find checksum"), |ui| {
             if hits.is_empty() {
-                ui.label("No checksum the editor knows was found at the start or end of this file.");
-                ui.weak("It may be encrypted, compressed, or checked with something the game made up. The value search still works on it.");
+                ui.label(tr("No checksum the editor knows was found at the start or end of this file."));
+                ui.weak(tr("It may be encrypted, compressed, or checked with something the game made up. The value search still works on it."));
             } else {
                 ui.label(if hits.len() == 1 { "This checksum holds for the file:" } else { "These checksums hold for the file:" });
-                ui.weak("Pick one to have it written again every time you save. Saving a few times and searching again narrows a long list.");
+                ui.weak(tr("Pick one to have it written again every time you save. Saving a few times and searching again narrows a long list."));
                 ui.add_space(6.0);
                 for h in &hits {
                     ui.horizontal(|ui| {
                         ui.label(h.describe());
                         if current == Some(*h) {
-                            ui.weak("(kept fixed)");
-                        } else if ui.button("Keep fixed").clicked() {
+                            ui.weak(tr("(kept fixed)"));
+                        } else if ui.button(tr("Keep fixed")).clicked() {
                             pick = Some(Some(*h));
                         }
                     });
                 }
             }
-            if current.is_some() && ui.button("Stop fixing the checksum").clicked() {
+            if current.is_some() && ui.button(tr("Stop fixing the checksum")).clicked() {
                 pick = Some(None);
             }
             ui.add_space(6.0);
-            if ui.button("Close").clicked() {
+            if ui.button(tr("Close")).clicked() {
                 close = true;
             }
         });
@@ -2890,7 +2897,7 @@ impl App {
             self.sum_hits = None;
             self.reopen_with(|o| o.sum = p);
             if p.is_some() {
-                self.ok("The checksum will be written again every time you save this file.");
+                self.ok(tr("The checksum will be written again every time you save this file."));
             }
         } else if close {
             self.sum_hits = None;
@@ -2900,21 +2907,21 @@ impl App {
     fn password_dialog(&mut self, ctx: &egui::Context) {
         let Some(mut text) = self.password_prompt.take() else { return };
         let mut choice = None;
-        modal(ctx, "Decrypt with password", |ui| {
-            ui.label("Some games encrypt their saves with a password built into the game.");
-            ui.weak("Supported: Easy Save 3 (Unity) and Godot encrypted files. Easy Save's default password is tried automatically.");
+        modal(ctx, tr("Decrypt with password"), |ui| {
+            ui.label(tr("Some games encrypt their saves with a password built into the game."));
+            ui.weak(tr("Supported: Easy Save 3 (Unity) and Godot encrypted files. Easy Save's default password is tried automatically."));
             ui.add_space(6.0);
-            let r = ui.add(TextEdit::singleline(&mut text).hint_text("password").desired_width(280.0));
+            let r = ui.add(TextEdit::singleline(&mut text).hint_text(tr("password")).desired_width(280.0));
             r.request_focus();
             if r.lost_focus() && ui.input(|i| i.key_pressed(egui::Key::Enter)) {
                 choice = Some(true);
             }
             ui.add_space(6.0);
             ui.horizontal(|ui| {
-                if ui.add(egui::Button::new(RichText::new("Decrypt").color(Color32::WHITE)).fill(theme::ACCENT)).clicked() {
+                if ui.add(egui::Button::new(RichText::new(tr("Decrypt")).color(Color32::WHITE)).fill(theme::ACCENT)).clicked() {
                     choice = Some(true);
                 }
-                if ui.button("Cancel").clicked() {
+                if ui.button(tr("Cancel")).clicked() {
                     choice = Some(false);
                 }
             });
@@ -2924,7 +2931,7 @@ impl App {
                 let pw = text.clone();
                 self.reopen_with(|o| o.password = (!pw.is_empty()).then_some(pw.clone()));
                 if matches!(self.doc.as_ref().map(|d| &d.content), Some(Content::Binary(_))) {
-                    self.fail("That password didn't decrypt the file (or the encryption isn't one this editor knows).");
+                    self.fail(tr("That password didn't decrypt the file (or the encryption isn't one this editor knows)."));
                 }
             }
             Some(false) => {}
@@ -2960,30 +2967,30 @@ impl App {
             }
         };
         row(ui, &mut |ui| {
-            if ui.button(widgets::icon_text(ui, hi, icon::OPEN, "Open")).on_hover_text("Open a save file (Ctrl+O)").clicked() {
+            if ui.button(widgets::icon_text(ui, hi, icon::OPEN, tr("Open"))).on_hover_text(tr("Open a save file (Ctrl+O)")).clicked() {
                 self.ask(Ask::Open, None, None);
             }
             if !cfg!(target_os = "android")
                 && !WEB
-                && ui.button("Find saves").on_hover_text("Pick a game from the list to see the saves it has on this computer").clicked()
+                && ui.button(tr("Find saves")).on_hover_text(tr("Pick a game from the list to see the saves it has on this computer")).clicked()
             {
                 self.game_picker = Some(self.picker());
             }
             let save_btn = if self.dirty {
-                egui::Button::new(widgets::icon_text_colored(ui, hi, icon::SAVE, "Save", Color32::WHITE)).fill(theme::ACCENT)
+                egui::Button::new(widgets::icon_text_colored(ui, hi, icon::SAVE, tr("Save"), Color32::WHITE)).fill(theme::ACCENT)
             } else {
-                egui::Button::new(widgets::icon_text(ui, hi, icon::SAVE, "Save"))
+                egui::Button::new(widgets::icon_text(ui, hi, icon::SAVE, tr("Save")))
             };
-            if ui.add_enabled(self.dirty, save_btn).on_hover_text("Save changes to the file (Ctrl+S)").clicked() {
+            if ui.add_enabled(self.dirty, save_btn).on_hover_text(tr("Save changes to the file (Ctrl+S)")).clicked() {
                 self.save_clicked();
             }
             if !narrow {
                 ui.separator();
             }
-            if ui.add_enabled(!self.undo.is_empty(), egui::Button::new(widgets::icon_text(ui, hi, icon::UNDO, "Undo"))).on_hover_text("Ctrl+Z").clicked() {
+            if ui.add_enabled(!self.undo.is_empty(), egui::Button::new(widgets::icon_text(ui, hi, icon::UNDO, tr("Undo")))).on_hover_text(tr("Ctrl+Z")).clicked() {
                 self.undo_redo(true);
             }
-            if ui.add_enabled(!self.redo.is_empty(), egui::Button::new(widgets::icon_text(ui, hi, icon::REDO, "Redo"))).on_hover_text("Ctrl+Y").clicked() {
+            if ui.add_enabled(!self.redo.is_empty(), egui::Button::new(widgets::icon_text(ui, hi, icon::REDO, tr("Redo")))).on_hover_text(tr("Ctrl+Y")).clicked() {
                 self.undo_redo(false);
             }
 
@@ -3005,7 +3012,7 @@ impl App {
             if doc.layers.iter().any(|l| matches!(l, Layer::RenpyZip { signed: true, .. } | Layer::RenpyPersistent { signed: true })) {
                 if crate::renpy_sign::can_sign() {
                     Self::chip(ui, "Signed \u{2014} will re-sign", theme::OK).on_hover_text(
-                        "Ren'Py 8.1+ signs its saves. Your Ren'Py key was found on this PC, so edited saves are re-signed and load normally.",
+                        tr("Ren'Py 8.1+ signs its saves. Your Ren'Py key was found on this PC, so edited saves are re-signed and load normally."),
                     );
                 } else {
                     Self::chip(ui, "Signed save", theme::WARN).on_hover_text(
@@ -3016,7 +3023,7 @@ impl App {
             }
             if let Some(game) = &self.running {
                 Self::chip(ui, &format!("{game} is running"), theme::WARN).on_hover_text(
-                    "The game was running when this file was opened. Quit it before saving, or it may overwrite your changes.",
+                    tr("The game was running when this file was opened. Quit it before saving, or it may overwrite your changes."),
                 );
             }
             let rpg = matches!(&doc.content, Content::Json { value, .. } if names::is_rpgmaker(value));
@@ -3029,7 +3036,7 @@ impl App {
                     None => {
                         if Self::chip(ui, "Game data not found \u{2014} click to locate", theme::WARN)
                             .interact(egui::Sense::click())
-                            .on_hover_text("Point to the game's data folder to see variable, switch and item names")
+                            .on_hover_text(tr("Point to the game's data folder to see variable, switch and item names"))
                             .clicked()
                         {
                             locate = true;
@@ -3040,10 +3047,10 @@ impl App {
 
             let mut changes = |ui: &mut egui::Ui| {
                 let n = self.change_count();
-                let label = if n > 0 { format!("Changes ({n})") } else { "Changes".into() };
+                let label = if n > 0 { crate::i18n::trf("Changes ({0})", &[&n]) } else { tr("Changes").into() };
                 let color = if self.show_changes { Color32::WHITE } else { ui.visuals().text_color() };
                 ui.toggle_value(&mut self.show_changes, widgets::icon_text_colored(ui, hi, icon::HISTORY, &label, color))
-                    .on_hover_text("List everything you've changed since the last save");
+                    .on_hover_text(tr("List everything you've changed since the last save"));
             };
             if narrow {
                 changes(ui);
@@ -3077,9 +3084,9 @@ impl App {
             if self.doc.is_some() && !narrow(ui) {
                 let n = self.change_count();
                 if self.dirty {
-                    ui.label(RichText::new(format!("{n} unsaved change{}", if n == 1 { "" } else { "s" })).color(theme::MODIFIED));
+                    ui.label(RichText::new(if n == 1 { tr("1 unsaved change").to_string() } else { crate::i18n::trf("{0} unsaved changes", &[&n]) }).color(theme::MODIFIED));
                 } else {
-                    ui.weak("No unsaved changes");
+                    ui.weak(tr("No unsaved changes"));
                 }
                 ui.add_space(12.0);
             }
@@ -3094,7 +3101,7 @@ impl App {
                 }
                 if self.status_kind == StatusKind::Err && self.banner.as_deref() == Some(self.status.as_str()) {
                     // The whole message is in the banner at the top.
-                    ui.label(RichText::new("Something went wrong \u{2014} see the message at the top.").color(color));
+                    ui.label(RichText::new(tr("Something went wrong \u{2014} see the message at the top.")).color(color));
                 } else {
                     ui.add(egui::Label::new(RichText::new(&self.status).color(color)).truncate()).on_hover_text(&self.status);
                 }
@@ -3116,12 +3123,12 @@ impl App {
         ui.horizontal(|ui| {
             let old = self.tab;
             if let Some(g) = game {
-                ui.selectable_value(&mut self.tab, Tab::Game, g.tab_label()).on_hover_text("This game's own screen: its stats, inventory and more, laid out like the game");
+                ui.selectable_value(&mut self.tab, Tab::Game, g.tab_label()).on_hover_text(tr("This game's own screen: its stats, inventory and more, laid out like the game"));
             }
-            ui.selectable_value(&mut self.tab, Tab::Values, "Values").on_hover_text("Every editable value in a simple list");
-            ui.selectable_value(&mut self.tab, Tab::Tree, "Tree").on_hover_text("The full structure of the save, as nested groups");
+            ui.selectable_value(&mut self.tab, Tab::Values, tr("Values")).on_hover_text(tr("Every editable value in a simple list"));
+            ui.selectable_value(&mut self.tab, Tab::Tree, tr("Tree")).on_hover_text(tr("The full structure of the save, as nested groups"));
             if is_json {
-                ui.selectable_value(&mut self.tab, Tab::Raw, "Raw JSON").on_hover_text("Edit the JSON text directly");
+                ui.selectable_value(&mut self.tab, Tab::Raw, tr("Raw JSON")).on_hover_text(tr("Edit the JSON text directly"));
             }
             if old != self.tab {
                 if old == Tab::Raw {
@@ -3140,8 +3147,8 @@ impl App {
             }
             ui.separator();
             if self.tab == Tab::Raw {
-                if ui.button("Apply").clicked() && self.commit_raw() {
-                    self.ok("Raw JSON applied.");
+                if ui.button(tr("Apply")).clicked() && self.commit_raw() {
+                    self.ok(tr("Raw JSON applied."));
                 }
                 if let Some(e) = &self.raw_error {
                     ui.colored_label(theme::ERR, e);
@@ -3160,7 +3167,7 @@ impl App {
                 let r = ui.add(
                     TextEdit::singleline(&mut self.search)
                         .id(id)
-                        .hint_text(if self.tab == Tab::Tree { "Filter the tree by name or value  (Ctrl+F)" } else { "Search names or values  (Ctrl+F)" })
+                        .hint_text(if self.tab == Tab::Tree { tr("Filter the tree by name or value  (Ctrl+F)") } else { tr("Search names or values  (Ctrl+F)") })
                         .desired_width(w),
                 );
                 if r.changed() {
@@ -3174,11 +3181,11 @@ impl App {
                 if (r.has_focus() || r.lost_focus()) && ui.input(|i| i.key_pressed(egui::Key::Escape)) {
                     self.search.clear();
                 }
-                if !self.search.is_empty() && ui.small_button("Clear").clicked() {
+                if !self.search.is_empty() && ui.small_button(tr("Clear")).clicked() {
                     self.search.clear();
                 }
                 let on = self.bulk.is_some();
-                if ui.selectable_label(on, "Bulk edit").on_hover_text("Tick several values and set them all at once, or add to or multiply them").clicked() {
+                if ui.selectable_label(on, tr("Bulk edit")).on_hover_text(tr("Tick several values and set them all at once, or add to or multiply them")).clicked() {
                     self.bulk = if on { None } else { Some(Bulk { ticked: HashSet::new(), op: values_view::BulkOp::Set, arg: String::new(), model_gen: self.model_gen }) };
                 }
             }
@@ -3203,7 +3210,7 @@ impl App {
     fn game_find_box(&mut self, ui: &mut egui::Ui) {
         let id = egui::Id::new("game_find_box");
         let before = self.game_find.clone();
-        let r = ui.add(TextEdit::singleline(&mut self.game_find).id(id).hint_text("Find on this screen  (Ctrl+F)").desired_width(200.0));
+        let r = ui.add(TextEdit::singleline(&mut self.game_find).id(id).hint_text(tr("Find on this screen  (Ctrl+F)")).desired_width(200.0));
         if self.focus_game_find {
             r.request_focus();
             self.focus_game_find = false;
@@ -3214,26 +3221,26 @@ impl App {
         let total = ui.ctx().data(|d| d.get_temp::<usize>(egui::Id::new(crate::game_ui::FIND_COUNT))).unwrap_or(0);
         if !self.game_find.trim().is_empty() {
             if total == 0 {
-                ui.weak("no match on this tab");
+                ui.weak(tr("no match on this tab"));
             } else {
                 self.game_find_idx %= total;
                 ui.weak(format!("{} of {}", self.game_find_idx + 1, total));
                 let enter = r.lost_focus() && ui.input(|i| i.key_pressed(egui::Key::Enter));
                 let back = ui.input(|i| i.modifiers.shift);
-                if ui.small_button("Next").clicked() || (enter && !back) {
+                if ui.small_button(tr("Next")).clicked() || (enter && !back) {
                     self.game_find_idx = (self.game_find_idx + 1) % total;
                     if enter {
                         r.request_focus();
                     }
                 }
-                if ui.small_button("Prev").clicked() || (enter && back) {
+                if ui.small_button(tr("Prev")).clicked() || (enter && back) {
                     self.game_find_idx = (self.game_find_idx + total - 1) % total;
                     if enter {
                         r.request_focus();
                     }
                 }
             }
-            if ui.small_button("Clear").clicked() || ((r.has_focus() || r.lost_focus()) && ui.input(|i| i.key_pressed(egui::Key::Escape))) {
+            if ui.small_button(tr("Clear")).clicked() || ((r.has_focus() || r.lost_focus()) && ui.input(|i| i.key_pressed(egui::Key::Escape))) {
                 self.game_find.clear();
             }
         }
@@ -3244,7 +3251,7 @@ impl App {
         let mut changed = widgets::labeled_toggle(
             ui,
             &mut self.settings.show_raw_keys,
-            "Raw keys",
+            tr("Raw keys"),
             "Show the game's own key name next to each friendly name",
         );
         if self.tab != Tab::Values {
@@ -3260,7 +3267,7 @@ impl App {
         } else {
             "Also show engine internals and read-only values".to_string()
         };
-        let label = if hidden > 0 && !self.settings.show_advanced { format!("Advanced ({hidden})") } else { "Advanced".into() };
+        let label = if hidden > 0 && !self.settings.show_advanced { format!("{} ({hidden})", tr("Advanced")) } else { tr("Advanced").into() };
         changed |= widgets::labeled_toggle(ui, &mut self.settings.show_advanced, &label, &tip);
         if changed {
             self.settings.save();
@@ -3297,7 +3304,7 @@ impl App {
                     ui.set_max_width(w.min(1200.0));
                     crate::game_ui::show(game, ui, &mut cx);
                     ui.add_space(12.0);
-                    ui.weak("Everything else in this save is in the Values and Tree tabs.");
+                    ui.weak(tr("Everything else in this save is in the Values and Tree tabs."));
                 });
                 edits = cx.edits;
                 if let Some(p) = ui.ctx().data_mut(|d| d.remove_temp::<String>(egui::Id::new(crate::game_ui::SHOW_IN_TREE))) {
@@ -3340,7 +3347,7 @@ impl App {
                         ui.add_space(40.0);
                         ui.vertical_centered(|ui| {
                             ui.label(format!("Nothing in the tree matches \u{201C}{needle}\u{201D}."));
-                            ui.weak("The filter looks at names, keys and current values.");
+                            ui.weak(tr("The filter looks at names, keys and current values."));
                         });
                         return;
                     }
@@ -3393,12 +3400,12 @@ impl App {
                     ui.add_space(40.0);
                     ui.vertical_centered(|ui| {
                         if self.search.trim().is_empty() {
-                            ui.weak("No editable values here. Try turning on Advanced, or use the Tree view.");
+                            ui.weak(tr("No editable values here. Try turning on Advanced, or use the Tree view."));
                         } else {
                             ui.label(format!("Nothing matches \u{201C}{}\u{201D}.", self.search.trim()));
-                            ui.weak("Try part of a name (\u{201C}gold\u{201D}) or a current value (\u{201C}1500\u{201D}).");
+                            ui.weak(tr("Try part of a name (\u{201C}gold\u{201D}) or a current value (\u{201C}1500\u{201D})."));
                             if !self.settings.show_advanced {
-                                ui.weak("Advanced values are hidden \u{2014} tick Advanced to search them too.");
+                                ui.weak(tr("Advanced values are hidden \u{2014} tick Advanced to search them too."));
                             }
                         }
                     });
@@ -3465,24 +3472,24 @@ impl App {
             let Some(d) = &self.doc else { return };
             ui.add_space(6.0);
             ui.horizontal(|ui| {
-                ui.heading("Changes");
+                ui.heading(tr("Changes"));
                 ui.with_layout(egui::Layout::right_to_left(egui::Align::Center), |ui| {
-                    if ui.small_button("Close").clicked() {
+                    if ui.small_button(tr("Close")).clicked() {
                         close = true;
                     }
                 });
             });
-            ui.weak("Since you opened or last saved this file.");
+            ui.weak(tr("Since you opened or last saved this file."));
             ui.add_space(4.0);
             if self.dirty {
                 ui.horizontal_wrapped(|ui| {
-                    if ui.small_button("Copy as text").on_hover_text("Copy the list of changes, to paste when asking for help or sharing what you did").clicked() {
+                    if ui.small_button(tr("Copy as text")).on_hover_text(tr("Copy the list of changes, to paste when asking for help or sharing what you did")).clicked() {
                         copy = true;
                     }
-                    if ui.small_button("Save as preset\u{2026}").on_hover_text("Keep these changes to make them again on another save or slot").clicked() {
+                    if ui.small_button(tr("Save as preset\u{2026}")).on_hover_text(tr("Keep these changes to make them again on another save or slot")).clicked() {
                         preset = true;
                     }
-                    if ui.small_button("Revert all").on_hover_text("Put every value back as it was when the file was opened or last saved").clicked() {
+                    if ui.small_button(tr("Revert all")).on_hover_text(tr("Put every value back as it was when the file was opened or last saved")).clicked() {
                         revert_all = true;
                     }
                 });
@@ -3492,7 +3499,7 @@ impl App {
                 (Content::Binary(cur), Content::Binary(base)) => {
                     let ranges = byte_ranges(cur, base);
                     if ranges.is_empty() {
-                        ui.weak("No changes yet.");
+                        ui.weak(tr("No changes yet."));
                     }
                     for (start, end) in ranges {
                         theme::card(ui, |ui| {
@@ -3503,7 +3510,7 @@ impl App {
                             let hex = |b: &[u8]| b.iter().take(16).map(|x| format!("{x:02X}")).collect::<Vec<_>>().join(" ");
                             ui.label(RichText::new(hex(&base[start..end])).weak().strikethrough().monospace());
                             ui.label(RichText::new(hex(&cur[start..end])).color(theme::MODIFIED).monospace());
-                            if ui.small_button("Revert").clicked() {
+                            if ui.small_button(tr("Revert")).clicked() {
                                 revert_bytes.push((start, base[start..end].to_vec()));
                             }
                         });
@@ -3516,18 +3523,18 @@ impl App {
                     let (Some(cv), Some(bv)) = (root(c), root(b)) else { return };
                     let changed: Vec<&String> = self.touched.iter().filter(|p| cv.pointer(p) != bv.pointer(p)).collect();
                     if changed.is_empty() {
-                        ui.weak("No changes yet. Edited values are highlighted in orange.");
+                        ui.weak(tr("No changes yet. Edited values are highlighted in orange."));
                     }
                     for ptr in changed {
                         theme::card(ui, |ui| {
                             if ptr.is_empty() {
-                                ui.label(RichText::new("Whole document (Raw JSON edit)").strong());
+                                ui.label(RichText::new(tr("Whole document (Raw JSON edit)")).strong());
                             } else {
                                 let (name, context) = match self.model.by_ptr.get(ptr.as_str()) {
                                     Some(&i) => (self.model.rows[i].name.clone(), self.model.rows[i].context.clone()),
                                     None => (ptr.clone(), String::new()),
                                 };
-                                if ui.link(RichText::new(&name).strong()).on_hover_text("Show in list").clicked() {
+                                if ui.link(RichText::new(&name).strong()).on_hover_text(tr("Show in list")).clicked() {
                                     jump = self.model.by_ptr.get(ptr.as_str()).copied();
                                 }
                                 if !context.is_empty() {
@@ -3541,7 +3548,7 @@ impl App {
                                     ui.label(RichText::new(new).color(theme::MODIFIED));
                                 });
                             }
-                            if ui.small_button("Revert").clicked() {
+                            if ui.small_button(tr("Revert")).clicked() {
                                 if let Some(orig) = bv.pointer(ptr) {
                                     revert.push((ptr.clone(), orig.clone()));
                                 }
@@ -3617,7 +3624,7 @@ impl App {
                 ui.add_space(6.0);
                 if let Some((current, saves, others)) = &cairn {
                     theme::card(ui, |ui| {
-                        ui.label(RichText::new("Cairn saves in this slot").family(theme::semibold_family()).size(16.0));
+                        ui.label(RichText::new(tr("Cairn saves in this slot")).family(theme::semibold_family()).size(16.0));
                         ui.weak(format!("{} saves, the dated ones newest first; pick one to open it.", saves.len()));
                         ScrollArea::vertical().id_salt("cairn_saves").max_height(220.0).show(ui, |ui| {
                             for (entry, label) in saves {
@@ -3630,7 +3637,7 @@ impl App {
                         });
                         if let Some(at) = crate::fmt::cairn::stats_at(data) {
                             ui.add_space(6.0);
-                            ui.label(RichText::new("This save's run").strong());
+                            ui.label(RichText::new(tr("This save's run")).strong());
                             egui::Grid::new("cairn_stats").num_columns(3).spacing([10.0, 4.0]).show(ui, |ui| {
                                 for (label, off, _) in crate::fmt::cairn::FIELDS {
                                     let o = at + off;
@@ -3649,7 +3656,7 @@ impl App {
                                     ui.end_row();
                                 }
                             });
-                            ui.weak("As on the game's slot card. The card's own copy of the play time updates the next time the game saves.");
+                            ui.weak(tr("As on the game's slot card. The card's own copy of the play time updates the next time the game saves."));
                         }
                         if *others > 0 {
                             ui.weak(format!(
@@ -3663,9 +3670,9 @@ impl App {
                     Self::guide_card(ui, h, &mut hide_guide);
                 }
                 theme::card(ui, |ui| {
-                    ui.label(RichText::new("Named values").family(theme::semibold_family()).size(16.0));
+                    ui.label(RichText::new(tr("Named values")).family(theme::semibold_family()).size(16.0));
                     if h.labels.is_empty() {
-                        ui.weak("Binary saves have no names. Find a value with Value search, click it, then name it here \u{2014} names are remembered for this file.");
+                        ui.weak(tr("Binary saves have no names. Find a value with Value search, click it, then name it here \u{2014} names are remembered for this file."));
                     }
                     let mut remove = None;
                     for (&off, l) in &h.labels {
@@ -3685,7 +3692,7 @@ impl App {
                                 h.label_edits.insert(off, text.clone());
                             }
                             let enter = r.lost_focus() && ui.input(|i| i.key_pressed(egui::Key::Enter));
-                            if ui.button("Set").on_hover_text("Write this value (or press Enter)").clicked() || enter {
+                            if ui.button(tr("Set")).on_hover_text(tr("Write this value (or press Enter)")).clicked() || enter {
                                 match hex_view::encode_value(l.ty, &text, h.big_endian) {
                                     Ok(b) => {
                                         byte_edit = Some((off, b));
@@ -3696,7 +3703,7 @@ impl App {
                             }
                             ui.with_layout(egui::Layout::right_to_left(egui::Align::Center), |ui| {
                                 let trash = widgets::icon(self.has_icons, "\u{E74D}", "\u{00D7}").size(13.0).weak();
-                                if ui.add(egui::Button::new(trash).frame(false)).on_hover_text("Forget this name (the value is not changed)").clicked() {
+                                if ui.add(egui::Button::new(trash).frame(false)).on_hover_text(tr("Forget this name (the value is not changed)")).clicked() {
                                     remove = Some(off);
                                 }
                             });
@@ -3715,7 +3722,7 @@ impl App {
                     ui.horizontal(|ui| {
                         ui.add(TextEdit::singleline(&mut h.label_name).hint_text(format!("Name for 0x{:X}", h.selected)).desired_width(130.0));
                         type_combo(ui, "label_type", &mut h.edit_type);
-                        if ui.add_enabled(!h.label_name.trim().is_empty(), egui::Button::new("Add")).clicked() {
+                        if ui.add_enabled(!h.label_name.trim().is_empty(), egui::Button::new(tr("Add"))).clicked() {
                             h.labels.insert(h.selected, OffsetLabel { name: h.label_name.trim().to_string(), ty: h.edit_type });
                             h.label_name.clear();
                             labels_changed = true;
@@ -3725,11 +3732,11 @@ impl App {
                 });
 
                 theme::card(ui, |ui| {
-                    ui.label(RichText::new("Value search").family(theme::semibold_family()).size(16.0));
+                    ui.label(RichText::new(tr("Value search")).family(theme::semibold_family()).size(16.0));
                     if guide {
-                        ui.weak("Don't know the number (a health bar, a hidden counter)? Start with \u{201C}Unknown starting value\u{201D}, then refine with Increased, Decreased or Changed after each in-game save.");
+                        ui.weak(tr("Don't know the number (a health bar, a hidden counter)? Start with \u{201C}Unknown starting value\u{201D}, then refine with Increased, Decreased or Changed after each in-game save."));
                     } else {
-                        ui.weak("Know the value? Search for it, change it in-game, save, and refine with the new value. Don't know it (a health bar, a hidden counter)? Start with \u{201C}Unknown starting value\u{201D}, then refine with Increased, Decreased or Changed after each in-game save.");
+                        ui.weak(tr("Know the value? Search for it, change it in-game, save, and refine with the new value. Don't know it (a health bar, a hidden counter)? Start with \u{201C}Unknown starting value\u{201D}, then refine with Increased, Decreased or Changed after each in-game save."));
                         if ui.link("Show the step-by-step guide").clicked() {
                             show_guide = true;
                         }
@@ -3753,7 +3760,7 @@ impl App {
                             let r = ui.add(TextEdit::singleline(&mut h.search_text).hint_text(hint).desired_width(110.0));
                             let mut enter = r.lost_focus() && ui.input(|i| i.key_pressed(egui::Key::Enter));
                             if inputs == 2 {
-                                let r2 = ui.add(TextEdit::singleline(&mut h.search_text2).hint_text("to").desired_width(110.0));
+                                let r2 = ui.add(TextEdit::singleline(&mut h.search_text2).hint_text(tr("to")).desired_width(110.0));
                                 enter |= r2.lost_focus() && ui.input(|i| i.key_pressed(egui::Key::Enter));
                             }
                             if enter {
@@ -3771,17 +3778,17 @@ impl App {
                             }
                         }
                         if ui
-                            .add_enabled(scanning, egui::Button::new("Refine"))
-                            .on_hover_text("Re-reads the file from disk (save in-game first) and keeps only the locations that pass the test above")
+                            .add_enabled(scanning, egui::Button::new(tr("Refine")))
+                            .on_hover_text(tr("Re-reads the file from disk (save in-game first) and keeps only the locations that pass the test above"))
                             .clicked()
                         {
                             refine = true;
                         }
-                        ui.checkbox(&mut h.aligned, "Aligned").on_hover_text("Only test offsets that are a multiple of the value size. Faster, and how most games store numbers.");
+                        ui.checkbox(&mut h.aligned, tr("Aligned")).on_hover_text(tr("Only test offsets that are a multiple of the value size. Faster, and how most games store numbers."));
                     });
                     if scanning && !WEB && !guide {
-                        ui.checkbox(&mut h.auto_refine, "Refine by itself each time the game saves")
-                            .on_hover_text("Watches the file and refines with the test above as soon as the game writes it again");
+                        ui.checkbox(&mut h.auto_refine, tr("Refine by itself each time the game saves"))
+                            .on_hover_text(tr("Watches the file and refines with the test above as soon as the game writes it again"));
                     }
                     if start {
                         match h.start_scan(data) {
@@ -3790,7 +3797,7 @@ impl App {
                         }
                     }
                     if h.all_locations {
-                        ui.label("Every location is still in play.");
+                        ui.label(tr("Every location is still in play."));
                     }
                     if h.searched {
                         ui.label(format!("{} result(s){}", h.results.len(), if h.results.len() >= hex_view::MAX_RESULTS { " (capped)" } else { "" }));
@@ -3816,13 +3823,13 @@ impl App {
                     ui.horizontal(|ui| {
                         ui.label(RichText::new(format!("Selected: 0x{:X}", h.selected)).family(theme::semibold_family()).size(16.0));
                         ui.with_layout(egui::Layout::right_to_left(egui::Align::Center), |ui| {
-                            ui.checkbox(&mut h.big_endian, "Big-endian").on_hover_text("Most PC games use little-endian (unticked)");
+                            ui.checkbox(&mut h.big_endian, tr("Big-endian")).on_hover_text(tr("Most PC games use little-endian (unticked)"));
                         });
                     });
                     ui.horizontal(|ui| {
-                        ui.label("Go to");
-                        let r = ui.add(TextEdit::singleline(&mut h.goto_text).hint_text("hex offset").desired_width(100.0));
-                        if (r.lost_focus() && ui.input(|i| i.key_pressed(egui::Key::Enter))) || ui.small_button("Go").clicked() {
+                        ui.label(tr("Go to"));
+                        let r = ui.add(TextEdit::singleline(&mut h.goto_text).hint_text(tr("hex offset")).desired_width(100.0));
+                        if (r.lost_focus() && ui.input(|i| i.key_pressed(egui::Key::Enter))) || ui.small_button(tr("Go")).clicked() {
                             match usize::from_str_radix(h.goto_text.trim().trim_start_matches("0x"), 16) {
                                 Ok(o) if o < data.len() => h.jump(o),
                                 _ => status = Some(Err("That offset is outside the file".into())),
@@ -3835,7 +3842,7 @@ impl App {
                             let v = hex_view::read_value(ty, data, h.selected, h.big_endian).unwrap_or_else(|| "\u{2014}".into());
                             if ui
                                 .add(egui::Label::new(RichText::new(&v).monospace()).sense(egui::Sense::click()))
-                                .on_hover_text("Click to edit as this type")
+                                .on_hover_text(tr("Click to edit as this type"))
                                 .clicked()
                             {
                                 h.edit_type = ty;
@@ -3846,8 +3853,8 @@ impl App {
                     });
                     ui.horizontal(|ui| {
                         type_combo(ui, "edit_type", &mut h.edit_type);
-                        ui.add(TextEdit::singleline(&mut h.edit_text).hint_text("new value").desired_width(110.0));
-                        if ui.button("Write").clicked() {
+                        ui.add(TextEdit::singleline(&mut h.edit_text).hint_text(tr("new value")).desired_width(110.0));
+                        if ui.button(tr("Write")).clicked() {
                             match hex_view::encode_value(h.edit_type, &h.edit_text, h.big_endian) {
                                 Ok(b) if h.selected + b.len() <= data.len() => {
                                     status = Some(Ok(format!("Wrote {} byte(s) at 0x{:X}", b.len(), h.selected)));
@@ -3925,14 +3932,14 @@ impl App {
                 ui.add_space(14.0);
                 if self.saves_found.is_some() {
                     // Finding the saves for you comes first; picking the file yourself is the other way in.
-                    let find = egui::Button::new(RichText::new("Find my game's saves").color(Color32::WHITE)).fill(theme::ACCENT).min_size(egui::vec2(220.0, 40.0));
+                    let find = egui::Button::new(RichText::new(tr("Find my game's saves")).color(Color32::WHITE)).fill(theme::ACCENT).min_size(egui::vec2(220.0, 40.0));
                     let file = egui::Button::new(widgets::icon_text(ui, self.has_icons, icon::OPEN, "Open a file\u{2026}")).min_size(egui::vec2(160.0, 40.0));
                     let w = 220.0 + 160.0 + ui.spacing().item_spacing.x;
                     let side_by_side = ui.available_width() >= w + 16.0;
                     let mut clicks = (false, false);
                     if side_by_side {
                         ui.allocate_ui_with_layout(egui::vec2(w, 40.0), egui::Layout::left_to_right(egui::Align::Center), |ui| {
-                            clicks.0 = ui.add(find).on_hover_text("Pick your game from the list; its saves on this computer are found for you").clicked();
+                            clicks.0 = ui.add(find).on_hover_text(tr("Pick your game from the list; its saves on this computer are found for you")).clicked();
                             clicks.1 = ui.add(file).clicked();
                         });
                     } else {
@@ -3956,7 +3963,7 @@ impl App {
                 }
                 ui.add_space(4.0);
                 if !cfg!(target_os = "android") {
-                    ui.weak("or drag a file anywhere onto this window");
+                    ui.weak(tr("or drag a file anywhere onto this window"));
                 }
                 ui.add_space(18.0);
 
@@ -3970,9 +3977,9 @@ impl App {
                             ui.add_space(8.0);
                         }
                         theme::card(ui, |ui| {
-                            ui.label(RichText::new("Recent files").family(theme::semibold_family()).size(16.0));
+                            ui.label(RichText::new(tr("Recent files")).family(theme::semibold_family()).size(16.0));
                             if self.settings.recent.is_empty() {
-                                ui.weak("Files you open will appear here.");
+                                ui.weak(tr("Files you open will appear here."));
                             }
                             for p in self.settings.recent.iter().take(8) {
                                 let exists = crate::vfs::exists(p);
@@ -3984,7 +3991,7 @@ impl App {
                                     let folder = p.parent().map(|d| d.display().to_string()).unwrap_or_default();
                                     if !exists && !WEB && !crate::backups::list(p).is_empty() {
                                         // Set aside for a new game (or deleted): its backups can bring it back.
-                                        if ui.small_button("Restore a backup\u{2026}").on_hover_text("The file isn't there any more, but it has backups").clicked() {
+                                        if ui.small_button(tr("Restore a backup\u{2026}")).on_hover_text(tr("The file isn't there any more, but it has backups")).clicked() {
                                             restore_missing = Some(p.clone());
                                         }
                                     }
@@ -3994,7 +4001,7 @@ impl App {
                         });
                         ui.add_space(8.0);
                         theme::card(ui, |ui| {
-                            ui.label(RichText::new("Find your saves").family(theme::semibold_family()).size(16.0));
+                            ui.label(RichText::new(tr("Find your saves")).family(theme::semibold_family()).size(16.0));
                             ui.weak(if WEB {
                                 "The browser can't look through your folders, so pick the file yourself. On Windows most games \
                                  keep saves in Documents\\My Games, %APPDATA%, %LOCALAPPDATA% or Steam\\userdata \u{2014} \
@@ -4012,11 +4019,11 @@ impl App {
                                     ui.add(egui::Label::new(RichText::new(path.display().to_string()).weak().size(12.5)).truncate());
                                 });
                             }
-                            ui.weak("RPG Maker games usually keep saves in a \u{201C}save\u{201D} folder next to the game.");
+                            ui.weak(tr("RPG Maker games usually keep saves in a \u{201C}save\u{201D} folder next to the game."));
                         });
                         ui.add_space(8.0);
                         theme::card(ui, |ui| {
-                            ui.label(RichText::new("What it can open").family(theme::semibold_family()).size(16.0));
+                            ui.label(RichText::new(tr("What it can open")).family(theme::semibold_family()).size(16.0));
                             let games = format!(
                                 "{} games, {} of them with a screen of their own: Elden Ring, Baldur's Gate, Mass Effect, Final Fantasy, Stardew Valley, Terraria, Cyberpunk 2077 and many more \u{00B7} Pok\u{00E9}mon Gen I\u{2013}III (emulator saves) \u{00B7} {}",
                                 crate::games::GAMES.len(),
@@ -4258,7 +4265,7 @@ impl eframe::App for App {
             egui::TopBottomPanel::top("doc_note").show(ctx, |ui| {
                 ui.horizontal_wrapped(|ui| {
                     ui.label(RichText::new(&self.doc_note).color(ui.visuals().weak_text_color()));
-                    if ui.small_button("Dismiss").clicked() {
+                    if ui.small_button(tr("Dismiss")).clicked() {
                         dismiss = true;
                     }
                 });
@@ -4305,7 +4312,7 @@ impl eframe::App for App {
             _ => {
                 let Some(Doc { content: Content::Binary(data), baseline: Content::Binary(base), .. }) = &self.doc else { return };
                 if data.is_empty() {
-                    ui.weak("(empty file)");
+                    ui.weak(tr("(empty file)"));
                 } else {
                     hex_view::hex_grid(ui, data, base, &mut self.hex);
                 }
@@ -4320,17 +4327,17 @@ impl eframe::App for App {
         // Dialogs.
         if self.pending_close {
             let mut choice = None;
-            modal(ctx, "Unsaved changes", |ui| {
-                ui.label("You have unsaved changes. Save them before closing this file?");
+            modal(ctx, tr("Unsaved changes"), |ui| {
+                ui.label(tr("You have unsaved changes. Save them before closing this file?"));
                 ui.add_space(8.0);
                 ui.horizontal(|ui| {
-                    if ui.add(egui::Button::new(RichText::new("Save and close").color(Color32::WHITE)).fill(theme::ACCENT)).clicked() {
+                    if ui.add(egui::Button::new(RichText::new(tr("Save and close")).color(Color32::WHITE)).fill(theme::ACCENT)).clicked() {
                         choice = Some(0);
                     }
-                    if ui.button("Close without saving").clicked() {
+                    if ui.button(tr("Close without saving")).clicked() {
                         choice = Some(1);
                     }
-                    if ui.button("Cancel").clicked() {
+                    if ui.button(tr("Cancel")).clicked() {
                         choice = Some(2);
                     }
                 });
@@ -4353,17 +4360,17 @@ impl eframe::App for App {
         }
         if let Some(path) = self.pending_open.clone() {
             let mut choice = None;
-            modal(ctx, "Unsaved changes", |ui| {
-                ui.label(format!("You have unsaved changes. Save them before opening {}?", file_name(&path)));
+            modal(ctx, tr("Unsaved changes"), |ui| {
+                ui.label(crate::i18n::trf("You have unsaved changes. Save them before opening {0}?", &[&file_name(&path)]));
                 ui.add_space(8.0);
                 ui.horizontal(|ui| {
-                    if ui.add(egui::Button::new(RichText::new("Save").color(Color32::WHITE)).fill(theme::ACCENT)).clicked() {
+                    if ui.add(egui::Button::new(RichText::new(tr("Save")).color(Color32::WHITE)).fill(theme::ACCENT)).clicked() {
                         choice = Some(0);
                     }
-                    if ui.button("Don't save").clicked() {
+                    if ui.button(tr("Don't save")).clicked() {
                         choice = Some(1);
                     }
-                    if ui.button("Cancel").clicked() {
+                    if ui.button(tr("Cancel")).clicked() {
                         choice = Some(2);
                     }
                 });
@@ -4416,17 +4423,17 @@ impl eframe::App for App {
         }
         if self.confirm_close {
             let mut choice = None;
-            modal(ctx, "Unsaved changes", |ui| {
-                ui.label("You have unsaved changes. Save them before closing?");
+            modal(ctx, tr("Unsaved changes"), |ui| {
+                ui.label(tr("You have unsaved changes. Save them before closing?"));
                 ui.add_space(8.0);
                 ui.horizontal(|ui| {
-                    if ui.add(egui::Button::new(RichText::new("Save and close").color(Color32::WHITE)).fill(theme::ACCENT)).clicked() {
+                    if ui.add(egui::Button::new(RichText::new(tr("Save and close")).color(Color32::WHITE)).fill(theme::ACCENT)).clicked() {
                         choice = Some(0);
                     }
-                    if ui.button("Close without saving").clicked() {
+                    if ui.button(tr("Close without saving")).clicked() {
                         choice = Some(1);
                     }
-                    if ui.button("Cancel").clicked() {
+                    if ui.button(tr("Cancel")).clicked() {
                         choice = Some(2);
                     }
                 });

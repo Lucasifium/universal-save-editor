@@ -4,6 +4,7 @@
 
 #![cfg_attr(target_arch = "wasm32", allow(dead_code))]
 
+use crate::i18n::tr;
 use super::*;
 use crate::presets::{ByteChange, Preset, ValueChange};
 use crate::values_view::BulkOp;
@@ -80,12 +81,12 @@ impl App {
         let mut close = false;
         theme::card(ui, |ui| {
             ui.horizontal_wrapped(|ui| {
-                ui.label(RichText::new("Bulk edit").strong());
+                ui.label(RichText::new(tr("Bulk edit")).strong());
                 ui.label(format!("{} ticked", b.ticked.len()));
-                if ui.small_button(format!("Tick all shown ({})", shown.len())).on_hover_text("Ticks every editable value in the list below. Search first to pick a group, e.g. \u{201C}count\u{201D} or a section's name.").clicked() {
+                if ui.small_button(format!("Tick all shown ({})", shown.len())).on_hover_text(tr("Ticks every editable value in the list below. Search first to pick a group, e.g. \u{201C}count\u{201D} or a section's name.")).clicked() {
                     b.ticked.extend(shown.iter().copied());
                 }
-                if !b.ticked.is_empty() && ui.small_button("Untick all").clicked() {
+                if !b.ticked.is_empty() && ui.small_button(tr("Untick all")).clicked() {
                     b.ticked.clear();
                 }
                 ui.separator();
@@ -102,11 +103,11 @@ impl App {
                 let r = ui.add(TextEdit::singleline(&mut b.arg).hint_text(hint).desired_width(90.0));
                 let enter = r.lost_focus() && ui.input(|i| i.key_pressed(egui::Key::Enter));
                 let ready = !b.ticked.is_empty() && !b.arg.trim().is_empty();
-                if ui.add_enabled(ready, egui::Button::new("Apply")).on_hover_text("Changes every ticked value; one Undo puts them all back").clicked() || (enter && ready) {
+                if ui.add_enabled(ready, egui::Button::new(tr("Apply"))).on_hover_text(tr("Changes every ticked value; one Undo puts them all back")).clicked() || (enter && ready) {
                     apply = true;
                 }
                 ui.with_layout(egui::Layout::right_to_left(egui::Align::Center), |ui| {
-                    if ui.small_button("Done").clicked() {
+                    if ui.small_button(tr("Done")).clicked() {
                         close = true;
                     }
                 });
@@ -169,7 +170,7 @@ impl App {
     pub(super) fn copy_changes(&mut self, ctx: &egui::Context) {
         let lines = self.change_lines();
         if lines.is_empty() {
-            return self.info("No changes to copy yet.");
+            return self.info(tr("No changes to copy yet."));
         }
         let mut text = format!("Changes to a {} save:\n", self.save_kind());
         for l in &lines {
@@ -213,7 +214,7 @@ impl App {
     pub(super) fn start_preset_save(&mut self) {
         let preset = self.preset_from_changes();
         if preset.is_empty() {
-            return self.info("Make some changes first: a preset keeps the changes you made, to make them again on another save.");
+            return self.info(tr("Make some changes first: a preset keeps the changes you made, to make them again on another save."));
         }
         self.preset_save = Some(PresetSave { preset, replace: false });
     }
@@ -221,7 +222,7 @@ impl App {
     pub(super) fn preset_save_dialog(&mut self, ctx: &egui::Context) {
         let Some(mut ps) = self.preset_save.take() else { return };
         let mut choice = None;
-        modal(ctx, "Save changes as a preset", |ui| {
+        modal(ctx, tr("Save changes as a preset"), |ui| {
             ui.label(format!("Keeps these {} change{} to make again on another save or slot of this game:", ps.preset.len(), if ps.preset.len() == 1 { "" } else { "s" }));
             ScrollArea::vertical().max_height(180.0).show(ui, |ui| {
                 for l in ps.preset.lines() {
@@ -229,23 +230,23 @@ impl App {
                 }
             });
             ui.add_space(6.0);
-            let r = ui.add(TextEdit::singleline(&mut ps.preset.name).hint_text("for example: max gold and potions").desired_width(300.0));
+            let r = ui.add(TextEdit::singleline(&mut ps.preset.name).hint_text(tr("for example: max gold and potions")).desired_width(300.0));
             r.request_focus();
             if r.lost_focus() && ui.input(|i| i.key_pressed(egui::Key::Enter)) {
                 choice = Some(true);
             }
             if !WEB {
-                ui.checkbox(&mut ps.replace, "Replace a preset with the same name");
+                ui.checkbox(&mut ps.replace, tr("Replace a preset with the same name"));
             } else {
-                ui.weak("Your browser downloads the preset; open it again with Apply preset.");
+                ui.weak(tr("Your browser downloads the preset; open it again with Apply preset."));
             }
             ui.add_space(6.0);
             ui.horizontal(|ui| {
                 let ok = !ps.preset.name.trim().is_empty();
-                if ui.add_enabled(ok, egui::Button::new(RichText::new("Save preset").color(Color32::WHITE)).fill(theme::ACCENT)).clicked() {
+                if ui.add_enabled(ok, egui::Button::new(RichText::new(tr("Save preset")).color(Color32::WHITE)).fill(theme::ACCENT)).clicked() {
                     choice = Some(true);
                 }
-                if ui.button("Cancel").clicked() {
+                if ui.button(tr("Cancel")).clicked() {
                     choice = Some(false);
                 }
             });
@@ -263,7 +264,7 @@ impl App {
                 }
                 #[cfg(target_arch = "wasm32")]
                 match crate::web::download(&crate::presets::file_name(&ps.preset.name), ps.preset.to_json().as_bytes()) {
-                    Ok(()) => self.ok("Your browser downloaded the preset."),
+                    Ok(()) => self.ok(tr("Your browser downloaded the preset.")),
                     Err(e) => self.fail(format!("Couldn't hand over the preset: {e}")),
                 }
             }
@@ -304,11 +305,11 @@ impl App {
         let mut close = false;
         let mut open_file = false;
         let mut delete: Option<usize> = None;
-        modal(ctx, "Apply a preset", |ui| {
+        modal(ctx, tr("Apply a preset"), |ui| {
             ui.set_max_width(460.0);
             if pa.list.is_empty() && pa.opened.is_none() {
-                ui.label("No presets yet.");
-                ui.weak("Make some changes, then use Save changes as a preset (in the Changes panel or Tools \u{203A} Presets). Presets shared by others open with Open a preset file.");
+                ui.label(tr("No presets yet."));
+                ui.weak(tr("Make some changes, then use Save changes as a preset (in the Changes panel or Tools \u{203A} Presets). Presets shared by others open with Open a preset file."));
             }
             if !pa.list.is_empty() {
                 ScrollArea::vertical().id_salt("preset_list").max_height(200.0).show(ui, |ui| {
@@ -320,7 +321,7 @@ impl App {
                                 pa.opened = None;
                             }
                             ui.with_layout(egui::Layout::right_to_left(egui::Align::Center), |ui| {
-                                if ui.small_button("Delete").on_hover_text("Delete this preset (saves are not changed)").clicked() {
+                                if ui.small_button(tr("Delete")).on_hover_text(tr("Delete this preset (saves are not changed)")).clicked() {
                                     delete = Some(i);
                                 }
                             });
@@ -344,19 +345,19 @@ impl App {
             ui.add_space(6.0);
             ui.horizontal(|ui| {
                 let ok = chosen.is_some() && self.doc.is_some();
-                if ui.add_enabled(ok, egui::Button::new(RichText::new("Apply").color(Color32::WHITE)).fill(theme::ACCENT)).clicked() {
+                if ui.add_enabled(ok, egui::Button::new(RichText::new(tr("Apply")).color(Color32::WHITE)).fill(theme::ACCENT)).clicked() {
                     apply = chosen.cloned();
                 }
-                if ui.button("Open a preset file\u{2026}").clicked() {
+                if ui.button(tr("Open a preset file\u{2026}")).clicked() {
                     open_file = true;
                 }
                 #[cfg(not(any(target_arch = "wasm32", target_os = "android")))]
                 if let Some(d) = crate::presets::dir().filter(|d| d.is_dir()) {
-                    if ui.button("Presets folder").clicked() {
+                    if ui.button(tr("Presets folder")).clicked() {
                         crate::platform::reveal(&d);
                     }
                 }
-                if ui.button("Close").clicked() {
+                if ui.button(tr("Close")).clicked() {
                     close = true;
                 }
             });
@@ -503,32 +504,32 @@ impl App {
         let size = data.len();
         let sum = d.opts.sum;
         let mut choice = None;
-        modal(ctx, "Use these names for every save of this game", |ui| {
+        modal(ctx, tr("Use these names for every save of this game"), |ui| {
             ui.set_max_width(440.0);
-            ui.label("Makes a template from your names, so every save of the game opens with these values listed by name, ready to change. Use View \u{203A} Show decoded data as hex to find more values later.");
+            ui.label(tr("Makes a template from your names, so every save of the game opens with these values listed by name, ready to change. Use View \u{203A} Show decoded data as hex to find more values later."));
             ui.add_space(6.0);
             ui.horizontal(|ui| {
-                ui.label("Game");
-                ui.add(TextEdit::singleline(&mut sn.game).hint_text("the game's name").desired_width(260.0));
+                ui.label(tr("Game"));
+                ui.add(TextEdit::singleline(&mut sn.game).hint_text(tr("the game's name")).desired_width(260.0));
             });
             ui.add_space(4.0);
-            ui.label("Recognise its saves by:");
+            ui.label(tr("Recognise its saves by:"));
             ui.add_enabled_ui(!ext.is_empty(), |ui| ui.checkbox(&mut sn.by_ext, format!("the file extension (.{ext})")));
             if let Some(m) = &magic {
                 let hex: Vec<String> = m.iter().map(|b| format!("{b:02X}")).collect();
                 ui.checkbox(&mut sn.by_magic, format!("the first bytes ({})", hex.join(" ")));
             }
-            ui.checkbox(&mut sn.by_size, format!("the exact size ({})", human_size(size))).on_hover_text("Only if every save of the game is the same size");
+            ui.checkbox(&mut sn.by_size, format!("the exact size ({})", human_size(size))).on_hover_text(tr("Only if every save of the game is the same size"));
             if let Some(s) = sum {
                 ui.weak(format!("The checksum you set ({}) is kept fixed too.", s.describe()));
             }
-            ui.checkbox(&mut sn.replace, "Replace a template with the same name");
+            ui.checkbox(&mut sn.replace, tr("Replace a template with the same name"));
             ui.add_space(6.0);
             ui.horizontal(|ui| {
-                if ui.add(egui::Button::new(RichText::new("Make template").color(Color32::WHITE)).fill(theme::ACCENT)).clicked() {
+                if ui.add(egui::Button::new(RichText::new(tr("Make template")).color(Color32::WHITE)).fill(theme::ACCENT)).clicked() {
                     choice = Some(true);
                 }
-                if ui.button("Cancel").clicked() {
+                if ui.button(tr("Cancel")).clicked() {
                     choice = Some(false);
                 }
             });
@@ -577,16 +578,16 @@ impl App {
         ui.horizontal_wrapped(|ui| {
             if !WEB
                 && ui
-                    .add_enabled(has_names, egui::Button::new("Use for every save\u{2026}"))
-                    .on_hover_text("Make a template from these names, so every save of this game opens with them listed")
+                    .add_enabled(has_names, egui::Button::new(tr("Use for every save\u{2026}")))
+                    .on_hover_text(tr("Make a template from these names, so every save of this game opens with them listed"))
                     .clicked()
             {
                 out = Some(NamesAction::Share);
             }
-            if ui.add_enabled(has_names, egui::Button::new("Export\u{2026}")).on_hover_text("Save these names to a file to share or keep").clicked() {
+            if ui.add_enabled(has_names, egui::Button::new(tr("Export\u{2026}"))).on_hover_text(tr("Save these names to a file to share or keep")).clicked() {
                 out = Some(NamesAction::Export);
             }
-            if ui.button("Import\u{2026}").on_hover_text("Add names from a file someone shared (exported names or a template)").clicked() {
+            if ui.button(tr("Import\u{2026}")).on_hover_text(tr("Add names from a file someone shared (exported names or a template)")).clicked() {
                 out = Some(NamesAction::Import);
             }
         });
@@ -600,9 +601,9 @@ impl App {
         let step = h.guide_step();
         theme::card(ui, |ui| {
             ui.horizontal(|ui| {
-                ui.label(RichText::new("Find a value, step by step").family(theme::semibold_family()).size(16.0));
+                ui.label(RichText::new(tr("Find a value, step by step")).family(theme::semibold_family()).size(16.0));
                 ui.with_layout(egui::Layout::right_to_left(egui::Align::Center), |ui| {
-                    if ui.small_button("Hide").on_hover_text("Bring it back from Value search").clicked() {
+                    if ui.small_button(tr("Hide")).on_hover_text(tr("Bring it back from Value search")).clicked() {
                         *hide = true;
                     }
                 });
@@ -642,12 +643,12 @@ impl App {
                 });
             }
             if (step == 2 || step == 3) && !WEB {
-                ui.checkbox(&mut h.auto_refine, "Refine by itself each time the game saves")
-                    .on_hover_text("Watches the file and refines with the test chosen in Value search as soon as the game writes it again");
+                ui.checkbox(&mut h.auto_refine, tr("Refine by itself each time the game saves"))
+                    .on_hover_text(tr("Watches the file and refines with the test chosen in Value search as soon as the game writes it again"));
             }
             ui.add_space(2.0);
             ui.horizontal_wrapped(|ui| {
-                ui.weak("No luck? Try another number type, or");
+                ui.weak(tr("No luck? Try another number type, or"));
                 ui.hyperlink_to("ask for this game", REQUEST_GAME);
             });
         });
@@ -694,7 +695,7 @@ impl App {
         self.hex.watch = Some(stamp);
         if self.dirty {
             self.hex.auto_refine = false;
-            return self.fail("The game saved, but you have unsaved changes here, so refining stopped. Revert or save them, then refine.");
+            return self.fail(tr("The game saved, but you have unsaved changes here, so refining stopped. Revert or save them, then refine."));
         }
         self.refine_from_disk();
     }

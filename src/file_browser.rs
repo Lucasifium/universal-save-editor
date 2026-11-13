@@ -3,6 +3,7 @@
 // Desktop uses native dialogs; this is only shown on Android.
 #![cfg_attr(not(target_os = "android"), allow(dead_code))]
 
+use crate::i18n::tr;
 use eframe::egui::{self, RichText, ScrollArea};
 use std::path::{Path, PathBuf};
 
@@ -134,8 +135,8 @@ impl FileBrowser {
                     if self.access.is_some_and(|(ok, _)| !ok) {
                         ui.ctx().request_repaint_after(std::time::Duration::from_secs(1));
                         ui.group(|ui| {
-                            ui.label("Allow \u{201C}All files access\u{201D} so the editor can open and save game saves on your phone.");
-                            if ui.button("Allow access\u{2026}").clicked() {
+                            ui.label(tr("Allow \u{201C}All files access\u{201D} so the editor can open and save game saves on your phone."));
+                            if ui.button(tr("Allow access\u{2026}")).clicked() {
                                 crate::platform::android::request_file_access();
                             }
                         });
@@ -153,7 +154,7 @@ impl FileBrowser {
                     }
                 });
                 ui.horizontal(|ui| {
-                    if ui.add_enabled(self.dir.parent().is_some(), egui::Button::new("Up")).clicked() {
+                    if ui.add_enabled(self.dir.parent().is_some(), egui::Button::new(tr("Up"))).clicked() {
                         if let Some(p) = self.dir.parent().map(Path::to_path_buf) {
                             self.go(p);
                         }
@@ -167,7 +168,7 @@ impl FileBrowser {
                     ui.add_space(4.0);
                     if self.mode == Mode::SaveFile {
                         ui.horizontal(|ui| {
-                            ui.label("File name:");
+                            ui.label(tr("File name:"));
                             ui.add(egui::TextEdit::singleline(&mut self.name).desired_width(f32::INFINITY));
                         });
                     }
@@ -183,7 +184,7 @@ impl FileBrowser {
                                 _ => self.dir.clone(),
                             }));
                         }
-                        if ui.button("Cancel").clicked() {
+                        if ui.button(tr("Cancel")).clicked() {
                             out = Some(Outcome::Cancelled);
                         }
                     });
@@ -196,7 +197,7 @@ impl FileBrowser {
                 ScrollArea::vertical().auto_shrink([false, false]).show(ui, |ui| {
                     ui.with_layout(egui::Layout::top_down_justified(egui::Align::Min), |ui| {
                         if self.entries.is_empty() && self.error.is_none() {
-                            ui.weak("(empty folder)");
+                            ui.weak(tr("(empty folder)"));
                         }
                         for (name, is_dir, size) in &self.entries {
                             let text = if *is_dir {

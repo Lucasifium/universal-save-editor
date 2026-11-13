@@ -78,6 +78,11 @@ pub fn cjk_for(ctx: &egui::Context, text: &str) {
     }
 }
 
+/// Whether this system has a font for Japanese and Chinese text (the browser version has none).
+pub fn cjk_available() -> bool {
+    !cjk_fonts().is_empty()
+}
+
 /// Font files with Japanese, Chinese and Korean characters on this computer, one per script
 /// where the system splits them, most complete first.
 fn cjk_fonts() -> Vec<String> {

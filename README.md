@@ -555,6 +555,14 @@ Encrypted saves: *Tools › Decrypt with password* (Easy Save 3, Godot). Archive
 *Tools › Compare with another save* lists every value that differs between the open save and
 another one (e.g. before and after you earned gold), with a one-click **Use theirs**.
 
+## Languages
+
+Menus, buttons and messages are in English, German, Spanish, French, Brazilian Portuguese,
+Japanese and Simplified Chinese. The app follows the system language; *Edit › Preferences ›
+Language* changes it. Game screens and value names stay as the game has them. Japanese and Chinese
+need a system font with those characters (Windows, macOS and most Linux desktops have one), so the
+browser version offers the other languages only.
+
 ## Several saves at once
 
 Opening another save while one is open puts it in a new tab (Ctrl+T also opens one; Ctrl+W closes

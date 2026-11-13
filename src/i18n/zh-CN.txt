@@ -1,0 +1,1270 @@
+# src/app.rs
+
+The browser version can't open folders — use the desktop app for this.
+= 浏览器版无法打开文件夹，请使用桌面应用。
+
+Closed the file.
+= 已关闭文件。
+
+Opening
+= 正在打开
+
+Opening the file stopped unexpectedly.
+= 打开文件时意外中止。
+
+All changes reverted.
+= 已还原所有更改。
+
+The Raw JSON has a syntax error — fix it before saving.
+= Raw JSON 存在语法错误，请先修复再保存。
+
+Save aborted: the re-encoded file didn't read back identically. Your file was not changed.
+= 已中止保存：重新编码后的文件读回内容不一致。你的文件未被更改。
+
+Find my game's saves
+= 查找我的游戏存档
+
+Search:
+= 搜索：
+
+game name
+= 游戏名称
+
+Only games found here
+= 仅显示已找到的游戏
+
+Show only the games whose saves were found on this computer. Typing a name searches every game.
+= 仅显示在这台电脑上找到存档的游戏。输入名称会搜索所有游戏。
+
+Any support
+= 全部支持程度
+
+Close
+= 关闭
+
+Pick a game to see where it keeps its saves and the ones on this computer. Open… and dragging a file onto the window still work for anything else.
+= 选择游戏即可查看它的存档位置以及这台电脑上的存档。其他情况仍可使用“打开…”或将文件拖到窗口中。
+
+On this computer
+= 这台电脑上
+
+Other games
+= 其他游戏
+
+Looking for saves on this computer…
+= 正在这台电脑上查找存档…
+
+No game matches. Use Open… to pick the file yourself.
+= 没有匹配的游戏。请用“打开…”自行选择文件。
+
+Choose a game from the list.
+= 请从列表中选择游戏。
+
+Looking for saves…
+= 正在查找存档…
+
+If the game keeps them somewhere else (another drive, a cloud folder), use Open… to pick the file.
+= 如果游戏把存档放在其他位置（其他磁盘、云文件夹），请用“打开…”选择文件。
+
+‹ All games
+= ‹ 全部游戏
+
+Copy character
+= 复制角色
+
+Copy
+= 复制
+
+Into
+= 目标
+
+The file is backed up first (Backups › Quick restore).
+= 会先备份该文件（备份 › 快速恢复）。
+
+Cancel
+= 取消
+
+Save changes?
+= 是否保存更改？
+
+(nothing that the list can describe)
+= （列表无法描述任何内容）
+
+This save is in a Steam Cloud folder. If Steam asks which save to keep, choose the local one.
+= 此存档位于 Steam Cloud 文件夹中。如果 Steam 询问保留哪个存档，请选择本地的。
+
+Check again
+= 重新检查
+
+Don't show this list again
+= 不再显示此列表
+
+You have unsaved changes. Save or revert them first, then restore.
+= 有未保存的更改。请先保存或还原更改，再进行恢复。
+
+The Raw JSON has a syntax error.
+= Raw JSON 存在语法错误。
+
+Save or revert your changes before importing.
+= 导入前请先保存或还原更改。
+
+The imported data doesn't pack back into this kind of save (wrong file, or edited into another format).
+= 导入的数据无法重新打包为此类存档（文件错误，或已被改成其他格式）。
+
+Save or revert your changes before switching to the hex view.
+= 切换到十六进制视图前，请先保存或还原更改。
+
+Showing the decoded data as hex. Saving re-applies the original encoding.
+= 正在以十六进制显示解码后的数据。保存时会重新应用原始编码。
+
+Refine re-reads the file from disk — save or revert your changes first.
+= “筛选”会从磁盘重新读取文件，请先保存或还原更改。
+
+File
+= 文件
+
+Open…
+= 打开…
+
+Find my game's saves…
+= 查找我的游戏存档…
+
+Pick a game to see the saves it has on this computer
+= 选择游戏即可查看它在这台电脑上的存档
+
+Open recent
+= 最近打开
+
+Nothing yet
+= 暂无
+
+Save
+= 保存
+
+Save a copy as…
+= 另存副本为…
+
+Reload from disk
+= 从磁盘重新加载
+
+Reads the file again, for when the game or another program changed it. Unsaved changes are dropped (you are asked first).
+= 重新读取文件，适用于游戏或其他程序修改了文件的情况。未保存的更改会被丢弃（会先询问）。
+
+Close file
+= 关闭文件
+
+Revert all changes
+= 还原所有更改
+
+Export decoded data…
+= 导出解码数据…
+
+Import edited data…
+= 导入编辑后的数据…
+
+Bring back data you exported and edited in another program; it is packed the way this save is packed when you save.
+= 导入你导出并在其他程序中编辑过的数据；保存时会按此存档的方式重新打包。
+
+Backups
+= 备份
+
+Back up now…
+= 立即备份…
+
+Keeps a named backup of the save file as it is on disk now, until you delete it. The save itself is not changed.
+= 将磁盘上当前的存档保留为一个命名备份，直到你删除它。存档本身不会改变。
+
+Back up and start a new game…
+= 备份并开始新游戏…
+
+Keeps a named backup, then removes the save file so the game starts a new game. Restore the backup any time to go back.
+= 保留一个命名备份，然后删除存档文件，让游戏开始新游戏。随时可恢复备份回到原来的进度。
+
+Backups for this save…
+= 此存档的备份…
+
+All backups of this save in one window: restore, compare, delete, name. Restoring backs up the current save first.
+= 在一个窗口中查看此存档的所有备份：恢复、比较、删除、命名。恢复前会先备份当前存档。
+
+Quick restore
+= 快速恢复
+
+Automatic backups are taken each time this app saves over the file.
+= 每次本应用覆盖保存文件时，都会自动创建备份。
+
+Put this version back
+= 恢复此版本
+
+Compare
+= 比较
+
+List what differs between this version and the open file
+= 列出此版本与已打开文件的差异
+
+Unname
+= 取消命名
+
+Let this copy be cleared out in time like the others
+= 让此副本和其他副本一样，过一段时间后被自动清理
+
+The original, from before the first save (.bak)
+= 首次保存前的原始文件 (.bak)
+
+Edit
+= 编辑
+
+Undo
+= 撤销
+
+Redo
+= 重做
+
+Find…
+= 查找…
+
+Copy changes as text
+= 将更改复制为文本
+
+The list of changes, to paste when asking for help or sharing what you did
+= 更改列表，可在求助或分享操作时粘贴。
+
+Preferences…
+= 偏好设置…
+
+View
+= 视图
+
+Show advanced values
+= 显示高级数值
+
+Show raw key names
+= 显示原始键名
+
+Changes panel
+= 更改面板
+
+Review changes before saving
+= 保存前检查更改
+
+Lists what changed and checks whether the game is running each time you save.
+= 每次保存时列出更改内容，并检查游戏是否正在运行。
+
+Zoom: Ctrl + / Ctrl − / Ctrl 0
+= 缩放：Ctrl + / Ctrl − / Ctrl 0
+
+Show decoded data as hex
+= 以十六进制显示解码数据
+
+Tools
+= 工具
+
+Locate game data folder (RPG Maker names)…
+= 定位游戏数据文件夹（RPG Maker 名称）…
+
+Only for RPG Maker saves.
+= 仅适用于 RPG Maker 存档。
+
+Decrypt with password…
+= 使用密码解密…
+
+Open a save first.
+= 请先打开存档。
+
+For encrypted saves (Easy Save 3, Godot). Easy Save's default password is tried automatically.
+= 用于加密存档（Easy Save 3、Godot）。会自动尝试 Easy Save 的默认密码。
+
+Change Steam account in this save…
+= 更改此存档中的 Steam 账号…
+
+Finds the Steam IDs stored in the save and changes them to another account's, so a save copied from a friend or another account loads.
+= 查找存档中保存的 Steam ID 并改为另一个账号的，使从朋友或其他账号复制来的存档能够加载。
+
+Cheat patches…
+= 作弊补丁…
+
+Only for saves opened in the hex view, which means a format the editor doesn't understand yet.
+= 仅适用于以十六进制视图打开的存档，即编辑器尚不支持的格式。
+
+Ready-made cheats for console saves (PlayStation 1–4, PSP, Vita, Dreamcast) from the Apollo patch collection.
+= 来自 Apollo 补丁集的主机存档（PlayStation 1–4、PSP、Vita、Dreamcast）现成作弊码。
+
+Find checksum…
+= 查找校验和…
+
+Looks for a checksum in a save the editor doesn't know (CRC, Adler, sums, MD5, SHA) and keeps it right whenever you save.
+= 在编辑器不认识的存档中查找校验和（CRC、Adler、求和、MD5、SHA），并在每次保存时保持其正确。
+
+Templates folder…
+= 模板文件夹…
+
+Your own templates for games the editor doesn't know: a JSON file per game that says where each value is. The folder has a guide with an example.
+= 为编辑器不认识的游戏准备的自定义模板：每个游戏一个 JSON 文件，说明每个数值所在位置。文件夹中有带示例的指南。
+
+Presets
+= 预设
+
+Save changes as a preset…
+= 将更改保存为预设…
+
+Keep the changes you made, to make them again on another save or slot
+= 保存你所做的更改，以便在其他存档或存档位上重做
+
+Apply a preset…
+= 应用预设…
+
+Make a saved set of changes on this save
+= 将已保存的一组更改应用到此存档
+
+Compare with another save…
+= 与另一个存档比较…
+
+List every value that differs from another save — handy for finding which value is your gold, HP, etc.
+= 列出与另一个存档不同的所有数值，适合找出哪个数值是金币、HP 等。
+
+Open another file in this archive
+= 打开此压缩包中的其他文件
+
+Copy character to another slot…
+= 将角色复制到其他存档位…
+
+Duplicate an Elden Ring character, e.g. to try something out on the copy
+= 复制一个 Elden Ring 角色，例如在副本上做尝试。
+
+Save or revert your changes first — copying works on the file as it is on disk.
+= 请先保存或还原更改——复制针对的是磁盘上的文件。
+
+Save or revert your changes first.
+= 请先保存或还原更改。
+
+Those two files aren't the same kind of save, so they can't be compared.
+= 这两个文件不是同一类存档，无法比较。
+
+Values that differ between this save and the other one. “Use theirs” copies the other save's value into this one.
+= 此存档与另一个存档中不同的数值。“使用对方的”会把另一个存档的数值复制到此存档。
+
+No differences — the saves hold the same values.
+= 没有差异——两个存档的数值相同。
+
+Use theirs
+= 使用对方的
+
+Back up and start a new game
+= 备份并开始新游戏
+
+The save is backed up under this name and then removed, so the game starts a new game. Restore the backup later to come back to it.
+= 存档会以此名称备份，然后被删除，让游戏开始新游戏。之后恢复该备份即可回到原来的进度。
+
+for example: first run
+= 例如：首轮游戏
+
+Back up and start new
+= 备份并新开
+
+Keep a named copy
+= 保留命名副本
+
+A copy of the file as it is on disk now, kept until you remove it.
+= 磁盘上当前文件的副本，在你删除之前一直保留。
+
+for example: before the final boss
+= 例如：最终 Boss 之前
+
+Keep
+= 保留
+
+Save manager
+= 存档管理器
+
+There is no save file here right now. The game makes a new one when you save in it, or restore a backup below to put one back.
+= 这里目前没有存档文件。在游戏中保存时会生成新的，或在下方恢复备份来放回一个。
+
+Keep backups in another folder…
+= 将备份保存到其他文件夹…
+
+Back to the default folder
+= 恢复默认文件夹
+
+backup name, e.g. first run
+= 备份名称，例如 首轮游戏
+
+Back up this save
+= 备份此存档
+
+Saves a named copy of the file as it is on disk now. It is kept until you delete it; the save itself is not changed.
+= 将磁盘上当前文件保存为命名副本。在你删除之前一直保留，存档本身不会改变。
+
+Saves a named backup, then removes the current save file so the game starts a new game. Restore the backup later to go back.
+= 保存一个命名备份，然后删除当前存档文件，让游戏开始新游戏。之后恢复该备份即可回到原来的进度。
+
+For games with a single save: use “Back up and start a new game”, play a new run, and restore the old backup later.
+= 对于只有单个存档的游戏：使用“备份并开始新游戏”，开一局新的，之后再恢复旧备份。
+
+No backups yet. One is made automatically each time you save, or press “Back up this save”.
+= 还没有备份。每次保存时会自动创建一个，也可以点“备份此存档”。
+
+No
+= 否
+
+Restore this backup
+= 恢复此备份
+
+Replaces the current save with this backup. The current save is backed up first, so you can undo it.
+= 用此备份替换当前存档。当前存档会先被备份，因此可以撤销。
+
+Shows what differs between this backup and the open save
+= 显示此备份与已打开存档的差异
+
+Make automatic
+= 设为自动
+
+Stops keeping this backup for good; it is cleared out in time like the automatic ones
+= 不再永久保留此备份；它会像自动备份一样，过一段时间后被清理
+
+Delete backup
+= 删除备份
+
+Permanently removes this backup
+= 永久删除此备份
+
+That backup is automatic now: it is cleared out in time like the others.
+= 该备份现在是自动备份：会像其他备份一样，过一段时间后被清理。
+
+Deleted the backup.
+= 已删除备份。
+
+That file has no cheat codes in it.
+= 该文件中没有作弊码。
+
+Cheat patches
+= 作弊补丁
+
+Game:
+= 游戏：
+
+name or title ID (SLUS-20312, BLES00371…)
+= 名称或标题 ID（SLUS-20312、BLES00371…）
+
+Open patch file…
+= 打开补丁文件…
+
+No patches were found from this save's file or folder name. Type the game's name or title ID.
+= 根据此存档的文件名或文件夹名没有找到补丁。请输入游戏名称或标题 ID。
+
+This save was unpacked with the patch file's own codes when it opened; they run again when you save.
+= 此存档在打开时已用补丁文件自带的代码解包；保存时这些代码会再次运行。
+
+Show codes for other files too
+= 同时显示其他文件的代码
+
+This one is a Python script, which only Apollo itself can run.
+= 这是一个 Python 脚本，只有 Apollo 本身才能运行。
+
+Big-endian (PS3)
+= 大端序 (PS3)
+
+Byte order for numbers in the codes. Set from the patch file's console; change it only if you know the save uses the other one.
+= 代码中数字的字节序。根据补丁文件所属主机自动设置；仅当你确定存档使用另一种字节序时才更改。
+
+Back up first: a code meant for another version of the game can damage the save. Codes change the data now; save to write the file.
+= 请先备份：用于其他版本游戏的代码可能损坏存档。代码会立即修改数据；保存后才会写入文件。
+
+The codes didn't change anything (the values may already be set).
+= 这些代码没有改变任何内容（数值可能已经设置好了）。
+
+No Steam ID was found in this save's data (some games key the save to the account in other ways).
+= 在此存档的数据中未找到 Steam ID（有些游戏以其他方式将存档与账号关联）。
+
+Change Steam account in this save
+= 更改此存档中的 Steam 账号
+
+Steam IDs in this save:
+= 此存档中的 Steam ID：
+
+Change it to:
+= 改为：
+
+17-digit Steam ID or account number
+= 17 位 Steam ID 或账号编号
+
+Accounts on this computer:
+= 这台电脑上的账号：
+
+Every copy of the ID changes; save to write the file. Some games also check the folder the save sits in.
+= 每处 ID 都会被更改；保存后才会写入文件。有些游戏还会检查存档所在的文件夹。
+
+Change
+= 更改
+
+Find checksum
+= 查找校验和
+
+No checksum the editor knows was found at the start or end of this file.
+= 在此文件的开头或末尾没有找到编辑器能识别的校验和。
+
+It may be encrypted, compressed, or checked with something the game made up. The value search still works on it.
+= 它可能已加密、压缩，或使用了游戏自创的校验方式。数值搜索仍然可用。
+
+Pick one to have it written again every time you save. Saving a few times and searching again narrows a long list.
+= 选择一个，每次保存时都会重新写入。多保存几次再搜索，可缩小长列表范围。
+
+(kept fixed)
+= （保持固定）
+
+Keep fixed
+= 保持固定
+
+Stop fixing the checksum
+= 停止固定校验和
+
+The checksum will be written again every time you save this file.
+= 每次保存此文件时，校验和都会被重新写入。
+
+Decrypt with password
+= 使用密码解密
+
+Some games encrypt their saves with a password built into the game.
+= 有些游戏使用内置在游戏中的密码加密存档。
+
+Supported: Easy Save 3 (Unity) and Godot encrypted files. Easy Save's default password is tried automatically.
+= 支持：Easy Save 3 (Unity) 和 Godot 加密文件。会自动尝试 Easy Save 的默认密码。
+
+password
+= 密码
+
+Decrypt
+= 解密
+
+That password didn't decrypt the file (or the encryption isn't one this editor knows).
+= 该密码无法解密此文件（或者这种加密方式本编辑器不支持）。
+
+Open
+= 打开
+
+Open a save file (Ctrl+O)
+= 打开存档文件 (Ctrl+O)
+
+Find saves
+= 查找存档
+
+Pick a game from the list to see the saves it has on this computer
+= 从列表中选择游戏，即可查看它在这台电脑上的存档
+
+Save changes to the file (Ctrl+S)
+= 将更改保存到文件 (Ctrl+S)
+
+Ctrl+Z
+= Ctrl+Z
+
+Ctrl+Y
+= Ctrl+Y
+
+Ren'Py 8.1+ signs its saves. Your Ren'Py key was found on this PC, so edited saves are re-signed and load normally.
+= Ren'Py 8.1+ 会对存档签名。已在这台电脑上找到你的 Ren'Py 密钥，因此编辑后的存档会被重新签名并正常加载。
+
+The game was running when this file was opened. Quit it before saving, or it may overwrite your changes.
+= 打开此文件时游戏正在运行。请在保存前退出游戏，否则它可能覆盖你的更改。
+
+Point to the game's data folder to see variable, switch and item names
+= 指定游戏的数据文件夹，即可看到变量、开关和物品的名称
+
+List everything you've changed since the last save
+= 列出自上次保存以来你更改的所有内容
+
+No unsaved changes
+= 没有未保存的更改
+
+Something went wrong — see the message at the top.
+= 出错了——请查看顶部的消息。
+
+This game's own screen: its stats, inventory and more, laid out like the game
+= 游戏界面：属性、背包等内容，按游戏原样排布
+
+Values
+= 数值
+
+Every editable value in a simple list
+= 以简单列表显示所有可编辑的数值
+
+Tree
+= 树状
+
+The full structure of the save, as nested groups
+= 以嵌套分组形式显示存档的完整结构
+
+Raw JSON
+= Raw JSON
+
+Edit the JSON text directly
+= 直接编辑 JSON 文本
+
+Apply
+= 应用
+
+Raw JSON applied.
+= 已应用 Raw JSON。
+
+Clear
+= 清除
+
+Bulk edit
+= 批量编辑
+
+Tick several values and set them all at once, or add to or multiply them
+= 勾选多个数值，可一次性设置，或统一加上某个数、乘以某个数
+
+Find on this screen  (Ctrl+F)
+= 在此界面中查找  (Ctrl+F)
+
+no match on this tab
+= 此标签页无匹配项
+
+Next
+= 下一个
+
+Prev
+= 上一个
+
+Raw keys
+= 原始键
+
+Everything else in this save is in the Values and Tree tabs.
+= 此存档的其余内容在“数值”和“树状”标签页中。
+
+The filter looks at names, keys and current values.
+= 筛选会匹配名称、键和当前数值。
+
+No editable values here. Try turning on Advanced, or use the Tree view.
+= 这里没有可编辑的数值。请尝试开启“高级”，或使用树状视图。
+
+Try part of a name (“gold”) or a current value (“1500”).
+= 试试输入名称的一部分（“gold”）或当前数值（“1500”）。
+
+Advanced values are hidden — tick Advanced to search them too.
+= 高级数值已隐藏——勾选“高级”后也可搜索它们。
+
+Changes
+= 更改
+
+Since you opened or last saved this file.
+= 自你打开或上次保存此文件以来。
+
+Copy as text
+= 复制为文本
+
+Copy the list of changes, to paste when asking for help or sharing what you did
+= 复制更改列表，可在求助或分享操作时粘贴
+
+Save as preset…
+= 另存为预设…
+
+Keep these changes to make them again on another save or slot
+= 保存这些更改，以便在其他存档或存档位上重做
+
+Revert all
+= 全部还原
+
+Put every value back as it was when the file was opened or last saved
+= 将所有数值恢复为打开文件或上次保存时的状态
+
+No changes yet.
+= 暂无更改。
+
+Revert
+= 还原
+
+No changes yet. Edited values are highlighted in orange.
+= 暂无更改。编辑过的数值会以橙色高亮显示。
+
+Whole document (Raw JSON edit)
+= 整个文档 (Raw JSON 编辑)
+
+Show in list
+= 在列表中显示
+
+Cairn saves in this slot
+= 此存档位中的 Cairn 存档
+
+This save's run
+= 此存档的这一局
+
+As on the game's slot card. The card's own copy of the play time updates the next time the game saves.
+= 与游戏存档位卡片上的显示一致。卡片自带的游玩时长会在游戏下次保存时更新。
+
+Named values
+= 已命名的数值
+
+Binary saves have no names. Find a value with Value search, click it, then name it here — names are remembered for this file.
+= 二进制存档没有名称。用“数值搜索”找到数值并点击它，然后在此命名——名称会针对此文件记住。
+
+Set
+= 设置
+
+Write this value (or press Enter)
+= 写入此数值（或按 Enter）
+
+Forget this name (the value is not changed)
+= 忘记此名称（数值不变）
+
+Add
+= 添加
+
+Value search
+= 数值搜索
+
+Don't know the number (a health bar, a hidden counter)? Start with “Unknown starting value”, then refine with Increased, Decreased or Changed after each in-game save.
+= 不知道具体数字（比如血条、隐藏计数器）？先选“未知初始值”，然后每次游戏内保存后，用“增加”“减少”或“已变化”来筛选。
+
+Know the value? Search for it, change it in-game, save, and refine with the new value. Don't know it (a health bar, a hidden counter)? Start with “Unknown starting value”, then refine with Increased, Decreased or Changed after each in-game save.
+= 知道数值？先搜索它，在游戏中修改并保存，再用新数值筛选。不知道（比如血条、隐藏计数器）？先选“未知初始值”，然后每次游戏内保存后，用“增加”“减少”或“已变化”来筛选。
+
+to
+= 至
+
+Refine
+= 筛选
+
+Re-reads the file from disk (save in-game first) and keeps only the locations that pass the test above
+= 从磁盘重新读取文件（请先在游戏内保存），只保留通过上方条件的位置
+
+Aligned
+= 对齐
+
+Only test offsets that are a multiple of the value size. Faster, and how most games store numbers.
+= 仅测试值大小整数倍的偏移量。更快，也符合大多数游戏存储数字的方式。
+
+Refine by itself each time the game saves
+= 游戏每次保存时自动筛选
+
+Watches the file and refines with the test above as soon as the game writes it again
+= 监视文件，游戏一再次写入就立即按上方条件筛选
+
+Every location is still in play.
+= 所有位置仍在候选之中。
+
+Big-endian
+= 大端序
+
+Most PC games use little-endian (unticked)
+= 大多数 PC 游戏使用小端序（不勾选）
+
+Go to
+= 转到
+
+hex offset
+= 十六进制偏移量
+
+Go
+= 转到
+
+Click to edit as this type
+= 点击以此类型编辑
+
+new value
+= 新数值
+
+Write
+= 写入
+
+Pick your game from the list; its saves on this computer are found for you
+= 从列表中选择你的游戏，会自动为你找到它在这台电脑上的存档
+
+or drag a file anywhere onto this window
+= 或将文件拖到此窗口的任意位置
+
+Recent files
+= 最近的文件
+
+Files you open will appear here.
+= 你打开的文件会显示在这里。
+
+Restore a backup…
+= 恢复备份…
+
+The file isn't there any more, but it has backups
+= 文件已不存在，但有备份
+
+Find your saves
+= 查找你的存档
+
+RPG Maker games usually keep saves in a “save” folder next to the game.
+= RPG Maker 游戏的存档通常位于游戏旁边的“save”文件夹中。
+
+What it can open
+= 可打开的内容
+
+Dismiss
+= 忽略
+
+(empty file)
+= （空文件）
+
+Unsaved changes
+= 未保存的更改
+
+You have unsaved changes. Save them before closing this file?
+= 有未保存的更改。关闭此文件前是否保存？
+
+Save and close
+= 保存并关闭
+
+Close without saving
+= 不保存并关闭
+
+Don't save
+= 不保存
+
+You have unsaved changes. Save them before closing?
+= 有未保存的更改。关闭前是否保存？
+
+# src/app/help.rs
+
+Help
+= 帮助
+
+Keyboard shortcuts
+= 键盘快捷键
+
+Supported games (website)
+= 支持的游戏（网站）
+
+Supported games…
+= 支持的游戏…
+
+Every game in the list, with what can be edited and where its saves are
+= 列表中的所有游戏，以及可编辑的内容和存档位置
+
+Website
+= 网站
+
+Report a problem…
+= 报告问题…
+
+Opens a form on GitHub. The version and system are filled in; your save is not sent.
+= 在 GitHub 上打开表单。版本和系统信息已自动填写；不会发送你的存档。
+
+Request a game…
+= 请求添加游戏…
+
+Opens a form on GitHub
+= 在 GitHub 上打开表单
+
+Licences and credits
+= 许可与致谢
+
+On a Mac, use Cmd instead of Ctrl.
+= 在 Mac 上请用 Cmd 代替 Ctrl。
+
+It builds on save-format research, tables and code from many other projects, each listed with its author and licence in the third-party notices.
+= 它基于许多其他项目的存档格式研究、数据表和代码，每一项的作者和许可证都列在第三方声明中。
+
+The interface uses egui and eframe (MIT or Apache-2.0).
+= 界面使用 egui 和 eframe（MIT 或 Apache-2.0）。
+
+Edit game saves safely. Everything stays on your device: nothing is uploaded, and every save is backed up before it is written.
+= 安全地编辑游戏存档。所有内容都保留在你的设备上，不会上传任何东西，每次写入存档前都会先备份。
+
+In the browser, Japanese, Chinese and Korean names may show as boxes. The downloadable app uses your computer's fonts for them.
+= 在浏览器中，日文、中文和韩文名称可能显示为方框。可下载的应用会使用你电脑上的字体来显示它们。
+
+Preferences
+= 偏好设置
+
+Look
+= 外观
+
+Language:
+= 语言：
+
+Same as the system
+= 跟随系统
+
+Menus, buttons and messages. Game screens and value names stay as the game has them.
+= 适用于菜单、按钮和消息。游戏界面和数值名称保持游戏原样。
+
+Theme:
+= 主题：
+
+Dark
+= 深色
+
+Light
+= 浅色
+
+Zoom:
+= 缩放：
+
+Reset
+= 重置
+
+Show the find-a-value guide in the hex view
+= 在十六进制视图中显示查找数值指南
+
+Saving
+= 保存
+
+Show the list of changes, and warn when the game is running, before writing the save
+= 写入存档前显示更改列表，并在游戏运行时发出警告
+
+Automatic backups to keep per save:
+= 每个存档保留的自动备份数：
+
+A backup is taken every time this app writes a save. Named backups are always kept.
+= 本应用每次写入存档时都会创建备份。命名备份始终保留。
+
+Backups go:
+= 备份位置：
+
+Choose a folder…
+= 选择文件夹…
+
+Back to the default
+= 恢复默认
+
+# src/app/home.rs
+
+Your games
+= 你的游戏
+
+looking for saves on this computer…
+= 正在这台电脑上查找存档…
+
+Click a game to open its newest save.
+= 点击游戏即可打开其最新存档。
+
+Other saves…
+= 其他存档…
+
+# src/app/safety.rs
+
+Keep what's shown
+= 保留当前显示的内容
+
+Hide this. Saving still asks before writing over the newer file.
+= 隐藏此提示。保存时若要覆盖较新的文件，仍会先询问。
+
+The save changed on disk
+= 磁盘上的存档已更改
+
+Saving now would put the version you opened, with your changes, over that newer file.
+= 现在保存会用你打开的版本（含你的更改）覆盖那个较新的文件。
+
+Either way, whatever is on disk now is backed up before anything is written.
+= 无论选哪种，写入之前都会先备份磁盘上现有的内容。
+
+Reload the newer file
+= 重新加载较新的文件
+
+Open what's on disk now. Your unsaved changes are dropped.
+= 打开磁盘上现有的内容。未保存的更改会被丢弃。
+
+Save anyway
+= 仍然保存
+
+Not saved. Your changes are still here.
+= 未保存。你的更改仍然保留。
+
+# src/app/tabs.rs
+
+Close this tab (Ctrl+W)
+= 关闭此标签页 (Ctrl+W)
+
+Open another save in a new tab (Ctrl+T)
+= 在新标签页中打开另一个存档 (Ctrl+T)
+
+Pasted. Save to keep it, or Undo.
+= 已粘贴。保存以保留，或撤销。
+
+That field already has this value.
+= 该字段已是此数值。
+
+This field can't take the copied value.
+= 此字段无法接受复制的数值。
+
+Paste into this save
+= 粘贴到此存档
+
+Writes the copied values to the same places in this save. One Undo takes it back.
+= 将复制的数值写入此存档中的相同位置。撤销一次即可还原。
+
+or right-click a value › Paste here
+= 或右键点击数值 › 在此粘贴
+
+Forget the copied values
+= 清除复制的数值
+
+# src/app/tools.rs
+
+Ticks every editable value in the list below. Search first to pick a group, e.g. “count” or a section's name.
+= 勾选下方列表中所有可编辑的数值。请先搜索以选出一组，例如“count”或某个分区的名称。
+
+Untick all
+= 全部取消勾选
+
+Changes every ticked value; one Undo puts them all back
+= 更改所有已勾选的数值；撤销一次即可全部还原
+
+Done
+= 完成
+
+No changes to copy yet.
+= 暂无可复制的更改。
+
+Make some changes first: a preset keeps the changes you made, to make them again on another save.
+= 请先做一些更改：预设会保存你所做的更改，以便在其他存档上重做。
+
+Save changes as a preset
+= 将更改保存为预设
+
+for example: max gold and potions
+= 例如：金币和药水拉满
+
+Replace a preset with the same name
+= 替换同名预设
+
+Your browser downloads the preset; open it again with Apply preset.
+= 浏览器会下载该预设；之后用“应用预设”再次打开。
+
+Save preset
+= 保存预设
+
+Your browser downloaded the preset.
+= 浏览器已下载该预设。
+
+Apply a preset
+= 应用预设
+
+No presets yet.
+= 暂无预设。
+
+Make some changes, then use Save changes as a preset (in the Changes panel or Tools › Presets). Presets shared by others open with Open a preset file.
+= 先做一些更改，然后使用“将更改保存为预设”（在更改面板或 工具 › 预设 中）。他人分享的预设可通过“打开预设文件”打开。
+
+Delete
+= 删除
+
+Delete this preset (saves are not changed)
+= 删除此预设（存档不会改变）
+
+Open a preset file…
+= 打开预设文件…
+
+Presets folder
+= 预设文件夹
+
+Use these names for every save of this game
+= 对此游戏的所有存档使用这些名称
+
+Makes a template from your names, so every save of the game opens with these values listed by name, ready to change. Use View › Show decoded data as hex to find more values later.
+= 用你起的名称生成模板，这样此游戏的每个存档打开时，这些数值都会按名称列出，可直接修改。之后可用 视图 › 以十六进制显示解码数据 查找更多数值。
+
+Game
+= 游戏
+
+the game's name
+= 游戏名称
+
+Recognise its saves by:
+= 识别其存档的依据：
+
+Only if every save of the game is the same size
+= 仅当此游戏的所有存档大小相同时
+
+Replace a template with the same name
+= 替换同名模板
+
+Make template
+= 创建模板
+
+Use for every save…
+= 用于所有存档…
+
+Make a template from these names, so every save of this game opens with them listed
+= 用这些名称创建模板，使此游戏的每个存档打开时都会列出它们
+
+Export…
+= 导出…
+
+Save these names to a file to share or keep
+= 将这些名称保存到文件，以便分享或留存
+
+Import…
+= 导入…
+
+Add names from a file someone shared (exported names or a template)
+= 从他人分享的文件（导出的名称或模板）中添加名称
+
+Find a value, step by step
+= 分步查找数值
+
+Hide
+= 隐藏
+
+Bring it back from Value search
+= 可从“数值搜索”中重新显示
+
+Watches the file and refines with the test chosen in Value search as soon as the game writes it again
+= 监视文件，游戏一再次写入就立即按“数值搜索”中选定的条件筛选
+
+No luck? Try another number type, or
+= 没找到？试试其他数字类型，或者
+
+The game saved, but you have unsaved changes here, so refining stopped. Revert or save them, then refine.
+= 游戏已保存，但这里有未保存的更改，因此筛选已停止。请还原或保存更改，然后再筛选。
+
+# src/values_view.rs
+
+Copy for another save
+= 复制到其他存档
+
+Then paste it into another open save (or another field)
+= 然后可粘贴到另一个已打开的存档（或另一个字段）
+
+Paste here
+= 在此粘贴
+
+# src/widgets.rs
+
+Type to filter…
+= 输入以筛选…
+
+Nothing in this save matches
+= 此存档中没有匹配项
+
+Copy value
+= 复制数值
+
+Copy name
+= 复制名称
+
+Copy path
+= 复制路径
+
+The largest value this field accepts
+= 此字段可接受的最大值
+
+The smallest value this field accepts
+= 此字段可接受的最小值
+
+Show in Tree
+= 在树状视图中显示
+
+↩ marks a line break (¶ a carriage return)
+= ↩ 表示换行（¶ 表示回车符）
+
+Decrease by 1 (Shift: 10, Ctrl: 100)
+= 减 1（Shift：10，Ctrl：100）
+
+Increase by 1 (Shift: 10, Ctrl: 100)
+= 加 1（Shift：10，Ctrl：100）
+
+empty
+= 空
+
+# src/file_browser.rs
+
+Allow “All files access” so the editor can open and save game saves on your phone.
+= 请允许“所有文件访问权限”，以便编辑器在你的手机上打开和保存游戏存档。
+
+Allow access…
+= 允许访问…
+
+Up
+= 上一级
+
+File name:
+= 文件名：
+
+(empty folder)
+= （空文件夹）
+
+# src/hex_view.rs and view options
+
+Exact value
+= 精确数值
+
+Value between
+= 数值范围
+
+Unknown starting value
+= 未知初始值
+
+Changed
+= 已变化
+
+Unchanged
+= 未变化
+
+Increased
+= 增加
+
+Decreased
+= 减少
+
+Increased by
+= 增加了
+
+Decreased by
+= 减少了
+
+Advanced
+= 高级
+
+# tabs, copy and paste, status
+
+Opened {0} ({1}) — {2}.
+= 已打开 {0}（{1}）— {2}。
+
+Changes ({0})
+= 更改（{0}）
+
+Filter the tree by name or value  (Ctrl+F)
+= 按名称或数值筛选树  (Ctrl+F)
+
+Search names or values  (Ctrl+F)
+= 搜索名称或数值  (Ctrl+F)
+
+1 unsaved change
+= 1 项未保存的更改
+
+{0} unsaved changes
+= {0} 项未保存的更改
+
+Saved and verified ({0}).
+= 已保存并验证（{0}）。
+
+You have unsaved changes. Save them before opening {0}?
+= 有未保存的更改。打开 {0} 之前要保存吗？
+
+Showing {0}.
+= 正在显示 {0}。
+
+New tab
+= 新标签页
+
+Copied: {0} from {1}
+= 已复制：来自 {1} 的 {0}
+
+Copied: {0} ({1} values) from {2}
+= 已复制：来自 {2} 的 {0}（{1} 个数值）
+
+Copied {0}. Open another save (or tab) and paste it there.
+= 已复制 {0}。打开另一个存档（或标签页）并粘贴。
+
+Copied {0} ({1} values). Open another save (or tab) and use Paste.
+= 已复制 {0}（{1} 个数值）。打开另一个存档（或标签页）并使用粘贴。
+
+Copy all of {0} for another save
+= 复制 {0} 的全部内容到另一个存档
+
+{0}: this save already has the same values.
+= {0}：此存档已有相同的数值。
+
+{0} isn't in this save in the same place, so nothing was pasted.
+= {0} 在此存档中的位置不同，未粘贴任何内容。
+
+Pasted {0} from {1}. Save to keep it, or Undo.
+= 已从 {1} 粘贴 {0}。保存以保留，或撤销。
+
+Pasted {0} values of {1} from {2}; {3} aren't in this save and were left out.
+= 已从 {2} 粘贴 {1} 的 {0} 个数值；{3} 个在此存档中不存在，已跳过。
+

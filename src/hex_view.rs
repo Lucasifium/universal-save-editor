@@ -187,15 +187,15 @@ impl ScanMode {
 
     pub fn name(self) -> &'static str {
         match self {
-            ScanMode::Exact => "Exact value",
-            ScanMode::Between => "Value between",
-            ScanMode::Unknown => "Unknown starting value",
-            ScanMode::Changed => "Changed",
-            ScanMode::Unchanged => "Unchanged",
-            ScanMode::Increased => "Increased",
-            ScanMode::Decreased => "Decreased",
-            ScanMode::IncreasedBy => "Increased by",
-            ScanMode::DecreasedBy => "Decreased by",
+            ScanMode::Exact => crate::i18n::tr("Exact value"),
+            ScanMode::Between => crate::i18n::tr("Value between"),
+            ScanMode::Unknown => crate::i18n::tr("Unknown starting value"),
+            ScanMode::Changed => crate::i18n::tr("Changed"),
+            ScanMode::Unchanged => crate::i18n::tr("Unchanged"),
+            ScanMode::Increased => crate::i18n::tr("Increased"),
+            ScanMode::Decreased => crate::i18n::tr("Decreased"),
+            ScanMode::IncreasedBy => crate::i18n::tr("Increased by"),
+            ScanMode::DecreasedBy => crate::i18n::tr("Decreased by"),
         }
     }
 

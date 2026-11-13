@@ -2,6 +2,7 @@
 //! cloud sync ran) so older data is never put over it without asking, and showing failures
 //! where they can't be missed.
 
+use crate::i18n::tr;
 use super::{file_name, modal, App, StatusKind};
 use crate::formats::Content;
 use crate::theme;
@@ -111,7 +112,7 @@ impl App {
                         if !gone && ui.button(if self.dirty { "Reload (drop my changes)" } else { "Reload" }).clicked() {
                             reload = true;
                         }
-                        if ui.button("Keep what's shown").on_hover_text("Hide this. Saving still asks before writing over the newer file.").clicked() {
+                        if ui.button(tr("Keep what's shown")).on_hover_text(tr("Hide this. Saving still asks before writing over the newer file.")).clicked() {
                             keep = true;
                         }
                     });
@@ -120,7 +121,7 @@ impl App {
             if let Some(msg) = &self.banner {
                 strip(ui, theme::ERR, |ui| {
                     ui.add(egui::Label::new(RichText::new(msg).color(theme::fg(ui, theme::ERR))).wrap());
-                    if ui.button("Dismiss").clicked() {
+                    if ui.button(tr("Dismiss")).clicked() {
                         dismiss = true;
                     }
                 });
@@ -144,26 +145,26 @@ impl App {
     pub(super) fn stale_dialog(&mut self, ctx: &egui::Context) {
         let Some(path) = self.stale_save.clone() else { return };
         let mut choice = None;
-        modal(ctx, "The save changed on disk", |ui| {
+        modal(ctx, tr("The save changed on disk"), |ui| {
             ui.set_max_width(460.0);
             let name = file_name(&path);
             if path.exists() {
                 ui.label(format!("{name} was written by something else after you opened it \u{2014} most likely the game saved, or a cloud sync brought in another copy."));
                 ui.add_space(4.0);
-                ui.label("Saving now would put the version you opened, with your changes, over that newer file.");
+                ui.label(tr("Saving now would put the version you opened, with your changes, over that newer file."));
             } else {
                 ui.label(format!("{name} was moved or deleted after you opened it. Saving puts your version back in its place."));
             }
-            ui.weak("Either way, whatever is on disk now is backed up before anything is written.");
+            ui.weak(tr("Either way, whatever is on disk now is backed up before anything is written."));
             ui.add_space(8.0);
             ui.horizontal_wrapped(|ui| {
-                if path.exists() && ui.add(egui::Button::new(RichText::new("Reload the newer file").color(Color32::WHITE)).fill(theme::ACCENT)).on_hover_text("Open what's on disk now. Your unsaved changes are dropped.").clicked() {
+                if path.exists() && ui.add(egui::Button::new(RichText::new(tr("Reload the newer file")).color(Color32::WHITE)).fill(theme::ACCENT)).on_hover_text(tr("Open what's on disk now. Your unsaved changes are dropped.")).clicked() {
                     choice = Some(0);
                 }
-                if ui.button("Save anyway").clicked() {
+                if ui.button(tr("Save anyway")).clicked() {
                     choice = Some(1);
                 }
-                if ui.button("Cancel").clicked() {
+                if ui.button(tr("Cancel")).clicked() {
                     choice = Some(2);
                 }
             });
@@ -178,7 +179,7 @@ impl App {
             }
             Some(_) => {
                 self.stale_save = None;
-                self.info("Not saved. Your changes are still here.");
+                self.info(tr("Not saved. Your changes are still here."));
             }
             None => {}
         }

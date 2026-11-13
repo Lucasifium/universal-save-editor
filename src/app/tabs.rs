@@ -4,6 +4,7 @@
 //! fields in a `Parked`, and switching tabs swaps the two. The rest of the app works on
 //! "the open file" exactly as it did with one file.
 
+use crate::i18n::tr;
 use super::*;
 
 macro_rules! parked {
@@ -134,7 +135,7 @@ impl App {
         }
         if let Some(d) = &self.doc {
             let name = file_name(&d.path);
-            self.info(format!("Showing {name}."));
+            self.info(crate::i18n::trf("Showing {0}.", &[&name]));
         }
     }
 
@@ -202,7 +203,7 @@ impl App {
             ScrollArea::horizontal().id_salt("file_tabs_scroll").show(ui, |ui| {
                 ui.horizontal(|ui| {
                     for i in 0..self.tab_count() {
-                        let name = self.tab_path(i).map(file_name).unwrap_or_else(|| "New tab".into());
+                        let name = self.tab_path(i).map(file_name).unwrap_or_else(|| tr("New tab").into());
                         let text = if self.tab_dirty(i) { format!("\u{2022} {name}") } else { name };
                         let full = self.tab_path(i).map(|p| p.display().to_string()).unwrap_or_default();
                         ui.group(|ui| {
@@ -215,12 +216,12 @@ impl App {
                             if r.middle_clicked() {
                                 close = Some(i);
                             }
-                            if ui.small_button("\u{00D7}").on_hover_text("Close this tab (Ctrl+W)").clicked() {
+                            if ui.small_button("\u{00D7}").on_hover_text(tr("Close this tab (Ctrl+W)")).clicked() {
                                 close = Some(i);
                             }
                         });
                     }
-                    if ui.button("+").on_hover_text("Open another save in a new tab (Ctrl+T)").clicked() {
+                    if ui.button("+").on_hover_text(tr("Open another save in a new tab (Ctrl+T)")).clicked() {
                         pick = Some(usize::MAX);
                     }
                 });
@@ -273,9 +274,9 @@ impl App {
         let from = file_name(&d.path);
         let n = values.len();
         self.ok(if n == 1 {
-            format!("Copied {what}. Open another save (or tab) and paste it there.")
+            crate::i18n::trf("Copied {0}. Open another save (or tab) and paste it there.", &[&what])
         } else {
-            format!("Copied {what} ({n} values). Open another save (or tab) and use Paste.")
+            crate::i18n::trf("Copied {0} ({1} values). Open another save (or tab) and use Paste.", &[&what, &n])
         });
         self.tabs.clip = Some(Clip { what, from, values });
     }
@@ -330,10 +331,10 @@ impl App {
         let (pasted, skipped) = self.paste_values(&clip.values);
         let what = &clip.what;
         match (pasted, skipped) {
-            (0, 0) => self.info(format!("{what}: this save already has the same values.")),
-            (0, _) => self.fail(format!("{what} isn't in this save in the same place, so nothing was pasted.")),
-            (_, 0) => self.ok(format!("Pasted {what} from {}. Save to keep it, or Undo.", clip.from)),
-            _ => self.ok(format!("Pasted {pasted} values of {what} from {}; {skipped} aren't in this save and were left out.", clip.from)),
+            (0, 0) => self.info(crate::i18n::trf("{0}: this save already has the same values.", &[what])),
+            (0, _) => self.fail(crate::i18n::trf("{0} isn't in this save in the same place, so nothing was pasted.", &[what])),
+            (_, 0) => self.ok(crate::i18n::trf("Pasted {0} from {1}. Save to keep it, or Undo.", &[what, &clip.from])),
+            _ => self.ok(crate::i18n::trf("Pasted {0} values of {1} from {2}; {3} aren't in this save and were left out.", &[&pasted, what, &clip.from, &skipped])),
         }
         self.tabs.clip = Some(clip);
     }
@@ -342,9 +343,9 @@ impl App {
     pub(super) fn paste_one_at(&mut self, ptr: &str) {
         let Some(v) = self.tabs.clip.as_ref().and_then(|c| (c.values.len() == 1).then(|| c.values[0].1.clone())) else { return };
         match self.paste_values(&[(ptr.to_string(), v)]) {
-            (1.., _) => self.ok("Pasted. Save to keep it, or Undo."),
-            (0, 0) => self.info("That field already has this value."),
-            _ => self.fail("This field can't take the copied value."),
+            (1.., _) => self.ok(tr("Pasted. Save to keep it, or Undo.")),
+            (0, 0) => self.info(tr("That field already has this value.")),
+            _ => self.fail(tr("This field can't take the copied value.")),
         }
     }
 
@@ -353,25 +354,25 @@ impl App {
         let Some(c) = &self.tabs.clip else { return };
         let n = c.values.len();
         let text = if n == 1 {
-            format!("Copied: {} from {}", c.what, c.from)
+            crate::i18n::trf("Copied: {0} from {1}", &[&c.what, &c.from])
         } else {
-            format!("Copied: {} ({n} values) from {}", c.what, c.from)
+            crate::i18n::trf("Copied: {0} ({1} values) from {2}", &[&c.what, &n, &c.from])
         };
         let mut paste = false;
         let mut clear = false;
         ui.horizontal_wrapped(|ui| {
             ui.label(RichText::new(text).color(theme::ACCENT));
             if ui
-                .button("Paste into this save")
-                .on_hover_text("Writes the copied values to the same places in this save. One Undo takes it back.")
+                .button(tr("Paste into this save"))
+                .on_hover_text(tr("Writes the copied values to the same places in this save. One Undo takes it back."))
                 .clicked()
             {
                 paste = true;
             }
             if n == 1 {
-                ui.weak("or right-click a value \u{203A} Paste here");
+                ui.weak(tr("or right-click a value \u{203A} Paste here"));
             }
-            if ui.small_button("\u{00D7}").on_hover_text("Forget the copied values").clicked() {
+            if ui.small_button("\u{00D7}").on_hover_text(tr("Forget the copied values")).clicked() {
                 clear = true;
             }
         });

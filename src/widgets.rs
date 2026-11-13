@@ -1,6 +1,7 @@
 //! Reusable editing widgets. Editors never mutate data directly: they return the
 //! new value so the app can record it for undo/redo and change tracking.
 
+use crate::i18n::tr;
 use crate::theme;
 use eframe::egui::{self, Color32, Response, RichText, Sense, TextEdit, Ui, WidgetText};
 use serde_json::{Number, Value};
@@ -125,7 +126,7 @@ pub fn choice_editor(ui: &mut Ui, id_src: &str, current: &str, list: &[String], 
     let fid = id.with("filter");
     egui::ComboBox::from_id_salt(id).selected_text(current).width(width.min(260.0)).height(340.0).show_ui(ui, |ui| {
         let mut filter = ui.data(|d| d.get_temp::<String>(fid)).unwrap_or_default();
-        let r = ui.add(TextEdit::singleline(&mut filter).hint_text("Type to filter…").desired_width(f32::INFINITY));
+        let r = ui.add(TextEdit::singleline(&mut filter).hint_text(tr("Type to filter…")).desired_width(f32::INFINITY));
         if ui.memory(|m| m.focused().is_none()) {
             r.request_focus();
         }
@@ -154,7 +155,7 @@ pub fn id_picker(ui: &mut Ui, id_src: &str, text: &mut String, known: &[String],
     let list: Vec<&String> = known.iter().filter(|k| shown.is_empty() || k.to_lowercase().contains(&shown)).collect();
     egui::ComboBox::from_id_salt(("id_picker", id_src)).selected_text("From this save").width(140.0).height(300.0).show_ui(ui, |ui| {
         if list.is_empty() {
-            ui.weak("Nothing in this save matches");
+            ui.weak(tr("Nothing in this save matches"));
         }
         for k in list {
             if ui.selectable_label(false, k).clicked() {
@@ -206,28 +207,28 @@ fn copy_form(v: &Value) -> String {
 /// The right-click menu of a value: copy, range shortcuts, revert, show in Tree.
 fn value_menu(resp: &Response, ptr: &str, v: &Value, editable: bool, opts: &EditOpts, out: &mut EditOut) {
     resp.context_menu(|ui| {
-        if ui.button("Copy value").clicked() {
+        if ui.button(tr("Copy value")).clicked() {
             ui.ctx().copy_text(copy_form(v));
             ui.close_menu();
         }
         if let Some(n) = opts.name {
-            if ui.button("Copy name").clicked() {
+            if ui.button(tr("Copy name")).clicked() {
                 ui.ctx().copy_text(n.to_string());
                 ui.close_menu();
             }
         }
-        if !ptr.is_empty() && ui.button("Copy path").clicked() {
+        if !ptr.is_empty() && ui.button(tr("Copy path")).clicked() {
             ui.ctx().copy_text(ptr.to_string());
             ui.close_menu();
         }
         if editable {
             if let Some((lo, hi)) = opts.tree.and_then(|t| t.range(ptr)) {
                 ui.separator();
-                if &hi != v && ui.button(format!("Set to maximum ({})", display(&hi))).on_hover_text("The largest value this field accepts").clicked() {
+                if &hi != v && ui.button(format!("Set to maximum ({})", display(&hi))).on_hover_text(tr("The largest value this field accepts")).clicked() {
                     out.edit = Some(hi);
                     ui.close_menu();
                 }
-                if &lo != v && ui.button(format!("Set to minimum ({})", display(&lo))).on_hover_text("The smallest value this field accepts").clicked() {
+                if &lo != v && ui.button(format!("Set to minimum ({})", display(&lo))).on_hover_text(tr("The smallest value this field accepts")).clicked() {
                     out.edit = Some(lo);
                     ui.close_menu();
                 }
@@ -242,7 +243,7 @@ fn value_menu(resp: &Response, ptr: &str, v: &Value, editable: bool, opts: &Edit
         }
         if opts.show_in_tree && !ptr.is_empty() {
             ui.separator();
-            if ui.button("Show in Tree").clicked() {
+            if ui.button(tr("Show in Tree")).clicked() {
                 out.go_to_tree = true;
                 ui.close_menu();
             }
@@ -298,7 +299,7 @@ fn editor_body(ui: &mut Ui, id_src: &str, v: &Value, editable: bool, width: f32,
             let mut text = escape_breaks(s);
             let id = ui.make_persistent_id(("str", id_src));
             let resp = ui.add(TextEdit::singleline(&mut text).id(id).desired_width(width));
-            let resp = if s.contains(['\n', '\r']) { resp.on_hover_text("\u{21A9} marks a line break (\u{00B6} a carriage return)") } else { resp };
+            let resp = if s.contains(['\n', '\r']) { resp.on_hover_text(tr("\u{21A9} marks a line break (\u{00B6} a carriage return)")) } else { resp };
             let resp = match resp.hovered().then(|| hover_extra(opts, id_src, v)).flatten() {
                 Some(t) => resp.on_hover_text(t),
                 None => resp,
@@ -348,10 +349,10 @@ fn editor_body(ui: &mut Ui, id_src: &str, v: &Value, editable: bool, width: f32,
                 // Big values (experience, gold) are typed, not stepped.
                 if let Some(i) = n.as_i64().filter(|i| i.unsigned_abs() <= 5000) {
                     let step = ui.input(|inp| if inp.modifiers.ctrl || inp.modifiers.command { 100 } else if inp.modifiers.shift { 10 } else { 1 });
-                    if ui.small_button("\u{2212}").on_hover_text("Decrease by 1 (Shift: 10, Ctrl: 100)").clicked() {
+                    if ui.small_button("\u{2212}").on_hover_text(tr("Decrease by 1 (Shift: 10, Ctrl: 100)")).clicked() {
                         out = Some(Value::from(i.saturating_sub(step)));
                     }
-                    if ui.small_button("+").on_hover_text("Increase by 1 (Shift: 10, Ctrl: 100)").clicked() {
+                    if ui.small_button("+").on_hover_text(tr("Increase by 1 (Shift: 10, Ctrl: 100)")).clicked() {
                         out = Some(Value::from(i.saturating_add(step)));
                     }
                 }
@@ -359,7 +360,7 @@ fn editor_body(ui: &mut Ui, id_src: &str, v: &Value, editable: bool, width: f32,
             (out, Some(resp))
         }
         Value::Null => {
-            let r = ui.label(RichText::new("empty").weak().italics());
+            let r = ui.label(RichText::new(tr("empty")).weak().italics());
             (None, Some(r))
         }
         _ => (None, None),

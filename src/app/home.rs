@@ -1,6 +1,7 @@
 //! "Your games" on the start page: the games whose saves were found on this computer, each
 //! with its newest save one click away.
 
+use crate::i18n::tr;
 use super::{file_name, human_size, App, GamePicker};
 use crate::games::{self, Found, GAMES};
 use crate::theme;
@@ -67,10 +68,10 @@ impl App {
         let mut show_game: Option<Option<usize>> = None;
         theme::card(ui, |ui| {
             ui.horizontal(|ui| {
-                ui.label(RichText::new("Your games").family(theme::semibold_family()).size(16.0));
+                ui.label(RichText::new(tr("Your games")).family(theme::semibold_family()).size(16.0));
                 if !done {
                     ui.spinner();
-                    ui.weak("looking for saves on this computer\u{2026}");
+                    ui.weak(tr("looking for saves on this computer\u{2026}"));
                 }
             });
             if rows.is_empty() {
@@ -81,7 +82,7 @@ impl App {
                 });
                 return;
             }
-            ui.weak("Click a game to open its newest save.");
+            ui.weak(tr("Click a game to open its newest save."));
             for r in rows.iter().take(SHOWN) {
                 for s in [&r.name, &r.newest.path.to_string_lossy().to_string()] {
                     theme::cjk_for(ui.ctx(), s);
@@ -99,7 +100,7 @@ impl App {
                     ui.add(egui::Label::new(RichText::new(line).weak().size(12.5)).truncate());
                     if r.count > 1 {
                         ui.with_layout(egui::Layout::right_to_left(egui::Align::Center), |ui| {
-                            if ui.small_button("Other saves\u{2026}").clicked() {
+                            if ui.small_button(tr("Other saves\u{2026}")).clicked() {
                                 show_game = Some(Some(r.game));
                             }
                         });

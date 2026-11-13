@@ -38,6 +38,9 @@
 - Issue forms on GitHub for save problems and game requests
 - Dialogs and the save manager fit narrow windows
 
+### Languages
+- The interface is in English, German, Spanish, French, Brazilian Portuguese, Japanese and Simplified Chinese; it follows the system language, and Edit › Preferences › Language changes it
+
 ### Several saves at once
 - Open several saves in tabs; each keeps its own changes and undo history
 - Copy a value or a whole group (an inventory, a character) and paste it into another save

@@ -33,6 +33,8 @@ serde_yaml = "0.9"
 plist = "1"
 rmpv = "1"
 bson = "2"
+# The system language, to show the interface in it.
+sys-locale = "0.3"
 # Extra compression wrappers.
 zstd = "0.13"
 lz4_flex = "0.11"
@@ -77,6 +79,8 @@ rfd = "0.15"
 wasm-bindgen = "0.2"
 wasm-bindgen-futures = "0.4"
 js-sys = "0.3"
+# The browser's language.
+sys-locale = { version = "0.3", features = ["js"] }
 web-sys = { version = "0.3", features = ["Window", "Document", "Element", "HtmlElement", "HtmlInputElement", "HtmlAnchorElement", "HtmlCanvasElement", "FileList", "File", "Blob", "BlobPropertyBag", "Url", "Event", "EventTarget"] }
 
 [target.'cfg(target_os = "android")'.dependencies]

@@ -3805,6 +3805,18 @@ dependencies = [
 ]
 
 [[package]]
+name = "sys-locale"
+version = "0.3.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "8eab9a99a024a169fe8a903cf9d4a3b3601109bcc13bd9e3c6fff259138626c4"
+dependencies = [
+ "js-sys",
+ "libc",
+ "wasm-bindgen",
+ "web-sys",
+]
+
+[[package]]
 name = "tap"
 version = "1.0.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -4156,6 +4168,7 @@ dependencies = [
  "sha2",
  "sha3",
  "snap",
+ "sys-locale",
  "toml_edit 0.22.27",
  "wasm-bindgen",
  "wasm-bindgen-futures",
