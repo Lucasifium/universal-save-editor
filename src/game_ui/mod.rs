@@ -31,6 +31,7 @@ mod pathfinder;
 mod planet_crafter;
 mod pokemon;
 mod expedition33;
+mod ffr;
 mod fallout3nv;
 mod nier;
 mod sims;
@@ -46,6 +47,7 @@ mod totalwar;
 mod trucks;
 mod x4;
 mod mgsv;
+mod woh;
 
 use crate::theme;
 use crate::tree::TreeDoc;
@@ -151,6 +153,7 @@ pub enum Game {
     Repo,
     Fallout3Nv,
     Nier,
+    WorldOfHorror,
     Sims1,
     Sims2,
     Sims4,
@@ -158,6 +161,7 @@ pub enum Game {
     DeadRising2,
     LegoBatman,
     PlanetCrafter,
+    FfResonance,
     /// A table-driven screen (see `simple.rs`).
     Simple(u16),
 }
@@ -234,6 +238,7 @@ impl Game {
             Game::Expedition33 => "Party",
             Game::Fallout3Nv => "Character",
             Game::Nier => "YoRHa",
+            Game::WorldOfHorror => "Unlocks",
             Game::Sims1 | Game::Sims2 => "Families",
             Game::Sims4 => "Households",
             Game::Phasmophobia => "Ghost hunter",
@@ -242,6 +247,7 @@ impl Game {
             Game::DeadRising | Game::DeadRising2 => "Survivor",
             Game::LegoBatman => "Studs",
             Game::PlanetCrafter => "Terraformer",
+            Game::FfResonance => "Party",
             Game::Simple(i) => simple::tab_label(i),
             _ => "Character",
         }
@@ -338,6 +344,7 @@ pub fn detect(kind: &str, root: &Value) -> Option<Game> {
         crate::fmt::starbound::KIND_PLAYER => Game::Starbound,
         crate::fmt::fos::KIND => Game::Fallout3Nv,
         crate::fmt::nier::KIND => Game::Nier,
+        k if woh::is_woh(k, root) => Game::WorldOfHorror,
         crate::fmt::sims1::KIND => Game::Sims1,
         crate::fmt::sims2::KIND => Game::Sims2,
         crate::fmt::sims4::KIND => Game::Sims4,
@@ -345,6 +352,7 @@ pub fn detect(kind: &str, root: &Value) -> Option<Game> {
         crate::fmt::dead_rising::KIND_DR2 | crate::fmt::dead_rising::KIND_OTR => Game::DeadRising2,
         crate::fmt::ttgames::KIND => Game::LegoBatman,
         crate::fmt::planet_crafter::KIND => Game::PlanetCrafter,
+        crate::fmt::ffr::KIND => Game::FfResonance,
         crate::fmt::goldensun::KIND_GS1 | crate::fmt::goldensun::KIND_GS2 => Game::GoldenSun,
         _ if coop::is_phasmophobia(root) => Game::Phasmophobia,
         _ if coop::is_lethal_company(root) => Game::LethalCompany,
@@ -440,6 +448,7 @@ pub fn show(game: Game, ui: &mut Ui, cx: &mut GameCtx) {
         Game::Expedition33 => expedition33::show(ui, cx),
         Game::Fallout3Nv => fallout3nv::show(ui, cx),
         Game::Nier => nier::show(ui, cx),
+        Game::WorldOfHorror => woh::show(ui, cx),
         Game::Sims1 => sims::show(ui, cx, false),
         Game::Sims2 => sims::show(ui, cx, true),
         Game::Sims4 => sims::show4(ui, cx),
@@ -450,6 +459,7 @@ pub fn show(game: Game, ui: &mut Ui, cx: &mut GameCtx) {
         Game::DeadRising2 => dead_rising::dead_rising2(ui, cx),
         Game::LegoBatman => lego::show(ui, cx),
         Game::PlanetCrafter => planet_crafter::show(ui, cx),
+        Game::FfResonance => ffr::show(ui, cx),
         Game::Simple(i) => simple::show(i, ui, cx),
         Game::RenPy => screens2::renpy(ui, cx),
         Game::MassEffect => screens2::mass_effect(ui, cx),
