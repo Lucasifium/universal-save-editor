@@ -136,6 +136,7 @@ pub mod deusex;
 pub mod xcom2;
 pub mod sn2;
 pub mod atomic_heart;
+pub mod deathloop;
 pub mod xcom_eu;
 pub mod ff7;
 pub mod ff7r;

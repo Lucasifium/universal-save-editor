@@ -3,7 +3,7 @@
 
 use super::{List, Max, Section, Shape, Spec, Table};
 
-pub static SPECS: &[Spec] = &[COTL, FALLOUT_SHELTER, DRG, S1_MONEY, S1_RANK, S1_TIME, S1_GAME, SOTF_STATE, SOTF_GAME, SOTF_WEATHER, SOTF_ITEMS, DMD, CUPHEAD, ANTIMATTER, PVZ, CELESTE, DRGS, KH3, RF4S, SKY1ST, KSP, FFPR, MCD, STONESHARD, ROGUE_TRADER, BIOSHOCK_INFINITE, SPACE_HAVEN, SNOWRUNNER, GRAVEYARD_KEEPER, NFSMW, TOS, GTA3, GTAVC, BITBURNER, TERRA_INVICTA, PRISON, FF13, SONIC_MANIA, CAVE_STORY_PLUS, CAVE_STORY, LIES_OF_P, TXR, DAVE, MSC, ULTRAKILL, RPGXP, RE5, ANNO1800, FTK, LEGO_TSS, LEGO_CLASSIC, MYZ, CMS21, MEDIEVAL_DYNASTY, MECHANICUS, ORI, OMORI, ENDER_LILIES, SW2, ES2, MOONLIGHTER, WASTELAND2, ATOM, MORTAL_SHELL, MORTAL_SHELL_2, COTW, BEAMNG, FOREST, YAKUZA3, YAKUZA4, YAKUZA5, ISHIN, SALT, DRAKENSANG, ALPHA, TYRANNY, JEDI_FO, SR3, SR4, WD2, FABLE, WANDERING_SWORD, STELLAR_BLADE, PRAGMATA, SLIME_RANCHER, SUBNAUTICA2, HZD, SLEEPING_DOGS, DXMD, ATOMIC_HEART];
+pub static SPECS: &[Spec] = &[COTL, FALLOUT_SHELTER, DRG, S1_MONEY, S1_RANK, S1_TIME, S1_GAME, SOTF_STATE, SOTF_GAME, SOTF_WEATHER, SOTF_ITEMS, DMD, CUPHEAD, ANTIMATTER, PVZ, CELESTE, DRGS, KH3, RF4S, SKY1ST, KSP, FFPR, MCD, STONESHARD, ROGUE_TRADER, BIOSHOCK_INFINITE, SPACE_HAVEN, SNOWRUNNER, GRAVEYARD_KEEPER, NFSMW, TOS, GTA3, GTAVC, BITBURNER, TERRA_INVICTA, PRISON, FF13, SONIC_MANIA, CAVE_STORY_PLUS, CAVE_STORY, LIES_OF_P, TXR, DAVE, MSC, ULTRAKILL, RPGXP, RE5, ANNO1800, FTK, LEGO_TSS, LEGO_CLASSIC, MYZ, CMS21, MEDIEVAL_DYNASTY, MECHANICUS, ORI, OMORI, ENDER_LILIES, SW2, ES2, MOONLIGHTER, WASTELAND2, ATOM, MORTAL_SHELL, MORTAL_SHELL_2, COTW, BEAMNG, FOREST, YAKUZA3, YAKUZA4, YAKUZA5, ISHIN, SALT, DRAKENSANG, ALPHA, TYRANNY, JEDI_FO, SR3, SR4, WD2, FABLE, WANDERING_SWORD, STELLAR_BLADE, PRAGMATA, SLIME_RANCHER, SUBNAUTICA2, HZD, SLEEPING_DOGS, DXMD, ATOMIC_HEART, DEATHLOOP];
 
 // ------------------------------------------------------------------ Cult of the Lamb
 
@@ -3107,5 +3107,47 @@ const ATOMIC_HEART: Spec = Spec {
             about: "Raises metal parts, synthetic material, biomaterial, superconductors, chemicals, energy cells and microelectronics you already hold to 999 (an estimate: no public source states the stack limit, and saves with 437 are known). Neural modules are left alone.",
         }),
     }],
+    tables: &[],
+};
+
+// ------------------------------------------------------------------ Deathloop
+
+const DEATHLOOP: Spec = Spec {
+    name: "Deathloop",
+    tab: "Colt",
+    accent: (232, 120, 40),
+    kind: None,
+    markers: &["/save/commonState/TimeEssence/m_currency", "/save/commonState/Progression/m_day"],
+    subtitle: "save.dloop in Saved Games\\Arkane Studios\\Deathloop\\base\\savegame\\<Steam id>\\SLOT01. The save's Oodle data is unpacked and packed again with the Oodle library of any game on this PC (the game's own works), and the file's checksum is made again. Close the game and turn Steam Cloud off for it first, or Steam may bring the old save back. Weapons, trinkets and slabs are stored as numbers and are not listed.",
+    tiles: &[
+        ("Residuum", "/save/commonState/TimeEssence/m_currency"),
+        ("Day of the loop", "/save/commonState/Progression/m_day"),
+        ("Stress level", "/save/commonState/Progression/stressLoop/currentStressLevel"),
+    ],
+    sections: &[
+        Section {
+            title: "Colt",
+            rows: &[
+                ("Residuum", "/save/commonState/TimeEssence/m_currency"),
+                ("Stress level", "/save/commonState/Progression/stressLoop/currentStressLevel"),
+                ("Stress XP", "/save/commonState/Progression/stressLoop/currentStressXp"),
+            ],
+        },
+        Section {
+            title: "The loop",
+            rows: &[
+                ("Day", "/save/commonState/Progression/m_day"),
+                ("Current location", "/save/commonState/Progression/m_currentLocation"),
+                ("Targets killed this loop", "/save/commonState/Progression/m_killedTargetsCountInLoop"),
+                ("Invasions so far", "/save/commonState/Progression/m_curInvasionCount"),
+                ("First loop done", "/save/commonState/Progression/m_firstLoopDone"),
+                ("Golden Loop done", "/save/commonState/Progression/m_goldenLoopDone"),
+                ("Hunter (Julianna) unlocked", "/save/commonState/Progression/m_hunterUnlocked"),
+                ("Void essence ability unlocked", "/save/commonState/Progression/m_voidEssenceAbilityUnlocked"),
+                ("Speedrun challenge available", "/save/commonState/Progression/m_speedrunChallengeAvailable"),
+            ],
+        },
+    ],
+    lists: &[],
     tables: &[],
 };
