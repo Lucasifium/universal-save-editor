@@ -560,7 +560,15 @@ another one (e.g. before and after you earned gold), with a one-click **Use thei
   - On/off values use a switch.
   - **Advanced** shows engine internals (Ren'Py internals; RPG Maker system/map/player…) and
     read-only values.
-- **Tree**: the full nested structure. **Raw JSON**: edit JSON text directly.
+  - Hover a number to see the range the save file accepts; right-click any value to copy its
+    value, name or path, set it to the minimum or maximum, revert it or show it in the Tree.
+  - Risky values (very large amounts, levels, story progress, account ids, online-banned stats) show
+    a short note on hover, repeated in the save confirmation.
+  - Read-only values say why, where the format knows.
+- **Tree**: the full nested structure, with a filter box (Ctrl+F) that keeps the matching branches.
+  **Raw JSON**: edit JSON text directly.
+- **Game screens**: save-wide actions (Max crafting materials, Max upgrade materials, fill, unlock)
+  sit in one *Quick actions* strip at the top; Ctrl+F finds and highlights a label on the screen.
 - Changed values are highlighted in orange with a one-click revert.
 - **Undo / Redo** (Ctrl+Z / Ctrl+Y), and a **Changes** panel listing old › new for each edit.
 
@@ -658,6 +666,7 @@ show as boxes there.
 Theme (dark/light), zoom (Ctrl +/−), recent files and view toggles are remembered in
 `settings.json` in `%APPDATA%\UniversalSaveEditor` (Windows), `~/Library/Application Support/UniversalSaveEditor`
 (macOS), `~/.config/UniversalSaveEditor` (Linux) or the app's private storage (Android).
+The number of automatic backups kept per save (30 by default, 5 to 500) is set in the Backups menu.
 
 ## Tests
 
