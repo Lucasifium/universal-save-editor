@@ -125,6 +125,8 @@ pub enum Layer {
     P5r { head: Arc<Vec<u8>> },
     /// Final Fantasy XIII (PC): the plain header, then 8-byte blocks encrypted one by one.
     Ff13 { head: Arc<Vec<u8>> },
+    /// Final Fantasy Resonance: an SVHD header, then AES-256-ECB encrypted Unreal data.
+    Ffr { head: Arc<Vec<u8>> },
     /// Metro `.player`: "artm" + build string, one LZ4 block, CRC-32.
     MetroPlayer { head: Arc<Vec<u8>> },
     /// BioShock Infinite: MD5 header, Unreal Engine 3 zlib chunks unpacked in place.
@@ -329,6 +331,7 @@ impl Layer {
             Layer::Ff9 => "Final Fantasy IX save encryption".into(),
             Layer::P5r { .. } => "Persona 5 Royal save (encrypted, zlib)".into(),
             Layer::Ff13 { .. } => "Final Fantasy XIII save encryption".into(),
+            Layer::Ffr { .. } => "Final Fantasy Resonance save encryption".into(),
             Layer::MetroPlayer { .. } => "Metro level save (LZ4)".into(),
             Layer::Rgmh { blocks, .. } => format!("BioShock Remastered save ({} zlib blocks)", blocks.len()),
             Layer::RemedyCrc { .. } => "Control save (CRC-32)".into(),
@@ -922,6 +925,7 @@ fn wrap(layer: &Layer, data: Vec<u8>) -> Result<Vec<u8>, String> {
         Layer::Ds1(w) => fmt::ds1::pack(w, &data)?,
         Layer::P5r { head } => fmt::p5r::pack(head, &data),
         Layer::Ff13 { head } => fmt::ff13::pack(head, &data),
+        Layer::Ffr { head } => fmt::ffr::pack(head, &data),
         Layer::MetroPlayer { head } => fmt::metro::pack_player(head, &data),
         Layer::Bioshock { chunks } => fmt::bioshock::pack(chunks, &data)?,
         Layer::Rgg(w) => fmt::rgg::encrypt(w, &data),
@@ -1579,6 +1583,11 @@ fn peel(data: &[u8], ctx: &mut Ctx) -> Option<(Layer, Vec<u8>)> {
     if data.starts_with(b"DEZP") {
         if let Some((layout, p)) = fmt::metro::unpack_dezp(data) {
             return Some((Layer::MetroDezp { layout: Arc::new(layout) }, p));
+        }
+    }
+    if data.starts_with(b"SVHD") {
+        if let Some((head, p)) = fmt::ffr::unpack(data) {
+            return Some((Layer::Ffr { head: Arc::new(head) }, p));
         }
     }
     if data.len() == 300_600 {
