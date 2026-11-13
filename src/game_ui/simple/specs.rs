@@ -3,7 +3,7 @@
 
 use super::{List, Max, Section, Shape, Spec, Table};
 
-pub static SPECS: &[Spec] = &[COTL, FALLOUT_SHELTER, DRG, S1_MONEY, S1_RANK, S1_TIME, S1_GAME, SOTF_STATE, SOTF_GAME, SOTF_WEATHER, SOTF_ITEMS, DMD, CUPHEAD, ANTIMATTER, PVZ, CELESTE, DRGS, KH3, RF4S, SKY1ST, KSP, FFPR, MCD, STONESHARD, ROGUE_TRADER, BIOSHOCK_INFINITE, SPACE_HAVEN, SNOWRUNNER, GRAVEYARD_KEEPER, NFSMW, TOS, GTA3, GTAVC, BITBURNER, TERRA_INVICTA, PRISON, FF13, SONIC_MANIA, CAVE_STORY_PLUS, CAVE_STORY, LIES_OF_P, TXR, DAVE, MSC, ULTRAKILL, RPGXP, RE5, ANNO1800, FTK, LEGO_TSS, LEGO_CLASSIC, MYZ, CMS21, MEDIEVAL_DYNASTY, MECHANICUS, ORI, OMORI, ENDER_LILIES, SW2, ES2, MOONLIGHTER, WASTELAND2, ATOM, MORTAL_SHELL, MORTAL_SHELL_2, COTW, BEAMNG, FOREST, YAKUZA3, YAKUZA4, YAKUZA5, ISHIN, SALT, DRAKENSANG, ALPHA, TYRANNY, JEDI_FO, SR3, SR4, WD2, FABLE, WANDERING_SWORD, STELLAR_BLADE, PRAGMATA, SLIME_RANCHER, SUBNAUTICA2, HZD, SLEEPING_DOGS];
+pub static SPECS: &[Spec] = &[COTL, FALLOUT_SHELTER, DRG, S1_MONEY, S1_RANK, S1_TIME, S1_GAME, SOTF_STATE, SOTF_GAME, SOTF_WEATHER, SOTF_ITEMS, DMD, CUPHEAD, ANTIMATTER, PVZ, CELESTE, DRGS, KH3, RF4S, SKY1ST, KSP, FFPR, MCD, STONESHARD, ROGUE_TRADER, BIOSHOCK_INFINITE, SPACE_HAVEN, SNOWRUNNER, GRAVEYARD_KEEPER, NFSMW, TOS, GTA3, GTAVC, BITBURNER, TERRA_INVICTA, PRISON, FF13, SONIC_MANIA, CAVE_STORY_PLUS, CAVE_STORY, LIES_OF_P, TXR, DAVE, MSC, ULTRAKILL, RPGXP, RE5, ANNO1800, FTK, LEGO_TSS, LEGO_CLASSIC, MYZ, CMS21, MEDIEVAL_DYNASTY, MECHANICUS, ORI, OMORI, ENDER_LILIES, SW2, ES2, MOONLIGHTER, WASTELAND2, ATOM, MORTAL_SHELL, MORTAL_SHELL_2, COTW, BEAMNG, FOREST, YAKUZA3, YAKUZA4, YAKUZA5, ISHIN, SALT, DRAKENSANG, ALPHA, TYRANNY, JEDI_FO, SR3, SR4, WD2, FABLE, WANDERING_SWORD, STELLAR_BLADE, PRAGMATA, SLIME_RANCHER, SUBNAUTICA2, HZD, SLEEPING_DOGS, DXMD];
 
 // ------------------------------------------------------------------ Cult of the Lamb
 
@@ -3044,5 +3044,41 @@ const SLEEPING_DOGS: Spec = Spec {
         rows: &[("Money", "/Wei/Money"), ("Face XP", "/Wei/Face XP"), ("Cop XP", "/Wei/Cop XP"), ("Triad XP", "/Wei/Triad XP")],
     }],
     lists: &[],
+    tables: &[],
+};
+
+// ------------------------------------------------------------------ Deus Ex: Mankind Divided
+
+const DXMD: Spec = Spec {
+    name: "Deus Ex: Mankind Divided",
+    tab: "Adam",
+    accent: (214, 160, 50),
+    kind: Some(crate::fmt::dxmd::KIND),
+    markers: &["/Adam/Credits"],
+    subtitle: "DXNGsavegame0000.dat ... in Steam\\userdata\\<account>\\337000\\remote. The game state is unpacked and packed again on save. Experience is shown but not changed. Ammo stacks are listed in the order the save keeps them.",
+    tiles: &[("Credits", "/Adam/Credits"), ("Praxis kits", "/Adam/Praxis kits"), ("Crafting parts", "/Crafting/Crafting parts")],
+    sections: &[Section {
+        title: "Adam Jensen",
+        rows: &[
+            ("Credits", "/Adam/Credits"), ("Praxis kits", "/Adam/Praxis kits"),
+            ("XP toward next Praxis kit", "/Adam/XP toward next Praxis kit"), ("Total XP", "/Adam/Total XP"),
+        ],
+    }],
+    lists: &[
+        List {
+            title: "Crafting",
+            path: "/Crafting",
+            shape: Shape::Map,
+            names: &[],
+            max: Some(Max {
+                ids: &["Crafting parts"],
+                cap: crate::fmt::dxmd::PARTS_CAP,
+                caps: &[],
+                estimate: true,
+                about: "Sets crafting parts to 999, the stack size players report (no official figure, so this is an estimate).",
+            }),
+        },
+        List { title: "Ammo", path: "/Ammo", shape: Shape::Map, names: &[], max: None },
+    ],
     tables: &[],
 };

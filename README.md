@@ -118,6 +118,7 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 | Fable: The Lost Chapters | *Albion*: the hero's gold, morality, renown level and age; the save's packing and checksum are handled for you (checked on public saves, not yet tried in the game) |
 | Horizon Zero Dawn | *Aloy*: metal shards and skill points, with level and experience (PC Complete Edition; checked on public saves, not yet tried in the game) |
 | Sleeping Dogs: Definitive Edition | *Wei*: money and face, cop and triad XP (checked on public saves and a real save, not yet tried in the game) |
+| Deus Ex: Mankind Divided | *Adam*: credits, Praxis kits, crafting parts (with a **Max crafting materials** button) and each ammo stack, with total experience and progress to the next Praxis kit shown (checked on real saves, not yet tried in the game) |
 | Slime Rancher | *Ranch*: newbucks (kept equal on the load screen), health, energy, radiation and slime keys (checked on public saves, not yet tried in the game) |
 | Fallout 3 | Bottle caps, experience, karma, S.P.E.C.I.A.L. and the points added to each skill (checked on real saves, not yet tried in the game) |
 | Fallout: New Vegas | Bottle caps, experience, karma, S.P.E.C.I.A.L. and the points added to each skill (checked on real saves, not yet tried in the game) |
