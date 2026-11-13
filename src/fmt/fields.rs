@@ -26,6 +26,10 @@ pub enum Kind {
     B32,
     /// A one-byte true/false.
     B8,
+    /// Money kept as whole cents in a 32-bit float, shown and edited in dollars.
+    CentsF32,
+    /// Money kept as whole cents in a signed 32-bit integer, shown and edited in dollars.
+    CentsI32,
 }
 
 impl Kind {
@@ -99,6 +103,8 @@ pub fn read(d: &[u8], at: usize, kind: Kind, be: bool) -> Option<Value> {
         Kind::F32Int => Value::from(f32::from_bits(u(4) as u32) as i64),
         Kind::B32 => Value::Bool(u(4) != 0),
         Kind::B8 => Value::Bool(b[0] != 0),
+        Kind::CentsF32 => crate::tree::num(f64::from(f32::from_bits(u(4) as u32)).round() / 100.0),
+        Kind::CentsI32 => crate::tree::num(f64::from(u(4) as u32 as i32) / 100.0),
     })
 }
 
@@ -121,6 +127,22 @@ fn encode(l: &Leaf, v: &Value) -> Result<Vec<u8>, String> {
             u64::from((f as f32).to_bits())
         }
         Kind::B32 | Kind::B8 => u64::from(v.as_bool().ok_or("tick or untick it")?),
+        Kind::CentsF32 | Kind::CentsI32 => {
+            let f = v.as_f64().filter(|f| f.is_finite()).ok_or("expected an amount")?;
+            let (lo, hi) = l.range.unwrap_or((0, 9_999_999));
+            if f < lo as f64 || f > hi as f64 {
+                return Err(format!("must be between {lo} and {hi}"));
+            }
+            let cents = (f * 100.0).round();
+            if (cents / 100.0 - f).abs() > 1e-6 {
+                return Err("at most two decimal places".into());
+            }
+            if l.kind == Kind::CentsF32 {
+                u64::from((cents as f32).to_bits())
+            } else {
+                u64::from(cents as i64 as i32 as u32)
+            }
+        }
         Kind::F32Int => {
             let (lo, hi) = l.range.unwrap_or((-(1 << 24), 1 << 24));
             u64::from((int_in(v, lo.into(), hi.into(), "This value")? as f32).to_bits())

@@ -142,6 +142,8 @@ pub mod sn2;
 pub mod ff16;
 pub mod atomic_heart;
 pub mod deathloop;
+pub mod rdr;
+mod rdr2_names;
 pub mod xcom_eu;
 pub mod ff7;
 pub mod ff7r;
@@ -232,6 +234,16 @@ pub fn parse_binary(d: &[u8]) -> Option<TreeDoc> {
     }
     if dxmd::looks(d) {
         if let Some(t) = dxmd::parse(d) {
+            return Some(t);
+        }
+    }
+    if rdr::looks_1(d) {
+        if let Some(t) = rdr::parse_1(d) {
+            return Some(t);
+        }
+    }
+    if rdr::looks_2(d) {
+        if let Some(t) = rdr::parse_2(d) {
             return Some(t);
         }
     }

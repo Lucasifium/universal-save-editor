@@ -126,6 +126,10 @@ pub enum Layer {
     AtomicHeart(Arc<fmt::atomic_heart::Layout>),
     /// Deathloop `save.dloop`: a checksummed header and the JSON state as one Oodle stream.
     Deathloop(Arc<fmt::deathloop::Layout>),
+    /// Red Dead Redemption (PC, PS4, Switch): AES records with a CRC-32.
+    Rdr1,
+    /// Red Dead Redemption 2 (PC): AES `RSAV` data with a checksum per frame.
+    Rdr2,
     /// Final Fantasy IX (Steam): every section of SavedData_ww.dat encrypted on its own.
     Ff9,
     /// Persona 5 Royal (PC): encrypted, zlib-packed game data; `head` is the file up to the data, decrypted.
@@ -340,6 +344,8 @@ impl Layer {
             Layer::Sn2(_) => "Subnautica 2 save (Oodle blocks)".into(),
             Layer::AtomicHeart(_) => "Atomic Heart save (Oodle blocks, SHA-1)".into(),
             Layer::Deathloop(_) => "Deathloop save (Oodle, checksum)".into(),
+            Layer::Rdr1 => "Red Dead Redemption save encryption (CRC-32)".into(),
+            Layer::Rdr2 => "Red Dead Redemption 2 save encryption (checksums)".into(),
             Layer::Ff9 => "Final Fantasy IX save encryption".into(),
             Layer::P5r { .. } => "Persona 5 Royal save (encrypted, zlib)".into(),
             Layer::Ff13 { .. } => "Final Fantasy XIII save encryption".into(),
@@ -961,6 +967,8 @@ fn wrap(layer: &Layer, data: Vec<u8>) -> Result<Vec<u8>, String> {
         Layer::Sn2(l) => fmt::sn2::pack(l, &data)?,
         Layer::AtomicHeart(l) => fmt::atomic_heart::pack(l, &data)?,
         Layer::Deathloop(l) => fmt::deathloop::pack(l, &data)?,
+        Layer::Rdr1 => fmt::rdr::pack_1(&data)?,
+        Layer::Rdr2 => fmt::rdr::pack_2(&data)?,
         Layer::PalworldOodle => {
             let packed = crate::oodle::compress(&data).ok_or("Oodle couldn't pack the save again (no Oodle library found)")?;
             let mut out = (data.len() as u32).to_le_bytes().to_vec();
@@ -1661,6 +1669,18 @@ fn peel(data: &[u8], ctx: &mut Ctx) -> Option<(Layer, Vec<u8>)> {
     }
     if let Some(r) = peel_hogwarts(data, ctx) {
         return Some(r);
+    }
+    if fmt::rdr::looks_1(data) {
+        if let Some(p) = fmt::rdr::unpack_1(data) {
+            ctx.hint = Some("Red Dead Redemption save: decrypted, and encrypted again with its CRC-32 when you save.".into());
+            return Some((Layer::Rdr1, p));
+        }
+    }
+    if fmt::rdr::looks_2(data) {
+        if let Some(p) = fmt::rdr::unpack_2(data) {
+            ctx.hint = Some("Red Dead Redemption 2 save: decrypted, and its checksums written again and encrypted when you save.".into());
+            return Some((Layer::Rdr2, p));
+        }
     }
     if fmt::deathloop::looks(data) {
         match fmt::deathloop::unpack(data) {

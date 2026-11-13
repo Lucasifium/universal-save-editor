@@ -27,6 +27,10 @@ Universal Save Editor is free. It builds on other people's work, listed here wit
 | [civ6-save-parser (Civilization VI save layout, ported)](https://github.com/pydt/civ6-save-parser) | Mike Rosack and playyourdamnturn.com | MIT |
 | [halbu (Diablo II character layout, skill names)](https://github.com/feored/halbu) | feor | MIT |
 | [d2s (Diablo II save layout)](https://github.com/dschu012/d2s) | dschu012 | facts only (file layouts, ids and names), credited |
+| [Universal Save Editor by DanCarrillo11 (Red Dead Redemption 2 PC save layout, checksum, structure and script-global locations, and item names, ported)](https://github.com/DanCarrillo11/UniversalSaveEditor) | DanCarrillo11 | GPL-3.0 |
+| [RDR Save Crypto (Red Dead Redemption and Red Dead Redemption 2 save keys)](https://github.com/Dxian998/RDR-Save-Crypto) | Dxian998 | MIT |
+| [apollo-patches (Red Dead Redemption money, honor and fame positions)](https://github.com/bucanero/apollo-patches) | bucanero and contributors | GPL-3.0 |
+| [CodeX.Games.RDR1 (Red Dead Redemption item names, used to recognise item hashes)](https://github.com/Foxxyyy/CodeX.Games.RDR1) | Foxxyyy | facts only (names), credited |
 | [NVForever save notes (Fallout 3 / New Vegas `.fos` layout; facts only, no code)](https://github.com/LootJunkieAzza/NVForever) | LootJunkieAzza | facts only (file layouts, ids and names), credited |
 | [xEdit save definitions (Fallout 3 / New Vegas inventory extra data; facts only, no code)](https://github.com/TES5Edit/TES5Edit) | the xEdit team | facts only (file layouts, ids and names), credited |
 | [py-starbound (Starbound versioned JSON save layout)](https://github.com/blixt/py-starbound) | blixt | MIT; file layout facts only, no code copied, credited |

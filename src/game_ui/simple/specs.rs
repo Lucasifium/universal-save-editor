@@ -3,7 +3,7 @@
 
 use super::{List, Max, Section, Shape, Spec, Table};
 
-pub static SPECS: &[Spec] = &[COTL, FALLOUT_SHELTER, DRG, S1_MONEY, S1_RANK, S1_TIME, S1_GAME, SOTF_STATE, SOTF_GAME, SOTF_WEATHER, SOTF_ITEMS, DMD, CUPHEAD, ANTIMATTER, PVZ, CELESTE, DRGS, KH3, RF4S, SKY1ST, KSP, FFPR, MCD, STONESHARD, ROGUE_TRADER, BIOSHOCK_INFINITE, SPACE_HAVEN, SNOWRUNNER, GRAVEYARD_KEEPER, NFSMW, TOS, GTA3, GTAVC, BITBURNER, TERRA_INVICTA, PRISON, FF13, SONIC_MANIA, CAVE_STORY_PLUS, CAVE_STORY, LIES_OF_P, TXR, DAVE, MSC, ULTRAKILL, RPGXP, RE5, ANNO1800, FTK, LEGO_TSS, LEGO_CLASSIC, MYZ, CMS21, MEDIEVAL_DYNASTY, MECHANICUS, ORI, OMORI, ENDER_LILIES, SW2, ES2, MOONLIGHTER, WASTELAND2, ATOM, MORTAL_SHELL, MORTAL_SHELL_2, COTW, BEAMNG, FOREST, YAKUZA3, YAKUZA4, YAKUZA5, ISHIN, SALT, DRAKENSANG, ALPHA, TYRANNY, JEDI_FO, SR3, SR4, WD2, FABLE, WANDERING_SWORD, STELLAR_BLADE, PRAGMATA, SLIME_RANCHER, SUBNAUTICA2, HZD, SLEEPING_DOGS, DXMD, ATOMIC_HEART, DISHONORED2, DEATHLOOP, DISHONORED1];
+pub static SPECS: &[Spec] = &[COTL, FALLOUT_SHELTER, DRG, S1_MONEY, S1_RANK, S1_TIME, S1_GAME, SOTF_STATE, SOTF_GAME, SOTF_WEATHER, SOTF_ITEMS, DMD, CUPHEAD, ANTIMATTER, PVZ, CELESTE, DRGS, KH3, RF4S, SKY1ST, KSP, FFPR, MCD, STONESHARD, ROGUE_TRADER, BIOSHOCK_INFINITE, SPACE_HAVEN, SNOWRUNNER, GRAVEYARD_KEEPER, NFSMW, TOS, GTA3, GTAVC, BITBURNER, TERRA_INVICTA, PRISON, FF13, SONIC_MANIA, CAVE_STORY_PLUS, CAVE_STORY, LIES_OF_P, TXR, DAVE, MSC, ULTRAKILL, RPGXP, RE5, ANNO1800, FTK, LEGO_TSS, LEGO_CLASSIC, MYZ, CMS21, MEDIEVAL_DYNASTY, MECHANICUS, ORI, OMORI, ENDER_LILIES, SW2, ES2, MOONLIGHTER, WASTELAND2, ATOM, MORTAL_SHELL, MORTAL_SHELL_2, COTW, BEAMNG, FOREST, YAKUZA3, YAKUZA4, YAKUZA5, ISHIN, SALT, DRAKENSANG, ALPHA, TYRANNY, JEDI_FO, SR3, SR4, WD2, FABLE, WANDERING_SWORD, STELLAR_BLADE, PRAGMATA, SLIME_RANCHER, SUBNAUTICA2, HZD, SLEEPING_DOGS, DXMD, ATOMIC_HEART, DISHONORED2, DEATHLOOP, DISHONORED1, RDR1, RDR2];
 
 // ------------------------------------------------------------------ Cult of the Lamb
 
@@ -3194,5 +3194,89 @@ const DISHONORED1: Spec = Spec {
     tiles: &[("Coins", "/Corvo/Coins")],
     sections: &[Section { title: "Purse", rows: &[("Coins", "/Corvo/Coins")] }],
     lists: &[],
+    tables: &[],
+};
+
+// ------------------------------------------------------------------ Red Dead Redemption
+
+const RDR1: Spec = Spec {
+    name: "Red Dead Redemption",
+    tab: "John",
+    accent: (178, 34, 34),
+    kind: Some(crate::fmt::rdr::KIND_1),
+    markers: &["/John"],
+    subtitle: "RDR2SAVE<n>.SAV (and REDDEAD2HCOR<n>.SAV, RDR2ZOMBIESAVE<n>.SAV) in Documents\\Rockstar Games\\Red Dead Redemption\\Profiles\\<id>. The save is decrypted and encrypted again with its CRC-32 when you save. Money, honor, fame, the Dead Eye meter and consumables can be changed; weapons, horses and kit are listed as owned. PS4 and Switch saves of the same release use the same format.",
+    tiles: &[("Money ($)", "/John/Money ($)"), ("Honor", "/John/Honor"), ("Fame", "/John/Fame")],
+    sections: &[
+        Section { title: "John", rows: &[("Money ($)", "/John/Money ($)"), ("Honor", "/John/Honor"), ("Fame", "/John/Fame"), ("Dead Eye meter", "/John/Dead Eye meter")] },
+        Section { title: "Save", rows: &[("Title", "/Save/Title")] },
+    ],
+    lists: &[
+        List { title: "Consumables", path: "/Supplies", shape: Shape::Map, names: &[], max: None },
+        List { title: "Weapons, horses and kit", path: "/Inventory", shape: Shape::Map, names: &[], max: None },
+    ],
+    tables: &[],
+};
+
+// ------------------------------------------------------------------ Red Dead Redemption 2
+
+const RDR2_MAX_ABOUT: &str = "Sets each herb, feather and animal fat stack the satchel holds to 99, the most an item stacks to once the Legend of the East satchel is crafted. Rockstar publishes no smaller per-item limits; with smaller satchels the game may cut stacks down when the save loads.";
+
+const RDR2: Spec = Spec {
+    name: "Red Dead Redemption 2",
+    tab: "Arthur",
+    accent: (160, 30, 30),
+    kind: Some(crate::fmt::rdr::KIND_2),
+    markers: &["/Arthur"],
+    subtitle: "SRDR3<nnnn> in Documents\\Rockstar Games\\Red Dead Redemption 2\\Profiles\\<id> (story mode, PC). The save is decrypted, and its checksums are written again and it is encrypted when you save. Only stacks already in the satchel are listed; weapons keep their own loaded ammo, which is left alone. Honor and camp funds also update the matching saved statistic. Turn Steam/Rockstar cloud saves off for the game first, or the old save may come back.",
+    tiles: &[("Cash ($)", "/Arthur/Cash ($)"), ("Honor", "/Arthur/Honor"), ("Camp funds ($)", "/Camp/Camp funds ($)")],
+    sections: &[
+        Section {
+            title: "Arthur",
+            rows: &[
+                ("Cash ($)", "/Arthur/Cash ($)"),
+                ("Honor", "/Arthur/Honor"),
+                ("Health core", "/Arthur/Health core"),
+                ("Stamina core", "/Arthur/Stamina core"),
+                ("Dead Eye core", "/Arthur/Dead Eye core"),
+                ("Health XP", "/Arthur/Health XP"),
+                ("Stamina XP", "/Arthur/Stamina XP"),
+                ("Dead Eye XP", "/Arthur/Dead Eye XP"),
+                ("Weight", "/Arthur/Weight"),
+                ("Saved health", "/Arthur/Saved health"),
+            ],
+        },
+        Section { title: "Camp", rows: &[("Camp funds ($)", "/Camp/Camp funds ($)")] },
+        Section {
+            title: "Bounties",
+            rows: &[
+                ("Ambarino ($)", "/Bounties/Ambarino ($)"),
+                ("New Hanover ($)", "/Bounties/New Hanover ($)"),
+                ("Lemoyne ($)", "/Bounties/Lemoyne ($)"),
+                ("West Elizabeth ($)", "/Bounties/West Elizabeth ($)"),
+                ("New Austin ($)", "/Bounties/New Austin ($)"),
+                ("Guarma ($)", "/Bounties/Guarma ($)"),
+            ],
+        },
+        Section { title: "World", rows: &[("Hour", "/World/Hour"), ("Minute", "/World/Minute"), ("Second", "/World/Second"), ("Save", "/Save/Title")] },
+    ],
+    lists: &[
+        List { title: "Ammunition", path: "/Ammunition", shape: Shape::Map, names: &[], max: None },
+        List {
+            title: "Consumables and herbs",
+            path: "/Consumables",
+            shape: Shape::Map,
+            names: &[],
+            max: Some(Max { ids: &["Herb Alaskan Ginseng", "Herb American Ginseng", "Herb Bay Bolete", "Herb Black Berry", "Herb Black Currant", "Herb Burdock Root", "Herb Chanterelles", "Herb Common Bulrush", "Herb Creeping Thyme", "Herb Currant", "Herb Desert Sage", "Herb English Mace", "Herb Evergreen Huckleberry", "Herb Ginseng", "Herb Golden Currant", "Herb Harrietum", "Herb Hummingbird Sage", "Herb Indian Tobacco", "Herb Milkweed", "Herb Oleander Sage", "Herb Oregano", "Herb Parasol Mushroom", "Herb Prairie Poppy", "Herb Rams Head", "Herb Red Raspberry", "Herb Red Sage", "Herb Sage", "Herb Vanilla Flower", "Herb Violet Snowdrop", "Herb Wild Carrots", "Herb Wild Feverfew", "Herb Wild Mint", "Herb Wintergreen Berry", "Herb Yarrow"], cap: crate::fmt::rdr::RDR2_STACK_MAX, caps: &[], estimate: false, about: RDR2_MAX_ABOUT }),
+        },
+        List {
+            title: "Provisions",
+            path: "/Provisions",
+            shape: Shape::Map,
+            names: &[],
+            max: Some(Max { ids: &["Bird Feather Flight", "Bluejay Feather", "Booby Feather", "Cardinal Feather", "Cedarwaxwing Feather", "Chicken Feather", "Condor Feather", "Cormorant Feather", "Crow Feather", "Duck Feather", "Eagle Feather", "Egret Feather", "Goose Feather", "Hawk Feather", "Heron Feather", "Loon Feather", "Oriole Feather", "Owl Feather", "Parakeet Feather", "Parrot Feather", "Pelican Feather", "Pheasant Feather", "Pigeon Feather", "Quail Feather", "Raven Feather", "Robin Feather", "Rooster Feather", "Seagull Feather", "Songbird Feather", "Sparrow Feather", "Spoonbill Feather", "Turkey Feather", "Vulture Feather", "Whooping Crane Feather", "Woodpecker Feather", "Animal Fat"], cap: crate::fmt::rdr::RDR2_STACK_MAX, caps: &[], estimate: false, about: RDR2_MAX_ABOUT }),
+        },
+        List { title: "Statistics", path: "/Statistics", shape: Shape::Map, names: &[], max: None },
+    ],
     tables: &[],
 };
