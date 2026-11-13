@@ -57,6 +57,12 @@ pub fn about(game: Game) -> &'static str {
              gems, gadgets, seeds, meats and the rest) to 99, the most one slot holds. Viscous Oil (a quest item) and \
              the Children's Cores (a story item) aren't in the list and are left alone, as are recovery items and key items."
         }
+        Game::Ff16 => {
+            "Raises every material in the Materials list to its stack size as the game's Items menu shows it: 99 for \
+             most, 999 for Desert Rose, Valley Madder, Briar Clam Shell, Clutchmine and Iron Filings, and 9999 for \
+             Wyrrite, Sharp Fang, Steelsilk, Bloody Hide, Magicked Ash and Rhema. Only materials you have picked up \
+             at least once are in the save. Consumables, curiosities, gear and key items are left alone."
+        }
         Game::EldenRing => {
             "Raises the crafting materials you carry or keep in the chest (meat, bones, flowers, mushrooms, \
              butterflies, stones and the rest of the base game's cookbook materials) to 999, the most a slot \
@@ -144,6 +150,7 @@ pub fn stacks(game: Game, cx: &GameCtx) -> Result<Vec<Stack>, &'static str> {
         Game::Valheim => Ok(valheim(cx)),
         Game::Minecraft => Ok(minecraft(cx)),
         Game::Nier => Ok(nier(cx)),
+        Game::Ff16 => Ok(ff16(cx)),
         Game::EldenRing => Ok(elden_ring(cx)),
         Game::HogwartsDb => Ok(hogwarts(cx)),
         Game::Gow2018 => Ok(gow2018(cx)),
@@ -340,6 +347,19 @@ fn nier(cx: &GameCtx) -> Vec<Stack> {
         .filter_map(|k| {
             let p = format!("/Materials/{}", pointer_escape(&k));
             Some(Stack { have: cx.int(&p)?, paths: vec![p], name: k, cap: 99, create: vec![] })
+        })
+        .collect()
+}
+
+// ------------------------------------------------------------------ Final Fantasy XVI
+
+fn ff16(cx: &GameCtx) -> Vec<Stack> {
+    object_keys(cx, "/Materials")
+        .into_iter()
+        .filter_map(|k| {
+            let cap = crate::fmt::ff16::material_cap(&k)?;
+            let p = format!("/Materials/{}", pointer_escape(&k));
+            Some(Stack { have: cx.int(&p)?, paths: vec![p], name: k, cap, create: vec![] })
         })
         .collect()
 }

@@ -537,6 +537,11 @@ pub fn parse_binary(d: &[u8]) -> Option<TreeDoc> {
             return Some(t);
         }
     }
+    if ff16::looks_save(d) {
+        if let Ok(t) = ff16::parse_save(d) {
+            return Some(t);
+        }
+    }
     if nier::looks(d) {
         if let Ok(t) = nier::parse(d) {
             return Some(t);

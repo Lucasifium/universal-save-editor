@@ -388,6 +388,92 @@ pub fn repack_chunk(c: &[u8], index: usize, data: &[u8]) -> Result<Vec<u8>, Stri
     Ok(build(&all))
 }
 
+// ------------------------------------------------------------------ the unpacked game save
+
+pub const KIND: &str = "Final Fantasy XVI save";
+const VERSION: u32 = 2019111101;
+/// Item records (id, count, new-flag, 0), 16 bytes each, for gil, Ability Points, consumables,
+/// materials, gear and curiosities alike.
+const ITEMS: usize = 0x3C50;
+const ITEM_SLOTS: usize = 1200;
+const ITEM_COUNT: usize = 0x9A10;
+const LEVEL: usize = 0x20;
+const MAX_HP: usize = 0x30;
+pub const GIL_MAX: i64 = 9_999_999;
+pub const AP_MAX: i64 = 999_999;
+
+/// Consumables: id, name, the most the satchel holds as the game showed it.
+pub const CONSUMABLES: &[(u32, &str, i64)] =
+    &[(5, "Potion", 8), (6, "High Potion", 5), (7, "Elixir", 2), (8, "Strength Tonic", 4), (9, "Stoneskin Tonic", 4)];
+
+/// Materials: id, name and the stack size the Items menu shows for it.
+pub const MATERIALS: &[(u32, &str, i64)] = &[
+    (21, "Meteorite", 99), (31, "Scarletite", 99), (32, "Orichalcum", 99),
+    (101, "Wyrrite", 9999), (102, "Sharp Fang", 9999), (103, "Steelsilk", 9999), (104, "Bloody Hide", 9999),
+    (105, "Magicked Ash", 9999), (106, "Desert Rose", 999), (107, "Valley Madder", 999), (108, "Briar Clam Shell", 999),
+    (109, "Clutchmine", 999), (110, "Iron Filings", 999),
+    (151, "Gil Bug", 99), (152, "Black Blood", 99), (153, "Goblin Coin", 99), (154, "Empty Shard", 99), (155, "Amber", 99),
+    (156, "Fallen Enigma", 99), (158, "Silver Penning", 99), (160, "Rhema", 9999),
+    (201, "Wind Shard", 99), (202, "Fire Shard", 99), (203, "Lightning Shard", 99), (204, "Earth Shard", 99),
+    (205, "Light Shard", 99), (206, "Water Shard", 99), (207, "Ice Shard", 99), (208, "Dark Shard", 99),
+    (301, "Frozen Tear", 99), (302, "Gnarled Scales", 99), (303, "Clouded Eye", 99), (304, "Liquid Flame", 99),
+    (305, "Earthen Fury", 99), (306, "Whitewyrm Bone", 99), (307, "Sanguine Insignia", 99), (308, "Behemoth Shackle", 99),
+    (320, "Living Tissue", 99), (321, "Aqueous Humours", 99), (322, "Omega Nodule", 99), (326, "Aqueous Orb", 99),
+    (327, "Bilious Scales", 99), (328, "Timeless Gardbrace", 99), (335, "Aquamarine", 99), (336, "Ageless Tallow", 99),
+    (337, "Ageless Odorament", 99), (338, "Ageless Oilstone", 99), (339, "Ageless Millet", 99), (340, "Eludium", 99),
+    (342, "Fool's Gold", 99),
+    (1001, "Dragon Talon", 99), (1003, "Minotaur Mane", 99), (1005, "Imperial Link", 99), (1007, "Fallen Iron", 99),
+    (1009, "Coeurl Whisker", 99), (1011, "Bone Necklace", 99),
+    (1101, "Comet Feather", 99), (1103, "Grimalkin Hide", 99), (1105, "Bomb Ember", 99), (1107, "Darksteel", 99),
+    (1109, "Morbol Flower", 99), (1111, "Stone Tongue", 99), (1113, "Stained Loincloth", 99), (1115, "Electrum", 99),
+    (1117, "Gelatinous Mass", 99), (1123, "Primitive Battlehorn", 99), (1125, "Aqueous Membrane", 99),
+    (1127, "Notched Tang", 99),
+];
+
+/// The stack size of the material called `name`.
+pub fn material_cap(name: &str) -> Option<i64> {
+    MATERIALS.iter().find(|m| m.1 == name).map(|m| m.2)
+}
+
+fn le32(d: &[u8], at: usize) -> u32 {
+    u32::from_le_bytes(d[at..at + 4].try_into().unwrap())
+}
+
+/// The game save inside a slot picture (after `unpack`).
+pub fn looks_save(d: &[u8]) -> bool {
+    d.len() > ITEM_COUNT + 4 && le32(d, 0) == 16 && le32(d, 8) == VERSION
+}
+
+pub fn parse_save(d: &[u8]) -> Result<crate::tree::TreeDoc, String> {
+    use super::fields::{Builder, Checksum, Kind};
+    if !looks_save(d) {
+        return Err("not a Final Fantasy XVI game save".into());
+    }
+    let mut b = Builder::new(d);
+    b.info(&["Clive", "Level"], le32(d, LEVEL) as i64);
+    b.info(&["Clive", "Max HP"], le32(d, MAX_HP) as i64);
+    let n = (le32(d, ITEM_COUNT) as usize).min(ITEM_SLOTS);
+    for i in 0..n {
+        let at = ITEMS + i * 16;
+        let id = le32(d, at);
+        let (group, name, hi) = match id {
+            1 => ("Clive", "Gil", GIL_MAX),
+            3 => ("Clive", "Ability Points", AP_MAX),
+            _ => {
+                if let Some(c) = CONSUMABLES.iter().find(|c| c.0 == id) {
+                    ("Consumables", c.1, c.2)
+                } else if let Some(m) = MATERIALS.iter().find(|m| m.0 == id) {
+                    ("Materials", m.1, m.2)
+                } else {
+                    continue;
+                }
+            }
+        };
+        b.ranged(&[group, name], at + 4, Kind::U32, 0, hi);
+    }
+    Ok(b.finish(KIND, Checksum::Custom(|d: &mut Vec<u8>| *d = with_crc(d))))
+}
+
 #[cfg(test)]
 pub(crate) fn test_dictionary() -> Vec<u8> {
     (0..DICT_LEN)
@@ -560,6 +646,39 @@ mod tests {
         assert_eq!(e[1].unpacked, changed.len() as u64);
     }
 
+    #[test]
+    fn reads_and_edits_the_game_save() {
+        let mut d = vec![0u8; 0x10000];
+        d[0..4].copy_from_slice(&16u32.to_le_bytes());
+        d[8..12].copy_from_slice(&VERSION.to_le_bytes());
+        d[LEVEL..LEVEL + 4].copy_from_slice(&49u32.to_le_bytes());
+        let recs = [(1u32, 402883u32), (3, 5563), (5, 8), (109, 97), (1007, 6), (100045, 1)];
+        for (i, (id, n)) in recs.iter().enumerate() {
+            d[ITEMS + i * 16..ITEMS + i * 16 + 4].copy_from_slice(&id.to_le_bytes());
+            d[ITEMS + i * 16 + 4..ITEMS + i * 16 + 8].copy_from_slice(&n.to_le_bytes());
+        }
+        d[ITEM_COUNT..ITEM_COUNT + 4].copy_from_slice(&(recs.len() as u32).to_le_bytes());
+        let d = with_crc(&d);
+        let mut doc = parse_save(&d).unwrap();
+        let v = |doc: &crate::tree::TreeDoc, p: &str| doc.view.pointer(p).cloned();
+        assert_eq!(v(&doc, "/Clive/Gil"), Some(402883.into()));
+        assert_eq!(v(&doc, "/Clive/Ability Points"), Some(5563.into()));
+        assert_eq!(v(&doc, "/Clive/Level"), Some(49.into()));
+        assert_eq!(v(&doc, "/Consumables/Potion"), Some(8.into()));
+        assert_eq!(v(&doc, "/Materials/Clutchmine"), Some(97.into()));
+        assert_eq!(v(&doc, "/Materials/Fallen Iron"), Some(6.into()));
+        assert_eq!(doc.to_bytes().unwrap(), d);
+        doc.set("/Materials/Clutchmine", 999.into()).unwrap();
+        assert!(doc.set("/Materials/Fallen Iron", 100.into()).is_err());
+        doc.set("/Clive/Gil", 111111.into()).unwrap();
+        let out = doc.to_bytes().unwrap();
+        assert!(crc_ok(&out));
+        let again = parse_save(&out).unwrap();
+        assert_eq!(v(&again, "/Materials/Clutchmine"), Some(999.into()));
+        assert_eq!(v(&again, "/Clive/Gil"), Some(111111.into()));
+        assert_eq!(material_cap("Rhema"), Some(9999));
+    }
+
     /// Real saves, kept out of the repository: FF16_SAMPLES = folder of slot PNGs, with
     /// SAVE_EDITOR_FF16_EXE pointing at the game's ffxvi.exe.
     #[test]
@@ -580,6 +699,10 @@ mod tests {
             for (i, e) in all.iter().enumerate() {
                 let (_, _, data) = unpack(&png, Some(&e.name)).unwrap();
                 assert!(crc_ok(&data), "stored CRC-32 doesn't match for {:?}", f.path());
+                if looks_save(&data) {
+                    let doc = parse_save(&data).unwrap();
+                    assert_eq!(doc.to_bytes().unwrap(), data);
+                }
                 let mut edited = data.clone();
                 edited[0x24] ^= 1;
                 let c2 = repack_chunk(c, i, &edited).unwrap();
