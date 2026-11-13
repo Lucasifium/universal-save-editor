@@ -29,6 +29,7 @@ mod octopath;
 mod oni_map;
 mod pathfinder;
 mod planet_crafter;
+mod infinite_fusion;
 mod pokemon;
 mod expedition33;
 mod ffr;
@@ -113,6 +114,7 @@ pub enum Game {
     Terraria,
     TerrariaWorld,
     Pokemon,
+    InfiniteFusion,
     Bethesda,
     Hades,
     Stardew,
@@ -221,6 +223,7 @@ impl Game {
     pub fn name(self) -> Option<&'static str> {
         Some(match self {
             Game::Hades => "Hades",
+            Game::InfiniteFusion => "Pok\u{00E9}mon Infinite Fusion",
             Game::Stardew => "Stardew Valley",
             Game::Minecraft => "Minecraft",
             Game::Balatro => "Balatro",
@@ -244,7 +247,7 @@ impl Game {
     /// Name of the tab that shows the screen.
     pub fn tab_label(self) -> &'static str {
         match self {
-            Game::Pokemon => "Trainer",
+            Game::Pokemon | Game::InfiniteFusion => "Trainer",
             Game::TerrariaWorld => "World",
             Game::Terraria | Game::Minecraft | Game::Stardew => "Player",
             Game::Balatro | Game::SlayTheSpire => "Run",
@@ -341,6 +344,7 @@ pub fn detect(kind: &str, root: &Value) -> Option<Game> {
         "Terraria player" => Game::Terraria,
         "Terraria world" => Game::TerrariaWorld,
         k if k.starts_with("Pok\u{00E9}mon") => Game::Pokemon,
+        crate::fmt::essentials::KIND => Game::InfiniteFusion,
         "Fallout 1 save" | "Fallout 2 save" => Game::Fallout12,
         "Deus Ex map save" | "Deus Ex save info" => Game::DeusEx,
         k if (k.starts_with("Skyrim") || k.starts_with("Fallout") || k.starts_with("Enderal")) && has("/Save") => Game::Bethesda,
@@ -536,6 +540,7 @@ fn show_screen(game: Game, ui: &mut Ui, cx: &mut GameCtx) {
         Game::Terraria => terraria::show(ui, cx),
         Game::TerrariaWorld => terraria_world::show(ui, cx),
         Game::Pokemon => pokemon::show(ui, cx),
+        Game::InfiniteFusion => infinite_fusion::show(ui, cx),
         Game::Bethesda => dashboards::bethesda(ui, cx),
         Game::Hades => dashboards::hades(ui, cx),
         Game::Stardew => dashboards::stardew(ui, cx),

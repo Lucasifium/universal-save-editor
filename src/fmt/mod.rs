@@ -121,6 +121,7 @@ pub mod antimatter;
 pub mod nested;
 pub mod lua;
 pub mod luabins;
+pub mod essentials;
 pub mod marshal;
 pub mod msgpack;
 pub mod ac8;
