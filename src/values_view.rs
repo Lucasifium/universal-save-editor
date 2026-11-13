@@ -172,6 +172,84 @@ pub struct ViewCtx<'a> {
     pub edits: Vec<(String, Value)>,
     pub toggle_section: Option<usize>,
     pub scroll_to: Option<usize>,
+    /// Bulk edit: the rows ticked so far (`None` when bulk edit is off) and the rows whose
+    /// tick was clicked this frame.
+    pub ticked: Option<&'a HashSet<usize>>,
+    pub toggle_tick: Vec<usize>,
+}
+
+/// What bulk edit does to each ticked value.
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum BulkOp {
+    Set,
+    Add,
+    Multiply,
+}
+
+impl BulkOp {
+    pub const ALL: [BulkOp; 3] = [BulkOp::Set, BulkOp::Add, BulkOp::Multiply];
+
+    pub fn name(self) -> &'static str {
+        match self {
+            BulkOp::Set => "Set to",
+            BulkOp::Add => "Add",
+            BulkOp::Multiply => "Multiply by",
+        }
+    }
+}
+
+/// The new value bulk edit gives `cur`, or why it can't (`Ok(None)`: left as it is). Set
+/// only changes values of the kind typed: a number sets numbers, true/false sets switches, and
+/// other text sets text, so ticking a whole section never turns a name into "99".
+pub fn bulk_value(cur: &Value, op: BulkOp, arg: &str) -> Result<Option<Value>, String> {
+    let arg = arg.trim();
+    let parsed = arg.replace(',', "").parse::<f64>();
+    let num = || parsed.clone().map_err(|_| format!("\u{201C}{arg}\u{201D} is not a number"));
+    let switch = match arg.to_ascii_lowercase().as_str() {
+        "true" | "yes" | "on" => Some(true),
+        "false" | "no" | "off" => Some(false),
+        _ => None,
+    };
+    if op == BulkOp::Set && !matches!(cur, Value::Number(_)) {
+        return Ok(match cur {
+            Value::Bool(_) => switch.map(Value::Bool),
+            Value::String(_) if parsed.is_err() && switch.is_none() => Some(Value::String(arg.to_string())),
+            _ => None,
+        });
+    }
+    if op == BulkOp::Set && (switch.is_some() || parsed.is_err()) {
+        return Ok(None);
+    }
+    match (cur, op) {
+        (Value::Number(n), _) => {
+            let x = num()?;
+            let old = n.as_f64().unwrap_or(0.0);
+            let new = match op {
+                BulkOp::Set => x,
+                BulkOp::Add => old + x,
+                BulkOp::Multiply => old * x,
+            };
+            if !new.is_finite() {
+                return Err("the result is too big".into());
+            }
+            let whole = n.is_i64() || n.is_u64();
+            Ok(Some(if whole {
+                let r = new.round();
+                if r < 0.0 && n.is_u64() && !n.is_i64() {
+                    Value::from(0u64)
+                } else if r >= 0.0 && r <= u64::MAX as f64 {
+                    Value::from(r as u64)
+                } else if r >= i64::MIN as f64 {
+                    Value::from(r as i64)
+                } else {
+                    return Err("the result is too big".into());
+                }
+            } else {
+                serde_json::Number::from_f64(new).map(Value::Number).ok_or("the result is not a number")?
+            }))
+        }
+        _ => Ok(None),
+    }
 }
 
 pub const ROW_H: f32 = 34.0;
@@ -189,6 +267,7 @@ pub fn show(ui: &mut Ui, model: &Model, disp: &[Disp], collapsed: &HashSet<usize
         let name_w = (full_w * 0.4).clamp(110.0, 460.0);
         for idx in range {
             let row_rect = egui::Rect::from_min_size(ui.cursor().min, egui::vec2(full_w, ROW_H));
+            let name_w = if ctx.ticked.is_some() { (name_w - 28.0).max(80.0) } else { name_w };
             match disp[idx] {
                 Disp::Header(sec, count) => {
                     let s = &model.sections[sec];
@@ -230,6 +309,13 @@ pub fn show(ui: &mut Ui, model: &Model, disp: &[Disp], collapsed: &HashSet<usize
                         ui.set_min_size(egui::vec2(full_w, ROW_H));
                         {
                             ui.add_space(14.0);
+                            if let Some(t) = ctx.ticked {
+                                let mut on = t.contains(&i);
+                                let tip = if r.editable { "Tick to include in Bulk edit" } else { "Read-only: bulk edit leaves it alone" };
+                                if ui.add_enabled(r.editable, egui::Checkbox::without_text(&mut on)).on_hover_text(tip).clicked() {
+                                    ctx.toggle_tick.push(i);
+                                }
+                            }
                             // Name column.
                             ui.allocate_ui_with_layout(egui::vec2(name_w, ROW_H), Layout::left_to_right(Align::Center), |ui| {
                                 ui.set_width(name_w);
@@ -278,4 +364,30 @@ pub fn show(ui: &mut Ui, model: &Model, disp: &[Disp], collapsed: &HashSet<usize
             }
         }
     });
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use serde_json::json;
+
+    #[test]
+    fn bulk_values() {
+        assert_eq!(bulk_value(&json!(10), BulkOp::Set, "99").unwrap(), Some(json!(99)));
+        assert_eq!(bulk_value(&json!(10), BulkOp::Add, "5").unwrap(), Some(json!(15)));
+        assert_eq!(bulk_value(&json!(10), BulkOp::Multiply, "1.5").unwrap(), Some(json!(15)));
+        assert_eq!(bulk_value(&json!(10), BulkOp::Add, "-25").unwrap(), Some(json!(-15)));
+        assert_eq!(bulk_value(&json!(1.5), BulkOp::Multiply, "2").unwrap(), Some(json!(3.0)));
+        assert_eq!(bulk_value(&json!(10), BulkOp::Set, "1,000").unwrap(), Some(json!(1000)));
+        assert_eq!(bulk_value(&json!(10), BulkOp::Set, "lots").unwrap(), None);
+        assert!(bulk_value(&json!(10), BulkOp::Add, "lots").is_err());
+        // Set changes only values of the kind typed.
+        assert_eq!(bulk_value(&json!(true), BulkOp::Set, "off").unwrap(), Some(json!(false)));
+        assert_eq!(bulk_value(&json!(true), BulkOp::Set, "0").unwrap(), None);
+        assert_eq!(bulk_value(&json!(10), BulkOp::Set, "true").unwrap(), None);
+        assert_eq!(bulk_value(&json!("a"), BulkOp::Set, "99").unwrap(), None);
+        assert_eq!(bulk_value(&json!("a"), BulkOp::Set, "b").unwrap(), Some(json!("b")));
+        assert_eq!(bulk_value(&json!(true), BulkOp::Add, "1").unwrap(), None);
+        assert_eq!(bulk_value(&json!("a"), BulkOp::Multiply, "2").unwrap(), None);
+    }
 }

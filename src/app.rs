@@ -13,6 +13,9 @@ use serde_json::{json, Value};
 use std::collections::HashSet;
 use std::path::{Path, PathBuf};
 
+mod tools;
+use tools::{Bulk, NamesAction, PresetApply, PresetSave, ShareNames};
+
 /// The browser version: no folders to look through, files arrive from the page's picker and
 /// leave as downloads.
 const WEB: bool = cfg!(target_arch = "wasm32");
@@ -37,6 +40,9 @@ enum Ask {
     BackupDir,
     Import,
     Patch,
+    PresetFile,
+    ExportNames,
+    ImportNames,
 }
 
 #[derive(PartialEq, Eq, Clone, Copy)]
@@ -50,6 +56,8 @@ enum Change {
     /// `extra`: values that changed along with it (pointer, before, after).
     Value { ptr: String, before: Value, after: Value, extra: Vec<(String, Value, Value)> },
     Bytes { off: usize, before: Vec<u8>, after: Vec<u8> },
+    /// Several changes made in one go (bulk edit, a preset), undone together.
+    Batch(Vec<Change>),
 }
 
 struct Doc {
@@ -297,6 +305,11 @@ pub struct App {
     save_review: Option<SaveReview>,
     copy_slots: Option<CopySlots>,
     game_picker: Option<GamePicker>,
+    /// Bulk edit in the Values tab, while it is on.
+    bulk: Option<Bulk>,
+    preset_save: Option<PresetSave>,
+    preset_apply: Option<PresetApply>,
+    share_names: Option<ShareNames>,
     loading: Option<Loading>,
     /// The game that owns the open save, if it was running when the file was opened.
     running: Option<String>,
@@ -364,6 +377,10 @@ impl App {
             save_review: None,
             copy_slots: None,
             game_picker: None,
+            bulk: None,
+            preset_save: None,
+            preset_apply: None,
+            share_names: None,
             loading: None,
             running: None,
             browser: None,
@@ -419,6 +436,9 @@ impl App {
             Ask::BackupDir => ("Keep backups in which folder?", file_browser::Mode::Folder),
             Ask::Import => ("Import which edited data?", file_browser::Mode::OpenFile),
             Ask::Patch => ("Open which patch file (.savepatch)?", file_browser::Mode::OpenFile),
+            Ask::PresetFile => ("Open which preset?", file_browser::Mode::OpenFile),
+            Ask::ExportNames => ("Export the names to", file_browser::Mode::SaveFile),
+            Ask::ImportNames => ("Import names from which file?", file_browser::Mode::OpenFile),
         };
         #[cfg(target_os = "android")]
         {
@@ -465,6 +485,9 @@ impl App {
             Ask::Compare => self.compare_with(p),
             Ask::Import => self.import_from(&p),
             Ask::Patch => self.load_patch_file(&p),
+            Ask::PresetFile => self.open_preset_file(&p),
+            Ask::ExportNames => self.export_names(&p),
+            Ask::ImportNames => self.import_names(&p),
             Ask::BackupDir => {
                 self.ok(format!("Backups now go to {}. Earlier ones stay where they were and are still listed.", p.display()));
                 self.settings.set_backup_dir(Some(p));
@@ -703,10 +726,17 @@ impl App {
 
     /// Apply a user edit, recording it for undo. Consecutive edits to the same field are merged.
     fn apply_edit(&mut self, ptr: String, v: Value, now: f64) {
-        let (before, aliases) = match self.set_value(&ptr, v.clone()) {
-            Ok(Some(r)) => r,
-            Ok(None) => return,
-            Err(e) => return self.fail(format!("Can't use that value: {e}.")),
+        if let Err(e) = self.try_edit(ptr, v, now) {
+            self.fail(format!("Can't use that value: {e}."));
+        }
+    }
+
+    /// `apply_edit` that hands back why the format refused the value instead of showing it.
+    /// `Ok(false)`: there is no such value, or it already held that.
+    fn try_edit(&mut self, ptr: String, v: Value, now: f64) -> Result<bool, String> {
+        let (before, aliases) = match self.set_value(&ptr, v.clone())? {
+            Some(r) => r,
+            None => return Ok(false),
         };
         let derived = match &mut self.doc {
             Some(Doc { content: Content::Tree(t), .. }) => t.take_derived(),
@@ -715,7 +745,7 @@ impl App {
         // The format may have adjusted the value (e.g. rounded to a 32-bit float).
         let v = self.doc.as_ref().and_then(|d| root(&d.content)).and_then(|r| r.pointer(&ptr)).cloned().unwrap_or(v);
         if before == v && derived.is_empty() {
-            return;
+            return Ok(false);
         }
         let merge = matches!(&self.last_edit, Some((p, t)) if *p == ptr && now - t < 1.5);
         match (merge, self.undo.last_mut()) {
@@ -750,6 +780,7 @@ impl App {
                 if aliases == 1 { "" } else { "s" }
             ));
         }
+        Ok(true)
     }
 
     fn apply_bytes(&mut self, off: usize, bytes: Vec<u8>) {
@@ -792,7 +823,19 @@ impl App {
 
     fn undo_redo(&mut self, undo: bool) {
         let Some(change) = (if undo { self.undo.pop() } else { self.redo.pop() }) else { return };
-        let ptr = match &change {
+        let ptrs = self.replay(&change, undo);
+        if undo { self.redo.push(change) } else { self.undo.push(change) }
+        self.last_edit = None;
+        for p in &ptrs {
+            self.after_change(p);
+        }
+        self.info(if undo { "Undone." } else { "Redone." });
+    }
+
+    /// Puts a change back (`undo`) or makes it again. Returns the values it touched (`""` for
+    /// bytes), for `after_change`.
+    fn replay(&mut self, change: &Change, undo: bool) -> Vec<String> {
+        match change {
             Change::Value { ptr, before, after, extra } => {
                 // Undo/redo only restores values that were valid before, so this can't fail.
                 let _ = self.set_value(ptr, if undo { before.clone() } else { after.clone() });
@@ -802,11 +845,9 @@ impl App {
                         t.set_plain(p, if undo { b.clone() } else { a.clone() });
                     }
                 }
-                let extra_ptrs: Vec<String> = extra.iter().map(|(p, _, _)| p.clone()).collect();
-                for p in &extra_ptrs {
-                    self.after_change(p);
-                }
-                ptr.clone()
+                let mut out: Vec<String> = extra.iter().map(|(p, _, _)| p.clone()).collect();
+                out.push(ptr.clone());
+                out
             }
             Change::Bytes { off, before, after } => {
                 if let Some(Doc { content: Content::Binary(data), .. }) = &mut self.doc {
@@ -815,13 +856,33 @@ impl App {
                     let end = (*off + cur.len()).min(data.len());
                     data.splice(*off..end, src.iter().copied());
                 }
-                String::new()
+                vec![String::new()]
             }
-        };
-        if undo { self.redo.push(change) } else { self.undo.push(change) }
+            Change::Batch(list) => {
+                let mut out = Vec::new();
+                if undo {
+                    for c in list.iter().rev() {
+                        out.extend(self.replay(c, true));
+                    }
+                } else {
+                    for c in list {
+                        out.extend(self.replay(c, false));
+                    }
+                }
+                out.dedup();
+                out
+            }
+        }
+    }
+
+    /// Folds the undo steps made since the stack held `start` into one, so a bulk edit or a
+    /// preset is undone in one go.
+    fn group_undo_from(&mut self, start: usize) {
+        if self.undo.len() > start + 1 {
+            let list: Vec<Change> = self.undo.drain(start..).collect();
+            self.undo.push(Change::Batch(list));
+        }
         self.last_edit = None;
-        self.after_change(&ptr);
-        self.info(if undo { "Undone." } else { "Redone." });
     }
 
     fn recompute_dirty(&mut self) {
@@ -1693,6 +1754,12 @@ impl App {
                     ui.close_menu();
                     self.focus_search = true;
                 }
+                ui.separator();
+                if ui.add_enabled(self.dirty, egui::Button::new("Copy changes as text")).on_hover_text("The list of changes, to paste when asking for help or sharing what you did").clicked() {
+                    ui.close_menu();
+                    let ctx = ui.ctx().clone();
+                    self.copy_changes(&ctx);
+                }
             });
             ui.menu_button("View", |ui| {
                 let mut changed = false;
@@ -1785,6 +1852,20 @@ impl App {
                         Err(e) => self.fail(format!("Couldn't make the templates folder: {e}")),
                     }
                 }
+                ui.menu_button("Presets", |ui| {
+                    if ui
+                        .add_enabled(self.dirty, egui::Button::new("Save changes as a preset\u{2026}"))
+                        .on_hover_text("Keep the changes you made, to make them again on another save or slot")
+                        .clicked()
+                    {
+                        ui.close_menu();
+                        self.start_preset_save();
+                    }
+                    if ui.add_enabled(has, egui::Button::new("Apply a preset\u{2026}")).on_hover_text("Make a saved set of changes on this save").clicked() {
+                        ui.close_menu();
+                        self.start_preset_apply();
+                    }
+                });
                 if ui
                     .add_enabled(has, egui::Button::new("Compare with another save\u{2026}"))
                     .on_disabled_hover_text("Open a save first.")
@@ -2883,7 +2964,7 @@ impl App {
                     ui.label(RichText::new(icon::SEARCH).family(theme::icons_family()).weak());
                 }
                 let id = egui::Id::new("search_box");
-                let w = if narrow(ui) { ui.available_width() - 60.0 } else { (ui.available_width() - 300.0).clamp(140.0, 320.0) };
+                let w = if narrow(ui) { ui.available_width() - 150.0 } else { (ui.available_width() - 400.0).clamp(120.0, 320.0) };
                 let r = ui.add(
                     TextEdit::singleline(&mut self.search)
                         .id(id)
@@ -2904,6 +2985,10 @@ impl App {
                 if !self.search.is_empty() && ui.small_button("Clear").clicked() {
                     self.search.clear();
                 }
+                let on = self.bulk.is_some();
+                if ui.selectable_label(on, "Bulk edit").on_hover_text("Tick several values and set them all at once, or add to or multiply them").clicked() {
+                    self.bulk = if on { None } else { Some(Bulk { ticked: HashSet::new(), op: values_view::BulkOp::Set, arg: String::new(), model_gen: self.model_gen }) };
+                }
             }
             if !narrow(ui) && self.tab != Tab::Game {
                 ui.with_layout(egui::Layout::right_to_left(egui::Align::Center), |ui| self.view_options(ui));
@@ -2911,6 +2996,9 @@ impl App {
         });
         if narrow(ui) && matches!(self.tab, Tab::Values | Tab::Tree) {
             ui.horizontal(|ui| self.view_options(ui));
+        }
+        if self.tab == Tab::Values && self.bulk.is_some() {
+            self.bulk_bar(ui, now);
         }
         ui.add_space(4.0);
         self.structured_body(ui, now);
@@ -3003,6 +3091,7 @@ impl App {
                 edits = ctx.edits;
             }
             Tab::Values => {
+                let ticked = self.bulk_ticked().cloned();
                 let d = self.doc.as_ref().unwrap();
                 let (Some(r), Some(b)) = (root(&d.content), root(&d.baseline)) else { return };
                 let value_gen = if self.search.trim().is_empty() { 0 } else { self.edit_gen };
@@ -3045,6 +3134,8 @@ impl App {
                     edits: vec![],
                     toggle_section: None,
                     scroll_to: self.scroll_to_row.take(),
+                    ticked: ticked.as_ref(),
+                    toggle_tick: vec![],
                 };
                 values_view::show(ui, &self.model, &self.disp, &self.collapsed, &mut ctx);
                 if let Some(sec) = ctx.toggle_section {
@@ -3054,6 +3145,8 @@ impl App {
                     self.collapsed_gen += 1;
                 }
                 edits = ctx.edits;
+                let ticks = ctx.toggle_tick;
+                self.bulk_toggle(ticks);
             }
         }
         for (ptr, v) in edits {
@@ -3067,6 +3160,8 @@ impl App {
         let mut jump = None;
         let mut revert_all = false;
         let mut close = false;
+        let mut copy = false;
+        let mut preset = false;
         egui::SidePanel::right("changes").default_width(320.0).min_width(260.0).show(ctx, |ui| {
             let Some(d) = &self.doc else { return };
             ui.add_space(6.0);
@@ -3080,6 +3175,20 @@ impl App {
             });
             ui.weak("Since you opened or last saved this file.");
             ui.add_space(4.0);
+            if self.dirty {
+                ui.horizontal_wrapped(|ui| {
+                    if ui.small_button("Copy as text").on_hover_text("Copy the list of changes, to paste when asking for help or sharing what you did").clicked() {
+                        copy = true;
+                    }
+                    if ui.small_button("Save as preset\u{2026}").on_hover_text("Keep these changes to make them again on another save or slot").clicked() {
+                        preset = true;
+                    }
+                    if ui.small_button("Revert all").on_hover_text("Put every value back as it was when the file was opened or last saved").clicked() {
+                        revert_all = true;
+                    }
+                });
+                ui.separator();
+            }
             ScrollArea::vertical().auto_shrink([false, false]).show(ui, |ui| match (&d.content, &d.baseline) {
                 (Content::Binary(cur), Content::Binary(base)) => {
                     let ranges = byte_ranges(cur, base);
@@ -3142,13 +3251,13 @@ impl App {
                     }
                 }
             });
-            if self.dirty {
-                ui.separator();
-                if ui.button("Revert all changes").clicked() {
-                    revert_all = true;
-                }
-            }
         });
+        if copy {
+            self.copy_changes(ctx);
+        }
+        if preset {
+            self.start_preset_save();
+        }
         for (p, v) in revert {
             self.apply_edit(p, v, f64::NEG_INFINITY);
         }
@@ -3196,6 +3305,10 @@ impl App {
             Some((current, saves, others))
         });
         let mut open_entry: Option<String> = None;
+        let mut names_action: Option<NamesAction> = None;
+        let mut hide_guide = false;
+        let mut show_guide = false;
+        let guide = self.settings.hex_guide;
         // Beside the grid on a wide window; under it on a narrow one, so the bytes keep the width.
         let wide = ctx.screen_rect().width() >= 900.0;
         let body = |ui: &mut egui::Ui| {
@@ -3246,6 +3359,9 @@ impl App {
                         }
                     });
                     ui.add_space(6.0);
+                }
+                if guide {
+                    Self::guide_card(ui, h, &mut hide_guide);
                 }
                 theme::card(ui, |ui| {
                     ui.label(RichText::new("Named values").family(theme::semibold_family()).size(16.0));
@@ -3306,11 +3422,19 @@ impl App {
                             labels_changed = true;
                         }
                     });
+                    names_action = Self::names_buttons(ui, !h.labels.is_empty());
                 });
 
                 theme::card(ui, |ui| {
                     ui.label(RichText::new("Value search").family(theme::semibold_family()).size(16.0));
-                    ui.weak("Know the value? Search for it, change it in-game, save, and refine with the new value. Don't know it (a health bar, a hidden counter)? Start with \u{201C}Unknown starting value\u{201D}, then refine with Increased, Decreased or Changed after each in-game save.");
+                    if guide {
+                        ui.weak("Don't know the number (a health bar, a hidden counter)? Start with \u{201C}Unknown starting value\u{201D}, then refine with Increased, Decreased or Changed after each in-game save.");
+                    } else {
+                        ui.weak("Know the value? Search for it, change it in-game, save, and refine with the new value. Don't know it (a health bar, a hidden counter)? Start with \u{201C}Unknown starting value\u{201D}, then refine with Increased, Decreased or Changed after each in-game save.");
+                        if ui.link("Show the step-by-step guide").clicked() {
+                            show_guide = true;
+                        }
+                    }
                     let scanning = h.searched && (h.all_locations || !h.results.is_empty());
                     let mut start = false;
                     ui.horizontal(|ui| {
@@ -3356,6 +3480,10 @@ impl App {
                         }
                         ui.checkbox(&mut h.aligned, "Aligned").on_hover_text("Only test offsets that are a multiple of the value size. Faster, and how most games store numbers.");
                     });
+                    if scanning && !WEB && !guide {
+                        ui.checkbox(&mut h.auto_refine, "Refine by itself each time the game saves")
+                            .on_hover_text("Watches the file and refines with the test above as soon as the game writes it again");
+                    }
                     if start {
                         match h.start_scan(data) {
                             Ok(m) => status = Some(Ok(m)),
@@ -3450,6 +3578,19 @@ impl App {
         }
         if labels_changed {
             self.save_labels();
+        }
+        if hide_guide || show_guide {
+            self.settings.hex_guide = show_guide;
+            self.settings.save();
+        }
+        match names_action {
+            Some(NamesAction::Share) => self.start_share_names(),
+            Some(NamesAction::Export) => {
+                let name = self.doc.as_ref().map(|d| format!("{}.names.json", file_name(&d.path)));
+                self.ask(Ask::ExportNames, None, name);
+            }
+            Some(NamesAction::Import) => self.ask(Ask::ImportNames, None, None),
+            None => {}
         }
         if refine {
             self.refine_from_disk();
@@ -3911,6 +4052,10 @@ impl eframe::App for App {
         self.save_review_dialog(ctx);
         self.copy_slots_dialog(ctx);
         self.game_picker_dialog(ctx);
+        self.preset_save_dialog(ctx);
+        self.preset_apply_dialog(ctx, now);
+        self.share_names_dialog(ctx);
+        self.poll_auto_refine(ctx, now);
         self.compare_window(ctx, now);
         self.browser_window(ctx);
         // Android: bring up the on-screen keyboard while a text field has focus.

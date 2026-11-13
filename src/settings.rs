@@ -19,11 +19,13 @@ pub struct Settings {
     pub backup_dir: Option<PathBuf>,
     /// Folders chosen for backups before, still searched for the copies made there.
     pub earlier_backup_dirs: Vec<PathBuf>,
+    /// Show the step-by-step "find a value" guide in the hex view.
+    pub hex_guide: bool,
 }
 
 impl Default for Settings {
     fn default() -> Self {
-        Self { recent: vec![], dark: true, zoom: 1.0, show_raw_keys: false, show_advanced: false, confirm_save: true, backup_dir: None, earlier_backup_dirs: vec![] }
+        Self { recent: vec![], dark: true, zoom: 1.0, show_raw_keys: false, show_advanced: false, confirm_save: true, backup_dir: None, earlier_backup_dirs: vec![], hex_guide: true }
     }
 }
 
@@ -45,6 +47,7 @@ impl Settings {
         s.show_raw_keys = v["show_raw_keys"].as_bool().unwrap_or(false);
         s.show_advanced = v["show_advanced"].as_bool().unwrap_or(false);
         s.confirm_save = v["confirm_save"].as_bool().unwrap_or(true);
+        s.hex_guide = v["hex_guide"].as_bool().unwrap_or(true);
         s.backup_dir = v["backup_dir"].as_str().filter(|d| !d.is_empty()).map(PathBuf::from);
         if let Some(r) = v["earlier_backup_dirs"].as_array() {
             s.earlier_backup_dirs = r.iter().filter_map(|x| x.as_str()).filter(|d| !d.is_empty()).map(PathBuf::from).collect();
@@ -61,6 +64,7 @@ impl Settings {
             "show_raw_keys": self.show_raw_keys,
             "show_advanced": self.show_advanced,
             "confirm_save": self.confirm_save,
+            "hex_guide": self.hex_guide,
             "backup_dir": self.backup_dir.as_ref().map(|d| d.to_string_lossy().to_string()),
             "earlier_backup_dirs": self.earlier_backup_dirs.iter().map(|p| p.to_string_lossy()).collect::<Vec<_>>(),
         });

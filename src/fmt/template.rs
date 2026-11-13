@@ -229,6 +229,133 @@ impl Template {
     }
 }
 
+/// A value named in the hex view: where it is, what it is called and its type name as the
+/// hex view writes it ("u32", "f32", "text (ASCII/UTF-8)"…).
+pub struct Named<'a> {
+    pub at: usize,
+    pub name: &'a str,
+    pub ty: &'a str,
+}
+
+/// How a template made from hex-view names recognises the game's saves.
+#[derive(Clone, Debug, Default)]
+pub struct MatchBy {
+    pub extension: Option<String>,
+    pub magic: Option<(usize, Vec<u8>)>,
+    pub size: Option<usize>,
+}
+
+/// Writes a template from the names given to values in the hex view, so every save of the
+/// game opens with those values listed. Returns the template's text and the names that had to
+/// be left out (types a template can't hold: i8, i64, f64 and text).
+pub fn from_names(game: &str, names: &[Named], big_endian: bool, by: &MatchBy, sum: Option<Sum>) -> Result<(String, Vec<String>), String> {
+    let game = game.trim();
+    if game.is_empty() {
+        return Err("give the game a name".into());
+    }
+    let mut m = serde_json::Map::new();
+    if let Some(e) = by.extension.as_ref().map(|e| e.trim_start_matches('.').to_lowercase()).filter(|e| !e.is_empty()) {
+        m.insert("extensions".into(), serde_json::json!([e]));
+    }
+    if let Some(n) = by.size {
+        m.insert("size".into(), n.into());
+    }
+    if let Some((at, b)) = by.magic.as_ref().filter(|(_, b)| !b.is_empty()) {
+        let hex: Vec<String> = b.iter().map(|x| format!("{x:02X}")).collect();
+        m.insert("magic".into(), serde_json::json!([{ "at": at, "hex": hex.join(" ") }]));
+    }
+    if m.is_empty() {
+        return Err("pick at least one way to recognise the game's saves".into());
+    }
+    let mut fields = Vec::new();
+    let mut skipped = Vec::new();
+    let mut seen = std::collections::HashSet::new();
+    for n in names {
+        if kind(n.ty).is_none() {
+            skipped.push(n.name.to_string());
+            continue;
+        }
+        // Paths are split on "/", and two values can't share a path.
+        let mut path = n.name.replace('/', "-").trim().to_string();
+        if path.is_empty() {
+            path = format!("Offset 0x{:X}", n.at);
+        }
+        if !seen.insert(path.clone()) {
+            path = format!("{path} (0x{:X})", n.at);
+        }
+        fields.push(serde_json::json!({ "path": path, "at": format!("0x{:X}", n.at), "type": n.ty }));
+    }
+    if fields.is_empty() {
+        return Err("none of the named values can go in a template (it holds whole numbers and f32, not text, i8, i64 or f64)".into());
+    }
+    let mut v = serde_json::json!({ "game": game, "match": m, "big_endian": big_endian, "fields": fields });
+    if let Some(s) = sum {
+        let over = match s.span {
+            Span::After => "after",
+            Span::Before => "before",
+            Span::Zeroed => "whole",
+        };
+        v["checksum"] = serde_json::json!({ "algorithm": s.algo.name(), "at": format!("0x{:X}", s.at), "over": over, "big_endian": s.be });
+    }
+    let text = serde_json::to_string_pretty(&v).map_err(|e| e.to_string())?;
+    // What is written must read back.
+    from_json(&text)?;
+    Ok((text, skipped))
+}
+
+/// Reads names shared from another save: a names file exported from the hex view
+/// (`{"labels": [{"offset", "name", "type"}]}`) or a template (its fields). Returns
+/// (offset, name, type name) for each.
+pub fn names_from_json(text: &str) -> Result<Vec<(usize, String, String)>, String> {
+    let v: Value = serde_json::from_str(text).map_err(|e| format!("not valid JSON: {e}"))?;
+    let mut out = Vec::new();
+    if let Some(list) = v["labels"].as_array() {
+        for l in list {
+            let (Some(at), Some(name), Some(ty)) = (offset(&l["offset"]), l["name"].as_str(), l["type"].as_str()) else { continue };
+            out.push((at, name.to_string(), ty.to_string()));
+        }
+    } else if let Some(list) = v["fields"].as_array() {
+        for f in list {
+            let (Some(at), Some(name), Some(ty)) = (offset(&f["at"]), f["path"].as_str(), f["type"].as_str()) else { continue };
+            // Template-only types read as the nearest hex-view type.
+            let ty = match ty.to_ascii_lowercase().as_str() {
+                "byte" | "bool8" | "bool" => "u8".to_string(),
+                "int" => "i32".to_string(),
+                "bool32" => "u32".to_string(),
+                "float" => "f32".to_string(),
+                t => t.to_string(),
+            };
+            out.push((at, name.to_string(), ty));
+        }
+    } else {
+        return Err("it has no \"labels\" or \"fields\" list".into());
+    }
+    if out.is_empty() {
+        return Err("it has no names in it".into());
+    }
+    Ok(out)
+}
+
+/// A file name for a template from the game's name.
+pub fn file_name_for(game: &str) -> String {
+    let clean: String = game.chars().map(|c| if c.is_alphanumeric() || c == ' ' || c == '-' || c == '_' { c } else { '_' }).collect();
+    let clean = clean.trim().trim_matches('_').to_string();
+    format!("{}.json", if clean.is_empty() { "game".into() } else { clean })
+}
+
+/// Writes a template into the templates folder. Refuses to overwrite another one unless
+/// `replace`.
+#[cfg(not(target_arch = "wasm32"))]
+pub fn keep(game: &str, text: &str, replace: bool) -> Result<std::path::PathBuf, String> {
+    let d = ensure_dir()?;
+    let path = d.join(file_name_for(game));
+    if path.exists() && !replace {
+        return Err(format!("there is already a template called {}", file_name_for(game)));
+    }
+    std::fs::write(&path, text).map_err(|e| e.to_string())?;
+    Ok(path)
+}
+
 /// The folder templates are read from.
 #[cfg(not(target_arch = "wasm32"))]
 pub fn dir() -> Option<std::path::PathBuf> {
@@ -325,6 +452,36 @@ mod tests {
         assert!(e.contains("u24"), "{e}");
         let e = from_json(r#"{"game":"x","match":{"size":4},"checksum":{"algorithm":"CRC-99","at":0},"fields":[{"path":"a","at":0,"type":"u8"}]}"#).unwrap_err();
         assert!(e.contains("CRC-99"), "{e}");
+    }
+
+    #[test]
+    fn template_from_hex_names() {
+        let d = save();
+        let names = [
+            Named { at: 0x10, name: "Gold", ty: "u32" },
+            Named { at: 0x18, name: "HP / max", ty: "u16" },
+            Named { at: 0x30, name: "Hero name", ty: "text (ASCII/UTF-8)" },
+            Named { at: 20, name: "Gold", ty: "u8" },
+        ];
+        let by = MatchBy { extension: Some(".SAV".into()), magic: Some((0, b"TQ".to_vec())), size: Some(64) };
+        let sum = from_json(T).unwrap().sum;
+        let (text, skipped) = from_names("Test Quest", &names, false, &by, sum).unwrap();
+        assert_eq!(skipped, vec!["Hero name".to_string()]);
+        let t = from_json(&text).unwrap();
+        assert!(t.matches(&d, "sav"));
+        let doc = t.parse(&d, "x.json");
+        assert_eq!(doc.view.pointer("/Gold").unwrap(), 500);
+        assert_eq!(doc.view.pointer("/Gold (0x14)").unwrap(), 1);
+        assert!(doc.view.pointer("/HP - max").is_some());
+        // Names come back from the template and from an exported names file.
+        let back = names_from_json(&text).unwrap();
+        assert_eq!(back[0], (0x10, "Gold".to_string(), "u32".to_string()));
+        let back = names_from_json(r#"{"labels":[{"offset":64,"name":"Ammo","type":"i16"}]}"#).unwrap();
+        assert_eq!(back, vec![(64, "Ammo".to_string(), "i16".to_string())]);
+        assert!(from_names("", &names, false, &by, None).is_err());
+        assert!(from_names("X", &names, false, &MatchBy::default(), None).is_err());
+        assert!(from_names("X", &names[2..3], false, &by, None).is_err());
+        assert_eq!(file_name_for("A: B?"), "A_ B.json");
     }
 
     /// The guide's example is itself a valid template.

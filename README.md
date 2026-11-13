@@ -413,7 +413,8 @@ Pick one and it is written again every time you save that file; it shows as zero
 know, write a small JSON file that says how to recognise its saves (size, magic bytes, extension)
 and where each value is (offset, type, limits, drop-down names, copies kept in step, optional
 checksum). A save that matches opens as a list of those values, changed in place. The folder has a
-guide with an example; templates are easy to share with other players.
+guide with an example; templates are easy to share with other players. You don't have to write one
+by hand: name values in the hex view and press *Use for every save…*.
 
 **Change Steam account in this save** (*Tools*, or `steamid` on the command line): finds the 64-bit
 Steam IDs stored in the save's data (as bytes, numbers or text) and changes every copy to another
@@ -593,8 +594,22 @@ compression, encryption and checksums.
   change it in-game, save, and *Refine*: keep what is now a given value, what changed, stayed the
   same, increased, decreased, or went up or down by a given amount. *Aligned* tests only offsets
   that are a multiple of the value size, which is how most games store numbers.
+- **Find a value, step by step**: the hex view opens with a short guide (search for a number you
+  see in the game, change it in the game and refine, name it, change it) that follows where you
+  are. *Refine by itself each time the game saves* watches the file and refines as soon as the
+  game writes it again, so you can keep playing (desktop).
 - **Binary saves**: use *Value search* to find a value, click the result, then give it a name under
-  *Named values*. Names are stored in `<save>.labels.json` and come back next time.
+  *Named values*. Names are stored in `<save>.labels.json` and come back next time. *Use for every
+  save…* turns your names into a template, so every save of that game opens with those values
+  listed by name; *Export…* and *Import…* share names with other players (a template's fields
+  import too).
+- **Bulk edit** (Values tab): tick values, or search and *Tick all shown*, then set them all to one
+  value, add to them or multiply them. Set only changes values of the kind typed (a number sets
+  numbers, never a name). One *Undo* puts them all back.
+- **Presets** (*Tools › Presets*, or *Save as preset…* in the Changes panel): keep a set of changes
+  and make them again on another save or slot of the game; preset files can be shared.
+- **Copy changes as text** (*Edit*, or the Changes panel): the list of changes, ready to paste
+  when asking for help or sharing a recipe.
 
 ## Safety
 

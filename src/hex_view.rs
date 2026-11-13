@@ -5,6 +5,8 @@ use std::collections::{BTreeMap, HashSet};
 
 const BYTES_PER_ROW: usize = 16;
 pub const MAX_RESULTS: usize = 100_000;
+/// When this few locations are left, the guided search says to look at them and name one.
+pub const GUIDE_FEW: usize = 5;
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum NumType {
@@ -350,6 +352,14 @@ pub struct HexState {
     pub aligned: bool,
     /// An unknown-value scan is running: every location is still in play.
     pub all_locations: bool,
+    /// Refine by itself each time the game writes the file again.
+    pub auto_refine: bool,
+    /// The file's (modified time in ms, size) when last read, for `auto_refine`.
+    #[cfg_attr(target_arch = "wasm32", allow(dead_code))]
+    pub watch: Option<(u128, u64)>,
+    /// When the file was last looked at for `auto_refine` (window time, seconds).
+    #[cfg_attr(target_arch = "wasm32", allow(dead_code))]
+    pub watch_checked: f64,
 }
 
 impl Default for HexState {
@@ -374,6 +384,9 @@ impl Default for HexState {
             search_text2: String::new(),
             aligned: true,
             all_locations: false,
+            auto_refine: false,
+            watch: None,
+            watch_checked: 0.0,
         }
     }
 }
@@ -411,6 +424,21 @@ impl HexState {
         let n = res.len();
         self.set_results(res);
         Ok((was, n))
+    }
+
+    /// Which step of the guided search the player is on: 1 search for a number, 2 narrow it
+    /// down by changing it in the game, 3 name one of the few left, 4 change it.
+    pub fn guide_step(&self) -> usize {
+        let scanning = self.searched && (self.all_locations || !self.results.is_empty());
+        if !scanning {
+            1
+        } else if self.all_locations || self.results.len() > GUIDE_FEW {
+            2
+        } else if self.results.iter().any(|o| self.labels.contains_key(o)) {
+            4
+        } else {
+            3
+        }
     }
 
     pub fn jump(&mut self, off: usize) {
@@ -492,6 +520,20 @@ mod tests {
 
     fn file(vals: &[i32]) -> Vec<u8> {
         vals.iter().flat_map(|v| v.to_le_bytes()).collect()
+    }
+
+    #[test]
+    fn guide_steps() {
+        let mut h = HexState::default();
+        assert_eq!(h.guide_step(), 1);
+        h.set_results((0..40).collect());
+        assert_eq!(h.guide_step(), 2);
+        h.set_results(vec![4, 8]);
+        assert_eq!(h.guide_step(), 3);
+        h.labels.insert(8, OffsetLabel { name: "Gold".into(), ty: NumType::U32 });
+        assert_eq!(h.guide_step(), 4);
+        h.set_results(vec![]);
+        assert_eq!(h.guide_step(), 1);
     }
 
     #[test]
