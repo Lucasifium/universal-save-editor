@@ -527,6 +527,12 @@ impl App {
     fn close_top_dialog(&mut self) {
         if self.browser.is_some() {
             self.browser = None;
+        } else if self.share_names.is_some() {
+            self.share_names = None;
+        } else if self.preset_save.is_some() {
+            self.preset_save = None;
+        } else if self.preset_apply.is_some() {
+            self.preset_apply = None;
         } else if self.save_review.is_some() {
             self.save_review = None;
         } else if self.confirm_close {

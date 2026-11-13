@@ -245,7 +245,7 @@ impl App {
                 if ui.add_enabled(ok, egui::Button::new(RichText::new("Save preset").color(Color32::WHITE)).fill(theme::ACCENT)).clicked() {
                     choice = Some(true);
                 }
-                if ui.button("Cancel").clicked() || ui.input(|i| i.key_pressed(egui::Key::Escape)) {
+                if ui.button("Cancel").clicked() {
                     choice = Some(false);
                 }
             });
@@ -356,7 +356,7 @@ impl App {
                         crate::platform::reveal(&d);
                     }
                 }
-                if ui.button("Close").clicked() || ui.input(|i| i.key_pressed(egui::Key::Escape)) {
+                if ui.button("Close").clicked() {
                     close = true;
                 }
             });
@@ -528,7 +528,7 @@ impl App {
                 if ui.add(egui::Button::new(RichText::new("Make template").color(Color32::WHITE)).fill(theme::ACCENT)).clicked() {
                     choice = Some(true);
                 }
-                if ui.button("Cancel").clicked() || ui.input(|i| i.key_pressed(egui::Key::Escape)) {
+                if ui.button("Cancel").clicked() {
                     choice = Some(false);
                 }
             });

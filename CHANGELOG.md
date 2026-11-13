@@ -13,6 +13,13 @@
 - Number boxes fit their value; big numbers lose the -/+ buttons, Shift and Ctrl step by 10 and 100
 - Game screens no longer run slightly wider than the window; Slay the Spire and Diablo II columns are labelled
 
+### Tools for games without a screen
+- Bulk edit in the Values tab: tick values (or all a search shows) and set, add to or multiply them in one step
+- Presets: keep a set of changes and make them again on another save or slot (Tools › Presets, Changes panel)
+- Names given to values in the hex view can become a template for every save of the game, and can be exported and imported
+- The hex view has a step-by-step guide for finding a value, and the search can refine by itself each time the game saves
+- Copy the list of changes as text (Edit menu, Changes panel)
+
 ## 0.5.1
 
 ### New game screens
