@@ -209,3 +209,49 @@ pub const PLANETBASE: Spec = Spec {
     ], only: &[], names: &[] },
     ],
 };
+
+// ------------------------------------------------------------------ Outer Wilds
+
+pub const OUTER_WILDS: Spec = Spec {
+    name: "Outer Wilds",
+    tab: "Time loop",
+    accent: (230, 130, 50),
+    kind: None,
+    markers: &["/loopCount", "/shipLogFactSaves", "/knownSignals"],
+    subtitle: tx("data.owsave in LocalLow\\Mobius Digital\\Outer Wilds\\SteamSaves\\<account> (plain JSON). The loop counters, marshmallows eaten, whether Hornfels has given you the launch codes, and the Eye of the Universe warp. Ship log entries and signals are in the Tree."),
+    tiles: &[(tx("Loops"), "/loopCount"), (tx("Full time loops"), "/fullTimeloops")],
+    sections: &[
+    Section { title: tx("Time loop"), rows: &[
+        (tx("Loops"), "/loopCount"), (tx("Full time loops"), "/fullTimeloops"), (tx("Launch codes given"), "/dictConditions/LAUNCH_CODES_GIVEN"),
+        (tx("Warped to the Eye of the Universe"), "/warpedToTheEye"), (tx("Seconds left on the warp"), "/secondsRemainingOnWarp"),
+    ] },
+    Section { title: tx("Marshmallows"), rows: &[
+        (tx("Perfect marshmallows eaten"), "/perfectMarshmallowsEaten"), (tx("Burned marshmallows eaten"), "/burnedMarshmallowEaten"),
+    ] },
+    ],
+    lists: &[],
+    tables: &[],
+};
+
+// ------------------------------------------------------------------ Hotline Miami
+
+pub const HOTLINE_MIAMI: Spec = Spec {
+    name: "Hotline Miami",
+    tab: "Progress",
+    accent: (240, 60, 160),
+    kind: None,
+    markers: &["/Hotline Miami/Overall score", "/Masks", "/Level ranks"],
+    subtitle: tx("SaveData.sav in Documents\\My Games\\HotlineMiami. The overall score, the masks, levels and weapons unlocked, the letters of the hidden puzzle, and each level's rank (0 = none, 1 = F- … 15 = A+) and high score. Only the values you change are rewritten."),
+    tiles: &[(tx("Overall score"), "/Hotline Miami/Overall score")],
+    sections: &[
+    Section { title: tx("Progress"), rows: &[(tx("Overall score"), "/Hotline Miami/Overall score"), (tx("Puzzle solved"), "/Hotline Miami/Puzzle solved")] },
+    ],
+    lists: &[],
+    tables: &[
+    Table { title: tx("Level ranks"), path: "/Level ranks", name: &[], cols: &[(tx("Rank"), "/Rank"), (tx("High score"), "/High score")], only: &[], names: &[] },
+    Table { title: tx("Masks"), path: "/Masks", name: &[], cols: &[(tx("Unlocked"), "/Unlocked")], only: &[], names: &[] },
+    Table { title: tx("Levels"), path: "/Levels", name: &[], cols: &[(tx("Unlocked"), "/Unlocked")], only: &[], names: &[] },
+    Table { title: tx("Weapons"), path: "/Weapons", name: &[], cols: &[(tx("Unlocked"), "/Unlocked")], only: &[], names: &[] },
+    Table { title: tx("Puzzle letters"), path: "/Puzzle letters", name: &[], cols: &[(tx("Found"), "/Unlocked")], only: &[], names: &[] },
+    ],
+};

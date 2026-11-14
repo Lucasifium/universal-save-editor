@@ -66,6 +66,7 @@ pub mod dontstarve;
 pub mod madmax;
 pub mod bugfables;
 pub mod cookieclicker;
+pub mod hotlinemiami;
 pub mod looseson;
 pub mod shifted;
 pub mod hld;

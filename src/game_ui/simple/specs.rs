@@ -31,6 +31,8 @@ pub static SPECS: &[Spec] = &[OPENXCOM, XCOM_DOS, RCT2, COTL, FALLOUT_SHELTER, D
     COOKIE_CLICKER,
     BUG_FABLES,
     PLANETBASE,
+    OUTER_WILDS,
+    HOTLINE_MIAMI,
 ];
 // ------------------------------------------------------------------ Cult of the Lamb
 

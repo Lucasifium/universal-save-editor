@@ -266,7 +266,7 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 </details>
 
 <details>
-<summary><strong>H</strong> (15)</summary>
+<summary><strong>H</strong> (16)</summary>
 
 | Game | Screen |
 |---|---|
@@ -283,6 +283,7 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 | HoloCure - Save the Fans! | *Fans*: HoloCoins and the level of every upgrade (ATK, HP, SPD, crit, pickup range, haste, damage resistance, regen, EXP, money gain, rerolls and the rest), from `save_n.dat` (base64 JSON, unpacked and packed again; checked on a public save, not yet tried in the game) |
 | Horizon Chase Turbo | *Driver*: campaign tokens and race counts, each stored in three places and all shown (checked on a public save from the Epic Games Store build, not yet tried in the game) |
 | Horizon Zero Dawn | *Aloy*: metal shards and skill points, with level and experience (PC Complete Edition; checked on public saves, not yet tried in the game) |
+| Hotline Miami | *Progress*: overall score, masks, levels and weapons unlocked, the hidden puzzle's letters, and each level's rank and high score in `SaveData.sav` (checked on a public save, not yet tried in the game) |
 | House Flipper | *Flipper*: money (both copies the game keeps are written together), unused perk points of each skill and the statistics, from `PlayerProgress.dat` (plain JSON; checked on a public save, not yet tried in the game) |
 | Hyper Light Drifter | Opens as JSON from `HyperLight_RecordOfTheDrifter_N.sav` (the hex header and base64 wrapper are removed and put back; every value by name; checked on a public save, not yet tried in the game) |
 
@@ -409,7 +410,7 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 </details>
 
 <details>
-<summary><strong>O</strong> (11)</summary>
+<summary><strong>O</strong> (12)</summary>
 
 | Game | Screen |
 |---|---|
@@ -422,6 +423,7 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 | Onimusha: Way of the Sword | Each save slot (place, play time, difficulty, objective); red souls, money, health and Oni energy; items and charms by name (on hand and in storage; charm level), with **Add material** to give a slot an upgrade material it doesn't have yet, and a **Max crafting materials** button that fills the upgrade materials on hand (cloths, leather, whetstones, iron, Tamahagane, Malicite, Byakue's Talisman, Dohatsu-ten's Horn) to 999, adding any that are missing, and leaving Power Stones, Oni Stones, Oni Cloth and key items alone; equipment experience. Decrypts Capcom's RE Engine encryption with your Steam account, found automatically |
 | OpenXcom (X-COM: UFO Defense) | *Base*: funds, months and days passed, difficulty, scientists and engineers, every soldier's rank, missions, kills and stats, and the stores of the first three bases, from an OpenXcom or OpenXcom Extended `.sav` (the data part of the file is rewritten on save; checked on a public save, not yet tried in the game) |
 | Ori and the Blind Forest | *Ori*: level, experience, ability points, life and energy cells, keystones, mapstones and deaths, and every skill and ability-tree upgrade to tick on or off, in Definitive Edition and original saves (`saveFile0.sav`…); the load menu's copy of life and energy is kept in step (checked on a public save, not yet tried in the game) |
+| Outer Wilds | *Time loop*: loop counters, marshmallows eaten, the launch codes and the Eye of the Universe warp in `data.owsave` (checked on a real save, not yet tried in the game) |
 | Outward | *Adventurer*: silver, health, stamina, mana, food, drink, sleep and the burnt (reduced maximum) health, stamina and mana, from `CharN.charc` (the gzip-compressed XML is unpacked and packed again; checked on a public save, not yet tried in the game) |
 | Oxygen Not Included | *Colony*: every duplicant's attribute levels and experience, total experience and learned skills; a *Map* of every asteroid and rocket interior (elements, temperature and germ views; paint elements with mass and temperature, dig out to vacuum, set temperature or mass, clear germs, reveal the fog; geysers, teleporters, Gravitas finds, story traits, artifacts and the Printing Pod as toggleable markers); *Worlds & rockets*: names, discovered, sunlight and cosmic radiation, and what's on the star map |
 

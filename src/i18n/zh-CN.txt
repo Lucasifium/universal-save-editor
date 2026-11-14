@@ -26194,4 +26194,52 @@ Slot 3: characters
 
 Slot 3: key items
 = 存档位 3：关键道具
+# src/game_ui/simple/hardpc_specs.rs (Outer Wilds, Hotline Miami)
+data.owsave in LocalLow\\Mobius Digital\\Outer Wilds\\SteamSaves\\<account> (plain JSON). The loop counters, marshmallows eaten, whether Hornfels has given you the launch codes, and the Eye of the Universe warp. Ship log entries and signals are in the Tree.
+= LocalLow\Mobius Digital\Outer Wilds\SteamSaves\<账户> 中的 data.owsave（纯 JSON）。循环计数、吃掉的棉花糖、Hornfels 是否已给你发射代码，以及前往宇宙之眼的跃迁。飞船日志条目和信号在树视图中。
+
+Loops
+= 循环
+
+Full time loops
+= 完整循环
+
+Time loop
+= 时间循环
+
+Launch codes given
+= 已获得发射代码
+
+Warped to the Eye of the Universe
+= 已跃迁至宇宙之眼
+
+Seconds left on the warp
+= 跃迁剩余秒数
+
+Marshmallows
+= 棉花糖
+
+Perfect marshmallows eaten
+= 吃掉的完美棉花糖
+
+Burned marshmallows eaten
+= 吃掉的烤焦棉花糖
+
+SaveData.sav in Documents\\My Games\\HotlineMiami. The overall score, the masks, levels and weapons unlocked, the letters of the hidden puzzle, and each level's rank (0 = none, 1 = F- … 15 = A+) and high score. Only the values you change are rewritten.
+= Documents\My Games\HotlineMiami 中的 SaveData.sav。总分、已解锁的面具、关卡和武器、隐藏谜题的字母，以及每关的评级（0 = 无，1 = F- … 15 = A+）和最高分。只重写你修改的数值。
+
+Overall score
+= 总分
+
+Puzzle solved
+= 谜题已解开
+
+Levels
+= 关卡
+
+Puzzle letters
+= 谜题字母
+
+Found
+= 已找到
 

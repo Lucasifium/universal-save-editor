@@ -26146,4 +26146,52 @@ Slot 3: characters
 
 Slot 3: key items
 = Emplacement 3 : objets clés
+# src/game_ui/simple/hardpc_specs.rs (Outer Wilds, Hotline Miami)
+data.owsave in LocalLow\\Mobius Digital\\Outer Wilds\\SteamSaves\\<account> (plain JSON). The loop counters, marshmallows eaten, whether Hornfels has given you the launch codes, and the Eye of the Universe warp. Ship log entries and signals are in the Tree.
+= data.owsave dans LocalLow\Mobius Digital\Outer Wilds\SteamSaves\<compte> (JSON en clair). Les compteurs de boucles, les guimauves mangées, si Hornfels vous a donné les codes de lancement, et la distorsion vers l'Œil de l'univers. Les entrées du journal de bord et les signaux sont dans l'arbre.
+
+Loops
+= Boucles
+
+Full time loops
+= Boucles complètes
+
+Time loop
+= Boucle temporelle
+
+Launch codes given
+= Codes de lancement reçus
+
+Warped to the Eye of the Universe
+= Distordu vers l'Œil de l'univers
+
+Seconds left on the warp
+= Secondes restantes de la distorsion
+
+Marshmallows
+= Guimauves
+
+Perfect marshmallows eaten
+= Guimauves parfaites mangées
+
+Burned marshmallows eaten
+= Guimauves brûlées mangées
+
+SaveData.sav in Documents\\My Games\\HotlineMiami. The overall score, the masks, levels and weapons unlocked, the letters of the hidden puzzle, and each level's rank (0 = none, 1 = F- … 15 = A+) and high score. Only the values you change are rewritten.
+= SaveData.sav dans Documents\My Games\HotlineMiami. Le score total, les masques, niveaux et armes débloqués, les lettres de l'énigme cachée, ainsi que le rang (0 = aucun, 1 = F- … 15 = A+) et le meilleur score de chaque niveau. Seules les valeurs modifiées sont réécrites.
+
+Overall score
+= Score total
+
+Puzzle solved
+= Énigme résolue
+
+Levels
+= Niveaux
+
+Puzzle letters
+= Lettres de l'énigme
+
+Found
+= Trouvée
 

@@ -235,6 +235,8 @@ pub enum Layer {
     CookieClicker { wrap: fmt::cookieclicker::Wrap, plain: Arc<Vec<u8>> },
     /// Bug Fables (PC): text XORed per character; holds the plain text so every value not shown is kept.
     BugFables { plain: Arc<Vec<u8>> },
+    /// Hotline Miami: the file bundle holding `saves.dat`; the original is kept for every other byte.
+    HotlineMiami { original: Arc<Vec<u8>> },
     /// JSON with bare values in objects (Inscryption): they get made-up keys while editing.
     LooseJson,
     /// Dead Island: level, health and money patched into the flat binary (the original bytes are kept).
@@ -467,6 +469,7 @@ impl Layer {
             Layer::Shifted => "Every byte one less (Aliens: Fireteam Elite)".into(),
             Layer::CookieClicker { .. } => "Cookie Clicker save text (base64)".into(),
             Layer::BugFables { .. } => "Bug Fables save text (XORed)".into(),
+            Layer::HotlineMiami { .. } => "Hotline Miami save bundle".into(),
             Layer::LooseJson => "JSON with bare values (Inscryption)".into(),
             Layer::DeadIsland { .. } => "Dead Island save values".into(),
             Layer::P3rSteam => "Persona 3 Reload save encryption".into(),
@@ -1128,6 +1131,7 @@ fn wrap(layer: &Layer, data: Vec<u8>) -> Result<Vec<u8>, String> {
         Layer::Shifted => fmt::shifted::pack(&data),
         Layer::CookieClicker { wrap, plain } => fmt::cookieclicker::pack(wrap, plain, &data),
         Layer::BugFables { plain } => fmt::bugfables::pack(plain, &data)?,
+        Layer::HotlineMiami { original } => fmt::hotlinemiami::pack(original, &data)?,
         Layer::LooseJson => fmt::looseson::pack(&data),
         Layer::DeadIsland { original } => fmt::deadisland::pack(original, &data)?,
         Layer::P3rSteam => fmt::p3r::steam_encrypt(&data),
@@ -2046,6 +2050,9 @@ fn peel(data: &[u8], ctx: &mut Ctx) -> Option<(Layer, Vec<u8>)> {
     }
     if let Some((plain, json)) = fmt::madmax::open(data) {
         return Some((Layer::MadMax { plain: Arc::new(plain) }, json));
+    }
+    if let Some(json) = fmt::hotlinemiami::open(data) {
+        return Some((Layer::HotlineMiami { original: Arc::new(data.to_vec()) }, json));
     }
     if let Some((plain, json)) = fmt::bugfables::open(data) {
         return Some((Layer::BugFables { plain: Arc::new(plain) }, json));

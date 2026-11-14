@@ -26221,4 +26221,52 @@ Slot 3: characters
 
 Slot 3: key items
 = スロット 3：大事なもの
+# src/game_ui/simple/hardpc_specs.rs (Outer Wilds, Hotline Miami)
+data.owsave in LocalLow\\Mobius Digital\\Outer Wilds\\SteamSaves\\<account> (plain JSON). The loop counters, marshmallows eaten, whether Hornfels has given you the launch codes, and the Eye of the Universe warp. Ship log entries and signals are in the Tree.
+= LocalLow\Mobius Digital\Outer Wilds\SteamSaves\<アカウント> の data.owsave（プレーンな JSON）。ループ回数、食べたマシュマロ、ホーンフェルスから発射コードをもらったか、宇宙の眼へのワープ。航行記録と信号はツリーにあります。
+
+Loops
+= ループ
+
+Full time loops
+= 完走したループ
+
+Time loop
+= タイムループ
+
+Launch codes given
+= 発射コード入手済み
+
+Warped to the Eye of the Universe
+= 宇宙の眼へワープ済み
+
+Seconds left on the warp
+= ワープの残り秒数
+
+Marshmallows
+= マシュマロ
+
+Perfect marshmallows eaten
+= 食べた完璧なマシュマロ
+
+Burned marshmallows eaten
+= 食べた焦げたマシュマロ
+
+SaveData.sav in Documents\\My Games\\HotlineMiami. The overall score, the masks, levels and weapons unlocked, the letters of the hidden puzzle, and each level's rank (0 = none, 1 = F- … 15 = A+) and high score. Only the values you change are rewritten.
+= Documents\My Games\HotlineMiami の SaveData.sav。総合スコア、解放済みのマスク・レベル・武器、隠しパズルの文字、各レベルのランク（0 = なし、1 = F- … 15 = A+）とハイスコア。変更した値だけを書き換えます。
+
+Overall score
+= 総合スコア
+
+Puzzle solved
+= パズル解決済み
+
+Levels
+= レベル
+
+Puzzle letters
+= パズルの文字
+
+Found
+= 発見済み
 
