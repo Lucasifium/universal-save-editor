@@ -581,3 +581,38 @@ mod uty_tests {
         assert!(out.contains("Gold=\"9999\"") || out.contains("Gold=9999"), "{}", out.lines().find(|l| l.starts_with("Gold")).unwrap_or(""));
     }
 }
+
+#[cfg(test)]
+mod dump_tests {
+    #[test]
+    #[ignore]
+    fn dump_view() {
+        let Ok(f) = std::env::var("DUMP_FILE") else { return };
+        let d = crate::formats::decode(&std::fs::read(f).unwrap());
+        if let crate::formats::Content::Tree(t) = &d.content {
+            println!("KIND {}", t.kind_name);
+            let s = serde_json::to_string_pretty(&t.view).unwrap();
+            println!("{}", &s[..s.len().min(4000)]);
+        } else {
+            println!("not a tree");
+        }
+    }
+}
+
+#[cfg(test)]
+mod delta_tests {
+    #[test]
+    #[ignore]
+    fn deltatraveler_sample() {
+        let Ok(f) = std::env::var("DELTA_SAMPLE") else { return };
+        let raw = std::fs::read(f).unwrap();
+        let mut d = crate::formats::decode(&raw);
+        let crate::formats::Content::Tree(t) = &mut d.content else { panic!("not a tree") };
+        assert_eq!(super::game_name(super::detect(&t.kind_name, &t.view).expect("spec matches")), "Deltatraveler");
+        t.set("/gold", 9999.into()).unwrap();
+        let out = crate::formats::encode(&d.layers, &d.content).unwrap();
+        let d2 = crate::formats::decode(&out);
+        let crate::formats::Content::Tree(t2) = &d2.content else { panic!("reopened as hex") };
+        assert_eq!(t2.view.pointer("/gold").unwrap(), 9999);
+    }
+}

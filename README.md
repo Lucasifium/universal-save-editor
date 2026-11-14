@@ -3,7 +3,7 @@
 > **Free, and it always will be.** No price, no ads, no account, no paid version, no online service, no
 > rate limits. If anyone is charging you for this, it isn't from here.
 
-An offline save editor and save manager for 360+ (363) PC games (edit saves, and back up, name and restore them): Cairn, Terraria (characters and a world map editor),
+An offline save editor and save manager for 360+ (364) PC games (edit saves, and back up, name and restore them): Cairn, Terraria (characters and a world map editor),
 Oxygen Not Included, RimWorld, Stardew Valley, Onimusha: Way of the Sword, Elden Ring, Dark Souls,
 Cyberpunk 2077, the Persona, Yakuza and Final Fantasy games, Ren'Py visual novels, RPG Maker games
 and more (the full list is below). Written in Rust (egui). Nothing is uploaded anywhere, and there are
@@ -125,6 +125,7 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 | Mario Kart 7 | *Player*: coins, StreetPass count, online wins and losses and VR points; the save's CRC-32 is written again (decrypted 3DS `system0.dat`; checked on a public save, not yet tried in the game) |
 | Super Kirby Clash | *Resources*: apple gems and the red, blue, yellow and rare shards (decrypted 3DS `savedata.dat`; checked on a public save, not yet tried in the game) |
 | Alpha Protocol | *Agent*: money, level, experience, skill points, skill ranks, ammunition and gadget counts from a checkpoint `.sav` (checked on a public save, not yet tried in the game) |
+| Deltatraveler | *Party*: name, gold, experience, play time, party members and the item, weapon and armor ids (checked on public saves, not yet tried in the game) |
 | Undertale Yellow | *Clover*: LV, EXP, gold, HP and the other stats, equipment names, the eight item slots and play time from the save file (checked on public saves, not yet tried in the game) |
 | The Elder Scrolls II: Daggerfall (Daggerfall Unity) | *Character*: gold carried, level, health, magicka and fatigue, the eight attributes, all 35 skills, resistances, reputations and the gold and loan in each region's bank, from a save folder's `SaveData.txt` (checked on a public save, not yet tried in the game; classic `SAVETREE.DAT` saves are not supported yet) |
 | Salt and Sanctuary | *Character*: level, salt, gold, kills, deaths, sanctuary rests, corruption and the playthrough number from `datN.slv` (items and the skill tree are not edited yet; checked on public saves, not yet tried in the game) |

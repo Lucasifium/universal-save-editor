@@ -28,6 +28,7 @@ Universal Save Editor is free. It builds on other people's work, listed here wit
 | Morrowind and Oblivion save layouts (record framing, the player's NPC change record; worked out on public sample saves, with Wrye Bash's save reader as the reference for the Oblivion record layout) | Wrye Bash contributors | GPL-3.0 (layouts and field order ported with credit) |
 | Assassin's Creed save layout (wrapper, key, block container, checksum, money and item ids; worked out on public sample saves, with ACSaveLib and apollo-patches quick codes as facts only, no code) | TpRedNinja (ACSaveLib), bucanero (apollo-patches) | facts only (file layouts, ids and names), credited |
 | [uty-save-editor (Undertale Yellow save layout and field names; sample saves used for checks only, not included)](https://github.com/KockaAdmiralac/uty-save-editor) | Luka Simić (KockaAdmiralac) | MIT |
+| [DeltatravelerSaveEditor (Deltatraveler save layout; its sample saves used for checks only, not included)](https://github.com/BenjaminUrquhart/DeltatravelerSaveEditor) | Benjamin Urquhart | GPL-3.0 |
 | [ree-save-editor (RE Engine save layout; facts only, no code)](https://github.com/kvasszn/ree-save-editor) | kvasszn | facts only (file layouts, ids and names), credited |
 | [civ6-save-parser (Civilization VI save layout, ported)](https://github.com/pydt/civ6-save-parser) | Mike Rosack and playyourdamnturn.com | MIT |
 | [halbu (Diablo II character layout, skill names)](https://github.com/feored/halbu) | feor | MIT |
