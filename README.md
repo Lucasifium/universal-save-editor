@@ -791,37 +791,11 @@ Comms Link block dumps, which read the same as the matching `.bup` files.
 
 Big files open on a worker thread, and unpacking and decryption use every core.
 
-## What it opens
+## File formats it opens
 
 Wrappers are peeled off automatically and re-applied in the same order when you save. Wherever
 possible only the values you edit are rewritten — everything else stays byte-for-byte identical.
-
-**Specific games** (full editors with friendly names)
-
-| Game | Files | What you can edit | Verified against |
-|---|---|---|---|
-| Pokémon Red / Blue / Yellow and Gold / Silver / Crystal (GB/GBC, English releases) | `.sav` (32 KB) | Trainer, money, coins, badges, play time, every bag pocket (kept gap-free like the game), party and all PC boxes: species, nickname, level (sets experience and stats), moves, PP and PP Ups, IVs, stat experience, held item and friendship (Gen II); shiny and gender follow the IVs | spec-based tests (Bulbapedia, PKHeX, pret decompilations): main, bank, box and backup checksums |
-| Pokémon Ruby / Sapphire / Emerald / FireRed / LeafGreen (GBA, any emulator) | `.sav` (128 KB) | Trainer, money, coins, play time, bag (item drop-downs), party and PC Pokémon: species, nickname, level (sets experience and stats), moves, PP, IVs, EVs, ability, held item, ball | sample saves: section checksums, Pokémon checksums and the game's own stored stats all match |
-| Pokémon Diamond / Pearl / Platinum / HeartGold / SoulSilver, Black / White / Black 2 / White 2 (DS, any emulator) | `.sav` / `.dsv` (512 KB) | Trainer, money, badges, bag, party and PC boxes (full Pokémon editing), block checksums rewritten | real Platinum and Black 2 saves: parse, unchanged write-back is byte-identical, stored stats match the formulas |
-| Pokémon X / Y / Omega Ruby / Alpha Sapphire / Sun / Moon / Ultra Sun / Ultra Moon (3DS, Citra) | `main` | Same, plus Battle Points; block checksums rewritten (real consoles also check a signature on Sun/Moon) | real Sun/Moon save: unchanged write-back is byte-identical, party stats match |
-| Pokémon Sword / Shield / Scarlet / Violet (Switch) | `main` | Same, plus Watts, League and Blueberry Points; the file's scrambling and SHA-256 seal are redone | round-trip tests on the block scheme (no public save to check against yet) |
-| Pokémon Infinite Fusion (and other Pokémon Essentials v19+ fan games) | `File A.rxdata` … (Ruby Marshal) | Money, coins, Battle Points, badges, difficulty; party and PC Pokémon: level (sets Exp. and stats), Exp., nature, shiny, happiness, IVs, EVs; bag quantities | real saves: the game's stored stats and Exp. match the formulas for every Pokémon; edited saves load in Ruby |
-| Terraria (1.4 – 1.4.5) | `.plr` | Name, difficulty, life/mana, permanent upgrades, inventory, coins/ammo, equipment, piggy bank, safe, forge, void vault (item and prefix drop-downs) | a sample 1.4.5 character |
-| Terraria worlds (1.4 – 1.4.5) | `.wld` | World info, special seeds, bosses, events, rescued NPCs, chests, signs; map painting (blocks, walls, liquids, spawn) | sample 1.4.4 and 1.4.5 worlds (small, medium and large) |
-| Elden Ring | `ER0000.sl2` | Runes and the eight attributes (level follows automatically); items, key items and storage (change items and quantities up to 999, add new ones); weapons (swap, add, remove, upgrade level and affinity within what each weapon can have), armor, talismans and Ashes of War (swap, add, remove; an ash fitted to a weapon stays put); Sites of Grace and bosses defeated (tick, or unlock all); Shadow of the Erdtree item names; *Tools › Copy character to another slot* duplicates a character; shows class, rune memory, HP/FP/Stamina and the runes needed for the next level; other slots via *Open another file in this archive* | sample saves + upgrade data from the game's regulation 1.17 |
-| Dark Souls III | `DS30000.sl2` | Souls and the nine attributes (soul level follows); items (99 carried, 600 stored), weapons (add, swap, remove, level up to +10 for weapons that take infusions and +5 for the rest, infusion), armor and rings; shows soul memory, HP/FP/Stamina and the souls for the next level | a sample save (gear read, weapons and armor added) |
-| Dark Souls II: Scholar of the First Sin | `DS2SOFS0000.sl2` | Souls and the nine attributes (soul level follows); items (99 carried, 999 in the box), weapons (add, swap, remove, level up to +5 or the level they have), armor, rings and key items; shows soul memory and HP | a sample save |
-| Dark Souls Remastered | `DRAKS0005.sl2` | Souls, humanity and the eight attributes (soul level follows the starting class); items, key items, weapons (level up to +5 or the level they have; equipped weapons too), armor and rings (add, swap and remove; quantities up to 99, ammunition 999); shows class, HP/Stamina and the souls for the next level | not yet tried on a sample save: built from er-save-manager's and alfizari's notes on the format |
-| Sekiro | `S0000.sl2` | Sen, Attack Power, Spirit Emblem capacity, skill points and skill experience, Vitality and Posture; items, key items and storage (change, add, remove, set quantities); learned skills and tools listed | sample saves + alfizari's Sekiro editor's offsets |
-| Skyrim (LE/SE/AE/VR, Enderal), Fallout 4 | `.ess`, `.fos` | Game time, misc stats, global variables; header shown (LZ4 recompressed) | sample saves |
-| Hades, Hades II | `.sav` | The whole game state (resources, upgrades, flags…); search by name | sample saves |
-| Balatro | `.jkr` | Run, profile and settings values | sample saves |
-| Minecraft (Java/Bedrock) | `level.dat`, `playerdata/*.dat`, region `.mca` chunks | Everything in the NBT | sample worlds |
-| Stardew Valley, RimWorld, Celeste… | XML saves | Everything (formatting kept) | sample Stardew save |
-| Hollow Knight | `user*.dat` | Everything in the JSON | spec-based tests |
-| Slay the Spire | `.autosave` (base64 + XOR) | Everything in the JSON | spec-based tests |
-| Other GB / GBA games (and Japanese Gen I/II, ROM hacks) | `.sav`, `.srm` | Hex editor with value search | — |
-| mGBA save states | `.ss0`–`.ss9` | Emulator memory (hex, value search) | sample save states |
+The games with a screen of their own are listed under *Game screens* above.
 
 **Game engines**
 
@@ -847,6 +821,8 @@ IDs and keys read-only, 0/1 check-constrained columns shown as switches), Python
 **Wrappers** — gzip, zlib, raw deflate, zstd, LZ4, Snappy (framed), xz, bzip2, zip (pick any entry), Base64 (plain or
 line-wrapped), UTF-8 BOM, UTF-16, XOR, Easy Save 3 AES, Godot AES, Terraria AES, Hollow Knight AES,
 FromSoftware BND4 (MD5 + AES), Minecraft region chunks, mGBA PNG save states, Final Fantasy XVI slot pictures (XOR and zlib with the game's own dictionary, read from your installed copy of the game), Supergiant (Adler-32 + LZ4), Stellar Blade's EVAS envelope (CRC-32 written again), Ace Combat 8's packed save data (checksum written again), Prey (2017) (RC4 and zlib chunks, MD5 written again).
+
+**Emulator save states** (mGBA `.ss0`–`.ss9`) open as emulator memory in the hex view with value search; GB and GBA `.sav`/`.srm` files of games without a screen open the same way.
 
 **Anything else** opens in the hex editor with value search and named offsets.
 
