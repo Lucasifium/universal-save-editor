@@ -225,6 +225,10 @@ pub enum Layer {
     Payday2 { plain: Arc<Vec<u8>> },
     /// Hyper Light Drifter: hex header, then base64 of a JSON text with a trailing NUL.
     HyperLightDrifter { head: Arc<Vec<u8>> },
+    /// Don't Starve: `KLEI     1D`, base64, a 16-byte header and a zlib stream of Lua text.
+    DontStarve,
+    /// Dead Island: level, health and money patched into the flat binary (the original bytes are kept).
+    DeadIsland { original: Arc<Vec<u8>> },
     /// Persona 3 Reload Steam save (XOR key and bit permutation over a GVAS file).
     P3rSteam,
     /// Antimatter Dimensions export text (platform index, three letter version).
@@ -447,6 +451,8 @@ impl Layer {
             Layer::Wwz { .. } => "World War Z save encryption".into(),
             Layer::Payday2 { .. } => "PAYDAY 2 save encryption and blocks".into(),
             Layer::HyperLightDrifter { .. } => "Hyper Light Drifter header and base64".into(),
+            Layer::DontStarve => "Don't Starve save (base64, zlib)".into(),
+            Layer::DeadIsland { .. } => "Dead Island save values".into(),
             Layer::P3rSteam => "Persona 3 Reload save encryption".into(),
             Layer::Antimatter { .. } => "Antimatter Dimensions export text".into(),
             Layer::NestedJson { paths, .. } => format!("JSON inside JSON strings ({})", paths.len()),
@@ -1100,6 +1106,8 @@ fn wrap(layer: &Layer, data: Vec<u8>) -> Result<Vec<u8>, String> {
         Layer::Wwz { seed } => fmt::wwz::pack(*seed, &data)?,
         Layer::Payday2 { plain } => fmt::payday2::pack(plain, &data)?,
         Layer::HyperLightDrifter { head } => fmt::hld::pack(head, &data),
+        Layer::DontStarve => fmt::dontstarve::pack(&data),
+        Layer::DeadIsland { original } => fmt::deadisland::pack(original, &data)?,
         Layer::P3rSteam => fmt::p3r::steam_encrypt(&data),
         Layer::Antimatter { kind, version } => fmt::antimatter::close(*kind, version, &data)?,
         Layer::NestedJson { paths, pretty } => fmt::nested::close(&data, paths, *pretty)?,
@@ -1986,6 +1994,12 @@ fn peel(data: &[u8], ctx: &mut Ctx) -> Option<(Layer, Vec<u8>)> {
         if let Some((seed, plain)) = fmt::wwz::open(data, &name) {
             return Some((Layer::Wwz { seed }, plain));
         }
+    }
+    if let Some(json) = fmt::deadisland::open(data) {
+        return Some((Layer::DeadIsland { original: Arc::new(data.to_vec()) }, json));
+    }
+    if let Some(text) = fmt::dontstarve::open(data) {
+        return Some((Layer::DontStarve, text));
     }
     if let Some((head, json)) = fmt::hld::open(data) {
         return Some((Layer::HyperLightDrifter { head: Arc::new(head) }, json));

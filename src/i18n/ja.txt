@@ -23673,3 +23673,35 @@ Watcher
 
 save_N.dat from the game's save folder under AppData\\LocalLow (the save's own copy of each room is left alone). Level, experience, level points, health, energy and the attributes of Aletheia and Thirty-Four. Close the game first.
 = AppData\\LocalLow 内のゲームのセーブフォルダにある save_N.dat(各部屋のコピーはそのままです)。アレーテイアとサーティフォーのレベル、経験値、レベルポイント、体力、エネルギー、能力値。先にゲームを閉じてください。
+survival_1 (2, 3) from Documents\\Klei\\DoNotStarve\\save (base64 and zlib are removed and put back; the Lua text inside is edited by name). Health, hunger, sanity, temperature and the day count. Close the game first.
+= Documents\Klei\DoNotStarve\save の survival_1(2、3)(base64 と zlib を外して元に戻し、中の Lua テキストを名前で編集します)。体力、空腹、正気度、気温、経過日数。先にゲームを閉じてください。
+
+Phase of the day
+= 一日の時間帯
+
+marguerite.txt from a save's folder in AppData\\LocalLow\\<company>\\Mon Bazou (.NET BinaryFormatter, read and written in place). Cash, the player's meters and the game mode. Close the game first.
+= AppData\LocalLow\<会社名>\Mon Bazou のセーブフォルダ内の marguerite.txt(.NET BinaryFormatter、その場で読み書き)。所持金、プレイヤーのメーター、ゲームモード。先にゲームを閉じてください。
+
+Anxiety
+= 不安
+
+Spent at the traveling van
+= 移動販売車での支出
+
+Meters
+= メーター
+
+Maple syrup
+= メープルシロップ
+
+Poutine
+= プーティン
+
+Permadeath
+= パーマデス
+
+Cheats activated
+= チート有効
+
+save_N.sav from the game's remote\\out\\save folder (the gzip wrapper is removed and put back; only these four values are shown and the rest of the file is kept). Money, level and health. Close the game first.
+= ゲームの remote\out\save フォルダにある save_N.sav(gzip を外して元に戻し、この 4 つの値だけを表示し、ファイルの残りはそのまま保持します)。所持金、レベル、体力。先にゲームを閉じてください。

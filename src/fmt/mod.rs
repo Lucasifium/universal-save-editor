@@ -61,6 +61,8 @@ pub mod genzero_names;
 pub mod nier_replicant;
 pub mod potion;
 pub mod wreckfest;
+pub mod deadisland;
+pub mod dontstarve;
 pub mod hld;
 pub mod payday2;
 pub mod wwz;

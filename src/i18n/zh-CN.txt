@@ -23646,3 +23646,35 @@ Watcher
 
 save_N.dat from the game's save folder under AppData\\LocalLow (the save's own copy of each room is left alone). Level, experience, level points, health, energy and the attributes of Aletheia and Thirty-Four. Close the game first.
 = AppData\\LocalLow 下游戏存档文件夹中的 save_N.dat(存档中每个房间的副本保持不变)。阿勒忒亚和三十四的等级、经验、等级点数、生命值、能量和属性。请先关闭游戏。
+survival_1 (2, 3) from Documents\\Klei\\DoNotStarve\\save (base64 and zlib are removed and put back; the Lua text inside is edited by name). Health, hunger, sanity, temperature and the day count. Close the game first.
+= Documents\Klei\DoNotStarve\save 中的 survival_1(2、3)(去除并还原 base64 与 zlib,按名称编辑其中的 Lua 文本)。生命值、饥饿、理智、温度和天数。请先关闭游戏。
+
+Phase of the day
+= 昼夜阶段
+
+marguerite.txt from a save's folder in AppData\\LocalLow\\<company>\\Mon Bazou (.NET BinaryFormatter, read and written in place). Cash, the player's meters and the game mode. Close the game first.
+= AppData\LocalLow\<公司名>\Mon Bazou 中存档文件夹里的 marguerite.txt(.NET BinaryFormatter,就地读写)。现金、玩家的各项指标和游戏模式。请先关闭游戏。
+
+Anxiety
+= 焦虑
+
+Spent at the traveling van
+= 在流动货车上的花费
+
+Meters
+= 指标
+
+Maple syrup
+= 枫糖浆
+
+Poutine
+= 肉汁奶酪薯条
+
+Permadeath
+= 永久死亡
+
+Cheats activated
+= 已启用作弊
+
+save_N.sav from the game's remote\\out\\save folder (the gzip wrapper is removed and put back; only these four values are shown and the rest of the file is kept). Money, level and health. Close the game first.
+= 游戏 remote\out\save 文件夹中的 save_N.sav(去除并还原 gzip 外壳;只显示这四个值,文件其余部分保持不变)。金钱、等级和生命值。请先关闭游戏。

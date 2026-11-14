@@ -23598,3 +23598,35 @@ Watcher
 
 save_N.dat from the game's save folder under AppData\\LocalLow (the save's own copy of each room is left alone). Level, experience, level points, health, energy and the attributes of Aletheia and Thirty-Four. Close the game first.
 = save_N.dat du dossier de sauvegarde du jeu sous AppData\\LocalLow (la copie de chaque salle de la sauvegarde reste intacte). Niveau, expérience, points de niveau, santé, énergie et attributs d'Aletheia et de Trente-Quatre. Fermez d'abord le jeu.
+survival_1 (2, 3) from Documents\\Klei\\DoNotStarve\\save (base64 and zlib are removed and put back; the Lua text inside is edited by name). Health, hunger, sanity, temperature and the day count. Close the game first.
+= survival_1 (2, 3) depuis Documents\Klei\DoNotStarve\save (le base64 et le zlib sont retirés puis remis ; le texte Lua à l'intérieur est modifié par nom). Santé, faim, santé mentale, température et nombre de jours. Fermez d'abord le jeu.
+
+Phase of the day
+= Phase de la journée
+
+marguerite.txt from a save's folder in AppData\\LocalLow\\<company>\\Mon Bazou (.NET BinaryFormatter, read and written in place). Cash, the player's meters and the game mode. Close the game first.
+= marguerite.txt du dossier d'une sauvegarde dans AppData\LocalLow\<société>\Mon Bazou (.NET BinaryFormatter, lu et écrit sur place). Argent, jauges du joueur et mode de jeu. Fermez d'abord le jeu.
+
+Anxiety
+= Anxiété
+
+Spent at the traveling van
+= Dépensé à la camionnette itinérante
+
+Meters
+= Jauges
+
+Maple syrup
+= Sirop d'érable
+
+Poutine
+= Poutine
+
+Permadeath
+= Mort permanente
+
+Cheats activated
+= Triche activée
+
+save_N.sav from the game's remote\\out\\save folder (the gzip wrapper is removed and put back; only these four values are shown and the rest of the file is kept). Money, level and health. Close the game first.
+= save_N.sav du dossier remote\out\save du jeu (l'enveloppe gzip est retirée puis remise ; seules ces quatre valeurs sont affichées et le reste du fichier est conservé). Argent, niveau et santé. Fermez d'abord le jeu.

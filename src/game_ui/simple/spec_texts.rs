@@ -398,5 +398,16 @@ pub fn all() -> Vec<&'static str> {
         tr("Save slot 2"),
         tr("Save slot 3"),
         tr("New Game Plus count"),
+        tr("survival_1 (2, 3) from Documents\\Klei\\DoNotStarve\\save (base64 and zlib are removed and put back; the Lua text inside is edited by name). Health, hunger, sanity, temperature and the day count. Close the game first."),
+        tr("Phase of the day"),
+        tr("marguerite.txt from a save's folder in AppData\\LocalLow\\<company>\\Mon Bazou (.NET BinaryFormatter, read and written in place). Cash, the player's meters and the game mode. Close the game first."),
+        tr("Anxiety"),
+        tr("Spent at the traveling van"),
+        tr("Meters"),
+        tr("Maple syrup"),
+        tr("Poutine"),
+        tr("Permadeath"),
+        tr("Cheats activated"),
+        tr("save_N.sav from the game's remote\\out\\save folder (the gzip wrapper is removed and put back; only these four values are shown and the rest of the file is kept). Money, level and health. Close the game first."),
     ]
 }

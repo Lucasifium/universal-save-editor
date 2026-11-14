@@ -23587,3 +23587,35 @@ Watcher
 
 save_N.dat from the game's save folder under AppData\\LocalLow (the save's own copy of each room is left alone). Level, experience, level points, health, energy and the attributes of Aletheia and Thirty-Four. Close the game first.
 = save_N.dat de la carpeta de guardado del juego en AppData\\LocalLow (la copia de cada sala de la partida no se toca). Nivel, experiencia, puntos de nivel, salud, energía y los atributos de Aletheia y Treinta y Cuatro. Cierra primero el juego.
+survival_1 (2, 3) from Documents\\Klei\\DoNotStarve\\save (base64 and zlib are removed and put back; the Lua text inside is edited by name). Health, hunger, sanity, temperature and the day count. Close the game first.
+= survival_1 (2, 3) de Documents\Klei\DoNotStarve\save (se quitan y se vuelven a aplicar base64 y zlib; el texto Lua del interior se edita por nombre). Salud, hambre, cordura, temperatura y el contador de días. Cierra primero el juego.
+
+Phase of the day
+= Fase del día
+
+marguerite.txt from a save's folder in AppData\\LocalLow\\<company>\\Mon Bazou (.NET BinaryFormatter, read and written in place). Cash, the player's meters and the game mode. Close the game first.
+= marguerite.txt de la carpeta de una partida en AppData\LocalLow\<empresa>\Mon Bazou (.NET BinaryFormatter, leído y escrito en el propio archivo). Dinero, los indicadores del jugador y el modo de juego. Cierra primero el juego.
+
+Anxiety
+= Ansiedad
+
+Spent at the traveling van
+= Gastado en la furgoneta ambulante
+
+Meters
+= Indicadores
+
+Maple syrup
+= Jarabe de arce
+
+Poutine
+= Poutine
+
+Permadeath
+= Muerte permanente
+
+Cheats activated
+= Trucos activados
+
+save_N.sav from the game's remote\\out\\save folder (the gzip wrapper is removed and put back; only these four values are shown and the rest of the file is kept). Money, level and health. Close the game first.
+= save_N.sav de la carpeta remote\out\save del juego (se quita y se vuelve a poner la envoltura gzip; solo se muestran estos cuatro valores y el resto del archivo se conserva). Dinero, nivel y salud. Cierra primero el juego.

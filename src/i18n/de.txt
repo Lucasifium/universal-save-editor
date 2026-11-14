@@ -23591,3 +23591,35 @@ Watcher
 
 save_N.dat from the game's save folder under AppData\\LocalLow (the save's own copy of each room is left alone). Level, experience, level points, health, energy and the attributes of Aletheia and Thirty-Four. Close the game first.
 = save_N.dat aus dem Speicherordner des Spiels unter AppData\\LocalLow (die eigene Kopie jedes Raums bleibt unverändert). Stufe, Erfahrung, Stufenpunkte, Gesundheit, Energie und die Attribute von Aletheia und Thirty-Four. Schließen Sie zuerst das Spiel.
+survival_1 (2, 3) from Documents\\Klei\\DoNotStarve\\save (base64 and zlib are removed and put back; the Lua text inside is edited by name). Health, hunger, sanity, temperature and the day count. Close the game first.
+= survival_1 (2, 3) aus Documents\Klei\DoNotStarve\save (Base64 und zlib werden entfernt und wieder angewendet; der Lua-Text darin wird nach Namen bearbeitet). Gesundheit, Hunger, Verstand, Temperatur und Tageszähler. Zuerst das Spiel schließen.
+
+Phase of the day
+= Tagesphase
+
+marguerite.txt from a save's folder in AppData\\LocalLow\\<company>\\Mon Bazou (.NET BinaryFormatter, read and written in place). Cash, the player's meters and the game mode. Close the game first.
+= marguerite.txt aus dem Ordner eines Spielstands in AppData\LocalLow\<Firma>\Mon Bazou (.NET BinaryFormatter, direkt gelesen und geschrieben). Bargeld, die Anzeigen des Spielers und der Spielmodus. Zuerst das Spiel schließen.
+
+Anxiety
+= Angst
+
+Spent at the traveling van
+= Im Reisewagen ausgegeben
+
+Meters
+= Anzeigen
+
+Maple syrup
+= Ahornsirup
+
+Poutine
+= Poutine
+
+Permadeath
+= Permadeath
+
+Cheats activated
+= Cheats aktiviert
+
+save_N.sav from the game's remote\\out\\save folder (the gzip wrapper is removed and put back; only these four values are shown and the rest of the file is kept). Money, level and health. Close the game first.
+= save_N.sav aus dem Ordner remote\out\save des Spiels (die gzip-Hülle wird entfernt und wieder angewendet; nur diese vier Werte werden gezeigt, der Rest der Datei bleibt erhalten). Geld, Level und Gesundheit. Zuerst das Spiel schließen.

@@ -16,7 +16,10 @@ pub static SPECS: &[Spec] = &[OPENXCOM, XCOM_DOS, RCT2, COTL, FALLOUT_SHELTER, D
     // PlayStation 1 and 2 (ps_specs.rs)
     SOTN, FF8, FFT, RE1, KH2, MK64, GOLDENEYE, BANJO_KAZOOIE, OOT, SMASH64, TORCHLIGHT3, WRECKFEST, EVIL_WITHIN, BORDERLANDS1,
     // PlayStation 1 and 2 (ps_specs.rs), continued
-    CRASH, KH1, GT1, BL4, WUKONG, BOTW, RAYMAN, CTR, THPS, PAYDAY2, FS_FARM, FS_CAREER, FS17, FS15, GAS_STATION_SIM, THIEF_SIM, HOUSE_FLIPPER, TAVERN_MASTER, ROAD_REDEMPTION, SILENT_HILL, SOPHIE, FIRIS, DREDGE, PC_BUILDING_SIM, OUTWARD, SUPRALAND, WARM_SNOW, READY_OR_NOT, SUNSHINE, LUIGI, WINDWAKER, TEKKEN1, TEKKEN2, TEKKEN3, DMC_PS2, WIZARD_OF_LEGEND, MAGICRAFT, KAGERO, DW7XL, WO3U, SW5, WO1, SAMURAI2, DW4H, GTASA, SPT, ARKHAM_CITY, GRANDIA2];
+    CRASH, KH1, GT1, BL4, WUKONG, BOTW, RAYMAN, CTR, THPS, PAYDAY2, FS_FARM, FS_CAREER, FS17, FS15, GAS_STATION_SIM, THIEF_SIM, HOUSE_FLIPPER, TAVERN_MASTER, ROAD_REDEMPTION, SILENT_HILL, SOPHIE, FIRIS, DREDGE, PC_BUILDING_SIM, OUTWARD, SUPRALAND, WARM_SNOW, READY_OR_NOT, SUNSHINE, LUIGI, WINDWAKER, TEKKEN1, TEKKEN2, TEKKEN3, DMC_PS2, WIZARD_OF_LEGEND, MAGICRAFT, KAGERO, DW7XL, WO3U, SW5, WO1, SAMURAI2, DW4H, GTASA, SPT, ARKHAM_CITY, GRANDIA2,
+    DONT_STARVE, MON_BAZOU, DEAD_ISLAND,
+    RAFT,
+];
 // ------------------------------------------------------------------ Cult of the Lamb
 
 const COTL_ITEMS: &[(&str, &str)] = &[
@@ -12230,4 +12233,54 @@ const DW4H: Spec = Spec {
     sections: &[Section { title: "Game", rows: &[("Difficulty", "/Difficulty")] }],
     lists: &[List { title: "Items (level, or owned)", path: "/Items", shape: Shape::Map, names: &[], max: None }],
     tables: &[Table { title: "Officers", path: "/Officers", name: &[], only: &[], cols: &[("Playable", "/Playable"), ("Life", "/Life"), ("Musou", "/Musou"), ("Attack", "/Attack"), ("Defense", "/Defense"), ("Character EXP", "/Character EXP"), ("Weapon EXP", "/Weapon EXP")], names: &[] }],
+};
+
+// ------------------------------------------------------------------ Don't Starve
+
+const DONT_STARVE: Spec = Spec {
+    name: "Don't Starve",
+    tab: "Survivor",
+    accent: (200, 150, 70),
+    kind: Some("Lua table"),
+    markers: &["/playerinfo/data/sanity/current", "/map/persistdata/clock/numcycles"],
+    subtitle: "survival_1 (2, 3) from Documents\\Klei\\DoNotStarve\\save (base64 and zlib are removed and put back; the Lua text inside is edited by name). Health, hunger, sanity, temperature and the day count. Close the game first.",
+    tiles: &[("Health", "/playerinfo/data/health/health"), ("Hunger", "/playerinfo/data/hunger/hunger"), ("Sanity", "/playerinfo/data/sanity/current")],
+    sections: &[
+        Section { title: "Survivor", rows: &[("Character", "/playerinfo/prefab"), ("Health", "/playerinfo/data/health/health"), ("Hunger", "/playerinfo/data/hunger/hunger"), ("Sanity", "/playerinfo/data/sanity/current"), ("Temperature", "/playerinfo/data/temperature/current"), ("Time alive (seconds)", "/playerinfo/data/age/age")] },
+        Section { title: "World", rows: &[("Days passed", "/map/persistdata/clock/numcycles"), ("Phase of the day", "/map/persistdata/clock/phase")] },
+    ],
+    lists: &[],
+    tables: &[],
+};
+// ------------------------------------------------------------------ Mon Bazou
+
+const MON_BAZOU: Spec = Spec {
+    name: "Mon Bazou",
+    tab: "Driver",
+    accent: (200, 90, 50),
+    kind: Some(".NET BinaryFormatter (PlayerData)"),
+    markers: &["/intCash", "/Poutine"],
+    subtitle: "marguerite.txt from a save's folder in AppData\\LocalLow\\<company>\\Mon Bazou (.NET BinaryFormatter, read and written in place). Cash, the player's meters and the game mode. Close the game first.",
+    tiles: &[("Cash", "/intCash"), ("Energy", "/Energy"), ("Anxiety", "/Anxiety")],
+    sections: &[
+        Section { title: "Money", rows: &[("Cash", "/intCash"), ("Spent at the traveling van", "/CashSpentAtTravelingVan")] },
+        Section { title: "Meters", rows: &[("Maple syrup", "/MappleSyrup"), ("Poutine", "/Poutine"), ("Energy", "/Energy"), ("Anxiety", "/Anxiety")] },
+        Section { title: "Game", rows: &[("Hard mode", "/gameSaveData/isHardMode"), ("Permadeath", "/gameSaveData/isPermadeath"), ("Cheats activated", "/isCheatsActivated")] },
+    ],
+    lists: &[],
+    tables: &[],
+};
+// ------------------------------------------------------------------ Dead Island
+
+const DEAD_ISLAND: Spec = Spec {
+    name: "Dead Island",
+    tab: "Survivor",
+    accent: (200, 60, 50),
+    kind: None,
+    markers: &["/Money", "/Level", "/Maximum health"],
+    subtitle: "save_N.sav from the game's remote\\out\\save folder (the gzip wrapper is removed and put back; only these four values are shown and the rest of the file is kept). Money, level and health. Close the game first.",
+    tiles: &[("Money", "/Money"), ("Level", "/Level"), ("Health", "/Health")],
+    sections: &[Section { title: "Survivor", rows: &[("Money", "/Money"), ("Level", "/Level"), ("Maximum health", "/Maximum health"), ("Health", "/Health")] }],
+    lists: &[],
+    tables: &[],
 };

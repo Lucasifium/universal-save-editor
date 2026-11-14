@@ -3,7 +3,7 @@
 > **Free, and it always will be.** No price, no ads, no account, no paid version, no online service, no
 > rate limits. If anyone is charging you for this, it isn't from here.
 
-An offline save editor and save manager for 500+ (504) PC games (edit saves, and back up, name and restore them): Cairn, Terraria (characters and a world map editor),
+An offline save editor and save manager for 500+ (508) PC games (edit saves, and back up, name and restore them): Cairn, Terraria (characters and a world map editor),
 Oxygen Not Included, RimWorld, Stardew Valley, Onimusha: Way of the Sword, Elden Ring, Dark Souls,
 Cyberpunk 2077, the Persona, Yakuza and Final Fantasy games, Ren'Py visual novels, RPG Maker games
 and more (the full list is below). Written in Rust (egui). Nothing is uploaded anywhere, and there are
@@ -159,7 +159,7 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 </details>
 
 <details>
-<summary><strong>D</strong> (37)</summary>
+<summary><strong>D</strong> (40)</summary>
 
 | Game | Screen |
 |---|---|
@@ -167,6 +167,8 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 | Darkest Dungeon | *Hamlet*: the estate (gold, busts, portraits, deeds, crests, blueprints, shards), how many of each trinket and estate item it holds, and the roster (each hero's resolve XP, stress, HP, weapon and armour rank, skill upgrade levels), changed in place. Open persist.estate.json or persist.roster.json |
 | Darksiders Genesis | *Horsemen*: souls, coins, keys, health potions, Strife's and War's powers, play time, and each horseman's wrath and health and wrath shards, from the plain Unreal save `SaveSlot_N.sav` (checked on a public save, not yet tried in the game) |
 | Dave the Diver | *Dave*: gold, Bei, chef flames, research and trust points, and every sushi ingredient's stock, with a **Max crafting materials** button that fills the ingredients you have to 999; the save's encryption is removed and put back for you (checked on public saves, not yet tried in the game) |
+| Dead Island | *Survivor*: money, level, maximum health and health, from `save_N.sav` (the gzip wrapper is removed and put back and every other byte kept; checked on a public Definitive Edition save, not yet tried in the game) |
+| Dead Island: Riptide | *Survivor*: the same four values from `save_N.sav`; the layout matched a Dead Island sample, no Riptide save has been checked yet |
 | Dead Rising | *Survivor*: Frank's level, PP, maximum health and skills, with buttons to learn every skill or reach level 50; the save's block checksums are rewritten (checked on public speedrun saves, not yet tried in the game) |
 | Dead Rising 2 | *Survivor*: Chuck's level, PP and money; attack, speed, health, item slots and throwing as bars up to the game's maximum, with a button to max them; the CRC-32 is rewritten (checked on public speedrun saves, not yet tried in the game) |
 | Dead Rising 2: Off the Record | *Survivor*: Frank's level, PP and money (the load screen's copy kept in step); attack, speed, health, item slots and throwing as bars up to the game's maximum, with a button to max them; all five CRC-32s are rewritten (checked on public speedrun saves, not yet tried in the game) |
@@ -188,6 +190,7 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 | Dishonored 2 | *Bonecharms*: Raw Whalebone with a Max crafting materials button, runes, and crossbow bolts, pistol bullets, grenades, spring razors and stun mines up to what the player can carry; `checkpoint.dat` is unpacked and packed again with its check value (checked on real saves and tried in the game) |
 | Divinity: Original Sin 2 Definitive Edition | Each player character's experience, vitality, attributes, unspent points and gold, and the stack size of every item each carries (not inside bags); the package is packed again with its checksum on save. Not yet tried in the game |
 | Divinity: Original Sin Enhanced Edition | *Party*: each party member's experience, vitality, gold and item stack sizes, on the Original Sin 2 screen; the `.lsv` package is unpacked and packed again (checked on a public save, not yet tried in the game) |
+| Don't Starve | *Survivor*: health, hunger, sanity, temperature, time alive and the day count, from `survival_N` (the base64 and zlib wrapper is removed and put back and the Lua text inside edited by name; `profile` opens as JSON; checked on a public save, not yet tried in the game) |
 | Door Kickers | *Squad*: the squad's experience, each trooper's experience, kills, injuries and mission results, plus the doctrine points and the stars used (checked on a public save, not yet tried in the game) |
 | Dragon Age: Origins, Awakening | Party money; the Warden's and followers' level, experience, attributes and unspent points, approval, and backpack stack sizes. Tried on saves from one playthrough; Awakening saves not yet tried |
 | Dragon Quest Builders 2 | *Builder*: level, experience, hit points, attack and defence; *Mini medals*; *Equipment*; *Pockets* and *Bag*: item ids and quantities, from `CMNDAT.BIN` (the zlib data is opened and re-sealed; island files not opened; checked on a public save, not yet tried in the game) |
@@ -372,7 +375,7 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 </details>
 
 <details>
-<summary><strong>M</strong> (21)</summary>
+<summary><strong>M</strong> (22)</summary>
 
 | Game | Screen |
 |---|---|
@@ -390,6 +393,7 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 | Mewgenics | *House*: house gold and food, adventure coins and food, the current day and the completion percentage, from the SQLite save's properties table (the cats' own packed data is kept as it is; checked on a public save, not yet tried in the game) |
 | Minecraft (`level.dat`) | Health, food and XP; game mode; difficulty (Peaceful to Hard); world settings; inventory and ender chest grids; a **Max crafting materials** button that fills the ingots, raw ores, gems, string, leather and other materials already carried to 64, leaving ender pearls, eyes of ender and other progression items alone |
 | Minecraft Dungeons | *Hero*: the character `.dat` is decrypted (AES, the key as published by MCDSaveEdit) and encrypted again on save; experience, total gear power and the emerald, gold and Eye of Ender counts, with items and enchantments in the Tree. The decryption was checked on a public sample save; not yet tried in the game |
+| Mon Bazou | *Driver*: cash, the player's meters and the hard mode and permadeath flags, from `marguerite.txt` (.NET BinaryFormatter, read and written in place; the vehicle, parts and garden files open for Tree editing; checked on a public save, not yet tried in the game) |
 | Moonlighter | *Will*: gold, days passed and the banker's invested money; the backpack and equipped items by name with count (enchantment levels in the Tree). The `gameslot` file opens as JSON (checked on a public save, not yet tried in the game) |
 | Mortal Shell | *Fallgrim*: Tar, the shell points of each shell, max health, deaths, New Game+ level, and the Storm Mode run's Tar and Glimpses in `GPData_<slot>.sav` (inventory item names are stored as game text and aren't shown; checked on public saves, not yet tried in the game) |
 | Mortal Shell II | *Harbinger*: Gold, Gloom and Glimpses, their lifetime totals, every item's count and every unlocked shell, weapon and seal in `WorldState_<n>.sav`, with a **Max crafting materials** button that raises the Tarforge smithing materials (Ventrium, Laterite, Dorsalite, Thoracium) you have to 99 (an estimate), leaving keys, artifacts and upgrade items alone (checked on public saves, not yet tried in the game) |
@@ -712,8 +716,8 @@ binary and stays an ironman save. It isn't converted to a normal one.
 
 The start page lists **Your games**: every game in the list whose saves were found on this computer,
 newest first, each one click away from its newest save. *Find my game's saves* (the big button on the
-start page, *Find saves* in the toolbar and the File menu) lists every one of the 500+ (504) PC games the editor knows, Mass Effect 1–3, the Legendary Edition and Andromeda among them — with where it
-start page, *Find saves* in the toolbar and the File menu) lists every one of the 500+ (504) PC games the editor knows, Mass Effect 1–3, the Legendary Edition and Andromeda among them — with where it
+start page, *Find saves* in the toolbar and the File menu) lists every one of the 500+ (508) PC games the editor knows, Mass Effect 1–3, the Legendary Edition and Andromeda among them — with where it
+start page, *Find saves* in the toolbar and the File menu) lists every one of the 500+ (508) PC games the editor knows, Mass Effect 1–3, the Legendary Edition and Andromeda among them — with where it
 usually keeps its saves and what the files are called, and finds them on your computer (Steam
 libraries and `userdata`, Documents wherever Windows has it, AppData, Saved Games, Ubisoft
 Connect). On Linux and the Steam Deck it also looks inside Proton prefixes
