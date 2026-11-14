@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 0.7.0
 
 - New game screens: Kingdom Rush, Frontiers, Origins, Alliance TD and Vengeance (gems, difficulty, upgrades, heroes); Lua saves in the local-variable form open
 - New game screens: Sea of Stars (level, experience, gold, deaths; .NET length-prefixed JSON opened) and The Messenger (play time, deaths, New Game Plus; scrambled text opened)
