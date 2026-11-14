@@ -1962,3 +1962,36 @@ pub const KAGERO: Spec = Spec {
     tables: &[
     ],
 };
+
+pub const GRANDIA2: Spec = Spec {
+    name: "Grandia II",
+    tab: "Party",
+    accent: (60, 110, 190),
+    kind: Some(crate::fmt::grandia2::KIND),
+    markers: &["/General/Gold"],
+    subtitle: tx("A PlayStation 2 save: one slot file of the save folder (Tools › Open another file in this archive lists the others). Gold and coins, each party member's level, experience, HP, MP, SP, attributes, equipment and conditions, and the stock of every item, weapon, armor, accessory, mana egg and valuable."),
+    tiles: &[("Gold", "/General/Gold")],
+    sections: &[
+        Section { title: "General", rows: &[
+            ("Gold", "/General/Gold"),
+            ("Special coins", "/General/Special coins"),
+            ("Magic coins", "/General/Magic coins"),
+        ] },
+    ],
+    lists: &[
+        List { title: "Recovery items", path: "/Items/Recovery items", shape: Shape::Map, names: &[], max: None },
+        List { title: "Attack items", path: "/Items/Attack items", shape: Shape::Map, names: &[], max: None },
+        List { title: "Weapons", path: "/Items/Weapons", shape: Shape::Map, names: &[], max: None },
+        List { title: "Armor", path: "/Items/Armor", shape: Shape::Map, names: &[], max: None },
+        List { title: "Headgear", path: "/Items/Headgear", shape: Shape::Map, names: &[], max: None },
+        List { title: "Footwear", path: "/Items/Footwear", shape: Shape::Map, names: &[], max: None },
+        List { title: "Accessories", path: "/Items/Accessories", shape: Shape::Map, names: &[], max: None },
+        List { title: "Mana Eggs", path: "/Items/Mana Eggs", shape: Shape::Map, names: &[], max: None },
+        List { title: "Valuables", path: "/Items/Valuables", shape: Shape::Map, names: &[], max: None },
+    ],
+    tables: &[
+        Table { title: "Party", path: "/Party", name: &[], cols: &[("Level", "/Level"), ("Experience", "/Experience"), ("HP", "/HP"), ("Max HP", "/Max HP"), ("MP", "/MP"), ("Max MP", "/Max MP"), ("SP", "/SP"), ("Max SP", "/Max SP"), ("Strength", "/Strength"), ("Vitality", "/Vitality"), ("Agility", "/Agility"), ("Speed", "/Speed"), ("Magic", "/Magic"), ("Mentality", "/Mentality")], only: &[], names: &[] },
+        Table { title: "Equipment", path: "/Equipment", name: &[], cols: &[("Weapon", "/Weapon"), ("Armor", "/Armor"), ("Headgear", "/Headgear"), ("Footwear", "/Footwear"), ("Accessory", "/Accessory"), ("Mana Egg", "/Mana Egg")], only: &[], names: &[] },
+        Table { title: "Condition", path: "/Condition", name: &[], cols: &[("Poison", "/Poison"), ("Plague", "/Plague"), ("Move block", "/Move block"), ("Magic block", "/Magic block"), ("Fallen", "/Fallen")], only: &[], names: &[] },
+    ],
+};

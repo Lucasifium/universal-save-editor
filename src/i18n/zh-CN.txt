@@ -23525,3 +23525,44 @@ Upgrades bought (Catwoman)
 The save is compressed again when you write it. Experience is checked by the game at the next load.
 = 写入时存档会重新压缩。游戏会在下次载入时检查经验值。
 
+A PlayStation 2 save: one slot file of the save folder (Tools › Open another file in this archive lists the others). Gold and coins, each party member's level, experience, HP, MP, SP, attributes, equipment and conditions, and the stock of every item, weapon, armor, accessory, mana egg and valuable.
+= PlayStation 2存档:存档文件夹中的一个存档位文件(工具 › 打开此压缩包中的其他文件 可列出其余文件)。金币和硬币、每位队员的等级、经验值、HP、MP、SP、属性、装备和状态,以及每种道具、武器、防具、饰品、魔法蛋和贵重品的库存。
+
+Close the emulator first. The stock of an item is capped at 99, the most the game keeps.
+= 请先关闭模拟器。道具库存上限为99,这是游戏能保存的最大值。
+
+Attack items
+= 攻击道具
+
+Fallen
+= 倒下
+
+Footwear
+= 鞋子
+
+Headgear
+= 头部装备
+
+Magic block
+= 魔法封印
+
+Magic coins
+= 魔法硬币
+
+Mana Egg
+= 魔法蛋
+
+Mana Eggs
+= 魔法蛋
+
+Mentality
+= 精神
+
+Move block
+= 行动封印
+
+Plague
+= 瘟疫
+
+Special coins
+= 特殊硬币

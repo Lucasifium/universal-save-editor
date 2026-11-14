@@ -211,6 +211,7 @@ pub mod silenthill;
 pub mod tekken;
 pub mod dmcps2;
 pub mod kagero;
+pub mod grandia2;
 pub mod ctr;
 pub mod rayman;
 pub mod gt1;
@@ -336,6 +337,11 @@ pub fn parse_binary(d: &[u8]) -> Option<TreeDoc> {
     }
     if ctr::looks(d) {
         if let Ok(t) = ctr::parse(d) {
+            return Some(t);
+        }
+    }
+    if grandia2::looks(d) {
+        if let Ok(t) = grandia2::parse(d) {
             return Some(t);
         }
     }

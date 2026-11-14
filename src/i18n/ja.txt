@@ -23552,3 +23552,44 @@ Upgrades bought (Catwoman)
 The save is compressed again when you write it. Experience is checked by the game at the next load.
 = 書き込み時にセーブは再び圧縮されます。経験値は次回のロード時にゲームが確認します。
 
+A PlayStation 2 save: one slot file of the save folder (Tools › Open another file in this archive lists the others). Gold and coins, each party member's level, experience, HP, MP, SP, attributes, equipment and conditions, and the stock of every item, weapon, armor, accessory, mana egg and valuable.
+= PlayStation 2のセーブ:セーブフォルダ内のスロットファイル1つ(ツール › このアーカイブ内の別のファイルを開く で他のファイルを一覧できます)。ゴールドとコイン、各パーティメンバーのレベル、経験値、HP、MP、SP、能力値、装備、状態異常、そして全アイテム・武器・防具・アクセサリー・マナエッグ・貴重品の所持数。
+
+Close the emulator first. The stock of an item is capped at 99, the most the game keeps.
+= 先にエミュレーターを閉じてください。アイテムの所持数は、ゲームが保持できる最大の99に制限されます。
+
+Attack items
+= 攻撃アイテム
+
+Fallen
+= 戦闘不能
+
+Footwear
+= 靴
+
+Headgear
+= 頭防具
+
+Magic block
+= 魔法封じ
+
+Magic coins
+= マジックコイン
+
+Mana Egg
+= マナエッグ
+
+Mana Eggs
+= マナエッグ
+
+Mentality
+= 精神力
+
+Move block
+= 移動封じ
+
+Plague
+= 疫病
+
+Special coins
+= スペシャルコイン

@@ -23477,3 +23477,44 @@ Upgrades bought (Catwoman)
 The save is compressed again when you write it. Experience is checked by the game at the next load.
 = La sauvegarde est recompressée à l'écriture. Le jeu vérifie l'expérience au prochain chargement.
 
+A PlayStation 2 save: one slot file of the save folder (Tools › Open another file in this archive lists the others). Gold and coins, each party member's level, experience, HP, MP, SP, attributes, equipment and conditions, and the stock of every item, weapon, armor, accessory, mana egg and valuable.
+= Une sauvegarde PlayStation 2 : un fichier d'emplacement du dossier de sauvegarde (Outils › Ouvrir un autre fichier de cette archive liste les autres). L'or et les pièces, le niveau, l'expérience, les PV, PM, PS, les attributs, l'équipement et les états de chaque membre du groupe, et le stock de chaque objet, arme, armure, accessoire, œuf de mana et objet de valeur.
+
+Close the emulator first. The stock of an item is capped at 99, the most the game keeps.
+= Ferme d'abord l'émulateur. Le stock d'un objet est limité à 99, le maximum que le jeu conserve.
+
+Attack items
+= Objets d'attaque
+
+Fallen
+= K.O.
+
+Footwear
+= Chaussures
+
+Headgear
+= Couvre-chef
+
+Magic block
+= Blocage de magie
+
+Magic coins
+= Pièces magiques
+
+Mana Egg
+= Œuf de mana
+
+Mana Eggs
+= Œufs de mana
+
+Mentality
+= Mentalité
+
+Move block
+= Blocage de mouvement
+
+Plague
+= Peste
+
+Special coins
+= Pièces spéciales
