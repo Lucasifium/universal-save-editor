@@ -26018,3 +26018,207 @@ Zora Cape
 Zora Mask
 = ゾーラのお面
 
+
+# N64: F-Zero X, Goemon, Gex 64
+
+An emulator's .sra or .srm save. The everything-unlocked switch, the options, the Grand Prix progress of each cup, the cups won with every machine in each class, and the Time Attack and Death Race records.
+= エミュレーターの .sra / .srm セーブ。全解放スイッチ、オプション、各カップのグランプリ進行度、各クラスで各マシンが優勝したカップ、タイムアタックとデスレースの記録。
+
+An emulator's Controller Pak (.mpk or .srm) or Japanese .sra save. Per slot: location, ryo, armour, weapon level, item, the money given to Kenzo and Kensuke, and the Chain Pipe and Underwater Device. Plus the options.
+= エミュレーターのコントローラーパック（.mpk / .srm）または日本版 .sra セーブ。スロットごと：場所、両、防具、武器レベル、アイテム、Kenzo と Kensuke に渡したお金、Chain Pipe と Underwater Device。オプションも。
+
+An emulator's Controller Pak (.mpk or .srm). Per save: lives and every red, silver and gold remote; the game's password is made again for each changed save.
+= エミュレーターのコントローラーパック（.mpk / .srm）。セーブごと：残機と赤・銀・金のリモコンすべて。変更したセーブはゲームのパスワードが作り直されます。
+
+An emulator's Controller Pak (.mpk or .srm). Per slot: ryo, play time, food, armour, fortune doll pieces, fish, keys, each character's weapon and items, key items, and the castle maps.
+= エミュレーターのコントローラーパック（.mpk / .srm）。スロットごと：両、プレイ時間、食べ物、防具、招き猫のかけら、魚、鍵、各キャラクターの武器とアイテム、大事なもの、城の地図。
+
+Blue fish
+= 青い魚
+
+Bodywear
+= 胴の装備
+
+Bodywear quantity
+= 胴の装備の数
+
+Boss revealed
+= ボス判明
+
+Chain Pipe
+= Chain Pipe
+
+Collected
+= 入手済み
+
+Cups won: Expert
+= 優勝カップ：エキスパート
+
+Cups won: Master
+= 優勝カップ：マスター
+
+Cups won: Novice
+= 優勝カップ：ノービス
+
+Cups won: Standard
+= 優勝カップ：スタンダード
+
+Death Race
+= デスレース
+
+Fortune doll pieces
+= 招き猫のかけら
+
+Gold remotes
+= 金のリモコン
+
+Grand Prix progress
+= グランプリ進行度
+
+Headwear
+= 頭の装備
+
+Headwear quantity
+= 頭の装備の数
+
+Hidden remote
+= 隠しリモコン
+
+Jack Cup
+= ジャックカップ
+
+Joker Cup
+= ジョーカーカップ
+
+Key 1
+= 鍵 1
+
+Key 2
+= 鍵 2
+
+Key 3
+= 鍵 3
+
+Key 4
+= 鍵 4
+
+Key 5
+= 鍵 5
+
+King Cup
+= キングカップ
+
+Money given to Kensuke
+= Kensuke に渡したお金
+
+Money given to Kenzo
+= Kenzo に渡したお金
+
+Queen Cup
+= クイーンカップ
+
+Red and silver remotes
+= 赤と銀のリモコン
+
+Red fish
+= 赤い魚
+
+Red remote 1
+= 赤のリモコン 1
+
+Red remote 2
+= 赤のリモコン 2
+
+Red remote 3
+= 赤のリモコン 3
+
+Red remotes
+= 赤のリモコン
+
+Reward remote
+= ごほうびリモコン
+
+Ryo
+= 両
+
+Saves on the pak
+= パック内のセーブ
+
+Silver remotes
+= 銀のリモコン
+
+Time (ms)
+= タイム（ミリ秒）
+
+Time Attack (milliseconds; 3599999 = no record)
+= タイムアタック（ミリ秒、3599999 = 記録なし）
+
+Underwater Device
+= Underwater Device
+
+VS COM (2P, 3P)
+= VS COM（2P・3P）
+
+VS handicap
+= VS ハンデ
+
+VS slot
+= VS スロット
+
+Weapon level
+= 武器レベル
+
+X Cup
+= X カップ
+
+Yellow fish
+= 黄色い魚
+
+Close the emulator first. Times are in milliseconds; 3599999 (59:59.999) means the course has no record.
+= 先にエミュレーターを閉じてください。タイムはミリ秒単位です。3599999（59:59.999）はそのコースに記録がないことを示します。
+
+Close the emulator first. Only the first Goemon note on the Controller Pak is edited; each slot's CRC is made again on save.
+= 先にエミュレーターを閉じてください。編集するのはコントローラーパック上の最初のゴエモンのノートだけです。各スロットの CRC は保存時に作り直されます。
+
+Close the emulator first. The CRC of the options and of each slot is made again on save.
+= 先にエミュレーターを閉じてください。オプションと各スロットの CRC は保存時に作り直されます。
+
+Close the emulator first. Each save is the game's password; a changed save gets a new password on save.
+= 先にエミュレーターを閉じてください。各セーブはゲームのパスワードです。変更したセーブは保存時に新しいパスワードになります。
+
+Slot 1: castles
+= スロット 1：城
+
+Slot 1: character items
+= スロット 1：キャラクターのアイテム
+
+Slot 1: characters
+= スロット 1：キャラクター
+
+Slot 1: key items
+= スロット 1：大事なもの
+
+Slot 2: castles
+= スロット 2：城
+
+Slot 2: character items
+= スロット 2：キャラクターのアイテム
+
+Slot 2: characters
+= スロット 2：キャラクター
+
+Slot 2: key items
+= スロット 2：大事なもの
+
+Slot 3: castles
+= スロット 3：城
+
+Slot 3: character items
+= スロット 3：キャラクターのアイテム
+
+Slot 3: characters
+= スロット 3：キャラクター
+
+Slot 3: key items
+= スロット 3：大事なもの
+

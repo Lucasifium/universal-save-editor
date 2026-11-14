@@ -25936,3 +25936,207 @@ Zora Cape
 Zora Mask
 = Zora-Maske
 
+
+# N64: F-Zero X, Goemon, Gex 64
+
+An emulator's .sra or .srm save. The everything-unlocked switch, the options, the Grand Prix progress of each cup, the cups won with every machine in each class, and the Time Attack and Death Race records.
+= Ein .sra- oder .srm-Spielstand eines Emulators. Der Schalter „alles freigeschaltet“, die Optionen, der Grand-Prix-Fortschritt jedes Cups, die mit jeder Maschine in jeder Klasse gewonnenen Cups sowie die Rekorde in Time Attack und Death Race.
+
+An emulator's Controller Pak (.mpk or .srm) or Japanese .sra save. Per slot: location, ryo, armour, weapon level, item, the money given to Kenzo and Kensuke, and the Chain Pipe and Underwater Device. Plus the options.
+= Controller Pak eines Emulators (.mpk oder .srm) oder japanischer .sra-Spielstand. Pro Platz: Ort, Ryo, Rüstung, Waffenstufe, Gegenstand, das Kenzo und Kensuke gegebene Geld sowie Chain Pipe und Underwater Device. Dazu die Optionen.
+
+An emulator's Controller Pak (.mpk or .srm). Per save: lives and every red, silver and gold remote; the game's password is made again for each changed save.
+= Controller Pak eines Emulators (.mpk oder .srm). Pro Spielstand: Leben und jede rote, silberne und goldene Fernbedienung; für jeden geänderten Spielstand wird das Passwort des Spiels neu erzeugt.
+
+An emulator's Controller Pak (.mpk or .srm). Per slot: ryo, play time, food, armour, fortune doll pieces, fish, keys, each character's weapon and items, key items, and the castle maps.
+= Controller Pak eines Emulators (.mpk oder .srm). Pro Platz: Ryo, Spielzeit, Essen, Rüstung, Glückspuppen-Teile, Fische, Schlüssel, Waffe und Gegenstände jeder Figur, Schlüsselgegenstände und die Burgkarten.
+
+Blue fish
+= Blaue Fische
+
+Bodywear
+= Körperschutz
+
+Bodywear quantity
+= Anzahl Körperschutz
+
+Boss revealed
+= Boss aufgedeckt
+
+Chain Pipe
+= Chain Pipe
+
+Collected
+= Gesammelt
+
+Cups won: Expert
+= Gewonnene Cups: Expert
+
+Cups won: Master
+= Gewonnene Cups: Master
+
+Cups won: Novice
+= Gewonnene Cups: Novice
+
+Cups won: Standard
+= Gewonnene Cups: Standard
+
+Death Race
+= Death Race
+
+Fortune doll pieces
+= Glückspuppen-Teile
+
+Gold remotes
+= Goldene Fernbedienungen
+
+Grand Prix progress
+= Grand-Prix-Fortschritt
+
+Headwear
+= Kopfschutz
+
+Headwear quantity
+= Anzahl Kopfschutz
+
+Hidden remote
+= Versteckte Fernbedienung
+
+Jack Cup
+= Jack Cup
+
+Joker Cup
+= Joker Cup
+
+Key 1
+= Schlüssel 1
+
+Key 2
+= Schlüssel 2
+
+Key 3
+= Schlüssel 3
+
+Key 4
+= Schlüssel 4
+
+Key 5
+= Schlüssel 5
+
+King Cup
+= King Cup
+
+Money given to Kensuke
+= Kensuke gegebenes Geld
+
+Money given to Kenzo
+= Kenzo gegebenes Geld
+
+Queen Cup
+= Queen Cup
+
+Red and silver remotes
+= Rote und silberne Fernbedienungen
+
+Red fish
+= Rote Fische
+
+Red remote 1
+= Rote Fernbedienung 1
+
+Red remote 2
+= Rote Fernbedienung 2
+
+Red remote 3
+= Rote Fernbedienung 3
+
+Red remotes
+= Rote Fernbedienungen
+
+Reward remote
+= Belohnungs-Fernbedienung
+
+Ryo
+= Ryo
+
+Saves on the pak
+= Spielstände auf dem Pak
+
+Silver remotes
+= Silberne Fernbedienungen
+
+Time (ms)
+= Zeit (ms)
+
+Time Attack (milliseconds; 3599999 = no record)
+= Time Attack (Millisekunden; 3599999 = kein Rekord)
+
+Underwater Device
+= Underwater Device
+
+VS COM (2P, 3P)
+= VS COM (2P, 3P)
+
+VS handicap
+= VS-Handicap
+
+VS slot
+= VS-Slot
+
+Weapon level
+= Waffenstufe
+
+X Cup
+= X Cup
+
+Yellow fish
+= Gelbe Fische
+
+Close the emulator first. Times are in milliseconds; 3599999 (59:59.999) means the course has no record.
+= Schließe zuerst den Emulator. Zeiten sind in Millisekunden; 3599999 (59:59.999) bedeutet, dass die Strecke keinen Rekord hat.
+
+Close the emulator first. Only the first Goemon note on the Controller Pak is edited; each slot's CRC is made again on save.
+= Schließe zuerst den Emulator. Nur die erste Goemon-Notiz auf dem Controller Pak wird bearbeitet; die CRC jedes Platzes wird beim Speichern neu berechnet.
+
+Close the emulator first. The CRC of the options and of each slot is made again on save.
+= Schließe zuerst den Emulator. Die CRC der Optionen und jedes Platzes wird beim Speichern neu berechnet.
+
+Close the emulator first. Each save is the game's password; a changed save gets a new password on save.
+= Schließe zuerst den Emulator. Jeder Spielstand ist das Passwort des Spiels; ein geänderter Spielstand erhält beim Speichern ein neues Passwort.
+
+Slot 1: castles
+= Spielstand 1: Burgen
+
+Slot 1: character items
+= Spielstand 1: Gegenstände der Figuren
+
+Slot 1: characters
+= Spielstand 1: Figuren
+
+Slot 1: key items
+= Spielstand 1: Schlüsselgegenstände
+
+Slot 2: castles
+= Spielstand 2: Burgen
+
+Slot 2: character items
+= Spielstand 2: Gegenstände der Figuren
+
+Slot 2: characters
+= Spielstand 2: Figuren
+
+Slot 2: key items
+= Spielstand 2: Schlüsselgegenstände
+
+Slot 3: castles
+= Spielstand 3: Burgen
+
+Slot 3: character items
+= Spielstand 3: Gegenstände der Figuren
+
+Slot 3: characters
+= Spielstand 3: Figuren
+
+Slot 3: key items
+= Spielstand 3: Schlüsselgegenstände
+

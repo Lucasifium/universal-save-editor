@@ -3,7 +3,7 @@
 > **Free, and it always will be.** No price, no ads, no account, no paid version, no online service, no
 > rate limits. If anyone is charging you for this, it isn't from here.
 
-An offline save editor and save manager for 530+ (537) PC games (edit saves, and back up, name and restore them): Cairn, Terraria (characters and a world map editor),
+An offline save editor and save manager for 540+ (541) PC games (edit saves, and back up, name and restore them): Cairn, Terraria (characters and a world map editor),
 Oxygen Not Included, RimWorld, Stardew Valley, Onimusha: Way of the Sword, Elden Ring, Dark Souls,
 Cyberpunk 2077, the Persona, Yakuza and Final Fantasy games, Ren'Py visual novels, RPG Maker games
 and more (the full list is below). Written in Rust (egui). Nothing is uploaded anywhere, and there are
@@ -721,13 +721,17 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 </details>
 
 <details>
-<summary><strong>N64</strong> (8)</summary>
+<summary><strong>N64</strong> (12)</summary>
 
 | Game | Screen |
 |---|---|
 | Banjo-Kazooie | *Banjo* (N64 emulator `.eep` saves): per save slot jiggies, Mumbo tokens, health, eggs and feathers with their maximums, every move, each world's jiggies and the Stop 'n' Swop items, with all other flags in the Tree (the slot's sum is made again on save; checked on public saves, not yet tried in the game) |
+| F-Zero X | *Pilot* (N64 emulator `.sra` / `.srm` saves): the everything-unlocked switch, VS and sound options, each cup's Grand Prix progress, the cups won with all thirty machines in every class, the Time Attack times of all twenty-four courses and the Death Race time (every block's sum is made again on save; checked on public saves, not yet tried in the game) |
+| Gex 64: Enter the Gecko | *Gecko* (N64 emulator Controller Pak `.mpk` / `.srm` saves): for every save the lives, each level's red remotes, the hidden and reward silver remotes and the gold remotes, with the totals (the game's password is coded again for each changed save; checked on public saves, not yet tried in the game) |
+| Goemon's Great Adventure | *Goemon* (N64 emulator Controller Pak `.mpk` / `.srm` and Japanese `.sra` saves): per slot location, ryo, armour, weapon level, item, the money given to Kenzo and Kensuke, the Chain Pipe and Underwater Device, plus the language and sound options (each block's CRC is made again on save; checked on public saves, not yet tried in the game) |
 | GoldenEye 007 | *Agent* (N64 emulator `.eep` saves): per player slot the best time of every mission on each difficulty, the cheats and the control options (the slot's sum is made again on save; checked on public saves, not yet tried in the game) |
 | Mario Kart 64 | *Racer* (N64 emulator `.eep` saves): Grand Prix cups for each class, Time Trial times and characters for all sixteen courses, sound mode (the game's sums and best-records list are kept right; checked on public saves, not yet tried in the game) |
+| Mystical Ninja Starring Goemon | *Goemon* (N64 emulator Controller Pak `.mpk` / `.srm` saves): per slot ryo, play time, food, armour, fortune doll pieces, fish, keys, each character's unlock, weapon level and items, the key and miracle items, and every castle's map and boss (each slot's CRC is made again on save; checked on public saves, not yet tried in the game) |
 | Paper Mario | *Paper Mario* (N64 emulator `.fla` / `.srm` saves): per file coins, Star Pieces, Star Points, level, HP, FP and BP with their maximums, Star Spirits and Star Energy, boots and hammer, the bag items, partners and their ranks, and the battle records, with badges, stored and key items, recipes and found star pieces in the Tree (the newest save of each file is edited and both of its sums are made again; checked on public saves, not yet tried in the game) |
 | Super Mario 64 | *Files* (N64 emulator `.eep` saves): for each of the four files the cap, key and switch flags, secret stars, every course's six stars, 100-coin star, cannon and coin record (both copies of the file and the checksums are kept right; checked on public saves, not yet tried in the game) |
 | Super Smash Bros. | *Fighters* (N64 emulator `.sra` / `.srm` saves): unlocked fighters and stage, every fighter's 1P records and 2P records, and the options (the game's sum is made again on save; checked on public saves, not yet tried in the game) |
@@ -812,8 +816,7 @@ The folders where saves were found are remembered (in `save_locations.json` next
 
 The start page lists **Your games**: every game in the list whose saves were found on this computer,
 newest first, each one click away from its newest save. *Find my game's saves* (the big button on the
-start page, *Find saves* in the toolbar and the File menu) lists every one of the 530+ (537) PC games the editor knows, Mass Effect 1–3, the Legendary Edition and Andromeda among them — with where it
-start page, *Find saves* in the toolbar and the File menu) lists every one of the 530+ (537) PC games the editor knows, Mass Effect 1–3, the Legendary Edition and Andromeda among them — with where it
+start page, *Find saves* in the toolbar and the File menu) lists every one of the 540+ (541) PC games the editor knows, Mass Effect 1–3, the Legendary Edition and Andromeda among them — with where it
 usually keeps its saves and what the files are called, and finds them on your computer (Steam
 libraries and `userdata`, Documents wherever Windows has it, AppData, Saved Games, Ubisoft
 Connect). On Linux and the Steam Deck it also looks inside Proton prefixes

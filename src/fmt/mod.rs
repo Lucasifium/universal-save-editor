@@ -244,6 +244,10 @@ pub mod mldt;
 pub mod nintendo;
 pub mod xc3;
 pub mod mk64;
+pub mod fzerox;
+pub mod mpk;
+pub mod goemon;
+pub mod gex64;
 pub mod gcsave;
 pub mod sunshine;
 pub mod luigi;
@@ -862,6 +866,26 @@ pub fn parse_binary(d: &[u8]) -> Option<TreeDoc> {
     }
     if smash64::looks(d) {
         if let Ok(t) = smash64::parse(d) {
+            return Some(t);
+        }
+    }
+    if fzerox::looks(d) {
+        if let Ok(t) = fzerox::parse(d) {
+            return Some(t);
+        }
+    }
+    if goemon::looks1(d) {
+        if let Ok(t) = goemon::parse1(d) {
+            return Some(t);
+        }
+    }
+    if goemon::looks2(d) {
+        if let Ok(t) = goemon::parse2(d) {
+            return Some(t);
+        }
+    }
+    if gex64::looks(d) {
+        if let Ok(t) = gex64::parse(d) {
             return Some(t);
         }
     }

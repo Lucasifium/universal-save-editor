@@ -25991,3 +25991,207 @@ Zora Cape
 Zora Mask
 = 佐拉面具
 
+
+# N64: F-Zero X, Goemon, Gex 64
+
+An emulator's .sra or .srm save. The everything-unlocked switch, the options, the Grand Prix progress of each cup, the cups won with every machine in each class, and the Time Attack and Death Race records.
+= 模拟器的 .sra 或 .srm 存档。全部解锁开关、选项、各杯赛的大奖赛进度、每个级别中每台赛车赢得的杯赛，以及计时赛和死亡竞赛的记录。
+
+An emulator's Controller Pak (.mpk or .srm) or Japanese .sra save. Per slot: location, ryo, armour, weapon level, item, the money given to Kenzo and Kensuke, and the Chain Pipe and Underwater Device. Plus the options.
+= 模拟器的控制器记忆卡（.mpk 或 .srm）或日版 .sra 存档。每个存档位：地点、两、护甲、武器等级、道具、给 Kenzo 和 Kensuke 的钱，以及 Chain Pipe 和 Underwater Device。另有选项。
+
+An emulator's Controller Pak (.mpk or .srm). Per save: lives and every red, silver and gold remote; the game's password is made again for each changed save.
+= 模拟器的控制器记忆卡（.mpk 或 .srm）。每个存档：生命数以及每个红色、银色和金色遥控器；修改过的存档会重新生成游戏密码。
+
+An emulator's Controller Pak (.mpk or .srm). Per slot: ryo, play time, food, armour, fortune doll pieces, fish, keys, each character's weapon and items, key items, and the castle maps.
+= 模拟器的控制器记忆卡（.mpk 或 .srm）。每个存档位：两、游戏时间、食物、护甲、招财娃娃碎片、鱼、钥匙、每个角色的武器和道具、关键道具以及城堡地图。
+
+Blue fish
+= 蓝鱼
+
+Bodywear
+= 身体装备
+
+Bodywear quantity
+= 身体装备数量
+
+Boss revealed
+= 首领已现身
+
+Chain Pipe
+= Chain Pipe
+
+Collected
+= 已收集
+
+Cups won: Expert
+= 赢得的杯赛：专家
+
+Cups won: Master
+= 赢得的杯赛：大师
+
+Cups won: Novice
+= 赢得的杯赛：新手
+
+Cups won: Standard
+= 赢得的杯赛：标准
+
+Death Race
+= 死亡竞赛
+
+Fortune doll pieces
+= 招财娃娃碎片
+
+Gold remotes
+= 金色遥控器
+
+Grand Prix progress
+= 大奖赛进度
+
+Headwear
+= 头部装备
+
+Headwear quantity
+= 头部装备数量
+
+Hidden remote
+= 隐藏遥控器
+
+Jack Cup
+= Jack 杯
+
+Joker Cup
+= Joker 杯
+
+Key 1
+= 钥匙 1
+
+Key 2
+= 钥匙 2
+
+Key 3
+= 钥匙 3
+
+Key 4
+= 钥匙 4
+
+Key 5
+= 钥匙 5
+
+King Cup
+= King 杯
+
+Money given to Kensuke
+= 给 Kensuke 的钱
+
+Money given to Kenzo
+= 给 Kenzo 的钱
+
+Queen Cup
+= Queen 杯
+
+Red and silver remotes
+= 红色和银色遥控器
+
+Red fish
+= 红鱼
+
+Red remote 1
+= 红色遥控器 1
+
+Red remote 2
+= 红色遥控器 2
+
+Red remote 3
+= 红色遥控器 3
+
+Red remotes
+= 红色遥控器
+
+Reward remote
+= 奖励遥控器
+
+Ryo
+= 两
+
+Saves on the pak
+= 记忆卡中的存档
+
+Silver remotes
+= 银色遥控器
+
+Time (ms)
+= 时间（毫秒）
+
+Time Attack (milliseconds; 3599999 = no record)
+= 计时赛（毫秒；3599999 = 无记录）
+
+Underwater Device
+= Underwater Device
+
+VS COM (2P, 3P)
+= VS COM（2P、3P）
+
+VS handicap
+= VS 让分
+
+VS slot
+= VS 老虎机
+
+Weapon level
+= 武器等级
+
+X Cup
+= X 杯
+
+Yellow fish
+= 黄鱼
+
+Close the emulator first. Times are in milliseconds; 3599999 (59:59.999) means the course has no record.
+= 请先关闭模拟器。时间以毫秒为单位；3599999（59:59.999）表示该赛道没有记录。
+
+Close the emulator first. Only the first Goemon note on the Controller Pak is edited; each slot's CRC is made again on save.
+= 请先关闭模拟器。只编辑控制器记忆卡上的第一个 Goemon 记录；保存时会重新计算每个存档位的 CRC。
+
+Close the emulator first. The CRC of the options and of each slot is made again on save.
+= 请先关闭模拟器。保存时会重新计算选项和每个存档位的 CRC。
+
+Close the emulator first. Each save is the game's password; a changed save gets a new password on save.
+= 请先关闭模拟器。每个存档就是游戏的密码；修改过的存档在保存时会得到新密码。
+
+Slot 1: castles
+= 存档位 1：城堡
+
+Slot 1: character items
+= 存档位 1：角色道具
+
+Slot 1: characters
+= 存档位 1：角色
+
+Slot 1: key items
+= 存档位 1：关键道具
+
+Slot 2: castles
+= 存档位 2：城堡
+
+Slot 2: character items
+= 存档位 2：角色道具
+
+Slot 2: characters
+= 存档位 2：角色
+
+Slot 2: key items
+= 存档位 2：关键道具
+
+Slot 3: castles
+= 存档位 3：城堡
+
+Slot 3: character items
+= 存档位 3：角色道具
+
+Slot 3: characters
+= 存档位 3：角色
+
+Slot 3: key items
+= 存档位 3：关键道具
+

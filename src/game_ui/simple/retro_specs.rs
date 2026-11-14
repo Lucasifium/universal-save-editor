@@ -618,3 +618,162 @@ pub const MQ_SNES: Spec = Spec {
     Table { title: tx("Slot 3: party"), path: "/Slot 3/Party", name: &[], cols: &[(tx("Level"), "/Level"), (tx("Experience"), "/Experience"), (tx("HP"), "/HP"), (tx("Max HP"), "/Max HP"), (tx("White magic charges"), "/White magic charges"), (tx("Black magic charges"), "/Black magic charges"), (tx("Sorcery charges"), "/Sorcery charges"), (tx("White magic max charges"), "/White magic max charges"), (tx("Black magic max charges"), "/Black magic max charges"), (tx("Sorcery max charges"), "/Sorcery max charges")], only: &[], names: &[] },
     ],
 };
+
+// ------------------------------------------------------------------ F-Zero X (N64)
+
+pub const FZEROX: Spec = Spec {
+    name: "F-Zero X",
+    tab: "Pilot",
+    accent: (60, 110, 220),
+    kind: Some(crate::fmt::fzerox::KIND),
+    markers: &["/Options/Everything unlocked"],
+    subtitle: tx("An emulator's .sra or .srm save. The everything-unlocked switch, the options, the Grand Prix progress of each cup, the cups won with every machine in each class, and the Time Attack and Death Race records."),
+    tiles: &[(tx("Everything unlocked"), "/Options/Everything unlocked")],
+    sections: &[
+    Section { title: tx("Options"), rows: &[
+        (tx("VS COM (2P, 3P)"), "/Options/VS COM (2P, 3P)"),
+        (tx("VS slot"), "/Options/VS slot"),
+        (tx("VS handicap"), "/Options/VS handicap"),
+        (tx("Sound mode"), "/Options/Sound mode"),
+    ] },
+    Section { title: tx("Grand Prix progress"), rows: &[
+        (tx("Jack Cup"), "/GP Race/Jack Cup"),
+        (tx("Queen Cup"), "/GP Race/Queen Cup"),
+        (tx("King Cup"), "/GP Race/King Cup"),
+        (tx("Joker Cup"), "/GP Race/Joker Cup"),
+    ] },
+    Section { title: tx("Death Race"), rows: &[(tx("Time (ms)"), "/Death Race/Time (ms)")] },
+    ],
+    lists: &[],
+    tables: &[
+    Table { title: tx("Time Attack (milliseconds; 3599999 = no record)"), path: "/Time Attack", name: &[], cols: &[(tx("1st place"), "/1st place (ms)"), (tx("2nd place"), "/2nd place (ms)"), (tx("3rd place"), "/3rd place (ms)"), (tx("4th place"), "/4th place (ms)"), (tx("5th place"), "/5th place (ms)"), (tx("Best lap"), "/Best lap (ms)")], only: &[], names: &[] },
+    Table { title: tx("Cups won: Novice"), path: "/Cups won/Novice", name: &[], cols: &[(tx("Jack Cup"), "/Jack Cup"), (tx("Queen Cup"), "/Queen Cup"), (tx("King Cup"), "/King Cup"), (tx("Joker Cup"), "/Joker Cup"), (tx("X Cup"), "/X Cup")], only: &[], names: &[] },
+    Table { title: tx("Cups won: Standard"), path: "/Cups won/Standard", name: &[], cols: &[(tx("Jack Cup"), "/Jack Cup"), (tx("Queen Cup"), "/Queen Cup"), (tx("King Cup"), "/King Cup"), (tx("Joker Cup"), "/Joker Cup"), (tx("X Cup"), "/X Cup")], only: &[], names: &[] },
+    Table { title: tx("Cups won: Expert"), path: "/Cups won/Expert", name: &[], cols: &[(tx("Jack Cup"), "/Jack Cup"), (tx("Queen Cup"), "/Queen Cup"), (tx("King Cup"), "/King Cup"), (tx("Joker Cup"), "/Joker Cup"), (tx("X Cup"), "/X Cup")], only: &[], names: &[] },
+    Table { title: tx("Cups won: Master"), path: "/Cups won/Master", name: &[], cols: &[(tx("Jack Cup"), "/Jack Cup"), (tx("Queen Cup"), "/Queen Cup"), (tx("King Cup"), "/King Cup"), (tx("Joker Cup"), "/Joker Cup"), (tx("X Cup"), "/X Cup")], only: &[], names: &[] },
+    ],
+};
+
+// ------------------------------------------------------------------ Mystical Ninja Starring Goemon (N64)
+
+pub const GOEMON1: Spec = Spec {
+    name: "Mystical Ninja Starring Goemon",
+    tab: "Goemon",
+    accent: (70, 130, 200),
+    kind: Some(crate::fmt::goemon::KIND1),
+    markers: &["/Info/Slots in use"],
+    subtitle: tx("An emulator's Controller Pak (.mpk or .srm). Per slot: ryo, play time, food, armour, fortune doll pieces, fish, keys, each character's weapon and items, key items, and the castle maps."),
+    tiles: &[(tx("Slots in use"), "/Info/Slots in use")],
+    sections: &[
+    Section { title: tx("Slot 1"), rows: &[
+        (tx("Character"), "/Slot 1/General/Character"),
+        (tx("Ryo"), "/Slot 1/General/Ryo"),
+        (tx("Play time (seconds)"), "/Slot 1/General/Play time (seconds)"),
+        (tx("Food"), "/Slot 1/General/Food"),
+        (tx("Headwear"), "/Slot 1/General/Headwear"),
+        (tx("Headwear quantity"), "/Slot 1/General/Headwear quantity"),
+        (tx("Bodywear"), "/Slot 1/General/Bodywear"),
+        (tx("Bodywear quantity"), "/Slot 1/General/Bodywear quantity"),
+        (tx("Fortune doll pieces"), "/Slot 1/General/Fortune doll pieces"),
+        (tx("Red fish"), "/Slot 1/General/Red fish"),
+        (tx("Yellow fish"), "/Slot 1/General/Yellow fish"),
+        (tx("Blue fish"), "/Slot 1/General/Blue fish"),
+        (tx("Key 1"), "/Slot 1/General/Key 1"),
+        (tx("Key 2"), "/Slot 1/General/Key 2"),
+        (tx("Key 3"), "/Slot 1/General/Key 3"),
+        (tx("Key 4"), "/Slot 1/General/Key 4"),
+        (tx("Key 5"), "/Slot 1/General/Key 5"),
+    ] },
+    Section { title: tx("Slot 2"), rows: &[
+        (tx("Character"), "/Slot 2/General/Character"),
+        (tx("Ryo"), "/Slot 2/General/Ryo"),
+        (tx("Play time (seconds)"), "/Slot 2/General/Play time (seconds)"),
+        (tx("Food"), "/Slot 2/General/Food"),
+        (tx("Headwear"), "/Slot 2/General/Headwear"),
+        (tx("Headwear quantity"), "/Slot 2/General/Headwear quantity"),
+        (tx("Bodywear"), "/Slot 2/General/Bodywear"),
+        (tx("Bodywear quantity"), "/Slot 2/General/Bodywear quantity"),
+        (tx("Fortune doll pieces"), "/Slot 2/General/Fortune doll pieces"),
+        (tx("Red fish"), "/Slot 2/General/Red fish"),
+        (tx("Yellow fish"), "/Slot 2/General/Yellow fish"),
+        (tx("Blue fish"), "/Slot 2/General/Blue fish"),
+        (tx("Key 1"), "/Slot 2/General/Key 1"),
+        (tx("Key 2"), "/Slot 2/General/Key 2"),
+        (tx("Key 3"), "/Slot 2/General/Key 3"),
+        (tx("Key 4"), "/Slot 2/General/Key 4"),
+        (tx("Key 5"), "/Slot 2/General/Key 5"),
+    ] },
+    Section { title: tx("Slot 3"), rows: &[
+        (tx("Character"), "/Slot 3/General/Character"),
+        (tx("Ryo"), "/Slot 3/General/Ryo"),
+        (tx("Play time (seconds)"), "/Slot 3/General/Play time (seconds)"),
+        (tx("Food"), "/Slot 3/General/Food"),
+        (tx("Headwear"), "/Slot 3/General/Headwear"),
+        (tx("Headwear quantity"), "/Slot 3/General/Headwear quantity"),
+        (tx("Bodywear"), "/Slot 3/General/Bodywear"),
+        (tx("Bodywear quantity"), "/Slot 3/General/Bodywear quantity"),
+        (tx("Fortune doll pieces"), "/Slot 3/General/Fortune doll pieces"),
+        (tx("Red fish"), "/Slot 3/General/Red fish"),
+        (tx("Yellow fish"), "/Slot 3/General/Yellow fish"),
+        (tx("Blue fish"), "/Slot 3/General/Blue fish"),
+        (tx("Key 1"), "/Slot 3/General/Key 1"),
+        (tx("Key 2"), "/Slot 3/General/Key 2"),
+        (tx("Key 3"), "/Slot 3/General/Key 3"),
+        (tx("Key 4"), "/Slot 3/General/Key 4"),
+        (tx("Key 5"), "/Slot 3/General/Key 5"),
+    ] },
+    ],
+    lists: &[],
+    tables: &[
+    Table { title: tx("Slot 1: characters"), path: "/Slot 1/Characters", name: &[], cols: &[(tx("Unlocked"), "/Unlocked"), (tx("Weapon level"), "/Weapon level")], only: &[], names: &[] },
+    Table { title: tx("Slot 1: character items"), path: "/Slot 1/Character items", name: &[], cols: &[(tx("Owned"), "/Owned")], only: &[], names: &[] },
+    Table { title: tx("Slot 1: key items"), path: "/Slot 1/Key items", name: &[], cols: &[(tx("Owned"), "/Owned")], only: &[], names: &[] },
+    Table { title: tx("Slot 1: castles"), path: "/Slot 1/Castles", name: &[], cols: &[(tx("Map"), "/Map"), (tx("Boss revealed"), "/Boss revealed")], only: &[], names: &[] },
+    Table { title: tx("Slot 2: characters"), path: "/Slot 2/Characters", name: &[], cols: &[(tx("Unlocked"), "/Unlocked"), (tx("Weapon level"), "/Weapon level")], only: &[], names: &[] },
+    Table { title: tx("Slot 2: character items"), path: "/Slot 2/Character items", name: &[], cols: &[(tx("Owned"), "/Owned")], only: &[], names: &[] },
+    Table { title: tx("Slot 2: key items"), path: "/Slot 2/Key items", name: &[], cols: &[(tx("Owned"), "/Owned")], only: &[], names: &[] },
+    Table { title: tx("Slot 2: castles"), path: "/Slot 2/Castles", name: &[], cols: &[(tx("Map"), "/Map"), (tx("Boss revealed"), "/Boss revealed")], only: &[], names: &[] },
+    Table { title: tx("Slot 3: characters"), path: "/Slot 3/Characters", name: &[], cols: &[(tx("Unlocked"), "/Unlocked"), (tx("Weapon level"), "/Weapon level")], only: &[], names: &[] },
+    Table { title: tx("Slot 3: character items"), path: "/Slot 3/Character items", name: &[], cols: &[(tx("Owned"), "/Owned")], only: &[], names: &[] },
+    Table { title: tx("Slot 3: key items"), path: "/Slot 3/Key items", name: &[], cols: &[(tx("Owned"), "/Owned")], only: &[], names: &[] },
+    Table { title: tx("Slot 3: castles"), path: "/Slot 3/Castles", name: &[], cols: &[(tx("Map"), "/Map"), (tx("Boss revealed"), "/Boss revealed")], only: &[], names: &[] },
+    ],
+};
+
+// ------------------------------------------------------------------ Goemon's Great Adventure (N64)
+
+pub const GOEMON2: Spec = Spec {
+    name: "Goemon's Great Adventure",
+    tab: "Goemon",
+    accent: (200, 90, 60),
+    kind: Some(crate::fmt::goemon::KIND2),
+    markers: &["/Options/Sound"],
+    subtitle: tx("An emulator's Controller Pak (.mpk or .srm) or Japanese .sra save. Per slot: location, ryo, armour, weapon level, item, the money given to Kenzo and Kensuke, and the Chain Pipe and Underwater Device. Plus the options."),
+    tiles: &[(tx("Slots in use"), "/Info/Slots in use")],
+    sections: &[
+    Section { title: tx("Options"), rows: &[(tx("Language"), "/Options/Language"), (tx("Sound"), "/Options/Sound")] },
+    ],
+    lists: &[],
+    tables: &[
+    Table { title: tx("Slots"), path: "/Slots", name: &[], cols: &[(tx("Location"), "/Location"), (tx("Ryo"), "/Ryo"), (tx("Armor"), "/Armor"), (tx("Weapon level"), "/Weapon level"), (tx("Item"), "/Item"), (tx("Money given to Kenzo"), "/Money given to Kenzo"), (tx("Money given to Kensuke"), "/Money given to Kensuke"), (tx("Chain Pipe"), "/Chain Pipe"), (tx("Underwater Device"), "/Underwater Device")], only: &[], names: &[] },
+    ],
+};
+
+// ------------------------------------------------------------------ Gex 64: Enter the Gecko (N64)
+
+pub const GEX64: Spec = Spec {
+    name: "Gex 64: Enter the Gecko",
+    tab: "Gecko",
+    accent: (90, 170, 70),
+    kind: Some(crate::fmt::gex64::KIND),
+    markers: &["/Info/Saves on the pak"],
+    subtitle: tx("An emulator's Controller Pak (.mpk or .srm). Per save: lives and every red, silver and gold remote; the game's password is made again for each changed save."),
+    tiles: &[(tx("Saves on the pak"), "/Info/Saves on the pak")],
+    sections: &[],
+    lists: &[],
+    tables: &[
+    Table { title: tx("Saves"), path: "/Saves", name: &[], cols: &[(tx("Lives"), "/Lives"), (tx("Red remotes"), "/Red remotes"), (tx("Silver remotes"), "/Silver remotes"), (tx("Gold remotes"), "/Gold remotes")], only: &[], names: &[] },
+    Table { title: tx("Red and silver remotes"), path: "/Levels", name: &[], cols: &[(tx("Red remote 1"), "/Red remote 1"), (tx("Red remote 2"), "/Red remote 2"), (tx("Red remote 3"), "/Red remote 3"), (tx("Hidden remote"), "/Hidden remote"), (tx("Reward remote"), "/Reward remote")], only: &[], names: &[] },
+    Table { title: tx("Gold remotes"), path: "/Gold remotes", name: &[], cols: &[(tx("Collected"), "/Collected")], only: &[], names: &[] },
+    ],
+};
