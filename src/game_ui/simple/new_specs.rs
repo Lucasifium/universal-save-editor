@@ -184,3 +184,118 @@ pub const THE_MESSENGER: Spec = Spec {
     lists: &[],
     tables: &[],
 };
+
+const KR1_HEROES: &[(&str, &str)] = &[("hero_10yr", "10Yr"), ("hero_alleria", "Alleria"), ("hero_bolin", "Bolin"), ("hero_denas", "Denas"), ("hero_elora", "Elora"), ("hero_gerald", "Gerald"), ("hero_hacksaw", "Hacksaw"), ("hero_ignus", "Ignus"), ("hero_ingvar", "Ingvar"), ("hero_magnus", "Magnus"), ("hero_malik", "Malik"), ("hero_oni", "Oni"), ("hero_thor", "Thor"), ("hero_alien", "Alien"), ("hero_alric", "Alric"), ("hero_beastmaster", "Beastmaster"), ("hero_crab", "Crab"), ("hero_dracolich", "Dracolich"), ("hero_dragon", "Dragon"), ("hero_giant", "Giant"), ("hero_minotaur", "Minotaur"), ("hero_mirage", "Mirage"), ("hero_monk", "Monk"), ("hero_monkey_god", "Monkey God"), ("hero_pirate", "Pirate"), ("hero_priest", "Priest"), ("hero_van_helsing", "Van Helsing"), ("hero_voodoo_witch", "Voodoo Witch"), ("hero_wizard", "Wizard")];
+
+pub const KR1: Spec = Spec {
+    name: "Kingdom Rush and Kingdom Rush Frontiers",
+    tab: "Kingdom",
+    accent: (200, 150, 50),
+    kind: Some("Lua table"),
+    markers: &["/gems", "/upgrades/rain", "/upgrades/engineers"],
+    subtitle: "slot_N.lua from %APPDATA%\\kingdom_rush (or kingdom_rush_frontiers). Gems, the difficulty, the upgrade ranks and each hero's experience. Close the game first.",
+    tiles: &[("Gems", "/gems")],
+    sections: &[
+        Section { title: "Game", rows: &[("Gems", "/gems")] },
+        Section {
+            title: "Upgrade ranks",
+            rows: &[("Archers", "/upgrades/archers"), ("Barracks", "/upgrades/barracks"), ("Mages", "/upgrades/mages"), ("Engineers", "/upgrades/engineers"), ("Rain of Fire", "/upgrades/rain"), ("Reinforcements", "/upgrades/reinforcements")],
+        },
+    ],
+    lists: &[List {
+        title: "Heroes (experience)",
+        path: "/heroes/status",
+        shape: Shape::Records { qty_key: "xp" },
+        names: KR1_HEROES,
+        max: None,
+    }],
+    tables: &[],
+};
+
+
+const KRO_HEROES: &[(&str, &str)] = &[("hero_arivan", "Arivan"), ("hero_bravebark", "Bravebark"), ("hero_bruce", "Bruce"), ("hero_catha", "Catha"), ("hero_durax", "Durax"), ("hero_elves_archer", "Elves Archer"), ("hero_elves_denas", "Elves Denas"), ("hero_faustus", "Faustus"), ("hero_lilith", "Lilith"), ("hero_lynn", "Lynn"), ("hero_phoenix", "Phoenix"), ("hero_rag", "Rag"), ("hero_regson", "Regson"), ("hero_veznan", "Veznan"), ("hero_wilbur", "Wilbur"), ("hero_xin", "Xin")];
+
+pub const KRO: Spec = Spec {
+    name: "Kingdom Rush Origins",
+    tab: "Forest",
+    accent: (80, 160, 80),
+    kind: Some("Lua table"),
+    markers: &["/gems", "/upgrades/thunder", "/upgrades/rocks"],
+    subtitle: "slot_N.lua from %APPDATA%\\kingdom_rush_origins. Gems, the difficulty, the upgrade ranks and each hero's experience. Close the game first.",
+    tiles: &[("Gems", "/gems")],
+    sections: &[
+        Section { title: "Game", rows: &[("Gems", "/gems")] },
+        Section {
+            title: "Upgrade ranks",
+            rows: &[("Archers", "/upgrades/archers"), ("Barracks", "/upgrades/barracks"), ("Mages", "/upgrades/mages"), ("Rocks", "/upgrades/rocks"), ("Thunder", "/upgrades/thunder"), ("Reinforcements", "/upgrades/reinforcements")],
+        },
+    ],
+    lists: &[List {
+        title: "Heroes (experience)",
+        path: "/heroes/status",
+        shape: Shape::Records { qty_key: "xp" },
+        names: KRO_HEROES,
+        max: None,
+    }],
+    tables: &[],
+};
+
+const KRA_HEROES: &[(&str, &str)] = &[("hero_bird", "Bird"), ("hero_builder", "Builder"), ("hero_dragon_arb", "Dragon Arb"), ("hero_dragon_bone", "Dragon Bone"), ("hero_dragon_gem", "Dragon Gem"), ("hero_hunter", "Hunter"), ("hero_lava", "Lava"), ("hero_lumenir", "Lumenir"), ("hero_mecha", "Mecha"), ("hero_muyrn", "Muyrn"), ("hero_raelyn", "Raelyn"), ("hero_robot", "Robot"), ("hero_space_elf", "Space Elf"), ("hero_spider", "Spider"), ("hero_venom", "Venom"), ("hero_vesper", "Vesper"), ("hero_witch", "Witch"), ("hero_wukong", "Wukong")];
+
+pub const KRA: Spec = Spec {
+    name: "Kingdom Rush 5: Alliance TD",
+    tab: "Alliance",
+    accent: (120, 100, 210),
+    kind: Some("Lua table"),
+    markers: &["/gems", "/upgrades/alliance", "/upgrades/towers"],
+    subtitle: "slot_N.lua from %APPDATA%\\kingdom_rush_alliance. Gems, the difficulty, the upgrade ranks and each hero's experience. Close the game first.",
+    tiles: &[("Gems", "/gems")],
+    sections: &[
+        Section { title: "Game", rows: &[("Gems", "/gems")] },
+        Section {
+            title: "Upgrade ranks",
+            rows: &[("Towers", "/upgrades/towers"), ("Reinforcements", "/upgrades/reinforcements"), ("Heroes", "/upgrades/heroes"), ("Alliance", "/upgrades/alliance")],
+        },
+    ],
+    lists: &[List {
+        title: "Heroes (experience)",
+        path: "/heroes/status",
+        shape: Shape::Records { qty_key: "xp" },
+        names: KRA_HEROES,
+        max: None,
+    },
+        List {
+            title: "Consumables",
+            path: "/items/status",
+            shape: Shape::Map,
+            names: &[("cluster_bomb", "Cluster bomb"), ("deaths_touch", "Death's touch"), ("loot_box", "Loot box"), ("medical_kit", "Medical kit"), ("portable_coil", "Portable coil"), ("scroll_of_spaceshift", "Scroll of space shift"), ("second_breath", "Second breath"), ("summon_blackburn", "Summon Blackburn"), ("veznan_wrath", "Veznan's wrath"), ("winter_age", "Winter age")],
+            max: None,
+        }],
+    tables: &[],
+};
+
+// ------------------------------------------------------------------ Kingdom Rush Vengeance
+
+pub const KR_VENGEANCE: Spec = Spec {
+    name: "Kingdom Rush Vengeance",
+    tab: "Dark army",
+    accent: (150, 60, 170),
+    kind: Some("Property list (XML)"),
+    markers: &["/veznan/gems", "/campaign/levels"],
+    subtitle: "slot_N.plist from %LOCALAPPDATA%\\Kingdom Rush Vengeance. Gems and the stars earned on each campaign level. Close the game first.",
+    tiles: &[("Gems", "/veznan/gems")],
+    sections: &[Section { title: "Game", rows: &[("Gems", "/veznan/gems")] }],
+    lists: &[],
+    tables: &[Table {
+        title: "Campaign levels",
+        path: "/campaign/levels",
+        name: &["/level_index"],
+        cols: &[("Stars", "/stars")],
+        only: &[],
+        names: &[],
+    }],
+};
+
+/// Difficulty names of the Kingdom Rush games (see `choices.rs`).
+#[allow(dead_code)]
+const KR_DIFFICULTY_TEXTS: &[&str] = &["Casual", "Veteran", "Impossible"];

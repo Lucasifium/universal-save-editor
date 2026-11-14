@@ -23653,3 +23653,64 @@ Magic Power
 
 Magic Resistance
 = Résistance magique
+
+Alliance
+= Alliance
+
+Towers
+= Tours
+
+Rocks
+= Rochers
+
+Kingdom
+= Royaume
+
+Dark army
+= Armée des ténèbres
+
+Campaign levels
+= Niveaux de campagne
+
+Heroes (experience)
+= Héros (expérience)
+
+Archers
+= Archers
+
+Barracks
+= Casernes
+
+Mages
+= Mages
+
+Engineers
+= Ingénieurs
+
+Rain of Fire
+= Pluie de feu
+
+Reinforcements
+= Renforts
+
+slot_N.lua from %APPDATA%\\kingdom_rush_origins. Gems, the difficulty, the upgrade ranks and each hero's experience. Close the game first.
+= slot_N.lua depuis %APPDATA%\\kingdom_rush_origins. Gemmes, la difficulté, les rangs d'amélioration et l'expérience de chaque héros. Fermez d'abord le jeu.
+
+slot_N.lua from %APPDATA%\\kingdom_rush_alliance. Gems, the difficulty, the upgrade ranks and each hero's experience. Close the game first.
+= slot_N.lua depuis %APPDATA%\\kingdom_rush_alliance. Gemmes, la difficulté, les rangs d'amélioration et l'expérience de chaque héros. Fermez d'abord le jeu.
+
+slot_N.plist from %LOCALAPPDATA%\\Kingdom Rush Vengeance. Gems and the stars earned on each campaign level. Close the game first.
+= slot_N.plist depuis %LOCALAPPDATA%\\Kingdom Rush Vengeance. Les gemmes et les étoiles gagnées à chaque niveau de la campagne. Fermez d'abord le jeu.
+
+slot_N.lua from %APPDATA%\\kingdom_rush (or kingdom_rush_frontiers). Gems, the difficulty, the upgrade ranks and each hero's experience. Close the game first.
+= slot_N.lua depuis %APPDATA%\\kingdom_rush (ou kingdom_rush_frontiers). Gemmes, la difficulté, les rangs d'amélioration et l'expérience de chaque héros. Fermez d'abord le jeu.
+
+Casual
+= Occasionnel
+
+Veteran
+= Vétéran
+
+Impossible
+= Impossible
+

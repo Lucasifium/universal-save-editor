@@ -249,22 +249,48 @@ impl Backend for LuaBackend {
     }
 }
 
-pub fn looks(text: &str) -> bool {
+/// Where the table starts and the name a trailing `return <name>` must repeat, for the two
+/// forms: `return { ... }` and `local <name> = { ... }` followed by `return <name>` (Kingdom Rush).
+fn head(text: &str) -> Option<(usize, Option<&str>)> {
     let t = text.trim_start();
-    t.starts_with("return") && t[6..].trim_start().starts_with('{')
+    let lead = text.len() - t.len();
+    if let Some(r) = t.strip_prefix("return") {
+        return r.trim_start().starts_with('{').then_some((lead + 6, None));
+    }
+    let r = t.strip_prefix("local")?;
+    if !r.starts_with(char::is_whitespace) {
+        return None;
+    }
+    let r = r.trim_start();
+    let end = r.find(|c: char| !(c.is_ascii_alphanumeric() || c == '_'))?;
+    let name = &r[..end];
+    let after = r[end..].trim_start().strip_prefix('=')?;
+    let skip = text.len() - after.len();
+    after.trim_start().starts_with('{').then_some((skip, Some(name)))
+}
+
+pub fn looks(text: &str) -> bool {
+    head(text).is_some()
 }
 
 pub fn parse(text: &str) -> Result<TreeDoc, String> {
-    if !looks(text) {
+    let Some((start, name)) = head(text) else {
         return Err("not a Lua table".into());
-    }
+    };
     let s = text.as_bytes();
-    let mut p = P { s, i: 0, spans: vec![], editable: HashMap::new(), depth: 0 };
-    p.ws();
-    p.i += 6; // return
+    let mut p = P { s, i: start, spans: vec![], editable: HashMap::new(), depth: 0 };
     p.ws();
     let root = p.table("")?;
     p.ws();
+    if let Some(name) = name {
+        // `return <name>` closes the `local` form.
+        let rest = &text[p.i..];
+        let tail = rest.strip_prefix("return").map(str::trim).ok_or("unexpected text after the table")?;
+        if tail != name {
+            return Err("unexpected text after the table".into());
+        }
+        p.i = s.len();
+    }
     if p.i != s.len() {
         return Err("unexpected text after the table".into());
     }
@@ -292,5 +318,17 @@ mod tests {
         let out = String::from_utf8(doc.to_bytes().unwrap()).unwrap();
         assert!(out.contains(r#"["dollars"]=9999"#) && out.contains(r#""Blue\nDeck""#));
         assert_eq!(parse(&out).unwrap().view, doc.view);
+    }
+
+    #[test]
+    fn local_form() {
+        let src = "local obj1 = {\n\t[\"gems\"] = 5;\n\t[\"h\"] = {\n\t\t[\"xp\"] = 0;\n\t};\n}\nreturn obj1\n";
+        let mut doc = parse(src).unwrap();
+        assert_eq!(doc.view.pointer("/gems").unwrap(), 5);
+        assert_eq!(doc.to_bytes().unwrap(), src.as_bytes());
+        doc.set("/gems", Value::from(99)).unwrap();
+        let out = String::from_utf8(doc.to_bytes().unwrap()).unwrap();
+        assert!(out.contains("= 99;") && out.ends_with("return obj1\n"));
+        assert!(parse("local x = {}\nreturn y").is_err());
     }
 }

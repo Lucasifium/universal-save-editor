@@ -23646,3 +23646,64 @@ Magic Power
 
 Magic Resistance
 = Magieresistenz
+
+Alliance
+= Allianz
+
+Towers
+= Türme
+
+Rocks
+= Felsen
+
+Kingdom
+= Königreich
+
+Dark army
+= Dunkle Armee
+
+Campaign levels
+= Kampagnenlevel
+
+Heroes (experience)
+= Helden (Erfahrung)
+
+Archers
+= Bogenschützen
+
+Barracks
+= Kasernen
+
+Mages
+= Magier
+
+Engineers
+= Ingenieure
+
+Rain of Fire
+= Feuerregen
+
+Reinforcements
+= Verstärkung
+
+slot_N.lua from %APPDATA%\\kingdom_rush_origins. Gems, the difficulty, the upgrade ranks and each hero's experience. Close the game first.
+= slot_N.lua aus %APPDATA%\\kingdom_rush_origins. Edelsteine, die Schwierigkeit, die Aufwertungsstufen und die Erfahrung jedes Helden. Zuerst das Spiel schließen.
+
+slot_N.lua from %APPDATA%\\kingdom_rush_alliance. Gems, the difficulty, the upgrade ranks and each hero's experience. Close the game first.
+= slot_N.lua aus %APPDATA%\\kingdom_rush_alliance. Edelsteine, die Schwierigkeit, die Aufwertungsstufen und die Erfahrung jedes Helden. Zuerst das Spiel schließen.
+
+slot_N.plist from %LOCALAPPDATA%\\Kingdom Rush Vengeance. Gems and the stars earned on each campaign level. Close the game first.
+= slot_N.plist aus %LOCALAPPDATA%\\Kingdom Rush Vengeance. Edelsteine und die auf jedem Kampagnenlevel verdienten Sterne. Zuerst das Spiel schließen.
+
+slot_N.lua from %APPDATA%\\kingdom_rush (or kingdom_rush_frontiers). Gems, the difficulty, the upgrade ranks and each hero's experience. Close the game first.
+= slot_N.lua aus %APPDATA%\\kingdom_rush (oder kingdom_rush_frontiers). Edelsteine, die Schwierigkeit, die Aufwertungsstufen und die Erfahrung jedes Helden. Zuerst das Spiel schließen.
+
+Casual
+= Locker
+
+Veteran
+= Veteran
+
+Impossible
+= Unmöglich
+

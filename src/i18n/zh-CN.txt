@@ -23701,3 +23701,64 @@ Magic Power
 
 Magic Resistance
 = 魔法抗性
+
+Alliance
+= 联盟
+
+Towers
+= 塔
+
+Rocks
+= 岩石
+
+Kingdom
+= 王国
+
+Dark army
+= 黑暗军团
+
+Campaign levels
+= 战役关卡
+
+Heroes (experience)
+= 英雄（经验）
+
+Archers
+= 弓箭手
+
+Barracks
+= 兵营
+
+Mages
+= 法师
+
+Engineers
+= 工程师
+
+Rain of Fire
+= 火雨
+
+Reinforcements
+= 援军
+
+slot_N.lua from %APPDATA%\\kingdom_rush_origins. Gems, the difficulty, the upgrade ranks and each hero's experience. Close the game first.
+= 来自 %APPDATA%\\kingdom_rush_origins 的 slot_N.lua。宝石、难度、升级等级和每位英雄的经验。请先关闭游戏。
+
+slot_N.lua from %APPDATA%\\kingdom_rush_alliance. Gems, the difficulty, the upgrade ranks and each hero's experience. Close the game first.
+= 来自 %APPDATA%\\kingdom_rush_alliance 的 slot_N.lua。宝石、难度、升级等级和每位英雄的经验。请先关闭游戏。
+
+slot_N.plist from %LOCALAPPDATA%\\Kingdom Rush Vengeance. Gems and the stars earned on each campaign level. Close the game first.
+= 来自 %LOCALAPPDATA%\\Kingdom Rush Vengeance 的 slot_N.plist。宝石以及每个战役关卡获得的星星。请先关闭游戏。
+
+slot_N.lua from %APPDATA%\\kingdom_rush (or kingdom_rush_frontiers). Gems, the difficulty, the upgrade ranks and each hero's experience. Close the game first.
+= 来自 %APPDATA%\\kingdom_rush（或 kingdom_rush_frontiers） 的 slot_N.lua。宝石、难度、升级等级和每位英雄的经验。请先关闭游戏。
+
+Casual
+= 休闲
+
+Veteran
+= 老兵
+
+Impossible
+= 不可能
+

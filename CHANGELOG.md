@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- New game screens: Kingdom Rush, Frontiers, Origins, Alliance TD and Vengeance (gems, difficulty, upgrades, heroes); Lua saves in the local-variable form open
 - New game screens: Sea of Stars (level, experience, gold, deaths; .NET length-prefixed JSON opened) and The Messenger (play time, deaths, New Game Plus; scrambled text opened)
 - New game screens: Darksiders Genesis (souls, coins, keys, shards), Journey to the Savage Planet (stash resources with Max crafting materials), My Hero One's Justice and My Hero One's Justice 2 (cash, hero coins), Vikings: Wolves of Midgard (gold, iron, steel, blood, jotunjarn and ores)
 - Batman: Arkham City (PC): game screen (difficulty, experience, player level, upgrades bought for Batman and Catwoman); the LZO-packed save is unpacked and packed again

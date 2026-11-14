@@ -23728,3 +23728,64 @@ Magic Power
 
 Magic Resistance
 = 魔法防御
+
+Alliance
+= 同盟
+
+Towers
+= タワー
+
+Rocks
+= 岩
+
+Kingdom
+= 王国
+
+Dark army
+= 闇の軍勢
+
+Campaign levels
+= キャンペーンのステージ
+
+Heroes (experience)
+= ヒーロー（経験値）
+
+Archers
+= アーチャー
+
+Barracks
+= 兵舎
+
+Mages
+= メイジ
+
+Engineers
+= エンジニア
+
+Rain of Fire
+= 炎の雨
+
+Reinforcements
+= 援軍
+
+slot_N.lua from %APPDATA%\\kingdom_rush_origins. Gems, the difficulty, the upgrade ranks and each hero's experience. Close the game first.
+= %APPDATA%\\kingdom_rush_origins の slot_N.lua。ジェム、難易度、アップグレードのランク、各ヒーローの経験値。先にゲームを終了してください。
+
+slot_N.lua from %APPDATA%\\kingdom_rush_alliance. Gems, the difficulty, the upgrade ranks and each hero's experience. Close the game first.
+= %APPDATA%\\kingdom_rush_alliance の slot_N.lua。ジェム、難易度、アップグレードのランク、各ヒーローの経験値。先にゲームを終了してください。
+
+slot_N.plist from %LOCALAPPDATA%\\Kingdom Rush Vengeance. Gems and the stars earned on each campaign level. Close the game first.
+= %LOCALAPPDATA%\\Kingdom Rush Vengeance の slot_N.plist。ジェムと各キャンペーンステージで獲得した星。先にゲームを終了してください。
+
+slot_N.lua from %APPDATA%\\kingdom_rush (or kingdom_rush_frontiers). Gems, the difficulty, the upgrade ranks and each hero's experience. Close the game first.
+= %APPDATA%\\kingdom_rush（または kingdom_rush_frontiers） の slot_N.lua。ジェム、難易度、アップグレードのランク、各ヒーローの経験値。先にゲームを終了してください。
+
+Casual
+= カジュアル
+
+Veteran
+= ベテラン
+
+Impossible
+= インポッシブル
+

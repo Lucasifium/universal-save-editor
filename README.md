@@ -3,7 +3,7 @@
 > **Free, and it always will be.** No price, no ads, no account, no paid version, no online service, no
 > rate limits. If anyone is charging you for this, it isn't from here.
 
-An offline save editor and save manager for 500+ (509) PC games (edit saves, and back up, name and restore them): Cairn, Terraria (characters and a world map editor),
+An offline save editor and save manager for 510+ (514) PC games (edit saves, and back up, name and restore them): Cairn, Terraria (characters and a world map editor),
 Oxygen Not Included, RimWorld, Stardew Valley, Onimusha: Way of the Sword, Elden Ring, Dark Souls,
 Cyberpunk 2077, the Persona, Yakuza and Final Fantasy games, Ren'Py visual novels, RPG Maker games
 and more (the full list is below). Written in Rust (egui). Nothing is uploaded anywhere, and there are
@@ -320,7 +320,7 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 </details>
 
 <details>
-<summary><strong>K</strong> (7)</summary>
+<summary><strong>K</strong> (12)</summary>
 
 | Game | Screen |
 |---|---|
@@ -331,6 +331,11 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 | Kingdom Hearts (PlayStation 2) | *Sora* (PlayStation 2 `.psu`, `.psv` or memory card save, original and Final Mix): munny, difficulty, magic levels, the ten party members' level, experience, HP, MP, AP, strength, defense and weapon, and the stock of every item, weapon, accessory, key item and synthesis material, with a **Max crafting materials** button for the synthesis materials (99 each, the game's own limit) (checked on public saves, not yet tried in the game) |
 | Kingdom Hearts II (PlayStation 2) | *Sora* (PlayStation 2 `.psu`, `.psv` or memory card save, USA, Europe, Japanese and Final Mix releases): munny, difficulty, magic levels, each party member's level, experience, HP, MP and bonuses, and the stock of every item, weapon, armor, accessory, key item and synthesis material, with a **Max crafting materials** button for the synthesis materials (99 each, the most the stock holds; an estimate, no public source states it). The save's checksum is written again (checked on public saves, not yet tried in the game) |
 | Kingdom Hearts III (PC) | *Sora*: decrypted (the key comes from the Steam id in the save's folder, or Epic's) and encrypted again with its CRC and MD5; munny (with the earned and spent totals kept in step), level, EXP, the bonus stats, Sora, Donald and Goofy's HP and MP, every synthesis material with a *Max crafting materials* button, and the items already held. Checked against the reference editor's test vectors; not yet tried on a real save |
+| Kingdom Rush | *Kingdom*: gems, the difficulty, the upgrade ranks (archers, barracks, mages, engineers, rain of fire, reinforcements) and each hero's experience, from the plain Lua text `slot_N.lua` (checked on a public save, not yet tried in the game) |
+| Kingdom Rush 5: Alliance TD | *Alliance*: gems, the difficulty, the upgrade ranks, the consumables and each hero's experience, from the plain Lua text `slot_N.lua` (checked on a public save, not yet tried in the game) |
+| Kingdom Rush Frontiers | *Kingdom*: gems, the difficulty, the upgrade ranks and each hero's experience, from the plain Lua text `slot_N.lua` (the same screen as Kingdom Rush; checked on a public save, not yet tried in the game) |
+| Kingdom Rush Origins | *Forest*: gems, the difficulty, the upgrade ranks and each hero's experience, from the plain Lua text `slot_N.lua` (checked on a public save, not yet tried in the game) |
+| Kingdom Rush Vengeance | *Dark army*: gems and the stars on each campaign level, from the property-list XML `slot_N.plist` (checked on a public save, not yet tried in the game) |
 
 </details>
 
@@ -717,8 +722,8 @@ binary and stays an ironman save. It isn't converted to a normal one.
 
 The start page lists **Your games**: every game in the list whose saves were found on this computer,
 newest first, each one click away from its newest save. *Find my game's saves* (the big button on the
-start page, *Find saves* in the toolbar and the File menu) lists every one of the 500+ (509) PC games the editor knows, Mass Effect 1–3, the Legendary Edition and Andromeda among them — with where it
-start page, *Find saves* in the toolbar and the File menu) lists every one of the 500+ (509) PC games the editor knows, Mass Effect 1–3, the Legendary Edition and Andromeda among them — with where it
+start page, *Find saves* in the toolbar and the File menu) lists every one of the 510+ (514) PC games the editor knows, Mass Effect 1–3, the Legendary Edition and Andromeda among them — with where it
+start page, *Find saves* in the toolbar and the File menu) lists every one of the 510+ (514) PC games the editor knows, Mass Effect 1–3, the Legendary Edition and Andromeda among them — with where it
 usually keeps its saves and what the files are called, and finds them on your computer (Steam
 libraries and `userdata`, Documents wherever Windows has it, AppData, Saved Games, Ubisoft
 Connect). On Linux and the Steam Deck it also looks inside Proton prefixes
