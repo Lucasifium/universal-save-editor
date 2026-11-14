@@ -128,7 +128,7 @@ Universal Save Editor is free. It builds on other people's work, listed here wit
 | [FloweysTimeMachine (Undertale save layout, item and phone names)](https://github.com/crumblingstatue/FloweysTimeMachine) | crumblingstatue | facts only (file layouts, ids and names), credited |
 | [DeltaruneDecomp (Deltarune Chapter 1 save field order)](https://github.com/TeamBlossomDevs/DeltaruneDecomp) | TeamBlossomDevs | facts only (file layouts, ids and names), credited |
 | [DarkestDungeonSaveEditor (Darkest Dungeon DSON format and its type rules, ported)](https://github.com/robojumper/DarkestDungeonSaveEditor) | robojumper | MIT |
-| [game-tools-collection (Octopath Traveler II character and job ids; Golden Sun Djinn counts and file-select totals; Final Fantasy X ability, overdrive, item, key item and Monster Arena layout and names)](https://github.com/RyudoSynbios/game-tools-collection) | RyudoSynbios | MIT |
+| [game-tools-collection (Octopath Traveler II character and job ids; Golden Sun Djinn counts and file-select totals; Final Fantasy X ability, overdrive, item, key item and Monster Arena layout and names; Super Mario 64, Super Metroid and A Link to the Past save layouts)](https://github.com/RyudoSynbios/game-tools-collection) | RyudoSynbios | MIT |
 | [octopath-save-editor (Octopath Traveler save paths and property names)](https://github.com/AppleBoiy/octopath-save-editor) | AppleBoiy | facts only (file layouts, ids and names), credited |
 | [Darkest Dungeon 2 save editor (save files and value names)](https://github.com/Hyena68/Darkest-Dungeon-SAVE-EDITOR) | Hyena68 | facts only (file layouts, ids and names), credited |
 | [final_fantasy_pixel_remaster_save_decrypter (Pixel Remaster key derivation, cipher parameters and file layering, ported)](https://github.com/ReverseTelnet/final_fantasy_pixel_remaster_save_decrypter) | ReverseTelnet | GPL-3.0 |
@@ -179,6 +179,13 @@ Universal Save Editor is free. It builds on other people's work, listed here wit
 | [CEParser (field ids for the Europa Universalis IV, Hearts of Iron IV and Crusader Kings II values the game screens show)](https://github.com/wbudz/CEParser) | Witold Budziszewski | MIT |
 | [Kingdom Save Editor (Final Fantasy VII Remake item names, inventory layout)](https://github.com/Xeeynamo/KingdomSaveEditor) | Luciano Ciccariello and contributors | GPL-3.0-or-later |
 | [FF7 Rebirth Save Editor (Final Fantasy VII Rebirth item IDs, names and inventory types; facts only, no code)](https://ff-7-rebirth-save-editor.vercel.app/) | its author | facts only (file layouts, ids and names), credited |
+| [WorldBox-Ideal-Generator (WorldBox map.wbox save layout)](https://github.com/underplayer673/WorldBox-Ideal-Generator) | Maxim (UnderPlayer.) | MIT |
+| [core-keeper-save-editor (Core Keeper character save layout)](https://github.com/halilbahar/core-keeper-save-editor) | halilbahar | GPL-3.0 |
+| [HoloCureSaveEditor (HoloCure save_n.dat format)](https://github.com/nnotwen/HoloCureSaveEditor) | nnotwen | MIT |
+| [PotionCraft_save_decoder (Potion Craft .pcsave encoding and key)](https://github.com/Varisox137/PotionCraft_save_decoder) | Varisox137 | MIT |
+| [World-War-Z-Save-Editor (World War Z profile file key)](https://github.com/Chase-Simmons/World-War-Z-Save-Editor) | Chase-Simmons | MIT |
+| [RoboQuest-save-editor (Roboquest RQProfile.sav layout)](https://github.com/tunip3/RoboQuest-save-editor) | tunip3 | Apache-2.0 |
+| [total-war-save-parser, EsfLib and RPFM (Total War ESF layout)](https://github.com/Frodo45127/rpfm) | Frodo45127 | MIT |
 
 Copyright notices of the projects above whose code or tables were used:
 
@@ -205,7 +212,7 @@ Copyright notices of the projects above whose code or tables were used:
 - dragon-age-save-editor (Dragon Age: Origins stat ids, approval and campaign ids): Copyright (c) 2026 Aleksei Tovkachev. Licensed under MIT.
 - vampire-survivors-save-editor (Vampire Survivors checksum and number styles): Copyright (c) 2026 chrisdfennell. Licensed under MIT.
 - DarkestDungeonSaveEditor (Darkest Dungeon DSON format and its type rules, ported): Copyright (c) 2018 robojumper. Licensed under MIT.
-- game-tools-collection (Octopath Traveler II character and job ids; Golden Sun Djinn counts and file-select totals; Final Fantasy X ability, overdrive, item, key item and Monster Arena layout and names): Copyright (c) 2024 RyudoSynbios. Licensed under MIT.
+- game-tools-collection (Octopath Traveler II character and job ids; Golden Sun Djinn counts and file-select totals; Final Fantasy X ability, overdrive, item, key item and Monster Arena layout and names; Super Mario 64, Super Metroid and A Link to the Past save layouts): Copyright (c) 2024 RyudoSynbios. Licensed under MIT.
 - LSLib (Larian LSPK package, LSF resource and Osiris story layouts, ported): Copyright (c) Norbyte. Licensed under MIT.
 - valheim-fch-editor (Valheim character layout, skill ids): Copyright (c) 2021 cQuaid. Licensed under MIT.
 - obababot (Golden Sun save layout; item, class and Djinn name tables): Copyright (c) 2020 Dyrati. Licensed under MIT.
