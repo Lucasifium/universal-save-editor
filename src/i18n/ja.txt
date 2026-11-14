@@ -26571,4 +26571,290 @@ Justice for All
 
 Trials and Tribulations
 = Trials and Tribulations
+# Donkey Kong 64 screen
+
+Ammo Belt
+= 弾薬ベルト
+
+An emulator's .eep or .srm save. Per slot: play time, melons, the Kongs freed, each Kong's Banana Coins, Cranky's moves, slam, guns, ammo belt and instrument upgrades, the moves and items, Banana Fairies, Battle Crowns and Boss Keys, and every level's Golden Bananas, medals, blueprints and coloured bananas. The Mystery menu unlocks are shared by all slots.
+= エミュレーターの .eep または .srm セーブ。スロットごとに、プレイ時間、スイカ、助け出したコング、各コングのバナナコイン、クランキーの技、ヒップドロップ、銃、弾薬ベルト、楽器の強化、技とアイテム、バナナフェアリー、バトルクラウン、ボスのカギ、各ステージのゴールデンバナナ、メダル、設計図、色バナナ。ミステリーメニューの解放はすべてのスロットで共通です。
+
+Aztec Boss
+= アズテックのボス
+
+Aztec Intro
+= アズテックのオープニング
+
+Banana Camera
+= バナナカメラ
+
+Banana Coins
+= バナナコイン
+
+Barrels pickup
+= タルを持ち上げる
+
+Bongo Blast
+= ボンゴブラスト
+
+Bongo Blast upgrade 1
+= ボンゴブラスト強化1
+
+Bongo Blast upgrade 2
+= ボンゴブラスト強化2
+
+Bongo Blast upgrade 3
+= ボンゴブラスト強化3
+
+Castle Boss
+= キャッスルのボス
+
+Castle Intro
+= キャッスルのオープニング
+
+Caves Boss
+= 洞窟のボス
+
+Caves Intro
+= 洞窟のオープニング
+
+Cheats
+= チート
+
+Chunky Kong
+= チャンキーコング
+
+Chunky Kong freed
+= チャンキーコングを助けた
+
+Close the emulator first. Times are in seconds. Each Kong's Golden Banana count follows the Golden Bananas ticked. The high scores and sound options are left out: the Japanese release keeps them one bit further on. Every edited slot's CRC and the Mystery menu's CRC are made again.
+= 先にエミュレーターを閉じてください。時間は秒単位です。各コングのゴールデンバナナの数はチェックしたゴールデンバナナに合わせて変わります。ハイスコアとサウンド設定は含まれていません。日本版では1ビット後ろに保存されているためです。編集した各スロットの CRC とミステリーメニューの CRC は作り直されます。
+
+Coconut Shooter
+= ココナッツシューター
+
+Cranky's moves
+= クランキーの技
+
+DK Arcade
+= DKアーケード
+
+DK Bonus
+= DKボーナス
+
+DK Theatre
+= DKシアター
+
+Diddy Kong
+= ディディーコング
+
+Diddy Kong freed
+= ディディーコングを助けた
+
+End Sequence
+= エンディング
+
+Enguarde Arena unlocked
+= エンガードアリーナ解放
+
+Enter Hideout
+= アジトに入る
+
+Factory Boss
+= ファクトリーのボス
+
+Factory Intro
+= ファクトリーのオープニング
+
+Feather Bow
+= フェザーボウ
+
+Forest Boss
+= フォレストのボス
+
+Forest Intro
+= フォレストのオープニング
+
+Galleon Boss
+= ガレオンのボス
+
+Galleon Intro
+= ガレオンのオープニング
+
+Game Over
+= ゲームオーバー
+
+Grape Shooter
+= グレープシューター
+
+Grenades throwing
+= グレネード投げ
+
+Guitar Gazump
+= ギターガザンプ
+
+Guitar Gazump upgrade 1
+= ギターガザンプ強化1
+
+Guitar Gazump upgrade 2
+= ギターガザンプ強化2
+
+Guitar Gazump upgrade 3
+= ギターガザンプ強化3
+
+Homing Ammo
+= ホーミング弾
+
+Jetpac
+= ジェットパック
+
+Jetpac high score
+= ジェットパックのハイスコア
+
+Jungle Boss
+= ジャングルのボス
+
+Jungle Intro
+= ジャングルのオープニング
+
+K.Rool Press Button
+= K.ルールがボタンを押す
+
+K.Rool Takeoff
+= K.ルールの離陸
+
+Kong Battle
+= コングバトル
+
+Krusha
+= クラッシャ
+
+Lanky Kong
+= ランキーコング
+
+Lanky Kong freed
+= ランキーコングを助けた
+
+Mystery
+= ミステリー
+
+Mystery menu
+= ミステリーメニュー
+
+Nintendo Coin
+= ニンテンドーコイン
+
+Peanut Popguns
+= ピーナッツポップガン
+
+Pineapple Launcher
+= パイナップルランチャー
+
+Rambi Arena
+= ランビアリーナ
+
+Rareware Coin
+= レアウェアコイン
+
+Saxophone Slam
+= サックススラム
+
+Saxophone Slam upgrade 1
+= サックススラム強化1
+
+Saxophone Slam upgrade 2
+= サックススラム強化2
+
+Saxophone Slam upgrade 3
+= サックススラム強化3
+
+Slam
+= ヒップドロップ
+
+Slot 1: Chunky Kong
+= スロット1：チャンキーコング
+
+Slot 1: Diddy Kong
+= スロット1：ディディーコング
+
+Slot 1: Donkey Kong
+= スロット1：ドンキーコング
+
+Slot 1: Lanky Kong
+= スロット1：ランキーコング
+
+Slot 1: Tiny Kong
+= スロット1：タイニーコング
+
+Slot 2: Chunky Kong
+= スロット2：チャンキーコング
+
+Slot 2: Diddy Kong
+= スロット2：ディディーコング
+
+Slot 2: Donkey Kong
+= スロット2：ドンキーコング
+
+Slot 2: Lanky Kong
+= スロット2：ランキーコング
+
+Slot 2: Tiny Kong
+= スロット2：タイニーコング
+
+Slot 3: Chunky Kong
+= スロット3：チャンキーコング
+
+Slot 3: Diddy Kong
+= スロット3：ディディーコング
+
+Slot 3: Donkey Kong
+= スロット3：ドンキーコング
+
+Slot 3: Lanky Kong
+= スロット3：ランキーコング
+
+Slot 3: Tiny Kong
+= スロット3：タイニーコング
+
+Sniper
+= スナイパースコープ
+
+Super Slam
+= スーパーヒップドロップ
+
+The Main Event
+= メインイベント
+
+Tiny Kong
+= タイニーコング
+
+Tiny Kong freed
+= タイニーコングを助けた
+
+Triangle Trample
+= トライアングルトランプル
+
+Triangle Trample upgrade 1
+= トライアングルトランプル強化1
+
+Triangle Trample upgrade 2
+= トライアングルトランプル強化2
+
+Triangle Trample upgrade 3
+= トライアングルトランプル強化3
+
+Trombone Tremor
+= トロンボーントレマー
+
+Trombone Tremor upgrade 1
+= トロンボーントレマー強化1
+
+Trombone Tremor upgrade 2
+= トロンボーントレマー強化2
+
+Trombone Tremor upgrade 3
+= トロンボーントレマー強化3
+
+Vine leaping
+= ツタ渡り
 

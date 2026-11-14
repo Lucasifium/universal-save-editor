@@ -24,7 +24,7 @@ pub static SPECS: &[Spec] = &[OPENXCOM, XCOM_DOS, RCT2, COTL, FALLOUT_SHELTER, D
     RAFT,
     MANEATER,
     // More Nintendo 64 games (n64_specs.rs)
-    MAJORA, PAPER_MARIO, BANJO_TOOIE,
+    MAJORA, PAPER_MARIO, BANJO_TOOIE, DK64,
     // More PlayStation 2 games (ps2_specs.rs)
     BOUNCER, DOA2, DBZ_BT2, SMT3, GRANDIA1, GRANDIA_HD,
     INSCRYPTION,

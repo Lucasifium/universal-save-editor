@@ -26489,4 +26489,290 @@ Justice for All
 
 Trials and Tribulations
 = Trials and Tribulations
+# Donkey Kong 64 screen
+
+Ammo Belt
+= Munitionsgürtel
+
+An emulator's .eep or .srm save. Per slot: play time, melons, the Kongs freed, each Kong's Banana Coins, Cranky's moves, slam, guns, ammo belt and instrument upgrades, the moves and items, Banana Fairies, Battle Crowns and Boss Keys, and every level's Golden Bananas, medals, blueprints and coloured bananas. The Mystery menu unlocks are shared by all slots.
+= Ein .eep- oder .srm-Spielstand eines Emulators. Pro Slot: Spielzeit, Melonen, die befreiten Kongs, die Bananenmünzen jedes Kongs, Crankys Bewegungen, Stampfer, Waffen, Munitionsgürtel und Instrument-Verbesserungen, die Bewegungen und Gegenstände, Bananenfeen, Kampfkronen und Bossschlüssel sowie die Goldenen Bananen, Medaillen, Baupläne und farbigen Bananen jedes Levels. Die Freischaltungen im Mysterium-Menü gelten für alle Slots.
+
+Aztec Boss
+= Aztekenboss
+
+Aztec Intro
+= Azteken-Intro
+
+Banana Camera
+= Bananenkamera
+
+Banana Coins
+= Bananenmünzen
+
+Barrels pickup
+= Fässer aufheben
+
+Bongo Blast
+= Bongo-Knall
+
+Bongo Blast upgrade 1
+= Bongo-Knall Verbesserung 1
+
+Bongo Blast upgrade 2
+= Bongo-Knall Verbesserung 2
+
+Bongo Blast upgrade 3
+= Bongo-Knall Verbesserung 3
+
+Castle Boss
+= Schlossboss
+
+Castle Intro
+= Schloss-Intro
+
+Caves Boss
+= Höhlenboss
+
+Caves Intro
+= Höhlen-Intro
+
+Cheats
+= Cheats
+
+Chunky Kong
+= Chunky Kong
+
+Chunky Kong freed
+= Chunky Kong befreit
+
+Close the emulator first. Times are in seconds. Each Kong's Golden Banana count follows the Golden Bananas ticked. The high scores and sound options are left out: the Japanese release keeps them one bit further on. Every edited slot's CRC and the Mystery menu's CRC are made again.
+= Zuerst den Emulator schließen. Zeiten sind in Sekunden. Die Zahl der Goldenen Bananen jedes Kongs folgt den angehakten Goldenen Bananen. Die Rekorde und Tonoptionen fehlen: Die japanische Version speichert sie ein Bit weiter hinten. Die CRC jedes bearbeiteten Slots und die CRC des Mysterium-Menüs werden neu berechnet.
+
+Coconut Shooter
+= Kokosnuss-Kanone
+
+Cranky's moves
+= Crankys Bewegungen
+
+DK Arcade
+= DK-Arcade
+
+DK Bonus
+= DK-Bonus
+
+DK Theatre
+= DK-Theater
+
+Diddy Kong
+= Diddy Kong
+
+Diddy Kong freed
+= Diddy Kong befreit
+
+End Sequence
+= Abspann
+
+Enguarde Arena unlocked
+= Enguarde-Arena freigeschaltet
+
+Enter Hideout
+= Versteck betreten
+
+Factory Boss
+= Fabrikboss
+
+Factory Intro
+= Fabrik-Intro
+
+Feather Bow
+= Federbogen
+
+Forest Boss
+= Waldboss
+
+Forest Intro
+= Wald-Intro
+
+Galleon Boss
+= Galeonenboss
+
+Galleon Intro
+= Galeonen-Intro
+
+Game Over
+= Game Over
+
+Grape Shooter
+= Traubenschleuder
+
+Grenades throwing
+= Granaten werfen
+
+Guitar Gazump
+= Gitarren-Gazump
+
+Guitar Gazump upgrade 1
+= Gitarren-Gazump Verbesserung 1
+
+Guitar Gazump upgrade 2
+= Gitarren-Gazump Verbesserung 2
+
+Guitar Gazump upgrade 3
+= Gitarren-Gazump Verbesserung 3
+
+Homing Ammo
+= Zielsuchende Munition
+
+Jetpac
+= Jetpac
+
+Jetpac high score
+= Jetpac-Rekord
+
+Jungle Boss
+= Dschungelboss
+
+Jungle Intro
+= Dschungel-Intro
+
+K.Rool Press Button
+= K. Rool drückt den Knopf
+
+K.Rool Takeoff
+= K. Rools Abflug
+
+Kong Battle
+= Kong-Kampf
+
+Krusha
+= Krusha
+
+Lanky Kong
+= Lanky Kong
+
+Lanky Kong freed
+= Lanky Kong befreit
+
+Mystery
+= Mysterium
+
+Mystery menu
+= Mysterium-Menü
+
+Nintendo Coin
+= Nintendo-Münze
+
+Peanut Popguns
+= Erdnuss-Pistolen
+
+Pineapple Launcher
+= Ananaswerfer
+
+Rambi Arena
+= Rambi-Arena
+
+Rareware Coin
+= Rareware-Münze
+
+Saxophone Slam
+= Saxofon-Schlag
+
+Saxophone Slam upgrade 1
+= Saxofon-Schlag Verbesserung 1
+
+Saxophone Slam upgrade 2
+= Saxofon-Schlag Verbesserung 2
+
+Saxophone Slam upgrade 3
+= Saxofon-Schlag Verbesserung 3
+
+Slam
+= Stampfer
+
+Slot 1: Chunky Kong
+= Slot 1: Chunky Kong
+
+Slot 1: Diddy Kong
+= Slot 1: Diddy Kong
+
+Slot 1: Donkey Kong
+= Slot 1: Donkey Kong
+
+Slot 1: Lanky Kong
+= Slot 1: Lanky Kong
+
+Slot 1: Tiny Kong
+= Slot 1: Tiny Kong
+
+Slot 2: Chunky Kong
+= Slot 2: Chunky Kong
+
+Slot 2: Diddy Kong
+= Slot 2: Diddy Kong
+
+Slot 2: Donkey Kong
+= Slot 2: Donkey Kong
+
+Slot 2: Lanky Kong
+= Slot 2: Lanky Kong
+
+Slot 2: Tiny Kong
+= Slot 2: Tiny Kong
+
+Slot 3: Chunky Kong
+= Slot 3: Chunky Kong
+
+Slot 3: Diddy Kong
+= Slot 3: Diddy Kong
+
+Slot 3: Donkey Kong
+= Slot 3: Donkey Kong
+
+Slot 3: Lanky Kong
+= Slot 3: Lanky Kong
+
+Slot 3: Tiny Kong
+= Slot 3: Tiny Kong
+
+Sniper
+= Zielfernrohr
+
+Super Slam
+= Super-Stampfer
+
+The Main Event
+= Das Hauptereignis
+
+Tiny Kong
+= Tiny Kong
+
+Tiny Kong freed
+= Tiny Kong befreit
+
+Triangle Trample
+= Triangel-Trampler
+
+Triangle Trample upgrade 1
+= Triangel-Trampler Verbesserung 1
+
+Triangle Trample upgrade 2
+= Triangel-Trampler Verbesserung 2
+
+Triangle Trample upgrade 3
+= Triangel-Trampler Verbesserung 3
+
+Trombone Tremor
+= Posaunen-Beben
+
+Trombone Tremor upgrade 1
+= Posaunen-Beben Verbesserung 1
+
+Trombone Tremor upgrade 2
+= Posaunen-Beben Verbesserung 2
+
+Trombone Tremor upgrade 3
+= Posaunen-Beben Verbesserung 3
+
+Vine leaping
+= Lianenspringen
 

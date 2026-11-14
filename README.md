@@ -3,7 +3,7 @@
 > **Free, and it always will be.** No price, no ads, no account, no paid version, no online service, no
 > rate limits. If anyone is charging you for this, it isn't from here.
 
-An offline save editor and save manager for 540+ (546) PC games (edit saves, and back up, name and restore them): Cairn, Terraria (characters and a world map editor),
+An offline save editor and save manager for 540+ (547) PC games (edit saves, and back up, name and restore them): Cairn, Terraria (characters and a world map editor),
 Oxygen Not Included, RimWorld, Stardew Valley, Onimusha: Way of the Sword, Elden Ring, Dark Souls,
 Cyberpunk 2077, the Persona, Yakuza and Final Fantasy games, Ren'Py visual novels, RPG Maker games
 and more (the full list is below). Written in Rust (egui). Nothing is uploaded anywhere, and there are
@@ -725,12 +725,13 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 </details>
 
 <details>
-<summary><strong>N64</strong> (13)</summary>
+<summary><strong>N64</strong> (14)</summary>
 
 | Game | Screen |
 |---|---|
 | Banjo-Kazooie | *Banjo* (N64 emulator `.eep` saves): per save slot jiggies, Mumbo tokens, health, eggs and feathers with their maximums, every move, each world's jiggies and the Stop 'n' Swop items, with all other flags in the Tree (the slot's sum is made again on save; checked on public saves, not yet tried in the game) |
 | Banjo-Tooie | *Banjo-Tooie* (N64 emulator `.eep` / `.srm` saves): per save slot eggs, feathers, honeycombs, Cheato's pages, Glowbos and the other carried items, every move, the cheats, the minigame high scores and the time spent in each world (jiggies, notes and world flags are left out because the American release stores them elsewhere; the slot's sum is made again on save; checked on public saves, not yet tried in the game) |
+| Donkey Kong 64 | *DK64* (N64 emulator `.eep` / `.srm` saves): per save slot play time, melons, the Kongs freed, each Kong's Banana Coins and move upgrades, the moves and items, the Mystery menu unlocks, and in the Tree the Banana Fairies, Battle Crowns, Boss Keys and every level's Golden Bananas, medals, blueprints and coloured bananas (Golden Banana counts follow the bananas ticked; every CRC is made again on save; checked on public saves, not yet tried in the game) |
 | F-Zero X | *Pilot* (N64 emulator `.sra` / `.srm` saves): the everything-unlocked switch, VS and sound options, each cup's Grand Prix progress, the cups won with all thirty machines in every class, the Time Attack times of all twenty-four courses and the Death Race time (every block's sum is made again on save; checked on public saves, not yet tried in the game) |
 | Gex 64: Enter the Gecko | *Gecko* (N64 emulator Controller Pak `.mpk` / `.srm` saves): for every save the lives, each level's red remotes, the hidden and reward silver remotes and the gold remotes, with the totals (the game's password is coded again for each changed save; checked on public saves, not yet tried in the game) |
 | Goemon's Great Adventure | *Goemon* (N64 emulator Controller Pak `.mpk` / `.srm` and Japanese `.sra` saves): per slot location, ryo, armour, weapon level, item, the money given to Kenzo and Kensuke, the Chain Pipe and Underwater Device, plus the language and sound options (each block's CRC is made again on save; checked on public saves, not yet tried in the game) |
@@ -821,7 +822,7 @@ The folders where saves were found are remembered (in `save_locations.json` next
 
 The start page lists **Your games**: every game in the list whose saves were found on this computer,
 newest first, each one click away from its newest save. *Find my game's saves* (the big button on the
-start page, *Find saves* in the toolbar and the File menu) lists every one of the 540+ (546) PC games the editor knows, Mass Effect 1–3, the Legendary Edition and Andromeda among them — with where it
+start page, *Find saves* in the toolbar and the File menu) lists every one of the 540+ (547) PC games the editor knows, Mass Effect 1–3, the Legendary Edition and Andromeda among them — with where it
 usually keeps its saves and what the files are called, and finds them on your computer (Steam
 libraries and `userdata`, Documents wherever Windows has it, AppData, Saved Games, Ubisoft
 Connect). On Linux and the Steam Deck it also looks inside Proton prefixes

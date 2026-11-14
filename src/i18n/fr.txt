@@ -26496,4 +26496,290 @@ Justice for All
 
 Trials and Tribulations
 = Trials and Tribulations
+# Donkey Kong 64 screen
+
+Ammo Belt
+= Ceinture de munitions
+
+An emulator's .eep or .srm save. Per slot: play time, melons, the Kongs freed, each Kong's Banana Coins, Cranky's moves, slam, guns, ammo belt and instrument upgrades, the moves and items, Banana Fairies, Battle Crowns and Boss Keys, and every level's Golden Bananas, medals, blueprints and coloured bananas. The Mystery menu unlocks are shared by all slots.
+= Une sauvegarde .eep ou .srm d'émulateur. Par emplacement : temps de jeu, melons, les Kongs libérés, les pièces banane de chaque Kong, les mouvements de Cranky, la frappe, les armes, la ceinture de munitions et les améliorations d'instrument, les mouvements et objets, les fées banane, les couronnes de combat et les clés de boss, et les bananes dorées, médailles, plans et bananes de couleur de chaque niveau. Les déblocages du menu Mystère sont communs à tous les emplacements.
+
+Aztec Boss
+= Boss d'Aztec
+
+Aztec Intro
+= Intro d'Aztec
+
+Banana Camera
+= Appareil photo banane
+
+Banana Coins
+= Pièces banane
+
+Barrels pickup
+= Ramasser des tonneaux
+
+Bongo Blast
+= Bongo Blast
+
+Bongo Blast upgrade 1
+= Bongo Blast amélioration 1
+
+Bongo Blast upgrade 2
+= Bongo Blast amélioration 2
+
+Bongo Blast upgrade 3
+= Bongo Blast amélioration 3
+
+Castle Boss
+= Boss du château
+
+Castle Intro
+= Intro du château
+
+Caves Boss
+= Boss des grottes
+
+Caves Intro
+= Intro des grottes
+
+Cheats
+= Codes de triche
+
+Chunky Kong
+= Chunky Kong
+
+Chunky Kong freed
+= Chunky Kong libéré
+
+Close the emulator first. Times are in seconds. Each Kong's Golden Banana count follows the Golden Bananas ticked. The high scores and sound options are left out: the Japanese release keeps them one bit further on. Every edited slot's CRC and the Mystery menu's CRC are made again.
+= Fermez d'abord l'émulateur. Les temps sont en secondes. Le nombre de bananes dorées de chaque Kong suit les bananes dorées cochées. Les records et les options de son sont omis : la version japonaise les range un bit plus loin. Le CRC de chaque emplacement modifié et celui du menu Mystère sont recalculés.
+
+Coconut Shooter
+= Lance-noix de coco
+
+Cranky's moves
+= Mouvements de Cranky
+
+DK Arcade
+= DK Arcade
+
+DK Bonus
+= Bonus DK
+
+DK Theatre
+= Théâtre DK
+
+Diddy Kong
+= Diddy Kong
+
+Diddy Kong freed
+= Diddy Kong libéré
+
+End Sequence
+= Séquence de fin
+
+Enguarde Arena unlocked
+= Arène d'Enguarde débloquée
+
+Enter Hideout
+= Entrée du repaire
+
+Factory Boss
+= Boss de l'usine
+
+Factory Intro
+= Intro de l'usine
+
+Feather Bow
+= Arc à plumes
+
+Forest Boss
+= Boss de la forêt
+
+Forest Intro
+= Intro de la forêt
+
+Galleon Boss
+= Boss du galion
+
+Galleon Intro
+= Intro du galion
+
+Game Over
+= Game Over
+
+Grape Shooter
+= Lance-raisins
+
+Grenades throwing
+= Lancer des grenades
+
+Guitar Gazump
+= Guitar Gazump
+
+Guitar Gazump upgrade 1
+= Guitar Gazump amélioration 1
+
+Guitar Gazump upgrade 2
+= Guitar Gazump amélioration 2
+
+Guitar Gazump upgrade 3
+= Guitar Gazump amélioration 3
+
+Homing Ammo
+= Munitions à tête chercheuse
+
+Jetpac
+= Jetpac
+
+Jetpac high score
+= Record de Jetpac
+
+Jungle Boss
+= Boss de la jungle
+
+Jungle Intro
+= Intro de la jungle
+
+K.Rool Press Button
+= K. Rool appuie sur le bouton
+
+K.Rool Takeoff
+= Décollage de K. Rool
+
+Kong Battle
+= Combat Kong
+
+Krusha
+= Krusha
+
+Lanky Kong
+= Lanky Kong
+
+Lanky Kong freed
+= Lanky Kong libéré
+
+Mystery
+= Mystère
+
+Mystery menu
+= Menu Mystère
+
+Nintendo Coin
+= Pièce Nintendo
+
+Peanut Popguns
+= Pistolets à cacahuètes
+
+Pineapple Launcher
+= Lance-ananas
+
+Rambi Arena
+= Arène de Rambi
+
+Rareware Coin
+= Pièce Rareware
+
+Saxophone Slam
+= Saxophone Slam
+
+Saxophone Slam upgrade 1
+= Saxophone Slam amélioration 1
+
+Saxophone Slam upgrade 2
+= Saxophone Slam amélioration 2
+
+Saxophone Slam upgrade 3
+= Saxophone Slam amélioration 3
+
+Slam
+= Frappe
+
+Slot 1: Chunky Kong
+= Emplacement 1 : Chunky Kong
+
+Slot 1: Diddy Kong
+= Emplacement 1 : Diddy Kong
+
+Slot 1: Donkey Kong
+= Emplacement 1 : Donkey Kong
+
+Slot 1: Lanky Kong
+= Emplacement 1 : Lanky Kong
+
+Slot 1: Tiny Kong
+= Emplacement 1 : Tiny Kong
+
+Slot 2: Chunky Kong
+= Emplacement 2 : Chunky Kong
+
+Slot 2: Diddy Kong
+= Emplacement 2 : Diddy Kong
+
+Slot 2: Donkey Kong
+= Emplacement 2 : Donkey Kong
+
+Slot 2: Lanky Kong
+= Emplacement 2 : Lanky Kong
+
+Slot 2: Tiny Kong
+= Emplacement 2 : Tiny Kong
+
+Slot 3: Chunky Kong
+= Emplacement 3 : Chunky Kong
+
+Slot 3: Diddy Kong
+= Emplacement 3 : Diddy Kong
+
+Slot 3: Donkey Kong
+= Emplacement 3 : Donkey Kong
+
+Slot 3: Lanky Kong
+= Emplacement 3 : Lanky Kong
+
+Slot 3: Tiny Kong
+= Emplacement 3 : Tiny Kong
+
+Sniper
+= Lunette de visée
+
+Super Slam
+= Super frappe
+
+The Main Event
+= L'événement principal
+
+Tiny Kong
+= Tiny Kong
+
+Tiny Kong freed
+= Tiny Kong libérée
+
+Triangle Trample
+= Triangle Trample
+
+Triangle Trample upgrade 1
+= Triangle Trample amélioration 1
+
+Triangle Trample upgrade 2
+= Triangle Trample amélioration 2
+
+Triangle Trample upgrade 3
+= Triangle Trample amélioration 3
+
+Trombone Tremor
+= Trombone Tremor
+
+Trombone Tremor upgrade 1
+= Trombone Tremor amélioration 1
+
+Trombone Tremor upgrade 2
+= Trombone Tremor amélioration 2
+
+Trombone Tremor upgrade 3
+= Trombone Tremor amélioration 3
+
+Vine leaping
+= Saut de liane
 

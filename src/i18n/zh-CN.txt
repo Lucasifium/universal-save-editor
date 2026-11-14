@@ -26544,4 +26544,290 @@ Justice for All
 
 Trials and Tribulations
 = Trials and Tribulations
+# Donkey Kong 64 screen
+
+Ammo Belt
+= 弹药带
+
+An emulator's .eep or .srm save. Per slot: play time, melons, the Kongs freed, each Kong's Banana Coins, Cranky's moves, slam, guns, ammo belt and instrument upgrades, the moves and items, Banana Fairies, Battle Crowns and Boss Keys, and every level's Golden Bananas, medals, blueprints and coloured bananas. The Mystery menu unlocks are shared by all slots.
+= 模拟器的 .eep 或 .srm 存档。每个存档位：游戏时间、西瓜、已救出的金刚、每只金刚的香蕉币、Cranky 的招式、重击、枪械、弹药带和乐器升级、招式和物品、香蕉仙子、战斗皇冠和首领钥匙，以及每个关卡的金香蕉、奖牌、蓝图和彩色香蕉。神秘菜单的解锁由所有存档位共享。
+
+Aztec Boss
+= 阿兹特克首领
+
+Aztec Intro
+= 阿兹特克开场
+
+Banana Camera
+= 香蕉相机
+
+Banana Coins
+= 香蕉币
+
+Barrels pickup
+= 举起木桶
+
+Bongo Blast
+= 邦戈冲击
+
+Bongo Blast upgrade 1
+= 邦戈冲击升级 1
+
+Bongo Blast upgrade 2
+= 邦戈冲击升级 2
+
+Bongo Blast upgrade 3
+= 邦戈冲击升级 3
+
+Castle Boss
+= 城堡首领
+
+Castle Intro
+= 城堡开场
+
+Caves Boss
+= 洞穴首领
+
+Caves Intro
+= 洞穴开场
+
+Cheats
+= 作弊
+
+Chunky Kong
+= Chunky Kong
+
+Chunky Kong freed
+= Chunky Kong 已救出
+
+Close the emulator first. Times are in seconds. Each Kong's Golden Banana count follows the Golden Bananas ticked. The high scores and sound options are left out: the Japanese release keeps them one bit further on. Every edited slot's CRC and the Mystery menu's CRC are made again.
+= 请先关闭模拟器。时间以秒为单位。每只金刚的金香蕉数量会跟随勾选的金香蕉。最高分和声音选项不包括在内：日版把它们存放在后移一位的位置。每个已编辑存档位的 CRC 和神秘菜单的 CRC 会重新计算。
+
+Coconut Shooter
+= 椰子枪
+
+Cranky's moves
+= Cranky 的招式
+
+DK Arcade
+= DK 街机
+
+DK Bonus
+= DK 奖励关
+
+DK Theatre
+= DK 剧场
+
+Diddy Kong
+= Diddy Kong
+
+Diddy Kong freed
+= Diddy Kong 已救出
+
+End Sequence
+= 结局
+
+Enguarde Arena unlocked
+= Enguarde 竞技场已解锁
+
+Enter Hideout
+= 进入藏身处
+
+Factory Boss
+= 工厂首领
+
+Factory Intro
+= 工厂开场
+
+Feather Bow
+= 羽毛弓
+
+Forest Boss
+= 森林首领
+
+Forest Intro
+= 森林开场
+
+Galleon Boss
+= 大帆船首领
+
+Galleon Intro
+= 大帆船开场
+
+Game Over
+= 游戏结束
+
+Grape Shooter
+= 葡萄枪
+
+Grenades throwing
+= 投掷手雷
+
+Guitar Gazump
+= 吉他震击
+
+Guitar Gazump upgrade 1
+= 吉他震击升级 1
+
+Guitar Gazump upgrade 2
+= 吉他震击升级 2
+
+Guitar Gazump upgrade 3
+= 吉他震击升级 3
+
+Homing Ammo
+= 追踪弹
+
+Jetpac
+= Jetpac
+
+Jetpac high score
+= Jetpac 最高分
+
+Jungle Boss
+= 丛林首领
+
+Jungle Intro
+= 丛林开场
+
+K.Rool Press Button
+= K. Rool 按下按钮
+
+K.Rool Takeoff
+= K. Rool 起飞
+
+Kong Battle
+= 金刚对战
+
+Krusha
+= Krusha
+
+Lanky Kong
+= Lanky Kong
+
+Lanky Kong freed
+= Lanky Kong 已救出
+
+Mystery
+= 神秘
+
+Mystery menu
+= 神秘菜单
+
+Nintendo Coin
+= 任天堂硬币
+
+Peanut Popguns
+= 花生手枪
+
+Pineapple Launcher
+= 菠萝发射器
+
+Rambi Arena
+= Rambi 竞技场
+
+Rareware Coin
+= Rareware 硬币
+
+Saxophone Slam
+= 萨克斯猛击
+
+Saxophone Slam upgrade 1
+= 萨克斯猛击升级 1
+
+Saxophone Slam upgrade 2
+= 萨克斯猛击升级 2
+
+Saxophone Slam upgrade 3
+= 萨克斯猛击升级 3
+
+Slam
+= 重击
+
+Slot 1: Chunky Kong
+= 存档位 1：Chunky Kong
+
+Slot 1: Diddy Kong
+= 存档位 1：Diddy Kong
+
+Slot 1: Donkey Kong
+= 存档位 1：Donkey Kong
+
+Slot 1: Lanky Kong
+= 存档位 1：Lanky Kong
+
+Slot 1: Tiny Kong
+= 存档位 1：Tiny Kong
+
+Slot 2: Chunky Kong
+= 存档位 2：Chunky Kong
+
+Slot 2: Diddy Kong
+= 存档位 2：Diddy Kong
+
+Slot 2: Donkey Kong
+= 存档位 2：Donkey Kong
+
+Slot 2: Lanky Kong
+= 存档位 2：Lanky Kong
+
+Slot 2: Tiny Kong
+= 存档位 2：Tiny Kong
+
+Slot 3: Chunky Kong
+= 存档位 3：Chunky Kong
+
+Slot 3: Diddy Kong
+= 存档位 3：Diddy Kong
+
+Slot 3: Donkey Kong
+= 存档位 3：Donkey Kong
+
+Slot 3: Lanky Kong
+= 存档位 3：Lanky Kong
+
+Slot 3: Tiny Kong
+= 存档位 3：Tiny Kong
+
+Sniper
+= 狙击镜
+
+Super Slam
+= 超级重击
+
+The Main Event
+= 主赛事
+
+Tiny Kong
+= Tiny Kong
+
+Tiny Kong freed
+= Tiny Kong 已救出
+
+Triangle Trample
+= 三角铁践踏
+
+Triangle Trample upgrade 1
+= 三角铁践踏升级 1
+
+Triangle Trample upgrade 2
+= 三角铁践踏升级 2
+
+Triangle Trample upgrade 3
+= 三角铁践踏升级 3
+
+Trombone Tremor
+= 长号震颤
+
+Trombone Tremor upgrade 1
+= 长号震颤升级 1
+
+Trombone Tremor upgrade 2
+= 长号震颤升级 2
+
+Trombone Tremor upgrade 3
+= 长号震颤升级 3
+
+Vine leaping
+= 藤蔓跳跃
 
