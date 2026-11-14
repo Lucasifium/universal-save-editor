@@ -11,6 +11,14 @@
 - Scrolling a list or table inside a screen stays in that list at its top and bottom instead of scrolling the page; column headings of the long tables (XCOM, XCOM 2, Final Fantasy VII Remake materia) stay visible while scrolling
 - Number boxes in tables are wide enough for their value (decimals were cut off); on phone-width screens the -/+ buttons give way instead of running off the edge
 - Fixed a crash when opening some text saves with non-English characters near the start
+- West of Loathing: game screen (meat, level, experience, stats, skills and perks, inventory)
+- Shape of Dreams: game screen (stardust, mastery and traveler records)
+- Travellers Rest: game screen (money, upgrades, inventory)
+- Youtubers Life: game screen (money, channel, youtuber skills)
+- Luck be a Landlord: game screen (coins, tokens, rent); Godot JSON-lines saves open as one object keyed by each node's path
+- Touhou Luna Nights: game screen (gold, level, gems, upgrades); saves made of one base64 value per line open as a list
+- EVERSPACE: game screen (DNA fragments, records, perks)
+- Streets of Rogue: game screen (nuggets, unlocks)
 
 ## 0.6.1
 
