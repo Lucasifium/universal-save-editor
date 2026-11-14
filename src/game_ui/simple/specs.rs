@@ -12281,3 +12281,49 @@ const DEAD_ISLAND: Spec = Spec {
     lists: &[],
     tables: &[],
 };
+
+// ------------------------------------------------------------------ Kid Icarus: Uprising and Team Kirby Clash Deluxe
+
+const KIDICARUS: Spec = Spec {
+    name: "Kid Icarus: Uprising",
+    tab: "Icarus",
+    accent: (240, 200, 70),
+    kind: Some(crate::fmt::nintendo::KI_KIND),
+    markers: &["/Hearts/Hearts"],
+    subtitle: tx("A decrypted 3DS 0x.sav. Hearts, the hearts offered to Palutena and Viridi, and the play statistics."),
+    tiles: &[(tx("Hearts"), "/Hearts/Hearts")],
+    sections: &[
+        Section {
+            title: tx("Hearts"),
+            rows: &[(tx("Hearts"), "/Hearts/Hearts"), (tx("Offered to Palutena"), "/Hearts/Offered to Palutena"), (tx("Offered to Viridi"), "/Hearts/Offered to Viridi")],
+        },
+        Section {
+            title: tx("Statistics"),
+            rows: &[(tx("Times played"), "/Statistics/Times played"), (tx("Total play time (in seconds)"), "/Statistics/Total play time (in seconds)"), (tx("Total Solo play time (in seconds)"), "/Statistics/Total Solo play time (in seconds)"), (tx("Hearts acquired"), "/Statistics/Hearts acquired"), (tx("Weapons acquired"), "/Statistics/Weapons acquired"), (tx("Powers acquired"), "/Statistics/Powers acquired"), (tx("Enemies defeated"), "/Statistics/Enemies defeated"), (tx("Bosses defeated"), "/Statistics/Bosses defeated"), (tx("Ranged attacks"), "/Statistics/Ranged attacks"), (tx("Melee attacks"), "/Statistics/Melee attacks"), (tx("Attacks evaded"), "/Statistics/Attacks evaded"), (tx("Knockback recoveries"), "/Statistics/Knockback recoveries"), (tx("Shots narrowly avoided"), "/Statistics/Shots narrowly avoided"), (tx("Special Attacks used"), "/Statistics/Special Attacks used"), (tx("Times finished"), "/Statistics/Times finished"), (tx("Powers used"), "/Statistics/Powers used"), (tx("Items used"), "/Statistics/Items used"), (tx("Times eggplanted"), "/Statistics/Times eggplanted"), (tx("Times tempuraed"), "/Statistics/Times tempuraed"), (tx("Centurions summoned"), "/Statistics/Centurions summoned")],
+        },
+    ],
+    lists: &[],
+    tables: &[],
+};
+
+const TKC: Spec = Spec {
+    name: "Team Kirby Clash Deluxe",
+    tab: "Clash",
+    accent: (240, 110, 170),
+    kind: Some(crate::fmt::nintendo::TKC_KIND),
+    markers: &["/Resources/Apple gems"],
+    subtitle: tx("A decrypted 3DS savedata.dat. Apple gems, the four kinds of shards and the profile's counters."),
+    tiles: &[(tx("Apple gems"), "/Resources/Apple gems")],
+    sections: &[
+        Section {
+            title: tx("Profile"),
+            rows: &[(tx("Name"), "/Profile/Name"), (tx("Play time (seconds)"), "/Profile/Play time (seconds)"), (tx("Missions completed"), "/Profile/Missions completed"), (tx("Multiplayer battles"), "/Profile/Multiplayer battles"), (tx("Multiplayer encounters"), "/Profile/Multiplayer encounters")],
+        },
+        Section {
+            title: tx("Resources"),
+            rows: &[(tx("Apple gems"), "/Resources/Apple gems"), (tx("Apple gems bought"), "/Resources/Apple gems bought"), (tx("Red shards"), "/Resources/Red shards"), (tx("Blue shards"), "/Resources/Blue shards"), (tx("Yellow shards"), "/Resources/Yellow shards"), (tx("Rare shards"), "/Resources/Rare shards")],
+        },
+    ],
+    lists: &[],
+    tables: &[],
+};

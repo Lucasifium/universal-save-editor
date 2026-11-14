@@ -632,6 +632,16 @@ pub fn parse_binary(d: &[u8]) -> Option<TreeDoc> {
             return Some(t);
         }
     }
+    if nintendo::ki_looks(d) {
+        if let Ok(t) = nintendo::parse_ki(d) {
+            return Some(t);
+        }
+    }
+    if nintendo::tkc_looks(d) {
+        if let Ok(t) = nintendo::parse_tkc(d) {
+            return Some(t);
+        }
+    }
     if nintendo::mk7_looks(d) {
         if let Ok(t) = nintendo::parse_mk7(d) {
             return Some(t);

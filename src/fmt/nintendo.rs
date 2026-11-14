@@ -1,7 +1,9 @@
-//! Three small Nintendo saves with fixed offsets, after marcrobledo/savegame-editors (MIT, see
+//! Small Nintendo saves with fixed offsets, after marcrobledo/savegame-editors (MIT, see
 //! THIRD_PARTY_NOTICES.md): Super Smash Bros. Ultimate `system_data.bin` (Switch, 5,982,968 bytes),
-//! Mario Kart 7 `system0.dat` (3DS, 20,692 bytes, CRC-32 in the last four bytes) and Super Kirby
-//! Clash `savedata.dat` (3DS, 54,344 bytes).
+//! Mario Kart 7 `system0.dat` (3DS, 20,692 bytes, CRC-32 in the last four bytes), Super Kirby
+//! Clash `savedata.dat` (3DS, 54,344 bytes), Kid Icarus: Uprising `0x.sav` (3DS, 66,296 bytes)
+//! and Team Kirby Clash Deluxe `savedata.dat` (3DS, 8,464 bytes).
+
 
 use super::fields::{Builder, Checksum, Kind};
 use crate::tree::TreeDoc;
@@ -9,6 +11,10 @@ use crate::tree::TreeDoc;
 pub const SMASH_KIND: &str = "Super Smash Bros. Ultimate save";
 pub const MK7_KIND: &str = "Mario Kart 7 save";
 pub const SKC_KIND: &str = "Super Kirby Clash save";
+pub const KI_KIND: &str = "Kid Icarus: Uprising save";
+pub const TKC_KIND: &str = "Team Kirby Clash Deluxe save";
+const KI_SIZE: usize = 66_296;
+const TKC_SIZE: usize = 8_464;
 const SMASH_SIZE: usize = 5_982_968;
 const MK7_SIZE: usize = 20_692;
 const SKC_SIZE: usize = 54_344;
@@ -91,6 +97,76 @@ pub fn parse_skc(d: &[u8]) -> Result<TreeDoc, String> {
     b.ranged(&["Resources", "Yellow shards"], 0x3f28, Kind::U16, 0, 9999);
     b.ranged(&["Resources", "Rare shards"], 0x3f2c, Kind::U16, 0, 9999);
     Ok(b.finish(SKC_KIND, Checksum::None).with_note(crate::i18n::tx("Close the emulator first. The save is the decrypted savedata.dat.")))
+}
+
+const KI_STATS: [(usize, &str, bool); 20] = [
+    (0, "Times played", false),
+    (1, "Total play time (in seconds)", false),
+    (2, "Total Solo play time (in seconds)", false),
+    (3, "Hearts acquired", false),
+    (4, "Weapons acquired", false),
+    (5, "Powers acquired", false),
+    (7, "Enemies defeated", false),
+    (8, "Bosses defeated", false),
+    (9, "Ranged attacks", false),
+    (10, "Melee attacks", false),
+    (11, "Attacks evaded", false),
+    (12, "Knockback recoveries", false),
+    (13, "Shots narrowly avoided", false),
+    (14, "Special Attacks used", false),
+    (15, "Times finished", false),
+    (16, "Powers used", false),
+    (17, "Items used", false),
+    (18, "Times eggplanted", false),
+    (19, "Times tempuraed", false),
+    (20, "Centurions summoned", false),
+];
+
+pub fn ki_looks(d: &[u8]) -> bool {
+    d.len() == KI_SIZE && d[0x1e8..0x1ec] != [0xff; 4]
+}
+
+pub fn parse_ki(d: &[u8]) -> Result<TreeDoc, String> {
+    if !ki_looks(d) {
+        return Err("not a Kid Icarus: Uprising save".into());
+    }
+    let mut b = Builder::new(d);
+    b.ranged(&["Hearts", "Hearts"], 0x1e8, Kind::U32, 0, 9_999_999);
+    b.ranged(&["Hearts", "Offered to Palutena"], 0x1ec, Kind::U32, 0, 9_999_999);
+    b.ranged(&["Hearts", "Offered to Viridi"], 0x1f0, Kind::U32, 0, 9_999_999);
+    for (i, name, float) in KI_STATS {
+        let at = 0x101b8 + i * 4;
+        if float {
+            b.ranged(&["Statistics", name], at, Kind::F32, 0, 9);
+        } else {
+            b.ranged(&["Statistics", name], at, Kind::U32, 0, 4_294_967_295);
+        }
+    }
+    Ok(b.finish(KI_KIND, Checksum::None).with_note(crate::i18n::tx("Close the emulator first. The save is the decrypted 0x.sav. Weapons are not edited yet.")))
+}
+
+pub fn tkc_looks(d: &[u8]) -> bool {
+    d.len() == TKC_SIZE && d[0x199c..0x199e] != [0xff; 2]
+}
+
+pub fn parse_tkc(d: &[u8]) -> Result<TreeDoc, String> {
+    if !tkc_looks(d) {
+        return Err("not a Team Kirby Clash Deluxe save".into());
+    }
+    let mut b = Builder::new(d);
+    let name: String = d[0x1bb4..0x1bd4].chunks(2).map(|c| u16::from_le_bytes([c[0], c[1]])).take_while(|&u| u != 0).filter_map(|u| char::from_u32(u.into())).collect();
+    b.info(&["Profile", "Name"], name);
+    b.ranged(&["Profile", "Play time (seconds)"], 0x1b74, Kind::U32, 0, 4_294_967_295);
+    b.ranged(&["Profile", "Missions completed"], 0x1b90, Kind::U32, 0, 4_294_967_295);
+    b.ranged(&["Profile", "Multiplayer battles"], 0x1b94, Kind::U32, 0, 4_294_967_295);
+    b.ranged(&["Profile", "Multiplayer encounters"], 0x1b64, Kind::U32, 0, 65_535);
+    b.ranged(&["Resources", "Apple gems"], 0x199c, Kind::U16, 0, 65_535);
+    b.ranged(&["Resources", "Apple gems bought"], 0x19b8, Kind::U16, 0, 3000);
+    b.ranged(&["Resources", "Red shards"], 0x19bc, Kind::U16, 0, 999);
+    b.ranged(&["Resources", "Blue shards"], 0x19c0, Kind::U16, 0, 999);
+    b.ranged(&["Resources", "Yellow shards"], 0x19c4, Kind::U16, 0, 999);
+    b.ranged(&["Resources", "Rare shards"], 0x19c8, Kind::U16, 0, 999);
+    Ok(b.finish(TKC_KIND, Checksum::None).with_note(crate::i18n::tx("Close the emulator first. The save is the decrypted savedata.dat.")))
 }
 
 #[cfg(test)]
