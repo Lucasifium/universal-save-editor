@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.6.1
+
+- Windows: the C runtime is now built into the program, so it starts without the Visual C++ Redistributable (fixes the "VCRUNTIME140.dll was not found" error)
+
 ## 0.6.0
 
 ### New game screens

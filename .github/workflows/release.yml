@@ -45,6 +45,8 @@ jobs:
             # /PDBALTPATH keeps the build folder out of the debug-info name.
             cargo rustc --release --bin UniversalSaveEditor --target "$triple" -- -C 'link-arg=/PDBALTPATH:%_PDB%'
             cp "target/$triple/release/UniversalSaveEditor.exe" "dist/UniversalSaveEditor-windows-${t##*:}.exe"
+            # The C runtime must be linked in: no VCRUNTIME/MSVCP DLL imports.
+            if grep -aiqE 'vcruntime|msvcp[0-9]' "dist/UniversalSaveEditor-windows-${t##*:}.exe"; then echo "exe still imports the VC++ runtime"; exit 1; fi
           done
       - uses: actions/upload-artifact@v4
         with: { name: windows, path: dist/*, if-no-files-found: error, retention-days: 1 }
