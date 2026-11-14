@@ -4381,8 +4381,29 @@ fn game_picker_window(ctx: &egui::Context, gp: &mut GamePicker) -> (Option<PathB
                                 ui.weak(tr("Looking for saves on this computer\u{2026}"));
                             });
                         }
+                        // Grouped by first letter (digits and symbols under #), collapsed unless a name is typed.
+                        let letter = |i: usize| -> char {
+                            let c = crate::games::GAMES[i].name.chars().next().unwrap_or('#').to_uppercase().next().unwrap_or('#');
+                            if c.is_alphabetic() { c } else { '#' }
+                        };
+                        let mut groups: Vec<(char, Vec<usize>)> = vec![];
                         for &i in &others {
-                            row(ui, i, picked);
+                            let c = letter(i);
+                            match groups.iter_mut().find(|(k, _)| *k == c) {
+                                Some((_, v)) => v.push(i),
+                                None => groups.push((c, vec![i])),
+                            }
+                        }
+                        groups.sort_by_key(|(c, _)| (*c != '#', *c));
+                        for (c, members) in &groups {
+                            let title = format!("{c}  ({})", members.len());
+                            let mut h = egui::CollapsingHeader::new(RichText::new(title).strong()).id_salt(("gp_letter", *c, found_here.is_empty()));
+                            h = if q.is_empty() { h.default_open(false) } else { h.open(Some(true)) };
+                            h.show(ui, |ui| {
+                                for &i in members {
+                                    row(ui, i, picked);
+                                }
+                            });
                         }
                         if hidden > 0 {
                             ui.add_space(6.0);
