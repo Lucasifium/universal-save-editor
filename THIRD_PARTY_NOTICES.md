@@ -10531,6 +10531,11 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 | [doukutsu-rs (Cave Story profile layout, src/game/profile.rs)](https://github.com/doukutsu-rs/doukutsu-rs) | doukutsu-rs contributors | MIT (layout facts only, no code used) |
 | [Sonic Mania Save Editor (SaveData.bin slot layout; its sample saves used for checks only, not included)](https://github.com/jcfieldsdev/sonic-mania-save-editor) | jcfieldsdev | MIT (layout facts only, no code used) |
 | [SymphoniaSaveEdit (Tales of Symphonia PC save layout and item names; sample save from the public Game-Saves collection used for checks only, not included)](https://github.com/Meth962/SymphoniaSaveEdit) | Meth962 | facts only (no licence file; no code used) |
+| [WoLSE (West of Loathing save fields: flags, skills and perks; sample save from the public Game-Saves collection used for checks only, not included; facts only, no code used)](https://github.com/AbsoluteWinter/WoLSE) | AbsoluteWinter | GPL-3.0 (facts only) |
+| [Shape-of-Dreams-Save-Edit (Shape of Dreams save fields; sample saves from sunrise-oneday/GameArchive used for checks only, not included)](https://github.com/shy-zhong/Shape-of-Dreams-Save-Edit) | shy-zhong | MIT (facts only, no code used) |
+| [travellers-rest-planner (Travellers Rest save field names; sample save from savegame.pro used for checks only, not included)](https://github.com/truix/travellers-rest-planner) | Travellers Rest Planner contributors | MIT (facts only, no code used) |
+| [Youtubers-life-Save-Editor (Youtubers Life save tables and columns; sample save from savegame.pro used for checks only, not included)](https://github.com/BatZupper/Youtubers-life-Save-Editor) | BatZupper | MIT (table and column names only, no code used) |
+| [RPFM (Total War ESF campaign format facts used to check Thrones of Britannia saves; sample save from savegame.pro used for checks only, not included)](https://github.com/Frodo45127/rpfm) | Frodo45127 | MIT (facts only, no code used) |
 
 ## Metal Gear Solid V save variable names
 

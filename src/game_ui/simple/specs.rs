@@ -3,7 +3,7 @@
 
 use super::{List, Max, Section, Shape, Spec, Table};
 
-pub static SPECS: &[Spec] = &[COTL, FALLOUT_SHELTER, DRG, S1_MONEY, S1_RANK, S1_TIME, S1_GAME, SOTF_STATE, SOTF_GAME, SOTF_WEATHER, SOTF_ITEMS, DMD, CUPHEAD, ANTIMATTER, PVZ, CELESTE, DRGS, KH3, RF4S, SKY1ST, KSP, FFPR, MCD, STONESHARD, ROGUE_TRADER, BIOSHOCK_INFINITE, SPACE_HAVEN, SNOWRUNNER, GRAVEYARD_KEEPER, NFSMW, TOS, GTA3, GTAVC, BITBURNER, TERRA_INVICTA, PRISON, FF13, SONIC_MANIA, CAVE_STORY_PLUS, CAVE_STORY, LIES_OF_P, TXR, DAVE, MSC, ULTRAKILL, RPGXP, RE5, ANNO1800, FTK, LEGO_TSS, LEGO_CLASSIC, MYZ, CMS21, MEDIEVAL_DYNASTY, MECHANICUS, ORI, OMORI, ENDER_LILIES, SW2, ES2, MOONLIGHTER, WASTELAND2, ATOM, MORTAL_SHELL, MORTAL_SHELL_2, COTW, BEAMNG, FOREST, YAKUZA3, YAKUZA4, YAKUZA5, ISHIN, SALT, DRAKENSANG, ALPHA, TYRANNY, JEDI_FO, SR3, SR4, WD2, FABLE, WANDERING_SWORD, STELLAR_BLADE, PRAGMATA, SLIME_RANCHER, SUBNAUTICA2, HZD, SLEEPING_DOGS, DXMD, ATOMIC_HEART, DISHONORED2, DEATHLOOP, DISHONORED1, RDR1, RDR2];
+pub static SPECS: &[Spec] = &[COTL, FALLOUT_SHELTER, DRG, S1_MONEY, S1_RANK, S1_TIME, S1_GAME, SOTF_STATE, SOTF_GAME, SOTF_WEATHER, SOTF_ITEMS, DMD, CUPHEAD, ANTIMATTER, PVZ, CELESTE, DRGS, KH3, RF4S, SKY1ST, KSP, FFPR, MCD, STONESHARD, ROGUE_TRADER, BIOSHOCK_INFINITE, SPACE_HAVEN, SNOWRUNNER, GRAVEYARD_KEEPER, NFSMW, TOS, GTA3, GTAVC, BITBURNER, TERRA_INVICTA, PRISON, FF13, SONIC_MANIA, CAVE_STORY_PLUS, CAVE_STORY, LIES_OF_P, TXR, DAVE, MSC, ULTRAKILL, RPGXP, RE5, ANNO1800, FTK, LEGO_TSS, LEGO_CLASSIC, MYZ, CMS21, MEDIEVAL_DYNASTY, MECHANICUS, ORI, OMORI, ENDER_LILIES, SW2, ES2, MOONLIGHTER, WASTELAND2, ATOM, MORTAL_SHELL, MORTAL_SHELL_2, COTW, BEAMNG, FOREST, YAKUZA3, YAKUZA4, YAKUZA5, ISHIN, SALT, DRAKENSANG, ALPHA, TYRANNY, JEDI_FO, SR3, SR4, WD2, FABLE, WANDERING_SWORD, STELLAR_BLADE, PRAGMATA, SLIME_RANCHER, SUBNAUTICA2, HZD, SLEEPING_DOGS, DXMD, ATOMIC_HEART, DISHONORED2, DEATHLOOP, DISHONORED1, RDR1, RDR2, WOL, SOD_PROFILE, SOD_STATS, TRAVELLERS_REST, YOUTUBERS_LIFE];
 
 // ------------------------------------------------------------------ Cult of the Lamb
 
@@ -3288,4 +3288,161 @@ const RDR2: Spec = Spec {
         Table { title: "Compendium: weapons", path: "/Compendium/Weapons", name: &[], cols: &[("Owned", "/Owned")], only: &[], names: &[] },
         Table { title: "Compendium: equipment", path: "/Compendium/Equipment", name: &[], cols: &[("Owned", "/Owned")], only: &[], names: &[] },
     ],
+};
+
+// ------------------------------------------------------------------ West of Loathing
+
+const WOL: Spec = Spec {
+    name: "West of Loathing",
+    tab: "Cowpoke",
+    accent: (196, 150, 70),
+    kind: None,
+    markers: &["/PLAYER/flags/meat", "/PLAYER/skills", "/WAA_ID"],
+    subtitle: "save-<name>-<number>.json. Meat is the money; muscle, mysticality, moxie and every skill and perk are in the skills list below (skills are levels, perks are 1 or 0). The game stores most numbers as text, so type digits only.",
+    tiles: &[("Meat", "/PLAYER/flags/meat"), ("Level", "/PLAYER/flags/level"), ("XP", "/PLAYER/flags/xp")],
+    sections: &[
+        Section {
+            title: "The cowpoke",
+            rows: &[
+                ("First name", "/PLAYER/flags/firstname"), ("Last name", "/PLAYER/flags/lastname"), ("Meat", "/PLAYER/flags/meat"),
+                ("Level", "/PLAYER/flags/level"), ("XP", "/PLAYER/flags/xp"), ("Total XP", "/PLAYER/flags/totalxp"),
+                ("Muscle XP", "/PLAYER/flags/musxp"), ("Mysticality XP", "/PLAYER/flags/mysxp"), ("Moxie XP", "/PLAYER/flags/moxxp"),
+                ("Class (1 cow puncher, 2 beanslinger, 3 snake oiler)", "/PLAYER/flags/class"), ("Day", "/PLAYER/flags/day"),
+                ("Seconds played", "/PLAYER/flags/secondsplayed"),
+            ],
+        },
+        Section {
+            title: "Resistances",
+            rows: &[
+                ("Hot", "/PLAYER/flags/hotresist"), ("Cold", "/PLAYER/flags/coldresist"), ("Spooky", "/PLAYER/flags/spookyresist"),
+                ("Stench", "/PLAYER/flags/stenchresist"), ("Sleaze", "/PLAYER/flags/sleazeresist"),
+            ],
+        },
+    ],
+    lists: &[List { title: "Stats, skills and perks", path: "/PLAYER/skills", shape: Shape::Map, names: &[], max: None }],
+    tables: &[Table { title: "Inventory", path: "/PLAYER/items", name: &["/name"], cols: &[("Quantity", "/qty")], only: &[], names: &[] }],
+};
+
+// ------------------------------------------------------------------ Shape of Dreams
+
+const SOD_PROFILE: Spec = Spec {
+    name: "Shape of Dreams",
+    tab: "Traveler",
+    accent: (150, 120, 220),
+    kind: None,
+    markers: &["/root/stardust", "/root/spentStardust", "/root/preferredHero"],
+    subtitle: "r_profile<id>.json in the QuickSave folder. Stardust is the meta currency; the unlocked items live in r_items.json, which the game encrypts (not opened). Mastery and records are in the r_stats file.",
+    tiles: &[("Stardust", "/root/stardust"), ("Spent stardust", "/root/spentStardust"), ("Reveries done", "/root/completedReveries")],
+    sections: &[
+        Section {
+            title: "Profile",
+            rows: &[
+                ("Name", "/root/name"), ("Stardust", "/root/stardust"), ("Spent stardust", "/root/spentStardust"),
+                ("Reveries completed", "/root/completedReveries"), ("Play time (minutes)", "/root/totalPlayTimeMinutes"),
+            ],
+        },
+        Section {
+            title: "Preferences",
+            rows: &[
+                ("Difficulty (diffNormal, …)", "/root/preferredDifficulty"), ("Traveler", "/root/preferredHero"),
+                ("Lobby name", "/root/preferredLobbyName"),
+            ],
+        },
+    ],
+    lists: &[],
+    tables: &[],
+};
+
+const SOD_STATS: Spec = Spec {
+    name: "Shape of Dreams (statistics)",
+    tab: "Mastery",
+    accent: (150, 120, 220),
+    kind: None,
+    markers: &["/root/total/masteryLevel", "/root/heroes"],
+    subtitle: "r_stats<id>.json in the QuickSave folder: mastery and the record of every traveler.",
+    tiles: &[("Mastery level", "/root/total/masteryLevel"), ("Mastery points", "/root/total/currentMasteryPoints"), ("Wins", "/root/total/wins")],
+    sections: &[Section {
+        title: "All travelers",
+        rows: &[
+            ("Mastery level", "/root/total/masteryLevel"), ("Mastery points to spend", "/root/total/currentMasteryPoints"),
+            ("Total mastery points", "/root/total/totalMasteryPoints"), ("Wins", "/root/total/wins"), ("Losses", "/root/total/loses"),
+            ("Runs played", "/root/total/playCount"), ("Level ups", "/root/total/levelUps"), ("Kills", "/root/total/kills"),
+            ("Deaths", "/root/total/deaths"), ("Gold earned", "/root/total/earnedGold"), ("Dream dust earned", "/root/total/earnedDreamDust"),
+        ],
+    }],
+    lists: &[],
+    tables: &[Table {
+        title: "Travelers",
+        path: "/root/heroes",
+        name: &[],
+        cols: &[
+            ("Mastery level", "/masteryLevel"), ("Mastery points", "/currentMasteryPoints"), ("Total mastery points", "/totalMasteryPoints"),
+            ("Wins", "/wins"), ("Losses", "/loses"), ("Runs", "/playCount"), ("Kills", "/kills"),
+        ],
+        only: &[],
+        names: &[],
+    }],
+};
+
+// ------------------------------------------------------------------ Travellers Rest
+
+const TRAVELLERS_REST: Spec = Spec {
+    name: "Travellers Rest",
+    tab: "Tavern",
+    accent: (214, 150, 60),
+    kind: Some(".NET BinaryFormatter (SaveData)"),
+    markers: &["/money", "/ingredients", "/itemsInInventory"],
+    subtitle: "SaveFile-<day>-<month>-<year>-<time>.save. Money is counted in copper (100 copper = 1 silver, 100 silver = 1 gold). Items are shown by their game id.",
+    tiles: &[("Money (copper)", "/money")],
+    sections: &[Section {
+        title: "Tavern",
+        rows: &[
+            ("Money (copper)", "/money"), ("Crafting room upgrades", "/craftingRoomUpgradeNumber"), ("Tavern floor upgrades", "/tavernFloorUpgradeNumber"),
+            ("Cellar upgrades", "/cellarUpgradeNumber"), ("Halloween candles", "/halloweenCandlesNum"),
+        ],
+    }],
+    lists: &[
+        List { title: "Inventory", path: "/itemsInInventory", shape: Shape::Array { id_key: "/itemInstanceSave/itemID", qty_keys: &["stack"] }, names: &[], max: None },
+        List { title: "Action bar", path: "/itemsInActionBar", shape: Shape::Array { id_key: "/itemInstanceSave/itemID", qty_keys: &["stack"] }, names: &[], max: None },
+    ],
+    tables: &[],
+};
+
+// ------------------------------------------------------------------ Youtubers Life
+
+const YOUTUBERS_LIFE: Spec = Spec {
+    name: "Youtubers Life",
+    tab: "Youtuber",
+    accent: (230, 60, 60),
+    kind: Some("SQLite database"),
+    markers: &["/savegame/0/money", "/youtuber/0/gaming_exp", "/channel/0/subscribers"],
+    subtitle: "<name>_<date>.yls in the Saves folder (a SQLite database, written back as one). The first row of each table is yours; the other youtuber and channel rows are the game's rivals and friends.",
+    tiles: &[("Money", "/savegame/0/money"), ("Subscribers", "/channel/0/subscribers"), ("Views", "/channel/0/views")],
+    sections: &[
+        Section {
+            title: "Savegame",
+            rows: &[
+                ("Money", "/savegame/0/money"), ("House", "/savegame/0/house"), ("Work hours", "/savegame/0/work_hours"),
+                ("Study hours", "/savegame/0/study_hours"), ("Current date (days)", "/savegame/0/current_date"),
+            ],
+        },
+        Section {
+            title: "Your channel",
+            rows: &[("Name", "/channel/0/name"), ("Subscribers", "/channel/0/subscribers"), ("Views", "/channel/0/views"), ("Status", "/channel/0/status"), ("Videos", "/channel/0/num_videos")],
+        },
+    ],
+    lists: &[],
+    tables: &[Table {
+        title: "Youtubers",
+        path: "/youtuber",
+        name: &["/name"],
+        cols: &[
+            ("Energy", "/energy"), ("Hunger", "/hunger"), ("Social life", "/social_life"), ("Motivation", "/motivation"),
+            ("Scripting", "/scripting"), ("Acting", "/acting"), ("Sound", "/sound"), ("Editing", "/editing"), ("Effects", "/effects"),
+            ("Gaming level", "/gaming"), ("Cooking level", "/cooking"), ("Life level", "/life"), ("Music level", "/music"), ("Fashion level", "/fashion"),
+            ("Gaming EXP", "/gaming_exp"), ("Main level", "/main_level"), ("Main EXP", "/main_exp"), ("Perk points", "/perk"),
+        ],
+        only: &[],
+        names: &[],
+    }],
 };
