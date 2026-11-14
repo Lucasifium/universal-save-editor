@@ -3,7 +3,7 @@
 
 use super::{List, Max, Section, Shape, Spec, Table};
 
-pub static SPECS: &[Spec] = &[COTL, FALLOUT_SHELTER, DRG, S1_MONEY, S1_RANK, S1_TIME, S1_GAME, SOTF_STATE, SOTF_GAME, SOTF_WEATHER, SOTF_ITEMS, DMD, CUPHEAD, ANTIMATTER, PVZ, CELESTE, DRGS, KH3, RF4S, SKY1ST, KSP, FFPR, MCD, STONESHARD, ROGUE_TRADER, BIOSHOCK_INFINITE, SPACE_HAVEN, SNOWRUNNER, GRAVEYARD_KEEPER, NFSMW, TOS, GTA3, GTAVC, BITBURNER, TERRA_INVICTA, PRISON, FF13, SONIC_MANIA, CAVE_STORY_PLUS, CAVE_STORY, LIES_OF_P, TXR, DAVE, MSC, ULTRAKILL, RPGXP, RE5, ANNO1800, FTK, LEGO_TSS, LEGO_CLASSIC, MYZ, CMS21, MEDIEVAL_DYNASTY, MECHANICUS, ORI, OMORI, ENDER_LILIES, SW2, ES2, MOONLIGHTER, WASTELAND2, ATOM, MORTAL_SHELL, MORTAL_SHELL_2, COTW, BEAMNG, FOREST, YAKUZA3, YAKUZA4, YAKUZA5, ISHIN, SALT, DRAKENSANG, ALPHA, TYRANNY, JEDI_FO, SR3, SR4, WD2, FABLE, WANDERING_SWORD, STELLAR_BLADE, PRAGMATA, SLIME_RANCHER, SUBNAUTICA2, HZD, SLEEPING_DOGS, DXMD, ATOMIC_HEART, DISHONORED2, DEATHLOOP, AC_BROTHERHOOD, AC_REVELATIONS, AC3R, AC_LIBERATION, AC_BLACK_FLAG, AC_ROGUE, AC_UNITY, AC_SYNDICATE, AC_ORIGINS, AC_ODYSSEY, DISHONORED1, RDR1, RDR2, SM64, SUPER_METROID, LTTP, WORLDBOX, COREKEEPER, HOLOCURE, POTION_CRAFT, WWZ, ROBOQUEST, CMS18, LONGDRIVE, LONGDRIVE_PROP, XC3, MLDT, SMASH, MK7, SKC, UTY, DAGGERFALL_UNITY];
+pub static SPECS: &[Spec] = &[COTL, FALLOUT_SHELTER, DRG, S1_MONEY, S1_RANK, S1_TIME, S1_GAME, SOTF_STATE, SOTF_GAME, SOTF_WEATHER, SOTF_ITEMS, DMD, CUPHEAD, ANTIMATTER, PVZ, CELESTE, DRGS, KH3, RF4S, SKY1ST, KSP, FFPR, MCD, STONESHARD, ROGUE_TRADER, BIOSHOCK_INFINITE, SPACE_HAVEN, SNOWRUNNER, GRAVEYARD_KEEPER, NFSMW, TOS, GTA3, GTAVC, BITBURNER, TERRA_INVICTA, PRISON, FF13, SONIC_MANIA, CAVE_STORY_PLUS, CAVE_STORY, LIES_OF_P, TXR, DAVE, MSC, ULTRAKILL, RPGXP, RE5, ANNO1800, FTK, LEGO_TSS, LEGO_CLASSIC, MYZ, CMS21, MEDIEVAL_DYNASTY, MECHANICUS, ORI, OMORI, ENDER_LILIES, SW2, ES2, MOONLIGHTER, WASTELAND2, ATOM, MORTAL_SHELL, MORTAL_SHELL_2, COTW, BEAMNG, FOREST, YAKUZA3, YAKUZA4, YAKUZA5, ISHIN, SALT, DRAKENSANG, ALPHA, TYRANNY, JEDI_FO, SR3, SR4, WD2, FABLE, WANDERING_SWORD, STELLAR_BLADE, PRAGMATA, SLIME_RANCHER, SUBNAUTICA2, HZD, SLEEPING_DOGS, DXMD, ATOMIC_HEART, DISHONORED2, DEATHLOOP, AC_BROTHERHOOD, AC_REVELATIONS, AC3R, AC_LIBERATION, AC_BLACK_FLAG, AC_ROGUE, AC_UNITY, AC_SYNDICATE, AC_ORIGINS, AC_ODYSSEY, DISHONORED1, RDR1, RDR2, SM64, SUPER_METROID, LTTP, WORLDBOX, COREKEEPER, HOLOCURE, POTION_CRAFT, WWZ, ROBOQUEST, CMS18, LONGDRIVE, LONGDRIVE_PROP, XC3, MLDT, SMASH, MK7, SKC, UTY, DAGGERFALL_UNITY, DMC1, MEWGENICS];
 // ------------------------------------------------------------------ Cult of the Lamb
 
 const COTL_ITEMS: &[(&str, &str)] = &[
@@ -4335,4 +4335,49 @@ const DAGGERFALL_UNITY: Spec = Spec {
         cols: &[("Gold in bank", "/accountGold"), ("Loan", "/loanTotal")],
         names: &[],
     }],
+};
+
+// ------------------------------------------------------------------ Devil May Cry 1
+
+const DMC1: Spec = Spec {
+    name: "Devil May Cry HD Collection (Devil May Cry 1)",
+    tab: "Slots",
+    accent: (200, 40, 50),
+    kind: Some(crate::fmt::dmc1::KIND),
+    markers: &[],
+    subtitle: "dmc1.sav from Steam\\userdata\\<account>\\631510\\remote: orbs and play time of each used slot.",
+    tiles: &[],
+    sections: &[],
+    lists: &[],
+    tables: &[Table {
+        title: "Slots",
+        path: "",
+        name: &[],
+        only: &["Slot 1", "Slot 2", "Slot 3", "Slot 4", "Slot 5", "Slot 6", "Slot 7", "Slot 8", "Slot 9", "Slot 10"],
+        cols: &[("Red orbs", "/Red orbs"), ("Yellow orbs", "/Yellow orbs"), ("Blue orbs", "/Blue orbs"), ("Play time (frames)", "/Play time (frames, 60 per second)")],
+        names: &[],
+    }],
+};
+
+// ------------------------------------------------------------------ Mewgenics
+
+const MEWGENICS: Spec = Spec {
+    name: "Mewgenics",
+    tab: "House",
+    accent: (225, 150, 90),
+    kind: Some("SQLite database"),
+    markers: &["/properties/=house_gold/data", "/cats"],
+    subtitle: "steamcampaign01.sav from %APPDATA%\\Glaiel Games\\Mewgenics\\<Steam id>\\saves (a SQLite database). The cats' own data is kept as it is.",
+    tiles: &[("House gold", "/properties/=house_gold/data"), ("House food", "/properties/=house_food/data"), ("Day", "/properties/=current_day/data")],
+    sections: &[Section {
+        title: "House and adventure",
+        rows: &[
+            ("House gold", "/properties/=house_gold/data"), ("House food", "/properties/=house_food/data"), ("Current day", "/properties/=current_day/data"),
+            ("Adventure coins", "/properties/=adventure_coins/data"), ("Adventure food", "/properties/=adventure_food/data"),
+            ("Storage upgrades", "/properties/=house_storage_upgrades/data"), ("Blank collars", "/properties/=blank_collars/data"),
+            ("Completion (%)", "/properties/=save_file_percent/data"),
+        ],
+    }],
+    lists: &[],
+    tables: &[],
 };

@@ -189,6 +189,8 @@ pub enum Layer {
     PotionCraft,
     /// JSON with bare `Infinity` / `NaN` numbers (Unity and .NET writers).
     NonFinite,
+    /// Bloodstained: Ritual of the Night: GVAS XORed with a counter key stream.
+    Bloodstained { tail: Arc<Vec<u8>> },
     /// World War Z profile files: zlib with the first four bytes XORed (key from the file name).
     Wwz { seed: u8 },
     /// Persona 3 Reload Steam save (XOR key and bit permutation over a GVAS file).
@@ -380,6 +382,7 @@ impl Layer {
             Layer::FalloutShelter => "Fallout Shelter save encryption".into(),
             Layer::PotionCraft => "Potion Craft save encryption".into(),
             Layer::NonFinite => "JSON with Infinity / NaN numbers".into(),
+            Layer::Bloodstained { .. } => "Bloodstained save obfuscation".into(),
             Layer::Wwz { .. } => "World War Z save encryption".into(),
             Layer::P3rSteam => "Persona 3 Reload save encryption".into(),
             Layer::Antimatter { .. } => "Antimatter Dimensions export text".into(),
@@ -996,6 +999,7 @@ fn wrap(layer: &Layer, data: Vec<u8>) -> Result<Vec<u8>, String> {
         Layer::FalloutShelter => fmt::crypto::fallout_shelter_encrypt(&data),
         Layer::PotionCraft => fmt::potion::pack(&data)?,
         Layer::NonFinite => fmt::nonfinite::pack(&data)?,
+        Layer::Bloodstained { tail } => fmt::bloodstained::pack(&data, tail),
         Layer::Wwz { seed } => fmt::wwz::pack(*seed, &data)?,
         Layer::P3rSteam => fmt::p3r::steam_encrypt(&data),
         Layer::Antimatter { kind, version } => fmt::antimatter::close(*kind, version, &data)?,
@@ -1783,6 +1787,9 @@ fn peel(data: &[u8], ctx: &mut Ctx) -> Option<(Layer, Vec<u8>)> {
         if let Some((seed, plain)) = fmt::wwz::open(data, &name) {
             return Some((Layer::Wwz { seed }, plain));
         }
+    }
+    if let Some((plain, tail)) = fmt::bloodstained::open(data) {
+        return Some((Layer::Bloodstained { tail: Arc::new(tail) }, plain));
     }
     if let Some(plain) = fmt::nonfinite::open(data) {
         return Some((Layer::NonFinite, plain));

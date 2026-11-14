@@ -109,7 +109,7 @@ pub fn tab_label(i: u16) -> &'static str {
 /// `_Hash` (RE Engine saves, whose lists change order between saves), `@123` means the entry
 /// whose `_Hash` is 123.
 pub fn resolve(root: &Value, p: &str) -> String {
-    if !p.contains("/@") {
+    if !p.contains("/@") && !p.contains("/=") {
         return p.to_string();
     }
     let mut out = String::new();
@@ -117,6 +117,11 @@ pub fn resolve(root: &Value, p: &str) -> String {
     for seg in p.split('/').skip(1) {
         let seg = match (seg.strip_prefix('@').and_then(|h| h.parse::<u64>().ok()), cur) {
             (Some(h), Some(Value::Array(a))) => match a.iter().position(|e| e.get("_Hash").and_then(Value::as_u64) == Some(h)) {
+                Some(i) => i.to_string(),
+                None => return "/\u{0}no such entry".to_string(),
+            },
+            // `=name`: the entry whose `key` is that name (database tables of key/data rows).
+            (None, Some(Value::Array(a))) if seg.starts_with('=') => match a.iter().position(|e| e.get("key").and_then(Value::as_str) == Some(&seg[1..])) {
                 Some(i) => i.to_string(),
                 None => return "/\u{0}no such entry".to_string(),
             },

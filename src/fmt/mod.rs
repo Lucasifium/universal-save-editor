@@ -41,6 +41,8 @@ pub mod uepack;
 pub mod stoneshard;
 pub mod mcd;
 pub mod nonfinite;
+pub mod bloodstained;
+pub mod dmc1;
 pub mod potion;
 pub mod wwz;
 pub mod ffpr;
@@ -479,6 +481,11 @@ pub fn parse_binary(d: &[u8]) -> Option<TreeDoc> {
     }
     if lego_classic::looks(d) {
         if let Ok(t) = lego_classic::parse(d) {
+            return Some(t);
+        }
+    }
+    if dmc1::looks(d) {
+        if let Ok(t) = dmc1::parse(d) {
             return Some(t);
         }
     }
