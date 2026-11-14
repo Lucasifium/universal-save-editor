@@ -12,7 +12,9 @@ pub static SPECS: &[Spec] = &[OPENXCOM, XCOM_DOS, RCT2, COTL, FALLOUT_SHELTER, D
     // PlayStation 1 and 2 (ps_specs.rs)
     SOTN, FF8, FFT, RE1, KH2, MK64, GOLDENEYE, BANJO_KAZOOIE, OOT, SMASH64, TORCHLIGHT3, WRECKFEST, EVIL_WITHIN, BORDERLANDS1,
     // PlayStation 1 and 2 (ps_specs.rs), continued
-    CRASH, KH1, GT1, BL4, WUKONG, BOTW, RAYMAN, CTR, THPS, PAYDAY2, FS_FARM, FS_CAREER, FS17, FS15, GAS_STATION_SIM, THIEF_SIM, HOUSE_FLIPPER, TAVERN_MASTER, ROAD_REDEMPTION, SILENT_HILL, SOPHIE, FIRIS];
+    CRASH, KH1, GT1, BL4, WUKONG, BOTW, RAYMAN, CTR, THPS, PAYDAY2, FS_FARM, FS_CAREER, FS17, FS15, GAS_STATION_SIM, THIEF_SIM, HOUSE_FLIPPER, TAVERN_MASTER, ROAD_REDEMPTION, SILENT_HILL, SOPHIE, FIRIS,
+    DREDGE, PC_BUILDING_SIM, OUTWARD, SUPRALAND, WARM_SNOW, READY_OR_NOT,
+];
 // ------------------------------------------------------------------ Cult of the Lamb
 
 const COTL_ITEMS: &[(&str, &str)] = &[
@@ -6846,4 +6848,114 @@ const FIRIS: Spec = Spec {
     sections: &[Section { title: tx("Resources"), rows: &[(tx("Cole"), "/Resources/Cole")] }],
     lists: &[],
     tables: &[],
+};
+
+// ------------------------------------------------------------------ DREDGE
+
+const DREDGE: Spec = Spec {
+    name: "DREDGE",
+    tab: "Angler",
+    accent: (200, 120, 60),
+    kind: Some(".NET BinaryFormatter (SaveData)"),
+    markers: &["/decimalVariables/funds", "/intVariables/hull-tier"],
+    subtitle: "dredge-save0.bin (and 1, 2) from AppData\\LocalLow\\Black Salt Games\\DREDGE (.NET BinaryFormatter, read and written in place). Funds, hull tier, sanity and catch counts. Close the game first.",
+    tiles: &[("Funds", "/decimalVariables/funds"), ("Hull tier", "/intVariables/hull-tier"), ("Sanity", "/floatVariables/sanity")],
+    sections: &[
+        Section { title: "Boat", rows: &[("Funds", "/decimalVariables/funds"), ("Hull tier", "/intVariables/hull-tier"), ("Sanity", "/floatVariables/sanity")] },
+        Section {
+            title: "Catches",
+            rows: &[("Fish caught with the rod", "/intVariables/rod-fish-caught"), ("Fish caught in nets", "/intVariables/net-fish-caught"), ("Crabs caught", "/intVariables/pot-crabs-caught"), ("Aberrations caught", "/intVariables/num-aberrations-caught"), ("Relics handed in", "/intVariables/relics-handed-in")],
+        },
+    ],
+    lists: &[],
+    tables: &[],
+};
+
+// ------------------------------------------------------------------ PC Building Simulator
+
+const PC_BUILDING_SIM: Spec = Spec {
+    name: "PC Building Simulator",
+    tab: "Builder",
+    accent: (60, 150, 220),
+    kind: Some(".NET BinaryFormatter stream"),
+    markers: &["/0/m_cash", "/0/m_kudos"],
+    subtitle: "A save from Documents\\PCBS (save1.binary … or auto.binary; .NET BinaryFormatter, read and written in place). Cash, kudos and hard mode. Close the game first.",
+    tiles: &[("Cash", "/0/m_cash"), ("Kudos", "/0/m_kudos")],
+    sections: &[Section { title: "Career", rows: &[("Cash", "/0/m_cash"), ("Kudos", "/0/m_kudos"), ("Hard mode", "/0/m_hardMode")] }],
+    lists: &[],
+    tables: &[],
+};
+
+// ------------------------------------------------------------------ Outward
+
+const OUTWARD: Spec = Spec {
+    name: "Outward",
+    tab: "Adventurer",
+    accent: (150, 130, 90),
+    kind: Some("XML"),
+    markers: &["/Character/PSave/Money", "/Character/PSave/Stamina"],
+    subtitle: "CharN.charc from AppData\\LocalLow\\Nine Dots Studio\\Outward\\Saves\\<id>\\<save> (gzip-compressed XML, unpacked and packed again). Silver, vitals and needs. Close the game first.",
+    tiles: &[("Silver", "/Character/PSave/Money"), ("Health", "/Character/PSave/Health"), ("Stamina", "/Character/PSave/Stamina")],
+    sections: &[
+        Section { title: "Character", rows: &[("Name", "/Character/PSave/Name"), ("Silver", "/Character/PSave/Money"), ("Health", "/Character/PSave/Health"), ("Stamina", "/Character/PSave/Stamina"), ("Mana", "/Character/PSave/Mana")] },
+        Section {
+            title: "Needs",
+            rows: &[("Food", "/Character/PSave/Food"), ("Drink", "/Character/PSave/Drink"), ("Sleep", "/Character/PSave/Sleep"), ("Burnt health", "/Character/PSave/BurntHealth"), ("Burnt stamina", "/Character/PSave/BurntStamina"), ("Burnt mana", "/Character/PSave/BurntMana")],
+        },
+    ],
+    lists: &[],
+    tables: &[],
+};
+// ------------------------------------------------------------------ Supraland
+
+const SUPRALAND: Spec = Spec {
+    name: "Supraland",
+    tab: "Hero",
+    accent: (230, 150, 60),
+    kind: Some("Unreal Engine save (Saving_C)"),
+    markers: &["/PlayerCoins", "/PlayerMaxCoins"],
+    subtitle: "A save .sav from %LOCALAPPDATA%\\Supraland\\Saved\\SaveGames (Unreal GVAS). Coins, the coin limit, sword damage and counters. Close the game first.",
+    tiles: &[("Coins", "/PlayerCoins"), ("Coin limit", "/PlayerMaxCoins"), ("Sword damage", "/SwordDamage")],
+    sections: &[
+        Section { title: "Hero", rows: &[("Coins", "/PlayerCoins"), ("Coin limit", "/PlayerMaxCoins"), ("Sword damage", "/SwordDamage"), ("Sword range", "/PlayerSwordRange"), ("Progress points", "/PlayerProgressPoints")] },
+        Section { title: "Statistics", rows: &[("Deaths", "/PlayerDeathCount"), ("Enemies killed", "/PlayerKilledGrunts"), ("Jumps", "/PlayerJumpCount"), ("Play time", "/PlayerGametime"), ("Completion (%)", "/Percent")] },
+    ],
+    lists: &[],
+    tables: &[],
+};
+
+// ------------------------------------------------------------------ Warm Snow
+
+const WARM_SNOW: Spec = Spec {
+    name: "Warm Snow",
+    tab: "Swordsman",
+    accent: (200, 60, 70),
+    kind: Some(".NET BinaryFormatter (PlayerSave)"),
+    markers: &["/MementoSouls", "/LifeLevel"],
+    subtitle: "save_0 (1, 2) from AppData\\LocalLow\\Gamesyo\\Warm Snow\\save (.NET BinaryFormatter, read and written in place). Souls, upgrade levels, health and difficulty. Close the game first.",
+    tiles: &[("Memento souls", "/MementoSouls"), ("Red souls", "/redsouls"), ("Souls", "/souls")],
+    sections: &[
+        Section { title: "Souls", rows: &[("Memento souls", "/MementoSouls"), ("Red souls", "/redsouls"), ("Souls", "/souls"), ("Soul jars", "/soulJarCount")] },
+        Section {
+            title: "Upgrades",
+            rows: &[("Life level", "/LifeLevel"), ("Kill level", "/KillLevel"), ("Refine level", "/RefineLevel"), ("Health", "/hp"), ("Equipment maximum health", "/EQUIP_MAX_HP"), ("Difficulty", "/difficult"), ("Highest difficulty", "/maxDifficult"), ("Runs", "/TotalPlayCount")],
+        },
+    ],
+    lists: &[],
+    tables: &[],
+};
+
+// ------------------------------------------------------------------ Ready or Not
+
+const READY_OR_NOT: Spec = Spec {
+    name: "Ready or Not",
+    tab: "Operations",
+    accent: (70, 110, 160),
+    kind: Some("Unreal Engine save (ReadyOrNotMultiplayerProfile)"),
+    markers: &["/LevelStats"],
+    subtitle: "LevelStats.sav from %LOCALAPPDATA%\\ReadyOrNot\\Saved\\SaveGames (Unreal GVAS). The best rating, best time and number of completions of every mission and mode. Close the game first.",
+    tiles: &[],
+    sections: &[],
+    lists: &[],
+    tables: &[Table { title: "Missions", path: "/LevelStats", name: &[], only: &[], cols: &[("Best rating", "/BestRating"), ("Best time", "/BestTime"), ("Times completed", "/TimesCompleted")], names: &[] }],
 };

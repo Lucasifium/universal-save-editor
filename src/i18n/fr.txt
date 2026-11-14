@@ -16511,3 +16511,107 @@ Slot 11: general
 Slot 11: inventory
 = Emplacement 11 : inventaire
 
+Angler
+= Pêcheur
+
+dredge-save0.bin (and 1, 2) from AppData\\LocalLow\\Black Salt Games\\DREDGE (.NET BinaryFormatter, read and written in place). Funds, hull tier, sanity and catch counts. Close the game first.
+= dredge-save0.bin (et 1, 2) de AppData\LocalLow\Black Salt Games\DREDGE (.NET BinaryFormatter, lu et écrit sur place). Fonds, niveau de coque, santé mentale et nombre de prises. Fermez d'abord le jeu.
+
+Hull tier
+= Niveau de coque
+
+Boat
+= Bateau
+
+Catches
+= Prises
+
+Fish caught with the rod
+= Poissons pêchés à la canne
+
+Fish caught in nets
+= Poissons pris au filet
+
+Crabs caught
+= Crabes capturés
+
+Aberrations caught
+= Aberrations capturées
+
+Relics handed in
+= Reliques rendues
+
+Builder
+= Monteur
+
+A save from Documents\\PCBS (save1.binary … or auto.binary; .NET BinaryFormatter, read and written in place). Cash, kudos and hard mode. Close the game first.
+= Une sauvegarde de Documents\PCBS (save1.binary … ou auto.binary ; .NET BinaryFormatter, lu et écrit sur place). Argent, kudos et mode difficile. Fermez d'abord le jeu.
+
+Kudos
+= Kudos
+
+Career
+= Carrière
+
+Adventurer
+= Aventurier
+
+CharN.charc from AppData\\LocalLow\\Nine Dots Studio\\Outward\\Saves\\<id>\\<save> (gzip-compressed XML, unpacked and packed again). Silver, vitals and needs. Close the game first.
+= CharN.charc de AppData\LocalLow\Nine Dots Studio\Outward\Saves\<id>\<sauvegarde> (XML compressé en gzip, décompressé puis recompressé). Argent, constantes vitales et besoins. Fermez d'abord le jeu.
+
+Drink
+= Boisson
+
+Burnt health
+= Santé brûlée
+
+Burnt stamina
+= Endurance brûlée
+
+Burnt mana
+= Mana brûlé
+
+A save .sav from %LOCALAPPDATA%\\Supraland\\Saved\\SaveGames (Unreal GVAS). Coins, the coin limit, sword damage and counters. Close the game first.
+= Un fichier .sav de %LOCALAPPDATA%\Supraland\Saved\SaveGames (Unreal GVAS). Pièces, limite de pièces, dégâts de l'épée et compteurs. Fermez d'abord le jeu.
+
+Coin limit
+= Limite de pièces
+
+Sword damage
+= Dégâts de l'épée
+
+Sword range
+= Portée de l'épée
+
+Progress points
+= Points de progression
+
+save_0 (1, 2) from AppData\\LocalLow\\Gamesyo\\Warm Snow\\save (.NET BinaryFormatter, read and written in place). Souls, upgrade levels, health and difficulty. Close the game first.
+= save_0 (1, 2) de AppData\LocalLow\Gamesyo\Warm Snow\save (.NET BinaryFormatter, lu et écrit sur place). Âmes, niveaux d'amélioration, santé et difficulté. Fermez d'abord le jeu.
+
+Memento souls
+= Âmes mémorielles
+
+Soul jars
+= Jarres d'âmes
+
+Kill level
+= Niveau de combat
+
+Refine level
+= Niveau de raffinage
+
+Equipment maximum health
+= Santé maximale de l'équipement
+
+Highest difficulty
+= Difficulté maximale
+
+LevelStats.sav from %LOCALAPPDATA%\\ReadyOrNot\\Saved\\SaveGames (Unreal GVAS). The best rating, best time and number of completions of every mission and mode. Close the game first.
+= LevelStats.sav de %LOCALAPPDATA%\ReadyOrNot\Saved\SaveGames (Unreal GVAS). Meilleure note, meilleur temps et nombre de réussites de chaque mission et mode. Fermez d'abord le jeu.
+
+Best rating
+= Meilleure note
+
+Best time
+= Meilleur temps

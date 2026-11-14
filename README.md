@@ -3,7 +3,7 @@
 > **Free, and it always will be.** No price, no ads, no account, no paid version, no online service, no
 > rate limits. If anyone is charging you for this, it isn't from here.
 
-An offline save editor and save manager for 440+ (446) PC games (edit saves, and back up, name and restore them): Cairn, Terraria (characters and a world map editor),
+An offline save editor and save manager for 450+ (452) PC games (edit saves, and back up, name and restore them): Cairn, Terraria (characters and a world map editor),
 Oxygen Not Included, RimWorld, Stardew Valley, Onimusha: Way of the Sword, Elden Ring, Dark Souls,
 Cyberpunk 2077, the Persona, Yakuza and Final Fantasy games, Ren'Py visual novels, RPG Maker games
 and more (the full list is below). Written in Rust (egui). Nothing is uploaded anywhere, and there are
@@ -156,7 +156,7 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 </details>
 
 <details>
-<summary><strong>D</strong> (31)</summary>
+<summary><strong>D</strong> (32)</summary>
 
 | Game | Screen |
 |---|---|
@@ -188,6 +188,7 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 | Dragon Quest XI S: Echoes of an Elusive Age | *Party*: each member's level, HP, MP, attack, defence, agility, deftness, charm, magical might and mending, max HP and MP and experience; *Item bags*: the count of every item in every bag, up to the item's own maximum. The AES-encrypted save is opened and its CRC is kept right (checked on a public save, not yet tried in the game) |
 | Drakensang: River of Time | *Heroes*: each hero's level, adventure points (earned and to spend), life, endurance, astral energy, the eight attributes and every talent, with the party slot to tell your party from the cutscene copies (the SQLite `savegame.dsa` is edited in place; checked on a public save, not yet tried in the game) |
 | Drakensang: The Dark Eye | *Heroes*: each hero's level, adventure points (earned and to spend), life, endurance, astral energy, the eight attributes and every talent, with the party slot to tell your party from the cutscene copies (the SQLite `savegame.dsa` is edited in place; checked on a public save, not yet tried in the game) |
+| DREDGE | *Angler*: funds, hull tier, sanity and the catch counts (rod, nets, crabs, aberrations, relics), from `dredge-save0.bin` (.NET BinaryFormatter, read and written in place; checked on a public save, not yet tried in the game) |
 | Dying Light | *Survivor*: the skill tree levels (every copy the save keeps) |
 | Dying Light 2 / The Beast | *Survivor*: money, health, the Traversal / Combat / Inhibitor levels and points, every skill's level (Techland's self-describing save format; every saved number is in *Values*) |
 | Dynasty Warriors 8: Xtreme Legends Complete Edition | *Resources*: gold, gems, facility and weapon materials; *Officers*: each of the 82 officers' attack, defence and health, and the four weapon-compatibility star ratings. The encrypted `save.dat` is opened and both checksums are kept right (checked on a public save, not yet tried in the game) |
@@ -390,7 +391,7 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 </details>
 
 <details>
-<summary><strong>O</strong> (10)</summary>
+<summary><strong>O</strong> (11)</summary>
 
 | Game | Screen |
 |---|---|
@@ -403,18 +404,20 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 | Onimusha: Way of the Sword | Each save slot (place, play time, difficulty, objective); red souls, money, health and Oni energy; items and charms by name (on hand and in storage; charm level), with **Add material** to give a slot an upgrade material it doesn't have yet, and a **Max crafting materials** button that fills the upgrade materials on hand (cloths, leather, whetstones, iron, Tamahagane, Malicite, Byakue's Talisman, Dohatsu-ten's Horn) to 999, adding any that are missing, and leaving Power Stones, Oni Stones, Oni Cloth and key items alone; equipment experience. Decrypts Capcom's RE Engine encryption with your Steam account, found automatically |
 | OpenXcom (X-COM: UFO Defense) | *Base*: funds, months and days passed, difficulty, scientists and engineers, every soldier's rank, missions, kills and stats, and the stores of the first three bases, from an OpenXcom or OpenXcom Extended `.sav` (the data part of the file is rewritten on save; checked on a public save, not yet tried in the game) |
 | Ori and the Blind Forest | *Ori*: level, experience, ability points, life and energy cells, keystones, mapstones and deaths, and every skill and ability-tree upgrade to tick on or off, in Definitive Edition and original saves (`saveFile0.sav`…); the load menu's copy of life and energy is kept in step (checked on a public save, not yet tried in the game) |
+| Outward | *Adventurer*: silver, health, stamina, mana, food, drink, sleep and the burnt (reduced maximum) health, stamina and mana, from `CharN.charc` (the gzip-compressed XML is unpacked and packed again; checked on a public save, not yet tried in the game) |
 | Oxygen Not Included | *Colony*: every duplicant's attribute levels and experience, total experience and learned skills; a *Map* of every asteroid and rocket interior (elements, temperature and germ views; paint elements with mass and temperature, dig out to vacuum, set temperature or mass, clear germs, reveal the fog; geysers, teleporters, Gravitas finds, story traits, artifacts and the Printing Pod as toggleable markers); *Worlds & rockets*: names, discovered, sunlight and cosmic radiation, and what's on the star map |
 
 </details>
 
 <details>
-<summary><strong>P</strong> (18)</summary>
+<summary><strong>P</strong> (19)</summary>
 
 | Game | Screen |
 |---|---|
 | Palworld | *Player*: technology points, ancient technology points, Lifmunk effigies and the record counters |
 | Pathfinder: Kingmaker, Wrath of the Righteous | *Party*: money; the player and each companion's ability scores, experience, classes and levels, and base hit points (Wrath: mythic rank too). Kingmaker: a *Story flags* list of the save's named story and unlock flags (romances, kingdom buildings, quest choices) |
 | PAYDAY 2 | *Crew*: spending cash, offshore account, level, infamy rank and points, skill points and Continental coins, from `saveNNN.sav` (the XOR encryption, block checksums and closing hash are handled for you; checked on a public save, not yet tried in the game) |
+| PC Building Simulator | *Builder*: cash, kudos and hard mode, from the career `.binary` save (.NET BinaryFormatter, read and written in place; checked on public saves, not yet tried in the game) |
 | Persona 3 Portable (PC) | *Protagonist*: yen, level, experience and the three social stats; every Persona slot in use with its level, experience and five stats; the count of every item that can be held (key items left out, the game needs a flag for them); the matching `.BINslot` checksum is updated. Checked on a synthetic save, not yet tried in the game |
 | Persona 3 Reload | *Protagonist*: yen, every party member's level, experience, HP and SP, the social stats and each Social Link rank; Steam saves are decrypted and re-encrypted for you (checked on public sample saves, not yet tried in the game) |
 | Persona 4 Golden (PC) | *Protagonist*: yen, level, experience and the five social stats; the matching `.binslot` checksum is updated |
@@ -434,12 +437,13 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 </details>
 
 <details>
-<summary><strong>R</strong> (16)</summary>
+<summary><strong>R</strong> (17)</summary>
 
 | Game | Screen |
 |---|---|
 | R.E.P.O. | Level, money, lives, the charging station and total haul; each player's health and upgrades; the items in the truck and bought in total (`<save>.es3`); decrypted and encrypted again on save (checked on a public save, not yet tried in the game) |
 | Rayman (PlayStation) | *Rayman* (PlayStation memory card, `.mcs`, `.psx` or `.psv` save): continues, lives, health, the powers, and every level's unlock and Electoon cages; the level totals and the completion rate are written again (checked on public saves, not yet tried in the game) |
+| Ready or Not | *Operations*: the best rating, best time and times completed of every mission, from `LevelStats.sav` (plain Unreal GVAS; the roster and unlock tags open for Tree editing; checked on a public save, not yet tried in the game) |
 | Red Dead Redemption (PC; the PS4 and Switch release uses the same format) | *John*: money, honor, fame and the Dead Eye meter; *Consumables*: snake oil, moonshine, chewing tobacco, medicine, tonics, bait, apples and horse pills; weapons, horses and kit are listed as owned. Story, Hardcore and Undead Nightmare saves; the save is decrypted and encrypted again with its CRC-32 (checked on real saves, not yet tried in the game) |
 | Red Dead Redemption 2 (PC, story mode) | *Arthur*: cash, honor (its saved statistic kept in step), the health, stamina and Dead Eye cores and XP, weight and saved health; *Camp*: camp funds; the satchel's ammunition, consumables, herbs and provisions, with a Max crafting materials button for herbs, feathers and animal fat (99, the Legend of the East satchel's stack size); horses' dirt and hunger; 17 statistics; the clock; bounties are shown. Supplies the satchel lacks can be added (experimental: the save grows). *Challenges*: the rank (0 to 10) of the nine story challenges. *Compendium*: studied/discovered ticks for animals, plants, fish and horses, and owned ticks for weapons and equipment. Every checksum is written again and the save encrypted (checked on real saves, not yet tried in the game) |
 | Ren'Py visual novels | *Story*: the game's numbers, flags and text variables with a filter, money and the like up front |
@@ -458,7 +462,7 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 </details>
 
 <details>
-<summary><strong>S</strong> (37)</summary>
+<summary><strong>S</strong> (38)</summary>
 
 | Game | Screen |
 |---|---|
@@ -498,6 +502,7 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 | Super Metroid | *Samus A / B / C* (SNES emulator `.srm` saves): energy and reserve tanks, missiles, super missiles, power bombs, play time and the beams, suits and boots she has and has equipped (each slot's sums and their copies at the end of the file are kept right; checked against the sums of a public save, not yet tried in the game) |
 | Super Smash Bros. | *Fighters* (N64 emulator `.sra` / `.srm` saves): unlocked fighters and stage, every fighter's 1P records and 2P records, and the options (the game's sum is made again on save; checked on public saves, not yet tried in the game) |
 | Super Smash Bros. Ultimate | *Main*: gold, tickets, hammers, snacks, SP and the spirit board item counts (Switch `system_data.bin`; checked on a public save, not yet tried in the game) |
+| Supraland | *Hero*: coins, the coin limit, sword damage and range, progress points, deaths, kills, jumps, play time and completion, from the plain Unreal GVAS `.sav` (checked on public saves, not yet tried in the game) |
 | Sword Art Online: Fatal Bullet | *Inventory*: the quantity of every weapon, costume, accessory, bullet and material, with item names, from `SaveData.sav` (encrypted blocks and the end-of-file HMAC handled; checked on a public save, not yet tried in the game) |
 
 </details>
@@ -574,13 +579,14 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 </details>
 
 <details>
-<summary><strong>W</strong> (13)</summary>
+<summary><strong>W</strong> (14)</summary>
 
 | Game | Screen |
 |---|---|
 | Wandering Sword | *Jianghu*: money, with the map, mount, play time and difficulty shown; the save's zlib wrapping is removed and put back for you (checked on public saves, not yet tried in the game) |
 | Warhammer 40,000: Mechanicus | *Cadmus*: Blackstone, the Ark's bonus points and slots, and each Techpriest's level, XP, skill points, slot points and augment capacity; the save's own text dialect is patched in place and the checksum in `SaveState.sav` is rewritten for you (checked on public saves, not yet tried in the game) |
 | Warhammer 40,000: Rogue Trader | *Dynasty*: scrap, Profit Factor, the Navigator's insight, difficulty settings and reputation with each faction (same save family as Pathfinder; no Rogue Trader save tried yet) |
+| Warm Snow | *Swordsman*: memento souls, red souls, souls, soul jars, the life, kill and refine levels, health, difficulty and runs, from `save_0` (.NET BinaryFormatter, read and written in place; checked on a public save, not yet tried in the game) |
 | Warriors Orochi 4 | *Resources*: Gems, Crystals, Growth Points, Skill Orbs (lower only), the weapon-element stacks you own (with *Max crafting materials*, 999 each) and each progressed officer's skill points; works for the original and Ultimate saves, both AES blocks and their seeds are handled for you (checked on public saves of both, not yet tried in the game) |
 | Wasteland 2 | *Rangers*: each ranger's level, experience, health, attribute, skill and trait points, kills and the seven attributes (skills and items are in the Tree); the save's `<@>` name markers are kept as they are (checked on a public save, not yet tried in the game) |
 | Wasteland 3 | *Rangers*: money; each ranger's level, XP, hit points, attributes, unspent points and skills by name (Automatic Weapons, First Aid, Lockpicking and the rest); item quantities in the inventory and stash; Fame and each faction's reputation (negative allowed) and the quest counters the game keeps. Unpacked (LZF) and packed again on save. Not yet tried in the game |
@@ -655,8 +661,8 @@ binary and stays an ironman save. It isn't converted to a normal one.
 
 The start page lists **Your games**: every game in the list whose saves were found on this computer,
 newest first, each one click away from its newest save. *Find my game's saves* (the big button on the
-start page, *Find saves* in the toolbar and the File menu) lists every one of the 440+ (446) PC games the editor knows, Mass Effect 1–3, the Legendary Edition and Andromeda among them — with where it
-start page, *Find saves* in the toolbar and the File menu) lists every one of the 440+ (446) PC games the editor knows, Mass Effect 1–3, the Legendary Edition and Andromeda among them — with where it
+start page, *Find saves* in the toolbar and the File menu) lists every one of the 450+ (452) PC games the editor knows, Mass Effect 1–3, the Legendary Edition and Andromeda among them — with where it
+start page, *Find saves* in the toolbar and the File menu) lists every one of the 450+ (452) PC games the editor knows, Mass Effect 1–3, the Legendary Edition and Andromeda among them — with where it
 usually keeps its saves and what the files are called, and finds them on your computer (Steam
 libraries and `userdata`, Documents wherever Windows has it, AppData, Saved Games, Ubisoft
 Connect). On Linux and the Steam Deck it also looks inside Proton prefixes
