@@ -179,6 +179,9 @@ Universal Save Editor is free. It builds on other people's work, listed here wit
 | [CEParser (field ids for the Europa Universalis IV, Hearts of Iron IV and Crusader Kings II values the game screens show)](https://github.com/wbudz/CEParser) | Witold Budziszewski | MIT |
 | [Kingdom Save Editor (Final Fantasy VII Remake item names, inventory layout)](https://github.com/Xeeynamo/KingdomSaveEditor) | Luciano Ciccariello and contributors | GPL-3.0-or-later |
 | [FF7 Rebirth Save Editor (Final Fantasy VII Rebirth item IDs, names and inventory types; facts only, no code)](https://ff-7-rebirth-save-editor.vercel.app/) | its author | facts only (file layouts, ids and names), credited |
+| [ysf-save-tools and ysnacci (Ys: The Oath in Felghana cipher and field layout, ported)](https://github.com/geq991/ysf-save-tools) | geq991 and Luigi Auriemma | GPL-2.0-or-later |
+| [BravelyDefault2 (Bravely Default II save layout and property names)](https://github.com/turtle-insect/BravelyDefault2) | turtle-insect | GPL-3.0 |
+| [GameSaveEditor (Trails in the Sky the 3rd and Trails of Cold Steel save offsets and item names)](https://github.com/Stormwave/SaveEditor) | Andrew Cornforth, Stormwave and contributors | GPL-3.0 |
 
 Copyright notices of the projects above whose code or tables were used:
 

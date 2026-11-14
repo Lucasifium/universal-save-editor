@@ -77,6 +77,8 @@ pub enum Layer {
     Snappy,
     /// A 12-byte header (12, unpacked size, packed size) and one zlib stream (Wandering Sword).
     SizedZlib,
+    /// Bravely Default II: `SAVE`, 1, the unpacked size, then a zlib stream around a GVAS save.
+    SaveZlib,
     /// Stellar Blade's EVAS v1: an 8-byte prefix, the GVAS save, then a CRC-32 of the save.
     Evas,
     /// Prey (2017): RC4 over zlib chunks and an MD5'd XMLCPB header.
@@ -318,6 +320,7 @@ impl Layer {
             Layer::Snappy => "Snappy".into(),
             Layer::Evas => "EVAS envelope (CRC-32 written again)".into(),
             Layer::SizedZlib => "zlib with a size header".into(),
+            Layer::SaveZlib => "SAVE header with zlib".into(),
             Layer::Prey { .. } => "Prey save (RC4, zlib chunks, MD5 written again)".into(),
             Layer::Ac8(_) => "Ace Combat 8 packed data (checksum written again)".into(),
             Layer::JediFo(_) => "Jedi: Fallen Order actor records (zlib)".into(),
@@ -833,6 +836,13 @@ fn wrap(layer: &Layer, data: Vec<u8>) -> Result<Vec<u8>, String> {
             out.extend(packed);
             out
         }
+        Layer::SaveZlib => {
+            let packed = compress(ZlibEncoder::new(Vec::new(), Compression::default()), &data)?.finish().map_err(io)?;
+            let mut out = b"SAVE\x01\x00\x00\x00".to_vec();
+            out.extend((data.len() as u32).to_le_bytes());
+            out.extend(packed);
+            out
+        }
         Layer::Evas => {
             let mut h = flate2::Crc::new();
             h.update(&data);
@@ -1197,6 +1207,16 @@ fn peel(data: &[u8], ctx: &mut Ctx) -> Option<(Layer, Vec<u8>)> {
             let mut out = Vec::with_capacity(raw);
             if flate2::read::ZlibDecoder::new(&data[12..]).read_to_end(&mut out).is_ok() && out.len() == raw {
                 return Some((Layer::SizedZlib, out));
+            }
+        }
+    }
+    // Bravely Default II: "SAVE", 1, the unpacked size, a zlib stream with a GVAS save inside.
+    if data.len() > 16 && data.starts_with(b"SAVE\x01\x00\x00\x00") {
+        let raw = u32::from_le_bytes([data[8], data[9], data[10], data[11]]) as usize;
+        if raw > 0 && raw < (1 << 30) {
+            let mut out = Vec::with_capacity(raw);
+            if flate2::read::ZlibDecoder::new(&data[12..]).read_to_end(&mut out).is_ok() && out.len() == raw && out.starts_with(b"GVAS") {
+                return Some((Layer::SaveZlib, out));
             }
         }
     }

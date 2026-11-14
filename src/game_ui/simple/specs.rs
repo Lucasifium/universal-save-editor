@@ -3,7 +3,7 @@
 
 use super::{List, Max, Section, Shape, Spec, Table};
 
-pub static SPECS: &[Spec] = &[COTL, FALLOUT_SHELTER, DRG, S1_MONEY, S1_RANK, S1_TIME, S1_GAME, SOTF_STATE, SOTF_GAME, SOTF_WEATHER, SOTF_ITEMS, DMD, CUPHEAD, ANTIMATTER, PVZ, CELESTE, DRGS, KH3, RF4S, SKY1ST, KSP, FFPR, MCD, STONESHARD, ROGUE_TRADER, BIOSHOCK_INFINITE, SPACE_HAVEN, SNOWRUNNER, GRAVEYARD_KEEPER, NFSMW, TOS, GTA3, GTAVC, BITBURNER, TERRA_INVICTA, PRISON, FF13, SONIC_MANIA, CAVE_STORY_PLUS, CAVE_STORY, LIES_OF_P, TXR, DAVE, MSC, ULTRAKILL, RPGXP, RE5, ANNO1800, FTK, LEGO_TSS, LEGO_CLASSIC, MYZ, CMS21, MEDIEVAL_DYNASTY, MECHANICUS, ORI, OMORI, ENDER_LILIES, SW2, ES2, MOONLIGHTER, WASTELAND2, ATOM, MORTAL_SHELL, MORTAL_SHELL_2, COTW, BEAMNG, FOREST, YAKUZA3, YAKUZA4, YAKUZA5, ISHIN, SALT, DRAKENSANG, ALPHA, TYRANNY, JEDI_FO, SR3, SR4, WD2, FABLE, WANDERING_SWORD, STELLAR_BLADE, PRAGMATA, SLIME_RANCHER, SUBNAUTICA2, HZD, SLEEPING_DOGS, DXMD, ATOMIC_HEART, DISHONORED2, DEATHLOOP, DISHONORED1, RDR1, RDR2, SM64, SUPER_METROID, LTTP];
+pub static SPECS: &[Spec] = &[COTL, FALLOUT_SHELTER, DRG, S1_MONEY, S1_RANK, S1_TIME, S1_GAME, SOTF_STATE, SOTF_GAME, SOTF_WEATHER, SOTF_ITEMS, DMD, CUPHEAD, ANTIMATTER, PVZ, CELESTE, DRGS, KH3, RF4S, SKY1ST, KSP, FFPR, MCD, STONESHARD, ROGUE_TRADER, BIOSHOCK_INFINITE, SPACE_HAVEN, SNOWRUNNER, GRAVEYARD_KEEPER, NFSMW, TOS, GTA3, GTAVC, BITBURNER, TERRA_INVICTA, PRISON, FF13, SONIC_MANIA, CAVE_STORY_PLUS, CAVE_STORY, LIES_OF_P, TXR, DAVE, MSC, ULTRAKILL, RPGXP, RE5, ANNO1800, FTK, LEGO_TSS, LEGO_CLASSIC, MYZ, CMS21, MEDIEVAL_DYNASTY, MECHANICUS, ORI, OMORI, ENDER_LILIES, SW2, ES2, MOONLIGHTER, WASTELAND2, ATOM, MORTAL_SHELL, MORTAL_SHELL_2, COTW, BEAMNG, FOREST, YAKUZA3, YAKUZA4, YAKUZA5, ISHIN, SALT, DRAKENSANG, ALPHA, TYRANNY, JEDI_FO, SR3, SR4, WD2, FABLE, WANDERING_SWORD, STELLAR_BLADE, PRAGMATA, SLIME_RANCHER, SUBNAUTICA2, HZD, SLEEPING_DOGS, DXMD, ATOMIC_HEART, DISHONORED2, DEATHLOOP, DISHONORED1, RDR1, RDR2, SM64, SUPER_METROID, LTTP, YSF, BD2, SKY3, CS1];
 
 // ------------------------------------------------------------------ Cult of the Lamb
 
@@ -3619,6 +3619,20 @@ const SUPER_METROID: Spec = Spec {
         ("Space jump", "/Samus C/Equipped/Space jump"),
         ("Speed booster", "/Samus C/Equipped/Speed booster"),
     ] },
+// ------------------------------------------------------------------ Ys: The Oath in Felghana
+
+const YSF: Spec = Spec {
+    name: "Ys: The Oath in Felghana",
+    tab: "Adol",
+    accent: (200, 60, 50),
+    kind: Some(crate::fmt::ysf::KIND),
+    markers: &["/Adol/Gold", "/Adol/Level"],
+    subtitle: "A ysf_NN.nacci save (the cipher and both checksums are handled). Level, HP, experience, gold and the difficulty.",
+    tiles: &[("Gold", "/Adol/Gold"), ("Level", "/Adol/Level"), ("Experience", "/Adol/Experience")],
+    sections: &[
+        Section { title: "Adol", rows: &[("Level", "/Adol/Level"), ("Max HP", "/Adol/Max HP"), ("Experience", "/Adol/Experience"), ("Gold", "/Adol/Gold")] },
+        Section { title: "Difficulty", rows: &[("Now", "/Difficulty/Now"), ("Change to", "/Difficulty/Change to")] },
+        Section { title: "Save", rows: &[("Place", "/Save/Place"), ("Date", "/Save/Date"), ("Time", "/Save/Time")] },
     ],
     lists: &[],
     tables: &[],
@@ -3770,4 +3784,82 @@ const LTTP: Spec = Spec {
     ],
     lists: &[],
     tables: &[],
+// ------------------------------------------------------------------ Bravely Default II
+
+const BD2: Spec = Spec {
+    name: "Bravely Default II",
+    tab: "Party",
+    accent: (120, 170, 210),
+    kind: Some("Unreal Engine save (SunriseSaveData)"),
+    markers: &["/Inventory/money", "/Characters"],
+    subtitle: "SaveGameData0.sav (the SAVE header and zlib packing are handled). pg, difficulty, each party member's level, experience, HP, MP and special ability points, and the item counts.",
+    tiles: &[("pg", "/Inventory/money")],
+    sections: &[Section { title: "Game", rows: &[("pg (money)", "/Inventory/money"), ("Difficulty", "/SystemData/ConfigData/DifficultyLevel"), ("Current map", "/MapName")] }],
+    lists: &[List {
+        title: "Items",
+        path: "/Inventory/Items",
+        shape: Shape::Array { id_key: "ID", qty_keys: &["Stock"] },
+        names: &[],
+        max: None,
+    }],
+    tables: &[Table {
+        title: "Party",
+        path: "/Characters",
+        name: &["/Name"],
+        only: &[],
+        cols: &[
+            ("Level", "/Level"), ("Experience", "/Exp"), ("HP", "/Hp"), ("Max HP", "/MaxHp"), ("MP", "/MP"), ("Max MP", "/MaxMp"),
+            ("Special ability pts", "/SpecialAbilityPoints"),
+            ("Raise: HP", "/ParameterRise/MaximumHealthPoints"), ("Raise: MP", "/ParameterRise/MaximumMagicPoints"), ("Raise: Speed", "/ParameterRise/Speed"),
+            ("Raise: P.Atk", "/ParameterRise/PhysicalAttack"), ("Raise: P.Def", "/ParameterRise/PhysicalDefence"),
+            ("Raise: M.Atk", "/ParameterRise/MagicAttack"), ("Raise: M.Def", "/ParameterRise/MagicDefence"), ("Raise: Heal", "/ParameterRise/HealPower"),
+        ],
+        names: &[],
+    }],
+};
+
+// ------------------------------------------------------------------ Trails in the Sky the 3rd
+
+const SKY3: Spec = Spec {
+    name: "The Legend of Heroes: Trails in the Sky the 3rd",
+    tab: "Party",
+    accent: (200, 150, 60),
+    kind: Some(crate::fmt::falcom::KIND_SKY3),
+    markers: &["/Party/Mira"],
+    subtitle: "SVDATnnn.SAV or Auto*.sav from Saved Games\\FALCOM\\ED_SORA3. Mira, sepith, character levels and the item counts.",
+    tiles: &[("Mira", "/Party/Mira")],
+    sections: &[Section {
+        title: "Sepith",
+        rows: &[("Earth", "/Sepith/Earth"), ("Water", "/Sepith/Water"), ("Fire", "/Sepith/Fire"), ("Wind", "/Sepith/Wind"), ("Time", "/Sepith/Time"), ("Space", "/Sepith/Space"), ("Mirage", "/Sepith/Mirage")],
+    }],
+    lists: &[List { title: "Items, quartz, equipment and meals", path: "/Items", shape: Shape::Map, names: &[], max: None }],
+    tables: &[Table { title: "Characters", path: "/Characters", name: &[], only: &[], cols: &[("Level", "/Level")], names: &[] }],
+};
+
+// ------------------------------------------------------------------ Trails of Cold Steel
+
+const CS1: Spec = Spec {
+    name: "The Legend of Heroes: Trails of Cold Steel",
+    tab: "Party",
+    accent: (150, 40, 50),
+    kind: Some(crate::fmt::falcom::KIND_CS1),
+    markers: &["/Party/Mira"],
+    subtitle: "saveNNN.dat from Saved Games\\Falcom\\ed8. Mira, sepith, each member's level, experience, HP, EP, CP and stats, and the bag.",
+    tiles: &[("Mira", "/Party/Mira")],
+    sections: &[Section {
+        title: "Sepith",
+        rows: &[("Earth", "/Sepith/Earth"), ("Water", "/Sepith/Water"), ("Fire", "/Sepith/Fire"), ("Wind", "/Sepith/Wind"), ("Time", "/Sepith/Time"), ("Space", "/Sepith/Space"), ("Mirage", "/Sepith/Mirage"), ("Mass", "/Sepith/Mass")],
+    }],
+    lists: &[List { title: "Items, quartz, equipment and meals", path: "/Items", shape: Shape::Map, names: &[], max: None }],
+    tables: &[Table {
+        title: "Characters",
+        path: "/Characters",
+        name: &[],
+        only: &[],
+        cols: &[
+            ("Level", "/Level"), ("Experience", "/Experience"), ("HP", "/HP"), ("Max HP", "/Max HP"), ("EP", "/EP"), ("Max EP", "/Max EP"), ("CP", "/CP"), ("Max CP", "/Max CP"),
+            ("STR", "/STR"), ("DEF", "/DEF"), ("ATS", "/ATS"), ("ADF", "/ADF"), ("SPD", "/SPD"), ("DEX", "/DEX"), ("AGL", "/AGL"), ("MOV", "/MOV"), ("RNG", "/RNG"),
+        ],
+        names: &[],
+    }],
 };

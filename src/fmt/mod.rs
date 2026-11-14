@@ -174,6 +174,9 @@ pub mod sm64;
 pub mod supermetroid;
 pub mod zelda_lttp;
 pub mod alphaprotocol;
+pub mod ysf;
+pub mod falcom;
+mod falcom_tables;
 pub mod obsidian;
 pub mod roadhog;
 pub mod saltsanc;
@@ -398,6 +401,21 @@ pub fn parse_binary(d: &[u8]) -> Option<TreeDoc> {
     }
     if zelda_lttp::looks(d) {
         if let Ok(t) = zelda_lttp::parse(d) {
+            return Some(t);
+        }
+    }
+    if falcom::looks_sky3(d) {
+        if let Ok(t) = falcom::parse_sky3(d) {
+            return Some(t);
+        }
+    }
+    if falcom::looks_cs1(d) {
+        if let Ok(t) = falcom::parse_cs1(d) {
+            return Some(t);
+        }
+    }
+    if ysf::looks(d) {
+        if let Ok(t) = ysf::parse(d) {
             return Some(t);
         }
     }
