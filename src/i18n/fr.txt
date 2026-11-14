@@ -3105,6 +3105,8 @@ A character save (1.sav, 2.sav …) from Documents\My Games\Borderlands 4\Saved\
 10 seconds race
 = Course de 10 secondes
 
+# src/game_ui/simple/specs.rs (console screens)
+
 100 coins
 = 100 pièces
 
@@ -3654,6 +3656,18 @@ Army
 Arrow capacity upgrades (0-7)
 = Améliorations de capacité de flèches (0-7)
 
+An emulator's .eep save (512 or 2048 bytes). Per file: caps, keys, switches, secret stars, each course's six stars, 100-coin star, cannon and coin record.
+= Une sauvegarde .eep d'émulateur (512 ou 2048 octets). Par fichier : casquettes, clés, interrupteurs, étoiles secrètes, les six étoiles de chaque parcours, l'étoile des 100 pièces, le canon et le record de pièces.
+
+An emulator's 8 KiB .srm / .sav save. Per Samus slot: energy and reserve tanks, missiles, super missiles, power bombs, play time and which beams, suits and boots she has and has equipped.
+= Une sauvegarde de 8 Kio (.srm / .sav) d'émulateur. Par emplacement de Samus : réservoirs d'énergie et de réserve, missiles, super missiles, super-bombes, temps de jeu et les rayons, combinaisons et bottes qu'elle possède et a équipés.
+
+An emulator's 8 KiB .srm / .sav save. Per slot: hearts, magic, rupees, bombs and arrows with their upgrades, the sword, shield, tunic and every item, and the four bottles.
+= Une sauvegarde de 8 Kio (.srm / .sav) d'émulateur. Par emplacement : cœurs, magie, rubis, bombes et flèches avec leurs améliorations, l'épée, le bouclier, la tunique, tous les objets et les quatre bouteilles.
+
+Arrow capacity upgrades (0-7)
+= Améliorations de capacité de flèches (0–7)
+
 Arrows
 = Flèches
 
@@ -4056,6 +4070,15 @@ Bomb damage
 Bombchu
 = Bombchu
 
+Basement key
+= Clé du sous-sol
+
+Basement key door open
+= Porte de la clé du sous-sol ouverte
+
+Bomb capacity upgrades (0-7)
+= Améliorations de capacité de bombes (0–7)
+
 Bombos medallion
 = Médaillon de Bombos
 
@@ -4149,6 +4172,18 @@ Bottle caps
 Bounties
 = Primes
 
+Bottle 1
+= Bouteille 1
+
+Bottle 2
+= Bouteille 2
+
+Bottle 3
+= Bouteille 3
+
+Bottle 4
+= Bouteille 4
+
 Bow
 = Arc
 
@@ -4190,6 +4225,15 @@ Buffs
 
 Bug spray
 = Insecticide
+
+Bowser in the Dark World (red coins)
+= Bowser dans le monde obscur (pièces rouges)
+
+Bowser in the Fire Sea (red coins)
+= Bowser dans la mer de feu (pièces rouges)
+
+Bowser in the Sky (red coins)
+= Bowser dans le ciel (pièces rouges)
 
 Bug-catching net
 = Filet à insectes
@@ -4277,6 +4321,12 @@ Cane of Byrna
 
 Cane of Somaria
 = Bâton de Somaria
+
+Cane of Byrna
+= Baguette de Byrna
+
+Cane of Somaria
+= Baguette de Somaria
 
 Cannon open
 = Canon ouvert
@@ -4403,6 +4453,9 @@ Charge Flame Efficiency
 
 Charge Jump
 = Charge Jump
+
+Cavern of the Metal Cap
+= Caverne de la casquette en métal
 
 Charge beam
 = Rayon chargé
@@ -5781,11 +5834,22 @@ File 3: songs
 File 3: spiritual stones
 = Fichier 3 : pierres spirituelles
 
+Coin record
+= Record de pièces
+
+Energy tanks (max energy)
+= Réservoirs d'énergie (énergie max.)
+
+Ether medallion
+= Médaillon d'Éther
+
 File A
 = Fichier A
 
 File A courses
 = Parcours du fichier A
+
+= Fichier A : parcours
 
 File B
 = Fichier B
@@ -5793,17 +5857,23 @@ File B
 File B courses
 = Parcours du fichier B
 
+= Fichier B : parcours
+
 File C
 = Fichier C
 
 File C courses
 = Parcours du fichier C
 
+= Fichier C : parcours
+
 File D
 = Fichier D
 
 File D courses
 = Parcours du fichier D
+
+= Fichier D : parcours
 
 Files in use
 = Fichiers utilisés
@@ -6048,6 +6118,9 @@ Gadgets (count)
 Gald
 = Gald
 
+Fire rod
+= Baguette de feu
+
 Gallery key
 = Clé de la galerie
 
@@ -6197,6 +6270,8 @@ Gloom earned in total
 
 Gloom-shroom
 = Gloom-shroom
+
+= Porte de la clé de la galerie ouverte
 
 Gloves
 = Gants
@@ -6432,6 +6507,15 @@ Heal everyone
 Health & energy
 = Santé et énergie
 
+Grappling beam
+= Rayon grappin
+
+Gravity suit
+= Combinaison gravitationnelle
+
+Half magic use
+= Consommation de magie réduite de moitié
+
 Health (8 per heart)
 = Santé (8 par cœur)
 
@@ -6590,6 +6674,12 @@ Homes are tile positions; they're shown on the Map.
 
 Honor
 = Honneur
+
+Heart pieces
+= Quarts de cœur
+
+Hi-jump boots
+= Bottes de saut
 
 Hookshot
 = Grappin
@@ -7031,6 +7121,12 @@ LIGLOB.DAT from a save slot folder (GAME_1 to GAME_10) of the original game. The
 
 LV
 = LV
+
+Ice beam
+= Rayon de glace
+
+Ice rod
+= Baguette de glace
 
 Lamp
 = Lampe
@@ -7611,6 +7707,12 @@ Minute
 Minutes played
 = Minutes jouées
 
+Max health (8 per heart)
+= Santé max. (8 par cœur)
+
+Metal Cap switch
+= Interrupteur de la casquette en métal
+
 Mips (first star)
 = Mips (première étoile)
 
@@ -7739,6 +7841,11 @@ Months passed
 
 Mood
 = Humeur
+
+= Missiles (max.)
+
+Moat drained
+= Douves vidées
 
 Moon pearl
 = Perle de lune
@@ -8940,6 +9047,27 @@ Research points
 Research totals are progress toward the current projects. The empire is the one you play (player 1).
 = Les totaux de recherche correspondent à la progression des projets en cours. L'empire est celui que vous jouez (joueur 1).
 
+Morphing ball
+= Boule morphing
+
+Mushroom / magic powder
+= Champignon / poudre magique
+
+Pegasus boots
+= Bottes de Pégase
+
+Plasma beam
+= Rayon plasma
+
+Power bombs
+= Super-bombes
+
+Power bombs (max)
+= Super-bombes (max.)
+
+Quake medallion
+= Médaillon du Séisme
+
 Reserve energy
 = Énergie de réserve
 
@@ -9146,6 +9274,9 @@ Salt
 
 Salts
 = Sels
+
+Rupees in the fairy pond
+= Rubis dans la fontaine des fées
 
 Samus A
 = Samus A
@@ -9479,6 +9610,15 @@ Shell: Tiel
 
 Shells
 = Enveloppes
+
+Screw attack
+= Attaque vrille
+
+Secret slide star
+= Étoile du toboggan secret
+
+Secret slide star (under 21 s)
+= Étoile du toboggan secret (moins de 21 s)
 
 Shield
 = Bouclier
@@ -9978,6 +10118,33 @@ Spare ammunition stored in the backpack, as the wrist display counts it.
 Spark Flame
 = Spark Flame
 
+Shovel / flute
+= Pelle / flûte
+
+Slot 1
+= Emplacement 1
+
+Slot 1: items
+= Emplacement 1 : objets
+
+Slot 2
+= Emplacement 2
+
+Slot 2: items
+= Emplacement 2 : objets
+
+Slot 3
+= Emplacement 3
+
+Slot 3: items
+= Emplacement 3 : objets
+
+Slots in use
+= Emplacements utilisés
+
+Space jump
+= Saut spatial
+
 Spazer
 = Spazer
 
@@ -10130,6 +10297,12 @@ Stamina core
 
 Standing with each faction (negative is hated). The game may clamp values outside its own range.
 = Réputation auprès de chaque faction (négative = haï). Le jeu peut ramener à sa plage les valeurs qui en sortent.
+
+Speed booster
+= Accélérateur de vitesse
+
+Spring ball
+= Boule à ressort
 
 Star 1
 = Étoile 1
@@ -10409,6 +10582,8 @@ Suspension damage
 
 Swimming
 = Natation
+
+= Super missiles (max.)
 
 Sword
 = Épée
@@ -11070,6 +11245,21 @@ Trust points
 Tumblar's game
 = Jeu de Tumblar
 
+The Secret Aquarium
+= L'aquarium secret
+
+Toad (Clock Room)
+= Toad (salle de l'horloge)
+
+Toad (Gallery)
+= Toad (galerie)
+
+Toad (Hazy Maze Cave)
+= Toad (caverne du labyrinthe brumeux)
+
+Tower of the Wing Cap
+= Tour de la casquette ailée
+
 Tunic
 = Tunique
 
@@ -11216,6 +11406,8 @@ Vanish Cap switch
 
 Vanity mastery XP
 = PX de maîtrise de Vanity
+
+= Interrupteur de la casquette invisible
 
 Varia suit
 = Combinaison Varia
@@ -12116,3 +12308,19 @@ Whole Dog key
 
 GameUnlocks.dat in Documents\\Streets of Rogue\\CloudData. Nuggets buy unlocks; every agent, item, trait and floor is listed with whether it is unlocked and what it costs. Close the game first.
 = GameUnlocks.dat dans Documents\Streets of Rogue\CloudData. Les Nuggets achètent des déblocages ; chaque agent, objet, trait et étage est listé avec son état de déblocage et son coût. Fermez d'abord le jeu.
+
+Wave beam
+= Rayon d'onde
+
+Wing Cap switch
+= Interrupteur de la casquette ailée
+
+Wing Mario Over the Rainbow
+= Mario ailé au-dessus de l'arc-en-ciel
+
+X-ray scope
+= Scope à rayons X
+
+Zora's flippers
+= Palmes Zora
+

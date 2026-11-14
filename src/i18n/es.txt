@@ -3105,6 +3105,8 @@ A character save (1.sav, 2.sav …) from Documents\My Games\Borderlands 4\Saved\
 10 seconds race
 = Carrera de 10 segundos
 
+# src/game_ui/simple/specs.rs (console screens)
+
 100 coins
 = 100 monedas
 
@@ -3654,6 +3656,18 @@ Army
 Arrow capacity upgrades (0-7)
 = Mejoras de capacidad de flechas (0-7)
 
+An emulator's .eep save (512 or 2048 bytes). Per file: caps, keys, switches, secret stars, each course's six stars, 100-coin star, cannon and coin record.
+= Un guardado .eep de un emulador (512 o 2048 bytes). Por archivo: gorras, llaves, interruptores, estrellas secretas, las seis estrellas de cada curso, la estrella de 100 monedas, el cañón y el récord de monedas.
+
+An emulator's 8 KiB .srm / .sav save. Per Samus slot: energy and reserve tanks, missiles, super missiles, power bombs, play time and which beams, suits and boots she has and has equipped.
+= Un guardado de 8 KiB (.srm / .sav) de un emulador. Por ranura de Samus: tanques de energía y de reserva, misiles, supermisiles, superbombas, tiempo de juego y qué rayos, trajes y botas tiene y lleva equipados.
+
+An emulator's 8 KiB .srm / .sav save. Per slot: hearts, magic, rupees, bombs and arrows with their upgrades, the sword, shield, tunic and every item, and the four bottles.
+= Un guardado de 8 KiB (.srm / .sav) de un emulador. Por ranura: corazones, magia, rupias, bombas y flechas con sus mejoras, la espada, el escudo, la túnica, todos los objetos y las cuatro botellas.
+
+Arrow capacity upgrades (0-7)
+= Mejoras de capacidad de flechas (0–7)
+
 Arrows
 = Flechas
 
@@ -4056,6 +4070,11 @@ Bomb damage
 Bombchu
 = Bombchu
 
+= Puerta de la llave del sótano abierta
+
+Bomb capacity upgrades (0-7)
+= Mejoras de capacidad de bombas (0–7)
+
 Bombos medallion
 = Medallón de Bombos
 
@@ -4148,6 +4167,20 @@ Bottle caps
 
 Bounties
 = Recompensas
+
+= Búmeran
+
+Bottle 1
+= Botella 1
+
+Bottle 2
+= Botella 2
+
+Bottle 3
+= Botella 3
+
+Bottle 4
+= Botella 4
 
 Bow
 = Arco
@@ -4278,6 +4311,15 @@ Cane of Byrna
 Cane of Somaria
 = Báculo de Somaria
 
+Bug-catching net
+= Red para insectos
+
+Cane of Byrna
+= Vara de Byrna
+
+Cane of Somaria
+= Vara de Somaria
+
 Cannon open
 = Cañón abierto
 
@@ -4403,6 +4445,9 @@ Charge Flame Efficiency
 
 Charge Jump
 = Charge Jump
+
+Cavern of the Metal Cap
+= Caverna de la Gorra Metálica
 
 Charge beam
 = Rayo cargado
@@ -5781,11 +5826,22 @@ File 3: songs
 File 3: spiritual stones
 = Archivo 3: piedras espirituales
 
+Coin record
+= Récord de monedas
+
+Energy tanks (max energy)
+= Tanques de energía (energía máx.)
+
+Ether medallion
+= Medallón de Éter
+
 File A
 = Archivo A
 
 File A courses
 = Cursos del archivo A
+
+= Archivo A: cursos
 
 File B
 = Archivo B
@@ -5793,17 +5849,23 @@ File B
 File B courses
 = Cursos del archivo B
 
+= Archivo B: cursos
+
 File C
 = Archivo C
 
 File C courses
 = Cursos del archivo C
 
+= Archivo C: cursos
+
 File D
 = Archivo D
 
 File D courses
 = Cursos del archivo D
+
+= Archivo D: cursos
 
 Files in use
 = Archivos en uso
@@ -6048,6 +6110,9 @@ Gadgets (count)
 Gald
 = Gald
 
+Fire rod
+= Vara de fuego
+
 Gallery key
 = Llave de la galería
 
@@ -6197,6 +6262,8 @@ Gloom earned in total
 
 Gloom-shroom
 = Gloom-shroom
+
+= Puerta de la llave de la galería abierta
 
 Gloves
 = Guantes
@@ -6432,6 +6499,15 @@ Heal everyone
 Health & energy
 = Salud y energía
 
+Grappling beam
+= Rayo de agarre
+
+Gravity suit
+= Traje de gravedad
+
+Half magic use
+= Mitad de consumo de magia
+
 Health (8 per heart)
 = Salud (8 por corazón)
 
@@ -6590,6 +6666,12 @@ Homes are tile positions; they're shown on the Map.
 
 Honor
 = Honor
+
+Heart pieces
+= Piezas de corazón
+
+Hi-jump boots
+= Botas de salto alto
 
 Hookshot
 = Gancho
@@ -7281,6 +7363,15 @@ MP
 Magic Beans
 = Judías mágicas
 
+Ice beam
+= Rayo de hielo
+
+Ice rod
+= Vara de hielo
+
+Lamp
+= Lámpara
+
 Magic cape
 = Capa mágica
 
@@ -7610,6 +7701,12 @@ Minute
 
 Minutes played
 = Minutos jugados
+
+Max health (8 per heart)
+= Salud máx. (8 por corazón)
+
+Metal Cap switch
+= Interruptor de la Gorra Metálica
 
 Mips (first star)
 = Mips (primera estrella)
@@ -8298,6 +8395,18 @@ Passion
 Passive skill points
 = Puntos de habilidad pasiva
 
+Moat drained
+= Foso drenado
+
+Moon pearl
+= Perla lunar
+
+Morphing ball
+= Bola morfológica
+
+Mushroom / magic powder
+= Seta / polvo mágico
+
 Pegasus boots
 = Botas de Pegaso
 
@@ -8507,6 +8616,9 @@ Power Bean
 
 Power Core
 = Power Core
+
+Plasma beam
+= Rayo de plasma
 
 Power bombs
 = Superbombas
@@ -8940,6 +9052,9 @@ Research points
 Research totals are progress toward the current projects. The empire is the one you play (player 1).
 = Los totales de investigación son el progreso de los proyectos actuales. El imperio es el que usted juega (jugador 1).
 
+Quake medallion
+= Medallón del Terremoto
+
 Reserve energy
 = Energía de reserva
 
@@ -9146,6 +9261,9 @@ Salt
 
 Salts
 = Sales
+
+Rupees in the fairy pond
+= Rupias en la fuente de las hadas
 
 Samus A
 = Samus A
@@ -9479,6 +9597,15 @@ Shell: Tiel
 
 Shells
 = Cascarones
+
+Screw attack
+= Ataque tornillo
+
+Secret slide star
+= Estrella del tobogán secreto
+
+Secret slide star (under 21 s)
+= Estrella del tobogán secreto (menos de 21 s)
 
 Shield
 = Escudo
@@ -9978,6 +10105,33 @@ Spare ammunition stored in the backpack, as the wrist display counts it.
 Spark Flame
 = Spark Flame
 
+Shovel / flute
+= Pala / flauta
+
+Slot 1
+= Ranura 1
+
+Slot 1: items
+= Ranura 1: objetos
+
+Slot 2
+= Ranura 2
+
+Slot 2: items
+= Ranura 2: objetos
+
+Slot 3
+= Ranura 3
+
+Slot 3: items
+= Ranura 3: objetos
+
+Slots in use
+= Ranuras en uso
+
+Space jump
+= Salto espacial
+
 Spazer
 = Spazer
 
@@ -10070,6 +10224,9 @@ Spriggan
 
 Spring / Winter: At the highest platform of the tree
 = Primavera / Invierno: En la plataforma más alta del árbol
+
+Speed booster
+= Impulsor de velocidad
 
 Spring ball
 = Bola de resorte
@@ -10379,6 +10536,8 @@ Super Stache Bean
 
 Super Syrup Jar
 = Super Syrup Jar
+
+= Estrellas conseguidas
 
 Super missiles
 = Supermisiles
@@ -10983,6 +11142,21 @@ Totals
 Tourists
 = Turistas
 
+Sword
+= Espada
+
+The Secret Aquarium
+= El acuario secreto
+
+Toad (Clock Room)
+= Toad (sala del reloj)
+
+Toad (Gallery)
+= Toad (galería)
+
+Toad (Hazy Maze Cave)
+= Toad (cueva del laberinto brumoso)
+
 Tower of the Wing Cap
 = Torre de la Gorra Alada
 
@@ -11217,6 +11391,15 @@ Vanish Cap switch
 Vanity mastery XP
 = EXP de maestría de Vanity
 
+Tunic
+= Túnica
+
+Vanish Cap Under the Moat
+= Gorra Invisible bajo el foso
+
+Vanish Cap switch
+= Interruptor de la Gorra Invisible
+
 Varia suit
 = Traje Varia
 
@@ -11441,6 +11624,9 @@ Win streak
 
 Wind
 = Viento
+
+Wave beam
+= Rayo ondulante
 
 Wing Cap switch
 = Interruptor de la Gorra Alada
@@ -12116,3 +12302,10 @@ Whole Dog key
 
 GameUnlocks.dat in Documents\\Streets of Rogue\\CloudData. Nuggets buy unlocks; every agent, item, trait and floor is listed with whether it is unlocked and what it costs. Close the game first.
 = GameUnlocks.dat en Documents\Streets of Rogue\CloudData. Los Nuggets compran desbloqueos; se enumeran todos los agentes, objetos, rasgos y plantas, con su estado de desbloqueo y su coste. Cierre antes el juego.
+
+X-ray scope
+= Visor de rayos X
+
+Zora's flippers
+= Aletas Zora
+

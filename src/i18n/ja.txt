@@ -3654,6 +3654,23 @@ Army
 Arrow capacity upgrades (0-7)
 = 矢の容量アップグレード(0-7)
 
+# src/game_ui/simple/specs.rs (console screens)
+
+100 coins
+= 100コイン
+
+An emulator's .eep save (512 or 2048 bytes). Per file: caps, keys, switches, secret stars, each course's six stars, 100-coin star, cannon and coin record.
+= エミュレーターの .eep セーブ(512 または 2048 バイト)。ファイルごとに、帽子、鍵、スイッチ、隠しスター、各コースの6つのスター、100コインのスター、大砲、コイン記録。
+
+An emulator's 8 KiB .srm / .sav save. Per Samus slot: energy and reserve tanks, missiles, super missiles, power bombs, play time and which beams, suits and boots she has and has equipped.
+= エミュレーターの 8 KiB の .srm / .sav セーブ。サムスのスロットごとに、エネルギータンクとリザーブタンク、ミサイル、スーパーミサイル、パワーボム、プレイ時間、所持および装備中のビーム、スーツ、ブーツ。
+
+An emulator's 8 KiB .srm / .sav save. Per slot: hearts, magic, rupees, bombs and arrows with their upgrades, the sword, shield, tunic and every item, and the four bottles.
+= エミュレーターの 8 KiB の .srm / .sav セーブ。スロットごとに、ハート、魔力、ルピー、爆弾と矢とその容量アップグレード、剣、盾、服、すべてのアイテム、4本のビン。
+
+Arrow capacity upgrades (0-7)
+= 矢の容量アップグレード(0〜7)
+
 Arrows
 = 矢
 
@@ -4059,6 +4076,18 @@ Bombchu
 Bombos medallion
 = ボンボスのメダル
 
+Basement key
+= 地下の鍵
+
+Basement key door open
+= 地下の鍵のドアが開いている
+
+Bomb capacity upgrades (0-7)
+= 爆弾の容量アップグレード(0〜7)
+
+Bombos medallion
+= ボンバのメダル
+
 Bombs
 = 爆弾
 
@@ -4149,6 +4178,18 @@ Bottle caps
 Bounties
 = 賞金首
 
+Bottle 1
+= ビン 1
+
+Bottle 2
+= ビン 2
+
+Bottle 3
+= ビン 3
+
+Bottle 4
+= ビン 4
+
 Bow
 = 弓
 
@@ -4190,6 +4231,15 @@ Buffs
 
 Bug spray
 = 虫よけスプレー
+
+Bowser in the Dark World (red coins)
+= 暗黒世界のクッパ(赤コイン)
+
+Bowser in the Fire Sea (red coins)
+= 炎の海のクッパ(赤コイン)
+
+Bowser in the Sky (red coins)
+= 空のクッパ(赤コイン)
 
 Bug-catching net
 = 虫取り網
@@ -4403,6 +4453,18 @@ Charge Flame Efficiency
 
 Charge Jump
 = Charge Jump
+
+Cane of Byrna
+= バーナのロッド
+
+Cane of Somaria
+= ソマリアのロッド
+
+Cannon open
+= 大砲が開いている
+
+Cavern of the Metal Cap
+= メタルキャップの洞窟
 
 Charge beam
 = チャージビーム
@@ -5805,6 +5867,39 @@ File D
 File D courses
 = ファイルDのコース
 
+Coin record
+= コイン記録
+
+Energy tanks (max energy)
+= エネルギータンク(最大エネルギー)
+
+Ether medallion
+= エーテルのメダル
+
+File A
+= ファイル A
+
+File A courses
+= ファイル A: コース
+
+File B
+= ファイル B
+
+File B courses
+= ファイル B: コース
+
+File C
+= ファイル C
+
+File C courses
+= ファイル C: コース
+
+File D
+= ファイル D
+
+File D courses
+= ファイル D: コース
+
 Files in use
 = 使用中のファイル
 
@@ -6047,6 +6142,9 @@ Gadgets (count)
 
 Gald
 = ガルド
+
+Fire rod
+= ほのおのロッド
 
 Gallery key
 = ギャラリーの鍵
@@ -6297,6 +6395,11 @@ Grade (x100)
 Grade points (x100)
 = グレードポイント(x100)
 
+= ギャラリーの鍵のドアが開いている
+
+Gloves
+= グローブ
+
 Grappling beam
 = グラップリングビーム
 
@@ -6476,6 +6579,15 @@ Heart
 
 Heart of Vlad
 = Heart of Vlad
+
+Gravity suit
+= グラビティスーツ
+
+Half magic use
+= 魔力消費半減
+
+Health (8 per heart)
+= 体力(ハート1個=8)
 
 Heart pieces
 = ハートのかけら
@@ -7032,6 +7144,18 @@ LIGLOB.DAT from a save slot folder (GAME_1 to GAME_10) of the original game. The
 LV
 = LV
 
+Hi-jump boots
+= ハイジャンプブーツ
+
+Hookshot
+= フックショット
+
+Ice beam
+= アイスビーム
+
+Ice rod
+= こおりのロッド
+
 Lamp
 = ランプ
 
@@ -7286,6 +7410,12 @@ Magic cape
 
 Magic hammer
 = 魔法のハンマー
+
+Magic cape
+= マジックケープ
+
+Magic hammer
+= マジックハンマー
 
 Magic mirror
 = 魔法の鏡
@@ -7572,6 +7702,9 @@ Merman Statue
 Meta.sav of a save slot. Blackstone is the Ark's research currency; SaveState.sav (the game's checksum of this file) is updated when you save.
 = セーブスロットのMeta.sav。BlackstoneはArkの研究通貨です。SaveState.sav(このファイルに対するゲームのチェックサム)は保存時に更新されます。
 
+Max health (8 per heart)
+= 最大体力(ハート1個=8)
+
 Metal Cap switch
 = メタルキャップスイッチ
 
@@ -7631,6 +7764,12 @@ MirrorMode
 
 Misconduct
 = 不正行為
+
+Mips (first star)
+= ミップス(1つ目のスター)
+
+Mips (second star)
+= ミップス(2つ目のスター)
 
 Missiles
 = ミサイル
@@ -7739,6 +7878,9 @@ Months passed
 
 Mood
 = 気分
+
+Moat drained
+= 堀の水が抜けている
 
 Moon pearl
 = ムーンパール
@@ -8393,6 +8535,15 @@ Plank width
 
 Plasma
 = プラズマ
+
+Morphing ball
+= モルフボール
+
+Mushroom / magic powder
+= キノコ / 魔法の粉
+
+Pegasus boots
+= ペガサスの靴
 
 Plasma beam
 = プラズマビーム
@@ -9089,6 +9240,17 @@ Running
 
 Running allowed
 = 走行可
+
+= パワーボム(最大)
+
+Quake medallion
+= 地震のメダル
+
+Reserve energy
+= リザーブエネルギー
+
+Reserve tanks (max reserve)
+= リザーブタンク(最大リザーブ)
 
 Rupees in the fairy pond
 = 妖精の泉のルピー
@@ -9870,6 +10032,66 @@ SlotA.save (a version line, then JSON XORed with the game's own key; both are ha
 Slots destroyed
 = 破壊されたスロット
 
+Samus A
+= サムス A
+
+Samus A: equipped
+= サムス A: 装備中
+
+Samus A: obtained
+= サムス A: 入手済み
+
+Samus B
+= サムス B
+
+Samus B: equipped
+= サムス B: 装備中
+
+Samus B: obtained
+= サムス B: 入手済み
+
+Samus C
+= サムス C
+
+Samus C: equipped
+= サムス C: 装備中
+
+Samus C: obtained
+= サムス C: 入手済み
+
+Screw attack
+= スクリューアタック
+
+Secret slide star
+= 秘密のスライダーのスター
+
+Secret slide star (under 21 s)
+= 秘密のスライダーのスター(21秒未満)
+
+Shield
+= 盾
+
+Shovel / flute
+= スコップ / 笛
+
+Slot 1
+= スロット 1
+
+Slot 1: items
+= スロット 1: アイテム
+
+Slot 2
+= スロット 2
+
+Slot 2: items
+= スロット 2: アイテム
+
+Slot 3
+= スロット 3
+
+Slot 3: items
+= スロット 3: アイテム
+
 Slots in use
 = 使用中のスロット
 
@@ -10001,6 +10223,12 @@ Speed
 
 Speed Bean
 = Speed Bean
+
+Space jump
+= スペースジャンプ
+
+Spazer
+= スパジャー
 
 Speed booster
 = スピードブースター
@@ -10148,6 +10376,27 @@ Star 5
 
 Star 6
 = 星6
+
+Spring ball
+= スプリングボール
+
+Star 1
+= スター 1
+
+Star 2
+= スター 2
+
+Star 3
+= スター 3
+
+Star 4
+= スター 4
+
+Star 5
+= スター 5
+
+Star 6
+= スター 6
 
 Stars collected
 = 集めたスター
@@ -10983,6 +11232,21 @@ Totals
 Tourists
 = 観光客
 
+Sword
+= 剣
+
+The Secret Aquarium
+= 秘密の水族館
+
+Toad (Clock Room)
+= キノピオ(時計の部屋)
+
+Toad (Gallery)
+= キノピオ(ギャラリー)
+
+Toad (Hazy Maze Cave)
+= キノピオ(ドキドキ迷路洞窟)
+
 Tower of the Wing Cap
 = ウイングキャップの塔
 
@@ -11307,6 +11571,18 @@ Water Breath
 Water Medallion
 = 水のメダル
 
+Tunic
+= 服
+
+Vanish Cap Under the Moat
+= 堀の下のバニッシュキャップ
+
+Vanish Cap switch
+= バニッシュキャップスイッチ
+
+Varia suit
+= ヴァリアスーツ
+
 Wave beam
 = ウェーブビーム
 
@@ -11519,6 +11795,8 @@ Writes the game's own unlock code into every achievement, mystery ending, enemy,
 
 Wurfwaffen
 = Wurfwaffen
+
+= 虹の上のウイングマリオ
 
 X-ray scope
 = Xレイスコープ
@@ -12116,3 +12394,7 @@ Whole Dog key
 
 GameUnlocks.dat in Documents\\Streets of Rogue\\CloudData. Nuggets buy unlocks; every agent, item, trait and floor is listed with whether it is unlocked and what it costs. Close the game first.
 = Documents\Streets of Rogue\CloudData 内の GameUnlocks.dat。Nuggetでアンロックを購入でき、すべてのエージェント、アイテム、特性、フロアが解放状況と費用付きで一覧表示されます。先にゲームを終了してください。
+
+Zora's flippers
+= ゾーラのヒレ
+

@@ -3654,6 +3654,23 @@ Army
 Arrow capacity upgrades (0-7)
 = 箭矢容量升级(0-7)
 
+# src/game_ui/simple/specs.rs (console screens)
+
+100 coins
+= 100金币
+
+An emulator's .eep save (512 or 2048 bytes). Per file: caps, keys, switches, secret stars, each course's six stars, 100-coin star, cannon and coin record.
+= 模拟器的 .eep 存档(512 或 2048 字节)。每个存档:帽子、钥匙、开关、隐藏星星、每个关卡的六颗星星、100金币之星、大炮和金币纪录。
+
+An emulator's 8 KiB .srm / .sav save. Per Samus slot: energy and reserve tanks, missiles, super missiles, power bombs, play time and which beams, suits and boots she has and has equipped.
+= 模拟器的 8 KiB .srm / .sav 存档。每个萨姆斯存档位:能量罐和后备罐、导弹、超级导弹、能量炸弹、游戏时间,以及她拥有和已装备的光束、装甲和靴子。
+
+An emulator's 8 KiB .srm / .sav save. Per slot: hearts, magic, rupees, bombs and arrows with their upgrades, the sword, shield, tunic and every item, and the four bottles.
+= 模拟器的 8 KiB .srm / .sav 存档。每个存档位:心、魔力、卢比、炸弹和箭及其容量升级、剑、盾、服装、所有道具以及四个瓶子。
+
+Arrow capacity upgrades (0-7)
+= 箭容量升级(0–7)
+
 Arrows
 = 箭
 
@@ -4059,6 +4076,14 @@ Bombchu
 Bombos medallion
 = Bombos 勋章
 
+= 地下室钥匙门已开
+
+Bomb capacity upgrades (0-7)
+= 炸弹容量升级(0–7)
+
+Bombos medallion
+= 炸弹勋章
+
 Bombs
 = 炸弹
 
@@ -4115,6 +4140,9 @@ Boo Biscuit
 
 Book of Mudora
 = Book of Mudora
+
+Book of Mudora
+= 穆多拉之书
 
 Boomerang
 = 回旋镖
@@ -4190,6 +4218,18 @@ Buffs
 
 Bug spray
 = 杀虫喷雾
+
+Bow
+= 弓
+
+Bowser in the Dark World (red coins)
+= 黑暗世界的库巴(红币)
+
+Bowser in the Fire Sea (red coins)
+= 火焰海的库巴(红币)
+
+Bowser in the Sky (red coins)
+= 天空的库巴(红币)
 
 Bug-catching net
 = 捕虫网
@@ -4277,6 +4317,12 @@ Cane of Byrna
 
 Cane of Somaria
 = Cane of Somaria
+
+Cane of Byrna
+= 拜尔纳之杖
+
+Cane of Somaria
+= 索马利亚之杖
 
 Cannon open
 = 大炮已开
@@ -4403,6 +4449,9 @@ Charge Flame Efficiency
 
 Charge Jump
 = Charge Jump
+
+Cavern of the Metal Cap
+= 金属帽洞穴
 
 Charge beam
 = 蓄力光束
@@ -5382,6 +5431,9 @@ Energy Efficiency
 Energy Markers
 = 能量标记
 
+Coin record
+= 金币纪录
+
 Energy tanks (max energy)
 = 能量罐(最大能量)
 
@@ -6048,6 +6100,39 @@ Gadgets (count)
 Gald
 = Gald
 
+Ether medallion
+= 以太勋章
+
+File A
+= 存档 A
+
+File A courses
+= 存档 A:关卡
+
+File B
+= 存档 B
+
+File B courses
+= 存档 B:关卡
+
+File C
+= 存档 C
+
+File C courses
+= 存档 C:关卡
+
+File D
+= 存档 D
+
+File D courses
+= 存档 D:关卡
+
+Files in use
+= 使用中的存档
+
+Fire rod
+= 火之杖
+
 Gallery key
 = 画廊钥匙
 
@@ -6197,6 +6282,8 @@ Gloom earned in total
 
 Gloom-shroom
 = 忧郁菇
+
+= 画廊钥匙门已开
 
 Gloves
 = 手套
@@ -6477,6 +6564,18 @@ Heart
 Heart of Vlad
 = Heart of Vlad
 
+Grappling beam
+= 抓钩光束
+
+Gravity suit
+= 重力服
+
+Half magic use
+= 魔力消耗减半
+
+Health (8 per heart)
+= 生命(每颗心8点)
+
 Heart pieces
 = 心之碎片
 
@@ -6665,6 +6764,12 @@ INT +
 
 Ice Arrow
 = 冰之箭
+
+Hi-jump boots
+= 高跳靴
+
+Hookshot
+= 钩锁
 
 Ice beam
 = 冰冻光束
@@ -7284,6 +7389,15 @@ Magic Beans
 Magic cape
 = 魔法披风
 
+Ice rod
+= 冰之杖
+
+Lamp
+= 提灯
+
+Magic cape
+= 魔法斗篷
+
 Magic hammer
 = 魔法锤
 
@@ -7572,6 +7686,11 @@ Merman Statue
 Meta.sav of a save slot. Blackstone is the Ark's research currency; SaveState.sav (the game's checksum of this file) is updated when you save.
 = 存档槽的 Meta.sav。Blackstone 是方舟的研究货币;SaveState.sav(游戏对此文件的校验和)会在保存时更新。
 
+= 魔法镜
+
+Max health (8 per heart)
+= 最大生命(每颗心8点)
+
 Metal Cap switch
 = 金属帽开关
 
@@ -7631,6 +7750,12 @@ MirrorMode
 
 Misconduct
 = 不当行为
+
+Mips (first star)
+= 米普斯(第一颗星)
+
+Mips (second star)
+= 米普斯(第二颗星)
 
 Missiles
 = 导弹
@@ -8393,6 +8518,21 @@ Plank width
 
 Plasma
 = 等离子
+
+Moat drained
+= 护城河已排干
+
+Moon pearl
+= 月之珍珠
+
+Morphing ball
+= 变形球
+
+Mushroom / magic powder
+= 蘑菇 / 魔法粉
+
+Pegasus boots
+= 天马靴
 
 Plasma beam
 = 等离子光束
@@ -9549,6 +9689,63 @@ Shotgun damage
 Shotgun range
 = 霰弹枪射程
 
+Power bombs
+= 能量炸弹
+
+Power bombs (max)
+= 能量炸弹(最大)
+
+Quake medallion
+= 地震勋章
+
+Reserve energy
+= 后备能量
+
+Reserve tanks (max reserve)
+= 后备罐(最大后备)
+
+Rupees in the fairy pond
+= 妖精泉中的卢比
+
+Samus A
+= 萨姆斯 A
+
+Samus A: equipped
+= 萨姆斯 A:已装备
+
+Samus A: obtained
+= 萨姆斯 A:已获得
+
+Samus B
+= 萨姆斯 B
+
+Samus B: equipped
+= 萨姆斯 B:已装备
+
+Samus B: obtained
+= 萨姆斯 B:已获得
+
+Samus C
+= 萨姆斯 C
+
+Samus C: equipped
+= 萨姆斯 C:已装备
+
+Samus C: obtained
+= 萨姆斯 C:已获得
+
+Screw attack
+= 螺旋攻击
+
+Secret slide star
+= 秘密滑梯之星
+
+Secret slide star (under 21 s)
+= 秘密滑梯之星(21秒内)
+
+Shield
+= 盾牌
+
 Shovel / flute
 = 铲子 / 笛子
 
@@ -9960,6 +10157,27 @@ Sound Test
 Space
 = 太空
 
+Slot 1
+= 存档位 1
+
+Slot 1: items
+= 存档位 1:道具
+
+Slot 2
+= 存档位 2
+
+Slot 2: items
+= 存档位 2:道具
+
+Slot 3
+= 存档位 3
+
+Slot 3: items
+= 存档位 3:道具
+
+Slots in use
+= 使用中的存档位
+
 Space jump
 = 太空跳跃
 
@@ -10001,6 +10219,9 @@ Speed
 
 Speed Bean
 = Speed Bean
+
+Spazer
+= 分裂光束
 
 Speed booster
 = 速度加速器
@@ -10130,6 +10351,9 @@ Stamina core
 
 Standing with each faction (negative is hated). The game may clamp values outside its own range.
 = 与各阵营的声望(负值表示憎恨)。超出游戏范围的值可能被游戏截断。
+
+Spring ball
+= 弹簧球
 
 Star 1
 = 星星 1
@@ -10380,6 +10604,8 @@ Super Stache Bean
 Super Syrup Jar
 = Super Syrup Jar
 
+= 已获得的星星
+
 Super missiles
 = 超级导弹
 
@@ -10409,6 +10635,8 @@ Suspension damage
 
 Swimming
 = 游泳
+
+= 超级导弹(最大)
 
 Sword
 = 剑
@@ -10983,6 +11211,18 @@ Totals
 Tourists
 = 游客
 
+The Secret Aquarium
+= 秘密水族馆
+
+Toad (Clock Room)
+= 奇诺比奥(时钟房间)
+
+Toad (Gallery)
+= 奇诺比奥(画廊)
+
+Toad (Hazy Maze Cave)
+= 奇诺比奥(迷雾迷宫洞窟)
+
 Tower of the Wing Cap
 = 飞翼帽之塔
 
@@ -11207,6 +11447,9 @@ Valuables
 
 Vampire Survivors
 = Vampire Survivors
+
+Tunic
+= 服装
 
 Vanish Cap Under the Moat
 = 护城河下的隐形帽
@@ -11441,6 +11684,12 @@ Win streak
 
 Wind
 = 风
+
+Varia suit
+= 变换服
+
+Wave beam
+= 波动光束
 
 Wing Cap switch
 = 飞翼帽开关
@@ -12116,3 +12365,12 @@ Whole Dog key
 
 GameUnlocks.dat in Documents\\Streets of Rogue\\CloudData. Nuggets buy unlocks; every agent, item, trait and floor is listed with whether it is unlocked and what it costs. Close the game first.
 = 位于 Documents\Streets of Rogue\CloudData 的 GameUnlocks.dat。Nuggets 用于购买解锁项;每个角色、道具、特质和楼层都会列出解锁状态和价格。请先关闭游戏。
+
+= 彩虹上的飞翼马里奥
+
+X-ray scope
+= X射线镜
+
+Zora's flippers
+= 卓拉脚蹼
+
