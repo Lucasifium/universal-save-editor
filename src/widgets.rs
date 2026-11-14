@@ -197,6 +197,20 @@ pub struct EditOut {
     pub go_to_tree: bool,
 }
 
+/// A typed number pulled back into the range the format accepts, so a value can never go
+/// outside it (the typing box keeps what was typed; the save gets the nearest allowed value).
+pub fn clamp_to(range: Option<(Value, Value)>, v: Value) -> Value {
+    let Some((lo, hi)) = range else { return v };
+    let (Some(x), Some(l), Some(h)) = (v.as_f64(), lo.as_f64(), hi.as_f64()) else { return v };
+    if x < l {
+        lo
+    } else if x > h {
+        hi
+    } else {
+        v
+    }
+}
+
 fn copy_form(v: &Value) -> String {
     match v {
         Value::String(s) => s.clone(),
@@ -334,6 +348,7 @@ fn editor_body(ui: &mut Ui, id_src: &str, v: &Value, editable: bool, width: f32,
             if resp.changed() {
                 ui.data_mut(|d| d.insert_temp(id, buf.clone()));
                 if let Some(nv) = parse_number(&buf, integer) {
+                    let nv = clamp_to(opts.tree.and_then(|t| t.range(id_src)), nv);
                     if nv != *v {
                         out = Some(nv);
                     }
@@ -352,10 +367,10 @@ fn editor_body(ui: &mut Ui, id_src: &str, v: &Value, editable: bool, width: f32,
                 if let Some(i) = n.as_i64().filter(|i| i.unsigned_abs() <= 5000) {
                     let step = ui.input(|inp| if inp.modifiers.ctrl || inp.modifiers.command { 100 } else if inp.modifiers.shift { 10 } else { 1 });
                     if ui.small_button("\u{2212}").on_hover_text(tr("Decrease by 1 (Shift: 10, Ctrl: 100)")).clicked() {
-                        out = Some(Value::from(i.saturating_sub(step)));
+                        out = Some(clamp_to(opts.tree.and_then(|t| t.range(id_src)), Value::from(i.saturating_sub(step))));
                     }
                     if ui.small_button("+").on_hover_text(tr("Increase by 1 (Shift: 10, Ctrl: 100)")).clicked() {
-                        out = Some(Value::from(i.saturating_add(step)));
+                        out = Some(clamp_to(opts.tree.and_then(|t| t.range(id_src)), Value::from(i.saturating_add(step))));
                     }
                 }
             }
@@ -380,6 +395,15 @@ mod tests {
             assert!(!shown.contains(['\n', '\r']), "one-line box must not see raw breaks");
             assert_eq!(unescape_breaks(&shown), s);
         }
+    }
+
+    #[test]
+    fn numbers_clamp_into_range() {
+        let r = Some((Value::from(0), Value::from(99)));
+        assert_eq!(clamp_to(r.clone(), Value::from(150)), Value::from(99));
+        assert_eq!(clamp_to(r.clone(), Value::from(-3)), Value::from(0));
+        assert_eq!(clamp_to(r.clone(), Value::from(42)), Value::from(42));
+        assert_eq!(clamp_to(None, Value::from(1_000_000)), Value::from(1_000_000));
     }
 
     #[test]

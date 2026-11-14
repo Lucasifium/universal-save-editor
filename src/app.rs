@@ -379,6 +379,8 @@ pub struct App {
     browser: Option<(Ask, FileBrowser)>,
     /// A failure, shown under the toolbar until dismissed.
     banner: Option<String>,
+    /// The field whose refused value put up the current error, so fixing it can clear the error.
+    error_ptr: Option<String>,
     /// The open file was changed on disk by something else since it was read or saved.
     disk_changed: bool,
     /// The changed file the player chose to keep working past ("Keep what's shown").
@@ -478,6 +480,7 @@ impl App {
             running: None,
             browser: None,
             banner: None,
+            error_ptr: None,
             disk_changed: false,
             disk_seen: None,
             stale_save: None,
@@ -852,8 +855,25 @@ impl App {
 
     /// Apply a user edit, recording it for undo. Consecutive edits to the same field are merged.
     fn apply_edit(&mut self, ptr: String, v: Value, now: f64) {
-        if let Err(e) = self.try_edit(ptr, v, now) {
-            self.fail(format!("Can't use that value: {e}."));
+        match self.try_edit(ptr.clone(), v, now) {
+            Err(e) => {
+                self.fail(format!("Can't use that value: {e}."));
+                self.error_ptr = Some(ptr);
+            }
+            Ok(_) => self.clear_edit_error(&ptr),
+        }
+    }
+
+    /// A value was accepted: drop the "can't use that value" message that field left behind.
+    fn clear_edit_error(&mut self, ptr: &str) {
+        if take_if_same(&mut self.error_ptr, ptr) {
+            if self.banner.as_deref() == Some(self.status.as_str()) {
+                self.banner = None;
+            }
+            if self.status_kind == StatusKind::Err {
+                self.status.clear();
+                self.status_kind = StatusKind::Info;
+            }
         }
     }
 
@@ -4647,6 +4667,28 @@ fn png(img: &egui::ColorImage) -> Vec<u8> {
     chunk(&mut out, b"IDAT", &idat);
     chunk(&mut out, b"IEND", &[]);
     out
+}
+
+/// True (and forgets it) when `ptr` is the field that put up the current error.
+fn take_if_same(slot: &mut Option<String>, ptr: &str) -> bool {
+    if slot.as_deref() == Some(ptr) {
+        *slot = None;
+        true
+    } else {
+        false
+    }
+}
+
+#[cfg(test)]
+mod edit_error_tests {
+    #[test]
+    fn error_clears_only_for_its_own_field() {
+        let mut slot = Some("/level".to_string());
+        assert!(!super::take_if_same(&mut slot, "/gold"), "another field's fix keeps the error");
+        assert!(super::take_if_same(&mut slot, "/level"), "fixing the failing field clears it");
+        assert!(slot.is_none());
+        assert!(!super::take_if_same(&mut slot, "/level"));
+    }
 }
 
 #[cfg(test)]
