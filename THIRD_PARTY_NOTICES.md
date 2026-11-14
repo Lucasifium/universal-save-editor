@@ -128,7 +128,7 @@ Universal Save Editor is free. It builds on other people's work, listed here wit
 | [FloweysTimeMachine (Undertale save layout, item and phone names)](https://github.com/crumblingstatue/FloweysTimeMachine) | crumblingstatue | facts only (file layouts, ids and names), credited |
 | [DeltaruneDecomp (Deltarune Chapter 1 save field order)](https://github.com/TeamBlossomDevs/DeltaruneDecomp) | TeamBlossomDevs | facts only (file layouts, ids and names), credited |
 | [DarkestDungeonSaveEditor (Darkest Dungeon DSON format and its type rules, ported)](https://github.com/robojumper/DarkestDungeonSaveEditor) | robojumper | MIT |
-| [game-tools-collection (Octopath Traveler II character and job ids; Golden Sun Djinn counts and file-select totals; Final Fantasy X ability, overdrive, item, key item and Monster Arena layout and names)](https://github.com/RyudoSynbios/game-tools-collection) | RyudoSynbios | MIT |
+| [game-tools-collection (Octopath Traveler II character and job ids; Golden Sun Djinn counts and file-select totals; Final Fantasy X ability, overdrive, item, key item and Monster Arena layout and names; Super Mario 64, Super Metroid and A Link to the Past save layouts)](https://github.com/RyudoSynbios/game-tools-collection) | RyudoSynbios | MIT |
 | [octopath-save-editor (Octopath Traveler save paths and property names)](https://github.com/AppleBoiy/octopath-save-editor) | AppleBoiy | facts only (file layouts, ids and names), credited |
 | [Darkest Dungeon 2 save editor (save files and value names)](https://github.com/Hyena68/Darkest-Dungeon-SAVE-EDITOR) | Hyena68 | facts only (file layouts, ids and names), credited |
 | [final_fantasy_pixel_remaster_save_decrypter (Pixel Remaster key derivation, cipher parameters and file layering, ported)](https://github.com/ReverseTelnet/final_fantasy_pixel_remaster_save_decrypter) | ReverseTelnet | GPL-3.0 |
@@ -205,7 +205,7 @@ Copyright notices of the projects above whose code or tables were used:
 - dragon-age-save-editor (Dragon Age: Origins stat ids, approval and campaign ids): Copyright (c) 2026 Aleksei Tovkachev. Licensed under MIT.
 - vampire-survivors-save-editor (Vampire Survivors checksum and number styles): Copyright (c) 2026 chrisdfennell. Licensed under MIT.
 - DarkestDungeonSaveEditor (Darkest Dungeon DSON format and its type rules, ported): Copyright (c) 2018 robojumper. Licensed under MIT.
-- game-tools-collection (Octopath Traveler II character and job ids; Golden Sun Djinn counts and file-select totals; Final Fantasy X ability, overdrive, item, key item and Monster Arena layout and names): Copyright (c) 2024 RyudoSynbios. Licensed under MIT.
+- game-tools-collection (Octopath Traveler II character and job ids; Golden Sun Djinn counts and file-select totals; Final Fantasy X ability, overdrive, item, key item and Monster Arena layout and names; Super Mario 64, Super Metroid and A Link to the Past save layouts): Copyright (c) 2024 RyudoSynbios. Licensed under MIT.
 - LSLib (Larian LSPK package, LSF resource and Osiris story layouts, ported): Copyright (c) Norbyte. Licensed under MIT.
 - valheim-fch-editor (Valheim character layout, skill ids): Copyright (c) 2021 cQuaid. Licensed under MIT.
 - obababot (Golden Sun save layout; item, class and Djinn name tables): Copyright (c) 2020 Dyrati. Licensed under MIT.

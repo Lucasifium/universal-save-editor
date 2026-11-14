@@ -169,6 +169,10 @@ pub mod cave_story;
 pub mod ori;
 pub mod lego_tss;
 pub mod lego_classic;
+pub mod retro;
+pub mod sm64;
+pub mod supermetroid;
+pub mod zelda_lttp;
 pub mod alphaprotocol;
 pub mod obsidian;
 pub mod roadhog;
@@ -384,6 +388,21 @@ pub fn parse_binary(d: &[u8]) -> Option<TreeDoc> {
     }
     if metro::looks(d) {
         if let Ok(t) = metro::parse(d) {
+            return Some(t);
+        }
+    }
+    if supermetroid::looks(d) {
+        if let Ok(t) = supermetroid::parse(d) {
+            return Some(t);
+        }
+    }
+    if zelda_lttp::looks(d) {
+        if let Ok(t) = zelda_lttp::parse(d) {
+            return Some(t);
+        }
+    }
+    if sm64::looks(d) {
+        if let Ok(t) = sm64::parse(d) {
             return Some(t);
         }
     }
