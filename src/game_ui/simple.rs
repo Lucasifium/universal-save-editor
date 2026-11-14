@@ -561,3 +561,18 @@ mod tests {
         }
     }
 }
+
+#[cfg(test)]
+mod uty_tests {
+    #[test]
+    #[ignore]
+    fn undertale_yellow_sample() {
+        let Ok(f) = std::env::var("UTY_SAMPLE") else { return };
+        let text = std::fs::read_to_string(f).unwrap();
+        let mut t = crate::fmt::ini::parse(&text, "sav").unwrap();
+        assert_eq!(super::game_name(super::detect(&t.kind_name, &t.view).expect("spec matches")), "Undertale Yellow");
+        t.set("/Save1/Gold", 9999.into()).unwrap();
+        let out = String::from_utf8(t.to_bytes().unwrap()).unwrap();
+        assert!(out.contains("Gold=\"9999\"") || out.contains("Gold=9999"), "{}", out.lines().find(|l| l.starts_with("Gold")).unwrap_or(""));
+    }
+}

@@ -3,7 +3,7 @@
 
 use super::{List, Max, Section, Shape, Spec, Table};
 
-pub static SPECS: &[Spec] = &[COTL, FALLOUT_SHELTER, DRG, S1_MONEY, S1_RANK, S1_TIME, S1_GAME, SOTF_STATE, SOTF_GAME, SOTF_WEATHER, SOTF_ITEMS, DMD, CUPHEAD, ANTIMATTER, PVZ, CELESTE, DRGS, KH3, RF4S, SKY1ST, KSP, FFPR, MCD, STONESHARD, ROGUE_TRADER, BIOSHOCK_INFINITE, SPACE_HAVEN, SNOWRUNNER, GRAVEYARD_KEEPER, NFSMW, TOS, GTA3, GTAVC, BITBURNER, TERRA_INVICTA, PRISON, FF13, SONIC_MANIA, CAVE_STORY_PLUS, CAVE_STORY, LIES_OF_P, TXR, DAVE, MSC, ULTRAKILL, RPGXP, RE5, ANNO1800, FTK, LEGO_TSS, LEGO_CLASSIC, MYZ, CMS21, MEDIEVAL_DYNASTY, MECHANICUS, ORI, OMORI, ENDER_LILIES, SW2, ES2, MOONLIGHTER, WASTELAND2, ATOM, MORTAL_SHELL, MORTAL_SHELL_2, COTW, BEAMNG, FOREST, YAKUZA3, YAKUZA4, YAKUZA5, ISHIN, SALT, DRAKENSANG, ALPHA, TYRANNY, JEDI_FO, SR3, SR4, WD2, FABLE, WANDERING_SWORD, STELLAR_BLADE, PRAGMATA, SLIME_RANCHER, SUBNAUTICA2, HZD, SLEEPING_DOGS, DXMD, ATOMIC_HEART, DISHONORED2, DEATHLOOP, AC_BROTHERHOOD, AC_REVELATIONS, AC3R, AC_LIBERATION, AC_BLACK_FLAG, AC_ROGUE, AC_UNITY, AC_SYNDICATE, AC_ORIGINS, AC_ODYSSEY, DISHONORED1, RDR1, RDR2, SM64, SUPER_METROID, LTTP, WORLDBOX, COREKEEPER, HOLOCURE, POTION_CRAFT, WWZ, ROBOQUEST, CMS18, LONGDRIVE, LONGDRIVE_PROP, XC3, MLDT, SMASH, MK7, SKC];
+pub static SPECS: &[Spec] = &[COTL, FALLOUT_SHELTER, DRG, S1_MONEY, S1_RANK, S1_TIME, S1_GAME, SOTF_STATE, SOTF_GAME, SOTF_WEATHER, SOTF_ITEMS, DMD, CUPHEAD, ANTIMATTER, PVZ, CELESTE, DRGS, KH3, RF4S, SKY1ST, KSP, FFPR, MCD, STONESHARD, ROGUE_TRADER, BIOSHOCK_INFINITE, SPACE_HAVEN, SNOWRUNNER, GRAVEYARD_KEEPER, NFSMW, TOS, GTA3, GTAVC, BITBURNER, TERRA_INVICTA, PRISON, FF13, SONIC_MANIA, CAVE_STORY_PLUS, CAVE_STORY, LIES_OF_P, TXR, DAVE, MSC, ULTRAKILL, RPGXP, RE5, ANNO1800, FTK, LEGO_TSS, LEGO_CLASSIC, MYZ, CMS21, MEDIEVAL_DYNASTY, MECHANICUS, ORI, OMORI, ENDER_LILIES, SW2, ES2, MOONLIGHTER, WASTELAND2, ATOM, MORTAL_SHELL, MORTAL_SHELL_2, COTW, BEAMNG, FOREST, YAKUZA3, YAKUZA4, YAKUZA5, ISHIN, SALT, DRAKENSANG, ALPHA, TYRANNY, JEDI_FO, SR3, SR4, WD2, FABLE, WANDERING_SWORD, STELLAR_BLADE, PRAGMATA, SLIME_RANCHER, SUBNAUTICA2, HZD, SLEEPING_DOGS, DXMD, ATOMIC_HEART, DISHONORED2, DEATHLOOP, AC_BROTHERHOOD, AC_REVELATIONS, AC3R, AC_LIBERATION, AC_BLACK_FLAG, AC_ROGUE, AC_UNITY, AC_SYNDICATE, AC_ORIGINS, AC_ODYSSEY, DISHONORED1, RDR1, RDR2, SM64, SUPER_METROID, LTTP, WORLDBOX, COREKEEPER, HOLOCURE, POTION_CRAFT, WWZ, ROBOQUEST, CMS18, LONGDRIVE, LONGDRIVE_PROP, XC3, MLDT, SMASH, MK7, SKC, UTY];
 
 // ------------------------------------------------------------------ Cult of the Lamb
 
@@ -4276,6 +4276,35 @@ const SKC: Spec = Spec {
             title: "Resources",
             rows: &[("Apple gems", "/Resources/Apple gems"), ("Apple gems bought", "/Resources/Apple gems bought"), ("Red shards", "/Resources/Red shards"), ("Blue shards", "/Resources/Blue shards"), ("Yellow shards", "/Resources/Yellow shards"), ("Rare shards", "/Resources/Rare shards")],
         },
+    ],
+    lists: &[],
+    tables: &[],
+};
+
+// ------------------------------------------------------------------ Undertale Yellow
+
+const UTY: Spec = Spec {
+    name: "Undertale Yellow",
+    tab: "Clover",
+    accent: (255, 222, 0),
+    kind: Some("INI / config"),
+    markers: &["/Save1/Gold", "/Save1/MAXHP", "/Items"],
+    subtitle: "The save file from %LOCALAPPDATA%\\UNDERTALE_YELLOW (the one with Save1 and Items sections). Stats, gold, equipment names, the eight item slots and the play time. Layout from KockaAdmiralac's uty-save-editor.",
+    tiles: &[("Gold", "/Save1/Gold"), ("LV", "/Save1/LV"), ("HP", "/Save1/HP")],
+    sections: &[
+        Section { title: "Stats", rows: &[
+            ("LV", "/Save1/LV"), ("EXP", "/Save1/EXP"), ("Gold", "/Save1/Gold"), ("HP", "/Save1/HP"), ("Max HP", "/Save1/MAXHP"),
+            ("AT (primary)", "/Save1/AT - Primary"), ("AT (ammo)", "/Save1/AT - Secondary"), ("DF (primary)", "/Save1/DFP"), ("DF (accessory)", "/Save1/DFS"),
+            ("PP", "/Save1/PP"), ("Max PP", "/Save1/MAXPP"), ("SP", "/Save1/SP"), ("Max SP", "/Save1/MAXSP"), ("RP", "/Save1/RP"), ("Max RP", "/Save1/MAXRP"),
+        ] },
+        Section { title: "Equipment (names as the game writes them)", rows: &[
+            ("Weapon", "/Save1/Weapon"), ("Ammo", "/Save1/Ammo"), ("Armor", "/Save1/Armor"), ("Accessory", "/Save1/Accessory"),
+        ] },
+        Section { title: "Items", rows: &[
+            ("Slot 1", "/Items/00"), ("Slot 2", "/Items/01"), ("Slot 3", "/Items/02"), ("Slot 4", "/Items/03"),
+            ("Slot 5", "/Items/04"), ("Slot 6", "/Items/05"), ("Slot 7", "/Items/06"), ("Slot 8", "/Items/07"),
+        ] },
+        Section { title: "Progress", rows: &[("Play time (seconds)", "/Playtime/Seconds"), ("Fast travel unlocked", "/Save1/FTravel"), ("Running allowed", "/Save1/playerCanRun")] },
     ],
     lists: &[],
     tables: &[],
