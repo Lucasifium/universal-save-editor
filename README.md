@@ -205,7 +205,7 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 </details>
 
 <details>
-<summary><strong>F</strong> (19)</summary>
+<summary><strong>F</strong> (20)</summary>
 
 | Game | Screen |
 |---|---|
@@ -218,6 +218,7 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 | Final Fantasy Pixel Remaster (I–VI, PC) | *Party*: one save slot, decrypted (PBKDF2 key, Rijndael with a 256-bit block, deflate) with the character and inventory data that the game keeps as text inside it opened too, and encrypted again on save; gil, total gil, steps, battle and chest counters, every character's experience, HP / MP and bonus stats, and the item and key-item counts. Checked on public sample saves of FF I–IV against the reference tool's own decryption; not yet tried in the game |
 | Final Fantasy Resonance | *Party*: Gil and play time; each character's level (shown from the experience), experience, HP, MP, enemies defeated and bonus stats, plus the equipped weapon and armor ids; each Vision's awakening and mastery points; item quantities with a **Max consumables** button (99 each, key items left alone); the artifacts you hold, switched on or off. The save (an SVHD header around AES-256 encrypted Unreal data) is decrypted and encrypted again with its checksum rewritten. The game has no crafting. Checked on a synthetic test save built from the public format notes, not on a real save or in the game |
 | Final Fantasy Tactics | *Ramza* (PlayStation memory card, `.mcs`, `.psx` or `.psv` save): war funds, each unit's job, level, experience, Brave, Faith and equipment, and the count of every weapon, helmet, armor, accessory and item (the save's 64-bit checksum is written again; checked on public saves, not yet tried in the game) |
+| Final Fantasy VI (SNES, emulator `.srm` saves) | *Slots*: gil, steps and play time, every party member's level, HP, MP, experience, stats, esper and equipment, and the inventory's items and quantities (each slot's sum is kept right; checked against the sums of a public save, not yet tried in the game) |
 | Final Fantasy VII (PC / 2013 Steam) | *Party*: each slot's gil and play time; every character's level, experience, kills, limit level and gauge, HP / MP with the base maximum the game builds them from, and the six stats. Slot checksums are updated |
 | Final Fantasy VII Rebirth | Gil, Moogle Medals, Gold Saucer Points and the inventory: add or remove items, crafting materials, chocobo gear and Queen's Blood cards, and change amounts of those and of armor and accessories, with a **Max crafting materials** button (99 each); materia to add or remove, with each one's level and AP. On the *Party* panel each character's level, HP / max HP, MP / max MP and experience |
 | Final Fantasy VII Remake (Intergrade) | Gil, and adding or removing items, armor, accessories and music discs or changing their amounts (key items are shown but left alone, and worn armor stays); materia to add, or to remove when nobody has it equipped. On the *Party* panel each character's level, HP / max HP, MP / max MP and experience |

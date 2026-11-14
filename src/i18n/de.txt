@@ -12310,3 +12310,62 @@ X-ray scope
 Zora's flippers
 = Zora-Flossen
 
+# src/game_ui/simple/specs.rs (Final Fantasy VI SNES)
+
+An emulator's 8 KiB .srm / .sav save. Per slot: gil, steps and play time, every party member's level, HP, MP, experience, stats, esper and equipment, and the inventory's items and quantities.
+= Ein 8-KiB-Spielstand (.srm / .sav) eines Emulators. Pro Spielstand: Gil, Schritte und Spielzeit, Level, KP, MP, Erfahrung, Werte, Esper und Ausrüstung jedes Gruppenmitglieds sowie die Gegenstände und Mengen im Inventar.
+
+Esper
+= Esper
+
+MP
+= MP
+
+Magic power
+= Magie
+
+Relic 1
+= Relikt 1
+
+Relic 2
+= Relikt 2
+
+Speed
+= Tempo
+
+Stamina
+= Ausdauer
+
+Steps
+= Schritte
+
+Vigor
+= Kraft
+
+Slot 1: party
+= Spielstand 1: Gruppe
+
+Slot 1: equipment
+= Spielstand 1: Ausrüstung
+
+Slot 1: inventory
+= Spielstand 1: Inventar
+
+Slot 2: party
+= Spielstand 2: Gruppe
+
+Slot 2: equipment
+= Spielstand 2: Ausrüstung
+
+Slot 2: inventory
+= Spielstand 2: Inventar
+
+Slot 3: party
+= Spielstand 3: Gruppe
+
+Slot 3: equipment
+= Spielstand 3: Ausrüstung
+
+Slot 3: inventory
+= Spielstand 3: Inventar
+

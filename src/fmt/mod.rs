@@ -218,6 +218,7 @@ pub mod smash64;
 pub mod n64data;
 pub mod rare;
 pub mod supermetroid;
+pub mod ff6snes;
 pub mod zelda_lttp;
 pub mod alphaprotocol;
 pub mod isaac;
@@ -525,6 +526,11 @@ pub fn parse_binary(d: &[u8]) -> Option<TreeDoc> {
     }
     if supermetroid::looks(d) {
         if let Ok(t) = supermetroid::parse(d) {
+            return Some(t);
+        }
+    }
+    if ff6snes::looks(d) {
+        if let Ok(t) = ff6snes::parse(d) {
             return Some(t);
         }
     }

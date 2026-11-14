@@ -12324,3 +12324,62 @@ X-ray scope
 Zora's flippers
 = Palmes Zora
 
+# src/game_ui/simple/specs.rs (Final Fantasy VI SNES)
+
+An emulator's 8 KiB .srm / .sav save. Per slot: gil, steps and play time, every party member's level, HP, MP, experience, stats, esper and equipment, and the inventory's items and quantities.
+= Une sauvegarde de 8 Kio (.srm / .sav) d'émulateur. Par emplacement : gils, pas et temps de jeu, niveau, PV, PM, expérience, caractéristiques, esper et équipement de chaque membre du groupe, et les objets et quantités de l'inventaire.
+
+Esper
+= Esper
+
+MP
+= PM
+
+Magic power
+= Pouvoir magique
+
+Relic 1
+= Relique 1
+
+Relic 2
+= Relique 2
+
+Speed
+= Vitesse
+
+Stamina
+= Endurance
+
+Steps
+= Pas
+
+Vigor
+= Vigueur
+
+Slot 1: party
+= Emplacement 1 : groupe
+
+Slot 1: equipment
+= Emplacement 1 : équipement
+
+Slot 1: inventory
+= Emplacement 1 : inventaire
+
+Slot 2: party
+= Emplacement 2 : groupe
+
+Slot 2: equipment
+= Emplacement 2 : équipement
+
+Slot 2: inventory
+= Emplacement 2 : inventaire
+
+Slot 3: party
+= Emplacement 3 : groupe
+
+Slot 3: equipment
+= Emplacement 3 : équipement
+
+Slot 3: inventory
+= Emplacement 3 : inventaire
+

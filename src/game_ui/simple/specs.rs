@@ -9,7 +9,11 @@ pub static SPECS: &[Spec] = &[OPENXCOM, XCOM_DOS, RCT2, COTL, FALLOUT_SHELTER, D
     // PlayStation 1 and 2 (ps_specs.rs)
     SOTN, FF8, FFT, RE1, KH2, MK64, GOLDENEYE, BANJO_KAZOOIE, OOT, SMASH64, TORCHLIGHT3, WRECKFEST, EVIL_WITHIN, BORDERLANDS1,
     // PlayStation 1 and 2 (ps_specs.rs), continued
+<<<<<<< HEAD
     CRASH, KH1, GT1, BL4,];
+=======
+    CRASH, KH1, GT1, FF6_SNES];
+>>>>>>> 30e99f68 (Game screen for Final Fantasy VI (SNES) emulator saves)
 // ------------------------------------------------------------------ Cult of the Lamb
 
 const COTL_ITEMS: &[(&str, &str)] = &[
@@ -6980,6 +6984,7 @@ const BORDERLANDS1: Spec = Spec {
     ],
 };
 
+<<<<<<< HEAD
 // ------------------------------------------------------------------ Borderlands 4
 const BL4: Spec = Spec {
     name: "Borderlands 4",
@@ -7020,4 +7025,51 @@ const BL4: Spec = Spec {
     ],
     lists: &[],
     tables: &[],
+=======
+// ------------------------------------------------------------------ Final Fantasy VI (SNES)
+
+const FF6_SNES: Spec = Spec {
+    name: "Final Fantasy VI (SNES)",
+    tab: "Party",
+    accent: (70, 110, 200),
+    kind: Some(crate::fmt::ff6snes::KIND),
+    markers: &["/Info/Slots in use"],
+    subtitle: tx("An emulator's 8 KiB .srm / .sav save. Per slot: gil, steps and play time, every party member's level, HP, MP, experience, stats, esper and equipment, and the inventory's items and quantities."),
+    tiles: &[(tx("Slots in use"), "/Info/Slots in use")],
+    sections: &[
+    Section { title: tx("Slot 1"), rows: &[
+        (tx("Money"), "/Slot 1/Game/Money"),
+        (tx("Steps"), "/Slot 1/Game/Steps"),
+        (tx("Play time hours"), "/Slot 1/Game/Play time hours"),
+        (tx("Play time minutes"), "/Slot 1/Game/Play time minutes"),
+        (tx("Play time seconds"), "/Slot 1/Game/Play time seconds"),
+    ] },
+    Section { title: tx("Slot 2"), rows: &[
+        (tx("Money"), "/Slot 2/Game/Money"),
+        (tx("Steps"), "/Slot 2/Game/Steps"),
+        (tx("Play time hours"), "/Slot 2/Game/Play time hours"),
+        (tx("Play time minutes"), "/Slot 2/Game/Play time minutes"),
+        (tx("Play time seconds"), "/Slot 2/Game/Play time seconds"),
+    ] },
+    Section { title: tx("Slot 3"), rows: &[
+        (tx("Money"), "/Slot 3/Game/Money"),
+        (tx("Steps"), "/Slot 3/Game/Steps"),
+        (tx("Play time hours"), "/Slot 3/Game/Play time hours"),
+        (tx("Play time minutes"), "/Slot 3/Game/Play time minutes"),
+        (tx("Play time seconds"), "/Slot 3/Game/Play time seconds"),
+    ] },
+    ],
+    lists: &[],
+    tables: &[
+    Table { title: tx("Slot 1: party"), path: "/Slot 1/Party", name: &[], cols: &[(tx("Level"), "/Level"), (tx("HP"), "/HP"), (tx("Max HP"), "/Max HP"), (tx("MP"), "/MP"), (tx("Max MP"), "/Max MP"), (tx("Experience"), "/Experience"), (tx("Vigor"), "/Vigor"), (tx("Speed"), "/Speed"), (tx("Stamina"), "/Stamina"), (tx("Magic power"), "/Magic power"), (tx("Esper"), "/Esper")], only: &[], names: &[] },
+    Table { title: tx("Slot 1: equipment"), path: "/Slot 1/Equipment", name: &[], cols: &[(tx("Right hand"), "/Right hand"), (tx("Left hand"), "/Left hand"), (tx("Head"), "/Head"), (tx("Body"), "/Body"), (tx("Relic 1"), "/Relic 1"), (tx("Relic 2"), "/Relic 2")], only: &[], names: &[] },
+    Table { title: tx("Slot 1: inventory"), path: "/Slot 1/Inventory", name: &[], cols: &[(tx("Item"), "/Item"), (tx("Quantity"), "/Quantity")], only: &[], names: &[] },
+    Table { title: tx("Slot 2: party"), path: "/Slot 2/Party", name: &[], cols: &[(tx("Level"), "/Level"), (tx("HP"), "/HP"), (tx("Max HP"), "/Max HP"), (tx("MP"), "/MP"), (tx("Max MP"), "/Max MP"), (tx("Experience"), "/Experience"), (tx("Vigor"), "/Vigor"), (tx("Speed"), "/Speed"), (tx("Stamina"), "/Stamina"), (tx("Magic power"), "/Magic power"), (tx("Esper"), "/Esper")], only: &[], names: &[] },
+    Table { title: tx("Slot 2: equipment"), path: "/Slot 2/Equipment", name: &[], cols: &[(tx("Right hand"), "/Right hand"), (tx("Left hand"), "/Left hand"), (tx("Head"), "/Head"), (tx("Body"), "/Body"), (tx("Relic 1"), "/Relic 1"), (tx("Relic 2"), "/Relic 2")], only: &[], names: &[] },
+    Table { title: tx("Slot 2: inventory"), path: "/Slot 2/Inventory", name: &[], cols: &[(tx("Item"), "/Item"), (tx("Quantity"), "/Quantity")], only: &[], names: &[] },
+    Table { title: tx("Slot 3: party"), path: "/Slot 3/Party", name: &[], cols: &[(tx("Level"), "/Level"), (tx("HP"), "/HP"), (tx("Max HP"), "/Max HP"), (tx("MP"), "/MP"), (tx("Max MP"), "/Max MP"), (tx("Experience"), "/Experience"), (tx("Vigor"), "/Vigor"), (tx("Speed"), "/Speed"), (tx("Stamina"), "/Stamina"), (tx("Magic power"), "/Magic power"), (tx("Esper"), "/Esper")], only: &[], names: &[] },
+    Table { title: tx("Slot 3: equipment"), path: "/Slot 3/Equipment", name: &[], cols: &[(tx("Right hand"), "/Right hand"), (tx("Left hand"), "/Left hand"), (tx("Head"), "/Head"), (tx("Body"), "/Body"), (tx("Relic 1"), "/Relic 1"), (tx("Relic 2"), "/Relic 2")], only: &[], names: &[] },
+    Table { title: tx("Slot 3: inventory"), path: "/Slot 3/Inventory", name: &[], cols: &[(tx("Item"), "/Item"), (tx("Quantity"), "/Quantity")], only: &[], names: &[] },
+    ],
+>>>>>>> 30e99f68 (Game screen for Final Fantasy VI (SNES) emulator saves)
 };

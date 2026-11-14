@@ -12309,3 +12309,62 @@ X-ray scope
 Zora's flippers
 = Aletas Zora
 
+# src/game_ui/simple/specs.rs (Final Fantasy VI SNES)
+
+An emulator's 8 KiB .srm / .sav save. Per slot: gil, steps and play time, every party member's level, HP, MP, experience, stats, esper and equipment, and the inventory's items and quantities.
+= Un guardado de 8 KiB (.srm / .sav) de un emulador. Por ranura: guiles, pasos y tiempo de juego, nivel, PS, PM, experiencia, atributos, esper y equipo de cada miembro del grupo, y los objetos y cantidades del inventario.
+
+Esper
+= Esper
+
+MP
+= PM
+
+Magic power
+= Poder mágico
+
+Relic 1
+= Reliquia 1
+
+Relic 2
+= Reliquia 2
+
+Speed
+= Velocidad
+
+Stamina
+= Vitalidad
+
+Steps
+= Pasos
+
+Vigor
+= Vigor
+
+Slot 1: party
+= Ranura 1: grupo
+
+Slot 1: equipment
+= Ranura 1: equipo
+
+Slot 1: inventory
+= Ranura 1: inventario
+
+Slot 2: party
+= Ranura 2: grupo
+
+Slot 2: equipment
+= Ranura 2: equipo
+
+Slot 2: inventory
+= Ranura 2: inventario
+
+Slot 3: party
+= Ranura 3: grupo
+
+Slot 3: equipment
+= Ranura 3: equipo
+
+Slot 3: inventory
+= Ranura 3: inventario
+

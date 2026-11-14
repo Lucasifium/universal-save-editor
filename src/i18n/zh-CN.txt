@@ -12374,3 +12374,62 @@ X-ray scope
 Zora's flippers
 = 卓拉脚蹼
 
+# src/game_ui/simple/specs.rs (Final Fantasy VI SNES)
+
+An emulator's 8 KiB .srm / .sav save. Per slot: gil, steps and play time, every party member's level, HP, MP, experience, stats, esper and equipment, and the inventory's items and quantities.
+= 模拟器的 8 KiB .srm / .sav 存档。每个存档位:金币(Gil)、步数和游戏时间,每位队员的等级、HP、MP、经验、属性、幻兽和装备,以及背包中的道具和数量。
+
+Esper
+= 幻兽
+
+MP
+= MP
+
+Magic power
+= 魔力
+
+Relic 1
+= 遗物 1
+
+Relic 2
+= 遗物 2
+
+Speed
+= 速度
+
+Stamina
+= 耐力
+
+Steps
+= 步数
+
+Vigor
+= 力量
+
+Slot 1: party
+= 存档位 1:队伍
+
+Slot 1: equipment
+= 存档位 1:装备
+
+Slot 1: inventory
+= 存档位 1:背包
+
+Slot 2: party
+= 存档位 2:队伍
+
+Slot 2: equipment
+= 存档位 2:装备
+
+Slot 2: inventory
+= 存档位 2:背包
+
+Slot 3: party
+= 存档位 3:队伍
+
+Slot 3: equipment
+= 存档位 3:装备
+
+Slot 3: inventory
+= 存档位 3:背包
+

@@ -12295,3 +12295,62 @@ GameUnlocks.dat in Documents\\Streets of Rogue\\CloudData. Nuggets buy unlocks; 
 Zora's flippers
 = Nadadeiras Zora
 
+# src/game_ui/simple/specs.rs (Final Fantasy VI SNES)
+
+An emulator's 8 KiB .srm / .sav save. Per slot: gil, steps and play time, every party member's level, HP, MP, experience, stats, esper and equipment, and the inventory's items and quantities.
+= Um save de 8 KiB (.srm / .sav) de emulador. Por slot: gil, passos e tempo de jogo, nível, PV, PM, experiência, atributos, esper e equipamento de cada membro do grupo, e os itens e quantidades do inventário.
+
+Esper
+= Esper
+
+MP
+= PM
+
+Magic power
+= Poder mágico
+
+Relic 1
+= Relíquia 1
+
+Relic 2
+= Relíquia 2
+
+Speed
+= Velocidade
+
+Stamina
+= Vitalidade
+
+Steps
+= Passos
+
+Vigor
+= Vigor
+
+Slot 1: party
+= Slot 1: grupo
+
+Slot 1: equipment
+= Slot 1: equipamento
+
+Slot 1: inventory
+= Slot 1: inventário
+
+Slot 2: party
+= Slot 2: grupo
+
+Slot 2: equipment
+= Slot 2: equipamento
+
+Slot 2: inventory
+= Slot 2: inventário
+
+Slot 3: party
+= Slot 3: grupo
+
+Slot 3: equipment
+= Slot 3: equipamento
+
+Slot 3: inventory
+= Slot 3: inventário
+

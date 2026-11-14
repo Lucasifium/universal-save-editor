@@ -12398,3 +12398,62 @@ GameUnlocks.dat in Documents\\Streets of Rogue\\CloudData. Nuggets buy unlocks; 
 Zora's flippers
 = ゾーラのヒレ
 
+# src/game_ui/simple/specs.rs (Final Fantasy VI SNES)
+
+An emulator's 8 KiB .srm / .sav save. Per slot: gil, steps and play time, every party member's level, HP, MP, experience, stats, esper and equipment, and the inventory's items and quantities.
+= エミュレーターの 8 KiB の .srm / .sav セーブ。スロットごとに、ギル、歩数、プレイ時間、パーティ各メンバーのレベル、HP、MP、経験値、能力値、幻獣と装備、そしてインベントリのアイテムと個数。
+
+Esper
+= 幻獣
+
+MP
+= MP
+
+Magic power
+= 魔力
+
+Relic 1
+= 装飾品 1
+
+Relic 2
+= 装飾品 2
+
+Speed
+= 素早さ
+
+Stamina
+= 体力
+
+Steps
+= 歩数
+
+Vigor
+= 力
+
+Slot 1: party
+= スロット 1: パーティ
+
+Slot 1: equipment
+= スロット 1: 装備
+
+Slot 1: inventory
+= スロット 1: インベントリ
+
+Slot 2: party
+= スロット 2: パーティ
+
+Slot 2: equipment
+= スロット 2: 装備
+
+Slot 2: inventory
+= スロット 2: インベントリ
+
+Slot 3: party
+= スロット 3: パーティ
+
+Slot 3: equipment
+= スロット 3: 装備
+
+Slot 3: inventory
+= スロット 3: インベントリ
+
