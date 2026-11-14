@@ -12383,3 +12383,3025 @@ Slot 3: equipment
 Slot 3: inventory
 = Emplacement 3 : inventaire
 
+# generic names and labels
+
+A rescued NPC can move in once there's a free house.
+= Un PNJ sauvé peut emménager dès qu'une maison est libre.
+
+A squad of another faction
+= Une escouade d'une autre faction
+
+AMOUNT
+= QUANTITÉ
+
+AREA
+= ZONE
+
+ARMOR
+= ARMURE
+
+ATTACK
+= ATTAQUE
+
+Ability
+= Capacité
+
+Act
+= Acte
+
+Adamantite Scrap
+= Adamantite Scrap
+
+Adaptability
+= Adaptabilité
+
+Administrative
+= Administratif
+
+Aegir's Gold
+= Aegir's Gold
+
+Aeonian Butterfly
+= Aeonian Butterfly
+
+Aeons
+= Aeons
+
+Aigis
+= Aigis
+
+Aim
+= Visée
+
+Air experience
+= Expérience aérienne
+
+Akechi
+= Akechi
+
+Akihiko
+= Akihiko
+
+Albinauric Bloodclot
+= Albinauric Bloodclot
+
+Alive
+= Vivant
+
+All nail arts
+= Tous les arts du clou
+
+All sections
+= Toutes les sections
+
+Alloys
+= Alliages
+
+Also change Neutronium
+= Modifier aussi le Neutronium
+
+Altus Bloom
+= Altus Bloom
+
+Ambrosia
+= Ambrosia
+
+Ancient Dragon Smithing Stone
+= Ancient Dragon Smithing Stone
+
+Animal Whisperer
+= Animal Whisperer
+
+Animals
+= Animaux
+
+Ann
+= Ann
+
+Arcanas
+= Arcanes
+
+Arcane
+= Arcane
+
+Architect
+= Architecte
+
+Armor & accessories
+= Armure et accessoires
+
+Armor 1
+= Armure 1
+
+Armor 2
+= Armure 2
+
+Armor DF
+= Armure DF
+
+Armor Modding
+= Modification d'armure
+
+Armour
+= Armure
+
+Army experience
+= Expérience de l'armée
+
+Army tradition
+= Tradition de l'armée
+
+Arteria Leaf
+= Arteria Leaf
+
+Ascension level
+= Niveau d'ascension
+
+Asgardian Ingot
+= Asgardian Ingot
+
+Ash
+= Cendre
+
+Ashen One
+= Ashen One
+
+Assurance
+= Assurance
+
+Atk
+= Att
+
+Attunement
+= Harmonie
+
+Autocrafter unlocked
+= Autocrafter débloqué
+
+Automatic Weapons
+= Armes automatiques
+
+Autosave
+= Sauvegarde auto
+
+Available action points
+= Points d'action disponibles
+
+Awoken Dream Nail
+= Awoken Dream Nail
+
+BANISH
+= BANNIR
+
+Backpack SDU
+= Sac à dos SDU
+
+Balatro
+= Balatro
+
+Baldur Shell
+= Baldur Shell
+
+Baldur's Gate / Icewind Dale (Enhanced Edition)
+= Baldur's Gate / Icewind Dale (Enhanced Edition)
+
+Banish
+= Bannir
+
+Bank SDU
+= Banque SDU
+
+Base
+= Base
+
+Base 
+= Base 
+
+Base Development
+= Développement de la base
+
+Base FP
+= FP de base
+
+Base HP
+= PV de base
+
+Base accuracy
+= Précision de base
+
+Base agility
+= Agilité de base
+
+Base defense
+= Défense de base
+
+Base evasion
+= Esquive de base
+
+Base luck
+= Chance de base
+
+Base magic
+= Magie de base
+
+Base magic defense
+= Défense magique de base
+
+Base masks
+= Masques de base
+
+Base max HP
+= PV max de base
+
+Base max MP
+= PM max de base
+
+Base strength
+= Force de base
+
+Bases
+= Bases
+
+Bat Wing
+= Aile de chauve-souris
+
+Battery Pack
+= Bloc de batteries
+
+Battle Items
+= Objets de combat
+
+Bearer of the Curse
+= Bearer of the Curse
+
+Beast
+= Bête
+
+Beast Blood
+= Beast Blood
+
+Beast Bones
+= Beast Bones
+
+Beast Liver
+= Beast Liver
+
+Beast Scraps
+= Beast Scraps
+
+Beginner's luck
+= Chance du débutant
+
+Bench scene
+= Scène du banc
+
+Berries
+= Baies
+
+Bilebag
+= Bilebag
+
+Bioelectric energy
+= Énergie bioélectrique
+
+Biological materials
+= Matériaux biologiques
+
+Biomes found
+= Biomes découverts
+
+Black Gunpowder
+= Poudre noire
+
+Blackwood
+= Blackwood
+
+Blazing Embers
+= Blazing Embers
+
+Blood-Tainted Excrement
+= Blood-Tainted Excrement
+
+Bloodbag
+= Bloodbag
+
+Bloodrose
+= Bloodrose
+
+Blue Titanite Chunk
+= Blue Titanite Chunk
+
+Blue Titanite Slab
+= Blue Titanite Slab
+
+Blueprints
+= Plans
+
+Bonded Leather
+= Bonded Leather
+
+Bone Fragment
+= Fragment d'os
+
+Bones
+= Os
+
+Border
+= Bordure
+
+Borderlands 3
+= Borderlands 3
+
+Bosses & events
+= Boss et événements
+
+Bosses defeated
+= Boss vaincus
+
+Bought in total
+= Total acheté
+
+Boulder
+= Rocher
+
+Brawling
+= Bagarre
+
+Breath
+= Souffle
+
+Brig
+= Brick
+
+Brigadier
+= Brigadier
+
+Brightness
+= Luminosité
+
+Bronze
+= Bronze
+
+Budding Cave Moss
+= Budding Cave Moss
+
+Budding Horn
+= Budding Horn
+
+Bug Meat
+= Viande d'insecte
+
+Builds
+= Builds
+
+Bunk beds
+= Lits superposés
+
+Busts
+= Bustes
+
+Byakue's Talisman
+= Byakue's Talisman
+
+CHA
+= CHA
+
+CON
+= CON
+
+COOLDOWN
+= TEMPS DE RECHARGE
+
+CURSE
+= MALÉDICTION
+
+Cabaret takings (Sotenbori)
+= Recettes du cabaret (Sotenbori)
+
+Cairn save
+= Sauvegarde de Cairn
+
+Campaign
+= Campagne
+
+Camping
+= Camping
+
+Capital state
+= État de la capitale
+
+Captain
+= Capitaine
+
+Carapace
+= Carapace
+
+Carbohydrates
+= Glucides
+
+Cascade
+= Cascade
+
+Casino coins
+= Jetons de casino
+
+Cave Moss
+= Cave Moss
+
+Celestial Fossil
+= Celestial Fossil
+
+Chain
+= Chaîne
+
+Chapter 1
+= Chapitre 1
+
+Chapter 2, 3 or 4
+= Chapitre 2, 3 ou 4
+
+Character & ship
+= Personnage et navire
+
+Characters bought
+= Personnages achetés
+
+Characters unlocked
+= Personnages débloqués
+
+Charm notches
+= Emplacements d'amulette
+
+Chemicals
+= Produits chimiques
+
+Chestplate
+= Plastron
+
+Chitin
+= Chitine
+
+Chosen Undead
+= Chosen Undead
+
+Chthonic Keys
+= Chthonic Keys
+
+City Crest
+= City Crest
+
+Civil ability points
+= Points de capacité civile
+
+Civilization
+= Civilisation
+
+Civilization VI save
+= Sauvegarde de Civilization VI
+
+Clair Obscur: Expedition 33
+= Clair Obscur: Expedition 33
+
+Clawline
+= Clawline
+
+Clay
+= Argile
+
+Clear germs
+= Éliminer les germes
+
+Click an item to change it or its quantity, or an empty slot to add one.
+= Cliquez sur un objet pour le modifier ou changer sa quantité, ou sur un emplacement vide pour en ajouter un.
+
+Click to add it to the ship
+= Cliquez pour l'ajouter au navire
+
+Cling Grip
+= Cling Grip
+
+Coal
+= Charbon
+
+Collectables
+= Objets de collection
+
+Colonel
+= Colonel
+
+Colony
+= Colonie
+
+Colour depth
+= Profondeur des couleurs
+
+Colour palette
+= Palette de couleurs
+
+Combat
+= Combat
+
+Combat Shooting
+= Tir de combat
+
+Combat ability points
+= Points de capacité de combat
+
+Commander
+= Commandant
+
+Company Building
+= Construction de l'entreprise
+
+Completed hurries
+= Accélérations terminées
+
+Components
+= Composants
+
+Consumable slots
+= Emplacements de consommables
+
+Consumer goods
+= Biens de consommation
+
+Cooldown
+= Temps de recharge
+
+Copper
+= Cuivre
+
+Copper Bar
+= Lingot de cuivre
+
+Copper Ore
+= Minerai de cuivre
+
+Corporal
+= Caporal
+
+Cotton Cloth
+= Tissu de coton
+
+Cozy lights
+= Lumières chaleureuses
+
+Crab Eggs
+= Œufs de crabe
+
+Cracked Crystal
+= Cracked Crystal
+
+Crafting kit upgrades
+= Améliorations du kit d'artisanat
+
+Crafts
+= Fabrications
+
+Creative
+= Créatif
+
+Crew
+= Équipage
+
+Crew size
+= Taille de l'équipage
+
+Crusader Kings II save
+= Sauvegarde de Crusader Kings II
+
+Crusader Kings III save
+= Sauvegarde de Crusader Kings III
+
+Crystal Bud
+= Crystal Bud
+
+Crystal Cave Moss
+= Crystal Cave Moss
+
+Crystal Heart
+= Crystal Heart
+
+Crystalline Fragment
+= Crystalline Fragment
+
+Crystalline Shard
+= Crystalline Shard
+
+Cunning
+= Ruse
+
+Cupboard
+= Placard
+
+Current FP
+= FP actuels
+
+Current HP
+= PV actuels
+
+Current MP
+= PM actuels
+
+Current moon (number)
+= Lune actuelle (numéro)
+
+Curse
+= Malédiction
+
+Custom
+= Personnalisé
+
+Cyberpunk 2077 game data
+= Données de jeu de Cyberpunk 2077
+
+Cyclone Slash
+= Cyclone Slash
+
+Cyclops
+= Cyclope
+
+DEFENSE
+= DÉFENSE
+
+DNA
+= ADN
+
+DURATION
+= DURÉE
+
+Dandelion
+= Pissenlit
+
+Dark Souls
+= Dark Souls
+
+Dark Souls II
+= Dark Souls II
+
+Dark Souls II character
+= Personnage de Dark Souls II
+
+Dark Souls III
+= Dark Souls III
+
+Dark Souls III character
+= Personnage de Dark Souls III
+
+Dark Souls character
+= Personnage de Dark Souls
+
+Darkest Dungeon estate
+= Domaine de Darkest Dungeon
+
+Darkest Dungeon roster
+= Effectif de Darkest Dungeon
+
+Darkness
+= Ténèbres
+
+Dash Slash
+= Dash Slash
+
+Dashmaster
+= Dashmaster
+
+Dead
+= Mort
+
+Dead Rising 2
+= Dead Rising 2
+
+Dead Rising 2: Off the Record
+= Dead Rising 2: Off the Record
+
+Deaths (enemies)
+= Morts (ennemis)
+
+Deaths (players)
+= Morts (joueurs)
+
+Deck
+= Deck
+
+Deeds
+= Exploits
+
+Deep Focus
+= Deep Focus
+
+Def
+= Déf
+
+Defeated
+= Vaincu
+
+Defender's Crest
+= Defender's Crest
+
+Defender's Forge
+= Defender's Forge
+
+Demon Titanite
+= Demon Titanite
+
+Descriptor
+= Descripteur
+
+Desolate Dive / Descending Dark (0 to 2)
+= Desolate Dive / Descending Dark (0 à 2)
+
+Deus Ex map save
+= Sauvegarde de carte de Deus Ex
+
+Deus Ex save info
+= Infos de sauvegarde de Deus Ex
+
+Devotion points
+= Points de dévotion
+
+Devotions
+= Dévotions
+
+Dewkissed Herba
+= Dewkissed Herba
+
+Diablo II character
+= Personnage de Diablo II
+
+Diamonds
+= Diamants
+
+Dig out (vacuum)
+= Creuser (vide)
+
+Dim unexplored
+= Assombrir l'inexploré
+
+Dine
+= Dîner
+
+Diplomatic
+= Diplomatique
+
+Discards left
+= Défausses restantes
+
+Dohatsu-ten's Horn
+= Dohatsu-ten's Horn
+
+Dragon Age: Origins
+= Dragon Age: Origins
+
+Dragon Claw
+= Dragon Claw
+
+Dragon Scale
+= Dragon Scale
+
+Drain liquid
+= Évacuer le liquide
+
+Dream Gate
+= Dream Gate
+
+Dream Nail
+= Dream Nail
+
+Dream Wielder
+= Dream Wielder
+
+Dreamshield
+= Dreamshield
+
+Drifter's Cloak
+= Drifter's Cloak
+
+Drones unlocked
+= Drones débloqués
+
+Duration
+= Durée
+
+Dwarven Steel
+= Dwarven Steel
+
+Dye Chestplate
+= Dye Chestplate
+
+Dye Helmet
+= Dye Helmet
+
+Dye Leggings
+= Dye Leggings
+
+Dyes
+= Teintures
+
+Dying Light save
+= Sauvegarde de Dying Light
+
+Dying Light save (2015)
+= Sauvegarde de Dying Light (2015)
+
+Each dew adds to one of Kratos's stats.
+= Chaque rosée augmente l'une des statistiques de Kratos.
+
+Easy
+= Facile
+
+Egg
+= Œuf
+
+Eitr
+= Eitr
+
+Elden Ring
+= Elden Ring
+
+Elden Ring character
+= Personnage d'Elden Ring
+
+Elements
+= Éléments
+
+Empire
+= Empire
+
+Erase block
+= Effacer le bloc
+
+Erase wall
+= Effacer le mur
+
+Erdleaf Flower
+= Erdleaf Flower
+
+Essence
+= Essence
+
+Essentials
+= Essentiels
+
+Estate items
+= Objets du domaine
+
+Europa Universalis III save
+= Sauvegarde de Europa Universalis III
+
+Europa Universalis IV save
+= Sauvegarde de Europa Universalis IV
+
+Events
+= Événements
+
+Every crafting material is already a full stack.
+= Chaque matériau d'artisanat est déjà une pile complète.
+
+Everything unlocked
+= Tout est débloqué
+
+Everything you have that matches, from every list. Click one to change it.
+= Tout ce que vous possédez qui correspond, de toutes les listes. Cliquez sur un élément pour le modifier.
+
+Exp
+= Exp
+
+Expedition
+= Expédition
+
+Experience toward next level
+= Expérience pour le niveau suivant
+
+Experimentation
+= Expérimentation
+
+Explosives
+= Explosifs
+
+Eye of Yelough
+= Eye of Yelough
+
+Facilities
+= Installations
+
+Faction
+= Faction
+
+Faction materials
+= Matériaux de faction
+
+Faded Erdleaf Flower
+= Faded Erdleaf Flower
+
+Fallout 1 save
+= Sauvegarde de Fallout 1
+
+Fallout 2 save
+= Sauvegarde de Fallout 2
+
+Fame level
+= Niveau de renommée
+
+Families
+= Familles
+
+Fat
+= Graisse
+
+Faydown Cloak
+= Faydown Cloak
+
+Feathers
+= Plumes
+
+Felix
+= Felix
+
+Fiber
+= Fibre
+
+File cabinet
+= Classeur
+
+Files and key items
+= Fichiers et objets clés
+
+Filter
+= Filtre
+
+Final Fantasy IX save
+= Sauvegarde de Final Fantasy IX
+
+Final Fantasy VII Rebirth save
+= Sauvegarde de Final Fantasy VII Rebirth
+
+Final Fantasy VII Remake save
+= Sauvegarde de Final Fantasy VII Remake
+
+Final Fantasy VII save
+= Sauvegarde de Final Fantasy VII
+
+Final Fantasy X save
+= Sauvegarde de Final Fantasy X
+
+Final Fantasy X-2 save
+= Sauvegarde de Final Fantasy X-2
+
+Final Fantasy XVI
+= Final Fantasy XVI
+
+Fine Silk Cloth
+= Fine Silk Cloth
+
+Fire Blossom
+= Fire Blossom
+
+Fish
+= Poisson
+
+Fishing
+= Pêche
+
+Flashlight
+= Lampe de poche
+
+Flight Pinion
+= Flight Pinion
+
+Flint
+= Silex
+
+Floor
+= Étage
+
+Floral Scents
+= Floral Scents
+
+Flukenest
+= Flukenest
+
+Folkvangr Whetstone
+= Folkvangr Whetstone
+
+Food Poisoning
+= Intoxication alimentaire
+
+Foraging
+= Cueillette
+
+Forged Iron
+= Forged Iron
+
+Former Geophysics Research Lab
+= Former Geophysics Research Lab
+
+Formic Rock
+= Formic Rock
+
+Fortified Remnants
+= Fortified Remnants
+
+Four-Toed Fowl Foot
+= Four-Toed Fowl Foot
+
+Fragile Greed
+= Fragile Greed
+
+Fragile Heart
+= Fragile Heart
+
+Fragile Strength
+= Fragile Strength
+
+Fragile cargo
+= Cargaison fragile
+
+Frame rate
+= Fréquence d'images
+
+Free crafting
+= Fabrication gratuite
+
+Freedom
+= Liberté
+
+Fuel (0–1)
+= Carburant (0–1)
+
+Fuel efficiency
+= Efficacité énergétique
+
+Fuel tank
+= Réservoir
+
+Fulgurbloom
+= Fulgurbloom
+
+Fullscreen (1 on)
+= Plein écran (1 = activé)
+
+Fulminated Mercury
+= Fulminated Mercury
+
+Fury of the Fallen
+= Fury of the Fallen
+
+Fusion
+= Fusion
+
+Futaba
+= Futaba
+
+Fuuka
+= Fuuka
+
+GREED
+= CUPIDITÉ
+
+GROWTH
+= CROISSANCE
+
+Garet
+= Garet
+
+Gathering Swarm
+= Gathering Swarm
+
+Gemstones
+= Pierres précieuses
+
+Gender
+= Genre
+
+Geo
+= Geo
+
+Geralt
+= Geralt
+
+Germs
+= Germes
+
+Glacier
+= Glacier
+
+Gleaming Crystal
+= Gleaming Crystal
+
+Glintstone Firefly
+= Glintstone Firefly
+
+Glowing Embers
+= Glowing Embers
+
+Glowing Womb
+= Glowing Womb
+
+God of War Ragnarök save
+= Sauvegarde de God of War Ragnarök
+
+God of War save
+= Sauvegarde de God of War
+
+Gold (this run)
+= Or (cette session)
+
+Gold Bar
+= Lingot d'or
+
+Gold Firefly
+= Gold Firefly
+
+Gold Ore
+= Minerai d'or
+
+Gold Saucer Points
+= Points du Gold Saucer
+
+Gold-Tinged Excrement
+= Gold-Tinged Excrement
+
+Golden Centipede
+= Golden Centipede
+
+Golden Rowa
+= Golden Rowa
+
+Golden Sun
+= Golden Sun
+
+Golden Sun: The Lost Age
+= Golden Sun: The Lost Age
+
+Golden Sunflower
+= Golden Sunflower
+
+Golden eggs
+= Œufs d'or
+
+Goldfish
+= Poisson rouge
+
+Grausten
+= Grausten
+
+Grave Violet
+= Grave Violet
+
+Gravel Stone
+= Gravel Stone
+
+Great Dragonfly Head
+= Great Dragonfly Head
+
+Great Ghost Glovewort
+= Great Ghost Glovewort
+
+Great Grave Glovewort
+= Great Grave Glovewort
+
+Great Slash
+= Great Slash
+
+Greed
+= Greed
+
+Green Titanite Shard
+= Green Titanite Shard
+
+Green suit
+= Combinaison verte
+
+Grim Dawn character
+= Personnage de Grim Dawn
+
+Grimmchild
+= Grimmchild
+
+Grimmchild level
+= Niveau de Grimmchild
+
+Grubberfly's Elegy
+= Grubberfly's Elegy
+
+Grubs rescued
+= Grubs sauvés
+
+Grubsong
+= Grubsong
+
+Gryffindor
+= Gryffondor
+
+Guck
+= Guck
+
+Guests and other characters
+= Invités et autres personnages
+
+Guts
+= Cran
+
+HP healed
+= HP soignés
+
+Hades
+= Hades
+
+Hades II
+= Hades II
+
+Half-Life: Alyx
+= Half-Life: Alyx
+
+Half-Life: Blue Shift
+= Half-Life: Blue Shift
+
+Half-Life: Opposing Force
+= Half-Life: Opposing Force
+
+Hamlet
+= Hamlet
+
+Hands left
+= Mains restantes
+
+Hard
+= Difficile
+
+Hard Ass
+= Hard Ass
+
+Hardened Remnants
+= Hardened Remnants
+
+Hardmode
+= Mode difficile
+
+Hardwood
+= Bois dur
+
+Haru
+= Haru
+
+Has the crown (0 or 1)
+= Possède la couronne (0 ou 1)
+
+Hazard suit
+= Combinaison de protection
+
+Heartman's Lab
+= Heartman's Lab
+
+Hearts of Iron IV save
+= Sauvegarde de Hearts of Iron IV
+
+Heat
+= Chaleur
+
+Heavy Blow
+= Heavy Blow
+
+Heavy cargo
+= Cargaison lourde
+
+Hefty Beast Bone
+= Hefty Beast Bone
+
+Helmet
+= Casque
+
+Hempen Cloth
+= Hempen Cloth
+
+Herba
+= Herba
+
+Highest difficulty unlocked
+= Difficulté la plus élevée débloquée
+
+Highest fever
+= Fièvre maximale
+
+Hive
+= Hive
+
+Hiveblood
+= Hiveblood
+
+Hogwarts Legacy
+= Hogwarts Legacy
+
+Hollow Knight
+= Hollow Knight
+
+Hollow Knight: Silksong
+= Hollow Knight: Silksong
+
+Honed Metal
+= Honed Metal
+
+Hook
+= Grappin
+
+Hook dye
+= Teinture de grappin
+
+Households
+= Foyers
+
+Howling Wraiths / Abyss Shriek (0 to 2)
+= Howling Wraiths / Abyss Shriek (0 à 2)
+
+Hufflepuff
+= Poufsouffle
+
+Human Bone Shard
+= Human Bone Shard
+
+Hurry
+= Hâte
+
+Hydration
+= Hydratation
+
+Hyper
+= Hyper
+
+Hyper modes
+= Modes Hyper
+
+INT
+= INT
+
+Ichiban
+= Ichiban
+
+In the party
+= Dans le groupe
+
+In the truck
+= Dans le camion
+
+Inflation
+= Inflation
+
+Insects
+= Insectes
+
+Intel
+= Renseignements
+
+Intelligence (unused)
+= Intelligence (inutilisée)
+
+Intrigue
+= Intrigue
+
+Intro
+= Intro
+
+Intro finished
+= Intro terminée
+
+Inverse teleporter
+= Téléporteur inversé
+
+Iridium Bar
+= Lingot d'iridium
+
+Iridium Ore
+= Minerai d'iridium
+
+Iron
+= Fer
+
+Iron Bar
+= Lingot de fer
+
+Iron Ore
+= Minerai de fer
+
+Iron bits
+= Morceaux de fer
+
+Isaac
+= Isaac
+
+Isma's Tear
+= Isma's Tear
+
+Item 
+= Objet 
+
+Item upgrades
+= Améliorations d'objets
+
+Items found
+= Objets trouvés
+
+JSON
+= JSON
+
+Jack-o'-lantern
+= Citrouille d'Halloween
+
+Jenna
+= Jenna
+
+Joker slots
+= Emplacements de Joker
+
+Jokers
+= Jokers
+
+Joni's Blessing
+= Joni's Blessing
+
+Junk
+= Bric-à-brac
+
+Junpei
+= Junpei
+
+KILLS
+= KILLS
+
+Kasumi
+= Kasumi
+
+Ken
+= Ken
+
+Kenshi save
+= Sauvegarde de Kenshi
+
+Kenshi squad
+= Escouade de Kenshi
+
+Key
+= Clé
+
+Key Items
+= Objets clés
+
+Kind
+= Type
+
+King's Brand
+= King's Brand
+
+Kingsoul
+= Kingsoul
+
+Kingsoul / Void Heart state (0 to 4)
+= État de Kingsoul / Void Heart (0 à 4)
+
+Kiryu & Majima
+= Kiryu & Majima
+
+Kiss Ass
+= Kiss Ass
+
+Knights of the Old Republic
+= Knights of the Old Republic
+
+Known materials
+= Matériaux connus
+
+Known recipes
+= Recettes connues
+
+Knuts
+= Knuts
+
+Koromaru
+= Koromaru
+
+Kratos
+= Kratos
+
+LUCK
+= LUCK
+
+Land Octopus Ovary
+= Land Octopus Ovary
+
+Lapis Lazuli
+= Lapis-lazuli
+
+Large Titanite Shard
+= Large Titanite Shard
+
+Leader
+= Chef
+
+Leadership
+= Commandement
+
+Learning
+= Apprentissage
+
+Leather
+= Cuir
+
+Leggings
+= Jambières
+
+Legitimacy
+= Légitimité
+
+Lethal Company
+= Lethal Company
+
+Lieutenant
+= Lieutenant
+
+Lifeblood Core
+= Lifeblood Core
+
+Lifeblood Heart
+= Lifeblood Heart
+
+Light pet
+= Familier lumineux
+
+Light pet dye
+= Teinture de familier lumineux
+
+Light switch
+= Interrupteur de lumière
+
+Limit break
+= Limite
+
+Limit gauge
+= Jauge de limite
+
+Limit level
+= Niveau de limite
+
+Liquid
+= Liquide
+
+Living Jar Shard
+= Living Jar Shard
+
+Long distance
+= Longue distance
+
+Longest fever
+= Fièvre la plus longue
+
+Longnail
+= Longnail
+
+Look / move
+= Regarder / se déplacer
+
+Loud horn
+= Klaxon puissant
+
+Love Key
+= Love Key
+
+Lumafly Lantern
+= Lumafly Lantern
+
+Lumina from Colours of Lumina
+= Lumina from Colours of Lumina
+
+Luminous Alloy
+= Luminous Alloy
+
+Lump of Fat Wax
+= Lump of Fat Wax
+
+Lump of Flesh
+= Lump of Flesh
+
+Lump of Grave Wax
+= Lump of Grave Wax
+
+M. Attack
+= Att. mag.
+
+M. Defense
+= Déf. mag.
+
+MAGNET
+= MAGNET
+
+MAXHEALTH
+= MAXHEALTH
+
+MOVESPEED
+= MOVESPEED
+
+Magazine
+= Chargeur
+
+Magic defense
+= Défense magique
+
+Mail
+= Courrier
+
+Main bag
+= Sac principal
+
+Major
+= Commandant
+
+Makoto
+= Makoto
+
+Malicite
+= Malicite
+
+Malicite Mass
+= Malicite Mass
+
+Mana or stamina
+= Mana ou endurance
+
+Mandible
+= Mandibule
+
+Manpower
+= Main-d'œuvre
+
+Mantis Claw
+= Mantis Claw
+
+Map size
+= Taille de la carte
+
+March
+= Marche
+
+Mark of Pride
+= Mark of Pride
+
+Marsh
+= Marais
+
+Martial
+= Martial
+
+Mask shards
+= Fragments de masque
+
+Max FP
+= FP max.
+
+Max Health
+= Santé max.
+
+Max bioelectric energy
+= Énergie bioélectrique max.
+
+Max crafting materials (1 stack)
+= Matériaux d'artisanat max. (1 pile)
+
+Max heat
+= Chaleur max.
+
+Max life
+= Vie max.
+
+Max mana
+= Mana max.
+
+Max stamina
+= Endurance max.
+
+Mechanical
+= Mécanique
+
+Medicine
+= Médecine
+
+Melee Combat
+= Combat au corps à corps
+
+Melted Mushroom
+= Melted Mushroom
+
+Memories
+= Souvenirs
+
+Metro player save
+= Sauvegarde joueur de Metro
+
+Mia
+= Mia
+
+Military
+= Militaire
+
+Mind
+= Esprit
+
+Minecart
+= Wagonnet
+
+Minecart dye
+= Teinture de wagonnet
+
+Minecraft
+= Minecraft
+
+Mineral
+= Minéral
+
+Minerals
+= Minéraux
+
+Miquella's Lily
+= Miquella's Lily
+
+Miranda Powder
+= Miranda Powder
+
+Mitsuru
+= Mitsuru
+
+Mobility
+= Mobilité
+
+Mode
+= Mode
+
+Mode (0 normal, 1 Steel Soul, 2 Steel Soul dead)
+= Mode (0 normal, 1 Steel Soul, 2 Steel Soul mort)
+
+Monarch Wings
+= Monarch Wings
+
+Moogle Medals
+= Moogle Medals
+
+Moon Dust
+= Poussière lunaire
+
+Moonstone
+= Pierre de lune
+
+Morale
+= Moral
+
+Morgana
+= Morgana
+
+Mothwing Cloak
+= Mothwing Cloak
+
+Mount dye
+= Teinture de monture
+
+Music volume (0–1)
+= Volume de la musique (0–1)
+
+Mystery endings
+= Fins mystérieuses
+
+Mythic rank
+= Rang mythique
+
+NPCs
+= PNJ
+
+Nail arts
+= Nail arts
+
+Nailmaster's Glory
+= Nailmaster's Glory
+
+Nascent Butterfly
+= Nascent Butterfly
+
+Navy experience
+= Expérience navale
+
+Navy tradition
+= Tradition navale
+
+Nectar
+= Nectar
+
+Needle
+= Needle
+
+Needle Strike
+= Needle Strike
+
+Needle upgrades
+= Améliorations de Needle
+
+Needolin
+= Needolin
+
+Neptune rocket
+= Fusée Neptune
+
+Nerd Stuff
+= Nerd Stuff
+
+New Game+
+= Nouvelle partie+
+
+Nidavellir Core
+= Nidavellir Core
+
+No item matches.
+= Aucun objet ne correspond.
+
+No perks yet
+= Aucun avantage pour le moment
+
+Normal
+= Normal
+
+Not discovered yet
+= Pas encore découvert
+
+Not in your faction
+= Pas dans votre faction
+
+Objects
+= Objets
+
+Obsidian
+= Obsidienne
+
+Octopath Traveler
+= Octopath Traveler
+
+Octopath Traveler II
+= Octopath Traveler II
+
+Odometer (km)
+= Compteur kilométrique (km)
+
+Offense
+= Attaque
+
+Old Fang
+= Old Fang
+
+Only Final Fantasy VII Rebirth has crafting materials.
+= Seul Final Fantasy VII Rebirth a des matériaux d'artisanat.
+
+Only Half-Life: Alyx has a crafting material (resin).
+= Seul Half-Life: Alyx a un matériau d'artisanat (résine).
+
+Only KOTOR II's party table has components and chemicals.
+= Seule la table de groupe de KOTOR II contient des composants et des produits chimiques.
+
+Ooze
+= Vase
+
+Orange suit
+= Combinaison orange
+
+Ore extractors unlocked
+= Extracteurs de minerai débloqués
+
+Ores
+= Minerais
+
+Origin
+= Origine
+
+Others
+= Autres
+
+Overdrive gauge
+= Jauge de Overdrive
+
+Overdrive mode
+= Mode Overdrive
+
+Overdrives
+= Overdrives
+
+Owned: click to take it away
+= Possédé : cliquez pour le retirer
+
+Oxygen Not Included save
+= Sauvegarde Oxygen Not Included
+
+POWER
+= PUISSANCE
+
+Paine
+= Paine
+
+Paint element
+= Élément de peinture
+
+Pajama suit
+= Combinaison pyjama
+
+Pale Ore
+= Pale Ore
+
+Pantheon
+= Pantheon
+
+Paradox save
+= Sauvegarde Paradox
+
+Party XP
+= XP du groupe
+
+Party stash
+= Réserve du groupe
+
+Party table
+= Table du groupe
+
+Pathfinder
+= Pathfinder
+
+Pathfinder: Kingmaker
+= Pathfinder: Kingmaker
+
+Pathfinder: Wrath of the Righteous
+= Pathfinder: Wrath of the Righteous
+
+Persona 3 Reload save
+= Sauvegarde Persona 3 Reload
+
+Persona 4 Golden save
+= Sauvegarde Persona 4 Golden
+
+Persona 5 Royal save
+= Sauvegarde Persona 5 Royal
+
+Pet
+= Familier
+
+Pet dye
+= Teinture de familier
+
+Petrified Bones
+= Petrified Bones
+
+Petrified Dragon Bone
+= Petrified Dragon Bone
+
+Pets, mounts & hook
+= Familiers, montures et grappin
+
+Phantom Thieves
+= Phantom Thieves
+
+Phasmophobia
+= Phasmophobia
+
+Piers
+= Piers
+
+Piety
+= Piété
+
+Piggy bank
+= Tirelire
+
+Pip-Boy
+= Pip-Boy
+
+Plain
+= Simple
+
+Planescape: Torment (Enhanced Edition)
+= Planescape: Torment (Enhanced Edition)
+
+Planet 
+= Planète 
+
+Plants
+= Plantes
+
+Plants & seeds
+= Plantes et graines
+
+Played by
+= Joué par
+
+Player0
+= Player0
+
+Plot
+= Intrigue
+
+Plushie pajama man
+= Homme pyjama en peluche
+
+Poison
+= Poison
+
+Poisonbloom
+= Poisonbloom
+
+Poké Balls
+= Poké Balls
+
+Pokémon Infinite Fusion
+= Pokémon Infinite Fusion
+
+Portraits
+= Portraits
+
+Posture
+= Posture
+
+Potions
+= Potions
+
+Prawn Suit
+= Prawn Suit
+
+Prefix
+= Préfixe
+
+Pressure
+= Pression
+
+Proficiency
+= Maîtrise
+
+Pronouns
+= Pronoms
+
+Proteins
+= Protéines
+
+Psi
+= Psi
+
+Purified Crystalline
+= Purified Crystalline
+
+Purple suit
+= Combinaison violette
+
+Qi Gems
+= Gemmes de Qi
+
+Quick Focus
+= Quick Focus
+
+Quick Slash
+= Quick Slash
+
+Quick slot
+= Emplacement rapide
+
+Quill
+= Quill
+
+R.E.P.O.
+= R.E.P.O.
+
+RE Engine save
+= Sauvegarde RE Engine
+
+REGEN
+= RÉGÉN
+
+REROLL
+= RELANCER
+
+REVIVAL
+= RÉANIMATION
+
+Race
+= Race
+
+Radioactive Contaminants
+= Contaminants radioactifs
+
+Rainbow
+= Arc-en-ciel
+
+Rancid Eggs
+= Œufs rances
+
+Random seed
+= Graine aléatoire
+
+Ravenclaw
+= Serdaigle
+
+Rawhide
+= Cuir brut
+
+Reagents
+= Réactifs
+
+Real estate takings (Kamurocho)
+= Revenus immobiliers (Kamurocho)
+
+Record player
+= Tourne-disque
+
+Recovery
+= Récupération
+
+Red Titanite Chunk
+= Red Titanite Chunk
+
+Red Titanite Slab
+= Red Titanite Slab
+
+Refined Quartz
+= Refined Quartz
+
+Region
+= Région
+
+Ren'Py
+= Ren'Py
+
+Ren'Py save
+= Sauvegarde Ren'Py
+
+Rend
+= Rend
+
+Reroll
+= Relancer
+
+Reroll cost
+= Coût de relance
+
+Research slots
+= Emplacements de recherche
+
+Resin
+= Résine
+
+Resolve XP
+= XP de Resolve
+
+Resources this save hasn't found yet aren't listed.
+= Les ressources que cette sauvegarde n'a pas encore trouvées ne sont pas listées.
+
+Revival
+= Réanimation
+
+Rikku
+= Rikku
+
+Rimed Crystal Bud
+= Rimed Crystal Bud
+
+Rimed Rowa
+= Rimed Rowa
+
+Rising
+= Ascendant
+
+Rocket interior
+= Intérieur de la fusée
+
+Role
+= Rôle
+
+Romantic table
+= Table romantique
+
+Rookie
+= Recrue
+
+Room
+= Pièce
+
+Root
+= Racine
+
+Root Resin
+= Root Resin
+
+Rosaries
+= Chapelets
+
+Rosaries on your cocoon
+= Chapelets sur votre cocon
+
+Rowa Fruit
+= Rowa Fruit
+
+Run
+= Run
+
+Rune memory
+= Mémoire de rune
+
+Ryuji
+= Ryuji
+
+SHIELD
+= BOUCLIER
+
+SKIP
+= PASSER
+
+SPEED
+= VITESSE
+
+SQLite database
+= Base de données SQLite
+
+Sacramental Bud
+= Sacramental Bud
+
+Safe
+= Coffre-fort
+
+Sailors
+= Marins
+
+Sanctuary Stone
+= Sanctuary Stone
+
+Sap
+= Sève
+
+Save name
+= Nom de la sauvegarde
+
+Scrap Iron
+= Ferraille de fer
+
+Scrap Magnetite
+= Ferraille de magnétite
+
+Seamoth
+= Seamoth
+
+Second magazine
+= Deuxième chargeur
+
+Seconds survived
+= Secondes survécues
+
+Section
+= Section
+
+Sekiro character
+= Personnage Sekiro
+
+Sekiro: Shadows Die Twice
+= Sekiro: Shadows Die Twice
+
+Sen
+= Sen
+
+Seraph crystals
+= Cristaux de séraphin
+
+Sergeant
+= Sergent
+
+Serial check
+= Vérification serial
+
+Serial version
+= Version serial
+
+Set mass
+= Définir la masse
+
+Set spawn
+= Définir le point d'apparition
+
+Set temperature
+= Définir la température
+
+Shade Cloak
+= Shade Cloak
+
+Shaman
+= Shaman
+
+Shaman Stone
+= Shaman Stone
+
+Shape of Unn
+= Shape of Unn
+
+Shards
+= Éclats
+
+Sharp Shadow
+= Sharp Shadow
+
+Shell Shards
+= Shell Shards
+
+Shepard
+= Shepard
+
+Shining Crystal
+= Shining Crystal
+
+Shinjiro
+= Shinjiro
+
+Ship speed
+= Vitesse du vaisseau
+
+Shop card removal cost
+= Coût de retrait de carte en boutique
+
+Shower
+= Douche
+
+Sickbay
+= Infirmerie
+
+Sight
+= Vue
+
+Signal translator
+= Traducteur de signaux
+
+Silk Soar
+= Silk Soar
+
+Silk hearts
+= Silk hearts
+
+Silk spool
+= Silk spool
+
+Silver
+= Argent
+
+Silver Firefly
+= Silver Firefly
+
+Silver Tear Husk
+= Silver Tear Husk
+
+Simple Keys
+= Simple Keys
+
+Sites of Grace
+= Sites of Grace
+
+Size
+= Taille
+
+Skap Slag
+= Skap Slag
+
+Skill 
+= Compétence 
+
+Skill Point
+= Point de compétence
+
+Skill points earned
+= Points de compétence gagnés
+
+Skill points spent
+= Points de compétence dépensés
+
+Skills & tools
+= Compétences et outils
+
+Skills known
+= Compétences connues
+
+Skip
+= Passer
+
+Slag Deposits
+= Gisements de scories
+
+Slay the Spire
+= Slay the Spire
+
+Slime
+= Slime
+
+Slimelung
+= Slimelung
+
+Sliver of Meat
+= Sliver of Meat
+
+Slot 
+= Emplacement 
+
+Slumbering Egg
+= Slumbering Egg
+
+Slytherin
+= Serpentard
+
+Small Arms
+= Armes légères
+
+Smoldering Butterfly
+= Smoldering Butterfly
+
+Smoldering Embers
+= Smoldering Embers
+
+Sneaky Shit
+= Sneaky Shit
+
+Sniper Rifles
+= Fusils de précision
+
+Solar Essence
+= Solar Essence
+
+Soldier
+= Soldat
+
+Somber Ancient Dragon Smithing Stone
+= Somber Ancient Dragon Smithing Stone
+
+Soul
+= Âme
+
+Soul Catcher
+= Soul Catcher
+
+Soul Eater
+= Soul Eater
+
+Soul level
+= Niveau d'âme
+
+Soul memory
+= Mémoire d'âme
+
+Souls
+= Âmes
+
+Sound volume (0–1)
+= Volume sonore (0–1)
+
+Sovereign Coals
+= Sovereign Coals
+
+Sp. Atk
+= Atq. Spé.
+
+Sp. Def
+= Déf. Spé.
+
+Space trading unlocked
+= Commerce spatial débloqué
+
+Sparkling Crystal
+= Sparkling Crystal
+
+Spawn
+= Apparition
+
+Special seeds
+= Graines spéciales
+
+Species
+= Espèce
+
+Spectator
+= Spectateur
+
+Spell
+= Sort
+
+Spell Twister
+= Spell Twister
+
+Sphere levels
+= Niveaux de sphère
+
+Spirit
+= Esprit
+
+Spirit Emblem
+= Spirit Emblem
+
+Spirit Emblem capacity
+= Capacité de Spirit Emblem
+
+Spool fragments
+= Spool fragments
+
+Spore Shroom
+= Spore Shroom
+
+Sprintmaster
+= Sprintmaster
+
+Squad leader
+= Chef d'escouade
+
+Squaddie
+= Squaddie
+
+Stag: City of Tears
+= Stag: City of Tears
+
+Stag: Crossroads
+= Stag: Crossroads
+
+Stag: Deepnest
+= Stag: Deepnest
+
+Stag: Greenpath
+= Stag: Greenpath
+
+Stag: Hidden Station
+= Stag: Hidden Station
+
+Stag: Kingdom's Edge
+= Stag: Kingdom's Edge
+
+Stag: Queen's Station
+= Stag: Queen's Station
+
+Stag: Resting Grounds
+= Stag: Resting Grounds
+
+Stag: Royal Gardens
+= Stag: Royal Gardens
+
+Stag: Stag Nest
+= Stag: Stag Nest
+
+Stagecoach armour
+= Blindage de diligence
+
+Stagecoach wheels
+= Roues de diligence
+
+Stages unlocked
+= Niveaux débloqués
+
+Stalwart Shell
+= Stalwart Shell
+
+Star Wars: 
+= Star Wars: 
+
+Stardew Valley
+= Stardew Valley
+
+Start location
+= Lieu de départ
+
+Stash gold
+= Or de la cache
+
+Stat 
+= Stat 
+
+Stat bonus
+= Bonus de stat
+
+Steady Body
+= Steady Body
+
+Steel Soul
+= Steel Soul
+
+Stellaris save
+= Sauvegarde Stellaris
+
+Stone
+= Pierre
+
+Stonewood
+= Stonewood
+
+Storm
+= Tempête
+
+Stormhawk Feather
+= Stormhawk Feather
+
+Stretch (1 on)
+= Étirement (1 activé)
+
+String
+= Ficelle
+
+Strip of White Flesh
+= Strip of White Flesh
+
+Subnautica
+= Subnautica
+
+Suit power
+= Énergie de la combinaison
+
+Support
+= Soutien
+
+Swift Step
+= Swift Step
+
+Sylphsong
+= Sylphsong
+
+TMs & HMs
+= CT et CS
+
+Table
+= Tableau
+
+Talents and spells known
+= Talents et sorts connus
+
+Tamahagane
+= Tamahagane
+
+Tarnished
+= Sans-éclat
+
+Tarnished Golden Sunflower
+= Tarnished Golden Sunflower
+
+Team
+= Équipe
+
+Techs & progress
+= Techs et progression
+
+Teleporter
+= Téléporteur
+
+Teleporters unlocked
+= Téléporteurs débloqués
+
+Television
+= Télévision
+
+Temperature
+= Température
+
+Tempered Iron
+= Tempered Iron
+
+Tempered Remnants
+= Tempered Remnants
+
+Terminal
+= Terminal
+
+Terraformer
+= Terraformeur
+
+Terraria player
+= Joueur Terraria
+
+Terraria world
+= Monde Terraria
+
+The Government's Base
+= The Government's Base
+
+The Motherhood
+= The Motherhood
+
+The Nameless One
+= The Nameless One
+
+The Sims
+= The Sims
+
+The Sims 2
+= The Sims 2
+
+The Witcher 3 game data
+= Données de jeu de The Witcher 3
+
+The game has marked this profile as tampered with.
+= Le jeu a signalé ce profil comme modifié.
+
+Their turn
+= Son tour
+
+Thin Beast Bones
+= Thin Beast Bones
+
+This bag is empty.
+= Ce sac est vide.
+
+This game has no crafting materials list.
+= Ce jeu n'a pas de liste de matériaux d'artisanat.
+
+Thistle
+= Chardon
+
+Thorns of Agony
+= Thorns of Agony
+
+Tiers
+= Paliers
+
+Tin
+= Étain
+
+Tiny Tina's Wonderlands
+= Tiny Tina's Wonderlands
+
+Titan
+= Titan
+
+Titan Blood
+= Titan Blood
+
+Titan Quest character
+= Personnage Titan Quest
+
+Titanite Chunk
+= Titanite Chunk
+
+Titanite Scale
+= Titanite Scale
+
+Titanite Shard
+= Titanite Shard
+
+Titanite Slab
+= Titanite Slab
+
+Toaster Repair
+= Toaster Repair
+
+Toilet
+= Toilettes
+
+Tool pouch upgrades
+= Améliorations de la sacoche d'outils
+
+Toolmaster
+= Toolmaster
+
+Torchlight II character
+= Personnage Torchlight II
+
+Torgue tokens
+= Jetons Torgue
+
+Town NPC homes
+= Maisons des PNJ de la ville
+
+Toxic Mushroom
+= Toxic Mushroom
+
+Trail effect
+= Effet de traînée
+
+Trainer ID
+= ID dresseur
+
+Tram Pass
+= Pass de tramway
+
+Traveller
+= Voyageur
+
+Treasury
+= Trésorerie
+
+Tributes
+= Tributs
+
+Trina's Lily
+= Trina's Lily
+
+Trinkets
+= Bibelots
+
+Trophies
+= Trophées
+
+Turtle Neck Meat
+= Turtle Neck Meat
+
+Twinkling Titanite
+= Twinkling Titanite
+
+Unassigned
+= Non attribué
+
+Undertale save
+= Sauvegarde Undertale
+
+Unity
+= Unity
+
+Unlocks and settings
+= Déblocages et paramètres
+
+Urgent delivery
+= Livraison urgente
+
+Usable (local)
+= Utilisable (local)
+
+Usable (online)
+= Utilisable (en ligne)
+
+Valhalla
+= Valhalla
+
+Valheim character
+= Personnage Valheim
+
+Vampire Survivors save
+= Sauvegarde Vampire Survivors
+
+Vanity
+= Cosmétique
+
+Vanity Chestplate
+= Plastron cosmétique
+
+Vanity Helmet
+= Casque cosmétique
+
+Vanity Leggings
+= Jambières cosmétiques
+
+Variables
+= Variables
+
+Vengeful Spirit / Shade Soul (0 to 2)
+= Vengeful Spirit / Shade Soul (0 à 2)
+
+Version
+= Version
+
+Viking
+= Viking
+
+Vision
+= Vision
+
+Voice
+= Voix
+
+Void Essence
+= Void Essence
+
+Void Vault
+= Void Vault
+
+Volcanic Stone
+= Volcanic Stone
+
+Volcano
+= Volcan
+
+Vow
+= Vœu
+
+WIS
+= SAG
+
+Wall
+= Mur
+
+Warden
+= Gardien
+
+Warrior
+= Guerrier
+
+Wasteland 3 save
+= Sauvegarde Wasteland 3
+
+Wavy effect
+= Effet ondulé
+
+Wayward Compass
+= Wayward Compass
+
+Wealth
+= Richesse
+
+Weapon AT
+= AT de l'arme
+
+Weapon Modding
+= Modification d'armes
+
+Weapons found
+= Armes trouvées
+
+Weapons unlocked
+= Armes débloquées
+
+Weaversong
+= Weaversong
+
+Weird Science
+= Weird Science
+
+Welcome mat
+= Paillasson
+
+Western Environmental Observatory
+= Western Environmental Observatory
+
+When you die
+= Quand vous mourez
+
+Whetstone
+= Pierre à aiguiser
+
+Whispering Slab
+= Whispering Slab
+
+White Titanite Chunk
+= White Titanite Chunk
+
+White Titanite Slab
+= White Titanite Slab
+
+Will
+= Volonté
+
+Window scale
+= Échelle de la fenêtre
+
+Wisdom
+= Sagesse
+
+Wisp
+= Feu follet
+
+Wolf
+= Loup
+
+Worlds & rockets
+= Mondes et fusées
+
+X4: Foundations
+= X4: Foundations
+
+XCOM 2 game data
+= Données de jeu XCOM 2
+
+XCOM: Enemy Unknown game data
+= Données de jeu XCOM: Enemy Unknown
+
+XML
+= XML
+
+Yakuza 0 save
+= Sauvegarde de Yakuza 0
+
+Yakuza Kiwami save
+= Sauvegarde de Yakuza Kiwami
+
+Ydalir Timber
+= Ydalir Timber
+
+Year
+= Année
+
+Yellow Ember
+= Yellow Ember
+
+Yellow Gunpowder
+= Yellow Gunpowder
+
+Yes
+= Oui
+
+Yggdrasil's Dew
+= Yggdrasil's Dew
+
+Your squad
+= Votre escouade
+
+Yukari
+= Yukari
+
+Yuna
+= Yuna
+
+Yusuke
+= Yusuke
+
+Zephyr
+= Zephyr
+
+Zombie Spores
+= Zombie Spores

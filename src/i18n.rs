@@ -183,6 +183,7 @@ mod tests {
         let src = program_source();
         let mut keys = keys_in(&src);
         keys.extend(helper_literals(&src));
+        keys.extend(label_literals());
         keys.extend(crate::game_ui::spec_texts().into_iter().map(str::to_string));
         keys
     }
@@ -239,6 +240,83 @@ mod tests {
             let text: String = missing.iter().map(|k| k.replace('\\', "\\\\").replace('\n', "\\n") + "\n").collect();
             std::fs::write(path, text).unwrap();
         }
+    }
+
+    /// Capitalised label-like string literals in the game screens' code (names of stats,
+    /// difficulties, sections; item and place names too, which may translate as themselves).
+    /// Pointers, ids and other code strings are told apart by their shape.
+    fn label_literals() -> std::collections::HashSet<String> {
+        const SKIP: &[&str] = &[
+            "assert", "panic!", "Id::new", "id_salt", "Grid::new", "ScrollArea", "ui.data", "expect(", "starts_with", "ends_with", "contains(", "pointer(",
+            "cx.get", "cx.int", "cx.num", "cx.text", "cx.flag", "cx.set", "join(", "println", "write!", "env!", "include", "static ", "extern", "#[",
+            "ctx.data", "memory(", "mod ", "use ",
+        ];
+        let mut out = std::collections::HashSet::new();
+        let mut stack = vec![std::path::PathBuf::from(concat!(env!("CARGO_MANIFEST_DIR"), "/src/game_ui"))];
+        while let Some(d) = stack.pop() {
+            for e in std::fs::read_dir(&d).unwrap().flatten() {
+                let p = e.path();
+                if p.is_dir() {
+                    stack.push(p);
+                    continue;
+                }
+                // The data-driven screens list their texts through `simple::texts()`.
+                if p.extension().is_none_or(|x| x != "rs") || p.to_string_lossy().contains("/simple/") {
+                    continue;
+                }
+                let text = std::fs::read_to_string(&p).unwrap();
+                let text = text.split("#[cfg(test)]").next().unwrap_or("");
+                for line in text.lines() {
+                    let t = line.trim_start();
+                    if t.starts_with("//") || SKIP.iter().any(|s| line.contains(s)) {
+                        continue;
+                    }
+                    for k in keys_in_all_literals(line) {
+                        let ok_chars = k.chars().all(|c| c.is_alphanumeric() || " -'’:(),.&+%!?–—·/".contains(c));
+                        let first = k.chars().next().is_some_and(char::is_uppercase);
+                        let letters = k.chars().filter(|c| c.is_alphabetic()).count();
+                        // CamelCase words are identifiers, not labels.
+                        let camel = k.split(' ').any(|w| w.chars().skip(1).any(char::is_uppercase) && w.chars().any(char::is_lowercase) && w.chars().zip(w.chars().skip(1)).any(|(a, b)| a.is_lowercase() && b.is_uppercase()));
+                        if ok_chars && first && letters >= 3 && k.len() <= 80 && !camel && !k.starts_with('/') {
+                            out.insert(k);
+                        }
+                    }
+                }
+            }
+        }
+        out
+    }
+
+    /// Every plain string literal on a line, escapes resolved.
+    fn keys_in_all_literals(line: &str) -> Vec<String> {
+        let mut out = vec![];
+        let mut rest = line;
+        while let Some(i) = rest.find('"') {
+            let before = rest[..i].chars().last();
+            let after = &rest[i + 1..];
+            // Skip char literals like '"' and raw/format prefixes we can't read.
+            if before == Some('\'') {
+                rest = after;
+                continue;
+            }
+            let mut end = None;
+            let mut esc = false;
+            for (j, c) in after.char_indices() {
+                if esc {
+                    esc = false;
+                } else if c == '\\' {
+                    esc = true;
+                } else if c == '"' {
+                    end = Some(j);
+                    break;
+                }
+            }
+            let Some(j) = end else { break };
+            let lit = &after[..j];
+            out.extend(keys_in(&format!("tr(\"{lit}\")")));
+            rest = &after[j + 1..];
+        }
+        out
     }
 
     /// The literal text arguments of calls to the game-screen helpers.
