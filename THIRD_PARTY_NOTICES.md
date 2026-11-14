@@ -204,6 +204,8 @@ Universal Save Editor is free. It builds on other people's work, listed here wit
 | [BravelyDefault2 (Bravely Default II save layout and property names)](https://github.com/turtle-insect/BravelyDefault2) | turtle-insect | GPL-3.0 |
 | [GameSaveEditor (Trails in the Sky the 3rd and Trails of Cold Steel save offsets and item names)](https://github.com/Stormwave/SaveEditor) | Andrew Cornforth, Stormwave and contributors | GPL-3.0 |
 | [Universal Koei Tecmo Save Editor (Warriors Orochi 4 envelope, key derivation and field offsets, ported)](https://github.com/Sanrenan/Universal-Koei-Tecmo-Save-Editor) | Sanrenan | MIT |
+| [nier_replicant (save layout)](https://github.com/dskrypa/nier_replicant) | dskrypa | MIT |
+| [GenZ-Save-File-Editor (Generation Zero item hashes and names)](https://github.com/GrimChan/GenZ-Save-File-Editor) | GrimChan | MIT |
 
 Copyright notices of the projects above whose code or tables were used:
 

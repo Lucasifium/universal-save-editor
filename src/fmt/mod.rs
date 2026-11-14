@@ -43,6 +43,9 @@ pub mod mcd;
 pub mod nonfinite;
 pub mod bloodstained;
 pub mod dmc1;
+pub mod genzero;
+pub mod genzero_names;
+pub mod nier_replicant;
 pub mod potion;
 pub mod wwz;
 pub mod ffpr;
@@ -580,6 +583,16 @@ pub fn parse_binary(d: &[u8]) -> Option<TreeDoc> {
     }
     if lego_classic::looks(d) {
         if let Ok(t) = lego_classic::parse(d) {
+            return Some(t);
+        }
+    }
+    if genzero::looks(d) {
+        if let Ok(t) = genzero::parse(d) {
+            return Some(t);
+        }
+    }
+    if nier_replicant::looks(d) {
+        if let Ok(t) = nier_replicant::parse(d) {
             return Some(t);
         }
     }

@@ -4,7 +4,7 @@
 use super::ps_specs::*;
 use super::{List, Max, Section, Shape, Spec, Table};
 
-pub static SPECS: &[Spec] = &[OPENXCOM, XCOM_DOS, RCT2, COTL, FALLOUT_SHELTER, DRG, S1_MONEY, S1_RANK, S1_TIME, S1_GAME, SOTF_STATE, SOTF_GAME, SOTF_WEATHER, SOTF_ITEMS, DMD, CUPHEAD, ANTIMATTER, PVZ, CELESTE, DRGS, KH3, RF4S, SKY1ST, KSP, FFPR, MCD, STONESHARD, ROGUE_TRADER, BIOSHOCK_INFINITE, SPACE_HAVEN, SNOWRUNNER, GRAVEYARD_KEEPER, NFSMW, TOS, GTA3, GTAVC, BITBURNER, TERRA_INVICTA, PRISON, FF13, SONIC_MANIA, CAVE_STORY_PLUS, CAVE_STORY, LIES_OF_P, TXR, DAVE, MSC, ULTRAKILL, RPGXP, RE5, ANNO1800, FTK, LEGO_TSS, LEGO_CLASSIC, MYZ, CMS21, MEDIEVAL_DYNASTY, MECHANICUS, ORI, OMORI, ENDER_LILIES, SW2, ES2, MOONLIGHTER, WASTELAND2, ATOM, MORTAL_SHELL, MORTAL_SHELL_2, COTW, BEAMNG, FOREST, YAKUZA3, YAKUZA4, YAKUZA5, ISHIN, SALT, DRAKENSANG, ALPHA, TYRANNY, JEDI_FO, SR3, SR4, WD2, FABLE, WANDERING_SWORD, STELLAR_BLADE, PRAGMATA, SLIME_RANCHER, SUBNAUTICA2, HZD, SLEEPING_DOGS, DXMD, ATOMIC_HEART, DISHONORED2, DEATHLOOP, AC_BROTHERHOOD, AC_REVELATIONS, AC3R, AC_LIBERATION, AC_BLACK_FLAG, AC_ROGUE, AC_UNITY, AC_SYNDICATE, AC_ORIGINS, AC_ODYSSEY, DISHONORED1, RDR1, RDR2, SM64, SUPER_METROID, LTTP, WORLDBOX, COREKEEPER, HOLOCURE, POTION_CRAFT, WWZ, ROBOQUEST, CMS18, LONGDRIVE, LONGDRIVE_PROP, XC3, MLDT, SMASH, MK7, SKC, UTY, DAGGERFALL_UNITY, DMC1, MEWGENICS, MORROWIND, OBLIVION, WOL, SOD_PROFILE, SOD_STATS, TRAVELLERS_REST, YOUTUBERS_LIFE, LUCK_LANDLORD, LUNA_NIGHTS, EVERSPACE1, STREETS_OF_ROGUE, DELTATRAVELER, PIZZA_TOWER, TEARDOWN, WOLCEN, BLASPHEMOUS, NOITA, LAST_EPOCH, GUNGEON, DISCO, CLICKER_HEROES, ISAAC, ROR2, STS2, HEROES3, MOO, YSF, BD2, SKY3, CS1, WO4, SW4II];
+pub static SPECS: &[Spec] = &[OPENXCOM, XCOM_DOS, RCT2, COTL, FALLOUT_SHELTER, DRG, S1_MONEY, S1_RANK, S1_TIME, S1_GAME, SOTF_STATE, SOTF_GAME, SOTF_WEATHER, SOTF_ITEMS, DMD, CUPHEAD, ANTIMATTER, PVZ, CELESTE, DRGS, KH3, RF4S, SKY1ST, KSP, FFPR, MCD, STONESHARD, ROGUE_TRADER, BIOSHOCK_INFINITE, SPACE_HAVEN, SNOWRUNNER, GRAVEYARD_KEEPER, NFSMW, TOS, GTA3, GTAVC, BITBURNER, TERRA_INVICTA, PRISON, FF13, SONIC_MANIA, CAVE_STORY_PLUS, CAVE_STORY, LIES_OF_P, TXR, DAVE, MSC, ULTRAKILL, RPGXP, RE5, ANNO1800, FTK, LEGO_TSS, LEGO_CLASSIC, MYZ, CMS21, MEDIEVAL_DYNASTY, MECHANICUS, ORI, OMORI, ENDER_LILIES, SW2, ES2, MOONLIGHTER, WASTELAND2, ATOM, MORTAL_SHELL, MORTAL_SHELL_2, COTW, BEAMNG, FOREST, YAKUZA3, YAKUZA4, YAKUZA5, ISHIN, SALT, DRAKENSANG, ALPHA, TYRANNY, JEDI_FO, SR3, SR4, WD2, FABLE, WANDERING_SWORD, STELLAR_BLADE, PRAGMATA, SLIME_RANCHER, SUBNAUTICA2, HZD, SLEEPING_DOGS, DXMD, ATOMIC_HEART, DISHONORED2, DEATHLOOP, AC_BROTHERHOOD, AC_REVELATIONS, AC3R, AC_LIBERATION, AC_BLACK_FLAG, AC_ROGUE, AC_UNITY, AC_SYNDICATE, AC_ORIGINS, AC_ODYSSEY, DISHONORED1, RDR1, RDR2, SM64, SUPER_METROID, LTTP, WORLDBOX, COREKEEPER, HOLOCURE, POTION_CRAFT, WWZ, ROBOQUEST, CMS18, LONGDRIVE, LONGDRIVE_PROP, XC3, MLDT, SMASH, MK7, SKC, UTY, DAGGERFALL_UNITY, DMC1, MEWGENICS, MORROWIND, OBLIVION, WOL, SOD_PROFILE, SOD_STATS, TRAVELLERS_REST, YOUTUBERS_LIFE, LUCK_LANDLORD, LUNA_NIGHTS, EVERSPACE1, STREETS_OF_ROGUE, DELTATRAVELER, PIZZA_TOWER, TEARDOWN, WOLCEN, BLASPHEMOUS, NOITA, LAST_EPOCH, GUNGEON, DISCO, CLICKER_HEROES, ISAAC, ROR2, STS2, HEROES3, MOO, YSF, BD2, SKY3, CS1, WO4, SW4II, NIER_REPLICANT, GENZERO];
     // PlayStation 1 and 2 (ps_specs.rs)
     SOTN, FF8, FFT, RE1, KH2];
 // ------------------------------------------------------------------ Cult of the Lamb
@@ -5590,4 +5590,180 @@ const SW4II: Spec = Spec {
     ],
     lists: &[],
     tables: &[Table { title: "Officers", path: "/Officers", name: &[], only: &[], cols: &[("Level", "/Level"), ("Health", "/Health"), ("Attack", "/Attack"), ("Defense", "/Defense"), ("Riding", "/Riding"), ("Speed", "/Speed")], names: &[] }],
+};
+
+const NIER_REPLICANT: Spec = Spec {
+    name: "NieR Replicant ver.1.22474487139...",
+    tab: "Slots",
+    accent: (190, 170, 130),
+    kind: Some(crate::fmt::nier_replicant::KIND),
+    markers: &[],
+    subtitle: "GAMEDATA from Documents\\My Games\\NieR Replicant ver.1.22474487139...\\Steam\\<account>: health, level, experience, money, recovery items and materials of each used slot. Slot checksums are written again on save.",
+    tiles: &[],
+    sections: &[],
+    lists: &[
+        List { title: "NieR 1: recovery items", path: "/NieR 1/Recovery items", shape: Shape::Map, names: &[], max: None },
+        List {
+            title: "NieR 1: materials",
+            path: "/NieR 1/Materials",
+            shape: Shape::Map,
+            names: &[],
+            max: Some(Max {
+                ids: &["Aquatic Plant", "Deadwood", "Rusty Bucket", "Empty Can", "Gold Ore", "Silver Ore", "Copper Ore", "Iron Ore", "Crystal", "Pyrite", "Moldavite", "Meteorite", "Amber", "Fluorite", "Clay", "Berries", "Royal Fern", "Tree Branch", "Log", "Natural Rubber", "Ivy", "Lichen", "Mushroom", "Sap", "Mutton", "Boar Meat", "Wool", "Boar Hide", "Wolf Hide", "Wolf Fang", "Giant Spider Silk", "Bat Fang", "Bat Wing", "Goat Meat", "Goat Hide", "Venison", "Rainbow Spider Silk", "Boar Liver", "Scorpion Claw", "Scorpion Tail", "Dented Metal Board", "Stripped Bolt", "Broken Lens", "Severed Cable", "Broken Arm", "Broken Antenna", "Broken Motor", "Broken Battery", "Mysterious Switch", "Large Gear", "Titanium Alloy", "Memory Alloy", "Rusted Clump", "Machine Oil", "Forlorn Necklace", "Twisted Ring", "Broken Earring", "Pretty Choker", "Metal Piercing", "Subdued Bracelet", "Technical Guide", "Grubby Book", "Thick Dictionary", "Closed Book", "Used Coloring Book", "Old Schoolbook", "Dirty Bag", "Flashy Hat", "Leather Gloves", "Silk Handkerchief", "Leather Boots", "Complex Machine", "Elaborate Machine", "Simple Machine", "Stopped Clock", "Broken Wristwatch", "Rusty Kitchen Knife", "Broken Saw", "Dented Metal Bat", "Shell", "Gastropod", "Bivalve", "Seaweed", "Empty Bottle", "Driftwood", "Pearl", "Black Pearl", "Crab", "Starfish", "Sea Turtle Egg", "Broken Pottery", "Desert Rose", "Giant Egg", "Damascus Steel", "Eagle Egg", "Chicken Egg", "Mouse Tail", "Lizard Tail", "Deer Antler"],
+                cap: 99,
+                caps: &[],
+                estimate: false,
+                about: "Raises every material this slot already holds (plants, ores, animal parts, machine parts, salvage) to 99, the most the game carries.",
+            }),
+        },
+        List { title: "NieR 2: recovery items", path: "/NieR 2/Recovery items", shape: Shape::Map, names: &[], max: None },
+        List {
+            title: "NieR 2: materials",
+            path: "/NieR 2/Materials",
+            shape: Shape::Map,
+            names: &[],
+            max: Some(Max {
+                ids: &["Aquatic Plant", "Deadwood", "Rusty Bucket", "Empty Can", "Gold Ore", "Silver Ore", "Copper Ore", "Iron Ore", "Crystal", "Pyrite", "Moldavite", "Meteorite", "Amber", "Fluorite", "Clay", "Berries", "Royal Fern", "Tree Branch", "Log", "Natural Rubber", "Ivy", "Lichen", "Mushroom", "Sap", "Mutton", "Boar Meat", "Wool", "Boar Hide", "Wolf Hide", "Wolf Fang", "Giant Spider Silk", "Bat Fang", "Bat Wing", "Goat Meat", "Goat Hide", "Venison", "Rainbow Spider Silk", "Boar Liver", "Scorpion Claw", "Scorpion Tail", "Dented Metal Board", "Stripped Bolt", "Broken Lens", "Severed Cable", "Broken Arm", "Broken Antenna", "Broken Motor", "Broken Battery", "Mysterious Switch", "Large Gear", "Titanium Alloy", "Memory Alloy", "Rusted Clump", "Machine Oil", "Forlorn Necklace", "Twisted Ring", "Broken Earring", "Pretty Choker", "Metal Piercing", "Subdued Bracelet", "Technical Guide", "Grubby Book", "Thick Dictionary", "Closed Book", "Used Coloring Book", "Old Schoolbook", "Dirty Bag", "Flashy Hat", "Leather Gloves", "Silk Handkerchief", "Leather Boots", "Complex Machine", "Elaborate Machine", "Simple Machine", "Stopped Clock", "Broken Wristwatch", "Rusty Kitchen Knife", "Broken Saw", "Dented Metal Bat", "Shell", "Gastropod", "Bivalve", "Seaweed", "Empty Bottle", "Driftwood", "Pearl", "Black Pearl", "Crab", "Starfish", "Sea Turtle Egg", "Broken Pottery", "Desert Rose", "Giant Egg", "Damascus Steel", "Eagle Egg", "Chicken Egg", "Mouse Tail", "Lizard Tail", "Deer Antler"],
+                cap: 99,
+                caps: &[],
+                estimate: false,
+                about: "Raises every material this slot already holds (plants, ores, animal parts, machine parts, salvage) to 99, the most the game carries.",
+            }),
+        },
+        List { title: "NieR 3: recovery items", path: "/NieR 3/Recovery items", shape: Shape::Map, names: &[], max: None },
+        List {
+            title: "NieR 3: materials",
+            path: "/NieR 3/Materials",
+            shape: Shape::Map,
+            names: &[],
+            max: Some(Max {
+                ids: &["Aquatic Plant", "Deadwood", "Rusty Bucket", "Empty Can", "Gold Ore", "Silver Ore", "Copper Ore", "Iron Ore", "Crystal", "Pyrite", "Moldavite", "Meteorite", "Amber", "Fluorite", "Clay", "Berries", "Royal Fern", "Tree Branch", "Log", "Natural Rubber", "Ivy", "Lichen", "Mushroom", "Sap", "Mutton", "Boar Meat", "Wool", "Boar Hide", "Wolf Hide", "Wolf Fang", "Giant Spider Silk", "Bat Fang", "Bat Wing", "Goat Meat", "Goat Hide", "Venison", "Rainbow Spider Silk", "Boar Liver", "Scorpion Claw", "Scorpion Tail", "Dented Metal Board", "Stripped Bolt", "Broken Lens", "Severed Cable", "Broken Arm", "Broken Antenna", "Broken Motor", "Broken Battery", "Mysterious Switch", "Large Gear", "Titanium Alloy", "Memory Alloy", "Rusted Clump", "Machine Oil", "Forlorn Necklace", "Twisted Ring", "Broken Earring", "Pretty Choker", "Metal Piercing", "Subdued Bracelet", "Technical Guide", "Grubby Book", "Thick Dictionary", "Closed Book", "Used Coloring Book", "Old Schoolbook", "Dirty Bag", "Flashy Hat", "Leather Gloves", "Silk Handkerchief", "Leather Boots", "Complex Machine", "Elaborate Machine", "Simple Machine", "Stopped Clock", "Broken Wristwatch", "Rusty Kitchen Knife", "Broken Saw", "Dented Metal Bat", "Shell", "Gastropod", "Bivalve", "Seaweed", "Empty Bottle", "Driftwood", "Pearl", "Black Pearl", "Crab", "Starfish", "Sea Turtle Egg", "Broken Pottery", "Desert Rose", "Giant Egg", "Damascus Steel", "Eagle Egg", "Chicken Egg", "Mouse Tail", "Lizard Tail", "Deer Antler"],
+                cap: 99,
+                caps: &[],
+                estimate: false,
+                about: "Raises every material this slot already holds (plants, ores, animal parts, machine parts, salvage) to 99, the most the game carries.",
+            }),
+        },
+        List { title: "Kaine 1: recovery items", path: "/Kaine 1/Recovery items", shape: Shape::Map, names: &[], max: None },
+        List {
+            title: "Kaine 1: materials",
+            path: "/Kaine 1/Materials",
+            shape: Shape::Map,
+            names: &[],
+            max: Some(Max {
+                ids: &["Aquatic Plant", "Deadwood", "Rusty Bucket", "Empty Can", "Gold Ore", "Silver Ore", "Copper Ore", "Iron Ore", "Crystal", "Pyrite", "Moldavite", "Meteorite", "Amber", "Fluorite", "Clay", "Berries", "Royal Fern", "Tree Branch", "Log", "Natural Rubber", "Ivy", "Lichen", "Mushroom", "Sap", "Mutton", "Boar Meat", "Wool", "Boar Hide", "Wolf Hide", "Wolf Fang", "Giant Spider Silk", "Bat Fang", "Bat Wing", "Goat Meat", "Goat Hide", "Venison", "Rainbow Spider Silk", "Boar Liver", "Scorpion Claw", "Scorpion Tail", "Dented Metal Board", "Stripped Bolt", "Broken Lens", "Severed Cable", "Broken Arm", "Broken Antenna", "Broken Motor", "Broken Battery", "Mysterious Switch", "Large Gear", "Titanium Alloy", "Memory Alloy", "Rusted Clump", "Machine Oil", "Forlorn Necklace", "Twisted Ring", "Broken Earring", "Pretty Choker", "Metal Piercing", "Subdued Bracelet", "Technical Guide", "Grubby Book", "Thick Dictionary", "Closed Book", "Used Coloring Book", "Old Schoolbook", "Dirty Bag", "Flashy Hat", "Leather Gloves", "Silk Handkerchief", "Leather Boots", "Complex Machine", "Elaborate Machine", "Simple Machine", "Stopped Clock", "Broken Wristwatch", "Rusty Kitchen Knife", "Broken Saw", "Dented Metal Bat", "Shell", "Gastropod", "Bivalve", "Seaweed", "Empty Bottle", "Driftwood", "Pearl", "Black Pearl", "Crab", "Starfish", "Sea Turtle Egg", "Broken Pottery", "Desert Rose", "Giant Egg", "Damascus Steel", "Eagle Egg", "Chicken Egg", "Mouse Tail", "Lizard Tail", "Deer Antler"],
+                cap: 99,
+                caps: &[],
+                estimate: false,
+                about: "Raises every material this slot already holds (plants, ores, animal parts, machine parts, salvage) to 99, the most the game carries.",
+            }),
+        },
+        List { title: "Kaine 2: recovery items", path: "/Kaine 2/Recovery items", shape: Shape::Map, names: &[], max: None },
+        List {
+            title: "Kaine 2: materials",
+            path: "/Kaine 2/Materials",
+            shape: Shape::Map,
+            names: &[],
+            max: Some(Max {
+                ids: &["Aquatic Plant", "Deadwood", "Rusty Bucket", "Empty Can", "Gold Ore", "Silver Ore", "Copper Ore", "Iron Ore", "Crystal", "Pyrite", "Moldavite", "Meteorite", "Amber", "Fluorite", "Clay", "Berries", "Royal Fern", "Tree Branch", "Log", "Natural Rubber", "Ivy", "Lichen", "Mushroom", "Sap", "Mutton", "Boar Meat", "Wool", "Boar Hide", "Wolf Hide", "Wolf Fang", "Giant Spider Silk", "Bat Fang", "Bat Wing", "Goat Meat", "Goat Hide", "Venison", "Rainbow Spider Silk", "Boar Liver", "Scorpion Claw", "Scorpion Tail", "Dented Metal Board", "Stripped Bolt", "Broken Lens", "Severed Cable", "Broken Arm", "Broken Antenna", "Broken Motor", "Broken Battery", "Mysterious Switch", "Large Gear", "Titanium Alloy", "Memory Alloy", "Rusted Clump", "Machine Oil", "Forlorn Necklace", "Twisted Ring", "Broken Earring", "Pretty Choker", "Metal Piercing", "Subdued Bracelet", "Technical Guide", "Grubby Book", "Thick Dictionary", "Closed Book", "Used Coloring Book", "Old Schoolbook", "Dirty Bag", "Flashy Hat", "Leather Gloves", "Silk Handkerchief", "Leather Boots", "Complex Machine", "Elaborate Machine", "Simple Machine", "Stopped Clock", "Broken Wristwatch", "Rusty Kitchen Knife", "Broken Saw", "Dented Metal Bat", "Shell", "Gastropod", "Bivalve", "Seaweed", "Empty Bottle", "Driftwood", "Pearl", "Black Pearl", "Crab", "Starfish", "Sea Turtle Egg", "Broken Pottery", "Desert Rose", "Giant Egg", "Damascus Steel", "Eagle Egg", "Chicken Egg", "Mouse Tail", "Lizard Tail", "Deer Antler"],
+                cap: 99,
+                caps: &[],
+                estimate: false,
+                about: "Raises every material this slot already holds (plants, ores, animal parts, machine parts, salvage) to 99, the most the game carries.",
+            }),
+        },
+        List { title: "Kaine 3: recovery items", path: "/Kaine 3/Recovery items", shape: Shape::Map, names: &[], max: None },
+        List {
+            title: "Kaine 3: materials",
+            path: "/Kaine 3/Materials",
+            shape: Shape::Map,
+            names: &[],
+            max: Some(Max {
+                ids: &["Aquatic Plant", "Deadwood", "Rusty Bucket", "Empty Can", "Gold Ore", "Silver Ore", "Copper Ore", "Iron Ore", "Crystal", "Pyrite", "Moldavite", "Meteorite", "Amber", "Fluorite", "Clay", "Berries", "Royal Fern", "Tree Branch", "Log", "Natural Rubber", "Ivy", "Lichen", "Mushroom", "Sap", "Mutton", "Boar Meat", "Wool", "Boar Hide", "Wolf Hide", "Wolf Fang", "Giant Spider Silk", "Bat Fang", "Bat Wing", "Goat Meat", "Goat Hide", "Venison", "Rainbow Spider Silk", "Boar Liver", "Scorpion Claw", "Scorpion Tail", "Dented Metal Board", "Stripped Bolt", "Broken Lens", "Severed Cable", "Broken Arm", "Broken Antenna", "Broken Motor", "Broken Battery", "Mysterious Switch", "Large Gear", "Titanium Alloy", "Memory Alloy", "Rusted Clump", "Machine Oil", "Forlorn Necklace", "Twisted Ring", "Broken Earring", "Pretty Choker", "Metal Piercing", "Subdued Bracelet", "Technical Guide", "Grubby Book", "Thick Dictionary", "Closed Book", "Used Coloring Book", "Old Schoolbook", "Dirty Bag", "Flashy Hat", "Leather Gloves", "Silk Handkerchief", "Leather Boots", "Complex Machine", "Elaborate Machine", "Simple Machine", "Stopped Clock", "Broken Wristwatch", "Rusty Kitchen Knife", "Broken Saw", "Dented Metal Bat", "Shell", "Gastropod", "Bivalve", "Seaweed", "Empty Bottle", "Driftwood", "Pearl", "Black Pearl", "Crab", "Starfish", "Sea Turtle Egg", "Broken Pottery", "Desert Rose", "Giant Egg", "Damascus Steel", "Eagle Egg", "Chicken Egg", "Mouse Tail", "Lizard Tail", "Deer Antler"],
+                cap: 99,
+                caps: &[],
+                estimate: false,
+                about: "Raises every material this slot already holds (plants, ores, animal parts, machine parts, salvage) to 99, the most the game carries.",
+            }),
+        },
+        List { title: "NieR (after ending D): recovery items", path: "/NieR (after ending D)/Recovery items", shape: Shape::Map, names: &[], max: None },
+        List {
+            title: "NieR (after ending D): materials",
+            path: "/NieR (after ending D)/Materials",
+            shape: Shape::Map,
+            names: &[],
+            max: Some(Max {
+                ids: &["Aquatic Plant", "Deadwood", "Rusty Bucket", "Empty Can", "Gold Ore", "Silver Ore", "Copper Ore", "Iron Ore", "Crystal", "Pyrite", "Moldavite", "Meteorite", "Amber", "Fluorite", "Clay", "Berries", "Royal Fern", "Tree Branch", "Log", "Natural Rubber", "Ivy", "Lichen", "Mushroom", "Sap", "Mutton", "Boar Meat", "Wool", "Boar Hide", "Wolf Hide", "Wolf Fang", "Giant Spider Silk", "Bat Fang", "Bat Wing", "Goat Meat", "Goat Hide", "Venison", "Rainbow Spider Silk", "Boar Liver", "Scorpion Claw", "Scorpion Tail", "Dented Metal Board", "Stripped Bolt", "Broken Lens", "Severed Cable", "Broken Arm", "Broken Antenna", "Broken Motor", "Broken Battery", "Mysterious Switch", "Large Gear", "Titanium Alloy", "Memory Alloy", "Rusted Clump", "Machine Oil", "Forlorn Necklace", "Twisted Ring", "Broken Earring", "Pretty Choker", "Metal Piercing", "Subdued Bracelet", "Technical Guide", "Grubby Book", "Thick Dictionary", "Closed Book", "Used Coloring Book", "Old Schoolbook", "Dirty Bag", "Flashy Hat", "Leather Gloves", "Silk Handkerchief", "Leather Boots", "Complex Machine", "Elaborate Machine", "Simple Machine", "Stopped Clock", "Broken Wristwatch", "Rusty Kitchen Knife", "Broken Saw", "Dented Metal Bat", "Shell", "Gastropod", "Bivalve", "Seaweed", "Empty Bottle", "Driftwood", "Pearl", "Black Pearl", "Crab", "Starfish", "Sea Turtle Egg", "Broken Pottery", "Desert Rose", "Giant Egg", "Damascus Steel", "Eagle Egg", "Chicken Egg", "Mouse Tail", "Lizard Tail", "Deer Antler"],
+                cap: 99,
+                caps: &[],
+                estimate: false,
+                about: "Raises every material this slot already holds (plants, ores, animal parts, machine parts, salvage) to 99, the most the game carries.",
+            }),
+        },
+    ],
+    tables: &[Table {
+        title: "Slots",
+        path: "",
+        name: &[],
+        only: &["NieR 1", "NieR 2", "NieR 3", "Kaine 1", "Kaine 2", "Kaine 3", "NieR (after ending D)"],
+        cols: &[("Health", "/Health"), ("Level (shown minus one)", "/Level (shown level minus one)"), ("Experience", "/Experience"), ("Money", "/Money")],
+        names: &[],
+    }],
+};
+
+const GENZERO: Spec = Spec {
+    name: "Generation Zero",
+    tab: "Characters",
+    accent: (210, 120, 50),
+    kind: Some(crate::fmt::genzero::KIND),
+    markers: &[],
+    subtitle: "savegame from Documents\\Avalanche Studios\\GenerationZero\\Saves\\<account>: skill points, experience, level, inventory amounts, the resource store and the safehouse storage.",
+    tiles: &[],
+    sections: &[],
+    lists: &[
+        List { title: "Character 1: inventory", path: "/Character 1/Inventory", shape: Shape::Records { qty_key: "Amount" }, names: &[], max: Some(Max {
+                ids: &["Aluminium", "Uranium", "Textile", "Steel", "Tungsten", "Rubber", "Adhesive", "Titanium", "Plastic", "Thread"],
+                cap: 99,
+                caps: &[],
+                estimate: true,
+                about: "Raises the crafting materials the character already holds (aluminium, uranium, textile, steel, tungsten, rubber, adhesive, titanium, plastic, thread) to 99, the stack size every item in the public sample has. Weapons, ammunition and other items are left alone. The game states no limit, so 99 is an estimate.",
+            }) },
+        List { title: "Character 2: inventory", path: "/Character 2/Inventory", shape: Shape::Records { qty_key: "Amount" }, names: &[], max: Some(Max {
+                ids: &["Aluminium", "Uranium", "Textile", "Steel", "Tungsten", "Rubber", "Adhesive", "Titanium", "Plastic", "Thread"],
+                cap: 99,
+                caps: &[],
+                estimate: true,
+                about: "Raises the crafting materials the character already holds (aluminium, uranium, textile, steel, tungsten, rubber, adhesive, titanium, plastic, thread) to 99, the stack size every item in the public sample has. Weapons, ammunition and other items are left alone. The game states no limit, so 99 is an estimate.",
+            }) },
+        List { title: "Character 3: inventory", path: "/Character 3/Inventory", shape: Shape::Records { qty_key: "Amount" }, names: &[], max: Some(Max {
+                ids: &["Aluminium", "Uranium", "Textile", "Steel", "Tungsten", "Rubber", "Adhesive", "Titanium", "Plastic", "Thread"],
+                cap: 99,
+                caps: &[],
+                estimate: true,
+                about: "Raises the crafting materials the character already holds (aluminium, uranium, textile, steel, tungsten, rubber, adhesive, titanium, plastic, thread) to 99, the stack size every item in the public sample has. Weapons, ammunition and other items are left alone. The game states no limit, so 99 is an estimate.",
+            }) },
+        List { title: "Character 4: inventory", path: "/Character 4/Inventory", shape: Shape::Records { qty_key: "Amount" }, names: &[], max: Some(Max {
+                ids: &["Aluminium", "Uranium", "Textile", "Steel", "Tungsten", "Rubber", "Adhesive", "Titanium", "Plastic", "Thread"],
+                cap: 99,
+                caps: &[],
+                estimate: true,
+                about: "Raises the crafting materials the character already holds (aluminium, uranium, textile, steel, tungsten, rubber, adhesive, titanium, plastic, thread) to 99, the stack size every item in the public sample has. Weapons, ammunition and other items are left alone. The game states no limit, so 99 is an estimate.",
+            }) },
+        List { title: "Resource storage", path: "/Resource storage", shape: Shape::Map, names: &[], max: Some(Max {
+                ids: &["Aluminium", "Uranium", "Textile", "Steel", "Tungsten", "Rubber", "Adhesive", "Titanium", "Plastic", "Thread"],
+                cap: 99,
+                caps: &[],
+                estimate: true,
+                about: "Raises the crafting materials the store already holds (aluminium, uranium, textile, steel, tungsten, rubber, adhesive, titanium, plastic, thread) to 99, the stack size every item in the public sample has. Weapons, ammunition and other items are left alone. The game states no limit, so 99 is an estimate.",
+            }) },
+        List { title: "Safehouse storage", path: "/Safehouse storage", shape: Shape::Records { qty_key: "Amount" }, names: &[], max: None },
+    ],
+    tables: &[Table {
+        title: "Characters",
+        path: "",
+        name: &[],
+        only: &["Character 1", "Character 2", "Character 3", "Character 4"],
+        cols: &[("Skill points", "/Skill points"), ("Experience", "/Experience"), ("Level", "/Level")],
+        names: &[],
+    }],
 };
