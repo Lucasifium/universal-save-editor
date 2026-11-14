@@ -268,7 +268,18 @@ fn treasuries(d: &[u8]) -> Result<(Vec<Treasury>, Option<String>), String> {
         let ks = children(d, body, end).ok_or("bad faction")?;
         let Some(f) = child_rec(&e, &ks, "FACTION") else { continue };
         let fk = children(d, f.body, f.end).ok_or("bad faction")?;
-        let Some(eco) = child_rec(&e, &fk, "FACTION_ECONOMICS") else { continue };
+        // Three Kingdoms keeps the economics inside a FACTION_ECONOMICS_MANAGER record.
+        let mut manager = None;
+        let eco = match child_rec(&e, &fk, "FACTION_ECONOMICS") {
+            Some(r) => r,
+            None => {
+                let Some(m) = child_rec(&e, &fk, "FACTION_ECONOMICS_MANAGER") else { continue };
+                let Some(mk) = children(d, m.body, m.end) else { continue };
+                let Some(r) = child_rec(&e, &mk, "FACTION_ECONOMICS") else { continue };
+                manager = Some(m);
+                r
+            }
+        };
         let name = fk
             .iter()
             .find_map(|n| match n {
@@ -293,18 +304,26 @@ fn treasuries(d: &[u8]) -> Result<(Vec<Treasury>, Option<String>), String> {
         let mut c = chain.clone();
         c.push((sa, sl));
         c.push(rec_chain(&f));
+        if let Some(m) = &manager {
+            c.push(rec_chain(m));
+        }
         c.push(rec_chain(&eco));
         out.push(Treasury { name, val, chain: c });
     }
     if out.is_empty() {
         return Err("no faction treasuries found".into());
     }
-    // The player's faction: the first text value of the save header.
+    // The player's faction: the text value of the save header that names a faction (Three Kingdoms
+    // starts its header with the game version, which is not one).
     let player = child_rec(&e, &top, "SAVE_GAME_HEADER").and_then(|h| {
-        children(d, h.body, h.end)?.iter().find_map(|n| match n {
-            Node::Val { start, t: 0x0f | 0x21 | 0x25, .. } => u32_at(d, start + 1).and_then(|i| e.ascii.get(&i).cloned()),
-            _ => None,
-        })
+        let texts: Vec<String> = children(d, h.body, h.end)?
+            .iter()
+            .filter_map(|n| match n {
+                Node::Val { start, t: 0x0f | 0x21 | 0x25, .. } => u32_at(d, start + 1).and_then(|i| e.ascii.get(&i).cloned()),
+                _ => None,
+            })
+            .collect();
+        texts.iter().find(|t| out.iter().any(|f| &f.name == *t)).cloned()
     });
     Ok((out, player))
 }

@@ -185,6 +185,7 @@ pub mod xc3;
 pub mod supermetroid;
 pub mod zelda_lttp;
 pub mod alphaprotocol;
+pub mod isaac;
 pub mod obsidian;
 pub mod roadhog;
 pub mod saltsanc;
@@ -478,6 +479,11 @@ pub fn parse_binary(d: &[u8]) -> Option<TreeDoc> {
     }
     if alphaprotocol::looks(d) {
         if let Ok(t) = alphaprotocol::parse(d) {
+            return Some(t);
+        }
+    }
+    if isaac::looks(d) {
+        if let Ok(t) = isaac::parse(d) {
             return Some(t);
         }
     }
