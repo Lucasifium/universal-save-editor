@@ -3,7 +3,7 @@
 
 use super::{List, Max, Section, Shape, Spec, Table};
 
-pub static SPECS: &[Spec] = &[COTL, FALLOUT_SHELTER, DRG, S1_MONEY, S1_RANK, S1_TIME, S1_GAME, SOTF_STATE, SOTF_GAME, SOTF_WEATHER, SOTF_ITEMS, DMD, CUPHEAD, ANTIMATTER, PVZ, CELESTE, DRGS, KH3, RF4S, SKY1ST, KSP, FFPR, MCD, STONESHARD, ROGUE_TRADER, BIOSHOCK_INFINITE, SPACE_HAVEN, SNOWRUNNER, GRAVEYARD_KEEPER, NFSMW, TOS, GTA3, GTAVC, BITBURNER, TERRA_INVICTA, PRISON, FF13, SONIC_MANIA, CAVE_STORY_PLUS, CAVE_STORY, LIES_OF_P, TXR, DAVE, MSC, ULTRAKILL, RPGXP, RE5, ANNO1800, FTK, LEGO_TSS, LEGO_CLASSIC, MYZ, CMS21, MEDIEVAL_DYNASTY, MECHANICUS, ORI, OMORI, ENDER_LILIES, SW2, ES2, MOONLIGHTER, WASTELAND2, ATOM, MORTAL_SHELL, MORTAL_SHELL_2, COTW, BEAMNG, FOREST, YAKUZA3, YAKUZA4, YAKUZA5, ISHIN, SALT, DRAKENSANG, ALPHA, TYRANNY, JEDI_FO, SR3, SR4, WD2, FABLE, WANDERING_SWORD, STELLAR_BLADE, PRAGMATA, SLIME_RANCHER, SUBNAUTICA2, HZD, SLEEPING_DOGS, DXMD, ATOMIC_HEART, DISHONORED2, DEATHLOOP, DISHONORED1, RDR1, RDR2, SM64, SUPER_METROID, LTTP, WORLDBOX, COREKEEPER, HOLOCURE, POTION_CRAFT, WWZ, ROBOQUEST, CMS18, LONGDRIVE, LONGDRIVE_PROP, AC_ANVIL, AC_ODYSSEY];
+pub static SPECS: &[Spec] = &[COTL, FALLOUT_SHELTER, DRG, S1_MONEY, S1_RANK, S1_TIME, S1_GAME, SOTF_STATE, SOTF_GAME, SOTF_WEATHER, SOTF_ITEMS, DMD, CUPHEAD, ANTIMATTER, PVZ, CELESTE, DRGS, KH3, RF4S, SKY1ST, KSP, FFPR, MCD, STONESHARD, ROGUE_TRADER, BIOSHOCK_INFINITE, SPACE_HAVEN, SNOWRUNNER, GRAVEYARD_KEEPER, NFSMW, TOS, GTA3, GTAVC, BITBURNER, TERRA_INVICTA, PRISON, FF13, SONIC_MANIA, CAVE_STORY_PLUS, CAVE_STORY, LIES_OF_P, TXR, DAVE, MSC, ULTRAKILL, RPGXP, RE5, ANNO1800, FTK, LEGO_TSS, LEGO_CLASSIC, MYZ, CMS21, MEDIEVAL_DYNASTY, MECHANICUS, ORI, OMORI, ENDER_LILIES, SW2, ES2, MOONLIGHTER, WASTELAND2, ATOM, MORTAL_SHELL, MORTAL_SHELL_2, COTW, BEAMNG, FOREST, YAKUZA3, YAKUZA4, YAKUZA5, ISHIN, SALT, DRAKENSANG, ALPHA, TYRANNY, JEDI_FO, SR3, SR4, WD2, FABLE, WANDERING_SWORD, STELLAR_BLADE, PRAGMATA, SLIME_RANCHER, SUBNAUTICA2, HZD, SLEEPING_DOGS, DXMD, ATOMIC_HEART, DISHONORED2, DEATHLOOP, DISHONORED1, RDR1, RDR2, SM64, SUPER_METROID, LTTP, WORLDBOX, COREKEEPER, HOLOCURE, POTION_CRAFT, WWZ, ROBOQUEST, CMS18, LONGDRIVE, LONGDRIVE_PROP, AC_ANVIL, AC_ODYSSEY, WOL, SOD_PROFILE, SOD_STATS, TRAVELLERS_REST, YOUTUBERS_LIFE, LUCK_LANDLORD, LUNA_NIGHTS, EVERSPACE1, STREETS_OF_ROGUE];
 
 // ------------------------------------------------------------------ Cult of the Lamb
 
@@ -4027,4 +4027,306 @@ const AC_ODYSSEY: Spec = Spec {
     }],
     lists: &[],
     tables: &[],
+};
+
+// ------------------------------------------------------------------ West of Loathing
+
+const WOL: Spec = Spec {
+    name: "West of Loathing",
+    tab: "Cowpoke",
+    accent: (196, 150, 70),
+    kind: None,
+    markers: &["/PLAYER/flags/meat", "/PLAYER/skills", "/WAA_ID"],
+    subtitle: "save-<name>-<number>.json. Meat is the money; muscle, mysticality, moxie and every skill and perk are in the skills list below (skills are levels, perks are 1 or 0). The game stores most numbers as text, so type digits only.",
+    tiles: &[("Meat", "/PLAYER/flags/meat"), ("Level", "/PLAYER/flags/level"), ("XP", "/PLAYER/flags/xp")],
+    sections: &[
+        Section {
+            title: "The cowpoke",
+            rows: &[
+                ("First name", "/PLAYER/flags/firstname"), ("Last name", "/PLAYER/flags/lastname"), ("Meat", "/PLAYER/flags/meat"),
+                ("Level", "/PLAYER/flags/level"), ("XP", "/PLAYER/flags/xp"), ("Total XP", "/PLAYER/flags/totalxp"),
+                ("Muscle XP", "/PLAYER/flags/musxp"), ("Mysticality XP", "/PLAYER/flags/mysxp"), ("Moxie XP", "/PLAYER/flags/moxxp"),
+                ("Class (1 cow puncher, 2 beanslinger, 3 snake oiler)", "/PLAYER/flags/class"), ("Day", "/PLAYER/flags/day"),
+                ("Seconds played", "/PLAYER/flags/secondsplayed"),
+            ],
+        },
+        Section {
+            title: "Resistances",
+            rows: &[
+                ("Hot", "/PLAYER/flags/hotresist"), ("Cold", "/PLAYER/flags/coldresist"), ("Spooky", "/PLAYER/flags/spookyresist"),
+                ("Stench", "/PLAYER/flags/stenchresist"), ("Sleaze", "/PLAYER/flags/sleazeresist"),
+            ],
+        },
+    ],
+    lists: &[List { title: "Stats, skills and perks", path: "/PLAYER/skills", shape: Shape::Map, names: &[], max: None }],
+    tables: &[Table { title: "Inventory", path: "/PLAYER/items", name: &["/name"], cols: &[("Quantity", "/qty")], only: &[], names: &[] }],
+};
+
+// ------------------------------------------------------------------ Shape of Dreams
+
+const SOD_PROFILE: Spec = Spec {
+    name: "Shape of Dreams",
+    tab: "Traveler",
+    accent: (150, 120, 220),
+    kind: None,
+    markers: &["/root/stardust", "/root/spentStardust", "/root/preferredHero"],
+    subtitle: "r_profile<id>.json in the QuickSave folder. Stardust is the meta currency; the unlocked items live in r_items.json, which the game encrypts (not opened). Mastery and records are in the r_stats file.",
+    tiles: &[("Stardust", "/root/stardust"), ("Spent stardust", "/root/spentStardust"), ("Reveries done", "/root/completedReveries")],
+    sections: &[
+        Section {
+            title: "Profile",
+            rows: &[
+                ("Name", "/root/name"), ("Stardust", "/root/stardust"), ("Spent stardust", "/root/spentStardust"),
+                ("Reveries completed", "/root/completedReveries"), ("Play time (minutes)", "/root/totalPlayTimeMinutes"),
+            ],
+        },
+        Section {
+            title: "Preferences",
+            rows: &[
+                ("Difficulty (diffNormal, …)", "/root/preferredDifficulty"), ("Traveler", "/root/preferredHero"),
+                ("Lobby name", "/root/preferredLobbyName"),
+            ],
+        },
+    ],
+    lists: &[],
+    tables: &[],
+};
+
+const SOD_STATS: Spec = Spec {
+    name: "Shape of Dreams (statistics)",
+    tab: "Mastery",
+    accent: (150, 120, 220),
+    kind: None,
+    markers: &["/root/total/masteryLevel", "/root/heroes"],
+    subtitle: "r_stats<id>.json in the QuickSave folder: mastery and the record of every traveler.",
+    tiles: &[("Mastery level", "/root/total/masteryLevel"), ("Mastery points", "/root/total/currentMasteryPoints"), ("Wins", "/root/total/wins")],
+    sections: &[Section {
+        title: "All travelers",
+        rows: &[
+            ("Mastery level", "/root/total/masteryLevel"), ("Mastery points to spend", "/root/total/currentMasteryPoints"),
+            ("Total mastery points", "/root/total/totalMasteryPoints"), ("Wins", "/root/total/wins"), ("Losses", "/root/total/loses"),
+            ("Runs played", "/root/total/playCount"), ("Level ups", "/root/total/levelUps"), ("Kills", "/root/total/kills"),
+            ("Deaths", "/root/total/deaths"), ("Gold earned", "/root/total/earnedGold"), ("Dream dust earned", "/root/total/earnedDreamDust"),
+        ],
+    }],
+    lists: &[],
+    tables: &[Table {
+        title: "Travelers",
+        path: "/root/heroes",
+        name: &[],
+        cols: &[
+            ("Mastery level", "/masteryLevel"), ("Mastery points", "/currentMasteryPoints"), ("Total mastery points", "/totalMasteryPoints"),
+            ("Wins", "/wins"), ("Losses", "/loses"), ("Runs", "/playCount"), ("Kills", "/kills"),
+        ],
+        only: &[],
+        names: &[],
+    }],
+};
+
+// ------------------------------------------------------------------ Travellers Rest
+
+const TRAVELLERS_REST: Spec = Spec {
+    name: "Travellers Rest",
+    tab: "Tavern",
+    accent: (214, 150, 60),
+    kind: Some(".NET BinaryFormatter (SaveData)"),
+    markers: &["/money", "/ingredients", "/itemsInInventory"],
+    subtitle: "SaveFile-<day>-<month>-<year>-<time>.save. Money is counted in copper (100 copper = 1 silver, 100 silver = 1 gold). Items are shown by their game id.",
+    tiles: &[("Money (copper)", "/money")],
+    sections: &[Section {
+        title: "Tavern",
+        rows: &[
+            ("Money (copper)", "/money"), ("Crafting room upgrades", "/craftingRoomUpgradeNumber"), ("Tavern floor upgrades", "/tavernFloorUpgradeNumber"),
+            ("Cellar upgrades", "/cellarUpgradeNumber"), ("Halloween candles", "/halloweenCandlesNum"),
+        ],
+    }],
+    lists: &[
+        List { title: "Inventory", path: "/itemsInInventory", shape: Shape::Array { id_key: "/itemInstanceSave/itemID", qty_keys: &["stack"] }, names: &[], max: None },
+        List { title: "Action bar", path: "/itemsInActionBar", shape: Shape::Array { id_key: "/itemInstanceSave/itemID", qty_keys: &["stack"] }, names: &[], max: None },
+    ],
+    tables: &[],
+};
+
+// ------------------------------------------------------------------ Youtubers Life
+
+const YOUTUBERS_LIFE: Spec = Spec {
+    name: "Youtubers Life",
+    tab: "Youtuber",
+    accent: (230, 60, 60),
+    kind: Some("SQLite database"),
+    markers: &["/savegame/0/money", "/youtuber/0/gaming_exp", "/channel/0/subscribers"],
+    subtitle: "<name>_<date>.yls in the Saves folder (a SQLite database, written back as one). The first row of each table is yours; the other youtuber and channel rows are the game's rivals and friends.",
+    tiles: &[("Money", "/savegame/0/money"), ("Subscribers", "/channel/0/subscribers"), ("Views", "/channel/0/views")],
+    sections: &[
+        Section {
+            title: "Savegame",
+            rows: &[
+                ("Money", "/savegame/0/money"), ("House", "/savegame/0/house"), ("Work hours", "/savegame/0/work_hours"),
+                ("Study hours", "/savegame/0/study_hours"), ("Current date (days)", "/savegame/0/current_date"),
+            ],
+        },
+        Section {
+            title: "Your channel",
+            rows: &[("Name", "/channel/0/name"), ("Subscribers", "/channel/0/subscribers"), ("Views", "/channel/0/views"), ("Status", "/channel/0/status"), ("Videos", "/channel/0/num_videos")],
+        },
+    ],
+    lists: &[],
+    tables: &[Table {
+        title: "Youtubers",
+        path: "/youtuber",
+        name: &["/name"],
+        cols: &[
+            ("Energy", "/energy"), ("Hunger", "/hunger"), ("Social life", "/social_life"), ("Motivation", "/motivation"),
+            ("Scripting", "/scripting"), ("Acting", "/acting"), ("Sound", "/sound"), ("Editing", "/editing"), ("Effects", "/effects"),
+            ("Gaming level", "/gaming"), ("Cooking level", "/cooking"), ("Life level", "/life"), ("Music level", "/music"), ("Fashion level", "/fashion"),
+            ("Gaming EXP", "/gaming_exp"), ("Main level", "/main_level"), ("Main EXP", "/main_exp"), ("Perk points", "/perk"),
+        ],
+        only: &[],
+        names: &[],
+    }],
+};
+
+// ------------------------------------------------------------------ Luck be a Landlord
+
+const LUCK_LANDLORD: Spec = Spec {
+    name: "Luck be a Landlord",
+    tab: "Run",
+    accent: (240, 190, 60),
+    kind: None,
+    markers: &["/~1root~1Main~1Coins/coins", "/~1root~1Main~1Pop-up Sprite~1Pop-up/removal_tokens"],
+    subtitle: "LBAL.save (the run in progress). The save is one JSON object per line; each node of the run is shown under its path. Symbols and items are lists of names in the Tree.",
+    tiles: &[
+        ("Coins", "/~1root~1Main~1Coins/coins"),
+        ("Removal tokens", "/~1root~1Main~1Pop-up Sprite~1Pop-up/removal_tokens"),
+        ("Reroll tokens", "/~1root~1Main~1Pop-up Sprite~1Pop-up/reroll_tokens"),
+    ],
+    sections: &[
+        Section {
+            title: "The run",
+            rows: &[
+                ("Coins", "/~1root~1Main~1Coins/coins"), ("Removal tokens", "/~1root~1Main~1Pop-up Sprite~1Pop-up/removal_tokens"),
+                ("Reroll tokens", "/~1root~1Main~1Pop-up Sprite~1Pop-up/reroll_tokens"), ("Spins", "/~1root~1Main~1Pop-up Sprite~1Pop-up/spins"),
+                ("Symbols to choose from", "/~1root~1Main~1Pop-up Sprite~1Pop-up/symbols_to_choose_from"),
+                ("Current floor", "/~1root~1Main~1Pop-up Sprite~1Pop-up/current_floor"),
+            ],
+        },
+        Section {
+            title: "Rent and progress",
+            rows: &[
+                ("Rent due (coins)", "/~1root~1Main~1Pop-up Sprite~1Pop-up/rent_values/0"), ("Spins until rent", "/~1root~1Main~1Pop-up Sprite~1Pop-up/rent_values/1"),
+                ("Rent payments made", "/~1root~1Main~1Pop-up Sprite~1Pop-up/times_rent_paid"), ("Rent payments to make", "/~1root~1Main~1Pop-up Sprite~1Pop-up/times_to_pay_rent"),
+                ("Highest unlocked floor", "/~1root~1Main~1Pop-up Sprite~1Pop-up/highest_unlocked_floor"), ("Total runs", "/~1root~1Main~1Pop-up Sprite~1Pop-up/total_runs"),
+                ("Endless mode", "/~1root~1Main~1Pop-up Sprite~1Pop-up/endless_mode"),
+            ],
+        },
+    ],
+    lists: &[],
+    tables: &[],
+};
+
+// ------------------------------------------------------------------ Touhou Luna Nights
+
+const LUNA_NIGHTS: Spec = Spec {
+    name: "Touhou Luna Nights",
+    tab: "Sakuya",
+    accent: (110, 130, 230),
+    kind: None,
+    markers: &["/118", "/117", "/102", "/134"],
+    subtitle: "gameN.sav is a list of 1,000 values, one per line (stored as base64 text); the screen names the lines worked out by the Luna Nights save editor. Abilities and keys are owned when the value equals their line number (80 to 84, 90 to 94) and 0 when not.",
+    tiles: &[("Gold", "/118"), ("Level", "/117"), ("HP upgrades", "/104")],
+    sections: &[
+        Section {
+            title: "Sakuya",
+            rows: &[
+                ("Gold", "/118"), ("Level (upgrade number)", "/117"), ("Experience", "/106"), ("HP upgrades", "/104"), ("MP upgrades", "/105"),
+                ("Knife upgrades", "/108"), ("Clock upgrades", "/109"), ("Stage", "/102"), ("Save time", "/107"),
+            ],
+        },
+        Section {
+            title: "Gems",
+            rows: &[
+                ("Amethyst", "/110"), ("Turquoise", "/111"), ("Topaz", "/112"), ("Ruby", "/113"), ("Sapphire", "/114"), ("Emerald", "/115"), ("Diamond", "/116"),
+            ],
+        },
+        Section {
+            title: "Abilities and keys",
+            rows: &[
+                ("Slide (80)", "/80"), ("Double jump (81)", "/81"), ("Wall grip (82)", "/82"), ("Screw (83)", "/83"), ("Dash (84)", "/84"),
+                ("Red key (90)", "/90"), ("Yellow key (91)", "/91"), ("Green key (92)", "/92"), ("Blue key (93)", "/93"), ("Purple key (94)", "/94"), ("Ice magatama (95)", "/95"),
+            ],
+        },
+        Section {
+            title: "Shop and trash cans",
+            rows: &[("Clock upgrades bought", "/134"), ("Knife upgrades bought", "/135"), ("Trash cans opened", "/120")],
+        },
+    ],
+    lists: &[],
+    tables: &[],
+};
+
+// ------------------------------------------------------------------ EVERSPACE
+
+const EVERSPACE1: Spec = Spec {
+    name: "EVERSPACE",
+    tab: "Pilot",
+    accent: (70, 170, 230),
+    kind: Some("Unreal Engine save (CurrentPlayerData)"),
+    markers: &["/DNAFragments", "/NumRuns", "/Perks/0/Level"],
+    subtitle: "CurrentPlayerSave.sav: the pilot's permanent progress. DNA fragments buy perks in the Lab; every perk shows its level and whether it is still locked. Credits, resources and the ship of a run are in the run's own save files.",
+    tiles: &[("DNA fragments", "/DNAFragments"), ("Runs", "/NumRuns"), ("Wins", "/NumWins")],
+    sections: &[
+        Section {
+            title: "Pilot",
+            rows: &[
+                ("Pilot name", "/PlayerName"), ("DNA fragments", "/DNAFragments"), ("Flashback progression", "/FlashbackProgression"),
+                ("Difficulty (EDifficulty::Easy, …)", "/LastDifficulty"), ("Highest sector", "/MaxSector"),
+            ],
+        },
+        Section {
+            title: "Records",
+            rows: &[
+                ("Runs", "/NumRuns"), ("Wins", "/NumWins"), ("Lifetime kills", "/LifeTimeKills"), ("Most kills in a run", "/MaxKills"),
+                ("Most credits held", "/MaxCredits"), ("Credits picked up", "/TotalCreditsPickedUp"), ("Play time (seconds)", "/TotalPlayTime"),
+            ],
+        },
+    ],
+    lists: &[],
+    tables: &[Table {
+        title: "Perks",
+        path: "/Perks",
+        name: &["/Name"],
+        cols: &[("Locked", "/IsLocked"), ("Level", "/Level"), ("Sub-level", "/SubLevel")],
+        only: &[],
+        names: &[],
+    }],
+};
+
+// ------------------------------------------------------------------ Streets of Rogue
+
+const STREETS_OF_ROGUE: Spec = Spec {
+    name: "Streets of Rogue",
+    tab: "Unlocks",
+    accent: (230, 150, 40),
+    kind: Some(".NET BinaryFormatter (UnlockSaveData)"),
+    markers: &["/nuggets", "/totalWins", "/unlocks/0/unlockName"],
+    subtitle: "GameUnlocks.dat in Documents\\Streets of Rogue\\CloudData. Nuggets buy unlocks; every agent, item, trait and floor is listed with whether it is unlocked and what it costs. Close the game first.",
+    tiles: &[("Nuggets", "/nuggets"), ("Wins", "/totalWins"), ("Games played", "/totalGamesPlayed")],
+    sections: &[Section {
+        title: "Progress",
+        rows: &[
+            ("Nuggets", "/nuggets"), ("Wins", "/totalWins"), ("Deaths", "/totalDeaths"), ("Games played", "/totalGamesPlayed"),
+            ("Tutorial finished", "/finishedTutorial"), ("Game version", "/currentVersion"),
+        ],
+    }],
+    lists: &[],
+    tables: &[Table {
+        title: "Unlocks",
+        path: "/unlocks",
+        name: &["/unlockName"],
+        cols: &[
+            ("Type", "/unlockType"), ("Unlocked", "/unlocked"), ("Available now", "/nowAvailable"), ("Cost", "/cost"), ("Cost 2", "/cost2"), ("Cost 3", "/cost3"), ("Progress", "/progressCount"),
+        ],
+        only: &[],
+        names: &[],
+    }],
 };

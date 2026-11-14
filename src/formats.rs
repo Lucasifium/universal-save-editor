@@ -305,6 +305,13 @@ pub enum Layer {
     Larian { archive: Arc<Vec<u8>>, file: String },
     /// Wasteland 3 `.xml`: a `Key:=Value` text header, then the XML packed with LZF.
     Wasteland3 { original: Arc<Vec<u8>> },
+    /// Godot-style JSON lines (Luck be a Landlord): one object per line, each with its own
+    /// `path`. Opened as one object keyed by those paths; `ends_with_newline` is whether the
+    /// last line ends in a line break.
+    JsonByPath { ends_with_newline: bool },
+    /// One value per line, each line the base64 of the value's text (Touhou Luna Nights):
+    /// opened as a JSON array of numbers and text.
+    Base64Values { crlf: bool },
 }
 
 impl Layer {
@@ -314,6 +321,8 @@ impl Layer {
             Layer::RenpyPersistent { .. } => "Ren'Py persistent (zlib + signature)".into(),
             Layer::ZipEntry { name, .. } => format!("zip archive ({name})"),
             Layer::Utf8Bom => "UTF-8 BOM".into(),
+            Layer::JsonByPath { .. } => "JSON lines (one object per node path)".into(),
+            Layer::Base64Values { .. } => "One base64 value per line".into(),
             Layer::NulPadded(_) => "JSON followed by a NUL byte".into(),
             Layer::Utf16 { big_endian, bom } => {
                 format!("UTF-16 {}{}", if *big_endian { "BE" } else { "LE" }, if *bom { "" } else { " (no BOM)" })
@@ -816,6 +825,8 @@ fn wrap(layer: &Layer, data: Vec<u8>) -> Result<Vec<u8>, String> {
             out
         }
         Layer::Utf8Bom => [BOM, &data].concat(),
+        Layer::JsonByPath { ends_with_newline } => json_by_path_close(&data, *ends_with_newline)?,
+        Layer::Base64Values { crlf } => base64_values_close(&data, *crlf)?,
         Layer::NulPadded(n) => [data, vec![0u8; *n]].concat(),
         Layer::Utf16 { big_endian, bom } => {
             let s = String::from_utf8(data).map_err(|_| "UTF-16 layer needs text".to_string())?;
@@ -1314,6 +1325,9 @@ fn peel(data: &[u8], ctx: &mut Ctx) -> Option<(Layer, Vec<u8>)> {
     }
     if data.starts_with(BOM) {
         return Some((Layer::Utf8Bom, data[BOM.len()..].to_vec()));
+    }
+    if let Some(opened) = json_by_path_open(data) {
+        return Some(opened);
     }
     if data.last() == Some(&0) {
         let end = data.iter().rposition(|&b| b != 0).map_or(0, |i| i + 1);
@@ -1868,6 +1882,9 @@ fn peel(data: &[u8], ctx: &mut Ctx) -> Option<(Layer, Vec<u8>)> {
         }
     }
     if let Some(r) = peel_base64_lines(text) {
+        return Some(r);
+    }
+    if let Some(r) = base64_values_open(text) {
         return Some(r);
     }
     if trimmed.contains('%') && !trimmed.contains(char::is_whitespace) {
@@ -2525,6 +2542,102 @@ fn peel_base64_lines(text: &str) -> Option<(Layer, Vec<u8>)> {
         .then_some((layer, bytes))
 }
 
+/// JSON lines where every line is an object with a unique `path` and its keys in sorted order
+/// (Godot's JSON printer): opened as `{ "<path>": { ...the rest... } }`. Only when closing it
+/// again gives back exactly the same bytes.
+fn json_by_path_open(data: &[u8]) -> Option<(Layer, Vec<u8>)> {
+    if data.len() < 20 || data.len() > 64 << 20 || data[0] != b'{' || !data.contains(&b'\n') {
+        return None;
+    }
+    let text = std::str::from_utf8(data).ok()?;
+    let ends_with_newline = text.ends_with('\n');
+    let body = text.strip_suffix('\n').unwrap_or(text);
+    let mut out = serde_json::Map::new();
+    let mut lines = 0;
+    for line in body.split('\n') {
+        let Value::Object(mut o) = serde_json::from_str::<Value>(line).ok()? else { return None };
+        let Some(Value::String(path)) = o.remove("path") else { return None };
+        if out.insert(path, Value::Object(o)).is_some() {
+            return None;
+        }
+        lines += 1;
+    }
+    if lines < 3 {
+        return None;
+    }
+    let json = serde_json::to_vec_pretty(&Value::Object(out)).ok()?;
+    let closed = json_by_path_close(&json, ends_with_newline).ok()?;
+    (closed == data).then_some((Layer::JsonByPath { ends_with_newline }, json))
+}
+
+fn json_by_path_close(json: &[u8], ends_with_newline: bool) -> Result<Vec<u8>, String> {
+    let Value::Object(top) = serde_json::from_slice::<Value>(json).map_err(|e| format!("not JSON: {e}"))? else {
+        return Err("a JSON-lines save is an object of nodes".into());
+    };
+    let mut lines = vec![];
+    for (path, node) in top {
+        let Value::Object(mut o) = node else { return Err(format!("{path} must stay an object")) };
+        o.insert("path".to_string(), Value::String(path));
+        let mut entries: Vec<(String, Value)> = o.into_iter().collect();
+        entries.sort_by(|a, b| a.0.cmp(&b.0));
+        let sorted: serde_json::Map<String, Value> = entries.into_iter().collect();
+        lines.push(serde_json::to_string(&Value::Object(sorted)).map_err(|e| e.to_string())?);
+    }
+    let mut out = lines.join("\n");
+    if ends_with_newline {
+        out.push('\n');
+    }
+    Ok(out.into_bytes())
+}
+
+/// Lines that are each the base64 of a short number or text: a JSON array of those. Only when
+/// closing it gives back exactly the same text.
+fn base64_values_open(text: &str) -> Option<(Layer, Vec<u8>)> {
+    if text.len() > 8 << 20 || text.len() < 200 {
+        return None;
+    }
+    let crlf = text.contains("\r\n");
+    let nl = if crlf { "\r\n" } else { "\n" };
+    let body = text.strip_suffix(nl)?;
+    let mut out = vec![];
+    for line in body.split(nl) {
+        if line.is_empty() || line.len() > 64 || !is_base64_charset(line) {
+            return None;
+        }
+        let raw = STANDARD.decode(line).ok()?;
+        let t = std::str::from_utf8(&raw).ok()?;
+        if t.is_empty() || !t.chars().all(|c| (' '..='~').contains(&c)) {
+            return None;
+        }
+        out.push(match t.parse::<i64>() {
+            Ok(n) if n.to_string() == t => Value::from(n),
+            _ => Value::String(t.to_string()),
+        });
+    }
+    let layer = Layer::Base64Values { crlf };
+    let json = serde_json::to_vec(&Value::Array(out)).ok()?;
+    (base64_values_close(&json, crlf).ok()?.as_slice() == text.as_bytes()).then_some((layer, json))
+}
+
+fn base64_values_close(json: &[u8], crlf: bool) -> Result<Vec<u8>, String> {
+    let Value::Array(a) = serde_json::from_slice::<Value>(json).map_err(|e| format!("not JSON: {e}"))? else {
+        return Err("a base64-values save is a list".into());
+    };
+    let nl = if crlf { "\r\n" } else { "\n" };
+    let mut out = String::new();
+    for v in &a {
+        let t = match v {
+            Value::Number(n) => n.to_string(),
+            Value::String(s) => s.clone(),
+            Value::Bool(b) => i32::from(*b).to_string(),
+            _ => return Err("every line holds a number or text".into()),
+        };
+        out.push_str(&STANDARD.encode(t));
+        out.push_str(nl);
+    }
+    Ok(out.into_bytes())
+}
+
 /// JavaScript `escape()`.
 fn js_escape(s: &str) -> String {
     let mut out = String::new();
@@ -2737,6 +2850,30 @@ mod tests {
     fn bom() { roundtrip(&[Layer::Utf8Bom]); }
     #[test]
     fn nul_padded_json() { roundtrip(&[Layer::NulPadded(1)]); }
+
+    #[test]
+    fn base64_value_lines_round_trip() {
+        let lines: Vec<String> = (0..60).map(|i| STANDARD.encode(if i == 7 { "02:54 07/03/2019".to_string() } else { (i * 3).to_string() })).collect();
+        let text = lines.join("\r\n") + "\r\n";
+        let d = decode(text.as_bytes());
+        assert!(matches!(d.layers.as_slice(), [Layer::Base64Values { crlf: true }]));
+        let Content::Json { value, .. } = &d.content else { panic!("expected JSON") };
+        assert_eq!(value[3], 9);
+        assert_eq!(value[7], "02:54 07/03/2019");
+        assert_eq!(encode(&d.layers, &d.content).unwrap(), text.as_bytes());
+    }
+
+    #[test]
+    fn json_lines_by_path_round_trip() {
+        let text = "{\"coins\":5,\"path\":\"/root/Main/Coins\"}\n{\"path\":\"/root/Main/Pop-up\",\"removal_tokens\":3,\"rent_values\":[10,6]}\n{\"a\":false,\"path\":\"/root/X\"}\n";
+        let d = decode(text.as_bytes());
+        assert!(matches!(d.layers.as_slice(), [Layer::JsonByPath { ends_with_newline: true }]));
+        let Content::Json { value, .. } = &d.content else { panic!("expected JSON") };
+        assert_eq!(value["/root/Main/Coins"]["coins"], 5);
+        assert_eq!(encode(&d.layers, &d.content).unwrap(), text.as_bytes());
+        // Plain pretty-printed JSON is left alone.
+        assert!(decode(b"{\n  \"path\": \"a\",\n  \"x\": 1\n}\n").layers.is_empty());
+    }
 
     fn set(content: &mut Content, ptr: &str, v: Value) {
         let Content::Tree(p) = content else { panic!("expected a tree, got {}", content.kind()) };

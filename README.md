@@ -3,7 +3,7 @@
 > **Free, and it always will be.** No price, no ads, no account, no paid version, no online service, no
 > rate limits. If anyone is charging you for this, it isn't from here.
 
-An offline save editor and save manager for 340+ (342) PC games (edit saves, and back up, name and restore them): Cairn, Terraria (characters and a world map editor),
+An offline save editor and save manager for 350+ (350) PC games (edit saves, and back up, name and restore them): Cairn, Terraria (characters and a world map editor),
 Oxygen Not Included, RimWorld, Stardew Valley, Onimusha: Way of the Sword, Elden Ring, Dark Souls,
 Cyberpunk 2077, the Persona, Yakuza and Final Fantasy games, Ren'Py visual novels, RPG Maker games
 and more (the full list is below). Written in Rust (egui). Nothing is uploaded anywhere, and there are
@@ -333,6 +333,14 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 | theHunter: Call of the Wild | *Hunter*: cash, level, XP and the skill and perk points of the profile (`thp_player_profile_adf`, an Avalanche ADF file read from its own type definitions and edited in place); no crafting materials (checked on public saves, not yet tried in the game) |
 | BeamNG.drive | *Career*: career money and BeamXP from `career/playerAttributes.json` of a save slot; the other career values (branch levels, vehicles) open by name in the Tree. Written from the game's own Lua source, not yet checked on a real save |
 | The Forest | *Survivor*: every item the player carries (named from the game's own ids) with its amount and the limit the game stores for it, with a **Max crafting materials** button that raises rocks, sticks, skulls, rope, bones, skins, rabbit fur and circuit boards to those stored limits; the Base64 and UnitySerializer wrapping is untouched (checked on public single-player and multiplayer saves, not yet tried in the game) |
+| West of Loathing | *Cowpoke*: meat (money), level, experience, the class and resistances, and the stats, skills and perks by name; the inventory with quantities (the game stores most numbers as text) (checked on a public save, not yet tried in the game) |
+| Shape of Dreams | *Traveler*: stardust, spent stardust, completed reveries, preferred traveler and difficulty from `r_profile<id>.json`; mastery level, mastery points and the record of every traveler from `r_stats<id>.json` (the unlocked items are in an encrypted file that is not opened; checked on public saves, not yet tried in the game) |
+| Travellers Rest | *Tavern*: money (in copper), the crafting room, tavern floor and cellar upgrades, and the inventory and action bar by item id with their stack sizes (checked on a public save, not yet tried in the game) |
+| Youtubers Life | *Youtuber*: money, house, work hours, your channel (subscribers, views, status) and every youtuber's needs, skills, levels and experience from the SQLite save (checked on a public save, not yet tried in the game) |
+| Luck be a Landlord | *Run*: coins, removal and reroll tokens, spins, the floor, the rent due and the run's progress from `LBAL.save` (the JSON lines are opened as one object keyed by each node's path and written back line by line; checked on a public save, not yet tried in the game) |
+| Touhou Luna Nights | *Sakuya*: gold, level, experience, HP, MP, knife and clock upgrades, the seven gems, the abilities and keys, and the shop counters from `gameN.sav` (the base64 lines are opened as one list of 1,000 values and written back the same way; checked on a public save, not yet tried in the game) |
+| EVERSPACE | *Pilot*: DNA fragments, flashback progression, the pilot's records and every perk with its level and lock from `CurrentPlayerSave.sav` (checked on a public save, not yet tried in the game) |
+| Streets of Rogue | *Unlocks*: nuggets, wins, deaths and games played, and every agent, item, trait and floor with whether it is unlocked and what it costs, from `GameUnlocks.dat` (checked on a public unlocks file, not yet tried in the game) |
 
 ## Credits for God of War
 
