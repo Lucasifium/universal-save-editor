@@ -25,6 +25,7 @@ Universal Save Editor is free. It builds on other people's work, listed here wit
 | [P3R-Save-EnDecryptor (Persona 3 Reload Steam save encryption)](https://github.com/illusionyy/P3R-Save-EnDecryptor) | illusion0001 | MIT |
 | [P4G Save Tool (Persona 4 Golden field positions)](https://github.com/fendevel/P4G-Save-Tool) | Jack P. Fenech | MIT |
 | [Daggerfall Unity (save field names and value ranges of SaveData.txt, read as facts; no code ported)](https://github.com/Interkarma/daggerfall-unity) | Daggerfall Workshop and contributors | MIT (Copyright (c) 2009-2023 Daggerfall Workshop) |
+| Morrowind and Oblivion save layouts (record framing, the player's NPC change record; worked out on public sample saves, with Wrye Bash's save reader as the reference for the Oblivion record layout) | Wrye Bash contributors | GPL-3.0 (layouts and field order ported with credit) |
 | Assassin's Creed save layout (wrapper, key, block container, checksum, money and item ids; worked out on public sample saves, with ACSaveLib and apollo-patches quick codes as facts only, no code) | TpRedNinja (ACSaveLib), bucanero (apollo-patches) | facts only (file layouts, ids and names), credited |
 | [uty-save-editor (Undertale Yellow save layout and field names; sample saves used for checks only, not included)](https://github.com/KockaAdmiralac/uty-save-editor) | Luka Simić (KockaAdmiralac) | MIT |
 | [ree-save-editor (RE Engine save layout; facts only, no code)](https://github.com/kvasszn/ree-save-editor) | kvasszn | facts only (file layouts, ids and names), credited |

@@ -3,7 +3,7 @@
 > **Free, and it always will be.** No price, no ads, no account, no paid version, no online service, no
 > rate limits. If anyone is charging you for this, it isn't from here.
 
-An offline save editor and save manager for 350+ (353) PC games (edit saves, and back up, name and restore them): Cairn, Terraria (characters and a world map editor),
+An offline save editor and save manager for 350+ (355) PC games (edit saves, and back up, name and restore them): Cairn, Terraria (characters and a world map editor),
 Oxygen Not Included, RimWorld, Stardew Valley, Onimusha: Way of the Sword, Elden Ring, Dark Souls,
 Cyberpunk 2077, the Persona, Yakuza and Final Fantasy games, Ren'Py visual novels, RPG Maker games
 and more (the full list is below). Written in Rust (egui). Nothing is uploaded anywhere, and there are
@@ -167,6 +167,8 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 | Phasmophobia | Money, level, prestige and experience, how many of each item you own, item tiers and their unlocks, and the journal's statistics (`SaveFile.txt`); decrypted and encrypted again on save (checked on public test saves, not yet tried in the game) |
 | Lethal Company | Credits, the profit quota and what is paid towards it, quotas passed, the deadline, the current moon (by name), ship items and suits owned (add or remove), every piece of scrap's sell value, ship upgrades in storage and statistics (`LCSaveFile1`–`3`); experience and rank (`LCGeneralSaveData`); decrypted and encrypted again on save (checked on public saves, not yet tried in the game) |
 | R.E.P.O. | Level, money, lives, the charging station and total haul; each player's health and upgrades; the items in the truck and bought in total (`<save>.es3`); decrypted and encrypted again on save (checked on a public save, not yet tried in the game) |
+| The Elder Scrolls III: Morrowind | *Character*: level, gold, the eight attributes, all 27 skills, health, fatigue and magicka (now and full) and the inventory counts by item id, with the spell list shown (an `.ess` save is edited in place; checked on public saves, not yet tried in the game) |
+| The Elder Scrolls IV: Oblivion | *Character*: level (the load screen's copy is kept equal), gold, the eight attributes, all 21 skills and base health (an `.ess` save is edited in place; checked on public saves, not yet tried in the game) |
 | The Sims (2000), The Sims Legacy Collection | One tab per family: funds (up to 9,999,999) and family friends, and for every Sim in the family the seven skills and six personality traits (0–1000, 100 per point on the game's bars) and job performance; townies and visitors are on the *Values* tab with Advanced on. Open `Neighborhood.iff`; Sims carry their file name (`user00012`) |
 | The Sims 2 (incl. Legacy and Ultimate Collection) | One tab per family: funds, and for every Sim the seven skills and five personality traits (0–1000, 100 per point), job performance and aspiration score; townies and the default families are on the *Values* tab with Advanced on. Open `N001_Neighborhood.package`; edited parts are stored uncompressed when the package is saved (the way SimPE does). Sims carry their id, not their name |
 | The Sims 4 | One tab per household: funds (up to 99,999,999) and its Sims with their names, ages and genders. Open `Slot_0000000N.save`; the game data is stored uncompressed when saved, so the file grows (checked on a public save, not yet tried in the game). Skills and traits aren't mapped yet |

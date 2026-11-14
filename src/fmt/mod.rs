@@ -131,6 +131,8 @@ pub mod essentials;
 pub mod marshal;
 pub mod msgpack;
 pub mod ac8;
+pub mod morrowind;
+pub mod oblivion;
 pub mod bsinfinite;
 pub mod ue3pkg;
 pub mod cbor;
@@ -421,6 +423,16 @@ pub fn parse_binary(d: &[u8]) -> Option<TreeDoc> {
     }
     if metro::looks(d) {
         if let Ok(t) = metro::parse(d) {
+            return Some(t);
+        }
+    }
+    if morrowind::looks(d) {
+        if let Ok(t) = morrowind::parse(d) {
+            return Some(t);
+        }
+    }
+    if oblivion::looks(d) {
+        if let Ok(t) = oblivion::parse(d) {
             return Some(t);
         }
     }

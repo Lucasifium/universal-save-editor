@@ -3,7 +3,8 @@
 
 use super::{List, Max, Section, Shape, Spec, Table};
 
-pub static SPECS: &[Spec] = &[COTL, FALLOUT_SHELTER, DRG, S1_MONEY, S1_RANK, S1_TIME, S1_GAME, SOTF_STATE, SOTF_GAME, SOTF_WEATHER, SOTF_ITEMS, DMD, CUPHEAD, ANTIMATTER, PVZ, CELESTE, DRGS, KH3, RF4S, SKY1ST, KSP, FFPR, MCD, STONESHARD, ROGUE_TRADER, BIOSHOCK_INFINITE, SPACE_HAVEN, SNOWRUNNER, GRAVEYARD_KEEPER, NFSMW, TOS, GTA3, GTAVC, BITBURNER, TERRA_INVICTA, PRISON, FF13, SONIC_MANIA, CAVE_STORY_PLUS, CAVE_STORY, LIES_OF_P, TXR, DAVE, MSC, ULTRAKILL, RPGXP, RE5, ANNO1800, FTK, LEGO_TSS, LEGO_CLASSIC, MYZ, CMS21, MEDIEVAL_DYNASTY, MECHANICUS, ORI, OMORI, ENDER_LILIES, SW2, ES2, MOONLIGHTER, WASTELAND2, ATOM, MORTAL_SHELL, MORTAL_SHELL_2, COTW, BEAMNG, FOREST, YAKUZA3, YAKUZA4, YAKUZA5, ISHIN, SALT, DRAKENSANG, ALPHA, TYRANNY, JEDI_FO, SR3, SR4, WD2, FABLE, WANDERING_SWORD, STELLAR_BLADE, PRAGMATA, SLIME_RANCHER, SUBNAUTICA2, HZD, SLEEPING_DOGS, DXMD, ATOMIC_HEART, DISHONORED2, DEATHLOOP, AC_BROTHERHOOD, AC_REVELATIONS, AC3R, AC_LIBERATION, AC_BLACK_FLAG, AC_ROGUE, AC_UNITY, AC_SYNDICATE, AC_ORIGINS, AC_ODYSSEY, DISHONORED1, RDR1, RDR2, SM64, SUPER_METROID, LTTP, WORLDBOX, COREKEEPER, HOLOCURE, POTION_CRAFT, WWZ, ROBOQUEST, CMS18, LONGDRIVE, LONGDRIVE_PROP, XC3, MLDT, SMASH, MK7, SKC, UTY, DAGGERFALL_UNITY, DMC1, MEWGENICS];
+pub static SPECS: &[Spec] = &[COTL, FALLOUT_SHELTER, DRG, S1_MONEY, S1_RANK, S1_TIME, S1_GAME, SOTF_STATE, SOTF_GAME, SOTF_WEATHER, SOTF_ITEMS, DMD, CUPHEAD, ANTIMATTER, PVZ, CELESTE, DRGS, KH3, RF4S, SKY1ST, KSP, FFPR, MCD, STONESHARD, ROGUE_TRADER, BIOSHOCK_INFINITE, SPACE_HAVEN, SNOWRUNNER, GRAVEYARD_KEEPER, NFSMW, TOS, GTA3, GTAVC, BITBURNER, TERRA_INVICTA, PRISON, FF13, SONIC_MANIA, CAVE_STORY_PLUS, CAVE_STORY, LIES_OF_P, TXR, DAVE, MSC, ULTRAKILL, RPGXP, RE5, ANNO1800, FTK, LEGO_TSS, LEGO_CLASSIC, MYZ, CMS21, MEDIEVAL_DYNASTY, MECHANICUS, ORI, OMORI, ENDER_LILIES, SW2, ES2, MOONLIGHTER, WASTELAND2, ATOM, MORTAL_SHELL, MORTAL_SHELL_2, COTW, BEAMNG, FOREST, YAKUZA3, YAKUZA4, YAKUZA5, ISHIN, SALT, DRAKENSANG, ALPHA, TYRANNY, JEDI_FO, SR3, SR4, WD2, FABLE, WANDERING_SWORD, STELLAR_BLADE, PRAGMATA, SLIME_RANCHER, SUBNAUTICA2, HZD, SLEEPING_DOGS, DXMD, ATOMIC_HEART, DISHONORED2, DEATHLOOP, AC_BROTHERHOOD, AC_REVELATIONS, AC3R, AC_LIBERATION, AC_BLACK_FLAG, AC_ROGUE, AC_UNITY, AC_SYNDICATE, AC_ORIGINS, AC_ODYSSEY, DISHONORED1, RDR1, RDR2, SM64, SUPER_METROID, LTTP, WORLDBOX, COREKEEPER, HOLOCURE, POTION_CRAFT, WWZ, ROBOQUEST, CMS18, LONGDRIVE, LONGDRIVE_PROP, XC3, MLDT, SMASH, MK7, SKC, UTY, DAGGERFALL_UNITY, DMC1, MEWGENICS, MORROWIND, OBLIVION];
+
 // ------------------------------------------------------------------ Cult of the Lamb
 
 const COTL_ITEMS: &[(&str, &str)] = &[
@@ -4378,6 +4379,43 @@ const MEWGENICS: Spec = Spec {
             ("Completion (%)", "/properties/=save_file_percent/data"),
         ],
     }],
+    lists: &[],
+    tables: &[],
+};
+
+// ------------------------------------------------------------------ The Elder Scrolls III / IV
+
+const MORROWIND: Spec = Spec {
+    name: "The Elder Scrolls III: Morrowind",
+    tab: "Character",
+    accent: (170, 140, 90),
+    kind: Some(crate::fmt::morrowind::KIND),
+    markers: &["/Attributes/Strength"],
+    subtitle: "A Morrowind .ess save: level, gold, the eight attributes, all 27 skills, health, fatigue and magicka, and the inventory counts by item id. Checked on public saves, not yet tried in the game.",
+    tiles: &[("Level", "/Character/Level"), ("Gold", "/Character/Gold")],
+    sections: &[
+        Section { title: "Character", rows: &[("Level", "/Character/Level"), ("Gold", "/Character/Gold")] },
+        Section { title: "Vitals (now and full)", rows: &[("Health", "/Vitals/Health"), ("Full health", "/Vitals/Full health"), ("Fatigue", "/Vitals/Fatigue"), ("Full fatigue", "/Vitals/Full fatigue"), ("Magicka", "/Vitals/Magicka"), ("Full magicka", "/Vitals/Full magicka")] },
+        Section { title: "Attributes", rows: &[("Strength", "/Attributes/Strength"), ("Intelligence", "/Attributes/Intelligence"), ("Willpower", "/Attributes/Willpower"), ("Agility", "/Attributes/Agility"), ("Speed", "/Attributes/Speed"), ("Endurance", "/Attributes/Endurance"), ("Personality", "/Attributes/Personality"), ("Luck", "/Attributes/Luck")] },
+        Section { title: "Skills", rows: &[("Block", "/Skills/Block"), ("Armorer", "/Skills/Armorer"), ("Medium armor", "/Skills/Medium armor"), ("Heavy armor", "/Skills/Heavy armor"), ("Blunt weapon", "/Skills/Blunt weapon"), ("Long blade", "/Skills/Long blade"), ("Axe", "/Skills/Axe"), ("Spear", "/Skills/Spear"), ("Athletics", "/Skills/Athletics"), ("Enchant", "/Skills/Enchant"), ("Destruction", "/Skills/Destruction"), ("Alteration", "/Skills/Alteration"), ("Illusion", "/Skills/Illusion"), ("Conjuration", "/Skills/Conjuration"), ("Mysticism", "/Skills/Mysticism"), ("Restoration", "/Skills/Restoration"), ("Alchemy", "/Skills/Alchemy"), ("Unarmored", "/Skills/Unarmored"), ("Security", "/Skills/Security"), ("Sneak", "/Skills/Sneak"), ("Acrobatics", "/Skills/Acrobatics"), ("Light armor", "/Skills/Light armor"), ("Short blade", "/Skills/Short blade"), ("Marksman", "/Skills/Marksman"), ("Mercantile", "/Skills/Mercantile"), ("Speechcraft", "/Skills/Speechcraft"), ("Hand-to-hand", "/Skills/Hand-to-hand")] },
+    ],
+    lists: &[List { title: "Inventory (item id: count)", path: "/Inventory", shape: Shape::Map, names: &[], max: None }],
+    tables: &[],
+};
+
+const OBLIVION: Spec = Spec {
+    name: "The Elder Scrolls IV: Oblivion",
+    tab: "Character",
+    accent: (120, 150, 80),
+    kind: Some(crate::fmt::oblivion::KIND),
+    markers: &["/Attributes/Strength"],
+    subtitle: "An Oblivion .ess save: level, gold, the eight attributes, all 21 skills and base health. Checked on public saves, not yet tried in the game.",
+    tiles: &[("Level", "/Character/Level"), ("Gold", "/Character/Gold")],
+    sections: &[
+        Section { title: "Character", rows: &[("Level", "/Character/Level"), ("Gold", "/Character/Gold"), ("Base health", "/Character/Base health")] },
+        Section { title: "Attributes", rows: &[("Strength", "/Attributes/Strength"), ("Intelligence", "/Attributes/Intelligence"), ("Willpower", "/Attributes/Willpower"), ("Agility", "/Attributes/Agility"), ("Speed", "/Attributes/Speed"), ("Endurance", "/Attributes/Endurance"), ("Personality", "/Attributes/Personality"), ("Luck", "/Attributes/Luck")] },
+        Section { title: "Skills", rows: &[("Armorer", "/Skills/Armorer"), ("Athletics", "/Skills/Athletics"), ("Blade", "/Skills/Blade"), ("Block", "/Skills/Block"), ("Blunt", "/Skills/Blunt"), ("Hand to Hand", "/Skills/Hand to Hand"), ("Heavy Armor", "/Skills/Heavy Armor"), ("Alchemy", "/Skills/Alchemy"), ("Alteration", "/Skills/Alteration"), ("Conjuration", "/Skills/Conjuration"), ("Destruction", "/Skills/Destruction"), ("Illusion", "/Skills/Illusion"), ("Mysticism", "/Skills/Mysticism"), ("Restoration", "/Skills/Restoration"), ("Acrobatics", "/Skills/Acrobatics"), ("Light Armor", "/Skills/Light Armor"), ("Marksman", "/Skills/Marksman"), ("Mercantile", "/Skills/Mercantile"), ("Security", "/Skills/Security"), ("Sneak", "/Skills/Sneak"), ("Speechcraft", "/Skills/Speechcraft")] },
+    ],
     lists: &[],
     tables: &[],
 };

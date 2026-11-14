@@ -3,6 +3,7 @@
 ## Unreleased
 
 - New game screens for ten Assassin's Creed games, from Brotherhood to Odyssey: money, Creed Points (Unity), XP and ability points (Origins, Odyssey), crafting materials with Max crafting materials (Black Flag, Rogue, Syndicate, Odyssey), trade goods and ammunition. The saves are unscrambled with the key worked out from the file, unpacked and packed again with their block checks (not yet tried in the games)
+- New game screens: The Elder Scrolls III: Morrowind and IV: Oblivion (level, gold, attributes, skills, vitals; Morrowind also the inventory counts)
 - New game screens: WorldBox (units and village resources), Core Keeper (skills, coins, inventory), HoloCure (HoloCoins and upgrades), Potion Craft (gold, popularity, karma, inventory with Max crafting materials), World War Z (currency, coins, level, class perks), Roboquest (wrenches, difficulty, statistics), Car Mechanic Simulator 2018 (money, level, experience), The Long Drive (vitals and trip), and Total War: Warhammer, Attila and Thrones of Britannia treasuries
 - More game screens: Devil May Cry 1 from the HD Collection (orbs and play time per slot) and Mewgenics (house gold and food, adventure coins, day); Bloodstained: Ritual of the Night saves now open (decoded, with its trailing block kept) in Values and Tree
 - JSON saves with bare `Infinity` or `NaN` numbers (Unity and .NET writers) now open and are written back unchanged

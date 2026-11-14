@@ -407,6 +407,11 @@ impl<'a> Builder<'a> {
         }
     }
 
+    /// True when no editable value was added.
+    pub fn is_empty(&self) -> bool {
+        self.leaves.is_empty()
+    }
+
     pub fn finish(self, kind_name: &str, checksum: Checksum) -> TreeDoc {
         self.finish_with(kind_name, checksum, None)
     }
