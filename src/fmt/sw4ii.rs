@@ -104,9 +104,7 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
             b.ranged(&["Officers", &n, stat], at + 0x20 + 2 * k, Kind::U16, 0, 1000);
         }
     }
-    Ok(b.finish(KIND, Checksum::Repack(pack)).with_note(
-        "Close the game first. The stream cipher, the four section sums and the word checksum are written again. Officers are shown by their number in the save; levels and experience are read only.",
-    ))
+    Ok(b.finish(KIND, Checksum::Repack(pack)).with_note(crate::i18n::tx("Close the game first. The stream cipher, the four section sums and the word checksum are written again. Officers are shown by their number in the save; levels and experience are read only.")))
 }
 
 #[cfg(test)]

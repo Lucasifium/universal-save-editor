@@ -16059,3 +16059,31 @@ Wreck 5 Cop Cars
 Yellow Gem
 = Gema amarilla
 
+# src/game_ui/simple/specs.rs (first-batch screens)
+SAVEDATA.BIN (original) or SAVEDATAU.BIN (Ultimate) from Documents\KoeiTecmo\WARRIORS OROCHI 4\Savedata. Gems, Crystals, Growth Points, Skill Orbs (lower only), weapon elements and officers' skill points.
+= SAVEDATA.BIN (original) o SAVEDATAU.BIN (Ultimate) de Documents\KoeiTecmo\WARRIORS OROCHI 4\Savedata. Gemas, cristales, puntos de crecimiento, orbes de habilidad (solo bajar), elementos de arma y puntos de habilidad de los oficiales.
+
+SAVEDATA0000.dat from Documents\KoeiTecmo\SAMURAI WARRIORS 4-II\Savedata. Gold, strategy tomes and each officer's five stat bonuses.
+= SAVEDATA0000.dat de Documents\KoeiTecmo\SAMURAI WARRIORS 4-II\Savedata. Oro, tomos de estrategia y las cinco bonificaciones de atributos de cada oficial.
+
+SVDATnnn.SAV or Auto*.sav from Saved Games\FALCOM\ED_SORA3. Mira, sepith, character levels and the item counts.
+= SVDATnnn.SAV o Auto*.sav de Saved Games\FALCOM\ED_SORA3. Mira, sepith, niveles de los personajes y cantidades de objetos.
+
+saveNNN.dat from Saved Games\Falcom\ed8. Mira, sepith, each member's level, experience, HP, EP, CP and stats, and the bag.
+= saveNNN.dat de Saved Games\Falcom\ed8. Mira, sepith, nivel, experiencia, HP, EP, CP y atributos de cada miembro, y la bolsa.
+
+# src/fmt (first-batch screens)
+Close the game and turn off Steam cloud saves first. The game's two checksums are rewritten. Choosing a difficulty writes every place the game keeps it.
+= Cierra el juego y desactiva los guardados en la nube de Steam primero. Se reescriben las dos sumas de comprobación del juego. Elegir una dificultad la escribe en todos los lugares donde el juego la guarda.
+
+Close the game first. Counts of items already in the bag are edited; setting a count to 0 leaves the slot in the bag. The save has no checksum.
+= Cierra el juego primero. Se editan las cantidades de objetos que ya están en la bolsa; poner una cantidad en 0 deja la ranura en la bolsa. La partida no tiene suma de comprobación.
+
+Close the game first. Both encrypted blocks are written again with their own seeds. Weapon elements and officers are shown by number; only existing elements (1 or more) and progressed officers are listed.
+= Cierra el juego primero. Ambos bloques cifrados se escriben de nuevo con sus propias semillas. Los elementos de arma y los oficiales se muestran por número; solo se listan los elementos existentes (1 o más) y los oficiales con progreso.
+
+Close the game first. The stream cipher, the four section sums and the word checksum are written again. Officers are shown by their number in the save; levels and experience are read only.
+= Cierra el juego primero. Se reescriben el cifrado de flujo, las cuatro sumas de sección y la suma de palabras. Los oficiales se muestran por su número en la partida; los niveles y la experiencia son de solo lectura.
+
+Close the game first. The saves have no checksum; item qualities and recipes are not touched.
+= Cierra el juego primero. Las partidas no tienen suma de comprobación; las calidades de objetos y las recetas no se tocan.

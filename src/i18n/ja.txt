@@ -16147,3 +16147,31 @@ Wreck 5 Cop Cars
 Yellow Gem
 = 黄色のジェム
 
+# src/game_ui/simple/specs.rs (first-batch screens)
+SAVEDATA.BIN (original) or SAVEDATAU.BIN (Ultimate) from Documents\KoeiTecmo\WARRIORS OROCHI 4\Savedata. Gems, Crystals, Growth Points, Skill Orbs (lower only), weapon elements and officers' skill points.
+= Documents\KoeiTecmo\WARRIORS OROCHI 4\Savedata の SAVEDATA.BIN（オリジナル）または SAVEDATAU.BIN（Ultimate）。宝石、クリスタル、成長ポイント、スキルオーブ（減らすのみ）、武器エレメント、武将のスキルポイントを編集します。
+
+SAVEDATA0000.dat from Documents\KoeiTecmo\SAMURAI WARRIORS 4-II\Savedata. Gold, strategy tomes and each officer's five stat bonuses.
+= Documents\KoeiTecmo\SAMURAI WARRIORS 4-II\Savedata の SAVEDATA0000.dat。ゴールド、戦略書、各武将の5つの能力ボーナスを編集します。
+
+SVDATnnn.SAV or Auto*.sav from Saved Games\FALCOM\ED_SORA3. Mira, sepith, character levels and the item counts.
+= Saved Games\FALCOM\ED_SORA3 の SVDATnnn.SAV または Auto*.sav。ミラ、セピス、キャラクターのレベル、アイテム数を編集します。
+
+saveNNN.dat from Saved Games\Falcom\ed8. Mira, sepith, each member's level, experience, HP, EP, CP and stats, and the bag.
+= Saved Games\Falcom\ed8 の saveNNN.dat。ミラ、セピス、各メンバーのレベル、経験値、HP、EP、CP、能力値、バッグを編集します。
+
+# src/fmt (first-batch screens)
+Close the game and turn off Steam cloud saves first. The game's two checksums are rewritten. Choosing a difficulty writes every place the game keeps it.
+= 先にゲームを終了し、Steamクラウドセーブをオフにしてください。ゲームの2つのチェックサムは書き直されます。難易度を選ぶと、ゲームがそれを保存するすべての場所に書き込まれます。
+
+Close the game first. Counts of items already in the bag are edited; setting a count to 0 leaves the slot in the bag. The save has no checksum.
+= 先にゲームを終了してください。すでにバッグにあるアイテムの個数を編集します。個数を0にしてもバッグ内のスロットは残ります。セーブにチェックサムはありません。
+
+Close the game first. Both encrypted blocks are written again with their own seeds. Weapon elements and officers are shown by number; only existing elements (1 or more) and progressed officers are listed.
+= 先にゲームを終了してください。2つの暗号化ブロックはそれぞれのシードで書き直されます。武器エレメントと武将は番号で表示され、既存のエレメント（1以上）と進行済みの武将のみ表示されます。
+
+Close the game first. The stream cipher, the four section sums and the word checksum are written again. Officers are shown by their number in the save; levels and experience are read only.
+= 先にゲームを終了してください。ストリーム暗号、4つのセクション合計、ワードチェックサムは書き直されます。武将はセーブ内の番号で表示され、レベルと経験値は読み取り専用です。
+
+Close the game first. The saves have no checksum; item qualities and recipes are not touched.
+= 先にゲームを終了してください。セーブにチェックサムはありません。アイテムの品質とレシピは変更されません。

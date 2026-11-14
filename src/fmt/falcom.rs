@@ -79,9 +79,7 @@ pub fn parse_sky3(d: &[u8]) -> Result<TreeDoc, String> {
         let n = unique(&mut seen, name.to_string(), id);
         b.ranged(&["Items", &n], at + 2, Kind::U16, 0, i64::from(max));
     }
-    Ok(b.finish(KIND_SKY3, Checksum::None).with_note(
-        "Close the game first. Counts of items already in the bag are edited; setting a count to 0 leaves the slot in the bag. The save has no checksum.",
-    ))
+    Ok(b.finish(KIND_SKY3, Checksum::None).with_note(crate::i18n::tx("Close the game first. Counts of items already in the bag are edited; setting a count to 0 leaves the slot in the bag. The save has no checksum.")))
 }
 
 pub fn parse_cs1(d: &[u8]) -> Result<TreeDoc, String> {
@@ -126,9 +124,7 @@ pub fn parse_cs1(d: &[u8]) -> Result<TreeDoc, String> {
         b.ranged(&["Items", &n], at + 2, Kind::U16, 0, 99);
         at += 0x24;
     }
-    Ok(b.finish(KIND_CS1, Checksum::None).with_note(
-        "Close the game first. Counts of items already in the bag are edited; setting a count to 0 leaves the slot in the bag. The save has no checksum.",
-    ))
+    Ok(b.finish(KIND_CS1, Checksum::None).with_note(crate::i18n::tx("Close the game first. Counts of items already in the bag are edited; setting a count to 0 leaves the slot in the bag. The save has no checksum.")))
 }
 
 #[cfg(test)]

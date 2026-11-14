@@ -16070,3 +16070,31 @@ Wreck 5 Cop Cars
 Yellow Gem
 = Gemme jaune
 
+# src/game_ui/simple/specs.rs (first-batch screens)
+SAVEDATA.BIN (original) or SAVEDATAU.BIN (Ultimate) from Documents\KoeiTecmo\WARRIORS OROCHI 4\Savedata. Gems, Crystals, Growth Points, Skill Orbs (lower only), weapon elements and officers' skill points.
+= SAVEDATA.BIN (original) ou SAVEDATAU.BIN (Ultimate) de Documents\KoeiTecmo\WARRIORS OROCHI 4\Savedata. Gemmes, cristaux, points de croissance, orbes de compétence (à baisser seulement), éléments d'arme et points de compétence des officiers.
+
+SAVEDATA0000.dat from Documents\KoeiTecmo\SAMURAI WARRIORS 4-II\Savedata. Gold, strategy tomes and each officer's five stat bonuses.
+= SAVEDATA0000.dat de Documents\KoeiTecmo\SAMURAI WARRIORS 4-II\Savedata. Or, tomes de stratégie et les cinq bonus de stats de chaque officier.
+
+SVDATnnn.SAV or Auto*.sav from Saved Games\FALCOM\ED_SORA3. Mira, sepith, character levels and the item counts.
+= SVDATnnn.SAV ou Auto*.sav de Saved Games\FALCOM\ED_SORA3. Mira, sepith, niveaux des personnages et quantités d'objets.
+
+saveNNN.dat from Saved Games\Falcom\ed8. Mira, sepith, each member's level, experience, HP, EP, CP and stats, and the bag.
+= saveNNN.dat de Saved Games\Falcom\ed8. Mira, sepith, niveau, expérience, PV, PE, PC et stats de chaque membre, et le sac.
+
+# src/fmt (first-batch screens)
+Close the game and turn off Steam cloud saves first. The game's two checksums are rewritten. Choosing a difficulty writes every place the game keeps it.
+= Fermez d'abord le jeu et désactivez les sauvegardes cloud de Steam. Les deux sommes de contrôle du jeu sont réécrites. Choisir une difficulté l'écrit à tous les endroits où le jeu la conserve.
+
+Close the game first. Counts of items already in the bag are edited; setting a count to 0 leaves the slot in the bag. The save has no checksum.
+= Fermez d'abord le jeu. Les quantités d'objets déjà dans le sac sont modifiées ; mettre une quantité à 0 laisse l'emplacement dans le sac. La sauvegarde n'a pas de somme de contrôle.
+
+Close the game first. Both encrypted blocks are written again with their own seeds. Weapon elements and officers are shown by number; only existing elements (1 or more) and progressed officers are listed.
+= Fermez d'abord le jeu. Les deux blocs chiffrés sont réécrits avec leurs propres graines. Les éléments d'arme et les officiers sont affichés par numéro ; seuls les éléments existants (1 ou plus) et les officiers avancés sont listés.
+
+Close the game first. The stream cipher, the four section sums and the word checksum are written again. Officers are shown by their number in the save; levels and experience are read only.
+= Fermez d'abord le jeu. Le chiffrement de flux, les quatre sommes de section et la somme de mots sont réécrits. Les officiers sont affichés par leur numéro dans la sauvegarde ; les niveaux et l'expérience sont en lecture seule.
+
+Close the game first. The saves have no checksum; item qualities and recipes are not touched.
+= Fermez d'abord le jeu. Les sauvegardes n'ont pas de somme de contrôle ; les qualités d'objets et les recettes ne sont pas modifiées.

@@ -16063,3 +16063,31 @@ Wreck 5 Cop Cars
 Yellow Gem
 = Gelber Edelstein
 
+# src/game_ui/simple/specs.rs (first-batch screens)
+SAVEDATA.BIN (original) or SAVEDATAU.BIN (Ultimate) from Documents\KoeiTecmo\WARRIORS OROCHI 4\Savedata. Gems, Crystals, Growth Points, Skill Orbs (lower only), weapon elements and officers' skill points.
+= SAVEDATA.BIN (Original) oder SAVEDATAU.BIN (Ultimate) aus Documents\KoeiTecmo\WARRIORS OROCHI 4\Savedata. Edelsteine, Kristalle, Wachstumspunkte, Fertigkeitskugeln (nur senken), Waffenelemente und die Fertigkeitspunkte der Offiziere.
+
+SAVEDATA0000.dat from Documents\KoeiTecmo\SAMURAI WARRIORS 4-II\Savedata. Gold, strategy tomes and each officer's five stat bonuses.
+= SAVEDATA0000.dat aus Documents\KoeiTecmo\SAMURAI WARRIORS 4-II\Savedata. Gold, Strategiebücher und die fünf Statusboni jedes Offiziers.
+
+SVDATnnn.SAV or Auto*.sav from Saved Games\FALCOM\ED_SORA3. Mira, sepith, character levels and the item counts.
+= SVDATnnn.SAV oder Auto*.sav aus Saved Games\FALCOM\ED_SORA3. Mira, Sepith, Charakterstufen und Gegenstandsanzahlen.
+
+saveNNN.dat from Saved Games\Falcom\ed8. Mira, sepith, each member's level, experience, HP, EP, CP and stats, and the bag.
+= saveNNN.dat aus Saved Games\Falcom\ed8. Mira, Sepith, Stufe, Erfahrung, HP, EP, CP und Werte jedes Mitglieds sowie die Tasche.
+
+# src/fmt (first-batch screens)
+Close the game and turn off Steam cloud saves first. The game's two checksums are rewritten. Choosing a difficulty writes every place the game keeps it.
+= Spiel schließen und die Steam-Cloud-Speicherung ausschalten. Die beiden Prüfsummen des Spiels werden neu geschrieben. Die Wahl einer Schwierigkeit wird an jeder Stelle geschrieben, an der das Spiel sie speichert.
+
+Close the game first. Counts of items already in the bag are edited; setting a count to 0 leaves the slot in the bag. The save has no checksum.
+= Spiel zuerst schließen. Die Anzahl bereits vorhandener Gegenstände wird bearbeitet; eine Anzahl von 0 lässt den Platz in der Tasche bestehen. Der Spielstand hat keine Prüfsumme.
+
+Close the game first. Both encrypted blocks are written again with their own seeds. Weapon elements and officers are shown by number; only existing elements (1 or more) and progressed officers are listed.
+= Spiel zuerst schließen. Beide verschlüsselten Blöcke werden mit ihren eigenen Seeds neu geschrieben. Waffenelemente und Offiziere werden nach Nummer angezeigt; nur vorhandene Elemente (1 oder mehr) und fortgeschrittene Offiziere werden aufgeführt.
+
+Close the game first. The stream cipher, the four section sums and the word checksum are written again. Officers are shown by their number in the save; levels and experience are read only.
+= Spiel zuerst schließen. Der Stromcode, die vier Abschnittssummen und die Wortprüfsumme werden neu geschrieben. Offiziere werden mit ihrer Nummer im Spielstand angezeigt; Stufen und Erfahrung sind schreibgeschützt.
+
+Close the game first. The saves have no checksum; item qualities and recipes are not touched.
+= Spiel zuerst schließen. Die Spielstände haben keine Prüfsumme; Gegenstandsqualitäten und Rezepte werden nicht verändert.

@@ -16120,3 +16120,31 @@ Wreck 5 Cop Cars
 Yellow Gem
 = 黄色宝石
 
+# src/game_ui/simple/specs.rs (first-batch screens)
+SAVEDATA.BIN (original) or SAVEDATAU.BIN (Ultimate) from Documents\KoeiTecmo\WARRIORS OROCHI 4\Savedata. Gems, Crystals, Growth Points, Skill Orbs (lower only), weapon elements and officers' skill points.
+= Documents\KoeiTecmo\WARRIORS OROCHI 4\Savedata 中的 SAVEDATA.BIN（原版）或 SAVEDATAU.BIN（Ultimate）。可修改宝石、水晶、成长点数、技能宝珠（只能调低）、武器元素和武将技能点。
+
+SAVEDATA0000.dat from Documents\KoeiTecmo\SAMURAI WARRIORS 4-II\Savedata. Gold, strategy tomes and each officer's five stat bonuses.
+= Documents\KoeiTecmo\SAMURAI WARRIORS 4-II\Savedata 中的 SAVEDATA0000.dat。可修改金币、战略书和每名武将的五项属性加成。
+
+SVDATnnn.SAV or Auto*.sav from Saved Games\FALCOM\ED_SORA3. Mira, sepith, character levels and the item counts.
+= Saved Games\FALCOM\ED_SORA3 中的 SVDATnnn.SAV 或 Auto*.sav。可修改 Mira、Sepith、角色等级和物品数量。
+
+saveNNN.dat from Saved Games\Falcom\ed8. Mira, sepith, each member's level, experience, HP, EP, CP and stats, and the bag.
+= Saved Games\Falcom\ed8 中的 saveNNN.dat。可修改 Mira、Sepith、每名成员的等级、经验、HP、EP、CP 和属性，以及背包。
+
+# src/fmt (first-batch screens)
+Close the game and turn off Steam cloud saves first. The game's two checksums are rewritten. Choosing a difficulty writes every place the game keeps it.
+= 请先关闭游戏并关闭 Steam 云存档。游戏的两个校验和会被重新写入。选择难度时会写入游戏保存难度的每一处。
+
+Close the game first. Counts of items already in the bag are edited; setting a count to 0 leaves the slot in the bag. The save has no checksum.
+= 请先关闭游戏。可编辑背包中已有物品的数量；将数量设为 0 会在背包中保留该格。该存档没有校验和。
+
+Close the game first. Both encrypted blocks are written again with their own seeds. Weapon elements and officers are shown by number; only existing elements (1 or more) and progressed officers are listed.
+= 请先关闭游戏。两个加密块会用各自的种子重新写入。武器元素和武将按编号显示；只列出已有的元素（1 个及以上）和有进度的武将。
+
+Close the game first. The stream cipher, the four section sums and the word checksum are written again. Officers are shown by their number in the save; levels and experience are read only.
+= 请先关闭游戏。流密码、四个分区校验和以及字校验和会被重新写入。武将按其在存档中的编号显示；等级和经验为只读。
+
+Close the game first. The saves have no checksum; item qualities and recipes are not touched.
+= 请先关闭游戏。该存档没有校验和；物品品质和配方保持不变。

@@ -159,9 +159,7 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
         None => b.info(&["Difficulty", "Now"], "custom (not one of the six)"),
     }
     b.option(&["Difficulty", "Change to"], LEVELS.iter().map(|s| s.to_string()).collect(), "difficulty".into());
-    Ok(b.finish_with(KIND, Checksum::Repack(pack), Some(post)).with_note(
-        "Close the game and turn off Steam cloud saves first. The game's two checksums are rewritten. Choosing a difficulty writes every place the game keeps it.",
-    ))
+    Ok(b.finish_with(KIND, Checksum::Repack(pack), Some(post)).with_note(crate::i18n::tx("Close the game and turn off Steam cloud saves first. The game's two checksums are rewritten. Choosing a difficulty writes every place the game keeps it.")))
 }
 
 #[cfg(test)]

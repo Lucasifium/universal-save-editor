@@ -116,9 +116,7 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
             }
         }
     }
-    Ok(b.finish(KIND, Checksum::Repack(pack)).with_note(
-        "Close the game first. Both encrypted blocks are written again with their own seeds. Weapon elements and officers are shown by number; only existing elements (1 or more) and progressed officers are listed.",
-    ))
+    Ok(b.finish(KIND, Checksum::Repack(pack)).with_note(crate::i18n::tx("Close the game first. Both encrypted blocks are written again with their own seeds. Weapon elements and officers are shown by number; only existing elements (1 or more) and progressed officers are listed.")))
 }
 
 #[cfg(test)]

@@ -82,5 +82,5 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
     if let Some(t) = tickets {
         b.ranged(&["Resources", "Tess exchange tickets"], t, Kind::U32, 0, 9_999);
     }
-    Ok(b.finish(name, Checksum::None).with_note("Close the game first. The saves have no checksum; item qualities and recipes are not touched."))
+    Ok(b.finish(name, Checksum::None).with_note(crate::i18n::tx("Close the game first. The saves have no checksum; item qualities and recipes are not touched.")))
 }
