@@ -1592,6 +1592,9 @@ fn peel(data: &[u8], ctx: &mut Ctx) -> Option<(Layer, Vec<u8>)> {
         if let Ok(v) = gunzip(data) {
             return Some((Layer::Gzip, v));
         }
+        if let Some(v) = fmt::heroes3::gunzip_lax(data) {
+            return Some((Layer::Gzip, v));
+        }
     }
     if looks_zlib(data) {
         if let Ok((v, rest)) = inflate_with_rest(data) {

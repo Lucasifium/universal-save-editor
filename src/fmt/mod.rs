@@ -133,6 +133,8 @@ pub mod msgpack;
 pub mod ac8;
 pub mod morrowind;
 pub mod oblivion;
+pub mod heroes3;
+pub mod moo2;
 pub mod bsinfinite;
 pub mod ue3pkg;
 pub mod cbor;
@@ -474,6 +476,16 @@ pub fn parse_binary(d: &[u8]) -> Option<TreeDoc> {
     }
     if sm64::looks(d) {
         if let Ok(t) = sm64::parse(d) {
+            return Some(t);
+        }
+    }
+    if heroes3::looks(d) {
+        if let Ok(t) = heroes3::parse(d) {
+            return Some(t);
+        }
+    }
+    if moo2::looks(d) {
+        if let Ok(t) = moo2::parse(d) {
             return Some(t);
         }
     }

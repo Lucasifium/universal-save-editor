@@ -3,7 +3,7 @@
 
 use super::{List, Max, Section, Shape, Spec, Table};
 
-pub static SPECS: &[Spec] = &[COTL, FALLOUT_SHELTER, DRG, S1_MONEY, S1_RANK, S1_TIME, S1_GAME, SOTF_STATE, SOTF_GAME, SOTF_WEATHER, SOTF_ITEMS, DMD, CUPHEAD, ANTIMATTER, PVZ, CELESTE, DRGS, KH3, RF4S, SKY1ST, KSP, FFPR, MCD, STONESHARD, ROGUE_TRADER, BIOSHOCK_INFINITE, SPACE_HAVEN, SNOWRUNNER, GRAVEYARD_KEEPER, NFSMW, TOS, GTA3, GTAVC, BITBURNER, TERRA_INVICTA, PRISON, FF13, SONIC_MANIA, CAVE_STORY_PLUS, CAVE_STORY, LIES_OF_P, TXR, DAVE, MSC, ULTRAKILL, RPGXP, RE5, ANNO1800, FTK, LEGO_TSS, LEGO_CLASSIC, MYZ, CMS21, MEDIEVAL_DYNASTY, MECHANICUS, ORI, OMORI, ENDER_LILIES, SW2, ES2, MOONLIGHTER, WASTELAND2, ATOM, MORTAL_SHELL, MORTAL_SHELL_2, COTW, BEAMNG, FOREST, YAKUZA3, YAKUZA4, YAKUZA5, ISHIN, SALT, DRAKENSANG, ALPHA, TYRANNY, JEDI_FO, SR3, SR4, WD2, FABLE, WANDERING_SWORD, STELLAR_BLADE, PRAGMATA, SLIME_RANCHER, SUBNAUTICA2, HZD, SLEEPING_DOGS, DXMD, ATOMIC_HEART, DISHONORED2, DEATHLOOP, AC_BROTHERHOOD, AC_REVELATIONS, AC3R, AC_LIBERATION, AC_BLACK_FLAG, AC_ROGUE, AC_UNITY, AC_SYNDICATE, AC_ORIGINS, AC_ODYSSEY, DISHONORED1, RDR1, RDR2, SM64, SUPER_METROID, LTTP, WORLDBOX, COREKEEPER, HOLOCURE, POTION_CRAFT, WWZ, ROBOQUEST, CMS18, LONGDRIVE, LONGDRIVE_PROP, XC3, MLDT, SMASH, MK7, SKC, UTY, DAGGERFALL_UNITY, DMC1, MEWGENICS, MORROWIND, OBLIVION, WOL, SOD_PROFILE, SOD_STATS, TRAVELLERS_REST, YOUTUBERS_LIFE, LUCK_LANDLORD, LUNA_NIGHTS, EVERSPACE1, STREETS_OF_ROGUE, DELTATRAVELER, PIZZA_TOWER, TEARDOWN, WOLCEN, BLASPHEMOUS, NOITA, LAST_EPOCH, GUNGEON, DISCO, CLICKER_HEROES, ISAAC, ROR2, STS2,];
+pub static SPECS: &[Spec] = &[COTL, FALLOUT_SHELTER, DRG, S1_MONEY, S1_RANK, S1_TIME, S1_GAME, SOTF_STATE, SOTF_GAME, SOTF_WEATHER, SOTF_ITEMS, DMD, CUPHEAD, ANTIMATTER, PVZ, CELESTE, DRGS, KH3, RF4S, SKY1ST, KSP, FFPR, MCD, STONESHARD, ROGUE_TRADER, BIOSHOCK_INFINITE, SPACE_HAVEN, SNOWRUNNER, GRAVEYARD_KEEPER, NFSMW, TOS, GTA3, GTAVC, BITBURNER, TERRA_INVICTA, PRISON, FF13, SONIC_MANIA, CAVE_STORY_PLUS, CAVE_STORY, LIES_OF_P, TXR, DAVE, MSC, ULTRAKILL, RPGXP, RE5, ANNO1800, FTK, LEGO_TSS, LEGO_CLASSIC, MYZ, CMS21, MEDIEVAL_DYNASTY, MECHANICUS, ORI, OMORI, ENDER_LILIES, SW2, ES2, MOONLIGHTER, WASTELAND2, ATOM, MORTAL_SHELL, MORTAL_SHELL_2, COTW, BEAMNG, FOREST, YAKUZA3, YAKUZA4, YAKUZA5, ISHIN, SALT, DRAKENSANG, ALPHA, TYRANNY, JEDI_FO, SR3, SR4, WD2, FABLE, WANDERING_SWORD, STELLAR_BLADE, PRAGMATA, SLIME_RANCHER, SUBNAUTICA2, HZD, SLEEPING_DOGS, DXMD, ATOMIC_HEART, DISHONORED2, DEATHLOOP, AC_BROTHERHOOD, AC_REVELATIONS, AC3R, AC_LIBERATION, AC_BLACK_FLAG, AC_ROGUE, AC_UNITY, AC_SYNDICATE, AC_ORIGINS, AC_ODYSSEY, DISHONORED1, RDR1, RDR2, SM64, SUPER_METROID, LTTP, WORLDBOX, COREKEEPER, HOLOCURE, POTION_CRAFT, WWZ, ROBOQUEST, CMS18, LONGDRIVE, LONGDRIVE_PROP, XC3, MLDT, SMASH, MK7, SKC, UTY, DAGGERFALL_UNITY, DMC1, MEWGENICS, MORROWIND, OBLIVION, WOL, SOD_PROFILE, SOD_STATS, TRAVELLERS_REST, YOUTUBERS_LIFE, LUCK_LANDLORD, LUNA_NIGHTS, EVERSPACE1, STREETS_OF_ROGUE, DELTATRAVELER, PIZZA_TOWER, TEARDOWN, WOLCEN, BLASPHEMOUS, NOITA, LAST_EPOCH, GUNGEON, DISCO, CLICKER_HEROES, ISAAC, ROR2, STS2, HEROES3, MOO2];
 // ------------------------------------------------------------------ Cult of the Lamb
 
 const COTL_ITEMS: &[(&str, &str)] = &[
@@ -5309,5 +5309,74 @@ const STS2: Spec = Spec {
     lists: &[],
     tables: &[
         Table { title: "Characters", path: "/character_stats", name: &["/id"], only: &[], cols: &[("Highest Ascension", "/max_ascension"), ("Preferred Ascension", "/preferred_ascension"), ("Wins", "/total_wins"), ("Losses", "/total_losses"), ("Win streak", "/current_streak"), ("Best win streak", "/best_win_streak"), ("Play time (s)", "/playtime")], names: &[("CHARACTER.IRONCLAD", "Ironclad"), ("CHARACTER.SILENT", "Silent"), ("CHARACTER.DEFECT", "Defect"), ("CHARACTER.NECROBINDER", "Necrobinder"), ("CHARACTER.REGENT", "Regent")] },
+    ],
+};
+
+// ------------------------------------------------------------------ Heroes of Might and Magic III
+
+const HEROES3: Spec = Spec {
+    name: "Heroes of Might and Magic III",
+    tab: "Heroes",
+    accent: (196, 156, 62),
+    kind: Some(crate::fmt::heroes3::KIND),
+    markers: &["/Heroes"],
+    subtitle: "A .GM1, .CGM or .GM2 save from the game's Games folder (Shadow of Death, Armageddon's Blade and Horn of the Abyss 1.8+). Each player's resources, and each hero's level, experience, attributes, spell points, movement, army and the skills they already have.",
+    tiles: &[],
+    sections: &[],
+    lists: &[],
+    tables: &[
+        Table {
+            title: "Players (resources)",
+            path: "/Players",
+            name: &[],
+            only: &[],
+            cols: &[("Gold", "/Gold"), ("Wood", "/Wood"), ("Ore", "/Ore"), ("Mercury", "/Mercury"), ("Sulfur", "/Sulfur"), ("Crystal", "/Crystal"), ("Gems", "/Gems")],
+            names: &[],
+        },
+        Table {
+            title: "Heroes",
+            path: "/Heroes",
+            name: &[],
+            only: &[],
+            cols: &[
+                ("Level", "/Level"), ("Experience", "/Experience"), ("Attack", "/Attack"), ("Defense", "/Defense"), ("Spell power", "/Spell power"),
+                ("Knowledge", "/Knowledge"), ("Spell points", "/Spell points"), ("Movement left", "/Movement left"), ("Movement (full)", "/Movement (full)"),
+            ],
+            names: &[],
+        },
+        Table { title: "Armies", path: "/Army", name: &[], only: &[], cols: &[("Creature", "/Creature"), ("Count", "/Count")], names: &[] },
+        Table { title: "Skills", path: "/Skills", name: &[], only: &[], cols: &[("Level", "/Level")], names: &[] },
+    ],
+};
+
+// ------------------------------------------------------------------ Master of Orion II
+
+const MOO2: Spec = Spec {
+    name: "Master of Orion II",
+    tab: "Empires",
+    accent: (90, 140, 220),
+    kind: Some(crate::fmt::moo2::KIND),
+    markers: &["/Empires"],
+    subtitle: "SAVE1.GAM to SAVE10.GAM from the game's folder (the original game; 208000-byte saves). Each empire's treasury, research points and ship range, and each colony's stored production and ground troops.",
+    tiles: &[],
+    sections: &[],
+    lists: &[],
+    tables: &[
+        Table {
+            title: "Empires",
+            path: "/Empires",
+            name: &[],
+            only: &[],
+            cols: &[("BC reserve", "/BC reserve"), ("Research points", "/Research points"), ("Fuel range (parsecs)", "/Fuel range (parsecs)")],
+            names: &[],
+        },
+        Table {
+            title: "Colonies",
+            path: "/Colonies",
+            name: &[],
+            only: &[],
+            cols: &[("Production stored", "/Production stored"), ("Marines", "/Marines"), ("Tanks", "/Tanks")],
+            names: &[],
+        },
     ],
 };

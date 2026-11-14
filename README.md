@@ -3,7 +3,7 @@
 > **Free, and it always will be.** No price, no ads, no account, no paid version, no online service, no
 > rate limits. If anyone is charging you for this, it isn't from here.
 
-An offline save editor and save manager for 380+ (380) PC games (edit saves, and back up, name and restore them): Cairn, Terraria (characters and a world map editor),
+An offline save editor and save manager for 380+ (382) PC games (edit saves, and back up, name and restore them): Cairn, Terraria (characters and a world map editor),
 Oxygen Not Included, RimWorld, Stardew Valley, Onimusha: Way of the Sword, Elden Ring, Dark Souls,
 Cyberpunk 2077, the Persona, Yakuza and Final Fantasy games, Ren'Py visual novels, RPG Maker games
 and more (the full list is below). Written in Rust (egui). Nothing is uploaded anywhere, and there are
@@ -128,6 +128,17 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 | Deltatraveler | *Party*: name, gold, experience, play time, party members and the item, weapon and armor ids (checked on public saves, not yet tried in the game) |
 | Undertale Yellow | *Clover*: LV, EXP, gold, HP and the other stats, equipment names, the eight item slots and play time from the save file (checked on public saves, not yet tried in the game) |
 | The Elder Scrolls II: Daggerfall (Daggerfall Unity) | *Character*: gold carried, level, health, magicka and fatigue, the eight attributes, all 35 skills, resistances, reputations and the gold and loan in each region's bank, from a save folder's `SaveData.txt` (checked on a public save, not yet tried in the game; classic `SAVETREE.DAT` saves are not supported yet) |
+| Assassin's Creed Brotherhood | *Inventory*: the player's money and gadget and ammunition counts, with other characters' and older copies listed apart; the save's packed blocks are opened and written again with their checksums (checked on public saves, not yet tried in the game) |
+| Assassin's Creed III Remastered | *Inventory*: money and gadget and ammunition counts; the Ubisoft Connect wrapper, its encryption and the packed blocks are opened and written again with their checksums (checked on public saves, not yet tried in the game) |
+| Assassin's Creed IV Black Flag | *Inventory*: money, gadget and ammunition counts, crew, heavy shot, harpoons and the ship's cargo (wood, metal, cloth, rum, sugar) with a Max crafting materials button (checked on public saves, not yet tried in the game) |
+| Assassin's Creed Liberation HD | *Inventory*: money and gadget and ammunition counts (checked on public saves, not yet tried in the game) |
+| Assassin's Creed Odyssey | *Character*: drachmae, experience and ability points; materials and gear are not mapped yet (checked on public saves, not yet tried in the game) |
+| Assassin's Creed Origins | *Character*: drachmae, experience and ability points; materials and gear are not mapped yet (checked on public saves, not yet tried in the game) |
+| Assassin's Creed Rogue | *Inventory*: money, gadget and ammunition counts, crew, heavy shot, harpoons and the ship's cargo (wood, metal, cloth, tobacco) with a Max crafting materials button (checked on public saves, not yet tried in the game) |
+| Assassin's Creed Syndicate | *Inventory*: money, lockpicks and gadget and ammunition counts (checked on public saves, not yet tried in the game) |
+| Assassin's Creed Unity | *Inventory*: money and gadget and ammunition counts (checked on public saves, not yet tried in the game) |
+| Heroes of Might and Magic III | *Heroes*: every player's gold and resources, and every hero's level, experience, attack, defense, spell power, knowledge, spell points, movement, army (creature and count) and the skills they already have, from a `.GM1`, `.CGM` or `.GM2` save (Shadow of Death, Armageddon's Blade and Horn of the Abyss 1.8+; the game's gzip packing is opened and closed for you; checked on public saves, not yet tried in the game) |
+| Master of Orion II | *Empires*: each empire's treasury (BC), research points and ship range, and each colony's stored production, marines and tanks from `SAVEn.GAM` (checked on public saves, not yet tried in the game) |
 | Salt and Sanctuary | *Character*: level, salt, gold, kills, deaths, sanctuary rests, corruption and the playthrough number from `datN.slv` (items and the skill tree are not edited yet; checked on public saves, not yet tried in the game) |
 | Drakensang: The Dark Eye | *Heroes*: each hero's level, adventure points (earned and to spend), life, endurance, astral energy, the eight attributes and every talent, with the party slot to tell your party from the cutscene copies (the SQLite `savegame.dsa` is edited in place; checked on a public save, not yet tried in the game) |
 | Drakensang: River of Time | *Heroes*: each hero's level, adventure points (earned and to spend), life, endurance, astral energy, the eight attributes and every talent, with the party slot to tell your party from the cutscene copies (the SQLite `savegame.dsa` is edited in place; checked on a public save, not yet tried in the game) |
