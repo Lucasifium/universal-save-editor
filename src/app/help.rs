@@ -103,6 +103,13 @@ impl App {
                 ui.close_menu();
                 open_url(ui.ctx(), &request_url());
             }
+            if crate::update::AVAILABLE {
+                ui.separator();
+                if ui.add_enabled(self.update_rx.is_none(), egui::Button::new(tr("Check for a new version"))).on_hover_text(tr("Asks GitHub once for the newest release. Nothing else is sent.")).clicked() {
+                    ui.close_menu();
+                    self.start_update_check(true);
+                }
+            }
             ui.separator();
             if ui.button(tr("Licences and credits")).clicked() {
                 ui.close_menu();
@@ -246,6 +253,14 @@ impl App {
                     .checkbox(&mut self.settings.confirm_save, tr("Review changes before saving"))
                     .on_hover_text(tr("Show the list of changes, and warn when the game is running, before writing the save"))
                     .changed();
+                if crate::update::AVAILABLE {
+                    ui.separator();
+                    ui.label(RichText::new(tr("Updates")).strong());
+                    changed |= ui
+                        .checkbox(&mut self.settings.check_updates, tr("Tell me when a new version is out"))
+                        .on_hover_text(tr("When the program starts, asks GitHub for the newest release. Nothing else is sent. Off by default, so the program stays fully offline."))
+                        .changed();
+                }
                 if !WEB {
                     ui.separator();
                     ui.label(RichText::new(tr("Backups")).strong());

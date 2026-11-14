@@ -25267,3 +25267,33 @@ The game data is saved back uncompressed, so the file grows. Close the game firs
 Writing
 = 執筆
 
+
+A new version is available: {0} (you have {1}).
+= 新しいバージョンがあります: {0}（現在のバージョン: {1}）。
+
+Download
+= ダウンロード
+
+Hide this until a newer version comes out.
+= より新しいバージョンが出るまで非表示にします。
+
+This is the newest version.
+= これが最新バージョンです。
+
+Couldn't check for a new version (no connection?).
+= 新しいバージョンを確認できませんでした（接続なし？）。
+
+Updates
+= アップデート
+
+Tell me when a new version is out
+= 新しいバージョンが出たら知らせる
+
+When the program starts, asks GitHub for the newest release. Nothing else is sent. Off by default, so the program stays fully offline.
+= 起動時にGitHubへ最新リリースを問い合わせます。それ以外は何も送信されません。完全オフラインを保つため、初期設定ではオフです。
+
+Check for a new version
+= 新しいバージョンを確認
+
+Asks GitHub once for the newest release. Nothing else is sent.
+= GitHubに最新リリースを一度だけ問い合わせます。それ以外は何も送信されません。

@@ -86,16 +86,75 @@ impl App {
         }
     }
 
-    /// Failures, and the "changed on disk" notice, under the toolbar.
-    pub(super) fn banners(&mut self, ctx: &egui::Context) {
-        if self.banner.is_none() && !self.disk_changed {
+    /// Starts the new-version check: at startup when the player turned it on, or when asked for.
+    pub(super) fn start_update_check(&mut self, manual: bool) {
+        if !crate::update::AVAILABLE || self.update_rx.is_some() {
             return;
         }
+        self.update_manual = manual;
+        self.update_note = None;
+        self.update_rx = Some(crate::update::start());
+    }
+
+    /// Collects the answer of a new-version check. A check at startup says nothing unless a
+    /// newer version that wasn't dismissed before turns up.
+    pub(super) fn poll_update(&mut self, ctx: &egui::Context) {
+        use crate::update::Outcome;
+        if !self.update_started {
+            self.update_started = true;
+            if self.settings.check_updates {
+                self.start_update_check(false);
+            }
+        }
+        let Some(rx) = &self.update_rx else { return };
+        match rx.try_recv() {
+            Ok(outcome) => {
+                self.update_rx = None;
+                match outcome {
+                    Outcome::Newer(v) => {
+                        if self.update_manual || self.settings.dismissed_update.as_deref() != Some(v.as_str()) {
+                            self.update_found = Some(v);
+                        }
+                    }
+                    Outcome::UpToDate if self.update_manual => self.update_note = Some(tr("This is the newest version.")),
+                    Outcome::Failed if self.update_manual => self.update_note = Some(tr("Couldn't check for a new version (no connection?).")),
+                    _ => {}
+                }
+            }
+            Err(std::sync::mpsc::TryRecvError::Empty) => ctx.request_repaint_after(std::time::Duration::from_millis(300)),
+            Err(_) => self.update_rx = None,
+        }
+    }
+
+    /// Failures, and the "changed on disk" notice, under the toolbar.
+    pub(super) fn banners(&mut self, ctx: &egui::Context) {
+        if self.banner.is_none() && !self.disk_changed && self.update_found.is_none() && self.update_note.is_none() {
+            return;
+        }
+        let mut dismiss_update = false;
         let mut dismiss = false;
         let mut reload = false;
         let mut keep = false;
         egui::TopBottomPanel::top("banner").show_separator_line(false).show(ctx, |ui| {
             ui.add_space(4.0);
+            if let Some(v) = self.update_found.clone() {
+                strip(ui, theme::WARN, |ui| {
+                    let text = crate::i18n::trf("A new version is available: {0} (you have {1}).", &[&v, &env!("CARGO_PKG_VERSION")]);
+                    ui.add(egui::Label::new(RichText::new(text).color(theme::fg(ui, theme::WARN))).wrap());
+                    ui.hyperlink_to(tr("Download"), crate::update::release_url(&v));
+                    if ui.button(tr("Dismiss")).on_hover_text(tr("Hide this until a newer version comes out.")).clicked() {
+                        dismiss_update = true;
+                    }
+                });
+            }
+            if let Some(n) = self.update_note {
+                strip(ui, theme::WARN, |ui| {
+                    ui.add(egui::Label::new(RichText::new(n).color(theme::fg(ui, theme::WARN))).wrap());
+                    if ui.button(tr("Dismiss")).clicked() {
+                        self.update_note = None;
+                    }
+                });
+            }
             if self.disk_changed {
                 if let Some(d) = &self.doc {
                     let name = file_name(&d.path);
@@ -130,6 +189,10 @@ impl App {
         });
         if dismiss {
             self.banner = None;
+        }
+        if dismiss_update {
+            self.settings.dismissed_update = self.update_found.take();
+            self.settings.save();
         }
         if keep {
             // Hidden until the file changes again; the check when saving still runs.

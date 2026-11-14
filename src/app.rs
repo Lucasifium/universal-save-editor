@@ -394,6 +394,13 @@ pub struct App {
     /// The saves found on this computer, for "Your games" on the start page and Find my game's saves.
     saves_found: Option<SaveSearch>,
     prefs_open: bool,
+    /// The optional new-version check (see `update.rs`): the pending answer, a newer version
+    /// found, and the note after a check the player asked for.
+    update_rx: Option<std::sync::mpsc::Receiver<crate::update::Outcome>>,
+    update_found: Option<String>,
+    update_note: Option<&'static str>,
+    update_manual: bool,
+    update_started: bool,
     help: Option<help::Window>,
     /// Load the Japanese, Chinese and Korean fonts on the next frame.
     need_cjk: bool,
@@ -489,6 +496,11 @@ impl App {
             // Phones and the browser can't look through folders.
             saves_found: (!cfg!(target_os = "android") && !WEB && std::env::var_os("SAVE_EDITOR_NO_SEARCH").is_none()).then(search_saves),
             prefs_open: false,
+            update_rx: None,
+            update_found: None,
+            update_note: None,
+            update_manual: false,
+            update_started: false,
             help: None,
             // Japanese and Chinese menus need those fonts from the start.
             need_cjk: crate::i18n::current().cjk,
@@ -4101,6 +4113,7 @@ impl eframe::App for App {
             }
         }
         self.check_disk(ctx);
+        self.poll_update(ctx);
         self.banners(ctx);
         if std::mem::take(&mut self.need_cjk) {
             theme::enable_cjk(ctx);

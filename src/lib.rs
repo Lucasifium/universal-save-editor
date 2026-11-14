@@ -37,6 +37,7 @@ mod settings;
 mod i18n;
 mod steamid;
 mod theme;
+mod update;
 mod values_view;
 mod vfs;
 mod xgp;

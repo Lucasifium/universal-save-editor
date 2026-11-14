@@ -25181,3 +25181,33 @@ The game data is saved back uncompressed, so the file grows. Close the game firs
 Writing
 = Escritura
 
+
+A new version is available: {0} (you have {1}).
+= Hay una versión nueva disponible: {0} (tienes la {1}).
+
+Download
+= Descargar
+
+Hide this until a newer version comes out.
+= Ocultar hasta que salga una versión más nueva.
+
+This is the newest version.
+= Esta es la versión más reciente.
+
+Couldn't check for a new version (no connection?).
+= No se pudo buscar una versión nueva (¿sin conexión?).
+
+Updates
+= Actualizaciones
+
+Tell me when a new version is out
+= Avisarme cuando salga una versión nueva
+
+When the program starts, asks GitHub for the newest release. Nothing else is sent. Off by default, so the program stays fully offline.
+= Al iniciar, pregunta a GitHub por la versión más reciente. No se envía nada más. Desactivado por defecto, para que el programa siga siendo totalmente sin conexión.
+
+Check for a new version
+= Buscar una versión nueva
+
+Asks GitHub once for the newest release. Nothing else is sent.
+= Pregunta una vez a GitHub por la versión más reciente. No se envía nada más.

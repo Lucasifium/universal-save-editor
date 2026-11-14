@@ -25240,3 +25240,33 @@ The game data is saved back uncompressed, so the file grows. Close the game firs
 Writing
 = 写作
 
+
+A new version is available: {0} (you have {1}).
+= 有新版本可用：{0}（当前版本：{1}）。
+
+Download
+= 下载
+
+Hide this until a newer version comes out.
+= 在更新的版本发布前隐藏此提示。
+
+This is the newest version.
+= 这已是最新版本。
+
+Couldn't check for a new version (no connection?).
+= 无法检查新版本（没有网络连接？）。
+
+Updates
+= 更新
+
+Tell me when a new version is out
+= 有新版本时通知我
+
+When the program starts, asks GitHub for the newest release. Nothing else is sent. Off by default, so the program stays fully offline.
+= 启动时向 GitHub 查询最新版本，不发送其他任何内容。默认关闭，因此程序仍完全离线运行。
+
+Check for a new version
+= 检查新版本
+
+Asks GitHub once for the newest release. Nothing else is sent.
+= 向 GitHub 查询一次最新版本，不发送其他任何内容。

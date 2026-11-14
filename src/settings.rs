@@ -25,11 +25,15 @@ pub struct Settings {
     pub backup_keep: usize,
     /// Interface language code ("de"); `None` follows the system.
     pub language: Option<String>,
+    /// Check GitHub for a newer release when the program starts (off until the player asks).
+    pub check_updates: bool,
+    /// The newest version the player dismissed, so it isn't offered again.
+    pub dismissed_update: Option<String>,
 }
 
 impl Default for Settings {
     fn default() -> Self {
-        Self { recent: vec![], dark: true, zoom: 1.0, show_raw_keys: false, show_advanced: false, confirm_save: true, backup_dir: None, earlier_backup_dirs: vec![], hex_guide: true, backup_keep: crate::backups::KEEP, language: None }
+        Self { recent: vec![], dark: true, zoom: 1.0, show_raw_keys: false, show_advanced: false, confirm_save: true, backup_dir: None, earlier_backup_dirs: vec![], hex_guide: true, backup_keep: crate::backups::KEEP, language: None, check_updates: false, dismissed_update: None }
     }
 }
 
@@ -58,6 +62,8 @@ impl Settings {
         }
         s.backup_keep = v["backup_keep"].as_u64().map(|n| (n as usize).clamp(crate::backups::KEEP_MIN, crate::backups::KEEP_MAX)).unwrap_or(crate::backups::KEEP);
         s.language = v["language"].as_str().filter(|l| !l.is_empty()).map(str::to_string);
+        s.check_updates = v["check_updates"].as_bool().unwrap_or(false);
+        s.dismissed_update = v["dismissed_update"].as_str().filter(|l| !l.is_empty()).map(str::to_string);
         s
     }
 
@@ -75,6 +81,8 @@ impl Settings {
             "earlier_backup_dirs": self.earlier_backup_dirs.iter().map(|p| p.to_string_lossy()).collect::<Vec<_>>(),
             "backup_keep": self.backup_keep,
             "language": self.language,
+            "check_updates": self.check_updates,
+            "dismissed_update": self.dismissed_update,
         });
         if let Some(dir) = p.parent() {
             let _ = std::fs::create_dir_all(dir);

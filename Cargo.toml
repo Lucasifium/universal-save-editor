@@ -73,6 +73,8 @@ libloading = "0.8"
 # Native file dialogs (Android has none; the app shows its own file browser there).
 [target.'cfg(not(any(target_os = "android", target_arch = "wasm32")))'.dependencies]
 rfd = "0.15"
+# The optional "new version available" check: one HTTPS request to GitHub, off by default.
+ureq = { version = "2", default-features = false, features = ["tls"] }
 
 # The browser version (web/): files come from the page's file picker and go back as downloads.
 [target.'cfg(target_arch = "wasm32")'.dependencies]
