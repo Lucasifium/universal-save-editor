@@ -213,6 +213,7 @@ pub enum Game {
     Sims1,
     Sims2,
     Sims4,
+    Sims3,
     DeadRising,
     DeadRising2,
     LegoBatman,
@@ -323,7 +324,7 @@ impl Game {
             Game::Nier => "YoRHa",
             Game::WorldOfHorror => "Unlocks",
             Game::Sims1 | Game::Sims2 => "Families",
-            Game::Sims4 => "Households",
+            Game::Sims4 | Game::Sims3 => "Households",
             Game::Phasmophobia => "Ghost hunter",
             Game::LethalCompany => "Crew",
             Game::Repo => "Team",
@@ -433,6 +434,7 @@ pub fn detect(kind: &str, root: &Value) -> Option<Game> {
         crate::fmt::sims1::KIND => Game::Sims1,
         crate::fmt::sims2::KIND => Game::Sims2,
         crate::fmt::sims4::KIND => Game::Sims4,
+        crate::fmt::sims3::KIND => Game::Sims3,
         crate::fmt::dead_rising::KIND_DR1 => Game::DeadRising,
         crate::fmt::dead_rising::KIND_DR2 | crate::fmt::dead_rising::KIND_OTR => Game::DeadRising2,
         crate::fmt::ttgames::KIND => Game::LegoBatman,
@@ -621,6 +623,7 @@ fn show_screen(game: Game, ui: &mut Ui, cx: &mut GameCtx) {
         Game::Sims1 => sims::show(ui, cx, false),
         Game::Sims2 => sims::show(ui, cx, true),
         Game::Sims4 => sims::show4(ui, cx),
+        Game::Sims3 => sims::show3(ui, cx),
         Game::Phasmophobia => coop::phasmophobia(ui, cx),
         Game::LethalCompany => coop::lethal_company(ui, cx),
         Game::Repo => coop::repo(ui, cx),
@@ -1188,6 +1191,7 @@ mod tests {
         assert_eq!(detect(crate::fmt::sims1::KIND, &json!({})), Some(Game::Sims1));
         assert_eq!(detect(crate::fmt::sims2::KIND, &json!({})), Some(Game::Sims2));
         assert_eq!(detect(crate::fmt::sims4::KIND, &json!({})), Some(Game::Sims4));
+        assert_eq!(detect(crate::fmt::sims3::KIND, &json!({})), Some(Game::Sims3));
         let es3 = |n: i64| json!({"__type": "int", "value": n});
         assert_eq!(detect(crate::fmt::es3::KIND_PHASMOPHOBIA, &json!({"PlayersMoney": es3(5), "NewLevel": es3(2)})), Some(Game::Phasmophobia));
         assert_eq!(detect("JSON", &json!({"GroupCredits": es3(60), "ProfitQuota": es3(130)})), Some(Game::LethalCompany));

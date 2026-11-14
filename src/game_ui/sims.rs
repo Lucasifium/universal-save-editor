@@ -93,3 +93,51 @@ pub fn show4(ui: &mut Ui, cx: &mut GameCtx) {
     }
     ui.weak(tr("Funds go up to 99,999,999. The game data is stored uncompressed when you save, so the file grows. Sim skills and traits aren't mapped yet. Not yet tried in the game."));
 }
+
+/// The Sims 3: one tab per household (the most-played first) with its funds and, for each
+/// Sim, lifetime happiness, lifetime reward points and skills.
+pub fn show3(ui: &mut Ui, cx: &mut GameCtx) {
+    let accent = Color32::from_rgb(110, 200, 70);
+    let houses = keys(cx, "/Households");
+    if houses.is_empty() {
+        ui.weak(tr("This save has no households."));
+        return;
+    }
+    let t = tabs(ui, "sims3_house", &houses).min(houses.len() - 1);
+    let base = format!("/Households/{}", pointer_escape(&houses[t]));
+    let sims = keys(cx, &format!("{base}/Sims"));
+    let skill_paths: Vec<String> = sims
+        .iter()
+        .flat_map(|s| {
+            let sp = format!("{base}/Sims/{}/Skills", pointer_escape(s));
+            keys(cx, &sp).into_iter().map(move |k| format!("{sp}/{}", pointer_escape(&k)))
+        })
+        .collect();
+    let max = crate::fmt::sims3::SKILL_MAX;
+    let can = skill_paths.iter().any(|p| cx.int(p).is_some_and(|v| v < max));
+    if super::quick_action(ui, "Max every skill", "Sets every listed skill of this household's Sims to level 10.", can, "Every listed skill is already at level 10.") {
+        for p in &skill_paths {
+            cx.set(p, Value::from(max));
+        }
+    }
+    let sub = format!("The Sims 3  \u{00B7}  {}", if sims.len() == 1 { tr("1 Sim").to_string() } else { trf("{0} Sims", &[&sims.len()]) });
+    hero(ui, accent, &houses[t], &sub, |ui| {
+        cx.tile(ui, "Funds (\u{00A7})", &format!("{base}/Funds"), accent);
+    });
+    for (n, sim) in sims.iter().enumerate() {
+        let s = format!("{base}/Sims/{}", pointer_escape(sim));
+        panel(ui, sim, |ui| {
+            ui.horizontal_wrapped(|ui| {
+                cx.tile(ui, "Lifetime reward points", &format!("{s}/Lifetime reward points"), accent);
+                cx.tile(ui, "Lifetime happiness", &format!("{s}/Lifetime happiness"), accent);
+            });
+            let rows: Vec<(String, String)> = keys(cx, &format!("{s}/Skills")).into_iter().map(|k| (k.clone(), format!("{s}/Skills/{}", pointer_escape(&k)))).collect();
+            if !rows.is_empty() {
+                ui.add_space(4.0);
+                ui.strong(tr("Skills"));
+                value_rows(ui, cx, &format!("sims3_{t}_{n}_skills"), &rows);
+            }
+        });
+    }
+    ui.weak(tr("Lifetime reward points are what the Rewards store spends; lifetime happiness is the total the Sim has ever earned. Skills go from 0 to 10; skills kept only as hidden counters and toddler or child skills aren't listed. Funds go up to 99,999,999. The game data is stored uncompressed when you save, so the file grows. Not yet tried in the game."));
+}

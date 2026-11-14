@@ -25053,3 +25053,135 @@ The saves found before are remembered and checked first. Search again looks thro
 
 Every kind of item in your party's bags can be added, as a copy of one the game made. The copies go into the chosen character's bag when you save. Items kept in a stack, worn gear, containers, keys and story items aren't offered; a stack's size can be changed under Stacked items. Keep a backup: this hasn't been tried in the game yet.
 = Jede Art von Gegenstand in den Taschen deiner Gruppe kann hinzugefügt werden, als Kopie eines vom Spiel erzeugten Gegenstands. Die Kopien kommen beim Speichern in die Tasche der gewählten Figur. Gestapelte Gegenstände, getragene Ausrüstung, Behälter, Schlüssel und Story-Gegenstände werden nicht angeboten; die Größe eines Stapels lässt sich unter „Gestapelte Gegenstände“ ändern. Lege eine Sicherung an: Das wurde im Spiel noch nicht ausprobiert.
+
+# src/fmt/sims3.rs and src/game_ui/sims.rs (The Sims 3)
+
+Advanced Technology
+= Fortgeschrittene Technologie
+
+Arcade Machines
+= Spielautomaten
+
+Athletic
+= Sportlichkeit
+
+Bass
+= Bass
+
+Bot Building
+= Bot-Bau
+
+Broom Riding
+= Besenreiten
+
+Bubble Blowing
+= Seifenblasen
+
+Chess
+= Schach
+
+Collecting
+= Sammeln
+
+Consignment
+= Kommission
+
+Darts
+= Darts
+
+Dominoes
+= Domino
+
+Drums
+= Schlagzeug
+
+Every listed skill is already at level 10.
+= Alle aufgeführten Fähigkeiten sind bereits auf Stufe 10.
+
+Gardening
+= Gartenarbeit
+
+Guitar
+= Gitarre
+
+Handiness
+= Heimwerken
+
+Inventing
+= Erfinden
+
+Laser Rhythm-a-con
+= Laser-Rhythmus-a-tron
+
+Lifetime happiness
+= Lebenszeitglück
+
+Lifetime reward points
+= Lebenszeit-Belohnungspunkte
+
+Lifetime reward points are what the Rewards store spends; lifetime happiness is the total the Sim has ever earned. Skills go from 0 to 10; skills kept only as hidden counters and toddler or child skills aren't listed. Funds go up to 99,999,999. The game data is stored uncompressed when you save, so the file grows. Not yet tried in the game.
+= Lebenszeit-Belohnungspunkte gibt der Belohnungsladen aus; Lebenszeitglück ist die Summe, die der Sim je verdient hat. Fähigkeiten reichen von 0 bis 10; Fähigkeiten, die nur als versteckte Zähler geführt werden, sowie Kleinkind- und Kinderfähigkeiten werden nicht aufgeführt. Das Geld reicht bis 99.999.999. Die Spieldaten werden beim Speichern unkomprimiert abgelegt, daher wird die Datei größer. Noch nicht im Spiel getestet.
+
+Martial Arts
+= Kampfsport
+
+Max every skill
+= Alle Fähigkeiten maximieren
+
+Mixology
+= Mixologie
+
+Mooch
+= Schnorren
+
+Nectar Making
+= Nektarherstellung
+
+Nerd Influence
+= Streber-Einfluss
+
+Painting
+= Malen
+
+Photography
+= Fotografie
+
+Piano
+= Klavier
+
+Rebel Influence
+= Rebellen-Einfluss
+
+Scuba Diving
+= Tauchen
+
+Sculpting
+= Bildhauerei
+
+Sets every listed skill of this household's Sims to level 10.
+= Setzt jede aufgeführte Fähigkeit der Sims dieses Haushalts auf Stufe 10.
+
+Snake Charming
+= Schlangenbeschwörung
+
+Social Networking
+= Soziale Netzwerke
+
+Socialite Influence
+= Schickeria-Einfluss
+
+Spellcasting
+= Zauberei
+
+Spellcraft
+= Zauberkunde
+
+Street Art
+= Straßenkunst
+
+The game data is saved back uncompressed, so the file grows. Close the game first.
+= Die Spieldaten werden unkomprimiert zurückgeschrieben, daher wird die Datei größer. Zuerst das Spiel schließen.
+
+Writing
+= Schreiben
+

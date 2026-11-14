@@ -25135,3 +25135,135 @@ The saves found before are remembered and checked first. Search again looks thro
 
 Every kind of item in your party's bags can be added, as a copy of one the game made. The copies go into the chosen character's bag when you save. Items kept in a stack, worn gear, containers, keys and story items aren't offered; a stack's size can be changed under Stacked items. Keep a backup: this hasn't been tried in the game yet.
 = パーティーのバッグにあるアイテムはどの種類でも、ゲームが作ったものの複製として追加できます。複製はセーブ時に選んだキャラクターのバッグに入ります。スタックになっているアイテム、装備中の装備、容器、鍵、ストーリーアイテムは対象外です。スタック数は「スタックされたアイテム」で変更できます。バックアップを取ってください。これはまだゲーム内で試されていません。
+
+# src/fmt/sims3.rs and src/game_ui/sims.rs (The Sims 3)
+
+Advanced Technology
+= 先端技術
+
+Arcade Machines
+= アーケードゲーム
+
+Athletic
+= 運動
+
+Bass
+= ベース
+
+Bot Building
+= ボット製作
+
+Broom Riding
+= ほうき乗り
+
+Bubble Blowing
+= バブル
+
+Chess
+= チェス
+
+Collecting
+= 収集
+
+Consignment
+= 委託販売
+
+Darts
+= ダーツ
+
+Dominoes
+= ドミノ
+
+Drums
+= ドラム
+
+Every listed skill is already at level 10.
+= 表示されているスキルはすべてレベル10です。
+
+Gardening
+= ガーデニング
+
+Guitar
+= ギター
+
+Handiness
+= 修理
+
+Inventing
+= 発明
+
+Laser Rhythm-a-con
+= レーザーリズマコン
+
+Lifetime happiness
+= 生涯幸福度
+
+Lifetime reward points
+= 生涯報酬ポイント
+
+Lifetime reward points are what the Rewards store spends; lifetime happiness is the total the Sim has ever earned. Skills go from 0 to 10; skills kept only as hidden counters and toddler or child skills aren't listed. Funds go up to 99,999,999. The game data is stored uncompressed when you save, so the file grows. Not yet tried in the game.
+= 生涯報酬ポイントはリワードストアで使うポイント、生涯幸福度はシムがこれまでに得た合計です。スキルは0〜10です。隠しカウンターとしてのみ保存されるスキルと、幼児・子どものスキルは表示されません。資金は99,999,999まで。保存時にゲームデータは非圧縮で格納されるため、ファイルは大きくなります。ゲーム内ではまだ未確認です。
+
+Martial Arts
+= 武術
+
+Max every skill
+= 全スキルを最大にする
+
+Mixology
+= ミクソロジー
+
+Mooch
+= たかり
+
+Nectar Making
+= ネクター製造
+
+Nerd Influence
+= ガリ勉の影響力
+
+Painting
+= 絵画
+
+Photography
+= 写真
+
+Piano
+= ピアノ
+
+Rebel Influence
+= 反逆者の影響力
+
+Scuba Diving
+= スキューバダイビング
+
+Sculpting
+= 彫刻
+
+Sets every listed skill of this household's Sims to level 10.
+= この世帯のシムの表示中のスキルをすべてレベル10にします。
+
+Snake Charming
+= ヘビ使い
+
+Social Networking
+= ソーシャルネットワーク
+
+Socialite Influence
+= 社交界の影響力
+
+Spellcasting
+= 呪文詠唱
+
+Spellcraft
+= 魔法術
+
+Street Art
+= ストリートアート
+
+The game data is saved back uncompressed, so the file grows. Close the game first.
+= ゲームデータは非圧縮で書き戻されるため、ファイルは大きくなります。先にゲームを終了してください。
+
+Writing
+= 執筆
+

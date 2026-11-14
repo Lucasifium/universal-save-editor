@@ -25108,3 +25108,135 @@ The saves found before are remembered and checked first. Search again looks thro
 
 Every kind of item in your party's bags can be added, as a copy of one the game made. The copies go into the chosen character's bag when you save. Items kept in a stack, worn gear, containers, keys and story items aren't offered; a stack's size can be changed under Stacked items. Keep a backup: this hasn't been tried in the game yet.
 = 队伍背包中的任何种类物品都可以添加，作为游戏所创建物品的副本。保存时副本会放入所选角色的背包。堆叠物品、已穿戴的装备、容器、钥匙和剧情物品不在可选范围内；堆叠数量可在“堆叠物品”中修改。请先备份：此功能尚未在游戏中测试。
+
+# src/fmt/sims3.rs and src/game_ui/sims.rs (The Sims 3)
+
+Advanced Technology
+= 高级科技
+
+Arcade Machines
+= 街机
+
+Athletic
+= 运动
+
+Bass
+= 贝斯
+
+Bot Building
+= 机器人制造
+
+Broom Riding
+= 骑扫帚
+
+Bubble Blowing
+= 吹泡泡
+
+Chess
+= 国际象棋
+
+Collecting
+= 收集
+
+Consignment
+= 寄售
+
+Darts
+= 飞镖
+
+Dominoes
+= 多米诺骨牌
+
+Drums
+= 架子鼓
+
+Every listed skill is already at level 10.
+= 列出的所有技能都已达到 10 级。
+
+Gardening
+= 园艺
+
+Guitar
+= 吉他
+
+Handiness
+= 动手能力
+
+Inventing
+= 发明
+
+Laser Rhythm-a-con
+= 激光节奏琴
+
+Lifetime happiness
+= 终身幸福值
+
+Lifetime reward points
+= 终身奖励点数
+
+Lifetime reward points are what the Rewards store spends; lifetime happiness is the total the Sim has ever earned. Skills go from 0 to 10; skills kept only as hidden counters and toddler or child skills aren't listed. Funds go up to 99,999,999. The game data is stored uncompressed when you save, so the file grows. Not yet tried in the game.
+= 终身奖励点数是奖励商店消耗的点数；终身幸福值是模拟市民累计获得的总量。技能范围为 0 到 10；仅作为隐藏计数器保存的技能以及幼儿或儿童技能不会列出。资金上限为 99,999,999。保存时游戏数据以未压缩形式存储，因此文件会变大。尚未在游戏中测试。
+
+Martial Arts
+= 武术
+
+Max every skill
+= 所有技能满级
+
+Mixology
+= 调酒
+
+Mooch
+= 蹭东西
+
+Nectar Making
+= 花蜜酿造
+
+Nerd Influence
+= 书呆子影响力
+
+Painting
+= 绘画
+
+Photography
+= 摄影
+
+Piano
+= 钢琴
+
+Rebel Influence
+= 叛逆者影响力
+
+Scuba Diving
+= 水肺潜水
+
+Sculpting
+= 雕塑
+
+Sets every listed skill of this household's Sims to level 10.
+= 将此家庭模拟市民列出的所有技能设为 10 级。
+
+Snake Charming
+= 弄蛇
+
+Social Networking
+= 社交网络
+
+Socialite Influence
+= 社交名流影响力
+
+Spellcasting
+= 施法
+
+Spellcraft
+= 法术
+
+Street Art
+= 街头艺术
+
+The game data is saved back uncompressed, so the file grows. Close the game first.
+= 游戏数据以未压缩形式写回，因此文件会变大。请先关闭游戏。
+
+Writing
+= 写作
+

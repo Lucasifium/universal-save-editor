@@ -25060,3 +25060,135 @@ The saves found before are remembered and checked first. Search again looks thro
 
 Every kind of item in your party's bags can be added, as a copy of one the game made. The copies go into the chosen character's bag when you save. Items kept in a stack, worn gear, containers, keys and story items aren't offered; a stack's size can be changed under Stacked items. Keep a backup: this hasn't been tried in the game yet.
 = Tout type d'objet présent dans les sacs de ton groupe peut être ajouté, sous forme de copie d'un objet créé par le jeu. Les copies vont dans le sac du personnage choisi à l'enregistrement. Les objets en pile, l'équipement porté, les conteneurs, les clés et les objets de quête ne sont pas proposés ; la taille d'une pile se modifie sous Objets empilés. Fais une sauvegarde : cela n'a pas encore été essayé dans le jeu.
+
+# src/fmt/sims3.rs and src/game_ui/sims.rs (The Sims 3)
+
+Advanced Technology
+= Technologie avancée
+
+Arcade Machines
+= Bornes d'arcade
+
+Athletic
+= Athlétisme
+
+Bass
+= Basse
+
+Bot Building
+= Robotique
+
+Broom Riding
+= Vol en balai
+
+Bubble Blowing
+= Bulles
+
+Chess
+= Échecs
+
+Collecting
+= Collection
+
+Consignment
+= Dépôt-vente
+
+Darts
+= Fléchettes
+
+Dominoes
+= Dominos
+
+Drums
+= Batterie
+
+Every listed skill is already at level 10.
+= Toutes les compétences listées sont déjà au niveau 10.
+
+Gardening
+= Jardinage
+
+Guitar
+= Guitare
+
+Handiness
+= Bricolage
+
+Inventing
+= Invention
+
+Laser Rhythm-a-con
+= Laser Rythm-a-con
+
+Lifetime happiness
+= Bonheur à vie
+
+Lifetime reward points
+= Points de récompense à vie
+
+Lifetime reward points are what the Rewards store spends; lifetime happiness is the total the Sim has ever earned. Skills go from 0 to 10; skills kept only as hidden counters and toddler or child skills aren't listed. Funds go up to 99,999,999. The game data is stored uncompressed when you save, so the file grows. Not yet tried in the game.
+= Les points de récompense à vie sont ce que dépense la boutique des récompenses ; le bonheur à vie est le total gagné par le Sim. Les compétences vont de 0 à 10 ; les compétences tenues comme simples compteurs cachés et celles des bambins ou des enfants ne sont pas listées. Les fonds vont jusqu'à 99 999 999. Les données du jeu sont enregistrées sans compression, donc le fichier grossit. Pas encore essayé en jeu.
+
+Martial Arts
+= Arts martiaux
+
+Max every skill
+= Maximiser toutes les compétences
+
+Mixology
+= Mixologie
+
+Mooch
+= Taxer
+
+Nectar Making
+= Fabrication de nectar
+
+Nerd Influence
+= Influence des intellos
+
+Painting
+= Peinture
+
+Photography
+= Photographie
+
+Piano
+= Piano
+
+Rebel Influence
+= Influence des rebelles
+
+Scuba Diving
+= Plongée sous-marine
+
+Sculpting
+= Sculpture
+
+Sets every listed skill of this household's Sims to level 10.
+= Met chaque compétence listée des Sims de ce foyer au niveau 10.
+
+Snake Charming
+= Charme des serpents
+
+Social Networking
+= Réseaux sociaux
+
+Socialite Influence
+= Influence des mondains
+
+Spellcasting
+= Lancer de sorts
+
+Spellcraft
+= Art des sorts
+
+Street Art
+= Art urbain
+
+The game data is saved back uncompressed, so the file grows. Close the game first.
+= Les données du jeu sont réécrites sans compression, donc le fichier grossit. Fermez d'abord le jeu.
+
+Writing
+= Écriture
+

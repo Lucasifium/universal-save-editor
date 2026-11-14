@@ -306,6 +306,7 @@ pub mod tos;
 pub mod sims1;
 pub mod sims2;
 pub mod sims4;
+pub mod sims3;
 pub mod ds2;
 pub mod ds1;
 pub mod mea;
@@ -1168,6 +1169,11 @@ pub fn parse_binary(d: &[u8]) -> Option<TreeDoc> {
     }
     if sims4::looks(d) {
         if let Ok(t) = sims4::parse(d) {
+            return Some(t);
+        }
+    }
+    if sims3::looks(d) {
+        if let Ok(t) = sims3::parse(d) {
             return Some(t);
         }
     }

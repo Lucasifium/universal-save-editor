@@ -328,6 +328,7 @@ pub enum Layer {
     Dbpf { original: Arc<Vec<u8>> },
     /// The Sims 4 save (DBPF 2.1 with one protobuf resource), shown as households and Sims.
     Dbpf4 { original: Arc<Vec<u8>> },
+    Dbpf3 { original: Arc<Vec<u8>> },
     /// Mass Effect Legendary Edition (ME1) save: an Unreal chunk of zlib blocks, then the
     /// CRC-32/BZIP2 of everything before it, 1, and the unpacked size.
     Me1Le { block: u32 },
@@ -513,6 +514,7 @@ impl Layer {
             Layer::Wasteland3 { .. } => "Wasteland 3 save (LZF)".to_string(),
             Layer::Dbpf { .. } => "The Sims 2 package (DBPF)".to_string(),
             Layer::Dbpf4 { .. } => "The Sims 4 save (DBPF 2.1)".to_string(),
+            Layer::Dbpf3 { .. } => "The Sims 3 save (DBPF 2.0)".to_string(),
             Layer::Xcom { xcom2, sizes, .. } => format!("{} save ({} LZO chunks)", if *xcom2 { "XCOM 2" } else { "XCOM: Enemy Unknown" }, sizes.len()),
         }
     }
@@ -1281,6 +1283,7 @@ fn wrap(layer: &Layer, data: Vec<u8>) -> Result<Vec<u8>, String> {
         }
         Layer::Dbpf { original } => fmt::dbpf::rebuild(original, &data, fmt::sims2::editable)?,
         Layer::Dbpf4 { original } => fmt::sims4::rebuild(original, &data)?,
+        Layer::Dbpf3 { original } => fmt::sims3::rebuild(original, &data)?,
         Layer::Xcom { header, crc_at, xcom2, sizes, block } => {
             if data.len() != sizes.iter().map(|&n| n as usize).sum::<usize>() {
                 return Err("this save's data can't change size".into());
@@ -1410,6 +1413,12 @@ fn peel(data: &[u8], ctx: &mut Ctx) -> Option<(Layer, Vec<u8>)> {
             if let Some(flat) = fmt::sims4::flatten(data) {
                 ctx.hint = Some("The Sims 4 save: households and their funds are shown; funds are written back into the game data, which is stored uncompressed (the file grows). Close the game first.".into());
                 return Some((Layer::Dbpf4 { original: Arc::new(data.to_vec()) }, flat));
+            }
+        }
+        if fmt::sims3::looks_package(data) {
+            if let Some(flat) = fmt::sims3::flatten(data) {
+                ctx.hint = Some("The Sims 3 save: households, funds, Sims, lifetime reward points and skills are shown; the game data is stored uncompressed when you save (the file grows). Close the game first.".into());
+                return Some((Layer::Dbpf3 { original: Arc::new(data.to_vec()) }, flat));
             }
         }
         if let Some(flat) = fmt::sims2::flatten(data) {
