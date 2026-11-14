@@ -3034,3 +3034,7 @@ A PlayStation save (memory card, .mcs, .psx or .psv) of the 1997 game. Credits, 
 
 Close the emulator first. The licence tests and race results show the medal or place you got; the save's checksum is written again. Cars and tuning parts are not edited yet.
 = Zuerst den Emulator schließen. Die Lizenztests und Rennergebnisse zeigen die erreichte Medaille oder Platzierung; die Prüfsumme des Spielstands wird neu geschrieben. Autos und Tuningteile werden noch nicht bearbeitet.
+
+Level (up to 300), free skill points and free mastery points. The rest of the character is not mapped yet.
+= Stufe (bis 300), freie Fertigkeitspunkte und freie Meisterschaftspunkte. Der Rest des Charakters ist noch nicht erfasst.
+

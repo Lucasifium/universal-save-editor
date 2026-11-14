@@ -24,6 +24,7 @@
 - Dynasty Warriors 8: Xtreme Legends, One Piece: Pirate Warriors 3 and 4, Persona 5 Strikers: game screens, with the Koei Tecmo save encryption opened
 - Torchlight III: game screen (character traits, gear), with the JSON text inside the Unreal save opened
 - Dragon Ball Xenoverse: game screen (custom characters)
+- Chronicon: game screen (level, free skill and mastery points), with the hex-text character opened as bytes
 
 ## 0.6.1
 

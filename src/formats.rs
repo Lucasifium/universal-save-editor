@@ -167,6 +167,8 @@ pub enum Layer {
     Koei(fmt::koei::Wrap),
     /// Torchlight III: an Unreal save whose one `JsonString` property holds the whole save as JSON text.
     Torchlight(Arc<fmt::torchlight::Wrap>),
+    /// Chronicon character: hex text; section `c` is opened as bytes.
+    Chronicon(Arc<fmt::chronicon::Wrap>),
     /// Death Stranding 2: XORed chunks, the game data in LZ4 pieces with an MD5.
     Ds2(Arc<fmt::ds2::Wrap>),
     /// Death Stranding: sizes header, XOR, Oodle Kraken image with an MD5.
@@ -397,6 +399,7 @@ impl Layer {
             Layer::Ao { kai } => if kai.is_some() { "Ao no Kiseki KAI save encryption (AES)".into() } else { "Trails to Azure save (zstd)".into() },
             Layer::Forspoken { .. } => "Forspoken save encryption (AES, MD5)".into(),
             Layer::Torchlight(_) => "Torchlight III save (JSON in an Unreal string)".into(),
+            Layer::Chronicon(_) => "Chronicon character (hex text)".into(),
             Layer::Koei(_) => "Koei Tecmo save encryption".into(),
             Layer::Dq11 { .. } => "Dragon Quest XI S save encryption (AES-256, CRC-32)".into(),
             Layer::Ds2(_) => "Death Stranding 2 save (XOR, LZ4, MD5)".into(),
@@ -1017,6 +1020,7 @@ fn wrap(layer: &Layer, data: Vec<u8>) -> Result<Vec<u8>, String> {
         Layer::Dq11 { header } => fmt::dq11::pack(&data, header)?,
         Layer::Koei(w) => fmt::koei::pack(w, &data)?,
         Layer::Torchlight(w) => fmt::torchlight::pack(w, &data)?,
+        Layer::Chronicon(w) => fmt::chronicon::pack(w, &data)?,
         Layer::Ds2(w) => fmt::ds2::pack(w, &data)?,
         Layer::Ds1(w) => fmt::ds1::pack(w, &data)?,
         Layer::P5r { head } => fmt::p5r::pack(head, &data),
@@ -1767,6 +1771,9 @@ fn peel(data: &[u8], ctx: &mut Ctx) -> Option<(Layer, Vec<u8>)> {
         if let Some((p, foot)) = fmt::forspoken::decrypt(data) {
             return Some((Layer::Forspoken { foot: Arc::new(foot) }, p));
         }
+    }
+    if let Some((w, p)) = fmt::chronicon::unpack(data) {
+        return Some((Layer::Chronicon(Arc::new(w)), p));
     }
     if let Some((w, p)) = fmt::torchlight::unpack(data) {
         return Some((Layer::Torchlight(Arc::new(w)), p));
