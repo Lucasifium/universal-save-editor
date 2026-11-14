@@ -208,6 +208,10 @@ pub mod mea;
 pub mod gow;
 pub mod plistf;
 pub mod pokemon12;
+pub mod pkm;
+pub mod pkm_3ds;
+pub mod pkm_nds;
+pub mod pkm_switch;
 pub mod pokemon3;
 #[cfg(not(target_arch = "wasm32"))]
 pub mod sqlite;
@@ -318,6 +322,21 @@ pub fn parse_binary(d: &[u8]) -> Option<TreeDoc> {
     }
     if pokemon12::looks(d) {
         if let Ok(t) = pokemon12::parse(d) {
+            return Some(t);
+        }
+    }
+    if pkm_3ds::looks(d) {
+        if let Ok(t) = pkm_3ds::parse(d) {
+            return Some(t);
+        }
+    }
+    if pkm_switch::looks(d) {
+        if let Ok(t) = pkm_switch::parse(d) {
+            return Some(t);
+        }
+    }
+    if pkm_nds::looks(d) {
+        if let Ok(t) = pkm_nds::parse(d) {
             return Some(t);
         }
     }
