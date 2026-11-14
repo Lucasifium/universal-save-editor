@@ -51,6 +51,9 @@ On this computer
 Other games
 = その他のゲーム
 
+Console games
+= コンソールゲーム
+
 Looking for saves on this computer…
 = このコンピューターでセーブデータを探しています…
 

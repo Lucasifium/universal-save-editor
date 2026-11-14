@@ -899,6 +899,80 @@ fn game_pass_saves(dir: &Path, out: &mut Vec<Found>) {
     }
 }
 
+/// Consoles in the order the lists show them, each with the words that name it inside a game's
+/// parenthesis, e.g. "Tekken (PlayStation)" or "Super Mario 64 (N64, emulator saves)".
+pub const CONSOLES: &[(&str, &[&str])] = &[
+    ("PlayStation", &["PlayStation", "PS1", "PSX"]),
+    ("PlayStation 2", &["PlayStation 2", "PS2"]),
+    ("PlayStation 3", &["PlayStation 3", "PS3"]),
+    ("PlayStation 4", &["PlayStation 4", "PS4"]),
+    ("PlayStation 5", &["PlayStation 5", "PS5"]),
+    ("PSP", &["PSP"]),
+    ("PS Vita", &["PS Vita", "Vita"]),
+    ("NES", &["NES"]),
+    ("SNES", &["SNES"]),
+    ("N64", &["N64", "Nintendo 64"]),
+    ("GameCube", &["GameCube"]),
+    ("Wii", &["Wii"]),
+    ("Wii U", &["Wii U"]),
+    ("Switch", &["Switch"]),
+    ("Game Boy", &["Game Boy", "GB", "GBC"]),
+    ("GBA", &["GBA", "Game Boy Advance"]),
+    ("Nintendo DS", &["Nintendo DS", "NDS", "DS"]),
+    ("3DS", &["3DS"]),
+    ("Xbox", &["Xbox"]),
+    ("Xbox 360", &["Xbox 360"]),
+    ("Dreamcast", &["Dreamcast"]),
+    ("Sega Genesis", &["Genesis", "Mega Drive"]),
+    ("Sega Saturn", &["Saturn"]),
+];
+
+fn find_word(hay: &str, key: &str) -> Option<usize> {
+    let b = hay.as_bytes();
+    let mut from = 0;
+    while let Some(i) = hay[from..].find(key) {
+        let at = from + i;
+        let end = at + key.len();
+        let before = at == 0 || !b[at - 1].is_ascii_alphanumeric();
+        let after = end >= b.len() || !b[end].is_ascii_alphanumeric();
+        if before && after {
+            return Some(at);
+        }
+        from = at + 1;
+    }
+    None
+}
+
+/// The consoles a game is for (empty for PC games), read from the console named in its
+/// parenthesis, in the order of `CONSOLES`. "N64 and GameCube saves" names both.
+pub fn consoles_of(name: &str) -> Vec<&'static str> {
+    let mut text = if name.starts_with("PlayStation 2 memory cards") {
+        "(PlayStation 2)".to_string()
+    } else if name.starts_with("PlayStation memory cards") {
+        "(PlayStation)".to_string()
+    } else {
+        match (name.rfind('('), name.ends_with(')')) {
+            // "(PC; the PS4 release uses the same format)" is still a PC game.
+            (Some(i), true) if !name[i + 1..].starts_with("PC") => name[i..].to_string(),
+            _ => return vec![],
+        }
+    };
+    // Longest words first, so "PlayStation 2" is taken before "PlayStation".
+    let mut keys: Vec<(usize, &str)> = CONSOLES.iter().enumerate().flat_map(|(i, (_, ks))| ks.iter().map(move |k| (i, *k))).collect();
+    keys.sort_by_key(|(_, k)| std::cmp::Reverse(k.len()));
+    let mut hit = vec![];
+    for (i, k) in keys {
+        while let Some(at) = find_word(&text, k) {
+            if !hit.contains(&i) {
+                hit.push(i);
+            }
+            text.replace_range(at..at + k.len(), &" ".repeat(k.len()));
+        }
+    }
+    hit.sort_unstable();
+    hit.into_iter().map(|i| CONSOLES[i].0).collect()
+}
+
 /// Entries that cover many games (an engine or a launcher): their saves are listed by game.
 const MANY_GAMES: [&str; 9] = ["RPG Maker XP games", "Koei Tecmo games (Nioh, Wo Long, Stranger of Paradise)", "Flash and AIR games (.sol saves)", "OpenFL and HaxeFlixel games (Haxe saves)", "Xbox app / PC Game Pass saves (any game)", "Ren'Py visual novels", "RPG Maker MV / MZ games", "Assassin's Creed (Ubisoft Connect games)", "Far Cry (Ubisoft Connect games)"];
 
@@ -1074,6 +1148,32 @@ mod level_tests {
     fn every_level_used() {
         for l in super::Level::ALL {
             assert!(super::GAMES.iter().any(|g| super::level(g) == l), "{l:?}");
+        }
+    }
+}
+
+#[cfg(test)]
+mod console_tests {
+    use super::*;
+
+    #[test]
+    fn consoles_are_read_from_the_name() {
+        assert_eq!(consoles_of("Tekken (PlayStation)"), ["PlayStation"]);
+        assert_eq!(consoles_of("Kingdom Hearts II (PlayStation 2)"), ["PlayStation 2"]);
+        assert_eq!(consoles_of("PlayStation 2 memory cards (PCSX2)"), ["PlayStation 2"]);
+        assert_eq!(consoles_of("PlayStation memory cards (emulators)"), ["PlayStation"]);
+        assert_eq!(consoles_of("Mario Kart 7 (3DS, decrypted saves)"), ["3DS"]);
+        assert_eq!(consoles_of("The Legend of Zelda: Ocarina of Time (N64 and GameCube saves)"), ["N64", "GameCube"]);
+        assert_eq!(consoles_of("Chrono Trigger (SNES, emulator saves)"), ["SNES"]);
+        assert_eq!(consoles_of("Super Smash Bros. Ultimate (Switch)"), ["Switch"]);
+        assert_eq!(consoles_of("Wii U game (Wii U)"), ["Wii U"]);
+        assert!(consoles_of("Skyrim (Special / Anniversary Edition)").is_empty());
+        assert!(consoles_of("Borderlands 2").is_empty());
+        assert!(consoles_of("Red Dead Redemption (PC; the PS4 and Switch release uses the same format)").is_empty());
+        for g in GAMES {
+            for c in consoles_of(g.name) {
+                assert!(CONSOLES.iter().any(|(n, _)| *n == c));
+            }
         }
     }
 }

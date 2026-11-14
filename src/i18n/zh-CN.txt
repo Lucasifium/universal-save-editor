@@ -51,6 +51,9 @@ On this computer
 Other games
 = 其他游戏
 
+Console games
+= 主机游戏
+
 Looking for saves on this computer…
 = 正在这台电脑上查找存档…
 

@@ -4386,15 +4386,27 @@ fn game_picker_window(ctx: &egui::Context, gp: &mut GamePicker) -> (Option<PathB
                             let c = crate::games::GAMES[i].name.chars().next().unwrap_or('#').to_uppercase().next().unwrap_or('#');
                             if c.is_alphabetic() { c } else { '#' }
                         };
+                        // PC games go under their first letter; console games under their console below.
                         let mut groups: Vec<(char, Vec<usize>)> = vec![];
+                        let mut by_console: Vec<(&'static str, Vec<usize>)> = vec![];
                         for &i in &others {
-                            let c = letter(i);
-                            match groups.iter_mut().find(|(k, _)| *k == c) {
-                                Some((_, v)) => v.push(i),
-                                None => groups.push((c, vec![i])),
+                            let consoles = crate::games::consoles_of(crate::games::GAMES[i].name);
+                            if consoles.is_empty() {
+                                let c = letter(i);
+                                match groups.iter_mut().find(|(k, _)| *k == c) {
+                                    Some((_, v)) => v.push(i),
+                                    None => groups.push((c, vec![i])),
+                                }
+                            }
+                            for c in consoles {
+                                match by_console.iter_mut().find(|(k, _)| *k == c) {
+                                    Some((_, v)) => v.push(i),
+                                    None => by_console.push((c, vec![i])),
+                                }
                             }
                         }
                         groups.sort_by_key(|(c, _)| (*c != '#', *c));
+                        by_console.sort_by_key(|(c, _)| crate::games::CONSOLES.iter().position(|(n, _)| n == c));
                         for (c, members) in &groups {
                             let title = format!("{c}  ({})", members.len());
                             let mut h = egui::CollapsingHeader::new(RichText::new(title).strong()).id_salt(("gp_letter", *c, found_here.is_empty()));
@@ -4404,6 +4416,20 @@ fn game_picker_window(ctx: &egui::Context, gp: &mut GamePicker) -> (Option<PathB
                                     row(ui, i, picked);
                                 }
                             });
+                        }
+                        if !by_console.is_empty() {
+                            ui.add_space(6.0);
+                            ui.label(RichText::new(tr("Console games")).strong());
+                            for (c, members) in &by_console {
+                                let title = format!("{c}  ({})", members.len());
+                                let mut h = egui::CollapsingHeader::new(RichText::new(title).strong()).id_salt(("gp_console", *c, found_here.is_empty()));
+                                h = if q.is_empty() { h.default_open(false) } else { h.open(Some(true)) };
+                                h.show(ui, |ui| {
+                                    for &i in members {
+                                        row(ui, i, picked);
+                                    }
+                                });
+                            }
                         }
                         if hidden > 0 {
                             ui.add_space(6.0);

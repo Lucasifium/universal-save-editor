@@ -365,24 +365,51 @@ fn with_game_count(text: &str) -> String {
     out
 }
 
+/// The consoles a README row's game is for: from its own name, or else from the registry entry it
+/// names ("Mario Kart 7" is "Mario Kart 7 (3DS, decrypted saves)").
+fn row_consoles(name: &str) -> Vec<&'static str> {
+    let own = crate::games::consoles_of(name);
+    if !own.is_empty() {
+        return own;
+    }
+    let lower = name.to_lowercase();
+    GAMES
+        .iter()
+        .find(|g| {
+            let n = g.name.to_lowercase();
+            n.strip_prefix(&lower).is_some_and(|rest| rest.starts_with(" ("))
+        })
+        .map(|g| crate::games::consoles_of(g.name))
+        .unwrap_or_default()
+}
+
 /// The README's "Game screens" section as one collapsible table per first letter (digits and
-/// symbols under #), rows sorted by name. Rows added anywhere in the section, in any order, are
-/// folded into their letter; `build_site` rewrites the README with this.
+/// symbols under #) for PC games, then one per console for console games, rows sorted by name.
+/// Rows added anywhere in the section, in any order, are folded into their group; `build_site`
+/// rewrites the README with this.
 fn group_readme_screens(text: &str) -> String {
     let Some(at) = text.find("## Game screens") else { return text.to_string() };
     let end = text[at..].find("\n## ").map_or(text.len(), |e| at + e);
     let section = &text[at..end];
     let intro: Vec<&str> = section.lines().take_while(|l| !l.starts_with("<details") && !l.starts_with('|')).collect();
-    let mut rows: Vec<(char, String, &str)> = section
-        .lines()
-        .filter(|l| l.starts_with("| ") && !l.starts_with("| Game |"))
-        .map(|l| {
-            let name = l[2..].split(" | ").next().unwrap_or("").trim().to_lowercase();
+    let mut rows: Vec<(char, String, &str)> = vec![];
+    let mut console_rows: Vec<(usize, String, &str)> = vec![];
+    for l in section.lines().filter(|l| l.starts_with("| ") && !l.starts_with("| Game |")) {
+        let raw = l[2..].split(" | ").next().unwrap_or("").trim();
+        let name = raw.to_lowercase();
+        let consoles = row_consoles(raw);
+        if consoles.is_empty() {
             let c = name.chars().next().and_then(|c| c.to_uppercase().next()).filter(|c| c.is_alphabetic()).unwrap_or('#');
-            (c, name, l)
-        })
-        .collect();
+            rows.push((c, name.clone(), l));
+        }
+        for c in consoles {
+            let at = crate::games::CONSOLES.iter().position(|(n, _)| *n == c).unwrap_or(usize::MAX);
+            console_rows.push((at, name.clone(), l));
+        }
+    }
     rows.sort_by(|a, b| ((a.0 != '#'), a.0, &a.1).cmp(&((b.0 != '#'), b.0, &b.1)));
+    console_rows.sort_by(|a, b| (a.0, &a.1).cmp(&(b.0, &b.1)));
+    console_rows.dedup_by(|a, b| a.0 == b.0 && a.2 == b.2);
     let mut out = intro.join("\n").trim_end().to_string();
     out.push_str("\n\n");
     let mut i = 0;
@@ -391,6 +418,22 @@ fn group_readme_screens(text: &str) -> String {
         let n = rows[i..].iter().take_while(|r| r.0 == c).count();
         let _ = write!(out, "<details>\n<summary><strong>{c}</strong> ({n})</summary>\n\n| Game | Screen |\n|---|---|\n");
         for r in &rows[i..i + n] {
+            out.push_str(r.2);
+            out.push('\n');
+        }
+        out.push_str("\n</details>\n\n");
+        i += n;
+    }
+    if !console_rows.is_empty() {
+        out.push_str("**Console games**, grouped by console (emulator, memory card and decrypted console saves):\n\n");
+    }
+    let mut i = 0;
+    while i < console_rows.len() {
+        let c = console_rows[i].0;
+        let n = console_rows[i..].iter().take_while(|r| r.0 == c).count();
+        let title = crate::games::CONSOLES.get(c).map_or("Other", |c| c.0);
+        let _ = write!(out, "<details>\n<summary><strong>{title}</strong> ({n})</summary>\n\n| Game | Screen |\n|---|---|\n");
+        for r in &console_rows[i..i + n] {
             out.push_str(r.2);
             out.push('\n');
         }
@@ -432,6 +475,8 @@ fn build_site() {
     let mut urls = vec![format!("{SITE}/"), format!("{SITE}/{WEB_APP}")];
     // The game list, one collapsible section per first letter (digits and symbols under #).
     let mut letters: std::collections::BTreeMap<(bool, char), (usize, String)> = Default::default();
+    // Console games go under their console instead (by position in the console list).
+    let mut console_cards: std::collections::BTreeMap<usize, (usize, String)> = Default::default();
     let mut unmatched = vec![];
     // SITE_SKIP="Game A|Game B" leaves those games off the site for now.
     let skip: Vec<String> = std::env::var("SITE_SKIP").unwrap_or_default().split('|').map(|s| s.trim().to_string()).filter(|s| !s.is_empty()).collect();
@@ -527,14 +572,31 @@ fn build_site() {
         let tag_class = if has_screen(g) { "tag screen" } else { "tag" };
         let blurb_html = if blurb.is_empty() { String::new() } else { format!("<small>{}</small>", esc(&blurb)) };
         let first = g.name.chars().next().and_then(|c| c.to_uppercase().next()).filter(|c| c.is_alphabetic());
-        let (count, cards) = letters.entry((first.is_some(), first.unwrap_or('#'))).or_default();
-        *count += 1;
-        let _ = write!(cards, r#"<li><a href="{s}/"><span>{}</span>{blurb_html}<span class="{tag_class}">{lvl}</span></a></li>"#, esc(g.name));
+        let item = format!(r#"<li><a href="{s}/"><span>{}</span>{blurb_html}<span class="{tag_class}">{lvl}</span></a></li>"#, esc(g.name));
+        let consoles = crate::games::consoles_of(g.name);
+        if consoles.is_empty() {
+            let (count, cards) = letters.entry((first.is_some(), first.unwrap_or('#'))).or_default();
+            *count += 1;
+            cards.push_str(&item);
+        }
+        for c in consoles {
+            let at = crate::games::CONSOLES.iter().position(|(n, _)| *n == c).unwrap_or(usize::MAX);
+            let (count, cards) = console_cards.entry(at).or_default();
+            *count += 1;
+            cards.push_str(&item);
+        }
     }
 
     let mut cards = String::new();
     for ((_, c), (count, items)) in &letters {
         let _ = write!(cards, r#"<details class="letter"><summary>{c} <span>({count})</span></summary><ul class="grid">{items}</ul></details>"#);
+    }
+    if !console_cards.is_empty() {
+        cards.push_str("<h3>Console games</h3>");
+    }
+    for (at, (count, items)) in &console_cards {
+        let title = crate::games::CONSOLES.get(*at).map_or("Other", |c| c.0);
+        let _ = write!(cards, r#"<details class="letter"><summary>{title} <span>({count})</span></summary><ul class="grid">{items}</ul></details>"#);
     }
     let full = GAMES.iter().filter(|g| has_screen(g)).count();
     let desc = format!("Universal Save Editor is a free, offline save editor and manager for {}+ ({}) PC games, including Elden Ring, Skyrim, Stardew Valley and Cyberpunk 2077. Nothing is uploaded.", GAMES.len() / 10 * 10, GAMES.len());
