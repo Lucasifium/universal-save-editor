@@ -15527,3 +15527,8 @@ Cole
 
 Tess exchange tickets
 = Tess 兑换券
+
+The script variables of the save (chapter, quest and story flags) and the dialogue flags. Attributes and items are in WORLD.SAV, which is not covered.
+= 存档的脚本变量(章节、任务和剧情标记)与对话标记。属性和物品位于 WORLD.SAV 中,暂不支持。
+
+

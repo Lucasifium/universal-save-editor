@@ -15463,3 +15463,8 @@ Cole
 
 Tess exchange tickets
 = Tess-Tauschtickets
+
+The script variables of the save (chapter, quest and story flags) and the dialogue flags. Attributes and items are in WORLD.SAV, which is not covered.
+= Die Skriptvariablen des Spielstands (Kapitel, Quest- und Story-Flags) und die Dialog-Flags. Attribute und Gegenstände stehen in WORLD.SAV, die nicht abgedeckt ist.
+
+

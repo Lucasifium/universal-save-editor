@@ -15551,3 +15551,8 @@ Cole
 
 Tess exchange tickets
 = テスの交換チケット
+
+The script variables of the save (chapter, quest and story flags) and the dialogue flags. Attributes and items are in WORLD.SAV, which is not covered.
+= セーブのスクリプト変数(章、クエストやストーリーのフラグ)と会話フラグ。能力値とアイテムは WORLD.SAV にあり、対象外です。
+
+
