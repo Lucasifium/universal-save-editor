@@ -1,6 +1,7 @@
 //! Cairn: the run's statistics, the saves in the slot, and what the climber (Aava or Marco) carries (the
 //! backpack, the chalk pouch and the piton belt) as item grids.
 
+use crate::i18n::tr;
 use crate::widgets::ScrollLock;
 use super::{cell_grid, hero, panel, select, selection, Cell, GameCtx};
 use crate::json_view::pointer_escape;
@@ -153,7 +154,7 @@ fn grid(ui: &mut Ui, cx: &mut GameCtx, id: &str, list: &str, cols: usize) {
         ui.set_width(ui.available_width());
         ui.horizontal(|ui| {
             ui.label(RichText::new(keys[i].as_str()).strong());
-            if ui.small_button("Close").clicked() {
+            if ui.small_button(tr("Close")).clicked() {
                 select(ui, id, None);
             }
         });

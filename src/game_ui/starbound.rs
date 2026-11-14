@@ -3,6 +3,7 @@
 //! game's item name (or the name a generated weapon carries in the save).
 //! Values are found by name and left out when a save doesn't have them.
 
+use crate::i18n::tr;
 use super::{columns, fact, fmt_num, hero, panel, tabs, words, GameCtx};
 use crate::json_view::pointer_escape;
 use eframe::egui::{self, Color32, RichText, Ui};
@@ -165,9 +166,9 @@ fn inventory(ui: &mut Ui, cx: &mut GameCtx) {
         };
         let mut shown = 0;
         egui::Grid::new(("sb_items", &bag)).num_columns(3).striped(true).spacing([12.0, 4.0]).show(ui, |ui| {
-            ui.strong("Slot");
-            ui.strong("Item");
-            ui.strong("Count");
+            ui.strong(tr("Slot"));
+            ui.strong(tr("Item"));
+            ui.strong(tr("Count"));
             ui.end_row();
             for i in 0..n {
                 let slot = format!("{bag}/{i}");
@@ -198,7 +199,7 @@ fn filter(ui: &mut Ui) -> String {
     let sid = egui::Id::new("sb_filter");
     let mut q = ui.data(|d| d.get_temp::<String>(sid)).unwrap_or_default();
     ui.horizontal(|ui| {
-        ui.label("Filter:");
+        ui.label(tr("Filter:"));
         ui.add(egui::TextEdit::singleline(&mut q).hint_text("item name").desired_width(220.0));
     });
     ui.data_mut(|d| d.insert_temp(sid, q.clone()));

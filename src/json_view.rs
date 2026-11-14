@@ -184,7 +184,7 @@ fn node_ui(ui: &mut Ui, key: &str, v: &Value, ptr: &str, ctx: &mut TreeCtx) {
                 let job = label_job(ui, &label, raw, "", color);
                 ui.allocate_ui_with_layout(egui::vec2(label_w, ui.spacing().interact_size.y), egui::Layout::left_to_right(egui::Align::Center), |ui| {
                     ui.set_width(label_w);
-                    ui.add(egui::Label::new(job).truncate()).on_hover_text(format!("key: {key}\npath: {ptr}"));
+                    ui.add(egui::Label::new(job).truncate()).on_hover_text(crate::i18n::trf("key: {0}\npath: {1}", &[&key, &ptr]));
                 });
                 let opts = widgets::EditOpts { tree: ctx.tree, baseline: Some(ctx.baseline), name: Some(&label), kind: ctx.tree.map(|t| t.kind_name.as_str()), show_in_tree: false };
                 if let Some(nv) = widgets::value_editor_ex(ui, ptr, v, editable, 320.0, &opts).edit {

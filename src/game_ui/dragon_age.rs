@@ -1,6 +1,7 @@
 //! Dragon Age: Origins: party money, the Warden's sheet, followers (approval and stats) and
 //! the backpack's stacks.
 
+use crate::i18n::tr;
 use crate::widgets::ScrollLock;
 use super::{columns, fact, hero, panel, tabs, GameCtx};
 use crate::json_view::pointer_escape;
@@ -93,7 +94,7 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
             let sid = egui::Id::new("dao_bag_q");
             let mut q = ui.data(|d| d.get_temp::<String>(sid)).unwrap_or_default();
             ui.horizontal(|ui| {
-                ui.label("Filter:");
+                ui.label(tr("Filter:"));
                 ui.add(egui::TextEdit::singleline(&mut q).hint_text("item").desired_width(220.0));
             });
             ui.data_mut(|d| d.insert_temp(sid, q.clone()));

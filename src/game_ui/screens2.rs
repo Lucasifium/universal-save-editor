@@ -2,6 +2,7 @@
 //! Universalis IV and Crusader Kings II. As elsewhere, values are found by name and
 //! simply left out when a save doesn't have them.
 
+use crate::i18n::tr;
 use crate::widgets::ScrollLock;
 use super::{columns, crafting, fact, hero, panel, tabs, words, Game, GameCtx};
 use crate::json_view::pointer_escape;
@@ -57,7 +58,7 @@ pub(super) fn filter_box(ui: &mut Ui, id: &str, hint: &str) -> String {
     let sid = egui::Id::new(("screen_filter", id));
     let mut q = ui.data(|d| d.get_temp::<String>(sid)).unwrap_or_default();
     ui.horizontal(|ui| {
-        ui.label("Filter:");
+        ui.label(tr("Filter:"));
         ui.add(egui::TextEdit::singleline(&mut q).hint_text(hint).desired_width(220.0));
     });
     ui.data_mut(|d| d.insert_temp(sid, q.clone()));
@@ -245,8 +246,8 @@ pub fn re_slot(ui: &mut Ui, cx: &mut GameCtx) {
                     _ => "Items",
                 }).strong());
                 egui::Grid::new(("re_items", &lp)).num_columns(3).striped(true).spacing([14.0, 4.0]).show(ui, |ui| {
-                    ui.strong("Item");
-                    ui.strong("Count");
+                    ui.strong(tr("Item"));
+                    ui.strong(tr("Count"));
                     ui.strong("Held inside");
                     ui.end_row();
                     for i in 0..n {
@@ -371,14 +372,14 @@ pub fn renpy(ui: &mut Ui, cx: &mut GameCtx) {
         panel(ui, "Numbers", |ui| {
             let rows: Vec<(String, String)> = numbers.iter().filter(|k| keep(k)).map(|k| ((*k).clone(), ptr_of[*k].clone())).collect();
             if rows.is_empty() {
-                ui.weak("None match.");
+                ui.weak(tr("None match."));
             }
             egui::ScrollArea::vertical().id_salt("renpy_num").max_height(360.0).show_locked(ui, |ui| value_rows(ui, cx, "renpy_n", &rows));
         });
         panel(ui, "Flags", |ui| {
             let shown: Vec<&&String> = flags.iter().filter(|k| keep(k)).collect();
             if shown.is_empty() {
-                ui.weak("None match.");
+                ui.weak(tr("None match."));
             }
             egui::ScrollArea::vertical().id_salt("renpy_flags").max_height(260.0).show_locked(ui, |ui| {
                 ui.horizontal_wrapped(|ui| {
@@ -391,7 +392,7 @@ pub fn renpy(ui: &mut Ui, cx: &mut GameCtx) {
         panel(ui, "Text", |ui| {
             let rows: Vec<(String, String)> = texts.iter().filter(|k| keep(k)).map(|k| ((*k).clone(), ptr_of[*k].clone())).collect();
             if rows.is_empty() {
-                ui.weak("None match.");
+                ui.weak(tr("None match."));
             }
             egui::ScrollArea::vertical().id_salt("renpy_txt").max_height(220.0).show_locked(ui, |ui| value_rows(ui, cx, "renpy_t", &rows));
         });
@@ -893,7 +894,7 @@ pub fn diablo2(ui: &mut Ui, cx: &mut GameCtx) {
                     ui.label("");
                     ui.weak("Current");
                     ui.label("");
-                    ui.weak("Base max").on_hover_text("The maximum before items and bonuses; the game adds those on top");
+                    ui.weak(tr("Base max")).on_hover_text("The maximum before items and bonuses; the game adds those on top");
                     ui.end_row();
                     for (a, b) in [("Life", "Max life"), ("Mana", "Max mana"), ("Stamina", "Max stamina")] {
                         ui.label(a);
@@ -990,7 +991,7 @@ pub fn ff7(ui: &mut Ui, cx: &mut GameCtx) {
             ui.label("");
             ui.strong("Now");
             ui.strong("Max");
-            ui.strong("Base max");
+            ui.strong(tr("Base max"));
             ui.end_row();
             for (n, cur, max, base) in [("HP", "HP", "Max HP", "Base max HP"), ("MP", "MP", "Max MP", "Base max MP")] {
                 ui.label(n);
@@ -1303,7 +1304,7 @@ pub fn dying_light2(ui: &mut Ui, cx: &mut GameCtx) {
         panel(ui, "Progression", |ui| {
             egui::Grid::new("dl2_prog").num_columns(3).striped(true).spacing([14.0, 4.0]).show(ui, |ui| {
                 ui.label("");
-                ui.strong("Level");
+                ui.strong(tr("Level"));
                 ui.strong("Points");
                 ui.end_row();
                 for b in &buckets {
@@ -2077,8 +2078,8 @@ pub fn death_stranding2(ui: &mut Ui, cx: &mut GameCtx) {
     panel(ui, "Facility material stocks", |ui| {
         egui::ScrollArea::horizontal().id_salt("ds2_s").show_locked(ui, |ui| {
             egui::Grid::new("ds2_g").striped(true).spacing([10.0, 4.0]).show(ui, |ui| {
-                ui.strong("Facility");
-                ui.strong("Connection");
+                ui.strong(tr("Facility"));
+                ui.strong(tr("Connection"));
                 for m in crate::fmt::ds2::MATERIALS {
                     ui.strong(m);
                 }
@@ -2118,8 +2119,8 @@ pub fn death_stranding1(ui: &mut Ui, cx: &mut GameCtx) {
     panel(ui, "Facility material stocks", |ui| {
         egui::ScrollArea::horizontal().id_salt("ds1_s").show_locked(ui, |ui| {
             egui::Grid::new("ds1_g").striped(true).spacing([10.0, 4.0]).show(ui, |ui| {
-                ui.strong("Facility");
-                ui.strong("Connection");
+                ui.strong(tr("Facility"));
+                ui.strong(tr("Connection"));
                 for m in crate::fmt::ds1::MATERIALS {
                     ui.strong(m);
                 }
@@ -2168,7 +2169,7 @@ pub fn andromeda(ui: &mut Ui, cx: &mut GameCtx) {
         panel(ui, "Squad", |ui| {
             egui::Grid::new("mea_squad").striped(true).spacing([12.0, 4.0]).show(ui, |ui| {
                 ui.strong("");
-                ui.strong("Level");
+                ui.strong(tr("Level"));
                 ui.strong("Skill points");
                 ui.end_row();
                 for n in &squad {

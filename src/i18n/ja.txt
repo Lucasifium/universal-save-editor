@@ -1268,3 +1268,222 @@ Pasted {0} from {1}. Save to keep it, or Undo.
 Pasted {0} values of {1} from {2}; {3} aren't in this save and were left out.
 = {2} の {1} から {0} 個の値を貼り付けました。{3} 個はこのセーブデータにないため除外しました。
 
+
+# added in the translation audit
+
+About {0}
+= {0} について
+
+Backups are stored in {0} — {1}.
+= バックアップの保存先は {0} です（{1}）。
+
+Base max
+= 基本最大値
+
+Brush:
+= ブラシ:
+
+Connection
+= 接続
+
+Count
+= 個数
+
+Facility
+= 施設
+
+Filter:
+= 絞り込み:
+
+Find:
+= 検索:
+
+Fit
+= 全体表示
+
+GNU General Public License v3
+= GNU 一般公衆利用許諾書 v3
+
+Hide all
+= すべて隠す
+
+Item
+= アイテム
+
+Keeps these {0} changes to make again on another save or slot of this game:
+= この {0} 件の変更を、このゲームの別のセーブやスロットでもう一度行えるように保存します:
+
+Keeps this {0} change to make again on another save or slot of this game:
+= この {0} 件の変更を、このゲームの別のセーブやスロットでもう一度行えるように保存します:
+
+Level
+= レベル
+
+Made on a {0} save
+= {0} のセーブで作成
+
+Name
+= 名前
+
+Name for 0x{0}
+= 0x{0} の名前
+
+Named backups are kept for good; the {0} newest automatic ones are kept.
+= 名前を付けたバックアップは永久に保持され、自動バックアップは最新の {0} 件が保持されます。
+
+No heroes in this roster.
+= この名簿にヒーローはいません。
+
+None in this save.
+= このセーブにはありません。
+
+None match.
+= 一致するものはありません。
+
+None of these codes name “{0}”; they may be for another file in the save folder.
+= これらのコードに「{0}」を指すものはありません。セーブフォルダ内の別のファイル用かもしれません。
+
+None.
+= なし。
+
+Note: {0}
+= メモ: {0}
+
+Nothing here.
+= ここには何もありません。
+
+Nothing in the tree matches “{0}”.
+= ツリー内に「{0}」に一致するものはありません。
+
+Nothing matches “{0}”.
+= 「{0}」に一致するものはありません。
+
+Reading {0}…
+= {0} を読み込み中…
+
+Revert to original ({0})
+= 元の値に戻す（{0}）
+
+Revert to original: {0}
+= 元の値に戻す: {0}
+
+Set to maximum ({0})
+= 最大値にする（{0}）
+
+Set to minimum ({0})
+= 最小値にする（{0}）
+
+Show all
+= すべて表示
+
+Show in grid — 0x{0} as {1}
+= グリッドで表示 — 0x{0}（{1}）
+
+Slot
+= スロット
+
+Source code and releases
+= ソースコードとリリース
+
+The checksum you set ({0}) is kept fixed too.
+= 設定したチェックサム（{0}）も固定されたままになります。
+
+The newest backup is in {0} (the folder above couldn't be written to, or it was made earlier).
+= 最新のバックアップは {0} にあります（上のフォルダには書き込めなかったか、以前に作成されたものです）。
+
+Third-party notices
+= サードパーティの告知
+
+Tick all shown ({0})
+= 表示中のものをすべて選択（{0}）
+
+Version {0} · {1}
+= バージョン {0} · {1}
+
+Written for {0}
+= {0} 用
+
+a folder next to the save, with files no game reads as saves
+= セーブの隣にあるフォルダで、どのゲームもセーブとして読み込まないファイルが入っています
+
+ask for this game
+= このゲームをリクエスト
+
+key: {0}\npath: {1}
+= キー: {0}\nパス: {1}
+
+key: {0}   ({1})
+= キー: {0}（{1}）
+
+path: {0}
+= パス: {0}
+
+the folder you chose for backups
+= バックアップ用に選んだフォルダ
+
+{0}  ({1} change)
+= {0}（{1} 件の変更）
+
+{0}  ({1} changes)
+= {0}（{1} 件の変更）
+
+{0}  ·  {1}
+= {0}  ·  {1}
+
+{0} change to {1}:
+= {1} への {0} 件の変更:
+
+{0} changes to {1}:
+= {1} への {0} 件の変更:
+
+{0} game with saves ({1} saves) — pick one:
+= セーブのあるゲーム {0} 本（セーブ {1} 件）— 選んでください:
+
+{0} games with saves ({1} saves) — pick one:
+= セーブのあるゲーム {0} 本（セーブ {1} 件）— 選んでください:
+
+{0} is free software under the GNU General Public License, version 3.
+= {0} は GNU 一般公衆利用許諾書バージョン 3 のもとで公開されているフリーソフトウェアです。
+
+{0} result(s)
+= {0} 件の結果
+
+{0} result(s) (capped)
+= {0} 件の結果（上限あり）
+
+{0} s — big saves take a moment.
+= {0} 秒 — 大きなセーブは少し時間がかかります。
+
+{0} save  ·  last saved {1}
+= セーブ {0} 件  ·  最終保存 {1}
+
+{0} save found — click one to open it:
+= セーブが {0} 件見つかりました — クリックして開きます:
+
+{0} save — click one to open it:
+= セーブ {0} 件 — クリックして開きます:
+
+{0} saves  ·  last saved {1}
+= セーブ {0} 件  ·  最終保存 {1}
+
+{0} saves found — click one to open it:
+= セーブが {0} 件見つかりました — クリックして開きます:
+
+{0} saves — click one to open it:
+= セーブ {0} 件 — クリックして開きます:
+
+{0} saves, the dated ones newest first; pick one to open it.
+= セーブ {0} 件（日付のあるものは新しい順）。選んで開いてください。
+
+{0} ticked
+= {0} 件を選択
+
+{0} was moved or deleted after you opened it. Saving puts your version back in its place.
+= {0} は開いた後に移動または削除されました。保存すると、あなたのバージョンが元の場所に戻ります。
+
+{0} was written by something else after you opened it — most likely the game saved, or a cloud sync brought in another copy.
+= {0} は開いた後に別のものによって書き換えられました。ゲームが保存したか、クラウド同期が別のコピーを持ち込んだ可能性が高いです。
+
+‹ All {0} games
+= ‹ {0} 本すべてのゲーム
+

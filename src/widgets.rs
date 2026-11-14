@@ -1,7 +1,7 @@
 //! Reusable editing widgets. Editors never mutate data directly: they return the
 //! new value so the app can record it for undo/redo and change tracking.
 
-use crate::i18n::tr;
+use crate::i18n::{tr, trf};
 use crate::theme;
 use eframe::egui::{self, Color32, Response, RichText, Sense, TextEdit, Ui, WidgetText};
 use serde_json::{Number, Value};
@@ -224,18 +224,18 @@ fn value_menu(resp: &Response, ptr: &str, v: &Value, editable: bool, opts: &Edit
         if editable {
             if let Some((lo, hi)) = opts.tree.and_then(|t| t.range(ptr)) {
                 ui.separator();
-                if &hi != v && ui.button(format!("Set to maximum ({})", display(&hi))).on_hover_text(tr("The largest value this field accepts")).clicked() {
+                if &hi != v && ui.button(trf("Set to maximum ({0})", &[&display(&hi)])).on_hover_text(tr("The largest value this field accepts")).clicked() {
                     out.edit = Some(hi);
                     ui.close_menu();
                 }
-                if &lo != v && ui.button(format!("Set to minimum ({})", display(&lo))).on_hover_text(tr("The smallest value this field accepts")).clicked() {
+                if &lo != v && ui.button(trf("Set to minimum ({0})", &[&display(&lo)])).on_hover_text(tr("The smallest value this field accepts")).clicked() {
                     out.edit = Some(lo);
                     ui.close_menu();
                 }
             }
             if let Some(orig) = opts.baseline.and_then(|b| b.pointer(ptr)).filter(|o| *o != v) {
                 ui.separator();
-                if ui.button(format!("Revert to original ({})", display(orig))).clicked() {
+                if ui.button(trf("Revert to original ({0})", &[&display(orig)])).clicked() {
                     out.edit = Some(orig.clone());
                     ui.close_menu();
                 }

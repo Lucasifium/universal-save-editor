@@ -2,6 +2,7 @@
 //! (vitals, skills and inventory). Values are found by name and left out when a save
 //! doesn't have them.
 
+use crate::i18n::tr;
 use super::{columns, fact, fmt_num, hero, panel, tabs, GameCtx};
 use crate::json_view::pointer_escape;
 use eframe::egui::{self, Color32, RichText, Ui};
@@ -23,7 +24,7 @@ fn filter(ui: &mut Ui, id: &str, hint: &str) -> String {
     let sid = egui::Id::new(("survival_filter", id));
     let mut q = ui.data(|d| d.get_temp::<String>(sid)).unwrap_or_default();
     ui.horizontal(|ui| {
-        ui.label("Filter:");
+        ui.label(tr("Filter:"));
         ui.add(egui::TextEdit::singleline(&mut q).hint_text(hint).desired_width(220.0));
     });
     ui.data_mut(|d| d.insert_temp(sid, q.clone()));
@@ -34,7 +35,7 @@ fn filter(ui: &mut Ui, id: &str, hint: &str) -> String {
 fn amount_rows(ui: &mut Ui, cx: &mut GameCtx, id: &str, base: &str, query: &str) {
     let names: Vec<String> = keys(cx, base).into_iter().filter(|k| query.is_empty() || k.to_lowercase().contains(query)).collect();
     if names.is_empty() {
-        ui.weak("Nothing here.");
+        ui.weak(tr("Nothing here."));
         return;
     }
     let cols = ((ui.available_width() / 360.0).floor() as usize).clamp(1, 3);
@@ -241,12 +242,12 @@ pub fn valheim(ui: &mut Ui, cx: &mut GameCtx) {
         let q = filter(ui, "vh_inv", "item name");
         let narrow = ui.available_width() < 560.0;
         egui::Grid::new("vh_inv_grid").num_columns(if narrow { 3 } else { 5 }).striped(true).spacing([10.0, 4.0]).show(ui, |ui| {
-            ui.strong("Item");
+            ui.strong(tr("Item"));
             ui.strong("Stack");
             ui.strong("Quality");
             if !narrow {
                 ui.strong("Durability");
-                ui.strong("Slot");
+                ui.strong(tr("Slot"));
             }
             ui.end_row();
             for k in items.iter().filter(|k| q.is_empty() || k.to_lowercase().contains(&q)) {

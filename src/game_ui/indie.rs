@@ -1,6 +1,7 @@
 //! Hollow Knight: Silksong, Undertale, Deltarune and Vampire Survivors. As elsewhere,
 //! values are found by name and simply left out when a save doesn't have them.
 
+use crate::i18n::tr;
 use crate::widgets::ScrollLock;
 use super::{bar, columns, fact, fmt_num, hero, meter, panel, GameCtx};
 use crate::json_view::pointer_escape;
@@ -25,7 +26,7 @@ fn filter(ui: &mut Ui, id: &str) -> String {
     let sid = egui::Id::new(("indie_filter", id));
     let mut q = ui.data(|d| d.get_temp::<String>(sid)).unwrap_or_default();
     ui.horizontal(|ui| {
-        ui.label("Filter:");
+        ui.label(tr("Filter:"));
         ui.add(egui::TextEdit::singleline(&mut q).desired_width(200.0));
     });
     ui.data_mut(|d| d.insert_temp(sid, q.clone()));

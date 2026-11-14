@@ -1268,3 +1268,222 @@ Pasted {0} from {1}. Save to keep it, or Undo.
 Pasted {0} values of {1} from {2}; {3} aren't in this save and were left out.
 = 已从 {2} 粘贴 {1} 的 {0} 个数值；{3} 个在此存档中不存在，已跳过。
 
+
+# added in the translation audit
+
+About {0}
+= 关于 {0}
+
+Backups are stored in {0} — {1}.
+= 备份存放在 {0} — {1}。
+
+Base max
+= 基础上限
+
+Brush:
+= 画笔：
+
+Connection
+= 连接
+
+Count
+= 数量
+
+Facility
+= 设施
+
+Filter:
+= 筛选：
+
+Find:
+= 查找：
+
+Fit
+= 适应窗口
+
+GNU General Public License v3
+= GNU 通用公共许可证 v3
+
+Hide all
+= 全部隐藏
+
+Item
+= 物品
+
+Keeps these {0} changes to make again on another save or slot of this game:
+= 保留这 {0} 项更改，以便在该游戏的另一个存档或栏位上再次应用：
+
+Keeps this {0} change to make again on another save or slot of this game:
+= 保留这 {0} 项更改，以便在该游戏的另一个存档或栏位上再次应用：
+
+Level
+= 等级
+
+Made on a {0} save
+= 基于 {0} 存档创建
+
+Name
+= 名称
+
+Name for 0x{0}
+= 0x{0} 的名称
+
+Named backups are kept for good; the {0} newest automatic ones are kept.
+= 命名备份会永久保留；自动备份保留最新的 {0} 份。
+
+No heroes in this roster.
+= 此名册中没有英雄。
+
+None in this save.
+= 此存档中没有。
+
+None match.
+= 没有匹配项。
+
+None of these codes name “{0}”; they may be for another file in the save folder.
+= 这些代码都不是针对“{0}”的；它们可能属于存档文件夹中的其他文件。
+
+None.
+= 无。
+
+Note: {0}
+= 备注：{0}
+
+Nothing here.
+= 这里什么都没有。
+
+Nothing in the tree matches “{0}”.
+= 树中没有与“{0}”匹配的内容。
+
+Nothing matches “{0}”.
+= 没有与“{0}”匹配的内容。
+
+Reading {0}…
+= 正在读取 {0}…
+
+Revert to original ({0})
+= 恢复原值（{0}）
+
+Revert to original: {0}
+= 恢复原值：{0}
+
+Set to maximum ({0})
+= 设为最大值（{0}）
+
+Set to minimum ({0})
+= 设为最小值（{0}）
+
+Show all
+= 全部显示
+
+Show in grid — 0x{0} as {1}
+= 在网格中显示 — 0x{0}（{1}）
+
+Slot
+= 栏位
+
+Source code and releases
+= 源代码和发行版
+
+The checksum you set ({0}) is kept fixed too.
+= 您设置的校验和（{0}）也保持不变。
+
+The newest backup is in {0} (the folder above couldn't be written to, or it was made earlier).
+= 最新备份位于 {0}（上面的文件夹无法写入，或该备份是之前创建的）。
+
+Third-party notices
+= 第三方声明
+
+Tick all shown ({0})
+= 勾选所有显示项（{0}）
+
+Version {0} · {1}
+= 版本 {0} · {1}
+
+Written for {0}
+= 适用于 {0}
+
+a folder next to the save, with files no game reads as saves
+= 存档旁边的文件夹，其中的文件不会被任何游戏当作存档读取
+
+ask for this game
+= 请求支持该游戏
+
+key: {0}\npath: {1}
+= 键：{0}\n路径：{1}
+
+key: {0}   ({1})
+= 键：{0}   （{1}）
+
+path: {0}
+= 路径：{0}
+
+the folder you chose for backups
+= 您为备份选择的文件夹
+
+{0}  ({1} change)
+= {0}  （{1} 项更改）
+
+{0}  ({1} changes)
+= {0}  （{1} 项更改）
+
+{0}  ·  {1}
+= {0}  ·  {1}
+
+{0} change to {1}:
+= 对 {1} 的 {0} 项更改：
+
+{0} changes to {1}:
+= 对 {1} 的 {0} 项更改：
+
+{0} game with saves ({1} saves) — pick one:
+= {0} 个有存档的游戏（共 {1} 个存档）— 请选择一个：
+
+{0} games with saves ({1} saves) — pick one:
+= {0} 个有存档的游戏（共 {1} 个存档）— 请选择一个：
+
+{0} is free software under the GNU General Public License, version 3.
+= {0} 是依据 GNU 通用公共许可证第 3 版发布的自由软件。
+
+{0} result(s)
+= {0} 个结果
+
+{0} result(s) (capped)
+= {0} 个结果（已达上限）
+
+{0} s — big saves take a moment.
+= {0} 秒 — 大型存档需要一点时间。
+
+{0} save  ·  last saved {1}
+= {0} 个存档  ·  最后保存于 {1}
+
+{0} save found — click one to open it:
+= 找到 {0} 个存档 — 点击即可打开：
+
+{0} save — click one to open it:
+= {0} 个存档 — 点击即可打开：
+
+{0} saves  ·  last saved {1}
+= {0} 个存档  ·  最后保存于 {1}
+
+{0} saves found — click one to open it:
+= 找到 {0} 个存档 — 点击其中一个即可打开：
+
+{0} saves — click one to open it:
+= {0} 个存档 — 点击其中一个即可打开：
+
+{0} saves, the dated ones newest first; pick one to open it.
+= {0} 个存档，带日期的按最新优先排列；选择一个即可打开。
+
+{0} ticked
+= 已勾选 {0} 项
+
+{0} was moved or deleted after you opened it. Saving puts your version back in its place.
+= {0} 在您打开后被移动或删除。保存会将您的版本放回原处。
+
+{0} was written by something else after you opened it — most likely the game saved, or a cloud sync brought in another copy.
+= {0} 在您打开后被其他程序改写 — 很可能是游戏保存了，或云同步带来了另一个副本。
+
+‹ All {0} games
+= ‹ 全部 {0} 个游戏
+

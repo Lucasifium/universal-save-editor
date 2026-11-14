@@ -1,6 +1,7 @@
 //! Borderlands 2, The Pre-Sequel and Borderlands 3: the vault hunter, currencies, ammo
 //! with its SDU upgrades, and the loot carried (shown, not edited).
 
+use crate::i18n::tr;
 use crate::widgets::ScrollLock;
 use super::{bar, blend, fmt_num, panel, tabs, GameCtx};
 use crate::fmt::borderlands::{ammo_capacity, MAX_AMMO_SDU};
@@ -173,7 +174,7 @@ fn ammo_panel(ui: &mut Ui, cx: &mut GameCtx, capacity: bool, note: &str) {
 fn loot_table(ui: &mut Ui, cx: &GameCtx, id: &str, base: &str, cols: &[&str]) {
     let n = cx.get(base).and_then(Value::as_array).map_or(0, Vec::len);
     if n == 0 {
-        ui.weak("Nothing here.");
+        ui.weak(tr("Nothing here."));
         return;
     }
     egui::ScrollArea::vertical().id_salt(id).max_height(360.0).show_locked(ui, |ui| {

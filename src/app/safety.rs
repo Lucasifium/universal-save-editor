@@ -2,7 +2,7 @@
 //! cloud sync ran) so older data is never put over it without asking, and showing failures
 //! where they can't be missed.
 
-use crate::i18n::tr;
+use crate::i18n::{tr, trf};
 use super::{file_name, modal, App, StatusKind};
 use crate::formats::Content;
 use crate::theme;
@@ -149,11 +149,11 @@ impl App {
             ui.set_max_width(460.0);
             let name = file_name(&path);
             if path.exists() {
-                ui.label(format!("{name} was written by something else after you opened it \u{2014} most likely the game saved, or a cloud sync brought in another copy."));
+                ui.label(trf("{0} was written by something else after you opened it \u{2014} most likely the game saved, or a cloud sync brought in another copy.", &[&name]));
                 ui.add_space(4.0);
                 ui.label(tr("Saving now would put the version you opened, with your changes, over that newer file."));
             } else {
-                ui.label(format!("{name} was moved or deleted after you opened it. Saving puts your version back in its place."));
+                ui.label(trf("{0} was moved or deleted after you opened it. Saving puts your version back in its place.", &[&name]));
             }
             ui.weak(tr("Either way, whatever is on disk now is backed up before anything is written."));
             ui.add_space(8.0);

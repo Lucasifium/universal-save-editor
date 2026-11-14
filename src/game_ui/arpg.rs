@@ -3,6 +3,7 @@
 //! Skills and items in Grim Dawn and Titan Quest are shown by the game's internal record
 //! names (made readable by the reader); their real names live in the game's own database.
 
+use crate::i18n::tr;
 use crate::widgets::ScrollLock;
 use super::{columns, fact, fmt_num, hero, panel, tabs, GameCtx};
 use crate::json_view::pointer_escape;
@@ -25,7 +26,7 @@ fn filter_box(ui: &mut Ui, id: &str, hint: &str) -> String {
     let sid = egui::Id::new(("arpg_filter", id));
     let mut q = ui.data(|d| d.get_temp::<String>(sid)).unwrap_or_default();
     ui.horizontal(|ui| {
-        ui.label("Filter:");
+        ui.label(tr("Filter:"));
         ui.add(egui::TextEdit::singleline(&mut q).hint_text(hint).desired_width(220.0));
     });
     ui.data_mut(|d| d.insert_temp(sid, q.clone()));
@@ -35,7 +36,7 @@ fn filter_box(ui: &mut Ui, id: &str, hint: &str) -> String {
 /// Label + editor rows, spread over as many columns as fit.
 fn rows(ui: &mut Ui, cx: &mut GameCtx, id: &str, rows: &[(String, String)]) {
     if rows.is_empty() {
-        ui.weak("Nothing here.");
+        ui.weak(tr("Nothing here."));
         return;
     }
     let cols = ((ui.available_width() / 330.0).floor() as usize).clamp(1, 3);

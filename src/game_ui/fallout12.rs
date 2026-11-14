@@ -1,5 +1,6 @@
 //! Fallout and Fallout 2 (SAVE.DAT): the character sheet on a Pip-Boy green screen.
 
+use crate::i18n::tr;
 use crate::widgets::ScrollLock;
 use super::{columns, panel, GameCtx};
 use crate::json_view::pointer_escape;
@@ -237,7 +238,7 @@ fn filter(ui: &mut Ui) -> String {
     let id = egui::Id::new("fo_inv_filter");
     let mut q = ui.data(|d| d.get_temp::<String>(id)).unwrap_or_default();
     ui.horizontal(|ui| {
-        ui.label("Filter:");
+        ui.label(tr("Filter:"));
         ui.add(egui::TextEdit::singleline(&mut q).hint_text("item name").desired_width(200.0));
     });
     ui.data_mut(|d| d.insert_temp(id, q.clone()));

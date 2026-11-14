@@ -2,6 +2,7 @@
 //! `fmt::darkest`) and Darkest Dungeon II (plain JSON: the profile, a run and its heroes).
 //! One file at a time, as the games keep them: the screen shows what the open file holds.
 
+use crate::i18n::tr;
 use crate::widgets::ScrollLock;
 use super::{columns, fact, fmt_num, hero, panel, words, GameCtx};
 use crate::json_view::pointer_escape;
@@ -104,7 +105,7 @@ fn estate(ui: &mut Ui, cx: &mut GameCtx) {
         let items = object_keys(cx.get(base));
         panel(ui, &format!("{name} ({})", items.len()), |ui| {
             if items.is_empty() {
-                ui.weak("None.");
+                ui.weak(tr("None."));
                 return;
             }
             egui::ScrollArea::vertical().id_salt(base).max_height(320.0).show_locked(ui, |ui| {
@@ -151,7 +152,7 @@ fn roster(ui: &mut Ui, cx: &mut GameCtx) {
         }
     });
     if heroes.is_empty() {
-        ui.weak("No heroes in this roster.");
+        ui.weak(tr("No heroes in this roster."));
         return;
     }
     panel(ui, "Heroes", |ui| {
@@ -192,7 +193,7 @@ fn roster(ui: &mut Ui, cx: &mut GameCtx) {
             panel(ui, "Quirks", |ui| {
                 let quirks = object_keys(cx.get(&format!("{b}/quirks")));
                 if quirks.is_empty() {
-                    ui.weak("None.");
+                    ui.weak(tr("None."));
                 }
                 for q in quirks {
                     let p = join(&format!("{b}/quirks"), &q);

@@ -149,6 +149,32 @@ mod tests {
         }
     }
 
+    /// Every text the program passes to `tr`/`trf` must have a translation in every
+    /// catalog, so a new screen can't ship with a language silently falling back to English.
+    /// Add the missing entries to all of src/i18n/*.txt (English line, "= translation", blank line).
+    #[test]
+    fn every_text_is_translated_in_every_language() {
+        let mut src = String::new();
+        let mut stack = vec![std::path::PathBuf::from(concat!(env!("CARGO_MANIFEST_DIR"), "/src"))];
+        while let Some(d) = stack.pop() {
+            for e in std::fs::read_dir(&d).unwrap().flatten() {
+                let p = e.path();
+                if p.is_dir() {
+                    stack.push(p);
+                } else if p.extension().is_some_and(|x| x == "rs") && !p.ends_with("i18n.rs") {
+                    src.push_str(&std::fs::read_to_string(&p).unwrap());
+                }
+            }
+        }
+        let keys = keys_in(&src);
+        for l in &LANGS[1..] {
+            let have: std::collections::HashSet<String> = parse(l.catalog).into_iter().map(|(k, _)| k).collect();
+            let mut missing: Vec<&String> = keys.iter().filter(|k| !have.contains(*k)).collect();
+            missing.sort();
+            assert!(missing.is_empty(), "{}: {} text(s) have no translation, e.g. {:?}", l.code, missing.len(), &missing[..missing.len().min(8)]);
+        }
+    }
+
     /// The texts passed to `tr(...)`/`trf(...)` as literals, with Rust escapes resolved.
     pub fn keys_in(src: &str) -> std::collections::HashSet<String> {
         let mut out = std::collections::HashSet::new();

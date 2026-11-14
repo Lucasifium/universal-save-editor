@@ -1,6 +1,7 @@
 //! Final Fantasy XVI (slot pictures `0001.png`…, `auto.png`): gil, Ability Points, consumables
 //! and materials, with a "Max crafting materials" button.
 
+use crate::i18n::tr;
 use super::screens2::value_rows;
 use super::{fact, hero, panel, tabs, GameCtx};
 use crate::json_view::pointer_escape;
@@ -38,7 +39,7 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
             ui.add_space(4.0);
         }
         if r.is_empty() {
-            ui.weak("None in this save.");
+            ui.weak(tr("None in this save."));
             return;
         }
         value_rows(ui, cx, &format!("ff16_{t}"), &r);

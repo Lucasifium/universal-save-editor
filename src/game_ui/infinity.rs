@@ -2,6 +2,7 @@
 //! reputation, and each party member's sheet (experience, hit points, levels, abilities,
 //! alignment and item stacks).
 
+use crate::i18n::tr;
 use crate::widgets::ScrollLock;
 use super::{columns, fact, hero, panel, tabs, GameCtx};
 use crate::json_view::pointer_escape;
@@ -83,7 +84,7 @@ fn character(ui: &mut Ui, cx: &mut GameCtx, base: &str, accent: Color32) {
         panel(ui, "Items", |ui| {
             egui::ScrollArea::vertical().id_salt(("ie_items", base)).max_height(380.0).show_locked(ui, |ui| {
                 egui::Grid::new(("ie_items_g", base)).num_columns(4).striped(true).spacing([14.0, 4.0]).show(ui, |ui| {
-                    ui.strong("Item");
+                    ui.strong(tr("Item"));
                     ui.strong("Quantity / charges");
                     ui.strong("Charges 2");
                     ui.strong("Charges 3");

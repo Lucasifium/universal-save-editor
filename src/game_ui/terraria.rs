@@ -1,6 +1,7 @@
 //! Terraria player: life and mana, permanent upgrades, and the inventory, equipment
 //! and storage as item grids.
 
+use crate::i18n::tr;
 use super::{cell_grid, hero, meter, panel, select, selection, tabs, Cell, GameCtx};
 use crate::json_view::pointer_escape;
 use eframe::egui::{self, Color32, RichText, Ui};
@@ -128,7 +129,7 @@ pub(super) fn slots(ui: &mut Ui, cx: &mut GameCtx, id: &str, base: &str, keys: &
         ui.set_width(ui.available_width());
         ui.horizontal(|ui| {
             ui.label(RichText::new(present[i].as_str()).strong());
-            if ui.small_button("Close").clicked() {
+            if ui.small_button(tr("Close")).clicked() {
                 select(ui, id, None);
             }
         });

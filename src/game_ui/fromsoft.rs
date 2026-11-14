@@ -1,5 +1,6 @@
 //! Elden Ring, Dark Souls III, II and I, and Sekiro: a character sheet and the inventory.
 
+use crate::i18n::tr;
 use crate::widgets::ScrollLock;
 use super::{cell_grid, fact, materials_button, fmt_num, hero, inset_fill, meter, panel, select, selection, tabs, Cell, GameCtx, Game};
 use crate::json_view::pointer_escape;
@@ -428,7 +429,7 @@ fn item_lists(g: Game, ui: &mut Ui, cx: &mut GameCtx, accent: Color32) {
             ui.set_width(ui.available_width());
             ui.horizontal(|ui| {
                 ui.label(RichText::new(if query.is_empty() { k.clone() } else { format!("{l} \u{203A} {k}") }).strong());
-                if ui.small_button("Close").clicked() {
+                if ui.small_button(tr("Close")).clicked() {
                     select(ui, &id, None);
                 }
             });

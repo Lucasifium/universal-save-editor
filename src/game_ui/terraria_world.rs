@@ -1,6 +1,7 @@
 //! Terraria world: a map you can pan, zoom and paint (blocks, walls, liquids, the spawn
 //! point), the world's settings, bosses and events, chests, signs and town NPCs.
 
+use crate::i18n::tr;
 use crate::widgets::ScrollLock;
 use super::terraria::slots;
 use super::{fact, hero, panel, select, selection, tabs, GameCtx};
@@ -106,7 +107,7 @@ fn chests_tab(ui: &mut Ui, cx: &mut GameCtx) {
     let mut filter = ui.data(|d| d.get_temp::<String>(fid)).unwrap_or_default();
     panel(ui, "Chests", |ui| {
         ui.horizontal(|ui| {
-            ui.label("Find:");
+            ui.label(tr("Find:"));
             ui.add(egui::TextEdit::singleline(&mut filter).hint_text("chest name or item").desired_width(240.0));
         });
         let f = filter.trim().to_lowercase();
@@ -182,7 +183,7 @@ fn npcs_tab(ui: &mut Ui, cx: &mut GameCtx) {
     panel(ui, "Town NPCs", |ui| {
         egui::Grid::new("tw_npcs").num_columns(3).spacing([14.0, 4.0]).striped(true).show(ui, |ui| {
             ui.strong("Who");
-            ui.strong("Name");
+            ui.strong(tr("Name"));
             ui.strong("Home");
             ui.end_row();
             for k in &all {
@@ -450,10 +451,10 @@ fn map_tab(ui: &mut Ui, cx: &mut GameCtx) {
             _ => {}
         }
         if painting {
-            ui.label("Brush:");
+            ui.label(tr("Brush:"));
             ui.add(egui::DragValue::new(&mut v.size).range(1..=32).suffix(" tiles"));
         }
-        if ui.button("Fit").clicked() {
+        if ui.button(tr("Fit")).clicked() {
             v.zoom = 0.0;
         }
     });
@@ -733,11 +734,11 @@ fn poi_panel(ui: &mut Ui, map: &WorldMap, v: &mut MapView) {
             });
         });
         ui.horizontal(|ui| {
-            if ui.small_button("Show all").clicked() {
+            if ui.small_button(tr("Show all")).clicked() {
                 v.shown.iter_mut().for_each(|s| *s = true);
                 v.marks = [true; 4];
             }
-            if ui.small_button("Hide all").clicked() {
+            if ui.small_button(tr("Hide all")).clicked() {
                 v.shown.iter_mut().for_each(|s| *s = false);
                 v.marks = [false; 4];
             }

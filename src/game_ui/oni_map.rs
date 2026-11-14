@@ -2,6 +2,7 @@
 //! elements, temperature and mass, clear germs, reveal), its points of interest, and the
 //! worlds' and rockets' settings.
 
+use crate::i18n::tr;
 use crate::widgets::ScrollLock;
 use super::{panel, select, GameCtx};
 use crate::fmt::oni_map::{self as om, Cell, Op, OniMap, State};
@@ -309,7 +310,7 @@ pub fn map_tab(ui: &mut Ui, cx: &mut GameCtx) {
             ui.add(egui::DragValue::new(&mut v.temp_c).range(-273.0..=om::MAX_TEMP - KELVIN).speed(0.5).suffix(" \u{00B0}C"));
         }
         if painting {
-            ui.label("Brush:");
+            ui.label(tr("Brush:"));
             ui.add(egui::DragValue::new(&mut v.size).range(1..=32).suffix(" cells"));
             ui.checkbox(&mut v.neutronium, "Also change Neutronium");
         }
@@ -332,7 +333,7 @@ pub fn map_tab(ui: &mut Ui, cx: &mut GameCtx) {
                 cx.set(om::EDITS, Value::from(new));
             }
         }
-        if ui.button("Fit").clicked() {
+        if ui.button(tr("Fit")).clicked() {
             v.zoom = 0.0;
         }
     });
@@ -547,10 +548,10 @@ fn poi_panel(ui: &mut Ui, map: &OniMap, v: &mut MapView, world: &om::World) {
             });
         });
         ui.horizontal(|ui| {
-            if ui.small_button("Show all").clicked() {
+            if ui.small_button(tr("Show all")).clicked() {
                 v.shown.iter_mut().for_each(|s| *s = true);
             }
-            if ui.small_button("Hide all").clicked() {
+            if ui.small_button(tr("Hide all")).clicked() {
                 v.shown.iter_mut().for_each(|s| *s = false);
             }
         });

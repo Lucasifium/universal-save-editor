@@ -1,6 +1,6 @@
 use crate::file_browser::{self, FileBrowser};
 use crate::widgets::ScrollLock;
-use crate::i18n::tr;
+use crate::i18n::{tr, trf};
 use crate::formats::{self, Content, Layer};
 use crate::platform;
 use crate::hex_view::{self, HexState, NumType, OffsetLabel};
@@ -703,10 +703,10 @@ impl App {
                 modal(ctx, tr("Opening"), |ui| {
                     ui.horizontal(|ui| {
                         ui.spinner();
-                        ui.label(format!("Reading {name}\u{2026}"));
+                        ui.label(trf("Reading {0}\u{2026}", &[&name]));
                     });
                     if secs > 2.0 {
-                        ui.weak(format!("{secs:.0} s \u{2014} big saves take a moment."));
+                        ui.weak(trf("{0} s \u{2014} big saves take a moment.", &[&format!("{secs:.0}")]));
                     }
                 });
                 ctx.request_repaint_after(std::time::Duration::from_millis(100));
@@ -1342,7 +1342,7 @@ impl App {
                 });
                 ui.add_space(6.0);
             }
-            ui.label(format!("{} change{} to {}:", r.lines.len(), if r.lines.len() == 1 { "" } else { "s" }, file_name(&r.path)));
+            ui.label(if r.lines.len() == 1 { trf("{0} change to {1}:", &[&r.lines.len(), &file_name(&r.path)]) } else { trf("{0} changes to {1}:", &[&r.lines.len(), &file_name(&r.path)]) });
             ScrollArea::vertical().max_height(280.0).show_locked(ui, |ui| {
                 for l in &r.lines {
                     ui.label(format!("\u{2022} {l}"));
@@ -1645,7 +1645,7 @@ impl App {
                 ui.add_enabled_ui(has_bak || !versions.is_empty() || on_disk, |ui| {
                     ui.menu_button(tr("Quick restore"), |ui| {
                         ui.weak(tr("Automatic backups are taken each time this app saves over the file."));
-                        ui.weak(format!("Named backups are kept for good; the {} newest automatic ones are kept.", crate::backups::keep()));
+                        ui.weak(trf("Named backups are kept for good; the {0} newest automatic ones are kept.", &[&crate::backups::keep()]));
                         ui.separator();
                         let mut pick = None;
                         let mut compare = None;
@@ -2173,10 +2173,10 @@ impl App {
                 ui.label(RichText::new(tr("There is no save file here right now. The game makes a new one when you save in it, or restore a backup below to put one back.")).color(theme::fg(ui, theme::WARN)));
             }
             if let Some(dir) = crate::backups::folder(&path) {
-                let note = if self.settings.backup_dir.is_some() { "the folder you chose for backups" } else { "a folder next to the save, with files no game reads as saves" };
-                ui.weak(format!("Backups are stored in {} \u{2014} {note}.", dir.display()));
+                let note = if self.settings.backup_dir.is_some() { tr("the folder you chose for backups") } else { tr("a folder next to the save, with files no game reads as saves") };
+                ui.weak(trf("Backups are stored in {0} \u{2014} {1}.", &[&dir.display(), &note]));
                 if let Some(other) = newest_dir.as_ref().filter(|d| **d != dir) {
-                    ui.weak(format!("The newest backup is in {} (the folder above couldn't be written to, or it was made earlier).", other.display()));
+                    ui.weak(trf("The newest backup is in {0} (the folder above couldn't be written to, or it was made earlier).", &[&other.display()]));
                 }
                 if !WEB && !cfg!(target_os = "android") {
                     ui.horizontal(|ui| {
@@ -2421,7 +2421,7 @@ impl App {
                 });
                 let any_here = p.codes.iter().any(|c| !c.empty() && crate::apollo::targets(c, &p.file));
                 if !any_here && !p.all_files {
-                    ui.weak(format!("None of these codes name \u{201C}{}\u{201D}; they may be for another file in the save folder.", p.file));
+                    ui.weak(trf("None of these codes name \u{201C}{0}\u{201D}; they may be for another file in the save folder.", &[&p.file]));
                 }
                 if p.layer.is_some() {
                     ui.weak(tr("This save was unpacked with the patch file's own codes when it opened; they run again when you save."));
@@ -2452,7 +2452,7 @@ impl App {
                             if !usable {
                                 r.on_disabled_hover_text(tr("This one is a Python script, which only Apollo itself can run."));
                             } else if !here {
-                                r.on_hover_text(format!("Written for {}", c.file));
+                                r.on_hover_text(trf("Written for {0}", &[&c.file]));
                             }
                             for (k, ch) in p.codes[i].choices.clone().iter().enumerate() {
                                 let cur = p.picks[i][k];
@@ -3127,7 +3127,7 @@ impl App {
                     if self.tree_visible.as_ref().is_some_and(|t| t.0.is_empty()) {
                         ui.add_space(40.0);
                         ui.vertical_centered(|ui| {
-                            ui.label(format!("Nothing in the tree matches \u{201C}{needle}\u{201D}."));
+                            ui.label(trf("Nothing in the tree matches \u{201C}{0}\u{201D}.", &[&needle]));
                             ui.weak(tr("The filter looks at names, keys and current values."));
                         });
                         return;
@@ -3183,7 +3183,7 @@ impl App {
                         if self.search.trim().is_empty() {
                             ui.weak(tr("No editable values here. Try turning on Advanced, or use the Tree view."));
                         } else {
-                            ui.label(format!("Nothing matches \u{201C}{}\u{201D}.", self.search.trim()));
+                            ui.label(trf("Nothing matches \u{201C}{0}\u{201D}.", &[&self.search.trim()]));
                             ui.weak(tr("Try part of a name (\u{201C}gold\u{201D}) or a current value (\u{201C}1500\u{201D})."));
                             if !self.settings.show_advanced {
                                 ui.weak(tr("Advanced values are hidden \u{2014} tick Advanced to search them too."));
@@ -3406,7 +3406,7 @@ impl App {
                 if let Some((current, saves, others)) = &cairn {
                     theme::card(ui, |ui| {
                         ui.label(RichText::new(tr("Cairn saves in this slot")).family(theme::semibold_family()).size(16.0));
-                        ui.weak(format!("{} saves, the dated ones newest first; pick one to open it.", saves.len()));
+                        ui.weak(trf("{0} saves, the dated ones newest first; pick one to open it.", &[&saves.len()]));
                         ScrollArea::vertical().id_salt("cairn_saves").max_height(220.0).show_locked(ui, |ui| {
                             for (entry, label) in saves {
                                 let shown = entry == current;
@@ -3461,7 +3461,7 @@ impl App {
                             ui.allocate_ui_with_layout(egui::vec2(96.0, 24.0), egui::Layout::left_to_right(egui::Align::Center), |ui| {
                                 ui.set_width(96.0);
                                 let link = egui::Link::new(RichText::new(&l.name).strong());
-                                if ui.add(link).on_hover_text(format!("Show in grid \u{2014} 0x{off:X} as {}", l.ty.name())).clicked() {
+                                if ui.add(link).on_hover_text(trf("Show in grid \u{2014} 0x{0} as {1}", &[&format!("{off:X}"), &l.ty.name()])).clicked() {
                                     h.selected = off;
                                     h.scroll_to = Some(off);
                                 }
@@ -3501,7 +3501,7 @@ impl App {
                         labels_changed = true;
                     }
                     ui.horizontal(|ui| {
-                        ui.add(TextEdit::singleline(&mut h.label_name).hint_text(format!("Name for 0x{:X}", h.selected)).desired_width(130.0));
+                        ui.add(TextEdit::singleline(&mut h.label_name).hint_text(trf("Name for 0x{0}", &[&format!("{:X}", h.selected)])).desired_width(130.0));
                         type_combo(ui, "label_type", &mut h.edit_type);
                         if ui.add_enabled(!h.label_name.trim().is_empty(), egui::Button::new(tr("Add"))).clicked() {
                             h.labels.insert(h.selected, OffsetLabel { name: h.label_name.trim().to_string(), ty: h.edit_type });
@@ -3581,7 +3581,7 @@ impl App {
                         ui.label(tr("Every location is still in play."));
                     }
                     if h.searched {
-                        ui.label(format!("{} result(s){}", h.results.len(), if h.results.len() >= hex_view::MAX_RESULTS { " (capped)" } else { "" }));
+                        ui.label(if h.results.len() >= hex_view::MAX_RESULTS { trf("{0} result(s) (capped)", &[&h.results.len()]) } else { trf("{0} result(s)", &[&h.results.len()]) });
                         let mut jump = None;
                         ScrollArea::vertical().id_salt("results").max_height(220.0).show_locked(ui, |ui| {
                             for &off in h.results.iter().take(1000) {
@@ -4433,14 +4433,14 @@ fn game_picker_window(ctx: &egui::Context, gp: &mut GamePicker) -> (Option<PathB
                                                 .and_then(|t| t.duration_since(std::time::UNIX_EPOCH).ok())
                                                 .map(|d| crate::backups::describe(d.as_secs()))
                                                 .unwrap_or_default();
-                                            ui.weak(format!("{when}  \u{00B7}  {}", human_size(s.size as usize)));
+                                            ui.weak(trf("{0}  \u{00B7}  {1}", &[&when, &human_size(s.size as usize)]));
                                             ui.add(egui::Label::new(RichText::new(s.path.parent().map(|p| p.display().to_string()).unwrap_or_default()).weak().size(12.0)).truncate());
                                         });
                                     }
                                 }
                             };
                             if !crate::games::many_games(g) {
-                                ui.label(format!("{} save{} found \u{2014} click one to open it:", f.len(), if f.len() == 1 { "" } else { "s" }));
+                                ui.label(if f.len() == 1 { trf("{0} save found \u{2014} click one to open it:", &[&f.len()]) } else { trf("{0} saves found \u{2014} click one to open it:", &[&f.len()]) });
                                 let all: Vec<&crate::games::Found> = f.iter().collect();
                                 cards(ui, &all, open);
                                 return;
@@ -4456,17 +4456,17 @@ fn game_picker_window(ctx: &egui::Context, gp: &mut GamePicker) -> (Option<PathB
                             }
                             if let Some(name) = group.clone() {
                                 if let Some((_, saves)) = groups.iter().find(|(n, _)| *n == name) {
-                                    if ui.button(format!("\u{2039} All {} games", groups.len())).clicked() {
+                                    if ui.button(trf("\u{2039} All {0} games", &[&groups.len()])).clicked() {
                                         *group = None;
                                     }
                                     ui.strong(&name);
-                                    ui.label(format!("{} save{} \u{2014} click one to open it:", saves.len(), if saves.len() == 1 { "" } else { "s" }));
+                                    ui.label(if saves.len() == 1 { trf("{0} save \u{2014} click one to open it:", &[&saves.len()]) } else { trf("{0} saves \u{2014} click one to open it:", &[&saves.len()]) });
                                     cards(ui, saves, open);
                                     return;
                                 }
                                 *group = None;
                             }
-                            ui.label(format!("{} game{} with saves ({} saves) \u{2014} pick one:", groups.len(), if groups.len() == 1 { "" } else { "s" }, f.len()));
+                            ui.label(if groups.len() == 1 { trf("{0} game with saves ({1} saves) \u{2014} pick one:", &[&groups.len(), &f.len()]) } else { trf("{0} games with saves ({1} saves) \u{2014} pick one:", &[&groups.len(), &f.len()]) });
                             {
                                 for (name, saves) in &groups {
                                     let when = saves[0]
@@ -4478,7 +4478,7 @@ fn game_picker_window(ctx: &egui::Context, gp: &mut GamePicker) -> (Option<PathB
                                         if ui.link(RichText::new(name).strong()).clicked() {
                                             *group = Some(name.clone());
                                         }
-                                        ui.weak(format!("{} save{}  \u{00B7}  last saved {when}", saves.len(), if saves.len() == 1 { "" } else { "s" }));
+                                        ui.weak(if saves.len() == 1 { trf("{0} save  \u{00B7}  last saved {1}", &[&saves.len(), &when]) } else { trf("{0} saves  \u{00B7}  last saved {1}", &[&saves.len(), &when]) });
                                     });
                                 }
                             }

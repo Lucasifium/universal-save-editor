@@ -1,7 +1,7 @@
 //! The friendly "Values" view: every editable value in one aligned, searchable
 //! table, grouped into collapsible sections.
 
-use crate::i18n::tr;
+use crate::i18n::{tr, trf};
 use crate::json_view::pointer_escape;
 use crate::names::{self, Names};
 use crate::theme;
@@ -367,10 +367,10 @@ pub fn show(ui: &mut Ui, model: &Model, disp: &[Disp], collapsed: &HashSet<usize
                                     if !r.context.is_empty() {
                                         ui.label(format!("in {}", r.context));
                                     }
-                                    ui.weak(format!("key: {}   ({})", r.raw_key, widgets::type_name(v)));
-                                    ui.weak(format!("path: {}", r.ptr));
+                                    ui.weak(trf("key: {0}   ({1})", &[&r.raw_key, &widgets::type_name(v)]));
+                                    ui.weak(trf("path: {0}", &[&r.ptr]));
                                     if let Some(note) = ctx.tree.and_then(|t| crate::risks::note(&t.kind_name, &r.ptr)) {
-                                        ui.label(format!("Note: {note}"));
+                                        ui.label(trf("Note: {0}", &[&note]));
                                     }
                                 });
                             });
@@ -394,7 +394,7 @@ pub fn show(ui: &mut Ui, model: &Model, disp: &[Disp], collapsed: &HashSet<usize
                             if modified {
                                 let old = ctx.baseline.pointer(&r.ptr).map(widgets::display).unwrap_or_default();
                                 let btn = ui.add(egui::Button::new(widgets::icon(ctx.has_icons, theme::icon::REVERT, "undo").size(12.0)).frame(false));
-                                if btn.on_hover_text(format!("Revert to original: {old}")).clicked() {
+                                if btn.on_hover_text(trf("Revert to original: {0}", &[&old])).clicked() {
                                     if let Some(orig) = ctx.baseline.pointer(&r.ptr) {
                                         ctx.edits.push((r.ptr.clone(), orig.clone()));
                                     }

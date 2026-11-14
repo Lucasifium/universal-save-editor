@@ -1,6 +1,7 @@
 //! NieR:Automata (`SlotData_N.dat`): money, experience, item and material counts and weapon
 //! levels, with a "Max crafting materials" button for the Materials list.
 
+use crate::i18n::tr;
 use super::screens2::value_rows;
 use super::{fact, fmt_num, hero, panel, tabs, GameCtx};
 use crate::json_view::pointer_escape;
@@ -41,7 +42,7 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
             ui.add_space(4.0);
         }
         if r.is_empty() {
-            ui.weak("None in this save.");
+            ui.weak(tr("None in this save."));
             return;
         }
         value_rows(ui, cx, &format!("nier_{t}"), &r);

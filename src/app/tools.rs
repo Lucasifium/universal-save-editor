@@ -5,7 +5,7 @@
 #![cfg_attr(target_arch = "wasm32", allow(dead_code))]
 
 use crate::widgets::ScrollLock;
-use crate::i18n::tr;
+use crate::i18n::{tr, trf};
 use super::*;
 use crate::presets::{ByteChange, Preset, ValueChange};
 use crate::values_view::BulkOp;
@@ -83,8 +83,8 @@ impl App {
         theme::card(ui, |ui| {
             ui.horizontal_wrapped(|ui| {
                 ui.label(RichText::new(tr("Bulk edit")).strong());
-                ui.label(format!("{} ticked", b.ticked.len()));
-                if ui.small_button(format!("Tick all shown ({})", shown.len())).on_hover_text(tr("Ticks every editable value in the list below. Search first to pick a group, e.g. \u{201C}count\u{201D} or a section's name.")).clicked() {
+                ui.label(trf("{0} ticked", &[&b.ticked.len()]));
+                if ui.small_button(trf("Tick all shown ({0})", &[&shown.len()])).on_hover_text(tr("Ticks every editable value in the list below. Search first to pick a group, e.g. \u{201C}count\u{201D} or a section's name.")).clicked() {
                     b.ticked.extend(shown.iter().copied());
                 }
                 if !b.ticked.is_empty() && ui.small_button(tr("Untick all")).clicked() {
@@ -224,7 +224,7 @@ impl App {
         let Some(mut ps) = self.preset_save.take() else { return };
         let mut choice = None;
         modal(ctx, tr("Save changes as a preset"), |ui| {
-            ui.label(format!("Keeps these {} change{} to make again on another save or slot of this game:", ps.preset.len(), if ps.preset.len() == 1 { "" } else { "s" }));
+            ui.label(if ps.preset.len() == 1 { trf("Keeps this {0} change to make again on another save or slot of this game:", &[&ps.preset.len()]) } else { trf("Keeps these {0} changes to make again on another save or slot of this game:", &[&ps.preset.len()]) });
             ScrollArea::vertical().max_height(180.0).show_locked(ui, |ui| {
                 for l in ps.preset.lines() {
                     ui.weak(l);
@@ -316,8 +316,8 @@ impl App {
                 ScrollArea::vertical().id_salt("preset_list").max_height(200.0).show_locked(ui, |ui| {
                     for (i, (_, p)) in pa.list.iter().enumerate() {
                         ui.horizontal(|ui| {
-                            let text = format!("{}  ({} change{})", p.name, p.len(), if p.len() == 1 { "" } else { "s" });
-                            if ui.selectable_label(pa.picked == Some(i) && pa.opened.is_none(), text).on_hover_text(format!("Made on a {} save", p.game)).clicked() {
+                            let text = if p.len() == 1 { trf("{0}  ({1} change)", &[&p.name, &p.len()]) } else { trf("{0}  ({1} changes)", &[&p.name, &p.len()]) };
+                            if ui.selectable_label(pa.picked == Some(i) && pa.opened.is_none(), text).on_hover_text(trf("Made on a {0} save", &[&p.game])).clicked() {
                                 pa.picked = Some(i);
                                 pa.opened = None;
                             }
@@ -522,7 +522,7 @@ impl App {
             }
             ui.checkbox(&mut sn.by_size, format!("the exact size ({})", human_size(size))).on_hover_text(tr("Only if every save of the game is the same size"));
             if let Some(s) = sum {
-                ui.weak(format!("The checksum you set ({}) is kept fixed too.", s.describe()));
+                ui.weak(trf("The checksum you set ({0}) is kept fixed too.", &[&s.describe()]));
             }
             ui.checkbox(&mut sn.replace, tr("Replace a template with the same name"));
             ui.add_space(6.0);
@@ -650,7 +650,7 @@ impl App {
             ui.add_space(2.0);
             ui.horizontal_wrapped(|ui| {
                 ui.weak(tr("No luck? Try another number type, or"));
-                ui.hyperlink_to("ask for this game", REQUEST_GAME);
+                ui.hyperlink_to(tr("ask for this game"), REQUEST_GAME);
             });
         });
     }

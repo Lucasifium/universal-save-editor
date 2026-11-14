@@ -2,6 +2,7 @@
 //! the values players care about, laid out like the game shows them. Everything is
 //! looked up by name and simply left out when a save doesn't have it.
 
+use crate::i18n::tr;
 use crate::widgets::ScrollLock;
 use super::{cell_grid, columns, fact, fmt_num, hero, meter, panel, select, selection, tabs, words, Cell, GameCtx};
 use crate::json_view::pointer_escape;
@@ -513,7 +514,7 @@ pub fn balatro(ui: &mut Ui, cx: &mut GameCtx) {
         panel(ui, "Poker hands", |ui| {
             egui::Grid::new("bal_hands").num_columns(4).striped(true).spacing([12.0, 4.0]).show(ui, |ui| {
                 ui.weak("Hand");
-                ui.weak("Level");
+                ui.weak(tr("Level"));
                 ui.weak("Chips");
                 ui.weak("Mult");
                 ui.end_row();
@@ -727,7 +728,7 @@ pub fn slay_the_spire(ui: &mut Ui, cx: &mut GameCtx) {
             known.dedup();
             ui.horizontal(|ui| {
                 widgets::id_picker(ui, title, &mut name, &known, "internal id, e.g. Strike_R", 150.0);
-                if ui.button("Add").clicked() && !name.trim().is_empty() {
+                if ui.button(tr("Add")).clicked() && !name.trim().is_empty() {
                     let mut more = items.clone();
                     more.push(match i {
                         0 => serde_json::json!({"id": name.trim(), "upgrades": 0, "misc": 0}),
@@ -874,7 +875,7 @@ pub fn rpg_maker(ui: &mut Ui, cx: &mut GameCtx) {
                 ui.add(egui::TextEdit::singleline(&mut id).desired_width(60.0));
                 ui.label("count");
                 ui.add(egui::TextEdit::singleline(&mut n).desired_width(40.0));
-                if ui.button("Add").clicked() {
+                if ui.button(tr("Add")).clicked() {
                     if let (Ok(i), Ok(c)) = (id.trim().parse::<u32>(), n.trim().parse::<u32>()) {
                         if i > 0 && (1..=9999).contains(&c) {
                             let mut more = held.clone();
@@ -1032,7 +1033,7 @@ pub fn onimusha(ui: &mut Ui, cx: &mut GameCtx) {
     if !used.is_empty() {
         panel(ui, "Items", |ui| {
             egui::Grid::new("oni_items").num_columns(3).striped(true).spacing([12.0, 4.0]).show(ui, |ui| {
-                ui.strong("Item");
+                ui.strong(tr("Item"));
                 ui.strong("On hand");
                 ui.strong("In storage");
                 ui.end_row();
@@ -1063,7 +1064,7 @@ pub fn onimusha(ui: &mut Ui, cx: &mut GameCtx) {
         panel(ui, "Charms", |ui| {
             egui::Grid::new("oni_charms").num_columns(3).striped(true).spacing([12.0, 4.0]).show(ui, |ui| {
                 ui.strong("Charm");
-                ui.strong("Level");
+                ui.strong(tr("Level"));
                 ui.strong("Worn");
                 ui.end_row();
                 for (k, id) in &owned {
@@ -1228,7 +1229,7 @@ pub fn rimworld(ui: &mut Ui, cx: &mut GameCtx) {
         let skills = keys(cx, &format!("{base}/Skills"));
         egui::Grid::new(("rw_skills", t)).num_columns(3).striped(true).spacing([14.0, 4.0]).show(ui, |ui| {
             ui.strong("Skill");
-            ui.strong("Level");
+            ui.strong(tr("Level"));
             ui.strong("Passion");
             ui.end_row();
             for s in &skills {
@@ -1345,7 +1346,7 @@ pub fn oxygen_not_included(ui: &mut Ui, cx: &mut GameCtx) {
         ui.label(RichText::new("Attributes").strong());
         egui::Grid::new(("oni_attr", t)).num_columns(3).striped(true).spacing([14.0, 4.0]).show(ui, |ui| {
             ui.strong("Attribute");
-            ui.strong("Level");
+            ui.strong(tr("Level"));
             ui.strong("Experience");
             ui.end_row();
             for i in 0..count {

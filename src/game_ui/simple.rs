@@ -4,6 +4,7 @@
 //!
 //! Values are found by pointer and simply left out when a save doesn't have them.
 
+use crate::i18n::tr;
 use crate::widgets::ScrollLock;
 use super::{columns, hero, panel, GameCtx};
 use eframe::egui::{self, Color32, Ui};
@@ -263,7 +264,7 @@ fn filter(ui: &mut Ui, id: &str) -> String {
     let sid = egui::Id::new(("simple_filter", id));
     let mut q = ui.data(|d| d.get_temp::<String>(sid)).unwrap_or_default();
     ui.horizontal(|ui| {
-        ui.label("Filter:");
+        ui.label(tr("Filter:"));
         ui.add(egui::TextEdit::singleline(&mut q).desired_width(200.0));
     });
     ui.data_mut(|d| d.insert_temp(sid, q.clone()));

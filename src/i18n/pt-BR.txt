@@ -1268,3 +1268,222 @@ Pasted {0} from {1}. Save to keep it, or Undo.
 Pasted {0} values of {1} from {2}; {3} aren't in this save and were left out.
 = {0} valores de {1} colados de {2}; {3} não existem neste save e ficaram de fora.
 
+
+# added in the translation audit
+
+About {0}
+= Sobre {0}
+
+Backups are stored in {0} — {1}.
+= Os backups ficam em {0} — {1}.
+
+Base max
+= Máx. base
+
+Brush:
+= Pincel:
+
+Connection
+= Conexão
+
+Count
+= Quantidade
+
+Facility
+= Instalação
+
+Filter:
+= Filtro:
+
+Find:
+= Procurar:
+
+Fit
+= Ajustar
+
+GNU General Public License v3
+= Licença Pública Geral GNU v3
+
+Hide all
+= Ocultar tudo
+
+Item
+= Item
+
+Keeps these {0} changes to make again on another save or slot of this game:
+= Guarda estas {0} alterações para refazê-las em outro save ou slot deste jogo:
+
+Keeps this {0} change to make again on another save or slot of this game:
+= Guarda esta {0} alteração para refazê-la em outro save ou slot deste jogo:
+
+Level
+= Nível
+
+Made on a {0} save
+= Feito em um save de {0}
+
+Name
+= Nome
+
+Name for 0x{0}
+= Nome para 0x{0}
+
+Named backups are kept for good; the {0} newest automatic ones are kept.
+= Backups com nome são mantidos para sempre; dos automáticos, os {0} mais recentes são mantidos.
+
+No heroes in this roster.
+= Nenhum herói nesta lista.
+
+None in this save.
+= Nenhum neste save.
+
+None match.
+= Nenhum corresponde.
+
+None of these codes name “{0}”; they may be for another file in the save folder.
+= Nenhum destes códigos cita “{0}”; podem ser de outro arquivo da pasta de saves.
+
+None.
+= Nenhum.
+
+Note: {0}
+= Nota: {0}
+
+Nothing here.
+= Não há nada aqui.
+
+Nothing in the tree matches “{0}”.
+= Nada na árvore corresponde a “{0}”.
+
+Nothing matches “{0}”.
+= Nada corresponde a “{0}”.
+
+Reading {0}…
+= Lendo {0}…
+
+Revert to original ({0})
+= Voltar ao original ({0})
+
+Revert to original: {0}
+= Voltar ao original: {0}
+
+Set to maximum ({0})
+= Definir como máximo ({0})
+
+Set to minimum ({0})
+= Definir como mínimo ({0})
+
+Show all
+= Mostrar tudo
+
+Show in grid — 0x{0} as {1}
+= Mostrar na grade — 0x{0} como {1}
+
+Slot
+= Slot
+
+Source code and releases
+= Código-fonte e versões
+
+The checksum you set ({0}) is kept fixed too.
+= A soma de verificação que você definiu ({0}) também é mantida fixa.
+
+The newest backup is in {0} (the folder above couldn't be written to, or it was made earlier).
+= O backup mais recente está em {0} (não foi possível gravar na pasta acima, ou ele foi feito antes).
+
+Third-party notices
+= Avisos de terceiros
+
+Tick all shown ({0})
+= Marcar todos os exibidos ({0})
+
+Version {0} · {1}
+= Versão {0} · {1}
+
+Written for {0}
+= Escrito para {0}
+
+a folder next to the save, with files no game reads as saves
+= uma pasta ao lado do save, com arquivos que nenhum jogo lê como saves
+
+ask for this game
+= pedir este jogo
+
+key: {0}\npath: {1}
+= chave: {0}\ncaminho: {1}
+
+key: {0}   ({1})
+= chave: {0}   ({1})
+
+path: {0}
+= caminho: {0}
+
+the folder you chose for backups
+= a pasta que você escolheu para os backups
+
+{0}  ({1} change)
+= {0}  ({1} alteração)
+
+{0}  ({1} changes)
+= {0}  ({1} alterações)
+
+{0}  ·  {1}
+= {0}  ·  {1}
+
+{0} change to {1}:
+= {0} alteração em {1}:
+
+{0} changes to {1}:
+= {0} alterações em {1}:
+
+{0} game with saves ({1} saves) — pick one:
+= {0} jogo com saves ({1} saves) — escolha um:
+
+{0} games with saves ({1} saves) — pick one:
+= {0} jogos com saves ({1} saves) — escolha um:
+
+{0} is free software under the GNU General Public License, version 3.
+= {0} é software livre sob a Licença Pública Geral GNU, versão 3.
+
+{0} result(s)
+= {0} resultado(s)
+
+{0} result(s) (capped)
+= {0} resultado(s) (limitado)
+
+{0} s — big saves take a moment.
+= {0} s — saves grandes levam um momento.
+
+{0} save  ·  last saved {1}
+= {0} save  ·  salvo por último {1}
+
+{0} save found — click one to open it:
+= {0} save encontrado — clique para abri-lo:
+
+{0} save — click one to open it:
+= {0} save — clique para abri-lo:
+
+{0} saves  ·  last saved {1}
+= {0} saves  ·  salvo por último {1}
+
+{0} saves found — click one to open it:
+= {0} saves encontrados — clique em um para abri-lo:
+
+{0} saves — click one to open it:
+= {0} saves — clique em um para abri-lo:
+
+{0} saves, the dated ones newest first; pick one to open it.
+= {0} saves, os datados primeiro os mais recentes; escolha um para abri-lo.
+
+{0} ticked
+= {0} marcados
+
+{0} was moved or deleted after you opened it. Saving puts your version back in its place.
+= {0} foi movido ou excluído depois que você o abriu. Ao salvar, sua versão volta ao lugar.
+
+{0} was written by something else after you opened it — most likely the game saved, or a cloud sync brought in another copy.
+= {0} foi gravado por outra coisa depois que você o abriu — provavelmente o jogo salvou, ou uma sincronização na nuvem trouxe outra cópia.
+
+‹ All {0} games
+= ‹ Todos os {0} jogos
+

@@ -1,7 +1,7 @@
 //! Preferences, the Help menu and its windows (keyboard shortcuts, licences, About), and
 //! "Report a problem", which opens a pre-filled GitHub issue form.
 
-use crate::i18n::tr;
+use crate::i18n::{tr, trf};
 use super::{fit, friendly_kind, Ask, App, WEB};
 use crate::{platform, theme};
 use eframe::egui::{self, RichText};
@@ -108,7 +108,7 @@ impl App {
                 ui.close_menu();
                 self.help = Some(Window::Licences);
             }
-            if ui.button(format!("About {}", platform::DISPLAY_NAME)).clicked() {
+            if ui.button(trf("About {0}", &[&platform::DISPLAY_NAME])).clicked() {
                 ui.close_menu();
                 self.help = Some(Window::About);
             }
@@ -142,23 +142,23 @@ impl App {
                     ui.weak(tr("On a Mac, use Cmd instead of Ctrl."));
                 }
                 Window::Licences => {
-                    ui.label(format!("{} is free software under the GNU General Public License, version 3.", platform::DISPLAY_NAME));
+                    ui.label(trf("{0} is free software under the GNU General Public License, version 3.", &[&platform::DISPLAY_NAME]));
                     ui.add_space(4.0);
                     ui.label(tr("It builds on save-format research, tables and code from many other projects, each listed with its author and licence in the third-party notices."));
                     ui.add_space(6.0);
-                    ui.hyperlink_to("GNU General Public License v3", format!("{REPO}/blob/main/LICENSE"));
-                    ui.hyperlink_to("Third-party notices", format!("{REPO}/blob/main/THIRD_PARTY_NOTICES.md"));
+                    ui.hyperlink_to(tr("GNU General Public License v3"), format!("{REPO}/blob/main/LICENSE"));
+                    ui.hyperlink_to(tr("Third-party notices"), format!("{REPO}/blob/main/THIRD_PARTY_NOTICES.md"));
                     ui.add_space(6.0);
                     ui.weak(tr("The interface uses egui and eframe (MIT or Apache-2.0)."));
                 }
                 Window::About => {
                     ui.label(RichText::new(platform::DISPLAY_NAME).family(theme::semibold_family()).size(20.0));
-                    ui.label(format!("Version {} \u{00B7} {}", env!("CARGO_PKG_VERSION"), os()));
+                    ui.label(trf("Version {0} \u{00B7} {1}", &[&env!("CARGO_PKG_VERSION"), &os()]));
                     ui.add_space(4.0);
                     ui.label(tr("Edit game saves safely. Everything stays on your device: nothing is uploaded, and every save is backed up before it is written."));
                     ui.add_space(6.0);
-                    ui.hyperlink_to("Website", SITE);
-                    ui.hyperlink_to("Source code and releases", REPO);
+                    ui.hyperlink_to(tr("Website"), SITE);
+                    ui.hyperlink_to(tr("Source code and releases"), REPO);
                     if WEB {
                         ui.add_space(6.0);
                         ui.weak(tr("In the browser, Japanese, Chinese and Korean names may show as boxes. The downloadable app uses your computer's fonts for them."));
