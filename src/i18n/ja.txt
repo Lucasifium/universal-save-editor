@@ -23789,3 +23789,11 @@ Veteran
 Impossible
 = インポッシブル
 
+
+
+Magic attack
+= 魔法攻撃力
+
+TLSaveData0_NN in the Steam remote folder. Gald (also in the save list), and level, experience, HP, TP and the base stats of all nine characters.
+= SteamのremoteフォルダにあるTLSaveData0_NN。ガルド(セーブ一覧にも表示)と、9人全員のレベル、経験値、HP、TP、基本ステータス。
+

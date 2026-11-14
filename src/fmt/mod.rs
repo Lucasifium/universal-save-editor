@@ -283,6 +283,7 @@ pub mod pvz;
 pub mod gta3;
 pub mod gtasa;
 pub mod arkhamcity;
+pub mod tov;
 pub mod jedi;
 pub mod sr3;
 pub mod sr4;
@@ -1068,6 +1069,11 @@ pub fn parse_binary(d: &[u8]) -> Option<TreeDoc> {
     }
     if sr3::looks(d) {
         if let Ok(t) = sr3::parse(d) {
+            return Some(t);
+        }
+    }
+    if tov::looks(d) {
+        if let Ok(t) = tov::parse(d) {
             return Some(t);
         }
     }

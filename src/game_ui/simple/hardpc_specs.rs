@@ -103,3 +103,26 @@ pub const ARKHAM_CITY: Spec = Spec {
     lists: &[],
     tables: &[],
 };
+
+// ------------------------------------------------------------------ Tales of Vesperia: Definitive Edition
+
+pub const TOV: Spec = Spec {
+    name: "Tales of Vesperia: Definitive Edition",
+    tab: "Party",
+    accent: (90, 150, 220),
+    kind: Some(crate::fmt::tov::KIND),
+    markers: &["/Party/Gald", "/Characters/Yuri/Level"],
+    subtitle: tx("TLSaveData0_NN in the Steam remote folder. Gald (also in the save list), and level, experience, HP, TP and the base stats of all nine characters."),
+    tiles: &[(tx("Gald"), "/Party/Gald")],
+    sections: &[
+    Section { title: tx("Party"), rows: &[(tx("Gald"), "/Party/Gald"), (tx("Play time (hours)"), "/Party/Play time (hours)")] },
+    ],
+    lists: &[],
+    tables: &[
+    Table { title: tx("Characters"), path: "/Characters", name: &[], cols: &[
+        (tx("Level"), "/Level"), (tx("Experience"), "/Experience"), (tx("HP"), "/HP"), (tx("Max HP"), "/Max HP"), (tx("TP"), "/TP"), (tx("Max TP"), "/Max TP"),
+        (tx("Attack"), "/Attack"), (tx("Magic attack"), "/Magic attack"), (tx("Defense"), "/Defense"), (tx("Magic defense"), "/Magic defense"),
+        (tx("Agility"), "/Agility"), (tx("Luck"), "/Luck"),
+    ], only: &[], names: &[] },
+    ],
+};

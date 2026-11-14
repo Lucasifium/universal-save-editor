@@ -23714,3 +23714,11 @@ Veteran
 Impossible
 = Impossible
 
+
+
+Magic attack
+= Attaque magique
+
+TLSaveData0_NN in the Steam remote folder. Gald (also in the save list), and level, experience, HP, TP and the base stats of all nine characters.
+= TLSaveData0_NN dans le dossier « remote » de Steam. Gald (aussi dans la liste des sauvegardes), et niveau, expérience, PV, PT et statistiques de base des neuf personnages.
+

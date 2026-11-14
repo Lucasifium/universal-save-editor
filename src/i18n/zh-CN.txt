@@ -23762,3 +23762,11 @@ Veteran
 Impossible
 = 不可能
 
+
+
+Magic attack
+= 魔法攻击
+
+TLSaveData0_NN in the Steam remote folder. Gald (also in the save list), and level, experience, HP, TP and the base stats of all nine characters.
+= Steam remote 文件夹中的 TLSaveData0_NN。加尔德(存档列表中也会显示),以及全部九名角色的等级、经验值、HP、TP 和基础属性。
+
