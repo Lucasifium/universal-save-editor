@@ -25460,4 +25460,67 @@ Witch
 
 Xylophone
 = Xylophone
+# src/game_ui/simple/hardpc_specs.rs (Bug Fables, Planetbase)
+save0.dat, save1.dat or save2.dat in the game's folder (the PC release). Berries, rank, experience, TP, MP, the inventory and storage sizes and play time, and the HP, attack and defense of every party member. Only these values are rewritten; the rest of the save is kept as it was.
+= save0.dat, save1.dat ou save2.dat dans le dossier du jeu (version PC). Baies, rang, expérience, PT, PM, taille de l'inventaire et du stockage, temps de jeu, et PV, attaque et défense de chaque membre de l'équipe. Seules ces valeurs sont réécrites ; le reste de la sauvegarde est conservé tel quel.
+
+A .sav file in Documents\\Planetbase\\Saves (plain XML). Coins (once the colony has traded), extra prestige, the landing permissions, and the health, food, water, oxygen, sleep and morale of every colonist and the condition of every bot, from 0 to 1. Goods in storage are single items on the ground and are not listed.
+= Un fichier .sav dans Documents\Planetbase\Saves (XML en clair). Pièces (une fois que la colonie a commercé), prestige supplémentaire, autorisations d'atterrissage, et santé, nourriture, eau, oxygène, sommeil et moral de chaque colon ainsi que l'état de chaque robot, de 0 à 1. Les marchandises stockées sont des objets posés au sol et ne sont pas listées.
+
+Storage slots
+= Emplacements de stockage
+
+Hours
+= Heures
+
+Minutes
+= Minutes
+
+Seconds
+= Secondes
+
+Base attack
+= Attaque de base
+
+Extra prestige
+= Prestige supplémentaire
+
+Colony name
+= Nom de la colonie
+
+Landing permissions
+= Autorisations d'atterrissage
+
+Colonists allowed
+= Colons autorisés
+
+Merchants allowed
+= Marchands autorisés
+
+Visitors allowed
+= Visiteurs autorisés
+
+Workers (%)
+= Ouvriers (%)
+
+Biologists (%)
+= Biologistes (%)
+
+Engineers (%)
+= Ingénieurs (%)
+
+Medics (%)
+= Médecins (%)
+
+Guards (%)
+= Gardes (%)
+
+Colonists and bots
+= Colons et robots
+
+Nutrition
+= Nutrition
+
+Integrity
+= Intégrité
 

@@ -3,7 +3,7 @@
 > **Free, and it always will be.** No price, no ads, no account, no paid version, no online service, no
 > rate limits. If anyone is charging you for this, it isn't from here.
 
-An offline save editor and save manager for 530+ (533) PC games (edit saves, and back up, name and restore them): Cairn, Terraria (characters and a world map editor),
+An offline save editor and save manager for 530+ (535) PC games (edit saves, and back up, name and restore them): Cairn, Terraria (characters and a world map editor),
 Oxygen Not Included, RimWorld, Stardew Valley, Onimusha: Way of the Sword, Elden Ring, Dark Souls,
 Cyberpunk 2077, the Persona, Yakuza and Final Fantasy games, Ren'Py visual novels, RPG Maker games
 and more (the full list is below). Written in Rust (egui). Nothing is uploaded anywhere, and there are
@@ -111,7 +111,7 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 </details>
 
 <details>
-<summary><strong>B</strong> (14)</summary>
+<summary><strong>B</strong> (15)</summary>
 
 | Game | Screen |
 |---|---|
@@ -129,6 +129,7 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 | Borderlands 4 | *Character*: cash, Eridium, level and experience, specialization, skill points to spend, play time and ammunition, from each character's `.sav`. The file is unlocked with the Steam account named in its folder and packed again when you save. checked on public sample saves, not yet tried in the game |
 | Borderlands: The Pre-Sequel | *Vault Hunter*: level, experience, skill points; money and Moonstone; ammo and ammo SDUs; backpack and bank SDUs, weapon slots and playthroughs completed; gear is listed, not edited. Packing and checksums are redone on save. Edited saves not yet tried in the game |
 | Bravely Default II | *Party*: pg (money), the difficulty, each party member's level, experience, HP, MP, special ability points and stat raises, and how many of each item the party carries; the `SAVE` header and zlib packing are handled for you (checked on a public save, not yet tried in the game) |
+| Bug Fables: The Everlasting Sapling | *Team Snakemouth*: berries, rank, experience, TP, MP, inventory and storage sizes, play time, and the HP, attack and defense of Vi, Kabbu and Leif in `save0.dat` … `save2.dat` (PC); every other value is kept (checked on a public save, not yet tried in the game) |
 
 </details>
 
@@ -427,7 +428,7 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 </details>
 
 <details>
-<summary><strong>P</strong> (22)</summary>
+<summary><strong>P</strong> (23)</summary>
 
 | Game | Screen |
 |---|---|
@@ -444,6 +445,7 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 | Phasmophobia | Money, level, prestige and experience, how many of each item you own, item tiers and their unlocks, and the journal's statistics (`SaveFile.txt`); decrypted and encrypted again on save (checked on public test saves, not yet tried in the game) |
 | Pizza Tower | *Tower*: completion %, enemies killed and play time; every level's score, rank (D to P), treasure and secrets found, and the four boss scores and ranks. checked on a public save, not yet tried in the game |
 | Planescape: Torment: Enhanced Edition | Coppers; the Nameless One and each companion: experience, level, hit points, abilities, alignment and item stacks; every global variable by name (quest stages, story choices) (checked on real saves, not yet tried in the game) |
+| Planetbase | *Colony*: coins, extra prestige, landing permissions, and the health, food, water, oxygen, sleep and morale of every colonist and the condition of every bot (plain XML; checked on public saves, not yet tried in the game) |
 | Plants vs. Zombies (Game of the Year Edition) | *Profile*: money (stored divided by 10), Adventure level and completions, Crazy Dave's shop (the nine plants, tools, cleaners), fertilizer, bug spray, chocolate and tree food, seed slots, Tree of Wisdom, Survival progress; the Zen Garden's plants; mini-game and puzzle trophies on the *Values* tab. Open `user1.dat` (checked on a public save, not yet tried in the game) |
 | Pokémon (Gen IV–IX: Diamond/Pearl/Platinum/HeartGold/SoulSilver, Black/White and Black 2/White 2, X/Y, Omega Ruby/Alpha Sapphire, Sun/Moon and Ultra Sun/Ultra Moon, Sword/Shield, Scarlet/Violet) | Trainer, money and the game's other currencies, badges, play time, bag pockets (Scarlet/Violet lists the items you own); party cards and every PC box with species, nickname, level (sets experience and stats), nature, shiny, ability, held item, ball, moves with PP and PP Ups, IVs and EVs. Pokémon encryption and the save checksums or seals are handled for you |
 | Pokémon (Gen I–III) | Trainer card and badges (Gen III: each Gym badge switchable); party cards (species, level, nickname, moves and PP, HP, IVs and more); PC boxes as a grid; bag pockets |
@@ -807,8 +809,8 @@ The folders where saves were found are remembered (in `save_locations.json` next
 
 The start page lists **Your games**: every game in the list whose saves were found on this computer,
 newest first, each one click away from its newest save. *Find my game's saves* (the big button on the
-start page, *Find saves* in the toolbar and the File menu) lists every one of the 530+ (533) PC games the editor knows, Mass Effect 1–3, the Legendary Edition and Andromeda among them — with where it
-start page, *Find saves* in the toolbar and the File menu) lists every one of the 530+ (533) PC games the editor knows, Mass Effect 1–3, the Legendary Edition and Andromeda among them — with where it
+start page, *Find saves* in the toolbar and the File menu) lists every one of the 530+ (535) PC games the editor knows, Mass Effect 1–3, the Legendary Edition and Andromeda among them — with where it
+start page, *Find saves* in the toolbar and the File menu) lists every one of the 530+ (535) PC games the editor knows, Mass Effect 1–3, the Legendary Edition and Andromeda among them — with where it
 usually keeps its saves and what the files are called, and finds them on your computer (Steam
 libraries and `userdata`, Documents wherever Windows has it, AppData, Saved Games, Ubisoft
 Connect). On Linux and the Steam Deck it also looks inside Proton prefixes

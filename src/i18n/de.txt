@@ -25453,4 +25453,67 @@ Witch
 
 Xylophone
 = Xylophon
+# src/game_ui/simple/hardpc_specs.rs (Bug Fables, Planetbase)
+save0.dat, save1.dat or save2.dat in the game's folder (the PC release). Berries, rank, experience, TP, MP, the inventory and storage sizes and play time, and the HP, attack and defense of every party member. Only these values are rewritten; the rest of the save is kept as it was.
+= save0.dat, save1.dat oder save2.dat im Spielordner (PC-Version). Beeren, Rang, Erfahrung, TP, MP, Inventar- und Lagergröße, Spielzeit sowie KP, Angriff und Verteidigung jedes Gruppenmitglieds. Nur diese Werte werden neu geschrieben; der Rest des Spielstands bleibt unverändert.
+
+A .sav file in Documents\\Planetbase\\Saves (plain XML). Coins (once the colony has traded), extra prestige, the landing permissions, and the health, food, water, oxygen, sleep and morale of every colonist and the condition of every bot, from 0 to 1. Goods in storage are single items on the ground and are not listed.
+= Eine .sav-Datei in Documents\Planetbase\Saves (reines XML). Münzen (sobald die Kolonie gehandelt hat), Zusatzprestige, die Landeerlaubnisse sowie Gesundheit, Nahrung, Wasser, Sauerstoff, Schlaf und Moral jedes Kolonisten und der Zustand jedes Bots, von 0 bis 1. Lagergüter sind einzelne Gegenstände auf dem Boden und werden nicht aufgeführt.
+
+Storage slots
+= Lagerplätze
+
+Hours
+= Stunden
+
+Minutes
+= Minuten
+
+Seconds
+= Sekunden
+
+Base attack
+= Grundangriff
+
+Extra prestige
+= Zusatzprestige
+
+Colony name
+= Name der Kolonie
+
+Landing permissions
+= Landeerlaubnisse
+
+Colonists allowed
+= Kolonisten erlaubt
+
+Merchants allowed
+= Händler erlaubt
+
+Visitors allowed
+= Besucher erlaubt
+
+Workers (%)
+= Arbeiter (%)
+
+Biologists (%)
+= Biologen (%)
+
+Engineers (%)
+= Ingenieure (%)
+
+Medics (%)
+= Sanitäter (%)
+
+Guards (%)
+= Wachen (%)
+
+Colonists and bots
+= Kolonisten und Bots
+
+Nutrition
+= Ernährung
+
+Integrity
+= Integrität
 

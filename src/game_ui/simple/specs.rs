@@ -25,6 +25,8 @@ pub static SPECS: &[Spec] = &[OPENXCOM, XCOM_DOS, RCT2, COTL, FALLOUT_SHELTER, D
     BOUNCER, DOA2, DBZ_BT2, SMT3, GRANDIA1,
     INSCRYPTION,
     COOKIE_CLICKER,
+    BUG_FABLES,
+    PLANETBASE,
 ];
 // ------------------------------------------------------------------ Cult of the Lamb
 

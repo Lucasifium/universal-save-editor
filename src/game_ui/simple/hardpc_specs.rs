@@ -144,3 +144,68 @@ pub const SA2_CHAO: Spec = Spec {
     Table { title: tx("Stat points"), path: "", name: &[], cols: &[(tx("Swim"), "/Swim points"), (tx("Fly"), "/Fly points"), (tx("Run"), "/Run points"), (tx("Power"), "/Power points"), (tx("Stamina"), "/Stamina points"), (tx("Luck"), "/Luck points"), (tx("Intelligence"), "/Intelligence points")], only: &[], names: &[] },
     ],
 };
+
+// ------------------------------------------------------------------ Bug Fables: The Everlasting Sapling
+
+pub const BUG_FABLES: Spec = Spec {
+    name: "Bug Fables: The Everlasting Sapling",
+    tab: "Team Snakemouth",
+    accent: (230, 180, 60),
+    kind: None,
+    markers: &["/Bug Fables/Berries", "/Party"],
+    subtitle: tx("save0.dat, save1.dat or save2.dat in the game's folder (the PC release). Berries, rank, experience, TP, MP, the inventory and storage sizes and play time, and the HP, attack and defense of every party member. Only these values are rewritten; the rest of the save is kept as it was."),
+    tiles: &[(tx("Berries"), "/Bug Fables/Berries"), (tx("Rank"), "/Bug Fables/Rank"), (tx("Experience"), "/Bug Fables/Experience")],
+    sections: &[
+    Section { title: tx("Team"), rows: &[
+        (tx("Berries"), "/Bug Fables/Berries"), (tx("Rank"), "/Bug Fables/Rank"), (tx("Experience"), "/Bug Fables/Experience"),
+        (tx("Experience needed"), "/Bug Fables/Experience needed"), (tx("TP"), "/Bug Fables/TP"), (tx("Max TP"), "/Bug Fables/Max TP"),
+        (tx("MP"), "/Bug Fables/MP"), (tx("Max MP"), "/Bug Fables/Max MP"), (tx("Inventory slots"), "/Bug Fables/Inventory slots"),
+        (tx("Storage slots"), "/Bug Fables/Storage slots"),
+    ] },
+    Section { title: tx("Play time"), rows: &[
+        (tx("Hours"), "/Bug Fables/Play time (hours)"), (tx("Minutes"), "/Bug Fables/Play time (minutes)"), (tx("Seconds"), "/Bug Fables/Play time (seconds)"),
+    ] },
+    ],
+    lists: &[],
+    tables: &[
+    Table { title: tx("Party"), path: "/Party", name: &["/Member"], cols: &[
+        (tx("HP"), "/HP"), (tx("Max HP"), "/Max HP"), (tx("Base HP"), "/Base HP"), (tx("Attack"), "/Attack"),
+        (tx("Base attack"), "/Base attack"), (tx("Defense"), "/Defense"), (tx("Base defense"), "/Base defense"),
+    ], only: &[], names: &[] },
+    ],
+};
+
+// ------------------------------------------------------------------ Planetbase
+
+pub const PLANETBASE: Spec = Spec {
+    name: "Planetbase",
+    tab: "Colony",
+    accent: (90, 170, 200),
+    kind: Some("XML"),
+    markers: &["/save-game/colony/extra-prestige", "/save-game/characters"],
+    subtitle: tx("A .sav file in Documents\\Planetbase\\Saves (plain XML). Coins (once the colony has traded), extra prestige, the landing permissions, and the health, food, water, oxygen, sleep and morale of every colonist and the condition of every bot, from 0 to 1. Goods in storage are single items on the ground and are not listed."),
+    tiles: &[(tx("Coins"), "/save-game/resources/inmaterial-resources/amount/amount/@value"), (tx("Extra prestige"), "/save-game/colony/extra-prestige/@value")],
+    sections: &[
+    Section { title: tx("Colony"), rows: &[
+        (tx("Colony name"), "/save-game/colony/name/@value"), (tx("Coins"), "/save-game/resources/inmaterial-resources/amount/amount/@value"),
+        (tx("Extra prestige"), "/save-game/colony/extra-prestige/@value"),
+    ] },
+    Section { title: tx("Landing permissions"), rows: &[
+        (tx("Colonists allowed"), "/save-game/ship-manager/landing-permissions/colonists-allowed/@value"),
+        (tx("Merchants allowed"), "/save-game/ship-manager/landing-permissions/merchants-allowed/@value"),
+        (tx("Visitors allowed"), "/save-game/ship-manager/landing-permissions/visitors-allowed/@value"),
+        (tx("Workers (%)"), "/save-game/ship-manager/landing-permissions/Worker-percentage/@value"),
+        (tx("Biologists (%)"), "/save-game/ship-manager/landing-permissions/Biologist-percentage/@value"),
+        (tx("Engineers (%)"), "/save-game/ship-manager/landing-permissions/Engineer-percentage/@value"),
+        (tx("Medics (%)"), "/save-game/ship-manager/landing-permissions/Medic-percentage/@value"),
+        (tx("Guards (%)"), "/save-game/ship-manager/landing-permissions/Guard-percentage/@value"),
+    ] },
+    ],
+    lists: &[],
+    tables: &[
+    Table { title: tx("Colonists and bots"), path: "/save-game/characters/character", name: &["/name/@value"], cols: &[
+        (tx("Health"), "/Health/@value"), (tx("Nutrition"), "/Nutrition/@value"), (tx("Hydration"), "/Hydration/@value"), (tx("Oxygen"), "/Oxygen/@value"),
+        (tx("Sleep"), "/Sleep/@value"), (tx("Morale"), "/Morale/@value"), (tx("Condition"), "/Condition/@value"), (tx("Integrity"), "/Integrity/@value"),
+    ], only: &[], names: &[] },
+    ],
+};

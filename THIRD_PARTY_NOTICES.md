@@ -35,6 +35,8 @@ Universal Save Editor is free. It builds on other people's work, listed here wit
 | Assassin's Creed save layout (wrapper, key, block container, checksum, money and item ids; worked out on public sample saves, with ACSaveLib and apollo-patches quick codes as facts only, no code) | TpRedNinja (ACSaveLib), bucanero (apollo-patches) | facts only (file layouts, ids and names), credited |
 | [uty-save-editor (Undertale Yellow save layout and field names; sample saves used for checks only, not included)](https://github.com/KockaAdmiralac/uty-save-editor) | Luka Simić (KockaAdmiralac) | MIT |
 | [DeltatravelerSaveEditor (Deltatraveler save layout; its sample saves used for checks only, not included)](https://github.com/BenjaminUrquhart/DeltatravelerSaveEditor) | Benjamin Urquhart | GPL-3.0 |
+| [Bug-Fables-Save-Editor (Bug Fables PC save encoding, line and field order, party member ids; its sample saves used for checks only, not included)](https://github.com/aldelaro5/Bug-Fables-Save-Editor) | aldelaro5 | MIT |
+| [PlanetbaseSaveGameEditor (Planetbase save layout; its sample saves used for checks only, not included)](https://github.com/stefmde/PlanetbaseSaveGameEditor) | stefmde | MIT |
 | [h3sed (Heroes of Might and Magic III save layout, creature ids and names; the shapes of the hero and player records)](https://github.com/suurjaak/h3sed) | Erki Suurjaak | MIT |
 | [OpenOrion2 (Master of Orion II save layout: player, colony, planet and star records; format notes only, no code copied)](https://github.com/openorion2/openorion2) | OpenOrion2 contributors | GPL-3.0 |
 | [ree-save-editor (RE Engine save layout; facts only, no code)](https://github.com/kvasszn/ree-save-editor) | kvasszn | facts only (file layouts, ids and names), credited |

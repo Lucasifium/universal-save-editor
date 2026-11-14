@@ -25535,4 +25535,67 @@ Witch
 
 Xylophone
 = 木琴
+# src/game_ui/simple/hardpc_specs.rs (Bug Fables, Planetbase)
+save0.dat, save1.dat or save2.dat in the game's folder (the PC release). Berries, rank, experience, TP, MP, the inventory and storage sizes and play time, and the HP, attack and defense of every party member. Only these values are rewritten; the rest of the save is kept as it was.
+= ゲームフォルダー内の save0.dat、save1.dat、save2.dat（PC版）。ベリー、ランク、経験値、TP、MP、インベントリと倉庫の枠数、プレイ時間、各パーティメンバーのHP・攻撃・防御。書き換えるのはこれらの値だけで、セーブの残りはそのまま保たれます。
+
+A .sav file in Documents\\Planetbase\\Saves (plain XML). Coins (once the colony has traded), extra prestige, the landing permissions, and the health, food, water, oxygen, sleep and morale of every colonist and the condition of every bot, from 0 to 1. Goods in storage are single items on the ground and are not listed.
+= Documents\Planetbase\Saves にある .sav ファイル（プレーンな XML）。コイン（コロニーが交易を始めてから）、追加名声、着陸許可、各入植者の健康・食料・水分・酸素・睡眠・士気と各ボットの状態（0〜1）。保管中の物資は地面に置かれた個別のアイテムなので一覧には出ません。
+
+Storage slots
+= 倉庫の枠
+
+Hours
+= 時間
+
+Minutes
+= 分
+
+Seconds
+= 秒
+
+Base attack
+= 基本攻撃
+
+Extra prestige
+= 追加名声
+
+Colony name
+= コロニー名
+
+Landing permissions
+= 着陸許可
+
+Colonists allowed
+= 入植者を許可
+
+Merchants allowed
+= 商人を許可
+
+Visitors allowed
+= 訪問者を許可
+
+Workers (%)
+= 作業員 (%)
+
+Biologists (%)
+= 生物学者 (%)
+
+Engineers (%)
+= エンジニア (%)
+
+Medics (%)
+= 医師 (%)
+
+Guards (%)
+= 警備員 (%)
+
+Colonists and bots
+= 入植者とボット
+
+Nutrition
+= 栄養
+
+Integrity
+= 耐久度
 

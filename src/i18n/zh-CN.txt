@@ -25508,4 +25508,67 @@ Witch
 
 Xylophone
 = 木琴
+# src/game_ui/simple/hardpc_specs.rs (Bug Fables, Planetbase)
+save0.dat, save1.dat or save2.dat in the game's folder (the PC release). Berries, rank, experience, TP, MP, the inventory and storage sizes and play time, and the HP, attack and defense of every party member. Only these values are rewritten; the rest of the save is kept as it was.
+= 游戏文件夹中的 save0.dat、save1.dat 或 save2.dat（PC 版）。浆果、等级、经验、TP、MP、背包和仓库格数、游戏时间，以及每名队员的 HP、攻击和防御。只重写这些数值，存档的其余部分保持原样。
+
+A .sav file in Documents\\Planetbase\\Saves (plain XML). Coins (once the colony has traded), extra prestige, the landing permissions, and the health, food, water, oxygen, sleep and morale of every colonist and the condition of every bot, from 0 to 1. Goods in storage are single items on the ground and are not listed.
+= Documents\Planetbase\Saves 中的 .sav 文件（纯 XML）。金币（殖民地开始交易后才有）、额外声望、着陆许可，以及每名殖民者的健康、营养、水分、氧气、睡眠和士气，和每个机器人的状态，范围 0 到 1。仓储物资是地面上的单个物品，不在列表中。
+
+Storage slots
+= 仓库格数
+
+Hours
+= 小时
+
+Minutes
+= 分钟
+
+Seconds
+= 秒
+
+Base attack
+= 基础攻击
+
+Extra prestige
+= 额外声望
+
+Colony name
+= 殖民地名称
+
+Landing permissions
+= 着陆许可
+
+Colonists allowed
+= 允许殖民者
+
+Merchants allowed
+= 允许商人
+
+Visitors allowed
+= 允许访客
+
+Workers (%)
+= 工人 (%)
+
+Biologists (%)
+= 生物学家 (%)
+
+Engineers (%)
+= 工程师 (%)
+
+Medics (%)
+= 医生 (%)
+
+Guards (%)
+= 守卫 (%)
+
+Colonists and bots
+= 殖民者和机器人
+
+Nutrition
+= 营养
+
+Integrity
+= 完整度
 
