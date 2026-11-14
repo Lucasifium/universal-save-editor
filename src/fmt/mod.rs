@@ -222,6 +222,7 @@ pub mod ff6snes;
 pub mod zelda_lttp;
 pub mod alphaprotocol;
 pub mod isaac;
+pub mod wukong;
 pub mod ysf;
 pub mod wo4;
 pub mod sw4ii;
@@ -631,6 +632,11 @@ pub fn parse_binary(d: &[u8]) -> Option<TreeDoc> {
     }
     if alphaprotocol::looks(d) {
         if let Ok(t) = alphaprotocol::parse(d) {
+            return Some(t);
+        }
+    }
+    if wukong::looks(d) {
+        if let Ok(t) = wukong::parse(d) {
             return Some(t);
         }
     }

@@ -12382,6 +12382,20 @@ Slot 3: equipment
 
 Slot 3: inventory
 = Emplacement 3 : inventaire
+Destined One
+= Le Destiné
+
+Will
+= Volonté
+
+Sparks
+= Étincelles
+
+Experience (this level)
+= Expérience (ce niveau)
+
+ArchiveSaveFile.<n>.sav from b1\Saved\SaveGames\<Steam id>. Will, Sparks, level, experience and play time; the file's checksum is written again when you save. Close the game first and keep the backup. Raising the level does not add Sparks or experience for you.
+= ArchiveSaveFile.<n>.sav dans b1\Saved\SaveGames\<ID Steam>. Volonté, étincelles, niveau, expérience et temps de jeu ; la somme de contrôle du fichier est réécrite à l'enregistrement. Fermez d'abord le jeu et gardez la sauvegarde. Augmenter le niveau n'ajoute pas d'étincelles ni d'expérience.
 
 # generic names and labels
 

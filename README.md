@@ -3,7 +3,7 @@
 > **Free, and it always will be.** No price, no ads, no account, no paid version, no online service, no
 > rate limits. If anyone is charging you for this, it isn't from here.
 
-An offline save editor and save manager for 420+ (423) PC games (edit saves, and back up, name and restore them): Cairn, Terraria (characters and a world map editor),
+An offline save editor and save manager for 420+ (424) PC games (edit saves, and back up, name and restore them): Cairn, Terraria (characters and a world map editor),
 Oxygen Not Included, RimWorld, Stardew Valley, Onimusha: Way of the Sword, Elden Ring, Dark Souls,
 Cyberpunk 2077, the Persona, Yakuza and Final Fantasy games, Ren'Py visual novels, RPG Maker games
 and more (the full list is below). Written in Rust (egui). Nothing is uploaded anywhere, and there are
@@ -108,7 +108,7 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 </details>
 
 <details>
-<summary><strong>B</strong> (13)</summary>
+<summary><strong>B</strong> (14)</summary>
 
 | Game | Screen |
 |---|---|
@@ -119,6 +119,7 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 | BioShock Infinite | *Booker*: Silver Eagles (up to 99,999), salts, lockpicks and the Health, Shield and Salts infusion levels (0 to 10; a kind never picked has no entry yet); unpacked and packed again with the save's MD5. Not yet tried in the game |
 | Bitburner | *Player*: money, BitNode, karma, HP, the skill levels and the experience behind them (an exported save; the JSON nested inside it is opened as one; checked on a real save, not yet tried in the game) |
 | Black Mesa | *Player*: health and armour; spare ammo by type (9mm, .357, buckshot, uranium, hornets and the rest); each carried weapon's magazine, with the weapon in hand marked. Changed in place |
+| Black Myth: Wukong | *Destined One*: Will, Sparks, level, experience and play time from `ArchiveSaveFile.<n>.sav`; the header checksum is written again when you save. checked on a public sample save, not yet tried in the game |
 | Blasphemous | *Penitent One*: Tears of Atonement, health and fervour, bile flasks, every permanent stat upgrade, completion and play time (the base64 wrapping is handled); owned beads, prayers and relics are in the Tree. checked on a public save, not yet tried in the game |
 | Borderlands (2009) and Borderlands Game of the Year Enhanced | *Vault Hunter*: level, experience, skill points, money, skill levels and ammunition from the character saves `Save0001.sav` ... (items and weapons are left as they are; checked on public saves, not yet tried in the game) |
 | Borderlands 2 | *Vault Hunter*: level, experience, skill points; money, Eridium, Seraph crystals and Torgue tokens; ammo and ammo SDUs, with buttons to fill ammo and max the SDUs; backpack and bank SDUs (with the room they give), weapon slots and playthroughs completed, which opens True and Ultimate Vault Hunter Mode; gear is listed (level, slot), not edited. Packing and checksums are redone on save. Edited saves not yet tried in the game |
@@ -638,8 +639,8 @@ binary and stays an ironman save. It isn't converted to a normal one.
 
 The start page lists **Your games**: every game in the list whose saves were found on this computer,
 newest first, each one click away from its newest save. *Find my game's saves* (the big button on the
-start page, *Find saves* in the toolbar and the File menu) lists every one of the 420+ (423) PC games the editor knows, Mass Effect 1–3, the Legendary Edition and Andromeda among them — with where it
-start page, *Find saves* in the toolbar and the File menu) lists every one of the 420+ (423) PC games the editor knows, Mass Effect 1–3, the Legendary Edition and Andromeda among them — with where it
+start page, *Find saves* in the toolbar and the File menu) lists every one of the 420+ (424) PC games the editor knows, Mass Effect 1–3, the Legendary Edition and Andromeda among them — with where it
+start page, *Find saves* in the toolbar and the File menu) lists every one of the 420+ (424) PC games the editor knows, Mass Effect 1–3, the Legendary Edition and Andromeda among them — with where it
 usually keeps its saves and what the files are called, and finds them on your computer (Steam
 libraries and `userdata`, Documents wherever Windows has it, AppData, Saved Games, Ubisoft
 Connect). On Linux and the Steam Deck it also looks inside Proton prefixes

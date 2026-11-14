@@ -9,7 +9,7 @@ pub static SPECS: &[Spec] = &[OPENXCOM, XCOM_DOS, RCT2, COTL, FALLOUT_SHELTER, D
     // PlayStation 1 and 2 (ps_specs.rs)
     SOTN, FF8, FFT, RE1, KH2, MK64, GOLDENEYE, BANJO_KAZOOIE, OOT, SMASH64, TORCHLIGHT3, WRECKFEST, EVIL_WITHIN, BORDERLANDS1,
     // PlayStation 1 and 2 (ps_specs.rs), continued
-    CRASH, KH1, GT1, BL4, FF6_SNES];
+    CRASH, KH1, GT1, BL4, FF6_SNES, WUKONG];
 // ------------------------------------------------------------------ Cult of the Lamb
 
 const COTL_ITEMS: &[(&str, &str)] = &[
@@ -7067,4 +7067,30 @@ const FF6_SNES: Spec = Spec {
     Table { title: tx("Slot 3: equipment"), path: "/Slot 3/Equipment", name: &[], cols: &[(tx("Right hand"), "/Right hand"), (tx("Left hand"), "/Left hand"), (tx("Head"), "/Head"), (tx("Body"), "/Body"), (tx("Relic 1"), "/Relic 1"), (tx("Relic 2"), "/Relic 2")], only: &[], names: &[] },
     Table { title: tx("Slot 3: inventory"), path: "/Slot 3/Inventory", name: &[], cols: &[(tx("Item"), "/Item"), (tx("Quantity"), "/Quantity")], only: &[], names: &[] },
     ],
+};
+
+// ------------------------------------------------------------------ Black Myth: Wukong
+const WUKONG: Spec = Spec {
+    name: "Black Myth: Wukong",
+    tab: "Destined One",
+    accent: (210, 160, 80),
+    kind: Some("Black Myth: Wukong save"),
+    markers: &["/Will", "/Sparks", "/Experience (total)"],
+    subtitle: "ArchiveSaveFile.<n>.sav from b1\\Saved\\SaveGames\\<Steam id>. Will, Sparks, level, experience and play time; the file's checksum is written again when you save. Close the game first and keep the backup. Raising the level does not add Sparks or experience for you.",
+    tiles: &[("Will", "/Will"), ("Sparks", "/Sparks"), ("Level", "/Level")],
+    sections: &[
+        Section {
+            title: "Destined One",
+            rows: &[
+                ("Level", "/Level"),
+                ("Will", "/Will"),
+                ("Sparks", "/Sparks"),
+                ("Experience (this level)", "/Experience (this level)"),
+                ("Experience (total)", "/Experience (total)"),
+                ("Play time (seconds)", "/Play time (seconds)"),
+            ],
+        },
+    ],
+    lists: &[],
+    tables: &[],
 };

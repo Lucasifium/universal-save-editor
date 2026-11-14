@@ -12368,6 +12368,20 @@ Slot 3: equipment
 
 Slot 3: inventory
 = Spielstand 3: Inventar
+Destined One
+= Der Auserwählte
+
+Will
+= Willenskraft
+
+Sparks
+= Funken
+
+Experience (this level)
+= Erfahrung (diese Stufe)
+
+ArchiveSaveFile.<n>.sav from b1\Saved\SaveGames\<Steam id>. Will, Sparks, level, experience and play time; the file's checksum is written again when you save. Close the game first and keep the backup. Raising the level does not add Sparks or experience for you.
+= ArchiveSaveFile.<n>.sav aus b1\Saved\SaveGames\<Steam-ID>. Willenskraft, Funken, Stufe, Erfahrung und Spielzeit; die Prüfsumme der Datei wird beim Speichern neu geschrieben. Schließe zuerst das Spiel und behalte die Sicherung. Eine höhere Stufe gibt dir nicht automatisch Funken oder Erfahrung.
 
 # generic names and labels
 

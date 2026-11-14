@@ -190,5 +190,11 @@ pub fn all() -> Vec<&'static str> {
         tr("SMG ammo"),
         tr("Sniper ammo"),
         tr("A character save (1.sav, 2.sav …) from Documents\\My Games\\Borderlands 4\\Saved\\SaveGames\\<Steam id>. Open it from its own folder so the Steam account that unlocks it can be found. Cash, Eridium, level, ammunition and skill points; items and the rest are in the Tree."),
+        tr("Destined One"),
+        tr("Will"),
+        tr("Sparks"),
+        tr("Experience (this level)"),
+        tr("Experience (total)"),
+        tr("ArchiveSaveFile.<n>.sav from b1\\Saved\\SaveGames\\<Steam id>. Will, Sparks, level, experience and play time; the file's checksum is written again when you save. Close the game first and keep the backup. Raising the level does not add Sparks or experience for you."),
     ]
 }

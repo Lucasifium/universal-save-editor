@@ -12367,6 +12367,20 @@ Slot 3: equipment
 
 Slot 3: inventory
 = Ranura 3: inventario
+Destined One
+= El Predestinado
+
+Will
+= Voluntad
+
+Sparks
+= Chispas
+
+Experience (this level)
+= Experiencia (este nivel)
+
+ArchiveSaveFile.<n>.sav from b1\Saved\SaveGames\<Steam id>. Will, Sparks, level, experience and play time; the file's checksum is written again when you save. Close the game first and keep the backup. Raising the level does not add Sparks or experience for you.
+= ArchiveSaveFile.<n>.sav de b1\Saved\SaveGames\<ID de Steam>. Voluntad, chispas, nivel, experiencia y tiempo de juego; la suma de comprobación del archivo se vuelve a escribir al guardar. Cierra antes el juego y conserva la copia de seguridad. Subir el nivel no añade chispas ni experiencia por sí solo.
 
 # generic names and labels
 

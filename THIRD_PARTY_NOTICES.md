@@ -10594,6 +10594,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 | [ChroniconSaveEditor (Chronicon character section offsets)](https://github.com/PowerCleanX/ChroniconSaveEditor) | PowerCleanX | MIT |
 | [Sword-Art-Online-FB-Inventory-Editor (save key, checksum recipe, slot checks and item names)](https://github.com/alfizari/Sword-Art-Online-FB-Inventory-Editor) | alfizari | Apache-2.0 |
 | [Borderlands4SaveDataResigner (Borderlands 4 save encryption: key made from the Steam id, zlib stream and Adler-32 trailer; its sample saves used for checks only, not included)](https://github.com/mi5hmash/Borderlands4SaveDataResigner) | mi5hmash | MIT (layout facts, code reimplemented) |
+| [WukongMM (Black Myth: Wukong save layout: header checksum, XOR key and field numbers; its sample saves used for checks only, not included)](https://github.com/aloneGtz/WukongMM) | WukongMM contributors | MIT (layout facts, code reimplemented) |
 
 ## Metal Gear Solid V save variable names
 

@@ -12353,6 +12353,20 @@ Slot 3: equipment
 
 Slot 3: inventory
 = Slot 3: inventário
+Destined One
+= O Predestinado
+
+Will
+= Vontade
+
+Sparks
+= Faíscas
+
+Experience (this level)
+= Experiência (este nível)
+
+ArchiveSaveFile.<n>.sav from b1\Saved\SaveGames\<Steam id>. Will, Sparks, level, experience and play time; the file's checksum is written again when you save. Close the game first and keep the backup. Raising the level does not add Sparks or experience for you.
+= ArchiveSaveFile.<n>.sav em b1\Saved\SaveGames\<ID da Steam>. Vontade, faíscas, nível, experiência e tempo de jogo; a soma de verificação do arquivo é gravada de novo ao salvar. Feche o jogo antes e mantenha o backup. Subir o nível não adiciona faíscas nem experiência por conta própria.
 
 # generic names and labels
 

@@ -12432,6 +12432,20 @@ Slot 3: equipment
 
 Slot 3: inventory
 = 存档位 3:背包
+Destined One
+= 天命人
+
+Will
+= 灵蕴
+
+Sparks
+= 灵光
+
+Experience (this level)
+= 经验值（当前等级）
+
+ArchiveSaveFile.<n>.sav from b1\Saved\SaveGames\<Steam id>. Will, Sparks, level, experience and play time; the file's checksum is written again when you save. Close the game first and keep the backup. Raising the level does not add Sparks or experience for you.
+= b1\Saved\SaveGames\<Steam ID> 中的 ArchiveSaveFile.<n>.sav。可编辑灵蕴、灵光、等级、经验值和游戏时长；保存时会重新写入文件校验值。请先关闭游戏并保留备份。提高等级不会自动增加灵光或经验值。
 
 # generic names and labels
 

@@ -12456,6 +12456,20 @@ Slot 3: equipment
 
 Slot 3: inventory
 = スロット 3: インベントリ
+Destined One
+= 天命人
+
+Will
+= 霊蘊
+
+Sparks
+= 霊光
+
+Experience (this level)
+= 経験値（現在のレベル）
+
+ArchiveSaveFile.<n>.sav from b1\Saved\SaveGames\<Steam id>. Will, Sparks, level, experience and play time; the file's checksum is written again when you save. Close the game first and keep the backup. Raising the level does not add Sparks or experience for you.
+= b1\Saved\SaveGames\<Steam ID> にある ArchiveSaveFile.<n>.sav。霊蘊、霊光、レベル、経験値、プレイ時間を編集できます。保存時にファイルのチェックサムも書き直されます。先にゲームを終了し、バックアップを残してください。レベルを上げても霊光や経験値は自動では増えません。
 
 # generic names and labels
 
