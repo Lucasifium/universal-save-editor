@@ -18,13 +18,14 @@ mod retro_specs;
 mod spec_texts;
 mod specs;
 mod specs_more;
+mod specs_np3;
 mod words;
 pub use specs::SPECS;
 
 /// Every spec: the main list, then the games added in `specs_more.rs`.
 pub fn all() -> &'static [&'static Spec] {
     static ALL: std::sync::OnceLock<Vec<&'static Spec>> = std::sync::OnceLock::new();
-    ALL.get_or_init(|| SPECS.iter().chain(specs_more::MORE.iter()).collect())
+    ALL.get_or_init(|| SPECS.iter().chain(specs_more::MORE.iter()).chain(specs_np3::NP3.iter()).collect())
 }
 
 /// A panel of labelled values: `(label, pointer)`.
@@ -577,7 +578,7 @@ mod tests {
             bad
         };
         let mut problems = vec![];
-        for (i, s) in SPECS.iter().enumerate() {
+        for (i, s) in all().iter().enumerate() {
             let root = synthetic(s);
             for w in [1000.0, 380.0] {
                 crate::i18n::set(Some("en"));
@@ -734,7 +735,7 @@ mod delta_tests {
 /// Every label, title and description the table-driven screens show (for the translation check).
 pub fn texts() -> Vec<&'static str> {
     let mut out = vec![];
-    for s in SPECS.iter() {
+    for s in all().iter() {
         out.push(s.subtitle);
         out.extend(s.tiles.iter().map(|(c, _)| *c));
         for sec in s.sections {

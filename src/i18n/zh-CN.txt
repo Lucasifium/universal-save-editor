@@ -23588,3 +23588,61 @@ Save slot 3
 New Game Plus count
 = 新游戏+次数
 
+# new games list, part 3
+
+A SlotNNNN.sav from Documents\\ONINAKI\\Steam\\<account> (the Header.sav lists the slots). The Watcher's level, health and experience, the souls you hold, the healing charges, and every daemon's rank and soul count. Close the game first.
+= Documents\\ONINAKI\\Steam\\<账号> 中的 SlotNNNN.sav(Header.sav 列出了存档位)。守望者的等级、生命值和经验、持有的灵魂、治疗次数,以及每个魔灵的等级和灵魂数。请先关闭游戏。
+
+Active
+= 已激活
+
+Aletheia
+= 阿勒忒亚
+
+Current mission
+= 当前任务
+
+Daemons
+= 魔灵
+
+Data.dat from a save's folder under AppData\\LocalLow (one folder per quest). Money, stone and wood, the skill points and the current mission. Close the game first.
+= AppData\\LocalLow 下存档文件夹(每个任务一个)中的 Data.dat。金钱、石头和木材、技能点和当前任务。请先关闭游戏。
+
+Enemies defeated for souls
+= 为获取灵魂击败的敌人
+
+Enemies transmuted
+= 转化的敌人
+
+Healing charges
+= 治疗次数
+
+Level points
+= 等级点数
+
+Maximum energy
+= 最大能量
+
+Maximum healing charges
+= 治疗次数上限
+
+Soul experience
+= 灵魂经验
+
+Souls held
+= 持有灵魂
+
+Synergy
+= 协同
+
+Thirty-Four
+= 三十四
+
+Time played (seconds)
+= 游戏时间(秒)
+
+Watcher
+= 守望者
+
+save_N.dat from the game's save folder under AppData\\LocalLow (the save's own copy of each room is left alone). Level, experience, level points, health, energy and the attributes of Aletheia and Thirty-Four. Close the game first.
+= AppData\\LocalLow 下游戏存档文件夹中的 save_N.dat(存档中每个房间的副本保持不变)。阿勒忒亚和三十四的等级、经验、等级点数、生命值、能量和属性。请先关闭游戏。

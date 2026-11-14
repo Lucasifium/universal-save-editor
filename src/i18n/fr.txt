@@ -23540,3 +23540,61 @@ Save slot 3
 New Game Plus count
 = Nombre de New Game Plus
 
+# new games list, part 3
+
+A SlotNNNN.sav from Documents\\ONINAKI\\Steam\\<account> (the Header.sav lists the slots). The Watcher's level, health and experience, the souls you hold, the healing charges, and every daemon's rank and soul count. Close the game first.
+= Un SlotNNNN.sav de Documents\\ONINAKI\\Steam\\<compte> (Header.sav liste les emplacements). Niveau, santé et expérience du Veilleur, les âmes possédées, les charges de soin, ainsi que le rang et le nombre d'âmes de chaque daimon. Fermez d'abord le jeu.
+
+Active
+= Actif
+
+Aletheia
+= Aletheia
+
+Current mission
+= Mission actuelle
+
+Daemons
+= Daimons
+
+Data.dat from a save's folder under AppData\\LocalLow (one folder per quest). Money, stone and wood, the skill points and the current mission. Close the game first.
+= Data.dat du dossier d'une sauvegarde sous AppData\\LocalLow (un dossier par quête). Argent, pierre et bois, points de compétence et mission actuelle. Fermez d'abord le jeu.
+
+Enemies defeated for souls
+= Ennemis vaincus pour les âmes
+
+Enemies transmuted
+= Ennemis transmutés
+
+Healing charges
+= Charges de soin
+
+Level points
+= Points de niveau
+
+Maximum energy
+= Énergie maximale
+
+Maximum healing charges
+= Charges de soin maximales
+
+Soul experience
+= Expérience des âmes
+
+Souls held
+= Âmes possédées
+
+Synergy
+= Synergie
+
+Thirty-Four
+= Trente-Quatre
+
+Time played (seconds)
+= Temps de jeu (secondes)
+
+Watcher
+= Veilleur
+
+save_N.dat from the game's save folder under AppData\\LocalLow (the save's own copy of each room is left alone). Level, experience, level points, health, energy and the attributes of Aletheia and Thirty-Four. Close the game first.
+= save_N.dat du dossier de sauvegarde du jeu sous AppData\\LocalLow (la copie de chaque salle de la sauvegarde reste intacte). Niveau, expérience, points de niveau, santé, énergie et attributs d'Aletheia et de Trente-Quatre. Fermez d'abord le jeu.

@@ -23615,3 +23615,61 @@ Save slot 3
 New Game Plus count
 = ニューゲーム＋回数
 
+# new games list, part 3
+
+A SlotNNNN.sav from Documents\\ONINAKI\\Steam\\<account> (the Header.sav lists the slots). The Watcher's level, health and experience, the souls you hold, the healing charges, and every daemon's rank and soul count. Close the game first.
+= Documents\\ONINAKI\\Steam\\<アカウント> にある SlotNNNN.sav(Header.sav にスロット一覧があります)。ウォッチャーのレベル・体力・経験値、所持ソウル、回復チャージ、各ダイモンのランクとソウル数。先にゲームを閉じてください。
+
+Active
+= 有効
+
+Aletheia
+= アレーテイア
+
+Current mission
+= 現在のミッション
+
+Daemons
+= ダイモン
+
+Data.dat from a save's folder under AppData\\LocalLow (one folder per quest). Money, stone and wood, the skill points and the current mission. Close the game first.
+= AppData\\LocalLow 内のセーブフォルダ(クエストごとに1つ)にある Data.dat。お金、石、木材、スキルポイント、現在のミッション。先にゲームを閉じてください。
+
+Enemies defeated for souls
+= ソウルのために倒した敵
+
+Enemies transmuted
+= 変換した敵
+
+Healing charges
+= 回復チャージ
+
+Level points
+= レベルポイント
+
+Maximum energy
+= 最大エネルギー
+
+Maximum healing charges
+= 回復チャージ上限
+
+Soul experience
+= ソウル経験値
+
+Souls held
+= 所持ソウル
+
+Synergy
+= シナジー
+
+Thirty-Four
+= サーティフォー
+
+Time played (seconds)
+= プレイ時間(秒)
+
+Watcher
+= ウォッチャー
+
+save_N.dat from the game's save folder under AppData\\LocalLow (the save's own copy of each room is left alone). Level, experience, level points, health, energy and the attributes of Aletheia and Thirty-Four. Close the game first.
+= AppData\\LocalLow 内のゲームのセーブフォルダにある save_N.dat(各部屋のコピーはそのままです)。アレーテイアとサーティフォーのレベル、経験値、レベルポイント、体力、エネルギー、能力値。先にゲームを閉じてください。

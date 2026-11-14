@@ -23503,3 +23503,61 @@ Save slot 3
 New Game Plus count
 = Número de Novo Jogo+
 
+# new games list, part 3
+
+A SlotNNNN.sav from Documents\\ONINAKI\\Steam\\<account> (the Header.sav lists the slots). The Watcher's level, health and experience, the souls you hold, the healing charges, and every daemon's rank and soul count. Close the game first.
+= Um SlotNNNN.sav de Documents\\ONINAKI\\Steam\\<conta> (o Header.sav lista os slots). Nível, saúde e experiência do Vigia, as almas que você possui, as cargas de cura e o nível e as almas de cada daimon. Feche o jogo primeiro.
+
+Active
+= Ativo
+
+Aletheia
+= Aletheia
+
+Current mission
+= Missão atual
+
+Daemons
+= Daimons
+
+Data.dat from a save's folder under AppData\\LocalLow (one folder per quest). Money, stone and wood, the skill points and the current mission. Close the game first.
+= Data.dat da pasta de um save em AppData\\LocalLow (uma pasta por missão). Dinheiro, pedra e madeira, os pontos de habilidade e a missão atual. Feche o jogo primeiro.
+
+Enemies defeated for souls
+= Inimigos derrotados por almas
+
+Enemies transmuted
+= Inimigos transmutados
+
+Healing charges
+= Cargas de cura
+
+Level points
+= Pontos de nível
+
+Maximum energy
+= Energia máxima
+
+Maximum healing charges
+= Cargas de cura máximas
+
+Soul experience
+= Experiência de almas
+
+Souls held
+= Almas possuídas
+
+Synergy
+= Sinergia
+
+Thirty-Four
+= Trinta e Quatro
+
+Time played (seconds)
+= Tempo jogado (segundos)
+
+Watcher
+= Vigia
+
+save_N.dat from the game's save folder under AppData\\LocalLow (the save's own copy of each room is left alone). Level, experience, level points, health, energy and the attributes of Aletheia and Thirty-Four. Close the game first.
+= save_N.dat da pasta de saves do jogo em AppData\\LocalLow (a cópia de cada sala do save não é alterada). Nível, experiência, pontos de nível, saúde, energia e os atributos de Aletheia e Trinta e Quatro. Feche o jogo primeiro.
