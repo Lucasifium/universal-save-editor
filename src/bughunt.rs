@@ -1073,7 +1073,7 @@ fn every_game_screen_draws() {
                             input.events.push(egui::Event::PointerButton { pos: p, button: egui::PointerButton::Primary, pressed: true, modifiers: Default::default() });
                             input.events.push(egui::Event::PointerButton { pos: p, button: egui::PointerButton::Primary, pressed: false, modifiers: Default::default() });
                         }
-                        let _ = ctx.run(input, |ctx| {
+                        let out = ctx.run(input, |ctx| {
                             egui::CentralPanel::default().show(ctx, |ui| {
                                 egui::ScrollArea::vertical().show(ui, |ui| {
                                     let mut cx = crate::game_ui::GameCtx { root: &view, baseline: &view, tree, edits: vec![], archive: None, open_entry: None };
@@ -1082,6 +1082,12 @@ fn every_game_screen_draws() {
                                 });
                             });
                         });
+                        // Text cut off at the side of its box (layout sweep).
+                        if frame == 3 {
+                            for t in crate::app::layout_tests::cut_off_text(&out) {
+                                println!("CUTOFF {game:?} at {w}x{h}: {t}");
+                            }
+                        }
                     }
                 }
                 edits

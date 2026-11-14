@@ -1,5 +1,6 @@
 //! Elden Ring, Dark Souls III, II and I, and Sekiro: a character sheet and the inventory.
 
+use crate::widgets::ScrollLock;
 use super::{cell_grid, fact, materials_button, fmt_num, hero, inset_fill, meter, panel, select, selection, tabs, Cell, GameCtx, Game};
 use crate::json_view::pointer_escape;
 use eframe::egui::{self, Color32, RichText, Ui};
@@ -480,7 +481,7 @@ fn progress(ui: &mut Ui, cx: &mut GameCtx) {
                 tick(cx, &|_| true);
             }
         });
-        egui::ScrollArea::vertical().max_height(320.0).id_salt(("er_progress", t)).show(ui, |ui| {
+        egui::ScrollArea::vertical().max_height(320.0).id_salt(("er_progress", t)).show_locked(ui, |ui| {
             for (k, v) in &m {
                 let p = format!("{base}/{}", pointer_escape(k));
                 let mut b = v.as_bool().unwrap_or(false);

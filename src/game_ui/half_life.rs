@@ -2,6 +2,7 @@
 //! armour, suit power, ammo by type and the weapons carried with their magazines. Also
 //! Black Mesa (Source) and Half-Life: Alyx (Source 2: health, resin, ammo, weapons).
 
+use crate::widgets::ScrollLock;
 use super::{fact, hero, panel, GameCtx};
 use crate::json_view::pointer_escape;
 use eframe::egui::{self, Color32, RichText, Ui};
@@ -101,7 +102,7 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
         // Only Source weapons have a second magazine.
         let second = weapons.iter().any(|w| cx.get(&join(&join("/Weapons", w), "Second magazine")).is_some());
         let mags: &[&str] = if second { &["Magazine", "Second magazine"] } else { &["Magazine"] };
-        egui::ScrollArea::horizontal().id_salt("hl_weapons_s").show(ui, |ui| {
+        egui::ScrollArea::horizontal().id_salt("hl_weapons_s").show_locked(ui, |ui| {
             egui::Grid::new("hl_weapons").num_columns(mags.len() + 2).striped(true).spacing([14.0, 6.0]).show(ui, |ui| {
                 for h in std::iter::once("Weapon").chain(mags.iter().copied()).chain(["Ammo"]) {
                     ui.strong(h);

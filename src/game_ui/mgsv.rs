@@ -1,6 +1,7 @@
 //! Metal Gear Solid V: Ground Zeroes / The Phantom Pain (`TPP_GAME_DATA`): GMP, heroism,
 //! Mother Base switches and the lifetime statistics.
 
+use crate::widgets::ScrollLock;
 use super::{hero, panel, GameCtx};
 use eframe::egui::{Color32, Grid, ScrollArea, Ui};
 use serde_json::{json, Value};
@@ -168,7 +169,7 @@ fn staff(ui: &mut Ui, cx: &mut GameCtx) {
         ui.memory_mut(|m| m.data.insert_temp(filter_id, filter.clone()));
         let shown: Vec<&String> = all.iter().filter(|n| filter == "All sections" || cx.text(&format!("/Staff/{}/Section", esc(n))).as_deref() == Some(filter.as_str())).collect();
         ui.label(format!("{} shown. Staff have no names in the save; they are listed by slot.", shown.len()));
-        ScrollArea::vertical().max_height(360.0).id_salt("mgsv_staff").show_rows(ui, 26.0, shown.len(), |ui, range| {
+        ScrollArea::vertical().max_height(360.0).id_salt("mgsv_staff").show_rows_locked(ui, 26.0, shown.len(), |ui, range| {
             for i in range {
                 let n = shown[i];
                 ui.horizontal(|ui| {

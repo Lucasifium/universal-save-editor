@@ -1,6 +1,7 @@
 //! Larian saves: Divinity: Original Sin 2 (the party, editable) and Baldur's Gate 3 (the
 //! save's party summary, and gold and stack sizes of what each companion carries). See `fmt/larian.rs`.
 
+use crate::widgets::ScrollLock;
 use super::{columns, fact, fmt_num, hero, panel, tabs, GameCtx};
 use crate::fmt::larian::ATTRIBUTES;
 use crate::tree::esc;
@@ -88,8 +89,8 @@ pub fn dos2(ui: &mut Ui, cx: &mut GameCtx) {
     let things = keys(cx, &at("Inventory"));
     if !things.is_empty() {
         panel(ui, &format!("Inventory ({} stacks)", things.len()), |ui| {
-            egui::ScrollArea::vertical().id_salt(("dos2_inv", t)).max_height(320.0).show(ui, |ui| {
-                columns(ui, 300.0, things.len(), |ui, i| {
+            egui::ScrollArea::vertical().id_salt(("dos2_inv", t)).max_height(320.0).show_locked(ui, |ui| {
+                columns(ui, 360.0, things.len(), |ui, i| {
                     cx.row_fixed(ui, &things[i].replace('_', " "), &format!("{base}/Inventory/{}", esc(&things[i])), 190.0, 60.0);
                 });
             });
@@ -131,7 +132,7 @@ pub fn bg3(ui: &mut Ui, cx: &mut GameCtx) {
             Some(Value::Null) | None => String::new(),
             Some(v) => v.to_string(),
         };
-        egui::ScrollArea::horizontal().show(ui, |ui| {
+        egui::ScrollArea::horizontal().show_locked(ui, |ui| {
             egui::Grid::new("bg3_party").num_columns(5).striped(true).spacing([18.0, 6.0]).show(ui, |ui| {
                 for h in ["Origin", "Race", "Class", "Level", "Experience"] {
                     ui.label(RichText::new(h).strong().color(theme_fg(ui, gold)));
@@ -181,7 +182,7 @@ fn bg3_carried(ui: &mut Ui, cx: &mut GameCtx, gold: Color32) {
         panel(ui, &format!("Stacked items ({})", things.len()), |ui| {
             let q = super::screens2::filter_box(ui, &format!("bg3_items{t}"), "potion, arrow, scroll\u{2026}");
             let shown: Vec<&String> = things.iter().filter(|k| q.is_empty() || k.to_lowercase().contains(&q)).collect();
-            egui::ScrollArea::vertical().id_salt(("bg3_inv", t)).max_height(360.0).show(ui, |ui| {
+            egui::ScrollArea::vertical().id_salt(("bg3_inv", t)).max_height(360.0).show_locked(ui, |ui| {
                 columns(ui, 300.0, shown.len(), |ui, i| {
                     cx.row_fixed(ui, &shown[i].replace('_', " "), &format!("{base}/Items/{}", esc(shown[i])), 190.0, 60.0);
                 });

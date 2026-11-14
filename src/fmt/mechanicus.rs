@@ -47,7 +47,11 @@ impl Backend for MechBackend {
 }
 
 pub fn looks(text: &str) -> bool {
-    let head = &text[..text.len().min(600)];
+    let mut end = text.len().min(600);
+    while !text.is_char_boundary(end) {
+        end -= 1;
+    }
+    let head = &text[..end];
     head.contains("Mechanicus.Saves.SaveDataArkMechanicus") && head.contains("\"$type\"")
 }
 

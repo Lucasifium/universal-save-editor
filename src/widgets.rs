@@ -298,7 +298,7 @@ fn editor_body(ui: &mut Ui, id_src: &str, v: &Value, editable: bool, width: f32,
             // mangle multi-line text (e.g. dialogue); they're restored on edit.
             let mut text = escape_breaks(s);
             let id = ui.make_persistent_id(("str", id_src));
-            let resp = ui.add(TextEdit::singleline(&mut text).id(id).desired_width(width));
+            let resp = ui.add_sized([width + 8.0, ui.spacing().interact_size.y], TextEdit::singleline(&mut text).id(id));
             let resp = if s.contains(['\n', '\r']) { resp.on_hover_text(tr("\u{21A9} marks a line break (\u{00B6} a carriage return)")) } else { resp };
             let resp = match resp.hovered().then(|| hover_extra(opts, id_src, v)).flatten() {
                 Some(t) => resp.on_hover_text(t),
@@ -328,7 +328,8 @@ fn editor_body(ui: &mut Ui, id_src: &str, v: &Value, editable: bool, width: f32,
             if !valid {
                 edit = edit.text_color(theme::ERR);
             }
-            let mut resp = ui.add(edit);
+            // add_sized: a bare desired_width is cut down to what the cell has left (in a grid, a few pixels).
+            let mut resp = ui.add_sized([w + 8.0, ui.spacing().interact_size.y], edit);
             let mut out = None;
             if resp.changed() {
                 ui.data_mut(|d| d.insert_temp(id, buf.clone()));
@@ -345,7 +346,8 @@ fn editor_body(ui: &mut Ui, id_src: &str, v: &Value, editable: bool, width: f32,
                     resp = resp.on_hover_text(hint);
                 }
             }
-            if integer && !COMPACT.with(|c| c.get()) {
+            // On a phone-width screen the −/+ would be pushed off its edge: type the number instead.
+            if integer && !COMPACT.with(|c| c.get()) && ui.ctx().screen_rect().width() >= 520.0 {
                 // Big values (experience, gold) are typed, not stepped.
                 if let Some(i) = n.as_i64().filter(|i| i.unsigned_abs() <= 5000) {
                     let step = ui.input(|inp| if inp.modifiers.ctrl || inp.modifiers.command { 100 } else if inp.modifiers.shift { 10 } else { 1 });
@@ -389,5 +391,72 @@ mod tests {
         assert_eq!(parse_number("abc", false), None);
         assert_eq!(parse_number("inf", false), None, "JSON can't store infinity");
         assert!(parse_number("2.25", false).is_some());
+    }
+}
+
+/// A scroll area that keeps the mouse wheel to itself while the pointer is over it and it has
+/// something to scroll: at its top or bottom the wheel does nothing, instead of moving the page
+/// behind it (egui passes the rest of the wheel on to the surrounding area).
+pub trait ScrollLock {
+    fn show_locked<R>(self, ui: &mut Ui, add: impl FnOnce(&mut Ui) -> R) -> egui::scroll_area::ScrollAreaOutput<R>;
+    fn show_rows_locked<R>(self, ui: &mut Ui, row_height: f32, rows: usize, add: impl FnOnce(&mut Ui, std::ops::Range<usize>) -> R) -> egui::scroll_area::ScrollAreaOutput<R>;
+}
+
+fn lock_wheel(ui: &Ui, content: egui::Vec2, inner: egui::Rect) {
+    let (ov_y, ov_x) = (content.y > inner.height() + 0.5, content.x > inner.width() + 0.5);
+    if (ov_y || ov_x) && ui.rect_contains_pointer(inner) {
+        ui.ctx().input_mut(|i| {
+            if ov_y {
+                i.smooth_scroll_delta[1] = 0.0;
+            }
+            if ov_x {
+                i.smooth_scroll_delta[0] = 0.0;
+            }
+        });
+    }
+}
+
+impl ScrollLock for egui::ScrollArea {
+    fn show_locked<R>(self, ui: &mut Ui, add: impl FnOnce(&mut Ui) -> R) -> egui::scroll_area::ScrollAreaOutput<R> {
+        let out = self.show(ui, add);
+        lock_wheel(ui, out.content_size, out.inner_rect);
+        out
+    }
+    fn show_rows_locked<R>(self, ui: &mut Ui, row_height: f32, rows: usize, add: impl FnOnce(&mut Ui, std::ops::Range<usize>) -> R) -> egui::scroll_area::ScrollAreaOutput<R> {
+        let out = self.show_rows(ui, row_height, rows, add);
+        lock_wheel(ui, out.content_size, out.inner_rect);
+        out
+    }
+}
+
+/// Column headings of a table that scrolls up and down: draws them as the grid's first row and,
+/// once the table has scrolled them out of view, [`sticky_headers`] repeats them at the top.
+pub fn header_row<S: AsRef<str>>(ui: &mut Ui, key: &str, heads: impl IntoIterator<Item = S>) {
+    let mut seen: Vec<(egui::Rect, String)> = vec![];
+    for h in heads {
+        let h = h.as_ref();
+        let r = ui.strong(h);
+        seen.push((r.rect, h.to_string()));
+    }
+    ui.end_row();
+    ui.data_mut(|d| d.insert_temp(egui::Id::new(("sticky_head", key)), seen));
+}
+
+/// Paints the headings recorded by [`header_row`] over the top of the scroll area they belong to
+/// (call it right after the area, with the area's `inner_rect`).
+pub fn sticky_headers(ui: &mut Ui, key: &str, area: egui::Rect) {
+    let Some(seen) = ui.data(|d| d.get_temp::<Vec<(egui::Rect, String)>>(egui::Id::new(("sticky_head", key)))) else { return };
+    let Some(first) = seen.first() else { return };
+    // Still in view: the real row is showing.
+    if first.0.top() >= area.top() - 0.5 || first.0.top() > area.bottom() {
+        return;
+    }
+    let band = egui::Rect::from_min_max(area.left_top(), egui::pos2(area.right(), area.top() + first.0.height() + 6.0));
+    let painter = ui.painter_at(band);
+    painter.rect_filled(band, 0.0, ui.visuals().faint_bg_color);
+    painter.line_segment([band.left_bottom(), band.right_bottom()], egui::Stroke::new(1.0_f32, ui.visuals().widgets.noninteractive.bg_stroke.color));
+    let color = ui.visuals().strong_text_color();
+    for (r, text) in &seen {
+        painter.text(egui::pos2(r.left(), band.top() + 3.0), egui::Align2::LEFT_TOP, text, egui::TextStyle::Body.resolve(ui.style()), color);
     }
 }

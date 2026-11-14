@@ -1,6 +1,7 @@
 //! Hollow Knight: Silksong, Undertale, Deltarune and Vampire Survivors. As elsewhere,
 //! values are found by name and simply left out when a save doesn't have them.
 
+use crate::widgets::ScrollLock;
 use super::{bar, columns, fact, fmt_num, hero, meter, panel, GameCtx};
 use crate::json_view::pointer_escape;
 use eframe::egui::{self, Color32, RichText, Ui};
@@ -212,7 +213,7 @@ pub fn silksong(ui: &mut Ui, cx: &mut GameCtx) {
                     .filter(|(_, n)| q.is_empty() || n.to_lowercase().contains(&q))
                     .map(|(j, n)| (n.replace('_', " "), format!("{}/savedData/{j}/Data/Amount", k("Collectables"))))
                     .collect();
-                egui::ScrollArea::vertical().id_salt("ss_items_scroll").max_height(320.0).show(ui, |ui| {
+                egui::ScrollArea::vertical().id_salt("ss_items_scroll").max_height(320.0).show_locked(ui, |ui| {
                     let list: Vec<(&str, String)> = names.iter().map(|(n, p)| (n.as_str(), p.clone())).collect();
                     rows(ui, cx, "ss_items", &list, 90.0);
                 });

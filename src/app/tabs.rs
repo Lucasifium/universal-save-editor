@@ -4,6 +4,7 @@
 //! fields in a `Parked`, and switching tabs swaps the two. The rest of the app works on
 //! "the open file" exactly as it did with one file.
 
+use crate::widgets::ScrollLock;
 use crate::i18n::tr;
 use super::*;
 
@@ -200,7 +201,7 @@ impl App {
         let mut pick = None;
         let mut close = None;
         egui::TopBottomPanel::top("file_tabs").show(ctx, |ui| {
-            ScrollArea::horizontal().id_salt("file_tabs_scroll").show(ui, |ui| {
+            ScrollArea::horizontal().id_salt("file_tabs_scroll").show_locked(ui, |ui| {
                 ui.horizontal(|ui| {
                     for i in 0..self.tab_count() {
                         let name = self.tab_path(i).map(file_name).unwrap_or_else(|| tr("New tab").into());

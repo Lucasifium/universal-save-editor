@@ -1,6 +1,7 @@
 //! Octopath Traveler and Octopath Traveler II (Unreal GVAS; names found by `fmt::octopath`):
 //! money and the eight travellers' level, EXP, job points, and current HP/SP.
 
+use crate::widgets::ScrollLock;
 use super::{fact, hero, panel, GameCtx};
 use crate::fmt::octopath::{self as ot, OT1};
 use eframe::egui::{self, Color32, RichText, Ui};
@@ -26,7 +27,7 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
             ui.weak("No travellers in this save.");
             return;
         }
-        egui::ScrollArea::horizontal().id_salt("ot_party").show(ui, |ui| {
+        egui::ScrollArea::horizontal().id_salt("ot_party").show_locked(ui, |ui| {
             egui::Grid::new("ot_party_grid").num_columns(7).spacing([12.0, 5.0]).striped(true).show(ui, |ui| {
                 for h in ["Traveller", "Job", "Level", "EXP", "JP", "HP", "SP"] {
                     ui.label(RichText::new(h).strong());

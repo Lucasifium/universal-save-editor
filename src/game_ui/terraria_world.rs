@@ -1,6 +1,7 @@
 //! Terraria world: a map you can pan, zoom and paint (blocks, walls, liquids, the spawn
 //! point), the world's settings, bosses and events, chests, signs and town NPCs.
 
+use crate::widgets::ScrollLock;
 use super::terraria::slots;
 use super::{fact, hero, panel, select, selection, tabs, GameCtx};
 use crate::fmt::terraria_world::{self as tw, Op, WorldMap};
@@ -126,7 +127,7 @@ fn chests_tab(ui: &mut Ui, cx: &mut GameCtx) {
             })
             .collect();
         let sel = selection(ui, "tw_chest");
-        egui::ScrollArea::vertical().id_salt("tw_chest_list").max_height(220.0).show(ui, |ui| {
+        egui::ScrollArea::vertical().id_salt("tw_chest_list").max_height(220.0).show_locked(ui, |ui| {
             for (i, label) in &rows {
                 if ui.selectable_label(sel == Some(*i), label).clicked() {
                     select(ui, "tw_chest", Some(*i));
@@ -718,7 +719,7 @@ fn poi_panel(ui: &mut Ui, map: &WorldMap, v: &mut MapView) {
         }
         let list: Vec<&tw::Poi> = map.pois.iter().filter(|p| v.shown[p.kind]).collect();
         egui::CollapsingHeader::new(format!("List ({})", list.len())).id_salt("tw_poi_list").show(ui, |ui| {
-            egui::ScrollArea::vertical().id_salt("tw_poi_scroll").max_height(200.0).show(ui, |ui| {
+            egui::ScrollArea::vertical().id_salt("tw_poi_scroll").max_height(200.0).show_locked(ui, |ui| {
                 for p in list {
                     let k = &tw::POI_KINDS[p.kind];
                     let depth = ((p.y as f64 - map.surface) * 2.0).round() as i64;

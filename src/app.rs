@@ -1,4 +1,5 @@
 use crate::file_browser::{self, FileBrowser};
+use crate::widgets::ScrollLock;
 use crate::i18n::tr;
 use crate::formats::{self, Content, Layer};
 use crate::platform;
@@ -1235,227 +1236,7 @@ impl App {
 
     fn game_picker_dialog(&mut self, ctx: &egui::Context) {
         let Some(gp) = &mut self.game_picker else { return };
-        let found = gp.found.lock().map(|v| v.clone()).unwrap_or_default();
-        if found.iter().any(Option::is_none) {
-            ctx.request_repaint_after(std::time::Duration::from_millis(200));
-        }
-        let mut open = None;
-        let mut close = false;
-        let screen = ctx.screen_rect();
-        let wide = screen.width() > 820.0;
-        // A fixed size that always fits: the lists inside fill whatever they're given.
-        let size = egui::vec2((screen.width() - 40.0).min(900.0), (screen.height() - 90.0).min(620.0));
-        egui::Window::new(tr("Find my game's saves"))
-            .collapsible(false)
-            .resizable(false)
-            .fixed_size(size)
-            .anchor(egui::Align2::CENTER_CENTER, [0.0, 0.0])
-            .show(ctx, |ui| {
-                let searching = found.iter().any(Option::is_none);
-                let here = |i: usize| found[i].as_ref().is_some_and(|f| !f.is_empty());
-                let any_here = (0..found.len()).any(here);
-                let only = gp.only_found.unwrap_or(!searching && any_here);
-                ui.horizontal_wrapped(|ui| {
-                    ui.label(tr("Search:"));
-                    ui.add(TextEdit::singleline(&mut gp.query).hint_text(tr("game name")).desired_width(200.0));
-                    let mut o = only;
-                    if ui
-                        .checkbox(&mut o, tr("Only games found here"))
-                        .on_hover_text(tr("Show only the games whose saves were found on this computer. Typing a name searches every game."))
-                        .changed()
-                    {
-                        gp.only_found = Some(o);
-                    }
-                    egui::ComboBox::from_id_salt("gp_level")
-                        .selected_text(gp.level.map_or("Any support", |l| l.label()))
-                        .show_ui(ui, |ui| {
-                            ui.selectable_value(&mut gp.level, None, tr("Any support"));
-                            for l in crate::games::Level::ALL {
-                                ui.selectable_value(&mut gp.level, Some(l), l.label()).on_hover_text(l.hint());
-                            }
-                        });
-                    ui.with_layout(egui::Layout::right_to_left(egui::Align::Center), |ui| {
-                        if ui.button(tr("Close")).clicked() {
-                            close = true;
-                        }
-                    });
-                });
-                ui.weak(tr("Pick a game to see where it keeps its saves and the ones on this computer. Open\u{2026} and dragging a file onto the window still work for anything else."));
-                ui.separator();
-                let q = gp.query.trim().to_lowercase();
-                let level = gp.level;
-                let matches = |i: usize| {
-                    let g = &crate::games::GAMES[i];
-                    (q.is_empty() || g.name.to_lowercase().contains(&q)) && level.is_none_or(|l| crate::games::level(g) == l)
-                };
-                // Games with saves on this computer first, then the rest; a typed name looks through all of them.
-                let found_here: Vec<usize> = (0..crate::games::GAMES.len()).filter(|&i| here(i) && matches(i)).collect();
-                let others: Vec<usize> = if only && q.is_empty() { vec![] } else { (0..crate::games::GAMES.len()).filter(|&i| !here(i) && matches(i)).collect() };
-                let hidden = if only && q.is_empty() { (0..crate::games::GAMES.len()).filter(|&i| !here(i) && matches(i)).count() } else { 0 };
-                let mut show_all = false;
-                let list = |ui: &mut egui::Ui, picked: &mut Option<usize>, show_all: &mut bool| {
-                    ScrollArea::vertical().id_salt("gp_list").auto_shrink([false, false]).show(ui, |ui| {
-                        let row = |ui: &mut egui::Ui, i: usize, picked: &mut Option<usize>| {
-                            let g = &crate::games::GAMES[i];
-                            let n = match &found[i] {
-                                Some(f) if f.is_empty() => "none found".to_string(),
-                                Some(f) => format!("{} found", f.len()),
-                                None => "looking\u{2026}".to_string(),
-                            };
-                            ui.horizontal(|ui| {
-                                let l = crate::games::level(g);
-                                let color = match l {
-                                    crate::games::Level::Screen => theme::OK,
-                                    crate::games::Level::Values => theme::ACCENT,
-                                    crate::games::Level::Hex => theme::WARN,
-                                };
-                                let r = ui.selectable_label(*picked == Some(i), format!("{}  \u{00B7}  {n}", g.name));
-                                if r.clicked() {
-                                    *picked = Some(i);
-                                }
-                                Self::chip(ui, l.label(), color).on_hover_text(l.hint());
-                            });
-                        };
-                        if !found_here.is_empty() {
-                            ui.label(RichText::new(tr("On this computer")).strong());
-                            for &i in &found_here {
-                                row(ui, i, picked);
-                            }
-                            if !others.is_empty() {
-                                ui.add_space(6.0);
-                                ui.label(RichText::new(tr("Other games")).strong());
-                            }
-                        } else if searching && only && q.is_empty() {
-                            ui.horizontal(|ui| {
-                                ui.spinner();
-                                ui.weak(tr("Looking for saves on this computer\u{2026}"));
-                            });
-                        }
-                        for &i in &others {
-                            row(ui, i, picked);
-                        }
-                        if hidden > 0 {
-                            ui.add_space(6.0);
-                            if ui.link(format!("Show the other {hidden} games")).clicked() {
-                                *show_all = true;
-                            }
-                        }
-                        if found_here.is_empty() && others.is_empty() && hidden == 0 {
-                            ui.weak(tr("No game matches. Use Open\u{2026} to pick the file yourself."));
-                        }
-                    });
-                };
-                let details = |ui: &mut egui::Ui, picked: Option<usize>, group: &mut Option<String>, open: &mut Option<PathBuf>| {
-                    let Some(i) = picked else {
-                        ui.weak(tr("Choose a game from the list."));
-                        return;
-                    };
-                    let g = &crate::games::GAMES[i];
-                    ui.heading(g.name);
-                    for (k, v) in [("Usually in", g.folder), ("Files", g.files), ("Editing", g.support)] {
-                        ui.horizontal_wrapped(|ui| {
-                            ui.strong(format!("{k}:"));
-                            ui.add(egui::Label::new(v).wrap());
-                        });
-                    }
-                    ui.add_space(6.0);
-                    match &found[i] {
-                        None => {
-                            ui.horizontal(|ui| {
-                                ui.spinner();
-                                ui.label(tr("Looking for saves\u{2026}"));
-                            });
-                        }
-                        Some(f) if f.is_empty() => {
-                            ui.colored_label(theme::fg(ui, theme::WARN), "No saves found on this computer.");
-                            ui.weak(tr("If the game keeps them somewhere else (another drive, a cloud folder), use Open\u{2026} to pick the file."));
-                        }
-                        Some(f) => {
-                            let cards = |ui: &mut egui::Ui, saves: &[&crate::games::Found], open: &mut Option<PathBuf>| {
-                                ScrollArea::vertical().id_salt("gp_saves").auto_shrink([false, false]).show(ui, |ui| {
-                                    for s in saves {
-                                        theme::card(ui, |ui| {
-                                            if ui.link(RichText::new(s.label.clone().unwrap_or_else(|| file_name(&s.path))).strong()).clicked() {
-                                                *open = Some(s.path.clone());
-                                            }
-                                            let when = s
-                                                .modified
-                                                .and_then(|t| t.duration_since(std::time::UNIX_EPOCH).ok())
-                                                .map(|d| crate::backups::describe(d.as_secs()))
-                                                .unwrap_or_default();
-                                            ui.weak(format!("{when}  \u{00B7}  {}", human_size(s.size as usize)));
-                                            ui.add(egui::Label::new(RichText::new(s.path.parent().map(|p| p.display().to_string()).unwrap_or_default()).weak().size(12.0)).truncate());
-                                        });
-                                    }
-                                });
-                            };
-                            if !crate::games::many_games(g) {
-                                ui.label(format!("{} save{} found \u{2014} click one to open it:", f.len(), if f.len() == 1 { "" } else { "s" }));
-                                let all: Vec<&crate::games::Found> = f.iter().collect();
-                                cards(ui, &all, open);
-                                return;
-                            }
-                            // One entry per game, most recently played first.
-                            let mut groups: Vec<(String, Vec<&crate::games::Found>)> = vec![];
-                            for s in f {
-                                let name = crate::games::group_of(g, &s.path);
-                                match groups.iter_mut().find(|(n, _)| *n == name) {
-                                    Some((_, v)) => v.push(s),
-                                    None => groups.push((name, vec![s])),
-                                }
-                            }
-                            if let Some(name) = group.clone() {
-                                if let Some((_, saves)) = groups.iter().find(|(n, _)| *n == name) {
-                                    if ui.button(format!("\u{2039} All {} games", groups.len())).clicked() {
-                                        *group = None;
-                                    }
-                                    ui.strong(&name);
-                                    ui.label(format!("{} save{} \u{2014} click one to open it:", saves.len(), if saves.len() == 1 { "" } else { "s" }));
-                                    cards(ui, saves, open);
-                                    return;
-                                }
-                                *group = None;
-                            }
-                            ui.label(format!("{} game{} with saves ({} saves) \u{2014} pick one:", groups.len(), if groups.len() == 1 { "" } else { "s" }, f.len()));
-                            ScrollArea::vertical().id_salt("gp_groups").auto_shrink([false, false]).show(ui, |ui| {
-                                for (name, saves) in &groups {
-                                    let when = saves[0]
-                                        .modified
-                                        .and_then(|t| t.duration_since(std::time::UNIX_EPOCH).ok())
-                                        .map(|d| crate::backups::describe(d.as_secs()))
-                                        .unwrap_or_default();
-                                    theme::card(ui, |ui| {
-                                        if ui.link(RichText::new(name).strong()).clicked() {
-                                            *group = Some(name.clone());
-                                        }
-                                        ui.weak(format!("{} save{}  \u{00B7}  last saved {when}", saves.len(), if saves.len() == 1 { "" } else { "s" }));
-                                    });
-                                }
-                            });
-                        }
-                    }
-                };
-                let before = gp.picked;
-                if wide {
-                    ui.columns(2, |c| {
-                        list(&mut c[0], &mut gp.picked, &mut show_all);
-                        details(&mut c[1], gp.picked, &mut gp.group, &mut open);
-                    });
-                } else if gp.picked.is_none() {
-                    list(ui, &mut gp.picked, &mut show_all);
-                } else {
-                    if ui.button(tr("\u{2039} All games")).clicked() {
-                        gp.picked = None;
-                    }
-                    details(ui, gp.picked, &mut gp.group, &mut open);
-                }
-                if gp.picked != before {
-                    gp.group = None;
-                }
-                if show_all {
-                    gp.only_found = Some(false);
-                }
-            });
+        let (open, close) = game_picker_window(ctx, gp);
         if close {
             self.game_picker = None;
         }
@@ -1562,7 +1343,7 @@ impl App {
                 ui.add_space(6.0);
             }
             ui.label(format!("{} change{} to {}:", r.lines.len(), if r.lines.len() == 1 { "" } else { "s" }, file_name(&r.path)));
-            ScrollArea::vertical().max_height(280.0).show(ui, |ui| {
+            ScrollArea::vertical().max_height(280.0).show_locked(ui, |ui| {
                 for l in &r.lines {
                     ui.label(format!("\u{2022} {l}"));
                 }
@@ -1869,7 +1650,7 @@ impl App {
                         let mut pick = None;
                         let mut compare = None;
                         let mut unlock = None;
-                        ScrollArea::vertical().max_height(360.0).show(ui, |ui| {
+                        ScrollArea::vertical().max_height(360.0).show_locked(ui, |ui| {
                             for (i, v) in versions.iter().enumerate() {
                                 ui.horizontal(|ui| {
                                     let when = crate::backups::describe(v.when);
@@ -2198,7 +1979,7 @@ impl App {
                 if cmp.diffs.is_empty() {
                     ui.label(tr("No differences \u{2014} the saves hold the same values."));
                 }
-                ScrollArea::vertical().auto_shrink([false, false]).show_rows(ui, 26.0, cmp.diffs.len(), |ui, range| {
+                ScrollArea::vertical().auto_shrink([false, false]).show_rows_locked(ui, 26.0, cmp.diffs.len(), |ui, range| {
                     for (p, original, theirs) in &cmp.diffs[range] {
                         ui.horizontal(|ui| {
                             let name = match self.model.by_ptr.get(p.as_str()) {
@@ -2424,7 +2205,7 @@ impl App {
             if versions.is_empty() {
                 ui.label(tr("No backups yet. One is made automatically each time you save, or press \u{201C}Back up this save\u{201D}."));
             }
-            ScrollArea::vertical().max_height(380.0).show(ui, |ui| {
+            ScrollArea::vertical().max_height(380.0).show_locked(ui, |ui| {
                 for (title, named) in [("Named backups (kept until you delete them)", true), (format!("Automatic backups (made each time you save; newest {} kept)", crate::backups::keep()).as_str(), false)] {
                     let rows: Vec<&crate::backups::Version> = versions.iter().filter(|v| v.name.is_some() == named).collect();
                     if rows.is_empty() {
@@ -2615,7 +2396,7 @@ impl App {
                     }
                 });
                 if !p.found.is_empty() {
-                    ScrollArea::vertical().id_salt("patch_games").max_height(110.0).show(ui, |ui| {
+                    ScrollArea::vertical().id_salt("patch_games").max_height(110.0).show_locked(ui, |ui| {
                         for e in p.found.clone() {
                             let label = format!("{}  \u{2014}  {} ({})", e.title, e.id, e.platform);
                             if ui.selectable_label(p.label.starts_with(&e.title) && p.label.ends_with(&format!("({})", e.platform)), label).clicked() {
@@ -2646,7 +2427,7 @@ impl App {
                     ui.weak(tr("This save was unpacked with the patch file's own codes when it opened; they run again when you save."));
                 }
                 ui.checkbox(&mut p.all_files, tr("Show codes for other files too"));
-                ScrollArea::vertical().id_salt("patch_codes").max_height(300.0).show(ui, |ui| {
+                ScrollArea::vertical().id_salt("patch_codes").max_height(300.0).show_locked(ui, |ui| {
                     for i in 0..p.codes.len() {
                         let c = &p.codes[i];
                         if !p.listed(i) {
@@ -3300,7 +3081,7 @@ impl App {
                 let sb = ui.spacing().scroll.bar_width + ui.spacing().scroll.bar_inner_margin + ui.spacing().scroll.bar_outer_margin;
                 let w = (ui.available_width() - sb).max(100.0);
                 crate::game_ui::begin_find(ui.ctx(), &self.game_find, self.game_find_idx);
-                ScrollArea::both().auto_shrink([false, false]).max_width(w + sb).show(ui, |ui| {
+                ScrollArea::both().auto_shrink([false, false]).max_width(w + sb).show_locked(ui, |ui| {
                     ui.set_max_width(w.min(1200.0));
                     crate::game_ui::show(game, ui, &mut cx);
                     ui.add_space(12.0);
@@ -3323,7 +3104,7 @@ impl App {
                 }
             }
             Tab::Raw => {
-                ScrollArea::both().auto_shrink([false, false]).show(ui, |ui| {
+                ScrollArea::both().auto_shrink([false, false]).show_locked(ui, |ui| {
                     ui.add(TextEdit::multiline(&mut self.raw_text).code_editor().desired_width(f32::INFINITY));
                 });
             }
@@ -3375,7 +3156,7 @@ impl App {
                     reveal: self.tree_reveal.as_ref().map(|(p, _)| p.as_str()),
                     reveal_scroll,
                 };
-                ScrollArea::vertical().auto_shrink([false, false]).show(ui, |ui| json_view::tree_ui(ui, r, &mut ctx));
+                ScrollArea::vertical().auto_shrink([false, false]).show_locked(ui, |ui| json_view::tree_ui(ui, r, &mut ctx));
                 edits = ctx.edits;
             }
             Tab::Values => {
@@ -3495,7 +3276,7 @@ impl App {
                 });
                 ui.separator();
             }
-            ScrollArea::vertical().auto_shrink([false, false]).show(ui, |ui| match (&d.content, &d.baseline) {
+            ScrollArea::vertical().auto_shrink([false, false]).show_locked(ui, |ui| match (&d.content, &d.baseline) {
                 (Content::Binary(cur), Content::Binary(base)) => {
                     let ranges = byte_ranges(cur, base);
                     if ranges.is_empty() {
@@ -3620,13 +3401,13 @@ impl App {
         let body = |ui: &mut egui::Ui| {
             let Some(Doc { content: Content::Binary(data), .. }) = &self.doc else { return };
             let h = &mut self.hex;
-            ScrollArea::vertical().auto_shrink([false, false]).show(ui, |ui| {
+            ScrollArea::vertical().auto_shrink([false, false]).show_locked(ui, |ui| {
                 ui.add_space(6.0);
                 if let Some((current, saves, others)) = &cairn {
                     theme::card(ui, |ui| {
                         ui.label(RichText::new(tr("Cairn saves in this slot")).family(theme::semibold_family()).size(16.0));
                         ui.weak(format!("{} saves, the dated ones newest first; pick one to open it.", saves.len()));
-                        ScrollArea::vertical().id_salt("cairn_saves").max_height(220.0).show(ui, |ui| {
+                        ScrollArea::vertical().id_salt("cairn_saves").max_height(220.0).show_locked(ui, |ui| {
                             for (entry, label) in saves {
                                 let shown = entry == current;
                                 let text = if shown { RichText::new(format!("{label}  (open)")).strong() } else { RichText::new(label) };
@@ -3802,7 +3583,7 @@ impl App {
                     if h.searched {
                         ui.label(format!("{} result(s){}", h.results.len(), if h.results.len() >= hex_view::MAX_RESULTS { " (capped)" } else { "" }));
                         let mut jump = None;
-                        ScrollArea::vertical().id_salt("results").max_height(220.0).show(ui, |ui| {
+                        ScrollArea::vertical().id_salt("results").max_height(220.0).show_locked(ui, |ui| {
                             for &off in h.results.iter().take(1000) {
                                 let cur = hex_view::read_value(h.search_type, data, off, h.big_endian).unwrap_or_default();
                                 let name = h.labels.get(&off).map(|l| format!("  [{}]", l.name)).unwrap_or_default();
@@ -3912,7 +3693,7 @@ impl App {
         let mut open: Option<PathBuf> = None;
         let mut restore_missing: Option<PathBuf> = None;
         let mut browse: Option<Option<PathBuf>> = None;
-        ScrollArea::vertical().auto_shrink([false, false]).show(ui, |ui| {
+        ScrollArea::vertical().auto_shrink([false, false]).show_locked(ui, |ui| {
             ui.vertical_centered(|ui| {
                 ui.add_space((ui.available_height() * 0.08).max(24.0));
                 let logo = self.logo.get_or_insert_with(|| {
@@ -4303,7 +4084,7 @@ impl eframe::App for App {
                 let Some(Doc { content: Content::Text(text), .. }) = &mut self.doc else { return };
                 let changed = ScrollArea::both()
                     .auto_shrink([false, false])
-                    .show(ui, |ui| ui.add(TextEdit::multiline(text).code_editor().desired_width(f32::INFINITY)).changed())
+                    .show_locked(ui, |ui| ui.add(TextEdit::multiline(text).code_editor().desired_width(f32::INFINITY)).changed())
                     .inner;
                 if changed {
                     self.recompute_dirty();
@@ -4493,6 +4274,246 @@ fn modal(ctx: &egui::Context, title: &str, add: impl FnOnce(&mut egui::Ui)) {
         .show(ctx, add);
 }
 
+/// Draws the "Find my game's saves" window; returns the save picked to open and whether it was closed.
+fn game_picker_window(ctx: &egui::Context, gp: &mut GamePicker) -> (Option<PathBuf>, bool) {
+        let found = gp.found.lock().map(|v| v.clone()).unwrap_or_default();
+        if found.iter().any(Option::is_none) {
+            ctx.request_repaint_after(std::time::Duration::from_millis(200));
+        }
+        let mut open = None;
+        let mut close = false;
+        let screen = ctx.screen_rect();
+        let wide = screen.width() > 820.0;
+        // A fixed size that always fits: the lists inside fill whatever they're given.
+        let size = egui::vec2((screen.width() - 40.0).min(900.0), (screen.height() - 90.0).min(620.0));
+        egui::Window::new(tr("Find my game's saves"))
+            .collapsible(false)
+            .resizable(false)
+            .fixed_size(size)
+            .anchor(egui::Align2::CENTER_CENTER, [0.0, 0.0])
+            .show(ctx, |ui| {
+                let searching = found.iter().any(Option::is_none);
+                let here = |i: usize| found[i].as_ref().is_some_and(|f| !f.is_empty());
+                let any_here = (0..found.len()).any(here);
+                let only = gp.only_found.unwrap_or(!searching && any_here);
+                ui.horizontal_wrapped(|ui| {
+                    ui.label(tr("Search:"));
+                    ui.add(TextEdit::singleline(&mut gp.query).hint_text(tr("game name")).desired_width(200.0));
+                    let mut o = only;
+                    if ui
+                        .checkbox(&mut o, tr("Only games found here"))
+                        .on_hover_text(tr("Show only the games whose saves were found on this computer. Typing a name searches every game."))
+                        .changed()
+                    {
+                        gp.only_found = Some(o);
+                    }
+                    egui::ComboBox::from_id_salt("gp_level")
+                        .selected_text(gp.level.map_or("Any support", |l| l.label()))
+                        .show_ui(ui, |ui| {
+                            ui.selectable_value(&mut gp.level, None, tr("Any support"));
+                            for l in crate::games::Level::ALL {
+                                ui.selectable_value(&mut gp.level, Some(l), l.label()).on_hover_text(l.hint());
+                            }
+                        });
+                    // Inline (not pushed to the far edge) so it wraps with the rest instead of leaving the window.
+                    if ui.button(tr("Close")).clicked() {
+                        close = true;
+                    }
+                });
+                ui.weak(tr("Pick a game to see where it keeps its saves and the ones on this computer. Open\u{2026} and dragging a file onto the window still work for anything else."));
+                ui.separator();
+                let q = gp.query.trim().to_lowercase();
+                let level = gp.level;
+                let matches = |i: usize| {
+                    let g = &crate::games::GAMES[i];
+                    (q.is_empty() || g.name.to_lowercase().contains(&q)) && level.is_none_or(|l| crate::games::level(g) == l)
+                };
+                // Games with saves on this computer first, then the rest; a typed name looks through all of them.
+                let found_here: Vec<usize> = (0..crate::games::GAMES.len()).filter(|&i| here(i) && matches(i)).collect();
+                let others: Vec<usize> = if only && q.is_empty() { vec![] } else { (0..crate::games::GAMES.len()).filter(|&i| !here(i) && matches(i)).collect() };
+                let hidden = if only && q.is_empty() { (0..crate::games::GAMES.len()).filter(|&i| !here(i) && matches(i)).count() } else { 0 };
+                let mut show_all = false;
+                let list = |ui: &mut egui::Ui, picked: &mut Option<usize>, show_all: &mut bool| {
+                    ScrollArea::vertical().id_salt("gp_list").auto_shrink([false, false]).show_locked(ui, |ui| {
+                        let row = |ui: &mut egui::Ui, i: usize, picked: &mut Option<usize>| {
+                            let g = &crate::games::GAMES[i];
+                            let n = match &found[i] {
+                                Some(f) if f.is_empty() => "none found".to_string(),
+                                Some(f) => format!("{} found", f.len()),
+                                None => "looking\u{2026}".to_string(),
+                            };
+                            ui.horizontal(|ui| {
+                                let l = crate::games::level(g);
+                                let color = match l {
+                                    crate::games::Level::Screen => theme::OK,
+                                    crate::games::Level::Values => theme::ACCENT,
+                                    crate::games::Level::Hex => theme::WARN,
+                                };
+                                // The name gives way (with the whole text on hover) so the badge always stays beside it.
+                                let chip_w = ui.fonts(|f| f.layout_no_wrap(l.label().to_string(), egui::FontId::proportional(13.0), color).size().x) + 16.0;
+                                let name_w = (ui.available_width() - chip_w - ui.spacing().item_spacing.x).max(60.0);
+                                let text = format!("{}  \u{00B7}  {n}", g.name);
+                                let r = ui
+                                    .allocate_ui_with_layout(egui::vec2(name_w, ui.spacing().interact_size.y), egui::Layout::left_to_right(egui::Align::Center), |ui| {
+                                        ui.style_mut().wrap_mode = Some(egui::TextWrapMode::Truncate);
+                                        ui.selectable_label(*picked == Some(i), text.clone())
+                                    })
+                                    .inner;
+                                if r.clicked() {
+                                    *picked = Some(i);
+                                }
+                                r.on_hover_text(text);
+                                App::chip(ui, l.label(), color).on_hover_text(l.hint());
+                            });
+                        };
+                        if !found_here.is_empty() {
+                            ui.label(RichText::new(tr("On this computer")).strong());
+                            for &i in &found_here {
+                                row(ui, i, picked);
+                            }
+                            if !others.is_empty() {
+                                ui.add_space(6.0);
+                                ui.label(RichText::new(tr("Other games")).strong());
+                            }
+                        } else if searching && only && q.is_empty() {
+                            ui.horizontal(|ui| {
+                                ui.spinner();
+                                ui.weak(tr("Looking for saves on this computer\u{2026}"));
+                            });
+                        }
+                        for &i in &others {
+                            row(ui, i, picked);
+                        }
+                        if hidden > 0 {
+                            ui.add_space(6.0);
+                            if ui.link(format!("Show the other {hidden} games")).clicked() {
+                                *show_all = true;
+                            }
+                        }
+                        if found_here.is_empty() && others.is_empty() && hidden == 0 {
+                            ui.weak(tr("No game matches. Use Open\u{2026} to pick the file yourself."));
+                        }
+                    });
+                };
+                let details_body = |ui: &mut egui::Ui, picked: Option<usize>, group: &mut Option<String>, open: &mut Option<PathBuf>| {
+                    let Some(i) = picked else {
+                        ui.weak(tr("Choose a game from the list."));
+                        return;
+                    };
+                    let g = &crate::games::GAMES[i];
+                    ui.heading(g.name);
+                    for (k, v) in [("Usually in", g.folder), ("Files", g.files), ("Editing", g.support)] {
+                        ui.horizontal_wrapped(|ui| {
+                            ui.strong(format!("{k}:"));
+                            ui.add(egui::Label::new(v).wrap());
+                        });
+                    }
+                    ui.add_space(6.0);
+                    match &found[i] {
+                        None => {
+                            ui.horizontal(|ui| {
+                                ui.spinner();
+                                ui.label(tr("Looking for saves\u{2026}"));
+                            });
+                        }
+                        Some(f) if f.is_empty() => {
+                            ui.colored_label(theme::fg(ui, theme::WARN), "No saves found on this computer.");
+                            ui.weak(tr("If the game keeps them somewhere else (another drive, a cloud folder), use Open\u{2026} to pick the file."));
+                        }
+                        Some(f) => {
+                            let cards = |ui: &mut egui::Ui, saves: &[&crate::games::Found], open: &mut Option<PathBuf>| {
+                                {
+                                    for s in saves {
+                                        theme::card(ui, |ui| {
+                                            if ui.link(RichText::new(s.label.clone().unwrap_or_else(|| file_name(&s.path))).strong()).clicked() {
+                                                *open = Some(s.path.clone());
+                                            }
+                                            let when = s
+                                                .modified
+                                                .and_then(|t| t.duration_since(std::time::UNIX_EPOCH).ok())
+                                                .map(|d| crate::backups::describe(d.as_secs()))
+                                                .unwrap_or_default();
+                                            ui.weak(format!("{when}  \u{00B7}  {}", human_size(s.size as usize)));
+                                            ui.add(egui::Label::new(RichText::new(s.path.parent().map(|p| p.display().to_string()).unwrap_or_default()).weak().size(12.0)).truncate());
+                                        });
+                                    }
+                                }
+                            };
+                            if !crate::games::many_games(g) {
+                                ui.label(format!("{} save{} found \u{2014} click one to open it:", f.len(), if f.len() == 1 { "" } else { "s" }));
+                                let all: Vec<&crate::games::Found> = f.iter().collect();
+                                cards(ui, &all, open);
+                                return;
+                            }
+                            // One entry per game, most recently played first.
+                            let mut groups: Vec<(String, Vec<&crate::games::Found>)> = vec![];
+                            for s in f {
+                                let name = crate::games::group_of(g, &s.path);
+                                match groups.iter_mut().find(|(n, _)| *n == name) {
+                                    Some((_, v)) => v.push(s),
+                                    None => groups.push((name, vec![s])),
+                                }
+                            }
+                            if let Some(name) = group.clone() {
+                                if let Some((_, saves)) = groups.iter().find(|(n, _)| *n == name) {
+                                    if ui.button(format!("\u{2039} All {} games", groups.len())).clicked() {
+                                        *group = None;
+                                    }
+                                    ui.strong(&name);
+                                    ui.label(format!("{} save{} \u{2014} click one to open it:", saves.len(), if saves.len() == 1 { "" } else { "s" }));
+                                    cards(ui, saves, open);
+                                    return;
+                                }
+                                *group = None;
+                            }
+                            ui.label(format!("{} game{} with saves ({} saves) \u{2014} pick one:", groups.len(), if groups.len() == 1 { "" } else { "s" }, f.len()));
+                            {
+                                for (name, saves) in &groups {
+                                    let when = saves[0]
+                                        .modified
+                                        .and_then(|t| t.duration_since(std::time::UNIX_EPOCH).ok())
+                                        .map(|d| crate::backups::describe(d.as_secs()))
+                                        .unwrap_or_default();
+                                    theme::card(ui, |ui| {
+                                        if ui.link(RichText::new(name).strong()).clicked() {
+                                            *group = Some(name.clone());
+                                        }
+                                        ui.weak(format!("{} save{}  \u{00B7}  last saved {when}", saves.len(), if saves.len() == 1 { "" } else { "s" }));
+                                    });
+                                }
+                            }
+                        }
+                    }
+                };
+                // The whole right-hand side scrolls as one, so a long description never pushes the window past the screen.
+                let details = |ui: &mut egui::Ui, picked: Option<usize>, group: &mut Option<String>, open: &mut Option<PathBuf>| {
+                    ScrollArea::vertical().id_salt(("gp_details", picked, group.clone())).auto_shrink([false, false]).show_locked(ui, |ui| details_body(ui, picked, group, open));
+                };
+                let before = gp.picked;
+                if wide {
+                    ui.columns(2, |c| {
+                        list(&mut c[0], &mut gp.picked, &mut show_all);
+                        details(&mut c[1], gp.picked, &mut gp.group, &mut open);
+                    });
+                } else if gp.picked.is_none() {
+                    list(ui, &mut gp.picked, &mut show_all);
+                } else {
+                    if ui.button(tr("\u{2039} All games")).clicked() {
+                        gp.picked = None;
+                    }
+                    details(ui, gp.picked, &mut gp.group, &mut open);
+                }
+                if gp.picked != before {
+                    gp.group = None;
+                }
+                if show_all {
+                    gp.only_found = Some(false);
+                }
+            });
+
+    (open, close)
+}
+
 /// Testing aid: with SAVE_EDITOR_SHOT=<file.png> set, the window saves a picture of
 /// itself a few seconds after starting and then closes (SAVE_EDITOR_SHOT_AFTER = seconds,
 /// default 4). Works where screen capture doesn't (e.g. while the display is off).
@@ -4556,5 +4577,92 @@ mod cairn_label_tests {
         assert_eq!(super::cairn_save_label("SAVEGAMES/AUTO_INPACK_2026.02.08_16.58.55.SAV").unwrap(), "2026-02-08 16:58:55 (auto)");
         assert_eq!(super::cairn_save_label("SAVEGAMES/QUICK.SAV").unwrap(), "QUICK.SAV (written by the game)");
         assert!(super::cairn_save_label("PATHS/FRAG_1").is_none());
+    }
+}
+
+/// Layout guards: draws windows off-screen at several sizes and fails when text is cut off at the
+/// side of its box or a window doesn't fit the screen.
+#[cfg(test)]
+pub(crate) mod layout_tests {
+    use super::*;
+
+    /// Text that sticks out sideways past the area it was clipped to (so it is cut off or spills
+    /// into a neighbour). Returns one line per offender.
+    pub(crate) fn cut_off_text(out: &egui::FullOutput) -> Vec<String> {
+        let mut bad = vec![];
+        for cs in &out.shapes {
+            let mut stack = vec![&cs.shape];
+            while let Some(sh) = stack.pop() {
+                match sh {
+                    egui::epaint::Shape::Vec(v) => stack.extend(v.iter()),
+                    egui::epaint::Shape::Text(t) => {
+                        let r = t.galley.rect.translate(t.pos.to_vec2());
+                        // 1 px for rounding; text under the top/bottom edge is just scrolled.
+                        if r.right() > cs.clip_rect.right() + 1.0 || r.left() < cs.clip_rect.left() - 1.0 {
+                            let s: String = t.galley.text().chars().take(50).collect();
+                            bad.push(format!("{s:?} spans {:.0}..{:.0} but is clipped to {:.0}..{:.0}", r.left(), r.right(), cs.clip_rect.left(), cs.clip_rect.right()));
+                        }
+                    }
+                    _ => {}
+                }
+            }
+        }
+        bad
+    }
+
+    fn input(w: f32, h: f32) -> egui::RawInput {
+        egui::RawInput { screen_rect: Some(egui::Rect::from_min_size(egui::Pos2::ZERO, egui::vec2(w, h))), ..Default::default() }
+    }
+
+    #[test]
+    fn find_my_games_saves_fits_every_size() {
+        let long = "C:\\Users\\SomeOne\\AppData\\Local\\Packages\\Some.Very.Long.PublisherName.GameTitle_8wekyb3d8bbwe\\SystemAppData\\wgs\\0009000000AB1234_0000000000000000000000007B2E4C81\\Slot1";
+        let found: Vec<Option<Vec<crate::games::Found>>> = crate::games::GAMES
+            .iter()
+            .map(|_| Some((0..6).map(|i| crate::games::Found { path: PathBuf::from(format!("{long}\\quicksave_{i}.sav")), modified: Some(std::time::SystemTime::now()), size: 1 << 20, label: None }).collect()))
+            .collect();
+        let found: SaveSearch = std::sync::Arc::new(std::sync::Mutex::new(found));
+        // The longest names, the ones covering many games, and a couple of ordinary ones.
+        let mut picks: Vec<usize> = (0..crate::games::GAMES.len()).collect();
+        picks.sort_by_key(|&i| std::cmp::Reverse(crate::games::GAMES[i].name.len()));
+        picks.truncate(6);
+        picks.extend((0..crate::games::GAMES.len()).filter(|&i| crate::games::many_games(&crate::games::GAMES[i])).take(2));
+        picks.push(0);
+        let mut problems = vec![];
+        for lang in ["en", "de", "es", "fr", "pt-BR", "ja", "zh-CN"] {
+        crate::i18n::set(Some(lang));
+        for dark in [true, false] {
+            for (w, h) in [(1280.0, 800.0), (1000.0, 700.0), (820.0, 600.0), (640.0, 480.0), (380.0, 760.0)] {
+                for &pick in &picks {
+                    let ctx = egui::Context::default();
+                    crate::theme::install_fonts(&ctx);
+                    crate::theme::apply(&ctx, dark);
+                    let mut gp = GamePicker::with(found.clone());
+                    gp.only_found = Some(true);
+                    gp.picked = Some(pick);
+                    for frame in 0..4 {
+                        let out = ctx.run(input(w, h), |ctx| {
+                            game_picker_window(ctx, &mut gp);
+                        });
+                        if frame == 3 {
+                            let id = egui::Id::new(tr("Find my game's saves"));
+                            let area = ctx.memory(|m| m.area_rect(id)).unwrap();
+                            let who = format!("{} at {w}x{h} dark={dark} {lang}", crate::games::GAMES[pick].name);
+                            if area.left() < -0.5 || area.top() < -0.5 || area.right() > w + 0.5 || area.bottom() > h + 0.5 {
+                                problems.push(format!("{who}: window {area:?} leaves the screen"));
+                            }
+                            for t in cut_off_text(&out) {
+                                problems.push(format!("{who}: {t}"));
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        }
+        crate::i18n::set(Some("en"));
+        problems.sort();
+        problems.dedup();
+        assert!(problems.is_empty(), "{} layout problems:\n{}", problems.len(), problems.iter().take(40).cloned().collect::<Vec<_>>().join("\n"));
     }
 }
