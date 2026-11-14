@@ -357,6 +357,8 @@ mod tests {
 
     #[test]
     fn names_read_nicely() {
+        // The label is translated, so the language other tests switch must not change under it.
+        let _lang = crate::i18n::LANG_TEST_LOCK.lock().unwrap_or_else(|e| e.into_inner());
         assert_eq!(nice(":THUNDER_STONE"), "Thunder Stone");
         assert_eq!(nice(":DNASPLICERS"), "DNA Splicers");
         assert_eq!(fused_ids(":B130H390"), Some((130, 390)));
