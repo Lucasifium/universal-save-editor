@@ -21,7 +21,7 @@
 <h1>Code signing policy</h1>
 <p class="lead">How the Windows downloads of Universal Save Editor are built and signed.</p>
 <p>Every download on the <a href="https://github.com/Lucasifium/universal-save-editor/releases">Releases page</a> is built by GitHub Actions from the source code in the <a href="https://github.com/Lucasifium/universal-save-editor">public repository</a>, by the release workflow kept in that repository. Nothing is built or uploaded by hand. Each release lists a <code>SHA256SUMS.txt</code> so a download can be checked against what the workflow produced.</p>
-<p>The project has applied to <a href="https://signpath.org/">SignPath Foundation</a> for free code signing of its Windows programs. Once accepted, every Windows release is signed by SignPath after the workflow builds it, and only after a person on the team approves that release. Until then the Windows downloads are not signed.</p>
+<p>The Windows downloads are not code-signed yet, so Windows may warn about them the first time they run; the checksums above are the way to check a download. Signing will be added once the project qualifies for a free open-source signing program.</p>
 <h2>Team roles</h2>
 <ul>
 <li>Committers and reviewers: <a href="https://github.com/Lucasifium">Lucasifium</a></li>
