@@ -22849,3 +22849,88 @@ Xiaoyu
 
 Yoshimitsu
 = Yoshimitsu
+
+Horsemen
+= 騎士
+
+SaveSlot_N.sav from %LOCALAPPDATA%\\THQ Nordic\\Darksiders Genesis\\Saved\\SaveGames\\user. Souls, coins, keys, potions and the shards and wrath of Strife and War. Close the game first.
+= %LOCALAPPDATA%\\THQ Nordic\\Darksiders Genesis\\Saved\\SaveGames\\user の SaveSlot_N.sav。ソウル、コイン、鍵、ポーション、ストライフとウォーの欠片と怒り。先にゲームを終了してください。
+
+Health potions
+= 回復ポーション
+
+Strife power
+= ストライフの力
+
+War power
+= ウォーの力
+
+Play time (hours)
+= プレイ時間（時間）
+
+Wrath
+= 怒り
+
+Health shards
+= 体力の欠片
+
+Wrath shards
+= 怒りの欠片
+
+Carbon
+= カーボン
+
+Silicon
+= シリコン
+
+Aluminium
+= アルミニウム
+
+Alien alloy
+= エイリアン合金
+
+Stash
+= 保管庫
+
+PlayerSave_N.sav from %LOCALAPPDATA%\\Towers\\Saved\\SaveGames\\<id>. The resources in the stash and the items in the bag. Close the game first.
+= %LOCALAPPDATA%\\Towers\\Saved\\SaveGames\\<id> の PlayerSave_N.sav。保管庫の資源とバッグの所持品。先にゲームを終了してください。
+
+Raises carbon, silicon, aluminium and alien alloy to 9,999. Fruit and every other item are left alone.
+= カーボン、シリコン、アルミニウム、エイリアン合金を9,999にします。果実とそれ以外のアイテムは変更しません。
+
+systemdata.sav from %LOCALAPPDATA%\\BANDAI NAMCO Entertainment\\My Hero Ones Justice\\Saved\\SaveGames\\<id>. Cash. Close the game first.
+= %LOCALAPPDATA%\\BANDAI NAMCO Entertainment\\My Hero Ones Justice\\Saved\\SaveGames\\<id> の systemdata.sav。所持金。先にゲームを終了してください。
+
+systemdata*.sav from %LOCALAPPDATA%\\BANDAI NAMCO Entertainment\\My Hero Ones Justice 2\\Saved\\SaveGames\\<id>. Hero coins. Close the game first.
+= %LOCALAPPDATA%\\BANDAI NAMCO Entertainment\\My Hero Ones Justice 2\\Saved\\SaveGames\\<id> の systemdata*.sav。ヒーローコイン。先にゲームを終了してください。
+
+Hero coins
+= ヒーローコイン
+
+Clan
+= クラン
+
+game_*.sav from %USERPROFILE%\\AppData\\LocalLow\\Games Farm s_r_o_\\Vikings_ Wolves of Midgard\\saves. Gold, iron, steel, blood and jotunjarn, the ores, secrets found and finished runs. Close the game first.
+= %USERPROFILE%\\AppData\\LocalLow\\Games Farm s_r_o_\\Vikings_ Wolves of Midgard\\saves の game_*.sav。金、鉄、鋼、血、ヨトゥンヤルン、鉱石、見つけた秘密、クリア回数。先にゲームを終了してください。
+
+Steel
+= 鋼
+
+Blood
+= 血
+
+Jotunjarn
+= ヨトゥンヤルン
+
+Gold ore
+= 金鉱石
+
+Iron ore
+= 鉄鉱石
+
+Bloodstone
+= 血石
+
+Finished games
+= クリア回数
+

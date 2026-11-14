@@ -22822,3 +22822,88 @@ Xiaoyu
 
 Yoshimitsu
 = Yoshimitsu
+
+Horsemen
+= 骑士
+
+SaveSlot_N.sav from %LOCALAPPDATA%\\THQ Nordic\\Darksiders Genesis\\Saved\\SaveGames\\user. Souls, coins, keys, potions and the shards and wrath of Strife and War. Close the game first.
+= 来自 %LOCALAPPDATA%\\THQ Nordic\\Darksiders Genesis\\Saved\\SaveGames\\user 的 SaveSlot_N.sav。灵魂、硬币、钥匙、药水，以及斗争和战争的碎片与愤怒。请先关闭游戏。
+
+Health potions
+= 生命药水
+
+Strife power
+= 斗争之力
+
+War power
+= 战争之力
+
+Play time (hours)
+= 游戏时间（小时）
+
+Wrath
+= 愤怒
+
+Health shards
+= 生命碎片
+
+Wrath shards
+= 愤怒碎片
+
+Carbon
+= 碳
+
+Silicon
+= 硅
+
+Aluminium
+= 铝
+
+Alien alloy
+= 外星合金
+
+Stash
+= 储藏库
+
+PlayerSave_N.sav from %LOCALAPPDATA%\\Towers\\Saved\\SaveGames\\<id>. The resources in the stash and the items in the bag. Close the game first.
+= 来自 %LOCALAPPDATA%\\Towers\\Saved\\SaveGames\\<id> 的 PlayerSave_N.sav。储藏库中的资源和背包中的物品。请先关闭游戏。
+
+Raises carbon, silicon, aluminium and alien alloy to 9,999. Fruit and every other item are left alone.
+= 将碳、硅、铝和外星合金提升到 9,999。水果和其他所有物品保持不变。
+
+systemdata.sav from %LOCALAPPDATA%\\BANDAI NAMCO Entertainment\\My Hero Ones Justice\\Saved\\SaveGames\\<id>. Cash. Close the game first.
+= 来自 %LOCALAPPDATA%\\BANDAI NAMCO Entertainment\\My Hero Ones Justice\\Saved\\SaveGames\\<id> 的 systemdata.sav。现金。请先关闭游戏。
+
+systemdata*.sav from %LOCALAPPDATA%\\BANDAI NAMCO Entertainment\\My Hero Ones Justice 2\\Saved\\SaveGames\\<id>. Hero coins. Close the game first.
+= 来自 %LOCALAPPDATA%\\BANDAI NAMCO Entertainment\\My Hero Ones Justice 2\\Saved\\SaveGames\\<id> 的 systemdata*.sav。英雄币。请先关闭游戏。
+
+Hero coins
+= 英雄币
+
+Clan
+= 氏族
+
+game_*.sav from %USERPROFILE%\\AppData\\LocalLow\\Games Farm s_r_o_\\Vikings_ Wolves of Midgard\\saves. Gold, iron, steel, blood and jotunjarn, the ores, secrets found and finished runs. Close the game first.
+= 来自 %USERPROFILE%\\AppData\\LocalLow\\Games Farm s_r_o_\\Vikings_ Wolves of Midgard\\saves 的 game_*.sav。金、铁、钢、鲜血和巨人铁，矿石、已发现的秘密和通关次数。请先关闭游戏。
+
+Steel
+= 钢
+
+Blood
+= 鲜血
+
+Jotunjarn
+= 巨人铁
+
+Gold ore
+= 金矿石
+
+Iron ore
+= 铁矿石
+
+Bloodstone
+= 血石
+
+Finished games
+= 通关次数
+

@@ -3,7 +3,7 @@
 > **Free, and it always will be.** No price, no ads, no account, no paid version, no online service, no
 > rate limits. If anyone is charging you for this, it isn't from here.
 
-An offline save editor and save manager for 470+ (477) PC games (edit saves, and back up, name and restore them): Cairn, Terraria (characters and a world map editor),
+An offline save editor and save manager for 480+ (482) PC games (edit saves, and back up, name and restore them): Cairn, Terraria (characters and a world map editor),
 Oxygen Not Included, RimWorld, Stardew Valley, Onimusha: Way of the Sword, Elden Ring, Dark Souls,
 Cyberpunk 2077, the Persona, Yakuza and Final Fantasy games, Ren'Py visual novels, RPG Maker games
 and more (the full list is below). Written in Rust (egui). Nothing is uploaded anywhere, and there are
@@ -158,12 +158,13 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 </details>
 
 <details>
-<summary><strong>D</strong> (34)</summary>
+<summary><strong>D</strong> (35)</summary>
 
 | Game | Screen |
 |---|---|
 | Dark Souls: Prepare to Die Edition | *Character*: name, soul level, souls, humanity and the eight attributes of each character slot, with HP and stamina shown; the item list of this edition is not read yet (the checksums are rewritten). checked on a public save (the character stats read as plausible values and a changed save keeps its checksums), not yet tried in the game |
 | Darkest Dungeon | *Hamlet*: the estate (gold, busts, portraits, deeds, crests, blueprints, shards), how many of each trinket and estate item it holds, and the roster (each hero's resolve XP, stress, HP, weapon and armour rank, skill upgrade levels), changed in place. Open persist.estate.json or persist.roster.json |
+| Darksiders Genesis | *Horsemen*: souls, coins, keys, health potions, Strife's and War's powers, play time, and each horseman's wrath and health and wrath shards, from the plain Unreal save `SaveSlot_N.sav` (checked on a public save, not yet tried in the game) |
 | Dave the Diver | *Dave*: gold, Bei, chef flames, research and trust points, and every sushi ingredient's stock, with a **Max crafting materials** button that fills the ingredients you have to 999; the save's encryption is removed and put back for you (checked on public saves, not yet tried in the game) |
 | Dead Rising | *Survivor*: Frank's level, PP, maximum health and skills, with buttons to learn every skill or reach level 50; the save's block checksums are rewritten (checked on public speedrun saves, not yet tried in the game) |
 | Dead Rising 2 | *Survivor*: Chuck's level, PP and money; attack, speed, health, item slots and throwing as bars up to the game's maximum, with a button to max them; the CRC-32 is rewritten (checked on public speedrun saves, not yet tried in the game) |
@@ -299,10 +300,11 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 </details>
 
 <details>
-<summary><strong>J</strong> (1)</summary>
+<summary><strong>J</strong> (2)</summary>
 
 | Game | Screen |
 |---|---|
+| Journey to the Savage Planet | *Stash*: the stash resources (carbon, silicon, aluminium, alien alloy) with a **Max crafting materials** button (9,999, an estimate), the bag's items and the completion percentage, from the plain Unreal save `PlayerSave_N.sav` (checked on a public save, not yet tried in the game) |
 | Judgment | *Yagami*: money and HP; decrypted with the game's key and its checksum kept right, every other value in the tree (checked on 40 public saves, not yet tried in the game) |
 
 </details>
@@ -363,7 +365,7 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 </details>
 
 <details>
-<summary><strong>M</strong> (18)</summary>
+<summary><strong>M</strong> (20)</summary>
 
 | Game | Screen |
 |---|---|
@@ -384,6 +386,8 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 | Mortal Shell | *Fallgrim*: Tar, the shell points of each shell, max health, deaths, New Game+ level, and the Storm Mode run's Tar and Glimpses in `GPData_<slot>.sav` (inventory item names are stored as game text and aren't shown; checked on public saves, not yet tried in the game) |
 | Mortal Shell II | *Harbinger*: Gold, Gloom and Glimpses, their lifetime totals, every item's count and every unlocked shell, weapon and seal in `WorldState_<n>.sav`, with a **Max crafting materials** button that raises the Tarforge smithing materials (Ventrium, Laterite, Dorsalite, Thoracium) you have to 99 (an estimate), leaving keys, artifacts and upgrade items alone (checked on public saves, not yet tried in the game) |
 | Mutant Year Zero: Road to Eden | *Squad*: scrap, weapon parts and medpacks, the Ark's artifact points, population and levels, the squad level, and each squad member's level, XP, health, sanity and mutation points, with a **Max crafting materials** button that raises scrap and weapon parts to 999 (an estimate), leaving artifacts and gear alone (checked on a public save, not yet tried in the game) |
+| My Hero One's Justice | *Heroes*: cash, from the plain Unreal save `systemdata.sav` (checked on a public save, not yet tried in the game) |
+| My Hero One's Justice 2 | *Heroes*: hero coins, from the plain Unreal save `systemdata*.sav` (checked on a public save, not yet tried in the game) |
 | My Summer Car | *Finland*: money and the needs (hunger, thirst, fatigue, stress, urine, dirtiness); every other single value of `defaultES2File.txt` (Easy Save 2) is in the Tree by name (checked on a public save, not yet tried in the game) |
 
 </details>
@@ -595,12 +599,13 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 </details>
 
 <details>
-<summary><strong>V</strong> (2)</summary>
+<summary><strong>V</strong> (3)</summary>
 
 | Game | Screen |
 |---|---|
 | Valheim (characters, profile versions 33 to 37) | Health, stamina, skills, item stacks (gold is Coins), quality and durability; the SHA-512 is written again. A **Max crafting materials** button fills the wood, stone, ores, metals, hides and other plain materials you carry to their stack size, leaving boss drops, summoning items and key fragments alone. Newer characters open read-only. Not yet tried in the game |
 | Vampire Survivors | Coins, power-up ranks and what's unlocked; the checksum is worked out again on save. Not yet tried in the game |
+| Vikings: Wolves of Midgard | *Clan*: gold, iron, steel, blood, jotunjarn, the ores and bloodstone, secrets found and finished runs, from the plain JSON `game_….sav` (checked on a public save, not yet tried in the game) |
 
 </details>
 
@@ -689,8 +694,8 @@ binary and stays an ironman save. It isn't converted to a normal one.
 
 The start page lists **Your games**: every game in the list whose saves were found on this computer,
 newest first, each one click away from its newest save. *Find my game's saves* (the big button on the
-start page, *Find saves* in the toolbar and the File menu) lists every one of the 470+ (477) PC games the editor knows, Mass Effect 1–3, the Legendary Edition and Andromeda among them — with where it
-start page, *Find saves* in the toolbar and the File menu) lists every one of the 470+ (477) PC games the editor knows, Mass Effect 1–3, the Legendary Edition and Andromeda among them — with where it
+start page, *Find saves* in the toolbar and the File menu) lists every one of the 480+ (482) PC games the editor knows, Mass Effect 1–3, the Legendary Edition and Andromeda among them — with where it
+start page, *Find saves* in the toolbar and the File menu) lists every one of the 480+ (482) PC games the editor knows, Mass Effect 1–3, the Legendary Edition and Andromeda among them — with where it
 usually keeps its saves and what the files are called, and finds them on your computer (Steam
 libraries and `userdata`, Documents wherever Windows has it, AppData, Saved Games, Ubisoft
 Connect). On Linux and the Steam Deck it also looks inside Proton prefixes

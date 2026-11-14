@@ -22737,3 +22737,88 @@ Xiaoyu
 
 Yoshimitsu
 = Yoshimitsu
+
+Horsemen
+= Cavaleiros
+
+SaveSlot_N.sav from %LOCALAPPDATA%\\THQ Nordic\\Darksiders Genesis\\Saved\\SaveGames\\user. Souls, coins, keys, potions and the shards and wrath of Strife and War. Close the game first.
+= SaveSlot_N.sav de %LOCALAPPDATA%\\THQ Nordic\\Darksiders Genesis\\Saved\\SaveGames\\user. Almas, moedas, chaves, poções e os fragmentos e a fúria de Strife e War. Feche o jogo primeiro.
+
+Health potions
+= Poções de vida
+
+Strife power
+= Poder de Strife
+
+War power
+= Poder de War
+
+Play time (hours)
+= Tempo de jogo (horas)
+
+Wrath
+= Fúria
+
+Health shards
+= Fragmentos de vida
+
+Wrath shards
+= Fragmentos de fúria
+
+Carbon
+= Carbono
+
+Silicon
+= Silício
+
+Aluminium
+= Alumínio
+
+Alien alloy
+= Liga alienígena
+
+Stash
+= Estoque
+
+PlayerSave_N.sav from %LOCALAPPDATA%\\Towers\\Saved\\SaveGames\\<id>. The resources in the stash and the items in the bag. Close the game first.
+= PlayerSave_N.sav de %LOCALAPPDATA%\\Towers\\Saved\\SaveGames\\<id>. Os recursos do estoque e os itens da bolsa. Feche o jogo primeiro.
+
+Raises carbon, silicon, aluminium and alien alloy to 9,999. Fruit and every other item are left alone.
+= Aumenta o carbono, o silício, o alumínio e a liga alienígena para 9.999. As frutas e todos os outros itens não são alterados.
+
+systemdata.sav from %LOCALAPPDATA%\\BANDAI NAMCO Entertainment\\My Hero Ones Justice\\Saved\\SaveGames\\<id>. Cash. Close the game first.
+= systemdata.sav de %LOCALAPPDATA%\\BANDAI NAMCO Entertainment\\My Hero Ones Justice\\Saved\\SaveGames\\<id>. Dinheiro. Feche o jogo primeiro.
+
+systemdata*.sav from %LOCALAPPDATA%\\BANDAI NAMCO Entertainment\\My Hero Ones Justice 2\\Saved\\SaveGames\\<id>. Hero coins. Close the game first.
+= systemdata*.sav de %LOCALAPPDATA%\\BANDAI NAMCO Entertainment\\My Hero Ones Justice 2\\Saved\\SaveGames\\<id>. Moedas de herói. Feche o jogo primeiro.
+
+Hero coins
+= Moedas de herói
+
+Clan
+= Clã
+
+game_*.sav from %USERPROFILE%\\AppData\\LocalLow\\Games Farm s_r_o_\\Vikings_ Wolves of Midgard\\saves. Gold, iron, steel, blood and jotunjarn, the ores, secrets found and finished runs. Close the game first.
+= game_*.sav de %USERPROFILE%\\AppData\\LocalLow\\Games Farm s_r_o_\\Vikings_ Wolves of Midgard\\saves. Ouro, ferro, aço, sangue e jotunjarn, os minérios, os segredos encontrados e os jogos terminados. Feche o jogo primeiro.
+
+Steel
+= Aço
+
+Blood
+= Sangue
+
+Jotunjarn
+= Jotunjarn
+
+Gold ore
+= Minério de ouro
+
+Iron ore
+= Minério de ferro
+
+Bloodstone
+= Pedra de sangue
+
+Finished games
+= Jogos terminados
+
