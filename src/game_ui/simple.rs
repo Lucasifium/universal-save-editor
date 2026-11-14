@@ -15,8 +15,15 @@ mod ps_specs;
 mod retro_specs;
 mod spec_texts;
 mod specs;
+mod specs_more;
 mod words;
 pub use specs::SPECS;
+
+/// Every spec: the main list, then the games added in `specs_more.rs`.
+pub fn all() -> &'static [&'static Spec] {
+    static ALL: std::sync::OnceLock<Vec<&'static Spec>> = std::sync::OnceLock::new();
+    ALL.get_or_init(|| SPECS.iter().chain(specs_more::MORE.iter()).collect())
+}
 
 /// A panel of labelled values: `(label, pointer)`.
 pub struct Section {
@@ -100,15 +107,15 @@ impl Spec {
 
 /// Index of the spec that recognises this save.
 pub fn detect(kind: &str, root: &Value) -> Option<u16> {
-    SPECS.iter().position(|s| s.matches(kind, root)).map(|i| i as u16)
+    all().iter().position(|s| s.matches(kind, root)).map(|i| i as u16)
 }
 
 pub fn game_name(i: u16) -> &'static str {
-    SPECS[i as usize].name
+    all()[i as usize].name
 }
 
 pub fn tab_label(i: u16) -> &'static str {
-    SPECS[i as usize].tab
+    all()[i as usize].tab
 }
 
 /// Resolves `@<hash>` steps in a spec pointer: inside an array of managers that each carry a
@@ -127,7 +134,7 @@ pub fn resolve(root: &Value, p: &str) -> String {
                 None => return "/\u{0}no such entry".to_string(),
             },
             // `=name`: the entry whose `key` is that name (database tables of key/data rows).
-            (None, Some(Value::Array(a))) if seg.starts_with('=') => match a.iter().position(|e| e.get("key").and_then(Value::as_str) == Some(&seg[1..])) {
+            (None, Some(Value::Array(a))) if seg.starts_with('=') => match a.iter().position(|e| e.get("key").or_else(|| e.get("Key")).and_then(Value::as_str) == Some(&seg[1..])) {
                 Some(i) => i.to_string(),
                 None => return "/\u{0}no such entry".to_string(),
             },
@@ -301,7 +308,7 @@ fn tr_text(s: &str) -> String {
 }
 
 pub fn show(i: u16, ui: &mut Ui, cx: &mut GameCtx) {
-    let s = &SPECS[i as usize];
+    let s = &all()[i as usize];
     let accent = Color32::from_rgb(s.accent.0, s.accent.1, s.accent.2);
     let tiles: Vec<(&str, String)> = s.tiles.iter().map(|(c, p)| (*c, resolve(cx.root, p))).collect();
     hero(ui, accent, s.name, &tr_text(s.subtitle), |ui| {
@@ -588,7 +595,7 @@ mod tests {
 
     #[test]
     fn every_spec_detects_draws_and_maxes() {
-        for (i, s) in SPECS.iter().enumerate() {
+        for (i, s) in all().iter().enumerate() {
             let root = synthetic(s);
             let kind = s.kind.unwrap_or("JSON");
             let found = super::super::detect(kind, &root);
@@ -662,7 +669,7 @@ mod tests {
             };
             let g = super::super::detect(&kind, &root);
             let Some(super::super::Game::Simple(i)) = g else { panic!("{f}: kind {kind:?} detected as {g:?}") };
-            let s = &SPECS[i as usize];
+            let s = &all()[i as usize];
             let shown = s.sections.iter().flat_map(|sec| sec.rows).filter(|(_, p)| root.pointer(&resolve(&root, p)).is_some()).count();
             let total: usize = s.sections.iter().map(|sec| sec.rows.len()).sum();
             println!("{f}: {} ({shown} of {total} values present)", s.name);

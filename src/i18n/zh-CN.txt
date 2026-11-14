@@ -6959,9 +6959,6 @@ Hornet
 Hot
 = 热
 
-Hour
-= 小时
-
 House value
 = 房屋价值
 
@@ -7003,6 +7000,25 @@ Humanity level
 
 Hunter (Julianna) unlocked
 = 已解锁猎人(Julianna)
+# src/game_ui/simple/specs_more.rs
+
+Houses sold
+= 已售房屋
+
+The <SteamID>.json in a save's folder under AppData\\LocalLow\\Beam Team Games\\Stranded Deep\\Data. Health, food, water and sleep, the five skills and the day count. Close the game before editing.
+= AppData\LocalLow\Beam Team Games\Stranded Deep\Data 下某个存档文件夹中的 <SteamID>.json。生命值、食物、水和睡眠、五项技能以及天数。编辑前请先关闭游戏。
+
+Vitals (10,000 is full)
+= 生命体征(10,000 为满)
+
+Food (calories)
+= 食物(热量)
+
+Breath (100 is full)
+= 呼吸(100 为满)
+
+Body temperature (°F)
+= 体温(°F)
 
 Hunting
 = 狩猎
@@ -9753,9 +9769,6 @@ Selected character
 Selling price
 = 售价
 
-Sense
-= 感知
-
 Sepith
 = Sepith
 
@@ -10589,6 +10602,38 @@ Stack sizes of the party's backpack. Items are shown by their internal resource 
 
 Staebe
 = Staebe
+Cooking
+= 烹饪
+
+Harvesting
+= 采集
+
+Physical
+= 体能
+
+Craftsmanship
+= 工艺
+
+Days elapsed
+= 已过天数
+
+Day of the month
+= 当月日期
+
+Month
+= 月
+
+Year
+= 年
+
+
+# src/game_ui/simple/specs_more.rs
+
+Quest points
+= 任务点数
+
+Customers served
+= 已服务顾客
 
 Staff
 = 员工
@@ -11934,6 +11979,62 @@ Wildnisleben
 
 Will and the shop
 = 意志与商店
+Free points
+= 可用点数
+
+Salary
+= 薪水
+
+A slot_N_steam.json save. Each hero's experience and whether the hero is unlocked, and the gems, stars, food and fame of a run in progress.
+= slot_N_steam.json 存档。每位英雄的经验和是否已解锁,以及进行中一局的宝石、星星、食物和声望。
+
+Stars
+= 星星
+
+Run in progress
+= 进行中的一局
+
+Loot
+= 战利品
+
+Guild experience
+= 公会经验
+
+Heroes
+= 英雄
+
+resume.save.json or a sav_*.save.json from %APPDATA%\\TheBannerSaga3\\Local Store\\save\\saga3. The caravan's renown and supplies and each hero's rank, kills and stat bonuses. Several figures are stored as text; keep them whole numbers.
+= %APPDATA%\TheBannerSaga3\Local Store\save\saga3 中的 resume.save.json 或 sav_*.save.json。商队的声望和补给,以及每位英雄的等级、击杀数和属性加成。部分数值以文本保存,请保持为整数。
+
+Renown
+= 声望
+
+Supplies
+= 补给
+
+Caravan
+= 商队
+
+Renown (second copy, keep equal)
+= 声望(第二份副本,保持一致)
+
+Morale
+= 士气
+
+Fighters
+= 战士
+
+Peasants
+= 农民
+
+Varl
+= 瓦尔
+
+Battles won
+= 胜利战斗
+
+Rank
+= 等级
 
 Willpower
 = 意志力
@@ -14279,9 +14380,6 @@ Liquid
 Living Jar Shard
 = Living Jar Shard
 
-Long distance
-= 远距离
-
 Longest fever
 = 最长狂热
 
@@ -15673,6 +15771,35 @@ Will
 
 Window scale
 = 窗口缩放
+Exertion
+= 消耗
+
+The gamesave file in AppData\\LocalLow\\Buckshot Software\\Project Warlock\\Steam\\<id>. Score, lives, health, mana, the four stats, points to spend and every weapon's ammunition.
+= AppData\LocalLow\Buckshot Software\Project Warlock\Steam\<id> 中的 gamesave 文件。分数、生命数、生命值、法力、四项属性、可用点数和每种武器的弹药。
+
+Lives
+= 生命数
+
+Score
+= 分数
+
+Warlock
+= 术士
+
+Experience needed
+= 所需经验
+
+Maximum health
+= 最大生命值
+
+Mana
+= 法力
+
+Maximum mana
+= 最大法力
+
+Vitality
+= 体力值
 
 Wisdom
 = 智慧
@@ -15784,6 +15911,86 @@ Talus defeated
 
 game_data.sav from the Wii U or Switch game (any version). Rupees, hearts, stamina, Korok seeds, boss counters and the amounts of materials, food and arrows.
 = 来自 Wii U 或 Switch 版的 game_data.sav(任何版本)。卢比、心数、耐力、呼呼种子、首领计数以及材料、食物和箭的数量。
+Capacity
+= 容量
+
+Stat points to spend
+= 可用属性点数
+
+Perk points to spend
+= 可用特长点数
+
+Upgrade points to spend
+= 可用升级点数
+
+Upgrade points earned
+= 已获得升级点数
+
+Pistol
+= 手枪
+
+Submachine gun
+= 冲锋枪
+
+Shotgun
+= 霰弹枪
+
+Dynamite
+= 炸药
+
+Crossbow
+= 弩
+
+Rocket launcher
+= 火箭发射器
+
+Railgun
+= 电磁炮
+
+Chain reactor
+= 连锁反应堆
+
+Flamethrower fuel
+= 火焰喷射器燃料
+
+The 1000_userprofile!<number>!.sav file of the profile folder. Campaign tokens and race counts; the token count is stored in three places, so change all three to the same value. Close the game before editing.
+= 档案文件夹中的 1000_userprofile!<数字>!.sav 文件。战役代币和比赛场次;代币数量保存在三处,请把三处改为相同的值。编辑前请先关闭游戏。
+
+Tokens
+= 代币
+
+Races
+= 比赛场次
+
+Campaign
+= 战役
+
+Tokens (profile copy, keep equal)
+= 代币(档案副本,保持一致)
+
+Tokens (campaign slot copy, keep equal)
+= 代币(战役存档位副本,保持一致)
+
+Races (profile copy, keep equal)
+= 比赛场次(档案副本,保持一致)
+
+Total race time (seconds)
+= 总比赛时间(秒)
+
+Cash
+= 现金
+
+Thief
+= 窃贼
+
+Hard mode
+= 困难模式
+
+New Game Plus
+= 周目继承+
+
+Times noticed
+= 被发现次数
 
 # src/game_ui/simple/specs.rs (Atelier)
 GAMEDATA00 to GAMEDATA30 from Documents\KoeiTecmo\A17\SAVEDATA (the original 2017 release). Cole and Tess exchange tickets; item qualities and recipes are left alone.
@@ -16560,6 +16767,265 @@ Slot 11: general
 
 Slot 11: inventory
 = 存档位11:背包
+# src/game_ui/simple/specs_more.rs
+
+roster.xml from Documents\\KillHouseGames\\DoorKickers. The squad's experience and each trooper's experience, kills and mission results. doctrine.xml and unlocked.xml have their own small screens.
+= Documents\KillHouseGames\DoorKickers 中的 roster.xml。小队经验,以及每名队员的经验、击杀数和任务成绩。doctrine.xml 和 unlocked.xml 有各自的小界面。
+
+Squad experience
+= 小队经验
+
+Troopers
+= 队员
+
+Injuries
+= 受伤次数
+
+1-star wins
+= 1星胜利
+
+2-star wins
+= 2星胜利
+
+3-star wins
+= 3星胜利
+
+doctrine.xml from Documents\\KillHouseGames\\DoorKickers: the doctrine points still to spend. The chosen abilities are in the Tree.
+= Documents\KillHouseGames\DoorKickers 中的 doctrine.xml:尚未花费的信条点数。已选的技能在树视图中。
+
+Doctrine points to spend
+= 可用信条点数
+
+unlocked.xml from Documents\\KillHouseGames\\DoorKickers: the stars spent on equipment. A lower (even negative) number leaves more stars to spend. The unlocked equipment is listed in the Tree.
+= Documents\KillHouseGames\DoorKickers 中的 unlocked.xml:花在装备上的星数。数值越小(甚至为负)可用的星越多。已解锁的装备列在树视图中。
+
+Stars used
+= 已用星数
+
+srbSave<N>.xml or srbAutoSave.xml from AppData\\Local\\SatelliteReign\\<profile>. Your funds and the progress counters. Agents, research and the world are in the Tree.
+= AppData\Local\SatelliteReign\<配置文件> 中的 srbSave<N>.xml 或 srbAutoSave.xml。资金和进度计数器。特工、研究和世界在树视图中。
+
+Syndicate
+= 辛迪加
+
+Researchers
+= 研究员
+
+Scientists
+= 科学家
+
+Doctors
+= 医生
+
+Enemies killed unseen
+= 未被发现击杀的敌人
+
+SaveData.xml from %APPDATA%\\ToothAndTail. Which campaign missions are marked complete (true or false).
+= %APPDATA%\ToothAndTail 中的 SaveData.xml。哪些战役任务被标记为已完成(true 或 false)。
+
+Campaign missions
+= 战役任务
+
+Complete
+= 已完成
+
+A save_<n>.xml from AppData\\LocalLow\\Inner Void Interactive\\Chef_ A Restaurant Tycoon Game. The budget, popularity, ingredient points and the restaurant's level and rating.
+= AppData\LocalLow\Inner Void Interactive\Chef_ A Restaurant Tycoon Game 中的 save_<n>.xml。预算、人气、食材点数以及餐厅的等级和评分。
+
+Budget
+= 预算
+
+Restaurant
+= 餐厅
+
+Restaurant name
+= 餐厅名称
+
+Budget at the end of the last day
+= 上一天结束时的预算
+
+Ingredient points
+= 食材点数
+
+Restaurant level
+= 餐厅等级
+
+Rating
+= 评分
+
+Seats
+= 座位数
+
+City map points
+= 城市地图点数
+
+A save_NNN.xml (or its .xml.gz) from Documents\\Egosoft\\X Rebirth\\<id>\\save. Your credits and name. The file is large, so it takes a few seconds to open; ships, stations and wares are in the Tree.
+= Documents\Egosoft\X Rebirth\<id>\save 中的 save_NNN.xml(或其 .xml.gz)。你的信用点和名字。文件较大,打开需要几秒钟;舰船、空间站和商品在树视图中。
+
+Game time (seconds)
+= 游戏时间(秒)
+
+A .savc file from the game's Save folder. Each player's elemental resources and remaining mana, and the campaign's points and day. Heroes and the map are in the Tree.
+= 游戏 Save 文件夹中的 .savc 文件。每位玩家的元素资源和剩余法力,以及战役的点数和天数。英雄和地图在树视图中。
+
+Campaign points
+= 战役点数
+
+Mana left
+= 剩余法力
+
+Player 1
+= 玩家 1
+
+Player 2
+= 玩家 2
+
+Resources of player 1
+= 玩家 1 的资源
+
+Resources of player 2
+= 玩家 2 的资源
+
+Burnt health
+= 灼伤的生命
+
+Burnt stamina
+= 灼伤的体力
+
+Burnt mana
+= 灼伤的法力
+
+Drink
+= 饮水
+
+Time scale
+= 时间倍率
+
+Campaign1.sav from %LOCALAPPDATA%\\Streumon\\Necromunda\\Saved\\SaveGames. Credits, level, experience and each faction's reputation experience (the game also keeps a last-seen copy that follows it). Close the game before editing.
+= %LOCALAPPDATA%\Streumon\Necromunda\Saved\SaveGames 中的 Campaign1.sav。信用点、等级、经验以及各势力的声望经验(游戏还保留一份最近所见值的副本,会随之更新)。编辑前请先关闭游戏。
+
+Hired Gun
+= 雇佣枪手
+
+Faction experience
+= 势力经验
+
+Station
+= 加油站
+
+Popularity level
+= 人气等级
+
+Gas station level
+= 加油站等级
+
+A .sav from %LOCALAPPDATA%\\FTR3\\Saved\\SaveGames. Money, prestige and the fuel in the truck. Close the game before editing.
+= %LOCALAPPDATA%\FTR3\Saved\SaveGames 中的 .sav。金钱、声望和卡车的燃料。编辑前请先关闭游戏。
+
+Truck
+= 卡车
+
+Fuel
+= 燃料
+
+Gas in the bottle
+= 煤气罐中的燃气
+
+WorkshopSave_<n>.sav or AutoSave.sav from %LOCALAPPDATA%\\WS2020\\Saved\\SaveGames. The account balance and the totals earned and orders finished. The file is large, so it takes a moment to open.
+= %LOCALAPPDATA%\WS2020\Saved\SaveGames 中的 WorkshopSave_<n>.sav 或 AutoSave.sav。账户余额以及累计收入和已完成订单数。文件较大,打开需要片刻。
+
+Account balance
+= 账户余额
+
+Workshop
+= 工坊
+
+Total money earned
+= 累计收入
+
+Orders finished
+= 已完成订单
+
+
+# src/game_ui/simple/specs_more.rs
+
+save0.bin (a gzip file with JSON inside, opened and packed again) from AppData\\LocalLow\\Robotality\\Pathway or its Local folder. The expedition's cash, fuel, ammunition, supplies and the day. Close the game before editing.
+= AppData\LocalLow\Robotality\Pathway 或其 Local 文件夹中的 save0.bin(内含 JSON 的 gzip 文件,会打开并重新压缩)。远征队的现金、燃料、弹药、补给和天数。编辑前请先关闭游戏。
+
+Largest fuel tank
+= 燃料箱容量上限
+
+Largest ammunition store
+= 弹药储量上限
+
+Largest supplies store
+= 补给储量上限
+
+Time and statistics
+= 时间与统计
+
+Fuel used
+= 已用燃料
+
+Ammunition used
+= 已用弹药
+
+Items collected
+= 已收集物品
+
+Save_v<version>.ggm from AppData\\LocalLow\\Entertainment Forge\\Gladiator Manager (not the _Quests or Options files). The guild's gold, building materials, mana crystals, loan and the day. Gladiators and buildings are in the Tree, packed in text. Close the game before editing.
+= AppData\LocalLow\Entertainment Forge\Gladiator Manager 中的 Save_v<版本>.ggm(不是 _Quests 或 Options 文件)。公会的金币、建筑材料、法力水晶、贷款和天数。角斗士和建筑在树视图中,以文本形式打包。编辑前请先关闭游戏。
+
+Guild
+= 公会
+
+Iron
+= 铁
+
+Stone
+= 石头
+
+Mana crystals
+= 法力水晶
+
+Loan debt
+= 贷款债务
+
+Loans available
+= 可用贷款
+
+sdata<N>.ini from AppData\\Local\\Cat_Goes_Fishing. Your money, level and experience, the chosen rod and gear and the game's counters. The unlocks are in the Tree. Close the game before editing.
+= AppData\Local\Cat_Goes_Fishing 中的 sdata<N>.ini。你的金钱、等级和经验、所选鱼竿和装备以及游戏计数器。解锁项在树视图中。编辑前请先关闭游戏。
+
+Angler
+= 钓鱼人
+
+Active rod
+= 当前鱼竿
+
+Gear
+= 装备
+
+
+# src/game_ui/simple/specs_more.rs
+
+PlayerSave<N>.sav from %LOCALAPPDATA%\\Thymesia\\Saved\\SaveGames. The experience, the number of healing potions, the play time and a table of the carried items with their quantities. Close the game before editing.
+= %LOCALAPPDATA%\Thymesia\Saved\SaveGames 中的 PlayerSave<N>.sav。经验、治疗药水数量、游戏时间,以及携带物品及其数量的表格。编辑前请先关闭游戏。
+
+Healing potions
+= 治疗药水
+
+
+# src/game_ui/simple/specs_more.rs
+
+Hour
+= 小时
+
+Long distance
+= 远距离
+
+Sense
+= 直觉
 
 Angler
 = 渔夫

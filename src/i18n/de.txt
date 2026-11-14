@@ -5249,6 +5249,40 @@ Day of the loop
 
 Day time 0 is sunrise, 6000 noon, 13000 night.
 = Tageszeit 0 ist Sonnenaufgang, 6000 Mittag, 13000 Nacht.
+# src/game_ui/simple/specs_more.rs
+
+Houses sold
+= Verkaufte Häuser
+
+The <SteamID>.json in a save's folder under AppData\\LocalLow\\Beam Team Games\\Stranded Deep\\Data. Health, food, water and sleep, the five skills and the day count. Close the game before editing.
+= Die <SteamID>.json im Ordner eines Spielstands unter AppData\LocalLow\Beam Team Games\Stranded Deep\Data. Gesundheit, Nahrung, Wasser und Schlaf, die fünf Fertigkeiten und die Tageszahl. Spiel vor dem Bearbeiten schließen.
+
+Vitals (10,000 is full)
+= Vitalwerte (10.000 ist voll)
+
+Food (calories)
+= Nahrung (Kalorien)
+
+Breath (100 is full)
+= Atem (100 ist voll)
+
+Body temperature (°F)
+= Körpertemperatur (°F)
+
+Hunting
+= Jagen
+
+Cooking
+= Kochen
+
+Harvesting
+= Ernten
+
+Physical
+= Körperkraft
+
+Craftsmanship
+= Handwerkskunst
 
 Days elapsed
 = Vergangene Tage
@@ -6940,9 +6974,6 @@ Hornet
 
 Hot
 = Heiß
-
-Hour
-= Stunde
 
 House value
 = Hauswert
@@ -9727,9 +9758,6 @@ Selected character
 Selling price
 = Verkaufspreis
 
-Sense
-= Sinn
-
 Sepith
 = Sepith
 
@@ -10521,6 +10549,23 @@ Stack sizes of the party's backpack. Items are shown by their internal resource 
 
 Staebe
 = Staebe
+Day of the month
+= Tag des Monats
+
+Month
+= Monat
+
+Year
+= Jahr
+
+
+# src/game_ui/simple/specs_more.rs
+
+Quest points
+= Questpunkte
+
+Customers served
+= Bediente Kunden
 
 Staff
 = Personal
@@ -11871,6 +11916,62 @@ Wildnisleben
 
 Will and the shop
 = Wille und der Laden
+Free points
+= Freie Punkte
+
+Salary
+= Gehalt
+
+A slot_N_steam.json save. Each hero's experience and whether the hero is unlocked, and the gems, stars, food and fame of a run in progress.
+= Ein Spielstand slot_N_steam.json. Erfahrung jedes Helden und ob er freigeschaltet ist, dazu Edelsteine, Sterne, Proviant und Ruhm eines laufenden Durchgangs.
+
+Stars
+= Sterne
+
+Run in progress
+= Laufender Durchgang
+
+Loot
+= Beute
+
+Guild experience
+= Gildenerfahrung
+
+Heroes
+= Helden
+
+resume.save.json or a sav_*.save.json from %APPDATA%\\TheBannerSaga3\\Local Store\\save\\saga3. The caravan's renown and supplies and each hero's rank, kills and stat bonuses. Several figures are stored as text; keep them whole numbers.
+= resume.save.json oder eine sav_*.save.json aus %APPDATA%\TheBannerSaga3\Local Store\save\saga3. Ansehen und Vorräte der Karawane sowie Rang, Siege und Wertboni jedes Helden. Mehrere Werte sind als Text gespeichert; nur ganze Zahlen eintragen.
+
+Renown
+= Ansehen
+
+Supplies
+= Vorräte
+
+Caravan
+= Karawane
+
+Renown (second copy, keep equal)
+= Ansehen (zweite Kopie, gleich halten)
+
+Morale
+= Moral
+
+Fighters
+= Kämpfer
+
+Peasants
+= Bauern
+
+Varl
+= Varl
+
+Battles won
+= Gewonnene Schlachten
+
+Rank
+= Rang
 
 Willpower
 = Willenskraft
@@ -14213,9 +14314,6 @@ Liquid
 Living Jar Shard
 = Living Jar Shard
 
-Long distance
-= Langstrecke
-
 Longest fever
 = Längstes Fieber
 
@@ -15604,6 +15702,35 @@ Will
 
 Window scale
 = Fensterskalierung
+Exertion
+= Anstrengung
+
+The gamesave file in AppData\\LocalLow\\Buckshot Software\\Project Warlock\\Steam\\<id>. Score, lives, health, mana, the four stats, points to spend and every weapon's ammunition.
+= Die Datei gamesave in AppData\LocalLow\Buckshot Software\Project Warlock\Steam\<id>. Punkte, Leben, Gesundheit, Mana, die vier Werte, zu verteilende Punkte und die Munition jeder Waffe.
+
+Lives
+= Leben
+
+Score
+= Punkte
+
+Warlock
+= Hexenmeister
+
+Experience needed
+= Benötigte Erfahrung
+
+Maximum health
+= Maximale Gesundheit
+
+Mana
+= Mana
+
+Maximum mana
+= Maximales Mana
+
+Vitality
+= Vitalität
 
 Wisdom
 = Weisheit
@@ -15715,6 +15842,86 @@ Talus defeated
 
 game_data.sav from the Wii U or Switch game (any version). Rupees, hearts, stamina, Korok seeds, boss counters and the amounts of materials, food and arrows.
 = game_data.sav aus dem Wii-U- oder Switch-Spiel (jede Version). Rubine, Herzen, Ausdauer, Kolog-Samen, Bosszähler und die Mengen an Materialien, Essen und Pfeilen.
+Capacity
+= Kapazität
+
+Stat points to spend
+= Zu verteilende Attributpunkte
+
+Perk points to spend
+= Zu verteilende Talentpunkte
+
+Upgrade points to spend
+= Zu verteilende Verbesserungspunkte
+
+Upgrade points earned
+= Erhaltene Verbesserungspunkte
+
+Pistol
+= Pistole
+
+Submachine gun
+= Maschinenpistole
+
+Shotgun
+= Schrotflinte
+
+Dynamite
+= Dynamit
+
+Crossbow
+= Armbrust
+
+Rocket launcher
+= Raketenwerfer
+
+Railgun
+= Railgun
+
+Chain reactor
+= Kettenreaktor
+
+Flamethrower fuel
+= Flammenwerfer-Treibstoff
+
+The 1000_userprofile!<number>!.sav file of the profile folder. Campaign tokens and race counts; the token count is stored in three places, so change all three to the same value. Close the game before editing.
+= Die Datei 1000_userprofile!<Zahl>!.sav im Profilordner. Kampagnen-Token und Rennzahlen; die Token-Zahl steht an drei Stellen, deshalb alle drei auf denselben Wert setzen. Spiel vor dem Bearbeiten schließen.
+
+Tokens
+= Token
+
+Races
+= Rennen
+
+Campaign
+= Kampagne
+
+Tokens (profile copy, keep equal)
+= Token (Profilkopie, gleich halten)
+
+Tokens (campaign slot copy, keep equal)
+= Token (Kopie im Kampagnenslot, gleich halten)
+
+Races (profile copy, keep equal)
+= Rennen (Profilkopie, gleich halten)
+
+Total race time (seconds)
+= Gesamte Rennzeit (Sekunden)
+
+Cash
+= Bargeld
+
+Thief
+= Dieb
+
+Hard mode
+= Schwerer Modus
+
+New Game Plus
+= Neues Spiel+
+
+Times noticed
+= Entdeckt worden
 
 # src/game_ui/simple/specs.rs (Atelier)
 GAMEDATA00 to GAMEDATA30 from Documents\KoeiTecmo\A17\SAVEDATA (the original 2017 release). Cole and Tess exchange tickets; item qualities and recipes are left alone.
@@ -16503,6 +16710,265 @@ Slot 11: general
 
 Slot 11: inventory
 = Spielstand 11: Inventar
+# src/game_ui/simple/specs_more.rs
+
+roster.xml from Documents\\KillHouseGames\\DoorKickers. The squad's experience and each trooper's experience, kills and mission results. doctrine.xml and unlocked.xml have their own small screens.
+= roster.xml aus Documents\KillHouseGames\DoorKickers. Die Erfahrung des Trupps sowie Erfahrung, Abschüsse und Missionsergebnisse jedes Soldaten. doctrine.xml und unlocked.xml haben eigene kleine Bildschirme.
+
+Squad experience
+= Erfahrung des Trupps
+
+Troopers
+= Soldaten
+
+Injuries
+= Verletzungen
+
+1-star wins
+= Siege mit 1 Stern
+
+2-star wins
+= Siege mit 2 Sternen
+
+3-star wins
+= Siege mit 3 Sternen
+
+doctrine.xml from Documents\\KillHouseGames\\DoorKickers: the doctrine points still to spend. The chosen abilities are in the Tree.
+= doctrine.xml aus Documents\KillHouseGames\DoorKickers: die noch auszugebenden Doktrinpunkte. Die gewählten Fähigkeiten stehen im Baum.
+
+Doctrine points to spend
+= Doktrinpunkte zum Ausgeben
+
+unlocked.xml from Documents\\KillHouseGames\\DoorKickers: the stars spent on equipment. A lower (even negative) number leaves more stars to spend. The unlocked equipment is listed in the Tree.
+= unlocked.xml aus Documents\KillHouseGames\DoorKickers: die für Ausrüstung ausgegebenen Sterne. Eine niedrigere (auch negative) Zahl lässt mehr Sterne zum Ausgeben übrig. Die freigeschaltete Ausrüstung steht im Baum.
+
+Stars used
+= Verwendete Sterne
+
+srbSave<N>.xml or srbAutoSave.xml from AppData\\Local\\SatelliteReign\\<profile>. Your funds and the progress counters. Agents, research and the world are in the Tree.
+= srbSave<N>.xml oder srbAutoSave.xml aus AppData\Local\SatelliteReign\<Profil>. Deine Geldmittel und die Fortschrittszähler. Agenten, Forschung und die Welt stehen im Baum.
+
+Syndicate
+= Syndikat
+
+Researchers
+= Forscher
+
+Scientists
+= Wissenschaftler
+
+Doctors
+= Ärzte
+
+Enemies killed unseen
+= Unbemerkt getötete Gegner
+
+SaveData.xml from %APPDATA%\\ToothAndTail. Which campaign missions are marked complete (true or false).
+= SaveData.xml aus %APPDATA%\ToothAndTail. Welche Kampagnenmissionen als abgeschlossen markiert sind (true oder false).
+
+Campaign missions
+= Kampagnenmissionen
+
+Complete
+= Abgeschlossen
+
+A save_<n>.xml from AppData\\LocalLow\\Inner Void Interactive\\Chef_ A Restaurant Tycoon Game. The budget, popularity, ingredient points and the restaurant's level and rating.
+= Eine save_<n>.xml aus AppData\LocalLow\Inner Void Interactive\Chef_ A Restaurant Tycoon Game. Budget, Beliebtheit, Zutatenpunkte sowie Stufe und Bewertung des Restaurants.
+
+Budget
+= Budget
+
+Restaurant
+= Restaurant
+
+Restaurant name
+= Name des Restaurants
+
+Budget at the end of the last day
+= Budget am Ende des letzten Tages
+
+Ingredient points
+= Zutatenpunkte
+
+Restaurant level
+= Restaurantstufe
+
+Rating
+= Bewertung
+
+Seats
+= Sitzplätze
+
+City map points
+= Stadtkarten-Punkte
+
+A save_NNN.xml (or its .xml.gz) from Documents\\Egosoft\\X Rebirth\\<id>\\save. Your credits and name. The file is large, so it takes a few seconds to open; ships, stations and wares are in the Tree.
+= Eine save_NNN.xml (oder ihre .xml.gz) aus Documents\Egosoft\X Rebirth\<ID>\save. Deine Credits und dein Name. Die Datei ist groß und braucht einige Sekunden zum Öffnen; Schiffe, Stationen und Waren stehen im Baum.
+
+Game time (seconds)
+= Spielzeit (Sekunden)
+
+A .savc file from the game's Save folder. Each player's elemental resources and remaining mana, and the campaign's points and day. Heroes and the map are in the Tree.
+= Eine .savc-Datei aus dem Save-Ordner des Spiels. Die Elementarressourcen und das verbleibende Mana jedes Spielers sowie Punkte und Tag der Kampagne. Helden und die Karte stehen im Baum.
+
+Campaign points
+= Kampagnenpunkte
+
+Mana left
+= Verbleibendes Mana
+
+Player 1
+= Spieler 1
+
+Player 2
+= Spieler 2
+
+Resources of player 1
+= Ressourcen von Spieler 1
+
+Resources of player 2
+= Ressourcen von Spieler 2
+
+Burnt health
+= Verbrannte Gesundheit
+
+Burnt stamina
+= Verbrannte Ausdauer
+
+Burnt mana
+= Verbranntes Mana
+
+Drink
+= Durst
+
+Time scale
+= Zeitskala
+
+Campaign1.sav from %LOCALAPPDATA%\\Streumon\\Necromunda\\Saved\\SaveGames. Credits, level, experience and each faction's reputation experience (the game also keeps a last-seen copy that follows it). Close the game before editing.
+= Campaign1.sav aus %LOCALAPPDATA%\Streumon\Necromunda\Saved\SaveGames. Credits, Stufe, Erfahrung und die Ruf-Erfahrung jeder Fraktion (das Spiel führt auch eine Kopie des zuletzt gesehenen Werts mit). Spiel vor dem Bearbeiten schließen.
+
+Hired Gun
+= Söldner
+
+Faction experience
+= Fraktionserfahrung
+
+Station
+= Tankstelle
+
+Popularity level
+= Beliebtheitsstufe
+
+Gas station level
+= Tankstellenstufe
+
+A .sav from %LOCALAPPDATA%\\FTR3\\Saved\\SaveGames. Money, prestige and the fuel in the truck. Close the game before editing.
+= Eine .sav aus %LOCALAPPDATA%\FTR3\Saved\SaveGames. Geld, Prestige und der Kraftstoff im Truck. Spiel vor dem Bearbeiten schließen.
+
+Truck
+= Truck
+
+Fuel
+= Kraftstoff
+
+Gas in the bottle
+= Gas in der Flasche
+
+WorkshopSave_<n>.sav or AutoSave.sav from %LOCALAPPDATA%\\WS2020\\Saved\\SaveGames. The account balance and the totals earned and orders finished. The file is large, so it takes a moment to open.
+= WorkshopSave_<n>.sav oder AutoSave.sav aus %LOCALAPPDATA%\WS2020\Saved\SaveGames. Der Kontostand sowie die Summen verdient und abgeschlossene Aufträge. Die Datei ist groß und braucht einen Moment zum Öffnen.
+
+Account balance
+= Kontostand
+
+Workshop
+= Werkstatt
+
+Total money earned
+= Insgesamt verdientes Geld
+
+Orders finished
+= Abgeschlossene Aufträge
+
+
+# src/game_ui/simple/specs_more.rs
+
+save0.bin (a gzip file with JSON inside, opened and packed again) from AppData\\LocalLow\\Robotality\\Pathway or its Local folder. The expedition's cash, fuel, ammunition, supplies and the day. Close the game before editing.
+= save0.bin (eine Gzip-Datei mit JSON darin, wird geöffnet und wieder gepackt) aus AppData\LocalLow\Robotality\Pathway oder dessen Local-Ordner. Bargeld, Kraftstoff, Munition, Vorräte und Tag der Expedition. Spiel vor dem Bearbeiten schließen.
+
+Largest fuel tank
+= Größter Kraftstofftank
+
+Largest ammunition store
+= Größtes Munitionslager
+
+Largest supplies store
+= Größtes Vorratslager
+
+Time and statistics
+= Zeit und Statistiken
+
+Fuel used
+= Verbrauchter Kraftstoff
+
+Ammunition used
+= Verbrauchte Munition
+
+Items collected
+= Gesammelte Gegenstände
+
+Save_v<version>.ggm from AppData\\LocalLow\\Entertainment Forge\\Gladiator Manager (not the _Quests or Options files). The guild's gold, building materials, mana crystals, loan and the day. Gladiators and buildings are in the Tree, packed in text. Close the game before editing.
+= Save_v<Version>.ggm aus AppData\LocalLow\Entertainment Forge\Gladiator Manager (nicht die Dateien _Quests oder Options). Gold, Baumaterialien, Manakristalle, Kredit und Tag der Gilde. Gladiatoren und Gebäude stehen im Baum, in Text gepackt. Spiel vor dem Bearbeiten schließen.
+
+Guild
+= Gilde
+
+Iron
+= Eisen
+
+Stone
+= Stein
+
+Mana crystals
+= Manakristalle
+
+Loan debt
+= Kreditschulden
+
+Loans available
+= Verfügbare Kredite
+
+sdata<N>.ini from AppData\\Local\\Cat_Goes_Fishing. Your money, level and experience, the chosen rod and gear and the game's counters. The unlocks are in the Tree. Close the game before editing.
+= sdata<N>.ini aus AppData\Local\Cat_Goes_Fishing. Dein Geld, Stufe und Erfahrung, die gewählte Angel und Ausrüstung sowie die Zähler des Spiels. Die Freischaltungen stehen im Baum. Spiel vor dem Bearbeiten schließen.
+
+Angler
+= Angler
+
+Active rod
+= Aktive Angel
+
+Gear
+= Ausrüstung
+
+
+# src/game_ui/simple/specs_more.rs
+
+PlayerSave<N>.sav from %LOCALAPPDATA%\\Thymesia\\Saved\\SaveGames. The experience, the number of healing potions, the play time and a table of the carried items with their quantities. Close the game before editing.
+= PlayerSave<N>.sav aus %LOCALAPPDATA%\Thymesia\Saved\SaveGames. Die Erfahrung, die Zahl der Heiltränke, die Spielzeit und eine Tabelle der mitgeführten Gegenstände mit ihren Mengen. Spiel vor dem Bearbeiten schließen.
+
+Healing potions
+= Heiltränke
+
+
+# src/game_ui/simple/specs_more.rs
+
+Hour
+= Stunde
+
+Long distance
+= Große Reichweite
+
+Sense
+= Gespür
 
 Angler
 = Angler

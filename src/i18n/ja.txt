@@ -6972,9 +6972,6 @@ Hornet
 Hot
 = 高温
 
-Hour
-= 時
-
 House value
 = 家の価値
 
@@ -7016,6 +7013,25 @@ Humanity level
 
 Hunter (Julianna) unlocked
 = ハンター(ジュリアナ)解放済み
+# src/game_ui/simple/specs_more.rs
+
+Houses sold
+= 売却した家
+
+The <SteamID>.json in a save's folder under AppData\\LocalLow\\Beam Team Games\\Stranded Deep\\Data. Health, food, water and sleep, the five skills and the day count. Close the game before editing.
+= AppData\LocalLow\Beam Team Games\Stranded Deep\Data 内のセーブフォルダーにある <SteamID>.json。体力、食料、水、睡眠、5つのスキル、経過日数を編集できます。編集前にゲームを終了してください。
+
+Vitals (10,000 is full)
+= バイタル(10,000で満タン)
+
+Food (calories)
+= 食料(カロリー)
+
+Breath (100 is full)
+= 息(100で満タン)
+
+Body temperature (°F)
+= 体温(°F)
 
 Hunting
 = 狩猟
@@ -9775,9 +9791,6 @@ Selected character
 Selling price
 = 売値
 
-Sense
-= 感知
-
 Sepith
 = セピス
 
@@ -10596,6 +10609,38 @@ Stack sizes of the party's backpack. Items are shown by their internal resource 
 
 Staebe
 = Staebe
+Cooking
+= 料理
+
+Harvesting
+= 採集
+
+Physical
+= 身体
+
+Craftsmanship
+= 工作
+
+Days elapsed
+= 経過日数
+
+Day of the month
+= 日
+
+Month
+= 月
+
+Year
+= 年
+
+
+# src/game_ui/simple/specs_more.rs
+
+Quest points
+= クエストポイント
+
+Customers served
+= 接客した客数
 
 Staff
 = スタッフ
@@ -11967,6 +12012,62 @@ Wildnisleben
 
 Will and the shop
 = 意志とショップ
+Free points
+= 未使用ポイント
+
+Salary
+= 給料
+
+A slot_N_steam.json save. Each hero's experience and whether the hero is unlocked, and the gems, stars, food and fame of a run in progress.
+= slot_N_steam.json のセーブ。各ヒーローの経験値と解放状態、進行中のランの宝石・星・食料・名声を編集できます。
+
+Stars
+= 星
+
+Run in progress
+= 進行中のラン
+
+Loot
+= 戦利品
+
+Guild experience
+= ギルド経験値
+
+Heroes
+= ヒーロー
+
+resume.save.json or a sav_*.save.json from %APPDATA%\\TheBannerSaga3\\Local Store\\save\\saga3. The caravan's renown and supplies and each hero's rank, kills and stat bonuses. Several figures are stored as text; keep them whole numbers.
+= %APPDATA%\TheBannerSaga3\Local Store\save\saga3 にある resume.save.json または sav_*.save.json。キャラバンの名声と物資、各ヒーローのランク・撃破数・能力ボーナスを編集できます。一部の値は文字列で保存されているため、整数のままにしてください。
+
+Renown
+= 名声
+
+Supplies
+= 物資
+
+Caravan
+= キャラバン
+
+Renown (second copy, keep equal)
+= 名声(2つ目の写し、同じ値に保つ)
+
+Morale
+= 士気
+
+Fighters
+= 戦士
+
+Peasants
+= 農民
+
+Varl
+= ヴァール
+
+Battles won
+= 勝利した戦闘
+
+Rank
+= ランク
 
 Willpower
 = 意志力
@@ -14295,9 +14396,6 @@ Liquid
 Living Jar Shard
 = Living Jar Shard
 
-Long distance
-= 長距離
-
 Longest fever
 = 最長フィーバー
 
@@ -15700,6 +15798,35 @@ Will
 
 Window scale
 = ウィンドウの拡大率
+Exertion
+= 消耗
+
+The gamesave file in AppData\\LocalLow\\Buckshot Software\\Project Warlock\\Steam\\<id>. Score, lives, health, mana, the four stats, points to spend and every weapon's ammunition.
+= AppData\LocalLow\Buckshot Software\Project Warlock\Steam\<id> にある gamesave ファイル。スコア、残機、体力、マナ、4つの能力値、未使用ポイント、各武器の弾薬を編集できます。
+
+Lives
+= 残機
+
+Score
+= スコア
+
+Warlock
+= ウォーロック
+
+Experience needed
+= 必要経験値
+
+Maximum health
+= 最大体力
+
+Mana
+= マナ
+
+Maximum mana
+= 最大マナ
+
+Vitality
+= 活力
 
 Wisdom
 = 知恵
@@ -15811,6 +15938,86 @@ Talus defeated
 
 game_data.sav from the Wii U or Switch game (any version). Rupees, hearts, stamina, Korok seeds, boss counters and the amounts of materials, food and arrows.
 = Wii UまたはSwitch版のgame_data.sav(どのバージョンでも可)。ルピー、ハート、スタミナ、コログのみ、ボスの討伐数、素材・料理・矢の数量。
+Capacity
+= 容量
+
+Stat points to spend
+= 未使用の能力ポイント
+
+Perk points to spend
+= 未使用の特典ポイント
+
+Upgrade points to spend
+= 未使用の強化ポイント
+
+Upgrade points earned
+= 獲得した強化ポイント
+
+Pistol
+= ピストル
+
+Submachine gun
+= サブマシンガン
+
+Shotgun
+= ショットガン
+
+Dynamite
+= ダイナマイト
+
+Crossbow
+= クロスボウ
+
+Rocket launcher
+= ロケットランチャー
+
+Railgun
+= レールガン
+
+Chain reactor
+= チェーンリアクター
+
+Flamethrower fuel
+= 火炎放射器の燃料
+
+The 1000_userprofile!<number>!.sav file of the profile folder. Campaign tokens and race counts; the token count is stored in three places, so change all three to the same value. Close the game before editing.
+= プロフィールフォルダーの 1000_userprofile!<数字>!.sav ファイル。キャンペーンのトークン数とレース数。トークン数は3か所に保存されているため、3つとも同じ値にしてください。編集前にゲームを終了してください。
+
+Tokens
+= トークン
+
+Races
+= レース数
+
+Campaign
+= キャンペーン
+
+Tokens (profile copy, keep equal)
+= トークン(プロフィール側の写し、同じ値に保つ)
+
+Tokens (campaign slot copy, keep equal)
+= トークン(キャンペーンスロット側の写し、同じ値に保つ)
+
+Races (profile copy, keep equal)
+= レース数(プロフィール側の写し、同じ値に保つ)
+
+Total race time (seconds)
+= 総レース時間(秒)
+
+Cash
+= 現金
+
+Thief
+= 泥棒
+
+Hard mode
+= ハードモード
+
+New Game Plus
+= ニューゲーム+
+
+Times noticed
+= 発見された回数
 
 # src/game_ui/simple/specs.rs (Atelier)
 GAMEDATA00 to GAMEDATA30 from Documents\KoeiTecmo\A17\SAVEDATA (the original 2017 release). Cole and Tess exchange tickets; item qualities and recipes are left alone.
@@ -16587,6 +16794,265 @@ Slot 11: general
 
 Slot 11: inventory
 = スロット11:インベントリ
+# src/game_ui/simple/specs_more.rs
+
+roster.xml from Documents\\KillHouseGames\\DoorKickers. The squad's experience and each trooper's experience, kills and mission results. doctrine.xml and unlocked.xml have their own small screens.
+= Documents\KillHouseGames\DoorKickers の roster.xml。部隊の経験値と、各隊員の経験値・撃破数・ミッション結果。doctrine.xml と unlocked.xml には専用の小さな画面があります。
+
+Squad experience
+= 部隊の経験値
+
+Troopers
+= 隊員
+
+Injuries
+= 負傷回数
+
+1-star wins
+= 星1つの勝利
+
+2-star wins
+= 星2つの勝利
+
+3-star wins
+= 星3つの勝利
+
+doctrine.xml from Documents\\KillHouseGames\\DoorKickers: the doctrine points still to spend. The chosen abilities are in the Tree.
+= Documents\KillHouseGames\DoorKickers の doctrine.xml。未使用のドクトリンポイント。選択済みのアビリティはツリーにあります。
+
+Doctrine points to spend
+= 未使用のドクトリンポイント
+
+unlocked.xml from Documents\\KillHouseGames\\DoorKickers: the stars spent on equipment. A lower (even negative) number leaves more stars to spend. The unlocked equipment is listed in the Tree.
+= Documents\KillHouseGames\DoorKickers の unlocked.xml。装備に使った星の数。数値を小さく(マイナスも可)すると使える星が増えます。解除済みの装備はツリーに一覧されています。
+
+Stars used
+= 使用した星
+
+srbSave<N>.xml or srbAutoSave.xml from AppData\\Local\\SatelliteReign\\<profile>. Your funds and the progress counters. Agents, research and the world are in the Tree.
+= AppData\Local\SatelliteReign\<プロフィール> の srbSave<N>.xml または srbAutoSave.xml。資金と進行カウンター。エージェント、研究、ワールドはツリーにあります。
+
+Syndicate
+= シンジケート
+
+Researchers
+= 研究員
+
+Scientists
+= 科学者
+
+Doctors
+= 医師
+
+Enemies killed unseen
+= 見つからずに倒した敵
+
+SaveData.xml from %APPDATA%\\ToothAndTail. Which campaign missions are marked complete (true or false).
+= %APPDATA%\ToothAndTail の SaveData.xml。クリア済みとして記録されているキャンペーンミッション(true または false)。
+
+Campaign missions
+= キャンペーンミッション
+
+Complete
+= クリア済み
+
+A save_<n>.xml from AppData\\LocalLow\\Inner Void Interactive\\Chef_ A Restaurant Tycoon Game. The budget, popularity, ingredient points and the restaurant's level and rating.
+= AppData\LocalLow\Inner Void Interactive\Chef_ A Restaurant Tycoon Game にある save_<n>.xml。予算、人気、食材ポイント、レストランのレベルと評価。
+
+Budget
+= 予算
+
+Restaurant
+= レストラン
+
+Restaurant name
+= レストラン名
+
+Budget at the end of the last day
+= 前日終了時の予算
+
+Ingredient points
+= 食材ポイント
+
+Restaurant level
+= レストランのレベル
+
+Rating
+= 評価
+
+Seats
+= 座席数
+
+City map points
+= 市街マップのポイント
+
+A save_NNN.xml (or its .xml.gz) from Documents\\Egosoft\\X Rebirth\\<id>\\save. Your credits and name. The file is large, so it takes a few seconds to open; ships, stations and wares are in the Tree.
+= Documents\Egosoft\X Rebirth\<id>\save にある save_NNN.xml(または .xml.gz)。所持クレジットと名前。ファイルが大きいため、開くのに数秒かかります。船、ステーション、商品はツリーにあります。
+
+Game time (seconds)
+= ゲーム内時間(秒)
+
+A .savc file from the game's Save folder. Each player's elemental resources and remaining mana, and the campaign's points and day. Heroes and the map are in the Tree.
+= ゲームの Save フォルダーにある .savc ファイル。各プレイヤーの元素リソースと残りマナ、キャンペーンのポイントと日数。ヒーローとマップはツリーにあります。
+
+Campaign points
+= キャンペーンポイント
+
+Mana left
+= 残りマナ
+
+Player 1
+= プレイヤー1
+
+Player 2
+= プレイヤー2
+
+Resources of player 1
+= プレイヤー1のリソース
+
+Resources of player 2
+= プレイヤー2のリソース
+
+Burnt health
+= 焼失した体力
+
+Burnt stamina
+= 焼失したスタミナ
+
+Burnt mana
+= 焼失したマナ
+
+Drink
+= 水分
+
+Time scale
+= 時間の流れ
+
+Campaign1.sav from %LOCALAPPDATA%\\Streumon\\Necromunda\\Saved\\SaveGames. Credits, level, experience and each faction's reputation experience (the game also keeps a last-seen copy that follows it). Close the game before editing.
+= %LOCALAPPDATA%\Streumon\Necromunda\Saved\SaveGames の Campaign1.sav。クレジット、レベル、経験値、各勢力の評判経験値(ゲームは最後に確認した値のコピーも保持し、それが後から追随します)。編集前にゲームを終了してください。
+
+Hired Gun
+= ハイヤード・ガン
+
+Faction experience
+= 勢力の経験値
+
+Station
+= ガソリンスタンド
+
+Popularity level
+= 人気レベル
+
+Gas station level
+= ガソリンスタンドのレベル
+
+A .sav from %LOCALAPPDATA%\\FTR3\\Saved\\SaveGames. Money, prestige and the fuel in the truck. Close the game before editing.
+= %LOCALAPPDATA%\FTR3\Saved\SaveGames にある .sav。所持金、プレステージ、トラックの燃料。編集前にゲームを終了してください。
+
+Truck
+= トラック
+
+Fuel
+= 燃料
+
+Gas in the bottle
+= ボンベのガス
+
+WorkshopSave_<n>.sav or AutoSave.sav from %LOCALAPPDATA%\\WS2020\\Saved\\SaveGames. The account balance and the totals earned and orders finished. The file is large, so it takes a moment to open.
+= %LOCALAPPDATA%\WS2020\Saved\SaveGames の WorkshopSave_<n>.sav または AutoSave.sav。口座残高と、累計収入・完了した注文数。ファイルが大きいため、開くのに少し時間がかかります。
+
+Account balance
+= 口座残高
+
+Workshop
+= 作業場
+
+Total money earned
+= 累計収入
+
+Orders finished
+= 完了した注文
+
+
+# src/game_ui/simple/specs_more.rs
+
+save0.bin (a gzip file with JSON inside, opened and packed again) from AppData\\LocalLow\\Robotality\\Pathway or its Local folder. The expedition's cash, fuel, ammunition, supplies and the day. Close the game before editing.
+= AppData\LocalLow\Robotality\Pathway またはその Local フォルダーにある save0.bin(JSON を含む gzip ファイルで、開いて再び圧縮します)。遠征の所持金、燃料、弾薬、物資、日数。編集前にゲームを終了してください。
+
+Largest fuel tank
+= 燃料タンクの最大量
+
+Largest ammunition store
+= 弾薬の最大保管量
+
+Largest supplies store
+= 物資の最大保管量
+
+Time and statistics
+= 時間と統計
+
+Fuel used
+= 使用した燃料
+
+Ammunition used
+= 使用した弾薬
+
+Items collected
+= 集めたアイテム
+
+Save_v<version>.ggm from AppData\\LocalLow\\Entertainment Forge\\Gladiator Manager (not the _Quests or Options files). The guild's gold, building materials, mana crystals, loan and the day. Gladiators and buildings are in the Tree, packed in text. Close the game before editing.
+= AppData\LocalLow\Entertainment Forge\Gladiator Manager の Save_v<バージョン>.ggm(_Quests や Options のファイルではありません)。ギルドのゴールド、建築資材、マナクリスタル、ローン、日数。剣闘士と建物はテキストにまとめられた形でツリーにあります。編集前にゲームを終了してください。
+
+Guild
+= ギルド
+
+Iron
+= 鉄
+
+Stone
+= 石
+
+Mana crystals
+= マナクリスタル
+
+Loan debt
+= ローンの負債
+
+Loans available
+= 利用可能なローン
+
+sdata<N>.ini from AppData\\Local\\Cat_Goes_Fishing. Your money, level and experience, the chosen rod and gear and the game's counters. The unlocks are in the Tree. Close the game before editing.
+= AppData\Local\Cat_Goes_Fishing の sdata<N>.ini。所持金、レベルと経験値、選択中の釣り竿と装備、ゲームのカウンター。アンロック状況はツリーにあります。編集前にゲームを終了してください。
+
+Angler
+= 釣り人
+
+Active rod
+= 使用中の釣り竿
+
+Gear
+= 装備
+
+
+# src/game_ui/simple/specs_more.rs
+
+PlayerSave<N>.sav from %LOCALAPPDATA%\\Thymesia\\Saved\\SaveGames. The experience, the number of healing potions, the play time and a table of the carried items with their quantities. Close the game before editing.
+= %LOCALAPPDATA%\Thymesia\Saved\SaveGames の PlayerSave<N>.sav。経験値、回復ポーションの数、プレイ時間、所持アイテムとその数量の表。編集前にゲームを終了してください。
+
+Healing potions
+= 回復ポーション
+
+
+# src/game_ui/simple/specs_more.rs
+
+Hour
+= 時
+
+Long distance
+= 長距離
+
+Sense
+= 感覚
 
 Angler
 = 釣り人
