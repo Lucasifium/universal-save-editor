@@ -183,6 +183,12 @@ pub mod ori;
 pub mod lego_tss;
 pub mod lego_classic;
 pub mod retro;
+pub mod ps1;
+pub mod sotn;
+pub mod ff8;
+pub mod fft;
+pub mod re1;
+pub mod kh2;
 pub mod sm64;
 pub mod mldt;
 pub mod nintendo;
@@ -252,6 +258,31 @@ use crate::tree::TreeDoc;
 
 /// Binary formats with a recognisable signature (checked before text detection).
 pub fn parse_binary(d: &[u8]) -> Option<TreeDoc> {
+    if kh2::looks(d) {
+        if let Ok(t) = kh2::parse(d) {
+            return Some(t);
+        }
+    }
+    if re1::looks(d) {
+        if let Ok(t) = re1::parse(d) {
+            return Some(t);
+        }
+    }
+    if fft::looks(d) {
+        if let Ok(t) = fft::parse(d) {
+            return Some(t);
+        }
+    }
+    if ff8::looks(d) {
+        if let Ok(t) = ff8::parse(d) {
+            return Some(t);
+        }
+    }
+    if sotn::looks(d) {
+        if let Ok(t) = sotn::parse(d) {
+            return Some(t);
+        }
+    }
     if let Some(t) = civ7::parse(d) {
         return Some(t);
     }
