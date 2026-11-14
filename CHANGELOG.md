@@ -27,6 +27,7 @@
 - Chronicon: game screen (level, free skill and mastery points), with the hex-text character opened as bytes
 - Sword Art Online: Fatal Bullet: game screen (inventory quantities), with the encrypted save opened and re-sealed
 - Gothic and Gothic II: game screen (script variables and dialogue flags)
+- Dragon Quest Builders 2: game screen (builder stats, mini medals, pockets and bag), with the compressed data opened and re-sealed
 
 ## 0.6.1
 

@@ -16310,3 +16310,8 @@ XP at death
 
 Campaign Plus wins
 = Victorias en Campaña+
+
+
+Builder level, experience and stats, mini medals, equipment and the item slots of the pockets and the bag (item ids only; no name list is available). The island files are not opened.
+= Nivel, experiencia y estadísticas del constructor, minimedallas, equipo y las ranuras de objetos de los bolsillos y la bolsa (solo ids de objeto; no hay lista de nombres). Los archivos de isla no se abren.
+

@@ -16371,3 +16371,8 @@ XP at death
 
 Campaign Plus wins
 = 战役+胜利次数
+
+
+Builder level, experience and stats, mini medals, equipment and the item slots of the pockets and the bag (item ids only; no name list is available). The island files are not opened.
+= 建造者的等级、经验和属性、小勋章、装备,以及口袋和背包的物品栏位(仅物品ID,没有名称列表)。不会打开岛屿文件。
+

@@ -16314,3 +16314,8 @@ XP at death
 
 Campaign Plus wins
 = Siege in Campaign Plus
+
+
+Builder level, experience and stats, mini medals, equipment and the item slots of the pockets and the bag (item ids only; no name list is available). The island files are not opened.
+= Level, Erfahrung und Werte des Builders, Minimedaillen, Ausrüstung und die Gegenstandsfächer der Taschen und des Beutels (nur Gegenstands-IDs; keine Namensliste verfügbar). Die Inseldateien werden nicht geöffnet.
+

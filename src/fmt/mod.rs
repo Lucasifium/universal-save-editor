@@ -25,6 +25,7 @@ pub mod prison;
 pub mod dq11;
 pub mod koei;
 pub mod chronicon;
+pub mod dqb2;
 pub mod gothic;
 pub mod saofb;
 pub mod torchlight;
@@ -724,6 +725,11 @@ pub fn parse_binary(d: &[u8]) -> Option<TreeDoc> {
     }
     if ys8::looks(d) {
         if let Ok(t) = ys8::parse(d) {
+            return Some(t);
+        }
+    }
+    if dqb2::looks(d) {
+        if let Ok(t) = dqb2::parse(d) {
             return Some(t);
         }
     }

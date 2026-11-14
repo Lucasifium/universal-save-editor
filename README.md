@@ -154,7 +154,7 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 </details>
 
 <details>
-<summary><strong>D</strong> (30)</summary>
+<summary><strong>D</strong> (31)</summary>
 
 | Game | Screen |
 |---|---|
@@ -182,6 +182,7 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 | Divinity: Original Sin 2 Definitive Edition | Each player character's experience, vitality, attributes, unspent points and gold, and the stack size of every item each carries (not inside bags); the package is packed again with its checksum on save. Not yet tried in the game |
 | Divinity: Original Sin Enhanced Edition | *Party*: each party member's experience, vitality, gold and item stack sizes, on the Original Sin 2 screen; the `.lsv` package is unpacked and packed again (checked on a public save, not yet tried in the game) |
 | Dragon Age: Origins, Awakening | Party money; the Warden's and followers' level, experience, attributes and unspent points, approval, and backpack stack sizes. Tried on saves from one playthrough; Awakening saves not yet tried |
+| Dragon Quest Builders 2 | *Builder*: level, experience, hit points, attack and defence; *Mini medals*; *Equipment*; *Pockets* and *Bag*: item ids and quantities, from `CMNDAT.BIN` (the zlib data is opened and re-sealed; island files not opened; checked on a public save, not yet tried in the game) |
 | Dragon Quest XI S: Echoes of an Elusive Age | *Party*: each member's level, HP, MP, attack, defence, agility, deftness, charm, magical might and mending, max HP and MP and experience; *Item bags*: the count of every item in every bag, up to the item's own maximum. The AES-encrypted save is opened and its CRC is kept right (checked on a public save, not yet tried in the game) |
 | Drakensang: River of Time | *Heroes*: each hero's level, adventure points (earned and to spend), life, endurance, astral energy, the eight attributes and every talent, with the party slot to tell your party from the cutscene copies (the SQLite `savegame.dsa` is edited in place; checked on a public save, not yet tried in the game) |
 | Drakensang: The Dark Eye | *Heroes*: each hero's level, adventure points (earned and to spend), life, endurance, astral energy, the eight attributes and every talent, with the party slot to tell your party from the cutscene copies (the SQLite `savegame.dsa` is edited in place; checked on a public save, not yet tried in the game) |
