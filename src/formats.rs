@@ -110,6 +110,13 @@ pub enum Layer {
     Keyed(fmt::keyed::Wrap),
     /// A PNG with the data in a private zlib chunk (mGBA save states: `gbAs`).
     PngChunk { png: Arc<Vec<u8>>, chunk: [u8; 4] },
+    /// A plain header in front of a JSON save (Last Epoch's `EPOCH`; Enter the Gungeon's
+    /// `version: 0` line, after which the JSON is XORed with the game's key). The header is kept.
+    Header { head: Arc<Vec<u8>>, key: &'static str, label: &'static str },
+    /// Dark Souls: Prepare to Die Edition character slot, shown in the Remastered layout.
+    Ptde,
+    /// Clicker Heroes (Steam): a fixed text key, then the JSON raw-deflated and written as base64.
+    ClickerHeroes,
     /// Final Fantasy XVI: a PNG whose `faTh` chunk is an archive of XORed zlib streams that use
     /// a dictionary from the game; `entry` is the save being edited.
     Ff16 { png: Arc<Vec<u8>>, entry: usize, name: String },
@@ -323,6 +330,9 @@ impl Layer {
             Layer::Lz4 => "LZ4".into(),
             Layer::Snappy => "Snappy".into(),
             Layer::Evas => "EVAS envelope (CRC-32 written again)".into(),
+            Layer::Header { label, .. } => (*label).into(),
+            Layer::Ptde => "Dark Souls: Prepare to Die Edition slot".into(),
+            Layer::ClickerHeroes => "Clicker Heroes save (base64, deflate)".into(),
             Layer::SizedZlib => "zlib with a size header".into(),
             Layer::Prey { .. } => "Prey save (RC4, zlib chunks, MD5 written again)".into(),
             Layer::Ac8(_) => "Ace Combat 8 packed data (checksum written again)".into(),
@@ -889,6 +899,18 @@ fn wrap(layer: &Layer, data: Vec<u8>) -> Result<Vec<u8>, String> {
             js_escape(&s).into_bytes()
         }
         Layer::Xor(k) => data.iter().map(|b| b ^ k).collect(),
+        Layer::Ptde => fmt::fromsoft::ptde_unpad(&data)?,
+        Layer::ClickerHeroes => {
+            let zipped = compress(flate2::write::DeflateEncoder::new(Vec::new(), Compression::default()), &data)?.finish().map_err(io)?;
+            let mut out = CLICKER_KEY.as_bytes().to_vec();
+            out.extend(STANDARD.encode(zipped).into_bytes());
+            out
+        }
+        Layer::Header { head, key, .. } => {
+            let mut out = head.to_vec();
+            out.extend(if key.is_empty() { data } else { xor_key(&data, key.as_bytes()) });
+            out
+        }
         Layer::XorKey(k) => xor_key(&data, k.as_bytes()),
         Layer::Keyed(w) => fmt::keyed::close(w, &data),
         Layer::Ff16 { png, entry, .. } => {
@@ -1200,6 +1222,19 @@ fn peel(data: &[u8], ctx: &mut Ctx) -> Option<(Layer, Vec<u8>)> {
         if let Some((inner, header)) = fmt::prey::open(data) {
             return Some((Layer::Prey { header: Arc::new(header) }, inner));
         }
+    }
+    if let Some(padded) = fmt::fromsoft::ptde_pad(data) {
+        return Some((Layer::Ptde, padded));
+    }
+    if let Some(body) = data.strip_prefix(CLICKER_KEY.as_bytes()) {
+        if let Ok(zipped) = STANDARD.decode(body.trim_ascii()) {
+            if let Ok(plain) = inflate_raw(&zipped) {
+                return Some((Layer::ClickerHeroes, plain));
+            }
+        }
+    }
+    if let Some((head, key, label, plain)) = peel_header(data) {
+        return Some((Layer::Header { head: Arc::new(head), key, label }, plain));
     }
     // 12-byte size header and a zlib stream: only when both sizes match.
     if data.len() > 14 && data[..4] == [12, 0, 0, 0] && data[12] == 0x78 {
@@ -2249,6 +2284,28 @@ const KNOWN_XOR_KEYS: &[(&str, &str)] = &[
     // cloverpit-save-editor (jexxme, GPL-3.0) and Serialize-Deserialize-Save-CloverPit (MIT) do.
     ("CloverPit", "H\x06\\\x11\x06C\x01`\x18UB\x18\x19\x1a\x00JZ\x1a\x00QVFNG\x0c\x1b\x01"),
 ];
+
+const CLICKER_KEY: &str = "7e8bb5a89f2842ac4af01b3b7e228592";
+
+/// Enter the Gungeon: the text the game itself uses as the key (without its last line feed).
+const GUNGEON_KEY: &str = "Putting in a super basic encryption pass so our saves are a little harder to edit than just opening a text or hex editor.  Need a secret key or some such... so here's some nonsense.";
+
+/// Saves with a plain header and a JSON body: Last Epoch (`EPOCH`) and Enter the Gungeon.
+fn peel_header(data: &[u8]) -> Option<(Vec<u8>, &'static str, &'static str, Vec<u8>)> {
+    if let Some(body) = data.strip_prefix(b"EPOCH") {
+        if std::str::from_utf8(body).is_ok_and(|t| parse_json(t.trim()).is_some()) {
+            return Some((b"EPOCH".to_vec(), "", "Last Epoch save header", body.to_vec()));
+        }
+    }
+    if data.starts_with(b"version: ") {
+        let at = data.iter().position(|&b| b == b'\n')? + 1;
+        let plain = xor_key(&data[at..], GUNGEON_KEY.as_bytes());
+        if std::str::from_utf8(&plain).is_ok_and(|t| parse_json(t.trim()).is_some()) {
+            return Some((data[..at].to_vec(), GUNGEON_KEY, "Enter the Gungeon save (XOR with the game's key)", plain));
+        }
+    }
+    None
+}
 
 fn xor_key(data: &[u8], key: &[u8]) -> Vec<u8> {
     data.iter().zip(key.iter().cycle()).map(|(b, k)| b ^ k).collect()

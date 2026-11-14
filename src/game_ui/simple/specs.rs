@@ -3,7 +3,7 @@
 
 use super::{List, Max, Section, Shape, Spec, Table};
 
-pub static SPECS: &[Spec] = &[COTL, FALLOUT_SHELTER, DRG, S1_MONEY, S1_RANK, S1_TIME, S1_GAME, SOTF_STATE, SOTF_GAME, SOTF_WEATHER, SOTF_ITEMS, DMD, CUPHEAD, ANTIMATTER, PVZ, CELESTE, DRGS, KH3, RF4S, SKY1ST, KSP, FFPR, MCD, STONESHARD, ROGUE_TRADER, BIOSHOCK_INFINITE, SPACE_HAVEN, SNOWRUNNER, GRAVEYARD_KEEPER, NFSMW, TOS, GTA3, GTAVC, BITBURNER, TERRA_INVICTA, PRISON, FF13, SONIC_MANIA, CAVE_STORY_PLUS, CAVE_STORY, LIES_OF_P, TXR, DAVE, MSC, ULTRAKILL, RPGXP, RE5, ANNO1800, FTK, LEGO_TSS, LEGO_CLASSIC, MYZ, CMS21, MEDIEVAL_DYNASTY, MECHANICUS, ORI, OMORI, ENDER_LILIES, SW2, ES2, MOONLIGHTER, WASTELAND2, ATOM, MORTAL_SHELL, MORTAL_SHELL_2, COTW, BEAMNG, FOREST, YAKUZA3, YAKUZA4, YAKUZA5, ISHIN, SALT, DRAKENSANG, ALPHA, TYRANNY, JEDI_FO, SR3, SR4, WD2, FABLE, WANDERING_SWORD, STELLAR_BLADE, PRAGMATA, SLIME_RANCHER, SUBNAUTICA2, HZD, SLEEPING_DOGS, DXMD, ATOMIC_HEART, DISHONORED2, DEATHLOOP, AC_BROTHERHOOD, AC_REVELATIONS, AC3R, AC_LIBERATION, AC_BLACK_FLAG, AC_ROGUE, AC_UNITY, AC_SYNDICATE, AC_ORIGINS, AC_ODYSSEY, DISHONORED1, RDR1, RDR2, SM64, SUPER_METROID, LTTP, WORLDBOX, COREKEEPER, HOLOCURE, POTION_CRAFT, WWZ, ROBOQUEST, CMS18, LONGDRIVE, LONGDRIVE_PROP, XC3, MLDT, SMASH, MK7, SKC];
+pub static SPECS: &[Spec] = &[COTL, FALLOUT_SHELTER, DRG, S1_MONEY, S1_RANK, S1_TIME, S1_GAME, SOTF_STATE, SOTF_GAME, SOTF_WEATHER, SOTF_ITEMS, DMD, CUPHEAD, ANTIMATTER, PVZ, CELESTE, DRGS, KH3, RF4S, SKY1ST, KSP, FFPR, MCD, STONESHARD, ROGUE_TRADER, BIOSHOCK_INFINITE, SPACE_HAVEN, SNOWRUNNER, GRAVEYARD_KEEPER, NFSMW, TOS, GTA3, GTAVC, BITBURNER, TERRA_INVICTA, PRISON, FF13, SONIC_MANIA, CAVE_STORY_PLUS, CAVE_STORY, LIES_OF_P, TXR, DAVE, MSC, ULTRAKILL, RPGXP, RE5, ANNO1800, FTK, LEGO_TSS, LEGO_CLASSIC, MYZ, CMS21, MEDIEVAL_DYNASTY, MECHANICUS, ORI, OMORI, ENDER_LILIES, SW2, ES2, MOONLIGHTER, WASTELAND2, ATOM, MORTAL_SHELL, MORTAL_SHELL_2, COTW, BEAMNG, FOREST, YAKUZA3, YAKUZA4, YAKUZA5, ISHIN, SALT, DRAKENSANG, ALPHA, TYRANNY, JEDI_FO, SR3, SR4, WD2, FABLE, WANDERING_SWORD, STELLAR_BLADE, PRAGMATA, SLIME_RANCHER, SUBNAUTICA2, HZD, SLEEPING_DOGS, DXMD, ATOMIC_HEART, DISHONORED2, DEATHLOOP, AC_BROTHERHOOD, AC_REVELATIONS, AC3R, AC_LIBERATION, AC_BLACK_FLAG, AC_ROGUE, AC_UNITY, AC_SYNDICATE, AC_ORIGINS, AC_ODYSSEY, DISHONORED1, RDR1, RDR2, SM64, SUPER_METROID, LTTP, WORLDBOX, COREKEEPER, HOLOCURE, POTION_CRAFT, WWZ, ROBOQUEST, CMS18, LONGDRIVE, LONGDRIVE_PROP, XC3, MLDT, SMASH, MK7, SKC, PIZZA_TOWER, TEARDOWN, WOLCEN, BLASPHEMOUS, NOITA, LAST_EPOCH, GUNGEON, DISCO, CLICKER_HEROES, ISAAC, ROR2];
 
 // ------------------------------------------------------------------ Cult of the Lamb
 
@@ -4275,6 +4275,554 @@ const SKC: Spec = Spec {
         Section {
             title: "Resources",
             rows: &[("Apple gems", "/Resources/Apple gems"), ("Apple gems bought", "/Resources/Apple gems bought"), ("Red shards", "/Resources/Red shards"), ("Blue shards", "/Resources/Blue shards"), ("Yellow shards", "/Resources/Yellow shards"), ("Rare shards", "/Resources/Rare shards")],
+        },
+    ],
+    lists: &[],
+    tables: &[],
+};
+
+// ------------------------------------------------------------------ Pizza Tower
+const PIZZA_TOWER: Spec = Spec {
+    name: "Pizza Tower",
+    tab: "Tower",
+    accent: (214, 92, 54),
+    kind: Some("INI / config"),
+    markers: &["/Game/percent", "/Highscore", "/Ranks"],
+    subtitle: "saveData.ini (the file is a GameMaker ini; values are written as text like 1.000000). Scores are points, ranks are the letters d, c, b, a, s and p, treasure is 1 when found and secrets found are 0 to 3.",
+    tiles: &[("Completion %", "/Game/percent"), ("Enemies killed", "/Game/enemies"), ("Minutes played", "/Game/minutes")],
+    sections: &[
+        Section {
+            title: "Game",
+            rows: &[
+                ("Completion %", "/Game/percent"),
+                ("Enemies killed", "/Game/enemies"),
+                ("Damage taken", "/Game/damage"),
+                ("Minutes played", "/Game/minutes"),
+                ("Seconds played", "/Game/seconds"),
+                ("Final rank", "/Game/finalrank"),
+            ],
+        },
+        Section {
+            title: "Level scores",
+            rows: &[
+                ("Entrance", "/Highscore/entrance"),
+                ("Medieval", "/Highscore/medieval"),
+                ("Ruin", "/Highscore/ruin"),
+                ("Dungeon", "/Highscore/dungeon"),
+                ("Graveyard", "/Highscore/graveyard"),
+                ("Farm", "/Highscore/farm"),
+                ("Saloon", "/Highscore/saloon"),
+                ("Pineapple Beach", "/Highscore/plage"),
+                ("Forest", "/Highscore/forest"),
+                ("Space", "/Highscore/space"),
+                ("Golf", "/Highscore/minigolf"),
+                ("Street", "/Highscore/street"),
+                ("Sewer", "/Highscore/sewer"),
+                ("Industrial", "/Highscore/industrial"),
+                ("Freezer", "/Highscore/freezer"),
+                ("Chateau", "/Highscore/chateau"),
+                ("Kid's Party", "/Highscore/kidsparty"),
+                ("War", "/Highscore/war"),
+                ("Badland", "/Highscore/badland"),
+                ("Exit", "/Highscore/exit"),
+                ("Secret World", "/Highscore/secretworld"),
+                ("Pepperman", "/Highscore/b_pepperman"),
+                ("The Vigilante", "/Highscore/b_vigilante"),
+                ("The Noise", "/Highscore/b_noise"),
+                ("Fake Peppino", "/Highscore/b_fakepep"),
+            ],
+        },
+        Section {
+            title: "Level ranks",
+            rows: &[
+                ("Entrance", "/Ranks/entrance"),
+                ("Medieval", "/Ranks/medieval"),
+                ("Ruin", "/Ranks/ruin"),
+                ("Dungeon", "/Ranks/dungeon"),
+                ("Graveyard", "/Ranks/graveyard"),
+                ("Farm", "/Ranks/farm"),
+                ("Saloon", "/Ranks/saloon"),
+                ("Pineapple Beach", "/Ranks/plage"),
+                ("Forest", "/Ranks/forest"),
+                ("Space", "/Ranks/space"),
+                ("Golf", "/Ranks/minigolf"),
+                ("Street", "/Ranks/street"),
+                ("Sewer", "/Ranks/sewer"),
+                ("Industrial", "/Ranks/industrial"),
+                ("Freezer", "/Ranks/freezer"),
+                ("Chateau", "/Ranks/chateau"),
+                ("Kid's Party", "/Ranks/kidsparty"),
+                ("War", "/Ranks/war"),
+                ("Badland", "/Ranks/badland"),
+                ("Exit", "/Ranks/exit"),
+                ("Secret World", "/Ranks/secretworld"),
+                ("Pepperman", "/Ranks/b_pepperman"),
+                ("The Vigilante", "/Ranks/b_vigilante"),
+                ("The Noise", "/Ranks/b_noise"),
+                ("Fake Peppino", "/Ranks/b_fakepep"),
+            ],
+        },
+        Section {
+            title: "Treasure found",
+            rows: &[
+                ("Entrance", "/Treasure/entrance"),
+                ("Medieval", "/Treasure/medieval"),
+                ("Ruin", "/Treasure/ruin"),
+                ("Dungeon", "/Treasure/dungeon"),
+                ("Graveyard", "/Treasure/graveyard"),
+                ("Farm", "/Treasure/farm"),
+                ("Saloon", "/Treasure/saloon"),
+                ("Pineapple Beach", "/Treasure/plage"),
+                ("Forest", "/Treasure/forest"),
+                ("Space", "/Treasure/space"),
+                ("Golf", "/Treasure/minigolf"),
+                ("Street", "/Treasure/street"),
+                ("Sewer", "/Treasure/sewer"),
+                ("Industrial", "/Treasure/industrial"),
+                ("Freezer", "/Treasure/freezer"),
+                ("Chateau", "/Treasure/chateau"),
+                ("Kid's Party", "/Treasure/kidsparty"),
+                ("War", "/Treasure/war"),
+                ("Badland", "/Treasure/badland"),
+                ("Exit", "/Treasure/exit"),
+                ("Secret World", "/Treasure/secretworld"),
+            ],
+        },
+        Section {
+            title: "Secrets found",
+            rows: &[
+                ("Entrance", "/Secret/entrance"),
+                ("Medieval", "/Secret/medieval"),
+                ("Ruin", "/Secret/ruin"),
+                ("Dungeon", "/Secret/dungeon"),
+                ("Graveyard", "/Secret/graveyard"),
+                ("Farm", "/Secret/farm"),
+                ("Saloon", "/Secret/saloon"),
+                ("Pineapple Beach", "/Secret/plage"),
+                ("Forest", "/Secret/forest"),
+                ("Space", "/Secret/space"),
+                ("Golf", "/Secret/minigolf"),
+                ("Street", "/Secret/street"),
+                ("Sewer", "/Secret/sewer"),
+                ("Industrial", "/Secret/industrial"),
+                ("Freezer", "/Secret/freezer"),
+                ("Chateau", "/Secret/chateau"),
+                ("Kid's Party", "/Secret/kidsparty"),
+                ("War", "/Secret/war"),
+                ("Badland", "/Secret/badland"),
+                ("Exit", "/Secret/exit"),
+                ("Secret World", "/Secret/secretworld"),
+            ],
+        },
+    ],
+    lists: &[],
+    tables: &[],
+};
+
+// ------------------------------------------------------------------ Teardown
+const TEARDOWN: Spec = Spec {
+    name: "Teardown",
+    tab: "Crew",
+    accent: (235, 160, 40),
+    kind: Some("XML"),
+    markers: &["/registry/savegame/cash/@value", "/registry/savegame/tool"],
+    subtitle: "savegame.xml from Documents\\Teardown (inside the game's data folder). Cash, tool ammunition and tool upgrades, and each mission's score. Upgrades beyond what the shop sells can look odd in the game.",
+    tiles: &[("Cash", "/registry/savegame/cash/@value"), ("Hub score", "/registry/savegame/hub/score/@value")],
+    sections: &[
+        Section {
+            title: "Cash and progress",
+            rows: &[
+                ("Cash", "/registry/savegame/cash/@value"),
+                ("Hub score", "/registry/savegame/hub/score/@value"),
+            ],
+        },
+        Section {
+            title: "Ammunition",
+            rows: &[
+                ("Blowtorch", "/registry/savegame/tool/blowtorch/ammo/@value"),
+                ("Shotgun", "/registry/savegame/tool/shotgun/ammo/@value"),
+                ("Plank", "/registry/savegame/tool/plank/ammo/@value"),
+                ("Pipe bomb", "/registry/savegame/tool/pipebomb/ammo/@value"),
+                ("Gun", "/registry/savegame/tool/gun/ammo/@value"),
+                ("Bomb", "/registry/savegame/tool/bomb/ammo/@value"),
+                ("Rocket", "/registry/savegame/tool/rocket/ammo/@value"),
+            ],
+        },
+        Section {
+            title: "Range, damage and size upgrades",
+            rows: &[
+                ("Shotgun range", "/registry/savegame/tool/shotgun/range/@value"),
+                ("Shotgun damage", "/registry/savegame/tool/shotgun/damage/@value"),
+                ("Gun range", "/registry/savegame/tool/gun/range/@value"),
+                ("Gun damage", "/registry/savegame/tool/gun/damage/@value"),
+                ("Pipe bomb damage", "/registry/savegame/tool/pipebomb/damage/@value"),
+                ("Bomb damage", "/registry/savegame/tool/bomb/damage/@value"),
+                ("Rocket damage", "/registry/savegame/tool/rocket/damage/@value"),
+                ("Plank width", "/registry/savegame/tool/plank/width/@value"),
+                ("Plank length", "/registry/savegame/tool/plank/length/@value"),
+            ],
+        },
+    ],
+    lists: &[],
+    tables: &[],
+};
+
+// ------------------------------------------------------------------ Wolcen: Lords of Mayhem
+const WOLCEN: Spec = Spec {
+    name: "Wolcen: Lords of Mayhem",
+    tab: "Character",
+    accent: (200, 40, 50),
+    kind: None,
+    markers: &["/Stats/Gold", "/Stats/Level", "/CharacterId"],
+    subtitle: "A character file from Saved Games\\wolcen\\savegames\\characters (plain JSON). Gold, level, experience, the four attributes and the points to spend. Items, the skill bar and passive skills are in the Tree; the shared chest is its own file.",
+    tiles: &[("Gold", "/Stats/Gold"), ("Level", "/Stats/Level"), ("Passive skill points", "/Stats/PassiveSkillPoints")],
+    sections: &[
+        Section {
+            title: "Stats",
+            rows: &[
+                ("Level", "/Stats/Level"),
+                ("Experience", "/Stats/CurrentXP"),
+                ("Gold", "/Stats/Gold"),
+                ("Primordial affinity", "/Stats/PrimordialAffinity"),
+                ("Passive skill points", "/Stats/PassiveSkillPoints"),
+                ("Attribute points to spend", "/Stats/RemainingStatsPoints"),
+            ],
+        },
+        Section {
+            title: "Attributes",
+            rows: &[
+                ("Strength", "/Stats/Strength"),
+                ("Agility", "/Stats/Agility"),
+                ("Constitution", "/Stats/Constitution"),
+                ("Power", "/Stats/Power"),
+            ],
+        },
+        Section {
+            title: "Character",
+            rows: &[
+                ("Difficulty mode", "/DifficultyMode"),
+                ("League", "/League"),
+                ("Archetype", "/CharacterCustomization/Archetype"),
+            ],
+        },
+    ],
+    lists: &[],
+    tables: &[],
+};
+
+// ------------------------------------------------------------------ Blasphemous
+const BLASPHEMOUS: Spec = Spec {
+    name: "Blasphemous",
+    tab: "Penitent One",
+    accent: (150, 20, 30),
+    kind: None,
+    markers: &["/commonElements/ID_STATS/currentValues/Purge", "/commonElements/ID_PERSISTENT_MANAGER"],
+    subtitle: "savegame_N.save (base64-wrapped JSON, opened and closed for you). Tears of Atonement, current health and fervour, the upgrade levels of each stat, flask count and guilt. Owned rosary beads, prayers, relics and sword hearts are lists of ids in the Tree.",
+    tiles: &[("Tears of Atonement", "/commonElements/ID_STATS/currentValues/Purge"), ("Health", "/commonElements/ID_STATS/currentValues/Life"), ("Fervour", "/commonElements/ID_STATS/currentValues/Fervour")],
+    sections: &[
+        Section {
+            title: "Current values",
+            rows: &[
+                ("Tears of Atonement", "/commonElements/ID_STATS/currentValues/Purge"),
+                ("Health", "/commonElements/ID_STATS/currentValues/Life"),
+                ("Fervour", "/commonElements/ID_STATS/currentValues/Fervour"),
+                ("Bile flasks", "/commonElements/ID_STATS/currentValues/Flask"),
+                ("Attack speed", "/commonElements/ID_STATS/currentValues/AttackSpeed"),
+            ],
+        },
+        Section {
+            title: "Permanent upgrades",
+            rows: &[
+                ("Health", "/commonElements/ID_STATS/permanetBonus/Life"),
+                ("Fervour", "/commonElements/ID_STATS/permanetBonus/Fervour"),
+                ("Strength", "/commonElements/ID_STATS/permanetBonus/Strength"),
+                ("Defence", "/commonElements/ID_STATS/permanetBonus/Defense"),
+                ("Resistance", "/commonElements/ID_STATS/permanetBonus/Resistance"),
+                ("Speed", "/commonElements/ID_STATS/permanetBonus/Speed"),
+                ("Agility", "/commonElements/ID_STATS/permanetBonus/Agility"),
+                ("Flask", "/commonElements/ID_STATS/permanetBonus/Flask"),
+                ("Fervour strength", "/commonElements/ID_STATS/permanetBonus/FervourStrength"),
+                ("Dash cooldown", "/commonElements/ID_STATS/permanetBonus/DashCooldown"),
+            ],
+        },
+        Section {
+            title: "Progress",
+            rows: &[
+                ("Tears collected (total)", "/commonElements/ID_PERSISTENT_MANAGER/Purge"),
+                ("Play time (seconds)", "/commonElements/ID_PERSISTENT_MANAGER/Time"),
+                ("Completion %", "/commonElements/ID_PERSISTENT_MANAGER/Percent"),
+                ("New Game+ upgrades", "/commonElements/ID_PERSISTENT_MANAGER/NewGamePlusUpgrades"),
+            ],
+        },
+    ],
+    lists: &[],
+    tables: &[],
+};
+
+// ------------------------------------------------------------------ Noita
+const NOITA: Spec = Spec {
+    name: "Noita",
+    tab: "Player",
+    accent: (180, 60, 200),
+    kind: Some("XML"),
+    markers: &["/Entity/WalletComponent/@money", "/Entity/DamageModelComponent/@hp"],
+    subtitle: "player.xml from the save00 folder (close the game first). Gold and health; the game shows health 25 times the stored value. Wands, spells and perks are entities inside the file, in the Tree.",
+    tiles: &[("Gold", "/Entity/WalletComponent/@money"), ("Health (stored)", "/Entity/DamageModelComponent/@hp"), ("Max health (stored)", "/Entity/DamageModelComponent/@max_hp")],
+    sections: &[
+        Section {
+            title: "Wallet",
+            rows: &[
+                ("Gold", "/Entity/WalletComponent/@money"),
+                ("Gold spent", "/Entity/WalletComponent/@money_spent"),
+                ("Gold shown by the HUD", "/Entity/InventoryGuiComponent/@wallet_money_target"),
+            ],
+        },
+        Section {
+            title: "Health (shown value = stored x 25)",
+            rows: &[
+                ("Health", "/Entity/DamageModelComponent/@hp"),
+                ("Max health", "/Entity/DamageModelComponent/@max_hp"),
+                ("Max health cap", "/Entity/DamageModelComponent/@max_hp_cap"),
+            ],
+        },
+    ],
+    lists: &[],
+    tables: &[],
+};
+
+// ------------------------------------------------------------------ Last Epoch
+const LAST_EPOCH: Spec = Spec {
+    name: "Last Epoch",
+    tab: "Character",
+    accent: (120, 90, 200),
+    kind: None,
+    markers: &["/characterName", "/level", "/currentExp"],
+    subtitle: "A 1CHARACTERSLOT file from Last Epoch's Saves folder (offline characters; the EPOCH header is kept). Level, experience, deaths and respecs. Items, passives and the monolith are in the Tree.",
+    tiles: &[("Level", "/level"), ("Experience", "/currentExp"), ("Deaths", "/deaths")],
+    sections: &[
+        Section {
+            title: "Character",
+            rows: &[
+                ("Name", "/characterName"),
+                ("Level", "/level"),
+                ("Experience", "/currentExp"),
+                ("Class id", "/characterClass"),
+                ("Deaths", "/deaths"),
+                ("Respecs", "/respecs"),
+                ("Hardcore", "/hardcore"),
+                ("Masochist", "/masochist"),
+            ],
+        },
+        Section {
+            title: "Progress",
+            rows: &[
+                ("Portal unlocked", "/portalUnlocked"),
+                ("Reached town", "/reachedTown"),
+                ("Seqence number", "/seqNo"),
+            ],
+        },
+    ],
+    lists: &[],
+    tables: &[],
+};
+
+// ------------------------------------------------------------------ Enter the Gungeon
+const GUNGEON: Spec = Spec {
+    name: "Enter the Gungeon",
+    tab: "Gungeoneers",
+    accent: (230, 120, 40),
+    kind: None,
+    markers: &["/m_characterStats", "/m_flags"],
+    subtitle: "SlotA.save (a version line, then JSON XORed with the game's own key; both are handled for you). Each Gungeoneer's statistics, including Hegemony credits. Unlocked guns, items and flags are in the Tree.",
+    tiles: &[],
+    sections: &[],
+    lists: &[],
+    tables: &[
+        Table { title: "Gungeoneers", path: "/m_characterStats", name: &[], only: &[], cols: &[("Hegemony credits", "/stats/META_CURRENCY"), ("Runs", "/stats/NUMBER_ATTEMPTS"), ("Deaths", "/stats/NUMBER_DEATHS"), ("Enemies killed", "/stats/ENEMIES_KILLED"), ("Money collected", "/stats/TOTAL_MONEY_COLLECTED"), ("Secret rooms", "/stats/SECRET_ROOMS_FOUND"), ("Time played (s)", "/stats/TIME_PLAYED"), ("Credits spent", "/stats/META_CURRENCY_SPENT_AT_META_SHOP"), ("Most keys held", "/maxima/MOST_KEYS_HELD"), ("Most blanks held", "/maxima/MOST_BLANKS_HELD"), ("Highest curse", "/maxima/HIGHEST_CURSE_LEVEL"), ("Cleared Keep", "/stats/TIMES_CLEARED_CASTLE"), ("Cleared Gungeon Proper", "/stats/TIMES_CLEARED_GUNGEON"), ("Cleared Mines", "/stats/TIMES_CLEARED_MINES"), ("Cleared Hollow", "/stats/TIMES_CLEARED_CATACOMBS"), ("Cleared Forge", "/stats/TIMES_CLEARED_FORGE")], names: &[("Soldier", "Marine"), ("Guide", "Hunter"), ("Pilot", "Pilot"), ("Convict", "Convict"), ("Robot", "Robot"), ("Bullet", "Bullet"), ("Cultist", "Cultist"), ("Paradox", "Paradox"), ("Gunslinger", "Gunslinger")] },
+    ],
+};
+
+// ------------------------------------------------------------------ Disco Elysium
+const DISCO: Spec = Spec {
+    name: "Disco Elysium",
+    tab: "Detective",
+    accent: (214, 170, 60),
+    kind: None,
+    markers: &["/playerCharacter/Money", "/characterSheet/psyche/value"],
+    subtitle: "A save from Documents\\ZAUM Studio\\Disco Elysium\\SaveGames (a .ntwtf.zip; its big .2nd.ntwtf.json is edited and the rest of the zip is kept). Money, level, experience, skill points, the four attributes and the skills as the game keeps them. Skills the save lists under different names stay in the Tree.",
+    tiles: &[("Money", "/playerCharacter/Money"), ("Level", "/playerCharacter/Level"), ("Skill points", "/playerCharacter/SkillPoints")],
+    sections: &[
+        Section {
+            title: "Detective",
+            rows: &[
+                ("Money (centims)", "/playerCharacter/Money"),
+                ("Level", "/playerCharacter/Level"),
+                ("Experience", "/playerCharacter/XpAmount"),
+                ("Skill points to spend", "/playerCharacter/SkillPoints"),
+                ("Health (Endurance pool)", "/playerCharacter/healingPools/ENDURANCE"),
+                ("Morale (Volition pool)", "/playerCharacter/healingPools/VOLITION"),
+            ],
+        },
+        Section {
+            title: "Attributes",
+            rows: &[
+                ("Intellect", "/characterSheet/intellect/value"),
+                ("Psyche", "/characterSheet/psyche/value"),
+                ("Physique", "/characterSheet/fysique/value"),
+                ("Motorics", "/characterSheet/motorics/value"),
+            ],
+        },
+        Section {
+            title: "Skills",
+            rows: &[
+                ("Logic", "/characterSheet/logic/value"),
+                ("Encyclopedia", "/characterSheet/encyclopedia/value"),
+                ("Rhetoric", "/characterSheet/rhetoric/value"),
+                ("Drama", "/characterSheet/drama/value"),
+                ("Conceptualization", "/characterSheet/conceptualization/value"),
+                ("Visual Calculus", "/characterSheet/visualCalculus/value"),
+                ("Volition", "/characterSheet/volition/value"),
+                ("Inland Empire", "/characterSheet/inlandEmpire/value"),
+                ("Empathy", "/characterSheet/empathy/value"),
+                ("Authority", "/characterSheet/authority/value"),
+                ("Esprit de Corps", "/characterSheet/espritDeCorps/value"),
+                ("Suggestion", "/characterSheet/suggestion/value"),
+                ("Endurance", "/characterSheet/endurance/value"),
+                ("Pain Threshold", "/characterSheet/painThreshold/value"),
+                ("Physical Instrument", "/characterSheet/physicalInstrument/value"),
+                ("Electrochemistry", "/characterSheet/electrochemistry/value"),
+                ("Shivers", "/characterSheet/shivers/value"),
+                ("Half Light", "/characterSheet/halfLight/value"),
+                ("Hand/Eye Coordination", "/characterSheet/handEyeCoordination/value"),
+                ("Perception", "/characterSheet/perception/value"),
+                ("Reaction Speed", "/characterSheet/reaction/value"),
+                ("Savoir Faire", "/characterSheet/savoirFaire/value"),
+                ("Interfacing", "/characterSheet/interfacing/value"),
+                ("Composure", "/characterSheet/composure/value"),
+            ],
+        },
+    ],
+    lists: &[],
+    tables: &[],
+};
+
+// ------------------------------------------------------------------ Clicker Heroes
+const CLICKER_HEROES: Spec = Spec {
+    name: "Clicker Heroes",
+    tab: "Clicker",
+    accent: (240, 180, 40),
+    kind: None,
+    markers: &["/heroSouls", "/heroCollection/heroes", "/rubies"],
+    subtitle: "The Steam version's save (a text key, then base64 of raw-deflated JSON; both handled for you). Gold, rubies, hero souls, ancient souls, zones and each hero's and outsider's level. Numbers the game keeps as text (gold, primal souls) are edited as text.",
+    tiles: &[("Hero souls", "/heroSouls"), ("Rubies", "/rubies"), ("Ancient souls", "/ancientSouls")],
+    sections: &[
+        Section {
+            title: "Currencies",
+            rows: &[
+                ("Gold", "/gold"),
+                ("Rubies", "/rubies"),
+                ("Hero souls", "/heroSouls"),
+                ("Ancient souls", "/ancientSouls"),
+                ("Ancient souls (total)", "/ancientSoulsTotal"),
+                ("Primal souls", "/primalSouls"),
+                ("Forge coals", "/forgeCoals"),
+                ("Candy canes", "/candyCanes"),
+            ],
+        },
+        Section {
+            title: "Progress",
+            rows: &[
+                ("Highest zone finished", "/highestFinishedZone"),
+                ("Highest zone before transcending", "/pretranscendentHighestFinishedZone"),
+                ("Highest zone since transcending", "/transcendentHighestFinishedZone"),
+                ("Ascensions", "/numWorldResets"),
+                ("Transcensions", "/numberOfTranscensions"),
+                ("Transcended", "/transcendent"),
+            ],
+        },
+        Section {
+            title: "Multipliers",
+            rows: &[
+                ("Click damage", "/clickMultiplier"),
+                ("All damage", "/allDpsMultiplier"),
+                ("Gold", "/goldMultiplier"),
+                ("Critical click", "/criticalMultiplier"),
+            ],
+        },
+    ],
+    lists: &[],
+    tables: &[
+        Table { title: "Heroes", path: "/heroCollection/heroes", name: &[], only: &[], cols: &[("Level", "/level"), ("Epic level", "/epicLevel"), ("Locked", "/locked")], names: &[] },
+    
+        Table { title: "Outsiders", path: "/outsiders/outsiders", name: &[], only: &[], cols: &[("Level", "/level"), ("Ancient souls spent", "/spentAncientSouls")], names: &[] },
+    ],
+};
+
+// ------------------------------------------------------------------ The Binding of Isaac: Rebirth
+const ISAAC: Spec = Spec {
+    name: "The Binding of Isaac: Rebirth",
+    tab: "Basement",
+    accent: (200, 60, 60),
+    kind: Some(crate::fmt::isaac::KIND),
+    markers: &["/Counters/Eden tokens", "/Counters/Deaths"],
+    subtitle: "persistentgamedata1.dat (Rebirth), ab_ / abp_ (Afterbirth, Afterbirth+) or rep_ / rep+ (Repentance), in the Steam remote folder. Counters, achievements, collectibles seen and challenges; each unlock is 0 (locked) or 1 (unlocked), numbered as in the game's own lists. The checksum is written again on save.",
+    tiles: &[("Eden tokens", "/Counters/Eden tokens"), ("Deaths", "/Counters/Deaths"), ("Win streak", "/Counters/Win streak")],
+    sections: &[
+        Section {
+            title: "Counters",
+            rows: &[
+                ("Mom kills", "/Counters/Mom kills"),
+                ("Rocks broken", "/Counters/Rocks broken"),
+                ("Tinted rocks broken", "/Counters/Tinted rocks broken"),
+                ("Poop destroyed", "/Counters/Poop destroyed"),
+                ("Deaths", "/Counters/Deaths"),
+                ("Shopkeepers destroyed", "/Counters/Shopkeepers destroyed"),
+                ("Shell game plays", "/Counters/Shell game plays"),
+                ("Slots destroyed", "/Counters/Slots destroyed"),
+                ("Coins in the donation machine", "/Counters/Coins in the donation machine"),
+                ("Eden tokens", "/Counters/Eden tokens"),
+                ("Win streak", "/Counters/Win streak"),
+                ("Best win streak", "/Counters/Best win streak"),
+                ("Loss streak", "/Counters/Loss streak"),
+                ("Coins in the greed donation machine", "/Counters/Coins in the greed donation machine"),
+                ("Caves cleared", "/Counters/Caves cleared"),
+                ("Basements cleared", "/Counters/Basements cleared"),
+                ("Depths cleared", "/Counters/Depths cleared"),
+            ],
+        },
+    ],
+    lists: &[
+        List { title: "Achievements", path: "/Achievements", shape: Shape::Map, names: &[], max: None },
+    
+        List { title: "Collectibles seen", path: "/Items seen", shape: Shape::Map, names: &[], max: None },
+    
+        List { title: "Challenges", path: "/Challenges", shape: Shape::Map, names: &[], max: None },
+    ],
+    tables: &[],
+};
+
+// ------------------------------------------------------------------ Risk of Rain 2
+const ROR2: Spec = Spec {
+    name: "Risk of Rain 2",
+    tab: "Survivor",
+    accent: (110, 160, 230),
+    kind: Some("XML"),
+    markers: &["/UserProfile/coins", "/UserProfile/totalRunCount"],
+    subtitle: "A profile XML from Steam\\userdata\\<account>\\632360\\remote\\UserProfiles. Lunar coins and the profile's totals. Unlocked achievements, discovered items and the logbook are space-separated lists in the Tree; the per-stat table is under UserProfile > stats.",
+    tiles: &[("Lunar coins", "/UserProfile/coins"), ("Runs", "/UserProfile/totalRunCount"), ("Coins collected", "/UserProfile/totalCollectedCoins")],
+    sections: &[
+        Section {
+            title: "Profile",
+            rows: &[
+                ("Name", "/UserProfile/name"),
+                ("Lunar coins", "/UserProfile/coins"),
+                ("Lunar coins collected (total)", "/UserProfile/totalCollectedCoins"),
+                ("Runs played", "/UserProfile/totalRunCount"),
+                ("Run time (seconds)", "/UserProfile/totalRunSeconds"),
+                ("Time alive (seconds)", "/UserProfile/totalAliveSeconds"),
+                ("Time logged in (seconds)", "/UserProfile/totalLoginSeconds"),
+                ("Preferred survivor", "/UserProfile/survivorPreference"),
+            ],
         },
     ],
     lists: &[],
