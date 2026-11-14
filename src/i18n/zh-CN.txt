@@ -15515,3 +15515,6 @@ Talus defeated
 game_data.sav from the Wii U or Switch game (any version). Rupees, hearts, stamina, Korok seeds, boss counters and the amounts of materials, food and arrows.
 = 来自 Wii U 或 Switch 版的 game_data.sav(任何版本)。卢比、心数、耐力、呼呼种子、首领计数以及材料、食物和箭的数量。
 
+The script variables of the save (chapter, quest and story flags) and the dialogue flags. Attributes and items are in WORLD.SAV, which is not covered.
+= 存档的脚本变量(章节、任务和剧情标记)与对话标记。属性和物品位于 WORLD.SAV 中,暂不支持。
+

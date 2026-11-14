@@ -26,6 +26,7 @@
 - Dragon Ball Xenoverse: game screen (custom characters)
 - Chronicon: game screen (level, free skill and mastery points), with the hex-text character opened as bytes
 - Sword Art Online: Fatal Bullet: game screen (inventory quantities), with the encrypted save opened and re-sealed
+- Gothic and Gothic II: game screen (script variables and dialogue flags)
 
 ## 0.6.1
 

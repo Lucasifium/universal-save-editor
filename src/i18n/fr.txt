@@ -15465,3 +15465,6 @@ Talus defeated
 game_data.sav from the Wii U or Switch game (any version). Rupees, hearts, stamina, Korok seeds, boss counters and the amounts of materials, food and arrows.
 = game_data.sav du jeu Wii U ou Switch (toute version). Rubis, cœurs, endurance, graines korogus, compteurs de boss et quantités de matériaux, nourriture et flèches.
 
+The script variables of the save (chapter, quest and story flags) and the dialogue flags. Attributes and items are in WORLD.SAV, which is not covered.
+= Les variables de script de la sauvegarde (chapitre, indicateurs de quêtes et d'histoire) et les indicateurs de dialogue. Les attributs et objets sont dans WORLD.SAV, qui n'est pas couvert.
+

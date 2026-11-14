@@ -15539,3 +15539,6 @@ Talus defeated
 game_data.sav from the Wii U or Switch game (any version). Rupees, hearts, stamina, Korok seeds, boss counters and the amounts of materials, food and arrows.
 = Wii UまたはSwitch版のgame_data.sav(どのバージョンでも可)。ルピー、ハート、スタミナ、コログのみ、ボスの討伐数、素材・料理・矢の数量。
 
+The script variables of the save (chapter, quest and story flags) and the dialogue flags. Attributes and items are in WORLD.SAV, which is not covered.
+= セーブのスクリプト変数(章、クエストやストーリーのフラグ)と会話フラグ。能力値とアイテムは WORLD.SAV にあり、対象外です。
+
