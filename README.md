@@ -3,7 +3,7 @@
 > **Free, and it always will be.** No price, no ads, no account, no paid version, no online service, no
 > rate limits. If anyone is charging you for this, it isn't from here.
 
-An offline save editor and save manager for 360+ (364) PC games (edit saves, and back up, name and restore them): Cairn, Terraria (characters and a world map editor),
+An offline save editor and save manager for 360+ (369) PC games (edit saves, and back up, name and restore them): Cairn, Terraria (characters and a world map editor),
 Oxygen Not Included, RimWorld, Stardew Valley, Onimusha: Way of the Sword, Elden Ring, Dark Souls,
 Cyberpunk 2077, the Persona, Yakuza and Final Fantasy games, Ren'Py visual novels, RPG Maker games
 and more (the full list is below). Written in Rust (egui). Nothing is uploaded anywhere, and there are
@@ -124,6 +124,11 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 | Super Smash Bros. Ultimate | *Main*: gold, tickets, hammers, snacks, SP and the spirit board item counts (Switch `system_data.bin`; checked on a public save, not yet tried in the game) |
 | Mario Kart 7 | *Player*: coins, StreetPass count, online wins and losses and VR points; the save's CRC-32 is written again (decrypted 3DS `system0.dat`; checked on a public save, not yet tried in the game) |
 | Super Kirby Clash | *Resources*: apple gems and the red, blue, yellow and rare shards (decrypted 3DS `savedata.dat`; checked on a public save, not yet tried in the game) |
+| Castlevania: Symphony of the Night | *Alucard* (PlayStation memory card, `.mcs`, `.psx` or `.psv` save): level, experience, HP, MP, hearts, the four stats, gold, kills, play time, subweapon, equipped gear, every relic, form and familiar card, spells, familiar levels, warp rooms, and the count of every weapon, shield, armor, accessory and potion (checked on public saves, not yet tried in the game) |
+| Final Fantasy VIII (PlayStation) | *Squall* (PlayStation memory card, `.mcs`, `.psx` or `.psv` save): gil, story progression, Triple Triad record and cards, each party slot's experience, HP and stat bonuses and stocked magic, the Guardian Forces, and all 198 bag slots (the save's CRC-16 is written again; checked on public saves, not yet tried in the game) |
+| Final Fantasy Tactics | *Ramza* (PlayStation memory card, `.mcs`, `.psx` or `.psv` save): war funds, each unit's job, level, experience, Brave, Faith and equipment, and the count of every weapon, helmet, armor, accessory and item (the save's 64-bit checksum is written again; checked on public saves, not yet tried in the game) |
+| Resident Evil (PlayStation) | *Survivor* (PlayStation memory card, `.mcs`, `.psx` or `.psv` save, Director's Cut too): Chris or Jill, health, poison, ink ribbons used, the eight inventory slots and all 48 item box slots with item and quantity (checked on public saves, not yet tried in the game) |
+| Kingdom Hearts II (PlayStation 2) | *Sora* (PlayStation 2 `.psu`, `.psv` or memory card save, USA and Europe releases): munny, difficulty, magic levels, each party member's level, experience, HP, MP and bonuses, and the stock of every item, weapon, armor, accessory, key item and synthesis material, with a **Max crafting materials** button for the synthesis materials (99 each, the most the stock holds; an estimate, no public source states it). The save's checksum is written again (checked on public saves, not yet tried in the game) |
 | Alpha Protocol | *Agent*: money, level, experience, skill points, skill ranks, ammunition and gadget counts from a checkpoint `.sav` (checked on a public save, not yet tried in the game) |
 | Deltatraveler | *Party*: name, gold, experience, play time, party members and the item, weapon and armor ids (checked on public saves, not yet tried in the game) |
 | Undertale Yellow | *Clover*: LV, EXP, gold, HP and the other stats, equipment names, the eight item slots and play time from the save file (checked on public saves, not yet tried in the game) |
