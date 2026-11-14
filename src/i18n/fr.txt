@@ -17081,3 +17081,15 @@ Best rating
 
 Best time
 = Meilleur temps
+
+A PlayStation save (memory card, .mcs, .psx or .psv). The unlocked characters, costumes, modes and movies, the characters the arcade mode was completed with, the Tekken Force key and high score, the game options and each character's arcade and versus statistics. The scrambling and checksum of the save are written again.
+= Une sauvegarde PlayStation (carte mémoire, .mcs, .psx ou .psv). Les personnages, costumes, modes et films débloqués, les personnages avec lesquels le mode arcade a été terminé, la clé et le meilleur score de Tekken Force, les options du jeu et les statistiques arcade et versus de chaque personnage. Le brouillage et la somme de contrôle de la sauvegarde sont réécrits.
+
+A PlayStation save (memory card, .mcs, .psx or .psv). The unlocked characters, the characters the arcade mode was completed with, and the game options.
+= Une sauvegarde PlayStation (carte mémoire, .mcs, .psx ou .psv). Les personnages débloqués, les personnages avec lesquels le mode arcade a été terminé et les options du jeu.
+
+A PlayStation save (memory card, .mcs, .psx or .psv). The unlocked characters, the characters the arcade mode was completed with, the game options and each character's arcade and versus statistics. The scrambling and checksum of the save are written again.
+= Une sauvegarde PlayStation (carte mémoire, .mcs, .psx ou .psv). Les personnages débloqués, les personnages avec lesquels le mode arcade a été terminé, les options du jeu et les statistiques arcade et versus de chaque personnage. Le brouillage et la somme de contrôle de la sauvegarde sont réécrits.
+
+Close the emulator first. Tekken 2 and 3 keep their data scrambled and guarded by a checksum; both are written again on save.
+= Ferme d'abord l'émulateur. Tekken 2 et 3 gardent leurs données brouillées et protégées par une somme de contrôle ; les deux sont réécrits à l'enregistrement.

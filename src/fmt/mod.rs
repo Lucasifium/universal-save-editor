@@ -206,6 +206,7 @@ pub mod fft;
 pub mod re1;
 pub mod thps;
 pub mod silenthill;
+pub mod tekken;
 pub mod ctr;
 pub mod rayman;
 pub mod gt1;
@@ -318,6 +319,11 @@ pub fn parse_binary(d: &[u8]) -> Option<TreeDoc> {
     }
     if ctr::looks(d) {
         if let Ok(t) = ctr::parse(d) {
+            return Some(t);
+        }
+    }
+    if tekken::looks(d) {
+        if let Ok(t) = tekken::parse(d) {
             return Some(t);
         }
     }

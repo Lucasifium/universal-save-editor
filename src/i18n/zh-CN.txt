@@ -17131,3 +17131,15 @@ Best rating
 
 Best time
 = 最佳用时
+
+A PlayStation save (memory card, .mcs, .psx or .psv). The unlocked characters, costumes, modes and movies, the characters the arcade mode was completed with, the Tekken Force key and high score, the game options and each character's arcade and versus statistics. The scrambling and checksum of the save are written again.
+= PlayStation存档(存储卡、.mcs、.psx或.psv)。已解锁的角色、服装、模式和影片,用来通关街机模式的角色,铁拳力量的钥匙和最高分,游戏选项,以及每个角色的街机和对战统计。存档的加扰和校验和会重新写入。
+
+A PlayStation save (memory card, .mcs, .psx or .psv). The unlocked characters, the characters the arcade mode was completed with, and the game options.
+= PlayStation存档(存储卡、.mcs、.psx或.psv)。已解锁的角色、用来通关街机模式的角色,以及游戏选项。
+
+A PlayStation save (memory card, .mcs, .psx or .psv). The unlocked characters, the characters the arcade mode was completed with, the game options and each character's arcade and versus statistics. The scrambling and checksum of the save are written again.
+= PlayStation存档(存储卡、.mcs、.psx或.psv)。已解锁的角色、用来通关街机模式的角色、游戏选项,以及每个角色的街机和对战统计。存档的加扰和校验和会重新写入。
+
+Close the emulator first. Tekken 2 and 3 keep their data scrambled and guarded by a checksum; both are written again on save.
+= 请先关闭模拟器。铁拳2和3的数据经过加扰并由校验和保护,保存时两者都会重新写入。

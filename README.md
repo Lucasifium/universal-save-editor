@@ -3,7 +3,7 @@
 > **Free, and it always will be.** No price, no ads, no account, no paid version, no online service, no
 > rate limits. If anyone is charging you for this, it isn't from here.
 
-An offline save editor and save manager for 470+ (470) PC games (edit saves, and back up, name and restore them): Cairn, Terraria (characters and a world map editor),
+An offline save editor and save manager for 470+ (473) PC games (edit saves, and back up, name and restore them): Cairn, Terraria (characters and a world map editor),
 Oxygen Not Included, RimWorld, Stardew Valley, Onimusha: Way of the Sword, Elden Ring, Dark Souls,
 Cyberpunk 2077, the Persona, Yakuza and Final Fantasy games, Ren'Py visual novels, RPG Maker games
 and more (the full list is below). Written in Rust (egui). Nothing is uploaded anywhere, and there are
@@ -521,13 +521,16 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 </details>
 
 <details>
-<summary><strong>T</strong> (45)</summary>
+<summary><strong>T</strong> (48)</summary>
 
 | Game | Screen |
 |---|---|
 | Tales of Symphonia | *Party*: gald (written in both places the game keeps it), grade points, the records, all nine characters (level, experience, HP, TP, strength, attack, defense, luck, accuracy, evasion, intelligence, overlimit, affection) and every item up to 20 (checked on a real save, not yet tried in the game) |
 | Tavern Master | *Tavern*: money, quest points, the tavern's name, and every employee's level and salary, from the plain JSON save (checked on public saves, not yet tried in the game) |
 | Teardown | *Crew*: cash, the hub score, every tool's ammunition and its range, damage and size upgrades (savegame.xml); checked on a public save, not yet tried in the game |
+| Tekken (PlayStation) | *Characters* (PlayStation memory card, `.mcs`, `.psx` or `.psv` save): the unlocked characters, the characters the arcade mode was completed with and the game options (checked on public saves, not yet tried in the game) |
+| Tekken 2 (PlayStation) | *Characters* (PlayStation memory card, `.mcs`, `.psx` or `.psv` save): the unlocked characters, the characters the arcade mode was completed with, the game options and each character's arcade and versus statistics; the scrambling and checksum are written again (checked on public saves, not yet tried in the game) |
+| Tekken 3 (PlayStation) | *Characters* (PlayStation memory card, `.mcs`, `.psx` or `.psv` save): the unlocked characters, costumes, modes and movies, the characters the arcade mode was completed with, the Tekken Force key and high score, the game options and each character's arcade and versus statistics; the scrambling and checksum are written again (checked on public saves, not yet tried in the game) |
 | Terra Invicta | *Factions*: every faction's money, influence, operations, research, boost, mission control and space resources (checked on public saves, not yet tried in the game) |
 | Terraria (characters) | Life and mana; permanent upgrades; inventory, coins and ammo, equipment (armor, vanity, dyes, pets) and storage (piggy bank, safe, forge, void vault) as item grids; a **Max crafting materials** button (1.4.4 and later) that fills the ores, bars, gems, woods, monster drops and other materials you already have to 9999, leaving critters, fish and boss summons alone |
 | Terraria (worlds) | A map editor: pan and zoom the whole world, see what every tile is, points of interest (shimmer, Enchanted Sword shrines, dungeon biome chests and other dungeon chests, Jungle Temple chests, Plantera's Bulbs, Life Fruit, orbs and hearts, altars, larvae, the Jungle Temple, hives, marble and granite caves, spider nests, glowing mushrooms, meteorites; each kind and every marker can be hidden), paint blocks, walls and liquids, erase them, and move the spawn point (chests and furniture are left alone; each stroke is one undo step). Also the world settings (name, difficulty, evil, hardmode, time, spawn and dungeon), special seeds, bosses defeated, events, rescued NPCs, every chest's contents (with search), signs and the town NPCs' homes |
@@ -679,8 +682,8 @@ binary and stays an ironman save. It isn't converted to a normal one.
 
 The start page lists **Your games**: every game in the list whose saves were found on this computer,
 newest first, each one click away from its newest save. *Find my game's saves* (the big button on the
-start page, *Find saves* in the toolbar and the File menu) lists every one of the 470+ (470) PC games the editor knows, Mass Effect 1–3, the Legendary Edition and Andromeda among them — with where it
-start page, *Find saves* in the toolbar and the File menu) lists every one of the 470+ (470) PC games the editor knows, Mass Effect 1–3, the Legendary Edition and Andromeda among them — with where it
+start page, *Find saves* in the toolbar and the File menu) lists every one of the 470+ (473) PC games the editor knows, Mass Effect 1–3, the Legendary Edition and Andromeda among them — with where it
+start page, *Find saves* in the toolbar and the File menu) lists every one of the 470+ (473) PC games the editor knows, Mass Effect 1–3, the Legendary Edition and Andromeda among them — with where it
 usually keeps its saves and what the files are called, and finds them on your computer (Steam
 libraries and `userdata`, Documents wherever Windows has it, AppData, Saved Games, Ubisoft
 Connect). On Linux and the Steam Deck it also looks inside Proton prefixes
