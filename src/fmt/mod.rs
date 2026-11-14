@@ -175,6 +175,9 @@ pub mod lego_tss;
 pub mod lego_classic;
 pub mod retro;
 pub mod sm64;
+pub mod mldt;
+pub mod nintendo;
+pub mod xc3;
 pub mod supermetroid;
 pub mod zelda_lttp;
 pub mod alphaprotocol;
@@ -407,6 +410,31 @@ pub fn parse_binary(d: &[u8]) -> Option<TreeDoc> {
     }
     if zelda_lttp::looks(d) {
         if let Ok(t) = zelda_lttp::parse(d) {
+            return Some(t);
+        }
+    }
+    if nintendo::mk7_looks(d) {
+        if let Ok(t) = nintendo::parse_mk7(d) {
+            return Some(t);
+        }
+    }
+    if nintendo::skc_looks(d) {
+        if let Ok(t) = nintendo::parse_skc(d) {
+            return Some(t);
+        }
+    }
+    if nintendo::smash_looks(d) {
+        if let Ok(t) = nintendo::parse_smash(d) {
+            return Some(t);
+        }
+    }
+    if mldt::looks(d) {
+        if let Ok(t) = mldt::parse(d) {
+            return Some(t);
+        }
+    }
+    if xc3::looks(d) {
+        if let Ok(t) = xc3::parse(d) {
             return Some(t);
         }
     }

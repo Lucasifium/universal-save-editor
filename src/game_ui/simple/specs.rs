@@ -3,7 +3,7 @@
 
 use super::{List, Max, Section, Shape, Spec, Table};
 
-pub static SPECS: &[Spec] = &[COTL, FALLOUT_SHELTER, DRG, S1_MONEY, S1_RANK, S1_TIME, S1_GAME, SOTF_STATE, SOTF_GAME, SOTF_WEATHER, SOTF_ITEMS, DMD, CUPHEAD, ANTIMATTER, PVZ, CELESTE, DRGS, KH3, RF4S, SKY1ST, KSP, FFPR, MCD, STONESHARD, ROGUE_TRADER, BIOSHOCK_INFINITE, SPACE_HAVEN, SNOWRUNNER, GRAVEYARD_KEEPER, NFSMW, TOS, GTA3, GTAVC, BITBURNER, TERRA_INVICTA, PRISON, FF13, SONIC_MANIA, CAVE_STORY_PLUS, CAVE_STORY, LIES_OF_P, TXR, DAVE, MSC, ULTRAKILL, RPGXP, RE5, ANNO1800, FTK, LEGO_TSS, LEGO_CLASSIC, MYZ, CMS21, MEDIEVAL_DYNASTY, MECHANICUS, ORI, OMORI, ENDER_LILIES, SW2, ES2, MOONLIGHTER, WASTELAND2, ATOM, MORTAL_SHELL, MORTAL_SHELL_2, COTW, BEAMNG, FOREST, YAKUZA3, YAKUZA4, YAKUZA5, ISHIN, SALT, DRAKENSANG, ALPHA, TYRANNY, JEDI_FO, SR3, SR4, WD2, FABLE, WANDERING_SWORD, STELLAR_BLADE, PRAGMATA, SLIME_RANCHER, SUBNAUTICA2, HZD, SLEEPING_DOGS, DXMD, ATOMIC_HEART, DISHONORED2, DEATHLOOP, AC_BROTHERHOOD, AC_REVELATIONS, AC3R, AC_LIBERATION, AC_BLACK_FLAG, AC_ROGUE, AC_UNITY, AC_SYNDICATE, AC_ORIGINS, AC_ODYSSEY, DISHONORED1, RDR1, RDR2, SM64, SUPER_METROID, LTTP, WORLDBOX, COREKEEPER, HOLOCURE, POTION_CRAFT, WWZ, ROBOQUEST, CMS18, LONGDRIVE, LONGDRIVE_PROP];
+pub static SPECS: &[Spec] = &[COTL, FALLOUT_SHELTER, DRG, S1_MONEY, S1_RANK, S1_TIME, S1_GAME, SOTF_STATE, SOTF_GAME, SOTF_WEATHER, SOTF_ITEMS, DMD, CUPHEAD, ANTIMATTER, PVZ, CELESTE, DRGS, KH3, RF4S, SKY1ST, KSP, FFPR, MCD, STONESHARD, ROGUE_TRADER, BIOSHOCK_INFINITE, SPACE_HAVEN, SNOWRUNNER, GRAVEYARD_KEEPER, NFSMW, TOS, GTA3, GTAVC, BITBURNER, TERRA_INVICTA, PRISON, FF13, SONIC_MANIA, CAVE_STORY_PLUS, CAVE_STORY, LIES_OF_P, TXR, DAVE, MSC, ULTRAKILL, RPGXP, RE5, ANNO1800, FTK, LEGO_TSS, LEGO_CLASSIC, MYZ, CMS21, MEDIEVAL_DYNASTY, MECHANICUS, ORI, OMORI, ENDER_LILIES, SW2, ES2, MOONLIGHTER, WASTELAND2, ATOM, MORTAL_SHELL, MORTAL_SHELL_2, COTW, BEAMNG, FOREST, YAKUZA3, YAKUZA4, YAKUZA5, ISHIN, SALT, DRAKENSANG, ALPHA, TYRANNY, JEDI_FO, SR3, SR4, WD2, FABLE, WANDERING_SWORD, STELLAR_BLADE, PRAGMATA, SLIME_RANCHER, SUBNAUTICA2, HZD, SLEEPING_DOGS, DXMD, ATOMIC_HEART, DISHONORED2, DEATHLOOP, AC_BROTHERHOOD, AC_REVELATIONS, AC3R, AC_LIBERATION, AC_BLACK_FLAG, AC_ROGUE, AC_UNITY, AC_SYNDICATE, AC_ORIGINS, AC_ODYSSEY, DISHONORED1, RDR1, RDR2, SM64, SUPER_METROID, LTTP, WORLDBOX, COREKEEPER, HOLOCURE, POTION_CRAFT, WWZ, ROBOQUEST, CMS18, LONGDRIVE, LONGDRIVE_PROP, XC3, MLDT, SMASH, MK7, SKC];
 
 // ------------------------------------------------------------------ Cult of the Lamb
 
@@ -4137,3 +4137,146 @@ const LONGDRIVE_PROP: Spec = Spec {
     tables: &[],
 };
 
+// ------------------------------------------------------------------ Xenoblade Chronicles 3
+
+const XC3: Spec = Spec {
+    name: "Xenoblade Chronicles 3",
+    tab: "Xenoblade",
+    accent: (64, 160, 220),
+    kind: Some(crate::fmt::xc3::KIND),
+    markers: &["/Party/Gold"],
+    subtitle: "A Switch save from an emulator or a dump (bf3game*.sav). Gold, play time, each character's level and experience, and the cylinder, gem and collectible amounts.",
+    tiles: &[("Gold", "/Party/Gold"), ("Play time (seconds)", "/Party/Play time (seconds)")],
+    sections: &[],
+    lists: &[],
+    tables: &[
+        Table {
+            title: "Characters",
+            path: "/Characters",
+            name: &[],
+            cols: &[("Level", "/Level"), ("Experience", "/Experience"), ("Bonus experience", "/Bonus experience")],
+            only: &[],
+            names: &[],
+        },
+        Table {
+            title: "Ether cylinders",
+            path: "/Ether cylinders",
+            name: &[],
+            cols: &[("Amount", "/Amount")],
+            only: &[],
+            names: &[],
+        },
+        Table {
+            title: "Gem crystals",
+            path: "/Gem crystals",
+            name: &[],
+            cols: &[("Amount", "/Amount")],
+            only: &[],
+            names: &[],
+        },
+        Table {
+            title: "Collectibles",
+            path: "/Collectibles",
+            name: &[],
+            cols: &[("Amount", "/Amount")],
+            only: &[],
+            names: &[],
+        },
+    ],
+};
+
+const MLDT: Spec = Spec {
+    name: "Mario & Luigi: Dream Team",
+    tab: "Brothers",
+    accent: (220, 50, 50),
+    kind: Some(crate::fmt::mldt::KIND),
+    markers: &["/Coins"],
+    subtitle: "A decrypted 3DS save (ML4_001.sav). Coins, both brothers' level, experience and stats, and the counts of recovery items, battle items and beans.",
+    tiles: &[("Coins", "/Coins")],
+    sections: &[
+        Section {
+            title: "Mario",
+            rows: &[("Level", "/Mario/Level"), ("Experience", "/Mario/Experience"), ("HP", "/Mario/HP"), ("Max HP", "/Mario/Max HP"), ("BP", "/Mario/BP"), ("Max BP", "/Mario/Max BP"), ("Power", "/Mario/Power"), ("Defense", "/Mario/Defense"), ("Speed", "/Mario/Speed"), ("Stache", "/Mario/Stache")],
+        },
+        Section {
+            title: "Luigi",
+            rows: &[("Level", "/Luigi/Level"), ("Experience", "/Luigi/Experience"), ("HP", "/Luigi/HP"), ("Max HP", "/Luigi/Max HP"), ("BP", "/Luigi/BP"), ("Max BP", "/Luigi/Max BP"), ("Power", "/Luigi/Power"), ("Defense", "/Luigi/Defense"), ("Speed", "/Luigi/Speed"), ("Stache", "/Luigi/Stache")],
+        },
+        Section {
+            title: "Recovery items",
+            rows: &[("Mushroom", "/Recovery items/Mushroom"), ("Super Mushroom", "/Recovery items/Super Mushroom"), ("Ultra Mushroom", "/Recovery items/Ultra Mushroom"), ("Max Mushroom", "/Recovery items/Max Mushroom"), ("Nut", "/Recovery items/Nut"), ("Super Nut", "/Recovery items/Super Nut"), ("Ultra Nut", "/Recovery items/Ultra Nut"), ("Max Nut", "/Recovery items/Max Nut"), ("Syrup Jar", "/Recovery items/Syrup Jar"), ("Super Syrup Jar", "/Recovery items/Super Syrup Jar"), ("Ultra Syrup Jar", "/Recovery items/Ultra Syrup Jar"), ("Max Syrup Jar", "/Recovery items/Max Syrup Jar"), ("Candy", "/Recovery items/Candy"), ("Super Candy", "/Recovery items/Super Candy"), ("Ultra Candy", "/Recovery items/Ultra Candy"), ("Max Candy", "/Recovery items/Max Candy"), ("1-Up Mushroom", "/Recovery items/1-Up Mushroom"), ("1-Up Deluxe", "/Recovery items/1-Up Deluxe"), ("Refreshing Herb", "/Recovery items/Refreshing Herb")],
+        },
+        Section {
+            title: "Battle items",
+            rows: &[("Taunt Ball", "/Battle items/Taunt Ball"), ("Shock Bomb", "/Battle items/Shock Bomb"), ("Boo Biscuit", "/Battle items/Boo Biscuit"), ("Secret Box", "/Battle items/Secret Box")],
+        },
+        Section {
+            title: "Beans",
+            rows: &[("HP Bean", "/Beans/HP Bean"), ("Bros. Bean", "/Beans/Bros. Bean"), ("Power Bean", "/Beans/Power Bean"), ("Defense Bean", "/Beans/Defense Bean"), ("Speed Bean", "/Beans/Speed Bean"), ("Stache Bean", "/Beans/Stache Bean"), ("Super HP Bean", "/Beans/Super HP Bean"), ("Super Bros. Bean", "/Beans/Super Bros. Bean"), ("Super Power Bean", "/Beans/Super Power Bean"), ("Super Defense Bean", "/Beans/Super Defense Bean"), ("Super Speed Bean", "/Beans/Super Speed Bean"), ("Super Stache Bean", "/Beans/Super Stache Bean")],
+        },
+    ],
+    lists: &[],
+    tables: &[],
+};
+
+const SMASH: Spec = Spec {
+    name: "Super Smash Bros. Ultimate",
+    tab: "Smash",
+    accent: (230, 60, 60),
+    kind: Some(crate::fmt::nintendo::SMASH_KIND),
+    markers: &["/Main/Gold"],
+    subtitle: "A Switch system_data.bin (decrypted). Gold, tickets, hammers, snacks, SP and the spirit board item counts.",
+    tiles: &[("Gold", "/Main/Gold"), ("SP", "/Spirits/SP")],
+    sections: &[
+        Section {
+            title: "Main",
+            rows: &[("Tickets", "/Main/Tickets"), ("Gold", "/Main/Gold"), ("Hammers", "/Main/Hammers")],
+        },
+        Section {
+            title: "Spirits",
+            rows: &[("Snacks (S)", "/Spirits/Snacks (S)"), ("Snacks (M)", "/Spirits/Snacks (M)"), ("Snacks (L)", "/Spirits/Snacks (L)"), ("SP", "/Spirits/SP")],
+        },
+        Section {
+            title: "Spirit board items",
+            rows: &[("Shuffle all", "/Spirit board items/Shuffle all"), ("All primaries", "/Spirit board items/All primaries"), ("All supports", "/Spirit board items/All supports"), ("Filler", "/Spirit board items/Filler"), ("Rematch", "/Spirit board items/Rematch"), ("50% damage", "/Spirit board items/50% damage"), ("Slow FS charging", "/Spirit board items/Slow FS charging"), ("Weaken minions", "/Spirit board items/Weaken minions"), ("Health drain", "/Spirit board items/Health drain"), ("Disable items", "/Spirit board items/Disable items"), ("Shield spacer", "/Spirit board items/Shield spacer"), ("Sluggish shield", "/Spirit board items/Sluggish shield")],
+        },
+    ],
+    lists: &[],
+    tables: &[],
+};
+
+const MK7: Spec = Spec {
+    name: "Mario Kart 7",
+    tab: "Kart",
+    accent: (230, 120, 30),
+    kind: Some(crate::fmt::nintendo::MK7_KIND),
+    markers: &["/Player/Coins"],
+    subtitle: "A decrypted 3DS system0.dat. Coins, StreetPass count, online wins and losses, and VR points; the save's checksum is rewritten.",
+    tiles: &[("Coins", "/Player/Coins"), ("VR points", "/Player/VR points")],
+    sections: &[
+        Section {
+            title: "Player",
+            rows: &[("Name", "/Player/Name"), ("Coins", "/Player/Coins"), ("StreetPass", "/Player/StreetPass"), ("Online wins", "/Player/Online wins"), ("Online losses", "/Player/Online losses"), ("VR points", "/Player/VR points")],
+        },
+    ],
+    lists: &[],
+    tables: &[],
+};
+
+const SKC: Spec = Spec {
+    name: "Super Kirby Clash",
+    tab: "Clash",
+    accent: (240, 110, 170),
+    kind: Some(crate::fmt::nintendo::SKC_KIND),
+    markers: &["/Resources/Apple gems"],
+    subtitle: "A decrypted 3DS savedata.dat. Apple gems and the four kinds of shards.",
+    tiles: &[("Apple gems", "/Resources/Apple gems")],
+    sections: &[
+        Section {
+            title: "Resources",
+            rows: &[("Apple gems", "/Resources/Apple gems"), ("Apple gems bought", "/Resources/Apple gems bought"), ("Red shards", "/Resources/Red shards"), ("Blue shards", "/Resources/Blue shards"), ("Yellow shards", "/Resources/Yellow shards"), ("Rare shards", "/Resources/Rare shards")],
+        },
+    ],
+    lists: &[],
+    tables: &[],
+};

@@ -3,7 +3,7 @@
 > **Free, and it always will be.** No price, no ads, no account, no paid version, no online service, no
 > rate limits. If anyone is charging you for this, it isn't from here.
 
-An offline save editor and save manager for 340+ (343) PC games (edit saves, and back up, name and restore them): Cairn, Terraria (characters and a world map editor),
+An offline save editor and save manager for 340+ (348) PC games (edit saves, and back up, name and restore them): Cairn, Terraria (characters and a world map editor),
 Oxygen Not Included, RimWorld, Stardew Valley, Onimusha: Way of the Sword, Elden Ring, Dark Souls,
 Cyberpunk 2077, the Persona, Yakuza and Final Fantasy games, Ren'Py visual novels, RPG Maker games
 and more (the full list is below). Written in Rust (egui). Nothing is uploaded anywhere, and there are
@@ -117,6 +117,11 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 | The Legend of Zelda: A Link to the Past | *Slots* (SNES emulator `.srm` saves): hearts, magic, rupees, bombs and arrows with their capacity upgrades, the sword, shield, tunic and every item, and the four bottles (the slot's sum is kept right; checked against the sum of a public save, not yet tried in the game) |
 | Super Metroid | *Samus A / B / C* (SNES emulator `.srm` saves): energy and reserve tanks, missiles, super missiles, power bombs, play time and the beams, suits and boots she has and has equipped (each slot's sums and their copies at the end of the file are kept right; checked against the sums of a public save, not yet tried in the game) |
 | Super Mario 64 | *Files* (N64 emulator `.eep` saves): for each of the four files the cap, key and switch flags, secret stars, every course's six stars, 100-coin star, cannon and coin record (both copies of the file and the checksums are kept right; checked on public saves, not yet tried in the game) |
+| Xenoblade Chronicles 3 | *Party*: gold, play time, every character's level, experience and bonus experience, and the amounts of ether cylinders, gem crystals and collectibles by id (Switch saves from an emulator or a dump; checked on a public save, not yet tried in the game) |
+| Mario & Luigi: Dream Team | *Brothers*: coins, each brother's level, experience, HP, BP, Power, Defense, Speed and Stache, and the counts of recovery items, battle items and beans (decrypted 3DS save; checked on a public save, not yet tried in the game) |
+| Super Smash Bros. Ultimate | *Main*: gold, tickets, hammers, snacks, SP and the spirit board item counts (Switch `system_data.bin`; checked on a public save, not yet tried in the game) |
+| Mario Kart 7 | *Player*: coins, StreetPass count, online wins and losses and VR points; the save's CRC-32 is written again (decrypted 3DS `system0.dat`; checked on a public save, not yet tried in the game) |
+| Super Kirby Clash | *Resources*: apple gems and the red, blue, yellow and rare shards (decrypted 3DS `savedata.dat`; checked on a public save, not yet tried in the game) |
 | Alpha Protocol | *Agent*: money, level, experience, skill points, skill ranks, ammunition and gadget counts from a checkpoint `.sav` (checked on a public save, not yet tried in the game) |
 | Salt and Sanctuary | *Character*: level, salt, gold, kills, deaths, sanctuary rests, corruption and the playthrough number from `datN.slv` (items and the skill tree are not edited yet; checked on public saves, not yet tried in the game) |
 | Drakensang: The Dark Eye | *Heroes*: each hero's level, adventure points (earned and to spend), life, endurance, astral energy, the eight attributes and every talent, with the party slot to tell your party from the cutscene copies (the SQLite `savegame.dsa` is edited in place; checked on a public save, not yet tried in the game) |
