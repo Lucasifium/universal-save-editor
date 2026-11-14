@@ -80,6 +80,7 @@ pub mod gff4;
 pub mod infinity;
 pub mod darkest;
 pub mod larian;
+pub mod larian_add;
 pub mod lsf;
 pub mod lsmf;
 pub mod osiris;

@@ -17737,8 +17737,8 @@ Every kind of titanite, Dragon Scales and Demon Titanite, each to the 99 you can
 Gear is read from each item's serial (level and its check); names need the game's part tables, so they aren't shown, and gear isn't edited. {0} item(s) in the bank.
 = 装备从每件物品的序列号中读取（等级及其校验）；名称需要游戏的零件表，因此不显示，装备也无法编辑。银行中有 {0} 件物品。
 
-How many of each item this character carries directly (items inside bags aren't listed), named by the game's item entry. Change a stack size; adding or removing items isn't possible here, and the game may trim a stack to what the item allows.
-= 此角色直接携带的每种物品数量（包内物品不列出），名称取自游戏的物品条目。可以修改堆叠数量；此处无法添加或移除物品，游戏也可能把堆叠削减到该物品允许的上限。
+How many of each item this character carries directly (items inside bags aren't listed), named by the game's item entry. Change a stack size, or add items below; the game may trim a stack to what the item allows.
+= 该角色直接携带的每种物品数量（包内物品不列出），以游戏的物品条目命名。可更改堆叠数量，或在下方添加物品；游戏可能会把堆叠削减到该物品允许的数量。
 
 Items ({0})
 = 物品（{0}）
@@ -23782,3 +23782,14 @@ Stat levels
 The Chao garden file SONIC2B__ALF (the PC release). The level and the points of every stat for each Chao in the garden; the garden's checksum is rewritten.
 = 小黄(Chao)花园文件 SONIC2B__ALF(PC 版)。花园中每只小黄的各项属性等级和点数;花园的校验和会被重写。
 
+Add to
+= 添加给
+
+{0} items match; type to narrow the list.
+= 有 {0} 个物品匹配；输入以缩小列表。
+
+{0} kinds of item to add
+= 要添加的物品种类：{0}
+
+Every kind of item found in an inventory in this save can be added, as a copy of one the game made. Items go into the chosen character's bag when you save; where they already carry a stack of the same item, that stack grows instead. Keys, containers and story items aren't offered. Keep a backup: this hasn't been tried in the game yet.
+= 本存档中任何物品栏里出现过的物品种类都可以添加，作为游戏所生成物品的副本。保存时物品会放入所选角色的背包；如果该角色已携带同一物品的堆叠，则改为增加该堆叠。不提供钥匙、容器和剧情物品。请保留备份：此功能尚未在游戏中试过。

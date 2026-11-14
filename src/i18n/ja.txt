@@ -17764,8 +17764,8 @@ Every kind of titanite, Dragon Scales and Demon Titanite, each to the 99 you can
 Gear is read from each item's serial (level and its check); names need the game's part tables, so they aren't shown, and gear isn't edited. {0} item(s) in the bank.
 = 装備は各アイテムのシリアルから読み取ります（レベルとそのチェック）。名前にはゲームのパーツテーブルが必要なため表示されず、装備は編集できません。バンクにアイテムが{0}個あります。
 
-How many of each item this character carries directly (items inside bags aren't listed), named by the game's item entry. Change a stack size; adding or removing items isn't possible here, and the game may trim a stack to what the item allows.
-= このキャラクターが直接持っている各アイテムの数です（バッグの中のアイテムは表示されません）。名前はゲームのアイテム項目に基づきます。スタック数は変更できますが、アイテムの追加や削除はここではできず、ゲームがスタックをアイテムの上限まで減らすことがあります。
+How many of each item this character carries directly (items inside bags aren't listed), named by the game's item entry. Change a stack size, or add items below; the game may trim a stack to what the item allows.
+= このキャラクターが直接持っている各アイテムの数（バッグの中のアイテムは表示されません）。名前はゲームのアイテム項目です。スタック数を変更するか、下でアイテムを追加できます。ゲームはスタックをアイテムの上限まで減らすことがあります。
 
 Items ({0})
 = アイテム（{0}）
@@ -23809,3 +23809,14 @@ Stat levels
 The Chao garden file SONIC2B__ALF (the PC release). The level and the points of every stat for each Chao in the garden; the garden's checksum is rewritten.
 = チャオガーデンのファイル SONIC2B__ALF(PC版)。庭にいる各チャオの全ステータスのレベルとポイント。庭のチェックサムは書き直されます。
 
+Add to
+= 追加先
+
+{0} items match; type to narrow the list.
+= {0} 個のアイテムが該当します。入力して絞り込んでください。
+
+{0} kinds of item to add
+= 追加するアイテム {0} 種類
+
+Every kind of item found in an inventory in this save can be added, as a copy of one the game made. Items go into the chosen character's bag when you save; where they already carry a stack of the same item, that stack grows instead. Keys, containers and story items aren't offered. Keep a backup: this hasn't been tried in the game yet.
+= このセーブのいずれかのインベントリにある種類のアイテムは、ゲームが作ったものの複製として追加できます。保存すると、選んだキャラクターのバッグに入ります。同じアイテムのスタックをすでに持っている場合は、そのスタックが増えます。鍵、容器、ストーリーアイテムは表示されません。バックアップを残してください。ゲーム内ではまだ試していません。

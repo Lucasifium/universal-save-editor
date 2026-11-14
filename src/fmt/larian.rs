@@ -137,6 +137,61 @@ fn meta_facts(archive: &[u8], pkg: &lspk::Package) -> Vec<(&'static str, Value)>
     out
 }
 
+/// The player characters of a Divinity save, by the name the screen shows, with their nodes.
+pub fn dos2_party(l: &Lsf) -> Vec<(String, usize)> {
+    let mut seen = HashMap::new();
+    let mut out = vec![];
+    for c in l.at_path(&["Characters", "CharacterFactory", "Characters", "Character"]) {
+        let Some(stats) = l.child(c, "Stats") else { continue };
+        if l.int_of(stats, "IsPlayer") != Some(1) {
+            continue;
+        }
+        let custom = l.child(c, "PlayerData").and_then(|p| l.child(p, "PlayerCustomData"));
+        let text = |k: &str| custom.and_then(|p| l.string_of(p, k)).filter(|s| !s.is_empty());
+        let name = text("Name").or_else(|| text("OriginName")).unwrap_or_else(|| format!("Character {}", out.len() + 1));
+        out.push((unique(&mut seen, name), c));
+    }
+    out
+}
+
+/// "Add items": a drop-down per item kind the save can add, and who gets them.
+fn add_items(b: &mut Builder, l: &Lsf, plain: &[u8]) {
+    let party = dos2_party(l);
+    let offers = super::larian_add::offers(plain);
+    if party.is_empty() || offers.is_empty() {
+        return;
+    }
+    b.option(&["Add items", "Add to"], party.iter().map(|p| p.0.clone()).collect(), "W".into());
+    for o in &offers {
+        let mut names = vec!["Don't add".to_string()];
+        let amounts: &[u32] = if o.stackable { &super::larian_add::AMOUNTS } else { &super::larian_add::AMOUNTS[..1] };
+        names.extend(amounts.iter().map(|n| format!("Add {n}")));
+        b.option(&["Add items", o.stats.as_str()], names, format!("I{}", o.stats));
+    }
+}
+
+/// Saves the items chosen under "Add items" into the chosen character's inventory.
+fn add_post(out: &mut Vec<u8>, chosen: &[(std::sync::Arc<str>, String)]) -> Result<(), String> {
+    let adds: Vec<(String, u32)> = chosen.iter().filter_map(|(t, c)| Some((t.strip_prefix('I')?.to_string(), c.strip_prefix("Add ")?.parse().ok()?))).collect();
+    if adds.is_empty() {
+        return Ok(());
+    }
+    let who = chosen.iter().find(|(t, _)| &**t == "W").map(|(_, c)| c.clone());
+    let new = {
+        let l = Lsf::read(out).ok_or("the game data no longer reads")?;
+        let party = dos2_party(&l);
+        let node = match &who {
+            Some(w) => party.iter().find(|p| &p.0 == w),
+            None => party.first(),
+        }
+        .ok_or("that character isn't in the save")?
+        .1;
+        super::larian_add::add(out, node, &adds)?
+    };
+    *out = new;
+    Ok(())
+}
+
 fn dos2(plain: &[u8], archive: &[u8], pkg: &lspk::Package) -> Option<TreeDoc> {
     let l = Lsf::read(plain)?;
     let mut b = Builder::new(plain);
@@ -157,17 +212,11 @@ fn dos2(plain: &[u8], archive: &[u8], pkg: &lspk::Package) -> Option<TreeDoc> {
             bags.entry(parent).or_default().push(item);
         }
     }
-    let mut seen = HashMap::new();
     let mut members = 0;
-    for c in l.at_path(&["Characters", "CharacterFactory", "Characters", "Character"]) {
+    for (key, c) in dos2_party(&l) {
         let Some(stats) = l.child(c, "Stats") else { continue };
-        if l.int_of(stats, "IsPlayer") != Some(1) {
-            continue;
-        }
         let custom = l.child(c, "PlayerData").and_then(|p| l.child(p, "PlayerCustomData"));
         let text = |k: &str| custom.and_then(|p| l.string_of(p, k)).filter(|s| !s.is_empty());
-        let name = text("Name").or_else(|| text("OriginName")).unwrap_or_else(|| format!("Character {}", members + 1));
-        let key = unique(&mut seen, name);
         members += 1;
         let base = ["Party", key.as_str()];
         if let Some(o) = text("OriginName") {
@@ -217,7 +266,8 @@ fn dos2(plain: &[u8], archive: &[u8], pkg: &lspk::Package) -> Option<TreeDoc> {
     if members == 0 {
         return None;
     }
-    Some(b.finish(DOS2, Checksum::None))
+    add_items(&mut b, &l, plain);
+    Some(b.finish_with(DOS2, Checksum::None, Some(add_post)))
 }
 
 fn bg3(plain: &[u8], archive: &[u8], pkg: &lspk::Package) -> Option<TreeDoc> {

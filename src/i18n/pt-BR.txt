@@ -17652,8 +17652,8 @@ Every kind of titanite, Dragon Scales and Demon Titanite, each to the 99 you can
 Gear is read from each item's serial (level and its check); names need the game's part tables, so they aren't shown, and gear isn't edited. {0} item(s) in the bank.
 = O equipamento é lido do número de série de cada item (nível e sua verificação); os nomes exigem as tabelas de peças do jogo, então não são mostrados, e o equipamento não é editado. {0} item(ns) no banco.
 
-How many of each item this character carries directly (items inside bags aren't listed), named by the game's item entry. Change a stack size; adding or removing items isn't possible here, and the game may trim a stack to what the item allows.
-= Quantos de cada item este personagem carrega diretamente (itens dentro de bolsas não são listados), com o nome da entrada de item do jogo. Altere o tamanho de uma pilha; adicionar ou remover itens não é possível aqui, e o jogo pode reduzir uma pilha ao que o item permite.
+How many of each item this character carries directly (items inside bags aren't listed), named by the game's item entry. Change a stack size, or add items below; the game may trim a stack to what the item allows.
+= Quantos de cada item este personagem carrega diretamente (itens dentro de bolsas não aparecem), nomeados pela entrada do jogo. Altere o tamanho de uma pilha ou adicione itens abaixo; o jogo pode reduzir uma pilha ao que o item permite.
 
 Items ({0})
 = Itens ({0})
@@ -23697,3 +23697,14 @@ Stat levels
 The Chao garden file SONIC2B__ALF (the PC release). The level and the points of every stat for each Chao in the garden; the garden's checksum is rewritten.
 = O arquivo do jardim Chao SONIC2B__ALF (versão de PC). O nível e os pontos de cada atributo de cada Chao do jardim; a soma de verificação do jardim é regravada.
 
+Add to
+= Adicionar a
+
+{0} items match; type to narrow the list.
+= {0} itens correspondem; digite para filtrar a lista.
+
+{0} kinds of item to add
+= {0} tipos de item a adicionar
+
+Every kind of item found in an inventory in this save can be added, as a copy of one the game made. Items go into the chosen character's bag when you save; where they already carry a stack of the same item, that stack grows instead. Keys, containers and story items aren't offered. Keep a backup: this hasn't been tried in the game yet.
+= Qualquer tipo de item encontrado em um inventário deste save pode ser adicionado, como cópia de um criado pelo jogo. Os itens vão para a bolsa do personagem escolhido ao salvar; se ele já carrega uma pilha do mesmo item, essa pilha cresce. Chaves, recipientes e itens de história não são oferecidos. Mantenha um backup: isso ainda não foi testado no jogo.

@@ -96,10 +96,40 @@ pub fn dos2(ui: &mut Ui, cx: &mut GameCtx) {
                 });
             });
             ui.weak(
-                tr("How many of each item this character carries directly (items inside bags aren't listed), named by the game's item entry. Change a stack size; adding or removing items isn't possible here, and the game may trim a stack to what the item allows."),
+                tr("How many of each item this character carries directly (items inside bags aren't listed), named by the game's item entry. Change a stack size, or add items below; the game may trim a stack to what the item allows."),
             );
         });
     }
+    dos2_add(ui, cx);
+}
+
+/// "Add items": who gets them, and an amount per item kind (see `fmt::larian_add`).
+fn dos2_add(ui: &mut Ui, cx: &mut GameCtx) {
+    let kinds: Vec<String> = keys(cx, "/Add items").into_iter().filter(|k| k != "Add to").collect();
+    if kinds.is_empty() {
+        return;
+    }
+    panel(ui, "Add items", |ui| {
+        cx.row_fixed(ui, "Add to", "/Add items/Add to", 120.0, 200.0);
+        ui.add_space(4.0);
+        let q = super::screens2::filter_box(ui, "dos2_add", tr("potion, arrow, scroll…"));
+        let shown: Vec<(String, String)> = kinds
+            .iter()
+            .filter(|k| q.is_empty() || k.to_lowercase().contains(&q) || k.replace('_', " ").to_lowercase().contains(&q))
+            .map(|k| (k.replace('_', " "), format!("/Add items/{}", esc(k))))
+            .collect();
+        let chosen = kinds.iter().filter(|k| cx.text(&format!("/Add items/{}", esc(k))).is_some_and(|v| v != "Don't add")).count();
+        if chosen > 0 {
+            ui.label(RichText::new(trf("{0} kinds of item to add", &[&chosen])).strong());
+        }
+        if shown.len() > 300 {
+            ui.weak(trf("{0} items match; type to narrow the list.", &[&shown.len()]));
+        }
+        egui::ScrollArea::vertical().id_salt("dos2_add_list").max_height(360.0).show_locked(ui, |ui| {
+            super::screens2::value_rows(ui, cx, "dos2_add_rows", &shown[..shown.len().min(300)]);
+        });
+        ui.weak(tr("Every kind of item found in an inventory in this save can be added, as a copy of one the game made. Items go into the chosen character's bag when you save; where they already carry a stack of the same item, that stack grows instead. Keys, containers and story items aren't offered. Keep a backup: this hasn't been tried in the game yet."));
+    });
 }
 
 fn theme_fg(ui: &Ui, c: Color32) -> Color32 {

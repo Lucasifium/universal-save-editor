@@ -235,6 +235,18 @@ impl<'a> Lsf<'a> {
         self.name_of(r).unwrap_or("")
     }
 
+    pub fn node_name_ref(&self, n: usize) -> u32 {
+        self.nodes[n].0
+    }
+
+    pub fn node_count(&self) -> usize {
+        self.nodes.len()
+    }
+
+    pub fn parent(&self, n: usize) -> Option<usize> {
+        usize::try_from(self.nodes[n].1).ok()
+    }
+
     pub fn node_name(&self, n: usize) -> &str {
         self.name(self.nodes[n].0)
     }
@@ -319,6 +331,102 @@ impl<'a> Lsf<'a> {
 
     pub fn string_of(&self, n: usize, name: &str) -> Option<String> {
         self.string(&self.attr(n, name)?)
+    }
+}
+
+/// One attribute of a node being added: name reference (as `Attr::name` holds it), type and value bytes.
+pub struct NewAttr {
+    pub name: u32,
+    pub ty: u32,
+    pub bytes: Vec<u8>,
+}
+
+/// Adds nodes to an unpacked LSF: new nodes, attributes and values go at the end of their
+/// sections and nothing existing moves, so every other node keeps its index and its
+/// attributes. Names are only reused (`Lsf::node_name_ref`, `Attr::name`).
+pub struct Writer {
+    head: Vec<u8>,
+    pairs: Vec<usize>,
+    secs: Vec<Vec<u8>>,
+    keys: bool,
+    v3: bool,
+}
+
+impl Writer {
+    pub fn new(plain: &[u8]) -> Option<Self> {
+        let h = head(plain)?;
+        let secs = sections(plain, &h)?;
+        if secs.iter().take(4).any(|s| s.1 != 0 && h.flags & 0x0F != 0) {
+            return None;
+        }
+        Some(Self { head: plain[..h.len].to_vec(), pairs: h.pairs.clone(), secs: secs.into_iter().map(|s| s.2.to_vec()).collect(), keys: h.metadata_format == 1, v3: h.version >= 3 && h.metadata_format == 1 })
+    }
+
+    fn nsz(&self) -> usize {
+        if self.v3 { 16 } else { 12 }
+    }
+
+    pub fn node_count(&self) -> usize {
+        self.secs[1].len() / self.nsz()
+    }
+
+    /// Appends a node under `parent` (an existing node) with `attrs`, and returns its index.
+    pub fn add_node(&mut self, name: u32, parent: usize, attrs: &[NewAttr]) -> Result<usize, String> {
+        let nsz = self.nsz();
+        let idx = self.node_count();
+        if parent >= idx {
+            return Err("the parent node doesn't exist".into());
+        }
+        let first = if attrs.is_empty() { -1 } else { (self.secs[2].len() / nsz) as i32 };
+        if self.v3 {
+            // The previous last child of the parent now has a next sibling.
+            let nodes = &mut self.secs[1];
+            if let Some(j) = (0..idx).rev().find(|&j| i32::from_le_bytes(nodes[j * 16 + 4..j * 16 + 8].try_into().unwrap()) == parent as i32) {
+                let next = &mut nodes[j * 16 + 8..j * 16 + 12];
+                if i32::from_le_bytes((&*next).try_into().unwrap()) != -1 {
+                    return Err("the node list isn't in the order expected".into());
+                }
+                next.copy_from_slice(&(idx as i32).to_le_bytes());
+            }
+            nodes.extend(name.to_le_bytes());
+            nodes.extend((parent as i32).to_le_bytes());
+            nodes.extend((-1i32).to_le_bytes());
+            nodes.extend(first.to_le_bytes());
+        } else {
+            let nodes = &mut self.secs[1];
+            nodes.extend(name.to_le_bytes());
+            nodes.extend(first.to_le_bytes());
+            nodes.extend((parent as i32).to_le_bytes());
+        }
+        let first_idx = self.secs[2].len() / nsz;
+        for (k, a) in attrs.iter().enumerate() {
+            let at = self.secs[3].len() as u32;
+            let tl = a.ty | (a.bytes.len() as u32) << 6;
+            let ab = &mut self.secs[2];
+            ab.extend(a.name.to_le_bytes());
+            ab.extend(tl.to_le_bytes());
+            if self.v3 {
+                ab.extend((if k + 1 < attrs.len() { (first_idx + k + 1) as i32 } else { -1 }).to_le_bytes());
+                ab.extend(at.to_le_bytes());
+            } else {
+                ab.extend((idx as i32).to_le_bytes());
+            }
+            self.secs[3].extend(&a.bytes);
+        }
+        Ok(idx)
+    }
+
+    /// The unpacked file with everything added.
+    pub fn finish(self) -> Vec<u8> {
+        let mut out = self.head;
+        for (i, s) in self.secs.iter().enumerate() {
+            if i == 4 && !self.keys {
+                continue;
+            }
+            out[self.pairs[i]..self.pairs[i] + 4].copy_from_slice(&(s.len() as u32).to_le_bytes());
+            out.extend(s);
+        }
+        out
     }
 }
 

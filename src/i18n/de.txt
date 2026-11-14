@@ -17682,8 +17682,8 @@ Every kind of titanite, Dragon Scales and Demon Titanite, each to the 99 you can
 Gear is read from each item's serial (level and its check); names need the game's part tables, so they aren't shown, and gear isn't edited. {0} item(s) in the bank.
 = Die Ausrüstung wird aus der Seriennummer jedes Gegenstands gelesen (Level und deren Prüfung); Namen brauchen die Teiletabellen des Spiels und werden daher nicht angezeigt, und Ausrüstung wird nicht bearbeitet. {0} Gegenstand/Gegenstände auf der Bank.
 
-How many of each item this character carries directly (items inside bags aren't listed), named by the game's item entry. Change a stack size; adding or removing items isn't possible here, and the game may trim a stack to what the item allows.
-= Wie viele von jedem Gegenstand diese Figur direkt trägt (Gegenstände in Taschen sind nicht aufgeführt), benannt nach dem Gegenstandseintrag des Spiels. Ändere eine Stapelgröße; Gegenstände hinzufügen oder entfernen ist hier nicht möglich, und das Spiel kann einen Stapel auf das beschränken, was der Gegenstand erlaubt.
+How many of each item this character carries directly (items inside bags aren't listed), named by the game's item entry. Change a stack size, or add items below; the game may trim a stack to what the item allows.
+= Wie viele von jedem Gegenstand diese Figur direkt trägt (Gegenstände in Taschen sind nicht aufgeführt), benannt nach dem Gegenstandseintrag des Spiels. Ändere eine Stapelgröße oder füge unten Gegenstände hinzu; das Spiel kann einen Stapel auf das beschränken, was der Gegenstand erlaubt.
 
 Items ({0})
 = Gegenstände ({0})
@@ -23727,3 +23727,14 @@ Stat levels
 The Chao garden file SONIC2B__ALF (the PC release). The level and the points of every stat for each Chao in the garden; the garden's checksum is rewritten.
 = Die Chao-Garten-Datei SONIC2B__ALF (PC-Version). Stufe und Punkte jedes Wertes für jeden Chao im Garten; die Prüfsumme des Gartens wird neu geschrieben.
 
+Add to
+= Hinzufügen zu
+
+{0} items match; type to narrow the list.
+= {0} Gegenstände passen; tippe, um die Liste einzugrenzen.
+
+{0} kinds of item to add
+= {0} Gegenstandsarten zum Hinzufügen
+
+Every kind of item found in an inventory in this save can be added, as a copy of one the game made. Items go into the chosen character's bag when you save; where they already carry a stack of the same item, that stack grows instead. Keys, containers and story items aren't offered. Keep a backup: this hasn't been tried in the game yet.
+= Jede Art von Gegenstand, die in diesem Spielstand in einem Inventar vorkommt, kann hinzugefügt werden, als Kopie eines vom Spiel erzeugten Gegenstands. Die Gegenstände kommen beim Speichern in die Tasche der gewählten Figur; trägt sie schon einen Stapel desselben Gegenstands, wächst stattdessen dieser Stapel. Schlüssel, Behälter und Story-Gegenstände werden nicht angeboten. Behalte eine Sicherung: Das wurde im Spiel noch nicht ausprobiert.
