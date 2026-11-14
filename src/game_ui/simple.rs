@@ -16,6 +16,7 @@ mod hardpc_specs;
 mod ps_specs;
 mod ps2_specs;
 mod retro_specs;
+mod n64_specs;
 mod spec_texts;
 mod specs;
 mod specs_more;

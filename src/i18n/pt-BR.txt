@@ -25487,3 +25487,422 @@ Nutrition
 Integrity
 = Integridade
 
+# src/game_ui/simple/n64_specs.rs
+
+All-Night Mask
+= Máscara da Noite Eterna
+
+An emulator's .fla or .srm save, or the GameCube .gci. Per slot: rupees, health, magic, equipment and ammunition, every item, mask, song and boss remains, each temple's stray fairies, keys and dungeon items, and the owl statues.
+= Um save .fla ou .srm de emulador, ou o .gci do GameCube. Por slot: rupees, vida, magia, equipamento e munição, cada item, máscara, canção e restos de chefe, as fadas perdidas, chaves e itens de cada templo, e as estátuas de coruja.
+
+An emulator's .fla or .srm save. Per file: coins, Star Pieces, Star Points, level, HP, FP and BP with their maximums, Star Spirits, boots and hammer, the item bag, the partners and their ranks, and the battle records. Badges, stored and key items, recipes and star pieces found are in the Tree.
+= Um save .fla ou .srm de emulador. Por arquivo: moedas, pedaços de estrela, pontos estelares, nível, HP, FP e BP com seus máximos, espíritos estelares, botas e martelo, a bolsa de itens, os parceiros e seu nível, e os registros de batalha. Insígnias, itens guardados e itens-chave, receitas e pedaços de estrela encontrados estão na árvore.
+
+Bank Deposit
+= Depósito no banco
+
+Blast Mask
+= Máscara Explosiva
+
+Bombchus
+= Bombchus
+
+Bombette: rank
+= Bombette: nível
+
+Bombette: status
+= Bombette: status
+
+Bottle 5
+= Garrafa 5
+
+Bottle 6
+= Garrafa 6
+
+Bow: rank
+= Bow: nível
+
+Bow: status
+= Bow: status
+
+Bremen Mask
+= Máscara de Bremen
+
+Bunny Hood
+= Capuz de Coelho
+
+Captain's Hat
+= Chapéu do Capitão
+
+Circus Leader's Mask
+= Máscara do Líder do Circo
+
+Clock Town
+= Cidade do Relógio
+
+Close the emulator first. Health is in sixteenths of a heart. When a slot has an owl-statue save, that is the save the game loads, so it is the one shown and edited. Each edited save's sum is made again and its backup copy is updated.
+= Feche o emulador primeiro. A vida está em dezesseis avos de coração. Quando um slot tem um save de estátua de coruja, é esse que o jogo carrega, então é ele que é mostrado e editado. A soma de cada save editado é refeita e sua cópia de segurança é atualizada.
+
+Close the emulator first. The newest save of each file is the one shown. Max HP and Max FP include the HP Plus and FP Plus badges worn; the base values are worked out from them on save. Both sums of each edited save are made again.
+= Feche o emulador primeiro. O save mais recente de cada arquivo é o mostrado. HP máx. e FP máx. incluem as insígnias HP Plus e FP Plus equipadas; os valores base são calculados a partir deles ao salvar. As duas somas de cada save editado são refeitas.
+
+Coins Earned
+= Moedas ganhas
+
+Couple's Mask
+= Máscara do Casal
+
+Deku Mask
+= Máscara Deku
+
+Don Gero's Mask
+= Máscara de Don Gero
+
+Elegy of Emptiness
+= Elegia do Vazio
+
+Enemies' First Strikes
+= Primeiros golpes dos inimigos
+
+FP
+= PF
+
+Fierce Deity's Mask
+= Máscara da Divindade Feroz
+
+File 1: partners
+= Arquivo 1: parceiros
+
+File 1: records
+= Arquivo 1: registros
+
+File 2: partners
+= Arquivo 2: parceiros
+
+File 2: records
+= Arquivo 2: registros
+
+File 3: partners
+= Arquivo 3: parceiros
+
+File 3: records
+= Arquivo 3: registros
+
+File 4: general
+= Arquivo 4: geral
+
+File 4: items
+= Arquivo 4: itens
+
+File 4: partners
+= Arquivo 4: parceiros
+
+File 4: records
+= Arquivo 4: registros
+
+Flee attempts
+= Tentativas de fuga
+
+Garo's Mask
+= Máscara de Garo
+
+Giant's Mask
+= Máscara do Gigante
+
+Gibdo Mask
+= Máscara Gibdo
+
+Goht's Remains
+= Restos de Goht
+
+Goombario: rank
+= Goombario: nível
+
+Goombario: status
+= Goombario: status
+
+Goron Lullaby
+= Canção de Ninar Goron
+
+Goron Mask
+= Máscara Goron
+
+Great Bay Coast
+= Costa da Grande Baía
+
+Great Bay Temple: boss key
+= Templo da Grande Baía: chave do chefe
+
+Great Bay Temple: compass
+= Templo da Grande Baía: bússola
+
+Great Bay Temple: map
+= Templo da Grande Baía: mapa
+
+Great Bay Temple: small keys
+= Templo da Grande Baía: chaves pequenas
+
+Great Bay Temple: stray fairies
+= Templo da Grande Baía: fadas perdidas
+
+Great Fairy's Mask
+= Máscara da Grande Fada
+
+Great Fairy's Sword
+= Espada da Grande Fada
+
+Gyorg's Remains
+= Restos de Gyorg
+
+Hammer
+= Martelo
+
+Ikana Canyon
+= Cânion de Ikana
+
+Kafei's Mask
+= Máscara de Kafei
+
+Kamaro's Mask
+= Máscara de Kamaro
+
+Keaton Mask
+= Máscara Keaton
+
+Kooper: rank
+= Kooper: nível
+
+Kooper: status
+= Kooper: status
+
+Lakilester: rank
+= Lakilester: nível
+
+Lakilester: status
+= Lakilester: status
+
+Lullaby Intro
+= Introdução da canção de ninar
+
+Mask of Scents
+= Máscara dos Aromas
+
+Mask of Truth
+= Máscara da Verdade
+
+Milk Road
+= Estrada do Leite
+
+Mountain Village
+= Vila da Montanha
+
+New Wave Bossa Nova
+= Bossa Nova das Ondas
+
+Number of Battles
+= Número de batalhas
+
+Oath to Order
+= Juramento da Ordem
+
+Ocarina of Time
+= Ocarina do Tempo
+
+Odolwa's Remains
+= Restos de Odolwa
+
+Parakarry: rank
+= Parakarry: nível
+
+Parakarry: status
+= Parakarry: status
+
+Partner
+= Parceiro
+
+Pictograph Box
+= Caixa Pictográfica
+
+Playtime (1/60 s)
+= Tempo de jogo (1/60 s)
+
+Postman's Hat
+= Boné do Carteiro
+
+Powder Keg
+= Barril de Pólvora
+
+Powder Kegs
+= Barris de pólvora
+
+Rip Cheato Items Bought
+= Itens comprados de Rip Cheato
+
+Romani's Mask
+= Máscara de Romani
+
+Slot 1: boss remains and songs
+= Slot 1: restos de chefes e canções
+
+Slot 1: dungeons
+= Slot 1: templos
+
+Slot 1: equipment and ammunition
+= Slot 1: equipamento e munição
+
+Slot 1: masks
+= Slot 1: máscaras
+
+Slot 1: owl statues
+= Slot 1: estátuas de coruja
+
+Slot 2: boss remains and songs
+= Slot 2: restos de chefes e canções
+
+Slot 2: dungeons
+= Slot 2: templos
+
+Slot 2: equipment and ammunition
+= Slot 2: equipamento e munição
+
+Slot 2: masks
+= Slot 2: máscaras
+
+Slot 2: owl statues
+= Slot 2: estátuas de coruja
+
+Slot 3: boss remains and songs
+= Slot 3: restos de chefes e canções
+
+Slot 3: dungeons
+= Slot 3: templos
+
+Slot 3: equipment and ammunition
+= Slot 3: equipamento e munição
+
+Slot 3: masks
+= Slot 3: máscaras
+
+Slot 3: owl statues
+= Slot 3: estátuas de coruja
+
+Snowhead
+= Pico Nevado
+
+Snowhead Temple: boss key
+= Templo do Pico Nevado: chave do chefe
+
+Snowhead Temple: compass
+= Templo do Pico Nevado: bússola
+
+Snowhead Temple: map
+= Templo do Pico Nevado: mapa
+
+Snowhead Temple: small keys
+= Templo do Pico Nevado: chaves pequenas
+
+Snowhead Temple: stray fairies
+= Templo do Pico Nevado: fadas perdidas
+
+Sonata of Awakening
+= Sonata do Despertar
+
+Song of Healing
+= Canção da Cura
+
+Song of Soaring
+= Canção do Voo
+
+Southern Swamp
+= Pântano do Sul
+
+Spin Attack
+= Ataque giratório
+
+Star Energy
+= Energia estelar
+
+Star Pieces
+= Pedaços de estrela
+
+Star Pieces Collected
+= Pedaços de estrela coletados
+
+Star Points
+= Pontos estelares
+
+Star Spirits saved
+= Espíritos estelares salvos
+
+Stone Mask
+= Máscara de Pedra
+
+Stone Tower
+= Torre de Pedra
+
+Stone Tower Temple: boss key
+= Templo da Torre de Pedra: chave do chefe
+
+Stone Tower Temple: compass
+= Templo da Torre de Pedra: bússola
+
+Stone Tower Temple: map
+= Templo da Torre de Pedra: mapa
+
+Stone Tower Temple: small keys
+= Templo da Torre de Pedra: chaves pequenas
+
+Stone Tower Temple: stray fairies
+= Templo da Torre de Pedra: fadas perdidas
+
+Sushie: rank
+= Sushie: nível
+
+Sushie: status
+= Sushie: status
+
+Three Day Reset Count
+= Vezes que os três dias recomeçaram
+
+Times Fled
+= Fugas
+
+Total Power Bounces
+= Total de pulos poderosos
+
+Twinmold's Remains
+= Restos de Twinmold
+
+Watt: rank
+= Watt: nível
+
+Watt: status
+= Watt: status
+
+Woodfall
+= Floresta Cascata
+
+Woodfall Temple: boss key
+= Templo da Floresta Cascata: chave do chefe
+
+Woodfall Temple: compass
+= Templo da Floresta Cascata: bússola
+
+Woodfall Temple: map
+= Templo da Floresta Cascata: mapa
+
+Woodfall Temple: small keys
+= Templo da Floresta Cascata: chaves pequenas
+
+Woodfall Temple: stray fairies
+= Templo da Floresta Cascata: fadas perdidas
+
+Your First Strikes
+= Seus primeiros golpes
+
+Zora Cape
+= Cabo Zora
+
+Zora Mask
+= Máscara Zora
+

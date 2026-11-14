@@ -6,6 +6,7 @@ use super::ps_specs::*;
 use super::ps2_specs::*;
 use super::new_specs::*;
 use super::retro_specs::*;
+use super::n64_specs::*;
 use super::{List, Max, Section, Shape, Spec, Table};
 use crate::i18n::tx;
 
@@ -21,6 +22,8 @@ pub static SPECS: &[Spec] = &[OPENXCOM, XCOM_DOS, RCT2, COTL, FALLOUT_SHELTER, D
     MAD_MAX,
     RAFT,
     MANEATER,
+    // More Nintendo 64 games (n64_specs.rs)
+    MAJORA, PAPER_MARIO,
     // More PlayStation 2 games (ps2_specs.rs)
     BOUNCER, DOA2, DBZ_BT2, SMT3, GRANDIA1,
     INSCRYPTION,

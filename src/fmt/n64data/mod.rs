@@ -6,6 +6,8 @@ use super::fields::{Builder, Kind};
 
 pub mod bk;
 pub mod lm;
+pub mod mm;
+pub mod pm;
 pub mod oot;
 pub mod sms;
 pub mod smash64;

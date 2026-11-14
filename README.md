@@ -3,7 +3,7 @@
 > **Free, and it always will be.** No price, no ads, no account, no paid version, no online service, no
 > rate limits. If anyone is charging you for this, it isn't from here.
 
-An offline save editor and save manager for 530+ (535) PC games (edit saves, and back up, name and restore them): Cairn, Terraria (characters and a world map editor),
+An offline save editor and save manager for 530+ (537) PC games (edit saves, and back up, name and restore them): Cairn, Terraria (characters and a world map editor),
 Oxygen Not Included, RimWorld, Stardew Valley, Onimusha: Way of the Sword, Elden Ring, Dark Souls,
 Cyberpunk 2077, the Persona, Yakuza and Final Fantasy games, Ren'Py visual novels, RPG Maker games
 and more (the full list is below). Written in Rust (egui). Nothing is uploaded anywhere, and there are
@@ -721,26 +721,29 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 </details>
 
 <details>
-<summary><strong>N64</strong> (6)</summary>
+<summary><strong>N64</strong> (8)</summary>
 
 | Game | Screen |
 |---|---|
 | Banjo-Kazooie | *Banjo* (N64 emulator `.eep` saves): per save slot jiggies, Mumbo tokens, health, eggs and feathers with their maximums, every move, each world's jiggies and the Stop 'n' Swop items, with all other flags in the Tree (the slot's sum is made again on save; checked on public saves, not yet tried in the game) |
 | GoldenEye 007 | *Agent* (N64 emulator `.eep` saves): per player slot the best time of every mission on each difficulty, the cheats and the control options (the slot's sum is made again on save; checked on public saves, not yet tried in the game) |
 | Mario Kart 64 | *Racer* (N64 emulator `.eep` saves): Grand Prix cups for each class, Time Trial times and characters for all sixteen courses, sound mode (the game's sums and best-records list are kept right; checked on public saves, not yet tried in the game) |
+| Paper Mario | *Paper Mario* (N64 emulator `.fla` / `.srm` saves): per file coins, Star Pieces, Star Points, level, HP, FP and BP with their maximums, Star Spirits and Star Energy, boots and hammer, the bag items, partners and their ranks, and the battle records, with badges, stored and key items, recipes and found star pieces in the Tree (the newest save of each file is edited and both of its sums are made again; checked on public saves, not yet tried in the game) |
 | Super Mario 64 | *Files* (N64 emulator `.eep` saves): for each of the four files the cap, key and switch flags, secret stars, every course's six stars, 100-coin star, cannon and coin record (both copies of the file and the checksums are kept right; checked on public saves, not yet tried in the game) |
 | Super Smash Bros. | *Fighters* (N64 emulator `.sra` / `.srm` saves): unlocked fighters and stage, every fighter's 1P records and 2P records, and the options (the game's sum is made again on save; checked on public saves, not yet tried in the game) |
+| The Legend of Zelda: Majora's Mask | *Majora* (N64 `.fla` / `.srm` and GameCube `.gci` saves): per slot rupees and wallet, health, heart pieces, magic, double defense, the sword, shield, quiver and bomb bag with all ammunition, every item, mask, song and boss remains, each temple's stray fairies, keys, map, compass and boss key, and the owl statues, with the Bombers' Notebook and other events in the Tree (an owl-statue save is edited when there is one; the sum and backup copy are kept right; checked on public saves, not yet tried in the game) |
 | The Legend of Zelda: Ocarina of Time | *Link* (N64 `.sra` / `.srm` and GameCube `.gci` saves): per file health, magic, rupees, equipment, every item with ammunition and upgrades, songs, medallions, stones and each dungeon's map, compass and boss key, with all other flags in the Tree (the file's sum and its backup copy are kept right; checked on public saves, not yet tried in the game) |
 
 </details>
 
 <details>
-<summary><strong>GameCube</strong> (4)</summary>
+<summary><strong>GameCube</strong> (5)</summary>
 
 | Game | Screen |
 |---|---|
 | Luigi's Mansion | *Luigi* (GameCube `.gci` saves): per slot the treasures, medals, Mario's items, gallery, boos, portrait ghosts and every mansion room's flags, plus the options (the newer copy of the save is edited and its sum made again; checked on public saves, not yet tried in the game) |
 | Super Mario Sunshine | *Mario* (GameCube `.gci` saves): per file lives, nozzles, Yoshi and, for each area, shine sprites, blue coins, events and scores, with the shine sprite total kept right (the newer copy of the save is edited and its sum made again; checked on public saves, not yet tried in the game) |
+| The Legend of Zelda: Majora's Mask | *Majora* (N64 `.fla` / `.srm` and GameCube `.gci` saves): per slot rupees and wallet, health, heart pieces, magic, double defense, the sword, shield, quiver and bomb bag with all ammunition, every item, mask, song and boss remains, each temple's stray fairies, keys, map, compass and boss key, and the owl statues, with the Bombers' Notebook and other events in the Tree (an owl-statue save is edited when there is one; the sum and backup copy are kept right; checked on public saves, not yet tried in the game) |
 | The Legend of Zelda: Ocarina of Time | *Link* (N64 `.sra` / `.srm` and GameCube `.gci` saves): per file health, magic, rupees, equipment, every item with ammunition and upgrades, songs, medallions, stones and each dungeon's map, compass and boss key, with all other flags in the Tree (the file's sum and its backup copy are kept right; checked on public saves, not yet tried in the game) |
 | The Legend of Zelda: The Wind Waker | *Link* (GameCube `.gci` saves): per slot health, magic, rupees, equipment, items, bags, quantities, figurines, dungeon items, songs and events (the slot's sum is made again and the sword, shield and bracelet flags follow your choice; checked on public saves, not yet tried in the game) |
 
@@ -809,8 +812,8 @@ The folders where saves were found are remembered (in `save_locations.json` next
 
 The start page lists **Your games**: every game in the list whose saves were found on this computer,
 newest first, each one click away from its newest save. *Find my game's saves* (the big button on the
-start page, *Find saves* in the toolbar and the File menu) lists every one of the 530+ (535) PC games the editor knows, Mass Effect 1–3, the Legendary Edition and Andromeda among them — with where it
-start page, *Find saves* in the toolbar and the File menu) lists every one of the 530+ (535) PC games the editor knows, Mass Effect 1–3, the Legendary Edition and Andromeda among them — with where it
+start page, *Find saves* in the toolbar and the File menu) lists every one of the 530+ (537) PC games the editor knows, Mass Effect 1–3, the Legendary Edition and Andromeda among them — with where it
+start page, *Find saves* in the toolbar and the File menu) lists every one of the 530+ (537) PC games the editor knows, Mass Effect 1–3, the Legendary Edition and Andromeda among them — with where it
 usually keeps its saves and what the files are called, and finds them on your computer (Steam
 libraries and `userdata`, Documents wherever Windows has it, AppData, Saved Games, Ubisoft
 Connect). On Linux and the Steam Deck it also looks inside Proton prefixes

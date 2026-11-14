@@ -25599,3 +25599,422 @@ Nutrition
 Integrity
 = 耐久度
 
+# src/game_ui/simple/n64_specs.rs
+
+All-Night Mask
+= 夜更かしのお面
+
+An emulator's .fla or .srm save, or the GameCube .gci. Per slot: rupees, health, magic, equipment and ammunition, every item, mask, song and boss remains, each temple's stray fairies, keys and dungeon items, and the owl statues.
+= エミュレーターの .fla / .srm セーブ、またはゲームキューブの .gci。スロットごとに：ルピー、ライフ、魔力、装備と弾数、すべてのアイテム・お面・歌・ボスの仮面、各神殿のはぐれ妖精・カギ・ダンジョンアイテム、フクロウの像。
+
+An emulator's .fla or .srm save. Per file: coins, Star Pieces, Star Points, level, HP, FP and BP with their maximums, Star Spirits, boots and hammer, the item bag, the partners and their ranks, and the battle records. Badges, stored and key items, recipes and star pieces found are in the Tree.
+= エミュレーターの .fla / .srm セーブ。ファイルごとに：コイン、スターのかけら、スターポイント、レベル、HP・FP・BP とその最大値、星の精、ブーツとハンマー、アイテム、なかまとそのランク、戦闘の記録。バッジ、預けたアイテムとだいじなもの、レシピ、見つけたスターのかけらはツリーにあります。
+
+Bank Deposit
+= 銀行の預金
+
+Blast Mask
+= 爆弾のお面
+
+Bombchus
+= ボムチュウ
+
+Bombette: rank
+= ピンキー: ランク
+
+Bombette: status
+= ピンキー: 状態
+
+Bottle 5
+= ビン 5
+
+Bottle 6
+= ビン 6
+
+Bow: rank
+= ネネ: ランク
+
+Bow: status
+= ネネ: 状態
+
+Bremen Mask
+= ブレーメンのお面
+
+Bunny Hood
+= ウサギずきん
+
+Captain's Hat
+= キャプテンの帽子
+
+Circus Leader's Mask
+= 座長のお面
+
+Clock Town
+= クロックタウン
+
+Close the emulator first. Health is in sixteenths of a heart. When a slot has an owl-statue save, that is the save the game loads, so it is the one shown and edited. Each edited save's sum is made again and its backup copy is updated.
+= 先にエミュレーターを閉じてください。ライフはハートの16分の1単位です。スロットにフクロウの像のセーブがある場合はゲームがそちらを読み込むため、それを表示・編集します。編集した各セーブのチェックサムを作り直し、バックアップも更新します。
+
+Close the emulator first. The newest save of each file is the one shown. Max HP and Max FP include the HP Plus and FP Plus badges worn; the base values are worked out from them on save. Both sums of each edited save are made again.
+= 先にエミュレーターを閉じてください。各ファイルの最新のセーブを表示します。最大HPと最大FPには装備中のHPプラス・FPプラスのバッジが含まれ、保存時にそこから基本値を計算します。編集した各セーブの2つのチェックサムを作り直します。
+
+Coins Earned
+= かせいだコイン
+
+Couple's Mask
+= めおとのお面
+
+Deku Mask
+= デクナッツのお面
+
+Don Gero's Mask
+= ドン・ゲロのお面
+
+Elegy of Emptiness
+= 抜け殻のエレジー
+
+Enemies' First Strikes
+= 敵の先制攻撃
+
+FP
+= FP
+
+Fierce Deity's Mask
+= 鬼神のお面
+
+File 1: partners
+= ファイル1: なかま
+
+File 1: records
+= ファイル1: 記録
+
+File 2: partners
+= ファイル2: なかま
+
+File 2: records
+= ファイル2: 記録
+
+File 3: partners
+= ファイル3: なかま
+
+File 3: records
+= ファイル3: 記録
+
+File 4: general
+= ファイル4: 一般
+
+File 4: items
+= ファイル4: アイテム
+
+File 4: partners
+= ファイル4: なかま
+
+File 4: records
+= ファイル4: 記録
+
+Flee attempts
+= 逃げようとした回数
+
+Garo's Mask
+= ガロのお面
+
+Giant's Mask
+= 巨人のお面
+
+Gibdo Mask
+= ギブドのお面
+
+Goht's Remains
+= ゴートの仮面
+
+Goombario: rank
+= クリオ: ランク
+
+Goombario: status
+= クリオ: 状態
+
+Goron Lullaby
+= ゴロンの子守歌
+
+Goron Mask
+= ゴロンのお面
+
+Great Bay Coast
+= グレートベイの海岸
+
+Great Bay Temple: boss key
+= グレートベイテンプル: ボス部屋のカギ
+
+Great Bay Temple: compass
+= グレートベイテンプル: コンパス
+
+Great Bay Temple: map
+= グレートベイテンプル: マップ
+
+Great Bay Temple: small keys
+= グレートベイテンプル: 小さなカギ
+
+Great Bay Temple: stray fairies
+= グレートベイテンプル: はぐれ妖精
+
+Great Fairy's Mask
+= 大妖精のお面
+
+Great Fairy's Sword
+= 大妖精の剣
+
+Gyorg's Remains
+= ジャバラの仮面
+
+Hammer
+= ハンマー
+
+Ikana Canyon
+= イカーナ渓谷
+
+Kafei's Mask
+= カーフェイのお面
+
+Kamaro's Mask
+= カマロのお面
+
+Keaton Mask
+= キータンのお面
+
+Kooper: rank
+= カメキ: ランク
+
+Kooper: status
+= カメキ: 状態
+
+Lakilester: rank
+= パタクー: ランク
+
+Lakilester: status
+= パタクー: 状態
+
+Lullaby Intro
+= 子守歌の出だし
+
+Mask of Scents
+= ブタのお面
+
+Mask of Truth
+= まことの仮面
+
+Milk Road
+= ミルクロード
+
+Mountain Village
+= 山里
+
+New Wave Bossa Nova
+= 潮騒のボサノバ
+
+Number of Battles
+= 戦闘回数
+
+Oath to Order
+= 誓いの号令
+
+Ocarina of Time
+= 時のオカリナ
+
+Odolwa's Remains
+= オドルワの仮面
+
+Parakarry: rank
+= パレッタ: ランク
+
+Parakarry: status
+= パレッタ: 状態
+
+Partner
+= なかま
+
+Pictograph Box
+= 写し絵の箱
+
+Playtime (1/60 s)
+= プレイ時間（1/60秒）
+
+Postman's Hat
+= 郵便屋の帽子
+
+Powder Keg
+= 大バクダン
+
+Powder Kegs
+= 大バクダン
+
+Rip Cheato Items Bought
+= チート・ザ・ワルからの購入数
+
+Romani's Mask
+= ロマニーのお面
+
+Slot 1: boss remains and songs
+= スロット1: ボスの仮面と歌
+
+Slot 1: dungeons
+= スロット1: ダンジョン
+
+Slot 1: equipment and ammunition
+= スロット1: 装備と弾数
+
+Slot 1: masks
+= スロット1: お面
+
+Slot 1: owl statues
+= スロット1: フクロウの像
+
+Slot 2: boss remains and songs
+= スロット2: ボスの仮面と歌
+
+Slot 2: dungeons
+= スロット2: ダンジョン
+
+Slot 2: equipment and ammunition
+= スロット2: 装備と弾数
+
+Slot 2: masks
+= スロット2: お面
+
+Slot 2: owl statues
+= スロット2: フクロウの像
+
+Slot 3: boss remains and songs
+= スロット3: ボスの仮面と歌
+
+Slot 3: dungeons
+= スロット3: ダンジョン
+
+Slot 3: equipment and ammunition
+= スロット3: 装備と弾数
+
+Slot 3: masks
+= スロット3: お面
+
+Slot 3: owl statues
+= スロット3: フクロウの像
+
+Snowhead
+= スノーヘッド
+
+Snowhead Temple: boss key
+= スノーヘッドテンプル: ボス部屋のカギ
+
+Snowhead Temple: compass
+= スノーヘッドテンプル: コンパス
+
+Snowhead Temple: map
+= スノーヘッドテンプル: マップ
+
+Snowhead Temple: small keys
+= スノーヘッドテンプル: 小さなカギ
+
+Snowhead Temple: stray fairies
+= スノーヘッドテンプル: はぐれ妖精
+
+Sonata of Awakening
+= 目覚めのソナタ
+
+Song of Healing
+= いやしの歌
+
+Song of Soaring
+= はばたきの歌
+
+Southern Swamp
+= 沼地
+
+Spin Attack
+= 回転斬り
+
+Star Energy
+= スターエネルギー
+
+Star Pieces
+= スターのかけら
+
+Star Pieces Collected
+= 集めたスターのかけら
+
+Star Points
+= スターポイント
+
+Star Spirits saved
+= 助けた星の精
+
+Stone Mask
+= 石ころのお面
+
+Stone Tower
+= ロックビル
+
+Stone Tower Temple: boss key
+= ロックビルの神殿: ボス部屋のカギ
+
+Stone Tower Temple: compass
+= ロックビルの神殿: コンパス
+
+Stone Tower Temple: map
+= ロックビルの神殿: マップ
+
+Stone Tower Temple: small keys
+= ロックビルの神殿: 小さなカギ
+
+Stone Tower Temple: stray fairies
+= ロックビルの神殿: はぐれ妖精
+
+Sushie: rank
+= アカリン: ランク
+
+Sushie: status
+= アカリン: 状態
+
+Three Day Reset Count
+= 3日間を繰り返した回数
+
+Times Fled
+= 逃げた回数
+
+Total Power Bounces
+= パワーバウンス合計
+
+Twinmold's Remains
+= ツインモルドの仮面
+
+Watt: rank
+= レサレサ: ランク
+
+Watt: status
+= レサレサ: 状態
+
+Woodfall
+= ウッドフォール
+
+Woodfall Temple: boss key
+= ウッドフォールテンプル: ボス部屋のカギ
+
+Woodfall Temple: compass
+= ウッドフォールテンプル: コンパス
+
+Woodfall Temple: map
+= ウッドフォールテンプル: マップ
+
+Woodfall Temple: small keys
+= ウッドフォールテンプル: 小さなカギ
+
+Woodfall Temple: stray fairies
+= ウッドフォールテンプル: はぐれ妖精
+
+Your First Strikes
+= こちらの先制攻撃
+
+Zora Cape
+= ゾーラ岬
+
+Zora Mask
+= ゾーラのお面
+

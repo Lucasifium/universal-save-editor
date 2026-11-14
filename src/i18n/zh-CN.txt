@@ -25572,3 +25572,422 @@ Nutrition
 Integrity
 = 完整度
 
+# src/game_ui/simple/n64_specs.rs
+
+All-Night Mask
+= 不眠面具
+
+An emulator's .fla or .srm save, or the GameCube .gci. Per slot: rupees, health, magic, equipment and ammunition, every item, mask, song and boss remains, each temple's stray fairies, keys and dungeon items, and the owl statues.
+= 模拟器的 .fla 或 .srm 存档，或 GameCube 的 .gci。每个存档位：卢比、生命、魔力、装备与弹药、所有物品、面具、歌曲和头目遗骸、各神殿的迷途妖精、钥匙和迷宫道具，以及猫头鹰石像。
+
+An emulator's .fla or .srm save. Per file: coins, Star Pieces, Star Points, level, HP, FP and BP with their maximums, Star Spirits, boots and hammer, the item bag, the partners and their ranks, and the battle records. Badges, stored and key items, recipes and star pieces found are in the Tree.
+= 模拟器的 .fla 或 .srm 存档。每个文件：金币、星之碎片、星星点数、等级、HP、FP 和 BP 及其上限、星之精灵、靴子和锤子、道具栏、同伴及其等级，以及战斗记录。徽章、寄存物品和重要物品、食谱以及找到的星之碎片在树状视图中。
+
+Bank Deposit
+= 银行存款
+
+Blast Mask
+= 爆炸面具
+
+Bombchus
+= 炸弹鼠
+
+Bombette: rank
+= 粉粉：等级
+
+Bombette: status
+= 粉粉：状态
+
+Bottle 5
+= 瓶子 5
+
+Bottle 6
+= 瓶子 6
+
+Bow: rank
+= 鲍：等级
+
+Bow: status
+= 鲍：状态
+
+Bremen Mask
+= 不来梅面具
+
+Bunny Hood
+= 兔子头巾
+
+Captain's Hat
+= 船长的帽子
+
+Circus Leader's Mask
+= 团长的面具
+
+Clock Town
+= 钟楼城
+
+Close the emulator first. Health is in sixteenths of a heart. When a slot has an owl-statue save, that is the save the game loads, so it is the one shown and edited. Each edited save's sum is made again and its backup copy is updated.
+= 请先关闭模拟器。生命值以 1/16 颗心为单位。若存档位有猫头鹰石像存档，游戏会读取它，因此显示和编辑的是该存档。每个编辑过的存档都会重新计算校验和并更新其备份。
+
+Close the emulator first. The newest save of each file is the one shown. Max HP and Max FP include the HP Plus and FP Plus badges worn; the base values are worked out from them on save. Both sums of each edited save are made again.
+= 请先关闭模拟器。显示的是每个文件最新的存档。最大 HP 和最大 FP 包含已装备的 HP Plus 与 FP Plus 徽章；保存时据此算出基础值。每个编辑过的存档的两个校验和都会重新计算。
+
+Coins Earned
+= 赚取的金币
+
+Couple's Mask
+= 夫妻面具
+
+Deku Mask
+= 德库面具
+
+Don Gero's Mask
+= 青蛙首领面具
+
+Elegy of Emptiness
+= 空壳的挽歌
+
+Enemies' First Strikes
+= 敌人先发制人
+
+FP
+= FP
+
+Fierce Deity's Mask
+= 鬼神面具
+
+File 1: partners
+= 文件 1：同伴
+
+File 1: records
+= 文件 1：记录
+
+File 2: partners
+= 文件 2：同伴
+
+File 2: records
+= 文件 2：记录
+
+File 3: partners
+= 文件 3：同伴
+
+File 3: records
+= 文件 3：记录
+
+File 4: general
+= 文件 4：常规
+
+File 4: items
+= 文件 4：物品
+
+File 4: partners
+= 文件 4：同伴
+
+File 4: records
+= 文件 4：记录
+
+Flee attempts
+= 逃跑尝试次数
+
+Garo's Mask
+= 加罗面具
+
+Giant's Mask
+= 巨人面具
+
+Gibdo Mask
+= 吉布多面具
+
+Goht's Remains
+= 哥特的遗骸
+
+Goombario: rank
+= 栗宝宝：等级
+
+Goombario: status
+= 栗宝宝：状态
+
+Goron Lullaby
+= 哥隆摇篮曲
+
+Goron Mask
+= 哥隆面具
+
+Great Bay Coast
+= 大海湾海岸
+
+Great Bay Temple: boss key
+= 大海湾神殿: 头目钥匙
+
+Great Bay Temple: compass
+= 大海湾神殿: 指南针
+
+Great Bay Temple: map
+= 大海湾神殿: 地图
+
+Great Bay Temple: small keys
+= 大海湾神殿: 小钥匙
+
+Great Bay Temple: stray fairies
+= 大海湾神殿: 迷途妖精
+
+Great Fairy's Mask
+= 大妖精面具
+
+Great Fairy's Sword
+= 大妖精之剑
+
+Gyorg's Remains
+= 吉奥格的遗骸
+
+Hammer
+= 锤子
+
+Ikana Canyon
+= 伊卡纳峡谷
+
+Kafei's Mask
+= 卡菲的面具
+
+Kamaro's Mask
+= 卡马罗的面具
+
+Keaton Mask
+= 基顿面具
+
+Kooper: rank
+= 库帕：等级
+
+Kooper: status
+= 库帕：状态
+
+Lakilester: rank
+= 雷奇斯特：等级
+
+Lakilester: status
+= 雷奇斯特：状态
+
+Lullaby Intro
+= 摇篮曲开头
+
+Mask of Scents
+= 嗅觉面具
+
+Mask of Truth
+= 真实面具
+
+Milk Road
+= 牛奶之路
+
+Mountain Village
+= 山村
+
+New Wave Bossa Nova
+= 新浪潮波萨诺瓦
+
+Number of Battles
+= 战斗次数
+
+Oath to Order
+= 誓约之号令
+
+Ocarina of Time
+= 时之笛
+
+Odolwa's Remains
+= 奥德尔瓦的遗骸
+
+Parakarry: rank
+= 帕拉卡里：等级
+
+Parakarry: status
+= 帕拉卡里：状态
+
+Partner
+= 同伴
+
+Pictograph Box
+= 照相盒
+
+Playtime (1/60 s)
+= 游戏时间（1/60 秒）
+
+Postman's Hat
+= 邮差的帽子
+
+Powder Keg
+= 火药桶
+
+Powder Kegs
+= 火药桶
+
+Rip Cheato Items Bought
+= 向骗子买的道具
+
+Romani's Mask
+= 罗马尼的面具
+
+Slot 1: boss remains and songs
+= 存档位 1：头目遗骸与歌曲
+
+Slot 1: dungeons
+= 存档位 1：神殿
+
+Slot 1: equipment and ammunition
+= 存档位 1：装备与弹药
+
+Slot 1: masks
+= 存档位 1：面具
+
+Slot 1: owl statues
+= 存档位 1：猫头鹰石像
+
+Slot 2: boss remains and songs
+= 存档位 2：头目遗骸与歌曲
+
+Slot 2: dungeons
+= 存档位 2：神殿
+
+Slot 2: equipment and ammunition
+= 存档位 2：装备与弹药
+
+Slot 2: masks
+= 存档位 2：面具
+
+Slot 2: owl statues
+= 存档位 2：猫头鹰石像
+
+Slot 3: boss remains and songs
+= 存档位 3：头目遗骸与歌曲
+
+Slot 3: dungeons
+= 存档位 3：神殿
+
+Slot 3: equipment and ammunition
+= 存档位 3：装备与弹药
+
+Slot 3: masks
+= 存档位 3：面具
+
+Slot 3: owl statues
+= 存档位 3：猫头鹰石像
+
+Snowhead
+= 雪山
+
+Snowhead Temple: boss key
+= 雪山神殿: 头目钥匙
+
+Snowhead Temple: compass
+= 雪山神殿: 指南针
+
+Snowhead Temple: map
+= 雪山神殿: 地图
+
+Snowhead Temple: small keys
+= 雪山神殿: 小钥匙
+
+Snowhead Temple: stray fairies
+= 雪山神殿: 迷途妖精
+
+Sonata of Awakening
+= 觉醒奏鸣曲
+
+Song of Healing
+= 治愈之歌
+
+Song of Soaring
+= 翱翔之歌
+
+Southern Swamp
+= 南方沼泽
+
+Spin Attack
+= 回旋斩
+
+Star Energy
+= 星之能量
+
+Star Pieces
+= 星之碎片
+
+Star Pieces Collected
+= 收集的星之碎片
+
+Star Points
+= 星星点数
+
+Star Spirits saved
+= 救出的星之精灵
+
+Stone Mask
+= 石头面具
+
+Stone Tower
+= 石塔
+
+Stone Tower Temple: boss key
+= 石塔神殿: 头目钥匙
+
+Stone Tower Temple: compass
+= 石塔神殿: 指南针
+
+Stone Tower Temple: map
+= 石塔神殿: 地图
+
+Stone Tower Temple: small keys
+= 石塔神殿: 小钥匙
+
+Stone Tower Temple: stray fairies
+= 石塔神殿: 迷途妖精
+
+Sushie: rank
+= 寿喜：等级
+
+Sushie: status
+= 寿喜：状态
+
+Three Day Reset Count
+= 三日循环次数
+
+Times Fled
+= 逃跑次数
+
+Total Power Bounces
+= 强力弹跳总数
+
+Twinmold's Remains
+= 双子蛇的遗骸
+
+Watt: rank
+= 瓦特：等级
+
+Watt: status
+= 瓦特：状态
+
+Woodfall
+= 瀑布森林
+
+Woodfall Temple: boss key
+= 瀑布森林神殿: 头目钥匙
+
+Woodfall Temple: compass
+= 瀑布森林神殿: 指南针
+
+Woodfall Temple: map
+= 瀑布森林神殿: 地图
+
+Woodfall Temple: small keys
+= 瀑布森林神殿: 小钥匙
+
+Woodfall Temple: stray fairies
+= 瀑布森林神殿: 迷途妖精
+
+Your First Strikes
+= 我方先发制人
+
+Zora Cape
+= 佐拉海角
+
+Zora Mask
+= 佐拉面具
+

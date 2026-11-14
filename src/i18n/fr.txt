@@ -25524,3 +25524,422 @@ Nutrition
 Integrity
 = Intégrité
 
+# src/game_ui/simple/n64_specs.rs
+
+All-Night Mask
+= Masque de Nuit
+
+An emulator's .fla or .srm save, or the GameCube .gci. Per slot: rupees, health, magic, equipment and ammunition, every item, mask, song and boss remains, each temple's stray fairies, keys and dungeon items, and the owl statues.
+= Une sauvegarde .fla ou .srm d'émulateur, ou le .gci GameCube. Par emplacement : rubis, énergie, magie, équipement et munitions, chaque objet, masque, chant et relique de boss, les fées perdues, clés et objets de chaque temple, et les statues de hibou.
+
+An emulator's .fla or .srm save. Per file: coins, Star Pieces, Star Points, level, HP, FP and BP with their maximums, Star Spirits, boots and hammer, the item bag, the partners and their ranks, and the battle records. Badges, stored and key items, recipes and star pieces found are in the Tree.
+= Une sauvegarde .fla ou .srm d'émulateur. Par fichier : pièces, morceaux d'étoile, points étoile, niveau, PV, PF et PB avec leurs maximums, esprits étoiles, bottes et marteau, le sac d'objets, les partenaires et leur rang, et les statistiques de combat. Badges, objets rangés et objets clés, recettes et morceaux d'étoile trouvés sont dans l'arbre.
+
+Bank Deposit
+= Dépôt à la banque
+
+Blast Mask
+= Masque d'Explosion
+
+Bombchus
+= Missiles Teigneux
+
+Bombette: rank
+= Bombette : rang
+
+Bombette: status
+= Bombette : statut
+
+Bottle 5
+= Flacon 5
+
+Bottle 6
+= Flacon 6
+
+Bow: rank
+= Bow : rang
+
+Bow: status
+= Bow : statut
+
+Bremen Mask
+= Masque de Brême
+
+Bunny Hood
+= Masque du Lapin
+
+Captain's Hat
+= Casque du Capitaine
+
+Circus Leader's Mask
+= Masque du Chef de la Troupe
+
+Clock Town
+= Bourg-Clocher
+
+Close the emulator first. Health is in sixteenths of a heart. When a slot has an owl-statue save, that is the save the game loads, so it is the one shown and edited. Each edited save's sum is made again and its backup copy is updated.
+= Fermez d'abord l'émulateur. L'énergie est en seizièmes de cœur. Quand un emplacement a une sauvegarde de statue de hibou, c'est celle que le jeu charge, c'est donc elle qui est affichée et modifiée. La somme de chaque sauvegarde modifiée est recalculée et sa copie de secours mise à jour.
+
+Close the emulator first. The newest save of each file is the one shown. Max HP and Max FP include the HP Plus and FP Plus badges worn; the base values are worked out from them on save. Both sums of each edited save are made again.
+= Fermez d'abord l'émulateur. La sauvegarde la plus récente de chaque fichier est celle affichée. PV max et PF max comprennent les badges PV+ et PF+ portés ; les valeurs de base en sont déduites à l'enregistrement. Les deux sommes de chaque sauvegarde modifiée sont recalculées.
+
+Coins Earned
+= Pièces gagnées
+
+Couple's Mask
+= Masque des Amoureux
+
+Deku Mask
+= Masque Mojo
+
+Don Gero's Mask
+= Masque de Don Gero
+
+Elegy of Emptiness
+= Chant de l'Âme
+
+Enemies' First Strikes
+= Attaques surprises ennemies
+
+FP
+= PF
+
+Fierce Deity's Mask
+= Masque de la Fureur Divine
+
+File 1: partners
+= Fichier 1 : partenaires
+
+File 1: records
+= Fichier 1 : statistiques
+
+File 2: partners
+= Fichier 2 : partenaires
+
+File 2: records
+= Fichier 2 : statistiques
+
+File 3: partners
+= Fichier 3 : partenaires
+
+File 3: records
+= Fichier 3 : statistiques
+
+File 4: general
+= Fichier 4 : général
+
+File 4: items
+= Fichier 4 : objets
+
+File 4: partners
+= Fichier 4 : partenaires
+
+File 4: records
+= Fichier 4 : statistiques
+
+Flee attempts
+= Tentatives de fuite
+
+Garo's Mask
+= Masque de Garo
+
+Giant's Mask
+= Masque du Géant
+
+Gibdo Mask
+= Masque de Gibdo
+
+Goht's Remains
+= Relique de Goht
+
+Goombario: rank
+= Goombario : rang
+
+Goombario: status
+= Goombario : statut
+
+Goron Lullaby
+= Berceuse des Gorons
+
+Goron Mask
+= Masque Goron
+
+Great Bay Coast
+= Grande Baie
+
+Great Bay Temple: boss key
+= Temple de la Grande Baie: clé d'or
+
+Great Bay Temple: compass
+= Temple de la Grande Baie: boussole
+
+Great Bay Temple: map
+= Temple de la Grande Baie: carte
+
+Great Bay Temple: small keys
+= Temple de la Grande Baie: petites clés
+
+Great Bay Temple: stray fairies
+= Temple de la Grande Baie: fées perdues
+
+Great Fairy's Mask
+= Masque de la Grande Fée
+
+Great Fairy's Sword
+= Épée de la Grande Fée
+
+Gyorg's Remains
+= Relique de Gyorg
+
+Hammer
+= Marteau
+
+Ikana Canyon
+= Canyon d'Ikana
+
+Kafei's Mask
+= Masque de Kafei
+
+Kamaro's Mask
+= Masque de Kamaro
+
+Keaton Mask
+= Masque du Renard
+
+Kooper: rank
+= Kooper : rang
+
+Kooper: status
+= Kooper : statut
+
+Lakilester: rank
+= Lakilester : rang
+
+Lakilester: status
+= Lakilester : statut
+
+Lullaby Intro
+= Début de la berceuse
+
+Mask of Scents
+= Masque des Senteurs
+
+Mask of Truth
+= Masque de Vérité
+
+Milk Road
+= Route Lactée
+
+Mountain Village
+= Village Montagnard
+
+New Wave Bossa Nova
+= Bossa-nova des Flots
+
+Number of Battles
+= Nombre de combats
+
+Oath to Order
+= Hymne de l'Appel
+
+Ocarina of Time
+= Ocarina du Temps
+
+Odolwa's Remains
+= Relique d'Odolwa
+
+Parakarry: rank
+= Parakarry : rang
+
+Parakarry: status
+= Parakarry : statut
+
+Partner
+= Partenaire
+
+Pictograph Box
+= Picto-Box
+
+Playtime (1/60 s)
+= Temps de jeu (1/60 s)
+
+Postman's Hat
+= Casquette du Facteur
+
+Powder Keg
+= Baril de Poudre
+
+Powder Kegs
+= Barils de poudre
+
+Rip Cheato Items Bought
+= Objets achetés à Rip Cheato
+
+Romani's Mask
+= Masque de Romani
+
+Slot 1: boss remains and songs
+= Emplacement 1 : reliques et chants
+
+Slot 1: dungeons
+= Emplacement 1 : temples
+
+Slot 1: equipment and ammunition
+= Emplacement 1 : équipement et munitions
+
+Slot 1: masks
+= Emplacement 1 : masques
+
+Slot 1: owl statues
+= Emplacement 1 : statues de hibou
+
+Slot 2: boss remains and songs
+= Emplacement 2 : reliques et chants
+
+Slot 2: dungeons
+= Emplacement 2 : temples
+
+Slot 2: equipment and ammunition
+= Emplacement 2 : équipement et munitions
+
+Slot 2: masks
+= Emplacement 2 : masques
+
+Slot 2: owl statues
+= Emplacement 2 : statues de hibou
+
+Slot 3: boss remains and songs
+= Emplacement 3 : reliques et chants
+
+Slot 3: dungeons
+= Emplacement 3 : temples
+
+Slot 3: equipment and ammunition
+= Emplacement 3 : équipement et munitions
+
+Slot 3: masks
+= Emplacement 3 : masques
+
+Slot 3: owl statues
+= Emplacement 3 : statues de hibou
+
+Snowhead
+= Pic des Neiges
+
+Snowhead Temple: boss key
+= Temple du Pic des Neiges: clé d'or
+
+Snowhead Temple: compass
+= Temple du Pic des Neiges: boussole
+
+Snowhead Temple: map
+= Temple du Pic des Neiges: carte
+
+Snowhead Temple: small keys
+= Temple du Pic des Neiges: petites clés
+
+Snowhead Temple: stray fairies
+= Temple du Pic des Neiges: fées perdues
+
+Sonata of Awakening
+= Sonate de l'Éveil
+
+Song of Healing
+= Chant de l'Apaisement
+
+Song of Soaring
+= Chant de l'Envol
+
+Southern Swamp
+= Marais du Sud
+
+Spin Attack
+= Attaque Tornade
+
+Star Energy
+= Énergie étoile
+
+Star Pieces
+= Morceaux d'étoile
+
+Star Pieces Collected
+= Morceaux d'étoile ramassés
+
+Star Points
+= Points étoile
+
+Star Spirits saved
+= Esprits étoiles sauvés
+
+Stone Mask
+= Masque de Pierre
+
+Stone Tower
+= Tour de Pierre
+
+Stone Tower Temple: boss key
+= Temple de la Tour de Pierre: clé d'or
+
+Stone Tower Temple: compass
+= Temple de la Tour de Pierre: boussole
+
+Stone Tower Temple: map
+= Temple de la Tour de Pierre: carte
+
+Stone Tower Temple: small keys
+= Temple de la Tour de Pierre: petites clés
+
+Stone Tower Temple: stray fairies
+= Temple de la Tour de Pierre: fées perdues
+
+Sushie: rank
+= Sushie : rang
+
+Sushie: status
+= Sushie : statut
+
+Three Day Reset Count
+= Nombre de retours au premier jour
+
+Times Fled
+= Fuites
+
+Total Power Bounces
+= Total de rebonds puissants
+
+Twinmold's Remains
+= Relique de Twinmold
+
+Watt: rank
+= Watt : rang
+
+Watt: status
+= Watt : statut
+
+Woodfall
+= Bois-Cascade
+
+Woodfall Temple: boss key
+= Temple de Bois-Cascade: clé d'or
+
+Woodfall Temple: compass
+= Temple de Bois-Cascade: boussole
+
+Woodfall Temple: map
+= Temple de Bois-Cascade: carte
+
+Woodfall Temple: small keys
+= Temple de Bois-Cascade: petites clés
+
+Woodfall Temple: stray fairies
+= Temple de Bois-Cascade: fées perdues
+
+Your First Strikes
+= Vos attaques surprises
+
+Zora Cape
+= Cap Zora
+
+Zora Mask
+= Masque Zora
+

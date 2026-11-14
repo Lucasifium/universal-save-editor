@@ -25517,3 +25517,422 @@ Nutrition
 Integrity
 = Integrität
 
+# src/game_ui/simple/n64_specs.rs
+
+All-Night Mask
+= Nachtmaske
+
+An emulator's .fla or .srm save, or the GameCube .gci. Per slot: rupees, health, magic, equipment and ammunition, every item, mask, song and boss remains, each temple's stray fairies, keys and dungeon items, and the owl statues.
+= Ein .fla- oder .srm-Spielstand eines Emulators oder die GameCube-.gci. Pro Slot: Rubine, Energie, Magie, Ausrüstung und Munition, jeder Gegenstand, jede Maske, jedes Lied und jede Boss-Überreste, die verirrten Feen, Schlüssel und Tempel-Gegenstände jedes Tempels sowie die Eulenstatuen.
+
+An emulator's .fla or .srm save. Per file: coins, Star Pieces, Star Points, level, HP, FP and BP with their maximums, Star Spirits, boots and hammer, the item bag, the partners and their ranks, and the battle records. Badges, stored and key items, recipes and star pieces found are in the Tree.
+= Ein .fla- oder .srm-Spielstand eines Emulators. Pro Datei: Münzen, Sternenteile, Sternenpunkte, Level, KP, BP und AP mit ihren Höchstwerten, Sternengeister, Schuhe und Hammer, die Gegenstände, die Partner mit ihrem Rang und die Kampfstatistiken. Orden, eingelagerte und wichtige Gegenstände, Rezepte und gefundene Sternenteile stehen im Baum.
+
+Bank Deposit
+= Bankguthaben
+
+Blast Mask
+= Feuerwerksmaske
+
+Bombchus
+= Krabbelminen
+
+Bombette: rank
+= Bombette: Rang
+
+Bombette: status
+= Bombette: Status
+
+Bottle 5
+= Flasche 5
+
+Bottle 6
+= Flasche 6
+
+Bow: rank
+= Bow: Rang
+
+Bow: status
+= Bow: Status
+
+Bremen Mask
+= Bremer Maske
+
+Bunny Hood
+= Hasenohren
+
+Captain's Hat
+= Kapitänsmütze
+
+Circus Leader's Mask
+= Zirkusdirektor-Maske
+
+Clock Town
+= Unruh-Stadt
+
+Close the emulator first. Health is in sixteenths of a heart. When a slot has an owl-statue save, that is the save the game loads, so it is the one shown and edited. Each edited save's sum is made again and its backup copy is updated.
+= Zuerst den Emulator schließen. Die Energie wird in Sechzehnteln eines Herzens angegeben. Hat ein Slot einen Eulenstatuen-Spielstand, lädt das Spiel diesen, daher wird er angezeigt und bearbeitet. Die Prüfsumme jedes bearbeiteten Spielstands wird neu berechnet und seine Sicherungskopie aktualisiert.
+
+Close the emulator first. The newest save of each file is the one shown. Max HP and Max FP include the HP Plus and FP Plus badges worn; the base values are worked out from them on save. Both sums of each edited save are made again.
+= Zuerst den Emulator schließen. Angezeigt wird der neueste Spielstand jeder Datei. Max. KP und Max. BP enthalten die getragenen KP-Plus- und BP-Plus-Orden; die Grundwerte werden beim Speichern daraus berechnet. Beide Prüfsummen jedes bearbeiteten Spielstands werden neu berechnet.
+
+Coins Earned
+= Verdiente Münzen
+
+Couple's Mask
+= Maske der Liebenden
+
+Deku Mask
+= Deku-Maske
+
+Don Gero's Mask
+= Don Geros Maske
+
+Elegy of Emptiness
+= Hymne der Leere
+
+Enemies' First Strikes
+= Erstschläge der Gegner
+
+FP
+= FP
+
+Fierce Deity's Mask
+= Maske der grimmigen Gottheit
+
+File 1: partners
+= Datei 1: Partner
+
+File 1: records
+= Datei 1: Statistiken
+
+File 2: partners
+= Datei 2: Partner
+
+File 2: records
+= Datei 2: Statistiken
+
+File 3: partners
+= Datei 3: Partner
+
+File 3: records
+= Datei 3: Statistiken
+
+File 4: general
+= Datei 4: Allgemein
+
+File 4: items
+= Datei 4: Gegenstände
+
+File 4: partners
+= Datei 4: Partner
+
+File 4: records
+= Datei 4: Statistiken
+
+Flee attempts
+= Fluchtversuche
+
+Garo's Mask
+= Garo-Maske
+
+Giant's Mask
+= Riesenmaske
+
+Gibdo Mask
+= Gibdo-Maske
+
+Goht's Remains
+= Gohts Überreste
+
+Goombario: rank
+= Goombario: Rang
+
+Goombario: status
+= Goombario: Status
+
+Goron Lullaby
+= Schlaflied der Goronen
+
+Goron Mask
+= Goronen-Maske
+
+Great Bay Coast
+= Küste der Bucht
+
+Great Bay Temple: boss key
+= Tempel der Bucht: Master-Schlüssel
+
+Great Bay Temple: compass
+= Tempel der Bucht: Kompass
+
+Great Bay Temple: map
+= Tempel der Bucht: Karte
+
+Great Bay Temple: small keys
+= Tempel der Bucht: kleine Schlüssel
+
+Great Bay Temple: stray fairies
+= Tempel der Bucht: verirrte Feen
+
+Great Fairy's Mask
+= Feenmaske
+
+Great Fairy's Sword
+= Feenschwert
+
+Gyorg's Remains
+= Gyorgs Überreste
+
+Hammer
+= Hammer
+
+Ikana Canyon
+= Ikana-Canyon
+
+Kafei's Mask
+= Kafeis Maske
+
+Kamaro's Mask
+= Kamaros Maske
+
+Keaton Mask
+= Fuchsmaske
+
+Kooper: rank
+= Kooper: Rang
+
+Kooper: status
+= Kooper: Status
+
+Lakilester: rank
+= Lakilester: Rang
+
+Lakilester: status
+= Lakilester: Status
+
+Lullaby Intro
+= Anfang des Schlaflieds
+
+Mask of Scents
+= Maske des Duftes
+
+Mask of Truth
+= Maske des Wissens
+
+Milk Road
+= Milchstraße
+
+Mountain Village
+= Bergdorf
+
+New Wave Bossa Nova
+= Bossa Nova der Wellen
+
+Number of Battles
+= Anzahl der Kämpfe
+
+Oath to Order
+= Hymne des Himmels
+
+Ocarina of Time
+= Okarina der Zeit
+
+Odolwa's Remains
+= Odolwas Überreste
+
+Parakarry: rank
+= Parakarry: Rang
+
+Parakarry: status
+= Parakarry: Status
+
+Partner
+= Partner
+
+Pictograph Box
+= Bildschreiber
+
+Playtime (1/60 s)
+= Spielzeit (1/60 s)
+
+Postman's Hat
+= Mütze des Postboten
+
+Powder Keg
+= Pulverfass
+
+Powder Kegs
+= Pulverfässer
+
+Rip Cheato Items Bought
+= Bei Rip Cheato gekauft
+
+Romani's Mask
+= Romanis Maske
+
+Slot 1: boss remains and songs
+= Slot 1: Überreste der Bosse und Lieder
+
+Slot 1: dungeons
+= Slot 1: Tempel
+
+Slot 1: equipment and ammunition
+= Slot 1: Ausrüstung und Munition
+
+Slot 1: masks
+= Slot 1: Masken
+
+Slot 1: owl statues
+= Slot 1: Eulenstatuen
+
+Slot 2: boss remains and songs
+= Slot 2: Überreste der Bosse und Lieder
+
+Slot 2: dungeons
+= Slot 2: Tempel
+
+Slot 2: equipment and ammunition
+= Slot 2: Ausrüstung und Munition
+
+Slot 2: masks
+= Slot 2: Masken
+
+Slot 2: owl statues
+= Slot 2: Eulenstatuen
+
+Slot 3: boss remains and songs
+= Slot 3: Überreste der Bosse und Lieder
+
+Slot 3: dungeons
+= Slot 3: Tempel
+
+Slot 3: equipment and ammunition
+= Slot 3: Ausrüstung und Munition
+
+Slot 3: masks
+= Slot 3: Masken
+
+Slot 3: owl statues
+= Slot 3: Eulenstatuen
+
+Snowhead
+= Pic des Hiver
+
+Snowhead Temple: boss key
+= Pic-des-Hiver-Tempel: Master-Schlüssel
+
+Snowhead Temple: compass
+= Pic-des-Hiver-Tempel: Kompass
+
+Snowhead Temple: map
+= Pic-des-Hiver-Tempel: Karte
+
+Snowhead Temple: small keys
+= Pic-des-Hiver-Tempel: kleine Schlüssel
+
+Snowhead Temple: stray fairies
+= Pic-des-Hiver-Tempel: verirrte Feen
+
+Sonata of Awakening
+= Sonate des Erwachens
+
+Song of Healing
+= Lied der Befreiung
+
+Song of Soaring
+= Lied der Schwingen
+
+Southern Swamp
+= Südlicher Sumpf
+
+Spin Attack
+= Wirbelattacke
+
+Star Energy
+= Sternenenergie
+
+Star Pieces
+= Sternenteile
+
+Star Pieces Collected
+= Gesammelte Sternenteile
+
+Star Points
+= Sternenpunkte
+
+Star Spirits saved
+= Gerettete Sternengeister
+
+Stone Mask
+= Steinmaske
+
+Stone Tower
+= Steinturm
+
+Stone Tower Temple: boss key
+= Steinturm-Tempel: Master-Schlüssel
+
+Stone Tower Temple: compass
+= Steinturm-Tempel: Kompass
+
+Stone Tower Temple: map
+= Steinturm-Tempel: Karte
+
+Stone Tower Temple: small keys
+= Steinturm-Tempel: kleine Schlüssel
+
+Stone Tower Temple: stray fairies
+= Steinturm-Tempel: verirrte Feen
+
+Sushie: rank
+= Sushie: Rang
+
+Sushie: status
+= Sushie: Status
+
+Three Day Reset Count
+= Anzahl der Zeitreisen
+
+Times Fled
+= Geflohen
+
+Total Power Bounces
+= Power-Sprünge gesamt
+
+Twinmold's Remains
+= Twinmolds Überreste
+
+Watt: rank
+= Watt: Rang
+
+Watt: status
+= Watt: Status
+
+Woodfall
+= Dämmerwald
+
+Woodfall Temple: boss key
+= Dämmerwald-Tempel: Master-Schlüssel
+
+Woodfall Temple: compass
+= Dämmerwald-Tempel: Kompass
+
+Woodfall Temple: map
+= Dämmerwald-Tempel: Karte
+
+Woodfall Temple: small keys
+= Dämmerwald-Tempel: kleine Schlüssel
+
+Woodfall Temple: stray fairies
+= Dämmerwald-Tempel: verirrte Feen
+
+Your First Strikes
+= Eigene Erstschläge
+
+Zora Cape
+= Zora-Kap
+
+Zora Mask
+= Zora-Maske
+
