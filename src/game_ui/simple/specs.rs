@@ -9,11 +9,7 @@ pub static SPECS: &[Spec] = &[OPENXCOM, XCOM_DOS, RCT2, COTL, FALLOUT_SHELTER, D
     // PlayStation 1 and 2 (ps_specs.rs)
     SOTN, FF8, FFT, RE1, KH2, MK64, GOLDENEYE, BANJO_KAZOOIE, OOT, SMASH64, TORCHLIGHT3, WRECKFEST, EVIL_WITHIN, BORDERLANDS1,
     // PlayStation 1 and 2 (ps_specs.rs), continued
-<<<<<<< HEAD
-    CRASH, KH1, GT1, BL4,];
-=======
-    CRASH, KH1, GT1, FF6_SNES];
->>>>>>> 30e99f68 (Game screen for Final Fantasy VI (SNES) emulator saves)
+    CRASH, KH1, GT1, BL4, FF6_SNES];
 // ------------------------------------------------------------------ Cult of the Lamb
 
 const COTL_ITEMS: &[(&str, &str)] = &[
@@ -6984,7 +6980,6 @@ const BORDERLANDS1: Spec = Spec {
     ],
 };
 
-<<<<<<< HEAD
 // ------------------------------------------------------------------ Borderlands 4
 const BL4: Spec = Spec {
     name: "Borderlands 4",
@@ -7025,7 +7020,8 @@ const BL4: Spec = Spec {
     ],
     lists: &[],
     tables: &[],
-=======
+};
+
 // ------------------------------------------------------------------ Final Fantasy VI (SNES)
 
 const FF6_SNES: Spec = Spec {
@@ -7071,5 +7067,4 @@ const FF6_SNES: Spec = Spec {
     Table { title: tx("Slot 3: equipment"), path: "/Slot 3/Equipment", name: &[], cols: &[(tx("Right hand"), "/Right hand"), (tx("Left hand"), "/Left hand"), (tx("Head"), "/Head"), (tx("Body"), "/Body"), (tx("Relic 1"), "/Relic 1"), (tx("Relic 2"), "/Relic 2")], only: &[], names: &[] },
     Table { title: tx("Slot 3: inventory"), path: "/Slot 3/Inventory", name: &[], cols: &[(tx("Item"), "/Item"), (tx("Quantity"), "/Quantity")], only: &[], names: &[] },
     ],
->>>>>>> 30e99f68 (Game screen for Final Fantasy VI (SNES) emulator saves)
 };
