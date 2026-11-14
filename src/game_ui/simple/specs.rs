@@ -15,7 +15,9 @@ pub static SPECS: &[Spec] = &[OPENXCOM, XCOM_DOS, RCT2, COTL, FALLOUT_SHELTER, D
     // PlayStation 1 and 2 (ps_specs.rs)
     SOTN, FF8, FFT, RE1, KH2, MK64, GOLDENEYE, BANJO_KAZOOIE, OOT, SMASH64, TORCHLIGHT3, WRECKFEST, EVIL_WITHIN, BORDERLANDS1,
     // PlayStation 1 and 2 (ps_specs.rs), continued
-    CRASH, KH1, GT1, BL4, WUKONG, BOTW, RAYMAN, CTR, THPS, PAYDAY2, FS_FARM, FS_CAREER, FS17, FS15, GAS_STATION_SIM, THIEF_SIM, HOUSE_FLIPPER, TAVERN_MASTER, ROAD_REDEMPTION, SILENT_HILL, SOPHIE, FIRIS, DREDGE, PC_BUILDING_SIM, OUTWARD, SUPRALAND, WARM_SNOW, READY_OR_NOT, SUNSHINE, LUIGI, WINDWAKER, TEKKEN1, TEKKEN2, TEKKEN3, DMC_PS2];
+    CRASH, KH1, GT1, BL4, WUKONG, BOTW, RAYMAN, CTR, THPS, PAYDAY2, FS_FARM, FS_CAREER, FS17, FS15, GAS_STATION_SIM, THIEF_SIM, HOUSE_FLIPPER, TAVERN_MASTER, ROAD_REDEMPTION, SILENT_HILL, SOPHIE, FIRIS, DREDGE, PC_BUILDING_SIM, OUTWARD, SUPRALAND, WARM_SNOW, READY_OR_NOT, SUNSHINE, LUIGI, WINDWAKER, TEKKEN1, TEKKEN2, TEKKEN3, DMC_PS2,
+    WIZARD_OF_LEGEND, RAFT, MAGICRAFT,
+];
 // ------------------------------------------------------------------ Cult of the Lamb
 
 const COTL_ITEMS: &[(&str, &str)] = &[
@@ -12029,3 +12031,63 @@ const WINDWAKER: Spec = Spec {
 };
 
 // end WINDWAKER
+
+// ------------------------------------------------------------------ Wizard of Legend
+
+const WIZARD_OF_LEGEND: Spec = Spec {
+    name: "Wizard of Legend",
+    tab: "Wizard",
+    accent: (110, 90, 200),
+    kind: Some(".NET BinaryFormatter (GameData)"),
+    markers: &["/platinumWallet/balance", "/outfitDataDictionary"],
+    subtitle: "GameData.gd from AppData\\LocalLow\\Contingent99\\Wizard of Legend (.NET BinaryFormatter, read and written in place). Chaos gems, play time and the unlocked outfits. Close the game first.",
+    tiles: &[("Chaos gems", "/platinumWallet/balance"), ("Chaos gem limit", "/platinumWallet/maxBalance"), ("Play time", "/gameStats/totalPlayTime")],
+    sections: &[
+        Section { title: "Wallet", rows: &[("Chaos gems", "/platinumWallet/balance"), ("Chaos gem limit", "/platinumWallet/maxBalance")] },
+        Section { title: "Progress", rows: &[("Tutorial cleared", "/tutorialCleared"), ("Chaos spells available", "/chaosSpellsAvailable"), ("Play time", "/gameStats/totalPlayTime")] },
+        Section {
+            title: "Outfits unlocked",
+            rows: &[("Hope", "/outfitDataDictionary/Hope"), ("Patience", "/outfitDataDictionary/Patience"), ("Vigor", "/outfitDataDictionary/Vigor"), ("Grit", "/outfitDataDictionary/Grit"), ("Greed", "/outfitDataDictionary/Greed"), ("Pink", "/outfitDataDictionary/Pink"), ("Pace", "/outfitDataDictionary/Pace"), ("Tempo", "/outfitDataDictionary/Tempo"), ("Switch", "/outfitDataDictionary/Switch"), ("Awe", "/outfitDataDictionary/Awe"), ("Fury", "/outfitDataDictionary/Fury"), ("Rule", "/outfitDataDictionary/Rule"), ("Level", "/outfitDataDictionary/Level"), ("Venture", "/outfitDataDictionary/Venture"), ("Fall", "/outfitDataDictionary/Fall"), ("Pride", "/outfitDataDictionary/Pride")],
+        },
+    ],
+    lists: &[],
+    tables: &[],
+};
+
+// ------------------------------------------------------------------ Raft
+
+const RAFT: Spec = Spec {
+    name: "Raft",
+    tab: "World",
+    accent: (50, 150, 190),
+    kind: Some(".NET BinaryFormatter (RGD_Game)"),
+    markers: &["/World/DayCounter", "/TimePlayedSeconds"],
+    subtitle: "A world .rgd from AppData\\LocalLow\\Redbeet Interactive\\Raft\\User\\<id>\\World (.NET BinaryFormatter, read and written in place). Day, time played, time of day and weather. Close the game first.",
+    tiles: &[("Day", "/World/DayCounter"), ("Time played", "/TimePlayedSeconds"), ("Time of day", "/World/TimeOfDay")],
+    sections: &[
+        Section { title: "World", rows: &[("World name", "/WorldName"), ("Day", "/World/DayCounter"), ("Time played", "/TimePlayedSeconds"), ("Time of day", "/World/TimeOfDay"), ("Weather", "/World/WeatherTypeIndex"), ("Radio tower reached", "/World/RadioTowerReached")] },
+    ],
+    lists: &[],
+    tables: &[],
+};
+// ------------------------------------------------------------------ Magicraft
+
+const MAGICRAFT: Spec = Spec {
+    name: "Magicraft",
+    tab: "Wizard",
+    accent: (150, 90, 210),
+    kind: None,
+    markers: &["/magicCrystalCount", "/ancientBloodCount"],
+    subtitle: "WorldData0.Json (1, 2) from AppData\\LocalLow\\<company>\\Magicraft (the game's XOR key is removed and put back). Magic crystals, ancient blood, chaos cores and the permanent upgrade levels. Close the game first.",
+    tiles: &[("Magic crystals", "/magicCrystalCount"), ("Ancient blood", "/ancientBloodCount"), ("Chaos cores", "/chaosCoreCount")],
+    sections: &[
+        Section { title: "Currencies", rows: &[("Magic crystals", "/magicCrystalCount"), ("Ancient blood", "/ancientBloodCount"), ("Chaos cores", "/chaosCoreCount")] },
+        Section {
+            title: "Upgrade levels",
+            rows: &[("Wand limit", "/levelOfWandLimit"), ("Bag limit", "/levelOfBagLimit"), ("Maximum health", "/levelOfMaxHP"), ("Health room", "/levelOfHPRoom"), ("Starting coins", "/levelOfInitialCoin"), ("Coin room", "/levelOfCoinRoom"), ("Spell room", "/levelOfSpellRoom"), ("Relic room", "/levelOfRelicRoom"), ("Maximum mana", "/levelOfMaxMP"), ("Mana recovery", "/levelOfMPRecover")],
+        },
+        Section { title: "Statistics", rows: &[("Deaths", "/deadCount"), ("Play time", "/playTime"), ("Selected difficulty", "/selectedDifficulty"), ("Battles entered", "/enterBattleTime")] },
+    ],
+    lists: &[],
+    tables: &[],
+};

@@ -219,6 +219,8 @@ pub enum Layer {
     Wwz { seed: u8 },
     /// PAYDAY 2 profile: XOR key stream, MD5 blocks and a typed dictionary (the decoded file is kept to rebuild the save).
     Payday2 { plain: Arc<Vec<u8>> },
+    /// Hyper Light Drifter: hex header, then base64 of a JSON text with a trailing NUL.
+    HyperLightDrifter { head: Arc<Vec<u8>> },
     /// Persona 3 Reload Steam save (XOR key and bit permutation over a GVAS file).
     P3rSteam,
     /// Antimatter Dimensions export text (platform index, three letter version).
@@ -434,6 +436,7 @@ impl Layer {
             Layer::Bloodstained { .. } => "Bloodstained save obfuscation".into(),
             Layer::Wwz { .. } => "World War Z save encryption".into(),
             Layer::Payday2 { .. } => "PAYDAY 2 save encryption and blocks".into(),
+            Layer::HyperLightDrifter { .. } => "Hyper Light Drifter header and base64".into(),
             Layer::P3rSteam => "Persona 3 Reload save encryption".into(),
             Layer::Antimatter { .. } => "Antimatter Dimensions export text".into(),
             Layer::NestedJson { paths, .. } => format!("JSON inside JSON strings ({})", paths.len()),
@@ -1082,6 +1085,7 @@ fn wrap(layer: &Layer, data: Vec<u8>) -> Result<Vec<u8>, String> {
         Layer::Bloodstained { tail } => fmt::bloodstained::pack(&data, tail),
         Layer::Wwz { seed } => fmt::wwz::pack(*seed, &data)?,
         Layer::Payday2 { plain } => fmt::payday2::pack(plain, &data)?,
+        Layer::HyperLightDrifter { head } => fmt::hld::pack(head, &data),
         Layer::P3rSteam => fmt::p3r::steam_encrypt(&data),
         Layer::Antimatter { kind, version } => fmt::antimatter::close(*kind, version, &data)?,
         Layer::NestedJson { paths, pretty } => fmt::nested::close(&data, paths, *pretty)?,
@@ -1929,6 +1933,9 @@ fn peel(data: &[u8], ctx: &mut Ctx) -> Option<(Layer, Vec<u8>)> {
             return Some((Layer::Wwz { seed }, plain));
         }
     }
+    if let Some((head, json)) = fmt::hld::open(data) {
+        return Some((Layer::HyperLightDrifter { head: Arc::new(head) }, json));
+    }
     if let Some((plain, json)) = fmt::payday2::open(data) {
         return Some((Layer::Payday2 { plain: Arc::new(plain) }, json));
     }
@@ -2399,6 +2406,8 @@ const KNOWN_XOR_KEYS: &[(&str, &str)] = &[
     ("", "key"),
     // Bounty of One (gamedata.sav), as game-bounty-of-one-save-editor (n0isy, MIT) gives it.
     ("Bounty of One", "cheh"),
+    // Magicraft (WorldData0.Json and the other slots), the repeating key the game uses.
+    ("Magicraft", "Encrypt"),
     // Idle Slayer (savedata.sav), the phrase the game itself leaves in the file.
     ("Idle Slayer", "If you manage to get this string you are allowed to hack the game all you want"),
     // CloverPit (GameDataFull.json): the game's password "uoiyiuh_+=-5216gh;lj??!/345" with each

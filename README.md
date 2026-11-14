@@ -3,7 +3,7 @@
 > **Free, and it always will be.** No price, no ads, no account, no paid version, no online service, no
 > rate limits. If anyone is charging you for this, it isn't from here.
 
-An offline save editor and save manager for 480+ (482) PC games (edit saves, and back up, name and restore them): Cairn, Terraria (characters and a world map editor),
+An offline save editor and save manager for 480+ (486) PC games (edit saves, and back up, name and restore them): Cairn, Terraria (characters and a world map editor),
 Oxygen Not Included, RimWorld, Stardew Valley, Onimusha: Way of the Sword, Elden Ring, Dark Souls,
 Cyberpunk 2077, the Persona, Yakuza and Final Fantasy games, Ren'Py visual novels, RPG Maker games
 and more (the full list is below). Written in Rust (egui). Nothing is uploaded anywhere, and there are
@@ -269,7 +269,7 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 </details>
 
 <details>
-<summary><strong>H</strong> (14)</summary>
+<summary><strong>H</strong> (15)</summary>
 
 | Game | Screen |
 |---|---|
@@ -287,6 +287,7 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 | Horizon Chase Turbo | *Driver*: campaign tokens and race counts, each stored in three places and all shown (checked on a public save from the Epic Games Store build, not yet tried in the game) |
 | Horizon Zero Dawn | *Aloy*: metal shards and skill points, with level and experience (PC Complete Edition; checked on public saves, not yet tried in the game) |
 | House Flipper | *Flipper*: money (both copies the game keeps are written together), unused perk points of each skill and the statistics, from `PlayerProgress.dat` (plain JSON; checked on a public save, not yet tried in the game) |
+| Hyper Light Drifter | Opens as JSON from `HyperLight_RecordOfTheDrifter_N.sav` (the hex header and base64 wrapper are removed and put back; every value by name; checked on a public save, not yet tried in the game) |
 
 </details>
 
@@ -365,10 +366,11 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 </details>
 
 <details>
-<summary><strong>M</strong> (20)</summary>
+<summary><strong>M</strong> (21)</summary>
 
 | Game | Screen |
 |---|---|
+| Magicraft | *Wizard*: magic crystals, ancient blood, chaos cores, the permanent upgrade levels, deaths and play time, from `WorldData0.Json` (its XOR key is removed and put back; checked on a public save, not yet tried in the game) |
 | Mario & Luigi: Dream Team | *Brothers*: coins, each brother's level, experience, HP, BP, Power, Defense, Speed and Stache, and the counts of recovery items, battle items and beans (decrypted 3DS save; checked on a public save, not yet tried in the game) |
 | Mario Kart 64 | *Racer* (N64 emulator `.eep` saves): Grand Prix cups for each class, Time Trial times and characters for all sixteen courses, sound mode (the game's sums and best-records list are kept right; checked on public saves, not yet tried in the game) |
 | Mario Kart 7 | *Player*: coins, StreetPass count, online wins and losses and VR points; the save's CRC-32 is written again (decrypted 3DS `system0.dat`; checked on a public save, not yet tried in the game) |
@@ -455,11 +457,12 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 </details>
 
 <details>
-<summary><strong>R</strong> (17)</summary>
+<summary><strong>R</strong> (18)</summary>
 
 | Game | Screen |
 |---|---|
 | R.E.P.O. | Level, money, lives, the charging station and total haul; each player's health and upgrades; the items in the truck and bought in total (`<save>.es3`); decrypted and encrypted again on save (checked on a public save, not yet tried in the game) |
+| Raft | *World*: the day, time played, time of day, weather and radio tower flag of a world `.rgd` (.NET BinaryFormatter, read and written in place; the rest of the world opens for Tree editing; checked on a public save, not yet tried in the game) |
 | Rayman (PlayStation) | *Rayman* (PlayStation memory card, `.mcs`, `.psx` or `.psv` save): continues, lives, health, the powers, and every level's unlock and Electoon cages; the level totals and the completion rate are written again (checked on public saves, not yet tried in the game) |
 | Ready or Not | *Operations*: the best rating, best time and times completed of every mission, from `LevelStats.sav` (plain Unreal GVAS; the roster and unlock tags open for Tree editing; checked on a public save, not yet tried in the game) |
 | Red Dead Redemption (PC; the PS4 and Switch release uses the same format) | *John*: money, honor, fame and the Dead Eye meter; *Consumables*: snake oil, moonshine, chewing tobacco, medicine, tonics, bait, apples and horse pills; weapons, horses and kit are listed as owned. Story, Hardcore and Undead Nightmare saves; the save is decrypted and encrypted again with its CRC-32 (checked on real saves, not yet tried in the game) |
@@ -610,7 +613,7 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 </details>
 
 <details>
-<summary><strong>W</strong> (15)</summary>
+<summary><strong>W</strong> (16)</summary>
 
 | Game | Screen |
 |---|---|
@@ -623,6 +626,7 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 | Wasteland 3 | *Rangers*: money; each ranger's level, XP, hit points, attributes, unspent points and skills by name (Automatic Weapons, First Aid, Lockpicking and the rest); item quantities in the inventory and stash; Fame and each faction's reputation (negative allowed) and the quest counters the game keeps. Unpacked (LZF) and packed again on save. Not yet tried in the game |
 | Watch Dogs 2 | *Marcus*: money, followers and research points (while some are unspent), and the lifetime totals, changed in place in the save's object tree (checked on public saves, not yet tried in the game) |
 | West of Loathing | *Cowpoke*: meat (money), level, experience, the class and resistances, and the stats, skills and perks by name; the inventory with quantities (the game stores most numbers as text) (checked on a public save, not yet tried in the game) |
+| Wizard of Legend | *Wizard*: chaos gems, play time and the unlocked outfits, from `GameData.gd` (.NET BinaryFormatter, read and written in place; checked on a public save, not yet tried in the game) |
 | Wolcen: Lords of Mayhem | *Character*: gold, level, experience, primordial affinity, the four attributes, attribute and passive skill points to spend, difficulty mode and league from a character `.json`; items and skills are in the Tree. checked on a public save, not yet tried in the game |
 | Workshop Simulator | *Workshop*: the account balance, total money earned and orders finished; large saves take a moment to open (checked on a public save, not yet tried in the game) |
 | World of Horror | *Unlocks*: unlock every achievement, mystery ending, enemy, event and pantheon entry the way the game itself records them (each with its own code, since a plain "yes" unlocks nothing), with the unlock counts, the last run's character, items and mystery board, and the settings in `save.ito` (checked on a public completed save, not yet tried in the game) |
@@ -694,8 +698,8 @@ binary and stays an ironman save. It isn't converted to a normal one.
 
 The start page lists **Your games**: every game in the list whose saves were found on this computer,
 newest first, each one click away from its newest save. *Find my game's saves* (the big button on the
-start page, *Find saves* in the toolbar and the File menu) lists every one of the 480+ (482) PC games the editor knows, Mass Effect 1–3, the Legendary Edition and Andromeda among them — with where it
-start page, *Find saves* in the toolbar and the File menu) lists every one of the 480+ (482) PC games the editor knows, Mass Effect 1–3, the Legendary Edition and Andromeda among them — with where it
+start page, *Find saves* in the toolbar and the File menu) lists every one of the 480+ (486) PC games the editor knows, Mass Effect 1–3, the Legendary Edition and Andromeda among them — with where it
+start page, *Find saves* in the toolbar and the File menu) lists every one of the 480+ (486) PC games the editor knows, Mass Effect 1–3, the Legendary Edition and Andromeda among them — with where it
 usually keeps its saves and what the files are called, and finds them on your computer (Steam
 libraries and `userdata`, Documents wherever Windows has it, AppData, Saved Games, Ubisoft
 Connect). On Linux and the Steam Deck it also looks inside Proton prefixes

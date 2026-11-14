@@ -22822,3 +22822,125 @@ Bloodstone
 Finished games
 = Jogos terminados
 
+Wizard
+= Mago
+
+GameData.gd from AppData\\LocalLow\\Contingent99\\Wizard of Legend (.NET BinaryFormatter, read and written in place). Chaos gems, play time and the unlocked outfits. Close the game first.
+= GameData.gd de AppData\LocalLow\Contingent99\Wizard of Legend (.NET BinaryFormatter, lido e gravado no próprio arquivo). Gemas do caos, tempo de jogo e trajes desbloqueados. Feche o jogo antes.
+
+Chaos gems
+= Gemas do caos
+
+Chaos gem limit
+= Limite de gemas do caos
+
+Tutorial cleared
+= Tutorial concluído
+
+Chaos spells available
+= Feitiços do caos disponíveis
+
+Outfits unlocked
+= Trajes desbloqueados
+
+Hope
+= Hope
+
+Patience
+= Patience
+
+Grit
+= Grit
+
+Pink
+= Pink
+
+Pace
+= Pace
+
+Tempo
+= Tempo
+
+Switch
+= Switch
+
+Awe
+= Awe
+
+Fury
+= Fury
+
+Rule
+= Rule
+
+Venture
+= Venture
+
+Fall
+= Fall
+
+Pride
+= Pride
+
+A world .rgd from AppData\\LocalLow\\Redbeet Interactive\\Raft\\User\\<id>\\World (.NET BinaryFormatter, read and written in place). Day, time played, time of day and weather. Close the game first.
+= Um .rgd de mundo de AppData\LocalLow\Redbeet Interactive\Raft\User\<id>\World (.NET BinaryFormatter, lido e gravado no próprio arquivo). Dia, tempo de jogo, hora do dia e clima. Feche o jogo antes.
+
+Time played
+= Tempo de jogo
+
+World name
+= Nome do mundo
+
+Weather
+= Clima
+
+Radio tower reached
+= Torre de rádio alcançada
+
+WorldData0.Json (1, 2) from AppData\\LocalLow\\<company>\\Magicraft (the game's XOR key is removed and put back). Magic crystals, ancient blood, chaos cores and the permanent upgrade levels. Close the game first.
+= WorldData0.Json (1, 2) de AppData\LocalLow\<empresa>\Magicraft (a chave XOR do jogo é removida e reaplicada). Cristais mágicos, sangue ancestral, núcleos do caos e níveis das melhorias permanentes. Feche o jogo antes.
+
+Magic crystals
+= Cristais mágicos
+
+Ancient blood
+= Sangue ancestral
+
+Chaos cores
+= Núcleos do caos
+
+Upgrade levels
+= Níveis de melhoria
+
+Wand limit
+= Limite de varinhas
+
+Bag limit
+= Limite da bolsa
+
+Health room
+= Sala de saúde
+
+Starting coins
+= Moedas iniciais
+
+Coin room
+= Sala de moedas
+
+Spell room
+= Sala de feitiços
+
+Relic room
+= Sala de relíquias
+
+Maximum mana
+= Mana máximo
+
+Mana recovery
+= Recuperação de mana
+
+Selected difficulty
+= Dificuldade escolhida
+
+Battles entered
+= Combates iniciados

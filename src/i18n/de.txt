@@ -22852,3 +22852,125 @@ Bloodstone
 Finished games
 = Beendete Spiele
 
+Wizard
+= Zauberer
+
+GameData.gd from AppData\\LocalLow\\Contingent99\\Wizard of Legend (.NET BinaryFormatter, read and written in place). Chaos gems, play time and the unlocked outfits. Close the game first.
+= GameData.gd aus AppData\LocalLow\Contingent99\Wizard of Legend (.NET BinaryFormatter, direkt gelesen und geschrieben). Chaos-Edelsteine, Spielzeit und freigeschaltete Outfits. Zuerst das Spiel schließen.
+
+Chaos gems
+= Chaos-Edelsteine
+
+Chaos gem limit
+= Chaos-Edelstein-Limit
+
+Tutorial cleared
+= Tutorial abgeschlossen
+
+Chaos spells available
+= Chaos-Zauber verfügbar
+
+Outfits unlocked
+= Freigeschaltete Outfits
+
+Hope
+= Hope
+
+Patience
+= Patience
+
+Grit
+= Grit
+
+Pink
+= Pink
+
+Pace
+= Pace
+
+Tempo
+= Tempo
+
+Switch
+= Switch
+
+Awe
+= Awe
+
+Fury
+= Fury
+
+Rule
+= Rule
+
+Venture
+= Venture
+
+Fall
+= Fall
+
+Pride
+= Pride
+
+A world .rgd from AppData\\LocalLow\\Redbeet Interactive\\Raft\\User\\<id>\\World (.NET BinaryFormatter, read and written in place). Day, time played, time of day and weather. Close the game first.
+= Eine Welt-.rgd aus AppData\LocalLow\Redbeet Interactive\Raft\User\<id>\World (.NET BinaryFormatter, direkt gelesen und geschrieben). Tag, Spielzeit, Tageszeit und Wetter. Zuerst das Spiel schließen.
+
+Time played
+= Spielzeit
+
+World name
+= Weltname
+
+Weather
+= Wetter
+
+Radio tower reached
+= Funkturm erreicht
+
+WorldData0.Json (1, 2) from AppData\\LocalLow\\<company>\\Magicraft (the game's XOR key is removed and put back). Magic crystals, ancient blood, chaos cores and the permanent upgrade levels. Close the game first.
+= WorldData0.Json (1, 2) aus AppData\LocalLow\<Firma>\Magicraft (der XOR-Schlüssel des Spiels wird entfernt und wieder angewendet). Magische Kristalle, uraltes Blut, Chaoskerne und die dauerhaften Upgrade-Stufen. Zuerst das Spiel schließen.
+
+Magic crystals
+= Magische Kristalle
+
+Ancient blood
+= Uraltes Blut
+
+Chaos cores
+= Chaoskerne
+
+Upgrade levels
+= Upgrade-Stufen
+
+Wand limit
+= Zauberstab-Limit
+
+Bag limit
+= Taschenlimit
+
+Health room
+= Gesundheitsraum
+
+Starting coins
+= Startmünzen
+
+Coin room
+= Münzraum
+
+Spell room
+= Zauberraum
+
+Relic room
+= Relikt-Raum
+
+Maximum mana
+= Maximales Mana
+
+Mana recovery
+= Mana-Regeneration
+
+Selected difficulty
+= Gewählter Schwierigkeitsgrad
+
+Battles entered
+= Betretene Kämpfe

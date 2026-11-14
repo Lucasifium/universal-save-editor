@@ -22934,3 +22934,125 @@ Bloodstone
 Finished games
 = クリア回数
 
+Wizard
+= 魔法使い
+
+GameData.gd from AppData\\LocalLow\\Contingent99\\Wizard of Legend (.NET BinaryFormatter, read and written in place). Chaos gems, play time and the unlocked outfits. Close the game first.
+= AppData\LocalLow\Contingent99\Wizard of Legend の GameData.gd(.NET BinaryFormatter、その場で読み書き)。カオスジェム、プレイ時間、解放済みのアウトフィット。先にゲームを閉じてください。
+
+Chaos gems
+= カオスジェム
+
+Chaos gem limit
+= カオスジェムの上限
+
+Tutorial cleared
+= チュートリアル完了
+
+Chaos spells available
+= カオス魔法の解放
+
+Outfits unlocked
+= 解放済みアウトフィット
+
+Hope
+= Hope
+
+Patience
+= Patience
+
+Grit
+= Grit
+
+Pink
+= Pink
+
+Pace
+= Pace
+
+Tempo
+= Tempo
+
+Switch
+= Switch
+
+Awe
+= Awe
+
+Fury
+= Fury
+
+Rule
+= Rule
+
+Venture
+= Venture
+
+Fall
+= Fall
+
+Pride
+= Pride
+
+A world .rgd from AppData\\LocalLow\\Redbeet Interactive\\Raft\\User\\<id>\\World (.NET BinaryFormatter, read and written in place). Day, time played, time of day and weather. Close the game first.
+= AppData\LocalLow\Redbeet Interactive\Raft\User\<id>\World のワールド .rgd(.NET BinaryFormatter、その場で読み書き)。日数、プレイ時間、時刻、天候。先にゲームを閉じてください。
+
+Time played
+= プレイ時間
+
+World name
+= ワールド名
+
+Weather
+= 天候
+
+Radio tower reached
+= 無線塔に到達
+
+WorldData0.Json (1, 2) from AppData\\LocalLow\\<company>\\Magicraft (the game's XOR key is removed and put back). Magic crystals, ancient blood, chaos cores and the permanent upgrade levels. Close the game first.
+= AppData\LocalLow\<会社名>\Magicraft の WorldData0.Json(1、2)(ゲームの XOR キーを外して元に戻します)。魔法のクリスタル、古の血、カオスコア、恒久アップグレードのレベル。先にゲームを閉じてください。
+
+Magic crystals
+= 魔法のクリスタル
+
+Ancient blood
+= 古の血
+
+Chaos cores
+= カオスコア
+
+Upgrade levels
+= アップグレードのレベル
+
+Wand limit
+= 杖の上限
+
+Bag limit
+= バッグの上限
+
+Health room
+= 回復の部屋
+
+Starting coins
+= 初期コイン
+
+Coin room
+= コインの部屋
+
+Spell room
+= 呪文の部屋
+
+Relic room
+= 遺物の部屋
+
+Maximum mana
+= 最大マナ
+
+Mana recovery
+= マナ回復
+
+Selected difficulty
+= 選択中の難易度
+
+Battles entered
+= 参加した戦闘

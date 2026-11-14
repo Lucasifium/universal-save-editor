@@ -22848,3 +22848,125 @@ Bloodstone
 Finished games
 = Partidas terminadas
 
+Wizard
+= Mago
+
+GameData.gd from AppData\\LocalLow\\Contingent99\\Wizard of Legend (.NET BinaryFormatter, read and written in place). Chaos gems, play time and the unlocked outfits. Close the game first.
+= GameData.gd de AppData\LocalLow\Contingent99\Wizard of Legend (.NET BinaryFormatter, leído y escrito en el propio archivo). Gemas del caos, tiempo de juego y atuendos desbloqueados. Cierra primero el juego.
+
+Chaos gems
+= Gemas del caos
+
+Chaos gem limit
+= Límite de gemas del caos
+
+Tutorial cleared
+= Tutorial completado
+
+Chaos spells available
+= Hechizos del caos disponibles
+
+Outfits unlocked
+= Atuendos desbloqueados
+
+Hope
+= Hope
+
+Patience
+= Patience
+
+Grit
+= Grit
+
+Pink
+= Pink
+
+Pace
+= Pace
+
+Tempo
+= Tempo
+
+Switch
+= Switch
+
+Awe
+= Awe
+
+Fury
+= Fury
+
+Rule
+= Rule
+
+Venture
+= Venture
+
+Fall
+= Fall
+
+Pride
+= Pride
+
+A world .rgd from AppData\\LocalLow\\Redbeet Interactive\\Raft\\User\\<id>\\World (.NET BinaryFormatter, read and written in place). Day, time played, time of day and weather. Close the game first.
+= Un .rgd de mundo de AppData\LocalLow\Redbeet Interactive\Raft\User\<id>\World (.NET BinaryFormatter, leído y escrito en el propio archivo). Día, tiempo de juego, hora del día y clima. Cierra primero el juego.
+
+Time played
+= Tiempo de juego
+
+World name
+= Nombre del mundo
+
+Weather
+= Clima
+
+Radio tower reached
+= Torre de radio alcanzada
+
+WorldData0.Json (1, 2) from AppData\\LocalLow\\<company>\\Magicraft (the game's XOR key is removed and put back). Magic crystals, ancient blood, chaos cores and the permanent upgrade levels. Close the game first.
+= WorldData0.Json (1, 2) de AppData\LocalLow\<empresa>\Magicraft (la clave XOR del juego se quita y se vuelve a aplicar). Cristales mágicos, sangre ancestral, núcleos del caos y niveles de mejoras permanentes. Cierra primero el juego.
+
+Magic crystals
+= Cristales mágicos
+
+Ancient blood
+= Sangre ancestral
+
+Chaos cores
+= Núcleos del caos
+
+Upgrade levels
+= Niveles de mejora
+
+Wand limit
+= Límite de varitas
+
+Bag limit
+= Límite de bolsa
+
+Health room
+= Sala de salud
+
+Starting coins
+= Monedas iniciales
+
+Coin room
+= Sala de monedas
+
+Spell room
+= Sala de hechizos
+
+Relic room
+= Sala de reliquias
+
+Maximum mana
+= Maná máximo
+
+Mana recovery
+= Recuperación de maná
+
+Selected difficulty
+= Dificultad elegida
+
+Battles entered
+= Combates iniciados

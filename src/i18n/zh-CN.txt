@@ -22907,3 +22907,125 @@ Bloodstone
 Finished games
 = 通关次数
 
+Wizard
+= 法师
+
+GameData.gd from AppData\\LocalLow\\Contingent99\\Wizard of Legend (.NET BinaryFormatter, read and written in place). Chaos gems, play time and the unlocked outfits. Close the game first.
+= AppData\LocalLow\Contingent99\Wizard of Legend 中的 GameData.gd(.NET BinaryFormatter,就地读写)。混沌宝石、游戏时间和已解锁的服装。请先关闭游戏。
+
+Chaos gems
+= 混沌宝石
+
+Chaos gem limit
+= 混沌宝石上限
+
+Tutorial cleared
+= 教程已完成
+
+Chaos spells available
+= 混沌法术已开放
+
+Outfits unlocked
+= 已解锁服装
+
+Hope
+= Hope
+
+Patience
+= Patience
+
+Grit
+= Grit
+
+Pink
+= Pink
+
+Pace
+= Pace
+
+Tempo
+= Tempo
+
+Switch
+= Switch
+
+Awe
+= Awe
+
+Fury
+= Fury
+
+Rule
+= Rule
+
+Venture
+= Venture
+
+Fall
+= Fall
+
+Pride
+= Pride
+
+A world .rgd from AppData\\LocalLow\\Redbeet Interactive\\Raft\\User\\<id>\\World (.NET BinaryFormatter, read and written in place). Day, time played, time of day and weather. Close the game first.
+= AppData\LocalLow\Redbeet Interactive\Raft\User\<id>\World 中的世界 .rgd(.NET BinaryFormatter,就地读写)。天数、游戏时间、时间和天气。请先关闭游戏。
+
+Time played
+= 游戏时间
+
+World name
+= 世界名称
+
+Weather
+= 天气
+
+Radio tower reached
+= 已到达无线电塔
+
+WorldData0.Json (1, 2) from AppData\\LocalLow\\<company>\\Magicraft (the game's XOR key is removed and put back). Magic crystals, ancient blood, chaos cores and the permanent upgrade levels. Close the game first.
+= AppData\LocalLow\<公司名>\Magicraft 中的 WorldData0.Json(1、2)(去除并还原游戏的 XOR 密钥)。魔法水晶、远古之血、混沌核心和永久升级等级。请先关闭游戏。
+
+Magic crystals
+= 魔法水晶
+
+Ancient blood
+= 远古之血
+
+Chaos cores
+= 混沌核心
+
+Upgrade levels
+= 升级等级
+
+Wand limit
+= 法杖上限
+
+Bag limit
+= 背包上限
+
+Health room
+= 生命房间
+
+Starting coins
+= 初始金币
+
+Coin room
+= 金币房间
+
+Spell room
+= 法术房间
+
+Relic room
+= 遗物房间
+
+Maximum mana
+= 最大法力
+
+Mana recovery
+= 法力恢复
+
+Selected difficulty
+= 所选难度
+
+Battles entered
+= 进入战斗次数
