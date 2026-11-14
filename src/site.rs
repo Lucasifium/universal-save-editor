@@ -358,6 +358,41 @@ fn with_game_count(text: &str) -> String {
     format!("{}{}+ ({}){}", &text[..start], GAMES.len() / 10 * 10, GAMES.len(), &text[i..])
 }
 
+/// The README's "Game screens" section as one collapsible table per first letter (digits and
+/// symbols under #), rows sorted by name. Rows added anywhere in the section, in any order, are
+/// folded into their letter; `build_site` rewrites the README with this.
+fn group_readme_screens(text: &str) -> String {
+    let Some(at) = text.find("## Game screens") else { return text.to_string() };
+    let end = text[at..].find("\n## ").map_or(text.len(), |e| at + e);
+    let section = &text[at..end];
+    let intro: Vec<&str> = section.lines().take_while(|l| !l.starts_with("<details") && !l.starts_with('|')).collect();
+    let mut rows: Vec<(char, String, &str)> = section
+        .lines()
+        .filter(|l| l.starts_with("| ") && !l.starts_with("| Game |"))
+        .map(|l| {
+            let name = l[2..].split(" | ").next().unwrap_or("").trim().to_lowercase();
+            let c = name.chars().next().and_then(|c| c.to_uppercase().next()).filter(|c| c.is_alphabetic()).unwrap_or('#');
+            (c, name, l)
+        })
+        .collect();
+    rows.sort_by(|a, b| ((a.0 != '#'), a.0, &a.1).cmp(&((b.0 != '#'), b.0, &b.1)));
+    let mut out = intro.join("\n").trim_end().to_string();
+    out.push_str("\n\n");
+    let mut i = 0;
+    while i < rows.len() {
+        let c = rows[i].0;
+        let n = rows[i..].iter().take_while(|r| r.0 == c).count();
+        let _ = write!(out, "<details>\n<summary><strong>{c}</strong> ({n})</summary>\n\n| Game | Screen |\n|---|---|\n");
+        for r in &rows[i..i + n] {
+            out.push_str(r.2);
+            out.push('\n');
+        }
+        out.push_str("\n</details>\n\n");
+        i += n;
+    }
+    format!("{}{}{}", &text[..at], out.trim_end_matches('\n'), &text[end..])
+}
+
 #[test]
 #[ignore]
 fn build_site() {
@@ -366,7 +401,10 @@ fn build_site() {
     for f in ["README.md", "Cargo.toml"] {
         let path = std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join(f);
         let text = std::fs::read_to_string(&path).unwrap();
-        let fixed = with_game_count(&text);
+        let mut fixed = with_game_count(&text);
+        if f == "README.md" {
+            fixed = group_readme_screens(&fixed);
+        }
         if fixed != text {
             std::fs::write(&path, fixed).unwrap();
         }
@@ -563,4 +601,12 @@ fn readme_game_count_matches_registry() {
         let text = std::fs::read_to_string(root.join(f)).unwrap();
         assert!(with_game_count(&text) == text, "{f} has a stale game count: run `cargo test --release --lib build_site -- --ignored`");
     }
+}
+
+/// Every row of the README's game-screens list sits in its own letter's collapsible table (a row
+/// outside one renders as a run-on paragraph on GitHub).
+#[test]
+fn readme_screens_are_grouped() {
+    let text = std::fs::read_to_string(std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join("README.md")).unwrap();
+    assert!(group_readme_screens(&text) == text, "README.md's game screens are not grouped by letter: run `cargo test --release --lib build_site -- --ignored`");
 }

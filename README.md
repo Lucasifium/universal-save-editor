@@ -104,24 +104,23 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 | Assassin's Creed Unity | *Arno*: francs and Creed Points, smoke bombs, berserk darts, medicine, bullets, cherry bombs and stun grenades. The save is unscrambled (the key for your account is worked out from the file itself), unpacked and packed again with its block checks. Checked on public saves, not yet tried in the game; close the game and turn cloud saves off in Ubisoft Connect first |
 | ATOM RPG | *Party*: every party member's level, experience, seven attributes, seventeen skills and free skill, stat and perk points; each member's inventory with counts (the player's rubles are the Money item). The gzip packing is handled for you (checked on a public save, not yet tried in the game) |
 | Atomic Heart | *P-3*: metal parts, synthetic material, biomaterial, superconductors, chemicals, energy cells and microelectronics with a Max crafting materials button, plus neural modules and neuropolymer (stacks the save already holds). The save's Oodle data is unpacked and packed again with the Oodle library of any game on this PC, and its SHA-1 is made again (checked on public and real saves, not yet tried in the game) |
-| Borderlands (2009) and Borderlands Game of the Year Enhanced | *Vault Hunter*: level, experience, skill points, money, skill levels and ammunition from the character saves `Save0001.sav` ... (items and weapons are left as they are; checked on public saves, not yet tried in the game) |
-| The Evil Within | *Sebastian*: green gel, trap parts, weapon upgrade levels and stat upgrades from `inventory.zwei` (checksum written again on save; checked on public saves, not yet tried in the game) |
-| Wreckfest | *Driver*: credits, experience and tournament fame from `career.cres` (unpacked from its block compression and packed again with fresh checksums; checked on a public fresh profile, not yet tried in the game; the garage and parts files open as hex) |
 
 </details>
 
 <details>
-<summary><strong>B</strong> (10)</summary>
+<summary><strong>B</strong> (12)</summary>
 
 | Game | Screen |
 |---|---|
 | Balatro | Money, ante, hands and discards; this round; jokers and consumables; poker hand levels |
 | Baldur's Gate 3 | Gold and the stack size of every stacked item each companion carries (potions, arrows, scrolls, camp supplies), read from the save's packed entity store, plus the party summary (origin, class, level, experience) and story flags by area and companion (set or cleared, with the story's own flag list kept in step). Checked on about a hundred public saves; not yet tried in the game |
 | Banjo-Kazooie | *Banjo* (N64 emulator `.eep` saves): per save slot jiggies, Mumbo tokens, health, eggs and feathers with their maximums, every move, each world's jiggies and the Stop 'n' Swop items, with all other flags in the Tree (the slot's sum is made again on save; checked on public saves, not yet tried in the game) |
+| BeamNG.drive | *Career*: career money and BeamXP from `career/playerAttributes.json` of a save slot; the other career values (branch levels, vehicles) open by name in the Tree. Written from the game's own Lua source, not yet checked on a real save |
 | BioShock Infinite | *Booker*: Silver Eagles (up to 99,999), salts, lockpicks and the Health, Shield and Salts infusion levels (0 to 10; a kind never picked has no entry yet); unpacked and packed again with the save's MD5. Not yet tried in the game |
 | Bitburner | *Player*: money, BitNode, karma, HP, the skill levels and the experience behind them (an exported save; the JSON nested inside it is opened as one; checked on a real save, not yet tried in the game) |
 | Black Mesa | *Player*: health and armour; spare ammo by type (9mm, .357, buckshot, uranium, hornets and the rest); each carried weapon's magazine, with the weapon in hand marked. Changed in place |
 | Blasphemous | *Penitent One*: Tears of Atonement, health and fervour, bile flasks, every permanent stat upgrade, completion and play time (the base64 wrapping is handled); owned beads, prayers and relics are in the Tree. checked on a public save, not yet tried in the game |
+| Borderlands (2009) and Borderlands Game of the Year Enhanced | *Vault Hunter*: level, experience, skill points, money, skill levels and ammunition from the character saves `Save0001.sav` ... (items and weapons are left as they are; checked on public saves, not yet tried in the game) |
 | Borderlands 2 | *Vault Hunter*: level, experience, skill points; money, Eridium, Seraph crystals and Torgue tokens; ammo and ammo SDUs, with buttons to fill ammo and max the SDUs; backpack and bank SDUs (with the room they give), weapon slots and playthroughs completed, which opens True and Ultimate Vault Hunter Mode; gear is listed (level, slot), not edited. Packing and checksums are redone on save. Edited saves not yet tried in the game |
 | Borderlands: The Pre-Sequel | *Vault Hunter*: level, experience, skill points; money and Moonstone; ammo and ammo SDUs; backpack and bank SDUs, weapon slots and playthroughs completed; gear is listed, not edited. Packing and checksums are redone on save. Edited saves not yet tried in the game |
 | Bravely Default II | *Party*: pg (money), the difficulty, each party member's level, experience, HP, MP, special ability points and stat raises, and how many of each item the party carries; the `SAVE` header and zlib packing are handled for you (checked on a public save, not yet tried in the game) |
@@ -129,7 +128,7 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 </details>
 
 <details>
-<summary><strong>C</strong> (13)</summary>
+<summary><strong>C</strong> (14)</summary>
 
 | Game | Screen |
 |---|---|
@@ -151,7 +150,7 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 </details>
 
 <details>
-<summary><strong>D</strong> (28)</summary>
+<summary><strong>D</strong> (30)</summary>
 
 | Game | Screen |
 |---|---|
@@ -179,15 +178,17 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 | Divinity: Original Sin 2 Definitive Edition | Each player character's experience, vitality, attributes, unspent points and gold, and the stack size of every item each carries (not inside bags); the package is packed again with its checksum on save. Not yet tried in the game |
 | Divinity: Original Sin Enhanced Edition | *Party*: each party member's experience, vitality, gold and item stack sizes, on the Original Sin 2 screen; the `.lsv` package is unpacked and packed again (checked on a public save, not yet tried in the game) |
 | Dragon Age: Origins, Awakening | Party money; the Warden's and followers' level, experience, attributes and unspent points, approval, and backpack stack sizes. Tried on saves from one playthrough; Awakening saves not yet tried |
+| Dragon Quest XI S: Echoes of an Elusive Age | *Party*: each member's level, HP, MP, attack, defence, agility, deftness, charm, magical might and mending, max HP and MP and experience; *Item bags*: the count of every item in every bag, up to the item's own maximum. The AES-encrypted save is opened and its CRC is kept right (checked on a public save, not yet tried in the game) |
 | Drakensang: River of Time | *Heroes*: each hero's level, adventure points (earned and to spend), life, endurance, astral energy, the eight attributes and every talent, with the party slot to tell your party from the cutscene copies (the SQLite `savegame.dsa` is edited in place; checked on a public save, not yet tried in the game) |
 | Drakensang: The Dark Eye | *Heroes*: each hero's level, adventure points (earned and to spend), life, endurance, astral energy, the eight attributes and every talent, with the party slot to tell your party from the cutscene copies (the SQLite `savegame.dsa` is edited in place; checked on a public save, not yet tried in the game) |
 | Dying Light | *Survivor*: the skill tree levels (every copy the save keeps) |
 | Dying Light 2 / The Beast | *Survivor*: money, health, the Traversal / Combat / Inhibitor levels and points, every skill's level (Techland's self-describing save format; every saved number is in *Values*) |
+| Dynasty Warriors 8: Xtreme Legends Complete Edition | *Resources*: gold, gems, facility and weapon materials; *Officers*: each of the 82 officers' attack, defence and health, and the four weapon-compatibility star ratings. The encrypted `save.dat` is opened and both checksums are kept right (checked on a public save, not yet tried in the game) |
 
 </details>
 
 <details>
-<summary><strong>E</strong> (7)</summary>
+<summary><strong>E</strong> (8)</summary>
 
 | Game | Screen |
 |---|---|
@@ -197,6 +198,7 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 | Euro Truck Simulator 2 | *Driver*: money, loan limit, experience, the five skills and ADR classes; every vehicle's fuel, odometer and wear, with buttons to max skills, fill every tank and repair everything. Packed saves are unpacked and packed again with their checksum. |
 | Europa Universalis III | *Empire*: your country's treasury, prestige, stability, manpower, inflation, war exhaustion and army and navy tradition (every other country by tag in the Tree); edited in place in the plain-text save (checked on a public save, not yet tried in the game) |
 | Europa Universalis IV | *Empire*: treasury, manpower, prestige, stability, monarch power and every country value. Ironman (binary) saves are edited in place and stay ironman; fields outside this screen show as numbers (checked on public saves, not yet tried in the game) |
+| EVERSPACE | *Pilot*: DNA fragments, flashback progression, the pilot's records and every perk with its level and lock from `CurrentPlayerSave.sav` (checked on a public save, not yet tried in the game) |
 | Everspace 2 | *Pilot*: credits, level, experience and device upgrade tokens; every crafting resource by name, with a **Max crafting materials** button (ores, crystals, scrap metal and basic crafting resources to 99,999, an estimate: the game states no cap; catalysts, rift and faction resources left alone). The save's zlib wrapper is handled for you; ships, items and missions are in the Tree (checked on a public save, not yet tried in the game) |
 
 </details>
@@ -286,7 +288,7 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 </details>
 
 <details>
-<summary><strong>K</strong> (5)</summary>
+<summary><strong>K</strong> (6)</summary>
 
 | Game | Screen |
 |---|---|
@@ -300,7 +302,7 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 </details>
 
 <details>
-<summary><strong>L</strong> (29)</summary>
+<summary><strong>L</strong> (30)</summary>
 
 | Game | Screen |
 |---|---|
@@ -333,6 +335,7 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 | Like a Dragon Gaiden | Money on the Yakuza screen; decrypted with the game's key and checksum kept right, every other value in the Tree (read, edited and written back on a public save, not yet tried in the game) |
 | Like a Dragon: Ishin! | Food, seafood and crafting materials (to 999, with a Max crafting materials button), virtue, tokens and tickets, ammunition, style experience and training orbs; decrypted, checksum kept right. Ryo isn't mapped yet (checked on a public save, not yet tried in the game) |
 | Lost Judgment, Infinite Wealth, Pirate Yakuza (Dragon Engine) | Decrypted with each game's key and checksum kept right (keys from rgg_save_tool_py); values in the tree, and the Yakuza screen where the save has the same layout. Not tried on sample saves of these games yet |
+| Luck be a Landlord | *Run*: coins, removal and reroll tokens, spins, the floor, the rent due and the run's progress from `LBAL.save` (the JSON lines are opened as one object keyed by each node's path and written back line by line; checked on a public save, not yet tried in the game) |
 
 </details>
 
@@ -376,13 +379,15 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 </details>
 
 <details>
-<summary><strong>O</strong> (8)</summary>
+<summary><strong>O</strong> (10)</summary>
 
 | Game | Screen |
 |---|---|
 | Octopath Traveler, Octopath Traveler II | Money (leaves) and the eight travellers' level, EXP, JP and current HP/SP, changed in place. Read from a sample save; not yet tried in the game |
 | Older LEGO games (TT Games: Harry Potter Collection, Marvel's Avengers, Worlds) | The saves are found for you (Find my game's saves); they open in the Hex view for Value search. No dedicated screen yet |
 | OMORI | *OMORI*: Clams, each friend's level, heart and juice in Headspace and Faraway Town, and every snack, toy, weapon and charm by name, in `file1.rpgsave`… (`www\save` in the game folder) (checked on public saves, not yet tried in the game) |
+| One Piece: Pirate Warriors 3 | *Characters*: each of the 47 character slots' health, attack, defence, special bars and skill slots (a level-up may reset the stats); the Beli is shown but not editable. The encrypted save is opened and its checksum kept right (checked on a public save, not yet tried in the game) |
+| One Piece: Pirate Warriors 4 | *Resources*: Beli, and the quantity of every coin you own (by coin id). The encrypted slot is opened and its object checksums kept right (checked on a public save, not yet tried in the game) |
 | Onimusha: Way of the Sword | Each save slot (place, play time, difficulty, objective); red souls, money, health and Oni energy; items and charms by name (on hand and in storage; charm level), with **Add material** to give a slot an upgrade material it doesn't have yet, and a **Max crafting materials** button that fills the upgrade materials on hand in the slot you're viewing (cloths, leather, whetstones, iron, Tamahagane, Malicite, Byakue's Talisman, Dohatsu-ten's Horn) to 999, adding any that are missing, and leaving Power Stones, Oni Stones, Oni Cloth and key items alone; equipment experience. Decrypts Capcom's RE Engine encryption with your Steam account, found automatically |
 | Onimusha: Way of the Sword | Each save slot (place, play time, difficulty, objective); red souls, money, health and Oni energy; items and charms by name (on hand and in storage; charm level), with **Add material** to give a slot an upgrade material it doesn't have yet, and a **Max crafting materials** button that fills the upgrade materials on hand (cloths, leather, whetstones, iron, Tamahagane, Malicite, Byakue's Talisman, Dohatsu-ten's Horn) to 999, adding any that are missing, and leaving Power Stones, Oni Stones, Oni Cloth and key items alone; equipment experience. Decrypts Capcom's RE Engine encryption with your Steam account, found automatically |
 | OpenXcom (X-COM: UFO Defense) | *Base*: funds, months and days passed, difficulty, scientists and engineers, every soldier's rank, missions, kills and stats, and the stores of the first three bases, from an OpenXcom or OpenXcom Extended `.sav` (the data part of the file is rewritten on save; checked on a public save, not yet tried in the game) |
@@ -392,7 +397,7 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 </details>
 
 <details>
-<summary><strong>P</strong> (16)</summary>
+<summary><strong>P</strong> (17)</summary>
 
 | Game | Screen |
 |---|---|
@@ -402,6 +407,7 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 | Persona 3 Reload | *Protagonist*: yen, every party member's level, experience, HP and SP, the social stats and each Social Link rank; Steam saves are decrypted and re-encrypted for you (checked on public sample saves, not yet tried in the game) |
 | Persona 4 Golden (PC) | *Protagonist*: yen, level, experience and the five social stats; the matching `.binslot` checksum is updated |
 | Persona 5 Royal (PC) | *Phantom Thieves*: decrypted, unpacked and packed again; money, HP / SP, levels, experience and Persona stats for the party and Joker's Personas |
+| Persona 5 Strikers | *Save slots*: money, Persona points, unspent BOND points, and the stacks you hold of consumables, cooking ingredients, incenses, ailment remedies and skill cards. The encrypted `SAVEDATA.BIN` is opened and its checksum kept right (checked on a public save, not yet tried in the game) |
 | Phasmophobia | Money, level, prestige and experience, how many of each item you own, item tiers and their unlocks, and the journal's statistics (`SaveFile.txt`); decrypted and encrypted again on save (checked on public test saves, not yet tried in the game) |
 | Pizza Tower | *Tower*: completion %, enemies killed and play time; every level's score, rank (D to P), treasure and secrets found, and the four boss scores and ranks. checked on a public save, not yet tried in the game |
 | Planescape: Torment: Enhanced Edition | Coppers; the Nameless One and each companion: experience, level, hit points, abilities, alignment and item stacks; every global variable by name (quest stages, story choices) (checked on real saves, not yet tried in the game) |
@@ -438,7 +444,7 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 </details>
 
 <details>
-<summary><strong>S</strong> (32)</summary>
+<summary><strong>S</strong> (34)</summary>
 
 | Game | Screen |
 |---|---|
@@ -449,6 +455,7 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 | Schedule I | One screen per save file: *Money* (bank balance, net worth, lifetime earnings, weekly deposits), *Rank* (rank, tier, XP), *Time* (days, time of day, play time) and *Game* (organisation name, seed, console). Cash you carry is in the player's own files and isn't covered (checked on a public sample save, not yet tried in the game) |
 | Sekiro | Sen, Attack Power, carried Spirit Emblems, skill points to spend, skill experience (points earned and total experience shown), Vitality and Posture; items, key items and storage as grids with an item picker and quantity; a *Max upgrade materials* button (the nine prosthetic materials to the 99 you can hold); skills and prosthetic tools |
 | Shadow Warrior 2 | *Lo Wang*: level, experience, money, crystal points, perk points, health, mana, rage and every kind of ammunition; weapons and upgrades are in the Tree. Each `.bin` save is a zip whose text is opened and packed again for you (checked on a public save, not yet tried in the game) |
+| Shape of Dreams | *Traveler*: stardust, spent stardust, completed reveries, preferred traveler and difficulty from `r_profile<id>.json`; mastery level, mastery points and the record of every traveler from `r_stats<id>.json` (the unlocked items are in an encrypted file that is not opened; checked on public saves, not yet tried in the game) |
 | Skyrim, Fallout 4 | Character header; game time; every statistic. Skyrim: the character's real level (in the character itself and the header) |
 | Slay the Spire | Gold, HP, potion slots; the deck, relics and potions (change an id or upgrade level, add a card, relic or potion by its internal id, remove one); ascension level, floor, act, shop removal cost and the three Heart keys |
 | Slay the Spire 2 | *Progress*: each character's highest and preferred Ascension, wins, losses, win streaks and play time, plus the profile's score, from `progress.save` (plain JSON). checked on a public save, not yet tried in the game |
@@ -467,6 +474,7 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 | Stellar Blade | *Eve*: health, shield, stamina, the Beta, Burst and Tachy gauges, level, experience and skill points, the play time and difficulty, and an inventory table with counts and levels; the save's CRC-32 is written again (checked on a real early-game save, not yet tried in the game) |
 | Stellaris | *Empire*: energy, minerals, food, alloys, consumer goods, influence and unity up front, and every resource in the stockpile. Ironman saves are text like any other Stellaris save and open the same way (checked on saves with the ironman flag set; no save from a real ironman campaign has been tried yet); the game may stop awarding achievements for an edited campaign |
 | Stoneshard | *Character*: level, experience, ability points, unspent attribute points and the six attributes of a character's `data.sav`, which is unpacked (zlib) and packed again with its MD5 (the salt comes from the save's folder names, so open it from its own folder). Built from the published layout; not yet tried on a real save |
+| Streets of Rogue | *Unlocks*: nuggets, wins, deaths and games played, and every agent, item, trait and floor with whether it is unlocked and what it costs, from `GameUnlocks.dat` (checked on a public unlocks file, not yet tried in the game) |
 | Subnautica 2 | *Survival*: health, oxygen, food and water with their maximums, the player inventory and every locker, vehicle and storage container, changed in place in the save (checked on a real early-access save; needs the Oodle library of any installed game) |
 | Subnautica, Below Zero | *Slot*: game mode (Survival / Freedom / Hardcore / Creative), play time, vehicles |
 | Super Kirby Clash | *Resources*: apple gems and the red, blue, yellow and rare shards (decrypted 3DS `savedata.dat`; checked on a public save, not yet tried in the game) |
@@ -478,7 +486,7 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 </details>
 
 <details>
-<summary><strong>T</strong> (32)</summary>
+<summary><strong>T</strong> (38)</summary>
 
 | Game | Screen |
 |---|---|
@@ -491,6 +499,8 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 | The Elder Scrolls II: Daggerfall (Daggerfall Unity) | *Character*: gold carried, level, health, magicka and fatigue, the eight attributes, all 35 skills, resistances, reputations and the gold and loan in each region's bank, from a save folder's `SaveData.txt` (checked on a public save, not yet tried in the game; classic `SAVETREE.DAT` saves are not supported yet) |
 | The Elder Scrolls III: Morrowind | *Character*: level, gold, the eight attributes, all 27 skills, health, fatigue and magicka (now and full) and the inventory counts by item id, with the spell list shown (an `.ess` save is edited in place; checked on public saves, not yet tried in the game) |
 | The Elder Scrolls IV: Oblivion | *Character*: level (the load screen's copy is kept equal), gold, the eight attributes, all 21 skills and base health (an `.ess` save is edited in place; checked on public saves, not yet tried in the game) |
+| The Evil Within | *Sebastian*: green gel, trap parts, weapon upgrade levels and stat upgrades from `inventory.zwei` (checksum written again on save; checked on public saves, not yet tried in the game) |
+| The Forest | *Survivor*: every item the player carries (named from the game's own ids) with its amount and the limit the game stores for it, with a **Max crafting materials** button that raises rocks, sticks, skulls, rope, bones, skins, rabbit fur and circuit boards to those stored limits; the Base64 and UnitySerializer wrapping is untouched (checked on public single-player and multiplayer saves, not yet tried in the game) |
 | The Legend of Heroes: Trails in the Sky the 3rd | *Party*: Mira, the seven kinds of sepith, each character's level and how many of every item, quartz, weapon and meal the party carries, by name (checked on public saves, not yet tried in the game) |
 | The Legend of Heroes: Trails of Cold Steel | *Party*: Mira, the eight kinds of sepith, each party member's level, experience, HP, EP, CP and nine stats, and how many of every item, quartz, weapon and meal is in the bag, by name (checked on a public save, not yet tried in the game) |
 | The Legend of Zelda: A Link to the Past | *Slots* (SNES emulator `.srm` saves): hearts, magic, rupees, bombs and arrows with their capacity upgrades, the sword, shield, tunic and every item, and the four bottles (the slot's sum is kept right; checked against the sum of a public save, not yet tried in the game) |
@@ -501,18 +511,22 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 | The Sims 2 (incl. Legacy and Ultimate Collection) | One tab per family: funds, and for every Sim the seven skills and five personality traits (0–1000, 100 per point), job performance and aspiration score; townies and the default families are on the *Values* tab with Advanced on. Open `N001_Neighborhood.package`; edited parts are stored uncompressed when the package is saved (the way SimPE does). Sims carry their id, not their name |
 | The Sims 4 | One tab per household: funds (up to 99,999,999) and its Sims with their names, ages and genders. Open `Slot_0000000N.save`; the game data is stored uncompressed when saved, so the file grows (checked on a public save, not yet tried in the game). Skills and traits aren't mapped yet |
 | The Witcher 3 | *Geralt*: crowns, level, unspent skill points and experience; a *Story* panel of about 3,000 quest facts by quest type and area (choices made, who lived, who ruled, romances), checked against a public 100% save with a known ending (repacked with LZ4 on save; not yet tried in the game) |
+| theHunter: Call of the Wild | *Hunter*: cash, level, XP and the skill and perk points of the profile (`thp_player_profile_adf`, an Avalanche ADF file read from its own type definitions and edited in place); no crafting materials (checked on public saves, not yet tried in the game) |
 | Tiny Tina's Wonderlands | *Hero*: level (to 40) and experience, skill points; gold, moon orbs and ammo; gear is listed (slot, favourite, junk), not edited. Encrypted again on save. |
 | Titan Quest Anniversary Edition | *Character*: level, experience, money, unspent points, the five attributes and skill levels (stash files aren't read). Not yet tried in the game |
 | Tokyo Xtreme Racer (2025) | *Driver*: CP (money) and its limit, PP, garage size, the day, and the battle records (checked on a public save, not yet tried in the game) |
 | Torchlight II | *Character*: difficulty (Casual to Elite), level, experience, fame, gold, unspent points, the four stats, health, mana and item stacks; scrambled again with its checksum (the older 0x40 format isn't supported). Not yet tried in the game |
+| Torchlight III | *Character*: level, hit points, experience, skill points and difficulty; *Gear*: the level and quantity of every carried item, consumable and pet item. The Unreal save holds the character as JSON text, which is opened and written back as that string (checked on a public save, not yet tried in the game) |
 | Total War: Attila | Every faction's treasury, yours first, with a button to fill it. The campaign inside the save is unpacked, edited with every size above it recomputed, and packed again (the file grows). Read on a public campaign save, not yet tried in the game |
 | Total War: ROME II | *Treasury*: every faction's treasury, the player's first, with a button to fill it, in Rome II campaign saves (the campaign inside the save is unpacked, edited and packed again). read on public campaign saves of the game, not yet tried in the game |
 | Total War: SHOGUN 2 | *Treasury*: every faction's treasury, the player's first, with a button to fill it, in Shogun 2 campaign saves (the campaign inside the save is unpacked, edited and packed again). read on public campaign saves of the game, not yet tried in the game |
 | Total War: THREE KINGDOMS | *Treasury*: every faction's treasury, the player's first, with a button to fill it, in Three Kingdoms campaign saves (the campaign inside the save is unpacked, edited and packed again). read on public campaign saves of the game, not yet tried in the game |
 | Total War: Warhammer | Every faction's treasury, yours first, with a button to fill it. The campaign inside the save is unpacked, edited with every size above it recomputed, and packed again (the file grows). Read on a public campaign save, not yet tried in the game |
 | Total War: Warhammer II, Total War Saga: Troy | Every faction's treasury, yours first, with a button to fill it. The campaign inside the save is unpacked, edited with every size above it recomputed, and packed again (the file grows). |
+| Touhou Luna Nights | *Sakuya*: gold, level, experience, HP, MP, knife and clock upgrades, the seven gems, the abilities and keys, and the shop counters from `gameN.sav` (the base64 lines are opened as one list of 1,000 values and written back the same way; checked on a public save, not yet tried in the game) |
 | Trails in the Sky 1st Chapter (2025) | *Bracers*: mira, the eight sepith with a *Max crafting materials* button, and each character's experience, HP and EP; unpacked (zstd) and packed again with the save's checksum. Not yet tried on a real save |
 | Trails to Azure / Ao no Kiseki KAI | *Party*: Mira, DP, medals, difficulty, play time; the seven Sepith; every character's level, HP, EP, CP, experience and stats; the bonding values. NISA `savedata.dat` (zstd) and KAI `NNN_save.bin` (AES) are both opened and written back with their checksums. Checked on synthetic saves, not yet tried in the game |
+| Travellers Rest | *Tavern*: money (in copper), the crafting room, tavern floor and cellar upgrades, and the inventory and action bar by item id with their stack sizes (checked on a public save, not yet tried in the game) |
 | Tyranny | *Party*: money, camping supplies, and each character's experience, attribute and talent points, attributes and skills from the `.savegame` zip (checked on a public save, not yet tried in the game) |
 
 </details>
@@ -539,7 +553,7 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 </details>
 
 <details>
-<summary><strong>W</strong> (11)</summary>
+<summary><strong>W</strong> (13)</summary>
 
 | Game | Screen |
 |---|---|
@@ -550,10 +564,12 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 | Wasteland 2 | *Rangers*: each ranger's level, experience, health, attribute, skill and trait points, kills and the seven attributes (skills and items are in the Tree); the save's `<@>` name markers are kept as they are (checked on a public save, not yet tried in the game) |
 | Wasteland 3 | *Rangers*: money; each ranger's level, XP, hit points, attributes, unspent points and skills by name (Automatic Weapons, First Aid, Lockpicking and the rest); item quantities in the inventory and stash; Fame and each faction's reputation (negative allowed) and the quest counters the game keeps. Unpacked (LZF) and packed again on save. Not yet tried in the game |
 | Watch Dogs 2 | *Marcus*: money, followers and research points (while some are unspent), and the lifetime totals, changed in place in the save's object tree (checked on public saves, not yet tried in the game) |
+| West of Loathing | *Cowpoke*: meat (money), level, experience, the class and resistances, and the stats, skills and perks by name; the inventory with quantities (the game stores most numbers as text) (checked on a public save, not yet tried in the game) |
 | Wolcen: Lords of Mayhem | *Character*: gold, level, experience, primordial affinity, the four attributes, attribute and passive skill points to spend, difficulty mode and league from a character `.json`; items and skills are in the Tree. checked on a public save, not yet tried in the game |
 | World of Horror | *Unlocks*: unlock every achievement, mystery ending, enemy, event and pantheon entry the way the game itself records them (each with its own code, since a plain "yes" unlocks nothing), with the unlock counts, the last run's character, items and mystery board, and the settings in `save.ito` (checked on a public completed save, not yet tried in the game) |
 | World War Z (and Aftermath) | *Survivor*: currency, coins, account level and the class perk levels, from `user_progression.dat` (unpacked with the key the game derives from the file name, and packed again; checked on a public save, not yet tried in the game) |
 | WorldBox - God Simulator | *World*: every unit's level, experience, health, hunger and ruler stats (diplomacy, intelligence, stewardship, warfare), and the first village's stored resources, from `map.wbox` (zlib-compressed JSON, unpacked and packed again; checked on a public save, not yet tried in the game) |
+| Wreckfest | *Driver*: credits, experience and tournament fame from `career.cres` (unpacked from its block compression and packed again with fresh checksums; checked on a public fresh profile, not yet tried in the game; the garage and parts files open as hex) |
 
 </details>
 
@@ -572,7 +588,7 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 </details>
 
 <details>
-<summary><strong>Y</strong> (9)</summary>
+<summary><strong>Y</strong> (11)</summary>
 
 | Game | Screen |
 |---|---|
@@ -584,33 +600,11 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 | Yakuza Kiwami | *Kiryu*: money and the experience he hasn't spent yet (save and autosave files) |
 | Yakuza Kiwami 2, Like a Dragon (Dragon Engine) | *Player*: decrypted (XOR) and its checksum updated (Adler-32 or CRC-32); money, HP, Kiwami 2's experience pools and Like a Dragon's whole party (level, experience, HP, MP), with every other value in the tree |
 | Yakuza Kiwami 3 & Dark Ties | *Kiryu*: money, plus each character's HP and heat; the MessagePack save is decrypted with the game's key and its checksum kept right, every other value in the tree (checked on public chapter saves, not yet tried in the game) |
+| Youtubers Life | *Youtuber*: money, house, work hours, your channel (subscribers, views, status) and every youtuber's needs, skills, levels and experience from the SQLite save (checked on a public save, not yet tried in the game) |
+| Ys VIII: Lacrimosa of DANA | *Party*: play time, Adol's and Laxia's weapon, armour and accessories (by item id) and every item you hold with its count, up to 999. Both checksums are kept right (checked on public saves, not yet tried in the game) |
 | Ys: The Oath in Felghana | *Adol*: level, maximum HP, experience, gold and the difficulty (all six levels, written everywhere the game stores it); the cipher over the save and its two checksums are handled for you (checked on a public save, not yet tried in the game) |
 
 </details>
-
-| theHunter: Call of the Wild | *Hunter*: cash, level, XP and the skill and perk points of the profile (`thp_player_profile_adf`, an Avalanche ADF file read from its own type definitions and edited in place); no crafting materials (checked on public saves, not yet tried in the game) |
-| BeamNG.drive | *Career*: career money and BeamXP from `career/playerAttributes.json` of a save slot; the other career values (branch levels, vehicles) open by name in the Tree. Written from the game's own Lua source, not yet checked on a real save |
-| The Forest | *Survivor*: every item the player carries (named from the game's own ids) with its amount and the limit the game stores for it, with a **Max crafting materials** button that raises rocks, sticks, skulls, rope, bones, skins, rabbit fur and circuit boards to those stored limits; the Base64 and UnitySerializer wrapping is untouched (checked on public single-player and multiplayer saves, not yet tried in the game) |
-| West of Loathing | *Cowpoke*: meat (money), level, experience, the class and resistances, and the stats, skills and perks by name; the inventory with quantities (the game stores most numbers as text) (checked on a public save, not yet tried in the game) |
-| Shape of Dreams | *Traveler*: stardust, spent stardust, completed reveries, preferred traveler and difficulty from `r_profile<id>.json`; mastery level, mastery points and the record of every traveler from `r_stats<id>.json` (the unlocked items are in an encrypted file that is not opened; checked on public saves, not yet tried in the game) |
-| Travellers Rest | *Tavern*: money (in copper), the crafting room, tavern floor and cellar upgrades, and the inventory and action bar by item id with their stack sizes (checked on a public save, not yet tried in the game) |
-| Youtubers Life | *Youtuber*: money, house, work hours, your channel (subscribers, views, status) and every youtuber's needs, skills, levels and experience from the SQLite save (checked on a public save, not yet tried in the game) |
-| Luck be a Landlord | *Run*: coins, removal and reroll tokens, spins, the floor, the rent due and the run's progress from `LBAL.save` (the JSON lines are opened as one object keyed by each node's path and written back line by line; checked on a public save, not yet tried in the game) |
-| Touhou Luna Nights | *Sakuya*: gold, level, experience, HP, MP, knife and clock upgrades, the seven gems, the abilities and keys, and the shop counters from `gameN.sav` (the base64 lines are opened as one list of 1,000 values and written back the same way; checked on a public save, not yet tried in the game) |
-| EVERSPACE | *Pilot*: DNA fragments, flashback progression, the pilot's records and every perk with its level and lock from `CurrentPlayerSave.sav` (checked on a public save, not yet tried in the game) |
-| Streets of Rogue | *Unlocks*: nuggets, wins, deaths and games played, and every agent, item, trait and floor with whether it is unlocked and what it costs, from `GameUnlocks.dat` (checked on a public unlocks file, not yet tried in the game) |
-| Ys VIII: Lacrimosa of DANA | *Party*: play time, Adol's and Laxia's weapon, armour and accessories (by item id) and every item you hold with its count, up to 999. Both checksums are kept right (checked on public saves, not yet tried in the game) |
-| Dragon Quest XI S: Echoes of an Elusive Age | *Party*: each member's level, HP, MP, attack, defence, agility, deftness, charm, magical might and mending, max HP and MP and experience; *Item bags*: the count of every item in every bag, up to the item's own maximum. The AES-encrypted save is opened and its CRC is kept right (checked on a public save, not yet tried in the game) |
-| Dynasty Warriors 8: Xtreme Legends Complete Edition | *Resources*: gold, gems, facility and weapon materials; *Officers*: each of the 82 officers' attack, defence and health, and the four weapon-compatibility star ratings. The encrypted `save.dat` is opened and both checksums are kept right (checked on a public save, not yet tried in the game) |
-| One Piece: Pirate Warriors 3 | *Characters*: each of the 47 character slots' health, attack, defence, special bars and skill slots (a level-up may reset the stats); the Beli is shown but not editable. The encrypted save is opened and its checksum kept right (checked on a public save, not yet tried in the game) |
-| One Piece: Pirate Warriors 4 | *Resources*: Beli, and the quantity of every coin you own (by coin id). The encrypted slot is opened and its object checksums kept right (checked on a public save, not yet tried in the game) |
-| Persona 5 Strikers | *Save slots*: money, Persona points, unspent BOND points, and the stacks you hold of consumables, cooking ingredients, incenses, ailment remedies and skill cards. The encrypted `SAVEDATA.BIN` is opened and its checksum kept right (checked on a public save, not yet tried in the game) |
-| Torchlight III | *Character*: level, hit points, experience, skill points and difficulty; *Gear*: the level and quantity of every carried item, consumable and pet item. The Unreal save holds the character as JSON text, which is opened and written back as that string (checked on a public save, not yet tried in the game) |
-
-## Credits for God of War
-
-The God of War formats and item names come from the Forja save editors by wilypizza-svg (José Murilo), which credit kg971 and xcier.
-
 ## Paradox ironman and binary saves
 
 Ironman saves of Europa Universalis IV, Crusader Kings II and III, Hearts of Iron IV, Victoria 3,
@@ -640,7 +634,7 @@ binary and stays an ironman save. It isn't converted to a normal one.
 
 The start page lists **Your games**: every game in the list whose saves were found on this computer,
 newest first, each one click away from its newest save. *Find my game's saves* (the big button on the
-start page, *Find saves* in the toolbar and the File menu) lists every game the editor knows — nearly 190, Mass Effect 1–3, the Legendary Edition and Andromeda among them — with where it
+start page, *Find saves* in the toolbar and the File menu) lists every game the editor knows — over 400, Mass Effect 1–3, the Legendary Edition and Andromeda among them — with where it
 usually keeps its saves and what the files are called, and finds them on your computer (Steam
 libraries and `userdata`, Documents wherever Windows has it, AppData, Saved Games, Ubisoft
 Connect). On Linux and the Steam Deck it also looks inside Proton prefixes
@@ -1009,6 +1003,9 @@ save + re-open comparison, and damaged/truncated copies to make sure nothing cra
 
 ## Credits and legal
 
+<details>
+<summary>Credits, licences and the small print</summary>
+
 - **Free forever.** This project will never be sold or put behind an account, ads or a paywall, and the GPL licence keeps every shared copy and fork free and open too.
 - **Not affiliated with any game company.** All game names, item names and trademarks belong to their
   owners. This project isn't affiliated with or endorsed by any developer or publisher. Game names
@@ -1018,11 +1015,14 @@ save + re-open comparison, and damaged/truncated copies to make sure nothing cra
 - **Built on others' work.** Save layouts and item tables from other open-source editors are used under
   their licences (MIT, Apache-2.0, zlib, GPL), and every crate compiled into the program is listed with its
   licence. See [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
+- **God of War** formats and item names come from the Forja save editors by wilypizza-svg (José Murilo), which credit kg971 and xcier.
 - **Final Fantasy XVI** support was worked out independently from the game's own program and saves. No third-party Final Fantasy XVI tools, their code or their documentation were used.
 - **Built with help from Claude (Anthropic).**
 - **Use at your own risk.** Back up your saves first. Editing saves is meant for single-player games:
   don't use edited saves in online or multiplayer modes, where it can break the game's rules and get
   an account banned. The editor never touches online services or anti-cheat.
+
+</details>
 
 ## Licence
 
