@@ -173,9 +173,7 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
     if b.is_empty() {
         return Err("no characters or item bags found".into());
     }
-    Ok(b.finish(KIND, Checksum::Custom(fix)).with_note(
-        "Each party member's level, HP, MP, stats and experience, and the item counts in every bag (up to the item's own maximum). The CRC is updated when you save.",
-    ))
+    Ok(b.finish(KIND, Checksum::Custom(fix)).with_note(crate::i18n::tr("Each party member's level, HP, MP, stats and experience, and the item counts in every bag (up to the item's own maximum). The CRC is updated when you save.")))
 }
 
 #[cfg(test)]

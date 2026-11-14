@@ -10590,6 +10590,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 | [YS8 (Ys VIII save layout, item counts and checksums)](https://github.com/turtle-insect/YS8) | turtle-insect | GPL-3.0 |
 | [DQ11_NS (Dragon Quest XI S save encryption, checksum and character and bag layout)](https://github.com/turtle-insect/DQ11_NS) | turtle-insect | GPL-3.0 |
 | [Universal Koei Tecmo Save Editor (Koei Tecmo PC save envelopes, checksums and field offsets for Dynasty Warriors 8 XL, Pirate Warriors 3 and 4 and Persona 5 Strikers)](https://github.com/Sanrenan/Universal-Koei-Tecmo-Save-Editor) | Sanrenan | MIT |
+| [XV2-Tools (Dragon Ball Xenoverse save layout of the custom characters)](https://github.com/LazyBone152/XV2-Tools) | LazyBone152 | MIT |
 
 ## Metal Gear Solid V save variable names
 

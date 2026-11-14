@@ -2106,3 +2106,417 @@ Close the emulator first. Health is in sixteenths of a heart. Each edited file's
 Close the emulator first. Times are in 1/60 s (3600 is one minute).
 = 先にエミュレーターを閉じてください。タイムは1/60秒単位です（3600が1分）。
 
+Abilities and keys
+= アビリティと鍵
+
+Action bar
+= アクションバー
+
+All travelers
+= 全旅人
+
+Available now
+= 現在利用可能
+
+Cellar upgrades
+= 地下室の強化
+
+Clock upgrades
+= 時計の強化
+
+Clock upgrades bought
+= 購入した時計の強化
+
+Coins
+= コイン
+
+Consumables
+= 消耗品
+
+Cooking level
+= 料理レベル
+
+Cost
+= コスト
+
+Cost 2
+= コスト 2
+
+Cost 3
+= コスト 3
+
+Credits picked up
+= 拾ったクレジット
+
+Current date (days)
+= 現在の日付（日数）
+
+Current floor
+= 現在の階
+
+DNA fragments
+= DNAフラグメント
+
+Day
+= 日
+
+Deaths
+= 死亡数
+
+Editing
+= 編集
+
+Effects
+= 効果
+
+Endless mode
+= エンドレスモード
+
+Energy
+= エネルギー
+
+Equipped and carried gear
+= 装備中・所持中の装備
+
+Fashion level
+= ファッションレベル
+
+First name
+= 名
+
+Flashback progression
+= 回想の進行度
+
+Game version
+= ゲームのバージョン
+
+Games played
+= プレイ回数
+
+Gaming EXP
+= ゲーム経験値
+
+Gaming level
+= ゲームレベル
+
+Gold earned
+= 獲得したゴールド
+
+HP upgrades
+= HP強化
+
+Highest sector
+= 最高セクター
+
+Highest unlocked floor
+= 解放済みの最高階
+
+House
+= 家
+
+Hunger
+= 空腹
+
+Knife upgrades
+= ナイフの強化
+
+Knife upgrades bought
+= 購入したナイフの強化
+
+Last name
+= 姓
+
+Level (upgrade number)
+= レベル（強化番号）
+
+Level ups
+= レベルアップ回数
+
+Life level
+= ライフレベル
+
+Lifetime kills
+= 通算撃破数
+
+Lobby name
+= ロビー名
+
+Locked
+= ロック中
+
+Losses
+= 敗北数
+
+MP upgrades
+= MP強化
+
+Main EXP
+= メイン経験値
+
+Main level
+= メインレベル
+
+Mastery level
+= 熟練レベル
+
+Mastery points
+= 熟練ポイント
+
+Mastery points to spend
+= 使用可能な熟練ポイント
+
+Meat
+= 肉
+
+Money
+= お金
+
+Money (copper)
+= お金（銅貨）
+
+Most credits held
+= 最大所持クレジット
+
+Most kills in a run
+= 1回の最多撃破数
+
+Motivation
+= やる気
+
+Music level
+= 音楽レベル
+
+Nuggets
+= ナゲット
+
+Perk points
+= パークポイント
+
+Perks
+= パーク
+
+Pet gear
+= ペットの装備
+
+Pilot
+= パイロット
+
+Pilot name
+= パイロット名
+
+Play time (minutes)
+= プレイ時間（分）
+
+Play time (seconds)
+= プレイ時間（秒）
+
+Profile
+= プロフィール
+
+Progress
+= 進行状況
+
+Records
+= 記録
+
+Removal tokens
+= 削除トークン
+
+Rent and progress
+= 家賃と進行
+
+Rent due (coins)
+= 支払う家賃（コイン）
+
+Rent payments made
+= 支払い済みの家賃回数
+
+Rent payments to make
+= 残りの家賃回数
+
+Reroll tokens
+= 振り直しトークン
+
+Resistances
+= 耐性
+
+Reveries completed
+= 完了したレヴェリー
+
+Reveries done
+= 達成したレヴェリー
+
+Runs
+= ラン
+
+Runs played
+= プレイしたラン
+
+Save time
+= セーブ時間
+
+Savegame
+= セーブデータ
+
+Scripting
+= スクリプト
+
+Seconds played
+= プレイ秒数
+
+Shop and trash cans
+= 店とゴミ箱
+
+Social life
+= 社交
+
+Sound
+= サウンド
+
+Spent stardust
+= 使用したスターダスト
+
+Spins
+= スピン数
+
+Spins until rent
+= 家賃までのスピン
+
+Stage
+= ステージ
+
+Stardust
+= スターダスト
+
+Stats, skills and perks
+= ステータス、スキル、パーク
+
+Study hours
+= 勉強時間
+
+Sub-level
+= サブレベル
+
+Subscribers
+= 登録者
+
+Symbols to choose from
+= 選べるシンボル
+
+Tavern
+= 酒場
+
+Tavern floor upgrades
+= 酒場の床の強化
+
+The cowpoke
+= カウポーク
+
+The run
+= ラン
+
+Total XP
+= 総経験値
+
+Total mastery points
+= 総熟練ポイント
+
+Total runs
+= 総ラン数
+
+Trash cans opened
+= 開けたゴミ箱
+
+Traveler
+= 旅人
+
+Travelers
+= 旅人
+
+Tutorial finished
+= チュートリアル完了
+
+Type
+= 種類
+
+Unlocked
+= 解放済み
+
+Unlocks
+= 解放要素
+
+Value
+= 値
+
+Videos
+= 動画
+
+Views
+= 再生数
+
+Wins
+= 勝利数
+
+Work hours
+= 労働時間
+
+XP
+= 経験値
+
+Your channel
+= あなたのチャンネル
+
+Youtubers
+= YouTuber
+
+<id>-<n>-CharacterData.sav in %LOCALAPPDATA%\Frontiers\Saved\SaveGames. The save is an Unreal file holding the whole character as JSON text; it is opened and written back as that string. Close the game first.
+= <id>-<n>-CharacterData.sav（%LOCALAPPDATA%\Frontiers\Saved\SaveGames 内）。セーブはキャラクター全体をJSONテキストとして持つUnrealファイルで、開いてその文字列として書き戻します。先にゲームを閉じてください。
+
+<name>_<date>.yls in the Saves folder (a SQLite database, written back as one). The first row of each table is yours; the other youtuber and channel rows are the game's rivals and friends.
+= <name>_<date>.yls（Saves フォルダ内、SQLiteデータベースとして書き戻します）。各テーブルの最初の行があなた自身で、それ以外のYouTuberやチャンネルの行はゲームのライバルや友人です。
+
+CurrentPlayerSave.sav: the pilot's permanent progress. DNA fragments buy perks in the Lab; every perk shows its level and whether it is still locked. Credits, resources and the ship of a run are in the run's own save files.
+= CurrentPlayerSave.sav：パイロットの恒久的な進行状況。DNAフラグメントでラボのパークを購入でき、各パークのレベルとロック状態が表示されます。ランのクレジット、資源、機体はそのランのセーブファイルにあります。
+
+GameUnlocks.dat in Documents\Streets of Rogue\CloudData. Nuggets buy unlocks; every agent, item, trait and floor is listed with whether it is unlocked and what it costs. Close the game first.
+= GameUnlocks.dat（Documents\Streets of Rogue\CloudData 内）。ナゲットで解放要素を購入します。すべてのエージェント、アイテム、特性、フロアが、解放状態とコストとともに一覧されます。先にゲームを閉じてください。
+
+LBAL.save (the run in progress). The save is one JSON object per line; each node of the run is shown under its path. Symbols and items are lists of names in the Tree.
+= LBAL.save（進行中のラン）。セーブは1行につき1つのJSONオブジェクトで、ランの各ノードはそのパスの下に表示されます。シンボルとアイテムはツリー内の名前のリストです。
+
+SaveFile-<day>-<month>-<year>-<time>.save. Money is counted in copper (100 copper = 1 silver, 100 silver = 1 gold). Items are shown by their game id.
+= SaveFile-<day>-<month>-<year>-<time>.save。お金は銅貨で数えます（銅貨100枚＝銀貨1枚、銀貨100枚＝金貨1枚）。アイテムはゲーム内IDで表示されます。
+
+gameN.sav is a list of 1,000 values, one per line (stored as base64 text); the screen names the lines worked out by the Luna Nights save editor. Abilities and keys are owned when the value equals their line number (80 to 84, 90 to 94) and 0 when not.
+= gameN.sav は1行に1つ、計1,000個の値のリスト（base64テキストで保存）です。画面にはLuna Nightsセーブエディタが突き止めた行の名前が表示されます。アビリティと鍵は、値が行番号（80〜84、90〜94）と等しいときに所持、そうでなければ0です。
+
+r_profile<id>.json in the QuickSave folder. Stardust is the meta currency; the unlocked items live in r_items.json, which the game encrypts (not opened). Mastery and records are in the r_stats file.
+= r_profile<id>.json（QuickSave フォルダ内）。スターダストはメタ通貨です。解放済みアイテムは r_items.json にあり、ゲームが暗号化しているため開けません。熟練度と記録は r_stats ファイルにあります。
+
+r_stats<id>.json in the QuickSave folder: mastery and the record of every traveler.
+= r_stats<id>.json（QuickSave フォルダ内）：各旅人の熟練度と記録。
+
+save-<name>-<number>.json. Meat is the money; muscle, mysticality, moxie and every skill and perk are in the skills list below (skills are levels, perks are 1 or 0). The game stores most numbers as text, so type digits only.
+= save-<name>-<number>.json。お金は肉です。筋力・神秘・度胸と、すべてのスキルとパークは下のスキルリストにあります（スキルはレベル、パークは1または0）。ゲームは数値の多くをテキストで保存するため、数字のみ入力してください。
+
+Play time, Adol's and Laxia's equipment and every item you hold, by item id (up to 999 each). Both checksums are updated when you save.
+= プレイ時間、アドルとラクシャの装備、所持しているすべてのアイテム（アイテムID別、各999まで）。保存時に2つのチェックサムが更新されます。
+
+Each party member's level, HP, MP, stats and experience, and the item counts in every bag (up to the item's own maximum). The CRC is updated when you save.
+= 各パーティメンバーのレベル、HP、MP、能力値、経験値と、各バッグ内のアイテム数（アイテムごとの上限まで）。保存時にCRCが更新されます。
+
+Gold, gems, facility and weapon materials, each officer's attack, defence and health, and the weapon-compatibility stars. The checksums are updated when you save.
+= ゴールド、宝石、施設・武器素材、各武将の攻撃・防御・体力、武器相性の星。保存時にチェックサムが更新されます。
+
+Each character's health, attack, defence, special bars and skill slots (a level-up may reset the stats). The checksum is updated when you save.
+= 各キャラクターの体力、攻撃、防御、必殺ゲージ、スキル枠（レベルアップでステータスがリセットされる場合があります）。保存時にチェックサムが更新されます。
+
+Beli and the quantity of every coin you already own (by coin id). The object checksums are updated when you save.
+= ベリーと、すでに所持している各コインの数量（コインID別）。保存時にオブジェクトのチェックサムが更新されます。
+
+For each save slot: money, Persona points, BOND points and the stacks you already hold of consumables, cooking ingredients, incenses, remedies and skill cards. The checksum is updated when you save.
+= 各セーブスロットの、お金、ペルソナポイント、BONDポイントと、すでに持っている消耗品、料理の材料、お香、状態異常の薬、スキルカードのスタック。保存時にチェックサムが更新されます。
+
+Each custom character's level, experience, attribute points and the six attributes (up to 100). The save has no checksum we know of.
+= 各カスタムキャラクターのレベル、経験値、アトリビュートポイントと6つのアトリビュート（最大100）。このセーブには既知のチェックサムはありません。
+

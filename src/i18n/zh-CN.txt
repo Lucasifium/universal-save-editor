@@ -2106,3 +2106,417 @@ Close the emulator first. Health is in sixteenths of a heart. Each edited file's
 Close the emulator first. Times are in 1/60 s (3600 is one minute).
 = 请先关闭模拟器。用时以 1/60 秒为单位（3600 为一分钟）。
 
+Abilities and keys
+= 能力与钥匙
+
+Action bar
+= 动作栏
+
+All travelers
+= 所有旅行者
+
+Available now
+= 当前可用
+
+Cellar upgrades
+= 地窖升级
+
+Clock upgrades
+= 时钟升级
+
+Clock upgrades bought
+= 已购买的时钟升级
+
+Coins
+= 硬币
+
+Consumables
+= 消耗品
+
+Cooking level
+= 烹饪等级
+
+Cost
+= 费用
+
+Cost 2
+= 费用 2
+
+Cost 3
+= 费用 3
+
+Credits picked up
+= 拾取的信用点
+
+Current date (days)
+= 当前日期（天）
+
+Current floor
+= 当前楼层
+
+DNA fragments
+= DNA碎片
+
+Day
+= 天
+
+Deaths
+= 死亡次数
+
+Editing
+= 编辑
+
+Effects
+= 效果
+
+Endless mode
+= 无尽模式
+
+Energy
+= 能量
+
+Equipped and carried gear
+= 已装备和携带的装备
+
+Fashion level
+= 时尚等级
+
+First name
+= 名字
+
+Flashback progression
+= 回忆进度
+
+Game version
+= 游戏版本
+
+Games played
+= 游戏次数
+
+Gaming EXP
+= 游戏经验
+
+Gaming level
+= 游戏等级
+
+Gold earned
+= 获得的金币
+
+HP upgrades
+= 生命值升级
+
+Highest sector
+= 最高区域
+
+Highest unlocked floor
+= 已解锁的最高楼层
+
+House
+= 房屋
+
+Hunger
+= 饥饿
+
+Knife upgrades
+= 飞刀升级
+
+Knife upgrades bought
+= 已购买的飞刀升级
+
+Last name
+= 姓氏
+
+Level (upgrade number)
+= 等级（升级编号）
+
+Level ups
+= 升级次数
+
+Life level
+= 生活等级
+
+Lifetime kills
+= 累计击杀
+
+Lobby name
+= 大厅名称
+
+Locked
+= 已锁定
+
+Losses
+= 失败次数
+
+MP upgrades
+= 魔力值升级
+
+Main EXP
+= 主经验
+
+Main level
+= 主等级
+
+Mastery level
+= 精通等级
+
+Mastery points
+= 精通点数
+
+Mastery points to spend
+= 可用精通点数
+
+Meat
+= 肉
+
+Money
+= 金钱
+
+Money (copper)
+= 金钱（铜币）
+
+Most credits held
+= 持有信用点最高纪录
+
+Most kills in a run
+= 单局最高击杀
+
+Motivation
+= 动力
+
+Music level
+= 音乐等级
+
+Nuggets
+= 金块
+
+Perk points
+= 特长点数
+
+Perks
+= 特长
+
+Pet gear
+= 宠物装备
+
+Pilot
+= 飞行员
+
+Pilot name
+= 飞行员名称
+
+Play time (minutes)
+= 游戏时间（分钟）
+
+Play time (seconds)
+= 游戏时间（秒）
+
+Profile
+= 档案
+
+Progress
+= 进度
+
+Records
+= 记录
+
+Removal tokens
+= 移除代币
+
+Rent and progress
+= 租金与进度
+
+Rent due (coins)
+= 应付租金（硬币）
+
+Rent payments made
+= 已付租金次数
+
+Rent payments to make
+= 待付租金次数
+
+Reroll tokens
+= 重掷代币
+
+Resistances
+= 抗性
+
+Reveries completed
+= 已完成的幻梦
+
+Reveries done
+= 已完成幻梦
+
+Runs
+= 局数
+
+Runs played
+= 已玩局数
+
+Save time
+= 存档时间
+
+Savegame
+= 存档
+
+Scripting
+= 脚本
+
+Seconds played
+= 游戏秒数
+
+Shop and trash cans
+= 商店与垃圾桶
+
+Social life
+= 社交生活
+
+Sound
+= 声音
+
+Spent stardust
+= 已花费的星尘
+
+Spins
+= 旋转次数
+
+Spins until rent
+= 距租金的旋转次数
+
+Stage
+= 阶段
+
+Stardust
+= 星尘
+
+Stats, skills and perks
+= 属性、技能和特长
+
+Study hours
+= 学习时间
+
+Sub-level
+= 子等级
+
+Subscribers
+= 订阅者
+
+Symbols to choose from
+= 可选符号
+
+Tavern
+= 酒馆
+
+Tavern floor upgrades
+= 酒馆地板升级
+
+The cowpoke
+= 牛仔
+
+The run
+= 本局
+
+Total XP
+= 总经验
+
+Total mastery points
+= 精通点数总计
+
+Total runs
+= 总局数
+
+Trash cans opened
+= 打开的垃圾桶
+
+Traveler
+= 旅行者
+
+Travelers
+= 旅行者
+
+Tutorial finished
+= 教程已完成
+
+Type
+= 类型
+
+Unlocked
+= 已解锁
+
+Unlocks
+= 解锁项
+
+Value
+= 数值
+
+Videos
+= 视频
+
+Views
+= 观看次数
+
+Wins
+= 胜利次数
+
+Work hours
+= 工作时间
+
+XP
+= 经验
+
+Your channel
+= 你的频道
+
+Youtubers
+= YouTuber
+
+<id>-<n>-CharacterData.sav in %LOCALAPPDATA%\Frontiers\Saved\SaveGames. The save is an Unreal file holding the whole character as JSON text; it is opened and written back as that string. Close the game first.
+= <id>-<n>-CharacterData.sav，位于 %LOCALAPPDATA%\Frontiers\Saved\SaveGames。存档是一个 Unreal 文件，整个角色以 JSON 文本保存；程序会打开它并以该字符串写回。请先关闭游戏。
+
+<name>_<date>.yls in the Saves folder (a SQLite database, written back as one). The first row of each table is yours; the other youtuber and channel rows are the game's rivals and friends.
+= <name>_<date>.yls，位于 Saves 文件夹（SQLite 数据库，会按数据库写回）。每个表的第一行是你自己的，其余 YouTuber 和频道行是游戏中的对手和朋友。
+
+CurrentPlayerSave.sav: the pilot's permanent progress. DNA fragments buy perks in the Lab; every perk shows its level and whether it is still locked. Credits, resources and the ship of a run are in the run's own save files.
+= CurrentPlayerSave.sav：飞行员的永久进度。DNA 碎片可在实验室购买特长，每个特长显示其等级和是否仍被锁定。一局游戏的信用点、资源和飞船在该局自己的存档文件中。
+
+GameUnlocks.dat in Documents\Streets of Rogue\CloudData. Nuggets buy unlocks; every agent, item, trait and floor is listed with whether it is unlocked and what it costs. Close the game first.
+= GameUnlocks.dat，位于 Documents\Streets of Rogue\CloudData。金块用于购买解锁项；每个特工、物品、特性和楼层都会列出其解锁状态和费用。请先关闭游戏。
+
+LBAL.save (the run in progress). The save is one JSON object per line; each node of the run is shown under its path. Symbols and items are lists of names in the Tree.
+= LBAL.save（进行中的一局）。存档每行一个 JSON 对象；这一局的每个节点都显示在其路径下。符号和物品是树中的名称列表。
+
+SaveFile-<day>-<month>-<year>-<time>.save. Money is counted in copper (100 copper = 1 silver, 100 silver = 1 gold). Items are shown by their game id.
+= SaveFile-<day>-<month>-<year>-<time>.save。金钱以铜币计算（100 铜币 = 1 银币，100 银币 = 1 金币）。物品按游戏内 ID 显示。
+
+gameN.sav is a list of 1,000 values, one per line (stored as base64 text); the screen names the lines worked out by the Luna Nights save editor. Abilities and keys are owned when the value equals their line number (80 to 84, 90 to 94) and 0 when not.
+= gameN.sav 是包含 1000 个值的列表，每行一个（以 base64 文本保存）；界面会标出 Luna Nights 存档编辑器所推断的行。当数值等于其行号（80 至 84、90 至 94）时表示拥有该能力或钥匙，否则为 0。
+
+r_profile<id>.json in the QuickSave folder. Stardust is the meta currency; the unlocked items live in r_items.json, which the game encrypts (not opened). Mastery and records are in the r_stats file.
+= r_profile<id>.json，位于 QuickSave 文件夹。星尘是元货币；已解锁物品在 r_items.json 中，游戏对其加密（未打开）。精通和记录在 r_stats 文件中。
+
+r_stats<id>.json in the QuickSave folder: mastery and the record of every traveler.
+= r_stats<id>.json，位于 QuickSave 文件夹：每位旅行者的精通和记录。
+
+save-<name>-<number>.json. Meat is the money; muscle, mysticality, moxie and every skill and perk are in the skills list below (skills are levels, perks are 1 or 0). The game stores most numbers as text, so type digits only.
+= save-<name>-<number>.json。肉就是金钱；肌肉、神秘、胆量以及所有技能和特长都在下方的技能列表中（技能是等级，特长是 1 或 0）。游戏把大多数数字存成文本，所以只能输入数字。
+
+Play time, Adol's and Laxia's equipment and every item you hold, by item id (up to 999 each). Both checksums are updated when you save.
+= 游戏时间、阿道和拉克西的装备以及你持有的所有物品（按物品 ID，每种最多 999）。保存时会更新两个校验和。
+
+Each party member's level, HP, MP, stats and experience, and the item counts in every bag (up to the item's own maximum). The CRC is updated when you save.
+= 每位队员的等级、HP、MP、属性和经验，以及每个背包中各物品的数量（最多为该物品自身的上限）。保存时会更新 CRC。
+
+Gold, gems, facility and weapon materials, each officer's attack, defence and health, and the weapon-compatibility stars. The checksums are updated when you save.
+= 金币、宝石、设施和武器材料，每位武将的攻击、防御和生命，以及武器适性星级。保存时会更新校验和。
+
+Each character's health, attack, defence, special bars and skill slots (a level-up may reset the stats). The checksum is updated when you save.
+= 每个角色的生命、攻击、防御、特殊槽和技能槽（升级可能会重置属性）。保存时会更新校验和。
+
+Beli and the quantity of every coin you already own (by coin id). The object checksums are updated when you save.
+= 贝里以及你已拥有的每种硬币的数量（按硬币 ID）。保存时会更新对象校验和。
+
+For each save slot: money, Persona points, BOND points and the stacks you already hold of consumables, cooking ingredients, incenses, remedies and skill cards. The checksum is updated when you save.
+= 每个存档位：金钱、人格面具点数、羁绊点数，以及你已持有的消耗品、烹饪食材、香、状态药和技能卡的数量。保存时会更新校验和。
+
+Each custom character's level, experience, attribute points and the six attributes (up to 100). The save has no checksum we know of.
+= 每个自定义角色的等级、经验、属性点和六项属性（最高 100）。该存档没有我们已知的校验和。
+

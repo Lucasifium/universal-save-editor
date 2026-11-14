@@ -56,9 +56,7 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
             b.ranged(&["Items", &id.to_string()], at, Kind::U16, 0, 999);
         }
     }
-    Ok(b.finish(KIND, Checksum::Custom(fix)).with_note(
-        "Play time, Adol's and Laxia's equipment and every item you hold, by item id (up to 999 each). Both checksums are updated when you save.",
-    ))
+    Ok(b.finish(KIND, Checksum::Custom(fix)).with_note(crate::i18n::tr("Play time, Adol's and Laxia's equipment and every item you hold, by item id (up to 999 each). Both checksums are updated when you save.")))
 }
 
 #[cfg(test)]

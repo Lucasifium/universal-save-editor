@@ -334,9 +334,7 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
                 b.pick(&["Officers", &name, &format!("{m} compatibility")], 0x7fdb + at + k, Kind::U8, &stars);
             }
         }
-        return Ok(b.finish(KIND_DW8, Checksum::None).with_note(
-            "Gold, gems, facility and weapon materials, each officer's attack, defence and health, and the weapon-compatibility stars. The checksums are updated when you save.",
-        ));
+        return Ok(b.finish(KIND_DW8, Checksum::None).with_note(crate::i18n::tr("Gold, gems, facility and weapon materials, each officer's attack, defence and health, and the weapon-compatibility stars. The checksums are updated when you save.")));
     }
     if d.len() == PW3_SIZE - 4 {
         b.info(&["Beli (read only)"], Value::from(u32_at(d, 0xc5d4)));
@@ -349,9 +347,7 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
             b.ranged(&["Characters", &name, "Special bars"], 0x65a + at, Kind::U8, 1, 4);
             b.ranged(&["Characters", &name, "Skill slots"], 0x65c + at, Kind::U8, 1, 6);
         }
-        return Ok(b.finish(KIND_PW3, Checksum::None).with_note(
-            "Each character's health, attack, defence, special bars and skill slots (a level-up may reset the stats). The checksum is updated when you save.",
-        ));
+        return Ok(b.finish(KIND_PW3, Checksum::None).with_note(crate::i18n::tr("Each character's health, attack, defence, special bars and skill slots (a level-up may reset the stats). The checksum is updated when you save.")));
     }
     if d.len() == PW4_SIZE - 4 {
         b.ranged(&["Beli"], PW4_PROFILE.0 + 0x80 + 4, Kind::U32, 0, 999_999_999);
@@ -362,9 +358,7 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
                 b.ranged(&["Coins (quantity by coin id)", &format!("Coin {id:03}")], at + 8, Kind::U32, 0, 999);
             }
         }
-        return Ok(b.finish(KIND_PW4, Checksum::Custom(pw4_fix)).with_note(
-            "Beli and the quantity of every coin you already own (by coin id). The object checksums are updated when you save.",
-        ));
+        return Ok(b.finish(KIND_PW4, Checksum::Custom(pw4_fix)).with_note(crate::i18n::tr("Beli and the quantity of every coin you already own (by coin id). The object checksums are updated when you save.")));
     }
     if d.len() == P5S_SIZE {
         let groups: [(&str, &[(usize, &str)]); 5] = [
@@ -395,9 +389,7 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
         if b.is_empty() {
             return Err("no occupied save slot".into());
         }
-        return Ok(b.finish(KIND_P5S, Checksum::Custom(p5s_fix)).with_note(
-            "For each save slot: money, Persona points, BOND points and the stacks you already hold of consumables, cooking ingredients, incenses, remedies and skill cards. The checksum is updated when you save.",
-        ));
+        return Ok(b.finish(KIND_P5S, Checksum::Custom(p5s_fix)).with_note(crate::i18n::tr("For each save slot: money, Persona points, BOND points and the stacks you already hold of consumables, cooking ingredients, incenses, remedies and skill cards. The checksum is updated when you save.")));
     }
     Err("not a Koei Tecmo save".into())
 }

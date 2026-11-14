@@ -2106,3 +2106,417 @@ Close the emulator first. Health is in sixteenths of a heart. Each edited file's
 Close the emulator first. Times are in 1/60 s (3600 is one minute).
 = Feche o emulador primeiro. Os tempos estão em 1/60 s (3600 é um minuto).
 
+Abilities and keys
+= Habilidades e chaves
+
+Action bar
+= Barra de ações
+
+All travelers
+= Todos os viajantes
+
+Available now
+= Disponível agora
+
+Cellar upgrades
+= Melhorias do porão
+
+Clock upgrades
+= Melhorias do relógio
+
+Clock upgrades bought
+= Melhorias do relógio compradas
+
+Coins
+= Moedas
+
+Consumables
+= Consumíveis
+
+Cooking level
+= Nível de culinária
+
+Cost
+= Custo
+
+Cost 2
+= Custo 2
+
+Cost 3
+= Custo 3
+
+Credits picked up
+= Créditos coletados
+
+Current date (days)
+= Data atual (dias)
+
+Current floor
+= Andar atual
+
+DNA fragments
+= Fragmentos de DNA
+
+Day
+= Dia
+
+Deaths
+= Mortes
+
+Editing
+= Edição
+
+Effects
+= Efeitos
+
+Endless mode
+= Modo sem fim
+
+Energy
+= Energia
+
+Equipped and carried gear
+= Equipamento usado e carregado
+
+Fashion level
+= Nível de moda
+
+First name
+= Nome
+
+Flashback progression
+= Progresso dos flashbacks
+
+Game version
+= Versão do jogo
+
+Games played
+= Partidas jogadas
+
+Gaming EXP
+= EXP de jogos
+
+Gaming level
+= Nível de jogos
+
+Gold earned
+= Ouro ganho
+
+HP upgrades
+= Melhorias de HP
+
+Highest sector
+= Setor mais alto
+
+Highest unlocked floor
+= Andar mais alto desbloqueado
+
+House
+= Casa
+
+Hunger
+= Fome
+
+Knife upgrades
+= Melhorias de facas
+
+Knife upgrades bought
+= Melhorias de facas compradas
+
+Last name
+= Sobrenome
+
+Level (upgrade number)
+= Nível (número da melhoria)
+
+Level ups
+= Subidas de nível
+
+Life level
+= Nível de vida
+
+Lifetime kills
+= Abates totais
+
+Lobby name
+= Nome do lobby
+
+Locked
+= Bloqueado
+
+Losses
+= Derrotas
+
+MP upgrades
+= Melhorias de MP
+
+Main EXP
+= EXP principal
+
+Main level
+= Nível principal
+
+Mastery level
+= Nível de maestria
+
+Mastery points
+= Pontos de maestria
+
+Mastery points to spend
+= Pontos de maestria a gastar
+
+Meat
+= Carne
+
+Money
+= Dinheiro
+
+Money (copper)
+= Dinheiro (cobre)
+
+Most credits held
+= Mais créditos já mantidos
+
+Most kills in a run
+= Mais abates em uma partida
+
+Motivation
+= Motivação
+
+Music level
+= Nível de música
+
+Nuggets
+= Pepitas
+
+Perk points
+= Pontos de vantagem
+
+Perks
+= Vantagens
+
+Pet gear
+= Equipamento de mascote
+
+Pilot
+= Piloto
+
+Pilot name
+= Nome do piloto
+
+Play time (minutes)
+= Tempo de jogo (minutos)
+
+Play time (seconds)
+= Tempo de jogo (segundos)
+
+Profile
+= Perfil
+
+Progress
+= Progresso
+
+Records
+= Recordes
+
+Removal tokens
+= Fichas de remoção
+
+Rent and progress
+= Aluguel e progresso
+
+Rent due (coins)
+= Aluguel devido (moedas)
+
+Rent payments made
+= Pagamentos de aluguel feitos
+
+Rent payments to make
+= Pagamentos de aluguel a fazer
+
+Reroll tokens
+= Fichas de rerrolagem
+
+Resistances
+= Resistências
+
+Reveries completed
+= Reveries concluídas
+
+Reveries done
+= Reveries feitas
+
+Runs
+= Partidas
+
+Runs played
+= Partidas jogadas
+
+Save time
+= Hora do salvamento
+
+Savegame
+= Jogo salvo
+
+Scripting
+= Scripts
+
+Seconds played
+= Segundos jogados
+
+Shop and trash cans
+= Loja e latas de lixo
+
+Social life
+= Vida social
+
+Sound
+= Som
+
+Spent stardust
+= Poeira estelar gasta
+
+Spins
+= Giros
+
+Spins until rent
+= Giros até o aluguel
+
+Stage
+= Fase
+
+Stardust
+= Poeira estelar
+
+Stats, skills and perks
+= Estatísticas, habilidades e vantagens
+
+Study hours
+= Horas de estudo
+
+Sub-level
+= Subnível
+
+Subscribers
+= Inscritos
+
+Symbols to choose from
+= Símbolos para escolher
+
+Tavern
+= Taverna
+
+Tavern floor upgrades
+= Melhorias do piso da taverna
+
+The cowpoke
+= O vaqueiro
+
+The run
+= A partida
+
+Total XP
+= XP total
+
+Total mastery points
+= Pontos de maestria totais
+
+Total runs
+= Partidas totais
+
+Trash cans opened
+= Latas de lixo abertas
+
+Traveler
+= Viajante
+
+Travelers
+= Viajantes
+
+Tutorial finished
+= Tutorial concluído
+
+Type
+= Tipo
+
+Unlocked
+= Desbloqueado
+
+Unlocks
+= Desbloqueios
+
+Value
+= Valor
+
+Videos
+= Vídeos
+
+Views
+= Visualizações
+
+Wins
+= Vitórias
+
+Work hours
+= Horas de trabalho
+
+XP
+= XP
+
+Your channel
+= Seu canal
+
+Youtubers
+= Youtubers
+
+<id>-<n>-CharacterData.sav in %LOCALAPPDATA%\Frontiers\Saved\SaveGames. The save is an Unreal file holding the whole character as JSON text; it is opened and written back as that string. Close the game first.
+= <id>-<n>-CharacterData.sav em %LOCALAPPDATA%\Frontiers\Saved\SaveGames. O save é um arquivo Unreal com o personagem inteiro como texto JSON; ele é aberto e gravado de volta como essa cadeia. Feche o jogo antes.
+
+<name>_<date>.yls in the Saves folder (a SQLite database, written back as one). The first row of each table is yours; the other youtuber and channel rows are the game's rivals and friends.
+= <name>_<date>.yls na pasta Saves (um banco SQLite, gravado de volta como tal). A primeira linha de cada tabela é sua; as outras linhas de youtubers e canais são rivais e amigos do jogo.
+
+CurrentPlayerSave.sav: the pilot's permanent progress. DNA fragments buy perks in the Lab; every perk shows its level and whether it is still locked. Credits, resources and the ship of a run are in the run's own save files.
+= CurrentPlayerSave.sav: o progresso permanente do piloto. Os fragmentos de DNA compram vantagens no laboratório; cada vantagem mostra seu nível e se ainda está bloqueada. Os créditos, recursos e a nave de uma partida ficam nos arquivos da própria partida.
+
+GameUnlocks.dat in Documents\Streets of Rogue\CloudData. Nuggets buy unlocks; every agent, item, trait and floor is listed with whether it is unlocked and what it costs. Close the game first.
+= GameUnlocks.dat em Documents\Streets of Rogue\CloudData. As pepitas compram desbloqueios; cada agente, item, traço e andar é listado com o estado de desbloqueio e o custo. Feche o jogo antes.
+
+LBAL.save (the run in progress). The save is one JSON object per line; each node of the run is shown under its path. Symbols and items are lists of names in the Tree.
+= LBAL.save (a partida em andamento). O save é um objeto JSON por linha; cada nó da partida é mostrado sob seu caminho. Símbolos e itens são listas de nomes na árvore.
+
+SaveFile-<day>-<month>-<year>-<time>.save. Money is counted in copper (100 copper = 1 silver, 100 silver = 1 gold). Items are shown by their game id.
+= SaveFile-<day>-<month>-<year>-<time>.save. O dinheiro é contado em cobre (100 de cobre = 1 de prata, 100 de prata = 1 de ouro). Os itens são mostrados pelo id do jogo.
+
+gameN.sav is a list of 1,000 values, one per line (stored as base64 text); the screen names the lines worked out by the Luna Nights save editor. Abilities and keys are owned when the value equals their line number (80 to 84, 90 to 94) and 0 when not.
+= gameN.sav é uma lista de 1.000 valores, um por linha (guardados como texto base64); a tela nomeia as linhas descobertas pelo editor de saves de Luna Nights. Habilidades e chaves são possuídas quando o valor é igual ao número da linha (80 a 84, 90 a 94) e 0 quando não.
+
+r_profile<id>.json in the QuickSave folder. Stardust is the meta currency; the unlocked items live in r_items.json, which the game encrypts (not opened). Mastery and records are in the r_stats file.
+= r_profile<id>.json na pasta QuickSave. A poeira estelar é a moeda meta; os itens desbloqueados ficam em r_items.json, que o jogo criptografa (não aberto). Maestria e recordes estão no arquivo r_stats.
+
+r_stats<id>.json in the QuickSave folder: mastery and the record of every traveler.
+= r_stats<id>.json na pasta QuickSave: a maestria e o recorde de cada viajante.
+
+save-<name>-<number>.json. Meat is the money; muscle, mysticality, moxie and every skill and perk are in the skills list below (skills are levels, perks are 1 or 0). The game stores most numbers as text, so type digits only.
+= save-<name>-<number>.json. A carne é o dinheiro; músculo, misticismo, audácia e todas as habilidades e vantagens estão na lista de habilidades abaixo (habilidades são níveis, vantagens 1 ou 0). O jogo guarda a maioria dos números como texto, então digite apenas dígitos.
+
+Play time, Adol's and Laxia's equipment and every item you hold, by item id (up to 999 each). Both checksums are updated when you save.
+= Tempo de jogo, o equipamento de Adol e Laxia e todos os itens que você tem, por id do item (até 999 cada). As duas somas de verificação são atualizadas ao salvar.
+
+Each party member's level, HP, MP, stats and experience, and the item counts in every bag (up to the item's own maximum). The CRC is updated when you save.
+= Nível, PV, PM, atributos e experiência de cada membro do grupo, e a quantidade de cada item em cada bolsa (até o máximo do item). O CRC é atualizado ao salvar.
+
+Gold, gems, facility and weapon materials, each officer's attack, defence and health, and the weapon-compatibility stars. The checksums are updated when you save.
+= Ouro, gemas, materiais de instalações e de armas, o ataque, a defesa e a saúde de cada oficial e as estrelas de compatibilidade de armas. As somas de verificação são atualizadas ao salvar.
+
+Each character's health, attack, defence, special bars and skill slots (a level-up may reset the stats). The checksum is updated when you save.
+= Saúde, ataque, defesa, barras especiais e espaços de habilidade de cada personagem (subir de nível pode redefinir os atributos). A soma de verificação é atualizada ao salvar.
+
+Beli and the quantity of every coin you already own (by coin id). The object checksums are updated when you save.
+= Beli e a quantidade de cada moeda que você já tem (por id da moeda). As somas de verificação dos objetos são atualizadas ao salvar.
+
+For each save slot: money, Persona points, BOND points and the stacks you already hold of consumables, cooking ingredients, incenses, remedies and skill cards. The checksum is updated when you save.
+= Para cada slot: dinheiro, pontos de Persona, pontos de VÍNCULO e as pilhas de consumíveis, ingredientes de culinária, incensos, remédios e cartas de habilidade que você já tem. A soma de verificação é atualizada ao salvar.
+
+Each custom character's level, experience, attribute points and the six attributes (up to 100). The save has no checksum we know of.
+= Nível, experiência, pontos de atributo e os seis atributos (até 100) de cada personagem personalizado. O save não tem nenhuma soma de verificação que conheçamos.
+
