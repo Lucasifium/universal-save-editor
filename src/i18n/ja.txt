@@ -22454,3 +22454,398 @@ events
 shine sprites
 = シャイン
 
+A PlayStation 2 save: one SaveData-NN file of the save folder is one slot (open the folder's other files from Tools › Open another file in this archive). Clear and save counts, character, difficulty, mission, maximum health, red, yellow and blue orbs, the Alastor and Ifrit skills, every mission rank, the secret missions, statistics and combo rankings. The slot's checksum is written again.
+= PlayStation 2のセーブ:セーブフォルダ内のSaveData-NNファイル1つが1スロットです(フォルダ内の他のファイルは ツール › このアーカイブ内の別のファイルを開く から開けます)。クリア回数とセーブ回数、キャラクター、難易度、ミッション、最大体力、赤・黄・青のオーブ、アラストルとイフリートのスキル、各ミッションのランク、シークレットミッション、統計、コンボランキング。スロットのチェックサムは書き直されます。
+
+Close the emulator first. Each file of the save folder is one slot (Tools › Open another file in this archive lists them). The slot's checksum is written again on save.
+= 先にエミュレーターを閉じてください。セーブフォルダ内の各ファイルが1スロットです(ツール › このアーカイブ内の別のファイルを開く で一覧できます)。保存時にスロットのチェックサムが書き直されます。
+
+Absolute
+= アブソリュート
+
+Air Hike
+= Air Hike
+
+Air Raid
+= Air Raid
+
+Alastor skills
+= アラストルのスキル
+
+Anna
+= Anna
+
+Arcade completed
+= アーケードクリア済み
+
+Arcade plays
+= アーケードのプレイ回数
+
+Armor King
+= Armor King
+
+Auto save
+= オートセーブ
+
+Baek
+= Baek
+
+Blue orb fragments
+= 青オーブのかけら
+
+Bravo
+= ブラボー
+
+Bruce
+= Bruce
+
+Bryan
+= Bryan
+
+Change character at continue
+= コンティニュー時のキャラクター変更
+
+Character statistics
+= キャラクター別の統計
+
+Clear count
+= クリア回数
+
+Combo rankings
+= コンボランキング
+
+Cool
+= クール
+
+Damage received
+= 受けたダメージ
+
+Devil
+= Devil
+
+Doctor B.
+= Doctor B.
+
+Dull
+= ダル
+
+Eddy
+= Eddy
+
+Fights per match
+= 1試合の戦闘数
+
+Ganryu
+= Ganryu
+
+Gon
+= Gon
+
+Guard damage
+= ガードダメージ
+
+Gun Jack
+= Gun Jack
+
+Gun Jack movie
+= ガンジャックのムービー
+
+Heihachi
+= Heihachi
+
+High score
+= ハイスコア
+
+Hwoarang
+= Hwoarang
+
+Ifrit skills
+= イフリートのスキル
+
+Inferno
+= Inferno
+
+Jack
+= Jack
+
+Jack-2
+= Jack-2
+
+Jin
+= Jin
+
+Julia
+= Julia
+
+Jun
+= Jun
+
+Kazuya
+= Kazuya
+
+Kick 13 level 1
+= Kick 13 level 1
+
+Kick 13 level 2
+= Kick 13 level 2
+
+King
+= King
+
+Kuma
+= Kuma
+
+Kunimitsu
+= Kunimitsu
+
+Law
+= Law
+
+Lee
+= Lee
+
+Lei
+= Lei
+
+Magma Drive
+= Magma Drive
+
+Match wins shown as
+= 勝利数の表示
+
+Maximum health (units of 100)
+= 最大体力(100単位)
+
+Meteor level 1
+= Meteor level 1
+
+Meteor level 2
+= Meteor level 2
+
+Michelle
+= Michelle
+
+Mission
+= ミッション
+
+Mission 1
+= ミッション1
+
+Mission 10
+= ミッション10
+
+Mission 11
+= ミッション11
+
+Mission 12
+= ミッション12
+
+Mission 13
+= ミッション13
+
+Mission 14
+= ミッション14
+
+Mission 15
+= ミッション15
+
+Mission 16
+= ミッション16
+
+Mission 17
+= ミッション17
+
+Mission 18
+= ミッション18
+
+Mission 19
+= ミッション19
+
+Mission 2
+= ミッション2
+
+Mission 20
+= ミッション20
+
+Mission 21
+= ミッション21
+
+Mission 22
+= ミッション22
+
+Mission 23
+= ミッション23
+
+Mission 3
+= ミッション3
+
+Mission 4
+= ミッション4
+
+Mission 5
+= ミッション5
+
+Mission 6
+= ミッション6
+
+Mission 7
+= ミッション7
+
+Mission 8
+= ミッション8
+
+Mission 9
+= ミッション9
+
+Mokujin
+= Mokujin
+
+Nina
+= Nina
+
+Ogre
+= Ogre
+
+Panda movie
+= パンダのムービー
+
+Paul
+= Paul
+
+Prototype Jack
+= Prototype Jack
+
+Purchased blue orbs
+= 購入した青オーブ
+
+Purchased purple orbs
+= 購入した紫オーブ
+
+Quick select
+= クイックセレクト
+
+Ranks: Dante Must Die!
+= ランク: Dante Must Die!
+
+Ranks: Hard
+= ランク: ハード
+
+Ranks: Normal
+= ランク: ノーマル
+
+Red orbs obtained
+= 獲得した赤オーブ
+
+Roger
+= Roger
+
+Rolling Blaze
+= Rolling Blaze
+
+Round Trip
+= Round Trip
+
+Round time
+= ラウンド時間
+
+Secret mission 1
+= シークレットミッション1
+
+Secret mission 10
+= シークレットミッション10
+
+Secret mission 11
+= シークレットミッション11
+
+Secret mission 12
+= シークレットミッション12
+
+Secret mission 2
+= シークレットミッション2
+
+Secret mission 3
+= シークレットミッション3
+
+Secret mission 4
+= シークレットミッション4
+
+Secret mission 5
+= シークレットミッション5
+
+Secret mission 6
+= シークレットミッション6
+
+Secret mission 7
+= シークレットミッション7
+
+Secret mission 8
+= シークレットミッション8
+
+Secret mission 9
+= シークレットミッション9
+
+Secret missions
+= シークレットミッション
+
+Sound output
+= サウンド出力
+
+Stringer level 1
+= Stringer level 1
+
+Stringer level 2
+= Stringer level 2
+
+Stylish
+= スタイリッシュ
+
+Tekken Ball mode
+= 鉄拳ボールモード
+
+Tekken Force
+= 鉄拳フォース
+
+Theatre mode
+= シアターモード
+
+Tiger movie
+= タイガーのムービー
+
+Total retries
+= リトライ総数
+
+True Ogre
+= True Ogre
+
+Unlocked characters
+= 解放済みキャラクター
+
+Unlocked costumes
+= 解放済みコスチューム
+
+Unlocked extras
+= 解放済みおまけ
+
+Versus draws
+= 対戦の引き分け
+
+Versus losses
+= 対戦の敗北
+
+Versus wins
+= 対戦の勝利
+
+Vortex level 1
+= Vortex level 1
+
+Vortex level 2
+= Vortex level 2
+
+Wang
+= Wang
+
+Xiaoyu
+= Xiaoyu
+
+Yoshimitsu
+= Yoshimitsu

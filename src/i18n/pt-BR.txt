@@ -22342,3 +22342,398 @@ events
 shine sprites
 = Shine Sprites
 
+A PlayStation 2 save: one SaveData-NN file of the save folder is one slot (open the folder's other files from Tools › Open another file in this archive). Clear and save counts, character, difficulty, mission, maximum health, red, yellow and blue orbs, the Alastor and Ifrit skills, every mission rank, the secret missions, statistics and combo rankings. The slot's checksum is written again.
+= Um save de PlayStation 2: cada arquivo SaveData-NN da pasta de save é um slot (os outros arquivos da pasta abrem-se em Ferramentas › Abrir outro arquivo neste arquivo compactado). Contadores de jogos concluídos e saves, personagem, dificuldade, missão, saúde máxima, orbes vermelhos, amarelos e azuis, as habilidades de Alastor e Ifrit, cada rank de missão, as missões secretas, estatísticas e recordes de combos. A soma de verificação do slot é gravada de novo.
+
+Close the emulator first. Each file of the save folder is one slot (Tools › Open another file in this archive lists them). The slot's checksum is written again on save.
+= Feche o emulador primeiro. Cada arquivo da pasta de save é um slot (Ferramentas › Abrir outro arquivo neste arquivo compactado lista todos). A soma de verificação do slot é gravada de novo ao salvar.
+
+Absolute
+= Absoluto
+
+Air Hike
+= Air Hike
+
+Air Raid
+= Air Raid
+
+Alastor skills
+= Habilidades de Alastor
+
+Anna
+= Anna
+
+Arcade completed
+= Arcade concluído
+
+Arcade plays
+= Partidas arcade
+
+Armor King
+= Armor King
+
+Auto save
+= Salvamento automático
+
+Baek
+= Baek
+
+Blue orb fragments
+= Fragmentos de orbe azul
+
+Bravo
+= Bravo
+
+Bruce
+= Bruce
+
+Bryan
+= Bryan
+
+Change character at continue
+= Trocar de personagem ao continuar
+
+Character statistics
+= Estatísticas dos personagens
+
+Clear count
+= Vezes concluído
+
+Combo rankings
+= Recordes de combos
+
+Cool
+= Cool
+
+Damage received
+= Dano recebido
+
+Devil
+= Devil
+
+Doctor B.
+= Doctor B.
+
+Dull
+= Dull
+
+Eddy
+= Eddy
+
+Fights per match
+= Lutas por partida
+
+Ganryu
+= Ganryu
+
+Gon
+= Gon
+
+Guard damage
+= Dano ao defender
+
+Gun Jack
+= Gun Jack
+
+Gun Jack movie
+= Filme do Gun Jack
+
+Heihachi
+= Heihachi
+
+High score
+= Maior pontuação
+
+Hwoarang
+= Hwoarang
+
+Ifrit skills
+= Habilidades de Ifrit
+
+Inferno
+= Inferno
+
+Jack
+= Jack
+
+Jack-2
+= Jack-2
+
+Jin
+= Jin
+
+Julia
+= Julia
+
+Jun
+= Jun
+
+Kazuya
+= Kazuya
+
+Kick 13 level 1
+= Kick 13 level 1
+
+Kick 13 level 2
+= Kick 13 level 2
+
+King
+= King
+
+Kuma
+= Kuma
+
+Kunimitsu
+= Kunimitsu
+
+Law
+= Law
+
+Lee
+= Lee
+
+Lei
+= Lei
+
+Magma Drive
+= Magma Drive
+
+Match wins shown as
+= Vitórias mostradas como
+
+Maximum health (units of 100)
+= Saúde máxima (em centenas)
+
+Meteor level 1
+= Meteor level 1
+
+Meteor level 2
+= Meteor level 2
+
+Michelle
+= Michelle
+
+Mission
+= Missão
+
+Mission 1
+= Missão 1
+
+Mission 10
+= Missão 10
+
+Mission 11
+= Missão 11
+
+Mission 12
+= Missão 12
+
+Mission 13
+= Missão 13
+
+Mission 14
+= Missão 14
+
+Mission 15
+= Missão 15
+
+Mission 16
+= Missão 16
+
+Mission 17
+= Missão 17
+
+Mission 18
+= Missão 18
+
+Mission 19
+= Missão 19
+
+Mission 2
+= Missão 2
+
+Mission 20
+= Missão 20
+
+Mission 21
+= Missão 21
+
+Mission 22
+= Missão 22
+
+Mission 23
+= Missão 23
+
+Mission 3
+= Missão 3
+
+Mission 4
+= Missão 4
+
+Mission 5
+= Missão 5
+
+Mission 6
+= Missão 6
+
+Mission 7
+= Missão 7
+
+Mission 8
+= Missão 8
+
+Mission 9
+= Missão 9
+
+Mokujin
+= Mokujin
+
+Nina
+= Nina
+
+Ogre
+= Ogre
+
+Panda movie
+= Filme do panda
+
+Paul
+= Paul
+
+Prototype Jack
+= Prototype Jack
+
+Purchased blue orbs
+= Orbes azuis comprados
+
+Purchased purple orbs
+= Orbes roxos comprados
+
+Quick select
+= Seleção rápida
+
+Ranks: Dante Must Die!
+= Ranks: Dante Must Die!
+
+Ranks: Hard
+= Ranks: Difícil
+
+Ranks: Normal
+= Ranks: Normal
+
+Red orbs obtained
+= Orbes vermelhos obtidos
+
+Roger
+= Roger
+
+Rolling Blaze
+= Rolling Blaze
+
+Round Trip
+= Round Trip
+
+Round time
+= Tempo do round
+
+Secret mission 1
+= Missão secreta 1
+
+Secret mission 10
+= Missão secreta 10
+
+Secret mission 11
+= Missão secreta 11
+
+Secret mission 12
+= Missão secreta 12
+
+Secret mission 2
+= Missão secreta 2
+
+Secret mission 3
+= Missão secreta 3
+
+Secret mission 4
+= Missão secreta 4
+
+Secret mission 5
+= Missão secreta 5
+
+Secret mission 6
+= Missão secreta 6
+
+Secret mission 7
+= Missão secreta 7
+
+Secret mission 8
+= Missão secreta 8
+
+Secret mission 9
+= Missão secreta 9
+
+Secret missions
+= Missões secretas
+
+Sound output
+= Saída de áudio
+
+Stringer level 1
+= Stringer level 1
+
+Stringer level 2
+= Stringer level 2
+
+Stylish
+= Stylish
+
+Tekken Ball mode
+= Modo Tekken Ball
+
+Tekken Force
+= Tekken Force
+
+Theatre mode
+= Modo Teatro
+
+Tiger movie
+= Filme do tigre
+
+Total retries
+= Total de novas tentativas
+
+True Ogre
+= True Ogre
+
+Unlocked characters
+= Personagens desbloqueados
+
+Unlocked costumes
+= Trajes desbloqueados
+
+Unlocked extras
+= Extras desbloqueados
+
+Versus draws
+= Empates em versus
+
+Versus losses
+= Derrotas em versus
+
+Versus wins
+= Vitórias em versus
+
+Vortex level 1
+= Vortex level 1
+
+Vortex level 2
+= Vortex level 2
+
+Wang
+= Wang
+
+Xiaoyu
+= Xiaoyu
+
+Yoshimitsu
+= Yoshimitsu

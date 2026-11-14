@@ -22427,3 +22427,398 @@ events
 shine sprites
 = 闪耀星星
 
+A PlayStation 2 save: one SaveData-NN file of the save folder is one slot (open the folder's other files from Tools › Open another file in this archive). Clear and save counts, character, difficulty, mission, maximum health, red, yellow and blue orbs, the Alastor and Ifrit skills, every mission rank, the secret missions, statistics and combo rankings. The slot's checksum is written again.
+= PlayStation 2存档:存档文件夹中的每个SaveData-NN文件是一个存档位(文件夹中的其他文件可通过 工具 › 打开此压缩包中的其他文件 打开)。通关和存档次数、角色、难度、任务、最大生命值、红色、黄色和蓝色宝珠、阿拉斯托和伊芙利特的技能、每个任务的评级、隐藏任务、统计和连击排行。存档位的校验和会重新写入。
+
+Close the emulator first. Each file of the save folder is one slot (Tools › Open another file in this archive lists them). The slot's checksum is written again on save.
+= 请先关闭模拟器。存档文件夹中的每个文件是一个存档位(工具 › 打开此压缩包中的其他文件 可列出它们)。保存时会重新写入存档位的校验和。
+
+Absolute
+= 绝对
+
+Air Hike
+= Air Hike
+
+Air Raid
+= Air Raid
+
+Alastor skills
+= 阿拉斯托技能
+
+Anna
+= Anna
+
+Arcade completed
+= 街机已通关
+
+Arcade plays
+= 街机游玩次数
+
+Armor King
+= Armor King
+
+Auto save
+= 自动存档
+
+Baek
+= Baek
+
+Blue orb fragments
+= 蓝色宝珠碎片
+
+Bravo
+= 精彩
+
+Bruce
+= Bruce
+
+Bryan
+= Bryan
+
+Change character at continue
+= 继续时更换角色
+
+Character statistics
+= 角色统计
+
+Clear count
+= 通关次数
+
+Combo rankings
+= 连击排行
+
+Cool
+= 酷
+
+Damage received
+= 受到的伤害
+
+Devil
+= Devil
+
+Doctor B.
+= Doctor B.
+
+Dull
+= 迟钝
+
+Eddy
+= Eddy
+
+Fights per match
+= 每场比赛的战斗数
+
+Ganryu
+= Ganryu
+
+Gon
+= Gon
+
+Guard damage
+= 防御伤害
+
+Gun Jack
+= Gun Jack
+
+Gun Jack movie
+= Gun Jack影片
+
+Heihachi
+= Heihachi
+
+High score
+= 最高分
+
+Hwoarang
+= Hwoarang
+
+Ifrit skills
+= 伊芙利特技能
+
+Inferno
+= Inferno
+
+Jack
+= Jack
+
+Jack-2
+= Jack-2
+
+Jin
+= Jin
+
+Julia
+= Julia
+
+Jun
+= Jun
+
+Kazuya
+= Kazuya
+
+Kick 13 level 1
+= Kick 13 level 1
+
+Kick 13 level 2
+= Kick 13 level 2
+
+King
+= King
+
+Kuma
+= Kuma
+
+Kunimitsu
+= Kunimitsu
+
+Law
+= Law
+
+Lee
+= Lee
+
+Lei
+= Lei
+
+Magma Drive
+= Magma Drive
+
+Match wins shown as
+= 胜场显示方式
+
+Maximum health (units of 100)
+= 最大生命值(以100为单位)
+
+Meteor level 1
+= Meteor level 1
+
+Meteor level 2
+= Meteor level 2
+
+Michelle
+= Michelle
+
+Mission
+= 任务
+
+Mission 1
+= 任务1
+
+Mission 10
+= 任务10
+
+Mission 11
+= 任务11
+
+Mission 12
+= 任务12
+
+Mission 13
+= 任务13
+
+Mission 14
+= 任务14
+
+Mission 15
+= 任务15
+
+Mission 16
+= 任务16
+
+Mission 17
+= 任务17
+
+Mission 18
+= 任务18
+
+Mission 19
+= 任务19
+
+Mission 2
+= 任务2
+
+Mission 20
+= 任务20
+
+Mission 21
+= 任务21
+
+Mission 22
+= 任务22
+
+Mission 23
+= 任务23
+
+Mission 3
+= 任务3
+
+Mission 4
+= 任务4
+
+Mission 5
+= 任务5
+
+Mission 6
+= 任务6
+
+Mission 7
+= 任务7
+
+Mission 8
+= 任务8
+
+Mission 9
+= 任务9
+
+Mokujin
+= Mokujin
+
+Nina
+= Nina
+
+Ogre
+= Ogre
+
+Panda movie
+= 熊猫影片
+
+Paul
+= Paul
+
+Prototype Jack
+= Prototype Jack
+
+Purchased blue orbs
+= 已购买的蓝色宝珠
+
+Purchased purple orbs
+= 已购买的紫色宝珠
+
+Quick select
+= 快速选择
+
+Ranks: Dante Must Die!
+= 评级: Dante Must Die!
+
+Ranks: Hard
+= 评级: 困难
+
+Ranks: Normal
+= 评级: 普通
+
+Red orbs obtained
+= 获得的红色宝珠
+
+Roger
+= Roger
+
+Rolling Blaze
+= Rolling Blaze
+
+Round Trip
+= Round Trip
+
+Round time
+= 回合时间
+
+Secret mission 1
+= 隐藏任务1
+
+Secret mission 10
+= 隐藏任务10
+
+Secret mission 11
+= 隐藏任务11
+
+Secret mission 12
+= 隐藏任务12
+
+Secret mission 2
+= 隐藏任务2
+
+Secret mission 3
+= 隐藏任务3
+
+Secret mission 4
+= 隐藏任务4
+
+Secret mission 5
+= 隐藏任务5
+
+Secret mission 6
+= 隐藏任务6
+
+Secret mission 7
+= 隐藏任务7
+
+Secret mission 8
+= 隐藏任务8
+
+Secret mission 9
+= 隐藏任务9
+
+Secret missions
+= 隐藏任务
+
+Sound output
+= 声音输出
+
+Stringer level 1
+= Stringer level 1
+
+Stringer level 2
+= Stringer level 2
+
+Stylish
+= 时尚
+
+Tekken Ball mode
+= 铁拳球模式
+
+Tekken Force
+= 铁拳力量
+
+Theatre mode
+= 剧场模式
+
+Tiger movie
+= 老虎影片
+
+Total retries
+= 重试总数
+
+True Ogre
+= True Ogre
+
+Unlocked characters
+= 已解锁角色
+
+Unlocked costumes
+= 已解锁服装
+
+Unlocked extras
+= 已解锁额外内容
+
+Versus draws
+= 对战平局
+
+Versus losses
+= 对战失败
+
+Versus wins
+= 对战胜利
+
+Vortex level 1
+= Vortex level 1
+
+Vortex level 2
+= Vortex level 2
+
+Wang
+= Wang
+
+Xiaoyu
+= Xiaoyu
+
+Yoshimitsu
+= Yoshimitsu

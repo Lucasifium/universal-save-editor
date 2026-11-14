@@ -3,7 +3,7 @@
 > **Free, and it always will be.** No price, no ads, no account, no paid version, no online service, no
 > rate limits. If anyone is charging you for this, it isn't from here.
 
-An offline save editor and save manager for 470+ (476) PC games (edit saves, and back up, name and restore them): Cairn, Terraria (characters and a world map editor),
+An offline save editor and save manager for 470+ (477) PC games (edit saves, and back up, name and restore them): Cairn, Terraria (characters and a world map editor),
 Oxygen Not Included, RimWorld, Stardew Valley, Onimusha: Way of the Sword, Elden Ring, Dark Souls,
 Cyberpunk 2077, the Persona, Yakuza and Final Fantasy games, Ren'Py visual novels, RPG Maker games
 and more (the full list is below). Written in Rust (egui). Nothing is uploaded anywhere, and there are
@@ -158,7 +158,7 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 </details>
 
 <details>
-<summary><strong>D</strong> (33)</summary>
+<summary><strong>D</strong> (34)</summary>
 
 | Game | Screen |
 |---|---|
@@ -178,6 +178,7 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 | Deltatraveler | *Party*: name, gold, experience, play time, party members and the item, weapon and armor ids (checked on public saves, not yet tried in the game) |
 | Deus Ex (2000) | JC Denton: credits, skill points, bioelectric energy, health per body part, ammo, medkits and other item counts, skill and augmentation levels (values the game left out can't be set). Not yet tried in the game |
 | Deus Ex: Mankind Divided | *Adam*: credits, Praxis kits, crafting parts (with a **Max crafting materials** button) and each ammo stack, with total experience and progress to the next Praxis kit shown (checked on real saves and in the game; close the game and turn Steam Cloud off for it first, or Steam may bring the old save back) |
+| Devil May Cry (PlayStation 2) | *Dante* (PlayStation 2 `.psu`, `.psv` or memory card save, USA, Europe, Japanese and Korean; each `SaveData-NN` file is one slot): clear and save counts, character, difficulty, mission, maximum health, red, yellow and blue orbs, the Alastor and Ifrit skills, every mission rank, the secret missions, statistics and combo rankings; the slot's checksum is written again (checked on public saves, not yet tried in the game) |
 | Devil May Cry HD Collection (Devil May Cry 1) | *Slots*: red, yellow and blue orbs and play time of each used slot of the Devil May Cry 1 save `dmc1.sav` (checked on a public save, not yet tried in the game; Devil May Cry 2 and 3 saves open as hex) |
 | Diablo II, Diablo II: Resurrected | *Character*: level, experience, gold and stash gold; the four attributes, stat and skill points; life, mana and stamina (base values); points in every skill; *Waypoints*: every waypoint in Normal, Nightmare and Hell, with an open-all button |
 | Disco Elysium | *Detective*: money, level, experience, skill points to spend, health and morale, the four attributes and all 24 skills from a `.ntwtf.zip` save (the zip is repacked with its other files kept). checked on public saves, not yet tried in the game |
@@ -688,8 +689,8 @@ binary and stays an ironman save. It isn't converted to a normal one.
 
 The start page lists **Your games**: every game in the list whose saves were found on this computer,
 newest first, each one click away from its newest save. *Find my game's saves* (the big button on the
-start page, *Find saves* in the toolbar and the File menu) lists every one of the 470+ (476) PC games the editor knows, Mass Effect 1–3, the Legendary Edition and Andromeda among them — with where it
-start page, *Find saves* in the toolbar and the File menu) lists every one of the 470+ (476) PC games the editor knows, Mass Effect 1–3, the Legendary Edition and Andromeda among them — with where it
+start page, *Find saves* in the toolbar and the File menu) lists every one of the 470+ (477) PC games the editor knows, Mass Effect 1–3, the Legendary Edition and Andromeda among them — with where it
+start page, *Find saves* in the toolbar and the File menu) lists every one of the 470+ (477) PC games the editor knows, Mass Effect 1–3, the Legendary Edition and Andromeda among them — with where it
 usually keeps its saves and what the files are called, and finds them on your computer (Steam
 libraries and `userdata`, Documents wherever Windows has it, AppData, Saved Games, Ubisoft
 Connect). On Linux and the Steam Deck it also looks inside Proton prefixes
