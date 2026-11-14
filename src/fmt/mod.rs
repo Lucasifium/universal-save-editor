@@ -221,6 +221,7 @@ pub mod n64data;
 pub mod rare;
 pub mod supermetroid;
 pub mod ff6snes;
+pub mod chronotrigger;
 pub mod zelda_lttp;
 pub mod alphaprotocol;
 pub mod isaac;
@@ -530,6 +531,11 @@ pub fn parse_binary(d: &[u8]) -> Option<TreeDoc> {
     }
     if supermetroid::looks(d) {
         if let Ok(t) = supermetroid::parse(d) {
+            return Some(t);
+        }
+    }
+    if chronotrigger::looks(d) {
+        if let Ok(t) = chronotrigger::parse(d) {
             return Some(t);
         }
     }

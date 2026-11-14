@@ -14090,6 +14090,20 @@ MOVESPEED
 Magazine
 = マガジン
 
+# src/game_ui/simple/specs.rs (Chrono Trigger SNES)
+
+An emulator's 8 KiB .srm / .sav save. Per slot: gold and silver points, each character's experience, tech points, HP, MP and base stats, and their weapon, helmet, armor and accessory.
+= エミュレーターの 8 KiB の .srm / .sav セーブ。スロットごとに、所持金とシルバーポイント、各キャラクターの経験値、テックポイント、HP、MP、基本能力値、そして武器・兜・鎧・アクセサリー。
+
+Evade
+= 回避
+
+Helmet
+= 兜
+
+Hit
+= 命中
+
 Magic defense
 = 魔法防御
 
@@ -15554,5 +15568,12 @@ Tess exchange tickets
 
 The script variables of the save (chapter, quest and story flags) and the dialogue flags. Attributes and items are in WORLD.SAV, which is not covered.
 = セーブのスクリプト変数(章、クエストやストーリーのフラグ)と会話フラグ。能力値とアイテムは WORLD.SAV にあり、対象外です。
+
+
+Silver points
+= シルバーポイント
+
+Tech points
+= テックポイント
 
 

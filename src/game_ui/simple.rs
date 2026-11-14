@@ -11,6 +11,7 @@ use eframe::egui::{self, Color32, Ui};
 use serde_json::Value;
 
 mod ps_specs;
+mod retro_specs;
 mod spec_texts;
 mod specs;
 mod words;

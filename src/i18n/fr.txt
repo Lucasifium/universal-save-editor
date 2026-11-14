@@ -13683,6 +13683,14 @@ Heavy cargo
 Hefty Beast Bone
 = Hefty Beast Bone
 
+# src/game_ui/simple/specs.rs (Chrono Trigger SNES)
+
+An emulator's 8 KiB .srm / .sav save. Per slot: gold and silver points, each character's experience, tech points, HP, MP and base stats, and their weapon, helmet, armor and accessory.
+= Une sauvegarde de 8 Kio (.srm / .sav) d'émulateur. Par emplacement : or et points d'argent, et pour chaque personnage l'expérience, les points de technique, PV, PM et caractéristiques de base, ainsi que son arme, son casque, son armure et son accessoire.
+
+Evade
+= Esquive
+
 Helmet
 = Casque
 
@@ -14015,6 +14023,9 @@ MOVESPEED
 
 Magazine
 = Chargeur
+
+Hit
+= Précision
 
 Magic defense
 = Défense magique
@@ -15480,5 +15491,12 @@ Tess exchange tickets
 
 The script variables of the save (chapter, quest and story flags) and the dialogue flags. Attributes and items are in WORLD.SAV, which is not covered.
 = Les variables de script de la sauvegarde (chapitre, indicateurs de quêtes et d'histoire) et les indicateurs de dialogue. Les attributs et objets sont dans WORLD.SAV, qui n'est pas couvert.
+
+
+Silver points
+= Points d'argent
+
+Tech points
+= Points de technique
 
 
