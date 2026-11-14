@@ -634,7 +634,7 @@ binary and stays an ironman save. It isn't converted to a normal one.
 
 The start page lists **Your games**: every game in the list whose saves were found on this computer,
 newest first, each one click away from its newest save. *Find my game's saves* (the big button on the
-start page, *Find saves* in the toolbar and the File menu) lists every one of the 410+ (417) PC games the editor knows, Mass Effect 1–3, the Legendary Edition and Andromeda among them — with where it
+start page, *Find saves* in the toolbar and the File menu) lists every one of the 410+ (418) PC games the editor knows, Mass Effect 1–3, the Legendary Edition and Andromeda among them — with where it
 usually keeps its saves and what the files are called, and finds them on your computer (Steam
 libraries and `userdata`, Documents wherever Windows has it, AppData, Saved Games, Ubisoft
 Connect). On Linux and the Steam Deck it also looks inside Proton prefixes
