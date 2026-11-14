@@ -19,6 +19,7 @@ pub static SPECS: &[Spec] = &[OPENXCOM, XCOM_DOS, RCT2, COTL, FALLOUT_SHELTER, D
     CRASH, KH1, GT1, BL4, WUKONG, BOTW, RAYMAN, CTR, THPS, PAYDAY2, FS_FARM, FS_CAREER, FS17, FS15, GAS_STATION_SIM, THIEF_SIM, HOUSE_FLIPPER, TAVERN_MASTER, ROAD_REDEMPTION, SILENT_HILL, SOPHIE, FIRIS, DREDGE, PC_BUILDING_SIM, OUTWARD, SUPRALAND, WARM_SNOW, READY_OR_NOT, SUNSHINE, LUIGI, WINDWAKER, TEKKEN1, TEKKEN2, TEKKEN3, DMC_PS2, WIZARD_OF_LEGEND, MAGICRAFT, KAGERO, DW7XL, WO3U, SW5, WO1, SAMURAI2, DW4H, GTASA, SPT, ARKHAM_CITY, GRANDIA2, DONT_STARVE, MON_BAZOU, DEAD_ISLAND, CHRONO_CROSS, TOV, SA2_CHAO, KIDICARUS, TKC, DQ8,
     POLICE_SIM,
     RAFT,
+    ALIENS_FE,
 ];
 // ------------------------------------------------------------------ Cult of the Lamb
 
@@ -12344,4 +12345,22 @@ const POLICE_SIM: Spec = Spec {
     sections: &[Section { title: "Career", rows: &[("Play time (seconds)", "/StatisticalData/PlaytimeSeconds"), ("Shifts played", "/StatisticalData/NumShiftsPlayed"), ("Days taken off", "/StatisticalData/NumDaysTakenOff"), ("Encounters", "/StatisticalData/NumTotalEncounters")] }],
     lists: &[],
     tables: &[Table { title: "Districts", path: "/CareerData/DistrictsProgress", name: &[], only: &[], cols: &[("Unlocked", "/bIsUnlocked"), ("Experience", "/Xp"), ("Duty stars", "/DutyStars")], names: &[] }],
+};
+
+// ------------------------------------------------------------------ Aliens: Fireteam Elite
+
+const ALIENS_FE: Spec = Spec {
+    name: "Aliens: Fireteam Elite",
+    tab: "Marine",
+    accent: (210, 120, 40),
+    kind: None,
+    markers: &["/DocLevel/LevelInstance/Level", "/CharacterInventory/CharacterKits", "/PromotionRank"],
+    subtitle: "char.sav from %LOCALAPPDATA%\\Endeavor\\Saved\\SaveGames (the game writes every byte one lower; that is undone and redone). Account level and experience, rank, difficulty, and the level and experience of every class and weapon. Close the game first.",
+    tiles: &[("Level", "/DocLevel/LevelInstance/Level"), ("Experience", "/DocLevel/LevelInstance/ExperiencePoints"), ("Time played (seconds)", "/TimePlayed")],
+    sections: &[Section { title: "Marine", rows: &[("Level", "/DocLevel/LevelInstance/Level"), ("Experience", "/DocLevel/LevelInstance/ExperiencePoints"), ("Time played (seconds)", "/TimePlayed"), ("Rank", "/PromotionRank"), ("Last difficulty", "/LastUsedDifficulty"), ("Highest difficulty unlocked", "/MaxUnlockedDifficulty")] }],
+    lists: &[],
+    tables: &[
+        Table { title: "Classes", path: "/CharacterInventory/CharacterKits", name: &["/CharacterClass"], only: &[], cols: &[("Level", "/LevelData/Level"), ("Experience", "/LevelData/ExperiencePoints")], names: &[] },
+        Table { title: "Weapons", path: "/GunInventory/GunFrames", name: &["/GunClass"], only: &[], cols: &[("Level", "/LevelData/Level"), ("Experience", "/LevelData/ExperiencePoints")], names: &[] },
+    ],
 };

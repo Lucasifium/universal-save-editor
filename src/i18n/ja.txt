@@ -24074,3 +24074,12 @@ Districts
 
 Duty stars
 = 勤務スター
+
+Marine
+= 海兵隊員
+
+char.sav from %LOCALAPPDATA%\\Endeavor\\Saved\\SaveGames (the game writes every byte one lower; that is undone and redone). Account level and experience, rank, difficulty, and the level and experience of every class and weapon. Close the game first.
+= %LOCALAPPDATA%\Endeavor\Saved\SaveGames の char.sav(ゲームは各バイトを 1 小さく書き込むため、それを戻して再び適用します)。アカウントのレベルと経験値、階級、難易度、各クラスと武器のレベルと経験値。先にゲームを閉じてください。
+
+Last difficulty
+= 前回の難易度

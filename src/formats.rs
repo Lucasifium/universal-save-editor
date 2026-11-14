@@ -227,6 +227,8 @@ pub enum Layer {
     HyperLightDrifter { head: Arc<Vec<u8>> },
     /// Don't Starve: `KLEI     1D`, base64, a 16-byte header and a zlib stream of Lua text.
     DontStarve,
+    /// Every byte one less than the real one (Aliens: Fireteam Elite).
+    Shifted,
     /// Dead Island: level, health and money patched into the flat binary (the original bytes are kept).
     DeadIsland { original: Arc<Vec<u8>> },
     /// Persona 3 Reload Steam save (XOR key and bit permutation over a GVAS file).
@@ -452,6 +454,7 @@ impl Layer {
             Layer::Payday2 { .. } => "PAYDAY 2 save encryption and blocks".into(),
             Layer::HyperLightDrifter { .. } => "Hyper Light Drifter header and base64".into(),
             Layer::DontStarve => "Don't Starve save (base64, zlib)".into(),
+            Layer::Shifted => "Every byte one less (Aliens: Fireteam Elite)".into(),
             Layer::DeadIsland { .. } => "Dead Island save values".into(),
             Layer::P3rSteam => "Persona 3 Reload save encryption".into(),
             Layer::Antimatter { .. } => "Antimatter Dimensions export text".into(),
@@ -1107,6 +1110,7 @@ fn wrap(layer: &Layer, data: Vec<u8>) -> Result<Vec<u8>, String> {
         Layer::Payday2 { plain } => fmt::payday2::pack(plain, &data)?,
         Layer::HyperLightDrifter { head } => fmt::hld::pack(head, &data),
         Layer::DontStarve => fmt::dontstarve::pack(&data),
+        Layer::Shifted => fmt::shifted::pack(&data),
         Layer::DeadIsland { original } => fmt::deadisland::pack(original, &data)?,
         Layer::P3rSteam => fmt::p3r::steam_encrypt(&data),
         Layer::Antimatter { kind, version } => fmt::antimatter::close(*kind, version, &data)?,
@@ -1997,6 +2001,9 @@ fn peel(data: &[u8], ctx: &mut Ctx) -> Option<(Layer, Vec<u8>)> {
     }
     if let Some(json) = fmt::deadisland::open(data) {
         return Some((Layer::DeadIsland { original: Arc::new(data.to_vec()) }, json));
+    }
+    if let Some(plain) = fmt::shifted::open(data) {
+        return Some((Layer::Shifted, plain));
     }
     if let Some(text) = fmt::dontstarve::open(data) {
         return Some((Layer::DontStarve, text));

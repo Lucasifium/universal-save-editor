@@ -3,7 +3,7 @@
 > **Free, and it always will be.** No price, no ads, no account, no paid version, no online service, no
 > rate limits. If anyone is charging you for this, it isn't from here.
 
-An offline save editor and save manager for 520+ (520) PC games (edit saves, and back up, name and restore them): Cairn, Terraria (characters and a world map editor),
+An offline save editor and save manager for 520+ (521) PC games (edit saves, and back up, name and restore them): Cairn, Terraria (characters and a world map editor),
 Oxygen Not Included, RimWorld, Stardew Valley, Onimusha: Way of the Sword, Elden Ring, Dark Souls,
 Cyberpunk 2077, the Persona, Yakuza and Final Fantasy games, Ren'Py visual novels, RPG Maker games
 and more (the full list is below). Written in Rust (egui). Nothing is uploaded anywhere, and there are
@@ -74,11 +74,12 @@ The games below open on a screen of their own (the first tab: *Character*, *Trai
 undo and checksums as everywhere else, and the *Values* and *Tree* tabs still show everything.
 
 <details>
-<summary><strong>A</strong> (28)</summary>
+<summary><strong>A</strong> (29)</summary>
 
 | Game | Screen |
 |---|---|
 | A Total War Saga: Thrones of Britannia | Every faction's treasury, yours first, with a button to fill it. The campaign inside the save is unpacked, edited with every size above it recomputed, and packed again (the file grows). Read on a public campaign save, not yet tried in the game |
+| Aliens: Fireteam Elite | *Marine*: account level and experience, rank, difficulty, and the level and experience of every class and weapon, from `char.sav` (the game writes every byte one lower; that is undone and redone; checked on a public save, not yet tried in the game) |
 | Alpha Protocol | *Agent*: money, level, experience, skill points, skill ranks, ammunition and gadget counts from a checkpoint `.sav` (checked on a public save, not yet tried in the game) |
 | American Truck Simulator | The same screen as Euro Truck Simulator 2: money, loan limit, experience, skills, and each vehicle's fuel, odometer and wear. |
 | Anno 1800 | *Company*: your coins (the load screen's total is changed with them) and the rest of your company's storage by GUID; the `.a7s` archive and its 100+ MB game data are unpacked and packed again for you (checked on a public save, not yet tried in the game) |
@@ -792,8 +793,8 @@ binary and stays an ironman save. It isn't converted to a normal one.
 
 The start page lists **Your games**: every game in the list whose saves were found on this computer,
 newest first, each one click away from its newest save. *Find my game's saves* (the big button on the
-start page, *Find saves* in the toolbar and the File menu) lists every one of the 520+ (520) PC games the editor knows, Mass Effect 1–3, the Legendary Edition and Andromeda among them — with where it
-start page, *Find saves* in the toolbar and the File menu) lists every one of the 520+ (520) PC games the editor knows, Mass Effect 1–3, the Legendary Edition and Andromeda among them — with where it
+start page, *Find saves* in the toolbar and the File menu) lists every one of the 520+ (521) PC games the editor knows, Mass Effect 1–3, the Legendary Edition and Andromeda among them — with where it
+start page, *Find saves* in the toolbar and the File menu) lists every one of the 520+ (521) PC games the editor knows, Mass Effect 1–3, the Legendary Edition and Andromeda among them — with where it
 usually keeps its saves and what the files are called, and finds them on your computer (Steam
 libraries and `userdata`, Documents wherever Windows has it, AppData, Saved Games, Ubisoft
 Connect). On Linux and the Steam Deck it also looks inside Proton prefixes

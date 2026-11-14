@@ -63,6 +63,7 @@ pub mod potion;
 pub mod wreckfest;
 pub mod deadisland;
 pub mod dontstarve;
+pub mod shifted;
 pub mod hld;
 pub mod payday2;
 pub mod wwz;

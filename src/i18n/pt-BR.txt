@@ -23962,3 +23962,12 @@ Districts
 
 Duty stars
 = Estrelas de serviço
+
+Marine
+= Fuzileiro
+
+char.sav from %LOCALAPPDATA%\\Endeavor\\Saved\\SaveGames (the game writes every byte one lower; that is undone and redone). Account level and experience, rank, difficulty, and the level and experience of every class and weapon. Close the game first.
+= char.sav de %LOCALAPPDATA%\Endeavor\Saved\SaveGames (o jogo grava cada byte uma unidade abaixo; isso é desfeito e refeito). Nível e experiência da conta, patente, dificuldade, e o nível e a experiência de cada classe e arma. Feche o jogo antes.
+
+Last difficulty
+= Última dificuldade

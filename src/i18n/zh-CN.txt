@@ -24047,3 +24047,12 @@ Districts
 
 Duty stars
 = 勤务星
+
+Marine
+= 陆战队员
+
+char.sav from %LOCALAPPDATA%\\Endeavor\\Saved\\SaveGames (the game writes every byte one lower; that is undone and redone). Account level and experience, rank, difficulty, and the level and experience of every class and weapon. Close the game first.
+= %LOCALAPPDATA%\Endeavor\Saved\SaveGames 中的 char.sav(游戏把每个字节都减 1 存储,这里会还原并重新应用)。账号等级与经验、军衔、难度,以及每个职业和武器的等级与经验。请先关闭游戏。
+
+Last difficulty
+= 上次难度
