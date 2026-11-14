@@ -351,11 +351,18 @@ const WHY: &str = r#"<ul>
 /// Rewrites "N+ (M) PC games" (or "N+ PC games") to the current registry numbers.
 fn with_game_count(text: &str) -> String {
     const TAIL: &str = " PC games";
-    let Some(i) = text.find(TAIL) else { return text.to_string() };
-    let head = &text[..i];
-    let start = head.rfind(|c: char| !(c.is_ascii_digit() || "+ ()".contains(c))).map(|k| k + 1).unwrap_or(0);
-    let start = start + head[start..].len() - head[start..].trim_start_matches(' ').len();
-    format!("{}{}+ ({}){}", &text[..start], GAMES.len() / 10 * 10, GAMES.len(), &text[i..])
+    let mut out = String::new();
+    let mut rest = text;
+    while let Some(i) = rest.find(TAIL) {
+        let head = &rest[..i];
+        let start = head.rfind(|c: char| !(c.is_ascii_digit() || "+ ()".contains(c))).map(|k| k + 1).unwrap_or(0);
+        let start = start + head[start..].len() - head[start..].trim_start_matches(' ').len();
+        out.push_str(&rest[..start]);
+        let _ = write!(out, "{}+ ({}){TAIL}", GAMES.len() / 10 * 10, GAMES.len());
+        rest = &rest[i + TAIL.len()..];
+    }
+    out.push_str(rest);
+    out
 }
 
 /// The README's "Game screens" section as one collapsible table per first letter (digits and
