@@ -1487,3 +1487,27 @@ the folder you chose for backups
 ‹ All {0} games
 = ‹ Alle {0} Spiele
 
+# src/game_ui/simple/specs.rs
+GAMEDATA00 to GAMEDATA30 from Documents\KoeiTecmo\A17\SAVEDATA (the original 2017 release). Cole and Tess exchange tickets; item qualities and recipes are left alone.
+= GAMEDATA00 bis GAMEDATA30 aus Documents\KoeiTecmo\A17\SAVEDATA (die Originalversion von 2017). Cole und Tess-Tauschtickets; Gegenstandsqualitäten und Rezepte bleiben unverändert.
+
+GAMEDATA slot files from Documents\KoeiTecmo\A18\SAVEDATA (the original 2017 release). Cole; item qualities and recipes are left alone.
+= GAMEDATA-Slot-Dateien aus Documents\KoeiTecmo\A18\SAVEDATA (die Originalversion von 2017). Cole; Gegenstandsqualitäten und Rezepte bleiben unverändert.
+
+Resources
+= Ressourcen
+
+Cole
+= Cole
+
+Tess exchange tickets
+= Tess-Tauschtickets
+
+Max crafting materials: {0} ({1})
+= Maximale Herstellungsmaterialien: {0} ({1})
+
+Max crafting materials ({0})
+= Maximale Herstellungsmaterialien ({0})
+
+ The cap is an estimate from community guides.
+=  Die Obergrenze ist eine Schätzung aus Community-Leitfäden.

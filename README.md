@@ -3,7 +3,7 @@
 > **Free, and it always will be.** No price, no ads, no account, no paid version, no online service, no
 > rate limits. If anyone is charging you for this, it isn't from here.
 
-An offline save editor and save manager for 410+ (412) PC games (edit saves, and back up, name and restore them): Cairn, Terraria (characters and a world map editor),
+An offline save editor and save manager for 410+ (414) PC games (edit saves, and back up, name and restore them): Cairn, Terraria (characters and a world map editor),
 Oxygen Not Included, RimWorld, Stardew Valley, Onimusha: Way of the Sword, Elden Ring, Dark Souls,
 Cyberpunk 2077, the Persona, Yakuza and Final Fantasy games, Ren'Py visual novels, RPG Maker games
 and more (the full list is below). Written in Rust (egui). Nothing is uploaded anywhere, and there are
@@ -393,6 +393,8 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 | Europa Universalis III | *Empire*: your country's treasury, prestige, stability, manpower, inflation, war exhaustion and army and navy tradition (every other country by tag in the Tree); edited in place in the plain-text save (checked on a public save, not yet tried in the game) |
 | Warriors Orochi 4 | *Resources*: Gems, Crystals, Growth Points, Skill Orbs (lower only), the weapon-element stacks you own (with *Max crafting materials*, 999 each) and each progressed officer's skill points; works for the original and Ultimate saves, both AES blocks and their seeds are handled for you (checked on public saves of both, not yet tried in the game) |
 | Samurai Warriors 4-II | *Army*: Gold, the five strategy tomes and every officer's Health, Attack, Defense, Riding and Speed bonuses; the cipher, section sums and checksum are handled for you (checked on a public save, not yet tried in the game) |
+| Atelier Sophie: The Alchemist of the Mysterious Book | *Resources*: Cole and Tess exchange tickets (original 2017 release; item qualities and recipes are left alone; checked on a public save, not yet tried in the game) |
+| Atelier Firis: The Alchemist and the Mysterious Journey | *Resources*: Cole (original 2017 release; item qualities and recipes are left alone; checked on a public save, not yet tried in the game) |
 
 | theHunter: Call of the Wild | *Hunter*: cash, level, XP and the skill and perk points of the profile (`thp_player_profile_adf`, an Avalanche ADF file read from its own type definitions and edited in place); no crafting materials (checked on public saves, not yet tried in the game) |
 | BeamNG.drive | *Career*: career money and BeamXP from `career/playerAttributes.json` of a save slot; the other career values (branch levels, vehicles) open by name in the Tree. Written from the game's own Lua source, not yet checked on a real save |

@@ -1487,3 +1487,27 @@ the folder you chose for backups
 ‹ All {0} games
 = ‹ 全部 {0} 个游戏
 
+# src/game_ui/simple/specs.rs
+GAMEDATA00 to GAMEDATA30 from Documents\KoeiTecmo\A17\SAVEDATA (the original 2017 release). Cole and Tess exchange tickets; item qualities and recipes are left alone.
+= Documents\KoeiTecmo\A17\SAVEDATA 中的 GAMEDATA00 至 GAMEDATA30（2017 年原版）。可修改 Cole 和 Tess 兑换券；物品品质和配方保持不变。
+
+GAMEDATA slot files from Documents\KoeiTecmo\A18\SAVEDATA (the original 2017 release). Cole; item qualities and recipes are left alone.
+= Documents\KoeiTecmo\A18\SAVEDATA 中的 GAMEDATA 存档槽文件（2017 年原版）。可修改 Cole；物品品质和配方保持不变。
+
+Resources
+= 资源
+
+Cole
+= Cole
+
+Tess exchange tickets
+= Tess 兑换券
+
+Max crafting materials: {0} ({1})
+= 合成材料全部提至上限：{0}（{1}）
+
+Max crafting materials ({0})
+= 合成材料全部提至上限（{0}）
+
+ The cap is an estimate from community guides.
+=  该上限是根据玩家攻略估算的。

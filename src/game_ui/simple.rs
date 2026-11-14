@@ -275,10 +275,10 @@ pub fn show(i: u16, ui: &mut Ui, cx: &mut GameCtx) {
     let s = &SPECS[i as usize];
     let accent = Color32::from_rgb(s.accent.0, s.accent.1, s.accent.2);
     let tiles: Vec<(&str, String)> = s.tiles.iter().map(|(c, p)| (*c, resolve(cx.root, p))).collect();
-    hero(ui, accent, s.name, s.subtitle, |ui| {
+    hero(ui, accent, s.name, tr(s.subtitle), |ui| {
         for (cap, p) in &tiles {
             if cx.get(p).is_some() {
-                cx.tile(ui, cap, p, accent);
+                cx.tile(ui, tr(cap), p, accent);
             }
         }
     });
@@ -287,10 +287,10 @@ pub fn show(i: u16, ui: &mut Ui, cx: &mut GameCtx) {
         s.sections.iter().map(|sec| (sec, rows_of(sec))).filter(|(_, rows)| rows.iter().any(|(_, p)| cx.get(p).is_some())).collect();
     columns(ui, 360.0, visible.len(), |ui, k| {
         let (sec, rows) = &visible[k];
-        panel(ui, sec.title, |ui| {
+        panel(ui, tr(sec.title), |ui| {
             egui::Grid::new(("simple_grid", i, k)).num_columns(2).spacing([14.0, 5.0]).show(ui, |ui| {
                 for (label, p) in rows {
-                    cx.grid_row(ui, label, p, 110.0);
+                    cx.grid_row(ui, tr(label), p, 110.0);
                 }
             });
         });
@@ -311,13 +311,13 @@ pub fn show(i: u16, ui: &mut Ui, cx: &mut GameCtx) {
         if n == 0 {
             continue;
         }
-        panel(ui, &format!("{} ({n})", t.title), |ui| {
+        panel(ui, &format!("{} ({n})", tr(t.title)), |ui| {
             let q = filter(ui, &format!("t{i}/{ti}"));
             egui::ScrollArea::horizontal().id_salt(("simple_table_scroll", i, ti)).show_locked(ui, |ui| {
                 egui::Grid::new(("simple_table", i, ti)).num_columns(t.cols.len() + 1).spacing([8.0, 4.0]).striped(true).show(ui, |ui| {
                     ui.label("");
                     for (h, _) in t.cols {
-                        ui.label(egui::RichText::new(*h).strong());
+                        ui.label(egui::RichText::new(tr(*h)).strong());
                     }
                     ui.end_row();
                     for (r, (key, key_name)) in rows.iter().enumerate() {
@@ -353,12 +353,12 @@ pub fn show(i: u16, ui: &mut Ui, cx: &mut GameCtx) {
         if list.is_empty() {
             continue;
         }
-        panel(ui, l.title, |ui| {
+        panel(ui, tr(l.title), |ui| {
             if let Some(m) = &l.max {
-                let tip = format!("{}{}", m.about, if m.estimate { " The cap is an estimate from community guides." } else { "" });
+                let tip = format!("{}{}", tr(m.about), if m.estimate { tr(" The cap is an estimate from community guides.") } else { "" });
                 // With several lists, the label names which one the action is for.
                 let many = s.lists.iter().filter(|x| x.max.is_some()).count() > 1;
-                let label = if many { format!("Max crafting materials: {} ({})", l.title, m.cap) } else { format!("Max crafting materials ({})", m.cap) };
+                let label = if many { crate::i18n::trf("Max crafting materials: {0} ({1})", &[&tr(l.title), &m.cap]) } else { crate::i18n::trf("Max crafting materials ({0})", &[&m.cap]) };
                 if super::quick_button(ui, label, tip) {
                     apply_max(cx, l);
                 }

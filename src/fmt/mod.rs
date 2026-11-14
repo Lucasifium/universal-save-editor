@@ -212,6 +212,7 @@ pub mod zelda_lttp;
 pub mod alphaprotocol;
 pub mod isaac;
 pub mod ysf;
+pub mod gust;
 pub mod wo4;
 pub mod sw4ii;
 pub mod falcom;
@@ -564,6 +565,11 @@ pub fn parse_binary(d: &[u8]) -> Option<TreeDoc> {
     }
     if moo2::looks(d) {
         if let Ok(t) = moo2::parse(d) {
+            return Some(t);
+        }
+    }
+    if gust::looks(d) {
+        if let Ok(t) = gust::parse(d) {
             return Some(t);
         }
     }
