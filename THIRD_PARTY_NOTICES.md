@@ -139,7 +139,7 @@ Universal Save Editor is free. It builds on other people's work, listed here wit
 | [FloweysTimeMachine (Undertale save layout, item and phone names)](https://github.com/crumblingstatue/FloweysTimeMachine) | crumblingstatue | facts only (file layouts, ids and names), credited |
 | [DeltaruneDecomp (Deltarune Chapter 1 save field order)](https://github.com/TeamBlossomDevs/DeltaruneDecomp) | TeamBlossomDevs | facts only (file layouts, ids and names), credited |
 | [DarkestDungeonSaveEditor (Darkest Dungeon DSON format and its type rules, ported)](https://github.com/robojumper/DarkestDungeonSaveEditor) | robojumper | MIT |
-| [game-tools-collection (Octopath Traveler II character and job ids; Golden Sun Djinn counts and file-select totals; Final Fantasy X ability, overdrive, item, key item and Monster Arena layout and names; Super Mario 64, Super Metroid and A Link to the Past save layouts)](https://github.com/RyudoSynbios/game-tools-collection) | RyudoSynbios | MIT |
+| [game-tools-collection (Octopath Traveler II character and job ids; Golden Sun Djinn counts and file-select totals; Final Fantasy X ability, overdrive, item, key item and Monster Arena layout and names; Super Mario 64, Mario Kart 64, GoldenEye 007, Banjo-Kazooie, Ocarina of Time, Super Smash Bros., Super Metroid and A Link to the Past save layouts)](https://github.com/RyudoSynbios/game-tools-collection) | RyudoSynbios | MIT |
 | [recordkeeper (Xenoblade Chronicles 3 save layout: play time, gold, character and item slot offsets)](https://github.com/roccodev/recordkeeper) | RoccoDev | LGPL-3.0 (library); combined here under GPL-3.0 |
 | [MLDT_SE (Mario & Luigi: Dream Team save offsets and item names)](https://github.com/Cefo14/MLDT_SE) | Cefo14 | MIT |
 | [savegame-editors (Super Smash Bros. Ultimate, Mario Kart 7 and Super Kirby Clash save offsets; Mario Kart 7 checksum)](https://github.com/marcrobledo/savegame-editors) | Marc Robledo | MIT |
@@ -232,7 +232,7 @@ Copyright notices of the projects above whose code or tables were used:
 - dragon-age-save-editor (Dragon Age: Origins stat ids, approval and campaign ids): Copyright (c) 2026 Aleksei Tovkachev. Licensed under MIT.
 - vampire-survivors-save-editor (Vampire Survivors checksum and number styles): Copyright (c) 2026 chrisdfennell. Licensed under MIT.
 - DarkestDungeonSaveEditor (Darkest Dungeon DSON format and its type rules, ported): Copyright (c) 2018 robojumper. Licensed under MIT.
-- game-tools-collection (Octopath Traveler II character and job ids; Golden Sun Djinn counts and file-select totals; Final Fantasy X ability, overdrive, item, key item and Monster Arena layout and names; Super Mario 64, Super Metroid and A Link to the Past save layouts): Copyright (c) 2024 RyudoSynbios. Licensed under MIT.
+- game-tools-collection (Octopath Traveler II character and job ids; Golden Sun Djinn counts and file-select totals; Final Fantasy X ability, overdrive, item, key item and Monster Arena layout and names; Super Mario 64, Mario Kart 64, GoldenEye 007, Banjo-Kazooie, Ocarina of Time, Super Smash Bros., Super Metroid and A Link to the Past save layouts): Copyright (c) 2024 RyudoSynbios. Licensed under MIT.
 - recordkeeper (Xenoblade Chronicles 3 save layout): Copyright (c) RoccoDev. Licensed under LGPL-3.0, used here under GPL-3.0.
 - MLDT_SE (Mario & Luigi: Dream Team save offsets and item names): Copyright (c) 2017 Cefo14. Licensed under MIT.
 - savegame-editors (Super Smash Bros. Ultimate, Mario Kart 7, Super Kirby Clash save offsets): Copyright (c) 2017-2023 Marc Robledo. Licensed under MIT.

@@ -196,6 +196,13 @@ pub mod sm64;
 pub mod mldt;
 pub mod nintendo;
 pub mod xc3;
+pub mod mk64;
+pub mod goldeneye;
+pub mod banjokazooie;
+pub mod zelda64;
+pub mod smash64;
+pub mod n64data;
+pub mod rare;
 pub mod supermetroid;
 pub mod zelda_lttp;
 pub mod alphaprotocol;
@@ -558,6 +565,31 @@ pub fn parse_binary(d: &[u8]) -> Option<TreeDoc> {
     }
     if ysf::looks(d) {
         if let Ok(t) = ysf::parse(d) {
+            return Some(t);
+        }
+    }
+    if mk64::looks(d) {
+        if let Ok(t) = mk64::parse(d) {
+            return Some(t);
+        }
+    }
+    if goldeneye::looks(d) {
+        if let Ok(t) = goldeneye::parse(d) {
+            return Some(t);
+        }
+    }
+    if banjokazooie::looks(d) {
+        if let Ok(t) = banjokazooie::parse(d) {
+            return Some(t);
+        }
+    }
+    if zelda64::looks(d) {
+        if let Ok(t) = zelda64::parse(d) {
+            return Some(t);
+        }
+    }
+    if smash64::looks(d) {
+        if let Ok(t) = smash64::parse(d) {
             return Some(t);
         }
     }
