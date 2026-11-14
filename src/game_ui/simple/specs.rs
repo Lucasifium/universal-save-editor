@@ -3619,20 +3619,6 @@ const SUPER_METROID: Spec = Spec {
         ("Space jump", "/Samus C/Equipped/Space jump"),
         ("Speed booster", "/Samus C/Equipped/Speed booster"),
     ] },
-// ------------------------------------------------------------------ Ys: The Oath in Felghana
-
-const YSF: Spec = Spec {
-    name: "Ys: The Oath in Felghana",
-    tab: "Adol",
-    accent: (200, 60, 50),
-    kind: Some(crate::fmt::ysf::KIND),
-    markers: &["/Adol/Gold", "/Adol/Level"],
-    subtitle: "A ysf_NN.nacci save (the cipher and both checksums are handled). Level, HP, experience, gold and the difficulty.",
-    tiles: &[("Gold", "/Adol/Gold"), ("Level", "/Adol/Level"), ("Experience", "/Adol/Experience")],
-    sections: &[
-        Section { title: "Adol", rows: &[("Level", "/Adol/Level"), ("Max HP", "/Adol/Max HP"), ("Experience", "/Adol/Experience"), ("Gold", "/Adol/Gold")] },
-        Section { title: "Difficulty", rows: &[("Now", "/Difficulty/Now"), ("Change to", "/Difficulty/Change to")] },
-        Section { title: "Save", rows: &[("Place", "/Save/Place"), ("Date", "/Save/Date"), ("Time", "/Save/Time")] },
     ],
     lists: &[],
     tables: &[],
@@ -3784,6 +3770,27 @@ const LTTP: Spec = Spec {
     ],
     lists: &[],
     tables: &[],
+};
+
+// ------------------------------------------------------------------ Ys: The Oath in Felghana
+
+const YSF: Spec = Spec {
+    name: "Ys: The Oath in Felghana",
+    tab: "Adol",
+    accent: (200, 60, 50),
+    kind: Some(crate::fmt::ysf::KIND),
+    markers: &["/Adol/Gold", "/Adol/Level"],
+    subtitle: "A ysf_NN.nacci save (the cipher and both checksums are handled). Level, HP, experience, gold and the difficulty.",
+    tiles: &[("Gold", "/Adol/Gold"), ("Level", "/Adol/Level"), ("Experience", "/Adol/Experience")],
+    sections: &[
+        Section { title: "Adol", rows: &[("Level", "/Adol/Level"), ("Max HP", "/Adol/Max HP"), ("Experience", "/Adol/Experience"), ("Gold", "/Adol/Gold")] },
+        Section { title: "Difficulty", rows: &[("Now", "/Difficulty/Now"), ("Change to", "/Difficulty/Change to")] },
+        Section { title: "Save", rows: &[("Place", "/Save/Place"), ("Date", "/Save/Date"), ("Time", "/Save/Time")] },
+    ],
+    lists: &[],
+    tables: &[],
+};
+
 // ------------------------------------------------------------------ Bravely Default II
 
 const BD2: Spec = Spec {
