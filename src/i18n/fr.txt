@@ -26194,4 +26194,272 @@ Puzzle letters
 
 Found
 = Trouvée
+# Banjo-Tooie screen
+
+Airborne Egg Aiming
+= Visée d'œufs en vol
+
+Amaze-O-Gaze Glasses
+= Lunettes Ébahiss'Optik
+
+An emulator's .eep or .srm save. Per slot: eggs, feathers, honeycombs, Cheato pages, Glowbos and other items, every move learned, the cheats spelled and turned on, the minigame high scores and the time spent in each world.
+= Une sauvegarde .eep ou .srm d'émulateur. Par emplacement : œufs, plumes, rayons de miel, pages de Cheato, Glowbos et autres objets, chaque mouvement appris, les codes épelés et activés, les records des mini-jeux et le temps passé dans chaque monde.
+
+Baby T-Rex Roar
+= Rugissement de bébé T-Rex
+
+Balloon Burst Challenge
+= Défi des ballons
+
+Beak Bayonet
+= Baïonnette-bec
+
+Bill Drill
+= Bec-perceuse
+
+Blue Eggs
+= Œufs bleus
+
+Breegul Blaster
+= Breegull Blaster
+
+Breegull Bash
+= Coup de Breegull
+
+Cauldron Keep
+= Donjon du Chaudron
+
+Cheato's Pages
+= Pages de Cheato
+
+Chompa's Belly
+= Ventre de Chompa
+
+Claw Clamber Boots
+= Bottes d'escalade
+
+Clockwork Kazooie Eggs
+= Œufs Kazooie mécaniques
+
+Close the emulator first. Times are in seconds. The jiggies, notes and other world flags are left out: the American release keeps them in other places than the European, Australian and Japanese ones, and the save does not say which one wrote it. Each edited slot's Rare sum is made again.
+= Fermez d'abord l'émulateur. Les temps sont en secondes. Les jiggies, les notes et les autres indicateurs des mondes sont omis : la version américaine les range ailleurs que les versions européenne, australienne et japonaise, et la sauvegarde n'indique pas laquelle l'a écrite. La somme Rare de chaque emplacement modifié est recalculée.
+
+Cloud Cuckooland
+= Coucouland
+
+Dodgems Challenge: 1-on-1
+= Défi des autos tamponneuses : 1 contre 1
+
+Dodgems Challenge: 2-on-1
+= Défi des autos tamponneuses : 2 contre 1
+
+Dodgems Challenge: 3-on-1
+= Défi des autos tamponneuses : 3 contre 1
+
+Doubloons
+= Doublons
+
+Egg Aim
+= Visée d'œufs
+
+Extra Honeycombs
+= Rayons de miel bonus
+
+Featherly Flap
+= Battement de plumes
+
+Fire Eggs
+= Œufs de feu
+
+Glitter Gulch Mine
+= Mine de la Ravine Scintillante
+
+Glowbos
+= Glowbos
+
+Grenade Eggs
+= Œufs grenades
+
+Grip Grab
+= Prise ferme
+
+Grunty Industries
+= Industries Grunty
+
+Hailfire Peaks
+= Pics Grêle-de-Feu
+
+Hatch
+= Couver
+
+Hoop Hurry Challenge
+= Défi des cerceaux
+
+Ice Eggs
+= Œufs de glace
+
+Ice Key
+= Clé de glace
+
+Isle O' Hags
+= Île des Sorcières
+
+Jolly Roger's Lagoon
+= Lagon de Jolly Roger
+
+Leg Spring
+= Ressort de pattes
+
+Mayahem Temple
+= Temple Mayahem
+
+Mayan Kickball: Final
+= Kickball maya : finale
+
+Mayan Kickball: Quarterfinal
+= Kickball maya : quart de finale
+
+Mayan Kickball: Semifinal
+= Kickball maya : demi-finale
+
+Mega Glowbos
+= Méga Glowbos
+
+Mini-sub Challenge
+= Défi du mini-sous-marin
+
+Open Up All World Doors
+= Ouvrir toutes les portes des mondes
+
+Pack Whack
+= Coup de sac
+
+Peck
+= Coup de bec
+
+Pot O' Gold: Best Score
+= Pot d'or : meilleur score
+
+Pot O' Gold: Best Time
+= Pot d'or : meilleur temps
+
+Sack Pack
+= Sac sauteur
+
+Saucer of Peril Ride
+= Manège de la Soucoupe du Péril
+
+Shack Pack
+= Sac cabane
+
+Slot 1: high scores
+= Emplacement 1 : records
+
+Slot 1: playtime (seconds)
+= Emplacement 1 : temps de jeu (secondes)
+
+Slot 2: high scores
+= Emplacement 2 : records
+
+Slot 2: playtime (seconds)
+= Emplacement 2 : temps de jeu (secondes)
+
+Slot 3: high scores
+= Emplacement 3 : records
+
+Slot 3: playtime (seconds)
+= Emplacement 3 : temps de jeu (secondes)
+
+Snooze Pack
+= Sac roupillon
+
+Spelled: EGGS
+= Épelé : EGGS
+
+Spelled: FALLPROOF
+= Épelé : FALLPROOF
+
+Spelled: FEATHERS
+= Épelé : FEATHERS
+
+Spelled: GETJIGGY
+= Épelé : GETJIGGY
+
+Spelled: HONEYBACK
+= Épelé : HONEYBACK
+
+Spelled: HONEYKING
+= Épelé : HONEYKING
+
+Spelled: JIGGYWIGGYSPECIAL
+= Épelé : JIGGYWIGGYSPECIAL
+
+Spelled: JUKEBOX
+= Épelé : JUKEBOX
+
+Spelled: NESTKING
+= Épelé : NESTKING
+
+Spelled: SUPERBADDY
+= Épelé : SUPERBADDY
+
+Spelled: SUPERBANJO
+= Épelé : SUPERBANJO
+
+Spiral Mountain
+= Mont Spirale
+
+Split-up
+= Séparation
+
+Springy Step Shoes
+= Chaussures à ressort
+
+Strange-looking Seed
+= Graine étrange
+
+Sub-aqua Egg Aiming
+= Visée d'œufs sous l'eau
+
+Swim Faster
+= Nager plus vite
+
+Talon Torpedo
+= Torpille à serres
+
+Taxi Pack
+= Sac taxi
+
+Terrydactyland
+= Terrydactyland
+
+Trash can Germs
+= Microbes de la poubelle
+
+Twinklies Packing
+= Emballage des Twinklies
+
+Unlocked: EGGS
+= Débloqué : EGGS
+
+Unlocked: FALLPROOF
+= Débloqué : FALLPROOF
+
+Unlocked: FEATHERS
+= Débloqué : FEATHERS
+
+Unlocked: HONEYBACK
+= Débloqué : HONEYBACK
+
+Unlocked: JUKEBOX
+= Débloqué : JUKEBOX
+
+Wing Whack
+= Coup d'ailes
+
+Witchyworld
+= Sorcièreland
+
+Zubbas' Hive
+= Ruche des Zubbas
 

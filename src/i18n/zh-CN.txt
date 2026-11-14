@@ -26242,4 +26242,272 @@ Puzzle letters
 
 Found
 = 已找到
+# Banjo-Tooie screen
+
+Airborne Egg Aiming
+= 空中瞄准射蛋
+
+Amaze-O-Gaze Glasses
+= 惊奇眼镜
+
+An emulator's .eep or .srm save. Per slot: eggs, feathers, honeycombs, Cheato pages, Glowbos and other items, every move learned, the cheats spelled and turned on, the minigame high scores and the time spent in each world.
+= 模拟器的 .eep 或 .srm 存档。每个存档位：蛋、羽毛、蜂巢、Cheato 书页、Glowbo 等物品、学会的每个招式、拼写并开启的作弊码、小游戏最高分以及在每个世界中度过的时间。
+
+Baby T-Rex Roar
+= 小霸王龙咆哮
+
+Balloon Burst Challenge
+= 气球爆破挑战
+
+Beak Bayonet
+= 鸟喙刺刀
+
+Bill Drill
+= 鸟喙钻
+
+Blue Eggs
+= 蓝蛋
+
+Breegul Blaster
+= Breegull 冲击枪
+
+Breegull Bash
+= Breegull 猛击
+
+Cauldron Keep
+= 大锅堡
+
+Cheato's Pages
+= Cheato 的书页
+
+Chompa's Belly
+= Chompa 的肚子
+
+Claw Clamber Boots
+= 攀爬靴
+
+Clockwork Kazooie Eggs
+= 发条卡佐伊蛋
+
+Close the emulator first. Times are in seconds. The jiggies, notes and other world flags are left out: the American release keeps them in other places than the European, Australian and Japanese ones, and the save does not say which one wrote it. Each edited slot's Rare sum is made again.
+= 请先关闭模拟器。时间以秒为单位。拼图、音符和其他世界标记不包括在内：美版把它们存放在与欧版、澳版和日版不同的位置，而存档没有说明是哪个版本写入的。每个已编辑存档位的 Rare 校验和会重新计算。
+
+Cloud Cuckooland
+= 云中布谷乐园
+
+Dodgems Challenge: 1-on-1
+= 碰碰车挑战：1 对 1
+
+Dodgems Challenge: 2-on-1
+= 碰碰车挑战：2 对 1
+
+Dodgems Challenge: 3-on-1
+= 碰碰车挑战：3 对 1
+
+Doubloons
+= 达布隆金币
+
+Egg Aim
+= 瞄准射蛋
+
+Extra Honeycombs
+= 额外蜂巢
+
+Featherly Flap
+= 羽翼扑腾
+
+Fire Eggs
+= 火焰蛋
+
+Glitter Gulch Mine
+= 闪光峡谷矿场
+
+Glowbos
+= Glowbo
+
+Grenade Eggs
+= 手雷蛋
+
+Grip Grab
+= 攀边抓握
+
+Grunty Industries
+= 格兰蒂工业
+
+Hailfire Peaks
+= 冰火山峰
+
+Hatch
+= 孵化
+
+Hoop Hurry Challenge
+= 圆环冲刺挑战
+
+Ice Eggs
+= 冰蛋
+
+Ice Key
+= 冰钥匙
+
+Isle O' Hags
+= 巫婆岛
+
+Jolly Roger's Lagoon
+= 快乐罗杰泻湖
+
+Leg Spring
+= 弹簧腿
+
+Mayahem Temple
+= 玛雅混乱神殿
+
+Mayan Kickball: Final
+= 玛雅踢球：决赛
+
+Mayan Kickball: Quarterfinal
+= 玛雅踢球：四分之一决赛
+
+Mayan Kickball: Semifinal
+= 玛雅踢球：半决赛
+
+Mega Glowbos
+= 超级 Glowbo
+
+Mini-sub Challenge
+= 迷你潜艇挑战
+
+Open Up All World Doors
+= 打开所有世界之门
+
+Pack Whack
+= 背包猛击
+
+Peck
+= 啄击
+
+Pot O' Gold: Best Score
+= 金罐：最高分
+
+Pot O' Gold: Best Time
+= 金罐：最佳时间
+
+Sack Pack
+= 麻袋跳
+
+Saucer of Peril Ride
+= 危险飞碟之旅
+
+Shack Pack
+= 小屋背包
+
+Slot 1: high scores
+= 存档位 1：最高分
+
+Slot 1: playtime (seconds)
+= 存档位 1：游戏时间（秒）
+
+Slot 2: high scores
+= 存档位 2：最高分
+
+Slot 2: playtime (seconds)
+= 存档位 2：游戏时间（秒）
+
+Slot 3: high scores
+= 存档位 3：最高分
+
+Slot 3: playtime (seconds)
+= 存档位 3：游戏时间（秒）
+
+Snooze Pack
+= 睡眠背包
+
+Spelled: EGGS
+= 已拼写：EGGS
+
+Spelled: FALLPROOF
+= 已拼写：FALLPROOF
+
+Spelled: FEATHERS
+= 已拼写：FEATHERS
+
+Spelled: GETJIGGY
+= 已拼写：GETJIGGY
+
+Spelled: HONEYBACK
+= 已拼写：HONEYBACK
+
+Spelled: HONEYKING
+= 已拼写：HONEYKING
+
+Spelled: JIGGYWIGGYSPECIAL
+= 已拼写：JIGGYWIGGYSPECIAL
+
+Spelled: JUKEBOX
+= 已拼写：JUKEBOX
+
+Spelled: NESTKING
+= 已拼写：NESTKING
+
+Spelled: SUPERBADDY
+= 已拼写：SUPERBADDY
+
+Spelled: SUPERBANJO
+= 已拼写：SUPERBANJO
+
+Spiral Mountain
+= 螺旋山
+
+Split-up
+= 分开行动
+
+Springy Step Shoes
+= 弹簧鞋
+
+Strange-looking Seed
+= 奇怪的种子
+
+Sub-aqua Egg Aiming
+= 水下瞄准射蛋
+
+Swim Faster
+= 快速游泳
+
+Talon Torpedo
+= 利爪鱼雷
+
+Taxi Pack
+= 出租背包
+
+Terrydactyland
+= 翼龙乐园
+
+Trash can Germs
+= 垃圾桶细菌
+
+Twinklies Packing
+= 包装 Twinklies
+
+Unlocked: EGGS
+= 已解锁：EGGS
+
+Unlocked: FALLPROOF
+= 已解锁：FALLPROOF
+
+Unlocked: FEATHERS
+= 已解锁：FEATHERS
+
+Unlocked: HONEYBACK
+= 已解锁：HONEYBACK
+
+Unlocked: JUKEBOX
+= 已解锁：JUKEBOX
+
+Wing Whack
+= 翅膀猛击
+
+Witchyworld
+= 女巫乐园
+
+Zubbas' Hive
+= Zubba 蜂巢
 

@@ -26269,4 +26269,272 @@ Puzzle letters
 
 Found
 = 発見済み
+# Banjo-Tooie screen
+
+Airborne Egg Aiming
+= 空中タマゴ照準
+
+Amaze-O-Gaze Glasses
+= ビックリメガネ
+
+An emulator's .eep or .srm save. Per slot: eggs, feathers, honeycombs, Cheato pages, Glowbos and other items, every move learned, the cheats spelled and turned on, the minigame high scores and the time spent in each world.
+= エミュレーターの .eep または .srm セーブ。スロットごとに、タマゴ、羽根、ハチの巣、チートーのページ、グロウボなどのアイテム、覚えたすべての技、つづったチートと有効なチート、ミニゲームのハイスコア、各ワールドで過ごした時間。
+
+Baby T-Rex Roar
+= ちびティラノのほえ声
+
+Balloon Burst Challenge
+= ふうせんわりチャレンジ
+
+Beak Bayonet
+= クチバシバヨネット
+
+Bill Drill
+= クチバシドリル
+
+Blue Eggs
+= 青タマゴ
+
+Breegul Blaster
+= ブレーガル・ブラスター
+
+Breegull Bash
+= ブレーガル・バッシュ
+
+Cauldron Keep
+= コールドロン・キープ
+
+Cheato's Pages
+= チートーのページ
+
+Chompa's Belly
+= チョンパのおなか
+
+Claw Clamber Boots
+= クライミングブーツ
+
+Clockwork Kazooie Eggs
+= ゼンマイカズーイタマゴ
+
+Close the emulator first. Times are in seconds. The jiggies, notes and other world flags are left out: the American release keeps them in other places than the European, Australian and Japanese ones, and the save does not say which one wrote it. Each edited slot's Rare sum is made again.
+= 先にエミュレーターを閉じてください。時間は秒単位です。ジグソー、音符などのワールドのフラグは含まれていません。北米版はヨーロッパ版、オーストラリア版、日本版とは別の場所に保存しており、どの版で書かれたかはセーブからはわかりません。編集した各スロットの Rare チェックサムは作り直されます。
+
+Cloud Cuckooland
+= クラウドクークーランド
+
+Dodgems Challenge: 1-on-1
+= バンパーカーチャレンジ：1対1
+
+Dodgems Challenge: 2-on-1
+= バンパーカーチャレンジ：2対1
+
+Dodgems Challenge: 3-on-1
+= バンパーカーチャレンジ：3対1
+
+Doubloons
+= ダブロン金貨
+
+Egg Aim
+= タマゴ照準
+
+Extra Honeycombs
+= エキストラハチの巣
+
+Featherly Flap
+= はばたき
+
+Fire Eggs
+= 炎タマゴ
+
+Glitter Gulch Mine
+= グリッターガルチ鉱山
+
+Glowbos
+= グロウボ
+
+Grenade Eggs
+= グレネードタマゴ
+
+Grip Grab
+= ぶらさがり
+
+Grunty Industries
+= グランティ工業
+
+Hailfire Peaks
+= ヘイルファイアピークス
+
+Hatch
+= ふ化
+
+Hoop Hurry Challenge
+= フープいそげチャレンジ
+
+Ice Eggs
+= 氷タマゴ
+
+Ice Key
+= 氷のカギ
+
+Isle O' Hags
+= アイルオーハグス
+
+Jolly Roger's Lagoon
+= ジョリーロジャーのラグーン
+
+Leg Spring
+= レッグスプリング
+
+Mayahem Temple
+= マヤヘム寺院
+
+Mayan Kickball: Final
+= マヤンキックボール：決勝
+
+Mayan Kickball: Quarterfinal
+= マヤンキックボール：準々決勝
+
+Mayan Kickball: Semifinal
+= マヤンキックボール：準決勝
+
+Mega Glowbos
+= メガグロウボ
+
+Mini-sub Challenge
+= ミニ潜水艦チャレンジ
+
+Open Up All World Doors
+= すべてのワールドの扉を開く
+
+Pack Whack
+= リュックアタック
+
+Peck
+= つつく
+
+Pot O' Gold: Best Score
+= ポットオブゴールド：ベストスコア
+
+Pot O' Gold: Best Time
+= ポットオブゴールド：ベストタイム
+
+Sack Pack
+= ふくろジャンプ
+
+Saucer of Peril Ride
+= デンジャーソーサー
+
+Shack Pack
+= 小屋リュック
+
+Slot 1: high scores
+= スロット1：ハイスコア
+
+Slot 1: playtime (seconds)
+= スロット1：プレイ時間（秒）
+
+Slot 2: high scores
+= スロット2：ハイスコア
+
+Slot 2: playtime (seconds)
+= スロット2：プレイ時間（秒）
+
+Slot 3: high scores
+= スロット3：ハイスコア
+
+Slot 3: playtime (seconds)
+= スロット3：プレイ時間（秒）
+
+Snooze Pack
+= おやすみリュック
+
+Spelled: EGGS
+= つづった：EGGS
+
+Spelled: FALLPROOF
+= つづった：FALLPROOF
+
+Spelled: FEATHERS
+= つづった：FEATHERS
+
+Spelled: GETJIGGY
+= つづった：GETJIGGY
+
+Spelled: HONEYBACK
+= つづった：HONEYBACK
+
+Spelled: HONEYKING
+= つづった：HONEYKING
+
+Spelled: JIGGYWIGGYSPECIAL
+= つづった：JIGGYWIGGYSPECIAL
+
+Spelled: JUKEBOX
+= つづった：JUKEBOX
+
+Spelled: NESTKING
+= つづった：NESTKING
+
+Spelled: SUPERBADDY
+= つづった：SUPERBADDY
+
+Spelled: SUPERBANJO
+= つづった：SUPERBANJO
+
+Spiral Mountain
+= スパイラルマウンテン
+
+Split-up
+= わかれる
+
+Springy Step Shoes
+= スプリングシューズ
+
+Strange-looking Seed
+= ふしぎなタネ
+
+Sub-aqua Egg Aiming
+= 水中タマゴ照準
+
+Swim Faster
+= 速く泳ぐ
+
+Talon Torpedo
+= タロントルピード
+
+Taxi Pack
+= タクシーリュック
+
+Terrydactyland
+= テリダクティランド
+
+Trash can Germs
+= ゴミ箱のバイキン
+
+Twinklies Packing
+= トゥインクリーズのこん包
+
+Unlocked: EGGS
+= 解放済み：EGGS
+
+Unlocked: FALLPROOF
+= 解放済み：FALLPROOF
+
+Unlocked: FEATHERS
+= 解放済み：FEATHERS
+
+Unlocked: HONEYBACK
+= 解放済み：HONEYBACK
+
+Unlocked: JUKEBOX
+= 解放済み：JUKEBOX
+
+Wing Whack
+= ウイングアタック
+
+Witchyworld
+= ウィッチーワールド
+
+Zubbas' Hive
+= ズバのハチの巣
 

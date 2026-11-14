@@ -255,6 +255,7 @@ pub mod luigi;
 pub mod windwaker;
 pub mod goldeneye;
 pub mod banjokazooie;
+pub mod banjotooie;
 pub mod majora;
 pub mod papermario;
 pub mod zelda64;
@@ -847,6 +848,11 @@ pub fn parse_binary(d: &[u8]) -> Option<TreeDoc> {
     }
     if banjokazooie::looks(d) {
         if let Ok(t) = banjokazooie::parse(d) {
+            return Some(t);
+        }
+    }
+    if banjotooie::looks(d) {
+        if let Ok(t) = banjotooie::parse(d) {
             return Some(t);
         }
     }
