@@ -189,6 +189,23 @@ fn ds1_class(d: &[u8]) -> Option<usize> {
     .then_some(class)
 }
 
+/// Dark Souls: Prepare to Die Edition keeps the same character layout as the Remastered one,
+/// 8 bytes earlier and 12 bytes shorter in all: the slot is shown padded to the Remastered size.
+pub fn ptde_pad(d: &[u8]) -> Option<Vec<u8>> {
+    if d.len() != DS1_SLOT - 12 {
+        return None;
+    }
+    // The first 8 bytes are not in the file; they mark the slot so no item list is read from it.
+    let mut p = b"PTDE\0\0\0\0".to_vec();
+    p.extend_from_slice(d);
+    p.extend_from_slice(&[0; 4]);
+    ds1_class(&p).map(|_| p)
+}
+
+pub fn ptde_unpad(d: &[u8]) -> Result<Vec<u8>, String> {
+    d.get(8..d.len().checked_sub(4).ok_or("slot too short")?).map(<[u8]>::to_vec).ok_or_else(|| "slot too short".into())
+}
+
 /// Sekiro: offset of current HP (HP, max HP and base max HP, then posture the same way).
 fn find_sekiro(d: &[u8]) -> Option<usize> {
     if d.len() != SEKIRO_SLOT {
@@ -466,15 +483,23 @@ fn parse_ds1(d: &[u8]) -> Result<TreeDoc, String> {
     b.num("Character", "Humanity", &[0xD4], 1, (0, 99), "Humanity");
     let attrs: Vec<usize> = DS1_ATTRS.iter().map(|(a, o)| b.num("Attributes", a, &[*o], 1, ATTR, "Attributes")).collect();
     pools(&mut b, &[("HP", 0x64), ("Stamina", 0x80)]);
-    b.inv = ds1_inv::build(d, b.fields.len(), &mut b.root, &mut b.editable).map(Inventory::DarkSouls1);
+    let ptde = d.starts_with(b"PTDE");
+    if !ptde {
+        b.inv = ds1_inv::build(d, b.fields.len(), &mut b.root, &mut b.editable).map(Inventory::DarkSouls1);
+    }
     Ok(b.finish(
         Game::DarkSouls1,
         Some(("Character", "Soul level", DS1_LEVEL_MINUS[class] as u64)),
         attrs,
-        "Items, Key items, Weapons, Armor and Rings list what you have: change an item or its quantity (up to 99), \
-         a weapon's level (up to +5, or more if it's there already), or pick something for one of the empty slots at the end to add it. \
-         Soul level is worked out from your attributes, and HP and Stamina from those when the game loads. \
-         Close the game before saving. Use Tools \u{203A} Open another file in this archive to pick another character slot.",
+        if ptde {
+            "Prepare to Die Edition: the name, soul level, souls, humanity and attributes are edited (soul level is worked out from your attributes, and HP and Stamina from those when the game loads); the item list of this edition is not read yet. \
+             Close the game before saving. Use Tools \u{203A} Open another file in this archive to pick another character slot."
+        } else {
+            "Items, Key items, Weapons, Armor and Rings list what you have: change an item or its quantity (up to 99), \
+             a weapon's level (up to +5, or more if it's there already), or pick something for one of the empty slots at the end to add it. \
+             Soul level is worked out from your attributes, and HP and Stamina from those when the game loads. \
+             Close the game before saving. Use Tools \u{203A} Open another file in this archive to pick another character slot."
+        },
     ))
 }
 
