@@ -22426,6 +22426,25 @@ events
 
 shine sprites
 = 闪耀星星
+# src/game_ui/simple/specs_more.rs
+
+A .sav from Documents\\NeocoreGames\\KA_KT\\Users\\<Steam id>\\Save (the container is opened and packed again). Gold, relic dust, soul, spire shards and every hero's level, experience and skill points. Close the game before editing.
+= Documents\NeocoreGames\KA_KT\Users\<Steam ID>\Save 中的 .sav(会打开容器并重新打包)。金币、遗物尘、灵魂、尖塔碎片以及每位英雄的等级、经验和技能点。编辑前请先关闭游戏。
+
+Camelot
+= 卡美洛
+
+Relic dust
+= 遗物尘
+
+Spire shards
+= 尖塔碎片
+
+Resurrection tokens
+= 复活代币
+
+Turn
+= 回合
 
 A PlayStation 2 save: one SaveData-NN file of the save folder is one slot (open the folder's other files from Tools › Open another file in this archive). Clear and save counts, character, difficulty, mission, maximum health, red, yellow and blue orbs, the Alastor and Ifrit skills, every mission rank, the secret missions, statistics and combo rankings. The slot's checksum is written again.
 = PlayStation 2存档:存档文件夹中的每个SaveData-NN文件是一个存档位(文件夹中的其他文件可通过 工具 › 打开此压缩包中的其他文件 打开)。通关和存档次数、角色、难度、任务、最大生命值、红色、黄色和蓝色宝珠、阿拉斯托和伊芙利特的技能、每个任务的评级、隐藏任务、统计和连击排行。存档位的校验和会重新写入。

@@ -89,7 +89,7 @@ pub struct SatInfo {
 
 pub fn sat_open(d: &[u8]) -> Option<(SatInfo, Vec<u8>)> {
     let first = d.windows(4).position(|w| w == SAT_TAG)?;
-    if first < 12 || first > 4096 {
+    if first > 4096 {
         return None;
     }
     let version = u32le(d, first + 4)?;

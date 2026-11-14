@@ -4,7 +4,7 @@
 use super::{List, Max, Section, Shape, Spec, Table};
 use crate::i18n::tx;
 
-pub static MORE: &[Spec] = &[STRANDED_DEEP, LOKR, BANNER_SAGA3, PROJECT_WARLOCK, HORIZON_CHASE, DOORKICKERS, DOORKICKERS_DOCTRINE, DOORKICKERS_UNLOCKED, SATELLITE_REIGN, TOOTH_AND_TAIL, CHEF, XREBIRTH, ETHERLORDS, NECROMUNDA, FOOD_TRUCK, WORKSHOP_SIM, PATHWAY, GLADIATOR_GUILD, CAT_GOES_FISHING, THYMESIA];
+pub static MORE: &[Spec] = &[STRANDED_DEEP, LOKR, BANNER_SAGA3, PROJECT_WARLOCK, HORIZON_CHASE, DOORKICKERS, DOORKICKERS_DOCTRINE, DOORKICKERS_UNLOCKED, SATELLITE_REIGN, TOOTH_AND_TAIL, CHEF, XREBIRTH, ETHERLORDS, NECROMUNDA, FOOD_TRUCK, WORKSHOP_SIM, PATHWAY, GLADIATOR_GUILD, CAT_GOES_FISHING, THYMESIA, KING_ARTHUR];
 
 // ------------------------------------------------------------------ House Flipper
 
@@ -454,6 +454,34 @@ const THYMESIA: Spec = Spec {
         name: &["/ItemClass_5_E011FB07474AE88DE12C199DE8B52EAE"],
         only: &[],
         cols: &[(tx("Quantity"), "/Quantity_2_E0AE79EF4A4E386C95FE7C9479CAD4DC")],
+        names: &[],
+    }],
+};
+
+// ------------------------------------------------------------------ King Arthur: Knight's Tale
+
+const KING_ARTHUR: Spec = Spec {
+    name: "King Arthur: Knight's Tale",
+    tab: "Camelot",
+    accent: (190, 150, 60),
+    kind: Some("King Arthur save (C2AR)"),
+    markers: &["/Adventure.cfg/Gold", "/Adventure.cfg/Heroes"],
+    subtitle: tx("A .sav from Documents\\NeocoreGames\\KA_KT\\Users\\<Steam id>\\Save (the container is opened and packed again). Gold, relic dust, soul, spire shards and every hero's level, experience and skill points. Close the game before editing."),
+    tiles: &[(tx("Gold"), "/Adventure.cfg/Gold")],
+    sections: &[Section {
+        title: tx("Camelot"),
+        rows: &[
+            (tx("Gold"), "/Adventure.cfg/Gold"), (tx("Relic dust"), "/Adventure.cfg/RelicDust"), (tx("Soul"), "/Adventure.cfg/Soul"),
+            (tx("Spire shards"), "/Adventure.cfg/SpireShard"), (tx("Resurrection tokens"), "/Adventure.cfg/ResurrectionTokens"), (tx("Turn"), "/Adventure.cfg/Turn"),
+        ],
+    }],
+    lists: &[],
+    tables: &[Table {
+        title: tx("Heroes"),
+        path: "/Adventure.cfg/Heroes",
+        name: &["/HeroType"],
+        only: &[],
+        cols: &[(tx("Level"), "/Level"), (tx("Experience"), "/xp"), (tx("Skill points"), "/extraskillpoints"), (tx("Enemies killed"), "/EnemiesKilled")],
         names: &[],
     }],
 };

@@ -250,6 +250,8 @@ pub enum Layer {
     Civ7 { info: fmt::civ7::Info },
     /// Astroneer container: zlib streams of a GVAS file.
     Astroneer,
+    /// A 4-byte length in front of a GVAS save (King's Bounty II inside its zlib chunks).
+    SizePrefixedGvas,
     /// Satisfactory: a header, then zlib chunks.
     Satisfactory { info: fmt::uepack::SatInfo },
     /// Stoneshard `data.sav`: zlib, JSON, then an MD5 with a salt made from the folder names.
@@ -452,6 +454,7 @@ impl Layer {
             Layer::Mcd => "Minecraft Dungeons save encryption (AES)".into(),
             Layer::Stoneshard { .. } => "Stoneshard save (zlib and MD5)".into(),
             Layer::Astroneer => "Astroneer save (zlib)".into(),
+            Layer::SizePrefixedGvas => "Length-prefixed Unreal save".into(),
             Layer::Satisfactory { info } => if info.r2 { "Remnant 2 save (zlib chunks)".into() } else { "Satisfactory save (zlib chunks)".into() },
             Layer::Civ7 { .. } => "Civilization VII save (zlib chunks)".into(),
             Layer::Tld { .. } => "The Long Dark save (nested LZF)".into(),
@@ -1102,6 +1105,11 @@ fn wrap(layer: &Layer, data: Vec<u8>) -> Result<Vec<u8>, String> {
         Layer::Mcd => fmt::mcd::pack(&data),
         Layer::Stoneshard { salt } => fmt::stoneshard::pack(salt, &data)?,
         Layer::Astroneer => fmt::uepack::astro_pack(&data),
+        Layer::SizePrefixedGvas => {
+            let mut v = (data.len() as u32).to_le_bytes().to_vec();
+            v.extend_from_slice(&data);
+            v
+        }
         Layer::Satisfactory { info } => fmt::uepack::sat_pack(info, &data)?,
         Layer::Civ7 { info } => fmt::civ7::pack(info, &data)?,
         Layer::Tld { wrapped } => fmt::tld::pack(wrapped, &data)?,
@@ -1388,11 +1396,15 @@ fn peel(data: &[u8], ctx: &mut Ctx) -> Option<(Layer, Vec<u8>)> {
             return Some((Layer::Civ7 { info }, un));
         }
     }
+    if data.len() > 12 && &data[4..8] == b"GVAS" && u32::from_le_bytes([data[0], data[1], data[2], data[3]]) as usize == data.len() - 4 {
+        ctx.hint = Some("Unreal save with a length in front: unpacked for you and packed again on save.".into());
+        return Some((Layer::SizePrefixedGvas, data[4..].to_vec()));
+    }
     if let Some(body) = fmt::uepack::astro_open(data) {
         ctx.hint = Some("Astroneer save: unpacked for you and packed again on save. Use Value search to find a number you know (for example your Bytes), then change it.".into());
         return Some((Layer::Astroneer, body));
     }
-    if data.len() > 400 && ctx.opts.ext.eq_ignore_ascii_case("sav") {
+    if data.len() > 400 && (ctx.opts.ext.eq_ignore_ascii_case("sav") || ctx.opts.ext.eq_ignore_ascii_case("save")) {
         if let Some((info, body)) = fmt::uepack::sat_open(data) {
             ctx.hint = Some(if info.r2 {
                 "Remnant 2 save: unpacked for you; its CRC-32 is worked out again and it is packed again on save. Use Value search to find a number you know (for example your Scrap), then change it.".into()

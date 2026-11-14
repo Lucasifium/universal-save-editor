@@ -22341,6 +22341,25 @@ events
 
 shine sprites
 = Shine Sprites
+# src/game_ui/simple/specs_more.rs
+
+A .sav from Documents\\NeocoreGames\\KA_KT\\Users\\<Steam id>\\Save (the container is opened and packed again). Gold, relic dust, soul, spire shards and every hero's level, experience and skill points. Close the game before editing.
+= Um .sav de Documents\NeocoreGames\KA_KT\Users\<Steam id>\Save (o contêiner é aberto e empacotado de novo). Ouro, pó de relíquia, alma, fragmentos da torre e o nível, a experiência e os pontos de habilidade de cada herói. Feche o jogo antes de editar.
+
+Camelot
+= Camelot
+
+Relic dust
+= Pó de relíquia
+
+Spire shards
+= Fragmentos da torre
+
+Resurrection tokens
+= Fichas de ressurreição
+
+Turn
+= Turno
 
 A PlayStation 2 save: one SaveData-NN file of the save folder is one slot (open the folder's other files from Tools › Open another file in this archive). Clear and save counts, character, difficulty, mission, maximum health, red, yellow and blue orbs, the Alastor and Ifrit skills, every mission rank, the secret missions, statistics and combo rankings. The slot's checksum is written again.
 = Um save de PlayStation 2: cada arquivo SaveData-NN da pasta de save é um slot (os outros arquivos da pasta abrem-se em Ferramentas › Abrir outro arquivo neste arquivo compactado). Contadores de jogos concluídos e saves, personagem, dificuldade, missão, saúde máxima, orbes vermelhos, amarelos e azuis, as habilidades de Alastor e Ifrit, cada rank de missão, as missões secretas, estatísticas e recordes de combos. A soma de verificação do slot é gravada de novo.

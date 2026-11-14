@@ -139,6 +139,7 @@ pub mod half_life;
 pub mod octopath;
 pub mod godot;
 pub mod goldensun;
+pub mod c2ar;
 pub mod ini;
 pub mod antimatter;
 pub mod nested;
@@ -623,6 +624,11 @@ pub fn parse_binary(d: &[u8]) -> Option<TreeDoc> {
     }
     if nintendo::smash_looks(d) {
         if let Ok(t) = nintendo::parse_smash(d) {
+            return Some(t);
+        }
+    }
+    if c2ar::looks(d) {
+        if let Ok(t) = c2ar::parse(d) {
             return Some(t);
         }
     }
