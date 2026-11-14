@@ -22,6 +22,10 @@ pub mod forest_items;
 pub mod mechanicus;
 pub mod planet_crafter;
 pub mod prison;
+pub mod dq11;
+pub mod koei;
+pub mod torchlight;
+pub mod ys8;
 pub mod tld;
 pub mod nfsmw;
 pub mod es2;
@@ -630,6 +634,21 @@ pub fn parse_binary(d: &[u8]) -> Option<TreeDoc> {
     }
     if dmc1::looks(d) {
         if let Ok(t) = dmc1::parse(d) {
+            return Some(t);
+        }
+    }
+    if ys8::looks(d) {
+        if let Ok(t) = ys8::parse(d) {
+            return Some(t);
+        }
+    }
+    if dq11::looks(d) {
+        if let Ok(t) = dq11::parse(d) {
+            return Some(t);
+        }
+    }
+    if koei::looks(d) {
+        if let Ok(t) = koei::parse(d) {
             return Some(t);
         }
     }

@@ -6,7 +6,7 @@ use super::{List, Max, Section, Shape, Spec, Table};
 
 pub static SPECS: &[Spec] = &[OPENXCOM, XCOM_DOS, RCT2, COTL, FALLOUT_SHELTER, DRG, S1_MONEY, S1_RANK, S1_TIME, S1_GAME, SOTF_STATE, SOTF_GAME, SOTF_WEATHER, SOTF_ITEMS, DMD, CUPHEAD, ANTIMATTER, PVZ, CELESTE, DRGS, KH3, RF4S, SKY1ST, KSP, FFPR, MCD, STONESHARD, ROGUE_TRADER, BIOSHOCK_INFINITE, SPACE_HAVEN, SNOWRUNNER, GRAVEYARD_KEEPER, NFSMW, TOS, GTA3, GTAVC, BITBURNER, TERRA_INVICTA, PRISON, FF13, SONIC_MANIA, CAVE_STORY_PLUS, CAVE_STORY, LIES_OF_P, TXR, DAVE, MSC, ULTRAKILL, RPGXP, RE5, ANNO1800, FTK, LEGO_TSS, LEGO_CLASSIC, MYZ, CMS21, MEDIEVAL_DYNASTY, MECHANICUS, ORI, OMORI, ENDER_LILIES, SW2, ES2, MOONLIGHTER, WASTELAND2, ATOM, MORTAL_SHELL, MORTAL_SHELL_2, COTW, BEAMNG, FOREST, YAKUZA3, YAKUZA4, YAKUZA5, ISHIN, SALT, DRAKENSANG, ALPHA, TYRANNY, JEDI_FO, SR3, SR4, WD2, FABLE, WANDERING_SWORD, STELLAR_BLADE, PRAGMATA, SLIME_RANCHER, SUBNAUTICA2, HZD, SLEEPING_DOGS, DXMD, ATOMIC_HEART, DISHONORED2, DEATHLOOP, AC_BROTHERHOOD, AC_REVELATIONS, AC3R, AC_LIBERATION, AC_BLACK_FLAG, AC_ROGUE, AC_UNITY, AC_SYNDICATE, AC_ORIGINS, AC_ODYSSEY, DISHONORED1, RDR1, RDR2, SM64, SUPER_METROID, LTTP, WORLDBOX, COREKEEPER, HOLOCURE, POTION_CRAFT, WWZ, ROBOQUEST, CMS18, LONGDRIVE, LONGDRIVE_PROP, XC3, MLDT, SMASH, MK7, SKC, UTY, DAGGERFALL_UNITY, DMC1, MEWGENICS, MORROWIND, OBLIVION, WOL, SOD_PROFILE, SOD_STATS, TRAVELLERS_REST, YOUTUBERS_LIFE, LUCK_LANDLORD, LUNA_NIGHTS, EVERSPACE1, STREETS_OF_ROGUE, DELTATRAVELER, PIZZA_TOWER, TEARDOWN, WOLCEN, BLASPHEMOUS, NOITA, LAST_EPOCH, GUNGEON, DISCO, CLICKER_HEROES, ISAAC, ROR2, STS2, HEROES3, MOO2, YSF, BD2, SKY3, CS1, WO4, SW4II, NIER_REPLICANT, GENZERO,
     // PlayStation 1 and 2 (ps_specs.rs)
-    SOTN, FF8, FFT, RE1, KH2, MK64, GOLDENEYE, BANJO_KAZOOIE, OOT, SMASH64];
+    SOTN, FF8, FFT, RE1, KH2, MK64, GOLDENEYE, BANJO_KAZOOIE, OOT, SMASH64, TORCHLIGHT3];
 // ------------------------------------------------------------------ Cult of the Lamb
 
 const COTL_ITEMS: &[(&str, &str)] = &[
@@ -6870,3 +6870,51 @@ const SMASH64: Spec = Spec {
 };
 
 // end SMASH64
+
+// ------------------------------------------------------------------ Torchlight III
+
+const TORCHLIGHT3: Spec = Spec {
+    name: "Torchlight III",
+    tab: "Character",
+    accent: (214, 120, 40),
+    kind: None,
+    markers: &["/playerClassRowName", "/traits", "/itemInventory/entries"],
+    subtitle: "<id>-<n>-CharacterData.sav in %LOCALAPPDATA%\\Frontiers\\Saved\\SaveGames. The save is an Unreal file holding the whole character as JSON text; it is opened and written back as that string. Close the game first.",
+    tiles: &[],
+    sections: &[],
+    lists: &[],
+    tables: &[
+        Table {
+            title: "Character",
+            path: "/traits",
+            name: &["/traitName", "/param"],
+            cols: &[("Value", "/value")],
+            only: &["Level 0", "Hitpoints 0", "ExperiencePercent 0", "TotalLevelSkillPoints 0", "SkillRegretPoints 0", "Difficulty 0", "LowestDifficulty 0"],
+            names: &[],
+        },
+        Table {
+            title: "Equipped and carried gear",
+            path: "/itemInventory/entries",
+            name: &["/itemDataRow"],
+            cols: &[("Level", "/level"), ("Quantity", "/quantity")],
+            only: &[],
+            names: &[],
+        },
+        Table {
+            title: "Consumables",
+            path: "/consumableInventory/entries",
+            name: &["/itemDataRow"],
+            cols: &[("Level", "/level"), ("Quantity", "/quantity")],
+            only: &[],
+            names: &[],
+        },
+        Table {
+            title: "Pet gear",
+            path: "/petInventory/entries",
+            name: &["/itemDataRow"],
+            cols: &[("Level", "/level"), ("Quantity", "/quantity")],
+            only: &[],
+            names: &[],
+        },
+    ],
+};

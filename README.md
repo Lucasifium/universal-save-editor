@@ -3,7 +3,7 @@
 > **Free, and it always will be.** No price, no ads, no account, no paid version, no online service, no
 > rate limits. If anyone is charging you for this, it isn't from here.
 
-An offline save editor and save manager for 400+ (405) PC games (edit saves, and back up, name and restore them): Cairn, Terraria (characters and a world map editor),
+An offline save editor and save manager for 410+ (412) PC games (edit saves, and back up, name and restore them): Cairn, Terraria (characters and a world map editor),
 Oxygen Not Included, RimWorld, Stardew Valley, Onimusha: Way of the Sword, Elden Ring, Dark Souls,
 Cyberpunk 2077, the Persona, Yakuza and Final Fantasy games, Ren'Py visual novels, RPG Maker games
 and more (the full list is below). Written in Rust (egui). Nothing is uploaded anywhere, and there are
@@ -405,6 +405,13 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 | Touhou Luna Nights | *Sakuya*: gold, level, experience, HP, MP, knife and clock upgrades, the seven gems, the abilities and keys, and the shop counters from `gameN.sav` (the base64 lines are opened as one list of 1,000 values and written back the same way; checked on a public save, not yet tried in the game) |
 | EVERSPACE | *Pilot*: DNA fragments, flashback progression, the pilot's records and every perk with its level and lock from `CurrentPlayerSave.sav` (checked on a public save, not yet tried in the game) |
 | Streets of Rogue | *Unlocks*: nuggets, wins, deaths and games played, and every agent, item, trait and floor with whether it is unlocked and what it costs, from `GameUnlocks.dat` (checked on a public unlocks file, not yet tried in the game) |
+| Ys VIII: Lacrimosa of DANA | *Party*: play time, Adol's and Laxia's weapon, armour and accessories (by item id) and every item you hold with its count, up to 999. Both checksums are kept right (checked on public saves, not yet tried in the game) |
+| Dragon Quest XI S: Echoes of an Elusive Age | *Party*: each member's level, HP, MP, attack, defence, agility, deftness, charm, magical might and mending, max HP and MP and experience; *Item bags*: the count of every item in every bag, up to the item's own maximum. The AES-encrypted save is opened and its CRC is kept right (checked on a public save, not yet tried in the game) |
+| Dynasty Warriors 8: Xtreme Legends Complete Edition | *Resources*: gold, gems, facility and weapon materials; *Officers*: each of the 82 officers' attack, defence and health, and the four weapon-compatibility star ratings. The encrypted `save.dat` is opened and both checksums are kept right (checked on a public save, not yet tried in the game) |
+| One Piece: Pirate Warriors 3 | *Characters*: each of the 47 character slots' health, attack, defence, special bars and skill slots (a level-up may reset the stats); the Beli is shown but not editable. The encrypted save is opened and its checksum kept right (checked on a public save, not yet tried in the game) |
+| One Piece: Pirate Warriors 4 | *Resources*: Beli, and the quantity of every coin you own (by coin id). The encrypted slot is opened and its object checksums kept right (checked on a public save, not yet tried in the game) |
+| Persona 5 Strikers | *Save slots*: money, Persona points, unspent BOND points, and the stacks you hold of consumables, cooking ingredients, incenses, ailment remedies and skill cards. The encrypted `SAVEDATA.BIN` is opened and its checksum kept right (checked on a public save, not yet tried in the game) |
+| Torchlight III | *Character*: level, hit points, experience, skill points and difficulty; *Gear*: the level and quantity of every carried item, consumable and pet item. The Unreal save holds the character as JSON text, which is opened and written back as that string (checked on a public save, not yet tried in the game) |
 
 ## Credits for God of War
 

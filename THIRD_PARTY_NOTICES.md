@@ -10584,6 +10584,9 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 | [ds-ptde-pc-saveviewer (the layout of Dark Souls: Prepare to Die Edition character slots; a public save from savegame.pro used for checks only, not included)](https://github.com/orm-fux/ds-ptde-pc-saveviewer) | orm-fux | Unlicense (layout facts only, no code used) |
 | [Risk-of-Rain-2-Profile-Manager (Risk of Rain 2 UserProfile XML keys; a public sample profile from savegame.pro used for checks only, not included)](https://github.com/BidasFPM/Risk-of-Rain-2-Profile-Manager) | BidasFPM | MIT (key names only, no code used) |
 | [sts2-progress-rebuild (Slay the Spire 2 progress.save layout; a public fixture save used for checks only, not included)](https://github.com/shrederr/sts2-progress-rebuild) | shrederr | MIT (layout facts only, no code used) |
+| [YS8 (Ys VIII save layout, item counts and checksums)](https://github.com/turtle-insect/YS8) | turtle-insect | GPL-3.0 |
+| [DQ11_NS (Dragon Quest XI S save encryption, checksum and character and bag layout)](https://github.com/turtle-insect/DQ11_NS) | turtle-insect | GPL-3.0 |
+| [Universal Koei Tecmo Save Editor (Koei Tecmo PC save envelopes, checksums and field offsets for Dynasty Warriors 8 XL, Pirate Warriors 3 and 4 and Persona 5 Strikers)](https://github.com/Sanrenan/Universal-Koei-Tecmo-Save-Editor) | Sanrenan | MIT |
 
 ## Metal Gear Solid V save variable names
 

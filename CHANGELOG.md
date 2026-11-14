@@ -19,6 +19,10 @@
 - Touhou Luna Nights: game screen (gold, level, gems, upgrades); saves made of one base64 value per line open as a list
 - EVERSPACE: game screen (DNA fragments, records, perks)
 - Streets of Rogue: game screen (nuggets, unlocks)
+- Ys VIII: Lacrimosa of DANA: game screen (play time, equipment, item counts)
+- Dragon Quest XI S: game screen (party stats, item bags), with the save's encryption opened
+- Dynasty Warriors 8: Xtreme Legends, One Piece: Pirate Warriors 3 and 4, Persona 5 Strikers: game screens, with the Koei Tecmo save encryption opened
+- Torchlight III: game screen (character traits, gear), with the JSON text inside the Unreal save opened
 
 ## 0.6.1
 

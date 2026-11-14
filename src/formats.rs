@@ -161,6 +161,12 @@ pub enum Layer {
     Forspoken { foot: Arc<Vec<u8>> },
     /// Trails to Azure / Ao no Kiseki KAI: a zstd frame, or (KAI) AES over the converted payload.
     Ao { kai: Option<Arc<Vec<u8>>> },
+    /// Dragon Quest XI S: an 8-byte header kept as it is, AES-256-ECB data with a CRC-32.
+    Dq11 { header: Arc<Vec<u8>> },
+    /// Koei Tecmo PC saves (Dynasty Warriors 8 XL, Pirate Warriors 3 and 4, Persona 5 Strikers).
+    Koei(fmt::koei::Wrap),
+    /// Torchlight III: an Unreal save whose one `JsonString` property holds the whole save as JSON text.
+    Torchlight(Arc<fmt::torchlight::Wrap>),
     /// Death Stranding 2: XORed chunks, the game data in LZ4 pieces with an MD5.
     Ds2(Arc<fmt::ds2::Wrap>),
     /// Death Stranding: sizes header, XOR, Oodle Kraken image with an MD5.
@@ -389,6 +395,9 @@ impl Layer {
             Layer::Ffxv { .. } => "Final Fantasy XV save encryption".into(),
             Layer::Ao { kai } => if kai.is_some() { "Ao no Kiseki KAI save encryption (AES)".into() } else { "Trails to Azure save (zstd)".into() },
             Layer::Forspoken { .. } => "Forspoken save encryption (AES, MD5)".into(),
+            Layer::Torchlight(_) => "Torchlight III save (JSON in an Unreal string)".into(),
+            Layer::Koei(_) => "Koei Tecmo save encryption".into(),
+            Layer::Dq11 { .. } => "Dragon Quest XI S save encryption (AES-256, CRC-32)".into(),
             Layer::Ds2(_) => "Death Stranding 2 save (XOR, LZ4, MD5)".into(),
             Layer::Ds1(_) => "Death Stranding save (XOR, Oodle, MD5)".into(),
             Layer::Rgg(w) => format!("Yakuza save (Dragon Engine: {})", fmt::rgg::games(w)),
@@ -1003,6 +1012,9 @@ fn wrap(layer: &Layer, data: Vec<u8>) -> Result<Vec<u8>, String> {
             fmt::ao::cle_pack(&d, o)?
         }
         Layer::Forspoken { foot } => fmt::forspoken::encrypt(&data, foot)?,
+        Layer::Dq11 { header } => fmt::dq11::pack(&data, header)?,
+        Layer::Koei(w) => fmt::koei::pack(w, &data)?,
+        Layer::Torchlight(w) => fmt::torchlight::pack(w, &data)?,
         Layer::Ds2(w) => fmt::ds2::pack(w, &data)?,
         Layer::Ds1(w) => fmt::ds1::pack(w, &data)?,
         Layer::P5r { head } => fmt::p5r::pack(head, &data),
@@ -1752,6 +1764,15 @@ fn peel(data: &[u8], ctx: &mut Ctx) -> Option<(Layer, Vec<u8>)> {
         if let Some((p, foot)) = fmt::forspoken::decrypt(data) {
             return Some((Layer::Forspoken { foot: Arc::new(foot) }, p));
         }
+    }
+    if let Some((w, p)) = fmt::torchlight::unpack(data) {
+        return Some((Layer::Torchlight(Arc::new(w)), p));
+    }
+    if let Some((w, p)) = fmt::koei::unpack(data) {
+        return Some((Layer::Koei(w), p));
+    }
+    if let Some((h, p)) = fmt::dq11::unpack(data) {
+        return Some((Layer::Dq11 { header: Arc::new(h) }, p));
     }
     if let Some(p) = fmt::ao::unzstd(data) {
         return Some((Layer::Ao { kai: None }, p));
