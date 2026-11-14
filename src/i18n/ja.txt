@@ -24083,3 +24083,56 @@ char.sav from %LOCALAPPDATA%\\Endeavor\\Saved\\SaveGames (the game writes every 
 
 Last difficulty
 = 前回の難易度
+Δ Server
+= Δ Server
+
+Θ Server
+= Θ Server
+
+Λ Server
+= Λ Server
+
+Σ Server
+= Σ Server
+
+Ω Server
+= Ω Server
+
+A PlayStation 2 save of .hack//Infection, Mutation, Outbreak or Quarantine: one dhdata file of the save folder (Tools › Open another file in this archive lists the others). Play time, the unlocked servers, each party member's class, level, experience, money, affection and stats, and the items in Elf's Haven. The slot's checksum and preview in the save's system file are written again.
+= .hack//Infection・Mutation・Outbreak・QuarantineのPlayStation 2セーブ(セーブフォルダ内のdhdataファイル1つ。ツール›このアーカイブ内の別のファイルを開く で他のファイルを一覧できます)。プレイ時間、解放済みサーバー、各パーティメンバーのクラス・レベル・経験値・所持金・好感度・能力値、そしてエルフの隠れ家のアイテムを編集できます。スロットのチェックサムとシステムファイル内のプレビューは作り直されます。
+
+Close the emulator first. The checksum and preview kept for this slot in the save's system file are written again when you save.
+= 先にエミュレーターを閉じてください。保存時に、このスロットのチェックサムとシステムファイル内のプレビューが作り直されます。
+
+Elf's Haven
+= エルフの隠れ家
+
+Magical accuracy
+= 魔法命中
+
+Magical attack
+= 魔法攻撃
+
+Magical defense
+= 魔法防御
+
+Magical evade
+= 魔法回避
+
+Physical accuracy
+= 物理命中
+
+Physical attack
+= 物理攻撃
+
+Physical defense
+= 物理防御
+
+Physical evade
+= 物理回避
+
+Playtime (seconds)
+= プレイ時間(秒)
+
+Unlocked servers
+= 解放済みサーバー

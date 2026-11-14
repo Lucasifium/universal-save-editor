@@ -1145,7 +1145,24 @@ fn wrap(layer: &Layer, data: Vec<u8>) -> Result<Vec<u8>, String> {
         }
         Layer::Ps2Card { image, file } => {
             let card = fmt::memcard::Ps2Card::open(image).ok_or("the memory card image no longer reads")?;
-            card.write_file(image, file, &data)?
+            let mut out = card.write_file(image, file, &data)?;
+            // .hack keeps each slot's checksum and preview in the folder's system file.
+            if fmt::dothack::is_slot_file(&file.name) {
+                if let Some(c) = fmt::memcard::Ps2Card::open(&out) {
+                    let folder = file.name.rsplit_once('/').map_or("", |x| x.0).to_string();
+                    let sys = c.files(&out).and_then(|fs| fs.into_iter().find(|f| fmt::dothack::is_system_file(&f.name) && f.name.starts_with(&folder)));
+                    if let Some(sys) = sys {
+                        if let Some(old) = c.read_file(&out, &sys) {
+                            if let Some(new) = fmt::dothack::system_after(&file.name, &old, &data) {
+                                if new != old {
+                                    out = c.write_file(&out, &sys, &new)?;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            out
         }
         Layer::Dsv { footer } => [&data[..], footer].concat(),
         Layer::Kh3 { account } => fmt::kh3::close(account, &data)?,

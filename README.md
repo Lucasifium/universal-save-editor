@@ -3,7 +3,7 @@
 > **Free, and it always will be.** No price, no ads, no account, no paid version, no online service, no
 > rate limits. If anyone is charging you for this, it isn't from here.
 
-An offline save editor and save manager for 520+ (521) PC games (edit saves, and back up, name and restore them): Cairn, Terraria (characters and a world map editor),
+An offline save editor and save manager for 520+ (522) PC games (edit saves, and back up, name and restore them): Cairn, Terraria (characters and a world map editor),
 Oxygen Not Included, RimWorld, Stardew Valley, Onimusha: Way of the Sword, Elden Ring, Dark Souls,
 Cyberpunk 2077, the Persona, Yakuza and Final Fantasy games, Ren'Py visual novels, RPG Maker games
 and more (the full list is below). Written in Rust (egui). Nothing is uploaded anywhere, and there are
@@ -681,10 +681,11 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 </details>
 
 <details>
-<summary><strong>PlayStation 2</strong> (5)</summary>
+<summary><strong>PlayStation 2</strong> (6)</summary>
 
 | Game | Screen |
 |---|---|
+| .hack (PlayStation 2) | *Party* (PlayStation 2 `.psu`, `.psv` or memory card save of .hack//Infection, Mutation, Outbreak or Quarantine; each `dhdata` file is one slot): play time, unlocked servers, each party member's class, level, experience, money, affection and stats, and the items in Elf's Haven (the slot's checksum and preview in the system file are written again; checked on public saves, not yet tried in the game) |
 | Devil May Cry (PlayStation 2) | *Dante* (PlayStation 2 `.psu`, `.psv` or memory card save, USA, Europe, Japanese and Korean; each `SaveData-NN` file is one slot): clear and save counts, character, difficulty, mission, maximum health, red, yellow and blue orbs, the Alastor and Ifrit skills, every mission rank, the secret missions, statistics and combo rankings; the slot's checksum is written again (checked on public saves, not yet tried in the game) |
 | Dragon Quest VIII (PlayStation 2) | *Party* (PlayStation 2 `.psu`, `.psv` or memory card save, USA, Europe and Japanese): gold coins, bank vault, casino tokens, mini medals, every warp place, each party member's level, experience, HP, MP, stats and skill attributes, the bag and the battle records (the save's checksum is written again; checked on public saves, not yet tried in the game) |
 | Grandia II (PlayStation 2) | *Party* (PlayStation 2 `.psu`, `.psv` or memory card save, USA, Europe and Japan; each slot is one file of the save folder): gold and coins, each party member's level, experience, HP, MP, SP, attributes, equipment and conditions, and the stock of every item, weapon, armor, accessory, mana egg and valuable (checked on public saves, not yet tried in the game) |
@@ -793,8 +794,8 @@ binary and stays an ironman save. It isn't converted to a normal one.
 
 The start page lists **Your games**: every game in the list whose saves were found on this computer,
 newest first, each one click away from its newest save. *Find my game's saves* (the big button on the
-start page, *Find saves* in the toolbar and the File menu) lists every one of the 520+ (521) PC games the editor knows, Mass Effect 1–3, the Legendary Edition and Andromeda among them — with where it
-start page, *Find saves* in the toolbar and the File menu) lists every one of the 520+ (521) PC games the editor knows, Mass Effect 1–3, the Legendary Edition and Andromeda among them — with where it
+start page, *Find saves* in the toolbar and the File menu) lists every one of the 520+ (522) PC games the editor knows, Mass Effect 1–3, the Legendary Edition and Andromeda among them — with where it
+start page, *Find saves* in the toolbar and the File menu) lists every one of the 520+ (522) PC games the editor knows, Mass Effect 1–3, the Legendary Edition and Andromeda among them — with where it
 usually keeps its saves and what the files are called, and finds them on your computer (Steam
 libraries and `userdata`, Documents wherever Windows has it, AppData, Saved Games, Ubisoft
 Connect). On Linux and the Steam Deck it also looks inside Proton prefixes

@@ -24008,3 +24008,56 @@ char.sav from %LOCALAPPDATA%\\Endeavor\\Saved\\SaveGames (the game writes every 
 
 Last difficulty
 = Dernière difficulté
+Δ Server
+= Δ Server
+
+Θ Server
+= Θ Server
+
+Λ Server
+= Λ Server
+
+Σ Server
+= Σ Server
+
+Ω Server
+= Ω Server
+
+A PlayStation 2 save of .hack//Infection, Mutation, Outbreak or Quarantine: one dhdata file of the save folder (Tools › Open another file in this archive lists the others). Play time, the unlocked servers, each party member's class, level, experience, money, affection and stats, and the items in Elf's Haven. The slot's checksum and preview in the save's system file are written again.
+= Une sauvegarde PlayStation 2 de .hack//Infection, Mutation, Outbreak ou Quarantine : un fichier dhdata du dossier de sauvegarde (Outils › Ouvrir un autre fichier de cette archive liste les autres). Temps de jeu, serveurs débloqués, ainsi que la classe, le niveau, l'expérience, l'argent, l'affection et les statistiques de chaque membre du groupe, et les objets d'Elf's Haven. La somme de contrôle et l'aperçu de l'emplacement dans le fichier système de la sauvegarde sont réécrits.
+
+Close the emulator first. The checksum and preview kept for this slot in the save's system file are written again when you save.
+= Fermez d'abord l'émulateur. La somme de contrôle et l'aperçu de cet emplacement dans le fichier système de la sauvegarde sont réécrits à l'enregistrement.
+
+Elf's Haven
+= Elf's Haven
+
+Magical accuracy
+= Précision magique
+
+Magical attack
+= Attaque magique
+
+Magical defense
+= Défense magique
+
+Magical evade
+= Esquive magique
+
+Physical accuracy
+= Précision physique
+
+Physical attack
+= Attaque physique
+
+Physical defense
+= Défense physique
+
+Physical evade
+= Esquive physique
+
+Playtime (seconds)
+= Temps de jeu (secondes)
+
+Unlocked servers
+= Serveurs débloqués

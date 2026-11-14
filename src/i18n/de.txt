@@ -24001,3 +24001,56 @@ char.sav from %LOCALAPPDATA%\\Endeavor\\Saved\\SaveGames (the game writes every 
 
 Last difficulty
 = Zuletzt gespielter Schwierigkeitsgrad
+Δ Server
+= Δ Server
+
+Θ Server
+= Θ Server
+
+Λ Server
+= Λ Server
+
+Σ Server
+= Σ Server
+
+Ω Server
+= Ω Server
+
+A PlayStation 2 save of .hack//Infection, Mutation, Outbreak or Quarantine: one dhdata file of the save folder (Tools › Open another file in this archive lists the others). Play time, the unlocked servers, each party member's class, level, experience, money, affection and stats, and the items in Elf's Haven. The slot's checksum and preview in the save's system file are written again.
+= Ein PlayStation-2-Spielstand von .hack//Infection, Mutation, Outbreak oder Quarantine: eine dhdata-Datei des Speicherordners (Werkzeuge › Weitere Datei in diesem Archiv öffnen listet die anderen auf). Spielzeit, freigeschaltete Server sowie Klasse, Level, Erfahrung, Geld, Zuneigung und Werte jedes Gruppenmitglieds und die Gegenstände in Elf's Haven. Prüfsumme und Vorschau des Slots in der Systemdatei des Spielstands werden neu geschrieben.
+
+Close the emulator first. The checksum and preview kept for this slot in the save's system file are written again when you save.
+= Schließe zuerst den Emulator. Prüfsumme und Vorschau dieses Slots in der Systemdatei des Spielstands werden beim Speichern neu geschrieben.
+
+Elf's Haven
+= Elf's Haven
+
+Magical accuracy
+= Magische Treffsicherheit
+
+Magical attack
+= Magischer Angriff
+
+Magical defense
+= Magische Verteidigung
+
+Magical evade
+= Magisches Ausweichen
+
+Physical accuracy
+= Physische Treffsicherheit
+
+Physical attack
+= Physischer Angriff
+
+Physical defense
+= Physische Verteidigung
+
+Physical evade
+= Physisches Ausweichen
+
+Playtime (seconds)
+= Spielzeit (Sekunden)
+
+Unlocked servers
+= Freigeschaltete Server

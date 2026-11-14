@@ -2089,3 +2089,32 @@ pub const DQ8: Spec = Spec {
         Table { title: "Bag", path: "/Bag", name: &[], cols: &[("Item", "/Item"), ("Quantity", "/Quantity")], only: &[], names: &[] },
     ],
 };
+
+pub const DOT_HACK: Spec = Spec {
+    name: ".hack",
+    tab: "Party",
+    accent: (60, 90, 160),
+    kind: Some(crate::fmt::dothack::KIND),
+    markers: &["/General/Playtime (seconds)"],
+    subtitle: tx("A PlayStation 2 save of .hack//Infection, Mutation, Outbreak or Quarantine: one dhdata file of the save folder (Tools › Open another file in this archive lists the others). Play time, the unlocked servers, each party member's class, level, experience, money, affection and stats, and the items in Elf's Haven. The slot's checksum and preview in the save's system file are written again."),
+    tiles: &[],
+    sections: &[
+        Section { title: "General", rows: &[
+            ("Playtime (seconds)", "/General/Playtime (seconds)"),
+            ("Progression", "/General/Progression"),
+        ] },
+        Section { title: "Unlocked servers", rows: &[
+            ("Δ Server", "/Unlocked servers/Δ Server"),
+            ("Θ Server", "/Unlocked servers/Θ Server"),
+            ("Λ Server", "/Unlocked servers/Λ Server"),
+            ("Σ Server", "/Unlocked servers/Σ Server"),
+            ("Ω Server", "/Unlocked servers/Ω Server"),
+        ] },
+    ],
+    lists: &[
+    ],
+    tables: &[
+        Table { title: "Party", path: "/Party", name: &[], cols: &[("Class", "/Class"), ("Level", "/Level"), ("Experience", "/Experience"), ("Money", "/Money"), ("Affection", "/Affection"), ("Max HP", "/Max HP"), ("Max SP", "/Max SP"), ("Physical attack", "/Physical attack"), ("Physical defense", "/Physical defense"), ("Physical accuracy", "/Physical accuracy"), ("Physical evade", "/Physical evade"), ("Magical attack", "/Magical attack"), ("Magical defense", "/Magical defense"), ("Magical accuracy", "/Magical accuracy"), ("Magical evade", "/Magical evade")], only: &[], names: &[] },
+        Table { title: "Elf's Haven", path: "/Elf's Haven", name: &[], cols: &[("Item", "/Item"), ("Quantity", "/Quantity")], only: &[], names: &[] },
+    ],
+};

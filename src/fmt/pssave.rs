@@ -269,6 +269,17 @@ pub fn save(kind: Kind, original: &[u8], name: &str, data: &[u8]) -> Result<Vec<
     }
     let mut files = files;
     files[idx].data = data.to_vec();
+    // .hack keeps each slot's checksum and preview in the folder's system file.
+    let mut other_changed = false;
+    if super::dothack::is_slot_file(name) {
+        let folder = name.rsplit_once('/').map_or("", |x| x.0).to_string();
+        if let Some(s) = files.iter().position(|f| super::dothack::is_system_file(&f.name) && f.name.starts_with(&folder)) {
+            if let Some(n) = super::dothack::system_after(name, &files[s].data, data) {
+                other_changed = n != files[s].data;
+                files[s].data = n;
+            }
+        }
+    }
     Ok(match kind {
         Kind::Mcs => {
             if data.is_empty() || data.len() % 0x2000 != 0 {
@@ -300,7 +311,7 @@ pub fn save(kind: Kind, original: &[u8], name: &str, data: &[u8]) -> Result<Vec<
             out
         }
         Kind::Psv2 => {
-            let mut out = if same {
+            let mut out = if same && !other_changed {
                 let at = 0xA0 + idx * 0x3C;
                 let pos = le32(original, at + 56).unwrap_or_default() as usize;
                 let mut o = original.to_vec();

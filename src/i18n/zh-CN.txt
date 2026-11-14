@@ -24056,3 +24056,56 @@ char.sav from %LOCALAPPDATA%\\Endeavor\\Saved\\SaveGames (the game writes every 
 
 Last difficulty
 = 上次难度
+Δ Server
+= Δ Server
+
+Θ Server
+= Θ Server
+
+Λ Server
+= Λ Server
+
+Σ Server
+= Σ Server
+
+Ω Server
+= Ω Server
+
+A PlayStation 2 save of .hack//Infection, Mutation, Outbreak or Quarantine: one dhdata file of the save folder (Tools › Open another file in this archive lists the others). Play time, the unlocked servers, each party member's class, level, experience, money, affection and stats, and the items in Elf's Haven. The slot's checksum and preview in the save's system file are written again.
+= .hack//Infection、Mutation、Outbreak 或 Quarantine 的 PlayStation 2 存档:存档文件夹中的一个 dhdata 文件(工具›打开此存档中的其他文件 可列出其他文件)。游戏时间、已解锁的服务器、每名队员的职业、等级、经验、金钱、好感度和属性,以及精灵之家中的物品。存档系统文件中该存档位的校验和与预览会被重新写入。
+
+Close the emulator first. The checksum and preview kept for this slot in the save's system file are written again when you save.
+= 请先关闭模拟器。保存时会重新写入该存档位在系统文件中的校验和与预览。
+
+Elf's Haven
+= 精灵之家
+
+Magical accuracy
+= 魔法命中
+
+Magical attack
+= 魔法攻击
+
+Magical defense
+= 魔法防御
+
+Magical evade
+= 魔法回避
+
+Physical accuracy
+= 物理命中
+
+Physical attack
+= 物理攻击
+
+Physical defense
+= 物理防御
+
+Physical evade
+= 物理回避
+
+Playtime (seconds)
+= 游戏时间(秒)
+
+Unlocked servers
+= 已解锁的服务器
