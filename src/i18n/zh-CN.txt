@@ -23029,3 +23029,212 @@ Selected difficulty
 
 Battles entered
 = 进入战斗次数
+A PlayStation save (memory card, .mcs, .psx or .psv) of the USA or European release. The Ark you hold, the total Ark earned, clear count, slain enemies, endings seen, every trap unlocked and how often each was used, and the options. The save's check bytes are written again.
+= PlayStation存档(存储卡、.mcs、.psx或.psv),适用于美版或欧版。持有的方舟、累计获得的方舟、通关次数、击败的敌人、看过的结局、每个已解锁的陷阱及其使用次数,以及选项。存档的校验字节会重新写入。
+
+Ardebaran
+= Ardebaran
+
+Arrow Slit
+= Arrow Slit
+
+Attack Wall
+= Attack Wall
+
+Basin
+= Basin
+
+Bear Trap
+= Bear Trap
+
+Berserk Gas
+= Berserk Gas
+
+Blast Bomb
+= Blast Bomb
+
+Buzz Saw
+= Buzz Saw
+
+Catastrophe
+= Catastrophe
+
+Chain Needle
+= Chain Needle
+
+Close the emulator first. The data is cut up into its 128-byte pieces again, each with a new check byte, when the save is written.
+= 请先关闭模拟器。保存时数据会重新切分为128字节的片段,每个片段带有新的校验字节。
+
+Cold Arrow
+= Cold Arrow
+
+Cold Claw
+= Cold Claw
+
+Confuse Gas
+= Confuse Gas
+
+Ending 1
+= 结局1
+
+Ending 2
+= 结局2
+
+Ending 3
+= 结局3
+
+Ending 4
+= 结局4
+
+Endings
+= 结局
+
+Evil Breath
+= Evil Breath
+
+Evil Kick
+= Evil Kick
+
+Evil Stomp
+= Evil Stomp
+
+Evil Upper
+= Evil Upper
+
+Fire Ball
+= Fire Ball
+
+Flare Rock
+= Flare Rock
+
+Flash Bomb
+= Flash Bomb
+
+Heat Breath
+= Heat Breath
+
+Heavy Claw
+= Heavy Claw
+
+Hell Fire
+= Hell Fire
+
+Iron Ball
+= Iron Ball
+
+Judgement
+= Judgement
+
+Land Mine
+= Land Mine
+
+Laser Arrow
+= Laser Arrow
+
+Lava Vase
+= Lava Vase
+
+Lift Floor
+= Lift Floor
+
+Magic Sac
+= Magic Sac
+
+Magnet Floor
+= Magnet Floor
+
+Mega Rock
+= Mega Rock
+
+Oil Vase
+= Oil Vase
+
+Power Magnet
+= Power Magnet
+
+Press Wall
+= Press Wall
+
+Quake Bomb
+= Quake Bomb
+
+Replay trap scene
+= 重播陷阱场景
+
+Rising Floor
+= Rising Floor
+
+Rolling Bomb
+= Rolling Bomb
+
+Slain enemies
+= 击败的敌人
+
+Slow Gas
+= Slow Gas
+
+Small Bomb
+= Small Bomb
+
+Smash Floor
+= Smash Floor
+
+Spark Rod
+= Spark Rod
+
+Spike Rock
+= Spike Rock
+
+Spike Wall
+= Spike Wall
+
+Spring Floor
+= Spring Floor
+
+Suezo
+= Suezo
+
+Thunder Volt
+= Thunder Volt
+
+Total Ark
+= 累计方舟
+
+Trap uses: Ceiling
+= 陷阱使用次数: 天花板
+
+Trap uses: Floor
+= 陷阱使用次数: 地面
+
+Trap uses: Wall
+= 陷阱使用次数: 墙壁
+
+Triple Arrow
+= Triple Arrow
+
+Unlocked traps: Ceiling
+= 已解锁陷阱: 天花板
+
+Unlocked traps: Floor
+= 已解锁陷阱: 地面
+
+Unlocked traps: Wall
+= 已解锁陷阱: 墙壁
+
+Vacuum Floor
+= Vacuum Floor
+
+Vase
+= Vase
+
+Vat
+= Vat
+
+Vibration
+= 振动
+
+Volt Magnet
+= Volt Magnet
+
+Volt Rock
+= Volt Rock

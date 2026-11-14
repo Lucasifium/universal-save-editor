@@ -22974,3 +22974,212 @@ Selected difficulty
 
 Battles entered
 = Betretene Kämpfe
+A PlayStation save (memory card, .mcs, .psx or .psv) of the USA or European release. The Ark you hold, the total Ark earned, clear count, slain enemies, endings seen, every trap unlocked and how often each was used, and the options. The save's check bytes are written again.
+= Ein PlayStation-Spielstand (Memory Card, .mcs, .psx oder .psv) der US- oder europäischen Version. Die Ark, die du besitzt, die insgesamt verdiente Ark, Anzahl der Durchspiele, besiegte Gegner, gesehene Enden, jede freigeschaltete Falle und wie oft sie benutzt wurde sowie die Optionen. Die Prüfbytes des Spielstands werden neu geschrieben.
+
+Ardebaran
+= Ardebaran
+
+Arrow Slit
+= Arrow Slit
+
+Attack Wall
+= Attack Wall
+
+Basin
+= Basin
+
+Bear Trap
+= Bear Trap
+
+Berserk Gas
+= Berserk Gas
+
+Blast Bomb
+= Blast Bomb
+
+Buzz Saw
+= Buzz Saw
+
+Catastrophe
+= Catastrophe
+
+Chain Needle
+= Chain Needle
+
+Close the emulator first. The data is cut up into its 128-byte pieces again, each with a new check byte, when the save is written.
+= Beende zuerst den Emulator. Die Daten werden beim Speichern wieder in ihre 128-Byte-Stücke zerlegt, jedes mit einem neuen Prüfbyte.
+
+Cold Arrow
+= Cold Arrow
+
+Cold Claw
+= Cold Claw
+
+Confuse Gas
+= Confuse Gas
+
+Ending 1
+= Ende 1
+
+Ending 2
+= Ende 2
+
+Ending 3
+= Ende 3
+
+Ending 4
+= Ende 4
+
+Endings
+= Enden
+
+Evil Breath
+= Evil Breath
+
+Evil Kick
+= Evil Kick
+
+Evil Stomp
+= Evil Stomp
+
+Evil Upper
+= Evil Upper
+
+Fire Ball
+= Fire Ball
+
+Flare Rock
+= Flare Rock
+
+Flash Bomb
+= Flash Bomb
+
+Heat Breath
+= Heat Breath
+
+Heavy Claw
+= Heavy Claw
+
+Hell Fire
+= Hell Fire
+
+Iron Ball
+= Iron Ball
+
+Judgement
+= Judgement
+
+Land Mine
+= Land Mine
+
+Laser Arrow
+= Laser Arrow
+
+Lava Vase
+= Lava Vase
+
+Lift Floor
+= Lift Floor
+
+Magic Sac
+= Magic Sac
+
+Magnet Floor
+= Magnet Floor
+
+Mega Rock
+= Mega Rock
+
+Oil Vase
+= Oil Vase
+
+Power Magnet
+= Power Magnet
+
+Press Wall
+= Press Wall
+
+Quake Bomb
+= Quake Bomb
+
+Replay trap scene
+= Fallenszene wiederholen
+
+Rising Floor
+= Rising Floor
+
+Rolling Bomb
+= Rolling Bomb
+
+Slain enemies
+= Besiegte Gegner
+
+Slow Gas
+= Slow Gas
+
+Small Bomb
+= Small Bomb
+
+Smash Floor
+= Smash Floor
+
+Spark Rod
+= Spark Rod
+
+Spike Rock
+= Spike Rock
+
+Spike Wall
+= Spike Wall
+
+Spring Floor
+= Spring Floor
+
+Suezo
+= Suezo
+
+Thunder Volt
+= Thunder Volt
+
+Total Ark
+= Ark insgesamt
+
+Trap uses: Ceiling
+= Fallenbenutzungen: Decke
+
+Trap uses: Floor
+= Fallenbenutzungen: Boden
+
+Trap uses: Wall
+= Fallenbenutzungen: Wand
+
+Triple Arrow
+= Triple Arrow
+
+Unlocked traps: Ceiling
+= Freigeschaltete Fallen: Decke
+
+Unlocked traps: Floor
+= Freigeschaltete Fallen: Boden
+
+Unlocked traps: Wall
+= Freigeschaltete Fallen: Wand
+
+Vacuum Floor
+= Vacuum Floor
+
+Vase
+= Vase
+
+Vat
+= Vat
+
+Vibration
+= Vibration
+
+Volt Magnet
+= Volt Magnet
+
+Volt Rock
+= Volt Rock

@@ -23056,3 +23056,212 @@ Selected difficulty
 
 Battles entered
 = 参加した戦闘
+A PlayStation save (memory card, .mcs, .psx or .psv) of the USA or European release. The Ark you hold, the total Ark earned, clear count, slain enemies, endings seen, every trap unlocked and how often each was used, and the options. The save's check bytes are written again.
+= PlayStationのセーブ(メモリーカード、.mcs、.psx、.psv)。北米版または欧州版用。所持アーク、累計アーク、クリア回数、倒した敵の数、見たエンディング、解放済みの各トラップとその使用回数、そしてオプション。セーブのチェックバイトは書き直されます。
+
+Ardebaran
+= Ardebaran
+
+Arrow Slit
+= Arrow Slit
+
+Attack Wall
+= Attack Wall
+
+Basin
+= Basin
+
+Bear Trap
+= Bear Trap
+
+Berserk Gas
+= Berserk Gas
+
+Blast Bomb
+= Blast Bomb
+
+Buzz Saw
+= Buzz Saw
+
+Catastrophe
+= Catastrophe
+
+Chain Needle
+= Chain Needle
+
+Close the emulator first. The data is cut up into its 128-byte pieces again, each with a new check byte, when the save is written.
+= 先にエミュレーターを閉じてください。保存時にデータは128バイトの断片に分け直され、それぞれに新しいチェックバイトが付きます。
+
+Cold Arrow
+= Cold Arrow
+
+Cold Claw
+= Cold Claw
+
+Confuse Gas
+= Confuse Gas
+
+Ending 1
+= エンディング1
+
+Ending 2
+= エンディング2
+
+Ending 3
+= エンディング3
+
+Ending 4
+= エンディング4
+
+Endings
+= エンディング
+
+Evil Breath
+= Evil Breath
+
+Evil Kick
+= Evil Kick
+
+Evil Stomp
+= Evil Stomp
+
+Evil Upper
+= Evil Upper
+
+Fire Ball
+= Fire Ball
+
+Flare Rock
+= Flare Rock
+
+Flash Bomb
+= Flash Bomb
+
+Heat Breath
+= Heat Breath
+
+Heavy Claw
+= Heavy Claw
+
+Hell Fire
+= Hell Fire
+
+Iron Ball
+= Iron Ball
+
+Judgement
+= Judgement
+
+Land Mine
+= Land Mine
+
+Laser Arrow
+= Laser Arrow
+
+Lava Vase
+= Lava Vase
+
+Lift Floor
+= Lift Floor
+
+Magic Sac
+= Magic Sac
+
+Magnet Floor
+= Magnet Floor
+
+Mega Rock
+= Mega Rock
+
+Oil Vase
+= Oil Vase
+
+Power Magnet
+= Power Magnet
+
+Press Wall
+= Press Wall
+
+Quake Bomb
+= Quake Bomb
+
+Replay trap scene
+= トラップシーンのリプレイ
+
+Rising Floor
+= Rising Floor
+
+Rolling Bomb
+= Rolling Bomb
+
+Slain enemies
+= 倒した敵の数
+
+Slow Gas
+= Slow Gas
+
+Small Bomb
+= Small Bomb
+
+Smash Floor
+= Smash Floor
+
+Spark Rod
+= Spark Rod
+
+Spike Rock
+= Spike Rock
+
+Spike Wall
+= Spike Wall
+
+Spring Floor
+= Spring Floor
+
+Suezo
+= Suezo
+
+Thunder Volt
+= Thunder Volt
+
+Total Ark
+= 累計アーク
+
+Trap uses: Ceiling
+= トラップの使用回数: 天井
+
+Trap uses: Floor
+= トラップの使用回数: 床
+
+Trap uses: Wall
+= トラップの使用回数: 壁
+
+Triple Arrow
+= Triple Arrow
+
+Unlocked traps: Ceiling
+= 解放済みトラップ: 天井
+
+Unlocked traps: Floor
+= 解放済みトラップ: 床
+
+Unlocked traps: Wall
+= 解放済みトラップ: 壁
+
+Vacuum Floor
+= Vacuum Floor
+
+Vase
+= Vase
+
+Vat
+= Vat
+
+Vibration
+= 振動
+
+Volt Magnet
+= Volt Magnet
+
+Volt Rock
+= Volt Rock

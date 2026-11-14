@@ -209,6 +209,7 @@ pub mod thps;
 pub mod silenthill;
 pub mod tekken;
 pub mod dmcps2;
+pub mod kagero;
 pub mod ctr;
 pub mod rayman;
 pub mod gt1;
@@ -325,6 +326,11 @@ pub fn parse_binary(d: &[u8]) -> Option<TreeDoc> {
     }
     if ctr::looks(d) {
         if let Ok(t) = ctr::parse(d) {
+            return Some(t);
+        }
+    }
+    if kagero::looks(d) {
+        if let Ok(t) = kagero::parse(d) {
             return Some(t);
         }
     }
