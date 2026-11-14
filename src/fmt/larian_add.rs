@@ -64,7 +64,7 @@ fn world<'a>(l: &'a Lsf<'a>) -> Option<World<'a>> {
     .then_some(w)
 }
 
-fn bytes<'a>(l: &'a Lsf, n: usize, name: &str) -> Option<&'a [u8]> {
+pub(super) fn bytes<'a>(l: &'a Lsf, n: usize, name: &str) -> Option<&'a [u8]> {
     let a = l.attr(n, name)?;
     l.d.get(a.at..a.at + a.len)
 }
@@ -191,7 +191,7 @@ fn put_i64(v: i64) -> Vec<u8> {
     v.to_le_bytes().to_vec()
 }
 
-fn random_guid(taken: &HashSet<[u8; 16]>) -> [u8; 16] {
+pub(super) fn random_guid(taken: &HashSet<[u8; 16]>) -> [u8; 16] {
     use std::hash::{BuildHasher, Hasher};
     let state = std::collections::hash_map::RandomState::new();
     let mut n = std::time::SystemTime::now()
@@ -212,7 +212,7 @@ fn random_guid(taken: &HashSet<[u8; 16]>) -> [u8; 16] {
 }
 
 /// Copies `src` (its attributes, with `patch` applied to named ones, and its subtree) under `parent`.
-fn clone_node(
+pub(super) fn clone_node(
     l: &Lsf,
     wr: &mut Writer,
     src: usize,

@@ -17715,8 +17715,8 @@ Seconds left is the time the game shows for the buff (10:00 is 600). Set it to 0
 Skill points to spend are the tile above. Skill experience fills toward the next point; the game hands it out once it's full.
 = Os pontos de habilidade a gastar estão no bloco acima. A experiência de habilidade enche até o próximo ponto; o jogo o concede quando está cheia.
 
-Stack sizes of what this character carries, by the game's item name. Items can't be added or removed here. A stack the game split just before saving shows as read-only.
-= Tamanhos das pilhas do que este personagem carrega, pelo nome de item do jogo. Itens não podem ser adicionados nem removidos aqui. Uma pilha que o jogo dividiu logo antes de salvar aparece como somente leitura.
+Stack sizes of what this character carries, by the game's item name. Items can't be removed here; Add items adds new ones. A stack the game split just before saving shows as read-only.
+= Tamanhos das pilhas do que este personagem carrega, pelo nome de item do jogo. Itens não podem ser removidos aqui; Adicionar itens adiciona novos. Uma pilha que o jogo dividiu logo antes de salvar aparece como somente leitura.
 
 Stacked items ({0})
 = Itens empilhados ({0})
@@ -25020,3 +25020,6 @@ Search again
 
 The saves found before are remembered and checked first. Search again looks through all the usual places on this computer for games added since.
 = Os saves encontrados antes são lembrados e verificados primeiro. «Pesquisar novamente» percorre todos os locais habituais deste computador em busca de jogos adicionados desde então.
+
+Every kind of item in your party's bags can be added, as a copy of one the game made. The copies go into the chosen character's bag when you save. Items kept in a stack, worn gear, containers, keys and story items aren't offered; a stack's size can be changed under Stacked items. Keep a backup: this hasn't been tried in the game yet.
+= Qualquer tipo de item nas bolsas do seu grupo pode ser adicionado, como cópia de um criado pelo jogo. As cópias vão para a bolsa do personagem escolhido ao salvar. Itens em pilha, equipamento vestido, recipientes, chaves e itens da história não são oferecidos; o tamanho de uma pilha pode ser alterado em Itens empilhados. Faça um backup: isso ainda não foi testado no jogo.

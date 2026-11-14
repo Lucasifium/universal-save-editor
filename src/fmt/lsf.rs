@@ -128,6 +128,8 @@ pub struct Attr {
     pub len: usize,
     /// Absolute offset of the value in the unpacked file.
     pub at: usize,
+    /// Position in the attribute table.
+    pub idx: usize,
     next: i32,
 }
 
@@ -193,11 +195,11 @@ impl<'a> Lsf<'a> {
             let (ty, len) = (tl & 0x3F, (tl >> 6) as usize);
             if v3 {
                 let at = u32_at(ab, e + 12)? as usize;
-                attrs.push(Attr { name, ty, len, at: values_at + at, next: i32_at(ab, e + 8)? });
+                attrs.push(Attr { name, ty, len, at: values_at + at, idx: i, next: i32_at(ab, e + 8)? });
             } else {
                 // Values follow each other; a node's attributes are those naming it, in order.
                 let node = i32_at(ab, e + 8)?;
-                attrs.push(Attr { name, ty, len, at: values_at + offset, next: -1 });
+                attrs.push(Attr { name, ty, len, at: values_at + offset, idx: i, next: -1 });
                 offset += len;
                 let n = usize::try_from(node).ok().filter(|&n| n < count)?;
                 match last[n] {
@@ -350,6 +352,8 @@ pub struct Writer {
     secs: Vec<Vec<u8>>,
     keys: bool,
     v3: bool,
+    /// Where the values section starts in the file the writer was made from.
+    values_at: usize,
 }
 
 impl Writer {
@@ -359,7 +363,8 @@ impl Writer {
         if secs.iter().take(4).any(|s| s.1 != 0 && h.flags & 0x0F != 0) {
             return None;
         }
-        Some(Self { head: plain[..h.len].to_vec(), pairs: h.pairs.clone(), secs: secs.into_iter().map(|s| s.2.to_vec()).collect(), keys: h.metadata_format == 1, v3: h.version >= 3 && h.metadata_format == 1 })
+        let values_at = secs[3].2.as_ptr() as usize - plain.as_ptr() as usize;
+        Some(Self { head: plain[..h.len].to_vec(), pairs: h.pairs.clone(), secs: secs.into_iter().map(|s| s.2.to_vec()).collect(), keys: h.metadata_format == 1, v3: h.version >= 3 && h.metadata_format == 1, values_at })
     }
 
     fn nsz(&self) -> usize {
@@ -414,6 +419,35 @@ impl Writer {
             self.secs[3].extend(&a.bytes);
         }
         Ok(idx)
+    }
+
+    /// Replaces the value of `a` (an attribute of the file the writer was made from) with
+    /// `bytes`, which may differ in length.
+    pub fn replace_value(&mut self, a: &Attr, bytes: &[u8]) -> Result<(), String> {
+        let asz = self.nsz();
+        let off = a.at.checked_sub(self.values_at).filter(|&o| o + a.len <= self.secs[3].len()).ok_or("the value isn't in this file")?;
+        if a.idx >= self.secs[2].len() / asz || bytes.len() >= 1 << 26 {
+            return Err("the value can't be replaced".into());
+        }
+        let e = a.idx * asz;
+        let tl = u32::from_le_bytes(self.secs[2][e + 4..e + 8].try_into().unwrap());
+        if (tl >> 6) as usize != a.len {
+            return Err("the attribute table doesn't match the value".into());
+        }
+        self.secs[2][e + 4..e + 8].copy_from_slice(&((tl & 0x3F) | (bytes.len() as u32) << 6).to_le_bytes());
+        if self.v3 {
+            // Values are found by offset: later ones move.
+            let delta = bytes.len() as i64 - a.len as i64;
+            for k in 0..self.secs[2].len() / asz {
+                let p = k * asz + 12;
+                let v = u32::from_le_bytes(self.secs[2][p..p + 4].try_into().unwrap()) as usize;
+                if v > off {
+                    self.secs[2][p..p + 4].copy_from_slice(&((v as i64 + delta) as u32).to_le_bytes());
+                }
+            }
+        }
+        self.secs[3].splice(off..off + a.len, bytes.iter().copied());
+        Ok(())
     }
 
     /// The unpacked file with everything added.

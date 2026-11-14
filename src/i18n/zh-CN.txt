@@ -17800,8 +17800,8 @@ Seconds left is the time the game shows for the buff (10:00 is 600). Set it to 0
 Skill points to spend are the tile above. Skill experience fills toward the next point; the game hands it out once it's full.
 = 可用的技能点在上方的卡片中。技能经验会累积到下一点，满了之后由游戏发放。
 
-Stack sizes of what this character carries, by the game's item name. Items can't be added or removed here. A stack the game split just before saving shows as read-only.
-= 此角色所携带物品的堆叠数量，按游戏的物品名称显示。此处无法添加或移除物品。游戏在保存前刚拆分的堆叠会显示为只读。
+Stack sizes of what this character carries, by the game's item name. Items can't be removed here; Add items adds new ones. A stack the game split just before saving shows as read-only.
+= 此角色所携带物品的堆叠数量，按游戏的物品名称显示。此处无法移除物品；可在“添加道具”中添加新物品。游戏在保存前刚拆分的堆叠会显示为只读。
 
 Stacked items ({0})
 = 堆叠物品（{0}）
@@ -25105,3 +25105,6 @@ Search again
 
 The saves found before are remembered and checked first. Search again looks through all the usual places on this computer for games added since.
 = 之前找到的存档会被记住并优先检查。“重新搜索”会遍历此电脑上所有常见位置，查找之后新增的游戏。
+
+Every kind of item in your party's bags can be added, as a copy of one the game made. The copies go into the chosen character's bag when you save. Items kept in a stack, worn gear, containers, keys and story items aren't offered; a stack's size can be changed under Stacked items. Keep a backup: this hasn't been tried in the game yet.
+= 队伍背包中的任何种类物品都可以添加，作为游戏所创建物品的副本。保存时副本会放入所选角色的背包。堆叠物品、已穿戴的装备、容器、钥匙和剧情物品不在可选范围内；堆叠数量可在“堆叠物品”中修改。请先备份：此功能尚未在游戏中测试。

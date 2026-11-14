@@ -6,8 +6,8 @@
 //! table, relative to the name block; at 36 (u16) the number of component types. Each
 //! descriptor is 48 bytes: name offset (u64, into the name block) and length (u32; newer
 //! saves keep other bits in the next four bytes), a hash,
-//! then at 24 the row size (u32), at 32 the row count and at 40 the absolute offset of the
-//! component's rows (u64 each).
+//! then at 24 the row size (u32), at 32 the row count and at 40 where the component's rows
+//! start (u64 each; a pointer, like those below).
 //!
 //! Pointers stored inside rows are absolute offsets minus 48.
 //!
@@ -36,7 +36,7 @@ fn u64_at(d: &[u8], at: usize) -> Option<u64> {
     Some(u64::from_le_bytes(d.get(at..at + 8)?.try_into().ok()?))
 }
 
-/// One component type: row size, row count and where its rows start.
+/// One component type: row size, row count and where its rows start (in the blob).
 #[derive(Clone, Copy, Debug)]
 pub struct Component {
     pub elem: usize,
@@ -68,7 +68,8 @@ pub fn components(b: &[u8]) -> Option<HashMap<String, Component>> {
             continue;
         }
         let Some(name) = names.get(no..no + nl).and_then(|s| std::str::from_utf8(s).ok()) else { continue };
-        let c = Component { elem: elem as usize, rows: rows as usize, off: off as usize };
+        let Some(off) = usize::try_from(off).ok().and_then(|o| o.checked_add(BASE as usize)) else { continue };
+        let c = Component { elem: elem as usize, rows: rows as usize, off };
         if c.rows.checked_mul(c.elem).and_then(|n| n.checked_add(c.off)).is_none_or(|end| end > b.len()) {
             continue;
         }

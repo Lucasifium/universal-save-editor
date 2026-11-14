@@ -313,6 +313,7 @@ fn bg3(plain: &[u8], archive: &[u8], pkg: &lspk::Package) -> Option<TreeDoc> {
     }
     b.info(&["Party"], Value::Array(party));
     let carried = bg3_carried(&mut b, plain);
+    bg3_add_items(&mut b, plain);
     let story = pkg.find("StorySave.bin").and_then(|e| pkg.file(archive, e)).and_then(|d| super::osiris::read(&d));
     let flags = match (&story, Lsf::read(plain)) {
         (Some(st), Some(l)) => super::bg3_flags::add(&mut b, &l, plain, 0, st),
@@ -327,7 +328,59 @@ fn bg3(plain: &[u8], archive: &[u8], pkg: &lspk::Package) -> Option<TreeDoc> {
     } else {
         "Baldur's Gate 3: the party summary is shown read-only."
     };
-    Some(b.finish(BG3, Checksum::None).with_note(note))
+    Some(b.finish_with(BG3, Checksum::None, Some(bg3_add_post)).with_note(note))
+}
+
+/// "Add items" for BG3: who gets them, and how many copies of each kind of item the party
+/// carries in its bags (see `bg3_add`).
+fn bg3_add_items(b: &mut Builder, plain: &[u8]) {
+    let Some(l) = Lsf::read(plain) else { return };
+    let Some(a) = super::bg3_add::store_attr(&l) else { return };
+    let Some(s) = super::bg3_add::Store::read(&plain[a.at..a.at + a.len]) else { return };
+    let party = bg3_recipients(&l, plain);
+    let offers = super::bg3_add::offers(&l, &s, &party);
+    if party.is_empty() || offers.is_empty() {
+        return;
+    }
+    b.option(&["Add items", "Add to"], party.iter().map(|p| p.0.clone()).collect(), "W".into());
+    for stats in offers.keys() {
+        let mut names = vec!["Don't add".to_string()];
+        names.extend(super::bg3_add::COPIES.iter().map(|n| format!("Add {n}")));
+        b.option(&["Add items", stats.as_str()], names, format!("I{stats}"));
+    }
+}
+
+/// Who can be given items: your character first, then whoever is in the active party (a low
+/// bit of `Flags` set), then the rest (companions at camp, and those not met yet).
+fn bg3_recipients(l: &Lsf, plain: &[u8]) -> Vec<(String, usize)> {
+    let mut who: Vec<(u8, String, usize)> = bg3_party(l, plain)
+        .into_iter()
+        .map(|p| (if p.0 == "Your character" { 0 } else if l.int_of(p.1, "Flags").is_some_and(|f| f & 0x10 != 0) { 1 } else { 2 }, p.0, p.1))
+        .collect();
+    who.sort_by_key(|w| w.0);
+    who.into_iter().map(|w| (w.1, w.2)).collect()
+}
+
+/// Saves the items chosen under "Add items" into the chosen character's bag.
+fn bg3_add_post(out: &mut Vec<u8>, chosen: &[(std::sync::Arc<str>, String)]) -> Result<(), String> {
+    let adds: Vec<(String, u32)> = chosen.iter().filter_map(|(t, c)| Some((t.strip_prefix('I')?.to_string(), c.strip_prefix("Add ")?.parse().ok()?))).collect();
+    if adds.is_empty() {
+        return Ok(());
+    }
+    let who = chosen.iter().find(|(t, _)| &**t == "W").map(|(_, c)| c.clone());
+    let new = {
+        let l = Lsf::read(out).ok_or("the game data no longer reads")?;
+        let party = bg3_recipients(&l, out);
+        let node = match &who {
+            Some(w) => party.iter().find(|p| &p.0 == w),
+            None => party.first(),
+        }
+        .ok_or("that character isn't in the save")?
+        .1;
+        super::bg3_add::add_items(out, &party, node, &adds)?
+    };
+    *out = new;
+    Ok(())
 }
 
 /// Origin characters by root template (the GUIDs the game's own scripts use).
@@ -362,26 +415,16 @@ pub fn bg3_is_gold(stats: &str) -> bool {
     matches!(stats, "OBJ_GoldCoin" | "OBJ_GoldPile") || stats.starts_with("LOOT_Gold")
 }
 
-/// What each player character carries, from `Globals.lsf`: a carried item's position is its
-/// holder's position, the `Creators` table (in step with `Items`) gives each item's entity, and
-/// the entity store holds the stack sizes. Each stack size whose item has a single entry is
-/// editable; gold is summed per character and its stacks are listed under "Gold".
-fn bg3_carried(b: &mut Builder, plain: &[u8]) -> bool {
-    let Some(l) = Lsf::read(plain) else { return false };
-    let Some(&na) = l.at_path(&["NewAge"]).first() else { return false };
-    let Some(blob_at) = l.attr(na, "NewAge").filter(|a| a.ty == 25 && a.at + a.len <= plain.len()) else { return false };
-    let blob = &plain[blob_at.at..blob_at.at + blob_at.len];
-    let stacks = super::lsmf::stacks(blob);
-    if stacks.is_empty() {
-        return false;
-    }
+/// The player characters of a BG3 save that carry something, by the name the screen shows:
+/// (name, character node, what they carry as (item node, creator node)). A carried item's
+/// position is its holder's; character creation's stand-ins are left out.
+pub fn bg3_party(l: &Lsf, plain: &[u8]) -> Vec<(String, usize, Vec<(usize, usize)>)> {
     let items = l.at_path(&["Items", "ItemFactory", "Items", "Item"]);
     let creators = l.at_path(&["Items", "ItemFactory", "Creators", "Creator"]);
     if items.len() != creators.len() {
-        return false;
+        return vec![];
     }
     let pos = |n: usize| l.attr(n, "Translate").filter(|a| a.len == 12).map(|a| &plain[a.at..a.at + 12]);
-    // Player characters and what they carry (character creation's stand-ins left out).
     let mut people: Vec<(usize, Option<&str>, Vec<(usize, usize)>)> = vec![];
     for c in l.at_path(&["Characters", "CharacterFactory", "Characters", "Character"]) {
         if l.child(c, "PlayerData").is_none() || l.string_of(c, "Level").is_some_and(|s| s.starts_with("SYS_CC")) {
@@ -400,9 +443,9 @@ fn bg3_carried(b: &mut Builder, plain: &[u8]) -> bool {
     // others are hirelings and the like.
     let you = people.iter().enumerate().filter(|p| p.1 .1.is_none()).max_by_key(|p| p.1 .2.len()).map(|p| p.0);
     let mut seen = HashMap::new();
-    let mut any = false;
     let mut others = 0;
-    for (n, (_c, origin, mine)) in people.into_iter().enumerate() {
+    let mut out = vec![];
+    for (n, (c, origin, mine)) in people.into_iter().enumerate() {
         let name = match origin {
             Some(o) => o.to_string(),
             None if Some(n) == you => "Your character".to_string(),
@@ -411,7 +454,26 @@ fn bg3_carried(b: &mut Builder, plain: &[u8]) -> bool {
                 format!("Other character {others}")
             }
         };
-        let key = unique(&mut seen, name);
+        out.push((unique(&mut seen, name), c, mine));
+    }
+    out
+}
+
+/// What each player character carries, from `Globals.lsf`: a carried item's position is its
+/// holder's position, the `Creators` table (in step with `Items`) gives each item's entity, and
+/// the entity store holds the stack sizes. Each stack size whose item has a single entry is
+/// editable; gold is summed per character and its stacks are listed under "Gold".
+fn bg3_carried(b: &mut Builder, plain: &[u8]) -> bool {
+    let Some(l) = Lsf::read(plain) else { return false };
+    let Some(&na) = l.at_path(&["NewAge"]).first() else { return false };
+    let Some(blob_at) = l.attr(na, "NewAge").filter(|a| a.ty == 25 && a.at + a.len <= plain.len()) else { return false };
+    let blob = &plain[blob_at.at..blob_at.at + blob_at.len];
+    let stacks = super::lsmf::stacks(blob);
+    if stacks.is_empty() {
+        return false;
+    }
+    let mut any = false;
+    for (key, _c, mine) in bg3_party(&l, plain) {
         let mut gold_total = 0u64;
         let mut names = HashMap::new();
         let mut golds = 0;
@@ -566,7 +628,7 @@ mod tests {
         b[mem..mem + 8].copy_from_slice(&((eid + 16 - 48) as u64).to_le_bytes());
         b.extend(&names);
         for (i, (no, nl, elem, rows)) in comps.into_iter().enumerate() {
-            let off = [eid, ns, se][i] as u64;
+            let off = ([eid, ns, se][i] - 48) as u64;
             let mut d = vec![0u8; 48];
             d[0..8].copy_from_slice(&(no as u64).to_le_bytes());
             d[8..12].copy_from_slice(&(nl as u32).to_le_bytes());

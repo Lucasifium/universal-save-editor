@@ -17827,8 +17827,8 @@ Seconds left is the time the game shows for the buff (10:00 is 600). Set it to 0
 Skill points to spend are the tile above. Skill experience fills toward the next point; the game hands it out once it's full.
 = 使えるスキルポイントは上のタイルにあります。スキル経験値が次のポイントまで溜まると、ゲームがポイントを付与します。
 
-Stack sizes of what this character carries, by the game's item name. Items can't be added or removed here. A stack the game split just before saving shows as read-only.
-= このキャラクターが持っているもののスタック数を、ゲームのアイテム名で表示します。アイテムの追加や削除はここではできません。セーブ直前にゲームが分割したスタックは読み取り専用で表示されます。
+Stack sizes of what this character carries, by the game's item name. Items can't be removed here; Add items adds new ones. A stack the game split just before saving shows as read-only.
+= このキャラクターが持っているもののスタック数を、ゲームのアイテム名で表示します。アイテムの削除はここではできません。新しいアイテムは「アイテムを追加」で追加できます。セーブ直前にゲームが分けたスタックは読み取り専用で表示されます。
 
 Stacked items ({0})
 = スタックされたアイテム（{0}）
@@ -25132,3 +25132,6 @@ Search again
 
 The saves found before are remembered and checked first. Search again looks through all the usual places on this computer for games added since.
 = 以前見つかったセーブは記憶され、最初に確認されます。「再検索」は、このコンピューター上の通常の場所をすべて調べ、その後に追加されたゲームを探します。
+
+Every kind of item in your party's bags can be added, as a copy of one the game made. The copies go into the chosen character's bag when you save. Items kept in a stack, worn gear, containers, keys and story items aren't offered; a stack's size can be changed under Stacked items. Keep a backup: this hasn't been tried in the game yet.
+= パーティーのバッグにあるアイテムはどの種類でも、ゲームが作ったものの複製として追加できます。複製はセーブ時に選んだキャラクターのバッグに入ります。スタックになっているアイテム、装備中の装備、容器、鍵、ストーリーアイテムは対象外です。スタック数は「スタックされたアイテム」で変更できます。バックアップを取ってください。これはまだゲーム内で試されていません。

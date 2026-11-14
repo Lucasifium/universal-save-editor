@@ -17752,8 +17752,8 @@ Seconds left is the time the game shows for the buff (10:00 is 600). Set it to 0
 Skill points to spend are the tile above. Skill experience fills toward the next point; the game hands it out once it's full.
 = Les points de compétence à dépenser figurent dans la tuile ci-dessus. L'expérience de compétence se remplit jusqu'au point suivant ; le jeu le donne une fois pleine.
 
-Stack sizes of what this character carries, by the game's item name. Items can't be added or removed here. A stack the game split just before saving shows as read-only.
-= Tailles de pile de ce que porte ce personnage, d'après le nom d'objet du jeu. Les objets ne peuvent être ni ajoutés ni retirés ici. Une pile que le jeu a scindée juste avant l'enregistrement s'affiche en lecture seule.
+Stack sizes of what this character carries, by the game's item name. Items can't be removed here; Add items adds new ones. A stack the game split just before saving shows as read-only.
+= Tailles de pile de ce que porte ce personnage, d'après le nom d'objet du jeu. Les objets ne peuvent pas être retirés ici ; Ajouter des objets en ajoute de nouveaux. Une pile que le jeu a scindée juste avant l'enregistrement s'affiche en lecture seule.
 
 Stacked items ({0})
 = Objets empilés ({0})
@@ -25057,3 +25057,6 @@ Search again
 
 The saves found before are remembered and checked first. Search again looks through all the usual places on this computer for games added since.
 = Les sauvegardes trouvées auparavant sont mémorisées et vérifiées en premier. « Rechercher à nouveau » parcourt tous les emplacements habituels de cet ordinateur pour trouver les jeux ajoutés depuis.
+
+Every kind of item in your party's bags can be added, as a copy of one the game made. The copies go into the chosen character's bag when you save. Items kept in a stack, worn gear, containers, keys and story items aren't offered; a stack's size can be changed under Stacked items. Keep a backup: this hasn't been tried in the game yet.
+= Tout type d'objet présent dans les sacs de ton groupe peut être ajouté, sous forme de copie d'un objet créé par le jeu. Les copies vont dans le sac du personnage choisi à l'enregistrement. Les objets en pile, l'équipement porté, les conteneurs, les clés et les objets de quête ne sont pas proposés ; la taille d'une pile se modifie sous Objets empilés. Fais une sauvegarde : cela n'a pas encore été essayé dans le jeu.

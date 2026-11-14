@@ -100,11 +100,12 @@ pub fn dos2(ui: &mut Ui, cx: &mut GameCtx) {
             );
         });
     }
-    dos2_add(ui, cx);
+    add_items(ui, cx, tr("Every kind of item found in an inventory in this save can be added, as a copy of one the game made. Items go into the chosen character's bag when you save; where they already carry a stack of the same item, that stack grows instead. Keys, containers and story items aren't offered. Keep a backup: this hasn't been tried in the game yet."));
 }
 
-/// "Add items": who gets them, and an amount per item kind (see `fmt::larian_add`).
-fn dos2_add(ui: &mut Ui, cx: &mut GameCtx) {
+/// "Add items": who gets them, and an amount per item kind (see `fmt::larian_add` and
+/// `fmt::bg3_add`), with `hint` under the list.
+fn add_items(ui: &mut Ui, cx: &mut GameCtx, hint: &str) {
     let kinds: Vec<String> = keys(cx, "/Add items").into_iter().filter(|k| k != "Add to").collect();
     if kinds.is_empty() {
         return;
@@ -128,7 +129,7 @@ fn dos2_add(ui: &mut Ui, cx: &mut GameCtx) {
         egui::ScrollArea::vertical().id_salt("dos2_add_list").max_height(360.0).show_locked(ui, |ui| {
             super::screens2::value_rows(ui, cx, "dos2_add_rows", &shown[..shown.len().min(300)]);
         });
-        ui.weak(tr("Every kind of item found in an inventory in this save can be added, as a copy of one the game made. Items go into the chosen character's bag when you save; where they already carry a stack of the same item, that stack grows instead. Keys, containers and story items aren't offered. Keep a backup: this hasn't been tried in the game yet."));
+        ui.weak(hint);
     });
 }
 
@@ -180,6 +181,7 @@ pub fn bg3(ui: &mut Ui, cx: &mut GameCtx) {
         ui.weak(tr("From the save's own summary."));
     });
     bg3_carried(ui, cx, gold);
+    add_items(ui, cx, tr("Every kind of item in your party's bags can be added, as a copy of one the game made. The copies go into the chosen character's bag when you save. Items kept in a stack, worn gear, containers, keys and story items aren't offered; a stack's size can be changed under Stacked items. Keep a backup: this hasn't been tried in the game yet."));
     super::screens2::story(ui, cx, gold);
 }
 
@@ -218,7 +220,7 @@ fn bg3_carried(ui: &mut Ui, cx: &mut GameCtx, gold: Color32) {
                 });
             });
             ui.weak(
-                tr("Stack sizes of what this character carries, by the game's item name. Items can't be added or removed here. A stack the game split just before saving shows as read-only."),
+                tr("Stack sizes of what this character carries, by the game's item name. Items can't be removed here; Add items adds new ones. A stack the game split just before saving shows as read-only."),
             );
         });
     }
