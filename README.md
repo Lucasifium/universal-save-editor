@@ -3,7 +3,7 @@
 > **Free, and it always will be.** No price, no ads, no account, no paid version, no online service, no
 > rate limits. If anyone is charging you for this, it isn't from here.
 
-An offline save editor and save manager for 490+ (495) PC games (edit saves, and back up, name and restore them): Cairn, Terraria (characters and a world map editor),
+An offline save editor and save manager for 490+ (498) PC games (edit saves, and back up, name and restore them): Cairn, Terraria (characters and a world map editor),
 Oxygen Not Included, RimWorld, Stardew Valley, Onimusha: Way of the Sword, Elden Ring, Dark Souls,
 Cyberpunk 2077, the Persona, Yakuza and Final Fantasy games, Ren'Py visual novels, RPG Maker games
 and more (the full list is below). Written in Rust (egui). Nothing is uploaded anywhere, and there are
@@ -110,13 +110,14 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 </details>
 
 <details>
-<summary><strong>B</strong> (14)</summary>
+<summary><strong>B</strong> (15)</summary>
 
 | Game | Screen |
 |---|---|
 | Balatro | Money, ante, hands and discards; this round; jokers and consumables; poker hand levels |
 | Baldur's Gate 3 | Gold and the stack size of every stacked item each companion carries (potions, arrows, scrolls, camp supplies), read from the save's packed entity store, plus the party summary (origin, class, level, experience) and story flags by area and companion (set or cleared, with the story's own flag list kept in step). Checked on about a hundred public saves; not yet tried in the game |
 | Banjo-Kazooie | *Banjo* (N64 emulator `.eep` saves): per save slot jiggies, Mumbo tokens, health, eggs and feathers with their maximums, every move, each world's jiggies and the Stop 'n' Swop items, with all other flags in the Tree (the slot's sum is made again on save; checked on public saves, not yet tried in the game) |
+| Batman: Arkham City | *Progress*: difficulty, experience, player level and the upgrades bought for Batman and Catwoman; the LZO-packed save is unpacked and packed again (saves of a brand-new game have no experience yet; checked on public saves, not yet tried in the game) |
 | BeamNG.drive | *Career*: career money and BeamXP from `career/playerAttributes.json` of a save slot; the other career values (branch levels, vehicles) open by name in the Tree. Written from the game's own Lua source, not yet checked on a real save |
 | BioShock Infinite | *Booker*: Silver Eagles (up to 99,999), salts, lockpicks and the Health, Shield and Salts infusion levels (0 to 10; a kind never picked has no entry yet); unpacked and packed again with the save's MD5. Not yet tried in the game |
 | Bitburner | *Player*: money, BitNode, karma, HP, the skill levels and the experience behind them (an exported save; the JSON nested inside it is opened as one; checked on a real save, not yet tried in the game) |
@@ -249,7 +250,7 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 </details>
 
 <details>
-<summary><strong>G</strong> (14)</summary>
+<summary><strong>G</strong> (15)</summary>
 
 | Game | Screen |
 |---|---|
@@ -263,6 +264,7 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 | GoldenEye 007 | *Agent* (N64 emulator `.eep` saves): per player slot the best time of every mission on each difficulty, the cheats and the control options (the slot's sum is made again on save; checked on public saves, not yet tried in the game) |
 | Gran Turismo (PlayStation) | *Driver* (PlayStation memory card, `.mcs`, `.psx` or `.psv` save of the 1997 game): credits, days, every licence test medal and the result of every league, special event and spot race; the save's checksum is written again (cars and tuning parts are not edited yet; checked on public saves, not yet tried in the game) |
 | Grand Theft Auto III | *Player*: money (both copies the game keeps), hidden packages, and the statistics (progress, missions, stunt jumps, days, times arrested and died, kills); the save's checksum is rewritten (checked on public saves, not yet tried in the game) |
+| Grand Theft Auto: San Andreas | *Player*: money (both copies the game keeps), health and armor, fat, stamina, muscle, respect, sex appeal and story line; *Skills*: driving, flying, lung, bike, cycling, gambling and every weapon skill; *Time and statistics*; *Options*; *Weapons*: weapon and ammunition per slot; the save's checksum is rewritten (the 2005 PC release; checked on a public save, not yet tried in the game) |
 | Grand Theft Auto: Vice City | *Player*: money (both copies the game keeps), hidden packages, and the statistics (progress, stunt jumps, days, times arrested and died, kills); the save's checksum is rewritten (checked on public saves, not yet tried in the game) |
 | Graveyard Keeper | *Keeper*: money (in silver; 100 = 1 gold) and health, with every other value of the save (technology points, inventory, world objects) in the Tree under the names the game uses. The typed value tree of the `.dat` is read and written again, keeping each value's type. Built from the published layout; not yet tried on a real save |
 | Green Hell | *Survivor*: health, energy, hydration, the three nutrients, dirtiness, sanity, every skill and the statistics |
@@ -486,7 +488,7 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 </details>
 
 <details>
-<summary><strong>S</strong> (44)</summary>
+<summary><strong>S</strong> (45)</summary>
 
 | Game | Screen |
 |---|---|
@@ -503,6 +505,7 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 | Shadow Warrior 2 | *Lo Wang*: level, experience, money, crystal points, perk points, health, mana, rage and every kind of ammunition; weapons and upgrades are in the Tree. Each `.bin` save is a zip whose text is opened and packed again for you (checked on a public save, not yet tried in the game) |
 | Shape of Dreams | *Traveler*: stardust, spent stardust, completed reveries, preferred traveler and difficulty from `r_profile<id>.json`; mastery level, mastery points and the record of every traveler from `r_stats<id>.json` (the unlocked items are in an encrypted file that is not opened; checked on public saves, not yet tried in the game) |
 | Silent Hill (PlayStation) | *Slots* (PlayStation memory card, `.mcs`, `.psx` or `.psv` save): the options and unlocked endings, and for every save slot in the file the difficulty, health, save and continue counts, shooting statistics and the whole inventory with item and quantity; the checksums are written again (checked on public saves, not yet tried in the game) |
+| Single Player Tarkov (SPT) | *Character*: level, experience, skills, trader standing and loyalty, health, and the roubles, dollars and euros stacks in the stash; a plain JSON profile (checked on a public profile, not yet tried in the game) |
 | Skyrim, Fallout 4 | Character header; game time; every statistic. Skyrim: the character's real level (in the character itself and the header) |
 | Slay the Spire | Gold, HP, potion slots; the deck, relics and potions (change an id or upgrade level, add a card, relic or potion by its internal id, remove one); ascension level, floor, act, shop removal cost and the three Heart keys |
 | Slay the Spire 2 | *Progress*: each character's highest and preferred Ascension, wins, losses, win streaks and play time, plus the profile's score, from `progress.save` (plain JSON). checked on a public save, not yet tried in the game |
@@ -706,8 +709,8 @@ binary and stays an ironman save. It isn't converted to a normal one.
 
 The start page lists **Your games**: every game in the list whose saves were found on this computer,
 newest first, each one click away from its newest save. *Find my game's saves* (the big button on the
-start page, *Find saves* in the toolbar and the File menu) lists every one of the 490+ (495) PC games the editor knows, Mass Effect 1–3, the Legendary Edition and Andromeda among them — with where it
-start page, *Find saves* in the toolbar and the File menu) lists every one of the 490+ (495) PC games the editor knows, Mass Effect 1–3, the Legendary Edition and Andromeda among them — with where it
+start page, *Find saves* in the toolbar and the File menu) lists every one of the 490+ (498) PC games the editor knows, Mass Effect 1–3, the Legendary Edition and Andromeda among them — with where it
+start page, *Find saves* in the toolbar and the File menu) lists every one of the 490+ (498) PC games the editor knows, Mass Effect 1–3, the Legendary Edition and Andromeda among them — with where it
 usually keeps its saves and what the files are called, and finds them on your computer (Steam
 libraries and `userdata`, Documents wherever Windows has it, AppData, Saved Games, Ubisoft
 Connect). On Linux and the Steam Deck it also looks inside Proton prefixes

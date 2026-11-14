@@ -16897,6 +16897,100 @@ Largest ammunition store
 Largest supplies store
 = Almacén de suministros más grande
 
+
+AK-47
+= AK-47
+
+M4
+= M4
+
+SMG
+= SMG
+
+All taxis have nitro
+= Todos los taxis tienen nitro
+
+Bike skill
+= Habilidad en moto
+
+Close the game first. The save's checksum is rewritten, and the values the save keeps twice are written to both places. Health 569 is full health at the standard maximum.
+= Cierra primero el juego. Se reescribe la suma de comprobación de la partida y los valores que la partida guarda dos veces se escriben en ambos sitios. Una salud de 569 es la salud completa con el máximo estándar.
+
+Combat shotgun
+= Escopeta de combate
+
+Cycling skill
+= Habilidad en bicicleta
+
+Day of the week
+= Día de la semana
+
+Desert Eagle
+= Desert Eagle
+
+Drive-by shooting
+= Disparar desde el vehículo
+
+Driving skill
+= Habilidad al volante
+
+Fast reload
+= Recarga rápida
+
+Fireproof
+= Ignífugo
+
+Flying skill
+= Habilidad de vuelo
+
+Free release once busted
+= Liberación gratuita una vez al ser arrestado
+
+Free release once wasted
+= Liberación gratuita una vez al morir
+
+GTASAsf*.b (the 2005 PC release). Money (both copies), health and armor, body stats, skills, weapons and ammunition, story line and options; the save's checksum is rewritten.
+= GTASAsf*.b (la versión de PC de 2005). Dinero (ambas copias), salud y armadura, estadísticas corporales, habilidades, armas y munición, línea argumental y opciones; se reescribe la suma de comprobación de la partida.
+
+Infinite sprint
+= Correr sin límite
+
+Lung capacity
+= Capacidad pulmonar
+
+Machine pistol
+= Pistola ametralladora
+
+Minute length (milliseconds)
+= Duración del minuto (milisegundos)
+
+Muscle
+= Músculo
+
+Pistol
+= Pistola
+
+Prostitutes pay you
+= Las prostitutas te pagan
+
+Respect
+= Respeto
+
+Riots in Los Santos
+= Disturbios en Los Santos
+
+Sawn-off shotgun
+= Escopeta recortada
+
+Sex appeal
+= Atractivo
+
+Silenced pistol
+= Pistola silenciada
+
+Story line
+= Línea argumental
+
 Time and statistics
 = Tiempo y estadísticas
 
@@ -23322,4 +23416,53 @@ Weapon EXP
 
 save.dat from Documents\\KOEI\\Dynasty Warriors 4 Hyper\\Savedata. The difficulty, each officer's life, Musou, attack, defense, experience and weapon experience, and the level of every item; the checksum is handled.
 = save.dat de Documents\\KOEI\\Dynasty Warriors 4 Hyper\\Savedata. La dificultad y la vida, Musou, ataque, defensa, experiencia y experiencia de arma de cada oficial, y el nivel de cada objeto; la suma de comprobación se gestiona.
+
+
+Times busted
+= Veces arrestado
+
+Times cheated
+= Veces que hizo trampas
+
+Times wasted
+= Veces muerto
+
+An SPT profile (user/profiles/<id>.json), a plain JSON file. Your PMC's level and experience, skills, trader standing, health and the stacks of roubles, dollars and euros in your stash.
+= Un perfil de SPT (user/profiles/<id>.json), un archivo JSON sencillo. Nivel y experiencia de tu PMC, habilidades, reputación con los comerciantes, salud y las pilas de rublos, dólares y euros de tu alijo.
+
+Currency stacks
+= Pilas de divisas
+
+Loyalty level
+= Nivel de lealtad
+
+Maximum
+= Máximo
+
+Sales sum
+= Suma de ventas
+
+Standing
+= Reputación
+
+Trader standing
+= Reputación con los comerciantes
+
+A .sgd save of the PC game (Game of the Year or original). Difficulty, experience, player level and the upgrades bought for Batman and Catwoman; the save is unpacked and packed again. Saves of a brand-new game have no experience yet and are not opened.
+= Una partida .sgd del juego de PC (edición Game of the Year u original). Dificultad, experiencia, nivel del jugador y las mejoras compradas para Batman y Catwoman; la partida se descomprime y se vuelve a comprimir. Las partidas de un juego recién empezado aún no tienen experiencia y no se abren.
+
+Experience at the last upgrade point
+= Experiencia en el último punto de mejora
+
+Experience for the next upgrade point
+= Experiencia para el próximo punto de mejora
+
+Upgrades bought (Batman)
+= Mejoras compradas (Batman)
+
+Upgrades bought (Catwoman)
+= Mejoras compradas (Catwoman)
+
+The save is compressed again when you write it. Experience is checked by the game at the next load.
+= La partida se vuelve a comprimir al escribirla. El juego comprueba la experiencia en la próxima carga.
 

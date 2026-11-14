@@ -16985,6 +16985,100 @@ Largest ammunition store
 Largest supplies store
 = 物資の最大保管量
 
+
+AK-47
+= AK-47
+
+M4
+= M4
+
+SMG
+= SMG
+
+All taxis have nitro
+= すべてのタクシーにニトロ搭載
+
+Bike skill
+= バイク技能
+
+Close the game first. The save's checksum is rewritten, and the values the save keeps twice are written to both places. Health 569 is full health at the standard maximum.
+= 先にゲームを終了してください。セーブのチェックサムは書き直され、セーブが二重に保持している値は両方の場所に書き込まれます。標準の最大値では体力569が満タンです。
+
+Combat shotgun
+= コンバットショットガン
+
+Cycling skill
+= 自転車技能
+
+Day of the week
+= 曜日
+
+Desert Eagle
+= デザートイーグル
+
+Drive-by shooting
+= ドライブバイ射撃
+
+Driving skill
+= 運転技能
+
+Fast reload
+= 高速リロード
+
+Fireproof
+= 耐火
+
+Flying skill
+= 飛行技能
+
+Free release once busted
+= 一度だけ無料で釈放(逮捕時)
+
+Free release once wasted
+= 一度だけ無料で退院(死亡時)
+
+GTASAsf*.b (the 2005 PC release). Money (both copies), health and armor, body stats, skills, weapons and ammunition, story line and options; the save's checksum is rewritten.
+= GTASAsf*.b(2005年のPC版)。所持金(両方のコピー)、体力とアーマー、体型ステータス、技能、武器と弾薬、ストーリー進行、オプション。セーブのチェックサムは書き直されます。
+
+Infinite sprint
+= 無限ダッシュ
+
+Lung capacity
+= 肺活量
+
+Machine pistol
+= マシンピストル
+
+Minute length (milliseconds)
+= 1分の長さ(ミリ秒)
+
+Muscle
+= 筋肉
+
+Pistol
+= ピストル
+
+Prostitutes pay you
+= 娼婦が代金を払う
+
+Respect
+= リスペクト
+
+Riots in Los Santos
+= ロスサントスの暴動
+
+Sawn-off shotgun
+= ソードオフショットガン
+
+Sex appeal
+= セックスアピール
+
+Silenced pistol
+= サイレンサー付きピストル
+
+Story line
+= ストーリー進行
+
 Time and statistics
 = 時間と統計
 
@@ -23408,4 +23502,53 @@ Weapon EXP
 
 save.dat from Documents\\KOEI\\Dynasty Warriors 4 Hyper\\Savedata. The difficulty, each officer's life, Musou, attack, defense, experience and weapon experience, and the level of every item; the checksum is handled.
 = Documents\\KOEI\\Dynasty Warriors 4 Hyper\\Savedata の save.dat。難易度、各武将のライフ・無双・攻撃・防御・経験値・武器経験値、各アイテムのレベル。チェックサムは自動で処理されます。
+
+
+Times busted
+= 逮捕された回数
+
+Times cheated
+= チートを使った回数
+
+Times wasted
+= 死亡した回数
+
+An SPT profile (user/profiles/<id>.json), a plain JSON file. Your PMC's level and experience, skills, trader standing, health and the stacks of roubles, dollars and euros in your stash.
+= SPTプロファイル(user/profiles/<id>.json)。単純なJSONファイルです。PMCのレベルと経験値、スキル、トレーダーとの関係、体力、隠し場所にあるルーブル・ドル・ユーロの束を編集できます。
+
+Currency stacks
+= 通貨の束
+
+Loyalty level
+= 忠誠レベル
+
+Maximum
+= 最大
+
+Sales sum
+= 売上合計
+
+Standing
+= 評価
+
+Trader standing
+= トレーダーとの関係
+
+A .sgd save of the PC game (Game of the Year or original). Difficulty, experience, player level and the upgrades bought for Batman and Catwoman; the save is unpacked and packed again. Saves of a brand-new game have no experience yet and are not opened.
+= PC版のセーブ(.sgd。Game of the Year版またはオリジナル版)。難易度、経験値、プレイヤーレベル、バットマンとキャットウーマンで購入したアップグレード。セーブは展開され、再び圧縮されます。ゲームを始めたばかりのセーブには経験値がまだなく、開けません。
+
+Experience at the last upgrade point
+= 直前のアップグレードポイント時の経験値
+
+Experience for the next upgrade point
+= 次のアップグレードポイントに必要な経験値
+
+Upgrades bought (Batman)
+= 購入したアップグレード(バットマン)
+
+Upgrades bought (Catwoman)
+= 購入したアップグレード(キャットウーマン)
+
+The save is compressed again when you write it. Experience is checked by the game at the next load.
+= 書き込み時にセーブは再び圧縮されます。経験値は次回のロード時にゲームが確認します。
 

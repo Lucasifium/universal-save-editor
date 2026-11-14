@@ -16958,6 +16958,100 @@ Largest ammunition store
 Largest supplies store
 = 补给储量上限
 
+
+AK-47
+= AK-47
+
+M4
+= M4
+
+SMG
+= SMG
+
+All taxis have nitro
+= 所有出租车都有氮气加速
+
+Bike skill
+= 摩托车技能
+
+Close the game first. The save's checksum is rewritten, and the values the save keeps twice are written to both places. Health 569 is full health at the standard maximum.
+= 请先关闭游戏。存档的校验和会被重写,存档中保存两份的数值会同时写入两处。在标准上限下,生命值 569 即为满血。
+
+Combat shotgun
+= 战斗霰弹枪
+
+Cycling skill
+= 自行车技能
+
+Day of the week
+= 星期几
+
+Desert Eagle
+= 沙漠之鹰
+
+Drive-by shooting
+= 驾驶射击
+
+Driving skill
+= 驾驶技能
+
+Fast reload
+= 快速换弹
+
+Fireproof
+= 防火
+
+Flying skill
+= 飞行技能
+
+Free release once busted
+= 被捕后免费释放一次
+
+Free release once wasted
+= 死亡后免费出院一次
+
+GTASAsf*.b (the 2005 PC release). Money (both copies), health and armor, body stats, skills, weapons and ammunition, story line and options; the save's checksum is rewritten.
+= GTASAsf*.b(2005 年 PC 版)。金钱(两份副本)、生命与护甲、体型属性、技能、武器与弹药、剧情进度和选项;存档校验和会被重写。
+
+Infinite sprint
+= 无限冲刺
+
+Lung capacity
+= 肺活量
+
+Machine pistol
+= 微型冲锋枪
+
+Minute length (milliseconds)
+= 一分钟时长(毫秒)
+
+Muscle
+= 肌肉
+
+Pistol
+= 手枪
+
+Prostitutes pay you
+= 妓女向你付钱
+
+Respect
+= 尊重度
+
+Riots in Los Santos
+= 洛圣都暴动
+
+Sawn-off shotgun
+= 短管霰弹枪
+
+Sex appeal
+= 性感魅力
+
+Silenced pistol
+= 消音手枪
+
+Story line
+= 剧情进度
+
 Time and statistics
 = 时间与统计
 
@@ -23381,4 +23475,53 @@ Weapon EXP
 
 save.dat from Documents\\KOEI\\Dynasty Warriors 4 Hyper\\Savedata. The difficulty, each officer's life, Musou, attack, defense, experience and weapon experience, and the level of every item; the checksum is handled.
 = Documents\\KOEI\\Dynasty Warriors 4 Hyper\\Savedata 中的 save.dat。难度,每名武将的生命、无双、攻击、防御、经验和武器经验,以及每件物品的等级;校验和会自动处理。
+
+
+Times busted
+= 被捕次数
+
+Times cheated
+= 作弊次数
+
+Times wasted
+= 死亡次数
+
+An SPT profile (user/profiles/<id>.json), a plain JSON file. Your PMC's level and experience, skills, trader standing, health and the stacks of roubles, dollars and euros in your stash.
+= SPT 配置文件(user/profiles/<id>.json),一个普通的 JSON 文件。可编辑 PMC 的等级与经验、技能、商人声望、生命值,以及储藏箱中的卢布、美元和欧元堆叠。
+
+Currency stacks
+= 货币堆叠
+
+Loyalty level
+= 忠诚等级
+
+Maximum
+= 最大值
+
+Sales sum
+= 销售总额
+
+Standing
+= 声望
+
+Trader standing
+= 商人声望
+
+A .sgd save of the PC game (Game of the Year or original). Difficulty, experience, player level and the upgrades bought for Batman and Catwoman; the save is unpacked and packed again. Saves of a brand-new game have no experience yet and are not opened.
+= PC版存档(.sgd,年度版或原版)。难度、经验值、玩家等级,以及为蝙蝠侠和猫女购买的升级;存档会被解压并重新压缩。刚开始的新游戏存档还没有经验值,无法打开。
+
+Experience at the last upgrade point
+= 上一个升级点时的经验值
+
+Experience for the next upgrade point
+= 下一个升级点所需经验值
+
+Upgrades bought (Batman)
+= 已购买升级(蝙蝠侠)
+
+Upgrades bought (Catwoman)
+= 已购买升级(猫女)
+
+The save is compressed again when you write it. Experience is checked by the game at the next load.
+= 写入时存档会重新压缩。游戏会在下次载入时检查经验值。
 

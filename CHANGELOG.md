@@ -3,6 +3,9 @@
 ## Unreleased
 
 - New game screens: Darksiders Genesis (souls, coins, keys, shards), Journey to the Savage Planet (stash resources with Max crafting materials), My Hero One's Justice and My Hero One's Justice 2 (cash, hero coins), Vikings: Wolves of Midgard (gold, iron, steel, blood, jotunjarn and ores)
+- Batman: Arkham City (PC): game screen (difficulty, experience, player level, upgrades bought for Batman and Catwoman); the LZO-packed save is unpacked and packed again
+- Grand Theft Auto: San Andreas (2005 PC release): game screen (money, health and armor, body stats, skills, weapons and ammunition, story line, options), with the save checksum rewritten
+- Single Player Tarkov (SPT): game screen for profile files (level, experience, skills, trader standing, health, currency stacks)
 - New game screens for ten Assassin's Creed games, from Brotherhood to Odyssey: money, Creed Points (Unity), XP and ability points (Origins, Odyssey), crafting materials with Max crafting materials (Black Flag, Rogue, Syndicate, Odyssey), trade goods and ammunition. The saves are unscrambled with the key worked out from the file, unpacked and packed again with their block checks (not yet tried in the games)
 - New game screens: The Elder Scrolls III: Morrowind and IV: Oblivion (level, gold, attributes, skills, vitals; Morrowind also the inventory counts)
 - New game screens: WorldBox (units and village resources), Core Keeper (skills, coins, inventory), HoloCure (HoloCoins and upgrades), Potion Craft (gold, popularity, karma, inventory with Max crafting materials), World War Z (currency, coins, level, class perks), Roboquest (wrenches, difficulty, statistics), Car Mechanic Simulator 2018 (money, level, experience), The Long Drive (vitals and trip), and Total War: Warhammer, Attila and Thrones of Britannia treasuries

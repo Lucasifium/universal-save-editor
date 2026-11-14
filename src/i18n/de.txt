@@ -16901,6 +16901,100 @@ Largest ammunition store
 Largest supplies store
 = Größtes Vorratslager
 
+
+AK-47
+= AK-47
+
+M4
+= M4
+
+SMG
+= SMG
+
+All taxis have nitro
+= Alle Taxis haben Nitro
+
+Bike skill
+= Motorradfertigkeit
+
+Close the game first. The save's checksum is rewritten, and the values the save keeps twice are written to both places. Health 569 is full health at the standard maximum.
+= Schließe zuerst das Spiel. Die Prüfsumme des Spielstands wird neu geschrieben, und Werte, die der Spielstand doppelt speichert, werden an beiden Stellen geschrieben. 569 Gesundheit ist bei normalem Maximum volle Gesundheit.
+
+Combat shotgun
+= Kampfschrotflinte
+
+Cycling skill
+= Radfahrfertigkeit
+
+Day of the week
+= Wochentag
+
+Desert Eagle
+= Desert Eagle
+
+Drive-by shooting
+= Schießen aus dem Fahrzeug
+
+Driving skill
+= Fahrfertigkeit
+
+Fast reload
+= Schnelles Nachladen
+
+Fireproof
+= Feuerfest
+
+Flying skill
+= Flugfertigkeit
+
+Free release once busted
+= Einmal kostenlos aus der Haft entlassen
+
+Free release once wasted
+= Einmal kostenlos aus dem Krankenhaus entlassen
+
+GTASAsf*.b (the 2005 PC release). Money (both copies), health and armor, body stats, skills, weapons and ammunition, story line and options; the save's checksum is rewritten.
+= GTASAsf*.b (die PC-Version von 2005). Geld (beide Kopien), Gesundheit und Rüstung, Körperwerte, Fertigkeiten, Waffen und Munition, Handlungsstrang und Optionen; die Prüfsumme des Spielstands wird neu geschrieben.
+
+Infinite sprint
+= Unendlich sprinten
+
+Lung capacity
+= Lungenkapazität
+
+Machine pistol
+= Maschinenpistole
+
+Minute length (milliseconds)
+= Minutenlänge (Millisekunden)
+
+Muscle
+= Muskeln
+
+Pistol
+= Pistole
+
+Prostitutes pay you
+= Prostituierte bezahlen dich
+
+Respect
+= Respekt
+
+Riots in Los Santos
+= Unruhen in Los Santos
+
+Sawn-off shotgun
+= Abgesägte Schrotflinte
+
+Sex appeal
+= Sexappeal
+
+Silenced pistol
+= Schallgedämpfte Pistole
+
+Story line
+= Handlungsstrang
+
 Time and statistics
 = Zeit und Statistiken
 
@@ -23326,4 +23420,53 @@ Weapon EXP
 
 save.dat from Documents\\KOEI\\Dynasty Warriors 4 Hyper\\Savedata. The difficulty, each officer's life, Musou, attack, defense, experience and weapon experience, and the level of every item; the checksum is handled.
 = save.dat aus Documents\\KOEI\\Dynasty Warriors 4 Hyper\\Savedata. Der Schwierigkeitsgrad sowie Leben, Musou, Angriff, Verteidigung, Erfahrung und Waffenerfahrung jedes Offiziers und die Stufe jedes Gegenstands; die Prüfsumme wird verarbeitet.
+
+
+Times busted
+= Mal verhaftet
+
+Times cheated
+= Mal geschummelt
+
+Times wasted
+= Mal gestorben
+
+An SPT profile (user/profiles/<id>.json), a plain JSON file. Your PMC's level and experience, skills, trader standing, health and the stacks of roubles, dollars and euros in your stash.
+= Ein SPT-Profil (user/profiles/<id>.json), eine einfache JSON-Datei. Stufe und Erfahrung deines PMC, Fertigkeiten, Händleransehen, Gesundheit und die Stapel an Rubel, Dollar und Euro in deinem Versteck.
+
+Currency stacks
+= Währungsstapel
+
+Loyalty level
+= Treuestufe
+
+Maximum
+= Maximum
+
+Sales sum
+= Verkaufssumme
+
+Standing
+= Ansehen
+
+Trader standing
+= Händleransehen
+
+A .sgd save of the PC game (Game of the Year or original). Difficulty, experience, player level and the upgrades bought for Batman and Catwoman; the save is unpacked and packed again. Saves of a brand-new game have no experience yet and are not opened.
+= Ein .sgd-Spielstand des PC-Spiels (Game of the Year oder Original). Schwierigkeitsgrad, Erfahrung, Spielerstufe und die für Batman und Catwoman gekauften Upgrades; der Spielstand wird entpackt und wieder gepackt. Spielstände eines ganz neuen Spiels haben noch keine Erfahrung und werden nicht geöffnet.
+
+Experience at the last upgrade point
+= Erfahrung beim letzten Upgradepunkt
+
+Experience for the next upgrade point
+= Erfahrung für den nächsten Upgradepunkt
+
+Upgrades bought (Batman)
+= Gekaufte Upgrades (Batman)
+
+Upgrades bought (Catwoman)
+= Gekaufte Upgrades (Catwoman)
+
+The save is compressed again when you write it. Experience is checked by the game at the next load.
+= Der Spielstand wird beim Schreiben erneut komprimiert. Die Erfahrung wird vom Spiel beim nächsten Laden geprüft.
 

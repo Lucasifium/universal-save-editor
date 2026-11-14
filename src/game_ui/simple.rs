@@ -12,6 +12,7 @@ use serde_json::Value;
 
 mod choices;
 mod new_specs;
+mod hardpc_specs;
 mod ps_specs;
 mod retro_specs;
 mod spec_texts;

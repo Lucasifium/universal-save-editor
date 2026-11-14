@@ -16871,6 +16871,100 @@ Largest ammunition store
 Largest supplies store
 = Maior depósito de suprimentos
 
+
+AK-47
+= AK-47
+
+M4
+= M4
+
+SMG
+= SMG
+
+All taxis have nitro
+= Todos os táxis têm nitro
+
+Bike skill
+= Habilidade com moto
+
+Close the game first. The save's checksum is rewritten, and the values the save keeps twice are written to both places. Health 569 is full health at the standard maximum.
+= Feche o jogo primeiro. A soma de verificação do save é reescrita, e os valores que o save guarda duas vezes são gravados nos dois lugares. Saúde 569 é a saúde cheia no máximo padrão.
+
+Combat shotgun
+= Escopeta de combate
+
+Cycling skill
+= Habilidade com bicicleta
+
+Day of the week
+= Dia da semana
+
+Desert Eagle
+= Desert Eagle
+
+Drive-by shooting
+= Tiro em movimento
+
+Driving skill
+= Habilidade ao volante
+
+Fast reload
+= Recarga rápida
+
+Fireproof
+= À prova de fogo
+
+Flying skill
+= Habilidade de voo
+
+Free release once busted
+= Liberação gratuita uma vez ao ser preso
+
+Free release once wasted
+= Liberação gratuita uma vez ao morrer
+
+GTASAsf*.b (the 2005 PC release). Money (both copies), health and armor, body stats, skills, weapons and ammunition, story line and options; the save's checksum is rewritten.
+= GTASAsf*.b (a versão de PC de 2005). Dinheiro (as duas cópias), saúde e colete, atributos corporais, habilidades, armas e munição, linha da história e opções; a soma de verificação do save é reescrita.
+
+Infinite sprint
+= Corrida infinita
+
+Lung capacity
+= Capacidade pulmonar
+
+Machine pistol
+= Pistola automática
+
+Minute length (milliseconds)
+= Duração do minuto (milissegundos)
+
+Muscle
+= Músculo
+
+Pistol
+= Pistola
+
+Prostitutes pay you
+= Prostitutas pagam você
+
+Respect
+= Respeito
+
+Riots in Los Santos
+= Tumultos em Los Santos
+
+Sawn-off shotgun
+= Escopeta de cano serrado
+
+Sex appeal
+= Sex appeal
+
+Silenced pistol
+= Pistola silenciada
+
+Story line
+= Linha da história
+
 Time and statistics
 = Tempo e estatísticas
 
@@ -23296,4 +23390,53 @@ Weapon EXP
 
 save.dat from Documents\\KOEI\\Dynasty Warriors 4 Hyper\\Savedata. The difficulty, each officer's life, Musou, attack, defense, experience and weapon experience, and the level of every item; the checksum is handled.
 = save.dat de Documents\\KOEI\\Dynasty Warriors 4 Hyper\\Savedata. A dificuldade e a vida, Musou, ataque, defesa, experiência e experiência de arma de cada oficial, e o nível de cada item; a soma de verificação é tratada.
+
+
+Times busted
+= Vezes preso
+
+Times cheated
+= Vezes que trapaceou
+
+Times wasted
+= Vezes que morreu
+
+An SPT profile (user/profiles/<id>.json), a plain JSON file. Your PMC's level and experience, skills, trader standing, health and the stacks of roubles, dollars and euros in your stash.
+= Um perfil do SPT (user/profiles/<id>.json), um arquivo JSON simples. Nível e experiência do seu PMC, habilidades, reputação com os comerciantes, saúde e as pilhas de rublos, dólares e euros do seu esconderijo.
+
+Currency stacks
+= Pilhas de moeda
+
+Loyalty level
+= Nível de lealdade
+
+Maximum
+= Máximo
+
+Sales sum
+= Soma das vendas
+
+Standing
+= Reputação
+
+Trader standing
+= Reputação com os comerciantes
+
+A .sgd save of the PC game (Game of the Year or original). Difficulty, experience, player level and the upgrades bought for Batman and Catwoman; the save is unpacked and packed again. Saves of a brand-new game have no experience yet and are not opened.
+= Um save .sgd do jogo de PC (edição Game of the Year ou original). Dificuldade, experiência, nível do jogador e os upgrades comprados para Batman e Mulher-Gato; o save é descompactado e compactado de novo. Saves de um jogo recém-iniciado ainda não têm experiência e não são abertos.
+
+Experience at the last upgrade point
+= Experiência no último ponto de upgrade
+
+Experience for the next upgrade point
+= Experiência para o próximo ponto de upgrade
+
+Upgrades bought (Batman)
+= Upgrades comprados (Batman)
+
+Upgrades bought (Catwoman)
+= Upgrades comprados (Mulher-Gato)
+
+The save is compressed again when you write it. Experience is checked by the game at the next load.
+= O save é compactado de novo ao gravar. O jogo verifica a experiência no próximo carregamento.
 

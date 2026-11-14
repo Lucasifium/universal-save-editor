@@ -22,6 +22,7 @@ Universal Save Editor is free. It builds on other people's work, listed here wit
 | [W3SavegameEditor (The Witcher 3 save layout)](https://github.com/Atvaark/W3SavegameEditor) | Atvaark | MIT |
 | [RE_RSZ (RE Engine field names)](https://github.com/alphazolam/RE_RSZ) | alphazolam | MIT |
 | [P3R Save Lab (Persona 3 Reload save layout and field positions; sample saves used for checks only, not included)](https://github.com/Luckyseer/p3r-save-editor) | P3R Save Lab contributors | MIT |
+| [ArkhamSaveParser (Batman: Arkham City save container and record layout; its test saves used for checks only, not included)](https://github.com/ShikenNuggets/ArkhamSaveParser) | ShikenNuggets | MIT |
 | [P3R-Save-EnDecryptor (Persona 3 Reload Steam save encryption)](https://github.com/illusionyy/P3R-Save-EnDecryptor) | illusion0001 | MIT |
 | [P4G Save Tool (Persona 4 Golden field positions)](https://github.com/fendevel/P4G-Save-Tool) | Jack P. Fenech | MIT |
 | [Daggerfall Unity (save field names and value ranges of SaveData.txt, read as facts; no code ported)](https://github.com/Interkarma/daggerfall-unity) | Daggerfall Workshop and contributors | MIT (Copyright (c) 2009-2023 Daggerfall Workshop) |

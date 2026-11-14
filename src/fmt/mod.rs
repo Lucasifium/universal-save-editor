@@ -275,6 +275,8 @@ pub mod nier;
 pub mod dbpf;
 pub mod pvz;
 pub mod gta3;
+pub mod gtasa;
+pub mod arkhamcity;
 pub mod jedi;
 pub mod sr3;
 pub mod sr4;
@@ -1050,6 +1052,16 @@ pub fn parse_binary(d: &[u8]) -> Option<TreeDoc> {
     }
     if sr3::looks(d) {
         if let Ok(t) = sr3::parse(d) {
+            return Some(t);
+        }
+    }
+    if arkhamcity::looks(d) {
+        if let Ok(t) = arkhamcity::parse(d) {
+            return Some(t);
+        }
+    }
+    if gtasa::looks(d) {
+        if let Ok(t) = gtasa::parse(d) {
             return Some(t);
         }
     }
