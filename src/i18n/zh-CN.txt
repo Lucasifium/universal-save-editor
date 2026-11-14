@@ -24127,3 +24127,862 @@ Shark level
 
 Story progress
 = 剧情进度
+
+1000 Yen Bill
+= 1000 Yen Bill
+
+A PlayStation 2 save: the game's save file of the save folder (.psu, .psv or a memory card), Budokai Tenkaichi 2 or Sparking! NEO. Your zeni, every character and form you can unlock, and the count of every Z-item and Dragon Ball. The save's checksum is written again.
+= PlayStation 2存档：存档文件夹中的游戏存档文件（.psu、.psv或记忆卡），适用于龙珠Z Budokai Tenkaichi 2或Sparking! NEO。可编辑泽尼、所有可解锁的角色和形态，以及每个Z物品和龙珠的数量。存档的校验和会重新写入。
+
+A PlayStation 2 save: the game's save file of the save folder (.psu, .psv or a memory card), USA or Europe release. Macca and the playthrough cycle, the protagonist's and each demon's level, experience, HP, MP, stats and skills, the stock of every item and gem, and the special items.
+= PlayStation 2存档：存档文件夹中的游戏存档文件（.psu、.psv或记忆卡），适用于美版和欧版。可编辑玛卡和周目数、主角和每只恶魔的等级、经验、HP、MP、属性和技能、每个道具和宝石的数量，以及特殊物品。
+
+A PlayStation 2 save: the game's save file of the save folder (.psu, .psv or a memory card), with up to 16 slots. Each slot's clear count, the Bouncer Points of Sion, Volt and Kou, their stat levels and skills, the unlocked stages, characters and costumes, and the survival mode records.
+= PlayStation 2存档：存档文件夹中的游戏存档文件（.psu、.psv或记忆卡），最多16个存档位。每个存档位的通关次数、Sion、Volt和Kou的保镖点数、属性等级和技能、已解锁的关卡、角色和服装，以及生存模式的记录。
+
+A PlayStation 2 save: the game's save file of the save folder (.psu, .psv or a memory card). Points, games played, play time and play counts, the unlocked characters and menus, each fighter's unlocked costumes and story completions, and the count of every collection item.
+= PlayStation 2存档：存档文件夹中的游戏存档文件（.psu、.psv或记忆卡）。可编辑点数、总游戏次数、游戏时间和各模式游玩次数、已解锁的角色和菜单、每位格斗家已解锁的服装和剧情通关次数，以及每件收藏品的数量。
+
+A PlayStation save (memory card, .mcs, .psx or .psv), a Western or Japanese Grandia save slot. Gold pieces, each character's level, experience, HP, SP and attributes, magic and weapon levels, equipment, the items in each pack, and every learned skill.
+= PlayStation存档（记忆卡、.mcs、.psx或.psv）：欧美版或日版《格兰蒂亚》的存档位。可编辑金币、每个角色的等级、经验、HP、SP和属性、魔法和武器等级、装备、每个背包中的物品，以及所有已学会的技能。
+
+Ability type
+= 能力类型
+
+Air-Carrier
+= Air-Carrier
+
+Air-Carrier (over the Galeos)
+= Air-Carrier (over the Galeos)
+
+Android #16
+= Android #16
+
+Android #17
+= Android #17
+
+Android #18
+= Android #18
+
+Android #19
+= Android #19
+
+Android 13
+= Android 13
+
+Annex Pass
+= Annex Pass
+
+Baby Vegeta
+= Baby Vegeta
+
+Bar - "Fate"
+= Bar - "Fate"
+
+Bardock
+= Bardock
+
+Bayman
+= Bayman
+
+Black-Hooded Sion
+= Black-Hooded Sion
+
+Bojack
+= Bojack
+
+Bouncer Points
+= 保镖点数
+
+Broly
+= Broly
+
+Burter
+= Burter
+
+Buster Throw
+= Buster Throw
+
+CG Gallery menu
+= CG画廊菜单
+
+Cannonball Strike
+= Cannonball Strike
+
+Captain Ginyu
+= Captain Ginyu
+
+Cell 1st Form
+= Cell 1st Form
+
+Cell 2nd Form
+= Cell 2nd Form
+
+Cell Jr.
+= Cell Jr.
+
+Cell Perfect Form
+= Cell Perfect Form
+
+Central Square
+= Central Square
+
+Central Station
+= Central Station
+
+Chiaotzu
+= Chiaotzu
+
+Circular Uppercut
+= Circular Uppercut
+
+Close the emulator first. A fighter's story is counted as completed once it has been finished at least once; the game's own list of obtained collection items and the save's checksum are written again.
+= 请先关闭模拟器。格斗家的剧情只要通关过一次就算已完成；游戏自带的已获得收藏品列表和存档的校验和会重新写入。
+
+Close the emulator first. Each Z-item and each unlocked character also keeps an obtained flag, written again on save, and the save's checksum is written again.
+= 请先关闭模拟器。每个Z物品和每个已解锁的角色还带有“已获得”标记，保存时会重新写入，存档的校验和也会重新写入。
+
+Close the emulator first. The game keeps no checksum. A skill is learned by each character whose box says Yes; items in a character's pack can be anything the game knows (equipment, key items and consumables share one list).
+= 请先关闭模拟器。游戏没有校验和。每个标记为“是”的角色都学会了对应的技能；角色背包中的物品可以是游戏已知的任何物品（装备、关键物品和消耗品共用一个列表）。
+
+Close the emulator first. The save file holds 16 slots; only the used ones are listed. The game ranks each fighter from the Bouncer Points spent on stats and skills, so the rank and the points spent are written again when you change a stat or a skill; each changed slot's checksum is written again too.
+= 请先关闭模拟器。存档文件包含16个存档位，只列出已使用的。游戏根据花在属性和技能上的保镖点数给每位角色评级，因此修改属性或技能时，评级和已花费点数会重新写入；每个被修改存档位的校验和也会重新写入。
+
+Close the emulator first. This reads the USA and European saves; the game keeps no checksum. A demon's own identity, its resistances and the magatama are not edited here; item stocks are capped at 99.
+= 请先关闭模拟器。支持美版和欧版存档，游戏没有校验和。恶魔本身的种类、抗性和勾玉在此不可编辑；道具库存上限为99。
+
+Collection menu
+= 收藏菜单
+
+Cooler
+= Cooler
+
+Cooler Final Form
+= Cooler Final Form
+
+Costumes unlocked
+= 已解锁服装
+
+Crystal Dome
+= Crystal Dome
+
+Cui
+= Cui
+
+Cycle
+= 周目
+
+Dauragon (One-handed)
+= Dauragon (One-handed)
+
+Dauragon (Shirtless)
+= Dauragon (Shirtless)
+
+Dauragon (Tattoo)
+= Dauragon (Tattoo)
+
+Dauragon (Two-handed)
+= Dauragon (Two-handed)
+
+Defence Up
+= 防御提升
+
+Demon
+= 恶魔
+
+Demon King Dabura
+= Demon King Dabura
+
+Dodoria
+= Dodoria
+
+Dominique
+= Dominique
+
+Double Knuckle
+= Double Knuckle
+
+Double Spin Kick
+= Double Spin Kick
+
+Dr. Gero
+= Dr. Gero
+
+Dragon Balls
+= 龙珠
+
+Earth experience
+= 地属性经验
+
+Earth level
+= 地属性等级
+
+Earthshaker
+= Earthshaker
+
+Earthstone
+= Earthstone
+
+Echidna
+= Echidna
+
+Feena
+= Feena
+
+Fire experience
+= 火属性经验
+
+Fire level
+= 火属性等级
+
+Floating Mine
+= Floating Mine
+
+Frieza 1st Form
+= Frieza 1st Form
+
+Frieza 2nd Form
+= Frieza 2nd Form
+
+Frieza 3rd Form
+= Frieza 3rd Form
+
+Frieza Final Form
+= Frieza Final Form
+
+Full Power Bojack
+= Full Power Bojack
+
+Full Power Frieza
+= Full Power Frieza
+
+Fusion Android 13
+= Fusion Android 13
+
+Fusion type
+= 合体类型
+
+Gadwin
+= Gadwin
+
+Galeos - Control Room
+= Galeos - Control Room
+
+Garlic Jr.
+= Garlic Jr.
+
+General Tao
+= General Tao
+
+Giant Swing
+= Giant Swing
+
+Gohan
+= Gohan
+
+Gohan (Child)
+= Gohan (Child)
+
+Gohan (Kid)
+= Gohan (Kid)
+
+Goku
+= Goku
+
+Gold pieces
+= 金币
+
+Goten
+= Goten
+
+Gotenks
+= Gotenks
+
+Grandpa Gohan
+= Grandpa Gohan
+
+Great Ape
+= Great Ape
+
+Great Ape Baby
+= Great Ape Baby
+
+Great Ape Bardock
+= Great Ape Bardock
+
+Great Ape Nappa
+= Great Ape Nappa
+
+Great Ape Raditz
+= Great Ape Raditz
+
+Great Ape Turles
+= Great Ape Turles
+
+Great Ape Vegeta
+= Great Ape Vegeta
+
+Great Saiyaman
+= Great Saiyaman
+
+Great Saiyaman 2
+= Great Saiyaman 2
+
+Green Kila
+= Green Kila
+
+Ground Sweep
+= Ground Sweep
+
+Guido
+= Guido
+
+Guldo
+= Guldo
+
+Hammer Typhoon
+= Hammer Typhoon
+
+Heavenstone
+= Heavenstone
+
+Heel Smash
+= Heel Smash
+
+Hercule
+= Hercule
+
+Himorogi
+= Himorogi
+
+Hirudegarn
+= Hirudegarn
+
+Hurricane Blitz
+= Hurricane Blitz
+
+ID Card
+= ID Card
+
+Incenses
+= 香
+
+Item 10
+= 物品10
+
+Item 11
+= 物品11
+
+Item 12
+= 物品12
+
+Item 9
+= 物品9
+
+Janemba
+= Janemba
+
+Jeice
+= Jeice
+
+Jewelry
+= 饰品
+
+Justin
+= Justin
+
+KOs
+= 击倒数
+
+Kaldea
+= Kaldea
+
+Kibitoshin
+= Kibitoshin
+
+Kid Buu
+= Kid Buu
+
+Kid Goku
+= Kid Goku
+
+Kid Trunks
+= Kid Trunks
+
+Kimon Stone
+= Kimon Stone
+
+Kou Leifoh
+= Kou Leifoh
+
+Krillin
+= Krillin
+
+Leann
+= Leann
+
+Legendary Super Saiyan Broly
+= Legendary Super Saiyan Broly
+
+Letter
+= Letter
+
+Liete
+= Liete
+
+Life Up
+= 生命提升
+
+Lift Up Slam
+= Lift Up Slam
+
+Lightning Smash
+= Lightning Smash
+
+Lord's Sword
+= Lord's Sword
+
+MAX Power Master Roshi
+= MAX Power Master Roshi
+
+MSD Cargo Train
+= MSD Cargo Train
+
+MSF Kou
+= MSF Kou
+
+Macca
+= 玛卡
+
+Majin Buu
+= Majin Buu
+
+Majin Buu (Pure Evil)
+= Majin Buu (Pure Evil)
+
+Majin Vegeta
+= Majin Vegeta
+
+Majuub
+= Majuub
+
+Master Roshi
+= Master Roshi
+
+Mecha Frieza
+= Mecha Frieza
+
+Meta-Cooler
+= Meta-Cooler
+
+Mikado Bldg. - Hanging Garden
+= Mikado Bldg. - Hanging Garden
+
+Mikado Bldg. - Robot Factory
+= Mikado Bldg. - Robot Factory
+
+Milda
+= Milda
+
+Miscellaneous items
+= 其他物品
+
+Mountain Storm
+= Mountain Storm
+
+Mugetsu
+= Mugetsu
+
+Mugetsu (Unmasked)
+= Mugetsu (Unmasked)
+
+Nappa
+= Nappa
+
+Netherstone
+= Netherstone
+
+PD-4
+= PD-4
+
+Pan
+= Pan
+
+Park Key
+= Park Key
+
+Perfect Cell
+= Perfect Cell
+
+Piccolo
+= Piccolo
+
+Pikkon
+= Pikkon
+
+Power Bridge
+= Power Bridge
+
+Power Up
+= 力量提升
+
+Raditz
+= Raditz
+
+Raging Tiger
+= Raging Tiger
+
+Rapp
+= Rapp
+
+Recoome
+= Recoome
+
+Red Kila
+= Red Kila
+
+Rocket Tower - Deck
+= Rocket Tower - Deck
+
+Saibamen
+= Saibamen
+
+Salza
+= Salza
+
+Secret type
+= 隐藏类型
+
+Shoes
+= 鞋子
+
+Sion Barzahd
+= Sion Barzahd
+
+Skill 1
+= 技能1
+
+Skill 2
+= 技能2
+
+Skill 3
+= 技能3
+
+Skill 4
+= 技能4
+
+Skill 5
+= 技能5
+
+Skill 6
+= 技能6
+
+Skill 7
+= 技能7
+
+Skill 8
+= 技能8
+
+Skill slots
+= 技能栏位
+
+Skills: Level 1
+= 技能：等级1
+
+Skills: Level 2
+= 技能：等级2
+
+Skills: Level 3
+= 技能：等级3
+
+Skills: Techniques
+= 技能：招式
+
+Slug
+= Slug
+
+Soulder Uppercut
+= Soulder Uppercut
+
+Special items
+= 特殊物品
+
+Spoon
+= Spoon
+
+Story completions
+= 剧情通关次数
+
+Story mode plays
+= 剧情模式游玩次数
+
+Sue
+= Sue
+
+Super 17
+= Super 17
+
+Super Baby 1
+= Super Baby 1
+
+Super Baby 2
+= Super Baby 2
+
+Super Buu
+= Super Buu
+
+Super Buu 1
+= Super Buu 1
+
+Super Buu 2
+= Super Buu 2
+
+Super Garlic Jr.
+= Super Garlic Jr.
+
+Super Gogeta
+= Super Gogeta
+
+Super Gotenks
+= Super Gotenks
+
+Super Gotenks 3
+= Super Gotenks 3
+
+Super Janemba
+= Super Janemba
+
+Super Saiyan 2 Gohan
+= Super Saiyan 2 Gohan
+
+Super Saiyan 2 Gohan (Kid)
+= Super Saiyan 2 Gohan (Kid)
+
+Super Saiyan 2 Goku
+= Super Saiyan 2 Goku
+
+Super Saiyan 2 Vegeta
+= Super Saiyan 2 Vegeta
+
+Super Saiyan 3 Goku
+= Super Saiyan 3 Goku
+
+Super Saiyan 4 Gogeta
+= Super Saiyan 4 Gogeta
+
+Super Saiyan 4 Goku
+= Super Saiyan 4 Goku
+
+Super Saiyan 4 Vegeta
+= Super Saiyan 4 Vegeta
+
+Super Saiyan Broly
+= Super Saiyan Broly
+
+Super Saiyan Gohan
+= Super Saiyan Gohan
+
+Super Saiyan Gohan (Kid)
+= Super Saiyan Gohan (Kid)
+
+Super Saiyan Goku
+= Super Saiyan Goku
+
+Super Saiyan Goten
+= Super Saiyan Goten
+
+Super Saiyan Kid Trunks ®
+= Super Saiyan Kid Trunks ®
+
+Super Saiyan Trunks
+= Super Saiyan Trunks
+
+Super Saiyan Trunks (Sword)
+= Super Saiyan Trunks (Sword)
+
+Super Saiyan Vegeta
+= Super Saiyan Vegeta
+
+Super Saiyan Vegeta (second form)
+= Super Saiyan Vegeta (second form)
+
+Super Slug
+= Super Slug
+
+Super Trunks
+= Super Trunks
+
+Super Vegeta
+= Super Vegeta
+
+Super Vegetto
+= Super Vegetto
+
+Super Yi-Shin-Long
+= Super Yi-Shin-Long
+
+Super Zarbon
+= Super Zarbon
+
+Support type
+= 辅助类型
+
+Supreme Kai
+= Supreme Kai
+
+Survival mode
+= 生存模式
+
+Survival mode plays
+= 生存模式游玩次数
+
+Syn Shenron
+= Syn Shenron
+
+Tag battle mode plays
+= 双人战模式游玩次数
+
+Tapion
+= Tapion
+
+Tengu
+= Tengu
+
+Tien
+= Tien
+
+Tiger Frenzy
+= Tiger Frenzy
+
+Tiger Spin Kick
+= Tiger Spin Kick
+
+Time attack mode plays
+= 计时赛模式游玩次数
+
+Tornado Uppercut
+= Tornado Uppercut
+
+Torpedo Kick
+= Torpedo Kick
+
+Total games played
+= 总游戏次数
+
+Trunks
+= Trunks
+
+Trunks (Sword)
+= Trunks (Sword)
+
+Turles
+= Turles
+
+Ultimate Gohan
+= Ultimate Gohan
+
+Umugi Stone
+= Umugi Stone
+
+Unlocked stages
+= 已解锁关卡
+
+Uub
+= Uub
+
+Vegeta
+= Vegeta
+
+Vegeta (Scouter)
+= Vegeta (Scouter)
+
+Vegeta (second form)
+= Vegeta (second form)
+
+Vegito
+= Vegito
+
+Videl tm
+= Videl tm
+
+Volt Krueger
+= Volt Krueger
+
+Water experience
+= 水属性经验
+
+Water level
+= 水属性等级
+
+Weapon experience 1
+= 武器经验1
+
+Weapon experience 2
+= 武器经验2
+
+Weapon experience 3
+= 武器经验3
+
+Weapon experience 4
+= 武器经验4
+
+Weapon level 1
+= 武器等级1
+
+Weapon level 2
+= 武器等级2
+
+Weapon level 3
+= 武器等级3
+
+Weapon level 4
+= 武器等级4
+
+Weapon skills
+= 武器技能
+
+Weapon type 1
+= 武器类型1
+
+Weapon type 2
+= 武器类型2
+
+Weapon type 3
+= 武器类型3
+
+Weapon type 4
+= 武器类型4
+
+White Kila
+= White Kila
+
+Wind experience
+= 风属性经验
+
+Wind level
+= 风属性等级
+
+Wit
+= 智慧
+
+Wong
+= Wong
+
+Yajirobe
+= Yajirobe
+
+Yamcha
+= Yamcha
+
+Yellow Kila
+= Yellow Kila
+
+Zangya
+= Zangya
+
+Zarbon
+= Zarbon
+
+Zeni
+= 泽尼
+

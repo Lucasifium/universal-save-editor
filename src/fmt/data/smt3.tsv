@@ -1,0 +1,593 @@
+# Shin Megami Tensei: Lucifer's Call (Western layout): kind, index, extra, name. Names after RyudoSynbios/game-tools-collection (MIT).
+demon	1	Deity	Vishnu
+demon	2	Deity	Mithra
+demon	3	Deity	Amaterasu
+demon	4	Deity	Odin
+demon	5	Deity	Atavaka
+demon	6	Deity	Horus
+demon	7	Megami	Laksmi
+demon	8	Megami	Scathach
+demon	9	Megami	Sarasvati
+demon	10	Megami	Sati
+demon	11	Megami	Uzume
+demon	12	Fury	Shiva
+demon	13	Fury	Beiji-Weng
+demon	14	Fury	Wu Kong
+demon	15	Fury	Dionysus
+demon	16	Lady	Kali
+demon	17	Lady	Skadi
+demon	18	Lady	Parvati
+demon	19	Lady	Kushinada
+demon	20	Lady	Kikuri-Hime
+demon	21	Kishin	Bishamon
+demon	22	Kishin	Thor
+demon	23	Kishin	Jikoku
+demon	24	Kishin	Mikazuchi
+demon	25	Kishin	Okuninushi
+demon	26	Kishin	Koumoku
+demon	27	Kishin	Zouchou
+demon	28	Kishin	Minakata
+demon	29	Holy	Chimera
+demon	30	Holy	Baihu
+demon	31	Holy	Senri
+demon	32	Holy	Feng Huang
+demon	33	Holy	Shiisaa
+demon	34	Avatar	Cai-Zhi
+demon	35	Holy	Unicorn
+demon	36	Element	Flaemis
+demon	37	Element	Aquans
+demon	38	Element	Aeros
+demon	39	Element	Erthys
+demon	40	Mitama	Saki Mitama
+demon	41	Mitama	Kusi Mitama
+demon	42	Mitama	Nigi Mitama
+demon	43	Mitama	Ara Mitama
+demon	44	Yoma	Efreet
+demon	45	Yoma	Purski
+demon	46	Yoma	Onkot
+demon	47	Yoma	Jinn
+demon	48	Yoma	Karasu
+demon	49	Yoma	Dis
+demon	50	Yoma	Isora
+demon	51	Yoma	Apsaras
+demon	52	Yoma	Koppa
+demon	53	Fairy	Titania
+demon	54	Fairy	Oberon
+demon	55	Fairy	Troll
+demon	56	Fairy	Setanta
+demon	57	Fairy	Kelpie
+demon	58	Fairy	Pyro Jack
+demon	59	Fairy	High Pixie
+demon	60	Fairy	Jack Frost
+demon	61	Fairy	Pixie
+demon	62	Divine	Throne
+demon	63	Divine	Dominion
+demon	64	Divine	Virtue
+demon	65	Divine	Power
+demon	66	Divine	Principality
+demon	67	Divine	Archangel
+demon	68	Divine	Angel
+demon	69	Fallen	Flauros
+demon	70	Fallen	Decarabia
+demon	71	Fallen	Ose
+demon	72	Fallen	Berith
+demon	73	Fallen	Eligor
+demon	74	Fallen	Forneus
+demon	75	Snake	Yurlungur
+demon	76	Snake	Quetzalcoatl
+demon	77	Snake	Raja Naga
+demon	78	Snake	Mizuchi
+demon	79	Snake	Naga
+demon	80	Snake	Nozuchi
+demon	81	Beast	Cerberus
+demon	82	Beast	Orthrus
+demon	83	Beast	Sparna
+demon	84	Beast	Badb Catha
+demon	85	Beast	Inugami
+demon	86	Beast	Nekomata
+demon	87	Jirae	Gogmagog
+demon	88	Jirae	Titan
+demon	89	Jirae	Sarutahiko
+demon	90	Jirae	Sudama
+demon	91	Jirae	Hua Po
+demon	92	Jirae	Kodama
+demon	93	Brute	Shiki-Ouji
+demon	94	Brute	Oni
+demon	95	Brute	Ikusa
+demon	96	Brute	Momunofu
+demon	97	Brute	Shikigami
+demon	98	Femme	Rangda
+demon	99	Femme	Dakini
+demon	100	Femme	Yaksini
+demon	101	Femme	Shikome
+demon	102	Femme	Taraka
+demon	103	Femme	Datsue-Ba
+demon	104	Vile	Mada
+demon	105	Vile	Girimehkala
+demon	106	Vile	Tao Tie
+demon	107	Vile	Pazuzu
+demon	108	Vile	Baphomet
+demon	109	Tyrant	Mot
+demon	110	Tyrant	Aciel
+demon	111	Tyrant	Surt
+demon	112	Tyrant	Abaddon
+demon	113	Tyrant	Loki
+demon	114	Night	Lilith
+demon	115	Night	Nyx
+demon	116	Night	Queen Mab
+demon	117	Night	Succubus
+demon	118	Night	Incubus
+demon	119	Night	Fomor
+demon	120	Night	Lilim
+demon	121	Wilder	Hresvelgr
+demon	122	Wilder	Mothman
+demon	123	Wilder	Raiju
+demon	124	Wilder	Nue
+demon	125	Wilder	Bicorn
+demon	126	Wilder	Zhen
+demon	127	Haunt	Rakshasa
+demon	128	Haunt	Legion
+demon	129	Haunt	Yaka
+demon	130	Haunt	Choronzon
+demon	131	Haunt	Preta
+demon	132	Foul	Shadow
+demon	133	Foul	Black Ooze
+demon	134	Foul	Blob
+demon	135	Foul	Slime
+demon	136	Foul	Mou-Ryo
+demon	137	Foul	Will o' Wisp
+demon	138	Seraph	Michael
+demon	139	Seraph	Gabriel
+demon	140	Seraph	Raphael
+demon	141	Seraph	Uriel
+demon	142	Wargod	Ganesha
+demon	143	Wargod	Valkyrie
+demon	144	Vile	Arahabaki
+demon	145	Genma	Kurama
+demon	146	Genma	Hanuman
+demon	147	Genma	Cu Chulainn
+demon	148	Dragon	Long
+demon	149	Dragon	Gui Xian
+demon	150	Avatar	Barong
+demon	151	Avatar	Makami
+demon	152	Avian	Garuda
+demon	153	Avatar	Yatagarasu
+demon	154	Raptor	Gurr
+demon	155	Entity	Albion
+demon	161	Vile	Samael
+demon	167	Haunt	Pisaca
+demon	168	Night	Kaiwan
+demon	169	Brute	Kin-Ki
+demon	170	Brute	Sui-Ki
+demon	171	Brute	Fuu-Ki
+demon	172	Brute	Ongyo-Ki
+demon	173	Femme	Clotho
+demon	174	Femme	Lachesis
+demon	175	Femme	Atropos
+demon	176	Night	Loa
+demon	177	Haunt	Chatterskull
+demon	178	Foul	Phantom
+demon	192	Fiend	Dante
+demon	192	Fiend	Raidou
+demon	193	Seraph	Metatron
+demon	194	Tyrant	Beelzebub
+demon	195	Fiend	Pale Rider
+demon	196	Fiend	White Rider
+demon	197	Fiend	Red Rider
+demon	198	Fiend	Black Rider
+demon	199	Fiend	Matador
+demon	200	Fiend	Hell Biker
+demon	201	Fiend	Daisoujou
+demon	202	Fiend	The Harlot
+demon	203	Fiend	Trumpeter
+demon	204	Kishin	Futomimi
+demon	205	Foul	Sakahagi
+demon	206	Night	Black Frost
+demon	207	Tyrant	Beelzebub
+item	1	0.0	Muscle Drink
+item	2	0.0	Medicine
+item	3	0.0	Life Stone
+item	4	0.0	Bead
+item	5	0.0	Bead Chain
+item	6	0.0	Chakra Drop
+item	7	0.0	Chakra Pot
+item	8	0.0	Great Chakra
+item	9	0.0	Soma Droplet
+item	10	0.0	Soma
+item	11	0.0	Bead of Life
+item	12	0.0	Chakra Elixir
+item	13	0.0	Revival Bead
+item	14	0.0	Balm of Rising
+item	15	0.0	Sacred Water
+item	16	0.0	Dis-Poison
+item	17	0.0	Dis-Stun
+item	18	0.0	Dis-Charm
+item	19	0.0	Dis-Mute
+item	20	0.0	Dis-Stone
+item	21	0.2	Maragi Rock
+item	22	0.2	Mabufu Rock
+item	23	0.2	Mazio Rock
+item	24	0.2	Mazan Rock
+item	25	0.2	Mahama Rock
+item	26	0.2	Mamudo Rock
+item	27	0.2	Megido Rock
+item	28	0.2	Megidola Rock
+item	29	0.2	Poison Arrow
+item	30	0.2	Wagtail Plume
+item	31	0.2	Makajam Rock
+item	32	0.2	Pot of Death
+item	34	0.2	Magic Mirror
+item	35	0.2	Attack Mirror
+item	36	0.2	Dekaja Rock
+item	37	0.2	Tetraja Rock
+item	38	0.1	St Incense
+item	40	0.1	Ma Incense
+item	41	0.1	Vi Incense
+item	42	0.1	Ag Incense
+item	43	0.1	Lu Incense
+item	44	0.2	Blessed Fan
+item	45	0.0	Soul-Return
+item	46	0.2	Spyglass
+item	52	0.3	Repulse Bell
+item	53	0.3	Attract Pipe
+item	54	0.3	Float Ball
+item	55	0.3	Light Ball
+item	56	0.2	Smoke Ball
+item	58	0.3	Divining Water
+item	61	0.3	Lucky Ticket
+item	96	1.0	Diamond
+item	97	1.0	Pearl
+item	98	1.0	Sapphire
+item	99	1.0	Emerald
+item	100	1.0	Ruby
+item	101	1.0	Jade
+item	102	1.0	Opal
+item	103	1.0	Amethyst
+item	104	1.0	Agate
+item	105	1.0	Turquoise
+item	106	1.0	Garnet
+item	108	1.0	Onyx
+item	110	1.0	Coral
+item	111	1.0	Aquamarine
+skill	1	1.0	Agi
+skill	2	1.0	Agilao
+skill	3	1.0	Agidyne
+skill	4	1.0	Maragi
+skill	5	1.0	Maragion
+skill	6	1.0	Maragidyne
+skill	7	2.0	Bufu
+skill	8	2.0	Bufula
+skill	9	2.0	Bufudyne
+skill	10	2.0	Mabufu
+skill	11	2.0	Mabufula
+skill	12	2.0	Mabufudyne
+skill	13	3.0	Zio
+skill	14	3.0	Zionga
+skill	15	3.0	Ziodyne
+skill	16	3.0	Mazio
+skill	17	3.0	Mazionga
+skill	18	3.0	Maziodyne
+skill	19	4.0	Zan
+skill	20	4.0	Zanma
+skill	21	4.0	Zandyne
+skill	22	4.0	Mazan
+skill	23	4.0	Mazanma
+skill	24	4.0	Mazandyne
+skill	25	5.0	Megido
+skill	26	5.0	Megidola
+skill	27	5.0	Megidolaon
+skill	28	6.0	Hama
+skill	29	6.0	Hamaon
+skill	30	6.0	Mahama
+skill	31	6.0	Mahamaon
+skill	32	7.0	Mudo
+skill	33	7.0	Mudoon
+skill	34	7.0	Mamudo
+skill	35	7.0	Mamudoon
+skill	36	11.0	Dia
+skill	37	11.0	Diarama
+skill	38	11.0	Diarahan
+skill	39	11.0	Media
+skill	40	11.0	Mediarama
+skill	41	11.0	Mediarahan
+skill	42	12.0	Makatora
+skill	43	11.0	Patra
+skill	44	11.0	Me Patra
+skill	45	11.0	Mutudi
+skill	46	11.0	Posumudi
+skill	47	11.0	Paraladi
+skill	48	11.0	Petradi
+skill	49	11.0	Recarm
+skill	50	11.0	Samrecarm
+skill	51	11.0	Recarmdra
+skill	52	12.0	Tarunda
+skill	53	12.0	Sukunda
+skill	54	12.0	Rakunda
+skill	55	8.0	Makajam
+skill	56	8.0	Makajamon
+skill	57	12.0	Dekaja
+skill	59	9.0	Shibaboo
+skill	60	10.0	Dormina
+skill	61	10.0	Pulinpa
+skill	62	10.0	Marin Karin
+skill	63	10.0	Tentarafoo
+skill	64	12.0	Tarukaja
+skill	65	12.0	Sukukaja
+skill	66	12.0	Rakukaja
+skill	67	12.0	Makakaja
+skill	68	12.0	Tetraja
+skill	69	12.0	Makarakarn
+skill	70	12.0	Tetrakarn
+skill	71	12.0	Analyze
+skill	72	12.0	Trafuri
+skill	73	12.0	Estoma
+skill	74	12.0	Riberama
+skill	75	12.0	Liftoma
+skill	76	12.0	Lightoma
+skill	77	12.0	Dekunda
+skill	79	5.0	Pestilence
+skill	96	0.0	Lunge
+skill	97	0.0	Hell Thrust
+skill	98	0.0	Berserk
+skill	99	0.0	Tempest
+skill	100	0.0	Hades Blast
+skill	101	0.0	Heat Wave
+skill	102	0.0	Blight
+skill	103	0.0	Brutal Slash
+skill	104	0.0	Hassohappa
+skill	105	0.0	Dark Sword
+skill	106	0.0	Stasis Blade
+skill	107	0.0	Mighty Gust
+skill	108	0.0	Deathbound
+skill	109	0.0	Guillotine
+skill	110	0.0	Chaos Blade
+skill	111	0.0	Needle Rush
+skill	112	0.0	Stun Needle
+skill	113	0.0	Toxic Sting
+skill	114	0.0	Arid Needle
+skill	115	14.0	Sacrifice
+skill	116	14.0	Kamikaze
+skill	117	0.0	Feral Bite
+skill	118	0.0	Venom Bite
+skill	119	0.0	Charm Bite
+skill	120	0.0	Stone Bite
+skill	121	0.0	Stun Bite
+skill	122	0.0	Hell Fang
+skill	123	0.0	Feral Claw
+skill	124	0.0	Venom Claw
+skill	125	0.0	Stun Claw
+skill	126	0.0	Iron Claw
+skill	127	6.0	Godly Light
+skill	131	0.0	Deadly Fury
+skill	133	0.0	Xeros-Beat
+skill	136	0.0	Divine Shot
+skill	143	0.0	Javelin Rain
+skill	144	0.0	Oni-Kagura
+skill	147	5.0	Freikugel
+skill	152	14.0	Last Resort
+skill	153	0.2	Foul Havoc
+skill	155	0.0	Earthquake
+skill	158	12.0	Holy Melody
+skill	159	12.0	Evil Melody
+skill	160	0.0	Spiral Viper
+skill	161	1.0	Magma Axis
+skill	163	0.0	Gaea Rage
+skill	168	0.2	Tentacle
+skill	176	1.0	Fire Breath
+skill	177	1.0	Hellfire
+skill	178	1.0	Prominence
+skill	179	1.0	Ragnarok
+skill	180	2.0	Ice Breath
+skill	181	2.0	Glacial Blast
+skill	182	3.0	Shock
+skill	183	3.0	Bolt Storm
+skill	184	4.0	Wing Buffet
+skill	185	4.0	Tornado
+skill	186	4.0	Wind Cutter
+skill	187	4.0	Wet Wind
+skill	188	6.0	Thunderclap
+skill	189	6.0	Holy Wrath
+skill	190	5.0	Deathtouch
+skill	191	5.0	Mana Drain
+skill	192	5.0	Life Drain
+skill	193	6.0	Violet Flash
+skill	194	6.0	Starlight
+skill	195	6.0	Radiance
+skill	196	7.0	Hell Gaze
+skill	197	7.0	Stone Gaze
+skill	198	8.0	Mute Gaze
+skill	199	7.0	Evil Gaze
+skill	201	8.2	Bael's Bane
+skill	202	8.0	Toxic Cloud
+skill	203	12.0	War Cry
+skill	204	12.0	Fog Breath
+skill	205	12.0	Taunt
+skill	206	12.0	Debilitate
+skill	207	8.0	Dismal Tune
+skill	208	5.2	Sol Niger
+skill	209	9.0	Stun Gaze
+skill	210	10.0	Lullaby
+skill	211	9.0	Binding Cry
+skill	212	10.0	Eternal Rest
+skill	213	10.0	Sonic Wave
+skill	214	10.0	Sexy Gaze
+skill	215	10.0	Allure
+skill	216	10.0	Panic Voice
+skill	217	10.0	Intoxicate
+skill	218	11.0	Prayer
+skill	219	12.2	Beast Eye
+skill	220	12.2	Dragon Eye
+skill	221	5.2	Infinite Light
+skill	223	12.0	Beckon Call
+skill	224	12.0	Focus
+skill	225	12.2	Retreat
+skill	226	12.2	Gathering
+skill	227	12.2	Dark Howl
+skill	229	12.2	Laughter
+skill	230	12.2	Divine Will
+skill	232	12.2	Foul Union
+skill	233	12.2	Replicate
+skill	234	12.2	Aurora
+skill	236	12.2	Conjuration
+skill	241	5.2	Vast Light
+skill	242	5.2	God's Curse
+skill	243	5.2	Hell's Call
+skill	245	0.2	Mirage
+skill	249	10.0	Wild Dance
+skill	250	12.2	Domination
+skill	253	5.2	Apocalypse
+skill	254	12.2	Phase Shift
+skill	257	5.0	Fire of Sinai
+skill	260	5.0	Death Flies
+skill	261	8.0	Soul Divide
+skill	262	0.0	E & I
+skill	263	0.0	Rebellion
+skill	264	0.0	Bullet-Time
+skill	265	12.0	Provoke
+skill	266	5.0	Stinger
+skill	267	3.0	Roundtrip
+skill	268	4.0	Whirlwind
+skill	269	5.0	Showtime
+skill	271	10.2	Evil Gleam
+skill	272	5.2	Root of Evil
+skill	273	5.2	High King
+skill	274	12.0	Holy Star
+skill	275	0.0	Andalucia
+skill	276	12.0	Red Capote
+skill	277	12.2	Startle
+skill	278	10.0	Preach
+skill	279	5.0	Meditation
+skill	280	0.0	Terrorblade
+skill	281	0.0	Hell Spin
+skill	282	4.0	Hell Exhaust
+skill	283	1.0	Hell Burner
+skill	284	12.2	Hell Throttle
+skill	285	10.0	Death Lust
+skill	286	5.0	Beast Roar
+skill	287	6.0	God's Bow
+skill	290	12.1	Life Bonus
+skill	291	12.1	Life Gain
+skill	292	12.1	Life Surge
+skill	293	12.1	Mana Bonus
+skill	294	12.1	Mana Gain
+skill	295	12.1	Mana Surge
+skill	296	12.1	Fast Retreat
+skill	298	12.1	Mind's Eye
+skill	299	12.1	Might
+skill	300	12.1	Bright Might
+skill	301	12.1	Dark Might
+skill	302	12.1	Drain Attack
+skill	304	12.1	Attack All
+skill	305	12.1	Counter
+skill	306	12.1	Retaliate
+skill	307	12.1	Avenge
+skill	309	1.1	Fire Boost
+skill	310	2.1	Ice Boost
+skill	311	3.1	Elec Boost
+skill	312	4.1	Force Boost
+skill	313	0.1	Anti-Phys
+skill	314	1.1	Anti-Fire
+skill	315	2.1	Anti-Ice
+skill	316	3.1	Anti-Elec
+skill	317	4.1	Anti-Force
+skill	318	6.1	Anti-Expel
+skill	319	7.1	Anti-Death
+skill	320	8.1	Anti-Curse
+skill	321	9.1	Anti-Nerve
+skill	322	10.1	Anti-Mind
+skill	323	0.1	Void Phys
+skill	324	1.1	Void Fire
+skill	325	2.1	Void Ice
+skill	326	3.1	Void Elec
+skill	327	4.1	Void Force
+skill	328	6.1	Void Expel
+skill	329	7.1	Void Death
+skill	330	8.1	Void Curse
+skill	331	9.1	Void Nerve
+skill	332	10.1	Void Mind
+skill	333	0.1	Phys Drain
+skill	334	1.1	Fire Drain
+skill	335	2.1	Ice Drain
+skill	336	3.1	Elec Drain
+skill	337	4.1	Force Drain
+skill	338	0.1	Phys Repel
+skill	339	1.1	Fire Repel
+skill	340	2.1	Ice Repel
+skill	341	3.1	Elec Repel
+skill	342	4.1	Force Repel
+skill	345	12.1	Endure
+skill	346	11.1	Life Aid
+skill	347	11.1	Mana Aid
+skill	348	11.1	Victory Cry
+skill	349	11.1	Life Refill
+skill	350	11.1	Mana Refill
+skill	353	12.1	Lucky Find
+skill	354	12.1	Watchful
+skill	355	15.1	Charisma
+skill	357	12.1	Pierce
+skill	360	12.1	Never Yield
+skill	361	12.1	Son's Oath
+skill	385	15.0	Scout
+skill	386	15.0	Kidnap
+skill	387	15.0	Seduce
+skill	388	15.0	Brainwash
+skill	390	15.0	Dark Pledge
+skill	391	15.0	Wooing
+skill	392	15.0	Beseech
+skill	393	15.0	Soul Recruit
+skill	394	15.0	Mischief
+skill	395	15.0	Death Pact
+skill	396	15.0	Pester
+skill	397	15.0	Begging
+skill	398	15.0	Threaten
+skill	399	15.0	Stone Hunt
+skill	400	15.0	Trade
+skill	401	15.0	Loan
+skill	409	15.1	Haggle
+skill	410	15.1	Arbitration
+skill	411	15.1	Detain
+skill	412	15.1	Gonnection
+skill	413	15.1	Persuade
+skill	414	15.1	Intimidate
+skill	415	15.1	Nag
+skill	418	15.1	Maiden Plea
+skill	419	15.1	Wine Party
+skill	420	15.1	Flatter
+skill	421	15.0	Jive Talk
+skill	496	12.2	Call Angel
+skill	497	12.2	Call Soldier
+skill	498	12.2	Call Souls
+skill	499	12.2	Call Evil
+special	0	0	ID Card
+special	1	0	Annex Pass
+special	2	0	White Kila
+special	3	0	Yellow Kila
+special	4	0	Green Kila
+special	5	0	Red Kila
+special	6	0	1000 Yen Bill
+special	7	0	Letter
+special	8	0	Umugi Stone
+special	9	0	Spoon
+special	10	0	Himorogi
+special	11	0	Kimon Stone
+special	12	0	Lord's Sword
+special	13	0	Park Key
+special	14	0	Heavenstone
+special	15	0	Earthstone
+special	16	0	Netherstone
+special	17	1	Majesty
+special	18	1	Wisdom
+special	19	1	Insight
+special	20	1	Compassion
+special	21	1	Godliness
+special	22	1	Beauty
+special	23	1	Eternity
+special	24	1	Dignity
+special	25	1	Foundation
+special	26	1	Sovereignty
+special	27	1	Knowledge
+special	28	1	Moon Key
+special	29	1	Deathstone
+special	30	1	Black Visor
+special	31	1	Afterlife Bell
+special	32	1	Star Key

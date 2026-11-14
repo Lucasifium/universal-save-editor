@@ -221,6 +221,11 @@ pub mod dmcps2;
 pub mod kagero;
 pub mod dothack;
 pub mod dq8;
+pub mod bouncer;
+pub mod doa2;
+pub mod dbz;
+pub mod smt3;
+pub mod grandia1;
 pub mod chronocross;
 pub mod grandia2;
 pub mod ctr;
@@ -360,6 +365,31 @@ pub fn parse_binary(d: &[u8]) -> Option<TreeDoc> {
     }
     if chronocross::looks(d) {
         if let Ok(t) = chronocross::parse(d) {
+            return Some(t);
+        }
+    }
+    if bouncer::looks(d) {
+        if let Ok(t) = bouncer::parse(d) {
+            return Some(t);
+        }
+    }
+    if doa2::looks(d) {
+        if let Ok(t) = doa2::parse(d) {
+            return Some(t);
+        }
+    }
+    if dbz::looks(d) {
+        if let Ok(t) = dbz::parse(d) {
+            return Some(t);
+        }
+    }
+    if smt3::looks(d) {
+        if let Ok(t) = smt3::parse(d) {
+            return Some(t);
+        }
+    }
+    if grandia1::looks(d) {
+        if let Ok(t) = grandia1::parse(d) {
             return Some(t);
         }
     }

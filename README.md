@@ -3,7 +3,7 @@
 > **Free, and it always will be.** No price, no ads, no account, no paid version, no online service, no
 > rate limits. If anyone is charging you for this, it isn't from here.
 
-An offline save editor and save manager for 520+ (524) PC games (edit saves, and back up, name and restore them): Cairn, Terraria (characters and a world map editor),
+An offline save editor and save manager for 520+ (529) PC games (edit saves, and back up, name and restore them): Cairn, Terraria (characters and a world map editor),
 Oxygen Not Included, RimWorld, Stardew Valley, Onimusha: Way of the Sword, Elden Ring, Dark Souls,
 Cyberpunk 2077, the Persona, Yakuza and Final Fantasy games, Ren'Py visual novels, RPG Maker games
 and more (the full list is below). Written in Rust (egui). Nothing is uploaded anywhere, and there are
@@ -661,7 +661,7 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 **Console games**, grouped by console (emulator, memory card and decrypted console saves):
 
 <details>
-<summary><strong>PlayStation</strong> (14)</summary>
+<summary><strong>PlayStation</strong> (15)</summary>
 
 | Game | Screen |
 |---|---|
@@ -672,6 +672,7 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 | Final Fantasy Tactics | *Ramza* (PlayStation memory card, `.mcs`, `.psx` or `.psv` save): war funds, each unit's job, level, experience, Brave, Faith and equipment, and the count of every weapon, helmet, armor, accessory and item (the save's 64-bit checksum is written again; checked on public saves, not yet tried in the game) |
 | Final Fantasy VIII (PlayStation) | *Squall* (PlayStation memory card, `.mcs`, `.psx` or `.psv` save): gil, story progression, Triple Triad record and cards, each party slot's experience, HP and stat bonuses and stocked magic, the Guardian Forces, and all 198 bag slots (the save's CRC-16 is written again; checked on public saves, not yet tried in the game) |
 | Gran Turismo (PlayStation) | *Driver* (PlayStation memory card, `.mcs`, `.psx` or `.psv` save of the 1997 game): credits, days, every licence test medal and the result of every league, special event and spot race; the save's checksum is written again (cars and tuning parts are not edited yet; checked on public saves, not yet tried in the game) |
+| Grandia (PlayStation) | *Party* (PlayStation memory card, `.mcs`, `.psx` or `.psv` save, USA, Europe, France, Germany and Japan): gold pieces, each character's level, experience, HP, SP and attributes, magic and weapon levels, equipment, the items in each pack, and every learned skill |
 | Rayman (PlayStation) | *Rayman* (PlayStation memory card, `.mcs`, `.psx` or `.psv` save): continues, lives, health, the powers, and every level's unlock and Electoon cages; the level totals and the completion rate are written again (checked on public saves, not yet tried in the game) |
 | Resident Evil (PlayStation) | *Survivor* (PlayStation memory card, `.mcs`, `.psx` or `.psv` save, Director's Cut too): Chris or Jill, health, poison, ink ribbons used, the eight inventory slots and all 48 item box slots with item and quantity (checked on public saves, not yet tried in the game) |
 | Silent Hill (PlayStation) | *Slots* (PlayStation memory card, `.mcs`, `.psx` or `.psv` save): the options and unlocked endings, and for every save slot in the file the difficulty, health, save and continue counts, shooting statistics and the whole inventory with item and quantity; the checksums are written again (checked on public saves, not yet tried in the game) |
@@ -683,16 +684,20 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 </details>
 
 <details>
-<summary><strong>PlayStation 2</strong> (6)</summary>
+<summary><strong>PlayStation 2</strong> (10)</summary>
 
 | Game | Screen |
 |---|---|
 | .hack (PlayStation 2) | *Party* (PlayStation 2 `.psu`, `.psv` or memory card save of .hack//Infection, Mutation, Outbreak or Quarantine; each `dhdata` file is one slot): play time, unlocked servers, each party member's class, level, experience, money, affection and stats, and the items in Elf's Haven (the slot's checksum and preview in the system file are written again; checked on public saves, not yet tried in the game) |
+| Dead or Alive 2 (PlayStation 2) | *General* (PlayStation 2 `.psu`, `.psv` or memory card save, USA, Europe and Japan): points, games played, play time and play counts, the unlocked characters and menus, each fighter's unlocked costumes and story completions, and the count of every collection item |
 | Devil May Cry (PlayStation 2) | *Dante* (PlayStation 2 `.psu`, `.psv` or memory card save, USA, Europe, Japanese and Korean; each `SaveData-NN` file is one slot): clear and save counts, character, difficulty, mission, maximum health, red, yellow and blue orbs, the Alastor and Ifrit skills, every mission rank, the secret missions, statistics and combo rankings; the slot's checksum is written again (checked on public saves, not yet tried in the game) |
+| Dragon Ball Z: Budokai Tenkaichi 2 (PlayStation 2) | *General* (PlayStation 2 `.psu`, `.psv` or memory card save, USA, Europe, Japanese Sparking! NEO and Korean): zeni, every unlockable character and form, and the count of every Z-item and Dragon Ball |
 | Dragon Quest VIII (PlayStation 2) | *Party* (PlayStation 2 `.psu`, `.psv` or memory card save, USA, Europe and Japanese): gold coins, bank vault, casino tokens, mini medals, every warp place, each party member's level, experience, HP, MP, stats and skill attributes, the bag and the battle records (the save's checksum is written again; checked on public saves, not yet tried in the game) |
 | Grandia II (PlayStation 2) | *Party* (PlayStation 2 `.psu`, `.psv` or memory card save, USA, Europe and Japan; each slot is one file of the save folder): gold and coins, each party member's level, experience, HP, MP, SP, attributes, equipment and conditions, and the stock of every item, weapon, armor, accessory, mana egg and valuable (checked on public saves, not yet tried in the game) |
 | Kingdom Hearts (PlayStation 2) | *Sora* (PlayStation 2 `.psu`, `.psv` or memory card save, original and Final Mix): munny, difficulty, magic levels, the ten party members' level, experience, HP, MP, AP, strength, defense and weapon, and the stock of every item, weapon, accessory, key item and synthesis material, with a **Max crafting materials** button for the synthesis materials (99 each, the game's own limit) (checked on public saves, not yet tried in the game) |
 | Kingdom Hearts II (PlayStation 2) | *Sora* (PlayStation 2 `.psu`, `.psv` or memory card save, USA, Europe, Japanese and Final Mix releases): munny, difficulty, magic levels, each party member's level, experience, HP, MP and bonuses, and the stock of every item, weapon, armor, accessory, key item and synthesis material, with a **Max crafting materials** button for the synthesis materials (99 each, the most the stock holds; an estimate, no public source states it). The save's checksum is written again (checked on public saves, not yet tried in the game) |
+| Shin Megami Tensei: Lucifer's Call (PlayStation 2) | *Party* (PlayStation 2 `.psu`, `.psv` or memory card save, USA and Europe): Macca and the playthrough cycle, the protagonist's and each demon's level, experience, HP, MP, stats and skills, the stock of every item and gem, and the special items |
+| The Bouncer (PlayStation 2) | *Sion Barzahd* (PlayStation 2 `.psu`, `.psv` or memory card save, USA, Europe and Japan; the save file holds 16 slots): each slot's clear count, the Bouncer Points of Sion, Volt and Kou, their stat levels, ranks and skills, the unlocked stages, characters and costumes, and the survival mode records |
 
 </details>
 
@@ -796,8 +801,8 @@ binary and stays an ironman save. It isn't converted to a normal one.
 
 The start page lists **Your games**: every game in the list whose saves were found on this computer,
 newest first, each one click away from its newest save. *Find my game's saves* (the big button on the
-start page, *Find saves* in the toolbar and the File menu) lists every one of the 520+ (524) PC games the editor knows, Mass Effect 1–3, the Legendary Edition and Andromeda among them — with where it
-start page, *Find saves* in the toolbar and the File menu) lists every one of the 520+ (524) PC games the editor knows, Mass Effect 1–3, the Legendary Edition and Andromeda among them — with where it
+start page, *Find saves* in the toolbar and the File menu) lists every one of the 520+ (529) PC games the editor knows, Mass Effect 1–3, the Legendary Edition and Andromeda among them — with where it
+start page, *Find saves* in the toolbar and the File menu) lists every one of the 520+ (529) PC games the editor knows, Mass Effect 1–3, the Legendary Edition and Andromeda among them — with where it
 usually keeps its saves and what the files are called, and finds them on your computer (Steam
 libraries and `userdata`, Documents wherever Windows has it, AppData, Saved Games, Ubisoft
 Connect). On Linux and the Steam Deck it also looks inside Proton prefixes

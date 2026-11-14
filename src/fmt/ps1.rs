@@ -109,3 +109,27 @@ mod ps2samples {
         }
     }
 }
+
+#[cfg(test)]
+mod ps2files {
+    /// `PS2_FILES=<dir> cargo test --release --lib ps1::ps2files -- --ignored --nocapture`: every
+    /// raw game file of a PS2 save folder in the directory that a reader here recognises must
+    /// open and write back byte for byte unchanged.
+    #[test]
+    #[ignore]
+    fn round_trip() {
+        let Ok(dir) = std::env::var("PS2_FILES") else { return };
+        let mut rd: Vec<_> = std::fs::read_dir(dir).unwrap().flatten().collect();
+        rd.sort_by_key(|e| e.path());
+        for e in rd {
+            let d = std::fs::read(e.path()).unwrap();
+            match crate::fmt::parse_binary(&d) {
+                Some(mut doc) => {
+                    assert_eq!(doc.to_bytes().unwrap(), d, "{:?}", e.path());
+                    println!("{:?}: {} round-trips", e.file_name(), doc.kind_name);
+                }
+                None => println!("{:?}: not recognised", e.file_name()),
+            }
+        }
+    }
+}

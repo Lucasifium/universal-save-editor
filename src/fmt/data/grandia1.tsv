@@ -1,0 +1,581 @@
+# Grandia (PlayStation): category, id, name. Names after RyudoSynbios/game-tools-collection (MIT).
+weapons	34	Wooden Sword
+weapons	35	Spirit Sword
+weapons	63	Knife of Judgment
+weapons	64	Rusty Knife
+weapons	65	Paring Knife
+weapons	66	Hunter's Knife
+weapons	67	Flint Knife
+weapons	68	Azure Knife
+weapons	69	Shocking Knife
+weapons	70	Poisoned Knife
+weapons	71	Assassin's Dagger
+weapons	72	Bloody Knife
+weapons	73	Ice Pick
+weapons	74	Force Knife
+weapons	75	Godspeed Knife
+weapons	76	Gust Knife
+weapons	77	Ruination Knife
+weapons	78	Thief Cutter
+weapons	79	Zero Knife
+weapons	80	Ceramic Sword
+weapons	82	Admiral's Sword
+weapons	83	Great Sword
+weapons	84	Army Saber
+weapons	85	The Sword Himmler
+weapons	86	Angel's Darts
+weapons	87	Swordfish Sword
+weapons	88	Dragon Killer
+weapons	89	Fire Sword
+weapons	90	Shadow Sword
+weapons	91	Gil Sword
+weapons	92	Silence Sword
+weapons	94	Wobbly Sword
+weapons	95	Main Gauche
+weapons	96	Holy Sword Lorenzo
+weapons	97	Ice Blade
+weapons	98	Lightning Sword
+weapons	99	Battle Saber
+weapons	100	Zero Sword
+weapons	101	Wooden Pole
+weapons	102	Metal Bat
+weapons	103	Zero Rod
+weapons	104	Officer's Baton
+weapons	105	Magic Rod
+weapons	106	Miner's Hammer
+weapons	107	Iron Mace
+weapons	108	Army Darts
+weapons	109	Lassic Hammer
+weapons	110	War Hammer
+weapons	111	Hertz Spike
+weapons	112	Oracle's Staff
+weapons	113	Raincloud Staff
+weapons	114	Staff of Life
+weapons	115	Warp Staff
+weapons	116	Holy Mace
+weapons	117	Fire Rod
+weapons	118	Aromatic Tree Root
+weapons	119	Sparkling Rod
+weapons	120	Spirit Staff
+weapons	121	Home Run Hammer
+weapons	122	Rusty Shovel
+weapons	123	Hand Ax
+weapons	124	Ceremonial Rock Ax
+weapons	125	Big Hatchet
+weapons	126	Woodchopper's Ax
+weapons	127	Dragon Bone Ax
+weapons	128	Klepp's Sickle
+weapons	129	Frog Ax
+weapons	130	Bone Splitter Ax
+weapons	131	Earthen Ax
+weapons	132	Buster Ax
+weapons	133	Wrecking Ax
+weapons	134	Bent Mattock
+weapons	135	Zero Ax
+weapons	136	Toy Bow and Arrow
+weapons	137	Handmade Darts
+weapons	138	Hunter's Bow
+weapons	139	Flying Fish Bow
+weapons	140	Hail Bow
+weapons	141	Flint Bow
+weapons	142	Exorcising Bow
+weapons	143	Cafu Shuriken
+weapons	144	Boomerang
+weapons	145	Fire Darts
+weapons	146	Evil Shuriken
+weapons	147	Demonslayer Boomer
+weapons	148	Discus
+weapons	149	Cactus Thorns
+weapons	150	Ice Boomerang
+weapons	151	Thunder Arrow
+weapons	152	Zero Shuriken
+weapons	153	Zero Whip
+weapons	154	Mist-Cracking Whip
+weapons	155	Leather Whip
+weapons	156	Thorny Whip
+weapons	157	Catfish Whiskers
+weapons	158	Giant Snake Whip
+weapons	159	Binding Whip
+weapons	160	Morning Star
+weapons	161	Whip of Light
+weapons	162	Burning Hot Whip
+weapons	163	Gale Whip
+weapons	474	General's Staff
+weapons	479	Emperor's Whip
+weapons	509	100 Sword
+weapons	510	100 Mace
+weapons	511	100 Fire Mace
+shields	32	Pot Lid
+shields	197	Cutting Board
+shields	198	Woolen Mittens
+shields	199	Leather Gloves
+shields	200	Escargot Shield
+shields	201	Oaken Shield
+shields	202	Shell Shield
+shields	203	Seashell Shield
+shields	204	Mushroom Shield
+shields	205	MagicMirror Shield
+shields	206	Alligator Gauntlet
+shields	207	Leaf Shield
+shields	208	Lafa Flower Shield
+shields	209	Power Shield
+shields	210	Moonlight Shield
+shields	211	Gauntlets
+shields	212	Dragon Gauntlet
+shields	213	Heavy Shield
+shields	214	Gauntlets of Light
+shields	215	Spirit Shield
+shields	216	Magic Gloves
+shields	217	Zero Shield
+armors	31	Apron
+armors	164	Adventure Clothes
+armors	165	Sunday Best
+armors	166	Sportswear
+armors	167	Work Clothes
+armors	168	Cactus Armor
+armors	169	Soldier's Uniform
+armors	170	Officer's Uniform
+armors	171	Fairy Robe
+armors	172	Flying Dragon Vest
+armors	173	Frog Shirt
+armors	174	Spy Clothes
+armors	175	Chain Mail
+armors	176	Battle Bikini
+armors	177	Mogay Clothes
+armors	178	Mink Coat
+armors	179	Enchantress' Robe
+armors	180	Angel's Robe
+armors	181	Robe of the Sun
+armors	182	Breastplate
+armors	183	Outdated Armor
+armors	184	Bamboo Armor
+armors	185	Shell Armor
+armors	186	Thick Armor
+armors	187	Swordfish Armor
+armors	188	Skull Armor
+armors	189	Chameleon Armor
+armors	190	Plug Suit
+armors	191	Aura Armor
+armors	192	Dark Armor
+armors	193	Warrior's Mail
+armors	194	Spirit Armor
+armors	195	Devil's Robe
+armors	196	Magic Robe
+helmets	33	Iron Pot
+helmets	218	Goggles
+helmets	219	Ribbon
+helmets	220	Fluffy Ribbon
+helmets	221	Barrette
+helmets	222	Pirate's Hat
+helmets	223	Cowboy Hat
+helmets	224	Climbing Hat
+helmets	225	Odd Hat
+helmets	226	Headgear
+helmets	227	Iron Bandana
+helmets	228	Feathered Turban
+helmets	229	Angel's Hat
+helmets	230	Pope's Hat
+helmets	231	Safety Helmet
+helmets	232	Antler Helmet
+helmets	233	Pearl Helmet
+helmets	234	Pirate's Helmet
+helmets	235	Stone Head
+helmets	236	Swallowtail Hat
+helmets	237	Mystic Mask
+helmets	238	Death Mask
+helmets	239	Ogre Helm
+helmets	240	Charisma Helm
+helmets	241	Spirit Helmet
+helmets	242	Holy Crown
+helmets	243	Cactus Helm
+helmets	244	Fairy Tiara
+helmets	245	Man's Headband
+helmets	246	Battle Helm
+shoes	247	Sneakers
+shoes	248	Dress Shoes
+shoes	249	Air Sneakers
+shoes	250	Shiny Shoes
+shoes	251	Rubber Boots
+shoes	252	Leather Greaves
+shoes	253	Hunter's Boots
+shoes	254	Army Boots
+shoes	255	Curious Clogs
+shoes	256	Dragon Boots
+shoes	257	Ninja Sandals
+shoes	258	Winged Boots
+shoes	259	Beach Sandals
+shoes	260	Mach 1 Boots
+shoes	261	Heavy Boots
+shoes	262	Queen Heels
+shoes	263	Iron Clogs
+shoes	264	Ogre Boots
+shoes	265	Rabbit Shoes
+shoes	266	Rainbow High Heels
+shoes	267	Wolf Boots
+shoes	268	Lion Boots
+shoes	269	Battle Boots
+shoes	270	Spirit Shoes
+shoes	271	Glass Slippers
+shoes	272	Warp Shoes
+shoes	273	Crampons
+shoes	274	Zero Boots
+jewelries	45	Ring of Protection
+jewelries	47	Amulet of Relief
+jewelries	276	Diana's Amulet
+jewelries	277	Hero's Badge
+jewelries	278	Demon Sword Amulet
+jewelries	279	Officer's Badge
+jewelries	280	Black Belt
+jewelries	281	Chain Earrings
+jewelries	282	Titan's Ring
+jewelries	283	Fireproof Cape
+jewelries	284	Fire Charm
+jewelries	285	Water Charm
+jewelries	286	Wind Charm
+jewelries	287	Earth Charm
+jewelries	288	Counter Ring
+jewelries	289	Secret Move Ring
+jewelries	290	Hurricane Belt
+jewelries	291	Mama's Amulet
+jewelries	292	Jade Charm
+jewelries	293	Tree God Amulet
+jewelries	294	Light God Amulet
+jewelries	295	Ancestor's Amulet
+jewelries	296	Raincoat
+jewelries	297	Iridescent Amulet
+jewelries	298	Move Unblocker
+jewelries	299	Medal of Yore
+jewelries	300	Spirit Charm
+jewelries	301	Phantom Silk
+jewelries	302	Lightning Charm
+jewelries	303	Forest Charm
+jewelries	304	Explosion Charm
+jewelries	305	Blizzard Charm
+jewelries	306	Wind Belt
+jewelries	307	Confusion Charm
+jewelries	308	Paralysis Charm
+jewelries	309	Magic Block Charm
+jewelries	310	Sudden Death Charm
+jewelries	311	Poison Charm
+jewelries	312	Talisman
+jewelries	313	Sonic Belt
+jewelries	314	Metal Frog
+jewelries	317	Scarab
+jewelries	318	Demon Eye Stone
+jewelries	319	Jewel of Life
+jewelries	320	Ankh of Temptation
+jewelries	321	Anklet
+jewelries	322	Energy Ring
+jewelries	323	Disease Charm
+jewelries	324	Paperweight
+jewelries	325	Combat Anklet
+jewelries	326	Chain of Gems
+jewelries	327	Satisfaction Gem
+jewelries	328	Soul of Asura
+jewelries	329	Crescent Jade
+jewelries	330	Dragon Scales
+jewelries	331	Spectacles
+jewelries	332	Rune Ring
+jewelries	440	Snake Earrings
+jewelries	451	Elite Badge
+jewelries	463	Ring of Rage
+jewelries	464	Holy Ring
+jewelries	465	Mysterious Veil
+jewelries	467	Telescope
+jewelries	468	Energy Charm
+jewelries	469	Devil's Anklet
+jewelries	471	Astral Miracle
+jewelries	472	Ethereal Miracle
+jewelries	473	Miraculous Scales
+keyItems	10	Spirit Stone
+keyItems	11	Hero's Armband
+keyItems	12	Horn of Knowledge
+keyItems	13	Medal of Wisdom
+keyItems	14	Medal of Knowledge
+keyItems	15	Gaia Sprout
+keyItems	16	Gantz's Key
+keyItems	17	Intro Letter
+keyItems	18	Key to the Cafe
+keyItems	19	Java's Wallet
+keyItems	20	Steamer Pass
+keyItems	21	Lilly's Letter
+keyItems	22	Cabin Key
+keyItems	23	Sulfa Weed
+keyItems	24	Jail Key
+keyItems	25	Master Key
+keyItems	26	Nectar of the Gods
+keyItems	27	Mist-Clearing Nut
+keyItems	28	Sue's Shoes
+keyItems	29	Warrior's Spear
+keyItems	30	Teleportation Orb
+keyItems	37	Marie's Pin
+keyItems	39	Letter to Clara
+keyItems	41	Rainbow Key
+keyItems	430	Gold Key
+keyItems	431	Silver Key
+keyItems	432	Key of Temptation
+keyItems	433	Soldier's Key
+keyItems	480	Soldier's Soul
+items	36	Biscuits
+items	38	Coal Candy
+items	40	Pearl
+items	42	Boiled Egg
+items	43	Chocolate
+items	44	Jawbreaker
+items	46	Frost Herb
+items	315	Revival Stone
+items	316	Use Prohibited
+items	333	Tear Jewel
+items	334	Spirit Potion
+items	335	Wound Salve
+items	336	Baobab Fruit
+items	337	Boiled Coconut
+items	338	Chocolate Cookies
+items	339	Honey
+items	340	Ultra Drink
+items	341	Weeds
+items	342	Dried Fish
+items	343	Bamboo Shoots
+items	344	Beef Jerky
+items	345	Box Lunch
+items	346	Herbs
+items	347	White Sulfa Weed
+items	348	Smarna Weed
+items	349	Cholla Flowers
+items	350	Bamo Fruit
+items	351	Squid Guts
+items	352	Move Mushroom
+items	353	Power Mushroom
+items	354	Poison Antidote
+items	355	Ginseng
+items	356	Banana
+items	357	Bandage
+items	358	Box of Sweets
+items	359	First Aid Kit
+items	360	Red Medicine
+items	361	Blue Medicine
+items	362	Yellow Medicine
+items	363	Crimson Potion
+items	364	Deep Blue Potion
+items	365	Golden Potion
+items	366	Magic Lamp
+items	367	Poison Antidote
+items	368	Vaccine
+items	369	Eye Drops
+items	370	Smelling Salts
+items	371	Paralysis Ointment
+items	372	Spell Breaker
+items	373	Move Breaker
+items	374	Resurrect Potion
+items	375	Panacea
+items	376	Bond of Trust
+items	377	Seed of Power
+items	378	Seed of Defense
+items	379	Seed of Speed
+items	380	Seed of Running
+items	381	All-Around Seed
+items	382	Seed of Life
+items	383	Seed of Magic
+items	384	Seed of Moves
+items	385	Mace Coloring Book
+items	386	Bow Coloring Book
+items	387	Sword Secrets
+items	388	Fire Secrets
+items	389	Earth Secrets
+items	390	How to Cut 'Em
+items	391	How to Pound 'Em
+items	392	How to Chop 'Em
+items	393	Roach Bomb
+items	394	Firewood Sparks
+items	395	Mana Egg
+items	396	Holy Fire
+items	397	Hand Grenade
+items	398	Dynamite
+items	399	Rocket Fireworks
+items	400	Launch Fireworks
+items	401	BOOM! Scroll
+items	402	Howler Scroll
+items	403	Vacuum Scroll
+items	404	Tremor Scroll
+items	405	Zap! Book
+items	406	Lightning Scroll
+items	407	Gale Scroll
+items	408	Overflowing Walnut
+items	409	Restraint Walnut
+items	410	Sonic Walnut
+items	411	Running Walnut
+items	412	Snooze Scroll
+items	413	Poisoned Apple
+items	414	Culture Medium
+items	415	Dream Truffle
+items	416	Paralyze Mushroom
+items	417	Orb of Silence
+items	418	Black Onyx
+items	419	Weak-Knee Weed
+items	420	Ragged Weed
+items	421	Slouch Weed
+items	422	Trudge Weed
+items	423	Root of Confusion
+items	424	Torte's Whistle
+items	425	Freesia Flowers
+items	426	Cone of Light
+items	427	Mikeroma Scroll
+items	428	Shuffle Card
+items	429	Miracle Drink
+items	434	Pretty Jewel
+items	435	Pretty Jewel
+items	436	Pretty Jewel
+items	437	Horn of Inogon
+items	438	Key
+items	439	Health Weed
+items	441	Resurrect Potion
+items	442	Expensive Jewel
+items	443	Rainbow Weed
+items	444	Smoked Salmon
+items	445	Prime Rib
+items	446	Rescue Set
+items	447	Black Nail Polish
+items	449	Thor's Fury
+items	450	Magic Lipstick
+items	452	Fruit of Power
+items	453	Fruit of Defense
+items	454	Fruit of Speed
+items	455	Fruit of Agility
+items	456	All-Around Fruit
+items	457	Fruit of Life
+items	458	Fruit of Magic
+items	459	Fruit of Moves
+items	460	Mogay Teachings 1
+items	461	Mogay Teachings 2
+items	462	Mogay Teachings 3
+items	466	Blizzard Scroll
+items	475	Brown Crayon
+items	476	Blue Crayon
+items	477	Red Crayon
+items	478	Sky-Blue Crayon
+items	481	Poison of Power
+items	482	Poison of Defense
+items	483	Poison of Speed
+items	484	Poison of Agility
+items	485	All-Around Poison
+items	486	Poison of Life
+items	487	Poison of Magic
+items	488	Poison of Moves
+items	489	+1 Dagger Skill
+items	490	+5 Dagger Skill
+items	491	+1 Sword Skill
+items	492	+5 Sword Skill
+items	493	+1 Mace Skill
+items	494	+5 Mace Skill
+items	495	+1 Ax Skill
+items	496	+5 Ax Skill
+items	497	+1 Whip Skill
+items	498	+5 Whip Skill
+items	499	+1 Bow Skill
+items	500	+5 Bow Skill
+items	501	+1 Fire Skill
+items	502	+5 Fire Skill
+items	503	+1 Wind Skill
+items	504	+5 Wind Skill
+items	505	+1 Water Skill
+items	506	+5 Water Skill
+items	507	+1 Earth Skill
+items	508	+5 Earth Skill
+skill	452	Level 1	Burn!
+skill	480	Level 1	Zap!
+skill	457	Level 1	Howl
+skill	458	Level 1	Runner
+skill	475	Level 1	Crackle
+skill	476	Level 1	Freeze!
+skill	445	Level 1	Heal
+skill	447	Level 1	Snooze
+skill	464	Level 1	Cure
+skill	463	Level 1	Poizn
+skill	465	Level 1	Stram
+skill	539	Level 1	Diggin'
+skill	441	Level 1	Def-Loss
+skill	471	Level 1	WOW!
+skill	470	Level 1	BOOM!
+skill	484	Level 1	Magic Art
+skill	487	Level 1	Time Gate
+skill	556	Level 1	Vanish
+skill	453	Level 2	Burnflame
+skill	454	Level 2	Burnstrike
+skill	482	Level 2	Zap All
+skill	459	Level 2	Howlslash
+skill	461	Level 2	Shhh!
+skill	477	Level 2	Cold
+skill	479	Level 2	Crackling
+skill	446	Level 2	Alheal
+skill	448	Level 2	Healer
+skill	449	Level 2	Alhealer
+skill	466	Level 2	Craze
+skill	467	Level 2	Refresh
+skill	442	Level 2	Tremor
+skill	443	Level 2	Gravity
+skill	472	Level 2	Meteor Strike
+skill	473	Level 2	BOOM-POW!
+skill	485	Level 2	Star Symphony
+skill	488	Level 2	Tree of Life
+skill	455	Level 3	Burnflare
+skill	456	Level 3	Fireburner
+skill	483	Level 3	DragonZap
+skill	481	Level 3	GadZap
+skill	462	Level 3	Howlnado
+skill	478	Level 3	Fiora
+skill	537	Level 3	Protection
+skill	451	Level 3	Resurrect
+skill	450	Level 3	Alhealer+
+skill	468	Level 3	Speedy
+skill	469	Level 3	Halvah
+skill	444	Level 3	Quake
+skill	474	Level 3	BA-BOOM!
+skill	486	Level 3	Enclose
+skill	489	Level 3	End of the World
+skill	490	Skill	V-Slash
+skill	491	Skill	W-Break
+skill	492	Skill	Shockwave
+skill	493	Skill	Midair Cut
+skill	496	Skill	Lotus Cut
+skill	495	Skill	Ice Slash
+skill	497	Skill	Thor Cut
+skill	494	Skill	Immortal Aura
+skill	498	Skill	Dragon Cut
+skill	499	Skill	Heaven&Earth Cut
+skill	500	Skill	Knife Hurl
+skill	501	Skill	Random Hurl
+skill	502	Skill	Paralyze Whip
+skill	503	Skill	Fire Whip
+skill	504	Skill	Zap! Whip
+skill	509	Skill	Puffy Kick
+skill	510	Skill	"Rah-Rah!" Cheer
+skill	506	Skill	Round Whacker
+skill	505	Skill	Fire Away
+skill	508	Skill	Yawn
+skill	507	Skill	Puffy Fire
+skill	511	Skill	"Fight!" Cheer
+skill	513	Skill	Flying Dragon Cut
+skill	512	Skill	Eruption Cut
+skill	514	Skill	Dragon Cut
+skill	515	Skill	Mist Hide
+skill	516	Skill	Doppelganger
+skill	517	Skill	Dethsword
+skill	518	Skill	Missile
+skill	519	Skill	Fireball
+skill	520	Skill	Sidethrow
+skill	521	Skill	Discutter
+skill	522	Skill	Demon Ball
+skill	523	Skill	Neo Demon Ball
+skill	527	Skill	Milda Kick
+skill	524	Skill	Splitter
+skill	528	Skill	Milda Hit
+skill	530	Skill	Mogay Shot
+skill	531	Skill	Mogay Bomb
+skill	532	Skill	Mogay Hypo
+skill	533	Skill	Power Up
+skill	534	Skill	Mogay Pickpocket
+skill	535	Skill	Redshock
+skill	536	Skill	Enchantment Dance
+skill	525	Skill	Home Run Attack
+skill	526	Skill	Rage
+skill	529	Skill	Milda Hit 2

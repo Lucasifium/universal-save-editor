@@ -24079,3 +24079,862 @@ Shark level
 
 Story progress
 = Progression de l'histoire
+
+1000 Yen Bill
+= 1000 Yen Bill
+
+A PlayStation 2 save: the game's save file of the save folder (.psu, .psv or a memory card), Budokai Tenkaichi 2 or Sparking! NEO. Your zeni, every character and form you can unlock, and the count of every Z-item and Dragon Ball. The save's checksum is written again.
+= Une sauvegarde PlayStation 2 : le fichier de jeu du dossier de sauvegarde (.psu, .psv ou une carte mémoire), de Budokai Tenkaichi 2 ou Sparking! NEO. Vos zeni, chaque personnage et chaque forme à débloquer, et la quantité de chaque objet Z et de chaque Boule de Cristal. La somme de contrôle de la sauvegarde est réécrite.
+
+A PlayStation 2 save: the game's save file of the save folder (.psu, .psv or a memory card), USA or Europe release. Macca and the playthrough cycle, the protagonist's and each demon's level, experience, HP, MP, stats and skills, the stock of every item and gem, and the special items.
+= Une sauvegarde PlayStation 2 : le fichier de jeu du dossier de sauvegarde (.psu, .psv ou une carte mémoire), version américaine ou européenne. Les Macca et le cycle de jeu, le niveau, l'expérience, les PV, les PM, les statistiques et les compétences du héros et de chaque démon, la quantité de chaque objet et gemme, et les objets spéciaux.
+
+A PlayStation 2 save: the game's save file of the save folder (.psu, .psv or a memory card), with up to 16 slots. Each slot's clear count, the Bouncer Points of Sion, Volt and Kou, their stat levels and skills, the unlocked stages, characters and costumes, and the survival mode records.
+= Une sauvegarde PlayStation 2 : le fichier de jeu du dossier de sauvegarde (.psu, .psv ou une carte mémoire), avec jusqu'à 16 emplacements. Pour chaque emplacement : le nombre de fins du jeu, les points Bouncer de Sion, Volt et Kou, leurs niveaux de statistiques et leurs techniques, les niveaux, personnages et costumes débloqués, et les records du mode survie.
+
+A PlayStation 2 save: the game's save file of the save folder (.psu, .psv or a memory card). Points, games played, play time and play counts, the unlocked characters and menus, each fighter's unlocked costumes and story completions, and the count of every collection item.
+= Une sauvegarde PlayStation 2 : le fichier de jeu du dossier de sauvegarde (.psu, .psv ou une carte mémoire). Les points, les parties jouées, le temps de jeu et le nombre de parties par mode, les personnages et menus débloqués, les costumes débloqués et les histoires terminées de chaque combattant, et la quantité de chaque objet de la collection.
+
+A PlayStation save (memory card, .mcs, .psx or .psv), a Western or Japanese Grandia save slot. Gold pieces, each character's level, experience, HP, SP and attributes, magic and weapon levels, equipment, the items in each pack, and every learned skill.
+= Une sauvegarde PlayStation (carte mémoire, .mcs, .psx ou .psv), un emplacement de sauvegarde de Grandia occidental ou japonais. Les pièces d'or, le niveau, l'expérience, les PV, les PS et les attributs de chaque personnage, les niveaux de magie et d'arme, l'équipement, les objets de chaque sac et chaque compétence apprise.
+
+Ability type
+= Type capacité
+
+Air-Carrier
+= Air-Carrier
+
+Air-Carrier (over the Galeos)
+= Air-Carrier (over the Galeos)
+
+Android #16
+= Android #16
+
+Android #17
+= Android #17
+
+Android #18
+= Android #18
+
+Android #19
+= Android #19
+
+Android 13
+= Android 13
+
+Annex Pass
+= Annex Pass
+
+Baby Vegeta
+= Baby Vegeta
+
+Bar - "Fate"
+= Bar - "Fate"
+
+Bardock
+= Bardock
+
+Bayman
+= Bayman
+
+Black-Hooded Sion
+= Black-Hooded Sion
+
+Bojack
+= Bojack
+
+Bouncer Points
+= Points Bouncer
+
+Broly
+= Broly
+
+Burter
+= Burter
+
+Buster Throw
+= Buster Throw
+
+CG Gallery menu
+= Menu de la galerie CG
+
+Cannonball Strike
+= Cannonball Strike
+
+Captain Ginyu
+= Captain Ginyu
+
+Cell 1st Form
+= Cell 1st Form
+
+Cell 2nd Form
+= Cell 2nd Form
+
+Cell Jr.
+= Cell Jr.
+
+Cell Perfect Form
+= Cell Perfect Form
+
+Central Square
+= Central Square
+
+Central Station
+= Central Station
+
+Chiaotzu
+= Chiaotzu
+
+Circular Uppercut
+= Circular Uppercut
+
+Close the emulator first. A fighter's story is counted as completed once it has been finished at least once; the game's own list of obtained collection items and the save's checksum are written again.
+= Fermez d'abord l'émulateur. L'histoire d'un combattant est comptée comme terminée dès qu'elle a été finie au moins une fois ; la liste des objets de collection obtenus tenue par le jeu et la somme de contrôle de la sauvegarde sont réécrites.
+
+Close the emulator first. Each Z-item and each unlocked character also keeps an obtained flag, written again on save, and the save's checksum is written again.
+= Fermez d'abord l'émulateur. Chaque objet Z et chaque personnage débloqué garde aussi un indicateur d'obtention, réécrit à l'enregistrement, ainsi que la somme de contrôle de la sauvegarde.
+
+Close the emulator first. The game keeps no checksum. A skill is learned by each character whose box says Yes; items in a character's pack can be anything the game knows (equipment, key items and consumables share one list).
+= Fermez d'abord l'émulateur. Le jeu ne garde pas de somme de contrôle. Une compétence est apprise par chaque personnage dont la case indique Oui ; les objets du sac d'un personnage peuvent être n'importe lesquels que le jeu connaît (équipement, objets clés et consommables partagent une même liste).
+
+Close the emulator first. The save file holds 16 slots; only the used ones are listed. The game ranks each fighter from the Bouncer Points spent on stats and skills, so the rank and the points spent are written again when you change a stat or a skill; each changed slot's checksum is written again too.
+= Fermez d'abord l'émulateur. Le fichier de sauvegarde contient 16 emplacements ; seuls ceux qui sont utilisés sont listés. Le jeu classe chaque combattant d'après les points Bouncer dépensés en statistiques et en techniques ; le rang et les points dépensés sont donc réécrits quand vous changez une statistique ou une technique, de même que la somme de contrôle de chaque emplacement modifié.
+
+Close the emulator first. This reads the USA and European saves; the game keeps no checksum. A demon's own identity, its resistances and the magatama are not edited here; item stocks are capped at 99.
+= Fermez d'abord l'émulateur. Les sauvegardes américaines et européennes sont lues ; le jeu ne garde pas de somme de contrôle. L'identité d'un démon, ses résistances et les magatama ne sont pas modifiés ici ; les stocks d'objets sont limités à 99.
+
+Collection menu
+= Menu de la collection
+
+Cooler
+= Cooler
+
+Cooler Final Form
+= Cooler Final Form
+
+Costumes unlocked
+= Costumes débloqués
+
+Crystal Dome
+= Crystal Dome
+
+Cui
+= Cui
+
+Cycle
+= Cycle
+
+Dauragon (One-handed)
+= Dauragon (One-handed)
+
+Dauragon (Shirtless)
+= Dauragon (Shirtless)
+
+Dauragon (Tattoo)
+= Dauragon (Tattoo)
+
+Dauragon (Two-handed)
+= Dauragon (Two-handed)
+
+Defence Up
+= Défense +
+
+Demon
+= Démon
+
+Demon King Dabura
+= Demon King Dabura
+
+Dodoria
+= Dodoria
+
+Dominique
+= Dominique
+
+Double Knuckle
+= Double Knuckle
+
+Double Spin Kick
+= Double Spin Kick
+
+Dr. Gero
+= Dr. Gero
+
+Dragon Balls
+= Boules de Cristal
+
+Earth experience
+= Expérience de Terre
+
+Earth level
+= Niveau de Terre
+
+Earthshaker
+= Earthshaker
+
+Earthstone
+= Earthstone
+
+Echidna
+= Echidna
+
+Feena
+= Feena
+
+Fire experience
+= Expérience de Feu
+
+Fire level
+= Niveau de Feu
+
+Floating Mine
+= Floating Mine
+
+Frieza 1st Form
+= Frieza 1st Form
+
+Frieza 2nd Form
+= Frieza 2nd Form
+
+Frieza 3rd Form
+= Frieza 3rd Form
+
+Frieza Final Form
+= Frieza Final Form
+
+Full Power Bojack
+= Full Power Bojack
+
+Full Power Frieza
+= Full Power Frieza
+
+Fusion Android 13
+= Fusion Android 13
+
+Fusion type
+= Type fusion
+
+Gadwin
+= Gadwin
+
+Galeos - Control Room
+= Galeos - Control Room
+
+Garlic Jr.
+= Garlic Jr.
+
+General Tao
+= General Tao
+
+Giant Swing
+= Giant Swing
+
+Gohan
+= Gohan
+
+Gohan (Child)
+= Gohan (Child)
+
+Gohan (Kid)
+= Gohan (Kid)
+
+Goku
+= Goku
+
+Gold pieces
+= Pièces d'or
+
+Goten
+= Goten
+
+Gotenks
+= Gotenks
+
+Grandpa Gohan
+= Grandpa Gohan
+
+Great Ape
+= Great Ape
+
+Great Ape Baby
+= Great Ape Baby
+
+Great Ape Bardock
+= Great Ape Bardock
+
+Great Ape Nappa
+= Great Ape Nappa
+
+Great Ape Raditz
+= Great Ape Raditz
+
+Great Ape Turles
+= Great Ape Turles
+
+Great Ape Vegeta
+= Great Ape Vegeta
+
+Great Saiyaman
+= Great Saiyaman
+
+Great Saiyaman 2
+= Great Saiyaman 2
+
+Green Kila
+= Green Kila
+
+Ground Sweep
+= Ground Sweep
+
+Guido
+= Guido
+
+Guldo
+= Guldo
+
+Hammer Typhoon
+= Hammer Typhoon
+
+Heavenstone
+= Heavenstone
+
+Heel Smash
+= Heel Smash
+
+Hercule
+= Hercule
+
+Himorogi
+= Himorogi
+
+Hirudegarn
+= Hirudegarn
+
+Hurricane Blitz
+= Hurricane Blitz
+
+ID Card
+= ID Card
+
+Incenses
+= Encens
+
+Item 10
+= Objet 10
+
+Item 11
+= Objet 11
+
+Item 12
+= Objet 12
+
+Item 9
+= Objet 9
+
+Janemba
+= Janemba
+
+Jeice
+= Jeice
+
+Jewelry
+= Bijou
+
+Justin
+= Justin
+
+KOs
+= K.O.
+
+Kaldea
+= Kaldea
+
+Kibitoshin
+= Kibitoshin
+
+Kid Buu
+= Kid Buu
+
+Kid Goku
+= Kid Goku
+
+Kid Trunks
+= Kid Trunks
+
+Kimon Stone
+= Kimon Stone
+
+Kou Leifoh
+= Kou Leifoh
+
+Krillin
+= Krillin
+
+Leann
+= Leann
+
+Legendary Super Saiyan Broly
+= Legendary Super Saiyan Broly
+
+Letter
+= Letter
+
+Liete
+= Liete
+
+Life Up
+= Vie +
+
+Lift Up Slam
+= Lift Up Slam
+
+Lightning Smash
+= Lightning Smash
+
+Lord's Sword
+= Lord's Sword
+
+MAX Power Master Roshi
+= MAX Power Master Roshi
+
+MSD Cargo Train
+= MSD Cargo Train
+
+MSF Kou
+= MSF Kou
+
+Macca
+= Macca
+
+Majin Buu
+= Majin Buu
+
+Majin Buu (Pure Evil)
+= Majin Buu (Pure Evil)
+
+Majin Vegeta
+= Majin Vegeta
+
+Majuub
+= Majuub
+
+Master Roshi
+= Master Roshi
+
+Mecha Frieza
+= Mecha Frieza
+
+Meta-Cooler
+= Meta-Cooler
+
+Mikado Bldg. - Hanging Garden
+= Mikado Bldg. - Hanging Garden
+
+Mikado Bldg. - Robot Factory
+= Mikado Bldg. - Robot Factory
+
+Milda
+= Milda
+
+Miscellaneous items
+= Objets divers
+
+Mountain Storm
+= Mountain Storm
+
+Mugetsu
+= Mugetsu
+
+Mugetsu (Unmasked)
+= Mugetsu (Unmasked)
+
+Nappa
+= Nappa
+
+Netherstone
+= Netherstone
+
+PD-4
+= PD-4
+
+Pan
+= Pan
+
+Park Key
+= Park Key
+
+Perfect Cell
+= Perfect Cell
+
+Piccolo
+= Piccolo
+
+Pikkon
+= Pikkon
+
+Power Bridge
+= Power Bridge
+
+Power Up
+= Puissance +
+
+Raditz
+= Raditz
+
+Raging Tiger
+= Raging Tiger
+
+Rapp
+= Rapp
+
+Recoome
+= Recoome
+
+Red Kila
+= Red Kila
+
+Rocket Tower - Deck
+= Rocket Tower - Deck
+
+Saibamen
+= Saibamen
+
+Salza
+= Salza
+
+Secret type
+= Type secret
+
+Shoes
+= Chaussures
+
+Sion Barzahd
+= Sion Barzahd
+
+Skill 1
+= Compétence 1
+
+Skill 2
+= Compétence 2
+
+Skill 3
+= Compétence 3
+
+Skill 4
+= Compétence 4
+
+Skill 5
+= Compétence 5
+
+Skill 6
+= Compétence 6
+
+Skill 7
+= Compétence 7
+
+Skill 8
+= Compétence 8
+
+Skill slots
+= Emplacements de compétence
+
+Skills: Level 1
+= Compétences : niveau 1
+
+Skills: Level 2
+= Compétences : niveau 2
+
+Skills: Level 3
+= Compétences : niveau 3
+
+Skills: Techniques
+= Compétences : techniques
+
+Slug
+= Slug
+
+Soulder Uppercut
+= Soulder Uppercut
+
+Special items
+= Objets spéciaux
+
+Spoon
+= Spoon
+
+Story completions
+= Histoires terminées
+
+Story mode plays
+= Parties en mode histoire
+
+Sue
+= Sue
+
+Super 17
+= Super 17
+
+Super Baby 1
+= Super Baby 1
+
+Super Baby 2
+= Super Baby 2
+
+Super Buu
+= Super Buu
+
+Super Buu 1
+= Super Buu 1
+
+Super Buu 2
+= Super Buu 2
+
+Super Garlic Jr.
+= Super Garlic Jr.
+
+Super Gogeta
+= Super Gogeta
+
+Super Gotenks
+= Super Gotenks
+
+Super Gotenks 3
+= Super Gotenks 3
+
+Super Janemba
+= Super Janemba
+
+Super Saiyan 2 Gohan
+= Super Saiyan 2 Gohan
+
+Super Saiyan 2 Gohan (Kid)
+= Super Saiyan 2 Gohan (Kid)
+
+Super Saiyan 2 Goku
+= Super Saiyan 2 Goku
+
+Super Saiyan 2 Vegeta
+= Super Saiyan 2 Vegeta
+
+Super Saiyan 3 Goku
+= Super Saiyan 3 Goku
+
+Super Saiyan 4 Gogeta
+= Super Saiyan 4 Gogeta
+
+Super Saiyan 4 Goku
+= Super Saiyan 4 Goku
+
+Super Saiyan 4 Vegeta
+= Super Saiyan 4 Vegeta
+
+Super Saiyan Broly
+= Super Saiyan Broly
+
+Super Saiyan Gohan
+= Super Saiyan Gohan
+
+Super Saiyan Gohan (Kid)
+= Super Saiyan Gohan (Kid)
+
+Super Saiyan Goku
+= Super Saiyan Goku
+
+Super Saiyan Goten
+= Super Saiyan Goten
+
+Super Saiyan Kid Trunks ®
+= Super Saiyan Kid Trunks ®
+
+Super Saiyan Trunks
+= Super Saiyan Trunks
+
+Super Saiyan Trunks (Sword)
+= Super Saiyan Trunks (Sword)
+
+Super Saiyan Vegeta
+= Super Saiyan Vegeta
+
+Super Saiyan Vegeta (second form)
+= Super Saiyan Vegeta (second form)
+
+Super Slug
+= Super Slug
+
+Super Trunks
+= Super Trunks
+
+Super Vegeta
+= Super Vegeta
+
+Super Vegetto
+= Super Vegetto
+
+Super Yi-Shin-Long
+= Super Yi-Shin-Long
+
+Super Zarbon
+= Super Zarbon
+
+Support type
+= Type soutien
+
+Supreme Kai
+= Supreme Kai
+
+Survival mode
+= Mode survie
+
+Survival mode plays
+= Parties en mode survie
+
+Syn Shenron
+= Syn Shenron
+
+Tag battle mode plays
+= Parties en mode combat en équipe
+
+Tapion
+= Tapion
+
+Tengu
+= Tengu
+
+Tien
+= Tien
+
+Tiger Frenzy
+= Tiger Frenzy
+
+Tiger Spin Kick
+= Tiger Spin Kick
+
+Time attack mode plays
+= Parties en mode contre-la-montre
+
+Tornado Uppercut
+= Tornado Uppercut
+
+Torpedo Kick
+= Torpedo Kick
+
+Total games played
+= Parties jouées au total
+
+Trunks
+= Trunks
+
+Trunks (Sword)
+= Trunks (Sword)
+
+Turles
+= Turles
+
+Ultimate Gohan
+= Ultimate Gohan
+
+Umugi Stone
+= Umugi Stone
+
+Unlocked stages
+= Niveaux débloqués
+
+Uub
+= Uub
+
+Vegeta
+= Vegeta
+
+Vegeta (Scouter)
+= Vegeta (Scouter)
+
+Vegeta (second form)
+= Vegeta (second form)
+
+Vegito
+= Vegito
+
+Videl tm
+= Videl tm
+
+Volt Krueger
+= Volt Krueger
+
+Water experience
+= Expérience de Eau
+
+Water level
+= Niveau de Eau
+
+Weapon experience 1
+= Expérience d'arme 1
+
+Weapon experience 2
+= Expérience d'arme 2
+
+Weapon experience 3
+= Expérience d'arme 3
+
+Weapon experience 4
+= Expérience d'arme 4
+
+Weapon level 1
+= Niveau d'arme 1
+
+Weapon level 2
+= Niveau d'arme 2
+
+Weapon level 3
+= Niveau d'arme 3
+
+Weapon level 4
+= Niveau d'arme 4
+
+Weapon skills
+= Compétences d'arme
+
+Weapon type 1
+= Type d'arme 1
+
+Weapon type 2
+= Type d'arme 2
+
+Weapon type 3
+= Type d'arme 3
+
+Weapon type 4
+= Type d'arme 4
+
+White Kila
+= White Kila
+
+Wind experience
+= Expérience de Vent
+
+Wind level
+= Niveau de Vent
+
+Wit
+= Esprit
+
+Wong
+= Wong
+
+Yajirobe
+= Yajirobe
+
+Yamcha
+= Yamcha
+
+Yellow Kila
+= Yellow Kila
+
+Zangya
+= Zangya
+
+Zarbon
+= Zarbon
+
+Zeni
+= Zeni
+

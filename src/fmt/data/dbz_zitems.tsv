@@ -1,0 +1,567 @@
+# Z-items of Dragon Ball Z: Budokai Tenkaichi 2: index, type (0 ability, 1 support, 2 fusion, 3 secret, 4 dragon ball), name, 1 when the item can only be had once. Names after RyudoSynbios/game-tools-collection (MIT).
+0	0	Health +1	0
+1	0	Health +2	0
+2	0	Health +3	0
+3	0	Health +4	0
+4	0	Health +5	0
+5	0	Health +6	0
+6	0	Health +7	0
+7	0	Health +8	0
+8	0	Health +9	0
+9	0	Health +10	0
+10	0	Health +11	0
+11	0	Health +12	0
+12	0	Health +13	0
+13	0	Health +14	0
+14	0	Health +15	0
+15	0	Health +16	0
+16	0	Health +17	0
+17	0	Health +18	0
+18	0	Health +19	0
+19	0	Ki +1	0
+20	0	Ki +2	0
+21	0	Ki +3	0
+22	0	Ki +4	0
+23	0	Ki +5	0
+24	0	Ki +6	0
+25	0	Ki +7	0
+26	0	Ki +8	0
+27	0	Ki +9	0
+28	0	Ki +10	0
+29	0	Ki +11	0
+30	0	Ki +12	0
+31	0	Ki +13	0
+32	0	Ki +14	0
+33	0	Ki +15	0
+34	0	Ki +16	0
+35	0	Ki +17	0
+36	0	Ki +18	0
+37	0	Ki +19	0
+38	0	Attack +1	0
+39	0	Attack +2	0
+40	0	Attack +3	0
+41	0	Attack +4	0
+42	0	Attack +5	0
+43	0	Attack +6	0
+44	0	Attack +7	0
+45	0	Attack +8	0
+46	0	Attack +9	0
+47	0	Attack +10	0
+48	0	Attack +11	0
+49	0	Attack +12	0
+50	0	Attack +13	0
+51	0	Attack +14	0
+52	0	Attack +15	0
+53	0	Attack +16	0
+54	0	Attack +17	0
+55	0	Attack +18	0
+56	0	Attack +19	0
+57	0	Defense +1	0
+58	0	Defense +2	0
+59	0	Defense +3	0
+60	0	Defense +4	0
+61	0	Defense +5	0
+62	0	Defense +6	0
+63	0	Defense +7	0
+64	0	Defense +8	0
+65	0	Defense +9	0
+66	0	Defense +10	0
+67	0	Defense +11	0
+68	0	Defense +12	0
+69	0	Defense +13	0
+70	0	Defense +14	0
+71	0	Defense +15	0
+72	0	Defense +16	0
+73	0	Defense +17	0
+74	0	Defense +18	0
+75	0	Defense +19	0
+76	0	Speed +1	0
+77	0	Speed +2	0
+78	0	Speed +3	0
+79	0	Speed +4	0
+80	0	Speed +5	0
+81	0	Speed +6	0
+82	0	Speed +7	0
+83	0	Speed +8	0
+84	0	Speed +9	0
+85	0	Speed +10	0
+86	0	Speed +11	0
+87	0	Speed +12	0
+88	0	Speed +13	0
+89	0	Speed +14	0
+90	0	Speed +15	0
+91	0	Speed +16	0
+92	0	Speed +17	0
+93	0	Speed +18	0
+94	0	Speed +19	0
+95	0	Equipment Slots +1	0
+96	0	Equipment Slots +2	0
+97	0	Equipment Slots +3	0
+98	0	Equipment Slots +4	0
+99	0	Blast 1 +1	0
+100	0	Blast 1 +2	0
+101	0	Blast 1 +3	0
+102	0	Blast 1 +4	0
+103	0	Blast 1 +5	0
+104	0	Blast 1 +6	0
+105	0	Blast 1 +7	0
+106	0	Blast 1 +8	0
+107	0	Blast 1 +9	0
+108	0	Blast 1 +10	0
+109	0	Blast 1 +11	0
+110	0	Blast 1 +12	0
+111	0	Blast 1 +13	0
+112	0	Blast 1 +14	0
+113	0	Blast 1 +15	0
+114	0	Blast 1 +16	0
+115	0	Blast 1 +17	0
+116	0	Blast 1 +18	0
+117	0	Blast 1 +19	0
+118	0	Blast 2 +1	0
+119	0	Blast 2 +2	0
+120	0	Blast 2 +3	0
+121	0	Blast 2 +4	0
+122	0	Blast 2 +5	0
+123	0	Blast 2 +6	0
+124	0	Blast 2 +7	0
+125	0	Blast 2 +8	0
+126	0	Blast 2 +9	0
+127	0	Blast 2 +10	0
+128	0	Blast 2 +11	0
+129	0	Blast 2 +12	0
+130	0	Blast 2 +13	0
+131	0	Blast 2 +14	0
+132	0	Blast 2 +15	0
+133	0	Blast 2 +16	0
+134	0	Blast 2 +17	0
+135	0	Blast 2 +18	0
+136	0	Blast 2 +19	0
+137	0	Ultimate Blast +1	0
+138	0	Ultimate Blast +2	0
+139	0	Ultimate Blast +3	0
+140	0	Ultimate Blast +4	0
+141	0	Ultimate Blast +5	0
+142	0	Ultimate Blast +6	0
+143	0	Ultimate Blast +7	0
+144	0	Ultimate Blast +8	0
+145	0	Ultimate Blast +9	0
+146	0	Ultimate Blast +10	0
+147	0	Ultimate Blast +11	0
+148	0	Ultimate Blast +12	0
+149	0	Ultimate Blast +13	0
+150	0	Ultimate Blast +14	0
+151	0	Ultimate Blast +15	0
+152	0	Ultimate Blast +16	0
+153	0	Ultimate Blast +17	0
+154	0	Ultimate Blast +18	0
+155	0	Ultimate Blast +19	0
+156	1	Dragon Homing Uses +1	0
+157	1	Dragon Homing Uses +2	0
+158	1	Lock on Range Enlargement	0
+159	1	Master's Skills	0
+160	1	Regeneration ability	0
+161	1	Eternal Energy Device	0
+162	1	Tension Up	0
+163	1	I am Champion!!	0
+164	1	Warrior Race	0
+165	1	Indomitable Spirit	0
+166	1	Mechanical Body	0
+167	1	Fighting Spirit Elevation	0
+168	1	Ki Control	0
+169	1	Miracle Z	0
+170	1	Gravity Device	0
+171	1	Magic Beast Yakon	0
+172	1	MAX POWER Plus	0
+173	1	Abandonment Essence	0
+174	1	Hit Essence	0
+175	1	Miracle Z Plus	0
+176	1	Cool Mind	0
+177	1	Stealth Mode	0
+178	1	Aura Barrier	0
+179	1	Advanced Senses	0
+180	1	Powerful Style	0
+181	1	Energy Breaker	0
+182	1	Fighting Charisma	0
+183	1	Heavy Pressure	0
+184	1	Active Heart	0
+185	1	Mind Breaker	0
+186	1	Conversion Attack	0
+187	1	Desperation	0
+188	1	Perfect Guard	0
+189	1	Quick Recover	0
+190	1	Raging Hurricane Strike	0
+191	1	Inescapable Menace	0
+192	1	Dende's Healing	0
+193	1	Kibitokai's Secret Arts	0
+194	1	Self-Confidence	0
+195	1	Master's Essence	0
+196	1	Master's Spirit	0
+197	1	Master's Pressure	0
+198	1	Master's Presence	0
+199	1	Master's Trump Card	0
+200	1	Master's Secret Plan	0
+201	1	Master's Protection	0
+202	1	Succession Technique	0
+203	1	Everyone's Hopes	0
+204	1	Halo	0
+205	1	Majin Seal	0
+206	1	Hints of martial arts	0
+207	1	Title [Tenkaichi]	0
+208	1	Title [Top Fighter]	0
+209	1	Title [Elite]	0
+210	1	Title [SuperFighter]	0
+211	1	The god of Justice	0
+212	1	Mystery of Shenron	0
+213	1	The sacred water	0
+214	1	Master Piece [Roshi]	0
+215	1	Master Piece [Crane Hermit]	0
+216	1	Puar's support	0
+217	1	Oolong's support	0
+218	1	Chichi's support	0
+219	1	Bulma's support	0
+220	1	Muuri's support	0
+221	1	King Cold's support	0
+222	1	Kiss of #18	0
+223	1	Spopovich	0
+224	1	Yamu	0
+225	1	Puipui	0
+226	1	Zoonama's barb 	0
+227	1	Aqua's scale	0
+228	1	Micro band	0
+229	1	The Turtle stone	0
+230	1	Vicious desire	0
+231	1	The emperor's aura	0
+232	1	Eternal Life	0
+233	1	Z Fighter's bond	0
+234	1	Ginyu Force's bond	0
+235	1	Genuine Power	0
+236	1	Result of Training	0
+237	1	Ki!	0
+238	1	Rage!	0
+239	1	Charge!	0
+240	1	Guts !	0
+241	1	Finish!	0
+242	1	Potential power!	0
+243	1	Unbelievable attack!	0
+244	1	Great saver!	0
+245	1	Don't monkey around with me!	0
+246	1	I won't forgive you !	0
+247	1	Fighter's Pride	0
+248	1	Tougher than ever	0
+249	1	Speedy & Heavy Blow	0
+250	1	Unleash Ki	0
+251	1	Furious Power	0
+252	1	Turtle Hermit's uniform	0
+253	1	Piccolo's uniform	0
+254	1	Fighting Jacket	0
+255	1	The bravest sword	0
+256	1	Saiyan Power	0
+257	1	Limitless Power	0
+258	1	Potential of being a fighter	0
+259	1	Shenron's record	0
+260	1	Gero's lab data	0
+261	1	Babidi's magic	0
+262	1	Bibidi's magic	0
+263	1	Gohan's teacher	0
+264	1	Perfect stance	0
+265	2	Z Item Fusion	0
+266	2	Miracle	0
+267	2	Dragon Power	0
+268	2	Senzu Bean	0
+269	2	Memories of Grandpa	0
+270	2	Wicked Heart Revealed	0
+271	2	Babidi's Brainwashing	0
+272	2	One Who Loves Justice	0
+273	2	King Yemma's Stamp	0
+274	2	Tortoise Shell	0
+275	2	Ultimate God Water	0
+276	2	Elder Releases Potential	0
+277	2	100G Training	0
+278	2	Elder Kai's Ritual	0
+279	2	Unsealed	0
+280	2	Ultimate transformation	0
+281	2	Remodeling surgery	0
+282	2	Transform kit	0
+283	2	Super Saiyan	0
+284	2	Human gunman's gun	0
+285	2	SS4 Goku's fusion	0
+286	2	SS4 Vegeta's fusion	0
+287	2	Babidi	0
+288	2	Frieza's brother	0
+289	2	Galactic Warrior	0
+290	2	Saike demon	0
+291	2	People's bad energy	0
+292	2	Artificial Blutz wave	0
+293	2	breakthrough the limit	0
+294	2	Self Destruction	0
+295	2	Z sword	0
+296	2	Goku and Vegeta	0
+297	2	Potara	0
+298	2	Perfect fusion	0
+299	2	Power Ball	0
+300	2	Lower class Saiyan	0
+301	2	Bloody Durag	0
+302	2	Saiyan prince	0
+303	2	Scouter	0
+304	2	HFIL fighter #17	0
+305	2	Power from lower class	0
+306	2	Mysterious boy in wilderness	0
+307	2	Mystical adventure	0
+308	2	Absorb Gotenks	0
+309	2	Absorb Gohan	0
+310	2	Mutaito's Pupil	0
+311	2	Fanky Grandpa	0
+312	2	Bros. of Crane Hermit	0
+313	2	Memorial campaign	0
+314	2	Makyo Star	0
+315	2	Dead Zone	0
+316	2	Giant Form	0
+317	2	Hatred of Goku	0
+318	2	Big Gete Star	0
+319	2	Seriousness	0
+320	2	Namekian	0
+321	2	Mutation	0
+322	2	The Flowers of Evil	0
+323	2	Armored cavalry	0
+324	2	Cooler's soldier	0
+325	2	Son of Paragas	0
+326	2	Lower class Saiyan	0
+327	2	Frieza's soldier	0
+328	2	Vegeta's rival	0
+329	2	Great warrier of west galaxy	0
+330	2	Rival of Goku	0
+331	2	Vagabond	0
+332	2	Sword Master	0
+333	2	Majin Transmigration	0
+334	2	Training with Goku	0
+335	2	Power of Majin	0
+336	2	Evil Dragon	0
+337	2	Negative Energy	0
+338	2	Ultimate Dragonball	0
+339	2	Computer	0
+340	2	Hatred	0
+341	2	Parts of #14/#15	0
+342	2	Fruit of the Tree of Might	0
+343	2	Kibito	0
+344	2	Hildegarn's top half	0
+345	2	Hildegarn's lower half	0
+346	2	Mysterious music box	0
+347	2	Master Roshi's pupil	0
+348	2	Fox Mask	0
+349	2	Baby	0
+350	2	???	0
+351	2	???	0
+352	2	???	0
+353	2	???	0
+354	2	???	0
+355	2	???	0
+356	4	1 Star Dragonball	1
+357	4	2 Star Dragonball	1
+358	4	3 Star Dragonball	1
+359	4	4 Star Dragonball	1
+360	4	5 Star Dragonball	1
+361	4	6 Star Dragonball	1
+362	4	7 Star Dragonball	1
+363	3	Member's Card (Normal)	1
+364	3	Member's Card (Bronze)	1
+365	3	Member's Card (Silver)	1
+366	3	Member's Card (Gold)	1
+367	3	Hercule's Autograph	0
+368	3	Girl's Panties	0
+369	3	Hercule's Secrets	0
+370	3	Champion Belt	0
+371	3	Candid Photo of 18	0
+372	3	Pirate Treasure	0
+373	3	Saibamen Set	0
+374	3	Saiyan Spaceship	0
+375	3	Katchinko	0
+376	3	Alien Cells	0
+377	3	Android Wreckage	0
+378	3	Frieza's Spaceship	0
+379	3	Wrecked Time Machine	0
+380	3	Mysterious Blueprints	0
+381	3	Dragon Radar	0
+382	3	Playing With A Cat	0
+383	3	Karin's Seal	0
+384	3	Book of Puns	0
+385	3	Secret High Point Ticket	0
+386	3	Pure Energy	0
+387	3	Senzu	0
+388	3	Senzu Tree	0
+389	3	Special Battle	0
+390	3	Saiyan Saga	1
+391	3	Tree of Might	1
+392	3	Lord Slug	1
+393	3	Bardock: Father of Goku	1
+394	3	Frieza Saga	1
+395	3	Makyo Star	1
+396	3	Cooler's Revenge	1
+397	3	Return of Cooler	1
+398	3	The History of Trunks	1
+399	3	Android Saga	1
+400	3	Super Android 13	1
+401	3	Broly: The Legendary Super Saiyan	1
+402	3	Ultimate Future Warrior	1
+403	3	Bojack Unbound	1
+404	3	Majin Buu Saga	1
+405	3	Broly: The Second Coming	1
+406	3	Fusion Reborn	1
+407	3	Wrath of the Dragon	1
+408	3	Baby, Demon of Vengeance	1
+409	3	Ultimate Android	1
+410	3	Evil Dragon	1
+411	3	Fateful Brothers	1
+412	3	The Desire for Beauty	1
+413	3	Ultimate Science Battle	0
+414	3	Fated Rivals	1
+415	3	Wasteland	1
+416	3	Rocky Area	1
+417	3	Namek	1
+418	3	World Tournament Stage	1
+419	3	City (Ruins)	1
+420	3	Mountain Road	1
+421	3	Islands	1
+422	3	Cell Games Arena	1
+423	3	Kami's Lookout	1
+424	3	Room of spirit and time	1
+425	3	Supreme Kai's World	1
+426	3	Dying Namek	1
+427	3	Kame House	1
+428	3	Space	1
+429	3	Glacier	1
+430	3	Goku	1
+431	3	Super Saiyan Goku	1
+432	3	Super Saiyan 2 Goku	1
+433	3	Super Saiyan 3 Goku	1
+434	3	Gohan (Child)	1
+435	3	Gohan (Kid)	1
+436	3	Super Saiyan Gohan (Kid)	1
+437	3	Super Saiyan 2 Gohan (Kid)	1
+438	3	Piccolo	1
+439	3	Krillin	1
+440	3	Yamcha	1
+441	3	Tien	1
+442	3	Chiaotzu	1
+443	3	Raditz	1
+444	3	Saibamen	1
+445	3	Nappa	1
+446	3	Vegeta	1
+447	3	Super Saiyan Vegeta	1
+448	3	Super Vegeta	1
+449	3	Zarbon	1
+450	3	Super Zarbon	1
+451	3	Dodoria	1
+452	3	Captain Ginyu	1
+453	3	Recoome	1
+454	3	Burter	1
+455	3	Jeice	1
+456	3	Guldo	1
+457	3	Frieza 1st Form	1
+458	3	Frieza 2nd Form	1
+459	3	Frieza 3rd Form	1
+460	3	Frieza Final Form	1
+461	3	Full Power Frieza	1
+462	3	Mecha Frieza	1
+463	3	Trunks (Sword)	1
+464	3	Super Saiyan Trunks (Sword)	1
+465	3	Super Trunks	1
+466	3	Android #16	1
+467	3	Android #17	1
+468	3	Android #18	1
+469	3	Android #19	1
+470	3	Dr. Gero	1
+471	3	Cell 1st Form	1
+472	3	Cell 2nd Form	1
+473	3	Cell Perfect Form	1
+474	3	Perfect Cell	1
+475	3	Cell Jr.	1
+476	3	Hercule	1
+477	3	Gohan	1
+478	3	Super Saiyan Gohan	1
+479	3	Super Saiyan 2 Gohan	1
+480	3	Great Saiyaman	1
+481	3	Ultimate Gohan	1
+482	3	Goten	1
+483	3	Super Saiyan Goten	1
+484	3	Kid Trunks	1
+485	3	Super Saiyan Kid Trunks ®	1
+486	3	Gotenks	1
+487	3	Super Gotenks	1
+488	3	Super Gotenks 3	1
+489	3	Videl tm	1
+490	3	Demon King Dabura	1
+491	3	Majin Buu	1
+492	3	Majin Buu (Pure Evil)	1
+493	3	Super Buu	1
+494	3	Kid Buu	1
+495	3	Vegito	1
+496	3	Super Vegetto	1
+497	3	Super Saiyan 2 Vegeta	1
+498	3	Super Gogeta	1
+499	3	Great Ape	1
+500	3	Great Ape Vegeta	1
+501	3	Legendary Super Saiyan Broly	1
+502	3	Full Power Bojack	1
+503	3	Cooler Final Form	1
+504	3	Super Janemba	1
+505	3	Super Saiyan 4 Goku	1
+506	3	Super Saiyan 4 Vegeta	1
+507	3	Super Saiyan 4 Gogeta	1
+508	3	Bardock	1
+509	3	Vegeta (Scouter)	1
+510	3	Majin Vegeta	1
+511	3	Trunks	1
+512	3	Super Saiyan Trunks	1
+513	3	Super 17	1
+514	3	Super Baby 2	1
+515	3	Kid Goku	1
+516	3	Super Buu 1	1
+517	3	Super Buu 2	1
+518	3	Master Roshi	1
+519	3	General Tao	1
+520	3	Garlic Jr.	1
+521	3	Super Garlic Jr.	1
+522	3	Pan	1
+523	3	Cooler	1
+524	3	Meta-Cooler	1
+525	3	MAX Power Master Roshi	1
+526	3	Slug	1
+527	3	Super Slug	1
+528	3	Zangya	1
+529	3	Salza	1
+530	3	Broly	1
+531	3	Super Saiyan Broly	1
+532	3	Bojack	1
+533	3	Janemba	1
+534	3	Super Baby 1	1
+535	3	Great Ape Baby	1
+536	3	Great Ape Raditz	1
+537	3	Great Ape Nappa	1
+538	3	Great Ape Bardock	1
+539	3	Great Saiyaman 2	1
+540	3	Cui	1
+541	3	Pikkon	1
+542	3	Yajirobe	1
+543	3	Uub	1
+544	3	Majuub	1
+545	3	Syn Shenron	1
+546	3	Super Yi-Shin-Long	1
+547	3	Android 13	1
+548	3	Fusion Android 13	1
+549	3	Turles	1
+550	3	Great Ape Turles	1
+551	3	Supreme Kai	1
+552	3	Kibitoshin	1
+553	3	Hirudegarn	1
+554	3	Tapion	1
+555	3	Grandpa Gohan	1
+556	3	Vegeta (second form)	1
+557	3	Super Saiyan Vegeta (second form)	1
+558	3	Baby Vegeta	1
+559	3	Cell Games	1
+560	3	World Martial Arts Big Tournament	1
+561	3	Advanced License	1
+562	3	Master License	1
+563	3	Bulla	1
+564	3	Desert Costume	1
+565	3	Ruined Earth	1
