@@ -595,3 +595,26 @@ pub const SOM_SNES: Spec = Spec {
     Table { title: tx("Slot 4: weapon and spirit skills"), path: "/Slot 4/Skills", name: &[], cols: &[(tx("Level"), "/Level"), (tx("Experience"), "/Experience")], only: &[], names: &[] },
     ],
 };
+
+// ------------------------------------------------------------------ Mystic Quest (SNES)
+
+pub const MQ_SNES: Spec = Spec {
+    name: "Mystic Quest (SNES)",
+    tab: "Party",
+    accent: (110, 150, 200),
+    kind: Some(crate::fmt::mysticquest::KIND),
+    markers: &["/Info/Slots in use"],
+    subtitle: tx("An emulator's 8 KiB .srm / .sav save. Per slot: money, and the hero's and partner's level, experience, HP and spell charges."),
+    tiles: &[(tx("Slots in use"), "/Info/Slots in use")],
+    sections: &[
+    Section { title: tx("Slot 1"), rows: &[(tx("Money"), "/Slot 1/Game/Money")] },
+    Section { title: tx("Slot 2"), rows: &[(tx("Money"), "/Slot 2/Game/Money")] },
+    Section { title: tx("Slot 3"), rows: &[(tx("Money"), "/Slot 3/Game/Money")] },
+    ],
+    lists: &[],
+    tables: &[
+    Table { title: tx("Slot 1: party"), path: "/Slot 1/Party", name: &[], cols: &[(tx("Level"), "/Level"), (tx("Experience"), "/Experience"), (tx("HP"), "/HP"), (tx("Max HP"), "/Max HP"), (tx("White magic charges"), "/White magic charges"), (tx("Black magic charges"), "/Black magic charges"), (tx("Sorcery charges"), "/Sorcery charges"), (tx("White magic max charges"), "/White magic max charges"), (tx("Black magic max charges"), "/Black magic max charges"), (tx("Sorcery max charges"), "/Sorcery max charges")], only: &[], names: &[] },
+    Table { title: tx("Slot 2: party"), path: "/Slot 2/Party", name: &[], cols: &[(tx("Level"), "/Level"), (tx("Experience"), "/Experience"), (tx("HP"), "/HP"), (tx("Max HP"), "/Max HP"), (tx("White magic charges"), "/White magic charges"), (tx("Black magic charges"), "/Black magic charges"), (tx("Sorcery charges"), "/Sorcery charges"), (tx("White magic max charges"), "/White magic max charges"), (tx("Black magic max charges"), "/Black magic max charges"), (tx("Sorcery max charges"), "/Sorcery max charges")], only: &[], names: &[] },
+    Table { title: tx("Slot 3: party"), path: "/Slot 3/Party", name: &[], cols: &[(tx("Level"), "/Level"), (tx("Experience"), "/Experience"), (tx("HP"), "/HP"), (tx("Max HP"), "/Max HP"), (tx("White magic charges"), "/White magic charges"), (tx("Black magic charges"), "/Black magic charges"), (tx("Sorcery charges"), "/Sorcery charges"), (tx("White magic max charges"), "/White magic max charges"), (tx("Black magic max charges"), "/Black magic max charges"), (tx("Sorcery max charges"), "/Sorcery max charges")], only: &[], names: &[] },
+    ],
+};

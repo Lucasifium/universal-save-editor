@@ -25270,3 +25270,25 @@ Check for a new version
 
 Asks GitHub once for the newest release. Nothing else is sent.
 = 向 GitHub 查询一次最新版本，不发送其他任何内容。
+
+
+An emulator's 8 KiB .srm / .sav save. Per slot: money, and the hero's and partner's level, experience, HP and spell charges.
+= 模拟器的 8 KiB .srm / .sav 存档。每个存档位:金钱,以及主角和搭档的等级、经验、HP 和魔法次数。
+
+White magic charges
+= 白魔法次数
+
+Black magic charges
+= 黑魔法次数
+
+Sorcery charges
+= 妖术次数
+
+White magic max charges
+= 白魔法最大次数
+
+Black magic max charges
+= 黑魔法最大次数
+
+Sorcery max charges
+= 妖术最大次数

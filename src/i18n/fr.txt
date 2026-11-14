@@ -25222,3 +25222,25 @@ Check for a new version
 
 Asks GitHub once for the newest release. Nothing else is sent.
 = Demande une fois à GitHub la version la plus récente. Rien d'autre n'est envoyé.
+
+
+An emulator's 8 KiB .srm / .sav save. Per slot: money, and the hero's and partner's level, experience, HP and spell charges.
+= Une sauvegarde .srm / .sav de 8 Kio d'un émulateur. Par emplacement : argent, et niveau, expérience, PV et charges de sorts du héros et de son partenaire.
+
+White magic charges
+= Charges de magie blanche
+
+Black magic charges
+= Charges de magie noire
+
+Sorcery charges
+= Charges de sorcellerie
+
+White magic max charges
+= Charges max. de magie blanche
+
+Black magic max charges
+= Charges max. de magie noire
+
+Sorcery max charges
+= Charges max. de sorcellerie

@@ -25297,3 +25297,25 @@ Check for a new version
 
 Asks GitHub once for the newest release. Nothing else is sent.
 = GitHubに最新リリースを一度だけ問い合わせます。それ以外は何も送信されません。
+
+
+An emulator's 8 KiB .srm / .sav save. Per slot: money, and the hero's and partner's level, experience, HP and spell charges.
+= エミュレーターの8 KiBの.srm / .savセーブ。スロットごとに、所持金、主人公とパートナーのレベル・経験値・HP・魔法の回数。
+
+White magic charges
+= 白魔法の回数
+
+Black magic charges
+= 黒魔法の回数
+
+Sorcery charges
+= 魔術の回数
+
+White magic max charges
+= 白魔法の最大回数
+
+Black magic max charges
+= 黒魔法の最大回数
+
+Sorcery max charges
+= 魔術の最大回数

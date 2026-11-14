@@ -257,6 +257,7 @@ pub mod supermetroid;
 pub mod ff6snes;
 pub mod chronotrigger;
 pub mod secretofmana;
+pub mod mysticquest;
 pub mod zelda_lttp;
 pub mod alphaprotocol;
 pub mod isaac;
@@ -658,6 +659,11 @@ pub fn parse_binary(d: &[u8]) -> Option<TreeDoc> {
     }
     if supermetroid::looks(d) {
         if let Ok(t) = supermetroid::parse(d) {
+            return Some(t);
+        }
+    }
+    if mysticquest::looks(d) {
+        if let Ok(t) = mysticquest::parse(d) {
             return Some(t);
         }
     }

@@ -390,6 +390,7 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 | My Hero One's Justice | *Heroes*: cash, from the plain Unreal save `systemdata.sav` (checked on a public save, not yet tried in the game) |
 | My Hero One's Justice 2 | *Heroes*: hero coins, from the plain Unreal save `systemdata*.sav` (checked on a public save, not yet tried in the game) |
 | My Summer Car | *Finland*: money and the needs (hunger, thirst, fatigue, stress, urine, dirtiness); every other single value of `defaultES2File.txt` (Easy Save 2) is in the Tree by name (checked on a public save, not yet tried in the game) |
+| Mystic Quest (SNES, emulator `.srm` saves) | *Slots*: money, and the hero's and partner's level, experience, HP and spell charges (each slot's checksum is kept right; checked against public saves, not yet tried in the game) |
 
 </details>
 
