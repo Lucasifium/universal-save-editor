@@ -1614,6 +1614,54 @@ Item box
 Equipped
 = Équipé
 
+# src/game_ui/simple/spec_texts.rs
+
+
+A .pcsave from AppData\\LocalLow\\niceplay games\\Potion Craft\\SavesSteam (shown as two parts: the save's name and day, then the game state). Close the game before editing.
+= Un fichier .pcsave de AppData\LocalLow\niceplay games\Potion Craft\SavesSteam (affiché en deux parties : le nom et le jour de la sauvegarde, puis l'état du jeu). Fermez le jeu avant de modifier.
+
+A character .json from AppData\\LocalLow\\Pugstorm\\Core Keeper\\Steam\\<id>\\saves. Skill experience, coins, health and inventory counts. Close the game before editing.
+= Un fichier .json de personnage de AppData\LocalLow\Pugstorm\Core Keeper\Steam\<id>\saves. Expérience des compétences, pièces, santé et quantités de l'inventaire. Fermez le jeu avant de modifier.
+
+A map.wbox from AppData\\LocalLow\\mkarpenko\\WorldBox\\saves\\saveN (zlib-compressed JSON, unpacked and packed again). Every unit's level, experience, health, hunger and ruler stats, and the first village's stored resources.
+= Un fichier map.wbox de AppData\LocalLow\mkarpenko\WorldBox\saves\saveN (JSON compressé en zlib, décompressé puis recompressé). Niveau, expérience, santé, faim et statistiques de souverain de chaque unité, et les ressources stockées du premier village.
+
+A save_n.dat from %LOCALAPPDATA%\\HoloCure (base64 JSON, unpacked and packed again). HoloCoins and the level of each upgrade.
+= Un fichier save_n.dat de %LOCALAPPDATA%\HoloCure (JSON en base64, décodé puis réencodé). HoloCoins et niveau de chaque amélioration.
+
+ATK
+= ATQ
+
+Accuracy
+= Précision
+
+Adventure coins
+= Pièces d'aventure
+
+Adventure food
+= Nourriture d'aventure
+
+Age
+= Âge
+
+Alchemist
+= Alchimiste
+
+Ammunition
+= Munitions
+
+Ancient coins
+= Pièces antiques
+
+Blank collars
+= Colliers vierges
+
+Blue orbs
+= Orbes bleus
+
+Bosses taken down
+= Boss vaincus
+
 Character
 = Personnage
 
@@ -1854,6 +1902,144 @@ Units
 Kills
 = Éliminations
 
+Character 1: inventory
+= Personnage 1 : inventaire
+
+Character 2: inventory
+= Personnage 2 : inventaire
+
+Character 3: inventory
+= Personnage 3 : inventaire
+
+Character 4: inventory
+= Personnage 4 : inventaire
+
+Characters
+= Personnages
+
+Children
+= Enfants
+
+Class
+= Classe
+
+Class perks
+= Atouts de classe
+
+Clip capacity
+= Capacité du chargeur
+
+Close the game first. Items and weapons are left as they are.
+= Fermez d'abord le jeu. Les objets et les armes restent tels quels.
+
+Close the game first. Items are listed by their game id; quality is shown as Q1 to Q6. Only the amounts are edited.
+= Fermez d'abord le jeu. Les objets sont listés par leur identifiant de jeu ; la qualité apparaît de Q1 à Q6. Seules les quantités sont modifiées.
+
+Close the game first. Save slots that are empty are left out.
+= Fermez d'abord le jeu. Les emplacements de sauvegarde vides sont omis.
+
+Close the game first. Slot checksums are written again on save. Level is stored one lower than the level the game shows.
+= Fermez d'abord le jeu. Les sommes de contrôle des emplacements sont réécrites à l'enregistrement. Le niveau est stocké avec un de moins que celui affiché par le jeu.
+
+Close the game first. The checksum at the start of the file is written again on save. Weapons and upgrades you do not own yet are not listed.
+= Fermez d'abord le jeu. La somme de contrôle au début du fichier est réécrite à l'enregistrement. Les armes et améliorations que vous ne possédez pas encore ne sont pas listées.
+
+Close the game first. The file is written again in its block format with fresh checksums.
+= Fermez d'abord le jeu. Le fichier est réécrit dans son format par blocs avec de nouvelles sommes de contrôle.
+
+Coins
+= Pièces
+
+Completion (%)
+= Progression (%)
+
+Credits
+= Crédits
+
+Crit
+= Crit.
+
+Critical
+= Critique
+
+Currency
+= Monnaie
+
+Current day
+= Jour actuel
+
+Damage
+= Dégâts
+
+Damage dealt
+= Dégâts infligés
+
+Damage resistance
+= Résistance aux dégâts
+
+Day
+= Jour
+
+Deaths
+= Morts
+
+Difficulty
+= Difficulté
+
+Diplomacy
+= Diplomatie
+
+Distance driven
+= Distance parcourue
+
+Driven
+= Parcouru
+
+Driver
+= Pilote
+
+EXP
+= EXP
+
+Eliminate
+= Éliminer
+
+Enemies destroyed
+= Ennemis détruits
+
+Enhance
+= Améliorer
+
+Experience
+= Expérience
+
+Fame
+= Renommée
+
+Fandom
+= Fandom
+
+Fans
+= Fans
+
+Fire rate
+= Cadence de tir
+
+First village: stored resources
+= Premier village : ressources stockées
+
+Food
+= Nourriture
+
+GAMEDATA from Documents\\My Games\\NieR Replicant ver.1.22474487139...\\Steam\\<account>: health, level, experience, money, recovery items and materials of each used slot. Slot checksums are written again on save.
+= GAMEDATA de Documents\My Games\NieR Replicant ver.1.22474487139...\Steam\<account> : santé, niveau, expérience, argent, objets de soin et matériaux de chaque emplacement utilisé. Les sommes de contrôle des emplacements sont réécrites à l'enregistrement.
+
+Gadgets unlocked
+= Gadgets débloqués
+
+GlobalData.dat from a profile folder (profile0 …) of the game's Saves folder. Money, level and experience.
+= GlobalData.dat d'un dossier de profil (profile0 …) du dossier Saves du jeu. Argent, niveau et expérience.
+
 Gold
 = Or
 
@@ -1922,6 +2108,39 @@ Gems
 
 Constitution
 = Constitution
+
+Green gel
+= Gel vert
+
+Growth
+= Croissance
+
+HP
+= PV
+
+Haste
+= Hâte
+
+Health
+= Santé
+
+HoloCoins
+= HoloCoins
+
+House
+= Maison
+
+House and adventure
+= Maison et aventure
+
+House food
+= Nourriture de la maison
+
+House gold
+= Or de la maison
+
+Hunger
+= Faim
 
 Intelligence
 = Intelligence
@@ -2268,6 +2487,59 @@ Mastery points to spend
 Meat
 = Viande
 
+Inventory
+= Inventaire
+
+Item limit
+= Limite d'objets
+
+Kaine 1: materials
+= Kaine 1: Matériaux
+
+Kaine 1: recovery items
+= Kaine 1: Objets de soin
+
+Kaine 2: materials
+= Kaine 2: Matériaux
+
+Kaine 2: recovery items
+= Kaine 2: Objets de soin
+
+Kaine 3: materials
+= Kaine 3: Matériaux
+
+Kaine 3: recovery items
+= Kaine 3: Objets de soin
+
+Karma
+= Karma
+
+Level
+= Niveau
+
+Level (shown minus one)
+= Niveau (affiché moins un)
+
+Life gauge
+= Jauge de vie
+
+
+
+Max health
+= Santé max.
+
+Maximum sprint
+= Sprint max.
+
+Mechanic
+= Mécanicien
+
+Melee damage
+= Dégâts de mêlée
+
+Missions finished
+= Missions terminées
+
 Money
 = Argent
 
@@ -2309,6 +2581,54 @@ Play time (minutes)
 
 Play time (seconds)
 = Temps de jeu (secondes)
+
+Money gain
+= Gain d'argent
+
+NieR (after ending D): materials
+= NieR (après la fin D): Matériaux
+
+NieR (after ending D): recovery items
+= NieR (après la fin D): Objets de soin
+
+NieR 1: materials
+= NieR 1: Matériaux
+
+NieR 1: recovery items
+= NieR 1: Objets de soin
+
+NieR 2: materials
+= NieR 2: Matériaux
+
+NieR 2: recovery items
+= NieR 2: Objets de soin
+
+NieR 3: materials
+= NieR 3: Matériaux
+
+NieR 3: recovery items
+= NieR 3: Objets de soin
+
+Pickup range
+= Portée de ramassage
+
+Play time (frames)
+= Temps de jeu (images)
+
+Player level
+= Niveau du joueur
+
+Popularity
+= Popularité
+
+Population
+= Population
+
+Power cells gathered
+= Cellules d'énergie collectées
+
+Prestige
+= Prestige
 
 Profile
 = Profil
@@ -2519,4 +2839,187 @@ For each save slot: money, Persona points, BOND points and the stacks you alread
 
 Each custom character's level, experience, attribute points and the six attributes (up to 100). The save has no checksum we know of.
 = Niveau, expérience, points d'attributs et les six attributs (jusqu'à 100) de chaque personnage personnalisé. La sauvegarde n'a aucune somme de contrôle connue.
+
+Quantity
+= Quantité
+
+RQProfile.sav from %LOCALAPPDATA%\\RoboQuest\\Saved\\SaveGames. Wrenches, difficulty, class and statistics.
+= RQProfile.sav de %LOCALAPPDATA%\RoboQuest\Saved\SaveGames. Clés à molette, difficulté, classe et statistiques.
+
+Raises every material this slot already holds (plants, ores, animal parts, machine parts, salvage) to 99, the most the game carries.
+= Porte à 99, le maximum du jeu, chaque matériau que cet emplacement possède déjà (plantes, minerais, parties d'animaux, pièces de machines, récupération).
+
+Raises the crafting materials the character already holds (aluminium, uranium, textile, steel, tungsten, rubber, adhesive, titanium, plastic, thread) to 99, the stack size every item in the public sample has. Weapons, ammunition and other items are left alone. The game states no limit, so 99 is an estimate.
+= Porte à 99 les matériaux d'artisanat que le personnage possède déjà (aluminium, uranium, textile, acier, tungstène, caoutchouc, adhésif, titane, plastique, fil), la taille de pile de tous les objets de l'exemple public. Les armes, les munitions et les autres objets ne sont pas modifiés. Le jeu n'indique pas de limite, 99 est donc une estimation.
+
+Raises the crafting materials the store already holds (aluminium, uranium, textile, steel, tungsten, rubber, adhesive, titanium, plastic, thread) to 99, the stack size every item in the public sample has. Weapons, ammunition and other items are left alone. The game states no limit, so 99 is an estimate.
+= Porte à 99 les matériaux d'artisanat que la réserve possède déjà (aluminium, uranium, textile, acier, tungstène, caoutchouc, adhésif, titane, plastique, fil), la taille de pile de tous les objets de l'exemple public. Les armes, les munitions et les autres objets ne sont pas modifiés. Le jeu n'indique pas de limite, 99 est donc une estimation.
+
+Raises the plant, mushroom and crystal ingredients you already have to 999. Potions and the alchemy machine's products are left alone. The game states no stack limit, so 999 is an estimate.
+= Porte à 999 les ingrédients de plantes, de champignons et de cristaux que vous possédez déjà. Les potions et les produits de la machine d'alchimie ne sont pas modifiés. Le jeu n'indique pas de limite de pile, 999 est donc une estimation.
+
+Red orbs
+= Orbes rouges
+
+Refund
+= Remboursement
+
+Regen
+= Régénération
+
+Reload time
+= Temps de rechargement
+
+Rerolls
+= Relances
+
+Resource storage
+= Réserve de ressources
+
+Resources
+= Ressources
+
+Robot
+= Robot
+
+SPD
+= VIT
+
+Safehouse storage
+= Réserve de la planque
+
+Save0001.sav and the others from Documents\\My Games\\Borderlands\\SaveData (the Enhanced edition keeps them under Borderlands GOTY Enhanced\\WillowGame\\SaveData): level, experience, skill points, money, skill levels and ammunition. Items and weapons are left as they are.
+= Save0001.sav et les autres de Documents\My Games\Borderlands\SaveData (l'édition Enhanced les range dans Borderlands GOTY Enhanced\WillowGame\SaveData) : niveau, expérience, points de compétence, argent, niveaux de compétence et munitions. Les objets et les armes restent tels quels.
+
+Sebastian
+= Sebastian
+
+Secret ruins found
+= Ruines secrètes trouvées
+
+Seed
+= Graine
+
+Sheds available
+= Abris disponibles
+
+Skill damage
+= Dégâts de compétence
+
+Skill experience
+= Expérience de compétence
+
+Skill points
+= Points de compétence
+
+Skills
+= Compétences
+
+Sleep
+= Sommeil
+
+Slots
+= Emplacements
+
+Special cooldown
+= Récupération spéciale
+
+Stamps
+= Tampons
+
+Statistics
+= Statistiques
+
+Stewardship
+= Intendance
+
+Stock
+= Réserve
+
+Storage upgrades
+= Améliorations de stockage
+
+Survivor
+= Survivant
+
+Syringe recovery
+= Récupération de seringue
+
+TLDsaveData.tlds from a save folder of the game. The driver's vitals and the world time; the distance driven is in TLDsaveProp.tldsp (the same folder).
+= TLDsaveData.tlds d'un dossier de sauvegarde du jeu. Les constantes vitales du conducteur et l'heure du monde ; la distance parcourue se trouve dans TLDsaveProp.tldsp (même dossier).
+
+TLDsaveProp.tldsp from a save folder of the game: the distance driven and the world seed.
+= TLDsaveProp.tldsp d'un dossier de sauvegarde du jeu : la distance parcourue et la graine du monde.
+
+Trap parts
+= Pièces de piège
+
+Trip
+= Trajet
+
+Units
+= Unités
+
+Upgrade level
+= Niveau d'amélioration
+
+Upgrades
+= Améliorations
+
+Upgrades (levels)
+= Améliorations (niveaux)
+
+Vault Hunter
+= Chasseur de caveaux
+
+Warfare
+= Guerre
+
+Water
+= Eau
+
+Weapon limit
+= Limite d'armes
+
+Weapon upgrade levels
+= Niveaux d'amélioration des armes
+
+World
+= Monde
+
+World seed
+= Graine du monde
+
+World time
+= Heure du monde
+
+Wrenches
+= Clés à molette
+
+Wrenches gathered
+= Clés à molette collectées
+
+Wrenches spent
+= Clés à molette dépensées
+
+Yellow orbs
+= Orbes jaunes
+
+career.cres from Steam\\userdata\\<account>\\228380\\local\\wreckfest, Documents\\My Games\\wreckfest or the GOG profile folder: credits, experience and tournament fame. The cars file opens as hex.
+= career.cres de Steam\userdata\<account>\228380\local\wreckfest, Documents\My Games\wreckfest ou du dossier de profil GOG : crédits, expérience et renommée de tournoi. Le fichier des voitures s'ouvre en hexadécimal.
+
+dmc1.sav from Steam\\userdata\\<account>\\631510\\remote: orbs and play time of each used slot.
+= dmc1.sav de Steam\userdata\<account>\631510\remote : orbes et temps de jeu de chaque emplacement utilisé.
+
+inventory.zwei from Documents\\My Games\\TangoGameworks\\The Evil Within\\base\\savegame\\<slot>: green gel, trap parts, weapon upgrade levels and stat upgrades.
+= inventory.zwei de Documents\My Games\TangoGameworks\The Evil Within\base\savegame\<slot> : gel vert, pièces de piège, niveaux d'amélioration des armes et améliorations de statistiques.
+
+savegame from Documents\\Avalanche Studios\\GenerationZero\\Saves\\<account>: skill points, experience, level, inventory amounts, the resource store and the safehouse storage.
+= savegame de Documents\Avalanche Studios\GenerationZero\Saves\<account> : points de compétence, expérience, niveau, quantités de l'inventaire, la réserve de ressources et celle de la planque.
+
+steamcampaign01.sav from %APPDATA%\\Glaiel Games\\Mewgenics\\<Steam id>\\saves (a SQLite database). The cats' own data is kept as it is.
+= steamcampaign01.sav de %APPDATA%\Glaiel Games\Mewgenics\<Steam id>\saves (une base de données SQLite). Les données des chats eux-mêmes restent telles quelles.
+
+user_progression.dat from %LOCALAPPDATA%\\Saber\\WWZ\\client\\storage\\slots (unpacked with the key derived from the file name, and packed again).
+= user_progression.dat de %LOCALAPPDATA%\Saber\WWZ\client\storage\slots (déchiffré avec la clé dérivée du nom du fichier, puis rechiffré).
 

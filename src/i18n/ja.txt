@@ -1722,6 +1722,54 @@ Item box
 Equipped
 = 装備中
 
+# src/game_ui/simple/spec_texts.rs
+
+
+A .pcsave from AppData\\LocalLow\\niceplay games\\Potion Craft\\SavesSteam (shown as two parts: the save's name and day, then the game state). Close the game before editing.
+= AppData\LocalLow\niceplay games\Potion Craft\SavesSteam の .pcsave（セーブ名と日数、ゲーム状態の2つに分けて表示）。編集前にゲームを終了してください。
+
+A character .json from AppData\\LocalLow\\Pugstorm\\Core Keeper\\Steam\\<id>\\saves. Skill experience, coins, health and inventory counts. Close the game before editing.
+= AppData\LocalLow\Pugstorm\Core Keeper\Steam\<id>\saves のキャラクター .json。スキル経験値、コイン、体力、インベントリの数量。編集前にゲームを終了してください。
+
+A map.wbox from AppData\\LocalLow\\mkarpenko\\WorldBox\\saves\\saveN (zlib-compressed JSON, unpacked and packed again). Every unit's level, experience, health, hunger and ruler stats, and the first village's stored resources.
+= AppData\LocalLow\mkarpenko\WorldBox\saves\saveN の map.wbox（zlib圧縮JSON。展開して再圧縮します）。各ユニットのレベル、経験値、体力、空腹、統治者ステータスと、最初の村の貯蔵資源。
+
+A save_n.dat from %LOCALAPPDATA%\\HoloCure (base64 JSON, unpacked and packed again). HoloCoins and the level of each upgrade.
+= %LOCALAPPDATA%\HoloCure の save_n.dat（base64 JSON。展開して再エンコードします）。ホロコインと各強化のレベル。
+
+ATK
+= 攻撃力
+
+Accuracy
+= 精度
+
+Adventure coins
+= 冒険コイン
+
+Adventure food
+= 冒険の食料
+
+Age
+= 年齢
+
+Alchemist
+= 錬金術師
+
+Ammunition
+= 弾薬
+
+Ancient coins
+= 古代の硬貨
+
+Blank collars
+= 空のカラー
+
+Blue orbs
+= 青オーブ
+
+Bosses taken down
+= 倒したボス
+
 Character
 = キャラクター
 
@@ -1856,6 +1904,144 @@ Units
 
 Kills
 = 撃破数
+
+Character 1: inventory
+= キャラクター1：インベントリ
+
+Character 2: inventory
+= キャラクター2：インベントリ
+
+Character 3: inventory
+= キャラクター3：インベントリ
+
+Character 4: inventory
+= キャラクター4：インベントリ
+
+Characters
+= キャラクター
+
+Children
+= 子供
+
+Class
+= クラス
+
+Class perks
+= クラス特典
+
+Clip capacity
+= 装弾数
+
+Close the game first. Items and weapons are left as they are.
+= 先にゲームを終了してください。アイテムと武器はそのままです。
+
+Close the game first. Items are listed by their game id; quality is shown as Q1 to Q6. Only the amounts are edited.
+= 先にゲームを終了してください。アイテムはゲーム内IDで表示され、品質はQ1〜Q6で示されます。編集できるのは数量のみです。
+
+Close the game first. Save slots that are empty are left out.
+= 先にゲームを終了してください。空のセーブスロットは表示されません。
+
+Close the game first. Slot checksums are written again on save. Level is stored one lower than the level the game shows.
+= 先にゲームを終了してください。スロットのチェックサムは保存時に書き直されます。レベルはゲームの表示より1小さい値で保存されています。
+
+Close the game first. The checksum at the start of the file is written again on save. Weapons and upgrades you do not own yet are not listed.
+= 先にゲームを終了してください。ファイル先頭のチェックサムは保存時に書き直されます。まだ持っていない武器と強化は表示されません。
+
+Close the game first. The file is written again in its block format with fresh checksums.
+= 先にゲームを終了してください。ファイルはブロック形式で新しいチェックサムとともに書き直されます。
+
+Coins
+= コイン
+
+Completion (%)
+= 達成率（%）
+
+Credits
+= クレジット
+
+Crit
+= クリティカル
+
+Critical
+= クリティカル
+
+Currency
+= 通貨
+
+Current day
+= 現在の日
+
+Damage
+= ダメージ
+
+Damage dealt
+= 与えたダメージ
+
+Damage resistance
+= ダメージ耐性
+
+Day
+= 日
+
+Deaths
+= 死亡数
+
+Difficulty
+= 難易度
+
+Diplomacy
+= 外交
+
+Distance driven
+= 走行距離
+
+Driven
+= 走行
+
+Driver
+= ドライバー
+
+EXP
+= EXP
+
+Eliminate
+= 排除
+
+Enemies destroyed
+= 破壊した敵
+
+Enhance
+= 強化
+
+Experience
+= 経験値
+
+Fame
+= 名声
+
+Fandom
+= ファンダム
+
+Fans
+= ファン
+
+Fire rate
+= 連射速度
+
+First village: stored resources
+= 最初の村：貯蔵資源
+
+Food
+= 食料
+
+GAMEDATA from Documents\\My Games\\NieR Replicant ver.1.22474487139...\\Steam\\<account>: health, level, experience, money, recovery items and materials of each used slot. Slot checksums are written again on save.
+= Documents\My Games\NieR Replicant ver.1.22474487139...\Steam\<account> の GAMEDATA：使用中の各スロットの体力、レベル、経験値、お金、回復アイテム、素材。スロットのチェックサムは保存時に書き直されます。
+
+Gadgets unlocked
+= 解放したガジェット
+
+GlobalData.dat from a profile folder (profile0 …) of the game's Saves folder. Money, level and experience.
+= ゲームの Saves フォルダ内のプロファイルフォルダ（profile0 …）にある GlobalData.dat。お金、レベル、経験値。
 
 Gold
 = ゴールド
@@ -2211,6 +2397,24 @@ Highest sector
 Highest unlocked floor
 = 解放済みの最高階
 
+Green gel
+= グリーンジェル
+
+Growth
+= 成長
+
+HP
+= HP
+
+Haste
+= ヘイスト
+
+Health
+= 体力
+
+HoloCoins
+= ホロコイン
+
 House
 = 家
 
@@ -2268,6 +2472,74 @@ Mastery points to spend
 Meat
 = 肉
 
+House and adventure
+= 家と冒険
+
+House food
+= 家の食料
+
+House gold
+= 家のゴールド
+
+Hunger
+= 空腹
+
+Intelligence
+= 知力
+
+Inventory
+= インベントリ
+
+Item limit
+= アイテム上限
+
+Kaine 1: materials
+= Kaine 1: 素材
+
+Kaine 1: recovery items
+= Kaine 1: 回復アイテム
+
+Kaine 2: materials
+= Kaine 2: 素材
+
+Kaine 2: recovery items
+= Kaine 2: 回復アイテム
+
+Kaine 3: materials
+= Kaine 3: 素材
+
+Kaine 3: recovery items
+= Kaine 3: 回復アイテム
+
+Karma
+= カルマ
+
+Level
+= レベル
+
+Level (shown minus one)
+= レベル（表示値−1）
+
+Life gauge
+= ライフゲージ
+
+
+
+Max health
+= 最大体力
+
+Maximum sprint
+= 最大ダッシュ
+
+Mechanic
+= メカニック
+
+Melee damage
+= 近接ダメージ
+
+Missions finished
+= 完了したミッション
+
 Money
 = お金
 
@@ -2309,6 +2581,54 @@ Play time (minutes)
 
 Play time (seconds)
 = プレイ時間（秒）
+
+Money gain
+= お金の獲得量
+
+NieR (after ending D): materials
+= NieR (エンディングD後): 素材
+
+NieR (after ending D): recovery items
+= NieR (エンディングD後): 回復アイテム
+
+NieR 1: materials
+= NieR 1: 素材
+
+NieR 1: recovery items
+= NieR 1: 回復アイテム
+
+NieR 2: materials
+= NieR 2: 素材
+
+NieR 2: recovery items
+= NieR 2: 回復アイテム
+
+NieR 3: materials
+= NieR 3: 素材
+
+NieR 3: recovery items
+= NieR 3: 回復アイテム
+
+Pickup range
+= 取得範囲
+
+Play time (frames)
+= プレイ時間（フレーム）
+
+Player level
+= プレイヤーレベル
+
+Popularity
+= 人気
+
+Population
+= 人口
+
+Power cells gathered
+= 集めたパワーセル
+
+Prestige
+= 威信
 
 Profile
 = プロフィール
@@ -2519,4 +2839,187 @@ For each save slot: money, Persona points, BOND points and the stacks you alread
 
 Each custom character's level, experience, attribute points and the six attributes (up to 100). The save has no checksum we know of.
 = 各カスタムキャラクターのレベル、経験値、アトリビュートポイントと6つのアトリビュート（最大100）。このセーブには既知のチェックサムはありません。
+
+Quantity
+= 数量
+
+RQProfile.sav from %LOCALAPPDATA%\\RoboQuest\\Saved\\SaveGames. Wrenches, difficulty, class and statistics.
+= %LOCALAPPDATA%\RoboQuest\Saved\SaveGames の RQProfile.sav。レンチ、難易度、クラス、統計。
+
+Raises every material this slot already holds (plants, ores, animal parts, machine parts, salvage) to 99, the most the game carries.
+= このスロットが既に持つ素材（植物、鉱石、動物の部位、機械部品、がらくた）をすべてゲームの上限である99にします。
+
+Raises the crafting materials the character already holds (aluminium, uranium, textile, steel, tungsten, rubber, adhesive, titanium, plastic, thread) to 99, the stack size every item in the public sample has. Weapons, ammunition and other items are left alone. The game states no limit, so 99 is an estimate.
+= キャラクターが既に持つクラフト素材（アルミニウム、ウラン、布、鋼、タングステン、ゴム、接着剤、チタン、プラスチック、糸）を、公開サンプルの全アイテムのスタック数である99にします。武器、弾薬、その他のアイテムは変更しません。ゲームに上限の記載はないため、99は推定値です。
+
+Raises the crafting materials the store already holds (aluminium, uranium, textile, steel, tungsten, rubber, adhesive, titanium, plastic, thread) to 99, the stack size every item in the public sample has. Weapons, ammunition and other items are left alone. The game states no limit, so 99 is an estimate.
+= 倉庫が既に持つクラフト素材（アルミニウム、ウラン、布、鋼、タングステン、ゴム、接着剤、チタン、プラスチック、糸）を、公開サンプルの全アイテムのスタック数である99にします。武器、弾薬、その他のアイテムは変更しません。ゲームに上限の記載はないため、99は推定値です。
+
+Raises the plant, mushroom and crystal ingredients you already have to 999. Potions and the alchemy machine's products are left alone. The game states no stack limit, so 999 is an estimate.
+= 既に持っている植物、キノコ、クリスタルの素材を999にします。ポーションと錬金装置の生成物は変更しません。ゲームにスタック上限の記載はないため、999は推定値です。
+
+Red orbs
+= 赤オーブ
+
+Refund
+= 払い戻し
+
+Regen
+= 再生
+
+Reload time
+= リロード時間
+
+Rerolls
+= リロール
+
+Resource storage
+= 資源ストレージ
+
+Resources
+= 資源
+
+Robot
+= ロボット
+
+SPD
+= 速度
+
+Safehouse storage
+= 隠れ家の倉庫
+
+Save0001.sav and the others from Documents\\My Games\\Borderlands\\SaveData (the Enhanced edition keeps them under Borderlands GOTY Enhanced\\WillowGame\\SaveData): level, experience, skill points, money, skill levels and ammunition. Items and weapons are left as they are.
+= Documents\My Games\Borderlands\SaveData の Save0001.sav など（Enhanced版は Borderlands GOTY Enhanced\WillowGame\SaveData に保存）：レベル、経験値、スキルポイント、お金、スキルレベル、弾薬。アイテムと武器はそのままです。
+
+Sebastian
+= セバスチャン
+
+Secret ruins found
+= 発見した秘密の遺跡
+
+Seed
+= シード
+
+Sheds available
+= 利用可能な小屋
+
+Skill damage
+= スキルダメージ
+
+Skill experience
+= スキル経験値
+
+Skill points
+= スキルポイント
+
+Skills
+= スキル
+
+Sleep
+= 睡眠
+
+Slots
+= スロット
+
+Special cooldown
+= 特殊クールダウン
+
+Stamps
+= スタンプ
+
+Statistics
+= 統計
+
+Stewardship
+= 統治
+
+Stock
+= 予備弾
+
+Storage upgrades
+= ストレージ強化
+
+Survivor
+= 生存者
+
+Syringe recovery
+= 注射器回復
+
+TLDsaveData.tlds from a save folder of the game. The driver's vitals and the world time; the distance driven is in TLDsaveProp.tldsp (the same folder).
+= ゲームのセーブフォルダにある TLDsaveData.tlds。ドライバーのバイタルとワールド時間。走行距離は同じフォルダの TLDsaveProp.tldsp にあります。
+
+TLDsaveProp.tldsp from a save folder of the game: the distance driven and the world seed.
+= ゲームのセーブフォルダにある TLDsaveProp.tldsp：走行距離とワールドシード。
+
+Trap parts
+= 罠パーツ
+
+Trip
+= 旅程
+
+Units
+= ユニット
+
+Upgrade level
+= 強化レベル
+
+Upgrades
+= 強化
+
+Upgrades (levels)
+= 強化（レベル）
+
+Vault Hunter
+= ヴォルトハンター
+
+Warfare
+= 戦争
+
+Water
+= 水
+
+Weapon limit
+= 武器上限
+
+Weapon upgrade levels
+= 武器強化レベル
+
+World
+= ワールド
+
+World seed
+= ワールドシード
+
+World time
+= ワールド時間
+
+Wrenches
+= レンチ
+
+Wrenches gathered
+= 集めたレンチ
+
+Wrenches spent
+= 使ったレンチ
+
+Yellow orbs
+= 黄オーブ
+
+career.cres from Steam\\userdata\\<account>\\228380\\local\\wreckfest, Documents\\My Games\\wreckfest or the GOG profile folder: credits, experience and tournament fame. The cars file opens as hex.
+= Steam\userdata\<account>\228380\local\wreckfest、Documents\My Games\wreckfest、または GOG のプロファイルフォルダにある career.cres：クレジット、経験値、トーナメントの名声。車のファイルは16進表示で開きます。
+
+dmc1.sav from Steam\\userdata\\<account>\\631510\\remote: orbs and play time of each used slot.
+= Steam\userdata\<account>\631510\remote の dmc1.sav：使用中の各スロットのオーブとプレイ時間。
+
+inventory.zwei from Documents\\My Games\\TangoGameworks\\The Evil Within\\base\\savegame\\<slot>: green gel, trap parts, weapon upgrade levels and stat upgrades.
+= Documents\My Games\TangoGameworks\The Evil Within\base\savegame\<slot> の inventory.zwei：グリーンジェル、罠パーツ、武器強化レベル、能力強化。
+
+savegame from Documents\\Avalanche Studios\\GenerationZero\\Saves\\<account>: skill points, experience, level, inventory amounts, the resource store and the safehouse storage.
+= Documents\Avalanche Studios\GenerationZero\Saves\<account> の savegame：スキルポイント、経験値、レベル、インベントリの数量、資源ストレージ、隠れ家の倉庫。
+
+steamcampaign01.sav from %APPDATA%\\Glaiel Games\\Mewgenics\\<Steam id>\\saves (a SQLite database). The cats' own data is kept as it is.
+= %APPDATA%\Glaiel Games\Mewgenics\<Steam id>\saves の steamcampaign01.sav（SQLiteデータベース）。猫自身のデータはそのままです。
+
+user_progression.dat from %LOCALAPPDATA%\\Saber\\WWZ\\client\\storage\\slots (unpacked with the key derived from the file name, and packed again).
+= %LOCALAPPDATA%\Saber\WWZ\client\storage\slots の user_progression.dat（ファイル名から導いた鍵で展開し、再度パックします）。
 

@@ -68,7 +68,7 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
             b.ranged(&["Upgrades", what], at + 501 + 4 * i, Kind::U32, 1, 9);
         }
     }
-    Ok(b.finish(KIND, Checksum::Custom(fix)).with_note("Close the game first. The checksum at the start of the file is written again on save. Weapons and upgrades you do not own yet are not listed."))
+    Ok(b.finish(KIND, Checksum::Custom(fix)).with_note(crate::i18n::tr("Close the game first. The checksum at the start of the file is written again on save. Weapons and upgrades you do not own yet are not listed.")))
 }
 
 #[cfg(test)]

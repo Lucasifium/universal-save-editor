@@ -145,7 +145,7 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
     if let Some(at) = fame_at(d) {
         b.ranged(&["Driver", "Fame"], at, Kind::U32, 0, 2_000_000_000);
     }
-    Ok(b.finish(KIND, Checksum::None).with_note("Close the game first. The file is written again in its block format with fresh checksums."))
+    Ok(b.finish(KIND, Checksum::None).with_note(crate::i18n::tr("Close the game first. The file is written again in its block format with fresh checksums.")))
 }
 
 #[cfg(test)]

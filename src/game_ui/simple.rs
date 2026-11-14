@@ -11,6 +11,7 @@ use eframe::egui::{self, Color32, Ui};
 use serde_json::Value;
 
 mod ps_specs;
+mod spec_texts;
 mod specs;
 mod words;
 pub use specs::SPECS;
@@ -308,7 +309,7 @@ pub fn show(i: u16, ui: &mut Ui, cx: &mut GameCtx) {
             }
         }
     });
-    let rows_of = |sec: &Section| -> Vec<(&'static str, String)> { sec.rows.iter().map(|(l, p)| (*l, resolve(cx.root, p))).collect() };
+    let rows_of = |sec: &Section| -> Vec<(&'static str, String)> { sec.rows.iter().map(|(l, p)| (tr(l), resolve(cx.root, p))).collect() };
     let visible: Vec<(&Section, Vec<(&str, String)>)> =
         s.sections.iter().map(|sec| (sec, rows_of(sec))).filter(|(_, rows)| rows.iter().any(|(_, p)| cx.get(p).is_some())).collect();
     columns(ui, 360.0, visible.len(), |ui, k| {

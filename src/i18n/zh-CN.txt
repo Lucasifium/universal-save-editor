@@ -1614,6 +1614,54 @@ Item box
 Equipped
 = 已装备
 
+# src/game_ui/simple/spec_texts.rs
+
+
+A .pcsave from AppData\\LocalLow\\niceplay games\\Potion Craft\\SavesSteam (shown as two parts: the save's name and day, then the game state). Close the game before editing.
+= 来自 AppData\LocalLow\niceplay games\Potion Craft\SavesSteam 的 .pcsave（分为两部分显示：存档名称与天数，以及游戏状态）。编辑前请关闭游戏。
+
+A character .json from AppData\\LocalLow\\Pugstorm\\Core Keeper\\Steam\\<id>\\saves. Skill experience, coins, health and inventory counts. Close the game before editing.
+= 来自 AppData\LocalLow\Pugstorm\Core Keeper\Steam\<id>\saves 的角色 .json。技能经验、金币、生命值和物品数量。编辑前请关闭游戏。
+
+A map.wbox from AppData\\LocalLow\\mkarpenko\\WorldBox\\saves\\saveN (zlib-compressed JSON, unpacked and packed again). Every unit's level, experience, health, hunger and ruler stats, and the first village's stored resources.
+= 来自 AppData\LocalLow\mkarpenko\WorldBox\saves\saveN 的 map.wbox（zlib 压缩的 JSON，会解压并重新压缩）。每个单位的等级、经验、生命值、饥饿和统治者属性，以及第一个村庄的库存资源。
+
+A save_n.dat from %LOCALAPPDATA%\\HoloCure (base64 JSON, unpacked and packed again). HoloCoins and the level of each upgrade.
+= 来自 %LOCALAPPDATA%\HoloCure 的 save_n.dat（base64 JSON，会解码并重新编码）。HoloCoins 以及每项升级的等级。
+
+ATK
+= 攻击
+
+Accuracy
+= 精准度
+
+Adventure coins
+= 冒险金币
+
+Adventure food
+= 冒险食物
+
+Age
+= 年龄
+
+Alchemist
+= 炼金术士
+
+Ammunition
+= 弹药
+
+Ancient coins
+= 古代硬币
+
+Blank collars
+= 空白项圈
+
+Blue orbs
+= 蓝色宝珠
+
+Bosses taken down
+= 击败的首领
+
 Character
 = 角色
 
@@ -1854,6 +1902,144 @@ Units
 Kills
 = 击杀数
 
+Character 1: inventory
+= 角色1：物品栏
+
+Character 2: inventory
+= 角色2：物品栏
+
+Character 3: inventory
+= 角色3：物品栏
+
+Character 4: inventory
+= 角色4：物品栏
+
+Characters
+= 角色
+
+Children
+= 子女
+
+Class
+= 职业
+
+Class perks
+= 职业特长
+
+Clip capacity
+= 弹匣容量
+
+Close the game first. Items and weapons are left as they are.
+= 请先关闭游戏。物品和武器保持不变。
+
+Close the game first. Items are listed by their game id; quality is shown as Q1 to Q6. Only the amounts are edited.
+= 请先关闭游戏。物品按游戏内 ID 列出，品质显示为 Q1 至 Q6。只能编辑数量。
+
+Close the game first. Save slots that are empty are left out.
+= 请先关闭游戏。空的存档位不会显示。
+
+Close the game first. Slot checksums are written again on save. Level is stored one lower than the level the game shows.
+= 请先关闭游戏。保存时会重新写入存档位的校验和。等级存储值比游戏显示的等级小 1。
+
+Close the game first. The checksum at the start of the file is written again on save. Weapons and upgrades you do not own yet are not listed.
+= 请先关闭游戏。保存时会重新写入文件开头的校验和。尚未拥有的武器和升级不会列出。
+
+Close the game first. The file is written again in its block format with fresh checksums.
+= 请先关闭游戏。文件会以分块格式重新写入，并带有新的校验和。
+
+Coins
+= 金币
+
+Completion (%)
+= 完成度（%）
+
+Credits
+= 点数
+
+Crit
+= 暴击
+
+Critical
+= 暴击
+
+Currency
+= 货币
+
+Current day
+= 当前天数
+
+Damage
+= 伤害
+
+Damage dealt
+= 造成的伤害
+
+Damage resistance
+= 伤害抗性
+
+Day
+= 天
+
+Deaths
+= 死亡次数
+
+Difficulty
+= 难度
+
+Diplomacy
+= 外交
+
+Distance driven
+= 行驶距离
+
+Driven
+= 已行驶
+
+Driver
+= 车手
+
+EXP
+= 经验
+
+Eliminate
+= 消灭
+
+Enemies destroyed
+= 摧毁的敌人
+
+Enhance
+= 强化
+
+Experience
+= 经验
+
+Fame
+= 名望
+
+Fandom
+= 粉丝圈
+
+Fans
+= 粉丝
+
+Fire rate
+= 射速
+
+First village: stored resources
+= 第一个村庄：库存资源
+
+Food
+= 食物
+
+GAMEDATA from Documents\\My Games\\NieR Replicant ver.1.22474487139...\\Steam\\<account>: health, level, experience, money, recovery items and materials of each used slot. Slot checksums are written again on save.
+= 来自 Documents\My Games\NieR Replicant ver.1.22474487139...\Steam\<account> 的 GAMEDATA：每个已使用存档位的生命值、等级、经验、金钱、恢复道具和素材。保存时会重新写入存档位的校验和。
+
+Gadgets unlocked
+= 已解锁的装置
+
+GlobalData.dat from a profile folder (profile0 …) of the game's Saves folder. Money, level and experience.
+= 来自游戏 Saves 文件夹中档案文件夹（profile0 …）的 GlobalData.dat。金钱、等级和经验。
+
 Gold
 = 金币
 
@@ -1922,6 +2108,39 @@ Gems
 
 Constitution
 = 体质
+
+Green gel
+= 绿色凝胶
+
+Growth
+= 成长
+
+HP
+= 生命
+
+Haste
+= 急速
+
+Health
+= 生命值
+
+HoloCoins
+= HoloCoins
+
+House
+= 房屋
+
+House and adventure
+= 房屋与冒险
+
+House food
+= 房屋食物
+
+House gold
+= 房屋金币
+
+Hunger
+= 饥饿
 
 Intelligence
 = 智力
@@ -2268,6 +2487,59 @@ Mastery points to spend
 Meat
 = 肉
 
+Inventory
+= 物品栏
+
+Item limit
+= 物品上限
+
+Kaine 1: materials
+= Kaine 1: 素材
+
+Kaine 1: recovery items
+= Kaine 1: 恢复道具
+
+Kaine 2: materials
+= Kaine 2: 素材
+
+Kaine 2: recovery items
+= Kaine 2: 恢复道具
+
+Kaine 3: materials
+= Kaine 3: 素材
+
+Kaine 3: recovery items
+= Kaine 3: 恢复道具
+
+Karma
+= 业力
+
+Level
+= 等级
+
+Level (shown minus one)
+= 等级（显示值减一）
+
+Life gauge
+= 生命槽
+
+
+
+Max health
+= 最大生命值
+
+Maximum sprint
+= 最大冲刺
+
+Mechanic
+= 机械师
+
+Melee damage
+= 近战伤害
+
+Missions finished
+= 完成的任务
+
 Money
 = 金钱
 
@@ -2309,6 +2581,54 @@ Play time (minutes)
 
 Play time (seconds)
 = 游戏时间（秒）
+
+Money gain
+= 金钱获取
+
+NieR (after ending D): materials
+= NieR (结局D之后): 素材
+
+NieR (after ending D): recovery items
+= NieR (结局D之后): 恢复道具
+
+NieR 1: materials
+= NieR 1: 素材
+
+NieR 1: recovery items
+= NieR 1: 恢复道具
+
+NieR 2: materials
+= NieR 2: 素材
+
+NieR 2: recovery items
+= NieR 2: 恢复道具
+
+NieR 3: materials
+= NieR 3: 素材
+
+NieR 3: recovery items
+= NieR 3: 恢复道具
+
+Pickup range
+= 拾取范围
+
+Play time (frames)
+= 游戏时间（帧）
+
+Player level
+= 玩家等级
+
+Popularity
+= 人气
+
+Population
+= 人口
+
+Power cells gathered
+= 收集的能量电池
+
+Prestige
+= 声望
 
 Profile
 = 档案
@@ -2519,4 +2839,187 @@ For each save slot: money, Persona points, BOND points and the stacks you alread
 
 Each custom character's level, experience, attribute points and the six attributes (up to 100). The save has no checksum we know of.
 = 每个自定义角色的等级、经验、属性点和六项属性（最高 100）。该存档没有我们已知的校验和。
+
+Quantity
+= 数量
+
+RQProfile.sav from %LOCALAPPDATA%\\RoboQuest\\Saved\\SaveGames. Wrenches, difficulty, class and statistics.
+= 来自 %LOCALAPPDATA%\RoboQuest\Saved\SaveGames 的 RQProfile.sav。扳手、难度、职业和统计。
+
+Raises every material this slot already holds (plants, ores, animal parts, machine parts, salvage) to 99, the most the game carries.
+= 将此存档位已有的所有素材（植物、矿石、动物部位、机械零件、废料）提高到 99，即游戏的携带上限。
+
+Raises the crafting materials the character already holds (aluminium, uranium, textile, steel, tungsten, rubber, adhesive, titanium, plastic, thread) to 99, the stack size every item in the public sample has. Weapons, ammunition and other items are left alone. The game states no limit, so 99 is an estimate.
+= 将角色已有的制作材料（铝、铀、织物、钢、钨、橡胶、粘合剂、钛、塑料、线）提高到 99，即公开样本中所有物品的堆叠数量。武器、弹药和其他物品不受影响。游戏未说明上限，因此 99 为估计值。
+
+Raises the crafting materials the store already holds (aluminium, uranium, textile, steel, tungsten, rubber, adhesive, titanium, plastic, thread) to 99, the stack size every item in the public sample has. Weapons, ammunition and other items are left alone. The game states no limit, so 99 is an estimate.
+= 将仓库已有的制作材料（铝、铀、织物、钢、钨、橡胶、粘合剂、钛、塑料、线）提高到 99，即公开样本中所有物品的堆叠数量。武器、弹药和其他物品不受影响。游戏未说明上限，因此 99 为估计值。
+
+Raises the plant, mushroom and crystal ingredients you already have to 999. Potions and the alchemy machine's products are left alone. The game states no stack limit, so 999 is an estimate.
+= 将你已有的植物、蘑菇和水晶原料提高到 999。药水和炼金机的产物不受影响。游戏未说明堆叠上限，因此 999 为估计值。
+
+Red orbs
+= 红色宝珠
+
+Refund
+= 退款
+
+Regen
+= 再生
+
+Reload time
+= 装填时间
+
+Rerolls
+= 重掷次数
+
+Resource storage
+= 资源仓库
+
+Resources
+= 资源
+
+Robot
+= 机器人
+
+SPD
+= 速度
+
+Safehouse storage
+= 安全屋仓库
+
+Save0001.sav and the others from Documents\\My Games\\Borderlands\\SaveData (the Enhanced edition keeps them under Borderlands GOTY Enhanced\\WillowGame\\SaveData): level, experience, skill points, money, skill levels and ammunition. Items and weapons are left as they are.
+= 来自 Documents\My Games\Borderlands\SaveData 的 Save0001.sav 等文件（Enhanced 版保存在 Borderlands GOTY Enhanced\WillowGame\SaveData）：等级、经验、技能点、金钱、技能等级和弹药。物品和武器保持不变。
+
+Sebastian
+= 塞巴斯蒂安
+
+Secret ruins found
+= 发现的秘密遗迹
+
+Seed
+= 种子
+
+Sheds available
+= 可用棚屋
+
+Skill damage
+= 技能伤害
+
+Skill experience
+= 技能经验
+
+Skill points
+= 技能点
+
+Skills
+= 技能
+
+Sleep
+= 睡眠
+
+Slots
+= 存档位
+
+Special cooldown
+= 特殊冷却
+
+Stamps
+= 印章
+
+Statistics
+= 统计
+
+Stewardship
+= 管理
+
+Stock
+= 备用弹药
+
+Storage upgrades
+= 仓库升级
+
+Survivor
+= 幸存者
+
+Syringe recovery
+= 注射器恢复
+
+TLDsaveData.tlds from a save folder of the game. The driver's vitals and the world time; the distance driven is in TLDsaveProp.tldsp (the same folder).
+= 来自游戏存档文件夹的 TLDsaveData.tlds。驾驶员的生命体征和世界时间；行驶距离位于同一文件夹的 TLDsaveProp.tldsp 中。
+
+TLDsaveProp.tldsp from a save folder of the game: the distance driven and the world seed.
+= 来自游戏存档文件夹的 TLDsaveProp.tldsp：行驶距离和世界种子。
+
+Trap parts
+= 陷阱零件
+
+Trip
+= 行程
+
+Units
+= 单位
+
+Upgrade level
+= 升级等级
+
+Upgrades
+= 升级
+
+Upgrades (levels)
+= 升级（等级）
+
+Vault Hunter
+= 宝库猎人
+
+Warfare
+= 战争
+
+Water
+= 水
+
+Weapon limit
+= 武器上限
+
+Weapon upgrade levels
+= 武器升级等级
+
+World
+= 世界
+
+World seed
+= 世界种子
+
+World time
+= 世界时间
+
+Wrenches
+= 扳手
+
+Wrenches gathered
+= 收集的扳手
+
+Wrenches spent
+= 花费的扳手
+
+Yellow orbs
+= 黄色宝珠
+
+career.cres from Steam\\userdata\\<account>\\228380\\local\\wreckfest, Documents\\My Games\\wreckfest or the GOG profile folder: credits, experience and tournament fame. The cars file opens as hex.
+= 来自 Steam\userdata\<account>\228380\local\wreckfest、Documents\My Games\wreckfest 或 GOG 档案文件夹的 career.cres：点数、经验和锦标赛名望。车辆文件以十六进制打开。
+
+dmc1.sav from Steam\\userdata\\<account>\\631510\\remote: orbs and play time of each used slot.
+= 来自 Steam\userdata\<account>\631510\remote 的 dmc1.sav：每个已使用存档位的宝珠和游戏时间。
+
+inventory.zwei from Documents\\My Games\\TangoGameworks\\The Evil Within\\base\\savegame\\<slot>: green gel, trap parts, weapon upgrade levels and stat upgrades.
+= 来自 Documents\My Games\TangoGameworks\The Evil Within\base\savegame\<slot> 的 inventory.zwei：绿色凝胶、陷阱零件、武器升级等级和属性升级。
+
+savegame from Documents\\Avalanche Studios\\GenerationZero\\Saves\\<account>: skill points, experience, level, inventory amounts, the resource store and the safehouse storage.
+= 来自 Documents\Avalanche Studios\GenerationZero\Saves\<account> 的 savegame：技能点、经验、等级、物品数量、资源仓库和安全屋仓库。
+
+steamcampaign01.sav from %APPDATA%\\Glaiel Games\\Mewgenics\\<Steam id>\\saves (a SQLite database). The cats' own data is kept as it is.
+= 来自 %APPDATA%\Glaiel Games\Mewgenics\<Steam id>\saves 的 steamcampaign01.sav（SQLite 数据库）。猫咪自身的数据保持不变。
+
+user_progression.dat from %LOCALAPPDATA%\\Saber\\WWZ\\client\\storage\\slots (unpacked with the key derived from the file name, and packed again).
+= 来自 %LOCALAPPDATA%\Saber\WWZ\client\storage\slots 的 user_progression.dat（使用由文件名派生的密钥解开，并重新打包）。
 

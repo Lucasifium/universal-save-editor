@@ -81,7 +81,7 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
         b.ranged(&["Ammunition", &pool, "Upgrade level"], q + 4, Kind::I32, 0, 9);
         p = q + 8;
     }
-    Ok(b.finish(KIND, Checksum::None).with_note("Close the game first. Items and weapons are left as they are."))
+    Ok(b.finish(KIND, Checksum::None).with_note(crate::i18n::tr("Close the game first. Items and weapons are left as they are.")))
 }
 
 #[cfg(test)]

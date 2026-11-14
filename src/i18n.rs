@@ -2,7 +2,7 @@
 //!
 //! Text in the program is written in English and passed through `tr`, which looks it up in
 //! the chosen language's catalog (`src/i18n/<code>.txt`) and falls back to the English text
-//! when there is no translation. Game names, value names and game screens stay as they are.
+//! when there is no translation. Game names and value names stay as they are; the texts of game screens are translated.
 //!
 //! Catalog format: an English line, then a line starting with "= " holding its translation,
 //! then a blank line. "\n" stands for a line break. Lines starting with "#" are comments.
@@ -40,6 +40,28 @@ fn tables() -> &'static Vec<HashMap<String, &'static str>> {
 }
 
 /// (English, translation) pairs of a catalog, in file order.
+/// A catalog key: `\\n` is a line break and `\\\\` a backslash.
+fn unescape_key(line: &str) -> String {
+    let mut out = String::new();
+    let mut chars = line.chars();
+    while let Some(c) = chars.next() {
+        if c == '\\' {
+            match chars.next() {
+                Some('n') => out.push('\n'),
+                Some('\\') => out.push('\\'),
+                Some(o) => {
+                    out.push('\\');
+                    out.push(o);
+                }
+                None => out.push('\\'),
+            }
+        } else {
+            out.push(c);
+        }
+    }
+    out
+}
+
 pub fn parse(text: &'static str) -> Vec<(String, &'static str)> {
     let mut out = vec![];
     let mut key: Option<String> = None;
@@ -56,7 +78,7 @@ pub fn parse(text: &'static str) -> Vec<(String, &'static str)> {
                 }
             }
         } else {
-            key = Some(line.replace("\\n", "\n"));
+            key = Some(unescape_key(line));
         }
     }
     out
