@@ -3034,6 +3034,44 @@ Level (up to 300), free skill points and free mastery points. The rest of the ch
 
 Quantity of every weapon, costume, accessory, bullet and material in the inventory, found by scanning for the item codes. Weapon memory chips are not editable yet.
 = Quantité de chaque arme, costume, accessoire, balle et matériau de l'inventaire, trouvée en cherchant les codes d'objet. Les puces mémoire des armes ne sont pas encore modifiables.
+Experience points
+= Points d'expérience
+
+Specialization level
+= Niveau de spécialisation
+
+Specialization points
+= Points de spécialisation
+
+Skill points to spend
+= Points de compétence à dépenser
+
+Cash
+= Argent
+
+Eridium
+= Éridium
+
+Currencies
+= Monnaies
+
+Assault rifle ammo
+= Munitions de fusil d'assaut
+
+Pistol ammo
+= Munitions de pistolet
+
+Shotgun ammo
+= Munitions de fusil à pompe
+
+SMG ammo
+= Munitions de mitraillette
+
+Sniper ammo
+= Munitions de sniper
+
+A character save (1.sav, 2.sav …) from Documents\My Games\Borderlands 4\Saved\SaveGames\<Steam id>. Open it from its own folder so the Steam account that unlocks it can be found. Cash, Eridium, level, ammunition and skill points; items and the rest are in the Tree.
+= Une sauvegarde de personnage (1.sav, 2.sav …) de Documents\My Games\Borderlands 4\Saved\SaveGames\<ID Steam>. Ouvrez-la depuis son propre dossier pour que le compte Steam qui la déverrouille soit trouvé. Argent, Éridium, niveau, munitions et points de compétence ; les objets et le reste sont dans l'Arbre.
 
 # game screens (translation audit)
 

@@ -277,6 +277,7 @@ pub mod valheim;
 pub mod wasteland3;
 pub mod xml;
 pub mod yaml;
+pub mod bl4;
 
 use crate::tree::TreeDoc;
 
@@ -1205,6 +1206,11 @@ pub fn parse_text(text: &str, ext: &str) -> Option<TreeDoc> {
             }
         }
         return xml::parse(text).ok();
+    }
+    if bl4::looks(t) {
+        if let Ok(doc) = bl4::parse(text) {
+            return Some(doc);
+        }
     }
     match ext {
         "yaml" | "yml" => return yaml::parse(text).ok(),

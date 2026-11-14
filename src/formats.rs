@@ -227,6 +227,8 @@ pub enum Layer {
     /// Capcom RE Engine "Lime" encryption (Resident Evil 4, 2023): the file it came from (for
     /// its key banks) and the user id.
     Lime { original: Arc<Vec<u8>>, user: u64 },
+    /// Borderlands 4: AES-256-ECB under the Steam account's key around zlib, Adler-32 and length.
+    Bl4 { user: u64 },
     /// Capcom RE Engine "Citrus" encryption (Monster Hunter Rise on Steam): the file it came
     /// from (for its block keys), the curve and the Steam ID.
     Citrus { original: Arc<Vec<u8>>, curve: usize, steam: u64 },
@@ -431,6 +433,7 @@ impl Layer {
             Layer::NestedJson { paths, .. } => format!("JSON inside JSON strings ({})", paths.len()),
             Layer::Mandarin { game, .. } => format!("{} save encryption", fmt::mandarin::GAMES[*game].title),
             Layer::Lime { .. } => "Resident Evil 4 save encryption".into(),
+            Layer::Bl4 { .. } => "Borderlands 4 save encryption".into(),
             Layer::Citrus { .. } => "Monster Hunter Rise save encryption".into(),
             Layer::RegFile(_) => "Registry values (Unity PlayerPrefs)".into(),
             Layer::Sol { .. } => "Flash shared object (.sol)".into(),
@@ -1076,6 +1079,7 @@ fn wrap(layer: &Layer, data: Vec<u8>) -> Result<Vec<u8>, String> {
         Layer::NestedJson { paths, pretty } => fmt::nested::close(&data, paths, *pretty)?,
         Layer::Mandarin { original, game, user } => fmt::mandarin::encrypt(&data, original, &fmt::mandarin::GAMES[*game], *user)?,
         Layer::Lime { original, user } => fmt::lime::encrypt(&data, original, *user)?,
+        Layer::Bl4 { user } => fmt::bl4::encrypt(&data, *user)?,
         Layer::Citrus { original, curve, steam } => fmt::citrus::encrypt(&data, original, *curve, *steam)?,
         Layer::RegFile(meta) => fmt::regfile::save(meta, &data)?,
         Layer::Sol { original } => fmt::sol::save(original, &data)?,
@@ -1570,6 +1574,13 @@ fn peel(data: &[u8], ctx: &mut Ctx) -> Option<(Layer, Vec<u8>)> {
     }
     if fmt::lime::looks(data) {
         return peel_lime(data, ctx);
+    }
+    if ctx.opts.ext == "sav" && data.len() >= 32 && data.len() % 16 == 0 {
+        let mut ids = fmt::bl4::ids_in_path(&ctx.opts.path.clone().unwrap_or_default());
+        ids.extend(ree_accounts(ctx).into_iter().flat_map(|a| [a, 76_561_197_960_265_728 + a]));
+        if let Some((user, plain)) = fmt::bl4::find(data, &ids) {
+            return Some((Layer::Bl4 { user }, plain));
+        }
     }
     if fmt::citrus::looks(data) {
         let Some((curve, steam)) = fmt::citrus::find_key(data, &ree_accounts(ctx)) else {

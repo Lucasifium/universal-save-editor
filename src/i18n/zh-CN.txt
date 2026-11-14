@@ -3034,6 +3034,44 @@ Level (up to 300), free skill points and free mastery points. The rest of the ch
 
 Quantity of every weapon, costume, accessory, bullet and material in the inventory, found by scanning for the item codes. Weapon memory chips are not editable yet.
 = 物品栏中每件武器、服装、饰品、子弹和素材的数量(通过扫描物品代码找到)。武器记忆芯片暂时无法编辑。
+Experience points
+= 经验值
+
+Specialization level
+= 专精等级
+
+Specialization points
+= 专精点数
+
+Skill points to spend
+= 可用技能点
+
+Cash
+= 现金
+
+Eridium
+= 艾瑞迪姆
+
+Currencies
+= 货币
+
+Assault rifle ammo
+= 突击步枪弹药
+
+Pistol ammo
+= 手枪弹药
+
+Shotgun ammo
+= 霰弹枪弹药
+
+SMG ammo
+= 冲锋枪弹药
+
+Sniper ammo
+= 狙击枪弹药
+
+A character save (1.sav, 2.sav …) from Documents\My Games\Borderlands 4\Saved\SaveGames\<Steam id>. Open it from its own folder so the Steam account that unlocks it can be found. Cash, Eridium, level, ammunition and skill points; items and the rest are in the Tree.
+= 角色存档（1.sav、2.sav …），位于 Documents\My Games\Borderlands 4\Saved\SaveGames\<Steam ID>。请从其所在文件夹打开，以便找到能解锁它的 Steam 账号。可编辑现金、艾瑞迪姆、等级、弹药和技能点；物品等其余内容在树视图中。
 
 # game screens (translation audit)
 

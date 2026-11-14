@@ -177,5 +177,18 @@ pub fn all() -> Vec<&'static str> {
         tr("savegame from Documents\\Avalanche Studios\\GenerationZero\\Saves\\<account>: skill points, experience, level, inventory amounts, the resource store and the safehouse storage."),
         tr("steamcampaign01.sav from %APPDATA%\\Glaiel Games\\Mewgenics\\<Steam id>\\saves (a SQLite database). The cats' own data is kept as it is."),
         tr("user_progression.dat from %LOCALAPPDATA%\\Saber\\WWZ\\client\\storage\\slots (unpacked with the key derived from the file name, and packed again)."),
+        tr("Experience points"),
+        tr("Specialization level"),
+        tr("Specialization points"),
+        tr("Skill points to spend"),
+        tr("Cash"),
+        tr("Eridium"),
+        tr("Currencies"),
+        tr("Assault rifle ammo"),
+        tr("Pistol ammo"),
+        tr("Shotgun ammo"),
+        tr("SMG ammo"),
+        tr("Sniper ammo"),
+        tr("A character save (1.sav, 2.sav …) from Documents\\My Games\\Borderlands 4\\Saved\\SaveGames\\<Steam id>. Open it from its own folder so the Steam account that unlocks it can be found. Cash, Eridium, level, ammunition and skill points; items and the rest are in the Tree."),
     ]
 }

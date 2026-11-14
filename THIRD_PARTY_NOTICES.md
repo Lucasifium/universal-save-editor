@@ -10593,6 +10593,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 | [XV2-Tools (Dragon Ball Xenoverse save layout of the custom characters)](https://github.com/LazyBone152/XV2-Tools) | LazyBone152 | MIT |
 | [ChroniconSaveEditor (Chronicon character section offsets)](https://github.com/PowerCleanX/ChroniconSaveEditor) | PowerCleanX | MIT |
 | [Sword-Art-Online-FB-Inventory-Editor (save key, checksum recipe, slot checks and item names)](https://github.com/alfizari/Sword-Art-Online-FB-Inventory-Editor) | alfizari | Apache-2.0 |
+| [Borderlands4SaveDataResigner (Borderlands 4 save encryption: key made from the Steam id, zlib stream and Adler-32 trailer; its sample saves used for checks only, not included)](https://github.com/mi5hmash/Borderlands4SaveDataResigner) | mi5hmash | MIT (layout facts, code reimplemented) |
 
 ## Metal Gear Solid V save variable names
 

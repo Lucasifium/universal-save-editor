@@ -108,7 +108,7 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 </details>
 
 <details>
-<summary><strong>B</strong> (12)</summary>
+<summary><strong>B</strong> (13)</summary>
 
 | Game | Screen |
 |---|---|
@@ -122,6 +122,7 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 | Blasphemous | *Penitent One*: Tears of Atonement, health and fervour, bile flasks, every permanent stat upgrade, completion and play time (the base64 wrapping is handled); owned beads, prayers and relics are in the Tree. checked on a public save, not yet tried in the game |
 | Borderlands (2009) and Borderlands Game of the Year Enhanced | *Vault Hunter*: level, experience, skill points, money, skill levels and ammunition from the character saves `Save0001.sav` ... (items and weapons are left as they are; checked on public saves, not yet tried in the game) |
 | Borderlands 2 | *Vault Hunter*: level, experience, skill points; money, Eridium, Seraph crystals and Torgue tokens; ammo and ammo SDUs, with buttons to fill ammo and max the SDUs; backpack and bank SDUs (with the room they give), weapon slots and playthroughs completed, which opens True and Ultimate Vault Hunter Mode; gear is listed (level, slot), not edited. Packing and checksums are redone on save. Edited saves not yet tried in the game |
+| Borderlands 4 | *Character*: cash, Eridium, level and experience, specialization, skill points to spend, play time and ammunition, from each character's `.sav`. The file is unlocked with the Steam account named in its folder and packed again when you save. checked on public sample saves, not yet tried in the game |
 | Borderlands: The Pre-Sequel | *Vault Hunter*: level, experience, skill points; money and Moonstone; ammo and ammo SDUs; backpack and bank SDUs, weapon slots and playthroughs completed; gear is listed, not edited. Packing and checksums are redone on save. Edited saves not yet tried in the game |
 | Bravely Default II | *Party*: pg (money), the difficulty, each party member's level, experience, HP, MP, special ability points and stat raises, and how many of each item the party carries; the `SAVE` header and zlib packing are handled for you (checked on a public save, not yet tried in the game) |
 

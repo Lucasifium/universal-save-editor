@@ -9,7 +9,7 @@ pub static SPECS: &[Spec] = &[OPENXCOM, XCOM_DOS, RCT2, COTL, FALLOUT_SHELTER, D
     // PlayStation 1 and 2 (ps_specs.rs)
     SOTN, FF8, FFT, RE1, KH2, MK64, GOLDENEYE, BANJO_KAZOOIE, OOT, SMASH64, TORCHLIGHT3, WRECKFEST, EVIL_WITHIN, BORDERLANDS1,
     // PlayStation 1 and 2 (ps_specs.rs), continued
-    CRASH, KH1, GT1];
+    CRASH, KH1, GT1, BL4,];
 // ------------------------------------------------------------------ Cult of the Lamb
 
 const COTL_ITEMS: &[(&str, &str)] = &[
@@ -6978,4 +6978,46 @@ const BORDERLANDS1: Spec = Spec {
         Table { title: "Skills", path: "/Skills", name: &[], only: &[], cols: &[("Level", "/Level")], names: &[] },
         Table { title: "Ammunition", path: "/Ammunition", name: &[], only: &[], cols: &[("Quantity", "/Quantity"), ("Upgrade level", "/Upgrade level")], names: &[] },
     ],
+};
+
+// ------------------------------------------------------------------ Borderlands 4
+const BL4: Spec = Spec {
+    name: "Borderlands 4",
+    tab: "Character",
+    accent: (240, 190, 60),
+    kind: Some("Borderlands 4 save"),
+    markers: &["/state/char_guid", "/state/currencies"],
+    subtitle: "A character save (1.sav, 2.sav …) from Documents\\My Games\\Borderlands 4\\Saved\\SaveGames\\<Steam id>. Open it from its own folder so the Steam account that unlocks it can be found. Cash, Eridium, level, ammunition and skill points; items and the rest are in the Tree.",
+    tiles: &[("Cash", "/state/currencies/cash"), ("Eridium", "/state/currencies/eridium"), ("Level", "/state/experience/0/level")],
+    sections: &[
+        Section {
+            title: "Character",
+            rows: &[
+                ("Name", "/state/char_name"),
+                ("Difficulty", "/state/player_difficulty"),
+                ("Level", "/state/experience/0/level"),
+                ("Experience points", "/state/experience/0/points"),
+                ("Specialization level", "/state/experience/1/level"),
+                ("Specialization points", "/state/experience/1/points"),
+                ("Skill points to spend", "/progression/point_pools/characterprogresspoints"),
+                ("Play time (seconds)", "/state/total_playtime"),
+            ],
+        },
+        Section {
+            title: "Currencies",
+            rows: &[("Cash", "/state/currencies/cash"), ("Eridium", "/state/currencies/eridium")],
+        },
+        Section {
+            title: "Ammunition",
+            rows: &[
+                ("Assault rifle ammo", "/state/ammo/assaultrifle"),
+                ("Pistol ammo", "/state/ammo/pistol"),
+                ("Shotgun ammo", "/state/ammo/shotgun"),
+                ("SMG ammo", "/state/ammo/smg"),
+                ("Sniper ammo", "/state/ammo/sniper"),
+            ],
+        },
+    ],
+    lists: &[],
+    tables: &[],
 };
