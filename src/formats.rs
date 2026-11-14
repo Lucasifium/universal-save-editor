@@ -169,6 +169,8 @@ pub enum Layer {
     Torchlight(Arc<fmt::torchlight::Wrap>),
     /// Chronicon character: hex text; section `c` is opened as bytes.
     Chronicon(Arc<fmt::chronicon::Wrap>),
+    /// Sword Art Online: Fatal Bullet: AES-256-ECB blocks, optional HMAC-SHA1 tail.
+    Saofb { tail: Arc<Vec<u8>> },
     /// Death Stranding 2: XORed chunks, the game data in LZ4 pieces with an MD5.
     Ds2(Arc<fmt::ds2::Wrap>),
     /// Death Stranding: sizes header, XOR, Oodle Kraken image with an MD5.
@@ -400,6 +402,7 @@ impl Layer {
             Layer::Forspoken { .. } => "Forspoken save encryption (AES, MD5)".into(),
             Layer::Torchlight(_) => "Torchlight III save (JSON in an Unreal string)".into(),
             Layer::Chronicon(_) => "Chronicon character (hex text)".into(),
+            Layer::Saofb { .. } => "Sword Art Online: Fatal Bullet save encryption (AES-256)".into(),
             Layer::Koei(_) => "Koei Tecmo save encryption".into(),
             Layer::Dq11 { .. } => "Dragon Quest XI S save encryption (AES-256, CRC-32)".into(),
             Layer::Ds2(_) => "Death Stranding 2 save (XOR, LZ4, MD5)".into(),
@@ -1021,6 +1024,7 @@ fn wrap(layer: &Layer, data: Vec<u8>) -> Result<Vec<u8>, String> {
         Layer::Koei(w) => fmt::koei::pack(w, &data)?,
         Layer::Torchlight(w) => fmt::torchlight::pack(w, &data)?,
         Layer::Chronicon(w) => fmt::chronicon::pack(w, &data)?,
+        Layer::Saofb { tail } => fmt::saofb::pack(&data, tail)?,
         Layer::Ds2(w) => fmt::ds2::pack(w, &data)?,
         Layer::Ds1(w) => fmt::ds1::pack(w, &data)?,
         Layer::P5r { head } => fmt::p5r::pack(head, &data),
@@ -1783,6 +1787,9 @@ fn peel(data: &[u8], ctx: &mut Ctx) -> Option<(Layer, Vec<u8>)> {
     }
     if let Some((h, p)) = fmt::dq11::unpack(data) {
         return Some((Layer::Dq11 { header: Arc::new(h) }, p));
+    }
+    if let Some((tail, p)) = fmt::saofb::unpack(data).filter(|_| data.len() <= 8 << 20) {
+        return Some((Layer::Saofb { tail: Arc::new(tail) }, p));
     }
     if let Some(p) = fmt::ao::unzstd(data) {
         return Some((Layer::Ao { kai: None }, p));

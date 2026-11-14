@@ -25,6 +25,7 @@
 - Torchlight III: game screen (character traits, gear), with the JSON text inside the Unreal save opened
 - Dragon Ball Xenoverse: game screen (custom characters)
 - Chronicon: game screen (level, free skill and mastery points), with the hex-text character opened as bytes
+- Sword Art Online: Fatal Bullet: game screen (inventory quantities), with the encrypted save opened and re-sealed
 
 ## 0.6.1
 

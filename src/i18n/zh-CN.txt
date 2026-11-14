@@ -3038,3 +3038,6 @@ Close the emulator first. The licence tests and race results show the medal or p
 Level (up to 300), free skill points and free mastery points. The rest of the character is not mapped yet.
 = 等级(最高300)、空闲技能点和空闲精通点。角色的其余部分尚未解析。
 
+Quantity of every weapon, costume, accessory, bullet and material in the inventory, found by scanning for the item codes. Weapon memory chips are not editable yet.
+= 物品栏中每件武器、服装、饰品、子弹和素材的数量(通过扫描物品代码找到)。武器记忆芯片暂时无法编辑。
+

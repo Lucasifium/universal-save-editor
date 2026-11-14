@@ -25,6 +25,7 @@ pub mod prison;
 pub mod dq11;
 pub mod koei;
 pub mod chronicon;
+pub mod saofb;
 pub mod torchlight;
 pub mod xenoverse1;
 pub mod ys8;
@@ -678,6 +679,11 @@ pub fn parse_binary(d: &[u8]) -> Option<TreeDoc> {
     }
     if ys8::looks(d) {
         if let Ok(t) = ys8::parse(d) {
+            return Some(t);
+        }
+    }
+    if saofb::looks(d) {
+        if let Ok(t) = saofb::parse(d) {
             return Some(t);
         }
     }

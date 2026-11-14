@@ -10592,6 +10592,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 | [Universal Koei Tecmo Save Editor (Koei Tecmo PC save envelopes, checksums and field offsets for Dynasty Warriors 8 XL, Pirate Warriors 3 and 4 and Persona 5 Strikers)](https://github.com/Sanrenan/Universal-Koei-Tecmo-Save-Editor) | Sanrenan | MIT |
 | [XV2-Tools (Dragon Ball Xenoverse save layout of the custom characters)](https://github.com/LazyBone152/XV2-Tools) | LazyBone152 | MIT |
 | [ChroniconSaveEditor (Chronicon character section offsets)](https://github.com/PowerCleanX/ChroniconSaveEditor) | PowerCleanX | MIT |
+| [Sword-Art-Online-FB-Inventory-Editor (save key, checksum recipe, slot checks and item names)](https://github.com/alfizari/Sword-Art-Online-FB-Inventory-Editor) | alfizari | Apache-2.0 |
 
 ## Metal Gear Solid V save variable names
 

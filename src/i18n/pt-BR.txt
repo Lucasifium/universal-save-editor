@@ -3038,3 +3038,6 @@ Close the emulator first. The licence tests and race results show the medal or p
 Level (up to 300), free skill points and free mastery points. The rest of the character is not mapped yet.
 = Nível (até 300), pontos de habilidade livres e pontos de maestria livres. O resto do personagem ainda não foi mapeado.
 
+Quantity of every weapon, costume, accessory, bullet and material in the inventory, found by scanning for the item codes. Weapon memory chips are not editable yet.
+= Quantidade de cada arma, traje, acessório, bala e material do inventário, encontrada procurando os códigos dos itens. Os chips de memória das armas ainda não podem ser editados.
+
