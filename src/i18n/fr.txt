@@ -2789,17 +2789,11 @@ Your channel
 Youtubers
 = Youtubeurs
 
-<id>-<n>-CharacterData.sav in %LOCALAPPDATA%\Frontiers\Saved\SaveGames. The save is an Unreal file holding the whole character as JSON text; it is opened and written back as that string. Close the game first.
-= <id>-<n>-CharacterData.sav dans %LOCALAPPDATA%\Frontiers\Saved\SaveGames. La sauvegarde est un fichier Unreal contenant tout le personnage sous forme de texte JSON ; il est ouvert puis réécrit sous forme de cette chaîne. Fermez d'abord le jeu.
-
 <name>_<date>.yls in the Saves folder (a SQLite database, written back as one). The first row of each table is yours; the other youtuber and channel rows are the game's rivals and friends.
 = <name>_<date>.yls dans le dossier Saves (une base SQLite, réécrite comme telle). La première ligne de chaque table est la vôtre ; les autres lignes de youtubeurs et de chaînes sont les rivaux et amis du jeu.
 
 CurrentPlayerSave.sav: the pilot's permanent progress. DNA fragments buy perks in the Lab; every perk shows its level and whether it is still locked. Credits, resources and the ship of a run are in the run's own save files.
 = CurrentPlayerSave.sav : la progression permanente du pilote. Les fragments d'ADN achètent des avantages au labo ; chaque avantage affiche son niveau et s'il est encore verrouillé. Les crédits, ressources et le vaisseau d'une partie sont dans les fichiers de cette partie.
-
-GameUnlocks.dat in Documents\Streets of Rogue\CloudData. Nuggets buy unlocks; every agent, item, trait and floor is listed with whether it is unlocked and what it costs. Close the game first.
-= GameUnlocks.dat dans Documents\Streets of Rogue\CloudData. Les pépites achètent des déblocages ; chaque agent, objet, trait et étage est listé avec son état de déblocage et son coût. Fermez d'abord le jeu.
 
 LBAL.save (the run in progress). The save is one JSON object per line; each node of the run is shown under its path. Symbols and items are lists of names in the Tree.
 = LBAL.save (la partie en cours). La sauvegarde est un objet JSON par ligne ; chaque nœud de la partie est affiché sous son chemin. Les symboles et objets sont des listes de noms dans l'arbre.

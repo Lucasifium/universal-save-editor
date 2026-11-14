@@ -2789,17 +2789,11 @@ Your channel
 Youtubers
 = Youtubers
 
-<id>-<n>-CharacterData.sav in %LOCALAPPDATA%\Frontiers\Saved\SaveGames. The save is an Unreal file holding the whole character as JSON text; it is opened and written back as that string. Close the game first.
-= <id>-<n>-CharacterData.sav en %LOCALAPPDATA%\Frontiers\Saved\SaveGames. La partida es un archivo de Unreal con todo el personaje como texto JSON; se abre y se vuelve a escribir como esa cadena. Cierra antes el juego.
-
 <name>_<date>.yls in the Saves folder (a SQLite database, written back as one). The first row of each table is yours; the other youtuber and channel rows are the game's rivals and friends.
 = <name>_<date>.yls en la carpeta Saves (una base de datos SQLite, que se vuelve a escribir como tal). La primera fila de cada tabla es tuya; las demás filas de youtubers y canales son rivales y amigos del juego.
 
 CurrentPlayerSave.sav: the pilot's permanent progress. DNA fragments buy perks in the Lab; every perk shows its level and whether it is still locked. Credits, resources and the ship of a run are in the run's own save files.
 = CurrentPlayerSave.sav: el progreso permanente del piloto. Los fragmentos de ADN compran ventajas en el laboratorio; cada ventaja muestra su nivel y si sigue bloqueada. Los créditos, recursos y la nave de una partida están en los archivos de esa partida.
-
-GameUnlocks.dat in Documents\Streets of Rogue\CloudData. Nuggets buy unlocks; every agent, item, trait and floor is listed with whether it is unlocked and what it costs. Close the game first.
-= GameUnlocks.dat en Documents\Streets of Rogue\CloudData. Las pepitas compran desbloqueos; cada agente, objeto, rasgo y piso aparece con su estado de desbloqueo y su coste. Cierra antes el juego.
 
 LBAL.save (the run in progress). The save is one JSON object per line; each node of the run is shown under its path. Symbols and items are lists of names in the Tree.
 = LBAL.save (la partida en curso). La partida es un objeto JSON por línea; cada nodo de la partida se muestra bajo su ruta. Los símbolos y objetos son listas de nombres en el árbol.

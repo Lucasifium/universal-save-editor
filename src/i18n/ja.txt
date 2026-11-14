@@ -2789,17 +2789,11 @@ Your channel
 Youtubers
 = YouTuber
 
-<id>-<n>-CharacterData.sav in %LOCALAPPDATA%\Frontiers\Saved\SaveGames. The save is an Unreal file holding the whole character as JSON text; it is opened and written back as that string. Close the game first.
-= <id>-<n>-CharacterData.sav（%LOCALAPPDATA%\Frontiers\Saved\SaveGames 内）。セーブはキャラクター全体をJSONテキストとして持つUnrealファイルで、開いてその文字列として書き戻します。先にゲームを閉じてください。
-
 <name>_<date>.yls in the Saves folder (a SQLite database, written back as one). The first row of each table is yours; the other youtuber and channel rows are the game's rivals and friends.
 = <name>_<date>.yls（Saves フォルダ内、SQLiteデータベースとして書き戻します）。各テーブルの最初の行があなた自身で、それ以外のYouTuberやチャンネルの行はゲームのライバルや友人です。
 
 CurrentPlayerSave.sav: the pilot's permanent progress. DNA fragments buy perks in the Lab; every perk shows its level and whether it is still locked. Credits, resources and the ship of a run are in the run's own save files.
 = CurrentPlayerSave.sav：パイロットの恒久的な進行状況。DNAフラグメントでラボのパークを購入でき、各パークのレベルとロック状態が表示されます。ランのクレジット、資源、機体はそのランのセーブファイルにあります。
-
-GameUnlocks.dat in Documents\Streets of Rogue\CloudData. Nuggets buy unlocks; every agent, item, trait and floor is listed with whether it is unlocked and what it costs. Close the game first.
-= GameUnlocks.dat（Documents\Streets of Rogue\CloudData 内）。ナゲットで解放要素を購入します。すべてのエージェント、アイテム、特性、フロアが、解放状態とコストとともに一覧されます。先にゲームを閉じてください。
 
 LBAL.save (the run in progress). The save is one JSON object per line; each node of the run is shown under its path. Symbols and items are lists of names in the Tree.
 = LBAL.save（進行中のラン）。セーブは1行につき1つのJSONオブジェクトで、ランの各ノードはそのパスの下に表示されます。シンボルとアイテムはツリー内の名前のリストです。

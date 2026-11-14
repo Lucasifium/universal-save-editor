@@ -2518,7 +2518,7 @@ Level
 = Stufe
 
 Level (shown minus one)
-= Stufe (angezeigt minus eins)
+= Stufe (angezeigt −1)
 
 Life gauge
 = Lebensanzeige
@@ -2789,17 +2789,11 @@ Your channel
 Youtubers
 = YouTuber
 
-<id>-<n>-CharacterData.sav in %LOCALAPPDATA%\Frontiers\Saved\SaveGames. The save is an Unreal file holding the whole character as JSON text; it is opened and written back as that string. Close the game first.
-= <id>-<n>-CharacterData.sav in %LOCALAPPDATA%\Frontiers\Saved\SaveGames. Der Spielstand ist eine Unreal-Datei, die den ganzen Charakter als JSON-Text enthält; er wird geöffnet und als dieser Text zurückgeschrieben. Schließe vorher das Spiel.
-
 <name>_<date>.yls in the Saves folder (a SQLite database, written back as one). The first row of each table is yours; the other youtuber and channel rows are the game's rivals and friends.
 = <name>_<date>.yls im Ordner Saves (eine SQLite-Datenbank, die als solche zurückgeschrieben wird). Die erste Zeile jeder Tabelle gehört dir; die anderen YouTuber- und Kanalzeilen sind Rivalen und Freunde des Spiels.
 
 CurrentPlayerSave.sav: the pilot's permanent progress. DNA fragments buy perks in the Lab; every perk shows its level and whether it is still locked. Credits, resources and the ship of a run are in the run's own save files.
 = CurrentPlayerSave.sav: der dauerhafte Fortschritt des Piloten. DNA-Fragmente kaufen Talente im Labor; jedes Talent zeigt seine Stufe und ob es noch gesperrt ist. Credits, Ressourcen und das Schiff eines Durchgangs stehen in den eigenen Spielstanddateien des Durchgangs.
-
-GameUnlocks.dat in Documents\Streets of Rogue\CloudData. Nuggets buy unlocks; every agent, item, trait and floor is listed with whether it is unlocked and what it costs. Close the game first.
-= GameUnlocks.dat in Documents\Streets of Rogue\CloudData. Nuggets kaufen Freischaltungen; jeder Agent, Gegenstand, jede Eigenschaft und Etage ist aufgeführt, mit Freischaltstatus und Kosten. Schließe vorher das Spiel.
 
 LBAL.save (the run in progress). The save is one JSON object per line; each node of the run is shown under its path. Symbols and items are lists of names in the Tree.
 = LBAL.save (der laufende Durchgang). Der Spielstand besteht aus einem JSON-Objekt pro Zeile; jeder Knoten des Durchgangs wird unter seinem Pfad angezeigt. Symbole und Gegenstände sind Namenslisten im Baum.

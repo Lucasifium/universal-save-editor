@@ -2789,17 +2789,11 @@ Your channel
 Youtubers
 = YouTuber
 
-<id>-<n>-CharacterData.sav in %LOCALAPPDATA%\Frontiers\Saved\SaveGames. The save is an Unreal file holding the whole character as JSON text; it is opened and written back as that string. Close the game first.
-= <id>-<n>-CharacterData.sav，位于 %LOCALAPPDATA%\Frontiers\Saved\SaveGames。存档是一个 Unreal 文件，整个角色以 JSON 文本保存；程序会打开它并以该字符串写回。请先关闭游戏。
-
 <name>_<date>.yls in the Saves folder (a SQLite database, written back as one). The first row of each table is yours; the other youtuber and channel rows are the game's rivals and friends.
 = <name>_<date>.yls，位于 Saves 文件夹（SQLite 数据库，会按数据库写回）。每个表的第一行是你自己的，其余 YouTuber 和频道行是游戏中的对手和朋友。
 
 CurrentPlayerSave.sav: the pilot's permanent progress. DNA fragments buy perks in the Lab; every perk shows its level and whether it is still locked. Credits, resources and the ship of a run are in the run's own save files.
 = CurrentPlayerSave.sav：飞行员的永久进度。DNA 碎片可在实验室购买特长，每个特长显示其等级和是否仍被锁定。一局游戏的信用点、资源和飞船在该局自己的存档文件中。
-
-GameUnlocks.dat in Documents\Streets of Rogue\CloudData. Nuggets buy unlocks; every agent, item, trait and floor is listed with whether it is unlocked and what it costs. Close the game first.
-= GameUnlocks.dat，位于 Documents\Streets of Rogue\CloudData。金块用于购买解锁项；每个特工、物品、特性和楼层都会列出其解锁状态和费用。请先关闭游戏。
 
 LBAL.save (the run in progress). The save is one JSON object per line; each node of the run is shown under its path. Symbols and items are lists of names in the Tree.
 = LBAL.save（进行中的一局）。存档每行一个 JSON 对象；这一局的每个节点都显示在其路径下。符号和物品是树中的名称列表。
