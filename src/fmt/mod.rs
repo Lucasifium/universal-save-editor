@@ -230,6 +230,7 @@ pub mod doa2;
 pub mod dbz;
 pub mod smt3;
 pub mod grandia1;
+pub mod pwaat;
 pub mod chronocross;
 pub mod grandia2;
 pub mod ctr;
@@ -398,6 +399,11 @@ pub fn parse_binary(d: &[u8]) -> Option<TreeDoc> {
     }
     if smt3::looks(d) {
         if let Ok(t) = smt3::parse(d) {
+            return Some(t);
+        }
+    }
+    if pwaat::looks(d) {
+        if let Ok(t) = pwaat::parse(d) {
             return Some(t);
         }
     }

@@ -26,13 +26,14 @@ pub static SPECS: &[Spec] = &[OPENXCOM, XCOM_DOS, RCT2, COTL, FALLOUT_SHELTER, D
     // More Nintendo 64 games (n64_specs.rs)
     MAJORA, PAPER_MARIO, BANJO_TOOIE,
     // More PlayStation 2 games (ps2_specs.rs)
-    BOUNCER, DOA2, DBZ_BT2, SMT3, GRANDIA1,
+    BOUNCER, DOA2, DBZ_BT2, SMT3, GRANDIA1, GRANDIA_HD,
     INSCRYPTION,
     COOKIE_CLICKER,
     BUG_FABLES,
     PLANETBASE,
     OUTER_WILDS,
     HOTLINE_MIAMI,
+    PWAAT,
 ];
 // ------------------------------------------------------------------ Cult of the Lamb
 

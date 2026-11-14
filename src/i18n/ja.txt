@@ -26538,3 +26538,37 @@ Witchyworld
 Zubbas' Hive
 = ズバのハチの巣
 
+
+# src/fmt/grandia1.rs and ps2_specs.rs (Grandia HD Remaster)
+BISLPSP02124GRA-S00 … in %APPDATA%\\GRANDIA1\\Saves\\<slot> (the PC remaster, one file per save). Gold pieces, each character's level, experience, HP, SP and attributes, magic and weapon levels, equipment, the items in each pack, and every learned skill.
+= %APPDATA%\GRANDIA1\Saves\<スロット> の BISLPSP02124GRA-S00 …（PC版リマスター、セーブごとに1ファイル）。所持金、各キャラクターのレベル・経験値・HP・SP・能力値、魔法と武器のレベル、装備、各袋の道具、習得した全スキル。
+
+Close the game first. The save keeps no checksum. A skill is learned by each character whose box says Yes; items in a character's pack can be anything the game knows (equipment, key items and consumables share one list).
+= 先にゲームを閉じてください。このセーブにはチェックサムがありません。スキルは「はい」になっているキャラクターが習得済みです。キャラクターの袋の道具はゲームにある何でも入れられます（装備・大事なもの・消耗品は一つのリストです）。
+
+
+# src/game_ui/simple/hardpc_specs.rs (Ace Attorney Trilogy)
+systemdata in Steam\\userdata\\<account>\\787480\\remote. How many episodes of each of the three games are unlocked on the episode select screen (the first game has 5, Justice for All 4, Trials and Tribulations 5), the volumes and the window size.
+= Steam\userdata\<アカウント>\787480\remote の systemdata。エピソード選択で解放されている3作それぞれのエピソード数（1作目は5、Justice for All は4、Trials and Tribulations は5）、音量、ウィンドウサイズ。
+
+Episodes unlocked
+= 解放済みエピソード
+
+Sound effects volume
+= 効果音の音量
+
+Resolution width
+= 解像度（幅）
+
+Resolution height
+= 解像度（高さ）
+
+Phoenix Wright: Ace Attorney
+= Phoenix Wright: Ace Attorney
+
+Justice for All
+= Justice for All
+
+Trials and Tribulations
+= Trials and Tribulations
+

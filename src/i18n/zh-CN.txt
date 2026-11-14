@@ -26511,3 +26511,37 @@ Witchyworld
 Zubbas' Hive
 = Zubba 蜂巢
 
+
+# src/fmt/grandia1.rs and ps2_specs.rs (Grandia HD Remaster)
+BISLPSP02124GRA-S00 … in %APPDATA%\\GRANDIA1\\Saves\\<slot> (the PC remaster, one file per save). Gold pieces, each character's level, experience, HP, SP and attributes, magic and weapon levels, equipment, the items in each pack, and every learned skill.
+= %APPDATA%\GRANDIA1\Saves\<槽位> 中的 BISLPSP02124GRA-S00 …（PC 重制版，每个存档一个文件）。金币、每名角色的等级、经验、HP、SP 和属性、魔法与武器等级、装备、每个背包中的物品，以及所有已学会的技能。
+
+Close the game first. The save keeps no checksum. A skill is learned by each character whose box says Yes; items in a character's pack can be anything the game knows (equipment, key items and consumables share one list).
+= 请先关闭游戏。该存档没有校验和。框中为“是”的角色已学会该技能；角色背包中的物品可以是游戏中的任何物品（装备、关键道具和消耗品共用一个列表）。
+
+
+# src/game_ui/simple/hardpc_specs.rs (Ace Attorney Trilogy)
+systemdata in Steam\\userdata\\<account>\\787480\\remote. How many episodes of each of the three games are unlocked on the episode select screen (the first game has 5, Justice for All 4, Trials and Tribulations 5), the volumes and the window size.
+= Steam\userdata\<账户>\787480\remote 中的 systemdata。三部作品在章节选择中各解锁了多少章节（第一作 5 章，Justice for All 4 章，Trials and Tribulations 5 章）、音量和窗口大小。
+
+Episodes unlocked
+= 已解锁章节
+
+Sound effects volume
+= 音效音量
+
+Resolution width
+= 分辨率宽度
+
+Resolution height
+= 分辨率高度
+
+Phoenix Wright: Ace Attorney
+= Phoenix Wright: Ace Attorney
+
+Justice for All
+= Justice for All
+
+Trials and Tribulations
+= Trials and Tribulations
+

@@ -247,7 +247,7 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 </details>
 
 <details>
-<summary><strong>G</strong> (11)</summary>
+<summary><strong>G</strong> (12)</summary>
 
 | Game | Screen |
 |---|---|
@@ -259,6 +259,7 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 | Grand Theft Auto III | *Player*: money (both copies the game keeps), hidden packages, and the statistics (progress, missions, stunt jumps, days, times arrested and died, kills); the save's checksum is rewritten (checked on public saves, not yet tried in the game) |
 | Grand Theft Auto: San Andreas | *Player*: money (both copies the game keeps), health and armor, fat, stamina, muscle, respect, sex appeal and story line; *Skills*: driving, flying, lung, bike, cycling, gambling and every weapon skill; *Time and statistics*; *Options*; *Weapons*: weapon and ammunition per slot; the save's checksum is rewritten (the 2005 PC release; checked on a public save, not yet tried in the game) |
 | Grand Theft Auto: Vice City | *Player*: money (both copies the game keeps), hidden packages, and the statistics (progress, stunt jumps, days, times arrested and died, kills); the save's checksum is rewritten (checked on public saves, not yet tried in the game) |
+| Grandia HD Remaster | *Party*: gold pieces, each character's level, experience, HP, SP and attributes, magic and weapon levels, equipment, the items in each pack and every learned skill (checked on a real save, not yet tried in the game) |
 | Graveyard Keeper | *Keeper*: money (in silver; 100 = 1 gold) and health, with every other value of the save (technology points, inventory, world objects) in the Tree under the names the game uses. The typed value tree of the `.dat` is read and written again, keeping each value's type. Built from the published layout; not yet tried on a real save |
 | Green Hell | *Survivor*: health, energy, hydration, the three nutrients, dirtiness, sanity, every skill and the statistics |
 | Grim Dawn | *Character*: difficulty and highest difficulty unlocked, money, level, experience, unspent attribute, skill and devotion points, attributes, skill ranks, item stack sizes, and *Factions*: each faction's reputation (up to the 25000 cap) and whether it is unlocked. The save is decrypted, then encrypted again with fresh checksums. Not yet tried in the game |
@@ -430,7 +431,7 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 </details>
 
 <details>
-<summary><strong>P</strong> (23)</summary>
+<summary><strong>P</strong> (24)</summary>
 
 | Game | Screen |
 |---|---|
@@ -445,6 +446,7 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 | Persona 5 Royal (PC) | *Phantom Thieves*: decrypted, unpacked and packed again; money, HP / SP, levels, experience and Persona stats for the party and Joker's Personas |
 | Persona 5 Strikers | *Save slots*: money, Persona points, unspent BOND points, and the stacks you hold of consumables, cooking ingredients, incenses, ailment remedies and skill cards. The encrypted `SAVEDATA.BIN` is opened and its checksum kept right (checked on a public save, not yet tried in the game) |
 | Phasmophobia | Money, level, prestige and experience, how many of each item you own, item tiers and their unlocks, and the journal's statistics (`SaveFile.txt`); decrypted and encrypted again on save (checked on public test saves, not yet tried in the game) |
+| Phoenix Wright: Ace Attorney Trilogy | *Episodes*: how many episodes of each of the three games are unlocked on the episode select screen, the volumes and the window size (checked on a real save, not yet tried in the game) |
 | Pizza Tower | *Tower*: completion %, enemies killed and play time; every level's score, rank (D to P), treasure and secrets found, and the four boss scores and ranks. checked on a public save, not yet tried in the game |
 | Planescape: Torment: Enhanced Edition | Coppers; the Nameless One and each companion: experience, level, hit points, abilities, alignment and item stacks; every global variable by name (quest stages, story choices) (checked on real saves, not yet tried in the game) |
 | Planetbase | *Colony*: coins, extra prestige, landing permissions, and the health, food, water, oxygen, sleep and morale of every colonist and the condition of every bot (plain XML; checked on public saves, not yet tried in the game) |

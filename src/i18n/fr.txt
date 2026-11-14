@@ -26463,3 +26463,37 @@ Witchyworld
 Zubbas' Hive
 = Ruche des Zubbas
 
+
+# src/fmt/grandia1.rs and ps2_specs.rs (Grandia HD Remaster)
+BISLPSP02124GRA-S00 … in %APPDATA%\\GRANDIA1\\Saves\\<slot> (the PC remaster, one file per save). Gold pieces, each character's level, experience, HP, SP and attributes, magic and weapon levels, equipment, the items in each pack, and every learned skill.
+= BISLPSP02124GRA-S00 … dans %APPDATA%\GRANDIA1\Saves\<emplacement> (le remaster PC, un fichier par sauvegarde). Pièces d'or, niveau, expérience, PV, PS et attributs de chaque personnage, niveaux de magie et d'armes, équipement, objets de chaque sac et chaque compétence apprise.
+
+Close the game first. The save keeps no checksum. A skill is learned by each character whose box says Yes; items in a character's pack can be anything the game knows (equipment, key items and consumables share one list).
+= Fermez d'abord le jeu. La sauvegarde n'a pas de somme de contrôle. Une compétence est apprise par chaque personnage dont la case indique Oui ; les objets du sac d'un personnage peuvent être n'importe quel objet connu du jeu (équipement, objets clés et consommables partagent une seule liste).
+
+
+# src/game_ui/simple/hardpc_specs.rs (Ace Attorney Trilogy)
+systemdata in Steam\\userdata\\<account>\\787480\\remote. How many episodes of each of the three games are unlocked on the episode select screen (the first game has 5, Justice for All 4, Trials and Tribulations 5), the volumes and the window size.
+= systemdata dans Steam\userdata\<compte>\787480\remote. Le nombre d'épisodes débloqués de chacun des trois jeux dans la sélection d'épisodes (le premier jeu en a 5, Justice for All 4, Trials and Tribulations 5), les volumes et la taille de la fenêtre.
+
+Episodes unlocked
+= Épisodes débloqués
+
+Sound effects volume
+= Volume des effets sonores
+
+Resolution width
+= Largeur de la résolution
+
+Resolution height
+= Hauteur de la résolution
+
+Phoenix Wright: Ace Attorney
+= Phoenix Wright: Ace Attorney
+
+Justice for All
+= Justice for All
+
+Trials and Tribulations
+= Trials and Tribulations
+

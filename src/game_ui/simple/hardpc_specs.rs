@@ -255,3 +255,27 @@ pub const HOTLINE_MIAMI: Spec = Spec {
     Table { title: tx("Puzzle letters"), path: "/Puzzle letters", name: &[], cols: &[(tx("Found"), "/Unlocked")], only: &[], names: &[] },
     ],
 };
+
+// ------------------------------------------------------------------ Phoenix Wright: Ace Attorney Trilogy
+
+pub const PWAAT: Spec = Spec {
+    name: "Phoenix Wright: Ace Attorney Trilogy",
+    tab: "Episodes",
+    accent: (60, 110, 200),
+    kind: Some(crate::fmt::pwaat::KIND),
+    markers: &["/Episodes unlocked"],
+    subtitle: tx("systemdata in Steam\\userdata\\<account>\\787480\\remote. How many episodes of each of the three games are unlocked on the episode select screen (the first game has 5, Justice for All 4, Trials and Tribulations 5), the volumes and the window size."),
+    tiles: &[],
+    sections: &[
+    Section { title: tx("Episodes unlocked"), rows: &[
+        ("Phoenix Wright: Ace Attorney", "/Episodes unlocked/Phoenix Wright: Ace Attorney"), ("Justice for All", "/Episodes unlocked/Justice for All"),
+        ("Trials and Tribulations", "/Episodes unlocked/Trials and Tribulations"),
+    ] },
+    Section { title: tx("Options"), rows: &[
+        (tx("Music volume"), "/Options/Music volume"), (tx("Sound effects volume"), "/Options/Sound effects volume"),
+        (tx("Resolution width"), "/Options/Resolution width"), (tx("Resolution height"), "/Options/Resolution height"),
+    ] },
+    ],
+    lists: &[],
+    tables: &[],
+};

@@ -26452,3 +26452,37 @@ Witchyworld
 Zubbas' Hive
 = Colmena de los Zubbas
 
+
+# src/fmt/grandia1.rs and ps2_specs.rs (Grandia HD Remaster)
+BISLPSP02124GRA-S00 … in %APPDATA%\\GRANDIA1\\Saves\\<slot> (the PC remaster, one file per save). Gold pieces, each character's level, experience, HP, SP and attributes, magic and weapon levels, equipment, the items in each pack, and every learned skill.
+= BISLPSP02124GRA-S00 … en %APPDATA%\GRANDIA1\Saves\<ranura> (la remasterización de PC, un archivo por partida). Monedas de oro, el nivel, la experiencia, PV, PE y atributos de cada personaje, los niveles de magia y de armas, el equipo, los objetos de cada mochila y cada habilidad aprendida.
+
+Close the game first. The save keeps no checksum. A skill is learned by each character whose box says Yes; items in a character's pack can be anything the game knows (equipment, key items and consumables share one list).
+= Cierra primero el juego. La partida no tiene suma de comprobación. Una habilidad la conoce cada personaje cuya casilla dice Sí; los objetos de la mochila de un personaje pueden ser cualquiera que el juego conozca (equipo, objetos clave y consumibles comparten una lista).
+
+
+# src/game_ui/simple/hardpc_specs.rs (Ace Attorney Trilogy)
+systemdata in Steam\\userdata\\<account>\\787480\\remote. How many episodes of each of the three games are unlocked on the episode select screen (the first game has 5, Justice for All 4, Trials and Tribulations 5), the volumes and the window size.
+= systemdata en Steam\userdata\<cuenta>\787480\remote. Cuántos episodios de cada uno de los tres juegos están desbloqueados en la selección de episodios (el primero tiene 5, Justice for All 4, Trials and Tribulations 5), los volúmenes y el tamaño de la ventana.
+
+Episodes unlocked
+= Episodios desbloqueados
+
+Sound effects volume
+= Volumen de efectos de sonido
+
+Resolution width
+= Ancho de resolución
+
+Resolution height
+= Alto de resolución
+
+Phoenix Wright: Ace Attorney
+= Phoenix Wright: Ace Attorney
+
+Justice for All
+= Justice for All
+
+Trials and Tribulations
+= Trials and Tribulations
+

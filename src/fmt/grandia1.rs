@@ -11,6 +11,13 @@ use crate::tree::TreeDoc;
 use std::collections::HashMap;
 
 pub const KIND: &str = "Grandia (PlayStation) save";
+/// Grandia HD Remaster (PC) keeps the same save block, cut to 3,712 bytes, one file per slot.
+pub const KIND_HD: &str = "Grandia HD Remaster save";
+const HD_SIZE: usize = 3712;
+
+fn is_hd(d: &[u8]) -> bool {
+    d.len() == HD_SIZE && d.starts_with(b"SC") && d[HD_SIZE - 48..HD_SIZE - 34] == *b"GrandiaBupData"
+}
 
 const CHARACTERS: [&str; 8] = ["Justin", "Feena", "Sue", "Gadwin", "Rapp", "Milda", "Guido", "Liete"];
 /// "グランディア" in Shift-JIS.
@@ -25,7 +32,7 @@ fn shift(d: &[u8]) -> Option<usize> {
 }
 
 pub fn looks(d: &[u8]) -> bool {
-    if !is_save(d, 1) || !(title(d).starts_with("GRANDIA") || d[4..16] == JAPANESE) {
+    if !(is_save(d, 1) || is_hd(d)) || !(title(d).starts_with("GRANDIA") || d[4..16] == JAPANESE) {
         return false;
     }
     let Some(s) = shift(d) else { return false };
@@ -90,6 +97,9 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
             flag(&mut b, &[&format!("Skills: {group}"), name, n], at + s, c as u32);
         }
     }
+    if is_hd(d) {
+        return Ok(b.finish(KIND_HD, Checksum::None).with_note(crate::i18n::tx("Close the game first. The save keeps no checksum. A skill is learned by each character whose box says Yes; items in a character's pack can be anything the game knows (equipment, key items and consumables share one list).")));
+    }
     Ok(b.finish(KIND, Checksum::None).with_note(crate::i18n::tx("Close the emulator first. The game keeps no checksum. A skill is learned by each character whose box says Yes; items in a character's pack can be anything the game knows (equipment, key items and consumables share one list).")))
 }
 
@@ -123,5 +133,19 @@ mod tests {
         let out = doc.to_bytes().unwrap();
         assert_eq!(u32::from_le_bytes(out[0x1b0..0x1b4].try_into().unwrap()), 777);
         assert_eq!(out[0x313 + 0x80], 12);
+    }
+
+    #[test]
+    fn hd_remaster_slot() {
+        let Ok(p) = std::env::var("GRANDIA_HD_SAMPLE") else { return };
+        let d = std::fs::read(p).unwrap();
+        assert!(looks(&d));
+        let mut doc = parse(&d).unwrap();
+        assert_eq!(doc.to_bytes().unwrap(), d);
+        assert_eq!(doc.view.pointer("/Party/Justin/Level"), Some(&serde_json::json!(99)));
+        doc.set("/General/Gold pieces", serde_json::json!(1234)).unwrap();
+        let out = doc.to_bytes().unwrap();
+        assert_eq!(out.len(), d.len());
+        assert_eq!(u32::from_le_bytes(out[0x330..0x334].try_into().unwrap()), 1234);
     }
 }

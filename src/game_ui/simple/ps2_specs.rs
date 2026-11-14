@@ -285,3 +285,30 @@ pub const GRANDIA1: Spec = Spec {
         Table { title: "Skills: Techniques", path: "/Skills: Techniques", name: &[], cols: &[("Justin", "/Justin"), ("Feena", "/Feena"), ("Sue", "/Sue"), ("Gadwin", "/Gadwin"), ("Rapp", "/Rapp"), ("Milda", "/Milda"), ("Guido", "/Guido"), ("Liete", "/Liete")], only: &[], names: &[] },
     ],
 };
+
+pub const GRANDIA_HD: Spec = Spec {
+    name: "Grandia HD Remaster",
+    tab: "Party",
+    accent: (70, 150, 90),
+    kind: Some(crate::fmt::grandia1::KIND_HD),
+    markers: &["/General/Gold pieces"],
+    subtitle: tx("BISLPSP02124GRA-S00 … in %APPDATA%\\GRANDIA1\\Saves\\<slot> (the PC remaster, one file per save). Gold pieces, each character's level, experience, HP, SP and attributes, magic and weapon levels, equipment, the items in each pack, and every learned skill."),
+    tiles: &[("Gold pieces", "/General/Gold pieces")],
+    sections: &[
+        Section { title: "General", rows: &[
+            ("Gold pieces", "/General/Gold pieces"),
+        ] },
+    ],
+    lists: &[],
+    tables: &[
+        Table { title: "Party", path: "/Party", name: &[], cols: &[("Level", "/Level"), ("Experience", "/Experience"), ("Total experience", "/Total experience"), ("HP", "/HP"), ("Max HP", "/Max HP"), ("SP", "/SP"), ("Max SP", "/Max SP"), ("Strength", "/Strength"), ("Vitality", "/Vitality"), ("Wit", "/Wit"), ("Agility", "/Agility")], only: &[], names: &[] },
+        Table { title: "Magic", path: "/Magic", name: &[], cols: &[("Fire level", "/Fire level"), ("Water level", "/Water level"), ("Wind level", "/Wind level"), ("Earth level", "/Earth level"), ("Fire experience", "/Fire experience"), ("Water experience", "/Water experience"), ("Wind experience", "/Wind experience"), ("Earth experience", "/Earth experience")], only: &[], names: &[] },
+        Table { title: "Equipment", path: "/Equipment", name: &[], cols: &[("Weapon", "/Weapon"), ("Shield", "/Shield"), ("Armor", "/Armor"), ("Helmet", "/Helmet"), ("Shoes", "/Shoes"), ("Jewelry", "/Jewelry")], only: &[], names: &[] },
+        Table { title: "Items", path: "/Items", name: &[], cols: &[("Item 1", "/Item 1"), ("Item 2", "/Item 2"), ("Item 3", "/Item 3"), ("Item 4", "/Item 4"), ("Item 5", "/Item 5"), ("Item 6", "/Item 6"), ("Item 7", "/Item 7"), ("Item 8", "/Item 8"), ("Item 9", "/Item 9"), ("Item 10", "/Item 10"), ("Item 11", "/Item 11"), ("Item 12", "/Item 12")], only: &[], names: &[] },
+        Table { title: "Weapon skills", path: "/Weapon skills", name: &[], cols: &[("Weapon type 1", "/Weapon type 1"), ("Weapon level 1", "/Weapon level 1"), ("Weapon experience 1", "/Weapon experience 1"), ("Weapon type 2", "/Weapon type 2"), ("Weapon level 2", "/Weapon level 2"), ("Weapon experience 2", "/Weapon experience 2"), ("Weapon type 3", "/Weapon type 3"), ("Weapon level 3", "/Weapon level 3"), ("Weapon experience 3", "/Weapon experience 3"), ("Weapon type 4", "/Weapon type 4"), ("Weapon level 4", "/Weapon level 4"), ("Weapon experience 4", "/Weapon experience 4")], only: &[], names: &[] },
+        Table { title: "Skills: Level 1", path: "/Skills: Level 1", name: &[], cols: &[("Justin", "/Justin"), ("Feena", "/Feena"), ("Sue", "/Sue"), ("Gadwin", "/Gadwin"), ("Rapp", "/Rapp"), ("Milda", "/Milda"), ("Guido", "/Guido"), ("Liete", "/Liete")], only: &[], names: &[] },
+        Table { title: "Skills: Level 2", path: "/Skills: Level 2", name: &[], cols: &[("Justin", "/Justin"), ("Feena", "/Feena"), ("Sue", "/Sue"), ("Gadwin", "/Gadwin"), ("Rapp", "/Rapp"), ("Milda", "/Milda"), ("Guido", "/Guido"), ("Liete", "/Liete")], only: &[], names: &[] },
+        Table { title: "Skills: Level 3", path: "/Skills: Level 3", name: &[], cols: &[("Justin", "/Justin"), ("Feena", "/Feena"), ("Sue", "/Sue"), ("Gadwin", "/Gadwin"), ("Rapp", "/Rapp"), ("Milda", "/Milda"), ("Guido", "/Guido"), ("Liete", "/Liete")], only: &[], names: &[] },
+        Table { title: "Skills: Techniques", path: "/Skills: Techniques", name: &[], cols: &[("Justin", "/Justin"), ("Feena", "/Feena"), ("Sue", "/Sue"), ("Gadwin", "/Gadwin"), ("Rapp", "/Rapp"), ("Milda", "/Milda"), ("Guido", "/Guido"), ("Liete", "/Liete")], only: &[], names: &[] },
+    ],
+};
