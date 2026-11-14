@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- New game screens for ten Assassin's Creed games, from Brotherhood to Odyssey: money, Creed Points (Unity), XP and ability points (Origins, Odyssey), crafting materials with Max crafting materials (Black Flag, Rogue, Syndicate, Odyssey), trade goods and ammunition. The saves are unscrambled with the key worked out from the file, unpacked and packed again with their block checks (not yet tried in the games)
 - Find my game's saves: long game names are shortened (full name on hover) so the badge never overlaps the details, the right-hand side scrolls as a whole and starts at the top for each game, and the window uses its full width
 - Scrolling a list or table inside a screen stays in that list at its top and bottom instead of scrolling the page; column headings of the long tables (XCOM, XCOM 2, Final Fantasy VII Remake materia) stay visible while scrolling
 - Number boxes in tables are wide enough for their value (decimals were cut off); on phone-width screens the -/+ buttons give way instead of running off the edge

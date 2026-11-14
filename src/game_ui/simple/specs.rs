@@ -3,7 +3,7 @@
 
 use super::{List, Max, Section, Shape, Spec, Table};
 
-pub static SPECS: &[Spec] = &[COTL, FALLOUT_SHELTER, DRG, S1_MONEY, S1_RANK, S1_TIME, S1_GAME, SOTF_STATE, SOTF_GAME, SOTF_WEATHER, SOTF_ITEMS, DMD, CUPHEAD, ANTIMATTER, PVZ, CELESTE, DRGS, KH3, RF4S, SKY1ST, KSP, FFPR, MCD, STONESHARD, ROGUE_TRADER, BIOSHOCK_INFINITE, SPACE_HAVEN, SNOWRUNNER, GRAVEYARD_KEEPER, NFSMW, TOS, GTA3, GTAVC, BITBURNER, TERRA_INVICTA, PRISON, FF13, SONIC_MANIA, CAVE_STORY_PLUS, CAVE_STORY, LIES_OF_P, TXR, DAVE, MSC, ULTRAKILL, RPGXP, RE5, ANNO1800, FTK, LEGO_TSS, LEGO_CLASSIC, MYZ, CMS21, MEDIEVAL_DYNASTY, MECHANICUS, ORI, OMORI, ENDER_LILIES, SW2, ES2, MOONLIGHTER, WASTELAND2, ATOM, MORTAL_SHELL, MORTAL_SHELL_2, COTW, BEAMNG, FOREST, YAKUZA3, YAKUZA4, YAKUZA5, ISHIN, SALT, DRAKENSANG, ALPHA, TYRANNY, JEDI_FO, SR3, SR4, WD2, FABLE, WANDERING_SWORD, STELLAR_BLADE, PRAGMATA, SLIME_RANCHER, SUBNAUTICA2, HZD, SLEEPING_DOGS, DXMD, ATOMIC_HEART, DISHONORED2, DEATHLOOP, DISHONORED1, RDR1, RDR2];
+pub static SPECS: &[Spec] = &[COTL, FALLOUT_SHELTER, DRG, S1_MONEY, S1_RANK, S1_TIME, S1_GAME, SOTF_STATE, SOTF_GAME, SOTF_WEATHER, SOTF_ITEMS, DMD, CUPHEAD, ANTIMATTER, PVZ, CELESTE, DRGS, KH3, RF4S, SKY1ST, KSP, FFPR, MCD, STONESHARD, ROGUE_TRADER, BIOSHOCK_INFINITE, SPACE_HAVEN, SNOWRUNNER, GRAVEYARD_KEEPER, NFSMW, TOS, GTA3, GTAVC, BITBURNER, TERRA_INVICTA, PRISON, FF13, SONIC_MANIA, CAVE_STORY_PLUS, CAVE_STORY, LIES_OF_P, TXR, DAVE, MSC, ULTRAKILL, RPGXP, RE5, ANNO1800, FTK, LEGO_TSS, LEGO_CLASSIC, MYZ, CMS21, MEDIEVAL_DYNASTY, MECHANICUS, ORI, OMORI, ENDER_LILIES, SW2, ES2, MOONLIGHTER, WASTELAND2, ATOM, MORTAL_SHELL, MORTAL_SHELL_2, COTW, BEAMNG, FOREST, YAKUZA3, YAKUZA4, YAKUZA5, ISHIN, SALT, DRAKENSANG, ALPHA, TYRANNY, JEDI_FO, SR3, SR4, WD2, FABLE, WANDERING_SWORD, STELLAR_BLADE, PRAGMATA, SLIME_RANCHER, SUBNAUTICA2, HZD, SLEEPING_DOGS, DXMD, ATOMIC_HEART, DISHONORED2, DEATHLOOP, AC_BROTHERHOOD, AC_REVELATIONS, AC3R, AC_LIBERATION, AC_BLACK_FLAG, AC_ROGUE, AC_UNITY, AC_SYNDICATE, AC_ORIGINS, AC_ODYSSEY, DISHONORED1, RDR1, RDR2];
 
 // ------------------------------------------------------------------ Cult of the Lamb
 
@@ -3288,4 +3288,166 @@ const RDR2: Spec = Spec {
         Table { title: "Compendium: weapons", path: "/Compendium/Weapons", name: &[], cols: &[("Owned", "/Owned")], only: &[], names: &[] },
         Table { title: "Compendium: equipment", path: "/Compendium/Equipment", name: &[], cols: &[("Owned", "/Owned")], only: &[], names: &[] },
     ],
+};
+
+// ------------------------------------------------------------------ Assassin's Creed (Brotherhood to Odyssey)
+const AC_BROTHERHOOD: Spec = Spec {
+    name: "Assassin's Creed Brotherhood",
+    tab: "Ezio",
+    accent: (180, 40, 40),
+    kind: Some(crate::fmt::anvil::KIND_BROTHERHOOD),
+    markers: &["/Money/Money"],
+    subtitle: "ACBROTHERHOODSAVEGAME0.SAV in Saved Games\\\\Assassin's Creed Brotherhood\\\\SAVES (or the Ubisoft Connect savegames folder). The save is unscrambled, unpacked and packed again with its block checks; the account it belongs to is kept. Close the game and turn cloud saves off in Ubisoft Connect first, or the old save may come back.",
+    tiles: &[("Florins", "/Money/Money")],
+    sections: &[Section { title: "Save", rows: &[("Game", "/Save/Game")] }],
+    lists: &[
+        List { title: "Crafting materials", path: "/Crafting materials", shape: Shape::Map, names: &[], max: None },
+        List { title: "Trade goods", path: "/Trade goods", shape: Shape::Map, names: &[], max: None },
+        List { title: "Tools and ammunition", path: "/Tools and ammunition", shape: Shape::Map, names: &[], max: None },
+    ],
+    tables: &[],
+};
+const AC_REVELATIONS: Spec = Spec {
+    name: "Assassin's Creed Revelations",
+    tab: "Ezio",
+    accent: (170, 60, 40),
+    kind: Some(crate::fmt::anvil::KIND_REVELATIONS),
+    markers: &["/Money/Money"],
+    subtitle: "<number>.save in the Ubisoft Connect savegames folder (game 40). The save is unscrambled, unpacked and packed again with its block checks; the account it belongs to is kept. Close the game and turn cloud saves off in Ubisoft Connect first, or the old save may come back.",
+    tiles: &[("Akçe", "/Money/Money")],
+    sections: &[Section { title: "Save", rows: &[("Game", "/Save/Game")] }],
+    lists: &[
+        List { title: "Crafting materials", path: "/Crafting materials", shape: Shape::Map, names: &[], max: None },
+        List { title: "Trade goods", path: "/Trade goods", shape: Shape::Map, names: &[], max: None },
+        List { title: "Tools and ammunition", path: "/Tools and ammunition", shape: Shape::Map, names: &[], max: None },
+    ],
+    tables: &[],
+};
+const AC3R: Spec = Spec {
+    name: "Assassin's Creed III Remastered",
+    tab: "Connor",
+    accent: (60, 110, 160),
+    kind: Some(crate::fmt::anvil::KIND_AC3R),
+    markers: &["/Money/Money"],
+    subtitle: "<number>.save in the Ubisoft Connect savegames folder (game 5183). The save is unscrambled, unpacked and packed again with its block checks; the account it belongs to is kept. Close the game and turn cloud saves off in Ubisoft Connect first, or the old save may come back. The save ends with a 4-byte value that isn't understood yet and is kept as it is; edited saves of this game have not been tried in the game.",
+    tiles: &[("Money", "/Money/Money")],
+    sections: &[Section { title: "Save", rows: &[("Game", "/Save/Game")] }],
+    lists: &[
+        List { title: "Crafting materials", path: "/Crafting materials", shape: Shape::Map, names: &[], max: None },
+        List { title: "Trade goods", path: "/Trade goods", shape: Shape::Map, names: &[], max: None },
+        List { title: "Tools and ammunition", path: "/Tools and ammunition", shape: Shape::Map, names: &[], max: None },
+    ],
+    tables: &[],
+};
+const AC_LIBERATION: Spec = Spec {
+    name: "Assassin's Creed Liberation HD",
+    tab: "Aveline",
+    accent: (150, 80, 140),
+    kind: Some(crate::fmt::anvil::KIND_LIBERATION),
+    markers: &["/Money/Money"],
+    subtitle: "<number>.save in the Ubisoft Connect savegames folder (games 625 and 632). The save is unscrambled, unpacked and packed again with its block checks; the account it belongs to is kept. Close the game and turn cloud saves off in Ubisoft Connect first, or the old save may come back.",
+    tiles: &[("Money", "/Money/Money")],
+    sections: &[Section { title: "Save", rows: &[("Game", "/Save/Game")] }],
+    lists: &[
+        List { title: "Crafting materials", path: "/Crafting materials", shape: Shape::Map, names: &[], max: None },
+        List { title: "Trade goods", path: "/Trade goods", shape: Shape::Map, names: &[], max: None },
+        List { title: "Tools and ammunition", path: "/Tools and ammunition", shape: Shape::Map, names: &[], max: None },
+    ],
+    tables: &[],
+};
+const AC_BLACK_FLAG: Spec = Spec {
+    name: "Assassin's Creed IV Black Flag",
+    tab: "Edward",
+    accent: (40, 90, 150),
+    kind: Some(crate::fmt::anvil::KIND_BLACK_FLAG),
+    markers: &["/Money/Money"],
+    subtitle: "<number>.save in the Ubisoft Connect savegames folder (game 273 or 437). The save is unscrambled, unpacked and packed again with its block checks; the account it belongs to is kept. Close the game and turn cloud saves off in Ubisoft Connect first, or the old save may come back.",
+    tiles: &[("Reales", "/Money/Money")],
+    sections: &[Section { title: "Save", rows: &[("Game", "/Save/Game")] }],
+    lists: &[
+        List { title: "Crafting materials", path: "/Crafting materials", shape: Shape::Map, names: &[], max: Some(Max { ids: &["Wood", "Metal", "Cloth"], cap: crate::fmt::anvil::BLACK_FLAG_CARGO, caps: &[], estimate: false, about: "Sets wood, metal and cloth to 2,000, what the Jackdaw's fully upgraded hold takes. Rum and sugar are trade goods and are left alone." }) },
+        List { title: "Trade goods", path: "/Trade goods", shape: Shape::Map, names: &[], max: None },
+        List { title: "Tools and ammunition", path: "/Tools and ammunition", shape: Shape::Map, names: &[], max: None },
+    ],
+    tables: &[],
+};
+const AC_ROGUE: Spec = Spec {
+    name: "Assassin's Creed Rogue",
+    tab: "Shay",
+    accent: (60, 120, 90),
+    kind: Some(crate::fmt::anvil::KIND_ROGUE),
+    markers: &["/Money/Money"],
+    subtitle: "<number>.save in the Ubisoft Connect savegames folder (game 895 or 934). The save is unscrambled, unpacked and packed again with its block checks; the account it belongs to is kept. Close the game and turn cloud saves off in Ubisoft Connect first, or the old save may come back.",
+    tiles: &[("Reales", "/Money/Money")],
+    sections: &[Section { title: "Save", rows: &[("Game", "/Save/Game")] }],
+    lists: &[
+        List { title: "Crafting materials", path: "/Crafting materials", shape: Shape::Map, names: &[], max: Some(Max { ids: &["Wood", "Metal", "Cloth", "Stone"], cap: crate::fmt::anvil::ROGUE_CARGO, caps: &[], estimate: false, about: "Sets wood, metal, cloth and stone to 2,500, what the Morrigan's fully upgraded hold takes. Tobacco is a trade good and is left alone." }) },
+        List { title: "Trade goods", path: "/Trade goods", shape: Shape::Map, names: &[], max: None },
+        List { title: "Tools and ammunition", path: "/Tools and ammunition", shape: Shape::Map, names: &[], max: None },
+    ],
+    tables: &[],
+};
+const AC_UNITY: Spec = Spec {
+    name: "Assassin's Creed Unity",
+    tab: "Arno",
+    accent: (70, 80, 160),
+    kind: Some(crate::fmt::anvil::KIND_UNITY),
+    markers: &["/Money/Money"],
+    subtitle: "<number>.save in the Ubisoft Connect savegames folder (game 720 or 857). The save is unscrambled, unpacked and packed again with its block checks; the account it belongs to is kept. Close the game and turn cloud saves off in Ubisoft Connect first, or the old save may come back.",
+    tiles: &[("Francs", "/Money/Money"), ("Creed Points", "/Money/Creed Points")],
+    sections: &[Section { title: "Save", rows: &[("Game", "/Save/Game")] }],
+    lists: &[
+        List { title: "Crafting materials", path: "/Crafting materials", shape: Shape::Map, names: &[], max: None },
+        List { title: "Trade goods", path: "/Trade goods", shape: Shape::Map, names: &[], max: None },
+        List { title: "Tools and ammunition", path: "/Tools and ammunition", shape: Shape::Map, names: &[], max: None },
+    ],
+    tables: &[],
+};
+const AC_SYNDICATE: Spec = Spec {
+    name: "Assassin's Creed Syndicate",
+    tab: "Frye twins",
+    accent: (140, 40, 60),
+    kind: Some(crate::fmt::anvil::KIND_SYNDICATE),
+    markers: &["/Money/Money"],
+    subtitle: "<number>.save in the Ubisoft Connect savegames folder (game 1875 or 1957). The save is unscrambled, unpacked and packed again with its block checks; the account it belongs to is kept. Close the game and turn cloud saves off in Ubisoft Connect first, or the old save may come back. The save ends with a 4-byte value that isn't understood yet and is kept as it is; edited saves of this game have not been tried in the game.",
+    tiles: &[("Pounds", "/Money/Money")],
+    sections: &[Section { title: "Save", rows: &[("Game", "/Save/Game")] }],
+    lists: &[
+        List { title: "Crafting materials", path: "/Crafting materials", shape: Shape::Map, names: &[], max: Some(Max { ids: &["Leather", "Metal", "Chemicals", "Silk"], cap: crate::fmt::anvil::SYNDICATE_MATERIALS, caps: &[], estimate: true, about: "Sets leather, metal, chemicals and silk to 9,999. No public source states a limit, so this is an estimate. Unique materials such as black pearls are left alone." }) },
+        List { title: "Trade goods", path: "/Trade goods", shape: Shape::Map, names: &[], max: None },
+        List { title: "Tools and ammunition", path: "/Tools and ammunition", shape: Shape::Map, names: &[], max: None },
+    ],
+    tables: &[],
+};
+const AC_ORIGINS: Spec = Spec {
+    name: "Assassin's Creed Origins",
+    tab: "Bayek",
+    accent: (200, 150, 60),
+    kind: Some(crate::fmt::anvil::KIND_ORIGINS),
+    markers: &["/Money/Drachmae"],
+    subtitle: "<number>.save in the Ubisoft Connect savegames folder (game 3539 or 4923). The save is unscrambled, unpacked and packed again with its block checks; the account it belongs to is kept. Close the game and turn cloud saves off in Ubisoft Connect first, or the old save may come back. The save ends with a 4-byte value that isn't understood yet and is kept as it is; edited saves of this game have not been tried in the game. Other crafting materials are stored by item number and aren't named yet.",
+    tiles: &[("Drachmae", "/Money/Drachmae"), ("XP", "/Progress/XP"), ("Ability points", "/Progress/Ability points")],
+    sections: &[Section { title: "Save", rows: &[("Game", "/Save/Game")] }, Section { title: "Progress", rows: &[("XP", "/Progress/XP"), ("Ability points", "/Progress/Ability points")] }],
+    lists: &[
+        List { title: "Crafting materials", path: "/Crafting materials", shape: Shape::Map, names: &[], max: None },
+        List { title: "Trade goods", path: "/Trade goods", shape: Shape::Map, names: &[], max: None },
+        List { title: "Tools and ammunition", path: "/Tools and ammunition", shape: Shape::Map, names: &[], max: None },
+    ],
+    tables: &[],
+};
+const AC_ODYSSEY: Spec = Spec {
+    name: "Assassin's Creed Odyssey",
+    tab: "Misthios",
+    accent: (60, 140, 170),
+    kind: Some(crate::fmt::anvil::KIND_ODYSSEY),
+    markers: &["/Money/Drachmae"],
+    subtitle: "<number>.save in the Ubisoft Connect savegames folder (game 5059 or 5092). The save is unscrambled, unpacked and packed again with its block checks; the account it belongs to is kept. Close the game and turn cloud saves off in Ubisoft Connect first, or the old save may come back.",
+    tiles: &[("Drachmae", "/Money/Drachmae"), ("XP", "/Progress/XP"), ("Ability points", "/Progress/Ability points")],
+    sections: &[Section { title: "Save", rows: &[("Game", "/Save/Game")] }, Section { title: "Progress", rows: &[("XP", "/Progress/XP"), ("Ability points", "/Progress/Ability points")] }],
+    lists: &[
+        List { title: "Crafting materials", path: "/Crafting materials", shape: Shape::Map, names: &[], max: Some(Max { ids: &["Olive Wood", "Iron Metal", "Soft Leather", "Obsidian Glass", "Precious Gems", "Ancient Tablets"], cap: crate::fmt::anvil::ODYSSEY_MATERIALS, caps: &[], estimate: true, about: "Sets the six crafting materials to 99,999. No public source states a limit (real saves hold over 60,000), so this is an estimate." }) },
+        List { title: "Trade goods", path: "/Trade goods", shape: Shape::Map, names: &[], max: None },
+        List { title: "Tools and ammunition", path: "/Tools and ammunition", shape: Shape::Map, names: &[], max: None },
+    ],
+    tables: &[],
 };
