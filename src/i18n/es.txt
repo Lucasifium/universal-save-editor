@@ -24050,3 +24050,9 @@ Playtime (seconds)
 
 Unlocked servers
 = Servidores desbloqueados
+
+Road warrior
+= Guerrero del asfalto
+
+GameSave01.sav (to 10) from Steam\\userdata\\<id>\\234140\\remote. The save's scrambling is undone and redone and its check value is kept valid; only the scrap is shown. Close the game first, and switch Steam Cloud off for the game or it restores the old save.
+= GameSave01.sav (hasta 10) de Steam\userdata\<id>\234140\remote. Se quita y se vuelve a aplicar el cifrado de la partida y su valor de comprobación sigue siendo válido; solo se muestra la chatarra. Cierra primero el juego y desactiva Steam Cloud para el juego, o restaurará la partida antigua.

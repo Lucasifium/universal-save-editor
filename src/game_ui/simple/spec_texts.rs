@@ -438,5 +438,7 @@ pub fn all() -> Vec<&'static str> {
         tr("Marine"),
         tr("char.sav from %LOCALAPPDATA%\\Endeavor\\Saved\\SaveGames (the game writes every byte one lower; that is undone and redone). Account level and experience, rank, difficulty, and the level and experience of every class and weapon. Close the game first."),
         tr("Last difficulty"),
+        tr("Road warrior"),
+        tr("GameSave01.sav (to 10) from Steam\\userdata\\<id>\\234140\\remote. The save's scrambling is undone and redone and its check value is kept valid; only the scrap is shown. Close the game first, and switch Steam Cloud off for the game or it restores the old save."),
     ]
 }

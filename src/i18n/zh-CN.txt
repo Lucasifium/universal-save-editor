@@ -24109,3 +24109,9 @@ Playtime (seconds)
 
 Unlocked servers
 = 已解锁的服务器
+
+Road warrior
+= 公路战士
+
+GameSave01.sav (to 10) from Steam\\userdata\\<id>\\234140\\remote. The save's scrambling is undone and redone and its check value is kept valid; only the scrap is shown. Close the game first, and switch Steam Cloud off for the game or it restores the old save.
+= Steam\userdata\<id>\234140\remote 中的 GameSave01.sav(最多到 10)。会解除并还原存档的加扰,校验值保持有效;只显示废料。请先关闭游戏,并关闭该游戏的 Steam 云存档,否则会恢复旧存档。

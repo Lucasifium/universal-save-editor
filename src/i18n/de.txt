@@ -24054,3 +24054,9 @@ Playtime (seconds)
 
 Unlocked servers
 = Freigeschaltete Server
+
+Road warrior
+= Straßenkrieger
+
+GameSave01.sav (to 10) from Steam\\userdata\\<id>\\234140\\remote. The save's scrambling is undone and redone and its check value is kept valid; only the scrap is shown. Close the game first, and switch Steam Cloud off for the game or it restores the old save.
+= GameSave01.sav (bis 10) aus Steam\userdata\<id>\234140\remote. Die Verschlüsselung des Spielstands wird entfernt und wieder angewendet und sein Prüfwert bleibt gültig; nur der Schrott wird angezeigt. Zuerst das Spiel schließen und die Steam-Cloud für das Spiel ausschalten, sonst stellt sie den alten Spielstand wieder her.

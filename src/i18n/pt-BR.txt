@@ -24024,3 +24024,9 @@ Playtime (seconds)
 
 Unlocked servers
 = Servidores desbloqueados
+
+Road warrior
+= Guerreiro da estrada
+
+GameSave01.sav (to 10) from Steam\\userdata\\<id>\\234140\\remote. The save's scrambling is undone and redone and its check value is kept valid; only the scrap is shown. Close the game first, and switch Steam Cloud off for the game or it restores the old save.
+= GameSave01.sav (até 10) de Steam\userdata\<id>\234140\remote. A codificação do save é removida e reaplicada e o valor de verificação continua válido; só a sucata é mostrada. Feche o jogo antes e desative o Steam Cloud para o jogo, ou ele restaura o save antigo.

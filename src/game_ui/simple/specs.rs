@@ -16,7 +16,10 @@ pub static SPECS: &[Spec] = &[OPENXCOM, XCOM_DOS, RCT2, COTL, FALLOUT_SHELTER, D
     // PlayStation 1 and 2 (ps_specs.rs)
     SOTN, FF8, FFT, RE1, KH2, MK64, GOLDENEYE, BANJO_KAZOOIE, OOT, SMASH64, TORCHLIGHT3, WRECKFEST, EVIL_WITHIN, BORDERLANDS1,
     // PlayStation 1 and 2 (ps_specs.rs), continued
-    CRASH, KH1, GT1, BL4, WUKONG, BOTW, RAYMAN, CTR, THPS, PAYDAY2, FS_FARM, FS_CAREER, FS17, FS15, GAS_STATION_SIM, THIEF_SIM, HOUSE_FLIPPER, TAVERN_MASTER, ROAD_REDEMPTION, SILENT_HILL, SOPHIE, FIRIS, DREDGE, PC_BUILDING_SIM, OUTWARD, SUPRALAND, WARM_SNOW, READY_OR_NOT, SUNSHINE, LUIGI, WINDWAKER, TEKKEN1, TEKKEN2, TEKKEN3, DMC_PS2, WIZARD_OF_LEGEND, MAGICRAFT, KAGERO, DW7XL, WO3U, SW5, WO1, SAMURAI2, DW4H, GTASA, SPT, ARKHAM_CITY, GRANDIA2, DONT_STARVE, MON_BAZOU, DEAD_ISLAND, CHRONO_CROSS, TOV, SA2_CHAO, KIDICARUS, TKC, DQ8, POLICE_SIM, ALIENS_FE, DOT_HACK];
+    CRASH, KH1, GT1, BL4, WUKONG, BOTW, RAYMAN, CTR, THPS, PAYDAY2, FS_FARM, FS_CAREER, FS17, FS15, GAS_STATION_SIM, THIEF_SIM, HOUSE_FLIPPER, TAVERN_MASTER, ROAD_REDEMPTION, SILENT_HILL, SOPHIE, FIRIS, DREDGE, PC_BUILDING_SIM, OUTWARD, SUPRALAND, WARM_SNOW, READY_OR_NOT, SUNSHINE, LUIGI, WINDWAKER, TEKKEN1, TEKKEN2, TEKKEN3, DMC_PS2, WIZARD_OF_LEGEND, MAGICRAFT, KAGERO, DW7XL, WO3U, SW5, WO1, SAMURAI2, DW4H, GTASA, SPT, ARKHAM_CITY, GRANDIA2, DONT_STARVE, MON_BAZOU, DEAD_ISLAND, CHRONO_CROSS, TOV, SA2_CHAO, KIDICARUS, TKC, DQ8, POLICE_SIM, ALIENS_FE, DOT_HACK,
+    MAD_MAX,
+    RAFT,
+];
 // ------------------------------------------------------------------ Cult of the Lamb
 
 const COTL_ITEMS: &[(&str, &str)] = &[
@@ -12359,4 +12362,19 @@ const ALIENS_FE: Spec = Spec {
         Table { title: "Classes", path: "/CharacterInventory/CharacterKits", name: &["/CharacterClass"], only: &[], cols: &[("Level", "/LevelData/Level"), ("Experience", "/LevelData/ExperiencePoints")], names: &[] },
         Table { title: "Weapons", path: "/GunInventory/GunFrames", name: &["/GunClass"], only: &[], cols: &[("Level", "/LevelData/Level"), ("Experience", "/LevelData/ExperiencePoints")], names: &[] },
     ],
+};
+
+// ------------------------------------------------------------------ Mad Max
+
+const MAD_MAX: Spec = Spec {
+    name: "Mad Max",
+    tab: "Road warrior",
+    accent: (200, 120, 40),
+    kind: None,
+    markers: &["/Mad Max scrap"],
+    subtitle: "GameSave01.sav (to 10) from Steam\\userdata\\<id>\\234140\\remote. The save's scrambling is undone and redone and its check value is kept valid; only the scrap is shown. Close the game first, and switch Steam Cloud off for the game or it restores the old save.",
+    tiles: &[("Scrap", "/Mad Max scrap")],
+    sections: &[Section { title: "Resources", rows: &[("Scrap", "/Mad Max scrap")] }],
+    lists: &[],
+    tables: &[],
 };

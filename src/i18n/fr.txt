@@ -24061,3 +24061,9 @@ Playtime (seconds)
 
 Unlocked servers
 = Serveurs débloqués
+
+Road warrior
+= Guerrier de la route
+
+GameSave01.sav (to 10) from Steam\\userdata\\<id>\\234140\\remote. The save's scrambling is undone and redone and its check value is kept valid; only the scrap is shown. Close the game first, and switch Steam Cloud off for the game or it restores the old save.
+= GameSave01.sav (jusqu'à 10) depuis Steam\userdata\<id>\234140\remote. Le brouillage de la sauvegarde est retiré puis remis et sa valeur de contrôle reste valide ; seule la ferraille est affichée. Fermez d'abord le jeu et désactivez Steam Cloud pour le jeu, sinon il restaure l'ancienne sauvegarde.

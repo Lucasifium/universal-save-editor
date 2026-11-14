@@ -227,6 +227,8 @@ pub enum Layer {
     HyperLightDrifter { head: Arc<Vec<u8>> },
     /// Don't Starve: `KLEI     1D`, base64, a 16-byte header and a zlib stream of Lua text.
     DontStarve,
+    /// Mad Max: XOR key, integrity value kept by carrying its difference; the decoded file is kept to rebuild the save.
+    MadMax { plain: Arc<Vec<u8>> },
     /// Every byte one less than the real one (Aliens: Fireteam Elite).
     Shifted,
     /// Dead Island: level, health and money patched into the flat binary (the original bytes are kept).
@@ -454,6 +456,7 @@ impl Layer {
             Layer::Payday2 { .. } => "PAYDAY 2 save encryption and blocks".into(),
             Layer::HyperLightDrifter { .. } => "Hyper Light Drifter header and base64".into(),
             Layer::DontStarve => "Don't Starve save (base64, zlib)".into(),
+            Layer::MadMax { .. } => "Mad Max save encryption".into(),
             Layer::Shifted => "Every byte one less (Aliens: Fireteam Elite)".into(),
             Layer::DeadIsland { .. } => "Dead Island save values".into(),
             Layer::P3rSteam => "Persona 3 Reload save encryption".into(),
@@ -1110,6 +1113,7 @@ fn wrap(layer: &Layer, data: Vec<u8>) -> Result<Vec<u8>, String> {
         Layer::Payday2 { plain } => fmt::payday2::pack(plain, &data)?,
         Layer::HyperLightDrifter { head } => fmt::hld::pack(head, &data),
         Layer::DontStarve => fmt::dontstarve::pack(&data),
+        Layer::MadMax { plain } => fmt::madmax::pack(plain, &data)?,
         Layer::Shifted => fmt::shifted::pack(&data),
         Layer::DeadIsland { original } => fmt::deadisland::pack(original, &data)?,
         Layer::P3rSteam => fmt::p3r::steam_encrypt(&data),
@@ -2018,6 +2022,9 @@ fn peel(data: &[u8], ctx: &mut Ctx) -> Option<(Layer, Vec<u8>)> {
     }
     if let Some(json) = fmt::deadisland::open(data) {
         return Some((Layer::DeadIsland { original: Arc::new(data.to_vec()) }, json));
+    }
+    if let Some((plain, json)) = fmt::madmax::open(data) {
+        return Some((Layer::MadMax { plain: Arc::new(plain) }, json));
     }
     if let Some(plain) = fmt::shifted::open(data) {
         return Some((Layer::Shifted, plain));
