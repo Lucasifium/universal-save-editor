@@ -24060,3 +24060,15 @@ Road warrior
 
 GameSave01.sav (to 10) from Steam\\userdata\\<id>\\234140\\remote. The save's scrambling is undone and redone and its check value is kept valid; only the scrap is shown. Close the game first, and switch Steam Cloud off for the game or it restores the old save.
 = GameSave01.sav (bis 10) aus Steam\userdata\<id>\234140\remote. Die Verschlüsselung des Spielstands wird entfernt und wieder angewendet und sein Prüfwert bleibt gültig; nur der Schrott wird angezeigt. Zuerst das Spiel schließen und die Steam-Cloud für das Spiel ausschalten, sonst stellt sie den alten Spielstand wieder her.
+
+Shark
+= Hai
+
+_<Steam id>_maneater_save_0.sav (to 2) from %LOCALAPPDATA%\\Maneater\\Saved\\SaveGames. Close the game first; Steam Cloud can restore the old save.
+= _<Steam-ID>_maneater_save_0.sav (bis 2) aus %LOCALAPPDATA%\Maneater\Saved\SaveGames. Schließe zuerst das Spiel; Steam Cloud kann den alten Spielstand wiederherstellen.
+
+Shark level
+= Haistufe
+
+Story progress
+= Story-Fortschritt

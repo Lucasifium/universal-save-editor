@@ -19,6 +19,7 @@ pub static SPECS: &[Spec] = &[OPENXCOM, XCOM_DOS, RCT2, COTL, FALLOUT_SHELTER, D
     CRASH, KH1, GT1, BL4, WUKONG, BOTW, RAYMAN, CTR, THPS, PAYDAY2, FS_FARM, FS_CAREER, FS17, FS15, GAS_STATION_SIM, THIEF_SIM, HOUSE_FLIPPER, TAVERN_MASTER, ROAD_REDEMPTION, SILENT_HILL, SOPHIE, FIRIS, DREDGE, PC_BUILDING_SIM, OUTWARD, SUPRALAND, WARM_SNOW, READY_OR_NOT, SUNSHINE, LUIGI, WINDWAKER, TEKKEN1, TEKKEN2, TEKKEN3, DMC_PS2, WIZARD_OF_LEGEND, MAGICRAFT, KAGERO, DW7XL, WO3U, SW5, WO1, SAMURAI2, DW4H, GTASA, SPT, ARKHAM_CITY, GRANDIA2, DONT_STARVE, MON_BAZOU, DEAD_ISLAND, CHRONO_CROSS, TOV, SA2_CHAO, KIDICARUS, TKC, DQ8, POLICE_SIM, ALIENS_FE, DOT_HACK,
     MAD_MAX,
     RAFT,
+    MANEATER,
 ];
 // ------------------------------------------------------------------ Cult of the Lamb
 
@@ -12375,6 +12376,21 @@ const MAD_MAX: Spec = Spec {
     subtitle: "GameSave01.sav (to 10) from Steam\\userdata\\<id>\\234140\\remote. The save's scrambling is undone and redone and its check value is kept valid; only the scrap is shown. Close the game first, and switch Steam Cloud off for the game or it restores the old save.",
     tiles: &[("Scrap", "/Mad Max scrap")],
     sections: &[Section { title: "Resources", rows: &[("Scrap", "/Mad Max scrap")] }],
+    lists: &[],
+    tables: &[],
+};
+
+// ------------------------------------------------------------------ Maneater
+
+const MANEATER: Spec = Spec {
+    name: "Maneater",
+    tab: "Shark",
+    accent: (40, 140, 190),
+    kind: Some("Unreal Engine save (ME_SaveGameObject)"),
+    markers: &["/PlayerLevel"],
+    subtitle: "_<Steam id>_maneater_save_0.sav (to 2) from %LOCALAPPDATA%\\Maneater\\Saved\\SaveGames. Close the game first; Steam Cloud can restore the old save.",
+    tiles: &[("Shark level", "/PlayerLevel"), ("Play time (seconds)", "/TotalPlayTime")],
+    sections: &[Section { title: "Progress", rows: &[("Shark level", "/PlayerLevel"), ("Play time (seconds)", "/TotalPlayTime"), ("Story progress", "/StoryLineProgress")] }],
     lists: &[],
     tables: &[],
 };

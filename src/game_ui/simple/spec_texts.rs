@@ -440,5 +440,9 @@ pub fn all() -> Vec<&'static str> {
         tr("Last difficulty"),
         tr("Road warrior"),
         tr("GameSave01.sav (to 10) from Steam\\userdata\\<id>\\234140\\remote. The save's scrambling is undone and redone and its check value is kept valid; only the scrap is shown. Close the game first, and switch Steam Cloud off for the game or it restores the old save."),
+        tr("Shark"),
+        tr("_<Steam id>_maneater_save_0.sav (to 2) from %LOCALAPPDATA%\\Maneater\\Saved\\SaveGames. Close the game first; Steam Cloud can restore the old save."),
+        tr("Shark level"),
+        tr("Story progress"),
     ]
 }

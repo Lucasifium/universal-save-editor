@@ -24115,3 +24115,15 @@ Road warrior
 
 GameSave01.sav (to 10) from Steam\\userdata\\<id>\\234140\\remote. The save's scrambling is undone and redone and its check value is kept valid; only the scrap is shown. Close the game first, and switch Steam Cloud off for the game or it restores the old save.
 = Steam\userdata\<id>\234140\remote 中的 GameSave01.sav(最多到 10)。会解除并还原存档的加扰,校验值保持有效;只显示废料。请先关闭游戏,并关闭该游戏的 Steam 云存档,否则会恢复旧存档。
+
+Shark
+= 鲨鱼
+
+_<Steam id>_maneater_save_0.sav (to 2) from %LOCALAPPDATA%\\Maneater\\Saved\\SaveGames. Close the game first; Steam Cloud can restore the old save.
+= %LOCALAPPDATA%\Maneater\Saved\SaveGames 中的 _<Steam ID>_maneater_save_0.sav（至 2）。请先关闭游戏；Steam 云可能会恢复旧存档。
+
+Shark level
+= 鲨鱼等级
+
+Story progress
+= 剧情进度

@@ -24067,3 +24067,15 @@ Road warrior
 
 GameSave01.sav (to 10) from Steam\\userdata\\<id>\\234140\\remote. The save's scrambling is undone and redone and its check value is kept valid; only the scrap is shown. Close the game first, and switch Steam Cloud off for the game or it restores the old save.
 = GameSave01.sav (jusqu'à 10) depuis Steam\userdata\<id>\234140\remote. Le brouillage de la sauvegarde est retiré puis remis et sa valeur de contrôle reste valide ; seule la ferraille est affichée. Fermez d'abord le jeu et désactivez Steam Cloud pour le jeu, sinon il restaure l'ancienne sauvegarde.
+
+Shark
+= Requin
+
+_<Steam id>_maneater_save_0.sav (to 2) from %LOCALAPPDATA%\\Maneater\\Saved\\SaveGames. Close the game first; Steam Cloud can restore the old save.
+= _<id Steam>_maneater_save_0.sav (jusqu'à 2) dans %LOCALAPPDATA%\Maneater\Saved\SaveGames. Fermez d'abord le jeu ; Steam Cloud peut restaurer l'ancienne sauvegarde.
+
+Shark level
+= Niveau du requin
+
+Story progress
+= Progression de l'histoire

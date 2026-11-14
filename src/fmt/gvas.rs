@@ -641,7 +641,7 @@ impl Backend for GvasBackend {
 
 pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
     match parse_as(d, false, 0) {
-        Err(e) if e.starts_with("unexpected data after properties") => parse_as(d, true, 0).map_err(|_| e),
+        Err(e) if e.starts_with("unexpected data after properties") => parse_as(d, true, 0).or_else(|_| parse_as_magic(d, false, 0, b"GVAS", true)).map_err(|_| e),
         // Mortal Shell (UE 4.25) puts an 8-byte timestamp between the class name and the
         // properties; Wandering Sword (UE 4.26) a 4-byte zero.
         Err(e) => parse_as(d, false, 8).or_else(|_| parse_as(d, false, 4)).map_err(|_| e),
@@ -652,15 +652,16 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
 /// `sections`: the properties are several lists one after another (Ace Combat 8 packs its
 /// save that way), each shown as "Section n".
 fn parse_as(d: &[u8], sections: bool, stamp: usize) -> Result<TreeDoc, String> {
-    parse_as_magic(d, sections, stamp, b"GVAS")
+    parse_as_magic(d, sections, stamp, b"GVAS", false)
 }
 
 /// SaveExtension slot files (Atomic Heart) start with the number 1 where `GVAS` would be.
 pub fn parse_slot(d: &[u8]) -> Result<TreeDoc, String> {
-    parse_as_magic(d, false, 0, &[1, 0, 0, 0])
+    parse_as_magic(d, false, 0, &[1, 0, 0, 0], false)
 }
 
-fn parse_as_magic(d: &[u8], sections: bool, stamp: usize, magic: &[u8]) -> Result<TreeDoc, String> {
+/// `tail_ok`: bytes after the properties (Maneater's world actors) are kept as they are.
+fn parse_as_magic(d: &[u8], sections: bool, stamp: usize, magic: &[u8], tail_ok: bool) -> Result<TreeDoc, String> {
     let mut p = P { d, pos: 0, leaves: vec![], editable: HashMap::new(), full_types: false, lwc: false };
     if p.take(4)? != magic {
         return Err("not GVAS".into());
@@ -720,7 +721,7 @@ fn parse_as_magic(d: &[u8], sections: bool, stamp: usize, magic: &[u8]) -> Resul
     let trailing = d.len() - p.pos;
     // Wandering Sword (the 4-byte header variant) follows its properties with its own
     // binary records; they are kept byte for byte.
-    if trailing > 16 && stamp != 4 && d[p.pos..].iter().any(|&b| b != 0) {
+    if trailing > 16 && stamp != 4 && !tail_ok && d[p.pos..].iter().any(|&b| b != 0) {
         return Err(format!("unexpected data after properties ({trailing} bytes)"));
     }
     let short = class.rsplit('.').next().unwrap_or(&class).to_string();

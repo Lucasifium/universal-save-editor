@@ -24142,3 +24142,15 @@ Road warrior
 
 GameSave01.sav (to 10) from Steam\\userdata\\<id>\\234140\\remote. The save's scrambling is undone and redone and its check value is kept valid; only the scrap is shown. Close the game first, and switch Steam Cloud off for the game or it restores the old save.
 = Steam\userdata\<id>\234140\remote の GameSave01.sav(10 まで)。セーブのスクランブルを解除して元に戻し、チェック値も有効なまま保ちます。表示するのはスクラップのみです。先にゲームを閉じ、このゲームの Steam クラウドをオフにしてください(オンだと古いセーブが復元されます)。
+
+Shark
+= サメ
+
+_<Steam id>_maneater_save_0.sav (to 2) from %LOCALAPPDATA%\\Maneater\\Saved\\SaveGames. Close the game first; Steam Cloud can restore the old save.
+= %LOCALAPPDATA%\Maneater\Saved\SaveGames の _<Steam ID>_maneater_save_0.sav（2まで）。先にゲームを閉じてください。Steam クラウドが古いセーブを復元することがあります。
+
+Shark level
+= サメのレベル
+
+Story progress
+= ストーリーの進行

@@ -231,6 +231,8 @@ pub enum Layer {
     MadMax { plain: Arc<Vec<u8>> },
     /// Every byte one less than the real one (Aliens: Fireteam Elite).
     Shifted,
+    /// JSON with bare values in objects (Inscryption): they get made-up keys while editing.
+    LooseJson,
     /// Dead Island: level, health and money patched into the flat binary (the original bytes are kept).
     DeadIsland { original: Arc<Vec<u8>> },
     /// Persona 3 Reload Steam save (XOR key and bit permutation over a GVAS file).
@@ -458,6 +460,7 @@ impl Layer {
             Layer::DontStarve => "Don't Starve save (base64, zlib)".into(),
             Layer::MadMax { .. } => "Mad Max save encryption".into(),
             Layer::Shifted => "Every byte one less (Aliens: Fireteam Elite)".into(),
+            Layer::LooseJson => "JSON with bare values (Inscryption)".into(),
             Layer::DeadIsland { .. } => "Dead Island save values".into(),
             Layer::P3rSteam => "Persona 3 Reload save encryption".into(),
             Layer::Antimatter { .. } => "Antimatter Dimensions export text".into(),
@@ -1115,6 +1118,7 @@ fn wrap(layer: &Layer, data: Vec<u8>) -> Result<Vec<u8>, String> {
         Layer::DontStarve => fmt::dontstarve::pack(&data),
         Layer::MadMax { plain } => fmt::madmax::pack(plain, &data)?,
         Layer::Shifted => fmt::shifted::pack(&data),
+        Layer::LooseJson => fmt::looseson::pack(&data),
         Layer::DeadIsland { original } => fmt::deadisland::pack(original, &data)?,
         Layer::P3rSteam => fmt::p3r::steam_encrypt(&data),
         Layer::Antimatter { kind, version } => fmt::antimatter::close(*kind, version, &data)?,
@@ -2028,6 +2032,9 @@ fn peel(data: &[u8], ctx: &mut Ctx) -> Option<(Layer, Vec<u8>)> {
     }
     if let Some(plain) = fmt::shifted::open(data) {
         return Some((Layer::Shifted, plain));
+    }
+    if let Some(plain) = fmt::looseson::open(data) {
+        return Some((Layer::LooseJson, plain));
     }
     if let Some(text) = fmt::dontstarve::open(data) {
         return Some((Layer::DontStarve, text));
