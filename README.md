@@ -491,7 +491,7 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 </details>
 
 <details>
-<summary><strong>T</strong> (38)</summary>
+<summary><strong>T</strong> (39)</summary>
 
 | Game | Screen |
 |---|---|
@@ -509,6 +509,7 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 | The Legend of Heroes: Trails in the Sky the 3rd | *Party*: Mira, the seven kinds of sepith, each character's level and how many of every item, quartz, weapon and meal the party carries, by name (checked on public saves, not yet tried in the game) |
 | The Legend of Heroes: Trails of Cold Steel | *Party*: Mira, the eight kinds of sepith, each party member's level, experience, HP, EP, CP and nine stats, and how many of every item, quartz, weapon and meal is in the bag, by name (checked on a public save, not yet tried in the game) |
 | The Legend of Zelda: A Link to the Past | *Slots* (SNES emulator `.srm` saves): hearts, magic, rupees, bombs and arrows with their capacity upgrades, the sword, shield, tunic and every item, and the four bottles (the slot's sum is kept right; checked against the sum of a public save, not yet tried in the game) |
+| The Legend of Zelda: Breath of the Wild | *Player*: rupees, monster parts, max hearts and stamina, Korok seeds, Hinox, Talus and Molduga counts, play time, and the amounts of materials (with a Max crafting materials button at 999), food and arrows by name (Wii U or Switch `game_data.sav`, any game version; checked on a public save, not yet tried in the game) |
 | The Legend of Zelda: Ocarina of Time | *Link* (N64 `.sra` / `.srm` and GameCube `.gci` saves): per file health, magic, rupees, equipment, every item with ammunition and upgrades, songs, medallions, stones and each dungeon's map, compass and boss key, with all other flags in the Tree (the file's sum and its backup copy are kept right; checked on public saves, not yet tried in the game) |
 | The Long Drive | *Driver*: health, food, water and sleep, the distance driven and the world time, from `TLDsaveData.tlds` and `TLDsaveProp.tldsp` (.NET BinaryFormatter, read and written in place; checked on a public save, not yet tried in the game) |
 | The Planet Crafter | *Terraformer*: Terra tokens, the six terraformation levels of each planet, your oxygen, thirst and health, the game settings (free crafting, everything unlocked, unlocked trading, extractors, teleporters, drones and autocrafter), and the raw materials in your backpack by name (iron, cobalt, silicon, titanium, magnesium, aluminium, iridium, super alloy, zeolite, sulfur, osmium and the rest), with a **Max crafting materials** button that fills the free backpack slots, since every item takes one slot and the game has no stack size. Raising a count adds items to the backpack; the rest of the save stays byte for byte (checked on a real late-game save, not yet tried in the game) |

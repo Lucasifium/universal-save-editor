@@ -15405,3 +15405,49 @@ Zephyr
 
 Zombie Spores
 = Zombie Spores
+
+Close the emulator first. A 3DS save must be the decrypted one (from Checkpoint, JKSM or GodMode9); counts are limited to 99.
+= Schließe zuerst den Emulator. Ein 3DS-Spielstand muss der entschlüsselte sein (aus Checkpoint, JKSM oder GodMode9); Anzahlen sind auf 99 begrenzt.
+
+Close the emulator first. The save is the decrypted savedata.dat.
+= Schließe zuerst den Emulator. Der Spielstand ist die entschlüsselte savedata.dat.
+
+Close the emulator first. The save is the decrypted system0.dat.
+= Schließe zuerst den Emulator. Der Spielstand ist die entschlüsselte system0.dat.
+
+Close the emulator first. The save is the decrypted system_data.bin.
+= Schließe zuerst den Emulator. Der Spielstand ist die entschlüsselte system_data.bin.
+
+Close the game first. Item names are not stored in the save, so items show by id; amounts above 99 are not allowed because the game caps stacks there.
+= Schließe zuerst das Spiel. Itemnamen sind nicht im Spielstand gespeichert, daher werden Items nach ID angezeigt; Mengen über 99 sind nicht erlaubt, weil das Spiel Stapel dort begrenzt.
+
+Close the game or emulator first. Weapons, armour and key items are not edited. Item names show in English.
+= Schließe zuerst das Spiel oder den Emulator. Waffen, Rüstungen und Schlüsselitems werden nicht bearbeitet. Itemnamen erscheinen auf Englisch.
+
+Hinox defeated
+= Besiegte Hinox
+
+Korok seeds found
+= Gefundene Kolog-Samen
+
+Max hearts (4 per heart)
+= Max. Herzen (4 pro Herz)
+
+Max stamina (1000 per wheel)
+= Max. Ausdauer (1000 pro Kreis)
+
+Molduga defeated
+= Besiegte Moldugas
+
+Monster parts (Mons)
+= Monsterteile (Mon)
+
+Raises every material you already have (fruit, mushrooms, plants, fish, insects, monster parts, ore and gems) to the game's limit of 999. Food, arrows, weapons, armour and key items are left alone.
+= Setzt jedes Material, das du bereits besitzt (Obst, Pilze, Pflanzen, Fische, Insekten, Monsterteile, Erze und Edelsteine), auf das Spiellimit von 999. Essen, Pfeile, Waffen, Rüstungen und Schlüsselitems bleiben unverändert.
+
+Talus defeated
+= Besiegte Talus
+
+game_data.sav from the Wii U or Switch game (any version). Rupees, hearts, stamina, Korok seeds, boss counters and the amounts of materials, food and arrows.
+= game_data.sav aus dem Wii-U- oder Switch-Spiel (jede Version). Rubine, Herzen, Ausdauer, Kolog-Samen, Bosszähler und die Mengen an Materialien, Essen und Pfeilen.
+

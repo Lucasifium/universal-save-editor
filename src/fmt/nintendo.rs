@@ -54,7 +54,7 @@ pub fn parse_smash(d: &[u8]) -> Result<TreeDoc, String> {
     for (name, at) in items {
         b.ranged(&["Spirit board items", name], at, Kind::U8, 0, 99);
     }
-    Ok(b.finish(SMASH_KIND, Checksum::None).with_note("Close the emulator first. The save is the decrypted system_data.bin."))
+    Ok(b.finish(SMASH_KIND, Checksum::None).with_note(crate::i18n::tx("Close the emulator first. The save is the decrypted system_data.bin.")))
 }
 
 pub fn parse_mk7(d: &[u8]) -> Result<TreeDoc, String> {
@@ -69,7 +69,7 @@ pub fn parse_mk7(d: &[u8]) -> Result<TreeDoc, String> {
     b.ranged(&["Player", "Online wins"], 0x4e34, Kind::U16, 0, 99_999);
     b.ranged(&["Player", "Online losses"], 0x4e38, Kind::U16, 0, 99_999);
     b.ranged(&["Player", "VR points"], 0x4e3c, Kind::U16, 0, 99_999);
-    Ok(b.finish(MK7_KIND, Checksum::Custom(fix_mk7)).with_note("Close the emulator first. The save is the decrypted system0.dat."))
+    Ok(b.finish(MK7_KIND, Checksum::Custom(fix_mk7)).with_note(crate::i18n::tx("Close the emulator first. The save is the decrypted system0.dat.")))
 }
 
 fn fix_mk7(d: &mut Vec<u8>) {
@@ -90,7 +90,7 @@ pub fn parse_skc(d: &[u8]) -> Result<TreeDoc, String> {
     b.ranged(&["Resources", "Blue shards"], 0x3f24, Kind::U16, 0, 9999);
     b.ranged(&["Resources", "Yellow shards"], 0x3f28, Kind::U16, 0, 9999);
     b.ranged(&["Resources", "Rare shards"], 0x3f2c, Kind::U16, 0, 9999);
-    Ok(b.finish(SKC_KIND, Checksum::None).with_note("Close the emulator first. The save is the decrypted savedata.dat."))
+    Ok(b.finish(SKC_KIND, Checksum::None).with_note(crate::i18n::tx("Close the emulator first. The save is the decrypted savedata.dat.")))
 }
 
 #[cfg(test)]

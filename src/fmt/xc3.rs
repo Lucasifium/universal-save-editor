@@ -56,7 +56,7 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
         }
         base += n * 16;
     }
-    Ok(b.finish(KIND, Checksum::None).with_note("Close the game first. Item names are not stored in the save, so items show by id; amounts above 99 are not allowed because the game caps stacks there."))
+    Ok(b.finish(KIND, Checksum::None).with_note(crate::i18n::tx("Close the game first. Item names are not stored in the save, so items show by id; amounts above 99 are not allowed because the game caps stacks there.")))
 }
 
 #[cfg(test)]

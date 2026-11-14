@@ -1,0 +1,1012 @@
+weapons	Weapon_Sword_001	Traveler's Sword
+weapons	Weapon_Sword_002	Soldier's Broadsword
+weapons	Weapon_Sword_003	Knight's Broadsword
+weapons	Weapon_Sword_004	Boko Club
+weapons	Weapon_Sword_005	Spiked Boko Club
+weapons	Weapon_Sword_006	Dragonbone Boko Club
+weapons	Weapon_Sword_007	Lizal Boomerand
+weapons	Weapon_Sword_008	Lizal Forked Boomerang
+weapons	Weapon_Sword_009	Lizal Tri-Boomerang
+weapons	Weapon_Sword_013	Guardian Sword
+weapons	Weapon_Sword_014	Guardian Sword+
+weapons	Weapon_Sword_015	Guardian Sword++
+weapons	Weapon_Sword_016	Lynel Sword
+weapons	Weapon_Sword_017	Mighty Lynel Sword
+weapons	Weapon_Sword_018	Savage Lynel Sword
+weapons	Weapon_Sword_019	Bokoblin Arm
+weapons	Weapon_Sword_020	Lizalfos Arm
+weapons	Weapon_Sword_021	Rusty Broadsword
+weapons	Weapon_Sword_022	Soup ladle
+weapons	Weapon_Sword_023	Ancient Short Sword
+weapons	Weapon_Sword_024	Royal Broadsword
+weapons	Weapon_Sword_025	Forest Dweller's Sword
+weapons	Weapon_Sword_027	Zora Sword
+weapons	Weapon_Sword_029	Gerudo Scimitar
+weapons	Weapon_Sword_030	Moonlight Scimitar
+weapons	Weapon_Sword_031	Feathered Edge
+weapons	Weapon_Sword_033	Flameblade
+weapons	Weapon_Sword_034	Frostblade
+weapons	Weapon_Sword_035	Thunderblade
+weapons	Weapon_Sword_040	Spring-Loaded Hammer
+weapons	Weapon_Sword_041	Eightfold Blade
+weapons	Weapon_Sword_043	Torch
+weapons	Weapon_Sword_044	Tree Branch
+weapons	Weapon_Sword_047	Royal Guard's Sword
+weapons	Weapon_Sword_048	Meteor Rod
+weapons	Weapon_Sword_049	Blizzard Rod
+weapons	Weapon_Sword_050	Thunderstorm Rod
+weapons	Weapon_Sword_051	Boomerang
+weapons	Weapon_Sword_052	Scimitar of the Seven
+weapons	Weapon_Sword_053	Vicious Sickle
+weapons	Weapon_Sword_056	Master Sword (Broken/Unequippable)
+weapons	Weapon_Sword_057	Goddess Sword
+weapons	Weapon_Sword_058	Hero's Sword (amiibo 8-bit)
+weapons	Weapon_Sword_059	Sea-Breeze Boomerang (amiibo WW)
+weapons	Weapon_Sword_060	Fire Rod
+weapons	Weapon_Sword_061	Ice Rod
+weapons	Weapon_Sword_062	Lightning Rod
+weapons	Weapon_Sword_070	Master Sword
+weapons	Weapon_Sword_071	Master Sword (no near malice, no charge)
+weapons	Weapon_Sword_072	Master Sword (near malice, no charge)
+weapons	Weapon_Sword_073	Demon Carver
+weapons	Weapon_Sword_500	Lantern
+weapons	Weapon_Lsword_001	Traveler's Claymore
+weapons	Weapon_Lsword_002	Soldier's Claymore
+weapons	Weapon_Lsword_003	Knight's Claymore
+weapons	Weapon_Lsword_004	Boko Bat
+weapons	Weapon_Lsword_005	Spiked Boko Bat
+weapons	Weapon_Lsword_006	Dragonbone Boko Bat
+weapons	Weapon_Lsword_010	Moblin Club
+weapons	Weapon_Lsword_011	Spiked Moblin Club
+weapons	Weapon_Lsword_012	Dragonbone Moblin Club
+weapons	Weapon_Lsword_013	Ancient Battle Axe
+weapons	Weapon_Lsword_014	Ancient Battle Axe+
+weapons	Weapon_Lsword_015	Ancient Battle Axe++
+weapons	Weapon_Lsword_016	Lynel Crusher
+weapons	Weapon_Lsword_017	Mighty Lynel Crusher
+weapons	Weapon_Lsword_018	Savage Lynel Crusher
+weapons	Weapon_Lsword_019	Moblin Arm
+weapons	Weapon_Lsword_020	Rusty Claymore
+weapons	Weapon_Lsword_023	Ancient Bladesaw
+weapons	Weapon_Lsword_024	Royal Claymore
+weapons	Weapon_Lsword_027	Silver Longsword
+weapons	Weapon_Lsword_029	Golden Claymore
+weapons	Weapon_Lsword_030	Double Axe
+weapons	Weapon_Lsword_031	Iron Sledgehammer
+weapons	Weapon_Lsword_032	Woodcutter's Axe
+weapons	Weapon_Lsword_033	Great Flameblade
+weapons	Weapon_Lsword_034	Great Frostblade
+weapons	Weapon_Lsword_035	Great Thunderblade
+weapons	Weapon_Lsword_036	Cobble Crusher
+weapons	Weapon_Lsword_037	Stone Smasher
+weapons	Weapon_Lsword_038	Boat Oar
+weapons	Weapon_Lsword_041	Eightfold Longblade
+weapons	Weapon_Lsword_045	Farming Hoe
+weapons	Weapon_Lsword_047	Royal Guard's Claymore
+weapons	Weapon_Lsword_051	Giant Boomerang
+weapons	Weapon_Lsword_054	Boulder Breaker
+weapons	Weapon_Lsword_055	Edge of Duality
+weapons	Weapon_Lsword_056	Korok Leaf
+weapons	Weapon_Lsword_057	Sword of the Six Sages (amiibo TP)
+weapons	Weapon_Lsword_059	Biggoron's Sword (amiibo OoT)
+weapons	Weapon_Lsword_060	Fierce Deity Sword (amiibo MM)
+weapons	Weapon_Lsword_074	Windcleaver
+weapons	Weapon_Spear_001	Traveler's Spear
+weapons	Weapon_Spear_002	Soldier's Spear
+weapons	Weapon_Spear_003	Knight's Halberd
+weapons	Weapon_Spear_004	Boko Spear
+weapons	Weapon_Spear_005	Spiked Boko Spear
+weapons	Weapon_Spear_006	Dragonbone Boko Spear
+weapons	Weapon_Spear_007	Lizal Spear
+weapons	Weapon_Spear_008	Enhanced Lizal Spear
+weapons	Weapon_Spear_009	Forked Lizal Spear
+weapons	Weapon_Spear_010	Moblin Spear
+weapons	Weapon_Spear_011	Spiked Moblin Spear
+weapons	Weapon_Spear_012	Dragonbone Moblin Spear
+weapons	Weapon_Spear_013	Guardian Spear
+weapons	Weapon_Spear_014	Guardian Spear+
+weapons	Weapon_Spear_015	Guardian Spear++
+weapons	Weapon_Spear_016	Lynel Spear
+weapons	Weapon_Spear_017	Mighty Lynel Spear
+weapons	Weapon_Spear_018	Savage Lynel Spear
+weapons	Weapon_Spear_021	Rusty Halberd
+weapons	Weapon_Spear_022	Farmer's Pichfork
+weapons	Weapon_Spear_023	Ancient Spear
+weapons	Weapon_Spear_024	Royal Halberd
+weapons	Weapon_Spear_025	Forest Dweller's Spear
+weapons	Weapon_Spear_027	Zora Spear
+weapons	Weapon_Spear_028	Silverscale Spear
+weapons	Weapon_Spear_029	Gerudo Spear
+weapons	Weapon_Spear_030	Throwing Spear
+weapons	Weapon_Spear_031	Drillshaft
+weapons	Weapon_Spear_032	Feathered Spear
+weapons	Weapon_Spear_033	Flamespear
+weapons	Weapon_Spear_034	Frostspear
+weapons	Weapon_Spear_035	Thunderspear
+weapons	Weapon_Spear_036	Wooden Mop
+weapons	Weapon_Spear_037	Serpentine Spear
+weapons	Weapon_Spear_038	Fishing Harpoon
+weapons	Weapon_Spear_047	Royal Guard's Spear
+weapons	Weapon_Spear_049	Ceremonial Trident
+weapons	Weapon_Spear_050	Lightscale Trident
+weapons	Weapon_Sword_502	One-Hit Obliterator (v1.4)
+bows	Weapon_Bow_001	Traveler's Bow
+bows	Weapon_Bow_002	Soldier's Bow
+bows	Weapon_Bow_003	Spiked Boko Bow
+bows	Weapon_Bow_004	Boko Bow
+bows	Weapon_Bow_006	Lizal Bow
+bows	Weapon_Bow_009	Lynel Bow
+bows	Weapon_Bow_011	Strengthened Lizal Bow
+bows	Weapon_Bow_013	Forest Dweller's Bow
+bows	Weapon_Bow_014	Silver Bow
+bows	Weapon_Bow_015	Golden Bow
+bows	Weapon_Bow_016	Swallow Bow
+bows	Weapon_Bow_017	Falcon Bow
+bows	Weapon_Bow_023	Ancient Bow
+bows	Weapon_Bow_026	Mighty Lynel Bow
+bows	Weapon_Bow_027	Dragon Bone Boko Bow
+bows	Weapon_Bow_028	Great Eagle Bow
+bows	Weapon_Bow_029	Phrenic Bow
+bows	Weapon_Bow_030	Steel Lizal Bow
+bows	Weapon_Bow_032	Savage Lynel Bow
+bows	Weapon_Bow_033	Royal Guard's Bow
+bows	Weapon_Bow_035	Knight's Bow
+bows	Weapon_Bow_036	Royal Bow
+bows	Weapon_Bow_038	Wooden Bow
+bows	Weapon_Bow_040	Duplex Bow
+bows	Weapon_Bow_071	Bow of Light
+bows	Weapon_Bow_072	Twilight Bow (amiibo TP)
+bows	NormalArrow	Arrow
+bows	FireArrow	Fire Arrow
+bows	IceArrow	Ice Arrow
+bows	ElectricArrow	Shock Arrow
+bows	BombArrow_A	Bomb Arrow
+bows	AncientArrow	Ancient Arrow
+shields	Weapon_Shield_001	Wooden Shield
+shields	Weapon_Shield_002	Soldier's Shield
+shields	Weapon_Shield_003	Knight's Shield
+shields	Weapon_Shield_004	Boko Shield
+shields	Weapon_Shield_005	Spiked Boko Shield
+shields	Weapon_Shield_006	Dragonbone Boko Shield
+shields	Weapon_Shield_007	Lizal Shield
+shields	Weapon_Shield_008	Reinforced Lizal Shield
+shields	Weapon_Shield_009	Steel Lizal Shield
+shields	Weapon_Shield_013	Guardian Shield
+shields	Weapon_Shield_014	Guardian Shield+
+shields	Weapon_Shield_015	Guardian Shield++
+shields	Weapon_Shield_016	Lynel Shield
+shields	Weapon_Shield_017	Mighty Lynel Shield
+shields	Weapon_Shield_018	Savage Lynel Shield
+shields	Weapon_Shield_021	Rusty Shield
+shields	Weapon_Shield_022	Royal Shield
+shields	Weapon_Shield_023	Forest Dweller's Shield
+shields	Weapon_Shield_025	Silver Shield
+shields	Weapon_Shield_026	Gerudo Shield
+shields	Weapon_Shield_030	Hylian Shield
+shields	Weapon_Shield_031	Hunter's Shield
+shields	Weapon_Shield_032	Fisherman's Shield
+shields	Weapon_Shield_033	Royal Guard's Shield
+shields	Weapon_Shield_034	Emblazoned Shield
+shields	Weapon_Shield_035	Traveler's Shield
+shields	Weapon_Shield_036	Radiant Shield
+shields	Weapon_Shield_037	Daybreaker
+shields	Weapon_Shield_038	Ancient Shield
+shields	Weapon_Shield_040	Pot Lid
+shields	Weapon_Shield_041	Shield of the Mind's Eye
+shields	Weapon_Shield_042	Kite Shield
+shields	Weapon_Shield_057	Hero's Shield (Wind Waker)
+clothes	Armor_001_Head	Hylian Hood
+clothes	Armor_002_Head	Hylian Hood ★
+clothes	Armor_003_Head	Hylian Hood ★★
+clothes	Armor_004_Head	Hylian Hood ★★★
+clothes	Armor_015_Head	Hylian Hood ★★★★
+clothes	Armor_001_Upper	Hylian Tunic
+clothes	Armor_002_Upper	Hylian Tunic ★
+clothes	Armor_003_Upper	Hylian Tunic ★★
+clothes	Armor_004_Upper	Hylian Tunic ★★★
+clothes	Armor_015_Upper	Hylian Tunic ★★★★
+clothes	Armor_001_Lower	Hylian Trousers
+clothes	Armor_002_Lower	Hylian Trousers ★
+clothes	Armor_003_Lower	Hylian Trousers ★★
+clothes	Armor_004_Lower	Hylian Trousers ★★★
+clothes	Armor_015_Lower	Hylian Trousers ★★★★
+clothes	Armor_005_Head	Cap of the Wild
+clothes	Armor_035_Head	Cap of the Wild ★
+clothes	Armor_039_Head	Cap of the Wild ★★
+clothes	Armor_060_Head	Cap of the Wild ★★★
+clothes	Armor_061_Head	Cap of the Wild ★★★★
+clothes	Armor_005_Upper	Tunic of the Wild
+clothes	Armor_035_Upper	Tunic of the Wild ★
+clothes	Armor_039_Upper	Tunic of the Wild ★★
+clothes	Armor_060_Upper	Tunic of the Wild ★★★
+clothes	Armor_061_Upper	Tunic of the Wild ★★★★
+clothes	Armor_005_Lower	Trousers of the Wild
+clothes	Armor_035_Lower	Trousers of the Wild ★
+clothes	Armor_039_Lower	Trousers of the Wild ★★
+clothes	Armor_060_Lower	Trousers of the Wild ★★★
+clothes	Armor_061_Lower	Trousers of the Wild ★★★★
+clothes	Armor_006_Head	Zora Helm
+clothes	Armor_007_Head	Zora Helm ★
+clothes	Armor_062_Head	Zora Helm ★★
+clothes	Armor_063_Head	Zora Helm ★★★
+clothes	Armor_064_Head	Zora Helm ★★★★
+clothes	Armor_006_Upper	Zora Armor
+clothes	Armor_007_Upper	Zora Armor ★
+clothes	Armor_062_Upper	Zora Armor ★★
+clothes	Armor_063_Upper	Zora Armor ★★★
+clothes	Armor_064_Upper	Zora Armor ★★★★
+clothes	Armor_006_Lower	Zora Greaves
+clothes	Armor_007_Lower	Zora Greaves ★
+clothes	Armor_062_Lower	Zora Greaves ★★
+clothes	Armor_063_Lower	Zora Greaves ★★★
+clothes	Armor_064_Lower	Zora Greaves ★★★★
+clothes	Armor_008_Head	Desert Voe Headband
+clothes	Armor_040_Head	Desert Voe Headband ★
+clothes	Armor_065_Head	Desert Voe Headband ★★
+clothes	Armor_066_Head	Desert Voe Headband ★★★
+clothes	Armor_067_Head	Desert Voe Headband ★★★★
+clothes	Armor_008_Upper	Desert Voe Spaulder
+clothes	Armor_040_Upper	Desert Voe Spaulder ★
+clothes	Armor_065_Upper	Desert Voe Spaulder ★★
+clothes	Armor_066_Upper	Desert Voe Spaulder ★★★
+clothes	Armor_067_Upper	Desert Voe Spaulder ★★★★
+clothes	Armor_008_Lower	Desert Voe Trousers
+clothes	Armor_040_Lower	Desert Voe Trousers ★
+clothes	Armor_065_Lower	Desert Voe Trousers ★★
+clothes	Armor_066_Lower	Desert Voe Trousers ★★★
+clothes	Armor_067_Lower	Desert Voe Trousers ★★★★
+clothes	Armor_009_Head	Snowquill Headdress
+clothes	Armor_036_Head	Snowquill Headdress ★
+clothes	Armor_071_Head	Snowquill Headdress ★★
+clothes	Armor_072_Head	Snowquill Headdress ★★★
+clothes	Armor_073_Head	Snowquill Headdress ★★★★
+clothes	Armor_009_Upper	Snowquill Tunic
+clothes	Armor_036_Upper	Snowquill Tunic ★
+clothes	Armor_071_Upper	Snowquill Tunic ★★
+clothes	Armor_072_Upper	Snowquill Tunic ★★★
+clothes	Armor_073_Upper	Snowquill Tunic ★★★★
+clothes	Armor_009_Lower	Snowquill Trousers
+clothes	Armor_036_Lower	Snowquill Trousers ★
+clothes	Armor_071_Lower	Snowquill Trousers ★★
+clothes	Armor_072_Lower	Snowquill Trousers ★★★
+clothes	Armor_073_Lower	Snowquill Trousers ★★★★
+clothes	Armor_011_Head	Flamebreaker Helm
+clothes	Armor_037_Head	Flamebreaker Helm ★
+clothes	Armor_074_Head	Flamebreaker Helm ★★
+clothes	Armor_075_Head	Flamebreaker Helm ★★★
+clothes	Armor_076_Head	Flamebreaker Helm ★★★★
+clothes	Armor_011_Upper	Flamebreaker Armor
+clothes	Armor_037_Upper	Flamebreaker Armor ★
+clothes	Armor_074_Upper	Flamebreaker Armor ★★
+clothes	Armor_075_Upper	Flamebreaker Armor ★★★
+clothes	Armor_076_Upper	Flamebreaker Armor ★★★★
+clothes	Armor_011_Lower	Flamebreaker Boots
+clothes	Armor_037_Lower	Flamebreaker Boots ★
+clothes	Armor_074_Lower	Flamebreaker Boots ★★
+clothes	Armor_075_Lower	Flamebreaker Boots ★★★
+clothes	Armor_076_Lower	Flamebreaker Boots ★★★★
+clothes	Armor_012_Head	Stealth Mask
+clothes	Armor_042_Head	Stealth Mask ★
+clothes	Armor_077_Head	Stealth Mask ★★
+clothes	Armor_078_Head	Stealth Mask ★★★
+clothes	Armor_079_Head	Stealth Mask ★★★★
+clothes	Armor_012_Upper	Stealth Chest Guard
+clothes	Armor_042_Upper	Stealth Chest Guard ★
+clothes	Armor_077_Upper	Stealth Chest Guard ★★
+clothes	Armor_078_Upper	Stealth Chest Guard ★★★
+clothes	Armor_079_Upper	Stealth Chest Guard ★★★★
+clothes	Armor_012_Lower	Stealth Tights
+clothes	Armor_042_Lower	Stealth Tights ★
+clothes	Armor_077_Lower	Stealth Tights ★★
+clothes	Armor_078_Lower	Stealth Tights ★★★
+clothes	Armor_079_Lower	Stealth Tights ★★★★
+clothes	Armor_014_Head	Climber's Bandanna
+clothes	Armor_083_Head	Climber's Bandanna ★
+clothes	Armor_084_Head	Climber's Bandanna ★★
+clothes	Armor_085_Head	Climber's Bandanna ★★★
+clothes	Armor_086_Head	Climber's Bandanna ★★★★
+clothes	Armor_014_Upper	Climbing Gear
+clothes	Armor_083_Upper	Climbing Gear ★
+clothes	Armor_084_Upper	Climbing Gear ★★
+clothes	Armor_085_Upper	Climbing Gear ★★★
+clothes	Armor_086_Upper	Climbing Gear ★★★★
+clothes	Armor_014_Lower	Climbing Boots
+clothes	Armor_083_Lower	Climbing Boots ★
+clothes	Armor_084_Lower	Climbing Boots ★★
+clothes	Armor_085_Lower	Climbing Boots ★★★
+clothes	Armor_086_Lower	Climbing Boots ★★★★
+clothes	Armor_017_Head	Radiant Mask
+clothes	Armor_087_Head	Radiant Mask ★
+clothes	Armor_088_Head	Radiant Mask ★★
+clothes	Armor_089_Head	Radiant Mask ★★★
+clothes	Armor_090_Head	Radiant Mask ★★★★
+clothes	Armor_017_Upper	Radiant Shirt
+clothes	Armor_087_Upper	Radiant Shirt ★
+clothes	Armor_088_Upper	Radiant Shirt ★★
+clothes	Armor_089_Upper	Radiant Shirt ★★★
+clothes	Armor_090_Upper	Radiant Shirt ★★★★
+clothes	Armor_017_Lower	Radiant Tights
+clothes	Armor_087_Lower	Radiant Tights ★
+clothes	Armor_088_Lower	Radiant Tights ★★
+clothes	Armor_089_Lower	Radiant Tights ★★★
+clothes	Armor_090_Lower	Radiant Tights ★★★★
+clothes	Armor_020_Head	Soldier's Helm
+clothes	Armor_095_Head	Soldier's Helm ★
+clothes	Armor_096_Head	Soldier's Helm ★★
+clothes	Armor_097_Head	Soldier's Helm ★★★
+clothes	Armor_098_Head	Soldier's Helm ★★★★
+clothes	Armor_020_Upper	Soldier's Armor
+clothes	Armor_095_Upper	Soldier's Armor ★
+clothes	Armor_096_Upper	Soldier's Armor ★★
+clothes	Armor_097_Upper	Soldier's Armor ★★★
+clothes	Armor_098_Upper	Soldier's Armor ★★★★
+clothes	Armor_020_Lower	Soldier's Greaves
+clothes	Armor_095_Lower	Soldier's Greaves ★
+clothes	Armor_096_Lower	Soldier's Greaves ★★
+clothes	Armor_097_Lower	Soldier's Greaves ★★★
+clothes	Armor_098_Lower	Soldier's Greaves ★★★★
+clothes	Armor_021_Head	Ancient Helm
+clothes	Armor_099_Head	Ancient Helm ★
+clothes	Armor_100_Head	Ancient Helm ★★
+clothes	Armor_101_Head	Ancient Helm ★★★
+clothes	Armor_102_Head	Ancient Helm ★★★★
+clothes	Armor_021_Upper	Ancient Cuirass
+clothes	Armor_099_Upper	Ancient Cuirass ★
+clothes	Armor_100_Upper	Ancient Cuirass ★★
+clothes	Armor_101_Upper	Ancient Cuirass ★★★
+clothes	Armor_102_Upper	Ancient Cuirass ★★★★
+clothes	Armor_021_Lower	Ancient Greaves
+clothes	Armor_099_Lower	Ancient Greaves ★
+clothes	Armor_100_Lower	Ancient Greaves ★★
+clothes	Armor_101_Lower	Ancient Greaves ★★★
+clothes	Armor_102_Lower	Ancient Greaves ★★★★
+clothes	Armor_022_Head	Bokoblin Mask
+clothes	Armor_043_Upper	Old Shirt
+clothes	Armor_043_Lower	Well-Worn Trousers
+clothes	Armor_044_Upper	Warm Doublet
+clothes	Armor_045_Head	Moblin Mask
+clothes	Armor_046_Head	Rubber Helm
+clothes	Armor_103_Head	Rubber Helm ★
+clothes	Armor_104_Head	Rubber Helm ★★
+clothes	Armor_105_Head	Rubber Helm ★★★
+clothes	Armor_106_Head	Rubber Helm ★★★★
+clothes	Armor_046_Upper	Rubber Armor
+clothes	Armor_103_Upper	Rubber Armor ★
+clothes	Armor_104_Upper	Rubber Armor ★★
+clothes	Armor_105_Upper	Rubber Armor ★★★
+clothes	Armor_106_Upper	Rubber Armor ★★★★
+clothes	Armor_046_Lower	Rubber Tights
+clothes	Armor_103_Lower	Rubber Tights ★
+clothes	Armor_104_Lower	Rubber Tights ★★
+clothes	Armor_105_Lower	Rubber Tights ★★★
+clothes	Armor_106_Lower	Rubber Tights ★★★★
+clothes	Armor_048_Head	Barbarian Helm
+clothes	Armor_111_Head	Barbarian Helm ★
+clothes	Armor_112_Head	Barbarian Helm ★★
+clothes	Armor_113_Head	Barbarian Helm ★★★
+clothes	Armor_114_Head	Barbarian Helm ★★★★
+clothes	Armor_048_Upper	Barbarian Armor
+clothes	Armor_111_Upper	Barbarian Armor ★
+clothes	Armor_112_Upper	Barbarian Armor ★★
+clothes	Armor_113_Upper	Barbarian Armor ★★★
+clothes	Armor_114_Upper	Barbarian Armor ★★★★
+clothes	Armor_048_Lower	Barbarian Wraps
+clothes	Armor_111_Lower	Barbarian Wraps ★
+clothes	Armor_112_Lower	Barbarian Wraps ★★
+clothes	Armor_113_Lower	Barbarian Wraps ★★★
+clothes	Armor_114_Lower	Barbarian Wraps ★★★★
+clothes	Armor_053_Head	Gerudo Veil
+clothes	Armor_053_Upper	Gerudo Top
+clothes	Armor_053_Lower	Gerudo Sirwal
+clothes	Armor_055_Head	Lizalfos Mask
+clothes	Armor_056_Head	Lynel Mask
+clothes	Armor_115_Head	Thunder Helm
+clothes	Armor_024_Head	Diamond Circlet
+clothes	Armor_117_Head	Diamond Circlet ★
+clothes	Armor_118_Head	Diamond Circlet ★★
+clothes	Armor_119_Head	Diamond Circlet ★★★
+clothes	Armor_120_Head	Diamond Circlet ★★★★
+clothes	Armor_025_Head	Ruby Circlet
+clothes	Armor_121_Head	Ruby Circlet ★
+clothes	Armor_122_Head	Ruby Circlet ★★
+clothes	Armor_123_Head	Ruby Circlet ★★★
+clothes	Armor_124_Head	Ruby Circlet ★★★★
+clothes	Armor_026_Head	Sapphire Circlet
+clothes	Armor_125_Head	Sapphire Circlet ★
+clothes	Armor_126_Head	Sapphire Circlet ★★
+clothes	Armor_127_Head	Sapphire Circlet ★★★
+clothes	Armor_128_Head	Sapphire Circlet ★★★★
+clothes	Armor_027_Head	Topaz Earrings
+clothes	Armor_129_Head	Topaz Earrings ★
+clothes	Armor_130_Head	Topaz Earrings ★★
+clothes	Armor_131_Head	Topaz Earrings ★★★
+clothes	Armor_132_Head	Topaz Earrings ★★★★
+clothes	Armor_028_Head	Opal Earrings
+clothes	Armor_133_Head	Opal Earrings ★
+clothes	Armor_134_Head	Opal Earrings ★★
+clothes	Armor_135_Head	Opal Earrings ★★★
+clothes	Armor_136_Head	Opal Earrings ★★★★
+clothes	Armor_029_Head	Amber Earrings
+clothes	Armor_137_Head	Amber Earrings ★
+clothes	Armor_138_Head	Amber Earrings ★★
+clothes	Armor_139_Head	Amber Earrings ★★★
+clothes	Armor_140_Head	Amber Earrings ★★★★
+clothes	Armor_116_Upper	Champion's Tunic
+clothes	Armor_148_Upper	Champion's Tunic ★
+clothes	Armor_149_Upper	Champion's Tunic ★★
+clothes	Armor_150_Upper	Champion's Tunic ★★★
+clothes	Armor_151_Upper	Champion's Tunic ★★★★
+clothes	Armor_049_Lower	Sand Boots
+clothes	Armor_152_Lower	Sand Boots ★
+clothes	Armor_153_Lower	Sand Boots ★★
+clothes	Armor_154_Lower	Sand Boots ★★★
+clothes	Armor_155_Lower	Sand Boots ★★★★
+clothes	Armor_140_Lower	Snow Boots?
+clothes	Armor_141_Lower	Snow Boots
+clothes	Armor_156_Lower	Snow Boots ★
+clothes	Armor_157_Lower	Snow Boots ★★
+clothes	Armor_158_Lower	Snow Boots ★★★
+clothes	Armor_159_Lower	Snow Boots ★★★★
+clothes	Armor_160_Head	Dark Hood
+clothes	Armor_160_Upper	Dark Tunic
+clothes	Armor_160_Lower	Dark Trousers
+clothes	Armor_170_Upper	Nintendo Switch Shirt
+clothes	Armor_200_Head	Cap of Time
+clothes	Armor_201_Head	Cap of Time ★
+clothes	Armor_202_Head	Cap of Time ★★
+clothes	Armor_203_Head	Cap of Time ★★★
+clothes	Armor_204_Head	Cap of Time ★★★★
+clothes	Armor_200_Upper	Tunic of Time
+clothes	Armor_201_Upper	Tunic of Time ★
+clothes	Armor_202_Upper	Tunic of Time ★★
+clothes	Armor_203_Upper	Tunic of Time ★★★
+clothes	Armor_204_Upper	Tunic of Time ★★★★
+clothes	Armor_200_Lower	Trousers of Time
+clothes	Armor_201_Lower	Trousers of Time ★
+clothes	Armor_202_Lower	Trousers of Time ★★
+clothes	Armor_203_Lower	Trousers of Time ★★★
+clothes	Armor_204_Lower	Trousers of Time ★★★★
+clothes	Armor_205_Head	Cap of Wind
+clothes	Armor_206_Head	Cap of Wind ★
+clothes	Armor_207_Head	Cap of Wind ★★
+clothes	Armor_208_Head	Cap of Wind ★★★
+clothes	Armor_209_Head	Cap of Wind ★★★★
+clothes	Armor_205_Upper	Tunic of Wind
+clothes	Armor_206_Upper	Tunic of Wind ★
+clothes	Armor_207_Upper	Tunic of Wind ★★
+clothes	Armor_208_Upper	Tunic of Wind ★★★
+clothes	Armor_209_Upper	Tunic of Wind ★★★★
+clothes	Armor_205_Lower	Trousers of Wind
+clothes	Armor_206_Lower	Trousers of Wind ★
+clothes	Armor_207_Lower	Trousers of Wind ★★
+clothes	Armor_208_Lower	Trousers of Wind ★★★
+clothes	Armor_209_Lower	Trousers of Wind ★★★★
+clothes	Armor_210_Head	Cap of Twilight
+clothes	Armor_211_Head	Cap of Twilight ★
+clothes	Armor_212_Head	Cap of Twilight ★★
+clothes	Armor_213_Head	Cap of Twilight ★★★
+clothes	Armor_214_Head	Cap of Twilight ★★★★
+clothes	Armor_210_Upper	Tunic of Twilight
+clothes	Armor_211_Upper	Tunic of Twilight ★
+clothes	Armor_212_Upper	Tunic of Twilight ★★
+clothes	Armor_213_Upper	Tunic of Twilight ★★★
+clothes	Armor_214_Upper	Tunic of Twilight ★★★★
+clothes	Armor_210_Lower	Trousers of Twilight
+clothes	Armor_211_Lower	Trousers of Twilight ★
+clothes	Armor_212_Lower	Trousers of Twilight ★★
+clothes	Armor_213_Lower	Trousers of Twilight ★★★
+clothes	Armor_214_Lower	Trousers of Twilight ★★★★
+clothes	Armor_215_Head	Cap of the Sky
+clothes	Armor_216_Head	Cap of the Sky ★
+clothes	Armor_217_Head	Cap of the Sky ★★
+clothes	Armor_218_Head	Cap of the Sky ★★★
+clothes	Armor_219_Head	Cap of the Sky ★★★★
+clothes	Armor_215_Upper	Tunic of the Sky
+clothes	Armor_216_Upper	Tunic of the Sky ★
+clothes	Armor_217_Upper	Tunic of the Sky ★★
+clothes	Armor_218_Upper	Tunic of the Sky ★★★
+clothes	Armor_219_Upper	Tunic of the Sky ★★★★
+clothes	Armor_215_Lower	Trousers of the Sky
+clothes	Armor_216_Lower	Trousers of the Sky ★
+clothes	Armor_217_Lower	Trousers of the Sky ★★
+clothes	Armor_218_Lower	Trousers of the Sky ★★★
+clothes	Armor_219_Lower	Trousers of the Sky ★★★★
+clothes	Armor_220_Head	Sheik's Mask
+clothes	Armor_221_Head	Sheik's Mask ★
+clothes	Armor_222_Head	Sheik's Mask ★★
+clothes	Armor_223_Head	Sheik's Mask ★★★
+clothes	Armor_224_Head	Sheik's Mask ★★★★
+clothes	Armor_225_Head	Fierce Deity's Mask
+clothes	Armor_226_Head	Fierce Deity's Mask ★
+clothes	Armor_227_Head	Fierce Deity's Mask ★★
+clothes	Armor_228_Head	Fierce Deity's Mask ★★★
+clothes	Armor_229_Head	Fierce Deity's Mask ★★★★
+clothes	Armor_225_Upper	Fierce Deity's Armor
+clothes	Armor_226_Upper	Fierce Deity's Armor ★
+clothes	Armor_227_Upper	Fierce Deity's Armor ★★
+clothes	Armor_228_Upper	Fierce Deity's Armor ★★★
+clothes	Armor_229_Upper	Fierce Deity's Armor ★★★★
+clothes	Armor_225_Lower	Fierce Deity's Boots
+clothes	Armor_226_Lower	Fierce Deity's Boots ★
+clothes	Armor_227_Lower	Fierce Deity's Boots ★★
+clothes	Armor_228_Lower	Fierce Deity's Boots ★★★
+clothes	Armor_229_Lower	Fierce Deity's Boots ★★★★
+clothes	Armor_230_Head	Cap of the Hero
+clothes	Armor_231_Head	Cap of the Hero ★
+clothes	Armor_232_Head	Cap of the Hero ★★
+clothes	Armor_233_Head	Cap of the Hero ★★★
+clothes	Armor_234_Head	Cap of the Hero ★★★★
+clothes	Armor_230_Upper	Tunic of the Hero
+clothes	Armor_231_Upper	Tunic of the Hero ★
+clothes	Armor_232_Upper	Tunic of the Hero ★★
+clothes	Armor_233_Upper	Tunic of the Hero ★★★
+clothes	Armor_234_Upper	Tunic of the Hero ★★★★
+clothes	Armor_230_Lower	Trousers of the Hero
+clothes	Armor_231_Lower	Trousers of the Hero ★
+clothes	Armor_232_Lower	Trousers of the Hero ★★
+clothes	Armor_233_Lower	Trousers of the Hero ★★★
+clothes	Armor_234_Lower	Trousers of the Hero ★★★★
+clothes	Armor_171_Head	Phantom Helmet (v1.3)
+clothes	Armor_171_Upper	Phantom Armor (v1.3)
+clothes	Armor_171_Lower	Phantom Greaves (v1.3)
+clothes	Armor_172_Head	Majora's Mask (v1.3)
+clothes	Armor_173_Head	Midna's Helmet (v1.3)
+clothes	Armor_174_Head	Tingle's Hood (v1.3)
+clothes	Armor_174_Upper	Tingle's Shirt (v1.3)
+clothes	Armor_174_Lower	Tingle's Tights (v1.3)
+clothes	Armor_176_Head	Korok Mask (v1.3)
+clothes	Armor_185_Head	Salvager Headwear (v1.3.3)
+clothes	Armor_185_Upper	Salvager Vest (v1.3.3)
+clothes	Armor_185_Lower	Salvager Trousers (v1.3.3)
+clothes	Armor_181_Head	Vah Ruta Divine Helm (v1.3.3)
+clothes	Armor_182_Head	Vah Medoh Divine Helm (v1.3.3)
+clothes	Armor_183_Head	Vah Rudania Divine Helm (v1.3.3)
+clothes	Armor_184_Head	Vah Naboris Divine Helm (v1.3.3)
+clothes	Armor_186_Head	Vah Ruta Divine Helm ★ (v1.3.3)
+clothes	Armor_187_Head	Vah Ruta Divine Helm ★★ (v1.3.3)
+clothes	Armor_188_Head	Vah Ruta Divine Helm ★★★ (v1.3.3)
+clothes	Armor_189_Head	Vah Ruta Divine Helm ★★★★ (v1.3.3)
+clothes	Armor_190_Head	Vah Medoh Divine Helm ★ (v1.3.3)
+clothes	Armor_191_Head	Vah Medoh Divine Helm ★★ (v1.3.3)
+clothes	Armor_192_Head	Vah Medoh Divine Helm ★★★ (v1.3.3)
+clothes	Armor_193_Head	Vah Medoh Divine Helm ★★★★ (v1.3.3)
+clothes	Armor_194_Head	Vah Rudania Divine Helm ★ (v1.3.3)
+clothes	Armor_195_Head	Vah Rudania Divine Helm ★★ (v1.3.3)
+clothes	Armor_196_Head	Vah Rudania Divine Helm ★★★ (v1.3.3)
+clothes	Armor_197_Head	Vah Rudania Divine Helm ★★★★ (v1.3.3)
+clothes	Armor_198_Head	Vah Naboris Divine Helm ★ (v1.3.3)
+clothes	Armor_199_Head	Vah Naboris Divine Helm ★★ (v1.3.3)
+clothes	Armor_168_Head	Vah Naboris Divine Helm ★★★ (v1.3.3)
+clothes	Armor_169_Head	Vah Naboris Divine Helm ★★★★ (v1.3.3)
+clothes	Armor_175_Upper	Island Lobster Shirt (v1.4)
+clothes	Armor_177_Head	Ravio's Hood (v1.4)
+clothes	Armor_178_Head	Zant's Helmet (v1.4)
+clothes	Armor_179_Head	Royal Guard Cap (v1.4)
+clothes	Armor_179_Upper	Royal Guard Uniform (v1.4)
+clothes	Armor_179_Lower	Royal Guard Boots (v1.4)
+clothes	Armor_180_Head	Phantom Ganon Skull (v1.4)
+clothes	Armor_180_Upper	Phantom Ganon Armor (v1.4)
+clothes	Armor_180_Lower	Phantom Ganon Greaves (v1.4)
+materials	Item_Fruit_A	Apple
+materials	Item_Fruit_B	Wildberry
+materials	Item_Fruit_C	Voltfruit
+materials	Item_Fruit_D	Hearty Durian
+materials	Item_Fruit_E	Fleet-Lotus Seeds
+materials	Item_Fruit_E_00	Fleet-Lotus Seeds x0
+materials	Item_Fruit_F	Hydromelon
+materials	Item_Fruit_G	Palm Fruit
+materials	Item_Fruit_H	Mighty Bananas
+materials	Item_Fruit_I	Spicy Pepper
+materials	Item_Fruit_J	Fortified Pumpkin
+materials	Item_Fruit_K	Acorn
+materials	Item_Fruit_L	Chickaloo Tree Nut
+materials	Item_Mushroom_A	Stamella Mushroom
+materials	Item_MushroomGet_A	Stamella Mushroom
+materials	Item_Mushroom_B	Chillshroom
+materials	Item_MushroomGet_B	Chillshroom
+materials	Item_Mushroom_C	Sunshroom
+materials	Item_MushroomGet_C	Sunshroom
+materials	Item_Mushroom_D	Rushroom
+materials	Item_MushroomGet_D	Rushroom
+materials	Item_Mushroom_E	Hylian Mushroom
+materials	Item_MushroomGet_E	Hylian Mushroom
+materials	Item_Mushroom_F	Hearty Truffle
+materials	Item_Mushroom_F_00	Hearty Truffle x0
+materials	Item_MushroomGet_F	Hearty Truffle
+materials	Item_Mushroom_H	Zapshroom
+materials	Item_MushroomGet_H	Zapshroom
+materials	Item_Mushroom_J	Silent Shroom
+materials	Item_MushroomGet_J	Silent Shroom
+materials	Item_Mushroom_L	Razorshroom
+materials	Item_MushroomGet_L	Razorshroom
+materials	Item_Mushroom_M	Ironshroom
+materials	Item_MushroomGet_M	Ironshroom
+materials	Item_Mushroom_N	Big Hearty Truffle
+materials	Item_MushroomGet_N	Big Hearty Truffle
+materials	Item_Mushroom_N_00	Big Hearty Truffle x0
+materials	Item_Mushroom_O	Endura Shroom
+materials	Item_MushroomGet_O	Endura Shroom
+materials	Item_Plant_A	Hyrule Herb
+materials	Item_PlantGet_A	Hyrule Herb
+materials	Item_Plant_B	Hearty Radish
+materials	Item_PlantGet_B	Hearty Radish
+materials	Item_Plant_C	Big Hearty Radish
+materials	Item_PlantGet_C	Big Hearty Radish
+materials	Item_Plant_E	Cool Safflina
+materials	Item_PlantGet_E	Cool Safflina
+materials	Item_Plant_F	Warm Safflina
+materials	Item_PlantGet_F	Warm Safflina
+materials	Item_Plant_G	Mighty Thistle
+materials	Item_PlantGet_G	Mighty Thistle
+materials	Item_Plant_H	Armoranth
+materials	Item_PlantGet_H	Armoranth
+materials	Item_Plant_I	Blue Nightshade
+materials	Item_PlantGet_I	Blue Nightshade
+materials	Item_Plant_J	Silent Princess
+materials	Item_PlantGet_J	Silent Princess
+materials	Item_Plant_L	Electric Safflina
+materials	Item_PlantGet_L	Electric Safflina
+materials	Item_Plant_M	Swift Carrot
+materials	Item_PlantGet_M	Swift Carrot
+materials	Item_Plant_O	Swift Violet
+materials	Item_PlantGet_O	Swift Violet
+materials	Item_Plant_Q	Endura Carrot
+materials	Item_PlantGet_Q	Endura Carrot
+materials	Item_Meat_01	Raw Meat
+materials	Item_Meat_02	Raw Prime Meat
+materials	Item_Meat_06	Raw Bird Drumstick
+materials	Item_Meat_07	Raw Bird Thigh
+materials	Item_Meat_11	Raw Gourmet Meat
+materials	Item_Meat_12	Raw Whole Meat
+materials	Item_FishGet_A	Hylian Bass
+materials	Item_FishGet_B	Hearty Bass
+materials	Item_FishGet_C	Chillfin Trout
+materials	Item_FishGet_D	Voltfin Trout
+materials	Item_FishGet_E	Mighty Carp
+materials	Item_FishGet_F	Mighty Porgy
+materials	Item_FishGet_G	Armored Porgy
+materials	Item_FishGet_H	Armored Carp
+materials	Item_FishGet_I	Hearty Salmon
+materials	Item_FishGet_J	Sizzlefin Trout
+materials	Item_FishGet_K	Hearty Blueshell Snail
+materials	Item_FishGet_L	Staminoka Bass
+materials	Item_FishGet_M	Sneaky River Snail
+materials	Item_FishGet_X	Stealthfin Trout
+materials	Item_FishGet_Z	Sanke Carp
+materials	Animal_Insect_A	Hot-Footed Frog
+materials	Item_InsectGet_A	Hot-Footed Frog
+materials	Animal_Insect_B	Tireless Frog
+materials	Item_InsectGet_B	Tireless Frog
+materials	Animal_Insect_C	Cold Darner
+materials	Item_InsectGet_C	Cold Darner
+materials	Animal_Insect_E	Sunset Firefly
+materials	Item_InsectGet_E	Sunset Firefly
+materials	Animal_Insect_F	Fairy
+materials	Item_InsectGet_F	Fairy
+materials	Animal_Insect_G	Bladed Rhino Beetle
+materials	Item_InsectGet_G	Bladed Rhino Beetle
+materials	Animal_Insect_H	Restless Cricket
+materials	Item_InsectGet_H	Restless Cricket
+materials	Animal_Insect_I	Electric Darner
+materials	Item_InsectGet_I	Electric Darner
+materials	Animal_Insect_K	Razorclaw Crab
+materials	Item_InsectGet_K	Razorclaw Crab
+materials	Animal_Insect_M	Hearty Lizard
+materials	Item_InsectGet_M	Hearty Lizard
+materials	Animal_Insect_N	Winterwing Butterfly
+materials	Item_InsectGet_N	Winterwing Butterfly
+materials	Animal_Insect_O	Ironshell Crab
+materials	Item_InsectGet_O	Ironshell Crab
+materials	Animal_Insect_P	Rugged Rhino Beetle
+materials	Item_InsectGet_P	Rugged Rhino Beetle
+materials	Animal_Insect_Q	Summerwing Butterfly
+materials	Item_InsectGet_Q	Summerwing Butterfly
+materials	Animal_Insect_R	Thunderwing Butterfly
+materials	Item_InsectGet_R	Thunderwing Butterfly
+materials	Animal_Insect_S	Hightail Lizard
+materials	Item_InsectGet_S	Hightail Lizard
+materials	Animal_Insect_T	Warm Darner
+materials	Item_InsectGet_T	Warm Darner
+materials	Animal_Insect_X	Fireproof Lizard
+materials	Item_InsectGet_X	Fireproof Lizard
+materials	Animal_Insect_Z	Bright-Eyed Crab
+materials	Item_InsectGet_Z	Bright-Eyed Crab
+materials	Animal_Insect_AA	Energetic Rhino Beetle
+materials	Item_InsectGet_AA	Energetic Rhino Beetle
+materials	Animal_Insect_AB	Smotherwing Butterfly
+materials	Item_InsectGet_AB	Smotherwing Butterfly
+materials	BeeHome	Courser Bee Honey
+materials	Obj_FireWoodBundle	Wood
+materials	Item_Enemy_00	Bokoblin Horn
+materials	Item_Enemy_01	Bokoblin Fang
+materials	Item_Enemy_02	Bokoblin Guts
+materials	Item_Enemy_03	Lizalfos Horn
+materials	Item_Enemy_04	Lizalfos Talon
+materials	Item_Enemy_05	Lizalfos Tail
+materials	Item_Enemy_06	Moblin Horn
+materials	Item_Enemy_07	Moblin Fang
+materials	Item_Enemy_08	Moblin Guts
+materials	Item_Enemy_12	Lynel Horn
+materials	Item_Enemy_13	Lynel Hoof
+materials	Item_Enemy_14	Lynel Guts
+materials	Item_Enemy_15	Red Chuchu Jelly
+materials	Item_Enemy_16	Yellow Chuchu Jelly
+materials	Item_Enemy_17	White Chuchu Jelly
+materials	Item_Enemy_18	Keese Wing
+materials	Item_Enemy_19	Keese Eyeball
+materials	Item_Enemy_20	Octorok Tentacle
+materials	Item_Enemy_21	Tentacle Eyeball
+materials	Item_Enemy_24	Molduga Fin
+materials	Item_Enemy_25	Molduga Guts
+materials	Item_Enemy_26	Ancient Gear
+materials	Item_Enemy_27	Ancient Screw
+materials	Item_Enemy_28	Ancient Spring
+materials	Item_Enemy_29	Ancient Shaft
+materials	Item_Enemy_30	Ancient Core
+materials	Item_Enemy_31	Giant Ancient Core
+materials	Item_Enemy_32	Hinox Toenail
+materials	Item_Enemy_33	Hinox Tooth
+materials	Item_Enemy_34	Hinox Guts
+materials	Item_Enemy_38	Dinraal's Scale
+materials	Item_Enemy_39	Dinraal's Claw
+materials	Item_Enemy_40	Chuchu Jelly
+materials	Item_Enemy_41	Red Lizalfos Tail
+materials	Item_Enemy_42	Icy Lizalfos Tail
+materials	Item_Enemy_43	Yellow Lizalfos Tail
+materials	Item_Enemy_44	Fire Keese Wing
+materials	Item_Enemy_45	Electric Keese Wing
+materials	Item_Enemy_46	Ice Keese Wing
+materials	Item_Enemy_47	Shard of Dinraal's Fang
+materials	Item_Enemy_48	Shard of Dinraal's Horn
+materials	Item_Enemy_49	Naydra's Scale
+materials	Item_Enemy_50	Naydra's Claw
+materials	Item_Enemy_51	Shard of Naydra's Fang
+materials	Item_Enemy_52	Shard of Naydra's Horn
+materials	Item_Enemy_53	Farosh's Scale
+materials	Item_Enemy_54	Farosh's Claw
+materials	Item_Enemy_55	Shard of Farosh's Fang
+materials	Item_Enemy_56	Shard of Farosh's Horn
+materials	Item_Enemy_57	Octo Balloon
+materials	Item_Enemy_Put_57	Octo Balloon
+materials	Item_Material_01	Cane Sugar
+materials	Item_Material_02	Goron Spice
+materials	Item_Material_03	Hylian Rice
+materials	Item_Material_04	Bird Egg
+materials	Item_Material_05	Fresh Milk
+materials	Item_Material_06	Goat Butter
+materials	Item_Material_07	Tabantha Wheat
+materials	Item_Material_08	Monster Extract
+materials	Item_Ore_A	Diamond
+materials	Item_Ore_A_00	Diamant x0
+materials	Item_Ore_B	Ruby
+materials	Item_Ore_C	Sapphire
+materials	Item_Ore_D	Topaz
+materials	Item_Ore_E	Opal
+materials	Item_Ore_F	Amber
+materials	Item_Ore_G	Luminous Stone
+materials	Item_Ore_H	Rock Salt
+materials	Item_Ore_I	Flint
+materials	Item_Ore_J	Star Fragment
+food	Item_Boiled_01	Hard-Boiled Egg
+food	Item_ChilledFish_01	Frozen Bass
+food	Item_ChilledFish_02	Frozen Hearty Salmon
+food	Item_ChilledFish_03	Frozen Trout
+food	Item_ChilledFish_04	Frozen Carp
+food	Item_ChilledFish_05	Frozen Porgy
+food	Item_ChilledFish_06	Frozen Hearty Bass
+food	Item_ChilledFish_07	Frozen Crab
+food	Item_ChilledFish_08	Frozen River Snail
+food	Item_ChilledFish_09	Icy Hearty Blueshell Snail
+food	Item_RoastFish_01	Roasted Bass
+food	Item_RoastFish_02	Roasted Hearty Bass
+food	Item_RoastFish_03	Roasted Trout
+food	Item_RoastFish_04	Roasted Hearty Salmon
+food	Item_RoastFish_07	Roasted Carp
+food	Item_RoastFish_09	Roasted Porgy
+food	Item_RoastFish_11	Blueshell Escargot
+food	Item_RoastFish_13	Sneaky River Escargot
+food	Item_RoastFish_15	Blackened Crab
+food	Item_Roast_01	Seared Steak
+food	Item_Roast_02	Roasted Bird Drumstick
+food	Item_Roast_03	Baked Apple
+food	Item_Roast_04	Toasty Stamella Shroom
+food	Item_Roast_05	Toasted Hearty Truffle
+food	Item_Roast_06	Toasty Hylian Shroom
+food	Item_Roast_07	Roasted Wildberry
+food	Item_Roast_08	Roasted Voltfruit
+food	Item_Roast_09	Roasted Hearty Durian
+food	Item_Roast_10	Baked Palm Fruit
+food	Item_Roast_11	Roasted Mighty Bananas
+food	Item_Roast_12	Roasted Hydromelon
+food	Item_Roast_13	Charred Pepper
+food	Item_Roast_15	Baked Fortified Pumpkin
+food	Item_Roast_16	Roasted Lotus Seed
+food	Item_Roast_18	Roasted Radish
+food	Item_Roast_19	Roasted Big Radish
+food	Item_Roast_24	Roasted Swift Carrot
+food	Item_Roast_27	Roasted Mighty Thistle
+food	Item_Roast_28	Roasted Armoranth
+food	Item_Roast_31	Toasty Chillshroom
+food	Item_Roast_32	Toasty Sunshroom
+food	Item_Roast_33	Toasty Zapshroom
+food	Item_Roast_36	Toasty Rushroom
+food	Item_Roast_37	Toasty Razorshroom
+food	Item_Roast_38	Toasty Ironshroom
+food	Item_Roast_39	Toasty Silent Shroom
+food	Item_Roast_40	Seared Prime Steak
+food	Item_Roast_41	Roasted Bird Thigh
+food	Item_Roast_45	Seared Gourmet Steak
+food	Item_Roast_46	Roasted Whole Bird
+food	Item_Roast_48	Roasted Acorn
+food	Item_Roast_49	Toasted Big Heart Truffle
+food	Item_Roast_50	Roasted Endura Carrot
+food	Item_Roast_51	Campfire Egg
+food	Item_Roast_52	Roasted Tree Nut
+food	Item_Roast_53	Toasty Endura Shroom
+food	Item_Chilled_01	Icy Meat
+food	Item_Chilled_02	Icy Prime Meat
+food	Item_Chilled_03	Icy Gourmet Meat
+food	Item_Chilled_04	Frozen Bird Drumstick
+food	Item_Chilled_05	Frozen Bird Thigh
+food	Item_Chilled_06	Frozen Whole Bird
+food	Item_Cook_A_01	Mushroom Skewer
+food	Item_Cook_A_02	Steamed Mushrooms
+food	Item_Cook_A_03	Steamed Fruit
+food	Item_Cook_A_04	Steamed Fish
+food	Item_Cook_A_05	Steamed Meat
+food	Item_Cook_A_07	Fruit and Mushroom Mix
+food	Item_Cook_A_08	Fish and Mushroom Skewer
+food	Item_Cook_A_09	Meat and Mushroom Skewer
+food	Item_Cook_A_10	Omelet
+food	Item_Cook_A_11	Glazed Mushroom
+food	Item_Cook_A_12	Glazed Meat
+food	Item_Cook_A_13	Glazed Seafood
+food	Item_Cook_A_14	Glazed Veggies
+food	Item_Cook_B_01	Fried Wild Greens
+food	Item_Cook_B_02	Simmered Fruits
+food	Item_Cook_B_05	Fish Skewer
+food	Item_Cook_B_06	Meat Skewer
+food	Item_Cook_B_11	Copious Fried Wild Greens
+food	Item_Cook_B_12	Copious Simmered Fruits
+food	Item_Cook_B_13	Copious Mushroom Skewers
+food	Item_Cook_B_15	Copious Seafood Skewers
+food	Item_Cook_B_16	Copious Meat Skewers
+food	Item_Cook_B_17	Meat and Seafood Fry
+food	Item_Cook_B_18	Prime Meat and Seafood Fry
+food	Item_Cook_B_19	Gourmet Meat and Seafood Fry
+food	Item_Cook_B_20	Meat-Stuffed Pumpkin
+food	Item_Cook_B_21	Sautéed Peppers
+food	Item_Cook_B_22	Sautéed Nuts
+food	Item_Cook_B_23	Seafood Skewers
+food	Item_Cook_C_16	Fairy Tonic
+food	Item_Cook_C_17	Elixir
+food	Item_Cook_D_01	Salt-Grilled Mushrooms
+food	Item_Cook_D_02	Salt-Grilled Greens
+food	Item_Cook_D_03	Salt-Grilled Fish
+food	Item_Cook_D_04	Salt-Grilled Meat
+food	Item_Cook_D_05	Salt-Grilled Prime Meat
+food	Item_Cook_D_06	Salt-Grilled Gourmet Meat
+food	Item_Cook_D_07	Pepper Steak
+food	Item_Cook_D_08	Pepper Seafood
+food	Item_Cook_D_09	Salt-Grilled Crab
+food	Item_Cook_D_10	Crab Stir-Fry
+food	Item_Cook_E_01	Poultry Pilaf
+food	Item_Cook_E_02	Prime Poultry Pilaf
+food	Item_Cook_E_03	Gourmet Poultry Pilaf
+food	Item_Cook_E_04	Fried Egg and Rice
+food	Item_Cook_F_01	Creamy Meat Soup
+food	Item_Cook_F_02	Creamy Seafood Soup
+food	Item_Cook_F_03	Veggie Cream Soup
+food	Item_Cook_F_04	Creamy Heart Soup
+food	Item_Cook_G_02	Seafood Rice Balls
+food	Item_Cook_G_03	Veggie Rice Balls
+food	Item_Cook_G_04	Mushroom Rice Balls
+food	Item_Cook_G_05	Meat and Rice Bowl
+food	Item_Cook_G_06	Prime Meat and Rice Bowl
+food	Item_Cook_G_09	Gourmet Meat and Rice Bowl
+food	Item_Cook_G_10	Seafood Fried Rice
+food	Item_Cook_G_11	Curry Pilaf
+food	Item_Cook_G_12	Mushroom Risotto
+food	Item_Cook_G_13	Vegetable Risotto
+food	Item_Cook_G_14	Salmon Risotto
+food	Item_Cook_G_15	Meaty Rice Balls
+food	Item_Cook_G_16	Crab Omelet with Rice
+food	Item_Cook_G_17	Crab Risotto
+food	Item_Cook_H_01	Seafood Meunière
+food	Item_Cook_H_02	Porgy Meunière
+food	Item_Cook_H_03	Salmon Meunière
+food	Item_Cook_I_01	Fruit Pie
+food	Item_Cook_I_02	Apple Pie
+food	Item_Cook_I_03	Egg Tart
+food	Item_Cook_I_04	Meat Pie
+food	Item_Cook_I_05	Carrot Cake
+food	Item_Cook_I_06	Pumpkin Pie
+food	Item_Cook_I_07	Hot Buttered Apple
+food	Item_Cook_I_08	Honeyed Apple
+food	Item_Cook_I_09	Honeyed Fruits
+food	Item_Cook_I_10	Plain Crepe
+food	Item_Cook_I_11	Wildberry Crepe
+food	Item_Cook_I_12	Nutcake
+food	Item_Cook_I_13	Fried Bananas
+food	Item_Cook_I_14	Egg Pudding
+food	Item_Cook_I_15	Fish Pie
+food	Item_Cook_I_16	Honey Candy
+food	Item_Cook_I_17	Honey Crepe
+food	Item_Cook_J_01	Curry Rice
+food	Item_Cook_J_02	Vegetable Curry
+food	Item_Cook_J_03	Seafood Curry
+food	Item_Cook_J_04	Poultry Curry
+food	Item_Cook_J_05	Prime Poultry Curry
+food	Item_Cook_J_06	Meat Curry
+food	Item_Cook_J_07	Prime Meat Curry
+food	Item_Cook_J_08	Gourmet Poultry Curry
+food	Item_Cook_J_09	Gourmet Meat Curry
+food	Item_Cook_K_01	Meat Stew
+food	Item_Cook_K_02	Prime Meat Stew
+food	Item_Cook_K_03	Pumpkin Stew
+food	Item_Cook_K_04	Clam Chowder
+food	Item_Cook_K_05	Gourmet Meat Stew
+food	Item_Cook_K_06	Cream of Mushroom Soup
+food	Item_Cook_K_07	Cream of Vegetable Soup
+food	Item_Cook_K_08	Carrot Stew
+food	Item_Cook_K_09	Milk
+food	Item_Material_05_00	Milk x0
+food	Item_Cook_L_01	Monster Stew
+food	Item_Cook_L_02	Monster Soup
+food	Item_Cook_L_03	Monster Cake
+food	Item_Cook_L_04	Monster Rice Balls
+food	Item_Cook_L_05	Monster Curry
+food	Item_Cook_M_01	Wheat Bread
+food	Item_Cook_N_01	Seafood Paella
+food	Item_Cook_N_02	Fruitcake
+food	Item_Cook_N_03	Vegetable Omelet
+food	Item_Cook_N_04	Mushroom Omelet
+food	Item_Cook_O_01	Dubious Food
+food	Item_Cook_O_02	Rock-Hard Food
+food	Item_Cook_P_01	Fragrant Mushroom Sauté
+food	Item_Cook_P_02	Herb Sauté
+food	Item_Cook_P_03	Spiced Meat Skewer
+food	Item_Cook_P_04	Prime Spiced Meat Skewer
+food	Item_Cook_P_05	Gourmet Spiced Meat Skewer
+other	Obj_DungeonClearSeal	Spirit Orb
+other	Obj_KorokNuts	Korok Seed
+other	PlayerStole2	Paraglider
+other	Obj_ProofBook	Classified Envelope
+other	Obj_DRStone_Get	Sheikah Slate
+other	Obj_HeroSoul_Zora	Mipha's Grace
+other	Obj_HeroSoul_Gerudo	Urbosa's Fury
+other	Obj_HeroSoul_Goron	Daruk's Protection
+other	Obj_HeroSoul_Rito	Revali's Gale
+other	Obj_DLC_HeroSoul_Zora	Mipha's Grace + (v1.4)
+other	Obj_DLC_HeroSoul_Gerudo	Urbosa's Fury + (v1.4)
+other	Obj_DLC_HeroSoul_Goron	Daruk's Protection + (v1.4)
+other	Obj_DLC_HeroSoul_Rito	Revali's Gale + (v1.4)
+other	Obj_Maracas	Hestu's Maracas
+other	Obj_ProofKorok	Hestu's Gift
+other	Obj_ProofSandwormKiller	Medal of Honor: Molduga
+other	Obj_ProofGiantKiller	Medal of Honor: Hinox
+other	Obj_ProofGolemKiller	Medal of Honor: Talus
+other	KeySmall	Small Key
+other	Obj_Armor_115_Head	Thunder Helm
+other	GameRomHorseReins_00	Stable Bridle
+other	GameRomHorseReins_01	Traveler's Bridle
+other	GameRomHorseReins_02	Royal Reins
+other	GameRomHorseReins_03	Knight's Bridle
+other	GameRomHorseReins_04	Monster Bridle
+other	GameRomHorseReins_05	Extravagant Bridle
+other	GameRomHorseReins_10	Ancient Bridle (v1.4)
+other	GameRomHorseSaddle_00	Stable Saddle
+other	GameRomHorseSaddle_01	Traveler's Saddle
+other	GameRomHorseSaddle_02	Royal Saddle
+other	GameRomHorseSaddle_03	Knight's Saddle
+other	GameRomHorseSaddle_04	Monster Saddle
+other	GameRomHorseSaddle_05	Extravagant Saddle
+other	GameRomHorseSaddle_10	Ancient Saddle (v1.4)
+other	GameRomHorse00S	Donkey
+other	GameRomHorseNushi	Lord of the Mountain
+other	GameRomHorseEpona	Epona
+other	GameRomHorseBone	Stalhorse
+other	GameRomHorse00L	Giant Horse
+other	GameRomHorseZelda	Royal White Stallion
+other	Obj_WarpDLC	Travel Medallion (v1.3)
+other	Get_TwnObj_DLC_MemorialPicture_A_01	Picture of the Champions (v1.4)

@@ -15493,3 +15493,49 @@ Zephyr
 
 Zombie Spores
 = Zombie Spores
+
+Close the emulator first. A 3DS save must be the decrypted one (from Checkpoint, JKSM or GodMode9); counts are limited to 99.
+= 先にエミュレーターを閉じてください。3DSのセーブは復号済みのもの(Checkpoint、JKSM、GodMode9から)が必要です。数量は99までです。
+
+Close the emulator first. The save is the decrypted savedata.dat.
+= 先にエミュレーターを閉じてください。セーブは復号済みのsavedata.datです。
+
+Close the emulator first. The save is the decrypted system0.dat.
+= 先にエミュレーターを閉じてください。セーブは復号済みのsystem0.datです。
+
+Close the emulator first. The save is the decrypted system_data.bin.
+= 先にエミュレーターを閉じてください。セーブは復号済みのsystem_data.binです。
+
+Close the game first. Item names are not stored in the save, so items show by id; amounts above 99 are not allowed because the game caps stacks there.
+= 先にゲームを閉じてください。アイテム名はセーブに保存されていないため、IDで表示されます。ゲームはスタックを99までに制限しているので、99を超える数量は設定できません。
+
+Close the game or emulator first. Weapons, armour and key items are not edited. Item names show in English.
+= 先にゲームまたはエミュレーターを閉じてください。武器、防具、キーアイテムは編集しません。アイテム名は英語で表示されます。
+
+Hinox defeated
+= 倒したヒノックス
+
+Korok seeds found
+= 見つけたコログのみ
+
+Max hearts (4 per heart)
+= 最大ハート(1ハート=4)
+
+Max stamina (1000 per wheel)
+= 最大スタミナ(1周=1000)
+
+Molduga defeated
+= 倒したモルドガ
+
+Monster parts (Mons)
+= モンスターの素材(モン)
+
+Raises every material you already have (fruit, mushrooms, plants, fish, insects, monster parts, ore and gems) to the game's limit of 999. Food, arrows, weapons, armour and key items are left alone.
+= すでに持っている素材(果物、キノコ、植物、魚、虫、モンスターの素材、鉱石、宝石)をゲームの上限999にします。料理、矢、武器、防具、キーアイテムはそのままです。
+
+Talus defeated
+= 倒したイシロック
+
+game_data.sav from the Wii U or Switch game (any version). Rupees, hearts, stamina, Korok seeds, boss counters and the amounts of materials, food and arrows.
+= Wii UまたはSwitch版のgame_data.sav(どのバージョンでも可)。ルピー、ハート、スタミナ、コログのみ、ボスの討伐数、素材・料理・矢の数量。
+

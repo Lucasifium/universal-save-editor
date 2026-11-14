@@ -15419,3 +15419,49 @@ Zephyr
 
 Zombie Spores
 = Zombie Spores
+
+Close the emulator first. A 3DS save must be the decrypted one (from Checkpoint, JKSM or GodMode9); counts are limited to 99.
+= Fermez d'abord l'émulateur. La sauvegarde 3DS doit être la version déchiffrée (de Checkpoint, JKSM ou GodMode9) ; les quantités sont limitées à 99.
+
+Close the emulator first. The save is the decrypted savedata.dat.
+= Fermez d'abord l'émulateur. La sauvegarde est le savedata.dat déchiffré.
+
+Close the emulator first. The save is the decrypted system0.dat.
+= Fermez d'abord l'émulateur. La sauvegarde est le system0.dat déchiffré.
+
+Close the emulator first. The save is the decrypted system_data.bin.
+= Fermez d'abord l'émulateur. La sauvegarde est le system_data.bin déchiffré.
+
+Close the game first. Item names are not stored in the save, so items show by id; amounts above 99 are not allowed because the game caps stacks there.
+= Fermez d'abord le jeu. Les noms d'objets ne sont pas stockés dans la sauvegarde, ils sont donc affichés par identifiant ; les quantités supérieures à 99 sont refusées car le jeu plafonne les piles à cette valeur.
+
+Close the game or emulator first. Weapons, armour and key items are not edited. Item names show in English.
+= Fermez d'abord le jeu ou l'émulateur. Les armes, armures et objets clés ne sont pas modifiés. Les noms d'objets s'affichent en anglais.
+
+Hinox defeated
+= Hinox vaincus
+
+Korok seeds found
+= Graines korogus trouvées
+
+Max hearts (4 per heart)
+= Cœurs max. (4 par cœur)
+
+Max stamina (1000 per wheel)
+= Endurance max. (1000 par jauge)
+
+Molduga defeated
+= Moldugas vaincus
+
+Monster parts (Mons)
+= Pièces de monstre (Mons)
+
+Raises every material you already have (fruit, mushrooms, plants, fish, insects, monster parts, ore and gems) to the game's limit of 999. Food, arrows, weapons, armour and key items are left alone.
+= Porte chaque matériau déjà possédé (fruits, champignons, plantes, poissons, insectes, pièces de monstre, minerais et gemmes) à la limite du jeu de 999. La nourriture, les flèches, les armes, les armures et les objets clés ne sont pas modifiés.
+
+Talus defeated
+= Talus vaincus
+
+game_data.sav from the Wii U or Switch game (any version). Rupees, hearts, stamina, Korok seeds, boss counters and the amounts of materials, food and arrows.
+= game_data.sav du jeu Wii U ou Switch (toute version). Rubis, cœurs, endurance, graines korogus, compteurs de boss et quantités de matériaux, nourriture et flèches.
+

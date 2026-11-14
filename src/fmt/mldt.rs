@@ -54,7 +54,7 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
             b.ranged(&[title, name], *at, Kind::U8, 0, 99);
         }
     }
-    Ok(b.finish(KIND, Checksum::None).with_note("Close the emulator first. A 3DS save must be the decrypted one (from Checkpoint, JKSM or GodMode9); counts are limited to 99."))
+    Ok(b.finish(KIND, Checksum::None).with_note(crate::i18n::tx("Close the emulator first. A 3DS save must be the decrypted one (from Checkpoint, JKSM or GodMode9); counts are limited to 99.")))
 }
 
 #[cfg(test)]

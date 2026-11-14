@@ -15390,3 +15390,49 @@ Zephyr
 
 Zombie Spores
 = Zombie Spores
+
+Close the emulator first. A 3DS save must be the decrypted one (from Checkpoint, JKSM or GodMode9); counts are limited to 99.
+= Feche o emulador primeiro. O jogo salvo do 3DS deve ser o descriptografado (do Checkpoint, JKSM ou GodMode9); as quantidades são limitadas a 99.
+
+Close the emulator first. The save is the decrypted savedata.dat.
+= Feche o emulador primeiro. O jogo salvo é o savedata.dat descriptografado.
+
+Close the emulator first. The save is the decrypted system0.dat.
+= Feche o emulador primeiro. O jogo salvo é o system0.dat descriptografado.
+
+Close the emulator first. The save is the decrypted system_data.bin.
+= Feche o emulador primeiro. O jogo salvo é o system_data.bin descriptografado.
+
+Close the game first. Item names are not stored in the save, so items show by id; amounts above 99 are not allowed because the game caps stacks there.
+= Feche o jogo primeiro. Os nomes dos itens não são guardados no jogo salvo, então os itens aparecem por id; quantidades acima de 99 não são permitidas porque o jogo limita as pilhas nesse valor.
+
+Close the game or emulator first. Weapons, armour and key items are not edited. Item names show in English.
+= Feche o jogo ou o emulador primeiro. Armas, armaduras e itens-chave não são editados. Os nomes dos itens aparecem em inglês.
+
+Hinox defeated
+= Hinox derrotados
+
+Korok seeds found
+= Sementes kolog encontradas
+
+Max hearts (4 per heart)
+= Corações máx. (4 por coração)
+
+Max stamina (1000 per wheel)
+= Vigor máx. (1000 por roda)
+
+Molduga defeated
+= Moldugas derrotados
+
+Monster parts (Mons)
+= Partes de monstro (Mons)
+
+Raises every material you already have (fruit, mushrooms, plants, fish, insects, monster parts, ore and gems) to the game's limit of 999. Food, arrows, weapons, armour and key items are left alone.
+= Aumenta cada material que você já tem (frutas, cogumelos, plantas, peixes, insetos, partes de monstros, minérios e gemas) até o limite do jogo de 999. Comida, flechas, armas, armaduras e itens-chave não são alterados.
+
+Talus defeated
+= Talus derrotados
+
+game_data.sav from the Wii U or Switch game (any version). Rupees, hearts, stamina, Korok seeds, boss counters and the amounts of materials, food and arrows.
+= game_data.sav do jogo de Wii U ou Switch (qualquer versão). Rupias, corações, vigor, sementes kolog, contadores de chefes e as quantidades de materiais, comida e flechas.
+

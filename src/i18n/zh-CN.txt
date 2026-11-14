@@ -15469,3 +15469,49 @@ Zephyr
 
 Zombie Spores
 = Zombie Spores
+
+Close the emulator first. A 3DS save must be the decrypted one (from Checkpoint, JKSM or GodMode9); counts are limited to 99.
+= 请先关闭模拟器。3DS 存档必须是已解密的(来自 Checkpoint、JKSM 或 GodMode9);数量上限为 99。
+
+Close the emulator first. The save is the decrypted savedata.dat.
+= 请先关闭模拟器。存档是已解密的 savedata.dat。
+
+Close the emulator first. The save is the decrypted system0.dat.
+= 请先关闭模拟器。存档是已解密的 system0.dat。
+
+Close the emulator first. The save is the decrypted system_data.bin.
+= 请先关闭模拟器。存档是已解密的 system_data.bin。
+
+Close the game first. Item names are not stored in the save, so items show by id; amounts above 99 are not allowed because the game caps stacks there.
+= 请先关闭游戏。存档中不保存道具名称,因此道具按 ID 显示;游戏将堆叠上限设为 99,所以不允许超过 99 的数量。
+
+Close the game or emulator first. Weapons, armour and key items are not edited. Item names show in English.
+= 请先关闭游戏或模拟器。不会编辑武器、护甲和关键道具。道具名称以英文显示。
+
+Hinox defeated
+= 击败的巨人
+
+Korok seeds found
+= 找到的呼呼种子
+
+Max hearts (4 per heart)
+= 最大心数(每颗心 4 点)
+
+Max stamina (1000 per wheel)
+= 最大耐力(每圈 1000)
+
+Molduga defeated
+= 击败的沙鲸
+
+Monster parts (Mons)
+= 怪物零件(Mon)
+
+Raises every material you already have (fruit, mushrooms, plants, fish, insects, monster parts, ore and gems) to the game's limit of 999. Food, arrows, weapons, armour and key items are left alone.
+= 将你已有的每种材料(水果、蘑菇、植物、鱼、昆虫、怪物零件、矿石和宝石)提高到游戏上限 999。食物、箭、武器、护甲和关键道具保持不变。
+
+Talus defeated
+= 击败的石巨人
+
+game_data.sav from the Wii U or Switch game (any version). Rupees, hearts, stamina, Korok seeds, boss counters and the amounts of materials, food and arrows.
+= 来自 Wii U 或 Switch 版的 game_data.sav(任何版本)。卢比、心数、耐力、呼呼种子、首领计数以及材料、食物和箭的数量。
+

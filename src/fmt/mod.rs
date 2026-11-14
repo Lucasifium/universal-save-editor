@@ -207,6 +207,7 @@ pub mod kh1;
 pub mod crash;
 pub mod kh2;
 pub mod sm64;
+pub mod botw;
 pub mod mldt;
 pub mod nintendo;
 pub mod xc3;
@@ -552,6 +553,11 @@ pub fn parse_binary(d: &[u8]) -> Option<TreeDoc> {
     }
     if nintendo::smash_looks(d) {
         if let Ok(t) = nintendo::parse_smash(d) {
+            return Some(t);
+        }
+    }
+    if botw::looks(d) {
+        if let Ok(t) = botw::parse(d) {
             return Some(t);
         }
     }
