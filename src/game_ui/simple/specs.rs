@@ -15,7 +15,7 @@ pub static SPECS: &[Spec] = &[OPENXCOM, XCOM_DOS, RCT2, COTL, FALLOUT_SHELTER, D
     // PlayStation 1 and 2 (ps_specs.rs)
     SOTN, FF8, FFT, RE1, KH2, MK64, GOLDENEYE, BANJO_KAZOOIE, OOT, SMASH64, TORCHLIGHT3, WRECKFEST, EVIL_WITHIN, BORDERLANDS1,
     // PlayStation 1 and 2 (ps_specs.rs), continued
-    CRASH, KH1, GT1, BL4, WUKONG, BOTW, RAYMAN, CTR, THPS, PAYDAY2, FS_FARM, FS_CAREER, FS17, FS15, GAS_STATION_SIM, THIEF_SIM, HOUSE_FLIPPER, TAVERN_MASTER, ROAD_REDEMPTION, SILENT_HILL, SOPHIE, FIRIS, DREDGE, PC_BUILDING_SIM, OUTWARD, SUPRALAND, WARM_SNOW, READY_OR_NOT, SUNSHINE, LUIGI, WINDWAKER, TEKKEN1, TEKKEN2, TEKKEN3, DMC_PS2, WIZARD_OF_LEGEND, MAGICRAFT, KAGERO];
+    CRASH, KH1, GT1, BL4, WUKONG, BOTW, RAYMAN, CTR, THPS, PAYDAY2, FS_FARM, FS_CAREER, FS17, FS15, GAS_STATION_SIM, THIEF_SIM, HOUSE_FLIPPER, TAVERN_MASTER, ROAD_REDEMPTION, SILENT_HILL, SOPHIE, FIRIS, DREDGE, PC_BUILDING_SIM, OUTWARD, SUPRALAND, WARM_SNOW, READY_OR_NOT, SUNSHINE, LUIGI, WINDWAKER, TEKKEN1, TEKKEN2, TEKKEN3, DMC_PS2, WIZARD_OF_LEGEND, MAGICRAFT, KAGERO, DW7XL, WO3U, SW5, WAS, WO1, SAMURAI2, DW4H];
 // ------------------------------------------------------------------ Cult of the Lamb
 
 const COTL_ITEMS: &[(&str, &str)] = &[
@@ -12088,4 +12088,145 @@ const MAGICRAFT: Spec = Spec {
     ],
     lists: &[],
     tables: &[],
+};
+
+const DW7XL: Spec = Spec {
+    name: "Dynasty Warriors 7: Xtreme Legends Definitive Edition",
+    tab: "Army",
+    accent: (170, 60, 40),
+    kind: Some(crate::fmt::dw7xl::KIND),
+    markers: &["/Army/Gold"],
+    subtitle: "save.dat from Documents\\KoeiTecmo\\Dynasty Warriors 7 DX\\Savedata. Gold and each officer's Health, Attack, Defense, Power, Speed and skill points; the stream cipher and word checksum are handled.",
+    tiles: &[("Gold", "/Army/Gold")],
+    sections: &[Section { title: "Army", rows: &[("Gold", "/Army/Gold")] }],
+    lists: &[],
+    tables: &[Table { title: "Officers", path: "/Officers", name: &[], only: &[], cols: &[("Health", "/Health"), ("Attack", "/Attack"), ("Defense", "/Defense"), ("Power", "/Power"), ("Speed", "/Speed"), ("Skill points", "/Skill points")], names: &[] }],
+};
+
+const WO3U: Spec = Spec {
+    name: "Warriors Orochi 3 Ultimate Definitive Edition",
+    tab: "Resources",
+    accent: (120, 70, 150),
+    kind: Some(crate::fmt::wo3u::KIND),
+    markers: &["/Resources/Growth Points"],
+    subtitle: "SAVEDATA.BIN from Documents\\KoeiTecmo\\WARRIORS OROCHI 3 Ultimate\\SAVEDATA. Growth Points, Gems, each officer's Health, Musou, Attack, Defense and Speed, and the weapon attribute orbs and crafting materials you own.",
+    tiles: &[("Growth Points", "/Resources/Growth Points"), ("Gems", "/Resources/Gems")],
+    sections: &[Section { title: "Resources", rows: &[("Growth Points", "/Resources/Growth Points"), ("Gems", "/Resources/Gems")] }],
+    lists: &[
+        List {
+            title: "Weapon attribute orbs (fusion materials you own)",
+            path: "/Weapon attribute orbs",
+            shape: Shape::Map,
+            names: &[],
+            max: Some(Max {
+                ids: &["Orb 01", "Orb 02", "Orb 03", "Orb 04", "Orb 05", "Orb 06", "Orb 07", "Orb 08", "Orb 09", "Orb 10", "Orb 11", "Orb 12", "Orb 13", "Orb 14", "Orb 15", "Orb 16", "Orb 17", "Orb 18", "Orb 19", "Orb 20", "Orb 21", "Orb 22", "Orb 23", "Orb 24", "Orb 25", "Orb 26", "Orb 27", "Orb 28", "Orb 29", "Orb 30", "Orb 31", "Orb 32", "Orb 33", "Orb 34", "Orb 35", "Orb 36", "Orb 37", "Orb 38", "Orb 39", "Orb 40", "Orb 41", "Orb 42", "Orb 43", "Orb 44", "Orb 45", "Orb 46", "Orb 47", "Orb 48", "Orb 49", "Orb 50", "Orb 51", "Orb 52", "Orb 53", "Orb 54", "Orb 55", "Orb 56", "Orb 57", "Orb 58"],
+                cap: 99,
+                caps: &[],
+                estimate: false,
+                about: "Raises every attribute orb you already own to 99, the highest value in a completed save and the limit public patches use. Orbs you don't own are left alone.",
+            }),
+        },
+        List {
+            title: "Crafting materials (you own)",
+            path: "/Crafting materials",
+            shape: Shape::Map,
+            names: &[],
+            max: Some(Max {
+                ids: &["Material 001", "Material 002", "Material 003", "Material 004", "Material 005", "Material 006", "Material 007", "Material 008", "Material 009", "Material 010", "Material 011", "Material 012", "Material 013", "Material 014", "Material 015", "Material 016", "Material 017", "Material 018", "Material 019", "Material 020", "Material 021", "Material 022", "Material 023", "Material 024", "Material 025", "Material 026", "Material 027", "Material 028", "Material 029", "Material 030", "Material 031", "Material 032", "Material 033", "Material 034", "Material 035", "Material 036", "Material 037", "Material 038", "Material 039", "Material 040", "Material 041", "Material 042", "Material 043", "Material 044", "Material 045", "Material 046", "Material 047", "Material 048", "Material 049", "Material 050", "Material 051", "Material 052", "Material 053", "Material 054", "Material 055", "Material 056", "Material 057", "Material 058", "Material 059", "Material 060", "Material 061", "Material 062", "Material 063", "Material 064", "Material 065", "Material 066", "Material 067", "Material 068", "Material 069", "Material 070", "Material 071", "Material 072", "Material 073", "Material 074", "Material 075", "Material 076", "Material 077", "Material 078", "Material 079", "Material 080", "Material 081", "Material 082", "Material 083", "Material 084", "Material 085", "Material 086", "Material 087", "Material 088", "Material 089", "Material 090", "Material 091", "Material 092", "Material 093", "Material 094", "Material 095", "Material 096", "Material 097", "Material 098", "Material 099", "Material 100", "Material 101", "Material 102", "Material 103", "Material 104", "Material 105", "Material 106", "Material 107", "Material 108", "Material 109", "Material 110", "Material 111", "Material 112", "Material 113", "Material 114", "Material 115", "Material 116", "Material 117", "Material 118", "Material 119", "Material 120", "Material 121", "Material 122", "Material 123", "Material 124", "Material 125", "Material 126", "Material 127", "Material 128", "Material 129", "Material 130", "Material 131", "Material 132", "Material 133", "Material 134", "Material 135", "Material 136", "Material 137", "Material 138", "Material 139", "Material 140", "Material 141", "Material 142", "Material 143", "Material 144", "Material 145", "Material 146", "Material 147", "Material 148", "Material 149", "Material 150", "Material 151", "Material 152", "Material 153", "Material 154", "Material 155", "Material 156", "Material 157", "Material 158", "Material 159", "Material 160", "Material 161", "Material 162", "Material 163", "Material 164", "Material 165", "Material 166", "Material 167", "Material 168", "Material 169", "Material 170", "Material 171", "Material 172", "Material 173", "Material 174", "Material 175", "Material 176", "Material 177", "Material 178", "Material 179", "Material 180", "Material 181", "Material 182", "Material 183", "Material 184", "Material 185", "Material 186", "Material 187", "Material 188", "Material 189", "Material 190", "Material 191", "Material 192", "Material 193", "Material 194", "Material 195", "Material 196", "Material 197", "Material 198", "Material 199", "Material 200", "Material 201", "Material 202", "Material 203", "Material 204", "Material 205", "Material 206", "Material 207", "Material 208", "Material 209", "Material 210", "Material 211", "Material 212", "Material 213", "Material 214", "Material 215", "Material 216", "Material 217", "Material 218", "Material 219", "Material 220", "Material 221", "Material 222", "Material 223", "Material 224", "Material 225", "Material 226", "Material 227", "Material 228", "Material 229", "Material 230", "Material 231", "Material 232", "Material 233", "Material 234", "Material 235", "Material 236", "Material 237", "Material 238", "Material 239", "Material 240", "Material 241", "Material 242", "Material 243", "Material 244", "Material 245", "Material 246", "Material 247", "Material 248", "Material 249", "Material 250", "Material 251", "Material 252", "Material 253", "Material 254", "Material 255", "Material 256", "Material 257", "Material 258", "Material 259", "Material 260", "Material 261", "Material 262", "Material 263", "Material 264", "Material 265", "Material 266", "Material 267", "Material 268", "Material 269", "Material 270", "Material 271", "Material 272", "Material 273", "Material 274", "Material 275", "Material 276", "Material 277", "Material 278", "Material 279", "Material 280", "Material 281", "Material 282", "Material 283", "Material 284", "Material 285", "Material 286", "Material 287", "Material 288", "Material 289", "Material 290", "Material 291", "Material 292", "Material 293", "Material 294", "Material 295"],
+                cap: 99,
+                caps: &[],
+                estimate: false,
+                about: "Raises every crafting material you already own to 99, the highest value in a completed save and the limit public patches use. Materials you don't own are left alone.",
+            }),
+        },
+    ],
+    tables: &[Table { title: "Officers", path: "/Officers", name: &[], only: &[], cols: &[("Health", "/Health"), ("Musou", "/Musou"), ("Attack", "/Attack"), ("Defense", "/Defense"), ("Speed", "/Speed")], names: &[] }],
+};
+
+const SW5: Spec = Spec {
+    name: "Samurai Warriors 5",
+    tab: "Resources",
+    accent: (190, 50, 60),
+    kind: Some(crate::fmt::sw5::KIND),
+    markers: &["/Resources/Gold"],
+    subtitle: "SAVEDATA00.BIN from Documents\\KoeiTecmo\\SAMURAI WARRIORS 5\\Savedata (made in My Castle). Gold, the Dojo's stock EXP, shared skill points and stock weapon mastery, and the castle's lumber, mineral and fabric. Decrypted with your Steam account number.",
+    tiles: &[("Gold", "/Resources/Gold")],
+    sections: &[
+        Section { title: "Resources", rows: &[("Gold", "/Resources/Gold")] },
+        Section { title: "Dojo", rows: &[("Stock EXP", "/Dojo/Stock EXP"), ("Shared skill points", "/Dojo/Shared skill points"), ("Stock weapon mastery", "/Dojo/Stock weapon mastery")] },
+    ],
+    lists: &[List {
+        title: "Building materials",
+        path: "/Building materials",
+        shape: Shape::Map,
+        names: &[],
+        max: Some(Max {
+            ids: &["Lumber", "Mineral", "Fabric"],
+            cap: 9999,
+            caps: &[],
+            estimate: false,
+            about: "Raises lumber, mineral and fabric to 9,999, the limit the game enforces when it grants them.",
+        }),
+    }],
+    tables: &[],
+};
+
+const WAS: Spec = Spec {
+    name: "Warriors All-Stars",
+    tab: "Campaigns",
+    accent: (210, 120, 60),
+    kind: Some(crate::fmt::stars::KIND),
+    markers: &[],
+    subtitle: "SAVEDATA.BIN from Documents\\KoeiTecmo\\WARRIORS ALL-STARS\\Savedata. The gold and the materials you own in each of the nine campaign slots in use; every encrypted block and its seed are handled.",
+    tiles: &[],
+    sections: &[Section { title: "Slot 1", rows: &[("Gold", "/Slot 1/Gold")] }, Section { title: "Slot 2", rows: &[("Gold", "/Slot 2/Gold")] }, Section { title: "Slot 3", rows: &[("Gold", "/Slot 3/Gold")] }, Section { title: "Slot 4", rows: &[("Gold", "/Slot 4/Gold")] }, Section { title: "Slot 5", rows: &[("Gold", "/Slot 5/Gold")] }, Section { title: "Slot 6", rows: &[("Gold", "/Slot 6/Gold")] }, Section { title: "Slot 7", rows: &[("Gold", "/Slot 7/Gold")] }, Section { title: "Slot 8", rows: &[("Gold", "/Slot 8/Gold")] }, Section { title: "Slot 9", rows: &[("Gold", "/Slot 9/Gold")] }],
+    lists: &[List { title: "Slot 1: materials", path: "/Slot 1/Materials", shape: Shape::Map, names: &[], max: Some(Max { ids: &["Material ID 0", "Material ID 1", "Material ID 2", "Material ID 3", "Material ID 4", "Material ID 5", "Material ID 6", "Material ID 7", "Material ID 8", "Material ID 9", "Material ID 10", "Material ID 11", "Material ID 12", "Material ID 13", "Material ID 14", "Material ID 15", "Material ID 16", "Material ID 17", "Material ID 18", "Material ID 19", "Material ID 20", "Material ID 21", "Material ID 22", "Material ID 23", "Material ID 24", "Material ID 25", "Material ID 26", "Material ID 27", "Material ID 28", "Material ID 29", "Material ID 30", "Material ID 31", "Material ID 32", "Material ID 33", "Material ID 34", "Material ID 35", "Material ID 36", "Material ID 37", "Material ID 38", "Material ID 39", "Material ID 40", "Material ID 41", "Material ID 42", "Material ID 43", "Material ID 44"], cap: 9999, caps: &[], estimate: false, about: "Raises every material you already own to 9,999, the limit the game enforces for each material. Materials you don't own are left alone." }) },
+        List { title: "Slot 2: materials", path: "/Slot 2/Materials", shape: Shape::Map, names: &[], max: Some(Max { ids: &["Material ID 0", "Material ID 1", "Material ID 2", "Material ID 3", "Material ID 4", "Material ID 5", "Material ID 6", "Material ID 7", "Material ID 8", "Material ID 9", "Material ID 10", "Material ID 11", "Material ID 12", "Material ID 13", "Material ID 14", "Material ID 15", "Material ID 16", "Material ID 17", "Material ID 18", "Material ID 19", "Material ID 20", "Material ID 21", "Material ID 22", "Material ID 23", "Material ID 24", "Material ID 25", "Material ID 26", "Material ID 27", "Material ID 28", "Material ID 29", "Material ID 30", "Material ID 31", "Material ID 32", "Material ID 33", "Material ID 34", "Material ID 35", "Material ID 36", "Material ID 37", "Material ID 38", "Material ID 39", "Material ID 40", "Material ID 41", "Material ID 42", "Material ID 43", "Material ID 44"], cap: 9999, caps: &[], estimate: false, about: "Raises every material you already own to 9,999, the limit the game enforces for each material. Materials you don't own are left alone." }) },
+        List { title: "Slot 3: materials", path: "/Slot 3/Materials", shape: Shape::Map, names: &[], max: Some(Max { ids: &["Material ID 0", "Material ID 1", "Material ID 2", "Material ID 3", "Material ID 4", "Material ID 5", "Material ID 6", "Material ID 7", "Material ID 8", "Material ID 9", "Material ID 10", "Material ID 11", "Material ID 12", "Material ID 13", "Material ID 14", "Material ID 15", "Material ID 16", "Material ID 17", "Material ID 18", "Material ID 19", "Material ID 20", "Material ID 21", "Material ID 22", "Material ID 23", "Material ID 24", "Material ID 25", "Material ID 26", "Material ID 27", "Material ID 28", "Material ID 29", "Material ID 30", "Material ID 31", "Material ID 32", "Material ID 33", "Material ID 34", "Material ID 35", "Material ID 36", "Material ID 37", "Material ID 38", "Material ID 39", "Material ID 40", "Material ID 41", "Material ID 42", "Material ID 43", "Material ID 44"], cap: 9999, caps: &[], estimate: false, about: "Raises every material you already own to 9,999, the limit the game enforces for each material. Materials you don't own are left alone." }) },
+        List { title: "Slot 4: materials", path: "/Slot 4/Materials", shape: Shape::Map, names: &[], max: Some(Max { ids: &["Material ID 0", "Material ID 1", "Material ID 2", "Material ID 3", "Material ID 4", "Material ID 5", "Material ID 6", "Material ID 7", "Material ID 8", "Material ID 9", "Material ID 10", "Material ID 11", "Material ID 12", "Material ID 13", "Material ID 14", "Material ID 15", "Material ID 16", "Material ID 17", "Material ID 18", "Material ID 19", "Material ID 20", "Material ID 21", "Material ID 22", "Material ID 23", "Material ID 24", "Material ID 25", "Material ID 26", "Material ID 27", "Material ID 28", "Material ID 29", "Material ID 30", "Material ID 31", "Material ID 32", "Material ID 33", "Material ID 34", "Material ID 35", "Material ID 36", "Material ID 37", "Material ID 38", "Material ID 39", "Material ID 40", "Material ID 41", "Material ID 42", "Material ID 43", "Material ID 44"], cap: 9999, caps: &[], estimate: false, about: "Raises every material you already own to 9,999, the limit the game enforces for each material. Materials you don't own are left alone." }) },
+        List { title: "Slot 5: materials", path: "/Slot 5/Materials", shape: Shape::Map, names: &[], max: Some(Max { ids: &["Material ID 0", "Material ID 1", "Material ID 2", "Material ID 3", "Material ID 4", "Material ID 5", "Material ID 6", "Material ID 7", "Material ID 8", "Material ID 9", "Material ID 10", "Material ID 11", "Material ID 12", "Material ID 13", "Material ID 14", "Material ID 15", "Material ID 16", "Material ID 17", "Material ID 18", "Material ID 19", "Material ID 20", "Material ID 21", "Material ID 22", "Material ID 23", "Material ID 24", "Material ID 25", "Material ID 26", "Material ID 27", "Material ID 28", "Material ID 29", "Material ID 30", "Material ID 31", "Material ID 32", "Material ID 33", "Material ID 34", "Material ID 35", "Material ID 36", "Material ID 37", "Material ID 38", "Material ID 39", "Material ID 40", "Material ID 41", "Material ID 42", "Material ID 43", "Material ID 44"], cap: 9999, caps: &[], estimate: false, about: "Raises every material you already own to 9,999, the limit the game enforces for each material. Materials you don't own are left alone." }) },
+        List { title: "Slot 6: materials", path: "/Slot 6/Materials", shape: Shape::Map, names: &[], max: Some(Max { ids: &["Material ID 0", "Material ID 1", "Material ID 2", "Material ID 3", "Material ID 4", "Material ID 5", "Material ID 6", "Material ID 7", "Material ID 8", "Material ID 9", "Material ID 10", "Material ID 11", "Material ID 12", "Material ID 13", "Material ID 14", "Material ID 15", "Material ID 16", "Material ID 17", "Material ID 18", "Material ID 19", "Material ID 20", "Material ID 21", "Material ID 22", "Material ID 23", "Material ID 24", "Material ID 25", "Material ID 26", "Material ID 27", "Material ID 28", "Material ID 29", "Material ID 30", "Material ID 31", "Material ID 32", "Material ID 33", "Material ID 34", "Material ID 35", "Material ID 36", "Material ID 37", "Material ID 38", "Material ID 39", "Material ID 40", "Material ID 41", "Material ID 42", "Material ID 43", "Material ID 44"], cap: 9999, caps: &[], estimate: false, about: "Raises every material you already own to 9,999, the limit the game enforces for each material. Materials you don't own are left alone." }) },
+        List { title: "Slot 7: materials", path: "/Slot 7/Materials", shape: Shape::Map, names: &[], max: Some(Max { ids: &["Material ID 0", "Material ID 1", "Material ID 2", "Material ID 3", "Material ID 4", "Material ID 5", "Material ID 6", "Material ID 7", "Material ID 8", "Material ID 9", "Material ID 10", "Material ID 11", "Material ID 12", "Material ID 13", "Material ID 14", "Material ID 15", "Material ID 16", "Material ID 17", "Material ID 18", "Material ID 19", "Material ID 20", "Material ID 21", "Material ID 22", "Material ID 23", "Material ID 24", "Material ID 25", "Material ID 26", "Material ID 27", "Material ID 28", "Material ID 29", "Material ID 30", "Material ID 31", "Material ID 32", "Material ID 33", "Material ID 34", "Material ID 35", "Material ID 36", "Material ID 37", "Material ID 38", "Material ID 39", "Material ID 40", "Material ID 41", "Material ID 42", "Material ID 43", "Material ID 44"], cap: 9999, caps: &[], estimate: false, about: "Raises every material you already own to 9,999, the limit the game enforces for each material. Materials you don't own are left alone." }) },
+        List { title: "Slot 8: materials", path: "/Slot 8/Materials", shape: Shape::Map, names: &[], max: Some(Max { ids: &["Material ID 0", "Material ID 1", "Material ID 2", "Material ID 3", "Material ID 4", "Material ID 5", "Material ID 6", "Material ID 7", "Material ID 8", "Material ID 9", "Material ID 10", "Material ID 11", "Material ID 12", "Material ID 13", "Material ID 14", "Material ID 15", "Material ID 16", "Material ID 17", "Material ID 18", "Material ID 19", "Material ID 20", "Material ID 21", "Material ID 22", "Material ID 23", "Material ID 24", "Material ID 25", "Material ID 26", "Material ID 27", "Material ID 28", "Material ID 29", "Material ID 30", "Material ID 31", "Material ID 32", "Material ID 33", "Material ID 34", "Material ID 35", "Material ID 36", "Material ID 37", "Material ID 38", "Material ID 39", "Material ID 40", "Material ID 41", "Material ID 42", "Material ID 43", "Material ID 44"], cap: 9999, caps: &[], estimate: false, about: "Raises every material you already own to 9,999, the limit the game enforces for each material. Materials you don't own are left alone." }) },
+        List { title: "Slot 9: materials", path: "/Slot 9/Materials", shape: Shape::Map, names: &[], max: Some(Max { ids: &["Material ID 0", "Material ID 1", "Material ID 2", "Material ID 3", "Material ID 4", "Material ID 5", "Material ID 6", "Material ID 7", "Material ID 8", "Material ID 9", "Material ID 10", "Material ID 11", "Material ID 12", "Material ID 13", "Material ID 14", "Material ID 15", "Material ID 16", "Material ID 17", "Material ID 18", "Material ID 19", "Material ID 20", "Material ID 21", "Material ID 22", "Material ID 23", "Material ID 24", "Material ID 25", "Material ID 26", "Material ID 27", "Material ID 28", "Material ID 29", "Material ID 30", "Material ID 31", "Material ID 32", "Material ID 33", "Material ID 34", "Material ID 35", "Material ID 36", "Material ID 37", "Material ID 38", "Material ID 39", "Material ID 40", "Material ID 41", "Material ID 42", "Material ID 43", "Material ID 44"], cap: 9999, caps: &[], estimate: false, about: "Raises every material you already own to 9,999, the limit the game enforces for each material. Materials you don't own are left alone." }) }],
+    tables: &[],
+};
+
+const WO1: Spec = Spec {
+    name: "Warriors Orochi",
+    tab: "Army",
+    accent: (110, 60, 140),
+    kind: Some(crate::fmt::wo1::KIND),
+    markers: &["/Army/Growth Points"],
+    subtitle: "save.dat from Documents\\KOEI\\Warriors OROCHI\\Savedata (the original 2008 release). The shared Growth Points and each officer's Life, Musou, Attack, Defense and Speed; the checksum is handled.",
+    tiles: &[("Growth Points", "/Army/Growth Points")],
+    sections: &[Section { title: "Army", rows: &[("Growth Points", "/Army/Growth Points")] }],
+    lists: &[],
+    tables: &[Table { title: "Officers", path: "/Officers", name: &[], only: &[], cols: &[("Level", "/Level"), ("Life", "/Life"), ("Musou", "/Musou"), ("Attack", "/Attack"), ("Defense", "/Defense"), ("Speed", "/Speed")], names: &[] }],
+};
+
+const SAMURAI2: Spec = Spec {
+    name: "Samurai Warriors 2",
+    tab: "Army",
+    accent: (180, 70, 50),
+    kind: Some(crate::fmt::sw2::KIND),
+    markers: &["/Army/Money"],
+    subtitle: "save.dat from Documents\\KOEI\\Samurai Warriors 2 (the original 2008 release). Money and the stored stats of each unlocked officer; the checksum is handled.",
+    tiles: &[("Money", "/Army/Money")],
+    sections: &[Section { title: "Army", rows: &[("Money", "/Army/Money")] }],
+    lists: &[],
+    tables: &[Table { title: "Officers", path: "/Officers", name: &[], only: &[], cols: &[("Life", "/Life"), ("Musou", "/Musou"), ("Attack", "/Attack"), ("Defense", "/Defense"), ("Riding", "/Riding"), ("Speed", "/Speed"), ("Dexterity", "/Dexterity"), ("Luck", "/Luck")], names: &[] }],
+};
+
+const DW4H: Spec = Spec {
+    name: "Dynasty Warriors 4 Hyper",
+    tab: "Officers",
+    accent: (160, 50, 40),
+    kind: Some(crate::fmt::dw4h::KIND),
+    markers: &["/Difficulty", "/Officers"],
+    subtitle: "save.dat from Documents\\KOEI\\Dynasty Warriors 4 Hyper\\Savedata. The difficulty, each officer's life, Musou, attack, defense, experience and weapon experience, and the level of every item; the checksum is handled.",
+    tiles: &[],
+    sections: &[Section { title: "Game", rows: &[("Difficulty", "/Difficulty")] }],
+    lists: &[List { title: "Items (level, or owned)", path: "/Items", shape: Shape::Map, names: &[], max: None }],
+    tables: &[Table { title: "Officers", path: "/Officers", name: &[], only: &[], cols: &[("Playable", "/Playable"), ("Life", "/Life"), ("Musou", "/Musou"), ("Attack", "/Attack"), ("Defense", "/Defense"), ("Character EXP", "/Character EXP"), ("Weapon EXP", "/Weapon EXP")], names: &[] }],
 };

@@ -23190,3 +23190,128 @@ Volt Magnet
 
 Volt Rock
 = Volt Rock
+
+# src/fmt/dw7xl.rs (Omega Force games)
+
+Building materials
+= Matériaux de construction
+
+Close the game first. All ten encrypted blocks are written again with their own seeds. Only slots in use are listed; materials are shown by their number in the save and only the ones you own.
+= Fermez d'abord le jeu. Les dix blocs chiffrés sont réécrits avec leurs propres graines. Seuls les emplacements utilisés sont listés ; les matériaux apparaissent avec leur numéro dans la sauvegarde, et seulement ceux que vous possédez.
+
+Close the game first. The additive checksum is written again. Officers are shown by their number in the save; a level-up can reset their stats.
+= Fermez d'abord le jeu. La somme de contrôle additive est réécrite. Les officiers apparaissent avec leur numéro dans la sauvegarde ; un gain de niveau peut réinitialiser leurs statistiques.
+
+Close the game first. The additive checksum is written again. Only unlocked officers are listed; the stat limits are estimates, not the game's own.
+= Fermez d'abord le jeu. La somme de contrôle additive est réécrite. Seuls les officiers débloqués sont listés ; les limites de statistiques sont des estimations, pas celles du jeu.
+
+Close the game first. The save is decrypted with your Steam account number and encrypted again on save. Only saves made in My Castle (not in a battle) are opened.
+= Fermez d'abord le jeu. La sauvegarde est déchiffrée avec votre numéro de compte Steam et rechiffrée à l'enregistrement. Seules les sauvegardes faites dans Mon château (pas en bataille) sont ouvertes.
+
+Close the game first. The stream cipher and the word checksum are written again. Officers are shown by their number in the save, not by name.
+= Fermez d'abord le jeu. Le chiffrement de flux et la somme de contrôle par mots sont réécrits. Les officiers apparaissent avec leur numéro dans la sauvegarde, pas par leur nom.
+
+Crafting materials (you own)
+= Matériaux de fabrication (que vous possédez)
+
+Dojo
+= Dojo
+
+Musou
+= Musou
+
+Raises every attribute orb you already own to 99, the highest value in a completed save and the limit public patches use. Orbs you don't own are left alone.
+= Porte chaque orbe d'attribut que vous possédez déjà à 99, la valeur la plus haute d'une sauvegarde terminée et la limite des correctifs publics. Les orbes que vous n'avez pas ne sont pas modifiés.
+
+Raises every crafting material you already own to 99, the highest value in a completed save and the limit public patches use. Materials you don't own are left alone.
+= Porte chaque matériau de fabrication que vous possédez déjà à 99, la valeur la plus haute d'une sauvegarde terminée et la limite des correctifs publics. Les matériaux que vous n'avez pas ne sont pas modifiés.
+
+Raises every material you already own to 9,999, the limit the game enforces for each material. Materials you don't own are left alone.
+= Porte chaque matériau que vous possédez déjà à 9 999, la limite que le jeu impose à chaque matériau. Les matériaux que vous n'avez pas ne sont pas modifiés.
+
+Raises lumber, mineral and fabric to 9,999, the limit the game enforces when it grants them.
+= Porte le bois, le minerai et le tissu à 9 999, la limite que le jeu impose lorsqu'il les accorde.
+
+SAVEDATA.BIN from Documents\\KoeiTecmo\\WARRIORS ALL-STARS\\Savedata. The gold and the materials you own in each of the nine campaign slots in use; every encrypted block and its seed are handled.
+= SAVEDATA.BIN depuis Documents\\KoeiTecmo\\WARRIORS ALL-STARS\\Savedata. L'or et les matériaux que vous possédez dans chacun des neuf emplacements de campagne utilisés ; chaque bloc chiffré et sa graine sont gérés.
+
+SAVEDATA.BIN from Documents\\KoeiTecmo\\WARRIORS OROCHI 3 Ultimate\\SAVEDATA. Growth Points, Gems, each officer's Health, Musou, Attack, Defense and Speed, and the weapon attribute orbs and crafting materials you own.
+= SAVEDATA.BIN depuis Documents\\KoeiTecmo\\WARRIORS OROCHI 3 Ultimate\\SAVEDATA. Points de croissance, gemmes, santé, Musou, attaque, défense et vitesse de chaque officier, ainsi que les orbes d'attribut d'arme et les matériaux de fabrication que vous possédez.
+
+SAVEDATA00.BIN from Documents\\KoeiTecmo\\SAMURAI WARRIORS 5\\Savedata (made in My Castle). Gold, the Dojo's stock EXP, shared skill points and stock weapon mastery, and the castle's lumber, mineral and fabric. Decrypted with your Steam account number.
+= SAVEDATA00.BIN depuis Documents\\KoeiTecmo\\SAMURAI WARRIORS 5\\Savedata (créée dans Mon château). Or, EXP en réserve du dojo, points de compétence partagés et maîtrise d'arme en réserve, ainsi que le bois, le minerai et le tissu du château. Déchiffrée avec votre numéro de compte Steam.
+
+Shared skill points
+= Points de compétence partagés
+
+Slot 1: materials
+= Emplacement 1 : matériaux
+
+Slot 2: materials
+= Emplacement 2 : matériaux
+
+Slot 3: materials
+= Emplacement 3 : matériaux
+
+Slot 4: materials
+= Emplacement 4 : matériaux
+
+Slot 5: materials
+= Emplacement 5 : matériaux
+
+Slot 6: materials
+= Emplacement 6 : matériaux
+
+Slot 7: materials
+= Emplacement 7 : matériaux
+
+Slot 8: materials
+= Emplacement 8 : matériaux
+
+Slot 9
+= Emplacement 9
+
+Slot 9: materials
+= Emplacement 9 : matériaux
+
+Stock EXP
+= EXP en réserve
+
+Stock weapon mastery
+= Maîtrise d'arme en réserve
+
+The save is plain data with no checksum. Close the game first. Officers, orbs and materials are shown by their number in the save, not by name; only orbs and materials you own are listed.
+= La sauvegarde est composée de données en clair, sans somme de contrôle. Fermez d'abord le jeu. Les officiers, orbes et matériaux apparaissent avec leur numéro dans la sauvegarde, pas par leur nom ; seuls les orbes et matériaux que vous possédez sont listés.
+
+Weapon attribute orbs (fusion materials you own)
+= Orbes d'attribut d'arme (matériaux de fusion que vous possédez)
+
+save.dat from Documents\\KOEI\\Samurai Warriors 2 (the original 2008 release). Money and the stored stats of each unlocked officer; the checksum is handled.
+= save.dat depuis Documents\\KOEI\\Samurai Warriors 2 (la version originale de 2008). L'argent et les statistiques enregistrées de chaque officier débloqué ; la somme de contrôle est gérée.
+
+save.dat from Documents\\KOEI\\Warriors OROCHI\\Savedata (the original 2008 release). The shared Growth Points and each officer's Life, Musou, Attack, Defense and Speed; the checksum is handled.
+= save.dat depuis Documents\\KOEI\\Warriors OROCHI\\Savedata (la version originale de 2008). Les points de croissance partagés et la vie, le Musou, l'attaque, la défense et la vitesse de chaque officier ; la somme de contrôle est gérée.
+
+save.dat from Documents\\KoeiTecmo\\Dynasty Warriors 7 DX\\Savedata. Gold and each officer's Health, Attack, Defense, Power, Speed and skill points; the stream cipher and word checksum are handled.
+= save.dat depuis Documents\\KoeiTecmo\\Dynasty Warriors 7 DX\\Savedata. L'or et la santé, l'attaque, la défense, la puissance, la vitesse et les points de compétence de chaque officier ; le chiffrement de flux et la somme de contrôle par mots sont gérés.
+
+# src/fmt/dw4h.rs (Omega Force games)
+
+Character EXP
+= EXP du personnage
+
+Close the game first. The additive checksum is written again. Weapon EXP 36,001 is a special weapon at level 10; items show their level or whether you own them.
+= Fermez d'abord le jeu. La somme de contrôle additive est réécrite. L'EXP d'arme 36 001 correspond à une arme spéciale de niveau 10 ; les objets indiquent leur niveau ou si vous les possédez.
+
+Items (level, or owned)
+= Objets (niveau ou possédé)
+
+Playable
+= Jouable
+
+Weapon EXP
+= EXP de l'arme
+
+save.dat from Documents\\KOEI\\Dynasty Warriors 4 Hyper\\Savedata. The difficulty, each officer's life, Musou, attack, defense, experience and weapon experience, and the level of every item; the checksum is handled.
+= save.dat depuis Documents\\KOEI\\Dynasty Warriors 4 Hyper\\Savedata. La difficulté, ainsi que la vie, le Musou, l'attaque, la défense, l'expérience et l'expérience d'arme de chaque officier, et le niveau de chaque objet ; la somme de contrôle est gérée.
+

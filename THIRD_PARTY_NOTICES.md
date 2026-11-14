@@ -203,7 +203,7 @@ Universal Save Editor is free. It builds on other people's work, listed here wit
 | [ysf-save-tools and ysnacci (Ys: The Oath in Felghana cipher and field layout, ported)](https://github.com/geq991/ysf-save-tools) | geq991 and Luigi Auriemma | GPL-2.0-or-later |
 | [BravelyDefault2 (Bravely Default II save layout and property names)](https://github.com/turtle-insect/BravelyDefault2) | turtle-insect | GPL-3.0 |
 | [GameSaveEditor (Trails in the Sky the 3rd and Trails of Cold Steel save offsets and item names)](https://github.com/Stormwave/SaveEditor) | Andrew Cornforth, Stormwave and contributors | GPL-3.0 |
-| [Universal Koei Tecmo Save Editor (Warriors Orochi 4 and Samurai Warriors 4-II envelopes, key derivation and field offsets, and the Atelier Sophie/Firis layouts, ported)](https://github.com/Sanrenan/Universal-Koei-Tecmo-Save-Editor) | Sanrenan | MIT |
+| [Universal Koei Tecmo Save Editor (Warriors Orochi 1, 3 Ultimate and 4, Samurai Warriors 2, 4-II and 5, Dynasty Warriors 7 XL and Warriors All-Stars envelopes, key derivation and field offsets, and the Atelier Sophie/Firis layouts, ported)](https://github.com/Sanrenan/Universal-Koei-Tecmo-Save-Editor) | Sanrenan | MIT |
 | [nier_replicant (save layout)](https://github.com/dskrypa/nier_replicant) | dskrypa | MIT |
 | [GenZ-Save-File-Editor (Generation Zero item hashes and names)](https://github.com/GrimChan/GenZ-Save-File-Editor) | GrimChan | MIT |
 | [RSWreckGarage (Wreckfest profile container and career layout)](https://github.com/RootSwitch/RSWreckGarage) | RootSwitch | Unlicense |

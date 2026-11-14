@@ -23183,3 +23183,128 @@ Volt Magnet
 
 Volt Rock
 = Volt Rock
+
+# src/fmt/dw7xl.rs (Omega Force games)
+
+Building materials
+= Baumaterialien
+
+Close the game first. All ten encrypted blocks are written again with their own seeds. Only slots in use are listed; materials are shown by their number in the save and only the ones you own.
+= Schließe zuerst das Spiel. Alle zehn verschlüsselten Blöcke werden mit ihren eigenen Seeds neu geschrieben. Es werden nur belegte Spielstände aufgeführt; Materialien erscheinen mit ihrer Nummer im Spielstand, und nur die, die du besitzt.
+
+Close the game first. The additive checksum is written again. Officers are shown by their number in the save; a level-up can reset their stats.
+= Schließe zuerst das Spiel. Die additive Prüfsumme wird neu geschrieben. Offiziere erscheinen mit ihrer Nummer im Spielstand; ein Stufenaufstieg kann ihre Werte zurücksetzen.
+
+Close the game first. The additive checksum is written again. Only unlocked officers are listed; the stat limits are estimates, not the game's own.
+= Schließe zuerst das Spiel. Die additive Prüfsumme wird neu geschrieben. Es werden nur freigeschaltete Offiziere aufgeführt; die Wertgrenzen sind Schätzungen, nicht die des Spiels.
+
+Close the game first. The save is decrypted with your Steam account number and encrypted again on save. Only saves made in My Castle (not in a battle) are opened.
+= Schließe zuerst das Spiel. Der Spielstand wird mit deiner Steam-Kontonummer entschlüsselt und beim Speichern wieder verschlüsselt. Es werden nur Spielstände geöffnet, die in Meine Burg (nicht in einer Schlacht) angelegt wurden.
+
+Close the game first. The stream cipher and the word checksum are written again. Officers are shown by their number in the save, not by name.
+= Schließe zuerst das Spiel. Die Stromverschlüsselung und die Wortprüfsumme werden neu geschrieben. Offiziere erscheinen mit ihrer Nummer im Spielstand, nicht mit Namen.
+
+Crafting materials (you own)
+= Herstellungsmaterialien (in deinem Besitz)
+
+Dojo
+= Dojo
+
+Musou
+= Musou
+
+Raises every attribute orb you already own to 99, the highest value in a completed save and the limit public patches use. Orbs you don't own are left alone.
+= Setzt jeden Attribut-Orb, den du schon besitzt, auf 99, den höchsten Wert in einem abgeschlossenen Spielstand und die Grenze öffentlicher Patches. Orbs, die du nicht besitzt, bleiben unberührt.
+
+Raises every crafting material you already own to 99, the highest value in a completed save and the limit public patches use. Materials you don't own are left alone.
+= Setzt jedes Herstellungsmaterial, das du schon besitzt, auf 99, den höchsten Wert in einem abgeschlossenen Spielstand und die Grenze öffentlicher Patches. Materialien, die du nicht besitzt, bleiben unberührt.
+
+Raises every material you already own to 9,999, the limit the game enforces for each material. Materials you don't own are left alone.
+= Setzt jedes Material, das du schon besitzt, auf 9.999, die Grenze, die das Spiel für jedes Material erzwingt. Materialien, die du nicht besitzt, bleiben unberührt.
+
+Raises lumber, mineral and fabric to 9,999, the limit the game enforces when it grants them.
+= Setzt Holz, Erz und Stoff auf 9.999, die Grenze, die das Spiel beim Vergeben erzwingt.
+
+SAVEDATA.BIN from Documents\\KoeiTecmo\\WARRIORS ALL-STARS\\Savedata. The gold and the materials you own in each of the nine campaign slots in use; every encrypted block and its seed are handled.
+= SAVEDATA.BIN aus Documents\\KoeiTecmo\\WARRIORS ALL-STARS\\Savedata. Das Gold und die Materialien, die du besitzt, in jedem der neun verwendeten Kampagnen-Spielstände; jeder verschlüsselte Block und sein Seed werden verarbeitet.
+
+SAVEDATA.BIN from Documents\\KoeiTecmo\\WARRIORS OROCHI 3 Ultimate\\SAVEDATA. Growth Points, Gems, each officer's Health, Musou, Attack, Defense and Speed, and the weapon attribute orbs and crafting materials you own.
+= SAVEDATA.BIN aus Documents\\KoeiTecmo\\WARRIORS OROCHI 3 Ultimate\\SAVEDATA. Wachstumspunkte, Edelsteine, Gesundheit, Musou, Angriff, Verteidigung und Tempo jedes Offiziers sowie die Waffenattribut-Orbs und Herstellungsmaterialien, die du besitzt.
+
+SAVEDATA00.BIN from Documents\\KoeiTecmo\\SAMURAI WARRIORS 5\\Savedata (made in My Castle). Gold, the Dojo's stock EXP, shared skill points and stock weapon mastery, and the castle's lumber, mineral and fabric. Decrypted with your Steam account number.
+= SAVEDATA00.BIN aus Documents\\KoeiTecmo\\SAMURAI WARRIORS 5\\Savedata (in Meine Burg erstellt). Gold, der EXP-Vorrat des Dojos, gemeinsame Fertigkeitspunkte und Waffenmeisterschaft-Vorrat sowie Holz, Erz und Stoff der Burg. Mit deiner Steam-Kontonummer entschlüsselt.
+
+Shared skill points
+= Gemeinsame Fertigkeitspunkte
+
+Slot 1: materials
+= Spielstand 1: Materialien
+
+Slot 2: materials
+= Spielstand 2: Materialien
+
+Slot 3: materials
+= Spielstand 3: Materialien
+
+Slot 4: materials
+= Spielstand 4: Materialien
+
+Slot 5: materials
+= Spielstand 5: Materialien
+
+Slot 6: materials
+= Spielstand 6: Materialien
+
+Slot 7: materials
+= Spielstand 7: Materialien
+
+Slot 8: materials
+= Spielstand 8: Materialien
+
+Slot 9
+= Spielstand 9
+
+Slot 9: materials
+= Spielstand 9: Materialien
+
+Stock EXP
+= EXP-Vorrat
+
+Stock weapon mastery
+= Waffenmeisterschaft-Vorrat
+
+The save is plain data with no checksum. Close the game first. Officers, orbs and materials are shown by their number in the save, not by name; only orbs and materials you own are listed.
+= Der Spielstand besteht aus reinen Daten ohne Prüfsumme. Schließe zuerst das Spiel. Offiziere, Orbs und Materialien erscheinen mit ihrer Nummer im Spielstand, nicht mit Namen; es werden nur Orbs und Materialien aufgeführt, die du besitzt.
+
+Weapon attribute orbs (fusion materials you own)
+= Waffenattribut-Orbs (Fusionsmaterial in deinem Besitz)
+
+save.dat from Documents\\KOEI\\Samurai Warriors 2 (the original 2008 release). Money and the stored stats of each unlocked officer; the checksum is handled.
+= save.dat aus Documents\\KOEI\\Samurai Warriors 2 (die ursprüngliche Version von 2008). Geld und die gespeicherten Werte jedes freigeschalteten Offiziers; die Prüfsumme wird verarbeitet.
+
+save.dat from Documents\\KOEI\\Warriors OROCHI\\Savedata (the original 2008 release). The shared Growth Points and each officer's Life, Musou, Attack, Defense and Speed; the checksum is handled.
+= save.dat aus Documents\\KOEI\\Warriors OROCHI\\Savedata (die ursprüngliche Version von 2008). Die gemeinsamen Wachstumspunkte sowie Leben, Musou, Angriff, Verteidigung und Tempo jedes Offiziers; die Prüfsumme wird verarbeitet.
+
+save.dat from Documents\\KoeiTecmo\\Dynasty Warriors 7 DX\\Savedata. Gold and each officer's Health, Attack, Defense, Power, Speed and skill points; the stream cipher and word checksum are handled.
+= save.dat aus Documents\\KoeiTecmo\\Dynasty Warriors 7 DX\\Savedata. Gold sowie Gesundheit, Angriff, Verteidigung, Kraft, Tempo und Fertigkeitspunkte jedes Offiziers; die Stromverschlüsselung und die Wortprüfsumme werden verarbeitet.
+
+# src/fmt/dw4h.rs (Omega Force games)
+
+Character EXP
+= Charakter-EXP
+
+Close the game first. The additive checksum is written again. Weapon EXP 36,001 is a special weapon at level 10; items show their level or whether you own them.
+= Schließe zuerst das Spiel. Die additive Prüfsumme wird neu geschrieben. Waffen-EXP 36.001 ist eine Spezialwaffe auf Stufe 10; Gegenstände zeigen ihre Stufe oder ob du sie besitzt.
+
+Items (level, or owned)
+= Gegenstände (Stufe oder im Besitz)
+
+Playable
+= Spielbar
+
+Weapon EXP
+= Waffen-EXP
+
+save.dat from Documents\\KOEI\\Dynasty Warriors 4 Hyper\\Savedata. The difficulty, each officer's life, Musou, attack, defense, experience and weapon experience, and the level of every item; the checksum is handled.
+= save.dat aus Documents\\KOEI\\Dynasty Warriors 4 Hyper\\Savedata. Der Schwierigkeitsgrad sowie Leben, Musou, Angriff, Verteidigung, Erfahrung und Waffenerfahrung jedes Offiziers und die Stufe jedes Gegenstands; die Prüfsumme wird verarbeitet.
+

@@ -245,6 +245,13 @@ pub mod ysf;
 pub mod gust;
 pub mod wo4;
 pub mod sw4ii;
+pub mod dw7xl;
+pub mod wo3u;
+pub mod sw5;
+pub mod stars;
+pub mod wo1;
+pub mod sw2;
+pub mod dw4h;
 pub mod falcom;
 mod falcom_tables;
 pub mod obsidian;
@@ -641,6 +648,41 @@ pub fn parse_binary(d: &[u8]) -> Option<TreeDoc> {
     }
     if sw4ii::looks(d) {
         if let Ok(t) = sw4ii::parse(d) {
+            return Some(t);
+        }
+    }
+    if dw7xl::looks(d) {
+        if let Ok(t) = dw7xl::parse(d) {
+            return Some(t);
+        }
+    }
+    if wo3u::looks(d) {
+        if let Ok(t) = wo3u::parse(d) {
+            return Some(t);
+        }
+    }
+    if sw5::looks(d) {
+        if let Ok(t) = sw5::parse(d) {
+            return Some(t);
+        }
+    }
+    if stars::looks(d) {
+        if let Ok(t) = stars::parse(d) {
+            return Some(t);
+        }
+    }
+    if wo1::looks(d) {
+        if let Ok(t) = wo1::parse(d) {
+            return Some(t);
+        }
+    }
+    if sw2::looks(d) {
+        if let Ok(t) = sw2::parse(d) {
+            return Some(t);
+        }
+    }
+    if dw4h::looks(d) {
+        if let Ok(t) = dw4h::parse(d) {
             return Some(t);
         }
     }

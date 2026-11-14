@@ -23238,3 +23238,128 @@ Volt Magnet
 
 Volt Rock
 = Volt Rock
+
+# src/fmt/dw7xl.rs (Omega Force games)
+
+Building materials
+= 建筑材料
+
+Close the game first. All ten encrypted blocks are written again with their own seeds. Only slots in use are listed; materials are shown by their number in the save and only the ones you own.
+= 请先关闭游戏。全部十个加密块会用各自的种子重新写入。只列出正在使用的存档位;材料按存档中的编号显示,且只显示你拥有的。
+
+Close the game first. The additive checksum is written again. Officers are shown by their number in the save; a level-up can reset their stats.
+= 请先关闭游戏。加法校验和会重新写入。武将按存档中的编号显示;升级可能会重置其能力值。
+
+Close the game first. The additive checksum is written again. Only unlocked officers are listed; the stat limits are estimates, not the game's own.
+= 请先关闭游戏。加法校验和会重新写入。只列出已解锁的武将;能力值上限是估算值,并非游戏本身的上限。
+
+Close the game first. The save is decrypted with your Steam account number and encrypted again on save. Only saves made in My Castle (not in a battle) are opened.
+= 请先关闭游戏。存档会用你的Steam账号编号解密,并在保存时重新加密。只能打开在“我的城”中创建的存档(非战斗中)。
+
+Close the game first. The stream cipher and the word checksum are written again. Officers are shown by their number in the save, not by name.
+= 请先关闭游戏。流密码和字校验和会重新写入。武将按存档中的编号显示,而非名字。
+
+Crafting materials (you own)
+= 你拥有的制作材料
+
+Dojo
+= 道场
+
+Musou
+= 无双
+
+Raises every attribute orb you already own to 99, the highest value in a completed save and the limit public patches use. Orbs you don't own are left alone.
+= 将你已拥有的每种属性宝珠提升到99,这是通关存档中的最高值,也是公开补丁使用的上限。未拥有的宝珠不受影响。
+
+Raises every crafting material you already own to 99, the highest value in a completed save and the limit public patches use. Materials you don't own are left alone.
+= 将你已拥有的每种制作材料提升到99,这是通关存档中的最高值,也是公开补丁使用的上限。未拥有的材料不受影响。
+
+Raises every material you already own to 9,999, the limit the game enforces for each material. Materials you don't own are left alone.
+= 将你已拥有的每种材料提升到9,999,这是游戏对每种材料强制的上限。未拥有的材料不受影响。
+
+Raises lumber, mineral and fabric to 9,999, the limit the game enforces when it grants them.
+= 将木材、矿石和布料提升到9,999,这是游戏在发放时强制的上限。
+
+SAVEDATA.BIN from Documents\\KoeiTecmo\\WARRIORS ALL-STARS\\Savedata. The gold and the materials you own in each of the nine campaign slots in use; every encrypted block and its seed are handled.
+= Documents\\KoeiTecmo\\WARRIORS ALL-STARS\\Savedata 中的 SAVEDATA.BIN。九个使用中的战役存档位各自的金币和你拥有的材料;每个加密块及其种子都会自动处理。
+
+SAVEDATA.BIN from Documents\\KoeiTecmo\\WARRIORS OROCHI 3 Ultimate\\SAVEDATA. Growth Points, Gems, each officer's Health, Musou, Attack, Defense and Speed, and the weapon attribute orbs and crafting materials you own.
+= Documents\\KoeiTecmo\\WARRIORS OROCHI 3 Ultimate\\SAVEDATA 中的 SAVEDATA.BIN。成长点、宝石、每名武将的生命、无双、攻击、防御和速度,以及你拥有的武器属性宝珠和制作材料。
+
+SAVEDATA00.BIN from Documents\\KoeiTecmo\\SAMURAI WARRIORS 5\\Savedata (made in My Castle). Gold, the Dojo's stock EXP, shared skill points and stock weapon mastery, and the castle's lumber, mineral and fabric. Decrypted with your Steam account number.
+= Documents\\KoeiTecmo\\SAMURAI WARRIORS 5\\Savedata 中的 SAVEDATA00.BIN(在“我的城”中创建)。金币、道场的储备经验、共享技能点和储备武器熟练度,以及城堡的木材、矿石和布料。用你的Steam账号编号解密。
+
+Shared skill points
+= 共享技能点
+
+Slot 1: materials
+= 存档位1:材料
+
+Slot 2: materials
+= 存档位2:材料
+
+Slot 3: materials
+= 存档位3:材料
+
+Slot 4: materials
+= 存档位4:材料
+
+Slot 5: materials
+= 存档位5:材料
+
+Slot 6: materials
+= 存档位6:材料
+
+Slot 7: materials
+= 存档位7:材料
+
+Slot 8: materials
+= 存档位8:材料
+
+Slot 9
+= 存档位9
+
+Slot 9: materials
+= 存档位9:材料
+
+Stock EXP
+= 储备经验
+
+Stock weapon mastery
+= 储备武器熟练度
+
+The save is plain data with no checksum. Close the game first. Officers, orbs and materials are shown by their number in the save, not by name; only orbs and materials you own are listed.
+= 此存档为明文数据,没有校验和。请先关闭游戏。武将、宝珠和材料按存档中的编号显示,而非名字;只列出你拥有的宝珠和材料。
+
+Weapon attribute orbs (fusion materials you own)
+= 武器属性宝珠(你拥有的融合材料)
+
+save.dat from Documents\\KOEI\\Samurai Warriors 2 (the original 2008 release). Money and the stored stats of each unlocked officer; the checksum is handled.
+= Documents\\KOEI\\Samurai Warriors 2 中的 save.dat(2008年原版)。金钱以及每名已解锁武将保存的能力值;校验和会自动处理。
+
+save.dat from Documents\\KOEI\\Warriors OROCHI\\Savedata (the original 2008 release). The shared Growth Points and each officer's Life, Musou, Attack, Defense and Speed; the checksum is handled.
+= Documents\\KOEI\\Warriors OROCHI\\Savedata 中的 save.dat(2008年原版)。共享的成长点,以及每名武将的生命、无双、攻击、防御和速度;校验和会自动处理。
+
+save.dat from Documents\\KoeiTecmo\\Dynasty Warriors 7 DX\\Savedata. Gold and each officer's Health, Attack, Defense, Power, Speed and skill points; the stream cipher and word checksum are handled.
+= Documents\\KoeiTecmo\\Dynasty Warriors 7 DX\\Savedata 中的 save.dat。金币,以及每名武将的生命、攻击、防御、力量、速度和技能点;流密码和字校验和会自动处理。
+
+# src/fmt/dw4h.rs (Omega Force games)
+
+Character EXP
+= 角色经验
+
+Close the game first. The additive checksum is written again. Weapon EXP 36,001 is a special weapon at level 10; items show their level or whether you own them.
+= 请先关闭游戏。加法校验和会重新写入。武器经验36,001对应10级的特殊武器;物品显示其等级或是否拥有。
+
+Items (level, or owned)
+= 物品(等级或是否拥有)
+
+Playable
+= 可使用
+
+Weapon EXP
+= 武器经验
+
+save.dat from Documents\\KOEI\\Dynasty Warriors 4 Hyper\\Savedata. The difficulty, each officer's life, Musou, attack, defense, experience and weapon experience, and the level of every item; the checksum is handled.
+= Documents\\KOEI\\Dynasty Warriors 4 Hyper\\Savedata 中的 save.dat。难度,每名武将的生命、无双、攻击、防御、经验和武器经验,以及每件物品的等级;校验和会自动处理。
+

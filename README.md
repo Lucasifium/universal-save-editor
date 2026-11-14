@@ -3,7 +3,7 @@
 > **Free, and it always will be.** No price, no ads, no account, no paid version, no online service, no
 > rate limits. If anyone is charging you for this, it isn't from here.
 
-An offline save editor and save manager for 480+ (487) PC games (edit saves, and back up, name and restore them): Cairn, Terraria (characters and a world map editor),
+An offline save editor and save manager for 490+ (494) PC games (edit saves, and back up, name and restore them): Cairn, Terraria (characters and a world map editor),
 Oxygen Not Included, RimWorld, Stardew Valley, Onimusha: Way of the Sword, Elden Ring, Dark Souls,
 Cyberpunk 2077, the Persona, Yakuza and Final Fantasy games, Ren'Py visual novels, RPG Maker games
 and more (the full list is below). Written in Rust (egui). Nothing is uploaded anywhere, and there are
@@ -158,7 +158,7 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 </details>
 
 <details>
-<summary><strong>D</strong> (35)</summary>
+<summary><strong>D</strong> (37)</summary>
 
 | Game | Screen |
 |---|---|
@@ -196,6 +196,8 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 | DREDGE | *Angler*: funds, hull tier, sanity and the catch counts (rod, nets, crabs, aberrations, relics), from `dredge-save0.bin` (.NET BinaryFormatter, read and written in place; checked on a public save, not yet tried in the game) |
 | Dying Light | *Survivor*: the skill tree levels (every copy the save keeps) |
 | Dying Light 2 / The Beast | *Survivor*: money, health, the Traversal / Combat / Inhibitor levels and points, every skill's level (Techland's self-describing save format; every saved number is in *Values*) |
+| Dynasty Warriors 4 Hyper | *Officers*: the difficulty, each officer's playable flag, life, Musou, attack, defense, experience and weapon experience, and the level of every item (or whether you own it); the checksum is handled for you (checked on a public save, not yet tried in the game) |
+| Dynasty Warriors 7: Xtreme Legends Definitive Edition | *Army*: gold and each officer's health, attack, defense, power, speed and skill points; the stream cipher and word checksum are handled for you (checked on a public save, not yet tried in the game) |
 | Dynasty Warriors 8: Xtreme Legends Complete Edition | *Resources*: gold, gems, facility and weapon materials; *Officers*: each of the 82 officers' attack, defence and health, and the four weapon-compatibility star ratings. The encrypted `save.dat` is opened and both checksums are kept right (checked on a public save, not yet tried in the game) |
 
 </details>
@@ -483,14 +485,16 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 </details>
 
 <details>
-<summary><strong>S</strong> (42)</summary>
+<summary><strong>S</strong> (44)</summary>
 
 | Game | Screen |
 |---|---|
 | Saints Row IV | *President*: cash (the game keeps it in cents), data clusters, respect level and respect (`sr4save_N.sr4s_pc`); the save's CRC-32 is rewritten (checked on public saves, not yet tried in the game) |
 | Saints Row: The Third (and Remastered) | *Boss*: cash and the crib stash (the game keeps them in cents), respect level and respect, stunt jumps, barnstorms and difficulty (`sr3save_NN.sr3s_pc`); the save's CRC-32 is rewritten (checked on public saves, not yet tried in the game) |
 | Salt and Sanctuary | *Character*: level, salt, gold, kills, deaths, sanctuary rests, corruption and the playthrough number from `datN.slv` (items and the skill tree are not edited yet; checked on public saves, not yet tried in the game) |
+| Samurai Warriors 2 | *Army*: money and the stored stats of each unlocked officer of the original PC release (the stat limits are estimates); the checksum is handled for you (checked on a public save, not yet tried in the game) |
 | Samurai Warriors 4-II | *Army*: Gold, the five strategy tomes and every officer's Health, Attack, Defense, Riding and Speed bonuses; the cipher, section sums and checksum are handled for you (checked on a public save, not yet tried in the game) |
+| Samurai Warriors 5 | *Resources*: gold, the Dojo's stock EXP, shared skill points and stock weapon mastery, and the castle's lumber, mineral and fabric (with *Max crafting materials*, 9,999 each); the save is decrypted with your Steam account number (it is found from the Steam accounts on your computer or the `steam_autocloud.vdf` beside the file) and encrypted again on save (checked on a public save, not yet tried in the game) |
 | Satellite Reign | *Syndicate*: your funds and the researcher, scientist, doctor and kill counters (checked on a public save, not yet tried in the game) |
 | Schedule I | One screen per save file: *Money* (bank balance, net worth, lifetime earnings, weekly deposits), *Rank* (rank, tier, XP), *Time* (days, time of day, play time) and *Game* (organisation name, seed, console). Cash you carry is in the player's own files and isn't covered (checked on a public sample save, not yet tried in the game) |
 | Secret of Mana (SNES, emulator `.srm` saves) | *Slots*: money, each hero's level, experience, HP and MP, and weapon and spirit levels (each slot's checksum is kept right; checked against a public save, not yet tried in the game) |
@@ -613,7 +617,7 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 </details>
 
 <details>
-<summary><strong>W</strong> (16)</summary>
+<summary><strong>W</strong> (19)</summary>
 
 | Game | Screen |
 |---|---|
@@ -621,6 +625,9 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 | Warhammer 40,000: Mechanicus | *Cadmus*: Blackstone, the Ark's bonus points and slots, and each Techpriest's level, XP, skill points, slot points and augment capacity; the save's own text dialect is patched in place and the checksum in `SaveState.sav` is rewritten for you (checked on public saves, not yet tried in the game) |
 | Warhammer 40,000: Rogue Trader | *Dynasty*: scrap, Profit Factor, the Navigator's insight, difficulty settings and reputation with each faction (same save family as Pathfinder; no Rogue Trader save tried yet) |
 | Warm Snow | *Swordsman*: memento souls, red souls, souls, soul jars, the life, kill and refine levels, health, difficulty and runs, from `save_0` (.NET BinaryFormatter, read and written in place; checked on a public save, not yet tried in the game) |
+| Warriors All-Stars | *Campaigns*: the gold and the materials you own in each of the nine campaign slots in use (with *Max crafting materials*, 9,999 each); all ten encrypted blocks and their seeds are handled for you (checked on a public save, not yet tried in the game) |
+| Warriors Orochi | *Army*: the shared Growth Points and each officer's Life, Musou, Attack, Defense and Speed of the original 2008 release; the checksum is handled for you (checked on a public save, not yet tried in the game) |
+| Warriors Orochi 3 Ultimate Definitive Edition | *Resources*: Growth Points, Gems, each officer's health, Musou, attack, defense and speed, and the weapon attribute orbs and crafting materials you own (with *Max crafting materials*, 99 each, the highest value in a completed save); the save is plain data (checked on a public save, not yet tried in the game) |
 | Warriors Orochi 4 | *Resources*: Gems, Crystals, Growth Points, Skill Orbs (lower only), the weapon-element stacks you own (with *Max crafting materials*, 999 each) and each progressed officer's skill points; works for the original and Ultimate saves, both AES blocks and their seeds are handled for you (checked on public saves of both, not yet tried in the game) |
 | Wasteland 2 | *Rangers*: each ranger's level, experience, health, attribute, skill and trait points, kills and the seven attributes (skills and items are in the Tree); the save's `<@>` name markers are kept as they are (checked on a public save, not yet tried in the game) |
 | Wasteland 3 | *Rangers*: money; each ranger's level, XP, hit points, attributes, unspent points and skills by name (Automatic Weapons, First Aid, Lockpicking and the rest); item quantities in the inventory and stash; Fame and each faction's reputation (negative allowed) and the quest counters the game keeps. Unpacked (LZF) and packed again on save. Not yet tried in the game |
@@ -698,8 +705,8 @@ binary and stays an ironman save. It isn't converted to a normal one.
 
 The start page lists **Your games**: every game in the list whose saves were found on this computer,
 newest first, each one click away from its newest save. *Find my game's saves* (the big button on the
-start page, *Find saves* in the toolbar and the File menu) lists every one of the 480+ (487) PC games the editor knows, Mass Effect 1–3, the Legendary Edition and Andromeda among them — with where it
-start page, *Find saves* in the toolbar and the File menu) lists every one of the 480+ (487) PC games the editor knows, Mass Effect 1–3, the Legendary Edition and Andromeda among them — with where it
+start page, *Find saves* in the toolbar and the File menu) lists every one of the 490+ (494) PC games the editor knows, Mass Effect 1–3, the Legendary Edition and Andromeda among them — with where it
+start page, *Find saves* in the toolbar and the File menu) lists every one of the 490+ (494) PC games the editor knows, Mass Effect 1–3, the Legendary Edition and Andromeda among them — with where it
 usually keeps its saves and what the files are called, and finds them on your computer (Steam
 libraries and `userdata`, Documents wherever Windows has it, AppData, Saved Games, Ubisoft
 Connect). On Linux and the Steam Deck it also looks inside Proton prefixes

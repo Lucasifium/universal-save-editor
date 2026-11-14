@@ -235,6 +235,8 @@ pub enum Layer {
     Lime { original: Arc<Vec<u8>>, user: u64 },
     /// Borderlands 4: AES-256-ECB under the Steam account's key around zlib, Adler-32 and length.
     Bl4 { user: u64 },
+    /// Samurai Warriors 5: AES-128-CBC keyed by the Steam account number, the IV seed kept.
+    Sw5 { account: u32, seed: u32 },
     /// Capcom RE Engine "Citrus" encryption (Monster Hunter Rise on Steam): the file it came
     /// from (for its block keys), the curve and the Steam ID.
     Citrus { original: Arc<Vec<u8>>, curve: usize, steam: u64 },
@@ -443,6 +445,7 @@ impl Layer {
             Layer::Mandarin { game, .. } => format!("{} save encryption", fmt::mandarin::GAMES[*game].title),
             Layer::Lime { .. } => "Resident Evil 4 save encryption".into(),
             Layer::Bl4 { .. } => "Borderlands 4 save encryption".into(),
+            Layer::Sw5 { .. } => "Samurai Warriors 5 save encryption".into(),
             Layer::Citrus { .. } => "Monster Hunter Rise save encryption".into(),
             Layer::RegFile(_) => "Registry values (Unity PlayerPrefs)".into(),
             Layer::Sol { .. } => "Flash shared object (.sol)".into(),
@@ -1092,6 +1095,7 @@ fn wrap(layer: &Layer, data: Vec<u8>) -> Result<Vec<u8>, String> {
         Layer::Mandarin { original, game, user } => fmt::mandarin::encrypt(&data, original, &fmt::mandarin::GAMES[*game], *user)?,
         Layer::Lime { original, user } => fmt::lime::encrypt(&data, original, *user)?,
         Layer::Bl4 { user } => fmt::bl4::encrypt(&data, *user)?,
+        Layer::Sw5 { account, seed } => fmt::sw5::encrypt(&data, *account, *seed)?,
         Layer::Citrus { original, curve, steam } => fmt::citrus::encrypt(&data, original, *curve, *steam)?,
         Layer::RegFile(meta) => fmt::regfile::save(meta, &data)?,
         Layer::Sol { original } => fmt::sol::save(original, &data)?,
@@ -1586,6 +1590,30 @@ fn peel(data: &[u8], ctx: &mut Ctx) -> Option<(Layer, Vec<u8>)> {
     }
     if fmt::lime::looks(data) {
         return peel_lime(data, ctx);
+    }
+    if data.len() == fmt::sw5::SIZE {
+        let mut ids: Vec<u32> = vec![];
+        if let Some(dir) = ctx.opts.path.as_ref().and_then(|p| p.parent()) {
+            // steam_autocloud.vdf beside the save names the owner: "accountid" "<number>".
+            if let Ok(text) = std::fs::read_to_string(dir.join("steam_autocloud.vdf")) {
+                if let Some(n) = text.split('"').skip_while(|t| !t.eq_ignore_ascii_case("accountid")).nth(2).and_then(|t| t.trim().parse::<u32>().ok()) {
+                    ids.push(n);
+                }
+            }
+        }
+        for a in ree_accounts(ctx) {
+            let low = if a > 76_561_197_960_265_728 { a - 76_561_197_960_265_728 } else { a };
+            if let Ok(n) = u32::try_from(low) {
+                if !ids.contains(&n) {
+                    ids.push(n);
+                }
+            }
+        }
+        if let Some((account, plain)) = fmt::sw5::find(data, &ids) {
+            ctx.hint = Some("Samurai Warriors 5 save: decrypted with your Steam account number and encrypted again on save.".into());
+            return Some((Layer::Sw5 { account, seed: fmt::sw5::seed(data) }, plain));
+        }
+        ctx.hint = Some("This looks like a Samurai Warriors 5 save, but none of the Steam accounts on this computer opens it. Open it from its own folder (keep steam_autocloud.vdf beside it) or enter your Steam ID in Tools \u{203A} Decrypt with password.".into());
     }
     if ctx.opts.ext == "sav" && data.len() >= 32 && data.len() % 16 == 0 {
         let mut ids = fmt::bl4::ids_in_path(&ctx.opts.path.clone().unwrap_or_default());

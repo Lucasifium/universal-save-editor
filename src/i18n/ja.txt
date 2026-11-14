@@ -23265,3 +23265,128 @@ Volt Magnet
 
 Volt Rock
 = Volt Rock
+
+# src/fmt/dw7xl.rs (Omega Force games)
+
+Building materials
+= 建築資材
+
+Close the game first. All ten encrypted blocks are written again with their own seeds. Only slots in use are listed; materials are shown by their number in the save and only the ones you own.
+= 先にゲームを終了してください。暗号化された10個のブロックすべてが、それぞれのシードで書き直されます。使用中のスロットだけが表示され、素材はセーブ内の番号で、所持しているものだけが表示されます。
+
+Close the game first. The additive checksum is written again. Officers are shown by their number in the save; a level-up can reset their stats.
+= 先にゲームを終了してください。加算チェックサムが書き直されます。武将はセーブ内の番号で表示され、レベルアップすると能力値がリセットされることがあります。
+
+Close the game first. The additive checksum is written again. Only unlocked officers are listed; the stat limits are estimates, not the game's own.
+= 先にゲームを終了してください。加算チェックサムが書き直されます。解放済みの武将だけが表示されます。能力値の上限は推定値で、ゲーム自体の上限ではありません。
+
+Close the game first. The save is decrypted with your Steam account number and encrypted again on save. Only saves made in My Castle (not in a battle) are opened.
+= 先にゲームを終了してください。セーブはSteamアカウント番号で復号され、保存時に再び暗号化されます。「マイ城」で作成したセーブ(戦闘中でないもの)のみ開けます。
+
+Close the game first. The stream cipher and the word checksum are written again. Officers are shown by their number in the save, not by name.
+= 先にゲームを終了してください。ストリーム暗号とワードチェックサムが書き直されます。武将は名前ではなくセーブ内の番号で表示されます。
+
+Crafting materials (you own)
+= 所持している製作素材
+
+Dojo
+= 道場
+
+Musou
+= 無双
+
+Raises every attribute orb you already own to 99, the highest value in a completed save and the limit public patches use. Orbs you don't own are left alone.
+= すでに持っている属性オーブをすべて99にします。クリア済みセーブでの最高値であり、公開パッチの上限でもあります。持っていないオーブはそのままです。
+
+Raises every crafting material you already own to 99, the highest value in a completed save and the limit public patches use. Materials you don't own are left alone.
+= すでに持っている製作素材をすべて99にします。クリア済みセーブでの最高値であり、公開パッチの上限でもあります。持っていない素材はそのままです。
+
+Raises every material you already own to 9,999, the limit the game enforces for each material. Materials you don't own are left alone.
+= すでに持っている素材をすべて9,999にします。ゲームが各素材に設けている上限です。持っていない素材はそのままです。
+
+Raises lumber, mineral and fabric to 9,999, the limit the game enforces when it grants them.
+= 木材・鉱石・布を9,999にします。ゲームが付与時に課す上限です。
+
+SAVEDATA.BIN from Documents\\KoeiTecmo\\WARRIORS ALL-STARS\\Savedata. The gold and the materials you own in each of the nine campaign slots in use; every encrypted block and its seed are handled.
+= Documents\\KoeiTecmo\\WARRIORS ALL-STARS\\Savedata の SAVEDATA.BIN。使用中の9つのキャンペーンスロットそれぞれの所持金と所持素材。暗号化された各ブロックとそのシードは自動で処理されます。
+
+SAVEDATA.BIN from Documents\\KoeiTecmo\\WARRIORS OROCHI 3 Ultimate\\SAVEDATA. Growth Points, Gems, each officer's Health, Musou, Attack, Defense and Speed, and the weapon attribute orbs and crafting materials you own.
+= Documents\\KoeiTecmo\\WARRIORS OROCHI 3 Ultimate\\SAVEDATA の SAVEDATA.BIN。成長ポイント、宝石、各武将の体力・無双・攻撃・防御・速度、所持している武器属性オーブと製作素材。
+
+SAVEDATA00.BIN from Documents\\KoeiTecmo\\SAMURAI WARRIORS 5\\Savedata (made in My Castle). Gold, the Dojo's stock EXP, shared skill points and stock weapon mastery, and the castle's lumber, mineral and fabric. Decrypted with your Steam account number.
+= Documents\\KoeiTecmo\\SAMURAI WARRIORS 5\\Savedata の SAVEDATA00.BIN(「マイ城」で作成)。所持金、道場のストックEXP、共有スキルポイント、ストック武器熟練度、城の木材・鉱石・布。Steamアカウント番号で復号されます。
+
+Shared skill points
+= 共有スキルポイント
+
+Slot 1: materials
+= スロット1:素材
+
+Slot 2: materials
+= スロット2:素材
+
+Slot 3: materials
+= スロット3:素材
+
+Slot 4: materials
+= スロット4:素材
+
+Slot 5: materials
+= スロット5:素材
+
+Slot 6: materials
+= スロット6:素材
+
+Slot 7: materials
+= スロット7:素材
+
+Slot 8: materials
+= スロット8:素材
+
+Slot 9
+= スロット9
+
+Slot 9: materials
+= スロット9:素材
+
+Stock EXP
+= ストックEXP
+
+Stock weapon mastery
+= ストック武器熟練度
+
+The save is plain data with no checksum. Close the game first. Officers, orbs and materials are shown by their number in the save, not by name; only orbs and materials you own are listed.
+= このセーブは平文のデータで、チェックサムはありません。先にゲームを終了してください。武将・オーブ・素材は名前ではなくセーブ内の番号で表示され、所持しているオーブと素材だけが表示されます。
+
+Weapon attribute orbs (fusion materials you own)
+= 武器属性オーブ(所持している合成素材)
+
+save.dat from Documents\\KOEI\\Samurai Warriors 2 (the original 2008 release). Money and the stored stats of each unlocked officer; the checksum is handled.
+= Documents\\KOEI\\Samurai Warriors 2 の save.dat(2008年のオリジナル版)。所持金と、解放済みの各武将に保存されている能力値。チェックサムは自動で処理されます。
+
+save.dat from Documents\\KOEI\\Warriors OROCHI\\Savedata (the original 2008 release). The shared Growth Points and each officer's Life, Musou, Attack, Defense and Speed; the checksum is handled.
+= Documents\\KOEI\\Warriors OROCHI\\Savedata の save.dat(2008年のオリジナル版)。共有の成長ポイントと、各武将のライフ・無双・攻撃・防御・速度。チェックサムは自動で処理されます。
+
+save.dat from Documents\\KoeiTecmo\\Dynasty Warriors 7 DX\\Savedata. Gold and each officer's Health, Attack, Defense, Power, Speed and skill points; the stream cipher and word checksum are handled.
+= Documents\\KoeiTecmo\\Dynasty Warriors 7 DX\\Savedata の save.dat。所持金と、各武将の体力・攻撃・防御・パワー・速度・スキルポイント。ストリーム暗号とワードチェックサムは自動で処理されます。
+
+# src/fmt/dw4h.rs (Omega Force games)
+
+Character EXP
+= キャラクターEXP
+
+Close the game first. The additive checksum is written again. Weapon EXP 36,001 is a special weapon at level 10; items show their level or whether you own them.
+= 先にゲームを終了してください。加算チェックサムが書き直されます。武器EXP 36,001は レベル10の特殊武器です。アイテムはレベル、または所持しているかどうかが表示されます。
+
+Items (level, or owned)
+= アイテム(レベル、または所持)
+
+Playable
+= 使用可能
+
+Weapon EXP
+= 武器EXP
+
+save.dat from Documents\\KOEI\\Dynasty Warriors 4 Hyper\\Savedata. The difficulty, each officer's life, Musou, attack, defense, experience and weapon experience, and the level of every item; the checksum is handled.
+= Documents\\KOEI\\Dynasty Warriors 4 Hyper\\Savedata の save.dat。難易度、各武将のライフ・無双・攻撃・防御・経験値・武器経験値、各アイテムのレベル。チェックサムは自動で処理されます。
+
