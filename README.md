@@ -3,7 +3,7 @@
 > **Free, and it always will be.** No price, no ads, no account, no paid version, no online service, no
 > rate limits. If anyone is charging you for this, it isn't from here.
 
-An offline save editor and save manager for 510+ (519) PC games (edit saves, and back up, name and restore them): Cairn, Terraria (characters and a world map editor),
+An offline save editor and save manager for 520+ (520) PC games (edit saves, and back up, name and restore them): Cairn, Terraria (characters and a world map editor),
 Oxygen Not Included, RimWorld, Stardew Valley, Onimusha: Way of the Sword, Elden Ring, Dark Souls,
 Cyberpunk 2077, the Persona, Yakuza and Final Fantasy games, Ren'Py visual novels, RPG Maker games
 and more (the full list is below). Written in Rust (egui). Nothing is uploaded anywhere, and there are
@@ -422,7 +422,7 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 </details>
 
 <details>
-<summary><strong>P</strong> (21)</summary>
+<summary><strong>P</strong> (22)</summary>
 
 | Game | Screen |
 |---|---|
@@ -443,6 +443,7 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 | Pokémon (Gen IV–IX: Diamond/Pearl/Platinum/HeartGold/SoulSilver, Black/White and Black 2/White 2, X/Y, Omega Ruby/Alpha Sapphire, Sun/Moon and Ultra Sun/Ultra Moon, Sword/Shield, Scarlet/Violet) | Trainer, money and the game's other currencies, badges, play time, bag pockets (Scarlet/Violet lists the items you own); party cards and every PC box with species, nickname, level (sets experience and stats), nature, shiny, ability, held item, ball, moves with PP and PP Ups, IVs and EVs. Pokémon encryption and the save checksums or seals are handled for you |
 | Pokémon (Gen I–III) | Trainer card and badges (Gen III: each Gym badge switchable); party cards (species, level, nickname, moves and PP, HP, IVs and more); PC boxes as a grid; bag pockets |
 | Pokémon Infinite Fusion | *Trainer*: money, coins, Battle Points, badges and the difficulty (Easy, Normal, Hard); every Pokémon in the party and the PC boxes, fusions shown with their head and body, with level and Exp. Points kept in step, nature (from the game's 25), shiny, happiness, IVs and EVs, and the stats worked out again with the game's own formula; how many of each item is in the bag (up to 999). *Max money* and *Max IVs (party)* buttons. The `File A.rxdata` saves in `%APPDATA%\infinitefusion` are plain Ruby Marshal and are edited in place (checked on real saves from game versions 5 and 6, not yet tried in the game) |
+| Police Simulator: Patrol Officers | *Career*: play time, shifts, encounters and each district's experience and duty stars, from `Career_0.sav` (plain Unreal GVAS; checked on a public save, not yet tried in the game) |
 | Potion Craft: Alchemist Simulator | *Alchemist*: gold, popularity, karma, experience and the inventory (ingredients and potions) with Max crafting materials for the plant, mushroom and crystal ingredients, from `.pcsave` (decoded to JSON and encoded again; checked on a public save, not yet tried in the game; the cap is an estimate) |
 | Pragmata | *Progress*: the difficulty rank points, New Game+ count and game time; every item and currency by the game's own code with its quantity, each weapon's level and unlock, and the perks (the save is decrypted with your Steam account; checked on real saves, not yet tried in the game) |
 | Prison Architect | *Prison*: the bank balance, play time and the main prison settings, changed in place in the large text save (checked on public saves, not yet tried in the game) |
@@ -791,8 +792,8 @@ binary and stays an ironman save. It isn't converted to a normal one.
 
 The start page lists **Your games**: every game in the list whose saves were found on this computer,
 newest first, each one click away from its newest save. *Find my game's saves* (the big button on the
-start page, *Find saves* in the toolbar and the File menu) lists every one of the 510+ (519) PC games the editor knows, Mass Effect 1–3, the Legendary Edition and Andromeda among them — with where it
-start page, *Find saves* in the toolbar and the File menu) lists every one of the 510+ (519) PC games the editor knows, Mass Effect 1–3, the Legendary Edition and Andromeda among them — with where it
+start page, *Find saves* in the toolbar and the File menu) lists every one of the 520+ (520) PC games the editor knows, Mass Effect 1–3, the Legendary Edition and Andromeda among them — with where it
+start page, *Find saves* in the toolbar and the File menu) lists every one of the 520+ (520) PC games the editor knows, Mass Effect 1–3, the Legendary Edition and Andromeda among them — with where it
 usually keeps its saves and what the files are called, and finds them on your computer (Steam
 libraries and `userdata`, Documents wherever Windows has it, AppData, Saved Games, Ubisoft
 Connect). On Linux and the Steam Deck it also looks inside Proton prefixes

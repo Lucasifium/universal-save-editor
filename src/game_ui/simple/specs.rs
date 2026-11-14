@@ -16,7 +16,10 @@ pub static SPECS: &[Spec] = &[OPENXCOM, XCOM_DOS, RCT2, COTL, FALLOUT_SHELTER, D
     // PlayStation 1 and 2 (ps_specs.rs)
     SOTN, FF8, FFT, RE1, KH2, MK64, GOLDENEYE, BANJO_KAZOOIE, OOT, SMASH64, TORCHLIGHT3, WRECKFEST, EVIL_WITHIN, BORDERLANDS1,
     // PlayStation 1 and 2 (ps_specs.rs), continued
-    CRASH, KH1, GT1, BL4, WUKONG, BOTW, RAYMAN, CTR, THPS, PAYDAY2, FS_FARM, FS_CAREER, FS17, FS15, GAS_STATION_SIM, THIEF_SIM, HOUSE_FLIPPER, TAVERN_MASTER, ROAD_REDEMPTION, SILENT_HILL, SOPHIE, FIRIS, DREDGE, PC_BUILDING_SIM, OUTWARD, SUPRALAND, WARM_SNOW, READY_OR_NOT, SUNSHINE, LUIGI, WINDWAKER, TEKKEN1, TEKKEN2, TEKKEN3, DMC_PS2, WIZARD_OF_LEGEND, MAGICRAFT, KAGERO, DW7XL, WO3U, SW5, WO1, SAMURAI2, DW4H, GTASA, SPT, ARKHAM_CITY, GRANDIA2, DONT_STARVE, MON_BAZOU, DEAD_ISLAND, CHRONO_CROSS, TOV, SA2_CHAO, KIDICARUS, TKC, DQ8];
+    CRASH, KH1, GT1, BL4, WUKONG, BOTW, RAYMAN, CTR, THPS, PAYDAY2, FS_FARM, FS_CAREER, FS17, FS15, GAS_STATION_SIM, THIEF_SIM, HOUSE_FLIPPER, TAVERN_MASTER, ROAD_REDEMPTION, SILENT_HILL, SOPHIE, FIRIS, DREDGE, PC_BUILDING_SIM, OUTWARD, SUPRALAND, WARM_SNOW, READY_OR_NOT, SUNSHINE, LUIGI, WINDWAKER, TEKKEN1, TEKKEN2, TEKKEN3, DMC_PS2, WIZARD_OF_LEGEND, MAGICRAFT, KAGERO, DW7XL, WO3U, SW5, WO1, SAMURAI2, DW4H, GTASA, SPT, ARKHAM_CITY, GRANDIA2, DONT_STARVE, MON_BAZOU, DEAD_ISLAND, CHRONO_CROSS, TOV, SA2_CHAO, KIDICARUS, TKC, DQ8,
+    POLICE_SIM,
+    RAFT,
+];
 // ------------------------------------------------------------------ Cult of the Lamb
 
 const COTL_ITEMS: &[(&str, &str)] = &[
@@ -12326,4 +12329,19 @@ const TKC: Spec = Spec {
     ],
     lists: &[],
     tables: &[],
+};
+
+// ------------------------------------------------------------------ Police Simulator: Patrol Officers
+
+const POLICE_SIM: Spec = Spec {
+    name: "Police Simulator: Patrol Officers",
+    tab: "Career",
+    accent: (60, 110, 200),
+    kind: Some("Unreal Engine save (PsSaveGame)"),
+    markers: &["/CareerData/DistrictsProgress", "/StatisticalData/PlaytimeSeconds"],
+    subtitle: "Career_0.sav from %LOCALAPPDATA%\\Boston\\Saved\\SaveGames (Unreal GVAS). Play time, shifts, and each district's experience and duty stars. Close the game first.",
+    tiles: &[("Play time (seconds)", "/StatisticalData/PlaytimeSeconds"), ("Shifts played", "/StatisticalData/NumShiftsPlayed"), ("Encounters", "/StatisticalData/NumTotalEncounters")],
+    sections: &[Section { title: "Career", rows: &[("Play time (seconds)", "/StatisticalData/PlaytimeSeconds"), ("Shifts played", "/StatisticalData/NumShiftsPlayed"), ("Days taken off", "/StatisticalData/NumDaysTakenOff"), ("Encounters", "/StatisticalData/NumTotalEncounters")] }],
+    lists: &[],
+    tables: &[Table { title: "Districts", path: "/CareerData/DistrictsProgress", name: &[], only: &[], cols: &[("Unlocked", "/bIsUnlocked"), ("Experience", "/Xp"), ("Duty stars", "/DutyStars")], names: &[] }],
 };

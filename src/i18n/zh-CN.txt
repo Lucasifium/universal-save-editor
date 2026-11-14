@@ -24030,3 +24030,20 @@ Victories
 
 Warp places
 = 传送地点
+Career_0.sav from %LOCALAPPDATA%\\Boston\\Saved\\SaveGames (Unreal GVAS). Play time, shifts, and each district's experience and duty stars. Close the game first.
+= %LOCALAPPDATA%\Boston\Saved\SaveGames 中的 Career_0.sav(Unreal GVAS)。游戏时间、班次,以及每个辖区的经验和勤务星。请先关闭游戏。
+
+Shifts played
+= 已完成班次
+
+Encounters
+= 事件次数
+
+Days taken off
+= 休息天数
+
+Districts
+= 辖区
+
+Duty stars
+= 勤务星

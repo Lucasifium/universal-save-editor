@@ -23982,3 +23982,20 @@ Victories
 
 Warp places
 = Lieux de téléportation
+Career_0.sav from %LOCALAPPDATA%\\Boston\\Saved\\SaveGames (Unreal GVAS). Play time, shifts, and each district's experience and duty stars. Close the game first.
+= Career_0.sav depuis %LOCALAPPDATA%\Boston\Saved\SaveGames (Unreal GVAS). Temps de jeu, services, ainsi que l'expérience et les étoiles de service de chaque quartier. Fermez d'abord le jeu.
+
+Shifts played
+= Services effectués
+
+Encounters
+= Interventions
+
+Days taken off
+= Jours de congé
+
+Districts
+= Quartiers
+
+Duty stars
+= Étoiles de service

@@ -429,5 +429,11 @@ pub fn all() -> Vec<&'static str> {
         tr("Casual"),
         tr("Veteran"),
         tr("Impossible"),
+        tr("Career_0.sav from %LOCALAPPDATA%\\Boston\\Saved\\SaveGames (Unreal GVAS). Play time, shifts, and each district's experience and duty stars. Close the game first."),
+        tr("Shifts played"),
+        tr("Encounters"),
+        tr("Days taken off"),
+        tr("Districts"),
+        tr("Duty stars"),
     ]
 }

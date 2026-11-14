@@ -23975,3 +23975,20 @@ Victories
 
 Warp places
 = Warp-Orte
+Career_0.sav from %LOCALAPPDATA%\\Boston\\Saved\\SaveGames (Unreal GVAS). Play time, shifts, and each district's experience and duty stars. Close the game first.
+= Career_0.sav aus %LOCALAPPDATA%\Boston\Saved\SaveGames (Unreal GVAS). Spielzeit, Schichten sowie Erfahrung und Dienststerne jedes Bezirks. Zuerst das Spiel schließen.
+
+Shifts played
+= Gespielte Schichten
+
+Encounters
+= Einsätze
+
+Days taken off
+= Freie Tage
+
+Districts
+= Bezirke
+
+Duty stars
+= Dienststerne
