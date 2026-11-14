@@ -284,7 +284,7 @@ pub fn map_tab(ui: &mut Ui, cx: &mut GameCtx) {
     ui.horizontal_wrapped(|ui| {
         if v.tool == Tool::Paint {
             let list = map.paintable();
-            let names: Vec<String> = list.iter().map(|e| format!("{} ({})", e.name, e.state.word())).collect();
+            let names: Vec<String> = list.iter().map(|e| format!("{} ({})", e.name, state_word(e.state))).collect();
             let cur = list.iter().position(|e| e.id == v.element).map_or_else(String::new, |i| names[i].clone());
             ui.label(tr("Element:"));
             if let Some(Value::String(s)) = crate::widgets::choice_editor(ui, "oni_element", &cur, &names, 240.0) {
@@ -773,5 +773,16 @@ mod tests {
         assert!(changed.iter().all(|&i| m2.cells[i].element == om::hash("Granite") && m2.cells[i].mass == 1500.0));
         let w = map.world(start).unwrap();
         assert!(changed.iter().all(|&i| (w.x..w.x + w.w).contains(&(i % map.width)) && (w.y..w.y + w.h).contains(&(i / map.width))));
+    }
+}
+
+/// The element's state as a word, translated.
+fn state_word(s: crate::fmt::oni_map::State) -> &'static str {
+    use crate::fmt::oni_map::State;
+    match s {
+        State::Vacuum => tr("vacuum"),
+        State::Gas => tr("gas"),
+        State::Liquid => tr("liquid"),
+        State::Solid => tr("solid"),
     }
 }

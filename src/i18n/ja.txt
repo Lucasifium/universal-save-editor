@@ -17978,3 +17978,15 @@ Pieces this save doesn't have at any level. They're added at their base level wh
 
 Pieces you don't have yet, at the level you pick, for each type you already own a piece of (that piece's record is the model; it stays as it is). Added when you save, up to 32 at a time. Keep a copy of the save until you've loaded it in the game.
 = まだ持っていない装備品を、選んだレベルで追加します。すでに 1 つ以上持っている種類ごとが対象です（その装備品の記録がひな形になり、そのまま残ります）。保存時に追加され、一度に最大 32 個まで。ゲームで読み込んで確認できるまで、セーブのコピーを保管してください。
+
+vacuum
+= 真空
+
+gas
+= 気体
+
+liquid
+= 液体
+
+solid
+= 固体

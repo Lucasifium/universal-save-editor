@@ -17951,3 +17951,15 @@ Pieces this save doesn't have at any level. They're added at their base level wh
 
 Pieces you don't have yet, at the level you pick, for each type you already own a piece of (that piece's record is the model; it stays as it is). Added when you save, up to 32 at a time. Keep a copy of the save until you've loaded it in the game.
 = 追加你尚未拥有的装备，等级由你选择，针对你已拥有至少一件的每种类型（该装备的记录会作为模板，保持不变）。保存时添加，一次最多 32 件。在游戏中成功读取存档之前，请保留存档副本。
+
+vacuum
+= 真空
+
+gas
+= 气体
+
+liquid
+= 液体
+
+solid
+= 固体

@@ -17892,3 +17892,15 @@ Pieces this save doesn't have at any level. They're added at their base level wh
 
 Pieces you don't have yet, at the level you pick, for each type you already own a piece of (that piece's record is the model; it stays as it is). Added when you save, up to 32 at a time. Keep a copy of the save until you've loaded it in the game.
 = Piezas que aún no tienes, al nivel que elijas, para cada tipo del que ya posees una pieza (el registro de esa pieza sirve de modelo y queda como está). Se añaden al guardar, hasta 32 a la vez. Conserva una copia de la partida hasta que la hayas cargado en el juego.
+
+vacuum
+= vacío
+
+gas
+= gas
+
+liquid
+= líquido
+
+solid
+= sólido
