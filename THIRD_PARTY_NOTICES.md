@@ -10559,6 +10559,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 | [rpfm (Total War ESF container layout, used to check the campaign reader on Rome II, Shogun 2 and Three Kingdoms saves from savegame.pro, not included)](https://github.com/Frodo45127/rpfm) | Frodo45127 | MIT (layout facts only, no code used) |
 | [ds-ptde-pc-saveviewer (the layout of Dark Souls: Prepare to Die Edition character slots; a public save from savegame.pro used for checks only, not included)](https://github.com/orm-fux/ds-ptde-pc-saveviewer) | orm-fux | Unlicense (layout facts only, no code used) |
 | [Risk-of-Rain-2-Profile-Manager (Risk of Rain 2 UserProfile XML keys; a public sample profile from savegame.pro used for checks only, not included)](https://github.com/BidasFPM/Risk-of-Rain-2-Profile-Manager) | BidasFPM | MIT (key names only, no code used) |
+| [sts2-progress-rebuild (Slay the Spire 2 progress.save layout; a public fixture save used for checks only, not included)](https://github.com/shrederr/sts2-progress-rebuild) | shrederr | MIT (layout facts only, no code used) |
 
 ## Metal Gear Solid V save variable names
 
