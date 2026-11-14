@@ -9,6 +9,7 @@ use super::{columns, hero, panel, GameCtx};
 use eframe::egui::{self, Color32, Ui};
 use serde_json::Value;
 
+mod ps_specs;
 mod specs;
 pub use specs::SPECS;
 
