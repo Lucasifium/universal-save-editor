@@ -23738,3 +23738,82 @@ Add to
 
 Every kind of item found in an inventory in this save can be added, as a copy of one the game made. Items go into the chosen character's bag when you save; where they already carry a stack of the same item, that stack grows instead. Keys, containers and story items aren't offered. Keep a backup: this hasn't been tried in the game yet.
 = Jede Art von Gegenstand, die in diesem Spielstand in einem Inventar vorkommt, kann hinzugefügt werden, als Kopie eines vom Spiel erzeugten Gegenstands. Die Gegenstände kommen beim Speichern in die Tasche der gewählten Figur; trägt sie schon einen Stapel desselben Gegenstands, wächst stattdessen dieser Stapel. Schlüssel, Behälter und Story-Gegenstände werden nicht angeboten. Behalte eine Sicherung: Das wurde im Spiel noch nicht ausprobiert.
+
+A decrypted 3DS 0x.sav. Hearts, the hearts offered to Palutena and Viridi, and the play statistics.
+= Eine entschlüsselte 3DS-0x.sav. Herzen, die Palutena und Viridi geopferten Herzen und die Spielstatistiken.
+
+A decrypted 3DS savedata.dat. Apple gems, the four kinds of shards and the profile's counters.
+= Eine entschlüsselte 3DS-savedata.dat. Apfel-Edelsteine, die vier Arten von Scherben und die Zähler des Profils.
+
+Close the emulator first. The save is the decrypted 0x.sav. Weapons are not edited yet.
+= Schließe zuerst den Emulator. Der Spielstand ist die entschlüsselte 0x.sav. Waffen werden noch nicht bearbeitet.
+
+Offered to Palutena
+= Palutena geopfert
+
+Offered to Viridi
+= Viridi geopfert
+
+Times played
+= Gespielte Male
+
+Total play time (in seconds)
+= Gesamtspielzeit (in Sekunden)
+
+Total Solo play time (in seconds)
+= Gesamte Solo-Spielzeit (in Sekunden)
+
+Hearts acquired
+= Erhaltene Herzen
+
+Weapons acquired
+= Erhaltene Waffen
+
+Powers acquired
+= Erhaltene Kräfte
+
+Ranged attacks
+= Fernangriffe
+
+Melee attacks
+= Nahkampfangriffe
+
+Attacks evaded
+= Ausgewichene Angriffe
+
+Knockback recoveries
+= Rückstoß-Erholungen
+
+Shots narrowly avoided
+= Knapp ausgewichene Schüsse
+
+Special Attacks used
+= Eingesetzte Spezialangriffe
+
+Times finished
+= Beendet
+
+Powers used
+= Eingesetzte Kräfte
+
+Items used
+= Eingesetzte Items
+
+Times eggplanted
+= Zu Auberginen verwandelt
+
+Times tempuraed
+= Zu Tempura verarbeitet
+
+Centurions summoned
+= Beschworene Zenturios
+
+Missions completed
+= Abgeschlossene Missionen
+
+Multiplayer battles
+= Mehrspieler-Kämpfe
+
+Multiplayer encounters
+= Mehrspieler-Begegnungen
+

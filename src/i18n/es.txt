@@ -23734,3 +23734,82 @@ Add to
 
 Every kind of item found in an inventory in this save can be added, as a copy of one the game made. Items go into the chosen character's bag when you save; where they already carry a stack of the same item, that stack grows instead. Keys, containers and story items aren't offered. Keep a backup: this hasn't been tried in the game yet.
 = Se puede añadir cualquier tipo de objeto que aparezca en un inventario de esta partida, como copia de uno creado por el juego. Los objetos van a la bolsa del personaje elegido al guardar; si ya lleva una pila del mismo objeto, crece esa pila. No se ofrecen llaves, contenedores ni objetos de la historia. Guarda una copia de seguridad: aún no se ha probado en el juego.
+
+A decrypted 3DS 0x.sav. Hearts, the hearts offered to Palutena and Viridi, and the play statistics.
+= Un 0x.sav de 3DS descifrado. Corazones, corazones ofrecidos a Palutena y Viridi y las estadísticas de juego.
+
+A decrypted 3DS savedata.dat. Apple gems, the four kinds of shards and the profile's counters.
+= Un savedata.dat de 3DS descifrado. Gemas de manzana, los cuatro tipos de fragmentos y los contadores del perfil.
+
+Close the emulator first. The save is the decrypted 0x.sav. Weapons are not edited yet.
+= Cierra primero el emulador. La partida es el 0x.sav descifrado. Las armas aún no se editan.
+
+Offered to Palutena
+= Ofrecidos a Palutena
+
+Offered to Viridi
+= Ofrecidos a Viridi
+
+Times played
+= Veces jugado
+
+Total play time (in seconds)
+= Tiempo de juego total (en segundos)
+
+Total Solo play time (in seconds)
+= Tiempo de juego en solitario total (en segundos)
+
+Hearts acquired
+= Corazones obtenidos
+
+Weapons acquired
+= Armas obtenidas
+
+Powers acquired
+= Poderes obtenidos
+
+Ranged attacks
+= Ataques a distancia
+
+Melee attacks
+= Ataques cuerpo a cuerpo
+
+Attacks evaded
+= Ataques esquivados
+
+Knockback recoveries
+= Recuperaciones de retroceso
+
+Shots narrowly avoided
+= Disparos esquivados por poco
+
+Special Attacks used
+= Ataques especiales usados
+
+Times finished
+= Veces terminado
+
+Powers used
+= Poderes usados
+
+Items used
+= Objetos usados
+
+Times eggplanted
+= Veces convertido en berenjena
+
+Times tempuraed
+= Veces convertido en tempura
+
+Centurions summoned
+= Centuriones invocados
+
+Missions completed
+= Misiones completadas
+
+Multiplayer battles
+= Batallas multijugador
+
+Multiplayer encounters
+= Encuentros multijugador
+

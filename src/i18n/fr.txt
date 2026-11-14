@@ -23745,3 +23745,82 @@ Add to
 
 Every kind of item found in an inventory in this save can be added, as a copy of one the game made. Items go into the chosen character's bag when you save; where they already carry a stack of the same item, that stack grows instead. Keys, containers and story items aren't offered. Keep a backup: this hasn't been tried in the game yet.
 = Tout type d'objet présent dans un inventaire de cette sauvegarde peut être ajouté, en copie d'un objet créé par le jeu. Les objets vont dans le sac du personnage choisi à l'enregistrement ; s'il porte déjà une pile du même objet, c'est cette pile qui augmente. Les clés, contenants et objets de quête ne sont pas proposés. Gardez une sauvegarde : cela n'a pas encore été essayé en jeu.
+
+A decrypted 3DS 0x.sav. Hearts, the hearts offered to Palutena and Viridi, and the play statistics.
+= Un 0x.sav 3DS déchiffré. Cœurs, cœurs offerts à Palutena et Viridi et statistiques de jeu.
+
+A decrypted 3DS savedata.dat. Apple gems, the four kinds of shards and the profile's counters.
+= Un savedata.dat 3DS déchiffré. Gemmes pomme, les quatre types d'éclats et les compteurs du profil.
+
+Close the emulator first. The save is the decrypted 0x.sav. Weapons are not edited yet.
+= Fermez d'abord l'émulateur. La sauvegarde est le 0x.sav déchiffré. Les armes ne sont pas encore modifiables.
+
+Offered to Palutena
+= Offerts à Palutena
+
+Offered to Viridi
+= Offerts à Viridi
+
+Times played
+= Parties jouées
+
+Total play time (in seconds)
+= Temps de jeu total (en secondes)
+
+Total Solo play time (in seconds)
+= Temps de jeu solo total (en secondes)
+
+Hearts acquired
+= Cœurs obtenus
+
+Weapons acquired
+= Armes obtenues
+
+Powers acquired
+= Pouvoirs obtenus
+
+Ranged attacks
+= Attaques à distance
+
+Melee attacks
+= Attaques au corps à corps
+
+Attacks evaded
+= Attaques esquivées
+
+Knockback recoveries
+= Récupérations après recul
+
+Shots narrowly avoided
+= Tirs évités de justesse
+
+Special Attacks used
+= Attaques spéciales utilisées
+
+Times finished
+= Fois terminé
+
+Powers used
+= Pouvoirs utilisés
+
+Items used
+= Objets utilisés
+
+Times eggplanted
+= Fois transformé en aubergine
+
+Times tempuraed
+= Fois transformé en tempura
+
+Centurions summoned
+= Centurions invoqués
+
+Missions completed
+= Missions terminées
+
+Multiplayer battles
+= Combats multijoueur
+
+Multiplayer encounters
+= Rencontres multijoueur
+

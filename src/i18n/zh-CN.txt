@@ -23793,3 +23793,82 @@ Add to
 
 Every kind of item found in an inventory in this save can be added, as a copy of one the game made. Items go into the chosen character's bag when you save; where they already carry a stack of the same item, that stack grows instead. Keys, containers and story items aren't offered. Keep a backup: this hasn't been tried in the game yet.
 = 本存档中任何物品栏里出现过的物品种类都可以添加，作为游戏所生成物品的副本。保存时物品会放入所选角色的背包；如果该角色已携带同一物品的堆叠，则改为增加该堆叠。不提供钥匙、容器和剧情物品。请保留备份：此功能尚未在游戏中试过。
+
+A decrypted 3DS 0x.sav. Hearts, the hearts offered to Palutena and Viridi, and the play statistics.
+= 已解密的 3DS 0x.sav。心、献给帕鲁蒂娜和维利迪的心以及游戏统计。
+
+A decrypted 3DS savedata.dat. Apple gems, the four kinds of shards and the profile's counters.
+= 已解密的 3DS savedata.dat。苹果宝石、四种碎片和档案计数。
+
+Close the emulator first. The save is the decrypted 0x.sav. Weapons are not edited yet.
+= 请先关闭模拟器。存档是已解密的 0x.sav。暂不支持编辑武器。
+
+Offered to Palutena
+= 献给帕鲁蒂娜
+
+Offered to Viridi
+= 献给维利迪
+
+Times played
+= 游玩次数
+
+Total play time (in seconds)
+= 总游戏时间(秒)
+
+Total Solo play time (in seconds)
+= 单人游戏总时间(秒)
+
+Hearts acquired
+= 获得的心
+
+Weapons acquired
+= 获得的武器
+
+Powers acquired
+= 获得的力量
+
+Ranged attacks
+= 远程攻击
+
+Melee attacks
+= 近战攻击
+
+Attacks evaded
+= 闪避的攻击
+
+Knockback recoveries
+= 击退恢复次数
+
+Shots narrowly avoided
+= 险些躲过的射击
+
+Special Attacks used
+= 使用的特殊攻击
+
+Times finished
+= 通关次数
+
+Powers used
+= 使用的力量
+
+Items used
+= 使用的道具
+
+Times eggplanted
+= 变成茄子的次数
+
+Times tempuraed
+= 变成天妇罗的次数
+
+Centurions summoned
+= 召唤的百夫长
+
+Missions completed
+= 完成的任务
+
+Multiplayer battles
+= 多人战斗
+
+Multiplayer encounters
+= 多人遭遇
+

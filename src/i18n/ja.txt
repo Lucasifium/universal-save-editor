@@ -23820,3 +23820,82 @@ Add to
 
 Every kind of item found in an inventory in this save can be added, as a copy of one the game made. Items go into the chosen character's bag when you save; where they already carry a stack of the same item, that stack grows instead. Keys, containers and story items aren't offered. Keep a backup: this hasn't been tried in the game yet.
 = このセーブのいずれかのインベントリにある種類のアイテムは、ゲームが作ったものの複製として追加できます。保存すると、選んだキャラクターのバッグに入ります。同じアイテムのスタックをすでに持っている場合は、そのスタックが増えます。鍵、容器、ストーリーアイテムは表示されません。バックアップを残してください。ゲーム内ではまだ試していません。
+
+A decrypted 3DS 0x.sav. Hearts, the hearts offered to Palutena and Viridi, and the play statistics.
+= 復号済みの3DSの0x.sav。ハート、パルテナとヴィリディに捧げたハート、プレイ統計。
+
+A decrypted 3DS savedata.dat. Apple gems, the four kinds of shards and the profile's counters.
+= 復号済みの3DSのsavedata.dat。リンゴジェム、4種類のかけら、プロフィールのカウンター。
+
+Close the emulator first. The save is the decrypted 0x.sav. Weapons are not edited yet.
+= 先にエミュレーターを閉じてください。セーブは復号済みの0x.savです。武器はまだ編集できません。
+
+Offered to Palutena
+= パルテナに捧げた数
+
+Offered to Viridi
+= ヴィリディに捧げた数
+
+Times played
+= プレイ回数
+
+Total play time (in seconds)
+= 総プレイ時間(秒)
+
+Total Solo play time (in seconds)
+= ひとりで遊ぶ総プレイ時間(秒)
+
+Hearts acquired
+= 獲得したハート
+
+Weapons acquired
+= 獲得した武器
+
+Powers acquired
+= 獲得したパワー
+
+Ranged attacks
+= 遠距離攻撃
+
+Melee attacks
+= 近接攻撃
+
+Attacks evaded
+= 回避した攻撃
+
+Knockback recoveries
+= ノックバックからの復帰
+
+Shots narrowly avoided
+= ギリギリで避けた弾
+
+Special Attacks used
+= 使った特殊攻撃
+
+Times finished
+= クリア回数
+
+Powers used
+= 使ったパワー
+
+Items used
+= 使ったアイテム
+
+Times eggplanted
+= ナスにされた回数
+
+Times tempuraed
+= 天ぷらにされた回数
+
+Centurions summoned
+= 呼び出したケンタウロス
+
+Missions completed
+= クリアしたミッション
+
+Multiplayer battles
+= マルチプレイの戦闘
+
+Multiplayer encounters
+= マルチプレイですれ違った人数
+
