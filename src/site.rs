@@ -230,7 +230,7 @@ h1{font-size:2.1rem;line-height:1.2;margin:32px 0 8px}h2{margin-top:36px}
 code{background:var(--card);border:1px solid var(--line);border-radius:6px;padding:1px 6px;font-size:.9em;word-break:break-all}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:10px;padding:0;list-style:none}
 .grid li{margin:0;display:flex}
-.grid a{flex:1;display:flex;flex-direction:column;gap:2px;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px 14px;color:var(--text);text-decoration:none;line-height:1.35}
+.grid a,.grid div{flex:1;display:flex;flex-direction:column;gap:2px;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px 14px;color:var(--text);text-decoration:none;line-height:1.35}
 .grid a:hover,.grid a:focus-visible{border-color:var(--accent2)}.grid small{display:block;color:var(--muted);font-size:.85rem}
 .grid .tag{align-self:flex-start;margin-top:auto;padding-top:4px;font-size:.75rem;color:var(--muted)}.grid .tag.screen{color:var(--accent)}
 .empty{color:var(--muted);display:none}
@@ -484,6 +484,22 @@ fn build_site() {
     games.sort_by_key(|g| (!has_screen(g), g.name.to_lowercase()));
 
     for g in &games {
+        // Console and emulated games have no page of their own: they only appear in their console's section.
+        let consoles = crate::games::consoles_of(g.name);
+        if !consoles.is_empty() {
+            let (lvl, _) = level(g);
+            let blurb = description(g, &rows).as_deref().map(card_blurb).unwrap_or_default();
+            let blurb_html = if blurb.is_empty() { String::new() } else { format!("<small>{}</small>", esc(&blurb)) };
+            let tag_class = if has_screen(g) { "tag screen" } else { "tag" };
+            let item = format!(r#"<li><div><span>{}</span>{blurb_html}<span class="{tag_class}">{lvl}</span></div></li>"#, esc(g.name));
+            for c in consoles {
+                let at = crate::games::CONSOLES.iter().position(|(n, _)| *n == c).unwrap_or(usize::MAX);
+                let (count, cards) = console_cards.entry(at).or_default();
+                *count += 1;
+                cards.push_str(&item);
+            }
+            continue;
+        }
         let s = format!("{}-save-editor", slug(&search_name(g.name)));
         let search = search_name(g.name);
         let (lvl, lvl_note) = level(g);
@@ -573,18 +589,9 @@ fn build_site() {
         let blurb_html = if blurb.is_empty() { String::new() } else { format!("<small>{}</small>", esc(&blurb)) };
         let first = g.name.chars().next().and_then(|c| c.to_uppercase().next()).filter(|c| c.is_alphabetic());
         let item = format!(r#"<li><a href="{s}/"><span>{}</span>{blurb_html}<span class="{tag_class}">{lvl}</span></a></li>"#, esc(g.name));
-        let consoles = crate::games::consoles_of(g.name);
-        if consoles.is_empty() {
-            let (count, cards) = letters.entry((first.is_some(), first.unwrap_or('#'))).or_default();
-            *count += 1;
-            cards.push_str(&item);
-        }
-        for c in consoles {
-            let at = crate::games::CONSOLES.iter().position(|(n, _)| *n == c).unwrap_or(usize::MAX);
-            let (count, cards) = console_cards.entry(at).or_default();
-            *count += 1;
-            cards.push_str(&item);
-        }
+        let (count, cards) = letters.entry((first.is_some(), first.unwrap_or('#'))).or_default();
+        *count += 1;
+        cards.push_str(&item);
     }
 
     let mut cards = String::new();
