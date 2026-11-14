@@ -44,8 +44,8 @@ def sums(version, path=None):
     return out
 
 
-def exe(arch):
-    return f"UniversalSaveEditor-windows-{arch}.exe"
+def exe(arch, version):
+    return f"UniversalSaveEditor-{version}-windows-{arch}.exe"
 
 
 def scoop(version, hashes):
@@ -57,7 +57,7 @@ def scoop(version, hashes):
         "homepage": SITE,
         "license": "GPL-3.0-or-later",
         "architecture": {
-            key: {"url": f"{base}/{exe(a)}#/UniversalSaveEditor.exe", "hash": hashes[exe(a)]}
+            key: {"url": f"{base}/{exe(a, version)}#/UniversalSaveEditor.exe", "hash": hashes[exe(a, version)]}
             for a, key in ARCHES
         },
         "bin": "UniversalSaveEditor.exe",
@@ -65,7 +65,7 @@ def scoop(version, hashes):
         "checkver": "github",
         "autoupdate": {
             "architecture": {
-                key: {"url": f"{auto}/{exe(a)}#/UniversalSaveEditor.exe"} for a, key in ARCHES
+                key: {"url": f"{auto}/{exe(a, '$version')}#/UniversalSaveEditor.exe"} for a, key in ARCHES
             },
             "hash": {"url": "$baseurl/SHA256SUMS.txt"},
         },
@@ -86,8 +86,8 @@ def winget(version, hashes):
         + "InstallerType: portable\nCommands:\n- UniversalSaveEditor\n"
         + f"ReleaseDate: {datetime.date.today().isoformat()}\nInstallers:\n"
         + "".join(
-            f"- Architecture: {a}\n  InstallerUrl: {REPO}/releases/download/v{version}/{exe(a)}\n"
-            f"  InstallerSha256: {hashes[exe(a)].upper()}\n"
+            f"- Architecture: {a}\n  InstallerUrl: {REPO}/releases/download/v{version}/{exe(a, version)}\n"
+            f"  InstallerSha256: {hashes[exe(a, version)].upper()}\n"
             for a, _ in ARCHES
         )
         + "ManifestType: installer\n" + tail,
@@ -121,7 +121,7 @@ def winget(version, hashes):
 def main():
     version = sys.argv[1] if len(sys.argv) > 1 else cargo_version()
     hashes = sums(version, sys.argv[2] if len(sys.argv) > 2 else None)
-    missing = [exe(a) for a, _ in ARCHES if exe(a) not in hashes]
+    missing = [exe(a, version) for a, _ in ARCHES if exe(a, version) not in hashes]
     if missing:
         sys.exit(f"SHA256SUMS.txt has no line for {', '.join(missing)}")
     scoop(version, hashes)

@@ -51,13 +51,13 @@ Ready-made builds are on the [Releases page](../../releases):
 
 | File | Runs on |
 |---|---|
-| `UniversalSaveEditor-windows-x64.exe` | Windows 10/11, Intel/AMD |
-| `UniversalSaveEditor-windows-arm64.exe` | Windows 11 on ARM |
-| `UniversalSaveEditor-linux-x64.tar.gz` | Linux x64 (glibc 2.28+) |
-| `UniversalSaveEditor-linux-arm64.tar.gz` | Linux ARM64 (e.g. Raspberry Pi) |
-| `UniversalSaveEditor-macos.zip` | macOS 11+ (major releases only) |
+| `UniversalSaveEditor-<version>-windows-x64.exe` | Windows 10/11, Intel/AMD |
+| `UniversalSaveEditor-<version>-windows-arm64.exe` | Windows 11 on ARM |
+| `UniversalSaveEditor-<version>-linux-x64.tar.gz` | Linux x64 (glibc 2.28+) |
+| `UniversalSaveEditor-<version>-linux-arm64.tar.gz` | Linux ARM64 (e.g. Raspberry Pi) |
+| `UniversalSaveEditor-<version>-macos.zip` | macOS 11+ (major releases only) |
 
-**Verify your download:** each release also has a `SHA256SUMS.txt`. Put it next to the file and run `sha256sum -c --ignore-missing SHA256SUMS.txt` (Linux), or on Windows run `certutil -hashfile UniversalSaveEditor-windows-x64.exe SHA256` and compare the result with the matching line. The builds are not code-signed, so Windows SmartScreen or an antivirus may warn about a new file; matching the checksum shows it is the file published here.
+**Verify your download:** each release also has a `SHA256SUMS.txt`. Put it next to the file and run `sha256sum -c --ignore-missing SHA256SUMS.txt` (Linux), or on Windows run `certutil -hashfile UniversalSaveEditor-<version>-windows-x64.exe SHA256` and compare the result with the matching line. The builds are not code-signed, so Windows SmartScreen or an antivirus may warn about a new file; matching the checksum shows it is the file published here.
 
 **Windows SmartScreen:** the first time you run a new release, Windows may show "Windows protected your PC". That message means the file is new and unsigned, not that anything harmful was found. Click **More info**, then **Run anyway**. Check the checksum first if you want to be sure.
 

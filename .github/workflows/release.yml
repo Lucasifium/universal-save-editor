@@ -40,13 +40,14 @@ jobs:
         shell: bash
         run: |
           mkdir dist
+          VERSION=$(sed -n 's/^version = "\(.*\)"/\1/p' Cargo.toml | head -1)
           for t in x86_64:x64 aarch64:arm64; do
             triple=${t%%:*}-pc-windows-msvc
             # /PDBALTPATH keeps the build folder out of the debug-info name.
             cargo rustc --release --bin UniversalSaveEditor --target "$triple" -- -C 'link-arg=/PDBALTPATH:%_PDB%'
-            cp "target/$triple/release/UniversalSaveEditor.exe" "dist/UniversalSaveEditor-windows-${t##*:}.exe"
+            cp "target/$triple/release/UniversalSaveEditor.exe" "dist/UniversalSaveEditor-${VERSION}-windows-${t##*:}.exe"
             # The C runtime must be linked in: no VCRUNTIME/MSVCP DLL imports.
-            if grep -aiqE 'vcruntime|msvcp[0-9]' "dist/UniversalSaveEditor-windows-${t##*:}.exe"; then echo "exe still imports the VC++ runtime"; exit 1; fi
+            if grep -aiqE 'vcruntime|msvcp[0-9]' "dist/UniversalSaveEditor-${VERSION}-windows-${t##*:}.exe"; then echo "exe still imports the VC++ runtime"; exit 1; fi
           done
       - uses: actions/upload-artifact@v4
         with: { name: windows, path: dist/*, if-no-files-found: error, retention-days: 1 }
@@ -62,11 +63,12 @@ jobs:
       - name: Build
         run: |
           mkdir dist
+          VERSION=$(sed -n 's/^version = "\(.*\)"/\1/p' Cargo.toml | head -1)
           for t in x86_64:x64 aarch64:arm64; do
             triple=${t%%:*}-unknown-linux-gnu
             # .2.28: works on any Linux with glibc 2.28+ (2018 onwards).
             cargo zigbuild --release --target "$triple.2.28"
-            python3 -I packaging/package.py tar "target/$triple/release/UniversalSaveEditor" "dist/UniversalSaveEditor-linux-${t##*:}.tar.gz"
+            python3 -I packaging/package.py tar "target/$triple/release/UniversalSaveEditor" "dist/UniversalSaveEditor-${VERSION}-linux-${t##*:}.tar.gz"
           done
       - uses: actions/upload-artifact@v4
         with: { name: linux, path: dist/*, if-no-files-found: error, retention-days: 1 }
@@ -129,10 +131,10 @@ jobs:
 
           # Ad-hoc signature: required for Apple Silicon to run it at all.
           codesign --force --deep --sign - "$APP"
-          cd dist && ditto -c -k --keepParent UniversalSaveEditor.app UniversalSaveEditor-macos.zip
+          cd dist && ditto -c -k --keepParent UniversalSaveEditor.app "UniversalSaveEditor-${VERSION}-macos.zip"
 
       - uses: actions/upload-artifact@v4
-        with: { name: macos, path: dist/UniversalSaveEditor-macos.zip, if-no-files-found: error, retention-days: 1 }
+        with: { name: macos, path: dist/UniversalSaveEditor-*-macos.zip, if-no-files-found: error, retention-days: 1 }
 
   verify:
     needs: [windows, linux, macos]
