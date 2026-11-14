@@ -459,17 +459,13 @@ fn map_tab(ui: &mut Ui, cx: &mut GameCtx) {
         }
     });
 
-    // The map itself.
-    // The box is never taller than the map: when the whole world fits, it hugs it (no
-    // empty bands above and below).
-    let max_h = (ui.ctx().screen_rect().height() * 0.62).clamp(260.0, 900.0);
+    // The map itself: a fixed-size viewport (it never changes size when you zoom; the
+    // zoom and pan happen inside it).
     let (w, h) = (map.width as f32, map.height as f32);
-    let width = ui.available_width();
-    let fit = (width / w).min(max_h / h);
+    let (width, height, fit) = viewport(ui.available_width(), ui.ctx().screen_rect().height(), w, h);
     if v.zoom > 0.0 {
         v.zoom = v.zoom.max(fit);
     }
-    let height = (h * if v.zoom > 0.0 { v.zoom } else { fit }).clamp(120.0, max_h);
     let (rect, resp) = ui.allocate_exact_size(Vec2::new(width, height), Sense::click_and_drag());
     if v.zoom <= 0.0 {
         v.zoom = fit;
@@ -742,4 +738,29 @@ fn poi_panel(ui: &mut Ui, map: &WorldMap, v: &mut MapView) {
         });
         ui.weak(tr("Chests are drawn when you zoom in. Life Crystals and Life Fruit are common, so they start hidden."));
     });
+}
+
+/// Size of the map viewport and the zoom at which the whole world fits in it: as wide as the
+/// page and most of the window tall, whatever the zoom.
+fn viewport(avail_w: f32, screen_h: f32, w: f32, h: f32) -> (f32, f32, f32) {
+    let width = avail_w.max(100.0);
+    let height = (screen_h * 0.72).clamp(260.0, 1400.0);
+    (width, height, (width / w.max(1.0)).min(height / h.max(1.0)))
+}
+
+#[cfg(test)]
+mod tests {
+    use super::viewport;
+
+    #[test]
+    fn map_viewport_is_independent_of_zoom_and_fills_the_window() {
+        for (sw, sh) in [(1280.0, 800.0), (1920.0, 1080.0), (640.0, 480.0), (380.0, 760.0)] {
+            let (w, h, fit) = viewport(sw - 40.0, sh, 8400.0, 2400.0);
+            assert!(w <= sw && h <= sh, "viewport {w}x{h} exceeds {sw}x{sh}");
+            assert!(h >= sh * 0.7 * 0.99 || h == 260.0);
+            assert!(fit > 0.0 && 8400.0 * fit <= w + 0.01 && 2400.0 * fit <= h + 0.01);
+            // Same answer every call: zooming never feeds back into the size.
+            assert_eq!(viewport(sw - 40.0, sh, 8400.0, 2400.0), (w, h, fit));
+        }
+    }
 }
