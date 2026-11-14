@@ -34,6 +34,7 @@ pub mod sleeping_dogs;
 pub mod dxmd;
 pub mod dishonored1;
 pub mod dishonored2;
+pub mod anvil;
 pub mod gk;
 pub mod civ7;
 pub mod uepack;
@@ -128,7 +129,6 @@ pub mod essentials;
 pub mod marshal;
 pub mod msgpack;
 pub mod ac8;
-pub mod anvil;
 pub mod bsinfinite;
 pub mod ue3pkg;
 pub mod cbor;
@@ -253,6 +253,11 @@ pub fn parse_binary(d: &[u8]) -> Option<TreeDoc> {
     }
     if rdr::looks_2(d) {
         if let Some(t) = rdr::parse_2(d) {
+            return Some(t);
+        }
+    }
+    if anvil::looks(d) {
+        if let Some(t) = anvil::parse(d) {
             return Some(t);
         }
     }
@@ -392,11 +397,6 @@ pub fn parse_binary(d: &[u8]) -> Option<TreeDoc> {
     }
     if metro::looks(d) {
         if let Ok(t) = metro::parse(d) {
-            return Some(t);
-        }
-    }
-    if anvil::looks(d) {
-        if let Ok(t) = anvil::parse(d) {
             return Some(t);
         }
     }

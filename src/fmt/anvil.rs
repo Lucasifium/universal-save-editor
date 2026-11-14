@@ -1,483 +1,372 @@
-//! Assassin's Creed saves from Brotherhood to Odyssey (the "Anvil" engine family), as the PC
-//! versions write them.
+//! Assassin's Creed saves from Brotherhood to Odyssey (Ubisoft's Anvil engine).
 //!
-//! File layers, outermost first (all worked out from public sample saves):
+//! ```text
+//! wrapper   Ubisoft Connect header (u32 0x224 / 0x204 / 0x24, u32 0, …), a crack "CDX" header,
+//!           0x208 zero bytes, or nothing (Brotherhood's own .SAV files)
+//! body      XORed from the body start to the end of the file: byte i ^= K[(fileLength - i) % len K]
+//!           K is MD5 of the account id (Unity and later), a fixed key (Liberation HD, Black Flag,
+//!           Rogue), the account name (Revelations) or nothing (Brotherhood). The key is found from
+//!           known bytes of the body, so the account never has to be known.
+//! body      u32 version, AC DB FE 00, then containers. Each container is preceded by a record
+//!           whose last u32 is its unpacked size (and one u32 of the record its size in the file):
+//!             33 AA FB 57 99 FA 04 10, u16 version, u8 compression (0 LZO1X, 2 LZO2A), u32 block size
+//!             blocks: 01, u32 packed size, u32 size, u32 check, bytes | 00, u32 size, bytes
+//!           check = Adler-32 with both sums starting at 0, over the packed bytes.
+//! data      a property stream: u32 length, u32 CRC-32 of the name, u32, 00 00, u16 type, 0B, value
+//! ```
 //!
-//! * A Ubisoft Connect wrapper in front of the body: `u32 length of the rest of the header`,
-//!   `u32 0`, then the header (0x224, 0x24 or 0x204 bytes); cracked copies use `CDX` plus a
-//!   0x110 byte header, or 0x208 zero bytes. Older games write the body bare.
-//! * The body is XOR-ed with a 16-byte key, `plain[i] = file[i] ^ key[(len - i) % 16]` (len is
-//!   the body's length). The key is the MD5 of the account id, or a fixed key; it is
-//!   recovered here from the known plain bytes of the block header, so no id is needed and
-//!   the same key is used when the file is written again. Brotherhood is not encrypted.
-//! * The body starts `u32 version, AC DB FE 00` and holds containers: `33 AA FB 57 99 FA 04 10`,
-//!   `u16 version`, `u8 compression` (0 LZO1X, 2 LZO2A), `u32 block size`, then blocks
-//!   `01 | u32 packed | u32 unpacked | u32 checksum | packed bytes` (checksum: Adler-32 with
-//!   both sums starting at 0, over the packed bytes) or `00 | u32 size | u32 0 | raw bytes`.
-//!   Each container's packed size is also stored in the 16 bytes before it.
-//!
-//! The decompressed containers are joined behind an `ANVIL` marker and handed to the reader
-//! ([`parse`]). On saving only the blocks whose bytes changed are packed again; every other
-//! block is copied back as it was, and the checksums and size fields are written again.
+//! Money, materials and ammunition live in `InventoryContainer` objects (Brotherhood to
+//! Syndicate: a `Category` enum, then `CurrentItemCount`), or as item ids with a `Quantity`
+//! (Origins and Odyssey). The game keeps several inventories (the player's, its checkpoint
+//! copies, other characters and memories); edits go to the player's and its copies only.
 
-use super::fields::{Builder, Checksum, Kind};
-use crate::tree::TreeDoc;
-use std::sync::Arc;
+use crate::tree::{Backend, TreeDoc};
+use serde_json::{Map, Value};
+use std::collections::HashMap;
 
-pub const KIND: &str = "Assassin's Creed save";
+const MAGIC: [u8; 4] = [0xAC, 0xDB, 0xFE, 0x00];
 const SIG: [u8; 8] = [0x33, 0xAA, 0xFB, 0x57, 0x99, 0xFA, 0x04, 0x10];
-const MARK: &[u8; 8] = b"ANVIL\0\0\0";
 
-// ---------------------------------------------------------------- LZO1X
-
-fn ext_len(src: &[u8], ip: &mut usize, base: usize) -> Option<usize> {
-    let mut l = 0usize;
-    while *src.get(*ip)? == 0 {
-        l += 255;
-        *ip += 1;
-        if l > 1 << 24 {
-            return None;
-        }
-    }
-    l += base + *src.get(*ip)? as usize;
-    *ip += 1;
-    Some(l)
+#[derive(Clone, Copy, PartialEq, Eq, Debug)]
+pub enum Ac {
+    Brotherhood,
+    Revelations,
+    Ac3r,
+    LiberationHd,
+    BlackFlag,
+    Rogue,
+    Unity,
+    Syndicate,
+    Origins,
+    Odyssey,
 }
 
-fn copy_match(out: &mut Vec<u8>, d: usize, len: usize) -> Option<()> {
-    if d == 0 || d > out.len() {
-        return None;
-    }
-    let start = out.len() - d;
-    for k in 0..len {
-        let b = out[start + k];
-        out.push(b);
-    }
-    Some(())
-}
+pub const KIND_BROTHERHOOD: &str = "Assassin's Creed Brotherhood save";
+pub const KIND_REVELATIONS: &str = "Assassin's Creed Revelations save";
+pub const KIND_AC3R: &str = "Assassin's Creed III Remastered save";
+pub const KIND_LIBERATION: &str = "Assassin's Creed Liberation HD save";
+pub const KIND_BLACK_FLAG: &str = "Assassin's Creed IV Black Flag save";
+pub const KIND_ROGUE: &str = "Assassin's Creed Rogue save";
+pub const KIND_UNITY: &str = "Assassin's Creed Unity save";
+pub const KIND_SYNDICATE: &str = "Assassin's Creed Syndicate save";
+pub const KIND_ORIGINS: &str = "Assassin's Creed Origins save";
+pub const KIND_ODYSSEY: &str = "Assassin's Creed Odyssey save";
 
-/// LZO1X decompression, written from the stream format.
-pub fn lzo1x_decompress(src: &[u8], cap: usize) -> Option<Vec<u8>> {
-    let mut out: Vec<u8> = Vec::with_capacity(cap);
-    let mut ip = 0usize;
-    let mut state = 0u8;
-    if *src.first()? > 17 {
-        let t = (src[0] - 17) as usize;
-        ip = 1;
-        out.extend_from_slice(src.get(ip..ip + t)?);
-        ip += t;
-        state = if t < 4 { 1 } else { 4 };
-    }
-    loop {
-        let t = *src.get(ip)? as usize;
-        ip += 1;
-        let (len, d, s);
-        if t >= 64 {
-            d = 1 + ((t >> 2) & 7) + ((*src.get(ip)? as usize) << 3);
-            ip += 1;
-            len = (t >> 5) + 1;
-            s = t & 3;
-        } else if t >= 32 {
-            let mut l = t & 31;
-            l = if l == 0 { ext_len(src, &mut ip, 31)? } else { l };
-            len = l + 2;
-            let v = u16::from_le_bytes(src.get(ip..ip + 2)?.try_into().ok()?) as usize;
-            ip += 2;
-            d = 1 + (v >> 2);
-            s = v & 3;
-        } else if t >= 16 {
-            let mut l = t & 7;
-            l = if l == 0 { ext_len(src, &mut ip, 7)? } else { l };
-            len = l + 2;
-            let v = u16::from_le_bytes(src.get(ip..ip + 2)?.try_into().ok()?) as usize;
-            ip += 2;
-            d = 16384 + ((t & 8) << 11) + (v >> 2);
-            s = v & 3;
-            if d == 16384 {
-                break;
-            }
-        } else if state == 0 {
-            let l = if t == 0 { ext_len(src, &mut ip, 15)? } else { t };
-            out.extend_from_slice(src.get(ip..ip + l + 3)?);
-            ip += l + 3;
-            state = 4;
-            continue;
-        } else {
-            let b = *src.get(ip)? as usize;
-            ip += 1;
-            if state < 4 {
-                d = 1 + (t >> 2) + (b << 2);
-                len = 2;
-            } else {
-                d = 1 + 0x800 + (t >> 2) + (b << 2);
-                len = 3;
-            }
-            s = t & 3;
-        }
-        copy_match(&mut out, d, len)?;
-        out.extend_from_slice(src.get(ip..ip + s)?);
-        ip += s;
-        state = s as u8;
-        if out.len() > cap + 4096 {
-            return None;
+impl Ac {
+    pub fn kind(self) -> &'static str {
+        match self {
+            Ac::Brotherhood => KIND_BROTHERHOOD,
+            Ac::Revelations => KIND_REVELATIONS,
+            Ac::Ac3r => KIND_AC3R,
+            Ac::LiberationHd => KIND_LIBERATION,
+            Ac::BlackFlag => KIND_BLACK_FLAG,
+            Ac::Rogue => KIND_ROGUE,
+            Ac::Unity => KIND_UNITY,
+            Ac::Syndicate => KIND_SYNDICATE,
+            Ac::Origins => KIND_ORIGINS,
+            Ac::Odyssey => KIND_ODYSSEY,
         }
     }
-    Some(out)
-}
 
-fn hash4(d: &[u8]) -> usize {
-    let v = u32::from_le_bytes([d[0], d[1], d[2], d[3]]);
-    (v.wrapping_mul(0x9E37_79B1) >> 18) as usize
-}
-
-fn match_run(src: &[u8], a: usize, b: usize) -> usize {
-    let mut l = 0;
-    while b + l < src.len() && src[a + l] == src[b + l] {
-        l += 1;
-    }
-    l
-}
-
-/// A simple greedy LZO1X compressor (matches up to 16 KiB back); every stream it makes is read
-/// by [`lzo1x_decompress`] and by any standard LZO1X decoder.
-pub fn lzo1x_compress(src: &[u8]) -> Vec<u8> {
-    let mut out: Vec<u8> = Vec::with_capacity(src.len() / 2 + 64);
-    let mut table = vec![usize::MAX; 1 << 14];
-    let (mut i, mut lit) = (0usize, 0usize);
-    let mut last_match_at: Option<usize> = None; // index in `out` of the last match instruction's trailing-literal byte
-    let mut first = true;
-    let flush_lits = |out: &mut Vec<u8>, src: &[u8], from: usize, to: usize, last: &mut Option<usize>, first: &mut bool| {
-        let n = to - from;
-        if n == 0 {
-            return;
-        }
-        if n <= 3 && !*first && last.is_some() {
-            // Trailing literals ride in the previous match's low two bits.
-            let at = last.unwrap();
-            out[at] |= n as u8;
-            out.extend_from_slice(&src[from..to]);
-            return;
-        }
-        if *first && n <= 238 {
-            out.push((n + 17) as u8);
-        } else if n - 3 <= 15 && n >= 4 {
-            out.push((n - 3) as u8);
-        } else if n >= 4 {
-            out.push(0);
-            let mut r = n - 3 - 15;
-            while r > 255 {
-                out.push(0);
-                r -= 255;
-            }
-            out.push(r as u8);
-        } else {
-            // 1..3 literals with no previous match to carry them: use the long form.
-            out.push(0);
-            out.push(0);
-            out.extend_from_slice(&src[from..to]);
-            // (unreachable for streams made here, kept valid anyway)
-            return;
-        }
-        out.extend_from_slice(&src[from..to]);
-    };
-    while i + 4 <= src.len() {
-        let h = hash4(&src[i..]);
-        let cand = table[h];
-        table[h] = i;
-        if cand != usize::MAX && i - cand <= 16384 && src[cand..cand + 4] == src[i..i + 4] {
-            let len = match_run(src, cand, i);
-            let d = i - cand;
-            // The 1..3 literals before this match must be carried by the previous match.
-            let lits = i - lit;
-            if lits > 0 && lits <= 3 && (first || last_match_at.is_none()) {
-                i += 1;
-                continue;
-            }
-            flush_lits(&mut out, src, lit, i, &mut last_match_at, &mut first);
-            first = false;
-            if len <= 8 && d <= 2048 {
-                out.push((((len - 1) << 5) | (((d - 1) & 7) << 2)) as u8);
-                out.push(((d - 1) >> 3) as u8);
-                last_match_at = Some(out.len() - 2);
-            } else {
-                if len - 2 <= 31 {
-                    out.push(32 | (len - 2) as u8);
-                } else {
-                    out.push(32);
-                    let mut r = len - 2 - 31;
-                    while r > 255 {
-                        out.push(0);
-                        r -= 255;
-                    }
-                    out.push(r as u8);
-                }
-                let v = ((d - 1) << 2) as u16;
-                out.extend_from_slice(&v.to_le_bytes());
-                last_match_at = Some(out.len() - 2);
-            }
-            i += len;
-            lit = i;
-        } else {
-            i += 1;
-        }
-    }
-    flush_lits(&mut out, src, lit, src.len(), &mut last_match_at, &mut first);
-    out.extend_from_slice(&[17, 0, 0]);
-    out
-}
-
-// ---------------------------------------------------------------- LZO2A
-
-struct Bits<'a> {
-    s: &'a [u8],
-    ip: usize,
-    b: u8,
-    n: u8,
-}
-
-impl Bits<'_> {
-    fn bit(&mut self) -> Option<usize> {
-        if self.n == 0 {
-            self.b = *self.s.get(self.ip)?;
-            self.ip += 1;
-            self.n = 8;
-        }
-        let v = self.b & 1;
-        self.b >>= 1;
-        self.n -= 1;
-        Some(v as usize)
-    }
-    fn byte(&mut self) -> Option<usize> {
-        let v = *self.s.get(self.ip)? as usize;
-        self.ip += 1;
-        Some(v)
+    fn name(self) -> &'static str {
+        self.kind().trim_end_matches(" save")
     }
 }
 
-/// LZO2A decompression (Brotherhood): bits are taken from the low end of each byte; the first
-/// bit of a pair is the low bit of the length.
-pub fn lzo2a_decompress(src: &[u8], cap: usize) -> Option<Vec<u8>> {
-    let mut out: Vec<u8> = Vec::with_capacity(cap);
-    let mut r = Bits { s: src, ip: 0, b: 0, n: 0 };
-    loop {
-        if r.bit()? == 0 {
-            let b = r.byte()? as u8;
-            out.push(b);
-            continue;
-        }
-        let (len, d);
-        if r.bit()? == 0 {
-            let a = r.bit()?;
-            let b = r.bit()?;
-            len = 2 + ((b << 1) | a);
-            d = r.byte()? + 1;
-        } else {
-            let t = r.byte()?;
-            let u = r.byte()?;
-            d = (t & 31) | (u << 5);
-            let l = t >> 5;
-            if l == 0 {
-                let mut l = 9usize;
-                while *src.get(r.ip)? == 0 {
-                    l += 255;
-                    r.ip += 1;
-                }
-                l += r.byte()?;
-                len = l;
-            } else {
-                if d == 0 {
-                    break;
-                }
-                len = l + 2;
-            }
-        }
-        copy_match(&mut out, d, len)?;
-        if out.len() > cap + 4096 {
-            return None;
-        }
-    }
-    Some(out)
-}
+/// The fixed key of Liberation HD and Black Flag saves.
+const KEY_BLACK_FLAG: [u8; 16] = [0xab, 0x8f, 0x71, 0x3a, 0x71, 0x85, 0xc7, 0x85, 0xf7, 0xb9, 0xf4, 0x37, 0x78, 0x2e, 0xe6, 0x6c];
 
-struct BitW {
-    out: Vec<u8>,
-    at: usize,
-    n: u8,
-}
+// ------------------------------------------------------------------ checks and packing
 
-impl BitW {
-    fn bit(&mut self, v: usize) {
-        if self.n == 0 {
-            self.at = self.out.len();
-            self.out.push(0);
-            self.n = 8;
-        }
-        let used = 8 - self.n;
-        self.out[self.at] |= ((v & 1) as u8) << used;
-        self.n -= 1;
-    }
-}
-
-/// A greedy LZO2A compressor (matches up to 8 KiB back).
-pub fn lzo2a_compress(src: &[u8]) -> Vec<u8> {
-    let mut w = BitW { out: Vec::with_capacity(src.len() / 2 + 64), at: 0, n: 0 };
-    let mut table = vec![usize::MAX; 1 << 14];
-    let mut i = 0usize;
-    while i < src.len() {
-        let mut best = (0usize, 0usize);
-        if i + 4 <= src.len() {
-            let h = hash4(&src[i..]);
-            let cand = table[h];
-            table[h] = i;
-            if cand != usize::MAX && i - cand <= 8191 && src[cand..cand + 4] == src[i..i + 4] {
-                best = (match_run(src, cand, i), i - cand);
-            }
-        }
-        let (len, d) = best;
-        if len >= 4 {
-            if len <= 5 && d <= 256 {
-                w.bit(1);
-                w.bit(0);
-                let l = len - 2;
-                w.bit(l & 1);
-                w.bit(l >> 1);
-                w.out.push((d - 1) as u8);
-            } else {
-                w.bit(1);
-                w.bit(1);
-                if len <= 9 {
-                    w.out.push((((len - 2) << 5) | (d & 31)) as u8);
-                    w.out.push((d >> 5) as u8);
-                } else {
-                    w.out.push((d & 31) as u8);
-                    w.out.push((d >> 5) as u8);
-                    let mut r = len - 9;
-                    while r > 255 {
-                        w.out.push(0);
-                        r -= 255;
-                    }
-                    w.out.push(r as u8);
-                }
-            }
-            for k in 1..len {
-                if i + k + 4 <= src.len() {
-                    let h = hash4(&src[i + k..]);
-                    table[h] = i + k;
-                }
-            }
-            i += len;
-        } else {
-            w.bit(0);
-            w.out.push(src[i]);
-            i += 1;
-        }
-    }
-    w.bit(1);
-    w.bit(1);
-    w.out.extend_from_slice(&[0x20, 0]);
-    w.out
-}
-
-// ---------------------------------------------------------------- container
-
+/// Adler-32 with both sums starting at 0.
 pub fn adler0(d: &[u8]) -> u32 {
     let (mut a, mut b) = (0u32, 0u32);
-    for &x in d {
-        a = (a + x as u32) % 65521;
-        b = (b + a) % 65521;
+    for chunk in d.chunks(5000) {
+        for &x in chunk {
+            a += x as u32;
+            b += a;
+        }
+        a %= 65521;
+        b %= 65521;
     }
     (b << 16) | a
 }
 
-fn u32_at(d: &[u8], at: usize) -> Option<usize> {
-    Some(u32::from_le_bytes(d.get(at..at + 4)?.try_into().ok()?) as usize)
-}
-
-fn put32(d: &mut [u8], at: usize, v: usize) {
-    d[at..at + 4].copy_from_slice(&(v as u32).to_le_bytes());
-}
-
-#[derive(Clone, Debug, PartialEq, Eq)]
-struct Blk {
-    /// Start and end of the block in the body.
-    at: usize,
-    end: usize,
-    /// Where its bytes sit in the joined inner data (after the marker).
-    inner_at: usize,
-    len: usize,
-}
-
-#[derive(Clone, Debug, PartialEq, Eq)]
-struct Part {
-    start: usize,
-    end: usize,
-    comp: u8,
-    ver: u16,
-    bs: u32,
-    /// Where the container's packed size is stored (body offset) and what is added to it.
-    size_at: Option<(usize, usize)>,
-    blocks: Vec<Blk>,
-}
-
-/// Where the parts sit in the original file.
-#[derive(Clone, Debug, PartialEq, Eq)]
-pub struct Packed {
-    original: Arc<Vec<u8>>,
-    inner: Arc<Vec<u8>>,
-    body_at: usize,
-    key: Option<Vec<u8>>,
-    parts: Vec<Part>,
-}
-
-fn body_start(d: &[u8]) -> usize {
-    if d.starts_with(b"CDX\0") {
-        return 0x110;
+/// LZO2A, as the older games pack their saves.
+fn lzo2a_decode(src: &[u8], want: usize) -> Option<Vec<u8>> {
+    let mut out = Vec::with_capacity(want);
+    let (mut ip, mut bits, mut k) = (0usize, 0u32, 0u32);
+    macro_rules! need {
+        ($j:expr) => {
+            while k < $j {
+                bits |= (*src.get(ip)? as u32) << k;
+                ip += 1;
+                k += 8;
+            }
+        };
     }
-    if let (Some(a), Some(b)) = (u32_at(d, 0), u32_at(d, 4)) {
-        if b == 0 && matches!(a, 0x224 | 0x24 | 0x204) {
-            return a + 4;
+    macro_rules! take {
+        ($j:expr) => {{
+            let v = bits & ((1 << $j) - 1);
+            bits >>= $j;
+            k -= $j;
+            v
+        }};
+    }
+    loop {
+        if out.len() > want {
+            return None;
         }
-    }
-    if d.len() > 0x208 && d[..0x208].iter().all(|&b| b == 0) {
-        return 0x208;
-    }
-    0
-}
-
-fn xor(body: &[u8], key: &[u8]) -> Vec<u8> {
-    let n = body.len();
-    body.iter().enumerate().map(|(i, &b)| b ^ key[(n - i) % key.len()]).collect()
-}
-
-/// Works out the 16-byte key from the known bytes of the first container's header.
-fn solve_key(body: &[u8]) -> Option<Vec<u8>> {
-    let n = body.len();
-    for off in [16usize, 20, 24, 28, 32, 36] {
-        if off + 28 > n {
+        need!(1);
+        if take!(1) == 0 {
+            out.push(*src.get(ip)?);
+            ip += 1;
             continue;
         }
-        for ver in 1u16..=3 {
-            for typ in [0u8, 2] {
-                for bs in [0x8000u32, 0x40000] {
-                    let mut pt = SIG.to_vec();
-                    pt.extend_from_slice(&ver.to_le_bytes());
-                    pt.push(typ);
-                    pt.extend_from_slice(&bs.to_le_bytes());
-                    pt.push(1);
-                    let mut key = [0u8; 16];
-                    for (j, p) in pt.iter().enumerate() {
-                        let i = off + j;
-                        key[(n - i) % 16] = body[i] ^ p;
-                    }
-                    let k = key.to_vec();
-                    let head: Vec<u8> = (0..8).map(|i| body[i] ^ k[(n - i) % 16]).collect();
-                    if head[4..8] != [0xAC, 0xDB, 0xFE, 0x00] {
-                        continue;
-                    }
-                    let cs = u32_at(&xor_range(body, &k, off + 16, off + 28), 0)?;
-                    let blk = xor_range(body, &k, off + 28, (off + 28 + cs).min(n));
-                    if blk.len() == cs && adler0(&blk) == u32_at(&xor_range(body, &k, off + 24, off + 28), 0)? as u32 {
-                        return Some(k);
+        need!(1);
+        if take!(1) == 0 {
+            need!(2);
+            let len = 2 + take!(2) as usize;
+            let dist = 1 + *src.get(ip)? as usize;
+            ip += 1;
+            let from = out.len().checked_sub(dist)?;
+            for i in 0..len {
+                out.push(out[from + i]);
+            }
+            continue;
+        }
+        let t = *src.get(ip)? as usize;
+        let u = *src.get(ip + 1)? as usize;
+        ip += 2;
+        let dist = (t & 31) | (u << 5);
+        let mut len = t >> 5;
+        if len == 0 {
+            len = 9;
+            while *src.get(ip)? == 0 {
+                len += 255;
+                ip += 1;
+            }
+            len += src[ip] as usize;
+            ip += 1;
+        } else {
+            if dist == 0 {
+                break;
+            }
+            len += 2;
+        }
+        let from = out.len().checked_sub(dist).filter(|_| dist > 0)?;
+        for i in 0..len {
+            out.push(out[from + i]);
+        }
+    }
+    (out.len() == want).then_some(out)
+}
+
+/// Packs data as LZO2A (greedy matches up to 8191 bytes back, longest of a few candidates).
+fn lzo2a_encode(data: &[u8]) -> Vec<u8> {
+    let mut out = Vec::with_capacity(data.len() / 2 + 16);
+    let (mut flag, mut used) = (0usize, 8u32);
+    let mut bit = |out: &mut Vec<u8>, b: u8| {
+        if used == 8 {
+            flag = out.len();
+            out.push(0);
+            used = 0;
+        }
+        out[flag] |= b << used;
+        used += 1;
+    };
+    const SLOTS: usize = 4;
+    let mut table = vec![[usize::MAX; SLOTS]; 1 << 14];
+    let hash = |i: usize| ((u32::from_le_bytes([data[i], data[i + 1], data[i + 2], 0]).wrapping_mul(2_654_435_761)) >> 18) as usize;
+    let mut i = 0;
+    while i < data.len() {
+        let (mut best_len, mut best_dist) = (0usize, 0usize);
+        if i + 3 <= data.len() {
+            let h = hash(i);
+            for &c in &table[h] {
+                if c == usize::MAX || i - c > 8191 {
+                    continue;
+                }
+                let max = (data.len() - i).min(4096);
+                let mut l = 0;
+                while l < max && data[c + l] == data[i + l] {
+                    l += 1;
+                }
+                if l > best_len {
+                    best_len = l;
+                    best_dist = i - c;
+                }
+            }
+            let row = &mut table[h];
+            row.rotate_right(1);
+            row[0] = i;
+        }
+        if best_len >= 3 {
+            bit(&mut out, 1);
+            bit(&mut out, 1);
+            if best_len <= 9 {
+                out.push((((best_len - 2) << 5) | (best_dist & 31)) as u8);
+                out.push((best_dist >> 5) as u8);
+            } else {
+                out.push((best_dist & 31) as u8);
+                out.push((best_dist >> 5) as u8);
+                let mut rem = best_len - 9;
+                while rem > 255 {
+                    out.push(0);
+                    rem -= 255;
+                }
+                out.push(rem as u8);
+            }
+            for j in i + 1..(i + best_len).min(data.len().saturating_sub(2)) {
+                let row = &mut table[hash(j)];
+                row.rotate_right(1);
+                row[0] = j;
+            }
+            i += best_len;
+        } else {
+            bit(&mut out, 0);
+            out.push(data[i]);
+            i += 1;
+        }
+    }
+    bit(&mut out, 1);
+    bit(&mut out, 1);
+    out.extend([0x20, 0x00]);
+    out
+}
+
+fn unpack(ctype: u8, comp: &[u8], us: usize) -> Option<Vec<u8>> {
+    if comp.len() == us {
+        return Some(comp.to_vec());
+    }
+    match ctype {
+        0 | 1 => std::panic::catch_unwind(|| lzokay_native::decompress_all(comp, Some(us))).ok()?.ok().filter(|v| v.len() == us),
+        2 => lzo2a_decode(comp, us),
+        _ => None,
+    }
+}
+
+fn pack(ctype: u8, data: &[u8]) -> Result<Vec<u8>, String> {
+    let out = match ctype {
+        0 | 1 => lzokay_native::compress(data).map_err(|e| format!("LZO: {e:?}"))?,
+        _ => lzo2a_encode(data),
+    };
+    // Never write a block that doesn't read back to exactly what was meant.
+    if out.len() == data.len() || unpack(ctype, &out, data.len()).as_deref() != Some(data) {
+        return Err("A part of the save could not be packed again safely".into());
+    }
+    Ok(out)
+}
+
+// ------------------------------------------------------------------ wrapper and key
+
+fn u32_at(d: &[u8], at: usize) -> Option<u32> {
+    Some(u32::from_le_bytes(d.get(at..at + 4)?.try_into().ok()?))
+}
+
+/// Where the body starts.
+fn body_offset(d: &[u8]) -> Option<usize> {
+    if d.starts_with(b"CDX\0") {
+        return Some(0x110);
+    }
+    let first = u32_at(d, 0)?;
+    if matches!(first, 0x224 | 0x204 | 0x24) && u32_at(d, 4)? == 0 {
+        return Some(first as usize + 4);
+    }
+    if d.len() > 0x220 && d[..0x208].iter().all(|&b| b == 0) {
+        return Some(0x208);
+    }
+    if first == 0x16 && d.get(4..8)? == MAGIC {
+        return Some(0);
+    }
+    None
+}
+
+/// Offset of the first container inside the body, by body version.
+fn first_container(version: u32) -> Option<usize> {
+    Some(match version {
+        0x16 => 16,
+        0x21 | 0x23 | 0x24 => 24,
+        0x2A | 0x2C => 20,
+        0x31 => 28,
+        _ => return None,
+    })
+}
+
+const VERSIONS: [u32; 7] = [0x16, 0x21, 0x23, 0x24, 0x2A, 0x2C, 0x31];
+
+fn xor(d: &mut [u8], from: usize, n: usize, key: &[u8]) {
+    if key.is_empty() {
+        return;
+    }
+    for (i, b) in d.iter_mut().enumerate() {
+        *b ^= key[(n - (from + i)) % key.len()];
+    }
+}
+
+/// Does the first block at `s` (body offset of a container) check out with this key?
+fn first_block_ok(d: &[u8], o: usize, s: usize, key: &[u8]) -> bool {
+    let n = d.len();
+    let at = o + s + 15;
+    let Some(head) = d.get(at..at + 13) else { return false };
+    let mut head = head.to_vec();
+    xor(&mut head, at, n, key);
+    if head[0] != 1 {
+        return false;
+    }
+    let cs = u32::from_le_bytes(head[1..5].try_into().unwrap()) as usize;
+    let ck = u32::from_le_bytes(head[9..13].try_into().unwrap());
+    let Some(comp) = d.get(at + 13..at + 13 + cs).filter(|_| cs > 0) else { return false };
+    let mut comp = comp.to_vec();
+    xor(&mut comp, at + 13, n, key);
+    adler0(&comp) == ck
+}
+
+/// The XOR key (empty: not encrypted) and the body version.
+fn solve(d: &[u8], o: usize) -> Option<(Vec<u8>, u32)> {
+    let n = d.len();
+    let body = d.get(o..)?;
+    if body.len() < 64 {
+        return None;
+    }
+    // Not encrypted.
+    let v = u32_at(body, 0)?;
+    if body[4..8] == MAGIC {
+        if let Some(s) = first_container(v) {
+            if body.get(s..s + 8) == Some(&SIG) && first_block_ok(d, o, s, &[]) {
+                return Some((vec![], v));
+            }
+        }
+    }
+    for version in VERSIONS {
+        let s = first_container(version)?;
+        for cver in [1u16, 2] {
+            for ctype in [0u8, 2] {
+                for bsize in [0x8000u32, 0x40000] {
+                    let mut known: Vec<(usize, u8)> = vec![];
+                    known.extend(version.to_le_bytes().iter().enumerate().map(|(i, &b)| (i, b)));
+                    known.extend(MAGIC.iter().enumerate().map(|(i, &b)| (4 + i, b)));
+                    let mut c = SIG.to_vec();
+                    c.extend(cver.to_le_bytes());
+                    c.push(ctype);
+                    c.extend(bsize.to_le_bytes());
+                    c.push(1);
+                    known.extend(c.iter().enumerate().map(|(i, &b)| (s + i, b)));
+                    'len: for l in 1..=16usize {
+                        let mut key: Vec<Option<u8>> = vec![None; l];
+                        for &(i, p) in &known {
+                            let at = o + i;
+                            let kb = d[at] ^ p;
+                            let slot = &mut key[(n - at) % l];
+                            match slot {
+                                Some(x) if *x != kb => continue 'len,
+                                _ => *slot = Some(kb),
+                            }
+                        }
+                        let Some(key) = key.into_iter().collect::<Option<Vec<u8>>>() else { continue };
+                        if first_block_ok(d, o, s, &key) {
+                            return Some((key, version));
+                        }
                     }
                 }
             }
@@ -486,457 +375,767 @@ fn solve_key(body: &[u8]) -> Option<Vec<u8>> {
     None
 }
 
-fn xor_range(body: &[u8], key: &[u8], a: usize, b: usize) -> Vec<u8> {
-    let n = body.len();
-    (a..b.min(n)).map(|i| body[i] ^ key[(n - i) % key.len()]).collect()
+// ------------------------------------------------------------------ containers
+
+#[derive(Clone, Debug)]
+struct Block {
+    stored: bool,
+    /// Bytes as in the file (packed, or raw for a stored block).
+    bytes: Vec<u8>,
+    size: usize,
 }
 
-fn unpack(comp: u8, packed: &[u8], size: usize) -> Option<Vec<u8>> {
-    let o = match comp {
-        0 => lzo1x_decompress(packed, size)?,
-        2 => lzo2a_decompress(packed, size)?,
-        _ => return None,
-    };
-    (o.len() == size).then_some(o)
+#[derive(Clone, Debug)]
+struct Container {
+    /// Body offset of the signature.
+    pos: usize,
+    /// Body offset just past the last block.
+    end: usize,
+    ctype: u8,
+    blocks: Vec<Block>,
+    /// Unpacked data, and where each block starts in it.
+    data: Vec<u8>,
+    starts: Vec<usize>,
+    /// Body offset of the u32 holding the container's size in the file, if it has one.
+    size_field: Option<usize>,
 }
 
-fn pack(comp: u8, raw: &[u8]) -> Vec<u8> {
-    if comp == 2 {
-        lzo2a_compress(raw)
-    } else {
-        lzo1x_compress(raw)
-    }
-}
-
-/// A cheap check before the key search: a Ubisoft wrapper, or a bare body.
-pub fn maybe(d: &[u8]) -> bool {
-    d.len() >= 64 && (body_start(d) > 0 || d[4..8] == [0xAC, 0xDB, 0xFE, 0x00])
-}
-
-/// The decompressed containers behind an `ANVIL` marker, when this is a supported save.
-pub fn open(d: &[u8]) -> Option<(Packed, Vec<u8>)> {
-    if d.len() < 64 {
+fn read_container(b: &[u8], pos: usize, lower: usize) -> Option<Container> {
+    if b.get(pos..pos + 8)? != SIG {
         return None;
     }
-    let body_at = body_start(d);
-    let raw = &d[body_at..];
-    let (body, key) = if raw.get(4..8)? == [0xAC, 0xDB, 0xFE, 0x00] {
-        (raw.to_vec(), None)
-    } else {
-        let k = solve_key(raw)?;
-        (xor(raw, &k), Some(k))
-    };
-    if body.get(4..8)? != [0xAC, 0xDB, 0xFE, 0x00] {
-        return None;
-    }
-    let s0 = body.get(..64.min(body.len()))?.windows(8).position(|w| w == SIG)?;
-    let mut inner = MARK.to_vec();
-    let mut parts: Vec<Part> = vec![];
-    let mut s = s0;
-    loop {
-        let ver = u16::from_le_bytes(body.get(s + 8..s + 10)?.try_into().ok()?);
-        let comp = *body.get(s + 10)?;
-        let bs = u32_at(&body, s + 11)? as u32;
-        let usz = u32_at(&body, s - 4)?;
-        let mut p = s + 15;
-        let mut got = 0usize;
-        let mut blocks = vec![];
-        if usz > 1 << 28 {
-            return None;
-        }
-        while got < usz {
-            let at = p;
-            let flag = *body.get(p)?;
-            let (raw_bytes, end) = if flag == 1 {
-                let cs = u32_at(&body, p + 1)?;
-                let us = u32_at(&body, p + 5)?;
-                let sum = u32_at(&body, p + 9)? as u32;
-                let packed = body.get(p + 13..p + 13 + cs)?;
-                if adler0(packed) != sum {
+    let ctype = b[pos + 10];
+    let total = u32_at(b, pos.checked_sub(4)?)? as usize;
+    let mut q = pos + 15;
+    let (mut blocks, mut data, mut starts) = (vec![], vec![], vec![]);
+    while data.len() < total {
+        let kind = *b.get(q)?;
+        let (stored, size, bytes) = match kind {
+            1 => {
+                let cs = u32_at(b, q + 1)? as usize;
+                let us = u32_at(b, q + 5)? as usize;
+                let ck = u32_at(b, q + 9)?;
+                let comp = b.get(q + 13..q + 13 + cs)?;
+                if cs == 0 || adler0(comp) != ck {
                     return None;
                 }
-                (unpack(comp, packed, us)?, p + 13 + cs)
-            } else if flag == 0 {
-                let sz = u32_at(&body, p + 1)?;
-                (body.get(p + 9..p + 9 + sz)?.to_vec(), p + 9 + sz)
-            } else {
-                return None;
-            };
-            blocks.push(Blk { at, end, inner_at: inner.len(), len: raw_bytes.len() });
-            got += raw_bytes.len();
-            inner.extend_from_slice(&raw_bytes);
-            p = end;
-        }
-        if got != usz {
-            return None;
-        }
-        let used = p - s;
-        let size_at = [(s.wrapping_sub(16), 12usize), (s.wrapping_sub(8), 4), (s.wrapping_sub(8), 12)]
-            .into_iter()
-            .find(|&(at, add)| at < s && u32_at(&body, at) == Some(used + add));
-        parts.push(Part { start: s, end: p, comp, ver, bs, size_at, blocks });
-        // The next container follows a 8, 12 or 16 byte record (…, packed size, unpacked size).
-        match [8usize, 12, 16].into_iter().find(|&g| body.get(p + g..p + g + 8) == Some(&SIG[..])) {
-            Some(g) => s = p + g,
-            None => break,
-        }
+                q += 13 + cs;
+                (false, us, comp)
+            }
+            0 => {
+                let sz = u32_at(b, q + 1)? as usize;
+                if sz == 0 {
+                    return None;
+                }
+                let raw = b.get(q + 5..q + 5 + sz)?;
+                q += 5 + sz;
+                (true, sz, raw)
+            }
+            _ => return None,
+        };
+        let plain = if stored { bytes.to_vec() } else { unpack(ctype, bytes, size)? };
+        starts.push(data.len());
+        data.extend(plain);
+        blocks.push(Block { stored, bytes: bytes.to_vec(), size });
     }
-    if parts.is_empty() {
+    if data.len() != total {
         return None;
     }
-    let packed = Packed { original: Arc::new(d.to_vec()), inner: Arc::new(inner.clone()), body_at, key, parts };
-    Some((packed, inner))
+    let clen = (q - pos) as i64;
+    let size_field = [8usize, 16].into_iter().filter_map(|back| pos.checked_sub(back)).filter(|&f| f >= lower).find(|&f| {
+        let v = u32_at(b, f).map_or(-1, |v| v as i64);
+        matches!(v - clen, 4 | 12)
+    });
+    Some(Container { pos, end: q, ctype, blocks, data, starts, size_field })
 }
 
-/// Packs the (edited) inner data back into a save.
-pub fn close(p: &Packed, data: &[u8]) -> Result<Vec<u8>, String> {
-    if data.len() != p.inner.len() || !data.starts_with(MARK) {
-        return Err("the save's size changed; only in-place edits can be written back".into());
-    }
-    let raw = &p.original[p.body_at..];
-    let plain = match &p.key {
-        Some(k) => xor(raw, k),
-        None => raw.to_vec(),
-    };
-    let mut out: Vec<u8> = Vec::with_capacity(plain.len() + 1024);
-    let mut cursor = 0usize;
-    for part in &p.parts {
-        out.extend_from_slice(&plain[cursor..part.start]);
-        let base = out.len();
-        out.extend_from_slice(&plain[part.start..part.start + 15]);
-        for b in &part.blocks {
-            let (old, new) = (&p.inner[b.inner_at..b.inner_at + b.len], &data[b.inner_at..b.inner_at + b.len]);
-            if old == new {
-                out.extend_from_slice(&plain[b.at..b.end]);
-                continue;
-            }
-            let packed = pack(part.comp, new);
-            if plain[b.at] == 1 && packed.len() < new.len() {
-                out.push(1);
-                out.extend_from_slice(&(packed.len() as u32).to_le_bytes());
-                out.extend_from_slice(&(new.len() as u32).to_le_bytes());
-                out.extend_from_slice(&adler0(&packed).to_le_bytes());
-                out.extend_from_slice(&packed);
-            } else {
-                out.push(0);
-                out.extend_from_slice(&(new.len() as u32).to_le_bytes());
-                out.extend_from_slice(&0u32.to_le_bytes());
-                out.extend_from_slice(new);
-            }
-        }
-        if let Some((at, add)) = part.size_at {
-            let pos = out.len() - (out.len() - base) - (part.start - at);
-            let used = out.len() - base;
-            put32(&mut out, pos, used + add);
-        }
-        cursor = part.end;
-    }
-    out.extend_from_slice(&plain[cursor..]);
-    let body = match &p.key {
-        Some(k) => xor(&out, k),
-        None => out,
-    };
-    let mut file = p.original[..p.body_at].to_vec();
-    file.extend_from_slice(&body);
-    Ok(file)
-}
-
-// ---------------------------------------------------------------- reader
-
-/// Property leaves in the decompressed stream are `u32 L | key | ext | 00 00 | u16 type | 0B | value`
-/// with `L` = 13 + the value's size; the keys are CRC-32 of the property names.
-const K_CATEGORY: u32 = 0xFF3A7B97;
-const K_COUNT: u32 = 0xF77B9912;
-const K_ITEM_ID: u32 = 0xBF298A20;
-const K_QUANTITY: u32 = 0x66857460;
-const K_XP: u32 = 0x58D0_9457;
-const K_POINTS: u32 = 0x6E5A_0AC8;
-/// Item id of drachmae in Origins and Odyssey.
-const DRACHMAE: u64 = 0x0000_001B_FDB9_F655;
-
-fn crc32(b: &[u8]) -> u32 {
-    let mut c = !0u32;
-    for &x in b {
-        c ^= x as u32;
-        for _ in 0..8 {
-            c = (c >> 1) ^ (0xEDB8_8320 & (c & 1).wrapping_neg());
-        }
-    }
-    !c
-}
-
-/// `InvItem_*` category names that were matched by their CRC-32 against public saves.
-const CATEGORY_NAMES: &[(&str, &str)] = &[
-    ("Money", "Money"),
-    ("SmokeBomb", "Smoke bombs"),
-    ("Knives", "Throwing knives"),
-    ("Poison", "Poison darts"),
-    ("RopeDarts", "Rope darts"),
-    ("Arrows", "Arrows"),
-    ("Lockpicks", "Lockpicks"),
-    ("Wood", "Wood"),
-    ("Metal", "Metal"),
-    ("Cloth", "Cloth"),
-    ("Rum", "Rum"),
-    ("Sugar", "Sugar"),
-    ("Tobacco", "Tobacco"),
-    ("HeavyShot", "Heavy shot"),
-    ("Crew", "Crew"),
-    ("Harpoon", "Harpoons"),
-];
-
-fn named(hash: u32) -> Option<&'static str> {
-    CATEGORY_NAMES.iter().find(|(k, _)| crc32(format!("InvItem_{k}").as_bytes()) == hash).map(|(_, n)| *n)
-}
-
-/// Positions of every leaf with this key and length (the position is the key's).
-fn leaves(d: &[u8], key: u32, len: u32) -> Vec<usize> {
-    let kb = key.to_le_bytes();
-    let mut out = vec![];
-    let mut i = 4usize;
-    while i + 4 <= d.len() {
-        if d[i..i + 4] == kb && d[i - 4..i] == len.to_le_bytes() {
-            out.push(i);
-            i += 4;
+fn containers(b: &[u8], first: usize) -> Option<Vec<Container>> {
+    let mut out: Vec<Container> = vec![];
+    let mut pos = first;
+    loop {
+        let lower = out.last().map_or(0, |c| c.end);
+        out.push(read_container(b, pos, lower)?);
+        let end = out.last().unwrap().end;
+        if b.get(end + 16..end + 24) == Some(&SIG) {
+            pos = end + 16;
         } else {
-            i += 1;
+            break;
         }
+    }
+    Some(out)
+}
+
+// ------------------------------------------------------------------ property stream
+
+/// Offsets of the values of leaves with this name hash and type.
+fn leaves(d: &[u8], key: u32, ty: u16) -> Vec<usize> {
+    let k = key.to_le_bytes();
+    let mut out = vec![];
+    let mut p = 4;
+    while p + 13 <= d.len() {
+        let Some(i) = d[p..].windows(4).position(|w| w == k) else { break };
+        let at = p + i;
+        if at + 13 <= d.len() && d[at + 8] == 0 && d[at + 9] == 0 && u16::from_le_bytes([d[at + 10], d[at + 11]]) == ty && d[at + 12] == 0x0B {
+            out.push(at + 13);
+        }
+        p = at + 1;
     }
     out
 }
 
-fn value_at(p: usize) -> usize {
-    p + 13
+/// Offsets of the values of object arrays with this name hash (u8 1, u32 entry count, entries).
+fn arrays(d: &[u8], key: u32) -> Vec<usize> {
+    [0x0A1D, 0x0A9D, 0x0B1D].into_iter().flat_map(|t| leaves(d, key, t)).collect()
+}
+
+const T_U32: u16 = 7;
+const T_ENUM: u16 = 0x19;
+const T_ID: u16 = 0x12;
+const K_CATEGORY: u32 = 0xFF3A_7B97;
+const K_LIST: u32 = 0x303E_B186;
+/// The enum before an inventory list in Brotherhood and Revelations naming whose it is.
+const K_OWNER: u32 = 0xB159_0889;
+const OWNER_PLAYER: u32 = 0x4424_9429;
+const T_LIST: u16 = 0x0A1D;
+const K_COUNT: u32 = 0xF77B_9912;
+const K_QUANTITY: u32 = 0x6685_7460;
+const K_ITEM_ID: u32 = 0xBF29_8A20;
+/// An inventory's item list (Odyssey).
+const K_ITEMS: u32 = 0x20DF_C649;
+const K_XP: u32 = 0x58D0_9457;
+const K_POINTS: u32 = 0x6E5A_0AC8;
+
+/// A place a value is kept: (container, offset in its data).
+type Spot = (usize, usize);
+
+/// Where a section of the screen puts an inventory category.
+#[derive(Clone, Copy, PartialEq)]
+enum Group {
+    Money,
+    Materials,
+    Trade,
+    Tools,
+}
+
+/// `InvItem_*` category names (CRC-32 of the name) the screens show.
+const CATEGORIES: &[(u32, &str, Group)] = &[
+    (0x12F6_B6F1, "Money", Group::Money),
+    (0xD98A_C0FF, "Creed Points", Group::Money),
+    (0x1F8D_672A, "Wood", Group::Materials),
+    (0x654B_51DC, "Metal", Group::Materials),
+    (0x87D8_CEAB, "Cloth", Group::Materials),
+    (0xBC09_A03F, "Stone", Group::Materials),
+    (0xBD24_D087, "Leather", Group::Materials),
+    (0x597C_302F, "Metal", Group::Materials),
+    (0x762F_6E61, "Chemicals", Group::Materials),
+    (0x1B75_E0B9, "Silk", Group::Materials),
+    (0x0066_6D8D, "Rum", Group::Trade),
+    (0x0EED_0FEA, "Sugar", Group::Trade),
+    (0x54C4_070C, "Tobacco", Group::Trade),
+    (0x7121_9CE3, "Smoke bombs", Group::Tools),
+    (0x5F5F_4957, "Throwing knives", Group::Tools),
+    (0x940C_D407, "Poison", Group::Tools),
+    (0x248B_BD27, "Rope darts", Group::Tools),
+    (0x27AA_9908, "Berserk darts", Group::Tools),
+    (0x27CE_7DE3, "Medicine", Group::Tools),
+    (0xB7CF_2800, "Arrows", Group::Tools),
+    (0xC717_2DAB, "Musket bullets", Group::Tools),
+    (0xB7C1_34C5, "Gun bullets", Group::Tools),
+    (0x5815_7823, "Cherry bombs", Group::Tools),
+    (0x5DD4_6D4D, "Stun grenades", Group::Tools),
+    (0xFB35_7AE1, "Voltaic bombs", Group::Tools),
+    (0x6F44_6793, "Snares", Group::Tools),
+    (0xEE89_98D9, "Mortar shots", Group::Tools),
+    (0xED3E_BACD, "Heavy shot", Group::Tools),
+    (0x945D_B140, "Harpoons", Group::Tools),
+    (0xABFC_3096, "Burning oil", Group::Tools),
+    (0x6D1E_3297, "Lockpicks", Group::Tools),
+    (0xAA59_3E95, "Crew", Group::Tools),
+];
+
+/// Odyssey and Origins item ids.
+const DRACHMAE: u64 = 0x0000_001B_FDB9_F655;
+const ITEMS: &[(u64, &str)] = &[
+    (0x0000_0150_408F_7320, "Olive Wood"),
+    (0x0000_0150_408F_900F, "Iron Metal"),
+    (0x0000_0150_6FB5_C135, "Soft Leather"),
+    (0x0000_0073_12FA_86C4, "Hard Leather"),
+    (0x0000_0150_408F_9013, "Obsidian Glass"),
+    (0x0000_0150_6FB5_C133, "Precious Gems"),
+    (0x0000_0150_6FB5_C137, "Ancient Tablets"),
+];
+
+/// The most money the screens allow.
+pub const MONEY_MAX: i64 = 99_999_999;
+pub const DRACHMAE_MAX: i64 = 9_999_999;
+/// Black Flag: the Jackdaw's hold, fully upgraded, takes 2,000 of each cargo.
+pub const BLACK_FLAG_CARGO: i64 = 2_000;
+/// Rogue: the Morrigan's hold, fully upgraded, takes 2,500.
+pub const ROGUE_CARGO: i64 = 2_500;
+/// Syndicate: no public source states a limit for crafting materials (estimate).
+pub const SYNDICATE_MATERIALS: i64 = 9_999;
+/// Odyssey: no public source states a limit; real saves hold over 60,000 (estimate).
+pub const ODYSSEY_MATERIALS: i64 = 99_999;
+pub const TOOLS_MAX: i64 = 999;
+pub const XP_MAX: i64 = 99_999_999;
+pub const POINTS_MAX: i64 = 9_999;
+
+fn cap(game: Ac, name: &str, group: Group) -> i64 {
+    match group {
+        Group::Money => MONEY_MAX,
+        Group::Materials | Group::Trade => match game {
+            Ac::BlackFlag => BLACK_FLAG_CARGO,
+            Ac::Rogue => ROGUE_CARGO,
+            Ac::Syndicate => SYNDICATE_MATERIALS,
+            _ if name == "Stone" => ROGUE_CARGO,
+            _ => 9_999,
+        },
+        Group::Tools => TOOLS_MAX,
+    }
+}
+
+#[derive(Clone, Debug)]
+struct Leaf {
+    spots: Vec<Spot>,
+    max: i64,
+}
+
+/// The live copy of an XP / ability point counter: the non-zero one of the first two.
+fn live(conts: &[Container], all: &[Spot]) -> Option<Spot> {
+    let read = |&(c, o): &Spot| u32_at(&conts[c].data, o).unwrap_or(0);
+    all.iter().take(2).find(|s| read(s) != 0).or(all.first()).copied()
+}
+
+// ------------------------------------------------------------------ the save
+
+#[derive(Clone, Debug)]
+struct Save {
+    orig: Vec<u8>,
+    off: usize,
+    key: Vec<u8>,
+    /// Decrypted body.
+    body: Vec<u8>,
+    conts: Vec<Container>,
+    leaves: Vec<Leaf>,
+    /// The CDX wrapper keeps the body size at 0x08.
+    cdx: bool,
+}
+
+fn identify(version: u32, cver: u16, key: &[u8]) -> Option<Ac> {
+    Some(match version {
+        0x16 if key.is_empty() => Ac::Brotherhood,
+        0x16 => Ac::Revelations,
+        0x21 if key == KEY_BLACK_FLAG => Ac::LiberationHd,
+        0x21 => Ac::Ac3r,
+        0x23 => Ac::BlackFlag,
+        0x24 => Ac::Rogue,
+        0x2A if cver >= 2 => Ac::Syndicate,
+        0x2A => Ac::Unity,
+        0x2C => Ac::Origins,
+        0x31 => Ac::Odyssey,
+        _ => return None,
+    })
 }
 
 pub fn looks(d: &[u8]) -> bool {
-    d.starts_with(MARK)
+    body_offset(d).is_some_and(|o| d.len() > o + 64)
 }
 
-pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
-    if !looks(d) {
-        return Err("not an Assassin's Creed save".into());
-    }
-    let mut b = Builder::new(d);
-    let cats = leaves(d, K_CATEGORY, 0x15);
-    // Category -> (numeric id, [(count position, value)]) in file order.
-    let mut by_cat: Vec<(u32, u32, Vec<(usize, u32)>)> = vec![];
-    for (n, &p) in cats.iter().enumerate() {
-        let hash = u32::from_le_bytes(d.get(value_at(p) + 4..value_at(p) + 8).ok_or("cut off")?.try_into().unwrap());
-        let id = u32::from_le_bytes(d[value_at(p)..value_at(p) + 4].try_into().unwrap());
-        let end = cats.get(n + 1).copied().unwrap_or(d.len()).min(p + 200);
-        let Some(q) = leaves(&d[p..end.max(p)], K_COUNT, 0x11).first().map(|&x| x + p) else { continue };
-        let v = u32::from_le_bytes(d.get(value_at(q)..value_at(q) + 4).ok_or("cut off")?.try_into().unwrap());
-        match by_cat.iter_mut().find(|(h, _, _)| *h == hash) {
-            Some((_, _, v_list)) => v_list.push((value_at(q), v)),
-            None => by_cat.push((hash, id, vec![(value_at(q), v)])),
-        }
-    }
-    let mut found = 0;
-    for (hash, id, copies) in &by_cat {
-        let name = named(*hash);
-        let label = match name {
-            Some(n) => n.to_string(),
-            None => format!("Counter {id}"),
-        };
-        let group = match name {
-            Some("Money") => "Inventory",
-            Some("Wood" | "Metal" | "Cloth" | "Rum" | "Sugar" | "Tobacco") => "Cargo",
-            Some(_) => "Inventory",
-            None => "Other counters",
-        };
-        // The player's own count is the biggest one; other characters' and older copies come after.
-        let first = *copies.iter().max_by_key(|c| (c.1, std::cmp::Reverse(c.0))).unwrap();
-        if name.is_none() && first.1 == 0 {
-            continue;
-        }
-        if b.ranged(&[group, &label], first.0, Kind::U32, 0, 1_000_000_000).is_some() {
-            found += 1;
-            let mut distinct: Vec<u32> = vec![];
-            for &(at, v) in copies.iter().filter(|c| c.0 != first.0) {
-                if v == first.1 {
-                    b.mirror(&[group, &label], at);
-                } else if name.is_some() && v != 0 {
-                    match distinct.iter().position(|&x| x == v) {
-                        Some(k) => b.mirror(&["Other copies", &format!("{label} (copy {})", k + 2)], at),
-                        None => {
-                            distinct.push(v);
-                            b.ranged(&["Other copies", &format!("{label} (copy {})", distinct.len() + 1)], at, Kind::U32, 0, 1_000_000_000);
-                        }
-                    }
+pub fn parse(d: &[u8]) -> Option<TreeDoc> {
+    let off = body_offset(d)?;
+    let (key, version) = solve(d, off)?;
+    let mut body = d[off..].to_vec();
+    xor(&mut body, off, d.len(), &key);
+    let first = first_container(version)?;
+    let conts = containers(&body, first)?;
+    let cver = u16::from_le_bytes([body[first + 8], body[first + 9]]);
+    let game = identify(version, cver, &key)?;
+    let cdx = d.starts_with(b"CDX\0") && u32_at(d, 8) == Some(body.len() as u32);
+
+    let mut leaves_out: Vec<Leaf> = vec![];
+    let mut edit = HashMap::new();
+    let mut root = Map::new();
+    let mut info = Map::new();
+    info.insert("Game".into(), Value::from(game.name()));
+    let mut money = Map::new();
+    let mut materials = Map::new();
+    let mut trade = Map::new();
+    let mut tools = Map::new();
+    let mut progress = Map::new();
+    let read = |conts: &[Container], (c, o): Spot| u32_at(&conts[c].data, o).unwrap_or(0) as i64;
+    let mut add = |section: &str, name: &str, spots: Vec<Spot>, max: i64, map: &mut Map<String, Value>, leaves_out: &mut Vec<Leaf>| {
+        let v = read(&conts, spots[0]);
+        map.insert(name.into(), Value::from(v));
+        leaves_out.push(Leaf { spots, max: max.max(v) });
+        edit.insert(format!("/{section}/{}", name.replace('~', "~0").replace('/', "~1")), leaves_out.len() - 1);
+    };
+
+    if matches!(game, Ac::Origins | Ac::Odyssey) {
+        // Item list: an id, then (in the same entry) a Quantity. Chests, merchants and loot have
+        // item lists too; the player's is the one with the most entries.
+        let mut player: Option<(usize, usize, usize, u32)> = None;
+        for (ci, c) in conts.iter().enumerate() {
+            for at in arrays(&c.data, K_ITEMS) {
+                let (Some(len), Some(n)) = (at.checked_sub(17).and_then(|l| u32_at(&c.data, l)), u32_at(&c.data, at + 1)) else { continue };
+                if player.is_none_or(|p| n > p.3) {
+                    player = Some((ci, at, (at - 13 + len as usize).min(c.data.len()), n));
                 }
             }
         }
-    }
-    // Origins and Odyssey keep items in a list: drachmae by item id, experience and ability points by key.
-    let ids = leaves(d, K_ITEM_ID, 0x15);
-    let mut drachmae: Vec<(usize, u32)> = vec![];
-    for (n, &p) in ids.iter().enumerate() {
-        if u64::from_le_bytes(d[value_at(p)..value_at(p) + 8].try_into().unwrap()) != DRACHMAE {
-            continue;
-        }
-        let end = ids.get(n + 1).copied().unwrap_or(d.len()).min(p + 2000);
-        if let Some(&q) = leaves(&d[p..end], K_QUANTITY, 0x11).first() {
-            let at = value_at(q + p);
-            drachmae.push((at, u32::from_le_bytes(d[at..at + 4].try_into().unwrap())));
-        }
-    }
-    if let Some(&(at, v)) = drachmae.iter().max_by_key(|x| x.1) {
-        b.ranged(&["Character", "Drachmae"], at, Kind::U32, 0, 999_999_999);
-        for &(a2, v2) in &drachmae {
-            if a2 != at && v2 == v {
-                b.mirror(&["Character", "Drachmae"], a2);
+        let mut by_id: Vec<(u64, Vec<Spot>)> = vec![];
+        for (ci, c) in conts.iter().enumerate() {
+            let ids = leaves(&c.data, K_ITEM_ID, T_ID);
+            if ids.is_empty() {
+                continue;
+            }
+            for q in leaves(&c.data, K_QUANTITY, T_U32) {
+                if let Some((pc, a, e, _)) = player {
+                    if pc != ci || !(a..e).contains(&q) {
+                        continue;
+                    }
+                }
+                // The nearest id before the quantity, within one entry.
+                let Some(&i) = ids.iter().rev().find(|&&i| i < q && q - i < 1400) else { continue };
+                let Some(id) = c.data.get(i..i + 8).map(|b| u64::from_le_bytes(b.try_into().unwrap())) else { continue };
+                match by_id.iter_mut().find(|(x, _)| *x == id) {
+                    Some((_, s)) => s.push((ci, q)),
+                    None => by_id.push((id, vec![(ci, q)])),
+                }
             }
         }
-        found += 1;
-    }
-    if !drachmae.is_empty() {
-        // The live counters are the first non-zero ones of the first two copies.
-        for (key, name, hi) in [(K_XP, "Experience", 999_999_999i64), (K_POINTS, "Ability points", 9_999)] {
-            let ls = leaves(d, key, 0x11);
-            if let Some(&p) = ls.iter().take(2).find(|&&p| u32::from_le_bytes(d[value_at(p)..value_at(p) + 4].try_into().unwrap()) != 0) {
-                b.ranged(&["Character", name], value_at(p), Kind::U32, 0, hi);
+        // Without a player list, an id listed more than once (a pickup holds one drachma) is the
+        // player's where its stack is biggest.
+        let pick = |s: &Vec<Spot>| {
+            if player.is_some() {
+                s.first().map(|&x| vec![x])
+            } else {
+                s.iter().copied().max_by_key(|&(c, o)| u32_at(&conts[c].data, o).unwrap_or(0)).map(|x| vec![x])
+            }
+        };
+        if let Some(s) = by_id.iter().find(|(id, _)| *id == DRACHMAE).and_then(|(_, s)| pick(s)) {
+            add("Money", "Drachmae", s, DRACHMAE_MAX, &mut money, &mut leaves_out);
+        }
+        for &(id, name) in ITEMS {
+            if game == Ac::Origins && name != "Hard Leather" {
+                continue;
+            }
+            if let Some(s) = by_id.iter().find(|(x, _)| *x == id).and_then(|(_, s)| pick(s)) {
+                add("Crafting materials", name, s, ODYSSEY_MATERIALS, &mut materials, &mut leaves_out);
             }
         }
+        for (key, name, max) in [(K_XP, "XP", XP_MAX), (K_POINTS, "Ability points", POINTS_MAX)] {
+            let all: Vec<Spot> = conts.iter().enumerate().flat_map(|(ci, c)| leaves(&c.data, key, T_U32).into_iter().map(move |o| (ci, o))).collect();
+            if let Some(s) = live(&conts, &all) {
+                add("Progress", name, vec![s], max, &mut progress, &mut leaves_out);
+            }
+        }
+    } else {
+        // Inventory container lists in the main stream; each entry is a Category enum, then
+        // CurrentItemCount. Lists of other characters and memories are left alone.
+        let (mi, main) = conts.iter().enumerate().max_by_key(|(_, c)| c.data.len())?;
+        let data = &main.data;
+        let counts = leaves(data, K_COUNT, T_U32);
+        let owners = leaves(data, K_OWNER, T_ENUM);
+        // (start, end, entries, owner hash)
+        let lists: Vec<(usize, usize, u32, u32)> = leaves(data, K_LIST, T_LIST)
+            .into_iter()
+            .filter_map(|at| {
+                let len = u32_at(data, at.checked_sub(17)?)? as usize;
+                let owner = owners.iter().rev().find(|&&o| o < at && at - o < 240).and_then(|&o| u32_at(data, o + 4)).unwrap_or(0);
+                Some((at, (at - 13 + len).min(data.len()), u32_at(data, at + 1)?, owner))
+            })
+            .collect();
+        let chosen: Vec<(usize, usize)> = if lists.iter().any(|l| l.3 == OWNER_PLAYER) {
+            // Brotherhood and Revelations name the player's inventory.
+            lists.iter().filter(|l| l.3 == OWNER_PLAYER).map(|l| (l.0, l.1)).collect()
+        } else {
+            // The player's list has the most entries (the biggest of those); its checkpoint
+            // copies have the same entries and about the same size.
+            let &(a, e, n, _) = lists.iter().max_by_key(|l| (l.2, l.1 - l.0, std::cmp::Reverse(l.0)))?;
+            let mut v = vec![(a, e)];
+            v.extend(lists.iter().filter(|l| l.0 != a && l.2 == n && (l.1 - l.0) * 4 >= (e - a) * 3).map(|l| (l.0, l.1)));
+            v
+        };
+        let mut by_cat: Vec<(u32, Vec<Spot>)> = vec![];
+        for at in leaves(data, K_CATEGORY, T_ENUM) {
+            if !chosen.iter().any(|&(a, e)| (a..e).contains(&at)) {
+                continue;
+            }
+            let Some(hash) = u32_at(data, at + 4) else { continue };
+            let Some(&cnt) = counts.iter().find(|&&c| c > at && c - at < 80) else { continue };
+            // The best list's copy goes first: it is the one shown.
+            let first = (chosen[0].0..chosen[0].1).contains(&at);
+            match by_cat.iter_mut().find(|(h, _)| *h == hash) {
+                Some((_, s)) if first => s.insert(0, (mi, cnt)),
+                Some((_, s)) => s.push((mi, cnt)),
+                None => by_cat.push((hash, vec![(mi, cnt)])),
+            }
+        }
+        for &(hash, name, group) in CATEGORIES {
+            let Some((_, s)) = by_cat.iter().find(|(h, _)| *h == hash) else { continue };
+            let (section, map) = match group {
+                Group::Money => ("Money", &mut money),
+                Group::Materials => ("Crafting materials", &mut materials),
+                Group::Trade => ("Trade goods", &mut trade),
+                Group::Tools => ("Tools and ammunition", &mut tools),
+            };
+            if map.contains_key(name) {
+                continue;
+            }
+            add(section, name, s.clone(), cap(game, name, group), map, &mut leaves_out);
+        }
     }
-    if found == 0 {
-        return Err("no money or items found in this save".into());
+    if money.is_empty() {
+        return None;
     }
-    Ok(b.finish(KIND, Checksum::None).with_note("Close the game first. Not every save slot is the one the game loads: edit the newest one. Another copy of a value (an older checkpoint) is listed under Other copies when it differs."))
+    root.insert("Save".into(), Value::Object(info));
+    root.insert("Money".into(), Value::Object(money));
+    for (k, m) in [("Progress", progress), ("Crafting materials", materials), ("Trade goods", trade), ("Tools and ammunition", tools)] {
+        if !m.is_empty() {
+            root.insert(k.into(), Value::Object(m));
+        }
+    }
+    let save = Save { orig: d.to_vec(), off, key, body, conts, leaves: leaves_out, cdx };
+    Some(TreeDoc::new(Value::Object(root), edit, game.kind(), Box::new(B(save))))
 }
 
-// ---------------------------------------------------------------- tests
+#[derive(Clone, Debug)]
+struct B(Save);
+
+impl B {
+    fn rebuild(&self, conts: &[Container]) -> Result<Vec<u8>, String> {
+        let s = &self.0;
+        let mut out = Vec::with_capacity(s.body.len() + 4096);
+        let mut from = 0;
+        for (old, new) in s.conts.iter().zip(conts) {
+            let mut bytes = s.body[old.pos..old.pos + 15].to_vec();
+            for nb in &new.blocks {
+                if nb.stored {
+                    bytes.push(0);
+                    bytes.extend((nb.size as u32).to_le_bytes());
+                } else {
+                    bytes.push(1);
+                    bytes.extend((nb.bytes.len() as u32).to_le_bytes());
+                    bytes.extend((nb.size as u32).to_le_bytes());
+                    bytes.extend(adler0(&nb.bytes).to_le_bytes());
+                }
+                bytes.extend(&nb.bytes);
+            }
+            let delta = bytes.len() as i64 - (old.end - old.pos) as i64;
+            let gap_start = out.len();
+            out.extend(&s.body[from..old.pos]);
+            if delta != 0 {
+                let f = old.size_field.ok_or("The save's layout isn't fully understood here, so it can't be changed")?;
+                let at = gap_start + (f - from);
+                let v = u32_at(&out, at).unwrap() as i64 + delta;
+                out[at..at + 4].copy_from_slice(&(v as u32).to_le_bytes());
+            }
+            out.extend(bytes);
+            from = old.end;
+        }
+        out.extend(&s.body[from..]);
+        Ok(out)
+    }
+}
+
+impl Backend for B {
+    fn write(&self, _view: &Value, changes: &[(usize, Value)]) -> Result<Vec<u8>, String> {
+        let s = &self.0;
+        if changes.is_empty() {
+            return Ok(s.orig.clone());
+        }
+        let mut conts = s.conts.clone();
+        for (leaf, v) in changes {
+            let l = s.leaves.get(*leaf).ok_or("Not editable")?;
+            let n = v.as_i64().filter(|n| (0..=l.max).contains(n)).ok_or("Value out of range")?;
+            for &(c, o) in &l.spots {
+                conts[c].data[o..o + 4].copy_from_slice(&(n as u32).to_le_bytes());
+            }
+        }
+        for (ci, c) in conts.iter_mut().enumerate() {
+            let old = &s.conts[ci];
+            if c.data == old.data {
+                continue;
+            }
+            for bi in 0..c.blocks.len() {
+                let (a, len) = (c.starts[bi], c.blocks[bi].size);
+                let plain = &c.data[a..a + len];
+                if plain == &old.data[a..a + len] {
+                    continue;
+                }
+                let b = &mut c.blocks[bi];
+                b.bytes = if b.stored || b.bytes.len() == len { plain.to_vec() } else { pack(c.ctype, plain)? };
+            }
+        }
+        let mut body = self.rebuild(&conts)?;
+        // Read it back before handing it out.
+        let first = s.conts[0].pos;
+        let back = containers(&body, first).ok_or("The save could not be packed again safely")?;
+        if back.len() != conts.len() || back.iter().zip(&conts).any(|(a, b)| a.data != b.data) {
+            return Err("The save could not be packed again safely".into());
+        }
+        let n = s.off + body.len();
+        xor(&mut body, s.off, n, &s.key);
+        let mut out = s.orig[..s.off].to_vec();
+        if s.cdx {
+            out[8..12].copy_from_slice(&(body.len() as u32).to_le_bytes());
+        }
+        out.extend(body);
+        Ok(out)
+    }
+
+    fn check(&self, leaf: usize, v: &Value) -> Result<(), String> {
+        let max = self.0.leaves.get(leaf).map_or(0, |l| l.max);
+        match v.as_i64() {
+            Some(n) if (0..=max).contains(&n) => Ok(()),
+            _ => Err(format!("Must be a whole number from 0 to {max}")),
+        }
+    }
+
+    fn clone_box(&self) -> Box<dyn Backend> {
+        Box::new(self.clone())
+    }
+}
 
 #[cfg(test)]
 mod tests {
     use super::*;
 
-    fn sample(n: usize) -> Vec<u8> {
-        let mut v = vec![];
-        let mut x = 12345u32;
-        while v.len() < n {
-            x = x.wrapping_mul(1103515245).wrapping_add(12345);
-            let run = (x >> 16) as usize % 40;
-            let b = (x >> 8) as u8 % 7;
-            v.extend(std::iter::repeat(b).take(run));
-            v.extend_from_slice(b"InventoryContainer");
-            v.push((x >> 3) as u8);
-        }
-        v.truncate(n);
+    fn leaf(key: u32, ty: u16, value: &[u8]) -> Vec<u8> {
+        let mut v = ((13 + value.len()) as u32).to_le_bytes().to_vec();
+        v.extend(key.to_le_bytes());
+        v.extend([0u8; 6]);
+        v.extend(ty.to_le_bytes());
+        v.push(0x0B);
+        v.extend(value);
         v
     }
 
-    #[test]
-    fn lzo1x_round_trip() {
-        for n in [0usize, 1, 2, 3, 4, 5, 17, 200, 4000, 70000] {
-            let d = sample(n);
-            let c = lzo1x_compress(&d);
-            assert_eq!(lzo1x_decompress(&c, d.len()).unwrap(), d, "size {n}");
+    fn entry(hash: u32, count: u32) -> Vec<u8> {
+        let mut e = leaf(K_CATEGORY, T_ENUM, &[1, 0, 0, 0, hash as u8, (hash >> 8) as u8, (hash >> 16) as u8, (hash >> 24) as u8]);
+        e.extend(leaf(0x6AF7_D44F, T_U32, &0u32.to_le_bytes()));
+        e.extend(leaf(K_COUNT, T_U32, &count.to_le_bytes()));
+        e
+    }
+
+    /// Game data: two copies of the inventory (live and snapshot) between filler, about 70 KiB.
+    fn stream() -> Vec<u8> {
+        let mut d = vec![0u8; 14];
+        let mut x = 0x1234_5678u32;
+        for copy in 0..2u32 {
+            for i in 0..30_000u32 {
+                x = x.wrapping_mul(1_103_515_245).wrapping_add(12_345);
+                d.push(if i % 4 == 0 { (x >> 24) as u8 } else { b"PlayerProgression"[(i % 17) as usize] });
+            }
+            let mut list = vec![1u8];
+            list.extend(4u32.to_le_bytes());
+            list.extend(entry(0x12F6_B6F1, 1_000 + copy));
+            list.extend(entry(0x1F8D_672A, 150));
+            list.extend(entry(0xDEAD_BEEF, 7));
+            list.extend(entry(0x7121_9CE3, 0));
+            d.extend(leaf(K_LIST, T_LIST, &list));
         }
+        // Another character's smaller list is not the player's.
+        let mut other = vec![1u8];
+        other.extend(1u32.to_le_bytes());
+        other.extend(entry(0x12F6_B6F1, 55));
+        d.extend(leaf(K_LIST, T_LIST, &other));
+        d.extend(vec![0u8; 5000]);
+        d
+    }
+
+    fn container(ctype: u8, data: &[u8], bsize: usize) -> Vec<u8> {
+        let mut c = SIG.to_vec();
+        c.extend(1u16.to_le_bytes());
+        c.push(ctype);
+        c.extend((bsize as u32).to_le_bytes());
+        for part in data.chunks(bsize) {
+            let z = if ctype == 2 { lzo2a_encode(part) } else { lzokay_native::compress(part).unwrap() };
+            c.push(1);
+            c.extend((z.len() as u32).to_le_bytes());
+            c.extend((part.len() as u32).to_le_bytes());
+            c.extend(adler0(&z).to_le_bytes());
+            c.extend(z);
+        }
+        c
+    }
+
+    /// A Black Flag save as a crack writes it: 0x208 zero bytes, then the encrypted body.
+    fn black_flag() -> Vec<u8> {
+        let head = vec![0x42u8; 230];
+        let h = container(0, &head, 0x8000);
+        let main = stream();
+        let m = container(0, &main, 0x8000);
+        let mut body = 0x23u32.to_le_bytes().to_vec();
+        body.extend(MAGIC);
+        body.extend([0u8; 8]);
+        body.extend(((h.len() + 4) as u32).to_le_bytes());
+        body.extend((head.len() as u32).to_le_bytes());
+        body.extend(h);
+        body.extend(((m.len() + 12) as u32).to_le_bytes());
+        body.extend(3u32.to_le_bytes());
+        body.extend([0, 0xFE, 0xCA, 0]);
+        body.extend((main.len() as u32).to_le_bytes());
+        body.extend(m);
+        let mut d = vec![0u8; 0x208];
+        let n = 0x208 + body.len();
+        xor(&mut body, 0x208, n, &KEY_BLACK_FLAG);
+        d.extend(body);
+        d
     }
 
     #[test]
-    fn lzo2a_round_trip() {
-        for n in [0usize, 1, 2, 3, 4, 5, 17, 200, 4000, 70000] {
-            let d = sample(n);
-            let c = lzo2a_compress(&d);
-            assert_eq!(lzo2a_decompress(&c, d.len()).unwrap(), d, "size {n}");
+    fn adler0_starts_both_sums_at_zero() {
+        assert_eq!(adler0(b""), 0);
+        assert_eq!(adler0(b"a"), (97 << 16) | 97);
+        let big = vec![0xFFu8; 100_000];
+        let (mut a, mut b) = (0u64, 0u64);
+        for &x in &big {
+            a = (a + x as u64) % 65521;
+            b = (b + a) % 65521;
         }
+        assert_eq!(adler0(&big), ((b << 16) | a) as u32);
     }
 
-    /// `ANVIL_SAMPLES` = files separated by `|`; each must open, write back byte-identical, and
-    /// survive a one-byte edit (the changed block is packed again).
+    #[test]
+    fn lzo2a_round_trips() {
+        let mut x = 7u32;
+        for n in [0usize, 1, 2, 3, 7, 8, 9, 16, 1000, 32768] {
+            let d: Vec<u8> = (0..n)
+                .map(|i| {
+                    x = x.wrapping_mul(1_103_515_245).wrapping_add(12_345);
+                    if i % 5 == 0 { (x >> 24) as u8 } else { b"abcabcabd"[i % 9] }
+                })
+                .collect();
+            let z = lzo2a_encode(&d);
+            assert_eq!(lzo2a_decode(&z, n).unwrap(), d, "{n}");
+            if n > 1000 {
+                assert!(z.len() < n * 3 / 4, "{n}: packs to {}", z.len());
+            }
+        }
+        let zeros = vec![0u8; 100_000];
+        assert_eq!(lzo2a_decode(&lzo2a_encode(&zeros), zeros.len()).unwrap(), zeros);
+        // A short match: "ab" then copy 3 from 2 back gives "ababa".
+        // Flag bits from the low end: 0 0 (two literals), 1 0 (short match), 1 0 (length 3),
+        // then 1 1 (long form; length 1 and distance 0 is the end).
+        let s = [0b1101_0100u8, b'a', b'b', 1, 0x20, 0];
+        assert_eq!(lzo2a_decode(&s, 5).unwrap(), b"ababa");
+    }
+
+    #[test]
+    fn key_is_found_and_money_edited() {
+        let d = black_flag();
+        assert!(looks(&d));
+        let mut doc = parse(&d).expect("parsed");
+        assert_eq!(doc.kind_name, KIND_BLACK_FLAG);
+        assert_eq!(doc.view.pointer("/Money/Money").unwrap(), 1000);
+        assert_eq!(doc.view.pointer("/Crafting materials/Wood").unwrap(), 150);
+        assert_eq!(doc.view.pointer("/Tools and ammunition/Smoke bombs").unwrap(), 0);
+        assert_eq!(doc.to_bytes().unwrap(), d, "unchanged save is written back as it was");
+        assert!(doc.set("/Crafting materials/Wood", Value::from(2001)).is_err());
+        doc.set("/Money/Money", Value::from(5_000_000)).unwrap();
+        doc.set("/Crafting materials/Wood", Value::from(2000)).unwrap();
+        let out = doc.to_bytes().unwrap();
+        let back = parse(&out).expect("edited save opens");
+        assert_eq!(back.view.pointer("/Money/Money").unwrap(), 5_000_000);
+        assert_eq!(back.view.pointer("/Crafting materials/Wood").unwrap(), 2000);
+        // Both copies changed; the unnamed category kept its count.
+        let s = &back_save(&out).conts[1].data;
+        let moneys: Vec<u32> = leaves(s, K_CATEGORY, T_ENUM)
+            .into_iter()
+            .filter(|&a| u32_at(s, a + 4) == Some(0x12F6_B6F1))
+            .map(|a| u32_at(s, leaves(s, K_COUNT, T_U32).into_iter().find(|&c| c > a).unwrap()).unwrap())
+            .collect();
+        assert_eq!(moneys, [5_000_000, 5_000_000, 55]);
+        assert_eq!(s.windows(4).filter(|w| *w == 0xDEAD_BEEFu32.to_le_bytes()).count(), 2);
+    }
+
+    fn back_save(d: &[u8]) -> Save {
+        let off = body_offset(d).unwrap();
+        let (key, version) = solve(d, off).unwrap();
+        let mut body = d[off..].to_vec();
+        xor(&mut body, off, d.len(), &key);
+        let conts = containers(&body, first_container(version).unwrap()).unwrap();
+        Save { orig: d.to_vec(), off, key, body, conts, leaves: vec![], cdx: false }
+    }
+
+    #[test]
+    fn short_user_name_key_and_lzo2a() {
+        // Revelations: version 0x16, LZO2A, XORed with the account name.
+        let head = vec![0x11u8; 200];
+        let main = stream();
+        let h = container(2, &head, 0x8000);
+        let m = container(2, &main, 0x8000);
+        let mut body = 0x16u32.to_le_bytes().to_vec();
+        body.extend(MAGIC);
+        body.extend(((h.len() + 4) as u32).to_le_bytes());
+        body.extend((head.len() as u32).to_le_bytes());
+        body.extend(h);
+        body.extend(((m.len() + 12) as u32).to_le_bytes());
+        body.extend(1u32.to_le_bytes());
+        body.extend([0, 0xFE, 0xCA, 0]);
+        body.extend((main.len() as u32).to_le_bytes());
+        body.extend(m);
+        let mut d = 0x204u32.to_le_bytes().to_vec();
+        d.extend([0u8; 0x204]);
+        let n = d.len() + body.len();
+        let at = d.len();
+        xor(&mut body, at, n, b"player7");
+        d.extend(body);
+        let mut doc = parse(&d).expect("parsed");
+        assert_eq!(doc.kind_name, KIND_REVELATIONS);
+        doc.set("/Money/Money", Value::from(77_777)).unwrap();
+        let back = parse(&doc.to_bytes().unwrap()).unwrap();
+        assert_eq!(back.view.pointer("/Money/Money").unwrap(), 77_777);
+    }
+
+    #[test]
+    fn other_files_are_not_taken() {
+        let mut d = black_flag();
+        let n = d.len();
+        d[n - 100] ^= 0x55;
+        assert!(parse(&d).is_none(), "a damaged block fails its check");
+        assert!(parse(&[0u8; 4096]).is_none());
+    }
+
+    /// Research: AC_SAVES lists real saves (separated by `|`); each opens, writes back unchanged,
+    /// and takes a money edit.
     #[test]
     #[ignore]
-    fn real_samples() {
-        let Ok(list) = std::env::var("ANVIL_SAMPLES") else { return };
-        for f in list.split('|') {
+    fn real_saves() {
+        let list = std::env::var("AC_SAVES").expect("AC_SAVES");
+        for f in list.split('|').filter(|s| !s.is_empty()) {
             let d = std::fs::read(f).unwrap();
-            let Some((p, inner)) = open(&d) else {
+            let Some(mut doc) = parse(&d) else {
                 println!("{f}: not opened");
                 continue;
             };
-            let same = close(&p, &inner).unwrap();
-            assert_eq!(same, d, "{f}: unchanged write differs");
-            let mut edited = inner.clone();
-            let at = edited.len() / 2;
-            edited[at] ^= 0x55;
-            let out = close(&p, &edited).unwrap();
-            let (_, back) = open(&out).unwrap_or_else(|| panic!("{f}: edited file does not open"));
-            assert_eq!(back, edited, "{f}: edit lost");
-            println!("{f}: ok, parts {}, inner {} bytes, edited file {} (was {})", p.parts.len(), inner.len(), out.len(), d.len());
-            if let Ok(dir) = std::env::var("ANVIL_DUMP") {
-                let name = f.replace(['/', ' ', '\''], "_");
-                std::fs::write(format!("{dir}/{name}.bin"), &inner).unwrap();
+            assert_eq!(doc.to_bytes().unwrap(), d, "{f}");
+            println!("{f}: {} {}", doc.kind_name, serde_json::to_string(&doc.view).unwrap());
+            let money = doc.view["Money"].as_object().unwrap().keys().next().unwrap().clone();
+            let ptr = format!("/Money/{money}");
+            let was = doc.view.pointer(&ptr).unwrap().as_i64().unwrap();
+            doc.set(&ptr, Value::from(if was == 123_456 { 654_321 } else { 123_456 })).unwrap();
+            let mut extra = None;
+            if let Some(m) = doc.view.get("Crafting materials").and_then(Value::as_object) {
+                if let Some(k) = m.keys().next() {
+                    extra = Some(format!("/Crafting materials/{k}"));
+                }
             }
-        }
-    }
-
-    fn leaf(key: u32, ty: u16, value: &[u8]) -> Vec<u8> {
-        let mut o = ((13 + value.len()) as u32).to_le_bytes().to_vec();
-        o.extend(key.to_le_bytes());
-        o.extend([0, 0, 0, 0, 0, 0]);
-        o.extend(ty.to_le_bytes());
-        o.push(0x0B);
-        o.extend_from_slice(value);
-        o
-    }
-
-    fn category(id: u32, name: &str, count: u32) -> Vec<u8> {
-        let mut v = id.to_le_bytes().to_vec();
-        v.extend(crc32(format!("InvItem_{name}").as_bytes()).to_le_bytes());
-        let mut o = leaf(K_CATEGORY, 0x19, &v);
-        o.extend(leaf(0x6AF7_D44F, 7, &0u32.to_le_bytes()));
-        o.extend(leaf(K_COUNT, 7, &count.to_le_bytes()));
-        o
-    }
-
-    #[test]
-    fn reads_inventory_counts_and_copies() {
-        assert_eq!(crc32(b"InvItem_Money"), 0x12F6_B6F1);
-        let mut d = MARK.to_vec();
-        d.extend([0u8; 14]);
-        d.extend(category(1, "Money", 500));
-        d.extend(category(43, "Cloth", 12));
-        d.extend(category(1, "Money", 500)); // snapshot with the same value
-        d.extend(category(1, "Money", 480)); // older checkpoint
-        let mut t = parse(&d).unwrap();
-        assert_eq!(t.view.pointer("/Inventory/Money").unwrap(), 500);
-        assert_eq!(t.view.pointer("/Cargo/Cloth").unwrap(), 12);
-        assert_eq!(t.view.pointer("/Other copies/Money (copy 2)").unwrap(), 480);
-        t.set("/Inventory/Money", 9_999_999.into()).unwrap();
-        let out = t.to_bytes().unwrap();
-        assert_eq!(out.len(), d.len());
-        let t2 = parse(&out).unwrap();
-        assert_eq!(t2.view.pointer("/Inventory/Money").unwrap(), 9_999_999);
-        // Both equal copies were written.
-        assert_eq!(leaves(&out, K_COUNT, 0x11).iter().filter(|&&p| out[value_at(p)..value_at(p) + 4] == 9_999_999u32.to_le_bytes()).count(), 2);
-    }
-
-    /// `ANVIL_SAMPLES` files: open through the whole pipeline, change the first value, save, reopen.
-    #[test]
-    #[ignore]
-    fn real_edit_through_layers() {
-        let Ok(list) = std::env::var("ANVIL_SAMPLES") else { return };
-        for f in list.split('|') {
-            let raw = std::fs::read(f).unwrap();
-            let mut d = crate::formats::decode(&raw);
-            let crate::formats::Content::Tree(t) = &mut d.content else {
-                println!("{f}: not a tree");
-                continue;
-            };
-            let path = ["/Inventory/Money", "/Character/Drachmae"].into_iter().find(|p| t.view.pointer(p).is_some());
-            let Some(path) = path else {
-                println!("{f}: no money ({:?})", t.kind_name);
-                continue;
-            };
-            let before = t.view.pointer(path).unwrap().clone();
-            t.set(path, 99_999_999.into()).unwrap();
-            let out = crate::formats::encode(&d.layers, &d.content).unwrap();
-            let d2 = crate::formats::decode(&out);
-            let crate::formats::Content::Tree(t2) = &d2.content else { panic!("{f}: reopened as hex") };
-            assert_eq!(t2.view.pointer(path).unwrap(), 99_999_999);
-            println!("{f}: {path} {before} -> 99999999 ok (file {} -> {})", raw.len(), out.len());
+            if let Some(p) = &extra {
+                doc.set(p, Value::from(321)).unwrap();
+            }
+            let out = doc.to_bytes().unwrap();
+            let back = parse(&out).unwrap_or_else(|| panic!("{f}: edited save doesn't open"));
+            assert_eq!(back.view.pointer(&ptr).unwrap().as_i64().unwrap(), if was == 123_456 { 654_321 } else { 123_456 });
+            if let Some(p) = &extra {
+                assert_eq!(back.view.pointer(p).unwrap(), 321);
+            }
+            println!("  edited: {} -> {} bytes", d.len(), out.len());
+            if let Ok(dir) = std::env::var("AC_OUT") {
+                let name = std::path::Path::new(f).file_name().unwrap().to_string_lossy().to_string();
+                std::fs::write(std::path::Path::new(&dir).join(format!("{}-{name}", back.kind_name.replace(' ', "_"))), &out).unwrap();
+            }
         }
     }
 }
