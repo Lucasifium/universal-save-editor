@@ -23619,3 +23619,26 @@ Cheats activated
 
 save_N.sav from the game's remote\\out\\save folder (the gzip wrapper is removed and put back; only these four values are shown and the rest of the file is kept). Money, level and health. Close the game first.
 = save_N.sav de la carpeta remote\out\save del juego (se quita y se vuelve a poner la envoltura gzip; solo se muestran estos cuatro valores y el resto del archivo se conserva). Dinero, nivel y salud. Cierra primero el juego.
+A PlayStation save (memory card, .mcs, .psx or .psv), USA or Japanese. Your gold, each character's HP and stats and equipment, and every inventory slot: materials, weapons, armor and accessories, and the elements you hold. The game's packed data and the save's checksum are written again.
+= Una partida de PlayStation (tarjeta de memoria, .mcs, .psx o .psv), USA o Japón. Tu oro, los PS, las estadísticas y el equipo de cada personaje, y cada hueco del inventario: materiales, armas, armaduras y accesorios, además de los elementos que tienes. Los datos empaquetados del juego y la suma de verificación de la partida se escriben de nuevo.
+
+Accessory 1
+= Accesorio 1
+
+Accessory 2
+= Accesorio 2
+
+Accessory 3
+= Accesorio 3
+
+Close the emulator first. The packed game data is built again from your edits, with a new checksum, when the save is written.
+= Cierra primero el emulador. Los datos empaquetados del juego se vuelven a construir con tus cambios, con una nueva suma de verificación, al escribir la partida.
+
+Element
+= Elemento
+
+Magic Power
+= Poder mágico
+
+Magic Resistance
+= Resistencia mágica

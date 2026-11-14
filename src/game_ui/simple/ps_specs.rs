@@ -1995,3 +1995,25 @@ pub const GRANDIA2: Spec = Spec {
         Table { title: "Condition", path: "/Condition", name: &[], cols: &[("Poison", "/Poison"), ("Plague", "/Plague"), ("Move block", "/Move block"), ("Magic block", "/Magic block"), ("Fallen", "/Fallen")], only: &[], names: &[] },
     ],
 };
+
+pub const CHRONO_CROSS: Spec = Spec {
+    name: "Chrono Cross",
+    tab: "Party",
+    accent: (40, 120, 170),
+    kind: Some(crate::fmt::chronocross::KIND),
+    markers: &["/General/Gold"],
+    subtitle: tx("A PlayStation save (memory card, .mcs, .psx or .psv), USA or Japanese. Your gold, each character's HP and stats and equipment, and every inventory slot: materials, weapons, armor and accessories, and the elements you hold. The game's packed data and the save's checksum are written again."),
+    tiles: &[("Gold", "/General/Gold")],
+    sections: &[
+        Section { title: "General", rows: &[
+            ("Gold", "/General/Gold"),
+        ] },
+    ],
+    lists: &[
+    ],
+    tables: &[
+        Table { title: "Party", path: "/Party", name: &[], cols: &[("HP", "/HP"), ("Max HP", "/Max HP"), ("Strength", "/Strength"), ("Resistance", "/Resistance"), ("Accuracy", "/Accuracy"), ("Agility", "/Agility"), ("Magic Power", "/Magic Power"), ("Magic Resistance", "/Magic Resistance"), ("Weapon", "/Weapon"), ("Armor", "/Armor"), ("Accessory 1", "/Accessory 1"), ("Accessory 2", "/Accessory 2"), ("Accessory 3", "/Accessory 3")], only: &[], names: &[] },
+        Table { title: "Items", path: "/Items", name: &[], cols: &[("Item", "/Item"), ("Quantity", "/Quantity")], only: &[], names: &[] },
+        Table { title: "Elements", path: "/Elements", name: &[], cols: &[("Element", "/Element"), ("Quantity", "/Quantity")], only: &[], names: &[] },
+    ],
+};

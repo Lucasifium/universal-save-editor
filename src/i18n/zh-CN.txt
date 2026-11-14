@@ -23678,3 +23678,26 @@ Cheats activated
 
 save_N.sav from the game's remote\\out\\save folder (the gzip wrapper is removed and put back; only these four values are shown and the rest of the file is kept). Money, level and health. Close the game first.
 = 游戏 remote\out\save 文件夹中的 save_N.sav(去除并还原 gzip 外壳;只显示这四个值,文件其余部分保持不变)。金钱、等级和生命值。请先关闭游戏。
+A PlayStation save (memory card, .mcs, .psx or .psv), USA or Japanese. Your gold, each character's HP and stats and equipment, and every inventory slot: materials, weapons, armor and accessories, and the elements you hold. The game's packed data and the save's checksum are written again.
+= PlayStation存档(记忆卡、.mcs、.psx 或 .psv),美版或日版。你的金币、每名角色的HP、属性和装备,以及每个物品栏格子:素材、武器、防具和饰品,还有你持有的元素。游戏的压缩数据和存档校验和会被重新写入。
+
+Accessory 1
+= 饰品1
+
+Accessory 2
+= 饰品2
+
+Accessory 3
+= 饰品3
+
+Close the emulator first. The packed game data is built again from your edits, with a new checksum, when the save is written.
+= 请先关闭模拟器。写入存档时,游戏的压缩数据会根据你的修改重新生成,并附上新的校验和。
+
+Element
+= 元素
+
+Magic Power
+= 魔力
+
+Magic Resistance
+= 魔法抗性

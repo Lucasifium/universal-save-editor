@@ -23705,3 +23705,26 @@ Cheats activated
 
 save_N.sav from the game's remote\\out\\save folder (the gzip wrapper is removed and put back; only these four values are shown and the rest of the file is kept). Money, level and health. Close the game first.
 = ゲームの remote\out\save フォルダにある save_N.sav(gzip を外して元に戻し、この 4 つの値だけを表示し、ファイルの残りはそのまま保持します)。所持金、レベル、体力。先にゲームを閉じてください。
+A PlayStation save (memory card, .mcs, .psx or .psv), USA or Japanese. Your gold, each character's HP and stats and equipment, and every inventory slot: materials, weapons, armor and accessories, and the elements you hold. The game's packed data and the save's checksum are written again.
+= PlayStationのセーブ(メモリーカード、.mcs、.psx、.psv)、USA版または日本版。ゴールド、各キャラクターのHP・能力値・装備、そして素材・武器・防具・アクセサリーの全アイテム枠と、所持しているエレメントを編集できます。ゲームの圧縮データとセーブのチェックサムは書き込み時に作り直されます。
+
+Accessory 1
+= アクセサリー1
+
+Accessory 2
+= アクセサリー2
+
+Accessory 3
+= アクセサリー3
+
+Close the emulator first. The packed game data is built again from your edits, with a new checksum, when the save is written.
+= 先にエミュレーターを閉じてください。セーブの書き込み時に、編集内容からゲームの圧縮データが作り直され、新しいチェックサムが付きます。
+
+Element
+= エレメント
+
+Magic Power
+= 魔力
+
+Magic Resistance
+= 魔法防御
