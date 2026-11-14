@@ -3551,6 +3551,263 @@ Ambarino ($)
 
 Amethyst
 = アメジスト
+Crew
+= クルー
+
+saveNNN.sav from %LOCALAPPDATA%\\PAYDAY 2\\saves\\<Steam id> (unpacked and packed again with fresh checksums). Cash, offshore account, level, infamy and skill points. Close the game first.
+= %LOCALAPPDATA%\PAYDAY 2\saves\<Steam ID> の saveNNN.sav(展開し、新しいチェックサムで再び圧縮します)。所持金、オフショア口座、レベル、悪名、スキルポイント。先にゲームを終了してください。
+
+Spending cash
+= 所持金
+
+Offshore account
+= オフショア口座
+
+Total collected
+= 累計獲得額
+
+Total spent
+= 累計支出額
+
+Infamy rank
+= 悪名ランク
+
+Infamy points
+= 悪名ポイント
+
+Continental coins
+= コンチネンタルコイン
+
+Times skills were reset
+= スキルのリセット回数
+
+Farm
+= 農場
+
+farms.xml from a savegame folder (savegame1 …) of Documents\\My Games\\FarmingSimulator2019, 2022 or 2025. The farm's money and loan. Close the game first.
+= Documents\My Games\FarmingSimulator2019、2022、2025 のセーブフォルダー(savegame1 …)にある farms.xml。農場の所持金と借入金。先にゲームを終了してください。
+
+Loan
+= 借入金
+
+careerSavegame.xml from a savegame folder: difficulty, game rules and play time. The farm's money is in farms.xml. Close the game first.
+= セーブフォルダーの careerSavegame.xml。難易度、ゲームルール、プレイ時間。農場の所持金は farms.xml にあります。先にゲームを終了してください。
+
+Play time
+= プレイ時間
+
+Game rules
+= ゲームルール
+
+Economic difficulty
+= 経済の難易度
+
+Easy
+= イージー
+
+Normal
+= ノーマル
+
+Hard
+= ハード
+
+Growth mode
+= 成長モード
+
+Days per period
+= 1期間あたりの日数
+
+Fuel usage
+= 燃料消費
+
+Traffic
+= 交通
+
+Weeds
+= 雑草
+
+Stones
+= 石
+
+Lime required
+= 石灰が必要
+
+Plowing required
+= 耕うんが必要
+
+Snow
+= 雪
+
+Fruit destruction
+= 作物の踏み荒らし
+
+Helpers buy fuel
+= ヘルパーが燃料を購入
+
+Helpers buy seeds
+= ヘルパーが種を購入
+
+Helpers buy fertilizer
+= ヘルパーが肥料を購入
+
+careerSavegame.xml from Documents\\My Games\\FarmingSimulator2017\\savegame1 …: money, loan, difficulty and game rules. Close the game first.
+= Documents\My Games\FarmingSimulator2017\savegame1 … の careerSavegame.xml。所持金、借入金、難易度、ゲームルール。先にゲームを終了してください。
+
+Loan interest rate
+= 借入金の金利
+
+Plant growth rate
+= 作物の成長速度
+
+Dirt interval
+= 汚れの間隔
+
+Time scale
+= 時間の速さ
+
+careerSavegame.xml from Documents\\My Games\\FarmingSimulator2015\\savegame1 …: money, loan, difficulty and the farm's totals. Close the game first.
+= Documents\My Games\FarmingSimulator2015\savegame1 … の careerSavegame.xml。所持金、借入金、難易度、農場の合計値。先にゲームを終了してください。
+
+Revenue
+= 収入
+
+Expenses
+= 支出
+
+Station
+= ガソリンスタンド
+
+GameSave_N.sav or AutoSaveN.sav from %LOCALAPPDATA%\\GSS2\\Saved\\SaveGames. Money, popularity and the station's level. Close the game first.
+= %LOCALAPPDATA%\GSS2\Saved\SaveGames の GameSave_N.sav または AutoSaveN.sav。所持金、人気、スタンドのレベル。先にゲームを終了してください。
+
+Player's money
+= プレイヤーの所持金
+
+Station's money
+= スタンドの資金
+
+Popularity level
+= 人気レベル
+
+Fuel sales income
+= 燃料販売収入
+
+Fuel purchases
+= 燃料購入費
+
+Gas station level
+= ガソリンスタンドのレベル
+
+Quest progress
+= クエストの進行度
+
+Thief
+= 泥棒
+
+playerdata_… from Noble Muffins\\Thief Simulator\\Profile_N in AppData\\LocalLow. Cash, level, experience and skill points. Close the game first.
+= AppData\LocalLow の Noble Muffins\Thief Simulator\Profile_N にある playerdata_…。現金、レベル、経験値、スキルポイント。先にゲームを終了してください。
+
+Cash
+= 現金
+
+Hard mode
+= ハードモード
+
+New Game Plus
+= ニューゲーム+
+
+Times noticed
+= 発見された回数
+
+Flipper
+= フリッパー
+
+PlayerProgress.dat from Empyrean\\House Flipper Game\\Profiles\\Profile N in AppData\\LocalLow. Money, unused perk points of each skill and the statistics. Close the game first.
+= AppData\LocalLow の Empyrean\House Flipper Game\Profiles\Profile N にある PlayerProgress.dat。所持金、各スキルの未使用パークポイント、統計。先にゲームを終了してください。
+
+Orders completed
+= 完了した注文
+
+Houses sold
+= 売却した家
+
+Minutes played
+= プレイ時間(分)
+
+Items bought
+= 購入した品物
+
+Items sold
+= 売却した品物
+
+Unused perk points
+= 未使用のパークポイント
+
+A save .json from AppData\\LocalLow\\Untitled Studio\\Tavern Master. Gold, quest points, the tavern's name and every employee's level and salary. Close the game first.
+= AppData\LocalLow\Untitled Studio\Tavern Master にあるセーブ .json。ゴールド、クエストポイント、酒場の名前、各従業員のレベルと給料。先にゲームを終了してください。
+
+Quest points
+= クエストポイント
+
+Customers served
+= 接客した客数
+
+Staff hired so far
+= これまでに雇った人数
+
+Staff
+= 従業員
+
+Salary
+= 給料
+
+Mood
+= 機嫌
+
+Free points
+= 未使用ポイント
+
+Rider
+= ライダー
+
+A N_N.save from the Road Redemption folder in AppData\\LocalLow (profile 0, slot 0 and so on). Upgrade ranks, kills and the XP carried over. Close the game first.
+= AppData\LocalLow の Road Redemption フォルダーにある N_N.save(プロファイル0、スロット0など)。強化ランク、キル数、引き継ぎXP。先にゲームを終了してください。
+
+Money acquired
+= 獲得したお金
+
+Melee kills
+= 近接キル数
+
+Upgrade ranks
+= 強化ランク
+
+Base damage
+= 基本ダメージ
+
+Base armor
+= 基本防御
+
+Max nitro
+= 最大ニトロ
+
+Nitro gain
+= ニトロ獲得量
+
+Health gain
+= 体力回復量
+
+Critical hit damage
+= クリティカルダメージ
+
+Critical hit chance
+= クリティカル率
+
+XP gain
+= XP獲得量
+
+Store prices
+= ショップの価格
 
 Ammo
 = 弾薬
@@ -16130,3 +16387,14 @@ Wreck 5 Cop Cars
 
 Yellow Gem
 = 黄色のジェム
+Weapon durability
+= 武器の耐久度
+
+Jump jets
+= ジャンプジェット
+
+XP at death
+= 死亡時のXP
+
+Campaign Plus wins
+= キャンペーン+の勝利数

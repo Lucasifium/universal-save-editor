@@ -3553,6 +3553,263 @@ Ambarino ($)
 
 Amethyst
 = Amethyst
+Crew
+= Crew
+
+saveNNN.sav from %LOCALAPPDATA%\\PAYDAY 2\\saves\\<Steam id> (unpacked and packed again with fresh checksums). Cash, offshore account, level, infamy and skill points. Close the game first.
+= saveNNN.sav aus %LOCALAPPDATA%\PAYDAY 2\saves\<Steam-ID> (entpackt und mit neuen Prüfsummen wieder gepackt). Bargeld, Offshore-Konto, Stufe, Infamie und Fertigkeitspunkte. Zuerst das Spiel schließen.
+
+Spending cash
+= Bargeld
+
+Offshore account
+= Offshore-Konto
+
+Total collected
+= Insgesamt eingenommen
+
+Total spent
+= Insgesamt ausgegeben
+
+Infamy rank
+= Infamie-Rang
+
+Infamy points
+= Infamiepunkte
+
+Continental coins
+= Continental-Münzen
+
+Times skills were reset
+= Fertigkeiten zurückgesetzt
+
+Farm
+= Hof
+
+farms.xml from a savegame folder (savegame1 …) of Documents\\My Games\\FarmingSimulator2019, 2022 or 2025. The farm's money and loan. Close the game first.
+= farms.xml aus einem Spielstandordner (savegame1 …) von Documents\My Games\FarmingSimulator2019, 2022 oder 2025. Geld und Kredit des Hofs. Zuerst das Spiel schließen.
+
+Loan
+= Kredit
+
+careerSavegame.xml from a savegame folder: difficulty, game rules and play time. The farm's money is in farms.xml. Close the game first.
+= careerSavegame.xml aus einem Spielstandordner: Schwierigkeitsgrad, Spielregeln und Spielzeit. Das Geld des Hofs steht in farms.xml. Zuerst das Spiel schließen.
+
+Play time
+= Spielzeit
+
+Game rules
+= Spielregeln
+
+Economic difficulty
+= Wirtschaftlicher Schwierigkeitsgrad
+
+Easy
+= Leicht
+
+Normal
+= Normal
+
+Hard
+= Schwer
+
+Growth mode
+= Wachstumsmodus
+
+Days per period
+= Tage pro Periode
+
+Fuel usage
+= Kraftstoffverbrauch
+
+Traffic
+= Verkehr
+
+Weeds
+= Unkraut
+
+Stones
+= Steine
+
+Lime required
+= Kalk erforderlich
+
+Plowing required
+= Pflügen erforderlich
+
+Snow
+= Schnee
+
+Fruit destruction
+= Ernteschäden
+
+Helpers buy fuel
+= Helfer kaufen Kraftstoff
+
+Helpers buy seeds
+= Helfer kaufen Saatgut
+
+Helpers buy fertilizer
+= Helfer kaufen Dünger
+
+careerSavegame.xml from Documents\\My Games\\FarmingSimulator2017\\savegame1 …: money, loan, difficulty and game rules. Close the game first.
+= careerSavegame.xml aus Documents\My Games\FarmingSimulator2017\savegame1 …: Geld, Kredit, Schwierigkeitsgrad und Spielregeln. Zuerst das Spiel schließen.
+
+Loan interest rate
+= Kreditzins
+
+Plant growth rate
+= Pflanzenwachstum
+
+Dirt interval
+= Verschmutzungsintervall
+
+Time scale
+= Zeitfaktor
+
+careerSavegame.xml from Documents\\My Games\\FarmingSimulator2015\\savegame1 …: money, loan, difficulty and the farm's totals. Close the game first.
+= careerSavegame.xml aus Documents\My Games\FarmingSimulator2015\savegame1 …: Geld, Kredit, Schwierigkeitsgrad und die Summen des Hofs. Zuerst das Spiel schließen.
+
+Revenue
+= Einnahmen
+
+Expenses
+= Ausgaben
+
+Station
+= Tankstelle
+
+GameSave_N.sav or AutoSaveN.sav from %LOCALAPPDATA%\\GSS2\\Saved\\SaveGames. Money, popularity and the station's level. Close the game first.
+= GameSave_N.sav oder AutoSaveN.sav aus %LOCALAPPDATA%\GSS2\Saved\SaveGames. Geld, Beliebtheit und Stufe der Tankstelle. Zuerst das Spiel schließen.
+
+Player's money
+= Geld des Spielers
+
+Station's money
+= Geld der Tankstelle
+
+Popularity level
+= Beliebtheitsstufe
+
+Fuel sales income
+= Einnahmen aus Kraftstoffverkauf
+
+Fuel purchases
+= Kraftstoffeinkäufe
+
+Gas station level
+= Stufe der Tankstelle
+
+Quest progress
+= Questfortschritt
+
+Thief
+= Dieb
+
+playerdata_… from Noble Muffins\\Thief Simulator\\Profile_N in AppData\\LocalLow. Cash, level, experience and skill points. Close the game first.
+= playerdata_… aus Noble Muffins\Thief Simulator\Profile_N in AppData\LocalLow. Bargeld, Stufe, Erfahrung und Fertigkeitspunkte. Zuerst das Spiel schließen.
+
+Cash
+= Bargeld
+
+Hard mode
+= Schwerer Modus
+
+New Game Plus
+= New Game Plus
+
+Times noticed
+= Wie oft bemerkt
+
+Flipper
+= Flipper
+
+PlayerProgress.dat from Empyrean\\House Flipper Game\\Profiles\\Profile N in AppData\\LocalLow. Money, unused perk points of each skill and the statistics. Close the game first.
+= PlayerProgress.dat aus Empyrean\House Flipper Game\Profiles\Profile N in AppData\LocalLow. Geld, ungenutzte Vorteilspunkte jeder Fertigkeit und die Statistik. Zuerst das Spiel schließen.
+
+Orders completed
+= Abgeschlossene Aufträge
+
+Houses sold
+= Verkaufte Häuser
+
+Minutes played
+= Gespielte Minuten
+
+Items bought
+= Gekaufte Gegenstände
+
+Items sold
+= Verkaufte Gegenstände
+
+Unused perk points
+= Ungenutzte Vorteilspunkte
+
+A save .json from AppData\\LocalLow\\Untitled Studio\\Tavern Master. Gold, quest points, the tavern's name and every employee's level and salary. Close the game first.
+= Eine Spielstand-.json aus AppData\LocalLow\Untitled Studio\Tavern Master. Gold, Questpunkte, Name der Taverne sowie Stufe und Gehalt jedes Angestellten. Zuerst das Spiel schließen.
+
+Quest points
+= Questpunkte
+
+Customers served
+= Bediente Kunden
+
+Staff hired so far
+= Bisher eingestelltes Personal
+
+Staff
+= Personal
+
+Salary
+= Gehalt
+
+Mood
+= Stimmung
+
+Free points
+= Freie Punkte
+
+Rider
+= Fahrer
+
+A N_N.save from the Road Redemption folder in AppData\\LocalLow (profile 0, slot 0 and so on). Upgrade ranks, kills and the XP carried over. Close the game first.
+= Eine N_N.save aus dem Ordner Road Redemption in AppData\LocalLow (Profil 0, Platz 0 usw.). Verbesserungsstufen, Kills und übernommene EP. Zuerst das Spiel schließen.
+
+Money acquired
+= Erhaltenes Geld
+
+Melee kills
+= Nahkampf-Kills
+
+Upgrade ranks
+= Verbesserungsstufen
+
+Base damage
+= Grundschaden
+
+Base armor
+= Grundrüstung
+
+Max nitro
+= Maximales Nitro
+
+Nitro gain
+= Nitro-Zuwachs
+
+Health gain
+= Gesundheitszuwachs
+
+Critical hit damage
+= Schaden kritischer Treffer
+
+Critical hit chance
+= Chance auf kritischen Treffer
+
+XP gain
+= EP-Zuwachs
+
+Store prices
+= Ladenpreise
 
 Ammo
 = Munition
@@ -16046,3 +16303,14 @@ Wreck 5 Cop Cars
 
 Yellow Gem
 = Gelber Edelstein
+Weapon durability
+= Waffenhaltbarkeit
+
+Jump jets
+= Sprungdüsen
+
+XP at death
+= EP beim Tod
+
+Campaign Plus wins
+= Siege in Campaign Plus

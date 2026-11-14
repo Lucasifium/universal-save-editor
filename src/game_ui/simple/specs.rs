@@ -12,7 +12,9 @@ pub static SPECS: &[Spec] = &[OPENXCOM, XCOM_DOS, RCT2, COTL, FALLOUT_SHELTER, D
     // PlayStation 1 and 2 (ps_specs.rs)
     SOTN, FF8, FFT, RE1, KH2, MK64, GOLDENEYE, BANJO_KAZOOIE, OOT, SMASH64, TORCHLIGHT3, WRECKFEST, EVIL_WITHIN, BORDERLANDS1,
     // PlayStation 1 and 2 (ps_specs.rs), continued
-    CRASH, KH1, GT1, BL4, WUKONG, BOTW, RAYMAN, CTR, THPS];
+    CRASH, KH1, GT1, BL4, WUKONG, BOTW, RAYMAN, CTR, THPS,
+    PAYDAY2, FS_FARM, FS_CAREER, FS17, FS15, GAS_STATION_SIM, THIEF_SIM, HOUSE_FLIPPER, TAVERN_MASTER, ROAD_REDEMPTION,
+];
 // ------------------------------------------------------------------ Cult of the Lamb
 
 const COTL_ITEMS: &[(&str, &str)] = &[
@@ -6625,5 +6627,199 @@ const BOTW: Spec = Spec {
             max: None,
         },
     ],
+    tables: &[],
+};
+
+// ------------------------------------------------------------------ PAYDAY 2
+
+const PAYDAY2: Spec = Spec {
+    name: "PAYDAY 2",
+    tab: "Crew",
+    accent: (200, 40, 40),
+    kind: None,
+    markers: &["/MoneyManager/offshore", "/ExperienceManager/level"],
+    subtitle: "saveNNN.sav from %LOCALAPPDATA%\\PAYDAY 2\\saves\\<Steam id> (unpacked and packed again with fresh checksums). Cash, offshore account, level, infamy and skill points. Close the game first.",
+    tiles: &[("Spending cash", "/MoneyManager/total"), ("Offshore account", "/MoneyManager/offshore"), ("Level", "/ExperienceManager/level")],
+    sections: &[
+        Section { title: "Money", rows: &[("Spending cash", "/MoneyManager/total"), ("Offshore account", "/MoneyManager/offshore"), ("Total collected", "/MoneyManager/total_collected"), ("Total spent", "/MoneyManager/total_spent")] },
+        Section {
+            title: "Progress",
+            rows: &[
+                ("Level", "/ExperienceManager/level"), ("Infamy rank", "/ExperienceManager/rank"), ("Infamy points", "/InfamyManager/points"),
+                ("Skill points", "/SkillTreeManager/points"), ("Continental coins", "/CustomSafehouseManager/total"), ("Times skills were reset", "/SkillTreeManager/times_respeced"),
+            ],
+        },
+    ],
+    lists: &[],
+    tables: &[],
+};
+// ------------------------------------------------------------------ Farming Simulator 15 / 17 / 19 / 22 / 25
+
+const FS_FARM: Spec = Spec {
+    name: "Farming Simulator 19, 22 and 25",
+    tab: "Farm",
+    accent: (110, 160, 60),
+    kind: Some("XML"),
+    markers: &["/farms/farm/@money", "/farms/farm/@loan"],
+    subtitle: "farms.xml from a savegame folder (savegame1 …) of Documents\\My Games\\FarmingSimulator2019, 2022 or 2025. The farm's money and loan. Close the game first.",
+    tiles: &[("Money", "/farms/farm/@money"), ("Loan", "/farms/farm/@loan")],
+    sections: &[Section { title: "Farm", rows: &[("Money", "/farms/farm/@money"), ("Loan", "/farms/farm/@loan")] }],
+    lists: &[],
+    tables: &[],
+};
+
+const FS_CAREER: Spec = Spec {
+    name: "Farming Simulator 19, 22 and 25: savegame",
+    tab: "Savegame",
+    accent: (110, 160, 60),
+    kind: Some("XML"),
+    markers: &["/careerSavegame/settings/mapId", "/careerSavegame/statistics/playTime"],
+    subtitle: "careerSavegame.xml from a savegame folder: difficulty, game rules and play time. The farm's money is in farms.xml. Close the game first.",
+    tiles: &[("Play time", "/careerSavegame/statistics/playTime")],
+    sections: &[
+        Section {
+            title: "Game rules",
+            rows: &[
+                ("Growth mode", "/careerSavegame/settings/growthMode"),
+                ("Days per period", "/careerSavegame/settings/plannedDaysPerPeriod"), ("Fuel usage", "/careerSavegame/settings/fuelUsage"), ("Traffic", "/careerSavegame/settings/trafficEnabled"),
+                ("Weeds", "/careerSavegame/settings/weedsEnabled"), ("Stones", "/careerSavegame/settings/stonesEnabled"), ("Lime required", "/careerSavegame/settings/limeRequired"),
+                ("Plowing required", "/careerSavegame/settings/plowingRequiredEnabled"), ("Snow", "/careerSavegame/settings/isSnowEnabled"), ("Fruit destruction", "/careerSavegame/settings/fruitDestruction"),
+                ("Helpers buy fuel", "/careerSavegame/settings/helperBuyFuel"), ("Helpers buy seeds", "/careerSavegame/settings/helperBuySeeds"), ("Helpers buy fertilizer", "/careerSavegame/settings/helperBuyFertilizer"),
+            ],
+        },
+    ],
+    lists: &[],
+    tables: &[],
+};
+
+const FS17: Spec = Spec {
+    name: "Farming Simulator 17",
+    tab: "Farm",
+    accent: (110, 160, 60),
+    kind: Some("XML"),
+    markers: &["/careerSavegame/statistics/money", "/careerSavegame/statistics/loan"],
+    subtitle: "careerSavegame.xml from Documents\\My Games\\FarmingSimulator2017\\savegame1 …: money, loan, difficulty and game rules. Close the game first.",
+    tiles: &[("Money", "/careerSavegame/statistics/money"), ("Loan", "/careerSavegame/statistics/loan"), ("Play time", "/careerSavegame/statistics/playTime")],
+    sections: &[
+        Section { title: "Farm", rows: &[("Money", "/careerSavegame/statistics/money"), ("Loan", "/careerSavegame/statistics/loan"), ("Loan interest rate", "/careerSavegame/statistics/loanAnnualInterestRate")] },
+        Section {
+            title: "Game rules",
+            rows: &[
+                ("Plant growth rate", "/careerSavegame/settings/plantGrowthRate"), ("Dirt interval", "/careerSavegame/settings/dirtInterval"),
+                ("Time scale", "/careerSavegame/settings/timeScale"), ("Traffic", "/careerSavegame/settings/trafficEnabled"), ("Plowing required", "/careerSavegame/settings/plowingRequiredEnabled"),
+                ("Helpers buy fuel", "/careerSavegame/settings/helperBuyFuel"), ("Helpers buy seeds", "/careerSavegame/settings/helperBuySeeds"), ("Helpers buy fertilizer", "/careerSavegame/settings/helperBuyFertilizer"),
+            ],
+        },
+    ],
+    lists: &[],
+    tables: &[],
+};
+
+const FS15: Spec = Spec {
+    name: "Farming Simulator 15",
+    tab: "Farm",
+    accent: (110, 160, 60),
+    kind: Some("XML"),
+    markers: &["/careerSavegame/@money", "/careerSavegame/@loan"],
+    subtitle: "careerSavegame.xml from Documents\\My Games\\FarmingSimulator2015\\savegame1 …: money, loan, difficulty and the farm's totals. Close the game first.",
+    tiles: &[("Money", "/careerSavegame/@money"), ("Loan", "/careerSavegame/@loan"), ("Play time", "/careerSavegame/@playTime")],
+    sections: &[
+        Section { title: "Farm", rows: &[("Money", "/careerSavegame/@money"), ("Loan", "/careerSavegame/@loan"), ("Loan interest rate", "/careerSavegame/@loanAnnualInterestRate"), ("Revenue", "/careerSavegame/@revenue"), ("Expenses", "/careerSavegame/@expenses"), ("Day", "/careerSavegame/@currentDay")] },
+    ],
+    lists: &[],
+    tables: &[],
+};
+// ------------------------------------------------------------------ Gas Station Simulator
+
+const GAS_STATION_SIM: Spec = Spec {
+    name: "Gas Station Simulator",
+    tab: "Station",
+    accent: (230, 160, 40),
+    kind: Some("Unreal Engine save (GSSSaveGame)"),
+    markers: &["/PlayerSave/TotalMoney", "/GameStateSave/CashMoney"],
+    subtitle: "GameSave_N.sav or AutoSaveN.sav from %LOCALAPPDATA%\\GSS2\\Saved\\SaveGames. Money, popularity and the station's level. Close the game first.",
+    tiles: &[("Player's money", "/PlayerSave/TotalMoney"), ("Station's money", "/GameStateSave/CashMoney"), ("Popularity level", "/GameStateSave/PopularityLevel")],
+    sections: &[
+        Section { title: "Money", rows: &[("Player's money", "/PlayerSave/TotalMoney"), ("Station's money", "/GameStateSave/CashMoney"), ("Fuel sales income", "/GameStateSave/FuelEarnedMoney"), ("Fuel purchases", "/GameStateSave/FuelSpendMoney")] },
+        Section { title: "Station", rows: &[("Popularity level", "/GameStateSave/PopularityLevel"), ("Gas station level", "/SavedGasStation/GasStationLevel"), ("Quest progress", "/SavedQuest/CurrentProgress")] },
+    ],
+    lists: &[],
+    tables: &[],
+};
+
+// ------------------------------------------------------------------ Thief Simulator
+
+const THIEF_SIM: Spec = Spec {
+    name: "Thief Simulator",
+    tab: "Thief",
+    accent: (90, 150, 200),
+    kind: None,
+    markers: &["/cash", "/skillPoints", "/experience"],
+    subtitle: "playerdata_… from Noble Muffins\\Thief Simulator\\Profile_N in AppData\\LocalLow. Cash, level, experience and skill points. Close the game first.",
+    tiles: &[("Cash", "/cash"), ("Level", "/level"), ("Skill points", "/skillPoints")],
+    sections: &[Section {
+        title: "Thief",
+        rows: &[("Cash", "/cash"), ("Level", "/level"), ("Experience", "/experience"), ("Skill points", "/skillPoints"), ("Hard mode", "/hardmode"), ("New Game Plus", "/isNewGamePlus"), ("Day", "/day"), ("Times noticed", "/timesNoticed")],
+    }],
+    lists: &[],
+    tables: &[],
+};
+
+// ------------------------------------------------------------------ House Flipper
+
+const HOUSE_FLIPPER: Spec = Spec {
+    name: "House Flipper",
+    tab: "Flipper",
+    accent: (240, 140, 50),
+    kind: None,
+    markers: &["/moneyProgress/Money", "/skills"],
+    subtitle: "PlayerProgress.dat from Empyrean\\House Flipper Game\\Profiles\\Profile N in AppData\\LocalLow. Money, unused perk points of each skill and the statistics. Close the game first.",
+    tiles: &[("Money", "/moneyProgress/Money")],
+    sections: &[Section {
+        title: "Statistics",
+        rows: &[("Orders completed", "/statistics/completedOrders"), ("Houses sold", "/statistics/soldHouses"), ("Minutes played", "/statistics/minutesPlayed"), ("Items bought", "/statistics/bought"), ("Items sold", "/statistics/sold")],
+    }],
+    lists: &[],
+    tables: &[Table { title: "Skills", path: "/skills", name: &[], only: &[], cols: &[("Unused perk points", "/numberOfPerksAvailable")], names: &[] }],
+};
+
+// ------------------------------------------------------------------ Tavern Master
+
+const TAVERN_MASTER: Spec = Spec {
+    name: "Tavern Master",
+    tab: "Tavern",
+    accent: (210, 140, 60),
+    kind: None,
+    markers: &["/TavernModelBase/money", "/StaffModelBase"],
+    subtitle: "A save .json from AppData\\LocalLow\\Untitled Studio\\Tavern Master. Gold, quest points, the tavern's name and every employee's level and salary. Close the game first.",
+    tiles: &[("Money", "/TavernModelBase/money"), ("Quest points", "/QuestsModelBase/QuestPoints"), ("Customers served", "/TavernModelBase/customersServed")],
+    sections: &[Section { title: "Tavern", rows: &[("Name", "/TavernModelBase/TavernName"), ("Money", "/TavernModelBase/money"), ("Quest points", "/QuestsModelBase/QuestPoints"), ("Customers served", "/TavernModelBase/customersServed"), ("Staff hired so far", "/StaffModelBase/PeopleHiredEver")] }],
+    lists: &[],
+    tables: &[Table { title: "Staff", path: "/StaffModelBase/StaffInfos", name: &["/Name"], only: &[], cols: &[("Level", "/Level"), ("Salary", "/Salary")], names: &[] }],
+};
+
+// ------------------------------------------------------------------ Road Redemption
+
+const ROAD_REDEMPTION: Spec = Spec {
+    name: "Road Redemption",
+    tab: "Rider",
+    accent: (200, 70, 40),
+    kind: Some("XML"),
+    markers: &["/PlayerSave/maxHealthUpRank", "/PlayerSave/MoneyAcquired"],
+    subtitle: "A N_N.save from the Road Redemption folder in AppData\\LocalLow (profile 0, slot 0 and so on). Upgrade ranks, kills and the XP carried over. Close the game first.",
+    tiles: &[("Money acquired", "/PlayerSave/MoneyAcquired"), ("Melee kills", "/PlayerSave/MeleeKills"), ("Wins", "/PlayerSave/NumberOfWins")],
+    sections: &[
+        Section {
+            title: "Upgrade ranks",
+            rows: &[
+                ("Max health", "/PlayerSave/maxHealthUpRank"), ("Base damage", "/PlayerSave/baseDamageUpRank"), ("Base armor", "/PlayerSave/baseArmorUpRank"), ("Max nitro", "/PlayerSave/maxNitroUpRank"),
+                ("Nitro gain", "/PlayerSave/nitroGainUpRank"), ("Health gain", "/PlayerSave/healthGainUpRank"), ("Critical hit damage", "/PlayerSave/critDamageUpRank"), ("Critical hit chance", "/PlayerSave/critChanceUpRank"),
+                ("XP gain", "/PlayerSave/xpGainUpRank"), ("Money gain", "/PlayerSave/moneyGainUpRank"), ("Store prices", "/PlayerSave/storeCostDownRank"), ("Ammo", "/PlayerSave/increasedAmmoRank"),
+                ("Weapon durability", "/PlayerSave/increasedWeaponDurabilityRank"), ("Jump jets", "/PlayerSave/startWithJumpJetRank"),
+            ],
+        },
+        Section { title: "Progress", rows: &[("XP at death", "/PlayerSave/amountOfXPAtDeath"), ("Money acquired", "/PlayerSave/MoneyAcquired"), ("Melee kills", "/PlayerSave/MeleeKills"), ("Wins", "/PlayerSave/NumberOfWins"), ("Campaign Plus wins", "/PlayerSave/NumberOfCampaignPlusWins")] },
+    ],
+    lists: &[],
     tables: &[],
 };

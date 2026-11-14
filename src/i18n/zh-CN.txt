@@ -3551,6 +3551,263 @@ Ambarino ($)
 
 Amethyst
 = 紫水晶
+Crew
+= 团队
+
+saveNNN.sav from %LOCALAPPDATA%\\PAYDAY 2\\saves\\<Steam id> (unpacked and packed again with fresh checksums). Cash, offshore account, level, infamy and skill points. Close the game first.
+= 来自 %LOCALAPPDATA%\PAYDAY 2\saves\<Steam ID> 的 saveNNN.sav(解包后用新的校验和重新打包)。现金、离岸账户、等级、恶名和技能点。请先关闭游戏。
+
+Spending cash
+= 现金
+
+Offshore account
+= 离岸账户
+
+Total collected
+= 累计收入
+
+Total spent
+= 累计支出
+
+Infamy rank
+= 恶名等级
+
+Infamy points
+= 恶名点数
+
+Continental coins
+= 大陆币
+
+Times skills were reset
+= 技能重置次数
+
+Farm
+= 农场
+
+farms.xml from a savegame folder (savegame1 …) of Documents\\My Games\\FarmingSimulator2019, 2022 or 2025. The farm's money and loan. Close the game first.
+= 来自 Documents\My Games\FarmingSimulator2019、2022 或 2025 存档文件夹(savegame1 …)的 farms.xml。农场的资金和贷款。请先关闭游戏。
+
+Loan
+= 贷款
+
+careerSavegame.xml from a savegame folder: difficulty, game rules and play time. The farm's money is in farms.xml. Close the game first.
+= 来自存档文件夹的 careerSavegame.xml:难度、游戏规则和游戏时间。农场资金在 farms.xml 中。请先关闭游戏。
+
+Play time
+= 游戏时间
+
+Game rules
+= 游戏规则
+
+Economic difficulty
+= 经济难度
+
+Easy
+= 简单
+
+Normal
+= 普通
+
+Hard
+= 困难
+
+Growth mode
+= 生长模式
+
+Days per period
+= 每个周期的天数
+
+Fuel usage
+= 燃料消耗
+
+Traffic
+= 交通
+
+Weeds
+= 杂草
+
+Stones
+= 石头
+
+Lime required
+= 需要石灰
+
+Plowing required
+= 需要耕地
+
+Snow
+= 积雪
+
+Fruit destruction
+= 作物破坏
+
+Helpers buy fuel
+= 助手购买燃料
+
+Helpers buy seeds
+= 助手购买种子
+
+Helpers buy fertilizer
+= 助手购买肥料
+
+careerSavegame.xml from Documents\\My Games\\FarmingSimulator2017\\savegame1 …: money, loan, difficulty and game rules. Close the game first.
+= 来自 Documents\My Games\FarmingSimulator2017\savegame1 … 的 careerSavegame.xml:资金、贷款、难度和游戏规则。请先关闭游戏。
+
+Loan interest rate
+= 贷款利率
+
+Plant growth rate
+= 作物生长速度
+
+Dirt interval
+= 脏污间隔
+
+Time scale
+= 时间倍率
+
+careerSavegame.xml from Documents\\My Games\\FarmingSimulator2015\\savegame1 …: money, loan, difficulty and the farm's totals. Close the game first.
+= 来自 Documents\My Games\FarmingSimulator2015\savegame1 … 的 careerSavegame.xml:资金、贷款、难度和农场的累计数据。请先关闭游戏。
+
+Revenue
+= 收入
+
+Expenses
+= 支出
+
+Station
+= 加油站
+
+GameSave_N.sav or AutoSaveN.sav from %LOCALAPPDATA%\\GSS2\\Saved\\SaveGames. Money, popularity and the station's level. Close the game first.
+= 来自 %LOCALAPPDATA%\GSS2\Saved\SaveGames 的 GameSave_N.sav 或 AutoSaveN.sav。资金、人气和加油站等级。请先关闭游戏。
+
+Player's money
+= 玩家资金
+
+Station's money
+= 加油站资金
+
+Popularity level
+= 人气等级
+
+Fuel sales income
+= 燃料销售收入
+
+Fuel purchases
+= 燃料采购
+
+Gas station level
+= 加油站等级
+
+Quest progress
+= 任务进度
+
+Thief
+= 窃贼
+
+playerdata_… from Noble Muffins\\Thief Simulator\\Profile_N in AppData\\LocalLow. Cash, level, experience and skill points. Close the game first.
+= 来自 AppData\LocalLow 中 Noble Muffins\Thief Simulator\Profile_N 的 playerdata_…。现金、等级、经验和技能点。请先关闭游戏。
+
+Cash
+= 现金
+
+Hard mode
+= 困难模式
+
+New Game Plus
+= 新游戏+
+
+Times noticed
+= 被发现次数
+
+Flipper
+= 翻新者
+
+PlayerProgress.dat from Empyrean\\House Flipper Game\\Profiles\\Profile N in AppData\\LocalLow. Money, unused perk points of each skill and the statistics. Close the game first.
+= 来自 AppData\LocalLow 中 Empyrean\House Flipper Game\Profiles\Profile N 的 PlayerProgress.dat。资金、各技能未使用的特长点数和统计数据。请先关闭游戏。
+
+Orders completed
+= 已完成订单
+
+Houses sold
+= 已售房屋
+
+Minutes played
+= 游戏分钟数
+
+Items bought
+= 购买的物品
+
+Items sold
+= 出售的物品
+
+Unused perk points
+= 未使用的特长点数
+
+A save .json from AppData\\LocalLow\\Untitled Studio\\Tavern Master. Gold, quest points, the tavern's name and every employee's level and salary. Close the game first.
+= 来自 AppData\LocalLow\Untitled Studio\Tavern Master 的存档 .json。金币、任务点数、酒馆名称以及每位员工的等级和薪水。请先关闭游戏。
+
+Quest points
+= 任务点数
+
+Customers served
+= 已服务顾客
+
+Staff hired so far
+= 累计雇用员工
+
+Staff
+= 员工
+
+Salary
+= 薪水
+
+Mood
+= 心情
+
+Free points
+= 可用点数
+
+Rider
+= 车手
+
+A N_N.save from the Road Redemption folder in AppData\\LocalLow (profile 0, slot 0 and so on). Upgrade ranks, kills and the XP carried over. Close the game first.
+= 来自 AppData\LocalLow 中 Road Redemption 文件夹的 N_N.save(档案 0、栏位 0 等)。升级等级、击杀数和保留的经验。请先关闭游戏。
+
+Money acquired
+= 获得的金钱
+
+Melee kills
+= 近战击杀
+
+Upgrade ranks
+= 升级等级
+
+Base damage
+= 基础伤害
+
+Base armor
+= 基础护甲
+
+Max nitro
+= 最大氮气
+
+Nitro gain
+= 氮气获取
+
+Health gain
+= 生命值恢复
+
+Critical hit damage
+= 暴击伤害
+
+Critical hit chance
+= 暴击几率
+
+XP gain
+= 经验获取
+
+Store prices
+= 商店价格
 
 Ammo
 = 弹药
@@ -16103,3 +16360,14 @@ Wreck 5 Cop Cars
 
 Yellow Gem
 = 黄色宝石
+Weapon durability
+= 武器耐久
+
+Jump jets
+= 跳跃喷射器
+
+XP at death
+= 死亡时经验
+
+Campaign Plus wins
+= 战役+胜利次数

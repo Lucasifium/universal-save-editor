@@ -3553,6 +3553,263 @@ Ambarino ($)
 
 Amethyst
 = Amatista
+Crew
+= Equipo
+
+saveNNN.sav from %LOCALAPPDATA%\\PAYDAY 2\\saves\\<Steam id> (unpacked and packed again with fresh checksums). Cash, offshore account, level, infamy and skill points. Close the game first.
+= saveNNN.sav de %LOCALAPPDATA%\PAYDAY 2\saves\<id de Steam> (desempaquetado y empaquetado de nuevo con sumas de comprobación nuevas). Efectivo, cuenta en el extranjero, nivel, infamia y puntos de habilidad. Cierra el juego antes.
+
+Spending cash
+= Efectivo
+
+Offshore account
+= Cuenta en el extranjero
+
+Total collected
+= Total recaudado
+
+Total spent
+= Total gastado
+
+Infamy rank
+= Rango de infamia
+
+Infamy points
+= Puntos de infamia
+
+Continental coins
+= Monedas Continental
+
+Times skills were reset
+= Veces que se reiniciaron las habilidades
+
+Farm
+= Granja
+
+farms.xml from a savegame folder (savegame1 …) of Documents\\My Games\\FarmingSimulator2019, 2022 or 2025. The farm's money and loan. Close the game first.
+= farms.xml de una carpeta de partida (savegame1 …) de Documents\My Games\FarmingSimulator2019, 2022 o 2025. El dinero y el préstamo de la granja. Cierra el juego antes.
+
+Loan
+= Préstamo
+
+careerSavegame.xml from a savegame folder: difficulty, game rules and play time. The farm's money is in farms.xml. Close the game first.
+= careerSavegame.xml de una carpeta de partida: dificultad, reglas del juego y tiempo de juego. El dinero de la granja está en farms.xml. Cierra el juego antes.
+
+Play time
+= Tiempo de juego
+
+Game rules
+= Reglas del juego
+
+Economic difficulty
+= Dificultad económica
+
+Easy
+= Fácil
+
+Normal
+= Normal
+
+Hard
+= Difícil
+
+Growth mode
+= Modo de crecimiento
+
+Days per period
+= Días por periodo
+
+Fuel usage
+= Consumo de combustible
+
+Traffic
+= Tráfico
+
+Weeds
+= Malas hierbas
+
+Stones
+= Piedras
+
+Lime required
+= Cal necesaria
+
+Plowing required
+= Arado necesario
+
+Snow
+= Nieve
+
+Fruit destruction
+= Destrucción de cultivos
+
+Helpers buy fuel
+= Los ayudantes compran combustible
+
+Helpers buy seeds
+= Los ayudantes compran semillas
+
+Helpers buy fertilizer
+= Los ayudantes compran fertilizante
+
+careerSavegame.xml from Documents\\My Games\\FarmingSimulator2017\\savegame1 …: money, loan, difficulty and game rules. Close the game first.
+= careerSavegame.xml de Documents\My Games\FarmingSimulator2017\savegame1 …: dinero, préstamo, dificultad y reglas del juego. Cierra el juego antes.
+
+Loan interest rate
+= Interés del préstamo
+
+Plant growth rate
+= Velocidad de crecimiento de las plantas
+
+Dirt interval
+= Intervalo de suciedad
+
+Time scale
+= Escala de tiempo
+
+careerSavegame.xml from Documents\\My Games\\FarmingSimulator2015\\savegame1 …: money, loan, difficulty and the farm's totals. Close the game first.
+= careerSavegame.xml de Documents\My Games\FarmingSimulator2015\savegame1 …: dinero, préstamo, dificultad y los totales de la granja. Cierra el juego antes.
+
+Revenue
+= Ingresos
+
+Expenses
+= Gastos
+
+Station
+= Gasolinera
+
+GameSave_N.sav or AutoSaveN.sav from %LOCALAPPDATA%\\GSS2\\Saved\\SaveGames. Money, popularity and the station's level. Close the game first.
+= GameSave_N.sav o AutoSaveN.sav de %LOCALAPPDATA%\GSS2\Saved\SaveGames. Dinero, popularidad y nivel de la gasolinera. Cierra el juego antes.
+
+Player's money
+= Dinero del jugador
+
+Station's money
+= Dinero de la gasolinera
+
+Popularity level
+= Nivel de popularidad
+
+Fuel sales income
+= Ingresos por venta de combustible
+
+Fuel purchases
+= Compras de combustible
+
+Gas station level
+= Nivel de la gasolinera
+
+Quest progress
+= Progreso de la misión
+
+Thief
+= Ladrón
+
+playerdata_… from Noble Muffins\\Thief Simulator\\Profile_N in AppData\\LocalLow. Cash, level, experience and skill points. Close the game first.
+= playerdata_… de Noble Muffins\Thief Simulator\Profile_N en AppData\LocalLow. Efectivo, nivel, experiencia y puntos de habilidad. Cierra el juego antes.
+
+Cash
+= Efectivo
+
+Hard mode
+= Modo difícil
+
+New Game Plus
+= Nueva partida+
+
+Times noticed
+= Veces que te han visto
+
+Flipper
+= Reformador
+
+PlayerProgress.dat from Empyrean\\House Flipper Game\\Profiles\\Profile N in AppData\\LocalLow. Money, unused perk points of each skill and the statistics. Close the game first.
+= PlayerProgress.dat de Empyrean\House Flipper Game\Profiles\Profile N en AppData\LocalLow. Dinero, puntos de ventaja sin usar de cada habilidad y las estadísticas. Cierra el juego antes.
+
+Orders completed
+= Pedidos completados
+
+Houses sold
+= Casas vendidas
+
+Minutes played
+= Minutos jugados
+
+Items bought
+= Objetos comprados
+
+Items sold
+= Objetos vendidos
+
+Unused perk points
+= Puntos de ventaja sin usar
+
+A save .json from AppData\\LocalLow\\Untitled Studio\\Tavern Master. Gold, quest points, the tavern's name and every employee's level and salary. Close the game first.
+= Una .json de partida de AppData\LocalLow\Untitled Studio\Tavern Master. Oro, puntos de misión, nombre de la taberna y nivel y sueldo de cada empleado. Cierra el juego antes.
+
+Quest points
+= Puntos de misión
+
+Customers served
+= Clientes atendidos
+
+Staff hired so far
+= Personal contratado hasta ahora
+
+Staff
+= Personal
+
+Salary
+= Sueldo
+
+Mood
+= Ánimo
+
+Free points
+= Puntos libres
+
+Rider
+= Motorista
+
+A N_N.save from the Road Redemption folder in AppData\\LocalLow (profile 0, slot 0 and so on). Upgrade ranks, kills and the XP carried over. Close the game first.
+= Una N_N.save de la carpeta Road Redemption en AppData\LocalLow (perfil 0, ranura 0, etc.). Rangos de mejora, bajas y la EXP acumulada. Cierra el juego antes.
+
+Money acquired
+= Dinero obtenido
+
+Melee kills
+= Bajas cuerpo a cuerpo
+
+Upgrade ranks
+= Rangos de mejora
+
+Base damage
+= Daño base
+
+Base armor
+= Armadura base
+
+Max nitro
+= Nitro máximo
+
+Nitro gain
+= Ganancia de nitro
+
+Health gain
+= Ganancia de salud
+
+Critical hit damage
+= Daño de golpe crítico
+
+Critical hit chance
+= Probabilidad de golpe crítico
+
+XP gain
+= Ganancia de EXP
+
+Store prices
+= Precios de la tienda
 
 Ammo
 = Munición
@@ -16042,3 +16299,14 @@ Wreck 5 Cop Cars
 
 Yellow Gem
 = Gema amarilla
+Weapon durability
+= Durabilidad de las armas
+
+Jump jets
+= Propulsores de salto
+
+XP at death
+= EXP al morir
+
+Campaign Plus wins
+= Victorias en Campaña+

@@ -10,6 +10,7 @@ use super::{columns, hero, panel, GameCtx};
 use eframe::egui::{self, Color32, Ui};
 use serde_json::Value;
 
+mod choices;
 mod ps_specs;
 mod retro_specs;
 mod spec_texts;
@@ -310,6 +311,24 @@ pub fn show(i: u16, ui: &mut Ui, cx: &mut GameCtx) {
             }
         }
     });
+    for (spec, from, to) in choices::MIRRORS {
+        if *spec == s.name && cx.modified(from) {
+            if let Some(v) = cx.get(from).cloned() {
+                if cx.get(to) != Some(&v) {
+                    cx.set(to, v);
+                }
+            }
+        }
+    }
+    let picks: Vec<&choices::Choice> = choices::CHOICES.iter().filter(|c| c.spec == s.name && cx.get(&resolve(cx.root, c.ptr)).is_some()).collect();
+    if !picks.is_empty() {
+        panel(ui, &tr("Difficulty"), |ui| {
+            for c in &picks {
+                let levels: Vec<(&str, Value)> = c.levels.iter().map(|(n, v)| (tr(n), Value::from(*v))).collect();
+                cx.difficulty(ui, &tr_text(c.caption), &resolve(cx.root, c.ptr), &levels);
+            }
+        });
+    }
     let rows_of = |sec: &Section| -> Vec<(&'static str, String)> { sec.rows.iter().map(|(l, p)| (tr(l), resolve(cx.root, p))).collect() };
     let visible: Vec<(&Section, Vec<(&str, String)>)> =
         s.sections.iter().map(|sec| (sec, rows_of(sec))).filter(|(_, rows)| rows.iter().any(|(_, p)| cx.get(p).is_some())).collect();
