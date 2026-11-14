@@ -391,5 +391,12 @@ pub fn all() -> Vec<&'static str> {
         tr("Mana recovery"),
         tr("Selected difficulty"),
         tr("Battles entered"),
+        tr("SOS_SaveSlotN.sos from %USERPROFILE%\\AppData\\LocalLow\\Sabotage Studio\\Sea of Stars (JSON behind a length prefix, unpacked and packed again). The party's level and experience, gold and the number of deaths. Close the game first."),
+        tr("Ninja"),
+        tr("SaveGame.txt from %USERPROFILE%\\AppData\\LocalLow\\Sabotage Studio\\The Messenger (every character is scrambled, unpacked and scrambled again). Each save slot's play time, deaths and New Game Plus. Close the game first."),
+        tr("Save slot 1"),
+        tr("Save slot 2"),
+        tr("Save slot 3"),
+        tr("New Game Plus count"),
     ]
 }

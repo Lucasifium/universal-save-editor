@@ -23593,3 +23593,25 @@ Plague
 
 Special coins
 = スペシャルコイン
+
+SOS_SaveSlotN.sos from %USERPROFILE%\\AppData\\LocalLow\\Sabotage Studio\\Sea of Stars (JSON behind a length prefix, unpacked and packed again). The party's level and experience, gold and the number of deaths. Close the game first.
+= %USERPROFILE%\\AppData\\LocalLow\\Sabotage Studio\\Sea of Stars の SOS_SaveSlotN.sos（長さプレフィックス付きの JSON。展開して再び詰め直します）。パーティのレベルと経験値、ゴールド、死亡回数。先にゲームを終了してください。
+
+Ninja
+= 忍者
+
+SaveGame.txt from %USERPROFILE%\\AppData\\LocalLow\\Sabotage Studio\\The Messenger (every character is scrambled, unpacked and scrambled again). Each save slot's play time, deaths and New Game Plus. Close the game first.
+= %USERPROFILE%\\AppData\\LocalLow\\Sabotage Studio\\The Messenger の SaveGame.txt（全文字が暗号化されており、復号して再び暗号化します）。各スロットのプレイ時間、死亡回数、ニューゲーム＋。先にゲームを終了してください。
+
+Save slot 1
+= セーブスロット1
+
+Save slot 2
+= セーブスロット2
+
+Save slot 3
+= セーブスロット3
+
+New Game Plus count
+= ニューゲーム＋回数
+

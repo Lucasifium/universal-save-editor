@@ -23566,3 +23566,25 @@ Plague
 
 Special coins
 = 特殊硬币
+
+SOS_SaveSlotN.sos from %USERPROFILE%\\AppData\\LocalLow\\Sabotage Studio\\Sea of Stars (JSON behind a length prefix, unpacked and packed again). The party's level and experience, gold and the number of deaths. Close the game first.
+= 来自 %USERPROFILE%\\AppData\\LocalLow\\Sabotage Studio\\Sea of Stars 的 SOS_SaveSlotN.sos（带长度前缀的 JSON，会解包后重新打包）。队伍的等级和经验、金币以及死亡次数。请先关闭游戏。
+
+Ninja
+= 忍者
+
+SaveGame.txt from %USERPROFILE%\\AppData\\LocalLow\\Sabotage Studio\\The Messenger (every character is scrambled, unpacked and scrambled again). Each save slot's play time, deaths and New Game Plus. Close the game first.
+= 来自 %USERPROFILE%\\AppData\\LocalLow\\Sabotage Studio\\The Messenger 的 SaveGame.txt（每个字符都经过加扰，会解扰后重新加扰）。每个存档位的游戏时间、死亡次数和新游戏+。请先关闭游戏。
+
+Save slot 1
+= 存档位 1
+
+Save slot 2
+= 存档位 2
+
+Save slot 3
+= 存档位 3
+
+New Game Plus count
+= 新游戏+次数
+

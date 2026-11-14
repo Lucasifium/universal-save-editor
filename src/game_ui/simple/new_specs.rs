@@ -135,3 +135,52 @@ pub const VIKINGS_WOLVES: Spec = Spec {
     lists: &[],
     tables: &[],
 };
+
+// ------------------------------------------------------------------ Sea of Stars
+
+pub const SEA_OF_STARS: Spec = Spec {
+    name: "Sea of Stars",
+    tab: "Party",
+    accent: (96, 170, 230),
+    kind: None,
+    markers: &["/partyProgressData/totalXP", "/currencySaveData/currencyQuantities"],
+    subtitle: "SOS_SaveSlotN.sos from %USERPROFILE%\\AppData\\LocalLow\\Sabotage Studio\\Sea of Stars (JSON behind a length prefix, unpacked and packed again). The party's level and experience, gold and the number of deaths. Close the game first.",
+    tiles: &[("Level", "/partyProgressData/currentLevel"), ("Gold", "/currencySaveData/currencyQuantities/values/0")],
+    sections: &[Section {
+        title: "Party",
+        rows: &[
+            ("Level", "/partyProgressData/currentLevel"), ("Total experience", "/partyProgressData/totalXP"),
+            ("Gold", "/currencySaveData/currencyQuantities/values/0"), ("Deaths", "/deathCount"),
+        ],
+    }],
+    lists: &[],
+    tables: &[],
+};
+
+// ------------------------------------------------------------------ The Messenger
+
+pub const THE_MESSENGER: Spec = Spec {
+    name: "The Messenger",
+    tab: "Ninja",
+    accent: (230, 90, 60),
+    kind: None,
+    markers: &["/saveSlots/0/secondsPlayed", "/saveSlots/0/totalDeathCount"],
+    subtitle: "SaveGame.txt from %USERPROFILE%\\AppData\\LocalLow\\Sabotage Studio\\The Messenger (every character is scrambled, unpacked and scrambled again). Each save slot's play time, deaths and New Game Plus. Close the game first.",
+    tiles: &[("Deaths", "/saveSlots/0/totalDeathCount")],
+    sections: &[
+        Section {
+            title: "Save slot 1",
+            rows: &[("Play time (seconds)", "/saveSlots/0/secondsPlayed"), ("Deaths", "/saveSlots/0/totalDeathCount"), ("New Game Plus count", "/saveSlots/0/newGamePlusCount")],
+        },
+        Section {
+            title: "Save slot 2",
+            rows: &[("Play time (seconds)", "/saveSlots/1/secondsPlayed"), ("Deaths", "/saveSlots/1/totalDeathCount"), ("New Game Plus count", "/saveSlots/1/newGamePlusCount")],
+        },
+        Section {
+            title: "Save slot 3",
+            rows: &[("Play time (seconds)", "/saveSlots/2/secondsPlayed"), ("Deaths", "/saveSlots/2/totalDeathCount"), ("New Game Plus count", "/saveSlots/2/newGamePlusCount")],
+        },
+    ],
+    lists: &[],
+    tables: &[],
+};

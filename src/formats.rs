@@ -62,6 +62,10 @@ pub enum Layer {
     ZipEntry { archive: Arc<Vec<u8>>, name: String },
     /// UTF-8 byte-order mark in front of the text.
     Utf8Bom,
+    /// JSON text behind a .NET 7-bit length prefix (Sea of Stars).
+    LenJson,
+    /// JSON with every character XORed with 0x81 (The Messenger).
+    CharXor { newline: bool },
     /// JSON text followed by NUL bytes (SnowRunner's `CompleteSave.cfg` ends in one).
     NulPadded(usize),
     /// UTF-16 text (converted to UTF-8 for editing), with or without a byte-order mark.
@@ -355,6 +359,8 @@ impl Layer {
             Layer::RenpyPersistent { .. } => "Ren'Py persistent (zlib + signature)".into(),
             Layer::ZipEntry { name, .. } => format!("zip archive ({name})"),
             Layer::Utf8Bom => "UTF-8 BOM".into(),
+            Layer::LenJson => "Length-prefixed JSON".into(),
+            Layer::CharXor { .. } => "XORed JSON text".into(),
             Layer::JsonByPath { .. } => "JSON lines (one object per node path)".into(),
             Layer::Base64Values { .. } => "One base64 value per line".into(),
             Layer::NulPadded(_) => "JSON followed by a NUL byte".into(),
@@ -876,6 +882,8 @@ fn wrap(layer: &Layer, data: Vec<u8>) -> Result<Vec<u8>, String> {
             out
         }
         Layer::Utf8Bom => [BOM, &data].concat(),
+        Layer::LenJson => fmt::lenjson::pack(&data),
+        Layer::CharXor { newline } => fmt::charxor::pack(&data, *newline)?,
         Layer::JsonByPath { ends_with_newline } => json_by_path_close(&data, *ends_with_newline)?,
         Layer::Base64Values { crlf } => base64_values_close(&data, *crlf)?,
         Layer::NulPadded(n) => [data, vec![0u8; *n]].concat(),
@@ -1439,6 +1447,12 @@ fn peel(data: &[u8], ctx: &mut Ctx) -> Option<(Layer, Vec<u8>)> {
     }
     if data.starts_with(BOM) {
         return Some((Layer::Utf8Bom, data[BOM.len()..].to_vec()));
+    }
+    if let Some((json, newline)) = fmt::charxor::open(data) {
+        return Some((Layer::CharXor { newline }, json));
+    }
+    if let Some((json, _)) = fmt::lenjson::open(data) {
+        return Some((Layer::LenJson, json));
     }
     if let Some(opened) = json_by_path_open(data) {
         return Some(opened);
