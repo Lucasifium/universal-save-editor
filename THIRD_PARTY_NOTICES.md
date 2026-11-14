@@ -206,6 +206,9 @@ Universal Save Editor is free. It builds on other people's work, listed here wit
 | [Universal Koei Tecmo Save Editor (Warriors Orochi 4 envelope, key derivation and field offsets, ported)](https://github.com/Sanrenan/Universal-Koei-Tecmo-Save-Editor) | Sanrenan | MIT |
 | [nier_replicant (save layout)](https://github.com/dskrypa/nier_replicant) | dskrypa | MIT |
 | [GenZ-Save-File-Editor (Generation Zero item hashes and names)](https://github.com/GrimChan/GenZ-Save-File-Editor) | GrimChan | MIT |
+| [RSWreckGarage (Wreckfest profile container and career layout)](https://github.com/RootSwitch/RSWreckGarage) | RootSwitch | Unlicense |
+| [The-Evil-Within-Checksum-Scripts (inventory.zwei checksum and layout)](https://github.com/xymox12/The-Evil-Within-Checksum-Scripts) | xymox12 | MIT |
+| [Gibbed.Borderlands (Borderlands character save layout)](https://github.com/gibbed/Gibbed.Borderlands) | Rick (gibbed) | zlib |
 
 Copyright notices of the projects above whose code or tables were used:
 

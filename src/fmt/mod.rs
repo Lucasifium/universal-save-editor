@@ -47,10 +47,13 @@ pub mod mcd;
 pub mod nonfinite;
 pub mod bloodstained;
 pub mod dmc1;
+pub mod borderlands1;
+pub mod evil_within;
 pub mod genzero;
 pub mod genzero_names;
 pub mod nier_replicant;
 pub mod potion;
+pub mod wreckfest;
 pub mod wwz;
 pub mod ffpr;
 pub mod fantasian;
@@ -619,6 +622,21 @@ pub fn parse_binary(d: &[u8]) -> Option<TreeDoc> {
     }
     if lego_classic::looks(d) {
         if let Ok(t) = lego_classic::parse(d) {
+            return Some(t);
+        }
+    }
+    if borderlands1::looks(d) {
+        if let Ok(t) = borderlands1::parse(d) {
+            return Some(t);
+        }
+    }
+    if evil_within::looks(d) {
+        if let Ok(t) = evil_within::parse(d) {
+            return Some(t);
+        }
+    }
+    if wreckfest::looks(d) {
+        if let Ok(t) = wreckfest::parse(d) {
             return Some(t);
         }
     }

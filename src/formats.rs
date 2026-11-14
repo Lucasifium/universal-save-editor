@@ -204,6 +204,7 @@ pub enum Layer {
     FalloutShelter,
     /// Potion Craft `.pcsave`: base64 lines of XORed JSON, one JSON array.
     PotionCraft,
+    Wreckfest,
     /// JSON with bare `Infinity` / `NaN` numbers (Unity and .NET writers).
     NonFinite,
     /// Bloodstained: Ritual of the Night: GVAS XORed with a counter key stream.
@@ -415,6 +416,7 @@ impl Layer {
             Layer::HollowKnight => "Hollow Knight encryption".into(),
             Layer::FalloutShelter => "Fallout Shelter save encryption".into(),
             Layer::PotionCraft => "Potion Craft save encryption".into(),
+            Layer::Wreckfest => "Wreckfest block compression".into(),
             Layer::NonFinite => "JSON with Infinity / NaN numbers".into(),
             Layer::Bloodstained { .. } => "Bloodstained save obfuscation".into(),
             Layer::Wwz { .. } => "World War Z save encryption".into(),
@@ -1057,6 +1059,7 @@ fn wrap(layer: &Layer, data: Vec<u8>) -> Result<Vec<u8>, String> {
         Layer::HollowKnight => fmt::crypto::hollow_knight_encrypt(&data),
         Layer::FalloutShelter => fmt::crypto::fallout_shelter_encrypt(&data),
         Layer::PotionCraft => fmt::potion::pack(&data)?,
+        Layer::Wreckfest => fmt::wreckfest::pack(&data)?,
         Layer::NonFinite => fmt::nonfinite::pack(&data)?,
         Layer::Bloodstained { tail } => fmt::bloodstained::pack(&data, tail),
         Layer::Wwz { seed } => fmt::wwz::pack(*seed, &data)?,
@@ -1898,6 +1901,9 @@ fn peel(data: &[u8], ctx: &mut Ctx) -> Option<(Layer, Vec<u8>)> {
     }
     if let Some(plain) = fmt::potion::open(data) {
         return Some((Layer::PotionCraft, plain));
+    }
+    if let Some(plain) = fmt::wreckfest::open(data) {
+        return Some((Layer::Wreckfest, plain));
     }
     if let Some(plain) = fmt::crypto::fallout_shelter_decrypt(data) {
         return Some((Layer::FalloutShelter, plain));

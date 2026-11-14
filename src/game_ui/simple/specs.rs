@@ -6,7 +6,7 @@ use super::{List, Max, Section, Shape, Spec, Table};
 
 pub static SPECS: &[Spec] = &[OPENXCOM, XCOM_DOS, RCT2, COTL, FALLOUT_SHELTER, DRG, S1_MONEY, S1_RANK, S1_TIME, S1_GAME, SOTF_STATE, SOTF_GAME, SOTF_WEATHER, SOTF_ITEMS, DMD, CUPHEAD, ANTIMATTER, PVZ, CELESTE, DRGS, KH3, RF4S, SKY1ST, KSP, FFPR, MCD, STONESHARD, ROGUE_TRADER, BIOSHOCK_INFINITE, SPACE_HAVEN, SNOWRUNNER, GRAVEYARD_KEEPER, NFSMW, TOS, GTA3, GTAVC, BITBURNER, TERRA_INVICTA, PRISON, FF13, SONIC_MANIA, CAVE_STORY_PLUS, CAVE_STORY, LIES_OF_P, TXR, DAVE, MSC, ULTRAKILL, RPGXP, RE5, ANNO1800, FTK, LEGO_TSS, LEGO_CLASSIC, MYZ, CMS21, MEDIEVAL_DYNASTY, MECHANICUS, ORI, OMORI, ENDER_LILIES, SW2, ES2, MOONLIGHTER, WASTELAND2, ATOM, MORTAL_SHELL, MORTAL_SHELL_2, COTW, BEAMNG, FOREST, YAKUZA3, YAKUZA4, YAKUZA5, ISHIN, SALT, DRAKENSANG, ALPHA, TYRANNY, JEDI_FO, SR3, SR4, WD2, FABLE, WANDERING_SWORD, STELLAR_BLADE, PRAGMATA, SLIME_RANCHER, SUBNAUTICA2, HZD, SLEEPING_DOGS, DXMD, ATOMIC_HEART, DISHONORED2, DEATHLOOP, AC_BROTHERHOOD, AC_REVELATIONS, AC3R, AC_LIBERATION, AC_BLACK_FLAG, AC_ROGUE, AC_UNITY, AC_SYNDICATE, AC_ORIGINS, AC_ODYSSEY, DISHONORED1, RDR1, RDR2, SM64, SUPER_METROID, LTTP, WORLDBOX, COREKEEPER, HOLOCURE, POTION_CRAFT, WWZ, ROBOQUEST, CMS18, LONGDRIVE, LONGDRIVE_PROP, XC3, MLDT, SMASH, MK7, SKC, UTY, DAGGERFALL_UNITY, DMC1, MEWGENICS, MORROWIND, OBLIVION, WOL, SOD_PROFILE, SOD_STATS, TRAVELLERS_REST, YOUTUBERS_LIFE, LUCK_LANDLORD, LUNA_NIGHTS, EVERSPACE1, STREETS_OF_ROGUE, DELTATRAVELER, PIZZA_TOWER, TEARDOWN, WOLCEN, BLASPHEMOUS, NOITA, LAST_EPOCH, GUNGEON, DISCO, CLICKER_HEROES, ISAAC, ROR2, STS2, HEROES3, MOO2, YSF, BD2, SKY3, CS1, WO4, SW4II, NIER_REPLICANT, GENZERO,
     // PlayStation 1 and 2 (ps_specs.rs)
-    SOTN, FF8, FFT, RE1, KH2, MK64, GOLDENEYE, BANJO_KAZOOIE, OOT, SMASH64, TORCHLIGHT3];
+    SOTN, FF8, FFT, RE1, KH2, MK64, GOLDENEYE, BANJO_KAZOOIE, OOT, SMASH64, TORCHLIGHT3, WRECKFEST, EVIL_WITHIN, BORDERLANDS1];
 // ------------------------------------------------------------------ Cult of the Lamb
 
 const COTL_ITEMS: &[(&str, &str)] = &[
@@ -6916,5 +6916,63 @@ const TORCHLIGHT3: Spec = Spec {
             only: &[],
             names: &[],
         },
+    ],
+};
+
+const WRECKFEST: Spec = Spec {
+    name: "Wreckfest",
+    tab: "Driver",
+    accent: (230, 120, 40),
+    kind: Some(crate::fmt::wreckfest::KIND),
+    markers: &[],
+    subtitle: "career.cres from Steam\\userdata\\<account>\\228380\\local\\wreckfest, Documents\\My Games\\wreckfest or the GOG profile folder: credits, experience and tournament fame. The cars file opens as hex.",
+    tiles: &[("Credits", "/Driver/Credits"), ("Experience", "/Driver/Experience"), ("Fame", "/Driver/Fame")],
+    sections: &[Section { title: "Driver", rows: &[("Credits", "/Driver/Credits"), ("Experience", "/Driver/Experience"), ("Fame", "/Driver/Fame")] }],
+    lists: &[],
+    tables: &[],
+};
+
+const EVIL_WITHIN: Spec = Spec {
+    name: "The Evil Within",
+    tab: "Sebastian",
+    accent: (150, 40, 40),
+    kind: Some(crate::fmt::evil_within::KIND),
+    markers: &[],
+    subtitle: "inventory.zwei from Documents\\My Games\\TangoGameworks\\The Evil Within\\base\\savegame\\<slot>: green gel, trap parts, weapon upgrade levels and stat upgrades.",
+    tiles: &[("Green gel", "/Resources/Green gel"), ("Trap parts", "/Resources/Trap parts")],
+    sections: &[
+        Section { title: "Resources", rows: &[("Green gel", "/Resources/Green gel"), ("Trap parts", "/Resources/Trap parts")] },
+        Section {
+            title: "Upgrades",
+            rows: &[("Life gauge", "/Upgrades/Life gauge"), ("Maximum sprint", "/Upgrades/Maximum sprint"), ("Melee damage", "/Upgrades/Melee damage"), ("Syringe recovery", "/Upgrades/Syringe recovery")],
+        },
+    ],
+    lists: &[],
+    tables: &[Table {
+        title: "Weapon upgrade levels",
+        path: "/Weapon upgrades",
+        name: &[],
+        only: &[],
+        cols: &[("Damage", "/Damage"), ("Fire rate", "/Fire rate"), ("Reload time", "/Reload time"), ("Clip capacity", "/Clip capacity"), ("Accuracy", "/Accuracy"), ("Critical", "/Critical"), ("Stock", "/Stock")],
+        names: &[],
+    }],
+};
+
+const BORDERLANDS1: Spec = Spec {
+    name: "Borderlands (2009) and Borderlands Game of the Year Enhanced",
+    tab: "Vault Hunter",
+    accent: (230, 180, 40),
+    kind: Some(crate::fmt::borderlands1::KIND),
+    markers: &[],
+    subtitle: "Save0001.sav and the others from Documents\\My Games\\Borderlands\\SaveData (the Enhanced edition keeps them under Borderlands GOTY Enhanced\\WillowGame\\SaveData): level, experience, skill points, money, skill levels and ammunition. Items and weapons are left as they are.",
+    tiles: &[("Level", "/Character/Level"), ("Money", "/Character/Money"), ("Skill points", "/Character/Skill points")],
+    sections: &[Section {
+        title: "Character",
+        rows: &[("Level", "/Character/Level"), ("Experience", "/Character/Experience"), ("Skill points", "/Character/Skill points"), ("Money", "/Character/Money")],
+    }],
+    lists: &[],
+    tables: &[
+        Table { title: "Skills", path: "/Skills", name: &[], only: &[], cols: &[("Level", "/Level")], names: &[] },
+        Table { title: "Ammunition", path: "/Ammunition", name: &[], only: &[], cols: &[("Quantity", "/Quantity"), ("Upgrade level", "/Upgrade level")], names: &[] },
     ],
 };
