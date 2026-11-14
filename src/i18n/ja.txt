@@ -7314,6 +7314,8 @@ Liquid:
 
 Lit = you have the tool. The number is how many uses it has left (for tools that run out).
 = 点灯=そのツールを所持。数字は残り使用回数です(使い切りのツールのみ)。
+Continues
+= コンティニュー
 
 Lives
 = 残機
@@ -15576,4 +15578,572 @@ Silver points
 Tech points
 = テックポイント
 
+
+
+Maximum health
+= 最大体力
+
+Powers
+= 能力
+
+A PlayStation save (memory card, .mcs, .psx or .psv). Continues, lives, health, the powers, and every level's unlock and Electoon cages. The level totals and the completion rate in the save's title are written again.
+= PlayStationのセーブデータ（メモリーカード、.mcs、.psx、.psv）。コンティニュー、残機、体力、能力、各ステージの解放状況とエレクトゥーンのケージ。ステージごとの合計とセーブのタイトルにある達成率は書き込み時に再計算されます。
+
+Close the emulator first. The level totals and the completion rate in the save's title are written again from the unlock and cage flags.
+= 先にエミュレーターを閉じてください。ステージごとの合計とセーブのタイトルにある達成率は、解放フラグとケージのフラグから再計算されます。
+
+Electoon cage 1
+= エレクトゥーンのケージ 1
+
+Electoon cage 2
+= エレクトゥーンのケージ 2
+
+Electoon cage 3
+= エレクトゥーンのケージ 3
+
+Electoon cage 4
+= エレクトゥーンのケージ 4
+
+Electoon cage 5
+= エレクトゥーンのケージ 5
+
+Electoon cage 6
+= エレクトゥーンのケージ 6
+
+Unlocked Characters
+= 解放済みキャラクター
+
+Unlocked Levels
+= 解放済みコース
+
+Unlocked Menus
+= 解放済みメニュー
+
+Trophy
+= トロフィー
+
+Sapphire Relic
+= サファイアのレリック
+
+Gold Relic
+= ゴールドのレリック
+
+Platinum Relic
+= プラチナのレリック
+
+CTR Token
+= CTRトークン
+
+A PlayStation save (memory card, .mcs, .psx or .psv). The unlocked characters, tracks and menus, and for each of the four adventure slots the world doors and every trophy, relic, CTR token, boss key, gem and N. Oxide challenge. The save's checksum is written again.
+= PlayStationのセーブデータ（メモリーカード、.mcs、.psx、.psv）。解放済みのキャラクター・コース・メニュー、そして4つのアドベンチャースロットごとのワールドの扉と、すべてのトロフィー・レリック・CTRトークン・ボスキー・ジェム・N.オキサイドのチャレンジ。セーブのチェックサムは書き込み時に再計算されます。
+
+Close the emulator first. Giving a Gold or Platinum relic also gives the lower relics, as the game expects; the save's checksum is written again.
+= 先にエミュレーターを閉じてください。ゴールドまたはプラチナのレリックを付与すると、ゲームの想定どおり下位のレリックも付与されます。セーブのチェックサムは書き込み時に再計算されます。
+
+World doors, slot 1
+= ワールドの扉（スロット1）
+
+Races, slot 1
+= レース（スロット1）
+
+Bosses, gems and challenges, slot 1
+= ボス・ジェム・チャレンジ（スロット1）
+
+World doors, slot 2
+= ワールドの扉（スロット2）
+
+Races, slot 2
+= レース（スロット2）
+
+Bosses, gems and challenges, slot 2
+= ボス・ジェム・チャレンジ（スロット2）
+
+World doors, slot 3
+= ワールドの扉（スロット3）
+
+Races, slot 3
+= レース（スロット3）
+
+Bosses, gems and challenges, slot 3
+= ボス・ジェム・チャレンジ（スロット3）
+
+World doors, slot 4
+= ワールドの扉（スロット4）
+
+Races, slot 4
+= レース（スロット4）
+
+Bosses, gems and challenges, slot 4
+= ボス・ジェム・チャレンジ（スロット4）
+
+High scores
+= ハイスコア
+
+Competition medals
+= 大会のメダル
+
+Sound effects level
+= 効果音のレベル
+
+A PlayStation save (memory card, .mcs, .psx or .psv). Every skater's tapes in each level, the medals of the three competitions, the high scores and the sound levels. The tape counts and the checksum are written again.
+= PlayStationのセーブデータ（メモリーカード、.mcs、.psx、.psv）。各スケーターの各ステージのテープ、3つの大会のメダル、ハイスコア、サウンドレベル。テープ数とチェックサムは書き込み時に再計算されます。
+
+Close the emulator first. The tape count of each skater and the save's checksum are written again.
+= 先にエミュレーターを閉じてください。各スケーターのテープ数とセーブのチェックサムは書き込み時に再計算されます。
+
+10,000 Points
+= 10,000ポイント
+
+15,000 Points
+= 15,000ポイント
+
+20,000 Points
+= 20,000ポイント
+
+25,000 Points
+= 25,000ポイント
+
+30,000 Points
+= 30,000ポイント
+
+40,000 Points
+= 40,000ポイント
+
+5,000 Points
+= 5,000ポイント
+
+50,000 Points
+= 50,000ポイント
+
+7,500 Points
+= 7,500ポイント
+
+Allegro Presto
+= Allegro Presto
+
+Andrew Reynolds: Downhill Jam
+= Andrew Reynolds: Downhill Jam
+
+Andrew Reynolds: Downtown
+= Andrew Reynolds: ダウンタウン
+
+Andrew Reynolds: Mall
+= Andrew Reynolds: ショッピングモール
+
+Andrew Reynolds: School
+= Andrew Reynolds: 学校
+
+Andrew Reynolds: Streets
+= Andrew Reynolds: ストリート
+
+Andrew Reynolds: Warehouse
+= Andrew Reynolds: 倉庫
+
+Anguish Lagoon
+= Anguish Lagoon
+
+Band Land (Save)
+= Band Land （セーブ）
+
+Blue Mountains (Save)
+= Blue Mountains （セーブ）
+
+Bob Burnquist: Downhill Jam
+= Bob Burnquist: Downhill Jam
+
+Bob Burnquist: Downtown
+= Bob Burnquist: ダウンタウン
+
+Bob Burnquist: Mall
+= Bob Burnquist: ショッピングモール
+
+Bob Burnquist: School
+= Bob Burnquist: 学校
+
+Bob Burnquist: Streets
+= Bob Burnquist: ストリート
+
+Bob Burnquist: Warehouse
+= Bob Burnquist: 倉庫
+
+Bongo Hills
+= Bongo Hills
+
+Break 5 No Skating Signs
+= スケート禁止の看板を5つ壊す
+
+Bucky Lasek: Downhill Jam
+= Bucky Lasek: Downhill Jam
+
+Bucky Lasek: Downtown
+= Bucky Lasek: ダウンタウン
+
+Bucky Lasek: Mall
+= Bucky Lasek: ショッピングモール
+
+Bucky Lasek: School
+= Bucky Lasek: 学校
+
+Bucky Lasek: Streets
+= Bucky Lasek: ストリート
+
+Bucky Lasek: Warehouse
+= Bucky Lasek: 倉庫
+
+Burnside
+= Burnside
+
+Candy Chateau (Save)
+= Candy Chateau （セーブ）
+
+Chad Muska: Downhill Jam
+= Chad Muska: Downhill Jam
+
+Chad Muska: Downtown
+= Chad Muska: ダウンタウン
+
+Chad Muska: Mall
+= Chad Muska: ショッピングモール
+
+Chad Muska: School
+= Chad Muska: 学校
+
+Chad Muska: Streets
+= Chad Muska: ストリート
+
+Chad Muska: Warehouse
+= Chad Muska: 倉庫
+
+Citadel City
+= Citadel City
+
+Crystal Palace
+= Crystal Palace
+
+Cyan Gem
+= シアンのジェム
+
+Destroy 5 Directories
+= 案内板を5つ壊す
+
+Downhill Jam
+= Downhill Jam
+
+Downtown
+= ダウンタウン
+
+Dr. N. Tropy
+= Dr. N. Tropy
+
+Eat At Joe's
+= Eat At Joe's
+
+Elissa Steamer: Downhill Jam
+= Elissa Steamer: Downhill Jam
+
+Elissa Steamer: Downtown
+= Elissa Steamer: ダウンタウン
+
+Elissa Steamer: Mall
+= Elissa Steamer: ショッピングモール
+
+Elissa Steamer: School
+= Elissa Steamer: 学校
+
+Elissa Steamer: Streets
+= Elissa Steamer: ストリート
+
+Elissa Steamer: Warehouse
+= Elissa Steamer: 倉庫
+
+Eraser Plains
+= Eraser Plains
+
+Fake Crash
+= 偽クラッシュ
+
+Gem Races
+= ジェムレース
+
+Gem Stone Valley
+= Gem Stone Valley
+
+Geoff Rowley: Downhill Jam
+= Geoff Rowley: Downhill Jam
+
+Geoff Rowley: Downtown
+= Geoff Rowley: ダウンタウン
+
+Geoff Rowley: Mall
+= Geoff Rowley: ショッピングモール
+
+Geoff Rowley: School
+= Geoff Rowley: 学校
+
+Geoff Rowley: Streets
+= Geoff Rowley: ストリート
+
+Geoff Rowley: Warehouse
+= Geoff Rowley: 倉庫
+
+Get S-K-A-T-E
+= S-K-A-T-Eを集める
+
+Glacier Park (from N.Sanity Beach)
+= Glacier Park (from N.Sanity Beach)
+
+Glacier Park (from The Lost Ruins)
+= Glacier Park (from The Lost Ruins)
+
+Gong Heights
+= Gong Heights
+
+Grab
+= つかむ
+
+Green Gem
+= 緑のジェム
+
+Grind 5 Tables
+= テーブルを5つグラインド
+
+Hang
+= ぶら下がり
+
+Helicopter
+= ヘリコプター
+
+Hidden Tape
+= 隠しテープ
+
+Jamie Thomas: Downhill Jam
+= Jamie Thomas: Downhill Jam
+
+Jamie Thomas: Downtown
+= Jamie Thomas: ダウンタウン
+
+Jamie Thomas: Mall
+= Jamie Thomas: ショッピングモール
+
+Jamie Thomas: School
+= Jamie Thomas: 学校
+
+Jamie Thomas: Streets
+= Jamie Thomas: ストリート
+
+Jamie Thomas: Warehouse
+= Jamie Thomas: 倉庫
+
+Kareem Campbell: Downhill Jam
+= Kareem Campbell: Downhill Jam
+
+Kareem Campbell: Downtown
+= Kareem Campbell: ダウンタウン
+
+Kareem Campbell: Mall
+= Kareem Campbell: ショッピングモール
+
+Kareem Campbell: School
+= Kareem Campbell: 学校
+
+Kareem Campbell: Streets
+= Kareem Campbell: ストリート
+
+Kareem Campbell: Warehouse
+= Kareem Campbell: 倉庫
+
+Komodo Joe
+= Komodo Joe
+
+Lab Basement
+= Lab Basement
+
+Magenta Gem
+= マゼンタのジェム
+
+Mall
+= ショッピングモール
+
+Moskito's Nest
+= Moskito's Nest
+
+Mr Dark's Dare
+= Mr Dark's Dare
+
+Mr Sax's Hullaballoo
+= Mr Sax's Hullaballoo
+
+Mr Skops' Stalactites
+= Mr Skops' Stalactites
+
+Mr Stone's Peaks
+= Mr Stone's Peaks
+
+N. Oxide's Challenge
+= N. Oxide's Challenge
+
+N. Oxide's Challenge (percent)
+= N. Oxide's Challenge （％）
+
+N. Oxide's Final Challenge
+= N. Oxide's Final Challenge
+
+N. Oxide's Final Challenge (percent)
+= N. Oxide's Final Challenge （％）
+
+Nitro Court
+= Nitro Court
+
+Officer Dick: Downhill Jam
+= Officer Dick: Downhill Jam
+
+Officer Dick: Downtown
+= Officer Dick: ダウンタウン
+
+Officer Dick: Mall
+= Officer Dick: ショッピングモール
+
+Officer Dick: School
+= Officer Dick: 学校
+
+Officer Dick: Streets
+= Officer Dick: ストリート
+
+Officer Dick: Warehouse
+= Officer Dick: 倉庫
+
+Open 5 Valves
+= バルブを5つ開ける
+
+Papu Papu
+= Papu Papu
+
+Parking Lot
+= Parking Lot
+
+Pencil Pentathlon
+= Pencil Pentathlon
+
+Penta Penguin
+= Penta Penguin
+
+Picture City (Save)
+= Picture City （セーブ）
+
+Pink Plant Woods
+= Pink Plant Woods
+
+Pinstripe
+= Pinstripe
+
+Punch
+= パンチ
+
+Rampage Ruins
+= Rampage Ruins
+
+Red Gem
+= 赤のジェム
+
+Ripper Roo
+= Ripper Roo
+
+Rocky Road
+= Rocky Road
+
+Roswell
+= Roswell
+
+Run
+= 走る
+
+Rune Glifberg: Downhill Jam
+= Rune Glifberg: Downhill Jam
+
+Rune Glifberg: Downtown
+= Rune Glifberg: ダウンタウン
+
+Rune Glifberg: Mall
+= Rune Glifberg: ショッピングモール
+
+Rune Glifberg: School
+= Rune Glifberg: 学校
+
+Rune Glifberg: Streets
+= Rune Glifberg: ストリート
+
+Rune Glifberg: Warehouse
+= Rune Glifberg: 倉庫
+
+School
+= 学校
+
+Scrapbook
+= スクラップブック
+
+Skate Park
+= スケートパーク
+
+Skull Rock
+= Skull Rock
+
+Smash the Boxes
+= 箱を壊す
+
+Space Mama's Crater
+= Space Mama's Crater
+
+Streets
+= ストリート
+
+The Caves of Skops (Save)
+= The Caves of Skops （セーブ）
+
+The Dream Forest (Save)
+= The Dream Forest （セーブ）
+
+The Hard Rocks
+= The Hard Rocks
+
+The North Bowl
+= The North Bowl
+
+The Swamps of Forgetfulness
+= The Swamps of Forgetfulness
+
+Tings
+= Tings
+
+Tony Hawk: Downhill Jam
+= Tony Hawk: Downhill Jam
+
+Tony Hawk: Downtown
+= Tony Hawk: ダウンタウン
+
+Tony Hawk: Mall
+= Tony Hawk: ショッピングモール
+
+Tony Hawk: School
+= Tony Hawk: 学校
+
+Tony Hawk: Streets
+= Tony Hawk: ストリート
+
+Tony Hawk: Warehouse
+= Tony Hawk: 倉庫
+
+Turbo Track Unlocked
+= ターボトラック解放済み
+
+Twilight Gulch
+= Twilight Gulch
+
+Warehouse
+= 倉庫
+
+Wreck 5 Cop Cars
+= パトカーを5台壊す
+
+Yellow Gem
+= 黄色のジェム
 
