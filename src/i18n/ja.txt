@@ -25039,3 +25039,90 @@ Act 2
 
 Packs opened
 = 開封したパック
+
+Bakery
+= ベーカリー
+
+The save text from Options > Export save (or its file). Cookies, counters and the number of every building are changed in place; everything else in the text is kept. Import the edited text in the game again.
+= オプション > セーブをエクスポートで得られるセーブ文字列（またはそのファイル）。クッキー、カウンター、各建物の数をその場で変更し、文字列のそれ以外の部分はそのまま残します。編集後の文字列をゲームでもう一度インポートしてください。
+
+Cookies in bank
+= バンクのクッキー
+
+Cookies baked this run
+= 今回焼いたクッキー
+
+Cookies baked before the last ascension
+= 前回の昇天前に焼いたクッキー
+
+Hand-made cookies
+= 手作りクッキー
+
+Cookie clicks
+= クッキーのクリック数
+
+Golden cookie clicks
+= ゴールデンクッキーのクリック数
+
+Wrinklers popped
+= 破裂させたしわしわ
+
+Santa level
+= サンタのレベル
+
+Buildings owned
+= 所有している建物
+
+Cursor
+= カーソル
+
+Mine
+= 鉱山
+
+Factory
+= 工場
+
+Bank
+= 銀行
+
+Temple
+= 神殿
+
+Wizard tower
+= 魔法使いの塔
+
+Shipment
+= 宇宙船
+
+Alchemy lab
+= 錬金術研究所
+
+Portal
+= ポータル
+
+Time machine
+= タイムマシン
+
+Antimatter condenser
+= 反物質変換装置
+
+Prism
+= プリズム
+
+Chancemaker
+= 幸運製造機
+
+Fractal engine
+= フラクタルエンジン
+
+Javascript console
+= JavaScriptコンソール
+
+Idleverse
+= アイドルバース
+
+Cortex baker
+= 大脳ベイカー
+
+Cookies
+= クッキー

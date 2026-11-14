@@ -24,6 +24,7 @@ pub static SPECS: &[Spec] = &[OPENXCOM, XCOM_DOS, RCT2, COTL, FALLOUT_SHELTER, D
     // More PlayStation 2 games (ps2_specs.rs)
     BOUNCER, DOA2, DBZ_BT2, SMT3, GRANDIA1,
     INSCRYPTION,
+    COOKIE_CLICKER,
 ];
 // ------------------------------------------------------------------ Cult of the Lamb
 
@@ -12413,6 +12414,25 @@ const INSCRYPTION: Spec = Spec {
         Section { title: "Act 1 run", rows: &[("Currency", "/currentRun/currency"), ("Lives", "/currentRun/playerLives"), ("Most lives", "/currentRun/maxPlayerLives"), ("Skull teeth", "/currentRun/skullTeeth")] },
         Section { title: "Act 2", rows: &[("Gold", "/gbcData/currency"), ("Packs opened", "/gbcData/packsOpened")] },
         Section { title: "General", rows: &[("Play time (seconds)", "/playTime")] },
+    ],
+    lists: &[],
+    tables: &[],
+};
+
+// ------------------------------------------------------------------ Cookie Clicker
+
+const COOKIE_CLICKER: Spec = Spec {
+    name: "Cookie Clicker",
+    tab: "Bakery",
+    accent: (200, 140, 70),
+    kind: None,
+    markers: &["/Cookie Clicker/cookies"],
+    subtitle: "The save text from Options > Export save (or its file). Cookies, counters and the number of every building are changed in place; everything else in the text is kept. Import the edited text in the game again.",
+    tiles: &[("Cookies in bank", "/Cookie Clicker/cookies"), ("Cookies baked this run", "/Cookie Clicker/cookiesEarned"), ("Ascensions", "/Cookie Clicker/ascensions")],
+    sections: &[
+        Section { title: "Cookies", rows: &[("Cookies in bank", "/Cookie Clicker/cookies"), ("Cookies baked this run", "/Cookie Clicker/cookiesEarned"), ("Cookies baked before the last ascension", "/Cookie Clicker/cookiesBeforeAscending"), ("Hand-made cookies", "/Cookie Clicker/handmadeCookies")] },
+        Section { title: "Counters", rows: &[("Cookie clicks", "/Cookie Clicker/cookieClicks"), ("Golden cookie clicks", "/Cookie Clicker/goldenClicks"), ("Ascensions", "/Cookie Clicker/ascensions"), ("Wrinklers popped", "/Cookie Clicker/wrinklersPopped"), ("Santa level", "/Cookie Clicker/santaLevel")] },
+        Section { title: "Buildings owned", rows: &[("Cursor", "/Cookie Clicker/buildings/Cursor/owned"), ("Grandma", "/Cookie Clicker/buildings/Grandma/owned"), ("Farm", "/Cookie Clicker/buildings/Farm/owned"), ("Mine", "/Cookie Clicker/buildings/Mine/owned"), ("Factory", "/Cookie Clicker/buildings/Factory/owned"), ("Bank", "/Cookie Clicker/buildings/Bank/owned"), ("Temple", "/Cookie Clicker/buildings/Temple/owned"), ("Wizard tower", "/Cookie Clicker/buildings/Wizard tower/owned"), ("Shipment", "/Cookie Clicker/buildings/Shipment/owned"), ("Alchemy lab", "/Cookie Clicker/buildings/Alchemy lab/owned"), ("Portal", "/Cookie Clicker/buildings/Portal/owned"), ("Time machine", "/Cookie Clicker/buildings/Time machine/owned"), ("Antimatter condenser", "/Cookie Clicker/buildings/Antimatter condenser/owned"), ("Prism", "/Cookie Clicker/buildings/Prism/owned"), ("Chancemaker", "/Cookie Clicker/buildings/Chancemaker/owned"), ("Fractal engine", "/Cookie Clicker/buildings/Fractal engine/owned"), ("Javascript console", "/Cookie Clicker/buildings/Javascript console/owned"), ("Idleverse", "/Cookie Clicker/buildings/Idleverse/owned"), ("Cortex baker", "/Cookie Clicker/buildings/Cortex baker/owned"), ("You", "/Cookie Clicker/buildings/You/owned")] },
     ],
     lists: &[],
     tables: &[],

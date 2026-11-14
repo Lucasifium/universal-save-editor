@@ -24964,3 +24964,90 @@ Act 2
 
 Packs opened
 = Paquets ouverts
+
+Bakery
+= Boulangerie
+
+The save text from Options > Export save (or its file). Cookies, counters and the number of every building are changed in place; everything else in the text is kept. Import the edited text in the game again.
+= Le texte de sauvegarde de Options > Exporter la sauvegarde (ou son fichier). Les cookies, les compteurs et le nombre de chaque bâtiment sont modifiés sur place ; tout le reste du texte est conservé. Réimportez ensuite le texte modifié dans le jeu.
+
+Cookies in bank
+= Cookies en banque
+
+Cookies baked this run
+= Cookies cuits cette partie
+
+Cookies baked before the last ascension
+= Cookies cuits avant la dernière ascension
+
+Hand-made cookies
+= Cookies faits main
+
+Cookie clicks
+= Clics sur le cookie
+
+Golden cookie clicks
+= Clics sur les cookies dorés
+
+Wrinklers popped
+= Wrinklers éclatés
+
+Santa level
+= Niveau du Père Noël
+
+Buildings owned
+= Bâtiments possédés
+
+Cursor
+= Curseur
+
+Mine
+= Mine
+
+Factory
+= Usine
+
+Bank
+= Banque
+
+Temple
+= Temple
+
+Wizard tower
+= Tour de sorciers
+
+Shipment
+= Vaisseau
+
+Alchemy lab
+= Laboratoire d'alchimie
+
+Portal
+= Portail
+
+Time machine
+= Machine à voyager dans le temps
+
+Antimatter condenser
+= Condenseur d'antimatière
+
+Prism
+= Prisme
+
+Chancemaker
+= Faiseur de chance
+
+Fractal engine
+= Moteur fractal
+
+Javascript console
+= Console Javascript
+
+Idleverse
+= Idleverse
+
+Cortex baker
+= Boulanger cortex
+
+Cookies
+= Cookies

@@ -231,6 +231,8 @@ pub enum Layer {
     MadMax { plain: Arc<Vec<u8>> },
     /// Every byte one less than the real one (Aliens: Fireteam Elite).
     Shifted,
+    /// Cookie Clicker save text (base64): the decoded text and how it was wrapped are kept to patch values back.
+    CookieClicker { wrap: fmt::cookieclicker::Wrap, plain: Arc<Vec<u8>> },
     /// JSON with bare values in objects (Inscryption): they get made-up keys while editing.
     LooseJson,
     /// Dead Island: level, health and money patched into the flat binary (the original bytes are kept).
@@ -460,6 +462,7 @@ impl Layer {
             Layer::DontStarve => "Don't Starve save (base64, zlib)".into(),
             Layer::MadMax { .. } => "Mad Max save encryption".into(),
             Layer::Shifted => "Every byte one less (Aliens: Fireteam Elite)".into(),
+            Layer::CookieClicker { .. } => "Cookie Clicker save text (base64)".into(),
             Layer::LooseJson => "JSON with bare values (Inscryption)".into(),
             Layer::DeadIsland { .. } => "Dead Island save values".into(),
             Layer::P3rSteam => "Persona 3 Reload save encryption".into(),
@@ -1118,6 +1121,7 @@ fn wrap(layer: &Layer, data: Vec<u8>) -> Result<Vec<u8>, String> {
         Layer::DontStarve => fmt::dontstarve::pack(&data),
         Layer::MadMax { plain } => fmt::madmax::pack(plain, &data)?,
         Layer::Shifted => fmt::shifted::pack(&data),
+        Layer::CookieClicker { wrap, plain } => fmt::cookieclicker::pack(wrap, plain, &data),
         Layer::LooseJson => fmt::looseson::pack(&data),
         Layer::DeadIsland { original } => fmt::deadisland::pack(original, &data)?,
         Layer::P3rSteam => fmt::p3r::steam_encrypt(&data),
@@ -2029,6 +2033,9 @@ fn peel(data: &[u8], ctx: &mut Ctx) -> Option<(Layer, Vec<u8>)> {
     }
     if let Some((plain, json)) = fmt::madmax::open(data) {
         return Some((Layer::MadMax { plain: Arc::new(plain) }, json));
+    }
+    if let Some((wrap, plain, json)) = fmt::cookieclicker::open(data) {
+        return Some((Layer::CookieClicker { wrap, plain: Arc::new(plain) }, json));
     }
     if let Some(plain) = fmt::shifted::open(data) {
         return Some((Layer::Shifted, plain));

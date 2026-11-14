@@ -25012,3 +25012,90 @@ Act 2
 
 Packs opened
 = 已开卡包
+
+Bakery
+= 面包店
+
+The save text from Options > Export save (or its file). Cookies, counters and the number of every building are changed in place; everything else in the text is kept. Import the edited text in the game again.
+= 来自“选项 > 导出存档”的存档文本（或其文件）。饼干、计数器和每种建筑的数量会就地修改，文本中的其余内容保持不变。请在游戏中重新导入编辑后的文本。
+
+Cookies in bank
+= 银行中的饼干
+
+Cookies baked this run
+= 本轮烘焙的饼干
+
+Cookies baked before the last ascension
+= 上次飞升前烘焙的饼干
+
+Hand-made cookies
+= 手工饼干
+
+Cookie clicks
+= 点击饼干次数
+
+Golden cookie clicks
+= 点击金饼干次数
+
+Wrinklers popped
+= 戳破的皱皱虫
+
+Santa level
+= 圣诞老人等级
+
+Buildings owned
+= 拥有的建筑
+
+Cursor
+= 光标
+
+Mine
+= 矿井
+
+Factory
+= 工厂
+
+Bank
+= 银行
+
+Temple
+= 神殿
+
+Wizard tower
+= 魔法塔
+
+Shipment
+= 飞船
+
+Alchemy lab
+= 炼金实验室
+
+Portal
+= 传送门
+
+Time machine
+= 时光机
+
+Antimatter condenser
+= 反物质冷凝器
+
+Prism
+= 棱镜
+
+Chancemaker
+= 幸运制造机
+
+Fractal engine
+= 分形引擎
+
+Javascript console
+= Javascript控制台
+
+Idleverse
+= 放置宇宙
+
+Cortex baker
+= 皮质烘焙师
+
+Cookies
+= 饼干

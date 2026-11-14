@@ -64,6 +64,7 @@ pub mod wreckfest;
 pub mod deadisland;
 pub mod dontstarve;
 pub mod madmax;
+pub mod cookieclicker;
 pub mod looseson;
 pub mod shifted;
 pub mod hld;

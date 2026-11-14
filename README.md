@@ -3,7 +3,7 @@
 > **Free, and it always will be.** No price, no ads, no account, no paid version, no online service, no
 > rate limits. If anyone is charging you for this, it isn't from here.
 
-An offline save editor and save manager for 530+ (530) PC games (edit saves, and back up, name and restore them): Cairn, Terraria (characters and a world map editor),
+An offline save editor and save manager for 530+ (531) PC games (edit saves, and back up, name and restore them): Cairn, Terraria (characters and a world map editor),
 Oxygen Not Included, RimWorld, Stardew Valley, Onimusha: Way of the Sword, Elden Ring, Dark Souls,
 Cyberpunk 2077, the Persona, Yakuza and Final Fantasy games, Ren'Py visual novels, RPG Maker games
 and more (the full list is below). Written in Rust (egui). Nothing is uploaded anywhere, and there are
@@ -133,7 +133,7 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 </details>
 
 <details>
-<summary><strong>C</strong> (14)</summary>
+<summary><strong>C</strong> (15)</summary>
 
 | Game | Screen |
 |---|---|
@@ -146,6 +146,7 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 | Chef: A Restaurant Tycoon Game | *Restaurant*: the budget, ingredient points, restaurant level, rating, seats and city map points (checked on a public save, not yet tried in the game) |
 | Clair Obscur: Expedition 33 | Gold; each party member's level, experience, action points, health, attribute points and Lumina from Colours of Lumina; each weapon's level; item counts, with a **Max crafting materials** button that fills every Chroma Catalyst you have to 999 (an estimate: the game states no limit) (checked on a real save, not yet tried in the game) |
 | Clicker Heroes | *Clicker*: gold, rubies, hero souls, ancient souls, primal souls, the highest zones, multipliers, and every hero's and outsider's level from the Steam version's save (the base64 and deflate packing is handled). checked on a public save, not yet tried in the game |
+| Cookie Clicker | *Bakery*: cookies in the bank and baked, counters, ascensions and the number of every building, in the text from Options > Export save (checked on a public save, not yet tried in the game) |
 | Core Keeper | *Character*: skill experience (mining, running, melee, vitality, crafting, ranged, gardening, fishing, cooking, magic, summoning), ancient coins, maximum health and the inventory counts, from the plain-JSON character file (checked on a public save, not yet tried in the game) |
 | Crusader Kings II | *Empire*: the ruler's wealth, prestige, piety and attributes. Ironman (binary) saves are edited in place, dates included (checked on a save converted to the binary layout; no save from a real ironman campaign has been tried yet) |
 | Cult of the Lamb | *Cult*: the Lamb's level, XP, hearts and fervour; cult faith, level, shrine and doctrine levels; the inventory and storage by item name, with a **Max crafting materials** button that fills lumber, stone, bones, grass, planks, stone blocks, gold nuggets and bars, crystal shards, spider silk and shells to 999 (an estimate), leaving coins, food, seeds, gifts, necklaces and boss items alone (checked on a public sample save, not yet tried in the game) |
@@ -802,8 +803,8 @@ binary and stays an ironman save. It isn't converted to a normal one.
 
 The start page lists **Your games**: every game in the list whose saves were found on this computer,
 newest first, each one click away from its newest save. *Find my game's saves* (the big button on the
-start page, *Find saves* in the toolbar and the File menu) lists every one of the 530+ (530) PC games the editor knows, Mass Effect 1–3, the Legendary Edition and Andromeda among them — with where it
-start page, *Find saves* in the toolbar and the File menu) lists every one of the 530+ (530) PC games the editor knows, Mass Effect 1–3, the Legendary Edition and Andromeda among them — with where it
+start page, *Find saves* in the toolbar and the File menu) lists every one of the 530+ (531) PC games the editor knows, Mass Effect 1–3, the Legendary Edition and Andromeda among them — with where it
+start page, *Find saves* in the toolbar and the File menu) lists every one of the 530+ (531) PC games the editor knows, Mass Effect 1–3, the Legendary Edition and Andromeda among them — with where it
 usually keeps its saves and what the files are called, and finds them on your computer (Steam
 libraries and `userdata`, Documents wherever Windows has it, AppData, Saved Games, Ubisoft
 Connect). On Linux and the Steam Deck it also looks inside Proton prefixes
