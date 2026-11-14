@@ -83,6 +83,8 @@ pub enum Layer {
     Prey { header: Arc<Vec<u8>> },
     /// Ace Combat 8: the packed property lists inside the save, with their checksum.
     Ac8(fmt::ac8::Packed),
+    /// Assassin's Creed (Anvil) save: Ubisoft wrapper, XOR key, LZO blocks with checksums.
+    Anvil(fmt::anvil::Packed),
     /// Star Wars Jedi: Fallen Order: the zlib-packed actor records behind the GVAS header.
     JediFo(fmt::jedi::Packed),
     Xz,
@@ -326,6 +328,7 @@ impl Layer {
             Layer::SizedZlib => "zlib with a size header".into(),
             Layer::Prey { .. } => "Prey save (RC4, zlib chunks, MD5 written again)".into(),
             Layer::Ac8(_) => "Ace Combat 8 packed data (checksum written again)".into(),
+            Layer::Anvil(_) => "Assassin's Creed container (XOR, LZO blocks, checksums written again)".into(),
             Layer::JediFo(_) => "Jedi: Fallen Order actor records (zlib)".into(),
             Layer::Xz => "xz".into(),
             Layer::Mgsv { .. } => "Metal Gear Solid V save encryption".into(),
@@ -832,6 +835,7 @@ fn wrap(layer: &Layer, data: Vec<u8>) -> Result<Vec<u8>, String> {
         Layer::Zstd => zstd::encode_all(&data[..], 3).map_err(io)?,
         Layer::Lz4 => compress(lz4_flex::frame::FrameEncoder::new(Vec::new()), &data)?.finish().map_err(|e| e.to_string())?,
         Layer::Ac8(p) => fmt::ac8::close(p, &data)?,
+        Layer::Anvil(p) => fmt::anvil::close(p, &data)?,
         Layer::JediFo(p) => fmt::jedi::close(p, &data)?,
         Layer::Prey { header } => fmt::prey::close(header, &data)?,
         Layer::SizedZlib => {
@@ -1188,6 +1192,11 @@ fn wrap(layer: &Layer, data: Vec<u8>) -> Result<Vec<u8>, String> {
 }
 
 fn peel(data: &[u8], ctx: &mut Ctx) -> Option<(Layer, Vec<u8>)> {
+    if fmt::anvil::maybe(data) {
+        if let Some((p, inner)) = fmt::anvil::open(data) {
+            return Some((Layer::Anvil(p), inner));
+        }
+    }
     if data.starts_with(b"GVAS") {
         if let Some((p, inner)) = fmt::ac8::open(data) {
             return Some((Layer::Ac8(p), inner));

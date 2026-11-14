@@ -3,7 +3,7 @@
 
 use super::{List, Max, Section, Shape, Spec, Table};
 
-pub static SPECS: &[Spec] = &[COTL, FALLOUT_SHELTER, DRG, S1_MONEY, S1_RANK, S1_TIME, S1_GAME, SOTF_STATE, SOTF_GAME, SOTF_WEATHER, SOTF_ITEMS, DMD, CUPHEAD, ANTIMATTER, PVZ, CELESTE, DRGS, KH3, RF4S, SKY1ST, KSP, FFPR, MCD, STONESHARD, ROGUE_TRADER, BIOSHOCK_INFINITE, SPACE_HAVEN, SNOWRUNNER, GRAVEYARD_KEEPER, NFSMW, TOS, GTA3, GTAVC, BITBURNER, TERRA_INVICTA, PRISON, FF13, SONIC_MANIA, CAVE_STORY_PLUS, CAVE_STORY, LIES_OF_P, TXR, DAVE, MSC, ULTRAKILL, RPGXP, RE5, ANNO1800, FTK, LEGO_TSS, LEGO_CLASSIC, MYZ, CMS21, MEDIEVAL_DYNASTY, MECHANICUS, ORI, OMORI, ENDER_LILIES, SW2, ES2, MOONLIGHTER, WASTELAND2, ATOM, MORTAL_SHELL, MORTAL_SHELL_2, COTW, BEAMNG, FOREST, YAKUZA3, YAKUZA4, YAKUZA5, ISHIN, SALT, DRAKENSANG, ALPHA, TYRANNY, JEDI_FO, SR3, SR4, WD2, FABLE, WANDERING_SWORD, STELLAR_BLADE, PRAGMATA, SLIME_RANCHER, SUBNAUTICA2, HZD, SLEEPING_DOGS, DXMD, ATOMIC_HEART, DISHONORED2, DEATHLOOP, DISHONORED1, RDR1, RDR2, SM64, SUPER_METROID, LTTP, WORLDBOX, COREKEEPER, HOLOCURE, POTION_CRAFT, WWZ, ROBOQUEST, CMS18, LONGDRIVE, LONGDRIVE_PROP];
+pub static SPECS: &[Spec] = &[COTL, FALLOUT_SHELTER, DRG, S1_MONEY, S1_RANK, S1_TIME, S1_GAME, SOTF_STATE, SOTF_GAME, SOTF_WEATHER, SOTF_ITEMS, DMD, CUPHEAD, ANTIMATTER, PVZ, CELESTE, DRGS, KH3, RF4S, SKY1ST, KSP, FFPR, MCD, STONESHARD, ROGUE_TRADER, BIOSHOCK_INFINITE, SPACE_HAVEN, SNOWRUNNER, GRAVEYARD_KEEPER, NFSMW, TOS, GTA3, GTAVC, BITBURNER, TERRA_INVICTA, PRISON, FF13, SONIC_MANIA, CAVE_STORY_PLUS, CAVE_STORY, LIES_OF_P, TXR, DAVE, MSC, ULTRAKILL, RPGXP, RE5, ANNO1800, FTK, LEGO_TSS, LEGO_CLASSIC, MYZ, CMS21, MEDIEVAL_DYNASTY, MECHANICUS, ORI, OMORI, ENDER_LILIES, SW2, ES2, MOONLIGHTER, WASTELAND2, ATOM, MORTAL_SHELL, MORTAL_SHELL_2, COTW, BEAMNG, FOREST, YAKUZA3, YAKUZA4, YAKUZA5, ISHIN, SALT, DRAKENSANG, ALPHA, TYRANNY, JEDI_FO, SR3, SR4, WD2, FABLE, WANDERING_SWORD, STELLAR_BLADE, PRAGMATA, SLIME_RANCHER, SUBNAUTICA2, HZD, SLEEPING_DOGS, DXMD, ATOMIC_HEART, DISHONORED2, DEATHLOOP, DISHONORED1, RDR1, RDR2, SM64, SUPER_METROID, LTTP, WORLDBOX, COREKEEPER, HOLOCURE, POTION_CRAFT, WWZ, ROBOQUEST, CMS18, LONGDRIVE, LONGDRIVE_PROP, AC_ANVIL, AC_ODYSSEY];
 
 // ------------------------------------------------------------------ Cult of the Lamb
 
@@ -3971,6 +3971,60 @@ const LONGDRIVE_PROP: Spec = Spec {
     subtitle: "TLDsaveProp.tldsp from a save folder of the game: the distance driven and the world seed.",
     tiles: &[("Driven", "/driven"), ("Seed", "/seed")],
     sections: &[Section { title: "Trip", rows: &[("Distance driven", "/driven"), ("World seed", "/seed")] }],
+    lists: &[],
+    tables: &[],
+};
+
+// ------------------------------------------------------------------ Assassin's Creed (Anvil)
+
+const AC_ANVIL: Spec = Spec {
+    name: "Assassin's Creed (Brotherhood to Syndicate)",
+    tab: "Inventory",
+    accent: (190, 40, 40),
+    kind: Some(crate::fmt::anvil::KIND),
+    markers: &["/Inventory/Money"],
+    subtitle: "A save from Assassin's Creed Brotherhood, III Remastered, Liberation HD, Black Flag, Rogue, Unity or Syndicate (the Ubisoft Connect wrapper, encryption and packed blocks are opened and closed for you). Money, gadget and ammunition counts, and the cargo materials.",
+    tiles: &[("Money", "/Inventory/Money")],
+    sections: &[Section {
+        title: "Inventory",
+        rows: &[
+            ("Money", "/Inventory/Money"), ("Smoke bombs", "/Inventory/Smoke bombs"), ("Throwing knives", "/Inventory/Throwing knives"),
+            ("Poison darts", "/Inventory/Poison darts"), ("Rope darts", "/Inventory/Rope darts"), ("Arrows", "/Inventory/Arrows"),
+            ("Lockpicks", "/Inventory/Lockpicks"), ("Heavy shot", "/Inventory/Heavy shot"), ("Crew", "/Inventory/Crew"), ("Harpoons", "/Inventory/Harpoons"),
+        ],
+    }],
+    lists: &[
+        List {
+            title: "Cargo",
+            path: "/Cargo",
+            shape: Shape::Map,
+            names: &[],
+            max: Some(Max {
+                ids: &["Wood", "Metal", "Cloth", "Rum", "Sugar"],
+                cap: 2000,
+                caps: &[],
+                estimate: true,
+                about: "Raises wood, metal, cloth, rum and sugar to 2000 each, the figure a fully upgraded Jackdaw holds in a public max-resources save. Tobacco is left alone.",
+            }),
+        },
+        List { title: "Other counters (unnamed categories with something in them)", path: "/Other counters", shape: Shape::Map, names: &[], max: None },
+        List { title: "Other copies (an older checkpoint of the same value)", path: "/Other copies", shape: Shape::Map, names: &[], max: None },
+    ],
+    tables: &[],
+};
+
+const AC_ODYSSEY: Spec = Spec {
+    name: "Assassin's Creed Origins and Odyssey",
+    tab: "Character",
+    accent: (200, 160, 60),
+    kind: Some(crate::fmt::anvil::KIND),
+    markers: &["/Character/Drachmae"],
+    subtitle: "A save from Assassin's Creed Origins or Odyssey (the Ubisoft Connect wrapper, encryption and packed blocks are opened and closed for you). Drachmae, experience and ability points.",
+    tiles: &[("Drachmae", "/Character/Drachmae"), ("Experience", "/Character/Experience"), ("Ability points", "/Character/Ability points")],
+    sections: &[Section {
+        title: "Character",
+        rows: &[("Drachmae", "/Character/Drachmae"), ("Experience", "/Character/Experience"), ("Ability points", "/Character/Ability points")],
+    }],
     lists: &[],
     tables: &[],
 };

@@ -128,6 +128,7 @@ pub mod essentials;
 pub mod marshal;
 pub mod msgpack;
 pub mod ac8;
+pub mod anvil;
 pub mod bsinfinite;
 pub mod ue3pkg;
 pub mod cbor;
@@ -391,6 +392,11 @@ pub fn parse_binary(d: &[u8]) -> Option<TreeDoc> {
     }
     if metro::looks(d) {
         if let Ok(t) = metro::parse(d) {
+            return Some(t);
+        }
+    }
+    if anvil::looks(d) {
+        if let Ok(t) = anvil::parse(d) {
             return Some(t);
         }
     }
