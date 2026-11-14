@@ -16,6 +16,8 @@ for var, name in [("USERPROFILE", "~"), ("HOME", "~"), ("RUSTUP_HOME", "/rustup"
     value = os.environ.get(var)
     if value:
         prefixes.append(f"--remap-path-prefix={value}={name}")
-flags = SEP.join(["-A", "linker_messages"] + prefixes)
+# Windows: link the C runtime statically so the exe runs without the VC++ redistributable.
+crt = ["-C", "target-feature=+crt-static"] if os.name == "nt" else []
+flags = SEP.join(["-A", "linker_messages"] + crt + prefixes)
 with open(os.environ["GITHUB_ENV"], "a", encoding="utf-8") as f:
     f.write(f"CARGO_ENCODED_RUSTFLAGS<<EOF_FLAGS\n{flags}\nEOF_FLAGS\n")
