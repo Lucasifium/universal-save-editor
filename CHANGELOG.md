@@ -1,5 +1,12 @@
 # Changelog
 
+## Unreleased
+
+- Find my game's saves: long game names are shortened (full name on hover) so the badge never overlaps the details, the right-hand side scrolls as a whole and starts at the top for each game, and the window uses its full width
+- Scrolling a list or table inside a screen stays in that list at its top and bottom instead of scrolling the page; column headings of the long tables (XCOM, XCOM 2, Final Fantasy VII Remake materia) stay visible while scrolling
+- Number boxes in tables are wide enough for their value (decimals were cut off); on phone-width screens the -/+ buttons give way instead of running off the edge
+- Fixed a crash when opening some text saves with non-English characters near the start
+
 ## 0.6.1
 
 - Windows: the C runtime is now built into the program, so it starts without the Visual C++ Redistributable (fixes the "VCRUNTIME140.dll was not found" error)

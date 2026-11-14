@@ -4,6 +4,7 @@
 
 #![cfg_attr(target_arch = "wasm32", allow(dead_code))]
 
+use crate::widgets::ScrollLock;
 use crate::i18n::tr;
 use super::*;
 use crate::presets::{ByteChange, Preset, ValueChange};
@@ -224,7 +225,7 @@ impl App {
         let mut choice = None;
         modal(ctx, tr("Save changes as a preset"), |ui| {
             ui.label(format!("Keeps these {} change{} to make again on another save or slot of this game:", ps.preset.len(), if ps.preset.len() == 1 { "" } else { "s" }));
-            ScrollArea::vertical().max_height(180.0).show(ui, |ui| {
+            ScrollArea::vertical().max_height(180.0).show_locked(ui, |ui| {
                 for l in ps.preset.lines() {
                     ui.weak(l);
                 }
@@ -312,7 +313,7 @@ impl App {
                 ui.weak(tr("Make some changes, then use Save changes as a preset (in the Changes panel or Tools \u{203A} Presets). Presets shared by others open with Open a preset file."));
             }
             if !pa.list.is_empty() {
-                ScrollArea::vertical().id_salt("preset_list").max_height(200.0).show(ui, |ui| {
+                ScrollArea::vertical().id_salt("preset_list").max_height(200.0).show_locked(ui, |ui| {
                     for (i, (_, p)) in pa.list.iter().enumerate() {
                         ui.horizontal(|ui| {
                             let text = format!("{}  ({} change{})", p.name, p.len(), if p.len() == 1 { "" } else { "s" });
@@ -336,7 +337,7 @@ impl App {
                 if !p.game.is_empty() && p.game != kind {
                     ui.colored_label(theme::ERR, format!("Made on a {} save; this one is a {kind} save. Only the values found here are changed.", p.game));
                 }
-                ScrollArea::vertical().id_salt("preset_lines").max_height(160.0).show(ui, |ui| {
+                ScrollArea::vertical().id_salt("preset_lines").max_height(160.0).show_locked(ui, |ui| {
                     for l in p.lines() {
                         ui.weak(l);
                     }

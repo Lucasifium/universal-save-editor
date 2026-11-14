@@ -1,6 +1,7 @@
 //! Cairn: the run's statistics, the saves in the slot, and what the climber (Aava or Marco) carries (the
 //! backpack, the chalk pouch and the piton belt) as item grids.
 
+use crate::widgets::ScrollLock;
 use super::{cell_grid, hero, panel, select, selection, Cell, GameCtx};
 use crate::json_view::pointer_escape;
 use eframe::egui::{self, Color32, RichText, Ui};
@@ -46,7 +47,7 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
         let mut open = None;
         egui::CollapsingHeader::new(format!("Saves in this slot ({})", saves.len())).id_salt("cairn_saves").show(ui, |ui| {
             ui.weak("The dated saves are the game's autosaves. Cairn continues from the newest save in the slot; pick another to open it instead (unsaved changes are dropped).");
-            egui::ScrollArea::vertical().id_salt("cairn_save_list").max_height(220.0).show(ui, |ui| {
+            egui::ScrollArea::vertical().id_salt("cairn_save_list").max_height(220.0).show_locked(ui, |ui| {
                 for (entry, label) in &saves {
                     let shown = *entry == cur;
                     let resume = if newest.as_deref() == Some(entry.as_str()) { "  \u{2014} the game continues from this one" } else { "" };

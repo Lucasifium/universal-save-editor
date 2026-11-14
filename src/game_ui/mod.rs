@@ -760,6 +760,8 @@ impl GameCtx<'_> {
         if self.get(p).is_none() {
             return;
         }
+        // Never wider than the editor and its −/+ leave room for, so a narrow column doesn't push them out.
+        let label_w = label_w.min((ui.available_width() - width - 84.0).max(56.0));
         ui.horizontal(|ui| {
             let c = if self.modified(p) { theme::MODIFIED } else { ui.visuals().text_color() };
             ui.allocate_ui_with_layout(egui::vec2(label_w, 22.0), egui::Layout::left_to_right(egui::Align::Center), |ui| {

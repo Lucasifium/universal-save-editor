@@ -1,6 +1,7 @@
 //! Neverwinter Nights: the player of a module save (`<Module>.sav`) or a character file
 //! (`.bic`). Values come from `fmt::nwn`.
 
+use crate::widgets::ScrollLock;
 use super::{columns, hero, panel, GameCtx};
 use crate::json_view::pointer_escape;
 use eframe::egui::{self, Color32, RichText, Ui};
@@ -90,7 +91,7 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
                 }
             });
         } else {
-            egui::ScrollArea::vertical().id_salt("nwn_inv_s").max_height(300.0).show(ui, |ui| {
+            egui::ScrollArea::vertical().id_salt("nwn_inv_s").max_height(300.0).show_locked(ui, |ui| {
                 super::columns(ui, 280.0, stacks.len(), |ui, i| {
                     cx.row_fixed(ui, &stacks[i], &format!("/Items/{}", crate::json_view::pointer_escape(&stacks[i])), 180.0, 56.0);
                 });

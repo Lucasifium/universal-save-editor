@@ -3,6 +3,7 @@
 // Desktop uses native dialogs; this is only shown on Android.
 #![cfg_attr(not(target_os = "android"), allow(dead_code))]
 
+use crate::widgets::ScrollLock;
 use crate::i18n::tr;
 use eframe::egui::{self, RichText, ScrollArea};
 use std::path::{Path, PathBuf};
@@ -194,7 +195,7 @@ impl FileBrowser {
                     ui.colored_label(ui.visuals().error_fg_color, e);
                 }
                 let mut open_dir = None;
-                ScrollArea::vertical().auto_shrink([false, false]).show(ui, |ui| {
+                ScrollArea::vertical().auto_shrink([false, false]).show_locked(ui, |ui| {
                     ui.with_layout(egui::Layout::top_down_justified(egui::Align::Min), |ui| {
                         if self.entries.is_empty() && self.error.is_none() {
                             ui.weak(tr("(empty folder)"));

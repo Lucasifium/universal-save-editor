@@ -1,5 +1,6 @@
 //! Fallout and Fallout 2 (SAVE.DAT): the character sheet on a Pip-Boy green screen.
 
+use crate::widgets::ScrollLock;
 use super::{columns, panel, GameCtx};
 use crate::json_view::pointer_escape;
 use eframe::egui::{self, Color32, RichText, Ui};
@@ -148,7 +149,7 @@ fn sheet(ui: &mut Ui, cx: &mut GameCtx) {
                 chips(ui, &perks, "No perks yet");
                 egui::CollapsingHeader::new("Change perk ranks").id_salt("fo12_perks").show(ui, |ui| {
                     let q = super::screens2::filter_box(ui, "fo12_perks", "perk name\u{2026}");
-                    egui::ScrollArea::vertical().id_salt("fo12_perk_list").max_height(260.0).show(ui, |ui| {
+                    egui::ScrollArea::vertical().id_salt("fo12_perk_list").max_height(260.0).show_locked(ui, |ui| {
                         for k in keys(cx, "/Perk ranks") {
                             if q.is_empty() || k.to_lowercase().contains(&q) {
                                 cx.row_fixed(ui, &k, &join("/Perk ranks", &k), 200.0, 60.0);
@@ -176,7 +177,7 @@ fn sheet(ui: &mut Ui, cx: &mut GameCtx) {
             return;
         }
         let q = filter(ui);
-        egui::ScrollArea::vertical().id_salt("fo_inv").max_height(420.0).show(ui, |ui| {
+        egui::ScrollArea::vertical().id_salt("fo_inv").max_height(420.0).show_locked(ui, |ui| {
             egui::Grid::new("fo_inv_g").num_columns(3).striped(true).spacing([16.0, 4.0]).show(ui, |ui| {
                 ui.label(RichText::new("Item").strong());
                 ui.label(RichText::new("Count").strong());

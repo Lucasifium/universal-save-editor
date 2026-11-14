@@ -4,6 +4,7 @@
 //!
 //! Values are found by pointer and simply left out when a save doesn't have them.
 
+use crate::widgets::ScrollLock;
 use super::{columns, hero, panel, GameCtx};
 use eframe::egui::{self, Color32, Ui};
 use serde_json::Value;
@@ -305,7 +306,7 @@ pub fn show(i: u16, ui: &mut Ui, cx: &mut GameCtx) {
         }
         panel(ui, &format!("{} ({n})", t.title), |ui| {
             let q = filter(ui, &format!("t{i}/{ti}"));
-            egui::ScrollArea::horizontal().id_salt(("simple_table_scroll", i, ti)).show(ui, |ui| {
+            egui::ScrollArea::horizontal().id_salt(("simple_table_scroll", i, ti)).show_locked(ui, |ui| {
                 egui::Grid::new(("simple_table", i, ti)).num_columns(t.cols.len() + 1).spacing([8.0, 4.0]).striped(true).show(ui, |ui| {
                     ui.label("");
                     for (h, _) in t.cols {

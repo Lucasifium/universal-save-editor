@@ -3,6 +3,7 @@
 //! object can be `{"$ref": "N"}` pointing at the object whose `$id` is N in the same file,
 //! so values are found through those links.
 
+use crate::widgets::ScrollLock;
 use super::{columns, fact, hero, panel, tabs, GameCtx};
 use crate::json_view::pointer_escape;
 use eframe::egui::{self, Color32, Ui};
@@ -202,7 +203,7 @@ fn story_flags(ui: &mut Ui, cx: &mut GameCtx, wotr: bool) {
     panel(ui, &format!("Story flags ({})", rows.len()), |ui| {
         super::screens2::story_guard(ui, |ui| {
             let q = super::screens2::filter_box(ui, "pf_flags", "e.g. Romance, Amiri, Unlock");
-            egui::ScrollArea::vertical().id_salt("pf_flags_scroll").max_height(340.0).show(ui, |ui| {
+            egui::ScrollArea::vertical().id_salt("pf_flags_scroll").max_height(340.0).show_locked(ui, |ui| {
                 for (n, p) in rows.iter().filter(|r| q.is_empty() || r.0.to_lowercase().contains(&q)).take(400) {
                     cx.row_fixed(ui, n, p, 320.0, 90.0);
                 }

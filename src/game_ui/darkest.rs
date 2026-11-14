@@ -2,6 +2,7 @@
 //! `fmt::darkest`) and Darkest Dungeon II (plain JSON: the profile, a run and its heroes).
 //! One file at a time, as the games keep them: the screen shows what the open file holds.
 
+use crate::widgets::ScrollLock;
 use super::{columns, fact, fmt_num, hero, panel, words, GameCtx};
 use crate::json_view::pointer_escape;
 use crate::theme;
@@ -106,7 +107,7 @@ fn estate(ui: &mut Ui, cx: &mut GameCtx) {
                 ui.weak("None.");
                 return;
             }
-            egui::ScrollArea::vertical().id_salt(base).max_height(320.0).show(ui, |ui| {
+            egui::ScrollArea::vertical().id_salt(base).max_height(320.0).show_locked(ui, |ui| {
                 egui::Grid::new(("dd_items", base)).num_columns(2).spacing([16.0, 4.0]).striped(true).show(ui, |ui| {
                     for k in &items {
                         let at = join(base, k);
@@ -154,7 +155,7 @@ fn roster(ui: &mut Ui, cx: &mut GameCtx) {
         return;
     }
     panel(ui, "Heroes", |ui| {
-        egui::ScrollArea::horizontal().id_salt("dd_roster").show(ui, |ui| {
+        egui::ScrollArea::horizontal().id_salt("dd_roster").show_locked(ui, |ui| {
             egui::Grid::new("dd_roster_grid").num_columns(7).spacing([12.0, 5.0]).striped(true).show(ui, |ui| {
                 for h in ["Hero", "Class", "Resolve XP", "Stress", "HP", "Weapon", "Armour"] {
                     ui.label(RichText::new(h).strong());
@@ -293,7 +294,7 @@ fn dd2_profile(ui: &mut Ui, cx: &mut GameCtx) {
         if col == 0 {
             let unlocks: Vec<String> = cx.get("/m_UnlockContainer/m_Unlocks").and_then(Value::as_array).map(|a| a.iter().filter_map(Value::as_str).map(words).collect()).unwrap_or_default();
             panel(ui, &format!("Unlocked at the Altar of Hope ({})", unlocks.len()), |ui| {
-                egui::ScrollArea::vertical().id_salt("dd2_unlocks").max_height(300.0).show(ui, |ui| {
+                egui::ScrollArea::vertical().id_salt("dd2_unlocks").max_height(300.0).show_locked(ui, |ui| {
                     for u in &unlocks {
                         ui.label(u);
                     }
