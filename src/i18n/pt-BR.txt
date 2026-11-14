@@ -16312,3 +16312,122 @@ Slot 4: weapon and spirit skills
 
 Slot 4: party
 = Slot 4: grupo
+A PlayStation save (memory card, .mcs, .psx or .psv). The options and unlocked endings, and for every save slot in the file the difficulty, health, save and continue counts, shooting statistics and the whole inventory with item and quantity. The checksums are written again.
+= Um save de PlayStation (cartão de memória, .mcs, .psx ou .psv). As opções e os finais desbloqueados e, para cada slot de save do arquivo, a dificuldade, a saúde, os contadores de saves e continuações, as estatísticas de tiros e todo o inventário com item e quantidade. As somas de verificação são gravadas de novo.
+
+Close the emulator first. The checksums of the options, the slots and the save previews are written again on save.
+= Feche o emulador primeiro. As somas de verificação das opções, dos slots e das prévias de save são gravadas de novo ao salvar.
+
+Bad
+= Final ruim
+
+Bad+
+= Final ruim+
+
+Good
+= Final bom
+
+Good+
+= Final bom+
+
+UFO
+= UFO
+
+Blood color
+= Cor do sangue
+
+Brightness level
+= Nível de brilho
+
+Bullet adjust
+= Ajuste de munição
+
+Channeling stone available
+= Pedra de canalização disponível
+
+Game clear
+= Jogos zerados
+
+Gasoline tank available
+= Tanque de gasolina disponível
+
+Hyper Blaster available
+= Hyper Blaster disponível
+
+Katana room unlocked
+= Sala da katana desbloqueada
+
+Long range shots
+= Tiros a longa distância
+
+Middle range shots
+= Tiros a média distância
+
+Short range shots
+= Tiros a curta distância
+
+Total shots
+= Total de tiros
+
+Saves
+= Saves
+
+Unlocked endings
+= Finais desbloqueados
+
+Slot 1: general
+= Slot 1: geral
+
+Slot 2: general
+= Slot 2: geral
+
+Slot 3: general
+= Slot 3: geral
+
+Slot 4: general
+= Slot 4: geral
+
+Slot 4: inventory
+= Slot 4: inventário
+
+Slot 5: general
+= Slot 5: geral
+
+Slot 5: inventory
+= Slot 5: inventário
+
+Slot 6: general
+= Slot 6: geral
+
+Slot 6: inventory
+= Slot 6: inventário
+
+Slot 7: general
+= Slot 7: geral
+
+Slot 7: inventory
+= Slot 7: inventário
+
+Slot 8: general
+= Slot 8: geral
+
+Slot 8: inventory
+= Slot 8: inventário
+
+Slot 9: general
+= Slot 9: geral
+
+Slot 9: inventory
+= Slot 9: inventário
+
+Slot 10: general
+= Slot 10: geral
+
+Slot 10: inventory
+= Slot 10: inventário
+
+Slot 11: general
+= Slot 11: geral
+
+Slot 11: inventory
+= Slot 11: inventário

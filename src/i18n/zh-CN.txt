@@ -16395,3 +16395,122 @@ Slot 4: weapon and spirit skills
 
 Slot 4: party
 = 存档位 4:队伍
+A PlayStation save (memory card, .mcs, .psx or .psv). The options and unlocked endings, and for every save slot in the file the difficulty, health, save and continue counts, shooting statistics and the whole inventory with item and quantity. The checksums are written again.
+= PlayStation存档(存储卡、.mcs、.psx或.psv)。选项和已解锁的结局,以及文件中每个存档位的难度、生命值、存档和继续次数、射击统计,以及包含物品和数量的整个背包。校验和会重新写入。
+
+Close the emulator first. The checksums of the options, the slots and the save previews are written again on save.
+= 请先关闭模拟器。保存时会重新写入选项、存档位和存档预览的校验和。
+
+Bad
+= 坏结局
+
+Bad+
+= 坏结局+
+
+Good
+= 好结局
+
+Good+
+= 好结局+
+
+UFO
+= UFO
+
+Blood color
+= 血液颜色
+
+Brightness level
+= 亮度
+
+Bullet adjust
+= 弹药调整
+
+Channeling stone available
+= 通灵石可获得
+
+Game clear
+= 通关次数
+
+Gasoline tank available
+= 汽油桶可获得
+
+Hyper Blaster available
+= 超级爆能枪可获得
+
+Katana room unlocked
+= 武士刀房间已解锁
+
+Long range shots
+= 远距离射击次数
+
+Middle range shots
+= 中距离射击次数
+
+Short range shots
+= 近距离射击次数
+
+Total shots
+= 射击总数
+
+Saves
+= 存档次数
+
+Unlocked endings
+= 已解锁的结局
+
+Slot 1: general
+= 存档位1:常规
+
+Slot 2: general
+= 存档位2:常规
+
+Slot 3: general
+= 存档位3:常规
+
+Slot 4: general
+= 存档位4:常规
+
+Slot 4: inventory
+= 存档位4:背包
+
+Slot 5: general
+= 存档位5:常规
+
+Slot 5: inventory
+= 存档位5:背包
+
+Slot 6: general
+= 存档位6:常规
+
+Slot 6: inventory
+= 存档位6:背包
+
+Slot 7: general
+= 存档位7:常规
+
+Slot 7: inventory
+= 存档位7:背包
+
+Slot 8: general
+= 存档位8:常规
+
+Slot 8: inventory
+= 存档位8:背包
+
+Slot 9: general
+= 存档位9:常规
+
+Slot 9: inventory
+= 存档位9:背包
+
+Slot 10: general
+= 存档位10:常规
+
+Slot 10: inventory
+= 存档位10:背包
+
+Slot 11: general
+= 存档位11:常规
+
+Slot 11: inventory
+= 存档位11:背包

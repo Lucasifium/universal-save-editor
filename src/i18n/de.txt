@@ -16338,3 +16338,122 @@ Slot 4: weapon and spirit skills
 
 Slot 4: party
 = Slot 4: Gruppe
+A PlayStation save (memory card, .mcs, .psx or .psv). The options and unlocked endings, and for every save slot in the file the difficulty, health, save and continue counts, shooting statistics and the whole inventory with item and quantity. The checksums are written again.
+= Ein PlayStation-Spielstand (Memory Card, .mcs, .psx oder .psv). Die Optionen und freigeschalteten Enden sowie für jeden Speicherplatz der Datei Schwierigkeit, Gesundheit, Speicher- und Fortsetzungszähler, Schussstatistik und das ganze Inventar mit Gegenstand und Anzahl. Die Prüfsummen werden neu geschrieben.
+
+Close the emulator first. The checksums of the options, the slots and the save previews are written again on save.
+= Beende zuerst den Emulator. Die Prüfsummen der Optionen, der Speicherplätze und der Speichervorschauen werden beim Speichern neu geschrieben.
+
+Bad
+= Schlechtes Ende
+
+Bad+
+= Schlechtes Ende+
+
+Good
+= Gutes Ende
+
+Good+
+= Gutes Ende+
+
+UFO
+= UFO
+
+Blood color
+= Blutfarbe
+
+Brightness level
+= Helligkeit
+
+Bullet adjust
+= Munitionsanpassung
+
+Channeling stone available
+= Kanalisierungsstein verfügbar
+
+Game clear
+= Spiel durchgespielt
+
+Gasoline tank available
+= Benzintank verfügbar
+
+Hyper Blaster available
+= Hyper Blaster verfügbar
+
+Katana room unlocked
+= Katana-Raum freigeschaltet
+
+Long range shots
+= Schüsse auf große Distanz
+
+Middle range shots
+= Schüsse auf mittlere Distanz
+
+Short range shots
+= Schüsse auf kurze Distanz
+
+Total shots
+= Schüsse insgesamt
+
+Saves
+= Speichervorgänge
+
+Unlocked endings
+= Freigeschaltete Enden
+
+Slot 1: general
+= Spielstand 1: Allgemein
+
+Slot 2: general
+= Spielstand 2: Allgemein
+
+Slot 3: general
+= Spielstand 3: Allgemein
+
+Slot 4: general
+= Spielstand 4: Allgemein
+
+Slot 4: inventory
+= Spielstand 4: Inventar
+
+Slot 5: general
+= Spielstand 5: Allgemein
+
+Slot 5: inventory
+= Spielstand 5: Inventar
+
+Slot 6: general
+= Spielstand 6: Allgemein
+
+Slot 6: inventory
+= Spielstand 6: Inventar
+
+Slot 7: general
+= Spielstand 7: Allgemein
+
+Slot 7: inventory
+= Spielstand 7: Inventar
+
+Slot 8: general
+= Spielstand 8: Allgemein
+
+Slot 8: inventory
+= Spielstand 8: Inventar
+
+Slot 9: general
+= Spielstand 9: Allgemein
+
+Slot 9: inventory
+= Spielstand 9: Inventar
+
+Slot 10: general
+= Spielstand 10: Allgemein
+
+Slot 10: inventory
+= Spielstand 10: Inventar
+
+Slot 11: general
+= Spielstand 11: Allgemein
+
+Slot 11: inventory
+= Spielstand 11: Inventar

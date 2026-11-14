@@ -16334,3 +16334,122 @@ Slot 4: weapon and spirit skills
 
 Slot 4: party
 = Ranura 4: grupo
+A PlayStation save (memory card, .mcs, .psx or .psv). The options and unlocked endings, and for every save slot in the file the difficulty, health, save and continue counts, shooting statistics and the whole inventory with item and quantity. The checksums are written again.
+= Una partida de PlayStation (tarjeta de memoria, .mcs, .psx o .psv). Las opciones y los finales desbloqueados y, por cada ranura de guardado del archivo, la dificultad, la salud, los contadores de guardados y continuaciones, las estadísticas de disparos y todo el inventario con objeto y cantidad. Las sumas de comprobación se vuelven a escribir.
+
+Close the emulator first. The checksums of the options, the slots and the save previews are written again on save.
+= Cierra primero el emulador. Las sumas de comprobación de las opciones, las ranuras y las vistas previas se vuelven a escribir al guardar.
+
+Bad
+= Final malo
+
+Bad+
+= Final malo+
+
+Good
+= Final bueno
+
+Good+
+= Final bueno+
+
+UFO
+= UFO
+
+Blood color
+= Color de la sangre
+
+Brightness level
+= Nivel de brillo
+
+Bullet adjust
+= Ajuste de munición
+
+Channeling stone available
+= Piedra de canalización disponible
+
+Game clear
+= Partidas completadas
+
+Gasoline tank available
+= Depósito de gasolina disponible
+
+Hyper Blaster available
+= Hyper Blaster disponible
+
+Katana room unlocked
+= Sala de la katana desbloqueada
+
+Long range shots
+= Disparos a larga distancia
+
+Middle range shots
+= Disparos a media distancia
+
+Short range shots
+= Disparos a corta distancia
+
+Total shots
+= Disparos totales
+
+Saves
+= Guardados
+
+Unlocked endings
+= Finales desbloqueados
+
+Slot 1: general
+= Ranura 1: general
+
+Slot 2: general
+= Ranura 2: general
+
+Slot 3: general
+= Ranura 3: general
+
+Slot 4: general
+= Ranura 4: general
+
+Slot 4: inventory
+= Ranura 4: inventario
+
+Slot 5: general
+= Ranura 5: general
+
+Slot 5: inventory
+= Ranura 5: inventario
+
+Slot 6: general
+= Ranura 6: general
+
+Slot 6: inventory
+= Ranura 6: inventario
+
+Slot 7: general
+= Ranura 7: general
+
+Slot 7: inventory
+= Ranura 7: inventario
+
+Slot 8: general
+= Ranura 8: general
+
+Slot 8: inventory
+= Ranura 8: inventario
+
+Slot 9: general
+= Ranura 9: general
+
+Slot 9: inventory
+= Ranura 9: inventario
+
+Slot 10: general
+= Ranura 10: general
+
+Slot 10: inventory
+= Ranura 10: inventario
+
+Slot 11: general
+= Ranura 11: general
+
+Slot 11: inventory
+= Ranura 11: inventario

@@ -16345,3 +16345,122 @@ Slot 4: weapon and spirit skills
 
 Slot 4: party
 = Emplacement 4 : équipe
+A PlayStation save (memory card, .mcs, .psx or .psv). The options and unlocked endings, and for every save slot in the file the difficulty, health, save and continue counts, shooting statistics and the whole inventory with item and quantity. The checksums are written again.
+= Une sauvegarde PlayStation (carte mémoire, .mcs, .psx ou .psv). Les options et les fins débloquées et, pour chaque emplacement de sauvegarde du fichier, la difficulté, la santé, les compteurs de sauvegardes et de continuations, les statistiques de tir et tout l'inventaire avec objet et quantité. Les sommes de contrôle sont réécrites.
+
+Close the emulator first. The checksums of the options, the slots and the save previews are written again on save.
+= Ferme d'abord l'émulateur. Les sommes de contrôle des options, des emplacements et des aperçus de sauvegarde sont réécrites à l'enregistrement.
+
+Bad
+= Mauvaise fin
+
+Bad+
+= Mauvaise fin+
+
+Good
+= Bonne fin
+
+Good+
+= Bonne fin+
+
+UFO
+= UFO
+
+Blood color
+= Couleur du sang
+
+Brightness level
+= Niveau de luminosité
+
+Bullet adjust
+= Réglage des munitions
+
+Channeling stone available
+= Pierre de canalisation disponible
+
+Game clear
+= Parties terminées
+
+Gasoline tank available
+= Réservoir d'essence disponible
+
+Hyper Blaster available
+= Hyper Blaster disponible
+
+Katana room unlocked
+= Salle du katana déverrouillée
+
+Long range shots
+= Tirs à longue distance
+
+Middle range shots
+= Tirs à moyenne distance
+
+Short range shots
+= Tirs à courte distance
+
+Total shots
+= Total des tirs
+
+Saves
+= Sauvegardes
+
+Unlocked endings
+= Fins débloquées
+
+Slot 1: general
+= Emplacement 1 : général
+
+Slot 2: general
+= Emplacement 2 : général
+
+Slot 3: general
+= Emplacement 3 : général
+
+Slot 4: general
+= Emplacement 4 : général
+
+Slot 4: inventory
+= Emplacement 4 : inventaire
+
+Slot 5: general
+= Emplacement 5 : général
+
+Slot 5: inventory
+= Emplacement 5 : inventaire
+
+Slot 6: general
+= Emplacement 6 : général
+
+Slot 6: inventory
+= Emplacement 6 : inventaire
+
+Slot 7: general
+= Emplacement 7 : général
+
+Slot 7: inventory
+= Emplacement 7 : inventaire
+
+Slot 8: general
+= Emplacement 8 : général
+
+Slot 8: inventory
+= Emplacement 8 : inventaire
+
+Slot 9: general
+= Emplacement 9 : général
+
+Slot 9: inventory
+= Emplacement 9 : inventaire
+
+Slot 10: general
+= Emplacement 10 : général
+
+Slot 10: inventory
+= Emplacement 10 : inventaire
+
+Slot 11: general
+= Emplacement 11 : général
+
+Slot 11: inventory
+= Emplacement 11 : inventaire

@@ -16422,3 +16422,122 @@ Slot 4: weapon and spirit skills
 
 Slot 4: party
 = スロット4:パーティ
+A PlayStation save (memory card, .mcs, .psx or .psv). The options and unlocked endings, and for every save slot in the file the difficulty, health, save and continue counts, shooting statistics and the whole inventory with item and quantity. The checksums are written again.
+= PlayStationのセーブ(メモリーカード、.mcs、.psx、.psv)。オプションと解放済みエンディング、そしてファイル内の各セーブスロットの難易度、体力、セーブ回数とコンティニュー回数、射撃の統計、アイテムと数量を含むインベントリ全体。チェックサムは書き直されます。
+
+Close the emulator first. The checksums of the options, the slots and the save previews are written again on save.
+= 先にエミュレーターを閉じてください。保存時に、オプション、スロット、セーブプレビューのチェックサムが書き直されます。
+
+Bad
+= バッドエンディング
+
+Bad+
+= バッドエンディング+
+
+Good
+= グッドエンディング
+
+Good+
+= グッドエンディング+
+
+UFO
+= UFO
+
+Blood color
+= 血の色
+
+Brightness level
+= 明るさ
+
+Bullet adjust
+= 弾の調整
+
+Channeling stone available
+= チャネリングストーン入手可能
+
+Game clear
+= クリア回数
+
+Gasoline tank available
+= ガソリンタンク入手可能
+
+Hyper Blaster available
+= ハイパーブラスター入手可能
+
+Katana room unlocked
+= 刀の部屋の解錠済み
+
+Long range shots
+= 遠距離の射撃数
+
+Middle range shots
+= 中距離の射撃数
+
+Short range shots
+= 近距離の射撃数
+
+Total shots
+= 総射撃数
+
+Saves
+= セーブ回数
+
+Unlocked endings
+= 解放済みエンディング
+
+Slot 1: general
+= スロット1:全般
+
+Slot 2: general
+= スロット2:全般
+
+Slot 3: general
+= スロット3:全般
+
+Slot 4: general
+= スロット4:全般
+
+Slot 4: inventory
+= スロット4:インベントリ
+
+Slot 5: general
+= スロット5:全般
+
+Slot 5: inventory
+= スロット5:インベントリ
+
+Slot 6: general
+= スロット6:全般
+
+Slot 6: inventory
+= スロット6:インベントリ
+
+Slot 7: general
+= スロット7:全般
+
+Slot 7: inventory
+= スロット7:インベントリ
+
+Slot 8: general
+= スロット8:全般
+
+Slot 8: inventory
+= スロット8:インベントリ
+
+Slot 9: general
+= スロット9:全般
+
+Slot 9: inventory
+= スロット9:インベントリ
+
+Slot 10: general
+= スロット10:全般
+
+Slot 10: inventory
+= スロット10:インベントリ
+
+Slot 11: general
+= スロット11:全般
+
+Slot 11: inventory
+= スロット11:インベントリ

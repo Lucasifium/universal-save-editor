@@ -205,6 +205,7 @@ pub mod ff8;
 pub mod fft;
 pub mod re1;
 pub mod thps;
+pub mod silenthill;
 pub mod ctr;
 pub mod rayman;
 pub mod gt1;
@@ -316,6 +317,11 @@ pub fn parse_binary(d: &[u8]) -> Option<TreeDoc> {
     }
     if ctr::looks(d) {
         if let Ok(t) = ctr::parse(d) {
+            return Some(t);
+        }
+    }
+    if silenthill::looks(d) {
+        if let Ok(t) = silenthill::parse(d) {
             return Some(t);
         }
     }
