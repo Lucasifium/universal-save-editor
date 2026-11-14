@@ -35,59 +35,123 @@ const HEAD: usize = 96;
 const OBJS: u32 = 0x06B9_81ED;
 const FLAT: &[u8; 4] = b"S3FL";
 
-/// Skills the editor offers (class name, as the game screen shows it, highest level). Only
-/// skills seen at level 10 in real saves are listed; toddler, child and lesson skills and the
-/// ones kept in the plain `Skill` class are left alone.
-pub const SKILLS: &[(&str, &str)] = &[
-    ("Athletic", tx("Athletic")),
-    ("Charisma", tx("Charisma")),
-    ("Cooking", tx("Cooking")),
-    ("Fishing", tx("Fishing")),
-    ("Gardening", tx("Gardening")),
-    ("Guitar", tx("Guitar")),
-    ("Handiness", tx("Handiness")),
-    ("LogicSkill", tx("Logic")),
-    ("PaintingSkill", tx("Painting")),
-    ("Writing", tx("Writing")),
-    ("Chess", tx("Chess")),
-    ("Hacking", tx("Hacking")),
-    ("Mooch", tx("Mooch")),
-    ("Collecting", tx("Collecting")),
-    ("Photography", tx("Photography")),
-    ("MartialArts", tx("Martial Arts")),
-    ("SnakeCharming", tx("Snake Charming")),
-    ("NectarSkill", tx("Nectar Making")),
-    ("ScubaDivingSkill", tx("Scuba Diving")),
-    ("SculptingSkill", tx("Sculpting")),
-    ("InventingSkill", tx("Inventing")),
-    ("Consignment", tx("Consignment")),
-    ("Piano", tx("Piano")),
-    ("Bartending", tx("Mixology")),
-    ("DrumSkill", tx("Drums")),
-    ("BassGuitarSkill", tx("Bass")),
-    ("DartSkill", tx("Darts")),
-    ("BubblesSkill", tx("Bubble Blowing")),
-    ("ArcadeMachineSkill", tx("Arcade Machines")),
-    ("RidingSkill", tx("Riding")),
-    ("GolfingSkill", tx("Golf")),
-    ("GamblingSkill", tx("Gambling")),
-    ("PoolSkill", tx("Pool")),
-    ("Dominoes", tx("Dominoes")),
-    ("MagicSkill", tx("Magic")),
-    ("SpellcraftSkill", tx("Spellcraft")),
-    ("SpellcastingSkill", tx("Spellcasting")),
-    ("BroomRidingSkill", tx("Broom Riding")),
-    ("StreetArtSkill", tx("Street Art")),
-    ("ScienceSkill", tx("Science")),
-    ("InfluenceSkillNerd", tx("Nerd Influence")),
-    ("InfluenceSkillRebel", tx("Rebel Influence")),
-    ("InfluenceSkillSocialite", tx("Socialite Influence")),
-    ("SocialNetworkingSkill", tx("Social Networking")),
-    ("BotBuildingSkill", tx("Bot Building")),
-    ("FutureSkill", tx("Advanced Technology")),
-    ("LaserHarpSkill", tx("Laser Rhythm-a-con")),
+/// Skills the editor offers: the skill's id (its `mSkillGuid`), the name the game shows and
+/// its highest level. Ids are matched to names through the skill classes found in saves and
+/// the public skill tuning lists; skills whose id couldn't be named are left out.
+pub const SKILLS: &[(u64, &str, i64)] = &[
+    (2, tx("Athletic"), 10),
+    (3, tx("Charisma"), 10),
+    (5, tx("Cooking"), 10),
+    (6, tx("Dancing"), 3),
+    (7, tx("Diving"), 5),
+    (8, tx("Fishing"), 10),
+    (9, tx("Gardening"), 10),
+    (10, tx("Guitar"), 10),
+    (11, tx("Handiness"), 10),
+    (12, tx("Logic"), 10),
+    (13, tx("Painting"), 10),
+    (15, tx("Potty Training"), 1),
+    (16, tx("Talking"), 1),
+    (17, tx("Walking"), 1),
+    (18, tx("Chess"), 10),
+    (19, tx("Hacking"), 10),
+    (20, tx("Video Gaming"), 10),
+    (21, tx("Writing"), 10),
+    (22, tx("Mooch"), 10),
+    (23, tx("Xylophone"), 3),
+    (24, tx("Homework"), 10),
+    (25, tx("Peg Box"), 3),
+    (26, tx("Air Guitar"), 10),
+    (27, tx("Blocks"), 3),
+    (28, tx("Child Cooking"), 3),
+    (29, tx("Collecting"), 10),
+    (30, tx("Photography"), 10),
+    (31, tx("Foosball"), 10),
+    (32, tx("Martial Arts"), 10),
+    (33, tx("Snake Charming"), 10),
+    (34, tx("Nectar Making"), 10),
+    (35, tx("Tattooing"), 10),
+    (36, tx("Trampoline"), 10),
+    (37, tx("Sculpting"), 10),
+    (38, tx("Gnubb"), 10),
+    (39, tx("Inventing"), 10),
+    (40, tx("Consignment"), 10),
+    (41, tx("Styling"), 10),
+    (48, tx("Piano"), 10),
+    (49, tx("Club Dancing"), 3),
+    (50, tx("Shuffleboard"), 10),
+    (51, tx("Mixology"), 10),
+    (52, tx("Rock Band"), 1),
+    (53, tx("Bass"), 10),
+    (54, tx("Drums"), 10),
+    (55, tx("Darts"), 10),
+    (56, tx("Bubble Blowing"), 10),
+    (57, tx("Arcade Machines"), 10),
+    (64, tx("Child Gardening"), 3),
+    (65, tx("Child Athletic"), 3),
+    (66, tx("Child Guitar"), 3),
+    (67, tx("Child Piano"), 3),
+    (68, tx("Child Bass"), 3),
+    (69, tx("Child Drums"), 3),
+    (70, tx("Sandbox"), 4),
+    (71, tx("Learning to Drive"), 3),
+    (72, tx("Ballet"), 3),
+    (73, tx("Scouting"), 3),
+    (80, tx("Hopscotch"), 10),
+    (81, tx("Riding"), 10),
+    (82, tx("Jumping"), 10),
+    (83, tx("Racing"), 10),
+    (84, tx("Wildlife Friend"), 6),
+    (85, tx("Tricks"), 5),
+    (86, tx("Cat Hunting"), 10),
+    (87, tx("Dog Hunting"), 10),
+    (88, tx("Golf"), 10),
+    (89, tx("Gambling"), 10),
+    (96, tx("Acrobatics"), 10),
+    (97, tx("Magic"), 10),
+    (98, tx("Singing"), 10),
+    (99, tx("Pool"), 10),
+    (100, tx("Karaoke"), 3),
+    (101, tx("DJ Turntable"), 5),
+    (102, tx("Dominoes"), 10),
+    (103, tx("Alchemy"), 10),
+    (104, tx("Lycanthropy"), 10),
+    (105, tx("Broom Riding"), 10),
+    (112, tx("Spellcasting"), 10),
+    (113, tx("Fairy Magic"), 10),
+    (120, tx("Street Art"), 10),
+    (121, tx("Science"), 10),
+    (128, tx("Nerd Influence"), 10),
+    (129, tx("Rebel Influence"), 10),
+    (130, tx("Socialite Influence"), 10),
+    (131, tx("Social Networking"), 10),
+    (132, tx("Bot Building"), 10),
+    (133, tx("Advanced Technology"), 10),
+    (134, tx("Laser Rhythm-a-con"), 10),
+    (144, tx("Scuba Diving"), 10),
 ];
-pub const SKILL_MAX: i64 = 10;
+
+/// Needs (motives) shown: the commodity id and its name. Values go from -100 to 100.
+pub const NEEDS: &[(u32, &str)] = &[
+    (0x010F_38D7, tx("Hunger")),
+    (0x010F_38D8, tx("Energy")),
+    (0x010F_38D6, tx("Bladder")),
+    (0x010F_38D9, tx("Hygiene")),
+    (0x010F_38E0, tx("Social")),
+    (0x010F_38DA, tx("Fun")),
+    (0x0126_B27F, tx("Thirst")),
+    (0x0159_68DD, tx("Battery")),
+    (0x0159_68E4, tx("Maintenance")),
+    (0x01A9_8DA1, tx("Scratch")),
+    (0x01A9_8DA0, tx("Destruction")),
+    (0x01A9_8DA2, tx("Exercise")),
+    (0x01A9_8DA3, tx("Horse thirst")),
+];
+
+/// Highest level of a skill shown under `name`.
+pub fn skill_max(name: &str) -> i64 {
+    SKILLS.iter().find(|(_, n, _)| *n == name).map_or(10, |s| s.2)
+}
 
 fn u32_at(d: &[u8], o: usize) -> Option<u32> {
     Some(u32::from_le_bytes(d.get(o..o.checked_add(4)?)?.try_into().ok()?))
@@ -372,13 +436,37 @@ fn shown_name(s: &str) -> String {
     }
 }
 
+/// The value of an enum field at `p` (class number, type byte, value).
+fn enum_at(d: &[u8], p: usize) -> Option<u64> {
+    let mut q = p;
+    vi_be(d, &mut q)?;
+    let t = *d.get(q)?;
+    q += 1;
+    Some(match t {
+        3 => u64::from(*d.get(q)?),
+        9 | 14 => u64::from(u32_at(d, q)?),
+        10 | 15 => u64::from_le_bytes(d.get(q..q + 8)?.try_into().ok()?),
+        _ => return None,
+    })
+}
+
+#[derive(Default)]
 struct Sim {
     name: String,
     house: usize,
+    actor: usize,
     happiness: usize,
     points: usize,
     total: f32,
-    skills: Vec<(&'static str, usize)>,
+    career: usize,
+    celebrity: usize,
+    skills: Vec<(usize, usize)>,
+    needs: Vec<(usize, usize, usize)>,
+    job: Option<(usize, i64)>,
+    school: Option<(usize, i64)>,
+    fame: Option<(usize, usize)>,
+    occult_ref: usize,
+    occult: Option<u64>,
 }
 
 pub fn parse(f: &[u8]) -> Result<TreeDoc, String> {
@@ -393,18 +481,24 @@ pub fn parse(f: &[u8]) -> Result<TreeDoc, String> {
     let offs: Vec<usize> = (0..n).map(|i| u32_at(d, otab + 4 * i).unwrap_or(0) as usize).collect();
     let end = |i: usize| if i + 1 < n { offs[i + 1] } else { otab };
     let find = |name: &str| cls.iter().position(|c| c.name == name);
+    let has = |c: &Class, f: &str| c.fields.iter().any(|(x, _)| x == f);
     let household = find("Sims3.Gameplay.CAS.Household");
     let simdesc = find("Sims3.Gameplay.CAS.SimDescription");
+    let motives = find("Sims3.Gameplay.Autonomy.Motives");
     let text = find("System.String");
-    let skill_class: HashMap<usize, &'static str> = cls
-        .iter()
-        .enumerate()
-        .filter(|(_, c)| c.fields.iter().any(|(f, _)| f == "SkillLevel") && c.fields.iter().any(|(f, _)| f == "mSkillOwner"))
-        .filter_map(|(i, c)| {
-            let short = c.name.rsplit('.').next().unwrap_or("");
-            SKILLS.iter().find(|(k, _)| *k == short).map(|(_, v)| (i, *v))
-        })
-        .collect();
+    let skill_class: Vec<bool> = cls.iter().map(|c| has(c, "SkillLevel") && has(c, "mSkillOwner") && has(c, "mSkillGuid")).collect();
+    // The class and fields of object `r - 1` (a reference).
+    let object = |r: usize| -> Option<(usize, Vec<(String, usize)>)> {
+        let i = r.checked_sub(1)?;
+        if i >= n {
+            return None;
+        }
+        let (a, b) = (offs[i], end(i));
+        if a + 5 > b || b > d.len() {
+            return None;
+        }
+        Some((u32_at(d, a + 1)? as usize, fields_of(d, a, b, &cls)?))
+    };
     let str_at = |r: u32| -> String {
         let i = r as usize;
         if i == 0 || i > n {
@@ -417,41 +511,104 @@ pub fn parse(f: &[u8]) -> Result<TreeDoc, String> {
         string(d, a, b).unwrap_or_default()
     };
     let at = |all: &[(String, usize)], name: &str| all.iter().find(|(f, _)| f == name).map(|(_, p)| *p);
-    // Households (object number -> name, funds offset), Sims, skills by owner.
+    let refv = |all: &[(String, usize)], name: &str| at(all, name).and_then(|p| u32_at(d, p)).unwrap_or(0) as usize;
     let mut houses: Vec<(usize, String, usize)> = vec![];
     let mut sims: HashMap<usize, Sim> = HashMap::new();
     let mut order: Vec<usize> = vec![];
-    let mut skills: Vec<(usize, &'static str, usize)> = vec![];
+    let mut skills: Vec<(usize, u64, usize)> = vec![];
+    let mut needs_of: Vec<(usize, Vec<(usize, usize, usize)>)> = vec![];
     for i in 0..n {
         let (a, b) = (offs[i], end(i));
         if a + 5 > b || b > d.len() || d[a] != 0x10 {
             continue;
         }
         let c = u32_at(d, a + 1).unwrap_or(u32::MAX) as usize;
-        let wanted = Some(c) == household || Some(c) == simdesc || skill_class.contains_key(&c);
-        if !wanted {
+        let is_skill = skill_class.get(c).copied().unwrap_or(false);
+        if !(Some(c) == household || Some(c) == simdesc || Some(c) == motives || is_skill) {
             continue;
         }
         let Some(all) = fields_of(d, a, b, &cls) else { continue };
-        let r = |name: &str| at(&all, name).and_then(|p| u32_at(d, p)).unwrap_or(0);
+        let r = |name: &str| refv(&all, name);
         if Some(c) == household {
             if let Some(m) = at(&all, "mFamilyFunds") {
-                houses.push((i, str_at(r("mName")), m));
+                houses.push((i, str_at(r("mName") as u32), m));
             }
         } else if Some(c) == simdesc {
             let (Some(h), Some(p)) = (at(&all, "mLifetimeHappiness"), at(&all, "mSpendableHappiness")) else { continue };
-            let name = format!("{} {}", shown_name(&str_at(r("mFirstName"))), shown_name(&str_at(r("mLastName")))).trim().to_string();
+            let name = format!("{} {}", shown_name(&str_at(r("mFirstName") as u32)), shown_name(&str_at(r("mLastName") as u32))).trim().to_string();
             let total = f32::from_bits(u32_at(d, h).unwrap_or(0));
-            sims.insert(i, Sim { name, house: r("mHousehold") as usize, happiness: h, points: p, total, skills: vec![] });
+            sims.insert(
+                i,
+                Sim { name, house: r("mHousehold"), actor: r("mSim"), happiness: h, points: p, total, career: r("CareerManager"), celebrity: r("CelebrityManager"), occult_ref: r("OccultManager"), ..Default::default() },
+            );
             order.push(i);
-        } else if let Some(l) = at(&all, "SkillLevel") {
-            skills.push((r("mSkillOwner") as usize, skill_class[&c], l));
+        } else if Some(c) == motives {
+            // Motives -> Dictionary<int, Motive>: count (7 bits per byte, high first), then key and reference pairs.
+            let sim = r("mSim");
+            let di = r("mMotives");
+            let mut list = vec![];
+            if let Some(j) = di.checked_sub(1).filter(|j| *j < n) {
+                let (da, db) = (offs[j], end(j));
+                let mut p = da + 5;
+                if da + 5 <= db && db <= d.len() && d[da] == 0x10 {
+                    if let Some(k) = vi_be(d, &mut p) {
+                        if p + 8 * k == db {
+                            for e in 0..k {
+                                let key = u32_at(d, p + 8 * e).unwrap_or(0);
+                                let mr = u32_at(d, p + 8 * e + 4).unwrap_or(0) as usize;
+                                if let Some(x) = NEEDS.iter().position(|(id, _)| *id == key) {
+                                    if let Some((_, mf)) = object(mr) {
+                                        if let (Some(v), Some(u)) = (at(&mf, "mValue"), at(&mf, "mUIValue")) {
+                                            list.push((x, v, u));
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            needs_of.push((sim, list));
+        } else if let (Some(l), Some(g)) = (at(&all, "SkillLevel"), at(&all, "mSkillGuid")) {
+            if let Some(id) = enum_at(d, g) {
+                if SKILLS.iter().any(|s| s.0 == id) {
+                    skills.push((r("mSkillOwner"), id, l));
+                }
+            }
         }
     }
-    for (owner, name, l) in skills {
+    let by_actor: HashMap<usize, usize> = sims.iter().filter(|(_, s)| s.actor != 0).map(|(k, s)| (s.actor, *k)).collect();
+    for (actor, list) in needs_of {
+        if let Some(s) = by_actor.get(&actor).and_then(|k| sims.get_mut(k)) {
+            s.needs = list;
+        }
+    }
+    for (owner, id, l) in skills {
         if let Some(s) = owner.checked_sub(1).and_then(|o| sims.get_mut(&o)) {
-            if !s.skills.iter().any(|(k, _)| *k == name) {
-                s.skills.push((name, l));
+            let x = SKILLS.iter().position(|s| s.0 == id).unwrap_or(0);
+            if !s.skills.iter().any(|(k, _)| *k == x) {
+                s.skills.push((x, l));
+            }
+        }
+    }
+    // Job, school and fame of each Sim.
+    let perf = |r: usize| -> Option<(usize, i64)> {
+        let (_, f) = object(r)?;
+        let p = at(&f, "mPerformance")?;
+        let lvl = at(&f, "mCurLevelVal").and_then(|q| u32_at(d, q)).map_or(0, |v| v as i32 as i64);
+        Some((p, lvl))
+    };
+    for s in sims.values_mut() {
+        if let Some((_, cm)) = object(s.career) {
+            s.job = perf(refv(&cm, "mJob"));
+            s.school = perf(refv(&cm, "mSchool"));
+        }
+        if let Some((_, om)) = object(s.occult_ref) {
+            s.occult = at(&om, "mCurrentOccultTypes").and_then(|p| enum_at(d, p));
+        }
+        if let Some((_, ce)) = object(s.celebrity) {
+            if let (Some(l), Some(p)) = (at(&ce, "mLevel"), at(&ce, "mPoints")) {
+                s.fame = Some((l, p));
             }
         }
     }
@@ -487,12 +644,42 @@ pub fn parse(f: &[u8]) -> Result<TreeDoc, String> {
                 names.insert(who.clone());
             }
             let base = ["Households", &label, "Sims", &who];
-            b.ranged(&[&base[..], &["Lifetime happiness"]].concat(), s.happiness + 4, Kind::F32Int, 0, 99_999_999);
-            b.ranged(&[&base[..], &["Lifetime reward points"]].concat(), s.points + 4, Kind::F32Int, 0, 99_999_999);
+            let path = |rest: &[&str]| -> Vec<String> { base.iter().chain(rest.iter()).map(|x| x.to_string()).collect() };
+            let go = |b: &mut Builder, rest: &[&str], at: usize, kind: Kind, lo: i64, hi: i64| {
+                let p = path(rest);
+                let p: Vec<&str> = p.iter().map(String::as_str).collect();
+                b.ranged(&p, at + 4, kind, lo, hi);
+            };
+            go(&mut b, &["Lifetime happiness"], s.happiness, Kind::F32Int, 0, 99_999_999);
+            go(&mut b, &["Lifetime reward points"], s.points, Kind::F32Int, 0, 99_999_999);
+            if let Some((l, p)) = s.fame {
+                go(&mut b, &["Celebrity level"], l, Kind::U32, 0, 5);
+                go(&mut b, &["Celebrity points"], p, Kind::U32, 0, 99_999_999);
+            }
+            if let Some(o) = s.occult {
+                b.info(&[&base[..], &["Supernatural"]].concat(), o);
+            }
+            if let Some((p, lvl)) = s.job {
+                go(&mut b, &["Job performance"], p, Kind::F32Int, -100, 100);
+                b.info(&[&base[..], &["Job level"]].concat(), lvl);
+            }
+            if let Some((p, _)) = s.school {
+                go(&mut b, &["School performance"], p, Kind::F32Int, -100, 100);
+            }
+            let mut nd = s.needs.clone();
+            nd.sort();
+            for (x, v, u) in nd {
+                let name = NEEDS[x].1;
+                go(&mut b, &["Needs", name], v, Kind::F32Int, -100, 100);
+                let p = path(&["Needs", name]);
+                let p: Vec<&str> = p.iter().map(String::as_str).collect();
+                b.mirror(&p, u + 4);
+            }
             let mut sk = s.skills.clone();
-            sk.sort_by_key(|(k, _)| SKILLS.iter().position(|(_, v)| v == k));
-            for (k, l) in sk {
-                b.ranged(&[&base[..], &["Skills", k]].concat(), l + 4, Kind::I32, 0, SKILL_MAX);
+            sk.sort();
+            for (x, l) in sk {
+                let (_, name, max) = SKILLS[x];
+                go(&mut b, &["Skills", name], l, Kind::I32, 0, max);
             }
         }
     }
@@ -532,9 +719,12 @@ mod tests {
         class(
             &mut ct,
             "Sims3.Gameplay.CAS.SimDescription",
-            &[("mLifetimeHappiness", 12), ("mSpendableHappiness", 12), ("mFlags", 23), ("mHousehold", 1), ("mFirstName", 1), ("mLastName", 1), ("When", 16)],
+            &[("mLifetimeHappiness", 12), ("mSpendableHappiness", 12), ("mFlags", 23), ("mHousehold", 1), ("mFirstName", 1), ("mLastName", 1), ("When", 16), ("mSim", 1)],
         );
-        class(&mut ct, "Sims3.Gameplay.Skills.Cooking", &[("SkillLevel", 9), ("SkillPoints", 12), ("mSkillOwner", 1)]);
+        class(&mut ct, "Sims3.Gameplay.Skills.Cooking", &[("SkillLevel", 9), ("SkillPoints", 12), ("mSkillOwner", 1), ("mSkillGuid", 23)]);
+        class(&mut ct, "Sims3.Gameplay.Autonomy.Motives", &[("mMotives", 1), ("mSim", 1)]);
+        class(&mut ct, "System.Collections.Generic.Dictionary`2<System.Int32,Sims3.Gameplay.Autonomy.Motive>", &[]);
+        class(&mut ct, "Sims3.Gameplay.Autonomy.Motive", &[("mValue", 12), ("mUIValue", 12), ("Commodity", 23)]);
         let mut objs: Vec<Vec<u8>> = vec![];
         let obj = |c: u32, body: &[u8]| {
             let mut o = vec![0x10];
@@ -547,7 +737,7 @@ mod tests {
             v.extend(t.as_bytes());
             obj(0, &v)
         };
-        // 1: household, 2: its name, 3: Sim, 4: first, 5: last, 6: skill
+        // 1: household, 2: its name, 3: Sim, 4: first, 5: last, 6: skill, 7-9: needs
         let mut h = 7u64.to_le_bytes().to_vec();
         h.extend(20_000i32.to_le_bytes());
         h.extend(2u32.to_le_bytes());
@@ -563,13 +753,29 @@ mod tests {
         sd.extend(5u32.to_le_bytes());
         sd.extend(2u32.to_le_bytes());
         sd.extend(9u64.to_le_bytes());
+        sd.extend(42u32.to_le_bytes());
         objs.push(obj(3, &sd));
         objs.push(s("Gameplay/Excel/PV/Sims:Bella"));
         objs.push(s("Gameplay/Excel/PV/Sims:Goth"));
         let mut sk = 3i32.to_le_bytes().to_vec();
         sk.extend(4000f32.to_le_bytes());
         sk.extend(3u32.to_le_bytes());
+        sk.extend([0x81, 0x03, 0x0F]);
+        sk.extend(5u64.to_le_bytes());
         objs.push(obj(4, &sk));
+        // 7: motives of actor 42, 8: their dictionary, 9: hunger
+        let mut mo = 8u32.to_le_bytes().to_vec();
+        mo.extend(42u32.to_le_bytes());
+        objs.push(obj(5, &mo));
+        let mut di = vec![1u8];
+        di.extend(0x010F_38D7u32.to_le_bytes());
+        di.extend(9u32.to_le_bytes());
+        objs.push(obj(6, &di));
+        let mut hu = (-20f32).to_le_bytes().to_vec();
+        hu.extend((-20f32).to_le_bytes());
+        hu.extend([0x81, 0x04, 0x09]);
+        hu.extend(0x010F_38D7u32.to_le_bytes());
+        objs.push(obj(7, &hu));
         let mut d = vec![0, 5, 0, 0];
         d.extend(b"OBJS");
         d.extend(0u32.to_le_bytes());
@@ -631,11 +837,13 @@ mod tests {
         assert_eq!(v(&doc, "/Households/Goth/Sims/Bella Goth/Lifetime reward points"), Some(Value::from(1200)));
         assert_eq!(v(&doc, "/Households/Goth/Sims/Bella Goth/Lifetime happiness"), Some(Value::from(5000)));
         assert_eq!(v(&doc, "/Households/Goth/Sims/Bella Goth/Skills/Cooking"), Some(Value::from(3)));
+        assert_eq!(v(&doc, "/Households/Goth/Sims/Bella Goth/Needs/Hunger"), Some(Value::from(-20)));
         assert_eq!(rebuild(&d, &doc.to_bytes().unwrap()).unwrap(), d);
         doc.set("/Households/Goth/Funds", Value::from(1_000_000)).unwrap();
         doc.set("/Households/Goth/Sims/Bella Goth/Lifetime reward points", Value::from(50_000)).unwrap();
         doc.set("/Households/Goth/Sims/Bella Goth/Skills/Cooking", Value::from(10)).unwrap();
         assert!(doc.set("/Households/Goth/Sims/Bella Goth/Skills/Cooking", Value::from(11)).is_err());
+        doc.set("/Households/Goth/Sims/Bella Goth/Needs/Hunger", Value::from(100)).unwrap();
         let out = rebuild(&d, &doc.to_bytes().unwrap()).unwrap();
         // The other resource is kept byte for byte.
         let (_, es, _, _) = index(&out).unwrap();
@@ -645,6 +853,11 @@ mod tests {
         assert_eq!(v(&again, "/Households/Goth/Funds"), Some(Value::from(1_000_000)));
         assert_eq!(v(&again, "/Households/Goth/Sims/Bella Goth/Lifetime reward points"), Some(Value::from(50_000)));
         assert_eq!(v(&again, "/Households/Goth/Sims/Bella Goth/Skills/Cooking"), Some(Value::from(10)));
+        assert_eq!(v(&again, "/Households/Goth/Sims/Bella Goth/Needs/Hunger"), Some(Value::from(100)));
+        // The shown copy of the need (mUIValue) is written too.
+        let fl = flatten(&out).unwrap();
+        let hundred = 100f32.to_le_bytes();
+        assert!(fl.windows(8).any(|w| w[..4] == hundred && w[4..] == hundred));
     }
 
     /// Research aid: SAVE_EDITOR_SIMS3 = `.nhd` files separated by `|`.
@@ -660,6 +873,9 @@ mod tests {
             println!("{path}: {} households", hs.len());
             for (k, v) in hs.iter().take(4) {
                 println!("  {k}: {}  sims {}", v["Funds"], v["Sims"].as_object().map_or(0, |m| m.len()));
+            }
+            if std::env::var("SAVE_EDITOR_SIMS3_SHOW").is_ok() {
+                println!("{}", serde_json::to_string_pretty(&hs.values().next().unwrap()["Sims"]).unwrap());
             }
             assert_eq!(rebuild(&d, &doc.to_bytes().unwrap()).unwrap(), d);
             let first = hs.keys().next().unwrap().clone();

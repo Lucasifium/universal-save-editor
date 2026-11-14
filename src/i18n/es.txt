@@ -25091,8 +25091,6 @@ Dominoes
 Drums
 = Batería
 
-Every listed skill is already at level 10.
-= Todas las habilidades de la lista ya están en el nivel 10.
 
 Gardening
 = Jardinería
@@ -25115,8 +25113,6 @@ Lifetime happiness
 Lifetime reward points
 = Puntos de recompensa de por vida
 
-Lifetime reward points are what the Rewards store spends; lifetime happiness is the total the Sim has ever earned. Skills go from 0 to 10; skills kept only as hidden counters and toddler or child skills aren't listed. Funds go up to 99,999,999. The game data is stored uncompressed when you save, so the file grows. Not yet tried in the game.
-= Los puntos de recompensa de por vida son lo que gasta la tienda de recompensas; la felicidad de por vida es el total que el Sim ha ganado. Las habilidades van de 0 a 10; no se muestran las que solo son contadores ocultos ni las de bebés o niños. Los fondos llegan hasta 99.999.999. Los datos del juego se guardan sin comprimir, así que el archivo crece. Aún no se ha probado en el juego.
 
 Martial Arts
 = Artes marciales
@@ -25154,8 +25150,6 @@ Scuba Diving
 Sculpting
 = Escultura
 
-Sets every listed skill of this household's Sims to level 10.
-= Pone todas las habilidades listadas de los Sims de este hogar en el nivel 10.
 
 Snake Charming
 = Encantamiento de serpientes
@@ -25169,8 +25163,6 @@ Socialite Influence
 Spellcasting
 = Lanzar hechizos
 
-Spellcraft
-= Hechicería
 
 Street Art
 = Arte urbano
@@ -25233,3 +25225,228 @@ Black magic max charges
 
 Sorcery max charges
 = Cargas máx. de hechicería
+
+# src/fmt/sims3.rs and src/game_ui/sims.rs (The Sims 3, more)
+
+Air Guitar
+= Guitarra imaginaria
+
+Ballet
+= Ballet
+
+Battery
+= Batería (carga)
+
+Bladder
+= Vejiga
+
+Blocks
+= Bloques
+
+Cat Hunting
+= Caza felina
+
+Celebrity level
+= Nivel de celebridad
+
+Celebrity points
+= Puntos de celebridad
+
+Child Athletic
+= Atletismo infantil
+
+Child Bass
+= Bajo infantil
+
+Child Cooking
+= Cocina infantil
+
+Child Drums
+= Batería infantil
+
+Child Gardening
+= Jardinería infantil
+
+Child Guitar
+= Guitarra infantil
+
+Child Piano
+= Piano infantil
+
+Club Dancing
+= Baile de discoteca
+
+DJ Turntable
+= Mesa de DJ
+
+Dancing
+= Baile
+
+Diving
+= Saltos
+
+Dog Hunting
+= Caza canina
+
+Every listed need is already full.
+= Todas las necesidades de la lista ya están llenas.
+
+Every listed skill is already at its highest level.
+= Todas las habilidades de la lista ya están en su nivel máximo.
+
+Exercise
+= Ejercicio
+
+Fairy Magic
+= Magia de hada
+
+Fill every need
+= Llenar todas las necesidades
+
+Foosball
+= Futbolín
+
+Fun
+= Diversión
+
+Genie
+= Genio
+
+Ghost
+= Fantasma
+
+Gnubb
+= Gnubb
+
+Homework
+= Deberes
+
+Hopscotch
+= Rayuela
+
+Horse thirst
+= Sed del caballo
+
+Human
+= Humano
+
+Hygiene
+= Higiene
+
+Imaginary friend
+= Amigo imaginario
+
+Job level
+= Nivel del trabajo
+
+Job performance
+= Rendimiento laboral
+
+Karaoke
+= Karaoke
+
+Learning to Drive
+= Aprender a conducir
+
+Lifetime reward points are what the Rewards store spends; lifetime happiness is the total the Sim has ever earned. Needs go from -100 to 100 and are only kept for Sims the game has loaded. Job and school performance go from -100 to 100; celebrity level from 0 to 5. Every skill goes up to its own highest level (toddler and child skills to 1 or 3); a few expansion skills whose ids couldn't be matched to a name aren't listed. The supernatural type is shown but can't be changed here: turning a Sim into one needs data the game creates itself. Funds go up to 99,999,999. The game data is stored uncompressed when you save, so the file grows. Not yet tried in the game.
+= Los puntos de recompensa de por vida son lo que gasta la tienda de recompensas; la felicidad de por vida es el total que el Sim ha ganado. Las necesidades van de -100 a 100 y solo se guardan para los Sims que el juego ha cargado. El rendimiento laboral y escolar va de -100 a 100; el nivel de celebridad, de 0 a 5. Cada habilidad llega a su propio nivel máximo (las de bebés y niños, a 1 o 3); faltan algunas habilidades de expansiones cuyos ids no se pudieron asociar a un nombre. El tipo sobrenatural se muestra, pero no se puede cambiar aquí: convertir a un Sim requiere datos que crea el propio juego. Los fondos llegan hasta 99.999.999. Los datos del juego se guardan sin comprimir, así que el archivo crece. Aún no se ha probado en el juego.
+
+Lycanthropy
+= Licantropía
+
+Maintenance
+= Mantenimiento
+
+Mermaid
+= Sirena
+
+Mummy
+= Momia
+
+Peg Box
+= Caja de clavijas
+
+Plant Sim
+= Sim planta
+
+Plumbot
+= Plumbot
+
+Potty Training
+= Ir al orinal
+
+Racing
+= Carreras
+
+Rock Band
+= Grupo de rock
+
+School performance
+= Rendimiento escolar
+
+Scouting
+= Exploradores
+
+Scratch
+= Arañar
+
+Sets every listed need of this household's Sims to full.
+= Llena todas las necesidades listadas de los Sims de este hogar.
+
+Sets every listed skill of this household's Sims to its highest level.
+= Pone todas las habilidades listadas de los Sims de este hogar en su nivel máximo.
+
+Shuffleboard
+= Shuffleboard
+
+SimBot
+= SimBot
+
+Singing
+= Canto
+
+Social
+= Social
+
+Styling
+= Estilismo
+
+Supernatural
+= Sobrenatural
+
+Talking
+= Hablar
+
+Tattooing
+= Tatuaje
+
+Trampoline
+= Cama elástica
+
+Tricks
+= Trucos
+
+Unicorn
+= Unicornio
+
+Vampire
+= Vampiro
+
+Video Gaming
+= Videojuegos
+
+Walking
+= Andar
+
+Werewolf
+= Hombre lobo
+
+Wildlife Friend
+= Amigo de los animales
+
+Witch
+= Bruja
+
+Xylophone
+= Xilófono
+

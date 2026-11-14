@@ -25150,8 +25150,6 @@ Dominoes
 Drums
 = 架子鼓
 
-Every listed skill is already at level 10.
-= 列出的所有技能都已达到 10 级。
 
 Gardening
 = 园艺
@@ -25174,8 +25172,6 @@ Lifetime happiness
 Lifetime reward points
 = 终身奖励点数
 
-Lifetime reward points are what the Rewards store spends; lifetime happiness is the total the Sim has ever earned. Skills go from 0 to 10; skills kept only as hidden counters and toddler or child skills aren't listed. Funds go up to 99,999,999. The game data is stored uncompressed when you save, so the file grows. Not yet tried in the game.
-= 终身奖励点数是奖励商店消耗的点数；终身幸福值是模拟市民累计获得的总量。技能范围为 0 到 10；仅作为隐藏计数器保存的技能以及幼儿或儿童技能不会列出。资金上限为 99,999,999。保存时游戏数据以未压缩形式存储，因此文件会变大。尚未在游戏中测试。
 
 Martial Arts
 = 武术
@@ -25213,8 +25209,6 @@ Scuba Diving
 Sculpting
 = 雕塑
 
-Sets every listed skill of this household's Sims to level 10.
-= 将此家庭模拟市民列出的所有技能设为 10 级。
 
 Snake Charming
 = 弄蛇
@@ -25228,8 +25222,6 @@ Socialite Influence
 Spellcasting
 = 施法
 
-Spellcraft
-= 法术
 
 Street Art
 = 街头艺术
@@ -25292,3 +25284,228 @@ Black magic max charges
 
 Sorcery max charges
 = 妖术最大次数
+
+# src/fmt/sims3.rs and src/game_ui/sims.rs (The Sims 3, more)
+
+Air Guitar
+= 空气吉他
+
+Ballet
+= 芭蕾
+
+Battery
+= 电量
+
+Bladder
+= 膀胱
+
+Blocks
+= 积木
+
+Cat Hunting
+= 猫狩猎
+
+Celebrity level
+= 名人等级
+
+Celebrity points
+= 名人点数
+
+Child Athletic
+= 儿童运动
+
+Child Bass
+= 儿童贝斯
+
+Child Cooking
+= 儿童烹饪
+
+Child Drums
+= 儿童架子鼓
+
+Child Gardening
+= 儿童园艺
+
+Child Guitar
+= 儿童吉他
+
+Child Piano
+= 儿童钢琴
+
+Club Dancing
+= 夜店舞蹈
+
+DJ Turntable
+= DJ 打碟
+
+Dancing
+= 舞蹈
+
+Diving
+= 跳水
+
+Dog Hunting
+= 狗狩猎
+
+Every listed need is already full.
+= 列出的所有需求都已满。
+
+Every listed skill is already at its highest level.
+= 列出的所有技能都已达到最高等级。
+
+Exercise
+= 运动量
+
+Fairy Magic
+= 仙子魔法
+
+Fill every need
+= 填满所有需求
+
+Foosball
+= 桌上足球
+
+Fun
+= 娱乐
+
+Genie
+= 精灵
+
+Ghost
+= 鬼魂
+
+Gnubb
+= Gnubb
+
+Homework
+= 家庭作业
+
+Hopscotch
+= 跳房子
+
+Horse thirst
+= 马的口渴
+
+Human
+= 人类
+
+Hygiene
+= 卫生
+
+Imaginary friend
+= 幻想朋友
+
+Job level
+= 职业等级
+
+Job performance
+= 工作表现
+
+Karaoke
+= 卡拉 OK
+
+Learning to Drive
+= 学开车
+
+Lifetime reward points are what the Rewards store spends; lifetime happiness is the total the Sim has ever earned. Needs go from -100 to 100 and are only kept for Sims the game has loaded. Job and school performance go from -100 to 100; celebrity level from 0 to 5. Every skill goes up to its own highest level (toddler and child skills to 1 or 3); a few expansion skills whose ids couldn't be matched to a name aren't listed. The supernatural type is shown but can't be changed here: turning a Sim into one needs data the game creates itself. Funds go up to 99,999,999. The game data is stored uncompressed when you save, so the file grows. Not yet tried in the game.
+= 终身奖励点数是奖励商店消耗的点数；终身幸福值是模拟市民累计获得的总量。需求范围为 -100 到 100，只为游戏已载入的模拟市民保存。工作和学业表现范围为 -100 到 100；名人等级为 0 到 5。每项技能可升到各自的最高等级（幼儿和儿童技能为 1 或 3）；少数无法对应到名称的资料片技能未列出。超自然类型仅显示，无法在此更改：变身需要游戏自己创建的数据。资金上限为 99,999,999。保存时游戏数据以未压缩形式存储，因此文件会变大。尚未在游戏中测试。
+
+Lycanthropy
+= 狼化
+
+Maintenance
+= 维护
+
+Mermaid
+= 美人鱼
+
+Mummy
+= 木乃伊
+
+Peg Box
+= 钉板盒
+
+Plant Sim
+= 植物人
+
+Plumbot
+= 机器人Plumbot
+
+Potty Training
+= 如厕训练
+
+Racing
+= 赛马
+
+Rock Band
+= 摇滚乐队
+
+School performance
+= 学业表现
+
+Scouting
+= 童子军
+
+Scratch
+= 抓挠
+
+Sets every listed need of this household's Sims to full.
+= 将此家庭模拟市民列出的所有需求填满。
+
+Sets every listed skill of this household's Sims to its highest level.
+= 将此家庭模拟市民列出的所有技能设为最高等级。
+
+Shuffleboard
+= 沙狐球
+
+SimBot
+= 模拟机器人
+
+Singing
+= 唱歌
+
+Social
+= 社交
+
+Styling
+= 造型
+
+Supernatural
+= 超自然
+
+Talking
+= 说话
+
+Tattooing
+= 纹身
+
+Trampoline
+= 蹦床
+
+Tricks
+= 把戏
+
+Unicorn
+= 独角兽
+
+Vampire
+= 吸血鬼
+
+Video Gaming
+= 电子游戏
+
+Walking
+= 走路
+
+Werewolf
+= 狼人
+
+Wildlife Friend
+= 野生动物之友
+
+Witch
+= 女巫
+
+Xylophone
+= 木琴
+
