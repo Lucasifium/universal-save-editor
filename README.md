@@ -3,7 +3,7 @@
 > **Free, and it always will be.** No price, no ads, no account, no paid version, no online service, no
 > rate limits. If anyone is charging you for this, it isn't from here.
 
-An offline save editor and save manager for 340+ (342) PC games (edit saves, and back up, name and restore them): Cairn, Terraria (characters and a world map editor),
+An offline save editor and save manager for 340+ (343) PC games (edit saves, and back up, name and restore them): Cairn, Terraria (characters and a world map editor),
 Oxygen Not Included, RimWorld, Stardew Valley, Onimusha: Way of the Sword, Elden Ring, Dark Souls,
 Cyberpunk 2077, the Persona, Yakuza and Final Fantasy games, Ren'Py visual novels, RPG Maker games
 and more (the full list is below). Written in Rust (egui). Nothing is uploaded anywhere, and there are
@@ -118,6 +118,7 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 | Super Metroid | *Samus A / B / C* (SNES emulator `.srm` saves): energy and reserve tanks, missiles, super missiles, power bombs, play time and the beams, suits and boots she has and has equipped (each slot's sums and their copies at the end of the file are kept right; checked against the sums of a public save, not yet tried in the game) |
 | Super Mario 64 | *Files* (N64 emulator `.eep` saves): for each of the four files the cap, key and switch flags, secret stars, every course's six stars, 100-coin star, cannon and coin record (both copies of the file and the checksums are kept right; checked on public saves, not yet tried in the game) |
 | Alpha Protocol | *Agent*: money, level, experience, skill points, skill ranks, ammunition and gadget counts from a checkpoint `.sav` (checked on a public save, not yet tried in the game) |
+| The Elder Scrolls II: Daggerfall (Daggerfall Unity) | *Character*: gold carried, level, health, magicka and fatigue, the eight attributes, all 35 skills, resistances, reputations and the gold and loan in each region's bank, from a save folder's `SaveData.txt` (checked on a public save, not yet tried in the game; classic `SAVETREE.DAT` saves are not supported yet) |
 | Assassin's Creed Brotherhood | *Inventory*: the player's money and gadget and ammunition counts, with other characters' and older copies listed apart; the save's packed blocks are opened and written again with their checksums (checked on public saves, not yet tried in the game) |
 | Assassin's Creed III Remastered | *Inventory*: money and gadget and ammunition counts; the Ubisoft Connect wrapper, its encryption and the packed blocks are opened and written again with their checksums (checked on public saves, not yet tried in the game) |
 | Assassin's Creed IV Black Flag | *Inventory*: money, gadget and ammunition counts, crew, heavy shot, harpoons and the ship's cargo (wood, metal, cloth, rum, sugar) with a Max crafting materials button (checked on public saves, not yet tried in the game) |
