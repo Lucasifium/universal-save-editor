@@ -3,7 +3,7 @@
 > **Free, and it always will be.** No price, no ads, no account, no paid version, no online service, no
 > rate limits. If anyone is charging you for this, it isn't from here.
 
-An offline save editor and save manager for 510+ (515) PC games (edit saves, and back up, name and restore them): Cairn, Terraria (characters and a world map editor),
+An offline save editor and save manager for 510+ (516) PC games (edit saves, and back up, name and restore them): Cairn, Terraria (characters and a world map editor),
 Oxygen Not Included, RimWorld, Stardew Valley, Onimusha: Way of the Sword, Elden Ring, Dark Souls,
 Cyberpunk 2077, the Persona, Yakuza and Final Fantasy games, Ren'Py visual novels, RPG Maker games
 and more (the full list is below). Written in Rust (egui). Nothing is uploaded anywhere, and there are
@@ -499,7 +499,7 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 </details>
 
 <details>
-<summary><strong>S</strong> (46)</summary>
+<summary><strong>S</strong> (47)</summary>
 
 | Game | Screen |
 |---|---|
@@ -524,6 +524,7 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 | Sleeping Dogs: Definitive Edition | *Wei*: money and face, cop and triad XP (checked on public saves and a real save, not yet tried in the game) |
 | Slime Rancher | *Ranch*: newbucks (kept equal on the load screen), health, energy, radiation and slime keys (checked on public saves, not yet tried in the game) |
 | SnowRunner | *Garage*: money, rank, experience, the statistics (money earned and spent, trucks and add-ons bought and sold, sessions), the difficulty factors and the trucks in the warehouse. The save is JSON followed by a NUL byte, which is kept (checked on two real saves, not yet tried in the game) |
+| Sonic Adventure 2 | *Chao* (the garden file `SONIC2B__ALF`): the level and the points of the seven stats of every Chao; the garden's checksum is rewritten (the main save with rings and emblems is not edited yet; checked on a public save, not yet tried in the game) |
 | Sonic Mania | *Slots*: all eight Mania Mode and three Encore Mode slots (state, character, zone, lives, score, Chaos Emeralds, continues, next special stage), changed in place (checked on public saves, not yet tried in the game) |
 | Sons of the Forest | *Game* (GameStateSaveData.json): the day and time. *Weather* (WeatherSystemSaveData.json): the season. *Player* (PlayerStateSaveData.json): health, stamina, hydration, rest, strength and its level. *Inventory* (PlayerInventorySaveData.json): the items carried, by name, with a **Max crafting materials** button that fills logs, sticks, rocks, bones, cloth, circuit boards, wire, duct tape, rope, feathers, leaves, small rocks, tech mesh, Solafite ore and printer resin to the game's own carrying limit for each, leaving weapons, ammo, food, blueprints and story items alone. The JSON the game keeps inside the file's strings is opened and written back as strings (checked on public sample saves, not yet tried in the game) |
 | Space Haven | *Fleet*: credits, the day and time, the difficulty options, and a table of each ship's crew with health, food, rest, comfort, mood, the four attributes and every skill level. The save's XML is edited in place, so everything you don't change stays as it was. Resources in storage are not covered (checked on a real save, not yet tried in the game) |
@@ -553,7 +554,7 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 </details>
 
 <details>
-<summary><strong>T</strong> (51)</summary>
+<summary><strong>T</strong> (52)</summary>
 
 | Game | Screen |
 |---|---|
@@ -723,8 +724,8 @@ binary and stays an ironman save. It isn't converted to a normal one.
 
 The start page lists **Your games**: every game in the list whose saves were found on this computer,
 newest first, each one click away from its newest save. *Find my game's saves* (the big button on the
-start page, *Find saves* in the toolbar and the File menu) lists every one of the 510+ (515) PC games the editor knows, Mass Effect 1–3, the Legendary Edition and Andromeda among them — with where it
-start page, *Find saves* in the toolbar and the File menu) lists every one of the 510+ (515) PC games the editor knows, Mass Effect 1–3, the Legendary Edition and Andromeda among them — with where it
+start page, *Find saves* in the toolbar and the File menu) lists every one of the 510+ (516) PC games the editor knows, Mass Effect 1–3, the Legendary Edition and Andromeda among them — with where it
+start page, *Find saves* in the toolbar and the File menu) lists every one of the 510+ (516) PC games the editor knows, Mass Effect 1–3, the Legendary Edition and Andromeda among them — with where it
 usually keeps its saves and what the files are called, and finds them on your computer (Steam
 libraries and `userdata`, Documents wherever Windows has it, AppData, Saved Games, Ubisoft
 Connect). On Linux and the Steam Deck it also looks inside Proton prefixes

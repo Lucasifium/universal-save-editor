@@ -1,0 +1,137 @@
+//! Sonic Adventure 2 (PC), the Chao garden file `SONIC2B__ALF` (64 KiB): 24 Chao slots of 0x800 bytes from 0x3AA4 and
+//! a checksum over the garden (a CRC-like sum with a table of its own) hidden in five of the bytes at 0xCCAC…
+//!
+//! The checksum and the Chao field positions follow mattadatta/sa2-gardening-tools and dfrood/SA2SaveUtility
+//! (GPL-3.0; see THIRD_PARTY_NOTICES.md).
+
+use super::fields::{Builder, Checksum, Kind};
+use crate::tree::TreeDoc;
+
+pub const KIND: &str = "Sonic Adventure 2 Chao garden";
+const SIZE: usize = 0x10000;
+const BASE: usize = 0x3040;
+const OFF: usize = 0x24c;
+const SPAN: usize = 0xC820 + OFF;
+const CHAO: usize = 0x3AA4;
+const SLOTS: usize = 24;
+const STATS: [&str; 7] = ["Swim", "Fly", "Run", "Power", "Stamina", "Luck", "Intelligence"];
+
+const TABLE: [u32; 256] = [
+    0x00000000, 0xC9073096, 0x920E612C, 0xA50951BA, 0xFF6DC419, 0xCA6AF48F, 0x9163A535, 0xA66495A3,
+    0xFEDB8832, 0xCFDCB8A4, 0x94D5E91E, 0xA3D2D988, 0xF9B64C2B, 0xCCB17CBD, 0x97B82D07, 0xA0BF1D91,
+    0xFDB71064, 0xC4B020F2, 0x9FB97148, 0xA8BE41DE, 0xF2DAD47D, 0xC7DDE4EB, 0x9CD4B551, 0xABD385C7,
+    0xF36C9856, 0xC26BA8C0, 0x9962F97A, 0xAE65C9EC, 0xF4015C4F, 0xC1066CD9, 0x9A0F3D63, 0xAD080DF5,
+    0xFB6E20C8, 0xD269105E, 0x896041E4, 0xBE677172, 0xE403E4D1, 0xD104D447, 0x8A0D85FD, 0xBD0AB56B,
+    0xE5B5A8FA, 0xD4B2986C, 0x8FBBC9D6, 0xB8BCF940, 0xE2D86CE3, 0xD7DF5C75, 0x8CD60DCF, 0xBBD13D59,
+    0xE6D930AC, 0xDFDE003A, 0x84D75180, 0xB3D06116, 0xE9B4F4B5, 0xDCB3C423, 0x87BA9599, 0xB0BDA50F,
+    0xE802B89E, 0xD9058808, 0x820CD9B2, 0xB50BE924, 0xEF6F7C87, 0xDA684C11, 0x81611DAB, 0xB6662D3D,
+    0xF6DC4190, 0xFFDB7106, 0xA4D220BC, 0x93D5102A, 0xC9B18589, 0xFCB6B51F, 0xA7BFE4A5, 0x90B8D433,
+    0xC807C9A2, 0xF900F934, 0xA209A88E, 0x950E9818, 0xCF6A0DBB, 0xFA6D3D2D, 0xA1646C97, 0x96635C01,
+    0xCB6B51F4, 0xF26C6162, 0xA96530D8, 0x9E62004E, 0xC40695ED, 0xF101A57B, 0xAA08F4C1, 0x9D0FC457,
+    0xC5B0D9C6, 0xF4B7E950, 0xAFBEB8EA, 0x98B9887C, 0xC2DD1DDF, 0xF7DA2D49, 0xACD37CF3, 0x9BD44C65,
+    0xCDB26158, 0xE4B551CE, 0xBFBC0074, 0x88BB30E2, 0xD2DFA541, 0xE7D895D7, 0xBCD1C46D, 0x8BD6F4FB,
+    0xD369E96A, 0xE26ED9FC, 0xB9678846, 0x8E60B8D0, 0xD4042D73, 0xE1031DE5, 0xBA0A4C5F, 0x8D0D7CC9,
+    0xD005713C, 0xE90241AA, 0xB20B1010, 0x850C2086, 0xDF68B525, 0xEA6F85B3, 0xB166D409, 0x8661E49F,
+    0xDEDEF90E, 0xEFD9C998, 0xB4D09822, 0x83D7A8B4, 0xD9B33D17, 0xECB40D81, 0xB7BD5C3B, 0x80BA6CAD,
+    0xEDB88320, 0xA4BFB3B6, 0xFFB6E20C, 0xC8B1D29A, 0x92D54739, 0xA7D277AF, 0xFCDB2615, 0xCBDC1683,
+    0x93630B12, 0xA2643B84, 0xF96D6A3E, 0xCE6A5AA8, 0x940ECF0B, 0xA109FF9D, 0xFA00AE27, 0xCD079EB1,
+    0x900F9344, 0xA908A3D2, 0xF201F268, 0xC506C2FE, 0x9F62575D, 0xAA6567CB, 0xF16C3671, 0xC66B06E7,
+    0x9ED41B76, 0xAFD32BE0, 0xF4DA7A5A, 0xC3DD4ACC, 0x99B9DF6F, 0xACBEEFF9, 0xF7B7BE43, 0xC0B08ED5,
+    0x96D6A3E8, 0xBFD1937E, 0xE4D8C2C4, 0xD3DFF252, 0x89BB67F1, 0xBCBC5767, 0xE7B506DD, 0xD0B2364B,
+    0x880D2BDA, 0xB90A1B4C, 0xE2034AF6, 0xD5047A60, 0x8F60EFC3, 0xBA67DF55, 0xE16E8EEF, 0xD669BE79,
+    0x8B61B38C, 0xB266831A, 0xE96FD2A0, 0xDE68E236, 0x840C7795, 0xB10B4703, 0xEA0216B9, 0xDD05262F,
+    0x85BA3BBE, 0xB4BD0B28, 0xEFB45A92, 0xD8B36A04, 0x82D7FFA7, 0xB7D0CF31, 0xECD99E8B, 0xDBDEAE1D,
+    0x9B64C2B0, 0x9263F226, 0xC96AA39C, 0xFE6D930A, 0xA40906A9, 0x910E363F, 0xCA076785, 0xFD005713,
+    0xA5BF4A82, 0x94B87A14, 0xCFB12BAE, 0xF8B61B38, 0xA2D28E9B, 0x97D5BE0D, 0xCCDCEFB7, 0xFBDBDF21,
+    0xA6D3D2D4, 0x9FD4E242, 0xC4DDB3F8, 0xF3DA836E, 0xA9BE16CD, 0x9CB9265B, 0xC7B077E1, 0xF0B74777,
+    0xA8085AE6, 0x990F6A70, 0xC2063BCA, 0xF5010B5C, 0xAF659EFF, 0x9A62AE69, 0xC16BFFD3, 0xF66CCF45,
+    0xA00AE278, 0x890DD2EE, 0xD2048354, 0xE503B3C2, 0xBF672661, 0x8A6016F7, 0xD169474D, 0xE66E77DB,
+    0xBED16A4A, 0x8FD65ADC, 0xD4DF0B66, 0xE3D83BF0, 0xB9BCAE53, 0x8CBB9EC5, 0xD7B2CF7F, 0xE0B5FFE9,
+    0xBDBDF21C, 0x84BAC28A, 0xDFB39330, 0xE8B4A3A6, 0xB2D03605, 0x87D70693, 0xDCDE5729, 0xEBD967BF,
+    0xB3667A2E, 0x82614AB8, 0xD9681B02, 0xEE6F2B94, 0xB40BBE37, 0x810C8EA1, 0xDA05DF1B, 0xED02EF8D,
+];
+
+/// The five bytes that hold the sum, in the order of the sum's bytes 0 to 3 (and a padding byte).
+const SUM_AT: [usize; 4] = [0xC81D, 0xC818, 0xC81F, 0xC81A];
+
+fn compute(d: &[u8]) -> u32 {
+    let mut v: u32 = 0x6368_616F;
+    for &b in &d[BASE..BASE + SPAN] {
+        v = TABLE[usize::from(b ^ v as u8)] ^ (v >> 8);
+    }
+    0x686F_6765 ^ v
+}
+
+/// The sum is computed with its own bytes (and one padding byte) set to zero.
+fn zeroed(d: &[u8]) -> Vec<u8> {
+    let mut c = d.to_vec();
+    for k in SUM_AT.into_iter().chain([0xC81B]) {
+        c[BASE + OFF + k] = 0;
+    }
+    c
+}
+
+fn stored(d: &[u8]) -> u32 {
+    let g = |i: usize| u32::from(d[BASE + OFF + SUM_AT[i]]);
+    g(0) | g(1) << 8 | g(2) << 16 | g(3) << 24
+}
+
+pub fn looks(d: &[u8]) -> bool {
+    d.len() == SIZE && compute(&zeroed(d)) == stored(d)
+}
+
+fn fix(d: &mut Vec<u8>) {
+    let v = compute(&zeroed(d));
+    for (i, k) in SUM_AT.into_iter().enumerate() {
+        d[BASE + OFF + k] = (v >> (8 * i)) as u8;
+    }
+}
+
+fn name(c: &[u8]) -> String {
+    c.iter().take_while(|&&b| b != 0).map(|&b| match b {
+        0x01..=0x5a if b != 0x3c && b != 0x40 => (b + 0x20) as char,
+        _ => '?',
+    }).collect()
+}
+
+pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
+    if !looks(d) {
+        return Err("not a Sonic Adventure 2 Chao garden".into());
+    }
+    let mut b = Builder::new(d);
+    for i in 0..SLOTS {
+        let c = CHAO + i * 0x800;
+        if d[c + 0x80] == 0 {
+            continue;
+        }
+        let nm = name(&d[c + 0x12..c + 0x19]);
+        let who = if nm.is_empty() { format!("Chao {}", i + 1) } else { format!("Chao {} ({nm})", i + 1) };
+        for (k, s) in STATS.iter().enumerate() {
+            b.ranged(&[&who, &format!("{s} level")], c + 0x30 + k, Kind::U8, 0, 99);
+            b.ranged(&[&who, &format!("{s} points")], c + 0x38 + 2 * k, Kind::U16, 0, 9999);
+        }
+    }
+    if b.is_empty() {
+        return Err("no Chao in this garden".into());
+    }
+    Ok(b.finish(KIND, Checksum::Custom(fix)))
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn sample_checksum_and_edit() {
+        let Ok(p) = std::env::var("SA2_ALF") else { return };
+        let d = std::fs::read(p).unwrap();
+        assert!(looks(&d));
+        let mut doc = parse(&d).unwrap();
+        assert_eq!(doc.to_bytes().unwrap(), d);
+        let key = doc.view.as_object().unwrap().keys().next().unwrap().clone();
+        doc.set(&format!("/{key}/Swim level"), 50.into()).unwrap();
+        let out = doc.to_bytes().unwrap();
+        assert!(looks(&out));
+        assert_ne!(out, d);
+    }
+}

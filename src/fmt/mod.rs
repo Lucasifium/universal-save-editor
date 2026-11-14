@@ -284,6 +284,7 @@ pub mod gta3;
 pub mod gtasa;
 pub mod arkhamcity;
 pub mod tov;
+pub mod sa2chao;
 pub mod jedi;
 pub mod sr3;
 pub mod sr4;
@@ -1069,6 +1070,11 @@ pub fn parse_binary(d: &[u8]) -> Option<TreeDoc> {
     }
     if sr3::looks(d) {
         if let Ok(t) = sr3::parse(d) {
+            return Some(t);
+        }
+    }
+    if sa2chao::looks(d) {
+        if let Ok(t) = sa2chao::parse(d) {
             return Some(t);
         }
     }

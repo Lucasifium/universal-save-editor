@@ -23,6 +23,7 @@ Universal Save Editor is free. It builds on other people's work, listed here wit
 | [RE_RSZ (RE Engine field names)](https://github.com/alphazolam/RE_RSZ) | alphazolam | MIT |
 | [P3R Save Lab (Persona 3 Reload save layout and field positions; sample saves used for checks only, not included)](https://github.com/Luckyseer/p3r-save-editor) | P3R Save Lab contributors | MIT |
 | [HyoutaTools (Tales of Vesperia save section table and field positions)](https://github.com/AdmiralCurtiss/HyoutaTools) | AdmiralCurtiss | MIT |
+| [sa2-gardening-tools and SA2SaveUtility (Sonic Adventure 2 Chao garden checksum and field positions, ported)](https://github.com/mattadatta/sa2-gardening-tools) | mattadatta, dfrood | GPL-3.0 |
 | [ArkhamSaveParser (Batman: Arkham City save container and record layout; its test saves used for checks only, not included)](https://github.com/ShikenNuggets/ArkhamSaveParser) | ShikenNuggets | MIT |
 | [P3R-Save-EnDecryptor (Persona 3 Reload Steam save encryption)](https://github.com/illusionyy/P3R-Save-EnDecryptor) | illusion0001 | MIT |
 | [P4G Save Tool (Persona 4 Golden field positions)](https://github.com/fendevel/P4G-Save-Tool) | Jack P. Fenech | MIT |

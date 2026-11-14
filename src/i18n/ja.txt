@@ -23797,3 +23797,15 @@ Magic attack
 TLSaveData0_NN in the Steam remote folder. Gald (also in the save list), and level, experience, HP, TP and the base stats of all nine characters.
 = SteamのremoteフォルダにあるTLSaveData0_NN。ガルド(セーブ一覧にも表示)と、9人全員のレベル、経験値、HP、TP、基本ステータス。
 
+Fly
+= 飛行
+
+Swim
+= 水泳
+
+Stat levels
+= ステータスレベル
+
+The Chao garden file SONIC2B__ALF (the PC release). The level and the points of every stat for each Chao in the garden; the garden's checksum is rewritten.
+= チャオガーデンのファイル SONIC2B__ALF(PC版)。庭にいる各チャオの全ステータスのレベルとポイント。庭のチェックサムは書き直されます。
+

@@ -126,3 +126,21 @@ pub const TOV: Spec = Spec {
     ], only: &[], names: &[] },
     ],
 };
+
+// ------------------------------------------------------------------ Sonic Adventure 2 (Chao garden)
+
+pub const SA2_CHAO: Spec = Spec {
+    name: "Sonic Adventure 2",
+    tab: "Chao",
+    accent: (70, 130, 230),
+    kind: Some(crate::fmt::sa2chao::KIND),
+    markers: &[],
+    subtitle: tx("The Chao garden file SONIC2B__ALF (the PC release). The level and the points of every stat for each Chao in the garden; the garden's checksum is rewritten."),
+    tiles: &[],
+    sections: &[],
+    lists: &[],
+    tables: &[
+    Table { title: tx("Stat levels"), path: "", name: &[], cols: &[(tx("Swim"), "/Swim level"), (tx("Fly"), "/Fly level"), (tx("Run"), "/Run level"), (tx("Power"), "/Power level"), (tx("Stamina"), "/Stamina level"), (tx("Luck"), "/Luck level"), (tx("Intelligence"), "/Intelligence level")], only: &[], names: &[] },
+    Table { title: tx("Stat points"), path: "", name: &[], cols: &[(tx("Swim"), "/Swim points"), (tx("Fly"), "/Fly points"), (tx("Run"), "/Run points"), (tx("Power"), "/Power points"), (tx("Stamina"), "/Stamina points"), (tx("Luck"), "/Luck points"), (tx("Intelligence"), "/Intelligence points")], only: &[], names: &[] },
+    ],
+};
