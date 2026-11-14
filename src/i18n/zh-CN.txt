@@ -25099,3 +25099,9 @@ Cortex baker
 
 Cookies
 = 饼干
+
+Search again
+= 重新搜索
+
+The saves found before are remembered and checked first. Search again looks through all the usual places on this computer for games added since.
+= 之前找到的存档会被记住并优先检查。“重新搜索”会遍历此电脑上所有常见位置，查找之后新增的游戏。

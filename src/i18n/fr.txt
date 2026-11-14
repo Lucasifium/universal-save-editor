@@ -25051,3 +25051,9 @@ Cortex baker
 
 Cookies
 = Cookies
+
+Search again
+= Rechercher à nouveau
+
+The saves found before are remembered and checked first. Search again looks through all the usual places on this computer for games added since.
+= Les sauvegardes trouvées auparavant sont mémorisées et vérifiées en premier. « Rechercher à nouveau » parcourt tous les emplacements habituels de cet ordinateur pour trouver les jeux ajoutés depuis.

@@ -25040,3 +25040,9 @@ Cortex baker
 
 Cookies
 = Galletas
+
+Search again
+= Buscar de nuevo
+
+The saves found before are remembered and checked first. Search again looks through all the usual places on this computer for games added since.
+= Las partidas encontradas antes se recuerdan y se comprueban primero. «Buscar de nuevo» recorre todos los lugares habituales de este equipo para encontrar juegos añadidos desde entonces.

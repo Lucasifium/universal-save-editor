@@ -801,6 +801,8 @@ binary and stays an ironman save. It isn't converted to a normal one.
 
 ## Find my game's saves
 
+The folders where saves were found are remembered (in `save_locations.json` next to the settings), so the next start only checks those folders, which takes a moment, and drops any that are gone or no longer hold a save. The whole computer is searched on the first start, about once a week, and whenever you press *Search again* in *Find my game's saves*.
+
 The start page lists **Your games**: every game in the list whose saves were found on this computer,
 newest first, each one click away from its newest save. *Find my game's saves* (the big button on the
 start page, *Find saves* in the toolbar and the File menu) lists every one of the 530+ (531) PC games the editor knows, Mass Effect 1–3, the Legendary Edition and Andromeda among them — with where it

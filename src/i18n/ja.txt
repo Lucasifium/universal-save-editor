@@ -25126,3 +25126,9 @@ Cortex baker
 
 Cookies
 = クッキー
+
+Search again
+= 再検索
+
+The saves found before are remembered and checked first. Search again looks through all the usual places on this computer for games added since.
+= 以前見つかったセーブは記憶され、最初に確認されます。「再検索」は、このコンピューター上の通常の場所をすべて調べ、その後に追加されたゲームを探します。

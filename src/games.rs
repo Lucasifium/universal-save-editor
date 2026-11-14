@@ -1025,24 +1025,66 @@ pub fn group_of(g: &GameInfo, path: &Path) -> String {
     path.parent().and_then(|p| p.file_name()).map(|n| n.to_string_lossy().to_string()).unwrap_or_default()
 }
 
+/// A folder that held a game's saves: where the search found them, so the next start can look
+/// there first. `pass` marks an Xbox app (Game Pass) folder.
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub struct Located {
+    pub dir: PathBuf,
+    pub pass: bool,
+}
+
+fn finish(mut out: Vec<Found>) -> Vec<Found> {
+    out.sort_by(|a, b| b.modified.cmp(&a.modified));
+    out.dedup_by(|a, b| a.path == b.path);
+    out
+}
+
+fn look_in(g: &GameInfo, loc: &Located, out: &mut Vec<Found>) {
+    if loc.pass {
+        game_pass_saves(&loc.dir, out);
+    } else {
+        walk(&loc.dir, g.depth.saturating_sub(1), g, out);
+    }
+}
+
 /// This game's saves on this computer, newest first.
 pub fn find(g: &GameInfo) -> Vec<Found> {
+    find_locating(g).0
+}
+
+/// Like `find`, with the folders the saves were in (to be remembered).
+pub fn find_locating(g: &GameInfo) -> (Vec<Found>, Vec<Located>) {
     let mut out = vec![];
+    let mut locs = vec![];
     for (base, rel) in g.places {
         let pass = matches!(base, GamePass(_));
         for root in bases(*base) {
             for dir in expand(&root, rel) {
-                if pass {
-                    game_pass_saves(&dir, &mut out);
-                } else {
-                    walk(&dir, g.depth.saturating_sub(1), g, &mut out);
+                let before = out.len();
+                let loc = Located { dir, pass };
+                look_in(g, &loc, &mut out);
+                if out.len() > before && !locs.contains(&loc) {
+                    locs.push(loc);
                 }
             }
         }
     }
-    out.sort_by(|a, b| b.modified.cmp(&a.modified));
-    out.dedup_by(|a, b| a.path == b.path);
-    out
+    (finish(out), locs)
+}
+
+/// Looks only in folders that held this game's saves before: no search of the computer's
+/// folders. Folders that are gone, or no longer hold a matching save, give nothing.
+pub fn find_in(g: &GameInfo, known: &[Located]) -> (Vec<Found>, Vec<Located>) {
+    let mut out = vec![];
+    let mut still = vec![];
+    for loc in known {
+        let before = out.len();
+        look_in(g, loc, &mut out);
+        if out.len() > before {
+            still.push(loc.clone());
+        }
+    }
+    (finish(out), still)
 }
 
 #[cfg(test)]

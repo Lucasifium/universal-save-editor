@@ -25014,3 +25014,9 @@ Cortex baker
 
 Cookies
 = Biscoitos
+
+Search again
+= Pesquisar novamente
+
+The saves found before are remembered and checked first. Search again looks through all the usual places on this computer for games added since.
+= Os saves encontrados antes são lembrados e verificados primeiro. «Pesquisar novamente» percorre todos os locais habituais deste computador em busca de jogos adicionados desde então.

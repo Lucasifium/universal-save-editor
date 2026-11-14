@@ -185,19 +185,44 @@ struct GamePicker {
 /// The saves found for each game in the catalog (`None`: not looked at yet).
 type SaveSearch = std::sync::Arc<std::sync::Mutex<Vec<Option<Vec<crate::games::Found>>>>>;
 
-/// Looks for every game's saves on a worker thread.
+/// Looks for every game's saves on a worker thread. Folders where saves were found before are
+/// checked first and are all that's looked at while the last full search is recent; the whole
+/// computer is searched on the first start, once a week, and when asked (`rescan`).
 fn search_saves() -> SaveSearch {
     let found: SaveSearch = std::sync::Arc::new(std::sync::Mutex::new(vec![None; crate::games::GAMES.len()]));
+    spawn_search(&found, false);
+    found
+}
+
+/// Starts a search that fills `found` in (a new full one when `full`).
+fn spawn_search(found: &SaveSearch, full: bool) {
     let out = found.clone();
     std::thread::spawn(move || {
+        let mut cache = crate::save_cache::SaveCache::load();
+        let quick = !full && cache.fresh();
+        if !quick {
+            if let Ok(mut v) = out.lock() {
+                v.iter_mut().for_each(|x| *x = None);
+            }
+        }
         for (i, g) in crate::games::GAMES.iter().enumerate() {
-            let f = crate::games::find(g);
+            let known = cache.games.get(g.name).cloned().unwrap_or_default();
+            // Quick: only the remembered folders. A game with none remembered has no saves here.
+            let (f, locs) = if quick { crate::games::find_in(g, &known) } else { crate::games::find_locating(g) };
+            if locs.is_empty() {
+                cache.games.remove(g.name);
+            } else {
+                cache.games.insert(g.name.to_string(), locs);
+            }
             if let Ok(mut v) = out.lock() {
                 v[i] = Some(f);
             }
         }
+        if !quick {
+            cache.mark_searched();
+        }
+        cache.save();
     });
-    found
 }
 
 impl GamePicker {
@@ -4315,6 +4340,13 @@ fn game_picker_window(ctx: &egui::Context, gp: &mut GamePicker) -> (Option<PathB
                                 ui.selectable_value(&mut gp.level, Some(l), l.label()).on_hover_text(l.hint());
                             }
                         });
+                    if ui
+                        .add_enabled(!searching, egui::Button::new(tr("Search again")))
+                        .on_hover_text(tr("The saves found before are remembered and checked first. Search again looks through all the usual places on this computer for games added since."))
+                        .clicked()
+                    {
+                        spawn_search(&gp.found, true);
+                    }
                     // Inline (not pushed to the far edge) so it wraps with the rest instead of leaving the window.
                     if ui.button(tr("Close")).clicked() {
                         close = true;

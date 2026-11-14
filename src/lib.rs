@@ -32,6 +32,7 @@ mod playerprefs;
 mod renpy_sign;
 mod risks;
 mod running;
+mod save_cache;
 mod settings;
 mod i18n;
 mod steamid;
