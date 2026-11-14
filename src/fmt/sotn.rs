@@ -97,7 +97,7 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
     for &(n, at, bit) in WARP {
         super::retro::flag(&mut b, &["Warp rooms", n], s + at, bit);
     }
-    Ok(b.finish(KIND, Checksum::None).with_note("Close the emulator first. Gold, play time and the other numbers are limited to what the game can show; the save's memory-card preview (name, gold and time) is kept in step."))
+    Ok(b.finish(KIND, Checksum::None).with_note(crate::i18n::tx("Close the emulator first. Gold, play time and the other numbers are limited to what the game can show; the save's memory-card preview (name, gold and time) is kept in step.")))
 }
 
 const RELICS: &[(&str, usize)] = &[

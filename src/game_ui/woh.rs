@@ -5,6 +5,7 @@
 //! and its unlock checks compare against the code. The codes below are the ones the game
 //! writes (read from public completed saves); entries whose code isn't known are left alone.
 
+use crate::i18n::{tr, trf};
 use super::{fact, hero, panel, GameCtx};
 use crate::json_view::pointer_escape;
 use eframe::egui::{self, Color32, Ui};
@@ -98,7 +99,7 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
     panel(ui, "Unlocks", |ui| {
         let all: Vec<_> = SECTIONS.iter().flat_map(|(s, _)| unlock_edits(cx.root, s)).collect();
         ui.horizontal_wrapped(|ui| {
-            if ui.add_enabled(!all.is_empty(), egui::Button::new("Unlock everything")).on_hover_text("Writes the game's own unlock code into every achievement, mystery ending, enemy, event and pantheon entry whose code is known. Characters, outfits and the other rewards that follow from achievements unlock with them.").clicked() {
+            if ui.add_enabled(!all.is_empty(), egui::Button::new(tr("Unlock everything"))).on_hover_text(tr("Writes the game's own unlock code into every achievement, mystery ending, enemy, event and pantheon entry whose code is known. Characters, outfits and the other rewards that follow from achievements unlock with them.")).clicked() {
                 cx.edits.extend(all.iter().cloned());
             }
             for (s, label) in SECTIONS {
@@ -117,17 +118,17 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
     if cx.get("/town/slot[0]").is_some() {
         panel(ui, "Last run", |ui| {
             if let Some(n) = &who {
-                ui.label(format!("Character: {n}"));
+                ui.label(trf("Character: {0}", &[&n]));
             }
             let items: Vec<String> = (0..10).filter_map(|i| cx.text(&format!("/town/slot[{i}]"))).filter(|s| !s.is_empty()).collect();
             if !items.is_empty() {
-                ui.label(format!("Items: {}", items.join(", ")));
+                ui.label(trf("Items: {0}", &[&(items.join(", "))]));
             }
             let board: Vec<String> = (0..10).filter_map(|i| cx.text(&format!("/town/board[{i}]"))).filter(|s| !s.is_empty() && s != "999").collect();
             if !board.is_empty() {
-                ui.label(format!("Mystery board: {}", board.join(", ")));
+                ui.label(trf("Mystery board: {0}", &[&(board.join(", "))]));
             }
-            ui.weak("The run's stats, doom and items are in the Values tab under town.");
+            ui.weak(tr("The run's stats, doom and items are in the Values tab under town."));
         });
     }
 
@@ -140,7 +141,7 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
             });
         });
     }
-    ui.weak("The save has no checksum. Close the game before editing; it writes the file when you save and exit. Checked on a public completed save, not yet tried in the game.");
+    ui.weak(tr("The save has no checksum. Close the game before editing; it writes the file when you save and exit. Checked on a public completed save, not yet tried in the game."));
 }
 
 #[cfg(test)]

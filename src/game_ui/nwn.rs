@@ -1,6 +1,7 @@
 //! Neverwinter Nights: the player of a module save (`<Module>.sav`) or a character file
 //! (`.bic`). Values come from `fmt::nwn`.
 
+use crate::i18n::{tr};
 use crate::widgets::ScrollLock;
 use super::{columns, hero, panel, GameCtx};
 use crate::json_view::pointer_escape;
@@ -52,11 +53,11 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
                         cx.grid_row(ui, k, &join("/Character/Health", k), 80.0);
                     }
                 });
-                ui.weak("Max HP includes bonuses; base HP is before them.");
+                ui.weak(tr("Max HP includes bonuses; base HP is before them."));
                 ui.add_space(6.0);
                 cx.attribute(ui, "Good\u{2013}evil", "/Character/Alignment/Good\u{2013}evil", 100.0, GOLD);
                 cx.attribute(ui, "Law\u{2013}chaos", "/Character/Alignment/Law\u{2013}chaos", 100.0, GOLD);
-                ui.weak("100 is good / lawful, 0 evil / chaotic.");
+                ui.weak(tr("100 is good / lawful, 0 evil / chaotic."));
             });
         }
     });
@@ -70,7 +71,7 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
             columns(ui, 300.0, names.len(), |ui, i| {
                 cx.attribute(ui, &names[i], &join(sk, &names[i]), 40.0, GOLD);
             });
-            ui.weak("Ranks bought with skill points (ability bonuses and items add to them in the game).");
+            ui.weak(tr("Ranks bought with skill points (ability bonuses and items add to them in the game)."));
         });
     }
     let items: Vec<String> = match cx.get("/Inventory") {
@@ -97,13 +98,13 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
                 });
             });
         }
-        ui.weak("How many of each item is in the stack, by the item's tag. The game may cut a stack back to what the item allows; items can't be added or removed here.");
+        ui.weak(tr("How many of each item is in the stack, by the item's tag. The game may cut a stack back to what the item allows; items can't be added or removed here."));
         });
     }
     ui.add_space(6.0);
     if cx.text("/Save/Area").is_some() || cx.text("/Save/Module").is_some() {
-        ui.weak("Saving also updates player.bic in the same folder, the copy the game shows on the load screen.");
+        ui.weak(tr("Saving also updates player.bic in the same folder, the copy the game shows on the load screen."));
     } else {
-        ui.weak("Servers with character checks (ELC/ILR) may refuse a character edited past the rules.");
+        ui.weak(tr("Servers with character checks (ELC/ILR) may refuse a character edited past the rules."));
     }
 }

@@ -195,7 +195,7 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
     if let Some(at) = pm("SafehouseStorage") {
         items(&mut b, &a, d, &["Safehouse storage"], at).ok_or_else(bad)?;
     }
-    Ok(b.finish(KIND, Checksum::None).with_note("Close the game first. Items are listed by their game id; quality is shown as Q1 to Q6. Only the amounts are edited."))
+    Ok(b.finish(KIND, Checksum::None).with_note(crate::i18n::tr("Close the game first. Items are listed by their game id; quality is shown as Q1 to Q6. Only the amounts are edited.")))
 }
 
 #[cfg(test)]

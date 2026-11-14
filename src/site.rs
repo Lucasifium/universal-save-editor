@@ -236,7 +236,8 @@ code{background:var(--card);border:1px solid var(--line);border-radius:6px;paddi
 .empty{color:var(--muted);display:none}
 details#all{margin:12px 0}details#all>summary{cursor:pointer;display:inline-block;padding:10px 16px;border:1px solid var(--line);border-radius:10px;background:var(--card);font-weight:600;list-style:none}
 details#all>summary::-webkit-details-marker{display:none}details#all>summary::before{content:"\25B8";display:inline-block;margin-right:8px;transition:transform .15s}
-details#all[open]>summary::before{transform:rotate(90deg)}details#all>summary:hover{border-color:var(--accent2)}
+details#all[open]>summary::before{transform:rotate(90deg)}
+details.letter{margin:8px 0}details.letter>summary{cursor:pointer;font-weight:700;padding:6px 0}details.letter>summary span{color:var(--muted);font-weight:400}details#all>summary:hover{border-color:var(--accent2)}
 #q{width:100%;max-width:420px;padding:10px 14px;border-radius:10px;border:1px solid var(--line);background:var(--card);color:var(--text);font-size:1rem}
 ol li,ul li{margin:4px 0}@media (max-width:600px){header nav{margin-left:0;gap:14px;flex-wrap:wrap}header .in{padding-top:10px;padding-bottom:10px;gap:6px}}footer{border-top:1px solid var(--line);margin-top:48px;color:var(--muted);font-size:.9rem}footer .in{padding:20px 16px}
 "#;
@@ -350,11 +351,53 @@ const WHY: &str = r#"<ul>
 /// Rewrites "N+ (M) PC games" (or "N+ PC games") to the current registry numbers.
 fn with_game_count(text: &str) -> String {
     const TAIL: &str = " PC games";
-    let Some(i) = text.find(TAIL) else { return text.to_string() };
-    let head = &text[..i];
-    let start = head.rfind(|c: char| !(c.is_ascii_digit() || "+ ()".contains(c))).map(|k| k + 1).unwrap_or(0);
-    let start = start + head[start..].len() - head[start..].trim_start_matches(' ').len();
-    format!("{}{}+ ({}){}", &text[..start], GAMES.len() / 10 * 10, GAMES.len(), &text[i..])
+    let mut out = String::new();
+    let mut rest = text;
+    while let Some(i) = rest.find(TAIL) {
+        let head = &rest[..i];
+        let start = head.rfind(|c: char| !(c.is_ascii_digit() || "+ ()".contains(c))).map(|k| k + 1).unwrap_or(0);
+        let start = start + head[start..].len() - head[start..].trim_start_matches(' ').len();
+        out.push_str(&rest[..start]);
+        let _ = write!(out, "{}+ ({}){TAIL}", GAMES.len() / 10 * 10, GAMES.len());
+        rest = &rest[i + TAIL.len()..];
+    }
+    out.push_str(rest);
+    out
+}
+
+/// The README's "Game screens" section as one collapsible table per first letter (digits and
+/// symbols under #), rows sorted by name. Rows added anywhere in the section, in any order, are
+/// folded into their letter; `build_site` rewrites the README with this.
+fn group_readme_screens(text: &str) -> String {
+    let Some(at) = text.find("## Game screens") else { return text.to_string() };
+    let end = text[at..].find("\n## ").map_or(text.len(), |e| at + e);
+    let section = &text[at..end];
+    let intro: Vec<&str> = section.lines().take_while(|l| !l.starts_with("<details") && !l.starts_with('|')).collect();
+    let mut rows: Vec<(char, String, &str)> = section
+        .lines()
+        .filter(|l| l.starts_with("| ") && !l.starts_with("| Game |"))
+        .map(|l| {
+            let name = l[2..].split(" | ").next().unwrap_or("").trim().to_lowercase();
+            let c = name.chars().next().and_then(|c| c.to_uppercase().next()).filter(|c| c.is_alphabetic()).unwrap_or('#');
+            (c, name, l)
+        })
+        .collect();
+    rows.sort_by(|a, b| ((a.0 != '#'), a.0, &a.1).cmp(&((b.0 != '#'), b.0, &b.1)));
+    let mut out = intro.join("\n").trim_end().to_string();
+    out.push_str("\n\n");
+    let mut i = 0;
+    while i < rows.len() {
+        let c = rows[i].0;
+        let n = rows[i..].iter().take_while(|r| r.0 == c).count();
+        let _ = write!(out, "<details>\n<summary><strong>{c}</strong> ({n})</summary>\n\n| Game | Screen |\n|---|---|\n");
+        for r in &rows[i..i + n] {
+            out.push_str(r.2);
+            out.push('\n');
+        }
+        out.push_str("\n</details>\n\n");
+        i += n;
+    }
+    format!("{}{}{}", &text[..at], out.trim_end_matches('\n'), &text[end..])
 }
 
 #[test]
@@ -365,7 +408,10 @@ fn build_site() {
     for f in ["README.md", "Cargo.toml"] {
         let path = std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join(f);
         let text = std::fs::read_to_string(&path).unwrap();
-        let fixed = with_game_count(&text);
+        let mut fixed = with_game_count(&text);
+        if f == "README.md" {
+            fixed = group_readme_screens(&fixed);
+        }
         if fixed != text {
             std::fs::write(&path, fixed).unwrap();
         }
@@ -384,7 +430,8 @@ fn build_site() {
     std::fs::write(out.join("google9d120e6c8e9d3fa5.html"), "google-site-verification: google9d120e6c8e9d3fa5.html").unwrap();
     let rows = readme_rows();
     let mut urls = vec![format!("{SITE}/"), format!("{SITE}/{WEB_APP}")];
-    let mut cards = String::new();
+    // The game list, one collapsible section per first letter (digits and symbols under #).
+    let mut letters: std::collections::BTreeMap<(bool, char), (usize, String)> = Default::default();
     let mut unmatched = vec![];
     // SITE_SKIP="Game A|Game B" leaves those games off the site for now.
     let skip: Vec<String> = std::env::var("SITE_SKIP").unwrap_or_default().split('|').map(|s| s.trim().to_string()).filter(|s| !s.is_empty()).collect();
@@ -479,9 +526,16 @@ fn build_site() {
         let blurb = what.as_deref().map(card_blurb).unwrap_or_default();
         let tag_class = if has_screen(g) { "tag screen" } else { "tag" };
         let blurb_html = if blurb.is_empty() { String::new() } else { format!("<small>{}</small>", esc(&blurb)) };
+        let first = g.name.chars().next().and_then(|c| c.to_uppercase().next()).filter(|c| c.is_alphabetic());
+        let (count, cards) = letters.entry((first.is_some(), first.unwrap_or('#'))).or_default();
+        *count += 1;
         let _ = write!(cards, r#"<li><a href="{s}/"><span>{}</span>{blurb_html}<span class="{tag_class}">{lvl}</span></a></li>"#, esc(g.name));
     }
 
+    let mut cards = String::new();
+    for ((_, c), (count, items)) in &letters {
+        let _ = write!(cards, r#"<details class="letter"><summary>{c} <span>({count})</span></summary><ul class="grid">{items}</ul></details>"#);
+    }
     let full = GAMES.iter().filter(|g| has_screen(g)).count();
     let desc = format!("Universal Save Editor is a free, offline save editor and manager for {}+ ({}) PC games, including Elden Ring, Skyrim, Stardew Valley and Cyberpunk 2077. Nothing is uploaded.", GAMES.len() / 10 * 10, GAMES.len());
     let body = format!(
@@ -498,10 +552,10 @@ fn build_site() {
 <p>{full} games open on a screen made for them; the rest can be edited value by value. Type to find yours, or open the full list:</p>
 <input id="q" type="search" placeholder="Find a game" aria-label="Find a game">
 <details id="all"><summary>Show all {n} supported games</summary>
-<ul class="grid" id="list">{cards}</ul>
+<div id="list">{cards}</div>
 </details>
 <p class="empty" id="none">No game matches. The editor can still open saves of games that aren't listed: try it, or <a href="{REPO}/issues">ask for the game</a>.</p>
-<script>var all=document.getElementById('all');if(location.hash==='#games')all.open=true;window.addEventListener('hashchange',function(){{if(location.hash==='#games')all.open=true}});document.getElementById('q').addEventListener('input',function(){{var q=this.value.toLowerCase().trim(),n=0;if(q)all.open=true;document.querySelectorAll('#list li').forEach(function(li){{var hit=li.querySelector('span').textContent.toLowerCase().indexOf(q)>=0;li.style.display=hit?'':'none';if(hit)n++}});document.getElementById('none').style.display=n?'none':'block'}})</script>
+<script>var all=document.getElementById('all');if(location.hash==='#games')all.open=true;window.addEventListener('hashchange',function(){{if(location.hash==='#games')all.open=true}});document.getElementById('q').addEventListener('input',function(){{var q=this.value.toLowerCase().trim(),n=0;if(q)all.open=true;document.querySelectorAll('#list details.letter').forEach(function(d){{var h=0;d.querySelectorAll('li').forEach(function(li){{var hit=li.querySelector('span').textContent.toLowerCase().indexOf(q)>=0;li.style.display=hit?'':'none';if(hit){{h++;n++}}}});d.style.display=h?'':'none';d.open=!!q&&h>0}});document.getElementById('none').style.display=n?'none':'block'}})</script>
 "#,
         n = GAMES.len(),
     );
@@ -554,4 +608,12 @@ fn readme_game_count_matches_registry() {
         let text = std::fs::read_to_string(root.join(f)).unwrap();
         assert!(with_game_count(&text) == text, "{f} has a stale game count: run `cargo test --release --lib build_site -- --ignored`");
     }
+}
+
+/// Every row of the README's game-screens list sits in its own letter's collapsible table (a row
+/// outside one renders as a run-on paragraph on GitHub).
+#[test]
+fn readme_screens_are_grouped() {
+    let text = std::fs::read_to_string(std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join("README.md")).unwrap();
+    assert!(group_readme_screens(&text) == text, "README.md's game screens are not grouped by letter: run `cargo test --release --lib build_site -- --ignored`");
 }

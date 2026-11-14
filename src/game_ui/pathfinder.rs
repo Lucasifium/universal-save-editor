@@ -3,6 +3,7 @@
 //! object can be `{"$ref": "N"}` pointing at the object whose `$id` is N in the same file,
 //! so values are found through those links.
 
+use crate::i18n::{tr};
 use crate::widgets::ScrollLock;
 use super::{columns, fact, hero, panel, tabs, GameCtx};
 use crate::json_view::pointer_escape;
@@ -129,7 +130,7 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
         fact(ui, "Party", &members.len().to_string(), accent);
     });
     if members.is_empty() {
-        ui.weak("No party members found in this save.");
+        ui.weak(tr("No party members found in this save."));
         return;
     }
     let names: Vec<String> = members.iter().map(|m| m.0.clone()).collect();
@@ -147,7 +148,7 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
                         cx.attribute(ui, &format!("{k} ({short})"), &p, 30.0, accent);
                     }
                 }
-                ui.weak("Base scores, before race, items and buffs.");
+                ui.weak(tr("Base scores, before race, items and buffs."));
             });
         } else {
             panel(ui, "Progression", |ui| {
@@ -175,7 +176,7 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
                         cx.grid_row(ui, "Hit points (base)", &q, 80.0);
                     }
                 }
-                ui.weak("Experience is shared by the party; raising it gives level-ups to pick in the game.");
+                ui.weak(tr("Experience is shared by the party; raising it gives level-ups to pick in the game."));
             });
         }
     });
@@ -208,7 +209,7 @@ fn story_flags(ui: &mut Ui, cx: &mut GameCtx, wotr: bool) {
                     cx.row_fixed(ui, n, p, 320.0, 90.0);
                 }
             });
-            ui.weak("The game's own story and unlock flags: most are 0 or 1, some count up. Shows 400 at a time: use the filter.");
+            ui.weak(tr("The game's own story and unlock flags: most are 0 or 1, some count up. Shows 400 at a time: use the filter."));
         });
     });
 }

@@ -139,11 +139,11 @@ Universal Save Editor is free. It builds on other people's work, listed here wit
 | [FloweysTimeMachine (Undertale save layout, item and phone names)](https://github.com/crumblingstatue/FloweysTimeMachine) | crumblingstatue | facts only (file layouts, ids and names), credited |
 | [DeltaruneDecomp (Deltarune Chapter 1 save field order)](https://github.com/TeamBlossomDevs/DeltaruneDecomp) | TeamBlossomDevs | facts only (file layouts, ids and names), credited |
 | [DarkestDungeonSaveEditor (Darkest Dungeon DSON format and its type rules, ported)](https://github.com/robojumper/DarkestDungeonSaveEditor) | robojumper | MIT |
-| [game-tools-collection (Octopath Traveler II character and job ids; Golden Sun Djinn counts and file-select totals; Final Fantasy X ability, overdrive, item, key item and Monster Arena layout and names; Super Mario 64, Mario Kart 64, GoldenEye 007, Banjo-Kazooie, Ocarina of Time, Super Smash Bros., Super Metroid and A Link to the Past save layouts)](https://github.com/RyudoSynbios/game-tools-collection) | RyudoSynbios | MIT |
+| [game-tools-collection (Octopath Traveler II character and job ids; Golden Sun Djinn counts and file-select totals; Final Fantasy X ability, overdrive, item, key item and Monster Arena layout and names; Super Mario 64, Mario Kart 64, GoldenEye 007, Banjo-Kazooie, Ocarina of Time, Super Smash Bros., Super Metroid and A Link to the Past and Final Fantasy VI (SNES) save layouts and names)](https://github.com/RyudoSynbios/game-tools-collection) | RyudoSynbios | MIT |
 | [recordkeeper (Xenoblade Chronicles 3 save layout: play time, gold, character and item slot offsets)](https://github.com/roccodev/recordkeeper) | RoccoDev | LGPL-3.0 (library); combined here under GPL-3.0 |
 | [MLDT_SE (Mario & Luigi: Dream Team save offsets and item names)](https://github.com/Cefo14/MLDT_SE) | Cefo14 | MIT |
-| [savegame-editors (Super Smash Bros. Ultimate, Mario Kart 7 and Super Kirby Clash save offsets; Mario Kart 7 checksum)](https://github.com/marcrobledo/savegame-editors) | Marc Robledo | MIT |
-| [game-tools-collection (PlayStation save layouts, ids and names: Castlevania: Symphony of the Night, Final Fantasy VIII, Final Fantasy Tactics, Resident Evil, Kingdom Hearts II)](https://github.com/RyudoSynbios/game-tools-collection) | RyudoSynbios | MIT |
+| [savegame-editors (Super Smash Bros. Ultimate, Mario Kart 7 and Super Kirby Clash save offsets; Mario Kart 7 checksum; Breath of the Wild value hashes, item ids, English names (datamined by MrCheeze) and stack limits)](https://github.com/marcrobledo/savegame-editors) | Marc Robledo | MIT |
+| [game-tools-collection (PlayStation save layouts, ids and names: Castlevania: Symphony of the Night, Final Fantasy VIII, Final Fantasy Tactics, Resident Evil, Crash Bandicoot, Gran Turismo, Kingdom Hearts, Kingdom Hearts II)](https://github.com/RyudoSynbios/game-tools-collection) | RyudoSynbios | MIT |
 | [octopath-save-editor (Octopath Traveler save paths and property names)](https://github.com/AppleBoiy/octopath-save-editor) | AppleBoiy | facts only (file layouts, ids and names), credited |
 | [Darkest Dungeon 2 save editor (save files and value names)](https://github.com/Hyena68/Darkest-Dungeon-SAVE-EDITOR) | Hyena68 | facts only (file layouts, ids and names), credited |
 | [final_fantasy_pixel_remaster_save_decrypter (Pixel Remaster key derivation, cipher parameters and file layering, ported)](https://github.com/ReverseTelnet/final_fantasy_pixel_remaster_save_decrypter) | ReverseTelnet | GPL-3.0 |
@@ -206,6 +206,9 @@ Universal Save Editor is free. It builds on other people's work, listed here wit
 | [Universal Koei Tecmo Save Editor (Warriors Orochi 4 and Samurai Warriors 4-II envelopes, key derivation and field offsets, and the Atelier Sophie/Firis layouts, ported)](https://github.com/Sanrenan/Universal-Koei-Tecmo-Save-Editor) | Sanrenan | MIT |
 | [nier_replicant (save layout)](https://github.com/dskrypa/nier_replicant) | dskrypa | MIT |
 | [GenZ-Save-File-Editor (Generation Zero item hashes and names)](https://github.com/GrimChan/GenZ-Save-File-Editor) | GrimChan | MIT |
+| [RSWreckGarage (Wreckfest profile container and career layout)](https://github.com/RootSwitch/RSWreckGarage) | RootSwitch | Unlicense |
+| [The-Evil-Within-Checksum-Scripts (inventory.zwei checksum and layout)](https://github.com/xymox12/The-Evil-Within-Checksum-Scripts) | xymox12 | MIT |
+| [Gibbed.Borderlands (Borderlands character save layout)](https://github.com/gibbed/Gibbed.Borderlands) | Rick (gibbed) | zlib |
 
 Copyright notices of the projects above whose code or tables were used:
 
@@ -232,11 +235,11 @@ Copyright notices of the projects above whose code or tables were used:
 - dragon-age-save-editor (Dragon Age: Origins stat ids, approval and campaign ids): Copyright (c) 2026 Aleksei Tovkachev. Licensed under MIT.
 - vampire-survivors-save-editor (Vampire Survivors checksum and number styles): Copyright (c) 2026 chrisdfennell. Licensed under MIT.
 - DarkestDungeonSaveEditor (Darkest Dungeon DSON format and its type rules, ported): Copyright (c) 2018 robojumper. Licensed under MIT.
-- game-tools-collection (Octopath Traveler II character and job ids; Golden Sun Djinn counts and file-select totals; Final Fantasy X ability, overdrive, item, key item and Monster Arena layout and names; Super Mario 64, Mario Kart 64, GoldenEye 007, Banjo-Kazooie, Ocarina of Time, Super Smash Bros., Super Metroid and A Link to the Past save layouts): Copyright (c) 2024 RyudoSynbios. Licensed under MIT.
+- game-tools-collection (Octopath Traveler II character and job ids; Golden Sun Djinn counts and file-select totals; Final Fantasy X ability, overdrive, item, key item and Monster Arena layout and names; Super Mario 64, Mario Kart 64, GoldenEye 007, Banjo-Kazooie, Ocarina of Time, Super Smash Bros., Super Metroid and A Link to the Past and Final Fantasy VI (SNES) save layouts and names): Copyright (c) 2024 RyudoSynbios. Licensed under MIT.
 - recordkeeper (Xenoblade Chronicles 3 save layout): Copyright (c) RoccoDev. Licensed under LGPL-3.0, used here under GPL-3.0.
 - MLDT_SE (Mario & Luigi: Dream Team save offsets and item names): Copyright (c) 2017 Cefo14. Licensed under MIT.
-- savegame-editors (Super Smash Bros. Ultimate, Mario Kart 7, Super Kirby Clash save offsets): Copyright (c) 2017-2023 Marc Robledo. Licensed under MIT.
-- game-tools-collection (PlayStation save layouts, ids and names: Castlevania: Symphony of the Night, Final Fantasy VIII, Final Fantasy Tactics, Resident Evil, Kingdom Hearts II): Copyright (c) 2024 RyudoSynbios. Licensed under MIT.
+- savegame-editors (Super Smash Bros. Ultimate, Mario Kart 7, Super Kirby Clash save offsets; Breath of the Wild hashes, item ids and names): Copyright (c) 2017-2023 Marc Robledo. Licensed under MIT.
+- game-tools-collection (PlayStation save layouts, ids and names: Castlevania: Symphony of the Night, Final Fantasy VIII, Final Fantasy Tactics, Resident Evil, Crash Bandicoot, Gran Turismo, Kingdom Hearts, Kingdom Hearts II): Copyright (c) 2024 RyudoSynbios. Licensed under MIT.
 - LSLib (Larian LSPK package, LSF resource and Osiris story layouts, ported): Copyright (c) Norbyte. Licensed under MIT.
 - valheim-fch-editor (Valheim character layout, skill ids): Copyright (c) 2021 cQuaid. Licensed under MIT.
 - obababot (Golden Sun save layout; item, class and Djinn name tables): Copyright (c) 2020 Dyrati. Licensed under MIT.
@@ -10587,6 +10590,11 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 | [YS8 (Ys VIII save layout, item counts and checksums)](https://github.com/turtle-insect/YS8) | turtle-insect | GPL-3.0 |
 | [DQ11_NS (Dragon Quest XI S save encryption, checksum and character and bag layout)](https://github.com/turtle-insect/DQ11_NS) | turtle-insect | GPL-3.0 |
 | [Universal Koei Tecmo Save Editor (Koei Tecmo PC save envelopes, checksums and field offsets for Dynasty Warriors 8 XL, Pirate Warriors 3 and 4 and Persona 5 Strikers)](https://github.com/Sanrenan/Universal-Koei-Tecmo-Save-Editor) | Sanrenan | MIT |
+| [XV2-Tools (Dragon Ball Xenoverse save layout of the custom characters)](https://github.com/LazyBone152/XV2-Tools) | LazyBone152 | MIT |
+| [ChroniconSaveEditor (Chronicon character section offsets)](https://github.com/PowerCleanX/ChroniconSaveEditor) | PowerCleanX | MIT |
+| [Sword-Art-Online-FB-Inventory-Editor (save key, checksum recipe, slot checks and item names)](https://github.com/alfizari/Sword-Art-Online-FB-Inventory-Editor) | alfizari | Apache-2.0 |
+| [Borderlands4SaveDataResigner (Borderlands 4 save encryption: key made from the Steam id, zlib stream and Adler-32 trailer; its sample saves used for checks only, not included)](https://github.com/mi5hmash/Borderlands4SaveDataResigner) | mi5hmash | MIT (layout facts, code reimplemented) |
+| [WukongMM (Black Myth: Wukong save layout: header checksum, XOR key and field numbers; its sample saves used for checks only, not included)](https://github.com/aloneGtz/WukongMM) | WukongMM contributors | MIT (layout facts, code reimplemented) |
 
 ## Metal Gear Solid V save variable names
 

@@ -1,6 +1,7 @@
 //! Golden Sun and Golden Sun: The Lost Age (GBA): each save file's coins, the party's
 //! stat cards and inventories, and a Djinn grid per element.
 
+use crate::i18n::{tr};
 use super::{columns, fact, hero, inset_fill, meter, panel, tabs, GameCtx};
 use crate::fmt::goldensun::{djinn_name, ELEMENTS, KIND_GS2};
 use crate::json_view::pointer_escape;
@@ -27,7 +28,7 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
     let lost_age = cx.tree.is_some_and(|t| t.kind_name == KIND_GS2);
     let files: Vec<String> = keys(cx, "").into_iter().filter(|k| k.starts_with("File ")).collect();
     if files.is_empty() {
-        ui.weak("No save file in this flash.");
+        ui.weak(tr("No save file in this flash."));
         return;
     }
     let labels: Vec<String> = files
@@ -64,7 +65,7 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
     });
 
     if party.is_empty() {
-        ui.weak("Nobody is in the party in this file.");
+        ui.weak(tr("Nobody is in the party in this file."));
         return;
     }
     let names: Vec<String> = party
@@ -90,7 +91,7 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
                         cx.chip(ui, k, &join(&sub("Story"), k), ACCENT);
                     }
                 });
-                ui.weak("The choices the password carries into The Lost Age. Click one to turn it on or off; the scene behind it isn't replayed.");
+                ui.weak(tr("The choices the password carries into The Lost Age. Click one to turn it on or off; the scene behind it isn't replayed."));
             });
         });
     }
@@ -127,14 +128,14 @@ fn member(ui: &mut Ui, cx: &mut GameCtx, p: &str, key: &str) {
         egui::Frame::none().fill(inset_fill(ui, color)).rounding(10.0).inner_margin(10.0).show(ui, |ui| {
             ui.set_width(ui.available_width());
             if c == 0 {
-                ui.label(RichText::new("HP and PP").strong());
+                ui.label(RichText::new(tr("HP and PP")).strong());
                 for (k, max, bar) in [("HP", "Max HP", Color32::from_rgb(70, 170, 90)), ("PP", "Max PP", Color32::from_rgb(70, 120, 210))] {
                     let (cur, m) = (cx.num(&at(k)).unwrap_or(0.0), cx.num(&at(max)).unwrap_or(0.0));
                     meter(ui, k, cur, m, bar);
                     cx.row_fixed(ui, &format!("Current {k}"), &at(k), 110.0, 70.0);
                 }
                 ui.add_space(6.0);
-                ui.label(RichText::new("Stats in the menu").strong());
+                ui.label(RichText::new(tr("Stats in the menu")).strong());
                 egui::Grid::new(("gs_shown", p)).num_columns(2).spacing([16.0, 4.0]).show(ui, |ui| {
                     for k in ["Attack", "Defense", "Agility", "Luck"] {
                         ui.label(k);
@@ -143,11 +144,11 @@ fn member(ui: &mut Ui, cx: &mut GameCtx, p: &str, key: &str) {
                     }
                 });
             } else {
-                ui.label(RichText::new("Base stats").strong());
+                ui.label(RichText::new(tr("Base stats")).strong());
                 for (k, max) in [("Max HP", 999.0), ("Max PP", 400.0), ("Attack", 400.0), ("Defense", 200.0), ("Agility", 400.0), ("Luck", 50.0)] {
                     cx.attribute(ui, k, &format!("{p}/Base stats/{k}"), max, color);
                 }
-                ui.weak("The game builds the menu stats from these, adding class, Djinn and equipment.");
+                ui.weak(tr("The game builds the menu stats from these, adding class, Djinn and equipment."));
             }
         });
     });
@@ -156,7 +157,7 @@ fn member(ui: &mut Ui, cx: &mut GameCtx, p: &str, key: &str) {
 }
 
 fn inventory(ui: &mut Ui, cx: &mut GameCtx, p: &str, color: Color32) {
-    ui.label(RichText::new("Items").strong());
+    ui.label(RichText::new(tr("Items")).strong());
     let slots = keys(cx, p);
     egui::Grid::new(("gs_items", p)).num_columns(3).striped(true).spacing([12.0, 4.0]).show(ui, |ui| {
         for s in &slots {
@@ -177,7 +178,7 @@ fn inventory(ui: &mut Ui, cx: &mut GameCtx, p: &str, color: Color32) {
             ui.end_row();
         }
     });
-    ui.weak("E = equipped (not swapped here). Consumables can be swapped for other consumables and gear for other gear; the first empty place takes any item.");
+    ui.weak(tr("E = equipped (not swapped here). Consumables can be swapped for other consumables and gear for other gear; the first empty place takes any item."));
 }
 
 /// Who has the Djinni at `bit` of element `el`, and whether it is set.

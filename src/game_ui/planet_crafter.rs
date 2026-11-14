@@ -1,6 +1,7 @@
 //! The Planet Crafter: Terra tokens, terraformation levels, your gauges, the game's
 //! settings and the raw materials in the backpack.
 
+use crate::i18n::{tr};
 use super::{fact, hero, panel, GameCtx};
 use crate::fmt::planet_crafter::{free_slots, MATERIALS};
 use eframe::egui::{Color32, Ui};
@@ -32,7 +33,7 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
             for k in ["Oxygen", "Heat", "Pressure", "Plants", "Insects", "Animals"] {
                 cx.row_fixed(ui, k, &format!("/{pl}/{k}"), 120.0, 190.0);
             }
-            ui.weak("Terraformation units; the planet's stage follows them when the save loads.");
+            ui.weak(tr("Terraformation units; the planet's stage follows them when the save loads."));
         });
     }
     panel(ui, "You", |ui| {
@@ -67,7 +68,7 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
             cx.row_fixed(ui, name, &format!("/Backpack/{name}"), 120.0, 80.0);
         }
         let enabled = free >= MATERIALS.len() as i64 && MATERIALS.iter().all(|(_, n)| cx.can_edit(&format!("/Backpack/{n}")));
-        if ui.add_enabled(enabled, eframe::egui::Button::new("Max crafting materials")).on_hover_text(ABOUT).clicked() {
+        if ui.add_enabled(enabled, eframe::egui::Button::new(tr("Max crafting materials"))).on_hover_text(ABOUT).clicked() {
             let share = free / MATERIALS.len() as i64;
             for (_, name) in MATERIALS {
                 let p = format!("/Backpack/{name}");
@@ -76,7 +77,7 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
             }
         }
         if !enabled {
-            ui.weak("Free at least one backpack slot per material to use the button.");
+            ui.weak(tr("Free at least one backpack slot per material to use the button."));
         }
     });
 }

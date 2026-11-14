@@ -167,6 +167,10 @@ pub enum Layer {
     Koei(fmt::koei::Wrap),
     /// Torchlight III: an Unreal save whose one `JsonString` property holds the whole save as JSON text.
     Torchlight(Arc<fmt::torchlight::Wrap>),
+    /// Chronicon character: hex text; section `c` is opened as bytes.
+    Chronicon(Arc<fmt::chronicon::Wrap>),
+    /// Sword Art Online: Fatal Bullet: AES-256-ECB blocks, optional HMAC-SHA1 tail.
+    Saofb { tail: Arc<Vec<u8>> },
     /// Death Stranding 2: XORed chunks, the game data in LZ4 pieces with an MD5.
     Ds2(Arc<fmt::ds2::Wrap>),
     /// Death Stranding: sizes header, XOR, Oodle Kraken image with an MD5.
@@ -204,6 +208,7 @@ pub enum Layer {
     FalloutShelter,
     /// Potion Craft `.pcsave`: base64 lines of XORed JSON, one JSON array.
     PotionCraft,
+    Wreckfest,
     /// JSON with bare `Infinity` / `NaN` numbers (Unity and .NET writers).
     NonFinite,
     /// Bloodstained: Ritual of the Night: GVAS XORed with a counter key stream.
@@ -222,6 +227,8 @@ pub enum Layer {
     /// Capcom RE Engine "Lime" encryption (Resident Evil 4, 2023): the file it came from (for
     /// its key banks) and the user id.
     Lime { original: Arc<Vec<u8>>, user: u64 },
+    /// Borderlands 4: AES-256-ECB under the Steam account's key around zlib, Adler-32 and length.
+    Bl4 { user: u64 },
     /// Capcom RE Engine "Citrus" encryption (Monster Hunter Rise on Steam): the file it came
     /// from (for its block keys), the curve and the Steam ID.
     Citrus { original: Arc<Vec<u8>>, curve: usize, steam: u64 },
@@ -396,6 +403,8 @@ impl Layer {
             Layer::Ao { kai } => if kai.is_some() { "Ao no Kiseki KAI save encryption (AES)".into() } else { "Trails to Azure save (zstd)".into() },
             Layer::Forspoken { .. } => "Forspoken save encryption (AES, MD5)".into(),
             Layer::Torchlight(_) => "Torchlight III save (JSON in an Unreal string)".into(),
+            Layer::Chronicon(_) => "Chronicon character (hex text)".into(),
+            Layer::Saofb { .. } => "Sword Art Online: Fatal Bullet save encryption (AES-256)".into(),
             Layer::Koei(_) => "Koei Tecmo save encryption".into(),
             Layer::Dq11 { .. } => "Dragon Quest XI S save encryption (AES-256, CRC-32)".into(),
             Layer::Ds2(_) => "Death Stranding 2 save (XOR, LZ4, MD5)".into(),
@@ -415,6 +424,7 @@ impl Layer {
             Layer::HollowKnight => "Hollow Knight encryption".into(),
             Layer::FalloutShelter => "Fallout Shelter save encryption".into(),
             Layer::PotionCraft => "Potion Craft save encryption".into(),
+            Layer::Wreckfest => "Wreckfest block compression".into(),
             Layer::NonFinite => "JSON with Infinity / NaN numbers".into(),
             Layer::Bloodstained { .. } => "Bloodstained save obfuscation".into(),
             Layer::Wwz { .. } => "World War Z save encryption".into(),
@@ -423,6 +433,7 @@ impl Layer {
             Layer::NestedJson { paths, .. } => format!("JSON inside JSON strings ({})", paths.len()),
             Layer::Mandarin { game, .. } => format!("{} save encryption", fmt::mandarin::GAMES[*game].title),
             Layer::Lime { .. } => "Resident Evil 4 save encryption".into(),
+            Layer::Bl4 { .. } => "Borderlands 4 save encryption".into(),
             Layer::Citrus { .. } => "Monster Hunter Rise save encryption".into(),
             Layer::RegFile(_) => "Registry values (Unity PlayerPrefs)".into(),
             Layer::Sol { .. } => "Flash shared object (.sol)".into(),
@@ -1015,6 +1026,8 @@ fn wrap(layer: &Layer, data: Vec<u8>) -> Result<Vec<u8>, String> {
         Layer::Dq11 { header } => fmt::dq11::pack(&data, header)?,
         Layer::Koei(w) => fmt::koei::pack(w, &data)?,
         Layer::Torchlight(w) => fmt::torchlight::pack(w, &data)?,
+        Layer::Chronicon(w) => fmt::chronicon::pack(w, &data)?,
+        Layer::Saofb { tail } => fmt::saofb::pack(&data, tail)?,
         Layer::Ds2(w) => fmt::ds2::pack(w, &data)?,
         Layer::Ds1(w) => fmt::ds1::pack(w, &data)?,
         Layer::P5r { head } => fmt::p5r::pack(head, &data),
@@ -1057,6 +1070,7 @@ fn wrap(layer: &Layer, data: Vec<u8>) -> Result<Vec<u8>, String> {
         Layer::HollowKnight => fmt::crypto::hollow_knight_encrypt(&data),
         Layer::FalloutShelter => fmt::crypto::fallout_shelter_encrypt(&data),
         Layer::PotionCraft => fmt::potion::pack(&data)?,
+        Layer::Wreckfest => fmt::wreckfest::pack(&data)?,
         Layer::NonFinite => fmt::nonfinite::pack(&data)?,
         Layer::Bloodstained { tail } => fmt::bloodstained::pack(&data, tail),
         Layer::Wwz { seed } => fmt::wwz::pack(*seed, &data)?,
@@ -1065,6 +1079,7 @@ fn wrap(layer: &Layer, data: Vec<u8>) -> Result<Vec<u8>, String> {
         Layer::NestedJson { paths, pretty } => fmt::nested::close(&data, paths, *pretty)?,
         Layer::Mandarin { original, game, user } => fmt::mandarin::encrypt(&data, original, &fmt::mandarin::GAMES[*game], *user)?,
         Layer::Lime { original, user } => fmt::lime::encrypt(&data, original, *user)?,
+        Layer::Bl4 { user } => fmt::bl4::encrypt(&data, *user)?,
         Layer::Citrus { original, curve, steam } => fmt::citrus::encrypt(&data, original, *curve, *steam)?,
         Layer::RegFile(meta) => fmt::regfile::save(meta, &data)?,
         Layer::Sol { original } => fmt::sol::save(original, &data)?,
@@ -1560,6 +1575,13 @@ fn peel(data: &[u8], ctx: &mut Ctx) -> Option<(Layer, Vec<u8>)> {
     if fmt::lime::looks(data) {
         return peel_lime(data, ctx);
     }
+    if ctx.opts.ext == "sav" && data.len() >= 32 && data.len() % 16 == 0 {
+        let mut ids = fmt::bl4::ids_in_path(&ctx.opts.path.clone().unwrap_or_default());
+        ids.extend(ree_accounts(ctx).into_iter().flat_map(|a| [a, 76_561_197_960_265_728 + a]));
+        if let Some((user, plain)) = fmt::bl4::find(data, &ids) {
+            return Some((Layer::Bl4 { user }, plain));
+        }
+    }
     if fmt::citrus::looks(data) {
         let Some((curve, steam)) = fmt::citrus::find_key(data, &ree_accounts(ctx)) else {
             ctx.hint = Some(
@@ -1765,6 +1787,9 @@ fn peel(data: &[u8], ctx: &mut Ctx) -> Option<(Layer, Vec<u8>)> {
             return Some((Layer::Forspoken { foot: Arc::new(foot) }, p));
         }
     }
+    if let Some((w, p)) = fmt::chronicon::unpack(data) {
+        return Some((Layer::Chronicon(Arc::new(w)), p));
+    }
     if let Some((w, p)) = fmt::torchlight::unpack(data) {
         return Some((Layer::Torchlight(Arc::new(w)), p));
     }
@@ -1773,6 +1798,9 @@ fn peel(data: &[u8], ctx: &mut Ctx) -> Option<(Layer, Vec<u8>)> {
     }
     if let Some((h, p)) = fmt::dq11::unpack(data) {
         return Some((Layer::Dq11 { header: Arc::new(h) }, p));
+    }
+    if let Some((tail, p)) = fmt::saofb::unpack(data).filter(|_| data.len() <= 8 << 20) {
+        return Some((Layer::Saofb { tail: Arc::new(tail) }, p));
     }
     if let Some(p) = fmt::ao::unzstd(data) {
         return Some((Layer::Ao { kai: None }, p));
@@ -1898,6 +1926,9 @@ fn peel(data: &[u8], ctx: &mut Ctx) -> Option<(Layer, Vec<u8>)> {
     }
     if let Some(plain) = fmt::potion::open(data) {
         return Some((Layer::PotionCraft, plain));
+    }
+    if let Some(plain) = fmt::wreckfest::open(data) {
+        return Some((Layer::Wreckfest, plain));
     }
     if let Some(plain) = fmt::crypto::fallout_shelter_decrypt(data) {
         return Some((Layer::FalloutShelter, plain));

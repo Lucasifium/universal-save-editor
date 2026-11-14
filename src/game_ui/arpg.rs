@@ -3,7 +3,7 @@
 //! Skills and items in Grim Dawn and Titan Quest are shown by the game's internal record
 //! names (made readable by the reader); their real names live in the game's own database.
 
-use crate::i18n::tr;
+use crate::i18n::{tr, trf};
 use crate::widgets::ScrollLock;
 use super::{columns, fact, fmt_num, hero, panel, tabs, GameCtx};
 use crate::json_view::pointer_escape;
@@ -112,7 +112,7 @@ pub fn grim_dawn(ui: &mut Ui, cx: &mut GameCtx) {
                     cx.grid_row(ui, "Base health", "/Attributes/Health", 90.0);
                     cx.grid_row(ui, "Base energy", "/Attributes/Energy", 90.0);
                 });
-                ui.weak("Base values before items and skills.");
+                ui.weak(tr("Base values before items and skills."));
             });
         } else {
             panel(ui, "Unspent points", |ui| {
@@ -143,7 +143,7 @@ pub fn grim_dawn(ui: &mut Ui, cx: &mut GameCtx) {
         if !keys(cx, base).is_empty() {
             panel(ui, title, |ui| {
                 list(ui, cx, &format!("gd{base}"), base, "skill name");
-                ui.weak("Ranks put into each skill. Names are the game's internal records (class folder: file name).");
+                ui.weak(tr("Ranks put into each skill. Names are the game's internal records (class folder: file name)."));
             });
         }
     }
@@ -175,7 +175,7 @@ pub fn grim_dawn(ui: &mut Ui, cx: &mut GameCtx) {
                     cx.compact(ui, &join(&base, "Unlocked"), 70.0);
                 });
             }
-            ui.weak("Reputation runs from -25000 (nemesis) to 25000 (revered, the most). \"Faction N\" are factions the editor has no name for.");
+            ui.weak(tr("Reputation runs from -25000 (nemesis) to 25000 (revered, the most). \"Faction N\" are factions the editor has no name for."));
         });
     }
 }
@@ -204,7 +204,7 @@ pub fn titan_quest(ui: &mut Ui, cx: &mut GameCtx) {
                     cx.grid_row(ui, "Health", "/Attributes/Health", 90.0);
                     cx.grid_row(ui, "Energy", "/Attributes/Energy", 90.0);
                 });
-                ui.weak("Base values before items and skills.");
+                ui.weak(tr("Base values before items and skills."));
             });
         } else {
             panel(ui, "Unspent points", |ui| {
@@ -229,7 +229,7 @@ pub fn titan_quest(ui: &mut Ui, cx: &mut GameCtx) {
     if !keys(cx, "/Skills").is_empty() {
         panel(ui, "Skills", |ui| {
             list(ui, cx, "tq_skills", "/Skills", "skill name");
-            ui.weak("Each mastery's level and the points in each skill. Names are the game's internal records (mastery folder: file name).");
+            ui.weak(tr("Each mastery's level and the points in each skill. Names are the game's internal records (mastery folder: file name)."));
         });
     }
 }
@@ -274,10 +274,10 @@ pub fn torchlight2(ui: &mut Ui, cx: &mut GameCtx) {
                 let spells: Vec<String> = keys(cx, "/Spells");
                 if !spells.is_empty() {
                     ui.add_space(6.0);
-                    ui.strong("Spells");
+                    ui.strong(tr("Spells"));
                     for s in spells {
                         let lvl = cx.int(&join("/Spells", &s)).unwrap_or(0);
-                        ui.label(format!("{s}  (level {lvl})"));
+                        ui.label(trf("{0}  (level {1})", &[&s, &lvl]));
                     }
                 }
             });

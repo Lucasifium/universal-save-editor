@@ -1,6 +1,7 @@
 //! LEGO Batman: Legacy of the Dark Knight (decrypted by `fmt::ttgames`): the studs wallet.
 //! The game keeps studs in `StudsCollected` and in `Saved_Total` fields, so one box writes them all.
 
+use crate::i18n::{tr, trf};
 use super::{fact, hero, panel, GameCtx};
 use crate::fmt::ttgames::find_all;
 use eframe::egui::{Color32, Ui};
@@ -23,19 +24,19 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
     });
     panel(ui, "Studs", |ui| {
         let total = studs.first().and_then(|p| cx.int(p)).unwrap_or(0);
-        ui.label(format!("Studs now: {total}. The game keeps the wallet in {} places; the buttons write all of them.", studs.len()));
+        ui.label(trf("Studs now: {1}. The game keeps the wallet in {0} places; the buttons write all of them.", &[&(studs.len()), &total]));
         ui.horizontal_wrapped(|ui| {
             if super::quick_button(ui, format!("Set studs to {MAX_STUDS}"), "") {
                 for p in &studs {
                     cx.set(p, json!(MAX_STUDS));
                 }
             }
-            if ui.button("Copy the first value to every wallet field").clicked() {
+            if ui.button(tr("Copy the first value to every wallet field")).clicked() {
                 for p in studs.iter().skip(1) {
                     cx.set(p, json!(total));
                 }
             }
         });
-        ui.weak("Collectible counters (gold bricks, chips, tokens) count entries in the save, not their state, so they are in the Tree. Save slot files come with a BackupCopy file; edit both. Not yet tried in the game.");
+        ui.weak(tr("Collectible counters (gold bricks, chips, tokens) count entries in the save, not their state, so they are in the Tree. Save slot files come with a BackupCopy file; edit both. Not yet tried in the game."));
     });
 }

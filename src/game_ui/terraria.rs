@@ -1,7 +1,7 @@
 //! Terraria player: life and mana, permanent upgrades, and the inventory, equipment
 //! and storage as item grids.
 
-use crate::i18n::tr;
+use crate::i18n::{tr, trf};
 use super::{cell_grid, hero, meter, panel, select, selection, tabs, Cell, GameCtx};
 use crate::json_view::pointer_escape;
 use eframe::egui::{self, Color32, RichText, Ui};
@@ -33,13 +33,13 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
             if let (Some(l), Some(m)) = (cx.num("/Character/Mana"), cx.num("/Character/Max mana")) {
                 meter(ui, "Mana", l, m.max(l), Color32::from_rgb(70, 110, 220));
             }
-            ui.weak("Max life goes up to 500 with Life Crystals and Life Fruit (more with buffs); max mana to 200.");
+            ui.weak(tr("Max life goes up to 500 with Life Crystals and Life Fruit (more with buffs); max mana to 200."));
             let deaths: Vec<String> = [("Deaths (enemies)", "by enemies"), ("Deaths (players)", "by players")]
                 .iter()
                 .filter_map(|(k, what)| cx.int(&format!("/Character/{k}")).map(|n| format!("{n} {what}")))
                 .collect();
             if !deaths.is_empty() {
-                ui.weak(format!("Deaths: {}", deaths.join(", ")));
+                ui.weak(trf("Deaths: {0}", &[&(deaths.join(", "))]));
             }
         });
         if let Some(serde_json::Value::Object(m)) = cx.get("/Permanent upgrades").cloned() {
@@ -79,7 +79,7 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
         let inv: Vec<String> = (1..=50).map(|i| format!("Slot {i}")).collect();
         slots(ui, cx, "terraria_inv", "/Inventory", &inv, 10);
         ui.add_space(6.0);
-        ui.label(RichText::new("Coins and ammo").strong());
+        ui.label(RichText::new(tr("Coins and ammo")).strong());
         let ca: Vec<String> = (1..=4).map(|i| format!("Coin slot {i}")).chain((1..=4).map(|i| format!("Ammo slot {i}"))).collect();
         slots(ui, cx, "terraria_coins", "/Coins and ammo", &ca, 8);
         ui.add_space(6.0);
@@ -121,7 +121,7 @@ pub(super) fn slots(ui: &mut Ui, cx: &mut GameCtx, id: &str, base: &str, keys: &
         select(ui, id, if sel == Some(i) { None } else { Some(i) });
     }
     let Some(i) = selection(ui, id).filter(|&i| i < present.len()) else {
-        ui.weak("Click a slot to change its item, stack size or modifier.");
+        ui.weak(tr("Click a slot to change its item, stack size or modifier."));
         return;
     };
     let p = format!("{base}/{}", pointer_escape(present[i]));

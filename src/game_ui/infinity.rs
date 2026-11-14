@@ -66,7 +66,7 @@ fn character(ui: &mut Ui, cx: &mut GameCtx, base: &str, accent: Color32) {
                     cx.grid_row(ui, "Max hit points", &join(base, "Max hit points"), 70.0);
                     cx.grid_row(ui, "Alignment", &join(base, "Alignment"), 150.0);
                 });
-                ui.weak("Levels don't follow experience by themselves: set both. Hit points above the maximum are the game's own temporary bonus.");
+                ui.weak(tr("Levels don't follow experience by themselves: set both. Hit points above the maximum are the game's own temporary bonus."));
             });
         } else {
             panel(ui, "Abilities", |ui| {
@@ -74,7 +74,7 @@ fn character(ui: &mut Ui, cx: &mut GameCtx, base: &str, accent: Color32) {
                     cx.attribute(ui, k, &join(base, k), 25.0, accent);
                 }
                 cx.attribute(ui, "Strength 18/xx", &join(base, "Strength bonus (18/xx)"), 100.0, accent);
-                ui.weak("The 18/xx bonus only counts for warriors with Strength 18.");
+                ui.weak(tr("The 18/xx bonus only counts for warriors with Strength 18."));
             });
         }
     });
@@ -85,9 +85,9 @@ fn character(ui: &mut Ui, cx: &mut GameCtx, base: &str, accent: Color32) {
             egui::ScrollArea::vertical().id_salt(("ie_items", base)).max_height(380.0).show_locked(ui, |ui| {
                 egui::Grid::new(("ie_items_g", base)).num_columns(4).striped(true).spacing([14.0, 4.0]).show(ui, |ui| {
                     ui.strong(tr("Item"));
-                    ui.strong("Quantity / charges");
-                    ui.strong("Charges 2");
-                    ui.strong("Charges 3");
+                    ui.strong(tr("Quantity / charges"));
+                    ui.strong(tr("Charges 2"));
+                    ui.strong(tr("Charges 3"));
                     ui.end_row();
                     for it in &items {
                         let p = join(&items_base, it);
@@ -104,7 +104,7 @@ fn character(ui: &mut Ui, cx: &mut GameCtx, base: &str, accent: Color32) {
                     }
                 });
             });
-            ui.weak("Items by their game resource name. Stack sizes (arrows, potions) and charges (wands) can be changed; items without either show \u{2013}. Items can't be added here.");
+            ui.weak(tr("Items by their game resource name. Stack sizes (arrows, potions) and charges (wands) can be changed; items without either show \u{2013}. Items can't be added here."));
         });
     }
 }

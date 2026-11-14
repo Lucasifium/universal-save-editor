@@ -1,5 +1,6 @@
 //! Total War (Warhammer II, Troy) campaign saves: every faction's treasury, yours first.
 
+use crate::i18n::{tr};
 use super::{fact, hero, panel, GameCtx};
 use eframe::egui::{self, Color32, Ui};
 use serde_json::{json, Value};
@@ -22,7 +23,7 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
     });
     panel(ui, &format!("Factions ({})", keys.len()), |ui| {
         if let Some(k) = &mine {
-            if super::quick_button(ui, "Set your treasury to 9,999,999", "") {
+            if super::quick_button(ui, tr("Set your treasury to 9,999,999"), "") {
                 cx.set(&format!("/Factions/{}/Treasury", k.replace('~', "~0").replace('/', "~1")), json!(9_999_999));
             }
         }
@@ -32,6 +33,6 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
                 cx.grid_row(ui, k, &p, 120.0);
             }
         });
-        ui.weak("Treasuries are whole numbers up to 2,147,483,647. The save is packed again on write (it gets larger). Not yet tried in the game.");
+        ui.weak(tr("Treasuries are whole numbers up to 2,147,483,647. The save is packed again on write (it gets larger). Not yet tried in the game."));
     });
 }

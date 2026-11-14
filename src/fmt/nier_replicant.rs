@@ -73,7 +73,7 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
             b.ranged(&[name, "Materials", item], o + at, Kind::U8, 0, 99);
         }
     }
-    Ok(b.finish(KIND, Checksum::Touched(fix)).with_note("Close the game first. Slot checksums are written again on save. Level is stored one lower than the level the game shows."))
+    Ok(b.finish(KIND, Checksum::Touched(fix)).with_note(crate::i18n::tr("Close the game first. Slot checksums are written again on save. Level is stored one lower than the level the game shows.")))
 }
 
 #[cfg(test)]

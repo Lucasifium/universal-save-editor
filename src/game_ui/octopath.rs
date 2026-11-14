@@ -1,6 +1,7 @@
 //! Octopath Traveler and Octopath Traveler II (Unreal GVAS; names found by `fmt::octopath`):
 //! money and the eight travellers' level, EXP, job points, and current HP/SP.
 
+use crate::i18n::{tr};
 use crate::widgets::ScrollLock;
 use super::{fact, hero, panel, GameCtx};
 use crate::fmt::octopath::{self as ot, OT1};
@@ -24,7 +25,7 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
     let members: Vec<(usize, String, i64)> = ot::members(root).into_iter().enumerate().filter(|(_, m)| (1..=8).contains(&m.1)).map(|(i, (p, id))| (i, p, id)).collect();
     panel(ui, "Travellers", |ui| {
         if members.is_empty() {
-            ui.weak("No travellers in this save.");
+            ui.weak(tr("No travellers in this save."));
             return;
         }
         egui::ScrollArea::horizontal().id_salt("ot_party").show_locked(ui, |ui| {
@@ -51,9 +52,9 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
                 }
             });
         });
-        ui.weak("\u{2605} marks the front row. Level goes from 1 to 99; EXP isn't worked out from the level, so set both. HP and SP are current values (the maximum comes from level, job and gear).");
+        ui.weak(tr("\u{2605} marks the front row. Level goes from 1 to 99; EXP isn't worked out from the level, so set both. HP and SP are current values (the maximum comes from level, job and gear)."));
         if first {
-            ui.weak("Octopath Traveler (2018): these values are read from the save as it is; changing them hasn't been tried in the game yet.");
+            ui.weak(tr("Octopath Traveler (2018): these values are read from the save as it is; changing them hasn't been tried in the game yet."));
         }
     });
     if let Some(n) = ot::ptr(root, "", "FirstSelectCharacterID").and_then(|p| cx.int(&p)).filter(|_| !first) {

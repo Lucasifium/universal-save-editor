@@ -5,7 +5,7 @@
 - New game screens for ten Assassin's Creed games, from Brotherhood to Odyssey: money, Creed Points (Unity), XP and ability points (Origins, Odyssey), crafting materials with Max crafting materials (Black Flag, Rogue, Syndicate, Odyssey), trade goods and ammunition. The saves are unscrambled with the key worked out from the file, unpacked and packed again with their block checks (not yet tried in the games)
 - New game screens: The Elder Scrolls III: Morrowind and IV: Oblivion (level, gold, attributes, skills, vitals; Morrowind also the inventory counts)
 - New game screens: WorldBox (units and village resources), Core Keeper (skills, coins, inventory), HoloCure (HoloCoins and upgrades), Potion Craft (gold, popularity, karma, inventory with Max crafting materials), World War Z (currency, coins, level, class perks), Roboquest (wrenches, difficulty, statistics), Car Mechanic Simulator 2018 (money, level, experience), The Long Drive (vitals and trip), and Total War: Warhammer, Attila and Thrones of Britannia treasuries
-- More game screens: Generation Zero (skill points, experience, level, inventory amounts, resource store and safehouse storage with Max crafting materials), NieR Replicant (health, level, experience, money, recovery items, materials with Max crafting materials per slot), Devil May Cry 1 from the HD Collection (orbs and play time per slot) and Mewgenics (house gold and food, adventure coins, day); Bloodstained: Ritual of the Night saves now open (decoded, with its trailing block kept) in Values and Tree
+- More game screens: Borderlands (2009) and the Enhanced edition (level, experience, skill points, money, skills, ammunition), The Evil Within (green gel, trap parts, weapon and stat upgrades from inventory.zwei), Wreckfest (credits, experience and fame from career.cres, unpacked and packed again), Generation Zero (skill points, experience, level, inventory amounts, resource store and safehouse storage with Max crafting materials), NieR Replicant (health, level, experience, money, recovery items, materials with Max crafting materials per slot), Devil May Cry 1 from the HD Collection (orbs and play time per slot) and Mewgenics (house gold and food, adventure coins, day); Bloodstained: Ritual of the Night saves now open (decoded, with its trailing block kept) in Values and Tree
 - JSON saves with bare `Infinity` or `NaN` numbers (Unity and .NET writers) now open and are written back unchanged
 - Find my game's saves: long game names are shortened (full name on hover) so the badge never overlaps the details, the right-hand side scrolls as a whole and starts at the top for each game, and the window uses its full width
 - Scrolling a list or table inside a screen stays in that list at its top and bottom instead of scrolling the page; column headings of the long tables (XCOM, XCOM 2, Final Fantasy VII Remake materia) stay visible while scrolling
@@ -23,6 +23,9 @@
 - Dragon Quest XI S: game screen (party stats, item bags), with the save's encryption opened
 - Dynasty Warriors 8: Xtreme Legends, One Piece: Pirate Warriors 3 and 4, Persona 5 Strikers: game screens, with the Koei Tecmo save encryption opened
 - Torchlight III: game screen (character traits, gear), with the JSON text inside the Unreal save opened
+- Dragon Ball Xenoverse: game screen (custom characters)
+- Chronicon: game screen (level, free skill and mastery points), with the hex-text character opened as bytes
+- Sword Art Online: Fatal Bullet: game screen (inventory quantities), with the encrypted save opened and re-sealed
 
 ## 0.6.1
 

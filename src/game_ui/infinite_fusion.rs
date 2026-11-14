@@ -1,6 +1,7 @@
 //! Pokémon Infinite Fusion (and other Pokémon Essentials v19+ fan games): trainer,
 //! badges, difficulty, party, PC boxes and bag.
 
+use crate::i18n::{tr, trf};
 use super::{cell_grid, columns, fact, hero, meter, panel, quick_button, select, selection, tabs, Cell, GameCtx};
 use crate::fmt::essentials::{self, NATURES};
 use eframe::egui::{self, Color32, RichText, Ui};
@@ -83,11 +84,11 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
     });
 
     let money = format!("{P}/@money");
-    if cx.can_edit(&money) && quick_button(ui, "Max money", "Sets money to 999,999, the most the game holds") {
+    if cx.can_edit(&money) && quick_button(ui, tr("Max money"), tr("Sets money to 999,999, the most the game holds")) {
         cx.set(&money, Value::from(essentials::MAX_MONEY));
     }
     let party: Vec<String> = (0..len(cx, &format!("{P}/@party"))).map(|i| format!("{P}/@party/{i}")).filter(|m| is_mon(cx, m)).collect();
-    if quick_button(ui, "Max IVs (party)", "Sets every IV of the Pokémon in the party to 31; their stats are worked out again") {
+    if quick_button(ui, tr("Max IVs (party)"), tr("Sets every IV of the Pokémon in the party to 31; their stats are worked out again")) {
         for m in &party {
             for (k, _, _) in STATS {
                 let p = format!("{m}/@iv/{k}");
@@ -123,7 +124,7 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
 
     panel(ui, "Party", |ui| {
         if party.is_empty() {
-            ui.weak("No Pokémon in the party.");
+            ui.weak(tr("No Pokémon in the party."));
         }
         columns(ui, 340.0, party.len(), |ui, i| mon_card(ui, cx, &party[i], &format!("pif_party{i}")));
     });
@@ -162,7 +163,7 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
             match selection(ui, &id).filter(|&i| i < slots.len() && is_mon(cx, &slots[i])) {
                 Some(i) => mon_card(ui, cx, &slots[i], &id),
                 None => {
-                    ui.weak("Click a Pokémon to edit it.");
+                    ui.weak(tr("Click a Pokémon to edit it."));
                 }
             }
         });
@@ -176,7 +177,7 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
             let pp = format!("/Part 1/bag/@pockets/{t}");
             let n = len(cx, &pp);
             if n == 0 {
-                ui.weak("Nothing in this pocket.");
+                ui.weak(tr("Nothing in this pocket."));
                 return;
             }
             egui::Grid::new(("pif_bag", t)).num_columns(2).striped(true).spacing([12.0, 4.0]).show(ui, |ui| {
@@ -187,7 +188,7 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
                     ui.end_row();
                 }
             });
-            ui.weak("Up to 999 of each item. Items you don't have yet can't be added here.");
+            ui.weak(tr("Up to 999 of each item. Items you don't have yet can't be added here."));
         });
     }
 }
@@ -209,7 +210,7 @@ fn difficulty(ui: &mut Ui, cx: &mut GameCtx) {
     ui.add_space(6.0);
     ui.horizontal_wrapped(|ui| {
         let c = if modified { crate::theme::MODIFIED } else { ui.visuals().text_color() };
-        ui.label(RichText::new("Difficulty").color(c));
+        ui.label(RichText::new(tr("Difficulty")).color(c));
         for (i, n) in ["Easy", "Normal", "Hard"].iter().enumerate() {
             if ui.selectable_label(cur == Some(i), *n).clicked() && cur != Some(i) {
                 pick = Some(i);
@@ -235,7 +236,7 @@ fn mon_card(ui: &mut Ui, cx: &mut GameCtx, m: &str, id: &str) {
                 ui.weak(&sp);
             }
             if shiny(cx, m) {
-                ui.label(RichText::new("\u{2605} Shiny").color(GOLD));
+                ui.label(RichText::new(tr("\u{2605} Shiny")).color(GOLD));
             }
         });
         if let Some(p) = parts {
@@ -269,7 +270,7 @@ fn mon_card(ui: &mut Ui, cx: &mut GameCtx, m: &str, id: &str) {
             if cx.can_edit(&f("@shiny")) {
                 let on = shiny(cx, m);
                 let c = if cx.modified(&f("@shiny")) { crate::theme::MODIFIED } else { ui.visuals().text_color() };
-                ui.label(RichText::new("Shiny").color(c));
+                ui.label(RichText::new(tr("Shiny")).color(c));
                 let mut v = on;
                 if ui.checkbox(&mut v, "").changed() {
                     cx.set(&f("@shiny"), Value::Bool(v));
@@ -278,14 +279,14 @@ fn mon_card(ui: &mut Ui, cx: &mut GameCtx, m: &str, id: &str) {
             }
         });
         if cx.get(&f("@species_data/@base_stats")).is_none() {
-            ui.weak("This save doesn't carry the species' data (older game versions): a level is refused when the growth rates this Pokémon could have disagree on its Exp., and the stats shown here change when the game next works them out (on a level-up).");
+            ui.weak(tr("This save doesn't carry the species' data (older game versions): a level is refused when the growth rates this Pokémon could have disagree on its Exp., and the stats shown here change when the game next works them out (on a level-up)."));
         }
         ui.add_space(4.0);
         egui::Grid::new((id, "stats")).num_columns(4).spacing([10.0, 3.0]).show(ui, |ui| {
             ui.weak("");
             ui.weak("IV (0\u{2013}31)");
             ui.weak("EV (0\u{2013}252)");
-            ui.weak("Stat");
+            ui.weak(tr("Stat"));
             ui.end_row();
             for (k, label, stat) in STATS {
                 ui.label(label);
@@ -305,7 +306,7 @@ fn mon_card(ui: &mut Ui, cx: &mut GameCtx, m: &str, id: &str) {
         }
         let moves: Vec<String> = (0..4).filter_map(|i| cx.text(&f(&format!("@moves/{i}/@id")))).map(|s| nice(&s)).collect();
         if !moves.is_empty() {
-            ui.weak(format!("Moves: {}", moves.join(", ")));
+            ui.weak(trf("Moves: {0}", &[&(moves.join(", "))]));
         }
     });
     ui.add_space(6.0);
@@ -315,7 +316,7 @@ fn nature_row(ui: &mut Ui, cx: &mut GameCtx, m: &str, id: &str) {
     let p = format!("{m}/@nature");
     let Some(cur) = cx.text(&p) else { return };
     let c = if cx.modified(&p) { crate::theme::MODIFIED } else { ui.visuals().text_color() };
-    ui.label(RichText::new("Nature").color(c));
+    ui.label(RichText::new(tr("Nature")).color(c));
     let mut pick = None;
     ui.add_enabled_ui(cx.can_edit(&p), |ui| {
         egui::ComboBox::from_id_salt((id, "nature")).selected_text(nice(&cur)).width(150.0).show_ui(ui, |ui| {
@@ -332,8 +333,8 @@ fn nature_row(ui: &mut Ui, cx: &mut GameCtx, m: &str, id: &str) {
         cx.set(&p, Value::String(v));
     }
     if let Some(s) = cx.text(&format!("{m}/@nature_for_stats")) {
-        ui.weak("Stats use");
-        ui.weak(format!("{} (mint)", nice(&s)));
+        ui.weak(tr("Stats use"));
+        ui.weak(trf("{0} (mint)", &[&(nice(&s))]));
         ui.end_row();
     }
 }

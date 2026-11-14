@@ -1,5 +1,6 @@
 //! Deus Ex (2000): JC Denton from a map's .dxs file, or where to find him from SaveInfo.dxs.
 
+use crate::i18n::{tr};
 use super::{columns, hero, panel, GameCtx};
 use crate::json_view::pointer_escape;
 use eframe::egui::{self, Color32, RichText, Ui};
@@ -93,34 +94,34 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
                     cx.attribute(ui, &k, &join("/Health", &k), 100.0, HEALTH);
                 }
                 if keys(cx, "/Health").iter().any(|k| !cx.can_edit(&join("/Health", k))) && live {
-                    ui.weak("Body parts at full health (100) aren't written in the save, so they can't be changed here.");
+                    ui.weak(tr("Body parts at full health (100) aren't written in the save, so they can't be changed here."));
                 }
             });
             panel(ui, "Items", |ui| {
                 rows(ui, cx, "/Items", "dx_items");
-                ui.weak("Medkits, lockpicks, multitools, bioelectric cells and other items carried. A single item's count isn't written in the save and can't be changed.");
+                ui.weak(tr("Medkits, lockpicks, multitools, bioelectric cells and other items carried. A single item's count isn't written in the save and can't be changed."));
             });
         } else {
             panel(ui, "Skills", |ui| {
                 rows(ui, cx, "/Skills", "dx_skills");
                 if live {
-                    ui.weak("Untrained skills aren't written in the save, so they can't be raised here (spend skill points in the game).");
+                    ui.weak(tr("Untrained skills aren't written in the save, so they can't be raised here (spend skill points in the game)."));
                 }
             });
             panel(ui, "Augmentations", |ui| {
                 if keys(cx, "/Augmentations").is_empty() {
-                    ui.label("None installed.");
+                    ui.label(tr("None installed."));
                 }
                 rows(ui, cx, "/Augmentations", "dx_augs");
                 if live {
-                    ui.weak("Installed augmentations. Level 1 isn't written in the save, so those can't be upgraded here.");
+                    ui.weak(tr("Installed augmentations. Level 1 isn't written in the save, so those can't be upgraded here."));
                 }
             });
         }
     });
     panel(ui, "Ammo", |ui| {
         rows(ui, cx, "/Ammo", "dx_ammo");
-        ui.weak("Rounds carried for each ammo type. Amounts the game left at their default aren't in the save and can't be changed.");
+        ui.weak(tr("Rounds carried for each ammo type. Amounts the game left at their default aren't in the save and can't be changed."));
     });
     if let Some(w) = cx.text("/Weapons") {
         panel(ui, "Weapons", |ui| {

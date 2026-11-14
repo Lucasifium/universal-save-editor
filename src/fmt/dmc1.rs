@@ -35,7 +35,7 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
         b.ranged(&[&name, "Blue orbs"], o + 1592, Kind::U8, 0, 6);
         b.ranged(&[&name, "Play time (frames, 60 per second)"], o + 44, Kind::U32, 0, 4_000_000_000);
     }
-    Ok(b.finish(KIND, Checksum::None).with_note("Close the game first. Save slots that are empty are left out."))
+    Ok(b.finish(KIND, Checksum::None).with_note(crate::i18n::tr("Close the game first. Save slots that are empty are left out.")))
 }
 
 #[cfg(test)]

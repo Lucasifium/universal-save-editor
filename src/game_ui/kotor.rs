@@ -2,6 +2,7 @@
 //! `pifo.ifo`) shows the player and the party members; `PARTYTABLE.res` shows credits, party
 //! XP and KOTOR II's influence, components and chemicals. Values come from `fmt::kotor`.
 
+use crate::i18n::{tr, trf};
 use crate::widgets::ScrollLock;
 use super::{columns, hero, panel, tabs, GameCtx};
 use crate::json_view::pointer_escape;
@@ -79,22 +80,22 @@ fn party_table(ui: &mut Ui, cx: &mut GameCtx) {
                 } else {
                     ui.horizontal(|ui| {
                         ui.add_sized([110.0, 22.0], egui::Label::new(RichText::new(&names[i]).weak()).truncate());
-                        ui.weak("not met yet");
+                        ui.weak(tr("not met yet"));
                     });
                 }
             });
-            ui.weak("0\u{2013}100. High influence opens a companion's conversations and can turn them towards your side of the Force.");
+            ui.weak(tr("0\u{2013}100. High influence opens a companion's conversations and can turn them towards your side of the Force."));
         });
     }
     let members = list(cx, "/Party/In the party");
     let avail = list(cx, "/Party/Available");
     panel(ui, "Party", |ui| {
-        ui.label(format!("With you: {}", if members.is_empty() { "nobody".into() } else { members.join(", ") }));
+        ui.label(trf("With you: {0}", &[&(if members.is_empty() { "nobody".into() } else { members.join(", ") })]));
         if !avail.is_empty() {
-            ui.label(format!("Can join: {}", avail.join(", ")));
+            ui.label(trf("Can join: {0}", &[&(avail.join(", "))]));
         }
     });
-    ui.weak("Stats of the player and the party members are in SAVEGAME.sav in the same save folder.");
+    ui.weak(tr("Stats of the player and the party members are in SAVEGAME.sav in the same save folder."));
 }
 
 fn save(ui: &mut Ui, cx: &mut GameCtx) {
@@ -125,7 +126,7 @@ fn save(ui: &mut Ui, cx: &mut GameCtx) {
     });
     if cx.get("/Player").is_none() && cx.text("/Save/Player file").is_some() {
         panel(ui, "Player", |ui| {
-            ui.label("This auto-save keeps the player in pifo.ifo, which the game loads instead of the copies in SAVEGAME.sav. Open pifo.ifo from the same folder to edit the player.");
+            ui.label(tr("This auto-save keeps the player in pifo.ifo, which the game loads instead of the copies in SAVEGAME.sav. Open pifo.ifo from the same folder to edit the player."));
         });
     }
     if people.is_empty() {
@@ -156,11 +157,11 @@ fn save(ui: &mut Ui, cx: &mut GameCtx) {
                 });
             });
         }
-        ui.weak("How many of each item is in the stack, by the item's tag. The game may cut a stack back to what the item allows; items can't be added or removed here.");
+        ui.weak(tr("How many of each item is in the stack, by the item's tag. The game may cut a stack back to what the item allows; items can't be added or removed here."));
         });
     }
     ui.add_space(6.0);
-    ui.weak("Credits, party XP, influence, components and chemicals are in PARTYTABLE.res in the same save folder.");
+    ui.weak(tr("Credits, party XP, influence, components and chemicals are in PARTYTABLE.res in the same save folder."));
 }
 
 fn sheet(ui: &mut Ui, cx: &mut GameCtx, base: &str, id: usize) {
@@ -172,7 +173,7 @@ fn sheet(ui: &mut Ui, cx: &mut GameCtx, base: &str, id: usize) {
                 ui.label(RichText::new(&classes).strong().color(crate::theme::fg(ui, GOLD)));
             }
             if let Some(l) = level {
-                ui.label(format!("Level {l}"));
+                ui.label(trf("Level {0}", &[&l]));
             }
         });
         ui.add_space(4.0);
@@ -191,7 +192,7 @@ fn sheet(ui: &mut Ui, cx: &mut GameCtx, base: &str, id: usize) {
                     }
                     ui.add_space(4.0);
                     cx.attribute(ui, "Alignment", &join(base, "Alignment"), 100.0, BLUE);
-                    ui.weak("Alignment: 0 is the dark side, 100 the light side.");
+                    ui.weak(tr("Alignment: 0 is the dark side, 100 the light side."));
                 });
             } else {
                 panel(ui, "Vitality and the Force", |ui| {
@@ -210,7 +211,7 @@ fn sheet(ui: &mut Ui, cx: &mut GameCtx, base: &str, id: usize) {
                             ui.end_row();
                         }
                     });
-                    ui.weak("Hit points and Force points; max includes bonuses, base is before them.");
+                    ui.weak(tr("Hit points and Force points; max includes bonuses, base is before them."));
                 });
             }
         });
@@ -221,7 +222,7 @@ fn sheet(ui: &mut Ui, cx: &mut GameCtx, base: &str, id: usize) {
                 columns(ui, 300.0, names.len(), |ui, i| {
                     cx.attribute(ui, &names[i], &join(&sk, &names[i]), 30.0, GOLD);
                 });
-                ui.weak("Ranks put into each skill (attribute bonuses and items add to them in the game).");
+                ui.weak(tr("Ranks put into each skill (attribute bonuses and items add to them in the game)."));
             });
         }
     });

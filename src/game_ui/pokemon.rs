@@ -1,6 +1,7 @@
 //! Pokémon Red/Blue/Yellow, Gold/Silver/Crystal and Ruby/Sapphire/Emerald/FireRed/
 //! LeafGreen: trainer card, badges, party, PC boxes and bag.
 
+use crate::i18n::{tr, trf};
 use super::{cell_grid, columns, fact, hero, meter, panel, select, selection, tabs, Cell, GameCtx};
 use crate::json_view::pointer_escape;
 use eframe::egui::{self, Color32, RichText, Ui};
@@ -67,7 +68,7 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
     let party = keys(cx, "/Party");
     panel(ui, "Party", |ui| {
         if party.is_empty() {
-            ui.weak("No Pokémon in the party.");
+            ui.weak(tr("No Pokémon in the party."));
         }
         columns(ui, 330.0, party.len(), |ui, i| {
             mon_card(ui, cx, &join("/Party", &party[i]), &format!("party{i}"));
@@ -89,7 +90,7 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
             let bp = join("/PC boxes", &boxes[t]);
             let slots: Vec<String> = keys(cx, &bp).into_iter().filter(|k| k.starts_with("Slot")).collect();
             if slots.is_empty() {
-                ui.weak("This box is empty.");
+                ui.weak(tr("This box is empty."));
                 return;
             }
             let cells: Vec<Cell> = slots
@@ -109,7 +110,7 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
             match selection(ui, &id).filter(|&i| i < slots.len()) {
                 Some(i) => mon_card(ui, cx, &join(&bp, &slots[i]), &id),
                 None => {
-                    ui.weak("Click a Pokémon to edit it.");
+                    ui.weak(tr("Click a Pokémon to edit it."));
                 }
             }
         });
@@ -135,7 +136,7 @@ fn mon_card(ui: &mut Ui, cx: &mut GameCtx, p: &str, id: &str) {
     egui::Frame::none().fill(super::inset_fill(ui, ACCENT)).rounding(10.0).inner_margin(10.0).show(ui, |ui| {
         ui.set_width(ui.available_width());
         if mon_empty(cx, p) {
-            ui.weak("(empty slot)");
+            ui.weak(tr("(empty slot)"));
             return;
         }
         ui.horizontal_wrapped(|ui| {
@@ -173,7 +174,7 @@ fn mon_card(ui: &mut Ui, cx: &mut GameCtx, p: &str, id: &str) {
         // Moves: name, PP and PP Ups side by side.
         if cx.get(&sub("Moves")).is_some() {
             ui.add_space(4.0);
-            ui.label(RichText::new("Moves").strong());
+            ui.label(RichText::new(tr("Moves")).strong());
             egui::Grid::new((id, "moves")).num_columns(3).spacing([8.0, 4.0]).show(ui, |ui| {
                 for i in 1..=4 {
                     let mv = sub2("Moves", &format!("Move {i}"));
@@ -187,7 +188,7 @@ fn mon_card(ui: &mut Ui, cx: &mut GameCtx, p: &str, id: &str) {
                     });
                     ui.horizontal(|ui| {
                         if cx.get(&sub2("Moves", &format!("PP Ups {i}"))).is_some() {
-                            ui.weak("Ups");
+                            ui.weak(tr("Ups"));
                             cx.editor(ui, &sub2("Moves", &format!("PP Ups {i}")), 30.0);
                         }
                     });
@@ -208,7 +209,7 @@ fn mon_card(ui: &mut Ui, cx: &mut GameCtx, p: &str, id: &str) {
             let skip = ["Species", "Level", "Nickname", "Held item", "Shiny", "Egg", "Gender", "Type", "Nature", "Ability"];
             let other: Vec<String> = keys(cx, p).into_iter().filter(|k| !skip.contains(&k.as_str()) && !matches!(cx.get(&sub(k)), Some(Value::Object(_)))).collect();
             if !other.is_empty() {
-                ui.label(RichText::new("Other").strong());
+                ui.label(RichText::new(tr("Other")).strong());
                 egui::Grid::new((id, "other")).num_columns(2).spacing([10.0, 3.0]).show(ui, |ui| {
                     for k in other {
                         cx.grid_row(ui, &k, &sub(&k), 120.0);
@@ -253,5 +254,5 @@ fn bag_pocket(ui: &mut Ui, cx: &mut GameCtx, p: &str, t: usize) {
             ui.end_row();
         }
     });
-    ui.weak(format!("{filled} of {} slots used. Pick an item in the free slot to add one.", slots.len()));
+    ui.weak(trf("{1} of {0} slots used. Pick an item in the free slot to add one.", &[&(slots.len()), &filled]));
 }

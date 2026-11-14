@@ -87,6 +87,11 @@ pub fn find_mark(ui: &Ui, rect: egui::Rect, text: &str) {
 /// Temp-data key where a value's "Show in Tree" request (its pointer) is left for the app.
 pub const SHOW_IN_TREE: &str = "show_in_tree_request";
 mod simple;
+
+/// Texts of the table-driven screens, for the translation check.
+pub fn spec_texts() -> Vec<&'static str> {
+    simple::texts()
+}
 mod starbound;
 mod survival;
 mod terraria;
@@ -98,6 +103,7 @@ mod x4;
 mod mgsv;
 mod woh;
 
+use crate::i18n::{tr, tr_any, trf};
 use crate::theme;
 use crate::tree::TreeDoc;
 use crate::widgets;
@@ -511,14 +517,14 @@ fn quick_strip(ui: &mut Ui) {
     }
     theme::card(ui, |ui| {
         ui.horizontal_wrapped(|ui| {
-            ui.label(RichText::new("Quick actions").family(theme::semibold_family()));
+            ui.label(RichText::new(tr("Quick actions")).family(theme::semibold_family()));
             for a in &list {
-                let mut r = ui.add_enabled(a.enabled, egui::Button::new(&a.label));
+                let mut r = ui.add_enabled(a.enabled, egui::Button::new(tr_any(&a.label)));
                 if !a.tip.is_empty() {
-                    r = r.on_hover_text(&a.tip);
+                    r = r.on_hover_text(tr_any(&a.tip));
                 }
                 if !a.enabled && !a.why_off.is_empty() {
-                    r = r.on_disabled_hover_text(&a.why_off);
+                    r = r.on_disabled_hover_text(tr_any(&a.why_off));
                 }
                 if r.clicked() {
                     ctx.data_mut(|d| d.insert_temp(egui::Id::new(QA_CLICK), a.label.clone()));
@@ -757,6 +763,7 @@ impl GameCtx<'_> {
 
     /// "Label [editor]" with the label cut to `label_w`, so columns of them line up.
     pub fn row_fixed(&mut self, ui: &mut Ui, label: &str, p: &str, label_w: f32, width: f32) {
+        let label = tr_any(label);
         if self.get(p).is_none() {
             return;
         }
@@ -775,6 +782,7 @@ impl GameCtx<'_> {
 
     /// A field's label, orange when it was changed.
     pub fn label(&self, ui: &mut Ui, label: &str, p: &str) {
+        let label = tr_any(label);
         let c = if self.modified(p) { theme::MODIFIED } else { ui.visuals().text_color() };
         let r = ui.label(RichText::new(label).color(c));
         find_mark(ui, r.rect, label);
@@ -782,6 +790,7 @@ impl GameCtx<'_> {
 
     /// A compact tile: small caption, big value with its editor.
     pub fn tile(&mut self, ui: &mut Ui, caption: &str, p: &str, accent: Color32) {
+        let caption = tr_any(caption);
         if self.get(p).is_none() {
             return;
         }
@@ -790,7 +799,7 @@ impl GameCtx<'_> {
         let digits = self.get(p).map(|v| v.to_string().len()).unwrap_or(0) as f32;
         let need = digits * 11.0 + 18.0;
         tile_frame_min(ui, accent, modified, need + 76.0, |ui| {
-            let r = ui.label(RichText::new(caption).size(12.5).color(ui.visuals().weak_text_color()));
+            let r = ui.add(egui::Label::new(RichText::new(caption).size(12.5).color(ui.visuals().weak_text_color())).truncate());
             find_mark(ui, r.rect, caption);
             ui.horizontal(|ui| {
                 ui.style_mut().override_font_id = Some(FontId::proportional(18.0));
@@ -804,6 +813,7 @@ impl GameCtx<'_> {
 
     /// An attribute line: name, value with −/+, and a bar towards `max`.
     pub fn attribute(&mut self, ui: &mut Ui, name: &str, p: &str, max: f64, color: Color32) {
+        let name = tr_any(name);
         let Some(n) = self.num(p) else { return };
         ui.horizontal(|ui| {
             let c = if self.modified(p) { theme::MODIFIED } else { ui.visuals().strong_text_color() };
@@ -822,6 +832,7 @@ impl GameCtx<'_> {
     /// A difficulty (or game mode) selector: one button per level, writing the value in the
     /// type the save already uses (number or text). `levels` are (name, stored value).
     pub fn difficulty(&mut self, ui: &mut Ui, caption: &str, p: &str, levels: &[(&str, Value)]) {
+        let caption = tr_any(caption);
         let Some(cur) = self.get(p).cloned() else { return };
         let editable = self.can_edit(p);
         let same = |a: &Value, b: &Value| match (a.as_f64(), b.as_f64()) {
@@ -836,12 +847,12 @@ impl GameCtx<'_> {
             find_mark(ui, r.rect, caption);
             for (name, v) in levels {
                 let on = same(&cur, v);
-                if ui.add_enabled(editable, egui::SelectableLabel::new(on, *name)).clicked() && !on {
+                if ui.add_enabled(editable, egui::SelectableLabel::new(on, tr_any(name))).clicked() && !on {
                     pick = Some(v.clone());
                 }
             }
             if !levels.iter().any(|(_, v)| same(&cur, v)) {
-                ui.weak(format!("(now {})", widgets::display(&cur)));
+                ui.weak(trf("(now {0})", &[&(widgets::display(&cur))]));
             }
         });
         if let Some(v) = pick {
@@ -851,6 +862,7 @@ impl GameCtx<'_> {
 
     /// A toggle chip for an on/off value.
     pub fn chip(&mut self, ui: &mut Ui, label: &str, p: &str, color: Color32) {
+        let label = tr_any(label);
         let Some(v) = self.get(p).cloned() else { return };
         let on = self.flag(p);
         let editable = self.can_edit(p);
@@ -879,6 +891,7 @@ impl GameCtx<'_> {
 
 /// The header card: a coloured band with the character's name and a line under it.
 pub fn hero(ui: &mut Ui, accent: Color32, title: &str, subtitle: &str, add: impl FnOnce(&mut Ui)) {
+    let subtitle = tr_any(subtitle);
     let fill = blend(ui.visuals().faint_bg_color, accent, 0.18);
     let resp = egui::Frame::none().fill(fill).rounding(10.0).inner_margin(egui::Margin::symmetric(18.0, 14.0)).show(ui, |ui| {
         ui.set_width(ui.available_width());
@@ -897,8 +910,9 @@ pub fn hero(ui: &mut Ui, accent: Color32, title: &str, subtitle: &str, add: impl
 
 /// A titled card.
 pub fn panel(ui: &mut Ui, title: &str, add: impl FnOnce(&mut Ui)) {
+    let title = tr_any(title);
     theme::card(ui, |ui| {
-        let r = ui.label(RichText::new(title).family(theme::semibold_family()).size(16.0));
+        let r = ui.add(egui::Label::new(RichText::new(title).family(theme::semibold_family()).size(16.0)).truncate());
         find_mark(ui, r.rect, title);
         ui.add_space(4.0);
         add(ui);
@@ -940,8 +954,9 @@ pub fn tile_frame_min(ui: &mut Ui, accent: Color32, modified: bool, min: f32, ad
 
 /// A read-only figure in the same style as `tile`.
 pub fn fact(ui: &mut Ui, caption: &str, value: &str, accent: Color32) {
+    let caption = tr_any(caption);
     tile_frame(ui, accent, false, |ui| {
-        let r = ui.label(RichText::new(caption).size(12.5).color(ui.visuals().weak_text_color()));
+        let r = ui.add(egui::Label::new(RichText::new(caption).size(12.5).color(ui.visuals().weak_text_color())).truncate());
         find_mark(ui, r.rect, caption);
         ui.label(RichText::new(value).size(18.0).color(ui.visuals().strong_text_color()));
     });
@@ -964,6 +979,7 @@ pub fn bar(ui: &mut Ui, width: f32, frac: f32, color: Color32, text: Option<&str
 
 /// A labelled meter: "HP  [=====    ] 450 / 600".
 pub fn meter(ui: &mut Ui, label: &str, cur: f64, max: f64, color: Color32) {
+    let label = tr_any(label);
     ui.horizontal(|ui| {
         ui.allocate_ui_with_layout(egui::vec2(70.0, 18.0), egui::Layout::left_to_right(egui::Align::Center), |ui| {
             ui.set_width(70.0);
@@ -1046,7 +1062,7 @@ pub fn max_crafting_materials(game: Game, cx: &mut GameCtx) -> usize {
 
 /// The "max upgrade materials" button: `what` names the amount ("99 of each").
 pub fn materials_button(ui: &mut Ui, what: &str, tip: &str) -> bool {
-    quick_button(ui, format!("Max upgrade materials ({what})"), tip)
+    quick_button(ui, trf("Max upgrade materials ({0})", &[&tr_any(what)]), tip)
 }
 
 // ------------------------------------------------------------------ item grids
@@ -1227,6 +1243,8 @@ mod tests {
 
     #[test]
     fn quick_actions_register_and_report_clicks() {
+        let _lock = crate::i18n::LANG_TEST_LOCK.lock().unwrap_or_else(|e| e.into_inner());
+        crate::i18n::set(Some("en"));
         let ctx = egui::Context::default();
         crate::theme::install_fonts(&ctx);
         let run = |ctx: &egui::Context, click: Option<&str>| {
@@ -1237,7 +1255,7 @@ mod tests {
                     if let Some(c) = click {
                         ctx.data_mut(|d| d.insert_temp(egui::Id::new(QA_CLICK), c.to_string()));
                     }
-                    got = quick_button(ui, "Max gold", "tip");
+                    got = quick_button(ui, tr("Max gold"), tr("tip"));
                 });
             });
             got

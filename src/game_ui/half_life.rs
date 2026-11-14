@@ -2,6 +2,7 @@
 //! armour, suit power, ammo by type and the weapons carried with their magazines. Also
 //! Black Mesa (Source) and Half-Life: Alyx (Source 2: health, resin, ammo, weapons).
 
+use crate::i18n::{tr};
 use crate::widgets::ScrollLock;
 use super::{fact, hero, panel, GameCtx};
 use crate::json_view::pointer_escape;
@@ -69,7 +70,7 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
     let ammo = keys(cx, "/Ammo");
     panel(ui, "Ammunition", |ui| {
         if ammo.is_empty() {
-            ui.weak("No ammunition in this save.");
+            ui.weak(tr("No ammunition in this save."));
             return;
         }
         ui.horizontal_wrapped(|ui| {
@@ -78,16 +79,16 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
             }
         });
         if alyx {
-            ui.weak("Spare ammunition stored in the backpack, as the wrist display counts it.");
+            ui.weak(tr("Spare ammunition stored in the backpack, as the wrist display counts it."));
         } else {
-            ui.weak("Spare ammunition by type, as the HUD counts it. Names come from the weapons that use each type; \"Ammo type N\" is one no weapon in this map names. The game caps ammo at each type's maximum when you pick more up.");
+            ui.weak(tr("Spare ammunition by type, as the HUD counts it. Names come from the weapons that use each type; \"Ammo type N\" is one no weapon in this map names. The game caps ammo at each type's maximum when you pick more up."));
         }
     });
 
     let weapons = keys(cx, "/Weapons");
     panel(ui, "Weapons", |ui| {
         if weapons.is_empty() {
-            ui.weak("The player carries no weapons yet.");
+            ui.weak(tr("The player carries no weapons yet."));
             return;
         }
         if alyx {
@@ -96,7 +97,7 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
                     fact(ui, w, "carried", accent);
                 }
             });
-            ui.weak("The weapons Alyx has. Their upgrades and loaded rounds aren't edited here.");
+            ui.weak(tr("The weapons Alyx has. Their upgrades and loaded rounds aren't edited here."));
             return;
         }
         // Only Source weapons have a second magazine.
@@ -115,7 +116,7 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
                     ui.horizontal(|ui| {
                         ui.label(if held { title.color(crate::theme::fg(ui, accent)) } else { title });
                         if held {
-                            ui.label(RichText::new("in hand").small().color(ui.visuals().weak_text_color()));
+                            ui.label(RichText::new(tr("in hand")).small().color(ui.visuals().weak_text_color()));
                         }
                     })
                     .response
@@ -139,7 +140,7 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
                 }
             });
         });
-        ui.weak("Rounds loaded in each weapon. An empty magazine isn't stored by the game, so it can't be filled here: fire it empty and reload, or give spare ammo above.");
+        ui.weak(tr("Rounds loaded in each weapon. An empty magazine isn't stored by the game, so it can't be filled here: fire it empty and reload, or give spare ammo above."));
     });
 
     if !missing.is_empty() {
@@ -147,7 +148,7 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
             for m in &missing {
                 ui.label(format!("\u{2022} {m}"));
             }
-            ui.weak("The game leaves out values that are zero, so there is nothing in the file to change for these. Pick up some armour (or ammo) in the game and save again.");
+            ui.weak(tr("The game leaves out values that are zero, so there is nothing in the file to change for these. Pick up some armour (or ammo) in the game and save again."));
         });
     }
 }

@@ -2,7 +2,7 @@
 //! the values players care about, laid out like the game shows them. Everything is
 //! looked up by name and simply left out when a save doesn't have it.
 
-use crate::i18n::tr;
+use crate::i18n::{tr, trf};
 use crate::widgets::ScrollLock;
 use super::{cell_grid, columns, fact, fmt_num, hero, meter, panel, select, selection, tabs, words, Cell, GameCtx};
 use crate::json_view::pointer_escape;
@@ -72,7 +72,7 @@ pub fn bethesda(ui: &mut Ui, cx: &mut GameCtx) {
             fact(ui, "Play time", &t.split_whitespace().next().unwrap_or("").split('.').take(3).collect::<Vec<_>>().join(" "), accent);
         }
     });
-    ui.weak("The character's name, level and location are shown as the game recorded them; the values below can be edited.");
+    ui.weak(tr("The character's name, level and location are shown as the game recorded them; the values below can be edited."));
     ui.add_space(6.0);
     if cx.get("/Game time").is_some() {
         panel(ui, "Game time", |ui| object_columns(ui, cx, "beth_time", "/Game time", |k| k.to_string()));
@@ -241,8 +241,8 @@ pub fn stardew(ui: &mut Ui, cx: &mut GameCtx) {
                         cx.editor(ui, &xp, 80.0);
                         let have = cx.int(&xp).unwrap_or(0);
                         match SDV_XP.iter().find(|&&t| t > have) {
-                            Some(t) => ui.weak(format!("level {} at {}", SDV_XP.iter().position(|x| x == t).unwrap() + 1, fmt_num(*t as f64))),
-                            None => ui.weak("max"),
+                            Some(t) => ui.weak(trf("level {0} at {1}", &[&(SDV_XP.iter().position(|x| x == t).unwrap() + 1), &(fmt_num(*t as f64))])),
+                            None => ui.weak(tr("max")),
                         };
                     });
                 }
@@ -274,7 +274,7 @@ pub fn stardew(ui: &mut Ui, cx: &mut GameCtx) {
         panel(ui, "Friendships", |ui| {
             let single = friends == 1 && cx.get(&join(p, "friendshipData/item/0")).is_none();
             let base = move |n: usize| if single { join(p, "friendshipData/item") } else { join(p, &format!("friendshipData/item/{n}")) };
-            if super::quick_button(ui, "Raise everyone to 8 hearts", "2000 points. Romance candidates stop at 8 hearts until you give them a bouquet; others go to 10.") {
+            if super::quick_button(ui, tr("Raise everyone to 8 hearts"), tr("2000 points. Romance candidates stop at 8 hearts until you give them a bouquet; others go to 10.")) {
                 for n in 0..friends {
                     let pts = format!("{}/value/Friendship/Points", base(n));
                     if cx.int(&pts).is_some_and(|v| v < 2000) {
@@ -293,7 +293,7 @@ pub fn stardew(ui: &mut Ui, cx: &mut GameCtx) {
                     ui.end_row();
                 }
             });
-            ui.weak("250 points make a heart. 2500 is 10 hearts (3500 for a spouse); a romance candidate above 2000 needs the bouquet event first.");
+            ui.weak(tr("250 points make a heart. 2500 is 10 hearts (3500 for a spouse); a romance candidate above 2000 needs the bouquet event first."));
         });
     }
     let slots: usize = match cx.get(&join(p, "items/Item")) {
@@ -311,7 +311,7 @@ pub fn stardew(ui: &mut Ui, cx: &mut GameCtx) {
                     cx.compact(ui, &stack, 60.0);
                     if cx.get(&format!("{b}/quality")).is_some() {
                         ui.horizontal(|ui| {
-                            ui.weak("quality");
+                            ui.weak(tr("quality"));
                             cx.compact(ui, &format!("{b}/quality"), 40.0);
                         });
                     } else {
@@ -319,7 +319,7 @@ pub fn stardew(ui: &mut Ui, cx: &mut GameCtx) {
                     }
                     if cx.get(&format!("{b}/upgradeLevel")).is_some() {
                         ui.horizontal(|ui| {
-                            ui.weak("tool level");
+                            ui.weak(tr("tool level"));
                             cx.compact(ui, &format!("{b}/upgradeLevel"), 40.0);
                         });
                     } else {
@@ -328,13 +328,13 @@ pub fn stardew(ui: &mut Ui, cx: &mut GameCtx) {
                     ui.end_row();
                 }
             });
-            ui.weak("Quality: 0 normal, 1 silver, 2 gold, 4 iridium. Tool level: 0 basic, 1 copper, 2 steel, 3 gold, 4 iridium. Stacks go up to 999 for most items.");
+            ui.weak(tr("Quality: 0 normal, 1 silver, 2 gold, 4 iridium. Tool level: 0 basic, 1 copper, 2 steel, 3 gold, 4 iridium. Stacks go up to 999 for most items."));
         });
     }
     if let Ok(list) = super::crafting::stacks(super::Game::Stardew, cx) {
         panel(ui, "Crafting materials in the backpack", |ui| {
             if list.is_empty() {
-                ui.weak("No wood, stone, ores, bars or other crafting materials in the backpack.");
+                ui.weak(tr("No wood, stone, ores, bars or other crafting materials in the backpack."));
             } else {
                 egui::Grid::new("sdv_mats").num_columns(2).striped(true).spacing([14.0, 4.0]).show(ui, |ui| {
                     for s in &list {
@@ -387,14 +387,14 @@ pub fn minecraft(ui: &mut Ui, cx: &mut GameCtx) {
                 meter(ui, "Food", f, 20.0, Color32::from_rgb(190, 130, 60));
             }
             grid(ui, cx, "mc_player", &[("Game mode", join(p, "playerGameType")), ("XP progress", join(p, "XpP")), ("Total XP", join(p, "XpTotal")), ("Score", join(p, "Score")), ("Saturation", join(p, "foodSaturationLevel"))]);
-            ui.weak("Game mode: 0 Survival, 1 Creative, 2 Adventure, 3 Spectator. Health and food go up to 20.");
+            ui.weak(tr("Game mode: 0 Survival, 1 Creative, 2 Adventure, 3 Spectator. Health and food go up to 20."));
         });
     };
     let right = |ui: &mut Ui, cx: &mut GameCtx| {
         panel(ui, "World", |ui| {
             cx.difficulty(ui, "Difficulty", &join(d, "Difficulty"), &[("Peaceful", 0.into()), ("Easy", 1.into()), ("Normal", 2.into()), ("Hard", 3.into())]);
             grid(ui, cx, "mc_world", &[("Cheats", join(d, "allowCommands")), ("Day time", join(d, "DayTime")), ("Raining", join(d, "raining")), ("Thundering", join(d, "thundering"))]);
-            ui.weak("Day time 0 is sunrise, 6000 noon, 13000 night.");
+            ui.weak(tr("Day time 0 is sunrise, 6000 noon, 13000 night."));
         });
     };
     if wide {
@@ -439,7 +439,7 @@ pub fn minecraft(ui: &mut Ui, cx: &mut GameCtx) {
                     grid(ui, cx, &format!("{id}_sel"), &[("Item", format!("{ip}/id")), ("Count", format!("{ip}/Count")), ("Count", format!("{ip}/count"))]);
                 }
                 None => {
-                    ui.weak("Click an item to change it. Empty slots can't be filled from here (use the Tree tab).");
+                    ui.weak(tr("Click an item to change it. Empty slots can't be filled from here (use the Tree tab)."));
                 }
             }
             if id == "mc_inv" {
@@ -488,19 +488,19 @@ pub fn balatro(ui: &mut Ui, cx: &mut GameCtx) {
         let cards = keys(cx, area);
         panel(ui, title, |ui| {
             if cards.is_empty() {
-                ui.weak("None right now.");
+                ui.weak(tr("None right now."));
             }
             egui::Grid::new(("bal_cards", title)).num_columns(3).striped(true).spacing([12.0, 4.0]).show(ui, |ui| {
                 for c in &cards {
                     let cp = join(area, c);
                     ui.label(RichText::new(cx.text(&format!("{cp}/label")).unwrap_or_else(|| c.clone())).strong());
                     ui.horizontal(|ui| {
-                        ui.weak("sells for");
+                        ui.weak(tr("sells for"));
                         cx.editor(ui, &format!("{cp}/sell_cost"), 50.0);
                     });
                     ui.horizontal(|ui| {
                         if cx.get(&format!("{cp}/edition")).is_some() {
-                            ui.weak("edition");
+                            ui.weak(tr("edition"));
                             cx.editor(ui, &format!("{cp}/edition/type"), 90.0);
                         }
                     });
@@ -513,10 +513,10 @@ pub fn balatro(ui: &mut Ui, cx: &mut GameCtx) {
     if !hands.is_empty() {
         panel(ui, "Poker hands", |ui| {
             egui::Grid::new("bal_hands").num_columns(4).striped(true).spacing([12.0, 4.0]).show(ui, |ui| {
-                ui.weak("Hand");
+                ui.weak(tr("Hand"));
                 ui.weak(tr("Level"));
-                ui.weak("Chips");
-                ui.weak("Mult");
+                ui.weak(tr("Chips"));
+                ui.weak(tr("Mult"));
                 ui.end_row();
                 for h in &hands {
                     let hp = join("/GAME/hands", h);
@@ -531,7 +531,7 @@ pub fn balatro(ui: &mut Ui, cx: &mut GameCtx) {
     }
     let deck = keys(cx, "/cardAreas/deck/cards").len();
     if deck > 0 {
-        ui.weak(format!("{deck} cards in the deck (edit them in the Tree tab)."));
+        ui.weak(trf("{0} cards in the deck (edit them in the Tree tab).", &[&deck]));
     }
 }
 
@@ -592,7 +592,7 @@ pub fn hollow_knight(ui: &mut Ui, cx: &mut GameCtx) {
         });
     });
     panel(ui, "Charms", |ui| {
-        ui.weak("Charms you own.");
+        ui.weak(tr("Charms you own."));
         ui.horizontal_wrapped(|ui| {
             for (i, name) in HK_CHARMS.iter().enumerate() {
                 cx.chip(ui, name, &join(p, &format!("gotCharm_{}", i + 1)), Color32::from_rgb(110, 130, 200));
@@ -615,7 +615,7 @@ pub fn hollow_knight(ui: &mut Ui, cx: &mut GameCtx) {
     if !rows.is_empty() {
         panel(ui, "Spells, mode and charm state", |ui| {
             grid(ui, cx, "hk_spells", &rows);
-            ui.weak("Spell levels: 0 not learned, 1 the first form, 2 the upgraded one. Set Mode back to 0 to open a dead Steel Soul save as a normal one.");
+            ui.weak(tr("Spell levels: 0 not learned, 1 the first form, 2 the upgraded one. Set Mode back to 0 to open a dead Steel Soul save as a normal one."));
         });
     }
     panel(ui, "Moves, dream nail and travel", |ui| {
@@ -645,7 +645,7 @@ pub fn hollow_knight(ui: &mut Ui, cx: &mut GameCtx) {
                 cx.chip(ui, label, &join(p, k), accent);
             }
         });
-        ui.weak("Only the entries this save has are shown. Opening a stag station only unlocks the ride; the station itself still has to be found.");
+        ui.weak(tr("Only the entries this save has are shown. Opening a stag station only unlocks the ride; the station itself still has to be found."));
     });
     panel(ui, "Relics", |ui| {
         grid(ui, cx, "hk_relics", &[("Wanderer's Journals", join(p, "trinket1")), ("Hallownest Seals", join(p, "trinket2")), ("King's Idols", join(p, "trinket3")), ("Arcane Eggs", join(p, "trinket4"))]);
@@ -686,8 +686,8 @@ pub fn slay_the_spire(ui: &mut Ui, cx: &mut GameCtx) {
             // The name column keeps its width: a grid otherwise sizes it from the narrowest first frame.
             egui::Grid::new(("sts", title)).num_columns(3).striped(true).spacing([8.0, 3.0]).min_col_width(150.0).show(ui, |ui| {
                 if items.first().is_some_and(Value::is_object) {
-                    ui.weak("Card");
-                    ui.weak("Upgrades").on_hover_text("How many times the card was upgraded (0 = not upgraded; most cards take 1)");
+                    ui.weak(tr("Card"));
+                    ui.weak(tr("Upgrades")).on_hover_text(tr("How many times the card was upgraded (0 = not upgraded; most cards take 1)"));
                     ui.label("");
                     ui.end_row();
                 }
@@ -696,14 +696,14 @@ pub fn slay_the_spire(ui: &mut Ui, cx: &mut GameCtx) {
                     if it.is_object() {
                         cx.editor(ui, &format!("{ip}/id"), 150.0);
                         ui.horizontal(|ui| {
-                            ui.weak("+").on_hover_text("Upgrade count");
+                            ui.weak("+").on_hover_text(tr("Upgrade count"));
                             cx.editor(ui, &format!("{ip}/upgrades"), 34.0);
                         });
                     } else {
                         cx.editor(ui, &ip, 150.0);
                         ui.label("");
                     }
-                    if ui.small_button("\u{00D7}").on_hover_text("Remove").clicked() {
+                    if ui.small_button("\u{00D7}").on_hover_text(tr("Remove")).clicked() {
                         let mut left = items.clone();
                         left.remove(n);
                         change = Some((p.to_string(), Value::Array(left)));
@@ -765,7 +765,7 @@ pub fn slay_the_spire(ui: &mut Ui, cx: &mut GameCtx) {
                     cx.chip(ui, &words(k.trim_start_matches("has_")), &format!("/{k}"), accent);
                 }
             });
-            ui.weak("The three keys unlock the Heart; Final act lets the run go on to Act 4. Ids must be the game's own (a wrong one can stop the run loading); removing a relic also drops its counter.");
+            ui.weak(tr("The three keys unlock the Heart; Final act lets the run go on to Act 4. Ids must be the game's own (a wrong one can stop the run loading); removing a relic also drops its counter."));
         });
     }
 }
@@ -825,7 +825,7 @@ pub fn rpg_maker(ui: &mut Ui, cx: &mut GameCtx) {
         let exp = format!("{a}/_exp/{class}");
         columns(ui, 320.0, 2, |ui, col| {
             if col == 0 {
-                ui.label(RichText::new("Level and experience").strong());
+                ui.label(RichText::new(tr("Level and experience")).strong());
                 grid(ui, cx, "rm_lv", &[("Name", format!("{a}/_name")), ("Nickname", format!("{a}/_nickname")), ("Level", format!("{a}/_level")), ("EXP", exp.clone())]);
                 ui.weak(format!(
                     "Class {class}. The game works the level out from EXP the next time EXP changes, \
@@ -834,8 +834,8 @@ pub fn rpg_maker(ui: &mut Ui, cx: &mut GameCtx) {
                 ui.add_space(6.0);
                 grid(ui, cx, "rm_hp", &[("HP", format!("{a}/_hp")), ("MP", format!("{a}/_mp")), ("TP", format!("{a}/_tp"))]);
             } else {
-                ui.label(RichText::new("Stat bonuses").strong());
-                ui.weak("Added on top of the class's stats (what seeds and level-ups give).");
+                ui.label(RichText::new(tr("Stat bonuses")).strong());
+                ui.weak(tr("Added on top of the class's stats (what seeds and level-ups give)."));
                 let rows: Vec<(&str, String)> = RM_PARAMS.iter().enumerate().map(|(i, n)| (*n, format!("{a}/_paramPlus/@a/{i}"))).collect();
                 grid(ui, cx, "rm_params", &rows);
                 if let Some(Value::Array(s)) = cx.get(&format!("{a}/_skills/@a")) {
@@ -843,7 +843,7 @@ pub fn rpg_maker(ui: &mut Ui, cx: &mut GameCtx) {
                     ui.add_space(6.0);
                     ui.label(RichText::new(format!("Skills learned: {}", s.len())).strong());
                     ui.weak(if s.is_empty() { "None.".into() } else { s.join(", ") });
-                    ui.weak("Skill names are in the game's data files; the numbers are their ids.");
+                    ui.weak(tr("Skill names are in the game's data files; the numbers are their ids."));
                 }
             }
         });
@@ -860,7 +860,7 @@ pub fn rpg_maker(ui: &mut Ui, cx: &mut GameCtx) {
                 for id in ids {
                     ui.label(format!("#{id}"));
                     cx.editor(ui, &format!("{base}/{id}"), 70.0);
-                    if ui.small_button("\u{00D7}").on_hover_text("Remove from the party").clicked() {
+                    if ui.small_button("\u{00D7}").on_hover_text(tr("Remove from the party")).clicked() {
                         let mut left = held.clone();
                         left.remove(id);
                         change = Some((base.clone(), Value::Object(left)));
@@ -871,9 +871,9 @@ pub fn rpg_maker(ui: &mut Ui, cx: &mut GameCtx) {
             let sid = egui::Id::new(("rm_add", key));
             let (mut id, mut n) = ui.data(|d| d.get_temp::<(String, String)>(sid)).unwrap_or_else(|| (String::new(), "1".into()));
             ui.horizontal(|ui| {
-                ui.label("Add id");
+                ui.label(tr("Add id"));
                 ui.add(egui::TextEdit::singleline(&mut id).desired_width(60.0));
-                ui.label("count");
+                ui.label(tr("count"));
                 ui.add(egui::TextEdit::singleline(&mut n).desired_width(40.0));
                 if ui.button(tr("Add")).clicked() {
                     if let (Ok(i), Ok(c)) = (id.trim().parse::<u32>(), n.trim().parse::<u32>()) {
@@ -887,7 +887,7 @@ pub fn rpg_maker(ui: &mut Ui, cx: &mut GameCtx) {
                 }
             });
             ui.data_mut(|d| d.insert_temp(sid, (id, n)));
-            ui.weak("The number is the entry's id in the game's database (the order of the list in the editor, starting at 1). Most games cap a stack at 99.");
+            ui.weak(tr("The number is the entry's id in the game's database (the order of the list in the editor, starting at 1). Most games cap a stack at 99."));
         });
     }
     if let Some((p, v)) = change {
@@ -947,7 +947,7 @@ fn onimusha_add_material(ui: &mut Ui, cx: &mut GameCtx, items: &str, slot: usize
     }
     let mut add = false;
     ui.horizontal_wrapped(|ui| {
-        ui.label("Add material:");
+        ui.label(tr("Add material:"));
         let current = missing.iter().find(|(m, _)| *m == pick).map_or("", |(_, n)| n);
         egui::ComboBox::from_id_salt(("oni_add_pick", slot)).selected_text(current).show_ui(ui, |ui| {
             for (m, n) in &missing {
@@ -956,9 +956,9 @@ fn onimusha_add_material(ui: &mut Ui, cx: &mut GameCtx, items: &str, slot: usize
         });
         ui.add(egui::DragValue::new(&mut count).range(1..=ONIMUSHA_CAP));
         add = ui
-            .add_enabled(!free.is_empty(), egui::Button::new("Add"))
-            .on_hover_text("Adds it on hand, in the next unused entry of the item list, as if just picked up.")
-            .on_disabled_hover_text("The item list has no unused entries left.")
+            .add_enabled(!free.is_empty(), egui::Button::new(tr("Add")))
+            .on_hover_text(tr("Adds it on hand, in the next unused entry of the item list, as if just picked up."))
+            .on_disabled_hover_text(tr("The item list has no unused entries left."))
             .clicked();
     });
     ui.data_mut(|d| d.insert_temp(id, (pick, count)));
@@ -1034,8 +1034,8 @@ pub fn onimusha(ui: &mut Ui, cx: &mut GameCtx) {
         panel(ui, "Items", |ui| {
             egui::Grid::new("oni_items").num_columns(3).striped(true).spacing([12.0, 4.0]).show(ui, |ui| {
                 ui.strong(tr("Item"));
-                ui.strong("On hand");
-                ui.strong("In storage");
+                ui.strong(tr("On hand"));
+                ui.strong(tr("In storage"));
                 ui.end_row();
                 for (k, id) in &used {
                     let p = format!("{items}/{k}");
@@ -1046,7 +1046,7 @@ pub fn onimusha(ui: &mut Ui, cx: &mut GameCtx) {
                     ui.end_row();
                 }
             });
-            ui.weak("The game shows these counts as On Hand and In Storage. Key items (weapons, the bow) have no count.");
+            ui.weak(tr("The game shows these counts as On Hand and In Storage. Key items (weapons, the bow) have no count."));
             ui.add_space(4.0);
             onimusha_add_material(ui, cx, &items, i);
             super::crafting::onimusha_button(ui, cx, i);
@@ -1063,9 +1063,9 @@ pub fn onimusha(ui: &mut Ui, cx: &mut GameCtx) {
     if !owned.is_empty() {
         panel(ui, "Charms", |ui| {
             egui::Grid::new("oni_charms").num_columns(3).striped(true).spacing([12.0, 4.0]).show(ui, |ui| {
-                ui.strong("Charm");
+                ui.strong(tr("Charm"));
                 ui.strong(tr("Level"));
-                ui.strong("Worn");
+                ui.strong(tr("Worn"));
                 ui.end_row();
                 for (k, id) in &owned {
                     let p = format!("{charms}/{k}");
@@ -1075,7 +1075,7 @@ pub fn onimusha(ui: &mut Ui, cx: &mut GameCtx) {
                     ui.end_row();
                 }
             });
-            ui.weak("Level 0 is the charm's first level; each charm has three.");
+            ui.weak(tr("Level 0 is the charm's first level; each charm has three."));
         });
     }
     // Equipment that has gained experience (the rest of the 32 entries are unused).
@@ -1087,13 +1087,13 @@ pub fn onimusha(ui: &mut Ui, cx: &mut GameCtx) {
         .unwrap_or_default();
     panel(ui, "Equipment", |ui| {
         if rows.is_empty() {
-            ui.weak("No equipment with experience yet.");
+            ui.weak(tr("No equipment with experience yet."));
             return;
         }
         egui::Grid::new("oni_eq").num_columns(4).striped(true).spacing([12.0, 4.0]).show(ui, |ui| {
-            ui.strong("Equipment");
-            ui.strong("Experience");
-            ui.strong("Total experience");
+            ui.strong(tr("Equipment"));
+            ui.strong(tr("Experience"));
+            ui.strong(tr("Total experience"));
             ui.end_row();
             for k in &rows {
                 let p = format!("{eq}/{k}");
@@ -1130,12 +1130,12 @@ pub fn paradox(ui: &mut Ui, cx: &mut GameCtx, kind: &str) {
         });
         panel(ui, "All resources", |ui| {
             if cx.get(&res).is_none() {
-                ui.weak("This empire has no stockpiles in the save.");
+                ui.weak(tr("This empire has no stockpiles in the save."));
                 return;
             }
             object_columns(ui, cx, "st_res", &res, words);
         });
-        ui.weak("Research totals are progress toward the current projects. The empire is the one you play (player 1).");
+        ui.weak(tr("Research totals are progress toward the current projects. The empire is the one you play (player 1)."));
         return;
     }
     if kind.starts_with("Hearts of Iron") {
@@ -1165,7 +1165,7 @@ pub fn paradox(ui: &mut Ui, cx: &mut GameCtx, kind: &str) {
                 ("Research slots", format!("{c}/research_slot")),
                 ("Capital state", format!("{c}/capital")),
             ]);
-            ui.weak("Stability and war support run from 0 to 1 (0.5 is 50%).");
+            ui.weak(tr("Stability and war support run from 0 to 1 (0.5 is 50%)."));
         });
         return;
     }
@@ -1194,7 +1194,7 @@ pub fn paradox(ui: &mut Ui, cx: &mut GameCtx, kind: &str) {
                 ("Army tradition", join(&c, "army_tradition")),
                 ("Navy tradition", join(&c, "navy_tradition")),
             ]);
-            ui.weak("Stability runs from -3 to +3. The country is the one you play; the Tree tab has every other country by tag.");
+            ui.weak(tr("Stability runs from -3 to +3. The country is the one you play; the Tree tab has every other country by tag."));
         });
         return;
     }
@@ -1218,7 +1218,7 @@ pub fn rimworld(ui: &mut Ui, cx: &mut GameCtx) {
     let names = keys(cx, "/Colonists");
     panel(ui, "Colonists", |ui| {
         if names.is_empty() {
-            ui.weak("No colonists found in this save.");
+            ui.weak(tr("No colonists found in this save."));
             return;
         }
         let t = tabs(ui, "rw_pawn", &names);
@@ -1228,9 +1228,9 @@ pub fn rimworld(ui: &mut Ui, cx: &mut GameCtx) {
         }
         let skills = keys(cx, &format!("{base}/Skills"));
         egui::Grid::new(("rw_skills", t)).num_columns(3).striped(true).spacing([14.0, 4.0]).show(ui, |ui| {
-            ui.strong("Skill");
+            ui.strong(tr("Skill"));
             ui.strong(tr("Level"));
-            ui.strong("Passion");
+            ui.strong(tr("Passion"));
             ui.end_row();
             for s in &skills {
                 let p = join(&format!("{base}/Skills"), s);
@@ -1240,7 +1240,7 @@ pub fn rimworld(ui: &mut Ui, cx: &mut GameCtx) {
                 ui.end_row();
             }
         });
-        ui.weak("Levels run 0\u{2013}20 in the base game. A passion makes the colonist learn that skill faster.");
+        ui.weak(tr("Levels run 0\u{2013}20 in the base game. A passion makes the colonist learn that skill faster."));
     });
     let kinds = keys(cx, "/Resources");
     if !kinds.is_empty() {
@@ -1259,13 +1259,13 @@ pub fn rimworld(ui: &mut Ui, cx: &mut GameCtx) {
                     });
                 });
             }
-            ui.weak("Each stack of these the colony has on the map, with its position. A stack can't hold more than the game's stack limit for that item, so for more, raise several stacks.");
+            ui.weak(tr("Each stack of these the colony has on the map, with its position. A stack can't hold more than the game's stack limit for that item, so for more, raise several stacks."));
         });
     }
     let stacks = keys(cx, "/Silver");
     panel(ui, "Silver stacks", |ui| {
         if stacks.is_empty() {
-            ui.weak("No silver on the map.");
+            ui.weak(tr("No silver on the map."));
             return;
         }
         egui::ScrollArea::vertical().max_height(220.0).id_salt("rw_silver").show_locked(ui, |ui| {
@@ -1277,7 +1277,7 @@ pub fn rimworld(ui: &mut Ui, cx: &mut GameCtx) {
                 }
             });
         });
-        ui.weak("A stack holds up to 500 in the base game.");
+        ui.weak(tr("A stack holds up to 500 in the base game."));
     });
 }
 
@@ -1300,7 +1300,7 @@ pub fn subnautica(ui: &mut Ui, cx: &mut GameCtx) {
                 }
             }
         });
-        ui.weak("Takes effect the next time you load this slot. Freedom turns off food and water; Creative also turns off oxygen and building costs. Changing mode may turn achievements off.");
+        ui.weak(tr("Takes effect the next time you load this slot. Freedom turns off food and water; Creative also turns off oxygen and building costs. Changing mode may turn achievements off."));
     });
     panel(ui, "In this slot", |ui| {
         ui.horizontal_wrapped(|ui| {
@@ -1311,7 +1311,7 @@ pub fn subnautica(ui: &mut Ui, cx: &mut GameCtx) {
                 }
             }
         });
-        ui.weak("Inventory, health and blueprints are in global-objects.bin next to this file, which isn't editable yet.");
+        ui.weak(tr("Inventory, health and blueprints are in global-objects.bin next to this file, which isn't editable yet."));
     });
 }
 
@@ -1336,18 +1336,18 @@ pub fn oxygen_not_included(ui: &mut Ui, cx: &mut GameCtx) {
     let names = keys(cx, "/Duplicants");
     panel(ui, "Duplicants", |ui| {
         if names.is_empty() {
-            ui.weak("No duplicants found in this save.");
+            ui.weak(tr("No duplicants found in this save."));
             return;
         }
         let t = tabs(ui, "oni_dupe", &names);
         let base = join("/Duplicants", &names[t]);
         let levels = format!("{base}/Klei.AI.AttributeLevels/saveLoadLevels");
         let count = cx.get(&levels).and_then(Value::as_array).map_or(0, Vec::len);
-        ui.label(RichText::new("Attributes").strong());
+        ui.label(RichText::new(tr("Attributes")).strong());
         egui::Grid::new(("oni_attr", t)).num_columns(3).striped(true).spacing([14.0, 4.0]).show(ui, |ui| {
-            ui.strong("Attribute");
+            ui.strong(tr("Attribute"));
             ui.strong(tr("Level"));
-            ui.strong("Experience");
+            ui.strong(tr("Experience"));
             ui.end_row();
             for i in 0..count {
                 let p = format!("{levels}/{i}");
@@ -1360,13 +1360,13 @@ pub fn oxygen_not_included(ui: &mut Ui, cx: &mut GameCtx) {
         let resume = format!("{base}/MinionResume");
         ui.add_space(6.0);
         ui.horizontal(|ui| {
-            ui.label("Total experience (skill points come from this):");
+            ui.label(tr("Total experience (skill points come from this):"));
             cx.editor(ui, &format!("{resume}/totalExperienceGained"), 130.0);
         });
         let skills = keys(cx, &format!("{resume}/MasteryBySkillID"));
         if !skills.is_empty() {
             ui.add_space(6.0);
-            ui.label(RichText::new("Skills learned").strong());
+            ui.label(RichText::new(tr("Skills learned")).strong());
             ui.horizontal_wrapped(|ui| {
                 for s in &skills {
                     let p = join(&format!("{resume}/MasteryBySkillID"), s);
@@ -1377,6 +1377,6 @@ pub fn oxygen_not_included(ui: &mut Ui, cx: &mut GameCtx) {
                 }
             });
         }
-        ui.weak("Attribute levels top out at 20 without mods. Everything else about a duplicant is in the Values tab.");
+        ui.weak(tr("Attribute levels top out at 20 without mods. Everything else about a duplicant is in the Values tab."));
     });
 }

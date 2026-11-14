@@ -1,6 +1,7 @@
 //! The Sims (2000) `Neighborhood.iff`: one tab per family with its funds and, for each Sim
 //! in it, personality and skills as bars out of ten.
 
+use crate::i18n::{tr};
 use super::screens2::value_rows;
 use super::{fact, hero, panel, tabs, GameCtx};
 use crate::json_view::pointer_escape;
@@ -18,7 +19,7 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx, two: bool) {
     let accent = if two { Color32::from_rgb(70, 160, 220) } else { Color32::from_rgb(88, 190, 96) };
     let families = keys(cx, "/Families");
     if families.is_empty() {
-        ui.weak("This neighbourhood has no families yet.");
+        ui.weak(tr("This neighbourhood has no families yet."));
         return;
     }
     let t = tabs(ui, "sims1_family", &families).min(families.len() - 1);
@@ -62,10 +63,10 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx, two: bool) {
         });
     }
     if two {
-        ui.weak("Skills and personality go from 0 to 1000; every 100 is one point on the game's bars. Sims are listed by their id (their names are in the character files). Townies and the default families are under Other Sims on the Values tab with Advanced on. Not yet tried in the game.");
+        ui.weak(tr("Skills and personality go from 0 to 1000; every 100 is one point on the game's bars. Sims are listed by their id (their names are in the character files). Townies and the default families are under Other Sims on the Values tab with Advanced on. Not yet tried in the game."));
         return;
     }
-    ui.weak("Skills and personality go from 0 to 1000; every 100 is one point on the game's bars. Sims carry their file name (user00012 is Characters\\User00012.iff). Townies and visitors are under Other Sims on the Values tab with Advanced on. Not yet tried in the game.");
+    ui.weak(tr("Skills and personality go from 0 to 1000; every 100 is one point on the game's bars. Sims carry their file name (user00012 is Characters\\User00012.iff). Townies and visitors are under Other Sims on the Values tab with Advanced on. Not yet tried in the game."));
 }
 
 /// The Sims 4: one tab per household with its funds and the Sims in it.
@@ -73,7 +74,7 @@ pub fn show4(ui: &mut Ui, cx: &mut GameCtx) {
     let accent = Color32::from_rgb(60, 190, 200);
     let houses = keys(cx, "/Households");
     if houses.is_empty() {
-        ui.weak("This save has no households.");
+        ui.weak(tr("This save has no households."));
         return;
     }
     let t = tabs(ui, "sims4_house", &houses).min(houses.len() - 1);
@@ -90,5 +91,5 @@ pub fn show4(ui: &mut Ui, cx: &mut GameCtx) {
             }
         });
     }
-    ui.weak("Funds go up to 99,999,999. The game data is stored uncompressed when you save, so the file grows. Sim skills and traits aren't mapped yet. Not yet tried in the game.");
+    ui.weak(tr("Funds go up to 99,999,999. The game data is stored uncompressed when you save, so the file grows. Sim skills and traits aren't mapped yet. Not yet tried in the game."));
 }

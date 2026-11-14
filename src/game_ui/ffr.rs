@@ -5,6 +5,7 @@
 //! Item, character and level-curve data (`src/fmt/data/ffr.json`) comes from the MIT-licensed
 //! ffr-save-editor (Jesús Seijas); see THIRD_PARTY_NOTICES.md.
 
+use crate::i18n::{tr, trf};
 use super::{columns, fact, fmt_num, hero, panel, tabs, GameCtx};
 use eframe::egui::{self, Color32, Ui};
 use serde_json::Value;
@@ -100,8 +101,8 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
                 panel(ui, "Level and vitals", |ui| {
                     if let (Some(exp), Some(lv)) = (cx.int(&format!("{base}/Experience")), cx.int(&format!("{base}/Experience")).and_then(|e| level(uid, e))) {
                         let top = data().exp.get(&uid.to_string()).map_or(0, Vec::len);
-                        ui.label(format!("Level {lv} ({} experience)", fmt_num(exp as f64)));
-                        if top > 0 && ui.button(format!("Max level ({top})")).clicked() {
+                        ui.label(trf("Level {1} ({0} experience)", &[&(fmt_num(exp as f64)), &lv]));
+                        if top > 0 && ui.button(trf("Max level ({0})", &[&top])).clicked() {
                             let need = data().exp[&uid.to_string()][top - 1];
                             cx.set(&format!("{base}/Experience"), Value::from(need));
                         }
@@ -111,7 +112,7 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
                             cx.grid_row(ui, label, &format!("{base}/{key}"), 110.0);
                         }
                     });
-                    ui.weak("The game may recalculate level and stats from experience.");
+                    ui.weak(tr("The game may recalculate level and stats from experience."));
                 });
             } else {
                 panel(ui, "Equipment and bonus stats", |ui| {
@@ -154,7 +155,7 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
             });
         }
         if visions == 0 {
-            ui.weak("No Visions in this save.");
+            ui.weak(tr("No Visions in this save."));
         }
     } else if t == item_tab {
         panel(ui, "Items", |ui| {
@@ -167,7 +168,7 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
                     cx.grid_row(ui, &item_name(id), &format!("/inventory/{i}/Num"), 90.0);
                 }
             });
-            ui.weak("Quantities of items you already have; new item types can't be added here.");
+            ui.weak(tr("Quantities of items you already have; new item types can't be added here."));
         });
     } else if t == art_tab {
         panel(ui, "Artifacts", |ui| {
@@ -181,7 +182,7 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
                     cx.chip(ui, &label, &format!("/artifactList/{id}/IsActive"), accent);
                 }
             });
-            ui.weak("Click an artifact to switch it on or off.");
+            ui.weak(tr("Click an artifact to switch it on or off."));
         });
     }
 }

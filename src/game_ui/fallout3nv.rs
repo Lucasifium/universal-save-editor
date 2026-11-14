@@ -2,6 +2,7 @@
 //! karma, S.P.E.C.I.A.L. and the points added to each skill. Values the save doesn't have (some saves lack a readable
 //! inventory or base form) are left out.
 
+use crate::i18n::{tr};
 use super::{columns, fact, hero, panel, GameCtx};
 use eframe::egui::{self, Color32, Ui};
 
@@ -31,7 +32,7 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
                         cx.grid_row(ui, n, &format!("/S.P.E.C.I.A.L./{n}"), 70.0);
                     }
                 });
-                ui.weak("The perk and trait bonuses on top come from the game.");
+                ui.weak(tr("The perk and trait bonuses on top come from the game."));
             });
         } else {
             panel(ui, "Skills: points added", |ui| {
@@ -40,7 +41,7 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
                     _ => vec![],
                 };
                 if names.is_empty() {
-                    ui.weak("This save's skills couldn't be read.");
+                    ui.weak(tr("This save's skills couldn't be read."));
                     return;
                 }
                 egui::Grid::new("fo_skills").num_columns(2).spacing([12.0, 6.0]).show(ui, |ui| {
@@ -48,12 +49,12 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
                         cx.grid_row(ui, n, &format!("/Skills/{n}"), 70.0);
                     }
                 });
-                ui.weak("Points spent at level-up plus books, bobbleheads and perks. The game adds them to each skill's base (from S.P.E.C.I.A.L., +15 when tagged) and stops counting at 100.");
+                ui.weak(tr("Points spent at level-up plus books, bobbleheads and perks. The game adds them to each skill's base (from S.P.E.C.I.A.L., +15 when tagged) and stops counting at 100."));
             });
         }
     });
     panel(ui, "About the numbers", |ui| {
-        ui.weak("Experience sets the level the game works out; the level shown is from the save's header and catches up when you next gain experience. Karma runs from \u{2212}1000 to 1000.");
+        ui.weak(tr("Experience sets the level the game works out; the level shown is from the save's header and catches up when you next gain experience. Karma runs from \u{2212}1000 to 1000."));
     });
     super::screens2::story(ui, cx, accent);
 }

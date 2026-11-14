@@ -1,7 +1,8 @@
 //! Kingdom Hearts II (PlayStation 2, USA and Europe releases) saves: the game's own 46,304-byte
 //! save file inside a `.psu`, `.psv` or memory card folder. Offsets, ids and names follow the
 //! MIT-licensed save editor in RyudoSynbios/game-tools-collection (see THIRD_PARTY_NOTICES.md).
-//! The Japanese and Final Mix saves lay their data out differently and are not read yet.
+//! The Japanese (47,152 bytes) and Final Mix (69,568 bytes) saves keep the same data at shifted
+//! offsets; the shift tables come from the same editor.
 
 use super::fields::{Builder, Checksum, Kind};
 use super::ps1::opts;
@@ -9,10 +10,66 @@ use crate::tree::TreeDoc;
 
 pub const KIND: &str = "Kingdom Hearts II save";
 const SIZE: usize = 46_304;
+const JP_SIZE: usize = 47_152;
+const FM_SIZE: usize = 69_568;
+
+#[derive(Clone, Copy, PartialEq)]
+enum Region {
+    West,
+    Japan,
+    FinalMix,
+}
+
+impl Region {
+    fn of(d: &[u8]) -> Option<Region> {
+        match d.len() {
+            SIZE if &d[..3] == b"KH2" && (d[3] == b'U' || d[3] == b'E') => Some(Region::West),
+            JP_SIZE if &d[..4] == b"KH2J" => Some(Region::Japan),
+            FM_SIZE if &d[..4] == b"KH2J" => Some(Region::FinalMix),
+            _ => None,
+        }
+    }
+
+    /// Where an offset of the Western layout is in this one.
+    fn sh(self, off: usize) -> usize {
+        let steps: &[(usize, isize)] = match self {
+            Region::West => &[],
+            Region::Japan => &[(0x22c4, 0x9c), (0x3000, 0x100), (0x324c, 0x104), (0x370c, 0x1c), (0x3714, 0x20), (0x3728, 0x20), (0x38f0, 0x20), (0x3a1c, 0x34)],
+            Region::FinalMix => &[
+                (0xe50, 0xe40), (0x1660, 0x50), (0x22c4, 0x1a0), (0x242c, 0xc8), (0x2c7a, -0x104), (0x3724, 0x2d8), (0x3740, 4), (0x3748, 4), (0x3750, 4),
+                (0x394c, 0x70), (0x3b80, 0x838), (0x9040, 0x2a60), (0xacc0, 0xe40), (0xb380, 0x6c0),
+            ],
+        };
+        let mut o = off as isize;
+        for &(at, by) in steps {
+            if off >= at {
+                o += by;
+            }
+        }
+        o as usize
+    }
+
+    fn party(self) -> usize {
+        match self {
+            Region::West => 0xf4,
+            Region::Japan => 0x100,
+            Region::FinalMix => 0x114,
+        }
+    }
+
+    /// End of the checksummed area.
+    fn crc_end(self) -> usize {
+        0xb4e0 + match self {
+            Region::West => 0,
+            Region::Japan => 0x350,
+            Region::FinalMix => 0x5ae0,
+        }
+    }
+}
 const CHARACTERS: [&str; 13] = ["Sora", "Donald", "Goofy", "Mickey", "Auron", "Mulan", "Aladdin", "Jack Sparrow", "Beast", "Jack Skellington", "Simba", "Tron", "Riku"];
 
 pub fn looks(d: &[u8]) -> bool {
-    d.len() == SIZE && &d[..3] == b"KH2" && (d[3] == b'U' || d[3] == b'E')
+    Region::of(d).is_some()
 }
 
 fn magic(base: &str) -> Vec<(String, u64)> {
@@ -35,40 +92,54 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
     if !looks(d) {
         return Err("not a Kingdom Hearts II save".into());
     }
+    let r = Region::of(d).ok_or("not a Kingdom Hearts II save")?;
     let mut b = Builder::new(d);
-    b.pick(&["General", "Difficulty"], 0x1658, Kind::U8, &opts(&[("Beginner Mode", 0), ("Standard Mode", 1), ("Proud Mode", 2)]));
-    b.ranged(&["General", "Munny"], 0x1600, Kind::U32, 0, 999_999);
-    for (n, at) in [("Fire", 0x249c), ("Blizzard", 0x249d), ("Thunder", 0x249e), ("Cure", 0x249f), ("Magnet", 0x24d7), ("Reflect", 0x24d8)] {
+    let mut modes = opts(&[("Beginner Mode", 0), ("Standard Mode", 1), ("Proud Mode", 2)]);
+    if r == Region::FinalMix {
+        modes.push(("Critical Mode".to_string(), 3));
+    }
+    b.pick(&["General", "Difficulty"], r.sh(0x1658), Kind::U8, &modes);
+    b.ranged(&["General", "Munny"], r.sh(0x1600), Kind::U32, 0, 999_999);
+    for (n, at) in [("Fire", r.sh(0x249c)), ("Blizzard", r.sh(0x249d)), ("Thunder", r.sh(0x249e)), ("Cure", r.sh(0x249f)), ("Magnet", r.sh(0x24d7)), ("Reflect", r.sh(0x24d8))] {
         b.pick(&["Magic", n], at, Kind::U8, &magic(n));
     }
     for (i, name) in CHARACTERS.iter().enumerate() {
-        let s = 0xf4 * i;
-        b.ranged(&["Party", name, "Level"], s + 0x166f, Kind::U8, 1, 99);
-        b.ranged(&["Party", name, "Experience"], s + 0x25e8, Kind::U32, 0, 9_999_999);
-        b.ranged(&["Party", name, "HP"], s + 0x1664, Kind::U8, 1, 255);
-        b.ranged(&["Party", name, "MP"], s + 0x1666, Kind::U8, 0, 255);
-        b.ranged(&["Party", name, "Bonus Strength"], s + 0x1669, Kind::U8, 0, 100);
-        b.ranged(&["Party", name, "Bonus Magic"], s + 0x166a, Kind::U8, 0, 100);
-        b.ranged(&["Party", name, "Bonus Defense"], s + 0x166b, Kind::U8, 0, 100);
-        b.ranged(&["Party", name, "Bonus AP"], s + 0x1668, Kind::U8, 0, 100);
+        let s = r.party() * i;
+        b.ranged(&["Party", name, "Level"], s + r.sh(0x166f), Kind::U8, 1, 99);
+        b.ranged(&["Party", name, "Experience"], s + r.sh(0x25e8), Kind::U32, 0, 9_999_999);
+        b.ranged(&["Party", name, "HP"], s + r.sh(0x1664), Kind::U8, 1, 255);
+        b.ranged(&["Party", name, "MP"], s + r.sh(0x1666), Kind::U8, 0, 255);
+        b.ranged(&["Party", name, "Bonus Strength"], s + r.sh(0x1669), Kind::U8, 0, 100);
+        b.ranged(&["Party", name, "Bonus Magic"], s + r.sh(0x166a), Kind::U8, 0, 100);
+        b.ranged(&["Party", name, "Bonus Defense"], s + r.sh(0x166b), Kind::U8, 0, 100);
+        b.ranged(&["Party", name, "Bonus AP"], s + r.sh(0x1668), Kind::U8, 0, 100);
     }
     let mut seen = std::collections::HashSet::new();
-    for (cat, items) in [("Items", ITEMS), ("Weapons", WEAPONS), ("Armor", ARMOR), ("Accessories", ACCESSORIES), ("Key items", KEY_ITEMS), ("Synthesis materials", MATERIALS)] {
-        for (i, name) in items {
+    let fm = r == Region::FinalMix;
+    for (cat, items, extra) in [
+        ("Items", ITEMS, &[][..]),
+        ("Weapons", WEAPONS, FM_WEAPONS),
+        ("Armor", ARMOR, FM_ARMOR),
+        ("Accessories", ACCESSORIES, FM_ACCESSORIES),
+        ("Key items", KEY_ITEMS, FM_KEY_ITEMS),
+        ("Synthesis materials", MATERIALS, FM_MATERIALS),
+    ] {
+        for (i, name) in items.iter().chain(if fm { extra } else { &[] }) {
             let mut key = name.to_string();
             if !seen.insert(key.clone()) {
                 key = format!("{name} ({cat})");
                 seen.insert(key.clone());
             }
-            b.ranged(&["Stock", cat, &key], 0x2488 + *i as usize, Kind::U8, 0, 99);
+            b.ranged(&["Stock", cat, &key], r.sh(0x2488 + *i as usize), Kind::U8, 0, 99);
         }
     }
-    Ok(b.finish(KIND, Checksum::Custom(fix)).with_note("Close the emulator first. The save's checksum is written again. Only the USA and Europe releases are read; the stock holds at most 99 of each item."))
+    Ok(b.finish(KIND, Checksum::Custom(fix)).with_note(crate::i18n::tx("Close the emulator first. The save's checksum is written again. USA, Europe, Japanese and Final Mix saves are read (the Final Mix only items show in Final Mix saves); the stock holds at most 99 of each item.")))
 }
 
 fn fix(d: &mut Vec<u8>) {
+    let Some(r) = Region::of(d) else { return };
     let mut c = 0xffff_ffffu32;
-    for (i, &x) in d[..0xb4e0].iter().enumerate() {
+    for (i, &x) in d[..r.crc_end()].iter().enumerate() {
         if !(8..12).contains(&i) {
             c = (c << 8) ^ CRC[((x as u32 ^ (c >> 24)) & 0xff) as usize];
         }
@@ -127,6 +198,13 @@ const ARMOR: &[(u16, &str)] = &[(60, "Elven Bandanna"), (61, "Divine Bandanna"),
 const ACCESSORIES: &[(u16, &str)] = &[(7, "Ability Ring"), (8, "Engineer's Ring"), (9, "Technician's Ring"), (10, "Expert's Ring"), (11, "Sardonyx Ring"), (12, "Tourmaline Ring"), (13, "Aquamarine Ring"), (14, "Garnet Ring"), (15, "Diamond Ring"), (16, "Silver Ring"), (17, "Gold Ring"), (18, "Platinum Ring"), (19, "Mythril Ring"), (26, "Orichalcum Ring"), (27, "Master's Ring"), (28, "Moon Amulet"), (30, "Star Charm"), (31, "Skill Ring"), (32, "Skillful Ring"), (38, "Soldier Earring"), (39, "Fencer Earring"), (40, "Mage Earring"), (44, "Slayer Earring"), (45, "Cosmic Ring"), (48, "Medal"), (49, "Cosmic Arts"), (56, "Lucky Ring"), (58, "Draw Ring"), ];
 const KEY_ITEMS: &[(u16, &str)] = &[(24, "Torn Pages"), (188, "Munny Pouch"), (189, "Crystal Orb"), (190, "Seifer's Trophy"), (191, "Tournament Poster"), (192, "Poster"), (193, "Letter"), (194, "Naminé's Sketches"), (195, "Membership Card"), (196, "Olympus Stone"), (197, "Auron's Statue"), (198, "Cursed Medallion"), (199, "Present"), (200, "Decoy Presents"), (201, "Ice Cream"), (202, "Picture"), (208, "Mega-Recipe"), (210, "Star Recipe"), (211, "Recovery Recipe"), (212, "Skill Recipe"), (213, "Guard Recipe"), (246, "Style Recipe"), (247, "Moon Recipe"), (248, "Queen Recipe"), (249, "King Recipe"), (250, "Ultimate Recipe"), (276, "Promise Charm"), (277, "Munny Pouch"), (278, "Hades Cup Trophy"), ];
 const MATERIALS: &[(u16, &str)] = &[(234, "Dark Shard"), (235, "Dark Stone"), (236, "Dark Gem"), (237, "Dark Crystal"), (143, "Blazing Shard"), (144, "Blazing Stone"), (145, "Blazing Gem"), (146, "Blazing Crystal"), (151, "Lightning Shard"), (152, "Lightning Stone"), (153, "Lightning Gem"), (154, "Lightning Crystal"), (155, "Power Shard"), (156, "Power Stone"), (157, "Power Gem"), (158, "Power Crystal"), (159, "Lucid Shard"), (160, "Lucid Stone"), (161, "Lucid Gem"), (162, "Lucid Crystal"), (163, "Dense Shard"), (164, "Dense Stone"), (165, "Dense Gem"), (166, "Dense Crystal"), (167, "Twilight Shard"), (168, "Twilight Stone"), (169, "Twilight Gem"), (170, "Twilight Crystal"), (171, "Mythril Shard"), (172, "Mythril Stone"), (173, "Mythril Gem"), (174, "Mythril Crystal"), (175, "Bright Shard"), (176, "Bright Stone"), (177, "Bright Gem"), (178, "Bright Crystal"), (179, "Energy Shard"), (180, "Energy Stone"), (181, "Energy Gem"), (182, "Energy Crystal"), (183, "Serenity Shard"), (184, "Serenity Stone"), (185, "Serenity Gem"), (186, "Serenity Crystal"), (187, "Orichalcum+"), (203, "Orichalcum"), (204, "Frost Shard"), (205, "Frost Stone"), (206, "Frost Gem"), (207, "Frost Crystal"), ];
+
+const FM_ITEMS: &[(u16, &str)] = &[];
+const FM_WEAPONS: &[(u16, &str)] = &[(280, "Two Become One"), (281, "Winner's Proof"), (282, "Centurion"), (283, "Centurion+"), (284, "Plain Mushroom"), (285, "Plain Mushroom+"), (286, "Precious Mushroom"), (287, "Precious Mushroom+"), (288, "Premium Mushroom"), (289, "Frozen Pride"), (290, "Frozen Pride+"), (291, "Joyous Mushroom"), (292, "Joyous Mushroom+"), (293, "Majestic Mushroom"), (294, "Majestic Mushroom+"), (295, "Ultimate Mushroom"), (310, "Shaman's Relic+"), (311, "Akashic Record+")];
+const FM_ARMOR: &[(u16, &str)] = &[(82, "Shock Charm"), (83, "Shock Charm+"), (84, "Grand Ribbon")];
+const FM_ACCESSORIES: &[(u16, &str)] = &[(50, "Shadow Archive"), (55, "Shadow Archive+"), (57, "Full Bloom"), (59, "Full Bloom+"), (309, "Executive's Ring")];
+const FM_KEY_ITEMS: &[(u16, &str)] = &[(225, "Road to Discovery"), (226, "Strength Beyond Strength"), (227, "Book of Shadows"), (238, "Cloaked Thunder"), (239, "Eternal Blossom"), (240, "Rare Document"), (306, "Proof of Connection"), (307, "Proof of Nonexistence"), (308, "Proof of Peace")];
+const FM_MATERIALS: &[(u16, &str)] = &[(296, "Remembrance Shard"), (297, "Remembrance Stone"), (298, "Remembrance Gem"), (299, "Remembrance Crystal"), (300, "Tranquility Shard"), (301, "Tranquility Stone"), (302, "Tranquility Gem"), (303, "Tranquility Crystal"), (304, "Lost Illusion"), (305, "Manifest Illusion")];
 
 #[cfg(test)]
 mod tests {

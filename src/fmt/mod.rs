@@ -24,7 +24,10 @@ pub mod planet_crafter;
 pub mod prison;
 pub mod dq11;
 pub mod koei;
+pub mod chronicon;
+pub mod saofb;
 pub mod torchlight;
+pub mod xenoverse1;
 pub mod ys8;
 pub mod tld;
 pub mod nfsmw;
@@ -47,10 +50,13 @@ pub mod mcd;
 pub mod nonfinite;
 pub mod bloodstained;
 pub mod dmc1;
+pub mod borderlands1;
+pub mod evil_within;
 pub mod genzero;
 pub mod genzero_names;
 pub mod nier_replicant;
 pub mod potion;
+pub mod wreckfest;
 pub mod wwz;
 pub mod ffpr;
 pub mod fantasian;
@@ -195,8 +201,13 @@ pub mod sotn;
 pub mod ff8;
 pub mod fft;
 pub mod re1;
+pub mod gt1;
+
+pub mod kh1;
+pub mod crash;
 pub mod kh2;
 pub mod sm64;
+pub mod botw;
 pub mod mldt;
 pub mod nintendo;
 pub mod xc3;
@@ -208,9 +219,11 @@ pub mod smash64;
 pub mod n64data;
 pub mod rare;
 pub mod supermetroid;
+pub mod ff6snes;
 pub mod zelda_lttp;
 pub mod alphaprotocol;
 pub mod isaac;
+pub mod wukong;
 pub mod ysf;
 pub mod gust;
 pub mod wo4;
@@ -268,6 +281,7 @@ pub mod valheim;
 pub mod wasteland3;
 pub mod xml;
 pub mod yaml;
+pub mod bl4;
 
 use crate::tree::TreeDoc;
 
@@ -275,6 +289,21 @@ use crate::tree::TreeDoc;
 pub fn parse_binary(d: &[u8]) -> Option<TreeDoc> {
     if kh2::looks(d) {
         if let Ok(t) = kh2::parse(d) {
+            return Some(t);
+        }
+    }
+    if kh1::looks(d) {
+        if let Ok(t) = kh1::parse(d) {
+            return Some(t);
+        }
+    }
+    if gt1::looks(d) {
+        if let Ok(t) = gt1::parse(d) {
+            return Some(t);
+        }
+    }
+    if crash::looks(d) {
+        if let Ok(t) = crash::parse(d) {
             return Some(t);
         }
     }
@@ -503,6 +532,11 @@ pub fn parse_binary(d: &[u8]) -> Option<TreeDoc> {
             return Some(t);
         }
     }
+    if ff6snes::looks(d) {
+        if let Ok(t) = ff6snes::parse(d) {
+            return Some(t);
+        }
+    }
     if zelda_lttp::looks(d) {
         if let Ok(t) = zelda_lttp::parse(d) {
             return Some(t);
@@ -520,6 +554,11 @@ pub fn parse_binary(d: &[u8]) -> Option<TreeDoc> {
     }
     if nintendo::smash_looks(d) {
         if let Ok(t) = nintendo::parse_smash(d) {
+            return Some(t);
+        }
+    }
+    if botw::looks(d) {
+        if let Ok(t) = botw::parse(d) {
             return Some(t);
         }
     }
@@ -608,6 +647,11 @@ pub fn parse_binary(d: &[u8]) -> Option<TreeDoc> {
             return Some(t);
         }
     }
+    if wukong::looks(d) {
+        if let Ok(t) = wukong::parse(d) {
+            return Some(t);
+        }
+    }
     if isaac::looks(d) {
         if let Ok(t) = isaac::parse(d) {
             return Some(t);
@@ -628,6 +672,21 @@ pub fn parse_binary(d: &[u8]) -> Option<TreeDoc> {
             return Some(t);
         }
     }
+    if borderlands1::looks(d) {
+        if let Ok(t) = borderlands1::parse(d) {
+            return Some(t);
+        }
+    }
+    if evil_within::looks(d) {
+        if let Ok(t) = evil_within::parse(d) {
+            return Some(t);
+        }
+    }
+    if wreckfest::looks(d) {
+        if let Ok(t) = wreckfest::parse(d) {
+            return Some(t);
+        }
+    }
     if genzero::looks(d) {
         if let Ok(t) = genzero::parse(d) {
             return Some(t);
@@ -645,6 +704,21 @@ pub fn parse_binary(d: &[u8]) -> Option<TreeDoc> {
     }
     if ys8::looks(d) {
         if let Ok(t) = ys8::parse(d) {
+            return Some(t);
+        }
+    }
+    if saofb::looks(d) {
+        if let Ok(t) = saofb::parse(d) {
+            return Some(t);
+        }
+    }
+    if chronicon::looks(d) {
+        if let Ok(t) = chronicon::parse(d) {
+            return Some(t);
+        }
+    }
+    if xenoverse1::looks(d) {
+        if let Ok(t) = xenoverse1::parse(d) {
             return Some(t);
         }
     }
@@ -1156,6 +1230,11 @@ pub fn parse_text(text: &str, ext: &str) -> Option<TreeDoc> {
             }
         }
         return xml::parse(text).ok();
+    }
+    if bl4::looks(t) {
+        if let Ok(doc) = bl4::parse(text) {
+            return Some(doc);
+        }
     }
     match ext {
         "yaml" | "yml" => return yaml::parse(text).ok(),

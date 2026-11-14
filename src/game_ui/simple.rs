@@ -4,14 +4,16 @@
 //!
 //! Values are found by pointer and simply left out when a save doesn't have them.
 
-use crate::i18n::tr;
+use crate::i18n::{tr, tr_any, trf};
 use crate::widgets::ScrollLock;
 use super::{columns, hero, panel, GameCtx};
 use eframe::egui::{self, Color32, Ui};
 use serde_json::Value;
 
 mod ps_specs;
+mod spec_texts;
 mod specs;
+mod words;
 pub use specs::SPECS;
 
 /// A panel of labelled values: `(label, pointer)`.
@@ -271,26 +273,51 @@ fn filter(ui: &mut Ui, id: &str) -> String {
     q.to_lowercase()
 }
 
+/// A title, heading or label of a table-driven screen in the language in use. Titles such as
+/// "Slot 2: options" or "Spiral Mountain jiggies" are put together from translated parts; names
+/// of games, items and moves stay as they are.
+fn tr_text(s: &str) -> String {
+    let t = tr_any(s);
+    if t != s {
+        return t.to_string();
+    }
+    if let Some((head, rest)) = s.split_once(": ") {
+        return format!("{}: {}", tr_text(head), tr_text(rest));
+    }
+    for key in ["Slot", "File"] {
+        if let Some(n) = s.strip_prefix(key).and_then(|r| r.strip_prefix(' ')) {
+            if !n.is_empty() && n.chars().all(|c| c.is_ascii_digit()) {
+                let pat = if key == "Slot" { "Slot {0}" } else { "File {0}" };
+                return tr_any(pat).replace("{0}", n);
+            }
+        }
+    }
+    if let Some(name) = s.strip_suffix(" jiggies") {
+        return format!("{name} {}", tr_any("jiggies"));
+    }
+    s.to_string()
+}
+
 pub fn show(i: u16, ui: &mut Ui, cx: &mut GameCtx) {
     let s = &SPECS[i as usize];
     let accent = Color32::from_rgb(s.accent.0, s.accent.1, s.accent.2);
     let tiles: Vec<(&str, String)> = s.tiles.iter().map(|(c, p)| (*c, resolve(cx.root, p))).collect();
-    hero(ui, accent, s.name, tr(s.subtitle), |ui| {
+    hero(ui, accent, s.name, &tr_text(s.subtitle), |ui| {
         for (cap, p) in &tiles {
             if cx.get(p).is_some() {
-                cx.tile(ui, tr(cap), p, accent);
+                cx.tile(ui, &tr_text(cap), p, accent);
             }
         }
     });
-    let rows_of = |sec: &Section| -> Vec<(&'static str, String)> { sec.rows.iter().map(|(l, p)| (*l, resolve(cx.root, p))).collect() };
+    let rows_of = |sec: &Section| -> Vec<(&'static str, String)> { sec.rows.iter().map(|(l, p)| (tr(l), resolve(cx.root, p))).collect() };
     let visible: Vec<(&Section, Vec<(&str, String)>)> =
         s.sections.iter().map(|sec| (sec, rows_of(sec))).filter(|(_, rows)| rows.iter().any(|(_, p)| cx.get(p).is_some())).collect();
     columns(ui, 360.0, visible.len(), |ui, k| {
         let (sec, rows) = &visible[k];
-        panel(ui, tr(sec.title), |ui| {
+        panel(ui, &tr_text(sec.title), |ui| {
             egui::Grid::new(("simple_grid", i, k)).num_columns(2).spacing([14.0, 5.0]).show(ui, |ui| {
                 for (label, p) in rows {
-                    cx.grid_row(ui, tr(label), p, 110.0);
+                    cx.grid_row(ui, &tr_text(label), p, 110.0);
                 }
             });
         });
@@ -311,13 +338,13 @@ pub fn show(i: u16, ui: &mut Ui, cx: &mut GameCtx) {
         if n == 0 {
             continue;
         }
-        panel(ui, &format!("{} ({n})", tr(t.title)), |ui| {
+        panel(ui, &format!("{} ({n})", tr_text(t.title)), |ui| {
             let q = filter(ui, &format!("t{i}/{ti}"));
             egui::ScrollArea::horizontal().id_salt(("simple_table_scroll", i, ti)).show_locked(ui, |ui| {
                 egui::Grid::new(("simple_table", i, ti)).num_columns(t.cols.len() + 1).spacing([8.0, 4.0]).striped(true).show(ui, |ui| {
                     ui.label("");
                     for (h, _) in t.cols {
-                        ui.label(egui::RichText::new(tr(*h)).strong());
+                        ui.label(egui::RichText::new(tr_text(h)).strong());
                     }
                     ui.end_row();
                     for (r, (key, key_name)) in rows.iter().enumerate() {
@@ -353,12 +380,12 @@ pub fn show(i: u16, ui: &mut Ui, cx: &mut GameCtx) {
         if list.is_empty() {
             continue;
         }
-        panel(ui, tr(l.title), |ui| {
+        panel(ui, crate::i18n::tr_any(l.title), |ui| {
             if let Some(m) = &l.max {
-                let tip = format!("{}{}", tr(m.about), if m.estimate { tr(" The cap is an estimate from community guides.") } else { "" });
+                let tip = format!("{}{}", crate::i18n::tr_any(m.about), if m.estimate { format!(" {}", crate::i18n::tr("The cap is an estimate from community guides.")) } else { String::new() });
                 // With several lists, the label names which one the action is for.
                 let many = s.lists.iter().filter(|x| x.max.is_some()).count() > 1;
-                let label = if many { crate::i18n::trf("Max crafting materials: {0} ({1})", &[&tr(l.title), &m.cap]) } else { crate::i18n::trf("Max crafting materials ({0})", &[&m.cap]) };
+                let label = if many { format!("{}: {} ({})", tr("Max crafting materials"), crate::i18n::tr_any(l.title), m.cap) } else { format!("{} ({})", tr("Max crafting materials"), m.cap) };
                 if super::quick_button(ui, label, tip) {
                     apply_max(cx, l);
                 }
@@ -483,6 +510,60 @@ mod tests {
             assert_eq!(root.pointer(&resolve(root, "/m/@5/x")).and_then(Value::as_i64), Some(1));
         }
         assert!(a.pointer(&resolve(&a, "/m/@7/x")).is_none());
+    }
+
+    /// The table-driven screens in every language: translated text must not be cut off at the
+    /// side of its box where the English fits (checked at a desktop and a phone width).
+    #[test]
+    fn translated_screens_fit() {
+        let _lock = crate::i18n::LANG_TEST_LOCK.lock().unwrap_or_else(|e| e.into_inner());
+        // "<text> spans A..B but is clipped to C..D": text that starts in the last 120 px of its area.
+        let scrolled_out = |t: &str| -> bool {
+            let nums: Vec<f32> = t.rsplit("spans ").next().unwrap_or("").split(|c: char| !(c.is_ascii_digit() || c == '-')).filter_map(|x| x.parse().ok()).collect();
+            nums.len() >= 4 && nums[0] > nums[3] - 120.0
+        };
+        let cut = |i: usize, root: &Value, w: f32| -> Vec<String> {
+            let ctx = egui::Context::default();
+            crate::theme::install_fonts(&ctx);
+            let mut bad = vec![];
+            for frame in 0..3 {
+                let input = egui::RawInput { screen_rect: Some(egui::Rect::from_min_size(egui::Pos2::ZERO, egui::vec2(w, 800.0))), ..Default::default() };
+                let out = ctx.run(input, |ctx| {
+                    egui::CentralPanel::default().show(ctx, |ui| {
+                        egui::ScrollArea::vertical().show(ui, |ui| {
+                            let mut cx = GameCtx { root, baseline: root, tree: None, edits: vec![], archive: None, open_entry: None };
+                            show(i as u16, ui, &mut cx);
+                        });
+                    });
+                });
+                if frame == 2 {
+                    bad = crate::app::layout_tests::cut_off_text(&out).into_iter()
+                        // Not a squeezed label: a column of a table that scrolls sideways, mostly out of view.
+                        .filter(|t| !t.starts_with("\"\u{1F525}") && !scrolled_out(t))
+                        .collect();
+                }
+            }
+            bad
+        };
+        let mut problems = vec![];
+        for (i, s) in SPECS.iter().enumerate() {
+            let root = synthetic(s);
+            for w in [1000.0, 380.0] {
+                crate::i18n::set(Some("en"));
+                let base = cut(i, &root, w).len();
+                for lang in ["de", "es", "fr", "pt-BR", "ja", "zh-CN"] {
+                    crate::i18n::set(Some(lang));
+                    let now = cut(i, &root, w);
+                    if now.len() > base {
+                        problems.push(format!("{} at {w} {lang}: {} cut off (English {base}), e.g. {}", s.name, now.len(), now[0]));
+                    }
+                }
+            }
+        }
+        crate::i18n::set(Some("en"));
+        problems.sort();
+        problems.dedup();
+        assert!(problems.is_empty(), "{} translated texts are cut off:\n{}", problems.len(), problems.iter().take(40).cloned().collect::<Vec<_>>().join("\n"));
     }
 
     #[test]
@@ -617,4 +698,29 @@ mod delta_tests {
         let crate::formats::Content::Tree(t2) = &d2.content else { panic!("reopened as hex") };
         assert_eq!(t2.view.pointer("/gold").unwrap(), 9999);
     }
+}
+
+/// Every label, title and description the table-driven screens show (for the translation check).
+pub fn texts() -> Vec<&'static str> {
+    let mut out = vec![];
+    for s in SPECS.iter() {
+        out.push(s.subtitle);
+        out.extend(s.tiles.iter().map(|(c, _)| *c));
+        for sec in s.sections {
+            out.push(sec.title);
+            out.extend(sec.rows.iter().map(|(l, _)| *l));
+        }
+        for l in s.lists {
+            out.push(l.title);
+            if let Some(m) = &l.max {
+                out.push(m.about);
+            }
+        }
+        for t in s.tables {
+            out.push(t.title);
+            out.extend(t.cols.iter().map(|(h, _)| *h));
+        }
+    }
+    out.retain(|t| !t.is_empty());
+    out
 }
