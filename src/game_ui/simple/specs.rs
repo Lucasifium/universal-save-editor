@@ -4307,6 +4307,8 @@ const UTY: Spec = Spec {
     ],
     lists: &[],
     tables: &[],
+};
+
 // ------------------------------------------------------------------ Daggerfall Unity
 
 const DAGGERFALL_UNITY: Spec = Spec {
