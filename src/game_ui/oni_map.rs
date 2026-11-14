@@ -246,7 +246,7 @@ pub fn map_of(cx: &GameCtx) -> Option<Arc<OniMap>> {
 
 pub fn map_tab(ui: &mut Ui, cx: &mut GameCtx) {
     let Some(map) = map_of(cx) else {
-        ui.weak("The map couldn't be read from this save.");
+        ui.weak(tr("The map couldn't be read from this save."));
         return;
     };
     let st = state()(ui);
@@ -259,7 +259,7 @@ pub fn map_tab(ui: &mut Ui, cx: &mut GameCtx) {
 
     // Which world.
     ui.horizontal_wrapped(|ui| {
-        ui.label("World:");
+        ui.label(tr("World:"));
         for w in &map.worlds {
             let label = if w.rocket { format!("\u{1F680} {}", w.name) } else if w.start { format!("{} (start)", w.name) } else { w.name.clone() };
             let text = if w.discovered { RichText::new(label) } else { RichText::new(label).weak() };
@@ -286,7 +286,7 @@ pub fn map_tab(ui: &mut Ui, cx: &mut GameCtx) {
             let list = map.paintable();
             let names: Vec<String> = list.iter().map(|e| format!("{} ({})", e.name, e.state.word())).collect();
             let cur = list.iter().position(|e| e.id == v.element).map_or_else(String::new, |i| names[i].clone());
-            ui.label("Element:");
+            ui.label(tr("Element:"));
             if let Some(Value::String(s)) = crate::widgets::choice_editor(ui, "oni_element", &cur, &names, 240.0) {
                 if let Some(i) = names.iter().position(|n| *n == s) {
                     let e = list[i];
@@ -302,11 +302,11 @@ pub fn map_tab(ui: &mut Ui, cx: &mut GameCtx) {
         }
         let gas_or_vac = om::element(v.element).map(|e| e.state);
         if (v.tool == Tool::Paint && gas_or_vac != Some(State::Vacuum)) || v.tool == Tool::Mass {
-            ui.label("Mass:");
+            ui.label(tr("Mass:"));
             ui.add(egui::DragValue::new(&mut v.mass).range(0.001..=om::MAX_MASS).speed(1.0).suffix(" kg"));
         }
         if (v.tool == Tool::Paint && gas_or_vac != Some(State::Vacuum)) || v.tool == Tool::Heat {
-            ui.label("Temperature:");
+            ui.label(tr("Temperature:"));
             ui.add(egui::DragValue::new(&mut v.temp_c).range(-273.0..=om::MAX_TEMP - KELVIN).speed(0.5).suffix(" \u{00B0}C"));
         }
         if painting {
@@ -316,7 +316,7 @@ pub fn map_tab(ui: &mut Ui, cx: &mut GameCtx) {
         }
     });
     ui.horizontal_wrapped(|ui| {
-        ui.label("Show:");
+        ui.label(tr("Show:"));
         for (o, label) in [(Overlay::Elements, "Elements"), (Overlay::Temperature, "Temperature"), (Overlay::Germs, "Germs")] {
             if ui.selectable_label(v.overlay == o, label).clicked() {
                 v.overlay = o;
@@ -327,7 +327,7 @@ pub fn map_tab(ui: &mut Ui, cx: &mut GameCtx) {
             if ui.checkbox(&mut v.dim, "Dim unexplored").changed() {
                 v.dirty = true;
             }
-            if ui.button("Reveal this world's map").on_hover_text("Clears the fog over all of this world").clicked() {
+            if ui.button(tr("Reveal this world's map")).on_hover_text(tr("Clears the fog over all of this world")).clicked() {
                 let op = Op { mode: om::REVEAL, world: world.id as u16, element: 0, mass: 0.0, temp: 0.0, size: 0, points: vec![] };
                 let new = if edits.is_empty() { op.to_text() } else { format!("{edits};{}", op.to_text()) };
                 cx.set(om::EDITS, Value::from(new));
@@ -531,7 +531,7 @@ fn poi_panel(ui: &mut Ui, map: &OniMap, v: &mut MapView, world: &om::World) {
             }
         });
         if here.is_empty() {
-            ui.weak("Nothing special found in this world.");
+            ui.weak(tr("Nothing special found in this world."));
             return;
         }
         let list: Vec<&&om::Poi> = here.iter().filter(|p| v.shown[p.kind]).collect();
@@ -539,7 +539,7 @@ fn poi_panel(ui: &mut Ui, map: &OniMap, v: &mut MapView, world: &om::World) {
             egui::ScrollArea::vertical().id_salt("oni_poi_scroll").max_height(200.0).show_locked(ui, |ui| {
                 for p in list {
                     let (lx, ly) = (p.x as usize - world.x, p.y as usize - world.y);
-                    if ui.selectable_label(false, format!("{}  \u{00B7}  {lx}, {ly}", p.name)).on_hover_text("Show it on the map").clicked() {
+                    if ui.selectable_label(false, format!("{}  \u{00B7}  {lx}, {ly}", p.name)).on_hover_text(tr("Show it on the map")).clicked() {
                         v.center = Vec2::new(lx as f32 + 0.5, (world.h - ly) as f32 - 0.5);
                         v.zoom = v.zoom.max(6.0);
                         v.tool = Tool::Look;
@@ -555,7 +555,7 @@ fn poi_panel(ui: &mut Ui, map: &OniMap, v: &mut MapView, world: &om::World) {
                 v.shown.iter_mut().for_each(|s| *s = false);
             }
         });
-        ui.weak("Duplicants start hidden. Positions are cells from the world's bottom-left corner.");
+        ui.weak(tr("Duplicants start hidden. Positions are cells from the world's bottom-left corner."));
     });
 }
 
@@ -564,7 +564,7 @@ fn poi_panel(ui: &mut Ui, map: &OniMap, v: &mut MapView, world: &om::World) {
 pub fn worlds_tab(ui: &mut Ui, cx: &mut GameCtx, accent: Color32) {
     let keys: Vec<String> = cx.get("/Worlds").and_then(Value::as_object).map(|m| m.keys().cloned().collect()).unwrap_or_default();
     if keys.is_empty() {
-        ui.weak("No worlds found in this save.");
+        ui.weak(tr("No worlds found in this save."));
         return;
     }
     let map = map_of(cx);
@@ -588,10 +588,10 @@ pub fn worlds_tab(ui: &mut Ui, cx: &mut GameCtx, accent: Color32) {
                 cx.chip(ui, "Discovered", &format!("{base}/Discovered"), accent);
                 cx.chip(ui, "Surface revealed", &format!("{base}/Surface revealed"), accent);
                 if cx.flag(&format!("{base}/Start world")) {
-                    ui.weak("The colony started here.");
+                    ui.weak(tr("The colony started here."));
                 }
                 if let Some(id) = map.as_ref().and_then(|m| m.worlds.iter().find(|w| w.key == *k)).map(|w| w.id) {
-                    if ui.button("Open on the map").clicked() {
+                    if ui.button(tr("Open on the map")).clicked() {
                         let st = state()(ui);
                         let mut g = st.lock().unwrap_or_else(|e| e.into_inner());
                         g.world = id;
@@ -602,11 +602,11 @@ pub fn worlds_tab(ui: &mut Ui, cx: &mut GameCtx, accent: Color32) {
                 }
             });
             if kind == "Rocket interior" {
-                ui.weak("A rocket's habitat: its name is the rocket's name.");
+                ui.weak(tr("A rocket's habitat: its name is the rocket's name."));
             }
         });
     }
-    ui.weak("Sunlight and cosmic radiation are what the world gets at its surface. Discovered puts the world on the star map; Surface revealed clears the fog above ground.");
+    ui.weak(tr("Sunlight and cosmic radiation are what the world gets at its surface. Discovered puts the world on the star map; Surface revealed clears the fog above ground."));
     let rockets: Vec<String> = cx.get("/Rockets").and_then(Value::as_object).map(|m| m.keys().cloned().collect()).unwrap_or_default();
     if !rockets.is_empty() {
         panel(ui, &format!("Rockets ({})", rockets.len()), |ui| {
@@ -615,7 +615,7 @@ pub fn worlds_tab(ui: &mut Ui, cx: &mut GameCtx, accent: Color32) {
                     cx.grid_row(ui, &format!("Rocket {}", i + 1), &format!("/Rockets/{}/Name", pointer_escape(r)), 260.0);
                 }
             });
-            ui.weak("Rockets with a habitat module also have their interior as a world above, which can be painted on the Map.");
+            ui.weak(tr("Rockets with a habitat module also have their interior as a world above, which can be painted on the Map."));
         });
     }
     if let Some(m) = map.filter(|m| !m.starmap.is_empty()) {
@@ -626,7 +626,7 @@ pub fn worlds_tab(ui: &mut Ui, cx: &mut GameCtx, accent: Color32) {
                     ui.label("\u{00B7}");
                 }
             });
-            ui.weak("Space points of interest (harvestable fields, Gravitas stations, the Temporal Tear) are out on the star map, not in a world.");
+            ui.weak(tr("Space points of interest (harvestable fields, Gravitas stations, the Temporal Tear) are out on the star map, not in a world."));
         });
     }
 }

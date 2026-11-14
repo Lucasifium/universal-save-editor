@@ -4,7 +4,7 @@
 //!
 //! Values are found by pointer and simply left out when a save doesn't have them.
 
-use crate::i18n::{tr, tr_any};
+use crate::i18n::{tr, tr_any, trf};
 use crate::widgets::ScrollLock;
 use super::{columns, hero, panel, GameCtx};
 use eframe::egui::{self, Color32, Ui};
@@ -512,6 +512,60 @@ mod tests {
         assert!(a.pointer(&resolve(&a, "/m/@7/x")).is_none());
     }
 
+    /// The table-driven screens in every language: translated text must not be cut off at the
+    /// side of its box where the English fits (checked at a desktop and a phone width).
+    #[test]
+    fn translated_screens_fit() {
+        let _lock = crate::i18n::LANG_TEST_LOCK.lock().unwrap_or_else(|e| e.into_inner());
+        // "<text> spans A..B but is clipped to C..D": text that starts in the last 120 px of its area.
+        let scrolled_out = |t: &str| -> bool {
+            let nums: Vec<f32> = t.rsplit("spans ").next().unwrap_or("").split(|c: char| !(c.is_ascii_digit() || c == '-')).filter_map(|x| x.parse().ok()).collect();
+            nums.len() >= 4 && nums[0] > nums[3] - 120.0
+        };
+        let cut = |i: usize, root: &Value, w: f32| -> Vec<String> {
+            let ctx = egui::Context::default();
+            crate::theme::install_fonts(&ctx);
+            let mut bad = vec![];
+            for frame in 0..3 {
+                let input = egui::RawInput { screen_rect: Some(egui::Rect::from_min_size(egui::Pos2::ZERO, egui::vec2(w, 800.0))), ..Default::default() };
+                let out = ctx.run(input, |ctx| {
+                    egui::CentralPanel::default().show(ctx, |ui| {
+                        egui::ScrollArea::vertical().show(ui, |ui| {
+                            let mut cx = GameCtx { root, baseline: root, tree: None, edits: vec![], archive: None, open_entry: None };
+                            show(i as u16, ui, &mut cx);
+                        });
+                    });
+                });
+                if frame == 2 {
+                    bad = crate::app::layout_tests::cut_off_text(&out).into_iter()
+                        // Not a squeezed label: a column of a table that scrolls sideways, mostly out of view.
+                        .filter(|t| !t.starts_with("\"\u{1F525}") && !scrolled_out(t))
+                        .collect();
+                }
+            }
+            bad
+        };
+        let mut problems = vec![];
+        for (i, s) in SPECS.iter().enumerate() {
+            let root = synthetic(s);
+            for w in [1000.0, 380.0] {
+                crate::i18n::set(Some("en"));
+                let base = cut(i, &root, w).len();
+                for lang in ["de", "es", "fr", "pt-BR", "ja", "zh-CN"] {
+                    crate::i18n::set(Some(lang));
+                    let now = cut(i, &root, w);
+                    if now.len() > base {
+                        problems.push(format!("{} at {w} {lang}: {} cut off (English {base}), e.g. {}", s.name, now.len(), now[0]));
+                    }
+                }
+            }
+        }
+        crate::i18n::set(Some("en"));
+        problems.sort();
+        problems.dedup();
+        assert!(problems.is_empty(), "{} translated texts are cut off:\n{}", problems.len(), problems.iter().take(40).cloned().collect::<Vec<_>>().join("\n"));
+    }
+
     #[test]
     fn every_spec_detects_draws_and_maxes() {
         for (i, s) in SPECS.iter().enumerate() {
@@ -644,4 +698,29 @@ mod delta_tests {
         let crate::formats::Content::Tree(t2) = &d2.content else { panic!("reopened as hex") };
         assert_eq!(t2.view.pointer("/gold").unwrap(), 9999);
     }
+}
+
+/// Every label, title and description the table-driven screens show (for the translation check).
+pub fn texts() -> Vec<&'static str> {
+    let mut out = vec![];
+    for s in SPECS.iter() {
+        out.push(s.subtitle);
+        out.extend(s.tiles.iter().map(|(c, _)| *c));
+        for sec in s.sections {
+            out.push(sec.title);
+            out.extend(sec.rows.iter().map(|(l, _)| *l));
+        }
+        for l in s.lists {
+            out.push(l.title);
+            if let Some(m) = &l.max {
+                out.push(m.about);
+            }
+        }
+        for t in s.tables {
+            out.push(t.title);
+            out.extend(t.cols.iter().map(|(h, _)| *h));
+        }
+    }
+    out.retain(|t| !t.is_empty());
+    out
 }

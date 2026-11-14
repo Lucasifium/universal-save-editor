@@ -32,6 +32,10 @@ pub const LANGS: &[Lang] = &[
     Lang { code: "zh-CN", name: "简体中文", cjk: true, catalog: include_str!("i18n/zh-CN.txt") },
 ];
 
+/// Tests that switch the language take this, so they don't run into each other.
+#[cfg(test)]
+pub static LANG_TEST_LOCK: std::sync::Mutex<()> = std::sync::Mutex::new(());
+
 static CURRENT: AtomicUsize = AtomicUsize::new(0);
 
 fn tables() -> &'static Vec<HashMap<String, &'static str>> {
@@ -117,7 +121,6 @@ fn system_language() -> Option<String> {
     sys_locale::get_locale()
 }
 
-/// `s` in the language in use.
 /// `tr` for text that is not a literal (the texts of the data-driven game screens): translated
 /// when the catalog has it, as written otherwise.
 pub fn tr_any(s: &str) -> &str {
@@ -133,6 +136,7 @@ pub const fn tx(s: &'static str) -> &'static str {
     s
 }
 
+/// `s` in the language in use.
 pub fn tr(s: &'static str) -> &'static str {
     let i = CURRENT.load(Ordering::Relaxed);
     if i == 0 {
@@ -154,10 +158,9 @@ pub fn trf(s: &'static str, args: &[&dyn std::fmt::Display]) -> String {
 mod tests {
     use super::*;
 
-    /// Every text a catalog translates must still be in the program, with the same
-    /// placeholders, so a reworded English text doesn't keep a stale translation.
-    #[test]
-    fn catalogs_match_the_program() {
+    /// Every Rust source file of the program, concatenated, with the test modules left in
+    /// (they hold no `tr` calls).
+    fn program_source() -> String {
         let mut src = String::new();
         let mut stack = vec![std::path::PathBuf::from(concat!(env!("CARGO_MANIFEST_DIR"), "/src"))];
         while let Some(d) = stack.pop() {
@@ -165,12 +168,28 @@ mod tests {
                 let p = e.path();
                 if p.is_dir() {
                     stack.push(p);
-                } else if p.extension().is_some_and(|x| x == "rs") {
+                } else if p.extension().is_some_and(|x| x == "rs") && !p.ends_with("i18n.rs") {
                     src.push_str(&std::fs::read_to_string(&p).unwrap());
                 }
             }
         }
-        let keys = keys_in(&src);
+        src
+    }
+
+    /// Every text the program shows that has to be translated: the literals passed to
+    /// `tr`/`trf`, the literal labels given to the game-screen helpers (which translate them
+    /// themselves), and the texts of the table-driven game screens.
+    pub fn all_keys() -> std::collections::HashSet<String> {
+        let src = program_source();
+        let mut keys = keys_in(&src);
+        keys.extend(helper_literals(&src));
+        keys.extend(crate::game_ui::spec_texts().into_iter().map(str::to_string));
+        keys
+    }
+
+    #[test]
+    fn catalogs_match_the_program() {
+        let keys = all_keys();
         let placeholders = |s: &str| {
             let mut v: Vec<String> = (0..9).map(|i| format!("{{{i}}}")).filter(|p| s.contains(p.as_str())).collect();
             v.sort();
@@ -186,30 +205,112 @@ mod tests {
         }
     }
 
-    /// Every text the program passes to `tr`/`trf` must have a translation in every
-    /// catalog, so a new screen can't ship with a language silently falling back to English.
-    /// Add the missing entries to all of src/i18n/*.txt (English line, "= translation", blank line).
+    /// Every text the program shows must have a translation in every catalog, so a new screen
+    /// can't ship with a language silently falling back to English. Add the missing entries to
+    /// all of src/i18n/*.txt (English line, "= translation", blank line); a name that reads
+    /// the same in every language is entered as itself.
     #[test]
     fn every_text_is_translated_in_every_language() {
-        let mut src = String::new();
-        let mut stack = vec![std::path::PathBuf::from(concat!(env!("CARGO_MANIFEST_DIR"), "/src"))];
-        while let Some(d) = stack.pop() {
-            for e in std::fs::read_dir(&d).unwrap().flatten() {
-                let p = e.path();
-                if p.is_dir() {
-                    stack.push(p);
-                } else if p.extension().is_some_and(|x| x == "rs") && !p.ends_with("i18n.rs") {
-                    src.push_str(&std::fs::read_to_string(&p).unwrap());
-                }
-            }
-        }
-        let keys = keys_in(&src);
+        let keys = all_keys();
         for l in &LANGS[1..] {
             let have: std::collections::HashSet<String> = parse(l.catalog).into_iter().map(|(k, _)| k).collect();
             let mut missing: Vec<&String> = keys.iter().filter(|k| !have.contains(*k)).collect();
             missing.sort();
             assert!(missing.is_empty(), "{}: {} text(s) have no translation, e.g. {:?}", l.code, missing.len(), &missing[..missing.len().min(8)]);
         }
+    }
+
+    /// Writes every text the program shows (`TRANSLATION_KEYS=<file>`), one per line.
+    #[test]
+    fn dump_all_texts() {
+        if let Ok(path) = std::env::var("TRANSLATION_KEYS") {
+            let text: String = all_keys().iter().map(|k| k.replace('\\', "\\\\").replace('\n', "\\n") + "\n").collect();
+            std::fs::write(path, text).unwrap();
+        }
+    }
+
+    /// Writes the texts missing from a catalog (`TRANSLATION_DUMP=<file>`), for translators.
+    #[test]
+    fn dump_missing_texts() {
+        if let Ok(path) = std::env::var("TRANSLATION_DUMP") {
+            let have: std::collections::HashSet<String> = parse(LANGS[1].catalog).into_iter().map(|(k, _)| k).collect();
+            let mut missing: Vec<String> = all_keys().into_iter().filter(|k| !have.contains(k)).collect();
+            missing.sort();
+            let text: String = missing.iter().map(|k| k.replace('\\', "\\\\").replace('\n', "\\n") + "\n").collect();
+            std::fs::write(path, text).unwrap();
+        }
+    }
+
+    /// The literal text arguments of calls to the game-screen helpers.
+    fn helper_literals(src: &str) -> std::collections::HashSet<String> {
+        const HELPERS: &[&str] = &[
+            "panel", "grid_row", "row_fixed", "label", "tile", "attribute", "difficulty", "chip", "fact", "meter", "quick_button",
+            "quick_action", "materials_button", "hero",
+        ];
+        let b = src.as_bytes();
+        let mut out = std::collections::HashSet::new();
+        for h in HELPERS {
+            let pat = format!("{h}(");
+            let mut from = 0;
+            while let Some(i) = src[from..].find(&pat) {
+                let at = from + i;
+                from = at + pat.len();
+                if at > 0 && (b[at - 1].is_ascii_alphanumeric() || b[at - 1] == b'_') {
+                    continue;
+                }
+                // Split the arguments at top-level commas.
+                let (mut depth, mut instr, mut cur, mut args) = (0i32, false, String::new(), vec![]);
+                let mut chars = src[from..].chars();
+                while let Some(c) = chars.next() {
+                    if instr {
+                        cur.push(c);
+                        if c == '\\' {
+                            cur.extend(chars.next());
+                        } else if c == '"' {
+                            instr = false;
+                        }
+                        continue;
+                    }
+                    match c {
+                        '"' => {
+                            instr = true;
+                            cur.push(c);
+                        }
+                        '(' | '[' | '{' => {
+                            depth += 1;
+                            cur.push(c);
+                        }
+                        ')' | ']' | '}' => {
+                            if depth == 0 {
+                                args.push(std::mem::take(&mut cur));
+                                break;
+                            }
+                            depth -= 1;
+                            cur.push(c);
+                        }
+                        ',' if depth == 0 => args.push(std::mem::take(&mut cur)),
+                        _ => cur.push(c),
+                    }
+                }
+                for a in args {
+                    let a = a.trim();
+                    if a.len() < 3 || !a.starts_with('"') || !a.ends_with('"') {
+                        continue;
+                    }
+                    let inner = &a[1..a.len() - 1];
+                    if inner.contains('"') && !inner.contains("\\\"") {
+                        continue;
+                    }
+                    let k = keys_in(&format!("tr(\"{inner}\")"));
+                    for k in k {
+                        if k.chars().filter(|c| c.is_alphabetic()).count() >= 2 && !k.starts_with('/') && !k.starts_with('@') && !k.contains('{') {
+                            out.insert(k);
+                        }
+                    }
+                }
+            }
+        }
+        out
     }
 
     /// The texts passed to `tr(...)`/`trf(...)` as literals, with Rust escapes resolved.

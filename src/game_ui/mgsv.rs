@@ -1,6 +1,7 @@
 //! Metal Gear Solid V: Ground Zeroes / The Phantom Pain (`TPP_GAME_DATA`): GMP, heroism,
 //! Mother Base switches and the lifetime statistics.
 
+use crate::i18n::{tr, trf};
 use crate::widgets::ScrollLock;
 use super::{hero, panel, GameCtx};
 use eframe::egui::{Color32, Grid, ScrollArea, Ui};
@@ -39,21 +40,21 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
     if cx.get("/Player").is_some() {
         panel(ui, "Player", |ui| {
             ui.horizontal(|ui| {
-                if super::quick_button(ui, "Max GMP", "") {
+                if super::quick_button(ui, tr("Max GMP"), "") {
                     cx.set("/Player/GMP", json!(GMP_MAX));
                     if cx.get("/Player/FOB wallet GMP").is_some() {
                         cx.set("/Player/FOB wallet GMP", json!(GMP_MAX));
                     }
                 }
-                if super::quick_button(ui, "Max heroism", "") {
+                if super::quick_button(ui, tr("Max heroism"), "") {
                     cx.set("/Player/Heroism", json!(99_999_999));
                 }
-                if ui.button("Clear demon points").clicked() {
+                if ui.button(tr("Clear demon points")).clicked() {
                     cx.set("/Player/Demon points", json!(0));
                 }
             });
             grid(ui, cx, "Player", "mgsv_player");
-            ui.weak("GMP is capped at 99,999,999 in the game. Close the game and turn Steam Cloud off for it before editing.");
+            ui.weak(tr("GMP is capped at 99,999,999 in the game. Close the game and turn Steam Cloud off for it before editing."));
         });
     }
     bases(ui, cx);
@@ -62,21 +63,21 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
     let flags: Vec<String> = names(cx, "Mother Base").into_iter().filter(|n| n.starts_with("mbmIsOpened") && n.ends_with("Section")).collect();
     if !flags.is_empty() || cx.get("/Mother Base").is_some() {
         panel(ui, "Mother Base", |ui| {
-            if super::quick_button(ui, "Open every Mother Base section", "") {
+            if super::quick_button(ui, tr("Open every Mother Base section"), "") {
                 for n in &flags {
                     let p = format!("/Mother Base/{}", esc(n));
                     let on = if cx.get(&p).map_or(false, Value::is_boolean) { json!(true) } else { json!(1) };
                     cx.set(&p, on);
                 }
             }
-            ui.weak("The names are the game's own variables; hover over a section's flag to guess what it does, or leave the rest alone.");
+            ui.weak(tr("The names are the game's own variables; hover over a section's flag to guess what it does, or leave the rest alone."));
             grid(ui, cx, "Mother Base", "mgsv_mb");
         });
     }
     if cx.get("/Statistics").is_some() {
         panel(ui, "Statistics", |ui| grid(ui, cx, "Statistics", "mgsv_stats"));
     }
-    ui.weak("Every variable in the save, named by the game's own names, is in the Tree under Variables.");
+    ui.weak(tr("Every variable in the save, named by the game's own names, is in the Tree under Variables."));
 }
 
 /// Mother Base's online caps since 1.07: 1,000,000 of each material (processed and unprocessed
@@ -90,7 +91,7 @@ fn resources(ui: &mut Ui, cx: &mut GameCtx) {
         return;
     }
     panel(ui, "Mother Base resources", |ui| {
-        if super::quick_button(ui, "Max crafting materials", "Fuel, biological and the three metals to 1,000,000 online, processed too; the eight medicinal plants to 30,000 online (the game's own online caps)") {
+        if super::quick_button(ui, tr("Max crafting materials"), tr("Fuel, biological and the three metals to 1,000,000 online, processed too; the eight medicinal plants to 30,000 online (the game's own online caps)")) {
             for (i, n) in rs.iter().enumerate() {
                 if i < 13 {
                     let cap = if i < 5 { MATERIAL_ONLINE_CAP } else { PLANT_ONLINE_CAP };
@@ -102,11 +103,11 @@ fn resources(ui: &mut Ui, cx: &mut GameCtx) {
             }
         }
         Grid::new("mgsv_res").num_columns(5).spacing([14.0, 4.0]).show(ui, |ui| {
-            ui.strong("Resource");
-            ui.strong("Owned");
-            ui.strong("Online");
-            ui.strong("Local");
-            ui.strong("Processed (online)");
+            ui.strong(tr("Resource"));
+            ui.strong(tr("Owned"));
+            ui.strong(tr("Online"));
+            ui.strong(tr("Local"));
+            ui.strong(tr("Processed (online)"));
             ui.end_row();
             for n in &rs {
                 ui.label(n);
@@ -119,7 +120,7 @@ fn resources(ui: &mut Ui, cx: &mut GameCtx) {
                 ui.end_row();
             }
         });
-        ui.weak("The game shows Owned = online + local (the number with the globe is the online part). Checked against the in-game vehicle, walker gear and placed-weapon screens.");
+        ui.weak(tr("The game shows Owned = online + local (the number with the globe is the online part). Checked against the in-game vehicle, walker gear and placed-weapon screens."));
     });
 }
 
@@ -130,27 +131,27 @@ fn staff(ui: &mut Ui, cx: &mut GameCtx) {
     }
     panel(ui, &format!("Staff ({})", all.len()), |ui| {
         ui.horizontal_wrapped(|ui| {
-            if super::quick_button(ui, "Everyone to S++", "") {
+            if super::quick_button(ui, tr("Everyone to S++"), "") {
                 for n in &all {
                     cx.set(&format!("/Staff/{}/Rank", esc(n)), json!("S++"));
                 }
             }
-            if super::quick_button(ui, "Max stat bonus", "") {
+            if super::quick_button(ui, tr("Max stat bonus"), "") {
                 for n in &all {
                     cx.set(&format!("/Staff/{}/Stat bonus", esc(n)), json!(3));
                 }
             }
-            if super::quick_button(ui, "Max morale", "") {
+            if super::quick_button(ui, tr("Max morale"), "") {
                 for n in &all {
                     cx.set(&format!("/Staff/{}/Morale", esc(n)), json!(15));
                 }
             }
-            if super::quick_button(ui, "Max proficiency", "") {
+            if super::quick_button(ui, tr("Max proficiency"), "") {
                 for n in &all {
                     cx.set(&format!("/Staff/{}/Proficiency", esc(n)), json!(15));
                 }
             }
-            if super::quick_button(ui, "Heal everyone", "") {
+            if super::quick_button(ui, tr("Heal everyone"), "") {
                 for n in &all {
                     cx.set(&format!("/Staff/{}/Symptomatic", esc(n)), json!(false));
                 }
@@ -159,7 +160,7 @@ fn staff(ui: &mut Ui, cx: &mut GameCtx) {
         let filter_id = ui.id().with("mgsv_section");
         let mut filter: String = ui.memory_mut(|m| m.data.get_temp::<String>(filter_id)).unwrap_or_else(|| "All sections".into());
         ui.horizontal(|ui| {
-            ui.label("Show");
+            ui.label(tr("Show"));
             eframe::egui::ComboBox::from_id_salt("mgsv_sec_filter").selected_text(&filter).show_ui(ui, |ui| {
                 for s in ["All sections", "Combat", "R&D", "Base Development", "Support", "Intel", "Medical", "Security", "Sickbay", "Brig", "Unassigned"] {
                     ui.selectable_value(&mut filter, s.to_string(), s);
@@ -168,7 +169,7 @@ fn staff(ui: &mut Ui, cx: &mut GameCtx) {
         });
         ui.memory_mut(|m| m.data.insert_temp(filter_id, filter.clone()));
         let shown: Vec<&String> = all.iter().filter(|n| filter == "All sections" || cx.text(&format!("/Staff/{}/Section", esc(n))).as_deref() == Some(filter.as_str())).collect();
-        ui.label(format!("{} shown. Staff have no names in the save; they are listed by slot.", shown.len()));
+        ui.label(trf("{0} shown. Staff have no names in the save; they are listed by slot.", &[&(shown.len())]));
         ScrollArea::vertical().max_height(360.0).id_salt("mgsv_staff").show_rows_locked(ui, 26.0, shown.len(), |ui, range| {
             for i in range {
                 let n = shown[i];
@@ -184,7 +185,7 @@ fn staff(ui: &mut Ui, cx: &mut GameCtx) {
                 });
             }
         });
-        ui.weak("Rank is the staff member's stat rank (S++ is the top); every other stat follows from rank and stat distribution. The rest of each member's fields are in the Tree.");
+        ui.weak(tr("Rank is the staff member's stat rank (S++ is the top); every other stat follows from rank and stat distribution. The rest of each member's fields are in the Tree."));
     });
 }
 
@@ -194,7 +195,7 @@ fn bases(ui: &mut Ui, cx: &mut GameCtx) {
         return;
     }
     panel(ui, "Mother Base and FOB platforms", |ui| {
-        if super::quick_button(ui, "Finish every platform (grade 4)", "") {
+        if super::quick_button(ui, tr("Finish every platform (grade 4)"), "") {
             for b in &bs {
                 for pl in names(cx, &format!("Bases/{}", esc(b))) {
                     let p = format!("/Bases/{}/{}", esc(b), esc(&pl));
@@ -216,6 +217,6 @@ fn bases(ui: &mut Ui, cx: &mut GameCtx) {
                 });
             });
         }
-        ui.weak("The save lists 35 platform slots in order: Mother Base, then FOB 1 to 4, each Command, Combat, R&D, Base Development, Support, Intel, Medical (matches the in-game base screens). Not every FOB platform exists until built in the game.");
+        ui.weak(tr("The save lists 35 platform slots in order: Mother Base, then FOB 1 to 4, each Command, Combat, R&D, Base Development, Support, Intel, Medical (matches the in-game base screens). Not every FOB platform exists until built in the game."));
     });
 }

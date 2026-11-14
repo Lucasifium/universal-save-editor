@@ -119,8 +119,8 @@ fn ammo_panel(ui: &mut Ui, cx: &mut GameCtx, capacity: bool, note: &str) {
         let narrow = ui.available_width() < 560.0;
         egui::Grid::new("bl_ammo").num_columns(if narrow { 3 } else { 4 }).spacing([14.0, 6.0]).striped(true).show(ui, |ui| {
             ui.strong("");
-            ui.strong("Ammo");
-            ui.strong("SDU level");
+            ui.strong(tr("Ammo"));
+            ui.strong(tr("SDU level"));
             if !narrow {
                 ui.strong("");
             }
@@ -146,7 +146,7 @@ fn ammo_panel(ui: &mut Ui, cx: &mut GameCtx, capacity: bool, note: &str) {
         if capacity {
             ui.add_space(4.0);
             ui.horizontal_wrapped(|ui| {
-                if super::quick_button(ui, "Fill all ammo", "Set each ammo type to what its SDU level holds (without relic or class mod bonuses).") {
+                if super::quick_button(ui, tr("Fill all ammo"), tr("Set each ammo type to what its SDU level holds (without relic or class mod bonuses).")) {
                     for n in &ammo {
                         let ap = join("/Ammo", n);
                         if let Some(cap) = cx.int(&join("/SDU upgrades", n)).and_then(|lv| ammo_capacity(n, lv)) {
@@ -269,7 +269,7 @@ pub fn show3(ui: &mut Ui, cx: &mut GameCtx) {
     let n = cx.get("/Inventory").and_then(Value::as_array).map_or(0, Vec::len);
     panel(ui, &format!("Loot ({n})"), |ui| {
         loot_table(ui, cx, "bl3_inv", "/Inventory", &["Slot", "Favorite", "Junk", "Serial version", "Serial check"]);
-        ui.weak("Gear is shown with its slot, marks and serial check; its parts need the game's item database, so it isn't edited here. Level follows experience: changing one sets the other.");
+        ui.weak(tr("Gear is shown with its slot, marks and serial check; its parts need the game's item database, so it isn't edited here. Level follows experience: changing one sets the other."));
     });
 }
 
@@ -280,6 +280,6 @@ pub fn show_wl(ui: &mut Ui, cx: &mut GameCtx) {
     let n = cx.get("/Inventory").and_then(Value::as_array).map_or(0, Vec::len);
     panel(ui, &format!("Loot ({n})"), |ui| {
         loot_table(ui, cx, "wl_inv", "/Inventory", &["Slot", "Favorite", "Junk", "Serial version", "Serial check"]);
-        ui.weak("Gear is shown with its slot, marks and serial check; its parts need the game's item database, so it isn't edited here. Level follows experience: changing one sets the other.");
+        ui.weak(tr("Gear is shown with its slot, marks and serial check; its parts need the game's item database, so it isn't edited here. Level follows experience: changing one sets the other."));
     });
 }

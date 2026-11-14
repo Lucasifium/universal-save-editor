@@ -1,7 +1,7 @@
 //! Hollow Knight: Silksong, Undertale, Deltarune and Vampire Survivors. As elsewhere,
 //! values are found by name and simply left out when a save doesn't have them.
 
-use crate::i18n::tr;
+use crate::i18n::{tr, trf};
 use crate::widgets::ScrollLock;
 use super::{bar, columns, fact, fmt_num, hero, meter, panel, GameCtx};
 use crate::json_view::pointer_escape;
@@ -134,7 +134,7 @@ pub fn silksong(ui: &mut Ui, cx: &mut GameCtx) {
                     ],
                     110.0,
                 );
-                ui.weak("Masks: change Max health and Base masks together.");
+                ui.weak(tr("Masks: change Max health and Base masks together."));
             });
         } else {
             panel(ui, "Abilities", |ui| {
@@ -164,7 +164,7 @@ pub fn silksong(ui: &mut Ui, cx: &mut GameCtx) {
                             }
                         });
                     }
-                    ui.weak("Crests you have:");
+                    ui.weak(tr("Crests you have:"));
                     ui.horizontal_wrapped(|ui| {
                         for (i, id) in &crests {
                             cx.chip(ui, &crest_name(id), &format!("{}/savedData/{i}/Data/IsUnlocked", k("ToolEquips")), accent);
@@ -191,7 +191,7 @@ pub fn silksong(ui: &mut Ui, cx: &mut GameCtx) {
                     }
                 });
             });
-            ui.weak("Lit = you have the tool. The number is how many uses it has left (for tools that run out).");
+            ui.weak(tr("Lit = you have the tool. The number is how many uses it has left (for tools that run out)."));
         });
     }
     let liquids = saved(cx, &k("ToolLiquids"));
@@ -276,12 +276,12 @@ pub fn undertale(ui: &mut Ui, cx: &mut GameCtx) {
                 if (1..=19).contains(&lv) && cx.can_edit(&k("Max HP")) && cx.can_edit(&k("AT")) {
                     let (hp, at) = (16 + 4 * lv, 10 + 2 * (lv - 1));
                     let tip = "Max HP 16 + 4 \u{00D7} LV and AT 10 + 2 \u{00D7} (LV \u{2212} 1), as the game sets them when you level up (LV 1 to 19).";
-                    if ui.button(format!("Match Max HP and AT to LV {lv} ({hp} HP, {at} AT)")).on_hover_text(tip).clicked() {
+                    if ui.button(trf("Match Max HP and AT to LV {0} ({1} HP, {2} AT)", &[&lv, &hp, &at])).on_hover_text(tip).clicked() {
                         cx.set(&k("Max HP"), Value::from(hp));
                         cx.set(&k("AT"), Value::from(at));
                     }
                 }
-                ui.weak("AT and DF here are your own; Weapon AT and Armor DF come from what you have equipped.");
+                ui.weak(tr("AT and DF here are your own; Weapon AT and Armor DF come from what you have equipped."));
             });
         } else {
             panel(ui, "Equipment", |ui| {
@@ -304,7 +304,7 @@ pub fn undertale(ui: &mut Ui, cx: &mut GameCtx) {
         } else {
             panel(ui, "Progress", |ui| {
                 rows(ui, cx, "ut_progress", &[("Room", "/Progress/Room".into()), ("Play time (frames)", "/Progress/Play time (frames)".into())], 120.0);
-                ui.weak("Play time counts frames (30 a second). The story flags are under Other lines (Advanced).");
+                ui.weak(tr("Play time counts frames (30 a second). The story flags are under Other lines (Advanced)."));
             });
         }
     });
@@ -325,7 +325,7 @@ pub fn undertale(ui: &mut Ui, cx: &mut GameCtx) {
             });
         });
     }
-    ui.weak("The load menu shows the name, LV and time from undertale.ini in the same folder; the game itself loads file0.");
+    ui.weak(tr("The load menu shows the name, LV and time from undertale.ini in the same folder; the game itself loads file0."));
 }
 
 // ------------------------------------------------------------------ Deltarune
@@ -391,7 +391,7 @@ pub fn deltarune(ui: &mut Ui, cx: &mut GameCtx) {
                     ui.end_row();
                 }
             });
-            ui.weak("Game item numbers; 0 is an empty slot.");
+            ui.weak(tr("Game item numbers; 0 is an empty slot."));
         });
         columns(ui, 330.0, 2, |ui, i| {
             if i == 0 {
@@ -416,9 +416,9 @@ pub fn deltarune(ui: &mut Ui, cx: &mut GameCtx) {
         rows(ui, cx, "dr_progress", &[("Plot", "/Progress/Plot".into()), ("Room", "/Progress/Room".into()), ("Play time (frames)", "/Progress/Play time (frames)".into())], 120.0);
     });
     if !ch1 {
-        ui.weak("Chapters 2\u{2013}4: the inventory's place in the file isn't mapped yet; every line is under Other lines (Advanced).");
+        ui.weak(tr("Chapters 2\u{2013}4: the inventory's place in the file isn't mapped yet; every line is under Other lines (Advanced)."));
     }
-    ui.weak("The load menu shows what dr.ini (same folder) says; the game itself loads this file.");
+    ui.weak(tr("The load menu shows what dr.ini (same folder) says; the game itself loads this file."));
 }
 
 // ------------------------------------------------------------------ Vampire Survivors
@@ -465,7 +465,7 @@ pub fn vampire_survivors(ui: &mut Ui, cx: &mut GameCtx) {
         cx.tile(ui, "Lifetime coins", "/LifetimeCoins", accent);
         cx.tile(ui, "Total coins", "/TotalCoins", accent);
     });
-    ui.weak("Lifetime coins counts all coins ever earned; raise it with your coins to keep the stats in line.");
+    ui.weak(tr("Lifetime coins counts all coins ever earned; raise it with your coins to keep the stats in line."));
     ui.add_space(6.0);
     if let Some(Value::Array(bought)) = cx.get("/BoughtPowerups").cloned() {
         let p = "/BoughtPowerups";
@@ -512,7 +512,7 @@ pub fn vampire_survivors(ui: &mut Ui, cx: &mut GameCtx) {
                 });
             });
             ui.horizontal(|ui| {
-                if ui.add_enabled(editable, egui::Button::new("All known power-ups to their highest rank")).clicked() {
+                if ui.add_enabled(editable, egui::Button::new(tr("All known power-ups to their highest rank"))).clicked() {
                     let mut v = ids.clone();
                     for (id, _, max) in VS_POWERUPS {
                         if let Some(m) = max {
@@ -523,7 +523,7 @@ pub fn vampire_survivors(ui: &mut Ui, cx: &mut GameCtx) {
                     new = Some(v);
                 }
             });
-            ui.weak("A rank is bought once per entry in the save's list; coins spent on them aren't changed.");
+            ui.weak(tr("A rank is bought once per entry in the save's list; coins spent on them aren't changed."));
             if let Some(v) = new.filter(|v| *v != ids) {
                 cx.set(p, Value::Array(v.into_iter().map(Value::String).collect()));
             }
@@ -547,7 +547,7 @@ pub fn vampire_survivors(ui: &mut Ui, cx: &mut GameCtx) {
                 }
             }
         });
-        ui.weak("The lists themselves are in the Tree tab.");
+        ui.weak(tr("The lists themselves are in the Tree tab."));
     });
     columns(ui, 330.0, 2, |ui, i| {
         if i == 0 {

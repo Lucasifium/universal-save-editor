@@ -32,7 +32,7 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
         let newest = newest.map(str::to_string);
         if newest.as_deref().is_some_and(|n| n != cur) {
             ui.label(
-                RichText::new("This isn't the save the game continues from: Cairn loads the newest save in the slot (marked in the list below), so edits here won't show up in the game.")
+                RichText::new(tr("This isn't the save the game continues from: Cairn loads the newest save in the slot (marked in the list below), so edits here won't show up in the game."))
                     .color(crate::theme::MODIFIED),
             );
         }
@@ -47,7 +47,7 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
         let cur = cur.to_string();
         let mut open = None;
         egui::CollapsingHeader::new(format!("Saves in this slot ({})", saves.len())).id_salt("cairn_saves").show(ui, |ui| {
-            ui.weak("The dated saves are the game's autosaves. Cairn continues from the newest save in the slot; pick another to open it instead (unsaved changes are dropped).");
+            ui.weak(tr("The dated saves are the game's autosaves. Cairn continues from the newest save in the slot; pick another to open it instead (unsaved changes are dropped)."));
             egui::ScrollArea::vertical().id_salt("cairn_save_list").max_height(220.0).show_locked(ui, |ui| {
                 for (entry, label) in &saves {
                     let shown = *entry == cur;
@@ -68,10 +68,10 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
     if cx.get("/Buffs").is_some() {
         panel(ui, "Buffs", |ui| {
             egui::Grid::new("cairn_buffs").num_columns(4).striped(true).spacing([12.0, 6.0]).show(ui, |ui| {
-                ui.strong("Buff");
-                ui.strong("Seconds left");
-                ui.strong("From");
-                ui.strong("Strength");
+                ui.strong(tr("Buff"));
+                ui.strong(tr("Seconds left"));
+                ui.strong(tr("From"));
+                ui.strong(tr("Strength"));
                 ui.end_row();
                 for name in crate::fmt::cairn::BUFFS {
                     let base = format!("/Buffs/{}", pointer_escape(name));
@@ -110,7 +110,7 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
     });
     panel(ui, "Piton belt", |ui| {
         grid(ui, cx, "cairn_belt", "Piton belt", 10);
-        ui.weak("The pitons hanging under the bag. The game shows how many the belt holds (6 at first).");
+        ui.weak(tr("The pitons hanging under the bag. The game shows how many the belt holds (6 at first)."));
     });
     panel(ui, "Chalk pouch", |ui| {
         grid(ui, cx, "cairn_pouch", "Chalk pouch", 10);
@@ -146,7 +146,7 @@ fn grid(ui: &mut Ui, cx: &mut GameCtx, id: &str, list: &str, cols: usize) {
         select(ui, id, if sel == Some(i) { None } else { Some(i) });
     }
     let Some(i) = selection(ui, id).filter(|&i| i < keys.len()) else {
-        ui.weak("Click a square to change it.");
+        ui.weak(tr("Click a square to change it."));
         return;
     };
     let p = format!("{base}/{}", pointer_escape(&keys[i]));

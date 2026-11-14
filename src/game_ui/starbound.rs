@@ -3,7 +3,7 @@
 //! game's item name (or the name a generated weapon carries in the save).
 //! Values are found by name and left out when a save doesn't have them.
 
-use crate::i18n::tr;
+use crate::i18n::{tr, trf};
 use super::{columns, fact, fmt_num, hero, panel, tabs, words, GameCtx};
 use crate::json_view::pointer_escape;
 use eframe::egui::{self, Color32, RichText, Ui};
@@ -142,7 +142,7 @@ fn inventory(ui: &mut Ui, cx: &mut GameCtx) {
     }
     if bags.is_empty() {
         panel(ui, "Bags", |ui| {
-            ui.weak("No item bags in this save.");
+            ui.weak(tr("No item bags in this save."));
         });
         return;
     }
@@ -190,7 +190,7 @@ fn inventory(ui: &mut Ui, cx: &mut GameCtx) {
             ui.weak(if q.is_empty() { "This bag is empty." } else { "No item matches." });
         }
         ui.add_space(4.0);
-        ui.weak("Each item has its own largest stack in the game (1000 for most materials); the game may cut a bigger count when it loads.");
+        ui.weak(tr("Each item has its own largest stack in the game (1000 for most materials); the game may cut a bigger count when it loads."));
         super::crafting::offer(super::Game::Starbound, ui, cx);
     });
 }
@@ -200,7 +200,7 @@ fn filter(ui: &mut Ui) -> String {
     let mut q = ui.data(|d| d.get_temp::<String>(sid)).unwrap_or_default();
     ui.horizontal(|ui| {
         ui.label(tr("Filter:"));
-        ui.add(egui::TextEdit::singleline(&mut q).hint_text("item name").desired_width(220.0));
+        ui.add(egui::TextEdit::singleline(&mut q).hint_text(tr("item name")).desired_width(220.0));
     });
     ui.data_mut(|d| d.insert_temp(sid, q.clone()));
     q.to_lowercase()
@@ -212,7 +212,7 @@ fn character(ui: &mut Ui, cx: &mut GameCtx) {
             panel(ui, "Vitals", |ui| {
                 let base = "/statusController/resourceValues";
                 if cx.get(base).is_none() {
-                    ui.weak("This save keeps no vitals.");
+                    ui.weak(tr("This save keeps no vitals."));
                     return;
                 }
                 egui::Grid::new("sb_vitals").num_columns(2).spacing([14.0, 4.0]).show(ui, |ui| {
@@ -220,13 +220,13 @@ fn character(ui: &mut Ui, cx: &mut GameCtx) {
                         cx.grid_row(ui, l, &join(base, k), 100.0);
                     }
                 });
-                ui.weak("These are the current amounts; the most a character can have comes from its armour and food, and the game keeps the current amount within it.");
+                ui.weak(tr("These are the current amounts; the most a character can have comes from its armour and food, and the game keeps the current amount within it."));
             });
         } else {
             panel(ui, "Ship", |ui| {
                 let base = "/shipUpgrades";
                 if cx.get(base).is_none() {
-                    ui.weak("This save has no ship upgrades.");
+                    ui.weak(tr("This save has no ship upgrades."));
                     return;
                 }
                 egui::Grid::new("sb_ship").num_columns(2).spacing([14.0, 4.0]).show(ui, |ui| {
@@ -237,7 +237,7 @@ fn character(ui: &mut Ui, cx: &mut GameCtx) {
                 if let Some(Value::Array(c)) = cx.get("/shipUpgrades/capabilities") {
                     let c: Vec<String> = c.iter().filter_map(Value::as_str).map(words).collect();
                     if !c.is_empty() {
-                        ui.label(format!("Can: {}", c.join(", ")));
+                        ui.label(trf("Can: {0}", &[&(c.join(", "))]));
                     }
                 }
             });
@@ -266,7 +266,7 @@ fn currencies(ui: &mut Ui, cx: &mut GameCtx) {
                     cx.grid_row(ui, "Pixels", "/inventory/money", 120.0);
                 });
             } else {
-                ui.weak("No currencies in this save.");
+                ui.weak(tr("No currencies in this save."));
             }
             return;
         }
@@ -275,7 +275,7 @@ fn currencies(ui: &mut Ui, cx: &mut GameCtx) {
                 cx.grid_row(ui, &label(k), &join("/inventory/currencies", k), 120.0);
             }
         });
-        ui.weak("Each currency has a most the game allows; a larger amount may be cut when it loads. Currencies past pixels and ancient essence come from mods.");
+        ui.weak(tr("Each currency has a most the game allows; a larger amount may be cut when it loads. Currencies past pixels and ancient essence come from mods."));
     });
 }
 
@@ -292,7 +292,7 @@ fn progress(ui: &mut Ui, cx: &mut GameCtx) {
                 let avail = list(cx, "/techs/availableTechs");
                 let enabled = list(cx, "/techs/enabledTechs");
                 if avail.is_empty() {
-                    ui.weak("No techs yet.");
+                    ui.weak(tr("No techs yet."));
                 }
                 for t in &avail {
                     let on = enabled.contains(t);
@@ -310,13 +310,13 @@ fn progress(ui: &mut Ui, cx: &mut GameCtx) {
                     Some(Value::Array(a)) => a.len(),
                     _ => 0,
                 };
-                ui.label(format!("{} blueprints known", fmt_num(known as f64)));
-                ui.label(format!("{} codex entries", fmt_num(keys(cx, "/codexes").len() as f64)));
+                ui.label(trf("{0} blueprints known", &[&(fmt_num(known as f64))]));
+                ui.label(trf("{0} codex entries", &[&(fmt_num(keys(cx, "/codexes").len() as f64))]));
                 let quests = keys(cx, "/quests/quests");
                 let done = quests.iter().filter(|q| cx.text(&format!("/quests/quests/{}/content/state", pointer_escape(q))).is_some_and(|s| s == "Complete")).count();
-                ui.label(format!("{} quests, {} complete", quests.len(), done));
+                ui.label(trf("{0} quests, {1} complete", &[&(quests.len()), &done]));
                 if let Some(Value::Array(m)) = cx.get("/aiState/completedMissions") {
-                    ui.label(format!("{} missions done", m.len()));
+                    ui.label(trf("{0} missions done", &[&(m.len())]));
                 }
             });
         }

@@ -2,7 +2,7 @@
 //! Universalis IV and Crusader Kings II. As elsewhere, values are found by name and
 //! simply left out when a save doesn't have them.
 
-use crate::i18n::tr;
+use crate::i18n::{tr, trf};
 use crate::widgets::ScrollLock;
 use super::{columns, crafting, fact, hero, panel, tabs, words, Game, GameCtx};
 use crate::json_view::pointer_escape;
@@ -144,7 +144,7 @@ pub fn green_hell(ui: &mut Ui, cx: &mut GameCtx) {
         for (name, key, color) in rows {
             cx.attribute(ui, name, &format!("{body}/{key}"), 100.0, color);
         }
-        ui.weak("Each runs 0\u{2013}100 on normal settings. Low nutrition shrinks the most health you can have.");
+        ui.weak(tr("Each runs 0\u{2013}100 on normal settings. Low nutrition shrinks the most health you can have."));
     });
     let skills: Vec<(String, String)> = match cx.get(&body) {
         Some(Value::Object(m)) => m
@@ -159,7 +159,7 @@ pub fn green_hell(ui: &mut Ui, cx: &mut GameCtx) {
                 let (name, p) = &skills[i];
                 cx.attribute(ui, name, p, 100.0, accent);
             });
-            ui.weak("Skills run 0\u{2013}100.");
+            ui.weak(tr("Skills run 0\u{2013}100."));
         });
     }
     panel(ui, "Statistics", |ui| {
@@ -170,7 +170,7 @@ pub fn green_hell(ui: &mut Ui, cx: &mut GameCtx) {
         }
         value_rows(ui, cx, "gh_stats", &rows);
     });
-    ui.weak("Items, constructions and quests are in the Values tab.");
+    ui.weak(tr("Items, constructions and quests are in the Values tab."));
 }
 
 // ------------------------------------------------------------------ RE Engine game slots
@@ -203,9 +203,9 @@ pub fn re_slot(ui: &mut Ui, cx: &mut GameCtx) {
     if !hp.is_empty() {
         panel(ui, "Health", |ui| {
             egui::Grid::new("re_hp").num_columns(3).striped(true).spacing([14.0, 4.0]).show(ui, |ui| {
-                ui.strong("Character");
-                ui.strong("Health");
-                ui.strong("Most health");
+                ui.strong(tr("Character"));
+                ui.strong(tr("Health"));
+                ui.strong(tr("Most health"));
                 ui.end_row();
                 for (n, p) in hp.iter().enumerate() {
                     ui.label(if n == 0 { "Player".to_string() } else { format!("Character {}", n + 1) });
@@ -214,7 +214,7 @@ pub fn re_slot(ui: &mut Ui, cx: &mut GameCtx) {
                     ui.end_row();
                 }
             });
-            ui.weak("Enemies kept in the save show here too; the player is usually first.");
+            ui.weak(tr("Enemies kept in the save show here too; the player is usually first."));
         });
     }
     for inv_base in objects_with(cx.root, "_InventoryData", 4) {
@@ -248,7 +248,7 @@ pub fn re_slot(ui: &mut Ui, cx: &mut GameCtx) {
                 egui::Grid::new(("re_items", &lp)).num_columns(3).striped(true).spacing([14.0, 4.0]).show(ui, |ui| {
                     ui.strong(tr("Item"));
                     ui.strong(tr("Count"));
-                    ui.strong("Held inside");
+                    ui.strong(tr("Held inside"));
                     ui.end_row();
                     for i in 0..n {
                         let ip = format!("{lp}/{i}");
@@ -271,7 +271,7 @@ pub fn re_slot(ui: &mut Ui, cx: &mut GameCtx) {
             }
         });
     }
-    ui.weak("Items are listed by their ID because the game's item names aren't in the save. Everything else is in the Values tab.");
+    ui.weak(tr("Items are listed by their ID because the game's item names aren't in the save. Everything else is in the Values tab."));
 }
 
 // ------------------------------------------------------------------ Hogwarts Legacy
@@ -397,7 +397,7 @@ pub fn renpy(ui: &mut Ui, cx: &mut GameCtx) {
             egui::ScrollArea::vertical().id_salt("renpy_txt").max_height(220.0).show_locked(ui, |ui| value_rows(ui, cx, "renpy_t", &rows));
         });
     });
-    ui.weak("These are the game's own variable names; values inside characters or other objects are shown as name.value. Each save keeps its own copy; the Values tab also shows lists.");
+    ui.weak(tr("These are the game's own variable names; values inside characters or other objects are shown as name.value. Each save keeps its own copy; the Values tab also shows lists."));
 }
 
 // ------------------------------------------------------------------ EU4 / CK2
@@ -441,14 +441,14 @@ pub fn eu4(ui: &mut Ui, cx: &mut GameCtx) {
     }
     panel(ui, "Country", |ui| {
         if cx.get(&c).is_none() {
-            ui.weak("The player's country isn't in this save.");
+            ui.weak(tr("The player's country isn't in this save."));
             return;
         }
         let q = filter_box(ui, "eu4", "e.g. mercantilism");
         let rows = scalar_rows(cx, &c, |k, v| v.is_number() && (q.is_empty() || k.contains(&q)));
         egui::ScrollArea::vertical().id_salt("eu4_c").max_height(360.0).show_locked(ui, |ui| value_rows(ui, cx, "eu4_rows", &rows));
     });
-    ui.weak("Stability runs \u{2212}3 to 3; prestige and legitimacy up to 100. Ironman saves are edited in place and stay ironman; the game may stop awarding achievements for an edited campaign.");
+    ui.weak(tr("Stability runs \u{2212}3 to 3; prestige and legitimacy up to 100. Ironman saves are edited in place and stay ironman; the game may stop awarding achievements for an edited campaign."));
 }
 
 pub fn ck2(ui: &mut Ui, cx: &mut GameCtx) {
@@ -466,7 +466,7 @@ pub fn ck2(ui: &mut Ui, cx: &mut GameCtx) {
     });
     panel(ui, "Ruler", |ui| {
         if cx.get(&ch).is_none() {
-            ui.weak("The player's character isn't in this save.");
+            ui.weak(tr("The player's character isn't in this save."));
             return;
         }
         let rows = scalar_rows(cx, &ch, |_, v| v.is_number() || v.is_string());
@@ -474,7 +474,7 @@ pub fn ck2(ui: &mut Ui, cx: &mut GameCtx) {
         if let Some(Value::Array(a)) = cx.get(&format!("{ch}/att")) {
             let n = a.len().min(5);
             ui.add_space(6.0);
-            ui.label(RichText::new("Attributes").strong());
+            ui.label(RichText::new(tr("Attributes")).strong());
             ui.horizontal_wrapped(|ui| {
                 for (i, label) in ["Diplomacy", "Martial", "Stewardship", "Intrigue", "Learning"].iter().take(n).enumerate() {
                     cx.label(ui, label, &format!("{ch}/att/{i}"));
@@ -522,7 +522,7 @@ pub fn mass_effect(ui: &mut Ui, cx: &mut GameCtx) {
         };
         value_rows(ui, cx, "me_res", &rows);
         if cx.get("/Resources/Omni-gel").is_none() {
-            ui.weak("Element zero, iridium, palladium and platinum are Mass Effect 2's minerals; Mass Effect 3 keeps them at 0.");
+            ui.weak(tr("Element zero, iridium, palladium and platinum are Mass Effect 2's minerals; Mass Effect 3 keeps them at 0."));
         }
     });
     power_list(ui, cx, "/Powers", "me_pow", accent);
@@ -534,7 +534,7 @@ pub fn mass_effect(ui: &mut Ui, cx: &mut GameCtx) {
         panel(ui, "Weapons", |ui| {
             let rows: Vec<(String, String)> = weapons.iter().map(|w| (words(w), format!("{}/Spare ammo", join("/Weapons", w)))).collect();
             value_rows(ui, cx, "me_w", &rows);
-            ui.weak("Spare ammo for each weapon Shepard carries.");
+            ui.weak(tr("Spare ammo for each weapon Shepard carries."));
         });
     }
     let parts: Vec<String> = match cx.get("/Items") {
@@ -551,7 +551,7 @@ pub fn mass_effect(ui: &mut Ui, cx: &mut GameCtx) {
                 _ => vec![],
             };
             egui::ScrollArea::vertical().id_salt("me_items_s").max_height(380.0).show_locked(ui, |ui| value_rows(ui, cx, &format!("me_it{t}"), &rows));
-            ui.weak("Each item's level (I\u{2013}X). Items without a name are upgrades and ammo, shown by the game's item number.");
+            ui.weak(tr("Each item's level (I\u{2013}X). Items without a name are upgrades and ammo, shown by the game's item number."));
         });
     }
     let squad: Vec<String> = match cx.get("/Squad") {
@@ -576,7 +576,7 @@ pub fn mass_effect(ui: &mut Ui, cx: &mut GameCtx) {
             power_list(ui, cx, &format!("{base}/Talents"), &format!("me_sqt{t}"), accent);
         });
     }
-    ui.weak("Power ranks run 0\u{2013}4 in Mass Effect 2 and 0\u{2013}6 in Mass Effect 3 and up to 12 in Mass Effect 1; an evolved power shows up as its own entry.");
+    ui.weak(tr("Power ranks run 0\u{2013}4 in Mass Effect 2 and 0\u{2013}6 in Mass Effect 3 and up to 12 in Mass Effect 1; an evolved power shows up as its own entry."));
     story(ui, cx, accent);
 }
 
@@ -700,7 +700,7 @@ pub fn xcom(ui: &mut Ui, cx: &mut GameCtx) {
                 });
             });
             crate::widgets::sticky_headers(ui, "xcom_s", area.inner_rect);
-            ui.weak("Rank 0 is Squaddie\u{2026} 7 is Colonel. Stats are the soldier's own, before armour and items.");
+            ui.weak(tr("Rank 0 is Squaddie\u{2026} 7 is Colonel. Stats are the soldier's own, before armour and items."));
         });
     }
     let store = objects_with(cx.root, "m_arrItems", 1).pop();
@@ -712,7 +712,7 @@ pub fn xcom(ui: &mut Ui, cx: &mut GameCtx) {
         };
         panel(ui, "Storage", |ui| {
             value_rows(ui, cx, "xcom_store", &rows);
-            ui.weak("Items HQ holds, by the game's item number (only ones you have are listed). Elerium, alloys and Meld are among them \u{2014} change one and check it in the game.");
+            ui.weak(tr("Items HQ holds, by the game's item number (only ones you have are listed). Elerium, alloys and Meld are among them \u{2014} change one and check it in the game."));
         });
     }
 }
@@ -793,7 +793,7 @@ pub fn xcom2(ui: &mut Ui, cx: &mut GameCtx) {
     if !rows.is_empty() {
         panel(ui, "Storage", |ui| {
             value_rows(ui, cx, "xcom2_store", &rows);
-            ui.weak("Items HQ holds, by the game's template name.");
+            ui.weak(tr("Items HQ holds, by the game's template name."));
         });
     }
 }
@@ -892,9 +892,9 @@ pub fn diablo2(ui: &mut Ui, cx: &mut GameCtx) {
             panel(ui, "Life and mana", |ui| {
                 egui::Grid::new("d2_life").num_columns(4).spacing([10.0, 6.0]).show(ui, |ui| {
                     ui.label("");
-                    ui.weak("Current");
+                    ui.weak(tr("Current"));
                     ui.label("");
-                    ui.weak(tr("Base max")).on_hover_text("The maximum before items and bonuses; the game adds those on top");
+                    ui.weak(tr("Base max")).on_hover_text(tr("The maximum before items and bonuses; the game adds those on top"));
                     ui.end_row();
                     for (a, b) in [("Life", "Max life"), ("Mana", "Max mana"), ("Stamina", "Max stamina")] {
                         ui.label(a);
@@ -904,7 +904,7 @@ pub fn diablo2(ui: &mut Ui, cx: &mut GameCtx) {
                         ui.end_row();
                     }
                 });
-                ui.weak("Max life and mana here are the base values, before items.");
+                ui.weak(tr("Max life and mana here are the base values, before items."));
             });
         }
     });
@@ -917,7 +917,7 @@ pub fn diablo2(ui: &mut Ui, cx: &mut GameCtx) {
             columns(ui, 300.0, skills.len(), |ui, i| {
                 cx.attribute(ui, &skills[i], &join("/Skills", &skills[i]), 20.0, accent);
             });
-            ui.weak("Hard points put into each skill (20 is the most the game allows from points; items add more on top).");
+            ui.weak(tr("Hard points put into each skill (20 is the most the game allows from points; items add more on top)."));
         });
     }
     let ways: Vec<String> = ["Normal", "Nightmare", "Hell"].iter().map(|d| format!("/Waypoints: {d}")).filter(|p| cx.get(p).is_some()).collect();
@@ -927,7 +927,7 @@ pub fn diablo2(ui: &mut Ui, cx: &mut GameCtx) {
                 let keys = keys_of(cx, base);
                 let on = keys.iter().filter(|k| cx.flag(&join(base, k))).count();
                 egui::CollapsingHeader::new(format!("{}  ({on} of {})", base.trim_start_matches("/Waypoints: "), keys.len())).id_salt(("d2_wp", base)).show(ui, |ui| {
-                    if super::quick_button(ui, "Open every waypoint", "") {
+                    if super::quick_button(ui, tr("Open every waypoint"), "") {
                         for k in &keys {
                             cx.set(&join(base, k), Value::from(1));
                         }
@@ -939,10 +939,10 @@ pub fn diablo2(ui: &mut Ui, cx: &mut GameCtx) {
                     });
                 });
             }
-            ui.weak("A waypoint you can use in that difficulty. The character still has to be able to reach the act.");
+            ui.weak(tr("A waypoint you can use in that difficulty. The character still has to be able to reach the act."));
         });
     }
-    ui.weak("Changing the level doesn't change experience: set both. Gold on the character can be at most 10,000 per level.");
+    ui.weak(tr("Changing the level doesn't change experience: set both. Gold on the character can be at most 10,000 per level."));
 }
 
 // ------------------------------------------------------------------ Final Fantasy VII (PC)
@@ -989,8 +989,8 @@ pub fn ff7(ui: &mut Ui, cx: &mut GameCtx) {
         ui.add_space(6.0);
         egui::Grid::new(("ff7_hp", t, c)).num_columns(4).spacing([14.0, 4.0]).show(ui, |ui| {
             ui.label("");
-            ui.strong("Now");
-            ui.strong("Max");
+            ui.strong(tr("Now"));
+            ui.strong(tr("Max"));
             ui.strong(tr("Base max"));
             ui.end_row();
             for (n, cur, max, base) in [("HP", "HP", "Max HP", "Base max HP"), ("MP", "MP", "Max MP", "Base max MP")] {
@@ -1006,11 +1006,11 @@ pub fn ff7(ui: &mut Ui, cx: &mut GameCtx) {
             }
         });
         ui.add_space(6.0);
-        ui.label(RichText::new("Stats").strong());
+        ui.label(RichText::new(tr("Stats")).strong());
         for k in ["Strength", "Vitality", "Magic", "Spirit", "Dexterity", "Luck"] {
             cx.attribute(ui, k, &at(k), 255.0, accent);
         }
-        ui.weak("Stats go up to 255. The game works out max HP/MP again from the base max and equipment, so raise the base max to make a higher maximum stick.");
+        ui.weak(tr("Stats go up to 255. The game works out max HP/MP again from the base max and equipment, so raise the base max to make a higher maximum stick."));
     });
 }
 
@@ -1108,7 +1108,7 @@ fn ff7r_materia(ui: &mut Ui, cx: &mut GameCtx) {
                 value_rows(ui, cx, &format!("ff7r_add_materia_{c}"), &rows);
             });
         }
-        ui.weak("New materia start at level 1 with no AP and go into free materia slots when you save. Summons you already own aren't listed.");
+        ui.weak(tr("New materia start at level 1 with no AP and go into free materia slots when you save. Summons you already own aren't listed."));
     });
 }
 
@@ -1167,7 +1167,7 @@ fn ff7r_inventory(ui: &mut Ui, cx: &mut GameCtx) {
                 value_rows(ui, cx, &format!("ff7r_add_{c}"), &rows);
             });
         }
-        ui.weak("Only items this save doesn't have yet are listed. Each goes into a free inventory slot when you save; reopen the file to change its amount afterwards.");
+        ui.weak(tr("Only items this save doesn't have yet are listed. Each goes into a free inventory slot when you save; reopen the file to change its amount afterwards."));
     });
 }
 
@@ -1223,11 +1223,11 @@ pub fn hogwarts_db(ui: &mut Ui, cx: &mut GameCtx) {
         .unwrap_or_default();
     panel(ui, "Resources", |ui| {
         if rows.is_empty() {
-            ui.weak("No resources in the bag.");
+            ui.weak(tr("No resources in the bag."));
         }
         value_rows(ui, cx, "hl_res", &rows);
         super::crafting::offer(super::Game::HogwartsDb, ui, cx);
-        ui.weak("How many of each ingredient and material you carry. The game caps most stacks at its own limits.");
+        ui.weak(tr("How many of each ingredient and material you carry. The game caps most stacks at its own limits."));
     });
     let perks: Vec<(String, String)> = cx
         .get("/PerkDynamic")
@@ -1237,10 +1237,10 @@ pub fn hogwarts_db(ui: &mut Ui, cx: &mut GameCtx) {
     if !perks.is_empty() {
         panel(ui, "Talents", |ui| {
             value_rows(ui, cx, "hl_perks", &perks);
-            ui.weak("Talents you've unlocked and their level. Give yourself talent points above to unlock more in the game.");
+            ui.weak(tr("Talents you've unlocked and their level. Give yourself talent points above to unlock more in the game."));
         });
     }
-    ui.weak("Experience decides your level when the game loads. The whole database (quests, collections, gear) is in the Values tab.");
+    ui.weak(tr("Experience decides your level when the game loads. The whole database (quests, collections, gear) is in the Values tab."));
 }
 
 // ------------------------------------------------------------------ Final Fantasy IX
@@ -1283,7 +1283,7 @@ pub fn ff9(ui: &mut Ui, cx: &mut GameCtx) {
                 }
             });
         });
-        ui.weak("Strength, Magic, Spirit and Speed are the base values before equipment and abilities. Level 99, HP 9999 and MP 999 are the game's limits.");
+        ui.weak(tr("Strength, Magic, Spirit and Speed are the base values before equipment and abilities. Level 99, HP 9999 and MP 999 are the game's limits."));
     });
 }
 
@@ -1305,7 +1305,7 @@ pub fn dying_light2(ui: &mut Ui, cx: &mut GameCtx) {
             egui::Grid::new("dl2_prog").num_columns(3).striped(true).spacing([14.0, 4.0]).show(ui, |ui| {
                 ui.label("");
                 ui.strong(tr("Level"));
-                ui.strong("Points");
+                ui.strong(tr("Points"));
                 ui.end_row();
                 for b in &buckets {
                     let p = join("/Bucket", b);
@@ -1315,7 +1315,7 @@ pub fn dying_light2(ui: &mut Ui, cx: &mut GameCtx) {
                     ui.end_row();
                 }
             });
-            ui.weak("Traversal and Combat are the two skill trees; their points fill the bar to the next level. Inhibitors raise health and stamina.");
+            ui.weak(tr("Traversal and Combat are the two skill trees; their points fill the bar to the next level. Inhibitors raise health and stamina."));
         });
     }
     let skills: Vec<(String, String)> = match cx.get("/SkillInstance") {
@@ -1327,7 +1327,7 @@ pub fn dying_light2(ui: &mut Ui, cx: &mut GameCtx) {
             let q = filter_box(ui, "dl2_sk", "e.g. dash");
             let rows: Vec<(String, String)> = skills.into_iter().filter(|(n, _)| q.is_empty() || n.to_lowercase().contains(&q)).collect();
             egui::ScrollArea::vertical().id_salt("dl2_sk_s").max_height(320.0).show_locked(ui, |ui| value_rows(ui, cx, "dl2_skills", &rows));
-            ui.weak("1 means learned. Everything else in the save (items, map, quests) is in the Values tab.");
+            ui.weak(tr("1 means learned. Everything else in the save (items, map, quests) is in the Values tab."));
         });
     }
 }
@@ -1343,7 +1343,7 @@ pub fn dying_light(ui: &mut Ui, cx: &mut GameCtx) {
             }
         }
     });
-    ui.weak("Agility, Power and Survivor go up to 24\u{2013}25 (Legend higher). Inventory and money aren't decoded yet; use Value search for those.");
+    ui.weak(tr("Agility, Power and Survivor go up to 24\u{2013}25 (Legend higher). Inventory and money aren't decoded yet; use Value search for those."));
 }
 
 // ------------------------------------------------------------------ The Witcher 3
@@ -1363,9 +1363,9 @@ pub fn witcher3(ui: &mut Ui, cx: &mut GameCtx) {
             ("Total experience".into(), "/Geralt/Experience/Total".into()),
         ]);
         if cx.get("/Geralt/Skill points/Unspent").is_none() {
-            ui.weak("This save has no unspent skill points: the game doesn't store a 0, so there's nothing here to raise \u{2014} earn one in the game first.");
+            ui.weak(tr("This save has no unspent skill points: the game doesn't store a 0, so there's nothing here to raise \u{2014} earn one in the game first."));
         }
-        ui.weak("The game decides the level from the total experience when it loads, so change both together.");
+        ui.weak(tr("The game decides the level from the total experience when it loads, so change both together."));
     });
     story(ui, cx, accent);
 }
@@ -1377,7 +1377,7 @@ pub fn cyberpunk(ui: &mut Ui, cx: &mut GameCtx) {
     hero(ui, accent, "Cyberpunk 2077", "V", |ui| {
         cx.tile(ui, "Eurodollars", "/V/Eurodollars", accent);
     });
-    ui.weak("The eddies in V's own inventory. Everything else in this save is in the Hex view: use Value search with a number you know.");
+    ui.weak(tr("The eddies in V's own inventory. Everything else in this save is in the Hex view: use Value search with a number you know."));
 }
 
 // ------------------------------------------------------------------ Kenshi
@@ -1387,7 +1387,7 @@ pub fn kenshi(ui: &mut Ui, cx: &mut GameCtx) {
     hero(ui, accent, "Kenshi", "Your faction", |ui| {
         cx.tile(ui, "Cats", "/Player/Money (cats)", accent);
     });
-    ui.weak("Each squad's characters (attributes, skills, health) are in the save's platoon folder: open the file named after your faction, such as platoon\\Nameless_0.platoon, for its Squad screen.");
+    ui.weak(tr("Each squad's characters (attributes, skills, health) are in the save's platoon folder: open the file named after your faction, such as platoon\\Nameless_0.platoon, for its Squad screen."));
 }
 
 fn kenshi_keys(cx: &GameCtx, p: &str) -> Vec<String> {
@@ -1420,7 +1420,7 @@ pub fn kenshi_squad(ui: &mut Ui, cx: &mut GameCtx) {
     let sub = if player { "Your squad" } else { "A squad of another faction" };
     hero(ui, accent, "Kenshi", sub, |ui| {
         fact(ui, "Members", &members.len().to_string(), accent);
-        if super::quick_button(ui, "Max everyone's stats", "Every attribute and skill of every member in this file to 100, the most the game allows.") {
+        if super::quick_button(ui, tr("Max everyone's stats"), tr("Every attribute and skill of every member in this file to 100, the most the game allows.")) {
             for m in &members {
                 kenshi_max(cx, &join("/Members", m));
             }
@@ -1449,7 +1449,7 @@ pub fn kenshi_squad(ui: &mut Ui, cx: &mut GameCtx) {
                 for k in kenshi_keys(cx, &attrs) {
                     cx.attribute(ui, &k, &join(&attrs, &k), 100.0, accent);
                 }
-                if ui.button("Max this character").on_hover_text("Every attribute and skill to 100.").clicked() {
+                if ui.button(tr("Max this character")).on_hover_text(tr("Every attribute and skill to 100.")).clicked() {
                     kenshi_max(cx, &base);
                 }
             });
@@ -1459,7 +1459,7 @@ pub fn kenshi_squad(ui: &mut Ui, cx: &mut GameCtx) {
                 for k in kenshi_keys(cx, &skills) {
                     cx.attribute(ui, &k, &join(&skills, &k), 100.0, accent);
                 }
-                ui.weak("0\u{2013}100. Skills never trained sit a little below zero; the game levels them up from there.");
+                ui.weak(tr("0\u{2013}100. Skills never trained sit a little below zero; the game levels them up from there."));
             });
         }
     });
@@ -1491,7 +1491,7 @@ fn kenshi_health(ui: &mut Ui, cx: &mut GameCtx, base: &str) {
         // A part's most health comes from the race in the game's data, not from the save, so
         // there is no "full health" to fill up to here: parts are typed in.
         let tip = "Clears dead, unconscious, coma and incapacitated and ends bleeding. Raise any part below zero above it too, or the character falls again.";
-        if ui.button("Revive").on_hover_text(tip).clicked() {
+        if ui.button(tr("Revive")).on_hover_text(tip).clicked() {
             let bleed = join(&join(base, "Condition"), "Bleeding");
             if cx.num(&bleed).is_some_and(|v| v > 0.0) {
                 cx.set(&bleed, Value::from(0.0));
@@ -1503,7 +1503,7 @@ fn kenshi_health(ui: &mut Ui, cx: &mut GameCtx, base: &str) {
                 }
             }
         }
-        ui.weak("Each part's health. The game keeps the most a part can have in its race data, not in the save, so it isn't shown here; healthy humans have the same value on every part.");
+        ui.weak(tr("Each part's health. The game keeps the most a part can have in its race data, not in the save, so it isn't shown here; healthy humans have the same value on every part."));
         let limb_names = kenshi_keys(cx, &limbs);
         if !limb_names.is_empty() {
             ui.add_space(6.0);
@@ -1512,7 +1512,7 @@ fn kenshi_health(ui: &mut Ui, cx: &mut GameCtx, base: &str) {
                     cx.grid_row(ui, l, &join(&limbs, l), 110.0);
                 }
             });
-            ui.weak("A lost limb also needs its health above zero to come back. Robotic limbs are read from very few saves.");
+            ui.weak(tr("A lost limb also needs its health above zero to come back. Robotic limbs are read from very few saves."));
         }
     });
 }
@@ -1533,7 +1533,7 @@ pub fn palworld(ui: &mut Ui, cx: &mut GameCtx) {
     if !rows.is_empty() {
         panel(ui, "Records", |ui| {
             value_rows(ui, cx, "pal_rec", &rows);
-            ui.weak("Counters the game keeps for this player (captures, dungeons, effigies). Level and Pals are in Level.sav in the world folder.");
+            ui.weak(tr("Counters the game keeps for this player (captures, dungeons, effigies). Level and Pals are in Level.sav in the world folder."));
         });
     }
 }
@@ -1581,7 +1581,7 @@ pub fn p4g(ui: &mut Ui, cx: &mut GameCtx) {
     panel(ui, "Social stats", |ui| {
         let rows: Vec<(String, String)> = ["Knowledge", "Courage", "Diligence", "Understanding", "Expression"].iter().map(|s| (s.to_string(), join("/Social stats", s))).collect();
         value_rows(ui, cx, "p4g_soc", &rows);
-        ui.weak("These are the points behind each stat's rank. The level follows the experience when the game loads it, so change both together.");
+        ui.weak(tr("These are the points behind each stat's rank. The level follows the experience when the game loads it, so change both together."));
     });
 }
 
@@ -1611,7 +1611,7 @@ pub fn ffx2(ui: &mut Ui, cx: &mut GameCtx) {
                 }
             });
         });
-        ui.weak("Stats are the base values before the dressphere and accessories.");
+        ui.weak(tr("Stats are the base values before the dressphere and accessories."));
     });
 }
 
@@ -1661,7 +1661,7 @@ pub fn p5r(ui: &mut Ui, cx: &mut GameCtx) {
         .collect();
     panel(ui, "Party", |ui| {
         grid(ui, cx, "p5r_party", &party, true);
-        ui.weak("A party member's level and stats are their Persona's.");
+        ui.weak(tr("A party member's level and stats are their Persona's."));
     });
     let personas: Vec<(String, String)> = match cx.get("/Joker") {
         Some(Value::Object(m)) => m.keys().filter(|k| k.starts_with("Persona ")).map(|k| (k.clone(), join("/Joker", k))).collect(),
@@ -1670,7 +1670,7 @@ pub fn p5r(ui: &mut Ui, cx: &mut GameCtx) {
     if !personas.is_empty() {
         panel(ui, "Joker's Personas", |ui| {
             grid(ui, cx, "p5r_personas", &personas, false);
-            ui.weak("The number after each slot is the Persona's id in the game's compendium.");
+            ui.weak(tr("The number after each slot is the Persona's id in the game's compendium."));
         });
     }
 }
@@ -1736,7 +1736,7 @@ pub fn ffx(ui: &mut Ui, cx: &mut GameCtx) {
         3 => {
             panel(ui, "Items", |ui| {
                 let slots = keys_of(cx, "/Items");
-                if super::quick_button(ui, "Set every stack to 99", "Raises the count of each item you already hold to 99.") {
+                if super::quick_button(ui, tr("Set every stack to 99"), tr("Raises the count of each item you already hold to 99.")) {
                     for s in &slots {
                         let p = join("/Items", s);
                         if cx.text(&join(&p, "Item")).is_some_and(|t| t != "(empty)") {
@@ -1760,7 +1760,7 @@ pub fn ffx(ui: &mut Ui, cx: &mut GameCtx) {
                         });
                     }
                 });
-                ui.weak("Pick an item for an empty slot and give it a count to add it. Keep each item in one slot only.");
+                ui.weak(tr("Pick an item for an empty slot and give it a count to add it. Keep each item in one slot only."));
             });
             let keys = keys_of(cx, "/Key items");
             if !keys.is_empty() {
@@ -1770,14 +1770,14 @@ pub fn ffx(ui: &mut Ui, cx: &mut GameCtx) {
                             cx.chip(ui, k, &join("/Key items", k), accent);
                         }
                     });
-                    ui.weak("Story items: holding one early doesn't play the scene that normally gives it. The Al Bhed primers aren't listed.");
+                    ui.weak(tr("Story items: holding one early doesn't play the scene that normally gives it. The Al Bhed primers aren't listed."));
                 });
             }
         }
         _ => {
             panel(ui, "Monster Arena", |ui| {
                 let regions = keys_of(cx, "/Monster Arena");
-                if super::quick_button(ui, "Capture 10 of every fiend", "Sets every area's fiends to 10 captured. The arena's own creations are left alone.") {
+                if super::quick_button(ui, tr("Capture 10 of every fiend"), tr("Sets every area's fiends to 10 captured. The arena's own creations are left alone.")) {
                     for r in &regions {
                         if r.contains("Conquest") || r == "Original" {
                             continue;
@@ -1792,7 +1792,7 @@ pub fn ffx(ui: &mut Ui, cx: &mut GameCtx) {
                     let rows: Vec<(String, String)> = keys_of(cx, &base).into_iter().map(|m| (m.clone(), join(&base, &m))).collect();
                     egui::CollapsingHeader::new(r).id_salt(("ffx_arena", r)).show(ui, |ui| value_rows(ui, cx, &format!("ffx_arena_{r}"), &rows));
                 }
-                ui.weak("How many of each fiend the Monster Arena holds (10 at most). The conquest and original entries are the arena's creations: 1 means unlocked.");
+                ui.weak(tr("How many of each fiend the Monster Arena holds (10 at most). The conquest and original entries are the arena's creations: 1 means unlocked."));
             });
         }
     }
@@ -1812,7 +1812,7 @@ fn ffx_flags(ui: &mut Ui, cx: &mut GameCtx, base: &str, what: &str, accent: Colo
             let all: Vec<String> = groups.iter().flat_map(|(_, gb)| keys_of(cx, gb).into_iter().map(|k| join(gb, &k)).collect::<Vec<_>>()).collect();
             let on = all.iter().filter(|p| cx.flag(p)).count();
             egui::CollapsingHeader::new(format!("{w}  ({on} of {})", all.len())).id_salt((base, w)).show(ui, |ui| {
-                if ui.small_button(format!("Learn every {what}")).clicked() {
+                if ui.small_button(trf("Learn every {0}", &[&what])).clicked() {
                     for p in &all {
                         cx.set(p, Value::from(1));
                     }
@@ -1849,7 +1849,7 @@ pub fn metro(ui: &mut Ui, cx: &mut GameCtx) {
         if rows.iter().any(|(k, _)| k.contains("(crafting)")) {
             super::crafting::offer(super::Game::Metro, ui, cx);
         }
-        ui.weak("What Artyom carries at the start of this level (chapter select loads it). The game may cap a count at what Artyom can carry.");
+        ui.weak(tr("What Artyom carries at the start of this level (chapter select loads it). The game may cap a count at what Artyom can carry."));
     });
 }
 
@@ -1882,7 +1882,7 @@ pub fn yakuza0(ui: &mut Ui, cx: &mut GameCtx) {
     });
     panel(ui, "Game", |ui| {
         value_rows(ui, cx, "y0_game", &[("Difficulty".to_string(), "/Game/Difficulty".to_string())]);
-        ui.weak("Takings are what the businesses have earned and you haven't collected yet. Money tops out at \u{00A5}9,999,999,999,999.");
+        ui.weak(tr("Takings are what the businesses have earned and you haven't collected yet. Money tops out at \u{00A5}9,999,999,999,999."));
     });
 }
 
@@ -1926,7 +1926,7 @@ pub fn yakuza_de(ui: &mut Ui, cx: &mut GameCtx) {
                     ui.end_row();
                 }
             });
-            ui.weak("Every character the save keeps stats for, in the save's order; the first is Kiryu.");
+            ui.weak(tr("Every character the save keeps stats for, in the save's order; the first is Kiryu."));
         });
     }
     // Kiwami 2 and Yakuza 6 keep Kiryu's five experience pools next to the money.
@@ -1934,7 +1934,7 @@ pub fn yakuza_de(ui: &mut Ui, cx: &mut GameCtx) {
         panel(ui, "Experience", |ui| {
             let rows: Vec<(String, String)> = (2..=6).map(|i| (format!("Experience pool {}", i - 1), format!("/player/point/m_point/{i}"))).collect();
             value_rows(ui, cx, "yde_exp", &rows);
-            ui.weak("The five kinds of experience you spend in the Growth menu, in the order the save keeps them.");
+            ui.weak(tr("The five kinds of experience you spend in the Growth menu, in the order the save keeps them."));
         });
     }
     if party > 0 {
@@ -1964,10 +1964,10 @@ pub fn yakuza_de(ui: &mut Ui, cx: &mut GameCtx) {
                     }
                 });
             });
-            ui.weak("Every party character the save knows about, in the save's order; the first is Ichiban.");
+            ui.weak(tr("Every party character the save knows about, in the save's order; the first is Ichiban."));
         });
     }
-    ui.weak("The save's checksum is updated when you save.");
+    ui.weak(tr("The save's checksum is updated when you save."));
 }
 
 // ------------------------------------------------------------------ Yakuza Kiwami
@@ -1979,7 +1979,7 @@ pub fn kiwami(ui: &mut Ui, cx: &mut GameCtx) {
         cx.tile(ui, "Money (\u{00A5})", "/Kiryu/Money", accent);
         cx.tile(ui, "Experience to spend", "/Kiryu/Experience to spend", accent);
     });
-    ui.weak("Experience is what Kiryu has earned and not yet spent in the Abilities menu (99,999,999 at most). Money tops out at \u{00A5}9,999,999,999.");
+    ui.weak(tr("Experience is what Kiryu has earned and not yet spent in the Abilities menu (99,999,999 at most). Money tops out at \u{00A5}9,999,999,999."));
 }
 
 // ------------------------------------------------------------------ Final Fantasy XV
@@ -2029,7 +2029,7 @@ pub fn ffxv(ui: &mut Ui, cx: &mut GameCtx) {
             });
         });
     }
-    ui.weak("Experience is what a character has earned since the last rest; the game banks it, and raises the level, when the party rests at a camp or hotel. Levels, HP, MP and stats are shown as saved.");
+    ui.weak(tr("Experience is what a character has earned since the last rest; the game banks it, and raises the level, when the party rests at a camp or hotel. Levels, HP, MP and stats are shown as saved."));
     let lists: Vec<String> = match cx.get("/Items") {
         Some(Value::Object(m)) => m.keys().cloned().collect(),
         _ => vec![],
@@ -2046,10 +2046,10 @@ pub fn ffxv(ui: &mut Ui, cx: &mut GameCtx) {
             if cx.get("/Items/Treasures").is_some() {
                 super::crafting::offer(super::Game::Ffxv, ui, cx);
             }
-            ui.weak("Items are listed by the game's item number (names aren't known yet); 999 is the most the editor lets you set.");
+            ui.weak(tr("Items are listed by the game's item number (names aren't known yet); 999 is the most the editor lets you set."));
         });
     }
-    ui.weak("Not yet tried in the game.");
+    ui.weak(tr("Not yet tried in the game."));
 }
 
 // ------------------------------------------------------------------ Death Stranding 2
@@ -2095,10 +2095,10 @@ pub fn death_stranding2(ui: &mut Ui, cx: &mut GameCtx) {
                 }
             });
         });
-        ui.weak("Facilities you have found or connected, with the materials stored at each. Connection level runs 0\u{2013}5.");
+        ui.weak(tr("Facilities you have found or connected, with the materials stored at each. Connection level runs 0\u{2013}5."));
         super::crafting::offer(super::Game::DeathStranding2, ui, cx);
     });
-    ui.weak("The save's MD5 is written again when you save. Not yet tried in the game.");
+    ui.weak(tr("The save's MD5 is written again when you save. Not yet tried in the game."));
 }
 
 // ------------------------------------------------------------------ Death Stranding
@@ -2136,10 +2136,10 @@ pub fn death_stranding1(ui: &mut Ui, cx: &mut GameCtx) {
                 }
             });
         });
-        ui.weak("Facilities you have found or connected, with the materials stored at each. Connection level runs 0\u{2013}5.");
+        ui.weak(tr("Facilities you have found or connected, with the materials stored at each. Connection level runs 0\u{2013}5."));
         super::crafting::offer(super::Game::DeathStranding1, ui, cx);
     });
-    ui.weak("Needs the Oodle library that many games install (found automatically). The save's MD5 is written again when you save. Not yet tried in the game.");
+    ui.weak(tr("Needs the Oodle library that many games install (found automatically). The save's MD5 is written again when you save. Not yet tried in the game."));
 }
 
 // ------------------------------------------------------------------ Mass Effect: Andromeda
@@ -2170,7 +2170,7 @@ pub fn andromeda(ui: &mut Ui, cx: &mut GameCtx) {
             egui::Grid::new("mea_squad").striped(true).spacing([12.0, 4.0]).show(ui, |ui| {
                 ui.strong("");
                 ui.strong(tr("Level"));
-                ui.strong("Skill points");
+                ui.strong(tr("Skill points"));
                 ui.end_row();
                 for n in &squad {
                     let p = join("/Squad", n);
@@ -2196,10 +2196,10 @@ pub fn andromeda(ui: &mut Ui, cx: &mut GameCtx) {
             };
             value_rows(ui, cx, &format!("mea_{i}"), &rows);
             super::crafting::offer(super::Game::Andromeda, ui, cx);
-            ui.weak("Research data, minerals, salvage and the other stacks in Ryder's inventory, named from the save itself.");
+            ui.weak(tr("Research data, minerals, salvage and the other stacks in Ryder's inventory, named from the save itself."));
         });
     }
-    ui.weak("A level change is copied to the character's progression too; the load screen keeps showing the old level until the game saves again. Both checksums are written again on save. Not yet tried in the game.");
+    ui.weak(tr("A level change is copied to the character's progression too; the load screen keeps showing the old level until the game saves again. Both checksums are written again on save. Not yet tried in the game."));
 }
 
 // ------------------------------------------------------------------ God of War (2018)
@@ -2236,7 +2236,7 @@ pub(crate) fn story_guard(ui: &mut Ui, body: impl FnOnce(&mut Ui)) {
     let ok = ui.ctx().data(|d| d.get_temp::<bool>(ack)).unwrap_or(false);
     let warn = crate::theme::fg(ui, crate::theme::WARN);
     egui::Frame::group(ui.style()).stroke(egui::Stroke::new(1.0_f32, warn)).show(ui, |ui| {
-        ui.label(RichText::new("Experimental: editing story decisions").strong().color(warn));
+        ui.label(RichText::new(tr("Experimental: editing story decisions")).strong().color(warn));
         ui.label(
             "Changing story flags and choices can break quests, soft-lock the game or stop it from being completed. Treat it as experimental, \
              with no guarantee the save can still be finished, and use it only if you know what you're doing. Keep a backup first so you can \
@@ -2244,13 +2244,13 @@ pub(crate) fn story_guard(ui: &mut Ui, body: impl FnOnce(&mut Ui)) {
         );
         if !ok {
             ui.horizontal_wrapped(|ui| {
-                if !cfg!(target_arch = "wasm32") && ui.button("Back up this save first\u{2026}").clicked() {
+                if !cfg!(target_arch = "wasm32") && ui.button(tr("Back up this save first\u{2026}")).clicked() {
                     ui.ctx().data_mut(|d| {
                         d.insert_temp(egui::Id::new(STORY_BACKUP_REQUEST), true);
                         d.insert_temp(ack, true);
                     });
                 }
-                if ui.button("I understand, let me edit").clicked() {
+                if ui.button(tr("I understand, let me edit")).clicked() {
                     ui.ctx().data_mut(|d| d.insert_temp(ack, true));
                 }
             });
@@ -2266,7 +2266,7 @@ pub(super) fn panel_globals(ui: &mut Ui, cx: &mut GameCtx, names: &[String]) {
         let q = filter_box(ui, "ie_globals", "e.g. CHAPTER, JOINED, QUEST");
         let rows: Vec<(String, String)> = names.iter().filter(|k| q.is_empty() || k.to_lowercase().contains(&q)).take(400).map(|k| (k.clone(), join("/Global variables", k))).collect();
         egui::ScrollArea::vertical().id_salt("ie_globals_scroll").max_height(320.0).show_locked(ui, |ui| value_rows(ui, cx, "ie_g", &rows));
-        ui.weak("The game's own story counters: quest stages, who has joined or died, what was said. Most are 0 or 1, some count up. Changing one can skip or repeat a scene, so change few and keep the backup. Shows 400 at a time: use the filter.");
+        ui.weak(tr("The game's own story counters: quest stages, who has joined or died, what was said. Most are 0 or 1, some count up. Changing one can skip or repeat a scene, so change few and keep the backup. Shows 400 at a time: use the filter."));
     }));
 }
 
@@ -2297,7 +2297,7 @@ pub fn gow2018(ui: &mut Ui, cx: &mut GameCtx) {
         panel(ui, "Resources", |ui| {
             value_rows(ui, cx, "gow_res", &rows);
             super::crafting::offer(super::Game::Gow2018, ui, cx);
-            ui.weak("Includes Yggdrasil's dew (the stat boosts). Resources this save hasn't found yet aren't listed.");
+            ui.weak(tr("Includes Yggdrasil's dew (the stat boosts). Resources this save hasn't found yet aren't listed."));
         });
     }
     let eq = join(&base, "Equipment owned");
@@ -2316,7 +2316,7 @@ pub fn gow2018(ui: &mut Ui, cx: &mut GameCtx) {
                     }
                 });
             }
-            ui.weak("Each upgrade level is its own entry.");
+            ui.weak(tr("Each upgrade level is its own entry."));
         });
     }
     gow_add_panel(
@@ -2364,7 +2364,7 @@ pub fn gow_ragnarok(ui: &mut Ui, cx: &mut GameCtx) {
     let cats = keys_of(cx, "/Equipment");
     if cats.is_empty() {
         if mode == "Valhalla" {
-            ui.weak("Equipment levels are edited in campaign saves.");
+            ui.weak(tr("Equipment levels are edited in campaign saves."));
         }
         return;
     }
@@ -2376,7 +2376,7 @@ pub fn gow_ragnarok(ui: &mut Ui, cx: &mut GameCtx) {
                 value_rows(ui, cx, &format!("gowr_eq_{c}"), &rows);
             });
         }
-        ui.weak("Each piece keeps its place, its links and what it's equipped to; only its level changes. Levels another piece of yours already has aren't offered.");
+        ui.weak(tr("Each piece keeps its place, its links and what it's equipped to; only its level changes. Levels another piece of yours already has aren't offered."));
     });
     gow_add_panel(
         ui,

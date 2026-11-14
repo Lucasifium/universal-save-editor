@@ -3041,3 +3041,9046 @@ Level (up to 300), free skill points and free mastery points. The rest of the ch
 Quantity of every weapon, costume, accessory, bullet and material in the inventory, found by scanning for the item codes. Weapon memory chips are not editable yet.
 = 物品栏中每件武器、服装、饰品、子弹和素材的数量(通过扫描物品代码找到)。武器记忆芯片暂时无法编辑。
 
+# game screens (translation audit)
+
+(empty slot)
+= （空槽位）
+
+(now {0})
+= （现为 {0}）
+
+0 — not stored
+= 0 — 未存储
+
+00 Agent
+= 00特工
+
+0–100. High influence opens a companion's conversations and can turn them towards your side of the Force.
+= 0–100。影响力高时可解锁同伴的对话，并能使其倾向于您这一侧的原力。
+
+0–100. Skills never trained sit a little below zero; the game levels them up from there.
+= 0–100。从未训练过的技能略低于零，游戏会从该值开始为其升级。
+
+1 means learned. Everything else in the save (items, map, quests) is in the Values tab.
+= 1表示已学会。存档中的其他内容（物品、地图、任务）在“数值”选项卡中。
+
+1-Up Deluxe
+= 1-Up Deluxe
+
+1-Up Mushroom
+= 1UP蘑菇
+
+10 seconds race
+= 10秒竞速
+
+100 coins
+= 100枚金币
+
+100 is good / lawful, 0 evil / chaotic.
+= 100为善良/守序，0为邪恶/混乱。
+
+1000 per health block: 4000 at level 1, 12000 at level 50.
+= 每个生命值块1000：1级为4000，50级为12000。
+
+100cc Flower Cup
+= 100cc花朵杯
+
+100cc Mushroom Cup
+= 100cc蘑菇杯
+
+100cc Special Cup
+= 100cc特殊杯
+
+100cc Star Cup
+= 100cc星星杯
+
+150cc Flower Cup
+= 150cc花朵杯
+
+150cc Mushroom Cup
+= 150cc蘑菇杯
+
+150cc Special Cup
+= 150cc特殊杯
+
+150cc Star Cup
+= 150cc星星杯
+
+1: experience
+= 1：经验值
+
+1: max EP
+= 1：最大EP
+
+1: max HP
+= 1：最大HP
+
+2-strip colour filter
+= 双条色彩滤镜
+
+2000 points. Romance candidates stop at 8 hearts until you give them a bouquet; others go to 10.
+= 2000点。可恋爱对象在您送出花束前最多8颗心，其他人可达10颗。
+
+250 points make a heart. 2500 is 10 hearts (3500 for a spouse); a romance candidate above 2000 needs the bouquet event first.
+= 每250点为1颗心。2500为10颗心（配偶为3500）；可恋爱对象超过2000前需先完成花束事件。
+
+2: experience
+= 2：经验值
+
+2: max EP
+= 2：最大EP
+
+2: max HP
+= 2：最大HP
+
+2x Grenade Launcher
+= 2x 榴弹发射器
+
+2x Hunting Knife
+= 2x 猎刀
+
+2x Laser
+= 2x 激光
+
+2x RC-P90
+= 2x RC-P90
+
+2x Rocket Launcher
+= 2x 火箭发射器
+
+2x Throwing Knife
+= 2x 飞刀
+
+3 whistle switches
+= 3个哨声开关
+
+3: experience
+= 3：经验值
+
+3: max EP
+= 3：最大EP
+
+3: max HP
+= 3：最大HP
+
+45 seconds race
+= 45秒竞速
+
+4: experience
+= 4：经验值
+
+4: max EP
+= 4：最大EP
+
+4: max HP
+= 4：最大HP
+
+5 Jinjos rescued
+= 已救出5个Jinjo
+
+50% damage
+= 50%伤害
+
+50cc Flower Cup
+= 50cc花朵杯
+
+50cc Mushroom Cup
+= 50cc蘑菇杯
+
+50cc Special Cup
+= 50cc特殊杯
+
+50cc Star Cup
+= 50cc星星杯
+
+6 Pale Ore
+= 6 Pale Ore
+
+<n>.sav: your money; the map, mount and play time are shown for reference. Characters and items are kept in the game's own records after the save's properties and are left as they are.
+= <n>.sav：您的金钱；地图、坐骑和游戏时间仅供参考。角色和物品保存在存档属性之后的游戏自有记录中，保持不变。
+
+<number>.save in the Ubisoft Connect savegames folder (game 1875 or 1957). The save is unscrambled, unpacked and packed again with its block checks; the account it belongs to is kept. Close the game and turn cloud saves off in Ubisoft Connect first, or the old save may come back. The save ends with a 4-byte value that isn't understood yet and is kept as it is; edited saves of this game have not been tried in the game.
+= <number>.save位于Ubisoft Connect存档文件夹（游戏1875或1957）。存档会被解扰、解包，并连同其块校验重新打包；所属账号保持不变。请先关闭游戏，并在Ubisoft Connect中关闭云存档，否则旧存档可能会恢复。存档末尾有一个尚未明确含义的4字节值，会原样保留；此游戏的已编辑存档尚未在游戏中测试。
+
+<number>.save in the Ubisoft Connect savegames folder (game 273 or 437). The save is unscrambled, unpacked and packed again with its block checks; the account it belongs to is kept. Close the game and turn cloud saves off in Ubisoft Connect first, or the old save may come back.
+= <number>.save位于Ubisoft Connect存档文件夹（游戏273或437）。存档会被解扰、解包，并连同其块校验重新打包；所属账号保持不变。请先关闭游戏，并在Ubisoft Connect中关闭云存档，否则旧存档可能会恢复。
+
+<number>.save in the Ubisoft Connect savegames folder (game 3539 or 4923). The save is unscrambled, unpacked and packed again with its block checks; the account it belongs to is kept. Close the game and turn cloud saves off in Ubisoft Connect first, or the old save may come back. The save ends with a 4-byte value that isn't understood yet and is kept as it is; edited saves of this game have not been tried in the game. Other crafting materials are stored by item number and aren't named yet.
+= <number>.save位于Ubisoft Connect存档文件夹（游戏3539或4923）。存档会被解扰、解包，并连同其块校验重新打包；所属账号保持不变。请先关闭游戏，并在Ubisoft Connect中关闭云存档，否则旧存档可能会恢复。存档末尾有一个尚未明确含义的4字节值，会原样保留；此游戏的已编辑存档尚未在游戏中测试。其他制作材料按物品编号存储，尚未命名。
+
+<number>.save in the Ubisoft Connect savegames folder (game 40). The save is unscrambled, unpacked and packed again with its block checks; the account it belongs to is kept. Close the game and turn cloud saves off in Ubisoft Connect first, or the old save may come back.
+= <number>.save位于Ubisoft Connect存档文件夹（游戏40）。存档会被解扰、解包，并连同其块校验重新打包；所属账号保持不变。请先关闭游戏，并在Ubisoft Connect中关闭云存档，否则旧存档可能会恢复。
+
+<number>.save in the Ubisoft Connect savegames folder (game 5059 or 5092). The save is unscrambled, unpacked and packed again with its block checks; the account it belongs to is kept. Close the game and turn cloud saves off in Ubisoft Connect first, or the old save may come back.
+= <number>.save位于Ubisoft Connect存档文件夹（游戏5059或5092）。存档会被解扰、解包，并连同其块校验重新打包；所属账号保持不变。请先关闭游戏，并在Ubisoft Connect中关闭云存档，否则旧存档可能会恢复。
+
+<number>.save in the Ubisoft Connect savegames folder (game 5183). The save is unscrambled, unpacked and packed again with its block checks; the account it belongs to is kept. Close the game and turn cloud saves off in Ubisoft Connect first, or the old save may come back. The save ends with a 4-byte value that isn't understood yet and is kept as it is; edited saves of this game have not been tried in the game.
+= <number>.save位于Ubisoft Connect存档文件夹（游戏5183）。存档会被解扰、解包，并连同其块校验重新打包；所属账号保持不变。请先关闭游戏，并在Ubisoft Connect中关闭云存档，否则旧存档可能会恢复。存档末尾有一个尚未明确含义的4字节值，会原样保留；此游戏的已编辑存档尚未在游戏中测试。
+
+<number>.save in the Ubisoft Connect savegames folder (game 720 or 857). The save is unscrambled, unpacked and packed again with its block checks; the account it belongs to is kept. Close the game and turn cloud saves off in Ubisoft Connect first, or the old save may come back.
+= <number>.save位于Ubisoft Connect存档文件夹（游戏720或857）。存档会被解扰、解包，并连同其块校验重新打包；所属账号保持不变。请先关闭游戏，并在Ubisoft Connect中关闭云存档，否则旧存档可能会恢复。
+
+<number>.save in the Ubisoft Connect savegames folder (game 895 or 934). The save is unscrambled, unpacked and packed again with its block checks; the account it belongs to is kept. Close the game and turn cloud saves off in Ubisoft Connect first, or the old save may come back.
+= <number>.save位于Ubisoft Connect存档文件夹（游戏895或934）。存档会被解扰、解包，并连同其块校验重新打包；所属账号保持不变。请先关闭游戏，并在Ubisoft Connect中关闭云存档，否则旧存档可能会恢复。
+
+<number>.save in the Ubisoft Connect savegames folder (games 625 and 632). The save is unscrambled, unpacked and packed again with its block checks; the account it belongs to is kept. Close the game and turn cloud saves off in Ubisoft Connect first, or the old save may come back.
+= <number>.save位于Ubisoft Connect存档文件夹（游戏625和632）。存档会被解扰、解包，并连同其块校验重新打包；所属账号保持不变。请先关闭游戏，并在Ubisoft Connect中关闭云存档，否则旧存档可能会恢复。
+
+<save name>.xml in a folder under Save Games (the .bin beside it is not needed). Character names are shown but not edited. Skills are in the Tree under each ranger's skillXps.
+= Save Games下某文件夹中的 <save name>.xml（旁边的.bin不需要）。角色名称仅显示，不可编辑。技能在树中每位游骑兵的skillXps下。
+
+A
+= A
+
+A .GM1, .CGM or .GM2 save from the game's Games folder (Shadow of Death, Armageddon's Blade and Horn of the Abyss 1.8+). Each player's resources, and each hero's level, experience, attributes, spell points, movement, army and the skills they already have.
+= 游戏Games文件夹中的.GM1、.CGM或.GM2存档（Shadow of Death、Armageddon's Blade和Horn of the Abyss 1.8+）。每位玩家的资源，以及每位英雄的等级、经验、属性、法术点、移动力、军队和已有技能。
+
+A .prison save. Only the bank balance and the top-level settings are shown; the rest of the file is left byte for byte as it was.
+= .prison存档。仅显示银行余额和顶层设置；文件其余部分逐字节保持原样。
+
+A 1CHARACTERSLOT file from Last Epoch's Saves folder (offline characters; the EPOCH header is kept). Level, experience, deaths and respecs. Items, passives and the monolith are in the Tree.
+= Last Epoch的Saves文件夹中的1CHARACTERSLOT文件（离线角色；保留EPOCH头）。等级、经验、死亡次数和洗点次数。物品、被动技能和巨石在树中。
+
+A 2005 profile (PC or PlayStation 2); the file's MD5 is made again on save
+= 2005年的配置文件（PC或PlayStation 2）；保存时会重新生成文件的MD5
+
+A Morrowind .ess save: level, gold, the eight attributes, all 27 skills, health, fatigue and magicka, and the inventory counts by item id. Checked on public saves, not yet tried in the game.
+= Morrowind的.ess存档：等级、金币、八项属性、全部27项技能、生命、疲劳和魔法值，以及按物品ID统计的物品栏数量。已在公开存档上检查，尚未在游戏中测试。
+
+A Quicksave or Autosave file. Money is the Coin item in the bag; skill levels and the four technology point pools are below.
+= Quicksave 或 Autosave 文件。金钱是背包中的 Coin 道具；技能等级和四个科技点池在下方。
+
+A SAVEn.sav (a .NET BinaryFormatter file; it is unpacked and written back for you). Name, gold, experience, play time, party members, and the item, weapon and armor ids. Layout from BenjaminUrquhart's DeltatravelerSaveEditor.
+= SAVEn.sav（.NET BinaryFormatter 文件，会自动解包并写回）。名称、金币、经验、游戏时间、队伍成员，以及道具、武器和护甲的 id。结构参考自 BenjaminUrquhart 的 DeltatravelerSaveEditor。
+
+A Slot or Autosave file in the SaveGames folder. Scrap and weapon parts are the Ark's shared stock; each squad member has their own level, health and mutation points.
+= SaveGames 文件夹中的 Slot 或 Autosave 文件。废料和武器零件是方舟的共享库存；每名小队成员都有各自的等级、生命值和变异点数。
+
+A Switch save from an emulator or a dump (bf3game*.sav). Gold, play time, each character's level and experience, and the cylinder, gem and collectible amounts.
+= 来自模拟器或转储的 Switch 存档（bf3game*.sav）。金币、游戏时间、各角色的等级和经验，以及圆筒、宝石和收集品的数量。
+
+A Switch system_data.bin (decrypted). Gold, tickets, hammers, snacks, SP and the spirit board item counts.
+= Switch 的 system_data.bin（已解密）。金币、门票、锤子、零食、SP 以及灵魂板道具的数量。
+
+A decrypted 3DS save (ML4_001.sav). Coins, both brothers' level, experience and stats, and the counts of recovery items, battle items and beans.
+= 已解密的 3DS 存档（ML4_001.sav）。硬币、两兄弟的等级、经验和属性，以及恢复道具、战斗道具和豆子的数量。
+
+A decrypted 3DS savedata.dat. Apple gems and the four kinds of shards.
+= 已解密的 3DS savedata.dat。苹果宝石和四种碎片。
+
+A decrypted 3DS system0.dat. Coins, StreetPass count, online wins and losses, and VR points; the save's checksum is rewritten.
+= 已解密的 3DS system0.dat。硬币、StreetPass 次数、在线胜负场数和 VR 点数；存档的校验和会重新写入。
+
+A done
+= A 已完成
+
+A dwarf reaches level 25 at 315,000 XP; each level before that takes a bit more than the last.
+= 矮人在 315,000 XP 时达到 25 级；之前的每一级所需经验都比上一级略多。
+
+A full clear
+= 完全通关
+
+A heart
+= 一颗心
+
+A level change is copied to the character's progression too; the load screen keeps showing the old level until the game saves again. Both checksums are written again on save. Not yet tried in the game.
+= 等级的更改也会复制到角色的进度中；在游戏再次存档之前，读取画面仍会显示旧等级。保存时两个校验和都会重新写入。尚未在游戏中测试。
+
+A lost limb also needs its health above zero to come back. Robotic limbs are read from very few saves.
+= 失去的肢体还需要其生命值大于零才能恢复。机械肢体仅能从极少数存档中读取。
+
+A party member's level and stats are their Persona's.
+= 队伍成员的等级和属性即其 Persona 的等级和属性。
+
+A profile file (profile0.cms21 …) in the game's Save folder; the Backup folder keeps an older copy, so edit the one the game loads.
+= 游戏 Save 文件夹中的档案文件（profile0.cms21 …）；Backup 文件夹保存的是较旧的副本，请编辑游戏实际读取的那一个。
+
+A rank is bought once per entry in the save's list; coins spent on them aren't changed.
+= 每个等级会按存档列表中的每个条目购买一次；为此花费的硬币不会改变。
+
+A rocket's habitat: its name is the rocket's name.
+= 火箭的居住舱：其名称即火箭的名称。
+
+A save (.gz or the JSON inside it). Every faction's stockpile is listed, yours and the AI's. Saves from an ironman campaign aren't covered.
+= 存档（.gz 或其中的 JSON）。列出所有势力的库存，包括您和 AI 的。铁人战役的存档不受支持。
+
+A saved park (.SV6) from the game's Saved Games folder. Cash, loan, maximum loan and the entrance fee; the park's chunk is unpacked and packed again, with the file sum written right.
+= 来自游戏 Saved Games 文件夹的已保存乐园（.SV6）。现金、贷款、最高贷款额和入场费；乐园数据块会解包并重新打包，文件校验和也会正确写入。
+
+A stack holds up to 500 in the base game.
+= 在基础游戏中，一堆最多可容纳 500 个。
+
+A waypoint you can use in that difficulty. The character still has to be able to reach the act.
+= 在该难度下可使用的传送点。角色仍需能够到达该章节。
+
+A ysf_NN.nacci save (the cipher and both checksums are handled). Level, HP, experience, gold and the difficulty.
+= ysf_NN.nacci 存档（加密和两个校验和均会自动处理）。等级、HP、经验、金币和难度。
+
+ADF
+= ADF
+
+ADR classes (bitmask 0–63)
+= ADR 类别（位掩码 0–63）
+
+AGI +
+= AGI +
+
+AGL
+= AGL
+
+AP earned
+= 已获得 AP
+
+AT (ammo)
+= AT（弹药）
+
+AT (primary)
+= AT（主要）
+
+AT and DF here are your own; Weapon AT and Armor DF come from what you have equipped.
+= 这里的 AT 和 DF 是您自身的；武器 AT 和护甲 DF 来自您所装备的物品。
+
+ATS
+= ATS
+
+Abandoned Mine
+= 废弃矿井
+
+Abilities
+= 能力
+
+Ability Markers
+= 能力标记
+
+Ability Points
+= 能力点数
+
+Ability points
+= 能力点数
+
+Ability scores
+= 能力值
+
+Ability tree
+= 能力树
+
+About the numbers
+= 关于数值
+
+Above Clanker using his bolt
+= 在使用螺栓的 Clanker 上方
+
+Above Clanker using his tail
+= 在使用尾巴的 Clanker 上方
+
+Above Trunker
+= 在 Trunker 上方
+
+Account
+= 账号
+
+Achievements
+= 成就
+
+Acrobatics
+= 杂技
+
+Acting
+= 表演
+
+Adam Jensen
+= 亚当·詹森
+
+Add equipment
+= 添加装备
+
+Add id
+= 添加 id
+
+Add items
+= 添加道具
+
+Add materia
+= 添加魔晶石
+
+Add material:
+= 添加材料：
+
+Add to satchel
+= 添加到背包
+
+Add-on prices
+= 附加组件价格
+
+Add-ons bought
+= 已购附加组件
+
+Add-ons sold
+= 已售附加组件
+
+Added on top of the class's stats (what seeds and level-ups give).
+= 会叠加在职业属性之上（种子和升级所给予的部分）。
+
+Adds it on hand, in the next unused entry of the item list, as if just picked up.
+= 将其作为刚拾取的物品，添加到道具列表中下一个未使用的条目，并放入手上。
+
+Adol
+= 亚特鲁
+
+Adult Trading Item
+= 成人交易道具
+
+Adventure
+= 冒险
+
+Adventure level
+= 冒险等级
+
+Affection
+= 好感度
+
+Affinity
+= 亲和度
+
+After the organ lesson in the church
+= 教堂风琴课之后
+
+Afterlife level
+= 来世等级
+
+Agent
+= 特工
+
+Agility
+= 敏捷
+
+Agility, Power and Survivor go up to 24–25 (Legend higher). Inventory and money aren't decoded yet; use Value search for those.
+= 敏捷、力量和幸存者最高可达 24–25（传奇更高）。物品栏和金钱尚未解码；请使用数值搜索。
+
+Air Dash
+= 空中冲刺
+
+Akiyama
+= 秋山
+
+Akiyama's money
+= 秋山的金钱
+
+Akçe
+= Akçe
+
+Alchemy
+= 炼金术
+
+Alchimie
+= Alchimie
+
+Alertness
+= 警觉
+
+Alignment
+= 阵营
+
+Alignment: 0 is the dark side, 100 the light side.
+= 阵营：0 为黑暗面，100 为光明面。
+
+All Guns
+= 所有枪械
+
+All damage
+= 全部伤害
+
+All known power-ups to their highest rank
+= 所有已知强化提升至最高等级
+
+All levels and 007 difficulty unlocked
+= 所有关卡和 007 难度已解锁
+
+All primaries
+= 所有主武器
+
+All resources
+= 所有资源
+
+All supports
+= 所有支援
+
+Aloy
+= 埃洛伊
+
+Also in these lists (not edited here): {0}.
+= 也在这些列表中（此处不编辑）：{0}。
+
+Alteration
+= 变化系
+
+Ambarino ($)
+= Ambarino ($)
+
+Amethyst
+= 紫水晶
+
+Ammo
+= 弹药
+
+Ammo and SDUs
+= 弹药和 SDU
+
+Amount
+= 数量
+
+An Oblivion .ess save: level, gold, the eight attributes, all 21 skills and base health. Checked on public saves, not yet tried in the game.
+= Oblivion 的 .ess 存档：等级、金币、八项属性、全部 21 项技能和基础生命值。已在公开存档上检查，尚未在游戏中测试。
+
+An adventure save (.run) in the game's save folder. Each hero keeps their own gold. Health above the hero's maximum is cut back by the game; the life pool is how many times the party can still be revived.
+= 游戏存档文件夹中的冒险存档(.run)。每位英雄各自持有金币。超过英雄上限的生命值会被游戏截回;生命池表示队伍还能复活的次数。
+
+An emulator's .eep save (512 or 2048 bytes). Per file: caps, keys, switches, secret stars, each course's six stars, 100-coin star, cannon and coin record.
+= 模拟器的 .eep 存档(512 或 2048 字节)。每个文件:帽子、钥匙、开关、隐藏星星、每个关卡的六颗星星、100 金币星星、大炮和金币记录。
+
+An emulator's 8 KiB .srm / .sav save. Per Samus slot: energy and reserve tanks, missiles, super missiles, power bombs, play time and which beams, suits and boots she has and has equipped.
+= 模拟器的 8 KiB .srm / .sav 存档。每个萨姆斯栏位:能量罐和备用罐、导弹、超级导弹、能量炸弹、游戏时间,以及她拥有和已装备的光束、装甲和靴子。
+
+An emulator's 8 KiB .srm / .sav save. Per slot: hearts, magic, rupees, bombs and arrows with their upgrades, the sword, shield, tunic and every item, and the four bottles.
+= 模拟器的 8 KiB .srm / .sav 存档。每个栏位:心、魔力、卢比、炸弹和箭(含升级)、剑、盾、服装、所有道具以及四个瓶子。
+
+An exported save (bitburnerSave_*.json). Skill levels are worked out from experience when the game loads, so raise the experience too if a skill doesn't stick.
+= 导出的存档(bitburnerSave_*.json)。技能等级会在游戏加载时根据经验值计算,因此技能不生效时请同时提高经验值。
+
+Ancient essence
+= 远古精华
+
+Ancient souls
+= 远古灵魂
+
+Ancient souls (total)
+= 远古灵魂(总计)
+
+Ancient souls spent
+= 已花费远古灵魂
+
+Ancient technology points
+= 远古科技点
+
+Ante
+= 底注
+
+Antimatter
+= 反物质
+
+Antimatter and Infinity
+= 反物质与无限
+
+Antimatter galaxies
+= 反物质星系
+
+Apple gems
+= 苹果宝石
+
+Apple gems bought
+= 已购苹果宝石
+
+Approval
+= 认可度
+
+Approval entries of followers who aren't in the party camp now (left, or not met yet), by the game's object id.
+= 当前不在队伍营地的追随者(已离开或尚未遇到)的认可度条目,按游戏对象 ID 排列。
+
+Aquarium Garden
+= Aquarium Garden
+
+Archery
+= 射箭
+
+Archetype
+= 原型
+
+Architect damage
+= 建筑师伤害
+
+Area
+= 区域
+
+Ark
+= 方舟
+
+Armbrust
+= 弩
+
+Armies
+= 军队
+
+Armorer
+= 护甲匠
+
+Armour (by database number)
+= 护甲(按数据库编号)
+
+Army
+= 军队
+
+Arrow capacity upgrades (0-7)
+= 箭矢容量升级(0-7)
+
+Arrows
+= 箭
+
+Arrows max
+= 箭矢上限
+
+Arthur
+= 亚瑟
+
+Artifact points available
+= 可用神器点数
+
+Artifact points spent
+= 已花费神器点数
+
+Artifacts
+= 神器
+
+Artyom
+= 阿尔乔姆
+
+Ascensions
+= 飞升
+
+Assist mode
+= 辅助模式
+
+Assists
+= 助攻
+
+Astral energy
+= 星界能量
+
+At the bottom of a pool of water
+= 水池底部
+
+At the center of the stone structure
+= 石结构中心
+
+At the top of a chimney
+= 烟囱顶部
+
+At the top of the christmas tree
+= 圣诞树顶部
+
+At the top of the church
+= 教堂顶部
+
+At the top of the lighthouse
+= 灯塔顶部
+
+At the top of the termites nest
+= 白蚁巢顶部
+
+At the top of the tree
+= 树顶
+
+Athletics
+= 运动
+
+Attack
+= 攻击
+
+Attack 2
+= 攻击 2
+
+Attack Power
+= 攻击力
+
+Attack speed
+= 攻击速度
+
+Attractor
+= 吸引器
+
+Attribute
+= 属性
+
+Attribute levels top out at 20 without mods. Everything else about a duplicant is in the Values tab.
+= 无模组时属性等级上限为 20。复制人的其他内容在“数值”标签页中。
+
+Attribute points
+= 属性点
+
+Attribute points to spend
+= 待分配属性点
+
+Attribute pts
+= 属性点
+
+Attributes
+= 属性
+
+Attributes run from 1 to 10 in the game.
+= 游戏中属性范围为 1 至 10。
+
+Augment capacity
+= 增强容量
+
+Augmentations
+= 增强
+
+Authority
+= 权威
+
+Automatic Firearms
+= 自动枪械
+
+Autumn: At the top of the eggplant
+= 秋季:茄子顶部
+
+Autumn: In the house of Gnawty
+= 秋季:Gnawty 的家中
+
+Autumn: The acorns of Nabnut
+= 秋季:Nabnut 的橡果
+
+Awakening (0 to 3)
+= 觉醒(0 至 3)
+
+Awareness
+= 感知
+
+Axe
+= 斧
+
+B done
+= B 已完成
+
+B full clear
+= B 全清
+
+B heart
+= B 之心
+
+BC reserve
+= BC 储备
+
+BP
+= BP
+
+Back up this save first…
+= 请先备份此存档…
+
+Backpack
+= 背包
+
+Backpack materials
+= 背包材料
+
+Backstabbing
+= 背刺
+
+Badges
+= 徽章
+
+Badland
+= Badland
+
+Bag
+= 包
+
+Bags
+= 包
+
+Balance
+= 余额
+
+Balanced shell points
+= 平衡外壳点数
+
+Balatro run
+= Balatro 一局
+
+Baldur's Gate 3
+= 博德之门3
+
+Bank accounts (by region number)
+= 银行账户(按地区编号)
+
+Bank balance
+= 银行余额
+
+Bank loan
+= 银行贷款
+
+Banked infinities
+= 已存入的无限
+
+Barns found
+= 已找到谷仓
+
+Barnstorms found
+= 已找到 Barnstorm
+
+Barter
+= 交易
+
+Base energy
+= 基础能量
+
+Base health
+= 基础生命值
+
+Base points (10 is the starting value), before items and talents.
+= 基础点数(初始值为 10),不含物品和天赋加成。
+
+Base scores, before race, items and buffs.
+= 基础数值,不含种族、物品和增益。
+
+Base stats
+= 基础属性
+
+Base values before items and skills.
+= 基础值,不含物品和技能加成。
+
+Base values, 1–10. The bonus in brackets comes from traits, perks, drugs and armour and is kept separately.
+= 基础值,1–10。括号内的加成来自特质、专长、药物和护甲,单独保存。
+
+Base values, before equipment and talents.
+= 基础值,不含装备和天赋加成。
+
+Basement key
+= 地下室钥匙
+
+Basement key door open
+= 地下室门已开
+
+Basements cleared
+= 已清理地下室
+
+Bash
+= 猛击
+
+Bat Card
+= 蝙蝠卡
+
+Bat experience
+= 蝙蝠经验
+
+Bat level
+= 蝙蝠等级
+
+Battle Points
+= 战斗点数
+
+Battle against Mutie-Snippets
+= 对战 Mutie-Snippets
+
+Battle items
+= 战斗物品
+
+Battles
+= 战斗
+
+Beak Barge
+= Beak Barge
+
+Beak Bomb
+= Beak Bomb
+
+Beak Buster
+= Beak Buster
+
+BeamXP
+= BeamXP
+
+Beans
+= 豆子
+
+Beat Boss Boom Box
+= 击败 Boss Boom Box
+
+Beatrix
+= 贝亚特丽克丝
+
+Behind the propellers
+= 螺旋桨后面
+
+Bei
+= Bei
+
+Best race time
+= 最佳比赛用时
+
+Best streak
+= 最佳连续记录
+
+Best win streak
+= 最佳连胜记录
+
+Beta gauge
+= β 计量条
+
+Betoeren
+= Betoeren
+
+Big Guns
+= Big Guns
+
+Bile flasks
+= 胆汁瓶
+
+Biome goal points
+= 生物群系目标点数
+
+Bismor
+= Bismor
+
+BitNode
+= BitNode
+
+Black and white filter
+= 黑白滤镜
+
+Black hearts
+= 黑心
+
+Blackstone
+= Blackstone
+
+Blade
+= 刃
+
+Blight (experience)
+= 枯萎(经验)
+
+Blizzard
+= 暴风雪
+
+Block
+= 格挡
+
+Block:
+= 格挡:
+
+Blowtorch
+= 喷灯
+
+Blue
+= 蓝色
+
+Blue hearts
+= 蓝心
+
+Blue key (93)
+= 蓝钥匙(93)
+
+Blue shards
+= 蓝色碎片
+
+Blueprints unlocked
+= 已解锁蓝图
+
+Blunt
+= 钝击
+
+Blunt Weapon
+= 钝器
+
+Blunt weapon
+= 钝器
+
+Board the Platforms
+= 登上平台
+
+Boatman unlocked
+= 已解锁船夫
+
+Boats exploded
+= 已炸毁船只
+
+Body parts at full health (100) aren't written in the save, so they can't be changed here.
+= 生命值满(100)的身体部位不会写入存档,因此无法在此修改。
+
+Bogen
+= Bogen
+
+Bogenbau
+= Bogenbau
+
+Bolero of Fire
+= Bolero of Fire
+
+Bolts
+= 螺栓
+
+Bomb
+= 炸弹
+
+Bomb Bag
+= 炸弹袋
+
+Bomb capacity upgrades (0-7)
+= 炸弹容量升级(0-7)
+
+Bomb damage
+= 炸弹伤害
+
+Bombchu
+= 炸弹鼠
+
+Bombos medallion
+= Bombos 勋章
+
+Bombs
+= 炸弹
+
+Bombs max
+= 炸弹上限
+
+Bond Invisible
+= Bond Invisible
+
+Bonecharm traits learned
+= 已学骨符特质
+
+Bonus MP
+= 加成 MP
+
+Bonus agility
+= 加成敏捷
+
+Bonus defense
+= 加成防御
+
+Bonus experience
+= 加成经验
+
+Bonus intelligence
+= 加成智力
+
+Bonus luck
+= 加成幸运
+
+Bonus magic
+= 加成魔力
+
+Bonus max HP
+= 加成最大 HP
+
+Bonus max MP
+= 加成最大 MP
+
+Bonus power
+= 加成威力
+
+Bonus spirit
+= 加成精神
+
+Bonus strength
+= 加成力量
+
+Bonus vitality
+= 加成体质
+
+Boo Biscuit
+= Boo Biscuit
+
+Book of Mudora
+= Book of Mudora
+
+Boomerang
+= 回旋镖
+
+Boost
+= 加速
+
+Boots
+= 靴子
+
+Bosses marked defeated stay gone; their rewards aren't given.
+= 标记为已击败的 Boss 不会再出现,也不会发放其奖励。
+
+Botany
+= 植物学
+
+Bottle 1
+= 瓶子 1
+
+Bottle 2
+= 瓶子 2
+
+Bottle 3
+= 瓶子 3
+
+Bottle 4
+= 瓶子 4
+
+Bottle caps
+= 瓶盖
+
+Bounties
+= 悬赏
+
+Bow
+= 弓
+
+Bows
+= 弓
+
+Bowser in the Dark World (red coins)
+= 黑暗世界的库巴(红色金币)
+
+Bowser in the Fire Sea (red coins)
+= 火海的库巴(红色金币)
+
+Bowser in the Sky (red coins)
+= 天空的库巴(红色金币)
+
+Bracelet / Gauntlets
+= 手镯 / 手套
+
+Brave
+= 勇敢
+
+Bravery
+= 勇气
+
+Brawler
+= 斗士
+
+Break the Targets
+= 击破目标
+
+Bros. Bean
+= 兄弟豆
+
+Buff
+= 增益
+
+Buffs
+= 增益
+
+Bug spray
+= 杀虫喷雾
+
+Bug-catching net
+= 捕虫网
+
+Build
+= 建造
+
+Building
+= 建筑
+
+Burst gauge
+= 爆发计量条
+
+Busts, portraits, deeds and crests pay for the Hamlet's buildings; spend them in the game.
+= 半身像、肖像、地契和徽章用于支付村庄建筑的费用;请在游戏中花费。
+
+Buttons of giant snowman
+= 巨型雪人的纽扣
+
+C
+= C
+
+C done
+= C 已完成
+
+C full clear
+= C 全清
+
+C heart
+= C 之心
+
+C-Down
+= C 下
+
+C-Left
+= C 左
+
+C-Right
+= C 右
+
+COLLECTABLES.BLOB in a SLOTn folder. The stud wallet is saved twice; both copies are written.
+= SLOTn 文件夹中的 COLLECTABLES.BLOB。螺柱钱包会保存两份;两份都会写入。
+
+CP
+= CP
+
+CP earned
+= 已获得 CP
+
+CP limit
+= CP 上限
+
+Cairn
+= 石堆
+
+Camp
+= 营地
+
+Camp funds ($)
+= 营地资金($)
+
+Camping supplies
+= 露营物资
+
+Can join: {0}
+= 可加入:{0}
+
+Can skip time
+= 可跳过时间
+
+Can: {0}
+= 可:{0}
+
+Candles of Hope
+= 希望之烛
+
+Candy
+= 糖果
+
+Candy canes
+= 拐杖糖
+
+Cane of Byrna
+= Cane of Byrna
+
+Cane of Somaria
+= Cane of Somaria
+
+Cannon open
+= 大炮已开
+
+Caps
+= 帽子
+
+Captain Blubber's treasures
+= Blubber 船长的宝藏
+
+Captain Falcon
+= 飞鹰队长
+
+Capture 10 of every fiend
+= 每种魔物各捕获 10 只
+
+Card
+= 卡牌
+
+Career funds, science and reputation (sandbox saves keep these at their defaults)
+= 生涯资金、科学和声望(沙盒存档保持默认值)
+
+Carried
+= 携带
+
+Cars exploded
+= 爆炸的汽车
+
+Cash
+= 现金
+
+Cash ($)
+= 现金（$）
+
+Cash (in cents)
+= 现金（美分）
+
+Cash and progress
+= 现金与进度
+
+Cassette
+= 磁带
+
+Castle Keep
+= Castle Keep
+
+Cats
+= 猫
+
+Cattail
+= 香蒲
+
+Cave
+= 洞穴
+
+Cavern of the Metal Cap
+= Cavern of the Metal Cap
+
+Caves cleared
+= 已通关洞穴
+
+Centaurian
+= Centaurian
+
+Chainsaw fuel
+= 电锯燃料
+
+Chalice recolour
+= 圣杯换色
+
+Chalk pouch
+= 镁粉袋
+
+Challenges
+= 挑战
+
+Challenges (rank 0 to 10)
+= 挑战（等级0至10）
+
+Change to
+= 更改为
+
+Changing story flags and choices can break quests, soft-lock the game or stop it from being completed. Treat it as experimental, \n             with no guarantee the save can still be finished, and use it only if you know what you're doing. Keep a backup first so you can \n             go back (Backups › Open save manager restores it). The file as it was is also backed up automatically when you save.
+= 更改剧情标记和选择可能会破坏任务、使游戏卡死或无法通关。请视为实验性功能，不保证存档仍可完成，仅在您清楚自己在做什么时使用。请先备份以便还原（备份 › 打开存档管理器 可恢复）。保存时也会自动备份原文件。
+
+Changing the level doesn't change experience: set both. Gold on the character can be at most 10,000 per level.
+= 更改等级不会更改经验值，请同时设置两者。角色身上的金币每级最多10,000。
+
+Chapter
+= 章节
+
+Chapters
+= 章节
+
+Chapters 2–4: the inventory's place in the file isn't mapped yet; every line is under Other lines (Advanced).
+= 第2–4章：物品栏在文件中的位置尚未确定；所有行都在“其他行（高级）”中。
+
+Chapters unlocked
+= 已解锁章节
+
+Chapters unlocked (0–10)
+= 已解锁章节（0–10）
+
+Character: {0}
+= 角色：{0}
+
+Characters 1 to 4
+= 角色1至4
+
+Charge Dash
+= Charge Dash
+
+Charge Flame
+= Charge Flame
+
+Charge Flame Blast
+= Charge Flame Blast
+
+Charge Flame Burn
+= Charge Flame Burn
+
+Charge Flame Efficiency
+= Charge Flame Efficiency
+
+Charge Jump
+= Charge Jump
+
+Charge beam
+= 蓄力光束
+
+Charges 2
+= 充能2
+
+Charges 3
+= 充能3
+
+Charging station
+= 充电站
+
+Charisma
+= 魅力
+
+Charm
+= 护符
+
+Charms
+= 护符
+
+Charms you own.
+= 您拥有的护符。
+
+Chateau
+= 城堡
+
+Cheat mode
+= 作弊模式
+
+Checked on public saves, not yet tried in the game.
+= 已在公开存档上验证，尚未在游戏中测试。
+
+Chef flames
+= 厨师火焰
+
+Chests
+= 宝箱
+
+Chests are drawn when you zoom in. Life Crystals and Life Fruit are common, so they start hidden.
+= 放大时会绘制宝箱。生命水晶和生命果很常见，因此默认隐藏。
+
+Chests opened
+= 已开启宝箱
+
+Child Trading Item
+= Child Trading Item
+
+Chips
+= 筹码
+
+Chocolate
+= 巧克力
+
+Chosen
+= 天选者
+
+Cinder Flame
+= Cinder Flame
+
+City
+= 城市
+
+Civilization VI
+= 文明VI
+
+Civilizations
+= 文明
+
+Clams
+= 蛤蜊
+
+Clash mode unlocked
+= 已解锁Clash模式
+
+Class (1 cow puncher, 2 beanslinger, 3 snake oiler)
+= 职业（1 Cow Puncher，2 Beanslinger，3 Snake Oiler）
+
+Class id
+= 职业ID
+
+Classes
+= 职业
+
+Claw Swipe
+= Claw Swipe
+
+Clear demon points
+= 清除恶魔点数
+
+Cleared Forge
+= 已通关Forge
+
+Cleared Gungeon Proper
+= 已通关Gungeon Proper
+
+Cleared Hollow
+= 已通关Hollow
+
+Cleared Keep
+= 已通关Keep
+
+Cleared Mines
+= 已通关Mines
+
+Clears the fog over all of this world
+= 清除整个世界的迷雾
+
+Cleverness
+= 机智
+
+Click a Pokémon to edit it.
+= 点击宝可梦进行编辑。
+
+Click a slot to change its item, stack size or modifier.
+= 点击栏位可更改物品、堆叠数量或词缀。
+
+Click a square to change it.
+= 点击方格进行更改。
+
+Click an artifact to switch it on or off.
+= 点击神器可开启或关闭。
+
+Click an item to change it. Empty slots can't be filled from here (use the Tree tab).
+= 点击物品可进行更改。此处无法填充空栏位（请使用“树”标签页）。
+
+Click damage
+= 点击伤害
+
+Climb
+= 攀爬
+
+Climber
+= 攀登者
+
+Climbing
+= 攀岩
+
+Clive
+= 克莱夫
+
+Cloak
+= 斗篷
+
+Close the game before saving here, and turn Steam Cloud off for one start, or the game may bring the old save back. Checked on public test saves, not yet tried in the game.
+= 在此保存前请关闭游戏，并关闭一次Steam云存档后再启动，否则游戏可能恢复旧存档。已在公开测试存档上验证，尚未在游戏中测试。
+
+Club money
+= 俱乐部资金
+
+Cob Cannon
+= Cob Cannon
+
+Cognition bonus points
+= 认知奖励点数
+
+Coin record
+= 硬币纪录
+
+Coins (Cuphead)
+= 硬币（Cuphead）
+
+Coins (Mugman)
+= 硬币（Mugman）
+
+Coins and ammo
+= 硬币与弹药
+
+Coins and deaths
+= 硬币与死亡次数
+
+Coins collected
+= 已收集硬币
+
+Coins in the donation machine
+= 捐赠机中的硬币
+
+Coins in the greed donation machine
+= 贪婪捐赠机中的硬币
+
+Coins only for now: runes, rewire tools, elixirs and remedies aren't located yet. Back up the save first.
+= 目前仅支持硬币：符文、重接工具、灵药和药剂的位置尚未确定。请先备份存档。
+
+Coins, player 1
+= 硬币，玩家1
+
+Coins, player 2
+= 硬币，玩家2
+
+Cold
+= 寒冷
+
+Collectible counters (gold bricks, chips, tokens) count entries in the save, not their state, so they are in the Tree. Save slot files come with a BackupCopy file; edit both. Not yet tried in the game.
+= 收集品计数器（金砖、筹码、代币）统计的是存档中的条目而非其状态，因此位于“树”中。存档位文件附带BackupCopy文件，请同时编辑两者。尚未在游戏中测试。
+
+Collectibles
+= 收集品
+
+Collectibles seen
+= 已见收集品
+
+Collection
+= 收藏
+
+Colonies
+= 殖民地
+
+Colonists
+= 殖民者
+
+Colt
+= Colt
+
+Comfort
+= 舒适度
+
+Command power
+= 指挥力
+
+Commoners
+= 平民
+
+Companions
+= 同伴
+
+Compendium: animals
+= 图鉴：动物
+
+Compendium: equipment
+= 图鉴：装备
+
+Compendium: fish
+= 图鉴：鱼
+
+Compendium: horses
+= 图鉴：马
+
+Compendium: plants
+= 图鉴：植物
+
+Compendium: weapons
+= 图鉴：武器
+
+Completion %
+= 完成度 %
+
+Composure
+= 沉着
+
+Conceptualization
+= 概念化
+
+Confessions
+= 忏悔
+
+Conga's Battle
+= Conga's Battle
+
+Conga's orange blocks
+= Conga的橙色方块
+
+Conjuration
+= 召唤术
+
+Console enabled
+= 控制台已启用
+
+Construct
+= 构造体
+
+Consumables and herbs
+= 消耗品与草药
+
+Contents
+= 内容
+
+Continues
+= 继续次数
+
+Contract payouts
+= 合同报酬
+
+Coordination
+= 协调
+
+Cop XP
+= 警察经验值
+
+Coppers
+= 铜币
+
+Copy the first value to every wallet field
+= 将第一个值复制到所有钱包字段
+
+Core Eject
+= Core Eject
+
+Corruption
+= 腐化
+
+Cosmic radiation (rads)
+= 宇宙辐射（rad）
+
+Count / charges
+= 数量 / 充能
+
+Counters
+= 计数器
+
+Counters from the journal's statistics pages and the other numbers the save keeps.
+= 日志统计页面中的计数器，以及存档保存的其他数值。
+
+Counters the game keeps for this player (captures, dungeons, effigies). Level and Pals are in Level.sav in the world folder.
+= 游戏为该玩家保存的计数器（捕获、地下城、雕像）。等级和帕鲁在世界文件夹中的Level.sav里。
+
+Country
+= 国家
+
+Counts only; weapons and picto sit in the list at their owned count.
+= 仅数量；武器和Picto按拥有数量列在列表中。
+
+Courage
+= 勇气
+
+Crabs collected
+= 已收集螃蟹
+
+Crafted outfits
+= 已制作服装
+
+Crafted themes
+= 已制作主题
+
+Crafted weapons
+= 已制作武器
+
+Crafting
+= 制作
+
+Crafting materials
+= 制作材料
+
+Crafting materials in the backpack
+= 背包中的制作材料
+
+Crafting parts
+= 制作部件
+
+Crafting resources
+= 制作资源
+
+Crafting room upgrades
+= 制作室升级
+
+Crazy Dave's shop (1 = bought)
+= 疯狂戴夫的商店（1＝已购买）
+
+Creature
+= 生物
+
+Credits (info line)
+= 信用点（信息行）
+
+Credits and clock
+= 信用点与时钟
+
+Credits available
+= 可用信用点
+
+Credits reserved
+= 已预留信用点
+
+Credits spent
+= 已花费信用点
+
+Credits, party XP, influence, components and chemicals are in PARTYTABLE.res in the same save folder.
+= 信用点、队伍经验值、影响力、组件和化学品位于同一存档文件夹中的PARTYTABLE.res内。
+
+Creed Points
+= Creed Points
+
+Crests
+= 纹章
+
+Crests you have:
+= 已拥有的纹章：
+
+Crew of the first ship
+= 第一艘船的船员
+
+Crew of the second ship
+= 第二艘船的船员
+
+Crew of the third ship
+= 第三艘船的船员
+
+Crib money stash (in cents)
+= 住所藏钱处（美分）
+
+Crib stash (in cents)
+= 住所藏匿处（美分）
+
+Critical Strike
+= 暴击
+
+Critical click
+= 暴击点击
+
+Croppa
+= Croppa
+
+Crowns
+= 王冠
+
+Crystal
+= 水晶
+
+Crystal points
+= 水晶点数
+
+Crystals
+= 水晶
+
+Cube of Zoe
+= Cube of Zoe
+
+Cult level
+= 邪教等级
+
+Cultures defeated
+= 已击败文化
+
+Cure
+= 治疗
+
+Currencies
+= 货币
+
+Current
+= 当前
+
+Current BitNode
+= 当前BitNode
+
+Current fatigue
+= 当前疲劳
+
+Current health
+= 当前生命值
+
+Current level (1–50)
+= 当前等级（1–50）
+
+Current location
+= 当前位置
+
+Current magicka
+= 当前魔法值
+
+Current map
+= 当前地图
+
+Current moon: {0} (0 Experimentation, 1 Assurance, 2 Vow, 3 Company Building, 4 March, 5 Rend, 6 Dine, 7 Offense, 8 Titan).
+= 当前月球：{0}（0 Experimentation，1 Assurance，2 Vow，3 Company Building，4 March，5 Rend，6 Dine，7 Offense，8 Titan）。
+
+Current season
+= 当前季节
+
+Current streak
+= 当前连胜
+
+Current values
+= 当前值
+
+Curse charm puzzle done
+= 诅咒护符谜题已完成
+
+Cyberpunk 2077
+= 赛博朋克2077
+
+DEF
+= DEF
+
+DEX
+= DEX
+
+DEX +
+= DEX +
+
+DF (accessory)
+= DF (accessory)
+
+DF (primary)
+= DF (primary)
+
+DK Mode
+= DK Mode
+
+Daedric
+= Daedric
+
+Damage level
+= 伤害等级
+
+Damage taken
+= 承受伤害
+
+Dark Dollars
+= Dark Dollars
+
+Darkest Dungeon
+= 暗黑地牢
+
+Darkest Dungeon II
+= 暗黑地牢2
+
+Dash
+= 冲刺
+
+Dash (84)
+= 冲刺（84）
+
+Dash cooldown
+= 冲刺冷却
+
+DashAssist
+= DashAssist
+
+DashMode
+= DashMode
+
+Dashes
+= 冲刺次数
+
+Data clusters
+= 数据集群
+
+Date
+= 日期
+
+Dave
+= 戴夫
+
+Day (Hard)
+= 天（困难）
+
+Day of the loop
+= 循环的天数
+
+Day time 0 is sunrise, 6000 noon, 13000 night.
+= 时间0为日出，6000为正午，13000为夜晚。
+
+Days elapsed
+= 已过天数
+
+Days left
+= 剩余天数
+
+Days passed
+= 已过天数
+
+Days survived
+= 生存天数
+
+Dead Eye XP
+= 死神之眼经验值
+
+Dead Eye core
+= 死神之眼核心
+
+Dead Eye meter
+= 死神之眼槽
+
+Dead Rising
+= 丧尸围城
+
+Deadline (minutes)
+= 截止时间（分钟）
+
+Death Stranding
+= 死亡搁浅
+
+Death Stranding 2
+= 死亡搁浅2
+
+Death Wing's Lair
+= Death Wing's Lair
+
+Death statue uses
+= 死亡雕像使用次数
+
+Deaths, player 1
+= 死亡数,玩家1
+
+Deaths, player 2
+= 死亡数,玩家2
+
+Deaths: {0}
+= 死亡次数:{0}
+
+Decay
+= 衰减
+
+Decimal value
+= 十进制值
+
+Deepest dive (m)
+= 最深潜水 (m)
+
+Defence
+= 防御
+
+Defense Bean
+= Defense Bean
+
+Deku Nut
+= 呆呆果
+
+Deku Nuts
+= 呆呆果
+
+Deku Nuts max
+= 呆呆果上限
+
+Deku Seeds
+= 呆呆籽
+
+Deku Seeds Bullet Bag
+= 呆呆籽袋
+
+Deku Seeds max
+= 呆呆籽上限
+
+Deku Shield
+= 呆呆盾
+
+Deku Stick
+= 呆呆棒
+
+Deku Sticks
+= 呆呆棒
+
+Deku Sticks max
+= 呆呆棒上限
+
+Demon (JP) experience
+= 恶魔 (JP) 经验
+
+Demon (JP) level
+= 恶魔 (JP) 等级
+
+Demon Card
+= 恶魔卡
+
+Demon Card (JP)
+= 恶魔卡 (JP)
+
+Demon experience
+= 恶魔经验
+
+Demon level
+= 恶魔等级
+
+Demon points
+= 恶魔点数
+
+Depths cleared
+= 已通关深度
+
+Derived values (max hit points, action points, carry weight…) are stored as their own numbers: changing S.P.E.C.I.A.L. doesn't change them.
+= 衍生数值(最大生命值、行动点数、负重等)作为独立数字保存:修改 S.P.E.C.I.A.L. 不会改变它们。
+
+Destroy all Sire Slushes
+= 摧毁所有 Sire Slush
+
+Destruction
+= 破坏
+
+Detective
+= 侦探
+
+Device upgrade tokens
+= 设备升级代币
+
+Devotion points unlocked
+= 已解锁的虔诚点数
+
+Dexterity
+= 敏捷
+
+Diamond
+= 钻石
+
+Difficulty (0 beginner, 1 experienced, 2 veteran, 3 genius, 4 superhuman)
+= 难度(0 新手,1 老手,2 老兵,3 天才,4 超人)
+
+Difficulty (EDifficulty::Easy, …)
+= 难度 (EDifficulty::Easy, …)
+
+Difficulty (diffNormal, …)
+= 难度 (diffNormal, …)
+
+Difficulty index (0 to 2)
+= 难度索引(0 到 2)
+
+Difficulty mode
+= 难度模式
+
+Difficulty rank points
+= 难度等级点数
+
+Difficulty setting
+= 难度设置
+
+Dilated time
+= 时间膨胀
+
+Dimension boosts
+= 维度增益
+
+Din's Fire
+= 炎之魔法
+
+Dirtiness
+= 脏污度
+
+Disable items
+= 禁用物品
+
+Discards per round
+= 每回合弃牌数
+
+Discovered
+= 已发现
+
+Discoveries
+= 发现
+
+Disease or poison
+= 疾病或中毒
+
+Dives
+= 潜水次数
+
+Divinity: Original Sin 2
+= Divinity: Original Sin 2
+
+Djimmi's wishes
+= Djimmi 的愿望
+
+Djinn
+= 精灵
+
+Doctrine stones
+= 教义石
+
+Doctrine stones now
+= 当前教义石
+
+Doctrines
+= 教义
+
+Dodge
+= 闪避
+
+Dodging
+= 闪避中
+
+Dolche
+= Dolche
+
+Donald HP
+= 唐老鸭生命值
+
+Donald MP
+= 唐老鸭魔法值
+
+Double Jump
+= 二段跳
+
+Double jump (81)
+= 二段跳 (81)
+
+Drachmae
+= 德拉克马
+
+Dragonish
+= 龙语
+
+Drama
+= 戏剧
+
+Draws
+= 平局
+
+Dream dust earned
+= 获得的梦之尘
+
+Dual wield
+= 双持
+
+Dungeon
+= 地下城
+
+Duplicants
+= 复制人
+
+Duplicants start hidden. Positions are cells from the world's bottom-left corner.
+= 复制人初始为隐藏状态。位置为距世界左下角的格数。
+
+Durability
+= 耐久度
+
+Dwarves
+= 矮人
+
+Dwellers
+= 居民
+
+Dying Light
+= Dying Light
+
+Dying Light 2
+= Dying Light 2
+
+E
+= E
+
+E = equipped (not swapped here). Consumables can be swapped for other consumables and gear for other gear; the first empty place takes any item.
+= E=已装备(此处不可替换)。消耗品可换为其他消耗品,装备可换为其他装备;第一个空位可放任何物品。
+
+EP
+= EP
+
+ES2_<date>.sav in the game's SaveGames folder (the packed Unreal save is unpacked for you; big saves take a few seconds to open). Ships, items and missions are in the Tree tab.
+= 游戏 SaveGames 文件夹中的 ES2_<date>.sav(打包的 Unreal 存档会自动解包;大型存档需数秒才能打开)。飞船、物品和任务在“树”标签页中。
+
+Each currency has a most the game allows; a larger amount may be cut when it loads. Currencies past pixels and ancient essence come from mods.
+= 每种货币都有游戏允许的上限;超出的数额在载入时可能被截断。像素和远古精华之后的货币来自模组。
+
+Each item has its own largest stack in the game (1000 for most materials); the game may cut a bigger count when it loads.
+= 每种物品在游戏中都有各自的堆叠上限(大多数材料为 1000);超出的数量在载入时可能被截断。
+
+Each item's level (I–X). Items without a name are upgrades and ammo, shown by the game's item number.
+= 每件物品的等级(I–X)。无名称的物品为升级件和弹药,以游戏物品编号显示。
+
+Each line is a stack of coins in this character's inventory (named by its stats entry).
+= 每行是该角色背包中的一堆硬币(以其属性条目命名)。
+
+Each line is one stack of coins in this character's inventory.
+= 每行是该角色背包中的一堆硬币。
+
+Each mastery's level and the points in each skill. Names are the game's internal records (mastery folder: file name).
+= 各精通的等级和每项技能的点数。名称为游戏内部记录名(精通文件夹:文件名)。
+
+Each part's health. The game keeps the most a part can have in its race data, not in the save, so it isn't shown here; healthy humans have the same value on every part.
+= 各部位的生命值。部位上限保存在游戏的种族数据中而非存档中,因此此处不显示;健康人类每个部位的数值相同。
+
+Each piece keeps its place, its links and what it's equipped to; only its level changes. Levels another piece of yours already has aren't offered.
+= 每个部件保留其位置、连接和装备对象,仅等级改变。您的其他部件已有的等级不会提供。
+
+Each runs 0–100 on normal settings. Low nutrition shrinks the most health you can have.
+= 在常规设置下各项范围为 0–100。营养不足会降低最大生命值。
+
+Each stack of these the colony has on the map, with its position. A stack can't hold more than the game's stack limit for that item, so for more, raise several stacks.
+= 殖民地在地图上拥有的每一堆此类物品及其位置。每堆不能超过游戏对该物品的堆叠上限,如需更多请提高多堆数量。
+
+Each upgrade level is its own entry.
+= 每个升级等级都是独立条目。
+
+Each weapon you own and the level it has been upgraded to.
+= 您拥有的每件武器及其强化等级。
+
+Earned in all
+= 累计获得
+
+Earth
+= 土
+
+Echo of Bat
+= Echo of Bat
+
+Eco points
+= 生态点数
+
+Eden tokens
+= 伊甸代币
+
+Egg Firing
+= Egg Firing
+
+Eggs
+= 蛋
+
+Eggs max
+= 蛋上限
+
+Einschuechtern
+= Einschuechtern
+
+Electric railcannon
+= 电磁轨道炮
+
+Electricity
+= 电力
+
+Electricity level
+= 电力等级
+
+Electrochemistry
+= 电化学
+
+Element zero, iridium, palladium and platinum are Mass Effect 2's minerals; Mass Effect 3 keeps them at 0.
+= 零元素、铱、钯和铂是《Mass Effect 2》的矿物;《Mass Effect 3》中它们保持为 0。
+
+Element:
+= 元素:
+
+Elias level
+= Elias 等级
+
+Emerald
+= 翡翠
+
+Emeralds
+= 翡翠
+
+Empathy
+= 共情
+
+Empires
+= 帝国
+
+Employee record
+= 员工档案
+
+Empty.
+= 空。
+
+Enchant
+= 附魔
+
+Encore Mode slots
+= 加演模式栏位
+
+Encyclopedia
+= 百科全书
+
+Endurance
+= 耐力
+
+Enemies
+= 敌人
+
+Enemies defeated
+= 击败的敌人
+
+Enemies kept in the save show here too; the player is usually first.
+= 存档中保留的敌人也会显示在此;玩家通常排在第一位。
+
+Enemies killed
+= 杀死的敌人
+
+Enemy Rockets
+= 敌方火箭
+
+Enemy targeting
+= 敌人瞄准
+
+Enemy wounds modifier (%)
+= 敌人伤势修正 (%)
+
+Energy Efficiency
+= 能源效率
+
+Energy Markers
+= 能量标记
+
+Energy tanks (max energy)
+= 能量罐(最大能量)
+
+Engagement
+= 参与度
+
+Engineers in the first base
+= 第一基地的工程师
+
+Engineers in the second base
+= 第二基地的工程师
+
+Enor Pearl
+= Enor Pearl
+
+Entrance
+= 入口
+
+Entrance fee (tenths of a unit)
+= 入场费(单位的十分之一)
+
+Entropy
+= 熵
+
+Epic level
+= 史诗等级
+
+Epona's Song
+= 艾潘娜之歌
+
+Equipment
+= 装备
+
+Equipment (names as the game writes them)
+= 装备(名称与游戏中写法一致)
+
+Equipment and bonus stats
+= 装备与加成属性
+
+Equipment levels
+= 装备等级
+
+Equipment levels are edited in campaign saves.
+= 装备等级需在战役存档中编辑。
+
+Equipment owned
+= 拥有的装备
+
+Equipped crest
+= 已装备的纹章
+
+Equipped skills
+= 已装备的技能
+
+Equipped weapon set
+= 已装备的武器组
+
+Equipped: {0}
+= 已装备:{0}
+
+Ergo
+= Ergo
+
+Ergo for next level
+= 升级所需 Ergo
+
+Escapes
+= 逃脱次数
+
+Esprit de Corps
+= Esprit de Corps
+
+Eternities
+= 永恒
+
+Eternity
+= 永恒
+
+Eternity points
+= 永恒点数
+
+Ether cylinders
+= 以太圆筒
+
+Ether medallion
+= 以太徽章
+
+Etikette
+= Etikette
+
+Etiquette
+= 礼仪
+
+Eurodollars
+= 欧元
+
+Evasion
+= 闪避
+
+Eve
+= Eve
+
+Every actor (copied in when someone joins the party)
+= 所有角色(有人加入队伍时复制)
+
+Every ammo SDU to the highest black market level.
+= 所有弹药 SDU 提升至黑市最高等级。
+
+Every attribute and skill of every member in this file to 100, the most the game allows.
+= 将此文件中所有成员的全部属性和技能设为 100(游戏上限)。
+
+Every attribute and skill to 100.
+= 所有属性和技能设为 100。
+
+Every character the save keeps stats for, in the save's order; the first is Kiryu.
+= 存档保存了属性的每个角色,按存档顺序排列;第一个是桐生。
+
+Every party character the save knows about, in the save's order; the first is Ichiban.
+= 存档已知的每个队伍角色,按存档顺序排列;第一个是一番。
+
+Every variable in the save, named by the game's own names, is in the Tree under Variables.
+= 存档中的每个变量(以游戏自身名称命名)都在“树”的“变量”下。
+
+Everyone to S++
+= 全员设为 S++
+
+Everything else (ships, stations, wares) is in the Tree. Not yet tried on a save of the game itself.
+= 其他内容(飞船、空间站、商品)在“树”中。尚未在游戏本体存档上测试。
+
+Exchange points
+= 兑换点数
+
+Exit
+= 退出
+
+Exotics
+= 异域
+
+Exp. Points
+= 经验值
+
+Expedition 33
+= Expedition 33
+
+Experience (total)
+= 经验(总计)
+
+Experience decides your level when the game loads. The whole database (quests, collections, gear) is in the Values tab.
+= 经验值决定游戏载入时的等级。完整数据库(任务、收藏、装备)在“数值”标签页中。
+
+Experience in hand
+= 持有经验
+
+Experience is shared by the party; raising it gives level-ups to pick in the game.
+= 经验值由队伍共享;提高经验值会产生可在游戏中选择的升级。
+
+Experience is what Kiryu has earned and not yet spent in the Abilities menu (99,999,999 at most). Money tops out at ¥9,999,999,999.
+= 经验值是桐生已获得但尚未在能力菜单中花费的部分(最多 99,999,999)。金钱上限为 ¥9,999,999,999。
+
+Experience is what a character has earned since the last rest; the game banks it, and raises the level, when the party rests at a camp or hotel. Levels, HP, MP and stats are shown as saved.
+= 经验值是角色自上次休息以来获得的部分;队伍在营地或旅馆休息时,游戏会将其入账并提升等级。等级、HP、MP 和属性按存档值显示。
+
+Experience sets the level the game works out; the level shown is from the save's header and catches up when you next gain experience. Karma runs from −1000 to 1000.
+= 经验值决定游戏计算出的等级;显示的等级来自存档头部,下次获得经验时会更新。善恶值范围为 −1000 到 1000。
+
+Experience to next level
+= 升级所需经验
+
+Experience to spend
+= 可用经验
+
+Experimental: editing story decisions
+= 实验性:编辑剧情抉择
+
+Expert mode available
+= 专家模式可用
+
+Expert mode available (DLC)
+= 专家模式可用(DLC)
+
+Extra Flower Cup
+= Extra Flower Cup
+
+Extra Mushroom Cup
+= Extra Mushroom Cup
+
+Extra Special Cup
+= Extra Special Cup
+
+Extra Star Cup
+= Extra Star Cup
+
+Extra deployment points
+= 额外部署点数
+
+Extra life pool
+= 额外生命池
+
+Extraction
+= 提取
+
+Eye of Vlad
+= Eye of Vlad
+
+Face XP
+= 面部 XP
+
+Facilities you have found or connected, with the materials stored at each. Connection level runs 0–5.
+= 您已发现或连接的设施及各自存放的材料。连接等级范围为 0–5。
+
+Facility material stocks
+= 设施材料库存
+
+Faction resources
+= 阵营资源
+
+Factions
+= 阵营
+
+Faerie (JP) experience
+= 妖精 (JP) 经验
+
+Faerie (JP) level
+= 妖精 (JP) 等级
+
+Faerie Card
+= Faerie Card
+
+Faerie Card (JP)
+= Faerie Card (JP)
+
+Faerie Scroll
+= Faerie Scroll
+
+Faerie experience
+= 妖精经验
+
+Faerie level
+= 妖精等级
+
+Failure conditions
+= 失败条件
+
+Fairy Bow
+= Fairy Bow
+
+Fairy Slingshot
+= Fairy Slingshot
+
+Faith
+= 信仰
+
+Fake Peppino
+= Fake Peppino
+
+Fallen Entschaerfen
+= 解除陷阱
+
+Fallenstellen
+= 设置陷阱
+
+Falls
+= 坠落
+
+Fame and reputation
+= 名望与声誉
+
+Family friends
+= 家族好友
+
+Farm
+= 农场
+
+Farming
+= 农耕
+
+Farore's Wind
+= Farore's Wind
+
+Fast Animation
+= 快速动画
+
+Fast travel unlocked
+= 已解锁快速旅行
+
+Fatigue
+= 疲劳
+
+Favorite
+= 收藏
+
+Feathery Flap
+= Feathery Flap
+
+Fechtwaffen
+= 剑术武器
+
+Feed the Croctus
+= Feed the Croctus
+
+Feeding Juju
+= Feeding Juju
+
+Feilschen
+= 讨价还价
+
+Fertilizer
+= 肥料
+
+Fervour
+= 热忱
+
+Fervour (special charge)
+= 热忱(特殊蓄力)
+
+Fervour strength
+= 热忱强度
+
+File 1: ammunition and upgrades
+= 文件 1:弹药与升级
+
+File 1: dungeon items
+= 文件 1:地牢道具
+
+File 1: equipment
+= 文件 1:装备
+
+File 1: general
+= 文件 1:常规
+
+File 1: items
+= 文件 1:道具
+
+File 1: medallions
+= 文件 1:勋章
+
+File 1: miscellaneous
+= 文件 1:其他
+
+File 1: songs
+= 文件 1:歌曲
+
+File 1: spiritual stones
+= 文件 1:精灵石
+
+File 2: ammunition and upgrades
+= 文件 2:弹药与升级
+
+File 2: dungeon items
+= 文件 2:地牢道具
+
+File 2: equipment
+= 文件 2:装备
+
+File 2: general
+= 文件 2:常规
+
+File 2: items
+= 文件 2:道具
+
+File 2: medallions
+= 文件 2:勋章
+
+File 2: miscellaneous
+= 文件 2:其他
+
+File 2: songs
+= 文件 2:歌曲
+
+File 2: spiritual stones
+= 文件 2:精灵石
+
+File 3: ammunition and upgrades
+= 文件 3:弹药与升级
+
+File 3: dungeon items
+= 文件 3:地牢道具
+
+File 3: equipment
+= 文件 3:装备
+
+File 3: general
+= 文件 3:常规
+
+File 3: items
+= 文件 3:道具
+
+File 3: medallions
+= 文件 3:勋章
+
+File 3: miscellaneous
+= 文件 3:其他
+
+File 3: songs
+= 文件 3:歌曲
+
+File 3: spiritual stones
+= 文件 3:精灵石
+
+File A
+= 文件 A
+
+File A courses
+= 文件 A 关卡
+
+File B
+= 文件 B
+
+File B courses
+= 文件 B 关卡
+
+File C
+= 文件 C
+
+File C courses
+= 文件 C 关卡
+
+File D
+= 文件 D
+
+File D courses
+= 文件 D 关卡
+
+Files in use
+= 使用中的文件
+
+Fill all ammo
+= 补满所有弹药
+
+Fill every tank
+= 补满所有储罐
+
+Filler
+= 填充物
+
+Fills Stagnant and Furious Blight to 999, the most players report the game holds. Ancient Souls (found once each) are left alone.
+= 将 Stagnant Blight 和 Furious Blight 设为 999,这是玩家反馈的游戏上限。Ancient Soul(每种仅能获得一次)不受影响。
+
+Final Fantasy IX
+= 最终幻想IX
+
+Final Fantasy Resonance
+= Final Fantasy Resonance
+
+Final Fantasy VII
+= 最终幻想VII
+
+Final Fantasy X
+= 最终幻想X
+
+Final Fantasy X-2
+= 最终幻想X-2
+
+Final Fantasy XV
+= 最终幻想XV
+
+Final rank
+= 最终排名
+
+Finances
+= 财务
+
+Finesse
+= 技巧
+
+Finish every platform (grade 4)
+= 完成所有平台(评级 4)
+
+Finished tutorial
+= 已完成教程
+
+Fire
+= 火
+
+Fire Arrow
+= Fire Arrow
+
+Fire Medallion
+= Fire Medallion
+
+Fire of Bat
+= Fire of Bat
+
+Fire rod
+= Fire rod
+
+Firestarter
+= Firestarter
+
+Firing
+= 射击
+
+First Aid
+= 急救
+
+First loop done
+= 已完成第一轮
+
+First sled race against Boggy
+= 首次与 Boggy 的雪橇比赛
+
+First super unlocked
+= 已解锁第一个超级技
+
+Fissiles
+= 裂变物
+
+Flags
+= 标记
+
+Flap Flip
+= Flap Flip
+
+Flask
+= 烧瓶
+
+Flight
+= 飞行
+
+Florins
+= 弗罗林
+
+Flowers in the graveyard
+= 墓地里的花
+
+Flying ring challenge
+= 飞行环挑战
+
+Focus
+= 专注
+
+Fog
+= 雾
+
+Fog (Hard)
+= 雾(困难)
+
+Followers
+= 追随者
+
+Followers gained in total
+= 累计获得追随者
+
+Food (maximum)
+= 食物(上限)
+
+Food level
+= 食物等级
+
+Food quality
+= 食物品质
+
+Food quantity
+= 食物数量
+
+Food variation
+= 食物多样性
+
+Foods: {0}
+= 食物:{0}
+
+Force of Echo
+= Force of Echo
+
+Force upgrade fragments
+= Force 升级碎片
+
+Force upgrades found
+= 已发现的 Force 升级
+
+Forest
+= 森林
+
+Forest Medallion
+= Forest Medallion
+
+Forge XP
+= 锻造经验
+
+Forge coals
+= 锻造煤炭
+
+Form of Mist
+= Form of Mist
+
+Forward Roll Attack
+= Forward Roll Attack
+
+Francs
+= 法郎
+
+Frank
+= Frank
+
+Free Gobi
+= Free Gobi
+
+Free at least one backpack slot per material to use the button.
+= 使用该按钮前,每种材料至少需空出一个背包格。
+
+Freezeframe
+= Freezeframe
+
+Freezer
+= 冰柜
+
+Friends
+= 朋友
+
+Friendships
+= 友谊
+
+From
+= 从
+
+From the save's own summary.
+= 来自存档自带的摘要。
+
+Frost
+= 霜冻
+
+Fuel price
+= 燃料价格
+
+Fuel range (parsecs)
+= 燃料航程(秒差距)
+
+Fuel, biological and the three metals to 1,000,000 online, processed too; the eight medicinal plants to 30,000 online (the game's own online caps)
+= 燃料、生物资源和三种金属在线上限 1,000,000(含加工品);八种药用植物在线上限 30,000(游戏自身的在线上限)
+
+Full fatigue
+= 疲劳全满
+
+Full health
+= 生命全满
+
+Full magicka
+= 魔法值全满
+
+Funds
+= 资金
+
+Funds (§)
+= 资金(§)
+
+Funds go up to 99,999,999. The game data is stored uncompressed when you save, so the file grows. Sim skills and traits aren't mapped yet. Not yet tried in the game.
+= 资金最高 99,999,999。保存时游戏数据以未压缩形式存储,因此文件会变大。Sim 的技能和特质尚未映射。尚未在游戏中测试。
+
+GMP
+= GMP
+
+GMP is capped at 99,999,999 in the game. Close the game and turn Steam Cloud off for it before editing.
+= GMP 在游戏中上限为 99,999,999。编辑前请关闭游戏,并为其关闭 Steam 云存档。
+
+GTA3sf*.b. Money is kept in two places; the save's checksum is rewritten.
+= GTA3sf*.b。金钱存储在两处;存档校验和会被重写。
+
+GTAVCsf*.b. Money is kept in two places; the save's checksum is rewritten.
+= GTAVCsf*.b。金钱存储在两处;存档校验和会被重写。
+
+Gadgets (count)
+= 小工具(数量)
+
+Gald
+= Gald
+
+Gallery key
+= 画廊钥匙
+
+Gallery key door open
+= 画廊门已打开
+
+Gambling
+= 赌博
+
+Game clock
+= 游戏时钟
+
+Game data not found — click to locate
+= 未找到游戏数据 — 点击定位
+
+Game item numbers; 0 is an empty slot.
+= 游戏道具编号;0 表示空槽位。
+
+Game mode
+= 游戏模式
+
+Game mode: 0 Survival, 1 Creative, 2 Adventure, 3 Spectator. Health and food go up to 20.
+= 游戏模式:0 生存,1 创造,2 冒险,3 旁观。生命值和饥饿值最高 20。
+
+Game settings
+= 游戏设置
+
+Game slot
+= 游戏槽位
+
+Game time
+= 游戏时间
+
+Game time (microseconds)
+= 游戏时间(微秒)
+
+Game.json
+= Game.json
+
+GameSave_NN_GD.sav, decrypted for you and encrypted again on save. Gold is the sushi bar's money; Bei buys gear from Duff and Cobra.
+= GameSave_NN_GD.sav,会自动解密并在保存时重新加密。Gold 是寿司吧的资金;Bei 用于向 Duff 和 Cobra 购买装备。
+
+GameSlot_<n>.sav: Lily's level and blight, prayer heals, the spirit-upgrade materials and every spirit's level.
+= GameSlot_<n>.sav:莉莉的等级和 Blight、祈祷治疗次数、灵魂升级材料以及每个灵魂的等级。
+
+GameSpeed
+= GameSpeed
+
+GameStateSaveData.json. The in-game clock the save shows in its slot.
+= GameStateSaveData.json。存档在槽位中显示的游戏内时钟。
+
+Games keep the save in memory and write it back when they autosave or quit, which would undo these \n                         changes. Quit the game completely (not just to the title screen), then save.
+= 游戏会将存档保留在内存中,并在自动存档或退出时写回,这会撤销这些\n                         更改。请完全退出游戏(而不只是返回标题画面),然后再保存。
+
+Gangs
+= 帮派
+
+Garage and missions
+= 车库与任务
+
+Garage refuel
+= 车库加油
+
+Garage size
+= 车库大小
+
+Garden rake uses
+= 花园耙使用次数
+
+Gardening Glove
+= Gardening Glove
+
+Gas Cloud
+= Gas Cloud
+
+Gassenwissen
+= 街头知识
+
+Gatling Pea
+= 机枪射手
+
+Gear is shown with its slot, marks and serial check; its parts need the game's item database, so it isn't edited here. Level follows experience: changing one sets the other.
+= 装备会显示其槽位、标记和序列号校验;其部件需要游戏的道具数据库,因此无法在此编辑。等级与经验联动:修改其一会同步修改另一个。
+
+Gearbox damage
+= 变速箱损坏
+
+Gem crystals
+= 宝石水晶
+
+Geralt of Rivia
+= 利维亚的杰洛特
+
+Gerudo's Card
+= Gerudo's Card
+
+Ghost Card
+= Ghost Card
+
+Ghost experience
+= 幽灵经验
+
+Ghost hunter
+= 捉鬼人
+
+Ghost level
+= 幽灵等级
+
+Giant's Knife Health
+= Giant's Knife Health
+
+Giantish
+= 巨人语
+
+Gil
+= 金币
+
+Gil (Laguna)
+= 金币(Laguna)
+
+Gil (Squall)
+= 金币(Squall)
+
+Give an orange to Chimpy's
+= 给 Chimpy's 一个橙子
+
+Given by Wozza
+= Wozza 给予
+
+Glide
+= 滑翔
+
+Glimpses
+= Glimpses
+
+Glimpses earned in total
+= 累计获得 Glimpses
+
+Glimpses gained in total
+= 累计取得 Glimpses
+
+Gloom
+= Gloom
+
+Gloom earned in total
+= 累计获得 Gloom
+
+Gloom-shroom
+= 忧郁菇
+
+Gloves
+= 手套
+
+God of War
+= 战神
+
+God of War Ragnarök
+= 战神:诸神黄昏
+
+Gold (Coins)
+= 金币(硬币)
+
+Gold (all Coins stacks)
+= 金币(所有硬币堆)
+
+Gold Feathers
+= Gold Feathers
+
+Gold Feathers max
+= Gold Feathers 上限
+
+Gold Magnet
+= Gold Magnet
+
+Gold PP7
+= Gold PP7
+
+Gold and items aren't readable in this save, so nothing here can be changed.
+= 此存档无法读取金币和道具,因此这里无法更改任何内容。
+
+Gold carried
+= 携带的金币
+
+Gold coins
+= 金币
+
+Gold earned in total
+= 累计获得金币
+
+Gold in bank
+= 银行中的金币
+
+Gold shown by the HUD
+= HUD 显示的金币
+
+Gold spent
+= 已花费的金币
+
+Gold, materials and consumables
+= 金币、材料和消耗品
+
+Golden Lie harvests ready
+= 可收获的 Golden Lie
+
+Golden Loop done
+= 已完成金色循环
+
+Golden Walnuts
+= Golden Walnuts
+
+Golden Watering Can
+= Golden Watering Can
+
+Golden strawberries
+= 金草莓
+
+Golden treasure marks
+= 金色宝藏标记
+
+Golf
+= 高尔夫
+
+Good–evil
+= 善恶
+
+Goofy HP
+= 高飞 HP
+
+Goofy MP
+= 高飞 MP
+
+Goron Sword
+= Goron Sword
+
+Goron Tunic
+= Goron Tunic
+
+Goron's Ruby
+= Goron's Ruby
+
+Graces you unlock show up on the map for fast travel. Shadow of the Erdtree graces need the DLC.
+= 解锁的赐福点会显示在地图上用于快速旅行。Shadow of the Erdtree 的赐福点需要 DLC。
+
+Grade (x100)
+= 评级(x100)
+
+Grade points (x100)
+= 评级点数(x100)
+
+Grappling beam
+= 抓钩光束
+
+Graveyard
+= 墓地
+
+Gravity Boots
+= Gravity Boots
+
+Gravity suit
+= 重力服
+
+Green
+= 绿色
+
+Green Hell
+= Green Hell
+
+Green key (92)
+= 绿色钥匙(92)
+
+Grenades
+= 手榴弹
+
+Group
+= 组
+
+Growth Points
+= 成长点数
+
+Guardian Forces
+= Guardian Forces
+
+Guarma ($)
+= Guarma($)
+
+Gullwings
+= Gullwings
+
+Gun
+= 枪
+
+Gun damage
+= 枪械伤害
+
+Gun range
+= 枪械射程
+
+Gungeoneers
+= Gungeoneers
+
+Gunman
+= 枪手
+
+Gunner
+= 炮手
+
+HEV suit
+= HEV 防护服
+
+HP Bean
+= HP Bean
+
+HP and PP
+= HP 和 PP
+
+HP and stress as they are now (stress goes up to 10). Max HP comes from the hero's path and level.
+= 当前 HP 和压力(压力最高为 10)。最大 HP 由英雄的路径和等级决定。
+
+Hacking
+= 黑客
+
+Hacksilver
+= Hacksilver
+
+Hadern shell points
+= Hadern 外壳点数
+
+Half Light
+= Half Light
+
+Half magic use
+= 魔法消耗减半
+
+Halloween candles
+= 万圣节蜡烛
+
+Hammers
+= 锤
+
+Hand
+= 手
+
+Hand to Hand
+= Hand to Hand
+
+Hand-to-Hand
+= Hand-to-Hand
+
+Hand-to-hand
+= Hand-to-hand
+
+Hand/Eye Coordination
+= Hand/Eye Coordination
+
+Hands per round
+= 每回合手数
+
+Happiness
+= 幸福度
+
+Hard mode
+= 困难模式
+
+Hard points put into each skill (20 is the most the game allows from points; items add more on top).
+= 投入每项技能的固定点数(点数上限为 20,物品可额外增加)。
+
+Hardcore
+= 硬核
+
+Harpy
+= Harpy
+
+Haruka
+= 遥
+
+Haruka's money
+= 遥的金钱
+
+Heal everyone
+= 治疗全员
+
+Health & energy
+= 生命值和能量
+
+Health (8 per heart)
+= 生命值(每颗心 8 点)
+
+Health (Endurance pool)
+= 生命值(耐力池)
+
+Health (maximum)
+= 生命值(上限)
+
+Health (shown value = stored x 25)
+= 生命值(显示值 = 存储值 x 25)
+
+Health (stored)
+= 生命值(存储值)
+
+Health XP
+= 生命值经验
+
+Health and Force
+= 生命值和原力
+
+Health and item slots count blocks and slots; attack, speed and throwing count upgrades. The game's own maximum is the end of each bar.
+= 生命值和物品栏位按方块和栏位计数;攻击、速度和投掷按升级数计数。游戏的上限为每条的末端。
+
+Health and silk
+= 生命值和丝线
+
+Health core
+= 生命核心
+
+Health drain
+= 生命吸取
+
+Health upgrade fragments
+= 生命值升级碎片
+
+Health upgrades found
+= 已找到的生命值升级
+
+Heart
+= 心
+
+Heart of Vlad
+= Heart of Vlad
+
+Heart pieces
+= 心之碎片
+
+Hearts
+= 心
+
+Heavy Armor
+= 重甲
+
+Heavy armor
+= 重甲
+
+Heavy bullets
+= 重型子弹
+
+Heavy shell points
+= 重型外壳点数
+
+Hegemony credits
+= Hegemony 信用点
+
+Heilkunde Gift
+= Heilkunde Gift
+
+Heilkunde Wunden
+= Heilkunde Wunden
+
+Heirlooms
+= 传家宝
+
+Held inside
+= 持有中
+
+Held item
+= 持有物品
+
+Helicopters destroyed
+= 击毁的直升机
+
+Hero
+= 英雄
+
+Hero souls
+= 英雄之魂
+
+Heroes
+= 英雄
+
+Heroism
+= 英雄气概
+
+Hi-jump boots
+= Hi-jump boots
+
+Hiccups
+= 打嗝
+
+Hidden packages collected
+= 已收集的隐藏包裹
+
+Hidden packages in the game
+= 游戏中的隐藏包裹
+
+Hiebwaffen
+= Hiebwaffen
+
+High Jump
+= 高跳
+
+Highest Ascension
+= 最高飞升
+
+Highest curse
+= 最高诅咒
+
+Highest resolve XP
+= 最高决心经验
+
+Highest zone before transcending
+= 超越前的最高区域
+
+Highest zone finished
+= 已完成的最高区域
+
+Highest zone since transcending
+= 超越后的最高区域
+
+Hit points
+= 生命值
+
+Hit points (base)
+= 生命值(基础)
+
+Hit points and Force points; max includes bonuses, base is before them.
+= 生命值和原力点数;上限含加成,基础值不含加成。
+
+Hit points and alignment
+= 生命值和阵营
+
+Hit points are the current value; the game works out the maximum from level and attributes. Unspent points are spent in the game.
+= 生命值为当前值;上限由游戏根据等级和属性计算。未使用的点数在游戏中分配。
+
+Holy Symbol
+= 圣徽
+
+Home
+= 家
+
+Homes are tile positions; they're shown on the Map.
+= 家园为图块位置,会显示在地图上。
+
+Honor
+= 荣誉
+
+Hookshot
+= 钩爪
+
+Hope collected
+= 已收集的希望
+
+Hornet
+= Hornet
+
+Hot
+= 热
+
+Hour
+= 小时
+
+House value
+= 房屋价值
+
+Household members
+= 家庭成员
+
+Hover Boots
+= 悬浮靴
+
+How many of each fiend the Monster Arena holds (10 at most). The conquest and original entries are the arena's creations: 1 means unlocked.
+= 怪物竞技场中每种怪物的数量(最多 10)。征服和原创条目为竞技场的创造物:1 表示已解锁。
+
+How many of each ingredient and material you carry. The game caps most stacks at its own limits.
+= 您携带的每种食材和材料的数量。游戏会将大多数堆叠限制在其自身上限内。
+
+How many of each item is in the stack, by the item's tag. The game may cut a stack back to what the item allows; items can't be added or removed here.
+= 堆叠中每种物品的数量(按物品标签)。游戏可能会将堆叠削减到物品允许的数量;此处无法添加或移除物品。
+
+How many of each item you own. The shop sells them one at a time; the save itself takes any number.
+= 您拥有的每种物品的数量。商店一次只卖一个,但存档本身可接受任意数量。
+
+How many times the card was upgraded (0 = not upgraded; most cards take 1)
+= 卡牌升级次数(0 = 未升级;大多数卡牌可升级 1 次)
+
+Hub score
+= 枢纽得分
+
+Human players
+= 人类玩家
+
+Humanity
+= Humanity
+
+Humanity gained
+= 获得的 Humanity
+
+Humanity level
+= Humanity 等级
+
+Hunter (Julianna) unlocked
+= 已解锁猎人(Julianna)
+
+Hunting
+= 狩猎
+
+Hylian Shield
+= 海拉鲁盾
+
+I
+= I
+
+I understand, let me edit
+= 我明白,继续编辑
+
+INT +
+= INT +
+
+Ice Arrow
+= 冰之箭
+
+Ice beam
+= 冰冻光束
+
+Ice magatama (95)
+= 冰之勾玉(95)
+
+Ice rod
+= 冰之杖
+
+Illness
+= 疾病
+
+Illusion
+= 幻术
+
+Imaginary machine cap
+= 虚构机器上限
+
+Imaginary machines
+= 虚构机器
+
+Imitater
+= Imitater
+
+Impish
+= Impish
+
+In a barrel in the cellar
+= 地窖的桶中
+
+In a basin by using the gutter
+= 通过排水沟进入水盆
+
+In a cage on the ship
+= 船上的笼子里
+
+In a pipe near Clanker
+= Clanker 附近的管道里
+
+In storage
+= 仓库中
+
+In the captain's room
+= 船长室内
+
+In the engine room
+= 引擎室内
+
+In the eye of the Mumbo's Skull
+= Mumbo 头骨的眼中
+
+In the highest hut of the treetop area
+= 树顶区域最高的小屋里
+
+In the sewer after being swallowed by Loggo
+= 被 Loggo 吞下后的下水道里
+
+In the tile puzzle pyramid
+= 拼图砖金字塔内
+
+In the warehouse
+= 仓库内
+
+In this slot
+= 在此栏位
+
+Includes Yggdrasil's dew (the stat boosts). Resources this save hasn't found yet aren't listed.
+= 包含世界树之露(属性提升)。此存档尚未发现的资源不会列出。
+
+Industrial
+= 工业
+
+Industry
+= 工业
+
+Infinite Ammo
+= 无限弹药
+
+InfiniteStamina
+= InfiniteStamina
+
+Infinities
+= 无限
+
+Infinity points
+= 无限点数
+
+Infinity power
+= 无限之力
+
+Influence
+= 影响力
+
+Infusion
+= 灌注
+
+Infusion levels go from 0 to 10; a kind you've never picked has no entry yet.
+= 灌注等级为 0 到 10;从未选择过的类型尚无条目。
+
+Infusions
+= 灌注
+
+Ingredients
+= 食材
+
+Inland Empire
+= Inland Empire
+
+Inside Boggy's stomach
+= Boggy 的肚子里
+
+Inside Jinyx
+= Jinyx 体内
+
+Inside King Sandybutt's sarcophagus
+= Sandybutt 国王的石棺内
+
+Inside Nipper's Shell
+= Nipper 的壳内
+
+Inside Rubee's temple
+= Rubee 的神庙内
+
+Inside a Lockup
+= Lockup 内
+
+Inside a hut of the village
+= 村庄的一间小屋内
+
+Inside the big egg
+= 大蛋内
+
+Inside the giant snowman's pipe
+= 巨型雪人的烟斗内
+
+Inside the water pyramid
+= 水之金字塔内
+
+Inside the well
+= 井中
+
+Installed augmentations. Level 1 isn't written in the save, so those can't be upgraded here.
+= 已安装的增强。1 级不会写入存档,因此无法在此升级。
+
+Intellect
+= 智力
+
+Interfacing
+= Interfacing
+
+Intro done
+= 序章已完成
+
+Intro seen
+= 已看过序章
+
+Intuition
+= 直觉
+
+Invasions so far
+= 目前入侵次数
+
+Inventory (character 1)
+= 物品栏(角色 1)
+
+Inventory (character 2)
+= 物品栏(角色 2)
+
+Inventory (character 3)
+= 物品栏(角色 3)
+
+Inventory (character 4)
+= 物品栏(角色 4)
+
+Inventory (character 5)
+= 物品栏(角色 5)
+
+Inventory (character 6)
+= 物品栏(角色 6)
+
+Inventory (item id: count)
+= 物品栏(物品 ID: 数量)
+
+Inventory and storage
+= 物品栏和仓库
+
+Inventory, health and blueprints are in global-objects.bin next to this file, which isn't editable yet.
+= 物品栏、生命值和蓝图位于此文件旁的 global-objects.bin 中,暂不可编辑。
+
+Invincible
+= 无敌
+
+InvisibleMotion
+= InvisibleMotion
+
+Iron Boots
+= 铁靴
+
+Item 1
+= 物品 1
+
+Item 2
+= 物品 2
+
+Item 3
+= 物品 3
+
+Item 4
+= 物品 4
+
+Item 5
+= 物品 5
+
+Item 6
+= 物品 6
+
+Item 7
+= 物品 7
+
+Item 8
+= 物品 8
+
+Item Switch
+= Item Switch
+
+Item stacks
+= 物品堆叠
+
+Items (by database number)
+= 物品(按数据库编号)
+
+Items (ids)
+= 物品(ID)
+
+Items HQ holds, by the game's item number (only ones you have are listed). Elerium, alloys and Meld are among them — change one and check it in the game.
+= 总部持有的物品(按游戏物品编号,仅列出已有的)。其中包括 Elerium、合金和 Meld,修改后请在游戏中确认。
+
+Items HQ holds, by the game's template name.
+= 总部持有的物品(按游戏模板名称)。
+
+Items and currencies
+= 物品和货币
+
+Items are listed by the game's item number (names aren't known yet); 999 is the most the editor lets you set.
+= 物品按游戏物品编号列出(名称尚未知);编辑器允许设置的最大值为 999。
+
+Items are listed by their ID because the game's item names aren't in the save. Everything else is in the Values tab.
+= 由于游戏的物品名称不在存档中,物品按 ID 列出。其余内容都在“数值”标签页。
+
+Items are shown by their prefab name. Each item has its own top stack size and quality in the game; going past them may be undone when it loads.
+= 物品按预制件名称显示。游戏中每种物品有自己的堆叠上限和品质;超出后加载时可能被还原。
+
+Items are shown by their template name. Changing money, levels or XP updates the save only; the save list's summary updates the next time the game saves.
+= 物品按模板名称显示。修改金钱、等级或经验只会更新存档;存档列表中的摘要会在游戏下次存档时更新。
+
+Items by their game resource name. Stack sizes (arrows, potions) and charges (wands) can be changed; items without either show –. Items can't be added here.
+= 物品按游戏资源名称显示。可修改堆叠数(箭、药水)和充能(法杖);两者都没有的物品显示 –。此处无法添加物品。
+
+Items by their game resource name; stacks (charms, bandages) and charges can be changed. Items can't be added here.
+= 物品按游戏资源名称显示;可修改堆叠(护符、绷带)和充能。此处无法添加物品。
+
+Items carried
+= 携带的物品
+
+Items, constructions and quests are in the Values tab.
+= 物品、建筑和任务都在“数值”标签页。
+
+Items, quartz, equipment and meals
+= 物品、水晶、装备和餐食
+
+Items: {0}
+= 物品:{0}
+
+JC Denton
+= JC Denton
+
+Jadiz
+= Jadiz
+
+Jewel of Open
+= Jewel of Open
+
+Jiggies
+= Jiggies
+
+Jigglypuff
+= 胖丁
+
+Job
+= 职业
+
+John
+= John
+
+Joker
+= 小丑
+
+Joker's Personas
+= 小丑的人格面具
+
+Juice
+= 果汁
+
+JumpStart
+= JumpStart
+
+Jumping
+= 跳跃
+
+Jumps
+= 跳跃次数
+
+Kenshi
+= Kenshi
+
+Keystones
+= 基石
+
+Kid's Party
+= Kid's Party
+
+Kiryu
+= 桐生
+
+Kiryu's HP
+= 桐生的 HP
+
+Kiryu's max HP
+= 桐生的最大 HP
+
+Kiryu's money
+= 桐生的金钱
+
+Kiryu's money (¥)
+= 桐生的金钱(¥)
+
+Knowledge
+= 知识
+
+Knuckleblaster
+= Knuckleblaster
+
+Kokiri Boots
+= 科奇里靴
+
+Kokiri Sword
+= 科奇里剑
+
+Kokiri Tunic
+= 科奇里服
+
+Kokiri's Emerald
+= 科奇里翡翠
+
+L
+= L
+
+LEGO Batman: Legacy of the Dark Knight
+= LEGO Batman: Legacy of the Dark Knight
+
+LIGLOB.DAT from a save slot folder (GAME_1 to GAME_10) of the original game. The funds; the other .DAT files are not edited yet.
+= 原版存档槽文件夹(GAME_1 至 GAME_10)中的 LIGLOB.DAT。资金;其他 .DAT 文件暂不可编辑。
+
+LV
+= LV
+
+Lamp
+= 灯
+
+Language
+= 语言
+
+Last level
+= 上一关卡
+
+Last run
+= 上次运行
+
+Law & Order level
+= 法律与秩序等级
+
+Law–chaos
+= 秩序–混乱
+
+League
+= 联赛
+
+Leap Stone
+= Leap Stone
+
+Learn all skills
+= 学会所有技能
+
+Learn every {0}
+= 学会每个{0}
+
+Lemoyne ($)
+= Lemoyne ($)
+
+Lens of Truth
+= Lens of Truth
+
+Lethal Company  ·  LCGeneralSaveData
+= Lethal Company  ·  LCGeneralSaveData
+
+Level (load screen)
+= 等级(载入画面)
+
+Level 0 is the charm's first level; each charm has three.
+= 等级 0 是护符的第一级;每个护符有三级。
+
+Level 50 with full health
+= 50 级,满生命值
+
+Level and PP are kept separately in the save, so change them together.
+= 等级与 PP 在存档中分开保存,请一并修改。
+
+Level and experience
+= 等级与经验
+
+Level and vitals
+= 等级与生命状态
+
+Level ranks
+= 关卡评级
+
+Level scores
+= 关卡得分
+
+Level {0}
+= {0} 级
+
+Level {1} ({0} experience)
+= {1} 级({0} 经验)
+
+Level-up stats
+= 升级属性
+
+Levels don't follow experience by themselves: set both.
+= 等级不会自动随经验变化:请同时设置两者。
+
+Levels don't follow experience by themselves: set both. Hit points above the maximum are the game's own temporary bonus.
+= 等级不会自动随经验变化:请同时设置两者。超过上限的生命值是游戏自带的临时加成。
+
+Levels run 0–20 in the base game. A passion makes the colonist learn that skill faster.
+= 基础游戏中等级范围为 0–20。热情会让殖民者更快学会该技能。
+
+Life
+= 生命
+
+Life (4 per cell)
+= 生命(每格 4 点)
+
+Life Efficiency
+= 生命效率
+
+Life Markers
+= 生命标记
+
+Life and growth
+= 生命与成长
+
+Life and mana
+= 生命与法力
+
+Life pool
+= 生命池
+
+Lifetime coins
+= 累计金币
+
+Lifetime coins counts all coins ever earned; raise it with your coins to keep the stats in line.
+= “累计金币”统计所有获得过的金币;请与当前金币一同增加,以保持统计一致。
+
+Lifetime earnings
+= 累计收入
+
+Lifmunk effigies
+= Lifmunk 雕像
+
+Light Armor
+= 轻甲
+
+Light Arrow
+= Light Arrow
+
+Light Burst
+= Light Burst
+
+Light Medallion
+= Light Medallion
+
+Light World
+= Light World
+
+Light World items
+= Light World 物品
+
+Light armor
+= 轻甲
+
+Light bullets
+= 轻型子弹
+
+Likes from NPCs
+= 来自 NPC 的点赞
+
+Likes from other porters
+= 来自其他快递员的点赞
+
+Likes given
+= 已送出点赞
+
+Likes received
+= 已收到点赞
+
+Lily
+= 莉莉
+
+Liquid:
+= 液体:
+
+Lit = you have the tool. The number is how many uses it has left (for tools that run out).
+= 亮起 = 已拥有该工具。数字为剩余使用次数(仅限会用完的工具)。
+
+Lives
+= 生命数
+
+Living level
+= 生活等级
+
+Lo Wang
+= Lo Wang
+
+Loaded
+= 已载入
+
+Loan
+= 贷款
+
+Loan limit
+= 贷款上限
+
+Local
+= 本地
+
+Locked in
+= 已锁定
+
+Lockers, vehicles and other storage
+= 储物柜、载具及其他存储
+
+Lockpick
+= 开锁器
+
+Lockpicking
+= 开锁
+
+Lockpicks
+= 开锁器
+
+Logic
+= 逻辑
+
+Long Blade
+= 长刃
+
+Long blade
+= 长刃
+
+Longest winning streak
+= 最长连胜
+
+Loot
+= 战利品
+
+Lore
+= 传说
+
+Loss streak
+= 连败
+
+Lovers
+= 恋人
+
+LowFriction
+= LowFriction
+
+Luigi
+= 路易吉
+
+Lunar coins
+= 月币
+
+Lunar coins collected (total)
+= 已收集月币(总计)
+
+Lunchboxes
+= 午餐盒
+
+Lute: Simple
+= 鲁特琴:简单
+
+Lv
+= Lv
+
+MOV
+= MOV
+
+MP
+= MP
+
+Magic Beans
+= 魔法豆
+
+Magic cape
+= 魔法披风
+
+Magic hammer
+= 魔法锤
+
+Magic mirror
+= 魔镜
+
+Magical weapons
+= 魔法武器
+
+Magicka
+= Magicka
+
+Magiekunde
+= Magiekunde
+
+Magnet
+= 磁铁
+
+Magnite
+= Magnite
+
+Mahjong sticks
+= 麻将点棒
+
+Main
+= 主要
+
+Majima
+= 真岛
+
+Majima's money (¥)
+= 真岛的金钱(¥)
+
+Malicious
+= 恶意
+
+Mana
+= 法力
+
+Mana (chi)
+= 法力(气)
+
+Mania Mode slots
+= Mania 模式栏位
+
+Map Markers
+= 地图标记
+
+Map sections explored
+= 已探索地图区域
+
+Map sections in the game
+= 游戏中的地图区域数
+
+Mapstones
+= 地图石
+
+Marines
+= 海军陆战队
+
+Mario
+= 马力欧
+
+Mark every boss defeated
+= 标记所有 Boss 已击败
+
+Marksman
+= 神射手
+
+Masks
+= 面具
+
+Masks: change Max health and Base masks together.
+= 面具:请同时修改“最大生命值”和“基础面具”。
+
+Masochist
+= 受虐狂
+
+Mass
+= 质量
+
+Mass Effect: Andromeda
+= 质量效应:仙女座
+
+Mass:
+= 质量:
+
+Master Sword
+= Master Sword
+
+Match Max HP and AT to LV {0} ({1} HP, {2} AT)
+= 将最大 HP 和 AT 调整为 LV {0}(HP {1},AT {2})
+
+Materials
+= 材料
+
+Max
+= 最大
+
+Max BP
+= 最大 BP
+
+Max CP
+= 最大 CP
+
+Max Candy
+= 最大糖果
+
+Max EP
+= 最大 EP
+
+Max GMP
+= 最大 GMP
+
+Max HP +
+= 最大 HP +
+
+Max HP includes bonuses; base HP is before them.
+= 最大 HP 包含加成;基础 HP 为加成前的数值。
+
+Max IVs (party)
+= 最大 IV(队伍)
+
+Max Mushroom
+= 最大蘑菇
+
+Max Nut
+= 最大坚果
+
+Max PP
+= 最大 PP
+
+Max RP
+= 最大 RP
+
+Max SP
+= 最大 SP
+
+Max SP +
+= 最大 SP +
+
+Max Syrup Jar
+= 最大糖浆罐
+
+Max TP
+= 最大 TP
+
+Max all skills
+= 所有技能升至最大
+
+Max ammo (0 = unlimited)
+= 最大弹药(0 = 无限)
+
+Max energy
+= 最大能量
+
+Max everyone's stats
+= 全员属性升至最大
+
+Max focus +
+= 最大专注 +
+
+Max gold
+= 最大金币
+
+Max health (8 per heart)
+= 最大生命值(每颗心 8 点)
+
+Max health (stored)
+= 最大生命值(存储值)
+
+Max health +
+= 最大生命值 +
+
+Max health and stamina come from the food eaten; the game works them out again on load.
+= 最大生命值和耐力由所吃的食物决定;游戏会在载入时重新计算。
+
+Max health cap
+= 最大生命值上限
+
+Max health {0}
+= 最大生命值 {0}
+
+Max heroism
+= 最大英雄值
+
+Max hit points
+= 最大生命值
+
+Max hit points (base)
+= 最大生命值(基础)
+
+Max level ({0})
+= 最高等级({0})
+
+Max level and stats
+= 最高等级与属性
+
+Max life (4 per cell)
+= 最大生命(每格 4 点)
+
+Max life and mana here are the base values, before items.
+= 此处的最大生命和最大法力为基础值,不含物品加成。
+
+Max life goes up to 500 with Life Crystals and Life Fruit (more with buffs); max mana to 200.
+= 最大生命值通过生命水晶和生命果最高可达 500(增益效果可更高);最大法力最高 200。
+
+Max money
+= 最大金钱
+
+Max morale
+= 最大士气
+
+Max proficiency
+= 最大熟练度
+
+Max sanity
+= 最大理智
+
+Max stat bonus
+= 最大属性加成
+
+Max this character
+= 将此角色升至最大
+
+Max upgrade materials ({0})
+= 最大升级材料({0})
+
+Maximum health
+= 最大生命值
+
+Maximum loan
+= 最大贷款额
+
+Mechanics
+= 机械学
+
+Medals
+= 奖牌
+
+Medical
+= 医疗
+
+Medieval
+= 中世纪
+
+Medium armor
+= 中甲
+
+Medium bullets
+= 中型子弹
+
+Medkits, lockpicks, multitools, bioelectric cells and other items carried. A single item's count isn't written in the save and can't be changed.
+= 随身携带的医疗包、开锁器、多功能工具、生物电池等物品。单个物品的数量不会写入存档,无法修改。
+
+Medpacks
+= 医疗包
+
+Megaton Hammer
+= Megaton Hammer
+
+Melee
+= 近战
+
+Melee Weapons
+= 近战武器
+
+Members
+= 成员
+
+Menschenkenntnis
+= Menschenkenntnis
+
+Mercantile
+= 交易
+
+Merchants
+= 商人
+
+Mercury
+= 水银
+
+Merman Statue
+= Merman Statue
+
+Meta.sav of a save slot. Blackstone is the Ark's research currency; SaveState.sav (the game's checksum of this file) is updated when you save.
+= 存档槽的 Meta.sav。Blackstone 是方舟的研究货币;SaveState.sav(游戏对此文件的校验和)会在保存时更新。
+
+Metal Cap switch
+= 金属帽开关
+
+Metal Gear Solid V save
+= 合金装备 V 存档
+
+Metal shards
+= 金属碎片
+
+Metals
+= 金属
+
+Metro
+= 地铁
+
+Might
+= 力量
+
+Military-grade rounds
+= 军用级弹药
+
+Minerals and brewing ingredients
+= 矿物与酿造原料
+
+Mini-games unlocked (1 = yes)
+= 已解锁小游戏(1 = 是)
+
+Mining
+= 采矿
+
+Minuet of Forest
+= Minuet of Forest
+
+Minute
+= 分钟
+
+Minutes played
+= 游戏时间(分钟)
+
+Mips (first star)
+= Mips(第一颗星)
+
+Mips (second star)
+= Mips(第二颗星)
+
+Mira
+= Mira
+
+Mirage
+= Mirage
+
+Mirror Shield
+= Mirror Shield
+
+MirrorMode
+= MirrorMode
+
+Misconduct
+= 不当行为
+
+Missiles
+= 导弹
+
+Missiles (max)
+= 导弹(最大)
+
+MissionControl
+= MissionControl
+
+Missions
+= 任务
+
+Missions given
+= 已接任务
+
+Missions passed
+= 已通过任务
+
+Moat drained
+= 护城河已排干
+
+Modifier
+= 修正值
+
+Mods and DLC
+= MOD 与 DLC
+
+Mom kills
+= 妈妈击杀数
+
+Monarch power
+= 君主力量
+
+Money ($)
+= 金钱($)
+
+Money ($K)
+= 金钱($K)
+
+Money (G)
+= 金钱(G)
+
+Money (centims)
+= 金钱(centims)
+
+Money (leaves)
+= 金钱(叶)
+
+Money (mk)
+= 金钱(mk)
+
+Money (scrap)
+= 金钱(废料)
+
+Money (silver)
+= 金钱(银币)
+
+Money (the game shows this × 10)
+= 金钱(游戏中显示为此值 × 10)
+
+Money (¥)
+= 金钱(¥)
+
+Money (§)
+= 金钱(§)
+
+Money and points
+= 金钱与点数
+
+Money collected
+= 已收集金钱
+
+Money earned
+= 已赚金钱
+
+Money earned in total
+= 累计赚取金钱
+
+Money invested with the banker
+= 投资给银行家的金钱
+
+Money is counted in silver (100 = 1 gold, with copper as the decimals); technology points (red, green and blue) are in the Tree under _res_v
+= 金钱以银币计数(100 = 1 金币,铜币为小数部分);科技点数(红、绿、蓝)位于树中的 _res_v 下
+
+Money shown on screen
+= 屏幕显示的金钱
+
+Money spent
+= 已花费金钱
+
+Money ÷ 10
+= 金钱 ÷ 10
+
+Money.json. Cash you carry is in the player's own files.
+= Money.json。随身携带的现金位于玩家自己的文件中。
+
+Monster Arena
+= 怪物竞技场
+
+Monsters defeated
+= 已击败怪物
+
+Months passed
+= 已过月数
+
+Mood
+= 心情
+
+Moon pearl
+= 月之珍珠
+
+Morale (Volition pool)
+= 士气(意志池)
+
+Morality
+= 道德
+
+Morphing ball
+= 变形球
+
+Most blanks held
+= 持有空白最多
+
+Most gald held
+= 持有加尔德最多
+
+Most health
+= 最高生命值
+
+Most keys held
+= 持有钥匙最多
+
+Mother Base
+= 母基地
+
+Mother Base and FOB platforms
+= 母基地与 FOB 平台
+
+Mother Base commander
+= 母基地指挥官
+
+Mother Base resources
+= 母基地资源
+
+Motorics
+= 运动能力
+
+Mount
+= 坐骑
+
+Movement (full)
+= 移动(满)
+
+Movement left
+= 剩余移动
+
+Moves
+= 招式
+
+Moves, dream nail and travel
+= 招式、梦之钉与旅行
+
+Moves: {0}
+= 招式:{0}
+
+Moxie XP
+= Moxie 经验
+
+Mr. Handy
+= Mr. Handy
+
+Mr. Vile game
+= Mr. Vile 游戏
+
+Mult
+= 倍率
+
+Multipliers
+= 倍数
+
+Mumbo Tokens
+= Mumbo Tokens
+
+Munny
+= munny
+
+Munny earned
+= 已获得 munny
+
+Munny spent
+= 已花费 munny
+
+Murders
+= 谋杀数
+
+Muscle XP
+= 肌肉经验
+
+Mushroom
+= 蘑菇
+
+Mushroom / magic powder
+= 蘑菇/魔法粉
+
+Mushroom Garden
+= 蘑菇花园
+
+Mushroom Kingdom
+= 蘑菇王国
+
+Musical lessons
+= 音乐课程
+
+Mutation points
+= 变异点数
+
+Mystery board: {0}
+= 神秘面板:{0}
+
+Mysticality XP
+= 神秘经验
+
+Mysticism
+= 神秘学
+
+Nail & soul
+= 骨钉与灵魂
+
+Nailgun, railcannon, rockets, arms
+= 钉枪、轨道炮、火箭、手臂
+
+Named {0}
+= 名为 {0}
+
+Names from game data
+= 来自游戏数据的名称
+
+Nature
+= 自然
+
+Navigation
+= 导航
+
+Navigator's insight
+= 领航员洞察
+
+Nayru's Love
+= Nayru's Love
+
+Near Bottles using Wonderwing
+= 使用 Wonderwing 靠近 Bottles
+
+Near the Witch Switch
+= 靠近女巫开关
+
+Needs
+= 需求
+
+Needs the Oodle library that many games install (found automatically). The save's MD5 is written again when you save. Not yet tried in the game.
+= 需要许多游戏会安装的 Oodle 库(自动查找)。保存时会重新写入存档的 MD5。尚未在游戏中测试。
+
+Ness
+= Ness
+
+Net worth
+= 净资产
+
+Neuropolymer
+= 神经聚合物
+
+New Austin ($)
+= 新奥斯汀 ($)
+
+New Game+ level
+= 新游戏+等级
+
+New Game+ playthroughs
+= 新游戏+通关次数
+
+New Game+ upgrades
+= 新游戏+升级
+
+New Hanover ($)
+= 新汉诺威 ($)
+
+New materia start at level 1 with no AP and go into free materia slots when you save. Summons you already own aren't listed.
+= 新魔晶石从1级、0 AP开始，存档时放入空闲的魔晶石槽。已拥有的召唤兽不会列出。
+
+Newbucks
+= Newbucks
+
+Next special stage
+= 下一个特殊关卡
+
+Nickname
+= 昵称
+
+Night
+= 夜晚
+
+Night (Hard)
+= 夜晚（困难）
+
+Ninja shell points
+= 忍者甲壳点数
+
+No Pokémon in the party.
+= 队伍中没有宝可梦。
+
+No Radar (multiplayer)
+= 无雷达（多人）
+
+No Visions in this save.
+= 此存档中没有幻象。
+
+No ammunition in this save.
+= 此存档中没有弹药。
+
+No bottle caps in the inventory: there's no stack to change (the game adds one when you pick some up).
+= 物品栏中没有瓶盖：没有可修改的堆叠（拾取后游戏会自动添加）。
+
+No chest matches.
+= 没有匹配的箱子。
+
+No coins on this character.
+= 该角色没有硬币。
+
+No colonists found in this save.
+= 此存档中未找到殖民者。
+
+No currencies in this save.
+= 此存档中没有货币。
+
+No duplicants found in this save.
+= 此存档中未找到复制人。
+
+No equipment with experience yet.
+= 暂无带经验的装备。
+
+No item bags in this save.
+= 此存档中没有物品袋。
+
+No party members found in this save.
+= 此存档中未找到队伍成员。
+
+No player characters found in this save.
+= 此存档中未找到玩家角色。
+
+No resources in the bag.
+= 背包中没有资源。
+
+No save file in this flash.
+= 此闪存中没有存档。
+
+No saved games in this file yet
+= 此文件中暂无存档
+
+No silver on the map.
+= 地图上没有银。
+
+No techs yet.
+= 暂无技能。
+
+No town NPCs live in this world yet.
+= 此世界中还没有城镇NPC居住。
+
+No travellers in this save.
+= 此存档中没有旅行者。
+
+No unlock flags in this save.
+= 此存档中没有解锁标记。
+
+No wood, stone, ores, bars or other crafting materials in the backpack.
+= 背包中没有木材、石头、矿石、锭或其他制作材料。
+
+No worlds found in this save.
+= 此存档中未找到世界。
+
+NoGrabbing
+= NoGrabbing
+
+Nobility
+= 贵族
+
+NobleMetals
+= NobleMetals
+
+Nobody is in the party in this file.
+= 此文件中队伍里没有人。
+
+Nocturne of Shadow
+= 暗影夜曲
+
+Noelle in party
+= 诺艾尔在队伍中
+
+None installed.
+= 未安装。
+
+None right now.
+= 目前没有。
+
+Not in this save
+= 不在此存档中
+
+Not yet tried in the game.
+= 尚未在游戏中测试。
+
+Nothing carried.
+= 未携带任何物品。
+
+Nothing in this pocket.
+= 此口袋中没有物品。
+
+Nothing special found in this world.
+= 此世界中未发现特别之处。
+
+Nothing you have matches. To add it, clear the search and click an empty slot.
+= 您拥有的物品均不匹配。要添加，请清除搜索并点击空槽位。
+
+Now
+= 现在
+
+Nuka-Cola Quantum
+= 核子可乐 量子
+
+Numbered .save files in the Ubisoft Connect save folder (2688 or 3619).
+= Ubisoft Connect 存档文件夹中带编号的 .save 文件（2688 或 3619）。
+
+Numbers
+= 数字
+
+Nut
+= 坚果
+
+Nymph
+= 仙女
+
+Objects crafted
+= 已制作物品
+
+Obtained: Blue Mystery Egg
+= 已获得：蓝色神秘蛋
+
+Obtained: Cyan Mystery Egg
+= 已获得：青色神秘蛋
+
+Obtained: Green Mystery Egg
+= 已获得：绿色神秘蛋
+
+Obtained: Ice Key
+= 已获得：冰钥匙
+
+Obtained: Pink Mystery Egg
+= 已获得：粉色神秘蛋
+
+Obtained: Red Mystery Egg
+= 已获得：红色神秘蛋
+
+Obtained: Yellow Mystery Egg
+= 已获得：黄色神秘蛋
+
+Ocarina
+= 陶笛
+
+Octopath Traveler (2018): these values are read from the save as it is; changing them hasn't been tried in the game yet.
+= Octopath Traveler（2018）：这些数值按存档原样读取；修改后尚未在游戏中测试。
+
+Officers
+= 军官
+
+Olrox's Quarters
+= 奥尔罗克斯的居所
+
+On hand
+= 持有
+
+On means the item sits in the ship's storage instead of standing in the ship.
+= 开启表示该物品放在飞船仓库中，而不是摆放在飞船里。
+
+On the Clanker's right golden tooth
+= 在Clanker右边的金牙上
+
+On the backside of the spiral tower
+= 在螺旋塔背面
+
+On the hill near entrance
+= 在入口附近的山丘上
+
+On the star map
+= 在星图上
+
+On the table of the dining room
+= 在餐厅的桌子上
+
+One character's data.sav; unspent points let you respec in the game
+= 单个角色的 data.sav；未花费的点数可在游戏中重新分配
+
+One save slot of FINAL FANTASY I to VI Pixel Remaster (a character's number is its id in the game)
+= FINAL FANTASY I 至 VI 像素复刻版的一个存档槽（角色编号即其游戏内 ID）
+
+One-handed
+= 单手
+
+Oni energy
+= 鬼能量
+
+Onimusha: Way of the Sword
+= 鬼武者 Way of the Sword
+
+Online
+= 在线
+
+Online losses
+= 在线败场
+
+Online wins
+= 在线胜场
+
+Only items this save doesn't have yet are listed. Each goes into a free inventory slot when you save; reopen the file to change its amount afterwards.
+= 仅列出此存档中尚没有的物品。存档时每件物品会放入空闲的物品栏槽位；之后如需更改数量，请重新打开文件。
+
+Only one save
+= 仅一个存档
+
+Only the entries this save has are shown. Opening a stag station only unlocks the ride; the station itself still has to be found.
+= 仅显示此存档中有的条目。开启牡鹿站只会解锁乘坐功能；车站本身仍需自行找到。
+
+Only the host's save counts in a multiplayer game. Checked on a public save, not yet tried in the game.
+= 多人游戏中只有主机的存档有效。已在公开存档上检查，尚未在游戏中测试。
+
+Only the skills a ranger has put points in are saved. A skill the editor has no name for shows its number.
+= 仅保存游骑兵已投入点数的技能。编辑器中没有名称的技能会显示其编号。
+
+Only useful if you own the DLC
+= 仅在拥有 DLC 时有用
+
+Open every Mother Base section
+= 开放所有母基地区域
+
+Open every waypoint
+= 开放所有传送点
+
+Open on the map
+= 在地图上打开
+
+Operations
+= 行动
+
+Orbs
+= 宝珠
+
+Orcish
+= 兽人语
+
+Order points
+= 秩序点数
+
+Ore
+= 矿石
+
+Organisation
+= 组织
+
+Organisation name
+= 组织名称
+
+Ori
+= 奥里
+
+Other
+= 其他
+
+Other approval
+= 其他认可度
+
+Other resources
+= 其他资源
+
+Outdoorsman
+= 野外生存者
+
+Outer Wall
+= 外墙
+
+Outsiders
+= 局外人
+
+Overheat
+= 过热
+
+Overlimit %
+= 超限 %
+
+Owned
+= 已拥有
+
+Oxygen
+= 氧气
+
+Oxygen (maximum)
+= 氧气（最大值）
+
+P
+= P
+
+PC boxes
+= 电脑箱子
+
+PP
+= PP
+
+PP earned
+= 已获得 PP
+
+PP limit
+= PP 上限
+
+Packages
+= 包裹
+
+Packed saves are opened and packed again for you. In the game's config.cfg, g_save_format 2 makes it write plain text saves.
+= 压缩存档会自动解包并重新压缩。在游戏的 config.cfg 中设置 g_save_format 2 可让游戏写入纯文本存档。
+
+Pain Threshold
+= 痛觉阈值
+
+Paintball Mode
+= 彩弹模式
+
+Palworld
+= 幻兽帕鲁
+
+Paragon
+= Paragon
+
+Parking levels unlocked
+= 已解锁停车层
+
+Parry
+= 招架
+
+Party (read-only)
+= 队伍（只读）
+
+Party (what the menu and battles use)
+= 队伍（菜单和战斗使用）
+
+Party and records
+= 队伍与记录
+
+Party experience
+= 队伍经验
+
+Party gold
+= 队伍金币
+
+Party slot
+= 队伍槽位
+
+Passion
+= 热情
+
+Passive skill points
+= 被动技能点数
+
+Pegasus boots
+= 飞马靴
+
+People killed
+= 杀死的人数
+
+People killed by the player
+= 玩家杀死的人数
+
+Pepperman
+= Pepperman
+
+Perception
+= 感知
+
+Perks and quirks
+= 特长与怪癖
+
+Permanent upgrades
+= 永久升级
+
+Persona 3 Reload
+= 女神异闻录3 Reload
+
+Persona 4 Golden
+= 女神异闻录4 黄金版
+
+Persona 5 Royal
+= 女神异闻录5 皇家版
+
+Personality
+= 个性
+
+Pet carriers
+= 宠物笼
+
+Pflanzenkunde
+= Pflanzenkunde
+
+Phone
+= 电话
+
+Phonograph
+= 留声机
+
+Physical Instrument
+= Physical Instrument
+
+Physique
+= 体格
+
+Pick a chest to change what's in it (or click one on the Map).
+= 选择一个箱子以修改其内容（或在地图上点击箱子）。
+
+Pick an item for an empty slot and give it a count to add it. Keep each item in one slot only.
+= 为空槽位选择物品并设置数量即可添加。每种物品只能放在一个槽位中。
+
+Pickpocket
+= 偷窃
+
+Piercer
+= Piercer
+
+Piloting
+= 驾驶
+
+Pineapple Beach
+= Pineapple Beach
+
+Pipe bomb
+= 土制炸弹
+
+Pipe bomb damage
+= 土制炸弹伤害
+
+Piton belt
+= 岩钉腰带
+
+Pixels
+= 像素
+
+Place
+= 地点
+
+Plank
+= 木板
+
+Plank length
+= 木板长度
+
+Plank width
+= 木板宽度
+
+Plasma
+= 等离子
+
+Plasma beam
+= 等离子光束
+
+Plate
+= 板甲
+
+Platform
+= 平台
+
+Play time
+= 游戏时间
+
+Play time (frames, 60 a second)
+= 游戏时间（帧，每秒 60 帧）
+
+Play time (s)
+= 游戏时间（秒）
+
+Play time (ticks)
+= 游戏时间（刻）
+
+Play time counts frames (30 a second). The story flags are under Other lines (Advanced).
+= 游戏时间以帧计（每秒 30 帧）。剧情标记在“其他行（高级）”下。
+
+PlayAsBadeline
+= PlayAsBadeline
+
+Played
+= 已游玩
+
+Player
+= 玩家
+
+Player 1 is Mugman
+= 玩家1是 Mugman
+
+Player inventory
+= 玩家物品栏
+
+Player rank
+= 玩家段位
+
+PlayerInventorySaveData.json
+= PlayerInventorySaveData.json
+
+PlayerStateSaveData.json. Health, stamina, hydration and rest are 0 to their maximum; strength level is shown with its progress.
+= PlayerStateSaveData.json。生命值、耐力、水分和休息为 0 到各自最大值；力量等级连同进度一并显示。
+
+Players (resources)
+= 玩家（资源）
+
+Playthrough (0 = first)
+= 周目（0 = 第一周目）
+
+Playthroughs completed
+= 已通关周目数
+
+Points
+= 点数
+
+Points (P)
+= 点数（P）
+
+Points put into each skill (the sheet adds the starting value from S.P.E.C.I.A.L. on top; tagged skills ★ count them twice).
+= 投入各技能的点数（角色表会在此基础上加上 S.P.E.C.I.A.L. 的初始值；标记技能 ★ 计算两次）。
+
+Points spent at level-up plus books, bobbleheads and perks. The game adds them to each skill's base (from S.P.E.C.I.A.L., +15 when tagged) and stops counting at 100.
+= 升级时花费的点数，加上书籍、摇头娃娃和特长的点数。游戏会将其加到各技能基础值上（来自 S.P.E.C.I.A.L.，标记技能 +15），并在 100 处封顶。
+
+Points, health and mana
+= 点数、生命值和法力
+
+Poker hands
+= 扑克牌型
+
+Political power
+= 政治权力
+
+Pool
+= 泳池
+
+Pool (Hard)
+= 泳池（困难）
+
+Pool Cleaner
+= 泳池清洁器
+
+Poop destroyed
+= 已摧毁的粪便
+
+Portal unlocked
+= 传送门已解锁
+
+Position
+= 位置
+
+Possessions level
+= 财产等级
+
+Potion slots
+= 药水槽位
+
+Pounds
+= 磅
+
+Power
+= 力量
+
+Power Bean
+= Power Bean
+
+Power Core
+= Power Core
+
+Power bombs
+= 强力炸弹
+
+Power bombs (max)
+= 强力炸弹（最大）
+
+Power of Mist
+= Power of Mist
+
+Power of Wolf
+= Power of Wolf
+
+Power ranks run 0–4 in Mass Effect 2 and 0–6 in Mass Effect 3 and up to 12 in Mass Effect 1; an evolved power shows up as its own entry.
+= 能力等级在 Mass Effect 2 中为 0–4，在 Mass Effect 3 中为 0–6，在 Mass Effect 1 中最高为 12；进化后的能力会显示为单独条目。
+
+Power-ups
+= 强化道具
+
+Powers
+= 能力
+
+Praxis kits
+= Praxis 套件
+
+Prayer (heal) level
+= 祈祷等级（治疗）
+
+Prayer level
+= 祈祷等级
+
+Prayers left
+= 剩余祈祷次数
+
+Predule of Light
+= 光之前奏曲
+
+Preferred Ascension
+= 首选飞升
+
+Preferred survivor
+= 首选幸存者
+
+Presents to Boggy's kids
+= 给 Boggy 孩子们的礼物
+
+Preset
+= 预设
+
+Primal souls
+= 原始灵魂
+
+Primordial affinity
+= 原初亲和
+
+Prize tickets
+= 奖券
+
+Processed (online)
+= 已处理（在线）
+
+Production stored
+= 已存储产量
+
+Profile.dat next to CaveStory+.exe: up to three save slots. Equipment, items and the stage are shown for reference.
+= CaveStory+.exe 旁的 Profile.dat：最多三个存档槽。装备、物品和关卡仅供参考显示。
+
+Profile.dat of the freeware release: one save.
+= 免费版的 Profile.dat：一个存档。
+
+Profit Factor
+= 利润系数
+
+Profit quota
+= 利润配额
+
+Progress made
+= 已取得进度
+
+Projects
+= 项目
+
+Prologue finished
+= 序章已完成
+
+Protagonist
+= 主角
+
+Protection
+= 防护
+
+Provisions
+= 补给
+
+Psi skill
+= 超能技能
+
+Psi strength
+= 超能力强度
+
+Psyche
+= 精神
+
+Pump Charge
+= Pump Charge
+
+Purple
+= 紫色
+
+Purple key (94)
+= 紫色钥匙 (94)
+
+Purse
+= 钱包
+
+Pursuit bounty
+= 追捕赏金
+
+Puzzle mode unlocked (1 = yes)
+= 已解锁解谜模式 (1 = 是)
+
+Quake medallion
+= Quake medallion
+
+Quality
+= 品质
+
+Quality: 0 normal, 1 silver, 2 gold, 4 iridium. Tool level: 0 basic, 1 copper, 2 steel, 3 gold, 4 iridium. Stacks go up to 999 for most items.
+= 品质：0 普通，1 银，2 金，4 铱。工具等级：0 基础，1 铜，2 钢，3 金，4 铱。大多数物品的堆叠上限为 999。
+
+Quantities of items you already have; new item types can't be added here.
+= 已拥有物品的数量；无法在此添加新的物品类型。
+
+Quantity / charges
+= 数量 / 次数
+
+Quests
+= 任务
+
+Quick Flame
+= Quick Flame
+
+Quick actions
+= 快捷操作
+
+Quickness
+= 敏捷
+
+Quirks
+= 怪癖
+
+Quiver
+= 箭袋
+
+Quota fulfilled
+= 已完成配额
+
+Quotas passed
+= 已通过配额
+
+Quote
+= 语录
+
+RNG
+= RNG
+
+RP
+= RP
+
+RadAway
+= RadAway
+
+Radiation
+= 辐射
+
+Rage
+= 狂怒
+
+Raise every scrap item to 200
+= 将所有废料物品提升到 200
+
+Raise everyone to 8 hearts
+= 将所有人提升到 8 颗心
+
+Raise: HP
+= 提升：HP
+
+Raise: Heal
+= 提升：治疗
+
+Raise: M.Atk
+= 提升：魔攻
+
+Raise: M.Def
+= 提升：魔防
+
+Raise: MP
+= 提升：MP
+
+Raise: P.Atk
+= 提升：物攻
+
+Raise: P.Def
+= 提升：物防
+
+Raise: Speed
+= 提升：速度
+
+Raises Bismor, Magnite, Croppa, Umanite, Jadiz, Enor Pearl, Phazyonite and the four brewing ingredients you already have. Credits, Data Cells, Error Cubes and Blank Cores are left alone.
+= 提升已拥有的 Bismor、Magnite、Croppa、Umanite、Jadiz、Enor Pearl、Phazyonite 以及四种酿造原料。积分、Data Cells、Error Cubes 和 Blank Cores 不受影响。
+
+Raises every crafting and upgrade material you already have to 999, the game's stack limit. Food, seafood, ammunition and the valuables are left alone.
+= 将已拥有的所有制作和升级材料提升到 999（游戏的堆叠上限）。食物、海鲜、弹药和贵重物品不受影响。
+
+Raises every fish and farm ingredient you already have, the stock the sushi bar cooks from. Gold, Bei and gear are left alone.
+= 提升已拥有的所有鱼类和农场食材，即寿司店烹饪所用的库存。金币、Bei 和装备不受影响。
+
+Raises every weapon element you already own to 999, the stack limit in the official manual (Ultimate allows 9,999; 999 is safe for both). Elements you don't own are left alone.
+= 将已拥有的所有武器元素提升到 999（官方手册中的堆叠上限；Ultimate 允许 9,999，999 对两者都安全）。未拥有的元素不受影响。
+
+Raises logs, sticks, rocks, bones, cloth, circuit boards, wire, duct tape, rope, feathers, leaves, small rocks, tech mesh, Solafite ore and printer resin you already carry to the game's own carrying limit for each. Weapons, ammo, food, blueprints and story items are left alone.
+= 将已携带的原木、木棍、石头、骨头、布料、电路板、电线、强力胶带、绳索、羽毛、树叶、小石子、科技网、Solafite 矿石和打印机树脂提升到游戏对各自的携带上限。武器、弹药、食物、蓝图和剧情物品不受影响。
+
+Raises lumber, stone, bones, grass, wooden planks, stone blocks, gold nuggets, gold bars, crystal shards, spider silk and shells you already have. Coins, food, seeds, gifts, necklaces, boss items and key items are left alone.
+= 提升已拥有的木材、石头、骨头、草、木板、石块、金块、金条、水晶碎片、蜘蛛丝和贝壳。硬币、食物、种子、礼物、项链、Boss 物品和关键物品不受影响。
+
+Raises metal parts, synthetic material, biomaterial, superconductors, chemicals, energy cells and microelectronics you already hold to 999 (an estimate: no public source states the stack limit, and saves with 437 are known). Neural modules are left alone.
+= 将已持有的金属部件、合成材料、生物材料、超导体、化学品、能量电池和微电子元件提升到 999（估计值：没有公开来源说明堆叠上限，已知有 437 的存档）。神经模块不受影响。
+
+Raises rocks, sticks, skulls, rope, bones, skins, rabbit fur and circuit boards to the limit the game stores for each in the save. Items with no limit (cloth, leaves, feathers, teeth, sap, tape), tools, weapons, food and story items are left alone.
+= 将石头、木棍、头骨、绳索、骨头、兽皮、兔毛和电路板提升到游戏在存档中为各自保存的上限。无上限的物品（布料、树叶、羽毛、牙齿、树液、胶带）、工具、武器、食物和剧情物品不受影响。
+
+Raises scrap and weapon parts to 999 (an estimate: no public source states a cap). Medpacks, artifacts, notes and gear are left alone.
+= 将废料和武器部件提升到 999（估计值：没有公开来源说明上限）。医疗包、神器、笔记和装备不受影响。
+
+Raises the Moonstones for normal and special weapons and Legion Calibers you already have. Quest items, Quartz and consumables are left alone.
+= 提升已拥有的普通武器和特殊武器月石以及军团口径。任务物品、石英和消耗品不受影响。
+
+Raises the Tarforge smithing materials (Ventrium, Laterite, Dorsalite, Thoracium and Thoracium Prime) you already have. Keys, artifacts, tools and upgrade items are left alone.
+= 提升已拥有的 Tarforge 锻造材料（Ventrium、Laterite、Dorsalite、Thoracium 和 Thoracium Prime）。钥匙、神器、工具和升级物品不受影响。
+
+Raises the consumable stacks you already carry to 99. Key items are left alone.
+= 将已携带的消耗品堆叠提升到 99。关键物品不受影响。
+
+Raises the count of each item you already hold to 99.
+= 将已拥有的每种物品数量提升到 99。
+
+Raises the ores, crystals, scrap metal and basic crafting resources you already have to 99,999 (the game states no cap, so this is an estimate). Catalysts, components, rift and faction resources and story items are left alone.
+= 将已拥有的矿石、水晶、废金属和基础制作资源提升到 99,999（游戏未说明上限，因此为估计值）。催化剂、组件、裂隙与阵营资源和剧情物品不受影响。
+
+Raises the plain building and crafting materials in the bag (wood, stone, clay, leather, straw, salt, fur, wool, daub, feathers, thread) to 999, an estimate: the game limits what fits by weight and no public source gives a stack cap. Money, tools, food and clothing are left alone.
+= 将背包中的基础建筑和制作材料（木材、石头、黏土、皮革、稻草、盐、毛皮、羊毛、抹灰泥、羽毛、线）提升到 999，此为估计值：游戏按重量限制容量，且没有公开来源说明堆叠上限。金钱、工具、食物和衣物不受影响。
+
+Raises the six nano-element and polymer crafting materials you already have to 9,999. The game's stack figure for them is 1,000 per slot but real saves hold more, so the cap is an estimate. Gold, cores, bait, grenades, potions, gear and key items are left alone.
+= 将已拥有的六种纳米元素和聚合物制作材料提升到 9,999。游戏中每格的堆叠数为 1,000，但实际存档中有更多，因此该上限为估计值。金币、核心、鱼饵、手雷、药水、装备和关键物品不受影响。
+
+Range, damage and size upgrades
+= 射程、伤害和体型升级
+
+Ranger
+= 游侠
+
+Rangers
+= 游侠
+
+Rank
+= 等级
+
+Rank 0 is Squaddie… 7 is Colonel. Stats are the soldier's own, before armour and items.
+= 等级 0 为 Squaddie……7 为 Colonel。属性为士兵自身数值，不含护甲和物品加成。
+
+Rank goes from 0 (Intern) up; the game works it out again from experience after a round. Credits, the quota and the ship are in LCSaveFile1 to LCSaveFile3. Checked on public saves, not yet tried in the game.
+= 等级从 0（Intern）起；每轮结束后游戏会根据经验重新计算。积分、配额和飞船位于 LCSaveFile1 至 LCSaveFile3。已在公开存档上验证，尚未在游戏中试用。
+
+Rank is the staff member's stat rank (S++ is the top); every other stat follows from rank and stat distribution. The rest of each member's fields are in the Tree.
+= 等级为员工的属性等级（S++ 最高）；其他属性均由等级和属性分配决定。每位成员的其余字段位于树视图中。
+
+Rank.json
+= Rank.json
+
+Ranks bought with skill points (ability bonuses and items add to them in the game).
+= 用技能点购买的等级（游戏中能力加成和物品会额外叠加）。
+
+Ranks put into each skill (attribute bonuses and items add to them in the game).
+= 投入每项技能的等级（游戏中属性加成和物品会额外叠加）。
+
+Ranks put into each skill. Names are the game's internal records (class folder: file name).
+= 投入每项技能的等级。名称为游戏内部记录（职业文件夹：文件名）。
+
+Rapid Flame
+= Rapid Flame
+
+Rare shards
+= 稀有碎片
+
+Rat-a-tat Rap
+= Rat-a-tat Rap
+
+Raufen
+= Raufen
+
+Raw Whalebone
+= Raw Whalebone
+
+Reached town
+= 已到达城镇
+
+Reaction Speed
+= 反应速度
+
+Reactions
+= 反应
+
+Read from saves made before the Kingdoms update; Kingdoms keeps its own files, which aren't covered.
+= 读取 Kingdoms 更新之前创建的存档；Kingdoms 使用自己的文件，不在支持范围内。
+
+Read-only
+= 只读
+
+Reales
+= Reales
+
+Realities
+= 现实
+
+Reality
+= 现实
+
+Reality machines
+= 现实机器
+
+Record
+= 纪录
+
+Recruits this week
+= 本周新兵
+
+Red
+= 红色
+
+Red Feathers
+= Red Feathers
+
+Red Feathers max
+= Red Feathers 上限
+
+Red key (90)
+= 红色钥匙 (90)
+
+Red shards
+= 红色碎片
+
+Red souls
+= 红色灵魂
+
+Refills
+= 补充
+
+Reflect
+= 反射
+
+Refreshing Herb
+= Refreshing Herb
+
+Regroup
+= 重整
+
+Rekindle
+= Rekindle
+
+Relic slots
+= 遗物栏位
+
+Relics
+= 遗物
+
+Relics are the run's money. Torch goes up to 100.
+= 遗物是本局的货币。火把最高为 100。
+
+Rematch
+= 再战
+
+Remove
+= 移除
+
+Remove from the party
+= 移出队伍
+
+Renegade
+= 叛徒
+
+Renown level
+= 声望等级
+
+Repair every vehicle
+= 修理所有载具
+
+Repairs
+= 修理
+
+Replicanti
+= Replicanti
+
+Replicanti galaxies
+= Replicanti 星系
+
+Reputation
+= 声望
+
+Reputation (x10)
+= 声望 (x10)
+
+Reputation points
+= 声望点数
+
+Reputation runs from -25000 (nemesis) to 25000 (revered, the most). "Faction N" are factions the editor has no name for.
+= 声望范围为 -25000(死敌)至 25000(崇敬,最高)。“Faction N”是编辑器不知道名称的势力。
+
+Requiem of Spirit
+= Requiem of Spirit
+
+Research
+= 研究
+
+Research data, minerals, salvage and the other stacks in Ryder's inventory, named from the save itself.
+= 研究数据、矿物、废料以及莱德物品栏中的其他堆叠,名称取自存档本身。
+
+Research points
+= 研究点数
+
+Research totals are progress toward the current projects. The empire is the one you play (player 1).
+= 研究总量是当前项目的进度。帝国指您所玩的帝国(玩家 1)。
+
+Reserve energy
+= 备用能量
+
+Reserve tanks (max reserve)
+= 备用罐(最大备用量)
+
+Residuum
+= Residuum
+
+Resistance
+= 抗性
+
+Resolve
+= 决心
+
+Resource
+= 资源
+
+Respec allowed
+= 允许重置
+
+Respecs
+= 重置次数
+
+Respect in this level
+= 本等级的尊重度
+
+Respect level
+= 尊重等级
+
+Respect level (from 0)
+= 尊重等级(从 0 起)
+
+Rest
+= 休息
+
+Restoration
+= 恢复
+
+Retired levels
+= 已退役等级
+
+Reveal this world's map
+= 显示此世界的地图
+
+Reverse Entrance
+= Reverse Entrance
+
+Reverse Keep
+= Reverse Keep
+
+Reverse Outer Wall
+= Reverse Outer Wall
+
+Revive
+= 复活
+
+Revives used
+= 已用复活次数
+
+Revolver and shotgun
+= 左轮手枪和霰弹枪
+
+Rhetoric
+= 修辞
+
+Rib of Vlad
+= Rib of Vlad
+
+Riding
+= 骑术
+
+Ring of Vlad
+= Ring of Vlad
+
+Rivals beaten
+= 击败的对手
+
+Rocket
+= 火箭
+
+Rocket damage
+= 火箭伤害
+
+Rockets
+= 火箭
+
+Rockets with a habitat module also have their interior as a world above, which can be painted on the Map.
+= 带有居住舱的火箭,其内部也是上方的一个世界,可以在地图上绘制。
+
+Rocks broken
+= 打碎的岩石
+
+Roof
+= 屋顶
+
+Roof (Hard)
+= 屋顶(困难)
+
+Roof Cleaner
+= Roof Cleaner
+
+Rounds carried for each ammo type. Amounts the game left at their default aren't in the save and can't be changed.
+= 每种弹药的携带数量。游戏保持默认值的数量不在存档中,无法修改。
+
+Rounds fired
+= 发射次数
+
+Rounds loaded in each weapon. An empty magazine isn't stored by the game, so it can't be filled here: fire it empty and reload, or give spare ammo above.
+= 每把武器已装填的弹药。游戏不会保存空弹匣,因此无法在此填充:请打空后重新装填,或在上方添加备用弹药。
+
+Route and counters
+= 路线与计数器
+
+Rubies
+= 红宝石
+
+Ruby
+= 红宝石
+
+Ruin
+= 废墟
+
+Ruler
+= 统治者
+
+Run options
+= 对局选项
+
+Run settings
+= 对局设置
+
+Run time (seconds)
+= 对局时间(秒)
+
+Runes
+= 符文
+
+Runes and ammo
+= 符文和弹药
+
+Runes to next level
+= 升级所需符文
+
+Running
+= 奔跑
+
+Running allowed
+= 允许奔跑
+
+Rupees in the fairy pond
+= 仙女池中的卢比
+
+Ryder's level
+= 莱德等级
+
+S
+= S
+
+S.P.E.C.I.A.L.
+= S.P.E.C.I.A.L.
+
+S.R.S. Cannon
+= S.R.S. Cannon
+
+SAVE1.GAM to SAVE10.GAM from the game's folder (the original game; 208000-byte saves). Each empire's treasury, research points and ship range, and each colony's stored production and ground troops.
+= 游戏文件夹中的 SAVE1.GAM 至 SAVE10.GAM(原版游戏;208000 字节的存档)。各帝国的国库、研究点数和飞船航程,以及各殖民地的库存产能和地面部队。
+
+SAVEGAMEN.sav in the Steam remote folder. Each of the five playable characters keeps their own money, experience and skill orbs. The save has no checksum; close the game first.
+= Steam remote 文件夹中的 SAVEGAMEN.sav。五名可玩角色各自拥有独立的金钱、经验和技能珠。该存档没有校验和;请先关闭游戏。
+
+SDU level
+= SDU 等级
+
+SP
+= SP
+
+STR
+= STR
+
+STR +
+= STR +
+
+Sacrifices
+= 祭品
+
+Saebel
+= Saebel
+
+Saejima
+= Saejima
+
+Saejima's money
+= Saejima 的金钱
+
+Sakuya
+= Sakuya
+
+Saloon
+= 酒馆
+
+Salt
+= 盐
+
+Salts
+= 盐
+
+Samus A
+= Samus A
+
+Samus A: equipped
+= Samus A:已装备
+
+Samus A: obtained
+= Samus A:已获得
+
+Samus B
+= Samus B
+
+Samus B: equipped
+= Samus B:已装备
+
+Samus B: obtained
+= Samus B:已获得
+
+Samus C
+= Samus C
+
+Samus C: equipped
+= Samus C:已装备
+
+Samus C: obtained
+= Samus C:已获得
+
+Sanctuary rests
+= 圣所休息次数
+
+Sandbox
+= 沙盒
+
+Sandcastle password
+= 沙堡密码
+
+Sanity
+= 理智
+
+Sapphire
+= 蓝宝石
+
+Saria's Song
+= Saria's Song
+
+Save count
+= 存档次数
+
+Save slots
+= 存档位
+
+SaveData-<n>_Character_<slot>.sav. Ergo held is what you can spend; the level is kept with the stats, so raise both together.
+= SaveData-<n>_Character_<slot>.sav。“Ergo held”是可花费的数量;等级与属性一并保存,请同时提高两者。
+
+SaveData.bin: eight Mania Mode and three Encore Mode slots. Emeralds are a bit field (127 = all seven).
+= SaveData.bin:八个 Mania Mode 存档位和三个 Encore Mode 存档位。翡翠为位字段(127 = 全部七颗)。
+
+SaveGame00.sav. The zlib-packed actor records are opened and packed again on save.
+= SaveGame00.sav。经 zlib 压缩的角色记录会被解开,并在保存时重新压缩。
+
+SaveGameData0.sav (the SAVE header and zlib packing are handled). pg, difficulty, each party member's level, experience, HP, MP and special ability points, and the item counts.
+= SaveGameData0.sav(已处理 SAVE 头和 zlib 压缩)。pg、难度,以及每位队员的等级、经验、HP、MP 和特殊能力点数,还有物品数量。
+
+SaveN.rxdata. Items, weapons and armour are listed by their number in the game's database (Data/Items.rxdata), with how many you carry. HP and SP above the maximum are cut back by the game. The save keeps the party and every actor as separate copies, so change a party member in both tables.
+= SaveN.rxdata。物品、武器和护甲按其在游戏数据库(Data/Items.rxdata)中的编号列出,并显示持有数量。超过上限的 HP 和 SP 会被游戏削减。存档将队伍和每个角色分别保存为独立副本,因此请在两个表中同时修改队员。
+
+Save_N_v10.as in the game's save folder (the game's own packing is opened and closed for you; the character file player.dat is shown). The party and the money are here; other entries are the levels. Rubles are the Money item in the player's inventory.
+= 游戏存档文件夹中的 Save_N_v10.as(游戏自带的压缩会自动解开并重新压缩;显示角色文件 player.dat)。队伍和金钱在这里;其他条目为等级。卢布是玩家物品栏中的 Money 物品。
+
+Saved
+= 已保存
+
+Saved health
+= 已保存的生命值
+
+Saving also updates player.bic in the same folder, the copy the game shows on the load screen.
+= 保存时还会更新同一文件夹中的 player.bic,即游戏在读取界面上显示的副本。
+
+Savoir Faire
+= Savoir Faire
+
+Sawblade launchers
+= 锯片发射器
+
+Sawed-On
+= Sawed-On
+
+Scale
+= 缩放
+
+Schleichen
+= Schleichen
+
+Schloesser
+= Schloesser
+
+Schmieden
+= Schmieden
+
+Scholars
+= 学者
+
+Schwerter
+= Schwerter
+
+Science
+= 科学
+
+Science level
+= 科学等级
+
+Scientists in the first base
+= 第一基地的科学家
+
+Scientists in the second base
+= 第二基地的科学家
+
+Score
+= 得分
+
+Scrap
+= 废料
+
+Scrap on the ship (sell value)
+= 飞船上的废料(售价)
+
+Screw (83)
+= Screw (83)
+
+Screw attack
+= Screw Attack
+
+Screwdriver
+= 螺丝刀
+
+Seafood
+= 海鲜
+
+Seal: Default
+= 印记:默认
+
+Seal: Infinite
+= 印记:无限
+
+Seal: Slayer
+= 印记:Slayer
+
+Seal: Stone
+= 印记:石头
+
+Search every list:
+= 搜索所有列表:
+
+Season
+= 季节
+
+Second
+= 第二
+
+Second sled race against Boggy
+= 第二场对战 Boggy 的雪橇赛
+
+Seconds left
+= 剩余秒数
+
+Secret Agent
+= Secret Agent
+
+Secret Box
+= Secret Box
+
+Secret World
+= Secret World
+
+Secret rooms
+= 隐藏房间
+
+Secret slide star
+= 隐藏滑道之星
+
+Secret slide star (under 21 s)
+= 隐藏滑道之星(21 秒以内)
+
+Secrets collected
+= 已收集的秘密
+
+Secrets found
+= 已发现的秘密
+
+Secrets in the game
+= 游戏中的秘密
+
+Security
+= 安全
+
+Seed slot upgrades
+= 种子槽升级
+
+Selbstbeherrschung
+= Selbstbeherrschung
+
+Selected character
+= 所选角色
+
+Selling price
+= 售价
+
+Sense
+= 感知
+
+Sepith
+= Sepith
+
+Seqence number
+= Seqence number
+
+Serenade of Water
+= Serenade of Water
+
+Servers with character checks (ELC/ILR) may refuse a character edited past the rules.
+= 启用角色校验(ELC/ILR)的服务器可能拒绝超出规则的已编辑角色。
+
+Sessions played
+= 已玩会话数
+
+Set credits everywhere
+= 全部设置信用点
+
+Set each ammo type to what its SDU level holds (without relic or class mod bonuses).
+= 将每种弹药设为其 SDU 等级对应的数量(不含遗物或职业模组加成)。
+
+Set every stack to 99
+= 将每个堆叠设为 99
+
+Set your treasury to 9,999,999
+= 将国库设为 9,999,999
+
+Sets Raw Whalebone to 999. The game shows no limit and no public source states one, so 999 is a safe three-digit amount.
+= 将 Raw Whalebone 设为 999。游戏未显示上限,也没有公开资料给出上限,因此 999 是安全的三位数。
+
+Sets all eight sepith to 9,999, the most the game holds.
+= 将八种 Sepith 全部设为 9,999,即游戏可容纳的最大值。
+
+Sets crafting parts to 999, the stack size players report (no official figure, so this is an estimate).
+= 将制作零件设为 999,即玩家报告的堆叠上限(无官方数据,仅为估计)。
+
+Sets each herb, feather and animal fat stack the satchel holds to 99, the most an item stacks to once the Legend of the East satchel is crafted. Rockstar publishes no smaller per-item limits; with smaller satchels the game may cut stacks down when the save loads.
+= 将鞍囊中的每种草药、羽毛和动物脂肪堆叠设为 99,这是制作出 Legend of the East 鞍囊后物品的最大堆叠数。Rockstar 未公布各物品更小的上限;使用较小的鞍囊时,游戏可能在读取存档时削减堆叠。
+
+Sets each piece of scrap to a sell value of 200 if it is worth less.
+= 将每件废料的售价设为200（若低于此值）。
+
+Sets every IV of the Pokémon in the party to 31; their stats are worked out again
+= 将队伍中宝可梦的全部个体值设为31；能力值会重新计算
+
+Sets every area's fiends to 10 captured. The arena's own creations are left alone.
+= 将每个区域的魔物捕获数设为10。斗技场的创造物不受影响。
+
+Sets every synthesis material to 99, the stack the game's menus show as full.
+= 将每种合成材料设为99，即游戏菜单中显示的满堆叠数量。
+
+Sets leather, metal, chemicals and silk to 9,999. No public source states a limit, so this is an estimate. Unique materials such as black pearls are left alone.
+= 将皮革、金属、化学品和丝绸设为9,999。没有公开资料给出上限，因此这是估计值。黑珍珠等独特材料不受影响。
+
+Sets lumber and material stone to 50,000, the most the game keeps. Fertilizer is left alone.
+= 将木材和材料石设为50,000，即游戏上限。肥料不受影响。
+
+Sets money to 999,999, the most the game holds
+= 将金钱设为999,999，即游戏上限
+
+Sets the six crafting materials to 99,999. No public source states a limit (real saves hold over 60,000), so this is an estimate.
+= 将六种制作材料设为99,999。没有公开资料给出上限（真实存档中超过60,000），因此这是估计值。
+
+Sets wood, metal and cloth to 2,000, what the Jackdaw's fully upgraded hold takes. Rum and sugar are trade goods and are left alone.
+= 将木材、金属和布料设为2,000，即完全升级后的Jackdaw货舱容量。朗姆酒和糖是贸易品，不受影响。
+
+Sets wood, metal, cloth and stone to 2,500, what the Morrigan's fully upgraded hold takes. Tobacco is a trade good and is left alone.
+= 将木材、金属、布料和石头设为2,500，即完全升级后的Morrigan货舱容量。烟草是贸易品，不受影响。
+
+Settings
+= 设置
+
+Sewer
+= 下水道
+
+Shadow Medallion
+= 暗影勋章
+
+Shared
+= 共享
+
+Shared stock
+= 共享库存
+
+Sharpshooter
+= 神射手
+
+Shell game plays
+= 猜壳游戏次数
+
+Shell: Eredrim
+= 躯壳：Eredrim
+
+Shell: Genessa
+= 躯壳：Genessa
+
+Shell: Gragu
+= 躯壳：Gragu
+
+Shell: Harros
+= 躯壳：Harros
+
+Shell: Knight Lady
+= 躯壳：Knight Lady
+
+Shell: Necrophage
+= 躯壳：Necrophage
+
+Shell: Smert
+= 躯壳：Smert
+
+Shell: Solomon
+= 躯壳：Solomon
+
+Shell: Thorn
+= 躯壳：Thorn
+
+Shell: Tiel
+= 躯壳：Tiel
+
+Shells
+= 躯壳
+
+Shield
+= 护盾
+
+Shield spacer
+= 护盾间隔件
+
+Shielding
+= 屏蔽
+
+Shinada
+= Shinada
+
+Shinada's money
+= Shinada的金钱
+
+Shiny
+= 闪光
+
+Ship
+= 船
+
+Ship and moon
+= 船与月亮
+
+Ship items owned
+= 已拥有的船只物品
+
+Ship level
+= 船只等级
+
+Ship upgrades put in storage
+= 已存放的船只升级
+
+Shivers
+= Shivers
+
+Shock
+= 电击
+
+Shock Bomb
+= 电击炸弹
+
+Shock Jump Spring
+= 电击弹跳弹簧
+
+Shock Spring Pads path
+= 电击弹簧垫路线
+
+Shogi points
+= 将棋积分
+
+Shopkeepers destroyed
+= 已摧毁店主
+
+Short Blade
+= 短刀
+
+Short blade
+= 短刀
+
+Shotgun
+= 霰弹枪
+
+Shotgun damage
+= 霰弹枪伤害
+
+Shotgun range
+= 霰弹枪射程
+
+Shovel / flute
+= 铲子 / 笛子
+
+Show
+= 显示
+
+Show it on the map
+= 在地图上显示
+
+Show:
+= 显示：
+
+Shown on the map
+= 已在地图上显示
+
+Shrine level
+= 神殿等级
+
+Shuffle all
+= 全部打乱
+
+Signed save
+= 已签名存档
+
+Signed — will re-sign
+= 已签名——将重新签名
+
+Signs
+= 标牌
+
+Silk
+= 丝绸
+
+Silver (all stacks)
+= 银（所有堆叠）
+
+Silver Eagles
+= Silver Eagles
+
+Silver PP7
+= Silver PP7
+
+Silver stacks
+= 银堆叠
+
+Sinnenschaerfe
+= Sinnenschaerfe
+
+Skill
+= 技能
+
+Skill Orbs (lower only)
+= 技能宝珠（仅可降低）
+
+Skill levels
+= 技能等级
+
+Skill levels go from 0 to 100.
+= 技能等级范围为0–100。
+
+Skill names are in the game's data files; the numbers are their ids.
+= 技能名称在游戏数据文件中，数字是其ID。
+
+Skill of Wolf
+= Skill of Wolf
+
+Skill orbs
+= 技能宝珠
+
+Skill points (total)
+= 技能点（总计）
+
+Skill points to spend
+= 可用技能点
+
+Skill test modifier (%)
+= 技能检定修正（%）
+
+Skill trees
+= 技能树
+
+Skills and personality go from 0 to 1000; every 100 is one point on the game's bars. Sims are listed by their id (their names are in the character files). Townies and the default families are under Other Sims on the Values tab with Advanced on. Not yet tried in the game.
+= 技能和性格范围为0到1000；每100对应游戏条上的一点。模拟人以ID列出（其名称在角色文件中）。镇民和默认家庭位于“数值”标签页开启“高级”后的“其他模拟人”下。尚未在游戏中测试。
+
+Skills go from 0 to 6; ADR is the six hazardous-goods classes as bits (63 = all). Experience sets the driver level; the game works it out on load.
+= 技能范围为0到6；ADR是六类危险品，以位表示（63＝全部）。经验决定司机等级；游戏在加载时自行计算。
+
+Skills learned
+= 已学技能
+
+Skills learned: {0} of 21
+= 已学技能：{0}/21
+
+Skills run 0 to 8 and attributes 0 to 10. A skill can only be trained up to its own limit, so raising a level here past what a crew member could reach is kept as typed
+= 技能范围为0到8，属性为0到10。技能只能训练到各自的上限；在此将等级提高到超过船员可达到的值时，仍会按输入值保留
+
+Skills run 0–100.
+= 技能范围为0–100。
+
+Skills, combat arts and prosthetic tools are listed here; learn them in the game.
+= 此处列出技能、战技和义肢工具；请在游戏中学习。
+
+Skills: points added
+= 技能：已加点数
+
+Slab revolvers
+= Slab revolvers
+
+Sleaze
+= Sleaze
+
+Slide (80)
+= 滑行 (80)
+
+Slime keys
+= 史莱姆钥匙
+
+Slot 1
+= 槽位1
+
+Slot 1: Bubblegloop Swamp jiggies
+= 槽位1：Bubblegloop Swamp的Jiggy
+
+Slot 1: Clanker's Cavern jiggies
+= 槽位1：Clanker's Cavern的Jiggy
+
+Slot 1: Click Clock Wood jiggies
+= 槽位1：Click Clock Wood的Jiggy
+
+Slot 1: Freezeezy Peak jiggies
+= 槽位1：Freezeezy Peak的Jiggy
+
+Slot 1: Gobi's Valley jiggies
+= 槽位1：Gobi's Valley的Jiggy
+
+Slot 1: Gruntilda's Lair jiggies
+= 槽位1：Gruntilda's Lair的Jiggy
+
+Slot 1: Mad Monster Mansion jiggies
+= 槽位1：Mad Monster Mansion的Jiggy
+
+Slot 1: Mumbo's Mountain jiggies
+= 槽位1：Mumbo's Mountain的Jiggy
+
+Slot 1: Rusty Bucket Bay jiggies
+= 槽位1：Rusty Bucket Bay的Jiggy
+
+Slot 1: Treasure Trove Cove jiggies
+= 槽位1：Treasure Trove Cove的Jiggy
+
+Slot 1: advanced moves
+= 槽位1：高级招式
+
+Slot 1: basic moves
+= 槽位1：基础招式
+
+Slot 1: cheats
+= 槽位1：作弊
+
+Slot 1: collectibles
+= 槽位1：收集品
+
+Slot 1: items
+= 槽位1：物品
+
+Slot 1: mission times (seconds; 0 = not done)
+= 槽位1：任务时间（秒；0＝未完成）
+
+Slot 1: options
+= 槽位1：选项
+
+Slot 1: weapons
+= 槽位1：武器
+
+Slot 2
+= 槽位2
+
+Slot 2: Bubblegloop Swamp jiggies
+= 槽位2：Bubblegloop Swamp的Jiggy
+
+Slot 2: Clanker's Cavern jiggies
+= 槽位2：Clanker's Cavern的Jiggy
+
+Slot 2: Click Clock Wood jiggies
+= 槽位2：Click Clock Wood的Jiggy
+
+Slot 2: Freezeezy Peak jiggies
+= 槽位2：Freezeezy Peak的Jiggy
+
+Slot 2: Gobi's Valley jiggies
+= 槽位2：Gobi's Valley的Jiggy
+
+Slot 2: Gruntilda's Lair jiggies
+= 槽位2：Gruntilda's Lair的Jiggy
+
+Slot 2: Mad Monster Mansion jiggies
+= 槽位2：Mad Monster Mansion的Jiggy
+
+Slot 2: Mumbo's Mountain jiggies
+= 槽位2：Mumbo's Mountain的Jiggy
+
+Slot 2: Rusty Bucket Bay jiggies
+= 槽位2：Rusty Bucket Bay的Jiggy
+
+Slot 2: Treasure Trove Cove jiggies
+= 槽位2：Treasure Trove Cove的Jiggy
+
+Slot 2: advanced moves
+= 槽位2：高级招式
+
+Slot 2: basic moves
+= 槽位2：基础招式
+
+Slot 2: cheats
+= 槽位2：作弊
+
+Slot 2: collectibles
+= 槽位2：收集品
+
+Slot 2: items
+= 槽位2：物品
+
+Slot 2: mission times (seconds; 0 = not done)
+= 槽位2：任务时间（秒；0＝未完成）
+
+Slot 2: options
+= 槽位2：选项
+
+Slot 2: weapons
+= 槽位2：武器
+
+Slot 3
+= 槽位3
+
+Slot 3: Bubblegloop Swamp jiggies
+= 槽位3：Bubblegloop Swamp的Jiggy
+
+Slot 3: Clanker's Cavern jiggies
+= 槽位3：Clanker's Cavern的Jiggy
+
+Slot 3: Click Clock Wood jiggies
+= 槽位3：Click Clock Wood的Jiggy
+
+Slot 3: Freezeezy Peak jiggies
+= 槽位3：Freezeezy Peak的Jiggy
+
+Slot 3: Gobi's Valley jiggies
+= 槽位3：Gobi's Valley的Jiggy
+
+Slot 3: Gruntilda's Lair jiggies
+= 槽位3：Gruntilda's Lair的Jiggy
+
+Slot 3: Mad Monster Mansion jiggies
+= 槽位3：Mad Monster Mansion的Jiggy
+
+Slot 3: Mumbo's Mountain jiggies
+= 槽位3：Mumbo's Mountain的Jiggy
+
+Slot 3: Rusty Bucket Bay jiggies
+= 槽位3：Rusty Bucket Bay的Jiggy
+
+Slot 3: Treasure Trove Cove jiggies
+= 槽位3：Treasure Trove Cove的Jiggy
+
+Slot 3: advanced moves
+= 槽位3：高级招式
+
+Slot 3: basic moves
+= 槽位3：基础招式
+
+Slot 3: cheats
+= 槽位3：作弊
+
+Slot 3: collectibles
+= 槽位3：收集品
+
+Slot 3: items
+= 槽位3：物品
+
+Slot 3: mission times (seconds; 0 = not done)
+= 槽位3：任务时间（秒；0＝未完成）
+
+Slot 3: options
+= 槽位3：选项
+
+Slot 3: weapons
+= 槽位3：武器
+
+Slot 4
+= 槽位4
+
+Slot 4: cheats
+= 槽位4：作弊
+
+Slot 4: mission times (seconds; 0 = not done)
+= 槽位4：任务时间（秒；0＝未完成）
+
+Slot 4: options
+= 槽位4：选项
+
+Slot 5
+= 槽位5
+
+Slot 6
+= 槽位6
+
+Slot 7
+= 槽位7
+
+Slot 8
+= 槽位8
+
+Slot points
+= 槽位点数
+
+SlotA.save (a version line, then JSON XORed with the game's own key; both are handled for you). Each Gungeoneer's statistics, including Hegemony credits. Unlocked guns, items and flags are in the Tree.
+= SlotA.save（一行版本信息，后接用游戏自带密钥异或处理的JSON；两者均由程序自动处理）。每位Gungeoneer的统计数据，包括Hegemony点数。已解锁的枪械、物品和标记位于树视图中。
+
+Slots destroyed
+= 已摧毁槽位
+
+Slots in use
+= 使用中的槽位
+
+Slow Animation
+= 慢速动画
+
+Slow FS charging
+= FS充能缓慢
+
+Sluggish shield
+= 迟钝护盾
+
+Small Guns
+= 小型枪械
+
+Snacks (L)
+= 零食（L）
+
+Snacks (M)
+= 零食（M）
+
+Snacks (S)
+= 零食（S）
+
+Snacks, toys and key items
+= 零食、玩具和关键物品
+
+Sneak
+= 潜行
+
+Snorkel the dolphin rescued
+= 已救出海豚Snorkel
+
+Social Links
+= Social Link
+
+Social stats
+= 社交属性
+
+Soldiers
+= 士兵
+
+Soldiers (every base)
+= 士兵（所有基地）
+
+Song of Storms
+= 暴风雨之歌
+
+Song of Time
+= 时之歌
+
+Soot
+= 煤灰
+
+Sora
+= 索拉
+
+Sora AP boosts
+= 索拉的AP提升
+
+Sora HP
+= 索拉的HP
+
+Sora MP
+= 索拉的MP
+
+Sora focus
+= 索拉的专注
+
+Sora, Donald and Goofy
+= 索拉、唐老鸭和高飞
+
+Soul Link Efficiency
+= 灵魂链接效率
+
+Soul of Bat
+= Soul of Bat
+
+Soul of Wolf
+= Soul of Wolf
+
+Souls to next level
+= 距下一级所需魂
+
+Sound Test
+= 音效测试
+
+Space
+= 太空
+
+Space jump
+= 太空跳跃
+
+Space points of interest (harvestable fields, Gravitas stations, the Temporal Tear) are out on the star map, not in a world.
+= 太空兴趣点（可收获的田地、Gravitas空间站、Temporal Tear）位于星图上，而非某个世界中。
+
+Spare ammo for each weapon Shepard carries.
+= Shepard携带的每件武器的备用弹药。
+
+Spare ammunition by type, as the HUD counts it. Names come from the weapons that use each type; "Ammo type N" is one no weapon in this map names. The game caps ammo at each type's maximum when you pick more up.
+= 按类型列出的备用弹药，计数方式与HUD相同。名称来自使用各类型的武器；“Ammo type N”表示此映射中没有武器使用其名称的类型。拾取更多时，游戏会将弹药限制在各类型的上限内。
+
+Spare ammunition stored in the backpack, as the wrist display counts it.
+= 背包中存放的备用弹药，计数方式与腕部显示器相同。
+
+Spark Flame
+= Spark Flame
+
+Spazer
+= Spazer
+
+Spear
+= 长矛
+
+Special
+= 特殊
+
+Special ability pts
+= 特殊能力点数
+
+Speech
+= 口才
+
+Speechcraft
+= 口才
+
+Speed
+= 速度
+
+Speed Bean
+= Speed Bean
+
+Speed booster
+= 速度加速器
+
+Speedrun challenge available
+= 速通挑战可用
+
+Speere
+= Speere
+
+Spell levels: 0 not learned, 1 the first form, 2 the upgraded one. Set Mode back to 0 to open a dead Steel Soul save as a normal one.
+= 法术等级：0＝未学会，1＝初始形态，2＝升级形态。将“模式”改回0，即可把已死亡的Steel Soul存档当作普通存档打开。
+
+Spell points
+= 法术点数
+
+Spell power
+= 法术强度
+
+Spells, mode and charm state
+= 法术、模式与护符状态
+
+Spendable AP
+= 可用AP
+
+Spikerock
+= Spikerock
+
+Spirit Efficiency
+= 灵魂效率
+
+Spirit Emblems
+= 灵魂徽章
+
+Spirit Flame
+= 灵魂之火
+
+Spirit Medallion
+= 灵魂勋章
+
+Spirit Orb
+= 灵魂宝珠
+
+Spirit board items
+= 灵魂板道具
+
+Spirit hearts
+= 灵魂之心
+
+Spirit levels
+= 灵魂等级
+
+Spirit upgrade materials
+= 灵魂强化材料
+
+Spirits
+= 灵魂
+
+Split Flame
+= Split Flame
+
+Spooky
+= 诡异
+
+Spriggan
+= Spriggan
+
+Spring / Winter: At the highest platform of the tree
+= 春 / 冬:树上最高的平台
+
+Spring ball
+= 弹簧球
+
+Squad
+= 小队
+
+Squad level
+= 小队等级
+
+Squad members
+= 小队成员
+
+Stability
+= 稳定度
+
+Stability and war support run from 0 to 1 (0.5 is 50%).
+= 稳定度和战争支持度范围为 0 至 1(0.5 即 50%)。
+
+Stability runs from -3 to +3. The country is the one you play; the Tree tab has every other country by tag.
+= 稳定度范围为 -3 至 +3。国家为您当前游玩的国家;“树”标签页按标签列出所有其他国家。
+
+Stability runs −3 to 3; prestige and legitimacy up to 100. Ironman saves are edited in place and stay ironman; the game may stop awarding achievements for an edited campaign.
+= 稳定度范围为 −3 至 3;威望和合法性最高 100。铁人模式存档将就地编辑并保持铁人模式;编辑过的战役可能不再获得成就。
+
+Stache
+= Stache
+
+Stache Bean
+= Stache Bean
+
+Stack
+= 堆叠
+
+Stack sizes of the party's backpack. Items are shown by their internal resource name; items can't be added here.
+= 队伍背包的堆叠数量。物品以内部资源名显示;无法在此添加物品。
+
+Staebe
+= Staebe
+
+Staff
+= 员工
+
+Staff have guard keys
+= 员工持有警卫钥匙
+
+Stage number
+= 阶段编号
+
+Stamina
+= 耐力
+
+Stamina XP
+= 耐力经验
+
+Stamina core
+= 耐力核心
+
+Standing with each faction (negative is hated). The game may clamp values outside its own range.
+= 与各阵营的声望(负值表示憎恨)。超出游戏范围的值可能被游戏截断。
+
+Star 1
+= 星星 1
+
+Star 2
+= 星星 2
+
+Star 3
+= 星星 3
+
+Star 4
+= 星星 4
+
+Star 5
+= 星星 5
+
+Star 6
+= 星星 6
+
+Stars collected
+= 已收集星星
+
+Started with
+= 初始值
+
+Starting day offset
+= 起始日偏移
+
+Stat
+= 属性
+
+Stat bonuses
+= 属性加成
+
+Stat points
+= 属性点
+
+Stat upgrades
+= 属性强化
+
+State
+= 状态
+
+Static faith
+= 静态信仰
+
+Stats
+= 属性
+
+Stats are the base values before the dressphere and accessories.
+= 属性为应用 Dressphere 和饰品之前的基础值。
+
+Stats go up to 255. The game works out max HP/MP again from the base max and equipment, so raise the base max to make a higher maximum stick.
+= 属性最高 255。游戏会根据基础上限和装备重新计算最大 HP/MP,因此请提高基础上限,以使更高的最大值得以保留。
+
+Stats in the menu
+= 菜单中的属性
+
+Stats of the player and the party members are in SAVEGAME.sav in the same save folder.
+= 玩家和队伍成员的属性位于同一存档文件夹中的 SAVEGAME.sav。
+
+Stats use
+= 属性使用
+
+Steal
+= 偷窃
+
+Stealth
+= 潜行
+
+Stench
+= 恶臭
+
+Steps
+= 步数
+
+Stilt Stride
+= Stilt Stride
+
+Stim capacity
+= 兴奋剂容量
+
+Stimpaks
+= 治疗针
+
+Stims
+= 兴奋剂
+
+Stims carried
+= 携带的兴奋剂
+
+Stolen from Grabba
+= 从 Grabba 处偷取
+
+Stomp
+= 践踏
+
+Stone of Agony
+= Stone of Agony
+
+Stop 'n' Swop
+= Stop 'n' Swop
+
+Storage
+= 存储
+
+Storage and playthroughs
+= 存储与周目
+
+Stored rank points
+= 已存储的等级点数
+
+Stores of the first base
+= 第一基地的储备
+
+Stores of the second base
+= 第二基地的储备
+
+Stores of the third base
+= 第三基地的储备
+
+Storm Mode run
+= 风暴模式一轮
+
+Story
+= 剧情
+
+Story items: holding one early doesn't play the scene that normally gives it. The Al Bhed primers aren't listed.
+= 剧情物品:提前持有不会播放通常获得它时的剧情。奥尔贝德语入门书未列出。
+
+Story values
+= 剧情数值
+
+Story variables
+= 剧情变量
+
+Strategy tomes
+= 战略书
+
+Strawberries
+= 草莓
+
+Street
+= 街道
+
+StreetPass
+= StreetPass
+
+Streetwise
+= 街头智慧
+
+Strength 18/xx
+= 力量 18/xx
+
+Strength, Magic, Spirit and Speed are the base values before equipment and abilities. Level 99, HP 9999 and MP 999 are the game's limits.
+= 力量、魔力、精神和速度为应用装备和技能之前的基础值。99 级、HP 9999 和 MP 999 为游戏上限。
+
+Stress
+= 压力
+
+Stress 0–200 (100 brings an affliction or virtue). Weapon and armour ranks count from 0 (a recruit's gear) to 4 (fully upgraded). HP is the value stored for the hero now. The level follows resolve XP.
+= 压力 0–200(达到 100 会触发折磨或美德)。武器和护甲等级从 0(新兵装备)到 4(完全升级)。HP 为当前为英雄存储的值。等级随决心经验变化。
+
+Stress XP
+= 压力经验
+
+Stress level
+= 压力等级
+
+Studied
+= 已学习
+
+Studs
+= Studs
+
+Studs in LEGO Star Wars (2005), The Complete Saga, Batman and Indiana Jones; the save's checksum is rewritten.
+= LEGO Star Wars(2005)、The Complete Saga、Batman 和 Indiana Jones 中的 Studs;存档校验和会被重写。
+
+Studs now: {1}. The game keeps the wallet in {0} places; the buttons write all of them.
+= 当前 Studs:{1}。游戏在 {0} 处保存钱包;按钮会全部写入。
+
+Stuns
+= 眩晕次数
+
+Stunt jumps found
+= 已发现的特技跳跃
+
+Style experience
+= 风格经验
+
+Successful runs
+= 成功次数
+
+Suggestion
+= 建议
+
+Suits and furniture the crew has bought. Adding one makes it available to the crew.
+= 船员已购买的服装和家具。添加后船员即可使用。
+
+Sulfur
+= 硫磺
+
+Summer / Autumn: Following the leaves path
+= 夏 / 秋:沿着树叶小径
+
+Summer / Autumn: In the treehouse
+= 夏 / 秋:在树屋里
+
+Summer: Defeat the Zubbas inside the beehive
+= 夏:击败蜂巢内的 Zubbas
+
+Sun's Song
+= 太阳之歌
+
+Sunlight (lux)
+= 阳光(勒克斯)
+
+Sunlight and cosmic radiation are what the world gets at its surface. Discovered puts the world on the star map; Surface revealed clears the fog above ground.
+= 阳光和宇宙辐射是该世界在地表接收到的量。“已发现”会将该世界标在星图上;“地表已揭示”会清除地面上方的迷雾。
+
+Super Bros. Bean
+= Super Bros. Bean
+
+Super Candy
+= Super Candy
+
+Super Defense Bean
+= Super Defense Bean
+
+Super HP Bean
+= Super HP Bean
+
+Super Mushroom
+= 超级蘑菇
+
+Super Nut
+= Super Nut
+
+Super Power Bean
+= Super Power Bean
+
+Super Speed Bean
+= Super Speed Bean
+
+Super Stache Bean
+= Super Stache Bean
+
+Super Syrup Jar
+= Super Syrup Jar
+
+Super missiles
+= 超级导弹
+
+Super missiles (max)
+= 超级导弹(上限)
+
+SuperDashing
+= SuperDashing
+
+Supplies (count + 1000)
+= 物资(数量 + 1000)
+
+Surface revealed
+= 地表已揭示
+
+Survival
+= 生存
+
+Survival: rounds completed
+= 生存:已完成回合
+
+Susie in party
+= Susie 在队伍中
+
+Suspension damage
+= 悬挂损坏
+
+Swimming
+= 游泳
+
+Sword
+= 剑
+
+Sword Card
+= 剑卡
+
+Sword experience
+= 剑经验
+
+Sword level
+= 剑等级
+
+Swordsman
+= 剑士
+
+Syrup Jar
+= Syrup Jar
+
+TKOs
+= TKOs
+
+TOSSaveData0.dat. Gald is kept in two places and both are written. Item counts go up to 20.
+= TOSSaveData0.dat。Gald 保存在两处,两处都会写入。物品数量最多 20。
+
+TP
+= TP
+
+Tachy gauge
+= Tachy 槽
+
+Tachyon particles
+= 超光速粒子
+
+Takes effect the next time you load this slot. Freedom turns off food and water; Creative also turns off oxygen and building costs. Changing mode may turn achievements off.
+= 下次加载此槽位时生效。自由模式会关闭食物和水;创造模式还会关闭氧气和建造成本。更改模式可能会关闭成就。
+
+Takings are what the businesses have earned and you haven't collected yet. Money tops out at ¥9,999,999,999,999.
+= 营收是各产业已赚取但您尚未领取的金额。金钱上限为 ¥9,999,999,999,999。
+
+Talent points
+= 天赋点
+
+Talent pts
+= 天赋点
+
+Talents
+= 天赋
+
+Talents you've unlocked and their level. Give yourself talent points above to unlock more in the game.
+= 您已解锁的天赋及其等级。在上方给自己添加天赋点,即可在游戏中解锁更多。
+
+Talon Trot
+= Talon Trot
+
+Tanimura
+= Tanimura
+
+Tanimura's money
+= Tanimura 的金钱
+
+Tanks
+= 储罐
+
+Tanktup's feet
+= Tanktup 的脚
+
+Tar
+= 焦油
+
+Tar and shell points
+= 焦油与贝壳点数
+
+Tar gained in total
+= 累计获得焦油
+
+Tar lost on death
+= 死亡时损失的焦油
+
+Targets killed this loop
+= 本循环击杀的目标
+
+Taschendiebstahl
+= 扒窃
+
+Task and contest payouts
+= 任务和竞赛奖金
+
+Taunt Ball
+= Taunt Ball
+
+Tax
+= 税收
+
+Teams beaten
+= 击败的队伍
+
+Tears collected (total)
+= 已收集的眼泪(总计)
+
+Tears of Atonement
+= 赎罪之泪
+
+Technology points
+= 科技点数
+
+Techpriest slots
+= 技术神甫栏位
+
+Techpriests
+= 技术神甫
+
+Techs
+= 技能
+
+Temperature:
+= 温度:
+
+Tension
+= 紧张度
+
+Terra tokens
+= Terra 代币
+
+Terraformation units; the planet's stage follows them when the save loads.
+= 地球化单位;加载存档时,星球阶段会随之变化。
+
+Text
+= 文本
+
+Thaumaturgy
+= 奇术
+
+The 18/xx bonus only counts for warriors with Strength 18.
+= 18/xx 加成仅对力量为 18 的战士有效。
+
+The Ark
+= 方舟
+
+The Estate — its coffers and heirlooms
+= 庄园——金库与传家宝
+
+The Expedition — this run
+= 远征——本轮
+
+The Heroes of this run
+= 本轮的英雄
+
+The Knight
+= 骑士
+
+The Lamb
+= 羔羊
+
+The Noise
+= The Noise
+
+The Planet Crafter
+= The Planet Crafter
+
+The Roster — heroes of the Hamlet
+= 名册——村庄英雄
+
+The Secret Aquarium
+= The Secret Aquarium
+
+The Steam version's save (a text key, then base64 of raw-deflated JSON; both handled for you). Gold, rubies, hero souls, ancient souls, zones and each hero's and outsider's level. Numbers the game keeps as text (gold, primal souls) are edited as text.
+= Steam 版存档(文本密钥,后接 raw-deflate 压缩 JSON 的 base64;两者均自动处理)。包含金币、红宝石、英雄之魂、远古之魂、区域以及每位英雄和局外人的等级。游戏以文本保存的数字(金币、原初之魂)按文本编辑。
+
+The Vigilante
+= The Vigilante
+
+The __RESUME__ file of a single-player or multiplayer slot. The inventory holds what the player carries; the game's own limit for each item is stored with it (Max amount, -1 for no limit).
+= 单人或多人槽位的 __RESUME__ 文件。物品栏包含玩家携带的物品;每件物品的游戏自身上限一并存储(Max amount,-1 表示无上限)。
+
+The character's name, level and location are shown as the game recorded them; the values below can be edited.
+= 角色的名称、等级和位置按游戏记录原样显示;下方的值可以编辑。
+
+The choices the password carries into The Lost Age. Click one to turn it on or off; the scene behind it isn't replayed.
+= 密码带入 The Lost Age 的选择。点击某项可将其开启或关闭;其背后的剧情不会重新播放。
+
+The colony started here.
+= 殖民地从这里开始。
+
+The crew
+= 船员
+
+The cult
+= 教团
+
+The dated saves are the game's autosaves. Cairn continues from the newest save in the slot; pick another to open it instead (unsaved changes are dropped).
+= 带日期的存档是游戏的自动存档。Cairn 从槽位中最新的存档继续;选择其他存档可改为打开该存档(未保存的更改将被丢弃)。
+
+The deadline counts in-game minutes: a day is 1,080, so 3,240 is the full three days.
+= 期限以游戏内分钟计算：一天为 1,080，因此 3,240 即整整三天。
+
+The eddies in V's own inventory. Everything else in this save is in the Hex view: use Value search with a number you know.
+= V 自己背包中的 eddies。此存档的其他内容都在 Hex 视图中：请用已知数字进行数值搜索。
+
+The five kinds of experience you spend in the Growth menu, in the order the save keeps them.
+= 在成长菜单中消耗的五种经验，按存档保存的顺序排列。
+
+The fourth tag is the one the Tag! perk gives. Don't pick the same trait or skill twice.
+= 第四个标记来自 Tag! 特技。请勿重复选择同一特质或技能。
+
+The game builds the menu stats from these, adding class, Djinn and equipment.
+= 游戏据此计算菜单属性，并加上职业、精灵和装备。
+
+The game decides the level from the total experience when it loads, so change both together.
+= 游戏加载时会根据总经验决定等级，因此请同时修改两者。
+
+The game has 6 Pale Ore for nail upgrades; this gives all 6. More than you have already is left alone.
+= 游戏中用于骨钉升级的苍白矿石共有 6 个，此处会全部给予。已有更多时保持不变。
+
+The game leaves out values that are zero, so there is nothing in the file to change for these. Pick up some armour (or ammo) in the game and save again.
+= 游戏不保存为零的值，因此文件中没有可修改的内容。请先在游戏中拾取一些护甲（或弹药），然后再次存档。
+
+The game may recalculate level and stats from experience.
+= 游戏可能会根据经验重新计算等级和属性。
+
+The game shows Owned = online + local (the number with the globe is the online part). Checked against the in-game vehicle, walker gear and placed-weapon screens.
+= 游戏显示拥有数 = 在线 + 本地（带地球图标的数字为在线部分）。已对照游戏内的载具、步行机装备和已部署武器界面核实。
+
+The game shows these counts as On Hand and In Storage. Key items (weapons, the bow) have no count.
+= 游戏将这些数量显示为“手头”和“仓库”。关键物品（武器、弓）没有数量。
+
+The game's own quest counters. Changing one can skip or repeat a scene; keep the backup.
+= 游戏自带的任务计数器。修改后可能跳过或重复某个场景，请保留备份。
+
+The game's own story and unlock flags: most are 0 or 1, some count up. Shows 400 at a time: use the filter.
+= 游戏自带的剧情和解锁标志：大多为 0 或 1，部分会递增。每次显示 400 项：请使用筛选。
+
+The game's own story counters: quest stages, who has joined or died, what was said. Most are 0 or 1, some count up. Changing one can skip or repeat a scene, so change few and keep the backup. Shows 400 at a time: use the filter.
+= 游戏自带的剧情计数器：任务阶段、谁已加入或死亡、说过什么。大多为 0 或 1，部分会递增。修改后可能跳过或重复某个场景，请少量修改并保留备份。每次显示 400 项：请使用筛选。
+
+The gameslot file in the game's save folder. Enchantment levels run 0 to 3. Gold is Will's gold; the banker's invested money is separate.
+= 游戏存档文件夹中的 gameslot 文件。附魔等级为 0 至 3。金币为 Will 的金币；银行家处的投资资金另计。
+
+The inventory is empty.
+= 背包为空。
+
+The item list has no unused entries left.
+= 物品列表已没有空闲条目。
+
+The items the team owns for the next level. Each health upgrade is worth 20 health on top of 100.
+= 团队为下一等级持有的物品。每个生命值升级在 100 基础上增加 20 生命值。
+
+The large key
+= 大钥匙
+
+The level follows from experience; points not yet spent can be spent in the game. Vitality is the current value.
+= 等级由经验决定；未使用的点数可在游戏中使用。活力为当前值。
+
+The lists themselves are in the Tree tab.
+= 列表本身在“树”标签页中。
+
+The load menu shows the name, LV and time from undertale.ini in the same folder; the game itself loads file0.
+= 读取菜单显示同文件夹中 undertale.ini 的名称、LV 和时间；游戏本身加载 file0。
+
+The load menu shows what dr.ini (same folder) says; the game itself loads this file.
+= 读取菜单显示 dr.ini（同文件夹）中的内容；游戏本身加载此文件。
+
+The loop
+= 循环
+
+The map couldn't be read from this save.
+= 无法从此存档读取地图。
+
+The map isn't available for this file.
+= 此文件无可用地图。
+
+The maximum before items and bonuses; the game adds those on top
+= 物品和加成之前的最大值；游戏会在此基础上叠加
+
+The names are the game's own variables; hover over a section's flag to guess what it does, or leave the rest alone.
+= 名称是游戏自身的变量；将鼠标悬停在某一部分的标志上可推测其作用，其余请勿改动。
+
+The number after each slot is the Persona's id in the game's compendium.
+= 每个栏位后的数字是该 Persona 在游戏图鉴中的 ID。
+
+The number is the entry's id in the game's database (the order of the list in the editor, starting at 1). Most games cap a stack at 99.
+= 该数字是条目在游戏数据库中的 ID（即编辑器中列表的顺序，从 1 开始）。大多数游戏将堆叠上限设为 99。
+
+The perk and trait bonuses on top come from the game.
+= 额外的特技和特质加成由游戏提供。
+
+The pitons hanging under the bag. The game shows how many the belt holds (6 at first).
+= 挂在背包下的岩钉。游戏会显示腰带能容纳的数量（初始为 6）。
+
+The player carries no weapons yet.
+= 玩家尚未携带武器。
+
+The player's character isn't in this save.
+= 此存档中没有玩家角色。
+
+The player's country isn't in this save.
+= 此存档中没有玩家所在国家。
+
+The rank follows the experience the game expects for it: after changing one, check the other in the game
+= 等级遵循游戏对应的预期经验：修改其中一项后，请在游戏中检查另一项
+
+The ring challenge
+= 戒指挑战
+
+The run's stats, doom and items are in the Values tab under town.
+= 本轮的属性、厄运和物品位于“值”标签页的 town 下。
+
+The save has no checksum. Close the game before editing; it writes the file when you save and exit. Checked on a public completed save, not yet tried in the game.
+= 此存档没有校验和。编辑前请关闭游戏；游戏会在存档并退出时写入文件。已在公开的通关存档上检查，尚未在游戏中试过。
+
+The save keeps the player's credits in {0} places; these are the values as the game stores them.
+= 存档在 {0} 处保存了玩家的点数；以下为游戏存储的原始值。
+
+The save lists 35 platform slots in order: Mother Base, then FOB 1 to 4, each Command, Combat, R&D, Base Development, Support, Intel, Medical (matches the in-game base screens). Not every FOB platform exists until built in the game.
+= 存档按顺序列出 35 个平台栏位：母基地，然后是 FOB 1 至 4，每个都包含指挥、战斗、研发、基地开发、支援、情报、医疗（与游戏内基地界面一致）。FOB 平台需在游戏中建造后才会存在。
+
+The save's MD5 is written again when you save. Not yet tried in the game.
+= 存档的 MD5 会在保存时重新写入。尚未在游戏中试过。
+
+The save's checksum is updated when you save.
+= 存档的校验和会在保存时更新。
+
+The save's summary lists no party.
+= 存档摘要中没有队伍。
+
+The size of each bar. Prayer Beads and Gourd Seeds raise them in the game.
+= 各条的大小。游戏中祈祷珠和葫芦种子可提升它们。
+
+The three keys unlock the Heart; Final act lets the run go on to Act 4. Ids must be the game's own (a wrong one can stop the run loading); removing a relic also drops its counter.
+= 三把钥匙可开启心脏；“最终幕”可让本轮继续进入第 4 幕。ID 必须是游戏自身的（错误的 ID 可能导致无法加载）；移除遗物时其计数器也会一并删除。
+
+The tier of each item in your loadout: 0, 1 or 2 for tiers I, II and III. A tier also has to be unlocked (next tab).
+= 装备中各物品的阶级：0、1 或 2 对应 I、II、III 阶。该阶级还需已解锁（见下一标签页）。
+
+The weapons Alyx has. Their upgrades and loaded rounds aren't edited here.
+= Alyx 拥有的武器。其升级和已装填子弹不在此处编辑。
+
+These are the current amounts; the most a character can have comes from its armour and food, and the game keeps the current amount within it.
+= 这些是当前数量；角色的上限取决于其护甲和食物，游戏会使当前数量不超过上限。
+
+These are the game's own variable names; values inside characters or other objects are shown as name.value. Each save keeps its own copy; the Values tab also shows lists.
+= 这些是游戏自身的变量名；角色或其他对象内的值显示为 name.value。每个存档都有自己的副本；“值”标签页也会显示列表。
+
+These are the points behind each stat's rank. The level follows the experience when the game loads it, so change both together.
+= 这些是每项属性等级背后的点数。游戏加载时等级随经验而定，因此请同时修改两者。
+
+Thirst
+= 口渴
+
+This auto-save keeps the player in pifo.ifo, which the game loads instead of the copies in SAVEGAME.sav. Open pifo.ifo from the same folder to edit the player.
+= 此自动存档将玩家保存在 pifo.ifo 中，游戏加载的是它而非 SAVEGAME.sav 中的副本。要编辑玩家，请打开同一文件夹中的 pifo.ifo。
+
+This box is empty.
+= 此箱子为空。
+
+This character carries no gold.
+= 此角色没有携带金币。
+
+This empire has no stockpiles in the save.
+= 此帝国在存档中没有库存。
+
+This isn't the save the game continues from: Cairn loads the newest save in the slot (marked in the list below), so edits here won't show up in the game.
+= 这不是游戏“继续”所用的存档：Cairn 会加载栏位中最新的存档（在下方列表中已标记），因此在此处的修改不会出现在游戏中。
+
+This neighbourhood has no families yet.
+= 此社区还没有家庭。
+
+This profile has no candles yet.
+= 此档案还没有蜡烛。
+
+This round
+= 本回合
+
+This save
+= 此存档
+
+This save doesn't carry the species' data (older game versions): a level is refused when the growth rates this Pokémon could have disagree on its Exp., and the stats shown here change when the game next works them out (on a level-up).
+= 此存档不含物种数据（旧版游戏）：若该宝可梦可能的成长速率在经验值上互相矛盾，则会拒绝该等级；此处显示的属性会在游戏下次计算时（升级时）改变。
+
+This save has no households.
+= 此存档没有家庭。
+
+This save has no ship upgrades.
+= 此存档没有飞船升级。
+
+This save has no unspent skill points: the game doesn't store a 0, so there's nothing here to raise — earn one in the game first.
+= 此存档没有未使用的技能点：游戏不保存 0，因此这里无可提升的内容——请先在游戏中获得一点。
+
+This save keeps no vitals.
+= 此存档不含生命体征。
+
+This save's skills couldn't be read.
+= 无法读取此存档的技能。
+
+This world has no chests.
+= 此世界没有箱子。
+
+This world has no signs.
+= 此世界没有告示牌。
+
+ThreeSixtyDashing
+= ThreeSixtyDashing
+
+Throwing
+= 投掷
+
+Thunder
+= 雷
+
+Tickets
+= 门票
+
+Tier
+= 阶级
+
+Tierkunde
+= Tierkunde
+
+Time
+= 时间
+
+Time Trials: characters
+= 计时赛：角色
+
+Time Trials: times (hundredths of a second, 600000 = no record)
+= 计时赛：时间（百分之一秒，600000 = 无记录）
+
+Time alive (seconds)
+= 存活时间（秒）
+
+Time in runs (seconds)
+= 对局时间（秒）
+
+Time in the game (seconds)
+= 游戏内时间（秒）
+
+Time index
+= 时间索引
+
+Time is in ticks: a day runs 0 to 54,000 from dawn, a night 0 to 32,400 from dusk. Spawn and dungeon are tile positions (you can also set the spawn point on the Map).
+= 时间以 tick 为单位：白天从黎明起为 0 至 54,000，夜晚从黄昏起为 0 至 32,400。出生点和地牢为图块坐标（也可在地图上设置出生点）。
+
+Time logged in (seconds)
+= 登录时间（秒）
+
+Time of day
+= 时段
+
+Time of day (HHMM)
+= 时刻（HHMM）
+
+Time played (s)
+= 游玩时间（秒）
+
+Time shards
+= 时间碎片
+
+Time units
+= 时间单位
+
+Time warp factor
+= 时间扭曲系数
+
+Time.json
+= Time.json
+
+Times arrested
+= 被捕次数
+
+Times cleared
+= 通关次数
+
+Times completed
+= 完成次数
+
+Times died
+= 死亡次数
+
+Times landed
+= 着陆次数
+
+Times retired
+= 放弃次数
+
+Times saved
+= 存档次数
+
+Tinted rocks broken
+= 击碎的染色岩石
+
+Tiny Bond
+= Tiny Bond
+
+Title
+= 标题
+
+Toad (Clock Room)
+= Toad (Clock Room)
+
+Toad (Gallery)
+= Toad (Gallery)
+
+Toad (Hazy Maze Cave)
+= Toad (Hazy Maze Cave)
+
+Tools and ammunition
+= 工具和弹药
+
+Tooth of Vlad
+= Tooth of Vlad
+
+Top speed
+= 最高速度
+
+Topaz
+= 黄玉
+
+Torch
+= 火把
+
+Total EXP
+= 总 EXP
+
+Total War campaign
+= Total War 战役
+
+Total class levels
+= 职业等级总计
+
+Total coins
+= 金币总计
+
+Total experience
+= 总经验
+
+Total experience (skill points come from this):
+= 总经验（技能点由此而来）：
+
+Total gald spent
+= 累计花费的 Gald
+
+Total gear power
+= 装备总战力
+
+Total gil
+= 金币总计
+
+Total haul ($K)
+= 总收获（千美元）
+
+Total hearts
+= 心总数
+
+Total progress in the game
+= 游戏总进度
+
+Total respect
+= 尊重总数
+
+Total skill points earned
+= 获得技能点总数
+
+Total strawberries
+= 草莓总数
+
+Total unique stunt jumps
+= 特技跳跃总数（不重复）
+
+Totals
+= 总计
+
+Tourists
+= 游客
+
+Tower of the Wing Cap
+= 飞翼帽之塔
+
+Town NPCs
+= 城镇NPC
+
+Trade goods
+= 贸易商品
+
+Trailer prices
+= 拖车价格
+
+Trailers bought
+= 已购拖车
+
+Trailers sold
+= 已售拖车
+
+Trainer
+= 训练师
+
+Training
+= 训练
+
+Trait points
+= 特质点数
+
+Traits and tagged skills
+= 特质与标记技能
+
+Transcended
+= 已超越
+
+Transcensions
+= 超越次数
+
+Travellers
+= 旅行者们
+
+Traversal and Combat are the two skill trees; their points fill the bar to the next level. Inhibitors raise health and stamina.
+= “探索”和“战斗”是两个技能树，其点数会填满通往下一级的进度条。抑制剂可提升生命值和耐力。
+
+Treasure found
+= 已找到宝藏
+
+Treasuries are whole numbers up to 2,147,483,647. The save is packed again on write (it gets larger). Not yet tried in the game.
+= 国库为不超过2,147,483,647的整数。写入时存档会重新打包（体积会变大）。尚未在游戏中测试。
+
+Tree food
+= 树木养料
+
+Tree of Wisdom height (feet)
+= 智慧之树高度（英尺）
+
+Triad XP
+= Triad经验值
+
+Triple Jump
+= 三段跳
+
+Troop deployment cost reduction
+= 部队部署费用减免
+
+Troop slots
+= 部队栏位
+
+Truck prices
+= 卡车价格
+
+Truck simulator profile
+= 卡车模拟器档案
+
+Trucks bought
+= 已购卡车
+
+Trucks in the warehouse
+= 仓库中的卡车
+
+Trucks sold
+= 已售卡车
+
+Trust points
+= 信任点数
+
+Tumblar's game
+= Tumblar的游戏
+
+Tunic
+= 束腰外衣
+
+Turbo Mode
+= 涡轮模式
+
+Turbo Talon Trot
+= Turbo Talon Trot
+
+Turquoise
+= 绿松石色
+
+Tutorial beaten
+= 已通过教程
+
+Twin Sunflower
+= 双子向日葵
+
+Two-handed
+= 双手
+
+Ueberreden
+= Ueberreden
+
+Ultra Candy
+= 超级糖果
+
+Ultra Defense
+= 超级防御
+
+Ultra Light Burst
+= 超级光爆
+
+Ultra Magnet
+= 超级磁铁
+
+Ultra Mushroom
+= 超级蘑菇
+
+Ultra Nut
+= 超级坚果
+
+Ultra Soul Link
+= 超级灵魂链接
+
+Ultra Split Flame
+= 超级分裂火焰
+
+Ultra Stomp
+= 超级踩踏
+
+Ultra Syrup Jar
+= 超级糖浆罐
+
+Umanite
+= Umanite
+
+Unarmed
+= 徒手
+
+Unarmored
+= 无护甲
+
+Underworld
+= 冥界
+
+Unique stunt jumps found
+= 已找到的特技跳跃
+
+Unlock Shadow of the Erdtree graces
+= 解锁Shadow of the Erdtree的赐福
+
+Unlock base game graces
+= 解锁本体游戏的赐福
+
+Unlock everything
+= 全部解锁
+
+Unlocked shells, weapons and seals
+= 已解锁的外壳、武器和印章
+
+Unlocked: Blue Mystery Egg
+= 已解锁：蓝色神秘蛋
+
+Unlocked: Cyan Mystery Egg
+= 已解锁：青色神秘蛋
+
+Unlocked: Green Mystery Egg
+= 已解锁：绿色神秘蛋
+
+Unlocked: Ice Key
+= 已解锁：冰之钥匙
+
+Unlocked: Pink Mystery Egg
+= 已解锁：粉色神秘蛋
+
+Unlocked: Red Mystery Egg
+= 已解锁：红色神秘蛋
+
+Unlocked: Yellow Mystery Egg
+= 已解锁：黄色神秘蛋
+
+Unspent attribute points
+= 未使用属性点
+
+Unspent points
+= 未使用点数
+
+Unspent skill points
+= 未使用技能点
+
+Untrained skills aren't written in the save, so they can't be raised here (spend skill points in the game).
+= 未训练的技能不会写入存档，因此无法在此提升（请在游戏中花费技能点）。
+
+Up to 999 of each item. Items you don't have yet can't be added here.
+= 每种物品最多999个。尚未拥有的物品无法在此添加。
+
+Upgrade count
+= 升级数量
+
+Ups
+= 提升
+
+Urine
+= 尿液
+
+UserData_00.sav. CP is money and cannot go above the CP limit next to it; PP buys perks.
+= UserData_00.sav。CP为金钱，不能超过旁边的CP上限；PP用于购买特性。
+
+VR points
+= VR点数
+
+Valuables
+= 贵重物品
+
+Vampire Survivors
+= Vampire Survivors
+
+Vanish Cap Under the Moat
+= 护城河下的隐形帽
+
+Vanish Cap switch
+= 隐形帽开关
+
+Vanity mastery XP
+= Vanity精通经验值
+
+Varia suit
+= Varia服
+
+Variant mode
+= 变体模式
+
+Vault resources
+= 金库资源
+
+Vehicle damage
+= 车辆损坏
+
+Vehicle units are named by their id in the Tree. Wear and fuel are fractions (0 = new, 1 = worn out; fuel 1 = full).
+= 车辆单位在Tree中以其id命名。磨损和燃料为分数（0=全新，1=完全磨损；燃料1=满）。
+
+Virtue
+= 美德
+
+Visions
+= 幻象
+
+Visual Calculus
+= Visual Calculus
+
+Vitality
+= 体质
+
+Vitality and the Force
+= 体质与原力
+
+Vitals
+= 生命体征
+
+Vitals (now and full)
+= 生命体征（当前与满值）
+
+Void essence ability unlocked
+= 已解锁虚空精华能力
+
+Volatiles
+= 挥发物
+
+Volition
+= 意志
+
+WORLD OF HORROR
+= WORLD OF HORROR
+
+Wall Jump
+= 蹬墙跳
+
+Wall grip (82)
+= 抓墙（82）
+
+Wall jumps
+= 蹬墙跳次数
+
+Wall:
+= 墙壁：
+
+Wallet
+= 钱包
+
+Wallet fields
+= 钱包字段
+
+Wanderers beaten
+= 已击败的流浪者
+
+War
+= 战争
+
+War support
+= 战争支持度
+
+Warehouses unlocked
+= 已解锁仓库
+
+Wasteland 3
+= Wasteland 3
+
+Water (maximum)
+= 水（最大值）
+
+Water Breath
+= 水之呼吸
+
+Water Medallion
+= 水之勋章
+
+Wave beam
+= 波束
+
+Waypoints
+= 路径点
+
+Weaken minions
+= 削弱喽啰
+
+Weapon elements (fusion materials you own)
+= 武器元素（拥有的融合材料）
+
+Weapon levels
+= 武器等级
+
+Weapon parts
+= 武器零件
+
+Weapon slots
+= 武器栏位
+
+Weapon: Axatana
+= 武器：Axatana
+
+Weapon: Ballistazooka
+= 武器：Ballistazooka
+
+Weapon: Battle Axe
+= 武器：战斧
+
+Weapon: Black Needle
+= 武器：黑针
+
+Weapon: Clockwork Scythe
+= 武器：发条镰刀
+
+Weapon: Crossbow
+= 武器：弩
+
+Weapon: Cursed Child
+= 武器：被诅咒之子
+
+Weapon: Dagger Axe
+= 武器：匕首斧
+
+Weapon: Haderns Sword
+= 武器：哈德恩之剑
+
+Weapon: Heavy Hammer
+= 武器：重锤
+
+Weapon: Machine Gun
+= 武器：机枪
+
+Weapon: Martyrs Blade
+= 武器：殉道者之刃
+
+Weapon: Nail Shotgun
+= 武器：钉子霰弹枪
+
+Weapon: Parasite Gun
+= 武器：寄生枪
+
+Weapon: Trebuchaxe
+= 武器：Trebuchaxe
+
+Weapons (by database number)
+= 武器（按数据库编号）
+
+Weapons and armor (ids per party member)
+= 武器与护甲（每名队员的ID）
+
+Weapons, horses and kit
+= 武器、马匹和装备
+
+WeatherSystemSaveData.json. Season is 0 spring, 1 summer, 2 autumn, 3 winter.
+= WeatherSystemSaveData.json。季节：0春、1夏、2秋、3冬。
+
+Week
+= 周
+
+Weekly deposits
+= 每周存款
+
+Wei Shen
+= Wei Shen
+
+Weight
+= 重量
+
+West Elizabeth ($)
+= 西伊丽莎白（$）
+
+What Artyom carries at the start of this level (chapter select loads it). The game may cap a count at what Artyom can carry.
+= 阿尔乔姆在本关开始时携带的物品（选择章节时载入）。游戏可能会将数量限制在阿尔乔姆的携带上限内。
+
+What each piece of scrap on the ship sells for. The quota counts what you sell.
+= 飞船上每件废料的售价。配额按您出售的部分计算。
+
+Wheel Barrow
+= 独轮车
+
+Where you are
+= 所在位置
+
+Whimsical stars
+= 奇想之星
+
+Whiplash
+= 鞭打
+
+Who
+= 对象
+
+Whole value
+= 整数值
+
+Wild Dancer
+= 狂野舞者
+
+Wildnisleben
+= Wildnisleben
+
+Will and the shop
+= 意志与商店
+
+Willpower
+= 意志力
+
+Win streak
+= 连胜数
+
+Wind
+= 风
+
+Wing Cap switch
+= 飞翼帽开关
+
+Wing Mario Over the Rainbow
+= 彩虹上的飞翼马力欧
+
+Winter Melon
+= 冬瓜
+
+Winter: Eyrie the eagle
+= 冬季：老鹰Eyrie
+
+Wishes left
+= 剩余愿望
+
+Witch Switch of Bubblegloop Swamp
+= 泡泡沼泽的女巫开关
+
+Witch Switch of Clanker's Cavern
+= Clanker洞穴的女巫开关
+
+Witch Switch of Click Clock Wood
+= 滴答森林的女巫开关
+
+Witch Switch of Freezeezy Peak
+= 冰冻峰的女巫开关
+
+Witch Switch of Gobi's Valley
+= Gobi山谷的女巫开关
+
+Witch Switch of Mad Monster Mansion
+= 疯狂怪物大宅的女巫开关
+
+Witch Switch of Mumbo's Mountain
+= Mumbo山的女巫开关
+
+Witch Switch of Rusty Bucket Bay
+= 锈桶湾的女巫开关
+
+Witch Switch of Treasure Trove Cove
+= 宝藏湾的女巫开关
+
+With you: {0}
+= 随身携带：{0}
+
+Wits
+= 机智
+
+Won
+= 胜
+
+Wonderwing
+= Wonderwing
+
+Wood
+= 木材
+
+Wooden tags
+= 木牌
+
+Work & Worship level
+= 工作与崇拜等级
+
+Worked out by the game from your attributes when it loads.
+= 游戏在载入时根据您的属性计算得出。
+
+World:
+= 世界：
+
+Worn
+= 已穿戴
+
+Writes the game's own unlock code into every achievement, mystery ending, enemy, event and pantheon entry whose code is known. Characters, outfits and the other rewards that follow from achievements unlock with them.
+= 将游戏自身的解锁代码写入每个已知代码的成就、神秘结局、敌人、事件和万神殿条目。随成就而来的角色、服装及其他奖励也会一并解锁。
+
+Wurfwaffen
+= Wurfwaffen
+
+X-ray scope
+= X光瞄准镜
+
+XCOM
+= XCOM
+
+XCOM 2
+= XCOM 2
+
+XP collected toward the next point
+= 距下一点已获经验值
+
+XP in this tier
+= 本阶经验值
+
+XP level
+= 经验等级
+
+XP toward next Praxis kit
+= 距下一个Praxis套件的经验值
+
+Yakuza 0
+= 如龙0
+
+Yakuza Kiwami
+= 如龙 极
+
+Yellow
+= 黄色
+
+Yellow Flibbits battle
+= 黄色Flibbits之战
+
+Yellow key (91)
+= 黄钥匙（91）
+
+Yellow shards
+= 黄色碎片
+
+Yen
+= 日元
+
+You
+= 您
+
+Your faction
+= 您的阵营
+
+Your treasury
+= 您的国库
+
+Zelda's Lullaby
+= 塞尔达摇篮曲
+
+Zest
+= 热情
+
+Zone
+= 区域
+
+Zora Tunic
+= Zora服
+
+Zora's Sapphire
+= Zora的蓝宝石
+
+Zora's flippers
+= Zora的脚蹼
+
+Zw Hiebwaffen
+= Zw Hiebwaffen
+
+Zw Schwerter
+= Zw Schwerter
+
+Zwergennase
+= Zwergennase
+
+career/playerAttributes.json inside a career save slot's newest autosave folder (the game loads the newest of its rotating autosaves, so edit that one). Each branch (the career's skill lines) keeps its own value, shown in the Tree tab.
+= 职业存档槽中最新自动存档文件夹内的career/playerAttributes.json（游戏会载入轮换自动存档中最新的一个，请编辑它）。每个分支（职业的技能线）各有自己的值，显示在Tree标签页中。
+
+carried
+= 携带中
+
+chest name or item
+= 箱子名称或物品
+
+count
+= 数量
+
+datN.slv in the game's savedata folder (one file per character). Salt and gold are what the character carries. Items and the skill tree are not edited yet.
+= 游戏savedata文件夹中的datN.slv（每个角色一个文件）。盐和金币为角色随身携带的数量。物品和技能树暂不可编辑。
+
+defaultES2File.txt (items.txt holds the shop items). Money is in marks. The needs run from 0 (fine) to 100 (passing out); hunger, thirst and the rest are best set low.
+= defaultES2File.txt（items.txt 保存商店物品）。金钱单位为马克。需求值范围 0（良好）到 100（昏厥）；饥饿、口渴等建议设得低一些。
+
+drgs.dat. Plain JSON; close the game before editing.
+= drgs.dat。纯 JSON；编辑前请关闭游戏。
+
+e.g. Smithing
+= 例如 Smithing
+
+edition
+= 版本
+
+ff13-NN.dat. The save is decrypted to edit and encrypted again on save. Gil goes up to 9,999,999.
+= ff13-NN.dat。编辑时会解密存档，保存时重新加密。Gil 上限为 9,999,999。
+
+generalprogress.bepis in the save slot folder. Each weapon variant is 1 when owned and 0 when not; the level files (lvlNprogress.bepis) hold ranks and secrets.
+= 存档位文件夹中的 generalprogress.bepis。每种武器变体拥有时为 1，否则为 0；关卡文件（lvlNprogress.bepis）保存评级和秘密。
+
+in hand
+= 持有
+
+item
+= 物品
+
+item name
+= 物品名称
+
+level {0} at {1}
+= {1} 时等级 {0}
+
+max
+= 最大
+
+not met yet
+= 尚未满足
+
+persistentgamedata1.dat (Rebirth), ab_ / abp_ (Afterbirth, Afterbirth+) or rep_ / rep+ (Repentance), in the Steam remote folder. Counters, achievements, collectibles seen and challenges; each unlock is 0 (locked) or 1 (unlocked), numbered as in the game's own lists. The checksum is written again on save.
+= persistentgamedata1.dat（Rebirth）、ab_ / abp_（Afterbirth、Afterbirth+）或 rep_ / rep+（Repentance），位于 Steam 的 remote 文件夹。包含计数器、成就、已见收藏品和挑战；每个解锁项为 0（未解锁）或 1（已解锁），编号与游戏内列表一致。保存时会重新写入校验和。
+
+pg
+= pg
+
+pg (money)
+= pg（金钱）
+
+player.xml from the save00 folder (close the game first). Gold and health; the game shows health 25 times the stored value. Wands, spells and perks are entities inside the file, in the Tree.
+= save00 文件夹中的 player.xml（请先关闭游戏）。金币和生命值；游戏显示的生命值为存储值的 25 倍。法杖、法术和天赋是文件内的实体，位于树视图中。
+
+progress.save from the game's profile folder (plain JSON). Each character's highest Ascension, wins, losses, win streaks and play time, plus the profile's score. Discovered cards, relics and the rest are lists in the Tree.
+= 游戏配置文件夹中的 progress.save（纯 JSON）。每个角色的最高进阶、胜场、败场、连胜和游戏时间，以及配置文件的分数。已发现的卡牌、遗物等是树视图中的列表。
+
+quality
+= 品质
+
+rget Entity Id
+= rget Entity Id
+
+rget Size
+= rget Size
+
+saveData.ini (the file is a GameMaker ini; values are written as text like 1.000000). Scores are points, ranks are the letters d, c, b, a, s and p, treasure is 1 when found and secrets found are 0 to 3.
+= saveData.ini（该文件是 GameMaker 的 ini；值以 1.000000 这样的文本写入）。分数为点数，评级为字母 d、c、b、a、s 和 p，宝物找到时为 1，已找到的秘密为 0 至 3。
+
+saveFile<n>.sav: level, ability points, life and energy cells, keystones, mapstones and every skill and ability-tree upgrade.
+= saveFile<n>.sav：等级、能力点、生命和能量电池、关键石、地图石，以及所有技能和能力树升级。
+
+save_auto.bin and the other .bin saves in the game's save folder (each is a zip; the text inside is opened for you). Weapons and upgrades are in the Tree tab under PlayerTemplate.
+= 游戏存档文件夹中的 save_auto.bin 及其他 .bin 存档（均为 zip，其中的文本会自动打开）。武器和升级位于“树”选项卡的 PlayerTemplate 下。
+
+savedata.bin of the Steam edition. Money buys and upgrades weapons; exchange points buy the Bonus Features (costumes, filters, infinite ammo, figures).
+= Steam 版的 savedata.bin。金钱用于购买和升级武器；兑换点数用于购买奖励功能（服装、滤镜、无限弹药、手办）。
+
+savegame.dsa in a savegame_N folder (a SQLite database; the screenshot and .nfo beside it are not needed). Heroes with a party slot of 0 or more are in your party; the other rows are the characters in cutscenes and other places. Adventure points to spend are in "Spendable AP". Items and money are in the Tree.
+= savegame_N 文件夹中的 savegame.dsa（SQLite 数据库；旁边的截图和 .nfo 不需要）。队伍位为 0 或更大的英雄在您的队伍中；其余行是过场动画及其他地点的角色。可花费的冒险点数在“Spendable AP”中。物品和金钱位于树视图中。
+
+savegameN.sav in the Steam remote folder. Each of the four playable characters keeps their own money, experience and skill orbs. The save has no checksum; close the game first.
+= Steam remote 文件夹中的 savegameN.sav。四名可玩角色各自拥有独立的金钱、经验和技能宝珠。存档没有校验和；请先关闭游戏。
+
+savegameN.sav in the Steam remote folder. The save has no checksum; close the game first.
+= Steam remote 文件夹中的 savegameN.sav。存档没有校验和；请先关闭游戏。
+
+savegame_N.save (base64-wrapped JSON, opened and closed for you). Tears of Atonement, current health and fervour, the upgrade levels of each stat, flask count and guilt. Owned rosary beads, prayers, relics and sword hearts are lists of ids in the Tree.
+= savegame_N.save（base64 封装的 JSON，会自动打开和关闭）。赎罪之泪、当前生命值和狂热值、各属性的升级等级、药瓶数量和罪孽。已拥有的念珠、祈祷、遗物和剑之心是树视图中的 ID 列表。
+
+sells for
+= 售价
+
+sr3save_NN.sr3s_pc. Cash is kept in cents; the save's checksum is rewritten.
+= sr3save_NN.sr3s_pc。现金以美分存储；存档的校验和会被重写。
+
+sr4save_N.sr4s_pc. Cash is kept in cents; the save's checksum is rewritten.
+= sr4save_N.sr4s_pc。现金以美分存储；存档的校验和会被重写。
+
+thp_player_profile_adf in your Saves folder (each slot folder keeps its own copy). Close the game first; skill points already spent are stored per skill tree and are not shown.
+= 您的 Saves 文件夹中的 thp_player_profile_adf（每个存档位文件夹各有一份副本）。请先关闭游戏；已花费的技能点按技能树存储，不会显示。
+
+tip
+= 提示
+
+tool level
+= 工具等级
+
+userN.dat. Money is stored divided by 10; the game's cap is 99,990.
+= userN.dat。金钱以除以 10 的值存储；游戏上限为 99,990。
+
+{0}  (level {1})
+= {0}（等级 {1}）
+
+{0} (mint)
+= {0}（全新）
+
+{0} blueprints known
+= 已知蓝图 {0} 个
+
+{0} cards in the deck (edit them in the Tree tab).
+= 牌组中有 {0} 张卡牌（请在“树”选项卡中编辑）。
+
+{0} codex entries
+= {0} 条典籍条目
+
+{0} follows these: each point is one level.
+= {0} 遵循这些项：每 1 点为 1 级。
+
+{0} missions done
+= 已完成任务 {0} 个
+
+{0} quests, {1} complete
+= {0} 个任务，已完成 {1} 个
+
+{0} shown. Staff have no names in the save; they are listed by slot.
+= 显示 {0} 个。存档中员工没有名字，按存档位列出。
+
+{1} of {0} slots used. Pick an item in the free slot to add one.
+= 已用 {1}/{0} 个栏位。在空栏位中选择物品即可添加。
+
+★ Shiny
+= ★ 闪光
+
+★ marks the front row. Level goes from 1 to 99; EXP isn't worked out from the level, so set both. HP and SP are current values (the maximum comes from level, job and gear).
+= ★ 表示前排。等级范围 1 至 99；经验值不会根据等级推算，请同时设置两者。HP 和 SP 为当前值（最大值由等级、职业和装备决定）。
+
+<n>.sav in %LOCALAPPDATA%\\AtomicHeart\\Saved\\SaveGames. The save's Oodle data is unpacked and packed again with the Oodle library of any game on this PC, and its SHA-1 is made again. Only stacks the save already holds are listed: pick up one of an item in the game first to add it.
+= %LOCALAPPDATA%\AtomicHeart\Saved\SaveGames 中的 <n>.sav。存档的Oodle数据会用本机任一游戏的Oodle库解包并重新打包，并重新生成其SHA-1。仅列出存档中已有的堆叠：请先在游戏中拾取一个该物品以添加。
+
+A .a7s save (Documents\\Anno 1800\\accounts\\<id>\\<profile>\\savegame). Coins are your company's money; the load screen's figure is changed with them. Other amounts of your company's storage are in the Tree, by GUID.
+= .a7s存档（Documents\Anno 1800\accounts\<id>\<profile>\savegame）。金币是贵公司的资金；载入界面显示的金额随之改变。公司仓库中的其他数量在树中按GUID列出。
+
+A .sav in %USERPROFILE%\\AppData\\LocalLow\\Monomi Park\\Slime Rancher (the first game; Slime Rancher 2 isn't read yet). The load screen's newbucks are changed with yours. Energy above your maximum is cut back by the game.
+= %USERPROFILE%\AppData\LocalLow\Monomi Park\Slime Rancher 中的.sav（第一部游戏；暂不支持读取Slime Rancher 2）。载入界面的newbucks随您的一同更改。超过最大值的能量会被游戏削减。
+
+A .savegame from Saved Games\\Tyranny (a zip; its MobileObjects.save is edited, the rest is kept). Money, camping supplies, and each character's experience, attributes, skill points and skills.
+= Saved Games\Tyranny中的.savegame（zip；编辑其中的MobileObjects.save，其余保持不变）。金钱、露营补给，以及每个角色的经验、属性、技能点和技能。
+
+A character file from Saved Games\\wolcen\\savegames\\characters (plain JSON). Gold, level, experience, the four attributes and the points to spend. Items, the skill bar and passive skills are in the Tree; the shared chest is its own file.
+= 来自 Saved Games\wolcen\savegames\characters 的角色文件（纯 JSON）。金币、等级、经验、四项属性和待分配点数。道具、技能栏和被动技能在树中；共享箱是单独的文件。
+
+A checkpoint .sav from Documents\\Alpha Protocol\\Checkpoints. Money, experience, skill points, skill ranks, ammunition and gadgets.
+= 来自 Documents\Alpha Protocol\Checkpoints 的检查点 .sav。金钱、经验、技能点、技能等级、弹药和小工具。
+
+A hero's save (Players\\Active\\*.dat), decrypted; items and enchantments are in the Tree
+= 英雄存档（Players\Active\*.dat），已解密；道具和附魔在树中
+
+A profile XML from Steam\\userdata\\<account>\\632360\\remote\\UserProfiles. Lunar coins and the profile's totals. Unlocked achievements, discovered items and the logbook are space-separated lists in the Tree; the per-stat table is under UserProfile > stats.
+= 来自 Steam\userdata\<account>\632360\remote\UserProfiles 的档案 XML。月币和档案的总计数据。已解锁的成就、已发现的道具和日志是树中以空格分隔的列表；各项统计的表格位于 UserProfile > stats。
+
+A save from Documents\\ZAUM Studio\\Disco Elysium\\SaveGames (a .ntwtf.zip; its big .2nd.ntwtf.json is edited and the rest of the zip is kept). Money, level, experience, skill points, the four attributes and the skills as the game keeps them. Skills the save lists under different names stay in the Tree.
+= 来自 Documents\ZAUM Studio\Disco Elysium\SaveGames 的存档（.ntwtf.zip；会编辑其中较大的 .2nd.ntwtf.json，zip 的其余部分保持不变）。金钱、等级、经验、技能点、四项属性以及游戏所保存的技能。存档中以其他名称列出的技能仍保留在树中。
+
+ACBROTHERHOODSAVEGAME0.SAV in Saved Games\\\\Assassin's Creed Brotherhood\\\\SAVES (or the Ubisoft Connect savegames folder). The save is unscrambled, unpacked and packed again with its block checks; the account it belongs to is kept. Close the game and turn cloud saves off in Ubisoft Connect first, or the old save may come back.
+= Saved Games\\Assassin's Creed Brotherhood\\SAVES 中的 ACBROTHERHOODSAVEGAME0.SAV（或 Ubisoft Connect 的存档文件夹）。存档会被解扰、解包并连同其数据块校验一起重新打包；所属账号保持不变。请先关闭游戏并在 Ubisoft Connect 中关闭云存档，否则旧存档可能会恢复。
+
+An OpenXcom or OpenXcom Extended save (.sav in Documents\\OpenXcom\\<mod>), which also plays UFO Defense from the Steam and GOG releases. Funds, the date, the difficulty, every soldier's stats and the base stores.
+= OpenXcom 或 OpenXcom Extended 存档（Documents\OpenXcom\<mod> 中的 .sav），也可运行 Steam 和 GOG 版的 UFO Defense。资金、日期、难度、每名士兵的属性和基地库存。
+
+AutoSave or a Manual - Save file in Documents\\My Games\\Fable\\Saves\\<hero name>. Morality runs from evil (negative) to good (positive); the game keeps it within its own limits. Age changes how old the hero looks.
+= 位于 Documents\My Games\Fable\Saves\<hero name> 中的自动存档或手动存档。道德值从邪恶(负)到善良(正);游戏会将其限制在自身范围内。年龄会改变英雄的外观年龄。
+
+DXNGsavegame0000.dat ... in Steam\\userdata\\<account>\\337000\\remote. The game state is unpacked and packed again on save. Close the game and turn Steam Cloud off for it first, or Steam may bring the old save back. Experience is shown but not changed. Ammo stacks are listed in the order the save keeps them.
+= DXNGsavegame0000.dat ... 位于 Steam\userdata\<account>\337000\remote。游戏状态会被解包，并在保存时重新打包。请先关闭游戏并为其关闭Steam云存档，否则Steam可能恢复旧存档。经验值仅显示，不会更改。弹药堆叠按存档保存的顺序列出。
+
+Each squad's characters (attributes, skills, health) are in the save's platoon folder: open the file named after your faction, such as platoon\\Nameless_0.platoon, for its Squad screen.
+= 各小队的角色(属性、技能、生命值)位于存档的 platoon 文件夹:打开以您的阵营命名的文件(如 platoon\Nameless_0.platoon)即可查看其小队界面。
+
+GPData_<slot>.sav in Documents\\My Games\\MortalShell\\Dungeonhaven\\Saved\\SaveGames. Tar is stored as BoneShards; the Storm Mode run keeps its own copy. Inventory item names are stored as game text and are not shown.
+= 位于 Documents\My Games\MortalShell\Dungeonhaven\Saved\SaveGames 的 GPData_<slot>.sav。Tar 以 BoneShards 形式存储;Storm Mode 流程保留自己的副本。物品栏中的道具名称以游戏文本形式存储,不会显示。
+
+HK GameSlot 1 ... or HK Autosave Slot in the game's data folder (Steam: steamapps\\common\\SleepingDogsDefinitiveEdition\\data). The save is unscrambled and scrambled again, with its checksum, on save. Each XP track tops out at 50,000.
+= 游戏数据文件夹中的 HK GameSlot 1 ... 或 HK Autosave Slot(Steam:steamapps\common\SleepingDogsDefinitiveEdition\data)。存档会被解扰,并在保存时连同校验和重新加扰。每条经验轨道上限为 50,000。
+
+RDR2SAVE<n>.SAV (and REDDEAD2HCOR<n>.SAV, RDR2ZOMBIESAVE<n>.SAV) in Documents\\Rockstar Games\\Red Dead Redemption\\Profiles\\<id>. The save is decrypted and encrypted again with its CRC-32 when you save. Money, honor, fame, the Dead Eye meter and consumables can be changed; weapons, horses and kit are listed as owned. PS4 and Switch saves of the same release use the same format.
+= Documents\Rockstar Games\Red Dead Redemption\Profiles\<id> 中的 RDR2SAVE<n>.SAV（以及 REDDEAD2HCOR<n>.SAV、RDR2ZOMBIESAVE<n>.SAV）。存档会被解密，保存时再用其 CRC-32 重新加密。可修改金钱、荣誉、名声、死神之眼计量条和消耗品；武器、马匹和装备显示为已拥有。同版本的 PS4 和 Switch 存档使用相同格式。
+
+SAVEDATA.BIN (original) or SAVEDATAU.BIN (Ultimate) from Documents\\KoeiTecmo\\WARRIORS OROCHI 4\\Savedata. Gems, Crystals, Growth Points, Skill Orbs (lower only), weapon elements and officers' skill points.
+= Documents\KoeiTecmo\WARRIORS OROCHI 4\Savedata 中的 SAVEDATA.BIN(原版)或 SAVEDATAU.BIN(Ultimate)。宝石、水晶、成长点数、技能珠(只能减少)、武器属性和武将的技能点。
+
+SAVEDATA0000.dat from Documents\\KoeiTecmo\\SAMURAI WARRIORS 4-II\\Savedata. Gold, strategy tomes and each officer's five stat bonuses.
+= Documents\KoeiTecmo\SAMURAI WARRIORS 4-II\Savedata 中的 SAVEDATA0000.dat。金币、策略书以及每位武将的五项属性加成。
+
+SRDR3<nnnn> in Documents\\Rockstar Games\\Red Dead Redemption 2\\Profiles\\<id> (story mode, PC). The save is decrypted, and its checksums are written again and it is encrypted when you save. Satchel stacks can be changed, and supplies the satchel lacks can be added (Add to satchel: an experimental step that grows the save; keep a backup). Weapons keep their own loaded ammo, which is left alone. Challenge ranks and compendium ticks change the record only: they do not hand out rewards. Compendium entries whose name is not known yet are shown by their number. Honor and camp funds also update the matching saved statistic. Turn Steam/Rockstar cloud saves off for the game first, or the old save may come back.
+= Documents\Rockstar Games\Red Dead Redemption 2\Profiles\<id> 中的 SRDR3<nnnn>(故事模式,PC)。存档会被解密,校验和会重新写入,保存时再加密。可修改鞍囊堆叠,也可添加鞍囊中缺少的补给(添加到鞍囊:会增大存档的实验性步骤,请先备份)。武器保留各自已装填的弹药,不会被改动。挑战等级和图鉴勾选只改变记录:不会发放奖励。名称尚未知的图鉴条目以编号显示。荣誉和营地资金也会更新对应的已保存统计。请先关闭该游戏的 Steam/Rockstar 云存档,否则旧存档可能会回来。
+
+SVDATnnn.SAV or Auto*.sav from Saved Games\\FALCOM\\ED_SORA3. Mira, sepith, character levels and the item counts.
+= Saved Games\FALCOM\ED_SORA3 中的 SVDATnnn.SAV 或 Auto*.sav。米拉、耀晶片、角色等级和物品数量。
+
+SaveData.txt from a Daggerfall Unity save folder (LocalLow\\Daggerfall Workshop\\Daggerfall Unity\\Saves\\<name>-<n>). Gold carried, level, health, the eight attributes, all 35 skills, resistances, reputations and the gold in each region's bank. Attributes and skills run 0 to 100.
+= Daggerfall Unity 存档文件夹(LocalLow\Daggerfall Workshop\Daggerfall Unity\Saves\<名称>-<n>)中的 SaveData.txt。携带的金币、等级、生命值、八项属性、全部 35 项技能、抗性、声望以及各地区银行中的金币。属性和技能范围为 0 至 100。
+
+Saves\\0.celeste … 2.celeste. Times are in ticks of 100 nanoseconds (10,000,000 per second).
+= Saves\0.celeste … 2.celeste。时间以 100 纳秒的刻度(tick)为单位(每秒 10,000,000)。
+
+Skills and personality go from 0 to 1000; every 100 is one point on the game's bars. Sims carry their file name (user00012 is Characters\\User00012.iff). Townies and visitors are under Other Sims on the Values tab with Advanced on. Not yet tried in the game.
+= 技能和性格范围为0到1000；每100对应游戏条上的一点。模拟人使用其文件名（user00012即Characters\User00012.iff）。镇民和访客位于“数值”标签页开启“高级”后的“其他模拟人”下。尚未在游戏中测试。
+
+StellarBladeSave00.sav in %LOCALAPPDATA%\\SB\\Saved\\SaveGames\\<Steam id>. Item names are the game's internal ids; the save's CRC-32 is written again on save. Checked on a real early-game save, not yet tried in the game.
+= %LOCALAPPDATA%\SB\Saved\SaveGames\<Steam id> 中的 StellarBladeSave00.sav。物品名称为游戏内部 ID;保存时会重新写入存档的 CRC-32。已在真实的游戏初期存档上检查,尚未在游戏中试用。
+
+The save file from %LOCALAPPDATA%\\UNDERTALE_YELLOW (the one with Save1 and Items sections). Stats, gold, equipment names, the eight item slots and the play time. Layout from KockaAdmiralac's uty-save-editor.
+= 来自 %LOCALAPPDATA%\UNDERTALE_YELLOW 的存档文件（含 Save1 和 Items 部分的那个）。包含属性、金币、装备名称、八个物品栏位和游玩时间。结构参考 KockaAdmiralac 的 uty-save-editor。
+
+WorldState_<n>.sav in %LOCALAPPDATA%\\MortalShell2\\Saved\\SaveGames. Gold, Gloom and Glimpses held are stored with the items; the lifetime totals are kept separately, so change both together.
+= WorldState_<n>.sav，位于%LOCALAPPDATA%\MortalShell2\Saved\SaveGames。持有的Gold、Gloom和Glimpses与物品一同保存，累计总数则单独保存，因此请同时修改两者。
+
+checkpoint.dat in Documents\\Horizon Zero Dawn\\Saved Game\\<slot> (the PC Complete Edition). The save's checksum is made again on save. Level and experience are shown but not changed.
+= Documents\Horizon Zero Dawn\Saved Game\<slot>中的checkpoint.dat（PC完整版）。保存时会重新生成存档校验和。等级和经验值仅显示，不会被修改。
+
+data.sav in %APPDATA%\\Sega\\LikeADragonIshin. Food, seafood and crafting materials stack to 999; Virtue buys inventory upgrades at shrines. The wrapper's checksum is rewritten on save. Ryo isn't mapped yet (it stays in the Tree).
+= %APPDATA%\Sega\LikeADragonIshin中的data.sav。食物、海鲜和制作材料最多叠加999个；美德用于在神社购买背包升级。封装层的校验和会在保存时重写。Ryo尚未映射（仍保留在Tree中）。
+
+data000.bin and the slot files in Steam\\userdata\\<account>\\3357650\\remote\\win64_save, opened with your own Steam account. Items, weapons and perks are listed by the game's own codes (its text files, which hold the names, aren't read). Checked on real saves, not yet tried in the game.
+= Steam\userdata\<account>\3357650\remote\win64_save中的data000.bin及槽位文件，需用您自己的Steam账号打开。物品、武器和特性按游戏自身的代码列出（不读取包含名称的文本文件）。已在真实存档上检查，尚未在游戏中测试。
+
+file<n>.rpgsave in www\\save: Clams, each friend's level, heart and juice in Headspace and Faraway Town, and every snack, toy, weapon and charm you carry.
+= www\save 中的 file<n>.rpgsave：蛤蜊、Headspace 和 Faraway Town 中每位朋友的等级、爱心和果汁，以及您携带的所有零食、玩具、武器和护符。
+
+save.dloop in Saved Games\\Arkane Studios\\Deathloop\\base\\savegame\\<Steam id>\\SLOT01. The save's Oodle data is unpacked and packed again with the Oodle library of any game on this PC (the game's own works), and the file's checksum is made again. Close the game and turn Steam Cloud off for it first, or Steam may bring the old save back. Weapons, trinkets and slabs are stored as numbers and are not listed.
+= Saved Games\Arkane Studios\Deathloop\base\savegame\<Steam id>\SLOT01 中的 save.dloop。存档的 Oodle 数据会被解包，并用本机任意游戏的 Oodle 库（游戏自带的即可）重新打包，同时重新生成文件校验和。请先关闭游戏并为其关闭 Steam 云，否则 Steam 可能会恢复旧存档。武器、饰品和石板以数字形式存储，不会列出。
+
+saveNNN.dat from Saved Games\\Falcom\\ed8. Mira, sepith, each member's level, experience, HP, EP, CP and stats, and the bag.
+= Saved Games\Falcom\ed8 中的 saveNNN.dat。米拉、塞皮斯、每位成员的等级、经验、HP、EP、CP 和属性，以及背包。
+
+savegame.xml from Documents\\Teardown (inside the game's data folder). Cash, tool ammunition and tool upgrades, and each mission's score. Upgrades beyond what the shop sells can look odd in the game.
+= Documents\Teardown（游戏数据文件夹内）中的 savegame.xml。现金、工具弹药和升级，以及每个任务的分数。超出商店出售范围的升级在游戏中可能显得异常。
+
+savegame\\SLOT<n>\\checkpoint.dat: Raw Whalebone, runes and ammo. Each ammo count goes up to what the save says the player can carry. The save is unpacked and packed again, with its check value, on save.
+= savegame\SLOT<n>\checkpoint.dat：生鲸骨、符文和弹药。每种弹药数量最高到存档所示的玩家携带上限。保存时会解包存档并连同校验值重新打包。
+
+savegame_<n>.sav in %LOCALAPPDATA%\\Subnautica2\\Saved\\SaveGames. Edits the current save; the previous-checkpoint copy is left alone. Needs the Oodle library of any game on this PC. Resources don't stack in this game, so there is no max-materials button.
+= %LOCALAPPDATA%\Subnautica2\Saved\SaveGames 中的 savegame_<n>.sav。编辑当前存档；上一个检查点的副本保持不变。需要本机任意游戏的 Oodle 库。本游戏中资源不会堆叠，因此没有材料最大化按钮。
+
+4WD Cars
+= 4WD Cars
+
+A-Class License
+= A-Class License
+
+A-Class License final test
+= A-Class License final test
+
+Advanced Techniques
+= Advanced Techniques
+
+Aero
+= Aero
+
+All-night I
+= All-night I
+
+All-night II
+= All-night II
+
+Autumn Ring time trial
+= Autumn Ring time trial
+
+Autumn Ring-Mini
+= Autumn Ring-Mini
+
+B-Class License
+= B-Class License
+
+B-Class License final test
+= B-Class License final test
+
+Basics of cornering 1
+= Basics of cornering 1
+
+Basics of cornering 2
+= Basics of cornering 2
+
+Basics of cornering 3
+= Basics of cornering 3
+
+Basics of multiple cornering 1
+= Basics of multiple cornering 1
+
+Basics of multiple cornering 2
+= Basics of multiple cornering 2
+
+Boulder Dash gem
+= Boulder Dash gem
+
+Boulders gem
+= Boulders gem
+
+Castle Machinery gem
+= Castle Machinery gem
+
+Clubman Cup
+= Clubman Cup
+
+Cortex Power gem
+= Cortex Power gem
+
+Deep Forest
+= Deep Forest
+
+Deep Forest time trial
+= Deep Forest time trial
+
+FF Cars
+= FF Cars
+
+FR Cars
+= FR Cars
+
+Fumbling in the Dark gem
+= Fumbling in the Dark gem
+
+Fumbling in the Dark key
+= Fumbling in the Dark key
+
+GT Cup
+= GT Cup
+
+GT League
+= GT League
+
+GT World Cup
+= GT World Cup
+
+Generator Room gem
+= Generator Room gem
+
+Grand Valley
+= Grand Valley
+
+Grand Valley East
+= Grand Valley East
+
+Grand Valley time trial
+= Grand Valley time trial
+
+Gravity
+= Gravity
+
+Handling Multiple Corners 1
+= Handling Multiple Corners 1
+
+Handling Multiple Corners 2
+= Handling Multiple Corners 2
+
+Handling Multiple Corners 3
+= Handling Multiple Corners 3
+
+Heavy Machinery gem
+= Heavy Machinery gem
+
+High Speed Ring
+= High Speed Ring
+
+High Speed Ring time trial
+= High Speed Ring time trial
+
+Hog Wild gem
+= Hog Wild gem
+
+IA-Class License
+= IA-Class License
+
+IA-Class License final test
+= IA-Class License final test
+
+Jaws of Darkness gem
+= Jaws of Darkness gem
+
+Jungle Rollers gem
+= Jungle Rollers gem
+
+Lights Out gem
+= Lights Out gem
+
+Lightweight Cars
+= Lightweight Cars
+
+Megaspeed
+= Megaspeed
+
+N. Sanity Beach gem
+= N. Sanity Beach gem
+
+Native Fortress gem
+= Native Fortress gem
+
+Normal Cars
+= Normal Cars
+
+Practical Cornering 1
+= Practical Cornering 1
+
+Practical Cornering 2
+= Practical Cornering 2
+
+Practical Cornering 3
+= Practical Cornering 3
+
+Road to Nowhere gem
+= Road to Nowhere gem
+
+Rolling Stones gem
+= Rolling Stones gem
+
+SS Route 11 time trial
+= SS Route 11 time trial
+
+SS Route 5 time trial
+= SS Route 5 time trial
+
+Slippery Climb gem
+= Slippery Climb gem
+
+Special Event
+= Special Event
+
+Spot Race
+= Spot Race
+
+Starting and stopping 1
+= Starting and stopping 1
+
+Starting and stopping 2
+= Starting and stopping 2
+
+Stop
+= Stop
+
+Sunday Cup
+= Sunday Cup
+
+Sunset Vista gem
+= Sunset Vista gem
+
+Temple Ruins gem
+= Temple Ruins gem
+
+The Great Gate gem
+= The Great Gate gem
+
+The High Road gem
+= The High Road gem
+
+The Lab gem
+= The Lab gem
+
+The Lost City gem
+= The Lost City gem
+
+Toxic Waste gem
+= Toxic Waste gem
+
+Trial Mountain
+= Trial Mountain
+
+Trial Mountain time trial
+= Trial Mountain time trial
+
+Tuned Cars
+= Tuned Cars
+
+UK v Japan
+= UK v Japan
+
+UK v US
+= UK v US
+
+US v Japan
+= US v Japan
+
+Up the Creek gem
+= Up the Creek gem
+
+Upstream gem
+= Upstream gem
+
+Whole Dog gem
+= Whole Dog gem
+
+Whole Dog key
+= Whole Dog key
+
+<id>-<n>-CharacterData.sav in %LOCALAPPDATA%\\Frontiers\\Saved\\SaveGames. The save is an Unreal file holding the whole character as JSON text; it is opened and written back as that string. Close the game first.
+= %LOCALAPPDATA%\Frontiers\Saved\SaveGames 中的 <id>-<n>-CharacterData.sav。该存档是以JSON文本保存整个角色的Unreal文件，会作为该字符串打开并写回。请先关闭游戏。
+
+GameUnlocks.dat in Documents\\Streets of Rogue\\CloudData. Nuggets buy unlocks; every agent, item, trait and floor is listed with whether it is unlocked and what it costs. Close the game first.
+= 位于 Documents\Streets of Rogue\CloudData 的 GameUnlocks.dat。Nuggets 用于购买解锁项;每个角色、道具、特质和楼层都会列出解锁状态和价格。请先关闭游戏。

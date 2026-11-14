@@ -95,7 +95,7 @@ fn estate(ui: &mut Ui, cx: &mut GameCtx) {
                     cx.tile(ui, label, p, BLOOD);
                 }
             });
-            ui.weak("Busts, portraits, deeds and crests pay for the Hamlet's buildings; spend them in the game.");
+            ui.weak(tr("Busts, portraits, deeds and crests pay for the Hamlet's buildings; spend them in the game."));
         });
     }
     rule(ui, BLOOD);
@@ -172,7 +172,7 @@ fn roster(ui: &mut Ui, cx: &mut GameCtx) {
                 }
             });
         });
-        ui.weak("Stress 0\u{2013}200 (100 brings an affliction or virtue). Weapon and armour ranks count from 0 (a recruit's gear) to 4 (fully upgraded). HP is the value stored for the hero now. The level follows resolve XP.");
+        ui.weak(tr("Stress 0\u{2013}200 (100 brings an affliction or virtue). Weapon and armour ranks count from 0 (a recruit's gear) to 4 (fully upgraded). HP is the value stored for the hero now. The level follows resolve XP."));
     });
     rule(ui, BLOOD);
     // One hero in detail.
@@ -263,7 +263,7 @@ pub fn show_dd2(ui: &mut Ui, cx: &mut GameCtx) {
         Some(Dd2::Heroes) => dd2_heroes(ui, cx),
         None => {}
     }
-    ui.weak("Read from saves made before the Kingdoms update; Kingdoms keeps its own files, which aren't covered.");
+    ui.weak(tr("Read from saves made before the Kingdoms update; Kingdoms keeps its own files, which aren't covered."));
 }
 
 /// Pointer of a `[name, value]` pair's value in a list of pairs.
@@ -288,7 +288,7 @@ fn dd2_profile(ui: &mut Ui, cx: &mut GameCtx) {
         }
     });
     if candles.is_none() {
-        ui.weak("This profile has no candles yet.");
+        ui.weak(tr("This profile has no candles yet."));
     }
     rule(ui, TORCH);
     columns(ui, 340.0, 2, |ui, col| {
@@ -304,9 +304,9 @@ fn dd2_profile(ui: &mut Ui, cx: &mut GameCtx) {
         } else {
             panel(ui, "Confessions", |ui| {
                 egui::Grid::new("dd2_bosses").num_columns(3).spacing([14.0, 4.0]).show(ui, |ui| {
-                    ui.label(RichText::new("Chapter").strong());
-                    ui.label(RichText::new("Chosen").strong());
-                    ui.label(RichText::new("Won").strong());
+                    ui.label(RichText::new(tr("Chapter")).strong());
+                    ui.label(RichText::new(tr("Chosen")).strong());
+                    ui.label(RichText::new(tr("Won")).strong());
                     ui.end_row();
                     let won: Vec<Value> = cx.get("/m_BossVictoryCounts").and_then(Value::as_array).cloned().unwrap_or_default();
                     for e in cx.get("/m_BossSelectCounts").and_then(Value::as_array).cloned().unwrap_or_default() {
@@ -354,13 +354,13 @@ fn dd2_run(ui: &mut Ui, cx: &mut GameCtx) {
     rule(ui, TORCH);
     panel(ui, &format!("Inventory ({} of {} slots)", items.len(), cx.get("/inventory/m_items").and_then(Value::as_array).map_or(0, Vec::len)), |ui| {
         if items.is_empty() {
-            ui.weak("Empty.");
+            ui.weak(tr("Empty."));
         }
         columns(ui, 300.0, items.len(), |ui, n| {
             let (i, _, name) = &items[n];
             cx.row_fixed(ui, name, &format!("/inventory/m_items/{i}/qty"), 150.0, 70.0);
         });
-        ui.weak("Relics are the run's money. Torch goes up to 100.");
+        ui.weak(tr("Relics are the run's money. Torch goes up to 100."));
     });
 }
 
@@ -386,7 +386,7 @@ fn dd2_heroes(ui: &mut Ui, cx: &mut GameCtx) {
             cx.row_fixed(ui, "Stress", &format!("{b}/m_Stress"), 70.0, 80.0);
             let quirks: Vec<String> = cx.get(&format!("{b}/QuirkContainer")).and_then(Value::as_array).map(|a| a.iter().filter_map(|q| q.get("m_Definition")?.as_str()).map(|q| words(q.trim_start_matches("quirk_"))).collect()).unwrap_or_default();
             if !quirks.is_empty() {
-                ui.label(RichText::new("Quirks").strong());
+                ui.label(RichText::new(tr("Quirks")).strong());
                 ui.label(quirks.join(", "));
             }
             let skills: Vec<String> = cx
@@ -395,12 +395,12 @@ fn dd2_heroes(ui: &mut Ui, cx: &mut GameCtx) {
                 .map(|a| a.iter().filter(|s| s.get("m_IsEquipped").and_then(Value::as_bool) == Some(true)).filter_map(|s| s.get("m_SkillId")?.as_str()).map(words).collect())
                 .unwrap_or_default();
             if !skills.is_empty() {
-                ui.label(RichText::new("Equipped skills").strong());
+                ui.label(RichText::new(tr("Equipped skills")).strong());
                 ui.label(skills.join(", "));
             }
         });
     });
-    ui.weak("HP and stress as they are now (stress goes up to 10). Max HP comes from the hero's path and level.");
+    ui.weak(tr("HP and stress as they are now (stress goes up to 10). Max HP comes from the hero's path and level."));
 }
 
 #[cfg(test)]

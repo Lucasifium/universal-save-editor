@@ -1,7 +1,7 @@
 //! Dragon Age: Origins: party money, the Warden's sheet, followers (approval and stats) and
 //! the backpack's stacks.
 
-use crate::i18n::tr;
+use crate::i18n::{tr, trf};
 use crate::widgets::ScrollLock;
 use super::{columns, fact, hero, panel, tabs, GameCtx};
 use crate::json_view::pointer_escape;
@@ -57,7 +57,7 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
             let t = tabs(ui, "dao_followers", &followers);
             let base = join("/Followers", &followers[t]);
             if let Some(n) = cx.text(&join(&base, "Name")) {
-                ui.weak(format!("Named {n}"));
+                ui.weak(trf("Named {0}", &[&n]));
             }
             let ap = join(&base, "Approval");
             if let Some(a) = cx.num(&ap) {
@@ -85,7 +85,7 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
                     cx.grid_row(ui, k, &join("/Other approval", k), 70.0);
                 }
             });
-            ui.weak("Approval entries of followers who aren't in the party camp now (left, or not met yet), by the game's object id.");
+            ui.weak(tr("Approval entries of followers who aren't in the party camp now (left, or not met yet), by the game's object id."));
         });
     }
     let items = keys(cx, "/Backpack");
@@ -95,7 +95,7 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
             let mut q = ui.data(|d| d.get_temp::<String>(sid)).unwrap_or_default();
             ui.horizontal(|ui| {
                 ui.label(tr("Filter:"));
-                ui.add(egui::TextEdit::singleline(&mut q).hint_text("item").desired_width(220.0));
+                ui.add(egui::TextEdit::singleline(&mut q).hint_text(tr("item")).desired_width(220.0));
             });
             ui.data_mut(|d| d.insert_temp(sid, q.clone()));
             let q = q.to_lowercase();
@@ -107,7 +107,7 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
                     cx.row_fixed(ui, shown[i], &p, label_w, 70.0);
                 });
             });
-            ui.weak("Stack sizes of the party's backpack. Items are shown by their internal resource name; items can't be added here.");
+            ui.weak(tr("Stack sizes of the party's backpack. Items are shown by their internal resource name; items can't be added here."));
         });
     }
 }
@@ -121,7 +121,7 @@ fn sheet(ui: &mut Ui, cx: &mut GameCtx, base: &str, id: &str, accent: Color32) {
                     for k in ATTRS {
                         cx.attribute(ui, k, &join(base, k), 60.0, accent);
                     }
-                    ui.weak("Base values, before equipment and talents.");
+                    ui.weak(tr("Base values, before equipment and talents."));
                 });
             } else {
                 panel(ui, "Unspent points", |ui| {
@@ -141,7 +141,7 @@ fn sheet(ui: &mut Ui, cx: &mut GameCtx, base: &str, id: &str, accent: Color32) {
                         ui.weak(info.join("  \u{00B7}  "));
                     }
                     if let Some(e) = cx.text(&join(base, "Equipped")) {
-                        ui.weak(format!("Equipped: {e}"));
+                        ui.weak(trf("Equipped: {0}", &[&e]));
                     }
                 });
             }

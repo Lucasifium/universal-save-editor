@@ -2,6 +2,7 @@
 //! them in three places (the save's info line, the player faction's account and the
 //! `money_player` statistic); the box below writes all three.
 
+use crate::i18n::{tr, trf};
 use super::{fact, hero, panel, GameCtx};
 use eframe::egui::{Color32, Ui};
 use serde_json::{json, Value};
@@ -57,11 +58,11 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
     }
     panel(ui, "Credits", |ui| {
         let now = cx.int(&paths[0]).unwrap_or(0);
-        ui.label(format!("The save keeps the player's credits in {} places; these are the values as the game stores them.", paths.len()));
+        ui.label(trf("The save keeps the player's credits in {0} places; these are the values as the game stores them.", &[&(paths.len())]));
         let mut buf = ui.memory_mut(|m| *m.data.get_temp_mut_or_insert_with(ui.id().with("x4money"), || now));
         ui.horizontal(|ui| {
             ui.add(eframe::egui::DragValue::new(&mut buf).speed(1000.0).range(0..=i64::MAX / 4));
-            if super::quick_button(ui, "Set credits everywhere", "") {
+            if super::quick_button(ui, tr("Set credits everywhere"), "") {
                 for p in &paths {
                     cx.set(p, json!(buf));
                 }
@@ -74,6 +75,6 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
                 cx.editor(ui, p, 120.0);
             });
         }
-        ui.weak("Everything else (ships, stations, wares) is in the Tree. Not yet tried on a save of the game itself.");
+        ui.weak(tr("Everything else (ships, stations, wares) is in the Tree. Not yet tried on a save of the game itself."));
     });
 }

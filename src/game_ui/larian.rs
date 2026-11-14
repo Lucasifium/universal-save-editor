@@ -1,6 +1,7 @@
 //! Larian saves: Divinity: Original Sin 2 (the party, editable) and Baldur's Gate 3 (the
 //! save's party summary, and gold and stack sizes of what each companion carries). See `fmt/larian.rs`.
 
+use crate::i18n::{tr};
 use crate::widgets::ScrollLock;
 use super::{columns, fact, fmt_num, hero, panel, tabs, GameCtx};
 use crate::fmt::larian::ATTRIBUTES;
@@ -36,7 +37,7 @@ pub fn dos2(ui: &mut Ui, cx: &mut GameCtx) {
         fact(ui, "Gold carried", &fmt_num(total as f64), gold);
     });
     if members.is_empty() {
-        ui.weak("No player characters found in this save.");
+        ui.weak(tr("No player characters found in this save."));
         return;
     }
     let t = tabs(ui, "dos2_party", &members);
@@ -57,7 +58,7 @@ pub fn dos2(ui: &mut Ui, cx: &mut GameCtx) {
                 for a in ATTRIBUTES {
                     cx.attribute(ui, a, &format!("{base}/Attributes/{a}"), 40.0, gold);
                 }
-                ui.weak("Base points (10 is the starting value), before items and talents.");
+                ui.weak(tr("Base points (10 is the starting value), before items and talents."));
             });
         } else {
             panel(ui, "Character", |ui| {
@@ -68,14 +69,14 @@ pub fn dos2(ui: &mut Ui, cx: &mut GameCtx) {
                         cx.grid_row(ui, k, &format!("{base}/Points/{k}"), 80.0);
                     }
                 });
-                ui.weak("The level follows from experience; points not yet spent can be spent in the game. Vitality is the current value.");
+                ui.weak(tr("The level follows from experience; points not yet spent can be spent in the game. Vitality is the current value."));
             });
         }
     });
     let piles = keys(cx, &at("Gold"));
     panel(ui, "Gold", |ui| {
         if piles.is_empty() {
-            ui.weak("This character carries no gold.");
+            ui.weak(tr("This character carries no gold."));
             return;
         }
         egui::Grid::new(("dos2_gold", t)).num_columns(2).spacing([14.0, 6.0]).show(ui, |ui| {
@@ -84,7 +85,7 @@ pub fn dos2(ui: &mut Ui, cx: &mut GameCtx) {
             }
         });
         ui.label(RichText::new(format!("{} gold on {}", fmt_num(gold_of(cx, &base) as f64), members[t])).color(theme_fg(ui, gold)));
-        ui.weak("Each line is a stack of coins in this character's inventory (named by its stats entry).");
+        ui.weak(tr("Each line is a stack of coins in this character's inventory (named by its stats entry)."));
     });
     let things = keys(cx, &at("Inventory"));
     if !things.is_empty() {
@@ -124,7 +125,7 @@ pub fn bg3(ui: &mut Ui, cx: &mut GameCtx) {
     let party = cx.get("/Party").and_then(Value::as_array).cloned().unwrap_or_default();
     panel(ui, "Party (read-only)", |ui| {
         if party.is_empty() {
-            ui.weak("The save's summary lists no party.");
+            ui.weak(tr("The save's summary lists no party."));
             return;
         }
         let s = |c: &Value, k: &str| match c.get(k) {
@@ -147,7 +148,7 @@ pub fn bg3(ui: &mut Ui, cx: &mut GameCtx) {
             });
         });
         ui.add_space(6.0);
-        ui.weak("From the save's own summary.");
+        ui.weak(tr("From the save's own summary."));
     });
     bg3_carried(ui, cx, gold);
     super::screens2::story(ui, cx, gold);
@@ -157,7 +158,7 @@ pub fn bg3(ui: &mut Ui, cx: &mut GameCtx) {
 fn bg3_carried(ui: &mut Ui, cx: &mut GameCtx, gold: Color32) {
     let people = keys(cx, "/Characters");
     if people.is_empty() {
-        ui.weak("Gold and items aren't readable in this save, so nothing here can be changed.");
+        ui.weak(tr("Gold and items aren't readable in this save, so nothing here can be changed."));
         return;
     }
     let t = tabs(ui, "bg3_who", &people);
@@ -167,7 +168,7 @@ fn bg3_carried(ui: &mut Ui, cx: &mut GameCtx, gold: Color32) {
     panel(ui, "Gold", |ui| {
         ui.label(RichText::new(format!("{} gold on {}", fmt_num(sum as f64), people[t])).strong().color(theme_fg(ui, gold)));
         if piles.is_empty() {
-            ui.weak("No coins on this character.");
+            ui.weak(tr("No coins on this character."));
             return;
         }
         egui::Grid::new(("bg3_gold", t)).num_columns(2).spacing([14.0, 6.0]).show(ui, |ui| {
@@ -175,7 +176,7 @@ fn bg3_carried(ui: &mut Ui, cx: &mut GameCtx, gold: Color32) {
                 cx.grid_row(ui, k, &format!("{base}/Gold/{}", esc(k)), 120.0);
             }
         });
-        ui.weak("Each line is one stack of coins in this character's inventory.");
+        ui.weak(tr("Each line is one stack of coins in this character's inventory."));
     });
     let things = keys(cx, &format!("{base}/Items"));
     if !things.is_empty() {

@@ -4,6 +4,7 @@
 //! Property names carry a generated suffix (`CurrentLevel_49_97AB…`), so values are found by
 //! the part before it.
 
+use crate::i18n::{tr};
 use super::{columns, fact, fmt_num, hero, panel, tabs, words, GameCtx};
 use crate::json_view::pointer_escape;
 use eframe::egui::{self, Color32, Ui};
@@ -90,7 +91,7 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
                             }
                         }
                     });
-                    ui.weak("Levels don't follow experience by themselves: set both.");
+                    ui.weak(tr("Levels don't follow experience by themselves: set both."));
                 });
             } else if let Some(k) = find(cx, &base, "AssignedAttributePoints") {
                 let ab = join(&base, &k);
@@ -113,7 +114,7 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
                     cx.grid_row(ui, &words(&name), &join(&base, &lv), 90.0);
                 }
             });
-            ui.weak("Each weapon you own and the level it has been upgraded to.");
+            ui.weak(tr("Each weapon you own and the level it has been upgraded to."));
         });
     } else {
         panel(ui, "Items", |ui| {
@@ -122,7 +123,7 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
                     cx.grid_row(ui, &words(&k), &join("/InventoryItems", &k), 90.0);
                 }
             });
-            ui.weak("Counts only; weapons and picto sit in the list at their owned count.");
+            ui.weak(tr("Counts only; weapons and picto sit in the list at their owned count."));
             super::crafting::offer(super::Game::Expedition33, ui, cx);
         });
     }

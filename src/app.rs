@@ -4649,6 +4649,7 @@ pub(crate) mod layout_tests {
         picks.truncate(6);
         picks.extend((0..crate::games::GAMES.len()).filter(|&i| crate::games::many_games(&crate::games::GAMES[i])).take(2));
         picks.push(0);
+        let _lock = crate::i18n::LANG_TEST_LOCK.lock().unwrap_or_else(|e| e.into_inner());
         let mut problems = vec![];
         for lang in ["en", "de", "es", "fr", "pt-BR", "ja", "zh-CN"] {
         crate::i18n::set(Some(lang));

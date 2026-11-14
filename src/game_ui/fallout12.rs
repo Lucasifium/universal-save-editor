@@ -78,7 +78,7 @@ fn sheet(ui: &mut Ui, cx: &mut GameCtx) {
         }
     });
     if cx.get("/Money/Bottle caps").is_none() {
-        ui.label(RichText::new("No bottle caps in the inventory: there's no stack to change (the game adds one when you pick some up).").size(12.0).color(DIM));
+        ui.label(RichText::new(tr("No bottle caps in the inventory: there's no stack to change (the game adds one when you pick some up).")).size(12.0).color(DIM));
     }
     ui.add_space(8.0);
 
@@ -92,7 +92,7 @@ fn sheet(ui: &mut Ui, cx: &mut GameCtx) {
                     cx.attribute(ui, &label, &p, 10.0, GREEN);
                 }
                 ui.add_space(4.0);
-                ui.label(RichText::new("Base values, 1\u{2013}10. The bonus in brackets comes from traits, perks, drugs and armour and is kept separately.").size(12.0).color(DIM));
+                ui.label(RichText::new(tr("Base values, 1\u{2013}10. The bonus in brackets comes from traits, perks, drugs and armour and is kept separately.")).size(12.0).color(DIM));
             });
             panel(ui, "Status", |ui| {
                 egui::Grid::new("fo_status").num_columns(2).spacing([14.0, 4.0]).show(ui, |ui| {
@@ -106,7 +106,7 @@ fn sheet(ui: &mut Ui, cx: &mut GameCtx) {
                     }
                 });
                 ui.label(
-                    RichText::new("Derived values (max hit points, action points, carry weight\u{2026}) are stored as their own numbers: changing S.P.E.C.I.A.L. doesn't change them.")
+                    RichText::new(tr("Derived values (max hit points, action points, carry weight\u{2026}) are stored as their own numbers: changing S.P.E.C.I.A.L. doesn't change them."))
                         .size(12.0)
                         .color(DIM),
                 );
@@ -120,7 +120,7 @@ fn sheet(ui: &mut Ui, cx: &mut GameCtx) {
                     cx.row_fixed(ui, &label, &join("/Skills", &k), 150.0, 70.0);
                 }
                 ui.add_space(4.0);
-                ui.label(RichText::new("Points put into each skill (the sheet adds the starting value from S.P.E.C.I.A.L. on top; tagged skills \u{2605} count them twice).").size(12.0).color(DIM));
+                ui.label(RichText::new(tr("Points put into each skill (the sheet adds the starting value from S.P.E.C.I.A.L. on top; tagged skills \u{2605} count them twice).")).size(12.0).color(DIM));
             });
         }
     });
@@ -135,7 +135,7 @@ fn sheet(ui: &mut Ui, cx: &mut GameCtx) {
                 for k in keys(cx, "/Tagged skill slots") {
                     cx.row_fixed(ui, &k, &join("/Tagged skill slots", &k), 90.0, 180.0);
                 }
-                ui.label(RichText::new("The fourth tag is the one the Tag! perk gives. Don't pick the same trait or skill twice.").size(12.0).color(DIM));
+                ui.label(RichText::new(tr("The fourth tag is the one the Tag! perk gives. Don't pick the same trait or skill twice.")).size(12.0).color(DIM));
             });
         } else {
             panel(ui, "Perks", |ui| {
@@ -174,15 +174,15 @@ fn sheet(ui: &mut Ui, cx: &mut GameCtx) {
     let items = keys(cx, "/Inventory");
     panel(ui, &format!("Inventory ({} stacks)", items.len()), |ui| {
         if items.is_empty() {
-            ui.label("Nothing carried.");
+            ui.label(tr("Nothing carried."));
             return;
         }
         let q = filter(ui);
         egui::ScrollArea::vertical().id_salt("fo_inv").max_height(420.0).show_locked(ui, |ui| {
             egui::Grid::new("fo_inv_g").num_columns(3).striped(true).spacing([16.0, 4.0]).show(ui, |ui| {
-                ui.label(RichText::new("Item").strong());
-                ui.label(RichText::new("Count").strong());
-                ui.label(RichText::new("Loaded").strong());
+                ui.label(RichText::new(tr("Item")).strong());
+                ui.label(RichText::new(tr("Count")).strong());
+                ui.label(RichText::new(tr("Loaded")).strong());
                 ui.end_row();
                 for k in items.iter().filter(|k| q.is_empty() || k.to_lowercase().contains(&q)) {
                     let base = join("/Inventory", k);
@@ -212,7 +212,7 @@ fn sheet(ui: &mut Ui, cx: &mut GameCtx) {
 
     let kills = keys(cx, "/Kills");
     if !kills.is_empty() {
-        egui::CollapsingHeader::new(RichText::new("Kills").strong()).id_salt("fo_kills").show(ui, |ui| {
+        egui::CollapsingHeader::new(RichText::new(tr("Kills")).strong()).id_salt("fo_kills").show(ui, |ui| {
             columns(ui, 260.0, kills.len(), |ui, i| {
                 cx.row_fixed(ui, &kills[i], &join("/Kills", &kills[i]), 120.0, 70.0);
             });
@@ -239,7 +239,7 @@ fn filter(ui: &mut Ui) -> String {
     let mut q = ui.data(|d| d.get_temp::<String>(id)).unwrap_or_default();
     ui.horizontal(|ui| {
         ui.label(tr("Filter:"));
-        ui.add(egui::TextEdit::singleline(&mut q).hint_text("item name").desired_width(200.0));
+        ui.add(egui::TextEdit::singleline(&mut q).hint_text(tr("item name")).desired_width(200.0));
     });
     ui.data_mut(|d| d.insert_temp(id, q.clone()));
     q.to_lowercase()

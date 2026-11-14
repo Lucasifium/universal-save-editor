@@ -3041,3 +3041,9046 @@ Level (up to 300), free skill points and free mastery points. The rest of the ch
 Quantity of every weapon, costume, accessory, bullet and material in the inventory, found by scanning for the item codes. Weapon memory chips are not editable yet.
 = インベントリ内のすべての武器・コスチューム・アクセサリー・弾丸・素材の数量(アイテムコードを走査して検出)。武器のメモリーチップはまだ編集できません。
 
+# game screens (translation audit)
+
+(empty slot)
+= （空きスロット）
+
+(now {0})
+= （現在 {0}）
+
+0 — not stored
+= 0 — 未保存
+
+00 Agent
+= 00エージェント
+
+0–100. High influence opens a companion's conversations and can turn them towards your side of the Force.
+= 0–100。影響力が高いと仲間との会話が開かれ、フォースの自分の側へ引き寄せることができます。
+
+0–100. Skills never trained sit a little below zero; the game levels them up from there.
+= 0–100。一度も訓練していないスキルはゼロより少し下になり、そこからゲームがレベルアップさせます。
+
+1 means learned. Everything else in the save (items, map, quests) is in the Values tab.
+= 1は習得済みを意味します。セーブのそれ以外（アイテム、マップ、クエスト）は「値」タブにあります。
+
+1-Up Deluxe
+= 1-Up Deluxe
+
+1-Up Mushroom
+= 1UPキノコ
+
+10 seconds race
+= 10秒レース
+
+100 coins
+= コイン100枚
+
+100 is good / lawful, 0 evil / chaotic.
+= 100は善／秩序、0は悪／混沌。
+
+1000 per health block: 4000 at level 1, 12000 at level 50.
+= ヘルスブロック1つにつき1000：レベル1で4000、レベル50で12000。
+
+100cc Flower Cup
+= 100ccフラワーカップ
+
+100cc Mushroom Cup
+= 100ccキノコカップ
+
+100cc Special Cup
+= 100ccスペシャルカップ
+
+100cc Star Cup
+= 100ccスターカップ
+
+150cc Flower Cup
+= 150ccフラワーカップ
+
+150cc Mushroom Cup
+= 150ccキノコカップ
+
+150cc Special Cup
+= 150ccスペシャルカップ
+
+150cc Star Cup
+= 150ccスターカップ
+
+1: experience
+= 1：経験値
+
+1: max EP
+= 1：最大EP
+
+1: max HP
+= 1：最大HP
+
+2-strip colour filter
+= 2ストリップカラーフィルター
+
+2000 points. Romance candidates stop at 8 hearts until you give them a bouquet; others go to 10.
+= 2000ポイント。恋愛対象はブーケを渡すまでハート8個で止まり、それ以外は10個まで上がります。
+
+250 points make a heart. 2500 is 10 hearts (3500 for a spouse); a romance candidate above 2000 needs the bouquet event first.
+= 250ポイントでハート1個。2500で10個（配偶者は3500）。恋愛対象で2000を超えるには、先にブーケのイベントが必要です。
+
+2: experience
+= 2：経験値
+
+2: max EP
+= 2：最大EP
+
+2: max HP
+= 2：最大HP
+
+2x Grenade Launcher
+= 2x グレネードランチャー
+
+2x Hunting Knife
+= 2x ハンティングナイフ
+
+2x Laser
+= 2x レーザー
+
+2x RC-P90
+= 2x RC-P90
+
+2x Rocket Launcher
+= 2x ロケットランチャー
+
+2x Throwing Knife
+= 2x スローイングナイフ
+
+3 whistle switches
+= 笛スイッチ3つ
+
+3: experience
+= 3：経験値
+
+3: max EP
+= 3：最大EP
+
+3: max HP
+= 3：最大HP
+
+45 seconds race
+= 45秒レース
+
+4: experience
+= 4：経験値
+
+4: max EP
+= 4：最大EP
+
+4: max HP
+= 4：最大HP
+
+5 Jinjos rescued
+= ジンジョー5匹救出
+
+50% damage
+= ダメージ50%
+
+50cc Flower Cup
+= 50ccフラワーカップ
+
+50cc Mushroom Cup
+= 50ccキノコカップ
+
+50cc Special Cup
+= 50ccスペシャルカップ
+
+50cc Star Cup
+= 50ccスターカップ
+
+6 Pale Ore
+= 6 Pale Ore
+
+<n>.sav: your money; the map, mount and play time are shown for reference. Characters and items are kept in the game's own records after the save's properties and are left as they are.
+= <n>.sav：所持金。マップ、マウント、プレイ時間は参考として表示されます。キャラクターとアイテムはセーブのプロパティの後にあるゲーム独自のレコードに保存されており、そのまま残されます。
+
+<number>.save in the Ubisoft Connect savegames folder (game 1875 or 1957). The save is unscrambled, unpacked and packed again with its block checks; the account it belongs to is kept. Close the game and turn cloud saves off in Ubisoft Connect first, or the old save may come back. The save ends with a 4-byte value that isn't understood yet and is kept as it is; edited saves of this game have not been tried in the game.
+= <number>.saveはUbisoft Connectのセーブデータフォルダー内（ゲーム1875または1957）。セーブは復号・展開され、ブロックチェックとともに再び圧縮されます。所属するアカウントは保持されます。先にゲームを閉じ、Ubisoft Connectでクラウドセーブをオフにしてください。そうしないと古いセーブが戻ることがあります。セーブの末尾には未解明の4バイト値があり、そのまま保持されます。このゲームの編集済みセーブはゲームで試されていません。
+
+<number>.save in the Ubisoft Connect savegames folder (game 273 or 437). The save is unscrambled, unpacked and packed again with its block checks; the account it belongs to is kept. Close the game and turn cloud saves off in Ubisoft Connect first, or the old save may come back.
+= <number>.saveはUbisoft Connectのセーブデータフォルダー内（ゲーム273または437）。セーブは復号・展開され、ブロックチェックとともに再び圧縮されます。所属するアカウントは保持されます。先にゲームを閉じ、Ubisoft Connectでクラウドセーブをオフにしてください。そうしないと古いセーブが戻ることがあります。
+
+<number>.save in the Ubisoft Connect savegames folder (game 3539 or 4923). The save is unscrambled, unpacked and packed again with its block checks; the account it belongs to is kept. Close the game and turn cloud saves off in Ubisoft Connect first, or the old save may come back. The save ends with a 4-byte value that isn't understood yet and is kept as it is; edited saves of this game have not been tried in the game. Other crafting materials are stored by item number and aren't named yet.
+= <number>.saveはUbisoft Connectのセーブデータフォルダー内（ゲーム3539または4923）。セーブは復号・展開され、ブロックチェックとともに再び圧縮されます。所属するアカウントは保持されます。先にゲームを閉じ、Ubisoft Connectでクラウドセーブをオフにしてください。そうしないと古いセーブが戻ることがあります。セーブの末尾には未解明の4バイト値があり、そのまま保持されます。このゲームの編集済みセーブはゲームで試されていません。その他のクラフト素材はアイテム番号で保存されており、まだ名前が付いていません。
+
+<number>.save in the Ubisoft Connect savegames folder (game 40). The save is unscrambled, unpacked and packed again with its block checks; the account it belongs to is kept. Close the game and turn cloud saves off in Ubisoft Connect first, or the old save may come back.
+= <number>.saveはUbisoft Connectのセーブデータフォルダー内（ゲーム40）。セーブは復号・展開され、ブロックチェックとともに再び圧縮されます。所属するアカウントは保持されます。先にゲームを閉じ、Ubisoft Connectでクラウドセーブをオフにしてください。そうしないと古いセーブが戻ることがあります。
+
+<number>.save in the Ubisoft Connect savegames folder (game 5059 or 5092). The save is unscrambled, unpacked and packed again with its block checks; the account it belongs to is kept. Close the game and turn cloud saves off in Ubisoft Connect first, or the old save may come back.
+= <number>.saveはUbisoft Connectのセーブデータフォルダー内（ゲーム5059または5092）。セーブは復号・展開され、ブロックチェックとともに再び圧縮されます。所属するアカウントは保持されます。先にゲームを閉じ、Ubisoft Connectでクラウドセーブをオフにしてください。そうしないと古いセーブが戻ることがあります。
+
+<number>.save in the Ubisoft Connect savegames folder (game 5183). The save is unscrambled, unpacked and packed again with its block checks; the account it belongs to is kept. Close the game and turn cloud saves off in Ubisoft Connect first, or the old save may come back. The save ends with a 4-byte value that isn't understood yet and is kept as it is; edited saves of this game have not been tried in the game.
+= <number>.saveはUbisoft Connectのセーブデータフォルダー内（ゲーム5183）。セーブは復号・展開され、ブロックチェックとともに再び圧縮されます。所属するアカウントは保持されます。先にゲームを閉じ、Ubisoft Connectでクラウドセーブをオフにしてください。そうしないと古いセーブが戻ることがあります。セーブの末尾には未解明の4バイト値があり、そのまま保持されます。このゲームの編集済みセーブはゲームで試されていません。
+
+<number>.save in the Ubisoft Connect savegames folder (game 720 or 857). The save is unscrambled, unpacked and packed again with its block checks; the account it belongs to is kept. Close the game and turn cloud saves off in Ubisoft Connect first, or the old save may come back.
+= <number>.saveはUbisoft Connectのセーブデータフォルダー内（ゲーム720または857）。セーブは復号・展開され、ブロックチェックとともに再び圧縮されます。所属するアカウントは保持されます。先にゲームを閉じ、Ubisoft Connectでクラウドセーブをオフにしてください。そうしないと古いセーブが戻ることがあります。
+
+<number>.save in the Ubisoft Connect savegames folder (game 895 or 934). The save is unscrambled, unpacked and packed again with its block checks; the account it belongs to is kept. Close the game and turn cloud saves off in Ubisoft Connect first, or the old save may come back.
+= <number>.saveはUbisoft Connectのセーブデータフォルダー内（ゲーム895または934）。セーブは復号・展開され、ブロックチェックとともに再び圧縮されます。所属するアカウントは保持されます。先にゲームを閉じ、Ubisoft Connectでクラウドセーブをオフにしてください。そうしないと古いセーブが戻ることがあります。
+
+<number>.save in the Ubisoft Connect savegames folder (games 625 and 632). The save is unscrambled, unpacked and packed again with its block checks; the account it belongs to is kept. Close the game and turn cloud saves off in Ubisoft Connect first, or the old save may come back.
+= <number>.saveはUbisoft Connectのセーブデータフォルダー内（ゲーム625と632）。セーブは復号・展開され、ブロックチェックとともに再び圧縮されます。所属するアカウントは保持されます。先にゲームを閉じ、Ubisoft Connectでクラウドセーブをオフにしてください。そうしないと古いセーブが戻ることがあります。
+
+<save name>.xml in a folder under Save Games (the .bin beside it is not needed). Character names are shown but not edited. Skills are in the Tree under each ranger's skillXps.
+= Save Games 配下のフォルダー内の <save name>.xml（隣の.binは不要です）。キャラクター名は表示されますが編集はできません。スキルはツリーの各レンジャーのskillXpsにあります。
+
+A
+= A
+
+A .GM1, .CGM or .GM2 save from the game's Games folder (Shadow of Death, Armageddon's Blade and Horn of the Abyss 1.8+). Each player's resources, and each hero's level, experience, attributes, spell points, movement, army and the skills they already have.
+= ゲームのGamesフォルダーにある.GM1、.CGM、.GM2のセーブ（Shadow of Death、Armageddon's Blade、Horn of the Abyss 1.8以降）。各プレイヤーの資源と、各英雄のレベル、経験値、能力値、呪文ポイント、移動力、軍隊、すでに習得しているスキル。
+
+A .prison save. Only the bank balance and the top-level settings are shown; the rest of the file is left byte for byte as it was.
+= .prisonセーブ。銀行残高と最上位の設定のみ表示され、ファイルの残りの部分は1バイトも変更されません。
+
+A 1CHARACTERSLOT file from Last Epoch's Saves folder (offline characters; the EPOCH header is kept). Level, experience, deaths and respecs. Items, passives and the monolith are in the Tree.
+= Last EpochのSavesフォルダーにある1CHARACTERSLOTファイル（オフラインキャラクター。EPOCHヘッダーは保持されます）。レベル、経験値、死亡回数、リスペック回数。アイテム、パッシブ、モノリスはツリーにあります。
+
+A 2005 profile (PC or PlayStation 2); the file's MD5 is made again on save
+= 2005のプロファイル（PCまたはPlayStation 2）。保存時にファイルのMD5が作り直されます
+
+A Morrowind .ess save: level, gold, the eight attributes, all 27 skills, health, fatigue and magicka, and the inventory counts by item id. Checked on public saves, not yet tried in the game.
+= Morrowindの.essセーブ：レベル、ゴールド、8つの能力値、27個すべてのスキル、体力、疲労度、マジカ、アイテムIDごとの所持数。公開セーブで検証済みですが、ゲームではまだ試していません。
+
+A Quicksave or Autosave file. Money is the Coin item in the bag; skill levels and the four technology point pools are below.
+= QuicksaveまたはAutosaveのファイル。お金はバッグ内のCoinアイテムです。スキルレベルと4つのテクノロジーポイントのプールは下にあります。
+
+A SAVEn.sav (a .NET BinaryFormatter file; it is unpacked and written back for you). Name, gold, experience, play time, party members, and the item, weapon and armor ids. Layout from BenjaminUrquhart's DeltatravelerSaveEditor.
+= SAVEn.sav（.NET BinaryFormatterファイル。自動で展開され、書き戻されます）。名前、ゴールド、経験値、プレイ時間、パーティメンバー、アイテム・武器・防具のID。構造はBenjaminUrquhartのDeltatravelerSaveEditorによります。
+
+A Slot or Autosave file in the SaveGames folder. Scrap and weapon parts are the Ark's shared stock; each squad member has their own level, health and mutation points.
+= SaveGamesフォルダ内のSlotまたはAutosaveファイル。スクラップと武器パーツは方舟の共有ストックで、各分隊員には個別のレベル、体力、ミューテーションポイントがあります。
+
+A Switch save from an emulator or a dump (bf3game*.sav). Gold, play time, each character's level and experience, and the cylinder, gem and collectible amounts.
+= エミュレーターまたはダンプからのSwitchのセーブ（bf3game*.sav）。ゴールド、プレイ時間、各キャラクターのレベルと経験値、シリンダー・ジェム・コレクタブルの数。
+
+A Switch system_data.bin (decrypted). Gold, tickets, hammers, snacks, SP and the spirit board item counts.
+= Switchのsystem_data.bin（復号済み）。ゴールド、チケット、ハンマー、おやつ、SP、スピリットボードのアイテム数。
+
+A decrypted 3DS save (ML4_001.sav). Coins, both brothers' level, experience and stats, and the counts of recovery items, battle items and beans.
+= 復号済みの3DSセーブ（ML4_001.sav）。コイン、兄弟それぞれのレベル、経験値、ステータス、回復アイテム・バトルアイテム・豆の所持数。
+
+A decrypted 3DS savedata.dat. Apple gems and the four kinds of shards.
+= 復号済みの3DSのsavedata.dat。リンゴジェムと4種類のシャード。
+
+A decrypted 3DS system0.dat. Coins, StreetPass count, online wins and losses, and VR points; the save's checksum is rewritten.
+= 復号済みの3DSのsystem0.dat。コイン、すれ違い通信の回数、オンラインの勝敗数、VRポイント。セーブのチェックサムは書き直されます。
+
+A done
+= A 完了
+
+A dwarf reaches level 25 at 315,000 XP; each level before that takes a bit more than the last.
+= ドワーフは315,000 XPでレベル25に到達します。それ以前の各レベルは、前のレベルより少しずつ多く必要です。
+
+A full clear
+= 完全クリア
+
+A heart
+= ハート
+
+A level change is copied to the character's progression too; the load screen keeps showing the old level until the game saves again. Both checksums are written again on save. Not yet tried in the game.
+= レベルの変更はキャラクターの進行状況にもコピーされます。ゲームが再度セーブするまで、ロード画面には古いレベルが表示され続けます。保存時に両方のチェックサムが書き直されます。ゲームではまだ検証していません。
+
+A lost limb also needs its health above zero to come back. Robotic limbs are read from very few saves.
+= 失った四肢を元に戻すには、その体力も0より大きくする必要があります。ロボット義肢は、ごく少数のセーブからしか読み取れません。
+
+A party member's level and stats are their Persona's.
+= 仲間のレベルとステータスは、そのペルソナのものです。
+
+A profile file (profile0.cms21 …) in the game's Save folder; the Backup folder keeps an older copy, so edit the one the game loads.
+= ゲームのSaveフォルダ内のプロフィールファイル（profile0.cms21 …）。Backupフォルダには古いコピーがあるため、ゲームが読み込む方を編集してください。
+
+A rank is bought once per entry in the save's list; coins spent on them aren't changed.
+= ランクはセーブのリストの項目ごとに1回購入されます。それに使ったコインは変更されません。
+
+A rocket's habitat: its name is the rocket's name.
+= ロケットの居住区：その名前はロケットの名前です。
+
+A save (.gz or the JSON inside it). Every faction's stockpile is listed, yours and the AI's. Saves from an ironman campaign aren't covered.
+= セーブ（.gzまたはその中のJSON）。自分とAIを含む、すべての勢力の備蓄が一覧表示されます。アイアンマンキャンペーンのセーブは対象外です。
+
+A saved park (.SV6) from the game's Saved Games folder. Cash, loan, maximum loan and the entrance fee; the park's chunk is unpacked and packed again, with the file sum written right.
+= ゲームのSaved Gamesフォルダにある保存済みパーク（.SV6）。現金、ローン、最大ローン、入場料。パークのチャンクは展開して再度パックされ、ファイルのチェックサムも正しく書き込まれます。
+
+A stack holds up to 500 in the base game.
+= 基本ゲームでは、1スタックに最大500まで入ります。
+
+A waypoint you can use in that difficulty. The character still has to be able to reach the act.
+= その難易度で使えるウェイポイント。キャラクターがそのアクトに到達できる必要はあります。
+
+A ysf_NN.nacci save (the cipher and both checksums are handled). Level, HP, experience, gold and the difficulty.
+= ysf_NN.nacciのセーブ（暗号とチェックサム2つは自動で処理されます）。レベル、HP、経験値、ゴールド、難易度。
+
+ADF
+= ADF
+
+ADR classes (bitmask 0–63)
+= ADRクラス（ビットマスク 0–63）
+
+AGI +
+= AGI +
+
+AGL
+= AGL
+
+AP earned
+= 獲得AP
+
+AT (ammo)
+= AT（弾薬）
+
+AT (primary)
+= AT（メイン）
+
+AT and DF here are your own; Weapon AT and Armor DF come from what you have equipped.
+= ここのATとDFは本人の値です。武器ATと防具DFは装備品によるものです。
+
+ATS
+= ATS
+
+Abandoned Mine
+= 廃坑
+
+Abilities
+= アビリティ
+
+Ability Markers
+= アビリティマーカー
+
+Ability Points
+= アビリティポイント
+
+Ability points
+= アビリティポイント
+
+Ability scores
+= 能力値
+
+Ability tree
+= アビリティツリー
+
+About the numbers
+= 数値について
+
+Above Clanker using his bolt
+= ボルトを使うクランカーの上
+
+Above Clanker using his tail
+= しっぽを使うクランカーの上
+
+Above Trunker
+= トランカーの上
+
+Account
+= アカウント
+
+Achievements
+= 実績
+
+Acrobatics
+= 軽業
+
+Acting
+= 演技
+
+Adam Jensen
+= アダム・ジェンセン
+
+Add equipment
+= 装備を追加
+
+Add id
+= IDを追加
+
+Add items
+= アイテムを追加
+
+Add materia
+= マテリアを追加
+
+Add material:
+= 素材を追加：
+
+Add to satchel
+= サッチェルに追加
+
+Add-on prices
+= アドオン価格
+
+Add-ons bought
+= 購入したアドオン
+
+Add-ons sold
+= 売却したアドオン
+
+Added on top of the class's stats (what seeds and level-ups give).
+= クラスのステータスに加算されます（種とレベルアップで得られる分）。
+
+Adds it on hand, in the next unused entry of the item list, as if just picked up.
+= 拾ったばかりのように、アイテムリストの次の未使用の項目に追加して所持します。
+
+Adol
+= アドル
+
+Adult Trading Item
+= 大人向けトレードアイテム
+
+Adventure
+= アドベンチャー
+
+Adventure level
+= アドベンチャーレベル
+
+Affection
+= 好感度
+
+Affinity
+= 親和性
+
+After the organ lesson in the church
+= 教会でのオルガンのレッスンの後
+
+Afterlife level
+= 来世レベル
+
+Agent
+= エージェント
+
+Agility
+= 敏捷
+
+Agility, Power and Survivor go up to 24–25 (Legend higher). Inventory and money aren't decoded yet; use Value search for those.
+= 敏捷、パワー、サバイバーは24～25まで上がります（レジェンドはそれ以上）。インベントリとお金はまだ解読されていないため、「値の検索」を使ってください。
+
+Air Dash
+= エアダッシュ
+
+Akiyama
+= 秋山
+
+Akiyama's money
+= 秋山の所持金
+
+Akçe
+= Akçe
+
+Alchemy
+= 錬金術
+
+Alchimie
+= Alchimie
+
+Alertness
+= 警戒
+
+Alignment
+= 属性
+
+Alignment: 0 is the dark side, 100 the light side.
+= 属性：0はダークサイド、100はライトサイドです。
+
+All Guns
+= 全ての銃
+
+All damage
+= 全ダメージ
+
+All known power-ups to their highest rank
+= 既知のパワーアップをすべて最高ランクに
+
+All levels and 007 difficulty unlocked
+= 全レベルと007難易度が解放済み
+
+All primaries
+= 全メイン武器
+
+All resources
+= 全リソース
+
+All supports
+= 全サポート
+
+Aloy
+= アーロイ
+
+Also in these lists (not edited here): {0}.
+= これらのリストにもあります（ここでは編集されません）：{0}。
+
+Alteration
+= 変性
+
+Ambarino ($)
+= Ambarino ($)
+
+Amethyst
+= アメジスト
+
+Ammo
+= 弾薬
+
+Ammo and SDUs
+= 弾薬とSDU
+
+Amount
+= 数量
+
+An Oblivion .ess save: level, gold, the eight attributes, all 21 skills and base health. Checked on public saves, not yet tried in the game.
+= Oblivionの.essセーブ：レベル、ゴールド、8つの能力値、全21スキル、基本体力。公開セーブで確認済みですが、ゲームではまだ検証していません。
+
+An adventure save (.run) in the game's save folder. Each hero keeps their own gold. Health above the hero's maximum is cut back by the game; the life pool is how many times the party can still be revived.
+= ゲームのセーブフォルダにある冒険のセーブ(.run)。ゴールドは英雄ごとに持ちます。英雄の最大値を超える体力はゲームが切り詰めます。ライフプールはパーティをあと何回蘇生できるかを表します。
+
+An emulator's .eep save (512 or 2048 bytes). Per file: caps, keys, switches, secret stars, each course's six stars, 100-coin star, cannon and coin record.
+= エミュレータの.eepセーブ(512または2048バイト)。ファイルごと:帽子、鍵、スイッチ、秘密のスター、各コースの6つのスター、100コインスター、大砲、コイン記録。
+
+An emulator's 8 KiB .srm / .sav save. Per Samus slot: energy and reserve tanks, missiles, super missiles, power bombs, play time and which beams, suits and boots she has and has equipped.
+= エミュレータの8 KiB .srm / .savセーブ。サムススロットごと:エネルギータンクとリザーブタンク、ミサイル、スーパーミサイル、パワーボム、プレイ時間、所持・装備中のビーム、スーツ、ブーツ。
+
+An emulator's 8 KiB .srm / .sav save. Per slot: hearts, magic, rupees, bombs and arrows with their upgrades, the sword, shield, tunic and every item, and the four bottles.
+= エミュレータの8 KiB .srm / .savセーブ。スロットごと:ハート、魔力、ルピー、爆弾と矢(強化込み)、剣、盾、服、全アイテム、4つのビン。
+
+An exported save (bitburnerSave_*.json). Skill levels are worked out from experience when the game loads, so raise the experience too if a skill doesn't stick.
+= エクスポートしたセーブ(bitburnerSave_*.json)。スキルレベルはゲーム読み込み時に経験値から算出されるため、スキルが反映されない場合は経験値も上げてください。
+
+Ancient essence
+= 古代のエッセンス
+
+Ancient souls
+= 古代の魂
+
+Ancient souls (total)
+= 古代の魂(合計)
+
+Ancient souls spent
+= 使用した古代の魂
+
+Ancient technology points
+= 古代テクノロジーポイント
+
+Ante
+= アンティ
+
+Antimatter
+= 反物質
+
+Antimatter and Infinity
+= 反物質とインフィニティ
+
+Antimatter galaxies
+= 反物質ギャラクシー
+
+Apple gems
+= リンゴジェム
+
+Apple gems bought
+= 購入したリンゴジェム
+
+Approval
+= 支持度
+
+Approval entries of followers who aren't in the party camp now (left, or not met yet), by the game's object id.
+= 現在パーティキャンプにいない(離脱した、またはまだ出会っていない)仲間の支持度エントリ。ゲームのオブジェクトID順。
+
+Aquarium Garden
+= Aquarium Garden
+
+Archery
+= 弓術
+
+Archetype
+= アーキタイプ
+
+Architect damage
+= アーキテクトのダメージ
+
+Area
+= エリア
+
+Ark
+= 方舟
+
+Armbrust
+= クロスボウ
+
+Armies
+= 軍隊
+
+Armorer
+= 防具職人
+
+Armour (by database number)
+= 防具(データベース番号別)
+
+Army
+= 軍隊
+
+Arrow capacity upgrades (0-7)
+= 矢の容量アップグレード(0-7)
+
+Arrows
+= 矢
+
+Arrows max
+= 矢の最大数
+
+Arthur
+= アーサー
+
+Artifact points available
+= 利用可能なアーティファクトポイント
+
+Artifact points spent
+= 使用済みアーティファクトポイント
+
+Artifacts
+= アーティファクト
+
+Artyom
+= アルチョム
+
+Ascensions
+= アセンション
+
+Assist mode
+= アシストモード
+
+Assists
+= アシスト
+
+Astral energy
+= アストラルエネルギー
+
+At the bottom of a pool of water
+= 水たまりの底
+
+At the center of the stone structure
+= 石の構造物の中心
+
+At the top of a chimney
+= 煙突の上
+
+At the top of the christmas tree
+= クリスマスツリーの上
+
+At the top of the church
+= 教会の上
+
+At the top of the lighthouse
+= 灯台の上
+
+At the top of the termites nest
+= シロアリの巣の上
+
+At the top of the tree
+= 木の上
+
+Athletics
+= 運動能力
+
+Attack
+= 攻撃
+
+Attack 2
+= 攻撃2
+
+Attack Power
+= 攻撃力
+
+Attack speed
+= 攻撃速度
+
+Attractor
+= アトラクター
+
+Attribute
+= 属性
+
+Attribute levels top out at 20 without mods. Everything else about a duplicant is in the Values tab.
+= 属性レベルはMODなしでは20が上限です。複製人間のその他の項目は「値」タブにあります。
+
+Attribute points
+= 属性ポイント
+
+Attribute points to spend
+= 使用可能な属性ポイント
+
+Attribute pts
+= 属性Pt
+
+Attributes
+= 属性
+
+Attributes run from 1 to 10 in the game.
+= ゲーム内の属性値は1~10です。
+
+Augment capacity
+= オーグメント容量
+
+Augmentations
+= オーグメンテーション
+
+Authority
+= 権威
+
+Automatic Firearms
+= オートマチック火器
+
+Autumn: At the top of the eggplant
+= 秋:ナスの上
+
+Autumn: In the house of Gnawty
+= 秋:ノーティの家
+
+Autumn: The acorns of Nabnut
+= 秋:ナブナットのドングリ
+
+Awakening (0 to 3)
+= 覚醒(0~3)
+
+Awareness
+= 知覚
+
+Axe
+= 斧
+
+B done
+= Bクリア済み
+
+B full clear
+= B完全クリア
+
+B heart
+= Bハート
+
+BC reserve
+= BCリザーブ
+
+BP
+= BP
+
+Back up this save first…
+= まずこのセーブをバックアップ…
+
+Backpack
+= バックパック
+
+Backpack materials
+= バックパックの素材
+
+Backstabbing
+= 背後攻撃
+
+Badges
+= バッジ
+
+Badland
+= Badland
+
+Bag
+= バッグ
+
+Bags
+= バッグ
+
+Balance
+= 残高
+
+Balanced shell points
+= バランスシェルポイント
+
+Balatro run
+= Balatroのラン
+
+Baldur's Gate 3
+= Baldur's Gate 3
+
+Bank accounts (by region number)
+= 銀行口座(地域番号別)
+
+Bank balance
+= 銀行残高
+
+Bank loan
+= 銀行ローン
+
+Banked infinities
+= 預けたインフィニティ
+
+Barns found
+= 見つけた納屋
+
+Barnstorms found
+= 見つけたバーンストーム
+
+Barter
+= 交渉
+
+Base energy
+= 基本エネルギー
+
+Base health
+= 基本体力
+
+Base points (10 is the starting value), before items and talents.
+= 基本ポイント(初期値は10)。アイテムとタレントの効果を含みません。
+
+Base scores, before race, items and buffs.
+= 基本スコア。種族、アイテム、バフを含みません。
+
+Base stats
+= 基本ステータス
+
+Base values before items and skills.
+= 基本値。アイテムとスキルの効果を含みません。
+
+Base values, 1–10. The bonus in brackets comes from traits, perks, drugs and armour and is kept separately.
+= 基本値、1–10。括弧内のボーナスは特性、パーク、薬物、防具によるもので、別に保持されます。
+
+Base values, before equipment and talents.
+= 基本値。装備とタレントの効果を含みません。
+
+Basement key
+= 地下室の鍵
+
+Basement key door open
+= 地下室のドアが開いた
+
+Basements cleared
+= クリア済み地下室
+
+Bash
+= バッシュ
+
+Bat Card
+= コウモリカード
+
+Bat experience
+= コウモリの経験値
+
+Bat level
+= コウモリのレベル
+
+Battle Points
+= バトルポイント
+
+Battle against Mutie-Snippets
+= ミューティスニペットとの戦い
+
+Battle items
+= バトルアイテム
+
+Battles
+= 戦闘
+
+Beak Barge
+= Beak Barge
+
+Beak Bomb
+= Beak Bomb
+
+Beak Buster
+= Beak Buster
+
+BeamXP
+= BeamXP
+
+Beans
+= 豆
+
+Beat Boss Boom Box
+= ブームボックスのボスを撃破
+
+Beatrix
+= ベアトリクス
+
+Behind the propellers
+= プロペラの裏
+
+Bei
+= Bei
+
+Best race time
+= レースのベストタイム
+
+Best streak
+= 最高連続記録
+
+Best win streak
+= 最高連勝記録
+
+Beta gauge
+= βゲージ
+
+Betoeren
+= Betoeren
+
+Big Guns
+= Big Guns
+
+Bile flasks
+= 胆汁の瓶
+
+Biome goal points
+= バイオーム目標ポイント
+
+Bismor
+= Bismor
+
+BitNode
+= BitNode
+
+Black and white filter
+= 白黒フィルター
+
+Black hearts
+= 黒いハート
+
+Blackstone
+= Blackstone
+
+Blade
+= ブレード
+
+Blight (experience)
+= 疫病(経験値)
+
+Blizzard
+= ブリザード
+
+Block
+= ブロック
+
+Block:
+= ブロック:
+
+Blowtorch
+= ブロートーチ
+
+Blue
+= 青
+
+Blue hearts
+= 青いハート
+
+Blue key (93)
+= 青い鍵(93)
+
+Blue shards
+= 青いかけら
+
+Blueprints unlocked
+= 解放済み設計図
+
+Blunt
+= 打撃
+
+Blunt Weapon
+= 打撃武器
+
+Blunt weapon
+= 打撃武器
+
+Board the Platforms
+= プラットフォームに乗る
+
+Boatman unlocked
+= 船頭を解放
+
+Boats exploded
+= 爆破したボート
+
+Body parts at full health (100) aren't written in the save, so they can't be changed here.
+= 体力が満タン(100)の部位はセーブに書き込まれないため、ここでは変更できません。
+
+Bogen
+= Bogen
+
+Bogenbau
+= Bogenbau
+
+Bolero of Fire
+= 炎のボレロ
+
+Bolts
+= ボルト
+
+Bomb
+= 爆弾
+
+Bomb Bag
+= ボム袋
+
+Bomb capacity upgrades (0-7)
+= 爆弾の容量アップグレード(0-7)
+
+Bomb damage
+= 爆弾のダメージ
+
+Bombchu
+= ボムチュウ
+
+Bombos medallion
+= ボンボスのメダル
+
+Bombs
+= 爆弾
+
+Bombs max
+= 爆弾の最大数
+
+Bond Invisible
+= Bond Invisible
+
+Bonecharm traits learned
+= 習得した骨の魔除けの特性
+
+Bonus MP
+= ボーナスMP
+
+Bonus agility
+= ボーナス敏捷
+
+Bonus defense
+= ボーナス防御
+
+Bonus experience
+= ボーナス経験値
+
+Bonus intelligence
+= ボーナス知力
+
+Bonus luck
+= ボーナス運
+
+Bonus magic
+= ボーナス魔力
+
+Bonus max HP
+= ボーナス最大HP
+
+Bonus max MP
+= ボーナス最大MP
+
+Bonus power
+= ボーナス攻撃力
+
+Bonus spirit
+= ボーナス精神
+
+Bonus strength
+= ボーナス力
+
+Bonus vitality
+= ボーナス体力
+
+Boo Biscuit
+= Boo Biscuit
+
+Book of Mudora
+= ムドラの書
+
+Boomerang
+= ブーメラン
+
+Boost
+= ブースト
+
+Boots
+= ブーツ
+
+Bosses marked defeated stay gone; their rewards aren't given.
+= 撃破済みにしたボスは戻りません。報酬は与えられません。
+
+Botany
+= 植物学
+
+Bottle 1
+= ビン1
+
+Bottle 2
+= ビン2
+
+Bottle 3
+= ビン3
+
+Bottle 4
+= ビン4
+
+Bottle caps
+= ビンのキャップ
+
+Bounties
+= 賞金首
+
+Bow
+= 弓
+
+Bows
+= 弓
+
+Bowser in the Dark World (red coins)
+= ダークワールドのクッパ(赤コイン)
+
+Bowser in the Fire Sea (red coins)
+= ファイアシーのクッパ(赤コイン)
+
+Bowser in the Sky (red coins)
+= 天空のクッパ(赤コイン)
+
+Bracelet / Gauntlets
+= 腕輪 / グローブ
+
+Brave
+= 勇敢
+
+Bravery
+= 勇気
+
+Brawler
+= ブロウラー
+
+Break the Targets
+= ターゲットをこわせ
+
+Bros. Bean
+= ブラザーズビーン
+
+Buff
+= バフ
+
+Buffs
+= バフ
+
+Bug spray
+= 虫よけスプレー
+
+Bug-catching net
+= 虫取り網
+
+Build
+= 建設
+
+Building
+= 建物
+
+Burst gauge
+= バーストゲージ
+
+Busts, portraits, deeds and crests pay for the Hamlet's buildings; spend them in the game.
+= 胸像、肖像画、権利書、紋章は集落の建物の費用になります。ゲーム内で使ってください。
+
+Buttons of giant snowman
+= 巨大雪だるまのボタン
+
+C
+= C
+
+C done
+= Cクリア済み
+
+C full clear
+= C完全クリア
+
+C heart
+= Cハート
+
+C-Down
+= Cダウン
+
+C-Left
+= C左
+
+C-Right
+= C右
+
+COLLECTABLES.BLOB in a SLOTn folder. The stud wallet is saved twice; both copies are written.
+= SLOTnフォルダ内のCOLLECTABLES.BLOB。スタッドの所持金は2か所に保存され、両方に書き込まれます。
+
+CP
+= CP
+
+CP earned
+= 獲得CP
+
+CP limit
+= CP上限
+
+Cairn
+= ケルン
+
+Camp
+= キャンプ
+
+Camp funds ($)
+= キャンプ資金($)
+
+Camping supplies
+= キャンプ用品
+
+Can join: {0}
+= 参加可能:{0}
+
+Can skip time
+= 時間をスキップ可能
+
+Can: {0}
+= 可能:{0}
+
+Candles of Hope
+= 希望のキャンドル
+
+Candy
+= キャンディ
+
+Candy canes
+= キャンディケイン
+
+Cane of Byrna
+= ベルナの杖
+
+Cane of Somaria
+= ソマリアの杖
+
+Cannon open
+= 大砲が開いた
+
+Caps
+= 帽子
+
+Captain Blubber's treasures
+= ブラバー船長の宝物
+
+Captain Falcon
+= キャプテン・ファルコン
+
+Capture 10 of every fiend
+= 全モンスターを10体ずつ捕獲
+
+Card
+= カード
+
+Career funds, science and reputation (sandbox saves keep these at their defaults)
+= キャリア資金、科学、評判(サンドボックスのセーブは初期値のまま)
+
+Carried
+= 所持
+
+Cars exploded
+= 爆発した車
+
+Cash
+= 所持金
+
+Cash ($)
+= 所持金（$）
+
+Cash (in cents)
+= 所持金（セント）
+
+Cash and progress
+= 所持金と進行状況
+
+Cassette
+= カセット
+
+Castle Keep
+= Castle Keep
+
+Cats
+= 猫
+
+Cattail
+= ガマ
+
+Cave
+= 洞窟
+
+Cavern of the Metal Cap
+= Cavern of the Metal Cap
+
+Caves cleared
+= クリア済みの洞窟
+
+Centaurian
+= Centaurian
+
+Chainsaw fuel
+= チェーンソーの燃料
+
+Chalice recolour
+= 聖杯の色変更
+
+Chalk pouch
+= チョークポーチ
+
+Challenges
+= チャレンジ
+
+Challenges (rank 0 to 10)
+= チャレンジ（ランク0～10）
+
+Change to
+= 変更先
+
+Changing story flags and choices can break quests, soft-lock the game or stop it from being completed. Treat it as experimental, \n             with no guarantee the save can still be finished, and use it only if you know what you're doing. Keep a backup first so you can \n             go back (Backups › Open save manager restores it). The file as it was is also backed up automatically when you save.
+= ストーリーフラグや選択を変更すると、クエストが壊れたり、ゲームが進行不能になったり、クリアできなくなったりすることがあります。実験的な機能として扱い、セーブを最後まで進められる保証はありませんので、理解した上でのみ使用してください。元に戻せるよう、先にバックアップを取ってください（バックアップ › セーブ管理を開く で復元できます）。保存時には元のファイルも自動的にバックアップされます。
+
+Changing the level doesn't change experience: set both. Gold on the character can be at most 10,000 per level.
+= レベルを変更しても経験値は変わりません。両方を設定してください。キャラクターの所持ゴールドはレベルごとに最大10,000です。
+
+Chapter
+= チャプター
+
+Chapters
+= チャプター
+
+Chapters 2–4: the inventory's place in the file isn't mapped yet; every line is under Other lines (Advanced).
+= チャプター2–4：インベントリのファイル内の位置はまだ特定されていません。すべての行はその他の行（詳細）にあります。
+
+Chapters unlocked
+= 解放済みチャプター
+
+Chapters unlocked (0–10)
+= 解放済みチャプター（0–10）
+
+Character: {0}
+= キャラクター：{0}
+
+Characters 1 to 4
+= キャラクター1～4
+
+Charge Dash
+= Charge Dash
+
+Charge Flame
+= Charge Flame
+
+Charge Flame Blast
+= Charge Flame Blast
+
+Charge Flame Burn
+= Charge Flame Burn
+
+Charge Flame Efficiency
+= Charge Flame Efficiency
+
+Charge Jump
+= Charge Jump
+
+Charge beam
+= チャージビーム
+
+Charges 2
+= チャージ2
+
+Charges 3
+= チャージ3
+
+Charging station
+= 充電ステーション
+
+Charisma
+= 魅力
+
+Charm
+= お守り
+
+Charms
+= お守り
+
+Charms you own.
+= 所持しているお守り。
+
+Chateau
+= シャトー
+
+Cheat mode
+= チートモード
+
+Checked on public saves, not yet tried in the game.
+= 公開セーブで確認済み。ゲームでは未テスト。
+
+Chef flames
+= シェフの炎
+
+Chests
+= 宝箱
+
+Chests are drawn when you zoom in. Life Crystals and Life Fruit are common, so they start hidden.
+= ズームインすると宝箱が描画されます。ライフクリスタルとライフフルーツは数が多いため、最初は非表示です。
+
+Chests opened
+= 開けた宝箱
+
+Child Trading Item
+= Child Trading Item
+
+Chips
+= チップ
+
+Chocolate
+= チョコレート
+
+Chosen
+= 選ばれし者
+
+Cinder Flame
+= Cinder Flame
+
+City
+= 都市
+
+Civilization VI
+= シヴィライゼーションVI
+
+Civilizations
+= 文明
+
+Clams
+= 貝
+
+Clash mode unlocked
+= クラッシュモード解放済み
+
+Class (1 cow puncher, 2 beanslinger, 3 snake oiler)
+= クラス（1 Cow Puncher、2 Beanslinger、3 Snake Oiler）
+
+Class id
+= クラスID
+
+Classes
+= クラス
+
+Claw Swipe
+= Claw Swipe
+
+Clear demon points
+= デーモンポイントを消去
+
+Cleared Forge
+= Forgeクリア済み
+
+Cleared Gungeon Proper
+= Gungeon Properクリア済み
+
+Cleared Hollow
+= Hollowクリア済み
+
+Cleared Keep
+= Keepクリア済み
+
+Cleared Mines
+= Minesクリア済み
+
+Clears the fog over all of this world
+= このワールド全体の霧を晴らします
+
+Cleverness
+= 機転
+
+Click a Pokémon to edit it.
+= ポケモンをクリックして編集します。
+
+Click a slot to change its item, stack size or modifier.
+= スロットをクリックして、アイテム・スタック数・修飾子を変更します。
+
+Click a square to change it.
+= マスをクリックして変更します。
+
+Click an artifact to switch it on or off.
+= アーティファクトをクリックしてオン/オフを切り替えます。
+
+Click an item to change it. Empty slots can't be filled from here (use the Tree tab).
+= アイテムをクリックして変更します。空のスロットはここでは埋められません（ツリータブを使用）。
+
+Click damage
+= クリックダメージ
+
+Climb
+= クライム
+
+Climber
+= クライマー
+
+Climbing
+= クライミング
+
+Clive
+= クライヴ
+
+Cloak
+= マント
+
+Close the game before saving here, and turn Steam Cloud off for one start, or the game may bring the old save back. Checked on public test saves, not yet tried in the game.
+= ここで保存する前にゲームを終了し、Steamクラウドを一度オフにして起動してください。そうしないと、ゲームが古いセーブに戻すことがあります。公開テスト用セーブで確認済みですが、ゲームでは未テストです。
+
+Club money
+= クラブの資金
+
+Cob Cannon
+= Cob Cannon
+
+Cognition bonus points
+= 認知ボーナスポイント
+
+Coin record
+= コイン記録
+
+Coins (Cuphead)
+= コイン（Cuphead）
+
+Coins (Mugman)
+= コイン（Mugman）
+
+Coins and ammo
+= コインと弾薬
+
+Coins and deaths
+= コインと死亡数
+
+Coins collected
+= 獲得コイン
+
+Coins in the donation machine
+= 寄付マシンのコイン
+
+Coins in the greed donation machine
+= 強欲の寄付マシンのコイン
+
+Coins only for now: runes, rewire tools, elixirs and remedies aren't located yet. Back up the save first.
+= 今のところコインのみ：ルーン、リワイヤツール、エリクサー、治療薬はまだ位置が特定されていません。先にセーブをバックアップしてください。
+
+Coins, player 1
+= コイン（プレイヤー1）
+
+Coins, player 2
+= コイン（プレイヤー2）
+
+Cold
+= 寒さ
+
+Collectible counters (gold bricks, chips, tokens) count entries in the save, not their state, so they are in the Tree. Save slot files come with a BackupCopy file; edit both. Not yet tried in the game.
+= 収集品カウンター（ゴールドブリック、チップ、トークン）は状態ではなくセーブ内のエントリ数を数えるため、ツリーにあります。スロットのファイルにはBackupCopyファイルが付属するので、両方を編集してください。ゲームでは未テストです。
+
+Collectibles
+= 収集品
+
+Collectibles seen
+= 確認済み収集品
+
+Collection
+= コレクション
+
+Colonies
+= コロニー
+
+Colonists
+= 入植者
+
+Colt
+= Colt
+
+Comfort
+= 快適さ
+
+Command power
+= 指揮力
+
+Commoners
+= 平民
+
+Companions
+= 仲間
+
+Compendium: animals
+= 図鑑：動物
+
+Compendium: equipment
+= 図鑑：装備
+
+Compendium: fish
+= 図鑑：魚
+
+Compendium: horses
+= 図鑑：馬
+
+Compendium: plants
+= 図鑑：植物
+
+Compendium: weapons
+= 図鑑：武器
+
+Completion %
+= 達成率 %
+
+Composure
+= 冷静さ
+
+Conceptualization
+= 概念化
+
+Confessions
+= 告白
+
+Conga's Battle
+= Conga's Battle
+
+Conga's orange blocks
+= Congaのオレンジブロック
+
+Conjuration
+= 召喚
+
+Console enabled
+= コンソール有効
+
+Construct
+= コンストラクト
+
+Consumables and herbs
+= 消耗品とハーブ
+
+Contents
+= 内容
+
+Continues
+= コンティニュー回数
+
+Contract payouts
+= 契約の報酬
+
+Coordination
+= 協調性
+
+Cop XP
+= 警官XP
+
+Coppers
+= 銅貨
+
+Copy the first value to every wallet field
+= 最初の値をすべての財布フィールドにコピー
+
+Core Eject
+= Core Eject
+
+Corruption
+= 堕落
+
+Cosmic radiation (rads)
+= 宇宙放射線（rad）
+
+Count / charges
+= 個数 / チャージ
+
+Counters
+= カウンター
+
+Counters from the journal's statistics pages and the other numbers the save keeps.
+= ジャーナルの統計ページのカウンターと、セーブが保持するその他の数値。
+
+Counters the game keeps for this player (captures, dungeons, effigies). Level and Pals are in Level.sav in the world folder.
+= このプレイヤーについてゲームが保持するカウンター（捕獲、ダンジョン、像）。レベルとパルはワールドフォルダ内のLevel.savにあります。
+
+Country
+= 国
+
+Counts only; weapons and picto sit in the list at their owned count.
+= 数のみ。武器とピクトは所持数でリストに並びます。
+
+Courage
+= 勇気
+
+Crabs collected
+= 集めたカニ
+
+Crafted outfits
+= 作成した衣装
+
+Crafted themes
+= 作成したテーマ
+
+Crafted weapons
+= 作成した武器
+
+Crafting
+= クラフト
+
+Crafting materials
+= クラフト素材
+
+Crafting materials in the backpack
+= バックパック内のクラフト素材
+
+Crafting parts
+= クラフトパーツ
+
+Crafting resources
+= クラフト資源
+
+Crafting room upgrades
+= クラフトルームの強化
+
+Crazy Dave's shop (1 = bought)
+= クレイジーデイブの店（1＝購入済み）
+
+Creature
+= クリーチャー
+
+Credits (info line)
+= クレジット（情報行）
+
+Credits and clock
+= クレジットと時計
+
+Credits available
+= 利用可能なクレジット
+
+Credits reserved
+= 予約済みクレジット
+
+Credits spent
+= 使用したクレジット
+
+Credits, party XP, influence, components and chemicals are in PARTYTABLE.res in the same save folder.
+= クレジット、パーティXP、影響力、コンポーネント、化学物質は、同じセーブフォルダ内のPARTYTABLE.resにあります。
+
+Creed Points
+= Creed Points
+
+Crests
+= 紋章
+
+Crests you have:
+= 所持している紋章：
+
+Crew of the first ship
+= 1隻目の船の乗組員
+
+Crew of the second ship
+= 2隻目の船の乗組員
+
+Crew of the third ship
+= 3隻目の船の乗組員
+
+Crib money stash (in cents)
+= 自宅の隠し金（セント）
+
+Crib stash (in cents)
+= 自宅の隠し場所（セント）
+
+Critical Strike
+= クリティカルストライク
+
+Critical click
+= クリティカルクリック
+
+Croppa
+= Croppa
+
+Crowns
+= 王冠
+
+Crystal
+= クリスタル
+
+Crystal points
+= クリスタルポイント
+
+Crystals
+= クリスタル
+
+Cube of Zoe
+= Cube of Zoe
+
+Cult level
+= カルトレベル
+
+Cultures defeated
+= 倒した文化
+
+Cure
+= 治療
+
+Currencies
+= 通貨
+
+Current
+= 現在
+
+Current BitNode
+= 現在のBitNode
+
+Current fatigue
+= 現在の疲労
+
+Current health
+= 現在の体力
+
+Current level (1–50)
+= 現在のレベル（1–50）
+
+Current location
+= 現在地
+
+Current magicka
+= 現在のマジカ
+
+Current map
+= 現在のマップ
+
+Current moon: {0} (0 Experimentation, 1 Assurance, 2 Vow, 3 Company Building, 4 March, 5 Rend, 6 Dine, 7 Offense, 8 Titan).
+= 現在の月：{0}（0 Experimentation、1 Assurance、2 Vow、3 Company Building、4 March、5 Rend、6 Dine、7 Offense、8 Titan）。
+
+Current season
+= 現在の季節
+
+Current streak
+= 現在の連続記録
+
+Current values
+= 現在の値
+
+Curse charm puzzle done
+= 呪いのお守りパズル完了
+
+Cyberpunk 2077
+= サイバーパンク2077
+
+DEF
+= DEF
+
+DEX
+= DEX
+
+DEX +
+= DEX +
+
+DF (accessory)
+= DF (accessory)
+
+DF (primary)
+= DF (primary)
+
+DK Mode
+= DK Mode
+
+Daedric
+= デイドラ
+
+Damage level
+= ダメージレベル
+
+Damage taken
+= 受けたダメージ
+
+Dark Dollars
+= Dark Dollars
+
+Darkest Dungeon
+= ダーケストダンジョン
+
+Darkest Dungeon II
+= ダーケストダンジョンII
+
+Dash
+= ダッシュ
+
+Dash (84)
+= ダッシュ（84）
+
+Dash cooldown
+= ダッシュのクールダウン
+
+DashAssist
+= DashAssist
+
+DashMode
+= DashMode
+
+Dashes
+= ダッシュ回数
+
+Data clusters
+= データクラスター
+
+Date
+= 日付
+
+Dave
+= デイブ
+
+Day (Hard)
+= 日（ハード）
+
+Day of the loop
+= ループの日数
+
+Day time 0 is sunrise, 6000 noon, 13000 night.
+= 時刻0は日の出、6000は正午、13000は夜です。
+
+Days elapsed
+= 経過日数
+
+Days left
+= 残り日数
+
+Days passed
+= 経過日数
+
+Days survived
+= 生存日数
+
+Dead Eye XP
+= デッドアイXP
+
+Dead Eye core
+= デッドアイコア
+
+Dead Eye meter
+= デッドアイゲージ
+
+Dead Rising
+= デッドライジング
+
+Deadline (minutes)
+= 期限（分）
+
+Death Stranding
+= デス・ストランディング
+
+Death Stranding 2
+= デス・ストランディング2
+
+Death Wing's Lair
+= Death Wing's Lair
+
+Death statue uses
+= 死の像の使用回数
+
+Deaths, player 1
+= 死亡数、プレイヤー1
+
+Deaths, player 2
+= 死亡数、プレイヤー2
+
+Deaths: {0}
+= 死亡数：{0}
+
+Decay
+= 劣化
+
+Decimal value
+= 10進値
+
+Deepest dive (m)
+= 最深ダイブ (m)
+
+Defence
+= 防御
+
+Defense Bean
+= Defense Bean
+
+Deku Nut
+= デクの実
+
+Deku Nuts
+= デクの実
+
+Deku Nuts max
+= デクの実 最大
+
+Deku Seeds
+= デクの種
+
+Deku Seeds Bullet Bag
+= デクの種の弾袋
+
+Deku Seeds max
+= デクの種 最大
+
+Deku Shield
+= デクの盾
+
+Deku Stick
+= デクの棒
+
+Deku Sticks
+= デクの棒
+
+Deku Sticks max
+= デクの棒 最大
+
+Demon (JP) experience
+= 悪魔 (JP) 経験値
+
+Demon (JP) level
+= 悪魔 (JP) レベル
+
+Demon Card
+= 悪魔カード
+
+Demon Card (JP)
+= 悪魔カード (JP)
+
+Demon experience
+= 悪魔の経験値
+
+Demon level
+= 悪魔のレベル
+
+Demon points
+= 悪魔ポイント
+
+Depths cleared
+= クリア済みの深度
+
+Derived values (max hit points, action points, carry weight…) are stored as their own numbers: changing S.P.E.C.I.A.L. doesn't change them.
+= 派生値（最大HP、APとアクションポイント、積載量など）は個別の数値として保存されます。S.P.E.C.I.A.L.を変更しても変わりません。
+
+Destroy all Sire Slushes
+= すべてのSire Slushを破壊
+
+Destruction
+= 破壊
+
+Detective
+= 探偵
+
+Device upgrade tokens
+= デバイス強化トークン
+
+Devotion points unlocked
+= 解放済みの信仰ポイント
+
+Dexterity
+= 器用さ
+
+Diamond
+= ダイヤモンド
+
+Difficulty (0 beginner, 1 experienced, 2 veteran, 3 genius, 4 superhuman)
+= 難易度（0 初心者、1 経験者、2 ベテラン、3 天才、4 超人）
+
+Difficulty (EDifficulty::Easy, …)
+= 難易度 (EDifficulty::Easy, …)
+
+Difficulty (diffNormal, …)
+= 難易度 (diffNormal, …)
+
+Difficulty index (0 to 2)
+= 難易度インデックス（0～2）
+
+Difficulty mode
+= 難易度モード
+
+Difficulty rank points
+= 難易度ランクポイント
+
+Difficulty setting
+= 難易度設定
+
+Dilated time
+= 時間の拡張
+
+Dimension boosts
+= ディメンションブースト
+
+Din's Fire
+= ディンの炎
+
+Dirtiness
+= 汚れ
+
+Disable items
+= アイテムを無効化
+
+Discards per round
+= ラウンドごとの捨て札数
+
+Discovered
+= 発見済み
+
+Discoveries
+= 発見
+
+Disease or poison
+= 病気または毒
+
+Dives
+= ダイブ回数
+
+Divinity: Original Sin 2
+= Divinity: Original Sin 2
+
+Djimmi's wishes
+= ジミーの願い
+
+Djinn
+= ジン
+
+Doctrine stones
+= 教義の石
+
+Doctrine stones now
+= 現在の教義の石
+
+Doctrines
+= 教義
+
+Dodge
+= 回避
+
+Dodging
+= 回避中
+
+Dolche
+= Dolche
+
+Donald HP
+= ドナルドのHP
+
+Donald MP
+= ドナルドのMP
+
+Double Jump
+= ダブルジャンプ
+
+Double jump (81)
+= ダブルジャンプ (81)
+
+Drachmae
+= ドラクマ
+
+Dragonish
+= ドラゴニッシュ
+
+Drama
+= ドラマ
+
+Draws
+= 引き分け
+
+Dream dust earned
+= 獲得した夢の塵
+
+Dual wield
+= 二刀流
+
+Dungeon
+= ダンジョン
+
+Duplicants
+= デュプリカント
+
+Duplicants start hidden. Positions are cells from the world's bottom-left corner.
+= デュプリカントは非表示で開始します。位置はワールド左下隅からのセル数です。
+
+Durability
+= 耐久度
+
+Dwarves
+= ドワーフ
+
+Dwellers
+= 住民
+
+Dying Light
+= Dying Light
+
+Dying Light 2
+= Dying Light 2
+
+E
+= E
+
+E = equipped (not swapped here). Consumables can be swapped for other consumables and gear for other gear; the first empty place takes any item.
+= E＝装備中（ここでは入れ替え不可）。消耗品は他の消耗品と、装備は他の装備と入れ替えられます。最初の空き枠にはどのアイテムも入ります。
+
+EP
+= EP
+
+ES2_<date>.sav in the game's SaveGames folder (the packed Unreal save is unpacked for you; big saves take a few seconds to open). Ships, items and missions are in the Tree tab.
+= ゲームの SaveGames フォルダー内の ES2_<date>.sav（パックされた Unreal のセーブは自動で展開されます。大きなセーブは開くのに数秒かかります）。船、アイテム、ミッションはツリータブにあります。
+
+Each currency has a most the game allows; a larger amount may be cut when it loads. Currencies past pixels and ancient essence come from mods.
+= 各通貨にはゲームが許容する上限があり、それを超える額は読み込み時に切り詰められることがあります。ピクセルと古代のエッセンス以降の通貨はMod由来です。
+
+Each item has its own largest stack in the game (1000 for most materials); the game may cut a bigger count when it loads.
+= 各アイテムにはゲーム内で独自のスタック上限があり（素材の大半は1000）、それを超える数は読み込み時に切り詰められることがあります。
+
+Each item's level (I–X). Items without a name are upgrades and ammo, shown by the game's item number.
+= 各アイテムのレベル（I～X）。名前のないアイテムは強化とアンモで、ゲームのアイテム番号で表示されます。
+
+Each line is a stack of coins in this character's inventory (named by its stats entry).
+= 各行はこのキャラクターのインベントリにあるコインの山です（ステータス項目の名前で表示）。
+
+Each line is one stack of coins in this character's inventory.
+= 各行はこのキャラクターのインベントリにあるコインの山です。
+
+Each mastery's level and the points in each skill. Names are the game's internal records (mastery folder: file name).
+= 各マスタリーのレベルと各スキルのポイント。名前はゲーム内部のレコード名です（マスタリーフォルダー：ファイル名）。
+
+Each part's health. The game keeps the most a part can have in its race data, not in the save, so it isn't shown here; healthy humans have the same value on every part.
+= 各部位の体力。部位の最大値はセーブではなく種族データに保持されるため、ここには表示されません。健康な人間はどの部位も同じ値です。
+
+Each piece keeps its place, its links and what it's equipped to; only its level changes. Levels another piece of yours already has aren't offered.
+= 各パーツは位置、リンク、装備先を保ったまま、レベルだけが変わります。ほかのパーツがすでに持っているレベルは選べません。
+
+Each runs 0–100 on normal settings. Low nutrition shrinks the most health you can have.
+= 通常設定ではそれぞれ0～100です。栄養が低いと最大体力が減ります。
+
+Each stack of these the colony has on the map, with its position. A stack can't hold more than the game's stack limit for that item, so for more, raise several stacks.
+= コロニーがマップ上に持つこれらの山を位置付きで表示します。山はそのアイテムのゲーム上のスタック上限を超えられないため、増やすには複数の山を上げてください。
+
+Each upgrade level is its own entry.
+= 各強化レベルは個別の項目です。
+
+Each weapon you own and the level it has been upgraded to.
+= 所持している各武器と、その強化レベル。
+
+Earned in all
+= 獲得総数
+
+Earth
+= 地
+
+Echo of Bat
+= Echo of Bat
+
+Eco points
+= エコポイント
+
+Eden tokens
+= エデントークン
+
+Egg Firing
+= Egg Firing
+
+Eggs
+= 卵
+
+Eggs max
+= 卵 最大
+
+Einschuechtern
+= Einschuechtern
+
+Electric railcannon
+= 電磁レールキャノン
+
+Electricity
+= 電気
+
+Electricity level
+= 電気レベル
+
+Electrochemistry
+= 電気化学
+
+Element zero, iridium, palladium and platinum are Mass Effect 2's minerals; Mass Effect 3 keeps them at 0.
+= エレメント・ゼロ、イリジウム、パラジウム、プラチナは Mass Effect 2 の鉱物で、Mass Effect 3 では 0 のままです。
+
+Element:
+= 属性：
+
+Elias level
+= エリアスのレベル
+
+Emerald
+= エメラルド
+
+Emeralds
+= エメラルド
+
+Empathy
+= 共感
+
+Empires
+= 帝国
+
+Employee record
+= 従業員記録
+
+Empty.
+= 空です。
+
+Enchant
+= 付呪
+
+Encore Mode slots
+= アンコールモードの枠
+
+Encyclopedia
+= 図鑑
+
+Endurance
+= 持久力
+
+Enemies
+= 敵
+
+Enemies defeated
+= 倒した敵の数
+
+Enemies kept in the save show here too; the player is usually first.
+= セーブに残っている敵もここに表示されます。プレイヤーは通常先頭です。
+
+Enemies killed
+= 倒した敵の数
+
+Enemy Rockets
+= 敵のロケット
+
+Enemy targeting
+= 敵のターゲティング
+
+Enemy wounds modifier (%)
+= 敵の負傷修正値 (%)
+
+Energy Efficiency
+= エネルギー効率
+
+Energy Markers
+= エネルギーマーカー
+
+Energy tanks (max energy)
+= エネルギータンク（最大エネルギー）
+
+Engagement
+= エンゲージメント
+
+Engineers in the first base
+= 最初の基地のエンジニア
+
+Engineers in the second base
+= 2番目の基地のエンジニア
+
+Enor Pearl
+= Enor Pearl
+
+Entrance
+= 入口
+
+Entrance fee (tenths of a unit)
+= 入場料（単位の10分の1）
+
+Entropy
+= エントロピー
+
+Epic level
+= エピックレベル
+
+Epona's Song
+= エポナの歌
+
+Equipment
+= 装備
+
+Equipment (names as the game writes them)
+= 装備（ゲーム内の表記どおりの名前）
+
+Equipment and bonus stats
+= 装備とボーナスステータス
+
+Equipment levels
+= 装備レベル
+
+Equipment levels are edited in campaign saves.
+= 装備レベルはキャンペーンのセーブで編集します。
+
+Equipment owned
+= 所持装備
+
+Equipped crest
+= 装備中の紋章
+
+Equipped skills
+= 装備中のスキル
+
+Equipped weapon set
+= 装備中の武器セット
+
+Equipped: {0}
+= 装備中：{0}
+
+Ergo
+= Ergo
+
+Ergo for next level
+= 次のレベルまでのErgo
+
+Escapes
+= 逃走回数
+
+Esprit de Corps
+= Esprit de Corps
+
+Eternities
+= エターニティ
+
+Eternity
+= エターニティ
+
+Eternity points
+= エターニティポイント
+
+Ether cylinders
+= エーテルシリンダー
+
+Ether medallion
+= エーテルメダリオン
+
+Etikette
+= Etikette
+
+Etiquette
+= エチケット
+
+Eurodollars
+= ユーロダラー
+
+Evasion
+= 回避
+
+Eve
+= イヴ
+
+Every actor (copied in when someone joins the party)
+= すべてのアクター（誰かがパーティーに加わるとコピーされます）
+
+Every ammo SDU to the highest black market level.
+= すべての弾薬SDUを闇市場の最高レベルに。
+
+Every attribute and skill of every member in this file to 100, the most the game allows.
+= このファイル内の全メンバーの全能力値とスキルを、ゲームの上限である100に。
+
+Every attribute and skill to 100.
+= すべての能力値とスキルを100に。
+
+Every character the save keeps stats for, in the save's order; the first is Kiryu.
+= セーブがステータスを保持する全キャラクターをセーブ内の順に表示。先頭は桐生です。
+
+Every party character the save knows about, in the save's order; the first is Ichiban.
+= セーブが把握しているパーティーの全キャラクターをセーブ内の順に表示。先頭は一番です。
+
+Every variable in the save, named by the game's own names, is in the Tree under Variables.
+= セーブ内のすべての変数はゲーム自身の名前で、ツリーの「変数」にあります。
+
+Everyone to S++
+= 全員をS++に
+
+Everything else (ships, stations, wares) is in the Tree. Not yet tried on a save of the game itself.
+= その他（船、ステーション、商品）はツリーにあります。ゲーム本体のセーブでは未検証です。
+
+Exchange points
+= 交換ポイント
+
+Exit
+= 終了
+
+Exotics
+= エキゾチック
+
+Exp. Points
+= 経験値
+
+Expedition 33
+= Expedition 33
+
+Experience (total)
+= 経験値（合計）
+
+Experience decides your level when the game loads. The whole database (quests, collections, gear) is in the Values tab.
+= 経験値はゲーム読み込み時のレベルを決定します。データベース全体（クエスト、コレクション、装備）は「値」タブにあります。
+
+Experience in hand
+= 所持経験値
+
+Experience is shared by the party; raising it gives level-ups to pick in the game.
+= 経験値はパーティー全体で共有されます。増やすとゲーム内で選べるレベルアップが発生します。
+
+Experience is what Kiryu has earned and not yet spent in the Abilities menu (99,999,999 at most). Money tops out at ¥9,999,999,999.
+= 経験値は、桐生が獲得してまだアビリティメニューで使っていない分です（最大99,999,999）。お金の上限は¥9,999,999,999です。
+
+Experience is what a character has earned since the last rest; the game banks it, and raises the level, when the party rests at a camp or hotel. Levels, HP, MP and stats are shown as saved.
+= 経験値はキャラクターが前回の休息以降に獲得した分で、パーティーがキャンプやホテルで休むとゲームが加算してレベルを上げます。レベル、HP、MP、ステータスは保存された値のまま表示されます。
+
+Experience sets the level the game works out; the level shown is from the save's header and catches up when you next gain experience. Karma runs from −1000 to 1000.
+= 経験値がゲームの算出するレベルを決めます。表示されるレベルはセーブのヘッダーの値で、次に経験値を得た時点で追いつきます。カルマは−1000～1000です。
+
+Experience to next level
+= 次のレベルまでの経験値
+
+Experience to spend
+= 使用可能な経験値
+
+Experimental: editing story decisions
+= 実験的：ストーリー上の選択の編集
+
+Expert mode available
+= エキスパートモード利用可能
+
+Expert mode available (DLC)
+= エキスパートモード利用可能（DLC）
+
+Extra Flower Cup
+= Extra Flower Cup
+
+Extra Mushroom Cup
+= Extra Mushroom Cup
+
+Extra Special Cup
+= Extra Special Cup
+
+Extra Star Cup
+= Extra Star Cup
+
+Extra deployment points
+= 追加の配備ポイント
+
+Extra life pool
+= 追加ライフのプール
+
+Extraction
+= 抽出
+
+Eye of Vlad
+= Eye of Vlad
+
+Face XP
+= フェイスXP
+
+Facilities you have found or connected, with the materials stored at each. Connection level runs 0–5.
+= 発見または接続した施設と、各施設に保管されている素材。接続レベルは0～5です。
+
+Facility material stocks
+= 施設の素材在庫
+
+Faction resources
+= 勢力のリソース
+
+Factions
+= 勢力
+
+Faerie (JP) experience
+= 妖精 (JP) 経験値
+
+Faerie (JP) level
+= 妖精 (JP) レベル
+
+Faerie Card
+= Faerie Card
+
+Faerie Card (JP)
+= Faerie Card (JP)
+
+Faerie Scroll
+= Faerie Scroll
+
+Faerie experience
+= 妖精の経験値
+
+Faerie level
+= 妖精のレベル
+
+Failure conditions
+= 失敗条件
+
+Fairy Bow
+= 妖精の弓
+
+Fairy Slingshot
+= 妖精のパチンコ
+
+Faith
+= 信仰
+
+Fake Peppino
+= Fake Peppino
+
+Fallen Entschaerfen
+= 罠解除
+
+Fallenstellen
+= 罠設置
+
+Falls
+= 落下
+
+Fame and reputation
+= 名声と評判
+
+Family friends
+= 家族ぐるみの友人
+
+Farm
+= 農場
+
+Farming
+= 農業
+
+Farore's Wind
+= フロルの風
+
+Fast Animation
+= 高速アニメーション
+
+Fast travel unlocked
+= ファストトラベル解放済み
+
+Fatigue
+= 疲労
+
+Favorite
+= お気に入り
+
+Feathery Flap
+= Feathery Flap
+
+Fechtwaffen
+= 剣術武器
+
+Feed the Croctus
+= Feed the Croctus
+
+Feeding Juju
+= Feeding Juju
+
+Feilschen
+= 値切り
+
+Fertilizer
+= 肥料
+
+Fervour
+= 熱情
+
+Fervour (special charge)
+= 熱情(特殊チャージ)
+
+Fervour strength
+= 熱情の強さ
+
+File 1: ammunition and upgrades
+= ファイル1: 弾薬と強化
+
+File 1: dungeon items
+= ファイル1: ダンジョンアイテム
+
+File 1: equipment
+= ファイル1: 装備
+
+File 1: general
+= ファイル1: 一般
+
+File 1: items
+= ファイル1: アイテム
+
+File 1: medallions
+= ファイル1: メダル
+
+File 1: miscellaneous
+= ファイル1: その他
+
+File 1: songs
+= ファイル1: 歌
+
+File 1: spiritual stones
+= ファイル1: 精霊の石
+
+File 2: ammunition and upgrades
+= ファイル2: 弾薬と強化
+
+File 2: dungeon items
+= ファイル2: ダンジョンアイテム
+
+File 2: equipment
+= ファイル2: 装備
+
+File 2: general
+= ファイル2: 一般
+
+File 2: items
+= ファイル2: アイテム
+
+File 2: medallions
+= ファイル2: メダル
+
+File 2: miscellaneous
+= ファイル2: その他
+
+File 2: songs
+= ファイル2: 歌
+
+File 2: spiritual stones
+= ファイル2: 精霊の石
+
+File 3: ammunition and upgrades
+= ファイル3: 弾薬と強化
+
+File 3: dungeon items
+= ファイル3: ダンジョンアイテム
+
+File 3: equipment
+= ファイル3: 装備
+
+File 3: general
+= ファイル3: 一般
+
+File 3: items
+= ファイル3: アイテム
+
+File 3: medallions
+= ファイル3: メダル
+
+File 3: miscellaneous
+= ファイル3: その他
+
+File 3: songs
+= ファイル3: 歌
+
+File 3: spiritual stones
+= ファイル3: 精霊の石
+
+File A
+= ファイルA
+
+File A courses
+= ファイルAのコース
+
+File B
+= ファイルB
+
+File B courses
+= ファイルBのコース
+
+File C
+= ファイルC
+
+File C courses
+= ファイルCのコース
+
+File D
+= ファイルD
+
+File D courses
+= ファイルDのコース
+
+Files in use
+= 使用中のファイル
+
+Fill all ammo
+= 全弾薬を補充
+
+Fill every tank
+= 全タンクを満タンにする
+
+Filler
+= フィラー
+
+Fills Stagnant and Furious Blight to 999, the most players report the game holds. Ancient Souls (found once each) are left alone.
+= Stagnant BlightとFurious Blightを、プレイヤーの報告でゲームが保持できる最大値の999にします。Ancient Soul(各1個のみ入手可)は変更しません。
+
+Final Fantasy IX
+= ファイナルファンタジーIX
+
+Final Fantasy Resonance
+= Final Fantasy Resonance
+
+Final Fantasy VII
+= ファイナルファンタジーVII
+
+Final Fantasy X
+= ファイナルファンタジーX
+
+Final Fantasy X-2
+= ファイナルファンタジーX-2
+
+Final Fantasy XV
+= ファイナルファンタジーXV
+
+Final rank
+= 最終ランク
+
+Finances
+= 財政
+
+Finesse
+= 技巧
+
+Finish every platform (grade 4)
+= 全プラットフォームをクリア(グレード4)
+
+Finished tutorial
+= チュートリアル完了
+
+Fire
+= 炎
+
+Fire Arrow
+= 炎の矢
+
+Fire Medallion
+= 炎のメダル
+
+Fire of Bat
+= Fire of Bat
+
+Fire rod
+= Fire rod
+
+Firestarter
+= Firestarter
+
+Firing
+= 射撃
+
+First Aid
+= 応急処置
+
+First loop done
+= 1周目クリア
+
+First sled race against Boggy
+= ボギーとの最初のソリレース
+
+First super unlocked
+= 最初のスーパーを解放済み
+
+Fissiles
+= 核分裂物質
+
+Flags
+= フラグ
+
+Flap Flip
+= Flap Flip
+
+Flask
+= フラスコ
+
+Flight
+= 飛行
+
+Florins
+= フロリン
+
+Flowers in the graveyard
+= 墓地の花
+
+Flying ring challenge
+= 飛行リングチャレンジ
+
+Focus
+= 集中
+
+Fog
+= 霧
+
+Fog (Hard)
+= 霧(ハード)
+
+Followers
+= 信者
+
+Followers gained in total
+= 獲得した信者の合計
+
+Food (maximum)
+= 食料(最大)
+
+Food level
+= 食料レベル
+
+Food quality
+= 食料の品質
+
+Food quantity
+= 食料の量
+
+Food variation
+= 食料の多様性
+
+Foods: {0}
+= 食料: {0}
+
+Force of Echo
+= Force of Echo
+
+Force upgrade fragments
+= フォース強化の欠片
+
+Force upgrades found
+= 発見したフォース強化
+
+Forest
+= 森
+
+Forest Medallion
+= 森のメダル
+
+Forge XP
+= 鍛冶XP
+
+Forge coals
+= 鍛冶用の石炭
+
+Form of Mist
+= Form of Mist
+
+Forward Roll Attack
+= Forward Roll Attack
+
+Francs
+= フラン
+
+Frank
+= Frank
+
+Free Gobi
+= Free Gobi
+
+Free at least one backpack slot per material to use the button.
+= ボタンを使うには、素材ごとにバックパックの空きスロットが1つ以上必要です。
+
+Freezeframe
+= Freezeframe
+
+Freezer
+= 冷凍庫
+
+Friends
+= 友人
+
+Friendships
+= 友好度
+
+From
+= 開始
+
+From the save's own summary.
+= セーブ自体の概要から取得。
+
+Frost
+= 霜
+
+Fuel price
+= 燃料価格
+
+Fuel range (parsecs)
+= 燃料航続距離(パーセク)
+
+Fuel, biological and the three metals to 1,000,000 online, processed too; the eight medicinal plants to 30,000 online (the game's own online caps)
+= 燃料、生物資源、3種の金属をオンライン上限の1,000,000に(加工品も)、8種の薬草をオンライン上限の30,000に設定(ゲーム自身のオンライン上限)
+
+Full fatigue
+= 疲労最大
+
+Full health
+= 体力全回復
+
+Full magicka
+= マジカ全回復
+
+Funds
+= 資金
+
+Funds (§)
+= 資金(§)
+
+Funds go up to 99,999,999. The game data is stored uncompressed when you save, so the file grows. Sim skills and traits aren't mapped yet. Not yet tried in the game.
+= 資金は最大99,999,999です。ゲームデータは保存時に非圧縮で書き込まれるため、ファイルが大きくなります。シムのスキルと特性はまだ対応していません。ゲームでは未検証です。
+
+GMP
+= GMP
+
+GMP is capped at 99,999,999 in the game. Close the game and turn Steam Cloud off for it before editing.
+= GMPはゲーム内で99,999,999が上限です。編集前にゲームを終了し、そのゲームのSteamクラウドをオフにしてください。
+
+GTA3sf*.b. Money is kept in two places; the save's checksum is rewritten.
+= GTA3sf*.b。お金は2か所に保持され、セーブのチェックサムは書き直されます。
+
+GTAVCsf*.b. Money is kept in two places; the save's checksum is rewritten.
+= GTAVCsf*.b。お金は2か所に保持され、セーブのチェックサムは書き直されます。
+
+Gadgets (count)
+= ガジェット(数)
+
+Gald
+= ガルド
+
+Gallery key
+= ギャラリーの鍵
+
+Gallery key door open
+= ギャラリーの扉が開いた
+
+Gambling
+= ギャンブル
+
+Game clock
+= ゲーム内時計
+
+Game data not found — click to locate
+= ゲームデータが見つかりません — クリックして指定
+
+Game item numbers; 0 is an empty slot.
+= ゲームのアイテム番号。0は空きスロット。
+
+Game mode
+= ゲームモード
+
+Game mode: 0 Survival, 1 Creative, 2 Adventure, 3 Spectator. Health and food go up to 20.
+= ゲームモード: 0 サバイバル、1 クリエイティブ、2 アドベンチャー、3 スペクテイター。体力と満腹度は最大20。
+
+Game settings
+= ゲーム設定
+
+Game slot
+= ゲームスロット
+
+Game time
+= ゲーム内時間
+
+Game time (microseconds)
+= ゲーム内時間(マイクロ秒)
+
+Game.json
+= Game.json
+
+GameSave_NN_GD.sav, decrypted for you and encrypted again on save. Gold is the sushi bar's money; Bei buys gear from Duff and Cobra.
+= GameSave_NN_GD.sav。自動で復号され、保存時に再暗号化されます。Goldは寿司バーの資金で、BeiはDuffとCobraから装備を買うのに使います。
+
+GameSlot_<n>.sav: Lily's level and blight, prayer heals, the spirit-upgrade materials and every spirit's level.
+= GameSlot_<n>.sav: リリィのレベルとブライト、祈りの回復、霊の強化素材、各霊のレベル。
+
+GameSpeed
+= GameSpeed
+
+GameStateSaveData.json. The in-game clock the save shows in its slot.
+= GameStateSaveData.json。セーブがスロットに表示するゲーム内時計。
+
+Games keep the save in memory and write it back when they autosave or quit, which would undo these \n                         changes. Quit the game completely (not just to the title screen), then save.
+= ゲームはセーブをメモリ上に保持し、オートセーブや終了時に書き戻すため、この\n                         変更が元に戻ってしまいます。ゲームを完全に終了(タイトル画面に戻るだけでは不可)してから保存してください。
+
+Gangs
+= ギャング
+
+Garage and missions
+= ガレージとミッション
+
+Garage refuel
+= ガレージで給油
+
+Garage size
+= ガレージの広さ
+
+Garden rake uses
+= 庭用熊手の使用回数
+
+Gardening Glove
+= Gardening Glove
+
+Gas Cloud
+= Gas Cloud
+
+Gassenwissen
+= 裏通りの知識
+
+Gatling Pea
+= ガトリングピー
+
+Gear is shown with its slot, marks and serial check; its parts need the game's item database, so it isn't edited here. Level follows experience: changing one sets the other.
+= 装備はスロット、マーク、シリアル確認とともに表示されます。パーツの編集にはゲームのアイテムデータベースが必要なため、ここでは編集できません。レベルは経験値に連動し、一方を変えるともう一方も変わります。
+
+Gearbox damage
+= ギアボックスの損傷
+
+Gem crystals
+= 宝石の結晶
+
+Geralt of Rivia
+= リヴィアのゲラルト
+
+Gerudo's Card
+= ゲルドの紋章
+
+Ghost Card
+= Ghost Card
+
+Ghost experience
+= ゴーストの経験値
+
+Ghost hunter
+= ゴーストハンター
+
+Ghost level
+= ゴーストのレベル
+
+Giant's Knife Health
+= Giant's Knife Health
+
+Giantish
+= 巨人語
+
+Gil
+= ギル
+
+Gil (Laguna)
+= ギル(ラグナ)
+
+Gil (Squall)
+= ギル(スコール)
+
+Give an orange to Chimpy's
+= Chimpy'sにオレンジを渡す
+
+Given by Wozza
+= Wozzaから受け取った
+
+Glide
+= 滑空
+
+Glimpses
+= Glimpses
+
+Glimpses earned in total
+= 獲得したGlimpsesの合計
+
+Glimpses gained in total
+= 入手したGlimpsesの合計
+
+Gloom
+= Gloom
+
+Gloom earned in total
+= 獲得したGloomの合計
+
+Gloom-shroom
+= グルームシュルーム
+
+Gloves
+= 手袋
+
+God of War
+= ゴッド・オブ・ウォー
+
+God of War Ragnarök
+= ゴッド・オブ・ウォー ラグナロク
+
+Gold (Coins)
+= ゴールド(コイン)
+
+Gold (all Coins stacks)
+= ゴールド(全コインスタック)
+
+Gold Feathers
+= Gold Feathers
+
+Gold Feathers max
+= Gold Feathers 最大
+
+Gold Magnet
+= Gold Magnet
+
+Gold PP7
+= Gold PP7
+
+Gold and items aren't readable in this save, so nothing here can be changed.
+= このセーブではゴールドとアイテムを読み取れないため、ここでは何も変更できません。
+
+Gold carried
+= 所持ゴールド
+
+Gold coins
+= 金貨
+
+Gold earned in total
+= 獲得ゴールドの合計
+
+Gold in bank
+= 銀行のゴールド
+
+Gold shown by the HUD
+= HUDに表示されるゴールド
+
+Gold spent
+= 消費ゴールド
+
+Gold, materials and consumables
+= ゴールド、素材、消耗品
+
+Golden Lie harvests ready
+= 収穫可能なGolden Lie
+
+Golden Loop done
+= ゴールデンループ達成
+
+Golden Walnuts
+= Golden Walnuts
+
+Golden Watering Can
+= Golden Watering Can
+
+Golden strawberries
+= 金のイチゴ
+
+Golden treasure marks
+= 金の宝マーク
+
+Golf
+= ゴルフ
+
+Good–evil
+= 善悪
+
+Goofy HP
+= グーフィーのHP
+
+Goofy MP
+= グーフィーのMP
+
+Goron Sword
+= ゴロンの剣
+
+Goron Tunic
+= ゴロンの服
+
+Goron's Ruby
+= ゴロンのルビー
+
+Graces you unlock show up on the map for fast travel. Shadow of the Erdtree graces need the DLC.
+= 解放した祝福はマップに表示され、ファストトラベルに使えます。Shadow of the Erdtreeの祝福にはDLCが必要です。
+
+Grade (x100)
+= グレード(x100)
+
+Grade points (x100)
+= グレードポイント(x100)
+
+Grappling beam
+= グラップリングビーム
+
+Graveyard
+= 墓地
+
+Gravity Boots
+= Gravity Boots
+
+Gravity suit
+= グラビティスーツ
+
+Green
+= 緑
+
+Green Hell
+= Green Hell
+
+Green key (92)
+= 緑の鍵(92)
+
+Grenades
+= グレネード
+
+Group
+= グループ
+
+Growth Points
+= 成長ポイント
+
+Guardian Forces
+= ガーディアンフォース
+
+Guarma ($)
+= グアーマ($)
+
+Gullwings
+= Gullwings
+
+Gun
+= 銃
+
+Gun damage
+= 銃のダメージ
+
+Gun range
+= 銃の射程
+
+Gungeoneers
+= Gungeoneers
+
+Gunman
+= ガンマン
+
+Gunner
+= ガンナー
+
+HEV suit
+= HEVスーツ
+
+HP Bean
+= HP Bean
+
+HP and PP
+= HPとPP
+
+HP and stress as they are now (stress goes up to 10). Max HP comes from the hero's path and level.
+= 現在のHPとストレス(ストレスは最大10)。最大HPはヒーローのパスとレベルで決まります。
+
+Hacking
+= ハッキング
+
+Hacksilver
+= Hacksilver
+
+Hadern shell points
+= Hadernの甲殻ポイント
+
+Half Light
+= Half Light
+
+Half magic use
+= 魔法使用量半減
+
+Halloween candles
+= ハロウィンのキャンドル
+
+Hammers
+= ハンマー
+
+Hand
+= 手
+
+Hand to Hand
+= Hand to Hand
+
+Hand-to-Hand
+= Hand-to-Hand
+
+Hand-to-hand
+= Hand-to-hand
+
+Hand/Eye Coordination
+= Hand/Eye Coordination
+
+Hands per round
+= 1ラウンドあたりの手数
+
+Happiness
+= 幸福度
+
+Hard mode
+= ハードモード
+
+Hard points put into each skill (20 is the most the game allows from points; items add more on top).
+= 各スキルに振った固定ポイント(ポイントでの上限は20。アイテムでさらに加算されます)。
+
+Hardcore
+= ハードコア
+
+Harpy
+= Harpy
+
+Haruka
+= 遥
+
+Haruka's money
+= 遥の所持金
+
+Heal everyone
+= 全員回復
+
+Health & energy
+= 体力とエネルギー
+
+Health (8 per heart)
+= 体力(ハート1個につき8)
+
+Health (Endurance pool)
+= 体力(持久力プール)
+
+Health (maximum)
+= 体力(最大)
+
+Health (shown value = stored x 25)
+= 体力(表示値=保存値 x 25)
+
+Health (stored)
+= 体力(保存値)
+
+Health XP
+= 体力XP
+
+Health and Force
+= 体力とフォース
+
+Health and item slots count blocks and slots; attack, speed and throwing count upgrades. The game's own maximum is the end of each bar.
+= 体力とアイテム枠はブロックと枠の数、攻撃・速度・投擲はアップグレード数です。ゲーム上の最大値が各バーの右端です。
+
+Health and silk
+= 体力と糸
+
+Health core
+= 体力コア
+
+Health drain
+= 体力ドレイン
+
+Health upgrade fragments
+= 体力アップグレードの欠片
+
+Health upgrades found
+= 見つけた体力アップグレード
+
+Heart
+= ハート
+
+Heart of Vlad
+= Heart of Vlad
+
+Heart pieces
+= ハートのかけら
+
+Hearts
+= ハート
+
+Heavy Armor
+= 重装備
+
+Heavy armor
+= 重装備
+
+Heavy bullets
+= 重弾
+
+Heavy shell points
+= 重甲殻ポイント
+
+Hegemony credits
+= Hegemonyクレジット
+
+Heilkunde Gift
+= Heilkunde Gift
+
+Heilkunde Wunden
+= Heilkunde Wunden
+
+Heirlooms
+= 家宝
+
+Held inside
+= 保持中
+
+Held item
+= 所持アイテム
+
+Helicopters destroyed
+= 撃墜したヘリ
+
+Hero
+= ヒーロー
+
+Hero souls
+= ヒーローの魂
+
+Heroes
+= ヒーロー
+
+Heroism
+= 英雄的行為
+
+Hi-jump boots
+= ハイジャンプブーツ
+
+Hiccups
+= しゃっくり
+
+Hidden packages collected
+= 回収した隠しパッケージ
+
+Hidden packages in the game
+= ゲーム内の隠しパッケージ
+
+Hiebwaffen
+= Hiebwaffen
+
+High Jump
+= ハイジャンプ
+
+Highest Ascension
+= 最高アセンション
+
+Highest curse
+= 最高の呪い
+
+Highest resolve XP
+= 最高の決意XP
+
+Highest zone before transcending
+= 超越前の最高ゾーン
+
+Highest zone finished
+= クリア済みの最高ゾーン
+
+Highest zone since transcending
+= 超越後の最高ゾーン
+
+Hit points
+= ヒットポイント
+
+Hit points (base)
+= ヒットポイント(基本)
+
+Hit points and Force points; max includes bonuses, base is before them.
+= ヒットポイントとフォースポイント。最大値はボーナス込み、基本値はボーナス抜きです。
+
+Hit points and alignment
+= ヒットポイントと属性
+
+Hit points are the current value; the game works out the maximum from level and attributes. Unspent points are spent in the game.
+= ヒットポイントは現在値です。最大値はレベルと能力値からゲームが計算します。未使用ポイントはゲーム内で使用します。
+
+Holy Symbol
+= 聖印
+
+Home
+= ホーム
+
+Homes are tile positions; they're shown on the Map.
+= ホームはタイルの位置で、マップに表示されます。
+
+Honor
+= 名誉
+
+Hookshot
+= フックショット
+
+Hope collected
+= 集めた希望
+
+Hornet
+= ホーネット
+
+Hot
+= 高温
+
+Hour
+= 時
+
+House value
+= 家の価値
+
+Household members
+= 世帯メンバー
+
+Hover Boots
+= ホバーブーツ
+
+How many of each fiend the Monster Arena holds (10 at most). The conquest and original entries are the arena's creations: 1 means unlocked.
+= モンスターアリーナが保有する各モンスターの数(最大10)。制覇とオリジナルの項目はアリーナの創造物で、1が解放済みです。
+
+How many of each ingredient and material you carry. The game caps most stacks at its own limits.
+= 所持している各材料・素材の数。ほとんどのスタックはゲーム側の上限で制限されます。
+
+How many of each item is in the stack, by the item's tag. The game may cut a stack back to what the item allows; items can't be added or removed here.
+= スタック内の各アイテムの数(アイテムのタグ別)。ゲームがアイテムの許容数までスタックを減らす場合があります。ここではアイテムの追加・削除はできません。
+
+How many of each item you own. The shop sells them one at a time; the save itself takes any number.
+= 所持している各アイテムの数。店では1個ずつ販売しますが、セーブ自体は任意の数を受け付けます。
+
+How many times the card was upgraded (0 = not upgraded; most cards take 1)
+= カードの強化回数(0=未強化。ほとんどのカードは1回まで)
+
+Hub score
+= ハブスコア
+
+Human players
+= 人間のプレイヤー
+
+Humanity
+= Humanity
+
+Humanity gained
+= 獲得したHumanity
+
+Humanity level
+= Humanityレベル
+
+Hunter (Julianna) unlocked
+= ハンター(ジュリアナ)解放済み
+
+Hunting
+= 狩猟
+
+Hylian Shield
+= ハイリアの盾
+
+I
+= I
+
+I understand, let me edit
+= 了解しました。編集します
+
+INT +
+= INT +
+
+Ice Arrow
+= 氷の矢
+
+Ice beam
+= アイスビーム
+
+Ice magatama (95)
+= 氷の勾玉(95)
+
+Ice rod
+= アイスロッド
+
+Illness
+= 病気
+
+Illusion
+= 幻影
+
+Imaginary machine cap
+= イマジナリーマシン上限
+
+Imaginary machines
+= イマジナリーマシン
+
+Imitater
+= Imitater
+
+Impish
+= Impish
+
+In a barrel in the cellar
+= 地下室の樽の中
+
+In a basin by using the gutter
+= 雨どいを使って水盤の中
+
+In a cage on the ship
+= 船の檻の中
+
+In a pipe near Clanker
+= クランカー近くのパイプの中
+
+In storage
+= 保管中
+
+In the captain's room
+= 船長室
+
+In the engine room
+= 機関室
+
+In the eye of the Mumbo's Skull
+= マンボの頭蓋骨の目の中
+
+In the highest hut of the treetop area
+= 樹上エリアの一番高い小屋の中
+
+In the sewer after being swallowed by Loggo
+= ログに飲み込まれた後の下水道
+
+In the tile puzzle pyramid
+= タイルパズルのピラミッド内
+
+In the warehouse
+= 倉庫の中
+
+In this slot
+= このスロット内
+
+Includes Yggdrasil's dew (the stat boosts). Resources this save hasn't found yet aren't listed.
+= ユグドラシルの雫(ステータス強化)を含みます。このセーブでまだ見つけていない資源は表示されません。
+
+Industrial
+= 工業
+
+Industry
+= 産業
+
+Infinite Ammo
+= 弾薬無限
+
+InfiniteStamina
+= InfiniteStamina
+
+Infinities
+= 無限
+
+Infinity points
+= 無限ポイント
+
+Infinity power
+= 無限パワー
+
+Influence
+= 影響力
+
+Infusion
+= インフュージョン
+
+Infusion levels go from 0 to 10; a kind you've never picked has no entry yet.
+= インフュージョンのレベルは0~10です。一度も選んでいない種類はまだ項目がありません。
+
+Infusions
+= インフュージョン
+
+Ingredients
+= 食材
+
+Inland Empire
+= Inland Empire
+
+Inside Boggy's stomach
+= ボギーの腹の中
+
+Inside Jinyx
+= ジニクスの中
+
+Inside King Sandybutt's sarcophagus
+= サンディバット王の石棺の中
+
+Inside Nipper's Shell
+= ニッパーの甲羅の中
+
+Inside Rubee's temple
+= ルビーの神殿の中
+
+Inside a Lockup
+= ロックアップの中
+
+Inside a hut of the village
+= 村の小屋の中
+
+Inside the big egg
+= 大きな卵の中
+
+Inside the giant snowman's pipe
+= 巨大雪だるまのパイプの中
+
+Inside the water pyramid
+= 水のピラミッドの中
+
+Inside the well
+= 井戸の中
+
+Installed augmentations. Level 1 isn't written in the save, so those can't be upgraded here.
+= インストール済みオーグメンテーション。レベル1はセーブに記録されないため、ここでは強化できません。
+
+Intellect
+= 知性
+
+Interfacing
+= Interfacing
+
+Intro done
+= イントロ完了
+
+Intro seen
+= イントロ視聴済み
+
+Intuition
+= 直感
+
+Invasions so far
+= これまでの侵略回数
+
+Inventory (character 1)
+= インベントリ(キャラ1)
+
+Inventory (character 2)
+= インベントリ(キャラ2)
+
+Inventory (character 3)
+= インベントリ(キャラ3)
+
+Inventory (character 4)
+= インベントリ(キャラ4)
+
+Inventory (character 5)
+= インベントリ(キャラ5)
+
+Inventory (character 6)
+= インベントリ(キャラ6)
+
+Inventory (item id: count)
+= インベントリ(アイテムID: 個数)
+
+Inventory and storage
+= インベントリと保管庫
+
+Inventory, health and blueprints are in global-objects.bin next to this file, which isn't editable yet.
+= インベントリ、体力、設計図はこのファイルと同じ場所のglobal-objects.binにあり、まだ編集できません。
+
+Invincible
+= 無敵
+
+InvisibleMotion
+= InvisibleMotion
+
+Iron Boots
+= ヘビーブーツ
+
+Item 1
+= アイテム1
+
+Item 2
+= アイテム2
+
+Item 3
+= アイテム3
+
+Item 4
+= アイテム4
+
+Item 5
+= アイテム5
+
+Item 6
+= アイテム6
+
+Item 7
+= アイテム7
+
+Item 8
+= アイテム8
+
+Item Switch
+= Item Switch
+
+Item stacks
+= アイテムスタック
+
+Items (by database number)
+= アイテム(データベース番号別)
+
+Items (ids)
+= アイテム(ID)
+
+Items HQ holds, by the game's item number (only ones you have are listed). Elerium, alloys and Meld are among them — change one and check it in the game.
+= 本部が保有するアイテム(ゲーム内のアイテム番号別、所持しているもののみ表示)。エレリウム、合金、メルドも含まれます。変更したらゲームで確認してください。
+
+Items HQ holds, by the game's template name.
+= 本部が保有するアイテム(ゲーム内のテンプレート名別)。
+
+Items and currencies
+= アイテムと通貨
+
+Items are listed by the game's item number (names aren't known yet); 999 is the most the editor lets you set.
+= アイテムはゲーム内のアイテム番号で表示されます(名前は未判明)。エディターで設定できる最大は999です。
+
+Items are listed by their ID because the game's item names aren't in the save. Everything else is in the Values tab.
+= ゲームのアイテム名はセーブに含まれないため、アイテムはIDで表示されます。その他はすべて「値」タブにあります。
+
+Items are shown by their prefab name. Each item has its own top stack size and quality in the game; going past them may be undone when it loads.
+= アイテムはプレハブ名で表示されます。ゲームでは各アイテムに固有のスタック上限と品質があり、超えるとロード時に元に戻る場合があります。
+
+Items are shown by their template name. Changing money, levels or XP updates the save only; the save list's summary updates the next time the game saves.
+= アイテムはテンプレート名で表示されます。所持金、レベル、XPを変更してもセーブのみ更新され、セーブ一覧の概要は次回ゲームがセーブするときに更新されます。
+
+Items by their game resource name. Stack sizes (arrows, potions) and charges (wands) can be changed; items without either show –. Items can't be added here.
+= アイテムはゲームのリソース名で表示されます。スタック数(矢、ポーション)とチャージ数(杖)は変更できます。どちらもないアイテムは「–」と表示されます。ここではアイテムを追加できません。
+
+Items by their game resource name; stacks (charms, bandages) and charges can be changed. Items can't be added here.
+= アイテムはゲームのリソース名で表示されます。スタック数(お守り、包帯)とチャージ数は変更できます。ここではアイテムを追加できません。
+
+Items carried
+= 所持アイテム
+
+Items, constructions and quests are in the Values tab.
+= アイテム、建造物、クエストは「値」タブにあります。
+
+Items, quartz, equipment and meals
+= アイテム、クオーツ、装備、食事
+
+Items: {0}
+= アイテム: {0}
+
+JC Denton
+= JC Denton
+
+Jadiz
+= Jadiz
+
+Jewel of Open
+= Jewel of Open
+
+Jiggies
+= ジグソー
+
+Jigglypuff
+= プリン
+
+Job
+= ジョブ
+
+John
+= John
+
+Joker
+= ジョーカー
+
+Joker's Personas
+= ジョーカーのペルソナ
+
+Juice
+= ジュース
+
+JumpStart
+= JumpStart
+
+Jumping
+= ジャンプ
+
+Jumps
+= ジャンプ回数
+
+Kenshi
+= Kenshi
+
+Keystones
+= キーストーン
+
+Kid's Party
+= Kid's Party
+
+Kiryu
+= 桐生
+
+Kiryu's HP
+= 桐生のHP
+
+Kiryu's max HP
+= 桐生の最大HP
+
+Kiryu's money
+= 桐生の所持金
+
+Kiryu's money (¥)
+= 桐生の所持金(¥)
+
+Knowledge
+= 知識
+
+Knuckleblaster
+= Knuckleblaster
+
+Kokiri Boots
+= コキリのブーツ
+
+Kokiri Sword
+= コキリの剣
+
+Kokiri Tunic
+= コキリの服
+
+Kokiri's Emerald
+= コキリのヒスイ
+
+L
+= L
+
+LEGO Batman: Legacy of the Dark Knight
+= LEGO Batman: Legacy of the Dark Knight
+
+LIGLOB.DAT from a save slot folder (GAME_1 to GAME_10) of the original game. The funds; the other .DAT files are not edited yet.
+= オリジナル版のセーブスロットフォルダー(GAME_1~GAME_10)にあるLIGLOB.DAT。資金を編集できます。その他の.DATファイルはまだ編集できません。
+
+LV
+= LV
+
+Lamp
+= ランプ
+
+Language
+= 言語
+
+Last level
+= 最後のレベル
+
+Last run
+= 前回のラン
+
+Law & Order level
+= 法と秩序レベル
+
+Law–chaos
+= 秩序–混沌
+
+League
+= リーグ
+
+Leap Stone
+= Leap Stone
+
+Learn all skills
+= 全スキルを習得
+
+Learn every {0}
+= すべての{0}を習得
+
+Lemoyne ($)
+= レモイン($)
+
+Lens of Truth
+= Lens of Truth
+
+Lethal Company  ·  LCGeneralSaveData
+= Lethal Company  ·  LCGeneralSaveData
+
+Level (load screen)
+= レベル(ロード画面)
+
+Level 0 is the charm's first level; each charm has three.
+= レベル0はチャームの最初のレベルです。各チャームには3段階あります。
+
+Level 50 with full health
+= レベル50・体力全快
+
+Level and PP are kept separately in the save, so change them together.
+= レベルとPPはセーブ内で別々に保存されるため、両方を一緒に変更してください。
+
+Level and experience
+= レベルと経験値
+
+Level and vitals
+= レベルと生命値
+
+Level ranks
+= レベルランク
+
+Level scores
+= レベルスコア
+
+Level {0}
+= レベル{0}
+
+Level {1} ({0} experience)
+= レベル{1}(経験値{0})
+
+Level-up stats
+= レベルアップ能力値
+
+Levels don't follow experience by themselves: set both.
+= レベルは経験値に自動では連動しません。両方を設定してください。
+
+Levels don't follow experience by themselves: set both. Hit points above the maximum are the game's own temporary bonus.
+= レベルは経験値に自動では連動しません。両方を設定してください。最大値を超えるHPはゲーム自体の一時ボーナスです。
+
+Levels run 0–20 in the base game. A passion makes the colonist learn that skill faster.
+= 基本ゲームではレベルは0–20です。情熱があると、入植者はそのスキルをより速く習得します。
+
+Life
+= ライフ
+
+Life (4 per cell)
+= ライフ(1セルにつき4)
+
+Life Efficiency
+= ライフ効率
+
+Life Markers
+= ライフマーカー
+
+Life and growth
+= ライフと成長
+
+Life and mana
+= ライフとマナ
+
+Life pool
+= ライフプール
+
+Lifetime coins
+= 累計コイン
+
+Lifetime coins counts all coins ever earned; raise it with your coins to keep the stats in line.
+= 「累計コイン」はこれまでに獲得した全コインの数です。統計の整合性のため、所持コインと一緒に増やしてください。
+
+Lifetime earnings
+= 累計収入
+
+Lifmunk effigies
+= リフマンクの像
+
+Light Armor
+= 軽装鎧
+
+Light Arrow
+= Light Arrow
+
+Light Burst
+= Light Burst
+
+Light Medallion
+= Light Medallion
+
+Light World
+= Light World
+
+Light World items
+= Light Worldのアイテム
+
+Light armor
+= 軽装鎧
+
+Light bullets
+= 軽弾薬
+
+Likes from NPCs
+= NPCからのいいね
+
+Likes from other porters
+= 他の配達人からのいいね
+
+Likes given
+= 送ったいいね
+
+Likes received
+= 受け取ったいいね
+
+Lily
+= リリー
+
+Liquid:
+= 液体:
+
+Lit = you have the tool. The number is how many uses it has left (for tools that run out).
+= 点灯=そのツールを所持。数字は残り使用回数です(使い切りのツールのみ)。
+
+Lives
+= 残機
+
+Living level
+= 生活レベル
+
+Lo Wang
+= Lo Wang
+
+Loaded
+= ロード済み
+
+Loan
+= ローン
+
+Loan limit
+= ローン上限
+
+Local
+= ローカル
+
+Locked in
+= 確定済み
+
+Lockers, vehicles and other storage
+= ロッカー、乗り物、その他の収納
+
+Lockpick
+= ピッキングツール
+
+Lockpicking
+= ピッキング
+
+Lockpicks
+= ピッキングツール
+
+Logic
+= 論理
+
+Long Blade
+= 長剣
+
+Long blade
+= 長剣
+
+Longest winning streak
+= 最長連勝記録
+
+Loot
+= 戦利品
+
+Lore
+= ロア
+
+Loss streak
+= 連敗記録
+
+Lovers
+= 恋人
+
+LowFriction
+= LowFriction
+
+Luigi
+= ルイージ
+
+Lunar coins
+= ルナコイン
+
+Lunar coins collected (total)
+= 獲得したルナコイン(合計)
+
+Lunchboxes
+= ランチボックス
+
+Lute: Simple
+= リュート:シンプル
+
+Lv
+= Lv
+
+MOV
+= MOV
+
+MP
+= MP
+
+Magic Beans
+= 魔法の豆
+
+Magic cape
+= 魔法のマント
+
+Magic hammer
+= 魔法のハンマー
+
+Magic mirror
+= 魔法の鏡
+
+Magical weapons
+= 魔法の武器
+
+Magicka
+= マジカ
+
+Magiekunde
+= Magiekunde
+
+Magnet
+= マグネット
+
+Magnite
+= マグナイト
+
+Mahjong sticks
+= 麻雀の点棒
+
+Main
+= メイン
+
+Majima
+= 真島
+
+Majima's money (¥)
+= 真島の所持金(¥)
+
+Malicious
+= 悪意
+
+Mana
+= マナ
+
+Mana (chi)
+= マナ(気)
+
+Mania Mode slots
+= マニアモードのスロット
+
+Map Markers
+= マップマーカー
+
+Map sections explored
+= 探索済みマップ区画
+
+Map sections in the game
+= ゲーム内のマップ区画数
+
+Mapstones
+= マップストーン
+
+Marines
+= 海兵
+
+Mario
+= マリオ
+
+Mark every boss defeated
+= 全ボスを撃破済みにする
+
+Marksman
+= 射撃手
+
+Masks
+= マスク
+
+Masks: change Max health and Base masks together.
+= マスク:「最大体力」と「基本マスク」は一緒に変更してください。
+
+Masochist
+= マゾヒスト
+
+Mass
+= 質量
+
+Mass Effect: Andromeda
+= マスエフェクト:アンドロメダ
+
+Mass:
+= 質量:
+
+Master Sword
+= Master Sword
+
+Match Max HP and AT to LV {0} ({1} HP, {2} AT)
+= 最大HPとATをLV{0}に合わせる(HP {1}、AT {2})
+
+Materials
+= 素材
+
+Max
+= 最大
+
+Max BP
+= 最大BP
+
+Max CP
+= 最大CP
+
+Max Candy
+= 最大キャンディ
+
+Max EP
+= 最大EP
+
+Max GMP
+= 最大GMP
+
+Max HP +
+= 最大HP +
+
+Max HP includes bonuses; base HP is before them.
+= 最大HPにはボーナスが含まれます。基本HPはボーナス適用前の値です。
+
+Max IVs (party)
+= 最大IV(パーティ)
+
+Max Mushroom
+= 最大キノコ
+
+Max Nut
+= 最大ナッツ
+
+Max PP
+= 最大PP
+
+Max RP
+= 最大RP
+
+Max SP
+= 最大SP
+
+Max SP +
+= 最大SP +
+
+Max Syrup Jar
+= 最大シロップ瓶
+
+Max TP
+= 最大TP
+
+Max all skills
+= 全スキルを最大にする
+
+Max ammo (0 = unlimited)
+= 最大弾数(0=無制限)
+
+Max energy
+= 最大エネルギー
+
+Max everyone's stats
+= 全員の能力値を最大にする
+
+Max focus +
+= 最大集中力 +
+
+Max gold
+= 最大ゴールド
+
+Max health (8 per heart)
+= 最大体力(ハート1個につき8)
+
+Max health (stored)
+= 最大体力(保存値)
+
+Max health +
+= 最大体力 +
+
+Max health and stamina come from the food eaten; the game works them out again on load.
+= 最大体力とスタミナは食べた食事で決まり、ロード時にゲームが再計算します。
+
+Max health cap
+= 最大体力の上限
+
+Max health {0}
+= 最大体力 {0}
+
+Max heroism
+= 最大ヒロイズム
+
+Max hit points
+= 最大HP
+
+Max hit points (base)
+= 最大HP(基本)
+
+Max level ({0})
+= 最大レベル({0})
+
+Max level and stats
+= 最大レベルと能力値
+
+Max life (4 per cell)
+= 最大ライフ(1セルにつき4)
+
+Max life and mana here are the base values, before items.
+= ここでの最大ライフと最大マナはアイテム適用前の基本値です。
+
+Max life goes up to 500 with Life Crystals and Life Fruit (more with buffs); max mana to 200.
+= 最大ライフはライフクリスタルとライフフルーツで最大500まで上がります(バフでさらに増加)。最大マナは200までです。
+
+Max money
+= 最大所持金
+
+Max morale
+= 最大士気
+
+Max proficiency
+= 最大熟練度
+
+Max sanity
+= 最大正気度
+
+Max stat bonus
+= 最大能力値ボーナス
+
+Max this character
+= このキャラクターを最大にする
+
+Max upgrade materials ({0})
+= 強化素材を最大にする({0})
+
+Maximum health
+= 最大体力
+
+Maximum loan
+= 最大ローン額
+
+Mechanics
+= メカニクス
+
+Medals
+= メダル
+
+Medical
+= 医療
+
+Medieval
+= 中世
+
+Medium armor
+= 中装鎧
+
+Medium bullets
+= 中弾薬
+
+Medkits, lockpicks, multitools, bioelectric cells and other items carried. A single item's count isn't written in the save and can't be changed.
+= 所持しているメディキット、ピッキングツール、マルチツール、生体電池などのアイテム。個々のアイテムの数量はセーブに記録されないため変更できません。
+
+Medpacks
+= メディパック
+
+Megaton Hammer
+= Megaton Hammer
+
+Melee
+= 近接
+
+Melee Weapons
+= 近接武器
+
+Members
+= メンバー
+
+Menschenkenntnis
+= Menschenkenntnis
+
+Mercantile
+= 商才
+
+Merchants
+= 商人
+
+Mercury
+= 水銀
+
+Merman Statue
+= Merman Statue
+
+Meta.sav of a save slot. Blackstone is the Ark's research currency; SaveState.sav (the game's checksum of this file) is updated when you save.
+= セーブスロットのMeta.sav。BlackstoneはArkの研究通貨です。SaveState.sav(このファイルに対するゲームのチェックサム)は保存時に更新されます。
+
+Metal Cap switch
+= メタルキャップスイッチ
+
+Metal Gear Solid V save
+= メタルギアソリッドVのセーブ
+
+Metal shards
+= 金属の破片
+
+Metals
+= 金属
+
+Metro
+= メトロ
+
+Might
+= 威力
+
+Military-grade rounds
+= 軍用弾薬
+
+Minerals and brewing ingredients
+= 鉱物と調合素材
+
+Mini-games unlocked (1 = yes)
+= ミニゲーム解放済み(1=はい)
+
+Mining
+= 採掘
+
+Minuet of Forest
+= Minuet of Forest
+
+Minute
+= 分
+
+Minutes played
+= プレイ時間(分)
+
+Mips (first star)
+= ミップ(1つ目のスター)
+
+Mips (second star)
+= ミップ(2つ目のスター)
+
+Mira
+= ミラ
+
+Mirage
+= Mirage
+
+Mirror Shield
+= Mirror Shield
+
+MirrorMode
+= MirrorMode
+
+Misconduct
+= 不正行為
+
+Missiles
+= ミサイル
+
+Missiles (max)
+= ミサイル(最大)
+
+MissionControl
+= MissionControl
+
+Missions
+= ミッション
+
+Missions given
+= 受注したミッション
+
+Missions passed
+= クリアしたミッション
+
+Moat drained
+= 堀の水を抜いた
+
+Modifier
+= 修正値
+
+Mods and DLC
+= MODとDLC
+
+Mom kills
+= ママの撃破数
+
+Monarch power
+= 君主の力
+
+Money ($)
+= 所持金($)
+
+Money ($K)
+= 所持金($K)
+
+Money (G)
+= 所持金(G)
+
+Money (centims)
+= 所持金(センチーム)
+
+Money (leaves)
+= 所持金(葉)
+
+Money (mk)
+= 所持金(mk)
+
+Money (scrap)
+= 所持金(スクラップ)
+
+Money (silver)
+= 所持金(銀貨)
+
+Money (the game shows this × 10)
+= 所持金(ゲームでは×10で表示)
+
+Money (¥)
+= 所持金(¥)
+
+Money (§)
+= 所持金(§)
+
+Money and points
+= 所持金とポイント
+
+Money collected
+= 獲得した金額
+
+Money earned
+= 稼いだ金額
+
+Money earned in total
+= 稼いだ金額の合計
+
+Money invested with the banker
+= 銀行家に投資した金額
+
+Money is counted in silver (100 = 1 gold, with copper as the decimals); technology points (red, green and blue) are in the Tree under _res_v
+= 所持金は銀貨単位で数えます(100=金貨1枚、銅貨は小数部)。技術ポイント(赤・緑・青)はツリーの_res_v内にあります。
+
+Money shown on screen
+= 画面に表示される金額
+
+Money spent
+= 使った金額
+
+Money ÷ 10
+= 所持金 ÷ 10
+
+Money.json. Cash you carry is in the player's own files.
+= Money.json。所持している現金はプレイヤー自身のファイルにあります。
+
+Monster Arena
+= モンスターアリーナ
+
+Monsters defeated
+= 倒したモンスター
+
+Months passed
+= 経過した月数
+
+Mood
+= 気分
+
+Moon pearl
+= ムーンパール
+
+Morale (Volition pool)
+= 士気(意志プール)
+
+Morality
+= モラル
+
+Morphing ball
+= モーフボール
+
+Most blanks held
+= 最多所持ブランク数
+
+Most gald held
+= 最多所持ガルド
+
+Most health
+= 最大体力記録
+
+Most keys held
+= 最多所持鍵数
+
+Mother Base
+= マザーベース
+
+Mother Base and FOB platforms
+= マザーベースとFOBのプラットフォーム
+
+Mother Base commander
+= マザーベースの司令官
+
+Mother Base resources
+= マザーベースの資源
+
+Motorics
+= 運動神経
+
+Mount
+= 騎乗
+
+Movement (full)
+= 移動力(最大)
+
+Movement left
+= 残り移動力
+
+Moves
+= わざ
+
+Moves, dream nail and travel
+= アクション、ドリームネイル、移動
+
+Moves: {0}
+= わざ:{0}
+
+Moxie XP
+= Moxie XP
+
+Mr. Handy
+= Mr. Handy
+
+Mr. Vile game
+= Mr. Vileのゲーム
+
+Mult
+= 倍率
+
+Multipliers
+= 倍率
+
+Mumbo Tokens
+= Mumbo Tokens
+
+Munny
+= マニー
+
+Munny earned
+= 獲得したマニー
+
+Munny spent
+= 使用したマニー
+
+Murders
+= 殺人数
+
+Muscle XP
+= 筋肉XP
+
+Mushroom
+= キノコ
+
+Mushroom / magic powder
+= キノコ/魔法の粉
+
+Mushroom Garden
+= キノコガーデン
+
+Mushroom Kingdom
+= キノコ王国
+
+Musical lessons
+= 音楽のレッスン
+
+Mutation points
+= 変異ポイント
+
+Mystery board: {0}
+= ミステリーボード:{0}
+
+Mysticality XP
+= 神秘XP
+
+Mysticism
+= 神秘主義
+
+Nail & soul
+= ネイルとソウル
+
+Nailgun, railcannon, rockets, arms
+= ネイルガン、レールキャノン、ロケット、アーム
+
+Named {0}
+= 名前:{0}
+
+Names from game data
+= ゲームデータの名前
+
+Nature
+= 自然
+
+Navigation
+= ナビゲーション
+
+Navigator's insight
+= 航海士の洞察
+
+Nayru's Love
+= Nayru's Love
+
+Near Bottles using Wonderwing
+= Wonderwingを使ってBottlesの近く
+
+Near the Witch Switch
+= 魔女のスイッチの近く
+
+Needs
+= 欲求
+
+Needs the Oodle library that many games install (found automatically). The save's MD5 is written again when you save. Not yet tried in the game.
+= 多くのゲームがインストールするOodleライブラリが必要です(自動で検出されます)。セーブのMD5は保存時に書き直されます。ゲームではまだ未検証です。
+
+Ness
+= ネス
+
+Net worth
+= 純資産
+
+Neuropolymer
+= ニューロポリマー
+
+New Austin ($)
+= ニュー・オースティン ($)
+
+New Game+ level
+= ニューゲーム+レベル
+
+New Game+ playthroughs
+= ニューゲーム+のプレイ回数
+
+New Game+ upgrades
+= ニューゲーム+強化
+
+New Hanover ($)
+= ニュー・ハノーバー ($)
+
+New materia start at level 1 with no AP and go into free materia slots when you save. Summons you already own aren't listed.
+= 新しいマテリアはAPなしのレベル1で始まり、セーブ時に空いているマテリアスロットに入ります。すでに所持している召喚獣は表示されません。
+
+Newbucks
+= ニューバックス
+
+Next special stage
+= 次のスペシャルステージ
+
+Nickname
+= ニックネーム
+
+Night
+= 夜
+
+Night (Hard)
+= 夜（ハード）
+
+Ninja shell points
+= 忍者の甲羅ポイント
+
+No Pokémon in the party.
+= パーティにポケモンがいません。
+
+No Radar (multiplayer)
+= レーダーなし（マルチプレイ）
+
+No Visions in this save.
+= このセーブにビジョンはありません。
+
+No ammunition in this save.
+= このセーブに弾薬はありません。
+
+No bottle caps in the inventory: there's no stack to change (the game adds one when you pick some up).
+= インベントリにキャップがありません。変更できるスタックがありません（拾うとゲームが追加します）。
+
+No chest matches.
+= 一致するチェストがありません。
+
+No coins on this character.
+= このキャラクターはコインを持っていません。
+
+No colonists found in this save.
+= このセーブに入植者が見つかりません。
+
+No currencies in this save.
+= このセーブに通貨はありません。
+
+No duplicants found in this save.
+= このセーブにデュプリカントが見つかりません。
+
+No equipment with experience yet.
+= 経験値のある装備はまだありません。
+
+No item bags in this save.
+= このセーブにアイテムバッグはありません。
+
+No party members found in this save.
+= このセーブにパーティメンバーが見つかりません。
+
+No player characters found in this save.
+= このセーブにプレイヤーキャラクターが見つかりません。
+
+No resources in the bag.
+= バッグにリソースがありません。
+
+No save file in this flash.
+= このフラッシュにセーブファイルがありません。
+
+No saved games in this file yet
+= このファイルにはまだセーブがありません
+
+No silver on the map.
+= マップに銀がありません。
+
+No techs yet.
+= テクはまだありません。
+
+No town NPCs live in this world yet.
+= このワールドにはまだ町のNPCが住んでいません。
+
+No travellers in this save.
+= このセーブに旅人はいません。
+
+No unlock flags in this save.
+= このセーブにアンロックフラグはありません。
+
+No wood, stone, ores, bars or other crafting materials in the backpack.
+= バックパックに木材、石、鉱石、インゴットなどのクラフト素材がありません。
+
+No worlds found in this save.
+= このセーブにワールドが見つかりません。
+
+NoGrabbing
+= NoGrabbing
+
+Nobility
+= 貴族
+
+NobleMetals
+= NobleMetals
+
+Nobody is in the party in this file.
+= このファイルではパーティに誰もいません。
+
+Nocturne of Shadow
+= 影のノクターン
+
+Noelle in party
+= ノエルがパーティ入り
+
+None installed.
+= インストールされていません。
+
+None right now.
+= 現在はありません。
+
+Not in this save
+= このセーブにはありません
+
+Not yet tried in the game.
+= ゲームではまだ試していません。
+
+Nothing carried.
+= 何も持っていません。
+
+Nothing in this pocket.
+= このポケットは空です。
+
+Nothing special found in this world.
+= このワールドで特別なものは見つかりませんでした。
+
+Nothing you have matches. To add it, clear the search and click an empty slot.
+= 所持品に一致するものはありません。追加するには、検索をクリアして空のスロットをクリックしてください。
+
+Now
+= 現在
+
+Nuka-Cola Quantum
+= ヌカ・コーラ クアンタム
+
+Numbered .save files in the Ubisoft Connect save folder (2688 or 3619).
+= Ubisoft Connectのセーブフォルダ内の番号付き.saveファイル（2688または3619）。
+
+Numbers
+= 数字
+
+Nut
+= ナッツ
+
+Nymph
+= ニンフ
+
+Objects crafted
+= 製作したオブジェクト
+
+Obtained: Blue Mystery Egg
+= 入手：青のミステリーエッグ
+
+Obtained: Cyan Mystery Egg
+= 入手：シアンのミステリーエッグ
+
+Obtained: Green Mystery Egg
+= 入手：緑のミステリーエッグ
+
+Obtained: Ice Key
+= 入手：氷のカギ
+
+Obtained: Pink Mystery Egg
+= 入手：ピンクのミステリーエッグ
+
+Obtained: Red Mystery Egg
+= 入手：赤のミステリーエッグ
+
+Obtained: Yellow Mystery Egg
+= 入手：黄のミステリーエッグ
+
+Ocarina
+= オカリナ
+
+Octopath Traveler (2018): these values are read from the save as it is; changing them hasn't been tried in the game yet.
+= Octopath Traveler（2018）：これらの値はセーブからそのまま読み込まれます。変更はゲームではまだ試していません。
+
+Officers
+= 士官
+
+Olrox's Quarters
+= オルロックスの部屋
+
+On hand
+= 所持数
+
+On means the item sits in the ship's storage instead of standing in the ship.
+= オンにすると、アイテムは船内に置かれず、船の収納に入ります。
+
+On the Clanker's right golden tooth
+= クランカーの右の金歯
+
+On the backside of the spiral tower
+= らせん塔の裏側
+
+On the hill near entrance
+= 入口近くの丘の上
+
+On the star map
+= スターマップ上
+
+On the table of the dining room
+= ダイニングのテーブルの上
+
+One character's data.sav; unspent points let you respec in the game
+= キャラクター1人のdata.sav。未使用ポイントはゲーム内で振り直しできます
+
+One save slot of FINAL FANTASY I to VI Pixel Remaster (a character's number is its id in the game)
+= FINAL FANTASY I～VI ピクセルリマスターのセーブスロット1つ（キャラクター番号はゲーム内のID）
+
+One-handed
+= 片手
+
+Oni energy
+= 鬼の力
+
+Onimusha: Way of the Sword
+= 鬼武者 Way of the Sword
+
+Online
+= オンライン
+
+Online losses
+= オンライン敗北数
+
+Online wins
+= オンライン勝利数
+
+Only items this save doesn't have yet are listed. Each goes into a free inventory slot when you save; reopen the file to change its amount afterwards.
+= このセーブにまだないアイテムのみ表示されます。各アイテムはセーブ時に空いているインベントリスロットに入ります。数量を変更するには、ファイルを開き直してください。
+
+Only one save
+= セーブは1つのみ
+
+Only the entries this save has are shown. Opening a stag station only unlocks the ride; the station itself still has to be found.
+= このセーブにある項目のみ表示されます。牡鹿の駅を開いても乗車が解放されるだけで、駅自体は自分で見つける必要があります。
+
+Only the host's save counts in a multiplayer game. Checked on a public save, not yet tried in the game.
+= マルチプレイではホストのセーブのみが有効です。公開セーブで確認済みですが、ゲームではまだ試していません。
+
+Only the skills a ranger has put points in are saved. A skill the editor has no name for shows its number.
+= レンジャーがポイントを振ったスキルのみ保存されます。エディターに名前がないスキルは番号で表示されます。
+
+Only useful if you own the DLC
+= DLCを所有している場合のみ有効
+
+Open every Mother Base section
+= マザーベースの全セクションを開放
+
+Open every waypoint
+= すべてのウェイポイントを開放
+
+Open on the map
+= マップで開く
+
+Operations
+= 作戦
+
+Orbs
+= オーブ
+
+Orcish
+= オーク語
+
+Order points
+= オーダーポイント
+
+Ore
+= 鉱石
+
+Organisation
+= 組織
+
+Organisation name
+= 組織名
+
+Ori
+= オリ
+
+Other
+= その他
+
+Other approval
+= その他の支持
+
+Other resources
+= その他のリソース
+
+Outdoorsman
+= アウトドア派
+
+Outer Wall
+= 外壁
+
+Outsiders
+= アウトサイダー
+
+Overheat
+= オーバーヒート
+
+Overlimit %
+= オーバーリミット %
+
+Owned
+= 所持
+
+Oxygen
+= 酸素
+
+Oxygen (maximum)
+= 酸素（最大）
+
+P
+= P
+
+PC boxes
+= PCボックス
+
+PP
+= PP
+
+PP earned
+= 獲得PP
+
+PP limit
+= PP上限
+
+Packages
+= パッケージ
+
+Packed saves are opened and packed again for you. In the game's config.cfg, g_save_format 2 makes it write plain text saves.
+= 圧縮されたセーブは自動的に開かれ、再圧縮されます。ゲームのconfig.cfgでg_save_format 2にすると、プレーンテキストのセーブが書き出されます。
+
+Pain Threshold
+= 痛みの閾値
+
+Paintball Mode
+= ペイントボールモード
+
+Palworld
+= パルワールド
+
+Paragon
+= パラゴン
+
+Parking levels unlocked
+= 解放済みの駐車場フロア
+
+Parry
+= パリィ
+
+Party (read-only)
+= パーティ（読み取り専用）
+
+Party (what the menu and battles use)
+= パーティ（メニューと戦闘で使用）
+
+Party and records
+= パーティと記録
+
+Party experience
+= パーティ経験値
+
+Party gold
+= パーティの所持金
+
+Party slot
+= パーティ枠
+
+Passion
+= 情熱
+
+Passive skill points
+= パッシブスキルポイント
+
+Pegasus boots
+= ペガサスのくつ
+
+People killed
+= 殺害した人数
+
+People killed by the player
+= プレイヤーが殺害した人数
+
+Pepperman
+= ペッパーマン
+
+Perception
+= 知覚
+
+Perks and quirks
+= 特典とクセ
+
+Permanent upgrades
+= 永続強化
+
+Persona 3 Reload
+= ペルソナ3 リロード
+
+Persona 4 Golden
+= ペルソナ4 ザ・ゴールデン
+
+Persona 5 Royal
+= ペルソナ5 ザ・ロイヤル
+
+Personality
+= 性格
+
+Pet carriers
+= ペットキャリー
+
+Pflanzenkunde
+= Pflanzenkunde
+
+Phone
+= 電話
+
+Phonograph
+= 蓄音機
+
+Physical Instrument
+= Physical Instrument
+
+Physique
+= 体格
+
+Pick a chest to change what's in it (or click one on the Map).
+= チェストを選ぶと中身を変更できます（マップ上でクリックも可）。
+
+Pick an item for an empty slot and give it a count to add it. Keep each item in one slot only.
+= 空きスロットにアイテムを選び、個数を入力して追加します。各アイテムは1つのスロットにのみ置いてください。
+
+Pickpocket
+= スリ
+
+Piercer
+= Piercer
+
+Piloting
+= 操縦
+
+Pineapple Beach
+= Pineapple Beach
+
+Pipe bomb
+= パイプ爆弾
+
+Pipe bomb damage
+= パイプ爆弾のダメージ
+
+Piton belt
+= ハーケンベルト
+
+Pixels
+= ピクセル
+
+Place
+= 場所
+
+Plank
+= 板
+
+Plank length
+= 板の長さ
+
+Plank width
+= 板の幅
+
+Plasma
+= プラズマ
+
+Plasma beam
+= プラズマビーム
+
+Plate
+= プレート
+
+Platform
+= プラットフォーム
+
+Play time
+= プレイ時間
+
+Play time (frames, 60 a second)
+= プレイ時間（フレーム、毎秒60）
+
+Play time (s)
+= プレイ時間（秒）
+
+Play time (ticks)
+= プレイ時間（ティック）
+
+Play time counts frames (30 a second). The story flags are under Other lines (Advanced).
+= プレイ時間はフレーム単位（毎秒30）です。ストーリーフラグは「その他の行（上級）」にあります。
+
+PlayAsBadeline
+= PlayAsBadeline
+
+Played
+= プレイ済み
+
+Player
+= プレイヤー
+
+Player 1 is Mugman
+= プレイヤー1はマグマン
+
+Player inventory
+= プレイヤーのインベントリ
+
+Player rank
+= プレイヤーランク
+
+PlayerInventorySaveData.json
+= PlayerInventorySaveData.json
+
+PlayerStateSaveData.json. Health, stamina, hydration and rest are 0 to their maximum; strength level is shown with its progress.
+= PlayerStateSaveData.json。体力、スタミナ、水分、休息は0から最大値まで。筋力レベルは進行度とともに表示されます。
+
+Players (resources)
+= プレイヤー（リソース）
+
+Playthrough (0 = first)
+= 周回（0 = 1周目）
+
+Playthroughs completed
+= クリア済み周回数
+
+Points
+= ポイント
+
+Points (P)
+= ポイント（P）
+
+Points put into each skill (the sheet adds the starting value from S.P.E.C.I.A.L. on top; tagged skills ★ count them twice).
+= 各スキルに振ったポイント（シートでS.P.E.C.I.A.L.の初期値が加算され、タグスキル★は2倍で計算されます）。
+
+Points spent at level-up plus books, bobbleheads and perks. The game adds them to each skill's base (from S.P.E.C.I.A.L., +15 when tagged) and stops counting at 100.
+= レベルアップ時に振ったポイントに、本、ボブルヘッド、特典の分を加えたものです。ゲームは各スキルの基本値（S.P.E.C.I.A.L.由来、タグ付きは+15）に加算し、100で打ち止めになります。
+
+Points, health and mana
+= ポイント、体力、マナ
+
+Poker hands
+= ポーカーのハンド
+
+Political power
+= 政治力
+
+Pool
+= プール
+
+Pool (Hard)
+= プール（ハード）
+
+Pool Cleaner
+= プールクリーナー
+
+Poop destroyed
+= 破壊したフン
+
+Portal unlocked
+= ポータル解放済み
+
+Position
+= 位置
+
+Possessions level
+= 所有物レベル
+
+Potion slots
+= ポーションスロット
+
+Pounds
+= ポンド
+
+Power
+= パワー
+
+Power Bean
+= Power Bean
+
+Power Core
+= Power Core
+
+Power bombs
+= パワーボム
+
+Power bombs (max)
+= パワーボム（最大）
+
+Power of Mist
+= ミストの力
+
+Power of Wolf
+= ウルフの力
+
+Power ranks run 0–4 in Mass Effect 2 and 0–6 in Mass Effect 3 and up to 12 in Mass Effect 1; an evolved power shows up as its own entry.
+= パワーのランクはMass Effect 2では0～4、Mass Effect 3では0～6、Mass Effect 1では最大12です。進化したパワーは別の項目として表示されます。
+
+Power-ups
+= パワーアップ
+
+Powers
+= パワー
+
+Praxis kits
+= プラクシスキット
+
+Prayer (heal) level
+= 祈りレベル（回復）
+
+Prayer level
+= 祈りレベル
+
+Prayers left
+= 残りの祈り
+
+Predule of Light
+= 光のプレリュード
+
+Preferred Ascension
+= 優先アセンション
+
+Preferred survivor
+= 優先サバイバー
+
+Presents to Boggy's kids
+= ボギーの子供たちへのプレゼント
+
+Preset
+= プリセット
+
+Primal souls
+= プライマルソウル
+
+Primordial affinity
+= 原初の親和性
+
+Prize tickets
+= 景品チケット
+
+Processed (online)
+= 処理済み（オンライン）
+
+Production stored
+= 貯蔵された生産物
+
+Profile.dat next to CaveStory+.exe: up to three save slots. Equipment, items and the stage are shown for reference.
+= CaveStory+.exeと同じ場所にあるProfile.dat：セーブスロットは最大3つ。装備、アイテム、ステージは参考表示です。
+
+Profile.dat of the freeware release: one save.
+= フリーウェア版のProfile.dat：セーブは1つ。
+
+Profit Factor
+= 利益係数
+
+Profit quota
+= 利益ノルマ
+
+Progress made
+= 達成した進行度
+
+Projects
+= プロジェクト
+
+Prologue finished
+= プロローグ完了
+
+Protagonist
+= 主人公
+
+Protection
+= 防御
+
+Provisions
+= 物資
+
+Psi skill
+= サイキックスキル
+
+Psi strength
+= サイキック強度
+
+Psyche
+= 精神
+
+Pump Charge
+= Pump Charge
+
+Purple
+= 紫
+
+Purple key (94)
+= 紫の鍵 (94)
+
+Purse
+= 財布
+
+Pursuit bounty
+= 追跡賞金
+
+Puzzle mode unlocked (1 = yes)
+= パズルモード解放済み (1 = はい)
+
+Quake medallion
+= Quake medallion
+
+Quality
+= 品質
+
+Quality: 0 normal, 1 silver, 2 gold, 4 iridium. Tool level: 0 basic, 1 copper, 2 steel, 3 gold, 4 iridium. Stacks go up to 999 for most items.
+= 品質: 0 通常、1 シルバー、2 ゴールド、4 イリジウム。ツールレベル: 0 基本、1 銅、2 鋼、3 ゴールド、4 イリジウム。スタックはほとんどのアイテムで最大999です。
+
+Quantities of items you already have; new item types can't be added here.
+= すでに所持しているアイテムの数量です。新しい種類のアイテムはここでは追加できません。
+
+Quantity / charges
+= 数量 / チャージ
+
+Quests
+= クエスト
+
+Quick Flame
+= Quick Flame
+
+Quick actions
+= クイックアクション
+
+Quickness
+= 素早さ
+
+Quirks
+= クセ
+
+Quiver
+= 矢筒
+
+Quota fulfilled
+= ノルマ達成
+
+Quotas passed
+= 達成したノルマ
+
+Quote
+= セリフ
+
+RNG
+= 乱数
+
+RP
+= RP
+
+RadAway
+= RadAway
+
+Radiation
+= 放射線
+
+Rage
+= 怒り
+
+Raise every scrap item to 200
+= すべてのスクラップアイテムを200にする
+
+Raise everyone to 8 hearts
+= 全員を8ハートにする
+
+Raise: HP
+= 上昇: HP
+
+Raise: Heal
+= 上昇: 回復
+
+Raise: M.Atk
+= 上昇: 魔法攻撃
+
+Raise: M.Def
+= 上昇: 魔法防御
+
+Raise: MP
+= 上昇: MP
+
+Raise: P.Atk
+= 上昇: 物理攻撃
+
+Raise: P.Def
+= 上昇: 物理防御
+
+Raise: Speed
+= 上昇: 速度
+
+Raises Bismor, Magnite, Croppa, Umanite, Jadiz, Enor Pearl, Phazyonite and the four brewing ingredients you already have. Credits, Data Cells, Error Cubes and Blank Cores are left alone.
+= すでに所持しているBismor、Magnite、Croppa、Umanite、Jadiz、Enor Pearl、Phazyonite、および4種の醸造素材を増やします。クレジット、Data Cell、Error Cube、Blank Coreは変更されません。
+
+Raises every crafting and upgrade material you already have to 999, the game's stack limit. Food, seafood, ammunition and the valuables are left alone.
+= すでに所持しているすべての製作・強化素材を、ゲームのスタック上限である999にします。食べ物、海産物、弾薬、貴重品は変更されません。
+
+Raises every fish and farm ingredient you already have, the stock the sushi bar cooks from. Gold, Bei and gear are left alone.
+= すでに所持しているすべての魚と農場の食材、つまり寿司バーが調理に使う在庫を増やします。ゴールド、Bei、装備は変更されません。
+
+Raises every weapon element you already own to 999, the stack limit in the official manual (Ultimate allows 9,999; 999 is safe for both). Elements you don't own are left alone.
+= すでに所持しているすべての武器エレメントを、公式マニュアルのスタック上限である999にします(Ultimateでは9,999まで可能ですが、999なら両方で安全です)。所持していないエレメントは変更されません。
+
+Raises logs, sticks, rocks, bones, cloth, circuit boards, wire, duct tape, rope, feathers, leaves, small rocks, tech mesh, Solafite ore and printer resin you already carry to the game's own carrying limit for each. Weapons, ammo, food, blueprints and story items are left alone.
+= すでに所持している丸太、棒、岩、骨、布、回路基板、ワイヤー、ダクトテープ、ロープ、羽根、葉、小石、テックメッシュ、Solafite鉱石、プリンター樹脂を、それぞれゲームの所持上限まで増やします。武器、弾薬、食べ物、設計図、ストーリーアイテムは変更されません。
+
+Raises lumber, stone, bones, grass, wooden planks, stone blocks, gold nuggets, gold bars, crystal shards, spider silk and shells you already have. Coins, food, seeds, gifts, necklaces, boss items and key items are left alone.
+= すでに所持している木材、石、骨、草、木の板、石ブロック、金塊、金の延べ棒、クリスタルの欠片、蜘蛛の糸、貝殻を増やします。コイン、食べ物、種、贈り物、ネックレス、ボスアイテム、キーアイテムは変更されません。
+
+Raises metal parts, synthetic material, biomaterial, superconductors, chemicals, energy cells and microelectronics you already hold to 999 (an estimate: no public source states the stack limit, and saves with 437 are known). Neural modules are left alone.
+= すでに所持している金属部品、合成素材、生体素材、超伝導体、化学物質、エネルギーセル、マイクロエレクトロニクスを999にします(推定値です。スタック上限を示す公開情報はなく、437のセーブが確認されています)。ニューラルモジュールは変更されません。
+
+Raises rocks, sticks, skulls, rope, bones, skins, rabbit fur and circuit boards to the limit the game stores for each in the save. Items with no limit (cloth, leaves, feathers, teeth, sap, tape), tools, weapons, food and story items are left alone.
+= 岩、棒、頭蓋骨、ロープ、骨、毛皮、ウサギの毛皮、回路基板を、ゲームがセーブに保存するそれぞれの上限まで増やします。上限のないアイテム(布、葉、羽根、歯、樹液、テープ)、道具、武器、食べ物、ストーリーアイテムは変更されません。
+
+Raises scrap and weapon parts to 999 (an estimate: no public source states a cap). Medpacks, artifacts, notes and gear are left alone.
+= スクラップと武器パーツを999にします(推定値です。上限を示す公開情報はありません)。メドパック、アーティファクト、メモ、装備は変更されません。
+
+Raises the Moonstones for normal and special weapons and Legion Calibers you already have. Quest items, Quartz and consumables are left alone.
+= すでに所持している通常武器・特殊武器用のムーンストーンとレギオンキャリバーを増やします。クエストアイテム、クォーツ、消耗品は変更されません。
+
+Raises the Tarforge smithing materials (Ventrium, Laterite, Dorsalite, Thoracium and Thoracium Prime) you already have. Keys, artifacts, tools and upgrade items are left alone.
+= すでに所持しているTarforgeの鍛冶素材(Ventrium、Laterite、Dorsalite、Thoracium、Thoracium Prime)を増やします。鍵、アーティファクト、道具、強化アイテムは変更されません。
+
+Raises the consumable stacks you already carry to 99. Key items are left alone.
+= すでに所持している消耗品のスタックを99にします。キーアイテムは変更されません。
+
+Raises the count of each item you already hold to 99.
+= すでに所持している各アイテムの数を99にします。
+
+Raises the ores, crystals, scrap metal and basic crafting resources you already have to 99,999 (the game states no cap, so this is an estimate). Catalysts, components, rift and faction resources and story items are left alone.
+= すでに所持している鉱石、クリスタル、金属スクラップ、基本的な製作リソースを99,999にします(ゲームに上限の記載はないため、推定値です)。触媒、コンポーネント、裂け目・派閥リソース、ストーリーアイテムは変更されません。
+
+Raises the plain building and crafting materials in the bag (wood, stone, clay, leather, straw, salt, fur, wool, daub, feathers, thread) to 999, an estimate: the game limits what fits by weight and no public source gives a stack cap. Money, tools, food and clothing are left alone.
+= バッグ内の基本的な建築・製作素材(木材、石、粘土、革、藁、塩、毛皮、羊毛、ダブ、羽根、糸)を999にします。推定値です。ゲームは重量で入る量を制限しており、スタック上限を示す公開情報はありません。お金、道具、食べ物、衣類は変更されません。
+
+Raises the six nano-element and polymer crafting materials you already have to 9,999. The game's stack figure for them is 1,000 per slot but real saves hold more, so the cap is an estimate. Gold, cores, bait, grenades, potions, gear and key items are left alone.
+= すでに所持している6種のナノエレメント・ポリマー製作素材を9,999にします。ゲームのスタック数は1スロットあたり1,000ですが、実際のセーブにはそれ以上の数があるため、上限は推定値です。ゴールド、コア、エサ、グレネード、ポーション、装備、キーアイテムは変更されません。
+
+Range, damage and size upgrades
+= 射程・ダメージ・サイズの強化
+
+Ranger
+= レンジャー
+
+Rangers
+= レンジャー
+
+Rank
+= ランク
+
+Rank 0 is Squaddie… 7 is Colonel. Stats are the soldier's own, before armour and items.
+= ランク0はSquaddie、7はColonel。ステータスは防具やアイテム適用前の兵士自身の値です。
+
+Rank goes from 0 (Intern) up; the game works it out again from experience after a round. Credits, the quota and the ship are in LCSaveFile1 to LCSaveFile3. Checked on public saves, not yet tried in the game.
+= ランクは0(Intern)から始まり、ラウンド後にゲームが経験値から再計算します。クレジット、ノルマ、船はLCSaveFile1〜LCSaveFile3にあります。公開セーブで確認済みですが、ゲーム内ではまだ試していません。
+
+Rank is the staff member's stat rank (S++ is the top); every other stat follows from rank and stat distribution. The rest of each member's fields are in the Tree.
+= ランクはスタッフのステータスランクです(S++が最高)。他のステータスはすべてランクとステータス配分から決まります。各メンバーのその他の項目はツリーにあります。
+
+Rank.json
+= Rank.json
+
+Ranks bought with skill points (ability bonuses and items add to them in the game).
+= スキルポイントで購入したランクです(ゲーム内ではアビリティボーナスやアイテムが加算されます)。
+
+Ranks put into each skill (attribute bonuses and items add to them in the game).
+= 各スキルに振ったランクです(ゲーム内では属性ボーナスやアイテムが加算されます)。
+
+Ranks put into each skill. Names are the game's internal records (class folder: file name).
+= 各スキルに振ったランクです。名前はゲームの内部レコードです(クラスフォルダ: ファイル名)。
+
+Rapid Flame
+= Rapid Flame
+
+Rare shards
+= レアシャード
+
+Rat-a-tat Rap
+= Rat-a-tat Rap
+
+Raufen
+= Raufen
+
+Raw Whalebone
+= Raw Whalebone
+
+Reached town
+= 町に到達
+
+Reaction Speed
+= 反応速度
+
+Reactions
+= リアクション
+
+Read from saves made before the Kingdoms update; Kingdoms keeps its own files, which aren't covered.
+= Kingdomsアップデート以前に作成されたセーブから読み込みます。Kingdomsは独自のファイルを使用しており、対象外です。
+
+Read-only
+= 読み取り専用
+
+Reales
+= レアル
+
+Realities
+= 現実
+
+Reality
+= 現実
+
+Reality machines
+= リアリティマシン
+
+Record
+= 記録
+
+Recruits this week
+= 今週の新兵
+
+Red
+= 赤
+
+Red Feathers
+= Red Feathers
+
+Red Feathers max
+= Red Feathers 最大
+
+Red key (90)
+= 赤の鍵 (90)
+
+Red shards
+= 赤いシャード
+
+Red souls
+= 赤い魂
+
+Refills
+= 補充
+
+Reflect
+= リフレク
+
+Refreshing Herb
+= Refreshing Herb
+
+Regroup
+= 再編成
+
+Rekindle
+= Rekindle
+
+Relic slots
+= レリックスロット
+
+Relics
+= レリック
+
+Relics are the run's money. Torch goes up to 100.
+= レリックはこの周回の通貨です。たいまつは最大100です。
+
+Rematch
+= 再戦
+
+Remove
+= 削除
+
+Remove from the party
+= パーティから外す
+
+Renegade
+= レネゲード
+
+Renown level
+= 名声レベル
+
+Repair every vehicle
+= すべての乗り物を修理
+
+Repairs
+= 修理
+
+Replicanti
+= Replicanti
+
+Replicanti galaxies
+= Replicanti銀河
+
+Reputation
+= 評判
+
+Reputation (x10)
+= 評判 (x10)
+
+Reputation points
+= 評判ポイント
+
+Reputation runs from -25000 (nemesis) to 25000 (revered, the most). "Faction N" are factions the editor has no name for.
+= 評判は-25000(宿敵)から25000(崇拝、最大)までです。「Faction N」はエディターが名前を把握していない勢力です。
+
+Requiem of Spirit
+= Requiem of Spirit
+
+Research
+= 研究
+
+Research data, minerals, salvage and the other stacks in Ryder's inventory, named from the save itself.
+= ライダーのインベントリにある研究データ、鉱物、回収品などのスタック。名前はセーブ自体から取得します。
+
+Research points
+= 研究ポイント
+
+Research totals are progress toward the current projects. The empire is the one you play (player 1).
+= 研究の合計は現在のプロジェクトの進捗です。帝国はプレイ中のもの(プレイヤー1)です。
+
+Reserve energy
+= 予備エネルギー
+
+Reserve tanks (max reserve)
+= 予備タンク(最大予備量)
+
+Residuum
+= Residuum
+
+Resistance
+= 耐性
+
+Resolve
+= 決意
+
+Resource
+= リソース
+
+Respec allowed
+= リスペック可
+
+Respecs
+= リスペック回数
+
+Respect in this level
+= このレベルのリスペクト
+
+Respect level
+= リスペクトレベル
+
+Respect level (from 0)
+= リスペクトレベル(0から)
+
+Rest
+= 休憩
+
+Restoration
+= 回復
+
+Retired levels
+= 引退したレベル
+
+Reveal this world's map
+= このワールドのマップを開示
+
+Reverse Entrance
+= Reverse Entrance
+
+Reverse Keep
+= Reverse Keep
+
+Reverse Outer Wall
+= Reverse Outer Wall
+
+Revive
+= 蘇生
+
+Revives used
+= 蘇生使用回数
+
+Revolver and shotgun
+= リボルバーとショットガン
+
+Rhetoric
+= 弁論術
+
+Rib of Vlad
+= Rib of Vlad
+
+Riding
+= 乗馬
+
+Ring of Vlad
+= Ring of Vlad
+
+Rivals beaten
+= 倒したライバル
+
+Rocket
+= ロケット
+
+Rocket damage
+= ロケットのダメージ
+
+Rockets
+= ロケット
+
+Rockets with a habitat module also have their interior as a world above, which can be painted on the Map.
+= 居住モジュール付きのロケットは、内部も上のワールドとして存在し、マップで塗ることができます。
+
+Rocks broken
+= 壊した岩
+
+Roof
+= 屋根
+
+Roof (Hard)
+= 屋根(ハード)
+
+Roof Cleaner
+= Roof Cleaner
+
+Rounds carried for each ammo type. Amounts the game left at their default aren't in the save and can't be changed.
+= 弾薬の種類ごとの所持数。ゲームが初期値のままにしている数量はセーブに含まれず、変更できません。
+
+Rounds fired
+= 発射数
+
+Rounds loaded in each weapon. An empty magazine isn't stored by the game, so it can't be filled here: fire it empty and reload, or give spare ammo above.
+= 各武器に装填された弾数。空のマガジンはゲームが保存しないため、ここでは補充できません。撃ち切ってからリロードするか、上で予備弾薬を追加してください。
+
+Route and counters
+= ルートとカウンター
+
+Rubies
+= ルビー
+
+Ruby
+= ルビー
+
+Ruin
+= 廃墟
+
+Ruler
+= 統治者
+
+Run options
+= ラン設定
+
+Run settings
+= ラン設定
+
+Run time (seconds)
+= ランタイム(秒)
+
+Runes
+= ルーン
+
+Runes and ammo
+= ルーンと弾薬
+
+Runes to next level
+= 次のレベルまでのルーン
+
+Running
+= 走る
+
+Running allowed
+= 走行可
+
+Rupees in the fairy pond
+= 妖精の泉のルピー
+
+Ryder's level
+= ライダーのレベル
+
+S
+= S
+
+S.P.E.C.I.A.L.
+= S.P.E.C.I.A.L.
+
+S.R.S. Cannon
+= S.R.S. Cannon
+
+SAVE1.GAM to SAVE10.GAM from the game's folder (the original game; 208000-byte saves). Each empire's treasury, research points and ship range, and each colony's stored production and ground troops.
+= ゲームフォルダ内のSAVE1.GAMからSAVE10.GAM(オリジナル版、208000バイトのセーブ)。各帝国の国庫、研究ポイント、艦船の航続距離、各植民地の蓄積生産量と地上部隊。
+
+SAVEGAMEN.sav in the Steam remote folder. Each of the five playable characters keeps their own money, experience and skill orbs. The save has no checksum; close the game first.
+= SteamのremoteフォルダにあるSAVEGAMEN.sav。5人のプレイアブルキャラクターそれぞれが、自分のお金、経験値、スキルオーブを持っています。セーブにチェックサムはありません。先にゲームを終了してください。
+
+SDU level
+= SDUレベル
+
+SP
+= SP
+
+STR
+= STR
+
+STR +
+= STR +
+
+Sacrifices
+= 生贄
+
+Saebel
+= Saebel
+
+Saejima
+= Saejima
+
+Saejima's money
+= Saejimaの所持金
+
+Sakuya
+= Sakuya
+
+Saloon
+= サルーン
+
+Salt
+= 塩
+
+Salts
+= 塩
+
+Samus A
+= Samus A
+
+Samus A: equipped
+= Samus A: 装備中
+
+Samus A: obtained
+= Samus A: 入手済み
+
+Samus B
+= Samus B
+
+Samus B: equipped
+= Samus B: 装備中
+
+Samus B: obtained
+= Samus B: 入手済み
+
+Samus C
+= Samus C
+
+Samus C: equipped
+= Samus C: 装備中
+
+Samus C: obtained
+= Samus C: 入手済み
+
+Sanctuary rests
+= 聖域での休憩回数
+
+Sandbox
+= サンドボックス
+
+Sandcastle password
+= 砂の城のパスワード
+
+Sanity
+= 正気度
+
+Sapphire
+= サファイア
+
+Saria's Song
+= Saria's Song
+
+Save count
+= セーブ回数
+
+Save slots
+= セーブスロット
+
+SaveData-<n>_Character_<slot>.sav. Ergo held is what you can spend; the level is kept with the stats, so raise both together.
+= SaveData-<n>_Character_<slot>.sav。「Ergo held」は使用可能な量です。レベルはステータスと一緒に保存されるため、両方を同時に上げてください。
+
+SaveData.bin: eight Mania Mode and three Encore Mode slots. Emeralds are a bit field (127 = all seven).
+= SaveData.bin:マニアモード8スロットとアンコールモード3スロット。エメラルドはビットフィールドです(127=7個すべて)。
+
+SaveGame00.sav. The zlib-packed actor records are opened and packed again on save.
+= SaveGame00.sav。zlibで圧縮されたアクターのレコードは、展開され、保存時に再び圧縮されます。
+
+SaveGameData0.sav (the SAVE header and zlib packing are handled). pg, difficulty, each party member's level, experience, HP, MP and special ability points, and the item counts.
+= SaveGameData0.sav(SAVEヘッダーとzlib圧縮に対応)。pg、難易度、各パーティメンバーのレベル、経験値、HP、MP、特殊能力ポイント、アイテム所持数。
+
+SaveN.rxdata. Items, weapons and armour are listed by their number in the game's database (Data/Items.rxdata), with how many you carry. HP and SP above the maximum are cut back by the game. The save keeps the party and every actor as separate copies, so change a party member in both tables.
+= SaveN.rxdata。アイテム、武器、防具は、ゲームのデータベース(Data/Items.rxdata)内の番号と所持数で一覧表示されます。最大値を超えるHPとSPはゲーム側で切り詰められます。セーブにはパーティと各アクターが別々のコピーとして保存されているため、パーティメンバーは両方の表で変更してください。
+
+Save_N_v10.as in the game's save folder (the game's own packing is opened and closed for you; the character file player.dat is shown). The party and the money are here; other entries are the levels. Rubles are the Money item in the player's inventory.
+= ゲームのセーブフォルダ内のSave_N_v10.as(ゲーム独自の圧縮は自動で展開・再圧縮され、キャラクターファイルplayer.datが表示されます)。パーティとお金はここにあり、その他の項目はレベルです。ルーブルはプレイヤーのインベントリにあるMoneyアイテムです。
+
+Saved
+= 保存済み
+
+Saved health
+= 保存された体力
+
+Saving also updates player.bic in the same folder, the copy the game shows on the load screen.
+= 保存時には、同じフォルダ内のplayer.bic(ロード画面に表示されるコピー)も更新されます。
+
+Savoir Faire
+= Savoir Faire
+
+Sawblade launchers
+= ソーブレードランチャー
+
+Sawed-On
+= Sawed-On
+
+Scale
+= スケール
+
+Schleichen
+= Schleichen
+
+Schloesser
+= Schloesser
+
+Schmieden
+= Schmieden
+
+Scholars
+= 学者
+
+Schwerter
+= Schwerter
+
+Science
+= 科学
+
+Science level
+= 科学レベル
+
+Scientists in the first base
+= 第1基地の科学者
+
+Scientists in the second base
+= 第2基地の科学者
+
+Score
+= スコア
+
+Scrap
+= スクラップ
+
+Scrap on the ship (sell value)
+= 船上のスクラップ(売却額)
+
+Screw (83)
+= Screw (83)
+
+Screw attack
+= Screw Attack
+
+Screwdriver
+= ドライバー
+
+Seafood
+= シーフード
+
+Seal: Default
+= シール: デフォルト
+
+Seal: Infinite
+= シール: 無限
+
+Seal: Slayer
+= シール: スレイヤー
+
+Seal: Stone
+= シール: 石
+
+Search every list:
+= すべてのリストを検索:
+
+Season
+= 季節
+
+Second
+= 2番目
+
+Second sled race against Boggy
+= ボギーとの2回目のそりレース
+
+Seconds left
+= 残り秒数
+
+Secret Agent
+= Secret Agent
+
+Secret Box
+= Secret Box
+
+Secret World
+= Secret World
+
+Secret rooms
+= 隠し部屋
+
+Secret slide star
+= 隠しスライダーの星
+
+Secret slide star (under 21 s)
+= 隠しスライダーの星(21秒未満)
+
+Secrets collected
+= 集めた秘密
+
+Secrets found
+= 見つけた秘密
+
+Secrets in the game
+= ゲーム内の秘密
+
+Security
+= セキュリティ
+
+Seed slot upgrades
+= 種スロットの強化
+
+Selbstbeherrschung
+= Selbstbeherrschung
+
+Selected character
+= 選択中のキャラクター
+
+Selling price
+= 売値
+
+Sense
+= 感知
+
+Sepith
+= セピス
+
+Seqence number
+= Seqence number
+
+Serenade of Water
+= Serenade of Water
+
+Servers with character checks (ELC/ILR) may refuse a character edited past the rules.
+= キャラクター検証(ELC/ILR)のあるサーバーは、ルールを超えて編集されたキャラクターを拒否する場合があります。
+
+Sessions played
+= プレイしたセッション数
+
+Set credits everywhere
+= すべてのクレジットを設定
+
+Set each ammo type to what its SDU level holds (without relic or class mod bonuses).
+= 各弾薬をSDUレベルの値に設定します(レリックやクラスMODのボーナスは含みません)。
+
+Set every stack to 99
+= すべてのスタックを99に設定
+
+Set your treasury to 9,999,999
+= 国庫を9,999,999に設定
+
+Sets Raw Whalebone to 999. The game shows no limit and no public source states one, so 999 is a safe three-digit amount.
+= Raw Whaleboneを999に設定します。ゲームは上限を表示せず、公的な情報源にも記載がないため、3桁の999が安全な数量です。
+
+Sets all eight sepith to 9,999, the most the game holds.
+= 8種類すべてのセピスを、ゲームの上限である9,999に設定します。
+
+Sets crafting parts to 999, the stack size players report (no official figure, so this is an estimate).
+= クラフト部品を999に設定します。プレイヤーが報告しているスタック数で、公式の数値はないため推定値です。
+
+Sets each herb, feather and animal fat stack the satchel holds to 99, the most an item stacks to once the Legend of the East satchel is crafted. Rockstar publishes no smaller per-item limits; with smaller satchels the game may cut stacks down when the save loads.
+= サドルバッグにある薬草、羽根、動物の脂のスタックをすべて99に設定します。Legend of the Eastのサドルバッグをクラフトした後の、アイテムの最大スタック数です。Rockstarはアイテムごとのより小さい上限を公表していません。小さいバッグでは、セーブの読み込み時にゲームがスタックを減らすことがあります。
+
+Sets each piece of scrap to a sell value of 200 if it is worth less.
+= 各スクラップの売値が200未満なら200にします。
+
+Sets every IV of the Pokémon in the party to 31; their stats are worked out again
+= 手持ちポケモンの個体値をすべて31にします。能力値は再計算されます
+
+Sets every area's fiends to 10 captured. The arena's own creations are left alone.
+= 全エリアのモンスターを10体捕獲済みにします。闘技場の創造物は変更しません。
+
+Sets every synthesis material to 99, the stack the game's menus show as full.
+= すべての合成素材を99にします。ゲームのメニューで最大数として表示される数です。
+
+Sets leather, metal, chemicals and silk to 9,999. No public source states a limit, so this is an estimate. Unique materials such as black pearls are left alone.
+= 革、金属、化学薬品、絹を9,999にします。上限を示す公開情報はないため推定値です。黒真珠などの固有素材は変更しません。
+
+Sets lumber and material stone to 50,000, the most the game keeps. Fertilizer is left alone.
+= 木材と素材用の石を、ゲームの最大値である50,000にします。肥料は変更しません。
+
+Sets money to 999,999, the most the game holds
+= 所持金をゲームの最大値である999,999にします
+
+Sets the six crafting materials to 99,999. No public source states a limit (real saves hold over 60,000), so this is an estimate.
+= 6種類のクラフト素材を99,999にします。上限を示す公開情報はなく（実際のセーブでは60,000超の例あり）、推定値です。
+
+Sets wood, metal and cloth to 2,000, what the Jackdaw's fully upgraded hold takes. Rum and sugar are trade goods and are left alone.
+= 木材、金属、布を2,000にします。Jackdawの貨物庫を最大強化した際の容量です。ラム酒と砂糖は交易品のため変更しません。
+
+Sets wood, metal, cloth and stone to 2,500, what the Morrigan's fully upgraded hold takes. Tobacco is a trade good and is left alone.
+= 木材、金属、布、石を2,500にします。Morriganの貨物庫を最大強化した際の容量です。タバコは交易品のため変更しません。
+
+Settings
+= 設定
+
+Sewer
+= 下水道
+
+Shadow Medallion
+= 闇のメダル
+
+Shared
+= 共有
+
+Shared stock
+= 共有在庫
+
+Sharpshooter
+= 狙撃手
+
+Shell game plays
+= シェルゲームのプレイ回数
+
+Shell: Eredrim
+= シェル：Eredrim
+
+Shell: Genessa
+= シェル：Genessa
+
+Shell: Gragu
+= シェル：Gragu
+
+Shell: Harros
+= シェル：Harros
+
+Shell: Knight Lady
+= シェル：Knight Lady
+
+Shell: Necrophage
+= シェル：Necrophage
+
+Shell: Smert
+= シェル：Smert
+
+Shell: Solomon
+= シェル：Solomon
+
+Shell: Thorn
+= シェル：Thorn
+
+Shell: Tiel
+= シェル：Tiel
+
+Shells
+= シェル
+
+Shield
+= シールド
+
+Shield spacer
+= シールドスペーサー
+
+Shielding
+= シールド
+
+Shinada
+= Shinada
+
+Shinada's money
+= Shinadaの所持金
+
+Shiny
+= 色違い
+
+Ship
+= 船
+
+Ship and moon
+= 船と月
+
+Ship items owned
+= 所持している船のアイテム
+
+Ship level
+= 船のレベル
+
+Ship upgrades put in storage
+= 保管中の船の強化
+
+Shivers
+= Shivers
+
+Shock
+= ショック
+
+Shock Bomb
+= ショックボム
+
+Shock Jump Spring
+= ショックジャンプスプリング
+
+Shock Spring Pads path
+= ショックスプリングパッドの経路
+
+Shogi points
+= 将棋ポイント
+
+Shopkeepers destroyed
+= 破壊した店主
+
+Short Blade
+= 短剣
+
+Short blade
+= 短剣
+
+Shotgun
+= ショットガン
+
+Shotgun damage
+= ショットガンのダメージ
+
+Shotgun range
+= ショットガンの射程
+
+Shovel / flute
+= シャベル / 笛
+
+Show
+= 表示
+
+Show it on the map
+= マップに表示する
+
+Show:
+= 表示：
+
+Shown on the map
+= マップに表示中
+
+Shrine level
+= 祠のレベル
+
+Shuffle all
+= すべてシャッフル
+
+Signed save
+= 署名済みセーブ
+
+Signed — will re-sign
+= 署名済み — 再署名されます
+
+Signs
+= 看板
+
+Silk
+= 絹
+
+Silver (all stacks)
+= 銀（全スタック）
+
+Silver Eagles
+= Silver Eagles
+
+Silver PP7
+= Silver PP7
+
+Silver stacks
+= 銀スタック
+
+Sinnenschaerfe
+= Sinnenschaerfe
+
+Skill
+= スキル
+
+Skill Orbs (lower only)
+= スキルオーブ（減らすのみ）
+
+Skill levels
+= スキルレベル
+
+Skill levels go from 0 to 100.
+= スキルレベルは0～100です。
+
+Skill names are in the game's data files; the numbers are their ids.
+= スキル名はゲームのデータファイルにあり、数字はそのIDです。
+
+Skill of Wolf
+= Skill of Wolf
+
+Skill orbs
+= スキルオーブ
+
+Skill points (total)
+= スキルポイント（合計）
+
+Skill points to spend
+= 使用可能なスキルポイント
+
+Skill test modifier (%)
+= スキル判定修正値（%）
+
+Skill trees
+= スキルツリー
+
+Skills and personality go from 0 to 1000; every 100 is one point on the game's bars. Sims are listed by their id (their names are in the character files). Townies and the default families are under Other Sims on the Values tab with Advanced on. Not yet tried in the game.
+= スキルと性格は0～1000で、100ごとにゲームのバーの1目盛りになります。SimはIDで表示されます（名前はキャラクターファイルにあります）。タウニーと初期ファミリーは、「値」タブで「詳細」をオンにした際の「その他のSim」にあります。ゲームでは未検証です。
+
+Skills go from 0 to 6; ADR is the six hazardous-goods classes as bits (63 = all). Experience sets the driver level; the game works it out on load.
+= スキルは0～6です。ADRは6種類の危険物クラスをビットで表します（63＝すべて）。経験値でドライバーレベルが決まり、ゲームがロード時に計算します。
+
+Skills learned
+= 習得済みスキル
+
+Skills learned: {0} of 21
+= 習得済みスキル：{0}/21
+
+Skills run 0 to 8 and attributes 0 to 10. A skill can only be trained up to its own limit, so raising a level here past what a crew member could reach is kept as typed
+= スキルは0～8、属性は0～10です。スキルは各自の上限までしか訓練できませんが、ここで乗組員が到達できる値を超えて上げた場合も、入力どおりに保持されます
+
+Skills run 0–100.
+= スキルは0–100です。
+
+Skills, combat arts and prosthetic tools are listed here; learn them in the game.
+= スキル、戦技、義手忍具をここに一覧表示します。習得はゲーム内で行ってください。
+
+Skills: points added
+= スキル：追加ポイント
+
+Slab revolvers
+= Slab revolvers
+
+Sleaze
+= Sleaze
+
+Slide (80)
+= スライディング (80)
+
+Slime keys
+= スライムの鍵
+
+Slot 1
+= スロット1
+
+Slot 1: Bubblegloop Swamp jiggies
+= スロット1：Bubblegloop SwampのJiggy
+
+Slot 1: Clanker's Cavern jiggies
+= スロット1：Clanker's CavernのJiggy
+
+Slot 1: Click Clock Wood jiggies
+= スロット1：Click Clock WoodのJiggy
+
+Slot 1: Freezeezy Peak jiggies
+= スロット1：Freezeezy PeakのJiggy
+
+Slot 1: Gobi's Valley jiggies
+= スロット1：Gobi's ValleyのJiggy
+
+Slot 1: Gruntilda's Lair jiggies
+= スロット1：Gruntilda's LairのJiggy
+
+Slot 1: Mad Monster Mansion jiggies
+= スロット1：Mad Monster MansionのJiggy
+
+Slot 1: Mumbo's Mountain jiggies
+= スロット1：Mumbo's MountainのJiggy
+
+Slot 1: Rusty Bucket Bay jiggies
+= スロット1：Rusty Bucket BayのJiggy
+
+Slot 1: Treasure Trove Cove jiggies
+= スロット1：Treasure Trove CoveのJiggy
+
+Slot 1: advanced moves
+= スロット1：上級技
+
+Slot 1: basic moves
+= スロット1：基本技
+
+Slot 1: cheats
+= スロット1：チート
+
+Slot 1: collectibles
+= スロット1：収集アイテム
+
+Slot 1: items
+= スロット1：アイテム
+
+Slot 1: mission times (seconds; 0 = not done)
+= スロット1：ミッションタイム（秒、0＝未クリア）
+
+Slot 1: options
+= スロット1：オプション
+
+Slot 1: weapons
+= スロット1：武器
+
+Slot 2
+= スロット2
+
+Slot 2: Bubblegloop Swamp jiggies
+= スロット2：Bubblegloop SwampのJiggy
+
+Slot 2: Clanker's Cavern jiggies
+= スロット2：Clanker's CavernのJiggy
+
+Slot 2: Click Clock Wood jiggies
+= スロット2：Click Clock WoodのJiggy
+
+Slot 2: Freezeezy Peak jiggies
+= スロット2：Freezeezy PeakのJiggy
+
+Slot 2: Gobi's Valley jiggies
+= スロット2：Gobi's ValleyのJiggy
+
+Slot 2: Gruntilda's Lair jiggies
+= スロット2：Gruntilda's LairのJiggy
+
+Slot 2: Mad Monster Mansion jiggies
+= スロット2：Mad Monster MansionのJiggy
+
+Slot 2: Mumbo's Mountain jiggies
+= スロット2：Mumbo's MountainのJiggy
+
+Slot 2: Rusty Bucket Bay jiggies
+= スロット2：Rusty Bucket BayのJiggy
+
+Slot 2: Treasure Trove Cove jiggies
+= スロット2：Treasure Trove CoveのJiggy
+
+Slot 2: advanced moves
+= スロット2：上級技
+
+Slot 2: basic moves
+= スロット2：基本技
+
+Slot 2: cheats
+= スロット2：チート
+
+Slot 2: collectibles
+= スロット2：収集アイテム
+
+Slot 2: items
+= スロット2：アイテム
+
+Slot 2: mission times (seconds; 0 = not done)
+= スロット2：ミッションタイム（秒、0＝未クリア）
+
+Slot 2: options
+= スロット2：オプション
+
+Slot 2: weapons
+= スロット2：武器
+
+Slot 3
+= スロット3
+
+Slot 3: Bubblegloop Swamp jiggies
+= スロット3：Bubblegloop SwampのJiggy
+
+Slot 3: Clanker's Cavern jiggies
+= スロット3：Clanker's CavernのJiggy
+
+Slot 3: Click Clock Wood jiggies
+= スロット3：Click Clock WoodのJiggy
+
+Slot 3: Freezeezy Peak jiggies
+= スロット3：Freezeezy PeakのJiggy
+
+Slot 3: Gobi's Valley jiggies
+= スロット3：Gobi's ValleyのJiggy
+
+Slot 3: Gruntilda's Lair jiggies
+= スロット3：Gruntilda's LairのJiggy
+
+Slot 3: Mad Monster Mansion jiggies
+= スロット3：Mad Monster MansionのJiggy
+
+Slot 3: Mumbo's Mountain jiggies
+= スロット3：Mumbo's MountainのJiggy
+
+Slot 3: Rusty Bucket Bay jiggies
+= スロット3：Rusty Bucket BayのJiggy
+
+Slot 3: Treasure Trove Cove jiggies
+= スロット3：Treasure Trove CoveのJiggy
+
+Slot 3: advanced moves
+= スロット3：上級技
+
+Slot 3: basic moves
+= スロット3：基本技
+
+Slot 3: cheats
+= スロット3：チート
+
+Slot 3: collectibles
+= スロット3：収集アイテム
+
+Slot 3: items
+= スロット3：アイテム
+
+Slot 3: mission times (seconds; 0 = not done)
+= スロット3：ミッションタイム（秒、0＝未クリア）
+
+Slot 3: options
+= スロット3：オプション
+
+Slot 3: weapons
+= スロット3：武器
+
+Slot 4
+= スロット4
+
+Slot 4: cheats
+= スロット4：チート
+
+Slot 4: mission times (seconds; 0 = not done)
+= スロット4：ミッションタイム（秒、0＝未クリア）
+
+Slot 4: options
+= スロット4：オプション
+
+Slot 5
+= スロット5
+
+Slot 6
+= スロット6
+
+Slot 7
+= スロット7
+
+Slot 8
+= スロット8
+
+Slot points
+= スロットポイント
+
+SlotA.save (a version line, then JSON XORed with the game's own key; both are handled for you). Each Gungeoneer's statistics, including Hegemony credits. Unlocked guns, items and flags are in the Tree.
+= SlotA.save（バージョン行に続き、ゲーム固有のキーでXOR処理されたJSON。どちらも自動で処理されます）。各Gungeoneerの統計（Hegemonyクレジットを含む）。解放済みの銃、アイテム、フラグはツリーにあります。
+
+Slots destroyed
+= 破壊されたスロット
+
+Slots in use
+= 使用中のスロット
+
+Slow Animation
+= スローアニメーション
+
+Slow FS charging
+= FSチャージ低速
+
+Sluggish shield
+= 鈍いシールド
+
+Small Guns
+= 小火器
+
+Snacks (L)
+= スナック（L）
+
+Snacks (M)
+= スナック（M）
+
+Snacks (S)
+= スナック（S）
+
+Snacks, toys and key items
+= スナック、おもちゃ、重要アイテム
+
+Sneak
+= 忍び足
+
+Snorkel the dolphin rescued
+= イルカのSnorkelを救出済み
+
+Social Links
+= コミュ
+
+Social stats
+= ソーシャルステータス
+
+Soldiers
+= 兵士
+
+Soldiers (every base)
+= 兵士（全拠点）
+
+Song of Storms
+= 嵐の歌
+
+Song of Time
+= 時の歌
+
+Soot
+= すす
+
+Sora
+= ソラ
+
+Sora AP boosts
+= ソラのAPブースト
+
+Sora HP
+= ソラのHP
+
+Sora MP
+= ソラのMP
+
+Sora focus
+= ソラのフォーカス
+
+Sora, Donald and Goofy
+= ソラ、ドナルド、グーフィー
+
+Soul Link Efficiency
+= ソウルリンク効率
+
+Soul of Bat
+= Soul of Bat
+
+Soul of Wolf
+= Soul of Wolf
+
+Souls to next level
+= 次のレベルまでのソウル
+
+Sound Test
+= サウンドテスト
+
+Space
+= 宇宙
+
+Space jump
+= スペースジャンプ
+
+Space points of interest (harvestable fields, Gravitas stations, the Temporal Tear) are out on the star map, not in a world.
+= 宇宙の注目スポット（収穫可能なフィールド、Gravitasステーション、Temporal Tear）は、ワールド内ではなく星図上にあります。
+
+Spare ammo for each weapon Shepard carries.
+= Shepardが携行する各武器の予備弾薬です。
+
+Spare ammunition by type, as the HUD counts it. Names come from the weapons that use each type; "Ammo type N" is one no weapon in this map names. The game caps ammo at each type's maximum when you pick more up.
+= タイプ別の予備弾薬で、HUDの表示と同じ数え方です。名前は各タイプを使う武器に由来します。「Ammo type N」は、このマップのどの武器にも名前がないタイプです。拾った際、ゲームは弾薬を各タイプの最大値までに制限します。
+
+Spare ammunition stored in the backpack, as the wrist display counts it.
+= バックパックに入っている予備弾薬で、手首のディスプレイと同じ数え方です。
+
+Spark Flame
+= Spark Flame
+
+Spazer
+= Spazer
+
+Spear
+= 槍
+
+Special
+= スペシャル
+
+Special ability pts
+= 特殊能力pt
+
+Speech
+= 話術
+
+Speechcraft
+= 話術
+
+Speed
+= 速度
+
+Speed Bean
+= Speed Bean
+
+Speed booster
+= スピードブースター
+
+Speedrun challenge available
+= スピードランチャレンジ利用可能
+
+Speere
+= Speere
+
+Spell levels: 0 not learned, 1 the first form, 2 the upgraded one. Set Mode back to 0 to open a dead Steel Soul save as a normal one.
+= 呪文レベル：0＝未習得、1＝第一形態、2＝強化形態。死亡したSteel Soulのセーブを通常セーブとして開くには、モードを0に戻してください。
+
+Spell points
+= 呪文ポイント
+
+Spell power
+= 呪文威力
+
+Spells, mode and charm state
+= 呪文、モード、チャームの状態
+
+Spendable AP
+= 使用可能なAP
+
+Spikerock
+= Spikerock
+
+Spirit Efficiency
+= スピリット効率
+
+Spirit Emblems
+= スピリットエンブレム
+
+Spirit Flame
+= スピリットの炎
+
+Spirit Medallion
+= スピリットメダル
+
+Spirit Orb
+= スピリットオーブ
+
+Spirit board items
+= スピリットボードのアイテム
+
+Spirit hearts
+= スピリットハート
+
+Spirit levels
+= スピリットレベル
+
+Spirit upgrade materials
+= スピリット強化素材
+
+Spirits
+= スピリット
+
+Split Flame
+= Split Flame
+
+Spooky
+= 不気味
+
+Spriggan
+= Spriggan
+
+Spring / Winter: At the highest platform of the tree
+= 春 / 冬:木の一番高いプラットフォーム
+
+Spring ball
+= スプリングボール
+
+Squad
+= 分隊
+
+Squad level
+= 分隊レベル
+
+Squad members
+= 分隊メンバー
+
+Stability
+= 安定度
+
+Stability and war support run from 0 to 1 (0.5 is 50%).
+= 安定度と戦争支持は0〜1です(0.5は50%)。
+
+Stability runs from -3 to +3. The country is the one you play; the Tree tab has every other country by tag.
+= 安定度は-3〜+3です。国はプレイ中の国で、他の国はすべて「ツリー」タブにタグ別で表示されます。
+
+Stability runs −3 to 3; prestige and legitimacy up to 100. Ironman saves are edited in place and stay ironman; the game may stop awarding achievements for an edited campaign.
+= 安定度は−3〜3、威信と正統性は100までです。アイアンマンのセーブはその場で編集され、アイアンマンのままです。編集したキャンペーンでは実績が付与されなくなる場合があります。
+
+Stache
+= Stache
+
+Stache Bean
+= Stache Bean
+
+Stack
+= スタック
+
+Stack sizes of the party's backpack. Items are shown by their internal resource name; items can't be added here.
+= パーティのバックパックのスタック数です。アイテムは内部リソース名で表示され、ここでは追加できません。
+
+Staebe
+= Staebe
+
+Staff
+= スタッフ
+
+Staff have guard keys
+= スタッフが警備用キーを持つ
+
+Stage number
+= ステージ番号
+
+Stamina
+= スタミナ
+
+Stamina XP
+= スタミナ経験値
+
+Stamina core
+= スタミナコア
+
+Standing with each faction (negative is hated). The game may clamp values outside its own range.
+= 各勢力との評判(マイナスは敵視)。ゲームの範囲外の値は丸められる場合があります。
+
+Star 1
+= 星1
+
+Star 2
+= 星2
+
+Star 3
+= 星3
+
+Star 4
+= 星4
+
+Star 5
+= 星5
+
+Star 6
+= 星6
+
+Stars collected
+= 集めたスター
+
+Started with
+= 開始時
+
+Starting day offset
+= 開始日オフセット
+
+Stat
+= ステータス
+
+Stat bonuses
+= ステータスボーナス
+
+Stat points
+= ステータスポイント
+
+Stat upgrades
+= ステータス強化
+
+State
+= 状態
+
+Static faith
+= 静的な信仰
+
+Stats
+= ステータス
+
+Stats are the base values before the dressphere and accessories.
+= ステータスはドレスフィアとアクセサリー適用前の基本値です。
+
+Stats go up to 255. The game works out max HP/MP again from the base max and equipment, so raise the base max to make a higher maximum stick.
+= ステータスの上限は255です。ゲームは基本最大値と装備から最大HP/MPを再計算するため、より高い最大値を維持するには基本最大値を上げてください。
+
+Stats in the menu
+= メニューのステータス
+
+Stats of the player and the party members are in SAVEGAME.sav in the same save folder.
+= プレイヤーとパーティメンバーのステータスは、同じセーブフォルダ内のSAVEGAME.savにあります。
+
+Stats use
+= ステータスの使用
+
+Steal
+= ぬすむ
+
+Stealth
+= ステルス
+
+Stench
+= 悪臭
+
+Steps
+= 歩数
+
+Stilt Stride
+= Stilt Stride
+
+Stim capacity
+= スティム容量
+
+Stimpaks
+= スティムパック
+
+Stims
+= スティム
+
+Stims carried
+= 所持スティム
+
+Stolen from Grabba
+= Grabbaから盗んだ
+
+Stomp
+= ストンプ
+
+Stone of Agony
+= もだえ石
+
+Stop 'n' Swop
+= Stop 'n' Swop
+
+Storage
+= 保管庫
+
+Storage and playthroughs
+= 保管庫とプレイスルー
+
+Stored rank points
+= 蓄積ランクポイント
+
+Stores of the first base
+= 第1基地の備蓄
+
+Stores of the second base
+= 第2基地の備蓄
+
+Stores of the third base
+= 第3基地の備蓄
+
+Storm Mode run
+= ストームモードのラン
+
+Story
+= ストーリー
+
+Story items: holding one early doesn't play the scene that normally gives it. The Al Bhed primers aren't listed.
+= ストーリーアイテム:早く所持しても、通常入手時のシーンは再生されません。アルベド語の手引書は一覧に含まれません。
+
+Story values
+= ストーリー値
+
+Story variables
+= ストーリー変数
+
+Strategy tomes
+= 戦略書
+
+Strawberries
+= イチゴ
+
+Street
+= 通り
+
+StreetPass
+= StreetPass
+
+Streetwise
+= 裏社会に精通
+
+Strength 18/xx
+= 力 18/xx
+
+Strength, Magic, Spirit and Speed are the base values before equipment and abilities. Level 99, HP 9999 and MP 999 are the game's limits.
+= 力・魔力・精神・素早さは装備と能力適用前の基本値です。Lv99、HP 9999、MP 999がゲームの上限です。
+
+Stress
+= ストレス
+
+Stress 0–200 (100 brings an affliction or virtue). Weapon and armour ranks count from 0 (a recruit's gear) to 4 (fully upgraded). HP is the value stored for the hero now. The level follows resolve XP.
+= ストレス0〜200(100で苦悩または美徳が発現)。武器と防具のランクは0(新兵の装備)〜4(完全強化)です。HPは現在ヒーローに保存されている値です。レベルは決意XPに連動します。
+
+Stress XP
+= ストレス経験値
+
+Stress level
+= ストレスレベル
+
+Studied
+= 学習済み
+
+Studs
+= スタッド
+
+Studs in LEGO Star Wars (2005), The Complete Saga, Batman and Indiana Jones; the save's checksum is rewritten.
+= LEGO Star Wars(2005)、The Complete Saga、Batman、Indiana JonesのStuds。セーブのチェックサムは書き直されます。
+
+Studs now: {1}. The game keeps the wallet in {0} places; the buttons write all of them.
+= 現在のStuds:{1}。ゲームは財布を{0}か所に保持しており、ボタンはそのすべてに書き込みます。
+
+Stuns
+= スタン回数
+
+Stunt jumps found
+= 発見したスタントジャンプ
+
+Style experience
+= スタイル経験値
+
+Successful runs
+= 成功したラン
+
+Suggestion
+= 提案
+
+Suits and furniture the crew has bought. Adding one makes it available to the crew.
+= クルーが購入したスーツと家具。追加するとクルーが使用できるようになります。
+
+Sulfur
+= 硫黄
+
+Summer / Autumn: Following the leaves path
+= 夏 / 秋:葉っぱの道をたどる
+
+Summer / Autumn: In the treehouse
+= 夏 / 秋:ツリーハウスの中
+
+Summer: Defeat the Zubbas inside the beehive
+= 夏:ハチの巣の中のZubbasを倒す
+
+Sun's Song
+= 太陽の歌
+
+Sunlight (lux)
+= 日光(ルクス)
+
+Sunlight and cosmic radiation are what the world gets at its surface. Discovered puts the world on the star map; Surface revealed clears the fog above ground.
+= 日光と宇宙線は、その世界の地表に届くものです。「発見済み」でその世界が星図に載り、「地表公開済み」で地上の霧が晴れます。
+
+Super Bros. Bean
+= Super Bros. Bean
+
+Super Candy
+= Super Candy
+
+Super Defense Bean
+= Super Defense Bean
+
+Super HP Bean
+= Super HP Bean
+
+Super Mushroom
+= スーパーキノコ
+
+Super Nut
+= Super Nut
+
+Super Power Bean
+= Super Power Bean
+
+Super Speed Bean
+= Super Speed Bean
+
+Super Stache Bean
+= Super Stache Bean
+
+Super Syrup Jar
+= Super Syrup Jar
+
+Super missiles
+= スーパーミサイル
+
+Super missiles (max)
+= スーパーミサイル(最大)
+
+SuperDashing
+= SuperDashing
+
+Supplies (count + 1000)
+= 物資(個数+1000)
+
+Surface revealed
+= 地表公開済み
+
+Survival
+= サバイバル
+
+Survival: rounds completed
+= サバイバル:クリア済みラウンド
+
+Susie in party
+= パーティにSusie
+
+Suspension damage
+= サスペンションの損傷
+
+Swimming
+= 水泳
+
+Sword
+= 剣
+
+Sword Card
+= ソードカード
+
+Sword experience
+= 剣の経験値
+
+Sword level
+= 剣レベル
+
+Swordsman
+= 剣士
+
+Syrup Jar
+= Syrup Jar
+
+TKOs
+= TKOs
+
+TOSSaveData0.dat. Gald is kept in two places and both are written. Item counts go up to 20.
+= TOSSaveData0.dat。ガルドは2か所に保持されており、両方に書き込みます。アイテム数の上限は20です。
+
+TP
+= TP
+
+Tachy gauge
+= タキゲージ
+
+Tachyon particles
+= タキオン粒子
+
+Takes effect the next time you load this slot. Freedom turns off food and water; Creative also turns off oxygen and building costs. Changing mode may turn achievements off.
+= このスロットを次に読み込んだときに反映されます。フリーダムは食料と水を無効にし、クリエイティブは酸素と建築コストも無効にします。モード変更で実績が無効になる場合があります。
+
+Takings are what the businesses have earned and you haven't collected yet. Money tops out at ¥9,999,999,999,999.
+= 売上は、事業が稼いだもののまだ回収していない分です。所持金の上限は¥9,999,999,999,999です。
+
+Talent points
+= タレントポイント
+
+Talent pts
+= タレントpt
+
+Talents
+= タレント
+
+Talents you've unlocked and their level. Give yourself talent points above to unlock more in the game.
+= 解放済みのタレントとそのレベルです。上でタレントポイントを付与すると、ゲーム内でさらに解放できます。
+
+Talon Trot
+= Talon Trot
+
+Tanimura
+= Tanimura
+
+Tanimura's money
+= Tanimuraの所持金
+
+Tanks
+= タンク
+
+Tanktup's feet
+= Tanktupの足
+
+Tar
+= タール
+
+Tar and shell points
+= タールとシェルのポイント
+
+Tar gained in total
+= 獲得したタール総量
+
+Tar lost on death
+= 死亡時に失ったタール
+
+Targets killed this loop
+= このループで倒したターゲット
+
+Taschendiebstahl
+= スリ
+
+Task and contest payouts
+= タスクとコンテストの報酬
+
+Taunt Ball
+= Taunt Ball
+
+Tax
+= 税
+
+Teams beaten
+= 倒したチーム
+
+Tears collected (total)
+= 集めた涙(合計)
+
+Tears of Atonement
+= 贖罪の涙
+
+Technology points
+= テクノロジーポイント
+
+Techpriest slots
+= テックプリースト枠
+
+Techpriests
+= テックプリースト
+
+Techs
+= テック
+
+Temperature:
+= 温度:
+
+Tension
+= テンション
+
+Terra tokens
+= テラトークン
+
+Terraformation units; the planet's stage follows them when the save loads.
+= テラフォーミング単位です。セーブの読み込み時に、惑星のステージがそれに合わせて変わります。
+
+Text
+= テキスト
+
+Thaumaturgy
+= 魔術
+
+The 18/xx bonus only counts for warriors with Strength 18.
+= 18/xxボーナスは、力18の戦士にのみ適用されます。
+
+The Ark
+= アーク
+
+The Estate — its coffers and heirlooms
+= 領地 — 金庫と家宝
+
+The Expedition — this run
+= 遠征 — このラン
+
+The Heroes of this run
+= このランのヒーロー
+
+The Knight
+= 騎士
+
+The Lamb
+= 子羊
+
+The Noise
+= The Noise
+
+The Planet Crafter
+= The Planet Crafter
+
+The Roster — heroes of the Hamlet
+= 名簿 — 村の英雄
+
+The Secret Aquarium
+= The Secret Aquarium
+
+The Steam version's save (a text key, then base64 of raw-deflated JSON; both handled for you). Gold, rubies, hero souls, ancient souls, zones and each hero's and outsider's level. Numbers the game keeps as text (gold, primal souls) are edited as text.
+= Steam版のセーブ(テキストキーに続くraw-deflate圧縮JSONのbase64。どちらも自動で処理されます)。ゴールド、ルビー、ヒーローソウル、古代ソウル、ゾーン、各ヒーローとアウトサイダーのレベル。ゲームがテキストで保持する数値(ゴールド、原初ソウル)はテキストとして編集します。
+
+The Vigilante
+= The Vigilante
+
+The __RESUME__ file of a single-player or multiplayer slot. The inventory holds what the player carries; the game's own limit for each item is stored with it (Max amount, -1 for no limit).
+= シングルまたはマルチプレイのスロットの__RESUME__ファイルです。インベントリにはプレイヤーの所持品が入り、各アイテムのゲーム側の上限も一緒に保存されます(Max amount、-1は上限なし)。
+
+The character's name, level and location are shown as the game recorded them; the values below can be edited.
+= キャラクターの名前、レベル、場所はゲームが記録したまま表示されます。以下の値は編集できます。
+
+The choices the password carries into The Lost Age. Click one to turn it on or off; the scene behind it isn't replayed.
+= パスワードが『ロストエイジ』に引き継ぐ選択です。クリックでオン/オフを切り替えます。その背後のシーンは再生されません。
+
+The colony started here.
+= コロニーはここから始まりました。
+
+The crew
+= クルー
+
+The cult
+= カルト
+
+The dated saves are the game's autosaves. Cairn continues from the newest save in the slot; pick another to open it instead (unsaved changes are dropped).
+= 日付付きのセーブはゲームのオートセーブです。Cairnはスロット内の最新のセーブから再開します。別のセーブを選ぶと、そちらが代わりに開きます(未保存の変更は破棄されます)。
+
+The deadline counts in-game minutes: a day is 1,080, so 3,240 is the full three days.
+= 期限はゲーム内の分で数えます。1日は1,080なので、3,240で丸3日です。
+
+The eddies in V's own inventory. Everything else in this save is in the Hex view: use Value search with a number you know.
+= Vのインベントリ内のエディです。このセーブの他の内容はHexビューにあります。分かっている数値で値検索を使ってください。
+
+The five kinds of experience you spend in the Growth menu, in the order the save keeps them.
+= 成長メニューで使う5種類の経験値です。セーブに保存されている順に並んでいます。
+
+The fourth tag is the one the Tag! perk gives. Don't pick the same trait or skill twice.
+= 4つ目のタグはTag!パークで得られます。同じ特性やスキルを2回選ばないでください。
+
+The game builds the menu stats from these, adding class, Djinn and equipment.
+= ゲームはこれらからメニューのステータスを算出し、クラス、ジン、装備を加えます。
+
+The game decides the level from the total experience when it loads, so change both together.
+= ゲームは読み込み時に総経験値からレベルを決めるため、両方を一緒に変更してください。
+
+The game has 6 Pale Ore for nail upgrades; this gives all 6. More than you have already is left alone.
+= ゲームには爪の強化用の蒼白の鉱石が6個あり、ここで6個すべて入手します。すでにそれ以上ある場合は変更されません。
+
+The game leaves out values that are zero, so there is nothing in the file to change for these. Pick up some armour (or ammo) in the game and save again.
+= ゲームはゼロの値を保存しないため、ファイルには変更できるものがありません。ゲーム内で防具(または弾薬)を拾ってから、もう一度セーブしてください。
+
+The game may recalculate level and stats from experience.
+= ゲームが経験値からレベルとステータスを再計算する場合があります。
+
+The game shows Owned = online + local (the number with the globe is the online part). Checked against the in-game vehicle, walker gear and placed-weapon screens.
+= ゲームでは所持数 = オンライン + ローカルと表示されます(地球儀付きの数字がオンライン分)。ゲーム内の車両、ウォーカーギア、設置武器の画面で確認済みです。
+
+The game shows these counts as On Hand and In Storage. Key items (weapons, the bow) have no count.
+= ゲームではこれらの数を「所持」「倉庫」として表示します。キーアイテム(武器、弓)には数がありません。
+
+The game's own quest counters. Changing one can skip or repeat a scene; keep the backup.
+= ゲーム独自のクエストカウンターです。変更するとシーンがスキップまたは繰り返されることがあります。バックアップを残してください。
+
+The game's own story and unlock flags: most are 0 or 1, some count up. Shows 400 at a time: use the filter.
+= ゲーム独自のストーリー/解放フラグです。ほとんどは0か1で、一部は加算されます。一度に400件表示されます。フィルターを使ってください。
+
+The game's own story counters: quest stages, who has joined or died, what was said. Most are 0 or 1, some count up. Changing one can skip or repeat a scene, so change few and keep the backup. Shows 400 at a time: use the filter.
+= ゲーム独自のストーリーカウンターです。クエストの段階、仲間の加入や死亡、会話内容などを保持します。ほとんどは0か1で、一部は加算されます。変更するとシーンがスキップまたは繰り返されることがあるため、変更は最小限にしてバックアップを残してください。一度に400件表示されます。フィルターを使ってください。
+
+The gameslot file in the game's save folder. Enchantment levels run 0 to 3. Gold is Will's gold; the banker's invested money is separate.
+= ゲームのセーブフォルダにあるgameslotファイルです。エンチャントレベルは0~3です。ゴールドはWillの所持金で、銀行家への投資額は別です。
+
+The inventory is empty.
+= インベントリは空です。
+
+The item list has no unused entries left.
+= アイテムリストに空きがありません。
+
+The items the team owns for the next level. Each health upgrade is worth 20 health on top of 100.
+= チームが次のレベルのために持っているアイテムです。体力アップ1つにつき、100に加えて体力+20です。
+
+The large key
+= 大きな鍵
+
+The level follows from experience; points not yet spent can be spent in the game. Vitality is the current value.
+= レベルは経験値から決まります。未使用のポイントはゲーム内で使えます。体力は現在値です。
+
+The lists themselves are in the Tree tab.
+= リスト自体は「ツリー」タブにあります。
+
+The load menu shows the name, LV and time from undertale.ini in the same folder; the game itself loads file0.
+= ロード画面には同じフォルダのundertale.iniの名前、LV、時間が表示されます。ゲーム自体はfile0を読み込みます。
+
+The load menu shows what dr.ini (same folder) says; the game itself loads this file.
+= ロード画面には同じフォルダのdr.iniの内容が表示されます。ゲーム自体はこのファイルを読み込みます。
+
+The loop
+= ループ
+
+The map couldn't be read from this save.
+= このセーブからマップを読み込めませんでした。
+
+The map isn't available for this file.
+= このファイルではマップを利用できません。
+
+The maximum before items and bonuses; the game adds those on top
+= アイテムやボーナス適用前の最大値。ゲームがその上に加算します
+
+The names are the game's own variables; hover over a section's flag to guess what it does, or leave the rest alone.
+= 名前はゲーム独自の変数です。各セクションのフラグにカーソルを合わせて役割を推測するか、それ以外は触らないでください。
+
+The number after each slot is the Persona's id in the game's compendium.
+= 各スロットの後ろの数字は、ゲームの悪魔全書におけるペルソナのIDです。
+
+The number is the entry's id in the game's database (the order of the list in the editor, starting at 1). Most games cap a stack at 99.
+= この数字はゲームのデータベースにおけるエントリのIDです(エディタ内のリスト順で、1から始まります)。ほとんどのゲームでスタックの上限は99です。
+
+The perk and trait bonuses on top come from the game.
+= その上に加わるパークや特性のボーナスはゲームが付与します。
+
+The pitons hanging under the bag. The game shows how many the belt holds (6 at first).
+= バッグの下に下がっているハーケンです。ゲームではベルトに収まる数が表示されます(最初は6)。
+
+The player carries no weapons yet.
+= プレイヤーはまだ武器を持っていません。
+
+The player's character isn't in this save.
+= プレイヤーのキャラクターはこのセーブにありません。
+
+The player's country isn't in this save.
+= プレイヤーの国はこのセーブにありません。
+
+The rank follows the experience the game expects for it: after changing one, check the other in the game
+= ランクはゲームが想定する経験値に従います。一方を変更したら、ゲーム内でもう一方を確認してください
+
+The ring challenge
+= リングチャレンジ
+
+The run's stats, doom and items are in the Values tab under town.
+= ランのステータス、破滅、アイテムは「値」タブのtown内にあります。
+
+The save has no checksum. Close the game before editing; it writes the file when you save and exit. Checked on a public completed save, not yet tried in the game.
+= このセーブにチェックサムはありません。編集前にゲームを閉じてください。ゲームはセーブして終了する際にファイルを書き込みます。公開されているクリア済みセーブで確認済みですが、ゲームではまだ試していません。
+
+The save keeps the player's credits in {0} places; these are the values as the game stores them.
+= セーブにはプレイヤーのクレジットが{0}か所に保存されています。ゲームが保存しているそのままの値です。
+
+The save lists 35 platform slots in order: Mother Base, then FOB 1 to 4, each Command, Combat, R&D, Base Development, Support, Intel, Medical (matches the in-game base screens). Not every FOB platform exists until built in the game.
+= セーブには35のプラットフォーム枠が順に並んでいます。マザーベース、次にFOB 1~4で、それぞれ指令、戦闘、研究開発、基地開発、支援、諜報、医療です(ゲーム内の基地画面に対応)。FOBの各プラットフォームはゲーム内で建設するまで存在しません。
+
+The save's MD5 is written again when you save. Not yet tried in the game.
+= セーブのMD5は保存時に書き直されます。ゲームではまだ試していません。
+
+The save's checksum is updated when you save.
+= セーブのチェックサムは保存時に更新されます。
+
+The save's summary lists no party.
+= セーブの概要にパーティがありません。
+
+The size of each bar. Prayer Beads and Gourd Seeds raise them in the game.
+= 各ゲージの大きさです。ゲーム内では数珠とヒョウタンの種で増えます。
+
+The three keys unlock the Heart; Final act lets the run go on to Act 4. Ids must be the game's own (a wrong one can stop the run loading); removing a relic also drops its counter.
+= 3つの鍵でハートが開きます。最終幕を有効にすると第4幕へ進めます。IDはゲーム固有のものを使ってください(誤ったIDはランの読み込み不能の原因になります)。レリックを削除するとそのカウンターも消えます。
+
+The tier of each item in your loadout: 0, 1 or 2 for tiers I, II and III. A tier also has to be unlocked (next tab).
+= 装備中の各アイテムのティア:0、1、2がティアI、II、IIIに対応します。ティアは解放済みである必要もあります(次のタブ)。
+
+The weapons Alyx has. Their upgrades and loaded rounds aren't edited here.
+= Alyxが持っている武器です。強化や装填済みの弾はここでは編集できません。
+
+These are the current amounts; the most a character can have comes from its armour and food, and the game keeps the current amount within it.
+= 現在の量です。キャラクターの最大値は防具と食べ物で決まり、ゲームは現在値をその範囲内に保ちます。
+
+These are the game's own variable names; values inside characters or other objects are shown as name.value. Each save keeps its own copy; the Values tab also shows lists.
+= ゲーム独自の変数名です。キャラクターなどのオブジェクト内の値はname.valueの形式で表示されます。各セーブに独自のコピーがあり、「値」タブにはリストも表示されます。
+
+These are the points behind each stat's rank. The level follows the experience when the game loads it, so change both together.
+= 各ステータスのランクの元になるポイントです。レベルはゲームの読み込み時に経験値から決まるため、両方を一緒に変更してください。
+
+Thirst
+= 渇き
+
+This auto-save keeps the player in pifo.ifo, which the game loads instead of the copies in SAVEGAME.sav. Open pifo.ifo from the same folder to edit the player.
+= このオートセーブはプレイヤーをpifo.ifoに保持しており、ゲームはSAVEGAME.sav内のコピーではなくこちらを読み込みます。プレイヤーを編集するには、同じフォルダのpifo.ifoを開いてください。
+
+This box is empty.
+= この箱は空です。
+
+This character carries no gold.
+= このキャラクターはゴールドを持っていません。
+
+This empire has no stockpiles in the save.
+= この帝国にはセーブ内に備蓄がありません。
+
+This isn't the save the game continues from: Cairn loads the newest save in the slot (marked in the list below), so edits here won't show up in the game.
+= これはゲームが続きから読み込むセーブではありません。Cairnはスロット内の最新のセーブ(下のリストで印付き)を読み込むため、ここでの編集はゲームに反映されません。
+
+This neighbourhood has no families yet.
+= この地区にはまだ家族がいません。
+
+This profile has no candles yet.
+= このプロフィールにはまだキャンドルがありません。
+
+This round
+= このラウンド
+
+This save
+= このセーブ
+
+This save doesn't carry the species' data (older game versions): a level is refused when the growth rates this Pokémon could have disagree on its Exp., and the stats shown here change when the game next works them out (on a level-up).
+= このセーブには種族データがありません(古いバージョンのゲーム)。このポケモンが取りうる成長率で経験値が食い違うレベルは拒否され、ここに表示されるステータスはゲームが次に計算する時(レベルアップ時)に変わります。
+
+This save has no households.
+= このセーブには世帯がありません。
+
+This save has no ship upgrades.
+= このセーブには船の強化がありません。
+
+This save has no unspent skill points: the game doesn't store a 0, so there's nothing here to raise — earn one in the game first.
+= このセーブには未使用のスキルポイントがありません。ゲームは0を保存しないため、ここで増やせるものはありません。まずゲーム内で1つ獲得してください。
+
+This save keeps no vitals.
+= このセーブにはバイタルがありません。
+
+This save's skills couldn't be read.
+= このセーブのスキルを読み込めませんでした。
+
+This world has no chests.
+= このワールドには箱がありません。
+
+This world has no signs.
+= このワールドには看板がありません。
+
+ThreeSixtyDashing
+= ThreeSixtyDashing
+
+Throwing
+= 投擲
+
+Thunder
+= サンダー
+
+Tickets
+= チケット
+
+Tier
+= ティア
+
+Tierkunde
+= Tierkunde
+
+Time
+= 時間
+
+Time Trials: characters
+= タイムアタック:キャラクター
+
+Time Trials: times (hundredths of a second, 600000 = no record)
+= タイムアタック:タイム(1/100秒、600000 = 記録なし)
+
+Time alive (seconds)
+= 生存時間(秒)
+
+Time in runs (seconds)
+= ランでの時間(秒)
+
+Time in the game (seconds)
+= ゲーム内時間(秒)
+
+Time index
+= 時間インデックス
+
+Time is in ticks: a day runs 0 to 54,000 from dawn, a night 0 to 32,400 from dusk. Spawn and dungeon are tile positions (you can also set the spawn point on the Map).
+= 時間はティック単位です。昼は夜明けから0~54,000、夜は日没から0~32,400です。スポーンとダンジョンはタイル座標です(スポーン地点はマップ上でも設定できます)。
+
+Time logged in (seconds)
+= ログイン時間(秒)
+
+Time of day
+= 時刻
+
+Time of day (HHMM)
+= 時刻(HHMM)
+
+Time played (s)
+= プレイ時間(秒)
+
+Time shards
+= 時のかけら
+
+Time units
+= 時間単位
+
+Time warp factor
+= 時間歪曲係数
+
+Time.json
+= Time.json
+
+Times arrested
+= 逮捕回数
+
+Times cleared
+= クリア回数
+
+Times completed
+= 完了回数
+
+Times died
+= 死亡回数
+
+Times landed
+= 着陸回数
+
+Times retired
+= リタイア回数
+
+Times saved
+= セーブ回数
+
+Tinted rocks broken
+= 壊した色付きの岩
+
+Tiny Bond
+= Tiny Bond
+
+Title
+= タイトル
+
+Toad (Clock Room)
+= Toad (Clock Room)
+
+Toad (Gallery)
+= Toad (Gallery)
+
+Toad (Hazy Maze Cave)
+= Toad (Hazy Maze Cave)
+
+Tools and ammunition
+= 道具と弾薬
+
+Tooth of Vlad
+= Tooth of Vlad
+
+Top speed
+= 最高速度
+
+Topaz
+= トパーズ
+
+Torch
+= たいまつ
+
+Total EXP
+= 総EXP
+
+Total War campaign
+= Total Warキャンペーン
+
+Total class levels
+= クラスレベル合計
+
+Total coins
+= コイン合計
+
+Total experience
+= 総経験値
+
+Total experience (skill points come from this):
+= 総経験値(スキルポイントはこれで決まります):
+
+Total gald spent
+= 使用したガルド合計
+
+Total gear power
+= 装備の総合力
+
+Total gil
+= ギル合計
+
+Total haul ($K)
+= 総獲得額（千ドル）
+
+Total hearts
+= ハート合計
+
+Total progress in the game
+= ゲームの総進行度
+
+Total respect
+= リスペクト合計
+
+Total skill points earned
+= 獲得スキルポイント合計
+
+Total strawberries
+= イチゴ合計
+
+Total unique stunt jumps
+= ユニークスタントジャンプ合計
+
+Totals
+= 合計
+
+Tourists
+= 観光客
+
+Tower of the Wing Cap
+= ウイングキャップの塔
+
+Town NPCs
+= 町のNPC
+
+Trade goods
+= 交易品
+
+Trailer prices
+= トレーラー価格
+
+Trailers bought
+= 購入したトレーラー
+
+Trailers sold
+= 売却したトレーラー
+
+Trainer
+= トレーナー
+
+Training
+= トレーニング
+
+Trait points
+= 特性ポイント
+
+Traits and tagged skills
+= 特性とタグスキル
+
+Transcended
+= 超越済み
+
+Transcensions
+= 超越回数
+
+Travellers
+= 旅人たち
+
+Traversal and Combat are the two skill trees; their points fill the bar to the next level. Inhibitors raise health and stamina.
+= 探索と戦闘の2つのスキルツリーがあり、そのポイントで次のレベルまでのバーが満たされます。インヒビターは体力とスタミナを上げます。
+
+Treasure found
+= 発見した宝
+
+Treasuries are whole numbers up to 2,147,483,647. The save is packed again on write (it gets larger). Not yet tried in the game.
+= 国庫は最大2,147,483,647までの整数です。セーブは書き込み時に再パックされます（サイズが大きくなります）。ゲームでは未検証です。
+
+Tree food
+= 木の養分
+
+Tree of Wisdom height (feet)
+= 知恵の木の高さ（フィート）
+
+Triad XP
+= トライアドXP
+
+Triple Jump
+= トリプルジャンプ
+
+Troop deployment cost reduction
+= 部隊配備コスト削減
+
+Troop slots
+= 部隊スロット
+
+Truck prices
+= トラック価格
+
+Truck simulator profile
+= トラックシミュレーターのプロフィール
+
+Trucks bought
+= 購入したトラック
+
+Trucks in the warehouse
+= 倉庫のトラック
+
+Trucks sold
+= 売却したトラック
+
+Trust points
+= 信頼ポイント
+
+Tumblar's game
+= Tumblarのゲーム
+
+Tunic
+= チュニック
+
+Turbo Mode
+= ターボモード
+
+Turbo Talon Trot
+= ターボ・タロン・トロット
+
+Turquoise
+= ターコイズ
+
+Tutorial beaten
+= チュートリアルをクリア
+
+Twin Sunflower
+= ツインヒマワリ
+
+Two-handed
+= 両手持ち
+
+Ueberreden
+= Ueberreden
+
+Ultra Candy
+= ウルトラキャンディ
+
+Ultra Defense
+= ウルトラガード
+
+Ultra Light Burst
+= ウルトラライトバースト
+
+Ultra Magnet
+= ウルトラマグネット
+
+Ultra Mushroom
+= ウルトラキノコ
+
+Ultra Nut
+= ウルトラナッツ
+
+Ultra Soul Link
+= ウルトラソウルリンク
+
+Ultra Split Flame
+= ウルトラスプリットフレイム
+
+Ultra Stomp
+= ウルトラストンプ
+
+Ultra Syrup Jar
+= ウルトラシロップジャー
+
+Umanite
+= ウマナイト
+
+Unarmed
+= 素手
+
+Unarmored
+= 防具なし
+
+Underworld
+= 冥界
+
+Unique stunt jumps found
+= 発見したユニークスタントジャンプ
+
+Unlock Shadow of the Erdtree graces
+= Shadow of the Erdtreeの祝福を解放
+
+Unlock base game graces
+= 本編の祝福を解放
+
+Unlock everything
+= すべて解放
+
+Unlocked shells, weapons and seals
+= 解放済みのシェル、武器、シール
+
+Unlocked: Blue Mystery Egg
+= 解放済み：青のミステリーエッグ
+
+Unlocked: Cyan Mystery Egg
+= 解放済み：シアンのミステリーエッグ
+
+Unlocked: Green Mystery Egg
+= 解放済み：緑のミステリーエッグ
+
+Unlocked: Ice Key
+= 解放済み：アイスキー
+
+Unlocked: Pink Mystery Egg
+= 解放済み：ピンクのミステリーエッグ
+
+Unlocked: Red Mystery Egg
+= 解放済み：赤のミステリーエッグ
+
+Unlocked: Yellow Mystery Egg
+= 解放済み：黄のミステリーエッグ
+
+Unspent attribute points
+= 未使用の能力ポイント
+
+Unspent points
+= 未使用ポイント
+
+Unspent skill points
+= 未使用のスキルポイント
+
+Untrained skills aren't written in the save, so they can't be raised here (spend skill points in the game).
+= 未習得のスキルはセーブに書き込まれていないため、ここでは上げられません（ゲーム内でスキルポイントを使ってください）。
+
+Up to 999 of each item. Items you don't have yet can't be added here.
+= 各アイテム最大999個。まだ持っていないアイテムはここでは追加できません。
+
+Upgrade count
+= アップグレード数
+
+Ups
+= アップ
+
+Urine
+= 尿
+
+UserData_00.sav. CP is money and cannot go above the CP limit next to it; PP buys perks.
+= UserData_00.sav。CPはお金で、隣のCP上限を超えられません。PPはパークの購入に使います。
+
+VR points
+= VRポイント
+
+Valuables
+= 貴重品
+
+Vampire Survivors
+= Vampire Survivors
+
+Vanish Cap Under the Moat
+= 堀の下のきえるキャップ
+
+Vanish Cap switch
+= きえるキャップスイッチ
+
+Vanity mastery XP
+= ヴァニティマスタリーXP
+
+Varia suit
+= バリアスーツ
+
+Variant mode
+= バリアントモード
+
+Vault resources
+= 金庫の資源
+
+Vehicle damage
+= 車両ダメージ
+
+Vehicle units are named by their id in the Tree. Wear and fuel are fractions (0 = new, 1 = worn out; fuel 1 = full).
+= 車両ユニットはTreeではIDで表示されます。摩耗と燃料は割合です（0＝新品、1＝摩耗しきり、燃料1＝満タン）。
+
+Virtue
+= 徳
+
+Visions
+= ビジョン
+
+Visual Calculus
+= Visual Calculus
+
+Vitality
+= 体力
+
+Vitality and the Force
+= 体力とフォース
+
+Vitals
+= バイタル
+
+Vitals (now and full)
+= バイタル（現在値と最大値）
+
+Void essence ability unlocked
+= 虚無のエッセンス能力を解放済み
+
+Volatiles
+= 揮発性物質
+
+Volition
+= 意志
+
+WORLD OF HORROR
+= WORLD OF HORROR
+
+Wall Jump
+= 壁ジャンプ
+
+Wall grip (82)
+= 壁つかみ（82）
+
+Wall jumps
+= 壁ジャンプ回数
+
+Wall:
+= 壁：
+
+Wallet
+= 財布
+
+Wallet fields
+= 財布の項目
+
+Wanderers beaten
+= 倒した放浪者
+
+War
+= 戦争
+
+War support
+= 戦争支持
+
+Warehouses unlocked
+= 解放済みの倉庫
+
+Wasteland 3
+= Wasteland 3
+
+Water (maximum)
+= 水（最大）
+
+Water Breath
+= 水の呼吸
+
+Water Medallion
+= 水のメダル
+
+Wave beam
+= ウェーブビーム
+
+Waypoints
+= ウェイポイント
+
+Weaken minions
+= 手下を弱体化
+
+Weapon elements (fusion materials you own)
+= 武器エレメント（所持している融合素材）
+
+Weapon levels
+= 武器レベル
+
+Weapon parts
+= 武器パーツ
+
+Weapon slots
+= 武器スロット
+
+Weapon: Axatana
+= 武器：Axatana
+
+Weapon: Ballistazooka
+= 武器：Ballistazooka
+
+Weapon: Battle Axe
+= 武器：バトルアックス
+
+Weapon: Black Needle
+= 武器：ブラックニードル
+
+Weapon: Clockwork Scythe
+= 武器：ぜんまい仕掛けの大鎌
+
+Weapon: Crossbow
+= 武器：クロスボウ
+
+Weapon: Cursed Child
+= 武器：呪われた子
+
+Weapon: Dagger Axe
+= 武器：ダガーアックス
+
+Weapon: Haderns Sword
+= 武器：ハデルンの剣
+
+Weapon: Heavy Hammer
+= 武器：ヘビーハンマー
+
+Weapon: Machine Gun
+= 武器：マシンガン
+
+Weapon: Martyrs Blade
+= 武器：殉教者の刃
+
+Weapon: Nail Shotgun
+= 武器：ネイルショットガン
+
+Weapon: Parasite Gun
+= 武器：パラサイトガン
+
+Weapon: Trebuchaxe
+= 武器：Trebuchaxe
+
+Weapons (by database number)
+= 武器（データベース番号順）
+
+Weapons and armor (ids per party member)
+= 武器と防具（パーティメンバーごとのID）
+
+Weapons, horses and kit
+= 武器、馬、装備品
+
+WeatherSystemSaveData.json. Season is 0 spring, 1 summer, 2 autumn, 3 winter.
+= WeatherSystemSaveData.json。季節は0が春、1が夏、2が秋、3が冬です。
+
+Week
+= 週
+
+Weekly deposits
+= 週ごとの入金
+
+Wei Shen
+= ウェイ・シェン
+
+Weight
+= 重量
+
+West Elizabeth ($)
+= ウェスト・エリザベス（$）
+
+What Artyom carries at the start of this level (chapter select loads it). The game may cap a count at what Artyom can carry.
+= このレベルの開始時にアルチョムが持っているもの（チャプター選択で読み込まれます）。ゲームが数をアルチョムの所持上限に制限する場合があります。
+
+What each piece of scrap on the ship sells for. The quota counts what you sell.
+= 船内のスクラップ1個ごとの売却額。ノルマは売却した分が対象です。
+
+Wheel Barrow
+= 手押し車
+
+Where you are
+= 現在地
+
+Whimsical stars
+= 気まぐれな星
+
+Whiplash
+= ウィップラッシュ
+
+Who
+= 誰
+
+Whole value
+= 整数値
+
+Wild Dancer
+= ワイルドダンサー
+
+Wildnisleben
+= Wildnisleben
+
+Will and the shop
+= 意志とショップ
+
+Willpower
+= 意志力
+
+Win streak
+= 連勝数
+
+Wind
+= 風
+
+Wing Cap switch
+= ウイングキャップスイッチ
+
+Wing Mario Over the Rainbow
+= にじのうえのウイングマリオ
+
+Winter Melon
+= 冬瓜
+
+Winter: Eyrie the eagle
+= 冬：ワシのエイリー
+
+Wishes left
+= 残りの願い
+
+Witch Switch of Bubblegloop Swamp
+= バブルグループ沼の魔女スイッチ
+
+Witch Switch of Clanker's Cavern
+= クランカーの洞くつの魔女スイッチ
+
+Witch Switch of Click Clock Wood
+= チクタクウッドの魔女スイッチ
+
+Witch Switch of Freezeezy Peak
+= フリージーピークの魔女スイッチ
+
+Witch Switch of Gobi's Valley
+= ゴビーの谷の魔女スイッチ
+
+Witch Switch of Mad Monster Mansion
+= マッドモンスターマンションの魔女スイッチ
+
+Witch Switch of Mumbo's Mountain
+= マンボのやまの魔女スイッチ
+
+Witch Switch of Rusty Bucket Bay
+= ラスティバケットベイの魔女スイッチ
+
+Witch Switch of Treasure Trove Cove
+= トレジャートローヴコーブの魔女スイッチ
+
+With you: {0}
+= 所持：{0}
+
+Wits
+= 機転
+
+Won
+= 勝利
+
+Wonderwing
+= ワンダーウィング
+
+Wood
+= 木材
+
+Wooden tags
+= 木札
+
+Work & Worship level
+= 労働と崇拝のレベル
+
+Worked out by the game from your attributes when it loads.
+= 読み込み時にゲームが能力値から算出します。
+
+World:
+= ワールド：
+
+Worn
+= 装備中
+
+Writes the game's own unlock code into every achievement, mystery ending, enemy, event and pantheon entry whose code is known. Characters, outfits and the other rewards that follow from achievements unlock with them.
+= コードが判明しているすべての実績、ミステリーエンディング、敵、イベント、パンテオン項目に、ゲーム固有の解放コードを書き込みます。実績に伴うキャラクター、衣装、その他の報酬も一緒に解放されます。
+
+Wurfwaffen
+= Wurfwaffen
+
+X-ray scope
+= Xレイスコープ
+
+XCOM
+= XCOM
+
+XCOM 2
+= XCOM 2
+
+XP collected toward the next point
+= 次のポイントまでの獲得XP
+
+XP in this tier
+= このティアのXP
+
+XP level
+= XPレベル
+
+XP toward next Praxis kit
+= 次のプラクシスキットまでのXP
+
+Yakuza 0
+= 龍が如く0
+
+Yakuza Kiwami
+= 龍が如く 極
+
+Yellow
+= 黄
+
+Yellow Flibbits battle
+= 黄色いフリビッツとの戦い
+
+Yellow key (91)
+= 黄色のカギ（91）
+
+Yellow shards
+= 黄色のかけら
+
+Yen
+= 円
+
+You
+= あなた
+
+Your faction
+= あなたの勢力
+
+Your treasury
+= あなたの国庫
+
+Zelda's Lullaby
+= ゼルダの子守歌
+
+Zest
+= ゼスト
+
+Zone
+= ゾーン
+
+Zora Tunic
+= ゾーラの服
+
+Zora's Sapphire
+= ゾーラのサファイア
+
+Zora's flippers
+= ゾーラのヒレ
+
+Zw Hiebwaffen
+= Zw Hiebwaffen
+
+Zw Schwerter
+= Zw Schwerter
+
+Zwergennase
+= Zwergennase
+
+career/playerAttributes.json inside a career save slot's newest autosave folder (the game loads the newest of its rotating autosaves, so edit that one). Each branch (the career's skill lines) keeps its own value, shown in the Tree tab.
+= キャリアのセーブスロット内で最新のオートセーブフォルダーにあるcareer/playerAttributes.json（ゲームは循環式オートセーブの最新のものを読み込むため、それを編集してください）。各ブランチ（キャリアのスキルライン）が個別の値を持ち、Treeタブに表示されます。
+
+carried
+= 所持
+
+chest name or item
+= チェスト名またはアイテム
+
+count
+= 個数
+
+datN.slv in the game's savedata folder (one file per character). Salt and gold are what the character carries. Items and the skill tree are not edited yet.
+= ゲームのsavedataフォルダー内のdatN.slv（キャラクターごとに1ファイル）。塩とゴールドはキャラクターの所持分です。アイテムとスキルツリーはまだ編集できません。
+
+defaultES2File.txt (items.txt holds the shop items). Money is in marks. The needs run from 0 (fine) to 100 (passing out); hunger, thirst and the rest are best set low.
+= defaultES2File.txt（items.txt にショップのアイテムがあります）。お金の単位はマルクです。欲求は 0（良好）から 100（失神）までで、空腹や喉の渇きなどは低めに設定するのがおすすめです。
+
+drgs.dat. Plain JSON; close the game before editing.
+= drgs.dat。プレーンな JSON です。編集前にゲームを終了してください。
+
+e.g. Smithing
+= 例: Smithing
+
+edition
+= エディション
+
+ff13-NN.dat. The save is decrypted to edit and encrypted again on save. Gil goes up to 9,999,999.
+= ff13-NN.dat。セーブは編集のために復号され、保存時に再び暗号化されます。ギルは 9,999,999 まで。
+
+generalprogress.bepis in the save slot folder. Each weapon variant is 1 when owned and 0 when not; the level files (lvlNprogress.bepis) hold ranks and secrets.
+= セーブスロットフォルダ内の generalprogress.bepis。各武器バリアントは所持なら 1、未所持なら 0 です。レベルファイル（lvlNprogress.bepis）にはランクとシークレットが入っています。
+
+in hand
+= 所持中
+
+item
+= アイテム
+
+item name
+= アイテム名
+
+level {0} at {1}
+= {1} でレベル {0}
+
+max
+= 最大
+
+not met yet
+= 未達成
+
+persistentgamedata1.dat (Rebirth), ab_ / abp_ (Afterbirth, Afterbirth+) or rep_ / rep+ (Repentance), in the Steam remote folder. Counters, achievements, collectibles seen and challenges; each unlock is 0 (locked) or 1 (unlocked), numbered as in the game's own lists. The checksum is written again on save.
+= persistentgamedata1.dat（Rebirth）、ab_ / abp_（Afterbirth、Afterbirth+）、または rep_ / rep+（Repentance）。Steam の remote フォルダ内。カウンター、実績、確認済みコレクション、チャレンジ。各アンロックは 0（未解放）か 1（解放済み）で、ゲーム内リストと同じ番号です。チェックサムは保存時に書き直されます。
+
+pg
+= pg
+
+pg (money)
+= pg（お金）
+
+player.xml from the save00 folder (close the game first). Gold and health; the game shows health 25 times the stored value. Wands, spells and perks are entities inside the file, in the Tree.
+= save00 フォルダの player.xml（先にゲームを終了してください）。ゴールドと体力。ゲームでは体力が保存値の 25 倍で表示されます。ワンド、呪文、パークはファイル内のエンティティで、ツリーにあります。
+
+progress.save from the game's profile folder (plain JSON). Each character's highest Ascension, wins, losses, win streaks and play time, plus the profile's score. Discovered cards, relics and the rest are lists in the Tree.
+= ゲームのプロフィールフォルダにある progress.save（プレーンな JSON）。各キャラクターの最高アセンション、勝利数、敗北数、連勝数、プレイ時間、およびプロフィールのスコア。発見済みのカードやレリックなどはツリー内のリストです。
+
+quality
+= 品質
+
+rget Entity Id
+= rget Entity Id
+
+rget Size
+= rget Size
+
+saveData.ini (the file is a GameMaker ini; values are written as text like 1.000000). Scores are points, ranks are the letters d, c, b, a, s and p, treasure is 1 when found and secrets found are 0 to 3.
+= saveData.ini（GameMaker の ini ファイルで、値は 1.000000 のようにテキストで書かれます）。スコアはポイント、ランクは d、c、b、a、s、p の文字、宝は発見済みなら 1、発見したシークレットは 0〜3 です。
+
+saveFile<n>.sav: level, ability points, life and energy cells, keystones, mapstones and every skill and ability-tree upgrade.
+= saveFile<n>.sav：レベル、アビリティポイント、ライフセルとエナジーセル、キーストーン、マップストーン、すべてのスキルとアビリティツリーの強化。
+
+save_auto.bin and the other .bin saves in the game's save folder (each is a zip; the text inside is opened for you). Weapons and upgrades are in the Tree tab under PlayerTemplate.
+= ゲームのセーブフォルダにある save_auto.bin とその他の .bin セーブ（それぞれ zip で、中のテキストは自動的に開かれます）。武器と強化は「ツリー」タブの PlayerTemplate にあります。
+
+savedata.bin of the Steam edition. Money buys and upgrades weapons; exchange points buy the Bonus Features (costumes, filters, infinite ammo, figures).
+= Steam 版の savedata.bin。お金で武器を購入・強化でき、交換ポイントでボーナス機能（コスチューム、フィルター、無限弾薬、フィギュア）を入手できます。
+
+savegame.dsa in a savegame_N folder (a SQLite database; the screenshot and .nfo beside it are not needed). Heroes with a party slot of 0 or more are in your party; the other rows are the characters in cutscenes and other places. Adventure points to spend are in "Spendable AP". Items and money are in the Tree.
+= savegame_N フォルダ内の savegame.dsa（SQLite データベース。隣のスクリーンショットと .nfo は不要です）。パーティスロットが 0 以上のヒーローはパーティにいます。その他の行はカットシーンなどにいるキャラクターです。使用可能な冒険ポイントは「Spendable AP」にあります。アイテムとお金はツリーにあります。
+
+savegameN.sav in the Steam remote folder. Each of the four playable characters keeps their own money, experience and skill orbs. The save has no checksum; close the game first.
+= Steam の remote フォルダにある savegameN.sav。プレイアブルの 4 キャラクターはそれぞれ独自のお金、経験値、スキルオーブを持ちます。セーブにチェックサムはありません。先にゲームを終了してください。
+
+savegameN.sav in the Steam remote folder. The save has no checksum; close the game first.
+= Steam の remote フォルダにある savegameN.sav。セーブにチェックサムはありません。先にゲームを終了してください。
+
+savegame_N.save (base64-wrapped JSON, opened and closed for you). Tears of Atonement, current health and fervour, the upgrade levels of each stat, flask count and guilt. Owned rosary beads, prayers, relics and sword hearts are lists of ids in the Tree.
+= savegame_N.save（base64 でラップされた JSON。開閉は自動で行われます）。贖罪の涙、現在の体力と熱情、各ステータスの強化レベル、フラスコ数、罪。所持しているロザリオのビーズ、祈り、聖遺物、剣の心臓は、ツリー内の ID のリストです。
+
+sells for
+= 売値
+
+sr3save_NN.sr3s_pc. Cash is kept in cents; the save's checksum is rewritten.
+= sr3save_NN.sr3s_pc。現金はセント単位で保存され、セーブのチェックサムは書き直されます。
+
+sr4save_N.sr4s_pc. Cash is kept in cents; the save's checksum is rewritten.
+= sr4save_N.sr4s_pc。現金はセント単位で保存され、セーブのチェックサムは書き直されます。
+
+thp_player_profile_adf in your Saves folder (each slot folder keeps its own copy). Close the game first; skill points already spent are stored per skill tree and are not shown.
+= Saves フォルダ内の thp_player_profile_adf（各スロットフォルダに個別のコピーがあります）。先にゲームを終了してください。使用済みのスキルポイントはスキルツリーごとに保存されており、表示されません。
+
+tip
+= ヒント
+
+tool level
+= ツールレベル
+
+userN.dat. Money is stored divided by 10; the game's cap is 99,990.
+= userN.dat。お金は 10 で割った値で保存されます。ゲームの上限は 99,990 です。
+
+{0}  (level {1})
+= {0}（レベル {1}）
+
+{0} (mint)
+= {0}（ミント）
+
+{0} blueprints known
+= 既知の設計図 {0} 件
+
+{0} cards in the deck (edit them in the Tree tab).
+= デッキ内のカード {0} 枚（ツリータブで編集できます）。
+
+{0} codex entries
+= コデックス {0} 件
+
+{0} follows these: each point is one level.
+= {0} はこれらに従います。1 ポイントが 1 レベルです。
+
+{0} missions done
+= 完了ミッション {0} 件
+
+{0} quests, {1} complete
+= クエスト {0} 件、完了 {1} 件
+
+{0} shown. Staff have no names in the save; they are listed by slot.
+= {0} 件表示。スタッフの名前はセーブにないため、スロット順に表示されます。
+
+{1} of {0} slots used. Pick an item in the free slot to add one.
+= {0} スロット中 {1} 使用中。空きスロットでアイテムを選ぶと追加できます。
+
+★ Shiny
+= ★ 色違い
+
+★ marks the front row. Level goes from 1 to 99; EXP isn't worked out from the level, so set both. HP and SP are current values (the maximum comes from level, job and gear).
+= ★ は前列を示します。レベルは 1〜99。EXP はレベルから自動計算されないため、両方を設定してください。HP と SP は現在値です（最大値はレベル、ジョブ、装備で決まります）。
+
+<n>.sav in %LOCALAPPDATA%\\AtomicHeart\\Saved\\SaveGames. The save's Oodle data is unpacked and packed again with the Oodle library of any game on this PC, and its SHA-1 is made again. Only stacks the save already holds are listed: pick up one of an item in the game first to add it.
+= %LOCALAPPDATA%\AtomicHeart\Saved\SaveGames 内の <n>.sav。セーブのOodleデータは、このPC上のいずれかのゲームのOodleライブラリで展開・再圧縮され、SHA-1も作り直されます。セーブにすでにあるスタックのみ一覧に表示されます。追加するには、先にゲーム内でそのアイテムを1つ拾ってください。
+
+A .a7s save (Documents\\Anno 1800\\accounts\\<id>\\<profile>\\savegame). Coins are your company's money; the load screen's figure is changed with them. Other amounts of your company's storage are in the Tree, by GUID.
+= .a7sセーブ（Documents\Anno 1800\accounts\<id>\<profile>\savegame）。コインは会社のお金で、ロード画面の金額もこれで変わります。会社の倉庫にあるその他の数量はツリーにGUIDごとに表示されます。
+
+A .sav in %USERPROFILE%\\AppData\\LocalLow\\Monomi Park\\Slime Rancher (the first game; Slime Rancher 2 isn't read yet). The load screen's newbucks are changed with yours. Energy above your maximum is cut back by the game.
+= %USERPROFILE%\AppData\LocalLow\Monomi Park\Slime Rancher 内の.sav（初代ゲーム。Slime Rancher 2にはまだ対応していません）。ロード画面のnewbucksはあなたのnewbucksと一緒に変わります。最大値を超えたエネルギーはゲームにより引き下げられます。
+
+A .savegame from Saved Games\\Tyranny (a zip; its MobileObjects.save is edited, the rest is kept). Money, camping supplies, and each character's experience, attributes, skill points and skills.
+= Saved Games\Tyrannyの.savegame（zip。そのMobileObjects.saveを編集し、残りは保持されます）。お金、キャンプ用品、各キャラクターの経験値、能力値、スキルポイント、スキル。
+
+A character file from Saved Games\\wolcen\\savegames\\characters (plain JSON). Gold, level, experience, the four attributes and the points to spend. Items, the skill bar and passive skills are in the Tree; the shared chest is its own file.
+= Saved Games\wolcen\savegames\charactersにあるキャラクターファイル（プレーンJSON）。ゴールド、レベル、経験値、4つの属性、割り振り可能なポイント。アイテム、スキルバー、パッシブスキルはツリーにあり、共有チェストは別のファイルです。
+
+A checkpoint .sav from Documents\\Alpha Protocol\\Checkpoints. Money, experience, skill points, skill ranks, ammunition and gadgets.
+= Documents\Alpha Protocol\Checkpointsにあるチェックポイントの.sav。お金、経験値、スキルポイント、スキルランク、弾薬、ガジェット。
+
+A hero's save (Players\\Active\\*.dat), decrypted; items and enchantments are in the Tree
+= ヒーローのセーブ（Players\Active\*.dat）、復号済み。アイテムとエンチャントはツリーにあります
+
+A profile XML from Steam\\userdata\\<account>\\632360\\remote\\UserProfiles. Lunar coins and the profile's totals. Unlocked achievements, discovered items and the logbook are space-separated lists in the Tree; the per-stat table is under UserProfile > stats.
+= Steam\userdata\<account>\632360\remote\UserProfilesにあるプロフィールXML。月のコインとプロフィールの合計値。解除済みの実績、発見したアイテム、航海日誌はツリー内のスペース区切りのリストで、統計ごとの表はUserProfile > statsにあります。
+
+A save from Documents\\ZAUM Studio\\Disco Elysium\\SaveGames (a .ntwtf.zip; its big .2nd.ntwtf.json is edited and the rest of the zip is kept). Money, level, experience, skill points, the four attributes and the skills as the game keeps them. Skills the save lists under different names stay in the Tree.
+= Documents\ZAUM Studio\Disco Elysium\SaveGamesにあるセーブ（.ntwtf.zip。大きな.2nd.ntwtf.jsonを編集し、zipのそれ以外は保持されます）。お金、レベル、経験値、スキルポイント、4つの能力値と、ゲームが保持する形でのスキル。セーブが別名で載せているスキルはツリーに残ります。
+
+ACBROTHERHOODSAVEGAME0.SAV in Saved Games\\\\Assassin's Creed Brotherhood\\\\SAVES (or the Ubisoft Connect savegames folder). The save is unscrambled, unpacked and packed again with its block checks; the account it belongs to is kept. Close the game and turn cloud saves off in Ubisoft Connect first, or the old save may come back.
+= Saved Games\\Assassin's Creed Brotherhood\\SAVESにあるACBROTHERHOODSAVEGAME0.SAV（またはUbisoft Connectのセーブフォルダ）。セーブはスクランブル解除と展開が行われ、ブロックチェックとともに再度パックされます。紐づくアカウントは保持されます。先にゲームを終了し、Ubisoft Connectでクラウドセーブをオフにしてください。そうしないと古いセーブが戻る場合があります。
+
+An OpenXcom or OpenXcom Extended save (.sav in Documents\\OpenXcom\\<mod>), which also plays UFO Defense from the Steam and GOG releases. Funds, the date, the difficulty, every soldier's stats and the base stores.
+= OpenXcomまたはOpenXcom Extendedのセーブ（Documents\OpenXcom\<mod>内の.sav）。SteamとGOG版のUFO Defenseもこれで動作します。資金、日付、難易度、全兵士のステータス、基地の保管庫。
+
+AutoSave or a Manual - Save file in Documents\\My Games\\Fable\\Saves\\<hero name>. Morality runs from evil (negative) to good (positive); the game keeps it within its own limits. Age changes how old the hero looks.
+= Documents\My Games\Fable\Saves\<hero name>にあるオートセーブまたは手動セーブ。モラルは悪(負)から善(正)までで、ゲームが独自の範囲内に収めます。年齢は英雄の見た目の老け具合を変えます。
+
+DXNGsavegame0000.dat ... in Steam\\userdata\\<account>\\337000\\remote. The game state is unpacked and packed again on save. Close the game and turn Steam Cloud off for it first, or Steam may bring the old save back. Experience is shown but not changed. Ammo stacks are listed in the order the save keeps them.
+= DXNGsavegame0000.dat ... は Steam\userdata\<account>\337000\remote にあります。ゲームの状態は展開され、保存時に再び圧縮されます。先にゲームを終了し、Steamクラウドをオフにしてください。そうしないとSteamが古いセーブに戻すことがあります。経験値は表示のみで変更されません。弾薬スタックはセーブが保持する順に表示されます。
+
+Each squad's characters (attributes, skills, health) are in the save's platoon folder: open the file named after your faction, such as platoon\\Nameless_0.platoon, for its Squad screen.
+= 各分隊のキャラクター（能力値、スキル、体力）はセーブの platoon フォルダーにあります。分隊画面を表示するには、platoon\Nameless_0.platoon のように勢力名のファイルを開いてください。
+
+GPData_<slot>.sav in Documents\\My Games\\MortalShell\\Dungeonhaven\\Saved\\SaveGames. Tar is stored as BoneShards; the Storm Mode run keeps its own copy. Inventory item names are stored as game text and are not shown.
+= Documents\My Games\MortalShell\Dungeonhaven\Saved\SaveGames 内の GPData_<slot>.sav。TarはBoneShardsとして保存され、Storm Modeのプレイは別のコピーを持ちます。所持品の名前はゲーム内テキストとして保存されており、表示されません。
+
+HK GameSlot 1 ... or HK Autosave Slot in the game's data folder (Steam: steamapps\\common\\SleepingDogsDefinitiveEdition\\data). The save is unscrambled and scrambled again, with its checksum, on save. Each XP track tops out at 50,000.
+= ゲームのデータフォルダ内の HK GameSlot 1 ... または HK Autosave Slot(Steam: steamapps\common\SleepingDogsDefinitiveEdition\data)。セーブは復号され、保存時にチェックサムとともに再度スクランブルされます。各XPトラックの上限は50,000です。
+
+RDR2SAVE<n>.SAV (and REDDEAD2HCOR<n>.SAV, RDR2ZOMBIESAVE<n>.SAV) in Documents\\Rockstar Games\\Red Dead Redemption\\Profiles\\<id>. The save is decrypted and encrypted again with its CRC-32 when you save. Money, honor, fame, the Dead Eye meter and consumables can be changed; weapons, horses and kit are listed as owned. PS4 and Switch saves of the same release use the same format.
+= Documents\Rockstar Games\Red Dead Redemption\Profiles\<id> にある RDR2SAVE<n>.SAV (および REDDEAD2HCOR<n>.SAV、RDR2ZOMBIESAVE<n>.SAV)。セーブは復号され、保存時にCRC-32付きで再び暗号化されます。所持金、名声、評判、デッドアイゲージ、消耗品は変更できます。武器、馬、装備は所持済みとして表示されます。同じ版のPS4・Switchのセーブも同じ形式です。
+
+SAVEDATA.BIN (original) or SAVEDATAU.BIN (Ultimate) from Documents\\KoeiTecmo\\WARRIORS OROCHI 4\\Savedata. Gems, Crystals, Growth Points, Skill Orbs (lower only), weapon elements and officers' skill points.
+= Documents\KoeiTecmo\WARRIORS OROCHI 4\Savedata内のSAVEDATA.BIN(オリジナル版)またはSAVEDATAU.BIN(Ultimate)。宝石、結晶、成長ポイント、スキルオーブ(減らすのみ)、武器属性、武将のスキルポイント。
+
+SAVEDATA0000.dat from Documents\\KoeiTecmo\\SAMURAI WARRIORS 4-II\\Savedata. Gold, strategy tomes and each officer's five stat bonuses.
+= Documents\KoeiTecmo\SAMURAI WARRIORS 4-II\Savedata内のSAVEDATA0000.dat。ゴールド、戦略書、各武将の5つの能力ボーナス。
+
+SRDR3<nnnn> in Documents\\Rockstar Games\\Red Dead Redemption 2\\Profiles\\<id> (story mode, PC). The save is decrypted, and its checksums are written again and it is encrypted when you save. Satchel stacks can be changed, and supplies the satchel lacks can be added (Add to satchel: an experimental step that grows the save; keep a backup). Weapons keep their own loaded ammo, which is left alone. Challenge ranks and compendium ticks change the record only: they do not hand out rewards. Compendium entries whose name is not known yet are shown by their number. Honor and camp funds also update the matching saved statistic. Turn Steam/Rockstar cloud saves off for the game first, or the old save may come back.
+= Documents\Rockstar Games\Red Dead Redemption 2\Profiles\<id>内のSRDR3<nnnn>(ストーリーモード、PC)。セーブは復号され、チェックサムが書き直され、保存時に暗号化されます。サドルバッグのスタックは変更でき、バッグにない物資も追加できます(バッグに追加:セーブが大きくなる試験的な処理です。バックアップを取ってください)。武器は装填済みの弾薬を個別に保持しており、そのまま変更されません。チャレンジランクと図鑑のチェックは記録のみを変更し、報酬は付与されません。名前が未判明の図鑑項目は番号で表示されます。名声とキャンプ資金は、対応する保存済み統計も更新します。先にこのゲームのSteam/Rockstarクラウドセーブをオフにしてください。古いセーブが戻る場合があります。
+
+SVDATnnn.SAV or Auto*.sav from Saved Games\\FALCOM\\ED_SORA3. Mira, sepith, character levels and the item counts.
+= Saved Games\FALCOM\ED_SORA3内のSVDATnnn.SAVまたはAuto*.sav。ミラ、セピス、キャラクターレベル、アイテム所持数。
+
+SaveData.txt from a Daggerfall Unity save folder (LocalLow\\Daggerfall Workshop\\Daggerfall Unity\\Saves\\<name>-<n>). Gold carried, level, health, the eight attributes, all 35 skills, resistances, reputations and the gold in each region's bank. Attributes and skills run 0 to 100.
+= Daggerfall Unityのセーブフォルダ(LocalLow\Daggerfall Workshop\Daggerfall Unity\Saves\<名前>-<n>)内のSaveData.txt。所持ゴールド、レベル、体力、8つの能力値、全35スキル、耐性、評判、各地域の銀行のゴールド。能力値とスキルは0〜100です。
+
+Saves\\0.celeste … 2.celeste. Times are in ticks of 100 nanoseconds (10,000,000 per second).
+= Saves\0.celeste … 2.celeste。時間は100ナノ秒単位のティックで表します(1秒=10,000,000)。
+
+Skills and personality go from 0 to 1000; every 100 is one point on the game's bars. Sims carry their file name (user00012 is Characters\\User00012.iff). Townies and visitors are under Other Sims on the Values tab with Advanced on. Not yet tried in the game.
+= スキルと性格は0～1000で、100ごとにゲームのバーの1目盛りになります。Simにはファイル名が付きます（user00012はCharacters\User00012.iff）。タウニーと訪問者は、「値」タブで「詳細」をオンにした際の「その他のSim」にあります。ゲームでは未検証です。
+
+StellarBladeSave00.sav in %LOCALAPPDATA%\\SB\\Saved\\SaveGames\\<Steam id>. Item names are the game's internal ids; the save's CRC-32 is written again on save. Checked on a real early-game save, not yet tried in the game.
+= StellarBladeSave00.sav(%LOCALAPPDATA%\SB\Saved\SaveGames\<Steam id>)。アイテム名はゲーム内部のIDです。セーブのCRC-32は保存時に書き直されます。序盤の実際のセーブで確認済みで、ゲーム内ではまだ試していません。
+
+The save file from %LOCALAPPDATA%\\UNDERTALE_YELLOW (the one with Save1 and Items sections). Stats, gold, equipment names, the eight item slots and the play time. Layout from KockaAdmiralac's uty-save-editor.
+= %LOCALAPPDATA%\UNDERTALE_YELLOWにあるセーブファイル(Save1とItemsセクションがあるもの)です。ステータス、ゴールド、装備名、8つのアイテム枠、プレイ時間を扱います。構造はKockaAdmiralacのuty-save-editorに基づきます。
+
+WorldState_<n>.sav in %LOCALAPPDATA%\\MortalShell2\\Saved\\SaveGames. Gold, Gloom and Glimpses held are stored with the items; the lifetime totals are kept separately, so change both together.
+= WorldState_<n>.sav（%LOCALAPPDATA%\MortalShell2\Saved\SaveGames 内）。所持しているゴールド、グルーム、グリンプスはアイテムと一緒に保存され、累計は別に保持されるため、両方を同時に変更してください。
+
+checkpoint.dat in Documents\\Horizon Zero Dawn\\Saved Game\\<slot> (the PC Complete Edition). The save's checksum is made again on save. Level and experience are shown but not changed.
+= Documents\Horizon Zero Dawn\Saved Game\<slot>内のcheckpoint.dat（PC版Complete Edition）。セーブのチェックサムは保存時に再生成されます。レベルと経験値は表示のみで、変更はできません。
+
+data.sav in %APPDATA%\\Sega\\LikeADragonIshin. Food, seafood and crafting materials stack to 999; Virtue buys inventory upgrades at shrines. The wrapper's checksum is rewritten on save. Ryo isn't mapped yet (it stays in the Tree).
+= %APPDATA%\Sega\LikeADragonIshin内のdata.sav。食べ物、海産物、クラフト素材は999個までスタックでき、徳は神社で所持品アップグレードの購入に使います。ラッパーのチェックサムは保存時に書き直されます。両はまだ対応しておらず、Treeに残ります。
+
+data000.bin and the slot files in Steam\\userdata\\<account>\\3357650\\remote\\win64_save, opened with your own Steam account. Items, weapons and perks are listed by the game's own codes (its text files, which hold the names, aren't read). Checked on real saves, not yet tried in the game.
+= Steam\userdata\<account>\3357650\remote\win64_save内のdata000.binとスロットファイル（ご自身のSteamアカウントで開きます）。アイテム、武器、パークはゲーム固有のコードで一覧表示されます（名前を持つテキストファイルは読み込みません）。実際のセーブで確認済みですが、ゲームでは未検証です。
+
+file<n>.rpgsave in www\\save: Clams, each friend's level, heart and juice in Headspace and Faraway Town, and every snack, toy, weapon and charm you carry.
+= www\save の file<n>.rpgsave：Headspace と Faraway Town にいる各フレンドのクラム、レベル、ハート、ジュース、および所持しているすべてのスナック、おもちゃ、武器、チャーム。
+
+save.dloop in Saved Games\\Arkane Studios\\Deathloop\\base\\savegame\\<Steam id>\\SLOT01. The save's Oodle data is unpacked and packed again with the Oodle library of any game on this PC (the game's own works), and the file's checksum is made again. Close the game and turn Steam Cloud off for it first, or Steam may bring the old save back. Weapons, trinkets and slabs are stored as numbers and are not listed.
+= Saved Games\Arkane Studios\Deathloop\base\savegame\<Steam id>\SLOT01 の save.dloop。セーブの Oodle データは展開され、このPCにある任意のゲームの Oodle ライブラリ（ゲーム自体のもので可）で再圧縮され、ファイルのチェックサムも再作成されます。先にゲームを終了し、そのゲームの Steam クラウドをオフにしてください。そうしないと Steam が古いセーブを戻すことがあります。武器、トリンケット、スラブは数値で保存されるため一覧には表示されません。
+
+saveNNN.dat from Saved Games\\Falcom\\ed8. Mira, sepith, each member's level, experience, HP, EP, CP and stats, and the bag.
+= Saved Games\Falcom\ed8 の saveNNN.dat。ミラ、セピス、各メンバーのレベル、経験値、HP、EP、CP、能力値、およびバッグ。
+
+savegame.xml from Documents\\Teardown (inside the game's data folder). Cash, tool ammunition and tool upgrades, and each mission's score. Upgrades beyond what the shop sells can look odd in the game.
+= Documents\Teardown（ゲームのデータフォルダ内）の savegame.xml。現金、ツールの弾薬と強化、各ミッションのスコア。ショップで売られている以上の強化は、ゲーム内で不自然に見えることがあります。
+
+savegame\\SLOT<n>\\checkpoint.dat: Raw Whalebone, runes and ammo. Each ammo count goes up to what the save says the player can carry. The save is unpacked and packed again, with its check value, on save.
+= savegame\SLOT<n>\checkpoint.dat：生のクジラの骨、ルーン、弾薬。各弾薬数はセーブが示す所持上限まで設定できます。セーブは保存時に展開され、チェック値とともに再圧縮されます。
+
+savegame_<n>.sav in %LOCALAPPDATA%\\Subnautica2\\Saved\\SaveGames. Edits the current save; the previous-checkpoint copy is left alone. Needs the Oodle library of any game on this PC. Resources don't stack in this game, so there is no max-materials button.
+= %LOCALAPPDATA%\Subnautica2\Saved\SaveGames の savegame_<n>.sav。現在のセーブを編集します。前のチェックポイントのコピーはそのままです。このPCにある任意のゲームの Oodle ライブラリが必要です。このゲームではリソースが重ならないため、素材最大ボタンはありません。
+
+4WD Cars
+= 4WD Cars
+
+A-Class License
+= A-Class License
+
+A-Class License final test
+= A-Class License final test
+
+Advanced Techniques
+= Advanced Techniques
+
+Aero
+= Aero
+
+All-night I
+= All-night I
+
+All-night II
+= All-night II
+
+Autumn Ring time trial
+= Autumn Ring time trial
+
+Autumn Ring-Mini
+= Autumn Ring-Mini
+
+B-Class License
+= B-Class License
+
+B-Class License final test
+= B-Class License final test
+
+Basics of cornering 1
+= Basics of cornering 1
+
+Basics of cornering 2
+= Basics of cornering 2
+
+Basics of cornering 3
+= Basics of cornering 3
+
+Basics of multiple cornering 1
+= Basics of multiple cornering 1
+
+Basics of multiple cornering 2
+= Basics of multiple cornering 2
+
+Boulder Dash gem
+= Boulder Dash gem
+
+Boulders gem
+= Boulders gem
+
+Castle Machinery gem
+= Castle Machinery gem
+
+Clubman Cup
+= Clubman Cup
+
+Cortex Power gem
+= Cortex Power gem
+
+Deep Forest
+= Deep Forest
+
+Deep Forest time trial
+= Deep Forest time trial
+
+FF Cars
+= FF Cars
+
+FR Cars
+= FR Cars
+
+Fumbling in the Dark gem
+= Fumbling in the Dark gem
+
+Fumbling in the Dark key
+= Fumbling in the Dark key
+
+GT Cup
+= GT Cup
+
+GT League
+= GT League
+
+GT World Cup
+= GT World Cup
+
+Generator Room gem
+= Generator Room gem
+
+Grand Valley
+= Grand Valley
+
+Grand Valley East
+= Grand Valley East
+
+Grand Valley time trial
+= Grand Valley time trial
+
+Gravity
+= Gravity
+
+Handling Multiple Corners 1
+= Handling Multiple Corners 1
+
+Handling Multiple Corners 2
+= Handling Multiple Corners 2
+
+Handling Multiple Corners 3
+= Handling Multiple Corners 3
+
+Heavy Machinery gem
+= Heavy Machinery gem
+
+High Speed Ring
+= High Speed Ring
+
+High Speed Ring time trial
+= High Speed Ring time trial
+
+Hog Wild gem
+= Hog Wild gem
+
+IA-Class License
+= IA-Class License
+
+IA-Class License final test
+= IA-Class License final test
+
+Jaws of Darkness gem
+= Jaws of Darkness gem
+
+Jungle Rollers gem
+= Jungle Rollers gem
+
+Lights Out gem
+= Lights Out gem
+
+Lightweight Cars
+= Lightweight Cars
+
+Megaspeed
+= Megaspeed
+
+N. Sanity Beach gem
+= N. Sanity Beach gem
+
+Native Fortress gem
+= Native Fortress gem
+
+Normal Cars
+= Normal Cars
+
+Practical Cornering 1
+= Practical Cornering 1
+
+Practical Cornering 2
+= Practical Cornering 2
+
+Practical Cornering 3
+= Practical Cornering 3
+
+Road to Nowhere gem
+= Road to Nowhere gem
+
+Rolling Stones gem
+= Rolling Stones gem
+
+SS Route 11 time trial
+= SS Route 11 time trial
+
+SS Route 5 time trial
+= SS Route 5 time trial
+
+Slippery Climb gem
+= Slippery Climb gem
+
+Special Event
+= Special Event
+
+Spot Race
+= Spot Race
+
+Starting and stopping 1
+= Starting and stopping 1
+
+Starting and stopping 2
+= Starting and stopping 2
+
+Stop
+= Stop
+
+Sunday Cup
+= Sunday Cup
+
+Sunset Vista gem
+= Sunset Vista gem
+
+Temple Ruins gem
+= Temple Ruins gem
+
+The Great Gate gem
+= The Great Gate gem
+
+The High Road gem
+= The High Road gem
+
+The Lab gem
+= The Lab gem
+
+The Lost City gem
+= The Lost City gem
+
+Toxic Waste gem
+= Toxic Waste gem
+
+Trial Mountain
+= Trial Mountain
+
+Trial Mountain time trial
+= Trial Mountain time trial
+
+Tuned Cars
+= Tuned Cars
+
+UK v Japan
+= UK v Japan
+
+UK v US
+= UK v US
+
+US v Japan
+= US v Japan
+
+Up the Creek gem
+= Up the Creek gem
+
+Upstream gem
+= Upstream gem
+
+Whole Dog gem
+= Whole Dog gem
+
+Whole Dog key
+= Whole Dog key
+
+<id>-<n>-CharacterData.sav in %LOCALAPPDATA%\\Frontiers\\Saved\\SaveGames. The save is an Unreal file holding the whole character as JSON text; it is opened and written back as that string. Close the game first.
+= %LOCALAPPDATA%\Frontiers\Saved\SaveGames 内の <id>-<n>-CharacterData.sav。セーブはキャラクター全体をJSONテキストとして保持するUnrealファイルで、その文字列として開き、書き戻されます。先にゲームを閉じてください。
+
+GameUnlocks.dat in Documents\\Streets of Rogue\\CloudData. Nuggets buy unlocks; every agent, item, trait and floor is listed with whether it is unlocked and what it costs. Close the game first.
+= Documents\Streets of Rogue\CloudData 内の GameUnlocks.dat。Nuggetでアンロックを購入でき、すべてのエージェント、アイテム、特性、フロアが解放状況と費用付きで一覧表示されます。先にゲームを終了してください。

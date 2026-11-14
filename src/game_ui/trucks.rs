@@ -1,6 +1,7 @@
 //! Euro Truck Simulator 2 and American Truck Simulator (`game.sii`): money, experience,
 //! skills and the trucks' fuel and wear.
 
+use crate::i18n::{tr};
 use super::{fact, hero, panel, GameCtx};
 use eframe::egui::{Color32, Ui};
 use serde_json::{json, Value};
@@ -39,13 +40,13 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
                 cx.label(ui, "ADR classes (bitmask 0\u{2013}63)", "/driver_player/adr");
                 cx.editor(ui, "/driver_player/adr", 60.0);
             });
-            if super::quick_button(ui, "Max all skills", "") {
+            if super::quick_button(ui, tr("Max all skills"), "") {
                 for (_, key, max) in SKILLS {
                     cx.set(&format!("/driver_player/{key}"), json!(max as i64));
                 }
                 cx.set("/driver_player/adr", json!(63));
             }
-            ui.weak("Skills go from 0 to 6; ADR is the six hazardous-goods classes as bits (63 = all). Experience sets the driver level; the game works it out on load.");
+            ui.weak(tr("Skills go from 0 to 6; ADR is the six hazardous-goods classes as bits (63 = all). Experience sets the driver level; the game works it out on load."));
         });
     }
     let trucks = units(cx, "vehicle");
@@ -65,7 +66,7 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
                 });
             }
             ui.horizontal_wrapped(|ui| {
-                if super::quick_button(ui, "Fill every tank", "") {
+                if super::quick_button(ui, tr("Fill every tank"), "") {
                     for t in &trucks {
                         let p = format!("{t}/fuel_relative");
                         if cx.get(&p).is_some() {
@@ -73,7 +74,7 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
                         }
                     }
                 }
-                if super::quick_button(ui, "Repair every vehicle", "") {
+                if super::quick_button(ui, tr("Repair every vehicle"), "") {
                     for t in units(cx, "vehicle").into_iter().chain(units(cx, "trailer")) {
                         for w in WEAR.iter().chain(&["body_wear", "body_wear_unfixable", "wheels_wear"]) {
                             let p = format!("{t}/{w}");
@@ -84,8 +85,8 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
                     }
                 }
             });
-            ui.weak("Vehicle units are named by their id in the Tree. Wear and fuel are fractions (0 = new, 1 = worn out; fuel 1 = full).");
+            ui.weak(tr("Vehicle units are named by their id in the Tree. Wear and fuel are fractions (0 = new, 1 = worn out; fuel 1 = full)."));
         });
     }
-    ui.weak("Packed saves are opened and packed again for you. In the game's config.cfg, g_save_format 2 makes it write plain text saves.");
+    ui.weak(tr("Packed saves are opened and packed again for you. In the game's config.cfg, g_save_format 2 makes it write plain text saves."));
 }

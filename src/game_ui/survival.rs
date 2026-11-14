@@ -2,7 +2,7 @@
 //! (vitals, skills and inventory). Values are found by name and left out when a save
 //! doesn't have them.
 
-use crate::i18n::tr;
+use crate::i18n::{tr, trf};
 use super::{columns, fact, fmt_num, hero, panel, tabs, GameCtx};
 use crate::json_view::pointer_escape;
 use eframe::egui::{self, Color32, RichText, Ui};
@@ -84,7 +84,7 @@ pub fn wasteland3(ui: &mut Ui, cx: &mut GameCtx) {
                         cx.attribute(ui, a, &at(a), 10.0, accent);
                     }
                     ui.add_space(4.0);
-                    ui.weak("Attributes run from 1 to 10 in the game.");
+                    ui.weak(tr("Attributes run from 1 to 10 in the game."));
                 });
             } else {
                 panel(ui, "Ranger", |ui| {
@@ -94,7 +94,7 @@ pub fn wasteland3(ui: &mut Ui, cx: &mut GameCtx) {
                         }
                     });
                     ui.add_space(4.0);
-                    ui.weak("Hit points are the current value; the game works out the maximum from level and attributes. Unspent points are spent in the game.");
+                    ui.weak(tr("Hit points are the current value; the game works out the maximum from level and attributes. Unspent points are spent in the game."));
                 });
             }
         });
@@ -104,7 +104,7 @@ pub fn wasteland3(ui: &mut Ui, cx: &mut GameCtx) {
                 columns(ui, 300.0, skills.len(), |ui, i| {
                     cx.attribute(ui, &wasteland3_skill(&skills[i]), &join(&at("Skills"), &skills[i]), 10.0, accent);
                 });
-                ui.weak("Only the skills a ranger has put points in are saved. A skill the editor has no name for shows its number.");
+                ui.weak(tr("Only the skills a ranger has put points in are saved. A skill the editor has no name for shows its number."));
             });
         }
         if let Some(Value::Array(perks)) = cx.get(&at("Perks")).cloned() {
@@ -127,7 +127,7 @@ pub fn wasteland3(ui: &mut Ui, cx: &mut GameCtx) {
             for k in keys(cx, "/Reputation") {
                 cx.row_fixed(ui, &k, &join("/Reputation", &k), 160.0, 90.0);
             }
-            ui.weak("Standing with each faction (negative is hated). The game may clamp values outside its own range.");
+            ui.weak(tr("Standing with each faction (negative is hated). The game may clamp values outside its own range."));
         });
     }
     let story = keys(cx, "/Story values");
@@ -141,7 +141,7 @@ pub fn wasteland3(ui: &mut Ui, cx: &mut GameCtx) {
                             cx.row_fixed(ui, &k, &join("/Story values", &k), 380.0, 70.0);
                         }
                     }
-                    ui.weak("The game's own quest counters. Changing one can skip or repeat a scene; keep the backup.");
+                    ui.weak(tr("The game's own quest counters. Changing one can skip or repeat a scene; keep the backup."));
                 });
             });
         });
@@ -155,7 +155,7 @@ pub fn wasteland3(ui: &mut Ui, cx: &mut GameCtx) {
             amount_rows(ui, cx, base, base, &q);
         });
     }
-    ui.weak("Items are shown by their template name. Changing money, levels or XP updates the save only; the save list's summary updates the next time the game saves.");
+    ui.weak(tr("Items are shown by their template name. Changing money, levels or XP updates the save only; the save list's summary updates the next time the game saves."));
 }
 
 // ------------------------------------------------------------------ Valheim
@@ -200,15 +200,15 @@ pub fn valheim(ui: &mut Ui, cx: &mut GameCtx) {
                     cx.grid_row(ui, "Stamina", "/Vitals/Stamina", 90.0);
                 });
                 if let Some(m) = cx.num("/Vitals/Max health") {
-                    ui.label(format!("Max health {}", fmt_num(m)));
+                    ui.label(trf("Max health {0}", &[&(fmt_num(m))]));
                 }
                 if let Some(Value::Array(f)) = cx.get("/Vitals/Foods eaten") {
                     let f: Vec<&str> = f.iter().filter_map(Value::as_str).collect();
                     if !f.is_empty() {
-                        ui.label(format!("Foods: {}", f.join(", ")));
+                        ui.label(trf("Foods: {0}", &[&(f.join(", "))]));
                     }
                 }
-                ui.weak("Max health and stamina come from the food eaten; the game works them out again on load.");
+                ui.weak(tr("Max health and stamina come from the food eaten; the game works them out again on load."));
             });
         } else {
             panel(ui, "Record", |ui| {
@@ -231,22 +231,22 @@ pub fn valheim(ui: &mut Ui, cx: &mut GameCtx) {
             columns(ui, 300.0, skills.len(), |ui, i| {
                 cx.attribute(ui, &skills[i], &join("/Skills", &skills[i]), 100.0, accent);
             });
-            ui.weak("Skill levels go from 0 to 100.");
+            ui.weak(tr("Skill levels go from 0 to 100."));
         });
     }
     panel(ui, "Inventory", |ui| {
         if items.is_empty() {
-            ui.weak("The inventory is empty.");
+            ui.weak(tr("The inventory is empty."));
             return;
         }
         let q = filter(ui, "vh_inv", "item name");
         let narrow = ui.available_width() < 560.0;
         egui::Grid::new("vh_inv_grid").num_columns(if narrow { 3 } else { 5 }).striped(true).spacing([10.0, 4.0]).show(ui, |ui| {
             ui.strong(tr("Item"));
-            ui.strong("Stack");
-            ui.strong("Quality");
+            ui.strong(tr("Stack"));
+            ui.strong(tr("Quality"));
             if !narrow {
-                ui.strong("Durability");
+                ui.strong(tr("Durability"));
                 ui.strong(tr("Slot"));
             }
             ui.end_row();
@@ -267,7 +267,7 @@ pub fn valheim(ui: &mut Ui, cx: &mut GameCtx) {
         });
         ui.add_space(4.0);
         super::crafting::button(super::Game::Valheim, ui, cx);
-        ui.weak("Items are shown by their prefab name. Each item has its own top stack size and quality in the game; going past them may be undone when it loads.");
+        ui.weak(tr("Items are shown by their prefab name. Each item has its own top stack size and quality in the game; going past them may be undone when it loads."));
     });
 }
 

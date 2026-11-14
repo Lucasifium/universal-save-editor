@@ -58,7 +58,7 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
                     cx.grid_row(ui, "Max hit points", &join(&base, "Max hit points"), 70.0);
                     cx.grid_row(ui, "Alignment", &join(&base, "Alignment"), 150.0);
                 });
-                ui.weak("Levels don't follow experience by themselves: set both.");
+                ui.weak(tr("Levels don't follow experience by themselves: set both."));
             });
         } else {
             panel(ui, "Abilities", |ui| {
@@ -75,7 +75,7 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
             egui::ScrollArea::vertical().id_salt(("pst_items", &base)).max_height(360.0).show_locked(ui, |ui| {
                 egui::Grid::new(("pst_items_g", &base)).num_columns(2).striped(true).spacing([14.0, 4.0]).show(ui, |ui| {
                     ui.strong(tr("Item"));
-                    ui.strong("Count / charges");
+                    ui.strong(tr("Count / charges"));
                     ui.end_row();
                     for it in &items {
                         let q = join(&join(&items_base, it), "Quantity / charges");
@@ -89,7 +89,7 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
                     }
                 });
             });
-            ui.weak("Items by their game resource name; stacks (charms, bandages) and charges can be changed. Items can't be added here.");
+            ui.weak(tr("Items by their game resource name; stacks (charms, bandages) and charges can be changed. Items can't be added here."));
         });
     }
 }

@@ -1,6 +1,6 @@
 //! Elden Ring, Dark Souls III, II and I, and Sekiro: a character sheet and the inventory.
 
-use crate::i18n::tr;
+use crate::i18n::{tr, trf};
 use crate::widgets::ScrollLock;
 use super::{cell_grid, fact, materials_button, fmt_num, hero, inset_fill, meter, panel, select, selection, tabs, Cell, GameCtx, Game};
 use crate::json_view::pointer_escape;
@@ -139,17 +139,17 @@ pub fn show(g: Game, ui: &mut Ui, cx: &mut GameCtx) {
                 cx.attribute(ui, a, &format!("/Attributes/{a}"), 99.0, lk.accent);
             }
             ui.add_space(4.0);
-            ui.weak(format!("{} follows these: each point is one level.", lk.level));
+            ui.weak(trf("{0} follows these: each point is one level.", &[&(lk.level)]));
         });
     };
     let status = |ui: &mut Ui, cx: &mut GameCtx| {
         panel(ui, "Status", |ui| match g {
             Game::Sekiro => {
-                ui.weak("The size of each bar. Prayer Beads and Gourd Seeds raise them in the game.");
+                ui.weak(tr("The size of each bar. Prayer Beads and Gourd Seeds raise them in the game."));
                 egui_grid(ui, cx, &[("Vitality", "/Status/Vitality"), ("Posture", "/Status/Posture"), ("Spirit Emblem capacity", "/Character/Spirit Emblem capacity")]);
                 if cx.get("/Skills").is_some() {
                     ui.add_space(8.0);
-                    ui.label(RichText::new("Skills").strong());
+                    ui.label(RichText::new(tr("Skills")).strong());
                     egui_grid(ui, cx, &[("Skill experience", "/Skills/Skill experience")]);
                     ui.horizontal_wrapped(|ui| {
                         for k in ["Skill points earned", "Total experience"] {
@@ -175,7 +175,7 @@ pub fn show(g: Game, ui: &mut Ui, cx: &mut GameCtx) {
                     }
                 }
                 ui.add_space(4.0);
-                ui.weak("Worked out by the game from your attributes when it loads.");
+                ui.weak(tr("Worked out by the game from your attributes when it loads."));
             }
         });
     };
@@ -301,9 +301,9 @@ fn item_lists(g: Game, ui: &mut Ui, cx: &mut GameCtx, accent: Color32) {
         let sid = egui::Id::new("fs_inv_search");
         let mut query: String = ui.data(|d| d.get_temp(sid)).unwrap_or_default();
         ui.horizontal(|ui| {
-            ui.label("Search every list:");
-            let r = ui.add(egui::TextEdit::singleline(&mut query).hint_text("e.g. Smithing").desired_width(200.0));
-            if !query.is_empty() && ui.small_button("Clear").clicked() {
+            ui.label(tr("Search every list:"));
+            let r = ui.add(egui::TextEdit::singleline(&mut query).hint_text(tr("e.g. Smithing")).desired_width(200.0));
+            if !query.is_empty() && ui.small_button(tr("Clear")).clicked() {
                 query.clear();
             }
             if r.changed() || query.is_empty() {
@@ -331,7 +331,7 @@ fn item_lists(g: Game, ui: &mut Ui, cx: &mut GameCtx, accent: Color32) {
                         });
                     }
                 });
-                ui.weak("Skills, combat arts and prosthetic tools are listed here; learn them in the game.");
+                ui.weak(tr("Skills, combat arts and prosthetic tools are listed here; learn them in the game."));
             }
             return;
         }
@@ -351,7 +351,7 @@ fn item_lists(g: Game, ui: &mut Ui, cx: &mut GameCtx, accent: Color32) {
             })
             .collect();
         if !query.is_empty() && found.is_empty() {
-            ui.weak("Nothing you have matches. To add it, clear the search and click an empty slot.");
+            ui.weak(tr("Nothing you have matches. To add it, clear the search and click an empty slot."));
             return;
         }
         let list = if query.is_empty() { names[t].clone() } else { String::new() };
@@ -381,7 +381,7 @@ fn item_lists(g: Game, ui: &mut Ui, cx: &mut GameCtx, accent: Color32) {
             if let Some(serde_json::Value::Object(eq)) = cx.get("/Equipment (carried and stored)") {
                 let parts: Vec<String> = eq.iter().filter_map(|(k, v)| v.as_u64().filter(|&n| n > 0).map(|n| format!("{n} {}", k.to_lowercase()))).collect();
                 if !parts.is_empty() {
-                    ui.weak(format!("Also in these lists (not edited here): {}.", parts.join(", ")));
+                    ui.weak(trf("Also in these lists (not edited here): {0}.", &[&(parts.join(", "))]));
                 }
             }
         }
@@ -472,13 +472,13 @@ fn progress(ui: &mut Ui, cx: &mut GameCtx) {
                 }
             };
             if t == 0 {
-                if super::quick_button(ui, "Unlock base game graces", "") {
+                if super::quick_button(ui, tr("Unlock base game graces"), "") {
                     tick(cx, &|k| !dlc.contains(k));
                 }
-                if super::quick_button(ui, "Unlock Shadow of the Erdtree graces", "Only useful if you own the DLC") {
+                if super::quick_button(ui, tr("Unlock Shadow of the Erdtree graces"), tr("Only useful if you own the DLC")) {
                     tick(cx, &|k| dlc.contains(k));
                 }
-            } else if super::quick_button(ui, "Mark every boss defeated", "Bosses marked defeated stay gone; their rewards aren't given.") {
+            } else if super::quick_button(ui, tr("Mark every boss defeated"), tr("Bosses marked defeated stay gone; their rewards aren't given.")) {
                 tick(cx, &|_| true);
             }
         });
@@ -492,7 +492,7 @@ fn progress(ui: &mut Ui, cx: &mut GameCtx) {
                 }
             }
         });
-        ui.weak("Graces you unlock show up on the map for fast travel. Shadow of the Erdtree graces need the DLC.");
+        ui.weak(tr("Graces you unlock show up on the map for fast travel. Shadow of the Erdtree graces need the DLC."));
     });
 }
 

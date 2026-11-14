@@ -2,6 +2,7 @@
 //! (`SaveFile.txt`), Lethal Company (`LCSaveFile1…`, `LCGeneralSaveData`) and R.E.P.O.
 //! (`<save>.es3`). Every value sits in an ES3 `{"__type", "value"}` pair.
 
+use crate::i18n::{tr, trf};
 use super::screens2::{filter_box, value_rows};
 use super::{fact, hero, panel, tabs, words, GameCtx};
 use crate::json_view::pointer_escape;
@@ -56,12 +57,12 @@ pub fn phasmophobia(ui: &mut Ui, cx: &mut GameCtx) {
             0 => {
                 let rows = entries(cx, |k, v| (v.is_number() && !k.starts_with("committed")).then(|| k.strip_suffix("Inventory").map(words)).flatten());
                 value_rows(ui, cx, "phasmo_eq", &filtered(rows, &q));
-                ui.weak("How many of each item you own. The shop sells them one at a time; the save itself takes any number.");
+                ui.weak(tr("How many of each item you own. The shop sells them one at a time; the save itself takes any number."));
             }
             1 => {
                 let rows = entries(cx, |k, v| v.is_number().then(|| k.strip_suffix("Tier").map(words)).flatten());
                 value_rows(ui, cx, "phasmo_tier", &filtered(rows, &q));
-                ui.weak("The tier of each item in your loadout: 0, 1 or 2 for tiers I, II and III. A tier also has to be unlocked (next tab).");
+                ui.weak(tr("The tier of each item in your loadout: 0, 1 or 2 for tiers I, II and III. A tier also has to be unlocked (next tab)."));
             }
             2 => {
                 let rows = entries(cx, |k, v| v.is_boolean().then(|| k.strip_suffix("UnlockOwned").map(words)).flatten());
@@ -72,7 +73,7 @@ pub fn phasmophobia(ui: &mut Ui, cx: &mut GameCtx) {
                     }
                 });
                 if rows.is_empty() {
-                    ui.weak("No unlock flags in this save.");
+                    ui.weak(tr("No unlock flags in this save."));
                 }
             }
             _ => {
@@ -82,11 +83,11 @@ pub fn phasmophobia(ui: &mut Ui, cx: &mut GameCtx) {
                     (v.is_number() && !other).then(|| words(k))
                 });
                 value_rows(ui, cx, "phasmo_stats", &filtered(rows, &q));
-                ui.weak("Counters from the journal's statistics pages and the other numbers the save keeps.");
+                ui.weak(tr("Counters from the journal's statistics pages and the other numbers the save keeps."));
             }
         }
     });
-    ui.weak("Close the game before saving here, and turn Steam Cloud off for one start, or the game may bring the old save back. Checked on public test saves, not yet tried in the game.");
+    ui.weak(tr("Close the game before saving here, and turn Steam Cloud off for one start, or the game may bring the old save back. Checked on public test saves, not yet tried in the game."));
 }
 
 // ------------------------------------------------------------------ Lethal Company
@@ -105,7 +106,7 @@ pub fn lethal_company(ui: &mut Ui, cx: &mut GameCtx) {
             cx.tile(ui, "Rank", &val("PlayerLevel"), accent);
             cx.tile(ui, "Times landed", &val("TimesLanded"), accent);
         });
-        ui.weak("Rank goes from 0 (Intern) up; the game works it out again from experience after a round. Credits, the quota and the ship are in LCSaveFile1 to LCSaveFile3. Checked on public saves, not yet tried in the game.");
+        ui.weak(tr("Rank goes from 0 (Intern) up; the game works it out again from experience after a round. Credits, the quota and the ship are in LCSaveFile1 to LCSaveFile3. Checked on public saves, not yet tried in the game."));
         return;
     }
     let mut sub = vec!["Lethal Company".to_string()];
@@ -128,7 +129,7 @@ pub fn lethal_company(ui: &mut Ui, cx: &mut GameCtx) {
     panel(ui, "Ship and moon", |ui| {
         let rows: Vec<(String, String)> = [("Current moon (number)", "CurrentPlanetID"), ("Random seed", "RandomSeed"), ("Time of day", "GlobalTime")].iter().map(|(l, k)| (l.to_string(), val(k))).collect();
         value_rows(ui, cx, "lc_ship", &rows);
-        ui.weak("The deadline counts in-game minutes: a day is 1,080, so 3,240 is the full three days.");
+        ui.weak(tr("The deadline counts in-game minutes: a day is 1,080, so 3,240 is the full three days."));
     });
     const LC_MOONS: [&str; 9] = ["Experimentation", "Assurance", "Vow", "Company Building", "March", "Rend", "Dine", "Offense", "Titan"];
     const LC_UNLOCKS: [(i64, &str); 20] = [
@@ -137,7 +138,7 @@ pub fn lethal_company(ui: &mut Ui, cx: &mut GameCtx) {
         (16, "Terminal"), (17, "Signal translator"), (18, "Loud horn"), (19, "Inverse teleporter"),
     ];
     if let Some(m) = cx.int(&val("CurrentPlanetID")).and_then(|n| LC_MOONS.get(n as usize)) {
-        ui.weak(format!("Current moon: {m} (0 Experimentation, 1 Assurance, 2 Vow, 3 Company Building, 4 March, 5 Rend, 6 Dine, 7 Offense, 8 Titan)."));
+        ui.weak(trf("Current moon: {0} (0 Experimentation, 1 Assurance, 2 Vow, 3 Company Building, 4 March, 5 Rend, 6 Dine, 7 Offense, 8 Titan).", &[&m]));
     }
     if let Some(Value::Array(owned)) = cx.get(&val("UnlockedShipObjects")).cloned() {
         panel(ui, "Ship items owned", |ui| {
@@ -154,13 +155,13 @@ pub fn lethal_company(ui: &mut Ui, cx: &mut GameCtx) {
                     }
                 }
             });
-            ui.weak("Suits and furniture the crew has bought. Adding one makes it available to the crew.");
+            ui.weak(tr("Suits and furniture the crew has bought. Adding one makes it available to the crew."));
         });
     }
     if let Some(Value::Array(vals)) = cx.get(&val("shipScrapValues")).cloned() {
         if !vals.is_empty() {
             panel(ui, "Scrap on the ship (sell value)", |ui| {
-                if super::quick_button(ui, "Raise every scrap item to 200", "Sets each piece of scrap to a sell value of 200 if it is worth less.") {
+                if super::quick_button(ui, tr("Raise every scrap item to 200"), tr("Sets each piece of scrap to a sell value of 200 if it is worth less.")) {
                     for (n, v) in vals.iter().enumerate() {
                         if v.as_i64().is_some_and(|x| x < 200) {
                             cx.set(&format!("{}/{n}", val("shipScrapValues")), Value::from(200));
@@ -169,7 +170,7 @@ pub fn lethal_company(ui: &mut Ui, cx: &mut GameCtx) {
                 }
                 let rows: Vec<(String, String)> = (0..vals.len()).map(|n| (format!("Scrap {}", n + 1), format!("{}/{n}", val("shipScrapValues")))).collect();
                 value_rows(ui, cx, "lc_scrap", &rows);
-                ui.weak("What each piece of scrap on the ship sells for. The quota counts what you sell.");
+                ui.weak(tr("What each piece of scrap on the ship sells for. The quota counts what you sell."));
             });
         }
     }
@@ -181,14 +182,14 @@ pub fn lethal_company(ui: &mut Ui, cx: &mut GameCtx) {
                     cx.chip(ui, label, p, accent);
                 }
             });
-            ui.weak("On means the item sits in the ship's storage instead of standing in the ship.");
+            ui.weak(tr("On means the item sits in the ship's storage instead of standing in the ship."));
         });
     }
     let stats = entries(cx, |k, v| v.is_number().then(|| k.strip_prefix("Stats_").map(words)).flatten());
     if !stats.is_empty() {
         panel(ui, "Statistics", |ui| value_rows(ui, cx, "lc_stats", &stats));
     }
-    ui.weak("Checked on public saves, not yet tried in the game.");
+    ui.weak(tr("Checked on public saves, not yet tried in the game."));
 }
 
 // ------------------------------------------------------------------ R.E.P.O.
@@ -252,8 +253,8 @@ pub fn repo(ui: &mut Ui, cx: &mut GameCtx) {
         let rows = filtered(dict_rows(cx, lists[t].1, |k| k.trim_start_matches("Item ").to_string()), &q);
         value_rows(ui, cx, &format!("repo_items_{t}"), &rows);
         if t == 0 {
-            ui.weak("The items the team owns for the next level. Each health upgrade is worth 20 health on top of 100.");
+            ui.weak(tr("The items the team owns for the next level. Each health upgrade is worth 20 health on top of 100."));
         }
     });
-    ui.weak("Only the host's save counts in a multiplayer game. Checked on a public save, not yet tried in the game.");
+    ui.weak(tr("Only the host's save counts in a multiplayer game. Checked on a public save, not yet tried in the game."));
 }

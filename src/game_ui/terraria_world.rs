@@ -69,7 +69,7 @@ fn world_tab(ui: &mut Ui, cx: &mut GameCtx) {
                 }
             }
         });
-        ui.weak("Time is in ticks: a day runs 0 to 54,000 from dawn, a night 0 to 32,400 from dusk. Spawn and dungeon are tile positions (you can also set the spawn point on the Map).");
+        ui.weak(tr("Time is in ticks: a day runs 0 to 54,000 from dawn, a night 0 to 32,400 from dusk. Spawn and dungeon are tile positions (you can also set the spawn point on the Map)."));
     });
     chip_panel(ui, cx, "Special seeds", "/Special seeds", "Turning a seed on after the world was made changes some behaviour, not the terrain that was generated.");
 }
@@ -100,7 +100,7 @@ fn progress_tab(ui: &mut Ui, cx: &mut GameCtx) {
 fn chests_tab(ui: &mut Ui, cx: &mut GameCtx) {
     let all = keys(cx, "/Chests");
     if all.is_empty() {
-        ui.weak("This world has no chests.");
+        ui.weak(tr("This world has no chests."));
         return;
     }
     let fid = egui::Id::new("tw_chest_filter");
@@ -108,7 +108,7 @@ fn chests_tab(ui: &mut Ui, cx: &mut GameCtx) {
     panel(ui, "Chests", |ui| {
         ui.horizontal(|ui| {
             ui.label(tr("Find:"));
-            ui.add(egui::TextEdit::singleline(&mut filter).hint_text("chest name or item").desired_width(240.0));
+            ui.add(egui::TextEdit::singleline(&mut filter).hint_text(tr("chest name or item")).desired_width(240.0));
         });
         let f = filter.trim().to_lowercase();
         let rows: Vec<(usize, String)> = all
@@ -135,13 +135,13 @@ fn chests_tab(ui: &mut Ui, cx: &mut GameCtx) {
                 }
             }
             if rows.is_empty() {
-                ui.weak("No chest matches.");
+                ui.weak(tr("No chest matches."));
             }
         });
     });
     ui.data_mut(|d| d.insert_temp(fid, filter));
     let Some(i) = selection(ui, "tw_chest").filter(|&i| i < all.len()) else {
-        ui.weak("Pick a chest to change what's in it (or click one on the Map).");
+        ui.weak(tr("Pick a chest to change what's in it (or click one on the Map)."));
         return;
     };
     let base = format!("/Chests/{}", pointer_escape(&all[i]));
@@ -158,7 +158,7 @@ fn chests_tab(ui: &mut Ui, cx: &mut GameCtx) {
 fn signs_tab(ui: &mut Ui, cx: &mut GameCtx) {
     let all = keys(cx, "/Signs");
     if all.is_empty() {
-        ui.weak("This world has no signs.");
+        ui.weak(tr("This world has no signs."));
         return;
     }
     panel(ui, "Signs", |ui| {
@@ -177,14 +177,14 @@ fn signs_tab(ui: &mut Ui, cx: &mut GameCtx) {
 fn npcs_tab(ui: &mut Ui, cx: &mut GameCtx) {
     let all = keys(cx, "/NPCs");
     if all.is_empty() {
-        ui.weak("No town NPCs live in this world yet.");
+        ui.weak(tr("No town NPCs live in this world yet."));
         return;
     }
     panel(ui, "Town NPCs", |ui| {
         egui::Grid::new("tw_npcs").num_columns(3).spacing([14.0, 4.0]).striped(true).show(ui, |ui| {
-            ui.strong("Who");
+            ui.strong(tr("Who"));
             ui.strong(tr("Name"));
-            ui.strong("Home");
+            ui.strong(tr("Home"));
             ui.end_row();
             for k in &all {
                 let base = format!("/NPCs/{}", pointer_escape(k));
@@ -194,7 +194,7 @@ fn npcs_tab(ui: &mut Ui, cx: &mut GameCtx) {
                 ui.end_row();
             }
         });
-        ui.weak("Homes are tile positions; they're shown on the Map.");
+        ui.weak(tr("Homes are tile positions; they're shown on the Map."));
     });
 }
 
@@ -397,7 +397,7 @@ fn paintable_walls() -> (Vec<String>, Vec<u16>) {
 
 fn map_tab(ui: &mut Ui, cx: &mut GameCtx) {
     let Some(map) = cx.tree.and_then(|t| t.attachment()).and_then(|a| a.downcast::<WorldMap>().ok()) else {
-        ui.weak("The map isn't available for this file.");
+        ui.weak(tr("The map isn't available for this file."));
         return;
     };
     let state = ui.data_mut(|d| d.get_temp_mut_or_insert_with(egui::Id::new("tw_map"), || Arc::new(Mutex::new(MapView::default()))).clone());
@@ -422,7 +422,7 @@ fn map_tab(ui: &mut Ui, cx: &mut GameCtx) {
             Tool::Block => {
                 let (names, ids) = paintable_blocks(&map);
                 let cur = ids.iter().position(|&i| i == v.block).map_or_else(String::new, |i| names[i].clone());
-                ui.label("Block:");
+                ui.label(tr("Block:"));
                 if let Some(Value::String(s)) = crate::widgets::choice_editor(ui, "tw_block", &cur, &names, 240.0) {
                     if let Some(i) = names.iter().position(|n| *n == s) {
                         v.block = ids[i];
@@ -432,7 +432,7 @@ fn map_tab(ui: &mut Ui, cx: &mut GameCtx) {
             Tool::Wall => {
                 let (names, ids) = paintable_walls();
                 let cur = ids.iter().position(|&i| i == v.wall).map_or_else(String::new, |i| names[i].clone());
-                ui.label("Wall:");
+                ui.label(tr("Wall:"));
                 if let Some(Value::String(s)) = crate::widgets::choice_editor(ui, "tw_wall", &cur, &names, 240.0) {
                     if let Some(i) = names.iter().position(|n| *n == s) {
                         v.wall = ids[i];
@@ -440,7 +440,7 @@ fn map_tab(ui: &mut Ui, cx: &mut GameCtx) {
                 }
             }
             Tool::Liquid => {
-                ui.label("Liquid:");
+                ui.label(tr("Liquid:"));
                 let n = if map.shimmer_ok() { 4 } else { 3 };
                 for (i, name) in tw::LIQUIDS.iter().take(n).enumerate() {
                     if ui.selectable_label(v.liquid == i as u16 + 1, *name).clicked() {
@@ -715,7 +715,7 @@ fn poi_panel(ui: &mut Ui, map: &WorldMap, v: &mut MapView) {
             }
         });
         if map.pois.is_empty() {
-            ui.weak("Nothing special found in this world.");
+            ui.weak(tr("Nothing special found in this world."));
             return;
         }
         let list: Vec<&tw::Poi> = map.pois.iter().filter(|p| v.shown[p.kind]).collect();
@@ -725,7 +725,7 @@ fn poi_panel(ui: &mut Ui, map: &WorldMap, v: &mut MapView) {
                     let k = &tw::POI_KINDS[p.kind];
                     let depth = ((p.y as f64 - map.surface) * 2.0).round() as i64;
                     let level = if depth > 0 { format!("{depth} ft deep") } else { "surface".to_string() };
-                    if ui.selectable_label(false, format!("{}{}  \u{00B7}  {}, {}  \u{00B7}  {level}", k.name, if p.note.is_empty() { String::new() } else { format!(": {}", p.note) }, p.x, p.y)).on_hover_text("Show it on the map").clicked() {
+                    if ui.selectable_label(false, format!("{}{}  \u{00B7}  {}, {}  \u{00B7}  {level}", k.name, if p.note.is_empty() { String::new() } else { format!(": {}", p.note) }, p.x, p.y)).on_hover_text(tr("Show it on the map")).clicked() {
                         v.center = Vec2::new(p.x as f32, p.y as f32);
                         v.zoom = v.zoom.max(4.0);
                         v.tool = Tool::Look;
@@ -743,6 +743,6 @@ fn poi_panel(ui: &mut Ui, map: &WorldMap, v: &mut MapView) {
                 v.marks = [false; 4];
             }
         });
-        ui.weak("Chests are drawn when you zoom in. Life Crystals and Life Fruit are common, so they start hidden.");
+        ui.weak(tr("Chests are drawn when you zoom in. Life Crystals and Life Fruit are common, so they start hidden."));
     });
 }
