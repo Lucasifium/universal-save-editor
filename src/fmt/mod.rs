@@ -199,6 +199,8 @@ pub mod sotn;
 pub mod ff8;
 pub mod fft;
 pub mod re1;
+pub mod gt1;
+
 pub mod kh1;
 pub mod crash;
 pub mod kh2;
@@ -285,6 +287,11 @@ pub fn parse_binary(d: &[u8]) -> Option<TreeDoc> {
     }
     if kh1::looks(d) {
         if let Ok(t) = kh1::parse(d) {
+            return Some(t);
+        }
+    }
+    if gt1::looks(d) {
+        if let Ok(t) = gt1::parse(d) {
             return Some(t);
         }
     }

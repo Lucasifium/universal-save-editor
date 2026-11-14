@@ -3023,3 +3023,14 @@ steamcampaign01.sav from %APPDATA%\\Glaiel Games\\Mewgenics\\<Steam id>\\saves (
 user_progression.dat from %LOCALAPPDATA%\\Saber\\WWZ\\client\\storage\\slots (unpacked with the key derived from the file name, and packed again).
 = user_progression.dat de %LOCALAPPDATA%\Saber\WWZ\client\storage\slots (se descifra con la clave derivada del nombre del archivo y se vuelve a cifrar).
 
+Credits
+= Créditos
+
+Days
+= Días
+
+A PlayStation save (memory card, .mcs, .psx or .psv) of the 1997 game. Credits, days, every licence test medal and the result of every league, special event and spot race. The save's checksum is written again.
+= Una partida de PlayStation (tarjeta de memoria, .mcs, .psx o .psv) del juego de 1997. Créditos, días, cada medalla de las pruebas de licencia y el resultado de cada liga, evento especial y carrera rápida. La suma de comprobación de la partida se vuelve a escribir.
+
+Close the emulator first. The licence tests and race results show the medal or place you got; the save's checksum is written again. Cars and tuning parts are not edited yet.
+= Cierra primero el emulador. Las pruebas de licencia y los resultados de carrera muestran la medalla o el puesto conseguido; la suma de comprobación de la partida se vuelve a escribir. Los coches y las piezas de ajuste aún no se editan.

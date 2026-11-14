@@ -3023,3 +3023,14 @@ steamcampaign01.sav from %APPDATA%\\Glaiel Games\\Mewgenics\\<Steam id>\\saves (
 user_progression.dat from %LOCALAPPDATA%\\Saber\\WWZ\\client\\storage\\slots (unpacked with the key derived from the file name, and packed again).
 = 来自 %LOCALAPPDATA%\Saber\WWZ\client\storage\slots 的 user_progression.dat（使用由文件名派生的密钥解开，并重新打包）。
 
+Credits
+= 积分
+
+Days
+= 天数
+
+A PlayStation save (memory card, .mcs, .psx or .psv) of the 1997 game. Credits, days, every licence test medal and the result of every league, special event and spot race. The save's checksum is written again.
+= 1997 年游戏的 PlayStation 存档（存储卡、.mcs、.psx 或 .psv）。积分、天数、每项驾照测试的奖牌，以及每个联赛、特别赛事和单场赛的成绩。存档的校验和会重新写入。
+
+Close the emulator first. The licence tests and race results show the medal or place you got; the save's checksum is written again. Cars and tuning parts are not edited yet.
+= 请先关闭模拟器。驾照测试和赛事成绩显示你获得的奖牌或名次；存档的校验和会重新写入。车辆和改装部件暂时无法编辑。
