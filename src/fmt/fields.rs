@@ -15,6 +15,8 @@ pub enum Kind {
     U8,
     I16,
     U16,
+    /// Unsigned 24-bit (N64 saves pack times and flags into three bytes).
+    U24,
     I32,
     U32,
     /// Unsigned 64-bit (money in some games).
@@ -39,6 +41,7 @@ impl Kind {
         match self {
             Kind::U8 | Kind::B8 => 1,
             Kind::I16 | Kind::U16 => 2,
+            Kind::U24 => 3,
             Kind::U64 => 8,
             _ => 4,
         }
@@ -69,6 +72,10 @@ pub struct Leaf {
 /// Runs after the values are written, with the virtual choices that were changed
 /// (tag, chosen name); it may change the file's layout (e.g. add records).
 pub type Post = fn(&mut Vec<u8>, &[(Arc<str>, String)]) -> Result<(), String>;
+
+/// Puts the edited inner bytes back into the file they were taken from (the original file, the
+/// edited inner bytes): a save kept inside a container such as a GameCube `.gci`.
+pub type Wrap = fn(&[u8], &[u8]) -> Vec<u8>;
 
 /// How the file's checksum is kept right after an edit.
 #[allow(dead_code)]
@@ -101,6 +108,7 @@ pub fn read(d: &[u8], at: usize, kind: Kind, be: bool) -> Option<Value> {
         Kind::U8 => Value::from(b[0]),
         Kind::I16 => Value::from(u(2) as u16 as i16),
         Kind::U16 => Value::from(u(2) as u16),
+        Kind::U24 => Value::from(u(3) as u32),
         Kind::I32 => Value::from(u(4) as u32 as i32),
         Kind::U32 => Value::from(u(4) as u32),
         Kind::U64 => Value::from(u(8)),
@@ -179,6 +187,7 @@ fn encode(l: &Leaf, v: &Value) -> Result<Vec<u8>, String> {
                 Kind::U8 => (0, 255),
                 Kind::I16 => (i16::MIN.into(), i16::MAX.into()),
                 Kind::U16 => (0, u16::MAX.into()),
+                Kind::U24 => (0, 0xff_ffff),
                 Kind::I32 => (i32::MIN.into(), i32::MAX.into()),
                 Kind::U64 => (0, u64::MAX.into()),
                 _ => (0, u32::MAX.into()),
@@ -202,6 +211,7 @@ fn encode(l: &Leaf, v: &Value) -> Result<Vec<u8>, String> {
 
 #[derive(Clone, Debug)]
 struct FieldsBackend {
+    wrap: Option<(Arc<Vec<u8>>, Wrap)>,
     data: Arc<Vec<u8>>,
     leaves: Vec<Leaf>,
     checksum: Checksum,
@@ -210,6 +220,9 @@ struct FieldsBackend {
 
 impl Backend for FieldsBackend {
     fn write(&self, _view: &Value, changes: &[(usize, Value)]) -> Result<Vec<u8>, String> {
+        if let (Some((outer, _)), true) = (&self.wrap, changes.is_empty()) {
+            return Ok(outer.as_ref().clone());
+        }
         let mut out = self.data.as_ref().clone();
         let mut chosen: Vec<(Arc<str>, String)> = vec![];
         let mut touched: Vec<usize> = vec![];
@@ -263,6 +276,9 @@ impl Backend for FieldsBackend {
                 Checksum::Repack(_) => {}
             }
         }
+        if let Some((outer, put)) = &self.wrap {
+            out = put(outer, &out);
+        }
         Ok(out)
     }
 
@@ -299,11 +315,12 @@ pub struct Builder<'a> {
     view: Map<String, Value>,
     leaves: Vec<Leaf>,
     editable: HashMap<String, usize>,
+    wrap: Option<(Arc<Vec<u8>>, Wrap)>,
 }
 
 impl<'a> Builder<'a> {
     pub fn new(d: &'a [u8]) -> Self {
-        Self { d, big_endian: false, view: Map::new(), leaves: vec![], editable: HashMap::new() }
+        Self { d, big_endian: false, view: Map::new(), leaves: vec![], editable: HashMap::new(), wrap: None }
     }
 
     fn slot(&mut self, path: &[&str]) -> Option<&mut Map<String, Value>> {
@@ -434,12 +451,17 @@ impl<'a> Builder<'a> {
         self.leaves.is_empty()
     }
 
+    /// The bytes given to `Builder::new` were taken out of `outer`; edits are put back with `put`.
+    pub fn inside(&mut self, outer: &[u8], put: Wrap) {
+        self.wrap = Some((Arc::new(outer.to_vec()), put));
+    }
+
     pub fn finish(self, kind_name: &str, checksum: Checksum) -> TreeDoc {
         self.finish_with(kind_name, checksum, None)
     }
 
     pub fn finish_with(self, kind_name: &str, checksum: Checksum, post: Option<Post>) -> TreeDoc {
-        let backend = FieldsBackend { data: Arc::new(self.d.to_vec()), leaves: self.leaves, checksum, post };
+        let backend = FieldsBackend { wrap: self.wrap, data: Arc::new(self.d.to_vec()), leaves: self.leaves, checksum, post };
         TreeDoc::new(Value::Object(self.view), self.editable, kind_name, Box::new(backend))
     }
 }

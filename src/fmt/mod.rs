@@ -43,6 +43,9 @@ pub mod mcd;
 pub mod nonfinite;
 pub mod bloodstained;
 pub mod dmc1;
+pub mod genzero;
+pub mod genzero_names;
+pub mod nier_replicant;
 pub mod potion;
 pub mod wwz;
 pub mod ffpr;
@@ -193,6 +196,13 @@ pub mod sm64;
 pub mod mldt;
 pub mod nintendo;
 pub mod xc3;
+pub mod mk64;
+pub mod goldeneye;
+pub mod banjokazooie;
+pub mod zelda64;
+pub mod smash64;
+pub mod n64data;
+pub mod rare;
 pub mod supermetroid;
 pub mod zelda_lttp;
 pub mod alphaprotocol;
@@ -558,6 +568,31 @@ pub fn parse_binary(d: &[u8]) -> Option<TreeDoc> {
             return Some(t);
         }
     }
+    if mk64::looks(d) {
+        if let Ok(t) = mk64::parse(d) {
+            return Some(t);
+        }
+    }
+    if goldeneye::looks(d) {
+        if let Ok(t) = goldeneye::parse(d) {
+            return Some(t);
+        }
+    }
+    if banjokazooie::looks(d) {
+        if let Ok(t) = banjokazooie::parse(d) {
+            return Some(t);
+        }
+    }
+    if zelda64::looks(d) {
+        if let Ok(t) = zelda64::parse(d) {
+            return Some(t);
+        }
+    }
+    if smash64::looks(d) {
+        if let Ok(t) = smash64::parse(d) {
+            return Some(t);
+        }
+    }
     if alphaprotocol::looks(d) {
         if let Ok(t) = alphaprotocol::parse(d) {
             return Some(t);
@@ -580,6 +615,16 @@ pub fn parse_binary(d: &[u8]) -> Option<TreeDoc> {
     }
     if lego_classic::looks(d) {
         if let Ok(t) = lego_classic::parse(d) {
+            return Some(t);
+        }
+    }
+    if genzero::looks(d) {
+        if let Ok(t) = genzero::parse(d) {
+            return Some(t);
+        }
+    }
+    if nier_replicant::looks(d) {
+        if let Ok(t) = nier_replicant::parse(d) {
             return Some(t);
         }
     }

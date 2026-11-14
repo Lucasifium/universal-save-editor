@@ -14,6 +14,8 @@ pub fn byte_sum(d: &[u8], from: usize, to: usize) -> u32 {
 
 #[cfg(test)]
 mod samples {
+    use crate::fmt::*;
+    const KINDS: &[&str] = &[mk64::KIND, goldeneye::KIND, banjokazooie::KIND, zelda64::KIND];
     /// `SAVE_SAMPLES=<dir> cargo test --release --lib retro::samples -- --ignored --nocapture`:
     /// every console save in the folder that one of the readers here recognises must open and
     /// write back byte for byte.
@@ -25,10 +27,14 @@ mod samples {
         for e in std::fs::read_dir(dir).unwrap().flatten() {
             let d = std::fs::read(e.path()).unwrap();
             if let Some(mut doc) = crate::fmt::parse_binary(&d) {
-                if !doc.kind_name.starts_with("Super ") && !doc.kind_name.contains("Link to") && !doc.kind_name.starts_with("Xenoblade") && !doc.kind_name.starts_with("Mario Kart 7") && !doc.kind_name.starts_with("Super Kirby") && !doc.kind_name.starts_with("Mario & Luigi") {
+                if !doc.kind_name.starts_with("Super ") && !doc.kind_name.contains("Link to") && !doc.kind_name.starts_with("Xenoblade") && !doc.kind_name.starts_with("Mario Kart 7") && !doc.kind_name.starts_with("Super Kirby") && !doc.kind_name.starts_with("Mario & Luigi") && !KINDS.contains(&doc.kind_name.as_str()) {
                     continue;
                 }
                 assert_eq!(doc.to_bytes().unwrap(), d, "{:?}", e.path());
+                if let Ok(dir) = std::env::var("SAVE_DUMP") {
+                    let name = format!("{dir}/{}.json", e.file_name().to_string_lossy());
+                    std::fs::write(name, serde_json::to_string_pretty(&doc.view).unwrap()).unwrap();
+                }
                 println!("{:?}: {} ok", e.file_name(), doc.kind_name);
                 n += 1;
             }
