@@ -37,7 +37,9 @@ pub fn pack(plain: &[u8], header: &[u8]) -> Result<Vec<u8>, String> {
 }
 
 pub fn looks(d: &[u8]) -> bool {
-    d.len() > 0x55B9A0 && d.len() < 32 << 20 && (1..=99).contains(&d[0x6A9CF])
+    // Text (XML, JSON) of the same size is not a save: the real data is binary.
+    let texty = d.iter().take(256).all(|b| matches!(b, 9 | 10 | 13 | 0x20..=0x7E)) || d.starts_with(&[0xEF, 0xBB, 0xBF]);
+    d.len() > 0x55B9A0 && d.len() < 32 << 20 && !texty && (1..=99).contains(&d[0x6A9CF])
 }
 
 pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
@@ -77,6 +79,17 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn plain_text_of_the_same_size_is_not_dqb2() {
+        let mut xml = b"<?xml version=\"1.0\"?>\n<universe>".to_vec();
+        xml.resize(0x56_0000, b' ');
+        // A space (0x20) at the level offset is inside 1..=99, as in the real X Rebirth file.
+        assert!(!looks(&xml));
+        let mut binary = vec![0u8; 0x56_0000];
+        binary[0x6A9CF] = 5;
+        assert!(looks(&binary));
+    }
 
     #[test]
     fn round_trips_with_the_new_length() {

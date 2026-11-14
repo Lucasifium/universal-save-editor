@@ -392,7 +392,15 @@ pub fn show(i: u16, ui: &mut Ui, cx: &mut GameCtx) {
                             continue;
                         }
                         let name = t.names.iter().find(|(id, _)| *id == name).map_or(name, |(_, n)| n.to_string());
-                        ui.label(if name.is_empty() { format!("#{}", r + 1) } else { name });
+                        if name.is_empty() {
+                            ui.label(format!("#{}", r + 1));
+                        } else {
+                            let short = short_item_name(&name);
+                            let resp = ui.label(short.clone());
+                            if short != name {
+                                resp.on_hover_text(name);
+                            }
+                        }
                         for (_, k) in t.cols {
                             let p = format!("{t_path}/{key}{k}");
                             if cx.get(&p).is_some() {
@@ -531,6 +539,43 @@ mod tests {
             }
             cur = o.entry(k.to_string()).or_insert(json!({}));
         }
+    }
+
+    #[test]
+    fn long_class_paths_are_shortened_in_tables() {
+        assert_eq!(short_item_name("/Game/Items/Consumable/BP_Potion_Heal.BP_Potion_Heal_C"), "BP_Potion_Heal");
+        assert_eq!(short_item_name("Potion"), "Potion");
+    }
+
+    /// Thymesia's items hold long Unreal class paths; the table must stay inside a phone screen.
+    #[test]
+    fn thymesia_items_fit_at_phone_width() {
+        let i = all().iter().position(|s| s.name == "Thymesia").unwrap();
+        let s = &all()[i];
+        let mut root = synthetic(s);
+        let long = "/Game/Blueprints/Items/Consumable/Ingredients/BP_ItemIngredient_VeryLongName.BP_ItemIngredient_VeryLongName_C";
+        root["Items"] = json!([
+            {"ItemClass_5_E011FB07474AE88DE12C199DE8B52EAE": long, "Quantity_2_E0AE79EF4A4E386C95FE7C9479CAD4DC": 3},
+            {"ItemClass_5_E011FB07474AE88DE12C199DE8B52EAE": long, "Quantity_2_E0AE79EF4A4E386C95FE7C9479CAD4DC": 5}
+        ]);
+        let ctx = egui::Context::default();
+        crate::theme::install_fonts(&ctx);
+        let mut bad = vec![];
+        for frame in 0..3 {
+            let input = egui::RawInput { screen_rect: Some(egui::Rect::from_min_size(egui::Pos2::ZERO, egui::vec2(380.0, 800.0))), ..Default::default() };
+            let out = ctx.run(input, |ctx| {
+                egui::CentralPanel::default().show(ctx, |ui| {
+                    egui::ScrollArea::vertical().show(ui, |ui| {
+                        let mut cx = GameCtx { root: &root, baseline: &root, tree: None, edits: vec![], archive: None, open_entry: None };
+                        show(i as u16, ui, &mut cx);
+                    });
+                });
+            });
+            if frame == 2 {
+                bad = crate::app::layout_tests::cut_off_text(&out);
+            }
+        }
+        assert!(bad.is_empty(), "cut off: {bad:?}");
     }
 
     #[test]
@@ -755,4 +800,14 @@ pub fn texts() -> Vec<&'static str> {
     }
     out.retain(|t| !t.is_empty());
     out
+}
+
+/// The last part of a long class or asset path: `/Game/x/BP_Item.BP_Item_C` becomes `BP_Item`.
+fn short_item_name(name: &str) -> String {
+    if !name.contains('/') && !name.contains('.') {
+        return name.to_string();
+    }
+    let last = name.rsplit('/').next().unwrap_or(name);
+    let last = last.split('.').next().unwrap_or(last);
+    if last.is_empty() { name.to_string() } else { last.to_string() }
 }
