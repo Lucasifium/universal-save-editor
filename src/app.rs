@@ -145,7 +145,7 @@ fn prepare(path: &Path, decoded: formats::Decoded) -> Prepared {
         Content::Tree(t) => {
             names.advanced = t.advanced.clone();
             if let Some(n) = &t.note {
-                note = format!(" {n}");
+                note = format!(" {}", crate::i18n::tr_any(n));
             }
         }
         _ => {}

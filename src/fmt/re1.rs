@@ -47,7 +47,7 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
         b.pick(&["Item box", &n, "Item"], 0x2c4 + i * 2, Kind::U8, &items);
         b.ranged(&["Item box", &n, "Quantity"], 0x2c5 + i * 2, Kind::U8, 0, 250);
     }
-    Ok(b.finish(KIND, Checksum::None).with_note("Close the emulator first. Health is capped at 140, the game's own maximum; the quantity is the ammunition or the number of uses."))
+    Ok(b.finish(KIND, Checksum::None).with_note(crate::i18n::tx("Close the emulator first. Health is capped at 140, the game's own maximum; the quantity is the ammunition or the number of uses.")))
 }
 
 const ITEMS: &[(u8, &str)] = &[

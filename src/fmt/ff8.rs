@@ -75,7 +75,7 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
     for (i, n) in COMMON_CARDS.iter().enumerate() {
         b.bits(&["Cards", n], 0x1460 + i, Kind::U8, 0, 7, 0, 0, 100);
     }
-    Ok(b.finish(KIND, Checksum::Custom(fix)).with_note("Close the emulator first. Levels follow experience (1000 per level for the party, 500 for guardian forces). The save's CRC-16 is written again; the story progression is left to you, since a wrong value can break the story."))
+    Ok(b.finish(KIND, Checksum::Custom(fix)).with_note(crate::i18n::tx("Close the emulator first. Levels follow experience (1000 per level for the party, 500 for guardian forces). The save's CRC-16 is written again; the story progression is left to you, since a wrong value can break the story.")))
 }
 
 /// CRC-16 (polynomial 0x1021, start 0xffff, complemented) with the game's own table, whose last

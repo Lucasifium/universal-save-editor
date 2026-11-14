@@ -1,5 +1,6 @@
 //! Screens for PlayStation 1 and 2 game saves (see `crate::fmt::ps1`).
 
+use crate::i18n::tx;
 use super::{List, Max, Section, Shape, Spec, Table};
 
 pub const SOTN: Spec = Spec {
@@ -8,52 +9,52 @@ pub const SOTN: Spec = Spec {
     accent: (150, 30, 40),
     kind: Some(crate::fmt::sotn::KIND),
     markers: &["/General/Gold"],
-    subtitle: "A PlayStation save (memory card, .mcs, .psx or .psv). Alucard's level, experience, HP, MP, hearts, stats, gold, equipment, relics, spells, familiars, warp rooms and every weapon, shield, armor and potion count.",
-    tiles: &[("Level", "/Status/Level"), ("Gold", "/General/Gold"), ("Kills", "/General/Kills")],
+    subtitle: tx("A PlayStation save (memory card, .mcs, .psx or .psv). Alucard's level, experience, HP, MP, hearts, stats, gold, equipment, relics, spells, familiars, warp rooms and every weapon, shield, armor and potion count."),
+    tiles: &[(tx("Level"), "/Status/Level"), (tx("Gold"), "/General/Gold"), (tx("Kills"), "/General/Kills")],
     sections: &[
-        Section { title: "General", rows: &[
-            ("Gold", "/General/Gold"),
-            ("Kills", "/General/Kills"),
-            ("Play time hours", "/General/Play time hours"),
-            ("Play time minutes", "/General/Play time minutes"),
-            ("Play time seconds", "/General/Play time seconds"),
-            ("Progression", "/General/Progression"),
-            ("Character", "/General/Character"),
+        Section { title: tx("General"), rows: &[
+            (tx("Gold"), "/General/Gold"),
+            (tx("Kills"), "/General/Kills"),
+            (tx("Play time hours"), "/General/Play time hours"),
+            (tx("Play time minutes"), "/General/Play time minutes"),
+            (tx("Play time seconds"), "/General/Play time seconds"),
+            (tx("Progression"), "/General/Progression"),
+            (tx("Character"), "/General/Character"),
         ] },
-        Section { title: "Status", rows: &[
-            ("Level", "/Status/Level"),
-            ("Experience", "/Status/Experience"),
-            ("HP (now)", "/Status/HP (now)"),
-            ("HP (max)", "/Status/HP (max)"),
-            ("MP (now)", "/Status/MP (now)"),
-            ("MP (max)", "/Status/MP (max)"),
-            ("Hearts (now)", "/Status/Hearts (now)"),
-            ("Hearts (max)", "/Status/Hearts (max)"),
-            ("Strength", "/Status/Strength"),
-            ("Constitution", "/Status/Constitution"),
-            ("Intelligence", "/Status/Intelligence"),
-            ("Luck", "/Status/Luck"),
-            ("Subweapon", "/Status/Subweapon"),
+        Section { title: tx("Status"), rows: &[
+            (tx("Level"), "/Status/Level"),
+            (tx("Experience"), "/Status/Experience"),
+            (tx("HP (now)"), "/Status/HP (now)"),
+            (tx("HP (max)"), "/Status/HP (max)"),
+            (tx("MP (now)"), "/Status/MP (now)"),
+            (tx("MP (max)"), "/Status/MP (max)"),
+            (tx("Hearts (now)"), "/Status/Hearts (now)"),
+            (tx("Hearts (max)"), "/Status/Hearts (max)"),
+            (tx("Strength"), "/Status/Strength"),
+            (tx("Constitution"), "/Status/Constitution"),
+            (tx("Intelligence"), "/Status/Intelligence"),
+            (tx("Luck"), "/Status/Luck"),
+            (tx("Subweapon"), "/Status/Subweapon"),
         ] },
-        Section { title: "Equipped", rows: &[
-            ("Right hand", "/Equipped/Right hand"),
-            ("Left hand", "/Equipped/Left hand"),
-            ("Head", "/Equipped/Head"),
-            ("Body", "/Equipped/Body"),
+        Section { title: tx("Equipped"), rows: &[
+            (tx("Right hand"), "/Equipped/Right hand"),
+            (tx("Left hand"), "/Equipped/Left hand"),
+            (tx("Head"), "/Equipped/Head"),
+            (tx("Body"), "/Equipped/Body"),
             ("Cloak", "/Equipped/Cloak"),
-            ("Other 1", "/Equipped/Other 1"),
-            ("Other 2", "/Equipped/Other 2"),
+            (tx("Other 1"), "/Equipped/Other 1"),
+            (tx("Other 2"), "/Equipped/Other 2"),
         ] },
-        Section { title: "Spells", rows: &[
-            ("Spell 1", "/Spells/Spell 1"),
-            ("Spell 2", "/Spells/Spell 2"),
-            ("Spell 3", "/Spells/Spell 3"),
-            ("Spell 4", "/Spells/Spell 4"),
-            ("Spell 5", "/Spells/Spell 5"),
-            ("Spell 6", "/Spells/Spell 6"),
-            ("Spell 7", "/Spells/Spell 7"),
+        Section { title: tx("Spells"), rows: &[
+            (tx("Spell 1"), "/Spells/Spell 1"),
+            (tx("Spell 2"), "/Spells/Spell 2"),
+            (tx("Spell 3"), "/Spells/Spell 3"),
+            (tx("Spell 4"), "/Spells/Spell 4"),
+            (tx("Spell 5"), "/Spells/Spell 5"),
+            (tx("Spell 6"), "/Spells/Spell 6"),
+            (tx("Spell 7"), "/Spells/Spell 7"),
         ] },
-        Section { title: "Relics, forms and familiar cards", rows: &[
+        Section { title: tx("Relics, forms and familiar cards"), rows: &[
             ("Soul of Bat", "/Relics/Soul of Bat"),
             ("Fire of Bat", "/Relics/Fire of Bat"),
             ("Echo of Bat", "/Relics/Echo of Bat"),
@@ -85,7 +86,7 @@ pub const SOTN: Spec = Spec {
             ("Ring of Vlad", "/Relics/Ring of Vlad"),
             ("Eye of Vlad", "/Relics/Eye of Vlad"),
         ] },
-        Section { title: "Familiars", rows: &[
+        Section { title: tx("Familiars"), rows: &[
             ("Bat level", "/Familiars/Bat/Level"),
             ("Bat experience", "/Familiars/Bat/Experience"),
             ("Ghost level", "/Familiars/Ghost/Level"),
@@ -101,7 +102,7 @@ pub const SOTN: Spec = Spec {
             ("Demon (JP) level", "/Familiars/Demon (JP)/Level"),
             ("Demon (JP) experience", "/Familiars/Demon (JP)/Experience"),
         ] },
-        Section { title: "Warp rooms", rows: &[
+        Section { title: tx("Warp rooms"), rows: &[
             ("Entrance", "/Warp rooms/Entrance"),
             ("Abandoned Mine", "/Warp rooms/Abandoned Mine"),
             ("Outer Wall", "/Warp rooms/Outer Wall"),
@@ -115,8 +116,8 @@ pub const SOTN: Spec = Spec {
         ] },
     ],
     lists: &[
-        List { title: "Weapons, shields and potions", path: "/Hand items", shape: Shape::Map, names: &[], max: None },
-        List { title: "Armor and accessories", path: "/Equipment", shape: Shape::Map, names: &[], max: None },
+        List { title: tx("Weapons, shields and potions"), path: "/Hand items", shape: Shape::Map, names: &[], max: None },
+        List { title: tx("Armor and accessories"), path: "/Equipment", shape: Shape::Map, names: &[], max: None },
     ],
     tables: &[],
 };
@@ -127,38 +128,38 @@ pub const FF8: Spec = Spec {
     accent: (70, 110, 170),
     kind: Some(crate::fmt::ff8::KIND),
     markers: &["/General/Gil (Squall)"],
-    subtitle: "A PlayStation save (memory card, .mcs, .psx or .psv). Gil, the party's experience, HP and stat bonuses, every stocked magic, the Guardian Forces, the 198 bag slots and the Triple Triad cards. The save's checksum is written again.",
-    tiles: &[("Gil", "/General/Gil (Squall)"), ("Triple Triad wins", "/General/Triple Triad wins")],
+    subtitle: tx("A PlayStation save (memory card, .mcs, .psx or .psv). Gil, the party's experience, HP and stat bonuses, every stocked magic, the Guardian Forces, the 198 bag slots and the Triple Triad cards. The save's checksum is written again."),
+    tiles: &[("Gil", "/General/Gil (Squall)"), (tx("Triple Triad wins"), "/General/Triple Triad wins")],
     sections: &[
-        Section { title: "General", rows: &[
+        Section { title: tx("General"), rows: &[
             ("Gil (Squall)", "/General/Gil (Squall)"),
             ("Gil (Laguna)", "/General/Gil (Laguna)"),
-            ("Story progression", "/General/Story progression"),
-            ("Triple Triad wins", "/General/Triple Triad wins"),
-            ("Triple Triad losses", "/General/Triple Triad losses"),
-            ("Triple Triad draws", "/General/Triple Triad draws"),
+            (tx("Story progression"), "/General/Story progression"),
+            (tx("Triple Triad wins"), "/General/Triple Triad wins"),
+            (tx("Triple Triad losses"), "/General/Triple Triad losses"),
+            (tx("Triple Triad draws"), "/General/Triple Triad draws"),
         ] },
-        Section { title: "Party formation", rows: &[
-            ("Character 1", "/Formation/Character 1"),
-            ("Character 2", "/Formation/Character 2"),
-            ("Character 3", "/Formation/Character 3"),
+        Section { title: tx("Party formation"), rows: &[
+            (tx("Character 1"), "/Formation/Character 1"),
+            (tx("Character 2"), "/Formation/Character 2"),
+            (tx("Character 3"), "/Formation/Character 3"),
         ] },
     ],
     lists: &[
-        List { title: "Triple Triad cards (how many of each)", path: "/Cards", shape: Shape::Map, names: &[], max: None },
+        List { title: tx("Triple Triad cards (how many of each)"), path: "/Cards", shape: Shape::Map, names: &[], max: None },
     ],
     tables: &[
-        Table { title: "Party members", path: "/Party", name: &[], cols: &[("Character", "/Character"), ("Experience", "/Experience"), ("HP", "/HP"), ("Bonus HP", "/Bonus HP"), ("Bonus Strength", "/Bonus Strength"), ("Bonus Vitality", "/Bonus Vitality"), ("Bonus Magic", "/Bonus Magic"), ("Bonus Spirit", "/Bonus Spirit"), ("Bonus Speed", "/Bonus Speed"), ("Bonus Luck", "/Bonus Luck")], only: &[], names: &[] },
-        Table { title: "Stocked magic, party slot 1", path: "/Magic/Slot 1", name: &[], cols: &[("Magic", "/Magic"), ("Quantity", "/Quantity")], only: &[], names: &[] },
-        Table { title: "Stocked magic, party slot 2", path: "/Magic/Slot 2", name: &[], cols: &[("Magic", "/Magic"), ("Quantity", "/Quantity")], only: &[], names: &[] },
-        Table { title: "Stocked magic, party slot 3", path: "/Magic/Slot 3", name: &[], cols: &[("Magic", "/Magic"), ("Quantity", "/Quantity")], only: &[], names: &[] },
-        Table { title: "Stocked magic, party slot 4", path: "/Magic/Slot 4", name: &[], cols: &[("Magic", "/Magic"), ("Quantity", "/Quantity")], only: &[], names: &[] },
-        Table { title: "Stocked magic, party slot 5", path: "/Magic/Slot 5", name: &[], cols: &[("Magic", "/Magic"), ("Quantity", "/Quantity")], only: &[], names: &[] },
-        Table { title: "Stocked magic, party slot 6", path: "/Magic/Slot 6", name: &[], cols: &[("Magic", "/Magic"), ("Quantity", "/Quantity")], only: &[], names: &[] },
-        Table { title: "Stocked magic, party slot 7", path: "/Magic/Slot 7", name: &[], cols: &[("Magic", "/Magic"), ("Quantity", "/Quantity")], only: &[], names: &[] },
-        Table { title: "Stocked magic, party slot 8", path: "/Magic/Slot 8", name: &[], cols: &[("Magic", "/Magic"), ("Quantity", "/Quantity")], only: &[], names: &[] },
-        Table { title: "Guardian Forces", path: "/Guardian Forces", name: &[], cols: &[("Obtained", "/Obtained"), ("Experience", "/Experience"), ("HP", "/HP")], only: &[], names: &[] },
-        Table { title: "Items in the bag", path: "/Inventory", name: &[], cols: &[("Item", "/Item"), ("Quantity", "/Quantity")], only: &[], names: &[] },
+        Table { title: tx("Party members"), path: "/Party", name: &[], cols: &[(tx("Character"), "/Character"), (tx("Experience"), "/Experience"), ("HP", "/HP"), (tx("Bonus HP"), "/Bonus HP"), (tx("Bonus Strength"), "/Bonus Strength"), (tx("Bonus Vitality"), "/Bonus Vitality"), (tx("Bonus Magic"), "/Bonus Magic"), (tx("Bonus Spirit"), "/Bonus Spirit"), (tx("Bonus Speed"), "/Bonus Speed"), (tx("Bonus Luck"), "/Bonus Luck")], only: &[], names: &[] },
+        Table { title: tx("Stocked magic, party slot 1"), path: "/Magic/Slot 1", name: &[], cols: &[(tx("Magic"), "/Magic"), (tx("Quantity"), "/Quantity")], only: &[], names: &[] },
+        Table { title: tx("Stocked magic, party slot 2"), path: "/Magic/Slot 2", name: &[], cols: &[(tx("Magic"), "/Magic"), (tx("Quantity"), "/Quantity")], only: &[], names: &[] },
+        Table { title: tx("Stocked magic, party slot 3"), path: "/Magic/Slot 3", name: &[], cols: &[(tx("Magic"), "/Magic"), (tx("Quantity"), "/Quantity")], only: &[], names: &[] },
+        Table { title: tx("Stocked magic, party slot 4"), path: "/Magic/Slot 4", name: &[], cols: &[(tx("Magic"), "/Magic"), (tx("Quantity"), "/Quantity")], only: &[], names: &[] },
+        Table { title: tx("Stocked magic, party slot 5"), path: "/Magic/Slot 5", name: &[], cols: &[(tx("Magic"), "/Magic"), (tx("Quantity"), "/Quantity")], only: &[], names: &[] },
+        Table { title: tx("Stocked magic, party slot 6"), path: "/Magic/Slot 6", name: &[], cols: &[(tx("Magic"), "/Magic"), (tx("Quantity"), "/Quantity")], only: &[], names: &[] },
+        Table { title: tx("Stocked magic, party slot 7"), path: "/Magic/Slot 7", name: &[], cols: &[(tx("Magic"), "/Magic"), (tx("Quantity"), "/Quantity")], only: &[], names: &[] },
+        Table { title: tx("Stocked magic, party slot 8"), path: "/Magic/Slot 8", name: &[], cols: &[(tx("Magic"), "/Magic"), (tx("Quantity"), "/Quantity")], only: &[], names: &[] },
+        Table { title: "Guardian Forces", path: "/Guardian Forces", name: &[], cols: &[(tx("Obtained"), "/Obtained"), (tx("Experience"), "/Experience"), ("HP", "/HP")], only: &[], names: &[] },
+        Table { title: tx("Items in the bag"), path: "/Inventory", name: &[], cols: &[(tx("Item"), "/Item"), (tx("Quantity"), "/Quantity")], only: &[], names: &[] },
     ],
 };
 
@@ -168,24 +169,24 @@ pub const FFT: Spec = Spec {
     accent: (150, 110, 50),
     kind: Some(crate::fmt::fft::KIND),
     markers: &["/General/War funds"],
-    subtitle: "A PlayStation save (memory card, .mcs, .psx or .psv). War funds, each of the 20 units' job, level, experience, Brave, Faith and equipment, and the count of every weapon, helmet, armor, accessory and item. The save's checksum is written again.",
-    tiles: &[("War funds", "/General/War funds")],
+    subtitle: tx("A PlayStation save (memory card, .mcs, .psx or .psv). War funds, each of the 20 units' job, level, experience, Brave, Faith and equipment, and the count of every weapon, helmet, armor, accessory and item. The save's checksum is written again."),
+    tiles: &[(tx("War funds"), "/General/War funds")],
     sections: &[
-        Section { title: "General", rows: &[
-            ("War funds", "/General/War funds"),
-            ("Deaths of units (Brave Story)", "/General/Deaths of units (Brave Story)"),
-            ("Injured (Brave Story)", "/General/Injured (Brave Story)"),
+        Section { title: tx("General"), rows: &[
+            (tx("War funds"), "/General/War funds"),
+            (tx("Deaths of units (Brave Story)"), "/General/Deaths of units (Brave Story)"),
+            (tx("Injured (Brave Story)"), "/General/Injured (Brave Story)"),
         ] },
     ],
     lists: &[
-        List { title: "Weapons", path: "/Inventory/Weapons", shape: Shape::Map, names: &[], max: None },
-        List { title: "Helmets and hats", path: "/Inventory/Heads", shape: Shape::Map, names: &[], max: None },
-        List { title: "Armor", path: "/Inventory/Armor", shape: Shape::Map, names: &[], max: None },
-        List { title: "Accessories", path: "/Inventory/Accessories", shape: Shape::Map, names: &[], max: None },
-        List { title: "Items", path: "/Inventory/Items", shape: Shape::Map, names: &[], max: None },
+        List { title: tx("Weapons"), path: "/Inventory/Weapons", shape: Shape::Map, names: &[], max: None },
+        List { title: tx("Helmets and hats"), path: "/Inventory/Heads", shape: Shape::Map, names: &[], max: None },
+        List { title: tx("Armor"), path: "/Inventory/Armor", shape: Shape::Map, names: &[], max: None },
+        List { title: tx("Accessories"), path: "/Inventory/Accessories", shape: Shape::Map, names: &[], max: None },
+        List { title: tx("Items"), path: "/Inventory/Items", shape: Shape::Map, names: &[], max: None },
     ],
     tables: &[
-        Table { title: "Units", path: "/Party", name: &[], cols: &[("Job", "/Job"), ("Level", "/Level"), ("Experience", "/Experience"), ("Brave", "/Brave"), ("Faith", "/Faith"), ("Right hand", "/Right hand"), ("Left hand", "/Left hand"), ("Head", "/Head"), ("Body", "/Body"), ("Accessory", "/Accessory")], only: &[], names: &[] },
+        Table { title: tx("Units"), path: "/Party", name: &[], cols: &[("Job", "/Job"), (tx("Level"), "/Level"), (tx("Experience"), "/Experience"), ("Brave", "/Brave"), ("Faith", "/Faith"), (tx("Right hand"), "/Right hand"), (tx("Left hand"), "/Left hand"), (tx("Head"), "/Head"), (tx("Body"), "/Body"), (tx("Accessory"), "/Accessory")], only: &[], names: &[] },
     ],
 };
 
@@ -195,25 +196,25 @@ pub const RE1: Spec = Spec {
     accent: (120, 20, 20),
     kind: Some(crate::fmt::re1::KIND),
     markers: &["/General/Health"],
-    subtitle: "A PlayStation save (memory card, .mcs, .psx or .psv), Director's Cut included. Chris or Jill, health, poison, ink ribbons used, the eight inventory slots and all 48 item box slots with item and quantity.",
-    tiles: &[("Health", "/General/Health")],
+    subtitle: tx("A PlayStation save (memory card, .mcs, .psx or .psv), Director's Cut included. Chris or Jill, health, poison, ink ribbons used, the eight inventory slots and all 48 item box slots with item and quantity."),
+    tiles: &[(tx("Health"), "/General/Health")],
     sections: &[
-        Section { title: "General", rows: &[
-            ("Character", "/General/Character"),
-            ("Health", "/General/Health"),
-            ("Condition", "/General/Condition"),
-            ("Ink ribbons used", "/General/Ink ribbons used"),
-            ("Inventory slots", "/General/Inventory slots"),
-            ("Communication radio", "/General/Communication radio"),
-            ("Alternative outfit", "/General/Alternative outfit"),
-            ("Unlimited rocket launcher", "/General/Unlimited rocket launcher"),
+        Section { title: tx("General"), rows: &[
+            (tx("Character"), "/General/Character"),
+            (tx("Health"), "/General/Health"),
+            (tx("Condition"), "/General/Condition"),
+            (tx("Ink ribbons used"), "/General/Ink ribbons used"),
+            (tx("Inventory slots"), "/General/Inventory slots"),
+            (tx("Communication radio"), "/General/Communication radio"),
+            (tx("Alternative outfit"), "/General/Alternative outfit"),
+            (tx("Unlimited rocket launcher"), "/General/Unlimited rocket launcher"),
         ] },
     ],
     lists: &[
     ],
     tables: &[
-        Table { title: "Inventory", path: "/Inventory", name: &[], cols: &[("Item", "/Item"), ("Quantity", "/Quantity")], only: &[], names: &[] },
-        Table { title: "Item box", path: "/Item box", name: &[], cols: &[("Item", "/Item"), ("Quantity", "/Quantity")], only: &[], names: &[] },
+        Table { title: tx("Inventory"), path: "/Inventory", name: &[], cols: &[(tx("Item"), "/Item"), (tx("Quantity"), "/Quantity")], only: &[], names: &[] },
+        Table { title: tx("Item box"), path: "/Item box", name: &[], cols: &[(tx("Item"), "/Item"), (tx("Quantity"), "/Quantity")], only: &[], names: &[] },
     ],
 };
 
@@ -223,14 +224,14 @@ pub const KH2: Spec = Spec {
     accent: (40, 80, 160),
     kind: Some(crate::fmt::kh2::KIND),
     markers: &["/General/Munny"],
-    subtitle: "A PlayStation 2 save (memory card, .psu or .psv) of the USA or Europe release. Munny, difficulty, magic levels, each party member's level, experience, HP, MP and bonuses, and the stock of every item, weapon, armor, accessory, key item and synthesis material. The save's checksum is written again.",
+    subtitle: tx("A PlayStation 2 save (memory card, .psu or .psv) of the USA, Europe, Japanese or Final Mix release. Munny, difficulty, magic levels, each party member's level, experience, HP, MP and bonuses, and the stock of every item, weapon, armor, accessory, key item and synthesis material. The save's checksum is written again."),
     tiles: &[("Munny", "/General/Munny")],
     sections: &[
-        Section { title: "General", rows: &[
-            ("Difficulty", "/General/Difficulty"),
+        Section { title: tx("General"), rows: &[
+            (tx("Difficulty"), "/General/Difficulty"),
             ("Munny", "/General/Munny"),
         ] },
-        Section { title: "Magic", rows: &[
+        Section { title: tx("Magic"), rows: &[
             ("Fire", "/Magic/Fire"),
             ("Blizzard", "/Magic/Blizzard"),
             ("Thunder", "/Magic/Thunder"),
@@ -240,14 +241,107 @@ pub const KH2: Spec = Spec {
         ] },
     ],
     lists: &[
-        List { title: "Items", path: "/Stock/Items", shape: Shape::Map, names: &[], max: None },
-        List { title: "Weapons", path: "/Stock/Weapons", shape: Shape::Map, names: &[], max: None },
-        List { title: "Armor", path: "/Stock/Armor", shape: Shape::Map, names: &[], max: None },
-        List { title: "Accessories", path: "/Stock/Accessories", shape: Shape::Map, names: &[], max: None },
-        List { title: "Key items", path: "/Stock/Key items", shape: Shape::Map, names: &[], max: None },
-        List { title: "Synthesis materials", path: "/Stock/Synthesis materials", shape: Shape::Map, names: &[], max: Some(Max { ids: &["Dark Shard", "Dark Stone", "Dark Gem", "Dark Crystal", "Blazing Shard", "Blazing Stone", "Blazing Gem", "Blazing Crystal", "Lightning Shard", "Lightning Stone", "Lightning Gem", "Lightning Crystal", "Power Shard", "Power Stone", "Power Gem", "Power Crystal", "Lucid Shard", "Lucid Stone", "Lucid Gem", "Lucid Crystal", "Dense Shard", "Dense Stone", "Dense Gem", "Dense Crystal", "Twilight Shard", "Twilight Stone", "Twilight Gem", "Twilight Crystal", "Mythril Shard", "Mythril Stone", "Mythril Gem", "Mythril Crystal", "Bright Shard", "Bright Stone", "Bright Gem", "Bright Crystal", "Energy Shard", "Energy Stone", "Energy Gem", "Energy Crystal", "Serenity Shard", "Serenity Stone", "Serenity Gem", "Serenity Crystal", "Orichalcum+", "Orichalcum", "Frost Shard", "Frost Stone", "Frost Gem", "Frost Crystal"], cap: 99, caps: &[], estimate: true, about: "Raises every synthesis material in the stock to 99, the most the stock can hold in the save. Items, weapons, armor, accessories and key items are left alone." }) },
+        List { title: tx("Items"), path: "/Stock/Items", shape: Shape::Map, names: &[], max: None },
+        List { title: tx("Weapons"), path: "/Stock/Weapons", shape: Shape::Map, names: &[], max: None },
+        List { title: tx("Armor"), path: "/Stock/Armor", shape: Shape::Map, names: &[], max: None },
+        List { title: tx("Accessories"), path: "/Stock/Accessories", shape: Shape::Map, names: &[], max: None },
+        List { title: tx("Key items"), path: "/Stock/Key items", shape: Shape::Map, names: &[], max: None },
+        List { title: tx("Synthesis materials"), path: "/Stock/Synthesis materials", shape: Shape::Map, names: &[], max: Some(Max { ids: &["Dark Shard", "Dark Stone", "Dark Gem", "Dark Crystal", "Blazing Shard", "Blazing Stone", "Blazing Gem", "Blazing Crystal", "Lightning Shard", "Lightning Stone", "Lightning Gem", "Lightning Crystal", "Power Shard", "Power Stone", "Power Gem", "Power Crystal", "Lucid Shard", "Lucid Stone", "Lucid Gem", "Lucid Crystal", "Dense Shard", "Dense Stone", "Dense Gem", "Dense Crystal", "Twilight Shard", "Twilight Stone", "Twilight Gem", "Twilight Crystal", "Mythril Shard", "Mythril Stone", "Mythril Gem", "Mythril Crystal", "Bright Shard", "Bright Stone", "Bright Gem", "Bright Crystal", "Energy Shard", "Energy Stone", "Energy Gem", "Energy Crystal", "Serenity Shard", "Serenity Stone", "Serenity Gem", "Serenity Crystal", "Orichalcum+", "Orichalcum", "Frost Shard", "Frost Stone", "Frost Gem", "Frost Crystal", "Remembrance Shard", "Remembrance Stone", "Remembrance Gem", "Remembrance Crystal", "Tranquility Shard", "Tranquility Stone", "Tranquility Gem", "Tranquility Crystal", "Lost Illusion", "Manifest Illusion"], cap: 99, caps: &[], estimate: true, about: tx("Raises every synthesis material in the stock to 99, the most the stock can hold in the save. Items, weapons, armor, accessories and key items are left alone.") }) },
     ],
     tables: &[
-        Table { title: "Party", path: "/Party", name: &[], cols: &[("Level", "/Level"), ("Experience", "/Experience"), ("HP", "/HP"), ("MP", "/MP"), ("Bonus Strength", "/Bonus Strength"), ("Bonus Magic", "/Bonus Magic"), ("Bonus Defense", "/Bonus Defense"), ("Bonus AP", "/Bonus AP")], only: &[], names: &[] },
+        Table { title: tx("Party"), path: "/Party", name: &[], cols: &[(tx("Level"), "/Level"), (tx("Experience"), "/Experience"), ("HP", "/HP"), ("MP", "/MP"), (tx("Bonus Strength"), "/Bonus Strength"), (tx("Bonus Magic"), "/Bonus Magic"), (tx("Bonus Defense"), "/Bonus Defense"), (tx("Bonus AP"), "/Bonus AP")], only: &[], names: &[] },
+    ],
+};
+
+pub const CRASH: Spec = Spec {
+    name: "Crash Bandicoot",
+    tab: "Bandicoot",
+    accent: (220, 120, 20),
+    kind: Some(crate::fmt::crash::KIND),
+    markers: &["/General/Level reached (1 = just started)"],
+    subtitle: tx("A PlayStation save (memory card, .mcs, .psx or .psv) of the 1996 game. The level you have reached, every gem, both keys and the volumes. The gem and key counts, the completion rate and the checksum are written again."),
+    tiles: &[(tx("Level reached"), "/General/Level reached (1 = just started)")],
+    sections: &[
+        Section { title: tx("General"), rows: &[
+            (tx("Level reached (1 = just started)"), "/General/Level reached (1 = just started)"),
+        ] },
+        Section { title: tx("Gems"), rows: &[
+            ("N. Sanity Beach gem", "/Gems/N. Sanity Beach gem"),
+            ("Jungle Rollers gem", "/Gems/Jungle Rollers gem"),
+            ("The Great Gate gem", "/Gems/The Great Gate gem"),
+            ("Boulders gem", "/Gems/Boulders gem"),
+            ("Upstream gem", "/Gems/Upstream gem"),
+            ("Rolling Stones gem", "/Gems/Rolling Stones gem"),
+            ("Hog Wild gem", "/Gems/Hog Wild gem"),
+            ("Native Fortress gem", "/Gems/Native Fortress gem"),
+            ("Up the Creek gem", "/Gems/Up the Creek gem"),
+            ("The Lost City gem", "/Gems/The Lost City gem"),
+            ("Temple Ruins gem", "/Gems/Temple Ruins gem"),
+            ("Road to Nowhere gem", "/Gems/Road to Nowhere gem"),
+            ("Boulder Dash gem", "/Gems/Boulder Dash gem"),
+            ("Sunset Vista gem", "/Gems/Sunset Vista gem"),
+            ("Heavy Machinery gem", "/Gems/Heavy Machinery gem"),
+            ("Cortex Power gem", "/Gems/Cortex Power gem"),
+            ("Generator Room gem", "/Gems/Generator Room gem"),
+            ("Toxic Waste gem", "/Gems/Toxic Waste gem"),
+            ("The High Road gem", "/Gems/The High Road gem"),
+            ("Slippery Climb gem", "/Gems/Slippery Climb gem"),
+            ("Lights Out gem", "/Gems/Lights Out gem"),
+            ("Jaws of Darkness gem", "/Gems/Jaws of Darkness gem"),
+            ("Castle Machinery gem", "/Gems/Castle Machinery gem"),
+            ("The Lab gem", "/Gems/The Lab gem"),
+            ("Whole Dog gem", "/Gems/Whole Dog gem"),
+            ("Fumbling in the Dark gem", "/Gems/Fumbling in the Dark gem"),
+        ] },
+        Section { title: tx("Keys"), rows: &[
+            ("Whole Dog key", "/Keys/Whole Dog key"),
+            ("Fumbling in the Dark key", "/Keys/Fumbling in the Dark key"),
+        ] },
+        Section { title: tx("Options"), rows: &[
+            (tx("Effects volume"), "/Options/Effects volume"),
+            (tx("Music volume"), "/Options/Music volume"),
+        ] },
+    ],
+    lists: &[
+    ],
+    tables: &[
+    ],
+};
+
+pub const KH1: Spec = Spec {
+    name: "Kingdom Hearts",
+    tab: "Sora",
+    accent: (200, 150, 40),
+    kind: Some(crate::fmt::kh1::KIND),
+    markers: &["/General/Munny"],
+    subtitle: tx("A PlayStation 2 save (memory card, .psu or .psv) of the original game or Final Mix. Munny, difficulty, magic levels, the ten party members' level, experience, HP, MP, AP, strength, defense and weapon, and the stock of every item, weapon, accessory, key item and synthesis material."),
+    tiles: &[("Munny", "/General/Munny")],
+    sections: &[
+        Section { title: tx("General"), rows: &[
+            (tx("Difficulty"), "/General/Difficulty"),
+            (tx("Difficulty"), "/General/Difficulty (not in the Japanese release)"),
+            ("Munny", "/General/Munny"),
+        ] },
+        Section { title: tx("Magic level"), rows: &[
+            ("Fire", "/Magic/Fire"),
+            ("Blizzard", "/Magic/Blizzard"),
+            ("Thunder", "/Magic/Thunder"),
+            ("Cure", "/Magic/Cure"),
+            ("Gravity", "/Magic/Gravity"),
+            ("Stop", "/Magic/Stop"),
+            ("Aero", "/Magic/Aero"),
+        ] },
+    ],
+    lists: &[
+        List { title: tx("Recovery items"), path: "/Stock/Recovery items", shape: Shape::Map, names: &[], max: None },
+        List { title: tx("Boosting items"), path: "/Stock/Boosting items", shape: Shape::Map, names: &[], max: None },
+        List { title: tx("Rare drops"), path: "/Stock/Rare drops", shape: Shape::Map, names: &[], max: None },
+        List { title: tx("Synthesis materials"), path: "/Stock/Synthesis materials", shape: Shape::Map, names: &[], max: Some(Max { ids: &["Lucid Shard", "Lucid Gem", "Lucid Crystal", "Spirit Shard", "Spirit Gem", "Fury Stone", "Power Shard", "Power Gem", "Power Stone", "Power Crystal", "Energy Stone", "Blaze Shard", "Blaze Gem", "Blazing Stone", "Frost Shard", "Frost Gem", "Frost Stone", "Thunder Shard", "Thunder Gem", "Lightning Stone", "Shiny Crystal", "Dazzling Stone", "Bright Shard", "Bright Gem", "Bright Crystal", "Mystery Goo", "Serenity Power", "Gale", "Stormy Stone", "Mythril Shard", "Mythril", "Mythril Stone", "Orichalcum", "Dark Matter"], cap: 99, caps: &[], estimate: false, about: tx("Raises every synthesis material in the stock to 99, the most the game lets you hold of one item. Items, weapons, accessories and key items are left alone.") }) },
+        List { title: tx("Key items"), path: "/Stock/Key items", shape: Shape::Map, names: &[], max: None },
+        List { title: tx("Weapons"), path: "/Stock/Weapons", shape: Shape::Map, names: &[], max: None },
+        List { title: tx("Accessories"), path: "/Stock/Accessories", shape: Shape::Map, names: &[], max: None },
+    ],
+    tables: &[
+        Table { title: tx("Party"), path: "/Party", name: &[], cols: &[(tx("Level"), "/Level"), (tx("Experience"), "/Experience"), ("HP", "/HP"), (tx("Max HP"), "/Max HP"), ("MP", "/MP"), (tx("Max MP"), "/Max MP"), (tx("Max AP"), "/Max AP"), (tx("Strength"), "/Strength"), (tx("Defense"), "/Defense"), (tx("Weapon"), "/Weapon")], only: &[], names: &[] },
     ],
 };

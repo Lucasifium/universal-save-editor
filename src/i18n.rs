@@ -96,6 +96,21 @@ fn system_language() -> Option<String> {
 }
 
 /// `s` in the language in use.
+/// `tr` for text that is not a literal (the texts of the data-driven game screens): translated
+/// when the catalog has it, as written otherwise.
+pub fn tr_any(s: &str) -> &str {
+    let i = CURRENT.load(Ordering::Relaxed);
+    if i == 0 {
+        return s;
+    }
+    tables().get(i).and_then(|t| t.get(s).copied()).unwrap_or(s)
+}
+
+/// Marks a text of a data-driven game screen as translatable (the screen shows it through `tr_any`).
+pub const fn tx(s: &'static str) -> &'static str {
+    s
+}
+
 pub fn tr(s: &'static str) -> &'static str {
     let i = CURRENT.load(Ordering::Relaxed);
     if i == 0 {
@@ -178,7 +193,7 @@ mod tests {
     /// The texts passed to `tr(...)`/`trf(...)` as literals, with Rust escapes resolved.
     pub fn keys_in(src: &str) -> std::collections::HashSet<String> {
         let mut out = std::collections::HashSet::new();
-        for start in ["tr(\"", "trf(\""] {
+        for start in ["tr(\"", "trf(\"", "tx(\""] {
             let mut rest = src;
             while let Some(i) = rest.find(start) {
                 let before = rest[..i].chars().last();

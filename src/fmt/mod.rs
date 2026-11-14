@@ -198,6 +198,8 @@ pub mod sotn;
 pub mod ff8;
 pub mod fft;
 pub mod re1;
+pub mod kh1;
+pub mod crash;
 pub mod kh2;
 pub mod sm64;
 pub mod mldt;
@@ -277,6 +279,16 @@ use crate::tree::TreeDoc;
 pub fn parse_binary(d: &[u8]) -> Option<TreeDoc> {
     if kh2::looks(d) {
         if let Ok(t) = kh2::parse(d) {
+            return Some(t);
+        }
+    }
+    if kh1::looks(d) {
+        if let Ok(t) = kh1::parse(d) {
+            return Some(t);
+        }
+    }
+    if crash::looks(d) {
+        if let Ok(t) = crash::parse(d) {
             return Some(t);
         }
     }

@@ -1487,3 +1487,391 @@ the folder you chose for backups
 ‹ All {0} games
 = ‹ 全部 {0} 个游戏
 
+# PlayStation game screens (src/game_ui/simple/ps_specs.rs, src/fmt/*.rs)
+
+Items
+= 物品
+
+Party
+= 队伍
+
+Magic
+= 魔法
+
+Armor
+= 防具
+
+Weapons
+= 武器
+
+Options
+= 选项
+
+General
+= 常规
+
+Quantity
+= 数量
+
+Status
+= 状态
+
+Health
+= 生命值
+
+Experience
+= 经验值
+
+Difficulty
+= 难度
+
+Strength
+= 力量
+
+Defense
+= 防御
+
+Condition
+= 状况
+
+Key items
+= 关键物品
+
+Rare drops
+= 稀有掉落
+
+Accessories
+= 饰品
+
+Accessory
+= 饰品
+
+Inventory
+= 物品栏
+
+Item box
+= 物品箱
+
+Equipped
+= 已装备
+
+Character
+= 角色
+
+Obtained
+= 已获得
+
+Progression
+= 进度
+
+Story progression
+= 剧情进度
+
+Inventory slots
+= 物品栏格数
+
+Ink ribbons used
+= 已用墨带数
+
+Communication radio
+= 通讯无线电
+
+Alternative outfit
+= 备用服装
+
+Unlimited rocket launcher
+= 无限火箭筒
+
+Magic level
+= 魔法等级
+
+Party members
+= 队伍成员
+
+Party formation
+= 队伍编成
+
+Music volume
+= 音乐音量
+
+Effects volume
+= 音效音量
+
+Level reached
+= 到达的关卡
+
+Level reached (1 = just started)
+= 到达的关卡（1＝刚开始）
+
+Play time hours
+= 游戏时间（小时）
+
+Play time minutes
+= 游戏时间（分钟）
+
+Play time seconds
+= 游戏时间（秒）
+
+Items in the bag
+= 背包中的物品
+
+Synthesis materials
+= 合成材料
+
+Boosting items
+= 强化物品
+
+Recovery items
+= 恢复物品
+
+Helmets and hats
+= 头盔和帽子
+
+Armor and accessories
+= 防具和饰品
+
+Weapons, shields and potions
+= 武器、盾牌和药水
+
+Triple Triad wins
+= Triple Triad 胜场
+
+Triple Triad draws
+= Triple Triad 平局
+
+Triple Triad losses
+= Triple Triad 败场
+
+Triple Triad cards (how many of each)
+= Triple Triad 卡牌（各有几张）
+
+Relics, forms and familiar cards
+= 遗物、形态和使魔卡
+
+Deaths of units (Brave Story)
+= 单位死亡数（Brave Story）
+
+Injured (Brave Story)
+= 受伤数（Brave Story）
+
+War funds
+= 军费
+
+Max HP
+= 最大HP
+
+Max MP
+= 最大MP
+
+Max AP
+= 最大AP
+
+HP (max)
+= HP（最大）
+
+HP (now)
+= HP（当前）
+
+MP (max)
+= MP（最大）
+
+MP (now)
+= MP（当前）
+
+Hearts (max)
+= 心（最大）
+
+Hearts (now)
+= 心（当前）
+
+Units
+= 单位
+
+Kills
+= 击杀数
+
+Gold
+= 金币
+
+Head
+= 头部
+
+Body
+= 身体
+
+Right hand
+= 右手
+
+Left hand
+= 左手
+
+Subweapon
+= 副武器
+
+Weapon
+= 武器
+
+Bonus AP
+= AP加成
+
+Bonus HP
+= HP加成
+
+Bonus Strength
+= 力量加成
+
+Bonus Magic
+= 魔法加成
+
+Bonus Defense
+= 防御加成
+
+Bonus Speed
+= 速度加成
+
+Bonus Spirit
+= 精神加成
+
+Bonus Vitality
+= 体力加成
+
+Bonus Luck
+= 幸运加成
+
+Luck
+= 幸运
+
+Spells
+= 咒语
+
+Familiars
+= 使魔
+
+Warp rooms
+= 传送房间
+
+Keys
+= 钥匙
+
+Gems
+= 宝石
+
+Constitution
+= 体质
+
+Intelligence
+= 智力
+
+Other 1
+= 其他 1
+
+Other 2
+= 其他 2
+
+Character 1
+= 角色 1
+
+Character 2
+= 角色 2
+
+Character 3
+= 角色 3
+
+Max crafting materials
+= 制作材料拉满
+
+The cap is an estimate from community guides.
+= 上限是根据社区攻略估算的。
+
+Spell 1
+= 咒语 1
+
+Stocked magic, party slot 1
+= 储存的魔法，队伍位置 1
+
+Spell 2
+= 咒语 2
+
+Stocked magic, party slot 2
+= 储存的魔法，队伍位置 2
+
+Spell 3
+= 咒语 3
+
+Stocked magic, party slot 3
+= 储存的魔法，队伍位置 3
+
+Spell 4
+= 咒语 4
+
+Stocked magic, party slot 4
+= 储存的魔法，队伍位置 4
+
+Spell 5
+= 咒语 5
+
+Stocked magic, party slot 5
+= 储存的魔法，队伍位置 5
+
+Spell 6
+= 咒语 6
+
+Stocked magic, party slot 6
+= 储存的魔法，队伍位置 6
+
+Spell 7
+= 咒语 7
+
+Stocked magic, party slot 7
+= 储存的魔法，队伍位置 7
+
+Stocked magic, party slot 8
+= 储存的魔法，队伍位置 8
+
+A PlayStation save (memory card, .mcs, .psx or .psv). Alucard's level, experience, HP, MP, hearts, stats, gold, equipment, relics, spells, familiars, warp rooms and every weapon, shield, armor and potion count.
+= PlayStation 存档（存储卡、.mcs、.psx 或 .psv）。阿鲁卡多的等级、经验值、HP、MP、心、属性、金币、装备、遗物、咒语、使魔、传送房间，以及每种武器、盾牌、防具和药水的数量。
+
+A PlayStation save (memory card, .mcs, .psx or .psv). Gil, the party's experience, HP and stat bonuses, every stocked magic, the Guardian Forces, the 198 bag slots and the Triple Triad cards. The save's checksum is written again.
+= PlayStation 存档（存储卡、.mcs、.psx 或 .psv）。金币（Gil）、队伍的经验值、HP 和属性加成、所有储存的魔法、守护神（Guardian Force）、198 个背包格以及 Triple Triad 卡牌。存档的校验和会重新写入。
+
+A PlayStation save (memory card, .mcs, .psx or .psv). War funds, each of the 20 units' job, level, experience, Brave, Faith and equipment, and the count of every weapon, helmet, armor, accessory and item. The save's checksum is written again.
+= PlayStation 存档（存储卡、.mcs、.psx 或 .psv）。军费，20 个单位各自的职业、等级、经验值、Brave、Faith 和装备，以及每种武器、头盔、防具、饰品和物品的数量。存档的校验和会重新写入。
+
+A PlayStation save (memory card, .mcs, .psx or .psv), Director's Cut included. Chris or Jill, health, poison, ink ribbons used, the eight inventory slots and all 48 item box slots with item and quantity.
+= PlayStation 存档（存储卡、.mcs、.psx 或 .psv），包含导演剪辑版。克里斯或吉尔、生命值、中毒状态、已用墨带数、8 个物品栏格和全部 48 个物品箱格（物品与数量）。
+
+A PlayStation 2 save (memory card, .psu or .psv) of the USA, Europe, Japanese or Final Mix release. Munny, difficulty, magic levels, each party member's level, experience, HP, MP and bonuses, and the stock of every item, weapon, armor, accessory, key item and synthesis material. The save's checksum is written again.
+= PlayStation 2 存档（存储卡、.psu 或 .psv），适用于美版、欧版、日版和 Final Mix 版。蒙尼（Munny）、难度、魔法等级、每位队员的等级、经验值、HP、MP 和加成，以及每种物品、武器、防具、饰品、关键物品和合成材料的库存。存档的校验和会重新写入。
+
+Raises every synthesis material in the stock to 99, the most the stock can hold in the save. Items, weapons, armor, accessories and key items are left alone.
+= 将库存中的每种合成材料提升到 99（存档能容纳的最大值）。物品、武器、防具、饰品和关键物品保持不变。
+
+A PlayStation save (memory card, .mcs, .psx or .psv) of the 1996 game. The level you have reached, every gem, both keys and the volumes. The gem and key counts, the completion rate and the checksum are written again.
+= 1996 年游戏的 PlayStation 存档（存储卡、.mcs、.psx 或 .psv）。到达的关卡、每颗宝石、两把钥匙和音量。宝石与钥匙的数量、完成度和校验和会重新写入。
+
+A PlayStation 2 save (memory card, .psu or .psv) of the original game or Final Mix. Munny, difficulty, magic levels, the ten party members' level, experience, HP, MP, AP, strength, defense and weapon, and the stock of every item, weapon, accessory, key item and synthesis material.
+= PlayStation 2 存档（存储卡、.psu 或 .psv），适用于原版和 Final Mix。蒙尼（Munny）、难度、魔法等级，十位队员的等级、经验值、HP、MP、AP、力量、防御和武器，以及每种物品、武器、饰品、关键物品和合成材料的库存。
+
+Raises every synthesis material in the stock to 99, the most the game lets you hold of one item. Items, weapons, accessories and key items are left alone.
+= 将库存中的每种合成材料提升到 99（游戏中每种物品的持有上限）。物品、武器、饰品和关键物品保持不变。
+
+Close the emulator first. Gold, play time and the other numbers are limited to what the game can show; the save's memory-card preview (name, gold and time) is kept in step.
+= 请先关闭模拟器。金币、游戏时间等数值受限于游戏能显示的范围；存储卡中存档的预览（名称、金币和时间）会同步更新。
+
+Close the emulator first. Levels follow experience (1000 per level for the party, 500 for guardian forces). The save's CRC-16 is written again; the story progression is left to you, since a wrong value can break the story.
+= 请先关闭模拟器。等级跟随经验值（队伍每级 1000，守护神每级 500）。存档的 CRC-16 会重新写入；剧情进度交由你自己决定，因为错误的值可能会破坏剧情。
+
+Close the emulator first. Level, experience, Brave, Faith and equipment are edited as the game stores them (experience and level are separate bytes: set both). The save's checksum is written again.
+= 请先关闭模拟器。等级、经验值、Brave、Faith 和装备按游戏的存储方式编辑（经验值和等级是分开的字节：请两者都设置）。存档的校验和会重新写入。
+
+Close the emulator first. Health is capped at 140, the game's own maximum; the quantity is the ammunition or the number of uses.
+= 请先关闭模拟器。生命值上限为 140（游戏本身的最大值）；数量为弹药数或使用次数。
+
+Close the emulator first. The save's checksum is written again. USA, Europe, Japanese and Final Mix saves are read (the Final Mix only items show in Final Mix saves); the stock holds at most 99 of each item.
+= 请先关闭模拟器。存档的校验和会重新写入。支持读取美版、欧版、日版和 Final Mix 版存档（Final Mix 专属物品只在 Final Mix 存档中显示）；每种物品库存最多 99。
+
+Close the emulator first. The level reached is the number of the level you can play next (the game counts finished levels from it). The gem and key counts, the completion rate in the save's title and the checksum are written again.
+= 请先关闭模拟器。到达的关卡是你接下来可以玩的关卡编号（游戏据此计算已通关关卡数）。宝石与钥匙的数量、存档标题中的完成度和校验和会重新写入。
+
+Close the emulator first. A stock number is how many you own (99 at most; key items 0 or 1). The Final Mix only items (synthesis materials) are listed for every release but only matter in Final Mix.
+= 请先关闭模拟器。库存数字表示你拥有的数量（最多 99；关键物品为 0 或 1）。Final Mix 专属物品（合成材料）在所有版本中都会列出，但只在 Final Mix 中有效。

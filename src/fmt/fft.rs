@@ -58,7 +58,7 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
             b.ranged(&["Inventory", cat, &key], 0x1605 + *i as usize, Kind::U8, 0, 99);
         }
     }
-    Ok(b.finish(KIND, Checksum::Custom(fix)).with_note("Close the emulator first. Level, experience, Brave, Faith and equipment are edited as the game stores them (experience and level are separate bytes: set both). The save's checksum is written again."))
+    Ok(b.finish(KIND, Checksum::Custom(fix)).with_note(crate::i18n::tx("Close the emulator first. Level, experience, Brave, Faith and equipment are edited as the game stores them (experience and level are separate bytes: set both). The save's checksum is written again.")))
 }
 
 /// 60 parity bits, one per 1024 bits of the first 0x1e00 bytes (the checksum's own bytes counted as zero).

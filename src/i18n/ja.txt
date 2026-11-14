@@ -1487,3 +1487,391 @@ the folder you chose for backups
 ‹ All {0} games
 = ‹ {0} 本すべてのゲーム
 
+# PlayStation game screens (src/game_ui/simple/ps_specs.rs, src/fmt/*.rs)
+
+Items
+= アイテム
+
+Party
+= パーティ
+
+Magic
+= 魔法
+
+Armor
+= 防具
+
+Weapons
+= 武器
+
+Options
+= オプション
+
+General
+= 全般
+
+Quantity
+= 個数
+
+Status
+= ステータス
+
+Health
+= 体力
+
+Experience
+= 経験値
+
+Difficulty
+= 難易度
+
+Strength
+= 力
+
+Defense
+= 防御
+
+Condition
+= 状態
+
+Key items
+= 大事なもの
+
+Rare drops
+= レアドロップ
+
+Accessories
+= アクセサリ
+
+Accessory
+= アクセサリ
+
+Inventory
+= 所持品
+
+Item box
+= アイテムボックス
+
+Equipped
+= 装備中
+
+Character
+= キャラクター
+
+Obtained
+= 入手済み
+
+Progression
+= 進行度
+
+Story progression
+= ストーリーの進行
+
+Inventory slots
+= 所持品の枠
+
+Ink ribbons used
+= 使用したインクリボン
+
+Communication radio
+= 無線機
+
+Alternative outfit
+= 別の衣装
+
+Unlimited rocket launcher
+= 無限ロケットランチャー
+
+Magic level
+= 魔法レベル
+
+Party members
+= パーティメンバー
+
+Party formation
+= パーティ編成
+
+Music volume
+= 音楽の音量
+
+Effects volume
+= 効果音の音量
+
+Level reached
+= 到達したレベル
+
+Level reached (1 = just started)
+= 到達したレベル（1＝開始直後）
+
+Play time hours
+= プレイ時間（時）
+
+Play time minutes
+= プレイ時間（分）
+
+Play time seconds
+= プレイ時間（秒）
+
+Items in the bag
+= バッグの中身
+
+Synthesis materials
+= 合成素材
+
+Boosting items
+= 強化アイテム
+
+Recovery items
+= 回復アイテム
+
+Helmets and hats
+= 兜と帽子
+
+Armor and accessories
+= 防具とアクセサリ
+
+Weapons, shields and potions
+= 武器・盾・ポーション
+
+Triple Triad wins
+= トリプルトライアドの勝利数
+
+Triple Triad draws
+= トリプルトライアドの引き分け数
+
+Triple Triad losses
+= トリプルトライアドの敗北数
+
+Triple Triad cards (how many of each)
+= トリプルトライアドのカード（枚数）
+
+Relics, forms and familiar cards
+= レリック・変身・使い魔カード
+
+Deaths of units (Brave Story)
+= ユニットの死亡数（ブレイブストーリー）
+
+Injured (Brave Story)
+= 負傷者数（ブレイブストーリー）
+
+War funds
+= 軍資金
+
+Max HP
+= 最大HP
+
+Max MP
+= 最大MP
+
+Max AP
+= 最大AP
+
+HP (max)
+= HP（最大）
+
+HP (now)
+= HP（現在）
+
+MP (max)
+= MP（最大）
+
+MP (now)
+= MP（現在）
+
+Hearts (max)
+= ハート（最大）
+
+Hearts (now)
+= ハート（現在）
+
+Units
+= ユニット
+
+Kills
+= 撃破数
+
+Gold
+= ゴールド
+
+Head
+= 頭
+
+Body
+= 胴
+
+Right hand
+= 右手
+
+Left hand
+= 左手
+
+Subweapon
+= サブウェポン
+
+Weapon
+= 武器
+
+Bonus AP
+= APボーナス
+
+Bonus HP
+= HPボーナス
+
+Bonus Strength
+= 力ボーナス
+
+Bonus Magic
+= 魔力ボーナス
+
+Bonus Defense
+= 防御ボーナス
+
+Bonus Speed
+= 素早さボーナス
+
+Bonus Spirit
+= 精神ボーナス
+
+Bonus Vitality
+= 体力ボーナス
+
+Bonus Luck
+= 運ボーナス
+
+Luck
+= 運
+
+Spells
+= 呪文
+
+Familiars
+= 使い魔
+
+Warp rooms
+= ワープルーム
+
+Keys
+= 鍵
+
+Gems
+= ジェム
+
+Constitution
+= 体質
+
+Intelligence
+= 知性
+
+Other 1
+= その他 1
+
+Other 2
+= その他 2
+
+Character 1
+= キャラクター 1
+
+Character 2
+= キャラクター 2
+
+Character 3
+= キャラクター 3
+
+Max crafting materials
+= クラフト素材を最大に
+
+The cap is an estimate from community guides.
+= 上限はコミュニティのガイドからの推定値です。
+
+Spell 1
+= 呪文 1
+
+Stocked magic, party slot 1
+= ストック魔法、パーティ枠1
+
+Spell 2
+= 呪文 2
+
+Stocked magic, party slot 2
+= ストック魔法、パーティ枠2
+
+Spell 3
+= 呪文 3
+
+Stocked magic, party slot 3
+= ストック魔法、パーティ枠3
+
+Spell 4
+= 呪文 4
+
+Stocked magic, party slot 4
+= ストック魔法、パーティ枠4
+
+Spell 5
+= 呪文 5
+
+Stocked magic, party slot 5
+= ストック魔法、パーティ枠5
+
+Spell 6
+= 呪文 6
+
+Stocked magic, party slot 6
+= ストック魔法、パーティ枠6
+
+Spell 7
+= 呪文 7
+
+Stocked magic, party slot 7
+= ストック魔法、パーティ枠7
+
+Stocked magic, party slot 8
+= ストック魔法、パーティ枠8
+
+A PlayStation save (memory card, .mcs, .psx or .psv). Alucard's level, experience, HP, MP, hearts, stats, gold, equipment, relics, spells, familiars, warp rooms and every weapon, shield, armor and potion count.
+= PlayStationのセーブデータ（メモリーカード、.mcs、.psx、.psv）。アルカードのレベル、経験値、HP、MP、ハート、能力値、ゴールド、装備、レリック、呪文、使い魔、ワープルーム、そして武器・盾・防具・ポーションの所持数。
+
+A PlayStation save (memory card, .mcs, .psx or .psv). Gil, the party's experience, HP and stat bonuses, every stocked magic, the Guardian Forces, the 198 bag slots and the Triple Triad cards. The save's checksum is written again.
+= PlayStationのセーブデータ（メモリーカード、.mcs、.psx、.psv）。ギル、パーティの経験値・HP・能力ボーナス、ストックした全魔法、ガーディアンフォース、198個のバッグ枠、トリプルトライアドのカード。セーブのチェックサムは書き込み時に再計算されます。
+
+A PlayStation save (memory card, .mcs, .psx or .psv). War funds, each of the 20 units' job, level, experience, Brave, Faith and equipment, and the count of every weapon, helmet, armor, accessory and item. The save's checksum is written again.
+= PlayStationのセーブデータ（メモリーカード、.mcs、.psx、.psv）。軍資金、20人のユニットそれぞれのジョブ・レベル・経験値・ブレイブ・信仰・装備、そして武器・兜・防具・アクセサリ・アイテムの所持数。セーブのチェックサムは書き込み時に再計算されます。
+
+A PlayStation save (memory card, .mcs, .psx or .psv), Director's Cut included. Chris or Jill, health, poison, ink ribbons used, the eight inventory slots and all 48 item box slots with item and quantity.
+= PlayStationのセーブデータ（メモリーカード、.mcs、.psx、.psv）。ディレクターズカット版も対応。クリスまたはジル、体力、毒、使用したインクリボン、8つの所持品枠と48個のアイテムボックス枠（アイテムと個数）。
+
+A PlayStation 2 save (memory card, .psu or .psv) of the USA, Europe, Japanese or Final Mix release. Munny, difficulty, magic levels, each party member's level, experience, HP, MP and bonuses, and the stock of every item, weapon, armor, accessory, key item and synthesis material. The save's checksum is written again.
+= PlayStation 2のセーブデータ（メモリーカード、.psuまたは.psv）。北米版・欧州版・日本版・ファイナルミックス版に対応。マニー、難易度、魔法レベル、各パーティメンバーのレベル・経験値・HP・MP・ボーナス、そしてアイテム・武器・防具・アクセサリ・大事なもの・合成素材の所持数。セーブのチェックサムは書き込み時に再計算されます。
+
+Raises every synthesis material in the stock to 99, the most the stock can hold in the save. Items, weapons, armor, accessories and key items are left alone.
+= 在庫の合成素材をすべて99（セーブに保存できる最大数）にします。アイテム、武器、防具、アクセサリ、大事なものはそのままです。
+
+A PlayStation save (memory card, .mcs, .psx or .psv) of the 1996 game. The level you have reached, every gem, both keys and the volumes. The gem and key counts, the completion rate and the checksum are written again.
+= 1996年のゲームのPlayStationセーブデータ（メモリーカード、.mcs、.psx、.psv）。到達したレベル、すべてのジェム、2つの鍵、音量。ジェムと鍵の数、達成率、チェックサムは書き込み時に再計算されます。
+
+A PlayStation 2 save (memory card, .psu or .psv) of the original game or Final Mix. Munny, difficulty, magic levels, the ten party members' level, experience, HP, MP, AP, strength, defense and weapon, and the stock of every item, weapon, accessory, key item and synthesis material.
+= PlayStation 2のセーブデータ（メモリーカード、.psuまたは.psv）。オリジナル版とファイナルミックス版に対応。マニー、難易度、魔法レベル、10人のパーティメンバーのレベル・経験値・HP・MP・AP・力・防御・武器、そしてアイテム・武器・アクセサリ・大事なもの・合成素材の所持数。
+
+Raises every synthesis material in the stock to 99, the most the game lets you hold of one item. Items, weapons, accessories and key items are left alone.
+= 在庫の合成素材をすべて99（ゲームで1種類につき持てる最大数）にします。アイテム、武器、アクセサリ、大事なものはそのままです。
+
+Close the emulator first. Gold, play time and the other numbers are limited to what the game can show; the save's memory-card preview (name, gold and time) is kept in step.
+= 先にエミュレーターを閉じてください。ゴールド、プレイ時間などの数値はゲームが表示できる範囲に制限されます。メモリーカード上のセーブのプレビュー（名前、ゴールド、時間）も合わせて更新されます。
+
+Close the emulator first. Levels follow experience (1000 per level for the party, 500 for guardian forces). The save's CRC-16 is written again; the story progression is left to you, since a wrong value can break the story.
+= 先にエミュレーターを閉じてください。レベルは経験値に従います（パーティは1レベルにつき1000、ガーディアンフォースは500）。セーブのCRC-16は書き込み時に再計算されます。ストーリーの進行は、誤った値だとストーリーが壊れることがあるため、ご自身で操作してください。
+
+Close the emulator first. Level, experience, Brave, Faith and equipment are edited as the game stores them (experience and level are separate bytes: set both). The save's checksum is written again.
+= 先にエミュレーターを閉じてください。レベル、経験値、ブレイブ、信仰、装備はゲームが保存している形式のまま編集します（経験値とレベルは別のバイトなので、両方を設定してください）。セーブのチェックサムは書き込み時に再計算されます。
+
+Close the emulator first. Health is capped at 140, the game's own maximum; the quantity is the ammunition or the number of uses.
+= 先にエミュレーターを閉じてください。体力はゲーム自体の最大値である140までです。個数は弾薬数または使用回数です。
+
+Close the emulator first. The save's checksum is written again. USA, Europe, Japanese and Final Mix saves are read (the Final Mix only items show in Final Mix saves); the stock holds at most 99 of each item.
+= 先にエミュレーターを閉じてください。セーブのチェックサムは書き込み時に再計算されます。北米版・欧州版・日本版・ファイナルミックス版のセーブを読み込めます（ファイナルミックス専用アイテムはその版のセーブにのみ表示されます）。在庫は1種類につき最大99です。
+
+Close the emulator first. The level reached is the number of the level you can play next (the game counts finished levels from it). The gem and key counts, the completion rate in the save's title and the checksum are written again.
+= 先にエミュレーターを閉じてください。到達したレベルは次にプレイできるレベルの番号です（ゲームはそこからクリア済みレベル数を数えます）。ジェムと鍵の数、セーブのタイトルにある達成率、チェックサムは書き込み時に再計算されます。
+
+Close the emulator first. A stock number is how many you own (99 at most; key items 0 or 1). The Final Mix only items (synthesis materials) are listed for every release but only matter in Final Mix.
+= 先にエミュレーターを閉じてください。在庫の数値は所持数です（最大99、大事なものは0か1）。ファイナルミックス専用アイテム（合成素材）はどの版でも一覧に表示されますが、意味を持つのはファイナルミックスのみです。

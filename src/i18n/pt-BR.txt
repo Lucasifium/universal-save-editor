@@ -1487,3 +1487,391 @@ the folder you chose for backups
 ‹ All {0} games
 = ‹ Todos os {0} jogos
 
+# PlayStation game screens (src/game_ui/simple/ps_specs.rs, src/fmt/*.rs)
+
+Items
+= Itens
+
+Party
+= Grupo
+
+Magic
+= Magia
+
+Armor
+= Armadura
+
+Weapons
+= Armas
+
+Options
+= Opções
+
+General
+= Geral
+
+Quantity
+= Quantidade
+
+Status
+= Status
+
+Health
+= Saúde
+
+Experience
+= Experiência
+
+Difficulty
+= Dificuldade
+
+Strength
+= Força
+
+Defense
+= Defesa
+
+Condition
+= Condição
+
+Key items
+= Itens-chave
+
+Rare drops
+= Itens raros
+
+Accessories
+= Acessórios
+
+Accessory
+= Acessório
+
+Inventory
+= Inventário
+
+Item box
+= Baú de itens
+
+Equipped
+= Equipado
+
+Character
+= Personagem
+
+Obtained
+= Obtido
+
+Progression
+= Progresso
+
+Story progression
+= Progresso da história
+
+Inventory slots
+= Espaços do inventário
+
+Ink ribbons used
+= Fitas de tinta usadas
+
+Communication radio
+= Rádio de comunicação
+
+Alternative outfit
+= Roupa alternativa
+
+Unlimited rocket launcher
+= Lança-foguetes ilimitado
+
+Magic level
+= Nível de magia
+
+Party members
+= Membros do grupo
+
+Party formation
+= Formação do grupo
+
+Music volume
+= Volume da música
+
+Effects volume
+= Volume dos efeitos
+
+Level reached
+= Nível alcançado
+
+Level reached (1 = just started)
+= Nível alcançado (1 = recém-começado)
+
+Play time hours
+= Horas de jogo
+
+Play time minutes
+= Minutos de jogo
+
+Play time seconds
+= Segundos de jogo
+
+Items in the bag
+= Itens na bolsa
+
+Synthesis materials
+= Materiais de síntese
+
+Boosting items
+= Itens de reforço
+
+Recovery items
+= Itens de recuperação
+
+Helmets and hats
+= Elmos e chapéus
+
+Armor and accessories
+= Armaduras e acessórios
+
+Weapons, shields and potions
+= Armas, escudos e poções
+
+Triple Triad wins
+= Vitórias no Triple Triad
+
+Triple Triad draws
+= Empates no Triple Triad
+
+Triple Triad losses
+= Derrotas no Triple Triad
+
+Triple Triad cards (how many of each)
+= Cartas de Triple Triad (quantas de cada)
+
+Relics, forms and familiar cards
+= Relíquias, formas e cartas de familiares
+
+Deaths of units (Brave Story)
+= Mortes de unidades (Brave Story)
+
+Injured (Brave Story)
+= Feridos (Brave Story)
+
+War funds
+= Fundos de guerra
+
+Max HP
+= HP máx.
+
+Max MP
+= MP máx.
+
+Max AP
+= AP máx.
+
+HP (max)
+= HP (máx.)
+
+HP (now)
+= HP (atual)
+
+MP (max)
+= MP (máx.)
+
+MP (now)
+= MP (atual)
+
+Hearts (max)
+= Corações (máx.)
+
+Hearts (now)
+= Corações (atual)
+
+Units
+= Unidades
+
+Kills
+= Abates
+
+Gold
+= Ouro
+
+Head
+= Cabeça
+
+Body
+= Corpo
+
+Right hand
+= Mão direita
+
+Left hand
+= Mão esquerda
+
+Subweapon
+= Arma secundária
+
+Weapon
+= Arma
+
+Bonus AP
+= Bônus de AP
+
+Bonus HP
+= Bônus de HP
+
+Bonus Strength
+= Bônus de força
+
+Bonus Magic
+= Bônus de magia
+
+Bonus Defense
+= Bônus de defesa
+
+Bonus Speed
+= Bônus de velocidade
+
+Bonus Spirit
+= Bônus de espírito
+
+Bonus Vitality
+= Bônus de vitalidade
+
+Bonus Luck
+= Bônus de sorte
+
+Luck
+= Sorte
+
+Spells
+= Feitiços
+
+Familiars
+= Familiares
+
+Warp rooms
+= Salas de teletransporte
+
+Keys
+= Chaves
+
+Gems
+= Gemas
+
+Constitution
+= Constituição
+
+Intelligence
+= Inteligência
+
+Other 1
+= Outro 1
+
+Other 2
+= Outro 2
+
+Character 1
+= Personagem 1
+
+Character 2
+= Personagem 2
+
+Character 3
+= Personagem 3
+
+Max crafting materials
+= Materiais de criação no máximo
+
+The cap is an estimate from community guides.
+= O limite é uma estimativa de guias da comunidade.
+
+Spell 1
+= Feitiço 1
+
+Stocked magic, party slot 1
+= Magia estocada, vaga do grupo 1
+
+Spell 2
+= Feitiço 2
+
+Stocked magic, party slot 2
+= Magia estocada, vaga do grupo 2
+
+Spell 3
+= Feitiço 3
+
+Stocked magic, party slot 3
+= Magia estocada, vaga do grupo 3
+
+Spell 4
+= Feitiço 4
+
+Stocked magic, party slot 4
+= Magia estocada, vaga do grupo 4
+
+Spell 5
+= Feitiço 5
+
+Stocked magic, party slot 5
+= Magia estocada, vaga do grupo 5
+
+Spell 6
+= Feitiço 6
+
+Stocked magic, party slot 6
+= Magia estocada, vaga do grupo 6
+
+Spell 7
+= Feitiço 7
+
+Stocked magic, party slot 7
+= Magia estocada, vaga do grupo 7
+
+Stocked magic, party slot 8
+= Magia estocada, vaga do grupo 8
+
+A PlayStation save (memory card, .mcs, .psx or .psv). Alucard's level, experience, HP, MP, hearts, stats, gold, equipment, relics, spells, familiars, warp rooms and every weapon, shield, armor and potion count.
+= Um jogo salvo de PlayStation (cartão de memória, .mcs, .psx ou .psv). Nível, experiência, HP, MP, corações, atributos, ouro, equipamento, relíquias, feitiços, familiares e salas de teletransporte de Alucard, e a quantidade de cada arma, escudo, armadura e poção.
+
+A PlayStation save (memory card, .mcs, .psx or .psv). Gil, the party's experience, HP and stat bonuses, every stocked magic, the Guardian Forces, the 198 bag slots and the Triple Triad cards. The save's checksum is written again.
+= Um jogo salvo de PlayStation (cartão de memória, .mcs, .psx ou .psv). Gil, experiência, HP e bônus de atributos do grupo, toda a magia estocada, as Guardian Forces, as 198 vagas da bolsa e as cartas de Triple Triad. A soma de verificação do jogo é gravada de novo.
+
+A PlayStation save (memory card, .mcs, .psx or .psv). War funds, each of the 20 units' job, level, experience, Brave, Faith and equipment, and the count of every weapon, helmet, armor, accessory and item. The save's checksum is written again.
+= Um jogo salvo de PlayStation (cartão de memória, .mcs, .psx ou .psv). Fundos de guerra, classe, nível, experiência, Brave, Faith e equipamento de cada uma das 20 unidades, e a quantidade de cada arma, elmo, armadura, acessório e item. A soma de verificação do jogo é gravada de novo.
+
+A PlayStation save (memory card, .mcs, .psx or .psv), Director's Cut included. Chris or Jill, health, poison, ink ribbons used, the eight inventory slots and all 48 item box slots with item and quantity.
+= Um jogo salvo de PlayStation (cartão de memória, .mcs, .psx ou .psv), incluindo a Director's Cut. Chris ou Jill, saúde, veneno, fitas de tinta usadas, os oito espaços do inventário e os 48 do baú, com item e quantidade.
+
+A PlayStation 2 save (memory card, .psu or .psv) of the USA, Europe, Japanese or Final Mix release. Munny, difficulty, magic levels, each party member's level, experience, HP, MP and bonuses, and the stock of every item, weapon, armor, accessory, key item and synthesis material. The save's checksum is written again.
+= Um jogo salvo de PlayStation 2 (cartão de memória, .psu ou .psv) da versão dos EUA, Europa, Japão ou Final Mix. Munny, dificuldade, níveis de magia, nível, experiência, HP, MP e bônus de cada membro do grupo, e o estoque de cada item, arma, armadura, acessório, item-chave e material de síntese. A soma de verificação do jogo é gravada de novo.
+
+Raises every synthesis material in the stock to 99, the most the stock can hold in the save. Items, weapons, armor, accessories and key items are left alone.
+= Leva cada material de síntese do estoque a 99, o máximo que o estoque comporta no jogo salvo. Itens, armas, armaduras, acessórios e itens-chave não são alterados.
+
+A PlayStation save (memory card, .mcs, .psx or .psv) of the 1996 game. The level you have reached, every gem, both keys and the volumes. The gem and key counts, the completion rate and the checksum are written again.
+= Um jogo salvo de PlayStation (cartão de memória, .mcs, .psx ou .psv) do jogo de 1996. O nível alcançado, cada gema, as duas chaves e os volumes. A contagem de gemas e chaves, a taxa de conclusão e a soma de verificação são gravadas de novo.
+
+A PlayStation 2 save (memory card, .psu or .psv) of the original game or Final Mix. Munny, difficulty, magic levels, the ten party members' level, experience, HP, MP, AP, strength, defense and weapon, and the stock of every item, weapon, accessory, key item and synthesis material.
+= Um jogo salvo de PlayStation 2 (cartão de memória, .psu ou .psv) do jogo original ou do Final Mix. Munny, dificuldade, níveis de magia, nível, experiência, HP, MP, AP, força, defesa e arma dos dez membros do grupo, e o estoque de cada item, arma, acessório, item-chave e material de síntese.
+
+Raises every synthesis material in the stock to 99, the most the game lets you hold of one item. Items, weapons, accessories and key items are left alone.
+= Leva cada material de síntese do estoque a 99, o máximo que o jogo permite por item. Itens, armas, acessórios e itens-chave não são alterados.
+
+Close the emulator first. Gold, play time and the other numbers are limited to what the game can show; the save's memory-card preview (name, gold and time) is kept in step.
+= Feche o emulador primeiro. Ouro, tempo de jogo e os outros números ficam limitados ao que o jogo consegue exibir; a prévia do jogo salvo no cartão de memória (nome, ouro e tempo) é mantida em dia.
+
+Close the emulator first. Levels follow experience (1000 per level for the party, 500 for guardian forces). The save's CRC-16 is written again; the story progression is left to you, since a wrong value can break the story.
+= Feche o emulador primeiro. Os níveis seguem a experiência (1000 por nível para o grupo, 500 para as Guardian Forces). O CRC-16 do jogo salvo é gravado de novo; o progresso da história fica por sua conta, pois um valor errado pode quebrar a história.
+
+Close the emulator first. Level, experience, Brave, Faith and equipment are edited as the game stores them (experience and level are separate bytes: set both). The save's checksum is written again.
+= Feche o emulador primeiro. Nível, experiência, Brave, Faith e equipamento são editados como o jogo os guarda (experiência e nível são bytes separados: defina os dois). A soma de verificação do jogo é gravada de novo.
+
+Close the emulator first. Health is capped at 140, the game's own maximum; the quantity is the ammunition or the number of uses.
+= Feche o emulador primeiro. A saúde é limitada a 140, o máximo do próprio jogo; a quantidade é a munição ou o número de usos.
+
+Close the emulator first. The save's checksum is written again. USA, Europe, Japanese and Final Mix saves are read (the Final Mix only items show in Final Mix saves); the stock holds at most 99 of each item.
+= Feche o emulador primeiro. A soma de verificação do jogo é gravada de novo. São lidos jogos salvos das versões dos EUA, Europa, Japão e Final Mix (os itens exclusivos do Final Mix aparecem nos jogos dessa versão); o estoque comporta no máximo 99 de cada item.
+
+Close the emulator first. The level reached is the number of the level you can play next (the game counts finished levels from it). The gem and key counts, the completion rate in the save's title and the checksum are written again.
+= Feche o emulador primeiro. O nível alcançado é o número do próximo nível que você pode jogar (o jogo conta os níveis concluídos a partir dele). A contagem de gemas e chaves, a taxa de conclusão no título do jogo salvo e a soma de verificação são gravadas de novo.
+
+Close the emulator first. A stock number is how many you own (99 at most; key items 0 or 1). The Final Mix only items (synthesis materials) are listed for every release but only matter in Final Mix.
+= Feche o emulador primeiro. Um número de estoque indica quantos você possui (99 no máximo; itens-chave 0 ou 1). Os itens exclusivos do Final Mix (materiais de síntese) aparecem em todas as versões, mas só importam no Final Mix.
