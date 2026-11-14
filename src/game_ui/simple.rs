@@ -293,11 +293,13 @@ fn tr_text(s: &str) -> String {
     if let Some((head, rest)) = s.split_once(": ") {
         return format!("{}: {}", tr_text(head), tr_text(rest));
     }
-    for key in ["Slot", "File"] {
-        if let Some(n) = s.strip_prefix(key).and_then(|r| r.strip_prefix(' ')) {
-            if !n.is_empty() && n.chars().all(|c| c.is_ascii_digit()) {
-                let pat = if key == "Slot" { "Slot {0}" } else { "File {0}" };
-                return tr_any(pat).replace("{0}", n);
+    // "Slot 2", "Mario 1": a name and a number.
+    if let Some((word, n)) = s.rsplit_once(' ') {
+        if !n.is_empty() && n.chars().all(|c| c.is_ascii_digit()) && word.chars().all(|c| c.is_ascii_alphabetic()) {
+            let pat = format!("{word} {{0}}");
+            let t = tr_any(&pat);
+            if t != pat {
+                return t.replace("{0}", n);
             }
         }
     }

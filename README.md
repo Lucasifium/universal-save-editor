@@ -3,7 +3,7 @@
 > **Free, and it always will be.** No price, no ads, no account, no paid version, no online service, no
 > rate limits. If anyone is charging you for this, it isn't from here.
 
-An offline save editor and save manager for 470+ (473) PC games (edit saves, and back up, name and restore them): Cairn, Terraria (characters and a world map editor),
+An offline save editor and save manager for 470+ (476) PC games (edit saves, and back up, name and restore them): Cairn, Terraria (characters and a world map editor),
 Oxygen Not Included, RimWorld, Stardew Valley, Onimusha: Way of the Sword, Elden Ring, Dark Souls,
 Cyberpunk 2077, the Persona, Yakuza and Final Fantasy games, Ren'Py visual novels, RPG Maker games
 and more (the full list is below). Written in Rust (egui). Nothing is uploaded anywhere, and there are
@@ -321,7 +321,7 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 </details>
 
 <details>
-<summary><strong>L</strong> (31)</summary>
+<summary><strong>L</strong> (33)</summary>
 
 | Game | Screen |
 |---|---|
@@ -356,6 +356,8 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 | Like a Dragon: Ishin! | Food, seafood and crafting materials (to 999, with a Max crafting materials button), virtue, tokens and tickets, ammunition, style experience and training orbs; decrypted, checksum kept right. Ryo isn't mapped yet (checked on a public save, not yet tried in the game) |
 | Lost Judgment, Infinite Wealth, Pirate Yakuza (Dragon Engine) | Decrypted with each game's key and checksum kept right (keys from rgg_save_tool_py); values in the tree, and the Yakuza screen where the save has the same layout. Not tried on sample saves of these games yet |
 | Luck be a Landlord | *Run*: coins, removal and reroll tokens, spins, the floor, the rent due and the run's progress from `LBAL.save` (the JSON lines are opened as one object keyed by each node's path and written back line by line; checked on a public save, not yet tried in the game) |
+| Luigi's Mansion | *Luigi* (GameCube `.gci` saves): per slot the treasures, medals, Mario's items, gallery, boos, portrait ghosts and every mansion room's flags, plus the options (the newer copy of the save is edited and its sum made again; checked on public saves, not yet tried in the game) |
+| Luigi's Mansion | *Luigi* (GameCube `.gci` saves): per slot the treasures, medals, Mario's items, gallery, boos, portrait ghosts and every mansion room's flags, plus the options (the newer copy of the save is edited and its sum made again; checked on public saves, not yet tried in the game) |
 
 </details>
 
@@ -473,7 +475,7 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 </details>
 
 <details>
-<summary><strong>S</strong> (40)</summary>
+<summary><strong>S</strong> (42)</summary>
 
 | Game | Screen |
 |---|---|
@@ -512,6 +514,8 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 | Subnautica, Below Zero | *Slot*: game mode (Survival / Freedom / Hardcore / Creative), play time, vehicles |
 | Super Kirby Clash | *Resources*: apple gems and the red, blue, yellow and rare shards (decrypted 3DS `savedata.dat`; checked on a public save, not yet tried in the game) |
 | Super Mario 64 | *Files* (N64 emulator `.eep` saves): for each of the four files the cap, key and switch flags, secret stars, every course's six stars, 100-coin star, cannon and coin record (both copies of the file and the checksums are kept right; checked on public saves, not yet tried in the game) |
+| Super Mario Sunshine | *Mario* (GameCube `.gci` saves): per file lives, nozzles, Yoshi and, for each area, shine sprites, blue coins, events and scores, with the shine sprite total kept right (the newer copy of the save is edited and its sum made again; checked on public saves, not yet tried in the game) |
+| Super Mario Sunshine | *Mario* (GameCube `.gci` saves): per file lives, nozzles, Yoshi and, for each area, shine sprites, blue coins, events and scores, with the shine sprite total kept right (the newer copy of the save is edited and its sum made again; checked on public saves, not yet tried in the game) |
 | Super Metroid | *Samus A / B / C* (SNES emulator `.srm` saves): energy and reserve tanks, missiles, super missiles, power bombs, play time and the beams, suits and boots she has and has equipped (each slot's sums and their copies at the end of the file are kept right; checked against the sums of a public save, not yet tried in the game) |
 | Super Smash Bros. | *Fighters* (N64 emulator `.sra` / `.srm` saves): unlocked fighters and stage, every fighter's 1P records and 2P records, and the options (the game's sum is made again on save; checked on public saves, not yet tried in the game) |
 | Super Smash Bros. Ultimate | *Main*: gold, tickets, hammers, snacks, SP and the spirit board item counts (Switch `system_data.bin`; checked on a public save, not yet tried in the game) |
@@ -521,7 +525,7 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 </details>
 
 <details>
-<summary><strong>T</strong> (48)</summary>
+<summary><strong>T</strong> (50)</summary>
 
 | Game | Screen |
 |---|---|
@@ -546,6 +550,8 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 | The Legend of Zelda: A Link to the Past | *Slots* (SNES emulator `.srm` saves): hearts, magic, rupees, bombs and arrows with their capacity upgrades, the sword, shield, tunic and every item, and the four bottles (the slot's sum is kept right; checked against the sum of a public save, not yet tried in the game) |
 | The Legend of Zelda: Breath of the Wild | *Player*: rupees, monster parts, max hearts and stamina, Korok seeds, Hinox, Talus and Molduga counts, play time, and the amounts of materials (with a Max crafting materials button at 999), food and arrows by name (Wii U or Switch `game_data.sav`, any game version; checked on a public save, not yet tried in the game) |
 | The Legend of Zelda: Ocarina of Time | *Link* (N64 `.sra` / `.srm` and GameCube `.gci` saves): per file health, magic, rupees, equipment, every item with ammunition and upgrades, songs, medallions, stones and each dungeon's map, compass and boss key, with all other flags in the Tree (the file's sum and its backup copy are kept right; checked on public saves, not yet tried in the game) |
+| The Legend of Zelda: The Wind Waker | *Link* (GameCube `.gci` saves): per slot health, magic, rupees, equipment, items, bags, quantities, figurines, dungeon items, songs and events (the slot's sum is made again and the sword, shield and bracelet flags follow your choice; checked on public saves, not yet tried in the game) |
+| The Legend of Zelda: The Wind Waker | *Link* (GameCube `.gci` saves): per slot health, magic, rupees, equipment, items, bags, quantities, figurines, dungeon items, songs and events (the slot's sum is made again and the sword, shield and bracelet flags follow your choice; checked on public saves, not yet tried in the game) |
 | The Long Drive | *Driver*: health, food, water and sleep, the distance driven and the world time, from `TLDsaveData.tlds` and `TLDsaveProp.tldsp` (.NET BinaryFormatter, read and written in place; checked on a public save, not yet tried in the game) |
 | The Planet Crafter | *Terraformer*: Terra tokens, the six terraformation levels of each planet, your oxygen, thirst and health, the game settings (free crafting, everything unlocked, unlocked trading, extractors, teleporters, drones and autocrafter), and the raw materials in your backpack by name (iron, cobalt, silicon, titanium, magnesium, aluminium, iridium, super alloy, zeolite, sulfur, osmium and the rest), with a **Max crafting materials** button that fills the free backpack slots, since every item takes one slot and the game has no stack size. Raising a count adds items to the backpack; the rest of the save stays byte for byte (checked on a real late-game save, not yet tried in the game) |
 | The Sims (2000), The Sims Legacy Collection | One tab per family: funds (up to 9,999,999) and family friends, and for every Sim in the family the seven skills and six personality traits (0–1000, 100 per point on the game's bars) and job performance; townies and visitors are on the *Values* tab with Advanced on. Open `Neighborhood.iff`; Sims carry their file name (`user00012`) |
@@ -682,8 +688,8 @@ binary and stays an ironman save. It isn't converted to a normal one.
 
 The start page lists **Your games**: every game in the list whose saves were found on this computer,
 newest first, each one click away from its newest save. *Find my game's saves* (the big button on the
-start page, *Find saves* in the toolbar and the File menu) lists every one of the 470+ (473) PC games the editor knows, Mass Effect 1–3, the Legendary Edition and Andromeda among them — with where it
-start page, *Find saves* in the toolbar and the File menu) lists every one of the 470+ (473) PC games the editor knows, Mass Effect 1–3, the Legendary Edition and Andromeda among them — with where it
+start page, *Find saves* in the toolbar and the File menu) lists every one of the 470+ (476) PC games the editor knows, Mass Effect 1–3, the Legendary Edition and Andromeda among them — with where it
+start page, *Find saves* in the toolbar and the File menu) lists every one of the 470+ (476) PC games the editor knows, Mass Effect 1–3, the Legendary Edition and Andromeda among them — with where it
 usually keeps its saves and what the files are called, and finds them on your computer (Steam
 libraries and `userdata`, Documents wherever Windows has it, AppData, Saved Games, Ubisoft
 Connect). On Linux and the Steam Deck it also looks inside Proton prefixes

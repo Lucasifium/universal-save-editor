@@ -17908,3 +17908,4467 @@ liquid
 
 solid
 = fest
+
+# src/game_ui/simple/specs.rs
+
+01 Neville
+= 01 Neville
+
+02 Lydia
+= 02 Lydia
+
+03 Nana
+= 03 Nana
+
+04 Chauncey
+= 04 Chauncey
+
+05 Melody Pianissima
+= 05 Melody Pianissima
+
+06 Miss Petunia
+= 06 Miss Petunia
+
+07 Madame Clairvoya
+= 07 Madame Clairvoya
+
+08 Shivers
+= 08 Shivers
+
+09 Sue Pea
+= 09 Sue Pea
+
+10 Blue Coins exchanged
+= 10 Blue Coins exchanged
+
+10 The Floating Whirlindas
+= 10 The Floating Whirlindas
+
+100 Blue Coins exchanged
+= 100 Blue Coins exchanged
+
+100 Coins
+= 100 Coins
+
+11 Mr. Luggs
+= 11 Mr. Luggs
+
+110 Blue Coins exchanged
+= 110 Blue Coins exchanged
+
+12 Jarvis
+= 12 Jarvis
+
+120 Blue Coins exchanged
+= 120 Blue Coins exchanged
+
+13 Spooky
+= 13 Spooky
+
+130 Blue Coins exchanged
+= 130 Blue Coins exchanged
+
+14 Henry and Orville
+= 14 Henry and Orville
+
+140 Blue Coins exchanged
+= 140 Blue Coins exchanged
+
+15 Clockwork Soldiers
+= 15 Clockwork Soldiers
+
+150 Blue Coins exchanged
+= 150 Blue Coins exchanged
+
+16 Biff Atlas
+= 16 Biff Atlas
+
+160 Blue Coins exchanged
+= 160 Blue Coins exchanged
+
+17 Slim Bankshot
+= 17 Slim Bankshot
+
+170 Blue Coins exchanged
+= 170 Blue Coins exchanged
+
+18 Sir Weston
+= 18 Sir Weston
+
+180 Blue Coins exchanged
+= 180 Blue Coins exchanged
+
+19 Bogmire
+= 19 Bogmire
+
+190 Blue Coins exchanged
+= 190 Blue Coins exchanged
+
+20 Blue Coins exchanged
+= 20 Blue Coins exchanged
+
+20 Uncle Grimmly
+= 20 Uncle Grimmly
+
+200 Blue Coins exchanged
+= 200 Blue Coins exchanged
+
+21 Vincent Van Gore
+= 21 Vincent Van Gore
+
+210 Blue Coins exchanged
+= 210 Blue Coins exchanged
+
+22 Boolossus
+= 22 Boolossus
+
+220 Blue Coins exchanged
+= 220 Blue Coins exchanged
+
+23 King Boo
+= 23 King Boo
+
+230 Blue Coins exchanged
+= 230 Blue Coins exchanged
+
+240 Blue Coins exchanged
+= 240 Blue Coins exchanged
+
+2F Observatory accessible
+= 2F Observatory accessible
+
+30 Blue Coins exchanged
+= 30 Blue Coins exchanged
+
+40 Blue Coins exchanged
+= 40 Blue Coins exchanged
+
+50 Blue Coins exchanged
+= 50 Blue Coins exchanged
+
+60 Blue Coins exchanged
+= 60 Blue Coins exchanged
+
+70 Blue Coins exchanged
+= 70 Blue Coins exchanged
+
+80 Blue Coins exchanged
+= 80 Blue Coins exchanged
+
+90 Blue Coins exchanged
+= 90 Blue Coins exchanged
+
+Abe
+= Abe
+
+Above a cloud in the Sand Bird level
+= Above a cloud in the Sand Bird level
+
+Above a fountain
+= Above a fountain
+
+Above a platform with an umbrella on the left side of the beach
+= Above a platform with an umbrella on the left side of the beach
+
+Above a rotating crane below a blue scaffolding
+= Above a rotating crane below a blue scaffolding
+
+Above one of the highest platform near the windmill
+= Above one of the highest platform near the windmill
+
+Above the Ricco Tower
+= Above the Ricco Tower
+
+Above the angry Pianta and her two children
+= Above the angry Pianta and her two children
+
+Above the lighthouse
+= Above the lighthouse
+
+Above the water near a flag
+= Above the water near a flag
+
+Above the water near the tunnel to the race
+= Above the water near the tunnel to the race
+
+Aldo
+= Aldo
+
+An emulator's or Dolphin's .gci save. Per Mario file: lives, which nozzles and Yoshi are unlocked, and for every area the shine sprites, blue coins, events and scores. The shine sprite total is kept in step.
+= Ein .gci-Spielstand von Emulator oder Dolphin. Pro Mario-Datei: Leben, welche Düsen und Yoshi freigeschaltet sind, und für jedes Gebiet die Shine Sprites, blauen Münzen, Ereignisse und Punktestände. Die Gesamtzahl der Shine Sprites wird mitgeführt.
+
+An emulator's or Dolphin's .gci save. Per slot: health, magic, rupees, the equipment and wallet, every item and bag, the quantities, the figurines, the dungeons' maps, compasses and keys, and the events (Big Octos, mini-games, postbox and more). The sword, shield and bracelet flags follow the equipment you pick.
+= Ein .gci-Spielstand von Emulator oder Dolphin. Pro Speicherplatz: Gesundheit, Magie, Rubine, Ausrüstung und Geldbörse, jeder Gegenstand und Beutel, die Mengen, die Figuren, Karten, Kompasse und Schlüssel der Dungeons sowie die Ereignisse (Riesenkraken, Minispiele, Briefkasten und mehr). Die Flaggen für Schwert, Schild und Armreif folgen der gewählten Ausrüstung.
+
+An emulator's or Dolphin's .gci save. Per slot: health, money, the treasures you hold, the medals and Mario's items, the boos and portrait ghosts, the gallery and every mansion room's flags (visited, cleared, chests and keys). Plus the options.
+= Ein .gci-Spielstand von Emulator oder Dolphin. Pro Speicherplatz: Gesundheit, Geld, die Schätze im Besitz, die Medaillen und Marios Gegenstände, die Boos und Porträtgeister, die Galerie und die Flaggen jedes Raums der Villa (besucht, gelöscht, Truhen und Schlüssel). Dazu die Optionen.
+
+Ankle
+= Ankle
+
+Anton
+= Anton
+
+Armos
+= Armos
+
+Armos Knight
+= Armos Knight
+
+Around the last platform
+= Around the last platform
+
+Aryll
+= Aryll
+
+Astral path appeared
+= Astral path appeared
+
+At one end of the river
+= At one end of the river
+
+At the base of the stage
+= At the base of the stage
+
+At the end of the Turbo Nozzle mini-game
+= At the end of the Turbo Nozzle mini-game
+
+At the end of the amphitheater path, between two walls
+= At the end of the amphitheater path, between two walls
+
+At the end of the slide mini-game
+= At the end of the slide mini-game
+
+At the top of a pillar in the underwater city
+= At the top of a pillar in the underwater city
+
+At the top of a platform near the two clouds
+= At the top of a platform near the two clouds
+
+At the top of a pole near the amphitheater
+= At the top of a pole near the amphitheater
+
+At the top of the gate
+= At the top of the gate
+
+At the top of the highest platform of the swinging ships
+= At the top of the highest platform of the swinging ships
+
+At the top of the palm tree near the hot spring
+= At the top of the palm tree near the hot spring
+
+At the top of the palm tree with the swing
+= At the top of the palm tree with the swing
+
+At the top right side of the level, above the Rocket Nozzle box
+= At the top right side of the level, above the Rocket Nozzle box
+
+At the top right side of the level, using the Rocket Nozzle
+= At the top right side of the level, using the Rocket Nozzle
+
+Bait Bag
+= Bait Bag
+
+Baito
+= Baito
+
+Ballad of Gales
+= Ballad of Gales
+
+BamBoo
+= BamBoo
+
+Basht & Bisht
+= Basht & Bisht
+
+Beedle
+= Beedle
+
+Beedle's Chart obtained
+= Beedle's Chart obtained
+
+Behind a yellow jelly above the police station
+= Behind a yellow jelly above the police station
+
+Behind a yellow jelly near the Pinna Park cannon
+= Behind a yellow jelly near the Pinna Park cannon
+
+Behind breakable doors above the water near the lighthouse
+= Behind breakable doors above the water near the lighthouse
+
+Behind breakable doors below the antenna
+= Behind breakable doors below the antenna
+
+Below a bridge above the river
+= Below a bridge above the river
+
+Below a yellow jelly
+= Below a yellow jelly
+
+Below the Surf Cabana
+= Below the Surf Cabana
+
+Below the bridge to the windmill
+= Below the bridge to the windmill
+
+Below the stairs of the swinging ships
+= Below the stairs of the swinging ships
+
+Big Catch Flag
+= Big Catch Flag
+
+Big Key
+= Big Key
+
+Big Octo
+= Big Octo
+
+Big Pearl
+= Big Pearl
+
+Big Sale Flag
+= Big Sale Flag
+
+Bills
+= Bills
+
+Blackout
+= Blackout
+
+Blue Chu Jelly
+= Blue Chu Jelly
+
+Blue Clockwork Soldier captured
+= Blue Clockwork Soldier captured
+
+Blue Jewels
+= Blue Jewels
+
+Boko Baba
+= Boko Baba
+
+Boko Baba Seed
+= Boko Baba Seed
+
+Bokoblin
+= Bokoblin
+
+Bomb Bags
+= Bomb Bags
+
+Bomb Island: Inside a chest in a submarine
+= Bomb Island: Inside a chest in a submarine
+
+Bomb-Master Cannon
+= Bomb-Master Cannon
+
+Boo B. Hatch
+= Boo B. Hatch
+
+Boo La La
+= Boo La La
+
+Boo: BamBoo
+= Boo: BamBoo
+
+Boo: Boo B. Hatch
+= Boo: Boo B. Hatch
+
+Boo: Boo La La
+= Boo: Boo La La
+
+Boo: Boodacious
+= Boo: Boodacious
+
+Boo: Booffant
+= Boo: Booffant
+
+Boo: Boogie
+= Boo: Boogie
+
+Boo: Boohoo
+= Boo: Boohoo
+
+Boo: Booigi
+= Boo: Booigi
+
+Boo: Boolderdash
+= Boo: Boolderdash
+
+Boo: Booligan
+= Boo: Booligan
+
+Boo: Boolivia
+= Boo: Boolivia
+
+Boo: Boomeo
+= Boo: Boomeo
+
+Boo: Boomerang
+= Boo: Boomerang
+
+Boo: Boonita
+= Boo: Boonita
+
+Boo: Boonswoggle
+= Boo: Boonswoggle
+
+Boo: Booregard
+= Boo: Booregard
+
+Boo: Booripedes
+= Boo: Booripedes
+
+Boo: Booris
+= Boo: Booris
+
+Boo: Booscaster
+= Boo: Booscaster
+
+Boo: Bootha
+= Boo: Bootha
+
+Boo: Bootique
+= Boo: Bootique
+
+Boo: GameBoo
+= Boo: GameBoo
+
+Boo: GameBoo Advance
+= Boo: GameBoo Advance
+
+Boo: GumBoo
+= Boo: GumBoo
+
+Boo: Kung Boo
+= Boo: Kung Boo
+
+Boo: LimBooger
+= Boo: LimBooger
+
+Boo: Little Boo Peep
+= Boo: Little Boo Peep
+
+Boo: Mr. Boojangles
+= Boo: Mr. Boojangles
+
+Boo: PeakaBoo
+= Boo: PeakaBoo
+
+Boo: ShamBoo
+= Boo: ShamBoo
+
+Boo: TaBoo
+= Boo: TaBoo
+
+Boo: TamBoorine
+= Boo: TamBoorine
+
+Boo: Turboo
+= Boo: Turboo
+
+Boo: UnderBoo
+= Boo: UnderBoo
+
+Boodacious
+= Boodacious
+
+Booffant
+= Booffant
+
+Boogie
+= Boogie
+
+Boohoo
+= Boohoo
+
+Booigi
+= Booigi
+
+Boolderdash
+= Boolderdash
+
+Boolicious
+= Boolicious
+
+Booligan
+= Booligan
+
+Boolivia
+= Boolivia
+
+Boomeo
+= Boomeo
+
+Boonita
+= Boonita
+
+Boonswoggle
+= Boonswoggle
+
+Booregard
+= Booregard
+
+Booripedes
+= Booripedes
+
+Booris
+= Booris
+
+Boos
+= Boos
+
+Booscaster
+= Booscaster
+
+Bootha
+= Bootha
+
+Bootique
+= Bootique
+
+Bosses
+= Bosse
+
+Bottles
+= Flaschen
+
+Burning door to 1F Boneyard extinguished
+= Burning door to 1F Boneyard extinguished
+
+Burning door to 2F Tea Room extinguished
+= Burning door to 2F Tea Room extinguished
+
+Button moving wall pressed
+= Button moving wall pressed
+
+Button releasing Boos pressed
+= Button releasing Boos pressed
+
+By cleaning a Pianta after the bridge
+= By cleaning a Pianta after the bridge
+
+By cleaning a Pianta near the couple
+= By cleaning a Pianta near the couple
+
+By cleaning a Pianta near the fruit tree
+= By cleaning a Pianta near the fruit tree
+
+By cleaning a Pianta near the giant tree
+= By cleaning a Pianta near the giant tree
+
+By cleaning a Pianta near the hot spring
+= By cleaning a Pianta near the hot spring
+
+By cleaning a Pianta on the right side of the level
+= By cleaning a Pianta on the right side of the level
+
+By cleaning the Shine Gate
+= By cleaning the Shine Gate
+
+By cleaning the dirty bell above the jail
+= By cleaning the dirty bell above the jail
+
+By cleaning the dirty bell below the antenna
+= By cleaning the dirty bell below the antenna
+
+By collecting 8 coins on the lilypad mini-game
+= By collecting 8 coins on the lilypad mini-game
+
+By collecting 8 coins on the pachinko mini-game
+= By collecting 8 coins on the pachinko mini-game
+
+By collecting 8 coins on the tall grass mini-game
+= By collecting 8 coins on the tall grass mini-game
+
+By defeating Bowser
+= By defeating Bowser
+
+By defeating a Blooper inside the yellow cage
+= By defeating a Blooper inside the yellow cage
+
+By defeating a Klamber on a ship
+= By defeating a Klamber on a ship
+
+By defeating a Pokey at the top of the windmill
+= By defeating a Pokey at the top of the windmill
+
+By defeating a Pokey on a brick platform
+= By defeating a Pokey on a brick platform
+
+By defeating a blue Cataquack at the top of a palm tree
+= By defeating a blue Cataquack at the top of a palm tree
+
+By defeating a red Cataquack on the beach
+= By defeating a red Cataquack on the beach
+
+By defeating a tower of Strollin' Stu
+= By defeating a tower of Strollin' Stu
+
+By defeating the boo in the air duct
+= By defeating the boo in the air duct
+
+By eating a Klamber with Yoshi
+= By eating a Klamber with Yoshi
+
+By eating a blue butterfly with Yoshi
+= By eating a blue butterfly with Yoshi
+
+By eating a blue butterfly with Yoshi near the pond
+= By eating a blue butterfly with Yoshi near the pond
+
+By eating a blue butterfly with Yoshi near the sunflowers
+= By eating a blue butterfly with Yoshi near the sunflowers
+
+By eating bees with Yoshi
+= By eating bees with Yoshi
+
+By eating bees with Yoshi after the main bridge
+= By eating bees with Yoshi after the main bridge
+
+By eating bees with Yoshi near the hot spring
+= By eating bees with Yoshi near the hot spring
+
+By eating blue butterflies with Yoshi near the fruit tree
+= By eating blue butterflies with Yoshi near the fruit tree
+
+By ground pounding a slot machine in the casino
+= By ground pounding a slot machine in the casino
+
+By ground pounding the nose of the Pianta statue at the hot spring
+= By ground pounding the nose of the Pianta statue at the hot spring
+
+By putting a fruit into the watermelon shredder
+= By putting a fruit into the watermelon shredder
+
+By spraying a cupboard in the storage room
+= By spraying a cupboard in the storage room
+
+By spraying a flowerbed to the right of the hotel
+= By spraying a flowerbed to the right of the hotel
+
+By spraying a golden bird
+= By spraying a golden bird
+
+By spraying a lamp in the third floor of the hotel
+= By spraying a lamp in the third floor of the hotel
+
+By spraying a mirror in the room with the glass table
+= By spraying a mirror in the room with the glass table
+
+By spraying a pillar near the windmill
+= By spraying a pillar near the windmill
+
+By spraying a tablet near the lawn chairs
+= By spraying a tablet near the lawn chairs
+
+By spraying a torch in front of the hotel
+= By spraying a torch in front of the hotel
+
+By spraying a torch in the casino
+= By spraying a torch in the casino
+
+By spraying a vase in the ancient Noki king's tomb
+= By spraying a vase in the ancient Noki king's tomb
+
+By spraying a windmill near the 3 bells
+= By spraying a windmill near the 3 bells
+
+By spraying the blue bird above the amphitheater
+= By spraying the blue bird above the amphitheater
+
+By spraying the blue bird at the entrance
+= By spraying the blue bird at the entrance
+
+By spraying the blue bird in the village
+= By spraying the blue bird in the village
+
+By spraying the blue bird near the Sirena Beach pipe
+= By spraying the blue bird near the Sirena Beach pipe
+
+By spraying the blue bird near the wooden bridge
+= By spraying the blue bird near the wooden bridge
+
+By spraying the blue bird on the giant tree
+= By spraying the blue bird on the giant tree
+
+By spraying the blue bird to the left of the Shine Gate
+= By spraying the blue bird to the left of the Shine Gate
+
+By spraying the ceiling lamp of the hotel
+= By spraying the ceiling lamp of the hotel
+
+By spraying the moon at the top of the golden mushroom
+= By spraying the moon at the top of the golden mushroom
+
+By spraying the signpost after the main bridge
+= By spraying the signpost after the main bridge
+
+By spraying the top of a palm tree near the wooden wheel
+= By spraying the top of a palm tree near the wooden wheel
+
+By spraying water on a basket of fish
+= By spraying water on a basket of fish
+
+By spraying water on the propeller that raises the submarine
+= By spraying water on the propeller that raises the submarine
+
+By spraying water on wooden bars on the giant tree
+= By spraying water on wooden bars on the giant tree
+
+By using a swing on a palm tree at the starting point
+= By using a swing on a palm tree at the starting point
+
+By watering a plant
+= By watering a plant
+
+By winning the crate mini-game 1
+= By winning the crate mini-game 1
+
+By winning the crate mini-game 2
+= By winning the crate mini-game 2
+
+Cabana Puzzle Level
+= Cabana Puzzle Level
+
+Candy the Sailor
+= Candy the Sailor
+
+Captured
+= Gefangen
+
+Carlov the Sculptor
+= Carlov the Sculptor
+
+Chest opened
+= Chest opened
+
+ChuChu
+= ChuChu
+
+Cleared
+= Cleared
+
+Close the emulator first. Health is in quarter hearts, so 12 is three hearts. Changing the sword, shield or bracelets also sets the matching equipped flag. Each edited slot's sum is made again.
+= Schließe zuerst den Emulator. Gesundheit wird in Vierteln eines Herzens angegeben, 12 sind also drei Herzen. Wer Schwert, Schild oder Armreif ändert, setzt auch die passende Ausrüstungsflagge. Die Prüfsumme jedes geänderten Speicherplatzes wird neu berechnet.
+
+Close the emulator first. Rooms and boos are flags: a room you tick as visited is not drawn on the map by itself. Each edited section's sum is made again.
+= Schließe zuerst den Emulator. Räume und Boos sind Flaggen: Ein als besucht markierter Raum wird nicht von selbst in die Karte eingetragen. Die Prüfsumme jedes geänderten Abschnitts wird neu berechnet.
+
+Close the emulator first. The count of shine sprites is kept in step with the ones you tick. Each edited section's sum is made again.
+= Schließe zuerst den Emulator. Die Zahl der Shine Sprites wird mit den angekreuzten abgeglichen. Die Prüfsumme jedes geänderten Abschnitts wird neu berechnet.
+
+Club Key to 1F Courtyard obtained
+= Club Key to 1F Courtyard obtained
+
+Club door to 1F Hallway unlocked
+= Club door to 1F Hallway unlocked
+
+Command Melody
+= Command Melody
+
+Complimentary ID obtained
+= Complimentary ID obtained
+
+Controls
+= Controls
+
+Crab
+= Crab
+
+Dampa the Sailor
+= Dampa the Sailor
+
+Darknut
+= Darknut
+
+David, Jr.
+= David, Jr.
+
+Deku Leaf
+= Deku Leaf
+
+Deku Tree
+= Deku Tree
+
+Delivery Bag
+= Delivery Bag
+
+Diamond Key to 3F Balcony obtained
+= Diamond Key to 3F Balcony obtained
+
+Diamond Steppe Island
+= Diamond Steppe Island
+
+Diamond door to 3F West Hallway unlocked
+= Diamond door to 3F West Hallway unlocked
+
+Diamond door to 3F West Hallway unsealed
+= Diamond door to 3F West Hallway unsealed
+
+Din's Pearl
+= Din's Pearl
+
+Door from BF Stairs to 1F unlocked
+= Door from BF Stairs to 1F unlocked
+
+Door to 1F Ball Room unlocked
+= Door to 1F Ball Room unlocked
+
+Door to 1F Hallway unlocked
+= Door to 1F Hallway unlocked
+
+Door to 1F Storage Room unlocked
+= Door to 1F Storage Room unlocked
+
+Door to 2F Anteroom unlocked
+= Door to 2F Anteroom unlocked
+
+Door to 2F Foyer unlocked
+= Door to 2F Foyer unlocked
+
+Door to 2F Hallway unlocked
+= Door to 2F Hallway unlocked
+
+Door to 2F Master Bedroom unlocked
+= Door to 2F Master Bedroom unlocked
+
+Door to 2F Nursery unlocked
+= Door to 2F Nursery unlocked
+
+Door to 2F Parlor unlocked
+= Door to 2F Parlor unlocked
+
+Door to 2F The Twins' Room unlocked
+= Door to 2F The Twins' Room unlocked
+
+Door to 2F West Hallway unlocked
+= Door to 2F West Hallway unlocked
+
+Door to 3F Clockwork Room unlocked
+= Door to 3F Clockwork Room unlocked
+
+Door to 3F East Hallway unlocked
+= Door to 3F East Hallway unlocked
+
+Door to 3F Stairs to 2F unlocked
+= Door to 3F Stairs to 2F unlocked
+
+Door to 3F Telephone Room unlocked
+= Door to 3F Telephone Room unlocked
+
+Door to 3F The Artist's Studio unlocked
+= Door to 3F The Artist's Studio unlocked
+
+Door to 3F West Hallway unlocked
+= Door to 3F West Hallway unlocked
+
+Door to BF Breaker Room unlocked
+= Door to BF Breaker Room unlocked
+
+Door to BF Cellar unlocked
+= Door to BF Cellar unlocked
+
+Door to BF Stairs to 1F unlocked
+= Door to BF Stairs to 1F unlocked
+
+Dragon Roost Island: Received from Medli
+= Dragon Roost Island: Received from Medli
+
+Drona
+= Drona
+
+Dungeon Map
+= Dungeon Map
+
+Dungeon accessible
+= Dungeon accessible
+
+Dungeon cleared
+= Dungeon cleared
+
+Dungeons
+= Dungeons
+
+Earth God's Lyric
+= Earth God's Lyric
+
+Elma
+= Elma
+
+Episode 1: Chain Chomplets Unchained
+= Episode 1: Chain Chomplets Unchained
+
+Episode 1: Dune Bud Sand Castle Secret
+= Episode 1: Dune Bud Sand Castle Secret
+
+Episode 1: Gooper Blooper Breaks Out
+= Episode 1: Gooper Blooper Breaks Out
+
+Episode 1: Mecha-Bowser Appears!
+= Episode 1: Mecha-Bowser Appears!
+
+Episode 1: Road to the Big Windmill
+= Episode 1: Road to the Big Windmill
+
+Episode 1: The Manta Storm
+= Episode 1: The Manta Storm
+
+Episode 1: Uncork the Waterfall
+= Episode 1: Uncork the Waterfall
+
+Episode 2: Blooper Surfing Safari
+= Episode 2: Blooper Surfing Safari
+
+Episode 2: Down with Petey Piranha!
+= Episode 2: Down with Petey Piranha!
+
+Episode 2: Il Piantissimo's Crazy Climb
+= Episode 2: Il Piantissimo's Crazy Climb
+
+Episode 2: Mirror Madness! Tilt, Slam, Bam!
+= Episode 2: Mirror Madness! Tilt, Slam, Bam!
+
+Episode 2: The Beach Cannon's Secret
+= Episode 2: The Beach Cannon's Secret
+
+Episode 2: The Boss of Tricky Ruins
+= Episode 2: The Boss of Tricky Ruins
+
+Episode 2: The Hotel Lobby's Secret
+= Episode 2: The Hotel Lobby's Secret
+
+Episode 3: Mysterious Hotel Delfino
+= Episode 3: Mysterious Hotel Delfino
+
+Episode 3: Red Coins in a Bottle
+= Episode 3: Red Coins in a Bottle
+
+Episode 3: Red Coins of the Pirate Ships
+= Episode 3: Red Coins of the Pirate Ships
+
+Episode 3: The Caged Shine Sprite
+= Episode 3: The Caged Shine Sprite
+
+Episode 3: The Goopy Inferno
+= Episode 3: The Goopy Inferno
+
+Episode 3: The Hillside Cave Secret
+= Episode 3: The Hillside Cave Secret
+
+Episode 3: Wiggler Ahoy! Full Steam Ahead!
+= Episode 3: Wiggler Ahoy! Full Steam Ahead!
+
+Episode 4: Chain Chomp's Bath
+= Episode 4: Chain Chomp's Bath
+
+Episode 4: Eely-Mouth's Dentist
+= Episode 4: Eely-Mouth's Dentist
+
+Episode 4: Red Coins of Windmill Village
+= Episode 4: Red Coins of Windmill Village
+
+Episode 4: The Sand Bird is Born
+= Episode 4: The Sand Bird is Born
+
+Episode 4: The Secret of Casino Delfino
+= Episode 4: The Secret of Casino Delfino
+
+Episode 4: The Secret of Ricco Tower
+= Episode 4: The Secret of Ricco Tower
+
+Episode 4: The Wilted Sunflowers
+= Episode 4: The Wilted Sunflowers
+
+Episode 5: Gooper Blooper Returns
+= Episode 5: Gooper Blooper Returns
+
+Episode 5: Il Piantissimo's Sand Sprint
+= Episode 5: Il Piantissimo's Sand Sprint
+
+Episode 5: Il Piantissimo's Surf Swim
+= Episode 5: Il Piantissimo's Surf Swim
+
+Episode 5: King Boo Down Below
+= Episode 5: King Boo Down Below
+
+Episode 5: Petey Piranha Strikes Back
+= Episode 5: Petey Piranha Strikes Back
+
+Episode 5: Secret of the Village Underside
+= Episode 5: Secret of the Village Underside
+
+Episode 5: The Runaway Ferris Wheel
+= Episode 5: The Runaway Ferris Wheel
+
+Episode 6: Piantas in Need
+= Episode 6: Piantas in Need
+
+Episode 6: Red Coins in the Coral Reef
+= Episode 6: Red Coins in the Coral Reef
+
+Episode 6: Red Coins on the Water
+= Episode 6: Red Coins on the Water
+
+Episode 6: Scrubbing Sirena Beach
+= Episode 6: Scrubbing Sirena Beach
+
+Episode 6: The Secret of the Dirty Lake
+= Episode 6: The Secret of the Dirty Lake
+
+Episode 6: The Shell's Secret
+= Episode 6: The Shell's Secret
+
+Episode 6: The Yoshi-Go-Round's Secret
+= Episode 6: The Yoshi-Go-Round's Secret
+
+Episode 7: Hold It, Shadow Mario!
+= Episode 7: Hold It, Shadow Mario!
+
+Episode 7: It's Shadow Mario! After Him!
+= Episode 7: It's Shadow Mario! After Him!
+
+Episode 7: Shadow Mario Checks In
+= Episode 7: Shadow Mario Checks In
+
+Episode 7: Shadow Mario Revisited
+= Episode 7: Shadow Mario Revisited
+
+Episode 7: Shadow Mario Runs Wild
+= Episode 7: Shadow Mario Runs Wild
+
+Episode 7: Shadow Mario in the Park
+= Episode 7: Shadow Mario in the Park
+
+Episode 7: Shadow Mario on the Loose
+= Episode 7: Shadow Mario on the Loose
+
+Episode 8: Fluff Festival Coin Hunt
+= Episode 8: Fluff Festival Coin Hunt
+
+Episode 8: Red Coins in the Hotel
+= Episode 8: Red Coins in the Hotel
+
+Episode 8: Roller Coaster Balloons
+= Episode 8: Roller Coaster Balloons
+
+Episode 8: The Red Coin Fish
+= Episode 8: The Red Coin Fish
+
+Episode 8: The Red Coins of the Lake
+= Episode 8: The Red Coins of the Lake
+
+Episode 8: The Watermelon Festival
+= Episode 8: The Watermelon Festival
+
+Episode 8: Yoshi's Fruit Adventure
+= Episode 8: Yoshi's Fruit Adventure
+
+Exotic Flower
+= Exotic Flower
+
+Fado
+= Fado
+
+Fairy
+= Fairy
+
+Farore's Pearl
+= Farore's Pearl
+
+Figurines
+= Figuren
+
+Fill-Up Coupon obtained
+= Fill-Up Coupon obtained
+
+Fire Element Medal
+= Fire Element Medal
+
+Fire Element Medal obtained
+= Fire Element Medal obtained
+
+Fire Mountain
+= Fire Mountain
+
+Fishman
+= Fishman
+
+Flight Control Platform
+= Flight Control Platform
+
+Floating above the swinging ships
+= Floating above the swinging ships
+
+Floating above the water near the shore
+= Floating above the water near the shore
+
+Floating above the water near the starting point
+= Floating above the water near the starting point
+
+Floating in a vertical tunnel at the end of a climbing ledge
+= Floating in a vertical tunnel at the end of a climbing ledge
+
+Floating near a spinning platform
+= Floating near a spinning platform
+
+Floating on the side of a metal support
+= Floating on the side of a metal support
+
+Floor Master
+= Floor Master
+
+Forest Water Timer (1/30 s)
+= Forest Water Timer (1/30 s)
+
+Fountain Idol
+= Fountain Idol
+
+Fragment 1
+= Fragment 1
+
+Fragment 2
+= Fragment 2
+
+Fragment 3
+= Fragment 3
+
+Fragment 4
+= Fragment 4
+
+Fragment 5
+= Fragment 5
+
+Fragment 6
+= Fragment 6
+
+Fragment 7
+= Fragment 7
+
+Fragment 8
+= Fragment 8
+
+Gallery
+= Galerie
+
+GameBoo
+= GameBoo
+
+GameBoo Advance
+= GameBoo Advance
+
+Ganondorf
+= Ganondorf
+
+Garrickson
+= Garrickson
+
+Gillian
+= Gillian
+
+Given by a dirty Noki near the lawn chairs
+= Given by a dirty Noki near the lawn chairs
+
+Given by a dirty Noki near the left pool
+= Given by a dirty Noki near the left pool
+
+Given by a dirty Pianta
+= Given by a dirty Pianta
+
+Given by extinguishing the Pianta on fire
+= Given by extinguishing the Pianta on fire
+
+Given by the 3 bananas Pianta
+= Given by the 3 bananas Pianta
+
+Given by the 3 coconuts Pianta
+= Given by the 3 coconuts Pianta
+
+Given by the 3 durians Pianta
+= Given by the 3 durians Pianta
+
+Given by the 3 pineapples Pianta
+= Given by the 3 pineapples Pianta
+
+Given by the dirty Pianta at the top of the wall
+= Given by the dirty Pianta at the top of the wall
+
+Goddess Tingle Statue obtained
+= Goddess Tingle Statue obtained
+
+Gohdan, The Great Arbiter
+= Gohdan, The Great Arbiter
+
+Gohma
+= Gohma
+
+Gold Bars
+= Gold Bars
+
+Gold Diamonds
+= Gold Diamonds
+
+Gold Mouse captured
+= Gold Mouse captured
+
+Golden Feather
+= Golden Feather
+
+Gonzo
+= Gonzo
+
+Gossack
+= Gossack
+
+Grandma
+= Grandma
+
+Grappling Hook
+= Grappling Hook
+
+Great Fairy
+= Great Fairy
+
+Green Chu Jelly
+= Green Chu Jelly
+
+Green Clockwork Soldier captured
+= Green Clockwork Soldier captured
+
+Green Jewels
+= Green Jewels
+
+Green Rupee obtained
+= Green Rupee obtained
+
+GumBoo
+= GumBoo
+
+Gummy the Sailor
+= Gummy the Sailor
+
+Gyorg
+= Gyorg
+
+Health (quarter hearts)
+= Health (quarter hearts)
+
+Heart Container
+= Heart Container
+
+Heart Key to 1F Hallway obtained
+= Heart Key to 1F Hallway obtained
+
+Heart Piece Location
+= Heart Piece Location
+
+Heart Piece obtained
+= Heart Piece obtained
+
+Heart door to 1F Hallway unlocked
+= Heart door to 1F Hallway unlocked
+
+Heart door to 1F Hallway unsealed
+= Heart door to 1F Hallway unsealed
+
+Hero's Bow
+= Hero's Bow
+
+Hero's Charm
+= Hero's Charm
+
+Hero's Flag
+= Hero's Flag
+
+Hidden in a wall near a climbable ledge above the second vase
+= Hidden in a wall near a climbable ledge above the second vase
+
+Hidden in a wall near a climbable ledge near the second vase
+= Hidden in a wall near a climbable ledge near the second vase
+
+Hidden in one of the set of seven brown tiles on the left side
+= Hidden in one of the set of seven brown tiles on the left side
+
+Hidden in one of the set of two alcoves on the very left side
+= Hidden in one of the set of two alcoves on the very left side
+
+Hidden in one of the set of two brown tiles on the left side
+= Hidden in one of the set of two brown tiles on the left side
+
+Hidden in one of the set of two brown tiles on the very left side
+= Hidden in one of the set of two brown tiles on the very left side
+
+Hidden in one of the three alcoves on the left side
+= Hidden in one of the three alcoves on the left side
+
+Hidden in one of the two vertival alcoves on the left side
+= Hidden in one of the two vertival alcoves on the left side
+
+Hidden in the center of a tall wall
+= Hidden in the center of a tall wall
+
+Hidden inside a small alcove above the tall wall
+= Hidden inside a small alcove above the tall wall
+
+Hollo
+= Hollo
+
+Hoskit
+= Hoskit
+
+Hurricane Spin
+= Hurricane Spin
+
+IN-credible Chart obtained
+= IN-credible Chart obtained
+
+Ice Element Medal
+= Ice Element Medal
+
+Ice Element Medal obtained
+= Ice Element Medal obtained
+
+Ilari
+= Ilari
+
+In a doorway of the house with the balcony
+= In a doorway of the house with the balcony
+
+In a tall grass area
+= In a tall grass area
+
+In an alcove above the 1-Up on the left side
+= In an alcove above the 1-Up on the left side
+
+In an alcove at the same height as the purple shell
+= In an alcove at the same height as the purple shell
+
+In an alcove below the platform next to the top of the waterfall
+= In an alcove below the platform next to the top of the waterfall
+
+In an alcove to the left of the 1-Up
+= In an alcove to the left of the 1-Up
+
+In one of the tower of the building
+= In one of the tower of the building
+
+In the air duct
+= In the air duct
+
+In the room below the breakable glass table
+= In the room below the breakable glass table
+
+In the room next to the crates room
+= In the room next to the crates room
+
+In the room next to the storage room behind a poster
+= In the room next to the storage room behind a poster
+
+In the sewer near an island with the 3 coconuts Pianta
+= In the sewer near an island with the 3 coconuts Pianta
+
+In the sewer near the Corona Mountain entrance
+= In the sewer near the Corona Mountain entrance
+
+In the sewer near the Noki Bay entrance
+= In the sewer near the Noki Bay entrance
+
+Inside a <span style='color: #768457;'>X</span> on a building near the fruit dispenser
+= Inside a <span style='color: #768457;'>X</span> on a building near the fruit dispenser
+
+Inside a <span style='color: #768457;'>X</span> on the Ricco Tower
+= Inside a <span style='color: #768457;'>X</span> on the Ricco Tower
+
+Inside a <span style='color: red;'>M</span> above the entrance of the casino
+= Inside a <span style='color: red;'>M</span> above the entrance of the casino
+
+Inside a <span style='color: red;'>M</span> above the warehouse at the entrance
+= Inside a <span style='color: red;'>M</span> above the warehouse at the entrance
+
+Inside a <span style='color: red;'>M</span> behind a crate near the Shine Gate
+= Inside a <span style='color: red;'>M</span> behind a crate near the Shine Gate
+
+Inside a <span style='color: red;'>M</span> behind a crate on a roof
+= Inside a <span style='color: red;'>M</span> behind a crate on a roof
+
+Inside a <span style='color: red;'>M</span> behind the starting point
+= Inside a <span style='color: red;'>M</span> behind the starting point
+
+Inside a <span style='color: red;'>M</span> in the air duct
+= Inside a <span style='color: red;'>M</span> in the air duct
+
+Inside a <span style='color: red;'>M</span> near a movable wall
+= Inside a <span style='color: red;'>M</span> near a movable wall
+
+Inside a <span style='color: red;'>M</span> near the water wall
+= Inside a <span style='color: red;'>M</span> near the water wall
+
+Inside a <span style='color: red;'>M</span> on a blue platform
+= Inside a <span style='color: red;'>M</span> on a blue platform
+
+Inside a <span style='color: red;'>M</span> on a building near the Pinna Park cannon
+= Inside a <span style='color: red;'>M</span> on a building near the Pinna Park cannon
+
+Inside a <span style='color: red;'>M</span> on a ledge near the Sand Cabana
+= Inside a <span style='color: red;'>M</span> on a ledge near the Sand Cabana
+
+Inside a <span style='color: red;'>M</span> on a ledge with palm trees
+= Inside a <span style='color: red;'>M</span> on a ledge with palm trees
+
+Inside a <span style='color: red;'>M</span> on a roof near the fruit dispenser
+= Inside a <span style='color: red;'>M</span> on a roof near the fruit dispenser
+
+Inside a <span style='color: red;'>M</span> on a wall below the village
+= Inside a <span style='color: red;'>M</span> on a wall below the village
+
+Inside a <span style='color: red;'>M</span> on a wall near the giant tree
+= Inside a <span style='color: red;'>M</span> on a wall near the giant tree
+
+Inside a <span style='color: red;'>M</span> on the beach near the pool
+= Inside a <span style='color: red;'>M</span> on the beach near the pool
+
+Inside a <span style='color: red;'>M</span> on the ceiling below the village
+= Inside a <span style='color: red;'>M</span> on the ceiling below the village
+
+Inside a <span style='color: red;'>M</span> on the floor near the Ricco Tower
+= Inside a <span style='color: red;'>M</span> on the floor near the Ricco Tower
+
+Inside a <span style='color: red;'>M</span> on the floor near the golden mushroom
+= Inside a <span style='color: red;'>M</span> on the floor near the golden mushroom
+
+Inside a <span style='color: red;'>M</span> on the floor of a ship
+= Inside a <span style='color: red;'>M</span> on the floor of a ship
+
+Inside a <span style='color: red;'>M</span> on the floor of the wall near the wooden wheel
+= Inside a <span style='color: red;'>M</span> on the floor of the wall near the wooden wheel
+
+Inside a <span style='color: red;'>M</span> on the side of a ship
+= Inside a <span style='color: red;'>M</span> on the side of a ship
+
+Inside a <span style='color: red;'>M</span> on the third floor
+= Inside a <span style='color: red;'>M</span> on the third floor
+
+Inside a <span style='color: red;'>M</span> on the towers building
+= Inside a <span style='color: red;'>M</span> on the towers building
+
+Inside a <span style='color: red;'>M</span> on the wall near the wooden wheel
+= Inside a <span style='color: red;'>M</span> on the wall near the wooden wheel
+
+Inside a <span style='color: red;'>M</span> on the wall of a building near the fruit dispenser
+= Inside a <span style='color: red;'>M</span> on the wall of a building near the fruit dispenser
+
+Inside a <span style='color: red;'>M</span> on the wall with the orange arch
+= Inside a <span style='color: red;'>M</span> on the wall with the orange arch
+
+Inside a <span style='color: red;'>M</span> on the warehouse at the entrance
+= Inside a <span style='color: red;'>M</span> on the warehouse at the entrance
+
+Inside a <span style='color: red;'>M</span> on the windmill
+= Inside a <span style='color: red;'>M</span> on the windmill
+
+Inside a <span style='color: red;'>M</span> to the right of the hotel
+= Inside a <span style='color: red;'>M</span> to the right of the hotel
+
+Inside a <span style='color: red;'>X</span> on a wall near the boathouse
+= Inside a <span style='color: red;'>X</span> on a wall near the boathouse
+
+Inside a <span style='color: red;'>X</span> on the Bianco Hills statue
+= Inside a <span style='color: red;'>X</span> on the Bianco Hills statue
+
+Inside a <span style='color: red;'>X</span> on the mouth of the Pianta tree
+= Inside a <span style='color: red;'>X</span> on the mouth of the Pianta tree
+
+Inside a <span style='color: red;'>X</span> on the second floor
+= Inside a <span style='color: red;'>X</span> on the second floor
+
+Inside a <span style='color: red;'>X</span> on the third floor
+= Inside a <span style='color: red;'>X</span> on the third floor
+
+Inside a <span style='color: red;'>X</span> on the wall in the small alcove
+= Inside a <span style='color: red;'>X</span> on the wall in the small alcove
+
+Inside a <span style='color: red;'>X</span> on the wall near the pool
+= Inside a <span style='color: red;'>X</span> on the wall near the pool
+
+Inside a <span style='color: red;'>X</span> on the wall other side of the small alcove
+= Inside a <span style='color: red;'>X</span> on the wall other side of the small alcove
+
+Inside a <span style='color: red;'>△</span> at the Ferris wheel
+= Inside a <span style='color: red;'>△</span> at the Ferris wheel
+
+Inside a <span style='color: red;'>△</span> on a wall near a swing
+= Inside a <span style='color: red;'>△</span> on a wall near a swing
+
+Inside a <span style='color: red;'>△</span> on a wall near the hot spring
+= Inside a <span style='color: red;'>△</span> on a wall near the hot spring
+
+Inside a <span style='color: red;'>△</span> on the first floor
+= Inside a <span style='color: red;'>△</span> on the first floor
+
+Inside a <span style='color: red;'>△</span> on the ledge with a banana
+= Inside a <span style='color: red;'>△</span> on the ledge with a banana
+
+Inside a <span style='color: red;'>△</span> on the left side of the beach
+= Inside a <span style='color: red;'>△</span> on the left side of the beach
+
+Inside a <span style='color: red;'>△</span> on the right side of the beach
+= Inside a <span style='color: red;'>△</span> on the right side of the beach
+
+Inside a <span style='color: red;'>△</span> on the second floor
+= Inside a <span style='color: red;'>△</span> on the second floor
+
+Inside a <span style='color: red;'>◯</span> near the mudboat rental
+= Inside a <span style='color: red;'>◯</span> near the mudboat rental
+
+Inside a <span style='color: red;'>◯</span> near the starting point
+= Inside a <span style='color: red;'>◯</span> near the starting point
+
+Inside a <span style='color: red;'>◯</span> on the floor of the Ferris wheel axe
+= Inside a <span style='color: red;'>◯</span> on the floor of the Ferris wheel axe
+
+Inside a <span style='color: red;'>◯</span> on the house with the balcony
+= Inside a <span style='color: red;'>◯</span> on the house with the balcony
+
+Inside a <span style='color: red;'>◯</span> on the side of the Ferris wheel axe
+= Inside a <span style='color: red;'>◯</span> on the side of the Ferris wheel axe
+
+Inside a <span style='color: red;'>◯</span> on the towers building
+= Inside a <span style='color: red;'>◯</span> on the towers building
+
+Inside a basket near the entrance
+= Inside a basket near the entrance
+
+Inside a basket on the beach
+= Inside a basket on the beach
+
+Inside a blue shine outline near the cannon
+= Inside a blue shine outline near the cannon
+
+Inside a blue shine outline near the sunflowers
+= Inside a blue shine outline near the sunflowers
+
+Inside a blue shine outline on the wall near the Ricco Tower
+= Inside a blue shine outline on the wall near the Ricco Tower
+
+Inside a book
+= Inside a book
+
+Inside a bookshelf
+= Inside a bookshelf
+
+Inside a bucket
+= Inside a bucket
+
+Inside a building with the breakable window
+= Inside a building with the breakable window
+
+Inside a ceiling fan
+= Inside a ceiling fan
+
+Inside a ceiling light
+= Inside a ceiling light
+
+Inside a chandelier
+= Inside a chandelier
+
+Inside a chest
+= Inside a chest
+
+Inside a crate in the room below the storage room
+= Inside a crate in the room below the storage room
+
+Inside a crate near the Ricco Tower
+= Inside a crate near the Ricco Tower
+
+Inside a cubboard
+= Inside a cubboard
+
+Inside a cup
+= Inside a cup
+
+Inside a cupboard
+= Inside a cupboard
+
+Inside a drawer
+= Inside a drawer
+
+Inside a green cage near the swinging ships
+= Inside a green cage near the swinging ships
+
+Inside a gutter
+= Inside a gutter
+
+Inside a jar
+= Inside a jar
+
+Inside a oven
+= Inside a oven
+
+Inside a sand shine outline in the sand near surfboards
+= Inside a sand shine outline in the sand near surfboards
+
+Inside a sand shine outline near the Sand Cabana
+= Inside a sand shine outline near the Sand Cabana
+
+Inside a sand shine outline near the Surf Cabana
+= Inside a sand shine outline near the Surf Cabana
+
+Inside a sand shine outline on the peninsula
+= Inside a sand shine outline on the peninsula
+
+Inside a shine drawing in the sand near the lighthouse
+= Inside a shine drawing in the sand near the lighthouse
+
+Inside a statue
+= Inside a statue
+
+Inside a torch
+= Inside a torch
+
+Inside a trophy
+= Inside a trophy
+
+Inside a vase
+= Inside a vase
+
+Inside a wardrobe
+= Inside a wardrobe
+
+Inside an ice cube on the Delfino Airstrip
+= Inside an ice cube on the Delfino Airstrip
+
+Inside the green shell on the Clam Cups ride
+= Inside the green shell on the Clam Cups ride
+
+Inside the jail
+= Inside the jail
+
+Introduction
+= Introduction
+
+Irch
+= Irch
+
+Item %d
+= Item %d
+
+Jabun
+= Jabun
+
+Jalhalla, Protector of the Seal
+= Jalhalla, Protector of the Seal
+
+Joel
+= Joel
+
+Joy Pendant
+= Joy Pendant
+
+Kalle Demos
+= Kalle Demos
+
+Kamo
+= Kamo
+
+Kane the Sailor
+= Kane the Sailor
+
+Kargaroc
+= Kargaroc
+
+Keese & Fire Keese
+= Keese & Fire Keese
+
+Key to 1F Ball Room obtained
+= Key to 1F Ball Room obtained
+
+Key to 1F Billiards Room obtained
+= Key to 1F Billiards Room obtained
+
+Key to 1F Conservatory obtained
+= Key to 1F Conservatory obtained
+
+Key to 1F Courtyard obtained
+= Key to 1F Courtyard obtained
+
+Key to 1F Dining Room obtained
+= Key to 1F Dining Room obtained
+
+Key to 1F Fortune-teller's Room obtained
+= Key to 1F Fortune-teller's Room obtained
+
+Key to 1F Laundry Room obtained
+= Key to 1F Laundry Room obtained
+
+Key to 1F Stairs to 2F obtained
+= Key to 1F Stairs to 2F obtained
+
+Key to 1F Storage Room obtained
+= Key to 1F Storage Room obtained
+
+Key to 2F Anteroom obtained
+= Key to 2F Anteroom obtained
+
+Key to 2F Master Bedroom obtained
+= Key to 2F Master Bedroom obtained
+
+Key to 2F Parlor obtained
+= Key to 2F Parlor obtained
+
+Key to 2F Sitting Room obtained
+= Key to 2F Sitting Room obtained
+
+Key to 2F The Twins' Room obtained
+= Key to 2F The Twins' Room obtained
+
+Key to 2F West Hallway obtained
+= Key to 2F West Hallway obtained
+
+Key to 3F Armory obtained
+= Key to 3F Armory obtained
+
+Key to 3F Balcony obtained
+= Key to 3F Balcony obtained
+
+Key to 3F Clockwork Room obtained
+= Key to 3F Clockwork Room obtained
+
+Key to 3F Safari Room obtained
+= Key to 3F Safari Room obtained
+
+Key to 3F The Artist's Studio obtained
+= Key to 3F The Artist's Studio obtained
+
+Key to BF Breaker Room obtained
+= Key to BF Breaker Room obtained
+
+Key to BF Cellar obtained
+= Key to BF Cellar obtained
+
+Key to BF Cold Storage obtained
+= Key to BF Cold Storage obtained
+
+Key to BF Pipe Room obtained
+= Key to BF Pipe Room obtained
+
+King of Hyrule
+= King of Hyrule
+
+Knight's Crest
+= Knight's Crest
+
+Knuckle
+= Knuckle
+
+Koboli
+= Koboli
+
+Kogoli
+= Kogoli
+
+Komali
+= Komali
+
+Kreeb
+= Kreeb
+
+Kung Boo
+= Kung Boo
+
+Laruto
+= Laruto
+
+LimBooger
+= LimBooger
+
+Linda
+= Linda
+
+Linder
+= Linder
+
+Link & the King of Red Lions
+= Link & the King of Red Lions
+
+Little Boo Peep
+= Little Boo Peep
+
+Location unlocked
+= Location unlocked
+
+Location visited
+= Location visited
+
+Loot the Sailor
+= Loot the Sailor
+
+Maggie
+= Maggie
+
+Maggie's Father
+= Maggie's Father
+
+Magic Armor
+= Magic Armor
+
+Magtail
+= Magtail
+
+Mail Center Sorting
+= Mail Center Sorting
+
+Makar
+= Makar
+
+Mako
+= Mako
+
+Manny
+= Manny
+
+Mansion
+= Villa
+
+Mansion Value
+= Mansion Value
+
+Mario 1: Bianco Hills
+= Mario 1: Bianco Hills
+
+Mario 1: Bianco Hills: blue coins
+= Mario 1: Bianco Hills: blaue Münzen
+
+Mario 1: Bianco Hills: events
+= Mario 1: Bianco Hills: Ereignisse
+
+Mario 1: Bianco Hills: shine sprites
+= Mario 1: Bianco Hills: Shine Sprites
+
+Mario 1: Corona Mountain: blue coins
+= Mario 1: Corona Mountain: blaue Münzen
+
+Mario 1: Corona Mountain: events
+= Mario 1: Corona Mountain: Ereignisse
+
+Mario 1: Delfino Airstrip: events
+= Mario 1: Delfino Airstrip: Ereignisse
+
+Mario 1: Delfino Airstrip: shine sprites
+= Mario 1: Delfino Airstrip: Shine Sprites
+
+Mario 1: Delfino Plaza
+= Mario 1: Delfino Plaza
+
+Mario 1: Delfino Plaza: blue coins
+= Mario 1: Delfino Plaza: blaue Münzen
+
+Mario 1: Delfino Plaza: events
+= Mario 1: Delfino Plaza: Ereignisse
+
+Mario 1: Delfino Plaza: shine sprites
+= Mario 1: Delfino Plaza: Shine Sprites
+
+Mario 1: Gelato Beach
+= Mario 1: Gelato Beach
+
+Mario 1: Gelato Beach: blue coins
+= Mario 1: Gelato Beach: blaue Münzen
+
+Mario 1: Gelato Beach: events
+= Mario 1: Gelato Beach: Ereignisse
+
+Mario 1: Gelato Beach: shine sprites
+= Mario 1: Gelato Beach: Shine Sprites
+
+Mario 1: General
+= Mario 1: Allgemein
+
+Mario 1: General: events
+= Mario 1: Allgemein: Ereignisse
+
+Mario 1: Noki Bay
+= Mario 1: Noki Bay
+
+Mario 1: Noki Bay: blue coins
+= Mario 1: Noki Bay: blaue Münzen
+
+Mario 1: Noki Bay: events
+= Mario 1: Noki Bay: Ereignisse
+
+Mario 1: Noki Bay: shine sprites
+= Mario 1: Noki Bay: Shine Sprites
+
+Mario 1: Pianta Village
+= Mario 1: Pianta Village
+
+Mario 1: Pianta Village: blue coins
+= Mario 1: Pianta Village: blaue Münzen
+
+Mario 1: Pianta Village: events
+= Mario 1: Pianta Village: Ereignisse
+
+Mario 1: Pianta Village: shine sprites
+= Mario 1: Pianta Village: Shine Sprites
+
+Mario 1: Pinna Park
+= Mario 1: Pinna Park
+
+Mario 1: Pinna Park: blue coins
+= Mario 1: Pinna Park: blaue Münzen
+
+Mario 1: Pinna Park: events
+= Mario 1: Pinna Park: Ereignisse
+
+Mario 1: Pinna Park: shine sprites
+= Mario 1: Pinna Park: Shine Sprites
+
+Mario 1: Ricco Harbor
+= Mario 1: Ricco Harbor
+
+Mario 1: Ricco Harbor: blue coins
+= Mario 1: Ricco Harbor: blaue Münzen
+
+Mario 1: Ricco Harbor: events
+= Mario 1: Ricco Harbor: Ereignisse
+
+Mario 1: Ricco Harbor: shine sprites
+= Mario 1: Ricco Harbor: Shine Sprites
+
+Mario 1: Sirena Beach
+= Mario 1: Sirena Beach
+
+Mario 1: Sirena Beach: blue coins
+= Mario 1: Sirena Beach: blaue Münzen
+
+Mario 1: Sirena Beach: events
+= Mario 1: Sirena Beach: Ereignisse
+
+Mario 1: Sirena Beach: shine sprites
+= Mario 1: Sirena Beach: Shine Sprites
+
+Mario 2: Bianco Hills
+= Mario 2: Bianco Hills
+
+Mario 2: Bianco Hills: blue coins
+= Mario 2: Bianco Hills: blaue Münzen
+
+Mario 2: Bianco Hills: events
+= Mario 2: Bianco Hills: Ereignisse
+
+Mario 2: Bianco Hills: shine sprites
+= Mario 2: Bianco Hills: Shine Sprites
+
+Mario 2: Corona Mountain: blue coins
+= Mario 2: Corona Mountain: blaue Münzen
+
+Mario 2: Corona Mountain: events
+= Mario 2: Corona Mountain: Ereignisse
+
+Mario 2: Delfino Airstrip: events
+= Mario 2: Delfino Airstrip: Ereignisse
+
+Mario 2: Delfino Airstrip: shine sprites
+= Mario 2: Delfino Airstrip: Shine Sprites
+
+Mario 2: Delfino Plaza
+= Mario 2: Delfino Plaza
+
+Mario 2: Delfino Plaza: blue coins
+= Mario 2: Delfino Plaza: blaue Münzen
+
+Mario 2: Delfino Plaza: events
+= Mario 2: Delfino Plaza: Ereignisse
+
+Mario 2: Delfino Plaza: shine sprites
+= Mario 2: Delfino Plaza: Shine Sprites
+
+Mario 2: Gelato Beach
+= Mario 2: Gelato Beach
+
+Mario 2: Gelato Beach: blue coins
+= Mario 2: Gelato Beach: blaue Münzen
+
+Mario 2: Gelato Beach: events
+= Mario 2: Gelato Beach: Ereignisse
+
+Mario 2: Gelato Beach: shine sprites
+= Mario 2: Gelato Beach: Shine Sprites
+
+Mario 2: General
+= Mario 2: Allgemein
+
+Mario 2: General: events
+= Mario 2: Allgemein: Ereignisse
+
+Mario 2: Noki Bay
+= Mario 2: Noki Bay
+
+Mario 2: Noki Bay: blue coins
+= Mario 2: Noki Bay: blaue Münzen
+
+Mario 2: Noki Bay: events
+= Mario 2: Noki Bay: Ereignisse
+
+Mario 2: Noki Bay: shine sprites
+= Mario 2: Noki Bay: Shine Sprites
+
+Mario 2: Pianta Village
+= Mario 2: Pianta Village
+
+Mario 2: Pianta Village: blue coins
+= Mario 2: Pianta Village: blaue Münzen
+
+Mario 2: Pianta Village: events
+= Mario 2: Pianta Village: Ereignisse
+
+Mario 2: Pianta Village: shine sprites
+= Mario 2: Pianta Village: Shine Sprites
+
+Mario 2: Pinna Park
+= Mario 2: Pinna Park
+
+Mario 2: Pinna Park: blue coins
+= Mario 2: Pinna Park: blaue Münzen
+
+Mario 2: Pinna Park: events
+= Mario 2: Pinna Park: Ereignisse
+
+Mario 2: Pinna Park: shine sprites
+= Mario 2: Pinna Park: Shine Sprites
+
+Mario 2: Ricco Harbor
+= Mario 2: Ricco Harbor
+
+Mario 2: Ricco Harbor: blue coins
+= Mario 2: Ricco Harbor: blaue Münzen
+
+Mario 2: Ricco Harbor: events
+= Mario 2: Ricco Harbor: Ereignisse
+
+Mario 2: Ricco Harbor: shine sprites
+= Mario 2: Ricco Harbor: Shine Sprites
+
+Mario 2: Sirena Beach
+= Mario 2: Sirena Beach
+
+Mario 2: Sirena Beach: blue coins
+= Mario 2: Sirena Beach: blaue Münzen
+
+Mario 2: Sirena Beach: events
+= Mario 2: Sirena Beach: Ereignisse
+
+Mario 2: Sirena Beach: shine sprites
+= Mario 2: Sirena Beach: Shine Sprites
+
+Mario 3: Bianco Hills
+= Mario 3: Bianco Hills
+
+Mario 3: Bianco Hills: blue coins
+= Mario 3: Bianco Hills: blaue Münzen
+
+Mario 3: Bianco Hills: events
+= Mario 3: Bianco Hills: Ereignisse
+
+Mario 3: Bianco Hills: shine sprites
+= Mario 3: Bianco Hills: Shine Sprites
+
+Mario 3: Corona Mountain: blue coins
+= Mario 3: Corona Mountain: blaue Münzen
+
+Mario 3: Corona Mountain: events
+= Mario 3: Corona Mountain: Ereignisse
+
+Mario 3: Delfino Airstrip: events
+= Mario 3: Delfino Airstrip: Ereignisse
+
+Mario 3: Delfino Airstrip: shine sprites
+= Mario 3: Delfino Airstrip: Shine Sprites
+
+Mario 3: Delfino Plaza
+= Mario 3: Delfino Plaza
+
+Mario 3: Delfino Plaza: blue coins
+= Mario 3: Delfino Plaza: blaue Münzen
+
+Mario 3: Delfino Plaza: events
+= Mario 3: Delfino Plaza: Ereignisse
+
+Mario 3: Delfino Plaza: shine sprites
+= Mario 3: Delfino Plaza: Shine Sprites
+
+Mario 3: Gelato Beach
+= Mario 3: Gelato Beach
+
+Mario 3: Gelato Beach: blue coins
+= Mario 3: Gelato Beach: blaue Münzen
+
+Mario 3: Gelato Beach: events
+= Mario 3: Gelato Beach: Ereignisse
+
+Mario 3: Gelato Beach: shine sprites
+= Mario 3: Gelato Beach: Shine Sprites
+
+Mario 3: General
+= Mario 3: Allgemein
+
+Mario 3: General: events
+= Mario 3: Allgemein: Ereignisse
+
+Mario 3: Noki Bay
+= Mario 3: Noki Bay
+
+Mario 3: Noki Bay: blue coins
+= Mario 3: Noki Bay: blaue Münzen
+
+Mario 3: Noki Bay: events
+= Mario 3: Noki Bay: Ereignisse
+
+Mario 3: Noki Bay: shine sprites
+= Mario 3: Noki Bay: Shine Sprites
+
+Mario 3: Pianta Village
+= Mario 3: Pianta Village
+
+Mario 3: Pianta Village: blue coins
+= Mario 3: Pianta Village: blaue Münzen
+
+Mario 3: Pianta Village: events
+= Mario 3: Pianta Village: Ereignisse
+
+Mario 3: Pianta Village: shine sprites
+= Mario 3: Pianta Village: Shine Sprites
+
+Mario 3: Pinna Park
+= Mario 3: Pinna Park
+
+Mario 3: Pinna Park: blue coins
+= Mario 3: Pinna Park: blaue Münzen
+
+Mario 3: Pinna Park: events
+= Mario 3: Pinna Park: Ereignisse
+
+Mario 3: Pinna Park: shine sprites
+= Mario 3: Pinna Park: Shine Sprites
+
+Mario 3: Ricco Harbor
+= Mario 3: Ricco Harbor
+
+Mario 3: Ricco Harbor: blue coins
+= Mario 3: Ricco Harbor: blaue Münzen
+
+Mario 3: Ricco Harbor: events
+= Mario 3: Ricco Harbor: Ereignisse
+
+Mario 3: Ricco Harbor: shine sprites
+= Mario 3: Ricco Harbor: Shine Sprites
+
+Mario 3: Sirena Beach
+= Mario 3: Sirena Beach
+
+Mario 3: Sirena Beach: blue coins
+= Mario 3: Sirena Beach: blaue Münzen
+
+Mario 3: Sirena Beach: events
+= Mario 3: Sirena Beach: Ereignisse
+
+Mario 3: Sirena Beach: shine sprites
+= Mario 3: Sirena Beach: Shine Sprites
+
+Mario {0}
+= Mario {0}
+
+Mario's Glove
+= Mario's Glove
+
+Mario's Glove obtained
+= Mario's Glove obtained
+
+Mario's Hat
+= Mario's Hat
+
+Mario's Hat obtained
+= Mario's Hat obtained
+
+Mario's Letter
+= Mario's Letter
+
+Mario's Letter obtained
+= Mario's Letter obtained
+
+Mario's Shoe
+= Mario's Shoe
+
+Mario's Shoe obtained
+= Mario's Shoe obtained
+
+Mario's Star
+= Mario's Star
+
+Mario's Star obtained
+= Mario's Star obtained
+
+Max health (quarter hearts; the lowest two bits count heart pieces)
+= Max health (quarter hearts; the lowest two bits count heart pieces)
+
+Medium Pearl
+= Medium Pearl
+
+Medli
+= Medli
+
+Mesa
+= Mesa
+
+Mighty Darknut
+= Mighty Darknut
+
+Mila
+= Mila
+
+Mila's Father
+= Mila's Father
+
+Minenco
+= Minenco
+
+Mini-Games
+= Minispiele
+
+Miniblin
+= Miniblin
+
+Missy
+= Missy
+
+Moblin
+= Moblin
+
+Molgera, Protector of the Seal
+= Molgera, Protector of the Seal
+
+Moon Phase
+= Moon Phase
+
+Morth
+= Morth
+
+Mothula
+= Mothula
+
+Mr. Boojangles
+= Mr. Boojangles
+
+Namali
+= Namali
+
+Nayru's Pearl
+= Nayru's Pearl
+
+Near Chu Jelly Juice Shop
+= Near Chu Jelly Juice Shop
+
+Near the Hall of Wealth
+= Near the Hall of Wealth
+
+New Game +
+= New Game +
+
+Next to Sam's bench
+= Next to Sam's bench
+
+Next to a bookshelf
+= Next to a bookshelf
+
+Next to a fireplace
+= Next to a fireplace
+
+Next to the counter
+= Next to the counter
+
+Next to the door
+= Next to the door
+
+Next to the stairs
+= Next to the stairs
+
+Niko
+= Niko
+
+Nudge
+= Nudge
+
+Oakin
+= Oakin
+
+Obli
+= Obli
+
+Octorok
+= Octorok
+
+Old Man Ho Ho
+= Old Man Ho Ho
+
+Olivio
+= Olivio
+
+On a blue scaffolding above a rotating crane
+= On a blue scaffolding above a rotating crane
+
+On a blue scaffolding above a ship
+= On a blue scaffolding above a ship
+
+On a ledge at the back of the second floor of the hotel
+= On a ledge at the back of the second floor of the hotel
+
+On a ledge near the towers building
+= On a ledge near the towers building
+
+On a platform at the top of a palm tree
+= On a platform at the top of a palm tree
+
+On a shelf
+= On a shelf
+
+On a table
+= On a table
+
+On the ceiling of a hut
+= On the ceiling of a hut
+
+On the ceiling of the Sand Cabana
+= On the ceiling of the Sand Cabana
+
+On the first platform
+= On the first platform
+
+On the ground
+= On the ground
+
+On the highest platform near the Ricco Tower
+= On the highest platform near the Ricco Tower
+
+On the highest rope at the end of the amphitheater path
+= On the highest rope at the end of the amphitheater path
+
+On the ledge of a pillar near the pool
+= On the ledge of a pillar near the pool
+
+On the pillar near the two clouds
+= On the pillar near the two clouds
+
+On the swinging ships support
+= On the swinging ships support
+
+Orca
+= Orca
+
+Pashli
+= Pashli
+
+Peahat
+= Peahat
+
+PeakaBoo
+= PeakaBoo
+
+Phantom Ganon
+= Phantom Ganon
+
+Picto Box
+= Picto Box
+
+Pink Clockwork Soldier captured
+= Pink Clockwork Soldier captured
+
+Pinwheel
+= Pinwheel
+
+Pirate's Charm
+= Pirate's Charm
+
+Plant opened
+= Plant opened
+
+Plant watered on Area 2
+= Plant watered on Area 2
+
+Plant watered on Area 3
+= Plant watered on Area 3
+
+Plant watered on Area 4
+= Plant watered on Area 4
+
+Poe
+= Poe
+
+Pompie & Vera
+= Pompie & Vera
+
+Postbox
+= Briefkasten
+
+Postbox is wriggling
+= Postbox is wriggling
+
+Postman Statue
+= Postman Statue
+
+Potova & Joanna
+= Potova & Joanna
+
+Power Bracelets
+= Power Bracelets
+
+Princess Zelda
+= Princess Zelda
+
+Private Oasis
+= Private Oasis
+
+Puppet Ganon
+= Puppet Ganon
+
+Quantities
+= Mengen
+
+Queen of Fairies
+= Queen of Fairies
+
+Quest Items
+= Questgegenstände
+
+Quill the Postman
+= Quill the Postman
+
+Rat
+= Rat
+
+ReDead
+= ReDead
+
+Red Bubble & Blue Bubble
+= Red Bubble & Blue Bubble
+
+Red Chu Jelly
+= Red Chu Jelly
+
+Red Coins Challenge
+= Red Coins Challenge
+
+Red Diamonds
+= Red Diamonds
+
+Red Jewels
+= Red Jewels
+
+Red Rupee obtained
+= Red Rupee obtained
+
+River freezed
+= River freezed
+
+Rock Spire Isle: Purchased from Beedle
+= Rock Spire Isle: Purchased from Beedle
+
+Rocket Nozzle unlocked
+= Rocket Nozzle unlocked
+
+Room upside down
+= Room upside down
+
+Rose
+= Rose
+
+Rown
+= Rown
+
+Rumble
+= Rumble
+
+Sail
+= Sail
+
+Salvage Corp.
+= Salvage Corp.
+
+Salvatore
+= Salvatore
+
+Sam
+= Sam
+
+Sea Flower
+= Sea Flower
+
+Seagull
+= Seagull
+
+Seahat
+= Seahat
+
+Secret: Episode 1 Red Coins Challenge
+= Secret: Episode 1 Red Coins Challenge
+
+Secret: Episode 2 Blooper Race Challenge
+= Secret: Episode 2 Blooper Race Challenge
+
+Secret: Episode 2 Red Coins Challenge
+= Secret: Episode 2 Red Coins Challenge
+
+Secret: Episode 3 Red Coins Challenge
+= Secret: Episode 3 Red Coins Challenge
+
+Secret: Episode 4 Red Coins Challenge
+= Secret: Episode 4 Red Coins Challenge
+
+Secret: Episode 5 Red Coins Challenge
+= Secret: Episode 5 Red Coins Challenge
+
+Secret: Episode 6 Red Coins Challenge
+= Secret: Episode 6 Red Coins Challenge
+
+Secret: Episode 8 Spray the Sun
+= Secret: Episode 8 Spray the Sun
+
+Secret: On the wall of Hidden Stairs
+= Secret: On the wall of Hidden Stairs
+
+Secret: Spray the Golden Bird
+= Secret: Spray the Golden Bird
+
+Seen
+= Gesehen
+
+Senza
+= Senza
+
+Seven-Star Isles
+= Seven-Star Isles
+
+ShamBoo
+= ShamBoo
+
+Shop Guru Statue
+= Shop Guru Statue
+
+Sickle Moon Flag
+= Sickle Moon Flag
+
+Silver Diamonds
+= Silver Diamonds
+
+Skett & Akoot
+= Skett & Akoot
+
+Skull Hammer
+= Skull Hammer
+
+Skull Necklace
+= Skull Necklace
+
+Skull Tower Idol
+= Skull Tower Idol
+
+Slot 1: Dungeons: Dragon Roost Cavern
+= Speicherplatz 1: Dungeons: Dragon Roost Cavern
+
+Slot 1: Dungeons: Dragon Roost Cavern: Items
+= Speicherplatz 1: Dungeons: Dragon Roost Cavern: Gegenstände
+
+Slot 1: Dungeons: Earth Temple
+= Speicherplatz 1: Dungeons: Earth Temple
+
+Slot 1: Dungeons: Earth Temple: Items
+= Speicherplatz 1: Dungeons: Earth Temple: Gegenstände
+
+Slot 1: Dungeons: Forbidden Woods
+= Speicherplatz 1: Dungeons: Forbidden Woods
+
+Slot 1: Dungeons: Forbidden Woods: Items
+= Speicherplatz 1: Dungeons: Forbidden Woods: Gegenstände
+
+Slot 1: Dungeons: Forsaken Fortress: Items
+= Speicherplatz 1: Dungeons: Forsaken Fortress: Gegenstände
+
+Slot 1: Dungeons: Tower of the Gods: Events
+= Speicherplatz 1: Dungeons: Tower of the Gods: Ereignisse
+
+Slot 1: Dungeons: Tower of the Gods: Items
+= Speicherplatz 1: Dungeons: Tower of the Gods: Gegenstände
+
+Slot 1: Dungeons: Wind Temple
+= Speicherplatz 1: Dungeons: Wind Temple
+
+Slot 1: Dungeons: Wind Temple: Items
+= Speicherplatz 1: Dungeons: Wind Temple: Gegenstände
+
+Slot 1: Events: Big Octos
+= Speicherplatz 1: Ereignisse: Big Octos
+
+Slot 1: Events: Bottles
+= Speicherplatz 1: Ereignisse: Flaschen
+
+Slot 1: Events: Mini-Games
+= Speicherplatz 1: Ereignisse: Minispiele
+
+Slot 1: Events: Postbox: Letter from Aryll
+= Speicherplatz 1: Ereignisse: Briefkasten: Letter from Aryll
+
+Slot 1: Events: Postbox: Letter from Asst. Manager
+= Speicherplatz 1: Ereignisse: Briefkasten: Letter from Asst. Manager
+
+Slot 1: Events: Postbox: Letter from Baito
+= Speicherplatz 1: Ereignisse: Briefkasten: Letter from Baito
+
+Slot 1: Events: Postbox: Letter from Beedle
+= Speicherplatz 1: Ereignisse: Briefkasten: Letter from Beedle
+
+Slot 1: Events: Postbox: Letter from Grandma
+= Speicherplatz 1: Ereignisse: Briefkasten: Letter from Grandma
+
+Slot 1: Events: Postbox: Letter from Hoskit's girfriend
+= Speicherplatz 1: Ereignisse: Briefkasten: Letter from Hoskit's girfriend
+
+Slot 1: Events: Postbox: Letter from Kashiko
+= Speicherplatz 1: Ereignisse: Briefkasten: Letter from Kashiko
+
+Slot 1: Events: Postbox: Letter from Komali's father
+= Speicherplatz 1: Ereignisse: Briefkasten: Letter from Komali's father
+
+Slot 1: Events: Postbox: Letter from Orca
+= Speicherplatz 1: Ereignisse: Briefkasten: Letter from Orca
+
+Slot 1: Events: Postbox: Letter from Tingle
+= Speicherplatz 1: Ereignisse: Briefkasten: Letter from Tingle
+
+Slot 1: Events: Windfall Island Decorations: Chu Jelly Juice Shop
+= Speicherplatz 1: Ereignisse: Windfall Island Decorations: Chu Jelly Juice Shop
+
+Slot 1: Events: Windfall Island Decorations: Exteriors
+= Speicherplatz 1: Ereignisse: Windfall Island Decorations: Exteriors
+
+Slot 1: Events: Windfall Island Decorations: General: Zunari's Shop
+= Speicherplatz 1: Ereignisse: Windfall Island Decorations: Allgemein: Zunari's Shop
+
+Slot 1: Events: Windfall Island Decorations: Hall of Wealth: Hall of Wealth 1F
+= Speicherplatz 1: Ereignisse: Windfall Island Decorations: Hall of Wealth: Hall of Wealth 1F
+
+Slot 1: Events: Windfall Island Decorations: Hall of Wealth: Hall of Wealth 2F
+= Speicherplatz 1: Ereignisse: Windfall Island Decorations: Hall of Wealth: Hall of Wealth 2F
+
+Slot 1: Events: Windfall Island Decorations: Lenzo's Pictography Shop
+= Speicherplatz 1: Ereignisse: Windfall Island Decorations: Lenzo's Pictography Shop
+
+Slot 1: Events: Windfall Island Decorations: Private Oasis
+= Speicherplatz 1: Ereignisse: Windfall Island Decorations: Private Oasis
+
+Slot 1: Events: Windfall Island Decorations: School of Joy
+= Speicherplatz 1: Ereignisse: Windfall Island Decorations: School of Joy
+
+Slot 1: Events: Windfall Island Decorations: Squid-Hunt Building
+= Speicherplatz 1: Ereignisse: Windfall Island Decorations: Squid-Hunt Building
+
+Slot 1: Events: Withering Trees
+= Speicherplatz 1: Ereignisse: Withering Trees
+
+Slot 1: Figurines: Bosses
+= Speicherplatz 1: Figuren: Bosse
+
+Slot 1: Figurines: Dragon Roost Island
+= Speicherplatz 1: Figuren: Dragon Roost Island
+
+Slot 1: Figurines: Enemies
+= Speicherplatz 1: Figuren: Gegner
+
+Slot 1: Figurines: Forest Haven
+= Speicherplatz 1: Figuren: Forest Haven
+
+Slot 1: Figurines: Great Sea
+= Speicherplatz 1: Figuren: Great Sea
+
+Slot 1: Figurines: Outset Island
+= Speicherplatz 1: Figuren: Outset Island
+
+Slot 1: Figurines: Windfall Island
+= Speicherplatz 1: Figuren: Windfall Island
+
+Slot 1: Gallery
+= Speicherplatz 1: Galerie
+
+Slot 1: General: Boos: Captured
+= Speicherplatz 1: Allgemein: Boos: Gefangen
+
+Slot 1: General: Boos: Seen
+= Speicherplatz 1: Allgemein: Boos: Gesehen
+
+Slot 1: General: General
+= Speicherplatz 1: Allgemein: Allgemein
+
+Slot 1: General: General: Mario's Items
+= Speicherplatz 1: Allgemein: Allgemein: Mario's Items
+
+Slot 1: General: General: Medals
+= Speicherplatz 1: Allgemein: Allgemein: Medaillen
+
+Slot 1: General: Treasures
+= Speicherplatz 1: Allgemein: Schätze
+
+Slot 1: Inventory: Bags: Bait Bag: 1
+= Speicherplatz 1: Inventar: Beutel: Bait Bag: 1
+
+Slot 1: Inventory: Bags: Bait Bag: 2
+= Speicherplatz 1: Inventar: Beutel: Bait Bag: 2
+
+Slot 1: Inventory: Bags: Bait Bag: 3
+= Speicherplatz 1: Inventar: Beutel: Bait Bag: 3
+
+Slot 1: Inventory: Bags: Bait Bag: 4
+= Speicherplatz 1: Inventar: Beutel: Bait Bag: 4
+
+Slot 1: Inventory: Bags: Bait Bag: 5
+= Speicherplatz 1: Inventar: Beutel: Bait Bag: 5
+
+Slot 1: Inventory: Bags: Bait Bag: 6
+= Speicherplatz 1: Inventar: Beutel: Bait Bag: 6
+
+Slot 1: Inventory: Bags: Bait Bag: 7
+= Speicherplatz 1: Inventar: Beutel: Bait Bag: 7
+
+Slot 1: Inventory: Bags: Bait Bag: 8
+= Speicherplatz 1: Inventar: Beutel: Bait Bag: 8
+
+Slot 1: Inventory: Bags: Delivery Bag
+= Speicherplatz 1: Inventar: Beutel: Delivery Bag
+
+Slot 1: Inventory: Bags: Spoils Bag
+= Speicherplatz 1: Inventar: Beutel: Spoils Bag
+
+Slot 1: Inventory: Equipment
+= Speicherplatz 1: Inventar: Ausrüstung
+
+Slot 1: Inventory: Items
+= Speicherplatz 1: Inventar: Gegenstände
+
+Slot 1: Inventory: Quantities
+= Speicherplatz 1: Inventar: Mengen
+
+Slot 1: Inventory: Quest Items: Goddess Pearls
+= Speicherplatz 1: Inventar: Questgegenstände: Goddess Pearls
+
+Slot 1: Inventory: Quest Items: Songs
+= Speicherplatz 1: Inventar: Questgegenstände: Lieder
+
+Slot 1: Inventory: Quest Items: Triforce Shards
+= Speicherplatz 1: Inventar: Questgegenstände: Triforce Shards
+
+Slot 1: Mansion: 1F Ball Room: Events
+= Speicherplatz 1: Villa: 1F Ball Room: Ereignisse
+
+Slot 1: Mansion: 1F Ball Room: Money
+= Speicherplatz 1: Villa: 1F Ball Room: Money
+
+Slot 1: Mansion: 1F Ball Room: The Floating Whirlindas
+= Speicherplatz 1: Villa: 1F Ball Room: The Floating Whirlindas
+
+Slot 1: Mansion: 1F Bathroom: Events
+= Speicherplatz 1: Villa: 1F Bathroom: Ereignisse
+
+Slot 1: Mansion: 1F Billiards Room: Events
+= Speicherplatz 1: Villa: 1F Billiards Room: Ereignisse
+
+Slot 1: Mansion: 1F Billiards Room: Money
+= Speicherplatz 1: Villa: 1F Billiards Room: Money
+
+Slot 1: Mansion: 1F Billiards Room: Slim Bankshot
+= Speicherplatz 1: Villa: 1F Billiards Room: Slim Bankshot
+
+Slot 1: Mansion: 1F Boneyard: Events
+= Speicherplatz 1: Villa: 1F Boneyard: Ereignisse
+
+Slot 1: Mansion: 1F Boneyard: Spooky
+= Speicherplatz 1: Villa: 1F Boneyard: Spooky
+
+Slot 1: Mansion: 1F Butler's Room: Events
+= Speicherplatz 1: Villa: 1F Butler's Room: Ereignisse
+
+Slot 1: Mansion: 1F Butler's Room: Money
+= Speicherplatz 1: Villa: 1F Butler's Room: Money
+
+Slot 1: Mansion: 1F Butler's Room: Shivers
+= Speicherplatz 1: Villa: 1F Butler's Room: Shivers
+
+Slot 1: Mansion: 1F Conservatory: Events
+= Speicherplatz 1: Villa: 1F Conservatory: Ereignisse
+
+Slot 1: Mansion: 1F Conservatory: Melody Pianissima
+= Speicherplatz 1: Villa: 1F Conservatory: Melody Pianissima
+
+Slot 1: Mansion: 1F Conservatory: Money
+= Speicherplatz 1: Villa: 1F Conservatory: Money
+
+Slot 1: Mansion: 1F Courtyard: Events
+= Speicherplatz 1: Villa: 1F Courtyard: Ereignisse
+
+Slot 1: Mansion: 1F Courtyard: Money
+= Speicherplatz 1: Villa: 1F Courtyard: Money
+
+Slot 1: Mansion: 1F Dining Room: Events
+= Speicherplatz 1: Villa: 1F Dining Room: Ereignisse
+
+Slot 1: Mansion: 1F Dining Room: Money
+= Speicherplatz 1: Villa: 1F Dining Room: Money
+
+Slot 1: Mansion: 1F Dining Room: Mr. Luggs
+= Speicherplatz 1: Villa: 1F Dining Room: Mr. Luggs
+
+Slot 1: Mansion: 1F Fortune-teller's Room: Events
+= Speicherplatz 1: Villa: 1F Fortune-teller's Room: Ereignisse
+
+Slot 1: Mansion: 1F Fortune-teller's Room: Madame Clairvoya
+= Speicherplatz 1: Villa: 1F Fortune-teller's Room: Madame Clairvoya
+
+Slot 1: Mansion: 1F Fortune-teller's Room: Money
+= Speicherplatz 1: Villa: 1F Fortune-teller's Room: Money
+
+Slot 1: Mansion: 1F Foyer: Events
+= Speicherplatz 1: Villa: 1F Foyer: Ereignisse
+
+Slot 1: Mansion: 1F Foyer: Money
+= Speicherplatz 1: Villa: 1F Foyer: Money
+
+Slot 1: Mansion: 1F Graveyard: Events
+= Speicherplatz 1: Villa: 1F Graveyard: Ereignisse
+
+Slot 1: Mansion: 1F Graveyard: Money
+= Speicherplatz 1: Villa: 1F Graveyard: Money
+
+Slot 1: Mansion: 1F Hallway: Money
+= Speicherplatz 1: Villa: 1F Hallway: Money
+
+Slot 1: Mansion: 1F Hidden Room: Events
+= Speicherplatz 1: Villa: 1F Hidden Room: Ereignisse
+
+Slot 1: Mansion: 1F Hidden Room: Money
+= Speicherplatz 1: Villa: 1F Hidden Room: Money
+
+Slot 1: Mansion: 1F Kitchen: Events
+= Speicherplatz 1: Villa: 1F Kitchen: Ereignisse
+
+Slot 1: Mansion: 1F Kitchen: Money
+= Speicherplatz 1: Villa: 1F Kitchen: Money
+
+Slot 1: Mansion: 1F Laundry Room: Events
+= Speicherplatz 1: Villa: 1F Laundry Room: Ereignisse
+
+Slot 1: Mansion: 1F Laundry Room: Money
+= Speicherplatz 1: Villa: 1F Laundry Room: Money
+
+Slot 1: Mansion: 1F Mirror Room: Events
+= Speicherplatz 1: Villa: 1F Mirror Room: Ereignisse
+
+Slot 1: Mansion: 1F Projection Room: Events
+= Speicherplatz 1: Villa: 1F Projection Room: Ereignisse
+
+Slot 1: Mansion: 1F Projection Room: Money
+= Speicherplatz 1: Villa: 1F Projection Room: Money
+
+Slot 1: Mansion: 1F Rec Room: Biff Atlas
+= Speicherplatz 1: Villa: 1F Rec Room: Biff Atlas
+
+Slot 1: Mansion: 1F Rec Room: Events
+= Speicherplatz 1: Villa: 1F Rec Room: Ereignisse
+
+Slot 1: Mansion: 1F Rec Room: Money
+= Speicherplatz 1: Villa: 1F Rec Room: Money
+
+Slot 1: Mansion: 1F Stairs to 2F: Events
+= Speicherplatz 1: Villa: 1F Stairs to 2F: Ereignisse
+
+Slot 1: Mansion: 1F Storage Room: Events
+= Speicherplatz 1: Villa: 1F Storage Room: Ereignisse
+
+Slot 1: Mansion: 1F Storage Room: Money
+= Speicherplatz 1: Villa: 1F Storage Room: Money
+
+Slot 1: Mansion: 1F Washroom: Events
+= Speicherplatz 1: Villa: 1F Washroom: Ereignisse
+
+Slot 1: Mansion: 1F Washroom: Money
+= Speicherplatz 1: Villa: 1F Washroom: Money
+
+Slot 1: Mansion: 2F Anteroom: Events
+= Speicherplatz 1: Villa: 2F Anteroom: Ereignisse
+
+Slot 1: Mansion: 2F Anteroom: Money
+= Speicherplatz 1: Villa: 2F Anteroom: Money
+
+Slot 1: Mansion: 2F Astral Hall: Events
+= Speicherplatz 1: Villa: 2F Astral Hall: Ereignisse
+
+Slot 1: Mansion: 2F Astral Hall: Money
+= Speicherplatz 1: Villa: 2F Astral Hall: Money
+
+Slot 1: Mansion: 2F Balcony: Events
+= Speicherplatz 1: Villa: 2F Balcony: Ereignisse
+
+Slot 1: Mansion: 2F Balcony: Money
+= Speicherplatz 1: Villa: 2F Balcony: Money
+
+Slot 1: Mansion: 2F Bathroom: Events
+= Speicherplatz 1: Villa: 2F Bathroom: Ereignisse
+
+Slot 1: Mansion: 2F Bathroom: Miss Petunia
+= Speicherplatz 1: Villa: 2F Bathroom: Miss Petunia
+
+Slot 1: Mansion: 2F Foyer: Events
+= Speicherplatz 1: Villa: 2F Foyer: Ereignisse
+
+Slot 1: Mansion: 2F Foyer: Money
+= Speicherplatz 1: Villa: 2F Foyer: Money
+
+Slot 1: Mansion: 2F Guest Room: Events
+= Speicherplatz 1: Villa: 2F Guest Room: Ereignisse
+
+Slot 1: Mansion: 2F Guest Room: Money
+= Speicherplatz 1: Villa: 2F Guest Room: Money
+
+Slot 1: Mansion: 2F Guest Room: Sue Pea
+= Speicherplatz 1: Villa: 2F Guest Room: Sue Pea
+
+Slot 1: Mansion: 2F Hallway: Money
+= Speicherplatz 1: Villa: 2F Hallway: Money
+
+Slot 1: Mansion: 2F Master Bedroom: Lydia
+= Speicherplatz 1: Villa: 2F Master Bedroom: Lydia
+
+Slot 1: Mansion: 2F Master Bedroom: Money
+= Speicherplatz 1: Villa: 2F Master Bedroom: Money
+
+Slot 1: Mansion: 2F Nana's Room: Events
+= Speicherplatz 1: Villa: 2F Nana's Room: Ereignisse
+
+Slot 1: Mansion: 2F Nana's Room: Money
+= Speicherplatz 1: Villa: 2F Nana's Room: Money
+
+Slot 1: Mansion: 2F Nana's Room: Nana
+= Speicherplatz 1: Villa: 2F Nana's Room: Nana
+
+Slot 1: Mansion: 2F Nursery: Events
+= Speicherplatz 1: Villa: 2F Nursery: Ereignisse
+
+Slot 1: Mansion: 2F Nursery: Money
+= Speicherplatz 1: Villa: 2F Nursery: Money
+
+Slot 1: Mansion: 2F Observatory: Events
+= Speicherplatz 1: Villa: 2F Observatory: Ereignisse
+
+Slot 1: Mansion: 2F Observatory: Money
+= Speicherplatz 1: Villa: 2F Observatory: Money
+
+Slot 1: Mansion: 2F Parlor: Events
+= Speicherplatz 1: Villa: 2F Parlor: Ereignisse
+
+Slot 1: Mansion: 2F Parlor: Money
+= Speicherplatz 1: Villa: 2F Parlor: Money
+
+Slot 1: Mansion: 2F Sealed Room: Events
+= Speicherplatz 1: Villa: 2F Sealed Room: Ereignisse
+
+Slot 1: Mansion: 2F Sealed Room: Money
+= Speicherplatz 1: Villa: 2F Sealed Room: Money
+
+Slot 1: Mansion: 2F Sitting Room: Events
+= Speicherplatz 1: Villa: 2F Sitting Room: Ereignisse
+
+Slot 1: Mansion: 2F Sitting Room: Money
+= Speicherplatz 1: Villa: 2F Sitting Room: Money
+
+Slot 1: Mansion: 2F Stairs to 1F: Events
+= Speicherplatz 1: Villa: 2F Stairs to 1F: Ereignisse
+
+Slot 1: Mansion: 2F Stairs to 1F: Money
+= Speicherplatz 1: Villa: 2F Stairs to 1F: Money
+
+Slot 1: Mansion: 2F Study: Events
+= Speicherplatz 1: Villa: 2F Study: Ereignisse
+
+Slot 1: Mansion: 2F Study: Money
+= Speicherplatz 1: Villa: 2F Study: Money
+
+Slot 1: Mansion: 2F Study: Neville
+= Speicherplatz 1: Villa: 2F Study: Neville
+
+Slot 1: Mansion: 2F Tea Room: Events
+= Speicherplatz 1: Villa: 2F Tea Room: Ereignisse
+
+Slot 1: Mansion: 2F Tea Room: Money
+= Speicherplatz 1: Villa: 2F Tea Room: Money
+
+Slot 1: Mansion: 2F The Twins' Room: Events
+= Speicherplatz 1: Villa: 2F The Twins' Room: Ereignisse
+
+Slot 1: Mansion: 2F The Twins' Room: Henry and Orville
+= Speicherplatz 1: Villa: 2F The Twins' Room: Henry and Orville
+
+Slot 1: Mansion: 2F The Twins' Room: Money
+= Speicherplatz 1: Villa: 2F The Twins' Room: Money
+
+Slot 1: Mansion: 2F Wardrobe Room: Events
+= Speicherplatz 1: Villa: 2F Wardrobe Room: Ereignisse
+
+Slot 1: Mansion: 2F Wardrobe Room: Money
+= Speicherplatz 1: Villa: 2F Wardrobe Room: Money
+
+Slot 1: Mansion: 2F Wardrobe Room: Uncle Grimmly
+= Speicherplatz 1: Villa: 2F Wardrobe Room: Uncle Grimmly
+
+Slot 1: Mansion: 2F Washroom: Events
+= Speicherplatz 1: Villa: 2F Washroom: Ereignisse
+
+Slot 1: Mansion: 2F Washroom: Money
+= Speicherplatz 1: Villa: 2F Washroom: Money
+
+Slot 1: Mansion: 2F West Hallway: Events
+= Speicherplatz 1: Villa: 2F West Hallway: Ereignisse
+
+Slot 1: Mansion: 2F West Hallway: Money
+= Speicherplatz 1: Villa: 2F West Hallway: Money
+
+Slot 1: Mansion: 3F Armory: Events
+= Speicherplatz 1: Villa: 3F Armory: Ereignisse
+
+Slot 1: Mansion: 3F Armory: Money
+= Speicherplatz 1: Villa: 3F Armory: Money
+
+Slot 1: Mansion: 3F Balcony: Events
+= Speicherplatz 1: Villa: 3F Balcony: Ereignisse
+
+Slot 1: Mansion: 3F Balcony: Money
+= Speicherplatz 1: Villa: 3F Balcony: Money
+
+Slot 1: Mansion: 3F Ceramics Studio: Events
+= Speicherplatz 1: Villa: 3F Ceramics Studio: Ereignisse
+
+Slot 1: Mansion: 3F Ceramics Studio: Money
+= Speicherplatz 1: Villa: 3F Ceramics Studio: Money
+
+Slot 1: Mansion: 3F Clockwork Room: Clockwork Soldiers
+= Speicherplatz 1: Villa: 3F Clockwork Room: Clockwork Soldiers
+
+Slot 1: Mansion: 3F Clockwork Room: Events
+= Speicherplatz 1: Villa: 3F Clockwork Room: Ereignisse
+
+Slot 1: Mansion: 3F Clockwork Room: Money
+= Speicherplatz 1: Villa: 3F Clockwork Room: Money
+
+Slot 1: Mansion: 3F Safari Room: Events
+= Speicherplatz 1: Villa: 3F Safari Room: Ereignisse
+
+Slot 1: Mansion: 3F Safari Room: Money
+= Speicherplatz 1: Villa: 3F Safari Room: Money
+
+Slot 1: Mansion: 3F Stairs to 2F: Events
+= Speicherplatz 1: Villa: 3F Stairs to 2F: Ereignisse
+
+Slot 1: Mansion: 3F Telephone Room: Events
+= Speicherplatz 1: Villa: 3F Telephone Room: Ereignisse
+
+Slot 1: Mansion: 3F Telephone Room: Money
+= Speicherplatz 1: Villa: 3F Telephone Room: Money
+
+Slot 1: Mansion: 3F The Artist's Studio: Events
+= Speicherplatz 1: Villa: 3F The Artist's Studio: Ereignisse
+
+Slot 1: Mansion: 3F The Artist's Studio: Vincent Van Gore
+= Speicherplatz 1: Villa: 3F The Artist's Studio: Vincent Van Gore
+
+Slot 1: Mansion: BF Bottom of the Well: Events
+= Speicherplatz 1: Villa: BF Bottom of the Well: Ereignisse
+
+Slot 1: Mansion: BF Breaker Room: Events
+= Speicherplatz 1: Villa: BF Breaker Room: Ereignisse
+
+Slot 1: Mansion: BF Breaker Room: Money
+= Speicherplatz 1: Villa: BF Breaker Room: Money
+
+Slot 1: Mansion: BF Cellar: Events
+= Speicherplatz 1: Villa: BF Cellar: Ereignisse
+
+Slot 1: Mansion: BF Cellar: Money
+= Speicherplatz 1: Villa: BF Cellar: Money
+
+Slot 1: Mansion: BF Cold Storage: Events
+= Speicherplatz 1: Villa: BF Cold Storage: Ereignisse
+
+Slot 1: Mansion: BF Cold Storage: Sir Weston
+= Speicherplatz 1: Villa: BF Cold Storage: Sir Weston
+
+Slot 1: Mansion: BF North Hallway: Events
+= Speicherplatz 1: Villa: BF North Hallway: Ereignisse
+
+Slot 1: Mansion: BF Pipe Room: Events
+= Speicherplatz 1: Villa: BF Pipe Room: Ereignisse
+
+Slot 1: Mansion: BF Pipe Room: Money
+= Speicherplatz 1: Villa: BF Pipe Room: Money
+
+Slot 1: Mansion: BF Secret Altar: Events
+= Speicherplatz 1: Villa: BF Secret Altar: Ereignisse
+
+Slot 1: Mansion: BF Secret Altar: Money
+= Speicherplatz 1: Villa: BF Secret Altar: Money
+
+Slot 1: Mansion: BF Stairs to 1F: Events
+= Speicherplatz 1: Villa: BF Stairs to 1F: Ereignisse
+
+Slot 1: Mansion: BF Stairs to 1F: Money
+= Speicherplatz 1: Villa: BF Stairs to 1F: Money
+
+Slot 1: Mansion: Roof: Events
+= Speicherplatz 1: Villa: Roof: Ereignisse
+
+Slot 2: Dungeons: Dragon Roost Cavern
+= Speicherplatz 2: Dungeons: Dragon Roost Cavern
+
+Slot 2: Dungeons: Dragon Roost Cavern: Items
+= Speicherplatz 2: Dungeons: Dragon Roost Cavern: Gegenstände
+
+Slot 2: Dungeons: Earth Temple
+= Speicherplatz 2: Dungeons: Earth Temple
+
+Slot 2: Dungeons: Earth Temple: Items
+= Speicherplatz 2: Dungeons: Earth Temple: Gegenstände
+
+Slot 2: Dungeons: Forbidden Woods
+= Speicherplatz 2: Dungeons: Forbidden Woods
+
+Slot 2: Dungeons: Forbidden Woods: Items
+= Speicherplatz 2: Dungeons: Forbidden Woods: Gegenstände
+
+Slot 2: Dungeons: Forsaken Fortress: Items
+= Speicherplatz 2: Dungeons: Forsaken Fortress: Gegenstände
+
+Slot 2: Dungeons: Tower of the Gods: Events
+= Speicherplatz 2: Dungeons: Tower of the Gods: Ereignisse
+
+Slot 2: Dungeons: Tower of the Gods: Items
+= Speicherplatz 2: Dungeons: Tower of the Gods: Gegenstände
+
+Slot 2: Dungeons: Wind Temple
+= Speicherplatz 2: Dungeons: Wind Temple
+
+Slot 2: Dungeons: Wind Temple: Items
+= Speicherplatz 2: Dungeons: Wind Temple: Gegenstände
+
+Slot 2: Events: Big Octos
+= Speicherplatz 2: Ereignisse: Big Octos
+
+Slot 2: Events: Bottles
+= Speicherplatz 2: Ereignisse: Flaschen
+
+Slot 2: Events: Mini-Games
+= Speicherplatz 2: Ereignisse: Minispiele
+
+Slot 2: Events: Postbox: Letter from Aryll
+= Speicherplatz 2: Ereignisse: Briefkasten: Letter from Aryll
+
+Slot 2: Events: Postbox: Letter from Asst. Manager
+= Speicherplatz 2: Ereignisse: Briefkasten: Letter from Asst. Manager
+
+Slot 2: Events: Postbox: Letter from Baito
+= Speicherplatz 2: Ereignisse: Briefkasten: Letter from Baito
+
+Slot 2: Events: Postbox: Letter from Beedle
+= Speicherplatz 2: Ereignisse: Briefkasten: Letter from Beedle
+
+Slot 2: Events: Postbox: Letter from Grandma
+= Speicherplatz 2: Ereignisse: Briefkasten: Letter from Grandma
+
+Slot 2: Events: Postbox: Letter from Hoskit's girfriend
+= Speicherplatz 2: Ereignisse: Briefkasten: Letter from Hoskit's girfriend
+
+Slot 2: Events: Postbox: Letter from Kashiko
+= Speicherplatz 2: Ereignisse: Briefkasten: Letter from Kashiko
+
+Slot 2: Events: Postbox: Letter from Komali's father
+= Speicherplatz 2: Ereignisse: Briefkasten: Letter from Komali's father
+
+Slot 2: Events: Postbox: Letter from Orca
+= Speicherplatz 2: Ereignisse: Briefkasten: Letter from Orca
+
+Slot 2: Events: Postbox: Letter from Tingle
+= Speicherplatz 2: Ereignisse: Briefkasten: Letter from Tingle
+
+Slot 2: Events: Windfall Island Decorations: Chu Jelly Juice Shop
+= Speicherplatz 2: Ereignisse: Windfall Island Decorations: Chu Jelly Juice Shop
+
+Slot 2: Events: Windfall Island Decorations: Exteriors
+= Speicherplatz 2: Ereignisse: Windfall Island Decorations: Exteriors
+
+Slot 2: Events: Windfall Island Decorations: General: Zunari's Shop
+= Speicherplatz 2: Ereignisse: Windfall Island Decorations: Allgemein: Zunari's Shop
+
+Slot 2: Events: Windfall Island Decorations: Hall of Wealth: Hall of Wealth 1F
+= Speicherplatz 2: Ereignisse: Windfall Island Decorations: Hall of Wealth: Hall of Wealth 1F
+
+Slot 2: Events: Windfall Island Decorations: Hall of Wealth: Hall of Wealth 2F
+= Speicherplatz 2: Ereignisse: Windfall Island Decorations: Hall of Wealth: Hall of Wealth 2F
+
+Slot 2: Events: Windfall Island Decorations: Lenzo's Pictography Shop
+= Speicherplatz 2: Ereignisse: Windfall Island Decorations: Lenzo's Pictography Shop
+
+Slot 2: Events: Windfall Island Decorations: Private Oasis
+= Speicherplatz 2: Ereignisse: Windfall Island Decorations: Private Oasis
+
+Slot 2: Events: Windfall Island Decorations: School of Joy
+= Speicherplatz 2: Ereignisse: Windfall Island Decorations: School of Joy
+
+Slot 2: Events: Windfall Island Decorations: Squid-Hunt Building
+= Speicherplatz 2: Ereignisse: Windfall Island Decorations: Squid-Hunt Building
+
+Slot 2: Events: Withering Trees
+= Speicherplatz 2: Ereignisse: Withering Trees
+
+Slot 2: Figurines: Bosses
+= Speicherplatz 2: Figuren: Bosse
+
+Slot 2: Figurines: Dragon Roost Island
+= Speicherplatz 2: Figuren: Dragon Roost Island
+
+Slot 2: Figurines: Enemies
+= Speicherplatz 2: Figuren: Gegner
+
+Slot 2: Figurines: Forest Haven
+= Speicherplatz 2: Figuren: Forest Haven
+
+Slot 2: Figurines: Great Sea
+= Speicherplatz 2: Figuren: Great Sea
+
+Slot 2: Figurines: Outset Island
+= Speicherplatz 2: Figuren: Outset Island
+
+Slot 2: Figurines: Windfall Island
+= Speicherplatz 2: Figuren: Windfall Island
+
+Slot 2: Gallery
+= Speicherplatz 2: Galerie
+
+Slot 2: General: Boos: Captured
+= Speicherplatz 2: Allgemein: Boos: Gefangen
+
+Slot 2: General: Boos: Seen
+= Speicherplatz 2: Allgemein: Boos: Gesehen
+
+Slot 2: General: General
+= Speicherplatz 2: Allgemein: Allgemein
+
+Slot 2: General: General: Mario's Items
+= Speicherplatz 2: Allgemein: Allgemein: Mario's Items
+
+Slot 2: General: General: Medals
+= Speicherplatz 2: Allgemein: Allgemein: Medaillen
+
+Slot 2: General: Treasures
+= Speicherplatz 2: Allgemein: Schätze
+
+Slot 2: Inventory: Bags: Bait Bag: 1
+= Speicherplatz 2: Inventar: Beutel: Bait Bag: 1
+
+Slot 2: Inventory: Bags: Bait Bag: 2
+= Speicherplatz 2: Inventar: Beutel: Bait Bag: 2
+
+Slot 2: Inventory: Bags: Bait Bag: 3
+= Speicherplatz 2: Inventar: Beutel: Bait Bag: 3
+
+Slot 2: Inventory: Bags: Bait Bag: 4
+= Speicherplatz 2: Inventar: Beutel: Bait Bag: 4
+
+Slot 2: Inventory: Bags: Bait Bag: 5
+= Speicherplatz 2: Inventar: Beutel: Bait Bag: 5
+
+Slot 2: Inventory: Bags: Bait Bag: 6
+= Speicherplatz 2: Inventar: Beutel: Bait Bag: 6
+
+Slot 2: Inventory: Bags: Bait Bag: 7
+= Speicherplatz 2: Inventar: Beutel: Bait Bag: 7
+
+Slot 2: Inventory: Bags: Bait Bag: 8
+= Speicherplatz 2: Inventar: Beutel: Bait Bag: 8
+
+Slot 2: Inventory: Bags: Delivery Bag
+= Speicherplatz 2: Inventar: Beutel: Delivery Bag
+
+Slot 2: Inventory: Bags: Spoils Bag
+= Speicherplatz 2: Inventar: Beutel: Spoils Bag
+
+Slot 2: Inventory: Equipment
+= Speicherplatz 2: Inventar: Ausrüstung
+
+Slot 2: Inventory: Items
+= Speicherplatz 2: Inventar: Gegenstände
+
+Slot 2: Inventory: Quantities
+= Speicherplatz 2: Inventar: Mengen
+
+Slot 2: Inventory: Quest Items: Goddess Pearls
+= Speicherplatz 2: Inventar: Questgegenstände: Goddess Pearls
+
+Slot 2: Inventory: Quest Items: Songs
+= Speicherplatz 2: Inventar: Questgegenstände: Lieder
+
+Slot 2: Inventory: Quest Items: Triforce Shards
+= Speicherplatz 2: Inventar: Questgegenstände: Triforce Shards
+
+Slot 2: Mansion: 1F Ball Room: Events
+= Speicherplatz 2: Villa: 1F Ball Room: Ereignisse
+
+Slot 2: Mansion: 1F Ball Room: Money
+= Speicherplatz 2: Villa: 1F Ball Room: Money
+
+Slot 2: Mansion: 1F Ball Room: The Floating Whirlindas
+= Speicherplatz 2: Villa: 1F Ball Room: The Floating Whirlindas
+
+Slot 2: Mansion: 1F Bathroom: Events
+= Speicherplatz 2: Villa: 1F Bathroom: Ereignisse
+
+Slot 2: Mansion: 1F Billiards Room: Events
+= Speicherplatz 2: Villa: 1F Billiards Room: Ereignisse
+
+Slot 2: Mansion: 1F Billiards Room: Money
+= Speicherplatz 2: Villa: 1F Billiards Room: Money
+
+Slot 2: Mansion: 1F Billiards Room: Slim Bankshot
+= Speicherplatz 2: Villa: 1F Billiards Room: Slim Bankshot
+
+Slot 2: Mansion: 1F Boneyard: Events
+= Speicherplatz 2: Villa: 1F Boneyard: Ereignisse
+
+Slot 2: Mansion: 1F Boneyard: Spooky
+= Speicherplatz 2: Villa: 1F Boneyard: Spooky
+
+Slot 2: Mansion: 1F Butler's Room: Events
+= Speicherplatz 2: Villa: 1F Butler's Room: Ereignisse
+
+Slot 2: Mansion: 1F Butler's Room: Money
+= Speicherplatz 2: Villa: 1F Butler's Room: Money
+
+Slot 2: Mansion: 1F Butler's Room: Shivers
+= Speicherplatz 2: Villa: 1F Butler's Room: Shivers
+
+Slot 2: Mansion: 1F Conservatory: Events
+= Speicherplatz 2: Villa: 1F Conservatory: Ereignisse
+
+Slot 2: Mansion: 1F Conservatory: Melody Pianissima
+= Speicherplatz 2: Villa: 1F Conservatory: Melody Pianissima
+
+Slot 2: Mansion: 1F Conservatory: Money
+= Speicherplatz 2: Villa: 1F Conservatory: Money
+
+Slot 2: Mansion: 1F Courtyard: Events
+= Speicherplatz 2: Villa: 1F Courtyard: Ereignisse
+
+Slot 2: Mansion: 1F Courtyard: Money
+= Speicherplatz 2: Villa: 1F Courtyard: Money
+
+Slot 2: Mansion: 1F Dining Room: Events
+= Speicherplatz 2: Villa: 1F Dining Room: Ereignisse
+
+Slot 2: Mansion: 1F Dining Room: Money
+= Speicherplatz 2: Villa: 1F Dining Room: Money
+
+Slot 2: Mansion: 1F Dining Room: Mr. Luggs
+= Speicherplatz 2: Villa: 1F Dining Room: Mr. Luggs
+
+Slot 2: Mansion: 1F Fortune-teller's Room: Events
+= Speicherplatz 2: Villa: 1F Fortune-teller's Room: Ereignisse
+
+Slot 2: Mansion: 1F Fortune-teller's Room: Madame Clairvoya
+= Speicherplatz 2: Villa: 1F Fortune-teller's Room: Madame Clairvoya
+
+Slot 2: Mansion: 1F Fortune-teller's Room: Money
+= Speicherplatz 2: Villa: 1F Fortune-teller's Room: Money
+
+Slot 2: Mansion: 1F Foyer: Events
+= Speicherplatz 2: Villa: 1F Foyer: Ereignisse
+
+Slot 2: Mansion: 1F Foyer: Money
+= Speicherplatz 2: Villa: 1F Foyer: Money
+
+Slot 2: Mansion: 1F Graveyard: Events
+= Speicherplatz 2: Villa: 1F Graveyard: Ereignisse
+
+Slot 2: Mansion: 1F Graveyard: Money
+= Speicherplatz 2: Villa: 1F Graveyard: Money
+
+Slot 2: Mansion: 1F Hallway: Money
+= Speicherplatz 2: Villa: 1F Hallway: Money
+
+Slot 2: Mansion: 1F Hidden Room: Events
+= Speicherplatz 2: Villa: 1F Hidden Room: Ereignisse
+
+Slot 2: Mansion: 1F Hidden Room: Money
+= Speicherplatz 2: Villa: 1F Hidden Room: Money
+
+Slot 2: Mansion: 1F Kitchen: Events
+= Speicherplatz 2: Villa: 1F Kitchen: Ereignisse
+
+Slot 2: Mansion: 1F Kitchen: Money
+= Speicherplatz 2: Villa: 1F Kitchen: Money
+
+Slot 2: Mansion: 1F Laundry Room: Events
+= Speicherplatz 2: Villa: 1F Laundry Room: Ereignisse
+
+Slot 2: Mansion: 1F Laundry Room: Money
+= Speicherplatz 2: Villa: 1F Laundry Room: Money
+
+Slot 2: Mansion: 1F Mirror Room: Events
+= Speicherplatz 2: Villa: 1F Mirror Room: Ereignisse
+
+Slot 2: Mansion: 1F Projection Room: Events
+= Speicherplatz 2: Villa: 1F Projection Room: Ereignisse
+
+Slot 2: Mansion: 1F Projection Room: Money
+= Speicherplatz 2: Villa: 1F Projection Room: Money
+
+Slot 2: Mansion: 1F Rec Room: Biff Atlas
+= Speicherplatz 2: Villa: 1F Rec Room: Biff Atlas
+
+Slot 2: Mansion: 1F Rec Room: Events
+= Speicherplatz 2: Villa: 1F Rec Room: Ereignisse
+
+Slot 2: Mansion: 1F Rec Room: Money
+= Speicherplatz 2: Villa: 1F Rec Room: Money
+
+Slot 2: Mansion: 1F Stairs to 2F: Events
+= Speicherplatz 2: Villa: 1F Stairs to 2F: Ereignisse
+
+Slot 2: Mansion: 1F Storage Room: Events
+= Speicherplatz 2: Villa: 1F Storage Room: Ereignisse
+
+Slot 2: Mansion: 1F Storage Room: Money
+= Speicherplatz 2: Villa: 1F Storage Room: Money
+
+Slot 2: Mansion: 1F Washroom: Events
+= Speicherplatz 2: Villa: 1F Washroom: Ereignisse
+
+Slot 2: Mansion: 1F Washroom: Money
+= Speicherplatz 2: Villa: 1F Washroom: Money
+
+Slot 2: Mansion: 2F Anteroom: Events
+= Speicherplatz 2: Villa: 2F Anteroom: Ereignisse
+
+Slot 2: Mansion: 2F Anteroom: Money
+= Speicherplatz 2: Villa: 2F Anteroom: Money
+
+Slot 2: Mansion: 2F Astral Hall: Events
+= Speicherplatz 2: Villa: 2F Astral Hall: Ereignisse
+
+Slot 2: Mansion: 2F Astral Hall: Money
+= Speicherplatz 2: Villa: 2F Astral Hall: Money
+
+Slot 2: Mansion: 2F Balcony: Events
+= Speicherplatz 2: Villa: 2F Balcony: Ereignisse
+
+Slot 2: Mansion: 2F Balcony: Money
+= Speicherplatz 2: Villa: 2F Balcony: Money
+
+Slot 2: Mansion: 2F Bathroom: Events
+= Speicherplatz 2: Villa: 2F Bathroom: Ereignisse
+
+Slot 2: Mansion: 2F Bathroom: Miss Petunia
+= Speicherplatz 2: Villa: 2F Bathroom: Miss Petunia
+
+Slot 2: Mansion: 2F Foyer: Events
+= Speicherplatz 2: Villa: 2F Foyer: Ereignisse
+
+Slot 2: Mansion: 2F Foyer: Money
+= Speicherplatz 2: Villa: 2F Foyer: Money
+
+Slot 2: Mansion: 2F Guest Room: Events
+= Speicherplatz 2: Villa: 2F Guest Room: Ereignisse
+
+Slot 2: Mansion: 2F Guest Room: Money
+= Speicherplatz 2: Villa: 2F Guest Room: Money
+
+Slot 2: Mansion: 2F Guest Room: Sue Pea
+= Speicherplatz 2: Villa: 2F Guest Room: Sue Pea
+
+Slot 2: Mansion: 2F Hallway: Money
+= Speicherplatz 2: Villa: 2F Hallway: Money
+
+Slot 2: Mansion: 2F Master Bedroom: Lydia
+= Speicherplatz 2: Villa: 2F Master Bedroom: Lydia
+
+Slot 2: Mansion: 2F Master Bedroom: Money
+= Speicherplatz 2: Villa: 2F Master Bedroom: Money
+
+Slot 2: Mansion: 2F Nana's Room: Events
+= Speicherplatz 2: Villa: 2F Nana's Room: Ereignisse
+
+Slot 2: Mansion: 2F Nana's Room: Money
+= Speicherplatz 2: Villa: 2F Nana's Room: Money
+
+Slot 2: Mansion: 2F Nana's Room: Nana
+= Speicherplatz 2: Villa: 2F Nana's Room: Nana
+
+Slot 2: Mansion: 2F Nursery: Events
+= Speicherplatz 2: Villa: 2F Nursery: Ereignisse
+
+Slot 2: Mansion: 2F Nursery: Money
+= Speicherplatz 2: Villa: 2F Nursery: Money
+
+Slot 2: Mansion: 2F Observatory: Events
+= Speicherplatz 2: Villa: 2F Observatory: Ereignisse
+
+Slot 2: Mansion: 2F Observatory: Money
+= Speicherplatz 2: Villa: 2F Observatory: Money
+
+Slot 2: Mansion: 2F Parlor: Events
+= Speicherplatz 2: Villa: 2F Parlor: Ereignisse
+
+Slot 2: Mansion: 2F Parlor: Money
+= Speicherplatz 2: Villa: 2F Parlor: Money
+
+Slot 2: Mansion: 2F Sealed Room: Events
+= Speicherplatz 2: Villa: 2F Sealed Room: Ereignisse
+
+Slot 2: Mansion: 2F Sealed Room: Money
+= Speicherplatz 2: Villa: 2F Sealed Room: Money
+
+Slot 2: Mansion: 2F Sitting Room: Events
+= Speicherplatz 2: Villa: 2F Sitting Room: Ereignisse
+
+Slot 2: Mansion: 2F Sitting Room: Money
+= Speicherplatz 2: Villa: 2F Sitting Room: Money
+
+Slot 2: Mansion: 2F Stairs to 1F: Events
+= Speicherplatz 2: Villa: 2F Stairs to 1F: Ereignisse
+
+Slot 2: Mansion: 2F Stairs to 1F: Money
+= Speicherplatz 2: Villa: 2F Stairs to 1F: Money
+
+Slot 2: Mansion: 2F Study: Events
+= Speicherplatz 2: Villa: 2F Study: Ereignisse
+
+Slot 2: Mansion: 2F Study: Money
+= Speicherplatz 2: Villa: 2F Study: Money
+
+Slot 2: Mansion: 2F Study: Neville
+= Speicherplatz 2: Villa: 2F Study: Neville
+
+Slot 2: Mansion: 2F Tea Room: Events
+= Speicherplatz 2: Villa: 2F Tea Room: Ereignisse
+
+Slot 2: Mansion: 2F Tea Room: Money
+= Speicherplatz 2: Villa: 2F Tea Room: Money
+
+Slot 2: Mansion: 2F The Twins' Room: Events
+= Speicherplatz 2: Villa: 2F The Twins' Room: Ereignisse
+
+Slot 2: Mansion: 2F The Twins' Room: Henry and Orville
+= Speicherplatz 2: Villa: 2F The Twins' Room: Henry and Orville
+
+Slot 2: Mansion: 2F The Twins' Room: Money
+= Speicherplatz 2: Villa: 2F The Twins' Room: Money
+
+Slot 2: Mansion: 2F Wardrobe Room: Events
+= Speicherplatz 2: Villa: 2F Wardrobe Room: Ereignisse
+
+Slot 2: Mansion: 2F Wardrobe Room: Money
+= Speicherplatz 2: Villa: 2F Wardrobe Room: Money
+
+Slot 2: Mansion: 2F Wardrobe Room: Uncle Grimmly
+= Speicherplatz 2: Villa: 2F Wardrobe Room: Uncle Grimmly
+
+Slot 2: Mansion: 2F Washroom: Events
+= Speicherplatz 2: Villa: 2F Washroom: Ereignisse
+
+Slot 2: Mansion: 2F Washroom: Money
+= Speicherplatz 2: Villa: 2F Washroom: Money
+
+Slot 2: Mansion: 2F West Hallway: Events
+= Speicherplatz 2: Villa: 2F West Hallway: Ereignisse
+
+Slot 2: Mansion: 2F West Hallway: Money
+= Speicherplatz 2: Villa: 2F West Hallway: Money
+
+Slot 2: Mansion: 3F Armory: Events
+= Speicherplatz 2: Villa: 3F Armory: Ereignisse
+
+Slot 2: Mansion: 3F Armory: Money
+= Speicherplatz 2: Villa: 3F Armory: Money
+
+Slot 2: Mansion: 3F Balcony: Events
+= Speicherplatz 2: Villa: 3F Balcony: Ereignisse
+
+Slot 2: Mansion: 3F Balcony: Money
+= Speicherplatz 2: Villa: 3F Balcony: Money
+
+Slot 2: Mansion: 3F Ceramics Studio: Events
+= Speicherplatz 2: Villa: 3F Ceramics Studio: Ereignisse
+
+Slot 2: Mansion: 3F Ceramics Studio: Money
+= Speicherplatz 2: Villa: 3F Ceramics Studio: Money
+
+Slot 2: Mansion: 3F Clockwork Room: Clockwork Soldiers
+= Speicherplatz 2: Villa: 3F Clockwork Room: Clockwork Soldiers
+
+Slot 2: Mansion: 3F Clockwork Room: Events
+= Speicherplatz 2: Villa: 3F Clockwork Room: Ereignisse
+
+Slot 2: Mansion: 3F Clockwork Room: Money
+= Speicherplatz 2: Villa: 3F Clockwork Room: Money
+
+Slot 2: Mansion: 3F Safari Room: Events
+= Speicherplatz 2: Villa: 3F Safari Room: Ereignisse
+
+Slot 2: Mansion: 3F Safari Room: Money
+= Speicherplatz 2: Villa: 3F Safari Room: Money
+
+Slot 2: Mansion: 3F Stairs to 2F: Events
+= Speicherplatz 2: Villa: 3F Stairs to 2F: Ereignisse
+
+Slot 2: Mansion: 3F Telephone Room: Events
+= Speicherplatz 2: Villa: 3F Telephone Room: Ereignisse
+
+Slot 2: Mansion: 3F Telephone Room: Money
+= Speicherplatz 2: Villa: 3F Telephone Room: Money
+
+Slot 2: Mansion: 3F The Artist's Studio: Events
+= Speicherplatz 2: Villa: 3F The Artist's Studio: Ereignisse
+
+Slot 2: Mansion: 3F The Artist's Studio: Vincent Van Gore
+= Speicherplatz 2: Villa: 3F The Artist's Studio: Vincent Van Gore
+
+Slot 2: Mansion: BF Bottom of the Well: Events
+= Speicherplatz 2: Villa: BF Bottom of the Well: Ereignisse
+
+Slot 2: Mansion: BF Breaker Room: Events
+= Speicherplatz 2: Villa: BF Breaker Room: Ereignisse
+
+Slot 2: Mansion: BF Breaker Room: Money
+= Speicherplatz 2: Villa: BF Breaker Room: Money
+
+Slot 2: Mansion: BF Cellar: Events
+= Speicherplatz 2: Villa: BF Cellar: Ereignisse
+
+Slot 2: Mansion: BF Cellar: Money
+= Speicherplatz 2: Villa: BF Cellar: Money
+
+Slot 2: Mansion: BF Cold Storage: Events
+= Speicherplatz 2: Villa: BF Cold Storage: Ereignisse
+
+Slot 2: Mansion: BF Cold Storage: Sir Weston
+= Speicherplatz 2: Villa: BF Cold Storage: Sir Weston
+
+Slot 2: Mansion: BF North Hallway: Events
+= Speicherplatz 2: Villa: BF North Hallway: Ereignisse
+
+Slot 2: Mansion: BF Pipe Room: Events
+= Speicherplatz 2: Villa: BF Pipe Room: Ereignisse
+
+Slot 2: Mansion: BF Pipe Room: Money
+= Speicherplatz 2: Villa: BF Pipe Room: Money
+
+Slot 2: Mansion: BF Secret Altar: Events
+= Speicherplatz 2: Villa: BF Secret Altar: Ereignisse
+
+Slot 2: Mansion: BF Secret Altar: Money
+= Speicherplatz 2: Villa: BF Secret Altar: Money
+
+Slot 2: Mansion: BF Stairs to 1F: Events
+= Speicherplatz 2: Villa: BF Stairs to 1F: Ereignisse
+
+Slot 2: Mansion: BF Stairs to 1F: Money
+= Speicherplatz 2: Villa: BF Stairs to 1F: Money
+
+Slot 2: Mansion: Roof: Events
+= Speicherplatz 2: Villa: Roof: Ereignisse
+
+Slot 3: Dungeons: Dragon Roost Cavern
+= Speicherplatz 3: Dungeons: Dragon Roost Cavern
+
+Slot 3: Dungeons: Dragon Roost Cavern: Items
+= Speicherplatz 3: Dungeons: Dragon Roost Cavern: Gegenstände
+
+Slot 3: Dungeons: Earth Temple
+= Speicherplatz 3: Dungeons: Earth Temple
+
+Slot 3: Dungeons: Earth Temple: Items
+= Speicherplatz 3: Dungeons: Earth Temple: Gegenstände
+
+Slot 3: Dungeons: Forbidden Woods
+= Speicherplatz 3: Dungeons: Forbidden Woods
+
+Slot 3: Dungeons: Forbidden Woods: Items
+= Speicherplatz 3: Dungeons: Forbidden Woods: Gegenstände
+
+Slot 3: Dungeons: Forsaken Fortress: Items
+= Speicherplatz 3: Dungeons: Forsaken Fortress: Gegenstände
+
+Slot 3: Dungeons: Tower of the Gods: Events
+= Speicherplatz 3: Dungeons: Tower of the Gods: Ereignisse
+
+Slot 3: Dungeons: Tower of the Gods: Items
+= Speicherplatz 3: Dungeons: Tower of the Gods: Gegenstände
+
+Slot 3: Dungeons: Wind Temple
+= Speicherplatz 3: Dungeons: Wind Temple
+
+Slot 3: Dungeons: Wind Temple: Items
+= Speicherplatz 3: Dungeons: Wind Temple: Gegenstände
+
+Slot 3: Events: Big Octos
+= Speicherplatz 3: Ereignisse: Big Octos
+
+Slot 3: Events: Bottles
+= Speicherplatz 3: Ereignisse: Flaschen
+
+Slot 3: Events: Mini-Games
+= Speicherplatz 3: Ereignisse: Minispiele
+
+Slot 3: Events: Postbox: Letter from Aryll
+= Speicherplatz 3: Ereignisse: Briefkasten: Letter from Aryll
+
+Slot 3: Events: Postbox: Letter from Asst. Manager
+= Speicherplatz 3: Ereignisse: Briefkasten: Letter from Asst. Manager
+
+Slot 3: Events: Postbox: Letter from Baito
+= Speicherplatz 3: Ereignisse: Briefkasten: Letter from Baito
+
+Slot 3: Events: Postbox: Letter from Beedle
+= Speicherplatz 3: Ereignisse: Briefkasten: Letter from Beedle
+
+Slot 3: Events: Postbox: Letter from Grandma
+= Speicherplatz 3: Ereignisse: Briefkasten: Letter from Grandma
+
+Slot 3: Events: Postbox: Letter from Hoskit's girfriend
+= Speicherplatz 3: Ereignisse: Briefkasten: Letter from Hoskit's girfriend
+
+Slot 3: Events: Postbox: Letter from Kashiko
+= Speicherplatz 3: Ereignisse: Briefkasten: Letter from Kashiko
+
+Slot 3: Events: Postbox: Letter from Komali's father
+= Speicherplatz 3: Ereignisse: Briefkasten: Letter from Komali's father
+
+Slot 3: Events: Postbox: Letter from Orca
+= Speicherplatz 3: Ereignisse: Briefkasten: Letter from Orca
+
+Slot 3: Events: Postbox: Letter from Tingle
+= Speicherplatz 3: Ereignisse: Briefkasten: Letter from Tingle
+
+Slot 3: Events: Windfall Island Decorations: Chu Jelly Juice Shop
+= Speicherplatz 3: Ereignisse: Windfall Island Decorations: Chu Jelly Juice Shop
+
+Slot 3: Events: Windfall Island Decorations: Exteriors
+= Speicherplatz 3: Ereignisse: Windfall Island Decorations: Exteriors
+
+Slot 3: Events: Windfall Island Decorations: General: Zunari's Shop
+= Speicherplatz 3: Ereignisse: Windfall Island Decorations: Allgemein: Zunari's Shop
+
+Slot 3: Events: Windfall Island Decorations: Hall of Wealth: Hall of Wealth 1F
+= Speicherplatz 3: Ereignisse: Windfall Island Decorations: Hall of Wealth: Hall of Wealth 1F
+
+Slot 3: Events: Windfall Island Decorations: Hall of Wealth: Hall of Wealth 2F
+= Speicherplatz 3: Ereignisse: Windfall Island Decorations: Hall of Wealth: Hall of Wealth 2F
+
+Slot 3: Events: Windfall Island Decorations: Lenzo's Pictography Shop
+= Speicherplatz 3: Ereignisse: Windfall Island Decorations: Lenzo's Pictography Shop
+
+Slot 3: Events: Windfall Island Decorations: Private Oasis
+= Speicherplatz 3: Ereignisse: Windfall Island Decorations: Private Oasis
+
+Slot 3: Events: Windfall Island Decorations: School of Joy
+= Speicherplatz 3: Ereignisse: Windfall Island Decorations: School of Joy
+
+Slot 3: Events: Windfall Island Decorations: Squid-Hunt Building
+= Speicherplatz 3: Ereignisse: Windfall Island Decorations: Squid-Hunt Building
+
+Slot 3: Events: Withering Trees
+= Speicherplatz 3: Ereignisse: Withering Trees
+
+Slot 3: Figurines: Bosses
+= Speicherplatz 3: Figuren: Bosse
+
+Slot 3: Figurines: Dragon Roost Island
+= Speicherplatz 3: Figuren: Dragon Roost Island
+
+Slot 3: Figurines: Enemies
+= Speicherplatz 3: Figuren: Gegner
+
+Slot 3: Figurines: Forest Haven
+= Speicherplatz 3: Figuren: Forest Haven
+
+Slot 3: Figurines: Great Sea
+= Speicherplatz 3: Figuren: Great Sea
+
+Slot 3: Figurines: Outset Island
+= Speicherplatz 3: Figuren: Outset Island
+
+Slot 3: Figurines: Windfall Island
+= Speicherplatz 3: Figuren: Windfall Island
+
+Slot 3: Gallery
+= Speicherplatz 3: Galerie
+
+Slot 3: General: Boos: Captured
+= Speicherplatz 3: Allgemein: Boos: Gefangen
+
+Slot 3: General: Boos: Seen
+= Speicherplatz 3: Allgemein: Boos: Gesehen
+
+Slot 3: General: General
+= Speicherplatz 3: Allgemein: Allgemein
+
+Slot 3: General: General: Mario's Items
+= Speicherplatz 3: Allgemein: Allgemein: Mario's Items
+
+Slot 3: General: General: Medals
+= Speicherplatz 3: Allgemein: Allgemein: Medaillen
+
+Slot 3: General: Treasures
+= Speicherplatz 3: Allgemein: Schätze
+
+Slot 3: Inventory: Bags: Bait Bag: 1
+= Speicherplatz 3: Inventar: Beutel: Bait Bag: 1
+
+Slot 3: Inventory: Bags: Bait Bag: 2
+= Speicherplatz 3: Inventar: Beutel: Bait Bag: 2
+
+Slot 3: Inventory: Bags: Bait Bag: 3
+= Speicherplatz 3: Inventar: Beutel: Bait Bag: 3
+
+Slot 3: Inventory: Bags: Bait Bag: 4
+= Speicherplatz 3: Inventar: Beutel: Bait Bag: 4
+
+Slot 3: Inventory: Bags: Bait Bag: 5
+= Speicherplatz 3: Inventar: Beutel: Bait Bag: 5
+
+Slot 3: Inventory: Bags: Bait Bag: 6
+= Speicherplatz 3: Inventar: Beutel: Bait Bag: 6
+
+Slot 3: Inventory: Bags: Bait Bag: 7
+= Speicherplatz 3: Inventar: Beutel: Bait Bag: 7
+
+Slot 3: Inventory: Bags: Bait Bag: 8
+= Speicherplatz 3: Inventar: Beutel: Bait Bag: 8
+
+Slot 3: Inventory: Bags: Delivery Bag
+= Speicherplatz 3: Inventar: Beutel: Delivery Bag
+
+Slot 3: Inventory: Bags: Spoils Bag
+= Speicherplatz 3: Inventar: Beutel: Spoils Bag
+
+Slot 3: Inventory: Equipment
+= Speicherplatz 3: Inventar: Ausrüstung
+
+Slot 3: Inventory: Items
+= Speicherplatz 3: Inventar: Gegenstände
+
+Slot 3: Inventory: Quantities
+= Speicherplatz 3: Inventar: Mengen
+
+Slot 3: Inventory: Quest Items: Goddess Pearls
+= Speicherplatz 3: Inventar: Questgegenstände: Goddess Pearls
+
+Slot 3: Inventory: Quest Items: Songs
+= Speicherplatz 3: Inventar: Questgegenstände: Lieder
+
+Slot 3: Inventory: Quest Items: Triforce Shards
+= Speicherplatz 3: Inventar: Questgegenstände: Triforce Shards
+
+Slot 3: Mansion: 1F Ball Room: Events
+= Speicherplatz 3: Villa: 1F Ball Room: Ereignisse
+
+Slot 3: Mansion: 1F Ball Room: Money
+= Speicherplatz 3: Villa: 1F Ball Room: Money
+
+Slot 3: Mansion: 1F Ball Room: The Floating Whirlindas
+= Speicherplatz 3: Villa: 1F Ball Room: The Floating Whirlindas
+
+Slot 3: Mansion: 1F Bathroom: Events
+= Speicherplatz 3: Villa: 1F Bathroom: Ereignisse
+
+Slot 3: Mansion: 1F Billiards Room: Events
+= Speicherplatz 3: Villa: 1F Billiards Room: Ereignisse
+
+Slot 3: Mansion: 1F Billiards Room: Money
+= Speicherplatz 3: Villa: 1F Billiards Room: Money
+
+Slot 3: Mansion: 1F Billiards Room: Slim Bankshot
+= Speicherplatz 3: Villa: 1F Billiards Room: Slim Bankshot
+
+Slot 3: Mansion: 1F Boneyard: Events
+= Speicherplatz 3: Villa: 1F Boneyard: Ereignisse
+
+Slot 3: Mansion: 1F Boneyard: Spooky
+= Speicherplatz 3: Villa: 1F Boneyard: Spooky
+
+Slot 3: Mansion: 1F Butler's Room: Events
+= Speicherplatz 3: Villa: 1F Butler's Room: Ereignisse
+
+Slot 3: Mansion: 1F Butler's Room: Money
+= Speicherplatz 3: Villa: 1F Butler's Room: Money
+
+Slot 3: Mansion: 1F Butler's Room: Shivers
+= Speicherplatz 3: Villa: 1F Butler's Room: Shivers
+
+Slot 3: Mansion: 1F Conservatory: Events
+= Speicherplatz 3: Villa: 1F Conservatory: Ereignisse
+
+Slot 3: Mansion: 1F Conservatory: Melody Pianissima
+= Speicherplatz 3: Villa: 1F Conservatory: Melody Pianissima
+
+Slot 3: Mansion: 1F Conservatory: Money
+= Speicherplatz 3: Villa: 1F Conservatory: Money
+
+Slot 3: Mansion: 1F Courtyard: Events
+= Speicherplatz 3: Villa: 1F Courtyard: Ereignisse
+
+Slot 3: Mansion: 1F Courtyard: Money
+= Speicherplatz 3: Villa: 1F Courtyard: Money
+
+Slot 3: Mansion: 1F Dining Room: Events
+= Speicherplatz 3: Villa: 1F Dining Room: Ereignisse
+
+Slot 3: Mansion: 1F Dining Room: Money
+= Speicherplatz 3: Villa: 1F Dining Room: Money
+
+Slot 3: Mansion: 1F Dining Room: Mr. Luggs
+= Speicherplatz 3: Villa: 1F Dining Room: Mr. Luggs
+
+Slot 3: Mansion: 1F Fortune-teller's Room: Events
+= Speicherplatz 3: Villa: 1F Fortune-teller's Room: Ereignisse
+
+Slot 3: Mansion: 1F Fortune-teller's Room: Madame Clairvoya
+= Speicherplatz 3: Villa: 1F Fortune-teller's Room: Madame Clairvoya
+
+Slot 3: Mansion: 1F Fortune-teller's Room: Money
+= Speicherplatz 3: Villa: 1F Fortune-teller's Room: Money
+
+Slot 3: Mansion: 1F Foyer: Events
+= Speicherplatz 3: Villa: 1F Foyer: Ereignisse
+
+Slot 3: Mansion: 1F Foyer: Money
+= Speicherplatz 3: Villa: 1F Foyer: Money
+
+Slot 3: Mansion: 1F Graveyard: Events
+= Speicherplatz 3: Villa: 1F Graveyard: Ereignisse
+
+Slot 3: Mansion: 1F Graveyard: Money
+= Speicherplatz 3: Villa: 1F Graveyard: Money
+
+Slot 3: Mansion: 1F Hallway: Money
+= Speicherplatz 3: Villa: 1F Hallway: Money
+
+Slot 3: Mansion: 1F Hidden Room: Events
+= Speicherplatz 3: Villa: 1F Hidden Room: Ereignisse
+
+Slot 3: Mansion: 1F Hidden Room: Money
+= Speicherplatz 3: Villa: 1F Hidden Room: Money
+
+Slot 3: Mansion: 1F Kitchen: Events
+= Speicherplatz 3: Villa: 1F Kitchen: Ereignisse
+
+Slot 3: Mansion: 1F Kitchen: Money
+= Speicherplatz 3: Villa: 1F Kitchen: Money
+
+Slot 3: Mansion: 1F Laundry Room: Events
+= Speicherplatz 3: Villa: 1F Laundry Room: Ereignisse
+
+Slot 3: Mansion: 1F Laundry Room: Money
+= Speicherplatz 3: Villa: 1F Laundry Room: Money
+
+Slot 3: Mansion: 1F Mirror Room: Events
+= Speicherplatz 3: Villa: 1F Mirror Room: Ereignisse
+
+Slot 3: Mansion: 1F Projection Room: Events
+= Speicherplatz 3: Villa: 1F Projection Room: Ereignisse
+
+Slot 3: Mansion: 1F Projection Room: Money
+= Speicherplatz 3: Villa: 1F Projection Room: Money
+
+Slot 3: Mansion: 1F Rec Room: Biff Atlas
+= Speicherplatz 3: Villa: 1F Rec Room: Biff Atlas
+
+Slot 3: Mansion: 1F Rec Room: Events
+= Speicherplatz 3: Villa: 1F Rec Room: Ereignisse
+
+Slot 3: Mansion: 1F Rec Room: Money
+= Speicherplatz 3: Villa: 1F Rec Room: Money
+
+Slot 3: Mansion: 1F Stairs to 2F: Events
+= Speicherplatz 3: Villa: 1F Stairs to 2F: Ereignisse
+
+Slot 3: Mansion: 1F Storage Room: Events
+= Speicherplatz 3: Villa: 1F Storage Room: Ereignisse
+
+Slot 3: Mansion: 1F Storage Room: Money
+= Speicherplatz 3: Villa: 1F Storage Room: Money
+
+Slot 3: Mansion: 1F Washroom: Events
+= Speicherplatz 3: Villa: 1F Washroom: Ereignisse
+
+Slot 3: Mansion: 1F Washroom: Money
+= Speicherplatz 3: Villa: 1F Washroom: Money
+
+Slot 3: Mansion: 2F Anteroom: Events
+= Speicherplatz 3: Villa: 2F Anteroom: Ereignisse
+
+Slot 3: Mansion: 2F Anteroom: Money
+= Speicherplatz 3: Villa: 2F Anteroom: Money
+
+Slot 3: Mansion: 2F Astral Hall: Events
+= Speicherplatz 3: Villa: 2F Astral Hall: Ereignisse
+
+Slot 3: Mansion: 2F Astral Hall: Money
+= Speicherplatz 3: Villa: 2F Astral Hall: Money
+
+Slot 3: Mansion: 2F Balcony: Events
+= Speicherplatz 3: Villa: 2F Balcony: Ereignisse
+
+Slot 3: Mansion: 2F Balcony: Money
+= Speicherplatz 3: Villa: 2F Balcony: Money
+
+Slot 3: Mansion: 2F Bathroom: Events
+= Speicherplatz 3: Villa: 2F Bathroom: Ereignisse
+
+Slot 3: Mansion: 2F Bathroom: Miss Petunia
+= Speicherplatz 3: Villa: 2F Bathroom: Miss Petunia
+
+Slot 3: Mansion: 2F Foyer: Events
+= Speicherplatz 3: Villa: 2F Foyer: Ereignisse
+
+Slot 3: Mansion: 2F Foyer: Money
+= Speicherplatz 3: Villa: 2F Foyer: Money
+
+Slot 3: Mansion: 2F Guest Room: Events
+= Speicherplatz 3: Villa: 2F Guest Room: Ereignisse
+
+Slot 3: Mansion: 2F Guest Room: Money
+= Speicherplatz 3: Villa: 2F Guest Room: Money
+
+Slot 3: Mansion: 2F Guest Room: Sue Pea
+= Speicherplatz 3: Villa: 2F Guest Room: Sue Pea
+
+Slot 3: Mansion: 2F Hallway: Money
+= Speicherplatz 3: Villa: 2F Hallway: Money
+
+Slot 3: Mansion: 2F Master Bedroom: Lydia
+= Speicherplatz 3: Villa: 2F Master Bedroom: Lydia
+
+Slot 3: Mansion: 2F Master Bedroom: Money
+= Speicherplatz 3: Villa: 2F Master Bedroom: Money
+
+Slot 3: Mansion: 2F Nana's Room: Events
+= Speicherplatz 3: Villa: 2F Nana's Room: Ereignisse
+
+Slot 3: Mansion: 2F Nana's Room: Money
+= Speicherplatz 3: Villa: 2F Nana's Room: Money
+
+Slot 3: Mansion: 2F Nana's Room: Nana
+= Speicherplatz 3: Villa: 2F Nana's Room: Nana
+
+Slot 3: Mansion: 2F Nursery: Events
+= Speicherplatz 3: Villa: 2F Nursery: Ereignisse
+
+Slot 3: Mansion: 2F Nursery: Money
+= Speicherplatz 3: Villa: 2F Nursery: Money
+
+Slot 3: Mansion: 2F Observatory: Events
+= Speicherplatz 3: Villa: 2F Observatory: Ereignisse
+
+Slot 3: Mansion: 2F Observatory: Money
+= Speicherplatz 3: Villa: 2F Observatory: Money
+
+Slot 3: Mansion: 2F Parlor: Events
+= Speicherplatz 3: Villa: 2F Parlor: Ereignisse
+
+Slot 3: Mansion: 2F Parlor: Money
+= Speicherplatz 3: Villa: 2F Parlor: Money
+
+Slot 3: Mansion: 2F Sealed Room: Events
+= Speicherplatz 3: Villa: 2F Sealed Room: Ereignisse
+
+Slot 3: Mansion: 2F Sealed Room: Money
+= Speicherplatz 3: Villa: 2F Sealed Room: Money
+
+Slot 3: Mansion: 2F Sitting Room: Events
+= Speicherplatz 3: Villa: 2F Sitting Room: Ereignisse
+
+Slot 3: Mansion: 2F Sitting Room: Money
+= Speicherplatz 3: Villa: 2F Sitting Room: Money
+
+Slot 3: Mansion: 2F Stairs to 1F: Events
+= Speicherplatz 3: Villa: 2F Stairs to 1F: Ereignisse
+
+Slot 3: Mansion: 2F Stairs to 1F: Money
+= Speicherplatz 3: Villa: 2F Stairs to 1F: Money
+
+Slot 3: Mansion: 2F Study: Events
+= Speicherplatz 3: Villa: 2F Study: Ereignisse
+
+Slot 3: Mansion: 2F Study: Money
+= Speicherplatz 3: Villa: 2F Study: Money
+
+Slot 3: Mansion: 2F Study: Neville
+= Speicherplatz 3: Villa: 2F Study: Neville
+
+Slot 3: Mansion: 2F Tea Room: Events
+= Speicherplatz 3: Villa: 2F Tea Room: Ereignisse
+
+Slot 3: Mansion: 2F Tea Room: Money
+= Speicherplatz 3: Villa: 2F Tea Room: Money
+
+Slot 3: Mansion: 2F The Twins' Room: Events
+= Speicherplatz 3: Villa: 2F The Twins' Room: Ereignisse
+
+Slot 3: Mansion: 2F The Twins' Room: Henry and Orville
+= Speicherplatz 3: Villa: 2F The Twins' Room: Henry and Orville
+
+Slot 3: Mansion: 2F The Twins' Room: Money
+= Speicherplatz 3: Villa: 2F The Twins' Room: Money
+
+Slot 3: Mansion: 2F Wardrobe Room: Events
+= Speicherplatz 3: Villa: 2F Wardrobe Room: Ereignisse
+
+Slot 3: Mansion: 2F Wardrobe Room: Money
+= Speicherplatz 3: Villa: 2F Wardrobe Room: Money
+
+Slot 3: Mansion: 2F Wardrobe Room: Uncle Grimmly
+= Speicherplatz 3: Villa: 2F Wardrobe Room: Uncle Grimmly
+
+Slot 3: Mansion: 2F Washroom: Events
+= Speicherplatz 3: Villa: 2F Washroom: Ereignisse
+
+Slot 3: Mansion: 2F Washroom: Money
+= Speicherplatz 3: Villa: 2F Washroom: Money
+
+Slot 3: Mansion: 2F West Hallway: Events
+= Speicherplatz 3: Villa: 2F West Hallway: Ereignisse
+
+Slot 3: Mansion: 2F West Hallway: Money
+= Speicherplatz 3: Villa: 2F West Hallway: Money
+
+Slot 3: Mansion: 3F Armory: Events
+= Speicherplatz 3: Villa: 3F Armory: Ereignisse
+
+Slot 3: Mansion: 3F Armory: Money
+= Speicherplatz 3: Villa: 3F Armory: Money
+
+Slot 3: Mansion: 3F Balcony: Events
+= Speicherplatz 3: Villa: 3F Balcony: Ereignisse
+
+Slot 3: Mansion: 3F Balcony: Money
+= Speicherplatz 3: Villa: 3F Balcony: Money
+
+Slot 3: Mansion: 3F Ceramics Studio: Events
+= Speicherplatz 3: Villa: 3F Ceramics Studio: Ereignisse
+
+Slot 3: Mansion: 3F Ceramics Studio: Money
+= Speicherplatz 3: Villa: 3F Ceramics Studio: Money
+
+Slot 3: Mansion: 3F Clockwork Room: Clockwork Soldiers
+= Speicherplatz 3: Villa: 3F Clockwork Room: Clockwork Soldiers
+
+Slot 3: Mansion: 3F Clockwork Room: Events
+= Speicherplatz 3: Villa: 3F Clockwork Room: Ereignisse
+
+Slot 3: Mansion: 3F Clockwork Room: Money
+= Speicherplatz 3: Villa: 3F Clockwork Room: Money
+
+Slot 3: Mansion: 3F Safari Room: Events
+= Speicherplatz 3: Villa: 3F Safari Room: Ereignisse
+
+Slot 3: Mansion: 3F Safari Room: Money
+= Speicherplatz 3: Villa: 3F Safari Room: Money
+
+Slot 3: Mansion: 3F Stairs to 2F: Events
+= Speicherplatz 3: Villa: 3F Stairs to 2F: Ereignisse
+
+Slot 3: Mansion: 3F Telephone Room: Events
+= Speicherplatz 3: Villa: 3F Telephone Room: Ereignisse
+
+Slot 3: Mansion: 3F Telephone Room: Money
+= Speicherplatz 3: Villa: 3F Telephone Room: Money
+
+Slot 3: Mansion: 3F The Artist's Studio: Events
+= Speicherplatz 3: Villa: 3F The Artist's Studio: Ereignisse
+
+Slot 3: Mansion: 3F The Artist's Studio: Vincent Van Gore
+= Speicherplatz 3: Villa: 3F The Artist's Studio: Vincent Van Gore
+
+Slot 3: Mansion: BF Bottom of the Well: Events
+= Speicherplatz 3: Villa: BF Bottom of the Well: Ereignisse
+
+Slot 3: Mansion: BF Breaker Room: Events
+= Speicherplatz 3: Villa: BF Breaker Room: Ereignisse
+
+Slot 3: Mansion: BF Breaker Room: Money
+= Speicherplatz 3: Villa: BF Breaker Room: Money
+
+Slot 3: Mansion: BF Cellar: Events
+= Speicherplatz 3: Villa: BF Cellar: Ereignisse
+
+Slot 3: Mansion: BF Cellar: Money
+= Speicherplatz 3: Villa: BF Cellar: Money
+
+Slot 3: Mansion: BF Cold Storage: Events
+= Speicherplatz 3: Villa: BF Cold Storage: Ereignisse
+
+Slot 3: Mansion: BF Cold Storage: Sir Weston
+= Speicherplatz 3: Villa: BF Cold Storage: Sir Weston
+
+Slot 3: Mansion: BF North Hallway: Events
+= Speicherplatz 3: Villa: BF North Hallway: Ereignisse
+
+Slot 3: Mansion: BF Pipe Room: Events
+= Speicherplatz 3: Villa: BF Pipe Room: Ereignisse
+
+Slot 3: Mansion: BF Pipe Room: Money
+= Speicherplatz 3: Villa: BF Pipe Room: Money
+
+Slot 3: Mansion: BF Secret Altar: Events
+= Speicherplatz 3: Villa: BF Secret Altar: Ereignisse
+
+Slot 3: Mansion: BF Secret Altar: Money
+= Speicherplatz 3: Villa: BF Secret Altar: Money
+
+Slot 3: Mansion: BF Stairs to 1F: Events
+= Speicherplatz 3: Villa: BF Stairs to 1F: Ereignisse
+
+Slot 3: Mansion: BF Stairs to 1F: Money
+= Speicherplatz 3: Villa: BF Stairs to 1F: Money
+
+Slot 3: Mansion: Roof: Events
+= Speicherplatz 3: Villa: Roof: Ereignisse
+
+Small Pearl
+= Small Pearl
+
+Song of Passing
+= Song of Passing
+
+Songs
+= Lieder
+
+Spade Key to BF Secret Altar obtained
+= Spade Key to BF Secret Altar obtained
+
+Spade door to BF North Hallway unlocked
+= Spade door to BF North Hallway unlocked
+
+Spade door to BF Secret Altar unlocked
+= Spade door to BF Secret Altar unlocked
+
+Spade door to BF Secret Altar unsealed
+= Spade door to BF Secret Altar unsealed
+
+Speedy Spirit captured / escaped
+= Speedy Spirit captured / escaped
+
+Spoils Bag
+= Spoils Bag
+
+Squid-Hunt
+= Squid-Hunt
+
+Stalfos
+= Stalfos
+
+Sturgeon
+= Sturgeon
+
+Sue-Belle
+= Sue-Belle
+
+Sword Training Rank
+= Sword Training Rank
+
+TaBoo
+= TaBoo
+
+TamBoorine
+= TamBoorine
+
+Telescope
+= Telescope
+
+Tetra
+= Tetra
+
+The Joyful Teacher, Mrs. Marie
+= The Joyful Teacher, Mrs. Marie
+
+The Monstrous Helmaroc King
+= The Monstrous Helmaroc King
+
+The Pictographer, Lenzo
+= The Pictographer, Lenzo
+
+The Potion Master, Doc Bandam
+= The Potion Master, Doc Bandam
+
+The Rito Chieftain
+= The Rito Chieftain
+
+The Shop Guru, Zunari
+= The Shop Guru, Zunari
+
+Tingle
+= Tingle
+
+Tingle Chest appeared
+= Tingle Chest appeared
+
+Tingle Island
+= Tingle Island
+
+Tingle Tuner
+= Tingle Tuner
+
+To the left of Zunari's Shop
+= To the left of Zunari's Shop
+
+To the left of the blackboard
+= To the left of the blackboard
+
+To the left of the door
+= To the left of the door
+
+To the left of the stage
+= To the left of the stage
+
+To the right of Zunari's Shop
+= To the right of Zunari's Shop
+
+To the right of the blackboard
+= To the right of the blackboard
+
+To the right of the door
+= To the right of the door
+
+To the right of the stage
+= To the right of the stage
+
+Toad reassured
+= Toad reassured
+
+Tombstone is glowing
+= Tombstone is glowing
+
+Tott
+= Tott
+
+Town Flower
+= Town Flower
+
+Traveling Merchants
+= Traveling Merchants
+
+Treasures
+= Schätze
+
+Turbo Nozzle unlocked
+= Turbo Nozzle unlocked
+
+Turboo
+= Turboo
+
+Two-Eye Reef
+= Two-Eye Reef
+
+UnderBoo
+= UnderBoo
+
+Underwater below a red platform with an arrow
+= Underwater below a red platform with an arrow
+
+Underwater below the waterfall
+= Underwater below the waterfall
+
+Underwater following a school of blue fish
+= Underwater following a school of blue fish
+
+Underwater following a school of red fish
+= Underwater following a school of red fish
+
+Underwater near the island with palm trees
+= Underwater near the island with palm trees
+
+Underwater near the wooden planks in the river
+= Underwater near the wooden planks in the river
+
+Underwater on the left side of the windmill
+= Underwater on the left side of the windmill
+
+Underwater on the right side of the beach
+= Underwater on the right side of the beach
+
+Underwater on the right side of the windmill
+= Underwater on the right side of the windmill
+
+Valoo
+= Valoo
+
+Visited
+= Visited
+
+Walls fade away
+= Walls fade away
+
+Water Element Medal
+= Water Element Medal
+
+Water Element Medal obtained
+= Water Element Medal obtained
+
+Waterfall stopped
+= Waterfall stopped
+
+Wild Pig
+= Wild Pig
+
+Willi
+= Willi
+
+Wind God's Aria
+= Wind God's Aria
+
+Wind Waker
+= Wind Waker
+
+Wind's Requiem
+= Wind's Requiem
+
+Windfall Island: Received from Mila
+= Windfall Island: Received from Mila
+
+Windfall's Gang of Boys, The Killer Bees
+= Windfall's Gang of Boys, The Killer Bees
+
+Wizzrobe
+= Wizzrobe
+
+Yoshi unlocked
+= Yoshi unlocked
+
+Zephos & Cyclos
+= Zephos & Cyclos
+
+Zill
+= Zill
+
+Zuko
+= Zuko
+
+blue coins
+= blaue Münzen
+
+events
+= Ereignisse
+
+shine sprites
+= Shine Sprites
+

@@ -5,8 +5,11 @@
 use super::fields::{Builder, Kind};
 
 pub mod bk;
+pub mod lm;
 pub mod oot;
+pub mod sms;
 pub mod smash64;
+pub mod ww;
 
 /// One value: where it is, which bits of it, and its names (a drop-down) or its highest value.
 pub struct F {

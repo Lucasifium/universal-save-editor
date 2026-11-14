@@ -15,7 +15,7 @@ pub fn byte_sum(d: &[u8], from: usize, to: usize) -> u32 {
 #[cfg(test)]
 mod samples {
     use crate::fmt::*;
-    const KINDS: &[&str] = &[mk64::KIND, goldeneye::KIND, banjokazooie::KIND, zelda64::KIND];
+    const KINDS: &[&str] = &[mk64::KIND, goldeneye::KIND, banjokazooie::KIND, zelda64::KIND, sunshine::KIND, luigi::KIND, windwaker::KIND];
     /// `SAVE_SAMPLES=<dir> cargo test --release --lib retro::samples -- --ignored --nocapture`:
     /// every console save in the folder that one of the readers here recognises must open and
     /// write back byte for byte.

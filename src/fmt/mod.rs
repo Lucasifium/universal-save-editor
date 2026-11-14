@@ -220,6 +220,10 @@ pub mod mldt;
 pub mod nintendo;
 pub mod xc3;
 pub mod mk64;
+pub mod gcsave;
+pub mod sunshine;
+pub mod luigi;
+pub mod windwaker;
 pub mod goldeneye;
 pub mod banjokazooie;
 pub mod zelda64;
@@ -659,6 +663,21 @@ pub fn parse_binary(d: &[u8]) -> Option<TreeDoc> {
     }
     if ysf::looks(d) {
         if let Ok(t) = ysf::parse(d) {
+            return Some(t);
+        }
+    }
+    if windwaker::looks(d) {
+        if let Ok(t) = windwaker::parse(d) {
+            return Some(t);
+        }
+    }
+    if luigi::looks(d) {
+        if let Ok(t) = luigi::parse(d) {
+            return Some(t);
+        }
+    }
+    if sunshine::looks(d) {
+        if let Ok(t) = sunshine::parse(d) {
             return Some(t);
         }
     }
