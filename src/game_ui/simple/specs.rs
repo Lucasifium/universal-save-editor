@@ -23,6 +23,7 @@ pub static SPECS: &[Spec] = &[OPENXCOM, XCOM_DOS, RCT2, COTL, FALLOUT_SHELTER, D
     MANEATER,
     // More PlayStation 2 games (ps2_specs.rs)
     BOUNCER, DOA2, DBZ_BT2, SMT3, GRANDIA1,
+    INSCRYPTION,
 ];
 // ------------------------------------------------------------------ Cult of the Lamb
 
@@ -12394,6 +12395,25 @@ const MANEATER: Spec = Spec {
     subtitle: "_<Steam id>_maneater_save_0.sav (to 2) from %LOCALAPPDATA%\\Maneater\\Saved\\SaveGames. Close the game first; Steam Cloud can restore the old save.",
     tiles: &[("Shark level", "/PlayerLevel"), ("Play time (seconds)", "/TotalPlayTime")],
     sections: &[Section { title: "Progress", rows: &[("Shark level", "/PlayerLevel"), ("Play time (seconds)", "/TotalPlayTime"), ("Story progress", "/StoryLineProgress")] }],
+    lists: &[],
+    tables: &[],
+};
+
+// ------------------------------------------------------------------ Inscryption
+
+const INSCRYPTION: Spec = Spec {
+    name: "Inscryption",
+    tab: "Cabin",
+    accent: (170, 130, 60),
+    kind: None,
+    markers: &["/currentRun/currency", "/gbcData/currency"],
+    subtitle: "SaveFile.gwsave from %USERPROFILE%\\AppData\\LocalLow\\Daniel Mullins Games\\Inscryption. The save's bare values are shown with made-up names and written back as they were. Close the game first and keep a copy.",
+    tiles: &[("Act 1 currency", "/currentRun/currency"), ("Act 2 gold", "/gbcData/currency"), ("Lives", "/currentRun/playerLives"), ("Play time (seconds)", "/playTime")],
+    sections: &[
+        Section { title: "Act 1 run", rows: &[("Currency", "/currentRun/currency"), ("Lives", "/currentRun/playerLives"), ("Most lives", "/currentRun/maxPlayerLives"), ("Skull teeth", "/currentRun/skullTeeth")] },
+        Section { title: "Act 2", rows: &[("Gold", "/gbcData/currency"), ("Packs opened", "/gbcData/packsOpened")] },
+        Section { title: "General", rows: &[("Play time (seconds)", "/playTime")] },
+    ],
     lists: &[],
     tables: &[],
 };

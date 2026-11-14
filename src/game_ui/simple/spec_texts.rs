@@ -444,5 +444,14 @@ pub fn all() -> Vec<&'static str> {
         tr("_<Steam id>_maneater_save_0.sav (to 2) from %LOCALAPPDATA%\\Maneater\\Saved\\SaveGames. Close the game first; Steam Cloud can restore the old save."),
         tr("Shark level"),
         tr("Story progress"),
+        tr("Cabin"),
+        tr("SaveFile.gwsave from %USERPROFILE%\\AppData\\LocalLow\\Daniel Mullins Games\\Inscryption. The save's bare values are shown with made-up names and written back as they were. Close the game first and keep a copy."),
+        tr("Act 1 currency"),
+        tr("Act 2 gold"),
+        tr("Most lives"),
+        tr("Skull teeth"),
+        tr("Act 1 run"),
+        tr("Act 2"),
+        tr("Packs opened"),
     ]
 }

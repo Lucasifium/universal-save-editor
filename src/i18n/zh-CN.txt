@@ -24986,3 +24986,29 @@ Zarbon
 Zeni
 = 泽尼
 
+Cabin
+= 木屋
+
+SaveFile.gwsave from %USERPROFILE%\\AppData\\LocalLow\\Daniel Mullins Games\\Inscryption. The save's bare values are shown with made-up names and written back as they were. Close the game first and keep a copy.
+= %USERPROFILE%\AppData\LocalLow\Daniel Mullins Games\Inscryption 中的 SaveFile.gwsave。存档里没有键名的值会以临时名称显示，并按原样写回。请先关闭游戏并保留副本。
+
+Act 1 currency
+= 第1幕货币
+
+Act 2 gold
+= 第2幕金币
+
+Most lives
+= 最大生命
+
+Skull teeth
+= 骷髅牙齿
+
+Act 1 run
+= 第1幕进程
+
+Act 2
+= 第2幕
+
+Packs opened
+= 已开卡包

@@ -24938,3 +24938,29 @@ Zarbon
 Zeni
 = Zeni
 
+Cabin
+= Cabane
+
+SaveFile.gwsave from %USERPROFILE%\\AppData\\LocalLow\\Daniel Mullins Games\\Inscryption. The save's bare values are shown with made-up names and written back as they were. Close the game first and keep a copy.
+= SaveFile.gwsave dans %USERPROFILE%\AppData\LocalLow\Daniel Mullins Games\Inscryption. Les valeurs nues de la sauvegarde sont affichées sous des noms inventés et réécrites telles quelles. Fermez d'abord le jeu et gardez une copie.
+
+Act 1 currency
+= Monnaie de l'acte 1
+
+Act 2 gold
+= Or de l'acte 2
+
+Most lives
+= Vies maximum
+
+Skull teeth
+= Dents de crâne
+
+Act 1 run
+= Partie de l'acte 1
+
+Act 2
+= Acte 2
+
+Packs opened
+= Paquets ouverts

@@ -44,6 +44,21 @@ pub fn open(data: &[u8]) -> Option<Vec<u8>> {
             b':' => want_key = false,
             c if c.is_ascii_whitespace() => {}
             _ => {
+                if c == b'$' && !want_key {
+                    // a bare reference such as `$iref:184`: shown as a string
+                    let mut j = i;
+                    while j < b.len() && !matches!(b[j], b',' | b'}' | b']' | b'\r' | b'\n' | b' ') {
+                        j += 1;
+                    }
+                    out.push_str(&t[last..i]);
+                    out.push('"');
+                    out.push_str(&t[i..j]);
+                    out.push('"');
+                    n += 1;
+                    last = j;
+                    i = j;
+                    continue;
+                }
                 if want_key {
                     // a bare value where a key should be
                     let mut j = i;
@@ -70,6 +85,27 @@ pub fn open(data: &[u8]) -> Option<Vec<u8>> {
     Some(out.into_bytes())
 }
 
+fn unquote_refs(t: &str) -> String {
+    const R: &str = "\"$iref:";
+    let mut out = String::with_capacity(t.len());
+    let mut rest = t;
+    while let Some(p) = rest.find(R) {
+        out.push_str(&rest[..p]);
+        let after = &rest[p + 1..];
+        let end = after.find('"').unwrap_or(after.len());
+        let body = &after[..end];
+        if body.len() > 6 && body[6..].bytes().all(|c| c.is_ascii_digit()) && end < after.len() {
+            out.push_str(body);
+            rest = &after[end + 1..];
+        } else {
+            out.push('"');
+            rest = after;
+        }
+    }
+    out.push_str(rest);
+    out
+}
+
 pub fn pack(plain: &[u8]) -> Vec<u8> {
     let t = String::from_utf8_lossy(plain);
     let mut out = String::with_capacity(t.len());
@@ -90,7 +126,7 @@ pub fn pack(plain: &[u8]) -> Vec<u8> {
         }
     }
     out.push_str(rest);
-    out.into_bytes()
+    unquote_refs(&out).into_bytes()
 }
 
 #[cfg(test)]
@@ -99,7 +135,7 @@ mod tests {
 
     #[test]
     fn bare_values_round_trip() {
-        let src = b"{\n  \"a\": {\n    \"$type\": \"V\",\n    0.5,\n    0.42\n  },\n  \"b\": [1, 2]\n}";
+        let src = b"{\n  \"a\": {\n    \"$type\": \"V\",\n    0.5,\n    0.42\n  },\n  \"b\": [\n    $iref:3,\n    $iref:4\n  ]\n}";
         let plain = open(src).unwrap();
         assert!(serde_json::from_slice::<serde_json::Value>(&plain).is_ok());
         assert_eq!(pack(&plain), src);
@@ -110,3 +146,4 @@ mod tests {
         assert!(open(b"{\"a\": 1}").is_none());
     }
 }
+
