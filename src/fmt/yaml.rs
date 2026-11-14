@@ -10,12 +10,34 @@ struct YamlBackend {
     raw: Vec<u8>,
 }
 
+/// A JSON value as a YAML value. (Serialising the JSON value directly would write numbers kept
+/// at full precision as a `$serde_json::private::Number` mapping.)
+pub fn to_yaml(v: &Value) -> serde_yaml::Value {
+    use serde_yaml::Value as Y;
+    match v {
+        Value::Null => Y::Null,
+        Value::Bool(b) => Y::Bool(*b),
+        Value::Number(n) => {
+            if let Some(i) = n.as_i64() {
+                Y::Number(i.into())
+            } else if let Some(u) = n.as_u64() {
+                Y::Number(u.into())
+            } else {
+                Y::Number(serde_yaml::Number::from(n.as_f64().unwrap_or(0.0)))
+            }
+        }
+        Value::String(s) => Y::String(s.clone()),
+        Value::Array(a) => Y::Sequence(a.iter().map(to_yaml).collect()),
+        Value::Object(m) => Y::Mapping(m.iter().map(|(k, x)| (Y::String(k.clone()), to_yaml(x))).collect()),
+    }
+}
+
 impl Backend for YamlBackend {
     fn write(&self, view: &Value, changes: &[(usize, Value)]) -> Result<Vec<u8>, String> {
         if changes.is_empty() {
             return Ok(self.raw.clone());
         }
-        serde_yaml::to_string(view).map(String::into_bytes).map_err(|e| e.to_string())
+        serde_yaml::to_string(&to_yaml(view)).map(String::into_bytes).map_err(|e| e.to_string())
     }
 
     fn clone_box(&self) -> Box<dyn Backend> {

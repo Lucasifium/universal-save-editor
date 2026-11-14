@@ -3,7 +3,7 @@
 
 use super::{List, Max, Section, Shape, Spec, Table};
 
-pub static SPECS: &[Spec] = &[COTL, FALLOUT_SHELTER, DRG, S1_MONEY, S1_RANK, S1_TIME, S1_GAME, SOTF_STATE, SOTF_GAME, SOTF_WEATHER, SOTF_ITEMS, DMD, CUPHEAD, ANTIMATTER, PVZ, CELESTE, DRGS, KH3, RF4S, SKY1ST, KSP, FFPR, MCD, STONESHARD, ROGUE_TRADER, BIOSHOCK_INFINITE, SPACE_HAVEN, SNOWRUNNER, GRAVEYARD_KEEPER, NFSMW, TOS, GTA3, GTAVC, BITBURNER, TERRA_INVICTA, PRISON, FF13, SONIC_MANIA, CAVE_STORY_PLUS, CAVE_STORY, LIES_OF_P, TXR, DAVE, MSC, ULTRAKILL, RPGXP, RE5, ANNO1800, FTK, LEGO_TSS, LEGO_CLASSIC, MYZ, CMS21, MEDIEVAL_DYNASTY, MECHANICUS, ORI, OMORI, ENDER_LILIES, SW2, ES2, MOONLIGHTER, WASTELAND2, ATOM, MORTAL_SHELL, MORTAL_SHELL_2, COTW, BEAMNG, FOREST, YAKUZA3, YAKUZA4, YAKUZA5, ISHIN, SALT, DRAKENSANG, ALPHA, TYRANNY, JEDI_FO, SR3, SR4, WD2, FABLE, WANDERING_SWORD, STELLAR_BLADE, PRAGMATA, SLIME_RANCHER, SUBNAUTICA2, HZD, SLEEPING_DOGS, DXMD, ATOMIC_HEART, DISHONORED2, DEATHLOOP, AC_BROTHERHOOD, AC_REVELATIONS, AC3R, AC_LIBERATION, AC_BLACK_FLAG, AC_ROGUE, AC_UNITY, AC_SYNDICATE, AC_ORIGINS, AC_ODYSSEY, DISHONORED1, RDR1, RDR2, SM64, SUPER_METROID, LTTP, WORLDBOX, COREKEEPER, HOLOCURE, POTION_CRAFT, WWZ, ROBOQUEST, CMS18, LONGDRIVE, LONGDRIVE_PROP, XC3, MLDT, SMASH, MK7, SKC, UTY, DAGGERFALL_UNITY, DMC1, MEWGENICS, MORROWIND, OBLIVION, WOL, SOD_PROFILE, SOD_STATS, TRAVELLERS_REST, YOUTUBERS_LIFE, LUCK_LANDLORD, LUNA_NIGHTS, EVERSPACE1, STREETS_OF_ROGUE, DELTATRAVELER, PIZZA_TOWER, TEARDOWN, WOLCEN, BLASPHEMOUS, NOITA, LAST_EPOCH, GUNGEON, DISCO, CLICKER_HEROES, ISAAC, ROR2, STS2, HEROES3, MOO2];
+pub static SPECS: &[Spec] = &[OPENXCOM, XCOM_DOS, RCT2, COTL, FALLOUT_SHELTER, DRG, S1_MONEY, S1_RANK, S1_TIME, S1_GAME, SOTF_STATE, SOTF_GAME, SOTF_WEATHER, SOTF_ITEMS, DMD, CUPHEAD, ANTIMATTER, PVZ, CELESTE, DRGS, KH3, RF4S, SKY1ST, KSP, FFPR, MCD, STONESHARD, ROGUE_TRADER, BIOSHOCK_INFINITE, SPACE_HAVEN, SNOWRUNNER, GRAVEYARD_KEEPER, NFSMW, TOS, GTA3, GTAVC, BITBURNER, TERRA_INVICTA, PRISON, FF13, SONIC_MANIA, CAVE_STORY_PLUS, CAVE_STORY, LIES_OF_P, TXR, DAVE, MSC, ULTRAKILL, RPGXP, RE5, ANNO1800, FTK, LEGO_TSS, LEGO_CLASSIC, MYZ, CMS21, MEDIEVAL_DYNASTY, MECHANICUS, ORI, OMORI, ENDER_LILIES, SW2, ES2, MOONLIGHTER, WASTELAND2, ATOM, MORTAL_SHELL, MORTAL_SHELL_2, COTW, BEAMNG, FOREST, YAKUZA3, YAKUZA4, YAKUZA5, ISHIN, SALT, DRAKENSANG, ALPHA, TYRANNY, JEDI_FO, SR3, SR4, WD2, FABLE, WANDERING_SWORD, STELLAR_BLADE, PRAGMATA, SLIME_RANCHER, SUBNAUTICA2, HZD, SLEEPING_DOGS, DXMD, ATOMIC_HEART, DISHONORED2, DEATHLOOP, AC_BROTHERHOOD, AC_REVELATIONS, AC3R, AC_LIBERATION, AC_BLACK_FLAG, AC_ROGUE, AC_UNITY, AC_SYNDICATE, AC_ORIGINS, AC_ODYSSEY, DISHONORED1, RDR1, RDR2, SM64, SUPER_METROID, LTTP, WORLDBOX, COREKEEPER, HOLOCURE, POTION_CRAFT, WWZ, ROBOQUEST, CMS18, LONGDRIVE, LONGDRIVE_PROP, XC3, MLDT, SMASH, MK7, SKC, UTY, DAGGERFALL_UNITY, DMC1, MEWGENICS, MORROWIND, OBLIVION, WOL, SOD_PROFILE, SOD_STATS, TRAVELLERS_REST, YOUTUBERS_LIFE, LUCK_LANDLORD, LUNA_NIGHTS, EVERSPACE1, STREETS_OF_ROGUE, DELTATRAVELER, PIZZA_TOWER, TEARDOWN, WOLCEN, BLASPHEMOUS, NOITA, LAST_EPOCH, GUNGEON, DISCO, CLICKER_HEROES, ISAAC, ROR2, STS2, HEROES3, MOO2];
 // ------------------------------------------------------------------ Cult of the Lamb
 
 const COTL_ITEMS: &[(&str, &str)] = &[
@@ -5379,4 +5379,80 @@ const MOO2: Spec = Spec {
             names: &[],
         },
     ],
+};
+
+// ------------------------------------------------------------------ OpenXcom (X-COM: UFO Defense)
+
+const OPENXCOM: Spec = Spec {
+    name: "OpenXcom (X-COM: UFO Defense)",
+    tab: "Base",
+    accent: (96, 150, 110),
+    kind: Some(crate::fmt::openxcom::KIND),
+    markers: &["/funds/Current"],
+    subtitle: "An OpenXcom or OpenXcom Extended save (.sav in Documents\\OpenXcom\\<mod>), which also plays UFO Defense from the Steam and GOG releases. Funds, the date, the difficulty, every soldier's stats and the base stores.",
+    tiles: &[("Funds", "/funds/Current"), ("Months passed", "/monthsPassed")],
+    sections: &[Section {
+        title: "Game",
+        rows: &[
+            ("Funds", "/funds/Current"), ("Months passed", "/monthsPassed"), ("Days passed", "/daysPassed"),
+            ("Difficulty (0 beginner, 1 experienced, 2 veteran, 3 genius, 4 superhuman)", "/difficulty"),
+            ("Scientists in the first base", "/bases/0/scientists"), ("Engineers in the first base", "/bases/0/engineers"),
+            ("Scientists in the second base", "/bases/1/scientists"), ("Engineers in the second base", "/bases/1/engineers"),
+        ],
+    }],
+    lists: &[
+        List { title: "Stores of the first base", path: "/bases/0/items", shape: Shape::Map, names: &[], max: None },
+        List { title: "Stores of the second base", path: "/bases/1/items", shape: Shape::Map, names: &[], max: None },
+        List { title: "Stores of the third base", path: "/bases/2/items", shape: Shape::Map, names: &[], max: None },
+    ],
+    tables: &[Table {
+        title: "Soldiers (every base)",
+        path: "/Soldiers",
+        name: &["/name", "/base"],
+        cols: &[
+            ("Rank", "/rank"), ("Missions", "/missions"), ("Kills", "/kills"), ("Stuns", "/stuns"),
+            ("Time units", "/currentStats/tu"), ("Stamina", "/currentStats/stamina"), ("Health", "/currentStats/health"),
+            ("Bravery", "/currentStats/bravery"), ("Reactions", "/currentStats/reactions"), ("Firing", "/currentStats/firing"),
+            ("Throwing", "/currentStats/throwing"), ("Strength", "/currentStats/strength"), ("Psi strength", "/currentStats/psiStrength"),
+            ("Psi skill", "/currentStats/psiSkill"), ("Melee", "/currentStats/melee"),
+        ],
+        only: &[],
+        names: &[],
+    }],
+};
+
+// ------------------------------------------------------------------ X-COM (original DOS saves)
+
+const XCOM_DOS: Spec = Spec {
+    name: "X-COM: UFO Defense and Terror from the Deep (original saves)",
+    tab: "Funds",
+    accent: (96, 150, 110),
+    kind: Some(crate::fmt::xcomdat::KIND),
+    markers: &["/Funds/Money"],
+    subtitle: "LIGLOB.DAT from a save slot folder (GAME_1 to GAME_10) of the original game. The funds; the other .DAT files are not edited yet.",
+    tiles: &[("Funds", "/Funds/Money")],
+    sections: &[Section { title: "Funds", rows: &[("Funds", "/Funds/Money")] }],
+    lists: &[],
+    tables: &[],
+};
+
+// ------------------------------------------------------------------ RollerCoaster Tycoon 2
+
+const RCT2: Spec = Spec {
+    name: "RollerCoaster Tycoon 2",
+    tab: "Park",
+    accent: (214, 120, 50),
+    kind: Some(crate::fmt::sv6::KIND),
+    markers: &["/Park/Cash"],
+    subtitle: "A saved park (.SV6) from the game's Saved Games folder. Cash, loan, maximum loan and the entrance fee; the park's chunk is unpacked and packed again, with the file sum written right.",
+    tiles: &[("Cash", "/Park/Cash"), ("Bank loan", "/Park/Bank loan")],
+    sections: &[Section {
+        title: "Finances",
+        rows: &[
+            ("Cash", "/Park/Cash"), ("Bank loan", "/Park/Bank loan"), ("Maximum loan", "/Park/Maximum loan"),
+            ("Entrance fee (tenths of a unit)", "/Park/Entrance fee (tenths of a unit)"),
+        ],
+    }],
+    lists: &[],
+    tables: &[],
 };
