@@ -1504,6 +1504,65 @@ Armor
 Weapons
 = 武器
 
+# src/game_ui/simple/words.rs
+
+Slot {0}
+= 存档位 {0}
+
+File {0}
+= 存档 {0}
+
+Time Trials
+= 计时赛
+
+options
+= 选项
+
+cheats
+= 作弊
+
+medallions
+= 勋章
+
+basic moves
+= 基本动作
+
+advanced moves
+= 进阶动作
+
+songs
+= 歌曲
+
+general
+= 常规
+
+ammunition and upgrades
+= 弹药与升级
+
+items
+= 物品
+
+spiritual stones
+= 精灵石
+
+equipment
+= 装备
+
+miscellaneous
+= 其他
+
+collectibles
+= 收集品
+
+jiggies
+= 拼图块
+
+Unlocked stage
+= 已解锁的场景
+
+Unlocked fighters
+= 已解锁的角色
+
 Options
 = 选项
 
@@ -1560,6 +1619,111 @@ Character
 
 Obtained
 = 已获得
+
+Grand Prix cups
+= 大奖赛奖杯
+
+mission times (seconds; 0 = not done)
+= 任务用时（秒；0 = 未完成）
+
+dungeon items
+= 地牢物品
+
+times (hundredths of a second, 600000 = no record)
+= 用时（百分之一秒，600000 = 无记录）
+
+characters
+= 角色
+
+1P Game (Arcade)
+= 单人模式（街机）
+
+2P records
+= 双人记录
+
+1st place
+= 第1名
+
+2nd place
+= 第2名
+
+3rd place
+= 第3名
+
+4th place
+= 第4名
+
+5th place
+= 第5名
+
+Best lap
+= 最佳单圈
+
+Attack Total
+= 攻击总数
+
+Bonus
+= 奖励
+
+Boss key
+= BOSS钥匙
+
+Cleared Difficulty
+= 通关难度
+
+Compass
+= 指南针
+
+Count
+= 数量
+
+Damage Total
+= 伤害总数
+
+High Score
+= 最高分
+
+Map
+= 地图
+
+Time (1/60 s)
+= 用时（1/60秒）
+
+Time (seconds)
+= 用时（秒）
+
+Sound mode
+= 音效模式
+
+Music
+= 音乐
+
+Effects
+= 音效
+
+Control style
+= 操作方式
+
+Look up/down
+= 上下视角
+
+Screen
+= 屏幕
+
+Aim control
+= 瞄准控制
+
+Auto-aim
+= 自动瞄准
+
+Sight on-screen
+= 显示准星
+
+Look ahead
+= 前视
+
+Ammo on-screen
+= 显示弹药
 
 Progression
 = 进度
@@ -1875,3 +2039,70 @@ Close the emulator first. The level reached is the number of the level you can p
 
 Close the emulator first. A stock number is how many you own (99 at most; key items 0 or 1). The Final Mix only items (synthesis materials) are listed for every release but only matter in Final Mix.
 = 请先关闭模拟器。库存数字表示你拥有的数量（最多 99；关键物品为 0 或 1）。Final Mix 专属物品（合成材料）在所有版本中都会列出，但只在 Final Mix 中有效。
+
+Health
+= 生命值
+
+Magic
+= 魔力
+
+Rupees
+= 卢比
+
+Rupees max
+= 卢比上限
+
+Death Count
+= 死亡次数
+
+Age
+= 年龄
+
+Location
+= 位置
+
+Heart Pieces
+= 心之碎片
+
+Magic Level
+= 魔力等级
+
+Double Defense
+= 双倍防御
+
+Health (sixteenths of a heart)
+= 生命值（心的1/16）
+
+Max health (sixteenths of a heart)
+= 生命值上限（心的1/16）
+
+An emulator's .eep save. Grand Prix cups for each class, the Time Trial records (five places and a best lap, with the character) of all sixteen courses, and the sound mode.
+= 模拟器的 .eep 存档。各级别的大奖赛奖杯、全部十六条赛道的计时赛记录（前五名和最佳单圈，含角色）以及音效模式。
+
+An emulator's .eep save. Per player slot: the best time of all 20 missions on each difficulty, the cheats and the control options.
+= 模拟器的 .eep 存档。每个玩家存档位：20 个任务在各难度下的最佳用时、作弊和操作选项。
+
+An emulator's .eep save. Per save slot: jiggies, Mumbo tokens, health, eggs and feathers with their maximums, every move, and each world's jiggies. Plus the Stop 'n' Swop items.
+= 模拟器的 .eep 存档。每个存档位：拼图块、Mumbo 代币、生命值、蛋和羽毛（含上限）、所有动作以及各世界的拼图块，另有 Stop 'n' Swop 物品。
+
+An emulator's .sra, .srm or GameCube .gci save. Per file: health, magic, rupees, equipment, every item and its ammo, the songs, medallions and stones, and the dungeon maps, compasses and keys.
+= 模拟器的 .sra、.srm 或 GameCube .gci 存档。每个存档：生命、魔力、卢比、装备、所有物品及弹药、歌曲、勋章和宝石，以及地牢的地图、指南针和钥匙。
+
+An emulator's .sra or .srm save. The unlocked fighters and stages, the 1P records of every fighter, the 2P records and the options.
+= 模拟器的 .sra 或 .srm 存档。已解锁的角色和场景、每个角色的单人记录、双人记录以及选项。
+
+Close the emulator first. A time of 600000 (100 minutes) means no record. The first place and best lap of each course are copied to the game's best-records list.
+= 请先关闭模拟器。用时 600000（100 分钟）表示无记录。每条赛道的第一名和最佳单圈会同步到游戏的最佳记录列表。
+
+Close the emulator first. Times are in seconds; 0 means the mission is not done and 1023 means it was skipped.
+= 请先关闭模拟器。用时以秒为单位；0 表示任务未完成，1023 表示已跳过。
+
+Close the emulator first. Times are in seconds. The game keeps its own totals of jiggies and notes in the flags, so change the flags and the counts together.
+= 请先关闭模拟器。用时以秒为单位。游戏在标志中也保存拼图块和音符的总数，所以请同时修改标志和数量。
+
+Close the emulator first. Health is in sixteenths of a heart. Each edited file's sum is made again and its backup copy is updated.
+= 请先关闭模拟器。生命值以心的 1/16 为单位。每个被编辑存档的校验和会重新计算，其备份副本也会更新。
+
+Close the emulator first. Times are in 1/60 s (3600 is one minute).
+= 请先关闭模拟器。用时以 1/60 秒为单位（3600 为一分钟）。
+

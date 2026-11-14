@@ -1504,6 +1504,65 @@ Armor
 Weapons
 = Armes
 
+# src/game_ui/simple/words.rs
+
+Slot {0}
+= Emplacement {0}
+
+File {0}
+= Fichier {0}
+
+Time Trials
+= Contre-la-montre
+
+options
+= options
+
+cheats
+= astuces
+
+medallions
+= médaillons
+
+basic moves
+= mouvements de base
+
+advanced moves
+= mouvements avancés
+
+songs
+= chansons
+
+general
+= général
+
+ammunition and upgrades
+= munitions et améliorations
+
+items
+= objets
+
+spiritual stones
+= pierres spirituelles
+
+equipment
+= équipement
+
+miscellaneous
+= divers
+
+collectibles
+= objets à collectionner
+
+jiggies
+= jiggies
+
+Unlocked stage
+= Niveau débloqué
+
+Unlocked fighters
+= Combattants débloqués
+
 Options
 = Options
 
@@ -1560,6 +1619,111 @@ Character
 
 Obtained
 = Obtenu
+
+Grand Prix cups
+= Coupes du Grand Prix
+
+mission times (seconds; 0 = not done)
+= temps des missions (secondes ; 0 = non terminée)
+
+dungeon items
+= objets de donjon
+
+times (hundredths of a second, 600000 = no record)
+= temps (centièmes de seconde, 600000 = aucun record)
+
+characters
+= personnages
+
+1P Game (Arcade)
+= Mode 1 joueur (arcade)
+
+2P records
+= Records à 2 joueurs
+
+1st place
+= 1re place
+
+2nd place
+= 2e place
+
+3rd place
+= 3e place
+
+4th place
+= 4e place
+
+5th place
+= 5e place
+
+Best lap
+= Meilleur tour
+
+Attack Total
+= Total des attaques
+
+Bonus
+= Bonus
+
+Boss key
+= Clé du boss
+
+Cleared Difficulty
+= Difficulté terminée
+
+Compass
+= Boussole
+
+Count
+= Nombre
+
+Damage Total
+= Dégâts totaux
+
+High Score
+= Meilleur score
+
+Map
+= Carte
+
+Time (1/60 s)
+= Temps (1/60 s)
+
+Time (seconds)
+= Temps (secondes)
+
+Sound mode
+= Mode sonore
+
+Music
+= Musique
+
+Effects
+= Effets
+
+Control style
+= Style de contrôle
+
+Look up/down
+= Regarder en haut/bas
+
+Screen
+= Écran
+
+Aim control
+= Contrôle de visée
+
+Auto-aim
+= Visée automatique
+
+Sight on-screen
+= Viseur à l'écran
+
+Look ahead
+= Regard vers l'avant
+
+Ammo on-screen
+= Munitions à l'écran
 
 Progression
 = Progression
@@ -1875,3 +2039,70 @@ Close the emulator first. The level reached is the number of the level you can p
 
 Close the emulator first. A stock number is how many you own (99 at most; key items 0 or 1). The Final Mix only items (synthesis materials) are listed for every release but only matter in Final Mix.
 = Fermez d'abord l'émulateur. Un nombre de stock indique combien vous en possédez (99 au maximum ; objets clés 0 ou 1). Les objets exclusifs à Final Mix (matériaux de synthèse) sont listés pour toutes les versions mais ne comptent que dans Final Mix.
+
+Health
+= Santé
+
+Magic
+= Magie
+
+Rupees
+= Rubis
+
+Rupees max
+= Rubis max.
+
+Death Count
+= Nombre de morts
+
+Age
+= Âge
+
+Location
+= Lieu
+
+Heart Pieces
+= Quarts de cœur
+
+Magic Level
+= Niveau de magie
+
+Double Defense
+= Défense double
+
+Health (sixteenths of a heart)
+= Santé (seizièmes de cœur)
+
+Max health (sixteenths of a heart)
+= Santé max. (seizièmes de cœur)
+
+An emulator's .eep save. Grand Prix cups for each class, the Time Trial records (five places and a best lap, with the character) of all sixteen courses, and the sound mode.
+= Une sauvegarde .eep d'émulateur. Les coupes du Grand Prix de chaque classe, les records du contre-la-montre (cinq places et meilleur tour, avec le personnage) des seize circuits et le mode sonore.
+
+An emulator's .eep save. Per player slot: the best time of all 20 missions on each difficulty, the cheats and the control options.
+= Une sauvegarde .eep d'émulateur. Par emplacement de joueur : le meilleur temps des 20 missions à chaque difficulté, les astuces et les options de contrôle.
+
+An emulator's .eep save. Per save slot: jiggies, Mumbo tokens, health, eggs and feathers with their maximums, every move, and each world's jiggies. Plus the Stop 'n' Swop items.
+= Une sauvegarde .eep d'émulateur. Par emplacement : jiggies, jetons de Mumbo, santé, œufs et plumes avec leurs maximums, tous les mouvements et les jiggies de chaque monde. Plus les objets Stop 'n' Swop.
+
+An emulator's .sra, .srm or GameCube .gci save. Per file: health, magic, rupees, equipment, every item and its ammo, the songs, medallions and stones, and the dungeon maps, compasses and keys.
+= Une sauvegarde .sra, .srm d'émulateur ou .gci GameCube. Par fichier : santé, magie, rubis, équipement, chaque objet avec ses munitions, les chansons, médaillons et pierres, et les cartes, boussoles et clés des donjons.
+
+An emulator's .sra or .srm save. The unlocked fighters and stages, the 1P records of every fighter, the 2P records and the options.
+= Une sauvegarde .sra ou .srm d'émulateur. Les combattants et niveaux débloqués, les records solo de chaque combattant, les records à deux et les options.
+
+Close the emulator first. A time of 600000 (100 minutes) means no record. The first place and best lap of each course are copied to the game's best-records list.
+= Fermez d'abord l'émulateur. Un temps de 600000 (100 minutes) signifie aucun record. La première place et le meilleur tour de chaque circuit sont copiés dans la liste des meilleurs records du jeu.
+
+Close the emulator first. Times are in seconds; 0 means the mission is not done and 1023 means it was skipped.
+= Fermez d'abord l'émulateur. Les temps sont en secondes ; 0 signifie que la mission n'est pas terminée et 1023 qu'elle a été sautée.
+
+Close the emulator first. Times are in seconds. The game keeps its own totals of jiggies and notes in the flags, so change the flags and the counts together.
+= Fermez d'abord l'émulateur. Les temps sont en secondes. Le jeu garde ses totaux de jiggies et de notes dans les indicateurs ; modifiez donc indicateurs et compteurs ensemble.
+
+Close the emulator first. Health is in sixteenths of a heart. Each edited file's sum is made again and its backup copy is updated.
+= Fermez d'abord l'émulateur. La santé est en seizièmes de cœur. La somme de chaque fichier modifié est recalculée et sa copie de secours est mise à jour.
+
+Close the emulator first. Times are in 1/60 s (3600 is one minute).
+= Fermez d'abord l'émulateur. Les temps sont en 1/60 s (3600 vaut une minute).
+

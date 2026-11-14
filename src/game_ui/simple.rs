@@ -4,7 +4,7 @@
 //!
 //! Values are found by pointer and simply left out when a save doesn't have them.
 
-use crate::i18n::tr;
+use crate::i18n::{tr, tr_any};
 use crate::widgets::ScrollLock;
 use super::{columns, hero, panel, GameCtx};
 use eframe::egui::{self, Color32, Ui};
@@ -12,6 +12,7 @@ use serde_json::Value;
 
 mod ps_specs;
 mod specs;
+mod words;
 pub use specs::SPECS;
 
 /// A panel of labelled values: `(label, pointer)`.
@@ -271,14 +272,39 @@ fn filter(ui: &mut Ui, id: &str) -> String {
     q.to_lowercase()
 }
 
+/// A title, heading or label of a table-driven screen in the language in use. Titles such as
+/// "Slot 2: options" or "Spiral Mountain jiggies" are put together from translated parts; names
+/// of games, items and moves stay as they are.
+fn tr_text(s: &str) -> String {
+    let t = tr_any(s);
+    if t != s {
+        return t.to_string();
+    }
+    if let Some((head, rest)) = s.split_once(": ") {
+        return format!("{}: {}", tr_text(head), tr_text(rest));
+    }
+    for key in ["Slot", "File"] {
+        if let Some(n) = s.strip_prefix(key).and_then(|r| r.strip_prefix(' ')) {
+            if !n.is_empty() && n.chars().all(|c| c.is_ascii_digit()) {
+                let pat = if key == "Slot" { "Slot {0}" } else { "File {0}" };
+                return tr_any(pat).replace("{0}", n);
+            }
+        }
+    }
+    if let Some(name) = s.strip_suffix(" jiggies") {
+        return format!("{name} {}", tr_any("jiggies"));
+    }
+    s.to_string()
+}
+
 pub fn show(i: u16, ui: &mut Ui, cx: &mut GameCtx) {
     let s = &SPECS[i as usize];
     let accent = Color32::from_rgb(s.accent.0, s.accent.1, s.accent.2);
     let tiles: Vec<(&str, String)> = s.tiles.iter().map(|(c, p)| (*c, resolve(cx.root, p))).collect();
-    hero(ui, accent, s.name, crate::i18n::tr_any(s.subtitle), |ui| {
+    hero(ui, accent, s.name, &tr_text(s.subtitle), |ui| {
         for (cap, p) in &tiles {
             if cx.get(p).is_some() {
-                cx.tile(ui, crate::i18n::tr_any(cap), p, accent);
+                cx.tile(ui, &tr_text(cap), p, accent);
             }
         }
     });
@@ -287,10 +313,10 @@ pub fn show(i: u16, ui: &mut Ui, cx: &mut GameCtx) {
         s.sections.iter().map(|sec| (sec, rows_of(sec))).filter(|(_, rows)| rows.iter().any(|(_, p)| cx.get(p).is_some())).collect();
     columns(ui, 360.0, visible.len(), |ui, k| {
         let (sec, rows) = &visible[k];
-        panel(ui, crate::i18n::tr_any(sec.title), |ui| {
+        panel(ui, &tr_text(sec.title), |ui| {
             egui::Grid::new(("simple_grid", i, k)).num_columns(2).spacing([14.0, 5.0]).show(ui, |ui| {
                 for (label, p) in rows {
-                    cx.grid_row(ui, crate::i18n::tr_any(label), p, 110.0);
+                    cx.grid_row(ui, &tr_text(label), p, 110.0);
                 }
             });
         });
@@ -311,13 +337,13 @@ pub fn show(i: u16, ui: &mut Ui, cx: &mut GameCtx) {
         if n == 0 {
             continue;
         }
-        panel(ui, &format!("{} ({n})", crate::i18n::tr_any(t.title)), |ui| {
+        panel(ui, &format!("{} ({n})", tr_text(t.title)), |ui| {
             let q = filter(ui, &format!("t{i}/{ti}"));
             egui::ScrollArea::horizontal().id_salt(("simple_table_scroll", i, ti)).show_locked(ui, |ui| {
                 egui::Grid::new(("simple_table", i, ti)).num_columns(t.cols.len() + 1).spacing([8.0, 4.0]).striped(true).show(ui, |ui| {
                     ui.label("");
                     for (h, _) in t.cols {
-                        ui.label(egui::RichText::new(crate::i18n::tr_any(h)).strong());
+                        ui.label(egui::RichText::new(tr_text(h)).strong());
                     }
                     ui.end_row();
                     for (r, (key, key_name)) in rows.iter().enumerate() {

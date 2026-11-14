@@ -1504,6 +1504,65 @@ Armor
 Weapons
 = 武器
 
+# src/game_ui/simple/words.rs
+
+Slot {0}
+= スロット {0}
+
+File {0}
+= ファイル {0}
+
+Time Trials
+= タイムアタック
+
+options
+= オプション
+
+cheats
+= チート
+
+medallions
+= メダル
+
+basic moves
+= 基本アクション
+
+advanced moves
+= 上級アクション
+
+songs
+= 曲
+
+general
+= 全般
+
+ammunition and upgrades
+= 弾薬と拡張
+
+items
+= アイテム
+
+spiritual stones
+= 精霊石
+
+equipment
+= 装備
+
+miscellaneous
+= その他
+
+collectibles
+= 収集アイテム
+
+jiggies
+= ジグソー
+
+Unlocked stage
+= 解放済みステージ
+
+Unlocked fighters
+= 解放済みファイター
+
 Options
 = オプション
 
@@ -1515,6 +1574,114 @@ Quantity
 
 Status
 = ステータス
+
+Grand Prix cups
+= グランプリのカップ
+
+mission times (seconds; 0 = not done)
+= ミッションのタイム（秒、0 = 未クリア）
+
+dungeon items
+= ダンジョンのアイテム
+
+times (hundredths of a second, 600000 = no record)
+= タイム（1/100秒、600000 = 記録なし）
+
+characters
+= キャラクター
+
+1P Game (Arcade)
+= 1Pゲーム（アーケード）
+
+2P records
+= 2Pの記録
+
+1st place
+= 1位
+
+2nd place
+= 2位
+
+3rd place
+= 3位
+
+4th place
+= 4位
+
+5th place
+= 5位
+
+Best lap
+= ベストラップ
+
+Attack Total
+= 総攻撃数
+
+Bonus
+= ボーナス
+
+Boss key
+= ボスキー
+
+Cleared Difficulty
+= クリア難易度
+
+Compass
+= コンパス
+
+Count
+= 数
+
+Damage Total
+= 総ダメージ
+
+High Score
+= ハイスコア
+
+Map
+= マップ
+
+Time (1/60 s)
+= タイム（1/60秒）
+
+Time (seconds)
+= タイム（秒）
+
+Sound mode
+= サウンドモード
+
+Music
+= 音楽
+
+Effects
+= 効果音
+
+Control style
+= 操作タイプ
+
+Look up/down
+= 上下視点
+
+Screen
+= 画面
+
+Aim control
+= 照準操作
+
+Auto-aim
+= オートエイム
+
+Sight on-screen
+= 照準表示
+
+Look ahead
+= 前方視点
+
+Ammo on-screen
+= 弾薬表示
+
+Progression
+= 進行状況
 
 Health
 = 体力
@@ -1875,3 +2042,67 @@ Close the emulator first. The level reached is the number of the level you can p
 
 Close the emulator first. A stock number is how many you own (99 at most; key items 0 or 1). The Final Mix only items (synthesis materials) are listed for every release but only matter in Final Mix.
 = 先にエミュレーターを閉じてください。在庫の数値は所持数です（最大99、大事なものは0か1）。ファイナルミックス専用アイテム（合成素材）はどの版でも一覧に表示されますが、意味を持つのはファイナルミックスのみです。
+
+Magic
+= 魔法
+
+Rupees
+= ルピー
+
+Rupees max
+= ルピー上限
+
+Death Count
+= 死亡回数
+
+Age
+= 年齢
+
+Location
+= 場所
+
+Heart Pieces
+= ハートのかけら
+
+Magic Level
+= 魔法のレベル
+
+Double Defense
+= ダブル防御
+
+Health (sixteenths of a heart)
+= 体力（ハートの1/16）
+
+Max health (sixteenths of a heart)
+= 体力上限（ハートの1/16）
+
+An emulator's .eep save. Grand Prix cups for each class, the Time Trial records (five places and a best lap, with the character) of all sixteen courses, and the sound mode.
+= エミュレーターの.eepセーブ。各クラスのグランプリカップ、全16コースのタイムアタック記録（5位までとベストラップ、キャラクター付き）、サウンドモード。
+
+An emulator's .eep save. Per player slot: the best time of all 20 missions on each difficulty, the cheats and the control options.
+= エミュレーターの.eepセーブ。プレイヤースロットごとに、全20ミッションの難易度別ベストタイム、チート、操作オプション。
+
+An emulator's .eep save. Per save slot: jiggies, Mumbo tokens, health, eggs and feathers with their maximums, every move, and each world's jiggies. Plus the Stop 'n' Swop items.
+= エミュレーターの.eepセーブ。スロットごとに、ジグソー、マンボトークン、体力、卵と羽根（上限付き）、全アクション、各ワールドのジグソー。ストップンスワップのアイテムも。
+
+An emulator's .sra, .srm or GameCube .gci save. Per file: health, magic, rupees, equipment, every item and its ammo, the songs, medallions and stones, and the dungeon maps, compasses and keys.
+= エミュレーターの.sra/.srm、またはGameCubeの.gciセーブ。ファイルごとに、体力、魔法、ルピー、装備、全アイテムと弾数、曲、メダル、石、ダンジョンの地図・コンパス・鍵。
+
+An emulator's .sra or .srm save. The unlocked fighters and stages, the 1P records of every fighter, the 2P records and the options.
+= エミュレーターの.sra/.srmセーブ。解放済みのファイターとステージ、各ファイターの1P記録、2P記録、オプション。
+
+Close the emulator first. A time of 600000 (100 minutes) means no record. The first place and best lap of each course are copied to the game's best-records list.
+= 先にエミュレーターを閉じてください。タイム600000（100分）は記録なしを意味します。各コースの1位とベストラップはゲームの最高記録リストにもコピーされます。
+
+Close the emulator first. Times are in seconds; 0 means the mission is not done and 1023 means it was skipped.
+= 先にエミュレーターを閉じてください。タイムは秒単位です。0はミッション未クリア、1023はスキップを意味します。
+
+Close the emulator first. Times are in seconds. The game keeps its own totals of jiggies and notes in the flags, so change the flags and the counts together.
+= 先にエミュレーターを閉じてください。タイムは秒単位です。ジグソーや音符の合計はフラグにも保持されるため、フラグと数を一緒に変更してください。
+
+Close the emulator first. Health is in sixteenths of a heart. Each edited file's sum is made again and its backup copy is updated.
+= 先にエミュレーターを閉じてください。体力はハートの1/16単位です。編集した各ファイルのチェックサムは再計算され、バックアップのコピーも更新されます。
+
+Close the emulator first. Times are in 1/60 s (3600 is one minute).
+= 先にエミュレーターを閉じてください。タイムは1/60秒単位です（3600が1分）。
+
