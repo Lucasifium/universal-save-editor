@@ -179,6 +179,13 @@ Universal Save Editor is free. It builds on other people's work, listed here wit
 | [CEParser (field ids for the Europa Universalis IV, Hearts of Iron IV and Crusader Kings II values the game screens show)](https://github.com/wbudz/CEParser) | Witold Budziszewski | MIT |
 | [Kingdom Save Editor (Final Fantasy VII Remake item names, inventory layout)](https://github.com/Xeeynamo/KingdomSaveEditor) | Luciano Ciccariello and contributors | GPL-3.0-or-later |
 | [FF7 Rebirth Save Editor (Final Fantasy VII Rebirth item IDs, names and inventory types; facts only, no code)](https://ff-7-rebirth-save-editor.vercel.app/) | its author | facts only (file layouts, ids and names), credited |
+| [WorldBox-Ideal-Generator (WorldBox map.wbox save layout)](https://github.com/underplayer673/WorldBox-Ideal-Generator) | Maxim (UnderPlayer.) | MIT |
+| [core-keeper-save-editor (Core Keeper character save layout)](https://github.com/halilbahar/core-keeper-save-editor) | halilbahar | GPL-3.0 |
+| [HoloCureSaveEditor (HoloCure save_n.dat format)](https://github.com/nnotwen/HoloCureSaveEditor) | nnotwen | MIT |
+| [PotionCraft_save_decoder (Potion Craft .pcsave encoding and key)](https://github.com/Varisox137/PotionCraft_save_decoder) | Varisox137 | MIT |
+| [World-War-Z-Save-Editor (World War Z profile file key)](https://github.com/Chase-Simmons/World-War-Z-Save-Editor) | Chase-Simmons | MIT |
+| [RoboQuest-save-editor (Roboquest RQProfile.sav layout)](https://github.com/tunip3/RoboQuest-save-editor) | tunip3 | Apache-2.0 |
+| [total-war-save-parser, EsfLib and RPFM (Total War ESF layout)](https://github.com/Frodo45127/rpfm) | Frodo45127 | MIT |
 
 Copyright notices of the projects above whose code or tables were used:
 

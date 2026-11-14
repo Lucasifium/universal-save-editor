@@ -3,7 +3,7 @@
 
 use super::{List, Max, Section, Shape, Spec, Table};
 
-pub static SPECS: &[Spec] = &[COTL, FALLOUT_SHELTER, DRG, S1_MONEY, S1_RANK, S1_TIME, S1_GAME, SOTF_STATE, SOTF_GAME, SOTF_WEATHER, SOTF_ITEMS, DMD, CUPHEAD, ANTIMATTER, PVZ, CELESTE, DRGS, KH3, RF4S, SKY1ST, KSP, FFPR, MCD, STONESHARD, ROGUE_TRADER, BIOSHOCK_INFINITE, SPACE_HAVEN, SNOWRUNNER, GRAVEYARD_KEEPER, NFSMW, TOS, GTA3, GTAVC, BITBURNER, TERRA_INVICTA, PRISON, FF13, SONIC_MANIA, CAVE_STORY_PLUS, CAVE_STORY, LIES_OF_P, TXR, DAVE, MSC, ULTRAKILL, RPGXP, RE5, ANNO1800, FTK, LEGO_TSS, LEGO_CLASSIC, MYZ, CMS21, MEDIEVAL_DYNASTY, MECHANICUS, ORI, OMORI, ENDER_LILIES, SW2, ES2, MOONLIGHTER, WASTELAND2, ATOM, MORTAL_SHELL, MORTAL_SHELL_2, COTW, BEAMNG, FOREST, YAKUZA3, YAKUZA4, YAKUZA5, ISHIN, SALT, DRAKENSANG, ALPHA, TYRANNY, JEDI_FO, SR3, SR4, WD2, FABLE, WANDERING_SWORD, STELLAR_BLADE, PRAGMATA, SLIME_RANCHER, SUBNAUTICA2, HZD, SLEEPING_DOGS, DXMD, ATOMIC_HEART, DISHONORED2, DEATHLOOP, DISHONORED1, RDR1, RDR2, SM64, SUPER_METROID, LTTP];
+pub static SPECS: &[Spec] = &[COTL, FALLOUT_SHELTER, DRG, S1_MONEY, S1_RANK, S1_TIME, S1_GAME, SOTF_STATE, SOTF_GAME, SOTF_WEATHER, SOTF_ITEMS, DMD, CUPHEAD, ANTIMATTER, PVZ, CELESTE, DRGS, KH3, RF4S, SKY1ST, KSP, FFPR, MCD, STONESHARD, ROGUE_TRADER, BIOSHOCK_INFINITE, SPACE_HAVEN, SNOWRUNNER, GRAVEYARD_KEEPER, NFSMW, TOS, GTA3, GTAVC, BITBURNER, TERRA_INVICTA, PRISON, FF13, SONIC_MANIA, CAVE_STORY_PLUS, CAVE_STORY, LIES_OF_P, TXR, DAVE, MSC, ULTRAKILL, RPGXP, RE5, ANNO1800, FTK, LEGO_TSS, LEGO_CLASSIC, MYZ, CMS21, MEDIEVAL_DYNASTY, MECHANICUS, ORI, OMORI, ENDER_LILIES, SW2, ES2, MOONLIGHTER, WASTELAND2, ATOM, MORTAL_SHELL, MORTAL_SHELL_2, COTW, BEAMNG, FOREST, YAKUZA3, YAKUZA4, YAKUZA5, ISHIN, SALT, DRAKENSANG, ALPHA, TYRANNY, JEDI_FO, SR3, SR4, WD2, FABLE, WANDERING_SWORD, STELLAR_BLADE, PRAGMATA, SLIME_RANCHER, SUBNAUTICA2, HZD, SLEEPING_DOGS, DXMD, ATOMIC_HEART, DISHONORED2, DEATHLOOP, DISHONORED1, RDR1, RDR2, SM64, SUPER_METROID, LTTP, WORLDBOX, COREKEEPER, HOLOCURE, POTION_CRAFT, WWZ, ROBOQUEST, CMS18, LONGDRIVE, LONGDRIVE_PROP];
 
 // ------------------------------------------------------------------ Cult of the Lamb
 
@@ -3768,6 +3768,209 @@ const LTTP: Spec = Spec {
         ("Half magic use", "/Slot 3/Items/Half magic use"),
     ] },
     ],
+    lists: &[],
+    tables: &[],
+};
+
+// ------------------------------------------------------------------ WorldBox
+
+const WORLDBOX: Spec = Spec {
+    name: "WorldBox - God Simulator",
+    tab: "World",
+    accent: (92, 168, 96),
+    kind: None,
+    markers: &["/mapStats/id_unit", "/actors_data"],
+    subtitle: "A map.wbox from AppData\\LocalLow\\mkarpenko\\WorldBox\\saves\\saveN (zlib-compressed JSON, unpacked and packed again). Every unit's level, experience, health, hunger and ruler stats, and the first village's stored resources.",
+    tiles: &[("Population", "/mapStats/population"), ("Deaths", "/mapStats/deaths")],
+    sections: &[],
+    lists: &[List {
+        title: "First village: stored resources",
+        path: "/cities/0/storage/savedResources",
+        shape: Shape::Array { id_key: "id", qty_keys: &["amount"] },
+        names: &[],
+        max: None,
+    }],
+    tables: &[Table {
+        title: "Units",
+        path: "/actors_data",
+        name: &["/name"],
+        only: &[],
+        cols: &[
+            ("Level", "/level"), ("Experience", "/experience"), ("Health", "/health"), ("Hunger", "/hunger"), ("Diplomacy", "/diplomacy"),
+            ("Intelligence", "/intelligence"), ("Stewardship", "/stewardship"), ("Warfare", "/warfare"), ("Age", "/age_overgrowth"), ("Children", "/children"),
+        ],
+        names: &[],
+    }],
+};
+
+// ------------------------------------------------------------------ Core Keeper
+
+const CK_SKILLS: &[(&str, &str)] = &[("0", "Mining"), ("1", "Running"), ("2", "Melee"), ("3", "Vitality"), ("4", "Crafting"), ("5", "Range"), ("6", "Gardening"), ("7", "Fishing"), ("8", "Cooking"), ("9", "Magic"), ("10", "Summoning")];
+
+const CK_ITEMS: &[(&str, &str)] = &[("37", "Galaxite Mining Pick"), ("38", "Galaxite Shovel"), ("52", "Iron Fishing Rod"), ("55", "Galaxite Fishing Rod"), ("65", "Galaxite Sledge"), ("110", "Torch"), ("210", "Locked Copper Chest"), ("212", "Copper Key"), ("300", "Wall Dirt Block"), ("327", "Wall Limestone Block"), ("1246", "Pet Prince Slime Blob"), ("1500", "Copper Ore"), ("1522", "Octarine Ore"), ("1610", "Wood"), ("1640", "Fiber"), ("1648", "Scrap Part"), ("3510", "Jelly Fish"), ("5041", "Rusty Spoon"), ("5042", "Green Kelp"), ("5044", "Amber Fish Egg"), ("6581", "Speeder Boat"), ("7900", "Milk"), ("8301", "Orb Lantern"), ("8322", "Octarine Shield"), ("8340", "Swift Feather"), ("8341", "Azeos Swift Feather"), ("8384", "Bait Octopus Boss"), ("8404", "Octarine Backpack"), ("8504", "Iron Helm"), ("8514", "Octarine Helm"), ("8523", "Galaxite Helm"), ("8614", "Octarine Breast Armor"), ("8623", "Galaxite Breast Armor"), ("8652", "Alien Tech Breast Armor"), ("8704", "Iron Pants Armor"), ("8708", "Octarine Pants Armor"), ("8717", "Galaxite Pants Armor"), ("8727", "Tamer Pants Armor"), ("8808", "Remedaisy Necklace"), ("8839", "Fang Necklace"), ("8850", "Clot Ring"), ("8855", "Ring Of Rock"), ("8859", "Sky Ring"), ("8861", "Petal Ring"), ("8862", "Mold Ring"), ("8907", "Slippery Slime Sword"), ("8908", "Galaxite Sword"), ("9002", "Small Bomb"), ("9112", "Blowpipe"), ("9114", "Octarine Bow"), ("9119", "Bubble Gun"), ("9400", "Healing Potion"), ("9404", "Greater Healing Potion"), ("9500", "Cooked Soup"), ("9502", "Cooked Salad"), ("9503", "Cooked Wrap"), ("9504", "Cooked Steak"), ("9509", "Cooked Fillet"), ("9513", "Cooked Pan Curry")];
+
+const COREKEEPER: Spec = Spec {
+    name: "Core Keeper",
+    tab: "Character",
+    accent: (200, 140, 70),
+    kind: None,
+    markers: &["/characterGuid", "/skills", "/inventory"],
+    subtitle: "A character .json from AppData\\LocalLow\\Pugstorm\\Core Keeper\\Steam\\<id>\\saves. Skill experience, coins, health and inventory counts. Close the game before editing.",
+    tiles: &[("Ancient coins", "/coinAmount"), ("Max health", "/maxHealth")],
+    sections: &[],
+    lists: &[
+        List { title: "Skill experience", path: "/skills", shape: Shape::Array { id_key: "skillID", qty_keys: &["value"] }, names: CK_SKILLS, max: None },
+        List { title: "Inventory", path: "/inventory", shape: Shape::Array { id_key: "objectID", qty_keys: &["amount"] }, names: CK_ITEMS, max: None },
+    ],
+    tables: &[],
+};
+
+// ------------------------------------------------------------------ HoloCure
+
+const HOLOCURE: Spec = Spec {
+    name: "HoloCure - Save the Fans!",
+    tab: "Fans",
+    accent: (110, 190, 235),
+    kind: None,
+    markers: &["/holoCoins", "/unlockedWeapons", "/ATK"],
+    subtitle: "A save_n.dat from %LOCALAPPDATA%\\HoloCure (base64 JSON, unpacked and packed again). HoloCoins and the level of each upgrade.",
+    tiles: &[("HoloCoins", "/holoCoins")],
+    sections: &[Section {
+        title: "Upgrades (levels)",
+        rows: &[
+            ("ATK", "/ATK"), ("HP", "/HP"), ("SPD", "/SPD"), ("Crit", "/crit"), ("Pickup range", "/pickupRange"), ("Haste", "/haste"),
+            ("Damage resistance", "/DR"), ("Regen", "/regen"), ("Special cooldown", "/specCDR"), ("Enhance", "/enhanceUp"), ("EXP", "/EXP"),
+            ("Money gain", "/moneyGain"), ("Rerolls", "/reroll"), ("Refund", "/refund"), ("Eliminate", "/eliminate"), ("Skill damage", "/skillDamage"),
+            ("Food", "/food"), ("Growth", "/growth"), ("Item limit", "/itemLimit"), ("Weapon limit", "/weaponLimit"), ("Fandom", "/fandom"), ("Stamps", "/stamps"),
+        ],
+    }],
+    lists: &[],
+    tables: &[],
+};
+
+// ------------------------------------------------------------------ Potion Craft
+
+const POTION_CRAFT: Spec = Spec {
+    name: "Potion Craft: Alchemist Simulator",
+    tab: "Alchemist",
+    accent: (150, 110, 200),
+    kind: None,
+    markers: &["/1/gold", "/1/playerInventory"],
+    subtitle: "A .pcsave from AppData\\LocalLow\\niceplay games\\Potion Craft\\SavesSteam (shown as two parts: the save's name and day, then the game state). Close the game before editing.",
+    tiles: &[("Gold", "/1/gold"), ("Popularity", "/1/popularity"), ("Karma", "/1/karma"), ("Level", "/1/experience/currentLvl")],
+    sections: &[Section {
+        title: "Alchemist",
+        rows: &[("Gold", "/1/gold"), ("Popularity", "/1/popularity"), ("Karma", "/1/karma"), ("Experience", "/1/experience/currentExp"), ("Level", "/1/experience/currentLvl"), ("Day", "/1/day")],
+    }],
+    lists: &[List {
+        title: "Inventory",
+        path: "/1/playerInventory",
+        shape: Shape::Array { id_key: "name", qty_keys: &["count"] },
+        names: &[],
+        max: Some(Max {
+            ids: &["Waterbloom", "Leaf", "GreenMushroom", "Windbloom", "GoblinMushroom", "IceDragonfruit", "GreyChanterelle", "Wierdshroom", "RedMushroom", "Firebell", "Marshrooms", "FrostSapphire", "DryadMushroom", "WitchMushroom", "LavaRoot", "Thornstick", "Goldthorn", "BloodyRoot", "CliffFungus", "GraveTruffle", "Thistle", "Refruit", "SulphurShelf", "EarthCrystal", "BloodRuby", "FireCitrine", "Crystal", "LumpyBeet", "Tangleweeds"],
+            cap: 999,
+            caps: &[],
+            estimate: true,
+            about: "Raises the plant, mushroom and crystal ingredients you already have to 999. Potions and the alchemy machine's products are left alone. The game states no stack limit, so 999 is an estimate.",
+        }),
+    }],
+    tables: &[],
+};
+
+// ------------------------------------------------------------------ World War Z
+
+const WWZ: Spec = Spec {
+    name: "World War Z (and Aftermath)",
+    tab: "Survivor",
+    accent: (200, 80, 60),
+    kind: None,
+    markers: &["/UserProgression/Shared/sharedProgressionJson/currency"],
+    subtitle: "user_progression.dat from %LOCALAPPDATA%\\Saber\\WWZ\\client\\storage\\slots (unpacked with the key derived from the file name, and packed again).",
+    tiles: &[
+        ("Currency", "/UserProgression/Shared/sharedProgressionJson/currency"),
+        ("Coins", "/UserProgression/Shared/sharedProgressionJson/coins"),
+        ("Level", "/UserProgression/Shared/sharedProgressionJson/level"),
+    ],
+    sections: &[],
+    lists: &[],
+    tables: &[Table {
+        title: "Class perks",
+        path: "/UserProgression/PVE/perksProgressionJson/data",
+        name: &[],
+        only: &[],
+        cols: &[("Level", "/level"), ("Experience", "/experience"), ("Prestige", "/prestige")],
+        names: &[],
+    }],
+};
+
+// ------------------------------------------------------------------ Roboquest
+
+const ROBOQUEST: Spec = Spec {
+    name: "Roboquest",
+    tab: "Robot",
+    accent: (240, 170, 40),
+    kind: Some("Unreal Engine save (BP_SaveGame_Profile_C)"),
+    markers: &["/WrenchAmount", "/PlayerClass"],
+    subtitle: "RQProfile.sav from %LOCALAPPDATA%\\RoboQuest\\Saved\\SaveGames. Wrenches, difficulty, class and statistics.",
+    tiles: &[("Wrenches", "/WrenchAmount"), ("Wrenches spent", "/ConsumedWrenches"), ("Player level", "/Saved_PlayerData/PlayerLevel")],
+    sections: &[
+        Section { title: "Profile", rows: &[("Wrenches", "/WrenchAmount"), ("Wrenches spent", "/ConsumedWrenches"), ("Class", "/PlayerClass"), ("Difficulty", "/Difficulty"), ("Secret ruins found", "/SecretRuins")] },
+        Section {
+            title: "Statistics",
+            rows: &[
+                ("Enemies destroyed", "/Stats/NB_ENEMY_DESTROY"), ("Bosses taken down", "/Stats/NB_BOSS_TAKEDOWN"), ("Damage dealt", "/Stats/NB_DAMAGE_DEALT"),
+                ("Power cells gathered", "/Stats/NB_POWERCELL_GATHER"), ("Wrenches gathered", "/Stats/NB_WRENCH_GATHER"), ("Gadgets unlocked", "/Stats/NB_GADGET_UNLOCK"),
+            ],
+        },
+    ],
+    lists: &[],
+    tables: &[],
+};
+
+
+
+// ------------------------------------------------------------------ Car Mechanic Simulator 2018
+
+const CMS18: Spec = Spec {
+    name: "Car Mechanic Simulator 2018",
+    tab: "Mechanic",
+    accent: (230, 120, 40),
+    kind: Some(".NET BinaryFormatter (GlobalDataWrapper)"),
+    markers: &["/playerMoney", "/PlayerLevel"],
+    subtitle: "GlobalData.dat from a profile folder (profile0 …) of the game's Saves folder. Money, level and experience.",
+    tiles: &[("Money", "/playerMoney"), ("Level", "/PlayerLevel"), ("Experience", "/playerExp")],
+    sections: &[Section { title: "Profile", rows: &[("Money", "/playerMoney"), ("Level", "/PlayerLevel"), ("Experience", "/playerExp"), ("Missions finished", "/MissionsFinished"), ("Sheds available", "/ShedsAvailable")] }],
+    lists: &[],
+    tables: &[],
+};
+
+// ------------------------------------------------------------------ The Long Drive
+
+const LONGDRIVE: Spec = Spec {
+    name: "The Long Drive",
+    tab: "Driver",
+    accent: (230, 170, 60),
+    kind: Some(".NET BinaryFormatter (savedata)"),
+    markers: &["/player/hp", "/player/food", "/time"],
+    subtitle: "TLDsaveData.tlds from a save folder of the game. The driver's vitals and the world time; the distance driven is in TLDsaveProp.tldsp (the same folder).",
+    tiles: &[("Health", "/player/hp"), ("Food", "/player/food"), ("Water", "/player/water"), ("Sleep", "/player/sleep")],
+    sections: &[Section { title: "Driver", rows: &[("Health", "/player/hp"), ("Food", "/player/food"), ("Water", "/player/water"), ("Sleep", "/player/sleep"), ("World time", "/time")] }],
+    lists: &[],
+    tables: &[],
+};
+
+// ------------------------------------------------------------------ The Long Drive (properties)
+
+const LONGDRIVE_PROP: Spec = Spec {
+    name: "The Long Drive",
+    tab: "Trip",
+    accent: (230, 170, 60),
+    kind: Some(".NET BinaryFormatter (saveproperties)"),
+    markers: &["/driven", "/seed"],
+    subtitle: "TLDsaveProp.tldsp from a save folder of the game: the distance driven and the world seed.",
+    tiles: &[("Driven", "/driven"), ("Seed", "/seed")],
+    sections: &[Section { title: "Trip", rows: &[("Distance driven", "/driven"), ("World seed", "/seed")] }],
     lists: &[],
     tables: &[],
 };

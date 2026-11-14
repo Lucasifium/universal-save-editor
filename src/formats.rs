@@ -185,6 +185,12 @@ pub enum Layer {
     /// Hollow Knight `user*.dat`: .NET string of base64 AES-encrypted JSON.
     HollowKnight,
     FalloutShelter,
+    /// Potion Craft `.pcsave`: base64 lines of XORed JSON, one JSON array.
+    PotionCraft,
+    /// JSON with bare `Infinity` / `NaN` numbers (Unity and .NET writers).
+    NonFinite,
+    /// World War Z profile files: zlib with the first four bytes XORed (key from the file name).
+    Wwz { seed: u8 },
     /// Persona 3 Reload Steam save (XOR key and bit permutation over a GVAS file).
     P3rSteam,
     /// Antimatter Dimensions export text (platform index, three letter version).
@@ -372,6 +378,9 @@ impl Layer {
             Layer::Region { index, .. } => format!("Minecraft region (chunk {},{})", index % 32, index / 32),
             Layer::HollowKnight => "Hollow Knight encryption".into(),
             Layer::FalloutShelter => "Fallout Shelter save encryption".into(),
+            Layer::PotionCraft => "Potion Craft save encryption".into(),
+            Layer::NonFinite => "JSON with Infinity / NaN numbers".into(),
+            Layer::Wwz { .. } => "World War Z save encryption".into(),
             Layer::P3rSteam => "Persona 3 Reload save encryption".into(),
             Layer::Antimatter { .. } => "Antimatter Dimensions export text".into(),
             Layer::NestedJson { paths, .. } => format!("JSON inside JSON strings ({})", paths.len()),
@@ -985,6 +994,9 @@ fn wrap(layer: &Layer, data: Vec<u8>) -> Result<Vec<u8>, String> {
         Layer::Region { archive, index, kind } => fmt::containers::region_replace(archive, *index, &data, *kind)?,
         Layer::HollowKnight => fmt::crypto::hollow_knight_encrypt(&data),
         Layer::FalloutShelter => fmt::crypto::fallout_shelter_encrypt(&data),
+        Layer::PotionCraft => fmt::potion::pack(&data)?,
+        Layer::NonFinite => fmt::nonfinite::pack(&data)?,
+        Layer::Wwz { seed } => fmt::wwz::pack(*seed, &data)?,
         Layer::P3rSteam => fmt::p3r::steam_encrypt(&data),
         Layer::Antimatter { kind, version } => fmt::antimatter::close(*kind, version, &data)?,
         Layer::NestedJson { paths, pretty } => fmt::nested::close(&data, paths, *pretty)?,
@@ -1766,6 +1778,17 @@ fn peel(data: &[u8], ctx: &mut Ctx) -> Option<(Layer, Vec<u8>)> {
     }
     if let Some(plain) = fmt::p3r::steam_decrypt(data) {
         return Some((Layer::P3rSteam, plain));
+    }
+    if let Some(name) = ctx.opts.path.as_ref().and_then(|p| p.file_name()).map(|n| n.to_string_lossy().to_string()) {
+        if let Some((seed, plain)) = fmt::wwz::open(data, &name) {
+            return Some((Layer::Wwz { seed }, plain));
+        }
+    }
+    if let Some(plain) = fmt::nonfinite::open(data) {
+        return Some((Layer::NonFinite, plain));
+    }
+    if let Some(plain) = fmt::potion::open(data) {
+        return Some((Layer::PotionCraft, plain));
     }
     if let Some(plain) = fmt::crypto::fallout_shelter_decrypt(data) {
         return Some((Layer::FalloutShelter, plain));
