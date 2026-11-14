@@ -26,6 +26,9 @@ Universal Save Editor is free. It builds on other people's work, listed here wit
 | [P4G Save Tool (Persona 4 Golden field positions)](https://github.com/fendevel/P4G-Save-Tool) | Jack P. Fenech | MIT |
 | [Daggerfall Unity (save field names and value ranges of SaveData.txt, read as facts; no code ported)](https://github.com/Interkarma/daggerfall-unity) | Daggerfall Workshop and contributors | MIT (Copyright (c) 2009-2023 Daggerfall Workshop) |
 | Morrowind and Oblivion save layouts (record framing, the player's NPC change record; worked out on public sample saves, with Wrye Bash's save reader as the reference for the Oblivion record layout) | Wrye Bash contributors | GPL-3.0 (layouts and field order ported with credit) |
+| [OpenRCT2 (RollerCoaster Tycoon 2 .SV6 chunk coding, the scrambled cash and the park field positions; the packing is reimplemented, not copied)](https://github.com/OpenRCT2/OpenRCT2) | OpenRCT2 developers | GPL-3.0 |
+| [OpenXcom (save layout: funds, soldiers, base stores)](https://github.com/OpenXcom/OpenXcom) and [openxcom-save-editor (field names, checked on its sample)](https://github.com/aaronjacobs-chelt/openxcom-save-editor) | OpenXcom developers; OpenXCom Save Editor contributors | GPL-3.0; MIT |
+| [xcom2edi (X-COM saved game file layouts, funds in LIGLOB.DAT)](https://github.com/bovine/xcom2edi) | Jeff Lawson | BSD-3-Clause |
 | Assassin's Creed save layout (wrapper, key, block container, checksum, money and item ids; worked out on public sample saves, with ACSaveLib and apollo-patches quick codes as facts only, no code) | TpRedNinja (ACSaveLib), bucanero (apollo-patches) | facts only (file layouts, ids and names), credited |
 | [uty-save-editor (Undertale Yellow save layout and field names; sample saves used for checks only, not included)](https://github.com/KockaAdmiralac/uty-save-editor) | Luka Simić (KockaAdmiralac) | MIT |
 | [DeltatravelerSaveEditor (Deltatraveler save layout; its sample saves used for checks only, not included)](https://github.com/BenjaminUrquhart/DeltatravelerSaveEditor) | Benjamin Urquhart | GPL-3.0 |
@@ -199,7 +202,6 @@ Universal Save Editor is free. It builds on other people's work, listed here wit
 | [ysf-save-tools and ysnacci (Ys: The Oath in Felghana cipher and field layout, ported)](https://github.com/geq991/ysf-save-tools) | geq991 and Luigi Auriemma | GPL-2.0-or-later |
 | [BravelyDefault2 (Bravely Default II save layout and property names)](https://github.com/turtle-insect/BravelyDefault2) | turtle-insect | GPL-3.0 |
 | [GameSaveEditor (Trails in the Sky the 3rd and Trails of Cold Steel save offsets and item names)](https://github.com/Stormwave/SaveEditor) | Andrew Cornforth, Stormwave and contributors | GPL-3.0 |
-| [openxcom-save-editor (OpenXcom save layout and field names)](https://github.com/aaronjacobs-chelt/openxcom-save-editor) | OpenXCom Save Editor contributors | MIT |
 | [Universal Koei Tecmo Save Editor (Warriors Orochi 4 envelope, key derivation and field offsets, ported)](https://github.com/Sanrenan/Universal-Koei-Tecmo-Save-Editor) | Sanrenan | MIT |
 
 Copyright notices of the projects above whose code or tables were used:

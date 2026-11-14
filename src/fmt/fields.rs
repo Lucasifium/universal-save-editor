@@ -30,6 +30,8 @@ pub enum Kind {
     CentsF32,
     /// Money kept as whole cents in a signed 32-bit integer, shown and edited in dollars.
     CentsI32,
+    /// Money kept as tenths of the currency in a signed 32-bit integer (RollerCoaster Tycoon), shown and edited in whole units with one decimal.
+    TenthsI32,
 }
 
 impl Kind {
@@ -108,6 +110,7 @@ pub fn read(d: &[u8], at: usize, kind: Kind, be: bool) -> Option<Value> {
         Kind::B8 => Value::Bool(b[0] != 0),
         Kind::CentsF32 => crate::tree::num(f64::from(f32::from_bits(u(4) as u32)).round() / 100.0),
         Kind::CentsI32 => crate::tree::num(f64::from(u(4) as u32 as i32) / 100.0),
+        Kind::TenthsI32 => crate::tree::num(f64::from(u(4) as u32 as i32) / 10.0),
     })
 }
 
@@ -130,6 +133,18 @@ fn encode(l: &Leaf, v: &Value) -> Result<Vec<u8>, String> {
             u64::from((f as f32).to_bits())
         }
         Kind::B32 | Kind::B8 => u64::from(v.as_bool().ok_or("tick or untick it")?),
+        Kind::TenthsI32 => {
+            let f = v.as_f64().filter(|f| f.is_finite()).ok_or("expected an amount")?;
+            let (lo, hi) = l.range.unwrap_or((0, 9_999_999));
+            if f < lo as f64 || f > hi as f64 {
+                return Err(format!("must be between {lo} and {hi}"));
+            }
+            let tenths = (f * 10.0).round();
+            if (tenths / 10.0 - f).abs() > 1e-6 {
+                return Err("at most one decimal place".into());
+            }
+            u64::from(tenths as i64 as i32 as u32)
+        }
         Kind::CentsF32 | Kind::CentsI32 => {
             let f = v.as_f64().filter(|f| f.is_finite()).ok_or("expected an amount")?;
             let (lo, hi) = l.range.unwrap_or((0, 9_999_999));
@@ -252,10 +267,11 @@ impl Backend for FieldsBackend {
     }
 
     fn normalize(&self, leaf: usize, v: Value) -> Value {
-        if self.leaves[leaf].kind == Kind::F32 {
-            crate::tree::round_f32(v)
-        } else {
-            v
+        match self.leaves[leaf].kind {
+            Kind::F32 => crate::tree::round_f32(v),
+            // Money is shown as a decimal number, so `500` and `500.0` are the same amount.
+            Kind::CentsF32 | Kind::CentsI32 | Kind::TenthsI32 => v.as_f64().map_or(v, crate::tree::num),
+            _ => v,
         }
     }
 

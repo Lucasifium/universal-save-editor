@@ -135,6 +135,9 @@ pub mod morrowind;
 pub mod oblivion;
 pub mod heroes3;
 pub mod moo2;
+pub mod openxcom;
+pub mod sv6;
+pub mod xcomdat;
 pub mod bsinfinite;
 pub mod ue3pkg;
 pub mod cbor;
@@ -191,7 +194,6 @@ pub mod isaac;
 pub mod ysf;
 pub mod wo4;
 pub mod sw4ii;
-pub mod openxcom;
 pub mod falcom;
 mod falcom_tables;
 pub mod obsidian;
@@ -442,6 +444,11 @@ pub fn parse_binary(d: &[u8]) -> Option<TreeDoc> {
     }
     if oblivion::looks(d) {
         if let Ok(t) = oblivion::parse(d) {
+            return Some(t);
+        }
+    }
+    if sv6::looks(d) {
+        if let Ok(t) = sv6::parse(d) {
             return Some(t);
         }
     }
@@ -964,6 +971,9 @@ pub fn parse_aurora(d: &[u8], path: Option<&std::path::Path>) -> Option<TreeDoc>
     }
     if nwn::looks(d) {
         return nwn::parse(d, path).ok();
+    }
+    if xcomdat::looks(d, path) {
+        return xcomdat::parse(d).ok();
     }
     None
 }
