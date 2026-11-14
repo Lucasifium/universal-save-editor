@@ -345,8 +345,14 @@ pub fn binary_kind(d: &[u8]) -> Option<&'static str> {
 
 /// Stellaris' gamestate and meta, and other headerless Paradox text: `version="…"` first,
 /// with a date near the top.
+/// Europa Universalis III text saves: no header, `date="…"` then `player="TAG"` first.
+pub fn is_eu3(d: &[u8]) -> bool {
+    let head = &d[..d.len().min(2048)];
+    head.starts_with(b"date=\"") && head.windows(8).any(|w| w == b"\nplayer=") && head.windows(9).any(|w| w == b"\nmonarch=" || w == b"\ncardinal") || (head.starts_with(b"date=\"") && head.windows(8).any(|w| w == b"\nplayer=") && head.windows(9).any(|w| w == b"\npapacy={"))
+}
+
 pub fn looks(d: &[u8]) -> bool {
-    if magic(d).is_some() {
+    if magic(d).is_some() || is_eu3(d) {
         return true;
     }
     let head = &d[..d.len().min(4096)];
@@ -444,7 +450,7 @@ fn focus_paths(d: &[u8], utf8: bool) -> Vec<String> {
         let rest = &head[i + 8..];
         let rest = rest.trim_start();
         if let Some(tag) = rest.strip_prefix('"').and_then(|r| r.split('"').next()) {
-            out.push(format!("/countries/{tag}"));
+            out.push(if is_eu3(d) { format!("/{tag}") } else { format!("/countries/{tag}") });
         } else if let Some(c) = rest.find("country=") {
             let id: String = rest[c + 8..].chars().take_while(|c| c.is_ascii_digit()).collect();
             if !id.is_empty() {
@@ -456,7 +462,7 @@ fn focus_paths(d: &[u8], utf8: bool) -> Vec<String> {
 }
 
 pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
-    let (name, skip) = magic(d).unwrap_or(("Paradox save", 0));
+    let (name, skip) = magic(d).unwrap_or((if is_eu3(d) { "Europa Universalis III save" } else { "Paradox save" }, 0));
     let utf8 = std::str::from_utf8(d).is_ok();
     let toks = tokenize(&d[skip..]).into_iter().map(|t| Token { start: t.start + skip, end: t.end + skip, ..t }).collect();
     let mut b = Builder { d, toks, pos: 0, utf8, leaves: vec![], editable: HashMap::new(), focus: focus_paths(d, utf8), budget: SECTION_BUDGET, leaf_ptrs: vec![] };

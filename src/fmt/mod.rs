@@ -188,6 +188,12 @@ pub mod supermetroid;
 pub mod zelda_lttp;
 pub mod alphaprotocol;
 pub mod isaac;
+pub mod ysf;
+pub mod wo4;
+pub mod sw4ii;
+pub mod openxcom;
+pub mod falcom;
+mod falcom_tables;
 pub mod obsidian;
 pub mod roadhog;
 pub mod saltsanc;
@@ -479,6 +485,26 @@ pub fn parse_binary(d: &[u8]) -> Option<TreeDoc> {
             return Some(t);
         }
     }
+    if sw4ii::looks(d) {
+        if let Ok(t) = sw4ii::parse(d) {
+            return Some(t);
+        }
+    }
+    if wo4::looks(d) {
+        if let Ok(t) = wo4::parse(d) {
+            return Some(t);
+        }
+    }
+    if falcom::looks_sky3(d) {
+        if let Ok(t) = falcom::parse_sky3(d) {
+            return Some(t);
+        }
+    }
+    if falcom::looks_cs1(d) {
+        if let Ok(t) = falcom::parse_cs1(d) {
+            return Some(t);
+        }
+    }
     if heroes3::looks(d) {
         if let Ok(t) = heroes3::parse(d) {
             return Some(t);
@@ -486,6 +512,11 @@ pub fn parse_binary(d: &[u8]) -> Option<TreeDoc> {
     }
     if moo2::looks(d) {
         if let Ok(t) = moo2::parse(d) {
+            return Some(t);
+        }
+    }
+    if ysf::looks(d) {
+        if let Ok(t) = ysf::parse(d) {
             return Some(t);
         }
     }
@@ -950,6 +981,11 @@ pub fn parse_binary_late(d: &[u8]) -> Option<TreeDoc> {
 
 /// Text formats. Ambiguous ones (YAML, TOML) are only trusted by file extension.
 pub fn parse_text(text: &str, ext: &str) -> Option<TreeDoc> {
+    if openxcom::looks(text) {
+        if let Ok(doc) = openxcom::parse(text) {
+            return Some(doc);
+        }
+    }
     if roadhog::looks(text.as_bytes()) {
         if let Ok(doc) = roadhog::parse(text.as_bytes()) {
             return Some(doc);

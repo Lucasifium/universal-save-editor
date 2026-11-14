@@ -80,6 +80,9 @@ pub enum Checksum {
     /// Like `Custom`, also given the offset of every value that was written (so only the
     /// blocks that changed get a new checksum).
     Touched(fn(&mut Vec<u8>, &[usize])),
+    /// For saves read from an unpacked copy: puts the file's packing back, always (even when
+    /// nothing was changed), so the bytes written are the game's own format.
+    Repack(fn(&mut Vec<u8>)),
 }
 
 pub fn read(d: &[u8], at: usize, kind: Kind, be: bool) -> Option<Value> {
@@ -230,7 +233,9 @@ impl Backend for FieldsBackend {
         if let (Some(post), false) = (self.post, chosen.is_empty()) {
             post(&mut out, &chosen)?;
         }
-        if !changes.is_empty() {
+        if let Checksum::Repack(f) = self.checksum {
+            f(&mut out);
+        } else if !changes.is_empty() {
             match self.checksum {
                 Checksum::None => {}
                 Checksum::TrailingBzip2 => {
@@ -240,6 +245,7 @@ impl Backend for FieldsBackend {
                 }
                 Checksum::Custom(f) => f(&mut out),
                 Checksum::Touched(f) => f(&mut out, &touched),
+                Checksum::Repack(_) => {}
             }
         }
         Ok(out)

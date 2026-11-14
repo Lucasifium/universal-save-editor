@@ -194,6 +194,13 @@ Universal Save Editor is free. It builds on other people's work, listed here wit
 | [World-War-Z-Save-Editor (World War Z profile file key)](https://github.com/Chase-Simmons/World-War-Z-Save-Editor) | Chase-Simmons | MIT |
 | [dmcsaveeditor (Devil May Cry 1 save layout)](https://github.com/joaovitorbf/dmcsaveeditor) | joaovitorbf | MIT |
 | [Bloodstained_RotN_SaveConverter and bloodsaved (Bloodstained save obfuscation)](https://github.com/DarkMarkZX/Bloodstained_RotN_SaveConverter) | DarkMarkZX | MIT |
+| [RoboQuest-save-editor (Roboquest RQProfile.sav layout)](https://github.com/tunip3/RoboQuest-save-editor) | tunip3 | Apache-2.0 |
+| [total-war-save-parser, EsfLib and RPFM (Total War ESF layout)](https://github.com/Frodo45127/rpfm) | Frodo45127 | MIT |
+| [ysf-save-tools and ysnacci (Ys: The Oath in Felghana cipher and field layout, ported)](https://github.com/geq991/ysf-save-tools) | geq991 and Luigi Auriemma | GPL-2.0-or-later |
+| [BravelyDefault2 (Bravely Default II save layout and property names)](https://github.com/turtle-insect/BravelyDefault2) | turtle-insect | GPL-3.0 |
+| [GameSaveEditor (Trails in the Sky the 3rd and Trails of Cold Steel save offsets and item names)](https://github.com/Stormwave/SaveEditor) | Andrew Cornforth, Stormwave and contributors | GPL-3.0 |
+| [openxcom-save-editor (OpenXcom save layout and field names)](https://github.com/aaronjacobs-chelt/openxcom-save-editor) | OpenXCom Save Editor contributors | MIT |
+| [Universal Koei Tecmo Save Editor (Warriors Orochi 4 envelope, key derivation and field offsets, ported)](https://github.com/Sanrenan/Universal-Koei-Tecmo-Save-Editor) | Sanrenan | MIT |
 
 Copyright notices of the projects above whose code or tables were used:
 

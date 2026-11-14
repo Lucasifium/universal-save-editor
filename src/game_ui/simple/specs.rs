@@ -3,7 +3,7 @@
 
 use super::{List, Max, Section, Shape, Spec, Table};
 
-pub static SPECS: &[Spec] = &[COTL, FALLOUT_SHELTER, DRG, S1_MONEY, S1_RANK, S1_TIME, S1_GAME, SOTF_STATE, SOTF_GAME, SOTF_WEATHER, SOTF_ITEMS, DMD, CUPHEAD, ANTIMATTER, PVZ, CELESTE, DRGS, KH3, RF4S, SKY1ST, KSP, FFPR, MCD, STONESHARD, ROGUE_TRADER, BIOSHOCK_INFINITE, SPACE_HAVEN, SNOWRUNNER, GRAVEYARD_KEEPER, NFSMW, TOS, GTA3, GTAVC, BITBURNER, TERRA_INVICTA, PRISON, FF13, SONIC_MANIA, CAVE_STORY_PLUS, CAVE_STORY, LIES_OF_P, TXR, DAVE, MSC, ULTRAKILL, RPGXP, RE5, ANNO1800, FTK, LEGO_TSS, LEGO_CLASSIC, MYZ, CMS21, MEDIEVAL_DYNASTY, MECHANICUS, ORI, OMORI, ENDER_LILIES, SW2, ES2, MOONLIGHTER, WASTELAND2, ATOM, MORTAL_SHELL, MORTAL_SHELL_2, COTW, BEAMNG, FOREST, YAKUZA3, YAKUZA4, YAKUZA5, ISHIN, SALT, DRAKENSANG, ALPHA, TYRANNY, JEDI_FO, SR3, SR4, WD2, FABLE, WANDERING_SWORD, STELLAR_BLADE, PRAGMATA, SLIME_RANCHER, SUBNAUTICA2, HZD, SLEEPING_DOGS, DXMD, ATOMIC_HEART, DISHONORED2, DEATHLOOP, AC_BROTHERHOOD, AC_REVELATIONS, AC3R, AC_LIBERATION, AC_BLACK_FLAG, AC_ROGUE, AC_UNITY, AC_SYNDICATE, AC_ORIGINS, AC_ODYSSEY, DISHONORED1, RDR1, RDR2, SM64, SUPER_METROID, LTTP, WORLDBOX, COREKEEPER, HOLOCURE, POTION_CRAFT, WWZ, ROBOQUEST, CMS18, LONGDRIVE, LONGDRIVE_PROP, XC3, MLDT, SMASH, MK7, SKC, UTY, DAGGERFALL_UNITY, DMC1, MEWGENICS, MORROWIND, OBLIVION, WOL, SOD_PROFILE, SOD_STATS, TRAVELLERS_REST, YOUTUBERS_LIFE, LUCK_LANDLORD, LUNA_NIGHTS, EVERSPACE1, STREETS_OF_ROGUE, DELTATRAVELER, PIZZA_TOWER, TEARDOWN, WOLCEN, BLASPHEMOUS, NOITA, LAST_EPOCH, GUNGEON, DISCO, CLICKER_HEROES, ISAAC, ROR2, STS2, HEROES3, MOO2];
+pub static SPECS: &[Spec] = &[COTL, FALLOUT_SHELTER, DRG, S1_MONEY, S1_RANK, S1_TIME, S1_GAME, SOTF_STATE, SOTF_GAME, SOTF_WEATHER, SOTF_ITEMS, DMD, CUPHEAD, ANTIMATTER, PVZ, CELESTE, DRGS, KH3, RF4S, SKY1ST, KSP, FFPR, MCD, STONESHARD, ROGUE_TRADER, BIOSHOCK_INFINITE, SPACE_HAVEN, SNOWRUNNER, GRAVEYARD_KEEPER, NFSMW, TOS, GTA3, GTAVC, BITBURNER, TERRA_INVICTA, PRISON, FF13, SONIC_MANIA, CAVE_STORY_PLUS, CAVE_STORY, LIES_OF_P, TXR, DAVE, MSC, ULTRAKILL, RPGXP, RE5, ANNO1800, FTK, LEGO_TSS, LEGO_CLASSIC, MYZ, CMS21, MEDIEVAL_DYNASTY, MECHANICUS, ORI, OMORI, ENDER_LILIES, SW2, ES2, MOONLIGHTER, WASTELAND2, ATOM, MORTAL_SHELL, MORTAL_SHELL_2, COTW, BEAMNG, FOREST, YAKUZA3, YAKUZA4, YAKUZA5, ISHIN, SALT, DRAKENSANG, ALPHA, TYRANNY, JEDI_FO, SR3, SR4, WD2, FABLE, WANDERING_SWORD, STELLAR_BLADE, PRAGMATA, SLIME_RANCHER, SUBNAUTICA2, HZD, SLEEPING_DOGS, DXMD, ATOMIC_HEART, DISHONORED2, DEATHLOOP, AC_BROTHERHOOD, AC_REVELATIONS, AC3R, AC_LIBERATION, AC_BLACK_FLAG, AC_ROGUE, AC_UNITY, AC_SYNDICATE, AC_ORIGINS, AC_ODYSSEY, DISHONORED1, RDR1, RDR2, SM64, SUPER_METROID, LTTP, WORLDBOX, COREKEEPER, HOLOCURE, POTION_CRAFT, WWZ, ROBOQUEST, CMS18, LONGDRIVE, LONGDRIVE_PROP, XC3, MLDT, SMASH, MK7, SKC, UTY, DAGGERFALL_UNITY, DMC1, MEWGENICS, MORROWIND, OBLIVION, WOL, SOD_PROFILE, SOD_STATS, TRAVELLERS_REST, YOUTUBERS_LIFE, LUCK_LANDLORD, LUNA_NIGHTS, EVERSPACE1, STREETS_OF_ROGUE, DELTATRAVELER, PIZZA_TOWER, TEARDOWN, WOLCEN, BLASPHEMOUS, NOITA, LAST_EPOCH, GUNGEON, DISCO, CLICKER_HEROES, ISAAC, ROR2, STS2, HEROES3, MOO2, YSF, BD2, SKY3, CS1, OPENXCOM, WO4, SW4II];
 // ------------------------------------------------------------------ Cult of the Lamb
 
 const COTL_ITEMS: &[(&str, &str)] = &[
@@ -5379,4 +5379,157 @@ const MOO2: Spec = Spec {
             names: &[],
         },
     ],
+};
+
+const YSF: Spec = Spec {
+    name: "Ys: The Oath in Felghana",
+    tab: "Adol",
+    accent: (200, 60, 50),
+    kind: Some(crate::fmt::ysf::KIND),
+    markers: &["/Adol/Gold", "/Adol/Level"],
+    subtitle: "A ysf_NN.nacci save (the cipher and both checksums are handled). Level, HP, experience, gold and the difficulty.",
+    tiles: &[("Gold", "/Adol/Gold"), ("Level", "/Adol/Level"), ("Experience", "/Adol/Experience")],
+    sections: &[
+        Section { title: "Adol", rows: &[("Level", "/Adol/Level"), ("Max HP", "/Adol/Max HP"), ("Experience", "/Adol/Experience"), ("Gold", "/Adol/Gold")] },
+        Section { title: "Difficulty", rows: &[("Now", "/Difficulty/Now"), ("Change to", "/Difficulty/Change to")] },
+        Section { title: "Save", rows: &[("Place", "/Save/Place"), ("Date", "/Save/Date"), ("Time", "/Save/Time")] },
+    ],
+    lists: &[],
+    tables: &[],
+};
+
+const BD2: Spec = Spec {
+    name: "Bravely Default II",
+    tab: "Party",
+    accent: (120, 170, 210),
+    kind: Some("Unreal Engine save (SunriseSaveData)"),
+    markers: &["/Inventory/money", "/Characters"],
+    subtitle: "SaveGameData0.sav (the SAVE header and zlib packing are handled). pg, difficulty, each party member's level, experience, HP, MP and special ability points, and the item counts.",
+    tiles: &[("pg", "/Inventory/money")],
+    sections: &[Section { title: "Game", rows: &[("pg (money)", "/Inventory/money"), ("Difficulty", "/SystemData/ConfigData/DifficultyLevel"), ("Current map", "/MapName")] }],
+    lists: &[List {
+        title: "Items",
+        path: "/Inventory/Items",
+        shape: Shape::Array { id_key: "ID", qty_keys: &["Stock"] },
+        names: &[],
+        max: None,
+    }],
+    tables: &[Table {
+        title: "Party",
+        path: "/Characters",
+        name: &["/Name"],
+        only: &[],
+        cols: &[
+            ("Level", "/Level"), ("Experience", "/Exp"), ("HP", "/Hp"), ("Max HP", "/MaxHp"), ("MP", "/MP"), ("Max MP", "/MaxMp"),
+            ("Special ability pts", "/SpecialAbilityPoints"),
+            ("Raise: HP", "/ParameterRise/MaximumHealthPoints"), ("Raise: MP", "/ParameterRise/MaximumMagicPoints"), ("Raise: Speed", "/ParameterRise/Speed"),
+            ("Raise: P.Atk", "/ParameterRise/PhysicalAttack"), ("Raise: P.Def", "/ParameterRise/PhysicalDefence"),
+            ("Raise: M.Atk", "/ParameterRise/MagicAttack"), ("Raise: M.Def", "/ParameterRise/MagicDefence"), ("Raise: Heal", "/ParameterRise/HealPower"),
+        ],
+        names: &[],
+    }],
+};
+
+const SKY3: Spec = Spec {
+    name: "The Legend of Heroes: Trails in the Sky the 3rd",
+    tab: "Party",
+    accent: (200, 150, 60),
+    kind: Some(crate::fmt::falcom::KIND_SKY3),
+    markers: &["/Party/Mira"],
+    subtitle: "SVDATnnn.SAV or Auto*.sav from Saved Games\\FALCOM\\ED_SORA3. Mira, sepith, character levels and the item counts.",
+    tiles: &[("Mira", "/Party/Mira")],
+    sections: &[Section {
+        title: "Sepith",
+        rows: &[("Earth", "/Sepith/Earth"), ("Water", "/Sepith/Water"), ("Fire", "/Sepith/Fire"), ("Wind", "/Sepith/Wind"), ("Time", "/Sepith/Time"), ("Space", "/Sepith/Space"), ("Mirage", "/Sepith/Mirage")],
+    }],
+    lists: &[List { title: "Items, quartz, equipment and meals", path: "/Items", shape: Shape::Map, names: &[], max: None }],
+    tables: &[Table { title: "Characters", path: "/Characters", name: &[], only: &[], cols: &[("Level", "/Level")], names: &[] }],
+};
+
+const CS1: Spec = Spec {
+    name: "The Legend of Heroes: Trails of Cold Steel",
+    tab: "Party",
+    accent: (150, 40, 50),
+    kind: Some(crate::fmt::falcom::KIND_CS1),
+    markers: &["/Party/Mira"],
+    subtitle: "saveNNN.dat from Saved Games\\Falcom\\ed8. Mira, sepith, each member's level, experience, HP, EP, CP and stats, and the bag.",
+    tiles: &[("Mira", "/Party/Mira")],
+    sections: &[Section {
+        title: "Sepith",
+        rows: &[("Earth", "/Sepith/Earth"), ("Water", "/Sepith/Water"), ("Fire", "/Sepith/Fire"), ("Wind", "/Sepith/Wind"), ("Time", "/Sepith/Time"), ("Space", "/Sepith/Space"), ("Mirage", "/Sepith/Mirage"), ("Mass", "/Sepith/Mass")],
+    }],
+    lists: &[List { title: "Items, quartz, equipment and meals", path: "/Items", shape: Shape::Map, names: &[], max: None }],
+    tables: &[Table {
+        title: "Characters",
+        path: "/Characters",
+        name: &[],
+        only: &[],
+        cols: &[
+            ("Level", "/Level"), ("Experience", "/Experience"), ("HP", "/HP"), ("Max HP", "/Max HP"), ("EP", "/EP"), ("Max EP", "/Max EP"), ("CP", "/CP"), ("Max CP", "/Max CP"),
+            ("STR", "/STR"), ("DEF", "/DEF"), ("ATS", "/ATS"), ("ADF", "/ADF"), ("SPD", "/SPD"), ("DEX", "/DEX"), ("AGL", "/AGL"), ("MOV", "/MOV"), ("RNG", "/RNG"),
+        ],
+        names: &[],
+    }],
+};
+
+const OPENXCOM: Spec = Spec {
+    name: "OpenXcom",
+    tab: "Funds",
+    accent: (90, 140, 90),
+    kind: Some(crate::fmt::openxcom::KIND),
+    markers: &["/funds/0", "/bases"],
+    subtitle: "A .sav from Documents\\OpenXcom\\xcom1 (OpenXcom, OpenXcom Extended and total conversions). Funds, difficulty, the first three bases' soldiers and stores.",
+    tiles: &[("Funds", "/funds/0"), ("Last month", "/funds/1")],
+    sections: &[Section { title: "Game", rows: &[("Funds", "/funds/0"), ("Funds last month", "/funds/1"), ("Difficulty (0 beginner to 4 superhuman)", "/difficulty"), ("Months passed", "/monthsPassed")] }],
+    lists: &[
+    List { title: "Stores, base 1", path: "/bases/0/items", shape: Shape::Map, names: &[], max: None },
+    List { title: "Stores, base 2", path: "/bases/1/items", shape: Shape::Map, names: &[], max: None },
+    List { title: "Stores, base 3", path: "/bases/2/items", shape: Shape::Map, names: &[], max: None },
+    ],
+    tables: &[
+    Table { title: "Soldiers, base 1", path: "/bases/0/soldiers", name: &["/name"], only: &[], cols: &[("Missions", "/missions"), ("Kills", "/kills"), ("TU", "/currentStats/tu"), ("Stamina", "/currentStats/stamina"), ("Health", "/currentStats/health"), ("Bravery", "/currentStats/bravery"), ("Reactions", "/currentStats/reactions"), ("Firing", "/currentStats/firing"), ("Throwing", "/currentStats/throwing"), ("Strength", "/currentStats/strength"), ("Psi strength", "/currentStats/psiStrength"), ("Psi skill", "/currentStats/psiSkill"), ("Melee", "/currentStats/melee")], names: &[] },
+    Table { title: "Soldiers, base 2", path: "/bases/1/soldiers", name: &["/name"], only: &[], cols: &[("Missions", "/missions"), ("Kills", "/kills"), ("TU", "/currentStats/tu"), ("Stamina", "/currentStats/stamina"), ("Health", "/currentStats/health"), ("Bravery", "/currentStats/bravery"), ("Reactions", "/currentStats/reactions"), ("Firing", "/currentStats/firing"), ("Throwing", "/currentStats/throwing"), ("Strength", "/currentStats/strength"), ("Psi strength", "/currentStats/psiStrength"), ("Psi skill", "/currentStats/psiSkill"), ("Melee", "/currentStats/melee")], names: &[] },
+    Table { title: "Soldiers, base 3", path: "/bases/2/soldiers", name: &["/name"], only: &[], cols: &[("Missions", "/missions"), ("Kills", "/kills"), ("TU", "/currentStats/tu"), ("Stamina", "/currentStats/stamina"), ("Health", "/currentStats/health"), ("Bravery", "/currentStats/bravery"), ("Reactions", "/currentStats/reactions"), ("Firing", "/currentStats/firing"), ("Throwing", "/currentStats/throwing"), ("Strength", "/currentStats/strength"), ("Psi strength", "/currentStats/psiStrength"), ("Psi skill", "/currentStats/psiSkill"), ("Melee", "/currentStats/melee")], names: &[] },
+    ],
+};
+
+const WO4: Spec = Spec {
+    name: "Warriors Orochi 4",
+    tab: "Resources",
+    accent: (150, 60, 90),
+    kind: Some(crate::fmt::wo4::KIND),
+    markers: &["/Resources/Gems"],
+    subtitle: "SAVEDATA.BIN (original) or SAVEDATAU.BIN (Ultimate) from Documents\\KoeiTecmo\\WARRIORS OROCHI 4\\Savedata. Gems, Crystals, Growth Points, Skill Orbs (lower only), weapon elements and officers' skill points.",
+    tiles: &[("Gems", "/Resources/Gems"), ("Crystals", "/Resources/Crystals"), ("Growth Points", "/Resources/Growth Points")],
+    sections: &[Section { title: "Resources", rows: &[("Gems", "/Resources/Gems"), ("Crystals", "/Resources/Crystals"), ("Growth Points", "/Resources/Growth Points"), ("Skill Orbs (lower only)", "/Resources/Skill Orbs (can only be lowered)")] }],
+    lists: &[List {
+        title: "Weapon elements (fusion materials you own)",
+        path: "/Weapon elements",
+        shape: Shape::Map,
+        names: &[],
+        max: Some(Max {
+            ids: &["Element 1", "Element 2", "Element 3", "Element 4", "Element 5", "Element 6", "Element 7", "Element 8", "Element 9", "Element 10", "Element 11", "Element 12", "Element 13", "Element 14", "Element 15", "Element 16", "Element 17", "Element 18", "Element 19", "Element 20", "Element 21", "Element 22", "Element 23", "Element 24", "Element 25", "Element 26", "Element 27", "Element 28", "Element 29", "Element 30", "Element 31", "Element 32", "Element 33", "Element 34", "Element 35", "Element 36", "Element 37", "Element 38", "Element 39", "Element 40", "Element 41", "Element 42", "Element 43", "Element 44", "Element 45", "Element 46", "Element 47", "Element 48", "Element 49", "Element 50", "Element 51", "Element 52", "Element 53", "Element 54", "Element 55", "Element 56", "Element 57", "Element 58", "Element 59", "Element 60", "Element 61", "Element 62", "Element 63"],
+            cap: 999,
+            caps: &[],
+            estimate: false,
+            about: "Raises every weapon element you already own to 999, the stack limit in the official manual (Ultimate allows 9,999; 999 is safe for both). Elements you don't own are left alone.",
+        }),
+    }],
+    tables: &[Table { title: "Officers", path: "/Officers", name: &[], only: &[], cols: &[("Experience", "/Experience"), ("Skill points", "/Skill points")], names: &[] }],
+};
+
+const SW4II: Spec = Spec {
+    name: "Samurai Warriors 4-II",
+    tab: "Army",
+    accent: (170, 50, 50),
+    kind: Some(crate::fmt::sw4ii::KIND),
+    markers: &["/Army/Gold"],
+    subtitle: "SAVEDATA0000.dat from Documents\\KoeiTecmo\\SAMURAI WARRIORS 4-II\\Savedata. Gold, strategy tomes and each officer's five stat bonuses.",
+    tiles: &[("Gold", "/Army/Gold")],
+    sections: &[
+        Section { title: "Army", rows: &[("Gold", "/Army/Gold")] },
+        Section { title: "Strategy tomes", rows: &[("Red", "/Strategy tomes/Red"), ("Green", "/Strategy tomes/Green"), ("Blue", "/Strategy tomes/Blue"), ("Yellow", "/Strategy tomes/Yellow"), ("Purple", "/Strategy tomes/Purple")] },
+    ],
+    lists: &[],
+    tables: &[Table { title: "Officers", path: "/Officers", name: &[], only: &[], cols: &[("Level", "/Level"), ("Health", "/Health"), ("Attack", "/Attack"), ("Defense", "/Defense"), ("Riding", "/Riding"), ("Speed", "/Speed")], names: &[] }],
 };

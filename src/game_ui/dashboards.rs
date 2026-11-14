@@ -1171,6 +1171,32 @@ pub fn paradox(ui: &mut Ui, cx: &mut GameCtx, kind: &str) {
     if kind.starts_with("Europa Universalis IV") {
         return super::screens2::eu4(ui, cx);
     }
+    if kind.starts_with("Europa Universalis III") {
+        let tag = cx.text("/player").unwrap_or_default();
+        let c = format!("/{tag}");
+        hero(ui, accent, &tag, &format!("{date}  \u{00B7}  Europa Universalis III"), |ui| {
+            for (label, k) in [("Treasury", "treasury"), ("Prestige", "prestige"), ("Stability", "stability"), ("Manpower", "manpower")] {
+                if cx.get(&join(&c, k)).is_some() {
+                    cx.tile(ui, label, &join(&c, k), accent);
+                }
+            }
+        });
+        panel(ui, "Country", |ui| {
+            grid(ui, cx, "eu3_c", &[
+                ("Treasury", join(&c, "treasury")),
+                ("Prestige", join(&c, "prestige")),
+                ("Stability", join(&c, "stability")),
+                ("Stability investment", join(&c, "stability_investment")),
+                ("Manpower", join(&c, "manpower")),
+                ("Inflation", join(&c, "inflation")),
+                ("War exhaustion", join(&c, "war_exhaustion")),
+                ("Army tradition", join(&c, "army_tradition")),
+                ("Navy tradition", join(&c, "navy_tradition")),
+            ]);
+            ui.weak("Stability runs from -3 to +3. The country is the one you play; the Tree tab has every other country by tag.");
+        });
+        return;
+    }
     if kind.starts_with("Crusader Kings II ") {
         return super::screens2::ck2(ui, cx);
     }

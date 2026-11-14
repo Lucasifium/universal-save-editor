@@ -446,7 +446,7 @@ pub fn detect(kind: &str, root: &Value) -> Option<Game> {
         "RimWorld save" => Game::RimWorld,
         "Oxygen Not Included save" => Game::OxygenNotIncluded,
         _ if has("/gameMode") && has("/changeSet") && has("/session") => Game::Subnautica,
-        "Stellaris save" | "Hearts of Iron IV save" | "Europa Universalis IV save" | "Crusader Kings II save" | "Crusader Kings III save" | "Paradox save" => Game::Paradox,
+        "Stellaris save" | "Hearts of Iron IV save" | "Europa Universalis IV save" | "Europa Universalis III save" | "Crusader Kings II save" | "Crusader Kings III save" | "Paradox save" => Game::Paradox,
         k if k.ends_with(" save (binary)") && crate::fmt::pdxbin::is_kind(k) => Game::Paradox,
         _ => return simple::detect(kind, root).map(Game::Simple),
     })
