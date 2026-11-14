@@ -23,6 +23,7 @@ Universal Save Editor is free. It builds on other people's work, listed here wit
 | [P3R Save Lab (Persona 3 Reload save layout and field positions; sample saves used for checks only, not included)](https://github.com/Luckyseer/p3r-save-editor) | P3R Save Lab contributors | MIT |
 | [P3R-Save-EnDecryptor (Persona 3 Reload Steam save encryption)](https://github.com/illusionyy/P3R-Save-EnDecryptor) | illusion0001 | MIT |
 | [P4G Save Tool (Persona 4 Golden field positions)](https://github.com/fendevel/P4G-Save-Tool) | Jack P. Fenech | MIT |
+| Assassin's Creed save layout (wrapper, key, block container, checksum, money and item ids; worked out on public sample saves, with ACSaveLib and apollo-patches quick codes as facts only, no code) | TpRedNinja (ACSaveLib), bucanero (apollo-patches) | facts only (file layouts, ids and names), credited |
 | [ree-save-editor (RE Engine save layout; facts only, no code)](https://github.com/kvasszn/ree-save-editor) | kvasszn | facts only (file layouts, ids and names), credited |
 | [civ6-save-parser (Civilization VI save layout, ported)](https://github.com/pydt/civ6-save-parser) | Mike Rosack and playyourdamnturn.com | MIT |
 | [halbu (Diablo II character layout, skill names)](https://github.com/feored/halbu) | feor | MIT |

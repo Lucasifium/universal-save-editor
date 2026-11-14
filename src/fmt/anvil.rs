@@ -549,6 +549,8 @@ const CATEGORIES: &[(u32, &str, Group)] = &[
     (0xED3E_BACD, "Heavy shot", Group::Tools),
     (0x945D_B140, "Harpoons", Group::Tools),
     (0xABFC_3096, "Burning oil", Group::Tools),
+    (0x6D1E_3297, "Lockpicks", Group::Tools),
+    (0xAA59_3E95, "Crew", Group::Tools),
 ];
 
 /// Odyssey and Origins item ids.
@@ -1098,29 +1100,6 @@ mod tests {
 
     /// Research: AC_SAVES lists real saves (separated by `|`); each opens, writes back unchanged,
     /// and takes a money edit.
-    #[test]
-    #[ignore]
-    fn debug_one() {
-        let f = std::env::var("AC_ONE").unwrap();
-        let d = std::fs::read(f).unwrap();
-        let off = body_offset(&d);
-        println!("off {off:?}");
-        let off = off.unwrap();
-        let r = solve(&d, off);
-        println!("solve {:?}", r.as_ref().map(|r| (r.1, r.0.len())));
-        let (key, version) = r.unwrap();
-        let mut body = d[off..].to_vec();
-        xor(&mut body, off, d.len(), &key);
-        let first = first_container(version).unwrap();
-        let mut pos = first;
-        loop {
-            let c = read_container(&body, pos, 0);
-            println!("container at {pos:x}: {:?}", c.as_ref().map(|c| (c.end, c.data.len(), c.size_field)));
-            let Some(c) = c else { break };
-            if body.get(c.end + 16..c.end + 24) == Some(&SIG) { pos = c.end + 16 } else { break }
-        }
-    }
-
     #[test]
     #[ignore]
     fn real_saves() {
