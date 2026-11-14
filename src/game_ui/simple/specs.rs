@@ -8,11 +8,11 @@ use crate::i18n::tx;
 
 pub static SPECS: &[Spec] = &[OPENXCOM, XCOM_DOS, RCT2, COTL, FALLOUT_SHELTER, DRG, S1_MONEY, S1_RANK, S1_TIME, S1_GAME, SOTF_STATE, SOTF_GAME, SOTF_WEATHER, SOTF_ITEMS, DMD, CUPHEAD, ANTIMATTER, PVZ, CELESTE, DRGS, KH3, RF4S, SKY1ST, KSP, FFPR, MCD, STONESHARD, ROGUE_TRADER, BIOSHOCK_INFINITE, SPACE_HAVEN, SNOWRUNNER, GRAVEYARD_KEEPER, NFSMW, TOS, GTA3, GTAVC, BITBURNER, TERRA_INVICTA, PRISON, FF13, SONIC_MANIA, CAVE_STORY_PLUS, CAVE_STORY, LIES_OF_P, TXR, DAVE, MSC, ULTRAKILL, RPGXP, RE5, ANNO1800, FTK, LEGO_TSS, LEGO_CLASSIC, MYZ, CMS21, MEDIEVAL_DYNASTY, MECHANICUS, ORI, OMORI, ENDER_LILIES, SW2, ES2, MOONLIGHTER, WASTELAND2, ATOM, MORTAL_SHELL, MORTAL_SHELL_2, COTW, BEAMNG, FOREST, YAKUZA3, YAKUZA4, YAKUZA5, ISHIN, SALT, DRAKENSANG, ALPHA, TYRANNY, JEDI_FO, SR3, SR4, WD2, FABLE, WANDERING_SWORD, STELLAR_BLADE, PRAGMATA, SLIME_RANCHER, SUBNAUTICA2, HZD, SLEEPING_DOGS, DXMD, ATOMIC_HEART, DISHONORED2, DEATHLOOP, AC_BROTHERHOOD, AC_REVELATIONS, AC3R, AC_LIBERATION, AC_BLACK_FLAG, AC_ROGUE, AC_UNITY, AC_SYNDICATE, AC_ORIGINS, AC_ODYSSEY, DISHONORED1, RDR1, RDR2, WORLDBOX, COREKEEPER, HOLOCURE, POTION_CRAFT, WWZ, ROBOQUEST, CMS18, LONGDRIVE, LONGDRIVE_PROP, XC3, MLDT, SMASH, MK7, SKC, UTY, DAGGERFALL_UNITY, DMC1, MEWGENICS, MORROWIND, OBLIVION, WOL, SOD_PROFILE, SOD_STATS, TRAVELLERS_REST, YOUTUBERS_LIFE, LUCK_LANDLORD, LUNA_NIGHTS, EVERSPACE1, STREETS_OF_ROGUE, DELTATRAVELER, PIZZA_TOWER, TEARDOWN, WOLCEN, BLASPHEMOUS, NOITA, LAST_EPOCH, GUNGEON, DISCO, CLICKER_HEROES, ISAAC, ROR2, STS2, HEROES3, MOO2, YSF, BD2, SKY3, CS1, WO4, SW4II, NIER_REPLICANT, GENZERO,
     // SNES and N64 emulator saves (retro_specs.rs)
-    SM64, SUPER_METROID, LTTP, FF6_SNES, CT_SNES,
+    SM64, SUPER_METROID, LTTP, FF6_SNES, CT_SNES, SOM_SNES,
     // PlayStation 1 and 2 (ps_specs.rs)
     SOTN, FF8, FFT, RE1, KH2, MK64, GOLDENEYE, BANJO_KAZOOIE, OOT, SMASH64, TORCHLIGHT3, WRECKFEST, EVIL_WITHIN, BORDERLANDS1,
     // PlayStation 1 and 2 (ps_specs.rs), continued
-    CRASH, KH1, GT1, BL4, WUKONG, BOTW, RAYMAN, CTR, THPS, SOPHIE, FIRIS];
+    CRASH, KH1, GT1, BL4, WUKONG, BOTW, RAYMAN, CTR, THPS, PAYDAY2, FS_FARM, FS_CAREER, FS17, FS15, GAS_STATION_SIM, THIEF_SIM, HOUSE_FLIPPER, TAVERN_MASTER, ROAD_REDEMPTION, SILENT_HILL, SOPHIE, FIRIS];
 // ------------------------------------------------------------------ Cult of the Lamb
 
 const COTL_ITEMS: &[(&str, &str)] = &[
@@ -4993,12 +4993,12 @@ const YSF: Spec = Spec {
     accent: (200, 60, 50),
     kind: Some(crate::fmt::ysf::KIND),
     markers: &["/Adol/Gold", "/Adol/Level"],
-    subtitle: tx("A ysf_NN.nacci save (the cipher and both checksums are handled). Level, HP, experience, gold and the difficulty."),
-    tiles: &[(tx("Gold"), "/Adol/Gold"), (tx("Level"), "/Adol/Level"), (tx("Experience"), "/Adol/Experience")],
+    subtitle: "A ysf_NN.nacci save (the cipher and both checksums are handled). Level, HP, experience, gold and the difficulty.",
+    tiles: &[("Gold", "/Adol/Gold"), ("Level", "/Adol/Level"), ("Experience", "/Adol/Experience")],
     sections: &[
-        Section { title: tx("Adol"), rows: &[(tx("Level"), "/Adol/Level"), (tx("Max HP"), "/Adol/Max HP"), (tx("Experience"), "/Adol/Experience"), (tx("Gold"), "/Adol/Gold")] },
-        Section { title: tx("Difficulty"), rows: &[(tx("Now"), "/Difficulty/Now"), (tx("Change to"), "/Difficulty/Change to")] },
-        Section { title: tx("Save"), rows: &[(tx("Place"), "/Save/Place"), (tx("Date"), "/Save/Date"), (tx("Time"), "/Save/Time")] },
+        Section { title: "Adol", rows: &[("Level", "/Adol/Level"), ("Max HP", "/Adol/Max HP"), ("Experience", "/Adol/Experience"), ("Gold", "/Adol/Gold")] },
+        Section { title: "Difficulty", rows: &[("Now", "/Difficulty/Now"), ("Change to", "/Difficulty/Change to")] },
+        Section { title: "Save", rows: &[("Place", "/Save/Place"), ("Date", "/Save/Date"), ("Time", "/Save/Time")] },
     ],
     lists: &[],
     tables: &[],
@@ -5010,27 +5010,27 @@ const BD2: Spec = Spec {
     accent: (120, 170, 210),
     kind: Some("Unreal Engine save (SunriseSaveData)"),
     markers: &["/Inventory/money", "/Characters"],
-    subtitle: tx("SaveGameData0.sav (the SAVE header and zlib packing are handled). pg, difficulty, each party member's level, experience, HP, MP and special ability points, and the item counts."),
-    tiles: &[(tx("pg"), "/Inventory/money")],
-    sections: &[Section { title: tx("Game"), rows: &[(tx("pg (money)"), "/Inventory/money"), (tx("Difficulty"), "/SystemData/ConfigData/DifficultyLevel"), (tx("Current map"), "/MapName")] }],
+    subtitle: "SaveGameData0.sav (the SAVE header and zlib packing are handled). pg, difficulty, each party member's level, experience, HP, MP and special ability points, and the item counts.",
+    tiles: &[("pg", "/Inventory/money")],
+    sections: &[Section { title: "Game", rows: &[("pg (money)", "/Inventory/money"), ("Difficulty", "/SystemData/ConfigData/DifficultyLevel"), ("Current map", "/MapName")] }],
     lists: &[List {
-        title: tx("Items"),
+        title: "Items",
         path: "/Inventory/Items",
         shape: Shape::Array { id_key: "ID", qty_keys: &["Stock"] },
         names: &[],
         max: None,
     }],
     tables: &[Table {
-        title: tx("Party"),
+        title: "Party",
         path: "/Characters",
         name: &["/Name"],
         only: &[],
         cols: &[
-            (tx("Level"), "/Level"), (tx("Experience"), "/Exp"), (tx("HP"), "/Hp"), (tx("Max HP"), "/MaxHp"), (tx("MP"), "/MP"), (tx("Max MP"), "/MaxMp"),
-            (tx("Special ability pts"), "/SpecialAbilityPoints"),
-            (tx("Raise: HP"), "/ParameterRise/MaximumHealthPoints"), (tx("Raise: MP"), "/ParameterRise/MaximumMagicPoints"), (tx("Raise: Speed"), "/ParameterRise/Speed"),
-            (tx("Raise: P.Atk"), "/ParameterRise/PhysicalAttack"), (tx("Raise: P.Def"), "/ParameterRise/PhysicalDefence"),
-            (tx("Raise: M.Atk"), "/ParameterRise/MagicAttack"), (tx("Raise: M.Def"), "/ParameterRise/MagicDefence"), (tx("Raise: Heal"), "/ParameterRise/HealPower"),
+            ("Level", "/Level"), ("Experience", "/Exp"), ("HP", "/Hp"), ("Max HP", "/MaxHp"), ("MP", "/MP"), ("Max MP", "/MaxMp"),
+            ("Special ability pts", "/SpecialAbilityPoints"),
+            ("Raise: HP", "/ParameterRise/MaximumHealthPoints"), ("Raise: MP", "/ParameterRise/MaximumMagicPoints"), ("Raise: Speed", "/ParameterRise/Speed"),
+            ("Raise: P.Atk", "/ParameterRise/PhysicalAttack"), ("Raise: P.Def", "/ParameterRise/PhysicalDefence"),
+            ("Raise: M.Atk", "/ParameterRise/MagicAttack"), ("Raise: M.Def", "/ParameterRise/MagicDefence"), ("Raise: Heal", "/ParameterRise/HealPower"),
         ],
         names: &[],
     }],
@@ -5042,14 +5042,14 @@ const SKY3: Spec = Spec {
     accent: (200, 150, 60),
     kind: Some(crate::fmt::falcom::KIND_SKY3),
     markers: &["/Party/Mira"],
-    subtitle: tx("SVDATnnn.SAV or Auto*.sav from Saved Games\\FALCOM\\ED_SORA3. Mira, sepith, character levels and the item counts."),
-    tiles: &[(tx("Mira"), "/Party/Mira")],
+    subtitle: "SVDATnnn.SAV or Auto*.sav from Saved Games\\FALCOM\\ED_SORA3. Mira, sepith, character levels and the item counts.",
+    tiles: &[("Mira", "/Party/Mira")],
     sections: &[Section {
-        title: tx("Sepith"),
-        rows: &[(tx("Earth"), "/Sepith/Earth"), (tx("Water"), "/Sepith/Water"), (tx("Fire"), "/Sepith/Fire"), (tx("Wind"), "/Sepith/Wind"), (tx("Time"), "/Sepith/Time"), (tx("Space"), "/Sepith/Space"), (tx("Mirage"), "/Sepith/Mirage")],
+        title: "Sepith",
+        rows: &[("Earth", "/Sepith/Earth"), ("Water", "/Sepith/Water"), ("Fire", "/Sepith/Fire"), ("Wind", "/Sepith/Wind"), ("Time", "/Sepith/Time"), ("Space", "/Sepith/Space"), ("Mirage", "/Sepith/Mirage")],
     }],
-    lists: &[List { title: tx("Items, quartz, equipment and meals"), path: "/Items", shape: Shape::Map, names: &[], max: None }],
-    tables: &[Table { title: tx("Characters"), path: "/Characters", name: &[], only: &[], cols: &[(tx("Level"), "/Level")], names: &[] }],
+    lists: &[List { title: "Items, quartz, equipment and meals", path: "/Items", shape: Shape::Map, names: &[], max: None }],
+    tables: &[Table { title: "Characters", path: "/Characters", name: &[], only: &[], cols: &[("Level", "/Level")], names: &[] }],
 };
 
 const CS1: Spec = Spec {
@@ -5058,21 +5058,21 @@ const CS1: Spec = Spec {
     accent: (150, 40, 50),
     kind: Some(crate::fmt::falcom::KIND_CS1),
     markers: &["/Party/Mira"],
-    subtitle: tx("saveNNN.dat from Saved Games\\Falcom\\ed8. Mira, sepith, each member's level, experience, HP, EP, CP and stats, and the bag."),
-    tiles: &[(tx("Mira"), "/Party/Mira")],
+    subtitle: "saveNNN.dat from Saved Games\\Falcom\\ed8. Mira, sepith, each member's level, experience, HP, EP, CP and stats, and the bag.",
+    tiles: &[("Mira", "/Party/Mira")],
     sections: &[Section {
-        title: tx("Sepith"),
-        rows: &[(tx("Earth"), "/Sepith/Earth"), (tx("Water"), "/Sepith/Water"), (tx("Fire"), "/Sepith/Fire"), (tx("Wind"), "/Sepith/Wind"), (tx("Time"), "/Sepith/Time"), (tx("Space"), "/Sepith/Space"), (tx("Mirage"), "/Sepith/Mirage"), (tx("Mass"), "/Sepith/Mass")],
+        title: "Sepith",
+        rows: &[("Earth", "/Sepith/Earth"), ("Water", "/Sepith/Water"), ("Fire", "/Sepith/Fire"), ("Wind", "/Sepith/Wind"), ("Time", "/Sepith/Time"), ("Space", "/Sepith/Space"), ("Mirage", "/Sepith/Mirage"), ("Mass", "/Sepith/Mass")],
     }],
-    lists: &[List { title: tx("Items, quartz, equipment and meals"), path: "/Items", shape: Shape::Map, names: &[], max: None }],
+    lists: &[List { title: "Items, quartz, equipment and meals", path: "/Items", shape: Shape::Map, names: &[], max: None }],
     tables: &[Table {
-        title: tx("Characters"),
+        title: "Characters",
         path: "/Characters",
         name: &[],
         only: &[],
         cols: &[
-            (tx("Level"), "/Level"), (tx("Experience"), "/Experience"), (tx("HP"), "/HP"), (tx("Max HP"), "/Max HP"), (tx("EP"), "/EP"), (tx("Max EP"), "/Max EP"), (tx("CP"), "/CP"), (tx("Max CP"), "/Max CP"),
-            (tx("STR"), "/STR"), (tx("DEF"), "/DEF"), (tx("ATS"), "/ATS"), (tx("ADF"), "/ADF"), (tx("SPD"), "/SPD"), (tx("DEX"), "/DEX"), (tx("AGL"), "/AGL"), (tx("MOV"), "/MOV"), (tx("RNG"), "/RNG"),
+            ("Level", "/Level"), ("Experience", "/Experience"), ("HP", "/HP"), ("Max HP", "/Max HP"), ("EP", "/EP"), ("Max EP", "/Max EP"), ("CP", "/CP"), ("Max CP", "/Max CP"),
+            ("STR", "/STR"), ("DEF", "/DEF"), ("ATS", "/ATS"), ("ADF", "/ADF"), ("SPD", "/SPD"), ("DEX", "/DEX"), ("AGL", "/AGL"), ("MOV", "/MOV"), ("RNG", "/RNG"),
         ],
         names: &[],
     }],
@@ -5084,11 +5084,11 @@ const WO4: Spec = Spec {
     accent: (150, 60, 90),
     kind: Some(crate::fmt::wo4::KIND),
     markers: &["/Resources/Gems"],
-    subtitle: tx("SAVEDATA.BIN (original) or SAVEDATAU.BIN (Ultimate) from Documents\\KoeiTecmo\\WARRIORS OROCHI 4\\Savedata. Gems, Crystals, Growth Points, Skill Orbs (lower only), weapon elements and officers' skill points."),
-    tiles: &[(tx("Gems"), "/Resources/Gems"), (tx("Crystals"), "/Resources/Crystals"), (tx("Growth Points"), "/Resources/Growth Points")],
-    sections: &[Section { title: tx("Resources"), rows: &[(tx("Gems"), "/Resources/Gems"), (tx("Crystals"), "/Resources/Crystals"), (tx("Growth Points"), "/Resources/Growth Points"), (tx("Skill Orbs (lower only)"), "/Resources/Skill Orbs (can only be lowered)")] }],
+    subtitle: "SAVEDATA.BIN (original) or SAVEDATAU.BIN (Ultimate) from Documents\\KoeiTecmo\\WARRIORS OROCHI 4\\Savedata. Gems, Crystals, Growth Points, Skill Orbs (lower only), weapon elements and officers' skill points.",
+    tiles: &[("Gems", "/Resources/Gems"), ("Crystals", "/Resources/Crystals"), ("Growth Points", "/Resources/Growth Points")],
+    sections: &[Section { title: "Resources", rows: &[("Gems", "/Resources/Gems"), ("Crystals", "/Resources/Crystals"), ("Growth Points", "/Resources/Growth Points"), ("Skill Orbs (lower only)", "/Resources/Skill Orbs (can only be lowered)")] }],
     lists: &[List {
-        title: tx("Weapon elements (fusion materials you own)"),
+        title: "Weapon elements (fusion materials you own)",
         path: "/Weapon elements",
         shape: Shape::Map,
         names: &[],
@@ -5097,10 +5097,10 @@ const WO4: Spec = Spec {
             cap: 999,
             caps: &[],
             estimate: false,
-            about: tx("Raises every weapon element you already own to 999, the stack limit in the official manual (Ultimate allows 9,999; 999 is safe for both). Elements you don't own are left alone."),
+            about: "Raises every weapon element you already own to 999, the stack limit in the official manual (Ultimate allows 9,999; 999 is safe for both). Elements you don't own are left alone.",
         }),
     }],
-    tables: &[Table { title: tx("Officers"), path: "/Officers", name: &[], only: &[], cols: &[(tx("Experience"), "/Experience"), (tx("Skill points"), "/Skill points")], names: &[] }],
+    tables: &[Table { title: "Officers", path: "/Officers", name: &[], only: &[], cols: &[("Experience", "/Experience"), ("Skill points", "/Skill points")], names: &[] }],
 };
 
 const SW4II: Spec = Spec {
@@ -5109,14 +5109,14 @@ const SW4II: Spec = Spec {
     accent: (170, 50, 50),
     kind: Some(crate::fmt::sw4ii::KIND),
     markers: &["/Army/Gold"],
-    subtitle: tx("SAVEDATA0000.dat from Documents\\KoeiTecmo\\SAMURAI WARRIORS 4-II\\Savedata. Gold, strategy tomes and each officer's five stat bonuses."),
-    tiles: &[(tx("Gold"), "/Army/Gold")],
+    subtitle: "SAVEDATA0000.dat from Documents\\KoeiTecmo\\SAMURAI WARRIORS 4-II\\Savedata. Gold, strategy tomes and each officer's five stat bonuses.",
+    tiles: &[("Gold", "/Army/Gold")],
     sections: &[
-        Section { title: tx("Army"), rows: &[(tx("Gold"), "/Army/Gold")] },
-        Section { title: tx("Strategy tomes"), rows: &[(tx("Red"), "/Strategy tomes/Red"), (tx("Green"), "/Strategy tomes/Green"), (tx("Blue"), "/Strategy tomes/Blue"), (tx("Yellow"), "/Strategy tomes/Yellow"), (tx("Purple"), "/Strategy tomes/Purple")] },
+        Section { title: "Army", rows: &[("Gold", "/Army/Gold")] },
+        Section { title: "Strategy tomes", rows: &[("Red", "/Strategy tomes/Red"), ("Green", "/Strategy tomes/Green"), ("Blue", "/Strategy tomes/Blue"), ("Yellow", "/Strategy tomes/Yellow"), ("Purple", "/Strategy tomes/Purple")] },
     ],
     lists: &[],
-    tables: &[Table { title: tx("Officers"), path: "/Officers", name: &[], only: &[], cols: &[(tx("Level"), "/Level"), (tx("Health"), "/Health"), (tx("Attack"), "/Attack"), (tx("Defense"), "/Defense"), (tx("Riding"), "/Riding"), (tx("Speed"), "/Speed")], names: &[] }],
+    tables: &[Table { title: "Officers", path: "/Officers", name: &[], only: &[], cols: &[("Level", "/Level"), ("Health", "/Health"), ("Attack", "/Attack"), ("Defense", "/Defense"), ("Riding", "/Riding"), ("Speed", "/Speed")], names: &[] }],
 };
 
 const NIER_REPLICANT: Spec = Spec {
@@ -6625,6 +6625,200 @@ const BOTW: Spec = Spec {
             max: None,
         },
     ],
+    tables: &[],
+};
+
+// ------------------------------------------------------------------ PAYDAY 2
+
+const PAYDAY2: Spec = Spec {
+    name: "PAYDAY 2",
+    tab: "Crew",
+    accent: (200, 40, 40),
+    kind: None,
+    markers: &["/MoneyManager/offshore", "/ExperienceManager/level"],
+    subtitle: "saveNNN.sav from %LOCALAPPDATA%\\PAYDAY 2\\saves\\<Steam id> (unpacked and packed again with fresh checksums). Cash, offshore account, level, infamy and skill points. Close the game first.",
+    tiles: &[("Spending cash", "/MoneyManager/total"), ("Offshore account", "/MoneyManager/offshore"), ("Level", "/ExperienceManager/level")],
+    sections: &[
+        Section { title: "Money", rows: &[("Spending cash", "/MoneyManager/total"), ("Offshore account", "/MoneyManager/offshore"), ("Total collected", "/MoneyManager/total_collected"), ("Total spent", "/MoneyManager/total_spent")] },
+        Section {
+            title: "Progress",
+            rows: &[
+                ("Level", "/ExperienceManager/level"), ("Infamy rank", "/ExperienceManager/rank"), ("Infamy points", "/InfamyManager/points"),
+                ("Skill points", "/SkillTreeManager/points"), ("Continental coins", "/CustomSafehouseManager/total"), ("Times skills were reset", "/SkillTreeManager/times_respeced"),
+            ],
+        },
+    ],
+    lists: &[],
+    tables: &[],
+};
+// ------------------------------------------------------------------ Farming Simulator 15 / 17 / 19 / 22 / 25
+
+const FS_FARM: Spec = Spec {
+    name: "Farming Simulator 19, 22 and 25",
+    tab: "Farm",
+    accent: (110, 160, 60),
+    kind: Some("XML"),
+    markers: &["/farms/farm/@money", "/farms/farm/@loan"],
+    subtitle: "farms.xml from a savegame folder (savegame1 …) of Documents\\My Games\\FarmingSimulator2019, 2022 or 2025. The farm's money and loan. Close the game first.",
+    tiles: &[("Money", "/farms/farm/@money"), ("Loan", "/farms/farm/@loan")],
+    sections: &[Section { title: "Farm", rows: &[("Money", "/farms/farm/@money"), ("Loan", "/farms/farm/@loan")] }],
+    lists: &[],
+    tables: &[],
+};
+
+const FS_CAREER: Spec = Spec {
+    name: "Farming Simulator 19, 22 and 25: savegame",
+    tab: "Savegame",
+    accent: (110, 160, 60),
+    kind: Some("XML"),
+    markers: &["/careerSavegame/settings/mapId", "/careerSavegame/statistics/playTime"],
+    subtitle: "careerSavegame.xml from a savegame folder: difficulty, game rules and play time. The farm's money is in farms.xml. Close the game first.",
+    tiles: &[("Play time", "/careerSavegame/statistics/playTime")],
+    sections: &[
+        Section {
+            title: "Game rules",
+            rows: &[
+                ("Growth mode", "/careerSavegame/settings/growthMode"),
+                ("Days per period", "/careerSavegame/settings/plannedDaysPerPeriod"), ("Fuel usage", "/careerSavegame/settings/fuelUsage"), ("Traffic", "/careerSavegame/settings/trafficEnabled"),
+                ("Weeds", "/careerSavegame/settings/weedsEnabled"), ("Stones", "/careerSavegame/settings/stonesEnabled"), ("Lime required", "/careerSavegame/settings/limeRequired"),
+                ("Plowing required", "/careerSavegame/settings/plowingRequiredEnabled"), ("Snow", "/careerSavegame/settings/isSnowEnabled"), ("Fruit destruction", "/careerSavegame/settings/fruitDestruction"),
+                ("Helpers buy fuel", "/careerSavegame/settings/helperBuyFuel"), ("Helpers buy seeds", "/careerSavegame/settings/helperBuySeeds"), ("Helpers buy fertilizer", "/careerSavegame/settings/helperBuyFertilizer"),
+            ],
+        },
+    ],
+    lists: &[],
+    tables: &[],
+};
+
+const FS17: Spec = Spec {
+    name: "Farming Simulator 17",
+    tab: "Farm",
+    accent: (110, 160, 60),
+    kind: Some("XML"),
+    markers: &["/careerSavegame/statistics/money", "/careerSavegame/statistics/loan"],
+    subtitle: "careerSavegame.xml from Documents\\My Games\\FarmingSimulator2017\\savegame1 …: money, loan, difficulty and game rules. Close the game first.",
+    tiles: &[("Money", "/careerSavegame/statistics/money"), ("Loan", "/careerSavegame/statistics/loan"), ("Play time", "/careerSavegame/statistics/playTime")],
+    sections: &[
+        Section { title: "Farm", rows: &[("Money", "/careerSavegame/statistics/money"), ("Loan", "/careerSavegame/statistics/loan"), ("Loan interest rate", "/careerSavegame/statistics/loanAnnualInterestRate")] },
+        Section {
+            title: "Game rules",
+            rows: &[
+                ("Plant growth rate", "/careerSavegame/settings/plantGrowthRate"), ("Dirt interval", "/careerSavegame/settings/dirtInterval"),
+                ("Time scale", "/careerSavegame/settings/timeScale"), ("Traffic", "/careerSavegame/settings/trafficEnabled"), ("Plowing required", "/careerSavegame/settings/plowingRequiredEnabled"),
+                ("Helpers buy fuel", "/careerSavegame/settings/helperBuyFuel"), ("Helpers buy seeds", "/careerSavegame/settings/helperBuySeeds"), ("Helpers buy fertilizer", "/careerSavegame/settings/helperBuyFertilizer"),
+            ],
+        },
+    ],
+    lists: &[],
+    tables: &[],
+};
+
+const FS15: Spec = Spec {
+    name: "Farming Simulator 15",
+    tab: "Farm",
+    accent: (110, 160, 60),
+    kind: Some("XML"),
+    markers: &["/careerSavegame/@money", "/careerSavegame/@loan"],
+    subtitle: "careerSavegame.xml from Documents\\My Games\\FarmingSimulator2015\\savegame1 …: money, loan, difficulty and the farm's totals. Close the game first.",
+    tiles: &[("Money", "/careerSavegame/@money"), ("Loan", "/careerSavegame/@loan"), ("Play time", "/careerSavegame/@playTime")],
+    sections: &[
+        Section { title: "Farm", rows: &[("Money", "/careerSavegame/@money"), ("Loan", "/careerSavegame/@loan"), ("Loan interest rate", "/careerSavegame/@loanAnnualInterestRate"), ("Revenue", "/careerSavegame/@revenue"), ("Expenses", "/careerSavegame/@expenses"), ("Day", "/careerSavegame/@currentDay")] },
+    ],
+    lists: &[],
+    tables: &[],
+};
+// ------------------------------------------------------------------ Gas Station Simulator
+
+const GAS_STATION_SIM: Spec = Spec {
+    name: "Gas Station Simulator",
+    tab: "Station",
+    accent: (230, 160, 40),
+    kind: Some("Unreal Engine save (GSSSaveGame)"),
+    markers: &["/PlayerSave/TotalMoney", "/GameStateSave/CashMoney"],
+    subtitle: "GameSave_N.sav or AutoSaveN.sav from %LOCALAPPDATA%\\GSS2\\Saved\\SaveGames. Money, popularity and the station's level. Close the game first.",
+    tiles: &[("Player's money", "/PlayerSave/TotalMoney"), ("Station's money", "/GameStateSave/CashMoney"), ("Popularity level", "/GameStateSave/PopularityLevel")],
+    sections: &[
+        Section { title: "Money", rows: &[("Player's money", "/PlayerSave/TotalMoney"), ("Station's money", "/GameStateSave/CashMoney"), ("Fuel sales income", "/GameStateSave/FuelEarnedMoney"), ("Fuel purchases", "/GameStateSave/FuelSpendMoney")] },
+        Section { title: "Station", rows: &[("Popularity level", "/GameStateSave/PopularityLevel"), ("Gas station level", "/SavedGasStation/GasStationLevel"), ("Quest progress", "/SavedQuest/CurrentProgress")] },
+    ],
+    lists: &[],
+    tables: &[],
+};
+
+// ------------------------------------------------------------------ Thief Simulator
+
+const THIEF_SIM: Spec = Spec {
+    name: "Thief Simulator",
+    tab: "Thief",
+    accent: (90, 150, 200),
+    kind: None,
+    markers: &["/cash", "/skillPoints", "/experience"],
+    subtitle: "playerdata_… from Noble Muffins\\Thief Simulator\\Profile_N in AppData\\LocalLow. Cash, level, experience and skill points. Close the game first.",
+    tiles: &[("Cash", "/cash"), ("Level", "/level"), ("Skill points", "/skillPoints")],
+    sections: &[Section {
+        title: "Thief",
+        rows: &[("Cash", "/cash"), ("Level", "/level"), ("Experience", "/experience"), ("Skill points", "/skillPoints"), ("Hard mode", "/hardmode"), ("New Game Plus", "/isNewGamePlus"), ("Day", "/day"), ("Times noticed", "/timesNoticed")],
+    }],
+    lists: &[],
+    tables: &[],
+};
+
+// ------------------------------------------------------------------ House Flipper
+
+const HOUSE_FLIPPER: Spec = Spec {
+    name: "House Flipper",
+    tab: "Flipper",
+    accent: (240, 140, 50),
+    kind: None,
+    markers: &["/moneyProgress/Money", "/skills"],
+    subtitle: "PlayerProgress.dat from Empyrean\\House Flipper Game\\Profiles\\Profile N in AppData\\LocalLow. Money, unused perk points of each skill and the statistics. Close the game first.",
+    tiles: &[("Money", "/moneyProgress/Money")],
+    sections: &[Section {
+        title: "Statistics",
+        rows: &[("Orders completed", "/statistics/completedOrders"), ("Houses sold", "/statistics/soldHouses"), ("Minutes played", "/statistics/minutesPlayed"), ("Items bought", "/statistics/bought"), ("Items sold", "/statistics/sold")],
+    }],
+    lists: &[],
+    tables: &[Table { title: "Skills", path: "/skills", name: &[], only: &[], cols: &[("Unused perk points", "/numberOfPerksAvailable")], names: &[] }],
+};
+
+// ------------------------------------------------------------------ Tavern Master
+
+const TAVERN_MASTER: Spec = Spec {
+    name: "Tavern Master",
+    tab: "Tavern",
+    accent: (210, 140, 60),
+    kind: None,
+    markers: &["/TavernModelBase/money", "/StaffModelBase"],
+    subtitle: "A save .json from AppData\\LocalLow\\Untitled Studio\\Tavern Master. Gold, quest points, the tavern's name and every employee's level and salary. Close the game first.",
+    tiles: &[("Money", "/TavernModelBase/money"), ("Quest points", "/QuestsModelBase/QuestPoints"), ("Customers served", "/TavernModelBase/customersServed")],
+    sections: &[Section { title: "Tavern", rows: &[("Name", "/TavernModelBase/TavernName"), ("Money", "/TavernModelBase/money"), ("Quest points", "/QuestsModelBase/QuestPoints"), ("Customers served", "/TavernModelBase/customersServed"), ("Staff hired so far", "/StaffModelBase/PeopleHiredEver")] }],
+    lists: &[],
+    tables: &[Table { title: "Staff", path: "/StaffModelBase/StaffInfos", name: &["/Name"], only: &[], cols: &[("Level", "/Level"), ("Salary", "/Salary")], names: &[] }],
+};
+
+// ------------------------------------------------------------------ Road Redemption
+
+const ROAD_REDEMPTION: Spec = Spec {
+    name: "Road Redemption",
+    tab: "Rider",
+    accent: (200, 70, 40),
+    kind: Some("XML"),
+    markers: &["/PlayerSave/maxHealthUpRank", "/PlayerSave/MoneyAcquired"],
+    subtitle: "A N_N.save from the Road Redemption folder in AppData\\LocalLow (profile 0, slot 0 and so on). Upgrade ranks, kills and the XP carried over. Close the game first.",
+    tiles: &[("Money acquired", "/PlayerSave/MoneyAcquired"), ("Melee kills", "/PlayerSave/MeleeKills"), ("Wins", "/PlayerSave/NumberOfWins")],
+    sections: &[
+        Section {
+            title: "Upgrade ranks",
+            rows: &[
+                ("Max health", "/PlayerSave/maxHealthUpRank"), ("Base damage", "/PlayerSave/baseDamageUpRank"), ("Base armor", "/PlayerSave/baseArmorUpRank"), ("Max nitro", "/PlayerSave/maxNitroUpRank"),
+                ("Nitro gain", "/PlayerSave/nitroGainUpRank"), ("Health gain", "/PlayerSave/healthGainUpRank"), ("Critical hit damage", "/PlayerSave/critDamageUpRank"), ("Critical hit chance", "/PlayerSave/critChanceUpRank"),
+                ("XP gain", "/PlayerSave/xpGainUpRank"), ("Money gain", "/PlayerSave/moneyGainUpRank"), ("Store prices", "/PlayerSave/storeCostDownRank"), ("Ammo", "/PlayerSave/increasedAmmoRank"),
+                ("Weapon durability", "/PlayerSave/increasedWeaponDurabilityRank"), ("Jump jets", "/PlayerSave/startWithJumpJetRank"),
+            ],
+        },
+        Section { title: "Progress", rows: &[("XP at death", "/PlayerSave/amountOfXPAtDeath"), ("Money acquired", "/PlayerSave/MoneyAcquired"), ("Melee kills", "/PlayerSave/MeleeKills"), ("Wins", "/PlayerSave/NumberOfWins"), ("Campaign Plus wins", "/PlayerSave/NumberOfCampaignPlusWins")] },
+    ],
+    lists: &[],
     tables: &[],
 };
 

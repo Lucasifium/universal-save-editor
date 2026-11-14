@@ -2,7 +2,7 @@
 name = "universal_save_editor"
 version = "0.6.1"
 edition = "2021"
-description = "Universal Save Editor: a free, offline save editor and manager (with backups and restore) for 430+ (433) PC games"
+description = "Universal Save Editor: a free, offline save editor and manager (with backups and restore) for 440+ (446) PC games"
 license = "GPL-3.0-or-later"
 repository = "https://github.com/Lucasifium/universal-save-editor"
 

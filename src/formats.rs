@@ -171,6 +171,8 @@ pub enum Layer {
     Chronicon(Arc<fmt::chronicon::Wrap>),
     /// Sword Art Online: Fatal Bullet: AES-256-ECB blocks, optional HMAC-SHA1 tail.
     Saofb { tail: Arc<Vec<u8>> },
+    /// Dragon Quest Builders 2 common data: an `aerC` header and one zlib stream.
+    Dqb2 { header: Arc<Vec<u8>> },
     /// Death Stranding 2: XORed chunks, the game data in LZ4 pieces with an MD5.
     Ds2(Arc<fmt::ds2::Wrap>),
     /// Death Stranding: sizes header, XOR, Oodle Kraken image with an MD5.
@@ -215,6 +217,8 @@ pub enum Layer {
     Bloodstained { tail: Arc<Vec<u8>> },
     /// World War Z profile files: zlib with the first four bytes XORed (key from the file name).
     Wwz { seed: u8 },
+    /// PAYDAY 2 profile: XOR key stream, MD5 blocks and a typed dictionary (the decoded file is kept to rebuild the save).
+    Payday2 { plain: Arc<Vec<u8>> },
     /// Persona 3 Reload Steam save (XOR key and bit permutation over a GVAS file).
     P3rSteam,
     /// Antimatter Dimensions export text (platform index, three letter version).
@@ -404,6 +408,7 @@ impl Layer {
             Layer::Forspoken { .. } => "Forspoken save encryption (AES, MD5)".into(),
             Layer::Torchlight(_) => "Torchlight III save (JSON in an Unreal string)".into(),
             Layer::Chronicon(_) => "Chronicon character (hex text)".into(),
+            Layer::Dqb2 { .. } => "Dragon Quest Builders 2 save (aerC header, zlib)".into(),
             Layer::Saofb { .. } => "Sword Art Online: Fatal Bullet save encryption (AES-256)".into(),
             Layer::Koei(_) => "Koei Tecmo save encryption".into(),
             Layer::Dq11 { .. } => "Dragon Quest XI S save encryption (AES-256, CRC-32)".into(),
@@ -428,6 +433,7 @@ impl Layer {
             Layer::NonFinite => "JSON with Infinity / NaN numbers".into(),
             Layer::Bloodstained { .. } => "Bloodstained save obfuscation".into(),
             Layer::Wwz { .. } => "World War Z save encryption".into(),
+            Layer::Payday2 { .. } => "PAYDAY 2 save encryption and blocks".into(),
             Layer::P3rSteam => "Persona 3 Reload save encryption".into(),
             Layer::Antimatter { .. } => "Antimatter Dimensions export text".into(),
             Layer::NestedJson { paths, .. } => format!("JSON inside JSON strings ({})", paths.len()),
@@ -1027,6 +1033,7 @@ fn wrap(layer: &Layer, data: Vec<u8>) -> Result<Vec<u8>, String> {
         Layer::Koei(w) => fmt::koei::pack(w, &data)?,
         Layer::Torchlight(w) => fmt::torchlight::pack(w, &data)?,
         Layer::Chronicon(w) => fmt::chronicon::pack(w, &data)?,
+        Layer::Dqb2 { header } => fmt::dqb2::pack(&data, header)?,
         Layer::Saofb { tail } => fmt::saofb::pack(&data, tail)?,
         Layer::Ds2(w) => fmt::ds2::pack(w, &data)?,
         Layer::Ds1(w) => fmt::ds1::pack(w, &data)?,
@@ -1074,6 +1081,7 @@ fn wrap(layer: &Layer, data: Vec<u8>) -> Result<Vec<u8>, String> {
         Layer::NonFinite => fmt::nonfinite::pack(&data)?,
         Layer::Bloodstained { tail } => fmt::bloodstained::pack(&data, tail),
         Layer::Wwz { seed } => fmt::wwz::pack(*seed, &data)?,
+        Layer::Payday2 { plain } => fmt::payday2::pack(plain, &data)?,
         Layer::P3rSteam => fmt::p3r::steam_encrypt(&data),
         Layer::Antimatter { kind, version } => fmt::antimatter::close(*kind, version, &data)?,
         Layer::NestedJson { paths, pretty } => fmt::nested::close(&data, paths, *pretty)?,
@@ -1799,6 +1807,9 @@ fn peel(data: &[u8], ctx: &mut Ctx) -> Option<(Layer, Vec<u8>)> {
     if let Some((h, p)) = fmt::dq11::unpack(data) {
         return Some((Layer::Dq11 { header: Arc::new(h) }, p));
     }
+    if let Some((h, p)) = fmt::dqb2::unpack(data) {
+        return Some((Layer::Dqb2 { header: Arc::new(h) }, p));
+    }
     if let Some((tail, p)) = fmt::saofb::unpack(data).filter(|_| data.len() <= 8 << 20) {
         return Some((Layer::Saofb { tail: Arc::new(tail) }, p));
     }
@@ -1917,6 +1928,9 @@ fn peel(data: &[u8], ctx: &mut Ctx) -> Option<(Layer, Vec<u8>)> {
         if let Some((seed, plain)) = fmt::wwz::open(data, &name) {
             return Some((Layer::Wwz { seed }, plain));
         }
+    }
+    if let Some((plain, json)) = fmt::payday2::open(data) {
+        return Some((Layer::Payday2 { plain: Arc::new(plain) }, json));
     }
     if let Some((plain, tail)) = fmt::bloodstained::open(data) {
         return Some((Layer::Bloodstained { tail: Arc::new(tail) }, plain));

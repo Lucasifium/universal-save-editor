@@ -25,6 +25,7 @@ pub mod prison;
 pub mod dq11;
 pub mod koei;
 pub mod chronicon;
+pub mod dqb2;
 pub mod gothic;
 pub mod saofb;
 pub mod torchlight;
@@ -58,6 +59,7 @@ pub mod genzero_names;
 pub mod nier_replicant;
 pub mod potion;
 pub mod wreckfest;
+pub mod payday2;
 pub mod wwz;
 pub mod ffpr;
 pub mod fantasian;
@@ -203,6 +205,7 @@ pub mod ff8;
 pub mod fft;
 pub mod re1;
 pub mod thps;
+pub mod silenthill;
 pub mod ctr;
 pub mod rayman;
 pub mod gt1;
@@ -225,6 +228,7 @@ pub mod rare;
 pub mod supermetroid;
 pub mod ff6snes;
 pub mod chronotrigger;
+pub mod secretofmana;
 pub mod zelda_lttp;
 pub mod alphaprotocol;
 pub mod isaac;
@@ -314,6 +318,11 @@ pub fn parse_binary(d: &[u8]) -> Option<TreeDoc> {
     }
     if ctr::looks(d) {
         if let Ok(t) = ctr::parse(d) {
+            return Some(t);
+        }
+    }
+    if silenthill::looks(d) {
+        if let Ok(t) = silenthill::parse(d) {
             return Some(t);
         }
     }
@@ -552,6 +561,11 @@ pub fn parse_binary(d: &[u8]) -> Option<TreeDoc> {
             return Some(t);
         }
     }
+    if secretofmana::looks(d) {
+        if let Ok(t) = secretofmana::parse(d) {
+            return Some(t);
+        }
+    }
     if chronotrigger::looks(d) {
         if let Ok(t) = chronotrigger::parse(d) {
             return Some(t);
@@ -729,6 +743,11 @@ pub fn parse_binary(d: &[u8]) -> Option<TreeDoc> {
     }
     if ys8::looks(d) {
         if let Ok(t) = ys8::parse(d) {
+            return Some(t);
+        }
+    }
+    if dqb2::looks(d) {
+        if let Ok(t) = dqb2::parse(d) {
             return Some(t);
         }
     }

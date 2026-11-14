@@ -566,3 +566,32 @@ pub const CT_SNES: Spec = Spec {
     Table { title: tx("Slot 3: equipment"), path: "/Slot 3/Equipment", name: &[], cols: &[(tx("Weapon"), "/Weapon"), (tx("Helmet"), "/Helmet"), (tx("Armor"), "/Armor"), (tx("Accessory"), "/Accessory")], only: &[], names: &[] },
     ],
 };
+
+// ------------------------------------------------------------------ Secret of Mana (SNES)
+
+pub const SOM_SNES: Spec = Spec {
+    name: "Secret of Mana (SNES)",
+    tab: "Party",
+    accent: (90, 170, 90),
+    kind: Some(crate::fmt::secretofmana::KIND),
+    markers: &["/Info/Slots in use"],
+    subtitle: tx("An emulator's 8 KiB .srm / .sav save. Per slot: money, each hero's level, experience, HP and MP, and the level and experience of every weapon and spirit."),
+    tiles: &[(tx("Slots in use"), "/Info/Slots in use")],
+    sections: &[
+    Section { title: tx("Slot 1"), rows: &[(tx("Money"), "/Slot 1/Game/Money")] },
+    Section { title: tx("Slot 2"), rows: &[(tx("Money"), "/Slot 2/Game/Money")] },
+    Section { title: tx("Slot 3"), rows: &[(tx("Money"), "/Slot 3/Game/Money")] },
+    Section { title: tx("Slot 4"), rows: &[(tx("Money"), "/Slot 4/Game/Money")] },
+    ],
+    lists: &[],
+    tables: &[
+    Table { title: tx("Slot 1: party"), path: "/Slot 1/Party", name: &[], cols: &[(tx("Level"), "/Level"), (tx("Experience"), "/Experience"), (tx("HP"), "/HP"), (tx("MP"), "/MP")], only: &[], names: &[] },
+    Table { title: tx("Slot 1: weapon and spirit skills"), path: "/Slot 1/Skills", name: &[], cols: &[(tx("Level"), "/Level"), (tx("Experience"), "/Experience")], only: &[], names: &[] },
+    Table { title: tx("Slot 2: party"), path: "/Slot 2/Party", name: &[], cols: &[(tx("Level"), "/Level"), (tx("Experience"), "/Experience"), (tx("HP"), "/HP"), (tx("MP"), "/MP")], only: &[], names: &[] },
+    Table { title: tx("Slot 2: weapon and spirit skills"), path: "/Slot 2/Skills", name: &[], cols: &[(tx("Level"), "/Level"), (tx("Experience"), "/Experience")], only: &[], names: &[] },
+    Table { title: tx("Slot 3: party"), path: "/Slot 3/Party", name: &[], cols: &[(tx("Level"), "/Level"), (tx("Experience"), "/Experience"), (tx("HP"), "/HP"), (tx("MP"), "/MP")], only: &[], names: &[] },
+    Table { title: tx("Slot 3: weapon and spirit skills"), path: "/Slot 3/Skills", name: &[], cols: &[(tx("Level"), "/Level"), (tx("Experience"), "/Experience")], only: &[], names: &[] },
+    Table { title: tx("Slot 4: party"), path: "/Slot 4/Party", name: &[], cols: &[(tx("Level"), "/Level"), (tx("Experience"), "/Experience"), (tx("HP"), "/HP"), (tx("MP"), "/MP")], only: &[], names: &[] },
+    Table { title: tx("Slot 4: weapon and spirit skills"), path: "/Slot 4/Skills", name: &[], cols: &[(tx("Level"), "/Level"), (tx("Experience"), "/Experience")], only: &[], names: &[] },
+    ],
+};
