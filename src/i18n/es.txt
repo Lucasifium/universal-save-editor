@@ -23813,3 +23813,158 @@ Multiplayer battles
 Multiplayer encounters
 = Encuentros multijugador
 
+Alexandria
+= Alexandria
+
+Arcadia
+= Arcadia
+
+Argonia
+= Argonia
+
+Ascantha
+= Ascantha
+
+Baccarat
+= Baccarat
+
+Chateau Felix
+= Chateau Felix
+
+Dark Ruins
+= Dark Ruins
+
+Dragovian Sanctuary
+= Dragovian Sanctuary
+
+Empycchu
+= Empycchu
+
+Farebury
+= Farebury
+
+Herb Grotto
+= Herb Grotto
+
+Hilltop Hut
+= Hilltop Hut
+
+Maella Abbey
+= Maella Abbey
+
+Marta's Cottage
+= Marta's Cottage
+
+Mystical Spring
+= Mystical Spring
+
+Neos
+= Neos
+
+Orkutsk
+= Orkutsk
+
+Peregrin Quay
+= Peregrin Quay
+
+Pickham
+= Pickham
+
+Pirate's Cove
+= Pirate's Cove
+
+Port Prospect
+= Port Prospect
+
+Princess Minnie's Castle
+= Princess Minnie's Castle
+
+Riverside Chapel
+= Riverside Chapel
+
+Royal Hunting Ground
+= Royal Hunting Ground
+
+Ruined Abbey
+= Ruined Abbey
+
+Rydon's Tower
+= Rydon's Tower
+
+Savella Cathedral
+= Savella Cathedral
+
+Seaview Church
+= Seaview Church
+
+Simpleton
+= Simpleton
+
+Swordsman's Labyrinth
+= Swordsman's Labyrinth
+
+Trodain
+= Trodain
+
+Tryan Gully
+= Tryan Gully
+
+Desert Chapel
+= Desert Chapel
+
+A PlayStation 2 save: the game's save file in the save folder (.psu, .psv or a memory card). Gold coins, bank vault, casino tokens and mini medals, every warp place, the party's level, experience, HP, MP, stats and skill attributes, the bag, and the battle records. The save's checksum is written again.
+= Una partida de PlayStation 2: el archivo de partida de la carpeta de guardado (.psu, .psv o tarjeta de memoria). Monedas de oro, caja fuerte del banco, fichas de casino y minimedallas, cada lugar de teletransporte, el nivel, la experiencia, los PS, los PM, las estadísticas y los atributos de habilidad del grupo, la bolsa y los registros de combate. La suma de verificación de la partida se escribe de nuevo.
+
+Close the emulator first. The save's checksum is written again when you save.
+= Cierra primero el emulador. La suma de verificación de la partida se escribe de nuevo al guardar.
+
+Attribute 1
+= Atributo 1
+
+Attribute 2
+= Atributo 2
+
+Attribute 3
+= Atributo 3
+
+Attribute 4
+= Atributo 4
+
+Attribute 5
+= Atributo 5
+
+Bank vault
+= Caja fuerte del banco
+
+Battle records
+= Registros de combate
+
+Casino tokens
+= Fichas de casino
+
+Mini medals given to Minnie
+= Minimedallas entregadas a Minnie
+
+Miscellaneous
+= Varios
+
+Monsters intimidated
+= Monstruos intimidados
+
+Resilience
+= Resistencia
+
+Times fled
+= Veces que huiste
+
+Times wiped out
+= Veces derrotado
+
+Total gold obtained
+= Oro total obtenido
+
+Victories
+= Victorias
+
+Warp places
+= Lugares de teletransporte

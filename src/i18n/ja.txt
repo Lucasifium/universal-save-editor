@@ -23899,3 +23899,158 @@ Multiplayer battles
 Multiplayer encounters
 = マルチプレイですれ違った人数
 
+Alexandria
+= Alexandria
+
+Arcadia
+= Arcadia
+
+Argonia
+= Argonia
+
+Ascantha
+= Ascantha
+
+Baccarat
+= Baccarat
+
+Chateau Felix
+= Chateau Felix
+
+Dark Ruins
+= Dark Ruins
+
+Dragovian Sanctuary
+= Dragovian Sanctuary
+
+Empycchu
+= Empycchu
+
+Farebury
+= Farebury
+
+Herb Grotto
+= Herb Grotto
+
+Hilltop Hut
+= Hilltop Hut
+
+Maella Abbey
+= Maella Abbey
+
+Marta's Cottage
+= Marta's Cottage
+
+Mystical Spring
+= Mystical Spring
+
+Neos
+= Neos
+
+Orkutsk
+= Orkutsk
+
+Peregrin Quay
+= Peregrin Quay
+
+Pickham
+= Pickham
+
+Pirate's Cove
+= Pirate's Cove
+
+Port Prospect
+= Port Prospect
+
+Princess Minnie's Castle
+= Princess Minnie's Castle
+
+Riverside Chapel
+= Riverside Chapel
+
+Royal Hunting Ground
+= Royal Hunting Ground
+
+Ruined Abbey
+= Ruined Abbey
+
+Rydon's Tower
+= Rydon's Tower
+
+Savella Cathedral
+= Savella Cathedral
+
+Seaview Church
+= Seaview Church
+
+Simpleton
+= Simpleton
+
+Swordsman's Labyrinth
+= Swordsman's Labyrinth
+
+Trodain
+= Trodain
+
+Tryan Gully
+= Tryan Gully
+
+Desert Chapel
+= Desert Chapel
+
+A PlayStation 2 save: the game's save file in the save folder (.psu, .psv or a memory card). Gold coins, bank vault, casino tokens and mini medals, every warp place, the party's level, experience, HP, MP, stats and skill attributes, the bag, and the battle records. The save's checksum is written again.
+= PlayStation 2のセーブ(セーブフォルダ内のセーブファイル。.psu、.psv、メモリーカード)。ゴールドコイン、銀行の預金、カジノコイン、ちいさなメダル、各ワープ地点、パーティの レベル・経験値・HP・MP・能力値・スキル熟練度、ふくろ、戦闘記録を編集できます。セーブのチェックサムは作り直されます。
+
+Close the emulator first. The save's checksum is written again when you save.
+= 先にエミュレーターを閉じてください。保存時にセーブのチェックサムが作り直されます。
+
+Attribute 1
+= アビリティ1
+
+Attribute 2
+= アビリティ2
+
+Attribute 3
+= アビリティ3
+
+Attribute 4
+= アビリティ4
+
+Attribute 5
+= アビリティ5
+
+Bank vault
+= 銀行の預金
+
+Battle records
+= 戦闘記録
+
+Casino tokens
+= カジノコイン
+
+Mini medals given to Minnie
+= ミーティアに渡したちいさなメダル
+
+Miscellaneous
+= その他
+
+Monsters intimidated
+= おどかしたモンスター
+
+Resilience
+= みのまもり
+
+Times fled
+= にげた回数
+
+Times wiped out
+= 全滅した回数
+
+Total gold obtained
+= 獲得したゴールド総額
+
+Victories
+= 勝利数
+
+Warp places
+= ワープ地点

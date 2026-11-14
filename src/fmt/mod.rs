@@ -216,6 +216,7 @@ pub mod silenthill;
 pub mod tekken;
 pub mod dmcps2;
 pub mod kagero;
+pub mod dq8;
 pub mod chronocross;
 pub mod grandia2;
 pub mod ctr;
@@ -355,6 +356,11 @@ pub fn parse_binary(d: &[u8]) -> Option<TreeDoc> {
     }
     if chronocross::looks(d) {
         if let Ok(t) = chronocross::parse(d) {
+            return Some(t);
+        }
+    }
+    if dq8::looks(d) {
+        if let Ok(t) = dq8::parse(d) {
             return Some(t);
         }
     }
