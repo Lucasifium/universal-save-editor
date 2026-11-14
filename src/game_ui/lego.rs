@@ -26,7 +26,7 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
         let total = studs.first().and_then(|p| cx.int(p)).unwrap_or(0);
         ui.label(trf("Studs now: {1}. The game keeps the wallet in {0} places; the buttons write all of them.", &[&(studs.len()), &total]));
         ui.horizontal_wrapped(|ui| {
-            if super::quick_button(ui, format!("Set studs to {MAX_STUDS}"), "") {
+            if super::quick_button(ui, crate::i18n::trf("Set studs to {0}", &[&MAX_STUDS]), "") {
                 for p in &studs {
                     cx.set(p, json!(MAX_STUDS));
                 }

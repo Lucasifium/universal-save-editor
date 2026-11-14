@@ -1,7 +1,7 @@
 //! Golden Sun and Golden Sun: The Lost Age (GBA): each save file's coins, the party's
 //! stat cards and inventories, and a Djinn grid per element.
 
-use crate::i18n::{tr};
+use crate::i18n::{tr, trf};
 use super::{columns, fact, hero, inset_fill, meter, panel, tabs, GameCtx};
 use crate::fmt::goldensun::{djinn_name, ELEMENTS, KIND_GS2};
 use crate::json_view::pointer_escape;
@@ -50,10 +50,10 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
         }
     }
     if let Some(p) = cx.text(&sub("Play time")) {
-        line.push(format!("{p} played"));
+        line.push(trf("{0} played", &[&p]));
     }
     if let Some(n) = cx.int(&sub("Save count")) {
-        line.push(format!("saved {n} times"));
+        line.push(trf("saved {0} times", &[&n]));
     }
     let party = keys(cx, &sub("Party"));
     let per = if lost_age { 18 } else { 7 };
@@ -98,8 +98,7 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
 
     panel(ui, "Djinn", |ui| djinn_grid(ui, cx, &sub("Party"), &party, if lost_age { 18 } else { 7 }));
     ui.weak(
-        "Pick who holds each Djinni, set or on standby, or nobody. The game works out class and Psynergy from the set Djinn the next time you change Djinn in its own menu, \
-         so open the Djinn menu and set one again after loading. Djinn the story hands out are not marked as collected in the world: the game may offer them again.",
+        tr("Pick who holds each Djinni, set or on standby, or nobody. The game works out class and Psynergy from the set Djinn the next time you change Djinn in its own menu, so open the Djinn menu and set one again after loading. Djinn the story hands out are not marked as collected in the world: the game may offer them again."),
     );
 }
 
@@ -117,7 +116,7 @@ fn member(ui: &mut Ui, cx: &mut GameCtx, p: &str, key: &str) {
     let class = cx.text(&at("Class")).unwrap_or_default();
     ui.horizontal_wrapped(|ui| {
         ui.label(RichText::new(&name).size(20.0).strong());
-        ui.label(RichText::new(format!("{class}  \u{00B7}  {} adept", ELEMENTS[elem])).color(crate::theme::fg(ui, color)));
+        ui.label(RichText::new(format!("{class}  \u{00B7}  {}", trf("{0} adept", &[&ELEMENTS[elem]]))).color(crate::theme::fg(ui, color))); // i18n-ok
     });
     ui.horizontal_wrapped(|ui| {
         cx.tile(ui, "Level", &at("Level"), color);
@@ -199,7 +198,7 @@ fn djinn_grid(ui: &mut Ui, cx: &mut GameCtx, party_p: &str, party: &[String], pe
         egui::Frame::none().fill(inset_fill(ui, color)).rounding(8.0).inner_margin(8.0).show(ui, |ui| {
             ui.set_width(ui.available_width());
             let owned = (0..per).filter(|&bit| djinn_holder(cx, party_p, party, el, &djinn_name(e, bit)).is_some()).count();
-            ui.label(RichText::new(format!("{el}  {owned} / {per}")).strong().color(crate::theme::fg(ui, color)));
+            ui.label(RichText::new(format!("{el}  {owned} / {per}")).strong().color(crate::theme::fg(ui, color))); // i18n-ok
             for bit in 0..per {
                 let dn = djinn_name(e, bit);
                 let holder = djinn_holder(cx, party_p, party, el, &dn);
@@ -221,10 +220,10 @@ fn djinn_grid(ui: &mut Ui, cx: &mut GameCtx, party_p: &str, party: &[String], pe
                     };
                     let shown = if changed { RichText::new(shown).size(12.0).color(crate::theme::MODIFIED) } else { RichText::new(shown).size(12.0) };
                     egui::ComboBox::from_id_salt(("gs_djinn", e, bit)).selected_text(shown).width(120.0).show_ui(ui, |ui| {
-                        ui.selectable_value(&mut pick, None, "\u{2014} nobody");
+                        ui.selectable_value(&mut pick, None, format!("\u{2014} {}", tr("nobody")));
                         for (i, n) in names.iter().enumerate() {
-                            ui.selectable_value(&mut pick, Some((i, true)), format!("{n} \u{00B7} set"));
-                            ui.selectable_value(&mut pick, Some((i, false)), format!("{n} \u{00B7} standby"));
+                            ui.selectable_value(&mut pick, Some((i, true)), format!("{n} \u{00B7} {}", tr("set")));
+                            ui.selectable_value(&mut pick, Some((i, false)), format!("{n} \u{00B7} {}", tr("standby")));
                         }
                     });
                 });

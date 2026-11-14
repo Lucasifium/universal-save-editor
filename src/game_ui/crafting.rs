@@ -166,8 +166,8 @@ pub fn stacks(game: Game, cx: &GameCtx) -> Result<Vec<Stack>, &'static str> {
         Game::Expedition33 => Ok(expedition33(cx)),
         Game::Onimusha => Ok(onimusha(cx)),
         Game::Ff7Remake if cx.get("/Inventory/Materials").is_some() => Ok(counts_under(cx, "/Inventory/Materials", FF7_REBIRTH_CAP, |_| true)),
-        Game::Ff7Remake => Err("Only Final Fantasy VII Rebirth has crafting materials."),
-        _ => Err("This game has no crafting materials list."),
+        Game::Ff7Remake => Err(crate::i18n::tr("Only Final Fantasy VII Rebirth has crafting materials.")),
+        _ => Err(crate::i18n::tr("This game has no crafting materials list.")),
     }
 }
 
@@ -195,23 +195,23 @@ fn raise(list: &[Stack], cx: &mut GameCtx) -> usize {
 /// The "Max crafting materials" button (or a note on why it isn't offered).
 pub fn button(game: Game, ui: &mut Ui, cx: &mut GameCtx) {
     let list = stacks(game, cx);
-    button_for(game, list, "this save", ui, cx);
+    button_for(game, list, crate::i18n::tr("this save"), ui, cx);
 }
 
 /// The button for the stacks in `list` (`scope` names where they are, for the hover text).
 fn button_for(game: Game, list: Result<Vec<Stack>, &'static str>, scope: &str, ui: &mut Ui, cx: &mut GameCtx) {
     match list {
         Err(why) => {
-            ui.weak(why);
+            ui.weak(crate::i18n::tr_any(why));
         }
         Ok(list) => {
             let low = list.iter().filter(|s| s.have < s.cap).count();
             let label = match low {
-                0 => "Max crafting materials".to_string(),
-                1 => "Max crafting materials (1 stack)".to_string(),
-                n => format!("Max crafting materials ({n} stacks)"),
+                0 => crate::i18n::tr("Max crafting materials").to_string(),
+                1 => crate::i18n::tr("Max crafting materials (1 stack)").to_string(),
+                n => crate::i18n::trf("Max crafting materials ({0} stacks)", &[&n]),
             };
-            let why_off = if list.is_empty() { format!("No crafting materials in {scope}.") } else { "Every crafting material is already a full stack.".to_string() };
+            let why_off = if list.is_empty() { crate::i18n::trf("No crafting materials in {0}.", &[&scope]) } else { crate::i18n::tr("Every crafting material is already a full stack.").to_string() };
             if super::quick_action(ui, &label, about(game), low > 0, &why_off) {
                 raise(&list, cx);
             }
@@ -223,7 +223,7 @@ fn button_for(game: Game, list: Result<Vec<Stack>, &'static str>, scope: &str, u
 pub fn onimusha_button(ui: &mut Ui, cx: &mut GameCtx, slot: usize) {
     let Some(base) = super::dashboards::ree_slots(cx.root) else { return };
     let list = onimusha_slot(cx, &base, slot);
-    button_for(Game::Onimusha, Ok(list), "this save slot", ui, cx);
+    button_for(Game::Onimusha, Ok(list), crate::i18n::tr("this save slot"), ui, cx);
 }
 
 /// The button, only where this save has the game's crafting materials list (nothing otherwise).
@@ -264,7 +264,7 @@ fn terraria_names() -> &'static HashSet<String> {
 fn terraria(cx: &GameCtx) -> Result<Vec<Stack>, &'static str> {
     match cx.int("/Character/File version") {
         Some(v) if v >= TERRARIA_9999 => {}
-        _ => return Err("Max crafting materials needs a character saved by Terraria 1.4.4 or later (older versions stack materials lower)."),
+        _ => return Err(crate::i18n::tr("Max crafting materials needs a character saved by Terraria 1.4.4 or later (older versions stack materials lower).")),
     }
     let names = terraria_names();
     let mut out = vec![];

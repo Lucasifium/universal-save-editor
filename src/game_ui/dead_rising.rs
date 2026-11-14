@@ -10,7 +10,7 @@ use serde_json::Value;
 const ACCENT: Color32 = Color32::from_rgb(200, 45, 40);
 
 pub fn dead_rising(ui: &mut Ui, cx: &mut GameCtx) {
-    let sub = cx.text("/Save/Area").map(|a| format!("Saved in area {a}")).unwrap_or_default();
+    let sub = cx.text("/Save/Area").map(|a| trf("Saved in area {0}", &[&a])).unwrap_or_default();
     hero(ui, ACCENT, "Dead Rising", &sub, |ui| {
         cx.tile(ui, "Level", "/Frank/Level", ACCENT);
         cx.tile(ui, "PP", "/Frank/PP", ACCENT);

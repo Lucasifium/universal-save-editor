@@ -1,7 +1,7 @@
 //! Octopath Traveler and Octopath Traveler II (Unreal GVAS; names found by `fmt::octopath`):
 //! money and the eight travellers' level, EXP, job points, and current HP/SP.
 
-use crate::i18n::{tr};
+use crate::i18n::{tr, tr_any, trf};
 use crate::widgets::ScrollLock;
 use super::{fact, hero, panel, GameCtx};
 use crate::fmt::octopath::{self as ot, OT1};
@@ -14,7 +14,7 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
     let root = cx.root;
     let money = ot::ptr(root, "", "PlayerBackpack").and_then(|b| ot::ptr(root, &b, "Money"));
     let secs = ot::ptr(root, "", "GamePlaySecond").and_then(|p| cx.int(&p));
-    let sub = secs.map_or_else(String::new, |s| format!("{}:{:02} played", s / 3600, s / 60 % 60));
+    let sub = secs.map_or_else(String::new, |s| trf("{0} played", &[&format!("{}:{:02}", s / 3600, s / 60 % 60)]));
     hero(ui, accent, if first { "Octopath Traveler" } else { "Octopath Traveler II" }, &sub, |ui| {
         if let Some(p) = &money {
             cx.tile(ui, "Money (leaves)", p, accent);
@@ -31,13 +31,13 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
         egui::ScrollArea::horizontal().id_salt("ot_party").show_locked(ui, |ui| {
             egui::Grid::new("ot_party_grid").num_columns(7).spacing([12.0, 5.0]).striped(true).show(ui, |ui| {
                 for h in ["Traveller", "Job", "Level", "EXP", "JP", "HP", "SP"] {
-                    ui.label(RichText::new(h).strong());
+                    ui.label(RichText::new(tr_any(h)).strong());
                 }
                 ui.end_row();
                 for (slot, p, id) in &members {
                     let name = ot::character(&kind, *id).unwrap_or("?");
                     let mark = if party.contains(&(*slot as i64)) { "  \u{2605}" } else { "" };
-                    ui.label(RichText::new(format!("{name}{mark}")).color(ui.visuals().strong_text_color()));
+                    ui.label(RichText::new(format!("{name}{mark}")).color(ui.visuals().strong_text_color())); // i18n-ok
                     let job = ot::ptr(root, p, "FirstJobID").and_then(|q| cx.int(&q)).map(ot::job).unwrap_or_default();
                     ui.label(job);
                     for (k, w) in [("Level", 44.0), ("Exp", 84.0), ("JobPoint", 70.0), ("RawHP", 60.0), ("RawMP", 52.0)] {

@@ -1,7 +1,7 @@
 //! Neverwinter Nights: the player of a module save (`<Module>.sav`) or a character file
 //! (`.bic`). Values come from `fmt::nwn`.
 
-use crate::i18n::{tr};
+use crate::i18n::{tr, trf};
 use crate::widgets::ScrollLock;
 use super::{columns, hero, panel, GameCtx};
 use crate::json_view::pointer_escape;
@@ -26,7 +26,7 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
         }
     }
     if let Some(l) = cx.int("/Character/Level") {
-        sub.push(format!("Level {l}"));
+        sub.push(trf("Level {0}", &[&l]));
     }
     for p in ["/Save/Area", "/Save/Module"] {
         if let Some(t) = cx.text(p).filter(|t| !t.is_empty()) {
@@ -79,7 +79,7 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
         _ => vec![],
     };
     if !items.is_empty() {
-        egui::CollapsingHeader::new(RichText::new(format!("Backpack ({} kinds)", items.len())).strong()).id_salt("nwn_inv").show(ui, |ui| {
+        egui::CollapsingHeader::new(RichText::new(trf("Backpack ({0} kinds)", &[&items.len()])).strong()).id_salt("nwn_inv").show(ui, |ui| {
         let stacks: Vec<String> = match cx.get("/Items") {
             Some(Value::Object(m)) => m.keys().cloned().collect(),
             _ => vec![],

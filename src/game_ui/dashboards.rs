@@ -113,10 +113,10 @@ pub fn hades(ui: &mut Ui, cx: &mut GameCtx) {
     let accent = if two { Color32::from_rgb(160, 110, 220) } else { Color32::from_rgb(220, 80, 60) };
     let mut sub = vec![(if two { "Hades II" } else { "Hades" }).to_string()];
     if let Some(n) = cx.int("/GameState/CompletedRunsCache") {
-        sub.push(format!("{n} nights"));
+        sub.push(trf("{0} nights", &[&n]));
     }
     if let Some(n) = cx.int("/GameState/ClearedRunsCache") {
-        sub.push(format!("{n} cleared"));
+        sub.push(trf("{0} cleared", &[&n]));
     }
     hero(ui, accent, if two { "Melino\u{00EB}" } else { "Zagreus" }, &sub.join("  \u{00B7}  "), |ui| {
         let main: &[&str] = if two { &["MetaCardPointsCommon", "MemPointsCommon", "MetaCurrency", "CardUpgradePoints", "GiftPoints"] } else { &["MetaPoints", "Gems", "LockKeys", "GiftPoints", "SuperLockKeys", "SuperGems", "SuperGiftPoints"] };
@@ -194,14 +194,14 @@ pub fn stardew(ui: &mut Ui, cx: &mut GameCtx) {
     let name = cx.text(&join(p, "name")).unwrap_or_else(|| "Farmer".into());
     let mut sub = vec![];
     if let Some(f) = cx.text(&join(p, "farmName")) {
-        sub.push(format!("{f} Farm"));
+        sub.push(trf("{0} Farm", &[&f]));
     }
     if let (Some(s), Some(d), Some(y)) = (cx.text(&join(g, "currentSeason")), cx.int(&join(g, "dayOfMonth")), cx.int(&join(g, "year"))) {
         let mut season = s.clone();
         if let Some(c) = season.get_mut(0..1) {
             c.make_ascii_uppercase();
         }
-        sub.push(format!("{season} {d}, Year {y}"));
+        sub.push(trf("{0} {1}, Year {2}", &[&season, &d, &y]));
     }
     hero(ui, accent, &name, &sub.join("  \u{00B7}  "), |ui| {
         for (cap, k) in [("Gold", "money"), ("Qi Gems", "qiGems"), ("Casino coins", "clubCoins")] {
@@ -247,10 +247,7 @@ pub fn stardew(ui: &mut Ui, cx: &mut GameCtx) {
                     });
                 }
             }
-            ui.weak(
-                "Levels 0\u{2013}10. Raising XP is the natural way: the game levels the skill up overnight and lets you \
-                 pick professions at 5 and 10. Setting the level directly skips those choices.",
-            );
+            ui.weak(tr("Levels 0\u{2013}10. Raising XP is the natural way: the game levels the skill up overnight and lets you pick professions at 5 and 10. Setting the level directly skips those choices."));
         });
     };
     if wide {
@@ -289,7 +286,7 @@ pub fn stardew(ui: &mut Ui, cx: &mut GameCtx) {
                     let Some(who) = cx.text(&format!("{b}/key/string")) else { continue };
                     ui.label(who);
                     cx.compact(ui, &pts, 70.0);
-                    ui.weak(format!("{:.1} hearts", cx.num(&pts).unwrap_or(0.0) / 250.0));
+                    ui.weak(trf("{0} hearts", &[&format!("{:.1}", cx.num(&pts).unwrap_or(0.0) / 250.0)]));
                     ui.end_row();
                 }
             });
@@ -366,10 +363,10 @@ pub fn minecraft(ui: &mut Ui, cx: &mut GameCtx) {
     };
     let mut sub = vec![mode(cx.int(&join(p, "playerGameType")).or(cx.int(&join(d, "GameType")))).to_string()];
     if let Some(v) = cx.text("/Data/Version/Name") {
-        sub.push(format!("Java {v}"));
+        sub.push(trf("Java {0}", &[&v]));
     }
     if cx.flag(&join(d, "hardcore")) {
-        sub.push("Hardcore".into());
+        sub.push(tr("Hardcore").into());
     }
     sub.retain(|s| !s.is_empty());
     hero(ui, accent, &world, &sub.join("  \u{00B7}  "), |ui| {
@@ -457,16 +454,16 @@ pub fn balatro(ui: &mut Ui, cx: &mut GameCtx) {
     let g = "/GAME";
     let mut sub = vec![];
     if let Some(a) = cx.int("/GAME/round_resets/ante") {
-        sub.push(format!("Ante {a}"));
+        sub.push(trf("Ante {0}", &[&a]));
     }
     if let Some(r) = cx.int("/GAME/round") {
-        sub.push(format!("Round {r}"));
+        sub.push(trf("Round {0}", &[&r]));
     }
     if let Some(s) = cx.int("/GAME/stake") {
-        sub.push(format!("Stake {s}"));
+        sub.push(trf("Stake {0}", &[&s]));
     }
     if let Some(b) = cx.text("/GAME/blind_on_deck") {
-        sub.push(format!("{b} blind next"));
+        sub.push(trf("{0} blind next", &[&b]));
     }
     hero(ui, accent, "Balatro run", &sub.join("  \u{00B7}  "), |ui| {
         cx.tile(ui, "Money ($)", &join(g, "dollars"), accent);
@@ -550,13 +547,13 @@ pub fn hollow_knight(ui: &mut Ui, cx: &mut GameCtx) {
     let accent = Color32::from_rgb(150, 170, 200);
     let mut sub = vec![];
     if let Some(c) = cx.num(&join(p, "completionPercentage")) {
-        sub.push(format!("{c}% complete"));
+        sub.push(trf("{0}% complete", &[&c]));
     }
     if let Some(t) = cx.num(&join(p, "playTime")) {
-        sub.push(format!("{:.1} hours", t / 3600.0));
+        sub.push(trf("{0} hours", &[&format!("{:.1}", t / 3600.0)]));
     }
     if cx.int(&join(p, "permadeathMode")).is_some_and(|m| m > 0) {
-        sub.push("Steel Soul".into());
+        sub.push(tr("Steel Soul").into());
     }
     hero(ui, accent, "The Knight", &sub.join("  \u{00B7}  "), |ui| {
         for (cap, k) in [("Geo", "geo"), ("Masks", "maxHealthBase"), ("Charm notches", "charmSlots"), ("Pale Ore", "ore"), ("Simple Keys", "simpleKeys"), ("Rancid Eggs", "rancidEggs"), ("Essence", "dreamOrbs")] {
@@ -659,13 +656,13 @@ pub fn slay_the_spire(ui: &mut Ui, cx: &mut GameCtx) {
     let who = cx.text("/name").map(|n| words(&n.to_lowercase())).unwrap_or_else(|| "Run".into());
     let mut sub = vec![];
     if let Some(a) = cx.int("/act_num") {
-        sub.push(format!("Act {a}"));
+        sub.push(trf("Act {0}", &[&a]));
     }
     if let Some(f) = cx.int("/floor_num") {
-        sub.push(format!("Floor {f}"));
+        sub.push(trf("Floor {0}", &[&f]));
     }
     if let Some(a) = cx.int("/ascension_level").filter(|&a| a > 0) {
-        sub.push(format!("Ascension {a}"));
+        sub.push(trf("Ascension {0}", &[&a]));
     }
     hero(ui, accent, &who, &sub.join("  \u{00B7}  "), |ui| {
         cx.tile(ui, "Gold", "/gold", accent);
@@ -682,7 +679,7 @@ pub fn slay_the_spire(ui: &mut Ui, cx: &mut GameCtx) {
     columns(ui, 280.0, lists.len(), |ui, i| {
         let (title, p) = lists[i];
         let Some(Value::Array(items)) = cx.get(p).cloned() else { return };
-        panel(ui, &format!("{title} ({})", items.len()), |ui| {
+        panel(ui, &trf("{0} ({1})", &[&crate::i18n::tr_any(title), &items.len()]), |ui| {
             // The name column keeps its width: a grid otherwise sizes it from the narrowest first frame.
             egui::Grid::new(("sts", title)).num_columns(3).striped(true).spacing([8.0, 3.0]).min_col_width(150.0).show(ui, |ui| {
                 if items.first().is_some_and(Value::is_object) {
@@ -783,19 +780,19 @@ pub fn rpg_maker(ui: &mut Ui, cx: &mut GameCtx) {
         Some(Value::Array(a)) => a.iter().filter_map(Value::as_i64).collect(),
         _ => vec![],
     };
-    let mut sub = vec![format!("{} in the party", party.len())];
+    let mut sub = vec![trf("{0} in the party", &[&party.len()])];
     if let Some(s) = cx.int("/party/_steps") {
-        sub.push(format!("{} steps", fmt_num(s as f64)));
+        sub.push(trf("{0} steps", &[&fmt_num(s as f64)]));
     }
     if let Some(f) = cx.num("/system/_framesOnSave") {
-        sub.push(format!("{:.1} hours played", f / 60.0 / 3600.0));
+        sub.push(trf("{0} hours played", &[&format!("{:.1}", f / 60.0 / 3600.0)]));
     }
     let leader = party.first().and_then(|id| cx.text(&format!("/actors/_data/@a/{id}/_name"))).unwrap_or_else(|| "The party".into());
     hero(ui, accent, &leader, &sub.join("  \u{00B7}  "), |ui| {
         cx.tile(ui, "Gold", "/party/_gold", accent);
         for &id in &party {
             let a = format!("/actors/_data/@a/{id}");
-            let name = cx.text(&format!("{a}/_name")).unwrap_or_else(|| format!("Actor {id}"));
+            let name = cx.text(&format!("{a}/_name")).unwrap_or_else(|| trf("Actor {0}", &[&id]));
             cx.tile(ui, &format!("{name}: level"), &format!("{a}/_level"), accent);
         }
     });
@@ -807,11 +804,11 @@ pub fn rpg_maker(ui: &mut Ui, cx: &mut GameCtx) {
     let names: Vec<String> = ids
         .iter()
         .map(|id| {
-            let n = cx.text(&format!("/actors/_data/@a/{id}/_name")).filter(|n| !n.is_empty()).unwrap_or_else(|| format!("Actor {id}"));
+            let n = cx.text(&format!("/actors/_data/@a/{id}/_name")).filter(|n| !n.is_empty()).unwrap_or_else(|| trf("Actor {0}", &[&id]));
             if party.contains(id) {
                 n
             } else {
-                format!("{n} (not in party)")
+                trf("{0} (not in party)", &[&n])
             }
         })
         .collect();
@@ -827,10 +824,7 @@ pub fn rpg_maker(ui: &mut Ui, cx: &mut GameCtx) {
             if col == 0 {
                 ui.label(RichText::new(tr("Level and experience")).strong());
                 grid(ui, cx, "rm_lv", &[("Name", format!("{a}/_name")), ("Nickname", format!("{a}/_nickname")), ("Level", format!("{a}/_level")), ("EXP", exp.clone())]);
-                ui.weak(format!(
-                    "Class {class}. The game works the level out from EXP the next time EXP changes, \
-                     so raise both: the EXP a level needs depends on the class's curve in the game's data."
-                ));
+                ui.weak(trf("Class {0}. The game works the level out from EXP the next time EXP changes, so raise both: the EXP a level needs depends on the class's curve in the game's data.", &[&class]));
                 ui.add_space(6.0);
                 grid(ui, cx, "rm_hp", &[("HP", format!("{a}/_hp")), ("MP", format!("{a}/_mp")), ("TP", format!("{a}/_tp"))]);
             } else {
@@ -841,8 +835,8 @@ pub fn rpg_maker(ui: &mut Ui, cx: &mut GameCtx) {
                 if let Some(Value::Array(s)) = cx.get(&format!("{a}/_skills/@a")) {
                     let s: Vec<String> = s.iter().filter_map(Value::as_i64).map(|i| format!("#{i}")).collect();
                     ui.add_space(6.0);
-                    ui.label(RichText::new(format!("Skills learned: {}", s.len())).strong());
-                    ui.weak(if s.is_empty() { "None.".into() } else { s.join(", ") });
+                    ui.label(RichText::new(trf("Skills learned: {0}", &[&s.len()])).strong());
+                    ui.weak(if s.is_empty() { tr("None.").to_string() } else { s.join(", ") });
                     ui.weak(tr("Skill names are in the game's data files; the numbers are their ids."));
                 }
             }
@@ -853,7 +847,7 @@ pub fn rpg_maker(ui: &mut Ui, cx: &mut GameCtx) {
     for (title, key) in [("Items", "_items"), ("Weapons", "_weapons"), ("Armor", "_armors")] {
         let base = format!("/party/{key}");
         let Some(Value::Object(held)) = cx.get(&base).cloned() else { continue };
-        panel(ui, &format!("{title} carried ({})", held.len()), |ui| {
+        panel(ui, &trf("{0} carried ({1})", &[&crate::i18n::tr_any(title), &held.len()]), |ui| {
             let mut ids: Vec<&String> = held.keys().collect();
             ids.sort_by_key(|k| k.parse::<i64>().unwrap_or(i64::MAX));
             egui::Grid::new(("rm_inv", key)).num_columns(3).striped(true).spacing([10.0, 3.0]).show(ui, |ui| {
@@ -984,9 +978,9 @@ pub fn onimusha(ui: &mut Ui, cx: &mut GameCtx) {
         let sub = cx.text(&format!("{base}/{i}/Subtitle")).unwrap_or_default();
         let place = sub.split('\t').nth(1).filter(|s| !s.is_empty());
         match place {
-            Some(p) => format!("Slot {} \u{2014} {p}", i + 1),
-            None if i + 1 == count => "Autosave".to_string(),
-            None => format!("Slot {}", i + 1),
+            Some(p) => trf("Slot {0} \u{2014} {1}", &[&(i + 1), &p]),
+            None if i + 1 == count => tr("Autosave").to_string(),
+            None => trf("Slot {0}", &[&(i + 1)]),
         }
     };
     let names: Vec<String> = used.iter().map(|&i| label(cx, i)).collect();
@@ -1001,13 +995,13 @@ pub fn onimusha(ui: &mut Ui, cx: &mut GameCtx) {
         sub.push(p);
     }
     if let Some(time) = parts.get(1) {
-        sub.push(format!("{} played", time.trim_start_matches('0').trim_start_matches(':')));
+        sub.push(trf("{0} played", &[&time.trim_start_matches('0').trim_start_matches(':')]));
     }
     if let Some(diff) = parts.get(2).filter(|x| !x.is_empty()) {
-        sub.push(format!("{diff} difficulty"));
+        sub.push(trf("{0} difficulty", &[&diff]));
     }
     if let Some(when) = parts.first().filter(|x| !x.is_empty()) {
-        sub.push(format!("saved {when}"));
+        sub.push(trf("saved {0}", &[&when]));
     }
     hero(ui, accent, "Onimusha: Way of the Sword", &sub.join("  \u{00B7}  "), |ui| {
         // Red souls are kept multiplied by a key; the parser shows them as a plain number.
@@ -1020,7 +1014,7 @@ pub fn onimusha(ui: &mut Ui, cx: &mut GameCtx) {
         cx.tile(ui, "Oni energy", &format!("{d}/_PlayerStatus/OniEnergy"), accent);
     });
     if let Some(goal) = parts.get(3).filter(|x| !x.is_empty()) {
-        ui.label(RichText::new(format!("Objective: {goal}")).weak());
+        ui.label(RichText::new(trf("Objective: {0}", &[&goal])).weak());
     }
     // Items: 500 entries, unused ones hold item 46. EquipNum is what's on hand, BoxNum what's
     // in storage (matched against the game's item screen).
@@ -1039,7 +1033,7 @@ pub fn onimusha(ui: &mut Ui, cx: &mut GameCtx) {
                 ui.end_row();
                 for (k, id) in &used {
                     let p = format!("{items}/{k}");
-                    let name = onimusha_item(*id).map_or_else(|| format!("Item {id}"), str::to_string);
+                    let name = onimusha_item(*id).map_or_else(|| trf("Item {0}", &[&id]), str::to_string);
                     ui.label(name);
                     cx.cell(ui, &format!("{p}/EquipNum"), 70.0);
                     cx.cell(ui, &format!("{p}/BoxNum"), 70.0);
@@ -1069,7 +1063,7 @@ pub fn onimusha(ui: &mut Ui, cx: &mut GameCtx) {
                 ui.end_row();
                 for (k, id) in &owned {
                     let p = format!("{charms}/{k}");
-                    ui.label(onimusha_charm(*id).map_or_else(|| format!("Charm {id}"), str::to_string));
+                    ui.label(onimusha_charm(*id).map_or_else(|| trf("Charm {0}", &[&id]), str::to_string));
                     cx.cell(ui, &format!("{p}/Level"), 50.0);
                     ui.label(if cx.int(&format!("{p}/EquipSlot")).is_some_and(|n| n >= 0) { "Yes" } else { "No" });
                     ui.end_row();
@@ -1105,10 +1099,7 @@ pub fn onimusha(ui: &mut Ui, cx: &mut GameCtx) {
         });
     });
     ui.add_space(4.0);
-    ui.weak(
-        "Each save slot is edited separately; the game keeps the slot you load. Item and equipment names aren't known \
-         yet \u{2014} the Values tab lists everything.",
-    );
+    ui.weak(tr("Each save slot is edited separately; the game keeps the slot you load. Item and equipment names aren't known yet \u{2014} the Values tab lists everything."));
 }
 
 /// Stellaris, Hearts of Iron IV and other Paradox text saves.
@@ -1121,7 +1112,7 @@ pub fn paradox(ui: &mut Ui, cx: &mut GameCtx, kind: &str) {
         let res = format!("{c}/modules/standard_economy_module/resources");
         let name = cx.text("/name").unwrap_or_else(|| "Stellaris empire".into());
         let ruler = cx.text("/player/0/name").unwrap_or_default();
-        hero(ui, accent, &name, &format!("{date}  \u{00B7}  played by {ruler}  \u{00B7}  Stellaris"), |ui| {
+        hero(ui, accent, &name, &trf("{0}  \u{00B7}  played by {1}  \u{00B7}  Stellaris", &[&date, &ruler]), |ui| {
             for (label, k) in [("Energy", "energy"), ("Minerals", "minerals"), ("Food", "food"), ("Alloys", "alloys"), ("Consumer goods", "consumer_goods"), ("Influence", "influence"), ("Unity", "unity")] {
                 if cx.get(&join(&res, k)).is_some() {
                     cx.tile(ui, label, &join(&res, k), accent);
@@ -1146,10 +1137,10 @@ pub fn paradox(ui: &mut Ui, cx: &mut GameCtx, kind: &str) {
             sub.push(words(&i));
         }
         if let Some(d) = cx.text("/difficulty") {
-            sub.push(format!("{d} difficulty"));
+            sub.push(trf("{0} difficulty", &[&d]));
         }
         if cx.text("/ironman").is_some_and(|s| !s.is_empty()) {
-            sub.push("ironman".into());
+            sub.push(tr("ironman").into());
         }
         hero(ui, accent, &tag, &sub.join("  \u{00B7}  "), |ui| {
             cx.tile(ui, "Political power", &format!("{c}/politics/political_power"), accent);
@@ -1212,7 +1203,7 @@ pub fn rimworld(ui: &mut Ui, cx: &mut GameCtx) {
     let colony = cx.text("/Colony/Faction").unwrap_or_else(|| "Colony".into());
     let n = cx.int("/Colony/Colonists").unwrap_or(0);
     let version = cx.text("/Colony/Game version").unwrap_or_default();
-    hero(ui, accent, &colony, &format!("{n} colonist{}  \u{00B7}  RimWorld {version}", if n == 1 { "" } else { "s" }), |ui| {
+    hero(ui, accent, &colony, &trf("{0}  \u{00B7}  RimWorld {1}", &[&if n == 1 { trf("{0} colonist", &[&n]) } else { trf("{0} colonists", &[&n]) }, &version]), |ui| {
         fact(ui, "Silver (all stacks)", &fmt_num(cx.num("/Colony/Silver (all stacks)").unwrap_or(0.0)), accent);
     });
     let names = keys(cx, "/Colonists");
@@ -1249,7 +1240,7 @@ pub fn rimworld(ui: &mut Ui, cx: &mut GameCtx) {
                 let base = join("/Resources", kind);
                 let stacks = keys(cx, &base);
                 let total: i64 = stacks.iter().filter_map(|k| cx.int(&join(&base, k))).sum();
-                egui::CollapsingHeader::new(format!("{}  ({} on the map)", words(kind), fmt_num(total as f64))).id_salt(("rw_res", kind)).show(ui, |ui| {
+                egui::CollapsingHeader::new(trf("{0}  ({1} on the map)", &[&words(kind), &fmt_num(total as f64)])).id_salt(("rw_res", kind)).show(ui, |ui| {
                     egui::Grid::new(("rw_res_g", kind)).num_columns(2).striped(true).spacing([14.0, 3.0]).show(ui, |ui| {
                         for k in &stacks {
                             ui.label(k);
@@ -1289,13 +1280,13 @@ pub fn subnautica(ui: &mut Ui, cx: &mut GameCtx) {
     let secs = cx.num("/gameTime").unwrap_or(0.0);
     let title = if cx.get("/userName").is_some() { "Subnautica: Below Zero" } else { "Subnautica" };
     let name = MODES.get(mode as usize).copied().unwrap_or("Custom");
-    hero(ui, accent, title, &format!("{name} mode  \u{00B7}  {:.1} hours in game", secs / 3600.0), |ui| {
+    hero(ui, accent, title, &format!("{}  \u{00B7}  {}", trf("{0} mode", &[&crate::i18n::tr_any(name)]), trf("{0} hours in game", &[&format!("{:.1}", secs / 3600.0)])), |ui| {
         fact(ui, "Game mode", name, accent);
     });
     panel(ui, "Game mode", |ui| {
         ui.horizontal_wrapped(|ui| {
             for (i, m) in MODES.iter().enumerate() {
-                if ui.selectable_label(mode == i as i64, *m).clicked() && mode != i as i64 {
+                if ui.selectable_label(mode == i as i64, crate::i18n::tr_any(m)).clicked() && mode != i as i64 {
                     cx.set("/gameMode", Value::from(i as i64));
                 }
             }
@@ -1307,7 +1298,7 @@ pub fn subnautica(ui: &mut Ui, cx: &mut GameCtx) {
             for (k, label) in [("seamothPresent", "Seamoth"), ("exosuitPresent", "Prawn Suit"), ("cyclopsPresent", "Cyclops"), ("rocketPresent", "Neptune rocket"), ("basePresent", "Base")] {
                 if cx.get(&format!("/{k}")).is_some() {
                     let have = cx.flag(&format!("/{k}"));
-                    ui.label(RichText::new(format!("{} {label}", if have { "[x]" } else { "[ ]" })).color(if have { theme_ok(ui) } else { ui.visuals().weak_text_color() }));
+                    ui.label(RichText::new(format!("{} {}", if have { "[x]" } else { "[ ]" }, crate::i18n::tr_any(label))).color(if have { theme_ok(ui) } else { ui.visuals().weak_text_color() }));
                 }
             }
         });
@@ -1324,7 +1315,7 @@ pub fn oxygen_not_included(ui: &mut Ui, cx: &mut GameCtx) {
     let colony = cx.text("/Colony/Colony").unwrap_or_else(|| "Colony".into());
     let cycles = cx.int("/Colony/Cycles").unwrap_or(0);
     let n = cx.int("/Colony/Duplicants").unwrap_or(0);
-    hero(ui, accent, &colony, &format!("Cycle {cycles}  \u{00B7}  {n} duplicants  \u{00B7}  Oxygen Not Included"), |_| {});
+    hero(ui, accent, &colony, &trf("Cycle {0}  \u{00B7}  {1} duplicants  \u{00B7}  Oxygen Not Included", &[&cycles, &n]), |_| {});
     if cx.get("/Worlds").is_some() {
         let pages: Vec<String> = ["Duplicants", "Map", "Worlds & rockets"].iter().map(|s| s.to_string()).collect();
         match tabs(ui, "oni_tab", &pages) {

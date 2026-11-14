@@ -1,7 +1,7 @@
 //! Borderlands 2, The Pre-Sequel and Borderlands 3: the vault hunter, currencies, ammo
 //! with its SDU upgrades, and the loot carried (shown, not edited).
 
-use crate::i18n::tr;
+use crate::i18n::{tr, trf};
 use crate::widgets::ScrollLock;
 use super::{bar, blend, fmt_num, panel, tabs, GameCtx};
 use crate::fmt::borderlands::{ammo_capacity, MAX_AMMO_SDU};
@@ -80,7 +80,7 @@ fn header(ui: &mut Ui, cx: &mut GameCtx, game: &str) {
     let name = cx.text("/Character/Name").filter(|n| !n.trim().is_empty()).unwrap_or_else(|| "Vault Hunter".into());
     let mut sub = vec![];
     if let Some(l) = cx.int("/Character/Level") {
-        sub.push(format!("Level {l}"));
+        sub.push(trf("Level {0}", &[&l]));
     }
     if let Some(c) = cx.text("/Character/Class").filter(|c| !c.is_empty()) {
         sub.push(c);
@@ -90,7 +90,7 @@ fn header(ui: &mut Ui, cx: &mut GameCtx, game: &str) {
     }
     sub.push(game.to_string());
     if let Some(p) = cx.int("/Character/Playthroughs completed").filter(|&p| p > 0) {
-        sub.push(format!("{p} playthrough{} done", if p == 1 { "" } else { "s" }));
+        sub.push(if p == 1 { trf("{0} playthrough done", &[&p]) } else { trf("{0} playthroughs done", &[&p]) });
     }
     banner(ui, &name, &sub.join("  \u{00B7}  "), |ui| {
         for (label, p) in [("Level", "/Character/Level"), ("Experience", "/Character/Experience"), ("Skill points", "/Character/Skill points")] {
@@ -156,7 +156,7 @@ fn ammo_panel(ui: &mut Ui, cx: &mut GameCtx, capacity: bool, note: &str) {
                         }
                     }
                 }
-                if super::quick_button(ui, format!("Max ammo SDUs ({MAX_AMMO_SDU})"), "Every ammo SDU to the highest black market level.") {
+                if super::quick_button(ui, trf("Max ammo SDUs ({0})", &[&MAX_AMMO_SDU]), tr("Every ammo SDU to the highest black market level.")) {
                     for n in &sdus {
                         let sp = join("/SDU upgrades", n);
                         if cx.can_edit(&sp) && cx.int(&sp) != Some(MAX_AMMO_SDU) {
@@ -179,9 +179,9 @@ fn loot_table(ui: &mut Ui, cx: &GameCtx, id: &str, base: &str, cols: &[&str]) {
     }
     egui::ScrollArea::vertical().id_salt(id).max_height(360.0).show_locked(ui, |ui| {
         egui::Grid::new((id, "grid")).num_columns(cols.len() + 1).spacing([16.0, 4.0]).striped(true).show(ui, |ui| {
-            ui.strong("#");
+            ui.strong("#"); // i18n-ok
             for c in cols {
-                ui.strong(*c);
+                ui.strong(crate::i18n::tr_any(c));
             }
             ui.end_row();
             for i in 0..n {
@@ -190,8 +190,8 @@ fn loot_table(ui: &mut Ui, cx: &GameCtx, id: &str, base: &str, cols: &[&str]) {
                     let v = cx.get(&format!("{base}/{i}/{}", pointer_escape(c)));
                     let text = match (c, v) {
                         (&"Level", Some(v)) if v.as_i64() == Some(0) => "\u{2014}".to_string(),
-                        (&"Quick slot", Some(v)) if v.as_i64() == Some(0) => "backpack".to_string(),
-                        (_, Some(Value::Bool(b))) => if *b { "yes" } else { "" }.to_string(),
+                        (&"Quick slot", Some(v)) if v.as_i64() == Some(0) => tr("backpack").to_string(),
+                        (_, Some(Value::Bool(b))) => if *b { tr("yes") } else { "" }.to_string(),
                         (_, Some(Value::String(s))) => s.clone(),
                         (_, Some(v)) => v.to_string(),
                         (_, None) => String::new(),
@@ -220,44 +220,42 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
         ui,
         cx,
         true,
-        "Bars show the ammo each SDU level holds before relic and class mod bonuses (the game allows more with those).",
+        tr("Bars show the ammo each SDU level holds before relic and class mod bonuses (the game allows more with those)."),
     );
     if cx.get("/SDU upgrades/Backpack").is_some() || cx.get("/Character/Weapon slots").is_some() {
         panel(ui, "Storage and playthroughs", |ui| {
             egui::Grid::new("bl2_storage").num_columns(3).spacing([14.0, 4.0]).show(ui, |ui| {
-                for (label, p, room, per) in [("Backpack SDU", "/SDU upgrades/Backpack", "/Character/Backpack room", "slots"), ("Bank SDU", "/SDU upgrades/Bank", "/Character/Bank room", "slots")] {
+                for (label, p, room, _per) in [("Backpack SDU", "/SDU upgrades/Backpack", "/Character/Backpack room", "slots"), ("Bank SDU", "/SDU upgrades/Bank", "/Character/Bank room", "slots")] {
                     if cx.get(p).is_some() {
                         cx.label(ui, label, p);
                         ui.horizontal(|ui| cx.editor(ui, p, 56.0));
                         let lv = cx.int(p).unwrap_or(0);
                         let now = if label.starts_with("Backpack") { crate::fmt::borderlands::backpack_slots(lv) } else { crate::fmt::borderlands::bank_slots(lv) };
                         let saved = cx.int(room);
-                        ui.weak(if cx.modified(p) || saved.is_none() { format!("{now} {per} when saved") } else { format!("{} {per}", saved.unwrap()) });
+                        ui.weak(if cx.modified(p) || saved.is_none() { trf("{0} slots when saved", &[&now]) } else { trf("{0} slots", &[&saved.unwrap()]) });
                         ui.end_row();
                     }
                 }
                 cx.grid_row(ui, "Weapon slots", "/Character/Weapon slots", 56.0);
                 cx.grid_row(ui, "Playthroughs completed", "/Character/Playthroughs completed", 56.0);
             });
-            ui.weak(format!(
-                "Backpack and bank SDUs go from 0 to {}: the backpack holds 12 items plus 3 a level, the bank 6 plus 2 a level. Weapon slots go from 2 to 4. \
-                 Playthroughs completed 1 opens True Vault Hunter Mode and 2 opens Ultimate Vault Hunter Mode.",
-                crate::fmt::borderlands::MAX_STORAGE_SDU
+            ui.weak(trf("Backpack and bank SDUs go from 0 to {0}: the backpack holds 12 items plus 3 a level, the bank 6 plus 2 a level. Weapon slots go from 2 to 4. Playthroughs completed 1 opens True Vault Hunter Mode and 2 opens Ultimate Vault Hunter Mode.",
+                &[&crate::fmt::borderlands::MAX_STORAGE_SDU],
             ));
         });
     }
     let nw = cx.get("/Weapons").and_then(Value::as_array).map_or(0, Vec::len);
     let ni = cx.get("/Items").and_then(Value::as_array).map_or(0, Vec::len);
     panel(ui, "Loot", |ui| {
-        let t = tabs(ui, "bl2_loot", &[format!("Weapons ({nw})"), format!("Items ({ni})")]);
+        let t = tabs(ui, "bl2_loot", &[trf("Weapons ({0})", &[&nw]), trf("Items ({0})", &[&ni])]);
         if t == 0 {
             loot_table(ui, cx, "bl2_w", "/Weapons", &["Level", "Quick slot", "Serial check"]);
         } else {
             loot_table(ui, cx, "bl2_i", "/Items", &["Level", "Equipped", "Quantity", "Serial check"]);
         }
         let bank = cx.int("/Bank").unwrap_or(0);
-        ui.weak(format!(
-            "Gear is read from each item's serial (level and its check); names need the game's part tables, so they aren't shown, and gear isn't edited. {bank} item(s) in the bank."
+        ui.weak(trf("Gear is read from each item's serial (level and its check); names need the game's part tables, so they aren't shown, and gear isn't edited. {0} item(s) in the bank.",
+            &[&bank],
         ));
     });
 }
@@ -265,9 +263,9 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
 /// Borderlands 3.
 pub fn show3(ui: &mut Ui, cx: &mut GameCtx) {
     header(ui, cx, "Borderlands 3");
-    ammo_panel(ui, cx, false, "SDU levels go up to 10 (13 for the backpack, sniper rifles and heavy weapons). Ammo above what the SDUs hold is cut back by the game.");
+    ammo_panel(ui, cx, false, tr("SDU levels go up to 10 (13 for the backpack, sniper rifles and heavy weapons). Ammo above what the SDUs hold is cut back by the game."));
     let n = cx.get("/Inventory").and_then(Value::as_array).map_or(0, Vec::len);
-    panel(ui, &format!("Loot ({n})"), |ui| {
+    panel(ui, &trf("Loot ({0})", &[&n]), |ui| {
         loot_table(ui, cx, "bl3_inv", "/Inventory", &["Slot", "Favorite", "Junk", "Serial version", "Serial check"]);
         ui.weak(tr("Gear is shown with its slot, marks and serial check; its parts need the game's item database, so it isn't edited here. Level follows experience: changing one sets the other."));
     });
@@ -276,9 +274,9 @@ pub fn show3(ui: &mut Ui, cx: &mut GameCtx) {
 /// Tiny Tina's Wonderlands.
 pub fn show_wl(ui: &mut Ui, cx: &mut GameCtx) {
     header(ui, cx, "Tiny Tina's Wonderlands");
-    ammo_panel(ui, cx, false, "Ammo above what the character can hold is cut back by the game. Level goes up to 40.");
+    ammo_panel(ui, cx, false, tr("Ammo above what the character can hold is cut back by the game. Level goes up to 40."));
     let n = cx.get("/Inventory").and_then(Value::as_array).map_or(0, Vec::len);
-    panel(ui, &format!("Loot ({n})"), |ui| {
+    panel(ui, &trf("Loot ({0})", &[&n]), |ui| {
         loot_table(ui, cx, "wl_inv", "/Inventory", &["Slot", "Favorite", "Junk", "Serial version", "Serial check"]);
         ui.weak(tr("Gear is shown with its slot, marks and serial check; its parts need the game's item database, so it isn't edited here. Level follows experience: changing one sets the other."));
     });

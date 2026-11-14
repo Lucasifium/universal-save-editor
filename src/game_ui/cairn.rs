@@ -1,7 +1,7 @@
 //! Cairn: the run's statistics, the saves in the slot, and what the climber (Aava or Marco) carries (the
 //! backpack, the chalk pouch and the piton belt) as item grids.
 
-use crate::i18n::tr;
+use crate::i18n::{tr, trf};
 use crate::widgets::ScrollLock;
 use super::{cell_grid, hero, panel, select, selection, Cell, GameCtx};
 use crate::json_view::pointer_escape;
@@ -25,7 +25,7 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
         cx.tile(ui, "Climber", "/Run/Climber", ACCENT);
         cx.tile(ui, "Falls", "/Run/Falls", ACCENT);
         cx.tile(ui, "Deaths", "/Run/Deaths", ACCENT);
-        super::fact(ui, "Carried", &format!("{bag} in the bag, {belt} pitons, {pouch} chalk"), ACCENT);
+        super::fact(ui, "Carried", &trf("{0} in the bag, {1} pitons, {2} chalk", &[&bag, &belt, &pouch]), ACCENT);
     });
 
     if let Some((cur, entries, newest)) = cx.archive {
@@ -46,13 +46,13 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
         saves.dedup_by(|a, b| a.0 == b.0);
         let cur = cur.to_string();
         let mut open = None;
-        egui::CollapsingHeader::new(format!("Saves in this slot ({})", saves.len())).id_salt("cairn_saves").show(ui, |ui| {
+        egui::CollapsingHeader::new(trf("Saves in this slot ({0})", &[&saves.len()])).id_salt("cairn_saves").show(ui, |ui| {
             ui.weak(tr("The dated saves are the game's autosaves. Cairn continues from the newest save in the slot; pick another to open it instead (unsaved changes are dropped)."));
             egui::ScrollArea::vertical().id_salt("cairn_save_list").max_height(220.0).show_locked(ui, |ui| {
                 for (entry, label) in &saves {
                     let shown = *entry == cur;
-                    let resume = if newest.as_deref() == Some(entry.as_str()) { "  \u{2014} the game continues from this one" } else { "" };
-                    let text = if shown { RichText::new(format!("{label}  (open){resume}")).strong() } else { RichText::new(format!("{label}{resume}")) };
+                    let resume = if newest.as_deref() == Some(entry.as_str()) { format!("  \u{2014} {}", tr("the game continues from this one")) } else { String::new() };
+                    let text = if shown { RichText::new(format!("{label}  {}{resume}", tr("(open)"))).strong() } else { RichText::new(format!("{label}{resume}")) }; // i18n-ok
                     if ui.selectable_label(shown, text).on_hover_text(entry).clicked() && !shown {
                         open = Some(entry.clone());
                     }
@@ -82,7 +82,7 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
                         cx.compact(ui, &format!("{base}/Seconds left"), 80.0);
                         if secs > 0 {
                             let shown = format!("{}:{:02}", secs / 60, secs % 60);
-                            ui.weak(if stacked > 1 { format!("{shown} ({stacked} stacked)") } else { shown });
+                            ui.weak(if stacked > 1 { trf("{0} ({1} stacked)", &[&shown, &stacked]) } else { shown });
                         }
                     });
                     cx.compact(ui, &format!("{base}/From"), 200.0);
@@ -91,11 +91,7 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
                 }
             });
             ui.weak(
-                "Seconds left is the time the game shows for the buff (10:00 is 600). Set it to 0 to end a buff, or give an empty one time to start it \
-                 with its usual source and strength. Sips taken one after another stack and run in turn; a changed buff is saved as one with the whole time. \
-                 Stamina and Strength show on the game's Grip line (it shows the longest of them and Grip). Extra grip comes from chalk and \
-                 doesn't run down off the wall (the chalk count on the HUD is the chalk itself: 12 grips a charge). \
-                 Strength and Stoked! can only be changed when the save already has them.",
+                tr("Seconds left is the time the game shows for the buff (10:00 is 600). Set it to 0 to end a buff, or give an empty one time to start it with its usual source and strength. Sips taken one after another stack and run in turn; a changed buff is saved as one with the whole time. Stamina and Strength show on the game's Grip line (it shows the longest of them and Grip). Extra grip comes from chalk and doesn't run down off the wall (the chalk count on the HUD is the chalk itself: 12 grips a charge). Strength and Stoked! can only be changed when the save already has them."),
             );
         });
     }
@@ -103,9 +99,7 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
     panel(ui, "Backpack", |ui| {
         grid(ui, cx, "cairn_bag", "Backpack", 8);
         ui.weak(
-            "Count is the uses left (chalk, climbing tape) or the sips left in a bottle; Contents is what a bottle, flask or thermos holds. \
-             Pick an item in an empty square to add it: it goes at the bottom of the bag, and \u{201C}Shake up bag\u{201D} in the game settles everything. \
-             Set an item to (none) to take it out.",
+            tr("Count is the uses left (chalk, climbing tape) or the sips left in a bottle; Contents is what a bottle, flask or thermos holds. Pick an item in an empty square to add it: it goes at the bottom of the bag, and “Shake up bag” in the game settles everything. Set an item to (none) to take it out."),
         );
     });
     panel(ui, "Piton belt", |ui| {
@@ -115,8 +109,7 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
     panel(ui, "Chalk pouch", |ui| {
         grid(ui, cx, "cairn_pouch", "Chalk pouch", 10);
         ui.weak(
-            "The chalk on the climber's belt; Count is its uses. The pouch holds only as many uses in all as the game shows after the slash \
-             (3/3 at first, more with upgrades): put in more and the game drops the extra chalk.",
+            tr("The chalk on the climber's belt; Count is its uses. The pouch holds only as many uses in all as the game shows after the slash (3/3 at first, more with upgrades): put in more and the game drops the extra chalk."),
         );
     });
 }

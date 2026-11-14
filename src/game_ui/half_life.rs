@@ -37,13 +37,13 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
     let alyx = game == "Half-Life: Alyx";
     let mut sub = vec![];
     if let Some(m) = cx.text("/Save/Map") {
-        sub.push(format!("Map {m}"));
+        sub.push(crate::i18n::trf("Map {0}", &[&m]));
     }
     if let Some(v) = cx.text("/Save/Chapter") {
         sub.push(v);
     }
     if let Some(w) = cx.text("/Player/Weapon in hand") {
-        sub.push(format!("holding the {w}"));
+        sub.push(crate::i18n::trf("holding the {0}", &[&w]));
     }
     let missing: Vec<String> = match cx.get("/Not in this save") {
         Some(Value::Array(a)) => a.iter().filter_map(|v| v.as_str().map(str::to_string)).collect(),

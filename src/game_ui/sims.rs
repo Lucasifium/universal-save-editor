@@ -1,7 +1,7 @@
 //! The Sims (2000) `Neighborhood.iff`: one tab per family with its funds and, for each Sim
 //! in it, personality and skills as bars out of ten.
 
-use crate::i18n::{tr};
+use crate::i18n::{tr, trf};
 use super::screens2::value_rows;
 use super::{fact, hero, panel, tabs, GameCtx};
 use crate::json_view::pointer_escape;
@@ -27,9 +27,9 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx, two: bool) {
     let sims = keys(cx, &format!("{base}/Sims"));
     let mut sub = vec![if two { "The Sims 2" } else { "The Sims" }.to_string()];
     if let Some(h) = cx.text(&format!("{base}/{}", if two { "Lot" } else { "House" })) {
-        sub.push(if h.starts_with("None") { "not moved in".into() } else { format!("{} {h}", if two { "lot" } else { "house" }) });
+        sub.push(if h.starts_with("None") { tr("not moved in").into() } else if two { trf("lot {0}", &[&h]) } else { trf("house {0}", &[&h]) });
     }
-    sub.push(format!("{} Sim{}", sims.len(), if sims.len() == 1 { "" } else { "s" }));
+    sub.push(if sims.len() == 1 { tr("1 Sim").to_string() } else { trf("{0} Sims", &[&sims.len()]) });
     hero(ui, accent, &families[t], &sub.join("  \u{00B7}  "), |ui| {
         cx.tile(ui, "Funds (\u{00A7})", &format!("{base}/Funds"), accent);
         if !two {
@@ -49,7 +49,7 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx, two: bool) {
             ui.weak(about);
             for group in ["Skills", "Personality"] {
                 ui.add_space(4.0);
-                ui.strong(group);
+                ui.strong(crate::i18n::tr_any(group));
                 let rows: Vec<(String, String)> =
                     keys(cx, &format!("{s}/{group}")).into_iter().map(|k| (k.clone(), format!("{s}/{group}/{}", pointer_escape(&k)))).collect();
                 value_rows(ui, cx, &format!("sims1_{t}_{n}_{group}"), &rows);
@@ -81,7 +81,7 @@ pub fn show4(ui: &mut Ui, cx: &mut GameCtx) {
     let base = format!("/Households/{}", pointer_escape(&houses[t]));
     let sims = cx.text(&format!("{base}/Sims")).unwrap_or_default();
     let n = if sims.is_empty() { 0 } else { sims.matches("), ").count() + 1 };
-    hero(ui, accent, &houses[t], &format!("The Sims 4  \u{00B7}  {n} Sim{}", if n == 1 { "" } else { "s" }), |ui| {
+    hero(ui, accent, &houses[t], &format!("The Sims 4  \u{00B7}  {}", if n == 1 { tr("1 Sim").to_string() } else { trf("{0} Sims", &[&n]) }), |ui| {
         cx.tile(ui, "Funds (\u{00A7})", &format!("{base}/Funds"), accent);
     });
     if !sims.is_empty() {

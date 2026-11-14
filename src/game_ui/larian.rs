@@ -1,7 +1,7 @@
 //! Larian saves: Divinity: Original Sin 2 (the party, editable) and Baldur's Gate 3 (the
 //! save's party summary, and gold and stack sizes of what each companion carries). See `fmt/larian.rs`.
 
-use crate::i18n::{tr};
+use crate::i18n::{tr, trf};
 use crate::widgets::ScrollLock;
 use super::{columns, fact, fmt_num, hero, panel, tabs, GameCtx};
 use crate::fmt::larian::ATTRIBUTES;
@@ -49,7 +49,7 @@ pub fn dos2(ui: &mut Ui, cx: &mut GameCtx) {
             line.push(s);
         }
     }
-    line.push(if cx.flag(&at("In party")) { "In the party".into() } else { "Not in the party".into() });
+    line.push(if cx.flag(&at("In party")) { tr("In the party").into() } else { tr("Not in the party").into() });
     ui.label(RichText::new(line.join("  \u{00B7}  ")).color(theme_fg(ui, teal)));
     ui.add_space(6.0);
     columns(ui, 360.0, 2, |ui, col| {
@@ -84,20 +84,19 @@ pub fn dos2(ui: &mut Ui, cx: &mut GameCtx) {
                 cx.grid_row(ui, k, &format!("{base}/Gold/{}", esc(k)), 120.0);
             }
         });
-        ui.label(RichText::new(format!("{} gold on {}", fmt_num(gold_of(cx, &base) as f64), members[t])).color(theme_fg(ui, gold)));
+        ui.label(RichText::new(trf("{0} gold on {1}", &[&fmt_num(gold_of(cx, &base) as f64), &members[t]])).color(theme_fg(ui, gold)));
         ui.weak(tr("Each line is a stack of coins in this character's inventory (named by its stats entry)."));
     });
     let things = keys(cx, &at("Inventory"));
     if !things.is_empty() {
-        panel(ui, &format!("Inventory ({} stacks)", things.len()), |ui| {
+        panel(ui, &trf("Inventory ({0} stacks)", &[&things.len()]), |ui| {
             egui::ScrollArea::vertical().id_salt(("dos2_inv", t)).max_height(320.0).show_locked(ui, |ui| {
                 columns(ui, 360.0, things.len(), |ui, i| {
                     cx.row_fixed(ui, &things[i].replace('_', " "), &format!("{base}/Inventory/{}", esc(&things[i])), 190.0, 60.0);
                 });
             });
             ui.weak(
-                "How many of each item this character carries directly (items inside bags aren't listed), named by the game's item entry. \
-                 Change a stack size; adding or removing items isn't possible here, and the game may trim a stack to what the item allows.",
+                tr("How many of each item this character carries directly (items inside bags aren't listed), named by the game's item entry. Change a stack size; adding or removing items isn't possible here, and the game may trim a stack to what the item allows."),
             );
         });
     }
@@ -166,7 +165,7 @@ fn bg3_carried(ui: &mut Ui, cx: &mut GameCtx, gold: Color32) {
     let piles = keys(cx, &format!("{base}/Gold"));
     let sum: i64 = piles.iter().filter_map(|k| cx.int(&format!("{base}/Gold/{}", esc(k)))).sum();
     panel(ui, "Gold", |ui| {
-        ui.label(RichText::new(format!("{} gold on {}", fmt_num(sum as f64), people[t])).strong().color(theme_fg(ui, gold)));
+        ui.label(RichText::new(trf("{0} gold on {1}", &[&fmt_num(sum as f64), &people[t]])).strong().color(theme_fg(ui, gold)));
         if piles.is_empty() {
             ui.weak(tr("No coins on this character."));
             return;
@@ -180,8 +179,8 @@ fn bg3_carried(ui: &mut Ui, cx: &mut GameCtx, gold: Color32) {
     });
     let things = keys(cx, &format!("{base}/Items"));
     if !things.is_empty() {
-        panel(ui, &format!("Stacked items ({})", things.len()), |ui| {
-            let q = super::screens2::filter_box(ui, &format!("bg3_items{t}"), "potion, arrow, scroll\u{2026}");
+        panel(ui, &trf("Stacked items ({0})", &[&things.len()]), |ui| {
+            let q = super::screens2::filter_box(ui, &format!("bg3_items{t}"), tr("potion, arrow, scroll…"));
             let shown: Vec<&String> = things.iter().filter(|k| q.is_empty() || k.to_lowercase().contains(&q)).collect();
             egui::ScrollArea::vertical().id_salt(("bg3_inv", t)).max_height(360.0).show_locked(ui, |ui| {
                 columns(ui, 300.0, shown.len(), |ui, i| {
@@ -189,8 +188,7 @@ fn bg3_carried(ui: &mut Ui, cx: &mut GameCtx, gold: Color32) {
                 });
             });
             ui.weak(
-                "Stack sizes of what this character carries, by the game's item name. Items can't be added or removed here. \
-                 A stack the game split just before saving shows as read-only.",
+                tr("Stack sizes of what this character carries, by the game's item name. Items can't be added or removed here. A stack the game split just before saving shows as read-only."),
             );
         });
     }

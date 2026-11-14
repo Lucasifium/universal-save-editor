@@ -79,7 +79,7 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
     let accent = Color32::from_rgb(90, 130, 210);
     let units = count(cx, "/unitParameterList");
     let visions = count(cx, "/visionList");
-    let hours = cx.num("/Player/PlayTime").map(|s| format!("{:.1} h played", s / 3600.0));
+    let hours = cx.num("/Player/PlayTime").map(|s| trf("{0} h played", &[&format!("{:.1}", s / 3600.0)]));
     hero(ui, accent, "Final Fantasy Resonance", &hours.unwrap_or_default(), |ui| {
         cx.tile(ui, "Gil", "/Player/currentMoney", accent);
         fact(ui, "Characters", &units.to_string(), accent);
@@ -159,7 +159,7 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
         }
     } else if t == item_tab {
         panel(ui, "Items", |ui| {
-            if super::quick_button(ui, format!("Max consumables ({STACK} each)"), "Raises the consumable stacks you already carry to 99. Key items are left alone.") {
+            if super::quick_button(ui, trf("Max consumables ({0} each)", &[&STACK]), "Raises the consumable stacks you already carry to 99. Key items are left alone.") {
                 max_consumables(cx);
             }
             egui::Grid::new("ffr_items").num_columns(2).spacing([12.0, 6.0]).show(ui, |ui| {

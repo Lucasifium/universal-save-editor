@@ -28,7 +28,7 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
         sub.push(a);
     }
     if let Some(h) = cx.int("/Party/Game hours") {
-        sub.push(format!("{h} h of game time"));
+        sub.push(crate::i18n::trf("{0} h of game time", &[&h]));
     }
     let title = members.first().cloned().unwrap_or_else(|| "The Nameless One".into());
     hero(ui, accent, &title, &sub.join("  \u{00B7}  "), |ui| {

@@ -129,7 +129,7 @@ fn staff(ui: &mut Ui, cx: &mut GameCtx) {
     if all.is_empty() {
         return;
     }
-    panel(ui, &format!("Staff ({})", all.len()), |ui| {
+    panel(ui, &trf("Staff ({0})", &[&all.len()]), |ui| {
         ui.horizontal_wrapped(|ui| {
             if super::quick_button(ui, tr("Everyone to S++"), "") {
                 for n in &all {
@@ -161,9 +161,9 @@ fn staff(ui: &mut Ui, cx: &mut GameCtx) {
         let mut filter: String = ui.memory_mut(|m| m.data.get_temp::<String>(filter_id)).unwrap_or_else(|| "All sections".into());
         ui.horizontal(|ui| {
             ui.label(tr("Show"));
-            eframe::egui::ComboBox::from_id_salt("mgsv_sec_filter").selected_text(&filter).show_ui(ui, |ui| {
+            eframe::egui::ComboBox::from_id_salt("mgsv_sec_filter").selected_text(crate::i18n::tr_any(&filter)).show_ui(ui, |ui| {
                 for s in ["All sections", "Combat", "R&D", "Base Development", "Support", "Intel", "Medical", "Security", "Sickbay", "Brig", "Unassigned"] {
-                    ui.selectable_value(&mut filter, s.to_string(), s);
+                    ui.selectable_value(&mut filter, s.to_string(), crate::i18n::tr_any(s));
                 }
             });
         });
@@ -179,7 +179,7 @@ fn staff(ui: &mut Ui, cx: &mut GameCtx) {
                         cx.editor(ui, &format!("/Staff/{}/{}", esc(n), f), 150.0);
                     }
                     for f in ["Morale", "Proficiency", "Stat bonus"] {
-                        ui.label(f);
+                        ui.label(crate::i18n::tr_any(f));
                         cx.editor(ui, &format!("/Staff/{}/{}", esc(n), f), 50.0);
                     }
                 });

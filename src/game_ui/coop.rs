@@ -34,7 +34,7 @@ pub fn phasmophobia(ui: &mut Ui, cx: &mut GameCtx) {
     let accent = Color32::from_rgb(120, 190, 150);
     let mut sub = vec!["Phasmophobia".to_string()];
     if let Some(n) = cx.int(&val("ghostsIdentifiedAmount")) {
-        sub.push(format!("{n} ghosts identified"));
+        sub.push(crate::i18n::trf("{0} ghosts identified", &[&n]));
     }
     hero(ui, accent, "Ghost hunter", &sub.join("  \u{00B7}  "), |ui| {
         cx.tile(ui, "Money ($)", &val("PlayersMoney"), accent);
@@ -111,10 +111,10 @@ pub fn lethal_company(ui: &mut Ui, cx: &mut GameCtx) {
     }
     let mut sub = vec!["Lethal Company".to_string()];
     if let Some(d) = cx.int(&val("Stats_DaysSpent")) {
-        sub.push(format!("day {d}"));
+        sub.push(crate::i18n::trf("day {0}", &[&d]));
     }
     if let Some(v) = cx.int(&val("FileGameVers")) {
-        sub.push(format!("version {v}"));
+        sub.push(crate::i18n::trf("version {0}", &[&v]));
     }
     hero(ui, accent, "The crew", &sub.join("  \u{00B7}  "), |ui| {
         cx.tile(ui, "Credits", &val("GroupCredits"), accent);
@@ -146,7 +146,7 @@ pub fn lethal_company(ui: &mut Ui, cx: &mut GameCtx) {
             ui.horizontal_wrapped(|ui| {
                 for (id, name) in LC_UNLOCKS.iter().chain([(20, "Jack-o'-lantern"), (21, "Welcome mat"), (22, "Goldfish"), (23, "Plushie pajama man"), (24, "Purple suit")].iter()) {
                     let on = have.contains(id);
-                    if ui.selectable_label(on, *name).on_hover_text(if on { "Owned: click to take it away" } else { "Click to add it to the ship" }).clicked() {
+                    if ui.selectable_label(on, *name).on_hover_text(if on { crate::i18n::tr("Owned: click to take it away") } else { crate::i18n::tr("Click to add it to the ship") }).clicked() {
                         let mut next: Vec<Value> = owned.iter().filter(|v| v.as_i64() != Some(*id)).cloned().collect();
                         if !on {
                             next.push(Value::from(*id));
@@ -216,7 +216,7 @@ pub fn repo(ui: &mut Ui, cx: &mut GameCtx) {
         sub.push(d);
     }
     if let Some(t) = cx.num("/timePlayed/value") {
-        sub.push(format!("{:.1} hours", t / 3600.0));
+        sub.push(crate::i18n::trf("{0} hours", &[&format!("{:.1}", t / 3600.0)]));
     }
     hero(ui, accent, &team, &sub.join("  \u{00B7}  "), |ui| {
         cx.tile(ui, "Level", &format!("{REPO}/runStats/level"), accent);

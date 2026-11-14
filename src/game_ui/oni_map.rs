@@ -261,9 +261,9 @@ pub fn map_tab(ui: &mut Ui, cx: &mut GameCtx) {
     ui.horizontal_wrapped(|ui| {
         ui.label(tr("World:"));
         for w in &map.worlds {
-            let label = if w.rocket { format!("\u{1F680} {}", w.name) } else if w.start { format!("{} (start)", w.name) } else { w.name.clone() };
+            let label = if w.rocket { format!("\u{1F680} {}", w.name) } else if w.start { crate::i18n::trf("{0} (start)", &[&w.name]) } else { w.name.clone() };
             let text = if w.discovered { RichText::new(label) } else { RichText::new(label).weak() };
-            if ui.selectable_label(v.world == w.id, text).on_hover_text(if w.discovered { "" } else { "Not discovered yet" }).clicked() && v.world != w.id {
+            if ui.selectable_label(v.world == w.id, text).on_hover_text(if w.discovered { "" } else { crate::i18n::tr("Not discovered yet") }).clicked() && v.world != w.id {
                 v.world = w.id;
                 v.zoom = 0.0;
                 v.dirty = true;
@@ -311,20 +311,20 @@ pub fn map_tab(ui: &mut Ui, cx: &mut GameCtx) {
         }
         if painting {
             ui.label(tr("Brush:"));
-            ui.add(egui::DragValue::new(&mut v.size).range(1..=32).suffix(" cells"));
-            ui.checkbox(&mut v.neutronium, "Also change Neutronium");
+            ui.add(egui::DragValue::new(&mut v.size).range(1..=32).suffix(format!(" {}", crate::i18n::tr("cells"))));
+            ui.checkbox(&mut v.neutronium, crate::i18n::tr("Also change Neutronium"));
         }
     });
     ui.horizontal_wrapped(|ui| {
         ui.label(tr("Show:"));
         for (o, label) in [(Overlay::Elements, "Elements"), (Overlay::Temperature, "Temperature"), (Overlay::Germs, "Germs")] {
-            if ui.selectable_label(v.overlay == o, label).clicked() {
+            if ui.selectable_label(v.overlay == o, crate::i18n::tr_any(label)).clicked() {
                 v.overlay = o;
                 v.dirty = true;
             }
         }
         if v.visible.is_some() {
-            if ui.checkbox(&mut v.dim, "Dim unexplored").changed() {
+            if ui.checkbox(&mut v.dim, crate::i18n::tr("Dim unexplored")).changed() {
                 v.dirty = true;
             }
             if ui.button(tr("Reveal this world's map")).on_hover_text(tr("Clears the fog over all of this world")).clicked() {
@@ -487,24 +487,20 @@ pub fn map_tab(ui: &mut Ui, cx: &mut GameCtx) {
                 parts.push(format!("{} {}", c.germs, om::germ_name(c.germ)));
             }
             if let Some(r) = map.radiation.get(i).filter(|r| **r > 0.0) {
-                parts.push(format!("{r:.0} rads"));
+                parts.push(crate::i18n::trf("{0} rads", &[&format!("{r:.0}")]));
             }
             if map.protected[i] {
-                parts.push("a tile is built here".into());
+                parts.push(crate::i18n::tr("a tile is built here").into());
             }
             if v.visible.as_ref().is_some_and(|vis| vis[i] == 0) {
-                parts.push("unexplored".into());
+                parts.push(crate::i18n::tr("unexplored").into());
             }
             parts.join("  \u{00B7}  ")
         }
-        None => "Scroll or pinch to zoom; drag to move (right-drag while painting).".into(),
+        None => crate::i18n::tr("Scroll or pinch to zoom; drag to move (right-drag while painting).").into(),
     };
     ui.label(RichText::new(info).size(13.0));
-    ui.weak(
-        "Painting changes what fills each cell: its element, mass, temperature and germs. Buildings, critters, plants and debris are left alone, \
-         and cells with a tile built in them aren't painted. Neutronium is kept unless you tick \u{201C}Also change Neutronium\u{201D}. \
-         Each stroke is one undo step. Liquids and gases settle when the game runs.",
-    );
+    ui.weak(crate::i18n::tr("Painting changes what fills each cell: its element, mass, temperature and germs. Buildings, critters, plants and debris are left alone, and cells with a tile built in them aren't painted. Neutronium is kept unless you tick “Also change Neutronium”. Each stroke is one undo step. Liquids and gases settle when the game runs."));
     poi_panel(ui, &map, v, &world);
     if v.stroke.is_some() || v.dirty {
         ui.ctx().request_repaint();
@@ -518,7 +514,7 @@ fn poi_panel(ui: &mut Ui, map: &OniMap, v: &mut MapView, world: &om::World) {
     for p in &here {
         counts[p.kind] += 1;
     }
-    panel(ui, &format!("Shown on the map: {}", world.name), |ui| {
+    panel(ui, &crate::i18n::trf("Shown on the map: {0}", &[&world.name]), |ui| {
         ui.horizontal_wrapped(|ui| {
             for (k, kind) in om::POI_KINDS.iter().enumerate() {
                 if counts[k] == 0 {
@@ -535,7 +531,7 @@ fn poi_panel(ui: &mut Ui, map: &OniMap, v: &mut MapView, world: &om::World) {
             return;
         }
         let list: Vec<&&om::Poi> = here.iter().filter(|p| v.shown[p.kind]).collect();
-        egui::CollapsingHeader::new(format!("List ({})", list.len())).id_salt("oni_poi_list").show(ui, |ui| {
+        egui::CollapsingHeader::new(crate::i18n::trf("List ({0})", &[&list.len()])).id_salt("oni_poi_list").show(ui, |ui| {
             egui::ScrollArea::vertical().id_salt("oni_poi_scroll").max_height(200.0).show_locked(ui, |ui| {
                 for p in list {
                     let (lx, ly) = (p.x as usize - world.x, p.y as usize - world.y);
@@ -609,10 +605,10 @@ pub fn worlds_tab(ui: &mut Ui, cx: &mut GameCtx, accent: Color32) {
     ui.weak(tr("Sunlight and cosmic radiation are what the world gets at its surface. Discovered puts the world on the star map; Surface revealed clears the fog above ground."));
     let rockets: Vec<String> = cx.get("/Rockets").and_then(Value::as_object).map(|m| m.keys().cloned().collect()).unwrap_or_default();
     if !rockets.is_empty() {
-        panel(ui, &format!("Rockets ({})", rockets.len()), |ui| {
+        panel(ui, &crate::i18n::trf("Rockets ({0})", &[&rockets.len()]), |ui| {
             egui::Grid::new("oni_rockets").num_columns(2).spacing([14.0, 6.0]).striped(true).show(ui, |ui| {
                 for (i, r) in rockets.iter().enumerate() {
-                    cx.grid_row(ui, &format!("Rocket {}", i + 1), &format!("/Rockets/{}/Name", pointer_escape(r)), 260.0);
+                    cx.grid_row(ui, &crate::i18n::trf("Rocket {0}", &[&(i + 1)]), &format!("/Rockets/{}/Name", pointer_escape(r)), 260.0);
                 }
             });
             ui.weak(tr("Rockets with a habitat module also have their interior as a world above, which can be painted on the Map."));

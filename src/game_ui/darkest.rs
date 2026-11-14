@@ -128,7 +128,7 @@ fn estate(ui: &mut Ui, cx: &mut GameCtx) {
         });
     });
     if cx.flag("/base_root/tampering/tampering_manager/foundLocalTamperedFile") || cx.flag("/base_root/tampering/tampering_manager/foundGlobalTamperedFile") {
-        ui.colored_label(theme::fg(ui, BLOOD), "The game has marked this profile as tampered with.");
+        ui.colored_label(theme::fg(ui, BLOOD), crate::i18n::tr("The game has marked this profile as tampered with."));
     }
 }
 
@@ -213,7 +213,7 @@ fn roster(ui: &mut Ui, cx: &mut GameCtx) {
                     if skills.is_empty() {
                         continue;
                     }
-                    ui.label(RichText::new(format!("{label} (upgrade level)")).strong());
+                    ui.label(RichText::new(crate::i18n::trf("{0} (upgrade level)", &[&label])).strong());
                     egui::Grid::new(("dd_skills", &base)).num_columns(2).spacing([16.0, 3.0]).show(ui, |ui| {
                         for s in skills {
                             cx.grid_row(ui, &words(&s), &join(&base, &s), 44.0);
@@ -276,7 +276,7 @@ fn pair(cx: &GameCtx, list: &str, name: &str) -> Option<String> {
 fn dd2_profile(ui: &mut Ui, cx: &mut GameCtx) {
     let name = cx.text("/m_Name").unwrap_or_default();
     let candles = pair(cx, "/m_ProfileValues/m_Values", "candles");
-    hero(ui, TORCH, "Darkest Dungeon II", &format!("Profile \u{2014} {name}"), |ui| {
+    hero(ui, TORCH, "Darkest Dungeon II", &crate::i18n::trf("Profile — {0}", &[&name]), |ui| {
         if let Some(p) = &candles {
             cx.tile(ui, "Candles of Hope", p, TORCH);
         }
@@ -294,7 +294,7 @@ fn dd2_profile(ui: &mut Ui, cx: &mut GameCtx) {
     columns(ui, 340.0, 2, |ui, col| {
         if col == 0 {
             let unlocks: Vec<String> = cx.get("/m_UnlockContainer/m_Unlocks").and_then(Value::as_array).map(|a| a.iter().filter_map(Value::as_str).map(words).collect()).unwrap_or_default();
-            panel(ui, &format!("Unlocked at the Altar of Hope ({})", unlocks.len()), |ui| {
+            panel(ui, &crate::i18n::trf("Unlocked at the Altar of Hope ({0})", &[&unlocks.len()]), |ui| {
                 egui::ScrollArea::vertical().id_salt("dd2_unlocks").max_height(300.0).show_locked(ui, |ui| {
                     for u in &unlocks {
                         ui.label(u);
@@ -352,7 +352,7 @@ fn dd2_run(ui: &mut Ui, cx: &mut GameCtx) {
         }
     });
     rule(ui, TORCH);
-    panel(ui, &format!("Inventory ({} of {} slots)", items.len(), cx.get("/inventory/m_items").and_then(Value::as_array).map_or(0, Vec::len)), |ui| {
+    panel(ui, &crate::i18n::trf("Inventory ({0} of {1} slots)", &[&items.len(), &cx.get("/inventory/m_items").and_then(Value::as_array).map_or(0, Vec::len)]), |ui| {
         if items.is_empty() {
             ui.weak(tr("Empty."));
         }
@@ -375,10 +375,10 @@ fn dd2_heroes(ui: &mut Ui, cx: &mut GameCtx) {
         let class = cx.get(&format!("{b}/m_ActorDataIds")).and_then(|v| v.get(0)).and_then(Value::as_str).map(words).unwrap_or_default();
         let mut tags = vec![class];
         if cx.flag(&format!("{b}/m_IsInParty")) {
-            tags.push("In the party".into());
+            tags.push(crate::i18n::tr("In the party").into());
         }
         if cx.get(&format!("{b}/m_IsLiving")).is_some() && !cx.flag(&format!("{b}/m_IsLiving")) {
-            tags.push("Dead".into());
+            tags.push(crate::i18n::tr("Dead").into());
         }
         panel(ui, &name, |ui| {
             ui.label(RichText::new(tags.join("  \u{00B7}  ")).color(theme::fg(ui, TORCH)));

@@ -4662,9 +4662,6 @@ Challenges (rank 0 to 10)
 Change to
 = 更改为
 
-Changing story flags and choices can break quests, soft-lock the game or stop it from being completed. Treat it as experimental, \n             with no guarantee the save can still be finished, and use it only if you know what you're doing. Keep a backup first so you can \n             go back (Backups › Open save manager restores it). The file as it was is also backed up automatically when you save.
-= 更改剧情标记和选择可能会破坏任务、使游戏卡死或无法通关。请视为实验性功能，不保证存档仍可完成，仅在您清楚自己在做什么时使用。请先备份以便还原（备份 › 打开存档管理器 可恢复）。保存时也会自动备份原文件。
-
 Changing the level doesn't change experience: set both. Gold on the character can be at most 10,000 per level.
 = 更改等级不会更改经验值，请同时设置两者。角色身上的金币每级最多10,000。
 
@@ -17143,3 +17140,814 @@ A PlayStation save (memory card, .mcs, .psx or .psv). The unlocked characters, t
 
 Close the emulator first. Tekken 2 and 3 keep their data scrambled and guarded by a checksum; both are written again on save.
 = 请先关闭模拟器。铁拳2和3的数据经过加扰并由校验和保护,保存时两者都会重新写入。
+
+
+# src/game_ui (direct-printed texts)
+
+Act {0}
+= 第 {0} 幕
+
+Actor {0}
+= 角色 {0}
+
+Ante {0}
+= 底注 {0}
+
+Ascension {0}
+= 进阶 {0}
+
+Attribute {0}
+= 属性 {0}
+
+Backpack ({0} kinds)
+= 背包（{0} 种）
+
+Change perk ranks
+= 修改特技等级
+
+Charm {0}
+= 护符 {0}
+
+Class {0}. The game works the level out from EXP the next time EXP changes, so raise both: the EXP a level needs depends on the class's curve in the game's data.
+= 职业 {0}。游戏会在下次 EXP 变化时根据 EXP 重新计算等级，因此请同时提高两者：升级所需的 EXP 取决于游戏数据中该职业的曲线。
+
+Consumables, key items and cosmetics you carry; 99 at most of each.
+= 携带的消耗品、关键物品和外观物品；每种最多 99 个。
+
+Cycle {0}  ·  {1} duplicants  ·  Oxygen Not Included
+= 第 {0} 周期  ·  {1} 名复制人  ·  Oxygen Not Included
+
+Each save slot is edited separately; the game keeps the slot you load. Item and equipment names aren't known yet — the Values tab lists everything.
+= 每个存档槽需单独编辑；游戏会保留你加载的存档槽。物品和装备名称暂时未知——“数值”标签页列出了全部内容。
+
+Floor {0}
+= 第 {0} 层
+
+Inventory ({0} stacks)
+= 物品栏（{0} 组）
+
+Item names come from a short list the game's own code refers to; other items show their prototype number (the names are in the game's data files). › marks items inside a container above.
+= 物品名称来自游戏代码引用的一份简短列表；其他物品显示其原型编号（名称在游戏的数据文件中）。› 表示上方容器内的物品。
+
+Item {0}
+= 物品 {0}
+
+Java {0}
+= Java {0}
+
+Levels 0–10. Raising XP is the natural way: the game levels the skill up overnight and lets you pick professions at 5 and 10. Setting the level directly skips those choices.
+= 等级 0–10。提高 XP 是自然的方式：游戏会在一夜之间提升技能，并让你在 5 级和 10 级选择职业。直接设置等级会跳过这些选择。
+
+Max consumables ({0} each)
+= 消耗品拉满（每种 {0}）
+
+Objective: {0}
+= 目标：{0}
+
+Party inventory ({0} kinds)
+= 队伍物品栏（{0} 种）
+
+Rank 0 means not taken; most perks have one rank, a few two or three. A perk that gives a one-off gain when picked (Gain Strength, Lifegiver, the skill-point perks) doesn't give it when set here, so raise that number yourself.
+= 等级 0 表示未选取；大多数特技只有一级，少数有二或三级。选取时给予一次性加成的特技（Gain Strength、Lifegiver、技能点类特技）在此处设置时不会给予加成，因此请自行提高相应数值。
+
+Round {0}
+= 第 {0} 回合
+
+Skills learned: {0}
+= 已学技能：{0}
+
+Slot {0} — {1}
+= 存档位 {0} — {1}
+
+Staff ({0})
+= 人员（{0}）
+
+Stake {0}
+= 赌注 {0}
+
+Upgrade and selling materials; 99 is the most of one the game holds.
+= 强化和出售材料；游戏中每种最多持有 99 个。
+
+Vehicles ({0})
+= 车辆（{0}）
+
+Weapons you own and their level (1–4); upgrading needs no materials once set here.
+= 你拥有的武器及其等级（1–4）；在此设置后升级无需材料。
+
+age {0}
+= 年龄 {0}
+
+chapter {0}
+= 第 {0} 章
+
+ironman
+= 铁人模式
+
+nobody
+= 无人
+
+perk name…
+= 特技名称…
+
+playing {0}
+= 正在游玩 {0}
+
+saved {0}
+= 保存于 {0}
+
+{0}  (enabled)
+= {0}  (已启用)
+
+{0}  ({1} on the map)
+= {0}  (地图上 {1})
+
+{0}  ·  RimWorld {1}
+= {0}  ·  RimWorld {1}
+
+{0}  ·  played by {1}  ·  Stellaris
+= {0}  ·  玩家 {1}  ·  Stellaris
+
+{0} (not in party)
+= {0}（不在队伍中）
+
+{0} ({1})
+= {0}（{1}）
+
+{0} Farm
+= {0}农场
+
+{0} XP
+= {0} XP
+
+{0} blind next
+= 下一个盲注：{0}
+
+{0} carried ({1})
+= 携带的{0}（{1}）
+
+{0} cinematics seen
+= 已观看过场动画 {0} 个
+
+{0} cleared
+= 已通关 {0} 次
+
+{0} colonist
+= {0} 名殖民者
+
+{0} colonists
+= {0} 名殖民者
+
+{0} difficulty
+= 难度 {0}
+
+{0} h played
+= 已游玩 {0} 小时
+
+{0} hearts
+= {0} 颗心
+
+{0} hours
+= {0} 小时
+
+{0} hours in game
+= 游戏内 {0} 小时
+
+{0} hours played
+= 已游玩 {0} 小时
+
+{0} in the party
+= 队伍中 {0} 人
+
+{0} mode
+= {0}模式
+
+{0} nights
+= {0} 夜
+
+{0} objects scanned
+= 已扫描物体 {0} 个
+
+{0} played
+= 已游玩 {0}
+
+{0} radio messages heard
+= 已收听无线电消息 {0} 条
+
+{0} steps
+= {0} 步
+
+{0} {1}, Year {2}
+= 第 {2} 年 {0} {1} 日
+
+{0} — PERSONNEL RECORD
+= {0} — 人事档案
+
+{0}% complete
+= 完成度 {0}%
+
+{0}h {1}m played
+= 已游玩 {0} 小时 {1} 分
+
+(empty)
+= （空）
+
+Ability: {0}
+= 特性：{0}
+
+Accessory {0}
+= 饰品 {0}
+
+Ammo slot
+= 弹药栏
+
+Ammo slot {0}
+= 弹药栏 {0}
+
+Badge {0}
+= 徽章 {0}
+
+Block: {0}{1}
+= 方块：{0}{1}
+
+Coin slot
+= 钱币栏
+
+Coin slot {0}
+= 钱币栏 {0}
+
+Companion {0}
+= 同伴 {0}
+
+Dye Accessory
+= 饰品染料
+
+Dye Accessory {0}
+= 饰品染料 {0}
+
+EV (0–252)
+= 努力值 (0–252)
+
+EVs in all: {0} of 510
+= 努力值合计：{0} / 510
+
+Factions ({0})
+= 势力 ({0})
+
+Holds {0}
+= 携带 {0}
+
+How many are in each stack (items that don't stack are 1). Names are the item's record (folder: file name).
+= 每组的数量（不可堆叠的物品为 1）。名称为物品的记录（文件夹：文件名）。
+
+How many are in each stack: equipped, carried and stashed items, by the name the save keeps for them (items that don't stack are 1).
+= 每组的数量：已装备、携带和存放的物品，使用存档中的名称（不可堆叠的物品为 1）。
+
+ID No. {0}
+= ID No. {0}
+
+IV (0–31)
+= 个体值 (0–31)
+
+Inventory ({0} of {1} slots)
+= 物品栏 ({0} / {1} 格)
+
+List ({0})
+= 列表 ({0})
+
+Lv {0}
+= Lv.{0}
+
+Map {0}
+= 地图 {0}
+
+Max HP 16 + 4 × LV and AT 10 + 2 × (LV − 1), as the game sets them when you level up (LV 1 to 19).
+= 最大 HP 16 + 4 × LV，AT 10 + 2 × (LV − 1)，与游戏升级时设定的值一致（LV 1 至 19）。
+
+Max crafting materials ({0} stacks)
+= 制作材料拉满（{0} 组）
+
+Max crafting materials needs a character saved by Terraria 1.4.4 or later (older versions stack materials lower).
+= 制作材料拉满需要由 Terraria 1.4.4 或更高版本保存的角色（旧版本的材料堆叠上限更低）。
+
+No crafting materials in {0}.
+= {0}中没有制作材料。
+
+Painting changes blocks, walls and liquids; furniture, chests, trees and other objects are left alone. Each stroke is one undo step. Liquid only fills empty tiles and settles when the game runs.
+= 绘制会更改方块、墙壁和液体；家具、箱子、树木等物体保持不变。每一笔为一个撤销步骤。液体只会填充空格子，并在游戏运行时自行流动稳定。
+
+Painting changes what fills each cell: its element, mass, temperature and germs. Buildings, critters, plants and debris are left alone, and cells with a tile built in them aren't painted. Neutronium is kept unless you tick “Also change Neutronium”. Each stroke is one undo step. Liquids and gases settle when the game runs.
+= 绘制会更改每个格子的内容：元素、质量、温度和细菌。建筑、生物、植物和杂物保持不变，已建有砖块的格子不会被绘制。除非勾选“同时更改中子素”，否则中子素会保留。每一笔为一个撤销步骤。液体和气体会在游戏运行时自行稳定。
+
+Pocket {0}
+= 口袋 {0}
+
+Profile — {0}
+= 档案 — {0}
+
+Rocket {0}
+= 火箭 {0}
+
+Rockets ({0})
+= 火箭 ({0})
+
+Scroll or pinch to zoom; drag to move (right-drag while painting).
+= 滚动或双指缩放；拖动以移动（绘制时使用右键拖动）。
+
+Scroll or pinch to zoom; drag to move (right-drag while painting). Click a chest with Look / move to open it.
+= 滚动或双指缩放；拖动以移动（绘制时使用右键拖动）。使用“查看 / 移动”点击箱子即可打开。
+
+Set studs to {0}
+= 将 Stud 设为 {0}
+
+Shown on the map: {0}
+= 地图上显示：{0}
+
+Stats, IVs and more
+= 能力、个体值等
+
+Story flags ({0})
+= 剧情标记 ({0})
+
+Terraformation: {0}
+= 地球化改造：{0}
+
+The game never gives more than 510 in all.
+= 游戏中合计绝不会超过 510。
+
+The game stores each unlock as that entry's own code (a plain “yes” unlocks nothing once a run ends). {0} codes are known; entries without a known code stay as they are. Each entry can also be edited in the Values tab.
+= 游戏将每个解锁项保存为该条目自己的代码（单纯的“yes”在一局结束后不会解锁任何内容）。已知 {0} 个代码；没有已知代码的条目保持原样。每个条目也可在“值”标签页中编辑。
+
+The game's own record of how you played: kills per area decide the Genocide and Neutral endings, and the flags below them mark the fights you won. Flags that disagree with each other (a Pacifist ending with kills counted) give odd dialogue. Most flags are 0 or 1.
+= 游戏自身对你游玩方式的记录：各区域的击杀数决定灭绝线和中立线结局，其下的标记表示你赢下的战斗。互相矛盾的标记（例如已有击杀数却是和平结局）会导致奇怪的对话。大多数标记为 0 或 1。
+
+These are the flags the game checks (progress, NPCs moving in, the Bestiary and achievements aren't changed).
+= 这些是游戏检查的标记（进度、NPC 入住、怪物图鉴和成就不会被更改）。
+
+Tools ({0})
+= 工具 ({0})
+
+Turning a seed on after the world was made changes some behaviour, not the terrain that was generated.
+= 在世界创建后开启种子只会改变部分行为，不会改变已生成的地形。
+
+Unlock {0}
+= 解锁{0}
+
+Unlocked at the Altar of Hope ({0})
+= 在希望祭坛解锁 ({0})
+
+Vanity Accessory
+= 时装饰品
+
+Vanity Accessory {0}
+= 时装饰品 {0}
+
+Wall: {0}
+= 墙壁：{0}
+
+a tile is built here
+= 此处已建有砖块
+
+cells
+= 格
+
+day {0}
+= 第 {0} 天
+
+east
+= 东
+
+game version {0}
+= 游戏版本 {0}
+
+head #{0}, body #{1}
+= 头 #{0}，身体 #{1}
+
+holding the {0}
+= 手持{0}
+
+last run: {0}
+= 上一局：{0}
+
+profile version {0}
+= 档案版本 {0}
+
+save version {0}
+= 存档版本 {0}
+
+surface
+= 地表
+
+this save
+= 此存档
+
+this save slot
+= 此存档槽
+
+tiles
+= 格
+
+unexplored
+= 未探索
+
+version {0}
+= 版本 {0}
+
+west
+= 西
+
+yes
+= 是
+
+{0} (neutral)
+= {0}（中性）
+
+{0} (start)
+= {0}（起点）
+
+{0} (upgrade level)
+= {0}（升级等级）
+
+{0} ({1} tiles)
+= {0}（{1} 格）
+
+{0} Badge
+= {0}徽章
+
+{0} badges
+= {0} 枚徽章
+
+{0} character
+= {0}角色
+
+{0} ft above the surface
+= 地表上方 {0} 英尺
+
+{0} ft below the surface
+= 地表下方 {0} 英尺
+
+{0} ft deep
+= 深 {0} 英尺
+
+{0} ft {1}, {2}
+= {1}侧 {0} 英尺，{2}
+
+{0} ghosts identified
+= 已识别 {0} 只鬼魂
+
+{0} h of game time
+= 游戏时间 {0} 小时
+
+{0} head, {1} body
+= 头部 {0}，身体 {1}
+
+{0} on {1}
+= {1}上的{0}
+
+{0} quest and tutorial records
+= {0} 条任务和教程记录
+
+{0} rads
+= {0} 拉德
+
+(actuated)
+= （已激活）
+
+
+(open)
+= （已打开）
+
+1 Sim
+= 1 个 Sim
+
+Ammo above what the character can hold is cut back by the game. Level goes up to 40.
+= 超出角色携带上限的弹药会被游戏削减。等级上限为 40。
+
+Backpack and bank SDUs go from 0 to {0}: the backpack holds 12 items plus 3 a level, the bank 6 plus 2 a level. Weapon slots go from 2 to 4. Playthroughs completed 1 opens True Vault Hunter Mode and 2 opens Ultimate Vault Hunter Mode.
+= 背包和银行的 SDU 为 0 到 {0}：背包可放 12 件物品，每级再加 3 件；银行 6 件，每级再加 2 件。武器栏位为 2 到 4。通关次数为 1 时开启 True Vault Hunter Mode，为 2 时开启 Ultimate Vault Hunter Mode。
+
+Bars show the ammo each SDU level holds before relic and class mod bonuses (the game allows more with those).
+= 条形显示每个 SDU 等级在未计入遗物和职业模组加成时可携带的弹药量（有这些加成时游戏允许更多）。
+
+Chapter {0}
+= 第 {0} 章
+
+Count is the uses left (chalk, climbing tape) or the sips left in a bottle; Contents is what a bottle, flask or thermos holds. Pick an item in an empty square to add it: it goes at the bottom of the bag, and “Shake up bag” in the game settles everything. Set an item to (none) to take it out.
+= Count 是剩余使用次数（镁粉、攀岩胶带）或瓶中剩余的口数；Contents 是瓶子、水壶或保温杯里装的东西。在空格中选择物品即可添加：它会放在背包最下方，游戏设置中的“Shake up bag”会把一切整理好。将物品设为 (none) 即可移除。
+
+Every Smithing Stone and Somber Smithing Stone (Ancient Dragon ones too) for weapons, and every Grave and Ghost Glovewort for Spirit Ashes, each to the 999 you can hold.
+= 武器用的所有 Smithing Stone 和 Somber Smithing Stone（含 Ancient Dragon），以及灵灰用的所有 Grave Glovewort 和 Ghost Glovewort，各补到可携带的 999 个。
+
+Every kind of titanite, Dragon Scales and Demon Titanite, each to the 99 you can carry.
+= 所有种类的 Titanite、Dragon Scale 和 Demon Titanite，各补到可携带的 99 个。
+
+Gear is read from each item's serial (level and its check); names need the game's part tables, so they aren't shown, and gear isn't edited. {0} item(s) in the bank.
+= 装备从每件物品的序列号中读取（等级及其校验）；名称需要游戏的零件表，因此不显示，装备也无法编辑。银行中有 {0} 件物品。
+
+How many of each item this character carries directly (items inside bags aren't listed), named by the game's item entry. Change a stack size; adding or removing items isn't possible here, and the game may trim a stack to what the item allows.
+= 此角色直接携带的每种物品数量（包内物品不列出），名称取自游戏的物品条目。可以修改堆叠数量；此处无法添加或移除物品，游戏也可能把堆叠削减到该物品允许的上限。
+
+Items ({0})
+= 物品（{0}）
+
+Level and HP come from experience and gear, so they are shown but not edited. Materials you have never picked up aren't in the save yet. The save's checksum is written again when you save. Tried in the game.
+= 等级和 HP 由经验和装备决定，因此只显示、不编辑。从未拾取过的材料尚未出现在存档中。保存时会重新写入存档校验和。已在游戏中测试。
+
+Loot ({0})
+= 战利品（{0}）
+
+Materials you have picked up at least once. Most hold 99; Desert Rose, Valley Madder, Briar Clam Shell, Clutchmine and Iron Filings hold 999, and Wyrrite, Sharp Fang, Steelsilk, Bloody Hide, Magicked Ash and Rhema hold 9999.
+= 至少拾取过一次的材料。大多数上限为 99；Desert Rose、Valley Madder、Briar Clam Shell、Clutchmine 和 Iron Filings 上限为 999，Wyrrite、Sharp Fang、Steelsilk、Bloody Hide、Magicked Ash 和 Rhema 上限为 9999。
+
+Max ammo SDUs ({0})
+= 弹药 SDU 拉满（{0}）
+
+No skill points to spend right now: add a Skill Point in Items below to give some. Skill experience fills toward the next point; the game hands it out once it's full.
+= 目前没有可用的技能点：在下方的“物品”中添加 Skill Point 即可获得。技能经验会累积到下一点，满了之后由游戏发放。
+
+Not in the party
+= 不在队伍中
+
+Ones you already have that many of are left alone.
+= 已达到该数量的材料不会改动。
+
+Pick (empty) to remove an item. Items set in a quick-item slot can't be swapped here.
+= 选择 (empty) 可移除物品。设置在快捷物品栏中的物品无法在此更换。
+
+Pick (empty) to remove something you added here. What's equipped or in a quick slot can't be swapped, and a weapon's level stays within what it can have.
+= 选择 (empty) 可移除你在此添加的物品。已装备或在快捷栏中的物品无法更换，武器等级也会保持在其允许的范围内。
+
+Pick who holds each Djinni, set or on standby, or nobody. The game works out class and Psynergy from the set Djinn the next time you change Djinn in its own menu, so open the Djinn menu and set one again after loading. Djinn the story hands out are not marked as collected in the world: the game may offer them again.
+= 选择每只 Djinni 由谁持有：装备中、待命或无人持有。下次在 Djinn 菜单中更换 Djinn 时，游戏会根据装备中的 Djinn 计算职业和 Psynergy，所以读取存档后请打开 Djinn 菜单并重新设置一只。剧情赠送的 Djinn 不会在世界中标记为已收集：游戏可能会再次提供。
+
+Potions and tonics in your satchel, up to the most the game shows for each with the satchel fully expanded.
+= 你背包中的药水和补剂，上限为背包完全扩容后游戏对每种物品显示的最大值。
+
+Raise attributes here and your {0} follows; change your {1} in the tile above.
+= 在此提高属性，你的{0}会随之变化；{1}请在上方的卡片中修改。
+
+SDU levels go up to 10 (13 for the backpack, sniper rifles and heavy weapons). Ammo above what the SDUs hold is cut back by the game.
+= SDU 等级上限为 10（背包、狙击枪和重型武器为 13）。超出 SDU 容量的弹药会被游戏削减。
+
+Saved in area {0}
+= 保存于区域 {0}
+
+Saves in this slot ({0})
+= 此栏位中的存档（{0}）
+
+Scrap Iron, Black and Yellow Gunpowder, Scrap Magnetite, Adamantite Scrap, Fulminated Mercury, Fat and Grave Wax and Lapis Lazuli, each to the 99 you can hold.
+= Scrap Iron、Black 和 Yellow Gunpowder、Scrap Magnetite、Adamantite Scrap、Fulminated Mercury、Fat 和 Grave Wax 以及 Lapis Lazuli，各补到可携带的 99 个。
+
+Seconds left is the time the game shows for the buff (10:00 is 600). Set it to 0 to end a buff, or give an empty one time to start it with its usual source and strength. Sips taken one after another stack and run in turn; a changed buff is saved as one with the whole time. Stamina and Strength show on the game's Grip line (it shows the longest of them and Grip). Extra grip comes from chalk and doesn't run down off the wall (the chalk count on the HUD is the chalk itself: 12 grips a charge). Strength and Stoked! can only be changed when the save already has them.
+= Seconds left 是游戏为增益显示的剩余时间（10:00 即 600）。设为 0 可结束增益，给空的增益填入时间则会以其常见来源和强度启动。连续喝下的几口会叠加并依次生效；修改后的增益会保存为总时长的单个增益。Stamina 和 Strength 显示在游戏的 Grip 行中（它显示其中最长的一项和 Grip）。额外的抓力来自镁粉，离开岩壁也不会消耗（HUD 上的镁粉数就是镁粉本身：每份 12 次抓握）。Strength 和 Stoked! 仅在存档已有时才能修改。
+
+Skill points to spend are the tile above. Skill experience fills toward the next point; the game hands it out once it's full.
+= 可用的技能点在上方的卡片中。技能经验会累积到下一点，满了之后由游戏发放。
+
+Stack sizes of what this character carries, by the game's item name. Items can't be added or removed here. A stack the game split just before saving shows as read-only.
+= 此角色所携带物品的堆叠数量，按游戏的物品名称显示。此处无法添加或移除物品。游戏在保存前刚拆分的堆叠会显示为只读。
+
+Stacked items ({0})
+= 堆叠物品（{0}）
+
+The chalk on the climber's belt; Count is its uses. The pouch holds only as many uses in all as the game shows after the slash (3/3 at first, more with upgrades): put in more and the game drops the extra chalk.
+= 攀岩者腰带上的镁粉；Count 是其使用次数。镁粉袋总共只能容纳游戏在斜杠后显示的使用次数（初始为 3/3，升级后更多）：放入更多时，游戏会丢弃多余的镁粉。
+
+Titanite Shards, Large Shards, Chunks and Slabs, Twinkling Titanite and Petrified Dragon Bones, each to the 99 you can carry.
+= Titanite Shard、Large Titanite Shard、Titanite Chunk、Titanite Slab、Twinkling Titanite 和 Petrified Dragon Bone，各补到可携带的 99 个。
+
+Titanite Shards, Large Shards, Chunks and Slabs, Twinkling Titanite and Titanite Scales, each to the 99 you can carry.
+= Titanite Shard、Large Titanite Shard、Titanite Chunk、Titanite Slab、Twinkling Titanite 和 Titanite Scale，各补到可携带的 99 个。
+
+Weapons ({0})
+= 武器（{0}）
+
+backpack
+= 背包
+
+house {0}
+= 房屋 {0}
+
+level {0}
+= 等级 {0}
+
+lot {0}
+= 地块 {0}
+
+not moved in
+= 尚未入住
+
+potion, arrow, scroll…
+= 药水、箭、卷轴…
+
+saved {0} times
+= 已保存 {0} 次
+
+set
+= 装备中
+
+standby
+= 待命
+
+the game continues from this one
+= 游戏将从此存档继续
+
+{0} ({1} stacked)
+= {0}（堆叠 {1}）
+
+{0} Sims
+= {0} 个 Sim
+
+{0} adept
+= {0}系 Adept
+
+{0} gold on {1}
+= {1} 持有 {0} 金币
+
+{0} in the bag, {1} pitons, {2} chalk
+= 背包中 {0}，岩钉 {1} 个，镁粉 {2}
+
+{0} of each
+= 各 {0} 个
+
+{0} playthrough done
+= 已通关 {0} 次
+
+{0} playthroughs done
+= 已通关 {0} 次
+
+{0} slots
+= {0} 格
+
+{0} slots when saved
+= 保存后为 {0} 格
+
+1 soldier record
+= 1 条士兵记录
+
+{0} soldier records
+= {0} 条士兵记录
+
+1 soldier
+= 1 名士兵
+
+{0} soldiers
+= {0} 名士兵
+
+Board {0}
+= 面板 {0}
+
+Character {0}
+= 角色 {0}
+
+Classic
+= 经典
+
+Lord of Destruction
+= Lord of Destruction
+
+Current quest: {0}
+= 当前任务：{0}
+
+Day {0}
+= 第 {0} 天
+
+Experience pool {0}
+= 经验池 {0}
+
+Global variables ({0})
+= 全局变量 ({0})
+
+Materia ({0})
+= 魔晶石 ({0})
+
+Member {0}
+= 成员 {0}
+
+Saved {0}
+= 保存于 {0}
+
+Student
+= 学生
+
+Turn {0}
+= 第 {0} 回合
+
+Year {0}
+= 第 {0} 年
+
+ability
+= 技能
+
+overdrive
+= 超载
+
+overdrive mode
+= 超载模式
+
+playing as {0}
+= 正在扮演 {0}
+
+saved with game version {0}
+= 使用游戏版本 {0} 保存
+
+{0}  ({1} of {2} on)
+= {0}  ({2} 项中 {1} 项开启)
+
+{0}  ({1} of {2})
+= {0}  ({2} 项中 {1} 项)
+
+{0} (KIA)
+= {0}（阵亡）
+
+{0} ({1}, {2} to add)
+= {0} ({1} 项，待添加 {2} 项)
+
+{0} facilities connected
+= 已连接 {0} 处设施
+
+{0} flags
+= {0} 个标记
+
+{0} materia ({1})
+= {0}魔晶石 ({1})
+
+{0} materia ({1}, {2} to add)
+= {0}魔晶石 ({1} 项，待添加 {2} 项)
+
+{0} numbers
+= {0} 个数值
+
+{0} party members in this slot
+= 此存档位中有 {0} 名队伍成员
+
+{0}: growth
+= {0}：成长
+
+{0}: without equipment
+= {0}：不含装备
+
+e.g. CHAPTER, JOINED, QUEST
+= 例如：CHAPTER、JOINED、QUEST
+
+e.g. Elixir, Ring
+= 例如：万能药、戒指
+
+e.g. Fire, Ifrit
+= 例如：火焰、伊弗利特
+
+e.g. Fire, Magnify
+= 例如：火焰、扩大
+
+e.g. Potion, Bangle
+= 例如：药水、手镯
+
+e.g. dash
+= 例如：冲刺
+
+e.g. mercantilism
+= 例如：重商主义
+
+e.g. money, love, day
+= 例如：money、love、day
+
+loyal, romance, dead…
+= loyal, romance, dead…
+
+name or class
+= 姓名或职业
+
+Clears dead, unconscious, coma and incapacitated and ends bleeding. Raise any part below zero above it too, or the character falls again.
+= 清除死亡、昏迷、昏睡和失能状态并止血。同时把低于零的部位提升到零以上，否则角色会再次倒下。
+
+Stats are as the Sphere Grid has raised them (255 is the most). HP above 9999 needs Break HP Limit. The game works the totals out again from the "without equipment" numbers, so change both. Sphere levels are the moves left to spend on the Sphere Grid.
+= 属性值为晶球盘提升后的数值（最大 255）。HP 超过 9999 需要 Break HP Limit。游戏会根据“不含装备”的数值重新计算总值，因此两者都要修改。晶球等级是晶球盘上剩余可用的移动次数。
+
+Changing story flags and choices can break quests, soft-lock the game or stop it from being completed. Treat it as experimental, with no guarantee the save can still be finished, and use it only if you know what you're doing. Keep a backup first so you can go back (Backups › Open save manager restores it). The file as it was is also backed up automatically when you save.
+= 更改剧情标记和选择可能会破坏任务、使游戏卡死或无法通关。请视为实验性功能，不保证存档仍可完成，仅在您清楚自己在做什么时使用。请先备份以便还原（备份 › 打开存档管理器 可恢复）。保存时也会自动备份原文件。
+
+Level and difficulty here are what the load screen shows. Gold, experience, talent points and the inventory are kept in the game's compressed database inside this save, which can't be edited yet.
+= 这里的等级和难度是读档界面显示的值。金币、经验、天赋点和物品栏保存在此存档内游戏的压缩数据库中，目前还无法编辑。
+
+Click a flag to turn it on or off. These are the game's own story records: changing one doesn't replay the scene behind it, and flags that contradict each other (alive and dead, two romances) can confuse later scenes, so change few at a time and keep the backup.
+= 点击标记即可开启或关闭。这些是游戏自己的剧情记录：修改后不会重播对应的场景，互相矛盾的标记（既活着又死亡、两段恋情）可能让之后的场景出错，因此每次只改少量，并保留备份。
+
+Rank 0 is Rookie … 7 is Colonel (8 Brigadier with some classes). A stat sets the soldier's current, maximum and base value together, so a wounded soldier is healed to it. A blank cell is a value the game left at its default.
+= 军衔 0 为新兵……7 为上校（部分职业 8 为准将）。设置一项属性会同时设定士兵的当前值、最大值和基础值，因此受伤的士兵会被治愈到该值。空白单元格表示游戏保留默认值。
+
+Characters are numbered in the order the save keeps them (Cloud is usually first). The game can recalculate max HP and MP from level and equipment, so raise the level and experience together for lasting changes.
+= 角色按存档保存的顺序编号（通常克劳德排第一）。游戏可能根据等级和装备重新计算最大 HP 和 MP，因此请同时提升等级和经验，才能让修改保持。
+
+Each materia is listed with its slot number, since a save often has several of one kind. Materia someone has equipped can't be removed. In Rebirth, level and AP can be changed up to the materia's top level.
+= 每颗魔晶石都会列出其槽位编号，因为存档里常有多颗同类魔晶石。已被装备的魔晶石无法移除。在《重生》中，等级和 AP 最高可改到该魔晶石的最高等级。
+
+Items and materials go up to 99. Removing frees the slot when you save. Key items, currencies, outfits, folios and trophies are shown but can't be removed. Armor and accessories someone is wearing can't be removed (in Rebirth they can't be removed at all, only changed in number).
+= 物品和材料最多 99 个。移除后，保存时会释放该栏位。关键物品、货币、服装、图鉴册和奖杯会显示，但无法移除。有人正在穿戴的护甲和饰品无法移除（在《重生》中完全无法移除，只能修改数量）。
+
+Hand a civilisation to a human or the AI, or change whose turn it is — for hotseat or play-by-cloud games when someone drops out. Gold, faith, cities and units are in the packed part of the save, which isn't mapped yet.
+= 可以把某个文明交给人类玩家或 AI，或更改轮到谁行动——适用于热座或云端对战中有人退出的情况。黄金、信仰、城市和单位位于存档的压缩部分，目前尚未解析。
+
+Pieces this save doesn't have at any level. They're added at their base level when you save; upgrade them at a shop in the game. Up to 32 at a time. Keep a copy of game.sav until you've loaded the save in the game.
+= 此存档中任何等级都没有的装备。保存时会以基础等级添加，请在游戏内商店中升级。一次最多 32 件。在游戏中成功读取存档之前，请保留一份 game.sav 的副本。
+
+Pieces you don't have yet, at the level you pick, for each type you already own a piece of (that piece's record is the model; it stays as it is). Added when you save, up to 32 at a time. Keep a copy of the save until you've loaded it in the game.
+= 追加你尚未拥有的装备，等级由你选择，针对你已拥有至少一件的每种类型（该装备的记录会作为模板，保持不变）。保存时添加，一次最多 32 件。在游戏中成功读取存档之前，请保留存档副本。

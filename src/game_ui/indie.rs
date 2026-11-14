@@ -82,16 +82,16 @@ pub fn silksong(ui: &mut Ui, cx: &mut GameCtx) {
     let k = |key: &str| join(p, key);
     let mut sub = vec![];
     if let Some(c) = cx.num(&k("completionPercentage")) {
-        sub.push(format!("{c}% complete"));
+        sub.push(crate::i18n::trf("{0}% complete", &[&c]));
     }
     if let Some(t) = cx.num(&k("playTime")) {
-        sub.push(format!("{} played", hours(t, 1.0)));
+        sub.push(crate::i18n::trf("{0} played", &[&hours(t, 1.0)]));
     }
     if cx.int(&k("permadeathMode")).is_some_and(|m| m > 0) {
-        sub.push("Steel Soul".into());
+        sub.push("Steel Soul".into()); // i18n-ok: a game mode name
     }
     if let Some(v) = cx.text(&k("version")) {
-        sub.push(format!("version {v}"));
+        sub.push(crate::i18n::trf("version {0}", &[&v]));
     }
     hero(ui, accent, "Hornet", &sub.join("  \u{00B7}  "), |ui| {
         for (cap, key) in [
@@ -176,7 +176,7 @@ pub fn silksong(ui: &mut Ui, cx: &mut GameCtx) {
     });
     let tools = saved(cx, &k("Tools"));
     if !tools.is_empty() {
-        panel(ui, &format!("Tools ({})", tools.len()), |ui| {
+        panel(ui, &crate::i18n::trf("Tools ({0})", &[&tools.len()]), |ui| {
             let q = filter(ui, "ss_tools");
             let shown: Vec<&(usize, String)> = tools.iter().filter(|(_, n)| q.is_empty() || n.to_lowercase().contains(&q)).collect();
             let base = format!("{}/savedData", k("Tools"));
@@ -259,11 +259,11 @@ pub fn undertale(ui: &mut Ui, cx: &mut GameCtx) {
         let mut line = vec![];
         for (cap, key) in [("G", "Gold"), ("EXP", "EXP"), ("KILLS", "Kills")] {
             if let Some(n) = cx.num(&k(key)) {
-                line.push(format!("{cap} {}", fmt_num(n)));
+                line.push(format!("{cap} {}", fmt_num(n))); // i18n-ok: the game's own HUD
             }
         }
         if let Some(t) = cx.num("/Progress/Play time (frames)") {
-            line.push(format!("TIME {}", hours(t, 30.0)));
+            line.push(format!("TIME {}", hours(t, 30.0))); // i18n-ok: the game's own HUD
         }
         ui.label(mono(line.join("   "), 16.0, UT_YELLOW));
     });
@@ -275,7 +275,7 @@ pub fn undertale(ui: &mut Ui, cx: &mut GameCtx) {
                 rows(ui, cx, "ut_stats", &list, 120.0);
                 if (1..=19).contains(&lv) && cx.can_edit(&k("Max HP")) && cx.can_edit(&k("AT")) {
                     let (hp, at) = (16 + 4 * lv, 10 + 2 * (lv - 1));
-                    let tip = "Max HP 16 + 4 \u{00D7} LV and AT 10 + 2 \u{00D7} (LV \u{2212} 1), as the game sets them when you level up (LV 1 to 19).";
+                    let tip = crate::i18n::tr("Max HP 16 + 4 × LV and AT 10 + 2 × (LV − 1), as the game sets them when you level up (LV 1 to 19).");
                     if ui.button(trf("Match Max HP and AT to LV {0} ({1} HP, {2} AT)", &[&lv, &hp, &at])).on_hover_text(tip).clicked() {
                         cx.set(&k("Max HP"), Value::from(hp));
                         cx.set(&k("AT"), Value::from(at));
@@ -318,10 +318,7 @@ pub fn undertale(ui: &mut Ui, cx: &mut GameCtx) {
                 let list: Vec<(String, String)> = route.iter().map(|k| (k.clone(), join("/Route and counters", k))).collect();
                 let list: Vec<(&str, String)> = list.iter().map(|(a, b)| (a.as_str(), b.clone())).collect();
                 rows(ui, cx, "ut_route", &list, 220.0);
-                ui.weak(
-                    "The game's own record of how you played: kills per area decide the Genocide and Neutral endings, and the flags below them mark the fights \
-                     you won. Flags that disagree with each other (a Pacifist ending with kills counted) give odd dialogue. Most flags are 0 or 1.",
-                );
+                ui.weak(crate::i18n::tr("The game's own record of how you played: kills per area decide the Genocide and Neutral endings, and the flags below them mark the fights you won. Flags that disagree with each other (a Pacifist ending with kills counted) give odd dialogue. Most flags are 0 or 1."));
             });
         });
     }
@@ -334,9 +331,9 @@ pub fn deltarune(ui: &mut Ui, cx: &mut GameCtx) {
     let accent = Color32::from_rgb(60, 110, 235);
     let ch1 = cx.get("/Inventory").is_some();
     let name = cx.text("/Player/Name").filter(|n| !n.is_empty()).unwrap_or_else(|| "Vessel".into());
-    let mut sub = vec![if ch1 { "Chapter 1".to_string() } else { "Chapter 2, 3 or 4".to_string() }];
+    let mut sub = vec![if ch1 { crate::i18n::tr("Chapter 1").to_string() } else { crate::i18n::tr("Chapter 2, 3 or 4").to_string() }];
     if let Some(t) = cx.num("/Progress/Play time (frames)") {
-        sub.push(format!("{} played", hours(t, 30.0)));
+        sub.push(crate::i18n::trf("{0} played", &[&hours(t, 30.0)]));
     }
     hero(ui, accent, &name, &sub.join("  \u{00B7}  "), |ui| {
         cx.tile(ui, "Dark Dollars", "/Player/Dark Dollars", accent);
@@ -452,7 +449,7 @@ pub fn vampire_survivors(ui: &mut Ui, cx: &mut GameCtx) {
     let red = Color32::from_rgb(170, 30, 40);
     let mut sub = vec![];
     if let Some(v) = cx.text("/Version") {
-        sub.push(format!("save version {v}"));
+        sub.push(crate::i18n::trf("save version {0}", &[&v]));
     }
     if let Some(c) = cx.text("/SelectedCharacter") {
         sub.push(c);

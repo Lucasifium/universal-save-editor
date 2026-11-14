@@ -1,7 +1,7 @@
 //! Final Fantasy XVI (slot pictures `0001.png`…, `auto.png`): gil, Ability Points, consumables
 //! and materials, with a "Max crafting materials" button.
 
-use crate::i18n::tr;
+use crate::i18n::{tr, trf};
 use super::screens2::value_rows;
 use super::{fact, hero, panel, tabs, GameCtx};
 use crate::json_view::pointer_escape;
@@ -19,7 +19,7 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
     let accent = Color32::from_rgb(196, 64, 52);
     let level = cx.int("/Clive/Level");
     let sub = match level {
-        Some(l) => format!("Final Fantasy XVI  \u{00B7}  level {l}"),
+        Some(l) => format!("Final Fantasy XVI  \u{00B7}  {}", trf("level {0}", &[&l])),
         None => "Final Fantasy XVI".into(),
     };
     hero(ui, accent, "Clive", &sub, |ui| {
@@ -44,14 +44,10 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
         }
         value_rows(ui, cx, &format!("ff16_{t}"), &r);
         ui.weak(match lists[t] {
-            "Materials" => "Materials you have picked up at least once. Most hold 99; Desert Rose, Valley Madder, Briar \
-                            Clam Shell, Clutchmine and Iron Filings hold 999, and Wyrrite, Sharp Fang, Steelsilk, \
-                            Bloody Hide, Magicked Ash and Rhema hold 9999.",
-            _ => "Potions and tonics in your satchel, up to the most the game shows for each with the satchel fully expanded.",
+            "Materials" => tr("Materials you have picked up at least once. Most hold 99; Desert Rose, Valley Madder, Briar Clam Shell, Clutchmine and Iron Filings hold 999, and Wyrrite, Sharp Fang, Steelsilk, Bloody Hide, Magicked Ash and Rhema hold 9999."),
+            _ => tr("Potions and tonics in your satchel, up to the most the game shows for each with the satchel fully expanded."),
         });
     });
-    ui.weak(
-        "Level and HP come from experience and gear, so they are shown but not edited. Materials you have never \
-         picked up aren't in the save yet. The save's checksum is written again when you save. Tried in the game.",
-    );
+    ui.weak(tr("Level and HP come from experience and gear, so they are shown but not edited. Materials you have never picked up aren't in the save yet. The save's checksum is written again when you save. Tried in the game.",
+    ));
 }

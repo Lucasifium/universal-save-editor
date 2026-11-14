@@ -25,14 +25,14 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
     let name = cx.text("/Trainer/Name").unwrap_or_else(|| "Trainer".into());
     let mut sub = vec![];
     if let Some(id) = cx.int("/Trainer/Trainer ID") {
-        sub.push(format!("ID No. {id:05}"));
+        sub.push(crate::i18n::trf("ID No. {0}", &[&format!("{id:05}")]));
     }
     if let Some(g) = cx.text("/Trainer/Gender") {
         sub.push(g);
     }
     let time: Vec<i64> = ["hours", "minutes"].iter().filter_map(|u| cx.int(&format!("/Trainer/Play time ({u})"))).collect();
     if let [h, m] = time[..] {
-        sub.push(format!("{h}:{m:02} played"));
+        sub.push(crate::i18n::trf("{0} played", &[&format!("{h}:{m:02}")]));
     }
     if let Some(k) = cx.tree.map(|t| t.kind_name.clone()) {
         sub.push(k);
@@ -98,7 +98,7 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
                 .map(|s| {
                     let p = join(&bp, s);
                     let empty = mon_empty(cx, &p);
-                    let title = if empty { String::new() } else { format!("{}\nLv {}", cx.text(&format!("{p}/Species")).unwrap_or_default(), cx.int(&format!("{p}/Level")).unwrap_or(0)) };
+                    let title = if empty { String::new() } else { format!("{}\n{}", cx.text(&format!("{p}/Species")).unwrap_or_default(), crate::i18n::trf("Lv {0}", &[&cx.int(&format!("{p}/Level")).unwrap_or(0)])) };
                     Cell { title, count: None, empty, modified: false, tint: cx.flag(&format!("{p}/Shiny")).then(|| Color32::from_rgb(80, 70, 20)) }
                 })
                 .collect();
@@ -142,7 +142,7 @@ fn mon_card(ui: &mut Ui, cx: &mut GameCtx, p: &str, id: &str) {
         ui.horizontal_wrapped(|ui| {
             ui.style_mut().override_font_id = Some(egui::FontId::proportional(16.0));
             cx.editor(ui, &sub("Species"), 170.0);
-            ui.label("Lv");
+            ui.label(crate::i18n::tr("Lv"));
             cx.editor(ui, &sub("Level"), 44.0);
         });
         ui.horizontal_wrapped(|ui| {
@@ -183,7 +183,7 @@ fn mon_card(ui: &mut Ui, cx: &mut GameCtx, p: &str, id: &str) {
                     }
                     cx.editor(ui, &mv, 140.0);
                     ui.horizontal(|ui| {
-                        ui.weak("PP");
+                        ui.weak(crate::i18n::tr("PP"));
                         cx.editor(ui, &sub2("Moves", &format!("PP {i}")), 36.0);
                     });
                     ui.horizontal(|ui| {
@@ -196,7 +196,7 @@ fn mon_card(ui: &mut Ui, cx: &mut GameCtx, p: &str, id: &str) {
                 }
             });
         }
-        egui::CollapsingHeader::new("Stats, IVs and more").id_salt((id, "more")).show(ui, |ui| {
+        egui::CollapsingHeader::new(crate::i18n::tr("Stats, IVs and more")).id_salt((id, "more")).show(ui, |ui| {
             let groups: Vec<String> = keys(cx, p).into_iter().filter(|k| matches!(cx.get(&sub(k)), Some(Value::Object(_))) && k != "Moves").collect();
             for g in groups {
                 ui.label(RichText::new(&g).strong());

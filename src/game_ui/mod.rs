@@ -1111,7 +1111,7 @@ pub fn cell_grid(ui: &mut Ui, cells: &[Cell], cols: usize, selected: Option<usiz
                 if !cell.empty {
                     find_mark(ui, rect, &cell.title);
                 }
-                let resp = resp.on_hover_text(if cell.empty { "(empty)".to_string() } else { cell.title.clone() });
+                let resp = resp.on_hover_text(if cell.empty { tr("(empty)").to_string() } else { cell.title.clone() });
                 if resp.clicked() {
                     clicked = Some(i);
                 }
@@ -1157,7 +1157,7 @@ pub fn tabs(ui: &mut Ui, id: &str, names: &[String]) -> usize {
     let mut cur = selection(ui, id).unwrap_or(0).min(names.len().saturating_sub(1));
     ui.horizontal_wrapped(|ui| {
         for (i, n) in names.iter().enumerate() {
-            if ui.selectable_label(cur == i, n).clicked() {
+            if ui.selectable_label(cur == i, tr_any(n)).clicked() {
                 cur = i;
             }
         }

@@ -15,7 +15,7 @@ shared equally. The game has no stack size: every item takes one backpack slot, 
 Seeds, food, fuses, tokens, key cards and chips are left alone.";
 
 pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
-    let sub = cx.text("/Player/On planet").map(|p| format!("{} on {p}", cx.text("/Player/Name").unwrap_or_default())).unwrap_or_default();
+    let sub = cx.text("/Player/On planet").map(|p| crate::i18n::trf("{0} on {1}", &[&cx.text("/Player/Name").unwrap_or_default(), &p])).unwrap_or_default();
     hero(ui, ACCENT, "The Planet Crafter", &sub, |ui| {
         cx.tile(ui, "Terra tokens", "/Progress/Terra tokens", ACCENT);
         cx.tile(ui, "Earned in all", "/Progress/Terra tokens earned in all", ACCENT);
@@ -29,7 +29,7 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
         _ => vec![],
     };
     for pl in planets {
-        panel(ui, &format!("Terraformation: {}", pl.trim_start_matches("Planet ")), |ui| {
+        panel(ui, &crate::i18n::trf("Terraformation: {0}", &[&pl.trim_start_matches("Planet ")]), |ui| {
             for k in ["Oxygen", "Heat", "Pressure", "Plants", "Insects", "Animals"] {
                 cx.row_fixed(ui, k, &format!("/{pl}/{k}"), 120.0, 190.0);
             }
@@ -59,10 +59,9 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
     });
     panel(ui, "Backpack materials", |ui| {
         let free = cx.get("").map_or(0, free_slots);
-        ui.weak(format!(
-            "{} slots, {} carried, {free} free. Raising a count adds items to the backpack; lowering it removes some.",
-            cx.int("/Backpack/Slots").unwrap_or(0),
-            cx.int("/Backpack/Items carried").unwrap_or(0)
+        ui.weak(crate::i18n::trf(
+            "{0} slots, {1} carried, {2} free. Raising a count adds items to the backpack; lowering it removes some.",
+            &[&cx.int("/Backpack/Slots").unwrap_or(0), &cx.int("/Backpack/Items carried").unwrap_or(0), &free],
         ));
         for (_, name) in MATERIALS {
             cx.row_fixed(ui, name, &format!("/Backpack/{name}"), 120.0, 80.0);

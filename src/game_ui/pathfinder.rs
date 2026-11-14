@@ -114,7 +114,7 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
             let Some(desc) = child(root, &format!("/party/m_EntityData/{i}"), "Descriptor") else { continue };
             let custom = root.pointer(&format!("{desc}/CustomName")).and_then(Value::as_str).filter(|s| !s.is_empty()).map(str::to_string);
             let bp = root.pointer(&format!("{desc}/Blueprint")).and_then(Value::as_str).and_then(|g| guid_name(g, wotr)).filter(|n| n != "Player" && n != "Custom");
-            let name = custom.or(bp).unwrap_or_else(|| format!("Companion {}", members.len() + 1));
+            let name = custom.or(bp).unwrap_or_else(|| crate::i18n::trf("Companion {0}", &[&(members.len() + 1)]));
             if main.as_deref() == Some(id) {
                 members.insert(0, (name, desc));
             } else {
@@ -163,9 +163,9 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
                         ui.add_space(6.0);
                         for c in classes {
                             let g = c.get("CharacterClass").and_then(Value::as_str).unwrap_or_default();
-                            let name = guid_name(g, wotr).unwrap_or_else(|| "Class".into());
+                            let name = guid_name(g, wotr).unwrap_or_else(|| crate::i18n::tr("Class").into());
                             let lv = c.get("Level").and_then(Value::as_i64).unwrap_or(0);
-                            ui.label(format!("{name} {lv}"));
+                            ui.label(format!("{name} {lv}")); // i18n-ok: a class name and its level
                         }
                     }
                 }
@@ -201,7 +201,7 @@ fn story_flags(ui: &mut Ui, cx: &mut GameCtx, wotr: bool) {
         return;
     }
     rows.sort_by_key(|r| r.0.to_lowercase());
-    panel(ui, &format!("Story flags ({})", rows.len()), |ui| {
+    panel(ui, &crate::i18n::trf("Story flags ({0})", &[&rows.len()]), |ui| {
         super::screens2::story_guard(ui, |ui| {
             let q = super::screens2::filter_box(ui, "pf_flags", "e.g. Romance, Amiri, Unlock");
             egui::ScrollArea::vertical().id_salt("pf_flags_scroll").max_height(340.0).show_locked(ui, |ui| {

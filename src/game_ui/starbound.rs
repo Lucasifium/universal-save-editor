@@ -86,11 +86,11 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
         }
     }
     if let Some(m) = cx.text("/modeType").filter(|s| !s.is_empty()) {
-        sub.push(format!("{} mode", words(&m)));
+        sub.push(trf("{0} mode", &[&words(&m)]));
     }
     if let Some(t) = cx.num("/log/playTime") {
         let mins = (t / 60.0) as i64;
-        sub.push(format!("{}h {:02}m played", mins / 60, mins % 60));
+        sub.push(trf("{0}h {1}m played", &[&(mins / 60), &format!("{:02}", mins % 60)]));
     }
     let money = ["/inventory/currencies/money", "/inventory/money"].into_iter().find(|p| cx.get(p).is_some());
     hero(ui, accent, &name, &sub.join("  \u{00B7}  "), |ui| {
@@ -154,7 +154,7 @@ fn inventory(ui: &mut Ui, cx: &mut GameCtx) {
                 Some(Value::Array(a)) => a.iter().filter(|v| !v.is_null()).count(),
                 _ => 0,
             };
-            format!("{} ({used})", label(&key))
+            format!("{} ({used})", crate::i18n::tr_any(&label(&key)))
         })
         .collect();
     let bag = bags[tabs(ui, "sb_bag", &labels)].clone();
@@ -187,7 +187,7 @@ fn inventory(ui: &mut Ui, cx: &mut GameCtx) {
             }
         });
         if shown == 0 {
-            ui.weak(if q.is_empty() { "This bag is empty." } else { "No item matches." });
+            ui.weak(if q.is_empty() { tr("This bag is empty.") } else { tr("No item matches.") });
         }
         ui.add_space(4.0);
         ui.weak(tr("Each item has its own largest stack in the game (1000 for most materials); the game may cut a bigger count when it loads."));
@@ -249,9 +249,9 @@ fn character(ui: &mut Ui, cx: &mut GameCtx) {
             cx.grid_row(ui, "Play time (seconds)", "/log/playTime", 140.0);
             cx.grid_row(ui, "Intro done", "/log/introComplete", 100.0);
         });
-        for (p, what) in [("/log/scannedObjects", "objects scanned"), ("/log/cinematics", "cinematics seen"), ("/log/radioMessages", "radio messages heard")] {
+        for (p, what) in [("/log/scannedObjects", tr("{0} objects scanned")), ("/log/cinematics", tr("{0} cinematics seen")), ("/log/radioMessages", tr("{0} radio messages heard"))] {
             if let Some(Value::Array(a)) = cx.get(p) {
-                ui.label(format!("{} {what}", fmt_num(a.len() as f64)));
+                ui.label(what.replace("{0}", &fmt_num(a.len() as f64)));
             }
         }
     });
@@ -296,7 +296,7 @@ fn progress(ui: &mut Ui, cx: &mut GameCtx) {
                 }
                 for t in &avail {
                     let on = enabled.contains(t);
-                    ui.label(if on { RichText::new(format!("{t}  (enabled)")).strong() } else { RichText::new(t) });
+                    ui.label(if on { RichText::new(trf("{0}  (enabled)", &[t])).strong() } else { RichText::new(t) });
                 }
                 for k in keys(cx, "/techs/equippedTechs") {
                     if let Some(t) = cx.text(&join("/techs/equippedTechs", &k)) {

@@ -2,7 +2,7 @@
 //! karma, S.P.E.C.I.A.L. and the points added to each skill. Values the save doesn't have (some saves lack a readable
 //! inventory or base form) are left out.
 
-use crate::i18n::{tr};
+use crate::i18n::{tr, trf};
 use super::{columns, fact, hero, panel, GameCtx};
 use eframe::egui::{self, Color32, Ui};
 
@@ -10,9 +10,9 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
     let accent = Color32::from_rgb(120, 160, 90);
     let game = cx.text("/Character/Game").unwrap_or_else(|| "Fallout".into());
     let mut sub = vec![game];
-    for (k, f) in [("Place", "{}"), ("Play time", "{} played")] {
+    for k in ["Place", "Play time"] {
         if let Some(v) = cx.text(&format!("/Character/{k}")).filter(|v| !v.is_empty()) {
-            sub.push(f.replace("{}", &v));
+            sub.push(if k == "Place" { v } else { trf("{0} played", &[&v]) });
         }
     }
     let name = cx.text("/Character/Name").filter(|n| !n.is_empty()).unwrap_or_else(|| "Character".into());

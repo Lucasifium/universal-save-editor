@@ -134,7 +134,7 @@ pub fn wasteland3(ui: &mut Ui, cx: &mut GameCtx) {
     if !story.is_empty() {
         panel(ui, "Story values", |ui| {
             super::screens2::story_guard(ui, |ui| {
-                egui::CollapsingHeader::new(format!("{} quest and tutorial records", story.len())).id_salt("w3_story").show(ui, |ui| {
+                egui::CollapsingHeader::new(crate::i18n::trf("{0} quest and tutorial records", &[&story.len()])).id_salt("w3_story").show(ui, |ui| {
                     let q = filter(ui, "w3_story", "name");
                     for k in story {
                         if q.is_empty() || k.to_lowercase().contains(&q.to_lowercase()) {
@@ -167,7 +167,7 @@ pub fn valheim(ui: &mut Ui, cx: &mut GameCtx) {
     let name = cx.text("/Character/Name").filter(|n| !n.is_empty()).unwrap_or_else(|| "Viking".into());
     let mut sub = vec![];
     if let Some(v) = cx.int("/Character/Profile version") {
-        sub.push(format!("profile version {v}"));
+        sub.push(crate::i18n::trf("profile version {0}", &[&v]));
     }
     if let Some(gp) = cx.text("/Vitals/Guardian power").filter(|s| !s.is_empty()) {
         sub.push(gp.trim_start_matches("GP_").to_string());

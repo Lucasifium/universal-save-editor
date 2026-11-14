@@ -24,7 +24,7 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
         }
     }
     if cx.flag("/World/Hardmode") {
-        sub.push("Hardmode".into());
+        sub.push("Hardmode".into()); // i18n-ok: a game mode name
     }
     let count = |cx: &GameCtx, p: &str| cx.get(p).and_then(Value::as_object).map_or(0, |m| m.len());
     let (chests, signs, npcs) = (count(cx, "/Chests"), count(cx, "/Signs"), count(cx, "/NPCs"));
@@ -71,7 +71,7 @@ fn world_tab(ui: &mut Ui, cx: &mut GameCtx) {
         });
         ui.weak(tr("Time is in ticks: a day runs 0 to 54,000 from dawn, a night 0 to 32,400 from dusk. Spawn and dungeon are tile positions (you can also set the spawn point on the Map)."));
     });
-    chip_panel(ui, cx, "Special seeds", "/Special seeds", "Turning a seed on after the world was made changes some behaviour, not the terrain that was generated.");
+    chip_panel(ui, cx, "Special seeds", "/Special seeds", crate::i18n::tr("Turning a seed on after the world was made changes some behaviour, not the terrain that was generated."));
 }
 
 fn chip_panel(ui: &mut Ui, cx: &mut GameCtx, title: &str, base: &str, note: &str) {
@@ -92,9 +92,9 @@ fn chip_panel(ui: &mut Ui, cx: &mut GameCtx, title: &str, base: &str, note: &str
 }
 
 fn progress_tab(ui: &mut Ui, cx: &mut GameCtx) {
-    chip_panel(ui, cx, "Bosses defeated", "/Bosses defeated", "These are the flags the game checks (progress, NPCs moving in, the Bestiary and achievements aren't changed).");
+    chip_panel(ui, cx, "Bosses defeated", "/Bosses defeated", crate::i18n::tr("These are the flags the game checks (progress, NPCs moving in, the Bestiary and achievements aren't changed)."));
     chip_panel(ui, cx, "Events", "/Events", "");
-    chip_panel(ui, cx, "Town NPCs", "/Town NPCs", "A rescued NPC can move in once there's a free house.");
+    chip_panel(ui, cx, "Town NPCs", "/Town NPCs", crate::i18n::tr("A rescued NPC can move in once there's a free house."));
 }
 
 fn chests_tab(ui: &mut Ui, cx: &mut GameCtx) {
@@ -452,7 +452,7 @@ fn map_tab(ui: &mut Ui, cx: &mut GameCtx) {
         }
         if painting {
             ui.label(tr("Brush:"));
-            ui.add(egui::DragValue::new(&mut v.size).range(1..=32).suffix(" tiles"));
+            ui.add(egui::DragValue::new(&mut v.size).range(1..=32).suffix(format!(" {}", crate::i18n::tr("tiles"))));
         }
         if ui.button(tr("Fit")).clicked() {
             v.zoom = 0.0;
@@ -625,7 +625,7 @@ fn map_tab(ui: &mut Ui, cx: &mut GameCtx) {
         let p = to_screen(poi.x as f32 + 0.5, poi.y as f32 + 0.5);
         let k = &tw::POI_KINDS[poi.kind];
         let text = if poi.size > 1 {
-            format!("{} ({} tiles)", k.name, poi.size)
+            crate::i18n::trf("{0} ({1} tiles)", &[&k.name, &poi.size])
         } else if !poi.note.is_empty() {
             format!("{}: {}", k.name, poi.note)
         } else {
@@ -659,29 +659,26 @@ fn map_tab(ui: &mut Ui, cx: &mut GameCtx) {
         Some((x, y)) => {
             let p = v.cells[y as usize * map.width + x as usize];
             let feet_x = (x as i64 * 2 - map.width as i64).abs();
-            let side = if (x as usize) * 2 >= map.width { "east" } else { "west" };
+            let side = if (x as usize) * 2 >= map.width { crate::i18n::tr("east") } else { crate::i18n::tr("west") };
             let depth = ((y as f64 - map.surface) * 2.0).round() as i64;
-            let level = if depth > 0 { format!("{depth} ft below the surface") } else { format!("{} ft above the surface", -depth) };
-            let mut parts = vec![format!("{x}, {y}"), format!("{feet_x} ft {side}, {level}")];
+            let level = if depth > 0 { crate::i18n::trf("{0} ft below the surface", &[&depth]) } else { crate::i18n::trf("{0} ft above the surface", &[&-depth]) };
+            let mut parts = vec![format!("{x}, {y}"), crate::i18n::trf("{0} ft {1}, {2}", &[&feet_x, &side, &level])];
             if let Some(t) = tw::packed_tile(p) {
-                parts.push(format!("Block: {}{}", tw::tile_name(t), if tw::packed_actuated(p) { " (actuated)" } else { "" }));
+                parts.push(crate::i18n::trf("Block: {0}{1}", &[&tw::tile_name(t), &if tw::packed_actuated(p) { format!(" {}", crate::i18n::tr("(actuated)")) } else { String::new() }]));
             }
             let wl = tw::packed_wall(p);
             if wl != 0 {
-                parts.push(format!("Wall: {}", tw::wall_name(wl)));
+                parts.push(crate::i18n::trf("Wall: {0}", &[&tw::wall_name(wl)]));
             }
             if let l @ 1..=4 = tw::packed_liquid(p) {
                 parts.push(tw::LIQUIDS[l as usize - 1].to_string());
             }
             parts.join("  \u{00B7}  ")
         }
-        None => "Scroll or pinch to zoom; drag to move (right-drag while painting). Click a chest with Look / move to open it.".into(),
+        None => crate::i18n::tr("Scroll or pinch to zoom; drag to move (right-drag while painting). Click a chest with Look / move to open it.").into(),
     };
     ui.label(RichText::new(info).size(13.0));
-    ui.weak(
-        "Painting changes blocks, walls and liquids; furniture, chests, trees and other objects are left alone. Each stroke is one undo step. \
-         Liquid only fills empty tiles and settles when the game runs.",
-    );
+    ui.weak(crate::i18n::tr("Painting changes blocks, walls and liquids; furniture, chests, trees and other objects are left alone. Each stroke is one undo step. Liquid only fills empty tiles and settles when the game runs."));
     poi_panel(ui, &map, v);
     if v.stroke.is_some() || !v.dirty.iter().all(|d| !d) {
         ui.ctx().request_repaint();
@@ -697,7 +694,7 @@ fn poi_panel(ui: &mut Ui, map: &WorldMap, v: &mut MapView) {
     panel(ui, "Shown on the map", |ui| {
         ui.horizontal_wrapped(|ui| {
             for (i, m) in MARKS.iter().enumerate() {
-                ui.checkbox(&mut v.marks[i], *m);
+                ui.checkbox(&mut v.marks[i], crate::i18n::tr_any(m));
             }
         });
         ui.horizontal_wrapped(|ui| {
@@ -719,12 +716,12 @@ fn poi_panel(ui: &mut Ui, map: &WorldMap, v: &mut MapView) {
             return;
         }
         let list: Vec<&tw::Poi> = map.pois.iter().filter(|p| v.shown[p.kind]).collect();
-        egui::CollapsingHeader::new(format!("List ({})", list.len())).id_salt("tw_poi_list").show(ui, |ui| {
+        egui::CollapsingHeader::new(crate::i18n::trf("List ({0})", &[&list.len()])).id_salt("tw_poi_list").show(ui, |ui| {
             egui::ScrollArea::vertical().id_salt("tw_poi_scroll").max_height(200.0).show_locked(ui, |ui| {
                 for p in list {
                     let k = &tw::POI_KINDS[p.kind];
                     let depth = ((p.y as f64 - map.surface) * 2.0).round() as i64;
-                    let level = if depth > 0 { format!("{depth} ft deep") } else { "surface".to_string() };
+                    let level = if depth > 0 { crate::i18n::trf("{0} ft deep", &[&depth]) } else { crate::i18n::tr("surface").to_string() };
                     if ui.selectable_label(false, format!("{}{}  \u{00B7}  {}, {}  \u{00B7}  {level}", k.name, if p.note.is_empty() { String::new() } else { format!(": {}", p.note) }, p.x, p.y)).on_hover_text(tr("Show it on the map")).clicked() {
                         v.center = Vec2::new(p.x as f32, p.y as f32);
                         v.zoom = v.zoom.max(4.0);

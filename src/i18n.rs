@@ -221,6 +221,61 @@ mod tests {
         }
     }
 
+    /// Game screens must not print English straight from a literal: a text shown through
+    /// `ui.label`, `RichText::new`, `CollapsingHeader::new`, a hero subtitle push and the like
+    /// has to be wrapped in `tr(..)`/`trf(..)` (or be a name/symbol). A line that really is not
+    /// text can carry `// i18n-ok`.
+    #[test]
+    fn game_screens_print_no_untranslated_literals() {
+        const SHOWN: &[&str] = &[
+            "ui.label(", "ui.weak(", "ui.strong(", "ui.heading(", "ui.small(", "ui.monospace(", "ui.button(", "ui.small_button(", "ui.checkbox(",
+            "ui.colored_label(", "ui.selectable_value(", "RichText::new(", "Label::new(", "Button::new(", "CollapsingHeader::new(", "on_hover_text(",
+            "on_disabled_hover_text(", "hint_text(", "sub.push(", "line.push(", "facts.push(", "parts.push(",
+        ];
+        let mut bad = vec![];
+        let mut stack = vec![std::path::PathBuf::from(concat!(env!("CARGO_MANIFEST_DIR"), "/src/game_ui"))];
+        while let Some(d) = stack.pop() {
+            for e in std::fs::read_dir(&d).unwrap().flatten() {
+                let p = e.path();
+                if p.is_dir() {
+                    if !p.ends_with("simple") {
+                        stack.push(p);
+                    }
+                    continue;
+                }
+                if p.extension().is_none_or(|x| x != "rs") {
+                    continue;
+                }
+                let text = std::fs::read_to_string(&p).unwrap();
+                let text = text.split("#[cfg(test)]").next().unwrap_or("");
+                for (n, line) in text.lines().enumerate() {
+                    let t = line.trim_start();
+                    if t.starts_with("//") || line.contains("i18n-ok") {
+                        continue;
+                    }
+                    for call in SHOWN {
+                        let mut from = 0;
+                        while let Some(i) = line[from..].find(call) {
+                            let at = from + i + call.len();
+                            from = at;
+                            // The first argument (or the first selectable_value text) up to the call's closing paren.
+                            let rest = &line[at..];
+                            let arg = rest.trim_start().trim_start_matches('&');
+                            let lit = if let Some(r) = arg.strip_prefix("format!(") { r } else { arg };
+                            let Some(r) = lit.strip_prefix('"') else { continue };
+                            let body = r.split('"').next().unwrap_or("");
+                            let words = body.split(|c: char| !c.is_alphabetic()).filter(|w| w.chars().count() >= 3).count();
+                            if words > 0 {
+                                bad.push(format!("{}:{}: {}", p.file_name().unwrap().to_string_lossy(), n + 1, line.trim()));
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        assert!(bad.is_empty(), "{} game-screen line(s) print English without tr()/trf():\n{}", bad.len(), bad.join("\n"));
+    }
+
     /// Writes every text the program shows (`TRANSLATION_KEYS=<file>`), one per line.
     #[test]
     fn dump_all_texts() {

@@ -4666,9 +4666,6 @@ Challenges (rank 0 to 10)
 Change to
 = 変更先
 
-Changing story flags and choices can break quests, soft-lock the game or stop it from being completed. Treat it as experimental, \n             with no guarantee the save can still be finished, and use it only if you know what you're doing. Keep a backup first so you can \n             go back (Backups › Open save manager restores it). The file as it was is also backed up automatically when you save.
-= ストーリーフラグや選択を変更すると、クエストが壊れたり、ゲームが進行不能になったり、クリアできなくなったりすることがあります。実験的な機能として扱い、セーブを最後まで進められる保証はありませんので、理解した上でのみ使用してください。元に戻せるよう、先にバックアップを取ってください（バックアップ › セーブ管理を開く で復元できます）。保存時には元のファイルも自動的にバックアップされます。
-
 Changing the level doesn't change experience: set both. Gold on the character can be at most 10,000 per level.
 = レベルを変更しても経験値は変わりません。両方を設定してください。キャラクターの所持ゴールドはレベルごとに最大10,000です。
 
@@ -17170,3 +17167,814 @@ A PlayStation save (memory card, .mcs, .psx or .psv). The unlocked characters, t
 
 Close the emulator first. Tekken 2 and 3 keep their data scrambled and guarded by a checksum; both are written again on save.
 = 先にエミュレーターを閉じてください。鉄拳2と3はデータを難読化し、チェックサムで保護しています。保存時にどちらも書き直されます。
+
+
+# src/game_ui (direct-printed texts)
+
+Act {0}
+= 第{0}幕
+
+Actor {0}
+= アクター {0}
+
+Ante {0}
+= アンティ {0}
+
+Ascension {0}
+= アセンション {0}
+
+Attribute {0}
+= 属性 {0}
+
+Backpack ({0} kinds)
+= バックパック（{0} 種類）
+
+Change perk ranks
+= 特典ランクを変更
+
+Charm {0}
+= お守り {0}
+
+Class {0}. The game works the level out from EXP the next time EXP changes, so raise both: the EXP a level needs depends on the class's curve in the game's data.
+= クラス {0}。レベルは次に EXP が変化したときにゲームが EXP から算出するため、両方を上げてください。レベルに必要な EXP はゲームデータ内のクラスのカーブによって決まります。
+
+Consumables, key items and cosmetics you carry; 99 at most of each.
+= 所持している消耗品、キーアイテム、コスメ。各99個まで。
+
+Cycle {0}  ·  {1} duplicants  ·  Oxygen Not Included
+= サイクル {0}  ·  デュプリカント {1} 人  ·  Oxygen Not Included
+
+Each save slot is edited separately; the game keeps the slot you load. Item and equipment names aren't known yet — the Values tab lists everything.
+= 各セーブスロットは個別に編集します。ゲームは読み込んだスロットを保持します。アイテムや装備の名前はまだ不明です。「値」タブにすべて表示されます。
+
+Floor {0}
+= {0} 階
+
+Inventory ({0} stacks)
+= インベントリ（{0} スタック）
+
+Item names come from a short list the game's own code refers to; other items show their prototype number (the names are in the game's data files). › marks items inside a container above.
+= アイテム名はゲームのコードが参照する短いリストに基づきます。それ以外のアイテムはプロトタイプ番号で表示されます（名前はゲームのデータファイルにあります）。› は上のコンテナ内のアイテムを示します。
+
+Item {0}
+= アイテム {0}
+
+Java {0}
+= Java {0}
+
+Levels 0–10. Raising XP is the natural way: the game levels the skill up overnight and lets you pick professions at 5 and 10. Setting the level directly skips those choices.
+= レベルは 0～10。XP を上げるのが自然な方法で、ゲームが一晩でスキルを上げ、5 と 10 で職業を選べます。レベルを直接設定すると、その選択は飛ばされます。
+
+Max consumables ({0} each)
+= 消耗品を最大に（各 {0}）
+
+Objective: {0}
+= 目的：{0}
+
+Party inventory ({0} kinds)
+= パーティーのインベントリ（{0} 種類）
+
+Rank 0 means not taken; most perks have one rank, a few two or three. A perk that gives a one-off gain when picked (Gain Strength, Lifegiver, the skill-point perks) doesn't give it when set here, so raise that number yourself.
+= ランク 0 は未取得です。ほとんどの特典はランク 1、一部は 2 か 3 まであります。取得時に一度だけ効果が出る特典（Gain Strength、Lifegiver、スキルポイント系）は、ここで設定しても効果が出ないため、その数値は自分で上げてください。
+
+Round {0}
+= ラウンド {0}
+
+Skills learned: {0}
+= 習得スキル：{0}
+
+Slot {0} — {1}
+= スロット {0} — {1}
+
+Staff ({0})
+= スタッフ（{0}）
+
+Stake {0}
+= ステーク {0}
+
+Upgrade and selling materials; 99 is the most of one the game holds.
+= 強化・売却用の素材。ゲームが保持できるのは1種類につき最大99個です。
+
+Vehicles ({0})
+= 車両（{0}）
+
+Weapons you own and their level (1–4); upgrading needs no materials once set here.
+= 所持している武器とそのレベル（1～4）。ここで設定すれば、強化に素材は不要です。
+
+age {0}
+= 年齢 {0}
+
+chapter {0}
+= チャプター {0}
+
+ironman
+= アイアンマン
+
+nobody
+= なし
+
+perk name…
+= 特典名…
+
+playing {0}
+= {0} をプレイ中
+
+saved {0}
+= 保存日時 {0}
+
+{0}  (enabled)
+= {0}  (有効)
+
+{0}  ({1} on the map)
+= {0}  (マップ上に {1})
+
+{0}  ·  RimWorld {1}
+= {0}  ·  RimWorld {1}
+
+{0}  ·  played by {1}  ·  Stellaris
+= {0}  ·  プレイヤー：{1}  ·  Stellaris
+
+{0} (not in party)
+= {0}（パーティー外）
+
+{0} ({1})
+= {0}（{1}）
+
+{0} Farm
+= {0}ファーム
+
+{0} XP
+= {0} XP
+
+{0} blind next
+= 次のブラインド：{0}
+
+{0} carried ({1})
+= 所持{0}（{1}）
+
+{0} cinematics seen
+= 視聴済みシネマティック {0} 件
+
+{0} cleared
+= クリア {0} 回
+
+{0} colonist
+= 入植者 {0} 人
+
+{0} colonists
+= 入植者 {0} 人
+
+{0} difficulty
+= 難易度 {0}
+
+{0} h played
+= プレイ時間 {0} 時間
+
+{0} hearts
+= ハート {0}
+
+{0} hours
+= {0} 時間
+
+{0} hours in game
+= ゲーム内 {0} 時間
+
+{0} hours played
+= プレイ時間 {0} 時間
+
+{0} in the party
+= パーティー {0} 人
+
+{0} mode
+= {0}モード
+
+{0} nights
+= {0} 夜
+
+{0} objects scanned
+= スキャン済みオブジェクト {0} 個
+
+{0} played
+= プレイ時間 {0}
+
+{0} radio messages heard
+= 聞いた無線メッセージ {0} 件
+
+{0} steps
+= {0} 歩
+
+{0} {1}, Year {2}
+= {2}年目 {0} {1}日
+
+{0} — PERSONNEL RECORD
+= {0} — 人事記録
+
+{0}% complete
+= {0}% 達成
+
+{0}h {1}m played
+= プレイ時間 {0}時間{1}分
+
+(empty)
+= (空)
+
+Ability: {0}
+= 特性: {0}
+
+Accessory {0}
+= アクセサリー {0}
+
+Ammo slot
+= 弾薬スロット
+
+Ammo slot {0}
+= 弾薬スロット {0}
+
+Badge {0}
+= バッジ {0}
+
+Block: {0}{1}
+= ブロック: {0}{1}
+
+Coin slot
+= コインスロット
+
+Coin slot {0}
+= コインスロット {0}
+
+Companion {0}
+= 仲間 {0}
+
+Dye Accessory
+= アクセサリー染料
+
+Dye Accessory {0}
+= アクセサリー染料 {0}
+
+EV (0–252)
+= 努力値 (0–252)
+
+EVs in all: {0} of 510
+= 努力値の合計: {0} / 510
+
+Factions ({0})
+= 勢力 ({0})
+
+Holds {0}
+= {0}を持っている
+
+How many are in each stack (items that don't stack are 1). Names are the item's record (folder: file name).
+= 各スタックの個数です（スタックできないアイテムは1）。名前はアイテムのレコード名（フォルダ: ファイル名）です。
+
+How many are in each stack: equipped, carried and stashed items, by the name the save keeps for them (items that don't stack are 1).
+= 各スタックの個数です。装備中・所持中・保管中のアイテムを、セーブデータ上の名前で表示します（スタックできないアイテムは1）。
+
+ID No. {0}
+= ID No. {0}
+
+IV (0–31)
+= 個体値 (0–31)
+
+Inventory ({0} of {1} slots)
+= 所持品 ({0} / {1} スロット)
+
+List ({0})
+= 一覧 ({0})
+
+Lv {0}
+= Lv.{0}
+
+Map {0}
+= マップ {0}
+
+Max HP 16 + 4 × LV and AT 10 + 2 × (LV − 1), as the game sets them when you level up (LV 1 to 19).
+= 最大HPは 16 + 4 × LV、ATは 10 + 2 × (LV − 1)。レベルアップ時にゲームが設定する値です（LV 1〜19）。
+
+Max crafting materials ({0} stacks)
+= クラフト素材を最大に ({0} スタック)
+
+Max crafting materials needs a character saved by Terraria 1.4.4 or later (older versions stack materials lower).
+= クラフト素材を最大にするには、Terraria 1.4.4 以降で保存されたキャラクターが必要です（古いバージョンは素材のスタック上限が低くなります）。
+
+No crafting materials in {0}.
+= {0}にクラフト素材はありません。
+
+Painting changes blocks, walls and liquids; furniture, chests, trees and other objects are left alone. Each stroke is one undo step. Liquid only fills empty tiles and settles when the game runs.
+= ペイントはブロック・壁・液体を変更します。家具・チェスト・木などのオブジェクトはそのままです。1ストロークが1回の取り消し単位です。液体は空のタイルにのみ入り、ゲーム実行時に落ち着きます。
+
+Painting changes what fills each cell: its element, mass, temperature and germs. Buildings, critters, plants and debris are left alone, and cells with a tile built in them aren't painted. Neutronium is kept unless you tick “Also change Neutronium”. Each stroke is one undo step. Liquids and gases settle when the game runs.
+= ペイントは各セルの中身（元素・質量・温度・細菌）を変更します。建物・生き物・植物・がれきはそのままで、タイルが建設されたセルは塗られません。「ニュートロニウムも変更する」にチェックしない限りニュートロニウムは保持されます。1ストロークが1回の取り消し単位です。液体と気体はゲーム実行時に落ち着きます。
+
+Pocket {0}
+= ポケット {0}
+
+Profile — {0}
+= プロフィール — {0}
+
+Rocket {0}
+= ロケット {0}
+
+Rockets ({0})
+= ロケット ({0})
+
+Scroll or pinch to zoom; drag to move (right-drag while painting).
+= スクロールまたはピンチでズーム、ドラッグで移動（ペイント中は右ドラッグ）。
+
+Scroll or pinch to zoom; drag to move (right-drag while painting). Click a chest with Look / move to open it.
+= スクロールまたはピンチでズーム、ドラッグで移動（ペイント中は右ドラッグ）。「見る / 移動」でチェストをクリックすると開きます。
+
+Set studs to {0}
+= スタッドを{0}にする
+
+Shown on the map: {0}
+= マップに表示: {0}
+
+Stats, IVs and more
+= ステータス・個体値など
+
+Story flags ({0})
+= ストーリーフラグ ({0})
+
+Terraformation: {0}
+= テラフォーミング: {0}
+
+The game never gives more than 510 in all.
+= ゲームでは合計510を超えることはありません。
+
+The game stores each unlock as that entry's own code (a plain “yes” unlocks nothing once a run ends). {0} codes are known; entries without a known code stay as they are. Each entry can also be edited in the Values tab.
+= ゲームは各アンロックをその項目固有のコードとして保存します（単なる「yes」では、1回のプレイが終わるとアンロックされません）。{0}件のコードが判明しています。コードが不明な項目はそのままです。各項目は「値」タブでも編集できます。
+
+The game's own record of how you played: kills per area decide the Genocide and Neutral endings, and the flags below them mark the fights you won. Flags that disagree with each other (a Pacifist ending with kills counted) give odd dialogue. Most flags are 0 or 1.
+= ゲーム自身によるプレイ内容の記録です。エリアごとのキル数がジェノサイドルートとニュートラルルートのエンディングを決め、その下のフラグは勝利した戦闘を示します。互いに矛盾するフラグ（キル数があるのにピースフルエンド等）は、おかしなセリフの原因になります。ほとんどのフラグは0か1です。
+
+These are the flags the game checks (progress, NPCs moving in, the Bestiary and achievements aren't changed).
+= ゲームが確認するフラグです（進行状況、NPCの入居、ビースティアリー、実績は変更されません）。
+
+Tools ({0})
+= ツール ({0})
+
+Turning a seed on after the world was made changes some behaviour, not the terrain that was generated.
+= ワールド作成後にシードをオンにすると一部の挙動が変わりますが、生成済みの地形は変わりません。
+
+Unlock {0}
+= {0}を解除
+
+Unlocked at the Altar of Hope ({0})
+= 希望の祭壇で解放済み ({0})
+
+Vanity Accessory
+= ファッションアクセサリー
+
+Vanity Accessory {0}
+= ファッションアクセサリー {0}
+
+Wall: {0}
+= 壁: {0}
+
+a tile is built here
+= ここにタイルが建設されている
+
+cells
+= セル
+
+day {0}
+= {0}日目
+
+east
+= 東
+
+game version {0}
+= ゲームバージョン {0}
+
+head #{0}, body #{1}
+= 頭 #{0}、体 #{1}
+
+holding the {0}
+= {0}を手に持っている
+
+last run: {0}
+= 前回のプレイ: {0}
+
+profile version {0}
+= プロフィールバージョン {0}
+
+save version {0}
+= セーブバージョン {0}
+
+surface
+= 地表
+
+this save
+= このセーブデータ
+
+this save slot
+= このセーブスロット
+
+tiles
+= タイル
+
+unexplored
+= 未探索
+
+version {0}
+= バージョン {0}
+
+west
+= 西
+
+yes
+= はい
+
+{0} (neutral)
+= {0}（無補正）
+
+{0} (start)
+= {0}（開始地点）
+
+{0} (upgrade level)
+= {0}（強化レベル）
+
+{0} ({1} tiles)
+= {0}（{1}タイル）
+
+{0} Badge
+= {0}バッジ
+
+{0} badges
+= バッジ{0}個
+
+{0} character
+= {0}キャラクター
+
+{0} ft above the surface
+= 地表から{0} ft上
+
+{0} ft below the surface
+= 地表から{0} ft下
+
+{0} ft deep
+= 深さ{0} ft
+
+{0} ft {1}, {2}
+= {1}へ{0} ft、{2}
+
+{0} ghosts identified
+= 識別したゴースト{0}体
+
+{0} h of game time
+= ゲーム時間{0}時間
+
+{0} head, {1} body
+= 頭は{0}、体は{1}
+
+{0} on {1}
+= {1}の{0}
+
+{0} quest and tutorial records
+= クエストとチュートリアルの記録 {0}件
+
+{0} rads
+= {0} rad
+
+(actuated)
+= (作動中)
+
+
+(open)
+= (開いている)
+
+1 Sim
+= シム1人
+
+Ammo above what the character can hold is cut back by the game. Level goes up to 40.
+= キャラクターが持てる量を超えた弾薬はゲームによって減らされます。レベルの上限は40です。
+
+Backpack and bank SDUs go from 0 to {0}: the backpack holds 12 items plus 3 a level, the bank 6 plus 2 a level. Weapon slots go from 2 to 4. Playthroughs completed 1 opens True Vault Hunter Mode and 2 opens Ultimate Vault Hunter Mode.
+= バックパックとバンクのSDUは0から{0}まで：バックパックは12個＋レベルごとに3個、バンクは6個＋レベルごとに2個まで入ります。武器スロットは2から4までです。周回クリア数が1でTrue Vault Hunter Mode、2でUltimate Vault Hunter Modeが開きます。
+
+Bars show the ammo each SDU level holds before relic and class mod bonuses (the game allows more with those).
+= バーは、レリックやクラスMODのボーナスを除いた、各SDUレベルで持てる弾薬量を示します（これらがあるとゲームではさらに多く持てます）。
+
+Chapter {0}
+= 第{0}章
+
+Count is the uses left (chalk, climbing tape) or the sips left in a bottle; Contents is what a bottle, flask or thermos holds. Pick an item in an empty square to add it: it goes at the bottom of the bag, and “Shake up bag” in the game settles everything. Set an item to (none) to take it out.
+= Count は残り使用回数（チョーク、クライミングテープ）またはボトルの残りの口数、Contents はボトル・フラスコ・魔法瓶の中身です。空のマスでアイテムを選ぶと追加され、バッグの一番下に入ります。ゲーム設定の「Shake up bag」で全体が整理されます。アイテムを (none) にすると取り除けます。
+
+Every Smithing Stone and Somber Smithing Stone (Ancient Dragon ones too) for weapons, and every Grave and Ghost Glovewort for Spirit Ashes, each to the 999 you can hold.
+= 武器用のSmithing StoneとSomber Smithing Stone（Ancient Dragonも含む）、霊体の灰用のGrave GloveworとGhost Glovewortをすべて、所持上限の999個まで増やします。
+
+Every kind of titanite, Dragon Scales and Demon Titanite, each to the 99 you can carry.
+= すべての種類のTitanite、Dragon Scale、Demon Titaniteを、所持上限の99個まで増やします。
+
+Gear is read from each item's serial (level and its check); names need the game's part tables, so they aren't shown, and gear isn't edited. {0} item(s) in the bank.
+= 装備は各アイテムのシリアルから読み取ります（レベルとそのチェック）。名前にはゲームのパーツテーブルが必要なため表示されず、装備は編集できません。バンクにアイテムが{0}個あります。
+
+How many of each item this character carries directly (items inside bags aren't listed), named by the game's item entry. Change a stack size; adding or removing items isn't possible here, and the game may trim a stack to what the item allows.
+= このキャラクターが直接持っている各アイテムの数です（バッグの中のアイテムは表示されません）。名前はゲームのアイテム項目に基づきます。スタック数は変更できますが、アイテムの追加や削除はここではできず、ゲームがスタックをアイテムの上限まで減らすことがあります。
+
+Items ({0})
+= アイテム（{0}）
+
+Level and HP come from experience and gear, so they are shown but not edited. Materials you have never picked up aren't in the save yet. The save's checksum is written again when you save. Tried in the game.
+= レベルとHPは経験値と装備から決まるため、表示のみで編集はできません。一度も拾ったことのない素材はまだセーブデータにありません。セーブ時にチェックサムが書き直されます。ゲームで動作確認済みです。
+
+Loot ({0})
+= 戦利品（{0}）
+
+Materials you have picked up at least once. Most hold 99; Desert Rose, Valley Madder, Briar Clam Shell, Clutchmine and Iron Filings hold 999, and Wyrrite, Sharp Fang, Steelsilk, Bloody Hide, Magicked Ash and Rhema hold 9999.
+= 一度でも拾ったことのある素材です。ほとんどは99個まで持てます。Desert Rose、Valley Madder、Briar Clam Shell、Clutchmine、Iron Filingsは999個、Wyrrite、Sharp Fang、Steelsilk、Bloody Hide、Magicked Ash、Rhemaは9999個まで持てます。
+
+Max ammo SDUs ({0})
+= 弾薬SDUを最大に（{0}）
+
+No skill points to spend right now: add a Skill Point in Items below to give some. Skill experience fills toward the next point; the game hands it out once it's full.
+= 今使えるスキルポイントはありません。下の「アイテム」にSkill Pointを追加すると増やせます。スキル経験値が次のポイントまで溜まると、ゲームがポイントを付与します。
+
+Not in the party
+= パーティにいない
+
+Ones you already have that many of are left alone.
+= すでにその数を持っているものはそのままにします。
+
+Pick (empty) to remove an item. Items set in a quick-item slot can't be swapped here.
+= (empty) を選ぶとアイテムを削除できます。クイックアイテム枠にセットされたアイテムはここでは入れ替えられません。
+
+Pick (empty) to remove something you added here. What's equipped or in a quick slot can't be swapped, and a weapon's level stays within what it can have.
+= (empty) を選ぶと、ここで追加したものを削除できます。装備中のものやクイック枠のものは入れ替えられず、武器のレベルは上限の範囲内に収まります。
+
+Pick who holds each Djinni, set or on standby, or nobody. The game works out class and Psynergy from the set Djinn the next time you change Djinn in its own menu, so open the Djinn menu and set one again after loading. Djinn the story hands out are not marked as collected in the world: the game may offer them again.
+= 各Djinniを誰が持つか（セット中、待機中、または誰も持たない）を選びます。クラスとPsynergyは、次にDjinnメニューでDjinnを変更したときに、セット中のDjinnから決まります。ロード後はDjinnメニューを開いて、どれか一つを設定し直してください。ストーリーで手に入るDjinnは世界上では入手済みにならず、ゲームが再び入手の機会を出すことがあります。
+
+Potions and tonics in your satchel, up to the most the game shows for each with the satchel fully expanded.
+= ポーチ内のポーションとトニックを、ポーチを最大まで拡張したときにゲームが表示する上限まで設定できます。
+
+Raise attributes here and your {0} follows; change your {1} in the tile above.
+= ここで能力値を上げると{0}もそれに合わせて変わります。{1}は上のタイルで変更してください。
+
+SDU levels go up to 10 (13 for the backpack, sniper rifles and heavy weapons). Ammo above what the SDUs hold is cut back by the game.
+= SDUレベルの上限は10です（バックパック、スナイパーライフル、ヘビーウェポンは13）。SDUが持てる量を超えた弾薬はゲームによって減らされます。
+
+Saved in area {0}
+= セーブ地点：エリア{0}
+
+Saves in this slot ({0})
+= このスロットのセーブ（{0}）
+
+Scrap Iron, Black and Yellow Gunpowder, Scrap Magnetite, Adamantite Scrap, Fulminated Mercury, Fat and Grave Wax and Lapis Lazuli, each to the 99 you can hold.
+= Scrap Iron、Black GunpowderとYellow Gunpowder、Scrap Magnetite、Adamantite Scrap、Fulminated Mercury、Lump of Fat WaxとLump of Grave Wax、Lapis Lazuliを、所持上限の99個まで増やします。
+
+Seconds left is the time the game shows for the buff (10:00 is 600). Set it to 0 to end a buff, or give an empty one time to start it with its usual source and strength. Sips taken one after another stack and run in turn; a changed buff is saved as one with the whole time. Stamina and Strength show on the game's Grip line (it shows the longest of them and Grip). Extra grip comes from chalk and doesn't run down off the wall (the chalk count on the HUD is the chalk itself: 12 grips a charge). Strength and Stoked! can only be changed when the save already has them.
+= Seconds left はゲームが表示するバフの残り時間です（10:00 は 600）。0 にするとバフが終了し、空のバフに時間を入れると通常の発生源と強さで開始されます。続けて飲んだ分はスタックし、順番に進行します。変更したバフは合計時間の1つのバフとして保存されます。StaminaとStrengthはゲームのGrip欄に表示されます（その中で最長のものとGripを表示）。追加のグリップはチョークによるもので、壁から離れても減りません（HUDのチョーク数はチョークそのもので、1回分で12グリップ）。StrengthとStoked!は、セーブにすでにある場合のみ変更できます。
+
+Skill points to spend are the tile above. Skill experience fills toward the next point; the game hands it out once it's full.
+= 使えるスキルポイントは上のタイルにあります。スキル経験値が次のポイントまで溜まると、ゲームがポイントを付与します。
+
+Stack sizes of what this character carries, by the game's item name. Items can't be added or removed here. A stack the game split just before saving shows as read-only.
+= このキャラクターが持っているもののスタック数を、ゲームのアイテム名で表示します。アイテムの追加や削除はここではできません。セーブ直前にゲームが分割したスタックは読み取り専用で表示されます。
+
+Stacked items ({0})
+= スタックされたアイテム（{0}）
+
+The chalk on the climber's belt; Count is its uses. The pouch holds only as many uses in all as the game shows after the slash (3/3 at first, more with upgrades): put in more and the game drops the extra chalk.
+= クライマーのベルトにあるチョークです。Count はその使用回数です。ポーチに入る使用回数の合計は、ゲームがスラッシュの後ろに表示する数までです（最初は3/3、強化で増加）。それ以上入れると、ゲームが余分なチョークを捨てます。
+
+Titanite Shards, Large Shards, Chunks and Slabs, Twinkling Titanite and Petrified Dragon Bones, each to the 99 you can carry.
+= Titanite Shard、Large Titanite Shard、Titanite Chunk、Titanite Slab、Twinkling Titanite、Petrified Dragon Boneを、所持上限の99個まで増やします。
+
+Titanite Shards, Large Shards, Chunks and Slabs, Twinkling Titanite and Titanite Scales, each to the 99 you can carry.
+= Titanite Shard、Large Titanite Shard、Titanite Chunk、Titanite Slab、Twinkling Titanite、Titanite Scaleを、所持上限の99個まで増やします。
+
+Weapons ({0})
+= 武器（{0}）
+
+backpack
+= バックパック
+
+house {0}
+= 家 {0}
+
+level {0}
+= レベル{0}
+
+lot {0}
+= 区画 {0}
+
+not moved in
+= 入居していない
+
+potion, arrow, scroll…
+= ポーション、矢、巻物…
+
+saved {0} times
+= {0}回セーブ
+
+set
+= セット中
+
+standby
+= 待機中
+
+the game continues from this one
+= ゲームはこのセーブから再開します
+
+{0} ({1} stacked)
+= {0}（{1}スタック）
+
+{0} Sims
+= シム{0}人
+
+{0} adept
+= {0}のアデプト
+
+{0} gold on {1}
+= {1}の所持金：{0}ゴールド
+
+{0} in the bag, {1} pitons, {2} chalk
+= バッグに{0}、ピトン{1}本、チョーク{2}
+
+{0} of each
+= 各{0}個
+
+{0} playthrough done
+= {0}周クリア
+
+{0} playthroughs done
+= {0}周クリア
+
+{0} slots
+= {0}スロット
+
+{0} slots when saved
+= 保存後は{0}スロット
+
+1 soldier record
+= 兵士記録 1 件
+
+{0} soldier records
+= 兵士記録 {0} 件
+
+1 soldier
+= 兵士 1 人
+
+{0} soldiers
+= 兵士 {0} 人
+
+Board {0}
+= ボード {0}
+
+Character {0}
+= キャラクター {0}
+
+Classic
+= クラシック
+
+Lord of Destruction
+= Lord of Destruction
+
+Current quest: {0}
+= 現在のクエスト: {0}
+
+Day {0}
+= {0} 日目
+
+Experience pool {0}
+= 経験値プール {0}
+
+Global variables ({0})
+= グローバル変数 ({0})
+
+Materia ({0})
+= マテリア ({0})
+
+Member {0}
+= メンバー {0}
+
+Saved {0}
+= 保存: {0}
+
+Student
+= 生徒
+
+Turn {0}
+= ターン {0}
+
+Year {0}
+= {0} 年目
+
+ability
+= アビリティ
+
+overdrive
+= オーバードライブ
+
+overdrive mode
+= オーバードライブモード
+
+playing as {0}
+= {0} としてプレイ中
+
+saved with game version {0}
+= ゲームバージョン {0} で保存
+
+{0}  ({1} of {2} on)
+= {0}  ({2} 件中 {1} 件オン)
+
+{0}  ({1} of {2})
+= {0}  ({2} 件中 {1} 件)
+
+{0} (KIA)
+= {0} (KIA)
+
+{0} ({1}, {2} to add)
+= {0} ({1} 件、{2} 件追加予定)
+
+{0} facilities connected
+= {0} 件の施設に接続済み
+
+{0} flags
+= {0} 個のフラグ
+
+{0} materia ({1})
+= {0}マテリア ({1})
+
+{0} materia ({1}, {2} to add)
+= {0}マテリア ({1} 件、{2} 件追加予定)
+
+{0} numbers
+= {0} 個の数値
+
+{0} party members in this slot
+= このスロットのパーティメンバー: {0} 人
+
+{0}: growth
+= {0}: 成長
+
+{0}: without equipment
+= {0}: 装備なし
+
+e.g. CHAPTER, JOINED, QUEST
+= 例: CHAPTER, JOINED, QUEST
+
+e.g. Elixir, Ring
+= 例: エリクサー、リング
+
+e.g. Fire, Ifrit
+= 例: ファイア、イフリート
+
+e.g. Fire, Magnify
+= 例: ファイア、ひろげる
+
+e.g. Potion, Bangle
+= 例: ポーション、バングル
+
+e.g. dash
+= 例: ダッシュ
+
+e.g. mercantilism
+= 例: 重商主義
+
+e.g. money, love, day
+= 例: money, love, day
+
+loyal, romance, dead…
+= loyal, romance, dead…
+
+name or class
+= 名前またはクラス
+
+Clears dead, unconscious, coma and incapacitated and ends bleeding. Raise any part below zero above it too, or the character falls again.
+= 死亡・気絶・昏睡・戦闘不能を解除し、出血を止めます。0 未満の部位も 0 より上に上げてください。そうしないとキャラクターはまた倒れます。
+
+Stats are as the Sphere Grid has raised them (255 is the most). HP above 9999 needs Break HP Limit. The game works the totals out again from the "without equipment" numbers, so change both. Sphere levels are the moves left to spend on the Sphere Grid.
+= 能力値はスフィア盤で上げた値です（最大 255）。HP を 9999 より上にするには Break HP Limit が必要です。ゲームは「装備なし」の数値から合計を再計算するため、両方を変更してください。スフィアレベルはスフィア盤で使える残りの移動数です。
+
+Changing story flags and choices can break quests, soft-lock the game or stop it from being completed. Treat it as experimental, with no guarantee the save can still be finished, and use it only if you know what you're doing. Keep a backup first so you can go back (Backups › Open save manager restores it). The file as it was is also backed up automatically when you save.
+= ストーリーフラグや選択を変更すると、クエストが壊れたり、ゲームが進行不能になったり、クリアできなくなったりすることがあります。実験的な機能として扱い、セーブを最後まで進められる保証はありませんので、理解した上でのみ使用してください。元に戻せるよう、先にバックアップを取ってください（バックアップ › セーブ管理を開く で復元できます）。保存時には元のファイルも自動的にバックアップされます。
+
+Level and difficulty here are what the load screen shows. Gold, experience, talent points and the inventory are kept in the game's compressed database inside this save, which can't be edited yet.
+= ここでのレベルと難易度はロード画面に表示される値です。ゴールド、経験値、才能ポイント、インベントリはこのセーブ内のゲームの圧縮データベースに保存されており、まだ編集できません。
+
+Click a flag to turn it on or off. These are the game's own story records: changing one doesn't replay the scene behind it, and flags that contradict each other (alive and dead, two romances) can confuse later scenes, so change few at a time and keep the backup.
+= フラグをクリックするとオン／オフを切り替えられます。これらはゲーム自身のストーリー記録です。変更しても該当シーンは再生されず、矛盾するフラグ（生存と死亡、二重の恋愛など）は後のシーンを混乱させることがあるため、一度に変更する数は少なくし、バックアップを残してください。
+
+Rank 0 is Rookie … 7 is Colonel (8 Brigadier with some classes). A stat sets the soldier's current, maximum and base value together, so a wounded soldier is healed to it. A blank cell is a value the game left at its default.
+= 階級 0 は新兵…7 は大佐です（一部のクラスでは 8 が准将）。能力値を設定すると、兵士の現在値・最大値・基本値が同時に設定されるため、負傷した兵士はその値まで回復します。空欄はゲームが既定値のままにしている値です。
+
+Characters are numbered in the order the save keeps them (Cloud is usually first). The game can recalculate max HP and MP from level and equipment, so raise the level and experience together for lasting changes.
+= キャラクターはセーブに保存されている順に番号が付きます（通常はクラウドが最初）。ゲームはレベルと装備から最大HP・MPを再計算することがあるため、変更を維持するにはレベルと経験値を一緒に上げてください。
+
+Each materia is listed with its slot number, since a save often has several of one kind. Materia someone has equipped can't be removed. In Rebirth, level and AP can be changed up to the materia's top level.
+= マテリアは、同じ種類が複数あることが多いため、スロット番号付きで一覧表示されます。装備中のマテリアは削除できません。リバースでは、レベルとAPをマテリアの最大レベルまで変更できます。
+
+Items and materials go up to 99. Removing frees the slot when you save. Key items, currencies, outfits, folios and trophies are shown but can't be removed. Armor and accessories someone is wearing can't be removed (in Rebirth they can't be removed at all, only changed in number).
+= アイテムと素材は 99 個まで増やせます。削除すると保存時にスロットが空きます。キーアイテム、通貨、衣装、フォリオ、トロフィーは表示されますが削除できません。誰かが装備中の防具とアクセサリーは削除できません（リバースでは一切削除できず、個数の変更のみ可能です）。
+
+Hand a civilisation to a human or the AI, or change whose turn it is — for hotseat or play-by-cloud games when someone drops out. Gold, faith, cities and units are in the packed part of the save, which isn't mapped yet.
+= 文明を人間または AI に引き継いだり、手番のプレイヤーを変更したりできます。ホットシートやクラウド対戦で誰かが抜けたときに使います。ゴールド、信仰、都市、ユニットはセーブの圧縮部分にあり、まだ解析されていません。
+
+Pieces this save doesn't have at any level. They're added at their base level when you save; upgrade them at a shop in the game. Up to 32 at a time. Keep a copy of game.sav until you've loaded the save in the game.
+= このセーブにどのレベルでも存在しない装備品です。保存時に基本レベルで追加されます。強化はゲーム内の店で行ってください。一度に最大 32 個まで。ゲームでセーブを読み込んで確認できるまで、game.sav のコピーを保管してください。
+
+Pieces you don't have yet, at the level you pick, for each type you already own a piece of (that piece's record is the model; it stays as it is). Added when you save, up to 32 at a time. Keep a copy of the save until you've loaded it in the game.
+= まだ持っていない装備品を、選んだレベルで追加します。すでに 1 つ以上持っている種類ごとが対象です（その装備品の記録がひな形になり、そのまま残ります）。保存時に追加され、一度に最大 32 個まで。ゲームで読み込んで確認できるまで、セーブのコピーを保管してください。

@@ -159,10 +159,9 @@ pub fn show(g: Game, ui: &mut Ui, cx: &mut GameCtx) {
                         }
                     });
                     ui.weak(if slot_of(cx, "/Items", "Skill Point").is_some() {
-                        "Skill points to spend are the tile above. Skill experience fills toward the next point; the game hands it out once it's full."
+                        tr("Skill points to spend are the tile above. Skill experience fills toward the next point; the game hands it out once it's full.")
                     } else {
-                        "No skill points to spend right now: add a Skill Point in Items below to give some. \
-                         Skill experience fills toward the next point; the game hands it out once it's full."
+                        tr("No skill points to spend right now: add a Skill Point in Items below to give some. Skill experience fills toward the next point; the game hands it out once it's full.")
                     });
                 }
             }
@@ -191,7 +190,7 @@ pub fn show(g: Game, ui: &mut Ui, cx: &mut GameCtx) {
     progress(ui, cx);
     item_lists(g, ui, cx, lk.accent);
     if g != Game::Sekiro {
-        ui.label(RichText::new(format!("Raise attributes here and your {} follows; change your {} in the tile above.", lk.level.to_lowercase(), lk.currency.to_lowercase())).weak());
+        ui.label(RichText::new(trf("Raise attributes here and your {0} follows; change your {1} in the tile above.", &[&lk.level.to_lowercase(), &lk.currency.to_lowercase()])).weak());
     }
 }
 
@@ -214,18 +213,17 @@ fn materials(g: Game) -> (Vec<String>, i64, &'static str) {
             .map(|s| s.to_string())
             .collect(),
             99,
-            "Scrap Iron, Black and Yellow Gunpowder, Scrap Magnetite, Adamantite Scrap, Fulminated Mercury, \
-             Fat and Grave Wax and Lapis Lazuli, each to the 99 you can hold.",
+            tr("Scrap Iron, Black and Yellow Gunpowder, Scrap Magnetite, Adamantite Scrap, Fulminated Mercury, Fat and Grave Wax and Lapis Lazuli, each to the 99 you can hold."),
         ),
         Game::DarkSouls3 => (
             ["Titanite Shard", "Large Titanite Shard", "Titanite Chunk", "Titanite Slab", "Twinkling Titanite", "Titanite Scale"].iter().map(|s| s.to_string()).collect(),
             99,
-            "Titanite Shards, Large Shards, Chunks and Slabs, Twinkling Titanite and Titanite Scales, each to the 99 you can carry.",
+            tr("Titanite Shards, Large Shards, Chunks and Slabs, Twinkling Titanite and Titanite Scales, each to the 99 you can carry."),
         ),
         Game::DarkSouls2 => (
             ["Titanite Shard", "Large Titanite Shard", "Titanite Chunk", "Titanite Slab", "Twinkling Titanite", "Petrified Dragon Bone"].iter().map(|s| s.to_string()).collect(),
             99,
-            "Titanite Shards, Large Shards, Chunks and Slabs, Twinkling Titanite and Petrified Dragon Bones, each to the 99 you can carry.",
+            tr("Titanite Shards, Large Shards, Chunks and Slabs, Twinkling Titanite and Petrified Dragon Bones, each to the 99 you can carry."),
         ),
         Game::DarkSouls1 => (
             [
@@ -236,7 +234,7 @@ fn materials(g: Game) -> (Vec<String>, i64, &'static str) {
             .map(|s| s.to_string())
             .collect(),
             99,
-            "Every kind of titanite, Dragon Scales and Demon Titanite, each to the 99 you can carry.",
+            tr("Every kind of titanite, Dragon Scales and Demon Titanite, each to the 99 you can carry."),
         ),
         _ => {
             let mut m: Vec<String> = (1..=8).map(|i| format!("Smithing Stone [{i}]")).collect();
@@ -250,8 +248,7 @@ fn materials(g: Game) -> (Vec<String>, i64, &'static str) {
             (
                 m,
                 999,
-                "Every Smithing Stone and Somber Smithing Stone (Ancient Dragon ones too) for weapons, \
-                 and every Grave and Ghost Glovewort for Spirit Ashes, each to the 999 you can hold.",
+                tr("Every Smithing Stone and Somber Smithing Stone (Ancient Dragon ones too) for weapons, and every Grave and Ghost Glovewort for Spirit Ashes, each to the 999 you can hold."),
             )
         }
     }
@@ -315,7 +312,7 @@ fn item_lists(g: Game, ui: &mut Ui, cx: &mut GameCtx, accent: Color32) {
         let t = if query.is_empty() { tabs(ui, "fs_inv_tab", &names) } else { usize::MAX };
         ui.add_space(4.0);
         let (_, max, tip) = materials(g);
-        if materials_button(ui, &format!("{max} of each"), &format!("{tip} Ones you already have that many of are left alone.")) {
+        if materials_button(ui, &trf("{0} of each", &[&max]), &format!("{} {}", tip, tr("Ones you already have that many of are left alone."))) {
             give_materials(g, cx);
         }
         if g == Game::EldenRing {
@@ -417,9 +414,9 @@ fn item_lists(g: Game, ui: &mut Ui, cx: &mut GameCtx, accent: Color32) {
         }
         let Some(i) = selection(ui, &id).filter(|&i| i < slots.len()) else {
             ui.weak(if query.is_empty() {
-                "Click an item to change it or its quantity, or an empty slot to add one."
+                tr("Click an item to change it or its quantity, or an empty slot to add one.")
             } else {
-                "Everything you have that matches, from every list. Click one to change it."
+                tr("Everything you have that matches, from every list. Click one to change it.")
             });
             return;
         };
@@ -441,10 +438,9 @@ fn item_lists(g: Game, ui: &mut Ui, cx: &mut GameCtx, accent: Color32) {
                 cx.grid_row(ui, "Infusion", &format!("{p}/Infusion"), 160.0);
             });
             ui.weak(match g {
-                Game::Sekiro => "Pick (empty) to remove an item. Items set in a quick-item slot can't be swapped here.",
+                Game::Sekiro => tr("Pick (empty) to remove an item. Items set in a quick-item slot can't be swapped here."),
                 _ => {
-                    "Pick (empty) to remove something you added here. What's equipped or in a quick slot can't be swapped, \
-                     and a weapon's level stays within what it can have."
+                    tr("Pick (empty) to remove something you added here. What's equipped or in a quick slot can't be swapped, and a weapon's level stays within what it can have.")
                 }
             });
         });

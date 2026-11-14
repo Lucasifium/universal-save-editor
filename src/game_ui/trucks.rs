@@ -1,7 +1,7 @@
 //! Euro Truck Simulator 2 and American Truck Simulator (`game.sii`): money, experience,
 //! skills and the trucks' fuel and wear.
 
-use crate::i18n::{tr};
+use crate::i18n::{tr, trf};
 use super::{fact, hero, panel, GameCtx};
 use eframe::egui::{Color32, Ui};
 use serde_json::{json, Value};
@@ -25,7 +25,7 @@ fn units(cx: &GameCtx, ty: &str) -> Vec<String> {
 }
 
 pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
-    let sub = cx.text("/driver_player/experience_points").map_or_else(String::new, |x| format!("{x} XP"));
+    let sub = cx.text("/driver_player/experience_points").map_or_else(String::new, |x| trf("{0} XP", &[&x]));
     hero(ui, ACCENT, "Truck simulator profile", &sub, |ui| {
         cx.tile(ui, "Money", "/bank/money_account", ACCENT);
         cx.tile(ui, "Experience", "/driver_player/experience_points", ACCENT);
@@ -51,7 +51,7 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
     }
     let trucks = units(cx, "vehicle");
     if !trucks.is_empty() {
-        panel(ui, &format!("Vehicles ({})", trucks.len()), |ui| {
+        panel(ui, &trf("Vehicles ({0})", &[&trucks.len()]), |ui| {
             for t in &trucks {
                 ui.horizontal_wrapped(|ui| {
                     let plate = cx.text(&format!("{t}/license_plate")).unwrap_or_default();

@@ -44,10 +44,10 @@ fn species(cx: &GameCtx, m: &str) -> (String, Option<String>) {
     let body = cx.text(&format!("{sd}/@body_pokemon/@real_name"));
     let sym = cx.text(&format!("{m}/@species")).unwrap_or_default();
     let parts = match (head, body) {
-        (Some(h), Some(b)) => Some(format!("{h} head, {b} body")),
-        _ => fused_ids(&sym).map(|(b, h)| format!("head #{h}, body #{b}")),
+        (Some(h), Some(b)) => Some(crate::i18n::trf("{0} head, {1} body", &[&h, &b])),
+        _ => fused_ids(&sym).map(|(b, h)| crate::i18n::trf("head #{0}, body #{1}", &[&h, &b])),
     };
-    let name = name.unwrap_or_else(|| if fused_ids(&sym).is_some() { "Fusion".into() } else { nice(&sym) });
+    let name = name.unwrap_or_else(|| if fused_ids(&sym).is_some() { crate::i18n::tr("Fusion").into() } else { nice(&sym) });
     (name, parts)
 }
 
@@ -70,12 +70,12 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
     let name = cx.text(&format!("{P}/@name")).unwrap_or_else(|| "Trainer".into());
     let mut sub = vec![];
     if let Some(id) = cx.int(&format!("{P}/@id")) {
-        sub.push(format!("ID No. {:05}", id & 0xFFFF));
+        sub.push(crate::i18n::trf("ID No. {0}", &[&format!("{:05}", id & 0xFFFF)]));
     }
     let badges = (0..len(cx, &format!("{P}/@badges"))).filter(|i| cx.flag(&format!("{P}/@badges/{i}"))).count();
-    sub.push(format!("{badges} badges"));
+    sub.push(crate::i18n::trf("{0} badges", &[&badges]));
     if let Some(v) = cx.text("/Part 1/game_version") {
-        sub.push(format!("game version {v}"));
+        sub.push(crate::i18n::trf("game version {0}", &[&v]));
     }
     hero(ui, ACCENT, &name, &sub.join("  \u{00B7}  "), |ui| {
         cx.tile(ui, "Money", &format!("{P}/@money"), ACCENT);
@@ -115,7 +115,7 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
         panel(ui, "Badges", |ui| {
             ui.horizontal_wrapped(|ui| {
                 for i in 0..nb {
-                    let label = BADGES.get(i).map_or_else(|| format!("Badge {}", i + 1), |b| format!("{b} Badge"));
+                    let label = BADGES.get(i).map_or_else(|| crate::i18n::trf("Badge {0}", &[&(i + 1)]), |b| crate::i18n::trf("{0} Badge", &[b]));
                     cx.chip(ui, &label, &format!("{P}/@badges/{i}"), GOLD);
                 }
             });
@@ -172,7 +172,7 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
     let npockets = len(cx, "/Part 1/bag/@pockets");
     if npockets > 1 {
         panel(ui, "Bag", |ui| {
-            let names: Vec<String> = (1..npockets).map(|i| POCKETS.get(i - 1).map_or_else(|| format!("Pocket {i}"), |s| s.to_string())).collect();
+            let names: Vec<String> = (1..npockets).map(|i| POCKETS.get(i - 1).map_or_else(|| crate::i18n::trf("Pocket {0}", &[&i]), |s| s.to_string())).collect();
             let t = tabs(ui, "pif_bag_tab", &names) + 1;
             let pp = format!("/Part 1/bag/@pockets/{t}");
             let n = len(cx, &pp);
@@ -212,7 +212,7 @@ fn difficulty(ui: &mut Ui, cx: &mut GameCtx) {
         let c = if modified { crate::theme::MODIFIED } else { ui.visuals().text_color() };
         ui.label(RichText::new(tr("Difficulty")).color(c));
         for (i, n) in ["Easy", "Normal", "Hard"].iter().enumerate() {
-            if ui.selectable_label(cur == Some(i), *n).clicked() && cur != Some(i) {
+            if ui.selectable_label(cur == Some(i), crate::i18n::tr_any(n)).clicked() && cur != Some(i) {
                 pick = Some(i);
             }
         }
@@ -248,10 +248,10 @@ fn mon_card(ui: &mut Ui, cx: &mut GameCtx, m: &str, id: &str) {
             facts.push(types.join(" / "));
         }
         if let Some(a) = cx.text(&f("@ability")) {
-            facts.push(format!("Ability: {}", nice(&a)));
+            facts.push(crate::i18n::trf("Ability: {0}", &[&nice(&a)]));
         }
         if let Some(it) = cx.text(&f("@item")) {
-            facts.push(format!("Holds {}", nice(&it)));
+            facts.push(crate::i18n::trf("Holds {0}", &[&nice(&it)]));
         }
         if !facts.is_empty() {
             ui.label(RichText::new(facts.join("  \u{00B7}  ")).size(12.5).color(ui.visuals().weak_text_color()));
@@ -284,8 +284,8 @@ fn mon_card(ui: &mut Ui, cx: &mut GameCtx, m: &str, id: &str) {
         ui.add_space(4.0);
         egui::Grid::new((id, "stats")).num_columns(4).spacing([10.0, 3.0]).show(ui, |ui| {
             ui.weak("");
-            ui.weak("IV (0\u{2013}31)");
-            ui.weak("EV (0\u{2013}252)");
+            ui.weak(crate::i18n::tr("IV (0–31)"));
+            ui.weak(crate::i18n::tr("EV (0–252)"));
             ui.weak(tr("Stat"));
             ui.end_row();
             for (k, label, stat) in STATS {
@@ -298,9 +298,9 @@ fn mon_card(ui: &mut Ui, cx: &mut GameCtx, m: &str, id: &str) {
             }
         });
         let total: i64 = STATS.iter().filter_map(|(k, _, _)| cx.int(&f(&format!("@ev/{k}")))).sum();
-        let msg = format!("EVs in all: {total} of 510");
+        let msg = crate::i18n::trf("EVs in all: {0} of 510", &[&total]);
         if total > 510 {
-            ui.colored_label(Color32::from_rgb(220, 120, 60), format!("{msg}. The game never gives more than 510 in all."));
+            ui.colored_label(Color32::from_rgb(220, 120, 60), format!("{msg}. {}", crate::i18n::tr("The game never gives more than 510 in all.")));
         } else {
             ui.weak(msg);
         }
@@ -345,7 +345,7 @@ fn nature_label(n: &str) -> String {
     let i = NATURES.iter().position(|x| *x == n).unwrap_or(0);
     let (up, down) = (i / 5, i % 5);
     if up == down {
-        format!("{} (neutral)", nice(n))
+        crate::i18n::trf("{0} (neutral)", &[&nice(n)])
     } else {
         format!("{} (+{}, \u{2212}{})", nice(n), SHORT[up], SHORT[down])
     }

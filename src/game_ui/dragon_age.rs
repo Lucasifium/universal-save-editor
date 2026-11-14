@@ -33,7 +33,7 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
     let name = cx.text("/Player/Name").unwrap_or_else(|| "Warden".into());
     let mut sub = vec!["Dragon Age: Origins".to_string()];
     if let Some(l) = cx.num("/Player/Level") {
-        sub.push(format!("Level {l}"));
+        sub.push(trf("Level {0}", &[&l]));
     }
     if let Some(c) = cx.text("/Party/Campaign").filter(|c| c.starts_with("Awakening")) {
         sub.push(c);

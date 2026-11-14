@@ -120,10 +120,10 @@ pub fn green_hell(ui: &mut Ui, cx: &mut GameCtx) {
     let played = cx.num(&format!("{body}/StatPlayTime")).unwrap_or(0.0);
     let mut sub = vec![];
     if year > 0 {
-        sub.push(format!("{day}/{month}/{year}{}", hour.map(|h| format!(", {h}:00")).unwrap_or_default()));
+        sub.push(format!("{day}/{month}/{year}{}", hour.map(|h| format!(", {h}:00")).unwrap_or_default())); // i18n-ok
     }
     if played > 0.0 {
-        sub.push(format!("{:.1} hours played", played / 3600.0));
+        sub.push(trf("{0} hours played", &[&format!("{:.1}", played / 3600.0)]));
     }
     hero(ui, accent, "Green Hell", &sub.join("  \u{00B7}  "), |ui| {
         if let Some(d) = cx.int(&format!("{world}/StatDaysSurvived")) {
@@ -187,10 +187,10 @@ pub fn re_slot(ui: &mut Ui, cx: &mut GameCtx) {
     let mut sub = vec![];
     if let Some(i) = &info {
         if let Some(n) = cx.int(&format!("{i}/_SaveCount")) {
-            sub.push(format!("saved {n} times"));
+            sub.push(trf("saved {0} times", &[&n]));
         }
         if cx.flag(&format!("{i}/_IsNewGamePlus")) {
-            sub.push("New Game+".into());
+            sub.push(tr("New Game+").into());
         }
     }
     hero(ui, accent, "Game slot", &sub.join("  \u{00B7}  "), |ui| {
@@ -208,7 +208,7 @@ pub fn re_slot(ui: &mut Ui, cx: &mut GameCtx) {
                 ui.strong(tr("Most health"));
                 ui.end_row();
                 for (n, p) in hp.iter().enumerate() {
-                    ui.label(if n == 0 { "Player".to_string() } else { format!("Character {}", n + 1) });
+                    ui.label(if n == 0 { tr("Player").to_string() } else { trf("Character {0}", &[&(n + 1)]) });
                     cx.cell(ui, &format!("{p}/_CurrentHP"), 100.0);
                     cx.cell(ui, &format!("{p}/_CurrentMaxHP"), 100.0);
                     ui.end_row();
@@ -224,7 +224,7 @@ pub fn re_slot(ui: &mut Ui, cx: &mut GameCtx) {
             continue;
         }
         let names: Vec<String> = (0..boards)
-            .map(|i| cx.text(&format!("{p}/{i}/_BoardTypeName")).or_else(|| cx.text(&format!("{p}/{i}/_UserName"))).map(|s| words(&s)).unwrap_or_else(|| format!("Board {}", i + 1)))
+            .map(|i| cx.text(&format!("{p}/{i}/_BoardTypeName")).or_else(|| cx.text(&format!("{p}/{i}/_UserName"))).map(|s| words(&s)).unwrap_or_else(|| trf("Board {0}", &[&(i + 1)])))
             .collect();
         panel(ui, "Inventory", |ui| {
             let t = tabs(ui, &format!("re_inv{inv_base}"), &names);
@@ -242,8 +242,8 @@ pub fn re_slot(ui: &mut Ui, cx: &mut GameCtx) {
                     continue;
                 }
                 ui.label(RichText::new(match list {
-                    "_ArchiveItems" => "Files and key items",
-                    _ => "Items",
+                    "_ArchiveItems" => tr("Files and key items"),
+                    _ => tr("Items"),
                 }).strong());
                 egui::Grid::new(("re_items", &lp)).num_columns(3).striped(true).spacing([14.0, 4.0]).show(ui, |ui| {
                     ui.strong(tr("Item"));
@@ -289,7 +289,7 @@ pub fn hogwarts(ui: &mut Ui, cx: &mut GameCtx) {
         _ => Color32::from_rgb(120, 90, 160),
     };
     let c = "/CharacterSaveGameInfo";
-    let name = cx.text(&format!("{c}/CharacterName")).unwrap_or_else(|| "Student".into());
+    let name = cx.text(&format!("{c}/CharacterName")).unwrap_or_else(|| tr("Student").into());
     let mut sub = vec![];
     if let Some(h) = cx.text(&format!("{c}/CharacterHouse")) {
         sub.push(h);
@@ -302,7 +302,7 @@ pub fn hogwarts(ui: &mut Ui, cx: &mut GameCtx) {
         cx.tile(ui, "Difficulty", &format!("{c}/CharacterGameDifficulty"), accent);
     });
     if let Some(q) = cx.text("/DirectoryEntry/CurrentAction") {
-        ui.label(RichText::new(format!("Current quest: {}", words(q.trim_end_matches("_QuestTitle")))).weak());
+        ui.label(RichText::new(trf("Current quest: {0}", &[&words(q.trim_end_matches("_QuestTitle"))])).weak());
     }
     panel(ui, "Character", |ui| {
         value_rows(ui, cx, "hl_c", &[
@@ -312,10 +312,7 @@ pub fn hogwarts(ui: &mut Ui, cx: &mut GameCtx) {
             ("Pronouns".into(), format!("{c}/CharacterPronoun")),
             ("Intro finished".into(), "/bCompletedIntro".into()),
         ]);
-        ui.weak(
-            "Level and difficulty here are what the load screen shows. Gold, experience, talent points and the \
-             inventory are kept in the game's compressed database inside this save, which can't be edited yet.",
-        );
+        ui.weak(tr("Level and difficulty here are what the load screen shows. Gold, experience, talent points and the inventory are kept in the game's compressed database inside this save, which can't be edited yet."));
     });
 }
 
@@ -356,7 +353,7 @@ pub fn renpy(ui: &mut Ui, cx: &mut GameCtx) {
     let numbers: Vec<&String> = vars.iter().filter(|(_, v)| v.is_number()).map(|(k, _)| k).collect();
     let flags: Vec<&String> = vars.iter().filter(|(_, v)| v.is_boolean()).map(|(k, _)| k).collect();
     let texts: Vec<&String> = vars.iter().filter(|(_, v)| v.as_str().is_some_and(|s| !s.starts_with('<'))).map(|(k, _)| k).collect();
-    let sub = format!("{} numbers  \u{00B7}  {} flags{}", numbers.len(), flags.len(), if version.is_empty() { String::new() } else { format!("  \u{00B7}  saved with game version {version}") });
+    let sub = format!("{}  \u{00B7}  {}{}", trf("{0} numbers", &[&numbers.len()]), trf("{0} flags", &[&flags.len()]), if version.is_empty() { String::new() } else { format!("  \u{00B7}  {}", trf("saved with game version {0}", &[&version])) });
     hero(ui, accent, "Story variables", &sub, |ui| {
         // Money and the like, if the game calls them something common.
         for (k, _) in &vars {
@@ -367,7 +364,7 @@ pub fn renpy(ui: &mut Ui, cx: &mut GameCtx) {
         }
     });
     story_guard(ui, |ui| {
-        let q = filter_box(ui, "renpy", "e.g. money, love, day");
+        let q = filter_box(ui, "renpy", tr("e.g. money, love, day"));
         let keep = |k: &str| q.is_empty() || k.to_lowercase().contains(&q);
         panel(ui, "Numbers", |ui| {
             let rows: Vec<(String, String)> = numbers.iter().filter(|k| keep(k)).map(|k| ((*k).clone(), ptr_of[*k].clone())).collect();
@@ -444,7 +441,7 @@ pub fn eu4(ui: &mut Ui, cx: &mut GameCtx) {
             ui.weak(tr("The player's country isn't in this save."));
             return;
         }
-        let q = filter_box(ui, "eu4", "e.g. mercantilism");
+        let q = filter_box(ui, "eu4", tr("e.g. mercantilism"));
         let rows = scalar_rows(cx, &c, |k, v| v.is_number() && (q.is_empty() || k.contains(&q)));
         egui::ScrollArea::vertical().id_salt("eu4_c").max_height(360.0).show_locked(ui, |ui| value_rows(ui, cx, "eu4_rows", &rows));
     });
@@ -456,7 +453,7 @@ pub fn ck2(ui: &mut Ui, cx: &mut GameCtx) {
     let id = cx.int("/player/id").unwrap_or(0);
     let ch = format!("/character/{id}");
     let date = cx.text("/date").unwrap_or_default();
-    let name = cx.text(&format!("{ch}/bn")).or_else(|| cx.text(&format!("{ch}/birth_name"))).unwrap_or_else(|| format!("Character {id}"));
+    let name = cx.text(&format!("{ch}/bn")).or_else(|| cx.text(&format!("{ch}/birth_name"))).unwrap_or_else(|| trf("Character {0}", &[&id]));
     hero(ui, accent, &name, &format!("{date}  \u{00B7}  Crusader Kings II"), |ui| {
         for (label, ks) in [("Wealth", ["wealth", "wea"]), ("Prestige", ["prestige", "prs"]), ("Piety", ["piety", "piety"])] {
             if let Some(k) = ks.iter().find(|k| cx.get(&join(&ch, k)).is_some()) {
@@ -504,7 +501,7 @@ pub fn mass_effect(ui: &mut Ui, cx: &mut GameCtx) {
     if let Some(r) = cx.text("/Shepard/Reputation") {
         sub.push(r);
     }
-    sub.push(format!("{:.1} hours", played / 3600.0));
+    sub.push(trf("{0} hours", &[&format!("{:.1}", played / 3600.0)]));
     sub.push(game);
     hero(ui, accent, &format!("{first} Shepard"), &sub.join("  \u{00B7}  "), |ui| {
         cx.tile(ui, "Level", "/Shepard/Level", accent);
@@ -545,7 +542,7 @@ pub fn mass_effect(ui: &mut Ui, cx: &mut GameCtx) {
         panel(ui, "Inventory", |ui| {
             let t = tabs(ui, "me_items", &parts);
             let base = join("/Items", &parts[t]);
-            let q = filter_box(ui, "me_items_q", "item name");
+            let q = filter_box(ui, "me_items_q", tr("item name"));
             let rows: Vec<(String, String)> = match cx.get(&base) {
                 Some(Value::Object(m)) => m.keys().filter(|k| q.is_empty() || k.to_lowercase().contains(&q)).map(|k| (k.clone(), join(&base, k))).collect(),
                 _ => vec![],
@@ -589,7 +586,7 @@ pub(super) fn story(ui: &mut Ui, cx: &mut GameCtx, accent: Color32) {
         return;
     }
     panel(ui, "Story", |ui| story_guard(ui, |ui| {
-        let q = filter_box(ui, "me_story", "loyal, romance, dead\u{2026}");
+        let q = filter_box(ui, "me_story", tr("loyal, romance, dead\u{2026}"));
         let mut sections = flags.clone();
         for n in &numbers {
             if !sections.contains(n) {
@@ -606,7 +603,7 @@ pub(super) fn story(ui: &mut Ui, cx: &mut GameCtx, accent: Color32) {
                 continue;
             }
             let on = f.iter().filter(|k| cx.flag(&join(&fb, k))).count();
-            let title = if f.is_empty() { sec.clone() } else { format!("{sec}  ({on} of {} on)", f.len()) };
+            let title = if f.is_empty() { sec.clone() } else { trf("{0}  ({1} of {2} on)", &[&sec, &on, &f.len()]) };
             egui::CollapsingHeader::new(title).id_salt(("me_story", sec)).open(if q.is_empty() { None } else { Some(true) }).show(ui, |ui| {
                 ui.horizontal_wrapped(|ui| {
                     for k in &f {
@@ -619,10 +616,7 @@ pub(super) fn story(ui: &mut Ui, cx: &mut GameCtx, accent: Color32) {
                 }
             });
         }
-        ui.weak(
-            "Click a flag to turn it on or off. These are the game's own story records: changing one doesn't replay the scene behind it, \
-             and flags that contradict each other (alive and dead, two romances) can confuse later scenes, so change few at a time and keep the backup.",
-        );
+        ui.weak(tr("Click a flag to turn it on or off. These are the game's own story records: changing one doesn't replay the scene behind it, and flags that contradict each other (alive and dead, two romances) can confuse later scenes, so change few at a time and keep the backup."));
     }));
 }
 
@@ -657,14 +651,14 @@ pub fn xcom(ui: &mut Ui, cx: &mut GameCtx) {
         }
     }
     let n = soldiers.len();
-    hero(ui, accent, "XCOM", &format!("{n} soldier record{}", if n == 1 { "" } else { "s" }), |ui| {
+    hero(ui, accent, "XCOM", &if n == 1 { tr("1 soldier record").to_string() } else { trf("{0} soldier records", &[&n]) }, |ui| {
         if let Some(h) = &hq {
             cx.tile(ui, "Money (\u{00A7})", &format!("{h}/m_iCash"), accent);
         }
     });
     if !soldiers.is_empty() {
         panel(ui, "Soldiers", |ui| {
-            let q = filter_box(ui, "xcom_sold", "name or class");
+            let q = filter_box(ui, "xcom_sold", tr("name or class"));
             let stat = |base: &str, c: &str, i: usize| format!("{base}/{c}/aStats[{i}]");
             let area = egui::ScrollArea::both().id_salt("xcom_s").max_height(420.0).show_locked(ui, |ui| {
                 egui::Grid::new("xcom_grid").num_columns(9).striped(true).spacing([10.0, 4.0]).show(ui, |ui| {
@@ -683,7 +677,7 @@ pub fn xcom(ui: &mut Ui, cx: &mut GameCtx) {
                         if !q.is_empty() && !name.to_lowercase().contains(&q) && !class.to_lowercase().contains(&q) {
                             continue;
                         }
-                        ui.label(if kia { RichText::new(format!("{name} (KIA)")).weak() } else { RichText::new(name) });
+                        ui.label(if kia { RichText::new(trf("{0} (KIA)", &[&name])).weak() } else { RichText::new(name) });
                         ui.label(class);
                         cx.compact(ui, &format!("{sp}/iRank"), 36.0);
                         cx.compact(ui, &format!("{sp}/iXP"), 64.0);
@@ -728,7 +722,7 @@ pub fn xcom2(ui: &mut Ui, cx: &mut GameCtx) {
         _ => vec![],
     };
     let n = soldiers.len();
-    hero(ui, accent, "XCOM 2", &format!("{n} soldier{}", if n == 1 { "" } else { "s" }), |ui| {
+    hero(ui, accent, "XCOM 2", &if n == 1 { tr("1 soldier").to_string() } else { trf("{0} soldiers", &[&n]) }, |ui| {
         for (_, label) in crate::fmt::xcom2::RESOURCES {
             cx.tile(ui, label, &join("/Resources", label), accent);
         }
@@ -737,7 +731,7 @@ pub fn xcom2(ui: &mut Ui, cx: &mut GameCtx) {
         let stats = ["HP", "Aim", "Mobility", "Will", "Hacking", "Defense", "Dodge", "Psi", "Armor", "Shield", "Sight"];
         let shown: Vec<&str> = stats.iter().copied().filter(|s| soldiers.iter().any(|b| cx.get(&format!("{b}/Stats/{s}")).is_some())).collect();
         panel(ui, "Soldiers", |ui| {
-            let q = filter_box(ui, "xcom2_sold", "name or class");
+            let q = filter_box(ui, "xcom2_sold", tr("name or class"));
             let area = egui::ScrollArea::both().id_salt("xcom2_s").max_height(460.0).show_locked(ui, |ui| {
                 egui::Grid::new("xcom2_grid").num_columns(6 + shown.len()).striped(true).spacing([10.0, 4.0]).show(ui, |ui| {
                     crate::widgets::header_row(ui, "xcom2_s", ["Soldier", "Class", "Rank", "Kills", "Missions", "Ability points"].into_iter().chain(shown.iter().map(|s| s.as_ref())));
@@ -780,10 +774,7 @@ pub fn xcom2(ui: &mut Ui, cx: &mut GameCtx) {
                 });
             });
             crate::widgets::sticky_headers(ui, "xcom2_s", area.inner_rect);
-            ui.weak(
-                "Rank 0 is Rookie \u{2026} 7 is Colonel (8 Brigadier with some classes). A stat sets the soldier's current, maximum and \
-                 base value together, so a wounded soldier is healed to it. A blank cell is a value the game left at its default.",
-            );
+            ui.weak(tr("Rank 0 is Rookie \u{2026} 7 is Colonel (8 Brigadier with some classes). A stat sets the soldier's current, maximum and base value together, so a wounded soldier is healed to it. A blank cell is a value the game left at its default."));
         });
     }
     let rows: Vec<(String, String)> = match cx.get("/Storage") {
@@ -802,11 +793,11 @@ pub fn xcom2(ui: &mut Ui, cx: &mut GameCtx) {
 
 pub fn civ6(ui: &mut Ui, cx: &mut GameCtx) {
     let accent = Color32::from_rgb(200, 160, 60);
-    let turn = cx.int("/Game/Turn").map(|t| format!("Turn {t}")).unwrap_or_default();
+    let turn = cx.int("/Game/Turn").map(|t| trf("Turn {0}", &[&t])).unwrap_or_default();
     let mut sub = vec![turn];
     for k in ["Speed", "Map size", "Map"] {
         if let Some(v) = cx.text(&format!("/Game/{k}")) {
-            sub.push(format!("{k}: {v}"));
+            sub.push(format!("{}: {v}", crate::i18n::tr_any(k)));
         }
     }
     let civs: Vec<String> = match cx.get("/Civilizations") {
@@ -821,7 +812,7 @@ pub fn civ6(ui: &mut Ui, cx: &mut GameCtx) {
     panel(ui, "Civilizations", |ui| {
         egui::Grid::new("civ6_grid").num_columns(6).striped(true).spacing([14.0, 6.0]).show(ui, |ui| {
             for h in ["Civilization", "Leader", "Player", "Played by", "Their turn", "Alive"] {
-                ui.strong(h);
+                ui.strong(crate::i18n::tr_any(h));
             }
             ui.end_row();
             for c in &civs {
@@ -837,17 +828,14 @@ pub fn civ6(ui: &mut Ui, cx: &mut GameCtx) {
                 }
                 let alive = cx.get(&format!("{c}/Alive")).and_then(Value::as_bool);
                 ui.label(match alive {
-                    Some(true) => "Yes",
-                    Some(false) => "Defeated",
+                    Some(true) => tr("Yes"),
+                    Some(false) => tr("Defeated"),
                     None => "",
                 });
                 ui.end_row();
             }
         });
-        ui.weak(
-            "Hand a civilisation to a human or the AI, or change whose turn it is \u{2014} for hotseat or play-by-cloud games when someone \
-             drops out. Gold, faith, cities and units are in the packed part of the save, which isn't mapped yet.",
-        );
+        ui.weak(tr("Hand a civilisation to a human or the AI, or change whose turn it is \u{2014} for hotseat or play-by-cloud games when someone drops out. Gold, faith, cities and units are in the packed part of the save, which isn't mapped yet."));
     });
     let mods: Vec<String> = match cx.get("/Mods") {
         Some(Value::Object(m)) => m.values().filter_map(|v| v.as_str().map(str::to_string)).collect(),
@@ -870,9 +858,9 @@ pub fn diablo2(ui: &mut Ui, cx: &mut GameCtx) {
     let class = cx.text("/Character/Class").unwrap_or_default();
     let mut sub = vec![class];
     if cx.flag("/Character/Hardcore") {
-        sub.push("Hardcore".into());
+        sub.push(tr("Hardcore").into());
     }
-    sub.push(if cx.flag("/Character/Expansion") { "Lord of Destruction".into() } else { "Classic".into() });
+    sub.push(if cx.flag("/Character/Expansion") { tr("Lord of Destruction").into() } else { tr("Classic").into() });
     hero(ui, accent, &name, &sub.join("  \u{00B7}  "), |ui| {
         for (label, p) in [("Level", "/Progress/Level"), ("Experience", "/Progress/Experience"), ("Gold", "/Progress/Gold"), ("Stash gold", "/Progress/Stash gold")] {
             cx.tile(ui, label, p, accent);
@@ -926,7 +914,7 @@ pub fn diablo2(ui: &mut Ui, cx: &mut GameCtx) {
             for base in &ways {
                 let keys = keys_of(cx, base);
                 let on = keys.iter().filter(|k| cx.flag(&join(base, k))).count();
-                egui::CollapsingHeader::new(format!("{}  ({on} of {})", base.trim_start_matches("/Waypoints: "), keys.len())).id_salt(("d2_wp", base)).show(ui, |ui| {
+                egui::CollapsingHeader::new(trf("{0}  ({1} of {2})", &[&crate::i18n::tr_any(base.trim_start_matches("/Waypoints: ")), &on, &keys.len()])).id_salt(("d2_wp", base)).show(ui, |ui| {
                     if super::quick_button(ui, tr("Open every waypoint"), "") {
                         for k in &keys {
                             cx.set(&join(base, k), Value::from(1));
@@ -967,7 +955,7 @@ pub fn ff7(ui: &mut Ui, cx: &mut GameCtx) {
     let base = join("", &slots[t]);
     let secs = cx.int(&format!("{base}/Play time (seconds)")).unwrap_or(0);
     let loc = cx.text(&format!("{base}/Location")).unwrap_or_default();
-    hero(ui, accent, "Final Fantasy VII", &format!("{loc}  \u{00B7}  {}:{:02} played", secs / 3600, secs / 60 % 60), |ui| {
+    hero(ui, accent, "Final Fantasy VII", &format!("{loc}  \u{00B7}  {}", trf("{0} played", &[&format!("{}:{:02}", secs / 3600, secs / 60 % 60)])), |ui| {
         cx.tile(ui, "Gil", &format!("{base}/Gil"), accent);
         cx.tile(ui, "Play time (seconds)", &format!("{base}/Play time (seconds)"), accent);
     });
@@ -1023,7 +1011,7 @@ pub fn ff7_remake(ui: &mut Ui, cx: &mut GameCtx) {
         Some(Value::Object(m)) => m.keys().cloned().collect(),
         _ => vec![],
     };
-    hero(ui, accent, &game, &format!("{} party members in this slot", members.len()), |ui| {
+    hero(ui, accent, &game, &trf("{0} party members in this slot", &[&members.len()]), |ui| {
         for k in ["Gil", "Moogle Medals", "Gold Saucer Points"] {
             cx.tile(ui, k, &format!("/{k}"), accent);
         }
@@ -1032,7 +1020,7 @@ pub fn ff7_remake(ui: &mut Ui, cx: &mut GameCtx) {
         egui::ScrollArea::horizontal().id_salt("ff7r_scroll").show_locked(ui, |ui| {
         egui::Grid::new("ff7r_party").num_columns(7).striped(true).spacing([12.0, 4.0]).show(ui, |ui| {
             for h in ["", "Level", "HP", "Max HP", "MP", "Max MP", "Experience"] {
-                ui.strong(h);
+                ui.strong(crate::i18n::tr_any(h));
             }
             ui.end_row();
             for m in &members {
@@ -1047,10 +1035,7 @@ pub fn ff7_remake(ui: &mut Ui, cx: &mut GameCtx) {
             }
         });
         });
-        ui.weak(
-            "Characters are numbered in the order the save keeps them (Cloud is usually first). The game can recalculate \
-             max HP and MP from level and equipment, so raise the level and experience together for lasting changes.",
-        );
+        ui.weak(tr("Characters are numbered in the order the save keeps them (Cloud is usually first). The game can recalculate max HP and MP from level and equipment, so raise the level and experience together for lasting changes."));
     });
     ff7r_inventory(ui, cx);
 }
@@ -1061,8 +1046,8 @@ fn ff7r_materia(ui: &mut Ui, cx: &mut GameCtx) {
     if all.is_empty() {
         return;
     }
-    panel(ui, &format!("Materia ({})", all.len()), |ui| {
-        let q = filter_box(ui, "ff7r_materia", "e.g. Fire, Magnify");
+    panel(ui, &trf("Materia ({0})", &[&all.len()]), |ui| {
+        let q = filter_box(ui, "ff7r_materia", tr("e.g. Fire, Magnify"));
         let shown: Vec<&String> = all.iter().filter(|k| q.is_empty() || k.to_lowercase().contains(&q)).collect();
         let area = egui::ScrollArea::vertical().id_salt("ff7r_materia_scroll").max_height(360.0).show_locked(ui, |ui| {
             egui::Grid::new("ff7r_materia_grid").num_columns(5).striped(true).spacing([12.0, 4.0]).show(ui, |ui| {
@@ -1084,10 +1069,7 @@ fn ff7r_materia(ui: &mut Ui, cx: &mut GameCtx) {
             });
         });
         crate::widgets::sticky_headers(ui, "ff7r_materia", area.inner_rect);
-        ui.weak(
-            "Each materia is listed with its slot number, since a save often has several of one kind. Materia someone \
-             has equipped can't be removed. In Rebirth, level and AP can be changed up to the materia's top level.",
-        );
+        ui.weak(tr("Each materia is listed with its slot number, since a save often has several of one kind. Materia someone has equipped can't be removed. In Rebirth, level and AP can be changed up to the materia's top level."));
     });
     let add = "/Add materia";
     let kinds = keys_of(cx, add);
@@ -1095,7 +1077,7 @@ fn ff7r_materia(ui: &mut Ui, cx: &mut GameCtx) {
         return;
     }
     panel(ui, "Add materia", |ui| {
-        let q = filter_box(ui, "ff7r_add_materia", "e.g. Fire, Ifrit");
+        let q = filter_box(ui, "ff7r_add_materia", tr("e.g. Fire, Ifrit"));
         for c in &kinds {
             let p = join(add, c);
             let rows: Vec<(String, String)> = keys_of(cx, &p).into_iter().filter(|k| q.is_empty() || k.to_lowercase().contains(&q)).map(|k| (k.clone(), join(&p, &k))).collect();
@@ -1103,7 +1085,7 @@ fn ff7r_materia(ui: &mut Ui, cx: &mut GameCtx) {
                 continue;
             }
             let chosen = rows.iter().filter(|(_, p)| cx.text(p).is_some_and(|v| v != "Don't add")).count();
-            let title = if chosen > 0 { format!("{c} materia ({}, {chosen} to add)", rows.len()) } else { format!("{c} materia ({})", rows.len()) };
+            let title = if chosen > 0 { trf("{0} materia ({1}, {2} to add)", &[c, &rows.len(), &chosen]) } else { trf("{0} materia ({1})", &[c, &rows.len()]) };
             egui::CollapsingHeader::new(title).id_salt(("ff7r_add_materia", c.as_str())).default_open(!q.is_empty()).show(ui, |ui| {
                 value_rows(ui, cx, &format!("ff7r_add_materia_{c}"), &rows);
             });
@@ -1122,7 +1104,7 @@ fn ff7r_inventory(ui: &mut Ui, cx: &mut GameCtx) {
         let labels: Vec<String> = groups.iter().map(|g| format!("{g} ({})", keys_of(cx, &join("/Inventory", g)).len())).collect();
         let t = tabs(ui, "ff7r_inv_tab", &labels);
         let g = &groups[t.min(groups.len() - 1)];
-        let q = filter_box(ui, "ff7r_inv", "e.g. Potion, Bangle");
+        let q = filter_box(ui, "ff7r_inv", tr("e.g. Potion, Bangle"));
         let base = join("/Inventory", g);
         let names: Vec<String> = keys_of(cx, &base).into_iter().filter(|k| q.is_empty() || k.to_lowercase().contains(&q)).collect();
         egui::ScrollArea::vertical().id_salt("ff7r_inv_scroll").max_height(360.0).show_locked(ui, |ui| {
@@ -1141,11 +1123,7 @@ fn ff7r_inventory(ui: &mut Ui, cx: &mut GameCtx) {
             });
         });
         crafting::offer(Game::Ff7Remake, ui, cx);
-        ui.weak(
-            "Items and materials go up to 99. Removing frees the slot when you save. Key items, currencies, outfits, \
-             folios and trophies are shown but can't be removed. Armor and accessories someone is wearing can't be removed \
-             (in Rebirth they can't be removed at all, only changed in number).",
-        );
+        ui.weak(tr("Items and materials go up to 99. Removing frees the slot when you save. Key items, currencies, outfits, folios and trophies are shown but can't be removed. Armor and accessories someone is wearing can't be removed (in Rebirth they can't be removed at all, only changed in number)."));
     });
     ff7r_materia(ui, cx);
     let add = "/Add items";
@@ -1154,7 +1132,7 @@ fn ff7r_inventory(ui: &mut Ui, cx: &mut GameCtx) {
         return;
     }
     panel(ui, "Add items", |ui| {
-        let q = filter_box(ui, "ff7r_add", "e.g. Elixir, Ring");
+        let q = filter_box(ui, "ff7r_add", tr("e.g. Elixir, Ring"));
         for c in &cats {
             let p = join(add, c);
             let rows: Vec<(String, String)> = keys_of(cx, &p).into_iter().filter(|k| q.is_empty() || k.to_lowercase().contains(&q)).map(|k| (k.clone(), join(&p, &k))).collect();
@@ -1162,7 +1140,7 @@ fn ff7r_inventory(ui: &mut Ui, cx: &mut GameCtx) {
                 continue;
             }
             let chosen = rows.iter().filter(|(_, p)| cx.text(p).is_some_and(|v| v != "Don't add")).count();
-            let title = if chosen > 0 { format!("{c} ({}, {chosen} to add)", rows.len()) } else { format!("{c} ({})", rows.len()) };
+            let title = if chosen > 0 { trf("{0} ({1}, {2} to add)", &[c, &rows.len(), &chosen]) } else { format!("{c} ({})", rows.len()) };
             egui::CollapsingHeader::new(title).id_salt(("ff7r_add", c.as_str())).default_open(!q.is_empty()).show(ui, |ui| {
                 value_rows(ui, cx, &format!("ff7r_add_{c}"), &rows);
             });
@@ -1196,7 +1174,7 @@ pub fn hogwarts_db(ui: &mut Ui, cx: &mut GameCtx) {
     };
     let name = format!("{} {}", text(cx, "Player", "PlayerFirstName"), text(cx, "Player", "PlayerLastName")).trim().to_string();
     let year = text(cx, "Player", "Year");
-    let sub = [house.clone(), if year.is_empty() { String::new() } else { format!("Year {year}") }].into_iter().filter(|s| !s.is_empty()).collect::<Vec<_>>().join("  \u{00B7}  ");
+    let sub = [house.clone(), if year.is_empty() { String::new() } else { trf("Year {0}", &[&year]) }].into_iter().filter(|s| !s.is_empty()).collect::<Vec<_>>().join("  \u{00B7}  ");
     let gold = row_where(cx.root, "InventoryDynamic", &[("CharacterID", "Player0"), ("HolderID", "ResourceInventory"), ("ItemID", "Knuts")]).map(|i| format!("/InventoryDynamic/{i}/Count"));
     hero(ui, accent, if name.is_empty() { "Hogwarts Legacy" } else { &name }, &sub, |ui| {
         if let Some(g) = &gold {
@@ -1270,7 +1248,7 @@ pub fn ff9(ui: &mut Ui, cx: &mut GameCtx) {
             egui::Grid::new(("ff9_party", t)).num_columns(COLS.len() + 1).striped(true).spacing([10.0, 4.0]).show(ui, |ui| {
                 ui.label("");
                 for h in COLS {
-                    ui.strong(h);
+                    ui.strong(crate::i18n::tr_any(h));
                 }
                 ui.end_row();
                 for m in &members {
@@ -1292,7 +1270,7 @@ pub fn ff9(ui: &mut Ui, cx: &mut GameCtx) {
 pub fn dying_light2(ui: &mut Ui, cx: &mut GameCtx) {
     let accent = Color32::from_rgb(200, 120, 40);
     let difficulty = cx.text("/State/#5/Current").unwrap_or_default();
-    hero(ui, accent, "Dying Light 2", &if difficulty.is_empty() { String::new() } else { format!("{difficulty} difficulty") }, |ui| {
+    hero(ui, accent, "Dying Light 2", &if difficulty.is_empty() { String::new() } else { trf("{0} difficulty", &[&difficulty]) }, |ui| {
         cx.tile(ui, "Money", "/Group/Main/Cash", accent);
         cx.tile(ui, "Health", "/HealthState/#1/Health", accent);
     });
@@ -1324,7 +1302,7 @@ pub fn dying_light2(ui: &mut Ui, cx: &mut GameCtx) {
     };
     if !skills.is_empty() {
         panel(ui, "Skills", |ui| {
-            let q = filter_box(ui, "dl2_sk", "e.g. dash");
+            let q = filter_box(ui, "dl2_sk", tr("e.g. dash"));
             let rows: Vec<(String, String)> = skills.into_iter().filter(|(n, _)| q.is_empty() || n.to_lowercase().contains(&q)).collect();
             egui::ScrollArea::vertical().id_salt("dl2_sk_s").max_height(320.0).show_locked(ui, |ui| value_rows(ui, cx, "dl2_skills", &rows));
             ui.weak(tr("1 means learned. Everything else in the save (items, map, quests) is in the Values tab."));
@@ -1350,7 +1328,7 @@ pub fn dying_light(ui: &mut Ui, cx: &mut GameCtx) {
 
 pub fn witcher3(ui: &mut Ui, cx: &mut GameCtx) {
     let accent = Color32::from_rgb(170, 30, 30);
-    let level = cx.int("/Geralt/Level").map(|l| format!("Level {l}")).unwrap_or_default();
+    let level = cx.int("/Geralt/Level").map(|l| trf("Level {0}", &[&l])).unwrap_or_default();
     hero(ui, accent, "Geralt of Rivia", &level, |ui| {
         cx.tile(ui, "Crowns", "/Geralt/Crowns", accent);
         cx.tile(ui, "Level", "/Geralt/Level", accent);
@@ -1433,10 +1411,10 @@ pub fn kenshi_squad(ui: &mut Ui, cx: &mut GameCtx) {
     let base = join("/Members", &members[t]);
     let mut line = vec![];
     if cx.flag(&join(&base, "Squad leader")) {
-        line.push("Squad leader");
+        line.push(tr("Squad leader"));
     }
     if !cx.flag(&join(&base, "Player's")) {
-        line.push("Not in your faction");
+        line.push(tr("Not in your faction"));
     }
     if !line.is_empty() {
         ui.weak(line.join("  \u{00B7}  "));
@@ -1490,7 +1468,7 @@ fn kenshi_health(ui: &mut Ui, cx: &mut GameCtx, base: &str) {
         });
         // A part's most health comes from the race in the game's data, not from the save, so
         // there is no "full health" to fill up to here: parts are typed in.
-        let tip = "Clears dead, unconscious, coma and incapacitated and ends bleeding. Raise any part below zero above it too, or the character falls again.";
+        let tip = tr("Clears dead, unconscious, coma and incapacitated and ends bleeding. Raise any part below zero above it too, or the character falls again.");
         if ui.button(tr("Revive")).on_hover_text(tip).clicked() {
             let bleed = join(&join(base, "Condition"), "Bleeding");
             if cx.num(&bleed).is_some_and(|v| v > 0.0) {
@@ -1598,7 +1576,7 @@ pub fn ffx2(ui: &mut Ui, cx: &mut GameCtx) {
             egui::Grid::new("ffx2_party").num_columns(COLS.len() + 1).striped(true).spacing([10.0, 4.0]).show(ui, |ui| {
                 ui.label("");
                 for h in COLS {
-                    ui.strong(h);
+                    ui.strong(crate::i18n::tr_any(h));
                 }
                 ui.end_row();
                 for m in ["Yuna", "Rikku", "Paine"] {
@@ -1636,7 +1614,7 @@ pub fn p5r(ui: &mut Ui, cx: &mut GameCtx) {
                     ui.strong("SP");
                 }
                 for h in STATS {
-                    ui.strong(h);
+                    ui.strong(crate::i18n::tr_any(h));
                 }
                 ui.end_row();
                 for (label, base) in rows {
@@ -1696,7 +1674,7 @@ pub fn ffx(ui: &mut Ui, cx: &mut GameCtx) {
                 if who.is_empty() {
                     continue;
                 }
-                for (title, cols) in [(group.to_string(), &COLS[..]), (format!("{group}: without equipment"), &BASE[..]), (format!("{group}: growth"), &GROW[..])] {
+                for (title, cols) in [(group.to_string(), &COLS[..]), (trf("{0}: without equipment", &[&crate::i18n::tr_any(group)]), &BASE[..]), (trf("{0}: growth", &[&crate::i18n::tr_any(group)]), &GROW[..])] {
                     panel(ui, &title, |ui| {
                         egui::ScrollArea::horizontal().id_salt(("ffx_s", &title)).show_locked(ui, |ui| {
                             egui::Grid::new(("ffx_g", &title)).striped(true).spacing([10.0, 4.0]).show(ui, |ui| {
@@ -1723,15 +1701,12 @@ pub fn ffx(ui: &mut Ui, cx: &mut GameCtx) {
                     });
                 }
             }
-            ui.weak(
-                "Stats are as the Sphere Grid has raised them (255 is the most). HP above 9999 needs Break HP Limit. The game works the totals \
-                 out again from the \"without equipment\" numbers, so change both. Sphere levels are the moves left to spend on the Sphere Grid.",
-            );
+            ui.weak(tr("Stats are as the Sphere Grid has raised them (255 is the most). HP above 9999 needs Break HP Limit. The game works the totals out again from the \"without equipment\" numbers, so change both. Sphere levels are the moves left to spend on the Sphere Grid."));
         }
-        1 => ffx_flags(ui, cx, "/Abilities", "ability", accent, true),
+        1 => ffx_flags(ui, cx, "/Abilities", tr("ability"), accent, true),
         2 => {
-            ffx_flags(ui, cx, "/Overdrives", "overdrive", accent, false);
-            ffx_flags(ui, cx, "/Overdrive modes", "overdrive mode", accent, false);
+            ffx_flags(ui, cx, "/Overdrives", tr("overdrive"), accent, false);
+            ffx_flags(ui, cx, "/Overdrive modes", tr("overdrive mode"), accent, false);
         }
         3 => {
             panel(ui, "Items", |ui| {
@@ -1811,7 +1786,7 @@ fn ffx_flags(ui: &mut Ui, cx: &mut GameCtx, base: &str, what: &str, accent: Colo
                 if nested { keys_of(cx, &wb).into_iter().map(|g| (g.clone(), join(&wb, &g))).collect() } else { vec![(String::new(), wb.clone())] };
             let all: Vec<String> = groups.iter().flat_map(|(_, gb)| keys_of(cx, gb).into_iter().map(|k| join(gb, &k)).collect::<Vec<_>>()).collect();
             let on = all.iter().filter(|p| cx.flag(p)).count();
-            egui::CollapsingHeader::new(format!("{w}  ({on} of {})", all.len())).id_salt((base, w)).show(ui, |ui| {
+            egui::CollapsingHeader::new(trf("{0}  ({1} of {2})", &[w, &on, &all.len()])).id_salt((base, w)).show(ui, |ui| {
                 if ui.small_button(trf("Learn every {0}", &[&what])).clicked() {
                     for p in &all {
                         cx.set(p, Value::from(1));
@@ -1857,7 +1832,7 @@ pub fn metro(ui: &mut Ui, cx: &mut GameCtx) {
 
 pub fn yakuza0(ui: &mut Ui, cx: &mut GameCtx) {
     let accent = Color32::from_rgb(200, 40, 50);
-    let sub = [cx.text("/Game/Saved").map(|t| format!("Saved {t}")), cx.text("/Game/Playing as").map(|w| format!("playing as {w}"))]
+    let sub = [cx.text("/Game/Saved").map(|t| trf("Saved {0}", &[&t])), cx.text("/Game/Playing as").map(|w| trf("playing as {0}", &[&w]))]
         .into_iter()
         .flatten()
         .collect::<Vec<_>>()
@@ -1911,7 +1886,7 @@ pub fn yakuza_de(ui: &mut Ui, cx: &mut GameCtx) {
         panel(ui, "Characters", |ui| {
             egui::Grid::new("yde_chara").striped(true).spacing([10.0, 4.0]).show(ui, |ui| {
                 for h in ["", "HP", "Max HP", "Heat", "Max heat"] {
-                    ui.strong(h);
+                    ui.strong(crate::i18n::tr_any(h));
                 }
                 ui.end_row();
                 for i in 0..chars {
@@ -1919,7 +1894,7 @@ pub fn yakuza_de(ui: &mut Ui, cx: &mut GameCtx) {
                     if cx.get(&format!("{base}/hp/m_max")).and_then(|v| v.as_i64()).unwrap_or(0) == 0 {
                         continue;
                     }
-                    ui.label(if i == 0 { "Kiryu".to_string() } else { format!("Character {}", i + 1) });
+                    ui.label(if i == 0 { "Kiryu".to_string() } else { trf("Character {0}", &[&(i + 1)]) });
                     for k in ["hp/m_now", "hp/m_max", "heat/m_now", "heat/m_max"] {
                         cx.compact(ui, &format!("{base}/{k}"), 70.0);
                     }
@@ -1932,7 +1907,7 @@ pub fn yakuza_de(ui: &mut Ui, cx: &mut GameCtx) {
     // Kiwami 2 and Yakuza 6 keep Kiryu's five experience pools next to the money.
     if party == 0 && !title.starts_with("Judgment") && cx.get("/player/point/m_point/6").is_some() {
         panel(ui, "Experience", |ui| {
-            let rows: Vec<(String, String)> = (2..=6).map(|i| (format!("Experience pool {}", i - 1), format!("/player/point/m_point/{i}"))).collect();
+            let rows: Vec<(String, String)> = (2..=6).map(|i| (trf("Experience pool {0}", &[&(i - 1)]), format!("/player/point/m_point/{i}"))).collect();
             value_rows(ui, cx, "yde_exp", &rows);
             ui.weak(tr("The five kinds of experience you spend in the Growth menu, in the order the save keeps them."));
         });
@@ -1951,12 +1926,12 @@ pub fn yakuza_de(ui: &mut Ui, cx: &mut GameCtx) {
                 egui::Grid::new("yde_party").striped(true).spacing([10.0, 4.0]).show(ui, |ui| {
                     ui.label("");
                     for (h, _) in COLS {
-                        ui.strong(h);
+                        ui.strong(crate::i18n::tr_any(h));
                     }
                     ui.end_row();
                     for i in 0..party {
                         let base = format!("/party/m_chara/{i}");
-                        ui.label(if i == 0 { "Ichiban".to_string() } else { format!("Member {}", i + 1) });
+                        ui.label(if i == 0 { "Ichiban".to_string() } else { trf("Member {0}", &[&(i + 1)]) });
                         for (h, k) in COLS {
                             cx.compact(ui, &format!("{base}/{k}"), if h == "Experience" { 120.0 } else { 56.0 });
                         }
@@ -1974,7 +1949,7 @@ pub fn yakuza_de(ui: &mut Ui, cx: &mut GameCtx) {
 
 pub fn kiwami(ui: &mut Ui, cx: &mut GameCtx) {
     let accent = Color32::from_rgb(190, 40, 60);
-    let sub = cx.text("/Game/Saved").map(|t| format!("Saved {t}")).unwrap_or_default();
+    let sub = cx.text("/Game/Saved").map(|t| trf("Saved {0}", &[&t])).unwrap_or_default();
     hero(ui, accent, "Yakuza Kiwami", &sub, |ui| {
         cx.tile(ui, "Money (\u{00A5})", "/Kiryu/Money", accent);
         cx.tile(ui, "Experience to spend", "/Kiryu/Experience to spend", accent);
@@ -1988,13 +1963,13 @@ pub fn ffxv(ui: &mut Ui, cx: &mut GameCtx) {
     let accent = Color32::from_rgb(70, 110, 190);
     let mut sub = vec![];
     if let Some(c) = cx.int("/Save/Chapter") {
-        sub.push(format!("Chapter {c}"));
+        sub.push(trf("Chapter {0}", &[&c]));
     }
     if let Some(l) = cx.int("/Save/Level shown") {
-        sub.push(format!("Level {l}"));
+        sub.push(trf("Level {0}", &[&l]));
     }
     if let Some(t) = cx.text("/Save/Play time") {
-        sub.push(format!("{t} played"));
+        sub.push(trf("{0} played", &[&t]));
     }
     hero(ui, accent, "Final Fantasy XV", &sub.join("  \u{00B7}  "), |ui| {
         cx.tile(ui, "Gil", "/Party/Gil", accent);
@@ -2014,7 +1989,7 @@ pub fn ffxv(ui: &mut Ui, cx: &mut GameCtx) {
                 egui::Grid::new(("ffxv_g", group)).striped(true).spacing([10.0, 4.0]).show(ui, |ui| {
                     ui.label("");
                     for h in COLS {
-                        ui.strong(h);
+                        ui.strong(crate::i18n::tr_any(h));
                     }
                     ui.end_row();
                     for w in &who {
@@ -2058,10 +2033,10 @@ pub fn death_stranding2(ui: &mut Ui, cx: &mut GameCtx) {
     let accent = Color32::from_rgb(200, 150, 60);
     let mut sub = vec![];
     if let Some(d) = cx.int("/Save/Day") {
-        sub.push(format!("Day {d}{}", cx.text("/Save/Time of day").map(|t| format!(", {t}")).unwrap_or_default()));
+        sub.push(format!("{}{}", trf("Day {0}", &[&d]), cx.text("/Save/Time of day").map(|t| format!(", {}", crate::i18n::tr_any(&t))).unwrap_or_default()));
     }
     if let Some(t) = cx.text("/Save/Play time") {
-        sub.push(format!("{t} played"));
+        sub.push(trf("{0} played", &[&t]));
     }
     hero(ui, accent, "Death Stranding 2", &sub.join("  \u{00B7}  "), |ui| {
         cx.tile(ui, "Likes from NPCs", "/Likes/From NPCs", accent);
@@ -2105,7 +2080,7 @@ pub fn death_stranding2(ui: &mut Ui, cx: &mut GameCtx) {
 
 pub fn death_stranding1(ui: &mut Ui, cx: &mut GameCtx) {
     let accent = Color32::from_rgb(200, 150, 60);
-    let sub = cx.int("/Save/Connected facilities").map(|n| format!("{n} facilities connected")).unwrap_or_default();
+    let sub = cx.int("/Save/Connected facilities").map(|n| trf("{0} facilities connected", &[&n])).unwrap_or_default();
     hero(ui, accent, "Death Stranding", &sub, |ui| {
         cx.tile(ui, "Likes received", "/Likes/Likes received", accent);
     });
@@ -2151,10 +2126,10 @@ pub fn andromeda(ui: &mut Ui, cx: &mut GameCtx) {
         sub.push(l);
     }
     if let Some(c) = cx.num("/Save/Completion %") {
-        sub.push(format!("{c}% complete"));
+        sub.push(trf("{0}% complete", &[&c]));
     }
     if let Some(h) = cx.num("/Save/Play time (hours)") {
-        sub.push(format!("{h:.1} hours played"));
+        sub.push(trf("{0} hours played", &[&format!("{:.1}", h)]));
     }
     hero(ui, accent, "Mass Effect: Andromeda", &sub.join("  \u{00B7}  "), |ui| {
         cx.tile(ui, "Credits", "/Ryder/Credits", accent);
@@ -2216,7 +2191,7 @@ fn gow_add_panel(ui: &mut Ui, cx: &mut GameCtx, base: &str, id: &str, note: &str
             let p = join(&add, c);
             let rows: Vec<(String, String)> = keys_of(cx, &p).into_iter().map(|k| (k.clone(), join(&p, &k))).collect();
             let chosen = rows.iter().filter(|(_, p)| cx.text(p).is_some_and(|v| v != "Don't add")).count();
-            let title = if chosen > 0 { format!("{c} ({}, {chosen} to add)", rows.len()) } else { format!("{c} ({})", rows.len()) };
+            let title = if chosen > 0 { trf("{0} ({1}, {2} to add)", &[c, &rows.len(), &chosen]) } else { format!("{c} ({})", rows.len()) };
             egui::CollapsingHeader::new(title).id_salt((id, c.as_str())).show(ui, |ui| {
                 value_rows(ui, cx, &format!("{id}_{c}"), &rows);
             });
@@ -2237,11 +2212,7 @@ pub(crate) fn story_guard(ui: &mut Ui, body: impl FnOnce(&mut Ui)) {
     let warn = crate::theme::fg(ui, crate::theme::WARN);
     egui::Frame::group(ui.style()).stroke(egui::Stroke::new(1.0_f32, warn)).show(ui, |ui| {
         ui.label(RichText::new(tr("Experimental: editing story decisions")).strong().color(warn));
-        ui.label(
-            "Changing story flags and choices can break quests, soft-lock the game or stop it from being completed. Treat it as experimental, \
-             with no guarantee the save can still be finished, and use it only if you know what you're doing. Keep a backup first so you can \
-             go back (Backups \u{203A} Open save manager restores it). The file as it was is also backed up automatically when you save.",
-        );
+        ui.label(tr("Changing story flags and choices can break quests, soft-lock the game or stop it from being completed. Treat it as experimental, with no guarantee the save can still be finished, and use it only if you know what you're doing. Keep a backup first so you can go back (Backups \u{203A} Open save manager restores it). The file as it was is also backed up automatically when you save."));
         if !ok {
             ui.horizontal_wrapped(|ui| {
                 if !cfg!(target_arch = "wasm32") && ui.button(tr("Back up this save first\u{2026}")).clicked() {
@@ -2262,8 +2233,8 @@ pub(crate) fn story_guard(ui: &mut Ui, body: impl FnOnce(&mut Ui)) {
 /// The keys of the object at `p`, in order.
 /// A filterable list of an Infinity Engine save's global variables.
 pub(super) fn panel_globals(ui: &mut Ui, cx: &mut GameCtx, names: &[String]) {
-    panel(ui, &format!("Global variables ({})", names.len()), |ui| story_guard(ui, |ui| {
-        let q = filter_box(ui, "ie_globals", "e.g. CHAPTER, JOINED, QUEST");
+    panel(ui, &trf("Global variables ({0})", &[&names.len()]), |ui| story_guard(ui, |ui| {
+        let q = filter_box(ui, "ie_globals", tr("e.g. CHAPTER, JOINED, QUEST"));
         let rows: Vec<(String, String)> = names.iter().filter(|k| q.is_empty() || k.to_lowercase().contains(&q)).take(400).map(|k| (k.clone(), join("/Global variables", k))).collect();
         egui::ScrollArea::vertical().id_salt("ie_globals_scroll").max_height(320.0).show_locked(ui, |ui| value_rows(ui, cx, "ie_g", &rows));
         ui.weak(tr("The game's own story counters: quest stages, who has joined or died, what was said. Most are 0 or 1, some count up. Changing one can skip or repeat a scene, so change few and keep the backup. Shows 400 at a time: use the filter."));
@@ -2324,8 +2295,7 @@ pub fn gow2018(ui: &mut Ui, cx: &mut GameCtx) {
         cx,
         &base,
         &format!("gow_add_{t}"),
-        "Pieces this save doesn't have at any level. They're added at their base level when you save; upgrade them at a \
-         shop in the game. Up to 32 at a time. Keep a copy of game.sav until you've loaded the save in the game.",
+        tr("Pieces this save doesn't have at any level. They're added at their base level when you save; upgrade them at a shop in the game. Up to 32 at a time. Keep a copy of game.sav until you've loaded the save in the game."),
     );
 }
 
@@ -2343,8 +2313,8 @@ pub fn gow_ragnarok(ui: &mut Ui, cx: &mut GameCtx) {
     for (group, id, note) in [
         ("Experience", "gowr_xp", ""),
         ("Currency", "gowr_cur", ""),
-        ("Yggdrasil's Dew", "gowr_dew", "Each dew adds to one of Kratos's stats."),
-        ("Resources", "gowr_res", "Resources this save hasn't found yet aren't listed."),
+        ("Yggdrasil's Dew", "gowr_dew", tr("Each dew adds to one of Kratos's stats.")),
+        ("Resources", "gowr_res", tr("Resources this save hasn't found yet aren't listed.")),
     ] {
         let p = join("", group);
         let rows: Vec<(String, String)> = keys_of(cx, &p).into_iter().map(|k| (k.clone(), join(&p, &k))).collect();
@@ -2383,8 +2353,6 @@ pub fn gow_ragnarok(ui: &mut Ui, cx: &mut GameCtx) {
         cx,
         "",
         "gowr_add",
-        "Pieces you don't have yet, at the level you pick, for each type you already own a piece of (that piece's record \
-         is the model; it stays as it is). Added when you save, up to 32 at a time. Keep a copy of the save until you've \
-         loaded it in the game.",
+        tr("Pieces you don't have yet, at the level you pick, for each type you already own a piece of (that piece's record is the model; it stays as it is). Added when you save, up to 32 at a time. Keep a copy of the save until you've loaded it in the game."),
     );
 }

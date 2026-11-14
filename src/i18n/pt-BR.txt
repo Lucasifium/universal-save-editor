@@ -4650,9 +4650,6 @@ Challenges (rank 0 to 10)
 Change to
 = Alterar para
 
-Changing story flags and choices can break quests, soft-lock the game or stop it from being completed. Treat it as experimental, \n             with no guarantee the save can still be finished, and use it only if you know what you're doing. Keep a backup first so you can \n             go back (Backups › Open save manager restores it). The file as it was is also backed up automatically when you save.
-= Alterar flags de história e escolhas pode quebrar missões, travar o jogo ou impedir que ele seja concluído. Trate como experimental, sem garantia de que o save ainda possa ser terminado, e use apenas se souber o que está fazendo. Faça um backup antes para poder voltar (Backups › Abrir gerenciador de saves o restaura). O arquivo original também recebe backup automático ao salvar.
-
 Changing the level doesn't change experience: set both. Gold on the character can be at most 10,000 per level.
 = Alterar o nível não altera a experiência: defina ambos. O ouro do personagem pode ser no máximo 10,000 por nível.
 
@@ -17056,3 +17053,816 @@ A PlayStation save (memory card, .mcs, .psx or .psv). The unlocked characters, t
 
 Close the emulator first. Tekken 2 and 3 keep their data scrambled and guarded by a checksum; both are written again on save.
 = Feche o emulador primeiro. Tekken 2 e 3 guardam os dados codificados e protegidos por uma soma de verificação; ambos são gravados de novo ao salvar.
+
+
+# src/game_ui (direct-printed texts)
+
+Act {0}
+= Ato {0}
+
+Actor {0}
+= Ator {0}
+
+Ante {0}
+= Ante {0}
+
+Ascension {0}
+= Ascensão {0}
+
+Attribute {0}
+= Atributo {0}
+
+Backpack ({0} kinds)
+= Mochila ({0} tipos)
+
+Change perk ranks
+= Alterar níveis de vantagens
+
+Charm {0}
+= Amuleto {0}
+
+Class {0}. The game works the level out from EXP the next time EXP changes, so raise both: the EXP a level needs depends on the class's curve in the game's data.
+= Classe {0}. O jogo calcula o nível a partir da EXP na próxima vez que a EXP mudar, então aumente ambos: a EXP necessária para um nível depende da curva da classe nos dados do jogo.
+
+Consumables, key items and cosmetics you carry; 99 at most of each.
+= Consumíveis, itens-chave e cosméticos que você carrega; no máximo 99 de cada.
+
+Cycle {0}  ·  {1} duplicants  ·  Oxygen Not Included
+= Ciclo {0}  ·  {1} duplicantes  ·  Oxygen Not Included
+
+Each save slot is edited separately; the game keeps the slot you load. Item and equipment names aren't known yet — the Values tab lists everything.
+= Cada slot de save é editado separadamente; o jogo mantém o slot que você carrega. Os nomes de itens e equipamentos ainda não são conhecidos: a aba Valores lista tudo.
+
+Floor {0}
+= Andar {0}
+
+Inventory ({0} stacks)
+= Inventário ({0} pilhas)
+
+Item names come from a short list the game's own code refers to; other items show their prototype number (the names are in the game's data files). › marks items inside a container above.
+= Os nomes dos itens vêm de uma lista curta à qual o próprio código do jogo se refere; os outros itens mostram o número do protótipo (os nomes estão nos arquivos de dados do jogo). › marca itens dentro de um contêiner acima.
+
+Item {0}
+= Item {0}
+
+Java {0}
+= Java {0}
+
+Levels 0–10. Raising XP is the natural way: the game levels the skill up overnight and lets you pick professions at 5 and 10. Setting the level directly skips those choices.
+= Níveis 0–10. Aumentar o XP é o jeito natural: o jogo sobe a habilidade durante a noite e deixa você escolher profissões nos níveis 5 e 10. Definir o nível diretamente pula essas escolhas.
+
+Max consumables ({0} each)
+= Consumíveis no máx. ({0} cada)
+
+Objective: {0}
+= Objetivo: {0}
+
+Party inventory ({0} kinds)
+= Inventário do grupo ({0} tipos)
+
+Rank 0 means not taken; most perks have one rank, a few two or three. A perk that gives a one-off gain when picked (Gain Strength, Lifegiver, the skill-point perks) doesn't give it when set here, so raise that number yourself.
+= Nível 0 significa não escolhida; a maioria das vantagens tem um nível, algumas dois ou três. Uma vantagem que dá um ganho único ao ser escolhida (Gain Strength, Lifegiver, as de pontos de perícia) não o dá quando definida aqui, então aumente esse número você mesmo.
+
+Round {0}
+= Rodada {0}
+
+Skills learned: {0}
+= Habilidades aprendidas: {0}
+
+Slot {0} — {1}
+= Slot {0} — {1}
+
+Staff ({0})
+= Equipe ({0})
+
+Stake {0}
+= Aposta {0}
+
+Upgrade and selling materials; 99 is the most of one the game holds.
+= Materiais de melhoria e venda; 99 é o máximo que o jogo permite de um.
+
+Vehicles ({0})
+= Veículos ({0})
+
+Weapons you own and their level (1–4); upgrading needs no materials once set here.
+= Armas que você possui e seu nível (1–4); melhorar não exige materiais depois de definido aqui.
+
+age {0}
+= idade {0}
+
+chapter {0}
+= capítulo {0}
+
+ironman
+= ironman
+
+nobody
+= ninguém
+
+perk name…
+= nome da vantagem…
+
+playing {0}
+= jogando em {0}
+
+saved {0}
+= salvo {0}
+
+{0}  (enabled)
+= {0}  (ativado)
+
+{0}  ({1} on the map)
+= {0}  ({1} no mapa)
+
+{0}  ·  RimWorld {1}
+= {0}  ·  RimWorld {1}
+
+{0}  ·  played by {1}  ·  Stellaris
+= {0}  ·  jogado por {1}  ·  Stellaris
+
+{0} (not in party)
+= {0} (fora do grupo)
+
+{0} ({1})
+= {0} ({1})
+
+{0} Farm
+= Fazenda {0}
+
+{0} XP
+= {0} XP
+
+{0} blind next
+= Próximo blind: {0}
+
+{0} carried ({1})
+= {0} carregados ({1})
+
+{0} cinematics seen
+= {0} cinemáticas vistas
+
+{0} cleared
+= {0} concluídas
+
+{0} colonist
+= {0} colono
+
+{0} colonists
+= {0} colonos
+
+{0} difficulty
+= dificuldade {0}
+
+{0} h played
+= {0} h jogadas
+
+{0} hearts
+= {0} corações
+
+{0} hours
+= {0} horas
+
+{0} hours in game
+= {0} horas no jogo
+
+{0} hours played
+= {0} horas jogadas
+
+{0} in the party
+= {0} no grupo
+
+{0} mode
+= Modo {0}
+
+{0} nights
+= {0} noites
+
+{0} objects scanned
+= {0} objetos escaneados
+
+{0} played
+= {0} jogadas
+
+{0} radio messages heard
+= {0} mensagens de rádio ouvidas
+
+{0} steps
+= {0} passos
+
+{0} {1}, Year {2}
+= {0} {1}, Ano {2}
+
+{0} — PERSONNEL RECORD
+= {0} — FICHA DE PESSOAL
+
+{0}% complete
+= {0}% concluído
+
+{0}h {1}m played
+= {0} h {1} min jogados
+
+(empty)
+= (vazio)
+
+Ability: {0}
+= Habilidade: {0}
+
+Accessory {0}
+= Acessório {0}
+
+Ammo slot
+= Espaço de munição
+
+Ammo slot {0}
+= Espaço de munição {0}
+
+Badge {0}
+= Insígnia {0}
+
+Block: {0}{1}
+= Bloco: {0}{1}
+
+Coin slot
+= Espaço de moedas
+
+Coin slot {0}
+= Espaço de moedas {0}
+
+Companion {0}
+= Companheiro {0}
+
+Dye Accessory
+= Tintura de acessório
+
+Dye Accessory {0}
+= Tintura de acessório {0}
+
+EV (0–252)
+= EV (0–252)
+
+EVs in all: {0} of 510
+= EVs no total: {0} de 510
+
+Factions ({0})
+= Facções ({0})
+
+Holds {0}
+= Segura {0}
+
+How many are in each stack (items that don't stack are 1). Names are the item's record (folder: file name).
+= Quantos há em cada pilha (itens que não empilham são 1). Os nomes são o registro do item (pasta: nome do arquivo).
+
+How many are in each stack: equipped, carried and stashed items, by the name the save keeps for them (items that don't stack are 1).
+= Quantos há em cada pilha: itens equipados, carregados e guardados, com o nome que o save usa para eles (itens que não empilham são 1).
+
+ID No. {0}
+= N.º de ID {0}
+
+IV (0–31)
+= IV (0–31)
+
+Inventory ({0} of {1} slots)
+= Inventário ({0} de {1} espaços)
+
+List ({0})
+= Lista ({0})
+
+Lv {0}
+= Nv. {0}
+
+Map {0}
+= Mapa {0}
+
+Max HP 16 + 4 × LV and AT 10 + 2 × (LV − 1), as the game sets them when you level up (LV 1 to 19).
+= HP máx. 16 + 4 × LV e AT 10 + 2 × (LV − 1), como o jogo define ao subir de nível (LV 1 a 19).
+
+Max crafting materials ({0} stacks)
+= Materiais de criação no máximo ({0} pilhas)
+
+Max crafting materials needs a character saved by Terraria 1.4.4 or later (older versions stack materials lower).
+= Materiais de criação no máximo exige um personagem salvo pelo Terraria 1.4.4 ou posterior (versões antigas empilham menos materiais).
+
+No crafting materials in {0}.
+= Não há materiais de criação em {0}.
+
+Painting changes blocks, walls and liquids; furniture, chests, trees and other objects are left alone. Each stroke is one undo step. Liquid only fills empty tiles and settles when the game runs.
+= Pintar altera blocos, paredes e líquidos; móveis, baús, árvores e outros objetos ficam intactos. Cada traço é um passo de desfazer. O líquido só preenche blocos vazios e se acomoda quando o jogo roda.
+
+Painting changes what fills each cell: its element, mass, temperature and germs. Buildings, critters, plants and debris are left alone, and cells with a tile built in them aren't painted. Neutronium is kept unless you tick “Also change Neutronium”. Each stroke is one undo step. Liquids and gases settle when the game runs.
+= Pintar altera o que preenche cada célula: elemento, massa, temperatura e germes. Construções, criaturas, plantas e detritos ficam intactos, e células com um bloco construído não são pintadas. O neutrônio é mantido, a menos que você marque “Alterar também o neutrônio”. Cada traço é um passo de desfazer. Líquidos e gases se acomodam quando o jogo roda.
+
+Pocket {0}
+= Bolso {0}
+
+Profile — {0}
+= Perfil — {0}
+
+Rocket {0}
+= Foguete {0}
+
+Rockets ({0})
+= Foguetes ({0})
+
+Scroll or pinch to zoom; drag to move (right-drag while painting).
+= Role ou use pinça para dar zoom; arraste para mover (arraste com o botão direito ao pintar).
+
+Scroll or pinch to zoom; drag to move (right-drag while painting). Click a chest with Look / move to open it.
+= Role ou use pinça para dar zoom; arraste para mover (arraste com o botão direito ao pintar). Clique em um baú com Olhar / mover para abri-lo.
+
+Set studs to {0}
+= Definir studs como {0}
+
+Shown on the map: {0}
+= Exibido no mapa: {0}
+
+Stats, IVs and more
+= Estatísticas, IVs e mais
+
+Story flags ({0})
+= Flags de história ({0})
+
+Terraformation: {0}
+= Terraformação: {0}
+
+The game never gives more than 510 in all.
+= O jogo nunca dá mais de 510 no total.
+
+The game stores each unlock as that entry's own code (a plain “yes” unlocks nothing once a run ends). {0} codes are known; entries without a known code stay as they are. Each entry can also be edited in the Values tab.
+= O jogo guarda cada desbloqueio como o código próprio da entrada (um simples “yes” não desbloqueia nada quando a partida termina). {0} códigos são conhecidos; entradas sem código conhecido ficam como estão. Cada entrada também pode ser editada na aba Valores.
+
+The game's own record of how you played: kills per area decide the Genocide and Neutral endings, and the flags below them mark the fights you won. Flags that disagree with each other (a Pacifist ending with kills counted) give odd dialogue. Most flags are 0 or 1.
+= O registro do próprio jogo de como você jogou: as mortes por área decidem os finais Genocida e Neutro, e os flags abaixo marcam as lutas vencidas. Flags que se contradizem (um final Pacifista com mortes contadas) geram diálogos estranhos. A maioria dos flags é 0 ou 1.
+
+These are the flags the game checks (progress, NPCs moving in, the Bestiary and achievements aren't changed).
+= Estes são os flags que o jogo verifica (progresso, NPCs que se mudam, o Bestiário e as conquistas não são alterados).
+
+Tools ({0})
+= Ferramentas ({0})
+
+Turning a seed on after the world was made changes some behaviour, not the terrain that was generated.
+= Ativar uma seed depois que o mundo foi criado muda alguns comportamentos, não o terreno já gerado.
+
+Unlock {0}
+= Desbloquear {0}
+
+Unlocked at the Altar of Hope ({0})
+= Desbloqueado no Altar da Esperança ({0})
+
+Vanity Accessory
+= Acessório de vaidade
+
+Vanity Accessory {0}
+= Acessório de vaidade {0}
+
+Wall: {0}
+= Parede: {0}
+
+a tile is built here
+= há um bloco construído aqui
+
+cells
+= células
+
+day {0}
+= dia {0}
+
+east
+= leste
+
+game version {0}
+= versão do jogo {0}
+
+head #{0}, body #{1}
+= cabeça #{0}, corpo #{1}
+
+holding the {0}
+= segurando {0}
+
+last run: {0}
+= última partida: {0}
+
+profile version {0}
+= versão do perfil {0}
+
+save version {0}
+= versão do save {0}
+
+surface
+= superfície
+
+this save
+= este save
+
+this save slot
+= este slot de save
+
+tiles
+= blocos
+
+unexplored
+= inexplorado
+
+version {0}
+= versão {0}
+
+west
+= oeste
+
+yes
+= sim
+
+{0} (neutral)
+= {0} (neutra)
+
+{0} (start)
+= {0} (início)
+
+{0} (upgrade level)
+= {0} (nível de melhoria)
+
+{0} ({1} tiles)
+= {0} ({1} blocos)
+
+{0} Badge
+= Insígnia {0}
+
+{0} badges
+= {0} insígnias
+
+{0} character
+= personagem {0}
+
+{0} ft above the surface
+= {0} ft acima da superfície
+
+{0} ft below the surface
+= {0} ft abaixo da superfície
+
+{0} ft deep
+= {0} ft de profundidade
+
+{0} ft {1}, {2}
+= {0} ft a {1}, {2}
+
+{0} ghosts identified
+= {0} fantasmas identificados
+
+{0} h of game time
+= {0} h de tempo de jogo
+
+{0} head, {1} body
+= cabeça de {0}, corpo de {1}
+
+{0} on {1}
+= {0} em {1}
+
+{0} quest and tutorial records
+= {0} registros de missões e tutoriais
+
+{0} rads
+= {0} rads
+
+(actuated)
+= (acionado)
+
+#
+= Nº
+
+(open)
+= (aberto)
+
+1 Sim
+= 1 Sim
+
+Ammo above what the character can hold is cut back by the game. Level goes up to 40.
+= A munição acima do que o personagem pode carregar é cortada pelo jogo. O nível vai até 40.
+
+Backpack and bank SDUs go from 0 to {0}: the backpack holds 12 items plus 3 a level, the bank 6 plus 2 a level. Weapon slots go from 2 to 4. Playthroughs completed 1 opens True Vault Hunter Mode and 2 opens Ultimate Vault Hunter Mode.
+= Os SDUs de mochila e banco vão de 0 a {0}: a mochila comporta 12 itens mais 3 por nível, o banco 6 mais 2 por nível. Os espaços de arma vão de 2 a 4. Com 1 campanha concluída abre-se o True Vault Hunter Mode e com 2 o Ultimate Vault Hunter Mode.
+
+Bars show the ammo each SDU level holds before relic and class mod bonuses (the game allows more with those).
+= As barras mostram a munição que cada nível de SDU comporta antes dos bônus de relíquias e mods de classe (com eles o jogo permite mais).
+
+Chapter {0}
+= Capítulo {0}
+
+Count is the uses left (chalk, climbing tape) or the sips left in a bottle; Contents is what a bottle, flask or thermos holds. Pick an item in an empty square to add it: it goes at the bottom of the bag, and “Shake up bag” in the game settles everything. Set an item to (none) to take it out.
+= Quantidade é o número de usos restantes (giz, fita de escalada) ou de goles restantes em uma garrafa; Conteúdo é o que uma garrafa, cantil ou garrafa térmica contém. Escolha um item em um quadrado vazio para adicioná-lo: ele vai para o fundo da mochila, e “Shake up bag” nas configurações do jogo arruma tudo. Defina um item como (none) para removê-lo.
+
+Every Smithing Stone and Somber Smithing Stone (Ancient Dragon ones too) for weapons, and every Grave and Ghost Glovewort for Spirit Ashes, each to the 999 you can hold.
+= Todas as Smithing Stone e Somber Smithing Stone (inclusive as Ancient Dragon) para armas, e todas as Grave e Ghost Glovewort para as Cinzas de Espírito, cada uma até as 999 que você pode carregar.
+
+Every kind of titanite, Dragon Scales and Demon Titanite, each to the 99 you can carry.
+= Todos os tipos de titanita, Dragon Scales e Demon Titanite, cada um até os 99 que você pode carregar.
+
+Gear is read from each item's serial (level and its check); names need the game's part tables, so they aren't shown, and gear isn't edited. {0} item(s) in the bank.
+= O equipamento é lido do número de série de cada item (nível e sua verificação); os nomes exigem as tabelas de peças do jogo, então não são mostrados, e o equipamento não é editado. {0} item(ns) no banco.
+
+How many of each item this character carries directly (items inside bags aren't listed), named by the game's item entry. Change a stack size; adding or removing items isn't possible here, and the game may trim a stack to what the item allows.
+= Quantos de cada item este personagem carrega diretamente (itens dentro de bolsas não são listados), com o nome da entrada de item do jogo. Altere o tamanho de uma pilha; adicionar ou remover itens não é possível aqui, e o jogo pode reduzir uma pilha ao que o item permite.
+
+Items ({0})
+= Itens ({0})
+
+Level and HP come from experience and gear, so they are shown but not edited. Materials you have never picked up aren't in the save yet. The save's checksum is written again when you save. Tried in the game.
+= O nível e o HP vêm da experiência e do equipamento, então são mostrados mas não editados. Materiais que você nunca coletou ainda não estão no save. A soma de verificação do save é gravada de novo ao salvar. Testado no jogo.
+
+Loot ({0})
+= Saque ({0})
+
+Materials you have picked up at least once. Most hold 99; Desert Rose, Valley Madder, Briar Clam Shell, Clutchmine and Iron Filings hold 999, and Wyrrite, Sharp Fang, Steelsilk, Bloody Hide, Magicked Ash and Rhema hold 9999.
+= Materiais que você coletou pelo menos uma vez. A maioria comporta 99; Desert Rose, Valley Madder, Briar Clam Shell, Clutchmine e Iron Filings comportam 999, e Wyrrite, Sharp Fang, Steelsilk, Bloody Hide, Magicked Ash e Rhema comportam 9999.
+
+Max ammo SDUs ({0})
+= SDUs de munição no máx. ({0})
+
+No skill points to spend right now: add a Skill Point in Items below to give some. Skill experience fills toward the next point; the game hands it out once it's full.
+= Não há pontos de habilidade para gastar agora: adicione um Skill Point em Itens, abaixo, para ter alguns. A experiência de habilidade enche até o próximo ponto; o jogo o concede quando está cheia.
+
+Not in the party
+= Fora do grupo
+
+Ones you already have that many of are left alone.
+= Os que você já tem nessa quantidade são deixados como estão.
+
+Pick (empty) to remove an item. Items set in a quick-item slot can't be swapped here.
+= Escolha (empty) para remover um item. Itens em um espaço de item rápido não podem ser trocados aqui.
+
+Pick (empty) to remove something you added here. What's equipped or in a quick slot can't be swapped, and a weapon's level stays within what it can have.
+= Escolha (empty) para remover algo que você adicionou aqui. O que está equipado ou em um espaço rápido não pode ser trocado, e o nível de uma arma permanece dentro do que ela pode ter.
+
+Pick who holds each Djinni, set or on standby, or nobody. The game works out class and Psynergy from the set Djinn the next time you change Djinn in its own menu, so open the Djinn menu and set one again after loading. Djinn the story hands out are not marked as collected in the world: the game may offer them again.
+= Escolha quem segura cada Djinni, ativo, em espera ou ninguém. O jogo calcula a classe e a Psynergy a partir dos Djinn ativos na próxima vez que você mudar de Djinn no menu deles, então abra o menu de Djinn e ative um de novo após carregar. Os Djinn dados pela história não são marcados como coletados no mundo: o jogo pode oferecê-los de novo.
+
+Potions and tonics in your satchel, up to the most the game shows for each with the satchel fully expanded.
+= Poções e tônicos da sua bolsa, até o máximo que o jogo mostra para cada um com a bolsa totalmente expandida.
+
+Raise attributes here and your {0} follows; change your {1} in the tile above.
+= Aumente os atributos aqui e seu {0} acompanha; altere seu {1} no bloco acima.
+
+SDU levels go up to 10 (13 for the backpack, sniper rifles and heavy weapons). Ammo above what the SDUs hold is cut back by the game.
+= Os níveis de SDU vão até 10 (13 para a mochila, rifles de precisão e armas pesadas). A munição acima do que os SDUs comportam é cortada pelo jogo.
+
+Saved in area {0}
+= Salvo na área {0}
+
+Saves in this slot ({0})
+= Saves neste slot ({0})
+
+Scrap Iron, Black and Yellow Gunpowder, Scrap Magnetite, Adamantite Scrap, Fulminated Mercury, Fat and Grave Wax and Lapis Lazuli, each to the 99 you can hold.
+= Scrap Iron, Black e Yellow Gunpowder, Scrap Magnetite, Adamantite Scrap, Fulminated Mercury, Fat e Grave Wax e Lapis Lazuli, cada um até os 99 que você pode carregar.
+
+Seconds left is the time the game shows for the buff (10:00 is 600). Set it to 0 to end a buff, or give an empty one time to start it with its usual source and strength. Sips taken one after another stack and run in turn; a changed buff is saved as one with the whole time. Stamina and Strength show on the game's Grip line (it shows the longest of them and Grip). Extra grip comes from chalk and doesn't run down off the wall (the chalk count on the HUD is the chalk itself: 12 grips a charge). Strength and Stoked! can only be changed when the save already has them.
+= Segundos restantes é o tempo que o jogo mostra para o efeito (10:00 é 600). Defina 0 para encerrar um efeito, ou dê um tempo a um vazio para iniciá-lo com sua fonte e força habituais. Goles tomados um após o outro se acumulam e correm em sequência; um efeito alterado é salvo como um só com o tempo total. Stamina e Strength aparecem na linha de Grip do jogo (ela mostra o mais longo deles e o Grip). A aderência extra vem do giz e não diminui fora da parede (o contador de giz no HUD é o próprio giz: 12 agarras por carga). Strength e Stoked! só podem ser alterados quando o save já os tem.
+
+Skill points to spend are the tile above. Skill experience fills toward the next point; the game hands it out once it's full.
+= Os pontos de habilidade a gastar estão no bloco acima. A experiência de habilidade enche até o próximo ponto; o jogo o concede quando está cheia.
+
+Stack sizes of what this character carries, by the game's item name. Items can't be added or removed here. A stack the game split just before saving shows as read-only.
+= Tamanhos das pilhas do que este personagem carrega, pelo nome de item do jogo. Itens não podem ser adicionados nem removidos aqui. Uma pilha que o jogo dividiu logo antes de salvar aparece como somente leitura.
+
+Stacked items ({0})
+= Itens empilhados ({0})
+
+The chalk on the climber's belt; Count is its uses. The pouch holds only as many uses in all as the game shows after the slash (3/3 at first, more with upgrades): put in more and the game drops the extra chalk.
+= O giz do cinto do escalador; Quantidade são seus usos. A bolsa comporta no total apenas o número de usos que o jogo mostra depois da barra (3/3 no início, mais com melhorias): se você colocar mais, o jogo descarta o giz extra.
+
+Titanite Shards, Large Shards, Chunks and Slabs, Twinkling Titanite and Petrified Dragon Bones, each to the 99 you can carry.
+= Titanite Shards, Large Shards, Chunks e Slabs, Twinkling Titanite e Petrified Dragon Bones, cada um até os 99 que você pode carregar.
+
+Titanite Shards, Large Shards, Chunks and Slabs, Twinkling Titanite and Titanite Scales, each to the 99 you can carry.
+= Titanite Shards, Large Shards, Chunks e Slabs, Twinkling Titanite e Titanite Scales, cada um até os 99 que você pode carregar.
+
+Weapons ({0})
+= Armas ({0})
+
+backpack
+= mochila
+
+house {0}
+= casa {0}
+
+level {0}
+= nível {0}
+
+lot {0}
+= lote {0}
+
+not moved in
+= não se mudou
+
+potion, arrow, scroll…
+= poção, flecha, pergaminho…
+
+saved {0} times
+= salvo {0} vezes
+
+set
+= ativo
+
+standby
+= em espera
+
+the game continues from this one
+= o jogo continua a partir deste
+
+{0} ({1} stacked)
+= {0} ({1} empilhados)
+
+{0} Sims
+= {0} Sims
+
+{0} adept
+= adepto de {0}
+
+{0} gold on {1}
+= {0} de ouro com {1}
+
+{0} in the bag, {1} pitons, {2} chalk
+= {0} na mochila, {1} pítons, {2} de giz
+
+{0} of each
+= {0} de cada
+
+{0} playthrough done
+= {0} campanha concluída
+
+{0} playthroughs done
+= {0} campanhas concluídas
+
+{0} slots
+= {0} espaços
+
+{0} slots when saved
+= {0} espaços ao salvar
+
+1 soldier record
+= 1 registro de soldado
+
+{0} soldier records
+= {0} registros de soldados
+
+1 soldier
+= 1 soldado
+
+{0} soldiers
+= {0} soldados
+
+Board {0}
+= Painel {0}
+
+Character {0}
+= Personagem {0}
+
+Classic
+= Clássico
+
+Lord of Destruction
+= Lord of Destruction
+
+Current quest: {0}
+= Missão atual: {0}
+
+Day {0}
+= Dia {0}
+
+Experience pool {0}
+= Reserva de experiência {0}
+
+Global variables ({0})
+= Variáveis globais ({0})
+
+Materia ({0})
+= Materia ({0})
+
+Member {0}
+= Membro {0}
+
+Saved {0}
+= Salvo {0}
+
+Student
+= Estudante
+
+Turn {0}
+= Turno {0}
+
+Year {0}
+= Ano {0}
+
+ability
+= habilidade
+
+overdrive
+= Overdrive
+
+overdrive mode
+= modo Overdrive
+
+playing as {0}
+= jogando como {0}
+
+saved with game version {0}
+= salvo com a versão do jogo {0}
+
+{0}  ({1} of {2} on)
+= {0}  ({1} de {2} ativos)
+
+{0}  ({1} of {2})
+= {0}  ({1} de {2})
+
+{0} (KIA)
+= {0} (KIA)
+
+{0} ({1}, {2} to add)
+= {0} ({1}, {2} a adicionar)
+
+{0} facilities connected
+= {0} instalações conectadas
+
+{0} flags
+= {0} flags
+
+{0} materia ({1})
+= Materia de {0} ({1})
+
+{0} materia ({1}, {2} to add)
+= Materia de {0} ({1}, {2} a adicionar)
+
+{0} numbers
+= {0} números
+
+{0} party members in this slot
+= {0} membros do grupo neste slot
+
+{0}: growth
+= {0}: crescimento
+
+{0}: without equipment
+= {0}: sem equipamento
+
+e.g. CHAPTER, JOINED, QUEST
+= ex.: CHAPTER, JOINED, QUEST
+
+e.g. Elixir, Ring
+= ex.: Elixir, Anel
+
+e.g. Fire, Ifrit
+= ex.: Fogo, Ifrit
+
+e.g. Fire, Magnify
+= ex.: Fogo, Ampliar
+
+e.g. Potion, Bangle
+= ex.: Poção, Bracelete
+
+e.g. dash
+= ex.: corrida
+
+e.g. mercantilism
+= ex.: mercantilismo
+
+e.g. money, love, day
+= ex.: money, love, day
+
+loyal, romance, dead…
+= loyal, romance, dead…
+
+name or class
+= nome ou classe
+
+Clears dead, unconscious, coma and incapacitated and ends bleeding. Raise any part below zero above it too, or the character falls again.
+= Remove os estados morto, inconsciente, coma e incapacitado e para o sangramento. Eleve também acima de zero qualquer parte abaixo disso, ou o personagem cai de novo.
+
+Stats are as the Sphere Grid has raised them (255 is the most). HP above 9999 needs Break HP Limit. The game works the totals out again from the "without equipment" numbers, so change both. Sphere levels are the moves left to spend on the Sphere Grid.
+= Os atributos são os que o Esferógrafo aumentou (255 é o máximo). HP acima de 9999 exige Break HP Limit. O jogo recalcula os totais a partir dos números «sem equipamento», então altere os dois. Os níveis de esfera são os movimentos restantes para gastar no Esferógrafo.
+
+Changing story flags and choices can break quests, soft-lock the game or stop it from being completed. Treat it as experimental, with no guarantee the save can still be finished, and use it only if you know what you're doing. Keep a backup first so you can go back (Backups › Open save manager restores it). The file as it was is also backed up automatically when you save.
+= Alterar flags de história e escolhas pode quebrar missões, travar o jogo ou impedir que ele seja concluído. Trate como experimental, sem garantia de que o save ainda possa ser terminado, e use apenas se souber o que está fazendo. Faça um backup antes para poder voltar (Backups › Abrir gerenciador de saves o restaura). O arquivo original também recebe backup automático ao salvar.
+
+Level and difficulty here are what the load screen shows. Gold, experience, talent points and the inventory are kept in the game's compressed database inside this save, which can't be edited yet.
+= O nível e a dificuldade são os mostrados na tela de carregamento. Ouro, experiência, pontos de talento e inventário ficam no banco de dados compactado do jogo dentro deste save, que ainda não pode ser editado.
+
+Click a flag to turn it on or off. These are the game's own story records: changing one doesn't replay the scene behind it, and flags that contradict each other (alive and dead, two romances) can confuse later scenes, so change few at a time and keep the backup.
+= Clique em uma flag para ligá-la ou desligá-la. São os registros de história do próprio jogo: alterar um não repete a cena correspondente, e flags que se contradizem (vivo e morto, dois romances) podem confundir cenas posteriores, então altere poucas por vez e mantenha o backup.
+
+Rank 0 is Rookie … 7 is Colonel (8 Brigadier with some classes). A stat sets the soldier's current, maximum and base value together, so a wounded soldier is healed to it. A blank cell is a value the game left at its default.
+= O posto 0 é Recruta … 7 é Coronel (8 Brigadeiro em algumas classes). Um atributo define ao mesmo tempo o valor atual, máximo e base do soldado, então um soldado ferido é curado até ele. Uma célula vazia é um valor que o jogo deixou no padrão.
+
+Characters are numbered in the order the save keeps them (Cloud is usually first). The game can recalculate max HP and MP from level and equipment, so raise the level and experience together for lasting changes.
+= Os personagens são numerados na ordem em que o save os guarda (Cloud costuma ser o primeiro). O jogo pode recalcular o HP e o MP máximos a partir do nível e do equipamento, então aumente o nível e a experiência juntos para que a mudança permaneça.
+
+Each materia is listed with its slot number, since a save often has several of one kind. Materia someone has equipped can't be removed. In Rebirth, level and AP can be changed up to the materia's top level.
+= Cada materia é listada com o número do seu slot, pois um save costuma ter várias do mesmo tipo. Materias equipadas não podem ser removidas. No Rebirth, o nível e os AP podem ser alterados até o nível máximo da materia.
+
+Items and materials go up to 99. Removing frees the slot when you save. Key items, currencies, outfits, folios and trophies are shown but can't be removed. Armor and accessories someone is wearing can't be removed (in Rebirth they can't be removed at all, only changed in number).
+= Itens e materiais vão até 99. Remover libera o slot ao salvar. Itens-chave, moedas, roupas, fólios e troféus são exibidos, mas não podem ser removidos. Armaduras e acessórios que alguém esteja usando não podem ser removidos (no Rebirth não podem ser removidos de jeito nenhum, só alterados em quantidade).
+
+Hand a civilisation to a human or the AI, or change whose turn it is — for hotseat or play-by-cloud games when someone drops out. Gold, faith, cities and units are in the packed part of the save, which isn't mapped yet.
+= Entregue uma civilização a um humano ou à IA, ou mude de quem é o turno: para partidas hotseat ou play-by-cloud quando alguém sai. Ouro, fé, cidades e unidades ficam na parte compactada do save, que ainda não foi mapeada.
+
+Pieces this save doesn't have at any level. They're added at their base level when you save; upgrade them at a shop in the game. Up to 32 at a time. Keep a copy of game.sav until you've loaded the save in the game.
+= Peças que este save não tem em nenhum nível. Elas são adicionadas no nível base ao salvar; melhore-as em uma loja no jogo. Até 32 por vez. Guarde uma cópia de game.sav até carregar o save no jogo.
+
+Pieces you don't have yet, at the level you pick, for each type you already own a piece of (that piece's record is the model; it stays as it is). Added when you save, up to 32 at a time. Keep a copy of the save until you've loaded it in the game.
+= Peças que você ainda não tem, no nível escolhido, para cada tipo do qual você já possui uma peça (o registro dessa peça serve de modelo e permanece como está). Adicionadas ao salvar, até 32 por vez. Guarde uma cópia do save até carregá-lo no jogo.

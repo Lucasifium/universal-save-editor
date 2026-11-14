@@ -91,9 +91,9 @@ pub fn grim_dawn(ui: &mut Ui, cx: &mut GameCtx) {
     let name = cx.text("/Character/Name").filter(|n| !n.is_empty()).unwrap_or_else(|| "Character".into());
     let mut sub = vec![cx.text("/Character/Class tag").unwrap_or_default()];
     if cx.flag("/Character/Hardcore") {
-        sub.push("Hardcore".into());
+        sub.push(crate::i18n::tr("Hardcore").into());
     }
-    sub.push(cx.text("/Character/Difficulty").map(|d| format!("{d} difficulty")).unwrap_or_default());
+    sub.push(cx.text("/Character/Difficulty").map(|d| crate::i18n::trf("{0} difficulty", &[&d])).unwrap_or_default());
     hero(ui, accent, &name, &subtitle(sub), |ui| {
         for (label, p) in [("Level", "/Character/Level"), ("Experience", "/Character/Experience"), ("Iron bits", "/Character/Money"), ("Tributes", "/Character/Tributes"), ("Difficulty", "/Character/Difficulty"), ("Highest difficulty unlocked", "/Character/Highest difficulty")] {
             cx.tile(ui, label, p, accent);
@@ -127,7 +127,7 @@ pub fn grim_dawn(ui: &mut Ui, cx: &mut GameCtx) {
                         fact(ui, "Devotion points unlocked", &fmt_num(n as f64), accent);
                     }
                     if let Some(n) = cx.int("/Statistics/Play time (seconds)") {
-                        fact(ui, "Played", &format!("{:.1} hours", n as f64 / 3600.0), accent);
+                        fact(ui, "Played", &crate::i18n::trf("{0} hours", &[&format!("{:.1}", n as f64 / 3600.0)]), accent);
                     }
                     if let Some(n) = cx.int("/Statistics/Kills") {
                         fact(ui, "Kills", &fmt_num(n as f64), accent);
@@ -148,7 +148,7 @@ pub fn grim_dawn(ui: &mut Ui, cx: &mut GameCtx) {
         }
     }
     let groups: Vec<String> = keys(cx, "").into_iter().filter(|k| k == "Inventory" || k.starts_with("Bag ") || k.starts_with("Stash ")).collect();
-    stacks(ui, cx, "gd_items", &groups, "How many are in each stack (items that don't stack are 1). Names are the item's record (folder: file name).");
+    stacks(ui, cx, "gd_items", &groups, crate::i18n::tr("How many are in each stack (items that don't stack are 1). Names are the item's record (folder: file name)."));
     if let Some(Value::Array(eq)) = cx.get("/Character/Equipped").cloned() {
         if !eq.is_empty() {
             panel(ui, "Equipped", |ui| {
@@ -215,7 +215,7 @@ pub fn titan_quest(ui: &mut Ui, cx: &mut GameCtx) {
                 ui.add_space(4.0);
                 ui.horizontal_wrapped(|ui| {
                     if let Some(n) = cx.int("/Statistics/Play time (seconds)") {
-                        fact(ui, "Played", &format!("{:.1} hours", n as f64 / 3600.0), accent);
+                        fact(ui, "Played", &crate::i18n::trf("{0} hours", &[&format!("{:.1}", n as f64 / 3600.0)]), accent);
                     }
                     for k in ["Kills", "Deaths"] {
                         if let Some(n) = cx.int(&join("/Statistics", k)) {
@@ -241,13 +241,13 @@ pub fn torchlight2(ui: &mut Ui, cx: &mut GameCtx) {
     let name = cx.text("/Hero/Name").filter(|n| !n.is_empty()).unwrap_or_else(|| "Hero".into());
     let mut sub = vec![cx.text("/Hero/Class").unwrap_or_default(), cx.text("/Hero/Difficulty").unwrap_or_default()];
     if cx.flag("/Hero/Hardcore") {
-        sub.push("Hardcore".into());
+        sub.push(crate::i18n::tr("Hardcore").into());
     }
     if let Some(n) = cx.int("/Hero/New game plus").filter(|&n| n > 0) {
         sub.push(format!("NG+{n}"));
     }
     if let Some(s) = cx.num("/Hero/Play time (seconds)") {
-        sub.push(format!("{:.1} hours", s / 3600.0));
+        sub.push(crate::i18n::trf("{0} hours", &[&format!("{:.1}", s / 3600.0)]));
     }
     hero(ui, accent, &name, &subtitle(sub), |ui| {
         for (label, p) in [("Level", "/Progress/Level"), ("Experience", "/Progress/Experience"), ("Gold", "/Progress/Gold"), ("Fame level", "/Progress/Fame level"), ("Fame", "/Progress/Fame"), ("Difficulty", "/Hero/Difficulty")] {
@@ -283,5 +283,5 @@ pub fn torchlight2(ui: &mut Ui, cx: &mut GameCtx) {
             });
         }
     });
-    stacks(ui, cx, "tl2_items", &["Items".to_string()].into_iter().filter(|g| cx.get(&join("", g)).is_some()).collect::<Vec<_>>(), "How many are in each stack: equipped, carried and stashed items, by the name the save keeps for them (items that don't stack are 1).");
+    stacks(ui, cx, "tl2_items", &["Items".to_string()].into_iter().filter(|g| cx.get(&join("", g)).is_some()).collect::<Vec<_>>(), crate::i18n::tr("How many are in each stack: equipped, carried and stashed items, by the name the save keeps for them (items that don't stack are 1)."));
 }

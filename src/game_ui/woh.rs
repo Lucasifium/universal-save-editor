@@ -84,8 +84,8 @@ pub fn unlock_edits(root: &Value, section: &str) -> Vec<(String, Value)> {
 pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
     let who = cx.text("/town/character[0,3]").filter(|s| !s.trim().is_empty());
     let sub = match &who {
-        Some(n) => format!("Unlocks and settings  \u{00B7}  last run: {n}"),
-        None => "Unlocks and settings".to_string(),
+        Some(n) => format!("{}  \u{00B7}  {}", crate::i18n::tr("Unlocks and settings"), crate::i18n::trf("last run: {0}", &[n])),
+        None => crate::i18n::tr("Unlocks and settings").to_string(),
     };
     hero(ui, ACCENT, "WORLD OF HORROR", &sub, |ui| {
         for (s, label) in SECTIONS {
@@ -104,15 +104,13 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
             }
             for (s, label) in SECTIONS {
                 let e = unlock_edits(cx.root, s);
-                if ui.add_enabled(!e.is_empty(), egui::Button::new(format!("Unlock {}", label.to_lowercase()))).clicked() {
+                if ui.add_enabled(!e.is_empty(), egui::Button::new(crate::i18n::trf("Unlock {0}", &[&{ let l = crate::i18n::tr_any(label); if l == *label { l.to_lowercase() } else { l.to_string() } }]))).clicked() {
                     cx.edits.extend(e);
                 }
             }
         });
         let known: usize = CODES.iter().map(|(_, c)| c.len()).sum();
-        ui.weak(format!(
-            "The game stores each unlock as that entry's own code (a plain \"yes\" unlocks nothing once a run ends). {known} codes are known; entries without a known code stay as they are. Each entry can also be edited in the Values tab."
-        ));
+        ui.weak(crate::i18n::trf("The game stores each unlock as that entry's own code (a plain “yes” unlocks nothing once a run ends). {0} codes are known; entries without a known code stay as they are. Each entry can also be edited in the Values tab.", &[&known]));
     });
 
     if cx.get("/town/slot[0]").is_some() {

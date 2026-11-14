@@ -61,9 +61,9 @@ fn party_table(ui: &mut Ui, cx: &mut GameCtx) {
         sub.push(p);
     }
     if let Some(h) = cx.num("/Save/Hours played") {
-        sub.push(format!("{h:.1} hours"));
+        sub.push(trf("{0} hours", &[&format!("{:.1}", h)]));
     }
-    sub.push("Party table".into());
+    sub.push(tr("Party table").into());
     hero(ui, GOLD, &short_game(cx), &sub.join("  \u{00B7}  "), |ui| {
         for (label, p) in [("Credits", "/Party/Credits"), ("Party XP", "/Party/Party XP"), ("Components", "/Party/Components"), ("Chemicals", "/Party/Chemicals")] {
             cx.tile(ui, label, p, GOLD);
@@ -90,7 +90,7 @@ fn party_table(ui: &mut Ui, cx: &mut GameCtx) {
     let members = list(cx, "/Party/In the party");
     let avail = list(cx, "/Party/Available");
     panel(ui, "Party", |ui| {
-        ui.label(trf("With you: {0}", &[&(if members.is_empty() { "nobody".into() } else { members.join(", ") })]));
+        ui.label(trf("With you: {0}", &[&(if members.is_empty() { tr("nobody").to_string() } else { members.join(", ") })]));
         if !avail.is_empty() {
             ui.label(trf("Can join: {0}", &[&(avail.join(", "))]));
         }
@@ -138,7 +138,7 @@ fn save(ui: &mut Ui, cx: &mut GameCtx) {
     sheet(ui, cx, &base, t);
     let items = list(cx, "/Inventory");
     if !items.is_empty() {
-        egui::CollapsingHeader::new(RichText::new(format!("Party inventory ({} kinds)", items.len())).strong()).id_salt("kotor_inv").show(ui, |ui| {
+        egui::CollapsingHeader::new(RichText::new(trf("Party inventory ({0} kinds)", &[&items.len()])).strong()).id_salt("kotor_inv").show(ui, |ui| {
         let stacks: Vec<String> = match cx.get("/Items") {
             Some(Value::Object(m)) => m.keys().cloned().collect(),
             _ => vec![],
@@ -200,7 +200,7 @@ fn sheet(ui: &mut Ui, cx: &mut GameCtx, base: &str, id: usize) {
                     egui::Grid::new("kotor_hp").num_columns(4).spacing([10.0, 6.0]).show(ui, |ui| {
                         ui.label("");
                         for h in ["Current", "Max", "Base"] {
-                            ui.weak(h);
+                            ui.weak(crate::i18n::tr_any(h));
                         }
                         ui.end_row();
                         for (a, b, c) in [("Current HP", "Max HP", "Base HP"), ("Current FP", "Max FP", "Base FP")] {

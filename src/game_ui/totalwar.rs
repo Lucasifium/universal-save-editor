@@ -21,7 +21,7 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
             fact(ui, "Build", build.trim(), ACCENT);
         }
     });
-    panel(ui, &format!("Factions ({})", keys.len()), |ui| {
+    panel(ui, &crate::i18n::trf("Factions ({0})", &[&keys.len()]), |ui| {
         if let Some(k) = &mine {
             if super::quick_button(ui, tr("Set your treasury to 9,999,999"), "") {
                 cx.set(&format!("/Factions/{}/Treasury", k.replace('~', "~0").replace('/', "~1")), json!(9_999_999));

@@ -4,7 +4,7 @@
 //! Property names carry a generated suffix (`CurrentLevel_49_97AB…`), so values are found by
 //! the part before it.
 
-use crate::i18n::{tr};
+use crate::i18n::{tr, trf};
 use super::{columns, fact, fmt_num, hero, panel, tabs, words, GameCtx};
 use crate::json_view::pointer_escape;
 use eframe::egui::{self, Color32, Ui};
@@ -41,7 +41,7 @@ fn attribute(key: &str) -> String {
         Some(3) => "Agility".into(),
         Some(4) => "Defense".into(),
         Some(5) => "Luck".into(),
-        Some(n) => format!("Attribute {n}"),
+        Some(n) => trf("Attribute {0}", &[&n]),
         None => words(key),
     }
 }
@@ -51,11 +51,11 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
     let members = keys(cx, "/CharactersCollection");
     let mut sub = vec!["Clair Obscur: Expedition 33".to_string()];
     if let Some(m) = cx.text("/CurrentCharacterWorld").filter(|m| !m.is_empty()) {
-        sub.push(format!("playing {m}"));
+        sub.push(trf("playing {0}", &[&m]));
     }
     if let Some(Value::Number(t)) = cx.get("/TimePlayed") {
         if let Some(s) = t.as_f64() {
-            sub.push(format!("{:.0} h played", s / 3600.0));
+            sub.push(trf("{0} h played", &[&format!("{:.0}", s / 3600.0)]));
         }
     }
     hero(ui, accent, "Expedition 33", &sub.join("  \u{00B7}  "), |ui| {

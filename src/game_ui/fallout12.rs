@@ -1,6 +1,6 @@
 //! Fallout and Fallout 2 (SAVE.DAT): the character sheet on a Pip-Boy green screen.
 
-use crate::i18n::tr;
+use crate::i18n::{tr, tr_any, trf};
 use crate::widgets::ScrollLock;
 use super::{columns, panel, GameCtx};
 use crate::json_view::pointer_escape;
@@ -63,9 +63,9 @@ fn sheet(ui: &mut Ui, cx: &mut GameCtx) {
         }
     }
     if let Some(a) = cx.int("/Character/Age") {
-        sub.insert(2, format!("age {a}"));
+        sub.insert(2, trf("age {0}", &[&a]));
     }
-    ui.label(RichText::new(format!("{game} \u{2014} PERSONNEL RECORD")).monospace().size(12.0).color(DIM));
+    ui.label(RichText::new(trf("{0} \u{2014} PERSONNEL RECORD", &[&game])).monospace().size(12.0).color(DIM));
     ui.label(RichText::new(name.to_uppercase()).monospace().size(28.0).strong());
     ui.label(RichText::new(sub.join("  \u{00B7}  ")).monospace().size(13.0));
     if let Some(d) = cx.text("/Save/Description").filter(|d| !d.is_empty()) {
@@ -99,7 +99,7 @@ fn sheet(ui: &mut Ui, cx: &mut GameCtx) {
                     cx.grid_row(ui, "Max hit points (base)", "/Character/Max hit points (base)", 70.0);
                     for (label, p) in [("Max hit points", "/Character/Max hit points"), ("Radiation", "/Character/Radiation"), ("Poison", "/Character/Poison")] {
                         if let Some(v) = cx.text(p) {
-                            ui.label(label);
+                            ui.label(tr_any(label));
                             ui.label(v);
                             ui.end_row();
                         }
@@ -147,9 +147,9 @@ fn sheet(ui: &mut Ui, cx: &mut GameCtx) {
                         _ => None,
                     })
                     .collect();
-                chips(ui, &perks, "No perks yet");
-                egui::CollapsingHeader::new("Change perk ranks").id_salt("fo12_perks").show(ui, |ui| {
-                    let q = super::screens2::filter_box(ui, "fo12_perks", "perk name\u{2026}");
+                chips(ui, &perks, tr("No perks yet"));
+                egui::CollapsingHeader::new(tr("Change perk ranks")).id_salt("fo12_perks").show(ui, |ui| {
+                    let q = super::screens2::filter_box(ui, "fo12_perks", tr("perk name\u{2026}"));
                     egui::ScrollArea::vertical().id_salt("fo12_perk_list").max_height(260.0).show_locked(ui, |ui| {
                         for k in keys(cx, "/Perk ranks") {
                             if q.is_empty() || k.to_lowercase().contains(&q) {
@@ -162,17 +162,14 @@ fn sheet(ui: &mut Ui, cx: &mut GameCtx) {
         }
     });
     ui.label(
-        RichText::new(
-            "Rank 0 means not taken; most perks have one rank, a few two or three. A perk that gives a one-off gain when picked (Gain Strength, \
-             Lifegiver, the skill-point perks) doesn't give it when set here, so raise that number yourself.",
-        )
+        RichText::new(tr("Rank 0 means not taken; most perks have one rank, a few two or three. A perk that gives a one-off gain when picked (Gain Strength, Lifegiver, the skill-point perks) doesn't give it when set here, so raise that number yourself."))
         .size(12.0)
         .color(DIM),
     );
     ui.add_space(8.0);
 
     let items = keys(cx, "/Inventory");
-    panel(ui, &format!("Inventory ({} stacks)", items.len()), |ui| {
+    panel(ui, &trf("Inventory ({0} stacks)", &[&items.len()]), |ui| {
         if items.is_empty() {
             ui.label(tr("Nothing carried."));
             return;
@@ -202,9 +199,7 @@ fn sheet(ui: &mut Ui, cx: &mut GameCtx) {
             });
         });
         ui.label(
-            RichText::new(
-                "Item names come from a short list the game's own code refers to; other items show their prototype number (the names are in the game's data files). \u{203A} marks items inside a container above.",
-            )
+            RichText::new(tr("Item names come from a short list the game's own code refers to; other items show their prototype number (the names are in the game's data files). \u{203A} marks items inside a container above."))
             .size(12.0)
             .color(DIM),
         );

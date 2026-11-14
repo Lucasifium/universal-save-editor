@@ -13,10 +13,10 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
     let name = cx.text("/Character/Name").unwrap_or_else(|| "Terrarian".into());
     let mut sub = vec![];
     if let Some(d) = cx.text("/Character/Difficulty") {
-        sub.push(format!("{d} character"));
+        sub.push(crate::i18n::trf("{0} character", &[&d]));
     }
     if let Some(h) = cx.num("/Character/Play time (hours)") {
-        sub.push(format!("{h:.1} hours played"));
+        sub.push(crate::i18n::trf("{0} hours played", &[&format!("{h:.1}")]));
     }
     hero(ui, ACCENT, &name, &sub.join("  \u{00B7}  "), |ui| {
         for (cap, p) in [("Max life", "/Character/Max life"), ("Max mana", "/Character/Max mana"), ("Life", "/Character/Life"), ("Mana", "/Character/Mana")] {
@@ -128,7 +128,7 @@ pub(super) fn slots(ui: &mut Ui, cx: &mut GameCtx, id: &str, base: &str, keys: &
     egui::Frame::none().fill(super::inset_fill(ui, ACCENT)).rounding(8.0).inner_margin(10.0).show(ui, |ui| {
         ui.set_width(ui.available_width());
         ui.horizontal(|ui| {
-            ui.label(RichText::new(present[i].as_str()).strong());
+            ui.label(RichText::new(slot_label(present[i])).strong());
             if ui.small_button(tr("Close")).clicked() {
                 select(ui, id, None);
             }
@@ -140,4 +140,21 @@ pub(super) fn slots(ui: &mut Ui, cx: &mut GameCtx, id: &str, base: &str, keys: &
             cx.grid_row(ui, "Favorite", &format!("{p}/Favorite"), 100.0);
         });
     });
+}
+
+/// A slot's name as shown: the keys ("Accessory 3", "Slot 12") are the save's own pointers.
+fn slot_label(k: &str) -> String {
+    use crate::i18n::trf;
+    if let Some((head, n)) = k.rsplit_once(' ').filter(|(_, n)| n.chars().all(|c| c.is_ascii_digit())) {
+        match head {
+            "Vanity Accessory" => return trf("Vanity Accessory {0}", &[&n]),
+            "Dye Accessory" => return trf("Dye Accessory {0}", &[&n]),
+            "Accessory" => return trf("Accessory {0}", &[&n]),
+            "Coin slot" => return trf("Coin slot {0}", &[&n]),
+            "Ammo slot" => return trf("Ammo slot {0}", &[&n]),
+            "Slot" => return trf("Slot {0}", &[&n]),
+            _ => {}
+        }
+    }
+    crate::i18n::tr_any(k).to_string()
 }

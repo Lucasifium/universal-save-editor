@@ -2,7 +2,7 @@
 //! reputation, and each party member's sheet (experience, hit points, levels, abilities,
 //! alignment and item stacks).
 
-use crate::i18n::tr;
+use crate::i18n::{tr, trf};
 use crate::widgets::ScrollLock;
 use super::{columns, fact, hero, panel, tabs, GameCtx};
 use crate::json_view::pointer_escape;
@@ -26,7 +26,7 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
     let leader = members.first().cloned().unwrap_or_else(|| "Party".into());
     let mut sub = vec!["Baldur's Gate / Icewind Dale (Enhanced Edition)".to_string()];
     if let Some(c) = cx.int("/Party/Chapter") {
-        sub.push(format!("Chapter {c}"));
+        sub.push(trf("Chapter {0}", &[&c]));
     }
     if let Some(a) = cx.text("/Party/Area").filter(|a| !a.is_empty()) {
         sub.push(a);

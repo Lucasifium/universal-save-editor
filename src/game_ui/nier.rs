@@ -1,7 +1,7 @@
 //! NieR:Automata (`SlotData_N.dat`): money, experience, item and material counts and weapon
 //! levels, with a "Max crafting materials" button for the Materials list.
 
-use crate::i18n::tr;
+use crate::i18n::{tr, trf};
 use super::screens2::value_rows;
 use super::{fact, fmt_num, hero, panel, tabs, GameCtx};
 use crate::json_view::pointer_escape;
@@ -20,10 +20,10 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
     let name = cx.text("/Save/Name").filter(|n| !n.is_empty()).unwrap_or_else(|| "NieR:Automata".into());
     let mut sub = vec!["NieR:Automata".to_string()];
     if let Some(c) = cx.int("/Save/Chapter") {
-        sub.push(format!("chapter {c}"));
+        sub.push(trf("chapter {0}", &[&c]));
     }
     if let Some(t) = cx.text("/Save/Play time") {
-        sub.push(format!("{t} played"));
+        sub.push(trf("{0} played", &[&t]));
     }
     hero(ui, accent, &name, &sub.join("  \u{00B7}  "), |ui| {
         cx.tile(ui, "Money (G)", "/Player/Money", accent);
@@ -47,13 +47,13 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
         }
         value_rows(ui, cx, &format!("nier_{t}"), &r);
         ui.weak(match lists[t] {
-            "Weapons" => "Weapons you own and their level (1\u{2013}4); upgrading needs no materials once set here.",
-            "Materials" => "Upgrade and selling materials; 99 is the most of one the game holds.",
-            _ => "Consumables, key items and cosmetics you carry; 99 at most of each.",
+            "Weapons" => tr("Weapons you own and their level (1\u{2013}4); upgrading needs no materials once set here."),
+            "Materials" => tr("Upgrade and selling materials; 99 is the most of one the game holds."),
+            _ => tr("Consumables, key items and cosmetics you carry; 99 at most of each."),
         });
     });
-    ui.weak(format!(
-        "Level comes from experience ({} for level 99). The save has no checksum. Not yet tried in the game.",
-        fmt_num(crate::fmt::nier::LEVEL_XP[98] as f64)
+    ui.weak(trf(
+        "Level comes from experience ({0} for level 99). The save has no checksum. Not yet tried in the game.",
+        &[&fmt_num(crate::fmt::nier::LEVEL_XP[98] as f64)],
     ));
 }
