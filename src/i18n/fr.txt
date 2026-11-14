@@ -7286,6 +7286,8 @@ Liquid:
 
 Lit = you have the tool. The number is how many uses it has left (for tools that run out).
 = Allumé = vous possédez l'outil. Le nombre indique les utilisations restantes (pour les outils qui s'épuisent).
+Continues
+= Continues
 
 Lives
 = Vies
@@ -15485,3 +15487,569 @@ Silver points
 Tech points
 = Points de technique
 
+Maximum health
+= Santé maximale
+
+Powers
+= Pouvoirs
+
+A PlayStation save (memory card, .mcs, .psx or .psv). Continues, lives, health, the powers, and every level's unlock and Electoon cages. The level totals and the completion rate in the save's title are written again.
+= Une sauvegarde PlayStation (carte mémoire, .mcs, .psx ou .psv). Continues, vies, santé, les pouvoirs, et le déblocage et les cages d'Electoons de chaque niveau. Les totaux de niveau et le taux d'achèvement dans le titre de la sauvegarde sont réécrits.
+
+Close the emulator first. The level totals and the completion rate in the save's title are written again from the unlock and cage flags.
+= Fermez d'abord l'émulateur. Les totaux de niveau et le taux d'achèvement dans le titre de la sauvegarde sont recalculés à partir des indicateurs de déblocage et de cages.
+
+Electoon cage 1
+= Cage d'Electoons 1
+
+Electoon cage 2
+= Cage d'Electoons 2
+
+Electoon cage 3
+= Cage d'Electoons 3
+
+Electoon cage 4
+= Cage d'Electoons 4
+
+Electoon cage 5
+= Cage d'Electoons 5
+
+Electoon cage 6
+= Cage d'Electoons 6
+
+Unlocked Characters
+= Personnages débloqués
+
+Unlocked Levels
+= Circuits débloqués
+
+Unlocked Menus
+= Menus débloqués
+
+Trophy
+= Trophée
+
+Sapphire Relic
+= Relique de saphir
+
+Gold Relic
+= Relique d'or
+
+Platinum Relic
+= Relique de platine
+
+CTR Token
+= Jeton CTR
+
+A PlayStation save (memory card, .mcs, .psx or .psv). The unlocked characters, tracks and menus, and for each of the four adventure slots the world doors and every trophy, relic, CTR token, boss key, gem and N. Oxide challenge. The save's checksum is written again.
+= Une sauvegarde PlayStation (carte mémoire, .mcs, .psx ou .psv). Les personnages, circuits et menus débloqués et, pour chacun des quatre emplacements d'aventure, les portes des mondes et chaque trophée, relique, jeton CTR, clé de boss, gemme et défi de N. Oxide. La somme de contrôle de la sauvegarde est réécrite.
+
+Close the emulator first. Giving a Gold or Platinum relic also gives the lower relics, as the game expects; the save's checksum is written again.
+= Fermez d'abord l'émulateur. Donner une relique d'or ou de platine donne aussi les reliques inférieures, comme le jeu l'attend ; la somme de contrôle de la sauvegarde est réécrite.
+
+World doors, slot 1
+= Portes des mondes, emplacement 1
+
+Races, slot 1
+= Courses, emplacement 1
+
+Bosses, gems and challenges, slot 1
+= Boss, gemmes et défis, emplacement 1
+
+World doors, slot 2
+= Portes des mondes, emplacement 2
+
+Races, slot 2
+= Courses, emplacement 2
+
+Bosses, gems and challenges, slot 2
+= Boss, gemmes et défis, emplacement 2
+
+World doors, slot 3
+= Portes des mondes, emplacement 3
+
+Races, slot 3
+= Courses, emplacement 3
+
+Bosses, gems and challenges, slot 3
+= Boss, gemmes et défis, emplacement 3
+
+World doors, slot 4
+= Portes des mondes, emplacement 4
+
+Races, slot 4
+= Courses, emplacement 4
+
+Bosses, gems and challenges, slot 4
+= Boss, gemmes et défis, emplacement 4
+
+High scores
+= Meilleurs scores
+
+Competition medals
+= Médailles de compétition
+
+Sound effects level
+= Niveau des effets sonores
+
+A PlayStation save (memory card, .mcs, .psx or .psv). Every skater's tapes in each level, the medals of the three competitions, the high scores and the sound levels. The tape counts and the checksum are written again.
+= Une sauvegarde PlayStation (carte mémoire, .mcs, .psx ou .psv). Les cassettes de chaque skateur dans chaque niveau, les médailles des trois compétitions, les meilleurs scores et les niveaux sonores. Les comptes de cassettes et la somme de contrôle sont réécrits.
+
+Close the emulator first. The tape count of each skater and the save's checksum are written again.
+= Fermez d'abord l'émulateur. Le nombre de cassettes de chaque skateur et la somme de contrôle de la sauvegarde sont réécrits.
+
+10,000 Points
+= 10,000 points
+
+15,000 Points
+= 15,000 points
+
+20,000 Points
+= 20,000 points
+
+25,000 Points
+= 25,000 points
+
+30,000 Points
+= 30,000 points
+
+40,000 Points
+= 40,000 points
+
+5,000 Points
+= 5,000 points
+
+50,000 Points
+= 50,000 points
+
+7,500 Points
+= 7,500 points
+
+Allegro Presto
+= Allegro Presto
+
+Andrew Reynolds: Downhill Jam
+= Andrew Reynolds: Downhill Jam
+
+Andrew Reynolds: Downtown
+= Andrew Reynolds: Centre-ville
+
+Andrew Reynolds: Mall
+= Andrew Reynolds: Centre commercial
+
+Andrew Reynolds: School
+= Andrew Reynolds: École
+
+Andrew Reynolds: Streets
+= Andrew Reynolds: Rues
+
+Andrew Reynolds: Warehouse
+= Andrew Reynolds: Entrepôt
+
+Anguish Lagoon
+= Anguish Lagoon
+
+Band Land (Save)
+= Band Land (Sauvegarde)
+
+Blue Mountains (Save)
+= Blue Mountains (Sauvegarde)
+
+Bob Burnquist: Downhill Jam
+= Bob Burnquist: Downhill Jam
+
+Bob Burnquist: Downtown
+= Bob Burnquist: Centre-ville
+
+Bob Burnquist: Mall
+= Bob Burnquist: Centre commercial
+
+Bob Burnquist: School
+= Bob Burnquist: École
+
+Bob Burnquist: Streets
+= Bob Burnquist: Rues
+
+Bob Burnquist: Warehouse
+= Bob Burnquist: Entrepôt
+
+Bongo Hills
+= Bongo Hills
+
+Break 5 No Skating Signs
+= Casser 5 panneaux d'interdiction de skater
+
+Bucky Lasek: Downhill Jam
+= Bucky Lasek: Downhill Jam
+
+Bucky Lasek: Downtown
+= Bucky Lasek: Centre-ville
+
+Bucky Lasek: Mall
+= Bucky Lasek: Centre commercial
+
+Bucky Lasek: School
+= Bucky Lasek: École
+
+Bucky Lasek: Streets
+= Bucky Lasek: Rues
+
+Bucky Lasek: Warehouse
+= Bucky Lasek: Entrepôt
+
+Burnside
+= Burnside
+
+Candy Chateau (Save)
+= Candy Chateau (Sauvegarde)
+
+Chad Muska: Downhill Jam
+= Chad Muska: Downhill Jam
+
+Chad Muska: Downtown
+= Chad Muska: Centre-ville
+
+Chad Muska: Mall
+= Chad Muska: Centre commercial
+
+Chad Muska: School
+= Chad Muska: École
+
+Chad Muska: Streets
+= Chad Muska: Rues
+
+Chad Muska: Warehouse
+= Chad Muska: Entrepôt
+
+Citadel City
+= Citadel City
+
+Crystal Palace
+= Crystal Palace
+
+Cyan Gem
+= Gemme cyan
+
+Destroy 5 Directories
+= Détruire 5 panneaux d'annuaire
+
+Downhill Jam
+= Downhill Jam
+
+Downtown
+= Centre-ville
+
+Dr. N. Tropy
+= Dr. N. Tropy
+
+Eat At Joe's
+= Eat At Joe's
+
+Elissa Steamer: Downhill Jam
+= Elissa Steamer: Downhill Jam
+
+Elissa Steamer: Downtown
+= Elissa Steamer: Centre-ville
+
+Elissa Steamer: Mall
+= Elissa Steamer: Centre commercial
+
+Elissa Steamer: School
+= Elissa Steamer: École
+
+Elissa Steamer: Streets
+= Elissa Steamer: Rues
+
+Elissa Steamer: Warehouse
+= Elissa Steamer: Entrepôt
+
+Eraser Plains
+= Eraser Plains
+
+Fake Crash
+= Faux Crash
+
+Gem Races
+= Courses de gemmes
+
+Gem Stone Valley
+= Gem Stone Valley
+
+Geoff Rowley: Downhill Jam
+= Geoff Rowley: Downhill Jam
+
+Geoff Rowley: Downtown
+= Geoff Rowley: Centre-ville
+
+Geoff Rowley: Mall
+= Geoff Rowley: Centre commercial
+
+Geoff Rowley: School
+= Geoff Rowley: École
+
+Geoff Rowley: Streets
+= Geoff Rowley: Rues
+
+Geoff Rowley: Warehouse
+= Geoff Rowley: Entrepôt
+
+Get S-K-A-T-E
+= Obtenir S-K-A-T-E
+
+Glacier Park (from N.Sanity Beach)
+= Glacier Park (from N.Sanity Beach)
+
+Glacier Park (from The Lost Ruins)
+= Glacier Park (from The Lost Ruins)
+
+Gong Heights
+= Gong Heights
+
+Grab
+= Saisir
+
+Green Gem
+= Gemme verte
+
+Grind 5 Tables
+= Faire un grind sur 5 tables
+
+Hang
+= S'accrocher
+
+Helicopter
+= Hélicoptère
+
+Hidden Tape
+= Cassette cachée
+
+Jamie Thomas: Downhill Jam
+= Jamie Thomas: Downhill Jam
+
+Jamie Thomas: Downtown
+= Jamie Thomas: Centre-ville
+
+Jamie Thomas: Mall
+= Jamie Thomas: Centre commercial
+
+Jamie Thomas: School
+= Jamie Thomas: École
+
+Jamie Thomas: Streets
+= Jamie Thomas: Rues
+
+Jamie Thomas: Warehouse
+= Jamie Thomas: Entrepôt
+
+Kareem Campbell: Downhill Jam
+= Kareem Campbell: Downhill Jam
+
+Kareem Campbell: Downtown
+= Kareem Campbell: Centre-ville
+
+Kareem Campbell: Mall
+= Kareem Campbell: Centre commercial
+
+Kareem Campbell: School
+= Kareem Campbell: École
+
+Kareem Campbell: Streets
+= Kareem Campbell: Rues
+
+Kareem Campbell: Warehouse
+= Kareem Campbell: Entrepôt
+
+Komodo Joe
+= Komodo Joe
+
+Lab Basement
+= Lab Basement
+
+Magenta Gem
+= Gemme magenta
+
+Mall
+= Centre commercial
+
+Moskito's Nest
+= Moskito's Nest
+
+Mr Dark's Dare
+= Mr Dark's Dare
+
+Mr Sax's Hullaballoo
+= Mr Sax's Hullaballoo
+
+Mr Skops' Stalactites
+= Mr Skops' Stalactites
+
+Mr Stone's Peaks
+= Mr Stone's Peaks
+
+N. Oxide's Challenge
+= N. Oxide's Challenge
+
+N. Oxide's Challenge (percent)
+= N. Oxide's Challenge (pourcentage)
+
+N. Oxide's Final Challenge
+= N. Oxide's Final Challenge
+
+N. Oxide's Final Challenge (percent)
+= N. Oxide's Final Challenge (pourcentage)
+
+Nitro Court
+= Nitro Court
+
+Officer Dick: Downhill Jam
+= Officer Dick: Downhill Jam
+
+Officer Dick: Downtown
+= Officer Dick: Centre-ville
+
+Officer Dick: Mall
+= Officer Dick: Centre commercial
+
+Officer Dick: School
+= Officer Dick: École
+
+Officer Dick: Streets
+= Officer Dick: Rues
+
+Officer Dick: Warehouse
+= Officer Dick: Entrepôt
+
+Open 5 Valves
+= Ouvrir 5 vannes
+
+Papu Papu
+= Papu Papu
+
+Parking Lot
+= Parking Lot
+
+Pencil Pentathlon
+= Pencil Pentathlon
+
+Penta Penguin
+= Penta Penguin
+
+Picture City (Save)
+= Picture City (Sauvegarde)
+
+Pink Plant Woods
+= Pink Plant Woods
+
+Pinstripe
+= Pinstripe
+
+Punch
+= Coup de poing
+
+Rampage Ruins
+= Rampage Ruins
+
+Red Gem
+= Gemme rouge
+
+Ripper Roo
+= Ripper Roo
+
+Rocky Road
+= Rocky Road
+
+Roswell
+= Roswell
+
+Run
+= Courir
+
+Rune Glifberg: Downhill Jam
+= Rune Glifberg: Downhill Jam
+
+Rune Glifberg: Downtown
+= Rune Glifberg: Centre-ville
+
+Rune Glifberg: Mall
+= Rune Glifberg: Centre commercial
+
+Rune Glifberg: School
+= Rune Glifberg: École
+
+Rune Glifberg: Streets
+= Rune Glifberg: Rues
+
+Rune Glifberg: Warehouse
+= Rune Glifberg: Entrepôt
+
+School
+= École
+
+Scrapbook
+= Album souvenir
+
+Skate Park
+= Skatepark
+
+Skull Rock
+= Skull Rock
+
+Smash the Boxes
+= Casser les caisses
+
+Space Mama's Crater
+= Space Mama's Crater
+
+Streets
+= Rues
+
+The Caves of Skops (Save)
+= The Caves of Skops (Sauvegarde)
+
+The Dream Forest (Save)
+= The Dream Forest (Sauvegarde)
+
+The Hard Rocks
+= The Hard Rocks
+
+The North Bowl
+= The North Bowl
+
+The Swamps of Forgetfulness
+= The Swamps of Forgetfulness
+
+Tings
+= Tings
+
+Tony Hawk: Downhill Jam
+= Tony Hawk: Downhill Jam
+
+Tony Hawk: Downtown
+= Tony Hawk: Centre-ville
+
+Tony Hawk: Mall
+= Tony Hawk: Centre commercial
+
+Tony Hawk: School
+= Tony Hawk: École
+
+Tony Hawk: Streets
+= Tony Hawk: Rues
+
+Tony Hawk: Warehouse
+= Tony Hawk: Entrepôt
+
+Turbo Track Unlocked
+= Piste Turbo débloquée
+
+Twilight Gulch
+= Twilight Gulch
+
+Warehouse
+= Entrepôt
+
+Wreck 5 Cop Cars
+= Détruire 5 voitures de police
+
+Yellow Gem
+= Gemme jaune

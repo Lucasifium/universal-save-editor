@@ -3,7 +3,7 @@
 > **Free, and it always will be.** No price, no ads, no account, no paid version, no online service, no
 > rate limits. If anyone is charging you for this, it isn't from here.
 
-An offline save editor and save manager for 420+ (428) PC games (edit saves, and back up, name and restore them): Cairn, Terraria (characters and a world map editor),
+An offline save editor and save manager for 430+ (431) PC games (edit saves, and back up, name and restore them): Cairn, Terraria (characters and a world map editor),
 Oxygen Not Included, RimWorld, Stardew Valley, Onimusha: Way of the Sword, Elden Ring, Dark Souls,
 Cyberpunk 2077, the Persona, Yakuza and Final Fantasy games, Ren'Py visual novels, RPG Maker games
 and more (the full list is below). Written in Rust (egui). Nothing is uploaded anywhere, and there are
@@ -130,7 +130,7 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 </details>
 
 <details>
-<summary><strong>C</strong> (15)</summary>
+<summary><strong>C</strong> (16)</summary>
 
 | Game | Screen |
 |---|---|
@@ -145,6 +145,7 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 | Clicker Heroes | *Clicker*: gold, rubies, hero souls, ancient souls, primal souls, the highest zones, multipliers, and every hero's and outsider's level from the Steam version's save (the base64 and deflate packing is handled). checked on a public save, not yet tried in the game |
 | Core Keeper | *Character*: skill experience (mining, running, melee, vitality, crafting, ranged, gardening, fishing, cooking, magic, summoning), ancient coins, maximum health and the inventory counts, from the plain-JSON character file (checked on a public save, not yet tried in the game) |
 | Crash Bandicoot (PlayStation) | *Bandicoot* (PlayStation memory card, `.mcs`, `.psx` or `.psv` save of the 1996 game): the level reached, every gem, both keys and the volumes; the gem and key counts, the completion rate and the checksum are written again (checked on public saves, not yet tried in the game) |
+| Crash Team Racing (PlayStation) | *Racer* (PlayStation memory card, `.mcs`, `.psx` or `.psv` save): the unlocked characters, tracks and menus, and for each of the four adventure slots the world doors and every trophy, relic, CTR token, boss key, gem and N. Oxide challenge; the save's checksum is written again (checked on public saves, not yet tried in the game) |
 | Crusader Kings II | *Empire*: the ruler's wealth, prestige, piety and attributes. Ironman (binary) saves are edited in place, dates included (checked on a save converted to the binary layout; no save from a real ironman campaign has been tried yet) |
 | Cult of the Lamb | *Cult*: the Lamb's level, XP, hearts and fervour; cult faith, level, shrine and doctrine levels; the inventory and storage by item name, with a **Max crafting materials** button that fills lumber, stone, bones, grass, planks, stone blocks, gold nuggets and bars, crystal shards, spider silk and shells to 999 (an estimate), leaving coins, food, seeds, gifts, necklaces and boss items alone (checked on a public sample save, not yet tried in the game) |
 | Cuphead | *Inkwell Isle*: coins and deaths for both players, Djimmi's wishes, expert mode, the filters, Boatman and the other unlocks (checked on a public sample save, not yet tried in the game) |
@@ -427,11 +428,12 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 </details>
 
 <details>
-<summary><strong>R</strong> (14)</summary>
+<summary><strong>R</strong> (15)</summary>
 
 | Game | Screen |
 |---|---|
 | R.E.P.O. | Level, money, lives, the charging station and total haul; each player's health and upgrades; the items in the truck and bought in total (`<save>.es3`); decrypted and encrypted again on save (checked on a public save, not yet tried in the game) |
+| Rayman (PlayStation) | *Rayman* (PlayStation memory card, `.mcs`, `.psx` or `.psv` save): continues, lives, health, the powers, and every level's unlock and Electoon cages; the level totals and the completion rate are written again (checked on public saves, not yet tried in the game) |
 | Red Dead Redemption (PC; the PS4 and Switch release uses the same format) | *John*: money, honor, fame and the Dead Eye meter; *Consumables*: snake oil, moonshine, chewing tobacco, medicine, tonics, bait, apples and horse pills; weapons, horses and kit are listed as owned. Story, Hardcore and Undead Nightmare saves; the save is decrypted and encrypted again with its CRC-32 (checked on real saves, not yet tried in the game) |
 | Red Dead Redemption 2 (PC, story mode) | *Arthur*: cash, honor (its saved statistic kept in step), the health, stamina and Dead Eye cores and XP, weight and saved health; *Camp*: camp funds; the satchel's ammunition, consumables, herbs and provisions, with a Max crafting materials button for herbs, feathers and animal fat (99, the Legend of the East satchel's stack size); horses' dirt and hunger; 17 statistics; the clock; bounties are shown. Supplies the satchel lacks can be added (experimental: the save grows). *Challenges*: the rank (0 to 10) of the nine story challenges. *Compendium*: studied/discovered ticks for animals, plants, fish and horses, and owned ticks for weapons and equipment. Every checksum is written again and the save encrypted (checked on real saves, not yet tried in the game) |
 | Ren'Py visual novels | *Story*: the game's numbers, flags and text variables with a filter, money and the like up front |
@@ -492,7 +494,7 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 </details>
 
 <details>
-<summary><strong>T</strong> (39)</summary>
+<summary><strong>T</strong> (40)</summary>
 
 | Game | Screen |
 |---|---|
@@ -522,6 +524,7 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 | Tiny Tina's Wonderlands | *Hero*: level (to 40) and experience, skill points; gold, moon orbs and ammo; gear is listed (slot, favourite, junk), not edited. Encrypted again on save. |
 | Titan Quest Anniversary Edition | *Character*: level, experience, money, unspent points, the five attributes and skill levels (stash files aren't read). Not yet tried in the game |
 | Tokyo Xtreme Racer (2025) | *Driver*: CP (money) and its limit, PP, garage size, the day, and the battle records (checked on a public save, not yet tried in the game) |
+| Tony Hawk's Skateboarding (PlayStation) | *Skater* (PlayStation memory card, `.mcs`, `.psx` or `.psv` save): every skater's tapes in each level, the medals of the three competitions, the high scores and the sound levels; the tape counts and the checksum are written again (checked on public saves, not yet tried in the game) |
 | Torchlight II | *Character*: difficulty (Casual to Elite), level, experience, fame, gold, unspent points, the four stats, health, mana and item stacks; scrambled again with its checksum (the older 0x40 format isn't supported). Not yet tried in the game |
 | Torchlight III | *Character*: level, hit points, experience, skill points and difficulty; *Gear*: the level and quantity of every carried item, consumable and pet item. The Unreal save holds the character as JSON text, which is opened and written back as that string (checked on a public save, not yet tried in the game) |
 | Total War: Attila | Every faction's treasury, yours first, with a button to fill it. The campaign inside the save is unpacked, edited with every size above it recomputed, and packed again (the file grows). Read on a public campaign save, not yet tried in the game |
@@ -641,8 +644,8 @@ binary and stays an ironman save. It isn't converted to a normal one.
 
 The start page lists **Your games**: every game in the list whose saves were found on this computer,
 newest first, each one click away from its newest save. *Find my game's saves* (the big button on the
-start page, *Find saves* in the toolbar and the File menu) lists every one of the 420+ (428) PC games the editor knows, Mass Effect 1–3, the Legendary Edition and Andromeda among them — with where it
-start page, *Find saves* in the toolbar and the File menu) lists every one of the 420+ (428) PC games the editor knows, Mass Effect 1–3, the Legendary Edition and Andromeda among them — with where it
+start page, *Find saves* in the toolbar and the File menu) lists every one of the 430+ (431) PC games the editor knows, Mass Effect 1–3, the Legendary Edition and Andromeda among them — with where it
+start page, *Find saves* in the toolbar and the File menu) lists every one of the 430+ (431) PC games the editor knows, Mass Effect 1–3, the Legendary Edition and Andromeda among them — with where it
 usually keeps its saves and what the files are called, and finds them on your computer (Steam
 libraries and `userdata`, Documents wherever Windows has it, AppData, Saved Games, Ubisoft
 Connect). On Linux and the Steam Deck it also looks inside Proton prefixes

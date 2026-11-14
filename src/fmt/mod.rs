@@ -202,6 +202,9 @@ pub mod sotn;
 pub mod ff8;
 pub mod fft;
 pub mod re1;
+pub mod thps;
+pub mod ctr;
+pub mod rayman;
 pub mod gt1;
 
 pub mod kh1;
@@ -300,6 +303,21 @@ pub fn parse_binary(d: &[u8]) -> Option<TreeDoc> {
     }
     if gt1::looks(d) {
         if let Ok(t) = gt1::parse(d) {
+            return Some(t);
+        }
+    }
+    if rayman::looks(d) {
+        if let Ok(t) = rayman::parse(d) {
+            return Some(t);
+        }
+    }
+    if ctr::looks(d) {
+        if let Ok(t) = ctr::parse(d) {
+            return Some(t);
+        }
+    }
+    if thps::looks(d) {
+        if let Ok(t) = thps::parse(d) {
             return Some(t);
         }
     }

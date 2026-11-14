@@ -12,7 +12,7 @@ pub static SPECS: &[Spec] = &[OPENXCOM, XCOM_DOS, RCT2, COTL, FALLOUT_SHELTER, D
     // PlayStation 1 and 2 (ps_specs.rs)
     SOTN, FF8, FFT, RE1, KH2, MK64, GOLDENEYE, BANJO_KAZOOIE, OOT, SMASH64, TORCHLIGHT3, WRECKFEST, EVIL_WITHIN, BORDERLANDS1,
     // PlayStation 1 and 2 (ps_specs.rs), continued
-    CRASH, KH1, GT1, BL4, WUKONG, BOTW];
+    CRASH, KH1, GT1, BL4, WUKONG, BOTW, FF6_SNES, RAYMAN, CTR, THPS];
 // ------------------------------------------------------------------ Cult of the Lamb
 
 const COTL_ITEMS: &[(&str, &str)] = &[
