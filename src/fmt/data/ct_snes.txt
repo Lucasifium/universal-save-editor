@@ -1,0 +1,213 @@
+# Chrono Trigger (SNES) item ids and kinds (0-6 weapons, 7 armor, 8 helmets, 9 accessories, 10 items, 11 key items). Ported from the MIT-licensed save editor in RyudoSynbios/game-tools-collection (see THIRD_PARTY_NOTICES.md).
+1:0:Wood Sword
+2:0:Iron Blade
+3:0:Steel Saber
+4:0:Lode Sword
+5:0:Red Katana
+6:0:Flint Edge
+7:0:Dark Saber
+8:0:Aeon Blade
+9:0:Demon Edge
+10:0:Alloy Blade
+11:0:Star Sword
+12:0:Vedic Blade
+13:0:Kali Blade
+14:0:Shiva Edge
+15:0:Bolt Sword
+16:0:Slasher
+17:1:Bronze Bow
+18:1:Iron Bow
+19:1:Lode Bow
+20:1:Robin Bow
+21:1:Sage Bow
+22:1:Dream Bow
+23:1:Comet Arrow
+24:1:Sonic Arrow
+25:1:Valkerye
+26:1:Siren
+31:2:Air Gun
+32:2:Dart Gun
+33:2:Auto Gun
+34:2:Pico Magnum
+35:2:Plasma Gun
+36:2:Ruby Gun
+37:2:Dream Gun
+38:2:Megablast
+39:2:Shock Wave
+40:2:Wonder Shot
+41:2:Graedus
+46:3:Tin Arm
+47:3:Hammer Arm
+48:3:Mirage Hand
+49:3:Stone Arm
+50:3:Doom Finger
+51:3:Magma Hand
+52:3:Megaton Arm
+53:3:Big Hand
+54:3:Kaiser Arm
+55:3:Giga Arm
+56:3:Terra Arm
+57:3:Crisis Arm
+59:4:Bronze Edge
+60:4:Iron Sword
+61:4:Masamune (1)
+62:4:Flash Blade
+63:4:Pearl Edge
+64:4:Rune Blade
+65:4:Brave Sword
+66:4:Masamune (2)
+67:4:Demon Hit
+68:5:Fist (1)
+69:5:Fist (2)
+70:5:Fist (3)
+71:5:Iron Fist
+72:5:Bronze Fist
+75:6:Dark Scythe
+76:6:Hurricane
+77:6:Star Scythe
+78:6:Doom Sickle
+79:0:Mop
+80:11:Bent Sword
+81:11:Bent Hilt
+82:11:Masamune
+83:0:Swallow
+84:0:Slasher 2
+85:0:Rainbow
+91:7:Hide Tunic
+92:7:Karate Gi
+93:7:Bronze Mail
+94:7:Maiden Suit
+95:7:Iron Suit
+96:7:Titan Vest
+97:7:Gold Suit
+98:7:Ruby Vest
+99:7:Dark Mail
+100:7:Mist Robe
+101:7:Meso Mail
+102:7:Lumin Robe
+103:7:Flash Mail
+104:7:Lode Vest
+105:7:Aeon Suit
+106:7:Zodiac Cape
+107:7:Nova Armor
+108:7:Prism Dress
+109:7:Moon Armor
+110:7:Ruby Armor
+111:7:Raven Armor
+112:7:Gloom Cape
+113:7:White Mail
+114:7:Black Mail
+115:7:Blue Mail
+116:7:Red Mail
+117:7:White Vest
+118:7:Black Vest
+119:7:Blue Vest
+120:7:Red Vest
+121:7:Taban Vest
+122:7:Taban Suit
+124:8:Hide Cap
+125:8:Bronze Helm
+126:8:Iron Helm
+127:8:Beret
+128:8:Gold Helm
+129:8:Rock Helm
+130:8:Cera Topper
+131:8:Glow Helm
+132:8:Lode Helm
+133:8:Aeon Helm
+134:8:Prism Helm
+135:8:Doom Helm
+136:8:Dark Helm
+137:8:Gloom Helm
+138:8:Safe Helm
+139:8:Taban Helm
+140:8:Sight Cap
+141:8:Memory Cap
+142:8:Time Hat
+143:8:Vigil Hat
+144:8:Ozzie Pants
+145:8:Haste Helm
+146:8:R'bow Helm
+147:8:Mermaid Cap
+149:9:Bandana
+150:9:Ribbon
+151:9:Power Glove
+152:9:Defender
+153:9:Magic Scarf
+154:9:Amulet
+155:9:Dash Ring
+156:9:Hit Ring
+157:9:Power Ring
+158:9:Magic Ring
+159:9:Wall Ring
+160:9:Silver Erng
+161:9:Gold Erng
+162:9:Silver Stud
+163:9:Gold Stud
+164:9:Sight Scope
+165:9:Charm Top
+166:9:Rage Band
+167:9:Frenzy Band
+168:9:Third Eye
+169:9:Wallet
+170:9:Green Dream
+171:9:Berserker
+172:9:Power Scarf
+173:9:Speed Belt
+174:9:Black Rock
+175:9:Blue Rock
+176:9:Silver Rock
+177:9:White Rock
+178:9:Gold Rock
+179:9:Hero Medal
+180:9:Muscle Ring
+181:9:Flea Vest
+182:9:Magic Seal
+183:9:Power Seal
+184:9:Relic
+185:9:Seraph Song
+186:9:Sun Shades
+187:9:Prism Specs
+189:10:Tonic
+190:10:Mid Tonic
+191:10:Full Tonic
+192:10:Ether
+193:10:Mid Ether
+194:10:Full Ether
+195:10:Elixir
+196:10:Hyper Ether
+197:10:Mega Elixir
+198:10:Heal
+199:10:Revive
+200:10:Shelter
+201:10:Power Meal
+202:10:Lapis
+203:10:Barrier
+204:10:Shield
+205:10:Power Tab
+206:10:Magic Tab
+207:10:Speed Tab
+208:11:Petal
+209:11:Fang
+210:11:Horn
+211:11:Feather
+212:11:Seed
+213:11:Bike Key
+214:11:Pendant
+215:11:Gate Key
+216:11:Prism Shard
+217:11:C. Trigger
+218:11:Tools
+219:11:Jerky
+220:11:Dreamstone
+221:11:Race Log
+222:11:Moon Stone
+223:11:Sun Stone
+224:11:Ruby Knife
+225:11:Yakra Key
+226:11:Clone
+227:11:Toma's Pop
+228:11:2 Petals
+229:11:2 Fangs
+230:11:2 Horns
+231:11:2 Feathers
