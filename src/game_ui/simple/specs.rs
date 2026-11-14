@@ -4378,7 +4378,6 @@ const MEWGENICS: Spec = Spec {
             ("Completion (%)", "/properties/=save_file_percent/data"),
         ],
     }],
-    ],
     lists: &[],
     tables: &[],
 };
