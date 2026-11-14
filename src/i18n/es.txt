@@ -16315,3 +16315,22 @@ Campaign Plus wins
 Builder level, experience and stats, mini medals, equipment and the item slots of the pockets and the bag (item ids only; no name list is available). The island files are not opened.
 = Nivel, experiencia y estadísticas del constructor, minimedallas, equipo y las ranuras de objetos de los bolsillos y la bolsa (solo ids de objeto; no hay lista de nombres). Los archivos de isla no se abren.
 
+
+
+An emulator's 8 KiB .srm / .sav save. Per slot: money, each hero's level, experience, HP and MP, and the level and experience of every weapon and spirit.
+= Una partida .srm / .sav de 8 KiB de un emulador. Por ranura: dinero, nivel, experiencia, PS y PM de cada héroe, y nivel y experiencia de cada arma y espíritu.
+
+Slot 1: weapon and spirit skills
+= Ranura 1: habilidades de armas y espíritus
+
+Slot 2: weapon and spirit skills
+= Ranura 2: habilidades de armas y espíritus
+
+Slot 3: weapon and spirit skills
+= Ranura 3: habilidades de armas y espíritus
+
+Slot 4: weapon and spirit skills
+= Ranura 4: habilidades de armas y espíritus
+
+Slot 4: party
+= Ranura 4: grupo

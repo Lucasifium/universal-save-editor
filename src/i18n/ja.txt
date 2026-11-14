@@ -16403,3 +16403,22 @@ Campaign Plus wins
 Builder level, experience and stats, mini medals, equipment and the item slots of the pockets and the bag (item ids only; no name list is available). The island files are not opened.
 = ビルダーのレベル・経験値・能力、ちいさなメダル、装備、ポケットとバッグのアイテム枠(アイテムIDのみ。名前リストはありません)。島のファイルは開きません。
 
+
+
+An emulator's 8 KiB .srm / .sav save. Per slot: money, each hero's level, experience, HP and MP, and the level and experience of every weapon and spirit.
+= エミュレーターの8 KiBの.srm / .savセーブ。スロットごとに、所持金、各キャラクターのレベル・経験値・HP・MP、各武器と精霊のレベルと経験値。
+
+Slot 1: weapon and spirit skills
+= スロット1:武器と精霊のスキル
+
+Slot 2: weapon and spirit skills
+= スロット2:武器と精霊のスキル
+
+Slot 3: weapon and spirit skills
+= スロット3:武器と精霊のスキル
+
+Slot 4: weapon and spirit skills
+= スロット4:武器と精霊のスキル
+
+Slot 4: party
+= スロット4:パーティ
