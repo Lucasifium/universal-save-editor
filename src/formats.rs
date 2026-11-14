@@ -128,6 +128,9 @@ pub enum Layer {
     /// Final Fantasy XVI: a PNG whose `faTh` chunk is an archive of XORed zlib streams that use
     /// a dictionary from the game; `entry` is the save being edited.
     Ff16 { png: Arc<Vec<u8>>, entry: usize, name: String },
+    /// Kingdom Hearts HD 1.5+2.5 ReMIX (PC): a PNG whose `sqEX` chunk holds the save slots;
+    /// `entry` is the slot being edited.
+    KhPng { png: Arc<Vec<u8>>, entry: usize, name: String },
     /// A bundle of named files (Barotrauma `.save`: UTF-16 name, length, bytes, …).
     FileBundle { files: Arc<Vec<(String, Vec<u8>)>>, name: String },
     /// Palworld `.sav`: header + zlib (once or twice) around an Unreal GVAS save.
@@ -417,6 +420,7 @@ impl Layer {
             Layer::Keyed(w) => w.label().into(),
             Layer::PngChunk { chunk, .. } => format!("mGBA save state ({})", String::from_utf8_lossy(chunk)),
             Layer::Ff16 { name, .. } => format!("Final Fantasy XVI save ({name})"),
+            Layer::KhPng { name, .. } => format!("Kingdom Hearts 1.5+2.5 save archive ({name})"),
             Layer::FileBundle { name, .. } => format!("file bundle ({name})"),
             Layer::Palworld { .. } => "Palworld container".into(),
             Layer::PalworldOodle => "Palworld container (Oodle)".into(),
@@ -1014,6 +1018,7 @@ fn wrap(layer: &Layer, data: Vec<u8>) -> Result<Vec<u8>, String> {
             let c = fmt::ff16::chunk(png).ok_or("the save's picture has lost its save data")?;
             png_replace(png, &fmt::ff16::CHUNK, &fmt::ff16::repack_chunk(c, *entry, &data)?)?
         }
+        Layer::KhPng { png, entry, .. } => png_replace(png, &fmt::khpng::CHUNK, &fmt::khpng::repack(png, *entry, &data)?)?,
         Layer::PngChunk { png, chunk } => png_replace(png, chunk, &compress(ZlibEncoder::new(Vec::new(), Compression::default()), &data)?.finish().map_err(io)?)?,
         Layer::FileBundle { files, name } => {
             let mut out = Vec::new();
@@ -2099,6 +2104,22 @@ fn peel(data: &[u8], ctx: &mut Ctx) -> Option<(Layer, Vec<u8>)> {
     }
     if let Some((k, plain)) = peel_known_xor(data) {
         return Some((Layer::XorKey(k), plain));
+    }
+    if fmt::khpng::looks(data) {
+        match fmt::khpng::unpack(data, ctx.opts.zip_entry.as_deref()) {
+            Ok((entry, names, plain)) => {
+                let name = names[entry].clone();
+                if names.len() > 1 {
+                    ctx.zip_entries = names;
+                }
+                ctx.hint = Some("Kingdom Hearts Final Mix (PC): one save slot of KHFM_WW.png, the same save as on PlayStation 2. Close the game first; pick another slot from the archive's list.".into());
+                return Some((Layer::KhPng { png: Arc::new(data.to_vec()), entry, name }, plain));
+            }
+            Err(e) => {
+                ctx.hint = Some(e);
+                return None;
+            }
+        }
     }
     if fmt::ff16::looks(data) {
         match fmt::ff16::unpack(data, ctx.opts.zip_entry.as_deref()) {

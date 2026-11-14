@@ -238,6 +238,7 @@ pub mod rayman;
 pub mod gt1;
 
 pub mod kh1;
+pub mod khpng;
 pub mod crash;
 pub mod kh2;
 pub mod sm64;
