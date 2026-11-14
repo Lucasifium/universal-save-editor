@@ -3,8 +3,7 @@
 
 use super::{List, Max, Section, Shape, Spec, Table};
 
-pub static SPECS: &[Spec] = &[COTL, FALLOUT_SHELTER, DRG, S1_MONEY, S1_RANK, S1_TIME, S1_GAME, SOTF_STATE, SOTF_GAME, SOTF_WEATHER, SOTF_ITEMS, DMD, CUPHEAD, ANTIMATTER, PVZ, CELESTE, DRGS, KH3, RF4S, SKY1ST, KSP, FFPR, MCD, STONESHARD, ROGUE_TRADER, BIOSHOCK_INFINITE, SPACE_HAVEN, SNOWRUNNER, GRAVEYARD_KEEPER, NFSMW, TOS, GTA3, GTAVC, BITBURNER, TERRA_INVICTA, PRISON, FF13, SONIC_MANIA, CAVE_STORY_PLUS, CAVE_STORY, LIES_OF_P, TXR, DAVE, MSC, ULTRAKILL, RPGXP, RE5, ANNO1800, FTK, LEGO_TSS, LEGO_CLASSIC, MYZ, CMS21, MEDIEVAL_DYNASTY, MECHANICUS, ORI, OMORI, ENDER_LILIES, SW2, ES2, MOONLIGHTER, WASTELAND2, ATOM, MORTAL_SHELL, MORTAL_SHELL_2, COTW, BEAMNG, FOREST, YAKUZA3, YAKUZA4, YAKUZA5, ISHIN, SALT, DRAKENSANG, ALPHA, TYRANNY, JEDI_FO, SR3, SR4, WD2, FABLE, WANDERING_SWORD, STELLAR_BLADE, PRAGMATA, SLIME_RANCHER, SUBNAUTICA2, HZD, SLEEPING_DOGS, DXMD, ATOMIC_HEART, DISHONORED2, DEATHLOOP, AC_BROTHERHOOD, AC_REVELATIONS, AC3R, AC_LIBERATION, AC_BLACK_FLAG, AC_ROGUE, AC_UNITY, AC_SYNDICATE, AC_ORIGINS, AC_ODYSSEY, DISHONORED1, RDR1, RDR2, SM64, SUPER_METROID, LTTP, WORLDBOX, COREKEEPER, HOLOCURE, POTION_CRAFT, WWZ, ROBOQUEST, CMS18, LONGDRIVE, LONGDRIVE_PROP, XC3, MLDT, SMASH, MK7, SKC, UTY];
-
+pub static SPECS: &[Spec] = &[COTL, FALLOUT_SHELTER, DRG, S1_MONEY, S1_RANK, S1_TIME, S1_GAME, SOTF_STATE, SOTF_GAME, SOTF_WEATHER, SOTF_ITEMS, DMD, CUPHEAD, ANTIMATTER, PVZ, CELESTE, DRGS, KH3, RF4S, SKY1ST, KSP, FFPR, MCD, STONESHARD, ROGUE_TRADER, BIOSHOCK_INFINITE, SPACE_HAVEN, SNOWRUNNER, GRAVEYARD_KEEPER, NFSMW, TOS, GTA3, GTAVC, BITBURNER, TERRA_INVICTA, PRISON, FF13, SONIC_MANIA, CAVE_STORY_PLUS, CAVE_STORY, LIES_OF_P, TXR, DAVE, MSC, ULTRAKILL, RPGXP, RE5, ANNO1800, FTK, LEGO_TSS, LEGO_CLASSIC, MYZ, CMS21, MEDIEVAL_DYNASTY, MECHANICUS, ORI, OMORI, ENDER_LILIES, SW2, ES2, MOONLIGHTER, WASTELAND2, ATOM, MORTAL_SHELL, MORTAL_SHELL_2, COTW, BEAMNG, FOREST, YAKUZA3, YAKUZA4, YAKUZA5, ISHIN, SALT, DRAKENSANG, ALPHA, TYRANNY, JEDI_FO, SR3, SR4, WD2, FABLE, WANDERING_SWORD, STELLAR_BLADE, PRAGMATA, SLIME_RANCHER, SUBNAUTICA2, HZD, SLEEPING_DOGS, DXMD, ATOMIC_HEART, DISHONORED2, DEATHLOOP, AC_BROTHERHOOD, AC_REVELATIONS, AC3R, AC_LIBERATION, AC_BLACK_FLAG, AC_ROGUE, AC_UNITY, AC_SYNDICATE, AC_ORIGINS, AC_ODYSSEY, DISHONORED1, RDR1, RDR2, SM64, SUPER_METROID, LTTP, WORLDBOX, COREKEEPER, HOLOCURE, POTION_CRAFT, WWZ, ROBOQUEST, CMS18, LONGDRIVE, LONGDRIVE_PROP, XC3, MLDT, SMASH, MK7, SKC, UTY, DAGGERFALL_UNITY];
 // ------------------------------------------------------------------ Cult of the Lamb
 
 const COTL_ITEMS: &[(&str, &str)] = &[
@@ -4308,4 +4307,30 @@ const UTY: Spec = Spec {
     ],
     lists: &[],
     tables: &[],
+// ------------------------------------------------------------------ Daggerfall Unity
+
+const DAGGERFALL_UNITY: Spec = Spec {
+    name: "The Elder Scrolls II: Daggerfall (Daggerfall Unity)",
+    tab: "Character",
+    accent: (170, 60, 50),
+    kind: None,
+    markers: &["/playerData/playerEntity/goldPieces", "/playerData/playerEntity/stats/Luck", "/playerData/playerEntity/skills/Archery"],
+    subtitle: "SaveData.txt from a Daggerfall Unity save folder (LocalLow\\Daggerfall Workshop\\Daggerfall Unity\\Saves\\<name>-<n>). Gold carried, level, health, the eight attributes, all 35 skills, resistances, reputations and the gold in each region's bank. Attributes and skills run 0 to 100.",
+    tiles: &[("Gold carried", "/playerData/playerEntity/goldPieces"), ("Level", "/playerData/playerEntity/level")],
+    sections: &[
+        Section { title: "Character", rows: &[("Gold carried", "/playerData/playerEntity/goldPieces"), ("Level", "/playerData/playerEntity/level"), ("Current health", "/playerData/playerEntity/currentHealth"), ("Maximum health", "/playerData/playerEntity/maxHealth"), ("Current magicka", "/playerData/playerEntity/currentMagicka"), ("Current fatigue", "/playerData/playerEntity/currentFatigue")] },
+        Section { title: "Attributes", rows: &[("Strength", "/playerData/playerEntity/stats/Strength"), ("Intelligence", "/playerData/playerEntity/stats/Intelligence"), ("Willpower", "/playerData/playerEntity/stats/Willpower"), ("Agility", "/playerData/playerEntity/stats/Agility"), ("Endurance", "/playerData/playerEntity/stats/Endurance"), ("Personality", "/playerData/playerEntity/stats/Personality"), ("Speed", "/playerData/playerEntity/stats/Speed"), ("Luck", "/playerData/playerEntity/stats/Luck")] },
+        Section { title: "Skills", rows: &[("Medical", "/playerData/playerEntity/skills/Medical"), ("Etiquette", "/playerData/playerEntity/skills/Etiquette"), ("Streetwise", "/playerData/playerEntity/skills/Streetwise"), ("Jumping", "/playerData/playerEntity/skills/Jumping"), ("Orcish", "/playerData/playerEntity/skills/Orcish"), ("Harpy", "/playerData/playerEntity/skills/Harpy"), ("Giantish", "/playerData/playerEntity/skills/Giantish"), ("Dragonish", "/playerData/playerEntity/skills/Dragonish"), ("Nymph", "/playerData/playerEntity/skills/Nymph"), ("Daedric", "/playerData/playerEntity/skills/Daedric"), ("Spriggan", "/playerData/playerEntity/skills/Spriggan"), ("Centaurian", "/playerData/playerEntity/skills/Centaurian"), ("Impish", "/playerData/playerEntity/skills/Impish"), ("Lockpicking", "/playerData/playerEntity/skills/Lockpicking"), ("Mercantile", "/playerData/playerEntity/skills/Mercantile"), ("Pickpocket", "/playerData/playerEntity/skills/Pickpocket"), ("Stealth", "/playerData/playerEntity/skills/Stealth"), ("Swimming", "/playerData/playerEntity/skills/Swimming"), ("Climbing", "/playerData/playerEntity/skills/Climbing"), ("Backstabbing", "/playerData/playerEntity/skills/Backstabbing"), ("Dodging", "/playerData/playerEntity/skills/Dodging"), ("Running", "/playerData/playerEntity/skills/Running"), ("Destruction", "/playerData/playerEntity/skills/Destruction"), ("Restoration", "/playerData/playerEntity/skills/Restoration"), ("Illusion", "/playerData/playerEntity/skills/Illusion"), ("Alteration", "/playerData/playerEntity/skills/Alteration"), ("Thaumaturgy", "/playerData/playerEntity/skills/Thaumaturgy"), ("Mysticism", "/playerData/playerEntity/skills/Mysticism"), ("Short Blade", "/playerData/playerEntity/skills/ShortBlade"), ("Long Blade", "/playerData/playerEntity/skills/LongBlade"), ("Hand-to-Hand", "/playerData/playerEntity/skills/HandToHand"), ("Axe", "/playerData/playerEntity/skills/Axe"), ("Blunt Weapon", "/playerData/playerEntity/skills/BluntWeapon"), ("Archery", "/playerData/playerEntity/skills/Archery"), ("Critical Strike", "/playerData/playerEntity/skills/CriticalStrike")] },
+        Section { title: "Resistances", rows: &[("Fire", "/playerData/playerEntity/resistances/Fire"), ("Frost", "/playerData/playerEntity/resistances/Frost"), ("Disease or poison", "/playerData/playerEntity/resistances/DiseaseOrPoison"), ("Shock", "/playerData/playerEntity/resistances/Shock"), ("Magic", "/playerData/playerEntity/resistances/Magic")] },
+        Section { title: "Reputation", rows: &[("Commoners", "/playerData/playerEntity/reputationCommoners"), ("Merchants", "/playerData/playerEntity/reputationMerchants"), ("Nobility", "/playerData/playerEntity/reputationNobility"), ("Scholars", "/playerData/playerEntity/reputationScholars"), ("Underworld", "/playerData/playerEntity/reputationUnderworld")] },
+    ],
+    lists: &[],
+    tables: &[Table {
+        title: "Bank accounts (by region number)",
+        path: "/bankAccounts",
+        name: &["/regionIndex"],
+        only: &[],
+        cols: &[("Gold in bank", "/accountGold"), ("Loan", "/loanTotal")],
+        names: &[],
+    }],
 };
