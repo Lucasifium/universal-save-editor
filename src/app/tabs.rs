@@ -58,6 +58,7 @@ parked! {
     disk_seen: Option<Stamp>,
     stale_save: Option<PathBuf>,
     stale_ok: bool,
+    model_from_baseline: bool,
 }
 
 impl Default for Tab {
@@ -117,7 +118,8 @@ impl App {
     }
 
     pub(super) fn switch_tab(&mut self, i: usize) {
-        if i == self.tabs.active || i >= self.tabs.list.len() {
+        // A file being saved stays on screen until the save is done.
+        if i == self.tabs.active || i >= self.tabs.list.len() || self.saving.is_some() {
             return;
         }
         let mut list = std::mem::take(&mut self.tabs.list);
@@ -150,6 +152,9 @@ impl App {
     /// Opens `path` in a tab: the tab that already has it, the open tab if it's empty,
     /// otherwise a new one.
     pub(super) fn open_in_tab(&mut self, path: PathBuf) {
+        if self.saving.is_some() {
+            return;
+        }
         if let Some(i) = (0..self.tab_count()).find(|&i| i != self.tabs.active && self.tab_path(i) == Some(path.as_path())) {
             self.switch_tab(i);
             return;
@@ -166,6 +171,9 @@ impl App {
 
     /// Closes tab `i`, asking first if it has unsaved changes.
     pub(super) fn close_tab(&mut self, i: usize) {
+        if self.saving.is_some() {
+            return;
+        }
         self.switch_tab(i);
         if self.dirty {
             // Asks "save before closing?" and then closes it (`close_file`).
@@ -241,7 +249,7 @@ impl App {
     pub(super) fn tab_keys(&mut self, ctx: &egui::Context) {
         use egui::{Key, Modifiers};
         // A file being opened belongs to the tab showing now: stay on it until it's there.
-        if self.loading.is_some() {
+        if self.loading.is_some() || self.saving.is_some() {
             return;
         }
         if ctx.input_mut(|i| i.consume_key(Modifiers::COMMAND, Key::T)) {

@@ -68,6 +68,10 @@ impl Settings {
     }
 
     pub fn save(&self) {
+        // Tests never write the player's own settings.
+        if cfg!(test) {
+            return;
+        }
         let Some(p) = path() else { return };
         let v = json!({
             "recent": self.recent.iter().map(|p| p.to_string_lossy()).collect::<Vec<_>>(),

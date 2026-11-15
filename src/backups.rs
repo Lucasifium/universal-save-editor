@@ -387,9 +387,10 @@ fn civil(days: u64) -> (i64, u32, u32) {
 }
 
 #[cfg(test)]
-mod tests {
+pub(crate) mod tests {
     use super::*;
-    static LOCK: std::sync::Mutex<()> = std::sync::Mutex::new(());
+    /// Held by every test that takes backups (other modules' too): `set_root` is global.
+    pub(crate) static LOCK: std::sync::Mutex<()> = std::sync::Mutex::new(());
 
     #[test]
     fn named_copies_are_kept() {

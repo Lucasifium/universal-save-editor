@@ -53,7 +53,7 @@ enum Ask {
     ImportNames,
 }
 
-#[derive(PartialEq, Eq, Clone, Copy)]
+#[derive(PartialEq, Eq, Clone, Copy, Debug)]
 enum StatusKind {
     Info,
     Ok,
@@ -179,6 +179,122 @@ struct Loading {
     opts: formats::Options,
     started: f64,
     rx: std::sync::mpsc::Receiver<Result<(usize, Prepared), String>>,
+}
+
+/// Saves at least this big are written on a worker thread, so the window keeps responding:
+/// a file on disk this size (like `BACKGROUND_LOAD`), or this many values in the Values list
+/// (a small packed file can hold a great many).
+const BACKGROUND_SAVE: u64 = BACKGROUND_LOAD;
+const BACKGROUND_SAVE_ROWS: usize = 20_000;
+
+/// How long a save may take before the "Saving" box is shown.
+const SAVING_BOX_AFTER: f64 = OPENING_BOX_AFTER;
+
+/// What to do once a save has gone through (nothing, when it failed: the changes stay).
+#[derive(Debug, PartialEq)]
+enum AfterSave {
+    Stay,
+    CloseFile,
+    Open(PathBuf),
+    Quit,
+}
+
+/// What `write_save` wrote: the file read back, its size, a note for the player and the
+/// written file's stamp.
+struct Written {
+    check: formats::Decoded,
+    len: usize,
+    note: Option<String>,
+    stamp: Option<Stamp>,
+}
+
+/// A save being written on a worker thread. While it runs nothing on screen takes input, and
+/// no other save, open, close or tab switch can start.
+struct Saving {
+    path: PathBuf,
+    then: AfterSave,
+    /// `edit_gen` and the tab showing when it started. Anything else when it ends means the
+    /// file on screen changed meanwhile (which input being held should rule out).
+    gen: (u64, usize),
+    started: f64,
+    rx: std::sync::mpsc::Receiver<Result<Written, String>>,
+}
+
+/// Builds the file for `content`, checks that it reads back as exactly that, keeps a backup of
+/// the file on disk and writes the new one. Touches nothing but files, so it runs on the UI
+/// thread or a worker thread alike. Every failure says what happened, in the player's language.
+fn write_save(path: &Path, layers: &[Layer], content: &Content, opts: &formats::Options) -> Result<Written, String> {
+    let bytes = formats::encode(layers, content).map_err(|e| trf("Couldn't build the save file: {0}", &[&e]))?;
+    // Verify before touching the disk: the new file must decode to exactly what's on screen.
+    let check = formats::decode_with(&bytes, opts);
+    if !formats::same_layers(&check.layers, layers) || !formats::verified(&check.content, content) {
+        return Err(tr("Save aborted: the re-encoded file didn't read back identically. Your file was not changed.").into());
+    }
+
+    let mut note: Option<String> = None;
+    if WEB {
+        write_in_place(path, &bytes).map_err(|e| trf("Couldn't hand over {0}: {1}", &[&path.display(), &e]))?;
+        for (other, data) in formats::companion_files(path, &bytes) {
+            let _ = write_in_place(&other, &data);
+        }
+        note = Some(tr("Your browser downloaded it \u{2014} put it in place of the game's save (keep a copy of the old one).").into());
+    } else {
+        if path.exists() {
+            let mut bak = path.as_os_str().to_owned();
+            bak.push(".bak");
+            let bak = PathBuf::from(bak);
+            if !bak.exists() {
+                crate::vfs::copy(path, &bak).map_err(|e| trf("Couldn't create backup {0}: {1}", &[&bak.display(), &e]))?;
+                note = Some(trf("Original backed up as {0}.", &[&file_name(&bak)]));
+            }
+            // Every earlier version stays restorable from Backups \u{203A} Quick restore.
+            crate::backups::take(path).map_err(|e| trf("Couldn't back up the current file: {0}. Your file was not changed.", &[&e]))?;
+        }
+        write_in_place(path, &bytes).map_err(|e| trf("Couldn't write {0}: {1}", &[&path.display(), &e]))?;
+        // Files the game checks against this save (Persona 4 Golden's .binslot).
+        for (other, data) in formats::companion_files(path, &bytes) {
+            let _ = crate::backups::take(&other);
+            crate::vfs::write(&other, data).map_err(|e| trf("Saved, but couldn't update {0}: {1}", &[&other.display(), &e]))?;
+        }
+        #[cfg(not(target_arch = "wasm32"))]
+        match crate::playerprefs::after_save(path) {
+            Ok(Some(m)) => {
+                note = Some(match note {
+                    Some(n) => format!("{n} {m}"),
+                    None => m,
+                })
+            }
+            Err(e) => return Err(trf("Saved the file, but {0}", &[&e])),
+            Ok(None) => {}
+        }
+    }
+    Ok(Written { stamp: safety::stamp(path), check, len: bytes.len(), note })
+}
+
+/// Whether the Values list built from `new` is the one built from `old`, for the same names.
+/// The list (see `values_view::build`) depends on the values only through their shape (keys
+/// and their order, array lengths, which values are objects, arrays, null or other), on the
+/// short name each object takes from a field (`names::object_summary`) and, for a tree, on
+/// which values are editable; so only scalar values may differ.
+fn same_values_list(old: &Content, new: &Content) -> bool {
+    fn same(a: &Value, b: &Value) -> bool {
+        match (a, b) {
+            (Value::Object(x), Value::Object(y)) => {
+                x.len() == y.len()
+                    && names::object_summary(a) == names::object_summary(b)
+                    && x.iter().zip(y).all(|((ka, va), (kb, vb))| ka == kb && same(va, vb))
+            }
+            (Value::Array(x), Value::Array(y)) => x.len() == y.len() && x.iter().zip(y).all(|(va, vb)| same(va, vb)),
+            (Value::Null, Value::Null) => true,
+            (Value::Null, _) | (_, Value::Null) | (Value::Object(_) | Value::Array(_), _) | (_, Value::Object(_) | Value::Array(_)) => false,
+            _ => true,
+        }
+    }
+    match (old, new) {
+        (Content::Json { value: a, .. }, Content::Json { value: b, .. }) => same(a, b),
+        (Content::Tree(a), Content::Tree(b)) => a.editable == b.editable && same(&a.view, &b.view),
+        _ => false,
+    }
 }
 
 /// Everything about an opened file that can be worked out away from the window: the
@@ -444,6 +560,14 @@ pub struct App {
     preset_apply: Option<PresetApply>,
     share_names: Option<ShareNames>,
     loading: Option<Loading>,
+    saving: Option<Saving>,
+    /// The window was asked to close while a save was being written: close once it's done.
+    close_after_save: bool,
+    /// Close the window at the end of this frame (a "Save and close" went through).
+    close_now: bool,
+    /// `model` is the Values list of `doc.baseline` (it was built when the file was opened or
+    /// saved, and edits since haven't rebuilt it).
+    model_from_baseline: bool,
     /// The game that owns the open save, if it was running when the file was opened.
     running: Option<String>,
     /// The built-in file browser, where there are no native dialogs (Android).
@@ -500,7 +624,39 @@ impl App {
         let has_icons = theme::install_fonts(&cc.egui_ctx);
         theme::apply(&cc.egui_ctx, settings.dark);
         cc.egui_ctx.set_zoom_factor(settings.zoom);
-        let mut app = Self {
+        let mut app = Self::with(&cc.egui_ctx, settings, has_icons);
+        // Phones and the browser can't look through folders.
+        if !cfg!(target_os = "android") && !WEB && std::env::var_os("SAVE_EDITOR_NO_SEARCH").is_none() {
+            app.saves_found = Some(search_saves());
+        }
+        // "--select-game" opens the game list instead of a file; "--select-game=elden" also
+        // picks the first game whose name contains that.
+        let initial = match initial {
+            Some(p) if p.to_string_lossy().starts_with("--select-game") => {
+                let mut gp = app.picker();
+                if let Some((_, q)) = p.to_string_lossy().split_once('=') {
+                    let q = q.to_lowercase();
+                    gp.picked = crate::games::GAMES.iter().position(|g| crate::games::name_matches(g.name, &q));
+                }
+                app.game_picker = Some(gp);
+                None
+            }
+            other => other,
+        };
+        if let Some(p) = initial {
+            app.load_async(&p);
+        }
+        for p in app.settings.recent.clone() {
+            theme::cjk_for(&cc.egui_ctx, &p.to_string_lossy());
+        }
+        app
+    }
+
+    /// The app with nothing open, before `new` starts anything (and as tests build it).
+    fn with(ctx: &egui::Context, settings: Settings, has_icons: bool) -> Self {
+        #[cfg(not(target_arch = "wasm32"))]
+        let _ = ctx;
+        Self {
             doc: None,
             settings,
             has_icons,
@@ -556,6 +712,10 @@ impl App {
             preset_apply: None,
             share_names: None,
             loading: None,
+            saving: None,
+            close_after_save: false,
+            close_now: false,
+            model_from_baseline: false,
             running: None,
             browser: None,
             banner: None,
@@ -565,8 +725,7 @@ impl App {
             stale_save: None,
             stale_ok: false,
             focused: true,
-            // Phones and the browser can't look through folders.
-            saves_found: (!cfg!(target_os = "android") && !WEB && std::env::var_os("SAVE_EDITOR_NO_SEARCH").is_none()).then(search_saves),
+            saves_found: None,
             prefs_open: false,
             update_rx: None,
             update_found: None,
@@ -582,29 +741,8 @@ impl App {
             #[cfg(target_arch = "wasm32")]
             web_asked: None,
             #[cfg(target_arch = "wasm32")]
-            ctx: cc.egui_ctx.clone(),
-        };
-        // "--select-game" opens the game list instead of a file; "--select-game=elden" also
-        // picks the first game whose name contains that.
-        let initial = match initial {
-            Some(p) if p.to_string_lossy().starts_with("--select-game") => {
-                let mut gp = app.picker();
-                if let Some((_, q)) = p.to_string_lossy().split_once('=') {
-                    let q = q.to_lowercase();
-                    gp.picked = crate::games::GAMES.iter().position(|g| crate::games::name_matches(g.name, &q));
-                }
-                app.game_picker = Some(gp);
-                None
-            }
-            other => other,
-        };
-        if let Some(p) = initial {
-            app.load_async(&p);
+            ctx: ctx.clone(),
         }
-        for p in app.settings.recent.clone() {
-            theme::cjk_for(&cc.egui_ctx, &p.to_string_lossy());
-        }
-        app
     }
 
     /// Find my game's saves, with a fresh search (the start page shows its results too).
@@ -714,6 +852,9 @@ impl App {
 
     /// Closes the open file: shows the next tab, or the start page if it was the only one.
     fn close_file(&mut self) {
+        if self.saving.is_some() {
+            return;
+        }
         self.dirty = false;
         self.drop_tab(self.tabs.active);
         self.info(tr("Closed the file."));
@@ -774,6 +915,9 @@ impl App {
     /// Opens `path`; a big file is read and decoded on a worker thread while the window
     /// shows that it's opening.
     fn load_async(&mut self, path: &Path) {
+        if self.saving.is_some() {
+            return;
+        }
         // Zips go to the worker too: what's inside can be far bigger than the file.
         let zipped = crate::vfs::head(path, 4).is_some_and(|m| m == b"PK\x03\x04");
         let big = zipped || crate::vfs::len(path).is_some_and(|n| n >= BACKGROUND_LOAD);
@@ -853,6 +997,10 @@ impl App {
 
     /// Load with explicit options (password, zip entry).
     fn load_with(&mut self, path: &Path, opts: formats::Options) {
+        // The file on screen is being saved: it stays until that is done.
+        if self.saving.is_some() {
+            return;
+        }
         let stamp = safety::stamp(path);
         let raw = match crate::vfs::read(path) {
             Ok(r) => r,
@@ -897,6 +1045,7 @@ impl App {
         self.load_labels();
         self.model = model;
         self.model_gen += 1;
+        self.model_from_baseline = true;
         self.settings.push_recent(path);
         self.running = running;
         self.doc_note = note.trim().to_string();
@@ -913,6 +1062,7 @@ impl App {
             None => Model::default(),
         };
         self.model_gen += 1;
+        self.model_from_baseline = false;
     }
 
     fn locate_data_dir(&mut self) {
@@ -946,6 +1096,9 @@ impl App {
     /// changed with it (values shared between variables), or why the format can't
     /// store it (e.g. out of range).
     fn set_value(&mut self, ptr: &str, v: Value) -> Result<Option<(Value, usize)>, String> {
+        if self.saving.is_some() {
+            return Err(tr("the file is being saved").into());
+        }
         if let Some(Doc { content: Content::Tree(t), .. }) = &mut self.doc {
             return t.set(ptr, v);
         }
@@ -1031,6 +1184,9 @@ impl App {
     }
 
     fn apply_bytes(&mut self, off: usize, bytes: Vec<u8>) {
+        if self.saving.is_some() {
+            return;
+        }
         let Some(Doc { content: Content::Binary(data), .. }) = &mut self.doc else { return };
         let end = off + bytes.len();
         if end > data.len() {
@@ -1078,6 +1234,9 @@ impl App {
     }
 
     fn undo_redo(&mut self, undo: bool) {
+        if self.saving.is_some() {
+            return;
+        }
         let Some(change) = (if undo { self.undo.pop() } else { self.redo.pop() }) else { return };
         let ptrs = self.replay(&change, undo);
         if undo { self.redo.push(change) } else { self.undo.push(change) }
@@ -1157,6 +1316,9 @@ impl App {
     }
 
     fn revert_all(&mut self) {
+        if self.saving.is_some() {
+            return;
+        }
         let Some(d) = &mut self.doc else { return };
         d.content = d.baseline.clone();
         self.undo.clear();
@@ -1229,6 +1391,33 @@ impl App {
     }
 
     fn save_to(&mut self, path: &Path) {
+        self.save_to_then(path, AfterSave::Stay);
+    }
+
+    /// Saves the open file as `path`, then does `then` if that went through.
+    fn save_to_then(&mut self, path: &Path, then: AfterSave) {
+        let background = self.save_in_background();
+        self.save_with(path, then, background);
+    }
+
+    /// Big files are saved on a worker thread (see `BACKGROUND_SAVE`).
+    fn save_in_background(&self) -> bool {
+        let Some(d) = &self.doc else { return false };
+        let size = match &d.content {
+            Content::Binary(b) => b.len() as u64,
+            Content::Text(t) => t.len() as u64,
+            _ => 0,
+        };
+        // The browser version has no worker threads.
+        !WEB && (size.max(crate::vfs::len(&d.path).unwrap_or(0)) >= BACKGROUND_SAVE || self.model.rows.len() >= BACKGROUND_SAVE_ROWS)
+    }
+
+    /// Checks that the file can be saved, then writes it here or on a worker thread. Either way
+    /// the same `write_save` does the work and `finish_save` takes in its outcome.
+    fn save_with(&mut self, path: &Path, then: AfterSave, background: bool) {
+        if self.saving.is_some() {
+            return;
+        }
         if !self.commit_raw() {
             return self.fail(tr("The Raw JSON has a syntax error \u{2014} fix it before saving."));
         }
@@ -1238,77 +1427,133 @@ impl App {
             self.stale_save = Some(path.to_path_buf());
             return;
         }
-        let bytes = match formats::encode(&doc.layers, &doc.content) {
-            Ok(b) => b,
-            Err(e) => return self.fail(trf("Couldn't build the save file: {0}", &[&e])),
-        };
-        // Verify before touching the disk: the new file must decode to exactly what's on screen.
-        let check = formats::decode_with(&bytes, &doc.opts);
-        if !formats::same_layers(&check.layers, &doc.layers) || !formats::verified(&check.content, &doc.content) {
-            return self.fail(tr("Save aborted: the re-encoded file didn't read back identically. Your file was not changed."));
+        if background && !WEB {
+            // The worker gets its own copy: what is on screen can't change under it.
+            let (p, layers, content, opts) = (path.to_path_buf(), doc.layers.clone(), doc.content.clone(), doc.opts.clone());
+            return self.spawn_save(path, then, move || write_save(&p, &layers, &content, &opts));
         }
+        let r = write_save(path, &doc.layers, &doc.content, &doc.opts);
+        self.finish_save(path, r, false);
+        self.after_save(then);
+    }
 
-        let mut note: Option<String> = None;
-        if WEB {
-            if let Err(e) = write_in_place(path, &bytes) {
-                return self.fail(trf("Couldn't hand over {0}: {1}", &[&path.display(), &e]));
-            }
-            for (other, data) in formats::companion_files(path, &bytes) {
-                let _ = write_in_place(&other, &data);
-            }
-            note = Some(tr("Your browser downloaded it \u{2014} put it in place of the game's save (keep a copy of the old one).").into());
-        } else {
-        if path.exists() {
-            let mut bak = path.as_os_str().to_owned();
-            bak.push(".bak");
-            let bak = PathBuf::from(bak);
-            if !bak.exists() {
-                if let Err(e) = crate::vfs::copy(path, &bak) {
-                    return self.fail(trf("Couldn't create backup {0}: {1}", &[&bak.display(), &e]));
+    /// Runs `work` on a worker thread; `poll_saving` takes in what it hands back.
+    fn spawn_save(&mut self, path: &Path, then: AfterSave, work: impl FnOnce() -> Result<Written, String> + Send + 'static) {
+        let (tx, rx) = std::sync::mpsc::channel();
+        let spawned = std::thread::Builder::new().name("save".into()).spawn(move || {
+            let _ = tx.send(work());
+        });
+        if spawned.is_err() {
+            // No thread to be had: save here instead.
+            return self.save_with(path, then, false);
+        }
+        self.saving = Some(Saving { path: path.to_path_buf(), then, gen: (self.edit_gen, self.tabs.active), started: f64::NAN, rx });
+        self.info(trf("Saving {0}\u{2026}", &[&file_name(path)]));
+    }
+
+    /// The worker thread's outcome, once it's there. Until then the window shows that it is
+    /// saving and takes no input.
+    fn poll_saving(&mut self, ctx: &egui::Context, now: f64) {
+        let Some(s) = &mut self.saving else { return };
+        if s.started.is_nan() {
+            s.started = now;
+            // Nothing typed from here on may land in the file being saved.
+            ctx.memory_mut(|m| {
+                if let Some(id) = m.focused() {
+                    m.surrender_focus(id);
                 }
-                note = Some(trf("Original backed up as {0}.", &[&file_name(&bak)]));
+            });
+        }
+        match s.rx.try_recv() {
+            Ok(r) => {
+                let s = self.saving.take().unwrap();
+                let meanwhile = s.gen != (self.edit_gen, self.tabs.active);
+                self.finish_save(&s.path, r, meanwhile);
+                self.after_save(s.then);
+                self.closing_after_save();
             }
-            // Every earlier version stays restorable from Backups \u{203A} Quick restore.
-            if let Err(e) = crate::backups::take(path) {
-                return self.fail(trf("Couldn't back up the current file: {0}. Your file was not changed.", &[&e]));
+            Err(std::sync::mpsc::TryRecvError::Empty) => {
+                let name = file_name(&s.path);
+                let secs = now - s.started;
+                // Clicks must not reach the file being saved, before the box and under it.
+                let screen = ctx.screen_rect();
+                egui::Area::new(egui::Id::new("saving_hold")).fixed_pos(screen.min).order(egui::Order::Foreground).show(ctx, |ui| {
+                    ui.allocate_response(screen.size(), egui::Sense::click());
+                });
+                if secs < SAVING_BOX_AFTER {
+                    ctx.request_repaint_after(std::time::Duration::from_millis(30));
+                    return;
+                }
+                modal(ctx, tr("Saving the file"), |ui| {
+                    ui.horizontal(|ui| {
+                        ui.spinner();
+                        ui.label(trf("Writing {0}\u{2026}", &[&name]));
+                    });
+                    if secs > 2.0 {
+                        ui.weak(trf("{0} s \u{2014} big saves take a moment.", &[&format!("{secs:.0}")]));
+                    }
+                });
+                ctx.request_repaint_after(std::time::Duration::from_millis(100));
+            }
+            Err(_) => {
+                // The worker stopped without an answer (it panicked). Whether or not it got as far
+                // as writing, the changes stay unsaved, and the next save asks first if the file
+                // on disk is no longer the one opened.
+                self.saving = None;
+                self.fail(tr("Saving stopped unexpectedly. Your changes are still here and not saved \u{2014} save again."));
+                self.closing_after_save();
             }
         }
-        if let Err(e) = write_in_place(path, &bytes) {
-            return self.fail(trf("Couldn't write {0}: {1}", &[&path.display(), &e]));
-        }
-        // Files the game checks against this save (Persona 4 Golden's .binslot).
-        for (other, data) in formats::companion_files(path, &bytes) {
-            let _ = crate::backups::take(&other);
-            if let Err(e) = crate::vfs::write(&other, data) {
-                return self.fail(trf("Saved, but couldn't update {0}: {1}", &[&other.display(), &e]));
-            }
-        }
-        #[cfg(not(target_arch = "wasm32"))]
-        match crate::playerprefs::after_save(path) {
-            Ok(Some(m)) => note = Some(match note {
-                Some(n) => format!("{n} {m}"),
-                None => m,
-            }),
-            Err(e) => return self.fail(trf("Saved the file, but {0}", &[&e])),
-            Ok(None) => {}
-        }
-        }
+    }
 
-        let signed = check.layers.iter().any(|l| matches!(l, Layer::RenpyZip { signed: true, .. }));
-        let persistent = check.layers.iter().any(|l| matches!(l, Layer::RenpyPersistent { .. }));
-        let d = self.doc.as_mut().unwrap();
+    /// The window was asked to close during a save: close now, or ask about unsaved changes.
+    fn closing_after_save(&mut self) {
+        if !std::mem::take(&mut self.close_after_save) {
+            return;
+        }
+        if self.any_dirty() && !self.allow_close {
+            self.show_first_dirty();
+            self.confirm_close = true;
+        } else {
+            self.allow_close = true;
+            self.close_now = true;
+        }
+    }
+
+    /// Takes in a save's outcome, on the UI thread. `meanwhile`: the file on screen changed
+    /// after the save started, so what was written is not what is shown.
+    fn finish_save(&mut self, path: &Path, r: Result<Written, String>, meanwhile: bool) {
+        let w = match r {
+            Ok(w) => w,
+            Err(e) => return self.fail(e),
+        };
+        let Written { check, len, note, stamp } = w;
+        let Some(d) = self.doc.as_mut() else { return };
         d.path = path.to_path_buf();
-        d.stamp = safety::stamp(path);
+        d.stamp = stamp;
         self.disk_changed = false;
         self.disk_seen = None;
+        self.settings.push_recent(path);
+        if meanwhile {
+            // The file holds what was shown when the save started; what is shown now stays as
+            // it is and counts as unsaved.
+            self.dirty = true;
+            return self.fail(tr("Saved, but changes made while saving aren't in the file yet \u{2014} save again to keep them."));
+        }
+        let signed = check.layers.iter().any(|l| matches!(l, Layer::RenpyZip { signed: true, .. }));
+        let persistent = check.layers.iter().any(|l| matches!(l, Layer::RenpyPersistent { .. }));
+        // The Values list is built again only when it could come out differently.
+        let keep_model = self.model_from_baseline && same_values_list(&d.baseline, &check.content);
         d.layers = check.layers;
         d.content = check.content;
         d.baseline = d.content.clone();
         self.touched.clear();
-        self.rebuild_model();
+        if !keep_model {
+            self.rebuild_model();
+        }
+        self.model_from_baseline = true;
         self.edit_gen += 1;
         self.recompute_dirty();
-        self.settings.push_recent(path);
         let extra = if signed && crate::renpy_sign::can_sign() {
             Some(tr("Re-signed with your Ren'Py key, so the game will load it normally."))
         } else if signed {
@@ -1319,21 +1564,40 @@ impl App {
             None
         };
         let cloud = in_steam_cloud(path).then(|| tr("If Steam asks which save to keep, choose the local one."));
-        let mut msg = vec![trf("Saved and verified ({0}).", &[&human_size(bytes.len())])];
+        let mut msg = vec![trf("Saved and verified ({0}).", &[&human_size(len)])];
         msg.extend(note);
         msg.extend(extra.map(String::from));
         msg.extend(cloud.map(String::from));
         self.ok(msg.join(" "));
     }
 
-    fn save(&mut self) {
+    /// After a save: close the file, open the next one or quit, if it went through.
+    fn after_save(&mut self, then: AfterSave) {
+        if self.dirty {
+            return;
+        }
+        match then {
+            AfterSave::Stay => {}
+            AfterSave::CloseFile => self.close_file(),
+            AfterSave::Open(p) => self.load_async(&p),
+            AfterSave::Quit => {
+                self.allow_close = true;
+                self.close_now = true;
+            }
+        }
+    }
+
+    fn save_then(&mut self, then: AfterSave) {
         if let Some(p) = self.doc.as_ref().map(|d| d.path.clone()) {
-            self.save_to(&p);
+            self.save_to_then(&p, then);
         }
     }
 
     /// Save from the button / Ctrl+S: first show what changed and warn if the game is open.
     fn save_clicked(&mut self) {
+        if self.saving.is_some() {
+            return;
+        }
         let Some(path) = self.doc.as_ref().map(|d| d.path.clone()) else { return };
         if !self.commit_raw() {
             return self.fail(tr("The Raw JSON has a syntax error \u{2014} fix it before saving."));
@@ -1561,6 +1825,9 @@ impl App {
     }
 
     fn save_as(&mut self) {
+        if self.saving.is_some() {
+            return;
+        }
         let Some(doc) = &self.doc else { return };
         let name = file_name(&doc.path);
         self.ask(Ask::SaveAs, None, Some(name));
@@ -4151,20 +4418,42 @@ fn type_combo(ui: &mut egui::Ui, id: &str, ty: &mut NumType) {
 }
 
 impl eframe::App for App {
-    #[cfg(target_os = "android")]
-    fn raw_input_hook(&mut self, ctx: &egui::Context, raw: &mut egui::RawInput) {
-        let _ = platform::android::CTX.set(ctx.clone());
-        platform::android::take_typed(raw);
+    fn raw_input_hook(&mut self, _ctx: &egui::Context, raw: &mut egui::RawInput) {
+        #[cfg(target_os = "android")]
+        {
+            let _ = platform::android::CTX.set(_ctx.clone());
+            platform::android::take_typed(raw);
+        }
+        if self.saving.is_some() {
+            hold_input(raw);
+        }
     }
 
     fn update(&mut self, ctx: &egui::Context, _frame: &mut eframe::Frame) {
+        self.frame(ctx);
+    }
+}
+
+/// While a save is being written: takes away every click, key, typed text and dropped file
+/// before anything on screen sees it, so nothing can change the file being saved. (Pointer
+/// moves and focus changes stay, so the window still looks alive.)
+fn hold_input(raw: &mut egui::RawInput) {
+    raw.events.retain(|e| matches!(e, egui::Event::PointerMoved(_) | egui::Event::PointerGone | egui::Event::WindowFocused(_) | egui::Event::Screenshot { .. }));
+    raw.dropped_files.clear();
+    raw.hovered_files.clear();
+}
+
+impl App {
+    /// One frame of the window.
+    fn frame(&mut self, ctx: &egui::Context) {
         let now = ctx.input(|i| i.time);
+        let saving = self.saving.is_some();
         #[cfg(not(target_os = "android"))]
         self_shot(ctx);
         self.refresh_changes();
 
         // Files dropped on the window.
-        if let Some(p) = ctx.input(|i| i.raw.dropped_files.iter().find_map(|f| f.path.clone())) {
+        if let Some(p) = ctx.input(|i| i.raw.dropped_files.iter().find_map(|f| f.path.clone())).filter(|_| !saving) {
             self.request_open(p);
         }
         #[cfg(target_arch = "wasm32")]
@@ -4183,10 +4472,10 @@ impl eframe::App for App {
         }
         // Shortcuts.
         let no_text_focus = ctx.memory(|m| m.focused().is_none());
-        if ctx.input_mut(|i| i.consume_key(egui::Modifiers::COMMAND, egui::Key::O)) {
+        if !saving && ctx.input_mut(|i| i.consume_key(egui::Modifiers::COMMAND, egui::Key::O)) {
             self.ask(Ask::Open, None, None);
         }
-        if self.doc.is_some() && ctx.input_mut(|i| i.consume_key(egui::Modifiers::COMMAND, egui::Key::S)) {
+        if !saving && self.doc.is_some() && ctx.input_mut(|i| i.consume_key(egui::Modifiers::COMMAND, egui::Key::S)) {
             self.save_clicked();
         }
         let structured = self.doc.as_ref().is_some_and(|d| root(&d.content).is_some());
@@ -4195,7 +4484,7 @@ impl eframe::App for App {
             self.focus_game_find = self.tab == Tab::Game;
             self.tab = if matches!(self.tab, Tab::Raw | Tab::Tree | Tab::Game) { self.tab } else { Tab::Values };
         }
-        if no_text_focus {
+        if no_text_focus && !saving {
             if ctx.input_mut(|i| i.consume_key(egui::Modifiers::COMMAND | egui::Modifiers::SHIFT, egui::Key::Z))
                 || ctx.input_mut(|i| i.consume_key(egui::Modifiers::COMMAND, egui::Key::Y))
             {
@@ -4211,11 +4500,16 @@ impl eframe::App for App {
             self.settings.zoom = zoom;
             self.settings.save();
         }
-        // Don't lose work on close.
-        if ctx.input(|i| i.viewport().close_requested()) && self.any_dirty() && !self.allow_close {
-            ctx.send_viewport_cmd(egui::ViewportCommand::CancelClose);
-            self.show_first_dirty();
-            self.confirm_close = true;
+        // Don't lose work on close. A save being written is always finished first.
+        if ctx.input(|i| i.viewport().close_requested()) {
+            if saving {
+                ctx.send_viewport_cmd(egui::ViewportCommand::CancelClose);
+                self.close_after_save = true;
+            } else if self.any_dirty() && !self.allow_close {
+                ctx.send_viewport_cmd(egui::ViewportCommand::CancelClose);
+                self.show_first_dirty();
+                self.confirm_close = true;
+            }
         }
 
         let title = match &self.doc {
@@ -4256,7 +4550,10 @@ impl eframe::App for App {
                 self.doc_note.clear();
             }
         }
-        self.check_disk(ctx);
+        // The file is being written by this app: that is not a change on disk to warn about.
+        if !saving {
+            self.check_disk(ctx);
+        }
         self.poll_update(ctx);
         self.banners(ctx);
         if std::mem::take(&mut self.need_cjk) {
@@ -4283,10 +4580,11 @@ impl eframe::App for App {
             None => self.welcome(ui),
             Some('s') => self.structured_panel(ui, now),
             Some('t') => {
+                let live = self.saving.is_none();
                 let Some(Doc { content: Content::Text(text), .. }) = &mut self.doc else { return };
                 let changed = ScrollArea::both()
                     .auto_shrink([false, false])
-                    .show_locked(ui, |ui| ui.add(TextEdit::multiline(text).code_editor().desired_width(f32::INFINITY)).changed())
+                    .show_locked(ui, |ui| ui.add(TextEdit::multiline(text).code_editor().interactive(live).desired_width(f32::INFINITY)).changed())
                     .inner;
                 if changed {
                     self.edit_gen += 1;
@@ -4328,11 +4626,8 @@ impl eframe::App for App {
             });
             match choice {
                 Some(0) => {
-                    self.save();
                     self.pending_close = false;
-                    if !self.dirty {
-                        self.close_file();
-                    }
+                    self.save_then(AfterSave::CloseFile);
                 }
                 Some(1) => {
                     self.pending_close = false;
@@ -4361,11 +4656,8 @@ impl eframe::App for App {
             });
             match choice {
                 Some(0) => {
-                    self.save();
                     self.pending_open = None;
-                    if !self.dirty {
-                        self.load_async(&path);
-                    }
+                    self.save_then(AfterSave::Open(path));
                 }
                 Some(1) => {
                     self.pending_open = None;
@@ -4384,13 +4676,16 @@ impl eframe::App for App {
         self.rebind_dialog(ctx);
         self.patches_dialog(ctx);
         self.poll_loading(ctx, now);
+        self.poll_saving(ctx, now);
         self.save_review_dialog(ctx);
         self.copy_slots_dialog(ctx);
         self.game_picker_dialog(ctx);
         self.preset_save_dialog(ctx);
         self.preset_apply_dialog(ctx, now);
         self.share_names_dialog(ctx);
-        self.poll_auto_refine(ctx, now);
+        if self.saving.is_none() {
+            self.poll_auto_refine(ctx, now);
+        }
         self.compare_window(ctx, now);
         self.stale_dialog(ctx);
         self.prefs_window(ctx);
@@ -4424,12 +4719,8 @@ impl eframe::App for App {
             });
             match choice {
                 Some(0) => {
-                    self.save();
                     self.confirm_close = false;
-                    if !self.dirty {
-                        self.allow_close = true;
-                        ctx.send_viewport_cmd(egui::ViewportCommand::Close);
-                    }
+                    self.save_then(AfterSave::Quit);
                 }
                 Some(1) => {
                     self.confirm_close = false;
@@ -4439,6 +4730,13 @@ impl eframe::App for App {
                 Some(_) => self.confirm_close = false,
                 None => {}
             }
+        }
+        if std::mem::take(&mut self.close_now) {
+            ctx.send_viewport_cmd(egui::ViewportCommand::Close);
+        }
+        // A save started late in this frame (from a dialog): its box and outcome need frames.
+        if self.saving.is_some() {
+            ctx.request_repaint_after(std::time::Duration::from_millis(30));
         }
     }
 }
@@ -4872,6 +5170,382 @@ mod edit_error_tests {
         assert!(super::take_if_same(&mut slot, "/level"), "fixing the failing field clears it");
         assert!(slot.is_none());
         assert!(!super::take_if_same(&mut slot, "/level"));
+    }
+}
+
+/// Saving on a worker thread: the same file and backups as saving on the window's thread,
+/// nothing can change the file while it is written, and no failure loses the changes.
+#[cfg(test)]
+mod save_tests {
+    use super::*;
+    use eframe::App as _;
+
+    /// A fresh folder for one test, removed when it ends.
+    struct Scratch(PathBuf);
+    impl Scratch {
+        fn new(tag: &str) -> Self {
+            let d = std::env::temp_dir().join(format!("use-bgsave-{tag}-{}", std::process::id()));
+            let _ = std::fs::remove_dir_all(&d);
+            std::fs::create_dir_all(&d).unwrap();
+            Scratch(d)
+        }
+    }
+    impl Drop for Scratch {
+        fn drop(&mut self) {
+            let _ = std::fs::remove_dir_all(&self.0);
+        }
+    }
+
+    /// Backups go beside the save (no chosen folder), and messages are in English, for the
+    /// whole test.
+    fn locks() -> (std::sync::MutexGuard<'static, ()>, std::sync::MutexGuard<'static, ()>) {
+        let b = crate::backups::tests::LOCK.lock().unwrap_or_else(|e| e.into_inner());
+        crate::backups::set_root(None);
+        let l = crate::i18n::LANG_TEST_LOCK.lock().unwrap_or_else(|e| e.into_inner());
+        crate::i18n::set(Some("en"));
+        (b, l)
+    }
+
+    /// A JSON save over the background thresholds (file size and number of values).
+    fn big_json() -> Vec<u8> {
+        let items: Vec<Value> = (0..12_000).map(|i| json!({"name": format!("Item {i}"), "count": i})).collect();
+        serde_json::to_vec_pretty(&json!({"gold": 100, "hero": {"name": "Ann", "level": 3}, "items": items})).unwrap()
+    }
+
+    /// A window with the app's fonts and look.
+    fn window() -> egui::Context {
+        let ctx = egui::Context::default();
+        theme::install_fonts(&ctx);
+        theme::apply(&ctx, true);
+        ctx
+    }
+
+    fn opened(ctx: &egui::Context, path: &Path) -> App {
+        let mut app = App::with(ctx, Settings::default(), false);
+        app.load(path);
+        assert!(matches!(app.doc.as_ref().map(|d| &d.content), Some(Content::Json { .. })), "{}", app.status);
+        app
+    }
+
+    /// One frame, with the input going through `raw_input_hook` as eframe does.
+    fn frame(app: &mut App, ctx: &egui::Context, mut raw: egui::RawInput) -> Vec<egui::ViewportCommand> {
+        app.raw_input_hook(ctx, &mut raw);
+        let out = ctx.run(raw, |ctx| app.frame(ctx));
+        out.viewport_output.get(&egui::ViewportId::ROOT).map(|v| v.commands.clone()).unwrap_or_default()
+    }
+
+    /// Runs frames until the save is in; returns every window command sent meanwhile.
+    fn wait(app: &mut App, ctx: &egui::Context) -> Vec<egui::ViewportCommand> {
+        let mut cmds = vec![];
+        for _ in 0..4000 {
+            cmds.extend(frame(app, ctx, egui::RawInput::default()));
+            if app.saving.is_none() {
+                return cmds;
+            }
+            std::thread::sleep(std::time::Duration::from_millis(5));
+        }
+        panic!("the save never finished");
+    }
+
+    fn value(app: &App, ptr: &str) -> Option<Value> {
+        app.doc.as_ref().and_then(|d| root(&d.content)).and_then(|r| r.pointer(ptr)).cloned()
+    }
+
+    /// What the Values list shows: each value's section, name, place and whether it can be edited.
+    fn rows(m: &Model) -> Vec<(String, String, String, String, bool)> {
+        m.rows.iter().map(|r| (r.ptr.clone(), m.sections[r.section].title.clone(), r.name.clone(), r.context.clone(), r.editable)).collect()
+    }
+
+    #[test]
+    fn small_saves_stay_on_the_window_thread_and_big_ones_do_not() {
+        let _l = locks();
+        let s = Scratch::new("threshold");
+        let ctx = window();
+        let small = s.0.join("small.json");
+        std::fs::write(&small, br#"{"gold": 1}"#).unwrap();
+        let mut app = opened(&ctx, &small);
+        assert!(!app.save_in_background());
+        app.apply_edit("/gold".into(), json!(2), 0.0);
+        app.save_to(&small);
+        assert!(app.saving.is_none(), "written before save_to returned");
+        assert!(!app.dirty);
+        assert_eq!(serde_json::from_slice::<Value>(&std::fs::read(&small).unwrap()).unwrap()["gold"], json!(2));
+        let big = s.0.join("big.json");
+        std::fs::write(&big, big_json()).unwrap();
+        assert!(opened(&ctx, &big).save_in_background());
+    }
+
+    #[test]
+    fn a_background_save_writes_the_same_file_and_backups() {
+        let _l = locks();
+        let ctx = window();
+        let original = big_json();
+        let mut done = vec![];
+        for background in [false, true] {
+            let s = Scratch::new(if background { "same-bg" } else { "same-fg" });
+            let path = s.0.join("save.json");
+            std::fs::write(&path, &original).unwrap();
+            let mut app = opened(&ctx, &path);
+            app.apply_edit("/gold".into(), json!(999_999), 0.0);
+            app.apply_edit("/items/7/count".into(), json!(-5), 0.0);
+            app.save_with(&path, AfterSave::Stay, background);
+            assert_eq!(app.saving.is_some(), background);
+            wait(&mut app, &ctx);
+            assert_eq!(app.status_kind, StatusKind::Ok, "{}", app.status);
+            assert!(!app.dirty);
+            let d = app.doc.as_ref().unwrap();
+            assert!(formats::same_data(&d.content, &d.baseline));
+            assert_eq!(d.stamp, safety::stamp(&path));
+            let backups: Vec<Vec<u8>> = crate::backups::list(&path).iter().map(|v| std::fs::read(&v.path).unwrap()).collect();
+            let bak = std::fs::read(s.0.join("save.json.bak")).unwrap();
+            done.push((std::fs::read(&path).unwrap(), backups, bak, app.status.clone(), app.undo.len(), rows(&app.model)));
+        }
+        let (fg, bg) = (&done[0], &done[1]);
+        assert_eq!(fg.0, bg.0, "byte-identical files");
+        assert_ne!(fg.0, original);
+        assert_eq!(fg.1, vec![original.clone()], "the file as it was is the one backup");
+        assert_eq!(fg.1, bg.1);
+        assert_eq!((&fg.2, &bg.2), (&original, &original), "the .bak copy holds the original");
+        assert_eq!((&fg.3, fg.4, &fg.5), (&bg.3, bg.4, &bg.5), "same message, undo steps and Values list");
+    }
+
+    #[test]
+    fn a_failed_background_save_leaves_the_file_and_the_changes() {
+        let _l = locks();
+        let s = Scratch::new("fail");
+        let ctx = window();
+        let path = s.0.join("save.json");
+        let original = big_json();
+        std::fs::write(&path, &original).unwrap();
+        let mut app = opened(&ctx, &path);
+        let stamp = app.doc.as_ref().unwrap().stamp.clone();
+        app.apply_edit("/gold".into(), json!(5), 0.0);
+        // The temporary file the new save is written to can't be made.
+        std::fs::create_dir_all(s.0.join("save.json.partial").join("inside")).unwrap();
+        app.save_with(&path, AfterSave::Stay, true);
+        assert!(app.saving.is_some());
+        wait(&mut app, &ctx);
+        assert_eq!(std::fs::read(&path).unwrap(), original, "the file on disk is untouched");
+        assert_eq!(app.status_kind, StatusKind::Err);
+        assert!(app.status.starts_with("Couldn't write"), "{}", app.status);
+        assert!(app.banner.is_some(), "shown where it can't be missed");
+        assert!(app.dirty, "the changes still count as unsaved");
+        assert_eq!(value(&app, "/gold"), Some(json!(5)));
+        assert_eq!(app.doc.as_ref().unwrap().stamp, stamp);
+        // Once the way is clear, saving again works.
+        std::fs::remove_dir_all(s.0.join("save.json.partial")).unwrap();
+        app.save_with(&path, AfterSave::Stay, true);
+        wait(&mut app, &ctx);
+        assert!(!app.dirty, "{}", app.status);
+        assert_eq!(serde_json::from_slice::<Value>(&std::fs::read(&path).unwrap()).unwrap()["gold"], json!(5));
+    }
+
+    #[test]
+    fn nothing_changes_the_file_while_it_is_being_saved() {
+        let _l = locks();
+        let s = Scratch::new("held");
+        let ctx = window();
+        let path = s.0.join("save.json");
+        std::fs::write(&path, big_json()).unwrap();
+        let other = s.0.join("other.json");
+        std::fs::write(&other, br#"{"gold": 1}"#).unwrap();
+        let mut app = opened(&ctx, &path);
+        app.apply_edit("/gold".into(), json!(777), 0.0);
+        app.save_with(&path, AfterSave::Stay, true);
+        assert!(app.saving.is_some());
+        let gen = app.edit_gen;
+        // Every way the program changes the file, opens another or starts another save.
+        app.apply_edit("/gold".into(), json!(1), 1.0);
+        assert_eq!(value(&app, "/gold"), Some(json!(777)));
+        assert_eq!(app.paste_values(&[("/gold".into(), json!(2))]), (0, 1));
+        app.undo_redo(true);
+        app.revert_all();
+        app.open_in_tab(other.clone());
+        app.request_open(other.clone());
+        app.load_async(&other);
+        app.load(&other);
+        app.close_tab(0);
+        app.close_file();
+        app.save_clicked();
+        app.save_with(&path, AfterSave::Stay, false);
+        assert_eq!(app.tab_count(), 1);
+        assert_eq!(app.edit_gen, gen);
+        assert_eq!(value(&app, "/gold"), Some(json!(777)));
+        assert_eq!(app.doc.as_ref().unwrap().path, path);
+        // Keys, typed text, clicks and dropped files never reach the window.
+        let mut raw = egui::RawInput::default();
+        raw.events = vec![
+            egui::Event::Key { key: egui::Key::Z, physical_key: None, pressed: true, repeat: false, modifiers: egui::Modifiers::COMMAND },
+            egui::Event::Text("9".into()),
+            egui::Event::PointerButton { pos: egui::pos2(10.0, 10.0), button: egui::PointerButton::Primary, pressed: true, modifiers: egui::Modifiers::NONE },
+            egui::Event::PointerMoved(egui::pos2(10.0, 10.0)),
+        ];
+        raw.dropped_files.push(egui::DroppedFile { path: Some(other.clone()), ..Default::default() });
+        app.raw_input_hook(&ctx, &mut raw);
+        assert_eq!(raw.events, vec![egui::Event::PointerMoved(egui::pos2(10.0, 10.0))]);
+        assert!(raw.dropped_files.is_empty());
+        wait(&mut app, &ctx);
+        assert!(!app.dirty, "{}", app.status);
+        assert_eq!(app.undo.len(), 1, "the edit made before saving is still the one undo step");
+        assert_eq!(serde_json::from_slice::<Value>(&std::fs::read(&path).unwrap()).unwrap()["gold"], json!(777));
+        // And afterwards everything works again.
+        app.apply_edit("/gold".into(), json!(1), 2.0);
+        assert_eq!(value(&app, "/gold"), Some(json!(1)));
+    }
+
+    #[test]
+    fn a_change_that_slips_in_during_a_save_stays_unsaved() {
+        let _l = locks();
+        let s = Scratch::new("slip");
+        let ctx = window();
+        let path = s.0.join("save.json");
+        std::fs::write(&path, big_json()).unwrap();
+        let mut app = opened(&ctx, &path);
+        app.apply_edit("/gold".into(), json!(10), 0.0);
+        app.save_with(&path, AfterSave::CloseFile, true);
+        // Past every guard, as a bug might: the value on screen changes mid-save.
+        *app.root_mut().unwrap().pointer_mut("/gold").unwrap() = json!(20);
+        app.touched.insert("/gold");
+        app.edit_gen += 1;
+        wait(&mut app, &ctx);
+        assert_eq!(serde_json::from_slice::<Value>(&std::fs::read(&path).unwrap()).unwrap()["gold"], json!(10), "the file holds what was saved");
+        assert_eq!(value(&app, "/gold"), Some(json!(20)), "what is shown is kept");
+        assert!(app.dirty, "and still counts as unsaved");
+        assert!(app.doc.is_some(), "the file wasn't closed");
+        assert_eq!(app.status_kind, StatusKind::Err);
+        assert_eq!(app.doc.as_ref().unwrap().stamp, safety::stamp(&path), "not mistaken for a change on disk");
+        app.save_with(&path, AfterSave::Stay, true);
+        wait(&mut app, &ctx);
+        assert!(!app.dirty);
+        assert_eq!(serde_json::from_slice::<Value>(&std::fs::read(&path).unwrap()).unwrap()["gold"], json!(20));
+    }
+
+    #[test]
+    fn closing_the_window_during_a_save_waits_for_it() {
+        let _l = locks();
+        let s = Scratch::new("close");
+        let ctx = window();
+        let path = s.0.join("save.json");
+        std::fs::write(&path, big_json()).unwrap();
+        let mut app = opened(&ctx, &path);
+        app.apply_edit("/gold".into(), json!(31), 0.0);
+        app.save_with(&path, AfterSave::Stay, true);
+        let mut raw = egui::RawInput::default();
+        raw.viewports.insert(egui::ViewportId::ROOT, egui::ViewportInfo { events: vec![egui::ViewportEvent::Close], ..Default::default() });
+        let first = frame(&mut app, &ctx, raw);
+        if app.saving.is_some() {
+            assert!(first.contains(&egui::ViewportCommand::CancelClose), "{first:?}");
+            assert!(!first.contains(&egui::ViewportCommand::Close));
+        }
+        let mut cmds = first;
+        cmds.extend(wait(&mut app, &ctx));
+        assert!(cmds.contains(&egui::ViewportCommand::Close), "closes once saved: {cmds:?}");
+        assert!(!app.any_dirty());
+        assert_eq!(serde_json::from_slice::<Value>(&std::fs::read(&path).unwrap()).unwrap()["gold"], json!(31));
+    }
+
+    #[test]
+    fn save_and_quit_in_the_background_closes_only_once_saved() {
+        let _l = locks();
+        let s = Scratch::new("quit");
+        let ctx = window();
+        let path = s.0.join("save.json");
+        std::fs::write(&path, big_json()).unwrap();
+        let mut app = opened(&ctx, &path);
+        app.apply_edit("/gold".into(), json!(32), 0.0);
+        app.save_with(&path, AfterSave::Quit, true);
+        assert!(!app.close_now && !app.allow_close);
+        let cmds = wait(&mut app, &ctx);
+        assert_eq!(cmds.iter().filter(|c| **c == egui::ViewportCommand::Close).count(), 1, "{cmds:?}");
+        assert_eq!(serde_json::from_slice::<Value>(&std::fs::read(&path).unwrap()).unwrap()["gold"], json!(32));
+        // A save that fails doesn't quit: the question comes back instead.
+        app.apply_edit("/gold".into(), json!(33), 1.0);
+        std::fs::create_dir_all(s.0.join("save.json.partial").join("x")).unwrap();
+        app.allow_close = false;
+        app.save_with(&path, AfterSave::Quit, true);
+        let cmds = wait(&mut app, &ctx);
+        assert!(!cmds.contains(&egui::ViewportCommand::Close), "{cmds:?}");
+        assert!(app.dirty);
+    }
+
+    #[test]
+    fn a_save_thread_that_panics_is_reported_and_the_changes_stay() {
+        let _l = locks();
+        let s = Scratch::new("panic");
+        let ctx = window();
+        let path = s.0.join("save.json");
+        let original = big_json();
+        std::fs::write(&path, &original).unwrap();
+        let mut app = opened(&ctx, &path);
+        app.apply_edit("/gold".into(), json!(6), 0.0);
+        app.close_after_save = true;
+        app.spawn_save(&path, AfterSave::CloseFile, || panic!("a bug in the save code"));
+        let cmds = wait(&mut app, &ctx);
+        assert_eq!(app.status_kind, StatusKind::Err);
+        assert!(app.banner.is_some());
+        assert!(app.dirty);
+        assert!(app.doc.is_some(), "not closed");
+        assert!(!cmds.contains(&egui::ViewportCommand::Close), "asked about the unsaved changes instead of closing");
+        assert!(app.confirm_close);
+        assert_eq!(value(&app, "/gold"), Some(json!(6)));
+        assert_eq!(std::fs::read(&path).unwrap(), original);
+        // Saving works again afterwards.
+        app.confirm_close = false;
+        app.save_with(&path, AfterSave::Stay, true);
+        wait(&mut app, &ctx);
+        assert!(!app.dirty, "{}", app.status);
+    }
+
+    #[test]
+    fn the_values_list_is_kept_only_when_it_would_come_out_the_same() {
+        let _l = locks();
+        let s = Scratch::new("model");
+        let ctx = window();
+        let path = s.0.join("save.json");
+        std::fs::write(&path, big_json()).unwrap();
+        let mut app = opened(&ctx, &path);
+        let fresh = |app: &App| {
+            let d = app.doc.as_ref().unwrap();
+            rows(&values_view::build(root(&d.content).unwrap(), &d.names, None))
+        };
+        // A number: the list is the same, so it is kept.
+        let gen = app.model_gen;
+        app.apply_edit("/gold".into(), json!(1), 0.0);
+        app.save_with(&path, AfterSave::Stay, true);
+        wait(&mut app, &ctx);
+        assert_eq!(app.model_gen, gen, "not built again");
+        assert_eq!(rows(&app.model), fresh(&app));
+        // A name an object is listed by: built again.
+        app.apply_edit("/hero/name".into(), json!("Bea"), 1.0);
+        app.save_with(&path, AfterSave::Stay, false);
+        assert_ne!(app.model_gen, gen);
+        assert_eq!(rows(&app.model), fresh(&app));
+        assert!(app.model.sections.iter().any(|s| s.title.contains("Bea")));
+        // A list built again since the file was saved (as after picking the data folder) is
+        // never taken to be the saved file's.
+        let gen = app.model_gen;
+        app.rebuild_model();
+        app.apply_edit("/gold".into(), json!(2), 2.0);
+        app.save_with(&path, AfterSave::Stay, false);
+        assert_eq!(app.model_gen, gen + 2);
+        assert_eq!(rows(&app.model), fresh(&app));
+    }
+
+    #[test]
+    fn values_list_shape() {
+        let j = |v: Value| Content::Json { value: v, pretty: true };
+        let same = |a: Value, b: Value| same_values_list(&j(a), &j(b));
+        assert!(same(json!({"a": 1, "b": [true, "x"]}), json!({"a": 2.5, "b": [false, "y"]})));
+        assert!(same(json!({"o": {"name": "A", "hp": 1}}), json!({"o": {"name": "A", "hp": 9}})));
+        assert!(!same(json!({"o": {"name": "A"}}), json!({"o": {"name": "B"}})), "an object's short name");
+        assert!(!same(json!({"o": {"title": "A", "n": 1}}), json!({"o": {"title": " ", "n": 1}})));
+        assert!(!same(json!({"a": null}), json!({"a": 1})), "a null value has no row");
+        assert!(!same(json!({"a": 1}), json!({"a": [1]})));
+        assert!(!same(json!({"a": 1, "b": 2}), json!({"b": 2, "a": 1})), "order");
+        assert!(!same(json!({"a": [1, 2]}), json!({"a": [1, 2, 3]})));
+        assert!(!same(json!({"a": 1}), json!({"b": 1})));
+        assert!(!same_values_list(&Content::Text("a".into()), &Content::Text("a".into())));
+        assert!(!same_values_list(&j(json!(1)), &Content::Binary(vec![1])));
     }
 }
 

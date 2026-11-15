@@ -1271,7 +1271,6 @@ Pasted {0} from {1}. Save to keep it, or Undo.
 Pasted {0} values of {1} from {2}; {3} aren't in this save and were left out.
 = {2} の {1} から {0} 個の値を貼り付けました。{3} 個はこのセーブデータにないため除外しました。
 
-
 # added in the translation audit
 
 About {0}
@@ -1726,7 +1725,6 @@ Equipped
 = 装備中
 
 # src/game_ui/simple/spec_texts.rs
-
 
 A .pcsave from AppData\\LocalLow\\niceplay games\\Potion Craft\\SavesSteam (shown as two parts: the save's name and day, then the game state). Close the game before editing.
 = AppData\LocalLow\niceplay games\Potion Craft\SavesSteam の .pcsave（セーブ名と日数、ゲーム状態の2つに分けて表示）。編集前にゲームを終了してください。
@@ -2525,8 +2523,6 @@ Level (shown minus one)
 
 Life gauge
 = ライフゲージ
-
-
 
 Max health
 = 最大体力
@@ -10633,7 +10629,6 @@ Month
 Year
 = 年
 
-
 # src/game_ui/simple/specs_more.rs
 
 Quest points
@@ -16035,14 +16030,11 @@ Tess exchange tickets
 The script variables of the save (chapter, quest and story flags) and the dialogue flags. Attributes and items are in WORLD.SAV, which is not covered.
 = セーブのスクリプト変数(章、クエストやストーリーのフラグ)と会話フラグ。能力値とアイテムは WORLD.SAV にあり、対象外です。
 
-
 Silver points
 = シルバーポイント
 
 Tech points
 = テックポイント
-
-
 
 Maximum health
 = 最大体力
@@ -16652,11 +16644,8 @@ XP at death
 Campaign Plus wins
 = キャンペーン+の勝利数
 
-
 Builder level, experience and stats, mini medals, equipment and the item slots of the pockets and the bag (item ids only; no name list is available). The island files are not opened.
 = ビルダーのレベル・経験値・能力、ちいさなメダル、装備、ポケットとバッグのアイテム枠(アイテムIDのみ。名前リストはありません)。島のファイルは開きません。
-
-
 
 An emulator's 8 KiB .srm / .sav save. Per slot: money, each hero's level, experience, HP and MP, and the level and experience of every weapon and spirit.
 = エミュレーターの8 KiBの.srm / .savセーブ。スロットごとに、所持金、各キャラクターのレベル・経験値・HP・MP、各武器と精霊のレベルと経験値。
@@ -16973,7 +16962,6 @@ Total money earned
 Orders finished
 = 完了した注文
 
-
 # src/game_ui/simple/specs_more.rs
 
 save0.bin (a gzip file with JSON inside, opened and packed again) from AppData\\LocalLow\\Robotality\\Pathway or its Local folder. The expedition's cash, fuel, ammunition, supplies and the day. Close the game before editing.
@@ -16987,7 +16975,6 @@ Largest ammunition store
 
 Largest supplies store
 = 物資の最大保管量
-
 
 AK-47
 = AK-47
@@ -17127,7 +17114,6 @@ Active rod
 Gear
 = 装備
 
-
 # src/game_ui/simple/specs_more.rs
 
 PlayerSave<N>.sav from %LOCALAPPDATA%\\Thymesia\\Saved\\SaveGames. The experience, the number of healing potions, the play time and a table of the carried items with their quantities. Close the game before editing.
@@ -17135,7 +17121,6 @@ PlayerSave<N>.sav from %LOCALAPPDATA%\\Thymesia\\Saved\\SaveGames. The experienc
 
 Healing potions
 = 回復ポーション
-
 
 # src/game_ui/simple/specs_more.rs
 
@@ -17264,7 +17249,6 @@ A PlayStation save (memory card, .mcs, .psx or .psv). The unlocked characters, t
 
 Close the emulator first. Tekken 2 and 3 keep their data scrambled and guarded by a checksum; both are written again on save.
 = 先にエミュレーターを閉じてください。鉄拳2と3はデータを難読化し、チェックサムで保護しています。保存時にどちらも書き直されます。
-
 
 # src/game_ui (direct-printed texts)
 
@@ -17735,7 +17719,6 @@ yes
 
 (actuated)
 = (作動中)
-
 
 (open)
 = (開いている)
@@ -23506,7 +23489,6 @@ Weapon EXP
 save.dat from Documents\\KOEI\\Dynasty Warriors 4 Hyper\\Savedata. The difficulty, each officer's life, Musou, attack, defense, experience and weapon experience, and the level of every item; the checksum is handled.
 = Documents\\KOEI\\Dynasty Warriors 4 Hyper\\Savedata の save.dat。難易度、各武将のライフ・無双・攻撃・防御・経験値・武器経験値、各アイテムのレベル。チェックサムは自動で処理されます。
 
-
 Times busted
 = 逮捕された回数
 
@@ -23791,8 +23773,6 @@ Veteran
 
 Impossible
 = インポッシブル
-
-
 
 Magic attack
 = 魔法攻撃力
@@ -25177,7 +25157,6 @@ Dominoes
 Drums
 = ドラム
 
-
 Gardening
 = ガーデニング
 
@@ -25198,7 +25177,6 @@ Lifetime happiness
 
 Lifetime reward points
 = 生涯報酬ポイント
-
 
 Martial Arts
 = 武術
@@ -25236,7 +25214,6 @@ Scuba Diving
 Sculpting
 = 彫刻
 
-
 Snake Charming
 = ヘビ使い
 
@@ -25249,7 +25226,6 @@ Socialite Influence
 Spellcasting
 = 呪文詠唱
 
-
 Street Art
 = ストリートアート
 
@@ -25258,7 +25234,6 @@ The game data is saved back uncompressed, so the file grows. Close the game firs
 
 Writing
 = 執筆
-
 
 A new version is available: {0} (you have {1}).
 = 新しいバージョンがあります: {0}（現在のバージョン: {1}）。
@@ -25289,7 +25264,6 @@ Check for a new version
 
 Asks GitHub once for the newest release. Nothing else is sent.
 = GitHubに最新リリースを一度だけ問い合わせます。それ以外は何も送信されません。
-
 
 An emulator's 8 KiB .srm / .sav save. Per slot: money, and the hero's and partner's level, experience, HP and spell charges.
 = エミュレーターの8 KiBの.srm / .savセーブ。スロットごとに、所持金、主人公とパートナーのレベル・経験値・HP・魔法の回数。
@@ -26018,7 +25992,6 @@ Zora Cape
 Zora Mask
 = ゾーラのお面
 
-
 # N64: F-Zero X, Goemon, Gex 64
 
 An emulator's .sra or .srm save. The everything-unlocked switch, the options, the Grand Prix progress of each cup, the cups won with every machine in each class, and the Time Attack and Death Race records.
@@ -26538,14 +26511,12 @@ Witchyworld
 Zubbas' Hive
 = ズバのハチの巣
 
-
 # src/fmt/grandia1.rs and ps2_specs.rs (Grandia HD Remaster)
 BISLPSP02124GRA-S00 … in %APPDATA%\\GRANDIA1\\Saves\\<slot> (the PC remaster, one file per save). Gold pieces, each character's level, experience, HP, SP and attributes, magic and weapon levels, equipment, the items in each pack, and every learned skill.
 = %APPDATA%\GRANDIA1\Saves\<スロット> の BISLPSP02124GRA-S00 …（PC版リマスター、セーブごとに1ファイル）。所持金、各キャラクターのレベル・経験値・HP・SP・能力値、魔法と武器のレベル、装備、各袋の道具、習得した全スキル。
 
 Close the game first. The save keeps no checksum. A skill is learned by each character whose box says Yes; items in a character's pack can be anything the game knows (equipment, key items and consumables share one list).
 = 先にゲームを閉じてください。このセーブにはチェックサムがありません。スキルは「はい」になっているキャラクターが習得済みです。キャラクターの袋の道具はゲームにある何でも入れられます（装備・大事なもの・消耗品は一つのリストです）。
-
 
 # src/game_ui/simple/hardpc_specs.rs (Ace Attorney Trilogy)
 systemdata in Steam\\userdata\\<account>\\787480\\remote. How many episodes of each of the three games are unlocked on the episode select screen (the first game has 5, Justice for All 4, Trials and Tribulations 5), the volumes and the window size.
@@ -27375,9 +27346,27 @@ none found
 {0} {1} not changed, the save can't hold that: {2}
 = {0} {1} 件は変更されませんでした（セーブデータに入らない値です）：{2}
 
-
 Words in any order work ("witcher 3" or "3 witcher"), and so do short names made from the initials of the name with its numbers, such as bg3, gta5 or ff7.
 = 単語は順序を問わず入力できます(「witcher 3」でも「3 witcher」でも可)。名前の頭文字と数字を並べた短い名前(bg3、gta5、ff7 など)も使えます。
 
 Show all {0}
 = {0} 件すべて表示
+
+Saving the file
+= ファイルを保存中
+
+Saving {0}…
+= {0} を保存中…
+
+Writing {0}…
+= {0} を書き込み中…
+
+Saving stopped unexpectedly. Your changes are still here and not saved — save again.
+= 保存処理が予期せず停止しました。変更はそのまま残っていますが、保存されていません。もう一度保存してください。
+
+Saved, but changes made while saving aren't in the file yet — save again to keep them.
+= 保存しましたが、保存中に行った変更はまだファイルに含まれていません。残すにはもう一度保存してください。
+
+the file is being saved
+= ファイルを保存中です
+

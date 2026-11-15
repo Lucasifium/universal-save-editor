@@ -1271,7 +1271,6 @@ Pasted {0} from {1}. Save to keep it, or Undo.
 Pasted {0} values of {1} from {2}; {3} aren't in this save and were left out.
 = Se pegaron {0} valores de {1} de {2}; {3} no existen en esta partida y se omitieron.
 
-
 # added in the translation audit
 
 About {0}
@@ -1618,7 +1617,6 @@ Equipped
 = Equipado
 
 # src/game_ui/simple/spec_texts.rs
-
 
 A .pcsave from AppData\\LocalLow\\niceplay games\\Potion Craft\\SavesSteam (shown as two parts: the save's name and day, then the game state). Close the game before editing.
 = Un .pcsave de AppData\LocalLow\niceplay games\Potion Craft\SavesSteam (se muestra en dos partes: el nombre y el día de la partida, y luego el estado del juego). Cierra el juego antes de editar.
@@ -2525,8 +2523,6 @@ Level (shown minus one)
 
 Life gauge
 = Barra de vida
-
-
 
 Max health
 = Salud máxima
@@ -10560,7 +10556,6 @@ Month
 Year
 = Año
 
-
 # src/game_ui/simple/specs_more.rs
 
 Quest points
@@ -15941,14 +15936,11 @@ Tess exchange tickets
 The script variables of the save (chapter, quest and story flags) and the dialogue flags. Attributes and items are in WORLD.SAV, which is not covered.
 = Las variables de script de la partida (capítulo, indicadores de misiones e historia) y los indicadores de diálogo. Los atributos y objetos están en WORLD.SAV, que no está cubierto.
 
-
 Silver points
 = Puntos de plata
 
 Tech points
 = Puntos de técnica
-
-
 
 Continues
 = Continuaciones
@@ -16564,11 +16556,8 @@ XP at death
 Campaign Plus wins
 = Victorias en Campaña+
 
-
 Builder level, experience and stats, mini medals, equipment and the item slots of the pockets and the bag (item ids only; no name list is available). The island files are not opened.
 = Nivel, experiencia y estadísticas del constructor, minimedallas, equipo y las ranuras de objetos de los bolsillos y la bolsa (solo ids de objeto; no hay lista de nombres). Los archivos de isla no se abren.
-
-
 
 An emulator's 8 KiB .srm / .sav save. Per slot: money, each hero's level, experience, HP and MP, and the level and experience of every weapon and spirit.
 = Una partida .srm / .sav de 8 KiB de un emulador. Por ranura: dinero, nivel, experiencia, PS y PM de cada héroe, y nivel y experiencia de cada arma y espíritu.
@@ -16885,7 +16874,6 @@ Total money earned
 Orders finished
 = Pedidos terminados
 
-
 # src/game_ui/simple/specs_more.rs
 
 save0.bin (a gzip file with JSON inside, opened and packed again) from AppData\\LocalLow\\Robotality\\Pathway or its Local folder. The expedition's cash, fuel, ammunition, supplies and the day. Close the game before editing.
@@ -16899,7 +16887,6 @@ Largest ammunition store
 
 Largest supplies store
 = Almacén de suministros más grande
-
 
 AK-47
 = AK-47
@@ -17039,7 +17026,6 @@ Active rod
 Gear
 = Equipo
 
-
 # src/game_ui/simple/specs_more.rs
 
 PlayerSave<N>.sav from %LOCALAPPDATA%\\Thymesia\\Saved\\SaveGames. The experience, the number of healing potions, the play time and a table of the carried items with their quantities. Close the game before editing.
@@ -17047,7 +17033,6 @@ PlayerSave<N>.sav from %LOCALAPPDATA%\\Thymesia\\Saved\\SaveGames. The experienc
 
 Healing potions
 = Pociones de curación
-
 
 # src/game_ui/simple/specs_more.rs
 
@@ -17176,7 +17161,6 @@ A PlayStation save (memory card, .mcs, .psx or .psv). The unlocked characters, t
 
 Close the emulator first. Tekken 2 and 3 keep their data scrambled and guarded by a checksum; both are written again on save.
 = Cierra primero el emulador. Tekken 2 y 3 guardan sus datos cifrados y protegidos por una suma de comprobación; ambos se vuelven a escribir al guardar.
-
 
 # src/game_ui (direct-printed texts)
 
@@ -23420,7 +23404,6 @@ Weapon EXP
 save.dat from Documents\\KOEI\\Dynasty Warriors 4 Hyper\\Savedata. The difficulty, each officer's life, Musou, attack, defense, experience and weapon experience, and the level of every item; the checksum is handled.
 = save.dat de Documents\\KOEI\\Dynasty Warriors 4 Hyper\\Savedata. La dificultad y la vida, Musou, ataque, defensa, experiencia y experiencia de arma de cada oficial, y el nivel de cada objeto; la suma de comprobación se gestiona.
 
-
 Times busted
 = Veces arrestado
 
@@ -23705,8 +23688,6 @@ Veteran
 
 Impossible
 = Imposible
-
-
 
 Magic attack
 = Ataque mágico
@@ -25091,7 +25072,6 @@ Dominoes
 Drums
 = Batería
 
-
 Gardening
 = Jardinería
 
@@ -25112,7 +25092,6 @@ Lifetime happiness
 
 Lifetime reward points
 = Puntos de recompensa de por vida
-
 
 Martial Arts
 = Artes marciales
@@ -25150,7 +25129,6 @@ Scuba Diving
 Sculpting
 = Escultura
 
-
 Snake Charming
 = Encantamiento de serpientes
 
@@ -25163,7 +25141,6 @@ Socialite Influence
 Spellcasting
 = Lanzar hechizos
 
-
 Street Art
 = Arte urbano
 
@@ -25172,7 +25149,6 @@ The game data is saved back uncompressed, so the file grows. Close the game firs
 
 Writing
 = Escritura
-
 
 A new version is available: {0} (you have {1}).
 = Hay una versión nueva disponible: {0} (tienes la {1}).
@@ -25203,7 +25179,6 @@ Check for a new version
 
 Asks GitHub once for the newest release. Nothing else is sent.
 = Pregunta una vez a GitHub por la versión más reciente. No se envía nada más.
-
 
 An emulator's 8 KiB .srm / .sav save. Per slot: money, and the hero's and partner's level, experience, HP and spell charges.
 = Una partida .srm / .sav de 8 KiB de un emulador. Por ranura: dinero, y nivel, experiencia, PS y cargas de hechizos del héroe y su compañero.
@@ -25932,7 +25907,6 @@ Zora Cape
 Zora Mask
 = Máscara Zora
 
-
 # N64: F-Zero X, Goemon, Gex 64
 
 An emulator's .sra or .srm save. The everything-unlocked switch, the options, the Grand Prix progress of each cup, the cups won with every machine in each class, and the Time Attack and Death Race records.
@@ -26452,14 +26426,12 @@ Witchyworld
 Zubbas' Hive
 = Colmena de los Zubbas
 
-
 # src/fmt/grandia1.rs and ps2_specs.rs (Grandia HD Remaster)
 BISLPSP02124GRA-S00 … in %APPDATA%\\GRANDIA1\\Saves\\<slot> (the PC remaster, one file per save). Gold pieces, each character's level, experience, HP, SP and attributes, magic and weapon levels, equipment, the items in each pack, and every learned skill.
 = BISLPSP02124GRA-S00 … en %APPDATA%\GRANDIA1\Saves\<ranura> (la remasterización de PC, un archivo por partida). Monedas de oro, el nivel, la experiencia, PV, PE y atributos de cada personaje, los niveles de magia y de armas, el equipo, los objetos de cada mochila y cada habilidad aprendida.
 
 Close the game first. The save keeps no checksum. A skill is learned by each character whose box says Yes; items in a character's pack can be anything the game knows (equipment, key items and consumables share one list).
 = Cierra primero el juego. La partida no tiene suma de comprobación. Una habilidad la conoce cada personaje cuya casilla dice Sí; los objetos de la mochila de un personaje pueden ser cualquiera que el juego conozca (equipo, objetos clave y consumibles comparten una lista).
-
 
 # src/game_ui/simple/hardpc_specs.rs (Ace Attorney Trilogy)
 systemdata in Steam\\userdata\\<account>\\787480\\remote. How many episodes of each of the three games are unlocked on the episode select screen (the first game has 5, Justice for All 4, Trials and Tribulations 5), the volumes and the window size.
@@ -27289,9 +27261,27 @@ none found
 {0} {1} not changed, the save can't hold that: {2}
 = {0} {1} sin cambiar, la partida no admite ese valor: {2}
 
-
 Words in any order work ("witcher 3" or "3 witcher"), and so do short names made from the initials of the name with its numbers, such as bg3, gta5 or ff7.
 = Funcionan las palabras en cualquier orden ("witcher 3" o "3 witcher") y también los nombres cortos formados por las iniciales del nombre con sus números, como bg3, gta5 o ff7.
 
 Show all {0}
 = Mostrar los {0}
+
+Saving the file
+= Guardando el archivo
+
+Saving {0}…
+= Guardando {0}…
+
+Writing {0}…
+= Escribiendo {0}…
+
+Saving stopped unexpectedly. Your changes are still here and not saved — save again.
+= El guardado se detuvo de forma inesperada. Tus cambios siguen aquí y no están guardados — vuelve a guardar.
+
+Saved, but changes made while saving aren't in the file yet — save again to keep them.
+= Guardado, pero los cambios hechos mientras se guardaba aún no están en el archivo — vuelve a guardar para conservarlos.
+
+the file is being saved
+= el archivo se está guardando
+
