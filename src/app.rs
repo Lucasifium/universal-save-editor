@@ -12,7 +12,7 @@ use crate::values_view::{self, Disp, Model, ViewCtx};
 use crate::widgets;
 use eframe::egui::{self, Color32, RichText, ScrollArea, TextEdit};
 use serde_json::{json, Value};
-use std::collections::HashSet;
+use std::collections::{HashMap, HashSet};
 use std::path::{Path, PathBuf};
 
 mod help;
@@ -92,6 +92,10 @@ struct Doc {
 struct Touched {
     list: Vec<String>,
     seen: HashSet<String>,
+    /// Values changed together by one button press (Max crafting materials, unlock all...),
+    /// by group number. A value edited alone afterwards leaves its group.
+    group: HashMap<String, u64>,
+    next_group: u64,
 }
 
 impl Touched {
@@ -105,6 +109,19 @@ impl Touched {
     fn clear(&mut self) {
         self.list.clear();
         self.seen.clear();
+        self.group.clear();
+    }
+
+    /// Puts these values in one new group, so reverting one of them offers to revert all.
+    fn set_group(&mut self, ptrs: &[String]) {
+        self.next_group += 1;
+        for p in ptrs {
+            self.group.insert(p.clone(), self.next_group);
+        }
+    }
+
+    fn leave_group(&mut self, ptr: &str) {
+        self.group.remove(ptr);
     }
 
     fn iter(&self) -> std::slice::Iter<'_, String> {
@@ -517,6 +534,8 @@ pub struct App {
     redo: Vec<Change>,
     last_edit: Option<(String, f64)>,
     touched: Touched,
+    /// While a button's edits are being applied: every value they changed.
+    trace: Option<Vec<String>>,
     /// What differs from the file as opened or last saved, for `edit_gen`.
     changes: Changes,
 
@@ -690,6 +709,7 @@ impl App {
             redo: vec![],
             last_edit: None,
             touched: Touched::default(),
+            trace: None,
             changes: Changes::default(),
             tab: Tab::Values,
             search: String::new(),
@@ -1226,6 +1246,11 @@ impl App {
 
     fn after_change(&mut self, ptr: &str) {
         self.touched.insert(ptr);
+        match &mut self.trace {
+            Some(t) => t.push(ptr.to_string()),
+            // An edit made alone (compare, tools...) is no longer part of a button's group.
+            None => self.touched.leave_group(ptr),
+        }
         if ptr.is_empty() && root(&self.doc.as_ref().unwrap().content).is_some() {
             self.rebuild_model();
         }
@@ -1241,7 +1266,7 @@ impl App {
         });
         if differs {
             self.dirty = true;
-        } else {
+        } else if self.trace.is_none() {
             self.recompute_dirty();
         }
     }
@@ -1310,6 +1335,39 @@ impl App {
                 }
                 out.dedup();
                 out
+            }
+        }
+    }
+
+    /// Applies what one screen action asked for. Several edits from one press (a mass-edit
+    /// button) become one undo step and one change group, so Undo and the Changes panel's
+    /// Revert put them all back together; a single edit is as before.
+    fn apply_edits(&mut self, edits: Vec<(String, Value)>, now: f64) {
+        if edits.is_empty() {
+            return;
+        }
+        let many = edits.len() > 1;
+        if many {
+            self.last_edit = None;
+        }
+        let start = self.undo.len();
+        self.trace = Some(vec![]);
+        for (ptr, v) in edits {
+            self.apply_edit(ptr, v, now);
+        }
+        let mut seen = HashSet::new();
+        let mut touched: Vec<String> = self.trace.take().unwrap_or_default();
+        touched.retain(|p| !p.is_empty() && seen.insert(p.clone()));
+        // Looked at once, not after each of possibly thousands of edits.
+        self.recompute_dirty();
+        if many {
+            self.group_undo_from(start);
+        }
+        if many && touched.len() > 1 {
+            self.touched.set_group(&touched);
+        } else {
+            for p in &touched {
+                self.touched.leave_group(p);
             }
         }
     }
@@ -3904,9 +3962,7 @@ impl App {
                 self.bulk_toggle(ticks);
             }
         }
-        for (ptr, v) in edits {
-            self.apply_edit(ptr, v, now);
-        }
+        self.apply_edits(edits, now);
         if let Some((what, values)) = copy {
             self.copy_values(what, values);
         }
@@ -3917,6 +3973,7 @@ impl App {
 
     fn changes_panel(&mut self, ctx: &egui::Context, now: f64) {
         let mut revert: Vec<(String, Value)> = vec![];
+        let mut revert_groups: Vec<Vec<(String, Value)>> = vec![];
         let mut revert_bytes: Vec<(usize, Vec<u8>)> = vec![];
         let mut jump = None;
         let mut revert_all = false;
@@ -3993,7 +4050,50 @@ impl App {
                     if changed.is_empty() {
                         ui.weak(tr("No changes yet. Edited values are highlighted in orange."));
                     }
-                    for ptr in changed.iter().take(CHANGES_SHOWN) {
+                    // Values one button press changed together (Max crafting materials...)
+                    // are one entry, reverted together. Fewer than two left: listed alone.
+                    let mut members: HashMap<u64, Vec<&String>> = HashMap::new();
+                    for p in changed.iter() {
+                        if let Some(&g) = self.touched.group.get(p) {
+                            members.entry(g).or_default().push(p);
+                        }
+                    }
+                    let mut shown_groups = HashSet::new();
+                    let mut shown = 0;
+                    for ptr in changed.iter() {
+                        if shown >= CHANGES_SHOWN {
+                            break;
+                        }
+                        if let Some(list) = self.touched.group.get(ptr).and_then(|g| members.get(g).map(|l| (*g, l))).filter(|(_, l)| l.len() > 1) {
+                            if !shown_groups.insert(list.0) {
+                                continue;
+                            }
+                            shown += 1;
+                            let (gid, list) = list;
+                            theme::card(ui, |ui| {
+                                ui.label(RichText::new(trf("{0} values changed together", &[&list.len()])).strong());
+                                ui.weak(tr("Made by one button. Revert puts all of them back."));
+                                egui::CollapsingHeader::new(tr("Show values")).id_source(("change_group", gid)).show(ui, |ui| {
+                                    for p in list.iter().take(CHANGES_SHOWN) {
+                                        let name = self.model.by_ptr.get(p.as_str()).map(|&i| self.model.rows[i].name().to_string()).unwrap_or_else(|| (*p).clone());
+                                        let old = bv.pointer(p).map(widgets::display).unwrap_or_else(|| "(none)".into());
+                                        let new = cv.pointer(p).map(widgets::display).unwrap_or_else(|| "(none)".into());
+                                        ui.horizontal_wrapped(|ui| {
+                                            ui.label(name);
+                                            ui.label(RichText::new(old).weak().strikethrough());
+                                            ui.label("\u{203A}");
+                                            ui.label(RichText::new(new).color(theme::fg(ui, theme::MODIFIED)));
+                                        });
+                                    }
+                                });
+                                if ui.small_button(tr("Revert all of these")).clicked() {
+                                    let group: Vec<(String, Value)> = list.iter().filter_map(|p| bv.pointer(p).map(|o| ((*p).clone(), o.clone()))).collect();
+                                    revert_groups.push(group);
+                                }
+                            });
+                            continue;
+                        }
+                        shown += 1;
                         theme::card(ui, |ui| {
                             if ptr.is_empty() {
                                 ui.label(RichText::new(tr("Whole document (Raw JSON edit)")).strong());
@@ -4036,6 +4136,9 @@ impl App {
         }
         for (p, v) in revert {
             self.apply_edit(p, v, f64::NEG_INFINITY);
+        }
+        for group in revert_groups {
+            self.apply_edits(group, f64::NEG_INFINITY);
         }
         for (o, b) in revert_bytes {
             self.apply_bytes(o, b);
@@ -5817,7 +5920,72 @@ mod save_tests {
         assert_eq!(serde_json::from_slice::<Value>(&std::fs::read(&path).unwrap()).unwrap()["gold"], json!(20));
     }
 
+    /// What the Changes panel's group Revert applies: the original of every value still differing.
+    fn originals(app: &App, ptrs: &[&str]) -> Vec<(String, Value)> {
+        let b = root(&app.doc.as_ref().unwrap().baseline).unwrap();
+        ptrs.iter().map(|p| (p.to_string(), b.pointer(p).unwrap().clone())).collect()
+    }
+
     #[test]
+    fn a_mass_edit_is_one_undo_step_and_one_change_group() {
+        let _l = locks();
+        let s = Scratch::new("group");
+        let ctx = window();
+        let path = s.0.join("save.json");
+        std::fs::write(&path, big_json()).unwrap();
+        let mut app = opened(&ctx, &path);
+        let original = app.doc.as_ref().unwrap().content.to_bytes().unwrap();
+        let ptrs = ["/gold", "/hero/level", "/items/3/count", "/items/9/count"];
+        app.apply_edits(ptrs.iter().map(|p| (p.to_string(), json!(9999))).collect(), 0.0);
+        assert_eq!(app.undo.len(), 1, "one button press, one undo step");
+        let ids: HashSet<_> = ptrs.iter().map(|p| app.touched.group.get(*p).copied()).collect();
+        assert_eq!(ids.len(), 1, "all in one group");
+        assert!(ids.iter().next().unwrap().is_some());
+        // Undo puts every value back, byte for byte, and Redo makes them all again.
+        app.undo_redo(true);
+        assert!(!app.dirty);
+        assert_eq!(app.doc.as_ref().unwrap().content.to_bytes().unwrap(), original);
+        app.undo_redo(false);
+        for p in ptrs {
+            assert_eq!(value(&app, p), Some(json!(9999)));
+        }
+        // The group's Revert in the Changes panel: one step, exact original.
+        app.refresh_changes();
+        assert_eq!(app.changes.ptrs.len(), 4);
+        let back = originals(&app, &ptrs);
+        app.apply_edits(back, f64::NEG_INFINITY);
+        assert!(!app.dirty);
+        assert_eq!(app.doc.as_ref().unwrap().content.to_bytes().unwrap(), original);
+        assert_eq!(app.undo.len(), 2, "the revert is a single step too");
+        app.undo_redo(true);
+        for p in ptrs {
+            assert_eq!(value(&app, p), Some(json!(9999)), "undoing the revert brings them all back");
+        }
+    }
+
+    #[test]
+    fn a_single_edit_stays_on_its_own_and_leaves_its_group_when_edited_again() {
+        let _l = locks();
+        let s = Scratch::new("single");
+        let ctx = window();
+        let path = s.0.join("save.json");
+        std::fs::write(&path, big_json()).unwrap();
+        let mut app = opened(&ctx, &path);
+        app.apply_edits(vec![("/gold".into(), json!(5))], 0.0);
+        assert!(app.touched.group.is_empty(), "one edit is no group");
+        assert_eq!(app.undo.len(), 1);
+        app.apply_edits(vec![("/gold".into(), json!(6)), ("/hero/level".into(), json!(7))], 10.0);
+        assert_eq!(app.touched.group.len(), 2);
+        // Edited alone afterwards, one value is no longer part of the group.
+        app.apply_edits(vec![("/gold".into(), json!(8))], 20.0);
+        assert!(!app.touched.group.contains_key("/gold"));
+        assert!(app.touched.group.contains_key("/hero/level"));
+        // Saving starts afresh.
+        app.revert_all();
+        assert!(app.touched.group.is_empty());
+    }
+
+        #[test]
     fn closing_the_window_during_a_save_waits_for_it() {
         let _l = locks();
         let s = Scratch::new("close");

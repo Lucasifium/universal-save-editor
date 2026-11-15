@@ -29537,3 +29537,17 @@ Game screen: for each of the three slots health, heart pieces, rupees, deaths, s
 
 The emulator's save folder: BGB and SameBoy keep <ROM name>.sav next to the ROM, RetroArch in saves\\
 = Der Speicherordner des Emulators: BGB und SameBoy legen <ROM-Name>.sav neben der ROM ab, RetroArch in saves\\
+
+# src/app.rs (Changes panel groups)
+
+{0} values changed together
+= {0} Werte zusammen geändert
+
+Made by one button. Revert puts all of them back.
+= Mit einer Schaltfläche geändert. „Zurücksetzen“ stellt alle wieder her.
+
+Show values
+= Werte anzeigen
+
+Revert all of these
+= Alle davon zurücksetzen
