@@ -1154,8 +1154,6 @@ Advanced
 Opened {0} ({1}) — {2}.
 = {0} ouvert ({1}) — {2}.
 
-Changes ({0})
-= Modifications ({0})
 
 Filter the tree by name or value  (Ctrl+F)
 = Filtrer l'arbre par nom ou valeur  (Ctrl+F)
@@ -29459,3 +29457,24 @@ the backup didn't match the save (the game may have just written to it)
 
 Couldn't write {0}: {1}
 = Impossible d'écrire {0} : {1}
+
+Save ({0})
+= Enregistrer ({0})
+
+Menu
+= Menu
+
+More
+= Plus
+
+Less
+= Moins
+
+Has changes
+= Contient des modifications
+
+Show the note about this file
+= Afficher la note sur ce fichier
+
+Hide this note for every file like this one. View › Show the note about this file brings it back.
+= Masque cette note pour tous les fichiers de ce type. Affichage › Afficher la note sur ce fichier la fait revenir.

@@ -243,6 +243,26 @@ thread_local! {
     static COMPACT: std::cell::Cell<bool> = const { std::cell::Cell::new(false) };
 }
 
+thread_local! {
+    static STEPPERS: std::cell::Cell<bool> = const { std::cell::Cell::new(false) };
+}
+
+/// Runs `f` with −/+ buttons kept even on a phone-width screen, for boxes that have the room
+/// (a header tile, an attribute line).
+pub fn with_steppers<R>(f: impl FnOnce() -> R) -> R {
+    STEPPERS.with(|c| c.set(true));
+    let r = f();
+    STEPPERS.with(|c| c.set(false));
+    r
+}
+
+/// Whether a whole number gets −/+ buttons: small ones do, big ones (experience, gold) are typed.
+pub fn steps(n: &Value) -> bool {
+    n.as_i64().is_some_and(|i| i.unsigned_abs() <= STEP_MAX)
+}
+
+const STEP_MAX: u64 = 5000;
+
 /// Runs `f` with number boxes drawn without their −/+ buttons (for tight tables).
 pub fn compact<R>(f: impl FnOnce() -> R) -> R {
     COMPACT.with(|c| c.set(true));
@@ -483,9 +503,9 @@ fn editor_body(ui: &mut Ui, id_src: &str, v: &Value, editable: bool, width: f32,
                 }
             }
             // On a phone-width screen the −/+ would be pushed off its edge: type the number instead.
-            if integer && !COMPACT.with(|c| c.get()) && ui.ctx().screen_rect().width() >= 520.0 {
+            if integer && !COMPACT.with(|c| c.get()) && (ui.ctx().screen_rect().width() >= 520.0 || STEPPERS.with(|c| c.get())) {
                 // Big values (experience, gold) are typed, not stepped.
-                if let Some(i) = n.as_i64().filter(|i| i.unsigned_abs() <= 5000) {
+                if let Some(i) = n.as_i64().filter(|i| i.unsigned_abs() <= STEP_MAX) {
                     let step = ui.input(|inp| if inp.modifiers.ctrl || inp.modifiers.command { 100 } else if inp.modifiers.shift { 10 } else { 1 });
                     // As tall as the number box beside them: small buttons were hard to hit.
                     let side = ui.spacing().interact_size.y.max(MIN_TARGET);

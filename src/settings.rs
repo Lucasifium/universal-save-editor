@@ -29,11 +29,13 @@ pub struct Settings {
     pub check_updates: bool,
     /// The newest version the player dismissed, so it isn't offered again.
     pub dismissed_update: Option<String>,
+    /// File notes (the line under the toolbar) the player dismissed, so they stay hidden.
+    pub hidden_notes: Vec<String>,
 }
 
 impl Default for Settings {
     fn default() -> Self {
-        Self { recent: vec![], dark: true, zoom: 1.0, show_raw_keys: false, show_advanced: false, confirm_save: true, backup_dir: None, earlier_backup_dirs: vec![], hex_guide: true, backup_keep: crate::backups::KEEP, language: None, check_updates: false, dismissed_update: None }
+        Self { recent: vec![], dark: true, zoom: 1.0, show_raw_keys: false, show_advanced: false, confirm_save: true, backup_dir: None, earlier_backup_dirs: vec![], hex_guide: true, backup_keep: crate::backups::KEEP, language: None, check_updates: false, dismissed_update: None, hidden_notes: vec![] }
     }
 }
 
@@ -64,6 +66,9 @@ impl Settings {
         s.language = v["language"].as_str().filter(|l| !l.is_empty()).map(str::to_string);
         s.check_updates = v["check_updates"].as_bool().unwrap_or(false);
         s.dismissed_update = v["dismissed_update"].as_str().filter(|l| !l.is_empty()).map(str::to_string);
+        if let Some(r) = v["hidden_notes"].as_array() {
+            s.hidden_notes = r.iter().filter_map(|x| x.as_str()).map(str::to_string).collect();
+        }
         s
     }
 
@@ -87,11 +92,17 @@ impl Settings {
             "language": self.language,
             "check_updates": self.check_updates,
             "dismissed_update": self.dismissed_update,
+            "hidden_notes": self.hidden_notes,
         });
         if let Some(dir) = p.parent() {
             let _ = std::fs::create_dir_all(dir);
         }
         let _ = std::fs::write(p, serde_json::to_string_pretty(&v).unwrap_or_default());
+    }
+
+    /// The key a file note is remembered by when dismissed.
+    pub fn note_key(note: &str) -> String {
+        note.chars().take(160).collect()
     }
 
     /// Switches backups to `dir` (`None`: the default), remembering the folder used until now

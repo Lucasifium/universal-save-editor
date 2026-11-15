@@ -1154,8 +1154,6 @@ Advanced
 Opened {0} ({1}) — {2}.
 = 已打开 {0}（{1}）— {2}。
 
-Changes ({0})
-= 更改（{0}）
 
 Filter the tree by name or value  (Ctrl+F)
 = 按名称或数值筛选树  (Ctrl+F)
@@ -29506,3 +29504,24 @@ the backup didn't match the save (the game may have just written to it)
 
 Couldn't write {0}: {1}
 = 无法写入 {0}：{1}
+
+Save ({0})
+= 保存 ({0})
+
+Menu
+= 菜单
+
+More
+= 展开
+
+Less
+= 收起
+
+Has changes
+= 有更改
+
+Show the note about this file
+= 显示此文件的说明
+
+Hide this note for every file like this one. View › Show the note about this file brings it back.
+= 对所有同类文件隐藏此说明。在“视图 › 显示此文件的说明”中可恢复。

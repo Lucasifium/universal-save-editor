@@ -545,6 +545,8 @@ pub struct App {
     raw_text: String,
     raw_error: Option<String>,
     show_changes: bool,
+    /// The file note is shown whole instead of on one line.
+    note_open: bool,
 
     hex: HexState,
     /// Text typed into the "Decrypt with password" dialog while it's open.
@@ -706,6 +708,7 @@ impl App {
             raw_text: String::new(),
             raw_error: None,
             show_changes: false,
+            note_open: false,
             hex: HexState::default(),
             password_prompt: None,
             sum_hits: None,
@@ -2016,7 +2019,12 @@ impl App {
     // ------------------------------------------------------------ UI: chrome
 
     fn menu_bar(&mut self, ui: &mut egui::Ui) {
-        egui::menu::bar(ui, |ui| {
+        egui::menu::bar(ui, |ui| self.menus(ui));
+    }
+
+    /// The menus, in the menu bar or (on a phone) under the toolbar's menu button.
+    fn menus(&mut self, ui: &mut egui::Ui) {
+        {
             let has = self.doc.is_some();
             ui.menu_button(tr("File"), |ui| {
                 if ui.add(egui::Button::new(tr("Open\u{2026}")).shortcut_text("Ctrl+O")).clicked() {
@@ -2203,6 +2211,11 @@ impl App {
                 changed |= ui.checkbox(&mut self.settings.show_advanced, tr("Show advanced values")).changed();
                 changed |= ui.checkbox(&mut self.settings.show_raw_keys, tr("Show raw key names")).changed();
                 ui.checkbox(&mut self.show_changes, tr("Changes panel"));
+                if ui.add_enabled(self.doc.is_some() && !self.doc_note.is_empty() && self.note_hidden(), egui::Button::new(tr("Show the note about this file"))).clicked() {
+                    let key = Settings::note_key(&self.doc_note);
+                    self.settings.hidden_notes.retain(|k| *k != key);
+                    changed = true;
+                }
                 changed |= ui
                     .checkbox(&mut self.settings.confirm_save, tr("Review changes before saving"))
                     .on_hover_text(tr("Lists what changed and checks whether the game is running each time you save."))
@@ -2357,7 +2370,7 @@ impl App {
                 }
             });
             self.help_menu(ui);
-        });
+        }
     }
 
     /// Re-read the open file with changed decode options (password, zip entry).
@@ -3203,19 +3216,99 @@ impl App {
             .response
     }
 
+    fn note_hidden(&self) -> bool {
+        self.settings.hidden_notes.contains(&Settings::note_key(&self.doc_note))
+    }
+
+    /// The note about the opened file, on one line with More to read it all. Dismissing it
+    /// hides it for every file with the same note, until View \u{203A} Show the note about this file.
+    fn note_bar(&mut self, ui: &mut egui::Ui) {
+        let font = egui::TextStyle::Body.resolve(ui.style());
+        let width = |ui: &egui::Ui, t: &str| ui.fonts(|f| f.layout_no_wrap(t.to_string(), font.clone(), Color32::WHITE).size().x);
+        let pad = 2.0 * ui.spacing().button_padding.x + ui.spacing().item_spacing.x;
+        let dismiss_w = width(ui, tr("Dismiss")) + pad;
+        let more_w = width(ui, tr("More")).max(width(ui, tr("Less"))) + pad;
+        let fits = width(ui, &self.doc_note) + dismiss_w + 8.0 <= ui.available_width();
+        let (mut dismiss, mut toggle) = (false, false);
+        ui.horizontal_top(|ui| {
+            let text_w = (ui.available_width() - dismiss_w - if fits { 0.0 } else { more_w } - 4.0).max(80.0);
+            ui.allocate_ui(egui::vec2(text_w, 0.0), |ui| {
+                ui.set_width(text_w);
+                let text = RichText::new(&self.doc_note).color(ui.visuals().weak_text_color());
+                if fits || self.note_open {
+                    ui.add(egui::Label::new(text).wrap());
+                } else {
+                    ui.add(egui::Label::new(text).truncate());
+                }
+            });
+            if !fits && ui.small_button(if self.note_open { tr("Less") } else { tr("More") }).clicked() {
+                toggle = true;
+            }
+            if ui.small_button(tr("Dismiss")).on_hover_text(tr("Hide this note for every file like this one. View \u{203A} Show the note about this file brings it back.")).clicked() {
+                dismiss = true;
+            }
+        });
+        if toggle {
+            self.note_open = !self.note_open;
+        }
+        if dismiss {
+            self.settings.hidden_notes.push(Settings::note_key(&self.doc_note));
+            self.settings.save();
+        }
+    }
+
+    /// "Save", or "Save (3)" with the number of unsaved changes.
+    fn save_label(&self) -> String {
+        let n = self.change_count();
+        if self.dirty && n > 0 {
+            trf("Save ({0})", &[&n])
+        } else {
+            tr("Save").to_string()
+        }
+    }
+
+    fn save_button(&mut self, ui: &mut egui::Ui) {
+        let hi = self.has_icons;
+        let label = self.save_label();
+        let save_btn = if self.dirty {
+            egui::Button::new(widgets::icon_text_colored(ui, hi, icon::SAVE, &label, Color32::WHITE)).fill(theme::ACCENT)
+        } else {
+            egui::Button::new(widgets::icon_text(ui, hi, icon::SAVE, &label))
+        };
+        let b = ui.add_enabled(self.dirty, save_btn);
+        if widgets::named(b, egui::WidgetType::Button, &label).on_hover_text(tr("Save changes to the file (Ctrl+S)")).clicked() {
+            self.save_clicked();
+        }
+    }
+
+    fn changes_toggle(&mut self, ui: &mut egui::Ui) {
+        let hi = self.has_icons;
+        // The selected colours: white on the light theme's pale selection could not be read.
+        let color = if self.show_changes { ui.visuals().selection.stroke.color } else { ui.visuals().text_color() };
+        let label = tr("Changes");
+        let r = ui.toggle_value(&mut self.show_changes, widgets::icon_text_colored(ui, hi, icon::HISTORY, label, color));
+        // Its text starts with an icon glyph: the screen reader gets the words and the on/off state.
+        let (on, enabled) = (self.show_changes, r.enabled());
+        r.widget_info(|| egui::WidgetInfo::selected(egui::WidgetType::SelectableLabel, enabled, on, label));
+        r.on_hover_text(tr("List everything you've changed since the last save"));
+    }
+
     fn toolbar(&mut self, ui: &mut egui::Ui) {
+        if narrow(ui) {
+            return self.phone_toolbar(ui);
+        }
         let hi = self.has_icons;
         ui.add_space(4.0);
         // The toolbar wraps well before the rest of the layout turns phone-sized: the file
         // name and its chips need the room.
         // Also when the one-line toolbar didn't fit last time (long translations, a long file
-        // name or game name): the Changes button was drawn over the format chip.
+        // name or game name).
         let need_id = egui::Id::new(("toolbar_need", self.doc.as_ref().map(|d| d.path.clone()), crate::i18n::current().code));
         let need = ui.ctx().data(|d| d.get_temp::<f32>(need_id)).unwrap_or(0.0);
-        let narrow = narrow(ui) || ui.available_width() < 900.0 || ui.available_width() < need;
+        let wrap = ui.available_width() < 900.0 || ui.available_width() < need;
         let full_w = ui.available_width();
         let row = |ui: &mut egui::Ui, add: &mut dyn FnMut(&mut egui::Ui)| {
-            if narrow {
+            if wrap {
                 ui.horizontal_wrapped(|ui| add(ui));
             } else {
                 ui.horizontal(|ui| add(ui));
@@ -3233,16 +3326,12 @@ impl App {
             {
                 self.game_picker = Some(self.picker());
             }
-            let save_btn = if self.dirty {
-                egui::Button::new(widgets::icon_text_colored(ui, hi, icon::SAVE, tr("Save"), Color32::WHITE)).fill(theme::ACCENT)
-            } else {
-                egui::Button::new(widgets::icon_text(ui, hi, icon::SAVE, tr("Save")))
-            };
-            let b = ui.add_enabled(self.dirty, save_btn);
-            if widgets::named(b, egui::WidgetType::Button, tr("Save")).on_hover_text(tr("Save changes to the file (Ctrl+S)")).clicked() {
-                self.save_clicked();
+            self.save_button(ui);
+            // The list of what Save will write sits next to it.
+            if self.doc.is_some() {
+                self.changes_toggle(ui);
             }
-            if !narrow {
+            if !wrap {
                 ui.separator();
             }
             let b = ui.add_enabled(!self.undo.is_empty(), egui::Button::new(widgets::icon_text(ui, hi, icon::UNDO, tr("Undo"))));
@@ -3253,13 +3342,73 @@ impl App {
             if widgets::named(b, egui::WidgetType::Button, tr("Redo")).on_hover_text(tr("Ctrl+Y")).clicked() {
                 self.undo_redo(false);
             }
-
             let Some(doc) = &self.doc else { return };
-            if !narrow {
+            if !wrap {
                 ui.separator();
             }
             ui.label(RichText::new(file_name(&doc.path)).family(theme::semibold_family()).size(16.0))
                 .on_hover_text(doc.path.display().to_string());
+            self.file_chips(ui, true);
+            if !wrap {
+                let used = ui.min_rect().width() + ui.spacing().item_spacing.x;
+                if used > full_w {
+                    ui.ctx().data_mut(|d| d.insert_temp(need_id, used));
+                    ui.ctx().request_repaint();
+                }
+            }
+        });
+        ui.add_space(2.0);
+    }
+
+    /// The phone's toolbar: one line with the menus, the file name, Undo and Save.
+    fn phone_toolbar(&mut self, ui: &mut egui::Ui) {
+        let hi = self.has_icons;
+        ui.add_space(4.0);
+        ui.horizontal(|ui| {
+            // Finger-sized buttons.
+            ui.spacing_mut().button_padding = egui::vec2(12.0, 7.0);
+            let m = ui.menu_button(RichText::new(PHONE_MENU).size(20.0), |ui| {
+                ui.spacing_mut().button_padding = egui::vec2(10.0, 8.0);
+                self.menus(ui);
+            })
+            .response;
+            widgets::named(m, egui::WidgetType::Button, tr("Menu")).on_hover_text(tr("Menu"));
+            ui.with_layout(egui::Layout::right_to_left(egui::Align::Center), |ui| {
+                self.save_button(ui);
+                let b = ui.add_enabled(!self.undo.is_empty(), egui::Button::new(widgets::icon(hi, icon::UNDO, "\u{21A9}").size(17.0)));
+                if widgets::named(b, egui::WidgetType::Button, tr("Undo")).on_hover_text(tr("Undo")).clicked() {
+                    self.undo_redo(true);
+                }
+                ui.with_layout(egui::Layout::left_to_right(egui::Align::Center), |ui| {
+                    let name = self.doc.as_ref().map(|d| (file_name(&d.path), d.path.display().to_string()));
+                    match name {
+                        Some((n, full)) => {
+                            ui.add(egui::Label::new(RichText::new(n).family(theme::semibold_family()).size(15.0)).truncate()).on_hover_text(full);
+                        }
+                        None => {
+                            ui.add(egui::Label::new(RichText::new(platform::DISPLAY_NAME).family(theme::semibold_family()).size(15.0)).truncate());
+                        }
+                    }
+                });
+            });
+        });
+        // Warnings about the file (game running, signed save, names not found) on their own line.
+        if self.doc.as_ref().is_some_and(|d| self.has_warning_chips(d)) {
+            ui.horizontal_wrapped(|ui| self.file_chips(ui, false));
+        }
+        ui.add_space(2.0);
+    }
+
+    fn has_warning_chips(&self, doc: &Doc) -> bool {
+        self.running.is_some()
+            || doc.layers.iter().any(|l| matches!(l, Layer::RenpyZip { signed: true, .. } | Layer::RenpyPersistent { signed: true }))
+            || matches!(&doc.content, Content::Json { value, .. } if names::is_rpgmaker(value))
+    }
+
+    /// The chips after the file name: its format (when `with_format`) and any warnings.
+    fn file_chips(&mut self, ui: &mut egui::Ui, with_format: bool) {
+        let Some(doc) = &self.doc else { return };
+        if with_format {
             let kind = friendly_kind(&doc.layers, &doc.content);
             let described = formats::describe(&doc.layers, &doc.content);
             // A game screen was found for a generic format (JSON, XML...): name the game on the chip.
@@ -3269,69 +3418,43 @@ impl App {
             };
             let hover = if chip_text != kind { trf("Detected format: {0} ({1})", &[&kind, &described]) } else { trf("Detected format: {0}", &[&described]) };
             Self::chip(ui, &chip_text, theme::ACCENT).on_hover_text(hover);
-            if doc.layers.iter().any(|l| matches!(l, Layer::RenpyZip { signed: true, .. } | Layer::RenpyPersistent { signed: true })) {
-                if crate::renpy_sign::can_sign() {
-                    Self::chip(ui, tr("Signed, will be re-signed"), theme::OK).on_hover_text(
-                        tr("Ren'Py 8.1+ signs its saves. Your Ren'Py key was found on this PC, so edited saves are re-signed and load normally."),
-                    );
-                } else {
-                    Self::chip(ui, tr("Signed save"), theme::WARN).on_hover_text(tr("Ren'Py 8.1+ signs its saves, but your Ren'Py key (%APPDATA%\\RenPy\\tokens) wasn't found. The old signature will be removed, and the game will ask once whether to load the save: choose Yes."));
-                }
-            }
-            if let Some(game) = &self.running {
-                Self::chip(ui, &trf("{0} is running", &[game]), theme::WARN).on_hover_text(
-                    tr("The game was running when this file was opened. Quit it before saving, or it may overwrite your changes."),
+        }
+        if doc.layers.iter().any(|l| matches!(l, Layer::RenpyZip { signed: true, .. } | Layer::RenpyPersistent { signed: true })) {
+            if crate::renpy_sign::can_sign() {
+                Self::chip(ui, tr("Signed, will be re-signed"), theme::OK).on_hover_text(
+                    tr("Ren'Py 8.1+ signs its saves. Your Ren'Py key was found on this PC, so edited saves are re-signed and load normally."),
                 );
-            }
-            let rpg = matches!(&doc.content, Content::Json { value, .. } if names::is_rpgmaker(value));
-            let mut locate = false;
-            if rpg {
-                match &doc.names.source {
-                    Some(dir) => {
-                        Self::chip(ui, tr("Names from game data"), theme::OK).on_hover_text(dir.display().to_string());
-                    }
-                    None => {
-                        let text = tr("Game data not found. Click to locate it.");
-                        let chip = Self::chip(ui, text, theme::WARN).interact(egui::Sense::click());
-                        if widgets::named(chip, egui::WidgetType::Button, text)
-                            .on_hover_text(tr("Point to the game's data folder to see variable, switch and item names"))
-                            .clicked()
-                        {
-                            locate = true;
-                        }
-                    }
-                }
-            }
-
-            let left_used = ui.min_rect().width();
-            let mut changes_w = 0.0;
-            let mut changes = |ui: &mut egui::Ui| {
-                let n = self.change_count();
-                let label = if n > 0 { crate::i18n::trf("Changes ({0})", &[&n]) } else { tr("Changes").into() };
-                // The selected colours: white on the light theme's pale selection could not be read.
-                let color = if self.show_changes { ui.visuals().selection.stroke.color } else { ui.visuals().text_color() };
-                let r = ui.toggle_value(&mut self.show_changes, widgets::icon_text_colored(ui, hi, icon::HISTORY, &label, color));
-                // Its text starts with an icon glyph: the screen reader gets the words and the on/off state.
-                let (on, enabled) = (self.show_changes, r.enabled());
-                r.widget_info(|| egui::WidgetInfo::selected(egui::WidgetType::SelectableLabel, enabled, on, &label));
-                let r = r.on_hover_text(tr("List everything you've changed since the last save"));
-                changes_w = r.rect.width();
-            };
-            if narrow {
-                changes(ui);
             } else {
-                ui.with_layout(egui::Layout::right_to_left(egui::Align::Center), changes);
-                let need = left_used + changes_w + 3.0 * ui.spacing().item_spacing.x;
-                if need > full_w {
-                    ui.ctx().data_mut(|d| d.insert_temp(need_id, need));
-                    ui.ctx().request_repaint();
+                Self::chip(ui, tr("Signed save"), theme::WARN).on_hover_text(tr("Ren'Py 8.1+ signs its saves, but your Ren'Py key (%APPDATA%\\RenPy\\tokens) wasn't found. The old signature will be removed, and the game will ask once whether to load the save: choose Yes."));
+            }
+        }
+        if let Some(game) = &self.running {
+            Self::chip(ui, &trf("{0} is running", &[game]), theme::WARN).on_hover_text(
+                tr("The game was running when this file was opened. Quit it before saving, or it may overwrite your changes."),
+            );
+        }
+        let rpg = matches!(&doc.content, Content::Json { value, .. } if names::is_rpgmaker(value));
+        let mut locate = false;
+        if rpg {
+            match &doc.names.source {
+                Some(dir) => {
+                    Self::chip(ui, tr("Names from game data"), theme::OK).on_hover_text(dir.display().to_string());
+                }
+                None => {
+                    let text = tr("Game data not found. Click to locate it.");
+                    let chip = Self::chip(ui, text, theme::WARN).interact(egui::Sense::click());
+                    if widgets::named(chip, egui::WidgetType::Button, text)
+                        .on_hover_text(tr("Point to the game's data folder to see variable, switch and item names"))
+                        .clicked()
+                    {
+                        locate = true;
+                    }
                 }
             }
-            if locate {
-                self.locate_data_dir();
-            }
-        });
-        ui.add_space(2.0);
+        }
+        if locate {
+            self.locate_data_dir();
+        }
     }
 
     fn change_count(&self) -> usize {
@@ -3398,8 +3521,17 @@ impl App {
         }
         let hi = self.has_icons;
 
-        // View bar: tabs, search, options.
-        ui.horizontal(|ui| {
+        // View bar: tabs, search, options. On a phone the search box goes under the tabs when
+        // they leave it too little room.
+        let phone = narrow(ui);
+        let bar = |ui: &mut egui::Ui, add: &mut dyn FnMut(&mut egui::Ui)| {
+            if phone {
+                ui.horizontal_wrapped(|ui| add(ui));
+            } else {
+                ui.horizontal(|ui| add(ui));
+            }
+        };
+        bar(ui, &mut |ui| {
             let old = self.tab;
             if let Some(g) = game {
                 let r = ui.selectable_value(&mut self.tab, Tab::Game, g.tab_label()).on_hover_text(tr("This game's own screen: its stats, inventory and more, laid out like the game"));
@@ -3476,6 +3608,9 @@ impl App {
         if narrow(ui) && matches!(self.tab, Tab::Values | Tab::Tree) {
             ui.horizontal(|ui| self.view_options(ui));
         }
+        if narrow(ui) && self.tab == Tab::Game {
+            section_chips(ui);
+        }
         if self.tab == Tab::Values {
             self.clip_bar(ui);
         }
@@ -3490,10 +3625,15 @@ impl App {
     fn game_find_box(&mut self, ui: &mut egui::Ui) {
         let id = egui::Id::new("game_find_box");
         let before = self.game_find.clone();
-        let hint = tr("Find on this screen  (Ctrl+F)");
+        // Too little room left on the phone's tab line: the box goes on its own line.
+        if narrow(ui) && ui.available_width() < 160.0 {
+            ui.end_row();
+        }
+        // A phone has no Ctrl+F, and no room for the long hint.
+        let hint = if narrow(ui) { tr("Find\u{2026}") } else { tr("Find on this screen  (Ctrl+F)") };
         // As wide as its hint (French and German cut it off at 200 px), within reason.
         let hint_w = ui.fonts(|f| f.layout_no_wrap(hint.to_string(), egui::TextStyle::Body.resolve(ui.style()), Color32::WHITE).size().x);
-        let w = (hint_w + 12.0).clamp(200.0, 320.0).min(ui.available_width());
+        let w = (hint_w + 12.0).clamp(200.0, 320.0).min(ui.available_width() - 2.0 * ui.spacing().button_padding.x);
         let r = ui.add(TextEdit::singleline(&mut self.game_find).id(id).hint_text(hint).desired_width(w));
         let r = widgets::named(r, egui::WidgetType::TextEdit, hint);
         if self.focus_game_find {
@@ -3758,7 +3898,12 @@ impl App {
         // Edits made earlier in this frame are in the list straight away.
         self.refresh_changes();
         let changes = std::mem::take(&mut self.changes);
-        egui::SidePanel::right("changes").default_width(320.0).min_width(260.0).show(ctx, |ui| {
+        // On a phone the list takes the whole width (beside the screen it left it no room);
+        // Close brings the screen back.
+        let phone = ctx.screen_rect().width() < PHONE_W;
+        let panel = egui::SidePanel::right("changes").default_width(320.0).min_width(260.0);
+        let panel = if phone { panel.resizable(false).exact_width(ctx.screen_rect().width()) } else { panel };
+        panel.show(ctx, |ui| {
             let Some(d) = &self.doc else { return };
             ui.add_space(6.0);
             ui.horizontal(|ui| {
@@ -4414,8 +4559,46 @@ fn fit(ctx: &egui::Context, want: f32) -> f32 {
     want.min(ctx.screen_rect().width() - 12.0 - m).max(200.0)
 }
 
+/// The phone's row of a game screen's sections: finger-sized chips that jump to each one,
+/// marked when the section holds a change. Swipe it sideways when there are more.
+fn section_chips(ui: &mut egui::Ui) {
+    let list = crate::game_ui::sections(ui.ctx());
+    if list.len() < 2 {
+        return;
+    }
+    ui.add_space(2.0);
+    ScrollArea::horizontal().id_salt("section_chips").auto_shrink([false, true]).show(ui, |ui| {
+        ui.horizontal(|ui| {
+            ui.spacing_mut().item_spacing.x = 8.0;
+            ui.spacing_mut().button_padding = egui::vec2(16.0, 10.0);
+            for s in &list {
+                let title: String = if s.title.chars().count() > 28 { s.title.chars().take(27).chain(['\u{2026}']).collect() } else { s.title.clone() };
+                let mut btn = egui::Button::new(RichText::new(title).size(16.0)).rounding(22.0).min_size(egui::vec2(48.0, 44.0));
+                if s.edited {
+                    btn = btn.stroke(egui::Stroke::new(1.5_f32, theme::MODIFIED));
+                }
+                let mut r = ui.add(btn);
+                if s.edited {
+                    ui.painter().circle_filled(r.rect.right_top() + egui::vec2(-9.0, 9.0), 4.0, theme::MODIFIED);
+                    r = r.on_hover_text(tr("Has changes"));
+                }
+                if r.clicked() {
+                    crate::game_ui::jump_to_section(ui.ctx(), s.index);
+                }
+            }
+        });
+    });
+    ui.add_space(2.0);
+}
+
+/// The phone toolbar's menu button (U+2630, "trigram for heaven").
+const PHONE_MENU: &str = "\u{2630}";
+
+/// Below this window width the layout is the phone one.
+const PHONE_W: f32 = 640.0;
+
 fn narrow(ui: &egui::Ui) -> bool {
-    ui.ctx().screen_rect().width() < 640.0
+    ui.ctx().screen_rect().width() < PHONE_W
 }
 
 /// Whether the file sits in Steam's per-account cloud folder (`userdata/<id>/<app>/remote`).
@@ -4600,22 +4783,14 @@ impl App {
                     .show(ctx, |_| {});
             }
         }
-        egui::TopBottomPanel::top("menu").show(ctx, |ui| self.menu_bar(ui));
+        // On a phone the menus fold into the toolbar's menu button.
+        if ctx.screen_rect().width() >= PHONE_W {
+            egui::TopBottomPanel::top("menu").show(ctx, |ui| self.menu_bar(ui));
+        }
         egui::TopBottomPanel::top("toolbar").show(ctx, |ui| self.toolbar(ui));
         self.tab_strip(ctx);
-        if self.doc.is_some() && !self.doc_note.is_empty() {
-            let mut dismiss = false;
-            egui::TopBottomPanel::top("doc_note").show(ctx, |ui| {
-                ui.horizontal_wrapped(|ui| {
-                    ui.label(RichText::new(&self.doc_note).color(ui.visuals().weak_text_color()));
-                    if ui.small_button(tr("Dismiss")).clicked() {
-                        dismiss = true;
-                    }
-                });
-            });
-            if dismiss {
-                self.doc_note.clear();
-            }
+        if self.doc.is_some() && !self.doc_note.is_empty() && !self.note_hidden() {
+            egui::TopBottomPanel::top("doc_note").show(ctx, |ui| self.note_bar(ui));
         }
         // The file is being written by this app: that is not a change on disk to warn about.
         if !saving {
@@ -6156,5 +6331,135 @@ pub(crate) mod layout_tests {
         problems.sort();
         problems.dedup();
         assert!(problems.is_empty(), "{} layout problems:\n{}", problems.len(), problems.iter().take(40).cloned().collect::<Vec<_>>().join("\n"));
+    }
+
+    fn window() -> egui::Context {
+        let ctx = egui::Context::default();
+        theme::install_fonts(&ctx);
+        theme::apply(&ctx, true);
+        ctx
+    }
+
+    /// A Hollow Knight save as plain JSON: a header card with tiles and several panels.
+    fn knight_save(tag: &str) -> PathBuf {
+        let dir = std::env::temp_dir().join(format!("use-phone-{tag}-{}", std::process::id()));
+        let _ = std::fs::remove_dir_all(&dir);
+        std::fs::create_dir_all(&dir).unwrap();
+        let path = dir.join("user1.json");
+        let pd = json!({"playerData": {"geo": 1234, "maxHealthBase": 5, "charmSlots": 3, "ore": 2, "simpleKeys": 1, "nailDamage": 5, "maxMP": 99, "MPReserveMax": 33, "health": 5, "maxHealth": 5, "hasDash": true, "playTime": 7200.0}});
+        std::fs::write(&path, serde_json::to_vec_pretty(&pd).unwrap()).unwrap();
+        path
+    }
+
+    fn panel_rect(ctx: &egui::Context, id: &str) -> Option<egui::Rect> {
+        egui::containers::panel::PanelState::load(ctx, egui::Id::new(id)).map(|p| p.rect)
+    }
+
+    fn run_frames(app: &mut App, ctx: &egui::Context, w: f32, h: f32, n: usize) -> egui::FullOutput {
+        let mut last = None;
+        for _ in 0..n {
+            let mut raw = input(w, h);
+            // Time moves on, so scrolling animations finish.
+            raw.time = Some(ctx.input(|i| i.time) + 0.5);
+            eframe::App::raw_input_hook(app, ctx, &mut raw);
+            last = Some(ctx.run(raw, |ctx| app.frame(ctx)));
+        }
+        last.unwrap()
+    }
+
+    #[test]
+    fn phone_layout_has_one_toolbar_line_and_section_chips_in_every_language() {
+        let _lock = crate::i18n::LANG_TEST_LOCK.lock().unwrap_or_else(|e| e.into_inner());
+        let path = knight_save("chips");
+        let mut problems = vec![];
+        for lang in ["en", "de", "es", "fr", "pt-BR", "ja", "zh-CN"] {
+            crate::i18n::set(Some(lang));
+            for (w, h) in [(360.0, 740.0), (412.0, 900.0), (600.0, 900.0)] {
+                let ctx = window();
+                let mut app = App::with(&ctx, Settings::default(), false);
+                app.load(&path);
+                assert_eq!(app.doc.as_ref().and_then(|d| d.game), Some(crate::game_ui::Game::HollowKnight), "{}", app.status);
+                // An edit, so Save shows its count and a section gets the edited mark.
+                app.apply_edit("/playerData/geo".into(), json!(5000), 0.0);
+                let out = run_frames(&mut app, &ctx, w, h, 5);
+                let who = format!("{lang} at {w}x{h}");
+                if panel_rect(&ctx, "menu").is_some() {
+                    problems.push(format!("{who}: the menu bar is shown on a phone"));
+                }
+                match panel_rect(&ctx, "toolbar") {
+                    Some(r) if r.height() > 56.0 => problems.push(format!("{who}: toolbar is {} px tall (more than one line)", r.height())),
+                    None => problems.push(format!("{who}: no toolbar")),
+                    _ => {}
+                }
+                let secs = crate::game_ui::sections(&ctx);
+                let titles: Vec<&str> = secs.iter().map(|s| s.title.as_str()).collect();
+                if secs.len() < 3 {
+                    problems.push(format!("{who}: only {} sections: {titles:?}", secs.len()));
+                }
+                if !secs.first().is_some_and(|s| s.edited) || secs.iter().skip(1).any(|s| s.edited) {
+                    problems.push(format!("{who}: only the header card holds the edit: {secs:?}"));
+                }
+                // The chips row scrolls sideways: chips past its edge are meant to be cut off.
+                for t in cut_off_text(&out).into_iter().filter(|t| !secs.iter().any(|s| t.starts_with(&format!("{:?} spans", s.title)) || t.starts_with(&format!("\"{}\u{2026}\" spans", s.title.chars().take(27).collect::<String>())))) {
+                    problems.push(format!("{who}: {t}"));
+                }
+            }
+        }
+        crate::i18n::set(Some("en"));
+        problems.sort();
+        problems.dedup();
+        assert!(problems.is_empty(), "{} problems:\n{}", problems.len(), problems.iter().take(40).cloned().collect::<Vec<_>>().join("\n"));
+    }
+
+    #[test]
+    fn a_section_chip_scrolls_its_section_to_the_top() {
+        let _lock = crate::i18n::LANG_TEST_LOCK.lock().unwrap_or_else(|e| e.into_inner());
+        crate::i18n::set(Some("en"));
+        let path = knight_save("jump");
+        let ctx = window();
+        let mut app = App::with(&ctx, Settings::default(), false);
+        app.load(&path);
+        // Short, so the last section starts below the bottom of the screen.
+        let (w, h) = (380.0, 420.0);
+        run_frames(&mut app, &ctx, w, h, 4);
+        let secs = crate::game_ui::sections(&ctx);
+        let last = secs.last().cloned().expect("sections");
+        assert!(last.top > h, "the last section is already on screen: {secs:?}");
+        crate::game_ui::jump_to_section(&ctx, last.index);
+        run_frames(&mut app, &ctx, w, h, 6);
+        let after = crate::game_ui::sections(&ctx).into_iter().find(|s| s.index == last.index).unwrap();
+        // The last section can only come up as far as the end of the screen allows.
+        assert!(after.top < h - 60.0, "{} still at {} after the jump", after.title, after.top);
+    }
+
+    #[test]
+    fn desktop_keeps_its_menu_bar_and_save_shows_the_count() {
+        let _lock = crate::i18n::LANG_TEST_LOCK.lock().unwrap_or_else(|e| e.into_inner());
+        crate::i18n::set(Some("en"));
+        let path = knight_save("desk");
+        let ctx = window();
+        let mut app = App::with(&ctx, Settings::default(), false);
+        app.load(&path);
+        app.apply_edit("/playerData/geo".into(), json!(5000), 0.0);
+        let out = run_frames(&mut app, &ctx, 1280.0, 800.0, 4);
+        assert!(panel_rect(&ctx, "menu").is_some(), "the menu bar is missing on a wide window");
+        assert!(panel_rect(&ctx, "toolbar").is_some_and(|r| r.height() < 56.0), "the toolbar wrapped on a wide window");
+        assert_eq!(app.save_label(), "Save (1)");
+        assert!(cut_off_text(&out).is_empty(), "{:?}", cut_off_text(&out));
+    }
+
+    #[test]
+    fn a_dismissed_file_note_stays_hidden_and_comes_back_from_the_view_menu() {
+        let ctx = window();
+        let mut app = App::with(&ctx, Settings::default(), false);
+        app.doc_note = "Level, experience and gold.".into();
+        assert!(!app.note_hidden());
+        app.settings.hidden_notes.push(Settings::note_key(&app.doc_note));
+        assert!(app.note_hidden());
+        // Another file with the same note: still hidden.
+        app.doc_note = "Level, experience and gold.".into();
+        assert!(app.note_hidden());
+        app.doc_note = "Something else.".into();
+        assert!(!app.note_hidden());
     }
 }

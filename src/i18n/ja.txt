@@ -1154,8 +1154,6 @@ Advanced
 Opened {0} ({1}) — {2}.
 = {0} を開きました（{1}）— {2}。
 
-Changes ({0})
-= 変更（{0}）
 
 Filter the tree by name or value  (Ctrl+F)
 = 名前または値でツリーを絞り込み  (Ctrl+F)
@@ -29533,3 +29531,24 @@ the backup didn't match the save (the game may have just written to it)
 
 Couldn't write {0}: {1}
 = {0} に書き込めませんでした：{1}
+
+Save ({0})
+= 保存 ({0})
+
+Menu
+= メニュー
+
+More
+= 続きを表示
+
+Less
+= 折りたたむ
+
+Has changes
+= 変更あり
+
+Show the note about this file
+= このファイルの説明を表示
+
+Hide this note for every file like this one. View › Show the note about this file brings it back.
+= この種類のすべてのファイルでこの説明を隠します。表示 › このファイルの説明を表示 で元に戻せます。

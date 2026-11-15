@@ -543,7 +543,92 @@ pub fn show(game: Game, ui: &mut Ui, cx: &mut GameCtx) {
     let screen = egui::Id::new(("game_screen", format!("{game:?}")));
     ui.ctx().data_mut(|d| d.insert_temp(egui::Id::new(SCREEN_SALT), screen));
     quick_strip(ui);
+    begin_sections(ui.ctx());
     show_screen(game, ui, cx);
+    end_sections(ui.ctx());
+}
+
+// ------------------------------------------------------------------ sections (phone chips)
+
+/// A titled part of a game screen (its header card or a panel), for the phone's row of
+/// section chips that jump to each one.
+#[derive(Clone, Debug, PartialEq)]
+pub struct Section {
+    pub title: String,
+    /// Holds a field that was changed.
+    pub edited: bool,
+    /// Its place in drawing order, which a jump request names.
+    pub index: usize,
+    /// Where it was drawn (screen position), for ordering.
+    pub top: f32,
+}
+
+const SEC_NOW: &str = "game_sections_now";
+const SEC_SHOWN: &str = "game_sections_shown";
+const SEC_JUMP: &str = "game_section_jump";
+const SEC_EDITS: &str = "game_section_edits";
+
+fn begin_sections(ctx: &egui::Context) {
+    ctx.data_mut(|d| {
+        d.insert_temp(egui::Id::new(SEC_NOW), Vec::<Section>::new());
+        d.insert_temp(egui::Id::new(SEC_EDITS), 0usize);
+    });
+}
+
+fn end_sections(ctx: &egui::Context) {
+    let mut now: Vec<Section> = ctx.data_mut(|d| {
+        d.remove_temp::<usize>(egui::Id::new(SEC_EDITS));
+        d.remove_temp(egui::Id::new(SEC_NOW))
+    })
+    .unwrap_or_default();
+    // Columns draw their panels in turn, so order them as they sit on the screen.
+    now.sort_by(|a, b| a.top.total_cmp(&b.top).then(a.index.cmp(&b.index)));
+    let shown: Vec<Section> = ctx.data(|d| d.get_temp(egui::Id::new(SEC_SHOWN))).unwrap_or_default();
+    let same = |a: &[Section], b: &[Section]| a.len() == b.len() && a.iter().zip(b).all(|(x, y)| x.title == y.title && x.edited == y.edited && x.index == y.index);
+    if !same(&now, &shown) {
+        ctx.request_repaint();
+    }
+    ctx.data_mut(|d| d.insert_temp(egui::Id::new(SEC_SHOWN), now));
+}
+
+/// The sections the game screen drew last frame, top to bottom.
+pub fn sections(ctx: &egui::Context) -> Vec<Section> {
+    ctx.data(|d| d.get_temp(egui::Id::new(SEC_SHOWN))).unwrap_or_default()
+}
+
+/// Asks the screen to scroll section `index` (its [`Section::index`]) to the top.
+pub fn jump_to_section(ctx: &egui::Context, index: usize) {
+    ctx.data_mut(|d| d.insert_temp(egui::Id::new(SEC_JUMP), index));
+    ctx.request_repaint();
+}
+
+/// A changed field was drawn: the section around it gets the "edited" mark.
+fn note_edited(ui: &Ui) {
+    ui.ctx().data_mut(|d| *d.get_temp_mut_or_default::<usize>(egui::Id::new(SEC_EDITS)) += 1);
+}
+
+fn edits_so_far(ui: &Ui) -> usize {
+    ui.ctx().data(|d| d.get_temp::<usize>(egui::Id::new(SEC_EDITS))).unwrap_or(0)
+}
+
+/// Records a drawn section and scrolls to it when a chip asked for it.
+fn section_drawn(ui: &Ui, title: &str, rect: egui::Rect, edits_before: usize) {
+    let ctx = ui.ctx();
+    let edited = edits_so_far(ui) > edits_before;
+    let Some(index) = ctx.data_mut(|d| {
+        // Drawn outside a game screen (a test, a dialog): nothing collects it.
+        d.get_temp::<usize>(egui::Id::new(SEC_EDITS))?;
+        let list = d.get_temp_mut_or_default::<Vec<Section>>(egui::Id::new(SEC_NOW));
+        let index = list.len();
+        list.push(Section { title: title.to_string(), edited, index, top: rect.top() });
+        Some(index)
+    }) else {
+        return;
+    };
+    if ctx.data(|d| d.get_temp::<usize>(egui::Id::new(SEC_JUMP))) == Some(index) {
+        ctx.data_mut(|d| d.remove_temp::<usize>(egui::Id::new(SEC_JUMP)));
+        ui.scroll_to_rect(rect, Some(egui::Align::Min));
+    }
 }
 
 fn show_screen(game: Game, ui: &mut Ui, cx: &mut GameCtx) {
@@ -723,6 +808,9 @@ impl GameCtx<'_> {
     /// when the value isn't in this save.
     pub fn editor(&mut self, ui: &mut Ui, p: &str, width: f32) {
         let Some(v) = self.get(p).cloned() else { return };
+        if self.modified(p) {
+            note_edited(ui);
+        }
         let editable = self.can_edit(p);
         let choices = if editable { self.tree.and_then(|t| t.choices(p)) } else { None };
         // One group, so a number's box and its −/+ stay in one cell of a grid.
@@ -815,15 +903,23 @@ impl GameCtx<'_> {
         // Long numbers (money in the trillions) get a wider tile instead of being cut off.
         let digits = self.get(p).map(|v| v.to_string().len()).unwrap_or(0) as f32;
         let need = digits * 11.0 + 18.0;
-        tile_frame_min(ui, accent, modified, need + 76.0, |ui| {
+        // Small whole numbers get −/+ beside the box (kept on a phone too: a tile has the room);
+        // big ones (experience, gold) are typed and use the whole width.
+        let steps = self.get(p).is_some_and(widgets::steps) && self.can_edit(p);
+        let whole = self.get(p).is_some_and(|v| v.as_i64().is_some() || v.as_u64().is_some());
+        tile_frame_min(ui, accent, modified, need + if steps { 76.0 } else { 8.0 }, |ui| {
             let r = ui.add(egui::Label::new(RichText::new(caption).size(12.5).color(ui.visuals().weak_text_color())).truncate());
             find_mark(ui, r.rect, caption);
             ui.horizontal(|ui| {
                 ui.style_mut().override_font_id = Some(FontId::proportional(18.0));
-                // Whole numbers leave room for −/+; decimals use the whole width.
-                let whole = self.get(p).is_some_and(|v| v.as_i64().is_some() || v.as_u64().is_some());
-                let w = if whole { (ui.available_width() - 76.0).clamp(50.0, 104.0f32.max(need)) } else { (ui.available_width() - 8.0).clamp(60.0, 160.0f32.max(need)) };
-                self.editor(ui, p, w);
+                let w = if steps {
+                    (ui.available_width() - 76.0).clamp(50.0, 104.0f32.max(need))
+                } else if whole {
+                    (ui.available_width() - 8.0).clamp(50.0, 104.0f32.max(need))
+                } else {
+                    (ui.available_width() - 8.0).clamp(60.0, 160.0f32.max(need))
+                };
+                widgets::with_steppers(|| self.editor(ui, p, w));
             });
         });
     }
@@ -839,8 +935,8 @@ impl GameCtx<'_> {
                 let r = ui.add(egui::Label::new(RichText::new(name).color(c)).truncate());
                 find_mark(ui, r.rect, name);
             });
-            // Decimals need a wider box than whole numbers.
-            self.editor(ui, p, if n.fract().abs() > 1e-9 { 84.0 } else { 52.0 });
+            // Decimals need a wider box than whole numbers. The line has room for −/+ on a phone.
+            widgets::with_steppers(|| self.editor(ui, p, if n.fract().abs() > 1e-9 { 84.0 } else { 52.0 }));
             let w = (ui.available_width() - 8.0).max(30.0);
             bar(ui, w, (n / max) as f32, color, None);
         });
@@ -857,6 +953,9 @@ impl GameCtx<'_> {
             _ => a == b,
         };
         let modified = self.modified(p);
+        if modified {
+            note_edited(ui);
+        }
         let mut pick = None;
         ui.horizontal_wrapped(|ui| {
             let c = if modified { theme::fg(ui, theme::MODIFIED) } else { ui.visuals().text_color() };
@@ -884,6 +983,9 @@ impl GameCtx<'_> {
         let on = self.flag(p);
         let editable = self.can_edit(p);
         let modified = self.modified(p);
+        if modified {
+            note_edited(ui);
+        }
         let fill = if on { color.gamma_multiply(0.85) } else { ui.visuals().widgets.inactive.bg_fill };
         let text_c = if on { Color32::WHITE } else { ui.visuals().weak_text_color() };
         let mut btn = egui::Button::new(RichText::new(label).color(text_c).size(13.0)).fill(fill).rounding(12.0);
@@ -909,6 +1011,7 @@ impl GameCtx<'_> {
 /// The header card: a coloured band with the character's name and a line under it.
 pub fn hero(ui: &mut Ui, accent: Color32, title: &str, subtitle: &str, add: impl FnOnce(&mut Ui)) {
     let subtitle = tr_any(subtitle);
+    let edits = edits_so_far(ui);
     let fill = blend(ui.visuals().faint_bg_color, accent, 0.18);
     let resp = egui::Frame::none().fill(fill).rounding(10.0).inner_margin(egui::Margin::symmetric(18.0, 14.0)).show(ui, |ui| {
         ui.set_width(ui.available_width());
@@ -922,18 +1025,23 @@ pub fn hero(ui: &mut Ui, accent: Color32, title: &str, subtitle: &str, add: impl
     });
     let r = resp.response.rect;
     ui.painter().rect_filled(egui::Rect::from_min_size(r.min, egui::vec2(5.0, r.height())), egui::Rounding { nw: 10.0, sw: 10.0, ne: 0.0, se: 0.0 }, accent);
+    section_drawn(ui, title, r, edits);
     ui.add_space(10.0);
 }
 
 /// A titled card.
 pub fn panel(ui: &mut Ui, title: &str, add: impl FnOnce(&mut Ui)) {
     let title = tr_any(title);
+    let edits = edits_so_far(ui);
+    let top = ui.cursor().top();
     theme::card(ui, |ui| {
         let r = ui.add(egui::Label::new(RichText::new(title).family(theme::semibold_family()).size(16.0)).truncate());
         find_mark(ui, r.rect, title);
         ui.add_space(4.0);
         add(ui);
     });
+    let rect = egui::Rect::from_min_max(egui::pos2(ui.min_rect().left(), top), egui::pos2(ui.min_rect().right(), ui.cursor().top()));
+    section_drawn(ui, title, rect, edits);
     ui.add_space(8.0);
 }
 
@@ -952,7 +1060,11 @@ pub fn tile_frame(ui: &mut Ui, accent: Color32, modified: bool, add: impl FnOnce
 pub fn tile_frame_min(ui: &mut Ui, accent: Color32, modified: bool, min: f32, add: impl FnOnce(&mut Ui)) {
     // At least two tiles per row, even on a phone.
     let row = ui.max_rect().width();
-    let tile_w = TILE_W.max(min).min((row / 2.0 - 30.0).max(110.0).max(min.min(row - 40.0)));
+    let half = (row / 2.0 - 30.0).max(110.0);
+    // On a phone a tile that would want more than half the row still takes half: its box is
+    // narrower and scrolls, rather than every tile below it getting a row of its own.
+    let min = if ui.ctx().screen_rect().width() < 640.0 { min.min(half) } else { min };
+    let tile_w = TILE_W.max(min).min(half.max(min.min(row - 40.0)));
     // Tiles flow in rows; start a new row when this one is full (frames can't wrap by themselves).
     if ui.layout().main_wrap() && ui.available_size_before_wrap().x < tile_w + 24.0 {
         ui.end_row();
