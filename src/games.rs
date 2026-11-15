@@ -1219,7 +1219,9 @@ mod tests {
         assert!(!texts.contains(&r"%APPDATA%\Game\Saves"));
         // Every support text is listed; folder and files only with prose.
         assert!(GAMES.iter().all(|g| texts.contains(&g.support)));
-        // English stays as it is without a translation.
+        // English stays as it is.
+        let _lock = crate::i18n::LANG_TEST_LOCK.lock().unwrap_or_else(|e| e.into_inner());
+        crate::i18n::set(Some("en"));
         assert_eq!(support_text(&GAMES[0]), GAMES[0].support);
     }
 

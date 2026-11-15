@@ -5253,7 +5253,7 @@ mod save_tests {
 
     /// What the Values list shows: each value's section, name, place and whether it can be edited.
     fn rows(m: &Model) -> Vec<(String, String, String, String, bool)> {
-        m.rows.iter().map(|r| (r.ptr.clone(), m.sections[r.section].title.clone(), r.name.clone(), r.context.clone(), r.editable)).collect()
+        m.rows.iter().map(|r| (r.ptr.to_string(), m.sections[r.section].title.clone(), r.name().to_string(), r.context().to_string(), r.editable)).collect()
     }
 
     #[test]

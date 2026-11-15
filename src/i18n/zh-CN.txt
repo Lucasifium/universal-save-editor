@@ -27343,3 +27343,1769 @@ Saved, but changes made while saving aren't in the file yet — save again to ke
 the file is being saved
 = 文件正在保存
 
+%APPDATA%\\bitburner\\saves (or the browser's Export Save button)
+= %APPDATA%\bitburner\saves（或浏览器中的 Export Save 按钮）
+
+%LOCALAPPDATA%\\Astro\\Saved\\SaveGames (Steam version; Microsoft Store: the Xbox app container)
+= %LOCALAPPDATA%\Astro\Saved\SaveGames（Steam 版；Microsoft Store 版：Xbox 应用容器）
+
+%LOCALAPPDATA%\\JH\\Saved\\SaveGames (the game's Unreal project is called JH)
+= %LOCALAPPDATA%\JH\Saved\SaveGames（该游戏的 Unreal 项目名为 JH）
+
+%LOCALAPPDATA%\\Ori and the Blind Forest DE (the original: %LOCALAPPDATA%\\Ori and the Blind Forest)
+= %LOCALAPPDATA%\Ori and the Blind Forest DE（原版：%LOCALAPPDATA%\Ori and the Blind Forest）
+
+%LOCALAPPDATA%\\Remnant2\\Saved\\SaveGames\\<Steam id> (Microsoft Store and Epic: the same folder under the account)
+= %LOCALAPPDATA%\Remnant2\Saved\SaveGames\<Steam id>（Microsoft Store 和 Epic：账户下的同名文件夹）
+
+%LOCALAPPDATA%\\Warner Bros. Interactive Entertainment\\LEGO Batman - Legacy of the Dark Knight\\SaveGames\\steam\\<Steam id>
+= %LOCALAPPDATA%\Warner Bros. Interactive Entertainment\LEGO Batman - Legacy of the Dark Knight\SaveGames\steam\<Steam id>
+
+%USERPROFILE%\\AppData\\LocalLow\\IronGate\\Valheim\\characters_local (older or Steam Cloud: characters)
+= %USERPROFILE%\AppData\LocalLow\IronGate\Valheim\characters_local（旧版或 Steam 云存档：characters）
+
+%USERPROFILE%\\AppData\\LocalLow\\Playsaurus\\Clicker Heroes (the saved game file; the in-game Save to file option also works)
+= %USERPROFILE%\AppData\LocalLow\Playsaurus\Clicker Heroes（游戏存档文件；也可使用游戏内的 Save to file 选项）
+
+%USERPROFILE%\\AppData\\LocalLow\\RedHook\\Darkest Dungeon II\\SaveFiles\\<id>\\profiles (runs in profile_<n>_runs\\<run>\\Save_<nnnn>_<stage>)
+= %USERPROFILE%\AppData\LocalLow\RedHook\Darkest Dungeon II\SaveFiles\<id>\profiles（各次远征位于 profile_<n>_runs\<run>\Save_<nnnn>_<stage>）
+
+%USERPROFILE%\\Saved Games\\Arkane Studios\\Prey\\SaveGames (Prey_MS for the Microsoft Store version)
+= %USERPROFILE%\Saved Games\Arkane Studios\Prey\SaveGames（Microsoft Store 版为 Prey_MS）
+
+%USERPROFILE%\\Saved Games\\Assassin's Creed Brotherhood\\SAVES (or the Ubisoft Connect savegames folder, game 26)
+= %USERPROFILE%\Saved Games\Assassin's Creed Brotherhood\SAVES（或 Ubisoft Connect 的 savegames 文件夹，游戏 26）
+
+%USERPROFILE%\\Saved Games\\Diablo II (1.13 and older: <install folder>\\Save)
+= %USERPROFILE%\Saved Games\Diablo II（1.13 及更早版本：<install folder>\Save）
+
+%USERPROFILE%\\Saved Games\\FALCOM\\Ao\\data<nnnn> (KAI: its own Saved Games folder)
+= %USERPROFILE%\Saved Games\FALCOM\Ao\data<nnnn>（KAI：使用其自己的 Saved Games 文件夹）
+
+%USERPROFILE%\\Saved Games\\TheGameBakers\\Cairn_RETAIL\\SAVEGAMES\\RETAIL\\STORY (SUMMIT for summit runs)
+= %USERPROFILE%\Saved Games\TheGameBakers\Cairn_RETAIL\SAVEGAMES\RETAIL\STORY（登顶挑战为 SUMMIT）
+
+(not confirmed for Steam: an Aquiris folder under LocalLow is searched; otherwise open the file with the file browser)
+= （Steam 版未确认：会在 LocalLow 下搜索 Aquiris 文件夹；否则请用文件浏览器打开文件）
+
+(not confirmed: a Legends of Kingdom Rush folder under LocalLow is searched; otherwise open the file with the file browser)
+= （未确认：会在 LocalLow 下搜索 Legends of Kingdom Rush 文件夹；否则请用文件浏览器打开文件）
+
+*.memory (one per save)
+= *.memory（每个存档一个）
+
+*.ocs (players and worlds)
+= *.ocs（玩家和世界）
+
+*.sav (auto, quick and named saves)
+= *.sav（自动存档、快速存档和命名存档）
+
+0.celeste, 1.celeste, 2.celeste (settings.celeste holds the options)
+= 0.celeste、1.celeste、2.celeste（settings.celeste 保存选项）
+
+1CHARACTERSLOT_BETA_<n> (and Epoch_Local_Global_Data_Beta, the stash files)
+= 1CHARACTERSLOT_BETA_<n>（以及 Epoch_Local_Global_Data_Beta，即仓库文件）
+
+<Farm>_<id> (no extension)
+= <Farm>_<id>（无扩展名）
+
+<Module>.sav (the player as the game loads it), player.bic, localvault\\*.bic
+= <Module>.sav（游戏加载时使用的玩家数据）、player.bic、localvault\*.bic
+
+<ROM name>.fla (128 KiB) or the .gci of the GameCube disc
+= <ROM name>.fla（128 KiB）或 GameCube 光盘的 .gci
+
+<ROM name>.mpk (Controller Pak) or .sra
+= <ROM name>.mpk（Controller Pak）或 .sra
+
+<ROM name>.sra (32 KiB) or the .gci of the GameCube disc
+= <ROM name>.sra（32 KiB）或 GameCube 光盘的 .gci
+
+<Steam library>\\steamapps\\common\\XCom Terror from the Deep\\TFD\\GAME_<1-10>
+= <Steam library>\steamapps\common\XCom Terror from the Deep\TFD\GAME_<1-10>
+
+<adventure>_<date>.run (one per adventure in progress)
+= <adventure>_<date>.run（每个进行中的冒险一个）
+
+<company> - <game>.reg (exported for you), prefs, unity.<company>.<game>.plist
+= <company> - <game>.reg（为你导出）、prefs、unity.<company>.<game>.plist
+
+<game id> save folder (the save file inside it, named like the folder)
+= <game id> 存档文件夹（其中的存档文件与文件夹同名）
+
+<game id>/<game id> inside the save folder
+= 存档文件夹内的 <game id>/<game id>
+
+<game id>/SaveData-00 … SaveData-09 inside the save folder
+= 存档文件夹内的 <game id>/SaveData-00 … SaveData-09
+
+<game id>DOTHACK/dhdata01 … dhdata12 inside the save folder
+= 存档文件夹内的 <game id>DOTHACK/dhdata01 … dhdata12
+
+<game id>G<slot> inside the save folder
+= 存档文件夹内的 <game id>G<slot>
+
+<game>.gci (one file for the whole game)
+= <game>.gci（整个游戏共用一个文件）
+
+<hero id>.dat (decrypted, and encrypted again on save)
+= <hero id>.dat（会先解密，保存时重新加密）
+
+<id>.player (one per character)
+= <id>.player（每个角色一个）
+
+<install folder>\\Save\\Save#### (Steam: steamapps\\common\\Deus Ex\\Save; some installs: Documents\\Deus Ex\\Save)
+= <install folder>\Save\Save####（Steam：steamapps\common\Deus Ex\Save；部分安装：Documents\Deus Ex\Save）
+
+<map>.dxs: open the map named in SaveInfo.dxs, which holds JC (open SaveInfo.dxs to see which)
+= <map>.dxs：打开 SaveInfo.dxs 中所指明的、包含 JC 的地图（打开 SaveInfo.dxs 可查看是哪一个）
+
+<n>.sav (1.sav, 2.sav … one per character; profile.sav is the profile)
+= <n>.sav（1.sav、2.sav …每个角色一个；profile.sav 为个人资料）
+
+<n>.sav (one per character; profile.sav is the profile)
+= <n>.sav（每个角色一个；profile.sav 为个人资料）
+
+<n>.sav (one per slot)
+= <n>.sav（每个存档位一个）
+
+<name>.d2s (SharedStash*.d2i is the shared stash)
+= <name>.d2s（SharedStash*.d2i 为共享仓库）
+
+<name>.das, savegame.das (auto and quick saves)
+= <name>.das、savegame.das（自动存档和快速存档）
+
+<name>.sol (text, unlike Flash's .sol)
+= <name>.sol（文本格式，与 Flash 的 .sol 不同）
+
+<number>.save (zlib-packed ones end in .save.z)
+= <number>.save（经 zlib 压缩的以 .save.z 结尾）
+
+<save name>.xml (packed, despite the name)
+= <save name>.xml（虽名为 xml，实为压缩格式）
+
+<save name>.xml (the .bin beside it is not edited)
+= <save name>.xml（旁边的 .bin 不会被编辑）
+
+<slot>.dat (and .hh)
+= <slot>.dat（以及 .hh）
+
+<world>.wld (Terraria 1.4 or later)
+= <world>.wld（Terraria 1.4 或更高版本）
+
+<world>_0x….nhd (one per saved town)
+= <world>_0x….nhd（每个已存档的城镇一个）
+
+An emulator's save folder or a dump from your own console: yuzu-style emulators keep it under nand\\user\\save\\0000000000000000\\<profile>\\<title id>, Ryujinx under bis\\user\\save\\<number>\\0
+= 模拟器的存档文件夹，或从你自己的主机导出的存档：yuzu 类模拟器将其存放在 nand\user\save\0000000000000000\<profile>\<title id> 下，Ryujinx 则存放在 bis\user\save\<number>\0 下
+
+AutoSave, AutoSave.qs, Manual - Save1 ... (no extension)
+= AutoSave、AutoSave.qs、Manual - Save1 ...（无扩展名）
+
+BALDUR.gam (BALDUR.SAV holds the areas)
+= BALDUR.gam（BALDUR.SAV 保存各区域）
+
+BISLPSP02124GRA-S00 (one file per save, in a numbered folder)
+= BISLPSP02124GRA-S00（每个存档一个文件，位于编号文件夹中）
+
+Binary saves (the game's default, and ironman) are edited in place and stay binary, with names read from the save's own string table. Debug-mode text saves open too
+= 二进制存档（游戏默认格式及铁人模式）会就地编辑并保持二进制格式，名称读取自存档自带的字符串表。调试模式的文本存档也可以打开
+
+Binary saves (the game's default, and ironman) are edited in place and stay binary; the game doesn't publish its field names, so most fields show as numbers unless you add a token file. Debug-mode text saves open with every name
+= 二进制存档（游戏默认格式及铁人模式）会就地编辑并保持二进制格式；游戏未公开其字段名称，因此除非添加令牌文件，大多数字段只显示为数字。调试模式的文本存档打开时会显示所有名称
+
+Campaign<n>\\<slot>\\save.CSF (the player), <level>.level (each area)
+= Campaign<n>\<slot>\save.CSF（玩家），<level>.level（各区域）
+
+Career<id>-<slot> (no extension)
+= Career<id>-<slot>（无扩展名）
+
+Cemu: mlc01\\usr\\save\\00050000\\101c9400\\user\\80000001. Switch: an emulator's save folder or a dump from your own console (title id 01007EF00011E000)
+= Cemu：mlc01\usr\save\00050000\101c9400\user\80000001。Switch：模拟器的存档文件夹，或从你自己的主机导出的存档（title id 01007EF00011E000）
+
+CompleteSave.cfg, CompleteSave1.cfg … (the profile is in user_profile.cfg)
+= CompleteSave.cfg、CompleteSave1.cfg …（个人资料在 user_profile.cfg 中）
+
+CurrentPlayerSave.sav (the pilot); the run saves beside it
+= CurrentPlayerSave.sav（飞行员）；各次游玩的存档位于它旁边
+
+DCSAV00.DSF … (one per slot)
+= DCSAV00.DSF …（每个存档位一个）
+
+DeadRising_01_Main … DeadRising_05_Main (one per slot; _Photo holds the photos)
+= DeadRising_01_Main … DeadRising_05_Main（每个存档位一个；_Photo 保存照片）
+
+Decrypted and encrypted again on save, keeping the file's own keys: Nioh, Nioh 2 and Nioh 3 (the data opens for Value search), Wo Long: Fallen Dynasty and Fatal Frame II: Crimson Butterfly Remake (the JSON opens with every value by name; both checksums are made again), Stranger of Paradise: Final Fantasy Origin (Value search). Checked on the test files of KatanaSaveDataResigner, not yet tried in the games
+= 会先解密，保存时沿用文件自带的密钥重新加密：Nioh、Nioh 2 和 Nioh 3（数据可用于数值搜索）、Wo Long: Fallen Dynasty 和 Fatal Frame II: Crimson Butterfly Remake（JSON 打开后每个数值都带名称；两个校验和都会重新生成）、Stranger of Paradise: Final Fantasy Origin（数值搜索）。已在 KatanaSaveDataResigner 的测试文件上检查，尚未在游戏中测试
+
+Decrypted for you (AES, with the save's MD5 worked out again) and opened with its slot, chapter and play time shown; edit values with Value search. Not yet tried on a real save
+= 会为你解密（AES，并重新计算存档的 MD5），打开后显示其存档位、章节和游戏时间；可通过数值搜索编辑数值。尚未在真实存档上测试
+
+Decrypted with your Steam account and encrypted again on save (checked byte for byte on a public test file; edits not yet tried in the game); every value in the Tree
+= 使用你的 Steam 账户解密，保存时重新加密（已在公开测试文件上逐字节检查；编辑尚未在游戏中测试）；所有数值都在树状视图中
+
+Decrypted with your Steam account and encrypted again on save (the layer is checked on test files; no real save has been tried yet); values in the Tree
+= 使用你的 Steam 账户解密，保存时重新加密（该加密层已在测试文件上检查；尚未在真实存档上测试）；数值显示在树状视图中
+
+Decrypted with your Steam account and encrypted again on save (the layer is the one Monster Hunter Rise uses; not yet tried on a real save); values in the Tree
+= 使用你的 Steam 账户解密，保存时重新加密（该加密层与 Monster Hunter Rise 所用的相同；尚未在真实存档上测试）；数值显示在树状视图中
+
+Decrypted, with its checksum kept right (no save of this game has been tried yet); values in the Tree
+= 会解密，并保持校验和正确（尚未测试过该游戏的任何存档）；数值显示在树状视图中
+
+Documents\\Forspoken\\<id> (the folder of your Steam account)
+= Documents\Forspoken\<id>（你的 Steam 账户对应的文件夹）
+
+Documents\\My Games\\Runic Games\\Torchlight 2\\save\\<Steam id> (modsave\\<Steam id> with mods)
+= Documents\My Games\Runic Games\Torchlight 2\save\<Steam id>（使用模组时为 modsave\<Steam id>）
+
+Documents\\My Games\\Wasteland2DC\\Save Games\\<save name> (Wasteland2 for the original release)
+= Documents\My Games\Wasteland2DC\Save Games\<save name>（原版为 Wasteland2）
+
+Documents\\My Games\\XCOM2 War of the Chosen\\XComGame\\SaveData
+= Documents\My Games\XCOM2 War of the Chosen\XComGame\SaveData
+
+Dolphin keeps GameCube saves as .gci files in its User\\GC folder, under the region and then Card A (Windows: Documents\\Dolphin Emulator\\GC or %APPDATA%\\Dolphin Emulator\\GC); export one from a card with Dolphin's memory card manager
+= Dolphin 将 GameCube 存档以 .gci 文件的形式保存在其 User\GC 文件夹中，位于区域文件夹下的 Card A 内（Windows：Documents\Dolphin Emulator\GC 或 %APPDATA%\Dolphin Emulator\GC）；可用 Dolphin 的存储卡管理器从存储卡中导出
+
+ES2_<date>.sav (the game), ES2__PREVIEW_<date>.sav and MetaData.sav (small, no progress)
+= ES2_<date>.sav（游戏存档）、ES2__PREVIEW_<date>.sav 和 MetaData.sav（体积小，不含进度）
+
+Each save on the card opens on its own (Tools › Open another file in this archive lists them by product code and title) and is written back into its own blocks; use the value search for the numbers. Raw, DexDrive and VGS images. Checked on a public card image
+= 存储卡上的每个存档都可单独打开（工具 › 打开此压缩包中的其他文件 会按产品代码和标题列出它们），并写回其自身的区块；数字请使用数值搜索。支持 Raw、DexDrive 和 VGS 映像。已在公开的存储卡映像上检查
+
+Every PlayerPref by name (coins, unlocks, settings): ints, decimals and text, written back with their types. On Windows they're read from the registry and imported back on save; close the game first
+= 按名称列出每个 PlayerPref（金币、解锁项、设置）：整数、小数和文本，写回时保持其类型。在 Windows 上从注册表读取，保存时再导入回去；请先关闭游戏
+
+Every file in every save folder on the card opens on its own (Tools › Open another file in this archive) and is written back with the card's error-correction codes made again; use the value search for the numbers. .ps2 images with ECC and .bin images without. Checked on cards made by mymc, the reference tool
+= 存储卡上每个存档文件夹中的每个文件都可单独打开（工具 › 打开此压缩包中的其他文件），并在写回时重新生成存储卡的纠错码；数字请使用数值搜索。支持带 ECC 的 .ps2 映像和不带 ECC 的 .bin 映像。已在参考工具 mymc 制作的存储卡上检查
+
+Every save the Xbox app keeps, listed under the names the game gave them; each opens like the same game's Steam save (the game's screen if it has one) and is written back in place. Let the Xbox app finish syncing first
+= Xbox 应用保存的每个存档，按游戏给它们起的名称列出；每个存档的打开方式与同一游戏的 Steam 存档相同（如有游戏界面则显示），并就地写回。请先等待 Xbox 应用同步完成
+
+Every value by name (numbers, flags, text, lists), written back with its own type; dates, byte arrays and class names are kept as they were. Checked on 66 public sample files, each written back byte for byte
+= 按名称列出每个数值（数字、标志、文本、列表），写回时保持其自身类型；日期、字节数组和类名保持原样。已在 66 个公开样本文件上检查，每个文件都能逐字节写回
+
+Every value by name (numbers, flags, text, lists, maps), written back with its own kind; dates, bytes and shared references are kept as they were. Covers Friday Night Funkin' and its engines and mods. Checked on a public Friday Night Funkin' save, written back byte for byte
+= 按名称列出每个数值（数字、标志、文本、列表、映射），写回时保持其自身类型；日期、字节和共享引用保持原样。涵盖 Friday Night Funkin' 及其引擎和模组。已在公开的 Friday Night Funkin' 存档上检查，可逐字节写回
+
+File A.rxdata, File B.rxdata … (backups\\ holds the game's own backups)
+= File A.rxdata、File B.rxdata …（backups\ 保存游戏自己的备份）
+
+GAMEDATA slot files
+= GAMEDATA 存档位文件
+
+Game screen
+= 游戏界面
+
+Game screen (USA and Europe saves): the Ark you hold and the total earned, clear count, slain enemies, endings seen, every trap unlocked and how often each was used, and the options; the save's check bytes are written again. Checked on public saves, not yet tried in the game
+= 游戏界面（美版和欧版存档）：你持有的 Ark 数量和累计获得量、通关次数、击杀敌人数、已见结局、每个已解锁的陷阱及其使用次数，以及选项；存档的校验字节会重新写入。已在公开存档上检查，尚未在游戏中测试
+
+Game screen (original 2017 release): Cole and Tess exchange tickets; the tagged profile has no checksum and item qualities and recipes are left alone. Checked on a public save, not yet tried in the game
+= 游戏界面（2017 年原版）：Cole 和 Tess 的兑换券；带标记的个人资料没有校验和，物品品质和配方保持不变。已在公开存档上检查，尚未在游戏中测试
+
+Game screen (original 2017 release): Cole; the tagged profile has no checksum and item qualities and recipes are left alone. Checked on a public save, not yet tried in the game
+= 游戏界面（2017 年原版）：Cole；带标记的个人资料没有校验和，物品品质和配方保持不变。已在公开存档上检查，尚未在游戏中测试
+
+Game screen (original and Ultimate): Gems, Crystals, Growth Points, Skill Orbs (lower only), the weapon-element stacks you own with a Max crafting materials button, and each progressed officer's skill points; both AES blocks and their seeds are handled. Checked on public saves of both editions, not yet tried in the game
+= 游戏界面（原版和 Ultimate 版）：Gems、Crystals、Growth Points、Skill Orbs（只能调低）、你拥有的武器属性素材堆叠（带“制作材料拉满”按钮），以及每位已推进武将的技能点；两个 AES 区块及其种子都会处理。已在两个版本的公开存档上检查，尚未在游戏中测试
+
+Game screen (shared with Fallen Order): skill points (unspent and total), stims, health and Force upgrades, secrets and map progress, deaths. The zlib-packed actor records are opened and packed again on save. Checked on public saves, not yet tried in the game
+= 游戏界面（与 Fallen Order 共用）：技能点（未使用的和总数）、治疗针、生命值和原力升级、秘密和地图进度、死亡次数。经 zlib 压缩的角色记录会被解开，并在保存时重新压缩。已在公开存档上检查，尚未在游戏中测试
+
+Game screen (story mode, PC): cash, honor, the health, stamina and Dead Eye cores and XP, weight, saved health, camp funds, the satchel's ammunition, consumables, herbs and provisions (with a Max crafting materials button for herbs, feathers and animal fat), horses' dirt and hunger, 17 statistics and the clock; bounties are shown. Missing supplies can be added to the satchel (experimental). Challenge ranks for the nine story challenges, and compendium studied, discovered and owned ticks. Decrypted, with every checksum written again and encrypted on save. Checked on real saves, not yet tried in the game
+= 游戏界面（故事模式，PC）：现金、荣誉、生命、耐力和死神之眼的核心及经验、负重、已存生命值、营地资金、挎包中的弹药、消耗品、草药和补给（草药、羽毛和动物脂肪带有“制作材料拉满”按钮）、马匹的污垢和饥饿度、17 项统计数据和时钟；会显示悬赏。缺少的补给可添加到挎包中（实验性）。九项故事挑战的挑战等级，以及图鉴的已研究、已发现和已拥有勾选项。会解密，重新写入所有校验和，并在保存时加密。已在真实存档上检查，尚未在游戏中测试
+
+Game screen (the original 2008 release): the shared Growth Points and each officer's Life, Musou, Attack, Defense and Speed; the checksum is rewritten. Checked on a public save, not yet tried in the game
+= 游戏界面（2008 年原版）：共用的 Growth Points，以及每位武将的 Life、Musou、Attack、Defense 和 Speed；校验和会重新写入。已在公开存档上检查，尚未在游戏中测试
+
+Game screen (the original PC release): money and the stored stats of each unlocked officer; the checksum is rewritten. Checked on a public save, not yet tried in the game
+= 游戏界面（PC 原版）：金钱，以及每位已解锁武将的已存属性；校验和会重新写入。已在公开存档上检查，尚未在游戏中测试
+
+Game screen for .hack//Infection, Mutation, Outbreak and Quarantine: play time, unlocked servers, each party member's class, level, experience, money, affection and stats, and the items in Elf's Haven; each dhdata file of the save folder is one slot, and its checksum and preview in the system file are written again. Checked on public saves, not yet tried in the game
+= .hack//Infection、Mutation、Outbreak 和 Quarantine 的游戏界面：游戏时间、已解锁的服务器、每位队伍成员的职业、等级、经验、金钱、好感度和属性，以及 Elf's Haven 中的物品；存档文件夹中的每个 dhdata 文件是一个存档位，其校验和以及系统文件中的预览会重新写入。已在公开存档上检查，尚未在游戏中测试
+
+Game screen for Devil May Cry 1 (dmc1.sav): red, yellow and blue orbs and play time for each used slot. Checked on a public save, not yet tried in the game
+= Devil May Cry 1（dmc1.sav）的游戏界面：每个已使用存档位的红色、黄色和蓝色宝珠以及游戏时间。已在公开存档上检查，尚未在游戏中测试
+
+Game screen for JC Denton: credits, skill points, bioelectric energy, health per body part, ammo, medkits and other item counts, skill and augmentation levels (values the game left out can't be set). Edits haven't been tried in the game yet
+= JC Denton 的游戏界面：credits、技能点、生物电能量、各身体部位的生命值、弹药、医疗包及其他物品数量、技能和增强等级（游戏中未记录的数值无法设置）。编辑尚未在游戏中测试
+
+Game screen for characters saved with profile versions 33 to 37: health, stamina, skills, item stacks (gold is Coins), quality and durability, with the SHA-512 written again, and a Max crafting materials button that fills the wood, stone, ores, metals, hides and other plain materials you carry to their stack size, leaving boss drops, summoning items and key fragments alone; newer characters open read-only. Not yet tried in the game
+= 以个人资料版本 33 至 37 保存的角色的游戏界面：生命值、耐力、技能、物品堆叠（金币即 Coins）、品质和耐久度，会重新写入 SHA-512，并带有“制作材料拉满”按钮，可将你携带的木材、石头、矿石、金属、兽皮及其他普通材料补满至堆叠上限，Boss 掉落物、召唤物品和钥匙碎片则不受影响；更新的角色以只读方式打开。尚未在游戏中测试
+
+Game screen for the Chao garden file: the level and the points of every stat (swim, fly, run, power, stamina, luck, intelligence) of each Chao; the garden's checksum is rewritten. The main save (rings, emblems) is not edited yet. Checked on a public save, not yet tried in the game
+= Chao 花园文件的游戏界面：每只 Chao 的等级和各项属性（游泳、飞行、跑步、力量、体力、幸运、智力）的点数；花园的校验和会重新写入。主存档（rings、emblems）暂不支持编辑。已在公开存档上检查，尚未在游戏中测试
+
+Game screen for the level saves (.player); the auto save is unpacked for Value search. Metro Exodus has a Max crafting materials button that fills metal and chemicals to 300 (the Reader and Ranger Hardcore limit; Normal allows more)
+= 关卡存档（.player）的游戏界面；自动存档会被解包以供数值搜索。Metro Exodus 带有“制作材料拉满”按钮，可将金属和化学品补满至 300（Reader 和 Ranger Hardcore 的上限；Normal 允许更多）
+
+Game screen: Adol's level, maximum HP, experience and gold, and the difficulty (all six levels, written everywhere the game keeps it); the save's two cipher layers and checksums are handled. Checked on a public save, not yet tried in the game
+= 游戏界面：Adol 的等级、最大 HP、经验和金币，以及难度（全部六个等级，会写入游戏保存难度的所有位置）；存档的两层加密和校验和都会处理。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: Alucard's level, experience, HP, MP, hearts, strength, constitution, intelligence and luck, gold, kills, play time, subweapon, equipment, every relic, form and familiar card, spells, familiar levels, warp rooms, and the count of every weapon, shield, armor, accessory and potion. The memory-card preview of the save (gold and time) is kept in step. Checked on public saves, not yet tried in the game
+= 游戏界面：Alucard 的等级、经验、HP、MP、心数、力量、体质、智力和幸运、金币、击杀数、游戏时间、副武器、装备、每件遗物、变身卡和使魔卡、法术、使魔等级、传送房间，以及每种武器、盾牌、护甲、饰品和药水的数量。存档在存储卡预览中的信息（金币和时间）会同步更新。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: Aveline's money, smoke bombs, throwing knives, rope darts and bullets. The save is unscrambled (the account's key is worked out from the file), unpacked and packed again with its block checks. Checked on public saves, not yet tried in the game
+= 游戏界面：Aveline 的金钱、烟雾弹、飞刀、绳镖和子弹。存档会被解除混淆（账户密钥从文件中推算得出）、解包，并在保存时连同区块校验重新打包。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: Beli and the quantity of every coin you own. The encrypted save is opened and its object checksums kept right. Checked on a public save, not yet tried in the game
+= 游戏界面：Beli 以及你拥有的每种硬币的数量。加密的存档会被打开，并保持其对象校验和正确。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: Blackstone, the Ark's bonus points and slots, and each Techpriest's level, XP, skill points, slot points and augment capacity. Values are patched in place and the checksum in SaveState.sav is written again. Checked on public saves, not yet tried in the game
+= 游戏界面：Blackstone、Ark 的奖励点数和槽位，以及每位 Techpriest 的等级、XP、技能点、槽位点数和增强容量。数值会就地修补，SaveState.sav 中的校验和会重新写入。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: CP (money) and its limit, PP, garage size and the race records. Checked on a public save, not yet tried in the game
+= 游戏界面：CP（金钱）及其上限、PP、车库容量和比赛记录。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: Candles of Hope (profile), Relics, torch and inventory (run.json), heroes' HP and stress (actors.json). Checked on saves made before the Kingdoms update; Kingdoms' own files aren't covered
+= 游戏界面：Candles of Hope（个人资料）、Relics、火把和物品栏（run.json）、英雄的 HP 和压力（actors.json）。已在 Kingdoms 更新之前生成的存档上检查；不涵盖 Kingdoms 自身的文件
+
+Game screen: Chapter 1 fully (party, inventory as item numbers, Light World); Chapters 2–4: dark dollars and the party's stats and equipment. Every line of the file can be edited. Not yet tried in the game
+= 游戏界面：第 1 章完整支持（队伍、以物品编号显示的物品栏、Light World）；第 2 至 4 章：dark dollars 以及队伍的属性和装备。文件的每一行都可以编辑。尚未在游戏中测试
+
+Game screen: Chris or Jill, health, poison, ink ribbons used, the eight inventory slots and all 48 item box slots with item and quantity (Director's Cut saves too). Checked on public saves, not yet tried in the game
+= 游戏界面：Chris 或 Jill、生命值、中毒状态、已使用的墨带数、八个物品栏位以及全部 48 个物品箱栏位的物品和数量（Director's Cut 存档同样支持）。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: Chuck's level, PP, money and the attack, speed, health, item-slot and throwing upgrades (with a button to max them); the CRC-32 is rewritten. Checked on public speedrun saves; not yet tried in the game
+= 游戏界面：Chuck 的等级、PP、金钱，以及攻击、速度、生命值、物品栏位和投掷升级（带有一键拉满的按钮）；CRC-32 会重新写入。已在公开的速通存档上检查；尚未在游戏中测试
+
+Game screen: Clams, each friend's level, heart and juice in Headspace and Faraway Town, and the count of every snack, toy, weapon and charm by name. Checked on public saves, not yet tried in the game
+= 游戏界面：Clams、Headspace 和 Faraway Town 中每位朋友的等级、heart 和 juice，以及按名称列出的每种零食、玩具、武器和护符的数量。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: DNA fragments, the pilot's records and every perk with its level and lock, from CurrentPlayerSave.sav (the unlocked perks and blueprints stay in the Tree). Checked on a public save, not yet tried in the game
+= 游戏界面：来自 CurrentPlayerSave.sav 的 DNA 碎片、飞行员记录以及每个天赋的等级和锁定状态（已解锁的天赋和蓝图保留在树状视图中）。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: Eden tokens, win streaks, deaths and the other counters, and every achievement, seen collectible and challenge as an unlock flag, for Rebirth, Afterbirth, Afterbirth+ and Repentance. The save's checksum is written again. Checked on public saves of all four versions, not yet tried in the game
+= 游戏界面：适用于 Rebirth、Afterbirth、Afterbirth+ 和 Repentance：Eden 代币、连胜次数、死亡次数及其他计数器，以及每项成就、已见收藏品和挑战的解锁标志。存档的校验和会重新写入。已在全部四个版本的公开存档上检查，尚未在游戏中测试
+
+Game screen: Ergo, level, humanity, the six stats, and every item's count, with a Max crafting materials button for Moonstones and Legion Calibers (99, an estimate). Checked on a public save, not yet tried in the game
+= 游戏界面：Ergo、等级、humanity、六项属性以及每件物品的数量，并带有针对 Moonstones 和 Legion Calibers 的“制作材料拉满”按钮（99，为估计值）。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: Eve's health, shield, gauges, level, experience and skill points, the play time and difficulty, and an inventory table with counts and levels (item names are the game's internal ids). The save's CRC-32 is written again. Checked on a real early-game save, not yet tried in the game
+= 游戏界面：Eve 的生命值、护盾、计量条、等级、经验和技能点、游戏时间和难度，以及带数量和等级的物品栏表格（物品名称为游戏内部 ID）。存档的 CRC-32 会重新写入。已在真实的游戏前期存档上检查，尚未在游戏中测试
+
+Game screen: Ezio's akçe, smoke bombs, throwing knives, poison and bullets. The save is unscrambled (the account's key is worked out from the file), unpacked and packed again with its block checks. Checked on public saves, not yet tried in the game
+= 游戏界面：Ezio 的 akçe、烟雾弹、飞刀、毒药和子弹。存档会被解除混淆（账户密钥从文件中推算得出）、解包，并在保存时连同区块校验重新打包。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: Ezio's florins, smoke bombs, throwing knives, poison and bullets. The save is unscrambled (the account's key is worked out from the file), unpacked and packed again with its block checks. Checked on public saves, not yet tried in the game
+= 游戏界面：Ezio 的弗罗林金币、烟雾弹、飞刀、毒药和子弹。存档会被解除混淆（账户密钥从文件中推算得出）、解包，并在保存时连同区块校验重新打包。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: Frank's level, PP, maximum health and skills (with buttons to learn every skill or reach level 50); the save's block checksums are rewritten. Checked on public speedrun practice saves; not yet tried in the game
+= 游戏界面：Frank 的等级、PP、最大生命值和技能（带有学会全部技能或升至 50 级的按钮）；存档的区块校验和会重新写入。已在公开的速通练习存档上检查；尚未在游戏中测试
+
+Game screen: Frank's level, PP, money and the attack, speed, health, item-slot and throwing upgrades (with a button to max them), with the load screen's copy kept in step; the file's five CRC-32s are rewritten. Checked on public speedrun saves; not yet tried in the game
+= 游戏界面：Frank 的等级、PP、金钱，以及攻击、速度、生命值、物品栏位和投掷升级（带有一键拉满的按钮），读取画面中的副本会同步更新；文件中的五个 CRC-32 会重新写入。已在公开的速通存档上检查；尚未在游戏中测试
+
+Game screen: GMP (and the FOB wallet), heroism and demon points, every Mother Base staff member (rank, skill, section, morale, proficiency, stat bonus; buttons to promote everyone to S++ and max morale), resource stockpiles with a Max crafting materials button, a button to open every Mother Base section, and the Mother Base and lifetime-statistics counters; every other variable in the save is in the Tree under the game's own variable names. The save's encryption and checksum are redone on write. Tried on a real save
+= 游戏界面：GMP（以及 FOB 钱包）、英雄点数和恶魔点数、Mother Base 的每位员工（等级、技能、部门、士气、熟练度、属性加成；带有将所有人晋升为 S++ 和士气拉满的按钮）、带有“制作材料拉满”按钮的资源储备、开放所有 Mother Base 部门的按钮，以及 Mother Base 和累计统计计数器；存档中的其他所有变量都以游戏自身的变量名显示在树状视图中。存档的加密和校验和会在写入时重新处理。已在真实存档上测试
+
+Game screen: Gil and play time; each character's level (shown from the experience), experience, HP, MP, enemies defeated and bonus stats; each Vision's awakening and mastery points; item quantities with a Max consumables button (99 each, key items left alone); the artifacts you hold, switched on or off. Decrypted and encrypted again with the checksum rewritten. Checked on a synthetic test save built from the public format notes, not yet on a real save or in the game
+= 游戏界面：Gil 和游戏时间；每位角色的等级（根据经验显示）、经验、HP、MP、击败的敌人数和额外属性；每个 Vision 的觉醒点数和精通点数；物品数量（带有“消耗品拉满”按钮，每种 99，关键道具不受影响）；你持有的神器，可开启或关闭。会解密并重新加密，同时重新写入校验和。已在根据公开格式说明构建的合成测试存档上检查，尚未在真实存档或游戏中测试
+
+Game screen: Gold, Gloom and Glimpses, their lifetime totals, every item's count and every unlocked shell, weapon and seal, with a Max crafting materials button for the Tarforge smithing materials (99, an estimate). Checked on public saves, not yet tried in the game
+= 游戏界面：Gold、Gloom 和 Glimpses 及其累计总量、每件物品的数量以及每个已解锁的 shell、武器和 seal，并带有针对 Tarforge 锻造材料的“制作材料拉满”按钮（99，为估计值）。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: Gold, the five strategy tomes and every officer's Health, Attack, Defense, Riding and Speed bonuses; the stream cipher, section sums and checksum are rewritten. Checked on a public save, not yet tried in the game
+= 游戏界面：Gold、五本战略书，以及每位武将的 Health、Attack、Defense、Riding 和 Speed 加成；流密码、分段求和值和校验和会重新写入。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: Growth Points, Gems, each officer's health, Musou, attack, defense and speed, and the weapon attribute orbs and crafting materials you own (with Max crafting materials, 99 each). Checked on a public save, not yet tried in the game
+= 游戏界面：Growth Points、Gems、每位武将的生命、无双、攻击、防御和速度，以及你拥有的武器属性宝珠和制作材料（带有“制作材料拉满”，每种 99）。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: HQ resources and soldiers (rank, kills, missions, ability points, stats including armour and shield); unpacked and packed again on save. Not yet tried in the game
+= 游戏界面：HQ 资源和士兵（等级、击杀数、任务数、能力点、包括护甲和护盾在内的属性）；保存时会解包并重新打包。尚未在游戏中测试
+
+Game screen: HoloCoins and the levels of every Holo House upgrade (ATK, HP, SPD, crit, pickup range, haste, damage resistance, regen, EXP, money gain, rerolls and the rest). The save_n.dat is base64 JSON, unpacked and packed again. Checked on a public save, not yet tried in the game
+= 游戏界面：HoloCoins 以及每项 Holo House 升级的等级（ATK、HP、SPD、暴击、拾取范围、急速、伤害抗性、回复、EXP、金钱获取、重掷次数等）。save_n.dat 是 base64 JSON，会解包并重新打包。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: Kiryu's money and each character's HP and heat; the MessagePack save is decrypted with the game's key and its checksum kept right, every other value in the Tree. Checked on public chapter saves, not yet tried in the game
+= 游戏界面：Kiryu 的金钱以及每位角色的 HP 和 heat；MessagePack 存档会用游戏的密钥解密并保持校验和正确，其他所有数值都在树状视图中。已在公开的章节存档上检查，尚未在游戏中测试
+
+Game screen: Kiryu's money, the hostess club's money and his experience. The save has no checksum. Checked on a public save, not yet tried in the game
+= 游戏界面：Kiryu 的金钱、女公关俱乐部的资金以及他的经验。该存档没有校验和。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: LV, EXP, gold, HP and the other stats, equipment names, the eight item slots and play time from the save file. Checked on public saves, not yet tried in the game
+= 游戏界面：存档文件中的 LV、EXP、金币、HP 及其他属性、装备名称、八个物品栏位和游戏时间。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: Lily's level, blight (experience) and prayer heals, Stagnant Blight, Furious Blight and Ancient Souls with a Max crafting materials button, and every spirit's level. Checked on public saves, not yet tried in the game
+= 游戏界面：Lily 的等级、blight（经验）和祈祷治疗次数，带有“制作材料拉满”按钮的 Stagnant Blight、Furious Blight 和 Ancient Souls，以及每个 spirit 的等级。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: Lunar coins, coins collected, runs and play time of a profile XML. Unlocks and logbook lists are in the Tree. Checked on a public profile, not yet tried in the game
+= 游戏界面：个人资料 XML 中的 Lunar coins、已收集的硬币、游玩次数和游戏时间。解锁项和日志列表在树状视图中。已在公开的个人资料上检查，尚未在游戏中测试
+
+Game screen: Macca and the playthrough cycle, the protagonist's and each demon's level, experience, HP, MP, stats and skills, the stock of every item and gem, and the special items. USA and Europe saves; checked on public saves, not yet tried in the game
+= 游戏界面：Macca 和周目数，主角及每只恶魔的等级、经验、HP、MP、属性和技能，每种物品和宝石的库存，以及特殊物品。适用于美版和欧版存档；已在公开存档上检查，尚未在游戏中测试
+
+Game screen: Mira, the eight kinds of sepith, each Class VII member's level, experience, HP, EP, CP and nine stats, and how many of every item, quartz, weapon and meal is in the bag (named). Checked on a public save, not yet tried in the game
+= 游戏界面：Mira、八种 sepith、每位 Class VII 成员的等级、经验、HP、EP、CP 和九项属性，以及背包中每种物品、quartz、武器和料理的数量（带名称）。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: Mira, the seven kinds of sepith, each character's level, and how many of every item, quartz, weapon and meal the party carries (named). Checked on public saves, not yet tried in the game
+= 游戏界面：Mira、七种 sepith、每位角色的等级，以及队伍携带的每种物品、quartz、武器和料理的数量（带名称）。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: Raw Whalebone with a Max crafting materials button, runes, and bolts, bullets, grenades, spring razors and stun mines (each up to what the player can carry), plus the map and how many bonecharm traits are learned, for Dishonored 2. checkpoint.dat is unpacked and packed again with its check value on save; game.details opens as values (chapter, chaos level…). Checked on real saves and tried in the game
+= 游戏界面（Dishonored 2）：带有“制作材料拉满”按钮的 Raw Whalebone、符文，以及弩箭、子弹、手雷、弹簧剃刀和眩晕地雷（均可补至玩家的携带上限），另有地图和已学会的骨符特性数量。checkpoint.dat 会解包，并在保存时连同校验值重新打包；game.details 以数值形式打开（章节、混乱等级…）。已在真实存档上检查，并已在游戏中测试
+
+Game screen: Residuum, stress level, the loop's day and location, and the progress flags (first loop, Golden Loop, Julianna, void essence ability). The save's Oodle data is unpacked and packed again with the Oodle library of any game on this PC, and the file's checksum is made again. Checked on a real save and in the game. Close the game and turn Steam Cloud off for it first, or Steam may bring the old save back
+= 游戏界面：Residuum、压力等级、循环的日期和地点，以及进度标志（第一次循环、Golden Loop、Julianna、void essence 能力）。存档的 Oodle 数据会使用本机上任一游戏自带的 Oodle 库解包并重新打包，文件的校验和也会重新生成。已在真实存档和游戏中检查。请先关闭游戏并为其关闭 Steam 云存档，否则 Steam 可能会恢复旧存档
+
+Game screen: S.P.E.C.I.A.L., hit points, level, experience, skill points, skills, traits, tagged skills, perk ranks, radiation, poison, kills, bottle caps and inventory counts. Edits haven't been tried in the game yet
+= 游戏界面：S.P.E.C.I.A.L.、生命值、等级、经验、技能点、技能、特质、标记技能、特技等级、辐射、中毒、击杀数、瓶盖和物品栏数量。编辑尚未在游戏中测试
+
+Game screen: Silver Eagles, salts, lockpicks and the Health, Shield and Salts infusion levels; unpacked and packed again with the save's MD5. Not yet tried in the game
+= 游戏界面：Silver Eagles、salts、撬锁器，以及 Health、Shield 和 Salts 的灌注等级；会解包，并连同存档的 MD5 重新打包。尚未在游戏中测试
+
+Game screen: Tar, the shell points of each shell, max health, deaths, New Game+ level and the Storm Mode run's Tar and Glimpses (inventory item names are game text and aren't shown). Checked on public saves, not yet tried in the game
+= 游戏界面：Tar、每个 shell 的 shell 点数、最大生命值、死亡次数、New Game+ 等级，以及 Storm Mode 游玩的 Tar 和 Glimpses（物品栏物品名称属于游戏文本，不予显示）。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: Tears of Atonement, health and fervour, bile flasks, every permanent stat upgrade, completion and play time. The save's base64 wrapping is opened and closed for you. Checked on a public save, not yet tried in the game
+= 游戏界面：Tears of Atonement、生命值和 fervour、bile flasks、每项永久属性升级、完成度和游戏时间。存档的 base64 外层会为你解开并重新封装。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: Terra tokens, each planet's terraformation levels, your oxygen, thirst and health, the game settings, and the raw materials in your backpack (with a Max crafting materials button that fills the free slots, since every item takes one slot). Checked on a real late-game save, not yet tried in the game
+= 游戏界面：Terra 代币、每颗星球的地球化改造等级、你的氧气、口渴度和生命值、游戏设置，以及背包中的原材料（带有“制作材料拉满”按钮，会填满空闲栏位，因为每件物品占一个栏位）。已在真实的游戏后期存档上检查，尚未在游戏中测试
+
+Game screen: Will's gold, days passed, the banker's invested money, and the backpack and equipped items by name with their counts and enchantment levels in the Tree. Opens as JSON, written back the same way. Checked on a public save, not yet tried in the game
+= 游戏界面：Will 的金币、已过天数、银行家的投资金额，以及树状视图中按名称列出的背包和已装备物品及其数量和附魔等级。以 JSON 形式打开，并以同样方式写回。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: Will, Sparks, level, experience and play time from ArchiveSaveFile.<n>.sav. The file's checksum is written again when you save. Checked on a public sample save, not yet tried in the game
+= 游戏界面：来自 ArchiveSaveFile.<n>.sav 的 Will、Sparks、等级、经验和游戏时间。保存时文件的校验和会重新写入。已在公开的样本存档上检查，尚未在游戏中测试
+
+Game screen: Yagami's money and HP; decrypted with the game's key and the checksum kept right, every other value in the Tree. Checked on 40 public saves, not yet tried in the game
+= 游戏界面：Yagami 的金钱和 HP；会用游戏的密钥解密并保持校验和正确，其他所有数值都在树状视图中。已在 40 个公开存档上检查，尚未在游戏中测试
+
+Game screen: account level and experience, rank, difficulty, and the level and experience of every class and weapon. The game writes every byte of the save one lower; that is undone and redone, and the rest (cosmetics, mods, challenge counters) opens for Tree editing. Checked on a public save, not yet tried in the game
+= 游戏界面：账户等级和经验、军衔、难度，以及每个职业和武器的等级和经验。游戏会将存档的每个字节写成低 1 的值；这一处理会被还原并在保存时重新应用，其余内容（外观、模组、挑战计数器）可在树状视图中编辑。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: act 1 currency and lives, act 2 gold and packs opened, play time. The save's bare values are shown with made-up names and written back as they were. Checked on a public save, not yet tried in the game
+= 游戏界面：第 1 幕的货币和生命数、第 2 幕的金币和已开启的卡包数、游戏时间。存档中的裸数值会以自拟的名称显示，并按原样写回。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: antimatter, infinity points, eternity points, reality machines and the counters behind them (galaxies, boosts, replicanti, dilation, perk points). Opens the text from Options > Saving > Export save as file (PC and mobile formats). Checked on public sample saves, not yet tried in the game
+= 游戏界面：antimatter、infinity points、eternity points、reality machines 及其背后的计数器（galaxies、boosts、replicanti、dilation、perk points）。可打开通过 Options > Saving > Export save as file 导出的文本（PC 和手机格式）。已在公开的样本存档上检查，尚未在游戏中测试
+
+Game screen: apple gems and the red, blue, yellow and rare shards. Checked on a public save, not yet tried in the game
+= 游戏界面：苹果宝石以及红色、蓝色、黄色和稀有碎片。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: apple gems, the four kinds of shards and the profile's counters. Checked on a public save, not yet tried in the game
+= 游戏界面：苹果宝石、四种碎片以及个人资料的计数器。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: berries, rank, experience, TP, MP, inventory and storage sizes, play time, and the HP, attack and defense of every party member; the save's XOR encoding is undone and applied again and every other value is kept. Checked on a public save, not yet tried in the game
+= 游戏界面：浆果、等级、经验、TP、MP、物品栏和仓库容量、游戏时间，以及每位队伍成员的 HP、攻击和防御；存档的 XOR 编码会被还原并在保存时重新应用，其他所有数值保持不变。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: both heroes' levels, experience, health, energy and core stats, plus playtime, deaths and kills. Checked on a public save, not yet tried in the game
+= 游戏界面：两位英雄的等级、经验、生命值、能量和核心属性，以及游戏时间、死亡次数和击杀数。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: bottle caps, experience, karma, S.P.E.C.I.A.L. and the points added to each skill; the level, place and play time are shown from the save. Checked on real saves, not yet tried in the game
+= 游戏界面：瓶盖、经验、业力、S.P.E.C.I.A.L. 以及每项技能已加的点数；等级、地点和游戏时间取自存档并显示。已在真实存档上检查，尚未在游戏中测试
+
+Game screen: campaign tokens and race counts (each is stored in three places, all shown). Checked on a public save from the Epic Games Store build, not yet tried in the game
+= 游戏界面：战役代币和比赛次数（每项存储在三个位置，全部显示）。已在 Epic Games Store 版本的公开存档上检查，尚未在游戏中测试
+
+Game screen: caps, food, power, water, Stimpaks, RadAway, Lunchboxes, Mr. Handy, pet carriers and Nuka-Cola Quantum, and every dweller's level, happiness, health, radiation and S.P.E.C.I.A.L. Decrypted and encrypted again on save. Checked on a public sample save, not yet tried in the game
+= 游戏界面：瓶盖、食物、电力、水、Stimpak、RadAway、Lunchbox、Mr. Handy、宠物笼和 Nuka-Cola Quantum，以及每位居民的等级、幸福度、生命值、辐射和 S.P.E.C.I.A.L.。会解密，并在保存时重新加密。已在公开的样本存档上检查，尚未在游戏中测试
+
+Game screen: career money and BeamXP from playerAttributes.json; branch levels and vehicles open by name in the Tree. Written from the game's own Lua source, not yet checked on a real save or in the game
+= 游戏界面：来自 playerAttributes.json 的生涯金钱和 BeamXP；分支等级和车辆会以名称显示在树状视图中。根据游戏自带的 Lua 源码编写，尚未在真实存档或游戏中检查
+
+Game screen: cash (in cents), data clusters, respect level and respect; the save's checksum (CRC-32) is rewritten. Checked on public saves, not yet tried in the game
+= 游戏界面：现金（以分为单位）、数据集群、尊重等级和尊重值；存档的校验和（CRC-32）会重新写入。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: cash and the crib stash (in cents), respect level and respect, stunt jumps, barnstorms and difficulty; the save's checksum (CRC-32) is rewritten. Checked on public saves, not yet tried in the game
+= 游戏界面：现金和住所储藏（以分为单位）、尊重等级和尊重值、特技跳跃、barnstorm 和难度；存档的校验和（CRC-32）会重新写入。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: cash, Eridium, level and experience, specialization, skill points to spend, play time and ammunition for each character save. The save is unlocked with the Steam account found in its folder and packed again when you save. Checked on public sample saves, not yet tried in the game
+= 游戏界面：每个角色存档的现金、Eridium、等级和经验、专精、可用技能点、游戏时间和弹药。存档会使用其文件夹中找到的 Steam 账户解锁，并在保存时重新打包。已在公开的样本存档上检查，尚未在游戏中测试
+
+Game screen: cash, every tool's ammunition and range, damage and size upgrades. Checked on a public save, not yet tried in the game
+= 游戏界面：现金、每件工具的弹药、射程、伤害和尺寸升级。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: cash, fuel, ammunition, supplies and the day of the expedition. Checked on a public save, not yet tried in the game
+= 游戏界面：现金、燃料、弹药、补给和远征的天数。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: cash, kudos and hard mode. .NET BinaryFormatter, read and written in place; checked on public saves, not yet tried in the game
+= 游戏界面：现金、kudos 和困难模式。.NET BinaryFormatter，就地读写；已在公开存档上检查，尚未在游戏中测试
+
+Game screen: cash, level, XP and the skill and perk points of the profile, read from the ADF file's own type definitions and edited in place. Checked on public saves, not yet tried in the game
+= 游戏界面：个人资料的现金、等级、XP 以及技能点和特技点，读取自 ADF 文件自带的类型定义并就地编辑。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: cash, level, experience, skill points and hard mode. Plain JSON; checked on public saves, not yet tried in the game
+= 游戏界面：现金、等级、经验、技能点和困难模式。纯 JSON；已在公开存档上检查，尚未在游戏中测试
+
+Game screen: cash, the player's meters and the hard mode and permadeath flags (marguerite.txt). .NET BinaryFormatter, read and written in place; the vehicle, garden and other files open for Tree editing. Checked on a public save, not yet tried in the game
+= 游戏界面：现金、玩家的各项计量条，以及困难模式和永久死亡标志（marguerite.txt）。.NET BinaryFormatter，就地读写；载具、花园及其他文件可在树状视图中编辑。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: cash. Checked on a public save, not yet tried in the game
+= 游戏界面：现金。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: chaos gems, play time and the unlocked outfits. .NET BinaryFormatter, read and written in place; checked on a public save, not yet tried in the game
+= 游戏界面：chaos gems、游戏时间和已解锁的服装。.NET BinaryFormatter，就地读写；已在公开存档上检查，尚未在游戏中测试
+
+Game screen: character level, free skill points and free mastery points. The character is hex text (older files one hex line per section, newer files JSON); the character section is opened as bytes and written back as hex. Checked on public saves, not yet tried in the game
+= 游戏界面：角色等级、未分配技能点和未分配精通点。角色数据为十六进制文本（较旧的文件每个分段一行十六进制，较新的文件为 JSON）；角色分段会以字节形式打开，并以十六进制写回。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: clear and save counts, character, difficulty, mission, maximum health, red, yellow and blue orbs, the Alastor and Ifrit skills, every mission rank, the secret missions, statistics and combo rankings; each SaveData-NN file of the save folder is one slot, and its checksum is written again. Checked on public saves, not yet tried in the game
+= 游戏界面：通关和存档次数、角色、难度、任务、最大生命值、红色、黄色和蓝色宝珠、Alastor 和 Ifrit 的技能、每个任务的评级、隐藏任务、统计和连击排行；存档文件夹中的每个 SaveData-NN 文件是一个存档位，其校验和会重新写入。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: coins and deaths for both players, Djimmi's wishes and the unlocks (expert mode, filters, Boatman). Checked on a public sample save, not yet tried in the game
+= 游戏界面：两位玩家的硬币和死亡次数、Djimmi 的愿望以及解锁项（专家模式、滤镜、Boatman）。已在公开的样本存档上检查，尚未在游戏中测试
+
+Game screen: coins, StreetPass count, online wins and losses and VR points, with the save's CRC-32 written again. Checked on a public save, not yet tried in the game
+= 游戏界面：硬币、StreetPass 次数、在线胜场和负场以及 VR 点数，存档的 CRC-32 会重新写入。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: coins, each brother's level, experience, HP, BP, Power, Defense, Speed and Stache, and the counts of recovery items, battle items and beans. Checked on a public save, not yet tried in the game
+= 游戏界面：硬币、每位兄弟的等级、经验、HP、BP、Power、Defense、Speed 和 Stache，以及恢复道具、战斗道具和豆子的数量。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: coins, extra prestige, landing permissions, and the health, food, water, oxygen, sleep and morale of every colonist and the condition of every bot. Checked on public saves, not yet tried in the game
+= 游戏界面：硬币、额外声望、着陆许可，以及每位殖民者的生命值、食物、水、氧气、睡眠和士气，还有每个机器人的状况。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: coins, power-up ranks and what's unlocked; the checksum is worked out again on save. Not yet tried in the game
+= 游戏界面：硬币、强化道具等级和已解锁内容；保存时会重新计算校验和。尚未在游戏中测试
+
+Game screen: coins, removal and reroll tokens, spins, the floor, the rent due and the run's progress. The save's JSON lines are opened as one object keyed by each node's path and written back line by line. Checked on a public save, not yet tried in the game
+= 游戏界面：硬币、移除和重掷代币、旋转次数、楼层、应付租金和本次游玩的进度。存档中的 JSON 行会作为一个以各节点路径为键的对象打开，并逐行写回。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: coins, the coin limit, sword damage, progress points and counters. Plain Unreal GVAS; checked on public saves, not yet tried in the game
+= 游戏界面：硬币、硬币上限、剑伤害、进度点数和计数器。纯 Unreal GVAS；已在公开存档上检查，尚未在游戏中测试
+
+Game screen: coins. The save's zlib chunks are unpacked and packed again on save; the coin count is found by its surroundings and only offered when exactly one record fits. Checked on 11 real saves; the coin edit was tried in the game. Runes, rewire tools and elixirs aren't located yet (hex view)
+= 游戏界面：硬币。存档中的 zlib 数据块会被解包，并在保存时重新打包；硬币数量根据其上下文定位，仅在恰好有一条记录吻合时才提供。已在 11 个真实存档上检查；硬币编辑已在游戏中测试。符文、rewire 工具和灵药尚未定位（十六进制视图）
+
+Game screen: completion, enemies killed and play time, and every level's score, rank, treasure and secrets, bosses included. Checked on a public save, not yet tried in the game
+= 游戏界面：完成度、击杀敌人数和游戏时间，以及每个关卡的得分、评级、宝藏和秘密（含 Boss）。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: continues, lives, health, the powers, and every level's unlock and Electoon cages; the level totals and the completion rate are written again. Checked on public saves, not yet tried in the game
+= 游戏界面：续关次数、生命数、生命值、各项能力，以及每个关卡的解锁状态和 Electoon 笼子；关卡总数和完成率会重新写入。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: cookies in the bank and baked, counters, ascensions and the number of every building. Opens the exported save text (base64) and writes it back in the same form; every other value in it is kept. Checked on a public save, not yet tried in the game. Export from Options, edit, then import
+= 游戏界面：银行中的饼干数和已烘焙的饼干数、计数器、升天次数以及每种建筑的数量。可打开导出的存档文本（base64），并以相同形式写回；其中的其他所有数值保持不变。已在公开存档上检查，尚未在游戏中测试。请先在 Options 中导出，编辑后再导入
+
+Game screen: credits and the minerals, player and class ranks with their XP, stat upgrade levels. Checked on a real save, not yet tried in the game
+= 游戏界面：credits 和矿物、玩家和职业等级及其 XP、属性升级等级。已在真实存档上检查，尚未在游戏中测试
+
+Game screen: credits, Praxis kits, crafting parts (with a Max crafting materials button) and ammo stacks; experience is shown. The game state is unpacked and packed again on save. Checked on real saves and in the game. Close the game and turn Steam Cloud off for it first, or Steam may bring the old save back
+= 游戏界面：credits、Praxis 套件、制作部件（带有“制作材料拉满”按钮）和弹药堆叠；会显示经验。游戏状态会被解包，并在保存时重新打包。已在真实存档和游戏中检查。请先关闭游戏并为其关闭 Steam 云存档，否则 Steam 可能会恢复旧存档
+
+Game screen: credits, days, every licence test medal and the result of every league, special event and spot race; the save's checksum is written again. Cars and tuning parts are not edited yet. Checked on public saves, not yet tried in the game
+= 游戏界面：credits、天数、每个驾照测试的奖牌，以及每个联赛、特别赛事和单场比赛的成绩；存档的校验和会重新写入。车辆和改装部件暂不支持编辑。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: credits, experience and tournament fame from career.cres (the block-compressed file is unpacked, edited and packed again with fresh checksums). The garage and parts files open as hex. Checked on a public fresh profile, not yet tried in the game
+= 游戏界面：来自 career.cres 的 credits、经验和锦标赛名望（区块压缩的文件会被解包、编辑，并连同新的校验和重新打包）。车库和部件文件以十六进制打开。已在公开的全新个人资料上检查，尚未在游戏中测试
+
+Game screen: credits, level, experience and device upgrade tokens, and the crafting resources by name with a Max crafting materials button (ores, crystals, scrap and basic resources). The packed save is unpacked and packed again for you; ships and items are in the Tree. Checked on a public save, not yet tried in the game
+= 游戏界面：credits、等级、经验和设备升级代币，以及按名称列出的制作资源（带有“制作材料拉满”按钮，涵盖矿石、水晶、废料和基础资源）。打包的存档会为你解包并重新打包；飞船和物品在树状视图中。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: credits, level, experience and each faction's reputation experience. Checked on a public save, not yet tried in the game
+= 游戏界面：credits、等级、经验以及每个派系的声望经验。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: credits, perk points, vanity mastery and forge XP, each dwarf's XP and retirements, and the minerals and brewing ingredients, with a Max crafting materials button that fills Bismor, Magnite, Croppa, Umanite, Jadiz, Enor, Phazyonite and the brewing ingredients to 9999 (an estimate). Checked on a public sample save, not yet tried in the game
+= 游戏界面：credits、特技点、vanity mastery 和锻造 XP、每位矮人的 XP 和退役次数，以及矿物和酿造原料，并带有“制作材料拉满”按钮，可将 Bismor、Magnite、Croppa、Umanite、Jadiz、Enor、Phazyonite 和酿造原料补满至 9999（为估计值）。已在公开的样本存档上检查，尚未在游戏中测试
+
+Game screen: credits, the day and time, the difficulty options and a table of each ship's crew (health, food, rest, comfort, mood, the four attributes and the skill levels). Checked on a real save, not yet tried in the game
+= 游戏界面：credits、日期和时间、难度选项，以及每艘飞船船员的表格（生命值、食物、休息、舒适度、情绪、四项属性和技能等级）。已在真实存档上检查，尚未在游戏中测试
+
+Game screen: credits, the profit quota and what is paid towards it, quotas passed, the deadline, the current moon, ship upgrades in storage and the run's statistics (LCSaveFile1 to 3); your experience and rank (LCGeneralSaveData). Decrypted and encrypted again on save. Checked on public saves, not yet tried in the game
+= 游戏界面：credits、利润配额及已缴纳金额、已完成的配额数、截止日期、当前月球、仓库中的飞船升级以及本次游玩的统计数据（LCSaveFile1 至 3）；你的经验和等级（LCGeneralSaveData）。会解密，并在保存时重新加密。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: currency, coins, account level and the class perk levels. The progression file is unpacked (its key comes from the file name) and packed again on save. Checked on a public save, not yet tried in the game
+= 游戏界面：货币、硬币、账户等级和职业特技等级。进度文件会被解包（其密钥来自文件名），并在保存时重新打包。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: difficulty, experience, player level and the upgrades bought for Batman and Catwoman; the LZO-packed save is unpacked and packed again. Saves of a brand-new game have no experience yet and are not opened. Checked on public saves, not yet tried in the game
+= 游戏界面：难度、经验、玩家等级以及为 Batman 和 Catwoman 购买的升级；经 LZO 压缩的存档会被解包并重新打包。全新游戏的存档尚无经验值，无法打开。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: drachmae, XP and ability points, and the six crafting materials (olive wood, iron, soft leather, obsidian glass, precious gems, ancient tablets) with a Max crafting materials button (99,999, an estimate). The save is unscrambled (the account's key is worked out from the file), unpacked and packed again with its block checks. Checked on public saves, not yet tried in the game
+= 游戏界面：drachmae、XP 和能力点，以及六种制作材料（橄榄木、铁、软皮革、黑曜石玻璃、珍贵宝石、古代石板），带有“制作材料拉满”按钮（99,999，为估计值）。存档会被解除混淆（账户密钥从文件中推算得出）、解包，并在保存时连同区块校验重新打包。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: drachmae, XP, ability points and hard leather. The save is unscrambled (the account's key is worked out from the file), unpacked and packed again with its block checks. Checked on public saves, not yet tried in the game. The save ends with a 4-byte value that isn't understood yet and is kept as it is
+= 游戏界面：drachmae、XP、能力点和硬皮革。存档会被解除混淆（账户密钥从文件中推算得出）、解包，并在保存时连同区块校验重新打包。已在公开存档上检查，尚未在游戏中测试。存档末尾有一个尚未弄清含义的 4 字节值，会原样保留
+
+Game screen: each character's health, attack, defence, special bars and skill slots. The encrypted save is opened and its checksum kept right. Checked on a public save, not yet tried in the game
+= 游戏界面：每位角色的生命值、攻击、防御、特殊条和技能槽。加密的存档会被打开，并保持其校验和正确。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: each character's highest and preferred Ascension, wins, losses, win streaks and play time, and the profile's score, from progress.save. Checked on a public save, not yet tried in the game
+= 游戏界面：来自 progress.save 的每位角色的最高和偏好 Ascension、胜场、负场、连胜次数和游戏时间，以及个人资料的得分。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: each character's name, soul level, souls, humanity and the eight attributes, with HP and stamina shown (the item list of this edition is not read yet). The save's MD5 checksums are rewritten. Checked on a public save (the character stats read as plausible values and a changed save keeps its checksums), not yet tried in the game
+= 游戏界面：每位角色的名称、灵魂等级、souls、humanity 和八项属性，并显示 HP 和耐力（此版本的物品列表暂未读取）。存档的 MD5 校验和会重新写入。已在公开存档上检查（角色属性读取为合理数值，且修改后的存档保持校验和有效），尚未在游戏中测试
+
+Game screen: each custom character's level, experience, attribute points and the six attributes. Checked on a public save, not yet tried in the game
+= 游戏界面：每个自定义角色的等级、经验、属性点和六项属性。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: each empire's treasury (BC), research points and ship range, and each colony's stored production, marines and tanks. The save has no checksum. Checked on public saves, not yet tried in the game
+= 游戏界面：每个帝国的国库（BC）、研究点数和飞船航程，以及每个殖民地的库存产能、陆战队和坦克。该存档没有校验和。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: each family's funds and every Sim's skills, personality, job performance and aspiration score. The package is written again with the changed parts uncompressed (as SimPE does). Checked on a real neighbourhood, not yet tried in the game
+= 游戏界面：每个家庭的资金，以及每个 Sim 的技能、性格、工作表现和愿望分数。package 文件会重新写入，已修改的部分不压缩（与 SimPE 相同）。已在真实的邻里上检查，尚未在游戏中测试
+
+Game screen: each family's funds and family friends, and every Sim's skills and personality. Checked on a real neighbourhood, not yet tried in the game
+= 游戏界面：每个家庭的资金和家庭朋友，以及每个 Sim 的技能和性格。已在真实的邻里上检查，尚未在游戏中测试
+
+Game screen: each hero's experience and unlocked flag, and the gems, stars, food, loot, fame and guild experience of a run in progress. Checked on a public save, not yet tried in the game
+= 游戏界面：每位英雄的经验和解锁标志，以及进行中的游玩的宝石、星星、食物、战利品、名望和公会经验。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: each hero's gold, level, XP, health and focus, and the party's life pool. The gzip and UTF-16 wrapping is removed and put back on save. Checked on a public save, not yet tried in the game
+= 游戏界面：每位英雄的金币、等级、XP、生命值和专注，以及队伍的生命池。gzip 和 UTF-16 外层会被去除，并在保存时重新套上。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: each hero's level, adventure points (earned and to spend), life, endurance, astral energy, eight attributes and every talent, with the party slot to tell your party from the cutscene copies. The SQLite save is edited in place; items and money are in the Tree. Checked on a public save, not yet tried in the game
+= 游戏界面：每位英雄的等级、冒险点数（已获得的和可用的）、生命、耐力、星界能量、八项属性和每项天赋，并带有队伍位置以便区分你的队伍与过场动画中的副本。SQLite 存档会就地编辑；物品和金钱在树状视图中。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: each household's funds and every Sim's lifetime reward points, lifetime happiness, celebrity, job and school performance, needs and skills of every age group (with Fill every need and Max every skill buttons); the supernatural type is shown read-only. The game data is stored uncompressed when saved, so the file grows. Checked on public saves, not yet tried in the game
+= 游戏界面：每个家庭的资金，以及每个 Sim 的终身奖励点数、终身快乐值、名人度、工作和学业表现、各年龄段的需求和技能（带有“满足所有需求”和“所有技能拉满”按钮）；超自然类型以只读方式显示。游戏数据保存时不压缩，因此文件会变大。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: each of the four playable characters' money, experience and skill orbs, and the eco points. The save has no checksum. Checked on a public save, not yet tried in the game
+= 游戏界面：四位可玩角色各自的金钱、经验和技能宝珠，以及生态点数。该存档没有校验和。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: each party member's experience, vitality, gold and item stack sizes, on the same screen as Original Sin 2; the save package is unpacked and packed again. Checked on a public save, not yet tried in the game
+= 游戏界面：每位队伍成员的经验、体力、金币和物品堆叠数量，与 Original Sin 2 使用同一界面；存档包会被解包并重新打包。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: each party member's level, HP, MP, stats and experience, and the item counts in every bag (up to each item's maximum). The encrypted save is opened and its CRC kept right. Checked on a public save, not yet tried in the game
+= 游戏界面：每位队伍成员的等级、HP、MP、属性和经验，以及每个背包中的物品数量（不超过各物品的上限）。加密的存档会被打开，并保持其 CRC 正确。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: each player character's experience, vitality, attributes, unspent points and gold and the stack size of each carried item, and adding items to a character's bag (any kind found in an inventory in the save); packed again with the package checksum on save. Not yet tried in the game
+= 游戏界面：每个玩家角色的经验、体力、属性、未分配点数和金币，以及每件携带物品的堆叠数量，并可向角色背包中添加物品（存档中任一物品栏里出现过的种类均可）；保存时连同存档包校验和重新打包。尚未在游戏中测试
+
+Game screen: each player's elemental resources and remaining mana and the campaign's points and day. Checked on a public save, not yet tried in the game
+= 游戏界面：每位玩家的元素资源和剩余法力，以及战役的点数和天数。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: each ranger's level, experience, health, attribute, skill and trait points, kills and the seven attributes; skills and items are in the Tree. Open <save name>.xml. Checked on a public save, not yet tried in the game
+= 游戏界面：每位游侠的等级、经验、生命值、属性点、技能点和特质点、击杀数以及七项属性；技能和物品在树状视图中。请打开 <save name>.xml。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: each save slot's play time, deaths and New Game Plus count. The scrambled text is unscrambled and scrambled again for you; checked on a public save, not yet tried in the game
+= 游戏界面：每个存档位的游戏时间、死亡次数和 New Game Plus 次数。被混淆的文本会为你解除混淆并重新混淆；已在公开存档上检查，尚未在游戏中测试
+
+Game screen: every Gungeoneer's Hegemony credits, runs, deaths, kills, money, play time and floors cleared. The save's XOR encryption is handled for you. Checked on a public save, not yet tried in the game
+= 游戏界面：每位 Gungeoneer 的 Hegemony credits、游玩次数、死亡次数、击杀数、金钱、游戏时间和已通关楼层数。存档的 XOR 加密会为你处理。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: every Mania Mode and Encore Mode slot (state, character, zone, lives, score, Chaos Emeralds, continues, next special stage), changed in place. Checked on public saves, not yet tried in the game
+= 游戏界面：每个 Mania Mode 和 Encore Mode 存档位（状态、角色、关卡区域、生命数、得分、Chaos Emerald、续关次数、下一个特殊关卡），就地修改。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: every faction's money, influence, operations, research, boost, mission control and space resources. Checked on public saves, not yet tried in the game
+= 游戏界面：每个派系的金钱、影响力、行动、研究、助推、任务控制和太空资源。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: every faction's treasury, yours first, with a button to fill it. The campaign inside the save is unpacked, edited with every size above it recomputed, and packed again (the file grows). Read and round-tripped on Warhammer II and Troy campaign saves; not yet tried in the game
+= 游戏界面：每个派系的国库（你的排在最前），并带有一键补满的按钮。存档中的战役数据会被解包、编辑，并重新计算其上层的所有大小字段后再打包（文件会变大）。已在 Warhammer II 和 Troy 的战役存档上读取并完成往返写回测试；尚未在游戏中测试
+
+Game screen: every faction's treasury, yours first, with a button to fill it. The campaign inside the save is unpacked, edited with every size above it recomputed, and packed again (the file grows). Read on public campaign saves of the game, not yet tried in the game
+= 游戏界面：每个派系的国库（你的排在最前），并带有一键补满的按钮。存档中的战役数据会被解包、编辑，并重新计算其上层的所有大小字段后再打包（文件会变大）。已在该游戏的公开战役存档上读取；尚未在游戏中测试
+
+Game screen: every file in the flash with its coins, each party member's level, experience, HP/PP, base stats and items, and the Djinn per element (give one to a character, set it or put it on standby, or take it away); in Golden Sun, the story choices the password carries into The Lost Age; checksums kept right. Not yet tried in the game
+= 游戏界面：闪存中的每个文件及其硬币、每位队伍成员的等级、经验、HP/PP、基础属性和物品，以及每种元素的 Djinn（可分配给角色、设为装备或待命，或收回）；在 Golden Sun 中，还有密码带入 The Lost Age 的剧情选择；校验和保持正确。尚未在游戏中测试
+
+Game screen: every item the player carries with its amount and the game's stored limit, with a Max crafting materials button that raises the plain materials to those limits. Only the amounts change; the rest of the save stays byte for byte. Checked on public saves, not yet tried in the game
+= 游戏界面：玩家携带的每件物品及其数量和游戏中存储的上限，并带有“制作材料拉满”按钮，可将普通材料补至这些上限。只有数量会改变；存档的其余部分保持逐字节不变。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: every party member's level, experience, attributes, skills and free points, and each inventory (rubles are the Money item). The save's gzip packing is opened and closed for you. Checked on a public save, not yet tried in the game
+= 游戏界面：每位队伍成员的等级、经验、属性、技能和未分配点数，以及每个物品栏（卢布即 Money 物品）。存档的 gzip 压缩会为你解开并重新压缩。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: every player's gold and resources, and every hero's level, experience, attributes, spell points, movement, army (creature and count) and the skills they already have. Shadow of Death, Armageddon's Blade and Horn of the Abyss 1.8 or newer; the save's gzip packing is opened and closed for you. Checked on public saves, not yet tried in the game
+= 游戏界面：每位玩家的金币和资源，以及每位英雄的等级、经验、属性、法术点、移动力、军队（生物及数量）和已掌握的技能。适用于 Shadow of Death、Armageddon's Blade 以及 Horn of the Abyss 1.8 或更新版本；存档的 gzip 压缩会为你解开并重新压缩。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: every save slot's difficulty (Normal, Easy, Hard), health, max health and Whimsical Stars, and each weapon's type, level, energy and ammo; equipment, items and the stage are shown. The freeware Cave Story's Profile.dat opens too. Checked on public saves, not yet tried in the game
+= 游戏界面：每个存档位的难度（Normal、Easy、Hard）、生命值、最大生命值和 Whimsical Stars，以及每件武器的类型、等级、能量和弹药；会显示装备、物品和关卡。免费版 Cave Story 的 Profile.dat 同样可以打开。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: every skater's tapes in each level, the medals of the three competitions, the high scores and the sound levels; the tape counts and the checksum are written again. Checked on public saves, not yet tried in the game
+= 游戏界面：每位滑板手在各关卡中的录像带、三项比赛的奖牌、最高分和音量；录像带数量和校验和会重新写入。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: every unit's level, experience, health, hunger and ruler stats (diplomacy, intelligence, stewardship, warfare) and the first village's stored resources. The map.wbox is unpacked and packed again on save. Checked on a public save, not yet tried in the game
+= 游戏界面：每个单位的等级、经验、生命值、饥饿度和统治者属性（外交、智力、管理、战争），以及第一个村庄的库存资源。map.wbox 会被解包，并在保存时重新打包。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: experience, healing potions, play time and a table of the carried items with their quantities. Checked on a public save, not yet tried in the game
+= 游戏界面：经验、治疗药水、游戏时间，以及携带物品及其数量的表格。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: food, seafood and crafting materials (up to 999 each, with a Max crafting materials button), the valuables (virtue, wooden tags, tickets), ammunition, style experience and training orbs; decrypted, with its checksum kept right. Ryo isn't mapped yet. Checked on a public save, not yet tried in the game
+= 游戏界面：食物、海鲜和制作材料（每种最多 999，带有“制作材料拉满”按钮）、贵重物品（virtue、木牌、票券）、弹药、流派经验和修行宝珠；会解密，并保持校验和正确。Ryo 尚未映射。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: for each file coins, Star Pieces, Star Points, level, HP, FP and BP with their maximums, the Star Spirits saved and Star Energy, boots and hammer, the ten bag items, the partners with their ranks, and the battle records; badges (obtained and worn), stored and key items, Tayce T.'s recipes, star pieces and super blocks found and Koopa Koot's favours are in the Tree. The newest save of each file is the one edited, and both of its sums are made again. Checked on public saves, not yet tried in the game
+= 游戏界面：每个文件的硬币、Star Pieces、Star Points、等级、HP、FP 和 BP 及其上限、已拯救的 Star Spirits 和 Star Energy、靴子和锤子、十件背包物品、伙伴及其等级，以及战斗记录；徽章（已获得和已佩戴）、存放物品和关键道具、Tayce T. 的食谱、已找到的 star pieces 和 super blocks，以及 Koopa Koot 的委托都在树状视图中。每个文件中最新的存档是被编辑的那一个，其两个校验和都会重新生成。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: for each of the 16 slots the clear count, the Bouncer Points and stat levels of Sion, Volt and Kou, their skills, the unlocked stages, characters and costumes, and the survival mode records; rank, points spent and checksum are written again. Checked on public saves, not yet tried in the game
+= 游戏界面：16 个存档位各自的通关次数、Sion、Volt 和 Kou 的 Bouncer Points 和属性等级、他们的技能、已解锁的关卡、角色和服装，以及生存模式记录；等级、已花费点数和校验和会重新写入。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: for each of the four files the caps, keys, switches, secret stars, every course's six stars, 100-coin star, cannon and coin record. Both copies of the file and the checksums are kept right. Checked on public saves, not yet tried in the game
+= 游戏界面：四个文件各自的帽子、钥匙、开关、秘密星星、每个关卡的六颗星星、100 硬币星星、大炮和硬币记录。文件的两份副本及其校验和都会保持正确。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: for each of the four slots money, each hero's level, experience, HP and MP, and every weapon and spirit's level and experience. Each slot's checksum is kept right. Checked on a public save, not yet tried in the game
+= 游戏界面：四个存档位各自的金钱、每位英雄的等级、经验、HP 和 MP，以及每件武器和每个 spirit 的等级和经验。每个存档位的校验和都会保持正确。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: for each of the three Mario files the lives, the nozzles and Yoshi, and for every area its shine sprites, blue coins, events and scores; the shine sprite total is kept in step. Opens the .gci of the NTSC, PAL and Japanese discs and edits the newer of the two copies the game keeps; the sum is made again. Checked on public saves, not yet tried in the game
+= 游戏界面：三个 Mario 文件各自的生命数、喷水装置和 Yoshi，以及每个区域的 shine sprites、蓝色硬币、事件和得分；shine sprite 总数会同步更新。可打开 NTSC、PAL 和日版光盘的 .gci，并编辑游戏保存的两份副本中较新的一份；校验和会重新生成。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: for each of the three files health, magic, rupees, the equipment, every item with its ammunition and upgrades, the songs, medallions and stones, and each dungeon's map, compass and boss key; the rest (skulltulas, heart pieces, events) is in the Tree. Opens the emulator's .sra and .srm saves (also with swapped words) and the GameCube .gci of the Master Quest and Collector's Edition discs; the sum and backup copy are kept right. Checked on public saves, not yet tried in the game
+= 游戏界面：三个文件各自的生命值、魔力、卢比、装备、每件物品及其弹药和升级、歌曲、勋章和石头，以及每个地牢的地图、指南针和 Boss 钥匙；其余内容（skulltula、心之碎片、事件）在树状视图中。可打开模拟器的 .sra 和 .srm 存档（包括字序交换的）以及 Master Quest 和 Collector's Edition 光盘的 GameCube .gci；校验和和备份副本都会保持正确。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: for each of the three save slots eggs of every kind, red and gold feathers, honeycombs, Cheato's pages, Glowbos, doubloons and the other carried items, every basic and advanced move, the cheats spelled and turned on, the minigame high scores and the time spent in each world. Jiggies, notes and other world flags are left out because the American release keeps them elsewhere. The slot's Rare sum is made again on save. Checked on public saves, not yet tried in the game
+= 游戏界面：三个存档位各自的各种蛋、红色和金色羽毛、蜂巢、Cheato's pages、Glowbo、doubloon 及其他携带物品，每个基础和进阶招式，已拼写并开启的秘籍，小游戏最高分以及在每个世界中花费的时间。Jiggy、音符及其他世界标志未包含在内，因为美版将它们存放在别处。保存时会重新生成存档位的 Rare 校验和。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: for each of the three save slots jiggies, Mumbo tokens, health, eggs and feathers with their maximums, every basic and advanced move, each world's jiggies, and the Stop 'n' Swop items; every other flag of the slot is in the Tree. The slot's Rare sum is made again on save. Checked on public saves, not yet tried in the game
+= 游戏界面：三个存档位各自的 jiggy、Mumbo 代币、生命值、蛋和羽毛及其上限，每个基础和进阶招式，每个世界的 jiggy，以及 Stop 'n' Swop 物品；存档位的其他所有标志都在树状视图中。保存时会重新生成存档位的 Rare 校验和。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: for each of the three save slots the play time, melons, the Kongs freed, each Kong's Banana Coins, Cranky's moves, slam level, gun, ammo belt and instrument upgrades, the moves and items, plus the Mystery menu unlocks; the Banana Fairies, Battle Crowns, Boss Keys and every level's Golden Bananas, Banana Medals, blueprints, coloured bananas and Bananaport pads are in the Tree. Each Kong's Golden Banana count follows the bananas ticked, and every CRC is made again on save. Checked on public saves, not yet tried in the game
+= 游戏界面：三个存档位各自的游戏时间、西瓜、已解救的 Kong、每只 Kong 的 Banana Coins、Cranky 的招式、猛击等级、枪、弹药带和乐器升级、招式和物品，以及 Mystery 菜单的解锁项；Banana Fairies、Battle Crowns、Boss Keys，以及每个关卡的 Golden Bananas、Banana Medals、蓝图、彩色香蕉和 Bananaport 传送台都在树状视图中。每只 Kong 的 Golden Banana 数量会跟随已勾选的香蕉，保存时会重新生成每个 CRC。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: for each of the three slots energy and reserve tanks, missiles, super missiles, power bombs, play time and the beams, suits and boots Samus has and has equipped. Each slot's sums, and their copies at the end of the file, are kept right. Checked on a public save, not yet tried in the game
+= 游戏界面：三个存档位各自的能量罐和备用罐、导弹、超级导弹、能量炸弹、游戏时间，以及 Samus 拥有和已装备的光束、装甲和靴子。每个存档位的校验和及其在文件末尾的副本都会保持正确。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: for each of the three slots gil, steps and play time, every party member's level, HP, MP, experience, stats, esper and equipment, and the inventory's items and quantities. Each slot's sum is kept right. Checked on a public save, not yet tried in the game
+= 游戏界面：三个存档位各自的 gil、步数和游戏时间，每位队伍成员的等级、HP、MP、经验、属性、esper 和装备，以及物品栏中的物品和数量。每个存档位的校验和都会保持正确。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: for each of the three slots gold and silver points, each character's experience, tech points, HP, MP, base stats and equipment. Each slot's sum is kept right. Checked on a public save, not yet tried in the game
+= 游戏界面：三个存档位各自的金点和银点，以及每位角色的经验、技能点、HP、MP、基础属性和装备。每个存档位的校验和都会保持正确。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: for each of the three slots hearts, magic, rupees, bombs and arrows with their capacity upgrades, the sword, shield, tunic and every item, and the four bottles. The slot's sum is kept right. Checked on a public save, not yet tried in the game
+= 游戏界面：三个存档位各自的心、魔力、卢比、炸弹和箭矢及其容量升级、剑、盾、服装和每件物品，以及四个瓶子。存档位的校验和会保持正确。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: for each of the three slots money, and the hero's and partner's level, experience, HP and spell charges. Each slot's checksum is kept right. Checked on a public save, not yet tried in the game
+= 游戏界面：三个存档位各自的金钱，以及主角和搭档的等级、经验、HP 和法术次数。每个存档位的校验和都会保持正确。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: for each of the three slots the treasures you hold, the medals and Mario's items, the gallery, the boos and portrait ghosts and every mansion room's flags, plus the sound, rumble and control options. Opens the .gci of the NTSC, PAL and Japanese discs and edits the newer of the two copies the game keeps; the sum is made again. Equipment, area and the portrait ghost ranks (which the game ties to other flags) are left out. Checked on public saves, not yet tried in the game
+= 游戏界面：三个存档位各自持有的宝物、奖牌和 Mario 的物品、画廊、boo 和肖像幽灵，以及每个宅邸房间的标志，另有声音、震动和操作选项。可打开 NTSC、PAL 和日版光盘的 .gci，并编辑游戏保存的两份副本中较新的一份；校验和会重新生成。装备、区域和肖像幽灵的等级（游戏将其与其他标志关联）未包含在内。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: for each player slot the best time of all twenty missions on every difficulty, all cheats and the control options. The slot's Rare sum is made again on save. Checked on public saves, not yet tried in the game
+= 游戏界面：每个玩家存档位在各难度下全部二十个任务的最佳时间、所有秘籍和操作选项。保存时会重新生成存档位的 Rare 校验和。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: for each save slot, money, Persona points, BOND points and the consumable, cooking, incense, remedy and skill-card stacks you hold. The encrypted save is opened and its checksum kept right. Checked on a public save, not yet tried in the game
+= 游戏界面：每个存档位的金钱、Persona 点数、BOND 点数，以及你持有的消耗品、料理、香、药剂和技能卡堆叠。加密的存档会被打开，并保持其校验和正确。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: for each slot health (in quarter hearts), magic, rupees, the equipment and wallet, every item, bag and quantity, the figurines, the dungeons' maps, compasses and keys, the songs and quest items and the events (Big Octos, mini-games, postbox and more). Opens the .gci of the NTSC, PAL, Japanese and Korean discs; the sum is made again and the sword, shield and bracelet flags follow the equipment you pick. The heart piece flags, day time and map location are left out. Checked on public saves, not yet tried in the game
+= 游戏界面：每个存档位的生命值（以四分之一心为单位）、魔力、卢比、装备和钱包、每件物品、背包和数量、手办、地牢的地图、指南针和钥匙、歌曲和任务物品，以及事件（Big Octo、小游戏、邮箱等）。可打开 NTSC、PAL、日版和韩版光盘的 .gci；校验和会重新生成，剑、盾和手镯的标志会跟随你选择的装备。心之碎片标志、白天时间和地图位置未包含在内。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: for each slot rupees and wallet, health, heart pieces, magic, double defense, the sword, shield, quiver and bomb bag with every ammunition count, all items, masks, songs and boss remains, each temple's stray fairies, keys, map, compass and boss key, and the owl statues; the Bombers' Notebook, heart pieces and other events are in the Tree. An owl-statue save is edited when the slot has one, since that is what the game loads. Opens the emulator's .fla and .srm saves (also with swapped words) and the GameCube .gci of the Collector's Edition disc; the sum and the backup copy are kept right. Checked on public saves, not yet tried in the game
+= 游戏界面：每个存档位的卢比和钱包、生命值、心之碎片、魔力、双倍防御、剑、盾、箭袋和炸弹袋及各种弹药数量、所有物品、面具、歌曲和 Boss 遗骸，每座神殿的散落妖精、钥匙、地图、指南针和 Boss 钥匙，以及猫头鹰雕像；炸弹客笔记本、心之碎片和其他事件在树状视图中。如果存档位中有猫头鹰雕像存档，则编辑该存档，因为游戏加载的正是它。可打开模拟器的 .fla 和 .srm 存档（包括字序交换的）以及 Collector's Edition 光盘的 GameCube .gci；校验和和备份副本都会保持正确。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: for every save on the Controller Pak the lives and each level's red remotes, hidden and reward silver remotes and the gold remotes, with the totals. The game's 18-letter password is coded again for each changed save. Checked on public saves, not yet tried in the game
+= 游戏界面：Controller Pak 上每个存档的生命数，以及每个关卡的红色遥控器、隐藏的和奖励的银色遥控器以及金色遥控器及其总数。游戏的 18 位字母密码会为每个已修改的存档重新编码。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: francs and Creed Points, smoke bombs, berserk darts, medicine, bullets, cherry bombs and stun grenades. The save is unscrambled (the account's key is worked out from the file), unpacked and packed again with its block checks. Checked on public saves, not yet tried in the game
+= 游戏界面：法郎和 Creed Points、烟雾弹、狂暴飞镖、药品、子弹、樱桃炸弹和眩晕手雷。存档会被解除混淆（账户密钥从文件中推算得出）、解包，并在保存时连同区块校验重新打包。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: funds, hull tier, sanity and catch counts. .NET BinaryFormatter, read and written in place; checked on a public save, not yet tried in the game
+= 游戏界面：资金、船体等级、理智和渔获数量。.NET BinaryFormatter，就地读写；已在公开存档上检查，尚未在游戏中测试
+
+Game screen: funds, months and days passed, difficulty, scientists and engineers, every soldier's rank, missions, kills and stats, and the stores of the first three bases, from an OpenXcom or OpenXcom Extended save (also plays The X-Com Files and X-Piratez). The data part of the file is rewritten on save. Checked on a public save, not yet tried in the game
+= 游戏界面：来自 OpenXcom 或 OpenXcom Extended 存档的资金、已过月数和天数、难度、科学家和工程师、每名士兵的军衔、任务数、击杀数和属性，以及前三个基地的库存（同样适用于 The X-Com Files 和 X-Piratez）。保存时会重写文件的数据部分。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: gald (also in the save list) and level, experience, HP, TP and the base stats of all nine characters. Checked on public saves, not yet tried in the game
+= 游戏界面：gald（在存档列表中同样显示）以及全部九位角色的等级、经验、HP、TP 和基础属性。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: gald, grade points, the records, all nine characters (level, experience, HP, TP and the stats) and every item. Gald is written in both places the game keeps it. Checked on a real save, not yet tried in the game
+= 游戏界面：gald、grade points、记录、全部九位角色（等级、经验、HP、TP 和属性）以及每件物品。Gald 会写入游戏保存它的两处位置。已在真实存档上检查，尚未在游戏中测试
+
+Game screen: gems and the stars on each campaign level. Property-list XML; checked on a public save, not yet tried in the game
+= 游戏界面：宝石以及每个战役关卡上的星星。属性列表 XML；已在公开存档上检查，尚未在游戏中测试
+
+Game screen: gems, the difficulty, the upgrade ranks and each hero's experience. Plain Lua text; checked on a public save, not yet tried in the game
+= 游戏界面：宝石、难度、升级等级和每位英雄的经验。纯 Lua 文本；已在公开存档上检查，尚未在游戏中测试
+
+Game screen: gems, the difficulty, the upgrade ranks, the consumables and each hero's experience. Plain Lua text; checked on a public save, not yet tried in the game
+= 游戏界面：宝石、难度、升级等级、消耗品和每位英雄的经验。纯 Lua 文本；已在公开存档上检查，尚未在游戏中测试
+
+Game screen: gil, Ability Points, consumables and materials, and Max crafting materials (99, 999 or 9999 per material); level and max HP shown. The save inside each slot picture is unpacked with a dictionary read from your own installed copy of the game and packed again with its CRC-32 rewritten; the autosave's ten saves are picked with Tools › Open another file in this archive. Tried in the game
+= 游戏界面：gil、Ability Points、消耗品和材料，以及“制作材料拉满”（每种材料 99、999 或 9999）；会显示等级和最大 HP。每个存档位图片中的存档会使用从你自己安装的游戏副本中读取的字典解包，并在重新写入 CRC-32 后重新打包；自动存档的十个存档可通过 工具 › 打开此压缩包中的其他文件 选取。已在游戏中测试
+
+Game screen: gil, story progression and Triple Triad record, the party's experience, HP and stat bonuses, every stocked magic, the Guardian Forces (experience, HP, obtained), all 198 bag slots and the quantity of each Triple Triad card. The save's CRC is written again. Checked on public saves, not yet tried in the game
+= 游戏界面：gil、剧情进度和 Triple Triad 战绩、队伍的经验、HP 和属性加成、每种库存魔法、Guardian Force（经验、HP、是否已获得）、全部 198 个背包栏位以及每张 Triple Triad 卡牌的数量。存档的 CRC 会重新写入。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: gil. The save is decrypted, edited and encrypted again, with its checksum rewritten. Checked on public saves, not yet tried in the game
+= 游戏界面：gil。存档会被解密、编辑并重新加密，同时重新写入校验和。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: gold and coins, each party member's level, experience, HP, MP, SP, attributes, equipment and conditions, and the stock of every item, weapon, armor, accessory, mana egg and valuable. Checked on public saves, not yet tried in the game
+= 游戏界面：金币和硬币、每位队伍成员的等级、经验、HP、MP、SP、属性、装备和状态，以及每件物品、武器、护甲、饰品、mana egg 和贵重物品的库存。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: gold and each officer's health, attack, defense, power, speed and skill points; the stream cipher and word checksum are rewritten. Checked on a public save, not yet tried in the game
+= 游戏界面：金币以及每位武将的生命、攻击、防御、力量、速度和技能点；流密码和字校验和会重新写入。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: gold and the stack size of every stacked item each companion carries (potions, arrows, scrolls), from the save's packed entity store, the party summary (origin, class, level, experience) and story flags by area and companion, kept in step with the story's own flag list, and adding copies of items from the party's bags to a character's bag; the package is packed again with its checksum on save. Checked on about a hundred public saves, not yet tried in the game
+= 游戏界面：金币，以及每位同伴所携带的每个堆叠物品（药水、箭矢、卷轴）的堆叠数量（取自存档中打包的实体存储）、队伍概览（出身、职业、等级、经验）以及按区域和同伴划分的剧情标志（与剧情自身的标志列表保持同步），还可将队伍背包中物品的副本添加到某个角色的背包；保存时会连同校验和重新打包。已在约一百个公开存档上检查，尚未在游戏中测试
+
+Game screen: gold carried, level, health, magicka and fatigue, the eight attributes, all 35 skills, resistances, reputations and the gold in each region's bank, from SaveData.txt. Checked on a public save, not yet tried in the game
+= 游戏界面：来自 SaveData.txt 的携带金币、等级、生命、魔法值和疲劳、八项属性、全部 35 项技能、抗性、声望以及各地区银行中的金币。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: gold coins, bank vault, casino tokens, mini medals, every warp place, each party member's level, experience, HP, MP, stats and skill attributes, the 396 bag slots and the battle records; the save's checksum is written again. Checked on public saves, not yet tried in the game
+= 游戏界面：金币、银行金库、赌场代币、小奖章、每个传送地点、每位队伍成员的等级、经验、HP、MP、属性和技能属性、396 个背包栏位以及战斗记录；存档的校验和会重新写入。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: gold pieces, each character's level, experience, HP, SP and attributes, magic and weapon levels, equipment, the items in each pack, and every learned skill (the PC remaster keeps the PlayStation save block). Checked on a real save, not yet tried in the game
+= 游戏界面：金币、每位角色的等级、经验、HP、SP 和属性、魔法和武器等级、装备、每个背包中的物品以及每项已学会的技能（PC 重制版保留 PlayStation 的存档区块）。已在真实存档上检查，尚未在游戏中测试
+
+Game screen: gold pieces, each character's level, experience, HP, SP and attributes, magic and weapon levels, equipment, the items in each pack, and every learned skill. Western and Japanese save slots; checked on public saves, not yet tried in the game
+= 游戏界面：金币、每位角色的等级、经验、HP、SP 和属性、魔法和武器等级、装备、每个背包中的物品以及每项已学会的技能。支持西方版和日版存档位；已在公开存档上检查，尚未在游戏中测试
+
+Game screen: gold, Bei, chef flames, research and trust points, and every sushi ingredient's stock with a Max crafting materials button (999, the stack the game shows). The save's XOR encryption is removed and put back on save. Checked on public saves, not yet tried in the game
+= 游戏界面：金币、Bei、厨师火焰、研究点数和信任点数，以及每种寿司食材的库存，并带有“制作材料拉满”按钮（999，即游戏显示的堆叠上限）。存档的 XOR 加密会被去除，并在保存时重新加上。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: gold, Qi Gems, Golden Walnuts, health, energy, skills and farm details, with a Max crafting materials button that fills the wood, stone, fiber, clay, ores, bars and monster loot in the backpack to 999, leaving quest items, minerals and artifacts alone (checked on public 1.5 saves; not yet tried in the game)
+= 游戏界面：金币、Qi Gems、Golden Walnuts、生命值、体力、技能和农场详情，并带有“制作材料拉满”按钮，可将背包中的木材、石头、纤维、黏土、矿石、金属锭和怪物战利品补满至 999，任务物品、矿物和古物不受影响（已在公开的 1.5 版存档上检查；尚未在游戏中测试）
+
+Game screen: gold, experience, ability scores, hit points, alignment, skills and item stack sizes of the player (the module .sav, with player.bic kept in step) or a vault character (.bic). Not yet tried in the game
+= 游戏界面：玩家（模块 .sav，player.bic 会同步更新）或 vault 角色（.bic）的金币、经验、属性值、生命值、阵营、技能和物品堆叠数量。尚未在游戏中测试
+
+Game screen: gold, gems, facility and weapon materials, and each officer's attack, defence, health and weapon-compatibility stars. The encrypted save is opened and both checksums kept right. Checked on a public save, not yet tried in the game
+= 游戏界面：金币、宝石、设施和武器材料，以及每位武将的攻击、防御、生命和武器适性星级。加密的存档会被打开，并保持两个校验和正确。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: gold, gold spent and health from player.xml. Checked on a public save, not yet tried in the game
+= 游戏界面：来自 player.xml 的金币、已花费金币和生命值。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: gold, iron, steel, blood, jotunjarn, the ores and bloodstone, secrets found and finished runs. Plain JSON; checked on a public save, not yet tried in the game
+= 游戏界面：金币、铁、钢、血、jotunjarn、矿石和 bloodstone、已发现的秘密以及已完成的游玩次数。纯 JSON；已在公开存档上检查，尚未在游戏中测试
+
+Game screen: gold, level, experience, HP, MP, knife and clock upgrades, the seven gems, the abilities and keys, and the shop counters. The save's base64 lines are opened as one list of 1,000 values and written back the same way. Checked on a public save, not yet tried in the game
+= 游戏界面：金币、等级、经验、HP、MP、飞刀和时钟升级、七颗宝石、能力和钥匙，以及商店计数器。存档中的 base64 行会作为一个包含 1,000 个数值的列表打开，并以相同方式写回。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: gold, level, experience, the four attributes and the attribute and passive skill points to spend, difficulty and league, from a character file. Checked on a public save, not yet tried in the game
+= 游戏界面：来自角色文件的金币、等级、经验、四项属性、可用的属性点和被动技能点、难度和联赛。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: gold, play time, every character's level, experience and bonus experience, and the amounts of ether cylinders, gem crystals and collectibles (by id, up to the game's stack size). Checked on a public save, not yet tried in the game
+= 游戏界面：金币、游戏时间、每位角色的等级、经验和额外经验，以及 ether cylinder、gem crystal 和收藏品的数量（按 ID，最多到游戏的堆叠上限）。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: gold, popularity, karma, experience and the whole inventory (ingredients, crafted potions) with a Max crafting materials button for the plant, mushroom and crystal ingredients. The .pcsave is decoded to JSON and encoded again on save. Checked on a public save, not yet tried in the game
+= 游戏界面：金币、人气、业力、经验和整个物品栏（原料、已制作的药水），并带有针对植物、蘑菇和水晶原料的“制作材料拉满”按钮。.pcsave 会被解码为 JSON，并在保存时重新编码。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: gold, relic dust, soul, spire shards and every hero's level, experience and skill points. The save container is opened and packed again. Checked on public saves, not yet tried in the game
+= 游戏界面：金币、relic dust、soul、spire shards 以及每位英雄的等级、经验和技能点。存档容器会被打开并重新打包。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: gold, rubies, hero souls, ancient souls, zones reached, multipliers and every hero's and outsider's level. The save's base64 and deflate packing is handled. Checked on a public save, not yet tried in the game
+= 游戏界面：金币、rubies、hero souls、ancient souls、已到达的区域数、倍率以及每位英雄和 outsider 的等级。存档的 base64 和 deflate 压缩会被处理。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: gold, runs, wins, streaks and play time. The JSON held inside the save's strings is opened and written back as strings. Checked on a public sample save, not yet tried in the game
+= 游戏界面：金币、游玩次数、胜场、连胜和游戏时间。存档字符串中包含的 JSON 会被打开，并以字符串形式写回。已在公开的样本存档上检查，尚未在游戏中测试
+
+Game screen: gold, steps, the party and every actor (level, EXP, HP, SP and stat bonuses) and the items, weapons and armour you carry, by database number. Checked on public To the Moon saves
+= 游戏界面：金币、步数、队伍和每位角色（等级、EXP、HP、SP 和属性加成），以及你携带的物品、武器和护甲（按数据库编号）。已在公开的 To the Moon 存档上检查
+
+Game screen: gold, the Dojo's stock EXP, shared skill points and stock weapon mastery, and the lumber, mineral and fabric of the castle (with Max crafting materials); decrypted with your Steam account number and encrypted again on save. Checked on a public save, not yet tried in the game
+= 游戏界面：金币、Dojo 的库存 EXP、共享技能点和库存武器熟练度，以及城堡的木材、矿物和布料（带有“制作材料拉满”）；使用你的 Steam 账号解密，并在保存时重新加密。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: gold, tickets, hammers, snacks, SP and the spirit board item counts. Checked on a public save, not yet tried in the game
+= 游戏界面：金币、票券、锤子、零食、SP 和 spirit board 物品数量。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: gold, wood, iron, stone, mana crystals, loan and the day. Checked on a public save, not yet tried in the game
+= 游戏界面：金币、木材、铁、石头、法力水晶、贷款和天数。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: gold; each party member's level, experience, action points, health, attribute points and Lumina from Colours of Lumina; each weapon's level; item counts (cosmetics left out), with a Max crafting materials button that fills Chroma Catalysts to 999 (an estimate). Checked on a real save, not yet tried in the game
+= 游戏界面：金币；每位队伍成员的等级、经验、行动点数、生命值、属性点以及来自 Colours of Lumina 的 Lumina；每件武器的等级；物品数量（不含外观物品），并带有“制作材料拉满”按钮，可将 Chroma Catalysts 补满至 999（为估计值）。已在真实存档上检查，尚未在游戏中测试
+
+Game screen: green gel, trap parts, weapon upgrade levels for the handgun, shotgun, rifle, magnum and Agony Crossbow, and stat upgrades from inventory.zwei (its checksum is written again on save). Checked on public saves, not yet tried in the game
+= 游戏界面：green gel、陷阱部件、手枪、霰弹枪、步枪、马格南和 Agony Crossbow 的武器升级等级，以及来自 inventory.zwei 的属性升级（其校验和会在保存时重新写入）。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: health, armour, ammo by type (9mm, .357, buckshot, uranium and the rest) and each weapon's magazine, changed in place. Values the game left out because they're zero (no armour, an empty magazine) can't be set. Not yet tried in the game
+= 游戏界面：生命值、护甲、各类弹药（9mm、.357、鹿弹、铀等）以及每件武器的弹匣，就地修改。游戏因数值为零而未记录的项目（无护甲、空弹匣）无法设置。尚未在游戏中测试
+
+Game screen: health, armour, flashlight, ammo by type and each weapon's magazine, changed in place. Values the game left out because they're zero (no armour, an empty magazine) can't be set. Not yet tried in the game; the 25th-anniversary build hasn't been checked
+= 游戏界面：生命值、护甲、手电筒、各类弹药以及每件武器的弹匣，就地修改。游戏因数值为零而未记录的项目（无护甲、空弹匣）无法设置。尚未在游戏中测试；25 周年版本尚未检查
+
+Game screen: health, armour, suit power, ammo by type and each weapon's magazines, changed in place. Values the game left out because they're zero (no armour, an empty magazine) can't be set. Not yet tried in the game; the 20th-anniversary build and Lost Coast saves haven't been checked
+= 游戏界面：生命值、护甲、防护服电量、各类弹药以及每件武器的弹匣，就地修改。游戏因数值为零而未记录的项目（无护甲、空弹匣）无法设置。尚未在游戏中测试；20 周年版本和 Lost Coast 存档尚未检查
+
+Game screen: health, armour, suit power, ammo by type and each weapon's magazines, changed in place. Values the game left out because they're zero (no armour, an empty magazine) can't be set. Not yet tried in the game; the 20th-anniversary build hasn't been checked
+= 游戏界面：生命值、护甲、防护服电量、各类弹药以及每件武器的弹匣，就地修改。游戏因数值为零而未记录的项目（无护甲、空弹匣）无法设置。尚未在游戏中测试；20 周年版本尚未检查
+
+Game screen: health, food, XP, game mode, world settings, inventory and ender chest, with a Max crafting materials button that fills the ingots, raw ores, gems, string, leather and other materials already carried to 64, leaving ender pearls, eyes of ender and other progression items alone. The button hasn't been tried in the game yet
+= 游戏界面：生命值、饥饿值、XP、游戏模式、世界设置、物品栏和末影箱，并带有“制作材料拉满”按钮，可将已携带的金属锭、原矿、宝石、线、皮革及其他材料补满至 64，末影珍珠、末影之眼及其他进度物品不受影响。该按钮尚未在游戏中测试
+
+Game screen: health, food, water, sleep, the five skills and the day count. Checked on a public save, not yet tried in the game
+= 游戏界面：生命值、食物、水、睡眠、五项技能和天数。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: health, hunger, sanity, temperature, time alive and the day count. The base64 and zlib wrapper is removed and put back, and the Lua text inside is edited by name (the whole world opens for Tree editing; profile opens as JSON). Checked on a public save, not yet tried in the game
+= 游戏界面：生命值、饥饿值、理智、体温、存活时间和天数。base64 和 zlib 外层会被去除并重新套上，其中的 Lua 文本按名称编辑（整个世界可在树状视图中编辑；profile 以 JSON 打开）。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: health, level, experience and money of each used slot, plus recovery items and materials with a Max crafting materials button (99 each). Slot checksums are written again on save. Checked on a public save, not yet tried in the game
+= 游戏界面：每个已使用存档位的生命值、等级、经验和金钱，以及恢复道具和材料（带有“制作材料拉满”按钮，每种 99）。保存时会重新写入存档位的校验和。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: health, oxygen, food and water with their maximums, the player inventory and every locker, vehicle and storage container, changed in place in the save (checked on a real early-access save; needs the Oodle library of any installed game, the same way the game reads it)
+= 游戏界面：生命值、氧气、食物和水及其上限、玩家物品栏以及每个储物柜、载具和储存容器，在存档中就地修改（已在真实的抢先体验存档上检查；需要任一已安装游戏自带的 Oodle 库，与游戏读取它的方式相同）
+
+Game screen: health, resin (with a Max crafting materials button that fills it to 999, an estimate), and pistol, shotgun and rapidfire ammo in the backpack, changed in place; the weapons Alyx has are listed. The Load menu keeps showing the old numbers until the game saves again. Not yet tried in the game
+= 游戏界面：生命值、resin（带有“制作材料拉满”按钮，可补满至 999，为估计值），以及背包中的手枪、霰弹枪和速射枪弹药，就地修改；会列出 Alyx 拥有的武器。在游戏再次存档之前，读取菜单仍会显示旧数值。尚未在游戏中测试
+
+Game screen: health, stamina, food and water, reputation, tax, the technology points, the skill levels and every stack in the bag (money is the Coin item), with a Max crafting materials button. Checked on a public save, not yet tried in the game
+= 游戏界面：生命值、耐力、食物和水、声望、税收、科技点数、技能等级以及背包中的每个堆叠（金钱即 Coin 物品），并带有“制作材料拉满”按钮。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: hearts, hearts offered to Palutena and Viridi, and the play statistics. Checked on a public save, not yet tried in the game
+= 游戏界面：心、献给 Palutena 和 Viridi 的心，以及游玩统计数据。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: hero coins. Checked on a public save, not yet tried in the game
+= 游戏界面：英雄硬币。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: house gold and food, adventure coins and food, the current day and the save's completion percentage from the SQLite save's properties table (the cats' own data stays packed and is kept as it is). Checked on a public save, not yet tried in the game
+= 游戏界面：来自 SQLite 存档属性表的据点金币和食物、冒险硬币和食物、当前天数以及存档的完成百分比（猫咪自身的数据保持打包状态并原样保留）。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: how many episodes of each of the three games are unlocked, the volumes and the window size. Checked on a real save, not yet tried in the game
+= 游戏界面：三个游戏各自已解锁的章节数、音量和窗口大小。已在真实存档上检查，尚未在游戏中测试
+
+Game screen: level and experience (to 40), skill points, gold, moon orbs and ammo; gear is listed (slot, favourite/junk), not edited. Encrypted again on save. Edited saves not yet tried in the game
+= 游戏界面：等级和经验（最高 40 级）、技能点、金币、moon orbs 和弹药；装备只列出（栏位、收藏/垃圾标记），不可编辑。保存时会重新加密。编辑后的存档尚未在游戏中测试
+
+Game screen: level and experience, skill points, money, Eridium, ammo and SDU levels; gear is listed (slot, favourite/junk), not edited. Encrypted again on save. Edited saves not yet tried in the game
+= 游戏界面：等级和经验、技能点、金钱、Eridium、弹药和 SDU 等级；装备只列出（栏位、收藏/垃圾标记），不可编辑。保存时会重新加密。编辑后的存档尚未在游戏中测试
+
+Game screen: level, XP, hearts and fervour, cult faith, level and doctrine levels, and the inventory by item name, with a Max crafting materials button that fills lumber, stone, bones, grass, planks, stone blocks, gold, crystal shards, spider silk and shells to 999 (an estimate). Checked on a public sample save, not yet tried in the game
+= 游戏界面：等级、XP、心和 fervour、教团信仰、等级和教义等级，以及按物品名称列出的物品栏，并带有“制作材料拉满”按钮，可将木材、石头、骨头、草、木板、石砖、金子、水晶碎片、蜘蛛丝和贝壳补满至 999（为估计值）。已在公开的样本存档上检查，尚未在游戏中测试
+
+Game screen: level, experience, ability points, life and energy cells, keystones, mapstones, deaths, and every skill and ability-tree upgrade to tick on or off; the load menu's copy of life and energy is kept in step. Definitive Edition and the original. Checked on a public save, not yet tried in the game
+= 游戏界面：等级、经验、能力点、生命和能量单元、keystone、mapstone、死亡次数，以及每项可勾选开关的技能和能力树升级；读取菜单中的生命和能量副本会同步更新。适用于 Definitive Edition 和原版。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: level, experience, deaths, respecs and the hardcore and masochist flags of an offline character. The save's EPOCH header is kept. Checked on a public save, not yet tried in the game
+= 游戏界面：离线角色的等级、经验、死亡次数、重置次数以及硬核和受虐标志。存档的 EPOCH 头部会保留。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: level, experience, fame, gold, unspent points, the four stats, health, mana and item stacks; scrambled again with its checksum. Saves in the older 0x40 format aren't supported. Not yet tried in the game
+= 游戏界面：等级、经验、名望、金币、未分配点数、四项属性、生命值、法力值和物品堆叠；会连同校验和重新混淆。不支持较旧的 0x40 格式存档。尚未在游戏中测试
+
+Game screen: level, experience, money, crystal points, perk points, health, mana, rage and every kind of ammunition; weapons and upgrades are in the Tree. Each .bin is a zip whose text is opened and packed again for you. Checked on a public save, not yet tried in the game
+= 游戏界面：等级、经验、金钱、水晶点数、特技点、生命值、法力值、怒气以及每种弹药；武器和升级在树状视图中。每个 .bin 都是一个 zip，其中的文本会为你打开并重新打包。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: level, experience, money, unspent points, the five attributes and skill levels (stash files aren't read). Not yet tried in the game
+= 游戏界面：等级、经验、金钱、未分配点数、五项属性和技能等级（不读取仓库文件）。尚未在游戏中测试
+
+Game screen: level, experience, skill points, money, Eridium (Moonstone in The Pre-Sequel; Seraph crystals and Torgue tokens in Borderlands 2), ammo and ammo SDUs; in Borderlands 2 and The Pre-Sequel also the backpack and bank SDUs (with the room they give), weapon slots and playthroughs completed (which opens True and Ultimate Vault Hunter Mode); gear is listed (level, slot), not edited. Packing and checksums are redone on save. Edited saves not yet tried in the game
+= 游戏界面：等级、经验、技能点、金钱、Eridium（The Pre-Sequel 中为 Moonstone；Borderlands 2 中为 Seraph crystals 和 Torgue tokens）、弹药和弹药 SDU；在 Borderlands 2 和 The Pre-Sequel 中还有背包和银行 SDU（及其提供的空间）、武器栏位和已完成的周目数（可开启 True 和 Ultimate Vault Hunter Mode）；装备只列出（等级、栏位），不可编辑。保存时会重新打包并重新生成校验和。编辑后的存档尚未在游戏中测试
+
+Game screen: level, experience, skill points, money, skill levels and ammunition of each character save. Items and weapons are left as they are. Checked on public saves, not yet tried in the game
+= 游戏界面：每个角色存档的等级、经验、技能点、金钱、技能等级和弹药。物品和武器保持原样。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: level, gold, the eight attributes, all 21 skills and base health; the level is kept equal in the load screen. The save is edited in place, no checksum to keep. Checked on public saves, not yet tried in the game
+= 游戏界面：等级、金币、八项属性、全部 21 项技能和基础生命值；读取画面中的等级会保持一致。存档就地编辑，无需维护校验和。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: level, gold, the eight attributes, all 27 skills, health, fatigue and magicka (now and full), and the inventory counts by item id; spells are listed. The save is edited in place, no checksum to keep. Checked on public saves, not yet tried in the game
+= 游戏界面：等级、金币、八项属性、全部 27 项技能、生命、疲劳和魔法值（当前值和满值），以及按物品 ID 统计的物品栏数量；会列出法术。存档就地编辑，无需维护校验和。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: level, hit points, skill points and difficulty, and the level and quantity of every carried item, consumable and pet item. The Unreal save holds the character as JSON text, which is opened and written back as that string. Checked on a public save, not yet tried in the game
+= 游戏界面：等级、生命值、技能点和难度，以及每件携带物品、消耗品和宠物物品的等级和数量。Unreal 存档将角色保存为 JSON 文本，该文本会被打开并以字符串形式写回。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: level, money, lives, the charging station and total haul; each player's health and upgrades; the items in the truck and bought in total. Decrypted and encrypted again on save. Checked on a public save, not yet tried in the game
+= 游戏界面：等级、金钱、生命数、充电站和总收益；每位玩家的生命值和升级；卡车中的物品以及累计购买的物品。会解密，并在保存时重新加密。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: level, salt, gold, kills, deaths, sanctuary rests, corruption and the playthrough number. Items and the skill tree are not edited yet. Checked on public saves, not yet tried in the game
+= 游戏界面：等级、salt、金币、击杀数、死亡次数、圣所休息次数、腐化度和周目数。物品和技能树暂不支持编辑。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: life and mana, permanent upgrades, inventory, equipment and storage as item grids, with a Max crafting materials button (characters from 1.4.4 on) that fills the ores, bars, gems, woods, monster drops and other materials you already have to 9999, leaving critters, fish and boss summons alone. The button hasn't been tried in the game yet
+= 游戏界面：生命和法力、永久升级、以物品网格显示的物品栏、装备和储物，并带有“制作材料拉满”按钮（1.4.4 及以后的角色），可将你已有的矿石、金属锭、宝石、木材、怪物掉落物及其他材料补满至 9999，小动物、鱼和 Boss 召唤物不受影响。该按钮尚未在游戏中测试
+
+Game screen: magic crystals, ancient blood, chaos cores, the permanent upgrade levels, deaths and play time. The save's XOR key is removed and put back; checked on a public save, not yet tried in the game
+= 游戏界面：magic crystals、ancient blood、chaos cores、永久升级等级、死亡次数和游戏时间。存档的 XOR 密钥会被去除并重新套上；已在公开存档上检查，尚未在游戏中测试
+
+Game screen: meat (money), level, experience, the class and resistances, the stats, skills and perks by name, and the inventory with quantities. Checked on a public save, not yet tried in the game
+= 游戏界面：meat（金钱）、等级、经验、职业和抗性、按名称列出的属性、技能和特技，以及带数量的物品栏。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: memento souls, red souls, souls, upgrade levels, health and difficulty. .NET BinaryFormatter, read and written in place; checked on a public save, not yet tried in the game
+= 游戏界面：memento souls、red souls、souls、升级等级、生命值和难度。.NET BinaryFormatter，就地读写；已在公开存档上检查，尚未在游戏中测试
+
+Game screen: metal shards and skill points, with level and experience shown. The save's MD5 is made again on save. Checked on public saves of the PC Complete Edition, not yet tried in the game
+= 游戏界面：metal shards 和技能点，并显示等级和经验。保存时会重新生成存档的 MD5。已在 PC Complete Edition 的公开存档上检查，尚未在游戏中测试
+
+Game screen: money (both copies kept equal), unused perk points of each skill and statistics. Plain JSON; checked on a public save, not yet tried in the game
+= 游戏界面：金钱（两份副本保持一致）、每项技能未使用的特技点和统计数据。纯 JSON；已在公开存档上检查，尚未在游戏中测试
+
+Game screen: money (both copies), health and armor, fat, stamina, muscle, respect, driving, flying and weapon skills, weapons and ammunition, story line, days passed and a few options; the checksum is rewritten. The 2005 PC release; checked on a public save, not yet tried in the game
+= 游戏界面：金钱（两份副本）、生命值和护甲、脂肪、耐力、肌肉、尊重、驾驶、飞行和武器技能、武器和弹药、剧情线、已过天数和少量选项；校验和会重新写入。2005 年 PC 版；已在公开存档上检查，尚未在游戏中测试
+
+Game screen: money (both copies), hidden packages and the main statistics (progress, missions, stunt jumps, days, kills); the save's checksum is rewritten. Checked on public saves, not yet tried in the game
+= 游戏界面：金钱（两份副本）、隐藏包裹和主要统计数据（进度、任务、特技跳跃、天数、击杀数）；存档的校验和会重新写入。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: money (both copies), hidden packages and the main statistics (progress, stunt jumps, days, kills); the save's checksum is rewritten. Checked on public saves, not yet tried in the game
+= 游戏界面：金钱（两份副本）、隐藏包裹和主要统计数据（进度、特技跳跃、天数、击杀数）；存档的校验和会重新写入。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: money (in copper), the crafting room, tavern floor and cellar upgrades, and the inventory and action bar by item id with their stack sizes. Checked on a public save, not yet tried in the game
+= 游戏界面：金钱（以铜币计）、制作室、酒馆楼层和地窖的升级，以及按物品 ID 列出的物品栏和动作栏及其堆叠数量。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: money (leaves) and the eight travellers' level, EXP, JP and current HP/SP, changed in place
+= 游戏界面：金钱（leaves）以及八位旅行者的等级、EXP、JP 和当前 HP/SP，就地修改
+
+Game screen: money (leaves) and the eight travellers' level, EXP, JP and current HP/SP, changed in place. Read from a sample save; changing them hasn't been tried in the game yet
+= 游戏界面：金钱（leaves）以及八位旅行者的等级、EXP、JP 和当前 HP/SP，就地修改。读取自样本存档；修改后的效果尚未在游戏中测试
+
+Game screen: money and exchange points (Steam edition); the save is decrypted and its checksum made again. The old Games for Windows Live save isn't supported. Checked on a public save, not yet tried in the game
+= 游戏界面：金钱和兑换点数（Steam 版）；存档会被解密，并重新生成校验和。不支持旧的 Games for Windows Live 存档。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: money and face, cop and triad XP. The save is unscrambled and scrambled again, with its checksum, on save. Checked on public saves and a real save, not yet tried in the game
+= 游戏界面：金钱以及 face、cop 和 triad 的 XP。存档会被解除混淆，并在保存时连同校验和重新混淆。已在公开存档和真实存档上检查，尚未在游戏中测试
+
+Game screen: money and the needs (hunger, thirst, fatigue, stress, urine, dirtiness); every other single value of the Easy Save 2 file by name. Checked on a public save, not yet tried in the game
+= 游戏界面：金钱和各项需求（饥饿、口渴、疲劳、压力、尿意、脏污）；Easy Save 2 文件中的其他所有单个数值按名称列出。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: money, Adventure level and completions, Crazy Dave's shop, supplies, Survival progress, and the Zen Garden's plants (mini-game and puzzle trophies are on the Values tab). Checked on a real save, not yet tried in the game
+= 游戏界面：金钱、Adventure 等级和通关次数、Crazy Dave 的商店、补给、Survival 进度，以及 Zen Garden 的植物（小游戏和解谜奖杯在“数值”标签页）。已在真实存档上检查，尚未在游戏中测试
+
+Game screen: money, HP and Kiryu's five experience pools; decrypted, with its checksum kept right. Checked on real saves, not yet tried in the game
+= 游戏界面：金钱、HP 和 Kiryu 的五个经验池；会解密，并保持校验和正确。已在真实存档上检查，尚未在游戏中测试
+
+Game screen: money, camping supplies and each character's experience, attribute and talent points, attributes and skills. The save's zip is repacked; the rest of its data is kept. Checked on a public save, not yet tried in the game
+= 游戏界面：金钱、露营补给，以及每位角色的经验、属性点和天赋点、属性和技能。存档的 zip 会被重新打包；其余数据保持不变。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: money, coins, Battle Points, badges and the difficulty; every Pokémon in the party and PC boxes (fusions shown with their head and body) with level and Exp. kept in step, nature, shiny, happiness, IVs and EVs, and stats worked out again with the game's own formula; and how many of each item is in the bag. Checked on real saves (game versions 5 and 6), not yet tried in the game
+= 游戏界面：金钱、硬币、Battle Points、徽章和难度；队伍和 PC 箱子中的每只 Pokémon（融合体会显示其头部和身体），其等级和经验值会同步更新，另有性格、闪光、亲密度、个体值和努力值，属性值按游戏自身的公式重新计算；以及背包中每种物品的数量。已在真实存档（游戏版本 5 和 6）上检查，尚未在游戏中测试
+
+Game screen: money, each ranger's level, XP, hit points, attributes, skills by name and unspent points, item quantities, fame and faction reputation; unpacked (LZF) and packed again on save. Not yet tried in the game
+= 游戏界面：金钱、每位游侠的等级、XP、生命值、属性、按名称列出的技能和未分配点数、物品数量、名望和派系声望；会解包（LZF），并在保存时重新打包。尚未在游戏中测试
+
+Game screen: money, experience (with the level it gives), item and material counts, weapon levels, and Max crafting materials. Checked on a real save, not yet tried in the game
+= 游戏界面：金钱、经验（及其对应的等级）、物品和材料数量、武器等级，以及“制作材料拉满”。已在真实存档上检查，尚未在游戏中测试
+
+Game screen: money, experience and skill orbs for each of the five playable characters. The save has no checksum. Checked on a public save, not yet tried in the game
+= 游戏界面：五位可玩角色各自的金钱、经验和技能宝珠。该存档没有校验和。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: money, followers and research points (while some are unspent), and the lifetime totals, changed in place in the save's object tree. Checked on public saves, not yet tried in the game
+= 游戏界面：金钱、追随者和研究点数（在有未使用点数时），以及累计总量，在存档的对象树中就地修改。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: money, honor, fame, the Dead Eye meter and consumables (snake oil, moonshine, chewing tobacco, medicine, tonics, bait, horse pills…); weapons, horses and kit listed as owned. Decrypted and encrypted again with its CRC-32. Story, Hardcore and Undead Nightmare saves of the PC release; PS4 and Switch saves use the same format. Checked on real saves, not yet tried in the game
+= 游戏界面：金钱、荣誉、名望、死神之眼计量条和消耗品（蛇油、私酿酒、嚼烟、药品、补剂、诱饵、马用药丸…）；武器、马匹和装备以已拥有形式列出。会解密，并在保存时连同 CRC-32 重新加密。适用于 PC 版的 Story、Hardcore 和 Undead Nightmare 存档；PS4 和 Switch 存档使用相同格式。已在真实存档上检查，尚未在游戏中测试
+
+Game screen: money, house, work hours, your channel (subscribers, views, status) and every youtuber's needs, skills, levels and experience. The SQLite save is written back as a database. Checked on a public save, not yet tried in the game
+= 游戏界面：金钱、房屋、工作时长、你的频道（订阅数、观看数、状态），以及每位 YouTuber 的需求、技能、等级和经验。SQLite 存档会以数据库形式写回。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: money, level and experience, from the profile's GlobalData.dat (a .NET BinaryFormatter file, read and written in place). Checked on a public save, not yet tried in the game
+= 游戏界面：来自个人资料 GlobalData.dat（一个 .NET BinaryFormatter 文件，就地读写）的金钱、等级和经验。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: money, level, XP and scrap, the profile's name, play time and difficulty, the unlocked parking levels, barns and warehouses. Checked on a public save, not yet tried in the game
+= 游戏界面：金钱、等级、XP 和废料，个人资料的名称、游戏时间和难度，以及已解锁的停车场层、谷仓和仓库。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: money, level, experience, skill points, skill ranks, ammunition and gadget counts from a checkpoint. Checked on a public save, not yet tried in the game
+= 游戏界面：来自检查点的金钱、等级、经验、技能点、技能等级、弹药和小工具数量。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: money, level, experience, skill points, the four attributes and all 24 skills, from the save's .ntwtf.zip (the zip is repacked with its other files kept). Checked on public saves, not yet tried in the game
+= 游戏界面：来自存档 .ntwtf.zip 的金钱、等级、经验、技能点、四项属性和全部 24 项技能（zip 会被重新打包，其中的其他文件保持不变）。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: money, level, experience, the chosen rod and gear. Checked on a public save, not yet tried in the game
+= 游戏界面：金钱、等级、经验、所选的鱼竿和装备。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: money, level, experience, unspent attribute/skill/devotion points, attributes, skill ranks, item stacks and faction reputation; decrypted, then encrypted again with fresh checksums. Not yet tried in the game
+= 游戏界面：金钱、等级、经验、未分配的属性点/技能点/信仰点、属性、技能等级、物品堆叠和派系声望；会解密，然后连同新的校验和重新加密。尚未在游戏中测试
+
+Game screen: money, level, maximum health and health. The gzip wrapper is removed and put back and every other byte of the save is kept (weapons, parts and skills are not decoded yet). Checked on a public Definitive Edition save, not yet tried in the game
+= 游戏界面：金钱、等级、最大生命值和生命值。gzip 外层会被去除并重新套上，存档的其他所有字节保持不变（武器、部件和技能暂未解码）。已在公开的 Definitive Edition 存档上检查，尚未在游戏中测试
+
+Game screen: money, level, maximum health and health. The gzip wrapper is removed and put back and every other byte of the save is kept. Uses the Dead Island layout, which a Definitive Edition sample matched; no Riptide save has been checked yet
+= 游戏界面：金钱、等级、最大生命值和生命值。gzip 外层会被去除并重新套上，存档的其他所有字节保持不变。使用 Dead Island 的布局，一个 Definitive Edition 样本与之吻合；尚未检查过任何 Riptide 存档
+
+Game screen: money, level, prestige and experience, how many of each item you own, item tiers and their unlocks, and the journal's statistics; each value is changed in place and the file encrypted again on save. Checked on public test saves, not yet tried in the game
+= 游戏界面：金钱、等级、声望和经验、你拥有的每种物品的数量、物品阶级及其解锁项，以及日志的统计数据；每个数值都就地修改，文件在保存时重新加密。已在公开的测试存档上检查，尚未在游戏中测试
+
+Game screen: money, loan limit, experience, skills and ADR classes, each vehicle's fuel, odometer and wear, with buttons to max skills, fill every tank and repair everything. Packed (ScsC) saves are unpacked and packed again with their checksum. Not yet tried on a save of the game itself
+= 游戏界面：金钱、贷款上限、经验、技能和 ADR 等级、每辆车的燃料、里程表和磨损，并带有将技能拉满、加满所有油箱和修复一切的按钮。经打包（ScsC）的存档会被解包，并连同校验和重新打包。尚未在该游戏自身的存档上测试
+
+Game screen: money, loan, difficulty and game rules from careerSavegame.xml (plain XML, every value by name in the Tree). Checked on a public save, not yet tried in the game
+= 游戏界面：来自 careerSavegame.xml 的金钱、贷款、难度和游戏规则（纯 XML，每个数值都以名称显示在树状视图中）。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: money, loan, difficulty and the farm's totals from careerSavegame.xml (plain XML, every value by name in the Tree). Checked on a public save, not yet tried in the game
+= 游戏界面：来自 careerSavegame.xml 的金钱、贷款、难度和农场总计（纯 XML，每个数值都以名称显示在树状视图中）。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: money, prestige and the truck's fuel. Checked on a public save, not yet tried in the game
+= 游戏界面：金钱、声望和卡车的燃料。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: money, quest points, the tavern's name and every employee's level and salary. Plain JSON; checked on public saves, not yet tried in the game
+= 游戏界面：金钱、任务点数、酒馆的名称以及每位员工的等级和薪水。纯 JSON；已在公开存档上检查，尚未在游戏中测试
+
+Game screen: money, rank, experience, the statistics, the difficulty factors and the trucks in the warehouse. The save is JSON followed by a NUL byte, kept as it is. Checked on two real saves, not yet tried in the game
+= 游戏界面：金钱、等级、经验、统计数据、难度因子以及仓库中的卡车。该存档为 JSON 后接一个 NUL 字节，会原样保留。已在两个真实存档上检查，尚未在游戏中测试
+
+Game screen: money, smoke bombs, poison, rope darts, arrows, bullets and snares. The save is unscrambled (the account's key is worked out from the file), unpacked and packed again with its block checks. Checked on public saves, not yet tried in the game. The save ends with a 4-byte value that isn't understood yet and is kept as it is
+= 游戏界面：金钱、烟雾弹、毒药、绳镖、箭矢、子弹和陷阱。存档会被解除混淆（账户密钥从文件中推算得出）、解包，并在保存时连同区块校验重新打包。已在公开存档上检查，尚未在游戏中测试。存档末尾有一个尚未弄清含义的 4 字节值，会原样保留
+
+Game screen: money, stone, wood, skill points and the current mission. Checked on a public save, not yet tried in the game
+= 游戏界面：金钱、石头、木材、技能点和当前任务。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: money, the three groups of skills and experience, BitNode, karma and HP. Open an exported save (bitburnerSave_*.json); the nested JSON inside it is handled. Checked on a real save, not yet tried in the game
+= 游戏界面：金钱、三组技能和经验、BitNode、业力和 HP。请打开导出的存档（bitburnerSave_*.json）；其中嵌套的 JSON 会被处理。已在真实存档上检查，尚未在游戏中测试
+
+Game screen: money; decrypted, with its checksum kept right, and every other value in the Tree. Read, edited and written back on a public save, not yet tried in the game
+= 游戏界面：金钱；会解密，并保持校验和正确，其他所有数值都在树状视图中。已在公开存档上完成读取、编辑和写回，尚未在游戏中测试
+
+Game screen: munny, difficulty, magic levels, each party member's level, experience, HP, MP and bonuses, and the stock of every item, for each save slot in KHIIFM_WW.png (the slots are the PlayStation 2 Final Mix saves; their checksum and the picture's checksum are written again). Checked on a real save, not yet tried in the game
+= 游戏界面：KHIIFM_WW.png 中每个存档位的 munny、难度、魔法等级、每位队伍成员的等级、经验、HP、MP 和加成，以及每件物品的库存（这些存档位是 PlayStation 2 Final Mix 的存档；它们的校验和以及图片的校验和都会重新写入）。已在真实存档上检查，尚未在游戏中测试
+
+Game screen: munny, difficulty, magic levels, each party member's level, experience, HP, MP and bonuses, and the stock of every item, weapon, armor, accessory, key item and synthesis material, with a Max crafting materials button for the synthesis materials. The save's checksum is written again. USA, Europe, Japanese and Final Mix saves; checked on public saves, not yet tried in the game
+= 游戏界面：munny、难度、魔法等级、每位队伍成员的等级、经验、HP、MP 和加成，以及每件物品、武器、护甲、饰品、关键道具和合成材料的库存，并带有针对合成材料的“制作材料拉满”按钮。存档的校验和会重新写入。适用于美版、欧版、日版和 Final Mix 存档；已在公开存档上检查，尚未在游戏中测试
+
+Game screen: munny, difficulty, magic levels, the ten party members' level, experience, HP, MP, AP, strength, defense and weapon, and the stock of every item, for each save slot in KHFM_WW.png (the slots are the PlayStation 2 game's own saves; the picture's checksum is written again). Checked on a real save, not yet tried in the game
+= 游戏界面：KHFM_WW.png 中每个存档位的 munny、难度、魔法等级、十位队伍成员的等级、经验、HP、MP、AP、力量、防御和武器，以及每件物品的库存（这些存档位是 PlayStation 2 游戏自身的存档；图片的校验和会重新写入）。已在真实存档上检查，尚未在游戏中测试
+
+Game screen: munny, difficulty, magic levels, the ten party members' level, experience, HP, MP, AP, strength, defense and weapon, and the stock of every item, weapon, accessory, key item and synthesis material, with a Max crafting materials button for the synthesis materials (original and Final Mix saves). Checked on public saves, not yet tried in the game
+= 游戏界面：munny、难度、魔法等级、十位队伍成员的等级、经验、HP、MP、AP、力量、防御和武器，以及每件物品、武器、饰品、关键道具和合成材料的库存，并带有针对合成材料的“制作材料拉满”按钮（原版和 Final Mix 存档）。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: name, gold, experience, play time, party members and the item, weapon and armor ids; the save's .NET BinaryFormatter data is opened and written back. Checked on public saves, not yet tried in the game
+= 游戏界面：名称、金币、经验、游戏时间、队伍成员以及物品、武器和护甲的 ID；存档的 .NET BinaryFormatter 数据会被打开并写回。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: newbucks (the load screen's copy follows), health, energy, radiation and slime keys, changed in place. Checked on public saves of version 1.4, not yet tried in the game; Slime Rancher 2 isn't read yet
+= 游戏界面：newbucks（读取画面中的副本会随之更新）、生命值、能量、辐射和史莱姆钥匙，就地修改。已在 1.4 版的公开存档上检查，尚未在游戏中测试；暂不读取 Slime Rancher 2
+
+Game screen: nuggets, wins, deaths and games played, and every agent, item, trait and floor with whether it is unlocked and its cost. Checked on a public unlocks file, not yet tried in the game
+= 游戏界面：nuggets、胜场、死亡次数和游戏局数，以及每个 agent、物品、特质和楼层的解锁状态及其花费。已在公开的解锁文件上检查，尚未在游戏中测试
+
+Game screen: one tab per household with its funds and its Sims (names, age, gender). The funds are written back into the game data, which is stored uncompressed, so the file grows; skills and traits aren't mapped. Checked on a real save, not yet tried in the game
+= 游戏界面：每个家庭一个标签页，显示其资金和 Sim（姓名、年龄、性别）。资金会写回游戏数据，该数据以未压缩形式存储，因此文件会变大；技能和特质未映射。已在真实存档上检查，尚未在游戏中测试
+
+Game screen: overall score, masks, levels and weapons unlocked, the hidden puzzle's letters, and each level's rank and high score; the save's file bundle is kept as it was apart from the values you change. Checked on a public save, not yet tried in the game
+= 游戏界面：总分、已解锁的面具、关卡和武器、隐藏谜题的字母，以及每个关卡的评级和最高分；除你修改的数值外，存档的文件包保持原样。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: party gold and reputation; each party member's experience, hit points, levels, abilities, alignment and item stacks or charges (BALDUR.gam); every global variable by name (quest stages, who has joined, story choices)
+= 游戏界面：队伍金币和声望；每位队伍成员的经验、生命值、等级、能力值、阵营以及物品堆叠或充能次数（BALDUR.gam）；按名称列出的每个全局变量（任务阶段、已加入的成员、剧情选择）
+
+Game screen: party gold and reputation; each party member's experience, hit points, levels, abilities, alignment and item stacks or charges (BALDUR.gam, the same layout as Baldur's Gate: EE). No Icewind Dale: EE save has been tried yet
+= 游戏界面：队伍金币和声望；每位队伍成员的经验、生命值、等级、能力值、阵营以及物品堆叠或充能次数（BALDUR.gam，布局与 Baldur's Gate: EE 相同）。尚未测试过任何 Icewind Dale: EE 存档
+
+Game screen: party money, the Warden's and followers' level, experience, attributes and unspent points, approval, backpack stack sizes. Tried on saves from one playthrough; Awakening saves not yet tried
+= 游戏界面：队伍金钱、Warden 和追随者的等级、经验、属性和未分配点数、认可度、背包堆叠数量。已在同一周目的存档上测试；尚未测试 Awakening 存档
+
+Game screen: per slot ryo, play time, food, headwear and bodywear, fortune doll pieces, fish, keys, each character's unlock, weapon level and items, the key and miracle items, and every castle's map and boss. Each slot's CRC is made again on save. Checked on public saves, not yet tried in the game
+= 游戏界面：每个存档位的 ryo、游戏时间、食物、头饰和衣着、fortune doll 碎片、鱼、钥匙、每位角色的解锁状态、武器等级和物品、关键道具和奇迹道具，以及每座城堡的地图和 Boss。保存时会重新生成每个存档位的 CRC。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: per slot the location, ryo, armour, weapon level, item, the money given to Kenzo and Kensuke, the Chain Pipe and Underwater Device, plus the language and sound options. The CRC of each block is made again on save; Controller Pak saves (.mpk, .srm) and the Japanese .sra both open. Checked on public saves, not yet tried in the game
+= 游戏界面：每个存档位的地点、ryo、护甲、武器等级、物品、给予 Kenzo 和 Kensuke 的金钱、Chain Pipe 和 Underwater Device，以及语言和声音选项。保存时会重新生成每个区块的 CRC；Controller Pak 存档（.mpk、.srm）和日版 .sra 均可打开。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: permanent upgrade ranks, kills, wins and XP carried over. Plain XML; checked on a public save, not yet tried in the game
+= 游戏界面：永久升级等级、击杀数、胜场和继承的 XP。纯 XML；已在公开存档上检查，尚未在游戏中测试
+
+Game screen: pg (money), the difficulty, each party member's level, experience, HP and MP, special ability points and the character stat raises, and how many of each item is in the bag; the SAVE header and zlib packing are handled. Checked on a public save, not yet tried in the game
+= 游戏界面：pg（金钱）、难度、每位队伍成员的等级、经验、HP 和 MP、特殊能力点和角色属性提升，以及背包中每种物品的数量；SAVE 头部和 zlib 压缩会被处理。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: pixels and other currencies, item counts in every bag with a Max crafting materials button (ores, bars, cloth and other base-game materials to 1000), health, energy and food, ship level, crew size and fuel tank, deaths and play time; each value is rewritten on its own and the rest of the file kept. Early-access characters (before 1.0) open with what their older layout has. Checked on a real character save, not yet tried in the game
+= 游戏界面：pixels 和其他货币、每个背包中的物品数量（带有“制作材料拉满”按钮，可将矿石、金属锭、布料及其他本体游戏材料补满至 1000）、生命值、能量和食物、飞船等级、船员规模和燃料箱、死亡次数和游戏时间；每个数值都单独重写，文件的其余部分保持不变。抢先体验期（1.0 之前）的角色会按其较旧布局所含的内容打开。已在真实角色存档上检查，尚未在游戏中测试
+
+Game screen: play time, Adol's and Laxia's equipment and every item you hold (by item id). The two checksums are kept right. Checked on public saves, not yet tried in the game
+= 游戏界面：游戏时间、Adol 和 Laxia 的装备以及你持有的每件物品（按物品 ID）。两个校验和都会保持正确。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: play time, shifts, encounters and each district's experience and duty stars. Plain Unreal GVAS; checked on a public save, not yet tried in the game
+= 游戏界面：游戏时间、班次、遭遇次数以及每个辖区的经验和值勤星级。纯 Unreal GVAS；已在公开存档上检查，尚未在游戏中测试
+
+Game screen: points (P) and every weapon variant and arm you own (generalprogress.bepis); level ranks and secrets in the level files. Checked on public saves, not yet tried in the game
+= 游戏界面：点数（P）以及你拥有的每种武器变体和手臂（generalprogress.bepis）；关卡文件中的关卡评级和秘密。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: points, games played, play time and play counts, the unlocked characters and menus, each fighter's unlocked costumes and story completions, and the count of every collection item; the collection flags and the save's checksum are written again. Checked on public saves, not yet tried in the game
+= 游戏界面：点数、游戏局数、游戏时间和游玩次数、已解锁的角色和菜单、每位格斗家已解锁的服装和剧情通关记录，以及每个收藏品的数量；收藏标志和存档的校验和会重新写入。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: pounds, crafting materials (leather, metal, chemicals, silk) with a Max crafting materials button (9,999, an estimate), smoke bombs, darts, medicine, bullets and voltaic bombs. The save is unscrambled (the account's key is worked out from the file), unpacked and packed again with its block checks. Checked on public saves, not yet tried in the game. The save ends with a 4-byte value that isn't understood yet and is kept as it is
+= 游戏界面：英镑、制作材料（皮革、金属、化学品、丝绸，带有“制作材料拉满”按钮，9,999，为估计值）、烟雾弹、飞镖、药品、子弹和伏打炸弹。存档会被解除混淆（账户密钥从文件中推算得出）、解包，并在保存时连同区块校验重新打包。已在公开存档上检查，尚未在游戏中测试。存档末尾有一个尚未弄清含义的 4 字节值，会原样保留
+
+Game screen: reales, the Jackdaw's wood, metal and cloth (with a Max crafting materials button that fills the hold to 2,000), rum and sugar, and ammunition (smoke bombs, rope darts, bullets, mortar shots, heavy shot, harpoons…). The save is unscrambled (the account's key is worked out from the file), unpacked and packed again with its block checks. Checked on public saves, not yet tried in the game
+= 游戏界面：reales、Jackdaw 的木材、金属和布料（带有“制作材料拉满”按钮，可将货舱补满至 2,000）、朗姆酒和糖，以及弹药（烟雾弹、绳镖、子弹、迫击炮弹、重型炮弹、鱼叉…）。存档会被解除混淆（账户密钥从文件中推算得出）、解包，并在保存时连同区块校验重新打包。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: reales, the Morrigan's wood, metal, cloth and stone (with a Max crafting materials button that fills the hold to 2,500), tobacco, and ammunition (smoke bombs, rope darts, bullets, mortar shots, heavy shot, burning oil…). The save is unscrambled (the account's key is worked out from the file), unpacked and packed again with its block checks. Checked on public saves, not yet tried in the game
+= 游戏界面：reales、Morrigan 的木材、金属、布料和石头（带有“制作材料拉满”按钮，可将货舱补满至 2,500）、烟草，以及弹药（烟雾弹、绳镖、子弹、迫击炮弹、重型炮弹、燃烧油…）。存档会被解除混淆（账户密钥从文件中推算得出）、解包，并在保存时连同区块校验重新打包。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: rosaries, shell shards, masks, silk, needle, abilities, crests, tools and items; decrypted and encrypted again on save. Not yet tried in the game
+= 游戏界面：念珠、壳片、面具、丝线、骨针、能力、纹章、工具和物品；会解密，并在保存时重新加密。尚未在游戏中测试
+
+Game screen: rupees, monster parts, max hearts and stamina, Korok seeds, boss counts, play time, and the amounts of materials (with a Max crafting materials button at the game's 999 limit), food and arrows by name. Wii U and Switch saves of any game version. Checked on a public save, not yet tried in the game
+= 游戏界面：卢比、怪物部位、最大心数和耐力、Korok 种子、Boss 击败次数、游戏时间，以及按名称列出的材料数量（带有按游戏上限 999 补满的“制作材料拉满”按钮）、食物和箭矢。适用于任意游戏版本的 Wii U 和 Switch 存档。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: score, lives, level, health, mana, the four stats, points to spend and every weapon's ammunition. Checked on a public save, not yet tried in the game
+= 游戏界面：得分、生命数、等级、生命值、法力值、四项属性、可用点数以及每件武器的弹药。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: scrap, Profit Factor, the Navigator's insight, difficulty settings and reputation with each faction; every other value is in the Tree. Read from the same save family as the Pathfinder games; no Rogue Trader save has been tried yet
+= 游戏界面：scrap、Profit Factor、Navigator 的 insight、难度设置以及与各派系的声望；其他所有数值都在树状视图中。读取自与 Pathfinder 系列游戏相同的存档家族；尚未测试过任何 Rogue Trader 存档
+
+Game screen: scrap, weapon parts and medpacks, the Ark's artifact points, population and levels, the squad level, and each squad member's level, XP, health, sanity and mutation points, with a Max crafting materials button for scrap and weapon parts. Checked on a public save, not yet tried in the game
+= 游戏界面：scrap、武器部件和医疗包、Ark 的神器点数、人口和等级、小队等级，以及每位小队成员的等级、XP、生命值、理智和变异点数，并带有针对 scrap 和武器部件的“制作材料拉满”按钮。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: scrap. The save's scrambling is undone and redone and its check value is kept valid (both copies of the value are written); the rest of the save is kept. Checked on a public save, not yet tried in the game. Steam Cloud restores old saves over edited ones, so switch it off for the game
+= 游戏界面：scrap。存档的混淆会被还原并重新应用，其校验值会保持有效（该值的两份副本都会写入）；存档的其余部分保持不变。已在公开存档上检查，尚未在游戏中测试。Steam 云存档会用旧存档覆盖已编辑的存档，因此请为该游戏关闭它
+
+Game screen: settings, mods and each civilisation (human or AI, whose turn it is); gold and the map are in the packed part and aren't mapped
+= 游戏界面：设置、模组和每个文明（人类或 AI、轮到谁）；金币和地图位于打包部分，未映射
+
+Game screen: shark level, play time and story progress. The save's extra data after the properties is kept. Checked on a public save, not yet tried in the game. Steam Cloud can restore old saves over edited ones
+= 游戏界面：鲨鱼等级、游戏时间和剧情进度。存档中属性之后的额外数据会保留。已在公开存档上检查，尚未在游戏中测试。Steam 云存档可能会用旧存档覆盖已编辑的存档
+
+Game screen: silver, health, stamina, mana, hunger, thirst, sleep and the burnt (reduced maximum) vitals of the character. The gzip-compressed XML is unpacked and packed again; checked on a public save, not yet tried in the game
+= 游戏界面：银币、生命值、耐力、法力值、饥饿、口渴、睡眠，以及角色被灼伤（最大值降低）的各项生命指标。经 gzip 压缩的 XML 会被解包并重新打包；已在公开存档上检查，尚未在游戏中测试
+
+Game screen: skill points (unspent and total), stims, health and Force upgrades, secrets and map progress, deaths. The zlib-packed actor records are opened and packed again on save. Checked on public saves, not yet tried in the game
+= 游戏界面：技能点（未使用的和总数）、治疗针、生命值和原力升级、秘密和地图进度、死亡次数。经 zlib 压缩的角色记录会被解开，并在保存时重新压缩。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: skill points, experience, level and inventory amounts of each character, the crafting resource store and the safehouse storage, with a Max crafting materials button. Items are named from their game ids. Checked on a public save, not yet tried in the game
+= 游戏界面：每位角色的技能点、经验、等级和物品栏数量、制作资源库存和安全屋储物，并带有“制作材料拉满”按钮。物品名称取自其游戏内 ID。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: souls, coins, keys, health potions, the horsemen's powers, and the wrath and health shards of Strife and War. Checked on a public save, not yet tried in the game
+= 游戏界面：souls、硬币、钥匙、生命药水、骑士们的能力，以及 Strife 和 War 的 wrath 和生命碎片。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: spending cash, offshore account, level, infamy rank and points, skill points and Continental coins. The save's XOR encryption, block checksums and final hash are handled for you. Checked on a public save, not yet tried in the game
+= 游戏界面：可用现金、离岸账户、等级、infamy 等级和点数、技能点和 Continental coins。存档的 XOR 加密、区块校验和以及最终哈希都会为你处理。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: stardust, spent stardust, completed reveries and the preferred traveler and difficulty from the profile file, and the mastery level, mastery points and record of every traveler from the stats file. The unlocked items are in an encrypted file that is not opened. Checked on public saves, not yet tried in the game
+= 游戏界面：来自个人资料文件的 stardust、已花费的 stardust、已完成的 reverie、偏好的 traveler 和难度，以及来自统计文件的每位 traveler 的精通等级、精通点数和战绩。已解锁的物品位于一个加密文件中，不会被打开。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: stats, gold, EXP, items, phone and equipment (by name), and the route record (kills per area, Genocide and Pacifist flags, boss outcomes); every line of the file can be edited. Not yet tried in the game
+= 游戏界面：属性、金币、EXP、物品、手机和装备（按名称），以及路线记录（各区域击杀数、Genocide 和 Pacifist 标志、Boss 战结果）；文件的每一行都可以编辑。尚未在游戏中测试
+
+Game screen: strawberries, deaths and other totals, chapters unlocked, the assist options, and each chapter's cassette, completion, full clear and heart for the A, B and C sides. Checked on a real save, not yet tried in the game
+= 游戏界面：草莓、死亡次数和其他总计、已解锁的章节、辅助选项，以及每个章节 A、B、C 面的磁带、完成度、完美通关和水晶之心。已在真实存档上检查，尚未在游戏中测试
+
+Game screen: studs (every wallet field written together) and play time; the encryption is handled for you and everything else is in the Tree. Not yet tried in the game
+= 游戏界面：studs（钱包的每个字段会一并写入）和游戏时间；加密会为你处理，其他所有内容都在树状视图中。尚未在游戏中测试
+
+Game screen: supplies, flowers, Ghost Flowers, bamboo, yew wood, wax wood, iron, steel, gold, linen, leather, silk and predator hides with a Max crafting materials button, and technique points to spend; the legend earned on Tsushima and Iki Island is shown. The save's checksum is made again on save. Checked on public saves, not yet tried in the game
+= 游戏界面：补给、花、Ghost Flowers、竹子、紫杉木、蜡木、铁、钢、金、亚麻、皮革、丝绸和掠食者兽皮（带有“制作材料拉满”按钮），以及可用的技艺点；会显示在对马岛和壹岐岛上获得的传说。保存时会重新生成存档的校验和。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: the Grand Prix cups (bronze to gold) of all four classes, the Time Trial records of all sixteen courses (five places and the best lap, each with its character and time) and the sound mode. The game's own sums and its best-records list are kept right. Checked on public saves, not yet tried in the game
+= 游戏界面：全部四个级别的大奖赛奖杯（铜至金）、全部十六条赛道的计时赛记录（前五名和最佳圈速，各带其角色和时间）以及声音模式。游戏自身的校验和及其最佳记录列表会保持正确。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: the Watcher's level, health, experience, souls and healing charges, the record, and every daemon's rank and soul count. Checked on a public save, not yet tried in the game
+= 游戏界面：Watcher 的等级、生命值、经验、souls 和治疗次数、记录，以及每个 daemon 的等级和 soul 数量。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: the account balance, total money earned and orders finished. Large files take a moment to open. Checked on a public save, not yet tried in the game
+= 游戏界面：账户余额、累计赚取的金钱和已完成的订单。大文件需要稍等片刻才能打开。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: the bank balance, play time and the main prison settings, changed in place in the (often very large) text save. Checked on public saves, not yet tried in the game
+= 游戏界面：银行余额、游戏时间和主要的监狱设置，在（通常非常大的）文本存档中就地修改。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: the best rating, best time and times completed of every mission (LevelStats.sav). Plain Unreal GVAS; the other files (roster, unlock tags) open for Tree editing. Checked on a public save, not yet tried in the game
+= 游戏界面：每个任务的最佳评级、最佳时间和完成次数（LevelStats.sav）。纯 Unreal GVAS；其他文件（名册、解锁标签）可在树状视图中编辑。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: the budget, ingredient points, restaurant level, rating, seats and city map points. Checked on a public save, not yet tried in the game
+= 游戏界面：预算、食材点数、餐厅等级、评分、座位数和城市地图点数。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: the builder's level, experience, hit points, attack and defence, the mini medals, equipment, and the item ids and quantities of the pockets and the bag, from the slot's CMNDAT.BIN (the compressed data is opened and re-sealed for you). The island files are not opened. Checked on a public save, not yet tried in the game
+= 游戏界面：来自存档位 CMNDAT.BIN 的建造者等级、经验、生命值、攻击和防御、小奖章、装备，以及口袋和背包中的物品 ID 和数量（压缩数据会为你打开并重新封装）。不会打开岛屿文件。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: the caravan's renown, supplies, morale and counts and a table of each hero's rank, kills and stat bonuses. Checked on a public save, not yet tried in the game
+= 游戏界面：商队的声望、补给、士气和数量，以及每位英雄的等级、击杀数和属性加成的表格。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: the character's skill experience, ancient coins, maximum health and the inventory counts (items named as far as the public sample shows them). Plain JSON; checked on a public save, not yet tried in the game
+= 游戏界面：角色的技能经验、古代硬币、最大生命值和物品栏数量（物品名称以公开样本所能显示的为限）。纯 JSON；已在公开存档上检查，尚未在游戏中测试
+
+Game screen: the day, time played, time of day, weather and the radio tower flag of a world (.rgd). .NET BinaryFormatter, read and written in place; every other value of the world opens for Tree editing. Checked on a public save, not yet tried in the game
+= 游戏界面：某个世界（.rgd）的天数、游玩时间、一天中的时间、天气和无线电塔标志。.NET BinaryFormatter，就地读写；该世界的其他所有数值可在树状视图中编辑。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: the difficulty rank points, New Game+ count and game time, every item and currency by its game code with its quantity, each weapon's level and unlock, and the perks. Items, weapons and perks use the game's codes because its text files aren't read. Checked on real saves and in the game. Close the game and turn Steam Cloud off for it first, or Steam may bring the old save back
+= 游戏界面：难度等级点数、New Game+ 次数和游戏时间，每件物品和货币（按游戏代码）及其数量，每件武器的等级和解锁状态，以及特技。物品、武器和特技使用游戏代码，因为不会读取其文本文件。已在真实存档和游戏中检查。请先关闭游戏并为其关闭 Steam 云存档，否则 Steam 可能会恢复旧存档
+
+Game screen: the difficulty, each officer's playable flag, life, Musou, attack, defense, experience and weapon experience, and the level of every item; the checksum is rewritten. Checked on a public save, not yet tried in the game
+= 游戏界面：难度、每位武将的可操作标志、生命、无双、攻击、防御、经验和武器经验，以及每件物品的等级；校验和会重新写入。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: the driver's health, food, water and sleep, the distance driven and the world time, from the .tlds save (a .NET BinaryFormatter file, read and written in place). Checked on a public save, not yet tried in the game
+= 游戏界面：来自 .tlds 存档（一个 .NET BinaryFormatter 文件，就地读写）的司机的生命值、食物、水和睡眠、行驶距离和世界时间。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: the estate (gold, busts, portraits, deeds, crests, blueprints, shards) how many of each trinket and estate item it holds, and the roster (each hero's resolve XP, stress, HP, weapon and armour rank, skill upgrade levels), changed in place. Open persist.estate.json or persist.roster.json; the profile's other files show in Values
+= 游戏界面：庄园（金币、半身像、肖像、地契、纹章、蓝图、碎片）、其持有的每种饰品和庄园物品的数量，以及名册（每位英雄的 resolve XP、压力、HP、武器和护甲等级、技能升级等级），就地修改。请打开 persist.estate.json 或 persist.roster.json；个人资料的其他文件显示在“数值”中
+
+Game screen: the everything-unlocked switch, the VS and sound options, each cup's Grand Prix progress, the cups won with all thirty machines in every class, the Time Attack times (five places and the best lap) of all twenty-four courses and the Death Race time. Every block's sum is made again on save; the emulator's .sra and .srm saves open with their words swapped or not. Checked on public saves, not yet tried in the game
+= 游戏界面：全部解锁开关、VS 和声音选项、每个杯赛的大奖赛进度、在每个级别中使用全部三十台机体赢得的杯赛、全部二十四条赛道的计时赛成绩（前五名和最佳圈速）以及 Death Race 时间。保存时会重新生成每个区块的校验和；模拟器的 .sra 和 .srm 存档无论字序是否交换均可打开。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: the faction's cats (quick.save) and, in each squad's .platoon file, every member's attributes and skills, the health of each body part, blood, hunger, bleeding, lost or robotic limbs and the dead, unconscious and coma flags, with a button to max everyone's stats. Checked on public saves, not yet tried in the game
+= 游戏界面：派系的 cats（quick.save），以及每个小队 .platoon 文件中每位成员的属性和技能、各身体部位的生命值、血量、饥饿、出血、缺失或机械肢体，以及死亡、昏迷和昏厥标志，并带有将所有人属性拉满的按钮。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: the farm's money and loan from farms.xml, and difficulty, game rules and play time from careerSavegame.xml (plain XML, every value by name in the Tree). Checked on a public save, not yet tried in the game
+= 游戏界面：来自 farms.xml 的农场金钱和贷款，以及来自 careerSavegame.xml 的难度、游戏规则和游戏时间（纯 XML，每个数值都以名称显示在树状视图中）。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: the farm's money and loan from farms.xml, and difficulty, game rules and play time from careerSavegame.xml; vehicles, fields, placeables and the environment in the Tree. Each savegame is a folder of XML files
+= 游戏界面：来自 farms.xml 的农场金钱和贷款，以及来自 careerSavegame.xml 的难度、游戏规则和游戏时间；车辆、农田、可放置物和环境在树状视图中。每个存档是一个包含 XML 文件的文件夹
+
+Game screen: the funds from LIGLOB.DAT in a save slot folder (GAME_1 to GAME_10); the other .DAT files are not edited yet. Checked on a public save, not yet tried in the game
+= 游戏界面：存档位文件夹（GAME_1 至 GAME_10）中 LIGLOB.DAT 里的资金；其他 .DAT 文件暂不支持编辑。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: the funds from LIGLOB.DAT in a save slot folder (GAME_1 to GAME_10); the other .DAT files are not edited yet. Not yet checked on a save of this game (the file is the same as in Terror from the Deep)
+= 游戏界面：存档位文件夹（GAME_1 至 GAME_10）中 LIGLOB.DAT 里的资金；其他 .DAT 文件暂不支持编辑。尚未在该游戏的存档上检查（该文件与 Terror from the Deep 中的相同）
+
+Game screen: the gold and the materials you own (with Max crafting materials, 9,999 each) in each of the nine campaign slots; all encrypted blocks and their seeds are rewritten. Checked on a public save, not yet tried in the game
+= 游戏界面：九个战役存档位各自的金币和你拥有的材料（带有“制作材料拉满”，每种 9,999）；所有加密区块及其种子都会重新写入。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: the hero's gold, morality, renown level and age. The save's packing and checksum are undone and made again on save. Checked on public saves, not yet tried in the game
+= 游戏界面：主角的金币、道德值、声望等级和年龄。存档的打包和校验和会被还原，并在保存时重新生成。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: the level you have reached, every gem, both keys and the volumes; the gem and key counts, the completion rate and the checksum are written again. Checked on public saves, not yet tried in the game
+= 游戏界面：你已到达的关卡、每颗宝石、两把钥匙和音量；宝石和钥匙数量、完成率和校验和会重新写入。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: the loop counters, marshmallows eaten, the launch codes and the Eye of the Universe warp (plain JSON; ship log and signals in the Tree). Checked on a real save, not yet tried in the game
+= 游戏界面：循环计数器、已吃的棉花糖、发射密码和 Eye of the Universe 传送（纯 JSON；飞船日志和信号在树状视图中）。已在真实存档上检查，尚未在游戏中测试
+
+Game screen: the options and unlocked endings, and for every save slot in the file the difficulty, health, save and continue counts, shooting statistics and the whole inventory with item and quantity; the checksums are written again. Checked on public saves, not yet tried in the game
+= 游戏界面：选项和已解锁的结局，以及文件中每个存档位的难度、生命值、存档和续关次数、射击统计数据和整个物品栏的物品及数量；校验和会重新写入。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: the park's cash, bank loan, maximum loan and entrance fee from a saved park (.SV6); the park's chunk is unpacked and packed again with the file's sum written right, and the scrambled cash is handled for you. Checked on public parks, not yet tried in the game
+= 游戏界面：来自已保存乐园（.SV6）的乐园现金、银行贷款、最高贷款额度和入场费；乐园数据块会被解包并重新打包，同时正确写入文件的校验和，被混淆的现金会为你处理。已在公开乐园存档上检查，尚未在游戏中测试
+
+Game screen: the party's coppers; the Nameless One's and each companion's experience, level, hit points, abilities, alignment and item stacks (BALDUR.gam, same layout as the other Enhanced Editions); every global variable by name (quest stages, story choices). Checked on real saves, not yet tried in the game
+= 游戏界面：队伍的 coppers；Nameless One 和每位同伴的经验、等级、生命值、能力值、阵营和物品堆叠（BALDUR.gam，布局与其他 Enhanced Edition 相同）；按名称列出的每个全局变量（任务阶段、剧情选择）。已在真实存档上检查，尚未在游戏中测试
+
+Game screen: the party's level and experience, gold and deaths. The length-prefixed JSON is unpacked and packed again for you; checked on a public save, not yet tried in the game
+= 游戏界面：队伍的等级和经验、金币和死亡次数。带长度前缀的 JSON 会为你解包并重新打包；已在公开存档上检查，尚未在游戏中测试
+
+Game screen: the player and party members (attributes, skills, HP and Force points, XP) and how many of each item the party carries from SAVEGAME.sav; every story variable (the global flags and numbers: choices and quest steps, by the game's own names) from GLOBALVARS.res; credits, party XP and (KOTOR II) influence, components and chemicals from PARTYTABLE.res, with a Max crafting materials button that fills KOTOR II's components and chemicals to 9999 (an estimate). Not yet tried in the game
+= 游戏界面：来自 SAVEGAME.sav 的玩家和队伍成员（属性、技能、HP 和原力点数、XP）以及队伍携带的每种物品的数量；来自 GLOBALVARS.res 的每个剧情变量（全局标志和数字：选择和任务步骤，使用游戏自身的名称）；来自 PARTYTABLE.res 的 credits、队伍 XP 以及（KOTOR II）影响力、组件和化学品，并带有“制作材料拉满”按钮，可将 KOTOR II 的组件和化学品补满至 9999（为估计值）。尚未在游戏中测试
+
+Game screen: the player's and the station's money, popularity and station level. Plain Unreal GVAS; checked on public saves, not yet tried in the game
+= 游戏界面：玩家和车站的金钱、人气和车站等级。纯 Unreal GVAS；已在公开存档上检查，尚未在游戏中测试
+
+Game screen: the player's credits, written to all three places the save keeps them (info line, player faction account, statistics); everything else in the XML tree. Opens the .xml.gz directly and packs it again. Not yet tried on a save of the game itself
+= 游戏界面：玩家的 credits，会写入存档保存它的全部三处位置（信息行、玩家派系账户、统计数据）；其他所有内容都在 XML 树中。可直接打开 .xml.gz 并重新打包。尚未在该游戏自身的存档上测试
+
+Game screen: the quantity of every weapon, costume, accessory, bullet and material in the inventory, with item names. The save is AES-256 encrypted blocks (with an HMAC at the end in newer versions), opened and re-sealed for you. Checked on a public save, not yet tried in the game
+= 游戏界面：物品栏中每件武器、服装、饰品、子弹和材料的数量，并带物品名称。存档为 AES-256 加密区块（较新版本末尾带有 HMAC），会为你打开并重新封装。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: the script variables of the save (chapter, quest and story flags) and the dialogue flags, edited in place; character attributes and items are in WORLD.SAV and are not covered. Checked on public saves, not yet tried in the game
+= 游戏界面：存档的脚本变量（章节、任务和剧情标志）以及对话标志，就地编辑；角色属性和物品位于 WORLD.SAV 中，不在涵盖范围内。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: the squad's experience, each trooper's experience, kills, injuries and mission results, the doctrine points and the stars used. Checked on a public save, not yet tried in the game
+= 游戏界面：小队的经验、每名士兵的经验、击杀数、受伤情况和任务结果、教义点数以及已使用的星级。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: the stash resources (carbon, silicon, aluminium, alien alloy) with a Max crafting materials button (9,999, an estimate), the bag's items and the completion percentage. Checked on a public save, not yet tried in the game
+= 游戏界面：仓库资源（碳、硅、铝、外星合金，带有“制作材料拉满”按钮，9,999，为估计值）、背包物品和完成百分比。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: the stud counter (the save's checksum is rewritten). Checked on public saves, not yet tried in the game
+= 游戏界面：studs 计数器（存档的校验和会重新写入）。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: the stud counter (the save's checksum is rewritten, and CODE.BIN beside LSW.BIN is rewritten with it). Checked on public saves, not yet tried in the game
+= 游戏界面：studs 计数器（存档的校验和会重新写入，LSW.BIN 旁边的 CODE.BIN 也会随之重写）。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: the stud wallet (the game keeps it in several places in the save; all are written, and it has no checksum). Checked on public saves, not yet tried in the game
+= 游戏界面：studs 钱包（游戏在存档的多处保存它；全部都会写入，且没有校验和）。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: the stud wallet (the game saves it twice; both copies are written). Open COLLECTABLES.BLOB in a SLOTn folder. Checked on a public 100% save, not yet tried in the game
+= 游戏界面：studs 钱包（游戏会保存两次；两份副本都会写入）。请打开 SLOTn 文件夹中的 COLLECTABLES.BLOB。已在公开的 100% 存档上检查，尚未在游戏中测试
+
+Game screen: the stud wallet (the save has no checksum). Checked on public saves, not yet tried in the game
+= 游戏界面：studs 钱包（该存档没有校验和）。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: the stud wallet (the save keeps five copies of it; all are written, and it has no checksum). Checked on public saves, not yet tried in the game
+= 游戏界面：studs 钱包（存档中保存了五份副本；全部都会写入，且没有校验和）。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: the unlocked characters, costumes, modes and movies, the characters the arcade mode was completed with, the Tekken Force key and high score, the game options and each character's arcade and versus statistics; the save's scrambling and checksum are written again. Checked on public saves, not yet tried in the game
+= 游戏界面：已解锁的角色、服装、模式和影片、已用其通关街机模式的角色、Tekken Force 钥匙和最高分、游戏选项以及每位角色的街机和对战统计数据；存档的混淆和校验和会重新写入。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: the unlocked characters, the characters the arcade mode was completed with and the game options. Checked on public saves, not yet tried in the game
+= 游戏界面：已解锁的角色、已用其通关街机模式的角色和游戏选项。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: the unlocked characters, the characters the arcade mode was completed with, the game options and each character's arcade and versus statistics; the save's scrambling and checksum are written again. Checked on public saves, not yet tried in the game
+= 游戏界面：已解锁的角色、已用其通关街机模式的角色、游戏选项以及每位角色的街机和对战统计数据；存档的混淆和校验和会重新写入。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: the unlocked characters, tracks and menus, and for each of the four adventure slots the world doors and every trophy, relic, CTR token, boss key, gem and N. Oxide challenge (a Gold or Platinum relic also gives the lower ones); the save's checksum is written again. Checked on public saves, not yet tried in the game
+= 游戏界面：已解锁的角色、赛道和菜单，以及四个冒险存档位各自的世界之门和每个奖杯、遗物、CTR 代币、Boss 钥匙、宝石和 N. Oxide 挑战（获得金色或白金遗物时也会获得较低等级的遗物）；存档的校验和会重新写入。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: the unlocked fighters and stage, every fighter's 1P Game, Break the Targets and Board the Platforms records, the 2P records and the options. The game's sum is made again on save; the emulator's .sra and .srm saves open with their words swapped or not. Checked on public saves, not yet tried in the game
+= 游戏界面：已解锁的格斗家和舞台、每位格斗家的 1P Game、Break the Targets 和 Board the Platforms 记录、2P 记录以及选项。保存时会重新生成游戏的校验和；模拟器的 .sra 和 .srm 存档无论字序是否交换均可打开。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: unlock every achievement, mystery ending, enemy, event and pantheon entry the way the game itself records them (each with its own code), the unlock counts, the last run's character, items and mystery board, and the settings. Checked on a public completed save, not yet tried in the game
+= 游戏界面：按游戏自身的记录方式（各自带有其代码）解锁每项成就、神秘结局、敌人、事件和 pantheon 条目，以及解锁计数、上一次游玩的角色、物品和 mystery board 和设置。已在公开的已完成存档上检查，尚未在游戏中测试
+
+Game screen: war funds, each of the 20 units' job, level, experience, Brave, Faith and equipment, and the count of every weapon, helmet, armor, accessory and item. The save's checksum is written again. Checked on public saves, not yet tried in the game
+= 游戏界面：军费、20 个单位各自的职业、等级、经验、Brave、Faith 和装备，以及每件武器、头盔、护甲、饰品和物品的数量。存档的校验和会重新写入。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: which campaign missions are marked complete. Checked on a public save, not yet tried in the game
+= 游戏界面：哪些战役任务被标记为已完成。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: wrenches, wrenches spent, difficulty, class, player level and the run statistics. Plain Unreal GVAS; checked on a public save, not yet tried in the game
+= 游戏界面：wrenches、已花费的 wrenches、难度、职业、玩家等级和游玩统计数据。纯 Unreal GVAS；已在公开存档上检查，尚未在游戏中测试
+
+Game screen: yen, each party member's level, experience, HP and SP, the three social stats and every Social Link rank. Opens Steam saves (decrypted and re-encrypted for you). Checked on public sample saves, not yet tried in the game
+= 游戏界面：yen、每位队伍成员的等级、经验、HP 和 SP、三项社交属性以及每个 Social Link 等级。可打开 Steam 存档（会为你解密并重新加密）。已在公开的样本存档上检查，尚未在游戏中测试
+
+Game screen: your PMC's level, experience, skills, trader standing, health and the roubles, dollars and euros stacks in the stash. The profile is a plain JSON file. Checked on a public profile, not yet tried in the game
+= 游戏界面：你的 PMC 的等级、经验、技能、商人声望、生命值，以及藏匿处中卢布、美元和欧元的堆叠。个人资料是纯 JSON 文件。已在公开的个人资料上检查，尚未在游戏中测试
+
+Game screen: your company's coins (the load screen's total is kept equal) and the rest of its storage by GUID; the save archive and its game data are unpacked and packed again. Checked on a public save, not yet tried in the game
+= 游戏界面：你的公司的硬币（读取画面中的总数会保持一致）以及按 GUID 列出的其余储存内容；存档压缩包及其游戏数据会被解包并重新打包。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: your country's treasury, prestige, stability, manpower, inflation, war exhaustion and army and navy tradition; every other country by tag in the Tree. Checked on a public save, not yet tried in the game
+= 游戏界面：你的国家的国库、威望、稳定度、人力、通货膨胀、战争疲劳以及陆军和海军传统；其他所有国家按标签显示在树状视图中。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: your credits and name from the save. Large files take a few seconds to open. Checked on a public save, not yet tried in the game
+= 游戏界面：存档中你的 credits 和名称。大文件需要几秒钟才能打开。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: your funds and the researcher, scientist, doctor and kill counters. Checked on a public save, not yet tried in the game
+= 游戏界面：你的资金以及研究员、科学家、医生和击杀计数器。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: your gold, each character's HP, stats and equipment, and every inventory slot (materials, weapons, armor, accessories) and element slot. The save's packed data and checksum are written again. Checked on public saves, not yet tried in the game
+= 游戏界面：你的金币、每位角色的 HP、属性和装备，以及每个物品栏位（材料、武器、护甲、饰品）和元素栏位。存档的打包数据和校验和会重新写入。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: your metal parts, synthetic material, biomaterial, superconductors, chemicals, energy cells and microelectronics with a Max crafting materials button, plus neuropolymer. The save's Oodle data is unpacked and packed again (needs the Oodle library of any game on this PC) and its SHA-1 is made again. Checked on public and real saves, not yet tried in the game
+= 游戏界面：你的金属部件、合成材料、生物材料、超导体、化学品、能量电池和微电子元件（带有“制作材料拉满”按钮），以及神经聚合物。存档的 Oodle 数据会被解包并重新打包（需要本机上任一游戏自带的 Oodle 库），其 SHA-1 也会重新生成。已在公开存档和真实存档上检查，尚未在游戏中测试
+
+Game screen: your money, with the map, mount, play time and difficulty shown; the save's zlib wrapping is removed and put back. Checked on public saves, not yet tried in the game
+= 游戏界面：你的金钱，并显示地图、坐骑、游戏时间和难度；存档的 zlib 外层会被去除并重新套上。已在公开存档上检查，尚未在游戏中测试
+
+Game screen: zeni, every unlockable character and form, and the count of every Z-item and Dragon Ball (Budokai Tenkaichi 2 and Sparking! NEO); the obtained flags and the save's checksum are written again. Checked on public saves, not yet tried in the game
+= 游戏界面：zeni、每个可解锁的角色和形态，以及每个 Z-item 和龙珠的数量（Budokai Tenkaichi 2 和 Sparking! NEO）；已获得标志和存档的校验和会重新写入。已在公开存档上检查，尚未在游戏中测试
+
+Game screens for PlayerStateSaveData.json (health, stamina, hydration, rest, strength) and PlayerInventorySaveData.json (items carried by name), with a Max crafting materials button that fills logs, sticks, rocks, bones, cloth, wire, rope, leaves and other materials to the game's own carrying limits. The JSON held inside the save's strings is opened and written back as strings. Checked on a public sample save, not yet tried in the game
+= PlayerStateSaveData.json（生命值、耐力、水分、休息、力量）和 PlayerInventorySaveData.json（按名称列出的携带物品）的游戏界面，并带有“制作材料拉满”按钮，可将原木、树枝、石头、骨头、布料、电线、绳索、树叶及其他材料补满至游戏自身的携带上限。存档字符串中包含的 JSON 会被打开，并以字符串形式写回。已在公开的样本存档上检查，尚未在游戏中测试
+
+Game screens for the save's own files: Money.json (bank balance, net worth, lifetime earnings), Rank.json (rank, tier, XP), Time.json (days, time of day) and Game.json (organisation name, seed, console). Checked on a public sample save, not yet tried in the game
+= 存档自身各文件的游戏界面：Money.json（银行余额、净资产、累计收入）、Rank.json（等级、阶位、XP）、Time.json（天数、一天中的时间）和 Game.json（组织名称、种子、控制台）。已在公开的样本存档上检查，尚未在游戏中测试
+
+GameSaveData<n>.sav (0 is the autosave)
+= GameSaveData<n>.sav（0 为自动存档）
+
+GameSave_00_GD.sav (one per slot: 00, 01, 02)
+= GameSave_00_GD.sav（每个存档位一个：00、01、02）
+
+HK GameSlot 1 ... , HK Autosave Slot (no extension)
+= HK GameSlot 1 ...、HK Autosave Slot（无扩展名）
+
+HL-00-00.sav … (needs the downloaded app, not the browser version)
+= HL-00-00.sav …（需要下载的应用，而非浏览器版）
+
+Hex view and Value search (find a number you know, then change it)
+= 十六进制视图和数值搜索（查找一个你知道的数字，然后修改它）
+
+Hex view and Value search for the games without their own screen (Valhalla and later need a decoder that isn't built yet; Brotherhood to Odyssey have game screens)
+= 适用于没有专属界面的游戏的十六进制视图和数值搜索（Valhalla 及之后的作品需要尚未实现的解码器；Brotherhood 至 Odyssey 有游戏界面）
+
+Inside each game's folder (Steam games are found in steamapps\\common)
+= 位于各游戏的文件夹内（Steam 游戏位于 steamapps\common）
+
+Inside each game's folder: www\\save (MV) or save (MZ); Steam games are found in steamapps\\common
+= 位于各游戏的文件夹内：www\save（MV）或 save（MZ）；Steam 游戏位于 steamapps\common
+
+KHFM_WW.png (every slot in one file)
+= KHFM_WW.png（所有存档位都在一个文件中）
+
+KHIIFM_WW.png (every slot in one file)
+= KHIIFM_WW.png（所有存档位都在一个文件中）
+
+LBAL.save (the run in progress)
+= LBAL.save（进行中的游玩）
+
+LCSaveFile1 … LCSaveFile3 (one per save slot), LCGeneralSaveData
+= LCSaveFile1 … LCSaveFile3（每个存档位一个）、LCGeneralSaveData
+
+LIGLOB.DAT (and the other .DAT files)
+= LIGLOB.DAT（以及其他 .DAT 文件）
+
+Meta.sav (with SaveState.sav beside it)
+= Meta.sav（旁边还有 SaveState.sav）
+
+Money.json, Rank.json, Time.json, Game.json (open one file at a time)
+= Money.json、Rank.json、Time.json、Game.json（每次打开一个文件）
+
+N001_Neighborhood.package (one per neighbourhood)
+= N001_Neighborhood.package（每个邻里一个）
+
+Neighborhood.iff (one per neighbourhood: UserData, UserData2 …)
+= Neighborhood.iff（每个邻里一个：UserData、UserData2 …）
+
+OKAMI (all 30 save slots in one file)
+= OKAMI（全部 30 个存档位都在一个文件中）
+
+Opens as .NET data: gold (GoldCollected), ore (EquipmentOreCollected) and aether (RuneOreCollected) in Player.rc2dat, with every other value by name. Values are changed in place; there is no checksum
+= 以 .NET 数据打开：Player.rc2dat 中的金币（GoldCollected）、矿石（EquipmentOreCollected）和以太（RuneOreCollected），其他所有数值按名称列出。数值就地修改；没有校验和
+
+Opens as JSON (with its byte-order mark kept): the session in each slot, every value by name. Most numbers are stored as text ("4355"), so keep them in quotes
+= 以 JSON 打开（保留其字节序标记）：每个存档位中的会话，每个数值按名称列出。大多数数字以文本形式存储（"4355"），因此请保留引号
+
+Opens as JSON, every value by name
+= 以 JSON 打开，每个数值按名称列出
+
+Opens as JSON, every value by name. The save's XOR encryption is removed and put back on save (not yet tried on a real save)
+= 以 JSON 打开，每个数值按名称列出。存档的 XOR 加密会被去除，并在保存时重新套上（尚未在真实存档上测试）
+
+Opens as JSON, every value by name: the save's LZF layers (the slot file, its boot and global entries, and the JSON kept inside strings) are unpacked and packed again on save. Condition, hunger, thirst, fatigue, skills, inventory and the player's position are in the Tree (not yet tried on a real save)
+= 以 JSON 打开，每个数值按名称列出：存档的 LZF 层（存档位文件、其 boot 和 global 条目，以及字符串中包含的 JSON）会被解包，并在保存时重新打包。状态、饥饿、口渴、疲劳、技能、物品栏和玩家位置在树状视图中（尚未在真实存档上测试）
+
+Opens as JSON, one save slot at a time: money, play time, items and equipment inside each slot, every value by name. The slot is decrypted and encrypted again on save; the other slots are left as they were (not yet tried on a real save)
+= 以 JSON 打开，每次一个存档位：每个存档位内的金钱、游戏时间、物品和装备，每个数值按名称列出。该存档位会被解密，并在保存时重新加密；其他存档位保持原样（尚未在真实存档上测试）
+
+Opens as JSON: gold nuggets, meta bonuses, achievements, characters and stats, every value by name. The save's XOR encryption is removed and put back on save (checked on a public sample save)
+= 以 JSON 打开：gold nuggets、meta bonuses、成就、角色和属性，每个数值按名称列出。存档的 XOR 加密会被去除，并在保存时重新套上（已在公开的样本存档上检查）
+
+Opens as JSON: goods in storage, reputation and impatience, hostility, the year and season, orders and hearths in Save.save; food stockpiles, machinery, artifacts and the Smoldering City level in MetaSave.save. Every value by name; the game's own backups are left alone
+= 以 JSON 打开：Save.save 中的仓库货物、声望和 impatience、敌意、年份和季节、订单和 hearth；MetaSave.save 中的食物储备、机械、神器和 Smoldering City 等级。每个数值按名称列出；游戏自身的备份不受影响
+
+Opens as JSON: money, level, experience, ingredients and drinks, every value by name
+= 以 JSON 打开：金钱、等级、经验、原料和饮品，每个数值按名称列出
+
+Opens as JSON: money, the roster, stats, equipment and inventory, every value by name. The save's Triple-DES encryption is removed and put back on save (not yet tried on a real save)
+= 以 JSON 打开：金钱、名册、属性、装备和物品栏，每个数值按名称列出。存档的 Triple-DES 加密会被去除，并在保存时重新套上（尚未在真实存档上测试）
+
+Opens as JSON: party, recruited stars, items, runes and story flags, every value by name. The save's AES encryption is removed and put back on save with the same salt (not yet tried on a real save)
+= 以 JSON 打开：队伍、已招募的 stars、物品、符文和剧情标志，每个数值按名称列出。存档的 AES 加密会被去除，并在保存时使用相同的盐重新套上（尚未在真实存档上测试）
+
+Opens as JSON: the hex header and base64 wrapper are removed and put back, so every value is shown by name (health and special upgrades, keys, deaths, play time and the packed room, boss and item lists). Checked on a public save, not yet tried in the game
+= 以 JSON 打开：十六进制头部和 base64 外层会被去除并重新套上，因此每个数值都按名称显示（生命值和特殊升级、钥匙、死亡次数、游戏时间，以及打包的房间、Boss 和物品列表）。已在公开存档上检查，尚未在游戏中测试
+
+Opens as JSON: the run in progress and the progress file, every value by name
+= 以 JSON 打开：进行中的游玩和进度文件，每个数值按名称列出
+
+Opens as JSON: unlocks, progression and stats, every value by name. The save's AES encryption is removed and put back on save (saves up to version 1.0.17; not yet tried on a real save)
+= 以 JSON 打开：解锁项、进度和属性，每个数值按名称列出。存档的 AES 加密会被去除，并在保存时重新套上（适用于 1.0.17 及以前版本的存档；尚未在真实存档上测试）
+
+Opens as an Unreal save: every property by name, numbers and text changed in place (no save of this game has been tried yet)
+= 以 Unreal 存档打开：每个属性按名称列出，数字和文本就地修改（尚未测试过该游戏的任何存档）
+
+Opens as an Unreal save: the packed save data is unpacked, every property shown by name in sections, numbers and text changed in place, and the save's checksum written again (no save of this game has been tried yet)
+= 以 Unreal 存档打开：打包的存档数据会被解包，每个属性按名称分节显示，数字和文本就地修改，存档的校验和会重新写入（尚未测试过该游戏的任何存档）
+
+Opens in the Hex view for Value search (find your stud count, then change it); the older TT Games saves are not encrypted (checked on LEGO Marvel Super Heroes). No dedicated screen yet
+= 在十六进制视图中打开，以便使用数值搜索（查找你的 stud 数量，然后修改它）；较旧的 TT Games 存档未加密（已在 LEGO Marvel Super Heroes 上检查）。暂无专属界面
+
+Options > Export save (save the text to a file)
+= Options > Export save（将文本保存为文件）
+
+Player.rc2dat (and the other .rc2dat files)
+= Player.rc2dat（以及其他 .rc2dat 文件）
+
+PlayerSave<N>.sav (not the QuickSave and GameConfig files)
+= PlayerSave<N>.sav（不包括 QuickSave 和 GameConfig 文件）
+
+PlayerSave_N.sav (with dated backups)
+= PlayerSave_N.sav（带有按日期命名的备份）
+
+PlayerStateSaveData.json, PlayerInventorySaveData.json (open one file at a time)
+= PlayerStateSaveData.json、PlayerInventorySaveData.json（每次打开一个文件）
+
+RDR2SAVE0.SAV, REDDEAD2HCOR0.SAV, RDR2ZOMBIESAVE0.SAV … (the PC port's own names)
+= RDR2SAVE0.SAV、REDDEAD2HCOR0.SAV、RDR2ZOMBIESAVE0.SAV …（PC 移植版自己的命名）
+
+SAVE.DAT (the .SAV files next to it are the maps)
+= SAVE.DAT（旁边的 .SAV 文件是地图）
+
+SAVEDATA.BIN (one folder per slot)
+= SAVEDATA.BIN（每个存档位一个文件夹）
+
+SAVEGAME.sav, PARTYTABLE.res (auto-saves: pifo.ifo holds the player)
+= SAVEGAME.sav、PARTYTABLE.res（自动存档：pifo.ifo 保存玩家数据）
+
+SVDAT001.SAV … (Auto0.sav … are the autosaves)
+= SVDAT001.SAV …（Auto0.sav … 为自动存档）
+
+Save.save (the settlement), MetaSave.save (world map)
+= Save.save（聚落）、MetaSave.save（世界地图）
+
+Save0001.sav … (one per character; .sav.bak is the backup)
+= Save0001.sav …（每个角色一个；.sav.bak 为备份）
+
+SaveData (older builds: SaveData.sav)
+= SaveData（旧版本：SaveData.sav）
+
+Save_<n>_v10.as (one per slot)
+= Save_<n>_v10.as（每个存档位一个）
+
+Save_v<version>.ggm (not the _Quests and Options files)
+= Save_v<version>.ggm（不包括 _Quests 和 Options 文件）
+
+Slot files with a long name ending in = (decrypted and encrypted again on save)
+= 以 = 结尾的长文件名存档位文件（会解密，并在保存时重新加密）
+
+SlotData_0.dat … SlotData_2.dat (one per slot)
+= SlotData_0.dat … SlotData_2.dat（每个存档位一个）
+
+Steam\\userdata\\<account>\\1794680\\remote (older builds: %APPDATA%\\Vampire_Survivors\\saves)
+= Steam\userdata\<account>\1794680\remote（旧版本：%APPDATA%\Vampire_Survivors\saves）
+
+Steam\\userdata\\<account>\\3375780\\remote (the save folder isn't confirmed yet)
+= Steam\userdata\<account>\3375780\remote（存档文件夹尚未确认）
+
+Steam\\userdata\\<account>\\412020\\remote (and its game<n> folders)
+= Steam\userdata\<account>\412020\remote（及其 game<n> 文件夹）
+
+Steam\\userdata\\<account>\\534380\\remote\\out\\save (backups in Documents\\dying light 2\\out\\-save_backups)
+= Steam\userdata\<account>\534380\remote\out\save（备份位于 Documents\dying light 2\out\-save_backups）
+
+Steam\\userdata\\<id>\\383150\\remote\\out\\save (the original game: 91310)
+= Steam\userdata\<id>\383150\remote\out\save（原版游戏：91310）
+
+Steam\\userdata\\<id>\\383180\\remote\\out\\save (the original game: 216250)
+= Steam\userdata\<id>\383180\remote\out\save（原版游戏：216250）
+
+Survival-1.json … (one per save)
+= Survival-1.json …（每个存档一个）
+
+TOSSaveData0.dat (and TOSSaveData1.dat … for more slots)
+= TOSSaveData0.dat（更多存档位则为 TOSSaveData1.dat …）
+
+The decrypted save from Checkpoint, JKSM or GodMode9, or Citra's sdmc folder
+= 通过 Checkpoint、JKSM 或 GodMode9 导出的已解密存档，或 Citra 的 sdmc 文件夹
+
+The emulator's memory card folder: DuckStation keeps shared_card_1.mcd in Documents\\DuckStation\\memcards, ePSXe keeps its cards in memcards\\ in its install folder. A single save exported as .mcs, .psx or .psv opens too
+= 模拟器的存储卡文件夹：DuckStation 将 shared_card_1.mcd 保存在 Documents\DuckStation\memcards 中，ePSXe 将其存储卡保存在安装文件夹的 memcards\ 中。导出为 .mcs、.psx 或 .psv 的单个存档也可以打开
+
+The emulator's memory card folder: PCSX2 keeps its cards in Documents\\PCSX2\\memcards. A single save exported as .psu or .psv opens too
+= 模拟器的存储卡文件夹：PCSX2 将其存储卡保存在 Documents\PCSX2\memcards 中。导出为 .psu 或 .psv 的单个存档也可以打开
+
+The emulator's save folder: Project64 keeps <ROM name>.eep in Save\\, Mupen64Plus and RetroArch next to their data (RetroArch: saves\\)
+= 模拟器的存档文件夹：Project64 将 <ROM name>.eep 保存在 Save\ 中，Mupen64Plus 和 RetroArch 则保存在各自数据文件旁（RetroArch：saves\）
+
+The emulator's save folder: Snes9x keeps <ROM name>.srm in Saves\\, bsnes and higan next to the ROM, RetroArch in saves\\
+= 模拟器的存档文件夹：Snes9x 将 <ROM name>.srm 保存在 Saves\ 中，bsnes 和 higan 保存在 ROM 旁边，RetroArch 保存在 saves\ 中
+
+The emulator's save folder: mGBA and VisualBoyAdvance-M keep <ROM name>.sav next to the ROM (or in the save folder set in their options)
+= 模拟器的存档文件夹：mGBA 和 VisualBoyAdvance-M 将 <ROM name>.sav 保存在 ROM 旁边（或其选项中设置的存档文件夹内）
+
+The save's SHA-1 checksum and zlib packing are handled, so the unpacked data can be changed in the hex view or found with the value search (cells, gold) and saved back for the game to accept. Checked on test files, not yet on a real save
+= 存档的 SHA-1 校验和与 zlib 压缩都会被处理，因此解包后的数据可在十六进制视图中修改，或通过数值搜索查找（cells、金币），并保存回去让游戏接受。已在测试文件上检查，尚未在真实存档上测试
+
+Unpacked for Value search (find a number you know, then change it); packed again on save
+= 会解包以供数值搜索（查找一个你知道的数字，然后修改它）；保存时重新打包
+
+Unpacked for Value search and packed again on save (the header, chunk layout and footer are kept). Players' gold and influence are on the Tree for the game versions that keep them in the known place. Checked on public sample saves for unpack and repack; not yet tried in the game
+= 会解包以供数值搜索，并在保存时重新打包（头部、数据块布局和尾部都会保留）。对于将玩家金币和影响力保存在已知位置的游戏版本，它们会显示在树状视图中。已在公开的样本存档上检查解包和重新打包；尚未在游戏中测试
+
+Unpacked for Value search: the RC4 encryption and zlib chunks are removed and put back, with the save's MD5 written again (no save of this game has been tried yet)
+= 会解包以供数值搜索：RC4 加密和 zlib 数据块会被去除并重新套上，同时重新写入存档的 MD5（尚未测试过该游戏的任何存档）
+
+Unpacked from gzip and opened as JSON: coins, gems, islands, units and mounts, every value by name; packed again on save
+= 从 gzip 解包并以 JSON 打开：硬币、宝石、岛屿、单位和坐骑，每个数值按名称列出；保存时重新打包
+
+Unpacked from gzip and opened as JSON: every value by name; packed again on save
+= 从 gzip 解包并以 JSON 打开：每个数值按名称列出；保存时重新打包
+
+Values and Tree
+= 数值和树状视图
+
+Windows: the registry (HKCU\\Software\\<company>\\<game>); Linux: ~/.config/unity3d/<company>/<game>; macOS: ~/Library/Preferences
+= Windows：注册表（HKCU\Software\<company>\<game>）；Linux：~/.config/unity3d/<company>/<game>；macOS：~/Library/Preferences
+
+__RESUME__ (also in each Multiplayer slot)
+= __RESUME__（每个 Multiplayer 存档位中也有）
+
+any text file holding the exported save
+= 任何保存了导出存档的文本文件
+
+bf3game*.sav (title id 010074F013262000)
+= bf3game*.sav（title id 010074F013262000）
+
+char.sav (char_escrow.sav and char_knowngood.sav are the game's backups)
+= char.sav（char_escrow.sav 和 char_knowngood.sav 是游戏的备份）
+
+checkpoint.dat (slotinfo.ini next to it is the menu text)
+= checkpoint.dat（旁边的 slotinfo.ini 是菜单文本）
+
+checkpoint.dat (the game state), game.details
+= checkpoint.dat（游戏状态）、game.details
+
+containers.index, plus one folder per save slot
+= containers.index，以及每个存档位一个文件夹
+
+dat<n>.slv (one per character)
+= dat<n>.slv（每个角色一个）
+
+data.sav (binary inside)
+= data.sav（内部为二进制）
+
+data.sav (one folder per slot)
+= data.sav（每个存档位一个文件夹）
+
+data.sav (unpacked, with its MD5 made again on save)
+= data.sav（会解包，保存时重新生成其 MD5）
+
+data000.sav (and the other slots)
+= data000.sav（以及其他存档位）
+
+file0 (file9 is a copy; undertale.ini is the load menu)
+= file0（file9 是副本；undertale.ini 是读取菜单）
+
+filech1_0 … filech4_2 (chapter and slot; dr.ini is the load menu)
+= filech1_0 … filech4_2（章节和存档位；dr.ini 是读取菜单）
+
+game (no extension)
+= game（无扩展名）
+
+game save files
+= 游戏存档文件
+
+game saves
+= 游戏存档
+
+game.sav (all slots)
+= game.sav（所有存档位）
+
+game.sii (a packed ScsC file or plain text)
+= game.sii（打包的 ScsC 文件或纯文本）
+
+game0.sav (game1.sav … one per slot)
+= game0.sav（game1.sav …每个存档位一个）
+
+game_data.sav (one per slot folder, with caption.sav and the screenshot)
+= game_data.sav（每个存档位文件夹一个，附带 caption.sav 和截图）
+
+gameinfo.json (game mode)
+= gameinfo.json（游戏模式）
+
+gameplay slot files
+= 游戏进度存档位文件
+
+gameslot (one file per save slot)
+= gameslot（每个存档位一个文件）
+
+global-v35 and the slot files beside it
+= global-v35 及其旁边的存档位文件
+
+manual_0000.sav …, auto.sav (backup_NN.sav are the game's own backups)
+= manual_0000.sav …、auto.sav（backup_NN.sav 是游戏自己的备份）
+
+one .png file per slot, plus the autosave
+= 每个存档位一个 .png 文件，外加自动存档
+
+persist.estate.json, persist.roster.json (binary, despite the name)
+= persist.estate.json、persist.roster.json（虽名为 json，实为二进制）
+
+persistent.sfs (and the quicksaves beside it)
+= persistent.sfs（以及其旁边的快速存档）
+
+profile_<n>.json; the newest Save_<nnnn>_* folder's run.json and actors.json
+= profile_<n>.json；最新的 Save_<nnnn>_* 文件夹中的 run.json 和 actors.json
+
+quick.sav, autosave.sav, manual saves …
+= quick.sav、autosave.sav、手动存档 …
+
+quick.save (the faction), platoon\\Nameless_0.platoon (your squad, named after your faction)
+= quick.save（派系）、platoon\Nameless_0.platoon（你的小队，以你的派系命名）
+
+rf4_s01.sav … (rf4_sys.sav is the system save)
+= rf4_s01.sav …（rf4_sys.sav 为系统存档）
+
+run_v3_0.json (the run), save_v3.json (progress)
+= run_v3_0.json（本次游玩）、save_v3.json（进度）
+
+sandbox1 … (no extension)
+= sandbox1 …（无扩展名）
+
+save files
+= 存档文件
+
+save.jkr (the run), profile.jkr
+= save.jkr（本次游玩）、profile.jkr
+
+save.sav (the other files are save02 and tempsave)
+= save.sav（其他文件为 save02 和 tempsave）
+
+save0.bin (the _backup files beside it are copies)
+= save0.bin（旁边的 _backup 文件是副本）
+
+save000.dat … (save511.dat is the autosave)
+= save000.dat …（save511.dat 为自动存档）
+
+save1, save2 … (no extension)
+= save1、save2 …（无扩展名）
+
+saveData.ini (and the numbered save slots)
+= saveData.ini（以及带编号的存档位）
+
+save_auto.bin (the player), progress.bin and save_auto_level_*.bin
+= save_auto.bin（玩家）、progress.bin 和 save_auto_level_*.bin
+
+savegame.dsa (the screenshot and .nfo beside it are not needed)
+= savegame.dsa（旁边的截图和 .nfo 无需处理）
+
+shared_card_1.mcd, <save>.mcs (one save per card slot)
+= shared_card_1.mcd、<save>.mcs（每个存储卡槽一个存档）
+
+slot saves
+= 存档位存档
+
+slot1_save01.ff8 (the auto save) … slot2_save30.ff8
+= slot1_save01.ff8（自动存档）… slot2_save30.ff8
+
+slot_0.json … (the .json save; a .mp file is a different format)
+= slot_0.json …（.json 存档；.mp 文件是另一种格式）
+
+system_data.bin (title id 01006A800016E000)
+= system_data.bin（title id 01006A800016E000）
+
+the exported .txt save
+= 导出的 .txt 存档
+
+the exported save .txt
+= 导出的存档 .txt
+
+the folder the game writes SAVE0.sav to (a Deltatraveler folder under LocalLow is searched; otherwise open the file with the file browser)
+= 游戏写入 SAVE0.sav 的文件夹（会在 LocalLow 下搜索 Deltatraveler 文件夹；否则请用文件浏览器打开文件）
+
+the game's save files (zstd-packed)
+= 游戏的存档文件（zstd 压缩）
+
+thp_player_profile_adf (also in each slots folder)
+= thp_player_profile_adf（每个 slots 文件夹中也有）
+
+user1.dat, user2.dat … (users.dat lists the profiles)
+= user1.dat、user2.dat …（users.dat 列出各个个人资料）
+
+user_0.dat … (one per slot) and its backups
+= user_0.dat …（每个存档位一个）及其备份
+
+wherever you saved the export (Options > Saving > Export save as file)
+= 你保存导出文件的位置（Options > Saving > Export save as file）

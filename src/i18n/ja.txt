@@ -27370,3 +27370,1769 @@ Saved, but changes made while saving aren't in the file yet — save again to ke
 the file is being saved
 = ファイルを保存中です
 
+%APPDATA%\\bitburner\\saves (or the browser's Export Save button)
+= %APPDATA%\bitburner\saves (ou o botão Export Save do navegador)
+
+%LOCALAPPDATA%\\Astro\\Saved\\SaveGames (Steam version; Microsoft Store: the Xbox app container)
+= %LOCALAPPDATA%\Astro\Saved\SaveGames (versão Steam; Microsoft Store: o contêiner do app Xbox)
+
+%LOCALAPPDATA%\\JH\\Saved\\SaveGames (the game's Unreal project is called JH)
+= %LOCALAPPDATA%\JH\Saved\SaveGames (o projeto Unreal do jogo se chama JH)
+
+%LOCALAPPDATA%\\Ori and the Blind Forest DE (the original: %LOCALAPPDATA%\\Ori and the Blind Forest)
+= %LOCALAPPDATA%\Ori and the Blind Forest DE (o original: %LOCALAPPDATA%\Ori and the Blind Forest)
+
+%LOCALAPPDATA%\\Remnant2\\Saved\\SaveGames\\<Steam id> (Microsoft Store and Epic: the same folder under the account)
+= %LOCALAPPDATA%\Remnant2\Saved\SaveGames\<Steam id> (Microsoft Store e Epic: a mesma pasta dentro da conta)
+
+%LOCALAPPDATA%\\Warner Bros. Interactive Entertainment\\LEGO Batman - Legacy of the Dark Knight\\SaveGames\\steam\\<Steam id>
+= %LOCALAPPDATA%\Warner Bros. Interactive Entertainment\LEGO Batman - Legacy of the Dark Knight\SaveGames\steam\<Steam id>
+
+%USERPROFILE%\\AppData\\LocalLow\\IronGate\\Valheim\\characters_local (older or Steam Cloud: characters)
+= %USERPROFILE%\AppData\LocalLow\IronGate\Valheim\characters_local (versões antigas ou Steam Cloud: characters)
+
+%USERPROFILE%\\AppData\\LocalLow\\Playsaurus\\Clicker Heroes (the saved game file; the in-game Save to file option also works)
+= %USERPROFILE%\AppData\LocalLow\Playsaurus\Clicker Heroes (o arquivo do jogo salvo; a opção Save to file do jogo também funciona)
+
+%USERPROFILE%\\AppData\\LocalLow\\RedHook\\Darkest Dungeon II\\SaveFiles\\<id>\\profiles (runs in profile_<n>_runs\\<run>\\Save_<nnnn>_<stage>)
+= %USERPROFILE%\AppData\LocalLow\RedHook\Darkest Dungeon II\SaveFiles\<id>\profiles (partidas em profile_<n>_runs\<run>\Save_<nnnn>_<stage>)
+
+%USERPROFILE%\\Saved Games\\Arkane Studios\\Prey\\SaveGames (Prey_MS for the Microsoft Store version)
+= %USERPROFILE%\Saved Games\Arkane Studios\Prey\SaveGames (Prey_MS na versão da Microsoft Store)
+
+%USERPROFILE%\\Saved Games\\Assassin's Creed Brotherhood\\SAVES (or the Ubisoft Connect savegames folder, game 26)
+= %USERPROFILE%\Saved Games\Assassin's Creed Brotherhood\SAVES (ou a pasta de savegames do Ubisoft Connect, jogo 26)
+
+%USERPROFILE%\\Saved Games\\Diablo II (1.13 and older: <install folder>\\Save)
+= %USERPROFILE%\Saved Games\Diablo II (1.13 e anteriores: <install folder>\Save)
+
+%USERPROFILE%\\Saved Games\\FALCOM\\Ao\\data<nnnn> (KAI: its own Saved Games folder)
+= %USERPROFILE%\Saved Games\FALCOM\Ao\data<nnnn> (KAI: sua própria pasta Saved Games)
+
+%USERPROFILE%\\Saved Games\\TheGameBakers\\Cairn_RETAIL\\SAVEGAMES\\RETAIL\\STORY (SUMMIT for summit runs)
+= %USERPROFILE%\Saved Games\TheGameBakers\Cairn_RETAIL\SAVEGAMES\RETAIL\STORY (SUMMIT para partidas do Summit)
+
+(not confirmed for Steam: an Aquiris folder under LocalLow is searched; otherwise open the file with the file browser)
+= (não confirmado na Steam: procura-se uma pasta Aquiris em LocalLow; caso contrário, abra o arquivo pelo navegador de arquivos)
+
+(not confirmed: a Legends of Kingdom Rush folder under LocalLow is searched; otherwise open the file with the file browser)
+= (não confirmado: procura-se uma pasta Legends of Kingdom Rush em LocalLow; caso contrário, abra o arquivo pelo navegador de arquivos)
+
+*.memory (one per save)
+= *.memory (um por save)
+
+*.ocs (players and worlds)
+= *.ocs (jogadores e mundos)
+
+*.sav (auto, quick and named saves)
+= *.sav (saves automáticos, rápidos e nomeados)
+
+0.celeste, 1.celeste, 2.celeste (settings.celeste holds the options)
+= 0.celeste, 1.celeste, 2.celeste (settings.celeste guarda as opções)
+
+1CHARACTERSLOT_BETA_<n> (and Epoch_Local_Global_Data_Beta, the stash files)
+= 1CHARACTERSLOT_BETA_<n> (e Epoch_Local_Global_Data_Beta, os arquivos do baú)
+
+<Farm>_<id> (no extension)
+= <Farm>_<id> (sem extensão)
+
+<Module>.sav (the player as the game loads it), player.bic, localvault\\*.bic
+= <Module>.sav (o jogador como o jogo o carrega), player.bic, localvault\*.bic
+
+<ROM name>.fla (128 KiB) or the .gci of the GameCube disc
+= <ROM name>.fla (128 KiB) ou o .gci do disco de GameCube
+
+<ROM name>.mpk (Controller Pak) or .sra
+= <ROM name>.mpk (Controller Pak) ou .sra
+
+<ROM name>.sra (32 KiB) or the .gci of the GameCube disc
+= <ROM name>.sra (32 KiB) ou o .gci do disco de GameCube
+
+<Steam library>\\steamapps\\common\\XCom Terror from the Deep\\TFD\\GAME_<1-10>
+= <Steam library>\steamapps\common\XCom Terror from the Deep\TFD\GAME_<1-10>
+
+<adventure>_<date>.run (one per adventure in progress)
+= <adventure>_<date>.run (um por aventura em andamento)
+
+<company> - <game>.reg (exported for you), prefs, unity.<company>.<game>.plist
+= <company> - <game>.reg (exportado para você), prefs, unity.<company>.<game>.plist
+
+<game id> save folder (the save file inside it, named like the folder)
+= pasta de saves <game id> (o arquivo de save dentro dela, com o mesmo nome da pasta)
+
+<game id>/<game id> inside the save folder
+= <game id>/<game id> dentro da pasta de saves
+
+<game id>/SaveData-00 … SaveData-09 inside the save folder
+= <game id>/SaveData-00 … SaveData-09 dentro da pasta de saves
+
+<game id>DOTHACK/dhdata01 … dhdata12 inside the save folder
+= <game id>DOTHACK/dhdata01 … dhdata12 dentro da pasta de saves
+
+<game id>G<slot> inside the save folder
+= <game id>G<slot> dentro da pasta de saves
+
+<game>.gci (one file for the whole game)
+= <game>.gci (um arquivo para o jogo todo)
+
+<hero id>.dat (decrypted, and encrypted again on save)
+= <hero id>.dat (descriptografado e criptografado de novo ao salvar)
+
+<id>.player (one per character)
+= <id>.player (um por personagem)
+
+<install folder>\\Save\\Save#### (Steam: steamapps\\common\\Deus Ex\\Save; some installs: Documents\\Deus Ex\\Save)
+= <install folder>\Save\Save#### (Steam: steamapps\common\Deus Ex\Save; em algumas instalações: Documents\Deus Ex\Save)
+
+<map>.dxs: open the map named in SaveInfo.dxs, which holds JC (open SaveInfo.dxs to see which)
+= <map>.dxs: abra o mapa citado em SaveInfo.dxs, que guarda JC (abra SaveInfo.dxs para ver qual)
+
+<n>.sav (1.sav, 2.sav … one per character; profile.sav is the profile)
+= <n>.sav (1.sav, 2.sav … um por personagem; profile.sav é o perfil)
+
+<n>.sav (one per character; profile.sav is the profile)
+= <n>.sav (um por personagem; profile.sav é o perfil)
+
+<n>.sav (one per slot)
+= <n>.sav (um por slot)
+
+<name>.d2s (SharedStash*.d2i is the shared stash)
+= <name>.d2s (SharedStash*.d2i é o baú compartilhado)
+
+<name>.das, savegame.das (auto and quick saves)
+= <name>.das, savegame.das (saves automáticos e rápidos)
+
+<name>.sol (text, unlike Flash's .sol)
+= <name>.sol (texto, ao contrário do .sol do Flash)
+
+<number>.save (zlib-packed ones end in .save.z)
+= <number>.save (os compactados com zlib terminam em .save.z)
+
+<save name>.xml (packed, despite the name)
+= <save name>.xml (compactado, apesar do nome)
+
+<save name>.xml (the .bin beside it is not edited)
+= <save name>.xml (o .bin ao lado não é editado)
+
+<slot>.dat (and .hh)
+= <slot>.dat (e .hh)
+
+<world>.wld (Terraria 1.4 or later)
+= <world>.wld (Terraria 1.4 ou posterior)
+
+<world>_0x….nhd (one per saved town)
+= <world>_0x….nhd (un par ville sauvegardée)
+
+An emulator's save folder or a dump from your own console: yuzu-style emulators keep it under nand\\user\\save\\0000000000000000\\<profile>\\<title id>, Ryujinx under bis\\user\\save\\<number>\\0
+= Le dossier de sauvegarde d'un émulateur ou un dump de votre propre console : les émulateurs de type yuzu le gardent sous nand\user\save\0000000000000000\<profile>\<title id>, Ryujinx sous bis\user\save\<number>\0
+
+AutoSave, AutoSave.qs, Manual - Save1 ... (no extension)
+= AutoSave, AutoSave.qs, Manual - Save1 ... (sans extension)
+
+BALDUR.gam (BALDUR.SAV holds the areas)
+= BALDUR.gam (BALDUR.SAV contient les zones)
+
+BISLPSP02124GRA-S00 (one file per save, in a numbered folder)
+= BISLPSP02124GRA-S00 (un fichier par sauvegarde, dans un dossier numéroté)
+
+Binary saves (the game's default, and ironman) are edited in place and stay binary, with names read from the save's own string table. Debug-mode text saves open too
+= Les sauvegardes binaires (par défaut dans le jeu, et ironman) sont modifiées sur place et restent binaires, avec les noms lus dans la table de chaînes de la sauvegarde. Les sauvegardes texte du mode debug s'ouvrent aussi
+
+Binary saves (the game's default, and ironman) are edited in place and stay binary; the game doesn't publish its field names, so most fields show as numbers unless you add a token file. Debug-mode text saves open with every name
+= Les sauvegardes binaires (par défaut dans le jeu, et ironman) sont modifiées sur place et restent binaires ; le jeu ne publie pas les noms de ses champs, donc la plupart des champs s'affichent sous forme de nombres, sauf si vous ajoutez un fichier de jetons. Les sauvegardes texte du mode debug s'ouvrent avec tous leurs noms
+
+Campaign<n>\\<slot>\\save.CSF (the player), <level>.level (each area)
+= Campaign<n>\<slot>\save.CSF (le joueur), <level>.level (chaque zone)
+
+Career<id>-<slot> (no extension)
+= Career<id>-<slot> (sans extension)
+
+Cemu: mlc01\\usr\\save\\00050000\\101c9400\\user\\80000001. Switch: an emulator's save folder or a dump from your own console (title id 01007EF00011E000)
+= Cemu : mlc01\usr\save\00050000\101c9400\user\80000001. Switch : le dossier de sauvegarde d'un émulateur ou un dump de votre propre console (title id 01007EF00011E000)
+
+CompleteSave.cfg, CompleteSave1.cfg … (the profile is in user_profile.cfg)
+= CompleteSave.cfg, CompleteSave1.cfg … (le profil est dans user_profile.cfg)
+
+CurrentPlayerSave.sav (the pilot); the run saves beside it
+= CurrentPlayerSave.sav (le pilote) ; les sauvegardes de parties se trouvent à côté
+
+DCSAV00.DSF … (one per slot)
+= DCSAV00.DSF … (un par emplacement)
+
+DeadRising_01_Main … DeadRising_05_Main (one per slot; _Photo holds the photos)
+= DeadRising_01_Main … DeadRising_05_Main (un par emplacement ; _Photo contient les photos)
+
+Decrypted and encrypted again on save, keeping the file's own keys: Nioh, Nioh 2 and Nioh 3 (the data opens for Value search), Wo Long: Fallen Dynasty and Fatal Frame II: Crimson Butterfly Remake (the JSON opens with every value by name; both checksums are made again), Stranger of Paradise: Final Fantasy Origin (Value search). Checked on the test files of KatanaSaveDataResigner, not yet tried in the games
+= Déchiffrées et rechiffrées à l'enregistrement, en gardant les clés propres au fichier : Nioh, Nioh 2 et Nioh 3 (les données s'ouvrent pour la Recherche de valeur), Wo Long: Fallen Dynasty et Fatal Frame II: Crimson Butterfly Remake (le JSON s'ouvre avec chaque valeur par son nom ; les deux sommes de contrôle sont recalculées), Stranger of Paradise: Final Fantasy Origin (Recherche de valeur). Vérifié sur les fichiers de test de KatanaSaveDataResigner, pas encore essayé dans les jeux
+
+Decrypted for you (AES, with the save's MD5 worked out again) and opened with its slot, chapter and play time shown; edit values with Value search. Not yet tried on a real save
+= Déchiffrée pour vous (AES, avec le MD5 de la sauvegarde recalculé) et ouverte avec son emplacement, son chapitre et son temps de jeu affichés ; modifiez les valeurs avec la Recherche de valeur. Pas encore essayé sur une vraie sauvegarde
+
+Decrypted with your Steam account and encrypted again on save (checked byte for byte on a public test file; edits not yet tried in the game); every value in the Tree
+= Déchiffrée avec votre compte Steam et rechiffrée à l'enregistrement (vérifié octet par octet sur un fichier de test public ; modifications pas encore essayées dans le jeu) ; chaque valeur dans l'Arbre
+
+Decrypted with your Steam account and encrypted again on save (the layer is checked on test files; no real save has been tried yet); values in the Tree
+= Déchiffrée avec votre compte Steam et rechiffrée à l'enregistrement (la couche est vérifiée sur des fichiers de test ; aucune vraie sauvegarde n'a encore été essayée) ; valeurs dans l'Arbre
+
+Decrypted with your Steam account and encrypted again on save (the layer is the one Monster Hunter Rise uses; not yet tried on a real save); values in the Tree
+= Déchiffrée avec votre compte Steam et rechiffrée à l'enregistrement (la couche est celle de Monster Hunter Rise ; pas encore essayé sur une vraie sauvegarde) ; valeurs dans l'Arbre
+
+Decrypted, with its checksum kept right (no save of this game has been tried yet); values in the Tree
+= Déchiffrée, avec sa somme de contrôle maintenue correcte (aucune sauvegarde de ce jeu n'a encore été essayée) ; valeurs dans l'Arbre
+
+Documents\\Forspoken\\<id> (the folder of your Steam account)
+= Documents\Forspoken\<id> (le dossier de votre compte Steam)
+
+Documents\\My Games\\Runic Games\\Torchlight 2\\save\\<Steam id> (modsave\\<Steam id> with mods)
+= Documents\My Games\Runic Games\Torchlight 2\save\<Steam id> (modsave\<Steam id> avec des mods)
+
+Documents\\My Games\\Wasteland2DC\\Save Games\\<save name> (Wasteland2 for the original release)
+= Documents\My Games\Wasteland2DC\Save Games\<save name> (Wasteland2 pour la version originale)
+
+Documents\\My Games\\XCOM2 War of the Chosen\\XComGame\\SaveData
+= Documents\My Games\XCOM2 War of the Chosen\XComGame\SaveData
+
+Dolphin keeps GameCube saves as .gci files in its User\\GC folder, under the region and then Card A (Windows: Documents\\Dolphin Emulator\\GC or %APPDATA%\\Dolphin Emulator\\GC); export one from a card with Dolphin's memory card manager
+= Dolphin garde les sauvegardes GameCube sous forme de fichiers .gci dans son dossier User\GC, sous la région puis Card A (Windows : Documents\Dolphin Emulator\GC ou %APPDATA%\Dolphin Emulator\GC) ; exportez-en une depuis une carte avec le gestionnaire de cartes mémoire de Dolphin
+
+ES2_<date>.sav (the game), ES2__PREVIEW_<date>.sav and MetaData.sav (small, no progress)
+= ES2_<date>.sav (le jeu), ES2__PREVIEW_<date>.sav et MetaData.sav (petits, sans progression)
+
+Each save on the card opens on its own (Tools › Open another file in this archive lists them by product code and title) and is written back into its own blocks; use the value search for the numbers. Raw, DexDrive and VGS images. Checked on a public card image
+= Chaque sauvegarde de la carte s'ouvre séparément (Outils › Ouvrir un autre fichier de cette archive les liste par code produit et titre) et est réécrite dans ses propres blocs ; utilisez la Recherche de valeur pour les nombres. Images brutes, DexDrive et VGS. Vérifié sur une image de carte publique
+
+Every PlayerPref by name (coins, unlocks, settings): ints, decimals and text, written back with their types. On Windows they're read from the registry and imported back on save; close the game first
+= Chaque PlayerPref par son nom (pièces, déblocages, réglages) : entiers, décimaux et texte, réécrits avec leurs types. Sous Windows, ils sont lus dans le registre et réimportés à l'enregistrement ; fermez d'abord le jeu
+
+Every file in every save folder on the card opens on its own (Tools › Open another file in this archive) and is written back with the card's error-correction codes made again; use the value search for the numbers. .ps2 images with ECC and .bin images without. Checked on cards made by mymc, the reference tool
+= Chaque fichier de chaque dossier de sauvegarde de la carte s'ouvre séparément (Outils › Ouvrir un autre fichier de cette archive) et est réécrit avec les codes de correction d'erreurs recalculés ; utilisez la Recherche de valeur pour les nombres. Images .ps2 avec ECC et images .bin sans. Vérifié sur des cartes créées par mymc, l'outil de référence
+
+Every save the Xbox app keeps, listed under the names the game gave them; each opens like the same game's Steam save (the game's screen if it has one) and is written back in place. Let the Xbox app finish syncing first
+= Toutes les sauvegardes que conserve l'application Xbox, listées sous les noms que leur a donnés le jeu ; chacune s'ouvre comme la sauvegarde Steam du même jeu (l'écran de jeu s'il en a un) et est réécrite sur place. Laissez d'abord l'application Xbox finir de se synchroniser
+
+Every value by name (numbers, flags, text, lists), written back with its own type; dates, byte arrays and class names are kept as they were. Checked on 66 public sample files, each written back byte for byte
+= Chaque valeur par son nom (nombres, indicateurs, texte, listes), réécrite avec son propre type ; les dates, tableaux d'octets et noms de classes sont conservés tels quels. Vérifié sur 66 fichiers d'exemple publics, chacun réécrit octet par octet
+
+Every value by name (numbers, flags, text, lists, maps), written back with its own kind; dates, bytes and shared references are kept as they were. Covers Friday Night Funkin' and its engines and mods. Checked on a public Friday Night Funkin' save, written back byte for byte
+= Chaque valeur par son nom (nombres, indicateurs, texte, listes, tables), réécrite avec son propre genre ; les dates, octets et références partagées sont conservés tels quels. Couvre Friday Night Funkin' ainsi que ses moteurs et mods. Vérifié sur une sauvegarde publique de Friday Night Funkin', réécrite octet par octet
+
+File A.rxdata, File B.rxdata … (backups\\ holds the game's own backups)
+= File A.rxdata, File B.rxdata … (backups\ contient les copies de secours du jeu)
+
+GAMEDATA slot files
+= Fichiers d'emplacement GAMEDATA
+
+Game screen
+= Écran de jeu
+
+Game screen (USA and Europe saves): the Ark you hold and the total earned, clear count, slain enemies, endings seen, every trap unlocked and how often each was used, and the options; the save's check bytes are written again. Checked on public saves, not yet tried in the game
+= Écran de jeu (sauvegardes USA et Europe) : l'Arche que vous détenez et le total gagné, le nombre de parties terminées, les ennemis tués, les fins vues, chaque piège débloqué et le nombre de fois où chacun a servi, et les options ; les octets de contrôle de la sauvegarde sont réécrits. Vérifié sur des sauvegardes publiques, pas encore essayé dans le jeu
+
+Game screen (original 2017 release): Cole and Tess exchange tickets; the tagged profile has no checksum and item qualities and recipes are left alone. Checked on a public save, not yet tried in the game
+= Écran de jeu (version originale de 2017) : les tickets d'échange de Cole et Tess ; le profil balisé n'a pas de somme de contrôle, et les qualités d'objets et les recettes sont laissées intactes. Vérifié sur une sauvegarde publique, pas encore essayé dans le jeu
+
+Game screen (original 2017 release): Cole; the tagged profile has no checksum and item qualities and recipes are left alone. Checked on a public save, not yet tried in the game
+= Écran de jeu (version originale de 2017) : Cole ; le profil balisé n'a pas de somme de contrôle, et les qualités d'objets et les recettes sont laissées intactes. Vérifié sur une sauvegarde publique, pas encore essayé dans le jeu
+
+Game screen (original and Ultimate): Gems, Crystals, Growth Points, Skill Orbs (lower only), the weapon-element stacks you own with a Max crafting materials button, and each progressed officer's skill points; both AES blocks and their seeds are handled. Checked on public saves of both editions, not yet tried in the game
+= Écran de jeu (original et Ultimate) : Gems, Crystals, Growth Points, Skill Orbs (réduction uniquement), les piles d'éléments d'arme que vous possédez avec un bouton Matériaux d'artisanat au maximum, et les points de compétence de chaque officier ayant progressé ; les deux blocs AES et leurs graines sont gérés. Vérifié sur des sauvegardes publiques des deux éditions, pas encore essayé dans le jeu
+
+Game screen (shared with Fallen Order): skill points (unspent and total), stims, health and Force upgrades, secrets and map progress, deaths. The zlib-packed actor records are opened and packed again on save. Checked on public saves, not yet tried in the game
+= Écran de jeu (partagé avec Fallen Order) : points de compétence (non dépensés et total), stims, améliorations de santé et de la Force, secrets et progression de la carte, morts. Les enregistrements d'acteurs compressés en zlib sont ouverts puis recompressés à l'enregistrement. Vérifié sur des sauvegardes publiques, pas encore essayé dans le jeu
+
+Game screen (story mode, PC): cash, honor, the health, stamina and Dead Eye cores and XP, weight, saved health, camp funds, the satchel's ammunition, consumables, herbs and provisions (with a Max crafting materials button for herbs, feathers and animal fat), horses' dirt and hunger, 17 statistics and the clock; bounties are shown. Missing supplies can be added to the satchel (experimental). Challenge ranks for the nine story challenges, and compendium studied, discovered and owned ticks. Decrypted, with every checksum written again and encrypted on save. Checked on real saves, not yet tried in the game
+= Écran de jeu (mode histoire, PC) : argent, honneur, les cœurs de santé, d'endurance et de Dead Eye et leur XP, poids, santé sauvegardée, fonds du camp, munitions de la sacoche, consommables, herbes et provisions (avec un bouton Matériaux d'artisanat au maximum pour les herbes, les plumes et la graisse animale), saleté et faim des chevaux, 17 statistiques et l'horloge ; les primes sont affichées. Les provisions manquantes peuvent être ajoutées à la sacoche (expérimental). Rangs de défi pour les neuf défis de l'histoire, et cases étudié, découvert et possédé du compendium. Déchiffrée, avec chaque somme de contrôle réécrite, et rechiffrée à l'enregistrement. Vérifié sur de vraies sauvegardes, pas encore essayé dans le jeu
+
+Game screen (the original 2008 release): the shared Growth Points and each officer's Life, Musou, Attack, Defense and Speed; the checksum is rewritten. Checked on a public save, not yet tried in the game
+= Écran de jeu (version originale de 2008) : les Growth Points partagés et, pour chaque officier, Life, Musou, Attack, Defense et Speed ; la somme de contrôle est réécrite. Vérifié sur une sauvegarde publique, pas encore essayé dans le jeu
+
+Game screen (the original PC release): money and the stored stats of each unlocked officer; the checksum is rewritten. Checked on a public save, not yet tried in the game
+= Écran de jeu (version PC originale) : l'argent et les stats enregistrées de chaque officier débloqué ; la somme de contrôle est réécrite. Vérifié sur une sauvegarde publique, pas encore essayé dans le jeu
+
+Game screen for .hack//Infection, Mutation, Outbreak and Quarantine: play time, unlocked servers, each party member's class, level, experience, money, affection and stats, and the items in Elf's Haven; each dhdata file of the save folder is one slot, and its checksum and preview in the system file are written again. Checked on public saves, not yet tried in the game
+= Écran de jeu pour .hack//Infection, Mutation, Outbreak et Quarantine : temps de jeu, serveurs débloqués, classe, niveau, expérience, argent, affection et stats de chaque membre du groupe, et les objets d'Elf's Haven ; chaque fichier dhdata du dossier de sauvegarde est un emplacement, et sa somme de contrôle et son aperçu dans le fichier système sont réécrits. Vérifié sur des sauvegardes publiques, pas encore essayé dans le jeu
+
+Game screen for Devil May Cry 1 (dmc1.sav): red, yellow and blue orbs and play time for each used slot. Checked on a public save, not yet tried in the game
+= Écran de jeu pour Devil May Cry 1 (dmc1.sav) : orbes rouges, jaunes et bleus et temps de jeu pour chaque emplacement utilisé. Vérifié sur une sauvegarde publique, pas encore essayé dans le jeu
+
+Game screen for JC Denton: credits, skill points, bioelectric energy, health per body part, ammo, medkits and other item counts, skill and augmentation levels (values the game left out can't be set). Edits haven't been tried in the game yet
+= Écran de jeu pour JC Denton : crédits, points de compétence, énergie bioélectrique, santé par partie du corps, munitions, nombre de trousses de soin et d'autres objets, niveaux de compétences et d'augmentations (les valeurs que le jeu a omises ne peuvent pas être définies). Les modifications n'ont pas encore été essayées dans le jeu
+
+Game screen for characters saved with profile versions 33 to 37: health, stamina, skills, item stacks (gold is Coins), quality and durability, with the SHA-512 written again, and a Max crafting materials button that fills the wood, stone, ores, metals, hides and other plain materials you carry to their stack size, leaving boss drops, summoning items and key fragments alone; newer characters open read-only. Not yet tried in the game
+= Écran de jeu pour les personnages sauvegardés avec les versions de profil 33 à 37 : santé, endurance, compétences, piles d'objets (l'or est Coins), qualité et durabilité, avec le SHA-512 réécrit, et un bouton Matériaux d'artisanat au maximum qui remplit au maximum de leur pile le bois, la pierre, les minerais, les métaux, les peaux et les autres matériaux ordinaires que vous portez, en laissant intacts les butins de boss, les objets d'invocation et les fragments de clé ; les personnages plus récents s'ouvrent en lecture seule. Pas encore essayé dans le jeu
+
+Game screen for the Chao garden file: the level and the points of every stat (swim, fly, run, power, stamina, luck, intelligence) of each Chao; the garden's checksum is rewritten. The main save (rings, emblems) is not edited yet. Checked on a public save, not yet tried in the game
+= Écran de jeu pour le fichier du jardin des Chao : le niveau et les points de chaque stat (nage, vol, course, force, endurance, chance, intelligence) de chaque Chao ; la somme de contrôle du jardin est réécrite. La sauvegarde principale (anneaux, emblèmes) n'est pas encore modifiable. Vérifié sur une sauvegarde publique, pas encore essayé dans le jeu
+
+Game screen for the level saves (.player); the auto save is unpacked for Value search. Metro Exodus has a Max crafting materials button that fills metal and chemicals to 300 (the Reader and Ranger Hardcore limit; Normal allows more)
+= Écran de jeu pour les sauvegardes de niveau (.player) ; la sauvegarde automatique est décompressée pour la Recherche de valeur. Metro Exodus a un bouton Matériaux d'artisanat au maximum qui remplit le métal et les produits chimiques à 300 (la limite des modes Reader et Ranger Hardcore ; Normal en permet davantage)
+
+Game screen: Adol's level, maximum HP, experience and gold, and the difficulty (all six levels, written everywhere the game keeps it); the save's two cipher layers and checksums are handled. Checked on a public save, not yet tried in the game
+= Écran de jeu : niveau, PV maximum, expérience et or d'Adol, et la difficulté (les six niveaux, écrite partout où le jeu la conserve) ; les deux couches de chiffrement et les sommes de contrôle de la sauvegarde sont gérées. Vérifié sur une sauvegarde publique, pas encore essayé dans le jeu
+
+Game screen: Alucard's level, experience, HP, MP, hearts, strength, constitution, intelligence and luck, gold, kills, play time, subweapon, equipment, every relic, form and familiar card, spells, familiar levels, warp rooms, and the count of every weapon, shield, armor, accessory and potion. The memory-card preview of the save (gold and time) is kept in step. Checked on public saves, not yet tried in the game
+= ゲーム画面: Alucard のレベル、経験値、HP、MP、ハート、筋力、体力、知力、運、ゴールド、撃破数、プレイ時間、サブウェポン、装備、すべてのレリック、フォームと使い魔のカード、魔法、使い魔のレベル、ワープルーム、すべての武器・盾・防具・アクセサリー・ポーションの所持数。セーブのメモリーカード用プレビュー (ゴールドと時間) も連動して更新されます。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: Aveline's money, smoke bombs, throwing knives, rope darts and bullets. The save is unscrambled (the account's key is worked out from the file), unpacked and packed again with its block checks. Checked on public saves, not yet tried in the game
+= ゲーム画面: Aveline の所持金、煙幕弾、投げナイフ、ロープダーツ、弾丸。セーブのスクランブルを解除し (アカウントのキーはファイルから算出)、展開して、ブロックチェックとともに再び圧縮します。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: Beli and the quantity of every coin you own. The encrypted save is opened and its object checksums kept right. Checked on a public save, not yet tried in the game
+= ゲーム画面: Beli と所持しているすべてのコインの数量。暗号化されたセーブを開き、オブジェクトのチェックサムを正しく保ちます。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: Blackstone, the Ark's bonus points and slots, and each Techpriest's level, XP, skill points, slot points and augment capacity. Values are patched in place and the checksum in SaveState.sav is written again. Checked on public saves, not yet tried in the game
+= ゲーム画面: Blackstone、Ark のボーナスポイントとスロット、各 Techpriest のレベル、XP、スキルポイント、スロットポイント、オーグメント容量。値はその場でパッチされ、SaveState.sav 内のチェックサムは書き直されます。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: CP (money) and its limit, PP, garage size and the race records. Checked on a public save, not yet tried in the game
+= ゲーム画面: CP (所持金) とその上限、PP、ガレージの大きさ、レース記録。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: Candles of Hope (profile), Relics, torch and inventory (run.json), heroes' HP and stress (actors.json). Checked on saves made before the Kingdoms update; Kingdoms' own files aren't covered
+= ゲーム画面: Candles of Hope (プロフィール)、Relics、トーチとインベントリ (run.json)、ヒーローの HP とストレス (actors.json)。Kingdoms アップデート前に作成されたセーブで確認済みです。Kingdoms 専用のファイルは対象外です
+
+Game screen: Chapter 1 fully (party, inventory as item numbers, Light World); Chapters 2–4: dark dollars and the party's stats and equipment. Every line of the file can be edited. Not yet tried in the game
+= ゲーム画面: チャプター 1 のすべて (パーティ、アイテム番号で表したインベントリ、Light World)。チャプター 2〜4: ダークダラーとパーティのステータスおよび装備。ファイルのすべての行を編集できます。ゲームではまだ試していません
+
+Game screen: Chris or Jill, health, poison, ink ribbons used, the eight inventory slots and all 48 item box slots with item and quantity (Director's Cut saves too). Checked on public saves, not yet tried in the game
+= ゲーム画面: Chris または Jill、体力、毒、使用したインクリボン、8 つのインベントリスロット、アイテムボックスの全 48 スロットのアイテムと数量 (Director's Cut のセーブにも対応)。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: Chuck's level, PP, money and the attack, speed, health, item-slot and throwing upgrades (with a button to max them); the CRC-32 is rewritten. Checked on public speedrun saves; not yet tried in the game
+= ゲーム画面: Chuck のレベル、PP、所持金、攻撃、スピード、体力、アイテムスロット、投擲の強化 (すべて最大にするボタン付き)。CRC-32 は書き直されます。公開されているスピードランのセーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: Clams, each friend's level, heart and juice in Headspace and Faraway Town, and the count of every snack, toy, weapon and charm by name. Checked on public saves, not yet tried in the game
+= ゲーム画面: Clams、Headspace と Faraway Town の各フレンドのレベル、ハート、ジュース、すべてのスナック、おもちゃ、武器、チャームの所持数 (名前付き)。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: DNA fragments, the pilot's records and every perk with its level and lock, from CurrentPlayerSave.sav (the unlocked perks and blueprints stay in the Tree). Checked on a public save, not yet tried in the game
+= ゲーム画面: CurrentPlayerSave.sav の DNA フラグメント、パイロットの記録、すべてのパークのレベルとロット (アンロック済みのパークとブループリントはツリーに残ります)。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: Eden tokens, win streaks, deaths and the other counters, and every achievement, seen collectible and challenge as an unlock flag, for Rebirth, Afterbirth, Afterbirth+ and Repentance. The save's checksum is written again. Checked on public saves of all four versions, not yet tried in the game
+= ゲーム画面: Rebirth、Afterbirth、Afterbirth+、Repentance 向けに、Eden トークン、連勝数、死亡回数などのカウンター、およびすべての実績、確認済みのコレクタブル、チャレンジをアンロックフラグとして表示。セーブのチェックサムは書き直されます。4 つのバージョンすべての公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: Ergo, level, humanity, the six stats, and every item's count, with a Max crafting materials button for Moonstones and Legion Calibers (99, an estimate). Checked on a public save, not yet tried in the game
+= ゲーム画面: Ergo、レベル、人間性、6 つのステータス、すべてのアイテムの所持数 (Moonstones と Legion Calibers 向けの クラフト素材を最大に ボタン付き。99、推定値)。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: Eve's health, shield, gauges, level, experience and skill points, the play time and difficulty, and an inventory table with counts and levels (item names are the game's internal ids). The save's CRC-32 is written again. Checked on a real early-game save, not yet tried in the game
+= ゲーム画面: Eve の体力、シールド、ゲージ、レベル、経験値、スキルポイント、プレイ時間、難易度、所持数とレベルを示すインベントリ表 (アイテム名はゲーム内部の ID)。セーブの CRC-32 は書き直されます。序盤の実際のセーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: Ezio's akçe, smoke bombs, throwing knives, poison and bullets. The save is unscrambled (the account's key is worked out from the file), unpacked and packed again with its block checks. Checked on public saves, not yet tried in the game
+= ゲーム画面: Ezio の akçe、煙幕弾、投げナイフ、毒、弾丸。セーブのスクランブルを解除し (アカウントのキーはファイルから算出)、展開して、ブロックチェックとともに再び圧縮します。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: Ezio's florins, smoke bombs, throwing knives, poison and bullets. The save is unscrambled (the account's key is worked out from the file), unpacked and packed again with its block checks. Checked on public saves, not yet tried in the game
+= ゲーム画面: Ezio の florins、煙幕弾、投げナイフ、毒、弾丸。セーブのスクランブルを解除し (アカウントのキーはファイルから算出)、展開して、ブロックチェックとともに再び圧縮します。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: Frank's level, PP, maximum health and skills (with buttons to learn every skill or reach level 50); the save's block checksums are rewritten. Checked on public speedrun practice saves; not yet tried in the game
+= ゲーム画面: Frank のレベル、PP、最大体力、スキル (すべてのスキルを習得するボタンとレベル 50 にするボタン付き)。セーブのブロックチェックサムは書き直されます。公開されているスピードラン練習用セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: Frank's level, PP, money and the attack, speed, health, item-slot and throwing upgrades (with a button to max them), with the load screen's copy kept in step; the file's five CRC-32s are rewritten. Checked on public speedrun saves; not yet tried in the game
+= ゲーム画面: Frank のレベル、PP、所持金、攻撃、スピード、体力、アイテムスロット、投擲の強化 (すべて最大にするボタン付き)。ロード画面側のコピーも連動して更新され、ファイル内の 5 つの CRC-32 は書き直されます。公開されているスピードランのセーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: GMP (and the FOB wallet), heroism and demon points, every Mother Base staff member (rank, skill, section, morale, proficiency, stat bonus; buttons to promote everyone to S++ and max morale), resource stockpiles with a Max crafting materials button, a button to open every Mother Base section, and the Mother Base and lifetime-statistics counters; every other variable in the save is in the Tree under the game's own variable names. The save's encryption and checksum are redone on write. Tried on a real save
+= ゲーム画面: GMP (および FOB ウォレット)、英雄ポイントと悪魔ポイント、Mother Base のすべてのスタッフ (ランク、スキル、セクション、士気、熟練度、ステータスボーナス。全員を S++ に昇格するボタンと士気を最大にするボタン付き)、資源の備蓄 (クラフト素材を最大に ボタン付き)、Mother Base のすべてのセクションを開放するボタン、Mother Base と通算統計のカウンター。セーブ内のその他すべての変数は、ゲーム固有の変数名でツリーに表示されます。セーブの暗号化とチェックサムは書き込み時にやり直されます。実際のセーブで試験済み
+
+Game screen: Gil and play time; each character's level (shown from the experience), experience, HP, MP, enemies defeated and bonus stats; each Vision's awakening and mastery points; item quantities with a Max consumables button (99 each, key items left alone); the artifacts you hold, switched on or off. Decrypted and encrypted again with the checksum rewritten. Checked on a synthetic test save built from the public format notes, not yet on a real save or in the game
+= ゲーム画面: Gil とプレイ時間、各キャラクターのレベル (経験値から算出して表示)、経験値、HP、MP、撃破した敵の数、ボーナスステータス、各 Vision の覚醒ポイントと熟練ポイント、アイテム数量 (消耗品を最大にするボタン付き。各 99、キーアイテムは変更しません)、所持しているアーティファクトのオン/オフ。復号して開き、チェックサムを書き直して再び暗号化します。公開されているフォーマットのメモから作成した合成テストセーブで確認済みで、実際のセーブやゲームではまだ試していません
+
+Game screen: Gold, Gloom and Glimpses, their lifetime totals, every item's count and every unlocked shell, weapon and seal, with a Max crafting materials button for the Tarforge smithing materials (99, an estimate). Checked on public saves, not yet tried in the game
+= ゲーム画面: Gold、Gloom、Glimpses とその累計、すべてのアイテムの所持数、アンロック済みのすべてのシェル、武器、シール (Tarforge の鍛冶素材向けの クラフト素材を最大に ボタン付き。99、推定値)。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: Gold, the five strategy tomes and every officer's Health, Attack, Defense, Riding and Speed bonuses; the stream cipher, section sums and checksum are rewritten. Checked on a public save, not yet tried in the game
+= ゲーム画面: Gold、5 冊の戦略書、すべての武将の Health、Attack、Defense、Riding、Speed のボーナス。ストリーム暗号、セクションの合計値、チェックサムは書き直されます。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: Growth Points, Gems, each officer's health, Musou, attack, defense and speed, and the weapon attribute orbs and crafting materials you own (with Max crafting materials, 99 each). Checked on a public save, not yet tried in the game
+= ゲーム画面: Growth Points、Gems、各武将の体力、無双、攻撃、防御、速度、所持している武器属性オーブとクラフト素材 (クラフト素材を最大に ボタン付き。各 99)。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: HQ resources and soldiers (rank, kills, missions, ability points, stats including armour and shield); unpacked and packed again on save. Not yet tried in the game
+= ゲーム画面: HQ の資源と兵士 (ランク、撃破数、ミッション数、アビリティポイント、アーマーとシールドを含むステータス)。保存時に展開して再び圧縮します。ゲームではまだ試していません
+
+Game screen: HoloCoins and the levels of every Holo House upgrade (ATK, HP, SPD, crit, pickup range, haste, damage resistance, regen, EXP, money gain, rerolls and the rest). The save_n.dat is base64 JSON, unpacked and packed again. Checked on a public save, not yet tried in the game
+= ゲーム画面: HoloCoins と、すべての Holo House アップグレードのレベル (ATK、HP、SPD、クリティカル、拾得範囲、ヘイスト、ダメージ耐性、リジェネ、EXP、お金の獲得量、リロールなど)。save_n.dat は base64 の JSON で、展開して再び圧縮します。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: Kiryu's money and each character's HP and heat; the MessagePack save is decrypted with the game's key and its checksum kept right, every other value in the Tree. Checked on public chapter saves, not yet tried in the game
+= ゲーム画面: Kiryu の所持金と各キャラクターの HP およびヒート。MessagePack のセーブはゲームのキーで復号し、チェックサムを正しく保ちます。その他の値はすべてツリーに表示されます。公開されているチャプターセーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: Kiryu's money, the hostess club's money and his experience. The save has no checksum. Checked on a public save, not yet tried in the game
+= ゲーム画面: Kiryu の所持金、キャバクラの所持金、経験値。このセーブにはチェックサムがありません。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: LV, EXP, gold, HP and the other stats, equipment names, the eight item slots and play time from the save file. Checked on public saves, not yet tried in the game
+= ゲーム画面: セーブファイルの LV、EXP、ゴールド、HP などのステータス、装備名、8 つのアイテムスロット、プレイ時間。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: Lily's level, blight (experience) and prayer heals, Stagnant Blight, Furious Blight and Ancient Souls with a Max crafting materials button, and every spirit's level. Checked on public saves, not yet tried in the game
+= ゲーム画面: Lily のレベル、blight (経験値)、祈りによる回復、Stagnant Blight、Furious Blight、Ancient Souls (クラフト素材を最大に ボタン付き)、すべてのスピリットのレベル。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: Lunar coins, coins collected, runs and play time of a profile XML. Unlocks and logbook lists are in the Tree. Checked on a public profile, not yet tried in the game
+= ゲーム画面: プロフィール XML の Lunar coins、集めたコイン、ラン回数、プレイ時間。アンロックとログブックのリストはツリーにあります。公開プロフィールで確認済みですが、ゲームではまだ試していません
+
+Game screen: Macca and the playthrough cycle, the protagonist's and each demon's level, experience, HP, MP, stats and skills, the stock of every item and gem, and the special items. USA and Europe saves; checked on public saves, not yet tried in the game
+= ゲーム画面: Macca と周回数、主人公と各悪魔のレベル、経験値、HP、MP、ステータス、スキル、すべてのアイテムと宝石のストック、特殊アイテム。米国版と欧州版のセーブに対応。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: Mira, the eight kinds of sepith, each Class VII member's level, experience, HP, EP, CP and nine stats, and how many of every item, quartz, weapon and meal is in the bag (named). Checked on a public save, not yet tried in the game
+= ゲーム画面: Mira、8 種類のセピス、Class VII の各メンバーのレベル、経験値、HP、EP、CP、9 つのステータス、バッグ内のすべてのアイテム、クォーツ、武器、料理の数 (名前付き)。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: Mira, the seven kinds of sepith, each character's level, and how many of every item, quartz, weapon and meal the party carries (named). Checked on public saves, not yet tried in the game
+= ゲーム画面: Mira、7 種類のセピス、各キャラクターのレベル、パーティが所持しているすべてのアイテム、クォーツ、武器、料理の数 (名前付き)。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: Raw Whalebone with a Max crafting materials button, runes, and bolts, bullets, grenades, spring razors and stun mines (each up to what the player can carry), plus the map and how many bonecharm traits are learned, for Dishonored 2. checkpoint.dat is unpacked and packed again with its check value on save; game.details opens as values (chapter, chaos level…). Checked on real saves and tried in the game
+= Dishonored 2 のゲーム画面: Raw Whalebone (クラフト素材を最大に ボタン付き)、ルーン、ボルト、弾丸、グレネード、スプリングレイザー、スタンマイン (それぞれプレイヤーの携行上限まで)、さらにマップと習得済みのボーンチャームの特性数。checkpoint.dat は展開し、保存時にチェック値とともに再び圧縮します。game.details は値として開きます (チャプター、カオスレベルなど)。実際のセーブで確認済みで、ゲームでも試験済み
+
+Game screen: Residuum, stress level, the loop's day and location, and the progress flags (first loop, Golden Loop, Julianna, void essence ability). The save's Oodle data is unpacked and packed again with the Oodle library of any game on this PC, and the file's checksum is made again. Checked on a real save and in the game. Close the game and turn Steam Cloud off for it first, or Steam may bring the old save back
+= ゲーム画面: Residuum、ストレスレベル、ループの日付と場所、進行フラグ (最初のループ、Golden Loop、Julianna、void essence ability)。セーブの Oodle データは、このPCにある任意のゲームの Oodle ライブラリで展開して再び圧縮し、ファイルのチェックサムも作り直します。実際のセーブとゲームで確認済みです。先にゲームを終了し、そのゲームの Steam Cloud をオフにしてください。そうしないと Steam が古いセーブを戻すことがあります
+
+Game screen: S.P.E.C.I.A.L., hit points, level, experience, skill points, skills, traits, tagged skills, perk ranks, radiation, poison, kills, bottle caps and inventory counts. Edits haven't been tried in the game yet
+= ゲーム画面: S.P.E.C.I.A.L.、ヒットポイント、レベル、経験値、スキルポイント、スキル、特性、タグスキル、パークランク、放射線、毒、撃破数、ボトルキャップ、インベントリの数。編集内容はゲームではまだ試していません
+
+Game screen: Silver Eagles, salts, lockpicks and the Health, Shield and Salts infusion levels; unpacked and packed again with the save's MD5. Not yet tried in the game
+= ゲーム画面: Silver Eagles、塩、ロックピック、Health、Shield、Salts の注入レベル。セーブの MD5 とともに展開して再び圧縮します。ゲームではまだ試していません
+
+Game screen: Tar, the shell points of each shell, max health, deaths, New Game+ level and the Storm Mode run's Tar and Glimpses (inventory item names are game text and aren't shown). Checked on public saves, not yet tried in the game
+= ゲーム画面: Tar、各シェルのシェルポイント、最大体力、死亡回数、New Game+ レベル、Storm Mode のラン用の Tar と Glimpses (インベントリのアイテム名はゲーム内テキストのため表示されません)。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: Tears of Atonement, health and fervour, bile flasks, every permanent stat upgrade, completion and play time. The save's base64 wrapping is opened and closed for you. Checked on a public save, not yet tried in the game
+= ゲーム画面: Tears of Atonement、体力と熱情、胆汁のフラスコ、すべての恒久ステータス強化、達成度、プレイ時間。セーブの base64 ラップは自動で開閉されます。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: Terra tokens, each planet's terraformation levels, your oxygen, thirst and health, the game settings, and the raw materials in your backpack (with a Max crafting materials button that fills the free slots, since every item takes one slot). Checked on a real late-game save, not yet tried in the game
+= ゲーム画面: Terra トークン、各惑星のテラフォーミングレベル、酸素、渇き、体力、ゲーム設定、バックパック内の原材料 (すべてのアイテムが 1 スロットを使うため、空きスロットを埋める クラフト素材を最大に ボタン付き)。終盤の実際のセーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: Will's gold, days passed, the banker's invested money, and the backpack and equipped items by name with their counts and enchantment levels in the Tree. Opens as JSON, written back the same way. Checked on a public save, not yet tried in the game
+= ゲーム画面: Will のゴールド、経過日数、銀行家への投資額、バックパックと装備中のアイテム (名前付き。数と付呪レベルはツリー内)。JSON として開き、同じ形式で書き戻します。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: Will, Sparks, level, experience and play time from ArchiveSaveFile.<n>.sav. The file's checksum is written again when you save. Checked on a public sample save, not yet tried in the game
+= ゲーム画面: ArchiveSaveFile.<n>.sav の Will、Sparks、レベル、経験値、プレイ時間。保存時にファイルのチェックサムが書き直されます。公開サンプルのセーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: Yagami's money and HP; decrypted with the game's key and the checksum kept right, every other value in the Tree. Checked on 40 public saves, not yet tried in the game
+= ゲーム画面: Yagami の所持金と HP。ゲームのキーで復号し、チェックサムを正しく保ちます。その他の値はすべてツリーに表示されます。公開セーブ 40 件で確認済みですが、ゲームではまだ試していません
+
+Game screen: account level and experience, rank, difficulty, and the level and experience of every class and weapon. The game writes every byte of the save one lower; that is undone and redone, and the rest (cosmetics, mods, challenge counters) opens for Tree editing. Checked on a public save, not yet tried in the game
+= ゲーム画面: アカウントのレベルと経験値、ランク、難易度、すべてのクラスと武器のレベルと経験値。ゲームはセーブの全バイトを 1 小さい値で書き込みますが、これは元に戻して再度適用されます。残り (コスメティック、Mod、チャレンジのカウンター) はツリー編集で開きます。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: act 1 currency and lives, act 2 gold and packs opened, play time. The save's bare values are shown with made-up names and written back as they were. Checked on a public save, not yet tried in the game
+= ゲーム画面: 第 1 幕の通貨とライフ、第 2 幕のゴールドと開封したパック数、プレイ時間。セーブの名前のない値は仮の名前で表示され、元のまま書き戻されます。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: antimatter, infinity points, eternity points, reality machines and the counters behind them (galaxies, boosts, replicanti, dilation, perk points). Opens the text from Options > Saving > Export save as file (PC and mobile formats). Checked on public sample saves, not yet tried in the game
+= ゲーム画面: 反物質、無限ポイント、永遠ポイント、リアリティマシン、およびその背後にあるカウンター (銀河、ブースト、レプリカンティ、膨張、パークポイント)。Options > Saving > Export save as file (PC とモバイル形式) で出力されたテキストを開きます。公開サンプルのセーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: apple gems and the red, blue, yellow and rare shards. Checked on a public save, not yet tried in the game
+= ゲーム画面: りんごジェムと、赤・青・黄・レアのかけら。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: apple gems, the four kinds of shards and the profile's counters. Checked on a public save, not yet tried in the game
+= ゲーム画面: りんごジェム、4 種類のかけら、プロフィールのカウンター。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: berries, rank, experience, TP, MP, inventory and storage sizes, play time, and the HP, attack and defense of every party member; the save's XOR encoding is undone and applied again and every other value is kept. Checked on a public save, not yet tried in the game
+= ゲーム画面: ベリー、ランク、経験値、TP、MP、インベントリとストレージのサイズ、プレイ時間、パーティ全員の HP、攻撃、防御。セーブの XOR エンコードは解除して再び適用し、その他の値はすべてそのまま保たれます。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: both heroes' levels, experience, health, energy and core stats, plus playtime, deaths and kills. Checked on a public save, not yet tried in the game
+= ゲーム画面: 両ヒーローのレベル、経験値、体力、エネルギー、基本ステータス、さらにプレイ時間、死亡回数、撃破数。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: bottle caps, experience, karma, S.P.E.C.I.A.L. and the points added to each skill; the level, place and play time are shown from the save. Checked on real saves, not yet tried in the game
+= ゲーム画面: ボトルキャップ、経験値、カルマ、S.P.E.C.I.A.L.、各スキルに追加されたポイント。レベル、場所、プレイ時間はセーブから表示されます。実際のセーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: campaign tokens and race counts (each is stored in three places, all shown). Checked on a public save from the Epic Games Store build, not yet tried in the game
+= ゲーム画面: キャンペーントークンとレース回数 (それぞれ 3 か所に保存されており、すべて表示されます)。Epic Games Store 版の公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: caps, food, power, water, Stimpaks, RadAway, Lunchboxes, Mr. Handy, pet carriers and Nuka-Cola Quantum, and every dweller's level, happiness, health, radiation and S.P.E.C.I.A.L. Decrypted and encrypted again on save. Checked on a public sample save, not yet tried in the game
+= ゲーム画面: キャップ、食料、電力、水、Stimpak、RadAway、Lunchbox、Mr. Handy、ペットキャリアー、Nuka-Cola Quantum、および各住民のレベル、幸福度、体力、放射線、S.P.E.C.I.A.L.。復号して開き、保存時に再び暗号化します。公開サンプルのセーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: career money and BeamXP from playerAttributes.json; branch levels and vehicles open by name in the Tree. Written from the game's own Lua source, not yet checked on a real save or in the game
+= ゲーム画面: playerAttributes.json のキャリアの所持金と BeamXP。ブランチのレベルと車両は、ツリーに名前付きで表示されます。ゲーム自身の Lua ソースをもとに作成しており、実際のセーブやゲームではまだ確認していません
+
+Game screen: cash (in cents), data clusters, respect level and respect; the save's checksum (CRC-32) is rewritten. Checked on public saves, not yet tried in the game
+= ゲーム画面: 所持金 (セント単位)、データクラスター、リスペクトレベルとリスペクト。セーブのチェックサム (CRC-32) は書き直されます。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: cash and the crib stash (in cents), respect level and respect, stunt jumps, barnstorms and difficulty; the save's checksum (CRC-32) is rewritten. Checked on public saves, not yet tried in the game
+= ゲーム画面: 所持金とクリブの隠し財産 (セント単位)、リスペクトレベルとリスペクト、スタントジャンプ、バーンストーム、難易度。セーブのチェックサム (CRC-32) は書き直されます。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: cash, Eridium, level and experience, specialization, skill points to spend, play time and ammunition for each character save. The save is unlocked with the Steam account found in its folder and packed again when you save. Checked on public sample saves, not yet tried in the game
+= ゲーム画面: 各キャラクターセーブの所持金、Eridium、レベルと経験値、スペシャライゼーション、使用可能なスキルポイント、プレイ時間、弾薬。セーブはフォルダー内にある Steam アカウントでロックを解除し、保存時に再び圧縮します。公開サンプルのセーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: cash, every tool's ammunition and range, damage and size upgrades. Checked on a public save, not yet tried in the game
+= ゲーム画面: 所持金、すべてのツールの弾薬と射程、ダメージとサイズの強化。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: cash, fuel, ammunition, supplies and the day of the expedition. Checked on a public save, not yet tried in the game
+= ゲーム画面: 所持金、燃料、弾薬、物資、探検の日数。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: cash, kudos and hard mode. .NET BinaryFormatter, read and written in place; checked on public saves, not yet tried in the game
+= ゲーム画面: 所持金、称賛、ハードモード。.NET BinaryFormatter で、その場で読み書きします。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: cash, level, XP and the skill and perk points of the profile, read from the ADF file's own type definitions and edited in place. Checked on public saves, not yet tried in the game
+= ゲーム画面: プロフィールの所持金、レベル、XP、スキルポイントとパークポイント。ADF ファイル自身の型定義から読み取り、その場で編集します。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: cash, level, experience, skill points and hard mode. Plain JSON; checked on public saves, not yet tried in the game
+= ゲーム画面: 所持金、レベル、経験値、スキルポイント、ハードモード。プレーンな JSON です。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: cash, the player's meters and the hard mode and permadeath flags (marguerite.txt). .NET BinaryFormatter, read and written in place; the vehicle, garden and other files open for Tree editing. Checked on a public save, not yet tried in the game
+= ゲーム画面: 所持金、プレイヤーのメーター、ハードモードとパーマデスのフラグ (marguerite.txt)。.NET BinaryFormatter で、その場で読み書きします。車両、庭などのファイルはツリー編集で開きます。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: cash. Checked on a public save, not yet tried in the game
+= ゲーム画面: 所持金。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: chaos gems, play time and the unlocked outfits. .NET BinaryFormatter, read and written in place; checked on a public save, not yet tried in the game
+= ゲーム画面: カオスジェム、プレイ時間、アンロック済みの衣装。.NET BinaryFormatter で、その場で読み書きします。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: character level, free skill points and free mastery points. The character is hex text (older files one hex line per section, newer files JSON); the character section is opened as bytes and written back as hex. Checked on public saves, not yet tried in the game
+= ゲーム画面: キャラクターレベル、未使用のスキルポイント、未使用のマスタリーポイント。キャラクターは 16 進テキストです (古いファイルはセクションごとに 16 進 1 行、新しいファイルは JSON)。キャラクターセクションはバイト列として開き、16 進で書き戻します。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: clear and save counts, character, difficulty, mission, maximum health, red, yellow and blue orbs, the Alastor and Ifrit skills, every mission rank, the secret missions, statistics and combo rankings; each SaveData-NN file of the save folder is one slot, and its checksum is written again. Checked on public saves, not yet tried in the game
+= ゲーム画面: クリア回数とセーブ回数、キャラクター、難易度、ミッション、最大体力、赤・黄・青のオーブ、アラストルとイフリートのスキル、各ミッションのランク、シークレットミッション、統計、コンボランキング。セーブフォルダー内の各 SaveData-NN ファイルが 1 スロットで、そのチェックサムは書き直されます。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: coins and deaths for both players, Djimmi's wishes and the unlocks (expert mode, filters, Boatman). Checked on a public sample save, not yet tried in the game
+= ゲーム画面: 両プレイヤーのコインと死亡回数、Djimmi の願い、アンロック (エキスパートモード、フィルター、Boatman)。公開サンプルのセーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: coins, StreetPass count, online wins and losses and VR points, with the save's CRC-32 written again. Checked on a public save, not yet tried in the game
+= ゲーム画面: コイン、すれちがい通信の回数、オンラインの勝敗数、VR ポイント。セーブの CRC-32 は書き直されます。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: coins, each brother's level, experience, HP, BP, Power, Defense, Speed and Stache, and the counts of recovery items, battle items and beans. Checked on a public save, not yet tried in the game
+= ゲーム画面: コイン、各兄弟のレベル、経験値、HP、BP、Power、Defense、Speed、Stache、回復アイテム、バトルアイテム、豆の数。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: coins, extra prestige, landing permissions, and the health, food, water, oxygen, sleep and morale of every colonist and the condition of every bot. Checked on public saves, not yet tried in the game
+= ゲーム画面: コイン、追加のプレステージ、着陸許可、すべての入植者の体力、食料、水、酸素、睡眠、士気、およびすべてのボットの状態。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: coins, power-up ranks and what's unlocked; the checksum is worked out again on save. Not yet tried in the game
+= ゲーム画面: コイン、パワーアップのランク、アンロック状況。チェックサムは保存時に計算し直されます。ゲームではまだ試していません
+
+Game screen: coins, removal and reroll tokens, spins, the floor, the rent due and the run's progress. The save's JSON lines are opened as one object keyed by each node's path and written back line by line. Checked on a public save, not yet tried in the game
+= ゲーム画面: コイン、除去トークンとリロールトークン、スピン、階層、支払期限の家賃、ランの進行状況。セーブの JSON Lines は各ノードのパスをキーとする 1 つのオブジェクトとして開き、1 行ずつ書き戻します。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: coins, the coin limit, sword damage, progress points and counters. Plain Unreal GVAS; checked on public saves, not yet tried in the game
+= ゲーム画面: コイン、コインの上限、剣のダメージ、進行ポイントとカウンター。プレーンな Unreal GVAS です。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: coins. The save's zlib chunks are unpacked and packed again on save; the coin count is found by its surroundings and only offered when exactly one record fits. Checked on 11 real saves; the coin edit was tried in the game. Runes, rewire tools and elixirs aren't located yet (hex view)
+= ゲーム画面: コイン。セーブの zlib チャンクは展開し、保存時に再び圧縮します。コイン数は周囲のデータから見つけ、ちょうど 1 件のレコードが一致した場合にのみ編集できます。実際のセーブ 11 件で確認済みで、コインの編集はゲームで試験済みです。ルーン、リワイヤツール、エリクサーはまだ見つけられません (16 進表示)
+
+Game screen: completion, enemies killed and play time, and every level's score, rank, treasure and secrets, bosses included. Checked on a public save, not yet tried in the game
+= ゲーム画面: 達成度、倒した敵の数、プレイ時間、ボスを含むすべてのレベルのスコア、ランク、宝、シークレット。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: continues, lives, health, the powers, and every level's unlock and Electoon cages; the level totals and the completion rate are written again. Checked on public saves, not yet tried in the game
+= ゲーム画面: コンティニュー、ライフ、体力、能力、すべてのレベルのアンロックと Electoon のケージ。レベルの合計と達成率は書き直されます。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: cookies in the bank and baked, counters, ascensions and the number of every building. Opens the exported save text (base64) and writes it back in the same form; every other value in it is kept. Checked on a public save, not yet tried in the game. Export from Options, edit, then import
+= ゲーム画面: 銀行にあるクッキーと焼いたクッキー、カウンター、昇天、すべての建物の数。エクスポートしたセーブのテキスト (base64) を開き、同じ形式で書き戻します。その中のその他の値はすべてそのまま保たれます。公開セーブで確認済みですが、ゲームではまだ試していません。Options からエクスポートし、編集してからインポートしてください
+
+Game screen: credits and the minerals, player and class ranks with their XP, stat upgrade levels. Checked on a real save, not yet tried in the game
+= ゲーム画面: クレジットと鉱物、プレイヤーとクラスのランクおよび XP、ステータス強化のレベル。実際のセーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: credits, Praxis kits, crafting parts (with a Max crafting materials button) and ammo stacks; experience is shown. The game state is unpacked and packed again on save. Checked on real saves and in the game. Close the game and turn Steam Cloud off for it first, or Steam may bring the old save back
+= ゲーム画面: クレジット、Praxis キット、クラフト部品 (「クラフト素材を最大に」ボタン付き)、弾薬のスタック。経験値は表示されます。ゲームの状態は展開し、保存時に再び圧縮します。実際のセーブとゲームで確認済みです。先にゲームを終了し、そのゲームの Steam Cloud をオフにしてください。そうしないと Steam が古いセーブを戻すことがあります
+
+Game screen: credits, days, every licence test medal and the result of every league, special event and spot race; the save's checksum is written again. Cars and tuning parts are not edited yet. Checked on public saves, not yet tried in the game
+= ゲーム画面: クレジット、日数、すべてのライセンステストのメダル、すべてのリーグ、スペシャルイベント、スポットレースの結果。セーブのチェックサムは書き直されます。車とチューニングパーツはまだ編集できません。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: credits, experience and tournament fame from career.cres (the block-compressed file is unpacked, edited and packed again with fresh checksums). The garage and parts files open as hex. Checked on a public fresh profile, not yet tried in the game
+= ゲーム画面: career.cres のクレジット、経験値、トーナメントの名声 (ブロック圧縮されたファイルは展開、編集し、新しいチェックサムとともに再び圧縮します)。ガレージとパーツのファイルは 16 進で開きます。公開されている新規プロフィールで確認済みですが、ゲームではまだ試していません
+
+Game screen: credits, level, experience and device upgrade tokens, and the crafting resources by name with a Max crafting materials button (ores, crystals, scrap and basic resources). The packed save is unpacked and packed again for you; ships and items are in the Tree. Checked on a public save, not yet tried in the game
+= ゲーム画面: クレジット、レベル、経験値、デバイス強化トークン、および名前付きのクラフト資源 (鉱石、クリスタル、スクラップ、基本資源向けの 「クラフト素材を最大に」ボタン付き)。圧縮されたセーブは自動で展開し、再び圧縮します。船とアイテムはツリーにあります。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: credits, level, experience and each faction's reputation experience. Checked on a public save, not yet tried in the game
+= ゲーム画面: クレジット、レベル、経験値、各勢力の評判経験値。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: credits, perk points, vanity mastery and forge XP, each dwarf's XP and retirements, and the minerals and brewing ingredients, with a Max crafting materials button that fills Bismor, Magnite, Croppa, Umanite, Jadiz, Enor, Phazyonite and the brewing ingredients to 9999 (an estimate). Checked on a public sample save, not yet tried in the game
+= ゲーム画面: クレジット、パークポイント、ヴァニティマスタリーと鍛冶 XP、各ドワーフの XP と引退回数、鉱物と醸造材料 (Bismor、Magnite、Croppa、Umanite、Jadiz、Enor、Phazyonite と醸造材料を 9999 まで増やす 「クラフト素材を最大に」ボタン付き。推定値)。公開サンプルのセーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: credits, the day and time, the difficulty options and a table of each ship's crew (health, food, rest, comfort, mood, the four attributes and the skill levels). Checked on a real save, not yet tried in the game
+= ゲーム画面: クレジット、日付と時刻、難易度オプション、各船のクルー一覧 (体力、食料、休息、快適さ、気分、4 つの属性、スキルレベル)。実際のセーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: credits, the profit quota and what is paid towards it, quotas passed, the deadline, the current moon, ship upgrades in storage and the run's statistics (LCSaveFile1 to 3); your experience and rank (LCGeneralSaveData). Decrypted and encrypted again on save. Checked on public saves, not yet tried in the game
+= ゲーム画面: クレジット、利益ノルマとその支払済み額、達成したノルマ数、期限、現在の月、保管中の船のアップグレード、ランの統計 (LCSaveFile1〜3)、経験値とランク (LCGeneralSaveData)。復号して開き、保存時に再び暗号化します。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: currency, coins, account level and the class perk levels. The progression file is unpacked (its key comes from the file name) and packed again on save. Checked on a public save, not yet tried in the game
+= ゲーム画面: 通貨、コイン、アカウントレベル、クラスパークのレベル。進行ファイルは展開し (キーはファイル名から生成)、保存時に再び圧縮します。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: difficulty, experience, player level and the upgrades bought for Batman and Catwoman; the LZO-packed save is unpacked and packed again. Saves of a brand-new game have no experience yet and are not opened. Checked on public saves, not yet tried in the game
+= ゲーム画面: 難易度、経験値、プレイヤーレベル、Batman と Catwoman のために購入したアップグレード。LZO 圧縮されたセーブは展開し、再び圧縮します。新規ゲームのセーブはまだ経験値がないため開けません。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: drachmae, XP and ability points, and the six crafting materials (olive wood, iron, soft leather, obsidian glass, precious gems, ancient tablets) with a Max crafting materials button (99,999, an estimate). The save is unscrambled (the account's key is worked out from the file), unpacked and packed again with its block checks. Checked on public saves, not yet tried in the game
+= ゲーム画面: ドラクマ、XP、アビリティポイント、6 種類のクラフト素材 (オリーブ材、鉄、柔らかい革、黒曜石ガラス、貴石、古代の石板。クラフト素材を最大に ボタン付き、99,999、推定値)。セーブのスクランブルを解除し (アカウントのキーはファイルから算出)、展開して、ブロックチェックとともに再び圧縮します。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: drachmae, XP, ability points and hard leather. The save is unscrambled (the account's key is worked out from the file), unpacked and packed again with its block checks. Checked on public saves, not yet tried in the game. The save ends with a 4-byte value that isn't understood yet and is kept as it is
+= ゲーム画面: ドラクマ、XP、アビリティポイント、硬い革。セーブのスクランブルを解除し (アカウントのキーはファイルから算出)、展開して、ブロックチェックとともに再び圧縮します。公開セーブで確認済みですが、ゲームではまだ試していません。セーブの末尾には、まだ解析できていない 4 バイトの値があり、そのまま保たれます
+
+Game screen: each character's health, attack, defence, special bars and skill slots. The encrypted save is opened and its checksum kept right. Checked on a public save, not yet tried in the game
+= ゲーム画面: 各キャラクターの体力、攻撃、防御、スペシャルゲージ、スキルスロット。暗号化されたセーブを開き、チェックサムを正しく保ちます。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: each character's highest and preferred Ascension, wins, losses, win streaks and play time, and the profile's score, from progress.save. Checked on a public save, not yet tried in the game
+= ゲーム画面: progress.save の各キャラクターの最高アセンションと選択中のアセンション、勝利数、敗北数、連勝数、プレイ時間、およびプロフィールのスコア。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: each character's name, soul level, souls, humanity and the eight attributes, with HP and stamina shown (the item list of this edition is not read yet). The save's MD5 checksums are rewritten. Checked on a public save (the character stats read as plausible values and a changed save keeps its checksums), not yet tried in the game
+= ゲーム画面: 各キャラクターの名前、ソウルレベル、ソウル、人間性、8 つの能力値 (HP とスタミナも表示。このエディションのアイテム一覧はまだ読み取れません)。セーブの MD5 チェックサムは書き直されます。公開セーブで確認済みです (キャラクターのステータスはもっともらしい値で読み取れ、変更したセーブでもチェックサムは保たれます)。ゲームではまだ試していません
+
+Game screen: each custom character's level, experience, attribute points and the six attributes. Checked on a public save, not yet tried in the game
+= ゲーム画面: 各カスタムキャラクターのレベル、経験値、能力ポイント、6 つの能力値。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: each empire's treasury (BC), research points and ship range, and each colony's stored production, marines and tanks. The save has no checksum. Checked on public saves, not yet tried in the game
+= ゲーム画面: 各帝国の国庫 (BC)、研究ポイント、艦船の航続距離、各植民地の蓄積された生産力、海兵隊、戦車。このセーブにはチェックサムがありません。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: each family's funds and every Sim's skills, personality, job performance and aspiration score. The package is written again with the changed parts uncompressed (as SimPE does). Checked on a real neighbourhood, not yet tried in the game
+= ゲーム画面: 各家族の資金と、すべての Sim のスキル、性格、仕事の成績、野望スコア。パッケージは、変更した部分を非圧縮にして書き直されます (SimPE と同様)。実際のネイバーフッドで確認済みですが、ゲームではまだ試していません
+
+Game screen: each family's funds and family friends, and every Sim's skills and personality. Checked on a real neighbourhood, not yet tried in the game
+= ゲーム画面: 各家族の資金と家族の友人、およびすべての Sim のスキルと性格。実際のネイバーフッドで確認済みですが、ゲームではまだ試していません
+
+Game screen: each hero's experience and unlocked flag, and the gems, stars, food, loot, fame and guild experience of a run in progress. Checked on a public save, not yet tried in the game
+= ゲーム画面: 各ヒーローの経験値とアンロックのフラグ、進行中のランのジェム、スター、食料、戦利品、名声、ギルド経験値。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: each hero's gold, level, XP, health and focus, and the party's life pool. The gzip and UTF-16 wrapping is removed and put back on save. Checked on a public save, not yet tried in the game
+= ゲーム画面: 各ヒーローのゴールド、レベル、XP、体力、フォーカス、およびパーティのライフプール。gzip と UTF-16 のラップは取り除かれ、保存時に元に戻されます。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: each hero's level, adventure points (earned and to spend), life, endurance, astral energy, eight attributes and every talent, with the party slot to tell your party from the cutscene copies. The SQLite save is edited in place; items and money are in the Tree. Checked on a public save, not yet tried in the game
+= ゲーム画面: 各ヒーローのレベル、アドベンチャーポイント (獲得分と使用可能分)、生命力、持久力、アストラルエネルギー、8 つの能力値、すべてのタレント。パーティスロットで、実際のパーティとカットシーン用のコピーを区別できます。SQLite のセーブはその場で編集します。アイテムと所持金はツリーにあります。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: each household's funds and every Sim's lifetime reward points, lifetime happiness, celebrity, job and school performance, needs and skills of every age group (with Fill every need and Max every skill buttons); the supernatural type is shown read-only. The game data is stored uncompressed when saved, so the file grows. Checked on public saves, not yet tried in the game
+= ゲーム画面: 各世帯の資金と、すべての Sim の生涯報酬ポイント、生涯の幸福度、有名度、仕事と学校の成績、全年齢層のニーズとスキル (「すべてのニーズを満たす」ボタンと「すべてのスキルを最大に」ボタン付き)。超常的なタイプは読み取り専用で表示されます。ゲームデータは保存時に非圧縮で書き込まれるため、ファイルが大きくなります。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: each of the four playable characters' money, experience and skill orbs, and the eco points. The save has no checksum. Checked on a public save, not yet tried in the game
+= ゲーム画面: 4 人の操作キャラクターそれぞれの所持金、経験値、スキルオーブ、エコポイント。このセーブにはチェックサムがありません。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: each party member's experience, vitality, gold and item stack sizes, on the same screen as Original Sin 2; the save package is unpacked and packed again. Checked on a public save, not yet tried in the game
+= ゲーム画面: 各パーティメンバーの経験値、バイタリティ、ゴールド、アイテムのスタック数。Original Sin 2 と同じ画面です。セーブパッケージは展開し、再び圧縮します。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: each party member's level, HP, MP, stats and experience, and the item counts in every bag (up to each item's maximum). The encrypted save is opened and its CRC kept right. Checked on a public save, not yet tried in the game
+= ゲーム画面: 各パーティメンバーのレベル、HP、MP、ステータス、経験値と、すべてのバッグのアイテム数 (各アイテムの上限まで)。暗号化されたセーブを開き、CRC を正しく保ちます。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: each player character's experience, vitality, attributes, unspent points and gold and the stack size of each carried item, and adding items to a character's bag (any kind found in an inventory in the save); packed again with the package checksum on save. Not yet tried in the game
+= ゲーム画面: 各プレイヤーキャラクターの経験値、バイタリティ、能力値、未使用のポイント、ゴールド、所持している各アイテムのスタック数、およびキャラクターのバッグへのアイテム追加 (セーブ内のインベントリにある任意の種類)。保存時にパッケージのチェックサムとともに再び圧縮します。ゲームではまだ試していません
+
+Game screen: each player's elemental resources and remaining mana and the campaign's points and day. Checked on a public save, not yet tried in the game
+= ゲーム画面: 各プレイヤーの元素資源と残りマナ、キャンペーンのポイントと日数。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: each ranger's level, experience, health, attribute, skill and trait points, kills and the seven attributes; skills and items are in the Tree. Open <save name>.xml. Checked on a public save, not yet tried in the game
+= ゲーム画面: 各レンジャーのレベル、経験値、体力、能力値・スキル・特性のポイント、撃破数、7 つの能力値。スキルとアイテムはツリーにあります。<save name>.xml を開いてください。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: each save slot's play time, deaths and New Game Plus count. The scrambled text is unscrambled and scrambled again for you; checked on a public save, not yet tried in the game
+= ゲーム画面: 各セーブスロットのプレイ時間、死亡回数、New Game Plus の回数。スクランブルされたテキストは自動でスクランブルを解除し、再びスクランブルします。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: every Gungeoneer's Hegemony credits, runs, deaths, kills, money, play time and floors cleared. The save's XOR encryption is handled for you. Checked on a public save, not yet tried in the game
+= ゲーム画面: すべての Gungeoneer の Hegemony クレジット、ラン回数、死亡回数、撃破数、所持金、プレイ時間、クリアした階層。セーブの XOR 暗号化は自動で処理されます。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: every Mania Mode and Encore Mode slot (state, character, zone, lives, score, Chaos Emeralds, continues, next special stage), changed in place. Checked on public saves, not yet tried in the game
+= ゲーム画面: Mania Mode と Encore Mode のすべてのスロット (状態、キャラクター、ゾーン、ライフ、スコア、カオスエメラルド、コンティニュー、次のスペシャルステージ)。その場で変更します。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: every faction's money, influence, operations, research, boost, mission control and space resources. Checked on public saves, not yet tried in the game
+= ゲーム画面: すべての勢力の資金、影響力、作戦、研究、ブースト、ミッションコントロール、宇宙資源。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: every faction's treasury, yours first, with a button to fill it. The campaign inside the save is unpacked, edited with every size above it recomputed, and packed again (the file grows). Read and round-tripped on Warhammer II and Troy campaign saves; not yet tried in the game
+= ゲーム画面: すべての勢力の国庫 (自分の勢力が先頭、補充ボタン付き)。セーブ内のキャンペーンは展開し、その上位にあるすべてのサイズを再計算して編集し、再び圧縮します (ファイルは大きくなります)。Warhammer II と Troy のキャンペーンセーブで読み込みと往復書き込みを確認済みですが、ゲームではまだ試していません
+
+Game screen: every faction's treasury, yours first, with a button to fill it. The campaign inside the save is unpacked, edited with every size above it recomputed, and packed again (the file grows). Read on public campaign saves of the game, not yet tried in the game
+= ゲーム画面: すべての勢力の国庫 (自分の勢力が先頭、補充ボタン付き)。セーブ内のキャンペーンは展開し、その上位にあるすべてのサイズを再計算して編集し、再び圧縮します (ファイルは大きくなります)。このゲームの公開キャンペーンセーブで読み込みを確認済みですが、ゲームではまだ試していません
+
+Game screen: every file in the flash with its coins, each party member's level, experience, HP/PP, base stats and items, and the Djinn per element (give one to a character, set it or put it on standby, or take it away); in Golden Sun, the story choices the password carries into The Lost Age; checksums kept right. Not yet tried in the game
+= ゲーム画面: フラッシュ内のすべてのファイルとそのコイン、各パーティメンバーのレベル、経験値、HP/PP、基本ステータス、アイテム、属性ごとの Djinn (キャラクターに与える、セットする、待機させる、取り上げる)。Golden Sun ではパスワードが The Lost Age に引き継ぐストーリー上の選択。チェックサムは正しく保たれます。ゲームではまだ試していません
+
+Game screen: every item the player carries with its amount and the game's stored limit, with a Max crafting materials button that raises the plain materials to those limits. Only the amounts change; the rest of the save stays byte for byte. Checked on public saves, not yet tried in the game
+= ゲーム画面: プレイヤーが所持しているすべてのアイテムの数量とゲームが保存している上限。通常素材をその上限まで引き上げる「クラフト素材を最大に」ボタン付き。変更されるのは数量だけで、セーブのそれ以外の部分はバイト単位でそのままです。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: every party member's level, experience, attributes, skills and free points, and each inventory (rubles are the Money item). The save's gzip packing is opened and closed for you. Checked on a public save, not yet tried in the game
+= ゲーム画面: すべてのパーティメンバーのレベル、経験値、能力値、スキル、未使用のポイント、および各インベントリ (ルーブルは Money アイテム)。セーブの gzip 圧縮は自動で展開され、再び圧縮されます。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: every player's gold and resources, and every hero's level, experience, attributes, spell points, movement, army (creature and count) and the skills they already have. Shadow of Death, Armageddon's Blade and Horn of the Abyss 1.8 or newer; the save's gzip packing is opened and closed for you. Checked on public saves, not yet tried in the game
+= ゲーム画面: すべてのプレイヤーのゴールドと資源、すべてのヒーローのレベル、経験値、能力値、呪文ポイント、移動力、軍隊 (クリーチャーと数)、習得済みのスキル。Shadow of Death、Armageddon's Blade、Horn of the Abyss 1.8 以降が対象です。セーブの gzip 圧縮は自動で展開され、再び圧縮されます。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: every save slot's difficulty (Normal, Easy, Hard), health, max health and Whimsical Stars, and each weapon's type, level, energy and ammo; equipment, items and the stage are shown. The freeware Cave Story's Profile.dat opens too. Checked on public saves, not yet tried in the game
+= ゲーム画面: すべてのセーブスロットの難易度 (Normal、Easy、Hard)、体力、最大体力、Whimsical Stars、各武器の種類、レベル、エネルギー、弾薬。装備、アイテム、ステージも表示されます。フリーウェア版 Cave Story の Profile.dat も開けます。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: every skater's tapes in each level, the medals of the three competitions, the high scores and the sound levels; the tape counts and the checksum are written again. Checked on public saves, not yet tried in the game
+= ゲーム画面: すべてのスケーターの各レベルのテープ、3 つの大会のメダル、ハイスコア、サウンドレベル。テープ数とチェックサムは書き直されます。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: every unit's level, experience, health, hunger and ruler stats (diplomacy, intelligence, stewardship, warfare) and the first village's stored resources. The map.wbox is unpacked and packed again on save. Checked on a public save, not yet tried in the game
+= ゲーム画面: すべてのユニットのレベル、経験値、体力、空腹度、統治者のステータス (外交、知力、統率、戦争) と、最初の村の貯蔵資源。map.wbox は保存時に展開し、再び圧縮します。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: experience, healing potions, play time and a table of the carried items with their quantities. Checked on a public save, not yet tried in the game
+= ゲーム画面: 経験値、回復薬、プレイ時間と、所持品とその数量の表。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: food, seafood and crafting materials (up to 999 each, with a Max crafting materials button), the valuables (virtue, wooden tags, tickets), ammunition, style experience and training orbs; decrypted, with its checksum kept right. Ryo isn't mapped yet. Checked on a public save, not yet tried in the game
+= ゲーム画面: 食料、海産物、クラフト素材 (各 999 まで。「クラフト素材を最大に」ボタン付き)、貴重品 (徳、木札、チケット)、弾薬、スタイル経験値、修練オーブ。復号して開き、チェックサムを正しく保ちます。Ryo はまだ対応していません。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: for each file coins, Star Pieces, Star Points, level, HP, FP and BP with their maximums, the Star Spirits saved and Star Energy, boots and hammer, the ten bag items, the partners with their ranks, and the battle records; badges (obtained and worn), stored and key items, Tayce T.'s recipes, star pieces and super blocks found and Koopa Koot's favours are in the Tree. The newest save of each file is the one edited, and both of its sums are made again. Checked on public saves, not yet tried in the game
+= ゲーム画面: ファイルごとに、コイン、スターピース、スターポイント、レベル、HP、FP、BP とそれぞれの最大値、救出したスターの精霊とスターエナジー、ブーツとハンマー、10 個のバッグアイテム、ランク付きのパートナー、バトル記録。バッジ (入手済みと装備中)、保管アイテムと大事なもの、Tayce T. のレシピ、見つけたスターピースとスーパーブロック、Koopa Koot の頼みごとはツリーにあります。編集されるのは各ファイルの最新のセーブで、その 2 つの合計値は両方とも作り直されます。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: for each of the 16 slots the clear count, the Bouncer Points and stat levels of Sion, Volt and Kou, their skills, the unlocked stages, characters and costumes, and the survival mode records; rank, points spent and checksum are written again. Checked on public saves, not yet tried in the game
+= ゲーム画面: 16 スロットそれぞれのクリア回数、Sion、Volt、Kou の Bouncer Points とステータスレベル、そのスキル、アンロック済みのステージ、キャラクター、コスチューム、サバイバルモードの記録。ランク、使用ポイント、チェックサムは書き直されます。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: for each of the four files the caps, keys, switches, secret stars, every course's six stars, 100-coin star, cannon and coin record. Both copies of the file and the checksums are kept right. Checked on public saves, not yet tried in the game
+= ゲーム画面: 4 つのファイルそれぞれのキャップ、鍵、スイッチ、シークレットスター、すべてのコースの 6 つのスター、100 コインスター、大砲、コイン記録。ファイルの 2 つのコピーとチェックサムの両方が正しく保たれます。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: for each of the four slots money, each hero's level, experience, HP and MP, and every weapon and spirit's level and experience. Each slot's checksum is kept right. Checked on a public save, not yet tried in the game
+= ゲーム画面: 4 つのスロットそれぞれの所持金、各ヒーローのレベル、経験値、HP、MP、すべての武器とスピリットのレベルと経験値。各スロットのチェックサムは正しく保たれます。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: for each of the three Mario files the lives, the nozzles and Yoshi, and for every area its shine sprites, blue coins, events and scores; the shine sprite total is kept in step. Opens the .gci of the NTSC, PAL and Japanese discs and edits the newer of the two copies the game keeps; the sum is made again. Checked on public saves, not yet tried in the game
+= ゲーム画面: 3 つの Mario ファイルそれぞれのライフ、ノズルと Yoshi、各エリアのシャインスプライト、青コイン、イベント、スコア。シャインスプライトの合計も連動して更新されます。NTSC、PAL、日本版ディスクの .gci を開き、ゲームが保持する 2 つのコピーのうち新しい方を編集します。合計値は作り直されます。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: for each of the three files health, magic, rupees, the equipment, every item with its ammunition and upgrades, the songs, medallions and stones, and each dungeon's map, compass and boss key; the rest (skulltulas, heart pieces, events) is in the Tree. Opens the emulator's .sra and .srm saves (also with swapped words) and the GameCube .gci of the Master Quest and Collector's Edition discs; the sum and backup copy are kept right. Checked on public saves, not yet tried in the game
+= ゲーム画面: 3 つのファイルそれぞれの体力、魔力、ルピー、装備、すべてのアイテムの弾薬と強化、歌、メダリオンと石、各ダンジョンのマップ、コンパス、ボスキー。それ以外 (スキュルタラ、ハートのかけら、イベント) はツリーにあります。エミュレーターの .sra と .srm のセーブ (ワード入れ替え済みのものも可) と、Master Quest と Collector's Edition ディスクのゲームキューブ .gci を開きます。合計値とバックアップコピーは正しく保たれます。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: for each of the three save slots eggs of every kind, red and gold feathers, honeycombs, Cheato's pages, Glowbos, doubloons and the other carried items, every basic and advanced move, the cheats spelled and turned on, the minigame high scores and the time spent in each world. Jiggies, notes and other world flags are left out because the American release keeps them elsewhere. The slot's Rare sum is made again on save. Checked on public saves, not yet tried in the game
+= ゲーム画面: 3 つのセーブスロットそれぞれの、あらゆる種類のたまご、赤と金の羽、ハニカム、Cheato のページ、Glowbo、ダブロン、その他の所持アイテム、すべての基本技と上級技、つづりを入力してオンにしたチート、ミニゲームのハイスコア、各ワールドでの滞在時間。Jiggy、音符、その他のワールドフラグは、北米版では別の場所に保存されているため対象外です。スロットの Rare 合計値は保存時に作り直されます。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: for each of the three save slots jiggies, Mumbo tokens, health, eggs and feathers with their maximums, every basic and advanced move, each world's jiggies, and the Stop 'n' Swop items; every other flag of the slot is in the Tree. The slot's Rare sum is made again on save. Checked on public saves, not yet tried in the game
+= ゲーム画面: 3 つのセーブスロットそれぞれの Jiggy、Mumbo トークン、体力、たまごと羽 (それぞれの最大値付き)、すべての基本技と上級技、各ワールドの Jiggy、Stop 'n' Swop アイテム。スロットのその他すべてのフラグはツリーにあります。スロットの Rare 合計値は保存時に作り直されます。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: for each of the three save slots the play time, melons, the Kongs freed, each Kong's Banana Coins, Cranky's moves, slam level, gun, ammo belt and instrument upgrades, the moves and items, plus the Mystery menu unlocks; the Banana Fairies, Battle Crowns, Boss Keys and every level's Golden Bananas, Banana Medals, blueprints, coloured bananas and Bananaport pads are in the Tree. Each Kong's Golden Banana count follows the bananas ticked, and every CRC is made again on save. Checked on public saves, not yet tried in the game
+= ゲーム画面: 3 つのセーブスロットそれぞれのプレイ時間、メロン、救出した Kong、各 Kong の Banana Coin、Cranky の技、スラムレベル、銃、弾薬ベルト、楽器の強化、技とアイテム、さらに Mystery メニューのアンロック。Banana Fairy、Battle Crown、Boss Key、および各レベルの Golden Banana、Banana Medal、ブループリント、色付きバナナ、Bananaport パッドはツリーにあります。各 Kong の Golden Banana 数はチェックを入れたバナナに従い、すべての CRC は保存時に作り直されます。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: for each of the three slots energy and reserve tanks, missiles, super missiles, power bombs, play time and the beams, suits and boots Samus has and has equipped. Each slot's sums, and their copies at the end of the file, are kept right. Checked on a public save, not yet tried in the game
+= ゲーム画面: 3 つのスロットそれぞれのエネルギータンクとリザーブタンク、ミサイル、スーパーミサイル、パワーボム、プレイ時間、Samus が持っている・装備しているビーム、スーツ、ブーツ。各スロットの合計値とファイル末尾にあるそのコピーは正しく保たれます。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: for each of the three slots gil, steps and play time, every party member's level, HP, MP, experience, stats, esper and equipment, and the inventory's items and quantities. Each slot's sum is kept right. Checked on a public save, not yet tried in the game
+= ゲーム画面: 3 つのスロットそれぞれのギル、歩数、プレイ時間、すべてのパーティメンバーのレベル、HP、MP、経験値、ステータス、幻獣、装備、インベントリのアイテムと数量。各スロットの合計値は正しく保たれます。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: for each of the three slots gold and silver points, each character's experience, tech points, HP, MP, base stats and equipment. Each slot's sum is kept right. Checked on a public save, not yet tried in the game
+= ゲーム画面: 3 つのスロットそれぞれのゴールドとシルバーポイント、各キャラクターの経験値、テックポイント、HP、MP、基本ステータス、装備。各スロットの合計値は正しく保たれます。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: for each of the three slots hearts, magic, rupees, bombs and arrows with their capacity upgrades, the sword, shield, tunic and every item, and the four bottles. The slot's sum is kept right. Checked on a public save, not yet tried in the game
+= ゲーム画面: 3 つのスロットそれぞれのハート、魔力、ルピー、爆弾と矢 (容量アップグレード付き)、剣、盾、チュニック、すべてのアイテム、4 つのビン。スロットの合計値は正しく保たれます。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: for each of the three slots money, and the hero's and partner's level, experience, HP and spell charges. Each slot's checksum is kept right. Checked on a public save, not yet tried in the game
+= ゲーム画面: 3 つのスロットそれぞれの所持金、主人公とパートナーのレベル、経験値、HP、呪文チャージ。各スロットのチェックサムは正しく保たれます。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: for each of the three slots the treasures you hold, the medals and Mario's items, the gallery, the boos and portrait ghosts and every mansion room's flags, plus the sound, rumble and control options. Opens the .gci of the NTSC, PAL and Japanese discs and edits the newer of the two copies the game keeps; the sum is made again. Equipment, area and the portrait ghost ranks (which the game ties to other flags) are left out. Checked on public saves, not yet tried in the game
+= ゲーム画面: 3 つのスロットそれぞれの所持しているお宝、メダルと Mario のアイテム、ギャラリー、Boo とポートレートゴースト、屋敷の各部屋のフラグ、さらにサウンド、振動、操作のオプション。NTSC、PAL、日本版ディスクの .gci を開き、ゲームが保持する 2 つのコピーのうち新しい方を編集します。合計値は作り直されます。装備、エリア、ポートレートゴーストのランク (ゲームが他のフラグと結び付けているもの) は対象外です。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: for each player slot the best time of all twenty missions on every difficulty, all cheats and the control options. The slot's Rare sum is made again on save. Checked on public saves, not yet tried in the game
+= ゲーム画面: 各プレイヤースロットの、すべての難易度における 20 ミッション全部のベストタイム、すべてのチート、操作オプション。スロットの Rare 合計値は保存時に作り直されます。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: for each save slot, money, Persona points, BOND points and the consumable, cooking, incense, remedy and skill-card stacks you hold. The encrypted save is opened and its checksum kept right. Checked on a public save, not yet tried in the game
+= ゲーム画面: 各セーブスロットの所持金、ペルソナポイント、BOND ポイント、所持している消耗品、料理、お香、治療薬、スキルカードのスタック。暗号化されたセーブを開き、チェックサムを正しく保ちます。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: for each slot health (in quarter hearts), magic, rupees, the equipment and wallet, every item, bag and quantity, the figurines, the dungeons' maps, compasses and keys, the songs and quest items and the events (Big Octos, mini-games, postbox and more). Opens the .gci of the NTSC, PAL, Japanese and Korean discs; the sum is made again and the sword, shield and bracelet flags follow the equipment you pick. The heart piece flags, day time and map location are left out. Checked on public saves, not yet tried in the game
+= ゲーム画面: 各スロットの体力 (ハート 1/4 単位)、魔力、ルピー、装備とお財布、すべてのアイテム、バッグ、数量、フィギュア、ダンジョンのマップ、コンパス、鍵、歌とクエストアイテム、イベント (Big Octo、ミニゲーム、ポストなど)。NTSC、PAL、日本版、韓国版ディスクの .gci を開きます。合計値は作り直され、剣、盾、ブレスレットのフラグは選んだ装備に合わせて変わります。ハートのかけらのフラグ、時刻、マップ上の位置は対象外です。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: for each slot rupees and wallet, health, heart pieces, magic, double defense, the sword, shield, quiver and bomb bag with every ammunition count, all items, masks, songs and boss remains, each temple's stray fairies, keys, map, compass and boss key, and the owl statues; the Bombers' Notebook, heart pieces and other events are in the Tree. An owl-statue save is edited when the slot has one, since that is what the game loads. Opens the emulator's .fla and .srm saves (also with swapped words) and the GameCube .gci of the Collector's Edition disc; the sum and the backup copy are kept right. Checked on public saves, not yet tried in the game
+= ゲーム画面: 各スロットのルピーとお財布、体力、ハートのかけら、魔力、二倍防御、剣、盾、矢筒、爆弾袋と各弾薬数、すべてのアイテム、お面、歌、ボスの遺品、各神殿の迷子の妖精、鍵、マップ、コンパス、ボスキー、フクロウ像。ボンバーズ手帳、ハートのかけら、その他のイベントはツリーにあります。フクロウ像のセーブがスロットにある場合はそれを編集します (ゲームが読み込むのはそちらのため)。エミュレーターの .fla と .srm のセーブ (ワード入れ替え済みのものも可) と、Collector's Edition ディスクのゲームキューブ .gci を開きます。合計値とバックアップコピーは正しく保たれます。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: for every save on the Controller Pak the lives and each level's red remotes, hidden and reward silver remotes and the gold remotes, with the totals. The game's 18-letter password is coded again for each changed save. Checked on public saves, not yet tried in the game
+= ゲーム画面: コントローラパック上の各セーブのライフと、各レベルの赤いリモコン、隠しおよび報酬の銀のリモコン、金のリモコンと、その合計。ゲームの 18 文字のパスワードは、変更した各セーブごとに作り直されます。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: francs and Creed Points, smoke bombs, berserk darts, medicine, bullets, cherry bombs and stun grenades. The save is unscrambled (the account's key is worked out from the file), unpacked and packed again with its block checks. Checked on public saves, not yet tried in the game
+= ゲーム画面: フラン、Creed Points、煙幕弾、バーサークダーツ、薬、弾丸、チェリーボム、スタングレネード。セーブのスクランブルを解除し (アカウントのキーはファイルから算出)、展開して、ブロックチェックとともに再び圧縮します。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: funds, hull tier, sanity and catch counts. .NET BinaryFormatter, read and written in place; checked on a public save, not yet tried in the game
+= ゲーム画面: 資金、船体ティア、正気度、釣果数。.NET BinaryFormatter で、その場で読み書きします。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: funds, months and days passed, difficulty, scientists and engineers, every soldier's rank, missions, kills and stats, and the stores of the first three bases, from an OpenXcom or OpenXcom Extended save (also plays The X-Com Files and X-Piratez). The data part of the file is rewritten on save. Checked on a public save, not yet tried in the game
+= ゲーム画面: 資金、経過した月数と日数、難易度、科学者とエンジニア、すべての兵士のランク、ミッション数、撃破数、ステータス、最初の 3 つの基地の備蓄。OpenXcom または OpenXcom Extended のセーブが対象です (The X-Com Files と X-Piratez でも使えます)。ファイルのデータ部分は保存時に書き直されます。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: gald (also in the save list) and level, experience, HP, TP and the base stats of all nine characters. Checked on public saves, not yet tried in the game
+= ゲーム画面: ガルド (セーブ一覧にも表示)、および全 9 人のキャラクターのレベル、経験値、HP、TP、基本ステータス。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: gald, grade points, the records, all nine characters (level, experience, HP, TP and the stats) and every item. Gald is written in both places the game keeps it. Checked on a real save, not yet tried in the game
+= ゲーム画面: ガルド、グレードポイント、記録、全 9 人のキャラクター (レベル、経験値、HP、TP、ステータス)、すべてのアイテム。ガルドはゲームが保持している 2 か所の両方に書き込まれます。実際のセーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: gems and the stars on each campaign level. Property-list XML; checked on a public save, not yet tried in the game
+= ゲーム画面: ジェムと、各キャンペーンレベルのスター。プロパティリスト XML です。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: gems, the difficulty, the upgrade ranks and each hero's experience. Plain Lua text; checked on a public save, not yet tried in the game
+= ゲーム画面: ジェム、難易度、アップグレードランク、各ヒーローの経験値。プレーンな Lua テキストです。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: gems, the difficulty, the upgrade ranks, the consumables and each hero's experience. Plain Lua text; checked on a public save, not yet tried in the game
+= ゲーム画面: ジェム、難易度、アップグレードランク、消耗品、各ヒーローの経験値。プレーンな Lua テキストです。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: gil, Ability Points, consumables and materials, and Max crafting materials (99, 999 or 9999 per material); level and max HP shown. The save inside each slot picture is unpacked with a dictionary read from your own installed copy of the game and packed again with its CRC-32 rewritten; the autosave's ten saves are picked with Tools › Open another file in this archive. Tried in the game
+= ゲーム画面: ギル、アビリティポイント、消耗品と素材、クラフト素材を最大に (素材ごとに 99、999 または 9999)。レベルと最大 HP も表示されます。各スロット画像内のセーブは、お使いの環境にインストールされたゲーム自身から読み取った辞書で展開し、CRC-32 を書き直して再び圧縮します。オートセーブの 10 個のセーブは ツール › このアーカイブ内の別のファイルを開く で選びます。ゲームで試験済み
+
+Game screen: gil, story progression and Triple Triad record, the party's experience, HP and stat bonuses, every stocked magic, the Guardian Forces (experience, HP, obtained), all 198 bag slots and the quantity of each Triple Triad card. The save's CRC is written again. Checked on public saves, not yet tried in the game
+= ゲーム画面: ギル、ストーリーの進行状況と Triple Triad の記録、パーティの経験値、HP、ステータスボーナス、ストックしているすべての魔法、ガーディアンフォース (経験値、HP、入手状況)、198 個すべてのバッグスロット、各 Triple Triad カードの枚数。セーブの CRC は書き直されます。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: gil. The save is decrypted, edited and encrypted again, with its checksum rewritten. Checked on public saves, not yet tried in the game
+= ゲーム画面: ギル。セーブは復号して編集し、チェックサムを書き直して再び暗号化します。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: gold and coins, each party member's level, experience, HP, MP, SP, attributes, equipment and conditions, and the stock of every item, weapon, armor, accessory, mana egg and valuable. Checked on public saves, not yet tried in the game
+= ゲーム画面: ゴールドとコイン、各パーティメンバーのレベル、経験値、HP、MP、SP、能力値、装備、状態異常、すべてのアイテム、武器、防具、アクセサリー、マナの卵、貴重品のストック。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: gold and each officer's health, attack, defense, power, speed and skill points; the stream cipher and word checksum are rewritten. Checked on a public save, not yet tried in the game
+= ゲーム画面: ゴールドと各武将の体力、攻撃、防御、パワー、速度、スキルポイント。ストリーム暗号とワードチェックサムは書き直されます。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: gold and the stack size of every stacked item each companion carries (potions, arrows, scrolls), from the save's packed entity store, the party summary (origin, class, level, experience) and story flags by area and companion, kept in step with the story's own flag list, and adding copies of items from the party's bags to a character's bag; the package is packed again with its checksum on save. Checked on about a hundred public saves, not yet tried in the game
+= ゲーム画面: ゴールドと、各仲間が持っているすべてのスタック可能アイテム (ポーション、矢、巻物) のスタック数 (セーブのパックされたエンティティストアから取得)、パーティの概要 (出自、クラス、レベル、経験値)、エリアと仲間ごとのストーリーフラグ (ストーリー自身のフラグ一覧と連動して更新)、およびパーティのバッグからキャラクターのバッグへのアイテムのコピー追加。保存時にパッケージはチェックサムとともに再び圧縮されます。約 100 件の公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: gold carried, level, health, magicka and fatigue, the eight attributes, all 35 skills, resistances, reputations and the gold in each region's bank, from SaveData.txt. Checked on a public save, not yet tried in the game
+= ゲーム画面: 所持ゴールド、レベル、体力、マジカ、疲労度、8 つの能力値、35 個すべてのスキル、耐性、評判、各地域の銀行にあるゴールド (SaveData.txt から)。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: gold coins, bank vault, casino tokens, mini medals, every warp place, each party member's level, experience, HP, MP, stats and skill attributes, the 396 bag slots and the battle records; the save's checksum is written again. Checked on public saves, not yet tried in the game
+= ゲーム画面: ゴールドコイン、銀行の金庫、カジノトークン、ちいさなメダル、すべてのワープ先、各パーティメンバーのレベル、経験値、HP、MP、ステータス、スキル属性、396 個のバッグスロット、バトル記録。セーブのチェックサムは書き直されます。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: gold pieces, each character's level, experience, HP, SP and attributes, magic and weapon levels, equipment, the items in each pack, and every learned skill (the PC remaster keeps the PlayStation save block). Checked on a real save, not yet tried in the game
+= ゲーム画面: ゴールドピース、各キャラクターのレベル、経験値、HP、SP、能力値、魔法と武器のレベル、装備、各パックの中身、習得済みのすべてのスキル (PC リマスター版は PlayStation のセーブブロックを保持します)。実際のセーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: gold pieces, each character's level, experience, HP, SP and attributes, magic and weapon levels, equipment, the items in each pack, and every learned skill. Western and Japanese save slots; checked on public saves, not yet tried in the game
+= ゲーム画面: ゴールドピース、各キャラクターのレベル、経験値、HP、SP、能力値、魔法と武器のレベル、装備、各パックの中身、習得済みのすべてのスキル。西洋版と日本版のセーブスロットに対応。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: gold, Bei, chef flames, research and trust points, and every sushi ingredient's stock with a Max crafting materials button (999, the stack the game shows). The save's XOR encryption is removed and put back on save. Checked on public saves, not yet tried in the game
+= ゲーム画面: ゴールド、Bei、シェフの炎、研究ポイントと信頼ポイント、すべての寿司食材のストック (ゲームが表示するスタック数の 999 まで増やす「クラフト素材を最大に」ボタン付き)。セーブの XOR 暗号化は取り除かれ、保存時に元に戻されます。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: gold, Qi Gems, Golden Walnuts, health, energy, skills and farm details, with a Max crafting materials button that fills the wood, stone, fiber, clay, ores, bars and monster loot in the backpack to 999, leaving quest items, minerals and artifacts alone (checked on public 1.5 saves; not yet tried in the game)
+= ゲーム画面: ゴールド、Qi Gems、Golden Walnuts、体力、エネルギー、スキル、農場の詳細。バックパック内の木材、石、繊維、粘土、鉱石、インゴット、モンスターのドロップ品を 999 まで増やす「クラフト素材を最大に」ボタン付きで、クエストアイテム、鉱物、遺物は変更しません (公開された 1.5 のセーブで確認済み。ゲームではまだ試していません)
+
+Game screen: gold, experience, ability scores, hit points, alignment, skills and item stack sizes of the player (the module .sav, with player.bic kept in step) or a vault character (.bic). Not yet tried in the game
+= ゲーム画面: プレイヤー (モジュールの .sav。player.bic も連動して更新) または保管庫キャラクター (.bic) のゴールド、経験値、能力値、ヒットポイント、属性、スキル、アイテムのスタック数。ゲームではまだ試していません
+
+Game screen: gold, gems, facility and weapon materials, and each officer's attack, defence, health and weapon-compatibility stars. The encrypted save is opened and both checksums kept right. Checked on a public save, not yet tried in the game
+= ゲーム画面: ゴールド、ジェム、施設と武器の素材、各武将の攻撃、防御、体力、武器適性の星。暗号化されたセーブを開き、2 つのチェックサムを正しく保ちます。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: gold, gold spent and health from player.xml. Checked on a public save, not yet tried in the game
+= ゲーム画面: player.xml のゴールド、使用したゴールド、体力。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: gold, iron, steel, blood, jotunjarn, the ores and bloodstone, secrets found and finished runs. Plain JSON; checked on a public save, not yet tried in the game
+= ゲーム画面: ゴールド、鉄、鋼、血、jotunjarn、鉱石と bloodstone、発見したシークレット、完了したラン。プレーンな JSON です。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: gold, level, experience, HP, MP, knife and clock upgrades, the seven gems, the abilities and keys, and the shop counters. The save's base64 lines are opened as one list of 1,000 values and written back the same way. Checked on a public save, not yet tried in the game
+= ゲーム画面: ゴールド、レベル、経験値、HP、MP、ナイフと時計のアップグレード、7 つのジェム、アビリティとキー、ショップのカウンター。セーブの base64 の各行は 1,000 個の値からなる 1 つのリストとして開き、同じ形式で書き戻します。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: gold, level, experience, the four attributes and the attribute and passive skill points to spend, difficulty and league, from a character file. Checked on a public save, not yet tried in the game
+= ゲーム画面: キャラクターファイルのゴールド、レベル、経験値、4 つの能力値、使用可能な能力ポイントとパッシブスキルポイント、難易度とリーグ。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: gold, play time, every character's level, experience and bonus experience, and the amounts of ether cylinders, gem crystals and collectibles (by id, up to the game's stack size). Checked on a public save, not yet tried in the game
+= ゲーム画面: ゴールド、プレイ時間、全キャラクターのレベル、経験値、ボーナス経験値、エーテルシリンダー、ジェムクリスタル、収集品の数量 (ID 別、ゲームのスタック上限まで)。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: gold, popularity, karma, experience and the whole inventory (ingredients, crafted potions) with a Max crafting materials button for the plant, mushroom and crystal ingredients. The .pcsave is decoded to JSON and encoded again on save. Checked on a public save, not yet tried in the game
+= ゲーム画面: ゴールド、人気、カルマ、経験値、インベントリ全体 (材料、調合したポーション)。植物、キノコ、クリスタルの材料向けの「クラフト素材を最大に」ボタン付き。.pcsave は JSON にデコードし、保存時に再びエンコードします。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: gold, relic dust, soul, spire shards and every hero's level, experience and skill points. The save container is opened and packed again. Checked on public saves, not yet tried in the game
+= ゲーム画面: ゴールド、レリックダスト、ソウル、スパイアシャード、すべてのヒーローのレベル、経験値、スキルポイント。セーブコンテナーを開き、再び圧縮します。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: gold, rubies, hero souls, ancient souls, zones reached, multipliers and every hero's and outsider's level. The save's base64 and deflate packing is handled. Checked on a public save, not yet tried in the game
+= ゲーム画面: ゴールド、ルビー、ヒーローソウル、エンシェントソウル、到達したゾーン、倍率、すべてのヒーローとアウトサイダーのレベル。セーブの base64 と deflate の圧縮にも対応しています。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: gold, runs, wins, streaks and play time. The JSON held inside the save's strings is opened and written back as strings. Checked on a public sample save, not yet tried in the game
+= ゲーム画面: ゴールド、ラン回数、勝利数、連勝数、プレイ時間。セーブの文字列に含まれる JSON は開き、文字列として書き戻します。公開サンプルのセーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: gold, steps, the party and every actor (level, EXP, HP, SP and stat bonuses) and the items, weapons and armour you carry, by database number. Checked on public To the Moon saves
+= ゲーム画面: ゴールド、歩数、パーティとすべてのアクター (レベル、EXP、HP、SP、ステータスボーナス)、所持しているアイテム、武器、防具 (データベース番号別)。公開されている To the Moon のセーブで確認済み
+
+Game screen: gold, the Dojo's stock EXP, shared skill points and stock weapon mastery, and the lumber, mineral and fabric of the castle (with Max crafting materials); decrypted with your Steam account number and encrypted again on save. Checked on a public save, not yet tried in the game
+= ゲーム画面: ゴールド、道場のストック EXP、共有スキルポイント、ストックされた武器熟練度、城の木材、鉱物、布 (「クラフト素材を最大に」付き)。Steam アカウント番号で復号して開き、保存時に再び暗号化します。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: gold, tickets, hammers, snacks, SP and the spirit board item counts. Checked on a public save, not yet tried in the game
+= ゲーム画面: ゴールド、チケット、ハンマー、おやつ、SP、スピリットボードのアイテム数。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: gold, wood, iron, stone, mana crystals, loan and the day. Checked on a public save, not yet tried in the game
+= ゲーム画面: ゴールド、木材、鉄、石、マナクリスタル、借金、日数。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: gold; each party member's level, experience, action points, health, attribute points and Lumina from Colours of Lumina; each weapon's level; item counts (cosmetics left out), with a Max crafting materials button that fills Chroma Catalysts to 999 (an estimate). Checked on a real save, not yet tried in the game
+= ゲーム画面: ゴールド、各パーティメンバーのレベル、経験値、アクションポイント、体力、能力ポイント、Colours of Lumina の Lumina、各武器のレベル、アイテム数 (コスメティックは対象外)。Chroma Catalyst を 999 まで増やす「クラフト素材を最大に」ボタン付き (推定値)。実際のセーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: green gel, trap parts, weapon upgrade levels for the handgun, shotgun, rifle, magnum and Agony Crossbow, and stat upgrades from inventory.zwei (its checksum is written again on save). Checked on public saves, not yet tried in the game
+= ゲーム画面: グリーンジェル、トラップ部品、ハンドガン、ショットガン、ライフル、マグナム、Agony Crossbow の武器アップグレードレベル、inventory.zwei のステータス強化 (保存時にそのチェックサムが書き直されます)。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: health, armour, ammo by type (9mm, .357, buckshot, uranium and the rest) and each weapon's magazine, changed in place. Values the game left out because they're zero (no armour, an empty magazine) can't be set. Not yet tried in the game
+= ゲーム画面: 体力、アーマー、種類別の弾薬 (9mm、.357、バックショット、ウランなど) と各武器のマガジン。その場で変更します。ゲームが 0 のため省略した値 (アーマーなし、空のマガジン) は設定できません。ゲームではまだ試していません
+
+Game screen: health, armour, flashlight, ammo by type and each weapon's magazine, changed in place. Values the game left out because they're zero (no armour, an empty magazine) can't be set. Not yet tried in the game; the 25th-anniversary build hasn't been checked
+= ゲーム画面: 体力、アーマー、懐中電灯、種類別の弾薬と各武器のマガジン。その場で変更します。ゲームが 0 のため省略した値 (アーマーなし、空のマガジン) は設定できません。ゲームではまだ試していません。25 周年記念ビルドは確認していません
+
+Game screen: health, armour, suit power, ammo by type and each weapon's magazines, changed in place. Values the game left out because they're zero (no armour, an empty magazine) can't be set. Not yet tried in the game; the 20th-anniversary build and Lost Coast saves haven't been checked
+= ゲーム画面: 体力、アーマー、スーツのパワー、種類別の弾薬と各武器のマガジン。その場で変更します。ゲームが 0 のため省略した値 (アーマーなし、空のマガジン) は設定できません。ゲームではまだ試していません。20 周年記念ビルドと Lost Coast のセーブは確認していません
+
+Game screen: health, armour, suit power, ammo by type and each weapon's magazines, changed in place. Values the game left out because they're zero (no armour, an empty magazine) can't be set. Not yet tried in the game; the 20th-anniversary build hasn't been checked
+= ゲーム画面: 体力、アーマー、スーツのパワー、種類別の弾薬と各武器のマガジン。その場で変更します。ゲームが 0 のため省略した値 (アーマーなし、空のマガジン) は設定できません。ゲームではまだ試していません。20 周年記念ビルドは確認していません
+
+Game screen: health, food, XP, game mode, world settings, inventory and ender chest, with a Max crafting materials button that fills the ingots, raw ores, gems, string, leather and other materials already carried to 64, leaving ender pearls, eyes of ender and other progression items alone. The button hasn't been tried in the game yet
+= ゲーム画面: 体力、満腹度、XP、ゲームモード、ワールド設定、インベントリ、エンダーチェスト。すでに所持しているインゴット、原石、宝石、糸、革などの素材を 64 まで増やす「クラフト素材を最大に」ボタン付きで、エンダーパール、エンダーアイ、その他の進行用アイテムは変更しません。このボタンはゲームではまだ試していません
+
+Game screen: health, food, water, sleep, the five skills and the day count. Checked on a public save, not yet tried in the game
+= ゲーム画面: 体力、食料、水、睡眠、5 つのスキル、日数。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: health, hunger, sanity, temperature, time alive and the day count. The base64 and zlib wrapper is removed and put back, and the Lua text inside is edited by name (the whole world opens for Tree editing; profile opens as JSON). Checked on a public save, not yet tried in the game
+= ゲーム画面: 体力、空腹度、正気度、気温、生存時間、日数。base64 と zlib のラップは取り除かれ、保存時に元に戻されます。中の Lua テキストは名前で編集します (ワールド全体はツリー編集で開き、profile は JSON として開きます)。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: health, level, experience and money of each used slot, plus recovery items and materials with a Max crafting materials button (99 each). Slot checksums are written again on save. Checked on a public save, not yet tried in the game
+= ゲーム画面: 使用中の各スロットの体力、レベル、経験値、所持金、さらに回復アイテムと素材 (各 99 まで増やす「クラフト素材を最大に」ボタン付き)。スロットのチェックサムは保存時に書き直されます。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: health, oxygen, food and water with their maximums, the player inventory and every locker, vehicle and storage container, changed in place in the save (checked on a real early-access save; needs the Oodle library of any installed game, the same way the game reads it)
+= ゲーム画面: 体力、酸素、食料、水とそれぞれの最大値、プレイヤーのインベントリとすべてのロッカー、ビークル、収納コンテナー。セーブ内でその場で変更します (実際のアーリーアクセスのセーブで確認済み。ゲームが読み込むのと同じ方法で、インストール済みの任意のゲームの Oodle ライブラリが必要です)
+
+Game screen: health, resin (with a Max crafting materials button that fills it to 999, an estimate), and pistol, shotgun and rapidfire ammo in the backpack, changed in place; the weapons Alyx has are listed. The Load menu keeps showing the old numbers until the game saves again. Not yet tried in the game
+= ゲーム画面: 体力、レジン (999 まで増やす「クラフト素材を最大に」ボタン付き。推定値)、バックパック内のピストル、ショットガン、ラピッドファイアの弾薬。その場で変更します。Alyx が持っている武器が一覧表示されます。ロードメニューは、ゲームが再びセーブするまで古い数値を表示し続けます。ゲームではまだ試していません
+
+Game screen: health, stamina, food and water, reputation, tax, the technology points, the skill levels and every stack in the bag (money is the Coin item), with a Max crafting materials button. Checked on a public save, not yet tried in the game
+= ゲーム画面: 体力、スタミナ、食料と水、評判、税金、テクノロジーポイント、スキルレベル、バッグ内のすべてのスタック (所持金は Coin アイテム)。「クラフト素材を最大に」ボタン付き。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: hearts, hearts offered to Palutena and Viridi, and the play statistics. Checked on a public save, not yet tried in the game
+= ゲーム画面: ハート、パルテナとヴィリディに捧げたハート、プレイ統計。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: hero coins. Checked on a public save, not yet tried in the game
+= ゲーム画面: ヒーローコイン。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: house gold and food, adventure coins and food, the current day and the save's completion percentage from the SQLite save's properties table (the cats' own data stays packed and is kept as it is). Checked on a public save, not yet tried in the game
+= ゲーム画面: 家のゴールドと食料、冒険用のコインと食料、現在の日数、セーブの達成率 (SQLite セーブの properties テーブルから)。猫自身のデータは圧縮されたままで、そのまま保たれます。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: how many episodes of each of the three games are unlocked, the volumes and the window size. Checked on a real save, not yet tried in the game
+= ゲーム画面: 3 つのゲームそれぞれでアンロックされているエピソード数、音量、ウィンドウサイズ。実際のセーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: level and experience (to 40), skill points, gold, moon orbs and ammo; gear is listed (slot, favourite/junk), not edited. Encrypted again on save. Edited saves not yet tried in the game
+= ゲーム画面: レベルと経験値 (40 まで)、スキルポイント、ゴールド、ムーンオーブ、弾薬。ギアは一覧表示のみ (スロット、お気に入り/ジャンク) で、編集はできません。保存時に再び暗号化します。編集したセーブはゲームではまだ試していません
+
+Game screen: level and experience, skill points, money, Eridium, ammo and SDU levels; gear is listed (slot, favourite/junk), not edited. Encrypted again on save. Edited saves not yet tried in the game
+= ゲーム画面: レベルと経験値、スキルポイント、所持金、Eridium、弾薬、SDU レベル。ギアは一覧表示のみ (スロット、お気に入り/ジャンク) で、編集はできません。保存時に再び暗号化します。編集したセーブはゲームではまだ試していません
+
+Game screen: level, XP, hearts and fervour, cult faith, level and doctrine levels, and the inventory by item name, with a Max crafting materials button that fills lumber, stone, bones, grass, planks, stone blocks, gold, crystal shards, spider silk and shells to 999 (an estimate). Checked on a public sample save, not yet tried in the game
+= ゲーム画面: レベル、XP、ハートと熱情、教団の信仰、レベルと教義レベル、アイテム名別のインベントリ。木材、石、骨、草、板、石ブロック、ゴールド、クリスタルの破片、蜘蛛の糸、貝殻を 999 まで増やす「クラフト素材を最大に」ボタン付き (推定値)。公開サンプルのセーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: level, experience, ability points, life and energy cells, keystones, mapstones, deaths, and every skill and ability-tree upgrade to tick on or off; the load menu's copy of life and energy is kept in step. Definitive Edition and the original. Checked on a public save, not yet tried in the game
+= ゲーム画面: レベル、経験値、アビリティポイント、ライフセルとエネルギーセル、キーストーン、マップストーン、死亡回数、オン/オフを切り替えられるすべてのスキルとアビリティツリーのアップグレード。ロードメニュー側のライフとエネルギーのコピーも連動して更新されます。Definitive Edition とオリジナル版に対応。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: level, experience, deaths, respecs and the hardcore and masochist flags of an offline character. The save's EPOCH header is kept. Checked on a public save, not yet tried in the game
+= ゲーム画面: オフラインキャラクターのレベル、経験値、死亡回数、リスペック回数、ハードコアとマゾヒストのフラグ。セーブの EPOCH ヘッダーは保たれます。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: level, experience, fame, gold, unspent points, the four stats, health, mana and item stacks; scrambled again with its checksum. Saves in the older 0x40 format aren't supported. Not yet tried in the game
+= ゲーム画面: レベル、経験値、名声、ゴールド、未使用のポイント、4 つのステータス、体力、マナ、アイテムのスタック。チェックサムとともに再びスクランブルします。旧 0x40 形式のセーブには対応していません。ゲームではまだ試していません
+
+Game screen: level, experience, money, crystal points, perk points, health, mana, rage and every kind of ammunition; weapons and upgrades are in the Tree. Each .bin is a zip whose text is opened and packed again for you. Checked on a public save, not yet tried in the game
+= ゲーム画面: レベル、経験値、所持金、クリスタルポイント、パークポイント、体力、マナ、怒り、すべての種類の弾薬。武器とアップグレードはツリーにあります。各 .bin は zip で、その中のテキストは開き、再び圧縮します。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: level, experience, money, unspent points, the five attributes and skill levels (stash files aren't read). Not yet tried in the game
+= ゲーム画面: レベル、経験値、所持金、未使用のポイント、5 つの能力値、スキルレベル (ストッシュファイルは読み込みません)。ゲームではまだ試していません
+
+Game screen: level, experience, skill points, money, Eridium (Moonstone in The Pre-Sequel; Seraph crystals and Torgue tokens in Borderlands 2), ammo and ammo SDUs; in Borderlands 2 and The Pre-Sequel also the backpack and bank SDUs (with the room they give), weapon slots and playthroughs completed (which opens True and Ultimate Vault Hunter Mode); gear is listed (level, slot), not edited. Packing and checksums are redone on save. Edited saves not yet tried in the game
+= ゲーム画面: レベル、経験値、スキルポイント、所持金、Eridium (The Pre-Sequel では Moonstone。Borderlands 2 では Seraph クリスタルと Torgue トークン)、弾薬と弾薬 SDU。Borderlands 2 と The Pre-Sequel ではさらに、バックパックと銀行の SDU (それによる空き容量付き)、武器スロット、クリア済みのプレイスルー数 (True と Ultimate Vault Hunter Mode が開放されます)。ギアは一覧表示のみ (レベル、スロット) で、編集はできません。圧縮とチェックサムは保存時にやり直されます。編集したセーブはゲームではまだ試していません
+
+Game screen: level, experience, skill points, money, skill levels and ammunition of each character save. Items and weapons are left as they are. Checked on public saves, not yet tried in the game
+= ゲーム画面: 各キャラクターセーブのレベル、経験値、スキルポイント、所持金、スキルレベル、弾薬。アイテムと武器はそのままです。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: level, gold, the eight attributes, all 21 skills and base health; the level is kept equal in the load screen. The save is edited in place, no checksum to keep. Checked on public saves, not yet tried in the game
+= ゲーム画面: レベル、ゴールド、8 つの能力値、全 21 スキル、基本体力。ロード画面のレベルは同じ値に保たれます。セーブはその場で編集し、保つべきチェックサムはありません。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: level, gold, the eight attributes, all 27 skills, health, fatigue and magicka (now and full), and the inventory counts by item id; spells are listed. The save is edited in place, no checksum to keep. Checked on public saves, not yet tried in the game
+= ゲーム画面: レベル、ゴールド、8 つの能力値、全 27 スキル、体力、疲労度、マジカ (現在値と最大値)、アイテム ID 別のインベントリ数。呪文は一覧表示されます。セーブはその場で編集し、保つべきチェックサムはありません。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: level, hit points, skill points and difficulty, and the level and quantity of every carried item, consumable and pet item. The Unreal save holds the character as JSON text, which is opened and written back as that string. Checked on a public save, not yet tried in the game
+= ゲーム画面: レベル、ヒットポイント、スキルポイント、難易度、所持しているすべてのアイテム、消耗品、ペットアイテムのレベルと数量。Unreal のセーブはキャラクターを JSON テキストとして保持しており、その文字列を開いて書き戻します。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: level, money, lives, the charging station and total haul; each player's health and upgrades; the items in the truck and bought in total. Decrypted and encrypted again on save. Checked on a public save, not yet tried in the game
+= ゲーム画面: レベル、所持金、ライフ、充電ステーションと総収益、各プレイヤーの体力とアップグレード、トラック内のアイテムと累計の購入品。復号して開き、保存時に再び暗号化します。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: level, salt, gold, kills, deaths, sanctuary rests, corruption and the playthrough number. Items and the skill tree are not edited yet. Checked on public saves, not yet tried in the game
+= ゲーム画面: レベル、塩、ゴールド、撃破数、死亡回数、聖域での休息回数、腐敗、周回番号。アイテムとスキルツリーはまだ編集できません。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: life and mana, permanent upgrades, inventory, equipment and storage as item grids, with a Max crafting materials button (characters from 1.4.4 on) that fills the ores, bars, gems, woods, monster drops and other materials you already have to 9999, leaving critters, fish and boss summons alone. The button hasn't been tried in the game yet
+= ゲーム画面: ライフとマナ、恒久アップグレード、インベントリ、装備、ストレージ (アイテムのグリッド表示)。すでに持っている鉱石、インゴット、宝石、木材、モンスターのドロップ品、その他の素材を 9999 まで増やす「クラフト素材を最大に」ボタン付き (1.4.4 以降のキャラクター) で、小動物、魚、ボス召喚アイテムは変更しません。このボタンはゲームではまだ試していません
+
+Game screen: magic crystals, ancient blood, chaos cores, the permanent upgrade levels, deaths and play time. The save's XOR key is removed and put back; checked on a public save, not yet tried in the game
+= ゲーム画面: 魔法のクリスタル、古代の血、カオスコア、恒久アップグレードのレベル、死亡回数、プレイ時間。セーブの XOR キーは取り除かれ、元に戻されます。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: meat (money), level, experience, the class and resistances, the stats, skills and perks by name, and the inventory with quantities. Checked on a public save, not yet tried in the game
+= ゲーム画面: 肉 (所持金)、レベル、経験値、クラスと耐性、名前付きのステータス、スキル、パーク、数量付きのインベントリ。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: memento souls, red souls, souls, upgrade levels, health and difficulty. .NET BinaryFormatter, read and written in place; checked on a public save, not yet tried in the game
+= ゲーム画面: メメントソウル、赤いソウル、ソウル、アップグレードレベル、体力、難易度。.NET BinaryFormatter で、その場で読み書きします。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: metal shards and skill points, with level and experience shown. The save's MD5 is made again on save. Checked on public saves of the PC Complete Edition, not yet tried in the game
+= ゲーム画面: 金属の破片とスキルポイント。レベルと経験値も表示されます。セーブの MD5 は保存時に作り直されます。PC Complete Edition の公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: money (both copies kept equal), unused perk points of each skill and statistics. Plain JSON; checked on a public save, not yet tried in the game
+= ゲーム画面: 所持金 (2 つのコピーを同じ値に保ちます)、各スキルの未使用パークポイント、統計。プレーンな JSON です。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: money (both copies), health and armor, fat, stamina, muscle, respect, driving, flying and weapon skills, weapons and ammunition, story line, days passed and a few options; the checksum is rewritten. The 2005 PC release; checked on a public save, not yet tried in the game
+= ゲーム画面: 所持金 (2 つのコピー)、体力とアーマー、脂肪、スタミナ、筋肉、リスペクト、運転、飛行、武器のスキル、武器と弾薬、ストーリー進行、経過日数、いくつかのオプション。チェックサムは書き直されます。2005 年の PC 版です。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: money (both copies), hidden packages and the main statistics (progress, missions, stunt jumps, days, kills); the save's checksum is rewritten. Checked on public saves, not yet tried in the game
+= ゲーム画面: 所持金 (2 つのコピー)、隠しパッケージ、主な統計 (進行度、ミッション、スタントジャンプ、日数、撃破数)。セーブのチェックサムは書き直されます。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: money (both copies), hidden packages and the main statistics (progress, stunt jumps, days, kills); the save's checksum is rewritten. Checked on public saves, not yet tried in the game
+= ゲーム画面: 所持金 (2 つのコピー)、隠しパッケージ、主な統計 (進行度、スタントジャンプ、日数、撃破数)。セーブのチェックサムは書き直されます。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: money (in copper), the crafting room, tavern floor and cellar upgrades, and the inventory and action bar by item id with their stack sizes. Checked on a public save, not yet tried in the game
+= ゲーム画面: 所持金 (銅貨単位)、クラフト部屋、酒場のフロアと地下室のアップグレード、アイテム ID 別のインベントリとアクションバー (スタック数付き)。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: money (leaves) and the eight travellers' level, EXP, JP and current HP/SP, changed in place
+= ゲーム画面: 所持金 (リーフ) と 8 人の旅人のレベル、EXP、JP、現在の HP/SP。その場で変更します
+
+Game screen: money (leaves) and the eight travellers' level, EXP, JP and current HP/SP, changed in place. Read from a sample save; changing them hasn't been tried in the game yet
+= ゲーム画面: 所持金 (リーフ) と 8 人の旅人のレベル、EXP、JP、現在の HP/SP。その場で変更します。サンプルのセーブから読み取っており、変更はゲームではまだ試していません
+
+Game screen: money and exchange points (Steam edition); the save is decrypted and its checksum made again. The old Games for Windows Live save isn't supported. Checked on a public save, not yet tried in the game
+= ゲーム画面: 所持金と交換ポイント (Steam 版)。セーブは復号し、チェックサムを作り直します。旧 Games for Windows Live のセーブには対応していません。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: money and face, cop and triad XP. The save is unscrambled and scrambled again, with its checksum, on save. Checked on public saves and a real save, not yet tried in the game
+= ゲーム画面: 所持金と、面子、警察、三合会の XP。セーブはスクランブルを解除し、保存時にチェックサムとともに再びスクランブルします。公開セーブと実際のセーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: money and the needs (hunger, thirst, fatigue, stress, urine, dirtiness); every other single value of the Easy Save 2 file by name. Checked on a public save, not yet tried in the game
+= ゲーム画面: 所持金と欲求 (空腹、渇き、疲労、ストレス、尿意、汚れ)。Easy Save 2 ファイルのその他の単独の値はすべて名前付きで表示されます。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: money, Adventure level and completions, Crazy Dave's shop, supplies, Survival progress, and the Zen Garden's plants (mini-game and puzzle trophies are on the Values tab). Checked on a real save, not yet tried in the game
+= ゲーム画面: 所持金、アドベンチャーのレベルとクリア回数、Crazy Dave のショップ、物資、サバイバルの進行状況、禅の庭の植物 (ミニゲームとパズルのトロフィーは「値」タブにあります)。実際のセーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: money, HP and Kiryu's five experience pools; decrypted, with its checksum kept right. Checked on real saves, not yet tried in the game
+= ゲーム画面: 所持金、HP、Kiryu の 5 種類の経験値プール。復号して開き、チェックサムを正しく保ちます。実際のセーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: money, camping supplies and each character's experience, attribute and talent points, attributes and skills. The save's zip is repacked; the rest of its data is kept. Checked on a public save, not yet tried in the game
+= ゲーム画面: 所持金、キャンプ用品、各キャラクターの経験値、能力ポイントとタレントポイント、能力値、スキル。セーブの zip は再圧縮され、残りのデータはそのまま保たれます。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: money, coins, Battle Points, badges and the difficulty; every Pokémon in the party and PC boxes (fusions shown with their head and body) with level and Exp. kept in step, nature, shiny, happiness, IVs and EVs, and stats worked out again with the game's own formula; and how many of each item is in the bag. Checked on real saves (game versions 5 and 6), not yet tried in the game
+= ゲーム画面: 所持金、コイン、バトルポイント、バッジ、難易度。パーティと PC ボックスのすべてのポケモン (合体したものは頭と体で表示) のレベルと経験値 (連動して更新)、性格、色違い、なつき度、個体値、努力値、ゲーム自身の計算式で再計算されるステータス、バッグ内の各アイテムの数。実際のセーブ (ゲームバージョン 5 と 6) で確認済みですが、ゲームではまだ試していません
+
+Game screen: money, each ranger's level, XP, hit points, attributes, skills by name and unspent points, item quantities, fame and faction reputation; unpacked (LZF) and packed again on save. Not yet tried in the game
+= ゲーム画面: 所持金、各レンジャーのレベル、XP、ヒットポイント、能力値、名前付きのスキルと未使用ポイント、アイテム数量、名声、勢力の評判。展開 (LZF) し、保存時に再び圧縮します。ゲームではまだ試していません
+
+Game screen: money, experience (with the level it gives), item and material counts, weapon levels, and Max crafting materials. Checked on a real save, not yet tried in the game
+= ゲーム画面: 所持金、経験値 (それに対応するレベル付き)、アイテムと素材の数、武器のレベル、クラフト素材を最大に。実際のセーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: money, experience and skill orbs for each of the five playable characters. The save has no checksum. Checked on a public save, not yet tried in the game
+= ゲーム画面: 操作できる 5 人のキャラクターそれぞれの所持金、経験値、スキルオーブ。このセーブにはチェックサムがありません。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: money, followers and research points (while some are unspent), and the lifetime totals, changed in place in the save's object tree. Checked on public saves, not yet tried in the game
+= ゲーム画面: 所持金、フォロワー、研究ポイント (未使用のものがある間)、通算の合計。セーブのオブジェクトツリー内でその場で変更します。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: money, honor, fame, the Dead Eye meter and consumables (snake oil, moonshine, chewing tobacco, medicine, tonics, bait, horse pills…); weapons, horses and kit listed as owned. Decrypted and encrypted again with its CRC-32. Story, Hardcore and Undead Nightmare saves of the PC release; PS4 and Switch saves use the same format. Checked on real saves, not yet tried in the game
+= ゲーム画面: 所持金、名誉、名声、Dead Eye メーター、消耗品 (スネークオイル、ムーンシャイン、噛みタバコ、薬、強壮剤、餌、馬用の薬など)。武器、馬、装備は所持品として一覧表示されます。復号して開き、CRC-32 とともに再び暗号化します。PC 版のストーリー、Hardcore、Undead Nightmare のセーブに対応し、PS4 と Switch のセーブも同じ形式です。実際のセーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: money, house, work hours, your channel (subscribers, views, status) and every youtuber's needs, skills, levels and experience. The SQLite save is written back as a database. Checked on a public save, not yet tried in the game
+= ゲーム画面: 所持金、家、労働時間、自分のチャンネル (登録者数、再生回数、状態)、すべてのユーチューバーの欲求、スキル、レベル、経験値。SQLite のセーブはデータベースとして書き戻します。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: money, level and experience, from the profile's GlobalData.dat (a .NET BinaryFormatter file, read and written in place). Checked on a public save, not yet tried in the game
+= ゲーム画面: プロフィールの GlobalData.dat (.NET BinaryFormatter のファイルで、その場で読み書き) の所持金、レベル、経験値。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: money, level, XP and scrap, the profile's name, play time and difficulty, the unlocked parking levels, barns and warehouses. Checked on a public save, not yet tried in the game
+= ゲーム画面: 所持金、レベル、XP、スクラップ、プロフィールの名前、プレイ時間、難易度、アンロック済みの駐車レベル、納屋、倉庫。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: money, level, experience, skill points, skill ranks, ammunition and gadget counts from a checkpoint. Checked on a public save, not yet tried in the game
+= ゲーム画面: チェックポイントの所持金、レベル、経験値、スキルポイント、スキルランク、弾薬とガジェットの数。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: money, level, experience, skill points, the four attributes and all 24 skills, from the save's .ntwtf.zip (the zip is repacked with its other files kept). Checked on public saves, not yet tried in the game
+= ゲーム画面: セーブの .ntwtf.zip の所持金、レベル、経験値、スキルポイント、4 つの能力値、全 24 スキル (zip はその他のファイルを保ったまま再圧縮されます)。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: money, level, experience, the chosen rod and gear. Checked on a public save, not yet tried in the game
+= ゲーム画面: 所持金、レベル、経験値、選択中のロッドと装備。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: money, level, experience, unspent attribute/skill/devotion points, attributes, skill ranks, item stacks and faction reputation; decrypted, then encrypted again with fresh checksums. Not yet tried in the game
+= ゲーム画面: 所持金、レベル、経験値、未使用の能力・スキル・信仰ポイント、能力値、スキルランク、アイテムのスタック、勢力の評判。復号して開き、新しいチェックサムとともに再び暗号化します。ゲームではまだ試していません
+
+Game screen: money, level, maximum health and health. The gzip wrapper is removed and put back and every other byte of the save is kept (weapons, parts and skills are not decoded yet). Checked on a public Definitive Edition save, not yet tried in the game
+= ゲーム画面: 所持金、レベル、最大体力、体力。gzip のラップは取り除かれ、元に戻されます。セーブのその他すべてのバイトはそのまま保たれます (武器、パーツ、スキルはまだデコードしていません)。公開されている Definitive Edition のセーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: money, level, maximum health and health. The gzip wrapper is removed and put back and every other byte of the save is kept. Uses the Dead Island layout, which a Definitive Edition sample matched; no Riptide save has been checked yet
+= ゲーム画面: 所持金、レベル、最大体力、体力。gzip のラップは取り除かれ、元に戻されます。セーブのその他すべてのバイトはそのまま保たれます。Dead Island のレイアウトを使用しており、Definitive Edition のサンプルと一致しました。Riptide のセーブはまだ確認していません
+
+Game screen: money, level, prestige and experience, how many of each item you own, item tiers and their unlocks, and the journal's statistics; each value is changed in place and the file encrypted again on save. Checked on public test saves, not yet tried in the game
+= ゲーム画面: 所持金、レベル、プレステージ、経験値、所持している各アイテムの数、アイテムのティアとそのアンロック、ジャーナルの統計。各値はその場で変更し、保存時にファイルを再び暗号化します。公開テストセーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: money, loan limit, experience, skills and ADR classes, each vehicle's fuel, odometer and wear, with buttons to max skills, fill every tank and repair everything. Packed (ScsC) saves are unpacked and packed again with their checksum. Not yet tried on a save of the game itself
+= ゲーム画面: 所持金、ローン上限、経験値、スキルと ADR クラス、各車両の燃料、走行距離、摩耗。スキルをすべて最大にするボタン、すべてのタンクを満タンにするボタン、すべてを修理するボタン付き。圧縮 (ScsC) されたセーブは展開し、チェックサムとともに再び圧縮します。ゲーム本体のセーブではまだ試していません
+
+Game screen: money, loan, difficulty and game rules from careerSavegame.xml (plain XML, every value by name in the Tree). Checked on a public save, not yet tried in the game
+= ゲーム画面: careerSavegame.xml の所持金、ローン、難易度、ゲームルール (プレーンな XML で、すべての値が名前付きでツリーに表示されます)。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: money, loan, difficulty and the farm's totals from careerSavegame.xml (plain XML, every value by name in the Tree). Checked on a public save, not yet tried in the game
+= ゲーム画面: careerSavegame.xml の所持金、ローン、難易度、農場の合計 (プレーンな XML で、すべての値が名前付きでツリーに表示されます)。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: money, prestige and the truck's fuel. Checked on a public save, not yet tried in the game
+= ゲーム画面: 所持金、プレステージ、トラックの燃料。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: money, quest points, the tavern's name and every employee's level and salary. Plain JSON; checked on public saves, not yet tried in the game
+= ゲーム画面: 所持金、クエストポイント、酒場の名前、すべての従業員のレベルと給料。プレーンな JSON です。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: money, rank, experience, the statistics, the difficulty factors and the trucks in the warehouse. The save is JSON followed by a NUL byte, kept as it is. Checked on two real saves, not yet tried in the game
+= ゲーム画面: 所持金、ランク、経験値、統計、難易度の係数、倉庫にあるトラック。セーブは JSON の後ろに NUL バイトが続く形式で、そのまま保たれます。実際のセーブ 2 件で確認済みですが、ゲームではまだ試していません
+
+Game screen: money, smoke bombs, poison, rope darts, arrows, bullets and snares. The save is unscrambled (the account's key is worked out from the file), unpacked and packed again with its block checks. Checked on public saves, not yet tried in the game. The save ends with a 4-byte value that isn't understood yet and is kept as it is
+= ゲーム画面: 所持金、煙幕弾、毒、ロープダーツ、矢、弾丸、罠。セーブのスクランブルを解除し (アカウントのキーはファイルから算出)、展開して、ブロックチェックとともに再び圧縮します。公開セーブで確認済みですが、ゲームではまだ試していません。セーブの末尾には、まだ解析できていない 4 バイトの値があり、そのまま保たれます
+
+Game screen: money, stone, wood, skill points and the current mission. Checked on a public save, not yet tried in the game
+= ゲーム画面: 所持金、石、木材、スキルポイント、現在のミッション。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: money, the three groups of skills and experience, BitNode, karma and HP. Open an exported save (bitburnerSave_*.json); the nested JSON inside it is handled. Checked on a real save, not yet tried in the game
+= ゲーム画面: 所持金、3 つのスキルグループと経験値、BitNode、カルマ、HP。エクスポートしたセーブ (bitburnerSave_*.json) を開いてください。その中の入れ子の JSON にも対応しています。実際のセーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: money; decrypted, with its checksum kept right, and every other value in the Tree. Read, edited and written back on a public save, not yet tried in the game
+= ゲーム画面: 所持金。復号して開き、チェックサムを正しく保ち、その他すべての値はツリーに表示されます。公開セーブで読み込み、編集、書き戻しを確認済みですが、ゲームではまだ試していません
+
+Game screen: munny, difficulty, magic levels, each party member's level, experience, HP, MP and bonuses, and the stock of every item, for each save slot in KHIIFM_WW.png (the slots are the PlayStation 2 Final Mix saves; their checksum and the picture's checksum are written again). Checked on a real save, not yet tried in the game
+= ゲーム画面: KHIIFM_WW.png 内の各セーブスロットのマニー、難易度、魔法レベル、各パーティメンバーのレベル、経験値、HP、MP、ボーナス、すべてのアイテムのストック (スロットは PlayStation 2 Final Mix のセーブで、そのチェックサムと画像のチェックサムは書き直されます)。実際のセーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: munny, difficulty, magic levels, each party member's level, experience, HP, MP and bonuses, and the stock of every item, weapon, armor, accessory, key item and synthesis material, with a Max crafting materials button for the synthesis materials. The save's checksum is written again. USA, Europe, Japanese and Final Mix saves; checked on public saves, not yet tried in the game
+= ゲーム画面: マニー、難易度、魔法レベル、各パーティメンバーのレベル、経験値、HP、MP、ボーナス、すべてのアイテム、武器、防具、アクセサリー、キーアイテム、合成素材のストック。合成素材向けの「クラフト素材を最大に」ボタン付き。セーブのチェックサムは書き直されます。米国版、欧州版、日本版、Final Mix のセーブに対応。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: munny, difficulty, magic levels, the ten party members' level, experience, HP, MP, AP, strength, defense and weapon, and the stock of every item, for each save slot in KHFM_WW.png (the slots are the PlayStation 2 game's own saves; the picture's checksum is written again). Checked on a real save, not yet tried in the game
+= ゲーム画面: KHFM_WW.png 内の各セーブスロットのマニー、難易度、魔法レベル、10 人のパーティメンバーのレベル、経験値、HP、MP、AP、力、防御、武器、すべてのアイテムのストック (スロットは PlayStation 2 版ゲーム自身のセーブで、画像のチェックサムは書き直されます)。実際のセーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: munny, difficulty, magic levels, the ten party members' level, experience, HP, MP, AP, strength, defense and weapon, and the stock of every item, weapon, accessory, key item and synthesis material, with a Max crafting materials button for the synthesis materials (original and Final Mix saves). Checked on public saves, not yet tried in the game
+= ゲーム画面: マニー、難易度、魔法レベル、10 人のパーティメンバーのレベル、経験値、HP、MP、AP、力、防御、武器、すべてのアイテム、武器、アクセサリー、キーアイテム、合成素材のストック。合成素材向けの「クラフト素材を最大に」ボタン付き (オリジナル版と Final Mix のセーブ)。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: name, gold, experience, play time, party members and the item, weapon and armor ids; the save's .NET BinaryFormatter data is opened and written back. Checked on public saves, not yet tried in the game
+= ゲーム画面: 名前、ゴールド、経験値、プレイ時間、パーティメンバー、アイテム、武器、防具の ID。セーブの .NET BinaryFormatter データを開き、書き戻します。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: newbucks (the load screen's copy follows), health, energy, radiation and slime keys, changed in place. Checked on public saves of version 1.4, not yet tried in the game; Slime Rancher 2 isn't read yet
+= ゲーム画面: newbuck (ロード画面側のコピーも連動)、体力、エネルギー、放射線とスライムのキー。その場で変更します。バージョン 1.4 の公開セーブで確認済みですが、ゲームではまだ試していません。Slime Rancher 2 にはまだ対応していません
+
+Game screen: nuggets, wins, deaths and games played, and every agent, item, trait and floor with whether it is unlocked and its cost. Checked on a public unlocks file, not yet tried in the game
+= ゲーム画面: ナゲット、勝利数、死亡回数、プレイしたゲーム数、およびすべてのエージェント、アイテム、特性、フロアのアンロック状況とコスト。公開されているアンロックファイルで確認済みですが、ゲームではまだ試していません
+
+Game screen: one tab per household with its funds and its Sims (names, age, gender). The funds are written back into the game data, which is stored uncompressed, so the file grows; skills and traits aren't mapped. Checked on a real save, not yet tried in the game
+= ゲーム画面: 世帯ごとに 1 つのタブで、その資金と Sim (名前、年齢、性別) を表示します。資金は非圧縮で保存されるゲームデータに書き戻されるため、ファイルが大きくなります。スキルと特性は対応していません。実際のセーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: overall score, masks, levels and weapons unlocked, the hidden puzzle's letters, and each level's rank and high score; the save's file bundle is kept as it was apart from the values you change. Checked on a public save, not yet tried in the game
+= ゲーム画面: 総合スコア、マスク、アンロック済みのレベルと武器、隠しパズルの文字、各レベルのランクとハイスコア。セーブのファイルバンドルは、変更した値以外は元のまま保たれます。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: party gold and reputation; each party member's experience, hit points, levels, abilities, alignment and item stacks or charges (BALDUR.gam); every global variable by name (quest stages, who has joined, story choices)
+= ゲーム画面: パーティのゴールドと評判、各パーティメンバーの経験値、ヒットポイント、レベル、能力、属性、アイテムのスタックまたはチャージ (BALDUR.gam)、すべてのグローバル変数 (クエストの段階、加入した仲間、ストーリー上の選択) を名前付きで表示
+
+Game screen: party gold and reputation; each party member's experience, hit points, levels, abilities, alignment and item stacks or charges (BALDUR.gam, the same layout as Baldur's Gate: EE). No Icewind Dale: EE save has been tried yet
+= ゲーム画面: パーティのゴールドと評判、各パーティメンバーの経験値、ヒットポイント、レベル、能力、属性、アイテムのスタックまたはチャージ (BALDUR.gam。Baldur's Gate: EE と同じレイアウト)。Icewind Dale: EE のセーブはまだ試していません
+
+Game screen: party money, the Warden's and followers' level, experience, attributes and unspent points, approval, backpack stack sizes. Tried on saves from one playthrough; Awakening saves not yet tried
+= ゲーム画面: パーティの所持金、Warden と仲間のレベル、経験値、能力値、未使用のポイント、好感度、バックパックのスタック数。1 周分のセーブで試験済みです。Awakening のセーブはまだ試していません
+
+Game screen: per slot ryo, play time, food, headwear and bodywear, fortune doll pieces, fish, keys, each character's unlock, weapon level and items, the key and miracle items, and every castle's map and boss. Each slot's CRC is made again on save. Checked on public saves, not yet tried in the game
+= ゲーム画面: スロットごとの両、プレイ時間、食料、頭装備と体装備、福人形のかけら、魚、鍵、各キャラクターのアンロック、武器レベルとアイテム、鍵と奇跡のアイテム、すべての城のマップとボス。各スロットの CRC は保存時に作り直されます。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: per slot the location, ryo, armour, weapon level, item, the money given to Kenzo and Kensuke, the Chain Pipe and Underwater Device, plus the language and sound options. The CRC of each block is made again on save; Controller Pak saves (.mpk, .srm) and the Japanese .sra both open. Checked on public saves, not yet tried in the game
+= ゲーム画面: スロットごとの場所、両、鎧、武器レベル、アイテム、Kenzo と Kensuke に渡した金額、Chain Pipe と Underwater Device、さらに言語とサウンドのオプション。各ブロックの CRC は保存時に作り直されます。コントローラパックのセーブ (.mpk、.srm) と日本版の .sra はどちらも開けます。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: permanent upgrade ranks, kills, wins and XP carried over. Plain XML; checked on a public save, not yet tried in the game
+= ゲーム画面: 恒久アップグレードのランク、撃破数、勝利数、引き継がれた XP。プレーンな XML です。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: pg (money), the difficulty, each party member's level, experience, HP and MP, special ability points and the character stat raises, and how many of each item is in the bag; the SAVE header and zlib packing are handled. Checked on a public save, not yet tried in the game
+= ゲーム画面: pg (所持金)、難易度、各パーティメンバーのレベル、経験値、HP、MP、特殊アビリティポイント、キャラクターのステータス上昇、バッグ内の各アイテムの数。SAVE ヘッダーと zlib 圧縮にも対応しています。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: pixels and other currencies, item counts in every bag with a Max crafting materials button (ores, bars, cloth and other base-game materials to 1000), health, energy and food, ship level, crew size and fuel tank, deaths and play time; each value is rewritten on its own and the rest of the file kept. Early-access characters (before 1.0) open with what their older layout has. Checked on a real character save, not yet tried in the game
+= ゲーム画面: ピクセルとその他の通貨、すべてのバッグのアイテム数 (鉱石、インゴット、布など基本ゲームの素材を 1000 まで増やす「クラフト素材を最大に」ボタン付き)、体力、エネルギー、食料、船のレベル、乗組員数、燃料タンク、死亡回数、プレイ時間。各値は個別に書き換えられ、ファイルの残りはそのまま保たれます。アーリーアクセスのキャラクター (1.0 より前) は、古いレイアウトが持つ範囲で開きます。実際のキャラクターセーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: play time, Adol's and Laxia's equipment and every item you hold (by item id). The two checksums are kept right. Checked on public saves, not yet tried in the game
+= ゲーム画面: プレイ時間、Adol と Laxia の装備、所持しているすべてのアイテム (アイテム ID 別)。2 つのチェックサムは正しく保たれます。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: play time, shifts, encounters and each district's experience and duty stars. Plain Unreal GVAS; checked on a public save, not yet tried in the game
+= ゲーム画面: プレイ時間、シフト、遭遇回数、各地区の経験値と任務の星。プレーンな Unreal GVAS です。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: points (P) and every weapon variant and arm you own (generalprogress.bepis); level ranks and secrets in the level files. Checked on public saves, not yet tried in the game
+= ゲーム画面: ポイント (P) と所持しているすべての武器バリエーションとアーム (generalprogress.bepis)。レベルのランクとシークレットはレベルファイルにあります。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: points, games played, play time and play counts, the unlocked characters and menus, each fighter's unlocked costumes and story completions, and the count of every collection item; the collection flags and the save's checksum are written again. Checked on public saves, not yet tried in the game
+= ゲーム画面: ポイント、プレイしたゲーム数、プレイ時間とプレイ回数、アンロック済みのキャラクターとメニュー、各ファイターのアンロック済みコスチュームとストーリークリア、すべてのコレクションアイテムの数。コレクションのフラグとセーブのチェックサムは書き直されます。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: pounds, crafting materials (leather, metal, chemicals, silk) with a Max crafting materials button (9,999, an estimate), smoke bombs, darts, medicine, bullets and voltaic bombs. The save is unscrambled (the account's key is worked out from the file), unpacked and packed again with its block checks. Checked on public saves, not yet tried in the game. The save ends with a 4-byte value that isn't understood yet and is kept as it is
+= ゲーム画面: ポンド、クラフト素材 (革、金属、化学物質、絹。「クラフト素材を最大に」ボタン付き、9,999、推定値)、煙幕弾、ダーツ、薬、弾丸、ボルタイックボム。セーブのスクランブルを解除し (アカウントのキーはファイルから算出)、展開して、ブロックチェックとともに再び圧縮します。公開セーブで確認済みですが、ゲームではまだ試していません。セーブの末尾には、まだ解析できていない 4 バイトの値があり、そのまま保たれます
+
+Game screen: reales, the Jackdaw's wood, metal and cloth (with a Max crafting materials button that fills the hold to 2,000), rum and sugar, and ammunition (smoke bombs, rope darts, bullets, mortar shots, heavy shot, harpoons…). The save is unscrambled (the account's key is worked out from the file), unpacked and packed again with its block checks. Checked on public saves, not yet tried in the game
+= ゲーム画面: レアル、Jackdaw の木材、金属、布 (船倉を 2,000 まで満たす「クラフト素材を最大に」ボタン付き)、ラム酒と砂糖、弾薬 (煙幕弾、ロープダーツ、弾丸、迫撃砲弾、重砲弾、銛など)。セーブのスクランブルを解除し (アカウントのキーはファイルから算出)、展開して、ブロックチェックとともに再び圧縮します。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: reales, the Morrigan's wood, metal, cloth and stone (with a Max crafting materials button that fills the hold to 2,500), tobacco, and ammunition (smoke bombs, rope darts, bullets, mortar shots, heavy shot, burning oil…). The save is unscrambled (the account's key is worked out from the file), unpacked and packed again with its block checks. Checked on public saves, not yet tried in the game
+= ゲーム画面: レアル、Morrigan の木材、金属、布、石 (船倉を 2,500 まで満たす「クラフト素材を最大に」ボタン付き)、タバコ、弾薬 (煙幕弾、ロープダーツ、弾丸、迫撃砲弾、重砲弾、燃える油など)。セーブのスクランブルを解除し (アカウントのキーはファイルから算出)、展開して、ブロックチェックとともに再び圧縮します。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: rosaries, shell shards, masks, silk, needle, abilities, crests, tools and items; decrypted and encrypted again on save. Not yet tried in the game
+= ゲーム画面: ロザリオ、殻の破片、マスク、絹、針、アビリティ、紋章、道具、アイテム。復号して開き、保存時に再び暗号化します。ゲームではまだ試していません
+
+Game screen: rupees, monster parts, max hearts and stamina, Korok seeds, boss counts, play time, and the amounts of materials (with a Max crafting materials button at the game's 999 limit), food and arrows by name. Wii U and Switch saves of any game version. Checked on a public save, not yet tried in the game
+= ゲーム画面: ルピー、モンスターの素材、最大ハートとスタミナ、コログの実、ボスの討伐数、プレイ時間、素材の数 (ゲームの上限 999 まで増やす「クラフト素材を最大に」ボタン付き)、料理と矢 (名前付き)。ゲームバージョンを問わず Wii U と Switch のセーブに対応。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: score, lives, level, health, mana, the four stats, points to spend and every weapon's ammunition. Checked on a public save, not yet tried in the game
+= ゲーム画面: スコア、ライフ、レベル、体力、マナ、4 つのステータス、使用可能なポイント、すべての武器の弾薬。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: scrap, Profit Factor, the Navigator's insight, difficulty settings and reputation with each faction; every other value is in the Tree. Read from the same save family as the Pathfinder games; no Rogue Trader save has been tried yet
+= ゲーム画面: スクラップ、Profit Factor、Navigator の洞察、難易度設定、各勢力との評判。その他のすべての値はツリーにあります。Pathfinder ゲームと同じセーブ系統から読み取っており、Rogue Trader のセーブはまだ試していません
+
+Game screen: scrap, weapon parts and medpacks, the Ark's artifact points, population and levels, the squad level, and each squad member's level, XP, health, sanity and mutation points, with a Max crafting materials button for scrap and weapon parts. Checked on a public save, not yet tried in the game
+= ゲーム画面: スクラップ、武器パーツ、メドパック、Ark のアーティファクトポイント、人口とレベル、分隊レベル、各分隊メンバーのレベル、XP、体力、正気度、ミューテーションポイント。スクラップと武器パーツ向けの「クラフト素材を最大に」ボタン付き。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: scrap. The save's scrambling is undone and redone and its check value is kept valid (both copies of the value are written); the rest of the save is kept. Checked on a public save, not yet tried in the game. Steam Cloud restores old saves over edited ones, so switch it off for the game
+= ゲーム画面: スクラップ。セーブのスクランブルを解除して再び適用し、チェック値は有効に保たれます (値の 2 つのコピーの両方に書き込みます)。セーブのその他の部分はそのまま保たれます。公開セーブで確認済みですが、ゲームではまだ試していません。Steam Cloud は編集済みのセーブを古いセーブで上書きして復元するため、このゲームではオフにしてください
+
+Game screen: settings, mods and each civilisation (human or AI, whose turn it is); gold and the map are in the packed part and aren't mapped
+= ゲーム画面: 設定、Mod、各文明 (人間か AI か、誰のターンか)。ゴールドとマップは圧縮された部分にあり、対応していません
+
+Game screen: shark level, play time and story progress. The save's extra data after the properties is kept. Checked on a public save, not yet tried in the game. Steam Cloud can restore old saves over edited ones
+= ゲーム画面: サメのレベル、プレイ時間、ストーリーの進行状況。プロパティの後ろにあるセーブの追加データは保たれます。公開セーブで確認済みですが、ゲームではまだ試していません。Steam Cloud は編集済みのセーブを古いセーブで上書きして復元することがあります
+
+Game screen: silver, health, stamina, mana, hunger, thirst, sleep and the burnt (reduced maximum) vitals of the character. The gzip-compressed XML is unpacked and packed again; checked on a public save, not yet tried in the game
+= ゲーム画面: キャラクターのシルバー、体力、スタミナ、マナ、空腹、渇き、睡眠、焼け付き (最大値が減少) のバイタル。gzip 圧縮された XML は展開し、再び圧縮します。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: skill points (unspent and total), stims, health and Force upgrades, secrets and map progress, deaths. The zlib-packed actor records are opened and packed again on save. Checked on public saves, not yet tried in the game
+= ゲーム画面: スキルポイント (未使用と合計)、スティム、体力とフォースの強化、シークレットとマップの進行状況、死亡回数。zlib で圧縮されたアクターレコードは開いて、保存時に再び圧縮します。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: skill points, experience, level and inventory amounts of each character, the crafting resource store and the safehouse storage, with a Max crafting materials button. Items are named from their game ids. Checked on a public save, not yet tried in the game
+= ゲーム画面: 各キャラクターのスキルポイント、経験値、レベル、インベントリの数量、クラフト資源のストックとセーフハウスの保管庫。「クラフト素材を最大に」ボタン付き。アイテムはゲーム内 ID から名前を付けています。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: souls, coins, keys, health potions, the horsemen's powers, and the wrath and health shards of Strife and War. Checked on a public save, not yet tried in the game
+= ゲーム画面: ソウル、コイン、鍵、体力ポーション、騎士たちの力、Strife と War の怒りと体力のシャード。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: spending cash, offshore account, level, infamy rank and points, skill points and Continental coins. The save's XOR encryption, block checksums and final hash are handled for you. Checked on a public save, not yet tried in the game
+= ゲーム画面: 使用可能な現金、オフショア口座、レベル、悪名ランクとポイント、スキルポイント、Continental コイン。セーブの XOR 暗号化、ブロックチェックサム、最終ハッシュは自動で処理されます。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: stardust, spent stardust, completed reveries and the preferred traveler and difficulty from the profile file, and the mastery level, mastery points and record of every traveler from the stats file. The unlocked items are in an encrypted file that is not opened. Checked on public saves, not yet tried in the game
+= ゲーム画面: プロフィールファイルのスターダスト、使用済みスターダスト、完了した夢想、優先するトラベラーと難易度、および stats ファイルのすべてのトラベラーのマスタリーレベル、マスタリーポイント、記録。アンロック済みのアイテムは暗号化されたファイルにあり、開きません。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: stats, gold, EXP, items, phone and equipment (by name), and the route record (kills per area, Genocide and Pacifist flags, boss outcomes); every line of the file can be edited. Not yet tried in the game
+= ゲーム画面: ステータス、ゴールド、EXP、アイテム、携帯電話、装備 (名前別)、ルートの記録 (エリアごとの撃破数、Genocide と Pacifist のフラグ、ボスの結果)。ファイルのすべての行を編集できます。ゲームではまだ試していません
+
+Game screen: strawberries, deaths and other totals, chapters unlocked, the assist options, and each chapter's cassette, completion, full clear and heart for the A, B and C sides. Checked on a real save, not yet tried in the game
+= ゲーム画面: イチゴ、死亡回数などの合計、アンロック済みのチャプター、アシストオプション、A、B、C サイドそれぞれの各チャプターのカセット、クリア、フルクリア、ハート。実際のセーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: studs (every wallet field written together) and play time; the encryption is handled for you and everything else is in the Tree. Not yet tried in the game
+= ゲーム画面: スタッド (すべてのウォレット欄をまとめて書き込み) とプレイ時間。暗号化は自動で処理され、その他はすべてツリーにあります。ゲームではまだ試していません
+
+Game screen: supplies, flowers, Ghost Flowers, bamboo, yew wood, wax wood, iron, steel, gold, linen, leather, silk and predator hides with a Max crafting materials button, and technique points to spend; the legend earned on Tsushima and Iki Island is shown. The save's checksum is made again on save. Checked on public saves, not yet tried in the game
+= ゲーム画面: 物資、花、Ghost Flower、竹、イチイ材、蝋木、鉄、鋼、ゴールド、リネン、革、絹、捕食動物の毛皮 (「クラフト素材を最大に」ボタン付き)、使用可能な技ポイント。対馬と壱岐島で獲得した伝説が表示されます。セーブのチェックサムは保存時に作り直されます。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: the Grand Prix cups (bronze to gold) of all four classes, the Time Trial records of all sixteen courses (five places and the best lap, each with its character and time) and the sound mode. The game's own sums and its best-records list are kept right. Checked on public saves, not yet tried in the game
+= ゲーム画面: 4 つのクラスすべてのグランプリカップ (ブロンズからゴールド)、16 コースすべてのタイムトライアル記録 (5 位までとベストラップ。それぞれキャラクターとタイム付き)、サウンドモード。ゲーム自身の合計値とベスト記録リストは正しく保たれます。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: the Watcher's level, health, experience, souls and healing charges, the record, and every daemon's rank and soul count. Checked on a public save, not yet tried in the game
+= ゲーム画面: Watcher のレベル、体力、経験値、ソウル、回復チャージ、記録、すべてのデーモンのランクとソウル数。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: the account balance, total money earned and orders finished. Large files take a moment to open. Checked on a public save, not yet tried in the game
+= ゲーム画面: 口座残高、総獲得金額、完了した注文数。大きなファイルは開くのに少し時間がかかります。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: the bank balance, play time and the main prison settings, changed in place in the (often very large) text save. Checked on public saves, not yet tried in the game
+= ゲーム画面: 銀行残高、プレイ時間、刑務所の主な設定。(非常に大きいことが多い) テキスト形式のセーブ内でその場で変更します。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: the best rating, best time and times completed of every mission (LevelStats.sav). Plain Unreal GVAS; the other files (roster, unlock tags) open for Tree editing. Checked on a public save, not yet tried in the game
+= ゲーム画面: 各ミッションのベスト評価、ベストタイム、クリア回数 (LevelStats.sav)。プレーンな Unreal GVAS です。その他のファイル (ロスター、アンロックタグ) はツリー編集で開きます。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: the budget, ingredient points, restaurant level, rating, seats and city map points. Checked on a public save, not yet tried in the game
+= ゲーム画面: 予算、食材ポイント、レストランのレベル、評価、座席数、街のマップポイント。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: the builder's level, experience, hit points, attack and defence, the mini medals, equipment, and the item ids and quantities of the pockets and the bag, from the slot's CMNDAT.BIN (the compressed data is opened and re-sealed for you). The island files are not opened. Checked on a public save, not yet tried in the game
+= ゲーム画面: スロットの CMNDAT.BIN にある、ビルダーのレベル、経験値、ヒットポイント、攻撃力と防御力、ちいさなメダル、装備、ポケットとバッグのアイテム ID と数量 (圧縮データは自動で開き、再び封じられます)。島のファイルは開きません。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: the caravan's renown, supplies, morale and counts and a table of each hero's rank, kills and stat bonuses. Checked on a public save, not yet tried in the game
+= ゲーム画面: キャラバンの名声、物資、士気、人数、および各ヒーローのランク、撃破数、ステータスボーナスの表。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: the character's skill experience, ancient coins, maximum health and the inventory counts (items named as far as the public sample shows them). Plain JSON; checked on a public save, not yet tried in the game
+= ゲーム画面: キャラクターのスキル経験値、古代コイン、最大体力、インベントリの数 (アイテム名は公開サンプルで判明している範囲で表示)。プレーンな JSON です。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: the day, time played, time of day, weather and the radio tower flag of a world (.rgd). .NET BinaryFormatter, read and written in place; every other value of the world opens for Tree editing. Checked on a public save, not yet tried in the game
+= ゲーム画面: ワールド (.rgd) の日数、プレイ時間、時刻、天気、ラジオ塔のフラグ。.NET BinaryFormatter で、その場で読み書きします。ワールドのその他すべての値はツリー編集で開きます。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: the difficulty rank points, New Game+ count and game time, every item and currency by its game code with its quantity, each weapon's level and unlock, and the perks. Items, weapons and perks use the game's codes because its text files aren't read. Checked on real saves and in the game. Close the game and turn Steam Cloud off for it first, or Steam may bring the old save back
+= ゲーム画面: 難易度ランクポイント、New Game+ の回数、ゲーム時間、すべてのアイテムと通貨 (ゲーム内コード別、数量付き)、各武器のレベルとアンロック、パーク。ゲームのテキストファイルは読み込まないため、アイテム、武器、パークはゲームのコードで表示されます。実際のセーブとゲームで確認済みです。先にゲームを終了し、そのゲームの Steam Cloud をオフにしてください。そうしないと Steam が古いセーブを戻すことがあります
+
+Game screen: the difficulty, each officer's playable flag, life, Musou, attack, defense, experience and weapon experience, and the level of every item; the checksum is rewritten. Checked on a public save, not yet tried in the game
+= ゲーム画面: 難易度、各武将の使用可能フラグ、ライフ、無双、攻撃、防御、経験値、武器経験値、すべてのアイテムのレベル。チェックサムは書き直されます。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: the driver's health, food, water and sleep, the distance driven and the world time, from the .tlds save (a .NET BinaryFormatter file, read and written in place). Checked on a public save, not yet tried in the game
+= ゲーム画面: .tlds セーブ (.NET BinaryFormatter のファイルで、その場で読み書き) のドライバーの体力、食料、水、睡眠、走行距離、ワールド時間。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: the estate (gold, busts, portraits, deeds, crests, blueprints, shards) how many of each trinket and estate item it holds, and the roster (each hero's resolve XP, stress, HP, weapon and armour rank, skill upgrade levels), changed in place. Open persist.estate.json or persist.roster.json; the profile's other files show in Values
+= ゲーム画面: 領地 (ゴールド、胸像、肖像画、権利書、紋章、設計図、破片) が持つ各トリンケットと領地アイテムの数と、ロスター (各ヒーローの決意 XP、ストレス、HP、武器と防具のランク、スキル強化レベル) をその場で変更します。persist.estate.json または persist.roster.json を開いてください。プロフィールのその他のファイルは「値」に表示されます
+
+Game screen: the everything-unlocked switch, the VS and sound options, each cup's Grand Prix progress, the cups won with all thirty machines in every class, the Time Attack times (five places and the best lap) of all twenty-four courses and the Death Race time. Every block's sum is made again on save; the emulator's .sra and .srm saves open with their words swapped or not. Checked on public saves, not yet tried in the game
+= ゲーム画面: 全アンロックのスイッチ、VS とサウンドのオプション、各カップのグランプリの進行状況、全クラスで 30 台すべてのマシンで獲得したカップ、全 24 コースのタイムアタックのタイム (5 位までとベストラップ)、デスレースのタイム。各ブロックの合計値は保存時に作り直されます。エミュレーターの .sra と .srm のセーブはワード入れ替えの有無にかかわらず開きます。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: the faction's cats (quick.save) and, in each squad's .platoon file, every member's attributes and skills, the health of each body part, blood, hunger, bleeding, lost or robotic limbs and the dead, unconscious and coma flags, with a button to max everyone's stats. Checked on public saves, not yet tried in the game
+= ゲーム画面: 勢力のネコ (quick.save) と、各分隊の .platoon ファイル内にある全メンバーの能力値とスキル、各部位の体力、血液、空腹、出血、失った手足や義肢、死亡・気絶・昏睡のフラグ。全員のステータスを最大にするボタン付き。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: the farm's money and loan from farms.xml, and difficulty, game rules and play time from careerSavegame.xml (plain XML, every value by name in the Tree). Checked on a public save, not yet tried in the game
+= ゲーム画面: farms.xml の農場の所持金とローン、および careerSavegame.xml の難易度、ゲームルール、プレイ時間 (プレーンな XML で、すべての値が名前付きでツリーに表示されます)。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: the farm's money and loan from farms.xml, and difficulty, game rules and play time from careerSavegame.xml; vehicles, fields, placeables and the environment in the Tree. Each savegame is a folder of XML files
+= ゲーム画面: farms.xml の農場の所持金とローン、および careerSavegame.xml の難易度、ゲームルール、プレイ時間。車両、フィールド、設置物、環境はツリーにあります。各セーブデータは XML ファイルのフォルダーです
+
+Game screen: the funds from LIGLOB.DAT in a save slot folder (GAME_1 to GAME_10); the other .DAT files are not edited yet. Checked on a public save, not yet tried in the game
+= ゲーム画面: セーブスロットフォルダー (GAME_1 から GAME_10) 内の LIGLOB.DAT の資金。その他の .DAT ファイルはまだ編集できません。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: the funds from LIGLOB.DAT in a save slot folder (GAME_1 to GAME_10); the other .DAT files are not edited yet. Not yet checked on a save of this game (the file is the same as in Terror from the Deep)
+= ゲーム画面: セーブスロットフォルダー (GAME_1 から GAME_10) 内の LIGLOB.DAT の資金。その他の .DAT ファイルはまだ編集できません。このゲームのセーブではまだ確認していません (ファイルは Terror from the Deep と同じです)
+
+Game screen: the gold and the materials you own (with Max crafting materials, 9,999 each) in each of the nine campaign slots; all encrypted blocks and their seeds are rewritten. Checked on a public save, not yet tried in the game
+= ゲーム画面: 9 つのキャンペーンスロットそれぞれの所持ゴールドと素材 (「クラフト素材を最大に」付き、各 9,999)。すべての暗号化ブロックとそのシードは書き直されます。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: the hero's gold, morality, renown level and age. The save's packing and checksum are undone and made again on save. Checked on public saves, not yet tried in the game
+= ゲーム画面: 主人公のゴールド、道徳値、名声レベル、年齢。セーブの圧縮とチェックサムは解除され、保存時に作り直されます。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: the level you have reached, every gem, both keys and the volumes; the gem and key counts, the completion rate and the checksum are written again. Checked on public saves, not yet tried in the game
+= ゲーム画面: 到達したレベル、すべてのジェム、2 つの鍵、音量。ジェムと鍵の数、達成率、チェックサムは書き直されます。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: the loop counters, marshmallows eaten, the launch codes and the Eye of the Universe warp (plain JSON; ship log and signals in the Tree). Checked on a real save, not yet tried in the game
+= ゲーム画面: ループのカウンター、食べたマシュマロの数、発射コード、Eye of the Universe へのワープ (プレーンな JSON。船のログと信号はツリーにあります)。実際のセーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: the options and unlocked endings, and for every save slot in the file the difficulty, health, save and continue counts, shooting statistics and the whole inventory with item and quantity; the checksums are written again. Checked on public saves, not yet tried in the game
+= ゲーム画面: オプションとアンロック済みのエンディング、およびファイル内のすべてのセーブスロットの難易度、体力、セーブ回数とコンティニュー回数、射撃の統計、アイテムと数量を含むインベントリ全体。チェックサムは書き直されます。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: the park's cash, bank loan, maximum loan and entrance fee from a saved park (.SV6); the park's chunk is unpacked and packed again with the file's sum written right, and the scrambled cash is handled for you. Checked on public parks, not yet tried in the game
+= ゲーム画面: 保存されたパーク (.SV6) のパークの所持金、銀行ローン、最大ローン、入場料。パークのチャンクは展開し、ファイルの合計値を正しく書き込んで再び圧縮します。スクランブルされた所持金は自動で処理されます。公開パークで確認済みですが、ゲームではまだ試していません
+
+Game screen: the party's coppers; the Nameless One's and each companion's experience, level, hit points, abilities, alignment and item stacks (BALDUR.gam, same layout as the other Enhanced Editions); every global variable by name (quest stages, story choices). Checked on real saves, not yet tried in the game
+= ゲーム画面: パーティの銅貨、Nameless One と各仲間の経験値、レベル、ヒットポイント、能力、属性、アイテムのスタック (BALDUR.gam。他の Enhanced Edition と同じレイアウト)、すべてのグローバル変数 (クエストの段階、ストーリー上の選択) を名前付きで表示します。実際のセーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: the party's level and experience, gold and deaths. The length-prefixed JSON is unpacked and packed again for you; checked on a public save, not yet tried in the game
+= ゲーム画面: パーティのレベルと経験値、ゴールド、死亡回数。長さ前置の JSON は自動で展開し、再び圧縮します。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: the player and party members (attributes, skills, HP and Force points, XP) and how many of each item the party carries from SAVEGAME.sav; every story variable (the global flags and numbers: choices and quest steps, by the game's own names) from GLOBALVARS.res; credits, party XP and (KOTOR II) influence, components and chemicals from PARTYTABLE.res, with a Max crafting materials button that fills KOTOR II's components and chemicals to 9999 (an estimate). Not yet tried in the game
+= ゲーム画面: SAVEGAME.sav のプレイヤーとパーティメンバー (能力値、スキル、HP とフォースポイント、XP) およびパーティが所持している各アイテムの数、GLOBALVARS.res のすべてのストーリー変数 (グローバルのフラグと数値: 選択とクエストの段階。ゲーム自身の名前で表示)、PARTYTABLE.res のクレジット、パーティ XP、(KOTOR II では) 影響力、コンポーネント、化学物質。KOTOR II のコンポーネントと化学物質を 9999 まで増やす「クラフト素材を最大に」ボタン付き (推定値)。ゲームではまだ試していません
+
+Game screen: the player's and the station's money, popularity and station level. Plain Unreal GVAS; checked on public saves, not yet tried in the game
+= ゲーム画面: プレイヤーとステーションの所持金、人気、ステーションレベル。プレーンな Unreal GVAS です。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: the player's credits, written to all three places the save keeps them (info line, player faction account, statistics); everything else in the XML tree. Opens the .xml.gz directly and packs it again. Not yet tried on a save of the game itself
+= ゲーム画面: プレイヤーのクレジット。セーブが保持する 3 か所 (情報行、プレイヤー勢力の口座、統計) すべてに書き込みます。その他はすべて XML ツリーにあります。.xml.gz を直接開き、再び圧縮します。ゲーム本体のセーブではまだ試していません
+
+Game screen: the quantity of every weapon, costume, accessory, bullet and material in the inventory, with item names. The save is AES-256 encrypted blocks (with an HMAC at the end in newer versions), opened and re-sealed for you. Checked on a public save, not yet tried in the game
+= ゲーム画面: インベントリ内のすべての武器、コスチューム、アクセサリー、弾丸、素材の数量 (アイテム名付き)。セーブは AES-256 で暗号化されたブロックで (新しいバージョンでは末尾に HMAC あり)、自動で開き、再び封じられます。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: the script variables of the save (chapter, quest and story flags) and the dialogue flags, edited in place; character attributes and items are in WORLD.SAV and are not covered. Checked on public saves, not yet tried in the game
+= ゲーム画面: セーブのスクリプト変数 (チャプター、クエスト、ストーリーのフラグ) とダイアログのフラグをその場で編集します。キャラクターの能力値とアイテムは WORLD.SAV にあり、対象外です。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: the squad's experience, each trooper's experience, kills, injuries and mission results, the doctrine points and the stars used. Checked on a public save, not yet tried in the game
+= ゲーム画面: 分隊の経験値、各隊員の経験値、撃破数、負傷、ミッション結果、教義ポイント、使用した星。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: the stash resources (carbon, silicon, aluminium, alien alloy) with a Max crafting materials button (9,999, an estimate), the bag's items and the completion percentage. Checked on a public save, not yet tried in the game
+= ゲーム画面: 保管庫の資源 (炭素、シリコン、アルミニウム、エイリアン合金。「クラフト素材を最大に」ボタン付き、9,999、推定値)、バッグのアイテム、達成率。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: the stud counter (the save's checksum is rewritten). Checked on public saves, not yet tried in the game
+= ゲーム画面: スタッドカウンター (セーブのチェックサムは書き直されます)。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: the stud counter (the save's checksum is rewritten, and CODE.BIN beside LSW.BIN is rewritten with it). Checked on public saves, not yet tried in the game
+= ゲーム画面: スタッドカウンター (セーブのチェックサムは書き直され、LSW.BIN の隣にある CODE.BIN も一緒に書き直されます)。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: the stud wallet (the game keeps it in several places in the save; all are written, and it has no checksum). Checked on public saves, not yet tried in the game
+= ゲーム画面: スタッドウォレット (ゲームはセーブ内の複数の場所に保持しており、すべてに書き込みます。チェックサムはありません)。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: the stud wallet (the game saves it twice; both copies are written). Open COLLECTABLES.BLOB in a SLOTn folder. Checked on a public 100% save, not yet tried in the game
+= ゲーム画面: スタッドウォレット (ゲームは 2 回保存するため、両方のコピーに書き込みます)。SLOTn フォルダー内の COLLECTABLES.BLOB を開いてください。公開されている 100% セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: the stud wallet (the save has no checksum). Checked on public saves, not yet tried in the game
+= ゲーム画面: スタッドウォレット (このセーブにはチェックサムがありません)。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: the stud wallet (the save keeps five copies of it; all are written, and it has no checksum). Checked on public saves, not yet tried in the game
+= ゲーム画面: スタッドウォレット (セーブは 5 つのコピーを保持しており、すべてに書き込みます。チェックサムはありません)。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: the unlocked characters, costumes, modes and movies, the characters the arcade mode was completed with, the Tekken Force key and high score, the game options and each character's arcade and versus statistics; the save's scrambling and checksum are written again. Checked on public saves, not yet tried in the game
+= ゲーム画面: アンロック済みのキャラクター、コスチューム、モード、ムービー、アーケードモードをクリアしたキャラクター、Tekken Force のキーとハイスコア、ゲームオプション、各キャラクターのアーケードと対戦の統計。セーブのスクランブルとチェックサムは書き直されます。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: the unlocked characters, the characters the arcade mode was completed with and the game options. Checked on public saves, not yet tried in the game
+= ゲーム画面: アンロック済みのキャラクター、アーケードモードをクリアしたキャラクター、ゲームオプション。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: the unlocked characters, the characters the arcade mode was completed with, the game options and each character's arcade and versus statistics; the save's scrambling and checksum are written again. Checked on public saves, not yet tried in the game
+= ゲーム画面: アンロック済みのキャラクター、アーケードモードをクリアしたキャラクター、ゲームオプション、各キャラクターのアーケードと対戦の統計。セーブのスクランブルとチェックサムは書き直されます。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: the unlocked characters, tracks and menus, and for each of the four adventure slots the world doors and every trophy, relic, CTR token, boss key, gem and N. Oxide challenge (a Gold or Platinum relic also gives the lower ones); the save's checksum is written again. Checked on public saves, not yet tried in the game
+= ゲーム画面: アンロック済みのキャラクター、トラック、メニュー、および 4 つのアドベンチャースロットそれぞれのワールドの扉と、すべてのトロフィー、レリック、CTR トークン、ボスキー、ジェム、N. Oxide チャレンジ (ゴールドまたはプラチナのレリックは下位のものも付与されます)。セーブのチェックサムは書き直されます。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: the unlocked fighters and stage, every fighter's 1P Game, Break the Targets and Board the Platforms records, the 2P records and the options. The game's sum is made again on save; the emulator's .sra and .srm saves open with their words swapped or not. Checked on public saves, not yet tried in the game
+= ゲーム画面: アンロック済みのファイターとステージ、全ファイターの 1P ゲーム、ターゲットをこわせ!、プラットフォームにのれ! の記録、2P の記録、オプション。ゲームの合計値は保存時に作り直されます。エミュレーターの .sra と .srm のセーブはワード入れ替えの有無にかかわらず開きます。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: unlock every achievement, mystery ending, enemy, event and pantheon entry the way the game itself records them (each with its own code), the unlock counts, the last run's character, items and mystery board, and the settings. Checked on a public completed save, not yet tried in the game
+= ゲーム画面: ゲーム自身の記録方法 (それぞれ固有のコード) で、すべての実績、謎のエンディング、敵、イベント、パンテオンの項目をアンロックします。アンロック数、直近のランのキャラクター、アイテム、謎のボード、設定も扱います。クリア済みの公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: war funds, each of the 20 units' job, level, experience, Brave, Faith and equipment, and the count of every weapon, helmet, armor, accessory and item. The save's checksum is written again. Checked on public saves, not yet tried in the game
+= ゲーム画面: 軍資金、20 ユニットそれぞれのジョブ、レベル、経験値、Brave、Faith、装備、すべての武器、ヘルム、防具、アクセサリー、アイテムの数。セーブのチェックサムは書き直されます。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: which campaign missions are marked complete. Checked on a public save, not yet tried in the game
+= ゲーム画面: クリア済みとしてマークされているキャンペーンミッション。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: wrenches, wrenches spent, difficulty, class, player level and the run statistics. Plain Unreal GVAS; checked on a public save, not yet tried in the game
+= ゲーム画面: レンチ、使用済みのレンチ、難易度、クラス、プレイヤーレベル、ランの統計。プレーンな Unreal GVAS です。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: yen, each party member's level, experience, HP and SP, the three social stats and every Social Link rank. Opens Steam saves (decrypted and re-encrypted for you). Checked on public sample saves, not yet tried in the game
+= ゲーム画面: 円、各パーティメンバーのレベル、経験値、HP、SP、3 つの社会ステータス、すべてのソーシャルリンクのランク。Steam のセーブを開きます (自動で復号し、再び暗号化します)。公開サンプルのセーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: your PMC's level, experience, skills, trader standing, health and the roubles, dollars and euros stacks in the stash. The profile is a plain JSON file. Checked on a public profile, not yet tried in the game
+= ゲーム画面: PMC のレベル、経験値、スキル、トレーダーとの評価、体力、保管庫内のルーブル、ドル、ユーロのスタック。プロフィールはプレーンな JSON ファイルです。公開プロフィールで確認済みですが、ゲームではまだ試していません
+
+Game screen: your company's coins (the load screen's total is kept equal) and the rest of its storage by GUID; the save archive and its game data are unpacked and packed again. Checked on a public save, not yet tried in the game
+= ゲーム画面: 会社のコイン (ロード画面の合計も同じ値に保たれます) と、GUID で示されるその他のストレージ。セーブアーカイブとそのゲームデータは展開し、再び圧縮します。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: your country's treasury, prestige, stability, manpower, inflation, war exhaustion and army and navy tradition; every other country by tag in the Tree. Checked on a public save, not yet tried in the game
+= ゲーム画面: 自国の国庫、威信、安定度、人的資源、インフレ、戦争疲弊、陸軍と海軍の伝統。その他すべての国はタグ別にツリーにあります。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: your credits and name from the save. Large files take a few seconds to open. Checked on a public save, not yet tried in the game
+= ゲーム画面: セーブのクレジットと名前。大きなファイルは開くのに数秒かかります。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: your funds and the researcher, scientist, doctor and kill counters. Checked on a public save, not yet tried in the game
+= ゲーム画面: 資金と、研究者、科学者、医師、撃破数のカウンター。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: your gold, each character's HP, stats and equipment, and every inventory slot (materials, weapons, armor, accessories) and element slot. The save's packed data and checksum are written again. Checked on public saves, not yet tried in the game
+= ゲーム画面: ゴールド、各キャラクターの HP、ステータス、装備、すべてのインベントリスロット (素材、武器、防具、アクセサリー) とエレメントスロット。セーブの圧縮データとチェックサムは書き直されます。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: your metal parts, synthetic material, biomaterial, superconductors, chemicals, energy cells and microelectronics with a Max crafting materials button, plus neuropolymer. The save's Oodle data is unpacked and packed again (needs the Oodle library of any game on this PC) and its SHA-1 is made again. Checked on public and real saves, not yet tried in the game
+= ゲーム画面: 金属部品、合成素材、バイオマテリアル、超伝導体、化学物質、エネルギーセル、マイクロエレクトロニクス (「クラフト素材を最大に」ボタン付き)、およびニューロポリマー。セーブの Oodle データは展開して再び圧縮し (このPCにある任意のゲームの Oodle ライブラリが必要)、SHA-1 も作り直します。公開セーブと実際のセーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: your money, with the map, mount, play time and difficulty shown; the save's zlib wrapping is removed and put back. Checked on public saves, not yet tried in the game
+= ゲーム画面: 所持金。マップ、マウント、プレイ時間、難易度も表示されます。セーブの zlib ラップは取り除かれ、元に戻されます。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screen: zeni, every unlockable character and form, and the count of every Z-item and Dragon Ball (Budokai Tenkaichi 2 and Sparking! NEO); the obtained flags and the save's checksum are written again. Checked on public saves, not yet tried in the game
+= ゲーム画面: ゼニー、アンロック可能なすべてのキャラクターとフォーム、すべての Z アイテムとドラゴンボールの数 (Budokai Tenkaichi 2 と Sparking! NEO)。入手済みフラグとセーブのチェックサムは書き直されます。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Game screens for PlayerStateSaveData.json (health, stamina, hydration, rest, strength) and PlayerInventorySaveData.json (items carried by name), with a Max crafting materials button that fills logs, sticks, rocks, bones, cloth, wire, rope, leaves and other materials to the game's own carrying limits. The JSON held inside the save's strings is opened and written back as strings. Checked on a public sample save, not yet tried in the game
+= PlayerStateSaveData.json (体力、スタミナ、水分、休息、筋力) と PlayerInventorySaveData.json (所持品を名前別に表示) のゲーム画面。丸太、棒、石、骨、布、ワイヤー、ロープ、葉、その他の素材をゲーム自身の携行上限まで増やす「クラフト素材を最大に」ボタン付き。セーブの文字列に含まれる JSON は開き、文字列として書き戻します。公開サンプルのセーブで確認済みですが、ゲームではまだ試していません
+
+Game screens for the save's own files: Money.json (bank balance, net worth, lifetime earnings), Rank.json (rank, tier, XP), Time.json (days, time of day) and Game.json (organisation name, seed, console). Checked on a public sample save, not yet tried in the game
+= セーブ自身のファイルごとのゲーム画面: Money.json (銀行残高、純資産、通算収益)、Rank.json (ランク、ティア、XP)、Time.json (日数、時刻)、Game.json (組織名、シード、コンソール)。公開サンプルのセーブで確認済みですが、ゲームではまだ試していません
+
+GameSaveData<n>.sav (0 is the autosave)
+= GameSaveData<n>.sav (0 はオートセーブ)
+
+GameSave_00_GD.sav (one per slot: 00, 01, 02)
+= GameSave_00_GD.sav (スロットごとに 1 つ: 00、01、02)
+
+HK GameSlot 1 ... , HK Autosave Slot (no extension)
+= HK GameSlot 1 ... 、HK Autosave Slot (拡張子なし)
+
+HL-00-00.sav … (needs the downloaded app, not the browser version)
+= HL-00-00.sav … (ダウンロード版アプリが必要です。ブラウザー版では不可)
+
+Hex view and Value search (find a number you know, then change it)
+= 16進ビューと値の検索 (知っている数値を探してから変更します)
+
+Hex view and Value search for the games without their own screen (Valhalla and later need a decoder that isn't built yet; Brotherhood to Odyssey have game screens)
+= 専用のゲーム画面がないゲーム向けの 16進ビューと値の検索 (Valhalla 以降は未対応のデコーダーが必要です。Brotherhood から Odyssey にはゲーム画面があります)
+
+Inside each game's folder (Steam games are found in steamapps\\common)
+= 各ゲームのフォルダー内 (Steam のゲームは steamapps\common にあります)
+
+Inside each game's folder: www\\save (MV) or save (MZ); Steam games are found in steamapps\\common
+= 各ゲームのフォルダー内: www\save (MV) または save (MZ)。Steam のゲームは steamapps\common にあります
+
+KHFM_WW.png (every slot in one file)
+= KHFM_WW.png (すべてのスロットが 1 ファイルに入っています)
+
+KHIIFM_WW.png (every slot in one file)
+= KHIIFM_WW.png (すべてのスロットが 1 ファイルに入っています)
+
+LBAL.save (the run in progress)
+= LBAL.save (進行中のラン)
+
+LCSaveFile1 … LCSaveFile3 (one per save slot), LCGeneralSaveData
+= LCSaveFile1 … LCSaveFile3 (セーブスロットごとに 1 つ)、LCGeneralSaveData
+
+LIGLOB.DAT (and the other .DAT files)
+= LIGLOB.DAT (およびその他の .DAT ファイル)
+
+Meta.sav (with SaveState.sav beside it)
+= Meta.sav (隣に SaveState.sav があります)
+
+Money.json, Rank.json, Time.json, Game.json (open one file at a time)
+= Money.json、Rank.json、Time.json、Game.json (1 ファイルずつ開きます)
+
+N001_Neighborhood.package (one per neighbourhood)
+= N001_Neighborhood.package (ネイバーフッドごとに 1 つ)
+
+Neighborhood.iff (one per neighbourhood: UserData, UserData2 …)
+= Neighborhood.iff (ネイバーフッドごとに 1 つ: UserData、UserData2 …)
+
+OKAMI (all 30 save slots in one file)
+= OKAMI (30 個のセーブスロットすべてが 1 ファイルに入っています)
+
+Opens as .NET data: gold (GoldCollected), ore (EquipmentOreCollected) and aether (RuneOreCollected) in Player.rc2dat, with every other value by name. Values are changed in place; there is no checksum
+= .NET データとして開きます: Player.rc2dat 内のゴールド (GoldCollected)、鉱石 (EquipmentOreCollected)、エーテル (RuneOreCollected) と、その他すべての値が名前付きで表示されます。値はその場で変更され、チェックサムはありません
+
+Opens as JSON (with its byte-order mark kept): the session in each slot, every value by name. Most numbers are stored as text ("4355"), so keep them in quotes
+= JSON として開きます (バイトオーダーマークは保持): 各スロットのセッション、すべての値が名前付きで表示されます。ほとんどの数値はテキスト ("4355") として保存されているため、引用符を付けたままにしてください
+
+Opens as JSON, every value by name
+= JSON として開きます。すべての値が名前付きで表示されます
+
+Opens as JSON, every value by name. The save's XOR encryption is removed and put back on save (not yet tried on a real save)
+= JSON として開きます。すべての値が名前付きで表示されます。セーブの XOR 暗号化は取り除かれ、保存時に元に戻されます (実際のセーブではまだ試していません)
+
+Opens as JSON, every value by name: the save's LZF layers (the slot file, its boot and global entries, and the JSON kept inside strings) are unpacked and packed again on save. Condition, hunger, thirst, fatigue, skills, inventory and the player's position are in the Tree (not yet tried on a real save)
+= JSON として開きます。すべての値が名前付きで表示されます: セーブの LZF レイヤー (スロットファイル、そのブートとグローバルのエントリー、文字列に含まれる JSON) は展開され、保存時に再び圧縮されます。コンディション、空腹、渇き、疲労、スキル、インベントリ、プレイヤーの位置はツリーにあります (実際のセーブではまだ試していません)
+
+Opens as JSON, one save slot at a time: money, play time, items and equipment inside each slot, every value by name. The slot is decrypted and encrypted again on save; the other slots are left as they were (not yet tried on a real save)
+= JSON として、セーブスロットを 1 つずつ開きます: 各スロット内の所持金、プレイ時間、アイテム、装備。すべての値が名前付きで表示されます。スロットは復号して開き、保存時に再び暗号化されます。他のスロットはそのまま残ります (実際のセーブではまだ試していません)
+
+Opens as JSON: gold nuggets, meta bonuses, achievements, characters and stats, every value by name. The save's XOR encryption is removed and put back on save (checked on a public sample save)
+= JSON として開きます: ゴールドナゲット、メタボーナス、実績、キャラクターとステータス。すべての値が名前付きで表示されます。セーブの XOR 暗号化は取り除かれ、保存時に元に戻されます (公開サンプルのセーブで確認済み)
+
+Opens as JSON: goods in storage, reputation and impatience, hostility, the year and season, orders and hearths in Save.save; food stockpiles, machinery, artifacts and the Smoldering City level in MetaSave.save. Every value by name; the game's own backups are left alone
+= JSON として開きます: Save.save の保管中の物資、評判と焦り、敵意、年と季節、注文、炉、および MetaSave.save の食料の備蓄、機械、アーティファクト、Smoldering City のレベル。すべての値が名前付きで表示されます。ゲーム自身のバックアップには手を加えません
+
+Opens as JSON: money, level, experience, ingredients and drinks, every value by name
+= JSON として開きます: 所持金、レベル、経験値、材料とドリンク。すべての値が名前付きで表示されます
+
+Opens as JSON: money, the roster, stats, equipment and inventory, every value by name. The save's Triple-DES encryption is removed and put back on save (not yet tried on a real save)
+= JSON として開きます: 所持金、ロスター、ステータス、装備、インベントリ。すべての値が名前付きで表示されます。セーブの Triple-DES 暗号化は取り除かれ、保存時に元に戻されます (実際のセーブではまだ試していません)
+
+Opens as JSON: party, recruited stars, items, runes and story flags, every value by name. The save's AES encryption is removed and put back on save with the same salt (not yet tried on a real save)
+= JSON として開きます: パーティ、勧誘したスター、アイテム、ルーン、ストーリーのフラグ。すべての値が名前付きで表示されます。セーブの AES 暗号化は取り除かれ、保存時に同じソルトで元に戻されます (実際のセーブではまだ試していません)
+
+Opens as JSON: the hex header and base64 wrapper are removed and put back, so every value is shown by name (health and special upgrades, keys, deaths, play time and the packed room, boss and item lists). Checked on a public save, not yet tried in the game
+= JSON として開きます: 16 進ヘッダーと base64 ラップは取り除かれて元に戻されるため、すべての値が名前付きで表示されます (体力とスペシャルの強化、鍵、死亡回数、プレイ時間、圧縮された部屋、ボス、アイテムのリスト)。公開セーブで確認済みですが、ゲームではまだ試していません
+
+Opens as JSON: the run in progress and the progress file, every value by name
+= JSON として開きます: 進行中のランと進行状況ファイル。すべての値が名前付きで表示されます
+
+Opens as JSON: unlocks, progression and stats, every value by name. The save's AES encryption is removed and put back on save (saves up to version 1.0.17; not yet tried on a real save)
+= JSON として開きます: アンロック、進行状況、ステータス。すべての値が名前付きで表示されます。セーブの AES 暗号化は取り除かれ、保存時に元に戻されます (バージョン 1.0.17 までのセーブ。実際のセーブではまだ試していません)
+
+Opens as an Unreal save: every property by name, numbers and text changed in place (no save of this game has been tried yet)
+= Unreal のセーブとして開きます: すべてのプロパティが名前付きで表示され、数値とテキストをその場で変更します (このゲームのセーブはまだ試していません)
+
+Opens as an Unreal save: the packed save data is unpacked, every property shown by name in sections, numbers and text changed in place, and the save's checksum written again (no save of this game has been tried yet)
+= Unreal のセーブとして開きます: 圧縮されたセーブデータは展開され、すべてのプロパティがセクションごとに名前付きで表示され、数値とテキストをその場で変更し、セーブのチェックサムは書き直されます (このゲームのセーブはまだ試していません)
+
+Opens in the Hex view for Value search (find your stud count, then change it); the older TT Games saves are not encrypted (checked on LEGO Marvel Super Heroes). No dedicated screen yet
+= 値の検索用に 16進ビューで開きます (スタッド数を探してから変更します)。古い TT Games のセーブは暗号化されていません (LEGO Marvel Super Heroes で確認済み)。専用画面はまだありません
+
+Options > Export save (save the text to a file)
+= Options > Export save (テキストをファイルに保存)
+
+Player.rc2dat (and the other .rc2dat files)
+= Player.rc2dat (およびその他の .rc2dat ファイル)
+
+PlayerSave<N>.sav (not the QuickSave and GameConfig files)
+= PlayerSave<N>.sav (QuickSave と GameConfig のファイルは除く)
+
+PlayerSave_N.sav (with dated backups)
+= PlayerSave_N.sav (日付付きのバックアップ付き)
+
+PlayerStateSaveData.json, PlayerInventorySaveData.json (open one file at a time)
+= PlayerStateSaveData.json、PlayerInventorySaveData.json (1 ファイルずつ開きます)
+
+RDR2SAVE0.SAV, REDDEAD2HCOR0.SAV, RDR2ZOMBIESAVE0.SAV … (the PC port's own names)
+= RDR2SAVE0.SAV、REDDEAD2HCOR0.SAV、RDR2ZOMBIESAVE0.SAV … (PC 版独自の名前)
+
+SAVE.DAT (the .SAV files next to it are the maps)
+= SAVE.DAT (隣にある .SAV ファイルはマップです)
+
+SAVEDATA.BIN (one folder per slot)
+= SAVEDATA.BIN (スロットごとに 1 つのフォルダー)
+
+SAVEGAME.sav, PARTYTABLE.res (auto-saves: pifo.ifo holds the player)
+= SAVEGAME.sav、PARTYTABLE.res (オートセーブ: pifo.ifo にプレイヤーが保存されています)
+
+SVDAT001.SAV … (Auto0.sav … are the autosaves)
+= SVDAT001.SAV … (Auto0.sav … はオートセーブ)
+
+Save.save (the settlement), MetaSave.save (world map)
+= Save.save (集落)、MetaSave.save (ワールドマップ)
+
+Save0001.sav … (one per character; .sav.bak is the backup)
+= Save0001.sav … (キャラクターごとに 1 つ。.sav.bak はバックアップ)
+
+SaveData (older builds: SaveData.sav)
+= SaveData (古いビルド: SaveData.sav)
+
+Save_<n>_v10.as (one per slot)
+= Save_<n>_v10.as (スロットごとに 1 つ)
+
+Save_v<version>.ggm (not the _Quests and Options files)
+= Save_v<version>.ggm (_Quests と Options のファイルは除く)
+
+Slot files with a long name ending in = (decrypted and encrypted again on save)
+= = で終わる長い名前のスロットファイル (復号して開き、保存時に再び暗号化します)
+
+SlotData_0.dat … SlotData_2.dat (one per slot)
+= SlotData_0.dat … SlotData_2.dat (スロットごとに 1 つ)
+
+Steam\\userdata\\<account>\\1794680\\remote (older builds: %APPDATA%\\Vampire_Survivors\\saves)
+= Steam\userdata\<account>\1794680\remote (古いビルド: %APPDATA%\Vampire_Survivors\saves)
+
+Steam\\userdata\\<account>\\3375780\\remote (the save folder isn't confirmed yet)
+= Steam\userdata\<account>\3375780\remote (セーブフォルダーはまだ確認されていません)
+
+Steam\\userdata\\<account>\\412020\\remote (and its game<n> folders)
+= Steam\userdata\<account>\412020\remote (およびその game<n> フォルダー)
+
+Steam\\userdata\\<account>\\534380\\remote\\out\\save (backups in Documents\\dying light 2\\out\\-save_backups)
+= Steam\userdata\<account>\534380\remote\out\save (バックアップは Documents\dying light 2\out\-save_backups)
+
+Steam\\userdata\\<id>\\383150\\remote\\out\\save (the original game: 91310)
+= Steam\userdata\<id>\383150\remote\out\save (オリジナル版: 91310)
+
+Steam\\userdata\\<id>\\383180\\remote\\out\\save (the original game: 216250)
+= Steam\userdata\<id>\383180\remote\out\save (オリジナル版: 216250)
+
+Survival-1.json … (one per save)
+= Survival-1.json … (セーブごとに 1 つ)
+
+TOSSaveData0.dat (and TOSSaveData1.dat … for more slots)
+= TOSSaveData0.dat (スロットが多い場合は TOSSaveData1.dat …)
+
+The decrypted save from Checkpoint, JKSM or GodMode9, or Citra's sdmc folder
+= Checkpoint、JKSM、GodMode9 で取得した復号済みのセーブ、または Citra の sdmc フォルダー
+
+The emulator's memory card folder: DuckStation keeps shared_card_1.mcd in Documents\\DuckStation\\memcards, ePSXe keeps its cards in memcards\\ in its install folder. A single save exported as .mcs, .psx or .psv opens too
+= エミュレーターのメモリーカードフォルダー: DuckStation は Documents\DuckStation\memcards に shared_card_1.mcd を、ePSXe はインストールフォルダー内の memcards\ にカードを保存します。.mcs、.psx、.psv として書き出した単独のセーブも開けます
+
+The emulator's memory card folder: PCSX2 keeps its cards in Documents\\PCSX2\\memcards. A single save exported as .psu or .psv opens too
+= エミュレーターのメモリーカードフォルダー: PCSX2 は Documents\PCSX2\memcards にカードを保存します。.psu または .psv として書き出した単独のセーブも開けます
+
+The emulator's save folder: Project64 keeps <ROM name>.eep in Save\\, Mupen64Plus and RetroArch next to their data (RetroArch: saves\\)
+= エミュレーターのセーブフォルダー: Project64 は Save\ に <ROM name>.eep を、Mupen64Plus と RetroArch はデータの隣に保存します (RetroArch: saves\)
+
+The emulator's save folder: Snes9x keeps <ROM name>.srm in Saves\\, bsnes and higan next to the ROM, RetroArch in saves\\
+= エミュレーターのセーブフォルダー: Snes9x は Saves\ に <ROM name>.srm を、bsnes と higan は ROM の隣に、RetroArch は saves\ に保存します
+
+The emulator's save folder: mGBA and VisualBoyAdvance-M keep <ROM name>.sav next to the ROM (or in the save folder set in their options)
+= エミュレーターのセーブフォルダー: mGBA と VisualBoyAdvance-M は <ROM name>.sav を ROM の隣 (またはオプションで設定したセーブフォルダー) に保存します
+
+The save's SHA-1 checksum and zlib packing are handled, so the unpacked data can be changed in the hex view or found with the value search (cells, gold) and saved back for the game to accept. Checked on test files, not yet on a real save
+= セーブの SHA-1 チェックサムと zlib 圧縮に対応しているため、展開したデータを 16進ビューで変更したり、値の検索 (セル、ゴールド) で見つけたりして、ゲームが受け付ける形で保存し直せます。テストファイルで確認済みですが、実際のセーブではまだ試していません
+
+Unpacked for Value search (find a number you know, then change it); packed again on save
+= 値の検索用に展開します (知っている数値を探してから変更します)。保存時に再び圧縮します
+
+Unpacked for Value search and packed again on save (the header, chunk layout and footer are kept). Players' gold and influence are on the Tree for the game versions that keep them in the known place. Checked on public sample saves for unpack and repack; not yet tried in the game
+= 値の検索用に展開し、保存時に再び圧縮します (ヘッダー、チャンク構成、フッターは保たれます)。既知の位置にプレイヤーのゴールドと影響力を持つゲームバージョンでは、それらがツリーに表示されます。展開と再圧縮は公開サンプルのセーブで確認済みですが、ゲームではまだ試していません
+
+Unpacked for Value search: the RC4 encryption and zlib chunks are removed and put back, with the save's MD5 written again (no save of this game has been tried yet)
+= 値の検索用に展開します: RC4 暗号化と zlib チャンクは取り除かれて元に戻され、セーブの MD5 は書き直されます (このゲームのセーブはまだ試していません)
+
+Unpacked from gzip and opened as JSON: coins, gems, islands, units and mounts, every value by name; packed again on save
+= gzip から展開して JSON として開きます: コイン、ジェム、島、ユニット、マウント。すべての値が名前付きで表示されます。保存時に再び圧縮します
+
+Unpacked from gzip and opened as JSON: every value by name; packed again on save
+= gzip から展開して JSON として開きます: すべての値が名前付きで表示されます。保存時に再び圧縮します
+
+Values and Tree
+= 値とツリー
+
+Windows: the registry (HKCU\\Software\\<company>\\<game>); Linux: ~/.config/unity3d/<company>/<game>; macOS: ~/Library/Preferences
+= Windows: レジストリ (HKCU\Software\<company>\<game>)、Linux: ~/.config/unity3d/<company>/<game>、macOS: ~/Library/Preferences
+
+__RESUME__ (also in each Multiplayer slot)
+= __RESUME__ (各 Multiplayer スロットにもあります)
+
+any text file holding the exported save
+= エクスポートしたセーブを含む任意のテキストファイル
+
+bf3game*.sav (title id 010074F013262000)
+= bf3game*.sav (title id 010074F013262000)
+
+char.sav (char_escrow.sav and char_knowngood.sav are the game's backups)
+= char.sav (char_escrow.sav と char_knowngood.sav はゲームのバックアップ)
+
+checkpoint.dat (slotinfo.ini next to it is the menu text)
+= checkpoint.dat (隣の slotinfo.ini はメニューのテキスト)
+
+checkpoint.dat (the game state), game.details
+= checkpoint.dat (ゲームの状態)、game.details
+
+containers.index, plus one folder per save slot
+= containers.index と、セーブスロットごとに 1 つのフォルダー
+
+dat<n>.slv (one per character)
+= dat<n>.slv (キャラクターごとに 1 つ)
+
+data.sav (binary inside)
+= data.sav (中身はバイナリ)
+
+data.sav (one folder per slot)
+= data.sav (スロットごとに 1 つのフォルダー)
+
+data.sav (unpacked, with its MD5 made again on save)
+= data.sav (展開され、保存時に MD5 が作り直されます)
+
+data000.sav (and the other slots)
+= data000.sav (およびその他のスロット)
+
+file0 (file9 is a copy; undertale.ini is the load menu)
+= file0 (file9 はコピー。undertale.ini はロードメニュー)
+
+filech1_0 … filech4_2 (chapter and slot; dr.ini is the load menu)
+= filech1_0 … filech4_2 (チャプターとスロット。dr.ini はロードメニュー)
+
+game (no extension)
+= game (拡張子なし)
+
+game save files
+= ゲームのセーブファイル
+
+game saves
+= ゲームのセーブデータ
+
+game.sav (all slots)
+= game.sav (すべてのスロット)
+
+game.sii (a packed ScsC file or plain text)
+= game.sii (圧縮された ScsC ファイルまたはプレーンテキスト)
+
+game0.sav (game1.sav … one per slot)
+= game0.sav (game1.sav … スロットごとに 1 つ)
+
+game_data.sav (one per slot folder, with caption.sav and the screenshot)
+= game_data.sav (スロットフォルダーごとに 1 つ。caption.sav とスクリーンショット付き)
+
+gameinfo.json (game mode)
+= gameinfo.json (ゲームモード)
+
+gameplay slot files
+= ゲームプレイのスロットファイル
+
+gameslot (one file per save slot)
+= gameslot (セーブスロットごとに 1 ファイル)
+
+global-v35 and the slot files beside it
+= global-v35 とその隣のスロットファイル
+
+manual_0000.sav …, auto.sav (backup_NN.sav are the game's own backups)
+= manual_0000.sav …、auto.sav (backup_NN.sav はゲーム自身のバックアップ)
+
+one .png file per slot, plus the autosave
+= スロットごとに 1 つの .png ファイルと、オートセーブ
+
+persist.estate.json, persist.roster.json (binary, despite the name)
+= persist.estate.json、persist.roster.json (名前に反してバイナリ)
+
+persistent.sfs (and the quicksaves beside it)
+= persistent.sfs (とその隣のクイックセーブ)
+
+profile_<n>.json; the newest Save_<nnnn>_* folder's run.json and actors.json
+= profile_<n>.json と、最新の Save_<nnnn>_* フォルダーの run.json および actors.json
+
+quick.sav, autosave.sav, manual saves …
+= quick.sav、autosave.sav、手動セーブ …
+
+quick.save (the faction), platoon\\Nameless_0.platoon (your squad, named after your faction)
+= quick.save (勢力)、platoon\Nameless_0.platoon (自分の分隊。勢力名にちなんだ名前)
+
+rf4_s01.sav … (rf4_sys.sav is the system save)
+= rf4_s01.sav … (rf4_sys.sav はシステムセーブ)
+
+run_v3_0.json (the run), save_v3.json (progress)
+= run_v3_0.json (ラン)、save_v3.json (進行状況)
+
+sandbox1 … (no extension)
+= sandbox1 … (拡張子なし)
+
+save files
+= セーブファイル
+
+save.jkr (the run), profile.jkr
+= save.jkr (ラン)、profile.jkr
+
+save.sav (the other files are save02 and tempsave)
+= save.sav (その他のファイルは save02 と tempsave)
+
+save0.bin (the _backup files beside it are copies)
+= save0.bin (隣の _backup ファイルはコピー)
+
+save000.dat … (save511.dat is the autosave)
+= save000.dat … (save511.dat はオートセーブ)
+
+save1, save2 … (no extension)
+= save1、save2 … (拡張子なし)
+
+saveData.ini (and the numbered save slots)
+= saveData.ini (と番号付きのセーブスロット)
+
+save_auto.bin (the player), progress.bin and save_auto_level_*.bin
+= save_auto.bin (プレイヤー)、progress.bin、save_auto_level_*.bin
+
+savegame.dsa (the screenshot and .nfo beside it are not needed)
+= savegame.dsa (隣のスクリーンショットと .nfo は不要)
+
+shared_card_1.mcd, <save>.mcs (one save per card slot)
+= shared_card_1.mcd、<save>.mcs (カードスロットごとに 1 つのセーブ)
+
+slot saves
+= スロットセーブ
+
+slot1_save01.ff8 (the auto save) … slot2_save30.ff8
+= slot1_save01.ff8 (オートセーブ) … slot2_save30.ff8
+
+slot_0.json … (the .json save; a .mp file is a different format)
+= slot_0.json … (.json のセーブ。.mp ファイルは別の形式)
+
+system_data.bin (title id 01006A800016E000)
+= system_data.bin (タイトル ID 01006A800016E000)
+
+the exported .txt save
+= エクスポートした .txt のセーブ
+
+the exported save .txt
+= エクスポートしたセーブの .txt
+
+the folder the game writes SAVE0.sav to (a Deltatraveler folder under LocalLow is searched; otherwise open the file with the file browser)
+= ゲームが SAVE0.sav を書き込むフォルダー (LocalLow 配下の Deltatraveler フォルダーを検索します。見つからない場合はファイルブラウザーでファイルを開いてください)
+
+the game's save files (zstd-packed)
+= ゲームのセーブファイル (zstd で圧縮)
+
+thp_player_profile_adf (also in each slots folder)
+= thp_player_profile_adf (各 slots フォルダーにもあります)
+
+user1.dat, user2.dat … (users.dat lists the profiles)
+= user1.dat、user2.dat … (users.dat にプロフィールの一覧があります)
+
+user_0.dat … (one per slot) and its backups
+= user_0.dat … (スロットごとに 1 つ) とそのバックアップ
+
+wherever you saved the export (Options > Saving > Export save as file)
+= エクスポートを保存した場所 (Options > Saving > Export save as file)
