@@ -2,6 +2,7 @@
 
 ## 0.7.0
 
+- Values view: the list of values is built about twice as fast and takes well under half the memory for very large saves (half a million values), so loading, saving and edits that rebuild it are quicker
 - Number boxes: Up and Down arrows step the value by 1 while the box has focus (Shift: 10), within the field's allowed range
 - Long drop-down lists (hundreds of items) only draw the rows in view, so they open instantly; Find my game's saves shows the first 60 saves of a game with a "Show all" link
 - Find my game's saves: hovering the search box explains that words in any order and short names work

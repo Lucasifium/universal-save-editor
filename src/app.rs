@@ -1639,7 +1639,7 @@ impl App {
                             return "Whole document (Raw JSON edit)".to_string();
                         }
                         let (name, context) = match self.model.by_ptr.get(p.as_str()) {
-                            Some(&i) => (self.model.rows[i].name.clone(), self.model.rows[i].context.clone()),
+                            Some(&i) => (self.model.rows[i].name().to_string(), self.model.rows[i].context().to_string()),
                             None => (p.clone(), String::new()),
                         };
                         let old = bv.pointer(p).map(widgets::display).unwrap_or_else(|| "(none)".into());
@@ -2425,10 +2425,10 @@ impl App {
                                     if section != "General" {
                                         parts.push(section);
                                     }
-                                    if !r.context.is_empty() {
-                                        parts.push(&r.context);
+                                    if !r.context().is_empty() {
+                                        parts.push(r.context());
                                     }
-                                    parts.push(&r.name);
+                                    parts.push(r.name());
                                     parts.join(" \u{203A} ")
                                 }
                                 None => p.clone(),
@@ -3765,7 +3765,7 @@ impl App {
                                 ui.label(RichText::new(tr("Whole document (Raw JSON edit)")).strong());
                             } else {
                                 let (name, context) = match self.model.by_ptr.get(ptr.as_str()) {
-                                    Some(&i) => (self.model.rows[i].name.clone(), self.model.rows[i].context.clone()),
+                                    Some(&i) => (self.model.rows[i].name().to_string(), self.model.rows[i].context().to_string()),
                                     None => (ptr.clone(), String::new()),
                                 };
                                 if ui.link(RichText::new(&name).strong()).on_hover_text(tr("Show in list")).clicked() {

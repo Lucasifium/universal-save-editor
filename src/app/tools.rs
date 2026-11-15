@@ -131,7 +131,7 @@ impl App {
         let (mut changed, mut skipped, mut refused) = (0, 0, Vec::new());
         for i in rows {
             let Some(row) = self.model.rows.get(i) else { continue };
-            let (ptr, name) = (row.ptr.clone(), row.name.clone());
+            let (ptr, name) = (row.ptr.to_string(), row.name().to_string());
             let Some(cur) = self.doc.as_ref().and_then(|d| root(&d.content)).and_then(|r| r.pointer(&ptr)).cloned() else { continue };
             match values_view::bulk_value(&cur, op, &arg) {
                 Ok(Some(v)) => match self.try_edit(ptr, v, now) {
@@ -203,8 +203,8 @@ impl App {
                     }
                     let Some(v) = cv.pointer(ptr).filter(|v| !v.is_object() && !v.is_array()) else { continue };
                     let name = match self.model.by_ptr.get(ptr.as_str()) {
-                        Some(&i) if !self.model.rows[i].context.is_empty() => format!("{} \u{203A} {}", self.model.rows[i].context, self.model.rows[i].name),
-                        Some(&i) => self.model.rows[i].name.clone(),
+                        Some(&i) if !self.model.rows[i].context().is_empty() => format!("{} \u{203A} {}", self.model.rows[i].context(), self.model.rows[i].name()),
+                        Some(&i) => self.model.rows[i].name().to_string(),
                         None => ptr.clone(),
                     };
                     p.values.push(ValueChange { path: ptr.clone(), name, value: v.clone() });
