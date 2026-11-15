@@ -49,6 +49,57 @@ pub struct GameInfo {
     pub depth: usize,
 }
 
+/// Whether a `folder` or `files` text has prose to translate, as opposed to being only a path or
+/// a file pattern: it does when two ordinary lowercase words follow each other, separated by a
+/// space ("next to the ROM", "inside the save folder"). A path segment (`Saved Games\\Foo bar`,
+/// `%APPDATA%\\x`), a pattern (`*.sav`), a placeholder (`<game id>`) or a capitalised name never
+/// counts as a word.
+pub fn has_prose(s: &str) -> bool {
+    let word = |t: &str| {
+        let t = t.trim_matches(|c: char| matches!(c, ',' | '.' | ';' | ':' | '(' | ')'));
+        t.len() >= 2 && t.chars().all(|c| c.is_ascii_lowercase() || c == '\'' || c == '-') && t.chars().next().is_some_and(|c| c.is_ascii_lowercase())
+    };
+    let mut prev = false;
+    for t in s.split(' ') {
+        let w = word(t);
+        if w && prev {
+            return true;
+        }
+        prev = w;
+    }
+    false
+}
+
+/// The texts of the game list that are translated: every `support`, and the `folder` and `files`
+/// that have prose (see `has_prose`).
+pub fn translatable_texts() -> Vec<&'static str> {
+    let mut out = vec![];
+    for g in GAMES {
+        out.push(g.support);
+        for t in [g.folder, g.files] {
+            if has_prose(t) {
+                out.push(t);
+            }
+        }
+    }
+    out
+}
+
+/// `g.support` in the language in use.
+pub fn support_text(g: &GameInfo) -> &'static str {
+    crate::i18n::tr_any(g.support)
+}
+
+/// `g.folder` in the language in use (paths and patterns stay as they are).
+pub fn folder_text(g: &GameInfo) -> &'static str {
+    if has_prose(g.folder) { crate::i18n::tr_any(g.folder) } else { g.folder }
+}
+
+/// `g.files` in the language in use (paths and patterns stay as they are).
+pub fn files_text(g: &GameInfo) -> &'static str {
+    if has_prose(g.files) { crate::i18n::tr_any(g.files) } else { g.files }
+}
+
 const FULL: &str = "Game screen";
 const KENSHI: &str = "Game screen: the faction's cats (quick.save) and, in each squad's .platoon file, every member's attributes and skills, the health of each body part, blood, hunger, bleeding, lost or robotic limbs and the dead, unconscious and coma flags, with a button to max everyone's stats. Checked on public saves, not yet tried in the game";
 const VALUES: &str = "Values and Tree";
@@ -1132,6 +1183,45 @@ mod proton_tests {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn prose_is_told_from_paths_and_patterns() {
+        for t in [
+            SNES_FOLDER,
+            "Next to the ROM, as <ROM name>.srm",
+            r"Inside the save folder: Slot1\\data.sav",
+            "next to the ROM",
+            "inside the save folder",
+            r"The emulator's memory card folder: DuckStation keeps shared_card_1.mcd in Documents\DuckStation\memcards",
+            r"A single save exported as .mcs, .psx or .psv",
+        ] {
+            assert!(has_prose(t), "{t}");
+        }
+        for t in [
+            r"%APPDATA%\Game\Saves",
+            "*.sav",
+            r"<Steam>\userdata\<id>\123\remote",
+            r"Documents\My Games\Skyrim\Saves",
+            r"Saved Games\Some Game",
+            r"%LOCALAPPDATA%\Game\save games",
+            "<game id>.sav",
+            "Profile*.sav, Slot?.dat",
+            "slot1.sav",
+        ] {
+            assert!(!has_prose(t), "{t}");
+        }
+    }
+
+    #[test]
+    fn real_table_entries_split_sensibly() {
+        let texts = translatable_texts();
+        assert!(texts.contains(&SNES_FOLDER));
+        assert!(!texts.contains(&r"%APPDATA%\Game\Saves"));
+        // Every support text is listed; folder and files only with prose.
+        assert!(GAMES.iter().all(|g| texts.contains(&g.support)));
+        // English stays as it is without a translation.
+        assert_eq!(support_text(&GAMES[0]), GAMES[0].support);
+    }
 
     #[test]
     fn wildcards() {

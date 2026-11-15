@@ -188,6 +188,7 @@ mod tests {
         keys.extend(helper_literals(&src));
         keys.extend(label_literals());
         keys.extend(crate::game_ui::spec_texts().into_iter().map(str::to_string));
+        keys.extend(crate::games::translatable_texts().into_iter().map(str::to_string));
         keys
     }
 

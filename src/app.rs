@@ -4971,7 +4971,7 @@ fn game_picker_window(ctx: &egui::Context, gp: &mut GamePicker) -> (Option<PathB
                     };
                     let g = &crate::games::GAMES[i];
                     ui.heading(g.name);
-                    for (k, v) in [(tr("Usually in"), g.folder), (tr("Files"), g.files), (tr("Editing"), g.support)] {
+                    for (k, v) in [(tr("Usually in"), crate::games::folder_text(g)), (tr("Files"), crate::games::files_text(g)), (tr("Editing"), crate::games::support_text(g))] {
                         ui.horizontal_wrapped(|ui| {
                             ui.strong(format!("{k}:"));
                             ui.add(egui::Label::new(v).wrap());
