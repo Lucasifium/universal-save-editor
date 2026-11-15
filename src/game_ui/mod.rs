@@ -724,18 +724,28 @@ impl GameCtx<'_> {
         let choices = if editable { self.tree.and_then(|t| t.choices(p)) } else { None };
         // One group, so a number's box and its −/+ stay in one cell of a grid.
         let opts = widgets::EditOpts { tree: self.tree, baseline: Some(self.baseline), name: None, kind: self.tree.map(|t| t.kind_name.as_str()), show_in_tree: true };
-        let out = ui
-            .horizontal(|ui| match (&choices, &v) {
-                (Some(list), Value::String(cur)) => widgets::choice_editor(ui, p, cur, list, width),
-                _ => {
-                    let o = widgets::value_editor_ex(ui, p, &v, editable, width, &opts);
-                    if o.go_to_tree {
-                        ui.ctx().data_mut(|d| d.insert_temp(egui::Id::new(SHOW_IN_TREE), p.to_string()));
-                    }
-                    o.edit
+        // A value shown twice on one screen (a hero tile and its panel row) got the same widget
+        // ids for both boxes: they shared focus and the debug build painted ID-clash warnings.
+        // The first box keeps its ids; later ones this frame are told apart by their count.
+        let seen = egui::Id::new(("game_editor_seen", p));
+        let frame = ui.ctx().cumulative_pass_nr();
+        let dup = ui.ctx().data_mut(|d| {
+            let (f, n) = d.get_temp::<(u64, u32)>(seen).unwrap_or((u64::MAX, 0));
+            let n = if f == frame { n + 1 } else { 0 };
+            d.insert_temp(seen, (frame, n));
+            n
+        });
+        let body = |ui: &mut Ui| match (&choices, &v) {
+            (Some(list), Value::String(cur)) => widgets::choice_editor(ui, p, cur, list, width),
+            _ => {
+                let o = widgets::value_editor_ex(ui, p, &v, editable, width, &opts);
+                if o.go_to_tree {
+                    ui.ctx().data_mut(|d| d.insert_temp(egui::Id::new(SHOW_IN_TREE), p.to_string()));
                 }
-            })
-            .inner;
+                o.edit
+            }
+        };
+        let out = if dup == 0 { ui.horizontal(body).inner } else { ui.push_id(("dup", dup), |ui| ui.horizontal(body).inner).inner };
         if let Some(nv) = out {
             self.set(p, nv);
         }
