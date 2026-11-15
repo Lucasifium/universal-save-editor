@@ -3183,7 +3183,12 @@ impl App {
         ui.add_space(4.0);
         // The toolbar wraps well before the rest of the layout turns phone-sized: the file
         // name and its chips need the room.
-        let narrow = narrow(ui) || ui.available_width() < 900.0;
+        // Also when the one-line toolbar didn't fit last time (long translations, a long file
+        // name or game name): the Changes button was drawn over the format chip.
+        let need_id = egui::Id::new(("toolbar_need", self.doc.as_ref().map(|d| d.path.clone()), crate::i18n::current().code));
+        let need = ui.ctx().data(|d| d.get_temp::<f32>(need_id)).unwrap_or(0.0);
+        let narrow = narrow(ui) || ui.available_width() < 900.0 || ui.available_width() < need;
+        let full_w = ui.available_width();
         let row = |ui: &mut egui::Ui, add: &mut dyn FnMut(&mut egui::Ui)| {
             if narrow {
                 ui.horizontal_wrapped(|ui| add(ui));
@@ -3270,18 +3275,27 @@ impl App {
                 }
             }
 
+            let left_used = ui.min_rect().width();
+            let mut changes_w = 0.0;
             let mut changes = |ui: &mut egui::Ui| {
                 let n = self.change_count();
                 let label = if n > 0 { crate::i18n::trf("Changes ({0})", &[&n]) } else { tr("Changes").into() };
                 // The selected colours: white on the light theme's pale selection could not be read.
                 let color = if self.show_changes { ui.visuals().selection.stroke.color } else { ui.visuals().text_color() };
-                ui.toggle_value(&mut self.show_changes, widgets::icon_text_colored(ui, hi, icon::HISTORY, &label, color))
+                let r = ui
+                    .toggle_value(&mut self.show_changes, widgets::icon_text_colored(ui, hi, icon::HISTORY, &label, color))
                     .on_hover_text(tr("List everything you've changed since the last save"));
+                changes_w = r.rect.width();
             };
             if narrow {
                 changes(ui);
             } else {
                 ui.with_layout(egui::Layout::right_to_left(egui::Align::Center), changes);
+                let need = left_used + changes_w + 3.0 * ui.spacing().item_spacing.x;
+                if need > full_w {
+                    ui.ctx().data_mut(|d| d.insert_temp(need_id, need));
+                    ui.ctx().request_repaint();
+                }
             }
             if locate {
                 self.locate_data_dir();
@@ -3444,7 +3458,11 @@ impl App {
     fn game_find_box(&mut self, ui: &mut egui::Ui) {
         let id = egui::Id::new("game_find_box");
         let before = self.game_find.clone();
-        let r = ui.add(TextEdit::singleline(&mut self.game_find).id(id).hint_text(tr("Find on this screen  (Ctrl+F)")).desired_width(200.0));
+        let hint = tr("Find on this screen  (Ctrl+F)");
+        // As wide as its hint (French and German cut it off at 200 px), within reason.
+        let hint_w = ui.fonts(|f| f.layout_no_wrap(hint.to_string(), egui::TextStyle::Body.resolve(ui.style()), Color32::WHITE).size().x);
+        let w = (hint_w + 12.0).clamp(200.0, 320.0).min(ui.available_width());
+        let r = ui.add(TextEdit::singleline(&mut self.game_find).id(id).hint_text(hint).desired_width(w));
         if self.focus_game_find {
             r.request_focus();
             self.focus_game_find = false;
