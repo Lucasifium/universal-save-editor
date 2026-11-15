@@ -26858,3 +26858,119 @@ Trombone Tremor upgrade 3
 Vine leaping
 = ツタ渡り
 
+A developer's testing switch. Leave it as it is.
+= 開発者用のテストスイッチです。そのままにしてください。
+
+A script sets and clears this while a scene runs; changing it can leave the scene stuck.
+= シーンの進行中にスクリプトが設定・解除します。変更するとシーンが進まなくなることがあります。
+
+All
+= すべて
+
+Camp nights
+= キャンプの夜
+
+Chapel ruins
+= 礼拝堂の廃墟
+
+Companion: {0}
+= 仲間: {0}
+
+Debug switches
+= デバッグスイッチ
+
+Forest and Blighted Village
+= 森と荒廃した村
+
+Githyanki creche
+= ギスヤンキの育成所
+
+Goblin camp
+= ゴブリンの野営地
+
+Hirelings
+= 雇われ傭兵
+
+Marks story progress; setting it early can skip scenes or lock quests.
+= ストーリーの進行を示します。早く設定するとシーンが飛ばされたりクエストが進められなくなったりします。
+
+Nautiloid crash site
+= ノーチロイドの墜落現場
+
+No flag matches.
+= 該当するフラグはありません。
+
+Not risky
+= 危険でないもの
+
+Off
+= オフ
+
+On
+= オン
+
+Other ({0})
+= その他 ({0})
+
+Regions
+= 地域
+
+Risky
+= 危険
+
+Romance state: later scenes check it, and contradicting flags can confuse them.
+= ロマンスの状態です。後のシーンが参照するため、矛盾するフラグはシーンを混乱させます。
+
+Someone lives or dies by this flag. The character itself isn't brought back or killed, so scenes can contradict what you see.
+= 誰かの生死を表すフラグです。キャラクター自体が蘇生・死亡するわけではないため、シーンが見た目と食い違うことがあります。
+
+The game mode (difficulty and the like) is also kept elsewhere in the save; this flag alone doesn't change it.
+= ゲームモード（難易度など）はセーブ内の別の場所にも記録されています。このフラグだけでは変わりません。
+
+The tadpole and mind flayer story; key scenes depend on it.
+= オタマジャクシとマインド・フレイヤーの物語です。重要なシーンがこれに左右されます。
+
+Tick a flag to set it, untick it to clear it. These are the story's global flags, named as the game's scripts name them; the story script's own list of set flags is kept in step when you save. Changing a flag doesn't replay the scene behind it. Flags marked ⚠ are riskier than most, so change few at a time and keep the backup.
+= チェックを入れるとフラグがオンに、外すとオフになります。これはゲームのスクリプトでの名前で表示されるストーリーのグローバルフラグです。保存時にはストーリースクリプト側のオンのフラグ一覧も合わせて更新されます。フラグを変えてもその裏のシーンは再生されません。⚠ の付いたフラグは特に危険なので、少しずつ変更し、バックアップを残してください。
+
+Who is in the party or at camp is also kept elsewhere in the save; changing only the flag can leave a companion half in, half out.
+= 誰がパーティーやキャンプにいるかはセーブ内の別の場所にも記録されています。フラグだけ変えると仲間が中途半端な状態になることがあります。
+
+Wilderness
+= 荒野
+
+game mode
+= ゲームモード
+
+grove, Astarion, dead…
+= grove、Astarion、dead…
+
+life or death
+= 生死
+
+party
+= パーティー
+
+romance
+= ロマンス
+
+scene in progress
+= 進行中のシーン
+
+story progress
+= ストーリー進行
+
+tadpole
+= オタマジャクシ
+
+testing switch
+= テストスイッチ
+
+{0} flags changed
+= {0} 個のフラグを変更
+
+{0} more flags have no name in this save and aren't listed.
+= 他に {0} 個のフラグはこのセーブに名前がないため表示されません。
+
+{0} named flags, {1} of them on.
+= 名前付きフラグ {0} 個、うち {1} 個がオン。

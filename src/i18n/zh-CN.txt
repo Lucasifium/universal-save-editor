@@ -26831,3 +26831,119 @@ Trombone Tremor upgrade 3
 Vine leaping
 = 藤蔓跳跃
 
+A developer's testing switch. Leave it as it is.
+= 开发者的测试开关。请保持原样。
+
+A script sets and clears this while a scene runs; changing it can leave the scene stuck.
+= 场景进行时由脚本设置和清除；更改它可能导致场景卡住。
+
+All
+= 全部
+
+Camp nights
+= 营地之夜
+
+Chapel ruins
+= 礼拜堂废墟
+
+Companion: {0}
+= 同伴：{0}
+
+Debug switches
+= 调试开关
+
+Forest and Blighted Village
+= 森林与荒芜村庄
+
+Githyanki creche
+= 吉斯洋基育化所
+
+Goblin camp
+= 地精营地
+
+Hirelings
+= 雇佣兵
+
+Marks story progress; setting it early can skip scenes or lock quests.
+= 标记剧情进度；过早设置可能跳过场景或锁住任务。
+
+Nautiloid crash site
+= 鹦鹉螺舰坠毁点
+
+No flag matches.
+= 没有匹配的标记。
+
+Not risky
+= 无风险
+
+Off
+= 关
+
+On
+= 开
+
+Other ({0})
+= 其他（{0}）
+
+Regions
+= 区域
+
+Risky
+= 有风险
+
+Romance state: later scenes check it, and contradicting flags can confuse them.
+= 恋爱状态：后续场景会检查它，相互矛盾的标记可能使场景出错。
+
+Someone lives or dies by this flag. The character itself isn't brought back or killed, so scenes can contradict what you see.
+= 此标记决定某人的生死。角色本身不会因此复活或死亡，因此场景可能与你看到的情况相矛盾。
+
+The game mode (difficulty and the like) is also kept elsewhere in the save; this flag alone doesn't change it.
+= 游戏模式（难度等）也保存在存档的其他位置；仅改此标记不会改变它。
+
+The tadpole and mind flayer story; key scenes depend on it.
+= 蝌蚪与夺心魔的剧情；关键场景依赖于它。
+
+Tick a flag to set it, untick it to clear it. These are the story's global flags, named as the game's scripts name them; the story script's own list of set flags is kept in step when you save. Changing a flag doesn't replay the scene behind it. Flags marked ⚠ are riskier than most, so change few at a time and keep the backup.
+= 勾选即设置标记，取消勾选即清除。这些是剧情的全局标记，名称与游戏脚本中一致；保存时会同步更新剧情脚本自己的已设置标记列表。更改标记不会重播其背后的场景。带 ⚠ 的标记风险较高，请一次只改少量，并保留备份。
+
+Who is in the party or at camp is also kept elsewhere in the save; changing only the flag can leave a companion half in, half out.
+= 谁在队伍或营地中也保存在存档的其他位置；只改标记可能让同伴处于半加入半离开的状态。
+
+Wilderness
+= 荒野
+
+game mode
+= 游戏模式
+
+grove, Astarion, dead…
+= grove、Astarion、dead…
+
+life or death
+= 生死
+
+party
+= 队伍
+
+romance
+= 恋爱
+
+scene in progress
+= 进行中的场景
+
+story progress
+= 剧情进度
+
+tadpole
+= 蝌蚪
+
+testing switch
+= 测试开关
+
+{0} flags changed
+= 已更改 {0} 个标记
+
+{0} more flags have no name in this save and aren't listed.
+= 另有 {0} 个标记在此存档中没有名称，未列出。
+
+{0} named flags, {1} of them on.
+= {0} 个有名称的标记，其中 {1} 个已开启。

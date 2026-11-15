@@ -1,5 +1,6 @@
 //! Larian saves: Divinity: Original Sin 2 (the party, editable) and Baldur's Gate 3 (the
-//! save's party summary, and gold and stack sizes of what each companion carries). See `fmt/larian.rs`.
+//! save's party summary, gold and stack sizes of what each companion carries, and the story's
+//! global flags with the risky ones marked). See `fmt/larian.rs` and `fmt/bg3_flags.rs`.
 
 use crate::i18n::{tr, trf};
 use crate::widgets::ScrollLock;
@@ -182,7 +183,7 @@ pub fn bg3(ui: &mut Ui, cx: &mut GameCtx) {
     });
     bg3_carried(ui, cx, gold);
     add_items(ui, cx, tr("Every kind of item in your party's bags can be added, as a copy of one the game made. The copies go into the chosen character's bag when you save. Items kept in a stack, worn gear, containers, keys and story items aren't offered; a stack's size can be changed under Stacked items. Keep a backup: this hasn't been tried in the game yet."));
-    super::screens2::story(ui, cx, gold);
+    bg3_story(ui, cx, gold);
 }
 
 /// Gold and stack sizes of what each companion carries (see `fmt::larian::bg3_carried`).
@@ -224,4 +225,158 @@ fn bg3_carried(ui: &mut Ui, cx: &mut GameCtx, gold: Color32) {
             );
         });
     }
+}
+
+/// A story section's name in the chosen language (see `fmt::bg3_flags::section`). Place and
+/// companion names stay as the game spells them.
+fn section_label(sec: &str) -> String {
+    // The section names `fmt::bg3_flags::section` builds around a companion or an unknown prefix.
+    let companion = sec.starts_with("Companion: ").then(|| &sec[11..]);
+    let other = (sec.starts_with("Other (") && sec.ends_with(')')).then(|| &sec[7..sec.len() - 1]);
+    if let Some(c) = companion {
+        return trf("Companion: {0}", &[&c]);
+    }
+    if let Some(o) = other {
+        return trf("Other ({0})", &[&o]);
+    }
+    match sec {
+        "General" => tr("General"),
+        "Camp" => tr("Camp"),
+        "Camp nights" => tr("Camp nights"),
+        "Companions" => tr("Companions"),
+        "Regions" => tr("Regions"),
+        "Hirelings" => tr("Hirelings"),
+        "Debug switches" => tr("Debug switches"),
+        "Nautiloid crash site" => tr("Nautiloid crash site"),
+        "Chapel ruins" => tr("Chapel ruins"),
+        "Forest and Blighted Village" => tr("Forest and Blighted Village"),
+        "Wilderness" => tr("Wilderness"),
+        "Goblin camp" => tr("Goblin camp"),
+        "Githyanki creche" => tr("Githyanki creche"),
+        _ => return sec.to_string(),
+    }
+    .to_string()
+}
+
+/// A risk mark's short name.
+fn risk_tag(r: crate::fmt::bg3_flags::Risk) -> &'static str {
+    use crate::fmt::bg3_flags::Risk;
+    match r {
+        Risk::Debug => tr("testing switch"),
+        Risk::Scene => tr("scene in progress"),
+        Risk::Mode => tr("game mode"),
+        Risk::Life => tr("life or death"),
+        Risk::Party => tr("party"),
+        Risk::Romance => tr("romance"),
+        Risk::Progress => tr("story progress"),
+        Risk::Tadpole => tr("tadpole"),
+    }
+}
+
+/// What a risk mark says (see `fmt::bg3_flags::Risk`).
+fn risk_text(r: crate::fmt::bg3_flags::Risk) -> &'static str {
+    use crate::fmt::bg3_flags::Risk;
+    match r {
+        Risk::Debug => tr("A developer's testing switch. Leave it as it is."),
+        Risk::Scene => tr("A script sets and clears this while a scene runs; changing it can leave the scene stuck."),
+        Risk::Mode => tr("The game mode (difficulty and the like) is also kept elsewhere in the save; this flag alone doesn't change it."),
+        Risk::Life => tr("Someone lives or dies by this flag. The character itself isn't brought back or killed, so scenes can contradict what you see."),
+        Risk::Party => tr("Who is in the party or at camp is also kept elsewhere in the save; changing only the flag can leave a companion half in, half out."),
+        Risk::Romance => tr("Romance state: later scenes check it, and contradicting flags can confuse them."),
+        Risk::Progress => tr("Marks story progress; setting it early can skip scenes or lock quests."),
+        Risk::Tadpole => tr("The tadpole and mind flayer story; key scenes depend on it."),
+    }
+}
+
+/// The story's global flags by area and companion, each a check box, with risky ones marked
+/// (see `fmt::bg3_flags`).
+fn bg3_story(ui: &mut Ui, cx: &mut GameCtx, accent: Color32) {
+    let sections = keys(cx, "/Story flags");
+    if sections.is_empty() {
+        return;
+    }
+    let flags: Vec<(String, Vec<String>)> = sections.iter().map(|s| (s.clone(), keys(cx, &format!("/Story flags/{}", esc(s))))).collect();
+    let path = |s: &str, k: &str| format!("/Story flags/{}/{}", esc(s), esc(k));
+    let total: usize = flags.iter().map(|f| f.1.len()).sum();
+    let on: usize = flags.iter().map(|(s, ks)| ks.iter().filter(|k| cx.flag(&path(s, k))).count()).sum();
+    let changed: usize = flags.iter().map(|(s, ks)| ks.iter().filter(|k| cx.modified(&path(s, k))).count()).sum();
+    let unnamed = cx.int("/Story flags unnamed").unwrap_or(0);
+    let warn = theme_fg(ui, crate::theme::WARN);
+    panel(ui, &trf("Story flags ({0})", &[&total]), |ui| super::screens2::story_guard(ui, |ui| {
+        ui.label(trf("{0} named flags, {1} of them on.", &[&total, &on]));
+        if unnamed > 0 {
+            ui.weak(trf("{0} more flags have no name in this save and aren't listed.", &[&unnamed]));
+        }
+        if changed > 0 {
+            ui.label(RichText::new(trf("{0} flags changed", &[&changed])).strong().color(theme_fg(ui, crate::theme::MODIFIED)));
+        }
+        let q = super::screens2::filter_box(ui, "bg3_story", tr("grove, Astarion, dead\u{2026}"));
+        let sid = egui::Id::new("bg3_story_show");
+        let mut show = ui.data(|d| d.get_temp::<u8>(sid)).unwrap_or(0);
+        ui.horizontal_wrapped(|ui| {
+            ui.label(tr("Show:"));
+            ui.selectable_value(&mut show, 0, tr("All"));
+            ui.selectable_value(&mut show, 1, tr("On"));
+            ui.selectable_value(&mut show, 2, tr("Off"));
+            ui.selectable_value(&mut show, 3, tr("Changed"));
+            ui.selectable_value(&mut show, 4, RichText::new(tr("Risky")).color(warn));
+            ui.selectable_value(&mut show, 5, tr("Not risky"));
+        });
+        ui.data_mut(|d| d.insert_temp(sid, show));
+        let mut any = false;
+        egui::ScrollArea::vertical().id_salt("bg3_story_list").max_height(520.0).show_locked(ui, |ui| {
+            for (sec, ks) in &flags {
+                let label = section_label(sec);
+                let shown: Vec<&String> = ks
+                    .iter()
+                    .filter(|k| {
+                        let p = path(sec, k);
+                        let risky = crate::fmt::bg3_flags::risk(k).is_some();
+                        let keep = match show {
+                            1 => cx.flag(&p),
+                            2 => !cx.flag(&p),
+                            3 => cx.modified(&p),
+                            4 => risky,
+                            5 => !risky,
+                            _ => true,
+                        };
+                        keep && (q.is_empty() || k.to_lowercase().contains(&q) || label.to_lowercase().contains(&q) || sec.to_lowercase().contains(&q))
+                    })
+                    .collect();
+                if shown.is_empty() {
+                    continue;
+                }
+                any = true;
+                let n_on = ks.iter().filter(|k| cx.flag(&path(sec, k))).count();
+                let title = trf("{0}  ({1} of {2} on)", &[&label, &n_on, &ks.len()]);
+                let open = if q.is_empty() && show == 0 { None } else { Some(true) };
+                egui::CollapsingHeader::new(title).id_salt(("bg3_story", sec.as_str())).open(open).show(ui, |ui| {
+                    for k in shown {
+                        let p = path(sec, k);
+                        let mut v = cx.flag(&p);
+                        let modified = cx.modified(&p);
+                        ui.horizontal(|ui| {
+                            let mut text = RichText::new(k.as_str());
+                            if modified {
+                                text = text.color(theme_fg(ui, crate::theme::MODIFIED));
+                            }
+                            let r = ui.add_enabled(cx.can_edit(&p), egui::Checkbox::new(&mut v, text));
+                            super::find_mark(ui, r.rect, k);
+                            if r.changed() {
+                                cx.set(&p, Value::from(i64::from(v)));
+                            }
+                            if let Some(risk) = crate::fmt::bg3_flags::risk(k) {
+                                ui.label(RichText::new(format!("\u{26A0} {}", risk_tag(risk))).small().color(warn)).on_hover_text(risk_text(risk)); // i18n-ok
+                            }
+                        });
+                    }
+                });
+            }
+        });
+        if !any {
+            ui.weak(tr("No flag matches."));
+        }
+        ui.add_space(4.0);
+        ui.weak(tr("Tick a flag to set it, untick it to clear it. These are the story's global flags, named as the game's scripts name them; the story script's own list of set flags is kept in step when you save. Changing a flag doesn't replay the scene behind it. Flags marked \u{26A0} are riskier than most, so change few at a time and keep the backup."));
+    }));
 }

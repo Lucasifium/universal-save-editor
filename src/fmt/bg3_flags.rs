@@ -49,26 +49,127 @@ pub fn names(story: &osiris::Story) -> HashMap<String, String> {
     out
 }
 
-/// Where a flag is listed: its area or companion, from the name's prefix.
+/// The companions, as the flag names spell them (lower case) and as the screen names them.
+const COMPANIONS: [(&str, &str); 11] = [
+    ("shadowheart", "Shadowheart"),
+    ("astarion", "Astarion"),
+    ("gale", "Gale"),
+    ("laezel", "Lae'zel"),
+    ("wyll", "Wyll"),
+    ("karlach", "Karlach"),
+    ("minthara", "Minthara"),
+    ("halsin", "Halsin"),
+    ("jaheira", "Jaheira"),
+    ("minsc", "Minsc"),
+    ("darkurge", "The Dark Urge"),
+];
+
+/// The companion a name part is about ("ShadowHeart", "LaezelRecruitment", "GALECAMP").
+fn companion(part: &str) -> Option<&'static str> {
+    let low = part.to_ascii_lowercase();
+    COMPANIONS.iter().find(|(k, _)| low.starts_with(k)).map(|c| c.1)
+}
+
+/// Where a flag is listed: its area or companion, from the name's prefix. Companion flags
+/// read "Companion: <name>", unknown prefixes "Other (<prefix>)"; the rest are fixed English
+/// keys the screen translates.
 pub fn section(name: &str) -> String {
     let mut parts = name.split('_');
     let first = parts.next().unwrap_or_default();
+    if first == "ORI" {
+        let who = parts.next().unwrap_or_default();
+        return match companion(who) {
+            Some(c) => format!("Companion: {c}"),
+            None => "Companions".to_string(),
+        };
+    }
     let area = match first {
-        "ORI" => return format!("Companion: {}", parts.next().unwrap_or("other")),
-        "GLO" => "General",
+        "GLO" | "GEN" => "General",
         "CAMP" => "Camp",
+        "NIGHT" => "Camp nights",
         "TUT" => "Nautiloid",
+        "CRA" => "Nautiloid crash site",
+        "CHA" => "Chapel ruins",
+        "FOR" => "Forest and Blighted Village",
+        "PLA" => "Risen Road",
+        "HAG" => "Riverside Teahouse",
+        "WLD" => "Wilderness",
         "DEN" => "Emerald Grove",
         "GOB" => "Goblin camp",
         "UND" => "Underdark",
+        "CRE" => "Githyanki creche",
         "SCL" => "Shadow-Cursed Lands",
+        "HAV" => "Last Light Inn",
         "MOO" => "Moonrise Towers",
         "LOW" => "Lower City",
         "CTY" => "Baldur's Gate",
         "WYR" => "Wyrm's Crossing",
-        _ => return format!("Other ({first})"),
+        "BANTERREGION" | "CURRENTREGION" | "VISITEDREGION" => "Regions",
+        "Hirelings" => "Hirelings",
+        f if f.starts_with("Debug") || f == "DBG" => "Debug switches",
+        f => match companion(f) {
+            // "ShadowHeart_InParty_…", "Wyll_Recruitment_…" and the bare tags ("GALECAMP").
+            Some(c) => return format!("Companion: {c}"),
+            None => return format!("Other ({f})"),
+        },
     };
     area.to_string()
+}
+
+/// Why changing a flag is riskier than most (see `risk`).
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum Risk {
+    /// A developer's testing switch.
+    Debug,
+    /// Set and cleared by a script while a scene runs.
+    Scene,
+    /// The game mode (difficulty, early access), which is kept elsewhere too.
+    Mode,
+    /// Someone lives or dies, or can be brought back.
+    Life,
+    /// Who is in the party or at camp, which is kept elsewhere too.
+    Party,
+    /// Romance and relationship state.
+    Romance,
+    /// Story progress: an area left, the tutorial over, an act begun.
+    Progress,
+    /// The tadpole and mind flayer story.
+    Tadpole,
+}
+
+/// Flags that are riskier to change than most, by their name. Names the scripts use for
+/// knowledge ("…_Knows_…") and the like aren't marked; any flag can still have effects the
+/// name doesn't show.
+pub fn risk(name: &str) -> Option<Risk> {
+    let low = name.to_ascii_lowercase();
+    let has = |words: &[&str]| words.iter().any(|w| low.contains(w));
+    let first = name.split('_').next().unwrap_or_default();
+    if first.starts_with("Debug") || first == "DBG" {
+        return Some(Risk::Debug);
+    }
+    if has(&["startspot", "stopspot", "_spotting", "inconversation"]) {
+        return Some(Risk::Scene);
+    }
+    if has(&["difficultymode", "not_for_ea"]) {
+        return Some(Risk::Mode);
+    }
+    if has(&["dead", "death", "died", "killed", "_kill", "alive", "permadefeated", "resurrect"]) {
+        return Some(Risk::Life);
+    }
+    let tag = !name.contains('_') && name.chars().all(|c| c.is_ascii_uppercase()) && companion(name).is_some();
+    if tag || has(&["partoftheteam", "inparty", "wasrecruited", "canbekicked", "recruited", "hired", "incamp", "partysize"]) {
+        return Some(Risk::Party);
+    }
+    if has(&["dating", "romance", "partner", "flirt", "kiss"]) {
+        return Some(Risk::Romance);
+    }
+    if has(&["partyprogress", "tutorialended", "_act1", "_act2", "_act3", "_ending", "endgame", "gameover"]) {
+        return Some(Risk::Progress);
+    }
+    if has(&["tadpole", "ceremorphosis", "illithid", "mindflayerpower"]) {
+        return Some(Risk::Tadpole);
+    }
+    None
 }
 
 /// Adds the named flags to the view as on/off values under "Story flags/<section>/<name>".
@@ -76,13 +177,20 @@ pub fn add(b: &mut Builder, l: &Lsf, plain: &[u8], base: usize, story: &osiris::
     let names = names(story);
     let mut n = 0;
     let mut seen = HashSet::new();
+    let mut unnamed = 0u64;
     for (g, at) in flag_map(l, plain) {
-        let Some(full) = names.get(&g) else { continue };
+        let Some(full) = names.get(&g) else {
+            unnamed += 1;
+            continue;
+        };
         let name = osiris::strip_guid(full).to_string();
         let key = if seen.insert(name.clone()) { name.clone() } else { format!("{name} ({})", &g[..8]) };
         if b.bits(&["Story flags", &section(&name), &key], base + at, Kind::U8, 0, 1, 0, 0, 1).is_some() {
             n += 1;
         }
+    }
+    if n > 0 {
+        b.info(&["Story flags unnamed"], unnamed);
     }
     n
 }
@@ -163,4 +271,43 @@ pub fn sync_story(old: &[u8], new: &[u8], story_bytes: &[u8]) -> Result<Option<V
         return Err("the edited story doesn't read back as expected".into());
     }
     Ok(Some(out))
+}
+
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn sections_by_area_and_companion() {
+        assert_eq!(section("DEN_GroveConflict_Quest_AcceptedKagha"), "Emerald Grove");
+        assert_eq!(section("ORI_LaezelRecruitment_Event_InvitedToCamp"), "Companion: Lae'zel");
+        assert_eq!(section("ORI_ShadowHeart_HasMet"), "Companion: Shadowheart");
+        assert_eq!(section("ShadowHeart_InParty_Knows_SharWorshipper"), "Companion: Shadowheart");
+        assert_eq!(section("GALECAMP"), "Companion: Gale");
+        assert_eq!(section("ORI_Banter_State_AllowLaezelCreche"), "Companions");
+        assert_eq!(section("Debug_CAMP_IgnoreCampTypeRestrictions"), "Debug switches");
+        assert_eq!(section("BANTERREGION_WLD_Forest"), "Regions");
+        assert_eq!(section("JERGAL"), "Other (JERGAL)");
+    }
+
+    #[test]
+    fn risky_flags_are_marked() {
+        assert_eq!(risk("Debug_CAMP_IgnoreCampTypeRestrictions"), Some(Risk::Debug));
+        assert_eq!(risk("GOB_GoblinToast_Event_StartSpotting"), Some(Risk::Scene));
+        assert_eq!(risk("GLO_DifficultyMode_Medium"), Some(Risk::Mode));
+        assert_eq!(risk("HAG_Hag_Brother_001_State_IsDead"), Some(Risk::Life));
+        assert_eq!(risk("ORI_Wyll_State_Alive"), Some(Risk::Life));
+        assert_eq!(risk("GLO_Origin_PartOfTheTeam_Halsin"), Some(Risk::Party));
+        assert_eq!(risk("ORI_Laezel_State_IsInParty"), Some(Risk::Party));
+        assert_eq!(risk("WYLLPARTY"), Some(Risk::Party));
+        assert_eq!(risk("ORI_Gale_State_NotDating"), Some(Risk::Romance));
+        assert_eq!(risk("CHA_PartyProgress_LeavingCrashSite"), Some(Risk::Progress));
+        assert_eq!(risk("NIGHT_Ceremorphosis1"), Some(Risk::Tadpole));
+        // Knowledge and the like aren't marked.
+        assert_eq!(risk("ORI_Astarion_Knows_Name"), None);
+        assert_eq!(risk("DEN_DruidLair_Knows_HiddenLibraryEntrance"), None);
+        assert_eq!(risk("GOB_VoloBallad_State_OnStage"), None);
+        assert_eq!(risk("JERGAL"), None);
+    }
 }

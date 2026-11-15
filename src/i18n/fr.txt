@@ -26783,3 +26783,119 @@ Trombone Tremor upgrade 3
 Vine leaping
 = Saut de liane
 
+A developer's testing switch. Leave it as it is.
+= Un interrupteur de test des développeurs. Laissez-le tel quel.
+
+A script sets and clears this while a scene runs; changing it can leave the scene stuck.
+= Un script l'active et le désactive pendant une scène ; le modifier peut bloquer la scène.
+
+All
+= Tous
+
+Camp nights
+= Nuits au camp
+
+Chapel ruins
+= Ruines de la chapelle
+
+Companion: {0}
+= Compagnon : {0}
+
+Debug switches
+= Interrupteurs de débogage
+
+Forest and Blighted Village
+= Forêt et Village abandonné
+
+Githyanki creche
+= Crèche githyanki
+
+Goblin camp
+= Camp gobelin
+
+Hirelings
+= Mercenaires
+
+Marks story progress; setting it early can skip scenes or lock quests.
+= Marque la progression de l'histoire ; l'activer trop tôt peut sauter des scènes ou bloquer des quêtes.
+
+Nautiloid crash site
+= Site du crash du nautiloïde
+
+No flag matches.
+= Aucun drapeau ne correspond.
+
+Not risky
+= Sans risque
+
+Off
+= Désactivés
+
+On
+= Activés
+
+Other ({0})
+= Autres ({0})
+
+Regions
+= Régions
+
+Risky
+= Risqués
+
+Romance state: later scenes check it, and contradicting flags can confuse them.
+= État de la romance : des scènes ultérieures le vérifient, et des drapeaux contradictoires peuvent les perturber.
+
+Someone lives or dies by this flag. The character itself isn't brought back or killed, so scenes can contradict what you see.
+= Ce drapeau décide si quelqu'un vit ou meurt. Le personnage lui-même n'est ni ramené ni tué, donc des scènes peuvent contredire ce que vous voyez.
+
+The game mode (difficulty and the like) is also kept elsewhere in the save; this flag alone doesn't change it.
+= Le mode de jeu (difficulté, etc.) est aussi conservé ailleurs dans la sauvegarde ; ce drapeau seul ne le change pas.
+
+The tadpole and mind flayer story; key scenes depend on it.
+= L'histoire du têtard et du flagelleur mental ; des scènes clés en dépendent.
+
+Tick a flag to set it, untick it to clear it. These are the story's global flags, named as the game's scripts name them; the story script's own list of set flags is kept in step when you save. Changing a flag doesn't replay the scene behind it. Flags marked ⚠ are riskier than most, so change few at a time and keep the backup.
+= Cochez un drapeau pour l'activer, décochez-le pour le désactiver. Ce sont les drapeaux globaux de l'histoire, nommés comme dans les scripts du jeu ; la liste des drapeaux actifs du script de l'histoire est tenue à jour à l'enregistrement. Changer un drapeau ne rejoue pas la scène correspondante. Les drapeaux marqués ⚠ sont plus risqués que la plupart : changez-en peu à la fois et gardez la sauvegarde.
+
+Who is in the party or at camp is also kept elsewhere in the save; changing only the flag can leave a companion half in, half out.
+= Qui est dans le groupe ou au camp est aussi conservé ailleurs dans la sauvegarde ; ne changer que le drapeau peut laisser un compagnon à moitié dedans, à moitié dehors.
+
+Wilderness
+= Nature sauvage
+
+game mode
+= mode de jeu
+
+grove, Astarion, dead…
+= bosquet, Astarion, mort…
+
+life or death
+= vie ou mort
+
+party
+= groupe
+
+romance
+= romance
+
+scene in progress
+= scène en cours
+
+story progress
+= progression de l'histoire
+
+tadpole
+= têtard
+
+testing switch
+= interrupteur de test
+
+{0} flags changed
+= {0} drapeaux modifiés
+
+{0} more flags have no name in this save and aren't listed.
+= {0} autres drapeaux n'ont pas de nom dans cette sauvegarde et ne sont pas listés.
+
+{0} named flags, {1} of them on.
+= {0} drapeaux nommés, dont {1} activés.

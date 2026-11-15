@@ -26776,3 +26776,119 @@ Trombone Tremor upgrade 3
 Vine leaping
 = Lianenspringen
 
+A developer's testing switch. Leave it as it is.
+= Ein Testschalter der Entwickler. Lass ihn, wie er ist.
+
+A script sets and clears this while a scene runs; changing it can leave the scene stuck.
+= Ein Skript setzt und löscht dies, während eine Szene läuft; eine Änderung kann die Szene hängen lassen.
+
+All
+= Alle
+
+Camp nights
+= Lagernächte
+
+Chapel ruins
+= Kapellenruine
+
+Companion: {0}
+= Gefährte: {0}
+
+Debug switches
+= Debug-Schalter
+
+Forest and Blighted Village
+= Wald und Verdorbenes Dorf
+
+Githyanki creche
+= Githyanki-Brutstätte
+
+Goblin camp
+= Goblinlager
+
+Hirelings
+= Söldner
+
+Marks story progress; setting it early can skip scenes or lock quests.
+= Markiert den Story-Fortschritt; zu frühes Setzen kann Szenen überspringen oder Quests sperren.
+
+Nautiloid crash site
+= Absturzstelle des Nautiloiden
+
+No flag matches.
+= Keine Flagge passt.
+
+Not risky
+= Nicht riskant
+
+Off
+= Aus
+
+On
+= An
+
+Other ({0})
+= Sonstiges ({0})
+
+Regions
+= Regionen
+
+Risky
+= Riskant
+
+Romance state: later scenes check it, and contradicting flags can confuse them.
+= Romanzenstatus: spätere Szenen prüfen ihn, und widersprüchliche Flaggen können sie durcheinanderbringen.
+
+Someone lives or dies by this flag. The character itself isn't brought back or killed, so scenes can contradict what you see.
+= Diese Flagge entscheidet, ob jemand lebt oder stirbt. Die Figur selbst wird dabei nicht wiederbelebt oder getötet, Szenen können also dem widersprechen, was du siehst.
+
+The game mode (difficulty and the like) is also kept elsewhere in the save; this flag alone doesn't change it.
+= Der Spielmodus (Schwierigkeit und Ähnliches) steht auch an anderer Stelle im Spielstand; diese Flagge allein ändert ihn nicht.
+
+The tadpole and mind flayer story; key scenes depend on it.
+= Die Geschichte um Kaulquappe und Gedankenschinder; wichtige Szenen hängen davon ab.
+
+Tick a flag to set it, untick it to clear it. These are the story's global flags, named as the game's scripts name them; the story script's own list of set flags is kept in step when you save. Changing a flag doesn't replay the scene behind it. Flags marked ⚠ are riskier than most, so change few at a time and keep the backup.
+= Hake eine Flagge an, um sie zu setzen, und entferne den Haken, um sie zu löschen. Das sind die globalen Story-Flaggen, benannt wie in den Skripten des Spiels; die eigene Liste gesetzter Flaggen des Story-Skripts wird beim Speichern angeglichen. Eine Flagge zu ändern spielt die Szene dahinter nicht erneut ab. Mit ⚠ markierte Flaggen sind riskanter als die meisten, also ändere wenige auf einmal und behalte die Sicherung.
+
+Who is in the party or at camp is also kept elsewhere in the save; changing only the flag can leave a companion half in, half out.
+= Wer in der Gruppe oder im Lager ist, steht auch an anderer Stelle im Spielstand; nur die Flagge zu ändern kann einen Gefährten halb drinnen, halb draußen lassen.
+
+Wilderness
+= Wildnis
+
+game mode
+= Spielmodus
+
+grove, Astarion, dead…
+= Hain, Astarion, tot…
+
+life or death
+= Leben oder Tod
+
+party
+= Gruppe
+
+romance
+= Romanze
+
+scene in progress
+= laufende Szene
+
+story progress
+= Story-Fortschritt
+
+tadpole
+= Kaulquappe
+
+testing switch
+= Testschalter
+
+{0} flags changed
+= {0} Flaggen geändert
+
+{0} more flags have no name in this save and aren't listed.
+= {0} weitere Flaggen haben in diesem Spielstand keinen Namen und werden nicht aufgeführt.
+
+{0} named flags, {1} of them on.
+= {0} benannte Flaggen, davon {1} an.

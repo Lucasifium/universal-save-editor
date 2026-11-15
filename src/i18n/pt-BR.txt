@@ -26746,3 +26746,119 @@ Trombone Tremor upgrade 3
 Vine leaping
 = Pular cipós
 
+A developer's testing switch. Leave it as it is.
+= Um interruptor de testes dos desenvolvedores. Deixe como está.
+
+A script sets and clears this while a scene runs; changing it can leave the scene stuck.
+= Um script ativa e desativa isto enquanto uma cena acontece; alterá-lo pode deixar a cena travada.
+
+All
+= Todos
+
+Camp nights
+= Noites no acampamento
+
+Chapel ruins
+= Ruínas da capela
+
+Companion: {0}
+= Companheiro: {0}
+
+Debug switches
+= Interruptores de depuração
+
+Forest and Blighted Village
+= Floresta e Vila Arruinada
+
+Githyanki creche
+= Creche githyanki
+
+Goblin camp
+= Acampamento goblin
+
+Hirelings
+= Mercenários
+
+Marks story progress; setting it early can skip scenes or lock quests.
+= Marca o progresso da história; ativá-lo cedo pode pular cenas ou travar missões.
+
+Nautiloid crash site
+= Local da queda do nautiloide
+
+No flag matches.
+= Nenhuma marcação corresponde.
+
+Not risky
+= Sem risco
+
+Off
+= Desativadas
+
+On
+= Ativadas
+
+Other ({0})
+= Outros ({0})
+
+Regions
+= Regiões
+
+Risky
+= Arriscadas
+
+Romance state: later scenes check it, and contradicting flags can confuse them.
+= Estado do romance: cenas posteriores o verificam, e marcações contraditórias podem confundi-las.
+
+Someone lives or dies by this flag. The character itself isn't brought back or killed, so scenes can contradict what you see.
+= Esta marcação decide se alguém vive ou morre. O personagem em si não é revivido nem morto, então as cenas podem contradizer o que você vê.
+
+The game mode (difficulty and the like) is also kept elsewhere in the save; this flag alone doesn't change it.
+= O modo de jogo (dificuldade e afins) também fica em outra parte do save; esta marcação sozinha não o altera.
+
+The tadpole and mind flayer story; key scenes depend on it.
+= A história do girino e do devorador de mentes; cenas importantes dependem dela.
+
+Tick a flag to set it, untick it to clear it. These are the story's global flags, named as the game's scripts name them; the story script's own list of set flags is kept in step when you save. Changing a flag doesn't replay the scene behind it. Flags marked ⚠ are riskier than most, so change few at a time and keep the backup.
+= Marque uma marcação para ativá-la e desmarque para desativá-la. Estas são as marcações globais da história, com os nomes usados pelos scripts do jogo; a lista de marcações ativas do script da história é mantida em sincronia ao salvar. Alterar uma marcação não repete a cena correspondente. Marcações com ⚠ são mais arriscadas que a maioria, então altere poucas por vez e mantenha o backup.
+
+Who is in the party or at camp is also kept elsewhere in the save; changing only the flag can leave a companion half in, half out.
+= Quem está no grupo ou no acampamento também fica em outra parte do save; alterar só a marcação pode deixar um companheiro pela metade.
+
+Wilderness
+= Ermos
+
+game mode
+= modo de jogo
+
+grove, Astarion, dead…
+= bosque, Astarion, morto…
+
+life or death
+= vida ou morte
+
+party
+= grupo
+
+romance
+= romance
+
+scene in progress
+= cena em andamento
+
+story progress
+= progresso da história
+
+tadpole
+= girino
+
+testing switch
+= interruptor de teste
+
+{0} flags changed
+= {0} marcações alteradas
+
+{0} more flags have no name in this save and aren't listed.
+= Mais {0} marcações não têm nome neste save e não são listadas.
+
+{0} named flags, {1} of them on.
+= {0} marcações com nome, {1} delas ativadas.
