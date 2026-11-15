@@ -1011,12 +1011,26 @@ pub fn columns(ui: &mut Ui, min_w: f32, n: usize, mut add: impl FnMut(&mut Ui, u
     if n == 0 {
         return;
     }
-    let cols = ((ui.available_width() / min_w).floor() as usize).clamp(1, n);
+    // A column whose rows need more than `min_w` (long labels, a box and its −/+) ran under
+    // the next column, which then covered its controls. The widest column seen is kept, and
+    // fewer columns are used from the next frame on when it didn't fit.
+    let key = ui.id().with(("columns_need", n, min_w.to_bits()));
+    let need = ui.ctx().data(|d| d.get_temp::<f32>(key)).unwrap_or(0.0);
+    let avail = ui.available_rect_before_wrap().width();
+    let gap = ui.spacing().item_spacing.x;
+    let cols = ((avail / min_w).floor() as usize).min(((avail + gap) / (need + gap)).floor() as usize).clamp(1, n);
+    let col_w = (avail - gap * (cols - 1) as f32) / cols as f32;
+    let mut widest = 0.0_f32;
     ui.columns(cols, |cs| {
         for i in 0..n {
             add(&mut cs[i % cols], i);
         }
+        widest = cs.iter().map(|c| c.min_rect().width()).fold(0.0, f32::max);
     });
+    if cols > 1 && widest > col_w + 1.0 && widest > need {
+        ui.ctx().data_mut(|d| d.insert_temp(key, widest));
+        ui.ctx().request_repaint();
+    }
 }
 
 pub fn fmt_num(n: f64) -> String {
