@@ -218,6 +218,8 @@ pub fn apply(ctx: &egui::Context, dark: bool) {
         v.window_fill = Color32::WHITE;
         v.extreme_bg_color = Color32::WHITE;
         v.faint_bg_color = Color32::from_rgb(236, 238, 246);
+        // Text boxes are white on a near-white page: without an outline they can't be seen.
+        v.widgets.inactive.bg_stroke = Stroke::new(1.0_f32, Color32::from_rgb(200, 204, 216));
     }
     style.visuals = v;
     // Pin the theme: otherwise egui follows the system (or browser) theme and, where that

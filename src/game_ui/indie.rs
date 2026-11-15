@@ -482,7 +482,7 @@ pub fn vampire_survivors(ui: &mut Ui, cx: &mut GameCtx) {
                 let (id, name, max) = &list[i];
                 let n = count(id);
                 ui.horizontal(|ui| {
-                    let c = if cx.modified(p) { crate::theme::MODIFIED } else { ui.visuals().strong_text_color() };
+                    let c = if cx.modified(p) { crate::theme::fg(ui, crate::theme::MODIFIED) } else { ui.visuals().strong_text_color() };
                     ui.allocate_ui_with_layout(egui::vec2(96.0, 22.0), egui::Layout::left_to_right(egui::Align::Center), |ui| {
                         ui.set_width(96.0);
                         ui.add(egui::Label::new(RichText::new(name).color(c)).truncate()).on_hover_text(id);

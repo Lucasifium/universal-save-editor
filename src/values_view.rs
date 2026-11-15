@@ -464,7 +464,7 @@ pub fn show(ui: &mut Ui, model: &Model, disp: &[Disp], collapsed: &HashSet<usize
                                 if !r.context().is_empty() {
                                     job.append(&format!("{} \u{203A} ", r.context()), 0.0, TextFormat::simple(font.clone(), ui.visuals().weak_text_color()));
                                 }
-                                let name_color = if modified { theme::MODIFIED } else { ui.visuals().strong_text_color() };
+                                let name_color = if modified { theme::fg(ui, theme::MODIFIED) } else { ui.visuals().strong_text_color() };
                                 job.append(r.name(), 0.0, TextFormat::simple(font.clone(), name_color));
                                 if ctx.show_raw_keys && names::raw_differs(r.raw_key(), r.name()) {
                                     let small = FontId::new(font.size * 0.82, font.family.clone());

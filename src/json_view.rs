@@ -179,7 +179,7 @@ fn node_ui(ui: &mut Ui, key: &str, v: &Value, ptr: &str, ctx: &mut TreeCtx) {
             let modified = ctx.baseline.pointer(ptr) != Some(v);
             let revealed = ctx.reveal == Some(ptr);
             let row = ui.horizontal(|ui| {
-                let color = if modified { theme::MODIFIED } else { ui.visuals().text_color() };
+                let color = if modified { theme::fg(ui, theme::MODIFIED) } else { ui.visuals().text_color() };
                 let label_w = (ctx.value_x - ui.cursor().min.x).max(120.0);
                 let job = label_job(ui, &label, raw, "", color);
                 ui.allocate_ui_with_layout(egui::vec2(label_w, ui.spacing().interact_size.y), egui::Layout::left_to_right(egui::Align::Center), |ui| {

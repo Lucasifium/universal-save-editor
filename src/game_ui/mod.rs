@@ -774,7 +774,7 @@ impl GameCtx<'_> {
         // Never wider than the editor and its −/+ leave room for, so a narrow column doesn't push them out.
         let label_w = label_w.min((ui.available_width() - width - 84.0).max(56.0));
         ui.horizontal(|ui| {
-            let c = if self.modified(p) { theme::MODIFIED } else { ui.visuals().text_color() };
+            let c = if self.modified(p) { theme::fg(ui, theme::MODIFIED) } else { ui.visuals().text_color() };
             ui.allocate_ui_with_layout(egui::vec2(label_w, 22.0), egui::Layout::left_to_right(egui::Align::Center), |ui| {
                 ui.set_width(label_w);
                 let r = ui.add(egui::Label::new(RichText::new(label).color(c)).truncate());
@@ -787,7 +787,7 @@ impl GameCtx<'_> {
     /// A field's label, orange when it was changed.
     pub fn label(&self, ui: &mut Ui, label: &str, p: &str) {
         let label = tr_any(label);
-        let c = if self.modified(p) { theme::MODIFIED } else { ui.visuals().text_color() };
+        let c = if self.modified(p) { theme::fg(ui, theme::MODIFIED) } else { ui.visuals().text_color() };
         let r = ui.label(RichText::new(label).color(c));
         find_mark(ui, r.rect, label);
     }
@@ -820,7 +820,7 @@ impl GameCtx<'_> {
         let name = tr_any(name);
         let Some(n) = self.num(p) else { return };
         ui.horizontal(|ui| {
-            let c = if self.modified(p) { theme::MODIFIED } else { ui.visuals().strong_text_color() };
+            let c = if self.modified(p) { theme::fg(ui, theme::MODIFIED) } else { ui.visuals().strong_text_color() };
             ui.allocate_ui_with_layout(egui::vec2(110.0, 24.0), egui::Layout::left_to_right(egui::Align::Center), |ui| {
                 ui.set_width(110.0);
                 let r = ui.add(egui::Label::new(RichText::new(name).color(c)).truncate());
@@ -846,7 +846,7 @@ impl GameCtx<'_> {
         let modified = self.modified(p);
         let mut pick = None;
         ui.horizontal_wrapped(|ui| {
-            let c = if modified { theme::MODIFIED } else { ui.visuals().text_color() };
+            let c = if modified { theme::fg(ui, theme::MODIFIED) } else { ui.visuals().text_color() };
             let r = ui.label(RichText::new(caption).color(c));
             find_mark(ui, r.rect, caption);
             for (name, v) in levels {

@@ -3273,7 +3273,8 @@ impl App {
             let mut changes = |ui: &mut egui::Ui| {
                 let n = self.change_count();
                 let label = if n > 0 { crate::i18n::trf("Changes ({0})", &[&n]) } else { tr("Changes").into() };
-                let color = if self.show_changes { Color32::WHITE } else { ui.visuals().text_color() };
+                // The selected colours: white on the light theme's pale selection could not be read.
+                let color = if self.show_changes { ui.visuals().selection.stroke.color } else { ui.visuals().text_color() };
                 ui.toggle_value(&mut self.show_changes, widgets::icon_text_colored(ui, hi, icon::HISTORY, &label, color))
                     .on_hover_text(tr("List everything you've changed since the last save"));
             };
@@ -3317,7 +3318,7 @@ impl App {
             if self.doc.is_some() && !narrow(ui) {
                 let n = self.change_count();
                 if self.dirty {
-                    ui.label(RichText::new(if n == 1 { tr("1 unsaved change").to_string() } else { crate::i18n::trf("{0} unsaved changes", &[&n]) }).color(theme::MODIFIED));
+                    ui.label(RichText::new(if n == 1 { tr("1 unsaved change").to_string() } else { crate::i18n::trf("{0} unsaved changes", &[&n]) }).color(theme::fg(ui, theme::MODIFIED)));
                 } else {
                     ui.weak(tr("No unsaved changes"));
                 }
@@ -3751,7 +3752,7 @@ impl App {
                             }
                             let hex = |b: &[u8]| b.iter().take(16).map(|x| format!("{x:02X}")).collect::<Vec<_>>().join(" ");
                             ui.label(RichText::new(hex(&base[start..end])).weak().strikethrough().monospace());
-                            ui.label(RichText::new(hex(&cur[start..end])).color(theme::MODIFIED).monospace());
+                            ui.label(RichText::new(hex(&cur[start..end])).color(theme::fg(ui, theme::MODIFIED)).monospace());
                             if ui.small_button(tr("Revert")).clicked() {
                                 revert_bytes.push((start, base[start..end].to_vec()));
                             }
@@ -3788,7 +3789,7 @@ impl App {
                                 ui.horizontal_wrapped(|ui| {
                                     ui.label(RichText::new(old).weak().strikethrough());
                                     ui.label("\u{203A}");
-                                    ui.label(RichText::new(new).color(theme::MODIFIED));
+                                    ui.label(RichText::new(new).color(theme::fg(ui, theme::MODIFIED)));
                                 });
                             }
                             if ui.small_button(tr("Revert")).clicked() {

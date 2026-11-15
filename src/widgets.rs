@@ -17,7 +17,8 @@ pub fn toggle(ui: &mut Ui, on: &mut bool) -> Response {
     if ui.is_rect_visible(rect) {
         let t = ui.ctx().animate_bool(resp.id, *on);
         let radius = 0.5 * rect.height();
-        let off_fill = ui.visuals().widgets.inactive.bg_fill;
+        // In the light theme the button grey hardly shows behind the white knob.
+        let off_fill = if ui.visuals().dark_mode { ui.visuals().widgets.inactive.bg_fill } else { Color32::from_rgb(184, 189, 204) };
         let mix = |a: u8, b: u8| (a as f32 + (b as f32 - a as f32) * t).round() as u8;
         let fill = Color32::from_rgb(
             mix(off_fill.r(), theme::ACCENT.r()),

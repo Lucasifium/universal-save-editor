@@ -487,7 +487,7 @@ pub fn hex_grid(ui: &mut Ui, data: &[u8], baseline: &[u8], st: &mut HexState) {
                     if off == st.selected {
                         text = text.background_color(Color32::from_rgb(70, 80, 190)).color(Color32::WHITE);
                     } else if baseline.get(off) != Some(&data[off]) {
-                        text = text.color(crate::theme::MODIFIED).strong();
+                        text = text.color(crate::theme::fg(ui, crate::theme::MODIFIED)).strong();
                     } else if label.is_some() {
                         text = text.background_color(Color32::from_rgb(30, 110, 60)).color(Color32::WHITE);
                     } else if in_hit {

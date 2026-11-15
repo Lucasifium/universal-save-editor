@@ -180,7 +180,7 @@ fn inventory(ui: &mut Ui, cx: &mut GameCtx) {
                 shown += 1;
                 ui.label(RichText::new(format!("{}", i + 1)).color(ui.visuals().weak_text_color()));
                 let count = join(&base, "count");
-                let c = if cx.modified(&count) { crate::theme::MODIFIED } else { ui.visuals().text_color() };
+                let c = if cx.modified(&count) { crate::theme::fg(ui, crate::theme::MODIFIED) } else { ui.visuals().text_color() };
                 ui.label(RichText::new(title).color(c));
                 cx.cell(ui, &count, 80.0);
                 ui.end_row();

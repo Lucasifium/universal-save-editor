@@ -209,7 +209,7 @@ fn difficulty(ui: &mut Ui, cx: &mut GameCtx) {
     let mut pick = None;
     ui.add_space(6.0);
     ui.horizontal_wrapped(|ui| {
-        let c = if modified { crate::theme::MODIFIED } else { ui.visuals().text_color() };
+        let c = if modified { crate::theme::fg(ui, crate::theme::MODIFIED) } else { ui.visuals().text_color() };
         ui.label(RichText::new(tr("Difficulty")).color(c));
         for (i, n) in ["Easy", "Normal", "Hard"].iter().enumerate() {
             if ui.selectable_label(cur == Some(i), crate::i18n::tr_any(n)).clicked() && cur != Some(i) {
@@ -269,7 +269,7 @@ fn mon_card(ui: &mut Ui, cx: &mut GameCtx, m: &str, id: &str) {
             cx.grid_row(ui, "Happiness", &f("@happiness"), 60.0);
             if cx.can_edit(&f("@shiny")) {
                 let on = shiny(cx, m);
-                let c = if cx.modified(&f("@shiny")) { crate::theme::MODIFIED } else { ui.visuals().text_color() };
+                let c = if cx.modified(&f("@shiny")) { crate::theme::fg(ui, crate::theme::MODIFIED) } else { ui.visuals().text_color() };
                 ui.label(RichText::new(tr("Shiny")).color(c));
                 let mut v = on;
                 if ui.checkbox(&mut v, "").changed() {
@@ -292,7 +292,7 @@ fn mon_card(ui: &mut Ui, cx: &mut GameCtx, m: &str, id: &str) {
                 ui.label(label);
                 cx.editor(ui, &f(&format!("@iv/{k}")), 44.0);
                 cx.editor(ui, &f(&format!("@ev/{k}")), 52.0);
-                let c = if cx.modified(&f(stat)) { crate::theme::MODIFIED } else { ui.visuals().strong_text_color() };
+                let c = if cx.modified(&f(stat)) { crate::theme::fg(ui, crate::theme::MODIFIED) } else { ui.visuals().strong_text_color() };
                 ui.label(RichText::new(cx.int(&f(stat)).map_or_else(String::new, |v| v.to_string())).color(c));
                 ui.end_row();
             }
@@ -315,7 +315,7 @@ fn mon_card(ui: &mut Ui, cx: &mut GameCtx, m: &str, id: &str) {
 fn nature_row(ui: &mut Ui, cx: &mut GameCtx, m: &str, id: &str) {
     let p = format!("{m}/@nature");
     let Some(cur) = cx.text(&p) else { return };
-    let c = if cx.modified(&p) { crate::theme::MODIFIED } else { ui.visuals().text_color() };
+    let c = if cx.modified(&p) { crate::theme::fg(ui, crate::theme::MODIFIED) } else { ui.visuals().text_color() };
     ui.label(RichText::new(tr("Nature")).color(c));
     let mut pick = None;
     ui.add_enabled_ui(cx.can_edit(&p), |ui| {

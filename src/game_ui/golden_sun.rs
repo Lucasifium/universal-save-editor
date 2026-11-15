@@ -218,7 +218,7 @@ fn djinn_grid(ui: &mut Ui, cx: &mut GameCtx, party_p: &str, party: &[String], pe
                         Some((i, set)) => format!("{} \u{00B7} {}", names[i], if set { "set" } else { "standby" }),
                         None => "\u{2014}".to_string(),
                     };
-                    let shown = if changed { RichText::new(shown).size(12.0).color(crate::theme::MODIFIED) } else { RichText::new(shown).size(12.0) };
+                    let shown = if changed { RichText::new(shown).size(12.0).color(crate::theme::fg(ui, crate::theme::MODIFIED)) } else { RichText::new(shown).size(12.0) };
                     egui::ComboBox::from_id_salt(("gs_djinn", e, bit)).selected_text(shown).width(120.0).show_ui(ui, |ui| {
                         ui.selectable_value(&mut pick, None, format!("\u{2014} {}", tr("nobody")));
                         for (i, n) in names.iter().enumerate() {

@@ -254,7 +254,7 @@ pub fn valheim(ui: &mut Ui, cx: &mut GameCtx) {
                 let base = join("/Inventory", k);
                 let equipped = cx.flag(&join(&base, "Equipped"));
                 let label = if equipped { format!("{k} (equipped)") } else { k.clone() };
-                let c = if cx.modified(&join(&base, "Stack")) || cx.modified(&join(&base, "Quality")) { crate::theme::MODIFIED } else { ui.visuals().text_color() };
+                let c = if cx.modified(&join(&base, "Stack")) || cx.modified(&join(&base, "Quality")) { crate::theme::fg(ui, crate::theme::MODIFIED) } else { ui.visuals().text_color() };
                 ui.label(RichText::new(label).color(c));
                 cx.compact(ui, &join(&base, "Stack"), 70.0);
                 cx.compact(ui, &join(&base, "Quality"), 50.0);

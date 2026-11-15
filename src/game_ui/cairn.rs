@@ -33,7 +33,7 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
         if newest.as_deref().is_some_and(|n| n != cur) {
             ui.label(
                 RichText::new(tr("This isn't the save the game continues from: Cairn loads the newest save in the slot (marked in the list below), so edits here won't show up in the game."))
-                    .color(crate::theme::MODIFIED),
+                    .color(crate::theme::fg(ui, crate::theme::MODIFIED)),
             );
         }
         let mut saves: Vec<(String, String)> = entries.iter().filter_map(|e| crate::app::cairn_save_label(e).map(|l| (e.clone(), l))).collect();
