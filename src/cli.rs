@@ -459,8 +459,10 @@ fn go(cmd: &str, args: &[String]) -> Result<(), String> {
             match &a.out {
                 Some(o) => {
                     // `-o` may name a save (even this one): keep what is there first.
-                    if let Some(b) = crate::backups::take(o)? {
-                        eprintln!("backed up the old file as {}", b.display());
+                    if !a.no_backup {
+                        if let Some(b) = crate::backups::take(o)? {
+                            eprintln!("backed up the old file as {}", b.display());
+                        }
                     }
                     crate::backups::write_verified(o, &bytes, true).map_err(|e| format!("{}: {e}", o.display()))?
                 }
@@ -511,13 +513,20 @@ fn write(path: &Path, out: Option<&Path>, bytes: &[u8], no_backup: bool) -> Resu
             eprintln!("backed up the old file as {}", b.display());
         }
     }
+    // Files the game checks against the save, and what to put back if one can't be written.
+    let companions = formats::companion_files(target, bytes);
+    let before = if companions.is_empty() { None } else { Some(crate::backups::Kept::read(target).map_err(|e| format!("{}: {e}", target.display()))?) };
     // Written beside, flushed, read back and checked, then renamed over it (through a link).
     crate::backups::write_verified(target, bytes, true).map_err(|e| format!("{}: {e}", target.display()))?;
-    for (other, data) in formats::companion_files(target, bytes) {
-        if !no_backup {
-            let _ = crate::backups::take(&other);
-        }
-        std::fs::write(&other, data).map_err(|e| format!("{}: {e}", other.display()))?;
+    if let Some(before) = before {
+        crate::backups::write_companions(&before, companions, !no_backup).map_err(|e| {
+            let stuck: Vec<String> = e.stuck.iter().map(|p| p.display().to_string()).collect();
+            if stuck.is_empty() {
+                format!("{}: {}; nothing was changed", e.file.display(), e.error)
+            } else {
+                format!("{}: {}; these files couldn't be put back as they were and may not match each other now: {}", e.file.display(), e.error, stuck.join(", "))
+            }
+        })?;
     }
     eprintln!("wrote {} ({} bytes)", target.display(), bytes.len());
     if let Some(m) = crate::playerprefs::after_save(target)? {
@@ -620,6 +629,45 @@ mod tests {
         let v: Value = serde_json::from_slice(&std::fs::read(&save).unwrap()).unwrap();
         assert_eq!(v, json!({"hp": 5}));
         assert_eq!(backed_up(&save), vec![packed]);
+    }
+
+    #[test]
+    fn a_companion_that_cant_be_written_leaves_the_save_as_it_was() {
+        let _g = crate::backups::tests::LOCK.lock().unwrap_or_else(|e| e.into_inner());
+        crate::backups::set_root(None);
+        let s = Scratch::new("companion");
+        let save = s.0.join("data0001.bin");
+        let original = br#"{"gold": 1}"#;
+        std::fs::write(&save, original).unwrap();
+        let mut slot = b"SAVE0001".to_vec();
+        slot.resize(0x40, 0);
+        std::fs::write(s.0.join("data0001.binslot"), &slot).unwrap();
+        std::fs::create_dir_all(s.0.join("data0001.binslot.partial").join("x")).unwrap();
+        let p = save.to_string_lossy().to_string();
+        assert_eq!(run(&args(&["set", &p, "/gold=2"])), Some(1));
+        assert_eq!(std::fs::read(&save).unwrap(), original);
+        assert_eq!(std::fs::read(s.0.join("data0001.binslot")).unwrap(), slot);
+        std::fs::remove_dir_all(s.0.join("data0001.binslot.partial")).unwrap();
+        assert_eq!(run(&args(&["set", &p, "/gold=2"])), Some(0));
+        use md5::Digest;
+        assert_eq!(std::fs::read(s.0.join("data0001.binslot")).unwrap()[0x18..0x28], md5::Md5::digest(std::fs::read(&save).unwrap())[..]);
+    }
+
+    #[test]
+    fn decode_with_no_backup_makes_none() {
+        let _g = crate::backups::tests::LOCK.lock().unwrap_or_else(|e| e.into_inner());
+        crate::backups::set_root(None);
+        let s = Scratch::new("decode-no-backup");
+        let save = s.0.join("save.json");
+        std::fs::write(&save, br#"{"hp": 5}"#).unwrap();
+        let out = s.0.join("out.json");
+        std::fs::write(&out, b"old export").unwrap();
+        let (p, o) = (save.to_string_lossy().to_string(), out.to_string_lossy().to_string());
+        assert_eq!(run(&args(&["decode", &p, "-o", &o, "--no-backup"])), Some(0));
+        assert!(crate::backups::list(&out).is_empty());
+        assert!(!s.0.join(crate::backups::BESIDE).exists());
+        let v: Value = serde_json::from_slice(&std::fs::read(&out).unwrap()).unwrap();
+        assert_eq!(v, json!({"hp": 5}));
     }
 
     #[cfg(unix)]

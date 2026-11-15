@@ -223,6 +223,16 @@ struct Saving {
 /// Builds the file for `content`, checks that it reads back as exactly that, keeps a backup of
 /// the file on disk and writes the new one. Touches nothing but files, so it runs on the UI
 /// thread or a worker thread alike. Every failure says what happened, in the player's language.
+/// What to tell the player when a file the game checks against the save couldn't be written.
+fn companion_failed(e: &crate::backups::CompanionError) -> String {
+    let first = trf("Couldn't write {0}: {1}", &[&e.file.display(), &e.error]);
+    if e.stuck.is_empty() {
+        return first;
+    }
+    let stuck: Vec<String> = e.stuck.iter().map(|p| file_name(p)).collect();
+    trf("{0}. These files couldn't be put back as they were and may not match each other now: {1}", &[&first, &stuck.join(", ")])
+}
+
 fn write_save(path: &Path, layers: &[Layer], content: &Content, opts: &formats::Options) -> Result<Written, String> {
     let bytes = formats::encode(layers, content).map_err(|e| trf("Couldn't build the save file: {0}", &[&e]))?;
     // Verify before touching the disk: the new file must decode to exactly what's on screen.
@@ -252,33 +262,11 @@ fn write_save(path: &Path, layers: &[Layer], content: &Content, opts: &formats::
         }
         // Files the game checks against this save (Persona 4 Golden's .binslot).
         let companions = formats::companion_files(path, &bytes);
-        // What to put back if one of them can't be written (`Some(None)`: there was no file).
-        let before = match (companions.is_empty(), path.exists()) {
-            (true, _) => None,
-            (false, false) => Some(None),
-            (false, true) => Some(Some(crate::vfs::read(path).map_err(|e| trf("Couldn't read {0}: {1}", &[&path.display(), &e]))?)),
-        };
+        // What to put back if one of them can't be written.
+        let before = if companions.is_empty() { None } else { Some(crate::backups::Kept::read(path).map_err(|e| trf("Couldn't read {0}: {1}", &[&path.display(), &e]))?) };
         write_in_place(path, &bytes).map_err(|e| trf("Couldn't write {0}: {1}", &[&path.display(), &e]))?;
-        let mut written: Vec<(PathBuf, Vec<u8>)> = vec![];
-        for (other, data) in companions {
-            let _ = crate::backups::take(&other);
-            let old = crate::vfs::read(&other).ok();
-            if let Err(e) = write_in_place(&other, &data) {
-                // The save and the files that check it must agree: put back what was written.
-                let back = match &before {
-                    Some(Some(b)) => write_in_place(path, b),
-                    Some(None) => crate::vfs::remove_file(path).map_err(|e| e.to_string()),
-                    None => Ok(()),
-                };
-                let back = written.iter().try_fold((), |(), (p, b)| write_in_place(p, b)).and(back);
-                return Err(match back {
-                    Ok(()) => trf("Couldn't write {0}: {1}", &[&other.display(), &e]),
-                    Err(_) => trf("Saved, but couldn't update {0}: {1}", &[&other.display(), &e]),
-                });
-            }
-            if let Some(old) = old {
-                written.push((other, old));
-            }
+        if let Some(before) = before {
+            crate::backups::write_companions(&before, companions, true).map_err(|e| companion_failed(&e))?;
         }
         #[cfg(not(target_arch = "wasm32"))]
         match crate::playerprefs::after_save(path) {
@@ -1886,13 +1874,21 @@ impl App {
         if let Some(game) = crate::running::game_for(&path) {
             return self.fail(trf("{0} looks like it's running \u{2014} quit it first, or it may overwrite the restored file.", &[&game]));
         }
+        // What to put back if a file the game checks against the save can't be updated.
+        let before = match crate::backups::Kept::read(&path) {
+            Ok(k) => k,
+            Err(e) => return self.fail(trf("Couldn't restore backup: {0}", &[&trf("Couldn't read {0}: {1}", &[&path.display(), &e])])),
+        };
         match crate::backups::restore(&path, from) {
             Ok(()) => {
-                if let Ok(bytes) = crate::vfs::read(&path) {
-                    for (other, data) in formats::companion_files(&path, &bytes) {
-                        let _ = crate::backups::take(&other);
-                        let _ = crate::vfs::write(&other, data);
+                let companions = crate::vfs::read(&path).map(|bytes| formats::companion_files(&path, &bytes)).unwrap_or_default();
+                if let Err(e) = crate::backups::write_companions(&before, companions, true) {
+                    if !e.stuck.is_empty() {
+                        // Show what is on disk now.
+                        self.dirty = false;
+                        self.load(&path);
                     }
+                    return self.fail(trf("Couldn't restore backup: {0}", &[&companion_failed(&e)]));
                 }
                 self.dirty = false;
                 self.load(&path);
@@ -5805,6 +5801,65 @@ mod save_tests {
         std::fs::remove_dir_all(s.0.join("data0001.binslot.partial")).unwrap();
         let w = write_save(&path, &d.layers, &edited, &opts).unwrap();
         assert_eq!(w.stamp, safety::stamp(&path));
+        use md5::Digest;
+        assert_eq!(std::fs::read(&slot_path).unwrap()[0x18..0x28], md5::Md5::digest(std::fs::read(&path).unwrap())[..]);
+    }
+
+    /// A Persona 4 Golden-style save (JSON here) with the .binslot that holds its MD5.
+    fn save_with_binslot(s: &Scratch) -> (PathBuf, PathBuf, Vec<u8>) {
+        let path = s.0.join("data0001.bin");
+        std::fs::write(&path, br#"{"gold": 1}"#).unwrap();
+        let mut slot = b"SAVE0001".to_vec();
+        slot.resize(0x40, 0);
+        let slot_path = s.0.join("data0001.binslot");
+        std::fs::write(&slot_path, &slot).unwrap();
+        (path, slot_path, slot)
+    }
+
+    #[test]
+    fn saving_again_after_a_rolled_back_save_does_not_ask_about_changes_on_disk() {
+        let _l = locks();
+        let s = Scratch::new("rollback-stamp");
+        let ctx = window();
+        let (path, slot_path, _) = save_with_binslot(&s);
+        let mut app = opened(&ctx, &path);
+        app.apply_edit("/gold".into(), json!(2), 0.0);
+        std::fs::create_dir_all(s.0.join("data0001.binslot.partial").join("x")).unwrap();
+        app.save_to(&path);
+        assert_eq!(app.status_kind, StatusKind::Err);
+        assert!(app.status.starts_with("Couldn't write"), "{}", app.status);
+        assert_eq!(gold_on_disk(&path), json!(1));
+        assert!(!safety::changed(&path, app.doc.as_ref().unwrap().stamp.as_ref()), "the file is as it was opened, time included");
+        std::fs::remove_dir_all(s.0.join("data0001.binslot.partial")).unwrap();
+        app.save_to(&path);
+        assert!(app.stale_save.is_none(), "no question about a change nobody else made");
+        assert_eq!(gold_on_disk(&path), json!(2), "{}", app.status);
+        assert!(!app.dirty);
+        use md5::Digest;
+        assert_eq!(std::fs::read(&slot_path).unwrap()[0x18..0x28], md5::Md5::digest(std::fs::read(&path).unwrap())[..]);
+    }
+
+    #[test]
+    fn a_restore_whose_companion_cant_be_written_says_so_and_changes_nothing() {
+        let _l = locks();
+        let s = Scratch::new("restore-companion");
+        let ctx = window();
+        let (path, slot_path, slot) = save_with_binslot(&s);
+        let from = s.0.join("older.sebak");
+        std::fs::write(&from, br#"{"gold": 0}"#).unwrap();
+        let mut app = opened(&ctx, &path);
+        std::fs::create_dir_all(s.0.join("data0001.binslot.partial").join("x")).unwrap();
+        app.restore_from(&from, "older");
+        assert_eq!(app.status_kind, StatusKind::Err, "{}", app.status);
+        assert!(app.status.starts_with("Couldn't restore backup"), "{}", app.status);
+        assert_eq!(gold_on_disk(&path), json!(1), "the save still matches its .binslot");
+        assert_eq!(std::fs::read(&slot_path).unwrap(), slot);
+        assert!(!safety::changed(&path, app.doc.as_ref().unwrap().stamp.as_ref()));
+        // Once it can be written, the restore goes through and both match.
+        std::fs::remove_dir_all(s.0.join("data0001.binslot.partial")).unwrap();
+        app.restore_from(&from, "older");
+        assert_eq!(app.status_kind, StatusKind::Ok, "{}", app.status);
+        assert_eq!(gold_on_disk(&path), json!(0));
         use md5::Digest;
         assert_eq!(std::fs::read(&slot_path).unwrap()[0x18..0x28], md5::Md5::digest(std::fs::read(&path).unwrap())[..]);
     }

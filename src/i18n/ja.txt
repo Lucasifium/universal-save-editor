@@ -27127,6 +27127,9 @@ Couldn't start a new game: {0}
 Couldn't write {0}: {1}
 = {0} に書き込めませんでした：{1}
 
+{0}. These files couldn't be put back as they were and may not match each other now: {1}
+= {0}。次のファイルは元に戻せなかったため、互いに一致していない可能性があります：{1}
+
 Deleted the preset “{0}”.
 = プリセット「{0}」を削除しました。
 
@@ -27246,9 +27249,6 @@ Saved the file, but {0}
 
 Saved the preset “{0}”. Use Tools › Presets › Apply a preset on another save.
 = プリセット「{0}」を保存しました。別のセーブデータで「ツール › プリセット › プリセットを適用」を使ってください。
-
-Saved, but couldn't update {0}: {1}
-= 保存しましたが、{0} を更新できませんでした：{1}
 
 Set to
 = 次の値にする

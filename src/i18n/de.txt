@@ -27046,6 +27046,9 @@ Couldn't start a new game: {0}
 Couldn't write {0}: {1}
 = {0} konnte nicht geschrieben werden: {1}
 
+{0}. These files couldn't be put back as they were and may not match each other now: {1}
+= {0}. Diese Dateien konnten nicht wiederhergestellt werden und passen jetzt möglicherweise nicht mehr zusammen: {1}
+
 Deleted the preset “{0}”.
 = Preset „{0}“ gelöscht.
 
@@ -27165,9 +27168,6 @@ Saved the file, but {0}
 
 Saved the preset “{0}”. Use Tools › Presets › Apply a preset on another save.
 = Preset „{0}“ gespeichert. Bei einem anderen Spielstand Werkzeuge › Presets › Preset anwenden verwenden.
-
-Saved, but couldn't update {0}: {1}
-= Gespeichert, aber {0} konnte nicht aktualisiert werden: {1}
 
 Set to
 = Setzen auf

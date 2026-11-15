@@ -27100,6 +27100,9 @@ Couldn't start a new game: {0}
 Couldn't write {0}: {1}
 = 无法写入 {0}：{1}
 
+{0}. These files couldn't be put back as they were and may not match each other now: {1}
+= {0}。以下文件无法恢复原样，彼此之间可能已不一致：{1}
+
 Deleted the preset “{0}”.
 = 已删除预设“{0}”。
 
@@ -27219,9 +27222,6 @@ Saved the file, but {0}
 
 Saved the preset “{0}”. Use Tools › Presets › Apply a preset on another save.
 = 已保存预设“{0}”。在另一个存档上使用“工具 › 预设 › 应用预设”。
-
-Saved, but couldn't update {0}: {1}
-= 已保存，但无法更新 {0}：{1}
 
 Set to
 = 设为

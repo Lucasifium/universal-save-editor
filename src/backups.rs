@@ -190,6 +190,78 @@ pub fn write_verified(dest: &Path, bytes: &[u8], replace: bool) -> Result<(), St
     Ok(())
 }
 
+/// A file as it was before a write, so it can be put back if a later step fails.
+pub struct Kept {
+    path: PathBuf,
+    /// `None`: there was no file.
+    bytes: Option<Vec<u8>>,
+    modified: Option<SystemTime>,
+}
+
+impl Kept {
+    pub fn read(path: &Path) -> std::io::Result<Kept> {
+        let path = path.to_path_buf();
+        match std::fs::read(&path) {
+            Ok(b) => Ok(Kept { modified: std::fs::metadata(&path).and_then(|m| m.modified()).ok(), bytes: Some(b), path }),
+            Err(e) if e.kind() == std::io::ErrorKind::NotFound => Ok(Kept { path, bytes: None, modified: None }),
+            Err(e) => Err(e),
+        }
+    }
+
+    /// Puts the file back as it was, with its old time, so the app doesn't take it for a file
+    /// something else wrote.
+    fn put_back(&self) -> Result<(), String> {
+        match &self.bytes {
+            Some(b) => {
+                write_verified(&self.path, b, true)?;
+                if let Some(t) = self.modified {
+                    let _ = std::fs::OpenOptions::new().write(true).open(&self.path).and_then(|f| f.set_modified(t));
+                }
+                Ok(())
+            }
+            None => match std::fs::remove_file(&self.path) {
+                Err(e) if e.kind() != std::io::ErrorKind::NotFound => Err(e.to_string()),
+                _ => Ok(()),
+            },
+        }
+    }
+}
+
+/// A file the game checks against the save couldn't be written.
+#[derive(Debug)]
+pub struct CompanionError {
+    pub file: PathBuf,
+    pub error: String,
+    /// Files that couldn't be put back as they were (empty: everything is as before).
+    pub stuck: Vec<PathBuf>,
+}
+
+/// After a save was written (it held `before` until then): writes the files the game checks
+/// against it, each backed up first when `backup` is set. All or nothing: when one can't be
+/// written, the save and the ones already written are put back as they were, every one that
+/// can be, and the error names any that couldn't.
+pub fn write_companions(before: &Kept, companions: Vec<(PathBuf, Vec<u8>)>, backup: bool) -> Result<(), CompanionError> {
+    let mut written: Vec<Kept> = vec![];
+    for (file, data) in companions {
+        let failed = match Kept::read(&file) {
+            Err(e) => Some(e.to_string()),
+            // Like the save, never written over without a copy.
+            Ok(old) => match (if backup { take(&file).map(|_| ()) } else { Ok(()) }).and_then(|()| write_verified(&file, &data, true)) {
+                Ok(()) => {
+                    written.push(old);
+                    None
+                }
+                Err(e) => Some(e),
+            },
+        };
+        if let Some(error) = failed {
+            let stuck = std::iter::once(before).chain(written.iter()).filter(|k| k.put_back().is_err()).map(|k| k.path.clone()).collect();
+            return Err(CompanionError { file, error, stuck });
+        }
+    }
+    Ok(())
+}
+
 /// The save's bytes, `None` when there is no such file. Any other failure (no permission,
 /// locked by the game) is an error, so nothing goes on to overwrite a file it couldn't copy.
 fn read_save(save: &Path) -> Result<Option<Vec<u8>>, String> {
@@ -920,6 +992,77 @@ pub(crate) mod tests {
         remove(&list(&save)[0]).unwrap();
         assert_eq!(std::fs::read(p.parent().unwrap().join("notes.txt")).unwrap(), b"mine");
         assert_eq!(std::fs::read(&save).unwrap(), b"x");
+    }
+
+    fn modified(p: &Path) -> SystemTime {
+        std::fs::metadata(p).unwrap().modified().unwrap()
+    }
+
+    /// A save and two files the game checks against it, all holding "old", with the save then
+    /// written as "new" (as a save does before its companions).
+    fn save_with_two_companions(s: &Scratch) -> (PathBuf, Kept, PathBuf, PathBuf) {
+        let (save, c1, c2) = (s.0.join("data.bin"), s.0.join("one.chk"), s.0.join("two.chk"));
+        for p in [&save, &c1, &c2] {
+            std::fs::write(p, b"old").unwrap();
+            // An older time, so a rewrite can't keep the same one by chance.
+            std::fs::OpenOptions::new().write(true).open(p).unwrap().set_modified(UNIX_EPOCH + std::time::Duration::from_secs(1_700_000_000)).unwrap();
+        }
+        let before = Kept::read(&save).unwrap();
+        write_verified(&save, b"new", true).unwrap();
+        (save, before, c1, c2)
+    }
+
+    #[test]
+    fn companions_are_all_written_or_all_put_back() {
+        let _g = guard();
+        let s = Scratch::new("companions");
+        let (save, before, c1, c2) = save_with_two_companions(&s);
+        let was = modified(&c1);
+        // The second can't be written: the save and the first go back as they were, times too.
+        std::fs::create_dir_all(s.0.join("two.chk.partial").join("x")).unwrap();
+        let e = write_companions(&before, vec![(c1.clone(), b"new 1".to_vec()), (c2.clone(), b"new 2".to_vec())], true).unwrap_err();
+        assert_eq!(e.file, c2);
+        assert!(e.stuck.is_empty(), "{:?}", e.stuck);
+        for p in [&save, &c1, &c2] {
+            assert_eq!(std::fs::read(p).unwrap(), b"old", "{}", p.display());
+            assert_eq!(modified(p), was, "{} keeps its time", p.display());
+        }
+        assert_eq!(contents(&c1), vec![b"old".to_vec()], "backed up before it was written");
+        // Once the way is clear, all of them are written.
+        std::fs::remove_dir_all(s.0.join("two.chk.partial")).unwrap();
+        write_verified(&save, b"new", true).unwrap();
+        write_companions(&before, vec![(c1.clone(), b"new 1".to_vec()), (c2.clone(), b"new 2".to_vec())], false).unwrap();
+        assert_eq!((std::fs::read(&c1).unwrap(), std::fs::read(&c2).unwrap()), (b"new 1".to_vec(), b"new 2".to_vec()));
+        assert_eq!(contents(&c1), vec![b"old".to_vec()], "no new backups when asked for none");
+    }
+
+    #[test]
+    fn every_file_is_put_back_that_can_be_and_the_rest_are_named() {
+        let _g = guard();
+        let s = Scratch::new("stuck");
+        let (save, before, c1, c2) = save_with_two_companions(&s);
+        std::fs::create_dir_all(s.0.join("two.chk.partial").join("x")).unwrap();
+        // The save itself can't be put back either.
+        std::fs::create_dir_all(s.0.join("data.bin.partial").join("x")).unwrap();
+        let e = write_companions(&before, vec![(c1.clone(), b"new 1".to_vec()), (c2.clone(), b"new 2".to_vec())], true).unwrap_err();
+        assert_eq!(e.file, c2);
+        assert_eq!(e.stuck, vec![save.clone()]);
+        assert_eq!(std::fs::read(&save).unwrap(), b"new");
+        assert_eq!(std::fs::read(&c1).unwrap(), b"old", "put back even after the save couldn't be");
+        assert_eq!(std::fs::read(&c2).unwrap(), b"old");
+    }
+
+    #[test]
+    fn a_new_save_whose_companion_fails_is_taken_away_again() {
+        let _g = guard();
+        let s = Scratch::new("new-save");
+        let save = s.0.join("data.bin");
+        let before = Kept::read(&save).unwrap();
+        write_verified(&save, b"new", true).unwrap();
+        let c = s.0.join("one.chk");
+        std::fs::create_dir_all(s.0.join("one.chk.partial").join("x")).unwrap();
+        assert!(write_companions(&before, vec![(c.clone(), b"x".to_vec())], true).unwrap_err().stuck.is_empty());
+        assert!(!save.exists() && !c.exists());
     }
 
     #[test]
