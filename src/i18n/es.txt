@@ -756,6 +756,12 @@ Close without saving
 You have unsaved changes. Save them before closing?
 = Tienes cambios sin guardar. ¿Guardarlos antes de cerrar?
 
+That save was not found at {0}. It was moved or deleted, or its drive is not connected.
+= No se encontró esa partida en {0}. Se movió o se borró, o su unidad no está conectada.
+
+Search the drives again
+= Buscar de nuevo en las unidades
+
 # src/app/help.rs
 
 Help
@@ -859,6 +865,15 @@ Choose a folder…
 
 Back to the default
 = Volver al valor por defecto
+
+Finding saves
+= Buscar partidas
+
+Also search removable and network drives
+= Buscar también en unidades extraíbles y de red
+
+Saves are always looked for on every fixed drive. USB sticks and network drives are skipped unless this is on, because they can be slow. Use Search again after changing it.
+= Las partidas siempre se buscan en todas las unidades fijas. Los USB y las unidades de red se omiten salvo que esto esté activado, porque pueden ser lentos. Usa «Buscar de nuevo» tras cambiarlo.
 
 # src/app/home.rs
 

@@ -756,6 +756,12 @@ Close without saving
 You have unsaved changes. Save them before closing?
 = 有未保存的更改。关闭前是否保存？
 
+That save was not found at {0}. It was moved or deleted, or its drive is not connected.
+= 在 {0} 找不到该存档。它可能已被移动或删除，或其所在驱动器未连接。
+
+Search the drives again
+= 重新搜索驱动器
+
 # src/app/help.rs
 
 Help
@@ -859,6 +865,15 @@ Choose a folder…
 
 Back to the default
 = 恢复默认
+
+Finding saves
+= 查找存档
+
+Also search removable and network drives
+= 同时搜索可移动驱动器和网络驱动器
+
+Saves are always looked for on every fixed drive. USB sticks and network drives are skipped unless this is on, because they can be slow. Use Search again after changing it.
+= 始终会在所有固定驱动器上查找存档。除非开启此选项，否则会跳过U盘和网络驱动器，因为它们可能很慢。更改后请使用“重新搜索”。
 
 # src/app/home.rs
 

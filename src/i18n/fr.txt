@@ -756,6 +756,12 @@ Close without saving
 You have unsaved changes. Save them before closing?
 = Vous avez des modifications non enregistrées. Les enregistrer avant de fermer ?
 
+That save was not found at {0}. It was moved or deleted, or its drive is not connected.
+= Cette sauvegarde est introuvable dans {0}. Elle a été déplacée ou supprimée, ou son lecteur n'est pas connecté.
+
+Search the drives again
+= Relancer la recherche sur les lecteurs
+
 # src/app/help.rs
 
 Help
@@ -859,6 +865,15 @@ Choose a folder…
 
 Back to the default
 = Revenir au défaut
+
+Finding saves
+= Recherche des sauvegardes
+
+Also search removable and network drives
+= Chercher aussi sur les lecteurs amovibles et réseau
+
+Saves are always looked for on every fixed drive. USB sticks and network drives are skipped unless this is on, because they can be slow. Use Search again after changing it.
+= Les sauvegardes sont toujours cherchées sur tous les lecteurs fixes. Les clés USB et lecteurs réseau sont ignorés sauf si cette option est activée, car ils peuvent être lents. Utilisez « Chercher à nouveau » après l'avoir modifiée.
 
 # src/app/home.rs
 

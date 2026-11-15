@@ -261,6 +261,18 @@ impl App {
                         .on_hover_text(tr("When the program starts, asks GitHub for the newest release. Nothing else is sent. Off by default, so the program stays fully offline."))
                         .changed();
                 }
+                if !WEB && !cfg!(target_os = "android") {
+                    ui.separator();
+                    ui.label(RichText::new(tr("Finding saves")).strong());
+                    if ui
+                        .checkbox(&mut self.settings.search_removable, tr("Also search removable and network drives"))
+                        .on_hover_text(tr("Saves are always looked for on every fixed drive. USB sticks and network drives are skipped unless this is on, because they can be slow. Use Search again after changing it."))
+                        .changed()
+                    {
+                        crate::drives::set_include_removable(self.settings.search_removable);
+                        changed = true;
+                    }
+                }
                 if !WEB {
                     ui.separator();
                     ui.label(RichText::new(tr("Backups")).strong());

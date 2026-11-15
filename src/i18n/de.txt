@@ -756,6 +756,12 @@ Close without saving
 You have unsaved changes. Save them before closing?
 = Es gibt ungespeicherte Änderungen. Vor dem Schließen speichern?
 
+That save was not found at {0}. It was moved or deleted, or its drive is not connected.
+= Dieser Spielstand wurde unter {0} nicht gefunden. Er wurde verschoben oder gelöscht, oder sein Laufwerk ist nicht verbunden.
+
+Search the drives again
+= Laufwerke erneut durchsuchen
+
 # src/app/help.rs
 
 Help
@@ -859,6 +865,15 @@ Choose a folder…
 
 Back to the default
 = Zurück zum Standard
+
+Finding saves
+= Spielstände finden
+
+Also search removable and network drives
+= Auch Wechsel- und Netzlaufwerke durchsuchen
+
+Saves are always looked for on every fixed drive. USB sticks and network drives are skipped unless this is on, because they can be slow. Use Search again after changing it.
+= Spielstände werden immer auf allen fest eingebauten Laufwerken gesucht. USB-Sticks und Netzlaufwerke werden übersprungen, solange dies aus ist, da sie langsam sein können. Nach einer Änderung „Erneut suchen“ verwenden.
 
 # src/app/home.rs
 

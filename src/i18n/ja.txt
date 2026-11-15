@@ -756,6 +756,12 @@ Close without saving
 You have unsaved changes. Save them before closing?
 = 未保存の変更があります。閉じる前に保存しますか？
 
+That save was not found at {0}. It was moved or deleted, or its drive is not connected.
+= {0} にそのセーブが見つかりません。移動または削除されたか、ドライブが接続されていません。
+
+Search the drives again
+= ドライブを再検索
+
 # src/app/help.rs
 
 Help
@@ -859,6 +865,15 @@ Choose a folder…
 
 Back to the default
 = 既定に戻す
+
+Finding saves
+= セーブの検索
+
+Also search removable and network drives
+= リムーバブルドライブとネットワークドライブも検索する
+
+Saves are always looked for on every fixed drive. USB sticks and network drives are skipped unless this is on, because they can be slow. Use Search again after changing it.
+= セーブは常にすべての固定ドライブから探します。USBメモリやネットワークドライブは遅いことがあるため、これをオンにしない限り対象外です。変更後は「再検索」を使ってください。
 
 # src/app/home.rs
 

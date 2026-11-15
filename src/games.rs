@@ -758,39 +758,23 @@ fn env(k: &str) -> Option<PathBuf> {
     std::env::var_os(k).filter(|v| !v.is_empty()).map(PathBuf::from)
 }
 
-/// A value from the registry (Windows), via `reg query`.
-#[cfg(windows)]
-fn reg(key: &str, value: &str) -> Option<String> {
-    use std::os::windows::process::CommandExt;
-    const CREATE_NO_WINDOW: u32 = 0x0800_0000;
-    let out = std::process::Command::new("reg").args(["query", key, "/v", value]).creation_flags(CREATE_NO_WINDOW).output().ok()?;
-    let text = String::from_utf8_lossy(&out.stdout).to_string();
-    text.lines().find_map(|l| l.split_once("REG_SZ").or_else(|| l.split_once("REG_EXPAND_SZ")).map(|(_, v)| v.trim().to_string()))
-}
-
 /// The Documents folder (it may have been moved to another drive).
 pub fn documents() -> Option<PathBuf> {
-    #[cfg(windows)]
-    if let Some(p) = reg(r"HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders", "Personal") {
-        return Some(PathBuf::from(p));
-    }
-    env("USERPROFILE").or_else(|| env("HOME")).map(|h| h.join("Documents"))
+    crate::drives::known_folder(crate::drives::Known::Documents).or_else(|| env("USERPROFILE").or_else(|| env("HOME")).map(|h| h.join("Documents")))
 }
 
 fn saved_games() -> Option<PathBuf> {
-    #[cfg(windows)]
-    if let Some(p) = reg(r"HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders", "{4C5C32FF-BB9D-43b0-B5B4-2D72E54EAAA4}") {
-        return Some(PathBuf::from(p));
-    }
-    env("USERPROFILE").map(|h| h.join("Saved Games"))
+    crate::drives::known_folder(crate::drives::Known::SavedGames).or_else(|| env("USERPROFILE").map(|h| h.join("Saved Games")))
 }
 
 /// Every Steam library folder (`…\steamapps\common` is under each).
 pub fn steam_libraries() -> Vec<PathBuf> {
     let mut out: Vec<PathBuf> = vec![];
-    for userdata in crate::platform::steam_userdata_dirs() {
-        let Some(steam) = userdata.parent() else { continue };
-        out.push(steam.to_path_buf());
+    let mut steams: Vec<PathBuf> = crate::platform::steam_userdata_dirs().iter().filter_map(|u| u.parent().map(Path::to_path_buf)).collect();
+    // Libraries on other drives that Steam's own list may not mention any more.
+    steams.extend(crate::drives::steam_roots_on(&crate::drives::roots()));
+    for steam in steams {
+        out.push(steam.clone());
         let vdf = std::fs::read_to_string(steam.join("steamapps").join("libraryfolders.vdf")).unwrap_or_default();
         for line in vdf.lines() {
             let mut parts = line.split('"').filter(|s| !s.trim().is_empty());

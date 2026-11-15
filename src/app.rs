@@ -393,6 +393,8 @@ struct GamePicker {
     /// Which game each save found for the picked entry belongs to, for (entry, saves found).
     /// Working it out looks through folders, so it is done once rather than on every frame.
     save_groups: Option<((usize, usize), Vec<String>)>,
+    /// A remembered save that was picked but is no longer there (offers a new search).
+    missing: Option<PathBuf>,
 }
 
 /// The saves found for each game in the catalog (`None`: not looked at yet).
@@ -440,7 +442,7 @@ fn spawn_search(found: &SaveSearch, full: bool) {
 
 impl GamePicker {
     fn with(found: SaveSearch) -> Self {
-        Self { query: String::new(), picked: None, group: None, found, only_found: None, level: None, save_groups: None }
+        Self { query: String::new(), picked: None, group: None, found, only_found: None, level: None, save_groups: None, missing: None }
     }
 }
 
@@ -659,6 +661,7 @@ impl App {
         let has_icons = theme::install_fonts(&cc.egui_ctx);
         theme::apply(&cc.egui_ctx, settings.dark);
         cc.egui_ctx.set_zoom_factor(settings.zoom);
+        crate::drives::set_include_removable(settings.search_removable);
         let mut app = Self::with(&cc.egui_ctx, settings, has_icons);
         // Phones and the browser can't look through folders.
         if !cfg!(target_os = "android") && !WEB && std::env::var_os("SAVE_EDITOR_NO_SEARCH").is_none() {
@@ -783,10 +786,17 @@ impl App {
         }
     }
 
-    /// Find my game's saves, with a fresh search (the start page shows its results too).
+    /// Find my game's saves: the results of the search made at start (or by "Search again") are
+    /// reused, so opening the list never reads the drives again.
     fn picker(&mut self) -> GamePicker {
-        let found = search_saves();
-        self.saves_found = Some(found.clone());
+        let found = match &self.saves_found {
+            Some(f) => f.clone(),
+            None => {
+                let f = search_saves();
+                self.saves_found = Some(f.clone());
+                f
+            }
+        };
         GamePicker::with(found)
     }
 
@@ -1758,8 +1768,13 @@ impl App {
             self.game_picker = None;
         }
         if let Some(p) = open {
-            self.game_picker = None;
-            self.request_open(p);
+            if crate::vfs::exists(&p) {
+                self.game_picker = None;
+                self.request_open(p);
+            } else if let Some(gp) = &mut self.game_picker {
+                // The remembered folder is out of date: say so and offer a new search.
+                gp.missing = Some(p);
+            }
         }
     }
 
@@ -4630,7 +4645,14 @@ impl App {
             self.manager = Some((p, String::new(), None));
         }
         if let Some(p) = open {
-            self.request_open(p);
+            if crate::vfs::exists(&p) {
+                self.request_open(p);
+            } else {
+                // A remembered save that is gone: open the list with the notice and its new search.
+                let mut gp = self.picker();
+                gp.missing = Some(p);
+                self.game_picker = Some(gp);
+            }
         }
         if let Some(dir) = browse {
             self.ask(Ask::Open, dir, None);
@@ -5287,6 +5309,19 @@ fn game_picker_window(ctx: &egui::Context, gp: &mut GamePicker) -> (Option<PathB
                         close = true;
                     }
                 });
+                if let Some(m) = gp.missing.clone() {
+                    ui.horizontal_wrapped(|ui| {
+                        ui.colored_label(theme::WARN, trf("That save was not found at {0}. It was moved or deleted, or its drive is not connected.", &[&m.display()]));
+                        if ui.add_enabled(!searching, egui::Button::new(tr("Search the drives again"))).clicked() {
+                            spawn_search(&gp.found, true);
+                            gp.save_groups = None;
+                            gp.missing = None;
+                        }
+                        if ui.button(tr("Dismiss")).clicked() {
+                            gp.missing = None;
+                        }
+                    });
+                }
                 ui.weak(tr("Pick a game to see where it keeps its saves and the ones on this computer. Open\u{2026} and dragging a file onto the window still work for anything else."));
                 ui.separator();
                 let q = gp.query.trim().to_lowercase();

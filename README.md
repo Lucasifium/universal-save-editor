@@ -830,7 +830,7 @@ binary and stays an ironman save. It isn't converted to a normal one.
 
 ## Find my game's saves
 
-The folders where saves were found are remembered (in `save_locations.json` next to the settings), so the next start only checks those folders, which takes a moment, and drops any that are gone or no longer hold a save. The whole computer is searched on the first start, about once a week, and whenever you press *Search again* in *Find my game's saves*.
+The folders where saves were found are remembered (in `save_locations.json` next to the settings), so the next start only checks those folders, which takes a moment, and drops any that are gone or no longer hold a save. The whole computer is searched on the first start, about once a week, and whenever you press *Search again* in *Find my game's saves*. Opening the list reuses those results without reading the drives again, and if a remembered save has moved, a notice offers to search again. The search covers every fixed drive (Steam libraries on other drives, and a Documents or Saved Games folder moved elsewhere); USB and network drives are only searched if you turn that on in Settings.
 
 The start page lists **Your games**: every game in the list whose saves were found on this computer,
 newest first, each one click away from its newest save. *Find my game's saves* (the big button on the

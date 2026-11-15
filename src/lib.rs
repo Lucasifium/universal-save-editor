@@ -9,6 +9,7 @@ mod site;
 mod app;
 mod apollo;
 mod backups;
+mod drives;
 #[cfg(not(any(target_arch = "wasm32", target_os = "android")))]
 mod cli;
 mod file_browser;

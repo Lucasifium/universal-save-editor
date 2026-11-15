@@ -245,6 +245,8 @@ pub fn steam_userdata_dirs() -> Vec<PathBuf> {
         if let Some(pf) = env("ProgramFiles(x86)") {
             roots.push(pf.join("Steam"));
         }
+        // Steam installed on another drive that the registry does not point to.
+        roots.extend(crate::drives::steam_roots_on(&crate::drives::roots()));
     }
     if let Some(home) = env("HOME") {
         roots.push(home.join(".local/share/Steam"));
