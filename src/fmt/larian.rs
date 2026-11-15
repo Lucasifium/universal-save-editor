@@ -510,9 +510,9 @@ fn bg3_carried(b: &mut Builder, plain: &[u8]) -> bool {
             any = true;
             had = true;
         }
-        if had {
-            b.info(&["Characters", key.as_str(), "Gold total"], gold_total);
-        }
+        // Everyone recruited is listed, even with nothing stacked to edit.
+        b.info(&["Characters", key.as_str(), "Gold total"], gold_total);
+        any |= had;
     }
     any
 }
