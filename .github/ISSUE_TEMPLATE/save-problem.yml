@@ -23,7 +23,7 @@ body:
     validations:
       required: true
   - type: input
-    id: format
+    id: detected
     attributes:
       label: What the editor detected
       description: The coloured label next to the file name in the editor (filled in when you use Help › Report a problem).

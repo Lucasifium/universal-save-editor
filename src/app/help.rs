@@ -57,7 +57,7 @@ fn enc(s: &str) -> String {
 pub fn report_url(kind: Option<&str>) -> String {
     let mut u = format!("{REPO}/issues/new?template=save-problem.yml&version={}&platform={}", enc(env!("CARGO_PKG_VERSION")), enc(os()));
     if let Some(k) = kind {
-        u.push_str(&format!("&format={}", enc(k)));
+        u.push_str(&format!("&detected={}", enc(k)));
     }
     u
 }
@@ -309,7 +309,9 @@ mod tests {
     fn report_link_has_no_file_details() {
         let u = super::report_url(Some("Diablo II character"));
         assert!(u.starts_with("https://github.com/Lucasifium/universal-save-editor/issues/new?template=save-problem.yml"));
-        assert!(u.contains("&format=Diablo%20II%20character"));
+        assert!(u.contains("&detected=Diablo%20II%20character"));
+        // GitHub treats a `format` query parameter as the response format and answers 406.
+        assert!(!u.contains("format="));
         assert!(u.contains(&format!("version={}", env!("CARGO_PKG_VERSION"))));
     }
 
@@ -322,7 +324,7 @@ mod tests {
         }
         // The fields the app fills in must exist in the form.
         let t = std::fs::read_to_string(root.join("save-problem.yml")).unwrap();
-        for id in ["id: version", "id: platform", "id: format"] {
+        for id in ["id: version", "id: platform", "id: detected"] {
             assert!(t.contains(id), "{id}");
         }
     }
