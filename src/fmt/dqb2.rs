@@ -91,6 +91,24 @@ mod tests {
         assert!(looks(&binary));
     }
 
+    /// Only what comes out of the game's own `aerC` file is read as its data: other games'
+    /// saves of a fitting size (which have a small number at the level's place often enough)
+    /// are not.
+    #[test]
+    fn only_data_from_its_own_file_is_dqb2() {
+        use crate::formats::{decode_with, Content, Options};
+        let mut plain = vec![0u8; 0x55C000];
+        plain[0x6A9CF] = 5;
+        let kind = |raw: &[u8]| match decode_with(raw, &Options::default()).content {
+            Content::Tree(t) => t.kind_name.clone(),
+            _ => String::new(),
+        };
+        assert_ne!(kind(&plain), KIND, "bare data of the right size");
+        let mut file = b"aerC".to_vec();
+        file.resize(HEADER, 0);
+        assert_eq!(kind(&pack(&plain, &file).unwrap()), KIND, "the game's own file");
+    }
+
     #[test]
     fn round_trips_with_the_new_length() {
         let mut plain = vec![0u8; 0x55C000];

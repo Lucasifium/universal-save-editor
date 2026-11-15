@@ -1260,3 +1260,146 @@ fn every_screen_survives_odd_data() {
     }
     assert!(bad.is_empty(), "screens that panicked:\n{}", bad.join("\n"));
 }
+
+/// Research aid: how long each part of opening and showing a save takes. For every file in
+/// SAVE_EDITOR_DRAW (`|`-separated, or `@list.txt`): decoding, building the Values list, a
+/// search, and the time per frame of its game screen and of the Values and Tree tabs.
+///
+///     SAVE_EDITOR_DRAW=@list.txt cargo test --release frame_timing -- --ignored --nocapture
+#[test]
+#[ignore]
+fn frame_timing() {
+    use eframe::egui;
+    let list = std::env::var("SAVE_EDITOR_DRAW").expect("SAVE_EDITOR_DRAW");
+    let list = match list.strip_prefix('@') {
+        Some(file) => std::fs::read_to_string(file).expect("list file").lines().collect::<Vec<_>>().join("|"),
+        None => list,
+    };
+    let ms = |d: std::time::Duration| d.as_secs_f64() * 1000.0;
+    for path in list.split('|').filter(|s| !s.is_empty()) {
+        let path = std::path::Path::new(path);
+        let Ok(raw) = std::fs::read(path) else { continue };
+        let _ = catch_unwind(AssertUnwindSafe(|| {
+            let t = Instant::now();
+            let d = decode_with(&raw, &Options::for_path(path));
+            let decode = ms(t.elapsed());
+            let (game, tree, view) = match &d.content {
+                Content::Tree(t) => (crate::game_ui::detect(&t.kind_name, &t.view), Some(&**t), &t.view),
+                Content::Json { value, .. } => (crate::game_ui::detect("JSON", value), None, value),
+                _ => return,
+            };
+            let names = crate::names::Names::default();
+            let t = Instant::now();
+            let model = crate::values_view::build(view, &names, tree.map(|t| &t.editable));
+            let build = ms(t.elapsed());
+            let t = Instant::now();
+            let hits = crate::values_view::filter(&model, view, "money", true, &Default::default()).len();
+            let search = ms(t.elapsed());
+            let t = Instant::now();
+            let enc = encode(&d.layers, &d.content).map(|b| b.len()).unwrap_or(0);
+            let encode_ms = ms(t.elapsed());
+            let ctx = egui::Context::default();
+            crate::theme::install_fonts(&ctx);
+            crate::theme::apply(&ctx, true);
+            // The steady time per frame: the fastest of a few frames after the first ones (which lay text out).
+            let mut frame = |add: &mut dyn FnMut(&mut egui::Ui)| {
+                let mut best = f64::MAX;
+                for i in 0..8 {
+                    let input = egui::RawInput { screen_rect: Some(egui::Rect::from_min_size(egui::Pos2::ZERO, egui::vec2(1280.0, 900.0))), ..Default::default() };
+                    let t = Instant::now();
+                    let _ = ctx.run(input, |ctx| {
+                        egui::CentralPanel::default().show(ctx, |ui| add(ui));
+                    });
+                    if i >= 3 {
+                        best = best.min(ms(t.elapsed()));
+                    }
+                }
+                best
+            };
+            let screen = game.map(|game| {
+                frame(&mut |ui| {
+                    egui::ScrollArea::vertical().id_salt("g").show(ui, |ui| {
+                        let mut cx = crate::game_ui::GameCtx { root: view, baseline: view, tree, edits: vec![], archive: None, open_entry: None };
+                        crate::game_ui::show(game, ui, &mut cx);
+                    });
+                })
+            });
+            let disp = crate::values_view::filter(&model, view, "", true, &Default::default());
+            let values = frame(&mut |ui| {
+                let mut vc = crate::values_view::ViewCtx {
+                    root: view,
+                    tree,
+                    baseline: view,
+                    show_raw_keys: false,
+                    has_icons: false,
+                    edits: vec![],
+                    toggle_section: None,
+                    scroll_to: None,
+                    ticked: None,
+                    toggle_tick: vec![],
+                    show_in_tree: None,
+                    can_paste_one: false,
+                    copy: None,
+                    paste_at: None,
+                };
+                crate::values_view::show(ui, &model, &disp, &Default::default(), &mut vc);
+            });
+            let tree_ms = frame(&mut |ui| {
+                let mut tc = crate::json_view::TreeCtx {
+                    names: &names,
+                    editable: tree.map(|t| &t.editable),
+                    baseline: view,
+                    show_raw_keys: false,
+                    value_x: 400.0,
+                    edits: vec![],
+                    tree,
+                    visible: None,
+                    reveal: None,
+                    reveal_scroll: false,
+                };
+                egui::ScrollArea::vertical().id_salt("t").show(ui, |ui| crate::json_view::tree_ui(ui, view, &mut tc));
+            });
+            println!(
+                "TIMING\t{}\t{:.1} MB\t{}\tdecode {decode:.0}\tencode {encode_ms:.0} ({enc})\tmodel {build:.0} ({} rows)\tsearch {search:.0} ({hits})\tscreen {}\tvalues {values:.1}\ttree {tree_ms:.1}",
+                path.file_name().unwrap_or_default().to_string_lossy(),
+                raw.len() as f64 / 1048576.0,
+                game.map(|g| format!("{g:?}")).unwrap_or_else(|| "-".into()),
+                model.rows.len(),
+                screen.map(|s| format!("{s:.1}")).unwrap_or_else(|| "-".into()),
+            );
+        }));
+    }
+}
+
+/// Research aid: one line per file of SAVE_EDITOR_DETECT (a list file) saying how it was read:
+/// its layers and kind, the hint, and checksums of the decoded data and of the file written
+/// back. Run before and after a change to the readers: the two outputs must be the same.
+#[test]
+#[ignore]
+fn decode_digest() {
+    let list = std::fs::read_to_string(std::env::var("SAVE_EDITOR_DETECT").unwrap()).unwrap();
+    let crc = |b: &[u8]| {
+        let mut c = flate2::Crc::new();
+        c.update(b);
+        c.sum()
+    };
+    for line in list.lines().filter(|l| !l.is_empty()) {
+        let path = std::path::Path::new(line);
+        let Ok(raw) = std::fs::read(path) else { continue };
+        let r = catch_unwind(AssertUnwindSafe(|| {
+            let d = decode_with(&raw, &Options::for_path(path));
+            let data = match &d.content {
+                Content::Tree(t) => format!("tree {} {:08x} {}", t.kind_name, crc(t.view.to_string().as_bytes()), t.editable.len()),
+                Content::Json { value, pretty } => format!("json {:08x} {pretty}", crc(value.to_string().as_bytes())),
+                Content::Text(t) => format!("text {:08x}", crc(t.as_bytes())),
+                Content::Binary(b) => format!("binary {:08x}", crc(b)),
+            };
+            let out = match encode(&d.layers, &d.content) {
+                Ok(b) => format!("{:08x}", crc(&b)),
+                Err(e) => format!("ERR {e}"),
+            };
+            format!("{} | {data} | out {out} | hint {:?} | entries {}", describe(&d.layers, &d.content), d.hint, d.zip_entries.len())
+        }));
+        println!("DIGEST\t{line}\t{}", r.unwrap_or_else(|_| "PANIC".into()));
+    }
+}

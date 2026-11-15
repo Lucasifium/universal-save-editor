@@ -200,9 +200,9 @@ impl BulkOp {
 
     pub fn name(self) -> &'static str {
         match self {
-            BulkOp::Set => "Set to",
-            BulkOp::Add => "Add",
-            BulkOp::Multiply => "Multiply by",
+            BulkOp::Set => tr("Set to"),
+            BulkOp::Add => tr("Add"),
+            BulkOp::Multiply => tr("Multiply by"),
         }
     }
 }
@@ -292,7 +292,7 @@ pub fn show(ui: &mut Ui, model: &Model, disp: &[Disp], collapsed: &HashSet<usize
                     painter.text(row_rect.left_center() + egui::vec2(32.0, 0.0), egui::Align2::LEFT_CENTER, &s.title, FontId::new(16.0, theme::semibold_family()), c);
                     let mut right = format!("{count}");
                     if s.advanced {
-                        right = format!("advanced  \u{00B7}  {right}");
+                        right = format!("{}  \u{00B7}  {right}", tr("advanced"));
                     }
                     painter.text(row_rect.right_center() - egui::vec2(12.0, 0.0), egui::Align2::RIGHT_CENTER, right, FontId::new(13.0, egui::FontFamily::Proportional), ui.visuals().weak_text_color());
                     if resp.clicked() {
@@ -332,7 +332,7 @@ pub fn show(ui: &mut Ui, model: &Model, disp: &[Disp], collapsed: &HashSet<usize
                             ui.add_space(14.0);
                             if let Some(t) = ctx.ticked {
                                 let mut on = t.contains(&i);
-                                let tip = if r.editable { "Tick to include in Bulk edit" } else { "Read-only: bulk edit leaves it alone" };
+                                let tip = if r.editable { tr("Tick to include in Bulk edit") } else { tr("Read-only: bulk edit leaves it alone") };
                                 if ui.add_enabled(r.editable, egui::Checkbox::without_text(&mut on)).on_hover_text(tip).clicked() {
                                     ctx.toggle_tick.push(i);
                                 }
@@ -365,7 +365,7 @@ pub fn show(ui: &mut Ui, model: &Model, disp: &[Disp], collapsed: &HashSet<usize
                                 label.on_hover_ui(|ui| {
                                     ui.label(RichText::new(&r.name).strong());
                                     if !r.context.is_empty() {
-                                        ui.label(format!("in {}", r.context));
+                                        ui.label(trf("in {0}", &[&r.context]));
                                     }
                                     ui.weak(trf("key: {0}   ({1})", &[&r.raw_key, &widgets::type_name(v)]));
                                     ui.weak(trf("path: {0}", &[&r.ptr]));

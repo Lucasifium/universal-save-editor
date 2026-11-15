@@ -38,9 +38,12 @@ pub static LANG_TEST_LOCK: std::sync::Mutex<()> = std::sync::Mutex::new(());
 
 static CURRENT: AtomicUsize = AtomicUsize::new(0);
 
-fn tables() -> &'static Vec<HashMap<String, &'static str>> {
-    static T: OnceLock<Vec<HashMap<String, &'static str>>> = OnceLock::new();
-    T.get_or_init(|| LANGS.iter().map(|l| parse(l.catalog).into_iter().collect()).collect())
+/// The catalog of language `i`, read the first time that language is used (only the language
+/// in use is ever read, not all of them).
+fn table(i: usize) -> Option<&'static HashMap<String, &'static str>> {
+    static T: OnceLock<Vec<OnceLock<HashMap<String, &'static str>>>> = OnceLock::new();
+    let all = T.get_or_init(|| LANGS.iter().map(|_| OnceLock::new()).collect());
+    Some(all.get(i)?.get_or_init(|| parse(LANGS[i].catalog).into_iter().collect()))
 }
 
 /// (English, translation) pairs of a catalog, in file order.
@@ -128,7 +131,7 @@ pub fn tr_any(s: &str) -> &str {
     if i == 0 {
         return s;
     }
-    tables().get(i).and_then(|t| t.get(s).copied()).unwrap_or(s)
+    table(i).and_then(|t| t.get(s).copied()).unwrap_or(s)
 }
 
 /// Marks a text of a data-driven game screen as translatable (the screen shows it through `tr_any`).
@@ -142,7 +145,7 @@ pub fn tr(s: &'static str) -> &'static str {
     if i == 0 {
         return s;
     }
-    tables().get(i).and_then(|t| t.get(s).copied()).unwrap_or(s)
+    table(i).and_then(|t| t.get(s).copied()).unwrap_or(s)
 }
 
 /// `tr`, then `{0}`, `{1}`… replaced by `args`.

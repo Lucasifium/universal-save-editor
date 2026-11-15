@@ -72,7 +72,7 @@ pub fn find_mark(ui: &Ui, rect: egui::Rect, text: &str) {
     });
     let current = index == target;
     let color = if current { theme::MODIFIED } else { theme::ACCENT };
-    ui.painter().rect_stroke(rect.expand(2.0), 4.0, egui::Stroke::new(if current { 2.0 } else { 1.0 }, color));
+    ui.painter().rect_stroke(rect.expand(2.0), 4.0, egui::Stroke::new(if current { 2.0_f32 } else { 1.0 }, color));
     if current {
         // Scroll once per search / Next press, not on every frame.
         let key = format!("{needle}#{target}");

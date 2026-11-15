@@ -26994,3 +26994,357 @@ Raises supplies to 9999 and bamboo, yew wood, wax wood, iron, steel, gold, linen
 Supplies, flowers, crafting materials and technique points. The checksum is made again on save. Checked on public saves, not yet tried in the game.
 = 物资、花、制作材料和技能点。保存时重新计算校验和。已用公开存档检查,尚未在游戏中试过。
 
+1 difference found.
+= 找到 1 处差异。
+
+Also show engine internals and read-only values
+= 同时显示引擎内部数据和只读数值
+
+Also show engine internals and read-only values (1 section hidden now)
+= 同时显示引擎内部数据和只读数值（当前隐藏了 1 个分区）
+
+Also show engine internals and read-only values ({0} sections hidden now)
+= 同时显示引擎内部数据和只读数值（当前隐藏了 {0} 个分区）
+
+Also updated: {0}.
+= 同时更新了：{0}。
+
+Applied 1 code. Save to write the file.
+= 已应用 1 条代码。保存后才会写入文件。
+
+Applied {0} codes. Save to write the file.
+= 已应用 {0} 条代码。保存后才会写入文件。
+
+Applied {0}, but some failed: {1}
+= 已应用 {0} 条，但有些失败了：{1}
+
+Applied “{0}”: 1 value changed.
+= 已应用“{0}”：更改了 1 个数值。
+
+Applied “{0}”: {1} values changed.
+= 已应用“{0}”：更改了 {1} 个数值。
+
+Backed up as “{0}” and removed the save, so the game starts a new game. Restore it from Backups › Backups for this save… any time.
+= 已备份为“{0}”并移除了存档，游戏将开始新游戏。随时可在“备份 › 此存档的备份…”中恢复。
+
+Backed up this save as “{0}”.
+= 已将此存档备份为“{0}”。
+
+Backups now go to {0}. Earlier ones stay where they were and are still listed.
+= 备份现在保存到 {0}。之前的备份留在原处，仍会列出。
+
+Bulk edit changed 1 value.
+= 批量编辑更改了 1 个数值。
+
+Bulk edit changed {0} values.
+= 批量编辑更改了 {0} 个数值。
+
+Bulk edit: {0}.
+= 批量编辑：{0}。
+
+Can't use that value: {0}.
+= 无法使用该数值：{0}。
+
+Changed the Steam ID in 1 place. Save to write the file.
+= 已更改 1 处 Steam ID。保存后才会写入文件。
+
+Changed the Steam ID in {0} places. Save to write the file.
+= 已更改 {0} 处 Steam ID。保存后才会写入文件。
+
+Copied 1 change as text.
+= 已将 1 项更改复制为文本。
+
+Copied {0} (level {1}) into slot {2}. It shows up on the game's Load Game screen.
+= 已将 {0}（等级 {1}）复制到栏位 {2}。它会出现在游戏的读取存档界面。
+
+Copied {0} changes as text.
+= 已将 {0} 项更改复制为文本。
+
+Couldn't back up the current file: {0}. Your file was not changed.
+= 无法备份当前文件：{0}。你的文件未被更改。
+
+Couldn't back up the file first: {0}. Nothing was changed.
+= 无法先备份文件：{0}。未做任何更改。
+
+Couldn't back up the save: {0}
+= 无法备份存档：{0}
+
+Couldn't build the save file: {0}
+= 无法生成存档文件：{0}
+
+Couldn't change that copy: {0}
+= 无法更改该副本：{0}
+
+Couldn't copy the character: {0}
+= 无法复制角色：{0}
+
+Couldn't create backup {0}: {1}
+= 无法创建备份 {0}：{1}
+
+Couldn't delete it: {0}
+= 无法删除：{0}
+
+Couldn't delete the preset: {0}
+= 无法删除预设：{0}
+
+Couldn't export the names: {0}
+= 无法导出名称：{0}
+
+Couldn't hand over the preset: {0}
+= 无法交出预设：{0}
+
+Couldn't hand over {0}: {1}
+= 无法交出 {0}：{1}
+
+Couldn't keep a copy: {0}
+= 无法保留副本：{0}
+
+Couldn't make the template: {0}.
+= 无法创建模板：{0}。
+
+Couldn't make the templates folder: {0}
+= 无法创建模板文件夹：{0}
+
+Couldn't open {0}: {1}
+= 无法打开 {0}：{1}
+
+Couldn't pack the imported data: {0}
+= 无法打包导入的数据：{0}
+
+Couldn't read {0}: {1}
+= 无法读取 {0}：{1}
+
+Couldn't restore backup: {0}
+= 无法恢复备份：{0}
+
+Couldn't save names to {0}: {1}
+= 无法将名称保存到 {0}：{1}
+
+Couldn't save the preset: {0}.
+= 无法保存预设：{0}。
+
+Couldn't start a new game: {0}
+= 无法开始新游戏：{0}
+
+Couldn't write {0}: {1}
+= 无法写入 {0}：{1}
+
+Deleted the preset “{0}”.
+= 已删除预设“{0}”。
+
+Enter a number, e.g. 2.5
+= 请输入数字，例如 2.5
+
+Enter a whole number, e.g. 1500
+= 请输入整数，例如 1500
+
+Export failed: {0}
+= 导出失败：{0}
+
+Exported 1 name to {0}.
+= 已将 1 个名称导出到 {0}。
+
+Exported to {0}
+= 已导出到 {0}
+
+Exported {0} names to {1}.
+= 已将 {0} 个名称导出到 {1}。
+
+Files
+= 文件
+
+From this save
+= 来自此存档
+
+Has a screen of its own for this game
+= 此游戏有专属界面
+
+Hex
+= 十六进制
+
+If Steam asks which save to keep, choose the local one.
+= 如果 Steam 询问保留哪个存档，请选择本地存档。
+
+Imported 1 name.
+= 已导入 1 个名称。
+
+Imported {0} names.
+= 已导入 {0} 个名称。
+
+Imported {0}. Review the changes, then save.
+= 已导入 {0}。请检查更改后再保存。
+
+Its values are listed by name in Values and Tree
+= 其数值按名称列在“数值”和“树状”中
+
+Kept a copy named “{0}” (Backups › Quick restore).
+= 已保留名为“{0}”的副本（备份 › 快速恢复）。
+
+Left out (text, i8, i64 and f64 can't go in a template): {0}.
+= 已略过（文本、i8、i64 和 f64 不能放入模板）：{0}。
+
+Loaded {0} names from {1}
+= 已从 {1} 载入 {0} 个名称
+
+Made the template {0}: saves of {1} now open with your names.
+= 已创建模板 {0}：{1} 的存档现在会带着你起的名称打开。
+
+Multiply by
+= 乘以
+
+No saves found on this computer.
+= 这台电脑上没有找到存档。
+
+Nothing was changed. {0}
+= 未做任何更改。{0}
+
+Opening {0}…
+= 正在打开 {0}…
+
+Opens in the hex view: find a number you know with Value search, then change it
+= 在十六进制视图中打开：用“数值搜索”找到你知道的数字，然后修改它
+
+Original backed up as {0}.
+= 原文件已备份为 {0}。
+
+Re-read the file: {0} › {1} possible locations.
+= 已重新读取文件：可能的位置 {0} › {1} 处。
+
+Re-signed with your Ren'Py key, so the game will load it normally.
+= 已用你的 Ren'Py 密钥重新签名，游戏会正常读取。
+
+Re-signed with your Ren'Py key. If the game is running, close it without saving first — it rewrites this file on exit.
+= 已用你的 Ren'Py 密钥重新签名。如果游戏正在运行，请先不保存直接关闭它 — 它在退出时会重写此文件。
+
+Read-only: bulk edit leaves it alone
+= 只读：批量编辑不会改动它
+
+Read-only: this value can't be edited safely
+= 只读：无法安全地编辑此数值
+
+Ready. Open a save file to get started.
+= 就绪。打开一个存档文件即可开始。
+
+Redone.
+= 已重做。
+
+Reload failed: {0}
+= 重新载入失败：{0}
+
+Reloaded {0} from disk.
+= 已从磁盘重新载入 {0}。
+
+Restored {0}. The version it replaced is in the backup list too.
+= 已恢复 {0}。被它替换的版本也在备份列表中。
+
+Review them in the Changes panel, then save.
+= 请在“更改”面板中检查后再保存。
+
+Save or revert the changes to {0} first.
+= 请先保存或还原对 {0} 的更改。
+
+Saved the file, but {0}
+= 文件已保存，但 {0}
+
+Saved the preset “{0}”. Use Tools › Presets › Apply a preset on another save.
+= 已保存预设“{0}”。在另一个存档上使用“工具 › 预设 › 应用预设”。
+
+Saved, but couldn't update {0}: {1}
+= 已保存，但无法更新 {0}：{1}
+
+Set to
+= 设为
+
+Show the game's own key name next to each friendly name
+= 在每个易读名称旁显示游戏自身的键名
+
+Show the other {0} games
+= 显示其余 {0} 款游戏
+
+Showing the first {0} of {1} changes. Saving, Revert all and Copy as text cover all of them.
+= 正在显示 {1} 项更改中的前 {0} 项。保存、全部还原和复制为文本会包含所有更改。
+
+Templates folder: {0}
+= 模板文件夹：{0}
+
+The save file accepts {0} to {1} (the game may expect less). Right-click for Max.
+= 存档文件可接受 {0} 到 {1}（游戏可能期望更小的值）。右键可设为最大。
+
+The text has been edited.
+= 文本已被编辑。
+
+This value is shared with 1 other place in the save, which changed too.
+= 此数值与存档中另外 1 处共用，那里也随之改变。
+
+This value is shared with {0} other places in the save, which changed too.
+= 此数值与存档中另外 {0} 处共用，那些地方也随之改变。
+
+Tick to include in Bulk edit
+= 勾选以纳入批量编辑
+
+Undone.
+= 已撤销。
+
+Usually in
+= 通常位于
+
+Your Ren'Py key wasn't found, so the old signature was removed — the game will ask once whether to load it; choose Yes.
+= 未找到你的 Ren'Py 密钥，因此移除了旧签名 — 游戏会询问一次是否读取，请选择“是”。
+
+Your browser downloaded it — put it in place of the game's save (keep a copy of the old one).
+= 浏览器已下载它 — 请用它替换游戏的存档（保留一份旧存档的副本）。
+
+advanced
+= 高级
+
+in {0}
+= 位于 {0}
+
+looking…
+= 查找中…
+
+none found
+= 未找到
+
+{0} Not changed: {1}.
+= {0} 未更改：{1}。
+
+{0} differences found.
+= 找到 {0} 处差异。
+
+{0} found
+= 找到 {0} 个
+
+{0} has no System.json — pick the game's data folder.
+= {0} 中没有 System.json — 请选择游戏的数据文件夹。
+
+{0} has no names to import: {1}.
+= {0} 中没有可导入的名称：{1}。
+
+{0} isn't a preset: {1}.
+= {0} 不是预设：{1}。
+
+{0} looks like it's running — quit it first, or it may overwrite the restored file.
+= {0} 似乎正在运行 — 请先退出，否则它可能覆盖恢复的文件。
+
+{0} looks like it's running — quit it first, or it will overwrite the copy.
+= {0} 似乎正在运行 — 请先退出，否则它会覆盖副本。
+
+{0} looks like it's running — quit it first.
+= {0} 似乎正在运行 — 请先退出。
+
+{0} not in this save, left out.
+= {0} 项不在此存档中，已略过。
+
+{0} of another kind left alone (a number changes only numbers; true or false only switches; other text only text).
+= 另有 {0} 个其他类型的数值未改动（数字只改数字；true 或 false 只改开关；其他文本只改文本）。
+
+{0} of {1}
+= {0} / {1}
+
+{0} point past the end of this file and were left out.
+= {0} 个指向此文件末尾之后，已略过。
+
+{0} {1} not changed, the save can't hold that: {2}
+= {0} 有 {1} 个未更改，存档无法容纳该值：{2}
+

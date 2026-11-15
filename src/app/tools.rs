@@ -140,22 +140,24 @@ impl App {
                     Err(e) => refused.push(format!("{name} ({e})")),
                 },
                 Ok(None) => skipped += 1,
-                Err(e) => return self.fail(format!("Bulk edit: {e}.")),
+                Err(e) => return self.fail(trf("Bulk edit: {0}.", &[&e])),
             }
             // Each value is its own edit, not merged with the one before.
             self.last_edit = None;
         }
         self.group_undo_from(start);
-        let mut msg = format!("Bulk edit changed {changed} value{}.", if changed == 1 { "" } else { "s" });
+        let mut msg = if changed == 1 { tr("Bulk edit changed 1 value.").to_string() } else { trf("Bulk edit changed {0} values.", &[&changed]) };
         if skipped > 0 {
-            msg.push_str(&format!(" {skipped} of another kind left alone (a number changes only numbers; true or false only switches; other text only text)."));
+            msg.push(' ');
+            msg.push_str(&trf("{0} of another kind left alone (a number changes only numbers; true or false only switches; other text only text).", &[&skipped]));
         }
         if refused.is_empty() {
             self.ok(msg);
         } else {
             let n = refused.len();
             refused.truncate(3);
-            self.fail(format!("{msg} {n} not changed, the save can't hold that: {}{}", refused.join("; "), if n > 3 { "\u{2026}" } else { "" }));
+            let list = format!("{}{}", refused.join("; "), if n > 3 { "\u{2026}" } else { "" });
+            self.fail(trf("{0} {1} not changed, the save can't hold that: {2}", &[&msg, &n, &list]));
         }
     }
 
@@ -178,7 +180,7 @@ impl App {
             text.push_str(&format!("- {}\n", l.replace('\u{2192}', "->").replace('\u{203A}', ">")));
         }
         ctx.copy_text(text);
-        self.ok(format!("Copied {} change{} as text.", lines.len(), if lines.len() == 1 { "" } else { "s" }));
+        self.ok(if lines.len() == 1 { tr("Copied 1 change as text.").to_string() } else { trf("Copied {0} changes as text.", &[&lines.len()]) });
     }
 
     /// The unsaved changes as a preset.
@@ -194,7 +196,7 @@ impl App {
             }
             (c, b) => {
                 let (Some(cv), Some(bv)) = (root(c), root(b)) else { return p };
-                for ptr in &self.touched {
+                for ptr in self.touched.iter() {
                     // The whole document (a Raw JSON edit) is no use on another save.
                     if ptr.is_empty() || cv.pointer(ptr) == bv.pointer(ptr) {
                         continue;
@@ -257,16 +259,16 @@ impl App {
                 ps.preset.name = ps.preset.name.trim().to_string();
                 #[cfg(not(target_arch = "wasm32"))]
                 match crate::presets::keep(&ps.preset, ps.replace) {
-                    Ok(_) => self.ok(format!("Saved the preset \u{201C}{}\u{201D}. Use Tools \u{203A} Presets \u{203A} Apply a preset on another save.", ps.preset.name)),
+                    Ok(_) => self.ok(trf("Saved the preset \u{201C}{0}\u{201D}. Use Tools \u{203A} Presets \u{203A} Apply a preset on another save.", &[&ps.preset.name])),
                     Err(e) => {
-                        self.fail(format!("Couldn't save the preset: {e}."));
+                        self.fail(trf("Couldn't save the preset: {0}.", &[&e]));
                         self.preset_save = Some(ps);
                     }
                 }
                 #[cfg(target_arch = "wasm32")]
                 match crate::web::download(&crate::presets::file_name(&ps.preset.name), ps.preset.to_json().as_bytes()) {
                     Ok(()) => self.ok(tr("Your browser downloaded the preset.")),
-                    Err(e) => self.fail(format!("Couldn't hand over the preset: {e}")),
+                    Err(e) => self.fail(trf("Couldn't hand over the preset: {0}", &[&e])),
                 }
             }
             Some(_) => {}
@@ -287,7 +289,7 @@ impl App {
     pub(super) fn open_preset_file(&mut self, p: &Path) {
         let text = match crate::vfs::read_to_string(p) {
             Ok(t) => t,
-            Err(e) => return self.fail(format!("Couldn't read {}: {e}", file_name(p))),
+            Err(e) => return self.fail(trf("Couldn't read {0}: {1}", &[&file_name(p), &e])),
         };
         match Preset::from_json(&text) {
             Ok(preset) => {
@@ -295,7 +297,7 @@ impl App {
                 pa.opened = Some(preset);
                 pa.picked = None;
             }
-            Err(e) => self.fail(format!("{} isn't a preset: {e}.", file_name(p))),
+            Err(e) => self.fail(trf("{0} isn't a preset: {1}.", &[&file_name(p), &e])),
         }
     }
 
@@ -366,8 +368,8 @@ impl App {
         if let Some(i) = delete {
             let (path, p) = pa.list.remove(i);
             match crate::vfs::remove_file(&path) {
-                Ok(()) => self.ok(format!("Deleted the preset \u{201C}{}\u{201D}.", p.name)),
-                Err(e) => self.fail(format!("Couldn't delete the preset: {e}")),
+                Ok(()) => self.ok(trf("Deleted the preset \u{201C}{0}\u{201D}.", &[&p.name])),
+                Err(e) => self.fail(trf("Couldn't delete the preset: {0}", &[&e])),
             }
             pa.picked = None;
         }
@@ -423,18 +425,20 @@ impl App {
             missing += p.bytes.len();
         }
         self.group_undo_from(start);
-        let mut msg = format!("Applied \u{201C}{}\u{201D}: {changed} value{} changed.", p.name, if changed == 1 { "" } else { "s" });
+        let mut msg = if changed == 1 { trf("Applied \u{201C}{0}\u{201D}: 1 value changed.", &[&p.name]) } else { trf("Applied \u{201C}{0}\u{201D}: {1} values changed.", &[&p.name, &changed]) };
         if missing > 0 {
-            msg.push_str(&format!(" {missing} not in this save, left out."));
+            msg.push(' ');
+            msg.push_str(&trf("{0} not in this save, left out.", &[&missing]));
         }
         if changed > 0 {
-            msg.push_str(" Review them in the Changes panel, then save.");
+            msg.push(' ');
+            msg.push_str(tr("Review them in the Changes panel, then save."));
             self.show_changes = true;
         }
         if refused.is_empty() {
             self.ok(msg);
         } else {
-            self.fail(format!("{msg} Not changed: {}.", refused.join("; ")));
+            self.fail(trf("{0} Not changed: {1}.", &[&msg, &refused.join("; ")]));
         }
     }
 
@@ -448,19 +452,19 @@ impl App {
         #[cfg(not(target_arch = "wasm32"))]
         let r = crate::vfs::write(dest, text).map_err(|e| e.to_string());
         match r {
-            Ok(()) => self.ok(format!("Exported {} name{} to {}.", list.len(), if list.len() == 1 { "" } else { "s" }, file_name(dest))),
-            Err(e) => self.fail(format!("Couldn't export the names: {e}")),
+            Ok(()) => self.ok(if list.len() == 1 { trf("Exported 1 name to {0}.", &[&file_name(dest)]) } else { trf("Exported {0} names to {1}.", &[&list.len(), &file_name(dest)]) }),
+            Err(e) => self.fail(trf("Couldn't export the names: {0}", &[&e])),
         }
     }
 
     pub(super) fn import_names(&mut self, src: &Path) {
         let text = match crate::vfs::read_to_string(src) {
             Ok(t) => t,
-            Err(e) => return self.fail(format!("Couldn't read {}: {e}", file_name(src))),
+            Err(e) => return self.fail(trf("Couldn't read {0}: {1}", &[&file_name(src), &e])),
         };
         let names = match crate::fmt::template::names_from_json(&text) {
             Ok(n) => n,
-            Err(e) => return self.fail(format!("{} has no names to import: {e}.", file_name(src))),
+            Err(e) => return self.fail(trf("{0} has no names to import: {1}.", &[&file_name(src), &e])),
         };
         let len = match self.doc.as_ref().map(|d| &d.content) {
             Some(Content::Binary(b)) => b.len(),
@@ -477,9 +481,10 @@ impl App {
             added += 1;
         }
         self.save_labels();
-        let mut msg = format!("Imported {added} name{}.", if added == 1 { "" } else { "s" });
+        let mut msg = if added == 1 { tr("Imported 1 name.").to_string() } else { trf("Imported {0} names.", &[&added]) };
         if outside > 0 {
-            msg.push_str(&format!(" {outside} point past the end of this file and were left out."));
+            msg.push(' ');
+            msg.push_str(&trf("{0} point past the end of this file and were left out.", &[&outside]));
         }
         self.ok(msg);
     }
@@ -548,9 +553,10 @@ impl App {
                     .and_then(|(text, skipped)| crate::fmt::template::keep(&sn.game, &text, sn.replace).map(|p| (p, skipped)));
                 match made {
                     Ok((p, skipped)) => {
-                        let mut msg = format!("Made the template {}: saves of {} now open with your names.", file_name(&p), sn.game.trim());
+                        let mut msg = trf("Made the template {0}: saves of {1} now open with your names.", &[&file_name(&p), &sn.game.trim()]);
                         if !skipped.is_empty() {
-                            msg.push_str(&format!(" Left out (text, i8, i64 and f64 can't go in a template): {}.", skipped.join(", ")));
+                            msg.push(' ');
+                            msg.push_str(&trf("Left out (text, i8, i64 and f64 can't go in a template): {0}.", &[&skipped.join(", ")]));
                         }
                         if !self.dirty {
                             self.reopen_with(|_| {});
@@ -558,7 +564,7 @@ impl App {
                         self.ok(msg);
                     }
                     Err(e) => {
-                        self.fail(format!("Couldn't make the template: {e}."));
+                        self.fail(trf("Couldn't make the template: {0}.", &[&e]));
                         self.share_names = Some(sn);
                     }
                 }

@@ -66,7 +66,7 @@ impl App {
         self.disk_changed = false;
         self.load_with(&path, opts);
         if self.status_kind != StatusKind::Err {
-            self.ok(format!("Reloaded {} from disk.", file_name(&path)));
+            self.ok(trf("Reloaded {0} from disk.", &[&file_name(&path)]));
         }
     }
 

@@ -27021,3 +27021,357 @@ Raises supplies to 9999 and bamboo, yew wood, wax wood, iron, steel, gold, linen
 Supplies, flowers, crafting materials and technique points. The checksum is made again on save. Checked on public saves, not yet tried in the game.
 = 物資、花、素材、技能ポイント。保存時にチェックサムを作り直します。公開セーブで確認済み、ゲーム内では未検証です。
 
+1 difference found.
+= 違いが 1 件見つかりました。
+
+Also show engine internals and read-only values
+= エンジン内部の値と読み取り専用の値も表示
+
+Also show engine internals and read-only values (1 section hidden now)
+= エンジン内部の値と読み取り専用の値も表示（現在 1 セクションが非表示）
+
+Also show engine internals and read-only values ({0} sections hidden now)
+= エンジン内部の値と読み取り専用の値も表示（現在 {0} セクションが非表示）
+
+Also updated: {0}.
+= あわせて更新しました：{0}。
+
+Applied 1 code. Save to write the file.
+= コードを 1 件適用しました。保存するとファイルに書き込まれます。
+
+Applied {0} codes. Save to write the file.
+= コードを {0} 件適用しました。保存するとファイルに書き込まれます。
+
+Applied {0}, but some failed: {1}
+= {0} 件を適用しましたが、一部は失敗しました：{1}
+
+Applied “{0}”: 1 value changed.
+= 「{0}」を適用しました：1 件の値を変更。
+
+Applied “{0}”: {1} values changed.
+= 「{0}」を適用しました：{1} 件の値を変更。
+
+Backed up as “{0}” and removed the save, so the game starts a new game. Restore it from Backups › Backups for this save… any time.
+= 「{0}」としてバックアップし、セーブデータを取り除きました。ゲームは新しく始まります。いつでも「バックアップ › このセーブデータのバックアップ…」から復元できます。
+
+Backed up this save as “{0}”.
+= このセーブデータを「{0}」としてバックアップしました。
+
+Backups now go to {0}. Earlier ones stay where they were and are still listed.
+= バックアップの保存先を {0} に変更しました。以前のものは元の場所に残り、引き続き一覧に表示されます。
+
+Bulk edit changed 1 value.
+= 一括編集で 1 件の値を変更しました。
+
+Bulk edit changed {0} values.
+= 一括編集で {0} 件の値を変更しました。
+
+Bulk edit: {0}.
+= 一括編集：{0}。
+
+Can't use that value: {0}.
+= その値は使えません：{0}。
+
+Changed the Steam ID in 1 place. Save to write the file.
+= Steam ID を 1 か所変更しました。保存するとファイルに書き込まれます。
+
+Changed the Steam ID in {0} places. Save to write the file.
+= Steam ID を {0} か所変更しました。保存するとファイルに書き込まれます。
+
+Copied 1 change as text.
+= 1 件の変更をテキストとしてコピーしました。
+
+Copied {0} (level {1}) into slot {2}. It shows up on the game's Load Game screen.
+= {0}（レベル {1}）をスロット {2} にコピーしました。ゲームのロード画面に表示されます。
+
+Copied {0} changes as text.
+= {0} 件の変更をテキストとしてコピーしました。
+
+Couldn't back up the current file: {0}. Your file was not changed.
+= 現在のファイルをバックアップできませんでした：{0}。ファイルは変更されていません。
+
+Couldn't back up the file first: {0}. Nothing was changed.
+= 先にファイルをバックアップできませんでした：{0}。何も変更されていません。
+
+Couldn't back up the save: {0}
+= セーブデータをバックアップできませんでした：{0}
+
+Couldn't build the save file: {0}
+= セーブファイルを作成できませんでした：{0}
+
+Couldn't change that copy: {0}
+= そのコピーを変更できませんでした：{0}
+
+Couldn't copy the character: {0}
+= キャラクターをコピーできませんでした：{0}
+
+Couldn't create backup {0}: {1}
+= バックアップ {0} を作成できませんでした：{1}
+
+Couldn't delete it: {0}
+= 削除できませんでした：{0}
+
+Couldn't delete the preset: {0}
+= プリセットを削除できませんでした：{0}
+
+Couldn't export the names: {0}
+= 名前をエクスポートできませんでした：{0}
+
+Couldn't hand over the preset: {0}
+= プリセットを渡せませんでした：{0}
+
+Couldn't hand over {0}: {1}
+= {0} を渡せませんでした：{1}
+
+Couldn't keep a copy: {0}
+= コピーを保管できませんでした：{0}
+
+Couldn't make the template: {0}.
+= テンプレートを作成できませんでした：{0}。
+
+Couldn't make the templates folder: {0}
+= テンプレートフォルダーを作成できませんでした：{0}
+
+Couldn't open {0}: {1}
+= {0} を開けませんでした：{1}
+
+Couldn't pack the imported data: {0}
+= インポートしたデータをパックできませんでした：{0}
+
+Couldn't read {0}: {1}
+= {0} を読み込めませんでした：{1}
+
+Couldn't restore backup: {0}
+= バックアップを復元できませんでした：{0}
+
+Couldn't save names to {0}: {1}
+= 名前を {0} に保存できませんでした：{1}
+
+Couldn't save the preset: {0}.
+= プリセットを保存できませんでした：{0}。
+
+Couldn't start a new game: {0}
+= 新しいゲームを開始できませんでした：{0}
+
+Couldn't write {0}: {1}
+= {0} に書き込めませんでした：{1}
+
+Deleted the preset “{0}”.
+= プリセット「{0}」を削除しました。
+
+Enter a number, e.g. 2.5
+= 数値を入力してください（例：2.5）
+
+Enter a whole number, e.g. 1500
+= 整数を入力してください（例：1500）
+
+Export failed: {0}
+= エクスポートに失敗しました：{0}
+
+Exported 1 name to {0}.
+= 1 件の名前を {0} にエクスポートしました。
+
+Exported to {0}
+= {0} にエクスポートしました
+
+Exported {0} names to {1}.
+= {0} 件の名前を {1} にエクスポートしました。
+
+Files
+= ファイル
+
+From this save
+= このセーブデータから
+
+Has a screen of its own for this game
+= このゲーム専用の画面があります
+
+Hex
+= 16進
+
+If Steam asks which save to keep, choose the local one.
+= Steam にどちらのセーブデータを残すか聞かれたら、ローカルのものを選んでください。
+
+Imported 1 name.
+= 1 件の名前をインポートしました。
+
+Imported {0} names.
+= {0} 件の名前をインポートしました。
+
+Imported {0}. Review the changes, then save.
+= {0} をインポートしました。変更を確認してから保存してください。
+
+Its values are listed by name in Values and Tree
+= 値が「値」と「ツリー」に名前付きで一覧表示されます
+
+Kept a copy named “{0}” (Backups › Quick restore).
+= 「{0}」という名前でコピーを保管しました（バックアップ › クイック復元）。
+
+Left out (text, i8, i64 and f64 can't go in a template): {0}.
+= 除外しました（テキスト、i8、i64、f64 はテンプレートに入れられません）：{0}。
+
+Loaded {0} names from {1}
+= {1} から {0} 件の名前を読み込みました
+
+Made the template {0}: saves of {1} now open with your names.
+= テンプレート {0} を作成しました：{1} のセーブデータは、付けた名前とともに開きます。
+
+Multiply by
+= 掛ける
+
+No saves found on this computer.
+= このコンピューターにセーブデータは見つかりませんでした。
+
+Nothing was changed. {0}
+= 何も変更されていません。{0}
+
+Opening {0}…
+= {0} を開いています…
+
+Opens in the hex view: find a number you know with Value search, then change it
+= 16進ビューで開きます：「値の検索」で分かっている数値を探して変更します
+
+Original backed up as {0}.
+= 元のファイルを {0} としてバックアップしました。
+
+Re-read the file: {0} › {1} possible locations.
+= ファイルを読み直しました：候補 {0} › {1} か所。
+
+Re-signed with your Ren'Py key, so the game will load it normally.
+= お使いの Ren'Py キーで署名し直したので、ゲームは通常どおり読み込みます。
+
+Re-signed with your Ren'Py key. If the game is running, close it without saving first — it rewrites this file on exit.
+= お使いの Ren'Py キーで署名し直しました。ゲームが起動中の場合は、先にセーブせずに終了してください — 終了時にこのファイルを書き直します。
+
+Read-only: bulk edit leaves it alone
+= 読み取り専用：一括編集では変更されません
+
+Read-only: this value can't be edited safely
+= 読み取り専用：この値は安全に編集できません
+
+Ready. Open a save file to get started.
+= 準備完了。セーブファイルを開いて始めましょう。
+
+Redone.
+= やり直しました。
+
+Reload failed: {0}
+= 再読み込みに失敗しました：{0}
+
+Reloaded {0} from disk.
+= {0} をディスクから再読み込みしました。
+
+Restored {0}. The version it replaced is in the backup list too.
+= {0} を復元しました。置き換えられた版もバックアップ一覧に入っています。
+
+Review them in the Changes panel, then save.
+= 「変更」パネルで確認してから保存してください。
+
+Save or revert the changes to {0} first.
+= 先に {0} の変更を保存するか破棄してください。
+
+Saved the file, but {0}
+= ファイルは保存しましたが、{0}
+
+Saved the preset “{0}”. Use Tools › Presets › Apply a preset on another save.
+= プリセット「{0}」を保存しました。別のセーブデータで「ツール › プリセット › プリセットを適用」を使ってください。
+
+Saved, but couldn't update {0}: {1}
+= 保存しましたが、{0} を更新できませんでした：{1}
+
+Set to
+= 次の値にする
+
+Show the game's own key name next to each friendly name
+= 分かりやすい名前の横に、ゲーム内部のキー名を表示
+
+Show the other {0} games
+= ほかの {0} 本のゲームを表示
+
+Showing the first {0} of {1} changes. Saving, Revert all and Copy as text cover all of them.
+= {1} 件の変更のうち最初の {0} 件を表示しています。保存、すべて破棄、テキストとしてコピーはすべての変更が対象です。
+
+Templates folder: {0}
+= テンプレートフォルダー：{0}
+
+The save file accepts {0} to {1} (the game may expect less). Right-click for Max.
+= セーブファイルは {0} から {1} まで受け付けます（ゲームの想定はもっと小さいかもしれません）。右クリックで最大値。
+
+The text has been edited.
+= テキストが編集されています。
+
+This value is shared with 1 other place in the save, which changed too.
+= この値はセーブデータ内のほかの 1 か所と共有されており、そちらも変更されました。
+
+This value is shared with {0} other places in the save, which changed too.
+= この値はセーブデータ内のほかの {0} か所と共有されており、そちらも変更されました。
+
+Tick to include in Bulk edit
+= チェックすると一括編集の対象になります
+
+Undone.
+= 元に戻しました。
+
+Usually in
+= 通常の場所
+
+Your Ren'Py key wasn't found, so the old signature was removed — the game will ask once whether to load it; choose Yes.
+= Ren'Py キーが見つからなかったため、古い署名を取り除きました — ゲームが一度だけ読み込むか確認するので、「はい」を選んでください。
+
+Your browser downloaded it — put it in place of the game's save (keep a copy of the old one).
+= ブラウザーがダウンロードしました — ゲームのセーブデータと置き換えてください（古いものはコピーを残しておきましょう）。
+
+advanced
+= 詳細
+
+in {0}
+= {0} 内
+
+looking…
+= 検索中…
+
+none found
+= 見つかりません
+
+{0} Not changed: {1}.
+= {0} 変更されなかったもの：{1}。
+
+{0} differences found.
+= 違いが {0} 件見つかりました。
+
+{0} found
+= {0} 件
+
+{0} has no System.json — pick the game's data folder.
+= {0} に System.json がありません — ゲームのデータフォルダーを選んでください。
+
+{0} has no names to import: {1}.
+= {0} にはインポートできる名前がありません：{1}。
+
+{0} isn't a preset: {1}.
+= {0} はプリセットではありません：{1}。
+
+{0} looks like it's running — quit it first, or it may overwrite the restored file.
+= {0} が起動中のようです — 先に終了してください。復元したファイルが上書きされるおそれがあります。
+
+{0} looks like it's running — quit it first, or it will overwrite the copy.
+= {0} が起動中のようです — 先に終了してください。コピーが上書きされます。
+
+{0} looks like it's running — quit it first.
+= {0} が起動中のようです — 先に終了してください。
+
+{0} not in this save, left out.
+= {0} 件はこのセーブデータにないため除外しました。
+
+{0} of another kind left alone (a number changes only numbers; true or false only switches; other text only text).
+= 種類の異なる {0} 件はそのままにしました（数値は数値だけ、true / false はスイッチだけ、その他の文字はテキストだけを変更します）。
+
+{0} of {1}
+= {0} / {1}
+
+{0} point past the end of this file and were left out.
+= {0} 件はこのファイルの末尾より先を指しているため除外しました。
+
+{0} {1} not changed, the save can't hold that: {2}
+= {0} {1} 件は変更されませんでした（セーブデータに入らない値です）：{2}
+

@@ -90,6 +90,18 @@ fn looks_json(d: &[u8]) -> bool {
     (t.starts_with(b"{") || t.starts_with(b"[")) && std::str::from_utf8(d).is_ok()
 }
 
+/// Whether decrypted data beginning with the block `first` can still pass `looks_json`: false
+/// once the block shows something other than `{` or `[` after any byte order mark and white
+/// space. (Bytes of the padding that may follow short data are never white space, `{` or `[`,
+/// so they can't turn a no into a yes.)
+fn may_start_json(first: &[u8]) -> bool {
+    let d = first.strip_prefix(b"\xEF\xBB\xBF").unwrap_or(first);
+    match d.iter().find(|b| !b.is_ascii_whitespace()) {
+        Some(b) => matches!(b, b'{' | b'['),
+        None => true,
+    }
+}
+
 /// Suikoden's key and IV: SHA-256 blocks of (previous block, password, salt), as OpenSSL's
 /// EVP_BytesToKey makes them.
 fn suikoden_key(salt: &[u8]) -> ([u8; 32], [u8; 16]) {
@@ -135,15 +147,27 @@ pub fn open(d: &[u8]) -> Option<(Wrap, Vec<u8>)> {
         let plain = aes256_dec(&key, &iv, &raw[16..])?;
         return looks_json(&plain).then(|| (Wrap::Suikoden(raw[..16].to_vec()), plain));
     }
+    // The first block alone tells whether the text can start like JSON, before the whole file
+    // is decrypted (these two are tried on every file of a fitting size).
     if d.len() >= 16 && d.len() % 16 == 0 {
-        if let Some(p) = aes256_dec(&MEGABONK_KEY, &MEGABONK_IV, d).filter(|p| looks_json(p)) {
-            return Some((Wrap::Megabonk, p));
+        let mut first = [0u8; 16];
+        first.copy_from_slice(&d[..16]);
+        cbc::Decryptor::<aes::Aes256>::new(&MEGABONK_KEY.into(), &MEGABONK_IV.into()).decrypt_block_mut((&mut first).into());
+        if may_start_json(&first) {
+            if let Some(p) = aes256_dec(&MEGABONK_KEY, &MEGABONK_IV, d).filter(|p| looks_json(p)) {
+                return Some((Wrap::Megabonk, p));
+            }
         }
     }
     if d.len() >= 8 && d.len() % 8 == 0 {
-        let p = cbc::Decryptor::<des::TdesEde3>::new(&EIYUDEN_KEY.into(), &EIYUDEN_IV.into()).decrypt_padded_vec_mut::<Pkcs7>(d).ok();
-        if let Some(p) = p.filter(|p| looks_json(p)) {
-            return Some((Wrap::Eiyuden, p));
+        let mut first = [0u8; 8];
+        first.copy_from_slice(&d[..8]);
+        cbc::Decryptor::<des::TdesEde3>::new(&EIYUDEN_KEY.into(), &EIYUDEN_IV.into()).decrypt_block_mut((&mut first).into());
+        if may_start_json(&first) {
+            let p = cbc::Decryptor::<des::TdesEde3>::new(&EIYUDEN_KEY.into(), &EIYUDEN_IV.into()).decrypt_padded_vec_mut::<Pkcs7>(d).ok();
+            if let Some(p) = p.filter(|p| looks_json(p)) {
+                return Some((Wrap::Eiyuden, p));
+            }
         }
     }
     None

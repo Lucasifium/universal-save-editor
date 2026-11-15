@@ -26935,3 +26935,357 @@ Raises supplies to 9999 and bamboo, yew wood, wax wood, iron, steel, gold, linen
 Supplies, flowers, crafting materials and technique points. The checksum is made again on save. Checked on public saves, not yet tried in the game.
 = Suministros, flores, materiales de fabricación y puntos de técnica. La suma de comprobación se vuelve a calcular al guardar. Comprobado con partidas públicas, aún no probado en el juego.
 
+1 difference found.
+= 1 diferencia encontrada.
+
+Also show engine internals and read-only values
+= Mostrar también los datos internos del motor y los valores de solo lectura
+
+Also show engine internals and read-only values (1 section hidden now)
+= Mostrar también los datos internos del motor y los valores de solo lectura (ahora hay 1 sección oculta)
+
+Also show engine internals and read-only values ({0} sections hidden now)
+= Mostrar también los datos internos del motor y los valores de solo lectura (ahora hay {0} secciones ocultas)
+
+Also updated: {0}.
+= También se actualizó: {0}.
+
+Applied 1 code. Save to write the file.
+= Se aplicó 1 código. Guarda para escribir el archivo.
+
+Applied {0} codes. Save to write the file.
+= Se aplicaron {0} códigos. Guarda para escribir el archivo.
+
+Applied {0}, but some failed: {1}
+= Se aplicaron {0}, pero algunos fallaron: {1}
+
+Applied “{0}”: 1 value changed.
+= Se aplicó “{0}”: 1 valor cambiado.
+
+Applied “{0}”: {1} values changed.
+= Se aplicó “{0}”: {1} valores cambiados.
+
+Backed up as “{0}” and removed the save, so the game starts a new game. Restore it from Backups › Backups for this save… any time.
+= Se guardó una copia como “{0}” y se quitó la partida, así que el juego empezará una partida nueva. Puedes restaurarla cuando quieras desde Copias de seguridad › Copias de esta partida…
+
+Backed up this save as “{0}”.
+= Se guardó una copia de esta partida como “{0}”.
+
+Backups now go to {0}. Earlier ones stay where they were and are still listed.
+= Las copias de seguridad ahora se guardan en {0}. Las anteriores se quedan donde estaban y siguen apareciendo en la lista.
+
+Bulk edit changed 1 value.
+= La edición en lote cambió 1 valor.
+
+Bulk edit changed {0} values.
+= La edición en lote cambió {0} valores.
+
+Bulk edit: {0}.
+= Edición en lote: {0}.
+
+Can't use that value: {0}.
+= No se puede usar ese valor: {0}.
+
+Changed the Steam ID in 1 place. Save to write the file.
+= Se cambió el Steam ID en 1 lugar. Guarda para escribir el archivo.
+
+Changed the Steam ID in {0} places. Save to write the file.
+= Se cambió el Steam ID en {0} lugares. Guarda para escribir el archivo.
+
+Copied 1 change as text.
+= Se copió 1 cambio como texto.
+
+Copied {0} (level {1}) into slot {2}. It shows up on the game's Load Game screen.
+= Se copió a {0} (nivel {1}) en la ranura {2}. Aparece en la pantalla de cargar partida del juego.
+
+Copied {0} changes as text.
+= Se copiaron {0} cambios como texto.
+
+Couldn't back up the current file: {0}. Your file was not changed.
+= No se pudo hacer una copia del archivo actual: {0}. Tu archivo no se modificó.
+
+Couldn't back up the file first: {0}. Nothing was changed.
+= No se pudo hacer antes una copia del archivo: {0}. No se cambió nada.
+
+Couldn't back up the save: {0}
+= No se pudo hacer una copia de la partida: {0}
+
+Couldn't build the save file: {0}
+= No se pudo generar el archivo de la partida: {0}
+
+Couldn't change that copy: {0}
+= No se pudo cambiar esa copia: {0}
+
+Couldn't copy the character: {0}
+= No se pudo copiar el personaje: {0}
+
+Couldn't create backup {0}: {1}
+= No se pudo crear la copia de seguridad {0}: {1}
+
+Couldn't delete it: {0}
+= No se pudo eliminar: {0}
+
+Couldn't delete the preset: {0}
+= No se pudo eliminar el preajuste: {0}
+
+Couldn't export the names: {0}
+= No se pudieron exportar los nombres: {0}
+
+Couldn't hand over the preset: {0}
+= No se pudo entregar el preajuste: {0}
+
+Couldn't hand over {0}: {1}
+= No se pudo entregar {0}: {1}
+
+Couldn't keep a copy: {0}
+= No se pudo guardar una copia: {0}
+
+Couldn't make the template: {0}.
+= No se pudo crear la plantilla: {0}.
+
+Couldn't make the templates folder: {0}
+= No se pudo crear la carpeta de plantillas: {0}
+
+Couldn't open {0}: {1}
+= No se pudo abrir {0}: {1}
+
+Couldn't pack the imported data: {0}
+= No se pudieron empaquetar los datos importados: {0}
+
+Couldn't read {0}: {1}
+= No se pudo leer {0}: {1}
+
+Couldn't restore backup: {0}
+= No se pudo restaurar la copia de seguridad: {0}
+
+Couldn't save names to {0}: {1}
+= No se pudieron guardar los nombres en {0}: {1}
+
+Couldn't save the preset: {0}.
+= No se pudo guardar el preajuste: {0}.
+
+Couldn't start a new game: {0}
+= No se pudo empezar una partida nueva: {0}
+
+Couldn't write {0}: {1}
+= No se pudo escribir {0}: {1}
+
+Deleted the preset “{0}”.
+= Se eliminó el preajuste “{0}”.
+
+Enter a number, e.g. 2.5
+= Escribe un número, p. ej. 2.5
+
+Enter a whole number, e.g. 1500
+= Escribe un número entero, p. ej. 1500
+
+Export failed: {0}
+= Error al exportar: {0}
+
+Exported 1 name to {0}.
+= Se exportó 1 nombre a {0}.
+
+Exported to {0}
+= Exportado a {0}
+
+Exported {0} names to {1}.
+= Se exportaron {0} nombres a {1}.
+
+Files
+= Archivos
+
+From this save
+= De esta partida
+
+Has a screen of its own for this game
+= Tiene una pantalla propia para este juego
+
+Hex
+= Hex
+
+If Steam asks which save to keep, choose the local one.
+= Si Steam pregunta qué partida conservar, elige la local.
+
+Imported 1 name.
+= Se importó 1 nombre.
+
+Imported {0} names.
+= Se importaron {0} nombres.
+
+Imported {0}. Review the changes, then save.
+= Se importó {0}. Revisa los cambios y luego guarda.
+
+Its values are listed by name in Values and Tree
+= Sus valores aparecen por nombre en Valores y Árbol
+
+Kept a copy named “{0}” (Backups › Quick restore).
+= Se guardó una copia llamada “{0}” (Copias de seguridad › Restauración rápida).
+
+Left out (text, i8, i64 and f64 can't go in a template): {0}.
+= Se omitieron (texto, i8, i64 y f64 no pueden ir en una plantilla): {0}.
+
+Loaded {0} names from {1}
+= Se cargaron {0} nombres de {1}
+
+Made the template {0}: saves of {1} now open with your names.
+= Se creó la plantilla {0}: las partidas de {1} ahora se abren con tus nombres.
+
+Multiply by
+= Multiplicar por
+
+No saves found on this computer.
+= No se encontraron partidas en este equipo.
+
+Nothing was changed. {0}
+= No se cambió nada. {0}
+
+Opening {0}…
+= Abriendo {0}…
+
+Opens in the hex view: find a number you know with Value search, then change it
+= Se abre en la vista hexadecimal: busca un número que conozcas con la Búsqueda de valores y cámbialo
+
+Original backed up as {0}.
+= Se guardó una copia del original como {0}.
+
+Re-read the file: {0} › {1} possible locations.
+= Se volvió a leer el archivo: {0} › {1} ubicaciones posibles.
+
+Re-signed with your Ren'Py key, so the game will load it normally.
+= Se volvió a firmar con tu clave de Ren'Py, así que el juego la cargará con normalidad.
+
+Re-signed with your Ren'Py key. If the game is running, close it without saving first — it rewrites this file on exit.
+= Se volvió a firmar con tu clave de Ren'Py. Si el juego está abierto, ciérralo antes sin guardar: reescribe este archivo al salir.
+
+Read-only: bulk edit leaves it alone
+= Solo lectura: la edición en lote no lo toca
+
+Read-only: this value can't be edited safely
+= Solo lectura: este valor no se puede editar de forma segura
+
+Ready. Open a save file to get started.
+= Listo. Abre un archivo de guardado para empezar.
+
+Redone.
+= Rehecho.
+
+Reload failed: {0}
+= Error al recargar: {0}
+
+Reloaded {0} from disk.
+= Se recargó {0} desde el disco.
+
+Restored {0}. The version it replaced is in the backup list too.
+= Se restauró {0}. La versión que reemplazó también está en la lista de copias de seguridad.
+
+Review them in the Changes panel, then save.
+= Revísalos en el panel Cambios y luego guarda.
+
+Save or revert the changes to {0} first.
+= Primero guarda o revierte los cambios de {0}.
+
+Saved the file, but {0}
+= Se guardó el archivo, pero {0}
+
+Saved the preset “{0}”. Use Tools › Presets › Apply a preset on another save.
+= Se guardó el preajuste “{0}”. Usa Herramientas › Preajustes › Aplicar un preajuste en otra partida.
+
+Saved, but couldn't update {0}: {1}
+= Se guardó, pero no se pudo actualizar {0}: {1}
+
+Set to
+= Establecer en
+
+Show the game's own key name next to each friendly name
+= Mostrar el nombre de clave del propio juego junto a cada nombre legible
+
+Show the other {0} games
+= Mostrar los otros {0} juegos
+
+Showing the first {0} of {1} changes. Saving, Revert all and Copy as text cover all of them.
+= Se muestran los primeros {0} de {1} cambios. Guardar, Revertir todo y Copiar como texto los incluyen todos.
+
+Templates folder: {0}
+= Carpeta de plantillas: {0}
+
+The save file accepts {0} to {1} (the game may expect less). Right-click for Max.
+= El archivo de guardado acepta de {0} a {1} (puede que el juego espere menos). Clic derecho para Máx.
+
+The text has been edited.
+= El texto se ha editado.
+
+This value is shared with 1 other place in the save, which changed too.
+= Este valor se comparte con 1 lugar más de la partida, que también cambió.
+
+This value is shared with {0} other places in the save, which changed too.
+= Este valor se comparte con {0} lugares más de la partida, que también cambiaron.
+
+Tick to include in Bulk edit
+= Márcalo para incluirlo en la edición en lote
+
+Undone.
+= Deshecho.
+
+Usually in
+= Normalmente en
+
+Your Ren'Py key wasn't found, so the old signature was removed — the game will ask once whether to load it; choose Yes.
+= No se encontró tu clave de Ren'Py, así que se quitó la firma anterior: el juego preguntará una vez si quieres cargarla; elige Sí.
+
+Your browser downloaded it — put it in place of the game's save (keep a copy of the old one).
+= Tu navegador lo descargó: ponlo en lugar de la partida del juego (conserva una copia de la anterior).
+
+advanced
+= avanzado
+
+in {0}
+= en {0}
+
+looking…
+= buscando…
+
+none found
+= ninguna encontrada
+
+{0} Not changed: {1}.
+= {0} Sin cambiar: {1}.
+
+{0} differences found.
+= {0} diferencias encontradas.
+
+{0} found
+= {0} encontradas
+
+{0} has no System.json — pick the game's data folder.
+= {0} no tiene System.json: elige la carpeta de datos del juego.
+
+{0} has no names to import: {1}.
+= {0} no tiene nombres que importar: {1}.
+
+{0} isn't a preset: {1}.
+= {0} no es un preajuste: {1}.
+
+{0} looks like it's running — quit it first, or it may overwrite the restored file.
+= Parece que {0} está abierto: ciérralo antes o puede sobrescribir el archivo restaurado.
+
+{0} looks like it's running — quit it first, or it will overwrite the copy.
+= Parece que {0} está abierto: ciérralo antes o sobrescribirá la copia.
+
+{0} looks like it's running — quit it first.
+= Parece que {0} está abierto: ciérralo antes.
+
+{0} not in this save, left out.
+= {0} no están en esta partida y se omitieron.
+
+{0} of another kind left alone (a number changes only numbers; true or false only switches; other text only text).
+= {0} de otro tipo se dejaron como estaban (un número solo cambia números; true o false solo interruptores; otro texto solo texto).
+
+{0} of {1}
+= {0} de {1}
+
+{0} point past the end of this file and were left out.
+= {0} apuntan más allá del final de este archivo y se omitieron.
+
+{0} {1} not changed, the save can't hold that: {2}
+= {0} {1} sin cambiar, la partida no admite ese valor: {2}
+

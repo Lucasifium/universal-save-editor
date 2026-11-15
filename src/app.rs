@@ -86,6 +86,66 @@ struct Doc {
     stamp: Option<Stamp>,
 }
 
+/// The values edited since the file was opened or last saved, in the order they were first
+/// edited. (A value put back as it was stays listed; what counts is whether it still differs.)
+#[derive(Default)]
+struct Touched {
+    list: Vec<String>,
+    seen: HashSet<String>,
+}
+
+impl Touched {
+    fn insert(&mut self, ptr: &str) {
+        if !self.seen.contains(ptr) {
+            self.seen.insert(ptr.to_string());
+            self.list.push(ptr.to_string());
+        }
+    }
+
+    fn clear(&mut self) {
+        self.list.clear();
+        self.seen.clear();
+    }
+
+    fn iter(&self) -> std::slice::Iter<'_, String> {
+        self.list.iter()
+    }
+}
+
+/// What differs from the file as opened or last saved. Worked out once per edit, not on every
+/// frame: comparing a big file byte by byte several times a frame makes the window lag.
+#[derive(Default)]
+struct Changes {
+    /// The `App::edit_gen` this was worked out for.
+    gen: Option<u64>,
+    /// Hex view: the byte ranges that differ.
+    ranges: Vec<(usize, usize)>,
+    /// Structured saves: the edited values that differ.
+    ptrs: Vec<String>,
+    /// A text file that was edited.
+    text: bool,
+}
+
+impl Changes {
+    fn of(d: &Doc, touched: &Touched) -> Changes {
+        let mut out = Changes::default();
+        match (&d.content, &d.baseline) {
+            (Content::Binary(a), Content::Binary(b)) => out.ranges = byte_ranges(a, b),
+            (Content::Text(a), Content::Text(b)) => out.text = a != b,
+            (c, b) => {
+                if let (Some(cv), Some(bv)) = (root(c), root(b)) {
+                    out.ptrs = touched.iter().filter(|p| cv.pointer(p) != bv.pointer(p)).cloned().collect();
+                }
+            }
+        }
+        out
+    }
+
+    fn count(&self) -> usize {
+        self.ranges.len() + self.ptrs.len() + usize::from(self.text)
+    }
+}
+
 fn root(c: &Content) -> Option<&Value> {
     match c {
         Content::Json { value, .. } => Some(value),
@@ -105,7 +165,13 @@ fn flatten(v: &Value, ptr: &str, out: &mut Vec<(String, Value)>) {
 
 /// Result of comparing the open save with another file.
 /// Files at least this big are opened on a worker thread, so the window keeps responding.
-const BACKGROUND_LOAD: u64 = 4 << 20;
+/// (Working out what a file is takes longer than its size suggests: a save well under a
+/// megabyte can hold half a million values.)
+const BACKGROUND_LOAD: u64 = 256 << 10;
+
+/// How long a file may take to open before the "Opening" box is shown, so that it doesn't
+/// flash up for the many files that open at once.
+const OPENING_BOX_AFTER: f64 = 0.25;
 
 /// A file being read and decoded on a worker thread.
 struct Loading {
@@ -180,6 +246,9 @@ struct GamePicker {
     only_found: Option<bool>,
     /// Only games with this much support.
     level: Option<crate::games::Level>,
+    /// Which game each save found for the picked entry belongs to, for (entry, saves found).
+    /// Working it out looks through folders, so it is done once rather than on every frame.
+    save_groups: Option<((usize, usize), Vec<String>)>,
 }
 
 /// The saves found for each game in the catalog (`None`: not looked at yet).
@@ -227,7 +296,7 @@ fn spawn_search(found: &SaveSearch, full: bool) {
 
 impl GamePicker {
     fn with(found: SaveSearch) -> Self {
-        Self { query: String::new(), picked: None, group: None, found, only_found: None, level: None }
+        Self { query: String::new(), picked: None, group: None, found, only_found: None, level: None, save_groups: None }
     }
 }
 
@@ -320,7 +389,9 @@ pub struct App {
     undo: Vec<Change>,
     redo: Vec<Change>,
     last_edit: Option<(String, f64)>,
-    touched: Vec<String>,
+    touched: Touched,
+    /// What differs from the file as opened or last saved, for `edit_gen`.
+    changes: Changes,
 
     // Structured view state.
     tab: Tab,
@@ -433,7 +504,7 @@ impl App {
             doc: None,
             settings,
             has_icons,
-            status: "Ready. Open a save file to get started.".into(),
+            status: tr("Ready. Open a save file to get started.").into(),
             status_kind: StatusKind::Info,
             pending_open: None,
             confirm_close: false,
@@ -446,7 +517,8 @@ impl App {
             undo: vec![],
             redo: vec![],
             last_edit: None,
-            touched: vec![],
+            touched: Touched::default(),
+            changes: Changes::default(),
             tab: Tab::Values,
             search: String::new(),
             search_typed_at: 0.0,
@@ -519,7 +591,7 @@ impl App {
                 let mut gp = app.picker();
                 if let Some((_, q)) = p.to_string_lossy().split_once('=') {
                     let q = q.to_lowercase();
-                    gp.picked = crate::games::GAMES.iter().position(|g| g.name.to_lowercase().contains(&q));
+                    gp.picked = crate::games::GAMES.iter().position(|g| crate::games::name_matches(g.name, &q));
                 }
                 app.game_picker = Some(gp);
                 None
@@ -621,7 +693,7 @@ impl App {
             Ask::ExportNames => self.export_names(&p),
             Ask::ImportNames => self.import_names(&p),
             Ask::BackupDir => {
-                self.ok(format!("Backups now go to {}. Earlier ones stay where they were and are still listed.", p.display()));
+                self.ok(trf("Backups now go to {0}. Earlier ones stay where they were and are still listed.", &[&p.display()]));
                 self.settings.set_backup_dir(Some(p));
             }
         }
@@ -720,7 +792,7 @@ impl App {
             let _ = tx.send(r);
         });
         self.loading = Some(Loading { path: path.to_path_buf(), opts, started: f64::NAN, rx });
-        self.info(format!("Opening {}\u{2026}", file_name(path)));
+        self.info(trf("Opening {0}\u{2026}", &[&file_name(path)]));
     }
 
     /// The worker thread's result, once it's there.
@@ -728,6 +800,12 @@ impl App {
         let Some(l) = &mut self.loading else { return };
         if l.started.is_nan() {
             l.started = now;
+            // Nothing typed from here on may land in the file that is about to be replaced.
+            ctx.memory_mut(|m| {
+                if let Some(id) = m.focused() {
+                    m.surrender_focus(id);
+                }
+            });
         }
         match l.rx.try_recv() {
             Ok(r) => {
@@ -740,6 +818,15 @@ impl App {
             Err(std::sync::mpsc::TryRecvError::Empty) => {
                 let name = file_name(&l.path);
                 let secs = now - l.started;
+                if secs < OPENING_BOX_AFTER {
+                    // Not worth a box yet, but clicks must not reach the file being replaced.
+                    let screen = ctx.screen_rect();
+                    egui::Area::new(egui::Id::new("opening_hold")).fixed_pos(screen.min).order(egui::Order::Foreground).show(ctx, |ui| {
+                        ui.allocate_response(screen.size(), egui::Sense::click());
+                    });
+                    ctx.request_repaint_after(std::time::Duration::from_millis(30));
+                    return;
+                }
                 modal(ctx, tr("Opening"), |ui| {
                     ui.horizontal(|ui| {
                         ui.spinner();
@@ -769,7 +856,7 @@ impl App {
         let stamp = safety::stamp(path);
         let raw = match crate::vfs::read(path) {
             Ok(r) => r,
-            Err(e) => return self.fail(format!("Couldn't open {}: {e}", path.display())),
+            Err(e) => return self.fail(trf("Couldn't open {0}: {1}", &[&path.display(), &e])),
         };
         let prepared = Prepared { stamp, ..prepare(path, formats::decode_with(&raw, &opts)) };
         self.finish_load(path, opts, raw.len(), prepared);
@@ -798,6 +885,7 @@ impl App {
         self.undo.clear();
         self.redo.clear();
         self.touched.clear();
+        self.edit_gen += 1;
         self.last_edit = None;
         self.dirty = false;
         self.tab = if game.is_some() { Tab::Game } else { Tab::Values };
@@ -835,13 +923,13 @@ impl App {
         let Some(doc) = &self.doc else { return };
         let Content::Json { value, .. } = &doc.content else { return };
         if !dir.join("System.json").is_file() {
-            return self.fail(format!("{} has no System.json \u{2014} pick the game's data folder.", dir.display()));
+            return self.fail(trf("{0} has no System.json \u{2014} pick the game's data folder.", &[&dir.display()]));
         }
         let names = names::rpgmaker_names(value, &dir);
         let n = names.by_ptr.len();
         self.doc.as_mut().unwrap().names = names;
         self.rebuild_model();
-        self.ok(format!("Loaded {n} names from {}", dir.display()));
+        self.ok(trf("Loaded {0} names from {1}", &[&n, &dir.display()]));
     }
 
     // ------------------------------------------------------------ editing
@@ -869,7 +957,7 @@ impl App {
     fn apply_edit(&mut self, ptr: String, v: Value, now: f64) {
         match self.try_edit(ptr.clone(), v, now) {
             Err(e) => {
-                self.fail(format!("Can't use that value: {e}."));
+                self.fail(trf("Can't use that value: {0}.", &[&e]));
                 self.error_ptr = Some(ptr);
             }
             Ok(_) => self.clear_edit_error(&ptr),
@@ -931,12 +1019,13 @@ impl App {
         self.last_edit = Some((ptr, now));
         if !derived.is_empty() {
             let names: Vec<String> = derived.iter().map(|(p, _, _)| p.rsplit('/').next().unwrap_or("").replace("~1", "/").replace("~0", "~")).collect();
-            self.info(format!("Also updated: {}.", names.join(", ")));
+            self.info(trf("Also updated: {0}.", &[&names.join(", ")]));
         } else if aliases > 0 {
-            self.info(format!(
-                "This value is shared with {aliases} other place{} in the save, which changed too.",
-                if aliases == 1 { "" } else { "s" }
-            ));
+            self.info(if aliases == 1 {
+                tr("This value is shared with 1 other place in the save, which changed too.").to_string()
+            } else {
+                trf("This value is shared with {0} other places in the save, which changed too.", &[&aliases])
+            });
         }
         Ok(true)
     }
@@ -956,16 +1045,25 @@ impl App {
     }
 
     fn after_change(&mut self, ptr: &str) {
-        if !self.touched.iter().any(|t| t == ptr) {
-            self.touched.push(ptr.to_string());
-        }
+        self.touched.insert(ptr);
         if ptr.is_empty() && root(&self.doc.as_ref().unwrap().content).is_some() {
             self.rebuild_model();
         }
         self.hex.label_edits.clear();
         self.sync_raw();
         self.edit_gen += 1;
-        self.recompute_dirty();
+        // This value differing from the file is enough to know there are unsaved changes; only
+        // when it was put back does every edited value have to be looked at again. (Looking at
+        // them all after each of the thousands of edits of a bulk edit took seconds.)
+        let differs = self.doc.as_ref().is_some_and(|d| match (root(&d.content), root(&d.baseline)) {
+            (Some(cv), Some(bv)) => cv.pointer(ptr) != bv.pointer(ptr),
+            _ => false,
+        });
+        if differs {
+            self.dirty = true;
+        } else {
+            self.recompute_dirty();
+        }
     }
 
     /// Keep the Raw JSON text in step with the data, so undo/revert aren't
@@ -987,7 +1085,7 @@ impl App {
         for p in &ptrs {
             self.after_change(p);
         }
-        self.info(if undo { "Undone." } else { "Redone." });
+        self.info(if undo { tr("Undone.") } else { tr("Redone.") });
     }
 
     /// Puts a change back (`undo`) or makes it again. Returns the values it touched (`""` for
@@ -1104,7 +1202,7 @@ impl App {
             crate::vfs::write(&path, serde_json::to_string_pretty(&json!({ "labels": list })).unwrap())
         };
         if let Err(e) = result {
-            self.fail(format!("Couldn't save names to {}: {e}", path.display()));
+            self.fail(trf("Couldn't save names to {0}: {1}", &[&path.display(), &e]));
         }
     }
 
@@ -1142,7 +1240,7 @@ impl App {
         }
         let bytes = match formats::encode(&doc.layers, &doc.content) {
             Ok(b) => b,
-            Err(e) => return self.fail(format!("Couldn't build the save file: {e}")),
+            Err(e) => return self.fail(trf("Couldn't build the save file: {0}", &[&e])),
         };
         // Verify before touching the disk: the new file must decode to exactly what's on screen.
         let check = formats::decode_with(&bytes, &doc.opts);
@@ -1150,15 +1248,15 @@ impl App {
             return self.fail(tr("Save aborted: the re-encoded file didn't read back identically. Your file was not changed."));
         }
 
-        let mut note = String::new();
+        let mut note: Option<String> = None;
         if WEB {
             if let Err(e) = write_in_place(path, &bytes) {
-                return self.fail(format!("Couldn't hand over {}: {e}", path.display()));
+                return self.fail(trf("Couldn't hand over {0}: {1}", &[&path.display(), &e]));
             }
             for (other, data) in formats::companion_files(path, &bytes) {
                 let _ = write_in_place(&other, &data);
             }
-            note = " Your browser downloaded it \u{2014} put it in place of the game's save (keep a copy of the old one).".into();
+            note = Some(tr("Your browser downloaded it \u{2014} put it in place of the game's save (keep a copy of the old one).").into());
         } else {
         if path.exists() {
             let mut bak = path.as_os_str().to_owned();
@@ -1166,29 +1264,32 @@ impl App {
             let bak = PathBuf::from(bak);
             if !bak.exists() {
                 if let Err(e) = crate::vfs::copy(path, &bak) {
-                    return self.fail(format!("Couldn't create backup {}: {e}", bak.display()));
+                    return self.fail(trf("Couldn't create backup {0}: {1}", &[&bak.display(), &e]));
                 }
-                note = format!(" Original backed up as {}.", file_name(&bak));
+                note = Some(trf("Original backed up as {0}.", &[&file_name(&bak)]));
             }
             // Every earlier version stays restorable from Backups \u{203A} Quick restore.
             if let Err(e) = crate::backups::take(path) {
-                return self.fail(format!("Couldn't back up the current file: {e}. Your file was not changed."));
+                return self.fail(trf("Couldn't back up the current file: {0}. Your file was not changed.", &[&e]));
             }
         }
         if let Err(e) = write_in_place(path, &bytes) {
-            return self.fail(format!("Couldn't write {}: {e}", path.display()));
+            return self.fail(trf("Couldn't write {0}: {1}", &[&path.display(), &e]));
         }
         // Files the game checks against this save (Persona 4 Golden's .binslot).
         for (other, data) in formats::companion_files(path, &bytes) {
             let _ = crate::backups::take(&other);
             if let Err(e) = crate::vfs::write(&other, data) {
-                return self.fail(format!("Saved, but couldn't update {}: {e}", other.display()));
+                return self.fail(trf("Saved, but couldn't update {0}: {1}", &[&other.display(), &e]));
             }
         }
         #[cfg(not(target_arch = "wasm32"))]
         match crate::playerprefs::after_save(path) {
-            Ok(Some(m)) => note.push_str(&format!(" {m}")),
-            Err(e) => return self.fail(format!("Saved the file, but {e}")),
+            Ok(Some(m)) => note = Some(match note {
+                Some(n) => format!("{n} {m}"),
+                None => m,
+            }),
+            Err(e) => return self.fail(trf("Saved the file, but {0}", &[&e])),
             Ok(None) => {}
         }
         }
@@ -1209,16 +1310,20 @@ impl App {
         self.recompute_dirty();
         self.settings.push_recent(path);
         let extra = if signed && crate::renpy_sign::can_sign() {
-            " Re-signed with your Ren'Py key, so the game will load it normally."
+            Some(tr("Re-signed with your Ren'Py key, so the game will load it normally."))
         } else if signed {
-            " Your Ren'Py key wasn't found, so the old signature was removed \u{2014} the game will ask once whether to load it; choose Yes."
+            Some(tr("Your Ren'Py key wasn't found, so the old signature was removed \u{2014} the game will ask once whether to load it; choose Yes."))
         } else if persistent {
-            " Re-signed with your Ren'Py key. If the game is running, close it without saving first \u{2014} it rewrites this file on exit."
+            Some(tr("Re-signed with your Ren'Py key. If the game is running, close it without saving first \u{2014} it rewrites this file on exit."))
         } else {
-            ""
+            None
         };
-        let cloud = if in_steam_cloud(path) { " If Steam asks which save to keep, choose the local one." } else { "" };
-        self.ok(format!("{}{note}{extra}{cloud}", crate::i18n::trf("Saved and verified ({0}).", &[&human_size(bytes.len())])));
+        let cloud = in_steam_cloud(path).then(|| tr("If Steam asks which save to keep, choose the local one."));
+        let mut msg = vec![trf("Saved and verified ({0}).", &[&human_size(bytes.len())])];
+        msg.extend(note);
+        msg.extend(extra.map(String::from));
+        msg.extend(cloud.map(String::from));
+        self.ok(msg.join(" "));
     }
 
     fn save(&mut self) {
@@ -1361,26 +1466,26 @@ impl App {
     fn copy_character(&mut self, from: usize, to: usize, who: &crate::fmt::slot_copy::Slot) {
         let Some(path) = self.doc.as_ref().map(|d| d.path.clone()) else { return };
         if let Some(game) = crate::running::game_for(&path) {
-            return self.fail(format!("{game} looks like it's running \u{2014} quit it first, or it will overwrite the copy."));
+            return self.fail(trf("{0} looks like it's running \u{2014} quit it first, or it will overwrite the copy.", &[&game]));
         }
         let raw = match crate::vfs::read(&path) {
             Ok(r) => r,
-            Err(e) => return self.fail(format!("Couldn't read {}: {e}", path.display())),
+            Err(e) => return self.fail(trf("Couldn't read {0}: {1}", &[&path.display(), &e])),
         };
         let out = match crate::fmt::slot_copy::er_copy(&raw, from, to) {
             Ok(o) => o,
-            Err(e) => return self.fail(format!("Couldn't copy the character: {e}")),
+            Err(e) => return self.fail(trf("Couldn't copy the character: {0}", &[&e])),
         };
         if !WEB {
             if let Err(e) = crate::backups::take(&path) {
-                return self.fail(format!("Couldn't back up the file first: {e}. Nothing was changed."));
+                return self.fail(trf("Couldn't back up the file first: {0}. Nothing was changed.", &[&e]));
             }
         }
         if let Err(e) = write_in_place(&path, &out) {
-            return self.fail(format!("Couldn't write {}: {e}", path.display()));
+            return self.fail(trf("Couldn't write {0}: {1}", &[&path.display(), &e]));
         }
         self.load(&path);
-        self.ok(format!("Copied {} (level {}) into slot {}. It shows up on the game's Load Game screen.", who.name, who.level, to + 1));
+        self.ok(trf("Copied {0} (level {1}) into slot {2}. It shows up on the game's Load Game screen.", &[&who.name, &who.level, &(to + 1)]));
     }
 
     fn save_review_dialog(&mut self, ctx: &egui::Context) {
@@ -1476,10 +1581,10 @@ impl App {
     fn restore_to(&mut self, path: &Path, from: &Path, what: &str) {
         let path = path.to_path_buf();
         if self.dirty && self.doc.as_ref().is_some_and(|d| d.path != path) {
-            return self.fail(format!("Save or revert the changes to {} first.", self.doc.as_ref().map(|d| file_name(&d.path)).unwrap_or_default()));
+            return self.fail(trf("Save or revert the changes to {0} first.", &[&self.doc.as_ref().map(|d| file_name(&d.path)).unwrap_or_default()]));
         }
         if let Some(game) = crate::running::game_for(&path) {
-            return self.fail(format!("{game} looks like it's running \u{2014} quit it first, or it may overwrite the restored file."));
+            return self.fail(trf("{0} looks like it's running \u{2014} quit it first, or it may overwrite the restored file.", &[&game]));
         }
         match crate::backups::restore(&path, from) {
             Ok(()) => {
@@ -1491,9 +1596,9 @@ impl App {
                 }
                 self.dirty = false;
                 self.load(&path);
-                self.ok(format!("Restored {what}. The version it replaced is in the backup list too."));
+                self.ok(trf("Restored {0}. The version it replaced is in the backup list too.", &[&what]));
             }
-            Err(e) => self.fail(format!("Couldn't restore backup: {e}")),
+            Err(e) => self.fail(trf("Couldn't restore backup: {0}", &[&e])),
         }
     }
 
@@ -1518,11 +1623,11 @@ impl App {
         let Some(doc) = &self.doc else { return };
         let payload = match crate::vfs::read(src) {
             Ok(b) => b,
-            Err(e) => return self.fail(format!("Couldn't read {}: {e}", src.display())),
+            Err(e) => return self.fail(trf("Couldn't read {0}: {1}", &[&src.display(), &e])),
         };
         let bytes = match formats::encode(&doc.layers, &Content::Binary(payload)) {
             Ok(b) => b,
-            Err(e) => return self.fail(format!("Couldn't pack the imported data: {e}")),
+            Err(e) => return self.fail(trf("Couldn't pack the imported data: {0}", &[&e])),
         };
         let check = formats::decode_with(&bytes, &doc.opts);
         if !formats::same_layers(&check.layers, &doc.layers) || std::mem::discriminant(&check.content) != std::mem::discriminant(&doc.content) {
@@ -1530,10 +1635,13 @@ impl App {
         }
         let d = self.doc.as_mut().unwrap();
         d.content = check.content;
-        self.rebuild_model();
-        self.edit_gen += 1;
+        // The whole document counts as edited, so the import shows as an unsaved change.
+        self.undo.clear();
+        self.redo.clear();
+        self.last_edit = None;
+        self.after_change("");
         self.recompute_dirty();
-        self.ok(format!("Imported {}. Review the changes, then save.", file_name(src)));
+        self.ok(trf("Imported {0}. Review the changes, then save.", &[&file_name(src)]));
     }
 
     fn export_to(&mut self, dest: &Path) {
@@ -1548,8 +1656,8 @@ impl App {
         #[cfg(not(target_arch = "wasm32"))]
         let result = result.and_then(|b| crate::vfs::write(dest, b).map_err(|e| e.to_string()));
         match result {
-            Ok(()) => self.ok(format!("Exported to {}", dest.display())),
-            Err(e) => self.fail(format!("Export failed: {e}")),
+            Ok(()) => self.ok(trf("Exported to {0}", &[&dest.display()])),
+            Err(e) => self.fail(trf("Export failed: {0}", &[&e])),
         }
     }
 
@@ -1562,6 +1670,8 @@ impl App {
             Ok(b) => {
                 doc.content = Content::Binary(b);
                 doc.baseline = doc.content.clone();
+                self.touched.clear();
+                self.edit_gen += 1;
                 self.rebuild_model();
                 self.ok(tr("Showing the decoded data as hex. Saving re-applies the original encoding."));
             }
@@ -1576,7 +1686,7 @@ impl App {
         let Some(path) = self.doc.as_ref().map(|d| d.path.clone()) else { return };
         let raw = match crate::vfs::read(&path) {
             Ok(r) => r,
-            Err(e) => return self.fail(format!("Reload failed: {e}")),
+            Err(e) => return self.fail(trf("Reload failed: {0}", &[&e])),
         };
         let opts = self.doc.as_ref().map(|d| d.opts.clone()).unwrap_or_default();
         let decoded = formats::decode_with(&raw, &opts);
@@ -1598,8 +1708,9 @@ impl App {
         d.baseline = d.content.clone();
         self.undo.clear();
         self.redo.clear();
+        self.edit_gen += 1;
         self.recompute_dirty();
-        self.info(format!("Re-read the file: {before} \u{203A} {after} possible locations."));
+        self.info(trf("Re-read the file: {0} \u{203A} {1} possible locations.", &[&before, &after]));
     }
 
     // ------------------------------------------------------------ UI: chrome
@@ -1733,7 +1844,7 @@ impl App {
                         }
                         if let Some(i) = unlock {
                             if let Err(e) = crate::backups::unlock(&versions[i]) {
-                                self.fail(format!("Couldn't change that copy: {e}"));
+                                self.fail(trf("Couldn't change that copy: {0}", &[&e]));
                             }
                         }
                         if has_bak {
@@ -1873,9 +1984,9 @@ impl App {
                     match crate::fmt::template::ensure_dir() {
                         Ok(d) => {
                             crate::platform::reveal(&d.join("README.txt"));
-                            self.ok(format!("Templates folder: {}", d.display()));
+                            self.ok(trf("Templates folder: {0}", &[&d.display()]));
                         }
-                        Err(e) => self.fail(format!("Couldn't make the templates folder: {e}")),
+                        Err(e) => self.fail(trf("Couldn't make the templates folder: {0}", &[&e])),
                     }
                 }
                 ui.menu_button(tr("Presets"), |ui| {
@@ -1969,7 +2080,7 @@ impl App {
         let Some(d) = &self.doc else { return };
         let raw = match crate::vfs::read(&other) {
             Ok(r) => r,
-            Err(e) => return self.fail(format!("Couldn't open {}: {e}", other.display())),
+            Err(e) => return self.fail(trf("Couldn't open {0}: {1}", &[&other.display(), &e])),
         };
         let mut opts = formats::Options::for_path(&other);
         opts.password = d.opts.password.clone();
@@ -2016,7 +2127,7 @@ impl App {
         };
         let n = diffs.len();
         self.compare = Some(Compare { other, diffs });
-        self.info(format!("{n} difference{} found.", if n == 1 { "" } else { "s" }));
+        self.info(if n == 1 { tr("1 difference found.").to_string() } else { trf("{0} differences found.", &[&n]) });
     }
 
     fn compare_window(&mut self, ctx: &egui::Context, now: f64) {
@@ -2112,7 +2223,7 @@ impl App {
     /// Backs the save up under `name`, then removes it and closes it so the game starts a new game. True on success.
     fn start_new_game(&mut self, path: &Path, name: &str) -> bool {
         if let Some(game) = crate::running::game_for(path) {
-            self.fail(format!("{game} looks like it's running \u{2014} quit it first."));
+            self.fail(trf("{0} looks like it's running \u{2014} quit it first.", &[&game]));
             return false;
         }
         match crate::backups::set_aside(path, name) {
@@ -2120,11 +2231,11 @@ impl App {
                 // Close the file so its old data can't be saved back over the new game.
                 self.doc = None;
                 self.dirty = false;
-                self.ok(format!("Backed up as \u{201C}{}\u{201D} and removed the save, so the game starts a new game. Restore it from Backups \u{203A} Backups for this save\u{2026} any time.", name.trim()));
+                self.ok(trf("Backed up as \u{201C}{0}\u{201D} and removed the save, so the game starts a new game. Restore it from Backups \u{203A} Backups for this save\u{2026} any time.", &[&name.trim()]));
                 true
             }
             Err(e) => {
-                self.fail(format!("Couldn't start a new game: {e}"));
+                self.fail(trf("Couldn't start a new game: {0}", &[&e]));
                 false
             }
         }
@@ -2191,9 +2302,9 @@ impl App {
             Some(true) => {
                 let Some(path) = self.doc.as_ref().map(|d| d.path.clone()) else { return };
                 match crate::backups::take_named(&path, &text) {
-                    Ok(_) => self.ok(format!("Kept a copy named \u{201C}{}\u{201D} (Backups \u{203A} Quick restore).", text.trim())),
+                    Ok(_) => self.ok(trf("Kept a copy named \u{201C}{0}\u{201D} (Backups \u{203A} Quick restore).", &[&text.trim()])),
                     Err(e) => {
-                        self.fail(format!("Couldn't keep a copy: {e}"));
+                        self.fail(trf("Couldn't keep a copy: {0}", &[&e]));
                         self.backup_name = Some(text);
                     }
                 }
@@ -2328,10 +2439,10 @@ impl App {
         if keep {
             match crate::backups::take_named(&path, &name) {
                 Ok(_) => {
-                    self.ok(format!("Backed up this save as \u{201C}{}\u{201D}.", name.trim()));
+                    self.ok(trf("Backed up this save as \u{201C}{0}\u{201D}.", &[&name.trim()]));
                     name.clear();
                 }
-                Err(e) => self.fail(format!("Couldn't back up the save: {e}")),
+                Err(e) => self.fail(trf("Couldn't back up the save: {0}", &[&e])),
             }
         }
         if aside && self.start_new_game(&path, &name) {
@@ -2348,13 +2459,13 @@ impl App {
         if let Some(v) = unname.as_ref().and_then(find) {
             match crate::backups::unlock(v) {
                 Ok(()) => self.ok(tr("That backup is automatic now: it is cleared out in time like the others.")),
-                Err(e) => self.fail(format!("Couldn't change that copy: {e}")),
+                Err(e) => self.fail(trf("Couldn't change that copy: {0}", &[&e])),
             }
         }
         if let Some(v) = delete.as_ref().and_then(find) {
             match crate::backups::remove(v) {
                 Ok(()) => self.ok(tr("Deleted the backup.")),
-                Err(e) => self.fail(format!("Couldn't delete it: {e}")),
+                Err(e) => self.fail(trf("Couldn't delete it: {0}", &[&e])),
             }
         }
         // A restore opens the file, which closes this window unless it is still wanted.
@@ -2413,7 +2524,7 @@ impl App {
         let Some(p) = &mut self.patches else { return };
         let raw = match crate::vfs::read(path) {
             Ok(b) => b,
-            Err(e) => return self.fail(format!("Couldn't read {}: {e}", path.display())),
+            Err(e) => return self.fail(trf("Couldn't read {0}: {1}", &[&path.display(), &e])),
         };
         let (text, latin1) = match String::from_utf8(raw) {
             Ok(t) => (t, false),
@@ -2577,15 +2688,15 @@ impl App {
             if failed.is_empty() {
                 self.info(tr("The codes didn't change anything (the values may already be set)."));
             } else {
-                self.fail(format!("Nothing was changed. {}", failed.join("; ")));
+                self.fail(trf("Nothing was changed. {0}", &[&failed.join("; ")]));
             }
             return;
         }
         self.replace_bytes(out);
         if failed.is_empty() {
-            self.ok(format!("Applied {done} code{}. Save to write the file.", if done == 1 { "" } else { "s" }));
+            self.ok(if done == 1 { tr("Applied 1 code. Save to write the file.").to_string() } else { trf("Applied {0} codes. Save to write the file.", &[&done]) });
         } else {
-            self.fail(format!("Applied {done}, but some failed: {}", failed.join("; ")));
+            self.fail(trf("Applied {0}, but some failed: {1}", &[&done, &failed.join("; ")]));
         }
     }
 
@@ -2648,7 +2759,7 @@ impl App {
             Some(true) => {
                 let (Some(new), Some(&old)) = (crate::steamid::parse(&text), ids.get(pick)) else { return };
                 let n = self.rebind_to(old, new);
-                self.ok(format!("Changed the Steam ID in {n} place{}. Save to write the file.", if n == 1 { "" } else { "s" }));
+                self.ok(if n == 1 { tr("Changed the Steam ID in 1 place. Save to write the file.").to_string() } else { trf("Changed the Steam ID in {0} places. Save to write the file.", &[&n]) });
             }
             Some(false) => {}
             None => self.rebind = Some((ids, pick, text)),
@@ -2904,13 +3015,21 @@ impl App {
 
     fn change_count(&self) -> usize {
         let Some(d) = &self.doc else { return 0 };
-        match (&d.content, &d.baseline) {
-            (Content::Binary(a), Content::Binary(b)) => byte_ranges(a, b).len(),
-            (Content::Text(a), Content::Text(b)) => usize::from(a != b),
-            (c, b) => match (root(c), root(b)) {
-                (Some(cv), Some(bv)) => self.touched.iter().filter(|p| cv.pointer(p) != bv.pointer(p)).count(),
-                _ => 0,
-            },
+        if self.changes.gen == Some(self.edit_gen) {
+            self.changes.count()
+        } else {
+            Changes::of(d, &self.touched).count()
+        }
+    }
+
+    /// Brings `changes` up to date with the last edit.
+    fn refresh_changes(&mut self) {
+        if self.changes.gen != Some(self.edit_gen) {
+            self.changes = match &self.doc {
+                Some(d) => Changes::of(d, &self.touched),
+                None => Changes::default(),
+            };
+            self.changes.gen = Some(self.edit_gen);
         }
     }
 
@@ -3062,7 +3181,7 @@ impl App {
                 ui.weak(tr("no match on this tab"));
             } else {
                 self.game_find_idx %= total;
-                ui.weak(format!("{} of {}", self.game_find_idx + 1, total));
+                ui.weak(trf("{0} of {1}", &[&(self.game_find_idx + 1), &total]));
                 let enter = r.lost_focus() && ui.input(|i| i.key_pressed(egui::Key::Enter));
                 let back = ui.input(|i| i.modifiers.shift);
                 if ui.small_button(tr("Next")).clicked() || (enter && !back) {
@@ -3090,7 +3209,7 @@ impl App {
             ui,
             &mut self.settings.show_raw_keys,
             tr("Raw keys"),
-            "Show the game's own key name next to each friendly name",
+            tr("Show the game's own key name next to each friendly name"),
         );
         if self.tab != Tab::Values {
             if changed {
@@ -3100,10 +3219,12 @@ impl App {
         }
         ui.add_space(8.0);
         let hidden = self.model.sections.iter().filter(|s| s.advanced).count();
-        let tip = if hidden > 0 && !self.settings.show_advanced {
-            format!("Also show engine internals and read-only values ({hidden} section{} hidden now)", if hidden == 1 { "" } else { "s" })
+        let tip = if hidden == 1 && !self.settings.show_advanced {
+            tr("Also show engine internals and read-only values (1 section hidden now)").to_string()
+        } else if hidden > 0 && !self.settings.show_advanced {
+            trf("Also show engine internals and read-only values ({0} sections hidden now)", &[&hidden])
         } else {
-            "Also show engine internals and read-only values".to_string()
+            tr("Also show engine internals and read-only values").to_string()
         };
         let label = if hidden > 0 && !self.settings.show_advanced { format!("{} ({hidden})", tr("Advanced")) } else { tr("Advanced").into() };
         changed |= widgets::labeled_toggle(ui, &mut self.settings.show_advanced, &label, &tip);
@@ -3306,6 +3427,9 @@ impl App {
         let mut close = false;
         let mut copy = false;
         let mut preset = false;
+        // Edits made earlier in this frame are in the list straight away.
+        self.refresh_changes();
+        let changes = std::mem::take(&mut self.changes);
         egui::SidePanel::right("changes").default_width(320.0).min_width(260.0).show(ctx, |ui| {
             let Some(d) = &self.doc else { return };
             ui.add_space(6.0);
@@ -3335,11 +3459,15 @@ impl App {
             }
             ScrollArea::vertical().auto_shrink([false, false]).show_locked(ui, |ui| match (&d.content, &d.baseline) {
                 (Content::Binary(cur), Content::Binary(base)) => {
-                    let ranges = byte_ranges(cur, base);
+                    let ranges = &changes.ranges;
                     if ranges.is_empty() {
                         ui.weak(tr("No changes yet."));
                     }
-                    for (start, end) in ranges {
+                    for &(start, end) in ranges.iter().take(CHANGES_SHOWN) {
+                        // A change list a frame old after the data got shorter.
+                        if end > cur.len() || end > base.len() {
+                            continue;
+                        }
                         theme::card(ui, |ui| {
                             let name = self.hex.labels.get(&start).map(|l| l.name.clone()).unwrap_or(format!("Offset 0x{start:X}"));
                             if ui.link(RichText::new(name).strong()).clicked() {
@@ -3353,17 +3481,18 @@ impl App {
                             }
                         });
                     }
+                    more_changes(ui, ranges.len());
                 }
                 (Content::Text(a), Content::Text(b)) => {
-                    ui.weak(if a != b { "The text has been edited." } else { "No changes yet." });
+                    ui.weak(if a != b { tr("The text has been edited.") } else { tr("No changes yet.") });
                 }
                 (c, b) => {
                     let (Some(cv), Some(bv)) = (root(c), root(b)) else { return };
-                    let changed: Vec<&String> = self.touched.iter().filter(|p| cv.pointer(p) != bv.pointer(p)).collect();
+                    let changed = &changes.ptrs;
                     if changed.is_empty() {
                         ui.weak(tr("No changes yet. Edited values are highlighted in orange."));
                     }
-                    for ptr in changed {
+                    for ptr in changed.iter().take(CHANGES_SHOWN) {
                         theme::card(ui, |ui| {
                             if ptr.is_empty() {
                                 ui.label(RichText::new(tr("Whole document (Raw JSON edit)")).strong());
@@ -3393,9 +3522,11 @@ impl App {
                             }
                         });
                     }
+                    more_changes(ui, changed.len());
                 }
             });
         });
+        self.changes = changes;
         if copy {
             self.copy_changes(ctx);
         }
@@ -3987,6 +4118,18 @@ pub(crate) fn human_size(n: usize) -> String {
     }
 }
 
+/// How many changes the Changes panel lists; a bulk edit can make tens of thousands, and
+/// drawing a card for each one on every frame would freeze the window.
+const CHANGES_SHOWN: usize = 300;
+
+/// The line under a cut-short list of changes.
+fn more_changes(ui: &mut egui::Ui, total: usize) {
+    if total > CHANGES_SHOWN {
+        ui.add_space(6.0);
+        ui.weak(trf("Showing the first {0} of {1} changes. Saving, Revert all and Copy as text cover all of them.", &[&CHANGES_SHOWN, &total]));
+    }
+}
+
 /// Contiguous ranges where `a` differs from `b`, merging gaps of < 4 bytes.
 fn byte_ranges(a: &[u8], b: &[u8]) -> Vec<(usize, usize)> {
     let mut out: Vec<(usize, usize)> = Vec::new();
@@ -4018,6 +4161,7 @@ impl eframe::App for App {
         let now = ctx.input(|i| i.time);
         #[cfg(not(target_os = "android"))]
         self_shot(ctx);
+        self.refresh_changes();
 
         // Files dropped on the window.
         if let Some(p) = ctx.input(|i| i.raw.dropped_files.iter().find_map(|f| f.path.clone())) {
@@ -4145,6 +4289,7 @@ impl eframe::App for App {
                     .show_locked(ui, |ui| ui.add(TextEdit::multiline(text).code_editor().desired_width(f32::INFINITY)).changed())
                     .inner;
                 if changed {
+                    self.edit_gen += 1;
                     self.recompute_dirty();
                 }
             }
@@ -4365,8 +4510,17 @@ fn game_picker_window(ctx: &egui::Context, gp: &mut GamePicker) -> (Option<PathB
                     {
                         gp.only_found = Some(o);
                     }
+                    // The box doesn't wrap by itself: start a new row when its (translated) text needs one.
+                    let level_text = gp.level.map_or(tr("Any support"), |l| l.label());
+                    let font = egui::TextStyle::Button.resolve(ui.style());
+                    let need = ui.fonts(|f| f.layout_no_wrap(level_text.to_string(), font, Color32::WHITE).size().x) + 40.0;
+                    if ui.available_size_before_wrap().x < need {
+                        ui.end_row();
+                    }
                     egui::ComboBox::from_id_salt("gp_level")
-                        .selected_text(gp.level.map_or("Any support", |l| l.label()))
+                        .wrap_mode(egui::TextWrapMode::Truncate)
+                        .width(need.min(ui.available_size_before_wrap().x))
+                        .selected_text(level_text)
                         .show_ui(ui, |ui| {
                             ui.selectable_value(&mut gp.level, None, tr("Any support"));
                             for l in crate::games::Level::ALL {
@@ -4379,6 +4533,7 @@ fn game_picker_window(ctx: &egui::Context, gp: &mut GamePicker) -> (Option<PathB
                         .clicked()
                     {
                         spawn_search(&gp.found, true);
+                        gp.save_groups = None;
                     }
                     // Inline (not pushed to the far edge) so it wraps with the rest instead of leaving the window.
                     if ui.button(tr("Close")).clicked() {
@@ -4391,7 +4546,7 @@ fn game_picker_window(ctx: &egui::Context, gp: &mut GamePicker) -> (Option<PathB
                 let level = gp.level;
                 let matches = |i: usize| {
                     let g = &crate::games::GAMES[i];
-                    (q.is_empty() || g.name.to_lowercase().contains(&q)) && level.is_none_or(|l| crate::games::level(g) == l)
+                    crate::games::name_matches(g.name, &q) && level.is_none_or(|l| crate::games::level(g) == l)
                 };
                 // Games with saves on this computer first, then the rest; a typed name looks through all of them.
                 let found_here: Vec<usize> = (0..crate::games::GAMES.len()).filter(|&i| here(i) && matches(i)).collect();
@@ -4403,9 +4558,9 @@ fn game_picker_window(ctx: &egui::Context, gp: &mut GamePicker) -> (Option<PathB
                         let row = |ui: &mut egui::Ui, i: usize, picked: &mut Option<usize>| {
                             let g = &crate::games::GAMES[i];
                             let n = match &found[i] {
-                                Some(f) if f.is_empty() => "none found".to_string(),
-                                Some(f) => format!("{} found", f.len()),
-                                None => "looking\u{2026}".to_string(),
+                                Some(f) if f.is_empty() => tr("none found").to_string(),
+                                Some(f) => trf("{0} found", &[&f.len()]),
+                                None => tr("looking\u{2026}").to_string(),
                             };
                             ui.horizontal(|ui| {
                                 let l = crate::games::level(g);
@@ -4498,7 +4653,7 @@ fn game_picker_window(ctx: &egui::Context, gp: &mut GamePicker) -> (Option<PathB
                         }
                         if hidden > 0 {
                             ui.add_space(6.0);
-                            if ui.link(format!("Show the other {hidden} games")).clicked() {
+                            if ui.link(trf("Show the other {0} games", &[&hidden])).clicked() {
                                 *show_all = true;
                             }
                         }
@@ -4507,14 +4662,14 @@ fn game_picker_window(ctx: &egui::Context, gp: &mut GamePicker) -> (Option<PathB
                         }
                     });
                 };
-                let details_body = |ui: &mut egui::Ui, picked: Option<usize>, group: &mut Option<String>, open: &mut Option<PathBuf>| {
+                let details_body = |ui: &mut egui::Ui, picked: Option<usize>, group: &mut Option<String>, open: &mut Option<PathBuf>, save_groups: &mut Option<((usize, usize), Vec<String>)>| {
                     let Some(i) = picked else {
                         ui.weak(tr("Choose a game from the list."));
                         return;
                     };
                     let g = &crate::games::GAMES[i];
                     ui.heading(g.name);
-                    for (k, v) in [("Usually in", g.folder), ("Files", g.files), ("Editing", g.support)] {
+                    for (k, v) in [(tr("Usually in"), g.folder), (tr("Files"), g.files), (tr("Editing"), g.support)] {
                         ui.horizontal_wrapped(|ui| {
                             ui.strong(format!("{k}:"));
                             ui.add(egui::Label::new(v).wrap());
@@ -4529,7 +4684,7 @@ fn game_picker_window(ctx: &egui::Context, gp: &mut GamePicker) -> (Option<PathB
                             });
                         }
                         Some(f) if f.is_empty() => {
-                            ui.colored_label(theme::fg(ui, theme::WARN), "No saves found on this computer.");
+                            ui.colored_label(theme::fg(ui, theme::WARN), tr("No saves found on this computer."));
                             ui.weak(tr("If the game keeps them somewhere else (another drive, a cloud folder), use Open\u{2026} to pick the file."));
                         }
                         Some(f) => {
@@ -4558,9 +4713,14 @@ fn game_picker_window(ctx: &egui::Context, gp: &mut GamePicker) -> (Option<PathB
                                 return;
                             }
                             // One entry per game, most recently played first.
+                            let key = (i, f.len());
+                            if save_groups.as_ref().map(|c| c.0) != Some(key) {
+                                *save_groups = Some((key, f.iter().map(|s| crate::games::group_of(g, &s.path)).collect()));
+                            }
+                            let names = &save_groups.as_ref().unwrap().1;
                             let mut groups: Vec<(String, Vec<&crate::games::Found>)> = vec![];
-                            for s in f {
-                                let name = crate::games::group_of(g, &s.path);
+                            for (s, name) in f.iter().zip(names) {
+                                let name = name.clone();
                                 match groups.iter_mut().find(|(n, _)| *n == name) {
                                     Some((_, v)) => v.push(s),
                                     None => groups.push((name, vec![s])),
@@ -4598,14 +4758,14 @@ fn game_picker_window(ctx: &egui::Context, gp: &mut GamePicker) -> (Option<PathB
                     }
                 };
                 // The whole right-hand side scrolls as one, so a long description never pushes the window past the screen.
-                let details = |ui: &mut egui::Ui, picked: Option<usize>, group: &mut Option<String>, open: &mut Option<PathBuf>| {
-                    ScrollArea::vertical().id_salt(("gp_details", picked, group.clone())).auto_shrink([false, false]).show_locked(ui, |ui| details_body(ui, picked, group, open));
+                let details = |ui: &mut egui::Ui, picked: Option<usize>, group: &mut Option<String>, open: &mut Option<PathBuf>, save_groups: &mut Option<((usize, usize), Vec<String>)>| {
+                    ScrollArea::vertical().id_salt(("gp_details", picked, group.clone())).auto_shrink([false, false]).show_locked(ui, |ui| details_body(ui, picked, group, open, save_groups));
                 };
                 let before = gp.picked;
                 if wide {
                     ui.columns(2, |c| {
                         list(&mut c[0], &mut gp.picked, &mut show_all);
-                        details(&mut c[1], gp.picked, &mut gp.group, &mut open);
+                        details(&mut c[1], gp.picked, &mut gp.group, &mut open, &mut gp.save_groups);
                     });
                 } else if gp.picked.is_none() {
                     list(ui, &mut gp.picked, &mut show_all);
@@ -4613,7 +4773,7 @@ fn game_picker_window(ctx: &egui::Context, gp: &mut GamePicker) -> (Option<PathB
                     if ui.button(tr("\u{2039} All games")).clicked() {
                         gp.picked = None;
                     }
-                    details(ui, gp.picked, &mut gp.group, &mut open);
+                    details(ui, gp.picked, &mut gp.group, &mut open, &mut gp.save_groups);
                 }
                 if gp.picked != before {
                     gp.group = None;

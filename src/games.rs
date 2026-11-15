@@ -1179,17 +1179,17 @@ impl Level {
 
     pub fn label(self) -> &'static str {
         match self {
-            Level::Screen => "Screen",
-            Level::Values => "Values",
-            Level::Hex => "Hex",
+            Level::Screen => crate::i18n::tr("Screen"),
+            Level::Values => crate::i18n::tr("Values"),
+            Level::Hex => crate::i18n::tr("Hex"),
         }
     }
 
     pub fn hint(self) -> &'static str {
         match self {
-            Level::Screen => "Has a screen of its own for this game",
-            Level::Values => "Its values are listed by name in Values and Tree",
-            Level::Hex => "Opens in the hex view: find a number you know with Value search, then change it",
+            Level::Screen => crate::i18n::tr("Has a screen of its own for this game"),
+            Level::Values => crate::i18n::tr("Its values are listed by name in Values and Tree"),
+            Level::Hex => crate::i18n::tr("Opens in the hex view: find a number you know with Value search, then change it"),
         }
     }
 }
@@ -1202,6 +1202,75 @@ pub fn level(g: &GameInfo) -> Level {
         Level::Hex
     } else {
         Level::Values
+    }
+}
+
+/// Whether the game called `name` matches what was typed in a game search box. Every word
+/// typed has to be in the name, in any order ("witcher 3", "3 witcher"), and the short names
+/// people use work too: the initials of the name's words with its numbers ("bg3", "gta5",
+/// "ff7", "rdr2", "botw"), Roman numerals read as numbers.
+pub fn name_matches(name: &str, typed: &str) -> bool {
+    let q = typed.trim().to_lowercase();
+    if q.is_empty() {
+        return true;
+    }
+    let lower = name.to_lowercase();
+    if q.split_whitespace().all(|w| lower.contains(w)) {
+        return true;
+    }
+    let short: String = q.chars().filter(|c| c.is_alphanumeric()).collect();
+    short.chars().count() >= 2 && initials(&lower).iter().any(|i| i.contains(&short))
+}
+
+/// The initials of a lower-case game name, with numbers kept whole: once with Roman numerals
+/// as written ("gtav") and once with them as digits ("gta5").
+fn initials(lower: &str) -> [String; 2] {
+    let roman = |w: &str| -> Option<u32> {
+        const NUMERALS: [&str; 16] = ["i", "ii", "iii", "iv", "v", "vi", "vii", "viii", "ix", "x", "xi", "xii", "xiii", "xiv", "xv", "xvi"];
+        NUMERALS.iter().position(|n| *n == w).map(|i| i as u32 + 1)
+    };
+    let (mut plain, mut digits) = (String::new(), String::new());
+    // What is in brackets ("(PC)", "(Steam)") is not part of the name.
+    let title = lower.split('(').next().unwrap_or(lower);
+    for w in title.split(|c: char| !c.is_alphanumeric() && c != '\'' && c != '\u{2019}').filter(|w| !w.is_empty()) {
+        if w.chars().all(|c| c.is_ascii_digit()) {
+            plain.push_str(w);
+            digits.push_str(w);
+        } else if let Some(n) = roman(w) {
+            plain.push_str(w);
+            digits.push_str(&n.to_string());
+        } else if let Some(c) = w.chars().next() {
+            plain.push(c);
+            digits.push(c);
+        }
+    }
+    [plain, digits]
+}
+
+#[cfg(test)]
+mod search_tests {
+    use super::name_matches;
+
+    #[test]
+    fn short_names_and_words_in_any_order() {
+        for (name, typed) in [
+            ("Baldur's Gate 3", "bg3"),
+            ("Grand Theft Auto V", "gta5"),
+            ("Grand Theft Auto V", "gtav"),
+            ("Final Fantasy VII Remake", "ff7"),
+            ("Red Dead Redemption 2 (PC)", "rdr2"),
+            ("The Legend of Zelda: Breath of the Wild (Switch)", "botw"),
+            ("Divinity: Original Sin 2", "dos2"),
+            ("The Witcher 3: Wild Hunt", "3 witcher"),
+            ("The Witcher 3: Wild Hunt", "  Witcher  "),
+            ("The Elder Scrolls V: Skyrim", "tes5"),
+            ("Elden Ring", ""),
+        ] {
+            assert!(name_matches(name, typed), "{typed:?} should find {name:?}");
+        }
+        for (name, typed) in [("Elden Ring", "bg3"), ("Baldur's Gate 3", "witcher"), ("Stardew Valley", "x"), ("Final Fantasy VII Remake", "ff8")] {
+            assert!(!name_matches(name, typed), "{typed:?} should not find {name:?}");
+        }
     }
 }
 

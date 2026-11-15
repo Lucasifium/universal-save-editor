@@ -26946,3 +26946,357 @@ Raises supplies to 9999 and bamboo, yew wood, wax wood, iron, steel, gold, linen
 Supplies, flowers, crafting materials and technique points. The checksum is made again on save. Checked on public saves, not yet tried in the game.
 = Fournitures, fleurs, matériaux d'artisanat et points de technique. La somme de contrôle est recalculée à l'enregistrement. Vérifié sur des sauvegardes publiques, pas encore essayé en jeu.
 
+1 difference found.
+= 1 différence trouvée.
+
+Also show engine internals and read-only values
+= Afficher aussi les données internes du moteur et les valeurs en lecture seule
+
+Also show engine internals and read-only values (1 section hidden now)
+= Afficher aussi les données internes du moteur et les valeurs en lecture seule (1 section masquée pour l'instant)
+
+Also show engine internals and read-only values ({0} sections hidden now)
+= Afficher aussi les données internes du moteur et les valeurs en lecture seule ({0} sections masquées pour l'instant)
+
+Also updated: {0}.
+= Également mis à jour : {0}.
+
+Applied 1 code. Save to write the file.
+= 1 code appliqué. Enregistrez pour écrire le fichier.
+
+Applied {0} codes. Save to write the file.
+= {0} codes appliqués. Enregistrez pour écrire le fichier.
+
+Applied {0}, but some failed: {1}
+= {0} appliqués, mais certains ont échoué : {1}
+
+Applied “{0}”: 1 value changed.
+= « {0} » appliqué : 1 valeur modifiée.
+
+Applied “{0}”: {1} values changed.
+= « {0} » appliqué : {1} valeurs modifiées.
+
+Backed up as “{0}” and removed the save, so the game starts a new game. Restore it from Backups › Backups for this save… any time.
+= Sauvegardée sous « {0} » puis retirée : le jeu démarrera une nouvelle partie. Restaurez-la à tout moment depuis Copies de secours › Copies de secours de cette sauvegarde…
+
+Backed up this save as “{0}”.
+= Cette sauvegarde a été copiée sous « {0} ».
+
+Backups now go to {0}. Earlier ones stay where they were and are still listed.
+= Les copies de secours vont désormais dans {0}. Les précédentes restent où elles étaient et sont toujours listées.
+
+Bulk edit changed 1 value.
+= La modification en masse a changé 1 valeur.
+
+Bulk edit changed {0} values.
+= La modification en masse a changé {0} valeurs.
+
+Bulk edit: {0}.
+= Modification en masse : {0}.
+
+Can't use that value: {0}.
+= Cette valeur ne peut pas être utilisée : {0}.
+
+Changed the Steam ID in 1 place. Save to write the file.
+= Steam ID modifié à 1 endroit. Enregistrez pour écrire le fichier.
+
+Changed the Steam ID in {0} places. Save to write the file.
+= Steam ID modifié à {0} endroits. Enregistrez pour écrire le fichier.
+
+Copied 1 change as text.
+= 1 modification copiée en texte.
+
+Copied {0} (level {1}) into slot {2}. It shows up on the game's Load Game screen.
+= {0} (niveau {1}) copié dans l'emplacement {2}. Il apparaît dans l'écran de chargement de partie du jeu.
+
+Copied {0} changes as text.
+= {0} modifications copiées en texte.
+
+Couldn't back up the current file: {0}. Your file was not changed.
+= Impossible de faire une copie du fichier actuel : {0}. Votre fichier n'a pas été modifié.
+
+Couldn't back up the file first: {0}. Nothing was changed.
+= Impossible de faire d'abord une copie du fichier : {0}. Rien n'a été modifié.
+
+Couldn't back up the save: {0}
+= Impossible de faire une copie de la sauvegarde : {0}
+
+Couldn't build the save file: {0}
+= Impossible de construire le fichier de sauvegarde : {0}
+
+Couldn't change that copy: {0}
+= Impossible de modifier cette copie : {0}
+
+Couldn't copy the character: {0}
+= Impossible de copier le personnage : {0}
+
+Couldn't create backup {0}: {1}
+= Impossible de créer la copie de secours {0} : {1}
+
+Couldn't delete it: {0}
+= Impossible de le supprimer : {0}
+
+Couldn't delete the preset: {0}
+= Impossible de supprimer le préréglage : {0}
+
+Couldn't export the names: {0}
+= Impossible d'exporter les noms : {0}
+
+Couldn't hand over the preset: {0}
+= Impossible de remettre le préréglage : {0}
+
+Couldn't hand over {0}: {1}
+= Impossible de remettre {0} : {1}
+
+Couldn't keep a copy: {0}
+= Impossible de conserver une copie : {0}
+
+Couldn't make the template: {0}.
+= Impossible de créer le modèle : {0}.
+
+Couldn't make the templates folder: {0}
+= Impossible de créer le dossier des modèles : {0}
+
+Couldn't open {0}: {1}
+= Impossible d'ouvrir {0} : {1}
+
+Couldn't pack the imported data: {0}
+= Impossible d'empaqueter les données importées : {0}
+
+Couldn't read {0}: {1}
+= Impossible de lire {0} : {1}
+
+Couldn't restore backup: {0}
+= Impossible de restaurer la copie de secours : {0}
+
+Couldn't save names to {0}: {1}
+= Impossible d'enregistrer les noms dans {0} : {1}
+
+Couldn't save the preset: {0}.
+= Impossible d'enregistrer le préréglage : {0}.
+
+Couldn't start a new game: {0}
+= Impossible de démarrer une nouvelle partie : {0}
+
+Couldn't write {0}: {1}
+= Impossible d'écrire {0} : {1}
+
+Deleted the preset “{0}”.
+= Préréglage « {0} » supprimé.
+
+Enter a number, e.g. 2.5
+= Saisissez un nombre, par ex. 2.5
+
+Enter a whole number, e.g. 1500
+= Saisissez un nombre entier, par ex. 1500
+
+Export failed: {0}
+= Échec de l'exportation : {0}
+
+Exported 1 name to {0}.
+= 1 nom exporté vers {0}.
+
+Exported to {0}
+= Exporté vers {0}
+
+Exported {0} names to {1}.
+= {0} noms exportés vers {1}.
+
+Files
+= Fichiers
+
+From this save
+= De cette sauvegarde
+
+Has a screen of its own for this game
+= Dispose d'un écran dédié à ce jeu
+
+Hex
+= Hex
+
+If Steam asks which save to keep, choose the local one.
+= Si Steam demande quelle sauvegarde conserver, choisissez la sauvegarde locale.
+
+Imported 1 name.
+= 1 nom importé.
+
+Imported {0} names.
+= {0} noms importés.
+
+Imported {0}. Review the changes, then save.
+= {0} importé. Vérifiez les modifications, puis enregistrez.
+
+Its values are listed by name in Values and Tree
+= Ses valeurs sont listées par nom dans Valeurs et Arbre
+
+Kept a copy named “{0}” (Backups › Quick restore).
+= Copie conservée sous le nom « {0} » (Copies de secours › Restauration rapide).
+
+Left out (text, i8, i64 and f64 can't go in a template): {0}.
+= Laissés de côté (texte, i8, i64 et f64 ne peuvent pas figurer dans un modèle) : {0}.
+
+Loaded {0} names from {1}
+= {0} noms chargés depuis {1}
+
+Made the template {0}: saves of {1} now open with your names.
+= Modèle {0} créé : les sauvegardes de {1} s'ouvrent désormais avec vos noms.
+
+Multiply by
+= Multiplier par
+
+No saves found on this computer.
+= Aucune sauvegarde trouvée sur cet ordinateur.
+
+Nothing was changed. {0}
+= Rien n'a été modifié. {0}
+
+Opening {0}…
+= Ouverture de {0}…
+
+Opens in the hex view: find a number you know with Value search, then change it
+= S'ouvre dans la vue hexadécimale : trouvez un nombre connu avec la Recherche de valeur, puis modifiez-le
+
+Original backed up as {0}.
+= Original copié sous {0}.
+
+Re-read the file: {0} › {1} possible locations.
+= Fichier relu : {0} › {1} emplacements possibles.
+
+Re-signed with your Ren'Py key, so the game will load it normally.
+= Signée à nouveau avec votre clé Ren'Py : le jeu la chargera normalement.
+
+Re-signed with your Ren'Py key. If the game is running, close it without saving first — it rewrites this file on exit.
+= Signé à nouveau avec votre clé Ren'Py. Si le jeu est en cours, fermez-le d'abord sans enregistrer — il réécrit ce fichier en quittant.
+
+Read-only: bulk edit leaves it alone
+= Lecture seule : la modification en masse n'y touche pas
+
+Read-only: this value can't be edited safely
+= Lecture seule : cette valeur ne peut pas être modifiée sans risque
+
+Ready. Open a save file to get started.
+= Prêt. Ouvrez un fichier de sauvegarde pour commencer.
+
+Redone.
+= Rétabli.
+
+Reload failed: {0}
+= Échec du rechargement : {0}
+
+Reloaded {0} from disk.
+= {0} rechargé depuis le disque.
+
+Restored {0}. The version it replaced is in the backup list too.
+= {0} restauré. La version remplacée figure aussi dans la liste des copies de secours.
+
+Review them in the Changes panel, then save.
+= Vérifiez-les dans le panneau Modifications, puis enregistrez.
+
+Save or revert the changes to {0} first.
+= Enregistrez ou annulez d'abord les modifications de {0}.
+
+Saved the file, but {0}
+= Fichier enregistré, mais {0}
+
+Saved the preset “{0}”. Use Tools › Presets › Apply a preset on another save.
+= Préréglage « {0} » enregistré. Utilisez Outils › Préréglages › Appliquer un préréglage sur une autre sauvegarde.
+
+Saved, but couldn't update {0}: {1}
+= Enregistré, mais impossible de mettre à jour {0} : {1}
+
+Set to
+= Définir à
+
+Show the game's own key name next to each friendly name
+= Afficher le nom de clé du jeu à côté de chaque nom lisible
+
+Show the other {0} games
+= Afficher les {0} autres jeux
+
+Showing the first {0} of {1} changes. Saving, Revert all and Copy as text cover all of them.
+= Affichage des {0} premières modifications sur {1}. Enregistrer, Tout annuler et Copier en texte les prennent toutes en compte.
+
+Templates folder: {0}
+= Dossier des modèles : {0}
+
+The save file accepts {0} to {1} (the game may expect less). Right-click for Max.
+= Le fichier de sauvegarde accepte de {0} à {1} (le jeu attend peut-être moins). Clic droit pour Max.
+
+The text has been edited.
+= Le texte a été modifié.
+
+This value is shared with 1 other place in the save, which changed too.
+= Cette valeur est partagée avec 1 autre endroit de la sauvegarde, qui a changé aussi.
+
+This value is shared with {0} other places in the save, which changed too.
+= Cette valeur est partagée avec {0} autres endroits de la sauvegarde, qui ont changé aussi.
+
+Tick to include in Bulk edit
+= Cochez pour l'inclure dans la modification en masse
+
+Undone.
+= Annulé.
+
+Usually in
+= Habituellement dans
+
+Your Ren'Py key wasn't found, so the old signature was removed — the game will ask once whether to load it; choose Yes.
+= Votre clé Ren'Py est introuvable, l'ancienne signature a donc été retirée — le jeu demandera une fois s'il faut la charger ; choisissez Oui.
+
+Your browser downloaded it — put it in place of the game's save (keep a copy of the old one).
+= Votre navigateur l'a téléchargé — mettez-le à la place de la sauvegarde du jeu (gardez une copie de l'ancienne).
+
+advanced
+= avancé
+
+in {0}
+= dans {0}
+
+looking…
+= recherche…
+
+none found
+= aucune trouvée
+
+{0} Not changed: {1}.
+= {0} Non modifié : {1}.
+
+{0} differences found.
+= {0} différences trouvées.
+
+{0} found
+= {0} trouvées
+
+{0} has no System.json — pick the game's data folder.
+= {0} ne contient pas de System.json — choisissez le dossier de données du jeu.
+
+{0} has no names to import: {1}.
+= {0} ne contient aucun nom à importer : {1}.
+
+{0} isn't a preset: {1}.
+= {0} n'est pas un préréglage : {1}.
+
+{0} looks like it's running — quit it first, or it may overwrite the restored file.
+= {0} semble être en cours d'exécution — quittez-le d'abord, sinon il risque d'écraser le fichier restauré.
+
+{0} looks like it's running — quit it first, or it will overwrite the copy.
+= {0} semble être en cours d'exécution — quittez-le d'abord, sinon il écrasera la copie.
+
+{0} looks like it's running — quit it first.
+= {0} semble être en cours d'exécution — quittez-le d'abord.
+
+{0} not in this save, left out.
+= {0} absents de cette sauvegarde, laissés de côté.
+
+{0} of another kind left alone (a number changes only numbers; true or false only switches; other text only text).
+= {0} d'un autre type laissés tels quels (un nombre ne change que les nombres ; true ou false que les interrupteurs ; un autre texte que le texte).
+
+{0} of {1}
+= {0} sur {1}
+
+{0} point past the end of this file and were left out.
+= {0} pointent au-delà de la fin de ce fichier et ont été laissés de côté.
+
+{0} {1} not changed, the save can't hold that: {2}
+= {0} {1} non modifiés, la sauvegarde ne peut pas contenir cela : {2}
+

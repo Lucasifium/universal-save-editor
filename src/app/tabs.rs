@@ -30,7 +30,7 @@ parked! {
     undo: Vec<Change>,
     redo: Vec<Change>,
     last_edit: Option<(String, f64)>,
-    touched: Vec<String>,
+    touched: Touched,
     tab: Tab,
     search: String,
     search_typed_at: f64,
@@ -182,6 +182,7 @@ impl App {
             self.swap_parked(&mut blank);
             self.disp_key = None;
             self.model_gen += 1;
+            self.edit_gen += 1;
             return;
         }
         if i == self.tabs.active {
@@ -239,6 +240,10 @@ impl App {
     /// Ctrl+T, Ctrl+W, Ctrl+Tab and Ctrl+Shift+Tab.
     pub(super) fn tab_keys(&mut self, ctx: &egui::Context) {
         use egui::{Key, Modifiers};
+        // A file being opened belongs to the tab showing now: stay on it until it's there.
+        if self.loading.is_some() {
+            return;
+        }
         if ctx.input_mut(|i| i.consume_key(Modifiers::COMMAND, Key::T)) {
             self.ask(Ask::Open, None, None);
         }

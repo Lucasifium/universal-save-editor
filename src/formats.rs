@@ -650,6 +650,10 @@ pub fn decode_with(raw: &[u8], opts: &Options) -> Decoded {
         // Larian saves: the screen also reads the package's other files (summary, metadata).
         Some(Layer::Larian { archive, file }) => fmt::larian::parse(&data, archive, file),
         Some(Layer::PdxSav { original, .. }) => pdx_sav_doc(&data, original, opts),
+        // Dragon Quest Builders 2's data has no marker of its own: it is only what came out of
+        // the game's `aerC` file. (Read from any data of a fitting size, it took other games'
+        // saves for it.)
+        Some(Layer::Dqb2 { .. }) => fmt::dqb2::parse(&data).ok(),
         // Europa Universalis IV and Crusader Kings II keep the date and the player beside
         // the game state, in the archive's `meta` entry.
         Some(Layer::ZipEntry { archive, name }) if name == "gamestate" && fmt::pdxbin::looks(&data) => {
@@ -1931,7 +1935,7 @@ fn peel(data: &[u8], ctx: &mut Ctx) -> Option<(Layer, Vec<u8>)> {
     if let Some((h, p)) = fmt::dqb2::unpack(data) {
         return Some((Layer::Dqb2 { header: Arc::new(h) }, p));
     }
-    if let Some((tail, p)) = fmt::saofb::unpack(data).filter(|_| data.len() <= 8 << 20) {
+    if let Some((tail, p)) = (data.len() <= 8 << 20).then(|| fmt::saofb::unpack(data)).flatten() {
         return Some((Layer::Saofb { tail: Arc::new(tail) }, p));
     }
     if let Some(p) = fmt::ao::unzstd(data) {
@@ -2600,10 +2604,15 @@ fn xor_key(data: &[u8], key: &[u8]) -> Vec<u8> {
 }
 
 fn peel_known_xor(data: &[u8]) -> Option<(String, Vec<u8>)> {
-    if std::str::from_utf8(data).is_ok_and(|t| parse_json(t.trim()).is_some()) {
+    if !not_json_start(data) && std::str::from_utf8(data).is_ok_and(|t| parse_json(t.trim()).is_some()) {
         return None;
     }
     KNOWN_XOR_KEYS.iter().find_map(|(_, k)| {
+        // The first bytes say whether this key can give JSON at all, before the whole file is
+        // gone through with it.
+        if json_ruled_out_by_start(&xor_key(&data[..data.len().min(64)], k.as_bytes())) {
+            return None;
+        }
         let plain = xor_key(data, k.as_bytes());
         std::str::from_utf8(&plain).ok().and_then(|t| parse_json(t.trim())).map(|_| (k.to_string(), plain))
     })
@@ -3030,6 +3039,23 @@ fn classify(data: Vec<u8>, opts: &Options) -> Content {
                 None => Content::Binary(bytes),
             }
         }
+    }
+}
+
+/// True when `data` certainly isn't a JSON object or array, going by its first byte that isn't
+/// white space: `parse_json` of its trimmed text would say no. A cheap test to make before
+/// decrypting or parsing a whole file. (A first byte outside ASCII may be white space of
+/// another kind or a byte order mark, so it settles nothing.)
+pub fn not_json_start(data: &[u8]) -> bool {
+    json_ruled_out_by_start(data) || data.iter().all(|b| matches!(b, b' ' | b'\t' | b'\n' | b'\r' | 0x0b | 0x0c))
+}
+
+/// `not_json_start` for the first bytes of some data: true when they already show it isn't a
+/// JSON object or array. (White space alone settles nothing: the rest may follow.)
+pub fn json_ruled_out_by_start(head: &[u8]) -> bool {
+    match head.iter().find(|b| !matches!(b, b' ' | b'\t' | b'\n' | b'\r' | 0x0b | 0x0c)) {
+        Some(b'{' | b'[') | None => false,
+        Some(b) => b.is_ascii(),
     }
 }
 

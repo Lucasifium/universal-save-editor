@@ -99,8 +99,8 @@ pub fn display(v: &Value) -> String {
     match v {
         Value::String(s) => s.clone(),
         Value::Number(n) => n.to_string(),
-        Value::Bool(b) => (if *b { "On" } else { "Off" }).into(),
-        Value::Null => "empty".into(),
+        Value::Bool(b) => (if *b { tr("On") } else { tr("Off") }).into(),
+        Value::Null => tr("empty").into(),
         Value::Array(a) => format!("list of {}", a.len()),
         Value::Object(m) => format!("group of {}", m.len()),
     }
@@ -153,7 +153,7 @@ pub fn id_picker(ui: &mut Ui, id_src: &str, text: &mut String, known: &[String],
     }
     let shown = text.trim().to_lowercase();
     let list: Vec<&String> = known.iter().filter(|k| shown.is_empty() || k.to_lowercase().contains(&shown)).collect();
-    egui::ComboBox::from_id_salt(("id_picker", id_src)).selected_text("From this save").width(140.0).height(300.0).show_ui(ui, |ui| {
+    egui::ComboBox::from_id_salt(("id_picker", id_src)).selected_text(tr("From this save")).width(140.0).height(300.0).show_ui(ui, |ui| {
         if list.is_empty() {
             ui.weak(tr("Nothing in this save matches"));
         }
@@ -270,11 +270,11 @@ fn hover_extra(opts: &EditOpts, ptr: &str, v: &Value) -> Option<String> {
     let mut lines: Vec<String> = vec![];
     if matches!(v, Value::Number(_)) {
         if let Some((lo, hi)) = opts.tree.and_then(|t| t.range(ptr)) {
-            lines.push(format!("The save file accepts {} to {} (the game may expect less). Right-click for Max.", display(&lo), display(&hi)));
+            lines.push(trf("The save file accepts {0} to {1} (the game may expect less). Right-click for Max.", &[&display(&lo), &display(&hi)]));
         }
     }
     if let Some(note) = opts.kind.and_then(|k| crate::risks::note(k, ptr)) {
-        lines.push(format!("Note: {note}"));
+        lines.push(trf("Note: {0}", &[&note]));
     }
     (!lines.is_empty()).then(|| lines.join("\n"))
 }
@@ -292,7 +292,7 @@ pub fn value_editor_ex(ui: &mut Ui, id_src: &str, v: &Value, editable: bool, wid
 
 fn editor_body(ui: &mut Ui, id_src: &str, v: &Value, editable: bool, width: f32, opts: &EditOpts) -> (Option<Value>, Option<Response>) {
     if !editable {
-        let why = opts.tree.map(|t| t.read_only_reason(id_src)).filter(|w| !w.is_empty()).unwrap_or_else(|| "Read-only: this value can't be edited safely".into());
+        let why = opts.tree.map(|t| t.read_only_reason(id_src)).filter(|w| !w.is_empty()).unwrap_or_else(|| tr("Read-only: this value can't be edited safely").into());
         let r = ui.label(RichText::new(display(v)).weak().italics()).on_hover_text(why);
         return (None, Some(r));
     }
@@ -304,7 +304,7 @@ fn editor_body(ui: &mut Ui, id_src: &str, v: &Value, editable: bool, width: f32,
                 r = r.on_hover_text(t);
             }
             let changed = r.changed();
-            ui.label(if on { "On" } else { "Off" });
+            ui.label(if on { tr("On") } else { tr("Off") });
             (changed.then_some(Value::Bool(on)), Some(r))
         }
         Value::String(s) => {
@@ -355,7 +355,7 @@ fn editor_body(ui: &mut Ui, id_src: &str, v: &Value, editable: bool, width: f32,
                 }
             }
             if !valid {
-                resp = resp.on_hover_text(if integer { "Enter a whole number, e.g. 1500" } else { "Enter a number, e.g. 2.5" });
+                resp = resp.on_hover_text(if integer { tr("Enter a whole number, e.g. 1500") } else { tr("Enter a number, e.g. 2.5") });
             } else if resp.hovered() {
                 if let Some(hint) = hover_extra(opts, id_src, v) {
                     resp = resp.on_hover_text(hint);

@@ -980,11 +980,6 @@ pub fn parse_binary(d: &[u8]) -> Option<TreeDoc> {
             return Some(t);
         }
     }
-    if dqb2::looks(d) {
-        if let Ok(t) = dqb2::parse(d) {
-            return Some(t);
-        }
-    }
     if gothic::looks(d) {
         if let Ok(t) = gothic::parse(d) {
             return Some(t);

@@ -240,6 +240,13 @@ pub fn open(data: &[u8]) -> Option<(Vec<u8>, Vec<u8>)> {
     if data.len() < 128 {
         return None;
     }
+    // The version number at the start tells whether this is a PAYDAY 2 save, before the whole
+    // file is decoded.
+    let n = data.len();
+    let head: Vec<u8> = data[..4].iter().enumerate().map(|(i, b)| b ^ (XOR_KEY[((n + i) * 7) % 34].wrapping_mul((n - i) as u8))).collect();
+    if head != VERSION.to_le_bytes() {
+        return None;
+    }
     let plain = transform(data);
     let b = blocks(&plain)?;
     let mut rd = Rd { d: &b[1], p: 0 };

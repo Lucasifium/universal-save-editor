@@ -53,7 +53,7 @@ fn walk(v: &mut Value, ptr: &str, paths: &mut Vec<String>, depth: usize) {
 /// Opens the nested strings of a JSON document; `None` when it has none (or isn't JSON).
 pub fn open(data: &[u8]) -> Option<Opened> {
     // Cheap test first: a string holding JSON has an escaped quote right after its brace or bracket.
-    if data.len() > 64 << 20 || !data.windows(3).any(|w| w == b"{\\\"" || w == b"[\\\"") {
+    if data.len() > 64 << 20 || crate::formats::not_json_start(data) || !data.windows(3).any(|w| w == b"{\\\"" || w == b"[\\\"") {
         return None;
     }
     let text = std::str::from_utf8(data).ok()?;

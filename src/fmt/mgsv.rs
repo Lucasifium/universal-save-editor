@@ -56,6 +56,14 @@ pub fn decrypt(d: &[u8]) -> Option<(&'static str, Vec<u8>)> {
         return None;
     }
     KEYS.iter().find_map(|k| {
+        // The marker after the checksum tells whether this is the key, before the whole file
+        // is decrypted and summed.
+        let mut head = [0u8; 20];
+        head.copy_from_slice(&d[..20]);
+        stream(k, &mut head);
+        if !matches!(&head[16..20], b"SVCS" | b"SVAR") {
+            return None;
+        }
         let mut p = d.to_vec();
         stream(k, &mut p);
         md5_ok(&p).then_some((*k, p))
