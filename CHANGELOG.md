@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased
+
+- Fixed: Metal Gear Solid V: The Phantom Pain saves (TPP_GAME_DATA, PERSONAL_DATA, TPP_CONFIG_DATA) opened as hex instead of the game screen
+- Metal Gear Solid V: Ground Zeroes saves are decrypted for the hex view, with their checksum redone on save
+- Find my game's saves also looks in The Phantom Pain's 287700\local save folder
+
 ## 0.7.0
 
 - Find my game's saves: each game's description (what can be edited, where its saves are, the file names) is now shown in the chosen language

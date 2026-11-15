@@ -3136,6 +3136,20 @@ fn inflate_with_rest(d: &[u8]) -> std::io::Result<(Vec<u8>, &[u8])> {
 mod tests {
     use super::*;
 
+    #[test]
+    fn mgsv_save_is_not_taken_by_bioshock() {
+        // A decrypted Metal Gear Solid V save starts with an MD5 of the rest, like a
+        // BioShock Infinite save; the BioShock reader must leave it to the MGSV reader.
+        let mut body = b"SVCS".to_vec();
+        body.extend((0..300u32).map(|i| (i * 13) as u8));
+        let mut plain = vec![0u8; 16];
+        plain.extend(body);
+        let raw = fmt::mgsv::encrypt("TPP_GAME_DATA", &plain);
+        let d = decode(&raw);
+        assert!(matches!(d.layers.first(), Some(Layer::Mgsv { key: "TPP_GAME_DATA" })), "{:?}", d.layers);
+        assert!(!d.layers.iter().any(|l| matches!(l, Layer::Bioshock { .. })), "{:?}", d.layers);
+    }
+
     fn roundtrip(layers: &[Layer]) {
         let content = Content::Json { value: serde_json::json!({"gold": 1500, "name": "Hero", "items": [1, 2.5, null]}), pretty: false };
         let bytes = encode(layers, &content).unwrap();

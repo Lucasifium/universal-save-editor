@@ -58,6 +58,11 @@ pub fn unpack(d: &[u8]) -> Option<(Chunks, Vec<u8>)> {
         p = end;
         q = end;
     }
+    // A save with no zlib chunk is only an MD5 in front of other data (Metal Gear Solid V
+    // saves start the same way once decrypted): leave it to the later readers.
+    if chunks.is_empty() {
+        return None;
+    }
     view.extend(&d[p..]);
     Some((chunks, view))
 }
@@ -102,6 +107,16 @@ pub fn pack(chunks: &Chunks, view: &[u8]) -> Result<Vec<u8>, String> {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn md5_without_chunks_is_not_bioshock() {
+        // A decrypted Metal Gear Solid V save: MD5 of the rest, then `SVCS`.
+        let mut body = b"SVCS".to_vec();
+        body.extend((0..200u32).map(|i| i as u8));
+        let mut d = md5::Md5::digest(&body).to_vec();
+        d.extend(body);
+        assert!(unpack(&d).is_none());
+    }
 
     #[test]
     fn round_trip() {

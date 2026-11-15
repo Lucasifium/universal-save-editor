@@ -1,5 +1,7 @@
 //! Metal Gear Solid V: The Phantom Pain (PC) saves: `TPP_GAME_DATA`, `PERSONAL_DATA`,
-//! `TPP_CONFIG_DATA` (and the Ground Zeroes / MGO names).
+//! `TPP_CONFIG_DATA` (and the Ground Zeroes / MGO names). Ground Zeroes saves
+//! (`MGSV_GZ_Save_Data_GL_EN*`, marker `gzwi`) use the same encryption and checksum but a
+//! fixed binary layout with no variable table: they are only decrypted, for the hex view.
 //!
 //! The file is encrypted with an xorshift stream seeded from the first four bytes of the
 //! MD5 of the file's base name (`TPP_GAME_DATA` …). Decrypted, it is a 16-byte MD5 of
@@ -18,7 +20,12 @@ use std::collections::HashMap;
 use std::sync::Arc;
 
 pub const KIND: &str = "Metal Gear Solid V save";
-pub const KEYS: [&str; 4] = ["TPP_GAME_DATA", "PERSONAL_DATA", "TPP_CONFIG_DATA", "MGO_GAME_DATA"];
+pub const KEYS: [&str; 5] = ["TPP_GAME_DATA", "PERSONAL_DATA", "TPP_CONFIG_DATA", "MGO_GAME_DATA", "MGSV_GZ_Save_Data_GL_EN"];
+
+/// The marker after the checksum of a decrypted save: The Phantom Pain's variable tables, or Ground Zeroes.
+fn marker_ok(m: &[u8]) -> bool {
+    matches!(m, b"SVCS" | b"SVAR" | b"gzwi")
+}
 
 // ---------------------------------------------------------------- encryption
 
@@ -61,12 +68,12 @@ pub fn decrypt(d: &[u8]) -> Option<(&'static str, Vec<u8>)> {
         let mut head = [0u8; 20];
         head.copy_from_slice(&d[..20]);
         stream(k, &mut head);
-        if !matches!(&head[16..20], b"SVCS" | b"SVAR") {
+        if !marker_ok(&head[16..20]) {
             return None;
         }
         let mut p = d.to_vec();
         stream(k, &mut p);
-        md5_ok(&p).then_some((*k, p))
+        (Md5::digest(&p[16..]).as_slice() == &p[..16]).then_some((*k, p))
     })
 }
 
@@ -662,6 +669,19 @@ mod tests {
         // Names whose hashes appear in a real TPP_GAME_DATA.
         assert_eq!(strcode32("fobPickup"), strcode32("fobPickup"));
         assert_ne!(strcode32("mbmTppGmp"), strcode32("mbmTppHeroicPoint"));
+    }
+
+    #[test]
+    fn ground_zeroes_decrypts() {
+        let mut plain = vec![0u8; 16];
+        plain.extend(b"gzwin\0\0\0");
+        plain.extend((0..500u32).map(|i| (i * 11) as u8));
+        let raw = encrypt("MGSV_GZ_Save_Data_GL_EN", &plain);
+        let (key, p) = decrypt(&raw).unwrap();
+        assert_eq!(key, "MGSV_GZ_Save_Data_GL_EN");
+        assert_eq!(&p[16..], &plain[16..]);
+        assert!(!looks(&p), "no variable table to read");
+        assert_eq!(encrypt(key, &p), raw);
     }
 
     #[test]
