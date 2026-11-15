@@ -571,9 +571,9 @@ pub struct App {
     bulk: Option<Bulk>,
     preset_save: Option<PresetSave>,
     preset_apply: Option<PresetApply>,
-    /// Backups › Quick restore: the backup picked and how messages name it, while the
-    /// "Restore this backup?" dialog waits for an answer.
-    quick_restore: Option<(PathBuf, String)>,
+    /// Backups › Quick restore: the save to restore over, the backup picked and how messages
+    /// name it, while the "Restore this backup?" dialog waits for an answer.
+    quick_restore: Option<(PathBuf, PathBuf, String)>,
     share_names: Option<ShareNames>,
     loading: Option<Loading>,
     saving: Option<Saving>,
@@ -1870,20 +1870,24 @@ impl App {
     /// Backups › Quick restore picked `from`: asks "Restore this backup?" first. With unsaved
     /// changes it is refused straight away, as the restore itself would be.
     fn ask_restore(&mut self, from: PathBuf, what: String) {
+        let Some(save) = self.doc.as_ref().map(|d| d.path.clone()) else { return };
         if self.dirty {
             return self.fail(tr("You have unsaved changes. Save or revert them first, then restore."));
         }
-        self.quick_restore = Some((from, what));
+        self.quick_restore = Some((save, from, what));
     }
 
-    /// Put `from` (a backup) back in place of the open file. The file as it is now is
-    /// backed up first, so a restore can itself be undone.
-    fn restore_from(&mut self, from: &Path, what: &str) {
-        let Some(path) = self.doc.as_ref().map(|d| d.path.clone()) else { return };
+    /// Put `from` (a backup) back in place of `save`, the open file. The file as it is now is
+    /// backed up first, so a restore can itself be undone. Does nothing when another file is
+    /// open by now.
+    fn restore_from(&mut self, save: &Path, from: &Path, what: &str) {
+        if self.doc.as_ref().map(|d| d.path.as_path()) != Some(save) {
+            return;
+        }
         if self.dirty {
             return self.fail(tr("You have unsaved changes. Save or revert them first, then restore."));
         }
-        self.restore_to(&path, from, what);
+        self.restore_to(save, from, what);
     }
 
     /// Put `from` back as `path` (which may be missing, after Back up and start a new game)
@@ -4727,7 +4731,7 @@ impl App {
         self.refresh_changes();
 
         // Files dropped on the window.
-        if let Some(p) = ctx.input(|i| i.raw.dropped_files.iter().find_map(|f| f.path.clone())).filter(|_| !saving) {
+        if let Some(p) = ctx.input(|i| i.raw.dropped_files.iter().find_map(|f| f.path.clone())).filter(|_| !saving && !modal_shown(ctx)) {
             self.request_open(p);
         }
         #[cfg(target_arch = "wasm32")]
@@ -5013,6 +5017,8 @@ fn v_when(v: &[crate::backups::Version], p: &PathBuf) -> u64 {
 }
 
 fn modal(ctx: &egui::Context, title: &str, add: impl FnOnce(&mut egui::Ui)) {
+    let pass = ctx.cumulative_pass_nr();
+    ctx.data_mut(|d| d.insert_temp(modal_key(), pass));
     let screen = ctx.screen_rect();
     egui::Area::new(egui::Id::new("modal_dim")).fixed_pos(screen.min).sense(widgets::BLOCK_CLICKS).order(egui::Order::Middle).show(ctx, |ui| {
         ui.allocate_response(screen.size(), widgets::BLOCK_CLICKS);
@@ -5025,6 +5031,17 @@ fn modal(ctx: &egui::Context, title: &str, add: impl FnOnce(&mut egui::Ui)) {
         .order(egui::Order::Foreground)
         .anchor(egui::Align2::CENTER_CENTER, [0.0, 0.0])
         .show(ctx, add);
+}
+
+fn modal_key() -> egui::Id {
+    egui::Id::new("modal_shown")
+}
+
+/// A dialog that blocks the window was drawn this frame or the one before: keys and dropped
+/// files that would close or switch the tab under it are ignored, as clicks there are.
+pub(crate) fn modal_shown(ctx: &egui::Context) -> bool {
+    let pass = ctx.cumulative_pass_nr();
+    ctx.data(|d| d.get_temp::<u64>(modal_key())).is_some_and(|n| n + 1 >= pass)
 }
 
 /// The first and last control of the dialog showing now, for [`wrap_dialog_tab`].
@@ -6180,7 +6197,7 @@ mod save_tests {
         std::fs::write(&from, br#"{"gold": 0}"#).unwrap();
         let mut app = opened(&ctx, &path);
         std::fs::create_dir_all(s.0.join("data0001.binslot.partial").join("x")).unwrap();
-        app.restore_from(&from, "older");
+        app.restore_from(&path, &from, "older");
         assert_eq!(app.status_kind, StatusKind::Err, "{}", app.status);
         assert!(app.status.starts_with("Couldn't restore the backup"), "{}", app.status);
         assert_eq!(gold_on_disk(&path), json!(1), "the save still matches its .binslot");
@@ -6188,7 +6205,7 @@ mod save_tests {
         assert!(!safety::changed(&path, app.doc.as_ref().unwrap().stamp.as_ref()));
         // Once it can be written, the restore goes through and both match.
         std::fs::remove_dir_all(s.0.join("data0001.binslot.partial")).unwrap();
-        app.restore_from(&from, "older");
+        app.restore_from(&path, &from, "older");
         assert_eq!(app.status_kind, StatusKind::Ok, "{}", app.status);
         assert_eq!(gold_on_disk(&path), json!(0));
         use md5::Digest;
@@ -6230,14 +6247,14 @@ mod save_tests {
         std::fs::write(&from, br#"{"gold": 0}"#).unwrap();
         let mut app = opened(&ctx, &path);
         app.apply_edit("/gold".into(), json!(2), 0.0);
-        app.restore_from(&from, "old");
+        app.restore_from(&path, &from, "old");
         assert_eq!(app.status_kind, StatusKind::Err);
         assert_eq!(gold_on_disk(&path), json!(1));
         assert_eq!(value(&app, "/gold"), Some(json!(2)), "the changes are still there");
         assert!(crate::backups::list(&path).is_empty());
         // Without changes it goes through, and what it replaced is kept.
         app.revert_all();
-        app.restore_from(&from, "old");
+        app.restore_from(&path, &from, "old");
         assert_eq!(gold_on_disk(&path), json!(0), "{}", app.status);
         assert_eq!(value(&app, "/gold"), Some(json!(0)));
         assert_eq!(backed_up(&path), vec![br#"{"gold": 1}"#.to_vec()]);
@@ -6301,11 +6318,11 @@ mod save_tests {
     }
 
     /// A save with one automatic backup of an older version and a .bak of the first one.
-    fn save_with_backups(s: &Scratch) -> PathBuf {
-        let path = s.0.join("save.json");
+    fn save_with_backups(dir: &Path) -> PathBuf {
+        let path = dir.join("save.json");
         std::fs::write(&path, br#"{"gold": 0}"#).unwrap();
         crate::backups::take(&path).unwrap();
-        std::fs::write(s.0.join("save.json.bak"), br#"{"gold": -1}"#).unwrap();
+        std::fs::write(dir.join("save.json.bak"), br#"{"gold": -1}"#).unwrap();
         std::fs::write(&path, br#"{"gold": 1}"#).unwrap();
         path
     }
@@ -6315,7 +6332,7 @@ mod save_tests {
         let _l = locks();
         let s = Scratch::new("quick-ask");
         let ctx = window();
-        let path = save_with_backups(&s);
+        let path = save_with_backups(&s.0);
         let before = backed_up(&path);
         let mut app = opened(&ctx, &path);
         quick_restore(&mut app, &ctx, "just now");
@@ -6352,7 +6369,7 @@ mod save_tests {
         let _l = locks();
         let s = Scratch::new("quick-bak");
         let ctx = window();
-        let path = save_with_backups(&s);
+        let path = save_with_backups(&s.0);
         let mut app = opened(&ctx, &path);
         quick_restore(&mut app, &ctx, "Original save (.bak)");
         assert_eq!(gold_on_disk(&path), json!(1));
@@ -6369,7 +6386,7 @@ mod save_tests {
         let _l = locks();
         let s = Scratch::new("quick-dirty");
         let ctx = window();
-        let path = save_with_backups(&s);
+        let path = save_with_backups(&s.0);
         let before = backed_up(&path);
         let mut app = opened(&ctx, &path);
         app.apply_edit("/gold".into(), json!(5), 0.0);
@@ -6415,6 +6432,104 @@ mod save_tests {
         assert!(!file.exists(), "{}", app.status);
         assert_eq!(app.status_kind, StatusKind::Ok, "{}", app.status);
         assert!(app.preset_apply.as_ref().is_some_and(|pa| pa.list.is_empty()));
+    }
+
+    /// Two tabs, `a` showing, each a save with a backup and a .bak (see [`save_with_backups`]).
+    fn two_tabs(ctx: &egui::Context, s: &Scratch) -> (App, PathBuf, PathBuf) {
+        let (da, db) = (s.0.join("a"), s.0.join("b"));
+        std::fs::create_dir_all(&da).unwrap();
+        std::fs::create_dir_all(&db).unwrap();
+        let (a, b) = (save_with_backups(&da), save_with_backups(&db));
+        let mut app = opened(ctx, &a);
+        app.open_in_tab(b.clone());
+        for _ in 0..400 {
+            if app.loading.is_none() {
+                break;
+            }
+            run(&mut app, ctx, vec![]);
+            std::thread::sleep(std::time::Duration::from_millis(5));
+        }
+        app.switch_tab(0);
+        assert_eq!(app.doc.as_ref().map(|d| d.path.clone()), Some(a.clone()));
+        (app, a, b)
+    }
+
+    fn on_disk(path: &Path) -> (Vec<u8>, Vec<Vec<u8>>) {
+        (std::fs::read(path).unwrap(), backed_up(path))
+    }
+
+    #[test]
+    fn tab_keys_under_a_quick_restore_never_restore_over_another_save() {
+        let _l = locks();
+        for (name, k, shift) in [("ctrl-w", egui::Key::W, false), ("ctrl-tab", egui::Key::Tab, false), ("ctrl-shift-tab", egui::Key::Tab, true)] {
+            let s = Scratch::new(&format!("quick-tabs-{name}"));
+            let ctx = window();
+            let (mut app, a, b) = two_tabs(&ctx, &s);
+            let (a_before, b_before) = (on_disk(&a), on_disk(&b));
+            quick_restore(&mut app, &ctx, "just now");
+            let mods = if shift { egui::Modifiers::COMMAND | egui::Modifiers::SHIFT } else { egui::Modifiers::COMMAND };
+            key(&mut app, &ctx, k, mods);
+            assert_eq!(app.tab_count(), 2, "{name}: the tab under the dialog stays open");
+            assert_eq!(app.doc.as_ref().map(|d| d.path.clone()), Some(a.clone()), "{name}: the tab under the dialog stays in front");
+            assert!(shown(&mut app, &ctx, "Restore now"), "{name}: the dialog is still there, about a");
+            assert_eq!((on_disk(&a), on_disk(&b)), (a_before.clone(), b_before.clone()), "{name}: nothing changed on disk");
+            // Confirming restores a, and only a.
+            click(&mut app, &ctx, "Restore now");
+            assert_eq!(gold_on_disk(&a), json!(0), "{name}: {}", app.status);
+            assert_eq!(on_disk(&b), b_before, "{name}: b untouched");
+        }
+    }
+
+    #[test]
+    fn a_quick_restore_is_dropped_when_its_save_is_no_longer_in_front() {
+        let _l = locks();
+        let s = Scratch::new("quick-switch");
+        let ctx = window();
+        let (mut app, a, b) = two_tabs(&ctx, &s);
+        let (a_before, b_before) = (on_disk(&a), on_disk(&b));
+        // Another tab comes to the front by any way at all.
+        quick_restore(&mut app, &ctx, "just now");
+        app.switch_tab(1);
+        assert!(app.quick_restore.is_none(), "switching tabs drops the question");
+        app.switch_tab(0);
+        assert!(!shown(&mut app, &ctx, "Restore now"), "and it doesn't come back with the tab");
+        // The tab is closed.
+        quick_restore(&mut app, &ctx, "just now");
+        app.drop_tab(0);
+        assert!(app.quick_restore.is_none(), "closing the tab drops the question");
+        assert!(!shown(&mut app, &ctx, "Restore now"));
+        assert_eq!((on_disk(&a), on_disk(&b)), (a_before.clone(), b_before.clone()));
+        // Another file replaces it in the same tab: the dialog closes itself and restores nothing.
+        app.quick_restore = Some((a.clone(), list_first(&a), "the backup".into()));
+        assert_eq!(app.doc.as_ref().map(|d| d.path.clone()), Some(b.clone()));
+        run(&mut app, &ctx, vec![]);
+        assert!(app.quick_restore.is_none());
+        assert_eq!((on_disk(&a), on_disk(&b)), (a_before, b_before));
+    }
+
+    fn list_first(save: &Path) -> PathBuf {
+        crate::backups::list(save)[0].path.clone()
+    }
+
+    #[test]
+    fn a_preset_that_cant_be_deleted_stays_in_the_list() {
+        let _l = locks();
+        let s = Scratch::new("preset-delete-fails");
+        let ctx = window();
+        let path = s.0.join("save.json");
+        std::fs::write(&path, br#"{"gold": 1}"#).unwrap();
+        // A folder with something in it where the preset file should be: removing it fails.
+        let file = s.0.join("rich.json");
+        std::fs::create_dir_all(file.join("inside")).unwrap();
+        let preset = crate::presets::Preset { name: "Rich".into(), game: String::new(), values: vec![], bytes: vec![] };
+        let mut app = opened(&ctx, &path);
+        app.preset_apply = Some(PresetApply { list: vec![(file.clone(), preset)], picked: Some(0), opened: None, confirm_delete: None });
+        click(&mut app, &ctx, "Delete preset");
+        click(&mut app, &ctx, "Delete permanently");
+        assert_eq!(app.status_kind, StatusKind::Err, "{}", app.status);
+        assert!(file.exists());
+        assert_eq!(app.preset_apply.as_ref().map(|pa| pa.list.len()), Some(1), "still listed");
+        assert!(shown(&mut app, &ctx, "Rich"));
     }
 
     #[test]

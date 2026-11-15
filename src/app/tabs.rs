@@ -122,6 +122,8 @@ impl App {
         if i == self.tabs.active || i >= self.tabs.list.len() || self.saving.is_some() {
             return;
         }
+        // "Restore this backup?" was about the file in front.
+        self.quick_restore = None;
         let mut list = std::mem::take(&mut self.tabs.list);
         self.swap_parked(&mut list[self.tabs.active]);
         self.swap_parked(&mut list[i]);
@@ -184,6 +186,7 @@ impl App {
     }
 
     pub(super) fn drop_tab(&mut self, i: usize) {
+        self.quick_restore = None;
         if self.tab_count() == 1 {
             // The last tab: back to the welcome page.
             let mut blank = Parked::default();
@@ -253,6 +256,10 @@ impl App {
         use egui::{Key, Modifiers};
         // A file being opened belongs to the tab showing now: stay on it until it's there.
         if self.loading.is_some() || self.saving.is_some() {
+            return;
+        }
+        // A dialog is asking about the file in front: it stays in front until it is answered.
+        if modal_shown(ctx) || self.quick_restore.is_some() {
             return;
         }
         if ctx.input_mut(|i| i.consume_key(Modifiers::COMMAND, Key::T)) {

@@ -207,11 +207,12 @@ impl App {
     /// "Restore this backup?" for Backups › Quick restore: Restore now / Cancel. Focus starts
     /// on Cancel; Cancel and Escape leave everything on disk as it is.
     pub(super) fn quick_restore_dialog(&mut self, ctx: &egui::Context) {
-        let Some((from, what)) = self.quick_restore.clone() else { return };
-        let Some(path) = self.doc.as_ref().map(|d| d.path.clone()) else {
+        let Some((path, from, what)) = self.quick_restore.clone() else { return };
+        // Another file is in front now: the question was about one that isn't.
+        if self.doc.as_ref().map(|d| &d.path) != Some(&path) {
             self.quick_restore = None;
             return;
-        };
+        }
         let mut choice = None;
         modal(ctx, tr("Restore this backup?"), |ui| {
             ui.set_max_width(460.0);
@@ -234,7 +235,7 @@ impl App {
         match choice {
             Some(true) => {
                 self.quick_restore = None;
-                self.restore_from(&from, &what);
+                self.restore_from(&path, &from, &what);
             }
             Some(false) => self.quick_restore = None,
             None => {}
