@@ -934,7 +934,7 @@ pub(crate) mod tests {
     }
 
     #[test]
-    #[ignore = "backups dated in the future (clock set wrong once) are kept over newer ones; see the tech-debt notes"]
+    #[ignore = "backups dated in the future (clock set wrong once) are kept over newer ones"]
     fn a_backup_dated_in_the_future_does_not_push_out_newer_ones() {
         let _g = guard();
         let s = Scratch::new("future");
