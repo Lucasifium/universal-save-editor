@@ -211,6 +211,20 @@ pub fn clamp_to(range: Option<(Value, Value)>, v: Value) -> Value {
     }
 }
 
+/// `v` moved by `steps` whole units (the step of the -/+ buttons is 1; decimal fields use 1 too),
+/// pulled into the field's range. `None` if the result can't be stored as a number.
+fn step_number(v: &Value, steps: i64, range: Option<(Value, Value)>) -> Option<Value> {
+    let nv = if let Some(i) = v.as_i64() {
+        Value::from(i.saturating_add(steps))
+    } else if let Some(u) = v.as_u64() {
+        let x = i128::from(u) + i128::from(steps);
+        Value::from(u64::try_from(x.max(0)).unwrap_or(u64::MAX))
+    } else {
+        serde_json::Number::from_f64(v.as_f64()? + steps as f64).map(Value::Number)?
+    };
+    Some(clamp_to(range, nv))
+}
+
 fn copy_form(v: &Value) -> String {
     match v {
         Value::String(s) => s.clone(),
@@ -334,6 +348,30 @@ fn editor_body(ui: &mut Ui, id_src: &str, v: &Value, editable: bool, width: f32,
             } else {
                 n.to_string()
             };
+            // Up/Down step the value (Shift: 10 steps) through the same path as typing and −/+.
+            let mut keyed = None;
+            if focused {
+                let steps = ui.input_mut(|i| {
+                    let mut k = 0i64;
+                    for (key, dir) in [(egui::Key::ArrowUp, 1), (egui::Key::ArrowDown, -1)] {
+                        while i.consume_key(egui::Modifiers::SHIFT, key) {
+                            k += 10 * dir;
+                        }
+                        while i.consume_key(egui::Modifiers::NONE, key) {
+                            k += dir;
+                        }
+                    }
+                    k
+                });
+                if steps != 0 {
+                    let base = parse_number(&buf, integer).unwrap_or_else(|| v.clone());
+                    if let Some(nv) = step_number(&base, steps, opts.tree.and_then(|t| t.range(id_src))) {
+                        buf = nv.to_string();
+                        ui.data_mut(|d| d.insert_temp(id, buf.clone()));
+                        keyed = Some(nv);
+                    }
+                }
+            }
             let valid = parse_number(&buf, integer).is_some();
             // Wide enough for what it holds: a fixed box cut "3270" down to "327".
             let text_w = ui.fonts(|f| f.layout_no_wrap(buf.clone(), egui::TextStyle::Body.resolve(ui.style()), Color32::WHITE).size().x);
@@ -344,7 +382,7 @@ fn editor_body(ui: &mut Ui, id_src: &str, v: &Value, editable: bool, width: f32,
             }
             // add_sized: a bare desired_width is cut down to what the cell has left (in a grid, a few pixels).
             let mut resp = ui.add_sized([w + 8.0, ui.spacing().interact_size.y], edit);
-            let mut out = None;
+            let mut out = keyed.filter(|nv| nv != v);
             if resp.changed() {
                 ui.data_mut(|d| d.insert_temp(id, buf.clone()));
                 if let Some(nv) = parse_number(&buf, integer) {
@@ -404,6 +442,50 @@ mod tests {
         assert_eq!(clamp_to(r.clone(), Value::from(-3)), Value::from(0));
         assert_eq!(clamp_to(r.clone(), Value::from(42)), Value::from(42));
         assert_eq!(clamp_to(None, Value::from(1_000_000)), Value::from(1_000_000));
+    }
+
+    #[test]
+    fn stepping_respects_range_and_type() {
+        let r = Some((Value::from(0), Value::from(20)));
+        assert_eq!(step_number(&Value::from(5), 1, r.clone()), Some(Value::from(6)));
+        assert_eq!(step_number(&Value::from(5), -10, r.clone()), Some(Value::from(0)));
+        assert_eq!(step_number(&Value::from(15), 10, r), Some(Value::from(20)));
+        assert_eq!(step_number(&Value::from(u64::MAX), 1, None), Some(Value::from(u64::MAX)));
+        assert_eq!(step_number(&Value::from(2.5), 1, None), Some(Value::from(3.5)));
+    }
+
+    fn key(k: egui::Key, shift: bool) -> egui::Event {
+        egui::Event::Key { key: k, physical_key: Some(k), pressed: true, repeat: false, modifiers: if shift { egui::Modifiers::SHIFT } else { egui::Modifiers::NONE } }
+    }
+
+    #[test]
+    fn arrow_keys_step_a_focused_number_box() {
+        let ctx = egui::Context::default();
+        let mut v = Value::from(5);
+        let mut frame = |ctx: &egui::Context, v: &mut Value, events: Vec<egui::Event>, focus: bool| {
+            let input = egui::RawInput { events, ..Default::default() };
+            let mut edit = None;
+            let _ = ctx.run(input, |ctx| {
+                egui::CentralPanel::default().show(ctx, |ui| {
+                    if focus {
+                        let id = ui.make_persistent_id(("num", "/n"));
+                        ui.memory_mut(|m| m.request_focus(id));
+                    }
+                    edit = value_editor_ex(ui, "/n", v, true, 80.0, &EditOpts::default()).edit;
+                });
+            });
+            if let Some(e) = edit {
+                *v = e;
+            }
+        };
+        frame(&ctx, &mut v, vec![], true);
+        frame(&ctx, &mut v, vec![], false);
+        frame(&ctx, &mut v, vec![key(egui::Key::ArrowUp, false)], false);
+        assert_eq!(v, Value::from(6));
+        frame(&ctx, &mut v, vec![key(egui::Key::ArrowUp, true)], false);
+        assert_eq!(v, Value::from(16));
+        frame(&ctx, &mut v, vec![key(egui::Key::ArrowDown, false)], false);
+        assert_eq!(v, Value::from(15));
     }
 
     #[test]

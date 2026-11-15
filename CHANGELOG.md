@@ -2,6 +2,7 @@
 
 ## 0.7.0
 
+- Number boxes: Up and Down arrows step the value by 1 while the box has focus (Shift: 10), within the field's allowed range
 - Faster opening: the checks that work out which game a file belongs to now look at its first bytes before doing the expensive work, so large saves open sooner; files over 256 KB open in the background and the window stays responsive
 - Find my game's saves: the search box understands words in any order and short names (bg3, gta5, ff7, botw); the list of found saves is no longer worked out again on every frame
 - Changes panel and unsaved-changes tracking are much faster after large bulk edits; the panel lists the first 300 changes and says so
