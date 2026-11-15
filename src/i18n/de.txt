@@ -26892,3 +26892,50 @@ testing switch
 
 {0} named flags, {1} of them on.
 = {0} benannte Flaggen, davon {1} an.
+
+# src/game_ui/simple/specs.rs and src/fmt/ghost_tsushima.rs (Ghost of Tsushima)
+Jin Sakai
+= Jin Sakai
+
+Technique points to spend
+= Verfügbare Technikpunkte
+
+Legend earned (Tsushima)
+= Erworbene Legende (Tsushima)
+
+Legend earned (Iki Island)
+= Erworbene Legende (Iki-Insel)
+
+Flowers
+= Blumen
+
+Ghost Flowers
+= Geisterblumen
+
+Bamboo
+= Bambus
+
+Yew Wood
+= Eibenholz
+
+Wax Wood
+= Wachsholz
+
+Linen
+= Leinen
+
+Predator Hides
+= Raubtierfelle
+
+Format version
+= Formatversion
+
+Documents\\Ghost of Tsushima DIRECTOR'S CUT\\<id>\\manual_NNNN.sav or auto.sav: supplies, flowers, Ghost Flowers, crafting materials and technique points to spend. The save's checksum is made again on save.
+= Documents\\Ghost of Tsushima DIRECTOR'S CUT\\<id>\\manual_NNNN.sav oder auto.sav: Vorräte, Blumen, Geisterblumen, Handwerksmaterialien und verfügbare Technikpunkte. Die Prüfsumme des Spielstands wird beim Speichern neu berechnet.
+
+Raises supplies to 9999 and bamboo, yew wood, wax wood, iron, steel, gold, linen, leather, silk and predator hides to 500 (fan wikis give 500 as the carry limit and full saves hold 500; the game states no limit itself). Amounts above that are kept. Flowers and Ghost Flowers are left alone.
+= Setzt Vorräte auf 9999 und Bambus, Eibenholz, Wachsholz, Eisen, Stahl, Gold, Leinen, Leder, Seide und Raubtierfelle auf 500 (Fan-Wikis nennen 500 als Traglimit und vollständige Spielstände haben 500; das Spiel selbst nennt kein Limit). Höhere Mengen bleiben erhalten. Blumen und Geisterblumen bleiben unverändert.
+
+Supplies, flowers, crafting materials and technique points. The checksum is made again on save. Checked on public saves, not yet tried in the game.
+= Vorräte, Blumen, Handwerksmaterialien und Technikpunkte. Die Prüfsumme wird beim Speichern neu berechnet. Mit öffentlichen Spielständen geprüft, noch nicht im Spiel ausprobiert.
+

@@ -26947,3 +26947,50 @@ testing switch
 
 {0} named flags, {1} of them on.
 = {0} 个有名称的标记，其中 {1} 个已开启。
+
+# src/game_ui/simple/specs.rs and src/fmt/ghost_tsushima.rs (Ghost of Tsushima)
+Jin Sakai
+= 境井仁
+
+Technique points to spend
+= 可用技能点
+
+Legend earned (Tsushima)
+= 获得的传说值(对马岛)
+
+Legend earned (Iki Island)
+= 获得的传说值(壹岐岛)
+
+Flowers
+= 花
+
+Ghost Flowers
+= 战鬼之花
+
+Bamboo
+= 竹子
+
+Yew Wood
+= 紫杉木
+
+Wax Wood
+= 漆树木
+
+Linen
+= 亚麻
+
+Predator Hides
+= 猛兽皮
+
+Format version
+= 格式版本
+
+Documents\\Ghost of Tsushima DIRECTOR'S CUT\\<id>\\manual_NNNN.sav or auto.sav: supplies, flowers, Ghost Flowers, crafting materials and technique points to spend. The save's checksum is made again on save.
+= Documents\\Ghost of Tsushima DIRECTOR'S CUT\\<id>\\manual_NNNN.sav 或 auto.sav：物资、花、战鬼之花、制作材料和可用技能点。保存时会重新计算存档的校验和。
+
+Raises supplies to 9999 and bamboo, yew wood, wax wood, iron, steel, gold, linen, leather, silk and predator hides to 500 (fan wikis give 500 as the carry limit and full saves hold 500; the game states no limit itself). Amounts above that are kept. Flowers and Ghost Flowers are left alone.
+= 将物资提高到 9999,将竹子、紫杉木、漆树木、铁、钢、金、亚麻、皮革、丝绸和猛兽皮提高到 500(粉丝维基称携带上限为 500,完成度高的存档也是 500;游戏本身未说明上限)。已超过的数量保持不变。花和战鬼之花不做改动。
+
+Supplies, flowers, crafting materials and technique points. The checksum is made again on save. Checked on public saves, not yet tried in the game.
+= 物资、花、制作材料和技能点。保存时重新计算校验和。已用公开存档检查,尚未在游戏中试过。
+

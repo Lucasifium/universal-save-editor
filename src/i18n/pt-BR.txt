@@ -26862,3 +26862,50 @@ testing switch
 
 {0} named flags, {1} of them on.
 = {0} marcações com nome, {1} delas ativadas.
+
+# src/game_ui/simple/specs.rs and src/fmt/ghost_tsushima.rs (Ghost of Tsushima)
+Jin Sakai
+= Jin Sakai
+
+Technique points to spend
+= Pontos de técnica para gastar
+
+Legend earned (Tsushima)
+= Lenda obtida (Tsushima)
+
+Legend earned (Iki Island)
+= Lenda obtida (Ilha de Iki)
+
+Flowers
+= Flores
+
+Ghost Flowers
+= Flores Fantasma
+
+Bamboo
+= Bambu
+
+Yew Wood
+= Madeira de teixo
+
+Wax Wood
+= Madeira de cera
+
+Linen
+= Linho
+
+Predator Hides
+= Peles de predador
+
+Format version
+= Versão do formato
+
+Documents\\Ghost of Tsushima DIRECTOR'S CUT\\<id>\\manual_NNNN.sav or auto.sav: supplies, flowers, Ghost Flowers, crafting materials and technique points to spend. The save's checksum is made again on save.
+= Documents\\Ghost of Tsushima DIRECTOR'S CUT\\<id>\\manual_NNNN.sav ou auto.sav: suprimentos, flores, Flores Fantasma, materiais de criação e pontos de técnica para gastar. A soma de verificação do save é refeita ao salvar.
+
+Raises supplies to 9999 and bamboo, yew wood, wax wood, iron, steel, gold, linen, leather, silk and predator hides to 500 (fan wikis give 500 as the carry limit and full saves hold 500; the game states no limit itself). Amounts above that are kept. Flowers and Ghost Flowers are left alone.
+= Eleva os suprimentos a 9999 e bambu, madeira de teixo, madeira de cera, ferro, aço, ouro, linho, couro, seda e peles de predador a 500 (wikis de fãs dão 500 como limite de carga e saves completos têm 500; o jogo não informa limite). Quantidades acima disso são mantidas. Flores e Flores Fantasma não são alteradas.
+
+Supplies, flowers, crafting materials and technique points. The checksum is made again on save. Checked on public saves, not yet tried in the game.
+= Suprimentos, flores, materiais de criação e pontos de técnica. A soma de verificação é refeita ao salvar. Verificado em saves públicos, ainda não testado no jogo.
+

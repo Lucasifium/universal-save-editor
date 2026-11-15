@@ -26899,3 +26899,50 @@ testing switch
 
 {0} named flags, {1} of them on.
 = {0} drapeaux nommés, dont {1} activés.
+
+# src/game_ui/simple/specs.rs and src/fmt/ghost_tsushima.rs (Ghost of Tsushima)
+Jin Sakai
+= Jin Sakai
+
+Technique points to spend
+= Points de technique à dépenser
+
+Legend earned (Tsushima)
+= Légende acquise (Tsushima)
+
+Legend earned (Iki Island)
+= Légende acquise (île d'Iki)
+
+Flowers
+= Fleurs
+
+Ghost Flowers
+= Fleurs fantômes
+
+Bamboo
+= Bambou
+
+Yew Wood
+= Bois d'if
+
+Wax Wood
+= Bois de cire
+
+Linen
+= Lin
+
+Predator Hides
+= Peaux de prédateur
+
+Format version
+= Version du format
+
+Documents\\Ghost of Tsushima DIRECTOR'S CUT\\<id>\\manual_NNNN.sav or auto.sav: supplies, flowers, Ghost Flowers, crafting materials and technique points to spend. The save's checksum is made again on save.
+= Documents\\Ghost of Tsushima DIRECTOR'S CUT\\<id>\\manual_NNNN.sav ou auto.sav : fournitures, fleurs, fleurs fantômes, matériaux d'artisanat et points de technique à dépenser. La somme de contrôle de la sauvegarde est recalculée à l'enregistrement.
+
+Raises supplies to 9999 and bamboo, yew wood, wax wood, iron, steel, gold, linen, leather, silk and predator hides to 500 (fan wikis give 500 as the carry limit and full saves hold 500; the game states no limit itself). Amounts above that are kept. Flowers and Ghost Flowers are left alone.
+= Monte les fournitures à 9999 et le bambou, le bois d'if, le bois de cire, le fer, l'acier, l'or, le lin, le cuir, la soie et les peaux de prédateur à 500 (les wikis de fans donnent 500 comme limite de transport et les sauvegardes complètes en ont 500 ; le jeu n'indique aucune limite). Les quantités supérieures sont conservées. Les fleurs et les fleurs fantômes ne sont pas modifiées.
+
+Supplies, flowers, crafting materials and technique points. The checksum is made again on save. Checked on public saves, not yet tried in the game.
+= Fournitures, fleurs, matériaux d'artisanat et points de technique. La somme de contrôle est recalculée à l'enregistrement. Vérifié sur des sauvegardes publiques, pas encore essayé en jeu.
+

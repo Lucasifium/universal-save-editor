@@ -26974,3 +26974,50 @@ testing switch
 
 {0} named flags, {1} of them on.
 = 名前付きフラグ {0} 個、うち {1} 個がオン。
+
+# src/game_ui/simple/specs.rs and src/fmt/ghost_tsushima.rs (Ghost of Tsushima)
+Jin Sakai
+= 境井仁
+
+Technique points to spend
+= 未使用の技能ポイント
+
+Legend earned (Tsushima)
+= 獲得した誉れ(対馬)
+
+Legend earned (Iki Island)
+= 獲得した誉れ(壱岐)
+
+Flowers
+= 花
+
+Ghost Flowers
+= 冥人の花
+
+Bamboo
+= 竹
+
+Yew Wood
+= イチイ
+
+Wax Wood
+= ハゼノキ
+
+Linen
+= 麻
+
+Predator Hides
+= 獣の毛皮
+
+Format version
+= 形式のバージョン
+
+Documents\\Ghost of Tsushima DIRECTOR'S CUT\\<id>\\manual_NNNN.sav or auto.sav: supplies, flowers, Ghost Flowers, crafting materials and technique points to spend. The save's checksum is made again on save.
+= Documents\\Ghost of Tsushima DIRECTOR'S CUT\\<id>\\manual_NNNN.sav または auto.sav：物資、花、冥人の花、素材、未使用の技能ポイント。保存時にセーブのチェックサムを作り直します。
+
+Raises supplies to 9999 and bamboo, yew wood, wax wood, iron, steel, gold, linen, leather, silk and predator hides to 500 (fan wikis give 500 as the carry limit and full saves hold 500; the game states no limit itself). Amounts above that are kept. Flowers and Ghost Flowers are left alone.
+= 物資を9999に、竹・イチイ・ハゼノキ・鉄・鋼・金・麻・革・絹・獣の毛皮を500に上げます(ファンWikiでは所持上限は500とされ、やり込みセーブも500です。ゲーム自体は上限を示していません)。それより多い量はそのままです。花と冥人の花は変更しません。
+
+Supplies, flowers, crafting materials and technique points. The checksum is made again on save. Checked on public saves, not yet tried in the game.
+= 物資、花、素材、技能ポイント。保存時にチェックサムを作り直します。公開セーブで確認済み、ゲーム内では未検証です。
+

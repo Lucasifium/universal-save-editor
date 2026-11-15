@@ -3,7 +3,7 @@
 > **Free, and it always will be.** No price, no ads, no account, no paid version, no online service, no
 > rate limits. If anyone is charging you for this, it isn't from here.
 
-An offline save editor and save manager for 540+ (549) PC games (edit saves, and back up, name and restore them): Cairn, Terraria (characters and a world map editor),
+An offline save editor and save manager for 550+ (550) PC games (edit saves, and back up, name and restore them): Cairn, Terraria (characters and a world map editor),
 Oxygen Not Included, RimWorld, Stardew Valley, Onimusha: Way of the Sword, Elden Ring, Dark Souls,
 Cyberpunk 2077, the Persona, Yakuza and Final Fantasy games, Ren'Py visual novels, RPG Maker games
 and more (the full list is below). Written in Rust (egui). Nothing is uploaded anywhere, and there are
@@ -247,12 +247,13 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 </details>
 
 <details>
-<summary><strong>G</strong> (12)</summary>
+<summary><strong>G</strong> (13)</summary>
 
 | Game | Screen |
 |---|---|
 | Gas Station Simulator | *Station*: the player's and the station's money, fuel income and purchases, popularity level, gas station level and quest progress, from `GameSave_N.sav` / `AutoSaveN.sav` (plain Unreal GVAS; checked on public saves, not yet tried in the game) |
 | Generation Zero | *Characters*: skill points, experience, level, inventory amounts, the crafting resource store and safehouse storage with Max crafting materials, from `savegame` (checked on a public save, not yet tried in the game; the cap is an estimate) |
+| Ghost of Tsushima Director's Cut | *Jin Sakai*: supplies, flowers, Ghost Flowers, bamboo, yew wood, wax wood, iron, steel, gold, linen, leather, silk and predator hides, with a **Max crafting materials** button, and technique points to spend; the legend earned on Tsushima and Iki Island is shown. The save's checksum is made again (checked on public saves, not yet tried in the game; charms, gear levels and the difficulty are kept in a part of the save that isn't decoded yet) |
 | Gladiator Guild Manager | *Guild*: gold, wood, iron, stone, mana crystals, loan and the day (checked on a public save, not yet tried in the game) |
 | God of War (2018) | *Kratos*: every save in `game.sav` (newest first, by title and date): XP, hacksilver, every resource and Yggdrasil's dew (a **Max crafting materials** button fills the crafting resources to 999, an estimate, leaving the story-locked Frozen and Chaos Flames alone), the equipment each save owns, and armour, pommels and talismans it doesn't have yet to add (at their base level) |
 | God of War Ragnarök | *Kratos*: XP for Kratos, Atreus and Freya, hacksilver and divine ashes, resources (a **Max crafting materials** button fills the crafting resources to 999, an estimate), Yggdrasil's dew, health and rage, the level of every weapon, armour piece, attachment, shield and relic, and new armour, shields and attachments to add at any level (campaign saves; a piece of the same type you own is the model) |
@@ -824,7 +825,7 @@ The folders where saves were found are remembered (in `save_locations.json` next
 
 The start page lists **Your games**: every game in the list whose saves were found on this computer,
 newest first, each one click away from its newest save. *Find my game's saves* (the big button on the
-start page, *Find saves* in the toolbar and the File menu) lists every one of the 540+ (549) PC games the editor knows, Mass Effect 1–3, the Legendary Edition and Andromeda among them — with where it
+start page, *Find saves* in the toolbar and the File menu) lists every one of the 550+ (550) PC games the editor knows, Mass Effect 1–3, the Legendary Edition and Andromeda among them — with where it
 usually keeps its saves and what the files are called, and finds them on your computer (Steam
 libraries and `userdata`, Documents wherever Windows has it, AppData, Saved Games, Ubisoft
 Connect). On Linux and the Steam Deck it also looks inside Proton prefixes

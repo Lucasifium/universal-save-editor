@@ -43,6 +43,7 @@ pub mod sleeping_dogs;
 pub mod dxmd;
 pub mod dishonored1;
 pub mod dishonored2;
+pub mod ghost_tsushima;
 pub mod anvil;
 pub mod gk;
 pub mod civ7;
@@ -507,6 +508,11 @@ pub fn parse_binary(d: &[u8]) -> Option<TreeDoc> {
     }
     if dishonored2::looks(d) {
         if let Some(t) = dishonored2::parse(d) {
+            return Some(t);
+        }
+    }
+    if ghost_tsushima::looks(d) {
+        if let Some(t) = ghost_tsushima::parse(d) {
             return Some(t);
         }
     }

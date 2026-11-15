@@ -26888,3 +26888,50 @@ testing switch
 
 {0} named flags, {1} of them on.
 = {0} marcas con nombre, {1} de ellas activadas.
+
+# src/game_ui/simple/specs.rs and src/fmt/ghost_tsushima.rs (Ghost of Tsushima)
+Jin Sakai
+= Jin Sakai
+
+Technique points to spend
+= Puntos de técnica por gastar
+
+Legend earned (Tsushima)
+= Leyenda obtenida (Tsushima)
+
+Legend earned (Iki Island)
+= Leyenda obtenida (isla de Iki)
+
+Flowers
+= Flores
+
+Ghost Flowers
+= Flores fantasma
+
+Bamboo
+= Bambú
+
+Yew Wood
+= Madera de tejo
+
+Wax Wood
+= Madera de cera
+
+Linen
+= Lino
+
+Predator Hides
+= Pieles de depredador
+
+Format version
+= Versión del formato
+
+Documents\\Ghost of Tsushima DIRECTOR'S CUT\\<id>\\manual_NNNN.sav or auto.sav: supplies, flowers, Ghost Flowers, crafting materials and technique points to spend. The save's checksum is made again on save.
+= Documents\\Ghost of Tsushima DIRECTOR'S CUT\\<id>\\manual_NNNN.sav o auto.sav: suministros, flores, flores fantasma, materiales de fabricación y puntos de técnica por gastar. La suma de comprobación de la partida se vuelve a calcular al guardar.
+
+Raises supplies to 9999 and bamboo, yew wood, wax wood, iron, steel, gold, linen, leather, silk and predator hides to 500 (fan wikis give 500 as the carry limit and full saves hold 500; the game states no limit itself). Amounts above that are kept. Flowers and Ghost Flowers are left alone.
+= Sube los suministros a 9999 y el bambú, la madera de tejo, la madera de cera, el hierro, el acero, el oro, el lino, el cuero, la seda y las pieles de depredador a 500 (las wikis de fans dan 500 como límite de carga y las partidas completas tienen 500; el juego no indica ningún límite). Las cantidades mayores se conservan. Las flores y las flores fantasma no se tocan.
+
+Supplies, flowers, crafting materials and technique points. The checksum is made again on save. Checked on public saves, not yet tried in the game.
+= Suministros, flores, materiales de fabricación y puntos de técnica. La suma de comprobación se vuelve a calcular al guardar. Comprobado con partidas públicas, aún no probado en el juego.
+
