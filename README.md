@@ -825,7 +825,7 @@ The folders where saves were found are remembered (in `save_locations.json` next
 
 The start page lists **Your games**: every game in the list whose saves were found on this computer,
 newest first, each one click away from its newest save. *Find my game's saves* (the big button on the
-start page, *Find saves* in the toolbar and the File menu) lists every one of the 550+ (550) PC games the editor knows, Mass Effect 1–3, the Legendary Edition and Andromeda among them — with where it
+start page, *Find saves* in the toolbar and the File menu) lists every one of the 550+ (550) PC games the editor knows, Mass Effect 1–3, the Legendary Edition and Andromeda among them, with where it
 usually keeps its saves and what the files are called, and finds them on your computer (Steam
 libraries and `userdata`, Documents wherever Windows has it, AppData, Saved Games, Ubisoft
 Connect). On Linux and the Steam Deck it also looks inside Proton prefixes
@@ -985,7 +985,7 @@ Big files open on a worker thread, and unpacking and decryption use every core.
 ## File formats it opens
 
 Wrappers are peeled off automatically and re-applied in the same order when you save. Wherever
-possible only the values you edit are rewritten — everything else stays byte-for-byte identical.
+possible only the values you edit are rewritten, and everything else stays byte-for-byte identical.
 The games with a screen of their own are listed under *Game screens* above.
 
 **Game engines**
@@ -1006,11 +1006,11 @@ The games with a screen of their own are listed under *Game screens* above.
 | Barotrauma | `.save` (gzip file bundle) | sample saves |
 | Palworld (older) | `.sav` with `PlZ` header | round-trip tests (newer `PlM` saves are covered by the Palworld row) |
 
-**Data formats** — JSON, XML (span-patched, keeps formatting), INI/CFG, TOML (keeps comments),
+**Data formats**: JSON, XML (span-patched, keeps formatting), INI/CFG, TOML (keeps comments),
 YAML (`.yml`/`.yaml`), Apple plist (binary and XML), MessagePack, CBOR, BSON, SQLite (real `UPDATE`s;
 IDs and keys read-only, 0/1 check-constrained columns shown as switches), Python pickle.
 
-**Wrappers** — gzip, zlib, raw deflate, zstd, LZ4, Snappy (framed), xz, bzip2, zip (pick any entry), Base64 (plain or
+**Wrappers**: gzip, zlib, raw deflate, zstd, LZ4, Snappy (framed), xz, bzip2, zip (pick any entry), Base64 (plain or
 line-wrapped), UTF-8 BOM, UTF-16, XOR, Easy Save 3 AES, Godot AES, Terraria AES, Hollow Knight AES,
 FromSoftware BND4 (MD5 + AES), Minecraft region chunks, mGBA PNG save states, Final Fantasy XVI slot pictures (XOR and zlib with the game's own dictionary, read from your installed copy of the game), Supergiant (Adler-32 + LZ4), Stellar Blade's EVAS envelope (CRC-32 written again), Ace Combat 8's packed save data (checksum written again), Prey (2017) (RC4 and zlib chunks, MD5 written again).
 
