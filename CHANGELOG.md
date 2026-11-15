@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+- Fixed: Metal Gear Solid V: edits to staff, resources, Mother Base platforms and other packed values couldn't be saved ("didn't read back exactly as edited"); every field now saves and reads back
+
 ## 0.8.0
 
 - Backups › Quick restore asks before restoring: it names the backup and the save it replaces, and says the save on disk is backed up first

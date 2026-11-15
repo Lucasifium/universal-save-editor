@@ -378,6 +378,7 @@ pub fn parse(p: &[u8]) -> Result<TreeDoc, String> {
     let mut vars = Map::new();
     let mut editable = HashMap::new();
     let mut leaves: Vec<Leaf> = vec![];
+    let mut reshaping: Vec<usize> = vec![];
     let mut seen_player: Vec<&str> = vec![];
     let mut arrays: HashMap<String, (Vec<u64>, Vec<Leaf>)> = HashMap::new();
     let mut extra: std::collections::BTreeMap<&'static str, Map<String, Value>> = Default::default();
@@ -445,7 +446,7 @@ pub fn parse(p: &[u8]) -> Result<TreeDoc, String> {
                     }
                 }
                 if matches!(key_name.as_str(), "mbmStaffSvarsHeaders" | "mbmStaffSvarsStatusesSync" | "mbmStaffSvarsStatusesNoSync" | "mbmResourceSvars1Fix" | "mbmResourceSvars2Fix" | "mbmResourceSvars1Diff" | "mbmClusterSvars") && !arrays.contains_key(&key_name) {
-                    arrays.insert(key_name.clone(), (items.iter().map(|v| v.as_u64().unwrap_or(0)).collect::<Vec<_>>(), item_leaves.clone()));
+                    arrays.insert(key_name.clone(), (items.iter().map(raw_of).collect::<Vec<_>>(), item_leaves.clone()));
                 }
                 let key = crate::tree::unique_key(&group, &key_name);
                 if count == 1 {
@@ -454,6 +455,10 @@ pub fn parse(p: &[u8]) -> Result<TreeDoc, String> {
                     group.insert(key, items.remove(0));
                 } else {
                     for (j, l) in item_leaves.into_iter().enumerate() {
+                        // A staff slot appears in the Staff list once it holds anything.
+                        if matches!(key_name.as_str(), "mbmStaffSvarsHeaders" | "mbmStaffSvarsStatusesSync") {
+                            reshaping.push(leaves.len());
+                        }
                         editable.insert(format!("/Variables/{}/{}/{j}", crate::tree::esc(&format!("Block {bi}, section {id}")), crate::tree::esc(&key)), leaves.len());
                         leaves.push(l);
                     }
@@ -473,7 +478,11 @@ pub fn parse(p: &[u8]) -> Result<TreeDoc, String> {
         }
     }
     view.insert("Variables".into(), Value::Object(vars));
-    let backend = MgsvBackend { plain: Arc::new(p.to_vec()), leaves };
+    let mut ptrs = vec![String::new(); leaves.len()];
+    for (ptr, &i) in &editable {
+        ptrs[i] = ptr.clone();
+    }
+    let backend = MgsvBackend { plain: Arc::new(p.to_vec()), leaves, ptrs, reshaping };
     Ok(TreeDoc::new(Value::Object(view), editable, KIND, Box::new(backend)).with_note(
         "Variables are named by the hash of their Lua name; the few the Player screen uses are named. \
          The save's MD5 and encryption are redone on save. Turn off Steam Cloud first, and edit the file the game reads (in 311340\\remote for the PC version), not only the backup copy.",
@@ -581,6 +590,25 @@ fn add_staff_and_resources(arrays: &HashMap<String, (Vec<u64>, Vec<Leaf>)>, view
 struct MgsvBackend {
     plain: Arc<Vec<u8>>,
     leaves: Vec<Leaf>,
+    /// The view pointer of each leaf.
+    ptrs: Vec<String>,
+    /// Leaves whose edit can add or remove a Staff entry in the view.
+    reshaping: Vec<usize>,
+}
+
+/// A stored whole number as the bits it occupies (a negative one as its two's complement).
+fn raw_of(v: &Value) -> u64 {
+    v.as_u64().or_else(|| v.as_i64().map(|n| n as u32 as u64)).unwrap_or(0)
+}
+
+/// The value a whole stored number of type `ty` shows as, from its bits.
+fn whole_value(ty: Ty, raw: u64) -> Value {
+    match ty {
+        Ty::I32 => (raw as u32 as i32).into(),
+        Ty::I8 => (raw as u8 as i8).into(),
+        Ty::I16 => (raw as u16 as i16).into(),
+        _ => raw.into(),
+    }
 }
 
 impl Backend for MgsvBackend {
@@ -630,6 +658,48 @@ impl Backend for MgsvBackend {
         let h = Md5::digest(&p[16..]);
         p[..16].copy_from_slice(&h);
         Ok(p)
+    }
+
+    fn reshapes(&self, leaf: usize) -> bool {
+        self.reshaping.contains(&leaf)
+    }
+
+    fn normalize(&self, leaf: usize, v: Value) -> Value {
+        match (self.leaves.get(leaf).map(|l| l.ty), v.as_f64()) {
+            (Some(Ty::F32), Some(n)) => serde_json::Number::from_f64(n as f32 as f64).map_or(v, Value::Number),
+            _ => v,
+        }
+    }
+
+    /// The same stored number shows in several places (the whole variable, and the fields of
+    /// a packed one: a staff member's rank, a resource's amount…). Keep all of them in step.
+    fn derived(&self, leaf: usize, view: &Value) -> Vec<(String, Value)> {
+        let Some(l) = self.leaves.get(leaf) else { return vec![] };
+        let Some(new) = self.ptrs.get(leaf).and_then(|p| view.pointer(p)) else { return vec![] };
+        let same = |m: &Leaf| m.at == l.at && m.ty == l.ty && (l.ty != Ty::Bool || m.bit == l.bit);
+        let whole = |m: &Leaf| m.bits == 0 && m.list == 0;
+        let mut raw = None;
+        if l.ty == Ty::Bool || l.ty == Ty::F32 {
+            // Not packed: every sibling is the same value.
+            return (0..self.leaves.len()).filter(|&m| m != leaf && same(&self.leaves[m])).map(|m| (self.ptrs[m].clone(), new.clone())).collect();
+        }
+        if whole(l) {
+            raw = Some(raw_of(new));
+        } else if let Some(cur) = (0..self.leaves.len()).find(|&m| m != leaf && same(&self.leaves[m]) && whole(&self.leaves[m])).and_then(|m| view.pointer(&self.ptrs[m])) {
+            let n = if l.list > 0 { new.as_str().and_then(|s| names_of(l.list).iter().position(|x| x == s)).map(|i| i as u64) } else { new.as_u64().or_else(|| new.as_bool().map(|b| b as u64)) };
+            if let Some(n) = n {
+                let mask = ((1u64 << l.bits) - 1) << l.shift;
+                raw = Some((raw_of(cur) & !mask) | ((n << l.shift) & mask));
+            }
+        }
+        let Some(raw) = raw else { return vec![] };
+        (0..self.leaves.len())
+            .filter(|&m| m != leaf && same(&self.leaves[m]))
+            .map(|m| {
+                let ml = &self.leaves[m];
+                (self.ptrs[m].clone(), if whole(ml) { whole_value(ml.ty, raw) } else { field_value(ml, raw) })
+            })
+            .collect()
     }
 
     fn check(&self, leaf: usize, v: &Value) -> Result<(), String> {
@@ -692,6 +762,119 @@ mod tests {
         assert_ne!(d, plain);
         stream("TPP_GAME_DATA", &mut d);
         assert_eq!(d, plain);
+    }
+
+    /// A decrypted save with one `SVAR` block and one section: (variable name, type code, values).
+    fn synthetic(vars: &[(&str, u8, Vec<u64>)]) -> Vec<u8> {
+        let n = vars.len();
+        let base = 20usize;
+        let doff = 16usize;
+        let hdr = ((doff + 3 + n * 2) & !3) - 4;
+        let params = hdr + n * 8;
+        let data_bits = base + params + n * 8;
+        let mut p = vec![0u8; 16];
+        p.extend(b"SVAR");
+        p.resize(data_bits + 4096, 0);
+        p[base + 3] = 1;
+        p[base + 8..base + 10].copy_from_slice(&1u16.to_le_bytes());
+        p[base + 10..base + 12].copy_from_slice(&(n as u16).to_le_bytes());
+        p[base + 12..base + 16].copy_from_slice(&(doff as u32).to_le_bytes());
+        let mut bool_bits = 0usize;
+        let mut next = data_bits + 8; // plain data after 8 bytes of bit storage
+        for (i, (name, ty, vals)) in vars.iter().enumerate() {
+            let t = Ty::from(*ty).unwrap();
+            let ho = base + hdr + 8 * i;
+            p[ho..ho + 4].copy_from_slice(&strcode32(name).to_le_bytes());
+            let po = base + params + 8 * i;
+            let off = if t == Ty::Bool { bool_bits } else { next - base + 4 };
+            p[po..po + 4].copy_from_slice(&(off as u32).to_le_bytes());
+            p[po + 4..po + 6].copy_from_slice(&(vals.len() as u16).to_le_bytes());
+            p[po + 6] = *ty;
+            for (j, v) in vals.iter().enumerate() {
+                if t == Ty::Bool {
+                    let b = off % 8 + j;
+                    p[data_bits + off / 8 + b / 8] |= (*v as u8) << (b % 8);
+                } else {
+                    let at = base + off - 4 + j * t.width();
+                    p[at..at + t.width()].copy_from_slice(&v.to_le_bytes()[..t.width()]);
+                }
+            }
+            if t == Ty::Bool {
+                bool_bits += vals.len();
+            } else {
+                next += (vals.len() * t.width() + 3) & !3;
+            }
+        }
+        p.truncate(next.max(data_bits + 8));
+        let h = Md5::digest(&p[16..]);
+        p[..16].copy_from_slice(&h);
+        p
+    }
+
+    fn sample() -> Vec<u8> {
+        let rank_e = 0u64;
+        let staff0 = (3u64 << 3) | (5 << 13) | (9 << 20);
+        let status0 = (7u64 << 27) | (5 << 22) | (3 << 8);
+        let cluster = (2u64 << 12) | (1 << 10);
+        synthetic(&[
+            ("mbmTppGmp", 1, vec![1500]),
+            ("mbmTppHeroicPoint", 1, vec![40]),
+            ("mbmStaffSvarsHeaders", 2, vec![staff0, 0, rank_e + 8]),
+            ("mbmStaffSvarsStatusesSync", 2, vec![status0, 0, 4]),
+            ("mbmStaffSvarsStatusesNoSync", 2, vec![0, 0, 0]),
+            ("mbmClusterSvars", 2, vec![cluster; 35]),
+            ("mbmResourceSvars1Fix", 2, vec![(100u64 << 1) | 1; 39]),
+            ("mbmResourceSvars2Fix", 2, vec![100u64 << 3; 39]),
+            ("mbmResourceSvars1Diff", 2, vec![100u64 << 1; 39]),
+            ("totalPlayTime", 3, vec![1]),
+            ("alarmCount", 0, vec![1, 0, 1]),
+        ])
+    }
+
+    /// Every editable field, edited and saved the way the app saves: encode the layers, decode the
+    /// file again (as the app does to verify it) and compare.
+    #[test]
+    fn every_field_round_trips_through_the_app_save_chain() {
+        use crate::formats::{decode_with, encode, same_layers, verified, Content, Options};
+        let raw = encrypt("TPP_GAME_DATA", &sample());
+        let opts = Options::default();
+        let d = decode_with(&raw, &opts);
+        let Content::Tree(doc) = &d.content else { panic!("not a tree: {}", d.content.kind()) };
+        let mut ptrs: Vec<(String, Value)> = vec![];
+        for ptr in doc.editable.keys().cloned().collect::<Vec<_>>() {
+            let Some(cur) = doc.view.pointer(&ptr).cloned() else { continue };
+            let new: Value = match &cur {
+                Value::Bool(b) => (!b).into(),
+                Value::String(_) => {
+                    let ch = doc.choices(&ptr).expect("a list field has choices");
+                    ch.iter().find(|c| Some(c.as_str()) != cur.as_str()).cloned().unwrap().into()
+                }
+                Value::Number(n) if n.is_f64() => 1.1.into(),
+                Value::Number(_) => {
+                    let (lo, hi) = doc.range(&ptr).unwrap_or((0.into(), 1000.into()));
+                    let want = if cur.as_i64() == Some(1) { 2 } else { 1 };
+                    if (lo.as_i64().unwrap_or(0)..=hi.as_i64().unwrap_or(1000)).contains(&want) { want.into() } else { lo }
+                }
+                _ => continue,
+            };
+            ptrs.push((ptr, new));
+        }
+        assert!(ptrs.len() > 100, "{} fields", ptrs.len());
+        for (ptr, new) in &ptrs {
+            let Content::Tree(base) = &decode_with(&raw, &opts).content else { unreachable!() };
+            let mut doc = base.clone();
+            if doc.set(ptr, new.clone()).is_err() {
+                continue;
+            }
+            let stored = doc.view.pointer(ptr).cloned();
+            let content = Content::Tree(doc);
+            let bytes = encode(&d.layers, &content).unwrap_or_else(|e| panic!("{ptr}: {e}"));
+            let check = decode_with(&bytes, &opts);
+            assert!(same_layers(&check.layers, &d.layers), "{ptr}: layers");
+            assert!(verified(&check.content, &content), "{ptr}: doesn't read back as edited (set {new})");
+            let Content::Tree(t) = &check.content else { unreachable!() };
+            assert_eq!(t.view.pointer(ptr), stored.as_ref(), "{ptr}");
+        }
     }
 
     /// Needs a real save: MGSV=<TPP_GAME_DATA file>
