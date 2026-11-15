@@ -117,7 +117,7 @@ impl App {
                         }
                     }
                     Outcome::UpToDate if self.update_manual => self.update_note = Some(tr("This is the newest version.")),
-                    Outcome::Failed if self.update_manual => self.update_note = Some(tr("Couldn't check for a new version (no connection?).")),
+                    Outcome::Failed if self.update_manual => self.update_note = Some(tr("Couldn't check for a new version. Check your internet connection and try again.")),
                     _ => {}
                 }
             }
@@ -161,14 +161,14 @@ impl App {
                     let gone = !d.path.exists();
                     strip(ui, theme::WARN, |ui| {
                         let what = if gone {
-                            format!("{name} was moved or deleted since it was opened.")
+                            trf("{0} was moved or deleted since it was opened.", &[&name])
                         } else if self.dirty {
-                            format!("{name} changed on disk (the game or a cloud sync may have saved). Saving will ask before writing over it.")
+                            trf("{0} changed on disk (the game or a cloud sync may have saved). Saving will ask before writing over it.", &[&name])
                         } else {
-                            format!("{name} changed on disk (the game or a cloud sync may have saved).")
+                            trf("{0} changed on disk (the game or a cloud sync may have saved).", &[&name])
                         };
                         ui.add(egui::Label::new(RichText::new(what).color(theme::fg(ui, theme::WARN))).wrap());
-                        if !gone && ui.button(if self.dirty { "Reload (drop my changes)" } else { "Reload" }).clicked() {
+                        if !gone && ui.button(if self.dirty { tr("Reload and drop my changes") } else { tr("Reload") }).clicked() {
                             reload = true;
                         }
                         if ui.button(tr("Keep what's shown")).on_hover_text(tr("Hide this. Saving still asks before writing over the newer file.")).clicked() {
@@ -212,7 +212,7 @@ impl App {
             ui.set_max_width(460.0);
             let name = file_name(&path);
             if path.exists() {
-                ui.label(trf("{0} was written by something else after you opened it \u{2014} most likely the game saved, or a cloud sync brought in another copy.", &[&name]));
+                ui.label(trf("{0} changed on disk after you opened it. Most likely the game saved, or a cloud sync brought in another copy.", &[&name]));
                 ui.add_space(4.0);
                 ui.label(tr("Saving now would put the version you opened, with your changes, over that newer file."));
             } else {

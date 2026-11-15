@@ -1,7 +1,7 @@
 //! Preferences, the Help menu and its windows (keyboard shortcuts, licences, About), and
 //! "Report a problem", which opens a pre-filled GitHub issue form.
 
-use crate::i18n::{tr, trf};
+use crate::i18n::{tr, tr_any, trf, tx};
 use super::{fit, friendly_kind, Ask, App, WEB};
 use crate::{platform, theme, widgets};
 use eframe::egui::{self, RichText};
@@ -17,15 +17,15 @@ pub enum Window {
 }
 
 const SHORTCUTS: &[(&str, &str)] = &[
-    ("Ctrl+O", "Open a save file"),
-    ("Ctrl+S", "Save (shows what changed first)"),
-    ("Ctrl+Z", "Undo"),
-    ("Ctrl+Y or Ctrl+Shift+Z", "Redo"),
-    ("Ctrl+F", "Find a value by name (Values tab)"),
-    ("Ctrl+Plus / Ctrl+Minus", "Zoom in / out"),
-    ("Ctrl+0", "Reset the zoom"),
-    ("Enter", "Confirm a typed value"),
-    ("Esc", "Close the dialog on top"),
+    ("Ctrl+O", tx("Open a save file")),
+    ("Ctrl+S", tx("Save (shows what changed first)")),
+    ("Ctrl+Z", tx("Undo")),
+    ("Ctrl+Y / Ctrl+Shift+Z", tx("Redo")),
+    ("Ctrl+F", tx("Find a value by name (Values tab)")),
+    ("Ctrl+Plus / Ctrl+Minus", tx("Zoom in / out")),
+    ("Ctrl+0", tx("Reset the zoom")),
+    ("Enter", tx("Confirm a typed value")),
+    ("Esc", tx("Close the dialog on top")),
 ];
 
 fn os() -> &'static str {
@@ -126,9 +126,9 @@ impl App {
         let Some(which) = self.help else { return };
         let mut open = true;
         let title = match which {
-            Window::Shortcuts => "Keyboard shortcuts".to_string(),
-            Window::Licences => "Licences and credits".to_string(),
-            Window::About => format!("About {}", platform::DISPLAY_NAME),
+            Window::Shortcuts => tr("Keyboard shortcuts").to_string(),
+            Window::Licences => tr("Licences and credits").to_string(),
+            Window::About => trf("About {0}", &[&platform::DISPLAY_NAME]),
         };
         egui::Window::new(title)
             .open(&mut open)
@@ -141,7 +141,7 @@ impl App {
                     egui::Grid::new("shortcuts").num_columns(2).spacing([24.0, 6.0]).striped(true).show(ui, |ui| {
                         for (keys, what) in SHORTCUTS {
                             ui.label(RichText::new(*keys).strong());
-                            ui.label(*what);
+                            ui.label(tr_any(what));
                             ui.end_row();
                         }
                     });

@@ -324,7 +324,7 @@ impl App {
                                 pa.opened = None;
                             }
                             ui.with_layout(egui::Layout::right_to_left(egui::Align::Center), |ui| {
-                                if ui.small_button(tr("Delete")).on_hover_text(tr("Delete this preset (saves are not changed)")).clicked() {
+                                if ui.small_button(tr("Delete preset")).on_hover_text(tr("Delete this preset (saves are not changed)")).clicked() {
                                     delete = Some(i);
                                 }
                             });
@@ -337,7 +337,7 @@ impl App {
                 ui.separator();
                 ui.label(RichText::new(&p.name).strong());
                 if !p.game.is_empty() && p.game != kind {
-                    ui.colored_label(theme::ERR, format!("Made on a {} save; this one is a {kind} save. Only the values found here are changed.", p.game));
+                    ui.colored_label(theme::ERR, trf("Made on a {0} save; this one is a {1} save. Only the values found here are changed.", &[&p.game, &kind]));
                 }
                 ScrollArea::vertical().id_salt("preset_lines").max_height(160.0).show_locked(ui, |ui| {
                     for l in p.lines() {
@@ -520,12 +520,12 @@ impl App {
             });
             ui.add_space(4.0);
             ui.label(tr("Recognise its saves by:"));
-            ui.add_enabled_ui(!ext.is_empty(), |ui| ui.checkbox(&mut sn.by_ext, format!("the file extension (.{ext})")));
+            ui.add_enabled_ui(!ext.is_empty(), |ui| ui.checkbox(&mut sn.by_ext, trf("the file extension (.{0})", &[&ext])));
             if let Some(m) = &magic {
                 let hex: Vec<String> = m.iter().map(|b| format!("{b:02X}")).collect();
-                ui.checkbox(&mut sn.by_magic, format!("the first bytes ({})", hex.join(" ")));
+                ui.checkbox(&mut sn.by_magic, trf("the first bytes ({0})", &[&hex.join(" ")]));
             }
-            ui.checkbox(&mut sn.by_size, format!("the exact size ({})", human_size(size))).on_hover_text(tr("Only if every save of the game is the same size"));
+            ui.checkbox(&mut sn.by_size, trf("the exact size ({0})", &[&human_size(size)])).on_hover_text(tr("Only if every save of the game is the same size"));
             if let Some(s) = sum {
                 ui.weak(trf("The checksum you set ({0}) is kept fixed too.", &[&s.describe()]));
             }
@@ -617,20 +617,20 @@ impl App {
             });
             let left = h.results.len();
             let steps: [(&str, String); 4] = [
-                ("Search", "In the game, look at a number you want to change (gold, ammo, a stat) and save. Type it in Value search below and press Search.".into()),
+                (tr("Search"), tr("In the game, look at a number you want to change (gold, ammo, a stat) and save. Type it in Value search below and press Search.").into()),
                 (
-                    "Narrow it down",
+                    tr("Narrow it down"),
                     if h.all_locations {
-                        "Every location is in play. Make the value go up or down in the game, save, then pick Increased or Decreased and press Refine.".into()
+                        tr("Every location is in play. Make the value go up or down in the game, save, then pick Increased or Decreased and press Refine.").into()
                     } else {
-                        format!("{left} places hold that number. Change it in the game (spend or earn some), save, type the new number and press Refine. Repeat until a few are left.")
+                        trf("{0} places hold that number. Change it in the game (spend or earn some), save, type the new number and press Refine. Repeat until a few are left.", &[&left])
                     },
                 ),
                 (
-                    "Name it",
-                    format!("{left} left. Click one to select it, then type a name under Named values and press Add; the name is remembered for this file. To narrow them further, change the number in the game again and Refine."),
+                    tr("Name it"),
+                    trf("{0} left. Click one to select it, then type a name under Named values and press Add; the name is remembered for this file. To narrow them further, change the number in the game again and Refine.", &[&left]),
                 ),
-                ("Change it", "Type the new number next to its name and press Set, then save with Ctrl+S. Load the save in the game to check.".into()),
+                (tr("Change it"), tr("Type the new number next to its name and press Set, then save with Ctrl+S. Load the save in the game to check.").into()),
             ];
             for (i, (title, text)) in steps.iter().enumerate() {
                 let n = i + 1;

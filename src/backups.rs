@@ -8,6 +8,7 @@
 //! (`<unix seconds>~<name>`) is a slot and is kept for good: only unnamed copies are pruned.
 
 use std::path::{Path, PathBuf};
+use crate::i18n::{tr, trf};
 use std::time::{SystemTime, UNIX_EPOCH};
 
 /// Versions kept per save unless the player chose another number; the oldest go first.
@@ -170,10 +171,10 @@ pub fn write_verified(dest: &Path, bytes: &[u8], replace: bool) -> Result<(), St
         f.sync_all()?;
         drop(f);
         if std::fs::read(&tmp)? != bytes {
-            return Err(std::io::Error::other("the copy read back differently from what was written"));
+            return Err(std::io::Error::other(tr("the written file read back differently from what was written")));
         }
         if !replace && dest.exists() {
-            return Err(std::io::Error::new(std::io::ErrorKind::AlreadyExists, format!("{} already exists", dest.display())));
+            return Err(std::io::Error::new(std::io::ErrorKind::AlreadyExists, trf("{0} already exists", &[&dest.display()])));
         }
         std::fs::rename(&tmp, dest)?;
         // The rename itself is only durable once the folder is flushed (not possible on Windows).
@@ -268,7 +269,7 @@ fn read_save(save: &Path) -> Result<Option<Vec<u8>>, String> {
     match std::fs::read(save) {
         Ok(b) => Ok(Some(b)),
         Err(e) if e.kind() == std::io::ErrorKind::NotFound => Ok(None),
-        Err(e) => Err(format!("couldn't read {}: {e}", save.display())),
+        Err(e) => Err(trf("couldn't read {0}: {1}", &[&save.display(), &e])),
     }
 }
 
@@ -294,9 +295,9 @@ fn clean_name(name: &str) -> String {
 pub fn take_named(save: &Path, name: &str) -> Result<PathBuf, String> {
     let clean = clean_name(name);
     if clean.is_empty() {
-        return Err("give the copy a name".into());
+        return Err(tr("type a name for the backup").into());
     }
-    copy(save, Some(&clean), None).and_then(|p| p.ok_or_else(|| format!("{} doesn't exist", save.display())))
+    copy(save, Some(&clean), None).and_then(|p| p.ok_or_else(|| trf("{0} doesn't exist", &[&save.display()])))
 }
 
 /// Takes a name away from a copy, so it is pruned like the others in time.
@@ -371,7 +372,7 @@ fn copy(save: &Path, name: Option<&str>, keep: Option<&Path>) -> Result<Option<P
         }
     }
     let Some(dest) = written else {
-        return Err(if errors.is_empty() { "no folder for backups on this device".into() } else { errors.join("; ") });
+        return Err(if errors.is_empty() { tr("no folder on this device can hold backups").into() } else { errors.join("; ") });
     };
     // Only once the new copy is safely on disk do the oldest unnamed ones go.
     for old in versions.iter().filter(|v| v.name.is_none() && Some(v.path.as_path()) != keep).skip(self::keep() - 1) {
@@ -402,8 +403,8 @@ fn next_in_second(dir: &Path, t: u64) -> u32 {
 /// (unless it is missing), the backup is read before anything is pruned, and the new file is
 /// written to a temporary name, checked and only then renamed over the save.
 pub fn restore(save: &Path, from: &Path) -> Result<(), String> {
-    let bytes = std::fs::read(from).map_err(|e| format!("couldn't read the backup: {e}"))?;
-    take_keeping(save, from).map_err(|e| format!("couldn't back up the current file first, so nothing was changed: {e}"))?;
+    let bytes = std::fs::read(from).map_err(|e| trf("couldn't read the backup: {0}", &[&e]))?;
+    take_keeping(save, from).map_err(|e| trf("couldn't back up the current save first: {0}", &[&e]))?;
     write_verified(save, &bytes, true)
 }
 
@@ -427,28 +428,27 @@ pub fn set_aside(save: &Path, name: &str) -> Result<PathBuf, String> {
     let kept = take_named(save, name)?;
     let (a, b) = (std::fs::read(save).map_err(|e| e.to_string())?, std::fs::read(&kept).map_err(|e| e.to_string())?);
     if a != b {
-        return Err("the backup doesn't match the save (did the game write to it just now?); the save was left in place".into());
+        return Err(tr("the backup didn't match the save (the game may have just written to it), so the save was left in place").into());
     }
-    std::fs::remove_file(save).map_err(|e| format!("the backup was made, but the save couldn't be removed: {e}"))?;
+    std::fs::remove_file(save).map_err(|e| trf("the backup was made, but the save couldn't be removed: {0}", &[&e]))?;
     Ok(kept)
 }
 
-/// "3 minutes ago", "yesterday 14:02 UTC"-style label for a version.
+/// "3 minutes ago, 2024-05-01 14:02 UTC"-style label for a version.
 pub fn describe(when: u64) -> String {
     let ago = now().saturating_sub(when);
     let rel = match ago {
-        0..=59 => "just now".to_string(),
-        60..=3599 => plural(ago / 60, "minute"),
-        3600..=86_399 => plural(ago / 3600, "hour"),
-        _ => plural(ago / 86_400, "day"),
+        0..=59 => tr("just now").to_string(),
+        60..=119 => tr("1 minute ago").to_string(),
+        120..=3599 => trf("{0} minutes ago", &[&(ago / 60)]),
+        3600..=7199 => tr("1 hour ago").to_string(),
+        7200..=86_399 => trf("{0} hours ago", &[&(ago / 3600)]),
+        86_400..=172_799 => tr("1 day ago").to_string(),
+        _ => trf("{0} days ago", &[&(ago / 86_400)]),
     };
     let (y, m, d) = civil(when / 86_400);
     let (hh, mm) = ((when % 86_400) / 3600, (when % 3600) / 60);
-    format!("{rel} \u{2014} {y}-{m:02}-{d:02} {hh:02}:{mm:02} UTC")
-}
-
-fn plural(n: u64, unit: &str) -> String {
-    format!("{n} {unit}{} ago", if n == 1 { "" } else { "s" })
+    format!("{rel}, {y}-{m:02}-{d:02} {hh:02}:{mm:02} UTC")
 }
 
 /// Days since 1970-01-01 to (year, month, day) — Howard Hinnant's algorithm.

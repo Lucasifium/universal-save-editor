@@ -1,8 +1,5 @@
 # src/app.rs
 
-The browser version can't open folders — use the desktop app for this.
-= 浏览器版无法打开文件夹，请使用桌面应用。
-
 Closed the file.
 = 已关闭文件。
 
@@ -14,12 +11,6 @@ Opening the file stopped unexpectedly.
 
 All changes reverted.
 = 已还原所有更改。
-
-The Raw JSON has a syntax error — fix it before saving.
-= Raw JSON 存在语法错误，请先修复再保存。
-
-Save aborted: the re-encoded file didn't read back identically. Your file was not changed.
-= 已中止保存：重新编码后的文件读回内容不一致。你的文件未被更改。
 
 Find my game's saves
 = 查找我的游戏存档
@@ -111,17 +102,11 @@ The Raw JSON has a syntax error.
 Save or revert your changes before importing.
 = 导入前请先保存或还原更改。
 
-The imported data doesn't pack back into this kind of save (wrong file, or edited into another format).
-= 导入的数据无法重新打包为此类存档（文件错误，或已被改成其他格式）。
-
 Save or revert your changes before switching to the hex view.
 = 切换到十六进制视图前，请先保存或还原更改。
 
 Showing the decoded data as hex. Saving re-applies the original encoding.
 = 正在以十六进制显示解码后的数据。保存时会重新应用原始编码。
-
-Refine re-reads the file from disk — save or revert your changes first.
-= “筛选”会从磁盘重新读取文件，请先保存或还原更改。
 
 File
 = 文件
@@ -195,23 +180,8 @@ Quick restore
 Automatic backups are taken each time this app saves over the file.
 = 每次本应用覆盖保存文件时，都会自动创建备份。
 
-Put this version back
-= 恢复此版本
-
 Compare
 = 比较
-
-List what differs between this version and the open file
-= 列出此版本与已打开文件的差异
-
-Unname
-= 取消命名
-
-Let this copy be cleared out in time like the others
-= 让此副本和其他副本一样，过一段时间后被自动清理
-
-The original, from before the first save (.bak)
-= 首次保存前的原始文件 (.bak)
 
 Edit
 = 编辑
@@ -321,9 +291,6 @@ Make a saved set of changes on this save
 Compare with another save…
 = 与另一个存档比较…
 
-List every value that differs from another save — handy for finding which value is your gold, HP, etc.
-= 列出与另一个存档不同的所有数值，适合找出哪个数值是金币、HP 等。
-
 Open another file in this archive
 = 打开此压缩包中的其他文件
 
@@ -333,9 +300,6 @@ Copy character to another slot…
 Duplicate an Elden Ring character, e.g. to try something out on the copy
 = 复制一个 Elden Ring 角色，例如在副本上做尝试。
 
-Save or revert your changes first — copying works on the file as it is on disk.
-= 请先保存或还原更改——复制针对的是磁盘上的文件。
-
 Save or revert your changes first.
 = 请先保存或还原更改。
 
@@ -344,9 +308,6 @@ Those two files aren't the same kind of save, so they can't be compared.
 
 Values that differ between this save and the other one. “Use theirs” copies the other save's value into this one.
 = 此存档与另一个存档中不同的数值。“使用对方的”会把另一个存档的数值复制到此存档。
-
-No differences — the saves hold the same values.
-= 没有差异——两个存档的数值相同。
 
 Use theirs
 = 使用对方的
@@ -360,20 +321,8 @@ The save is backed up under this name and then removed, so the game starts a new
 for example: first run
 = 例如：首轮游戏
 
-Back up and start new
-= 备份并新开
-
-Keep a named copy
-= 保留命名副本
-
-A copy of the file as it is on disk now, kept until you remove it.
-= 磁盘上当前文件的副本，在你删除之前一直保留。
-
 for example: before the final boss
 = 例如：最终 Boss 之前
-
-Keep
-= 保留
 
 Save manager
 = 存档管理器
@@ -393,9 +342,6 @@ backup name, e.g. first run
 Back up this save
 = 备份此存档
 
-Saves a named copy of the file as it is on disk now. It is kept until you delete it; the save itself is not changed.
-= 将磁盘上当前文件保存为命名副本。在你删除之前一直保留，存档本身不会改变。
-
 Saves a named backup, then removes the current save file so the game starts a new game. Restore the backup later to go back.
 = 保存一个命名备份，然后删除当前存档文件，让游戏开始新游戏。之后恢复该备份即可回到原来的进度。
 
@@ -404,9 +350,6 @@ For games with a single save: use “Back up and start a new game”, play a new
 
 No backups yet. One is made automatically each time you save, or press “Back up this save”.
 = 还没有备份。每次保存时会自动创建一个，也可以点“备份此存档”。
-
-No
-= 否
 
 Restore this backup
 = 恢复此备份
@@ -575,9 +518,6 @@ List everything you've changed since the last save
 
 No unsaved changes
 = 没有未保存的更改
-
-Something went wrong — see the message at the top.
-= 出错了——请查看顶部的消息。
 
 This game's own screen: its stats, inventory and more, laid out like the game
 = 游戏界面：属性、背包等内容，按游戏原样排布
@@ -813,9 +753,6 @@ Save and close
 Close without saving
 = 不保存并关闭
 
-Don't save
-= 不保存
-
 You have unsaved changes. Save them before closing?
 = 有未保存的更改。关闭前是否保存？
 
@@ -1041,9 +978,6 @@ No presets yet.
 
 Make some changes, then use Save changes as a preset (in the Changes panel or Tools › Presets). Presets shared by others open with Open a preset file.
 = 先做一些更改，然后使用“将更改保存为预设”（在更改面板或 工具 › 预设 中）。他人分享的预设可通过“打开预设文件”打开。
-
-Delete
-= 删除
 
 Delete this preset (saves are not changed)
 = 删除此预设（存档不会改变）
@@ -1276,9 +1210,6 @@ Pasted {0} values of {1} from {2}; {3} aren't in this save and were left out.
 About {0}
 = 关于 {0}
 
-Backups are stored in {0} — {1}.
-= 备份存放在 {0} — {1}。
-
 Base max
 = 基础上限
 
@@ -1329,9 +1260,6 @@ Name
 
 Name for 0x{0}
 = 0x{0} 的名称
-
-Named backups are kept for good; the {0} newest automatic ones are kept.
-= 命名备份会永久保留；自动备份保留最新的 {0} 份。
 
 No heroes in this roster.
 = 此名册中没有英雄。
@@ -1453,9 +1381,6 @@ the folder you chose for backups
 {0} result(s) (capped)
 = {0} 个结果（已达上限）
 
-{0} s — big saves take a moment.
-= {0} 秒 — 大型存档需要一点时间。
-
 {0} save  ·  last saved {1}
 = {0} 个存档  ·  最后保存于 {1}
 
@@ -1482,9 +1407,6 @@ the folder you chose for backups
 
 {0} was moved or deleted after you opened it. Saving puts your version back in its place.
 = {0} 在您打开后被移动或删除。保存会将您的版本放回原处。
-
-{0} was written by something else after you opened it — most likely the game saved, or a cloud sync brought in another copy.
-= {0} 在您打开后被其他程序改写 — 很可能是游戏保存了，或云同步带来了另一个副本。
 
 ‹ All {0} games
 = ‹ 全部 {0} 个游戏
@@ -6398,9 +6320,6 @@ Gambling
 Game clock
 = 游戏时钟
 
-Game data not found — click to locate
-= 未找到游戏数据 — 点击定位
-
 Game item numbers; 0 is an empty slot.
 = 游戏道具编号;0 表示空槽位。
 
@@ -6436,9 +6355,6 @@ GameSpeed
 
 GameStateSaveData.json. The in-game clock the save shows in its slot.
 = GameStateSaveData.json。存档在槽位中显示的游戏内时钟。
-
-Games keep the save in memory and write it back when they autosave or quit, which would undo these \n                         changes. Quit the game completely (not just to the title screen), then save.
-= 游戏会将存档保留在内存中,并在自动存档或退出时写回,这会撤销这些\n                         更改。请完全退出游戏(而不只是返回标题画面),然后再保存。
 
 Gangs
 = 帮派
@@ -10037,9 +9953,6 @@ Shuffle all
 
 Signed save
 = 已签名存档
-
-Signed — will re-sign
-= 已签名——将重新签名
 
 Signs
 = 标牌
@@ -25220,9 +25133,6 @@ Hide this until a newer version comes out.
 This is the newest version.
 = 这已是最新版本。
 
-Couldn't check for a new version (no connection?).
-= 无法检查新版本（没有网络连接？）。
-
 Updates
 = 更新
 
@@ -27031,29 +26941,8 @@ Copied {0} (level {1}) into slot {2}. It shows up on the game's Load Game screen
 Copied {0} changes as text.
 = 已将 {0} 项更改复制为文本。
 
-Couldn't back up the current file: {0}. Your file was not changed.
-= 无法备份当前文件：{0}。你的文件未被更改。
-
 Couldn't back up the file first: {0}. Nothing was changed.
 = 无法先备份文件：{0}。未做任何更改。
-
-Couldn't back up the save: {0}
-= 无法备份存档：{0}
-
-Couldn't build the save file: {0}
-= 无法生成存档文件：{0}
-
-Couldn't change that copy: {0}
-= 无法更改该副本：{0}
-
-Couldn't copy the character: {0}
-= 无法复制角色：{0}
-
-Couldn't create backup {0}: {1}
-= 无法创建备份 {0}：{1}
-
-Couldn't delete it: {0}
-= 无法删除：{0}
 
 Couldn't delete the preset: {0}
 = 无法删除预设：{0}
@@ -27067,9 +26956,6 @@ Couldn't hand over the preset: {0}
 Couldn't hand over {0}: {1}
 = 无法交出 {0}：{1}
 
-Couldn't keep a copy: {0}
-= 无法保留副本：{0}
-
 Couldn't make the template: {0}.
 = 无法创建模板：{0}。
 
@@ -27079,29 +26965,14 @@ Couldn't make the templates folder: {0}
 Couldn't open {0}: {1}
 = 无法打开 {0}：{1}
 
-Couldn't pack the imported data: {0}
-= 无法打包导入的数据：{0}
-
 Couldn't read {0}: {1}
 = 无法读取 {0}：{1}
-
-Couldn't restore backup: {0}
-= 无法恢复备份：{0}
 
 Couldn't save names to {0}: {1}
 = 无法将名称保存到 {0}：{1}
 
 Couldn't save the preset: {0}.
 = 无法保存预设：{0}。
-
-Couldn't start a new game: {0}
-= 无法开始新游戏：{0}
-
-Couldn't write {0}: {1}
-= 无法写入 {0}：{1}
-
-{0}. These files couldn't be put back as they were and may not match each other now: {1}
-= {0}。以下文件无法恢复原样，彼此之间可能已不一致：{1}
 
 Deleted the preset “{0}”.
 = 已删除预设“{0}”。
@@ -27111,9 +26982,6 @@ Enter a number, e.g. 2.5
 
 Enter a whole number, e.g. 1500
 = 请输入整数，例如 1500
-
-Export failed: {0}
-= 导出失败：{0}
 
 Exported 1 name to {0}.
 = 已将 1 个名称导出到 {0}。
@@ -27151,9 +27019,6 @@ Imported {0}. Review the changes, then save.
 Its values are listed by name in Values and Tree
 = 其数值按名称列在“数值”和“树状”中
 
-Kept a copy named “{0}” (Backups › Quick restore).
-= 已保留名为“{0}”的副本（备份 › 快速恢复）。
-
 Left out (text, i8, i64 and f64 can't go in a template): {0}.
 = 已略过（文本、i8、i64 和 f64 不能放入模板）：{0}。
 
@@ -27187,9 +27052,6 @@ Re-read the file: {0} › {1} possible locations.
 Re-signed with your Ren'Py key, so the game will load it normally.
 = 已用你的 Ren'Py 密钥重新签名，游戏会正常读取。
 
-Re-signed with your Ren'Py key. If the game is running, close it without saving first — it rewrites this file on exit.
-= 已用你的 Ren'Py 密钥重新签名。如果游戏正在运行，请先不保存直接关闭它 — 它在退出时会重写此文件。
-
 Read-only: bulk edit leaves it alone
 = 只读：批量编辑不会改动它
 
@@ -27207,9 +27069,6 @@ Reload failed: {0}
 
 Reloaded {0} from disk.
 = 已从磁盘重新载入 {0}。
-
-Restored {0}. The version it replaced is in the backup list too.
-= 已恢复 {0}。被它替换的版本也在备份列表中。
 
 Review them in the Changes panel, then save.
 = 请在“更改”面板中检查后再保存。
@@ -27259,12 +27118,6 @@ Undone.
 Usually in
 = 通常位于
 
-Your Ren'Py key wasn't found, so the old signature was removed — the game will ask once whether to load it; choose Yes.
-= 未找到你的 Ren'Py 密钥，因此移除了旧签名 — 游戏会询问一次是否读取，请选择“是”。
-
-Your browser downloaded it — put it in place of the game's save (keep a copy of the old one).
-= 浏览器已下载它 — 请用它替换游戏的存档（保留一份旧存档的副本）。
-
 advanced
 = 高级
 
@@ -27295,15 +27148,6 @@ none found
 {0} isn't a preset: {1}.
 = {0} 不是预设：{1}。
 
-{0} looks like it's running — quit it first, or it may overwrite the restored file.
-= {0} 似乎正在运行 — 请先退出，否则它可能覆盖恢复的文件。
-
-{0} looks like it's running — quit it first, or it will overwrite the copy.
-= {0} 似乎正在运行 — 请先退出，否则它会覆盖副本。
-
-{0} looks like it's running — quit it first.
-= {0} 似乎正在运行 — 请先退出。
-
 {0} not in this save, left out.
 = {0} 项不在此存档中，已略过。
 
@@ -27333,12 +27177,6 @@ Saving {0}…
 
 Writing {0}…
 = 正在写入 {0}…
-
-Saving stopped unexpectedly. Your changes are still here and not saved — save again.
-= 保存意外中止。你的更改仍然保留，但尚未保存——请再保存一次。
-
-Saved, but changes made while saving aren't in the file yet — save again to keep them.
-= 已保存，但保存期间所做的更改尚未写入文件——请再保存一次以保留它们。
 
 the file is being saved
 = 文件正在保存
@@ -29110,23 +28948,11 @@ user_0.dat … (one per slot) and its backups
 wherever you saved the export (Options > Saving > Export save as file)
 = 你保存导出文件的位置（Options > Saving > Export save as file）
 
-Edit game saves safely — it runs in your browser and nothing is uploaded.
-= 安全地编辑游戏存档 — 在浏览器中运行，不会上传任何内容。
-
-Edit game saves safely — everything stays on this device.
-= 安全地编辑游戏存档 — 一切都保留在此设备上。
-
-Edit game saves safely — everything stays on this computer.
-= 安全地编辑游戏存档 — 一切都保留在这台电脑上。
-
 Open a file…
 = 打开文件…
 
 (file no longer exists)
 = （文件已不存在）
-
-The browser can't look through your folders, so pick the file yourself. On Windows most games keep saves in Documents\\My Games, %APPDATA%, %LOCALAPPDATA% or Steam\\userdata — type one of these into the file picker's address bar to jump there.
-= 浏览器无法查看你的文件夹，请自行选择文件。在 Windows 上，大多数游戏把存档放在 Documents\My Games、%APPDATA%、%LOCALAPPDATA% 或 Steam\userdata 中 — 在文件选择器的地址栏中输入其中之一即可跳转过去。
 
 Common places emulators and games keep save files:
 = 模拟器和游戏常用的存档位置：
@@ -29200,6 +29026,471 @@ Detected format: {0}
 {0} is running
 = {0} 正在运行
 
-Ren'Py 8.1+ signs its saves, but your Ren'Py key (%APPDATA%\\RenPy\\tokens) wasn't found. The old signature will be removed; the game will ask once whether to load the save — choose Yes.
-= Ren'Py 8.1+ 会为存档签名，但未找到你的 Ren'Py 密钥（%APPDATA%\RenPy\tokens）。旧签名将被移除；游戏会询问一次是否加载该存档 — 请选择“是”。
 
+(missing)
+= （缺失）
+
+1 day ago
+= 1 天前
+
+1 hour ago
+= 1 小时前
+
+1 minute ago
+= 1 分钟前
+
+Apply 1 code
+= 应用 1 个代码
+
+Apply {0} codes
+= 应用 {0} 个代码
+
+Automatic backups (made each time you save; newest {0} kept)
+= 自动备份（每次保存时创建；保留最新的 {0} 份）
+
+Back up
+= 备份
+
+Backs up the save as it is on disk now, without unsaved changes. The backup is kept until you delete it.
+= 按磁盘上当前的状态备份存档，不包括未保存的更改。备份会一直保留，直到你删除。
+
+Backups are stored in {0} ({1}).
+= 备份存放在 {0}（{1}）。
+
+Can't open this folder: {0}
+= 无法打开此文件夹：{0}
+
+Change it
+= 修改
+
+Close the dialog on top
+= 关闭最上层的对话框
+
+Compare with which save?
+= 与哪个存档比较？
+
+Compare with {0}
+= 与 {0} 比较
+
+Confirm a typed value
+= 确认输入的数值
+
+Couldn't change that backup: {0}
+= 无法更改该备份：{0}
+
+Couldn't check for a new version. Check your internet connection and try again.
+= 无法检查新版本。请检查网络连接后重试。
+
+Couldn't copy the character: {0}. The save wasn't changed.
+= 无法复制角色：{0}。存档未被更改。
+
+Couldn't delete the backup: {0}. It is still in the list.
+= 无法删除备份：{0}。它仍在列表中。
+
+Couldn't export: {0}
+= 无法导出：{0}
+
+Couldn't import: the data couldn't be packed into this save ({0}). Nothing was changed.
+= 无法导入：数据无法打包进此存档（{0}）。未更改任何内容。
+
+Couldn't import: the data doesn't fit this kind of save (wrong file, or saved in another format). Nothing was changed.
+= 无法导入：数据与此类存档不匹配（文件不对，或以其他格式保存）。未更改任何内容。
+
+Couldn't make the backup: {0}. The save wasn't changed.
+= 无法创建备份：{0}。存档未被更改。
+
+Couldn't restore the backup. {0}
+= 无法恢复备份。{0}
+
+Couldn't restore the backup: {0}. The save on disk wasn't changed.
+= 无法恢复备份：{0}。磁盘上的存档未被更改。
+
+Couldn't save: the backup {0} couldn't be made ({1}). The save on disk wasn't changed.
+= 无法保存：无法创建备份 {0}（{1}）。磁盘上的存档未被更改。
+
+Couldn't save: the current save couldn't be backed up first ({0}). The save on disk wasn't changed.
+= 无法保存：未能先备份当前存档（{0}）。磁盘上的存档未被更改。
+
+Couldn't save: the new file couldn't be built ({0}). The save on disk wasn't changed.
+= 无法保存：无法生成新文件（{0}）。磁盘上的存档未被更改。
+
+Couldn't save: the new file didn't read back exactly as edited, so nothing was written. The save on disk wasn't changed. Please report this with Help › Report a problem.
+= 无法保存：新文件读回的内容与编辑结果不一致，因此没有写入任何内容。磁盘上的存档未被更改。请通过 帮助 › 报告问题 反馈此情况。
+
+Couldn't save: {0} couldn't be read first ({1}). The save on disk wasn't changed.
+= 无法保存：未能先读取 {0}（{1}）。磁盘上的存档未被更改。
+
+Couldn't start a new game: {0}. The save is still in place.
+= 无法开始新游戏：{0}。存档仍在原处。
+
+Couldn't write {0}, a file the game checks against the save ({1}). The save and its files were put back as they were, so nothing changed.
+= 无法写入 {0}，这是游戏用来核对存档的文件（{1}）。存档及其相关文件已恢复原样，没有任何更改。
+
+Couldn't write {0}, a file the game checks against the save ({1}). These files couldn't be put back as they were and may not match each other now: {2}. Their earlier versions are in the backups folder.
+= 无法写入 {0}，这是游戏用来核对存档的文件（{1}）。以下文件无法恢复原样，现在可能彼此不匹配：{2}。它们之前的版本在备份文件夹中。
+
+Couldn't write {0}: {1}. The file on disk wasn't changed.
+= 无法写入 {0}：{1}。磁盘上的文件未被更改。
+
+Delete permanently
+= 永久删除
+
+Delete preset
+= 删除预设
+
+Documents
+= 文档
+
+Downloads
+= 下载
+
+Edit game saves safely. Everything stays on this computer.
+= 安全地编辑游戏存档。一切都留在此电脑上。
+
+Edit game saves safely. Everything stays on this device.
+= 安全地编辑游戏存档。一切都留在此设备上。
+
+Edit game saves safely. It runs in your browser and nothing is uploaded.
+= 安全地编辑游戏存档。在浏览器中运行，不会上传任何内容。
+
+Every location is in play. Make the value go up or down in the game, save, then pick Increased or Decreased and press Refine.
+= 所有位置都还是候选。在游戏中让数值增加或减少并保存，然后选择“增加”或“减少”并点击“筛选”。
+
+Export decoded data as
+= 将解码数据导出为
+
+Export the names to
+= 将名称导出到
+
+Find a value by name (Values tab)
+= 按名称查找数值（“数值”标签页）
+
+Game data folder not found. Use Tools › Locate game data folder to see variable and item names.
+= 未找到游戏数据文件夹。使用 工具 › 定位游戏数据文件夹 即可看到变量和物品名称。
+
+Game data not found. Click to locate it.
+= 未找到游戏数据。点击以定位。
+
+Games keep the save in memory and write it back when they autosave or quit, which would undo these changes. Quit the game completely (not just to the title screen), then save.
+= 游戏会把存档保存在内存中，并在自动保存或退出时写回，这会撤销这些更改。请完全退出游戏（不只是回到标题画面），然后再保存。
+
+Games whose saves are found will appear here.
+= 找到存档的游戏会显示在这里。
+
+Home folder
+= 主文件夹
+
+Import names from which file?
+= 从哪个文件导入名称？
+
+Import which edited data?
+= 导入哪个编辑过的数据？
+
+In the game, look at a number you want to change (gold, ammo, a stat) and save. Type it in Value search below and press Search.
+= 在游戏中记下想修改的数字（金钱、弹药、某项属性），然后保存。在下方的数值搜索中输入它并点击“搜索”。
+
+Invalid value for {0}: {1}
+= {0} 的数值无效：{1}
+
+Invalid value: {0}
+= 数值无效：{0}
+
+Keep backups in which folder?
+= 将备份保存在哪个文件夹？
+
+List every value that differs from another save. Handy for finding which value is your gold or HP.
+= 列出与另一个存档不同的每个数值。便于找出哪个数值是你的金钱或生命值。
+
+Made on a {0} save; this one is a {1} save. Only the values found here are changed.
+= 该预设基于 {0} 存档制作；当前是 {1} 存档。只会更改在此找到的数值。
+
+Name it
+= 命名
+
+Named backups (kept until you delete them)
+= 命名备份（保留到你删除为止）
+
+Named backups are kept until you delete them. Only the {0} newest automatic ones are kept.
+= 命名备份会一直保留，直到你删除。自动备份只保留最新的 {0} 份。
+
+Narrow it down
+= 缩小范围
+
+No differences. The saves hold the same values.
+= 没有差异。两个存档的数值相同。
+
+No saves of the games in the list were found in their usual places. Use Open a file… to pick a save yourself.
+= 在常用位置没有找到列表中游戏的存档。请使用“打开文件…”自行选择存档。
+
+Not saved: the Raw JSON text has an error. Fix it on the Raw JSON tab, then save.
+= 未保存：Raw JSON 文本有错误。请在 Raw JSON 标签页中修正后再保存。
+
+Open backups folder
+= 打开备份文件夹
+
+Open containing folder
+= 打开所在文件夹
+
+Open which patch file (.savepatch)?
+= 打开哪个补丁文件 (.savepatch)？
+
+Open which preset?
+= 打开哪个预设？
+
+Open without saving
+= 不保存直接打开
+
+Phone storage
+= 手机存储
+
+Pick a different slot to copy into.
+= 请选择另一个目标槽位。
+
+Re-signed with your Ren'Py key. If the game is running, quit it without saving first, because it rewrites this file when it quits.
+= 已用你的 Ren'Py 密钥重新签名。如果游戏正在运行，请先不保存退出游戏，因为它退出时会重写此文件。
+
+Refine re-reads the file from disk. Save or revert your changes first.
+= 筛选会从磁盘重新读取文件。请先保存或还原你的更改。
+
+Reload
+= 重新加载
+
+Reload and drop my changes
+= 重新加载并放弃我的更改
+
+Ren'Py 8.1+ signs its saves, but your Ren'Py key (%APPDATA%\\RenPy\\tokens) wasn't found. The old signature will be removed, and the game will ask once whether to load the save: choose Yes.
+= Ren'Py 8.1+ 会为存档签名，但未找到你的 Ren'Py 密钥（%APPDATA%\RenPy\tokens）。旧签名将被移除，游戏会询问一次是否读取此存档：请选择“是”。
+
+Reset the zoom
+= 重置缩放
+
+Restore and drop unsaved changes
+= 恢复并放弃未保存的更改
+
+Restore now
+= 立即恢复
+
+Restored {0}. The save it replaced was backed up too, so you can switch back.
+= 已恢复 {0}。被替换的存档也已备份，可以随时换回。
+
+SD card ({0})
+= SD 卡（{0}）
+
+Save (shows what changed first)
+= 保存（先显示更改内容）
+
+Save a copy as
+= 另存副本为
+
+Save and open
+= 保存并打开
+
+Save here
+= 保存到此处
+
+Save or revert your changes first. Copying works on the file as it is on disk.
+= 请先保存或还原你的更改。复制操作基于磁盘上的文件。
+
+Saved, but changes made while saving aren't in the file yet. Save again to keep them.
+= 已保存，但保存期间所做的更改尚未写入文件。请再次保存以保留这些更改。
+
+Saving stopped unexpectedly. Your changes are still here but not saved. Save again.
+= 保存意外中断。你的更改仍然保留，但尚未保存。请再次保存。
+
+Search
+= 搜索
+
+Select the game's data folder (it contains System.json)
+= 选择游戏的数据文件夹（其中包含 System.json）
+
+Set {0} to {1}
+= 已将 {0} 设为 {1}
+
+Show backups in Explorer
+= 在资源管理器中显示备份
+
+Show backups in Finder
+= 在访达中显示备份
+
+Show file in Explorer
+= 在资源管理器中显示文件
+
+Show file in Finder
+= 在访达中显示文件
+
+Show the step-by-step guide
+= 显示分步指南
+
+Signed, will be re-signed
+= 已签名，将重新签名
+
+Slot {0}: empty
+= 槽位 {0}：空
+
+Slot {0}: {1} (level {2})
+= 槽位 {0}：{1}（等级 {2}）
+
+Start over
+= 重新开始
+
+That didn't work. The message at the top says why.
+= 操作未成功。顶部的消息说明了原因。
+
+That offset is outside the file
+= 该偏移超出了文件范围
+
+That value runs past the end of the file
+= 该数值超出了文件末尾
+
+The browser can't look through your folders, so pick the file yourself. On Windows most games keep saves in Documents\\My Games, %APPDATA%, %LOCALAPPDATA% or Steam\\userdata. Type one of these into the file picker's address bar to jump there.
+= 浏览器无法浏览你的文件夹，请自行选择文件。在 Windows 上，大多数游戏把存档放在 Documents\My Games、%APPDATA%、%LOCALAPPDATA% 或 Steam\userdata 中。在文件选择器的地址栏输入其中之一即可跳转。
+
+The browser version can't open folders. Use the desktop app for this.
+= 浏览器版本无法打开文件夹。请使用桌面版应用。
+
+The original save, from before this app first saved over it (.bak)
+= 本程序首次覆盖保存之前的原始存档 (.bak)
+
+The save on disk now is backed up first. Backups › Quick restore brings it back.
+= 磁盘上现有的存档会先被备份。可通过 备份 › 快速恢复 找回。
+
+The text was edited
+= 文本已被编辑
+
+These checksums hold for the file:
+= 这些校验和与文件相符：
+
+This checksum holds for the file:
+= 此校验和与文件相符：
+
+This replaces {0} (level {1}) in slot {2}.
+= 这会替换槽位 {2} 中的 {0}（等级 {1}）。
+
+Type the new number next to its name and press Set, then save with Ctrl+S. Load the save in the game to check.
+= 在名称旁输入新数字并点击“设置”，然后按 Ctrl+S 保存。在游戏中读取存档进行确认。
+
+Use this folder
+= 使用此文件夹
+
+Wrote {0} byte(s) at 0x{1}
+= 已在 0x{1} 处写入 {0} 字节
+
+Your Ren'Py key wasn't found, so the old signature was removed. The game asks once whether to load the save: choose Yes.
+= 未找到你的 Ren'Py 密钥，因此已移除旧签名。游戏会询问一次是否读取此存档：请选择“是”。
+
+Your browser downloaded the edited file. Keep a copy of the old save, then put this one in its place.
+= 浏览器已下载编辑后的文件。请先保留旧存档的副本，再用此文件替换它。
+
+Your browser downloads the edited file. Keep a copy of the original before you replace it.
+= 浏览器会下载编辑后的文件。替换之前请保留原文件的副本。
+
+Zoom in / out
+= 放大 / 缩小
+
+couldn't back up the current save first: {0}
+= 未能先备份当前存档：{0}
+
+couldn't read the backup: {0}
+= 无法读取备份：{0}
+
+couldn't read {0}: {1}
+= 无法读取 {0}：{1}
+
+just now
+= 刚刚
+
+no folder on this device can hold backups
+= 此设备上没有可存放备份的文件夹
+
+the backup didn't match the save (the game may have just written to it), so the save was left in place
+= 备份与存档不一致（游戏可能刚刚写入过），因此存档保留在原处
+
+the backup from {0}
+= {0} 的备份
+
+the backup was made, but the save couldn't be removed: {0}
+= 备份已创建，但无法移除存档：{0}
+
+the exact size ({0})
+= 确切大小（{0}）
+
+the file extension (.{0})
+= 文件扩展名（.{0}）
+
+the first bytes ({0})
+= 开头的字节（{0}）
+
+the original save
+= 原始存档
+
+the written file read back differently from what was written
+= 写入的文件读回后与写入内容不一致
+
+type a name for the backup
+= 请为备份输入名称
+
+{0}  (now the same)
+= {0}  （现已相同）
+
+{0}  (open)
+= {0}  （已打开）
+
+{0} already exists
+= {0} 已存在
+
+{0} changed on disk (the game or a cloud sync may have saved).
+= {0} 已在磁盘上被更改（可能是游戏或云同步进行了保存）。
+
+{0} changed on disk (the game or a cloud sync may have saved). Saving will ask before writing over it.
+= {0} 已在磁盘上被更改（可能是游戏或云同步进行了保存）。保存时会先询问再覆盖。
+
+{0} changed on disk after you opened it. Most likely the game saved, or a cloud sync brought in another copy.
+= {0} 在你打开后已在磁盘上被更改。很可能是游戏进行了保存，或云同步带来了另一份副本。
+
+{0} days ago
+= {0} 天前
+
+{0} doesn't exist
+= {0} 不存在
+
+{0} hours ago
+= {0} 小时前
+
+{0} is already there and couldn't be backed up first ({1}), so it wasn't replaced.
+= {0} 已存在且未能先备份（{1}），因此没有替换它。
+
+{0} left. Click one to select it, then type a name under Named values and press Add; the name is remembered for this file. To narrow them further, change the number in the game again and Refine.
+= 剩余 {0} 个。点击其中一个将其选中，然后在“已命名的数值”下输入名称并点击“添加”；该名称会为此文件记住。要进一步缩小范围，请在游戏中再次改变数字并筛选。
+
+{0} looks like it's running.
+= {0} 似乎正在运行。
+
+{0} looks like it's running. Quit it first, or it may overwrite the restored save. Nothing was restored.
+= {0} 似乎正在运行。请先退出，否则它可能覆盖恢复的存档。未恢复任何内容。
+
+{0} looks like it's running. Quit it first, or it will overwrite the copied character. Nothing was copied.
+= {0} 似乎正在运行。请先退出，否则它会覆盖复制的角色。未复制任何内容。
+
+{0} looks like it's running. Quit it first, then try again. The save wasn't changed.
+= {0} 似乎正在运行。请先退出再重试。存档未被更改。
+
+{0} minutes ago
+= {0} 分钟前
+
+{0} other files (routes, tutorials, run info) are in the pack too: Tools › Open another file in this archive.
+= 包中还有 {0} 个其他文件（路线、教程、流程信息）：工具 › 打开此压缩包中的其他文件。
+
+{0} places hold that number. Change it in the game (spend or earn some), save, type the new number and press Refine. Repeat until a few are left.
+= 有 {0} 个位置存有这个数字。在游戏中改变它（花掉或赚取一些），保存后输入新数字并点击“筛选”。重复直到只剩几个。
+
+{0} s. Big saves take a moment.
+= {0} 秒。较大的存档需要一点时间。
+
+{0} was moved or deleted since it was opened.
+= {0} 在打开后被移动或删除了。
+
+{0}: 1 byte changed
+= {0}：已更改 1 字节
+
+{0}: {1} bytes changed
+= {0}：已更改 {1} 字节

@@ -1,8 +1,5 @@
 # src/app.rs
 
-The browser version can't open folders — use the desktop app for this.
-= A versão para navegador não abre pastas — use o app para desktop.
-
 Closed the file.
 = Arquivo fechado.
 
@@ -14,12 +11,6 @@ Opening the file stopped unexpectedly.
 
 All changes reverted.
 = Todas as alterações revertidas.
-
-The Raw JSON has a syntax error — fix it before saving.
-= O Raw JSON tem um erro de sintaxe — corrija antes de salvar.
-
-Save aborted: the re-encoded file didn't read back identically. Your file was not changed.
-= Salvamento cancelado: o arquivo recodificado não foi lido de volta de forma idêntica. Seu arquivo não foi alterado.
 
 Find my game's saves
 = Encontrar os saves do meu jogo
@@ -111,17 +102,11 @@ The Raw JSON has a syntax error.
 Save or revert your changes before importing.
 = Salve ou reverta as alterações antes de importar.
 
-The imported data doesn't pack back into this kind of save (wrong file, or edited into another format).
-= Os dados importados não podem ser reempacotados neste tipo de save (arquivo errado ou editado para outro formato).
-
 Save or revert your changes before switching to the hex view.
 = Salve ou reverta as alterações antes de mudar para a visualização hexadecimal.
 
 Showing the decoded data as hex. Saving re-applies the original encoding.
 = Exibindo os dados decodificados em hexadecimal. Ao salvar, a codificação original é reaplicada.
-
-Refine re-reads the file from disk — save or revert your changes first.
-= Refinar lê o arquivo do disco novamente — salve ou reverta as alterações antes.
 
 File
 = Arquivo
@@ -195,23 +180,8 @@ Quick restore
 Automatic backups are taken each time this app saves over the file.
 = Os backups automáticos são feitos sempre que este app salva sobre o arquivo.
 
-Put this version back
-= Restaurar esta versão
-
 Compare
 = Comparar
-
-List what differs between this version and the open file
-= Lista o que difere entre esta versão e o arquivo aberto
-
-Unname
-= Remover nome
-
-Let this copy be cleared out in time like the others
-= Deixa este backup ser limpo com o tempo como os outros
-
-The original, from before the first save (.bak)
-= O original, de antes do primeiro salvamento (.bak)
 
 Edit
 = Editar
@@ -321,9 +291,6 @@ Make a saved set of changes on this save
 Compare with another save…
 = Comparar com outro save…
 
-List every value that differs from another save — handy for finding which value is your gold, HP, etc.
-= Lista todo valor que difere de outro save — útil para achar qual valor é seu ouro, HP etc.
-
 Open another file in this archive
 = Abrir outro arquivo deste pacote
 
@@ -333,9 +300,6 @@ Copy character to another slot…
 Duplicate an Elden Ring character, e.g. to try something out on the copy
 = Duplica um personagem de Elden Ring, p. ex. para testar algo na cópia
 
-Save or revert your changes first — copying works on the file as it is on disk.
-= Salve ou reverta as alterações antes — a cópia usa o arquivo como está no disco.
-
 Save or revert your changes first.
 = Salve ou reverta as alterações antes.
 
@@ -344,9 +308,6 @@ Those two files aren't the same kind of save, so they can't be compared.
 
 Values that differ between this save and the other one. “Use theirs” copies the other save's value into this one.
 = Valores que diferem entre este save e o outro. “Usar o outro” copia o valor do outro save para este.
-
-No differences — the saves hold the same values.
-= Sem diferenças — os saves têm os mesmos valores.
 
 Use theirs
 = Usar o outro
@@ -360,20 +321,8 @@ The save is backed up under this name and then removed, so the game starts a new
 for example: first run
 = por exemplo: primeira jogatina
 
-Back up and start new
-= Backup e iniciar novo
-
-Keep a named copy
-= Manter um backup nomeado
-
-A copy of the file as it is on disk now, kept until you remove it.
-= Uma cópia do arquivo como está no disco agora, mantida até você removê-la.
-
 for example: before the final boss
 = por exemplo: antes do chefe final
-
-Keep
-= Manter
 
 Save manager
 = Gerenciador de saves
@@ -393,9 +342,6 @@ backup name, e.g. first run
 Back up this save
 = Fazer backup deste save
 
-Saves a named copy of the file as it is on disk now. It is kept until you delete it; the save itself is not changed.
-= Salva uma cópia nomeada do arquivo como está no disco agora. Ela é mantida até você excluí-la; o save em si não é alterado.
-
 Saves a named backup, then removes the current save file so the game starts a new game. Restore the backup later to go back.
 = Salva um backup nomeado e depois remove o arquivo de save atual para o jogo começar um novo jogo. Restaure o backup depois para voltar.
 
@@ -404,9 +350,6 @@ For games with a single save: use “Back up and start a new game”, play a new
 
 No backups yet. One is made automatically each time you save, or press “Back up this save”.
 = Ainda não há backups. Um é feito automaticamente a cada salvamento, ou clique em “Fazer backup deste save”.
-
-No
-= Não
 
 Restore this backup
 = Restaurar este backup
@@ -575,9 +518,6 @@ List everything you've changed since the last save
 
 No unsaved changes
 = Sem alterações não salvas
-
-Something went wrong — see the message at the top.
-= Algo deu errado — veja a mensagem no topo.
 
 This game's own screen: its stats, inventory and more, laid out like the game
 = A tela do próprio jogo: status, inventário e mais, organizados como no jogo
@@ -813,9 +753,6 @@ Save and close
 Close without saving
 = Fechar sem salvar
 
-Don't save
-= Não salvar
-
 You have unsaved changes. Save them before closing?
 = Você tem alterações não salvas. Salvá-las antes de fechar?
 
@@ -1041,9 +978,6 @@ No presets yet.
 
 Make some changes, then use Save changes as a preset (in the Changes panel or Tools › Presets). Presets shared by others open with Open a preset file.
 = Faça algumas alterações e use Salvar alterações como predefinição (no painel Alterações ou em Ferramentas › Predefinições). Predefinições compartilhadas por outras pessoas abrem com Abrir um arquivo de predefinição.
-
-Delete
-= Excluir
 
 Delete this preset (saves are not changed)
 = Excluir esta predefinição (os saves não mudam)
@@ -1276,9 +1210,6 @@ Pasted {0} values of {1} from {2}; {3} aren't in this save and were left out.
 About {0}
 = Sobre {0}
 
-Backups are stored in {0} — {1}.
-= Os backups ficam em {0} — {1}.
-
 Base max
 = Máx. base
 
@@ -1329,9 +1260,6 @@ Name
 
 Name for 0x{0}
 = Nome para 0x{0}
-
-Named backups are kept for good; the {0} newest automatic ones are kept.
-= Backups com nome são mantidos para sempre; dos automáticos, os {0} mais recentes são mantidos.
 
 No heroes in this roster.
 = Nenhum herói nesta lista.
@@ -1453,9 +1381,6 @@ the folder you chose for backups
 {0} result(s) (capped)
 = {0} resultado(s) (limitado)
 
-{0} s — big saves take a moment.
-= {0} s — saves grandes levam um momento.
-
 {0} save  ·  last saved {1}
 = {0} save  ·  salvo por último {1}
 
@@ -1482,9 +1407,6 @@ the folder you chose for backups
 
 {0} was moved or deleted after you opened it. Saving puts your version back in its place.
 = {0} foi movido ou excluído depois que você o abriu. Ao salvar, sua versão volta ao lugar.
-
-{0} was written by something else after you opened it — most likely the game saved, or a cloud sync brought in another copy.
-= {0} foi gravado por outra coisa depois que você o abriu — provavelmente o jogo salvou, ou uma sincronização na nuvem trouxe outra cópia.
 
 ‹ All {0} games
 = ‹ Todos os {0} jogos
@@ -6370,9 +6292,6 @@ Gambling
 Game clock
 = Relógio do jogo
 
-Game data not found — click to locate
-= Dados do jogo não encontrados — clique para localizar
-
 Game item numbers; 0 is an empty slot.
 = Números de itens do jogo; 0 é um slot vazio.
 
@@ -6408,9 +6327,6 @@ GameSpeed
 
 GameStateSaveData.json. The in-game clock the save shows in its slot.
 = GameStateSaveData.json. O relógio do jogo que o save mostra no seu slot.
-
-Games keep the save in memory and write it back when they autosave or quit, which would undo these \n                         changes. Quit the game completely (not just to the title screen), then save.
-= Os jogos mantêm o save na memória e o gravam de volta ao salvar automaticamente ou ao sair, o que desfaria estas \n                         alterações. Saia do jogo completamente (não apenas para a tela de título) e depois salve.
 
 Gangs
 = Gangues
@@ -10057,9 +9973,6 @@ Shuffle all
 
 Signed save
 = Save assinado
-
-Signed — will re-sign
-= Assinado — será assinado de novo
 
 Signs
 = Placas
@@ -25136,9 +25049,6 @@ Hide this until a newer version comes out.
 This is the newest version.
 = Esta é a versão mais recente.
 
-Couldn't check for a new version (no connection?).
-= Não foi possível verificar se há uma nova versão (sem conexão?).
-
 Updates
 = Atualizações
 
@@ -26947,29 +26857,8 @@ Copied {0} (level {1}) into slot {2}. It shows up on the game's Load Game screen
 Copied {0} changes as text.
 = {0} alterações copiadas como texto.
 
-Couldn't back up the current file: {0}. Your file was not changed.
-= Não foi possível fazer backup do arquivo atual: {0}. Seu arquivo não foi alterado.
-
 Couldn't back up the file first: {0}. Nothing was changed.
 = Não foi possível fazer backup do arquivo antes: {0}. Nada foi alterado.
-
-Couldn't back up the save: {0}
-= Não foi possível fazer backup do save: {0}
-
-Couldn't build the save file: {0}
-= Não foi possível montar o arquivo do save: {0}
-
-Couldn't change that copy: {0}
-= Não foi possível alterar essa cópia: {0}
-
-Couldn't copy the character: {0}
-= Não foi possível copiar o personagem: {0}
-
-Couldn't create backup {0}: {1}
-= Não foi possível criar o backup {0}: {1}
-
-Couldn't delete it: {0}
-= Não foi possível excluir: {0}
 
 Couldn't delete the preset: {0}
 = Não foi possível excluir a predefinição: {0}
@@ -26983,9 +26872,6 @@ Couldn't hand over the preset: {0}
 Couldn't hand over {0}: {1}
 = Não foi possível entregar {0}: {1}
 
-Couldn't keep a copy: {0}
-= Não foi possível guardar uma cópia: {0}
-
 Couldn't make the template: {0}.
 = Não foi possível criar o modelo: {0}.
 
@@ -26995,29 +26881,14 @@ Couldn't make the templates folder: {0}
 Couldn't open {0}: {1}
 = Não foi possível abrir {0}: {1}
 
-Couldn't pack the imported data: {0}
-= Não foi possível empacotar os dados importados: {0}
-
 Couldn't read {0}: {1}
 = Não foi possível ler {0}: {1}
-
-Couldn't restore backup: {0}
-= Não foi possível restaurar o backup: {0}
 
 Couldn't save names to {0}: {1}
 = Não foi possível salvar os nomes em {0}: {1}
 
 Couldn't save the preset: {0}.
 = Não foi possível salvar a predefinição: {0}.
-
-Couldn't start a new game: {0}
-= Não foi possível começar um novo jogo: {0}
-
-Couldn't write {0}: {1}
-= Não foi possível gravar {0}: {1}
-
-{0}. These files couldn't be put back as they were and may not match each other now: {1}
-= {0}. Estes arquivos não puderam voltar a ser como eram e talvez não correspondam mais entre si: {1}
 
 Deleted the preset “{0}”.
 = Predefinição “{0}” excluída.
@@ -27027,9 +26898,6 @@ Enter a number, e.g. 2.5
 
 Enter a whole number, e.g. 1500
 = Digite um número inteiro, p. ex. 1500
-
-Export failed: {0}
-= Falha ao exportar: {0}
 
 Exported 1 name to {0}.
 = 1 nome exportado para {0}.
@@ -27067,9 +26935,6 @@ Imported {0}. Review the changes, then save.
 Its values are listed by name in Values and Tree
 = Seus valores aparecem pelo nome em Valores e Árvore
 
-Kept a copy named “{0}” (Backups › Quick restore).
-= Cópia guardada com o nome “{0}” (Backups › Restauração rápida).
-
 Left out (text, i8, i64 and f64 can't go in a template): {0}.
 = Deixados de fora (texto, i8, i64 e f64 não podem ir em um modelo): {0}.
 
@@ -27103,9 +26968,6 @@ Re-read the file: {0} › {1} possible locations.
 Re-signed with your Ren'Py key, so the game will load it normally.
 = Assinado novamente com a sua chave do Ren'Py, então o jogo vai carregá-lo normalmente.
 
-Re-signed with your Ren'Py key. If the game is running, close it without saving first — it rewrites this file on exit.
-= Assinado novamente com a sua chave do Ren'Py. Se o jogo estiver aberto, feche-o antes sem salvar — ele regrava este arquivo ao sair.
-
 Read-only: bulk edit leaves it alone
 = Somente leitura: a edição em lote não mexe nele
 
@@ -27123,9 +26985,6 @@ Reload failed: {0}
 
 Reloaded {0} from disk.
 = {0} recarregado do disco.
-
-Restored {0}. The version it replaced is in the backup list too.
-= {0} restaurado. A versão substituída também está na lista de backups.
 
 Review them in the Changes panel, then save.
 = Revise-as no painel Alterações e depois salve.
@@ -27175,12 +27034,6 @@ Undone.
 Usually in
 = Normalmente em
 
-Your Ren'Py key wasn't found, so the old signature was removed — the game will ask once whether to load it; choose Yes.
-= Sua chave do Ren'Py não foi encontrada, então a assinatura antiga foi removida — o jogo vai perguntar uma vez se deve carregá-lo; escolha Sim.
-
-Your browser downloaded it — put it in place of the game's save (keep a copy of the old one).
-= Seu navegador fez o download — coloque-o no lugar do save do jogo (guarde uma cópia do antigo).
-
 advanced
 = avançado
 
@@ -27211,15 +27064,6 @@ none found
 {0} isn't a preset: {1}.
 = {0} não é uma predefinição: {1}.
 
-{0} looks like it's running — quit it first, or it may overwrite the restored file.
-= Parece que {0} está aberto — feche-o antes, ou ele pode sobrescrever o arquivo restaurado.
-
-{0} looks like it's running — quit it first, or it will overwrite the copy.
-= Parece que {0} está aberto — feche-o antes, ou ele vai sobrescrever a cópia.
-
-{0} looks like it's running — quit it first.
-= Parece que {0} está aberto — feche-o antes.
-
 {0} not in this save, left out.
 = {0} não estão neste save e ficaram de fora.
 
@@ -27249,12 +27093,6 @@ Saving {0}…
 
 Writing {0}…
 = Gravando {0}…
-
-Saving stopped unexpectedly. Your changes are still here and not saved — save again.
-= O salvamento foi interrompido inesperadamente. Suas alterações continuam aqui e não foram salvas — salve novamente.
-
-Saved, but changes made while saving aren't in the file yet — save again to keep them.
-= Salvo, mas as alterações feitas durante o salvamento ainda não estão no arquivo — salve novamente para mantê-las.
 
 the file is being saved
 = o arquivo está sendo salvo
@@ -29026,23 +28864,11 @@ user_0.dat … (one per slot) and its backups
 wherever you saved the export (Options > Saving > Export save as file)
 = onde você salvou a exportação (Options > Saving > Export save as file)
 
-Edit game saves safely — it runs in your browser and nothing is uploaded.
-= Edite saves com segurança — funciona no seu navegador e nada é enviado.
-
-Edit game saves safely — everything stays on this device.
-= Edite saves com segurança — tudo fica neste dispositivo.
-
-Edit game saves safely — everything stays on this computer.
-= Edite saves com segurança — tudo fica neste computador.
-
 Open a file…
 = Abrir um arquivo…
 
 (file no longer exists)
 = (o arquivo não existe mais)
-
-The browser can't look through your folders, so pick the file yourself. On Windows most games keep saves in Documents\\My Games, %APPDATA%, %LOCALAPPDATA% or Steam\\userdata — type one of these into the file picker's address bar to jump there.
-= O navegador não pode vasculhar suas pastas, então escolha o arquivo você mesmo. No Windows a maioria dos jogos guarda os saves em Documents\My Games, %APPDATA%, %LOCALAPPDATA% ou Steam\userdata — digite um deles na barra de endereço do seletor de arquivos para ir até lá.
 
 Common places emulators and games keep save files:
 = Lugares comuns onde emuladores e jogos guardam saves:
@@ -29116,6 +28942,471 @@ Detected format: {0}
 {0} is running
 = {0} está em execução
 
-Ren'Py 8.1+ signs its saves, but your Ren'Py key (%APPDATA%\\RenPy\\tokens) wasn't found. The old signature will be removed; the game will ask once whether to load the save — choose Yes.
-= O Ren'Py 8.1+ assina os saves, mas sua chave do Ren'Py (%APPDATA%\RenPy\tokens) não foi encontrada. A assinatura antiga será removida; o jogo perguntará uma vez se deve carregar o save — escolha Sim.
 
+(missing)
+= (ausente)
+
+1 day ago
+= há 1 dia
+
+1 hour ago
+= há 1 hora
+
+1 minute ago
+= há 1 minuto
+
+Apply 1 code
+= Aplicar 1 código
+
+Apply {0} codes
+= Aplicar {0} códigos
+
+Automatic backups (made each time you save; newest {0} kept)
+= Backups automáticos (feitos a cada salvamento; os {0} mais recentes são mantidos)
+
+Back up
+= Fazer backup
+
+Backs up the save as it is on disk now, without unsaved changes. The backup is kept until you delete it.
+= Faz backup do save como ele está no disco agora, sem as alterações não salvas. O backup fica guardado até você excluí-lo.
+
+Backups are stored in {0} ({1}).
+= Os backups ficam em {0} ({1}).
+
+Can't open this folder: {0}
+= Não é possível abrir esta pasta: {0}
+
+Change it
+= Alterar
+
+Close the dialog on top
+= Fechar a caixa de diálogo da frente
+
+Compare with which save?
+= Comparar com qual save?
+
+Compare with {0}
+= Comparar com {0}
+
+Confirm a typed value
+= Confirmar um valor digitado
+
+Couldn't change that backup: {0}
+= Não foi possível alterar esse backup: {0}
+
+Couldn't check for a new version. Check your internet connection and try again.
+= Não foi possível verificar se há uma nova versão. Confira sua conexão com a internet e tente de novo.
+
+Couldn't copy the character: {0}. The save wasn't changed.
+= Não foi possível copiar o personagem: {0}. O save não foi alterado.
+
+Couldn't delete the backup: {0}. It is still in the list.
+= Não foi possível excluir o backup: {0}. Ele continua na lista.
+
+Couldn't export: {0}
+= Não foi possível exportar: {0}
+
+Couldn't import: the data couldn't be packed into this save ({0}). Nothing was changed.
+= Não foi possível importar: os dados não puderam ser empacotados neste save ({0}). Nada foi alterado.
+
+Couldn't import: the data doesn't fit this kind of save (wrong file, or saved in another format). Nothing was changed.
+= Não foi possível importar: os dados não servem para este tipo de save (arquivo errado ou salvo em outro formato). Nada foi alterado.
+
+Couldn't make the backup: {0}. The save wasn't changed.
+= Não foi possível fazer o backup: {0}. O save não foi alterado.
+
+Couldn't restore the backup. {0}
+= Não foi possível restaurar o backup. {0}
+
+Couldn't restore the backup: {0}. The save on disk wasn't changed.
+= Não foi possível restaurar o backup: {0}. O save no disco não foi alterado.
+
+Couldn't save: the backup {0} couldn't be made ({1}). The save on disk wasn't changed.
+= Não foi possível salvar: o backup {0} não pôde ser criado ({1}). O save no disco não foi alterado.
+
+Couldn't save: the current save couldn't be backed up first ({0}). The save on disk wasn't changed.
+= Não foi possível salvar: não deu para fazer backup do save atual antes ({0}). O save no disco não foi alterado.
+
+Couldn't save: the new file couldn't be built ({0}). The save on disk wasn't changed.
+= Não foi possível salvar: o novo arquivo não pôde ser criado ({0}). O save no disco não foi alterado.
+
+Couldn't save: the new file didn't read back exactly as edited, so nothing was written. The save on disk wasn't changed. Please report this with Help › Report a problem.
+= Não foi possível salvar: o novo arquivo não foi lido de volta exatamente como editado, então nada foi gravado. O save no disco não foi alterado. Relate isso em Ajuda › Relatar um problema.
+
+Couldn't save: {0} couldn't be read first ({1}). The save on disk wasn't changed.
+= Não foi possível salvar: não deu para ler {0} antes ({1}). O save no disco não foi alterado.
+
+Couldn't start a new game: {0}. The save is still in place.
+= Não foi possível iniciar um novo jogo: {0}. O save continua no lugar.
+
+Couldn't write {0}, a file the game checks against the save ({1}). The save and its files were put back as they were, so nothing changed.
+= Não foi possível gravar {0}, um arquivo que o jogo confere com o save ({1}). O save e seus arquivos voltaram ao que eram, então nada mudou.
+
+Couldn't write {0}, a file the game checks against the save ({1}). These files couldn't be put back as they were and may not match each other now: {2}. Their earlier versions are in the backups folder.
+= Não foi possível gravar {0}, um arquivo que o jogo confere com o save ({1}). Estes arquivos não puderam voltar ao que eram e talvez não combinem mais entre si: {2}. As versões anteriores estão na pasta de backups.
+
+Couldn't write {0}: {1}. The file on disk wasn't changed.
+= Não foi possível gravar {0}: {1}. O arquivo no disco não foi alterado.
+
+Delete permanently
+= Excluir definitivamente
+
+Delete preset
+= Excluir predefinição
+
+Documents
+= Documentos
+
+Downloads
+= Downloads
+
+Edit game saves safely. Everything stays on this computer.
+= Edite saves de jogos com segurança. Tudo fica neste computador.
+
+Edit game saves safely. Everything stays on this device.
+= Edite saves de jogos com segurança. Tudo fica neste dispositivo.
+
+Edit game saves safely. It runs in your browser and nothing is uploaded.
+= Edite saves de jogos com segurança. Roda no seu navegador e nada é enviado.
+
+Every location is in play. Make the value go up or down in the game, save, then pick Increased or Decreased and press Refine.
+= Todas as posições ainda contam. Faça o valor subir ou descer no jogo, salve, escolha Aumentou ou Diminuiu e clique em Refinar.
+
+Export decoded data as
+= Exportar dados decodificados como
+
+Export the names to
+= Exportar os nomes para
+
+Find a value by name (Values tab)
+= Encontrar um valor pelo nome (aba Valores)
+
+Game data folder not found. Use Tools › Locate game data folder to see variable and item names.
+= Pasta de dados do jogo não encontrada. Use Ferramentas › Localizar pasta de dados do jogo para ver os nomes de variáveis e itens.
+
+Game data not found. Click to locate it.
+= Dados do jogo não encontrados. Clique para localizá-los.
+
+Games keep the save in memory and write it back when they autosave or quit, which would undo these changes. Quit the game completely (not just to the title screen), then save.
+= Os jogos mantêm o save na memória e o regravam ao salvar automaticamente ou ao sair, o que desfaria estas alterações. Feche o jogo por completo (não só até a tela de título) e depois salve.
+
+Games whose saves are found will appear here.
+= Os jogos cujos saves forem encontrados aparecerão aqui.
+
+Home folder
+= Pasta pessoal
+
+Import names from which file?
+= Importar nomes de qual arquivo?
+
+Import which edited data?
+= Importar quais dados editados?
+
+In the game, look at a number you want to change (gold, ammo, a stat) and save. Type it in Value search below and press Search.
+= No jogo, veja um número que você quer mudar (ouro, munição, um atributo) e salve. Digite-o abaixo em Busca de valores e clique em Buscar.
+
+Invalid value for {0}: {1}
+= Valor inválido para {0}: {1}
+
+Invalid value: {0}
+= Valor inválido: {0}
+
+Keep backups in which folder?
+= Em qual pasta guardar os backups?
+
+List every value that differs from another save. Handy for finding which value is your gold or HP.
+= Lista cada valor que difere de outro save. Útil para descobrir qual valor é o seu ouro ou o seu HP.
+
+Made on a {0} save; this one is a {1} save. Only the values found here are changed.
+= Feito em um save de {0}; este é um save de {1}. Só os valores encontrados aqui são alterados.
+
+Name it
+= Dar um nome
+
+Named backups (kept until you delete them)
+= Backups com nome (ficam até você excluí-los)
+
+Named backups are kept until you delete them. Only the {0} newest automatic ones are kept.
+= Backups com nome ficam guardados até você excluí-los. Dos automáticos, só os {0} mais recentes são mantidos.
+
+Narrow it down
+= Restringir
+
+No differences. The saves hold the same values.
+= Nenhuma diferença. Os saves têm os mesmos valores.
+
+No saves of the games in the list were found in their usual places. Use Open a file… to pick a save yourself.
+= Nenhum save dos jogos da lista foi encontrado nos lugares de costume. Use Abrir um arquivo… para escolher um save você mesmo.
+
+Not saved: the Raw JSON text has an error. Fix it on the Raw JSON tab, then save.
+= Não salvo: o texto do Raw JSON tem um erro. Corrija na aba Raw JSON e depois salve.
+
+Open backups folder
+= Abrir a pasta de backups
+
+Open containing folder
+= Abrir a pasta do arquivo
+
+Open which patch file (.savepatch)?
+= Abrir qual arquivo de patch (.savepatch)?
+
+Open which preset?
+= Abrir qual predefinição?
+
+Open without saving
+= Abrir sem salvar
+
+Phone storage
+= Armazenamento do celular
+
+Pick a different slot to copy into.
+= Escolha outro slot de destino.
+
+Re-signed with your Ren'Py key. If the game is running, quit it without saving first, because it rewrites this file when it quits.
+= Assinado de novo com sua chave do Ren'Py. Se o jogo estiver aberto, feche-o antes sem salvar, porque ele regrava este arquivo ao sair.
+
+Refine re-reads the file from disk. Save or revert your changes first.
+= Refinar lê o arquivo do disco de novo. Salve ou reverta suas alterações antes.
+
+Reload
+= Recarregar
+
+Reload and drop my changes
+= Recarregar e descartar minhas alterações
+
+Ren'Py 8.1+ signs its saves, but your Ren'Py key (%APPDATA%\\RenPy\\tokens) wasn't found. The old signature will be removed, and the game will ask once whether to load the save: choose Yes.
+= O Ren'Py 8.1+ assina os saves, mas sua chave do Ren'Py (%APPDATA%\RenPy\tokens) não foi encontrada. A assinatura antiga será removida, e o jogo perguntará uma vez se deve carregar o save: escolha Sim.
+
+Reset the zoom
+= Redefinir o zoom
+
+Restore and drop unsaved changes
+= Restaurar e descartar alterações não salvas
+
+Restore now
+= Restaurar agora
+
+Restored {0}. The save it replaced was backed up too, so you can switch back.
+= {0} restaurado. O save substituído também recebeu backup, então você pode voltar a ele.
+
+SD card ({0})
+= Cartão SD ({0})
+
+Save (shows what changed first)
+= Salvar (mostra as alterações antes)
+
+Save a copy as
+= Salvar uma cópia como
+
+Save and open
+= Salvar e abrir
+
+Save here
+= Salvar aqui
+
+Save or revert your changes first. Copying works on the file as it is on disk.
+= Salve ou reverta suas alterações antes. A cópia usa o arquivo como ele está no disco.
+
+Saved, but changes made while saving aren't in the file yet. Save again to keep them.
+= Salvo, mas as alterações feitas durante o salvamento ainda não estão no arquivo. Salve de novo para mantê-las.
+
+Saving stopped unexpectedly. Your changes are still here but not saved. Save again.
+= O salvamento parou inesperadamente. Suas alterações continuam aqui, mas não foram salvas. Salve de novo.
+
+Search
+= Buscar
+
+Select the game's data folder (it contains System.json)
+= Selecione a pasta de dados do jogo (ela contém System.json)
+
+Set {0} to {1}
+= {0} definido como {1}
+
+Show backups in Explorer
+= Mostrar backups no Explorador
+
+Show backups in Finder
+= Mostrar backups no Finder
+
+Show file in Explorer
+= Mostrar o arquivo no Explorador
+
+Show file in Finder
+= Mostrar o arquivo no Finder
+
+Show the step-by-step guide
+= Mostrar o guia passo a passo
+
+Signed, will be re-signed
+= Assinado, será assinado de novo
+
+Slot {0}: empty
+= Slot {0}: vazio
+
+Slot {0}: {1} (level {2})
+= Slot {0}: {1} (nível {2})
+
+Start over
+= Começar de novo
+
+That didn't work. The message at the top says why.
+= Isso não funcionou. A mensagem no topo explica o motivo.
+
+That offset is outside the file
+= Esse deslocamento está fora do arquivo
+
+That value runs past the end of the file
+= Esse valor passa do fim do arquivo
+
+The browser can't look through your folders, so pick the file yourself. On Windows most games keep saves in Documents\\My Games, %APPDATA%, %LOCALAPPDATA% or Steam\\userdata. Type one of these into the file picker's address bar to jump there.
+= O navegador não consegue vasculhar suas pastas, então escolha o arquivo você mesmo. No Windows, a maioria dos jogos guarda os saves em Documents\My Games, %APPDATA%, %LOCALAPPDATA% ou Steam\userdata. Digite um deles na barra de endereço do seletor de arquivos para ir até lá.
+
+The browser version can't open folders. Use the desktop app for this.
+= A versão do navegador não abre pastas. Use o aplicativo para computador para isso.
+
+The original save, from before this app first saved over it (.bak)
+= O save original, de antes de este aplicativo salvar por cima dele pela primeira vez (.bak)
+
+The save on disk now is backed up first. Backups › Quick restore brings it back.
+= O save que está no disco agora recebe um backup antes. Backups › Restauração rápida o traz de volta.
+
+The text was edited
+= O texto foi editado
+
+These checksums hold for the file:
+= Estes checksums conferem com o arquivo:
+
+This checksum holds for the file:
+= Este checksum confere com o arquivo:
+
+This replaces {0} (level {1}) in slot {2}.
+= Isto substitui {0} (nível {1}) no slot {2}.
+
+Type the new number next to its name and press Set, then save with Ctrl+S. Load the save in the game to check.
+= Digite o novo número ao lado do nome e clique em Definir; depois salve com Ctrl+S. Carregue o save no jogo para conferir.
+
+Use this folder
+= Usar esta pasta
+
+Wrote {0} byte(s) at 0x{1}
+= {0} byte(s) gravado(s) em 0x{1}
+
+Your Ren'Py key wasn't found, so the old signature was removed. The game asks once whether to load the save: choose Yes.
+= Sua chave do Ren'Py não foi encontrada, então a assinatura antiga foi removida. O jogo pergunta uma vez se deve carregar o save: escolha Sim.
+
+Your browser downloaded the edited file. Keep a copy of the old save, then put this one in its place.
+= Seu navegador baixou o arquivo editado. Guarde uma cópia do save antigo e depois coloque este no lugar dele.
+
+Your browser downloads the edited file. Keep a copy of the original before you replace it.
+= Seu navegador baixa o arquivo editado. Guarde uma cópia do original antes de substituí-lo.
+
+Zoom in / out
+= Aumentar / diminuir o zoom
+
+couldn't back up the current save first: {0}
+= não foi possível fazer backup do save atual antes: {0}
+
+couldn't read the backup: {0}
+= não foi possível ler o backup: {0}
+
+couldn't read {0}: {1}
+= não foi possível ler {0}: {1}
+
+just now
+= agora mesmo
+
+no folder on this device can hold backups
+= nenhuma pasta deste dispositivo pode guardar backups
+
+the backup didn't match the save (the game may have just written to it), so the save was left in place
+= o backup não batia com o save (talvez o jogo tenha acabado de gravar nele), então o save ficou no lugar
+
+the backup from {0}
+= o backup de {0}
+
+the backup was made, but the save couldn't be removed: {0}
+= o backup foi feito, mas o save não pôde ser removido: {0}
+
+the exact size ({0})
+= o tamanho exato ({0})
+
+the file extension (.{0})
+= a extensão do arquivo (.{0})
+
+the first bytes ({0})
+= os primeiros bytes ({0})
+
+the original save
+= o save original
+
+the written file read back differently from what was written
+= o arquivo gravado foi lido de volta diferente do que foi gravado
+
+type a name for the backup
+= digite um nome para o backup
+
+{0}  (now the same)
+= {0}  (agora igual)
+
+{0}  (open)
+= {0}  (aberto)
+
+{0} already exists
+= {0} já existe
+
+{0} changed on disk (the game or a cloud sync may have saved).
+= {0} mudou no disco (talvez o jogo ou uma sincronização na nuvem tenha salvado).
+
+{0} changed on disk (the game or a cloud sync may have saved). Saving will ask before writing over it.
+= {0} mudou no disco (talvez o jogo ou uma sincronização na nuvem tenha salvado). Ao salvar, você será perguntado antes de sobrescrevê-lo.
+
+{0} changed on disk after you opened it. Most likely the game saved, or a cloud sync brought in another copy.
+= {0} mudou no disco depois de aberto. O mais provável é que o jogo tenha salvado ou que uma sincronização na nuvem tenha trazido outra cópia.
+
+{0} days ago
+= há {0} dias
+
+{0} doesn't exist
+= {0} não existe
+
+{0} hours ago
+= há {0} horas
+
+{0} is already there and couldn't be backed up first ({1}), so it wasn't replaced.
+= {0} já existe e não deu para fazer backup dele antes ({1}), então ele não foi substituído.
+
+{0} left. Click one to select it, then type a name under Named values and press Add; the name is remembered for this file. To narrow them further, change the number in the game again and Refine.
+= Restam {0}. Clique em uma para selecioná-la, digite um nome em Valores nomeados e clique em Adicionar; o nome fica salvo para este arquivo. Para restringir mais, mude o número no jogo de novo e refine.
+
+{0} looks like it's running.
+= {0} parece estar aberto.
+
+{0} looks like it's running. Quit it first, or it may overwrite the restored save. Nothing was restored.
+= {0} parece estar aberto. Feche-o antes, ou ele pode sobrescrever o save restaurado. Nada foi restaurado.
+
+{0} looks like it's running. Quit it first, or it will overwrite the copied character. Nothing was copied.
+= {0} parece estar aberto. Feche-o antes, ou ele vai sobrescrever o personagem copiado. Nada foi copiado.
+
+{0} looks like it's running. Quit it first, then try again. The save wasn't changed.
+= {0} parece estar aberto. Feche-o antes e tente de novo. O save não foi alterado.
+
+{0} minutes ago
+= há {0} minutos
+
+{0} other files (routes, tutorials, run info) are in the pack too: Tools › Open another file in this archive.
+= Há mais {0} arquivos no pacote (rotas, tutoriais, dados da partida): Ferramentas › Abrir outro arquivo deste pacote.
+
+{0} places hold that number. Change it in the game (spend or earn some), save, type the new number and press Refine. Repeat until a few are left.
+= {0} posições têm esse número. Mude-o no jogo (gaste ou ganhe um pouco), salve, digite o novo número e clique em Refinar. Repita até sobrarem poucas.
+
+{0} s. Big saves take a moment.
+= {0} s. Saves grandes demoram um pouco.
+
+{0} was moved or deleted since it was opened.
+= {0} foi movido ou excluído depois de aberto.
+
+{0}: 1 byte changed
+= {0}: 1 byte alterado
+
+{0}: {1} bytes changed
+= {0}: {1} bytes alterados

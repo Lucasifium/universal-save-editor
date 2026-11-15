@@ -76,9 +76,9 @@ impl App {
             });
             if rows.is_empty() {
                 ui.weak(if done {
-                    "No saves of the games in the list were found in their usual places. Use Open a file\u{2026} to pick a save yourself."
+                    tr("No saves of the games in the list were found in their usual places. Use Open a file\u{2026} to pick a save yourself.")
                 } else {
-                    "Games whose saves are found will appear here."
+                    tr("Games whose saves are found will appear here.")
                 });
                 return;
             }

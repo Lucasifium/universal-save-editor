@@ -1,8 +1,5 @@
 # src/app.rs
 
-The browser version can't open folders — use the desktop app for this.
-= ブラウザ版ではフォルダーを開けません。デスクトップアプリをご利用ください。
-
 Closed the file.
 = ファイルを閉じました。
 
@@ -14,12 +11,6 @@ Opening the file stopped unexpectedly.
 
 All changes reverted.
 = すべての変更を元に戻しました。
-
-The Raw JSON has a syntax error — fix it before saving.
-= Raw JSON に構文エラーがあります。保存する前に修正してください。
-
-Save aborted: the re-encoded file didn't read back identically. Your file was not changed.
-= 保存を中止しました：再エンコードしたファイルが元通りに読み戻せませんでした。ファイルは変更されていません。
 
 Find my game's saves
 = 自分のゲームのセーブデータを探す
@@ -111,17 +102,11 @@ The Raw JSON has a syntax error.
 Save or revert your changes before importing.
 = インポートの前に、変更を保存するか破棄してください。
 
-The imported data doesn't pack back into this kind of save (wrong file, or edited into another format).
-= インポートしたデータをこの種類のセーブデータに戻して格納できません（ファイルが違うか、別の形式に編集されています）。
-
 Save or revert your changes before switching to the hex view.
 = 16進ビューに切り替える前に、変更を保存するか破棄してください。
 
 Showing the decoded data as hex. Saving re-applies the original encoding.
 = デコードしたデータを16進で表示しています。保存時に元のエンコードが再適用されます。
-
-Refine re-reads the file from disk — save or revert your changes first.
-= 「絞り込み」はディスクからファイルを再読み込みします。先に変更を保存するか破棄してください。
 
 File
 = ファイル
@@ -195,23 +180,8 @@ Quick restore
 Automatic backups are taken each time this app saves over the file.
 = 自動バックアップは、このアプリがファイルを上書き保存するたびに作成されます。
 
-Put this version back
-= このバージョンに戻す
-
 Compare
 = 比較
-
-List what differs between this version and the open file
-= このバージョンと開いているファイルの違いを一覧表示
-
-Unname
-= 名前を解除
-
-Let this copy be cleared out in time like the others
-= このコピーを他と同様に、時間が経つと自動で削除されるようにします
-
-The original, from before the first save (.bak)
-= 最初の保存前の元データ (.bak)
 
 Edit
 = 編集
@@ -321,9 +291,6 @@ Make a saved set of changes on this save
 Compare with another save…
 = 別のセーブデータと比較…
 
-List every value that differs from another save — handy for finding which value is your gold, HP, etc.
-= 別のセーブデータと異なる値をすべて一覧表示します。所持金や HP などの値を見つけるのに便利です。
-
 Open another file in this archive
 = このアーカイブ内の別のファイルを開く
 
@@ -333,9 +300,6 @@ Copy character to another slot…
 Duplicate an Elden Ring character, e.g. to try something out on the copy
 = Elden Ring のキャラクターを複製します。コピーで試したいときなどに。
 
-Save or revert your changes first — copying works on the file as it is on disk.
-= 先に変更を保存するか破棄してください。コピーはディスク上のファイルに対して行われます。
-
 Save or revert your changes first.
 = 先に変更を保存するか破棄してください。
 
@@ -344,9 +308,6 @@ Those two files aren't the same kind of save, so they can't be compared.
 
 Values that differ between this save and the other one. “Use theirs” copies the other save's value into this one.
 = このセーブデータと相手のセーブデータで異なる値です。「相手の値を使う」で、相手の値をこのセーブデータにコピーします。
-
-No differences — the saves hold the same values.
-= 違いはありません。セーブデータの値は同じです。
 
 Use theirs
 = 相手の値を使う
@@ -360,20 +321,8 @@ The save is backed up under this name and then removed, so the game starts a new
 for example: first run
 = 例：最初のプレイ
 
-Back up and start new
-= バックアップして新規開始
-
-Keep a named copy
-= 名前付きコピーを保管
-
-A copy of the file as it is on disk now, kept until you remove it.
-= ディスク上の現在のファイルのコピーを、削除するまで保管します。
-
 for example: before the final boss
 = 例：ラスボス前
-
-Keep
-= 保管
 
 Save manager
 = セーブマネージャー
@@ -393,9 +342,6 @@ backup name, e.g. first run
 Back up this save
 = このセーブデータをバックアップ
 
-Saves a named copy of the file as it is on disk now. It is kept until you delete it; the save itself is not changed.
-= ディスク上の現在のファイルを、名前を付けたコピーとして保存します。削除するまで保管され、セーブデータ自体は変更されません。
-
 Saves a named backup, then removes the current save file so the game starts a new game. Restore the backup later to go back.
 = 名前付きバックアップを作成してから現在のセーブデータを削除し、ゲームを最初から始められるようにします。後でバックアップを復元すれば元に戻れます。
 
@@ -404,9 +350,6 @@ For games with a single save: use “Back up and start a new game”, play a new
 
 No backups yet. One is made automatically each time you save, or press “Back up this save”.
 = バックアップはまだありません。保存のたびに自動で作成されます。「このセーブデータをバックアップ」を押しても作成できます。
-
-No
-= いいえ
 
 Restore this backup
 = このバックアップを復元
@@ -575,9 +518,6 @@ List everything you've changed since the last save
 
 No unsaved changes
 = 未保存の変更はありません
-
-Something went wrong — see the message at the top.
-= 問題が発生しました。上部のメッセージを確認してください。
 
 This game's own screen: its stats, inventory and more, laid out like the game
 = ゲーム画面：ステータスやインベントリなどを、ゲームと同じレイアウトで表示
@@ -813,9 +753,6 @@ Save and close
 Close without saving
 = 保存せずに閉じる
 
-Don't save
-= 保存しない
-
 You have unsaved changes. Save them before closing?
 = 未保存の変更があります。閉じる前に保存しますか？
 
@@ -1041,9 +978,6 @@ No presets yet.
 
 Make some changes, then use Save changes as a preset (in the Changes panel or Tools › Presets). Presets shared by others open with Open a preset file.
 = 変更を行ってから、「変更をプリセットとして保存」（変更パネルまたは ツール › プリセット）を使います。他の人が共有したプリセットは「プリセットファイルを開く」で開けます。
-
-Delete
-= 削除
 
 Delete this preset (saves are not changed)
 = このプリセットを削除（セーブデータは変更されません）
@@ -1276,9 +1210,6 @@ Pasted {0} values of {1} from {2}; {3} aren't in this save and were left out.
 About {0}
 = {0} について
 
-Backups are stored in {0} — {1}.
-= バックアップの保存先は {0} です（{1}）。
-
 Base max
 = 基本最大値
 
@@ -1329,9 +1260,6 @@ Name
 
 Name for 0x{0}
 = 0x{0} の名前
-
-Named backups are kept for good; the {0} newest automatic ones are kept.
-= 名前を付けたバックアップは永久に保持され、自動バックアップは最新の {0} 件が保持されます。
 
 No heroes in this roster.
 = この名簿にヒーローはいません。
@@ -1453,9 +1381,6 @@ the folder you chose for backups
 {0} result(s) (capped)
 = {0} 件の結果（上限あり）
 
-{0} s — big saves take a moment.
-= {0} 秒 — 大きなセーブは少し時間がかかります。
-
 {0} save  ·  last saved {1}
 = セーブ {0} 件  ·  最終保存 {1}
 
@@ -1482,9 +1407,6 @@ the folder you chose for backups
 
 {0} was moved or deleted after you opened it. Saving puts your version back in its place.
 = {0} は開いた後に移動または削除されました。保存すると、あなたのバージョンが元の場所に戻ります。
-
-{0} was written by something else after you opened it — most likely the game saved, or a cloud sync brought in another copy.
-= {0} は開いた後に別のものによって書き換えられました。ゲームが保存したか、クラウド同期が別のコピーを持ち込んだ可能性が高いです。
 
 ‹ All {0} games
 = ‹ {0} 本すべてのゲーム
@@ -6411,9 +6333,6 @@ Gambling
 Game clock
 = ゲーム内時計
 
-Game data not found — click to locate
-= ゲームデータが見つかりません — クリックして指定
-
 Game item numbers; 0 is an empty slot.
 = ゲームのアイテム番号。0は空きスロット。
 
@@ -6449,9 +6368,6 @@ GameSpeed
 
 GameStateSaveData.json. The in-game clock the save shows in its slot.
 = GameStateSaveData.json。セーブがスロットに表示するゲーム内時計。
-
-Games keep the save in memory and write it back when they autosave or quit, which would undo these \n                         changes. Quit the game completely (not just to the title screen), then save.
-= ゲームはセーブをメモリ上に保持し、オートセーブや終了時に書き戻すため、この\n                         変更が元に戻ってしまいます。ゲームを完全に終了(タイトル画面に戻るだけでは不可)してから保存してください。
 
 Gangs
 = ギャング
@@ -10002,9 +9918,6 @@ Shuffle all
 
 Signed save
 = 署名済みセーブ
-
-Signed — will re-sign
-= 署名済み — 再署名されます
 
 Signs
 = 看板
@@ -25247,9 +25160,6 @@ Hide this until a newer version comes out.
 This is the newest version.
 = これが最新バージョンです。
 
-Couldn't check for a new version (no connection?).
-= 新しいバージョンを確認できませんでした（接続なし？）。
-
 Updates
 = アップデート
 
@@ -27058,29 +26968,8 @@ Copied {0} (level {1}) into slot {2}. It shows up on the game's Load Game screen
 Copied {0} changes as text.
 = {0} 件の変更をテキストとしてコピーしました。
 
-Couldn't back up the current file: {0}. Your file was not changed.
-= 現在のファイルをバックアップできませんでした：{0}。ファイルは変更されていません。
-
 Couldn't back up the file first: {0}. Nothing was changed.
 = 先にファイルをバックアップできませんでした：{0}。何も変更されていません。
-
-Couldn't back up the save: {0}
-= セーブデータをバックアップできませんでした：{0}
-
-Couldn't build the save file: {0}
-= セーブファイルを作成できませんでした：{0}
-
-Couldn't change that copy: {0}
-= そのコピーを変更できませんでした：{0}
-
-Couldn't copy the character: {0}
-= キャラクターをコピーできませんでした：{0}
-
-Couldn't create backup {0}: {1}
-= バックアップ {0} を作成できませんでした：{1}
-
-Couldn't delete it: {0}
-= 削除できませんでした：{0}
 
 Couldn't delete the preset: {0}
 = プリセットを削除できませんでした：{0}
@@ -27094,9 +26983,6 @@ Couldn't hand over the preset: {0}
 Couldn't hand over {0}: {1}
 = {0} を渡せませんでした：{1}
 
-Couldn't keep a copy: {0}
-= コピーを保管できませんでした：{0}
-
 Couldn't make the template: {0}.
 = テンプレートを作成できませんでした：{0}。
 
@@ -27106,29 +26992,14 @@ Couldn't make the templates folder: {0}
 Couldn't open {0}: {1}
 = {0} を開けませんでした：{1}
 
-Couldn't pack the imported data: {0}
-= インポートしたデータをパックできませんでした：{0}
-
 Couldn't read {0}: {1}
 = {0} を読み込めませんでした：{1}
-
-Couldn't restore backup: {0}
-= バックアップを復元できませんでした：{0}
 
 Couldn't save names to {0}: {1}
 = 名前を {0} に保存できませんでした：{1}
 
 Couldn't save the preset: {0}.
 = プリセットを保存できませんでした：{0}。
-
-Couldn't start a new game: {0}
-= 新しいゲームを開始できませんでした：{0}
-
-Couldn't write {0}: {1}
-= {0} に書き込めませんでした：{1}
-
-{0}. These files couldn't be put back as they were and may not match each other now: {1}
-= {0}。次のファイルは元に戻せなかったため、互いに一致していない可能性があります：{1}
 
 Deleted the preset “{0}”.
 = プリセット「{0}」を削除しました。
@@ -27138,9 +27009,6 @@ Enter a number, e.g. 2.5
 
 Enter a whole number, e.g. 1500
 = 整数を入力してください（例：1500）
-
-Export failed: {0}
-= エクスポートに失敗しました：{0}
 
 Exported 1 name to {0}.
 = 1 件の名前を {0} にエクスポートしました。
@@ -27178,9 +27046,6 @@ Imported {0}. Review the changes, then save.
 Its values are listed by name in Values and Tree
 = 値が「値」と「ツリー」に名前付きで一覧表示されます
 
-Kept a copy named “{0}” (Backups › Quick restore).
-= 「{0}」という名前でコピーを保管しました（バックアップ › クイック復元）。
-
 Left out (text, i8, i64 and f64 can't go in a template): {0}.
 = 除外しました（テキスト、i8、i64、f64 はテンプレートに入れられません）：{0}。
 
@@ -27214,9 +27079,6 @@ Re-read the file: {0} › {1} possible locations.
 Re-signed with your Ren'Py key, so the game will load it normally.
 = お使いの Ren'Py キーで署名し直したので、ゲームは通常どおり読み込みます。
 
-Re-signed with your Ren'Py key. If the game is running, close it without saving first — it rewrites this file on exit.
-= お使いの Ren'Py キーで署名し直しました。ゲームが起動中の場合は、先にセーブせずに終了してください — 終了時にこのファイルを書き直します。
-
 Read-only: bulk edit leaves it alone
 = 読み取り専用：一括編集では変更されません
 
@@ -27234,9 +27096,6 @@ Reload failed: {0}
 
 Reloaded {0} from disk.
 = {0} をディスクから再読み込みしました。
-
-Restored {0}. The version it replaced is in the backup list too.
-= {0} を復元しました。置き換えられた版もバックアップ一覧に入っています。
 
 Review them in the Changes panel, then save.
 = 「変更」パネルで確認してから保存してください。
@@ -27286,12 +27145,6 @@ Undone.
 Usually in
 = 通常の場所
 
-Your Ren'Py key wasn't found, so the old signature was removed — the game will ask once whether to load it; choose Yes.
-= Ren'Py キーが見つからなかったため、古い署名を取り除きました — ゲームが一度だけ読み込むか確認するので、「はい」を選んでください。
-
-Your browser downloaded it — put it in place of the game's save (keep a copy of the old one).
-= ブラウザーがダウンロードしました — ゲームのセーブデータと置き換えてください（古いものはコピーを残しておきましょう）。
-
 advanced
 = 詳細
 
@@ -27322,15 +27175,6 @@ none found
 {0} isn't a preset: {1}.
 = {0} はプリセットではありません：{1}。
 
-{0} looks like it's running — quit it first, or it may overwrite the restored file.
-= {0} が起動中のようです — 先に終了してください。復元したファイルが上書きされるおそれがあります。
-
-{0} looks like it's running — quit it first, or it will overwrite the copy.
-= {0} が起動中のようです — 先に終了してください。コピーが上書きされます。
-
-{0} looks like it's running — quit it first.
-= {0} が起動中のようです — 先に終了してください。
-
 {0} not in this save, left out.
 = {0} 件はこのセーブデータにないため除外しました。
 
@@ -27360,12 +27204,6 @@ Saving {0}…
 
 Writing {0}…
 = {0} を書き込み中…
-
-Saving stopped unexpectedly. Your changes are still here and not saved — save again.
-= 保存処理が予期せず停止しました。変更はそのまま残っていますが、保存されていません。もう一度保存してください。
-
-Saved, but changes made while saving aren't in the file yet — save again to keep them.
-= 保存しましたが、保存中に行った変更はまだファイルに含まれていません。残すにはもう一度保存してください。
 
 the file is being saved
 = ファイルを保存中です
@@ -29137,23 +28975,11 @@ user_0.dat … (one per slot) and its backups
 wherever you saved the export (Options > Saving > Export save as file)
 = エクスポートを保存した場所 (Options > Saving > Export save as file)
 
-Edit game saves safely — it runs in your browser and nothing is uploaded.
-= セーブデータを安全に編集 — ブラウザー内で動作し、何もアップロードされません。
-
-Edit game saves safely — everything stays on this device.
-= セーブデータを安全に編集 — すべてこの端末内で完結します。
-
-Edit game saves safely — everything stays on this computer.
-= セーブデータを安全に編集 — すべてこのコンピューター内で完結します。
-
 Open a file…
 = ファイルを開く…
 
 (file no longer exists)
 = （ファイルはもうありません）
-
-The browser can't look through your folders, so pick the file yourself. On Windows most games keep saves in Documents\\My Games, %APPDATA%, %LOCALAPPDATA% or Steam\\userdata — type one of these into the file picker's address bar to jump there.
-= ブラウザーはフォルダーの中を調べられないため、ファイルはご自分で選んでください。Windows では多くのゲームが Documents\My Games、%APPDATA%、%LOCALAPPDATA%、Steam\userdata のいずれかにセーブデータを置きます — ファイル選択画面のアドレス欄にこれらを入力すると移動できます。
 
 Common places emulators and games keep save files:
 = エミュレーターやゲームがセーブデータを置く主な場所：
@@ -29227,6 +29053,471 @@ Detected format: {0}
 {0} is running
 = {0} が起動中
 
-Ren'Py 8.1+ signs its saves, but your Ren'Py key (%APPDATA%\\RenPy\\tokens) wasn't found. The old signature will be removed; the game will ask once whether to load the save — choose Yes.
-= Ren'Py 8.1 以降はセーブに署名しますが、Ren'Py の鍵（%APPDATA%\RenPy\tokens）が見つかりませんでした。古い署名は削除されます。ゲームがセーブを読み込むか一度だけ尋ねるので「はい」を選んでください。
 
+(missing)
+= （なし）
+
+1 day ago
+= 1 日前
+
+1 hour ago
+= 1 時間前
+
+1 minute ago
+= 1 分前
+
+Apply 1 code
+= 1 個のコードを適用
+
+Apply {0} codes
+= {0} 個のコードを適用
+
+Automatic backups (made each time you save; newest {0} kept)
+= 自動バックアップ（保存のたびに作成、最新の {0} 件を保持）
+
+Back up
+= バックアップ
+
+Backs up the save as it is on disk now, without unsaved changes. The backup is kept until you delete it.
+= いまディスクにある状態のセーブデータをバックアップします（未保存の変更は含みません）。バックアップは削除するまで残ります。
+
+Backups are stored in {0} ({1}).
+= バックアップの保存先：{0}（{1}）
+
+Can't open this folder: {0}
+= このフォルダーを開けません：{0}
+
+Change it
+= 変更する
+
+Close the dialog on top
+= 最前面のダイアログを閉じる
+
+Compare with which save?
+= どのセーブデータと比較しますか？
+
+Compare with {0}
+= {0} と比較
+
+Confirm a typed value
+= 入力した値を確定
+
+Couldn't change that backup: {0}
+= そのバックアップを変更できませんでした：{0}
+
+Couldn't check for a new version. Check your internet connection and try again.
+= 新しいバージョンを確認できませんでした。インターネット接続を確認して、もう一度お試しください。
+
+Couldn't copy the character: {0}. The save wasn't changed.
+= キャラクターをコピーできませんでした：{0}。セーブデータは変更されていません。
+
+Couldn't delete the backup: {0}. It is still in the list.
+= バックアップを削除できませんでした：{0}。一覧に残っています。
+
+Couldn't export: {0}
+= エクスポートできませんでした：{0}
+
+Couldn't import: the data couldn't be packed into this save ({0}). Nothing was changed.
+= インポートできませんでした：データをこのセーブデータの形式にまとめられませんでした（{0}）。何も変更していません。
+
+Couldn't import: the data doesn't fit this kind of save (wrong file, or saved in another format). Nothing was changed.
+= インポートできませんでした：データがこの種類のセーブデータに合いません（ファイルが違うか、別の形式で保存されています）。何も変更していません。
+
+Couldn't make the backup: {0}. The save wasn't changed.
+= バックアップを作成できませんでした：{0}。セーブデータは変更されていません。
+
+Couldn't restore the backup. {0}
+= バックアップを復元できませんでした。{0}
+
+Couldn't restore the backup: {0}. The save on disk wasn't changed.
+= バックアップを復元できませんでした：{0}。ディスク上のセーブデータは変更されていません。
+
+Couldn't save: the backup {0} couldn't be made ({1}). The save on disk wasn't changed.
+= 保存できませんでした：バックアップ {0} を作成できませんでした（{1}）。ディスク上のセーブデータは変更されていません。
+
+Couldn't save: the current save couldn't be backed up first ({0}). The save on disk wasn't changed.
+= 保存できませんでした：先に現在のセーブデータをバックアップできませんでした（{0}）。ディスク上のセーブデータは変更されていません。
+
+Couldn't save: the new file couldn't be built ({0}). The save on disk wasn't changed.
+= 保存できませんでした：新しいファイルを作成できませんでした（{0}）。ディスク上のセーブデータは変更されていません。
+
+Couldn't save: the new file didn't read back exactly as edited, so nothing was written. The save on disk wasn't changed. Please report this with Help › Report a problem.
+= 保存できませんでした：新しいファイルを読み戻した内容が編集どおりにならなかったため、何も書き込んでいません。ディスク上のセーブデータは変更されていません。ヘルプ › 問題を報告 からお知らせください。
+
+Couldn't save: {0} couldn't be read first ({1}). The save on disk wasn't changed.
+= 保存できませんでした：先に {0} を読み込めませんでした（{1}）。ディスク上のセーブデータは変更されていません。
+
+Couldn't start a new game: {0}. The save is still in place.
+= 新しいゲームを開始できませんでした：{0}。セーブデータはそのまま残っています。
+
+Couldn't write {0}, a file the game checks against the save ({1}). The save and its files were put back as they were, so nothing changed.
+= ゲームがセーブデータと照合するファイル {0} に書き込めませんでした（{1}）。セーブデータと関連ファイルは元に戻したので、何も変わっていません。
+
+Couldn't write {0}, a file the game checks against the save ({1}). These files couldn't be put back as they were and may not match each other now: {2}. Their earlier versions are in the backups folder.
+= ゲームがセーブデータと照合するファイル {0} に書き込めませんでした（{1}）。次のファイルは元に戻せず、互いに一致していない可能性があります：{2}。以前のバージョンはバックアップのフォルダーにあります。
+
+Couldn't write {0}: {1}. The file on disk wasn't changed.
+= {0} に書き込めませんでした：{1}。ディスク上のファイルは変更されていません。
+
+Delete permanently
+= 完全に削除
+
+Delete preset
+= プリセットを削除
+
+Documents
+= ドキュメント
+
+Downloads
+= ダウンロード
+
+Edit game saves safely. Everything stays on this computer.
+= ゲームのセーブデータを安全に編集。すべてこのコンピューター内で完結します。
+
+Edit game saves safely. Everything stays on this device.
+= ゲームのセーブデータを安全に編集。すべてこのデバイス内で完結します。
+
+Edit game saves safely. It runs in your browser and nothing is uploaded.
+= ゲームのセーブデータを安全に編集。ブラウザー内で動作し、何もアップロードしません。
+
+Every location is in play. Make the value go up or down in the game, save, then pick Increased or Decreased and press Refine.
+= すべての位置が候補です。ゲーム内で値を増やすか減らして保存し、「増加」か「減少」を選んで「絞り込み」を押してください。
+
+Export decoded data as
+= デコードしたデータのエクスポート先
+
+Export the names to
+= 名前のエクスポート先
+
+Find a value by name (Values tab)
+= 名前で値を検索（「値」タブ）
+
+Game data folder not found. Use Tools › Locate game data folder to see variable and item names.
+= ゲームのデータフォルダーが見つかりません。ツール › ゲームのデータフォルダーを指定 で、変数やアイテムの名前を表示できます。
+
+Game data not found. Click to locate it.
+= ゲームデータが見つかりません。クリックして指定してください。
+
+Games keep the save in memory and write it back when they autosave or quit, which would undo these changes. Quit the game completely (not just to the title screen), then save.
+= ゲームはセーブデータをメモリーに保持し、オートセーブや終了時に書き戻すため、この変更が元に戻ってしまいます。ゲームを完全に終了してから（タイトル画面に戻るだけでなく）保存してください。
+
+Games whose saves are found will appear here.
+= セーブデータが見つかったゲームがここに表示されます。
+
+Home folder
+= ホームフォルダー
+
+Import names from which file?
+= どのファイルから名前をインポートしますか？
+
+Import which edited data?
+= どの編集済みデータをインポートしますか？
+
+In the game, look at a number you want to change (gold, ammo, a stat) and save. Type it in Value search below and press Search.
+= ゲーム内で変えたい数値（お金、弾薬、ステータスなど）を確認して保存します。下の「値の検索」に入力して「検索」を押してください。
+
+Invalid value for {0}: {1}
+= {0} の値が正しくありません：{1}
+
+Invalid value: {0}
+= 値が正しくありません：{0}
+
+Keep backups in which folder?
+= バックアップをどのフォルダーに保存しますか？
+
+List every value that differs from another save. Handy for finding which value is your gold or HP.
+= 別のセーブデータと異なる値をすべて一覧にします。どの値がお金や HP かを探すのに便利です。
+
+Made on a {0} save; this one is a {1} save. Only the values found here are changed.
+= {0} のセーブデータで作成されたものです。これは {1} のセーブデータです。ここで見つかった値だけが変更されます。
+
+Name it
+= 名前を付ける
+
+Named backups (kept until you delete them)
+= 名前付きのバックアップ（削除するまで残ります）
+
+Named backups are kept until you delete them. Only the {0} newest automatic ones are kept.
+= 名前を付けたバックアップは削除するまで残ります。自動バックアップは最新の {0} 件だけが残ります。
+
+Narrow it down
+= 絞り込む
+
+No differences. The saves hold the same values.
+= 違いはありません。両方のセーブデータは同じ値です。
+
+No saves of the games in the list were found in their usual places. Use Open a file… to pick a save yourself.
+= リストのゲームのセーブデータは、いつもの場所では見つかりませんでした。「ファイルを開く…」で自分で選んでください。
+
+Not saved: the Raw JSON text has an error. Fix it on the Raw JSON tab, then save.
+= 保存されていません：Raw JSON のテキストにエラーがあります。Raw JSON タブで修正してから保存してください。
+
+Open backups folder
+= バックアップのフォルダーを開く
+
+Open containing folder
+= 保存先のフォルダーを開く
+
+Open which patch file (.savepatch)?
+= どのパッチファイル (.savepatch) を開きますか？
+
+Open which preset?
+= どのプリセットを開きますか？
+
+Open without saving
+= 保存せずに開く
+
+Phone storage
+= スマートフォンのストレージ
+
+Pick a different slot to copy into.
+= コピー先には別のスロットを選んでください。
+
+Re-signed with your Ren'Py key. If the game is running, quit it without saving first, because it rewrites this file when it quits.
+= Ren'Py のキーで署名し直しました。ゲームを起動中なら、先に保存せずに終了してください。終了時にこのファイルを書き直すためです。
+
+Refine re-reads the file from disk. Save or revert your changes first.
+= 絞り込みはディスクからファイルを読み直します。先に変更を保存するか破棄してください。
+
+Reload
+= 再読み込み
+
+Reload and drop my changes
+= 再読み込みして変更を破棄
+
+Ren'Py 8.1+ signs its saves, but your Ren'Py key (%APPDATA%\\RenPy\\tokens) wasn't found. The old signature will be removed, and the game will ask once whether to load the save: choose Yes.
+= Ren'Py 8.1 以降はセーブデータに署名しますが、Ren'Py のキー（%APPDATA%\RenPy\tokens）が見つかりませんでした。古い署名は削除され、ゲームがセーブデータを読み込むか一度だけ尋ねるので、「はい」を選んでください。
+
+Reset the zoom
+= 拡大率をリセット
+
+Restore and drop unsaved changes
+= 復元して未保存の変更を破棄
+
+Restore now
+= 今すぐ復元
+
+Restored {0}. The save it replaced was backed up too, so you can switch back.
+= {0} を復元しました。置き換えたセーブデータもバックアップしてあるので、元に戻せます。
+
+SD card ({0})
+= SD カード（{0}）
+
+Save (shows what changed first)
+= 保存（先に変更内容を表示）
+
+Save a copy as
+= 名前を付けてコピーを保存
+
+Save and open
+= 保存して開く
+
+Save here
+= ここに保存
+
+Save or revert your changes first. Copying works on the file as it is on disk.
+= 先に変更を保存するか破棄してください。コピーはディスク上のファイルに対して行われます。
+
+Saved, but changes made while saving aren't in the file yet. Save again to keep them.
+= 保存しましたが、保存中に行った変更はまだファイルに入っていません。残すにはもう一度保存してください。
+
+Saving stopped unexpectedly. Your changes are still here but not saved. Save again.
+= 保存が予期せず中断しました。変更は残っていますが、保存されていません。もう一度保存してください。
+
+Search
+= 検索
+
+Select the game's data folder (it contains System.json)
+= ゲームのデータフォルダーを選択（System.json が入っています）
+
+Set {0} to {1}
+= {0} を {1} に設定しました
+
+Show backups in Explorer
+= バックアップをエクスプローラーで表示
+
+Show backups in Finder
+= バックアップを Finder で表示
+
+Show file in Explorer
+= ファイルをエクスプローラーで表示
+
+Show file in Finder
+= ファイルを Finder で表示
+
+Show the step-by-step guide
+= 手順ガイドを表示
+
+Signed, will be re-signed
+= 署名あり、再署名します
+
+Slot {0}: empty
+= スロット {0}：空き
+
+Slot {0}: {1} (level {2})
+= スロット {0}：{1}（レベル {2}）
+
+Start over
+= 最初からやり直す
+
+That didn't work. The message at the top says why.
+= うまくいきませんでした。理由は上部のメッセージにあります。
+
+That offset is outside the file
+= そのオフセットはファイルの範囲外です
+
+That value runs past the end of the file
+= その値はファイルの末尾を超えています
+
+The browser can't look through your folders, so pick the file yourself. On Windows most games keep saves in Documents\\My Games, %APPDATA%, %LOCALAPPDATA% or Steam\\userdata. Type one of these into the file picker's address bar to jump there.
+= ブラウザーはフォルダーを検索できないので、ファイルはご自分で選んでください。Windows では多くのゲームが Documents\My Games、%APPDATA%、%LOCALAPPDATA%、Steam\userdata にセーブデータを置きます。ファイル選択画面のアドレスバーにこれらを入力すると移動できます。
+
+The browser version can't open folders. Use the desktop app for this.
+= ブラウザー版ではフォルダーを開けません。デスクトップ版のアプリを使ってください。
+
+The original save, from before this app first saved over it (.bak)
+= このアプリが最初に上書き保存する前の元のセーブデータ (.bak)
+
+The save on disk now is backed up first. Backups › Quick restore brings it back.
+= いまディスクにあるセーブデータは先にバックアップされます。バックアップ › クイック復元 で元に戻せます。
+
+The text was edited
+= テキストを編集しました
+
+These checksums hold for the file:
+= これらのチェックサムがファイルに一致します：
+
+This checksum holds for the file:
+= このチェックサムがファイルに一致します：
+
+This replaces {0} (level {1}) in slot {2}.
+= スロット {2} の {0}（レベル {1}）を置き換えます。
+
+Type the new number next to its name and press Set, then save with Ctrl+S. Load the save in the game to check.
+= 名前の横に新しい数値を入力して「設定」を押し、Ctrl+S で保存します。ゲームでセーブデータを読み込んで確認してください。
+
+Use this folder
+= このフォルダーを使う
+
+Wrote {0} byte(s) at 0x{1}
+= 0x{1} に {0} バイト書き込みました
+
+Your Ren'Py key wasn't found, so the old signature was removed. The game asks once whether to load the save: choose Yes.
+= Ren'Py のキーが見つからなかったため、古い署名を削除しました。ゲームがセーブデータを読み込むか一度だけ尋ねるので、「はい」を選んでください。
+
+Your browser downloaded the edited file. Keep a copy of the old save, then put this one in its place.
+= ブラウザーが編集済みのファイルをダウンロードしました。古いセーブデータのコピーを残してから、これと置き換えてください。
+
+Your browser downloads the edited file. Keep a copy of the original before you replace it.
+= ブラウザーが編集済みのファイルをダウンロードします。置き換える前に元のファイルのコピーを残してください。
+
+Zoom in / out
+= 拡大 / 縮小
+
+couldn't back up the current save first: {0}
+= 先に現在のセーブデータをバックアップできませんでした：{0}
+
+couldn't read the backup: {0}
+= バックアップを読み込めませんでした：{0}
+
+couldn't read {0}: {1}
+= {0} を読み込めませんでした：{1}
+
+just now
+= たった今
+
+no folder on this device can hold backups
+= このデバイスにはバックアップを保存できるフォルダーがありません
+
+the backup didn't match the save (the game may have just written to it), so the save was left in place
+= バックアップがセーブデータと一致しませんでした（ゲームが書き込んだ直後かもしれません）。セーブデータはそのまま残しています
+
+the backup from {0}
+= {0} のバックアップ
+
+the backup was made, but the save couldn't be removed: {0}
+= バックアップは作成しましたが、セーブデータを削除できませんでした：{0}
+
+the exact size ({0})
+= 正確なサイズ（{0}）
+
+the file extension (.{0})
+= ファイルの拡張子（.{0}）
+
+the first bytes ({0})
+= 先頭のバイト（{0}）
+
+the original save
+= 元のセーブデータ
+
+the written file read back differently from what was written
+= 書き込んだファイルを読み戻すと内容が異なっていました
+
+type a name for the backup
+= バックアップの名前を入力してください
+
+{0}  (now the same)
+= {0}  （同じになりました）
+
+{0}  (open)
+= {0}  （表示中）
+
+{0} already exists
+= {0} はすでに存在します
+
+{0} changed on disk (the game or a cloud sync may have saved).
+= {0} がディスク上で変更されました（ゲームかクラウド同期が保存した可能性があります）。
+
+{0} changed on disk (the game or a cloud sync may have saved). Saving will ask before writing over it.
+= {0} がディスク上で変更されました（ゲームかクラウド同期が保存した可能性があります）。保存するときは、上書きする前に確認します。
+
+{0} changed on disk after you opened it. Most likely the game saved, or a cloud sync brought in another copy.
+= {0} は開いた後にディスク上で変更されました。ゲームが保存したか、クラウド同期が別のコピーを持ち込んだ可能性が高いです。
+
+{0} days ago
+= {0} 日前
+
+{0} doesn't exist
+= {0} は存在しません
+
+{0} hours ago
+= {0} 時間前
+
+{0} is already there and couldn't be backed up first ({1}), so it wasn't replaced.
+= {0} はすでに存在し、先にバックアップできなかったため（{1}）、置き換えていません。
+
+{0} left. Click one to select it, then type a name under Named values and press Add; the name is remembered for this file. To narrow them further, change the number in the game again and Refine.
+= 残り {0} か所です。1 つをクリックして選び、「名前付きの値」に名前を入力して「追加」を押します。名前はこのファイル用に記憶されます。さらに絞るには、ゲーム内で数値をもう一度変えて絞り込んでください。
+
+{0} looks like it's running.
+= {0} が起動中のようです。
+
+{0} looks like it's running. Quit it first, or it may overwrite the restored save. Nothing was restored.
+= {0} が起動中のようです。先に終了してください。復元したセーブデータが上書きされるおそれがあります。何も復元していません。
+
+{0} looks like it's running. Quit it first, or it will overwrite the copied character. Nothing was copied.
+= {0} が起動中のようです。先に終了してください。コピーしたキャラクターが上書きされます。何もコピーしていません。
+
+{0} looks like it's running. Quit it first, then try again. The save wasn't changed.
+= {0} が起動中のようです。先に終了してから、もう一度お試しください。セーブデータは変更されていません。
+
+{0} minutes ago
+= {0} 分前
+
+{0} other files (routes, tutorials, run info) are in the pack too: Tools › Open another file in this archive.
+= パックには他に {0} 個のファイル（ルート、チュートリアル、プレイ情報）も入っています：ツール › このアーカイブ内の別のファイルを開く
+
+{0} places hold that number. Change it in the game (spend or earn some), save, type the new number and press Refine. Repeat until a few are left.
+= その数値を持つ位置が {0} か所あります。ゲーム内で数値を変えて（使うか稼ぐかして）保存し、新しい数値を入力して「絞り込み」を押してください。数か所になるまで繰り返します。
+
+{0} s. Big saves take a moment.
+= {0} 秒。大きなセーブデータは少し時間がかかります。
+
+{0} was moved or deleted since it was opened.
+= {0} は開いた後に移動または削除されました。
+
+{0}: 1 byte changed
+= {0}：1 バイト変更
+
+{0}: {1} bytes changed
+= {0}：{1} バイト変更

@@ -121,13 +121,13 @@ pub fn save_locations() -> Vec<(String, PathBuf)> {
     let mut out = Vec::new();
     if cfg!(target_os = "android") {
         let phone = PathBuf::from("/storage/emulated/0");
-        for (label, sub) in [("RetroArch saves", "RetroArch/saves"), ("RetroArch states", "RetroArch/states"), ("Downloads", "Download"), ("Documents", "Documents")] {
+        for (label, sub) in [("RetroArch saves", "RetroArch/saves"), ("RetroArch states", "RetroArch/states"), (crate::i18n::tr("Downloads"), "Download"), (crate::i18n::tr("Documents"), "Documents")] {
             let p = phone.join(sub);
             if p.is_dir() {
                 out.push((label.to_string(), p));
             }
         }
-        out.push(("Phone storage".to_string(), phone));
+        out.push((crate::i18n::tr("Phone storage").to_string(), phone));
         return out;
     }
     let env = |k: &str| std::env::var_os(k).map(PathBuf::from);

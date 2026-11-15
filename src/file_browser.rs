@@ -4,7 +4,7 @@
 #![cfg_attr(not(target_os = "android"), allow(dead_code))]
 
 use crate::widgets::ScrollLock;
-use crate::i18n::tr;
+use crate::i18n::{tr, trf};
 use eframe::egui::{self, RichText, ScrollArea};
 use std::path::{Path, PathBuf};
 
@@ -39,11 +39,11 @@ fn places() -> Vec<(String, PathBuf)> {
     let mut out = Vec::new();
     if cfg!(target_os = "android") {
         let internal = PathBuf::from("/storage/emulated/0");
-        out.push(("Phone storage".to_string(), internal.clone()));
+        out.push((tr("Phone storage").to_string(), internal.clone()));
         for (label, sub) in [
-            ("Downloads", "Download"),
+            (tr("Downloads"), "Download"),
             ("RetroArch saves", "RetroArch/saves"),
-            ("Documents", "Documents"),
+            (tr("Documents"), "Documents"),
         ] {
             let p = internal.join(sub);
             if p.is_dir() {
@@ -55,12 +55,12 @@ fn places() -> Vec<(String, PathBuf)> {
             for e in rd.flatten() {
                 let n = e.file_name().to_string_lossy().into_owned();
                 if n != "emulated" && n != "self" && e.path().is_dir() {
-                    out.push((format!("SD card ({n})"), e.path()));
+                    out.push((trf("SD card ({0})", &[&n]), e.path()));
                 }
             }
         }
     } else if let Some(home) = std::env::var_os("HOME").or_else(|| std::env::var_os("USERPROFILE")).map(PathBuf::from) {
-        out.push(("Home".to_string(), home));
+        out.push((tr("Home folder").to_string(), home));
     }
     out
 }
@@ -103,7 +103,7 @@ impl FileBrowser {
                 self.entries
                     .sort_by(|a, b| b.1.cmp(&a.1).then_with(|| a.0.to_lowercase().cmp(&b.0.to_lowercase())));
             }
-            Err(e) => self.error = Some(format!("Can't open this folder: {e}")),
+            Err(e) => self.error = Some(trf("Can't open this folder: {0}", &[&e])),
         }
     }
 
@@ -176,8 +176,8 @@ impl FileBrowser {
                     ui.horizontal(|ui| {
                         let (label, ok) = match self.mode {
                             Mode::OpenFile => ("", false),
-                            Mode::Folder => ("Use this folder", true),
-                            Mode::SaveFile => ("Save here", !self.name.trim().is_empty()),
+                            Mode::Folder => (tr("Use this folder"), true),
+                            Mode::SaveFile => (tr("Save here"), !self.name.trim().is_empty()),
                         };
                         if !label.is_empty() && ui.add_enabled(ok, egui::Button::new(label)).clicked() {
                             out = Some(Outcome::Picked(match self.mode {
