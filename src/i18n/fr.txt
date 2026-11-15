@@ -27303,3 +27303,6 @@ none found
 
 Words in any order work ("witcher 3" or "3 witcher"), and so do short names made from the initials of the name with its numbers, such as bg3, gta5 or ff7.
 = Les mots fonctionnent dans n'importe quel ordre ("witcher 3" ou "3 witcher"), tout comme les noms courts formés des initiales du nom avec ses chiffres, comme bg3, gta5 ou ff7.
+
+Show all {0}
+= Afficher les {0}

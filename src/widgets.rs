@@ -131,17 +131,39 @@ pub fn choice_editor(ui: &mut Ui, id_src: &str, current: &str, list: &[String], 
             r.request_focus();
         }
         let f = filter.trim().to_lowercase();
-        for name in list.iter().filter(|n| f.is_empty() || n.to_lowercase().contains(&f)) {
+        let shown: Vec<&String> = list.iter().filter(|n| f.is_empty() || n.to_lowercase().contains(&f)).collect();
+        long_list(ui, id.with("rows"), shown.len(), |ui, i| {
+            let name = shown[i];
             if ui.selectable_label(name == current, name).clicked() && name != current {
                 out = Some(Value::String(name.clone()));
             }
-        }
+        });
         if out.is_some() {
             filter.clear();
         }
         ui.data_mut(|d| d.insert_temp(fid, filter));
     });
     out
+}
+
+/// Past this many rows a drop-down list only lays out the rows in view.
+const LONG_LIST: usize = 200;
+
+/// `n` same-height selectable rows. Short lists are drawn whole; long ones in a scroll area that
+/// only lays out the visible rows, at the width the drop-down already has.
+fn long_list(ui: &mut Ui, id: egui::Id, n: usize, mut row: impl FnMut(&mut Ui, usize)) {
+    if n <= LONG_LIST {
+        (0..n).for_each(|i| row(ui, i));
+        return;
+    }
+    let w = ui.available_width();
+    let row_h = ui.spacing().interact_size.y;
+    egui::ScrollArea::vertical().id_salt(id).max_height(300.0).auto_shrink([false, true]).show_rows_locked(ui, row_h, n, |ui, range| {
+        ui.set_min_width(w);
+        for i in range {
+            row(ui, i);
+        }
+    });
 }
 
 /// A box for typing an id with a filterable drop-down of known ones beside it. The typed text
@@ -157,11 +179,11 @@ pub fn id_picker(ui: &mut Ui, id_src: &str, text: &mut String, known: &[String],
         if list.is_empty() {
             ui.weak(tr("Nothing in this save matches"));
         }
-        for k in list {
-            if ui.selectable_label(false, k).clicked() {
-                *text = k.clone();
+        long_list(ui, egui::Id::new(("id_picker_rows", id_src)), list.len(), |ui, i| {
+            if ui.selectable_label(false, list[i]).clicked() {
+                *text = list[i].clone();
             }
-        }
+        });
     });
 }
 
@@ -486,6 +508,22 @@ mod tests {
         assert_eq!(v, Value::from(16));
         frame(&ctx, &mut v, vec![key(egui::Key::ArrowDown, false)], false);
         assert_eq!(v, Value::from(15));
+    }
+
+    #[test]
+    fn long_lists_only_lay_out_visible_rows() {
+        let ctx = egui::Context::default();
+        let mut drawn = [0usize; 2];
+        for (k, n) in [50usize, 5000].into_iter().enumerate() {
+            let _ = ctx.run(egui::RawInput::default(), |ctx| {
+                egui::CentralPanel::default().show(ctx, |ui| long_list(ui, egui::Id::new("t"), n, |ui, _| {
+                    ui.selectable_label(false, "row");
+                    drawn[k] += 1;
+                }));
+            });
+        }
+        assert_eq!(drawn[0], 50, "short lists are drawn whole");
+        assert!(drawn[1] > 0 && drawn[1] < 100, "long list drew {} rows", drawn[1]);
     }
 
     #[test]

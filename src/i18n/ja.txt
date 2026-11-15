@@ -27378,3 +27378,6 @@ none found
 
 Words in any order work ("witcher 3" or "3 witcher"), and so do short names made from the initials of the name with its numbers, such as bg3, gta5 or ff7.
 = 単語は順序を問わず入力できます(「witcher 3」でも「3 witcher」でも可)。名前の頭文字と数字を並べた短い名前(bg3、gta5、ff7 など)も使えます。
+
+Show all {0}
+= {0} 件すべて表示

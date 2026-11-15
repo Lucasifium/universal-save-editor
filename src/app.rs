@@ -4477,6 +4477,9 @@ fn modal(ctx: &egui::Context, title: &str, add: impl FnOnce(&mut egui::Ui)) {
         .show(ctx, add);
 }
 
+/// How many found-save cards the game picker draws before offering "Show all".
+const CARDS_SHOWN: usize = 60;
+
 /// Draws the "Find my game's saves" window; returns the save picked to open and whether it was closed.
 fn game_picker_window(ctx: &egui::Context, gp: &mut GamePicker) -> (Option<PathBuf>, bool) {
         let found = gp.found.lock().map(|v| v.clone()).unwrap_or_default();
@@ -4691,7 +4694,11 @@ fn game_picker_window(ctx: &egui::Context, gp: &mut GamePicker) -> (Option<PathB
                         Some(f) => {
                             let cards = |ui: &mut egui::Ui, saves: &[&crate::games::Found], open: &mut Option<PathBuf>| {
                                 {
-                                    for s in saves {
+                                    // Many saves: the first 60, with a link for the rest (the cards vary in height).
+                                    let all_id = ui.id().with("gp_cards_all");
+                                    let all = ui.data(|d| d.get_temp::<bool>(all_id)).unwrap_or(false);
+                                    let shown = if all { saves.len() } else { saves.len().min(CARDS_SHOWN) };
+                                    for s in &saves[..shown] {
                                         theme::card(ui, |ui| {
                                             if ui.link(RichText::new(s.label.clone().unwrap_or_else(|| file_name(&s.path))).strong()).clicked() {
                                                 *open = Some(s.path.clone());
@@ -4704,6 +4711,9 @@ fn game_picker_window(ctx: &egui::Context, gp: &mut GamePicker) -> (Option<PathB
                                             ui.weak(trf("{0}  \u{00B7}  {1}", &[&when, &human_size(s.size as usize)]));
                                             ui.add(egui::Label::new(RichText::new(s.path.parent().map(|p| p.display().to_string()).unwrap_or_default()).weak().size(12.0)).truncate());
                                         });
+                                    }
+                                    if shown < saves.len() && ui.link(trf("Show all {0}", &[&saves.len()])).clicked() {
+                                        ui.data_mut(|d| d.insert_temp(all_id, true));
                                     }
                                 }
                             };
