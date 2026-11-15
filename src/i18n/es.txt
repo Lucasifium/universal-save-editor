@@ -29290,9 +29290,6 @@ The browser can't look through your folders, so pick the file yourself. On Windo
 The browser version can't open folders. Use the desktop app for this.
 = La versión del navegador no puede abrir carpetas. Usa la aplicación de escritorio para esto.
 
-The original save, from before this app first saved over it (.bak)
-= La partida original, de antes de que esta aplicación la sobrescribiera por primera vez (.bak)
-
 The save on disk now is backed up first. Backups › Quick restore brings it back.
 = Antes se hace una copia de la partida que hay ahora en el disco. Copias de seguridad › Restauración rápida la recupera.
 
@@ -29343,9 +29340,6 @@ just now
 
 no folder on this device can hold backups
 = ninguna carpeta de este dispositivo puede guardar copias
-
-the backup didn't match the save (the game may have just written to it), so the save was left in place
-= la copia no coincidía con la partida (puede que el juego acabara de escribir en ella), así que la partida se dejó en su sitio
 
 the backup from {0}
 = la copia de {0}
@@ -29436,3 +29430,18 @@ type a name for the backup
 
 {0}: {1} bytes changed
 = {0}: {1} bytes cambiados
+
+Original save (.bak)
+= Partida original (.bak)
+
+The original save, from before this app first saved over it
+= La partida original, de antes de que esta aplicación la sobrescribiera por primera vez
+
+the backup didn't match the save (the game may have just written to it)
+= la copia no coincidía con la partida (puede que el juego acabara de escribir en ella)
+
+{0} saves
+= {0} partidas
+
+Couldn't write {0}: {1}
+= No se pudo escribir {0}: {1}

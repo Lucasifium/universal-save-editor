@@ -29375,9 +29375,6 @@ The browser can't look through your folders, so pick the file yourself. On Windo
 The browser version can't open folders. Use the desktop app for this.
 = ブラウザー版ではフォルダーを開けません。デスクトップ版のアプリを使ってください。
 
-The original save, from before this app first saved over it (.bak)
-= このアプリが最初に上書き保存する前の元のセーブデータ (.bak)
-
 The save on disk now is backed up first. Backups › Quick restore brings it back.
 = いまディスクにあるセーブデータは先にバックアップされます。バックアップ › クイック復元 で元に戻せます。
 
@@ -29428,9 +29425,6 @@ just now
 
 no folder on this device can hold backups
 = このデバイスにはバックアップを保存できるフォルダーがありません
-
-the backup didn't match the save (the game may have just written to it), so the save was left in place
-= バックアップがセーブデータと一致しませんでした（ゲームが書き込んだ直後かもしれません）。セーブデータはそのまま残しています
 
 the backup from {0}
 = {0} のバックアップ
@@ -29521,3 +29515,18 @@ type a name for the backup
 
 {0}: {1} bytes changed
 = {0}：{1} バイト変更
+
+Original save (.bak)
+= 元のセーブデータ (.bak)
+
+The original save, from before this app first saved over it
+= このアプリが最初に上書き保存する前の元のセーブデータ
+
+the backup didn't match the save (the game may have just written to it)
+= バックアップがセーブデータと一致しませんでした（ゲームが書き込んだ直後かもしれません）
+
+{0} saves
+= セーブデータ {0} 件
+
+Couldn't write {0}: {1}
+= {0} に書き込めませんでした：{1}

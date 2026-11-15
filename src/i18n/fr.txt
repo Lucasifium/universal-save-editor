@@ -29224,7 +29224,7 @@ Restore now
 = Restaurer maintenant
 
 Restored {0}. The save it replaced was backed up too, so you can switch back.
-= {0} restauré. La sauvegarde remplacée a aussi été copiée, vous pouvez donc revenir en arrière.
+= Restauration effectuée : {0}. La sauvegarde remplacée a aussi été copiée, vous pouvez donc revenir en arrière.
 
 SD card ({0})
 = Carte SD ({0})
@@ -29301,9 +29301,6 @@ The browser can't look through your folders, so pick the file yourself. On Windo
 The browser version can't open folders. Use the desktop app for this.
 = La version navigateur ne peut pas ouvrir de dossiers. Utilisez l'application de bureau pour cela.
 
-The original save, from before this app first saved over it (.bak)
-= La sauvegarde d'origine, avant que ce programme ne l'écrase pour la première fois (.bak)
-
 The save on disk now is backed up first. Backups › Quick restore brings it back.
 = La sauvegarde actuellement sur le disque est d'abord copiée. Copies de secours › Restauration rapide la remet en place.
 
@@ -29355,11 +29352,8 @@ just now
 no folder on this device can hold backups
 = aucun dossier de cet appareil ne peut accueillir les copies
 
-the backup didn't match the save (the game may have just written to it), so the save was left in place
-= la copie ne correspondait pas à la sauvegarde (le jeu vient peut-être d'y écrire), donc la sauvegarde a été laissée en place
-
 the backup from {0}
-= la copie de {0}
+= la copie ({0})
 
 the backup was made, but the save couldn't be removed: {0}
 = la copie a été créée, mais la sauvegarde n'a pas pu être retirée : {0}
@@ -29447,3 +29441,18 @@ type a name for the backup
 
 {0}: {1} bytes changed
 = {0} : {1} octets modifiés
+
+Original save (.bak)
+= Sauvegarde d'origine (.bak)
+
+The original save, from before this app first saved over it
+= La sauvegarde d'origine, avant que ce programme ne l'écrase pour la première fois
+
+the backup didn't match the save (the game may have just written to it)
+= la copie ne correspondait pas à la sauvegarde (le jeu vient peut-être d'y écrire)
+
+{0} saves
+= {0} sauvegardes
+
+Couldn't write {0}: {1}
+= Impossible d'écrire {0} : {1}

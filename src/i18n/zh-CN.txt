@@ -1382,7 +1382,7 @@ the folder you chose for backups
 = {0} 个结果（已达上限）
 
 {0} save  ·  last saved {1}
-= {0} 个存档  ·  最后保存于 {1}
+= {0} 个存档  ·  最后保存：{1}
 
 {0} save found — click one to open it:
 = 找到 {0} 个存档 — 点击即可打开：
@@ -1391,7 +1391,7 @@ the folder you chose for backups
 = {0} 个存档 — 点击即可打开：
 
 {0} saves  ·  last saved {1}
-= {0} 个存档  ·  最后保存于 {1}
+= {0} 个存档  ·  最后保存：{1}
 
 {0} saves found — click one to open it:
 = 找到 {0} 个存档 — 点击其中一个即可打开：
@@ -29348,9 +29348,6 @@ The browser can't look through your folders, so pick the file yourself. On Windo
 The browser version can't open folders. Use the desktop app for this.
 = 浏览器版本无法打开文件夹。请使用桌面版应用。
 
-The original save, from before this app first saved over it (.bak)
-= 本程序首次覆盖保存之前的原始存档 (.bak)
-
 The save on disk now is backed up first. Backups › Quick restore brings it back.
 = 磁盘上现有的存档会先被备份。可通过 备份 › 快速恢复 找回。
 
@@ -29401,9 +29398,6 @@ just now
 
 no folder on this device can hold backups
 = 此设备上没有可存放备份的文件夹
-
-the backup didn't match the save (the game may have just written to it), so the save was left in place
-= 备份与存档不一致（游戏可能刚刚写入过），因此存档保留在原处
 
 the backup from {0}
 = {0} 的备份
@@ -29494,3 +29488,18 @@ type a name for the backup
 
 {0}: {1} bytes changed
 = {0}：已更改 {1} 字节
+
+Original save (.bak)
+= 原始存档 (.bak)
+
+The original save, from before this app first saved over it
+= 本程序首次覆盖保存之前的原始存档
+
+the backup didn't match the save (the game may have just written to it)
+= 备份与存档不一致（游戏可能刚刚写入过）
+
+{0} saves
+= {0} 个存档
+
+Couldn't write {0}: {1}
+= 无法写入 {0}：{1}

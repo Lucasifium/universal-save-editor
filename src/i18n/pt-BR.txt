@@ -29187,7 +29187,7 @@ Restore now
 = Restaurar agora
 
 Restored {0}. The save it replaced was backed up too, so you can switch back.
-= {0} restaurado. O save substituído também recebeu backup, então você pode voltar a ele.
+= Restaurado: {0}. O save substituído também recebeu backup, então você pode voltar a ele.
 
 SD card ({0})
 = Cartão SD ({0})
@@ -29264,9 +29264,6 @@ The browser can't look through your folders, so pick the file yourself. On Windo
 The browser version can't open folders. Use the desktop app for this.
 = A versão do navegador não abre pastas. Use o aplicativo para computador para isso.
 
-The original save, from before this app first saved over it (.bak)
-= O save original, de antes de este aplicativo salvar por cima dele pela primeira vez (.bak)
-
 The save on disk now is backed up first. Backups › Quick restore brings it back.
 = O save que está no disco agora recebe um backup antes. Backups › Restauração rápida o traz de volta.
 
@@ -29318,11 +29315,8 @@ just now
 no folder on this device can hold backups
 = nenhuma pasta deste dispositivo pode guardar backups
 
-the backup didn't match the save (the game may have just written to it), so the save was left in place
-= o backup não batia com o save (talvez o jogo tenha acabado de gravar nele), então o save ficou no lugar
-
 the backup from {0}
-= o backup de {0}
+= o backup ({0})
 
 the backup was made, but the save couldn't be removed: {0}
 = o backup foi feito, mas o save não pôde ser removido: {0}
@@ -29410,3 +29404,18 @@ type a name for the backup
 
 {0}: {1} bytes changed
 = {0}: {1} bytes alterados
+
+Original save (.bak)
+= Save original (.bak)
+
+The original save, from before this app first saved over it
+= O save original, de antes de este aplicativo salvar por cima dele pela primeira vez
+
+the backup didn't match the save (the game may have just written to it)
+= o backup não batia com o save (talvez o jogo tenha acabado de gravar nele)
+
+{0} saves
+= {0} saves
+
+Couldn't write {0}: {1}
+= Não foi possível gravar {0}: {1}

@@ -428,7 +428,7 @@ pub fn set_aside(save: &Path, name: &str) -> Result<PathBuf, String> {
     let kept = take_named(save, name)?;
     let (a, b) = (std::fs::read(save).map_err(|e| e.to_string())?, std::fs::read(&kept).map_err(|e| e.to_string())?);
     if a != b {
-        return Err(tr("the backup didn't match the save (the game may have just written to it), so the save was left in place").into());
+        return Err(tr("the backup didn't match the save (the game may have just written to it)").into());
     }
     std::fs::remove_file(save).map_err(|e| trf("the backup was made, but the save couldn't be removed: {0}", &[&e]))?;
     Ok(kept)

@@ -95,7 +95,7 @@ impl App {
                     let label = r.newest.label.clone().unwrap_or_else(|| file_name(&r.newest.path));
                     let mut line = format!("{label} \u{00B7} {} \u{00B7} {}", when(&r.newest), human_size(r.newest.size as usize));
                     if r.count > 1 {
-                        line.push_str(&format!(" \u{00B7} {} saves", r.count));
+                        line.push_str(&format!(" \u{00B7} {}", trf("{0} saves", &[&r.count])));
                     }
                     ui.add(egui::Label::new(RichText::new(line).weak().size(12.5)).truncate());
                     if r.count > 1 {

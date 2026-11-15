@@ -1766,7 +1766,8 @@ impl App {
             }
         }
         if let Err(e) = write_in_place(&path, &out) {
-            return self.fail(trf("Couldn't write {0}: {1}. The file on disk wasn't changed.", &[&path.display(), &e]));
+            // In the browser the download may already have happened.
+            return self.fail(if WEB { trf("Couldn't write {0}: {1}", &[&path.display(), &e]) } else { trf("Couldn't write {0}: {1}. The file on disk wasn't changed.", &[&path.display(), &e]) });
         }
         self.load(&path);
         self.ok(trf("Copied {0} (level {1}) into slot {2}. It shows up on the game's Load Game screen.", &[&who.name, &who.level, &(to + 1)]));
@@ -2146,7 +2147,7 @@ impl App {
                         }
                         if has_bak {
                             ui.separator();
-                            if ui.button(tr("The original save, from before this app first saved over it (.bak)")).clicked() {
+                            if ui.button(tr("Original save (.bak)")).on_hover_text(tr("The original save, from before this app first saved over it")).clicked() {
                                 pick = bak.clone().map(|b| (b, tr("the original save").to_string()));
                             }
                         }
@@ -4790,8 +4791,6 @@ impl App {
     }
 }
 
-/// Replaces the file at `path` with `bytes`. On a computer: through a temporary file swapped
-/// in, so a crash can never leave a half-written save. In the browser: as a download.
 /// The "show in the file manager" command for the open file or (`backups`) its backups folder.
 fn reveal_text(backups: bool) -> Option<&'static str> {
     platform::reveal_label()?;
@@ -4806,6 +4805,8 @@ fn reveal_text(backups: bool) -> Option<&'static str> {
     })
 }
 
+/// Replaces the file at `path` with `bytes`. On a computer: through a temporary file swapped
+/// in, so a crash can never leave a half-written save. In the browser: as a download.
 fn write_in_place(path: &Path, bytes: &[u8]) -> Result<(), String> {
     #[cfg(target_arch = "wasm32")]
     {

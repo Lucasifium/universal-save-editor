@@ -29294,9 +29294,6 @@ The browser can't look through your folders, so pick the file yourself. On Windo
 The browser version can't open folders. Use the desktop app for this.
 = Die Browser-Version kann keine Ordner öffnen. Verwenden Sie dafür die Desktop-App.
 
-The original save, from before this app first saved over it (.bak)
-= Der ursprüngliche Spielstand, bevor dieses Programm ihn zum ersten Mal überschrieben hat (.bak)
-
 The save on disk now is backed up first. Backups › Quick restore brings it back.
 = Der aktuelle Spielstand auf der Festplatte wird vorher gesichert. Sicherungen › Schnell wiederherstellen holt ihn zurück.
 
@@ -29348,11 +29345,8 @@ just now
 no folder on this device can hold backups
 = kein Ordner auf diesem Gerät kann Sicherungen aufnehmen
 
-the backup didn't match the save (the game may have just written to it), so the save was left in place
-= die Sicherung stimmte nicht mit dem Spielstand überein (vielleicht hat das Spiel gerade hineingeschrieben), daher wurde der Spielstand nicht angetastet
-
 the backup from {0}
-= die Sicherung von {0}
+= die Sicherung ({0})
 
 the backup was made, but the save couldn't be removed: {0}
 = die Sicherung wurde angelegt, aber der Spielstand konnte nicht entfernt werden: {0}
@@ -29440,3 +29434,18 @@ type a name for the backup
 
 {0}: {1} bytes changed
 = {0}: {1} Bytes geändert
+
+Original save (.bak)
+= Ursprünglicher Spielstand (.bak)
+
+The original save, from before this app first saved over it
+= Der ursprüngliche Spielstand, bevor dieses Programm ihn zum ersten Mal überschrieben hat
+
+the backup didn't match the save (the game may have just written to it)
+= die Sicherung stimmte nicht mit dem Spielstand überein (vielleicht hat das Spiel gerade hineingeschrieben)
+
+{0} saves
+= {0} Spielstände
+
+Couldn't write {0}: {1}
+= {0} konnte nicht geschrieben werden: {1}
