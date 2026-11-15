@@ -32,7 +32,7 @@ for lit in literals:
     pat = re.escape(lit.encode())
     # The project's own public web addresses (github.com/<owner>/...) are not a build folder.
     if lit.startswith("/") and lit.endswith("/") and not lit.startswith("//"):
-        pat = rb"(?<!github\.com)(?<!githubusercontent\.com)" + pat
+        pat = rb"(?<!github\.com)(?<!githubusercontent\.com)(?<!github\.com/repos)" + pat
     PATTERNS.append(pat)
 REGEX = [re.compile(p, re.I) for p in PATTERNS]
 
