@@ -3578,10 +3578,10 @@ impl App {
                     ui.label(RichText::new(icon::SEARCH).family(theme::icons_family()).weak());
                 }
                 let id = egui::Id::new("search_box");
-                if narrow(ui) && ui.available_width() < 250.0 {
+                if narrow(ui) && ui.available_size_before_wrap().x < 250.0 {
                     ui.end_row();
                 }
-                let w = if narrow(ui) { (ui.available_width() - 150.0).max(80.0) } else { (ui.available_width() - 400.0).clamp(120.0, 320.0) };
+                let w = if narrow(ui) { (ui.available_size_before_wrap().x - 150.0).max(80.0) } else { (ui.available_width() - 400.0).clamp(120.0, 320.0) };
                 let hint = if self.tab == Tab::Tree { tr("Filter the tree by name or value  (Ctrl+F)") } else { tr("Search names or values  (Ctrl+F)") };
                 let r = ui.add(TextEdit::singleline(&mut self.search).id(id).hint_text(hint).desired_width(w));
                 let r = widgets::named(r, egui::WidgetType::TextEdit, hint);
@@ -3629,14 +3629,16 @@ impl App {
         let id = egui::Id::new("game_find_box");
         let before = self.game_find.clone();
         // Too little room left on the phone's tab line: the box goes on its own line.
-        if narrow(ui) && ui.available_width() < 160.0 {
+        // (In the phone's wrapping line, what is left of this row; the rest of a row on desktop.)
+        if narrow(ui) && ui.available_size_before_wrap().x < 110.0 {
             ui.end_row();
         }
+        let room = ui.available_size_before_wrap().x;
         // A phone has no Ctrl+F, and no room for the long hint.
         let hint = if narrow(ui) { tr("Find\u{2026}") } else { tr("Find on this screen  (Ctrl+F)") };
         // As wide as its hint (French and German cut it off at 200 px), within reason.
         let hint_w = ui.fonts(|f| f.layout_no_wrap(hint.to_string(), egui::TextStyle::Body.resolve(ui.style()), Color32::WHITE).size().x);
-        let w = (hint_w + 12.0).clamp(200.0, 320.0).min(ui.available_width() - 2.0 * ui.spacing().button_padding.x);
+        let w = (hint_w + 12.0).clamp(200.0, 320.0).min(room - 2.0 * ui.spacing().item_spacing.x - 12.0);
         let r = ui.add(TextEdit::singleline(&mut self.game_find).id(id).hint_text(hint).desired_width(w));
         let r = widgets::named(r, egui::WidgetType::TextEdit, hint);
         if self.focus_game_find {
