@@ -26,7 +26,7 @@ mod samples {
         let mut n = 0;
         for e in std::fs::read_dir(dir).unwrap().flatten() {
             let d = std::fs::read(e.path()).unwrap();
-            if let Some(mut doc) = crate::fmt::parse_binary(&d) {
+            if let Some(doc) = crate::fmt::parse_binary(&d) {
                 if !doc.kind_name.starts_with("Super ") && !doc.kind_name.contains("Link to") && !doc.kind_name.contains("Final Fantasy VI") && !doc.kind_name.contains("Chrono Trigger") && !doc.kind_name.contains("Secret of Mana") && !doc.kind_name.contains("Mystic Quest") && !doc.kind_name.starts_with("Xenoblade") && !doc.kind_name.starts_with("Breath of") && !doc.kind_name.starts_with("Mario Kart 7") && !doc.kind_name.starts_with("Super Kirby") && !doc.kind_name.starts_with("Kid Icarus") && !doc.kind_name.starts_with("Team Kirby") && !doc.kind_name.starts_with("Mario & Luigi") && !KINDS.contains(&doc.kind_name.as_str()) {
                     continue;
                 }

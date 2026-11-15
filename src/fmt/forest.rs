@@ -24,6 +24,7 @@ struct Layout {
     tail: Vec<u8>,
 }
 
+#[cfg(test)]
 fn varint_len(n: usize) -> Vec<u8> {
     let mut v = vec![];
     let mut n = n;

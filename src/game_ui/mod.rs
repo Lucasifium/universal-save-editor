@@ -89,6 +89,7 @@ pub const SHOW_IN_TREE: &str = "show_in_tree_request";
 mod simple;
 
 /// Texts of the table-driven screens, for the translation check.
+#[allow(dead_code)] // only the tests call it (the i18n scan stops at the first cfg(test))
 pub fn spec_texts() -> Vec<&'static str> {
     simple::texts()
 }

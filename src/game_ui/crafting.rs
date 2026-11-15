@@ -10,7 +10,7 @@
 
 use super::{Game, GameCtx};
 use crate::json_view::pointer_escape;
-use eframe::egui::{self, Ui};
+use eframe::egui::Ui;
 use serde_json::Value;
 use std::collections::{HashMap, HashSet};
 use std::sync::OnceLock;
@@ -172,6 +172,7 @@ pub fn stacks(game: Game, cx: &GameCtx) -> Result<Vec<Stack>, &'static str> {
 }
 
 /// Raises every material stack below its cap. Returns how many stacks changed.
+#[allow(dead_code)] // only the tests call it (the i18n scan stops at the first cfg(test))
 pub fn apply(game: Game, cx: &mut GameCtx) -> usize {
     let Ok(list) = stacks(game, cx) else { return 0 };
     raise(&list, cx)

@@ -92,7 +92,7 @@ pub fn parse(text: &str) -> Result<TreeDoc, String> {
     let mut cur: Option<(String, Map<String, Value>, usize)> = None;
     let mut name_hint = (String::new(), String::new());
     let mut off = 0usize;
-    let mut add = |leaves: &mut Vec<Leaf>, start: usize, end: usize, text: &str| -> (usize, Value) {
+    let add = |leaves: &mut Vec<Leaf>, start: usize, end: usize, text: &str| -> (usize, Value) {
         let id = leaves.len();
         let orig = text[start..end].to_string();
         let v = text_to_value(&orig);

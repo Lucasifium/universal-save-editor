@@ -656,6 +656,7 @@ fn parse_as(d: &[u8], sections: bool, stamp: usize) -> Result<TreeDoc, String> {
 }
 
 /// SaveExtension slot files (Atomic Heart) start with the number 1 where `GVAS` would be.
+#[cfg(test)]
 pub fn parse_slot(d: &[u8]) -> Result<TreeDoc, String> {
     parse_as_magic(d, false, 0, &[1, 0, 0, 0], false)
 }

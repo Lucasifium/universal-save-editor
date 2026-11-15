@@ -376,5 +376,7 @@ const EQUIP: &[(u8, u8, &str)] = &[
     (0x58, 3, "Secret boots"),
     (0x59, 1, "Alucart mail"),
 ];
+#[allow(dead_code)] // item category names, documents the format
 const HAND_TYPES: &[&str] = &["Short Swords", "Swords", "Throws 1", "Fists", "Clubs", "Two-hands", "Foods", "Bombs", "Throws 2", "Shields", "Medicines"];
+#[allow(dead_code)] // item category names, documents the format
 const EQUIP_TYPES: &[&str] = &["Headgears", "Armor", "Cloaks", "Accessories"];

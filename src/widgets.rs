@@ -484,7 +484,7 @@ mod tests {
     fn arrow_keys_step_a_focused_number_box() {
         let ctx = egui::Context::default();
         let mut v = Value::from(5);
-        let mut frame = |ctx: &egui::Context, v: &mut Value, events: Vec<egui::Event>, focus: bool| {
+        let frame = |ctx: &egui::Context, v: &mut Value, events: Vec<egui::Event>, focus: bool| {
             let input = egui::RawInput { events, ..Default::default() };
             let mut edit = None;
             let _ = ctx.run(input, |ctx| {
@@ -517,7 +517,7 @@ mod tests {
         for (k, n) in [50usize, 5000].into_iter().enumerate() {
             let _ = ctx.run(egui::RawInput::default(), |ctx| {
                 egui::CentralPanel::default().show(ctx, |ui| long_list(ui, egui::Id::new("t"), n, |ui, _| {
-                    ui.selectable_label(false, "row");
+                    let _ = ui.selectable_label(false, "row");
                     drawn[k] += 1;
                 }));
             });

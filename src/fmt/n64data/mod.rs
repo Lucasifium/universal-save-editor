@@ -92,6 +92,7 @@ pub fn sram_put(outer: &[u8], inner: &[u8], valid: fn(&[u8]) -> bool) -> Vec<u8>
 }
 
 /// True for the sizes an EEPROM save comes in (the EEPROM leads an emulator's `.srm`).
+#[allow(dead_code)] // EEPROM sizes, documents the .srm layout
 pub fn eeprom_size(d: &[u8]) -> bool {
     matches!(d.len(), 512 | 2048 | 296_960)
 }

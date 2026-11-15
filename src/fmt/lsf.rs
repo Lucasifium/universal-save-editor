@@ -241,6 +241,7 @@ impl<'a> Lsf<'a> {
         self.nodes[n].0
     }
 
+    #[cfg(test)]
     pub fn node_count(&self) -> usize {
         self.nodes.len()
     }

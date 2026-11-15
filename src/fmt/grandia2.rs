@@ -520,7 +520,7 @@ mod tests {
         let Ok(dir) = std::env::var("GRANDIA2_SAMPLES") else { return };
         for e in std::fs::read_dir(dir).unwrap().flatten() {
             let d = std::fs::read(e.path()).unwrap();
-            let mut doc = parse(&d).unwrap();
+            let doc = parse(&d).unwrap();
             assert_eq!(doc.to_bytes().unwrap(), d);
             println!("{:?} ok", e.file_name());
         }

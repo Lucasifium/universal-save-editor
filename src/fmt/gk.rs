@@ -18,8 +18,10 @@ use std::collections::HashMap;
 use std::sync::OnceLock;
 
 pub const KIND: &str = "Graveyard Keeper save";
+#[allow(dead_code)] // Graveyard Keeper reader/writer, not hooked up yet (only KIND is used)
 const HEADER: usize = 80;
 
+#[allow(dead_code)] // Graveyard Keeper reader/writer, not hooked up yet (only KIND is used)
 fn names() -> &'static HashMap<i32, &'static str> {
     static N: OnceLock<HashMap<i32, &'static str>> = OnceLock::new();
     N.get_or_init(|| {
@@ -37,6 +39,7 @@ fn names() -> &'static HashMap<i32, &'static str> {
 }
 
 #[derive(Clone, Debug, PartialEq)]
+#[allow(dead_code)] // Graveyard Keeper reader/writer, not hooked up yet (only KIND is used)
 struct Str {
     /// The bytes as the text uses them (already decoded for the string table).
     bytes: Vec<u8>,
@@ -44,6 +47,7 @@ struct Str {
     n: i32,
 }
 
+#[allow(dead_code)] // Graveyard Keeper reader/writer, not hooked up yet (only KIND is used)
 impl Str {
     fn text(&self) -> String {
         String::from_utf8_lossy(&self.bytes).into_owned()
@@ -54,6 +58,7 @@ impl Str {
 }
 
 #[derive(Clone, Debug)]
+#[allow(dead_code)] // Graveyard Keeper reader/writer, not hooked up yet (only KIND is used)
 enum Val {
     Null,
     Bool(bool),
@@ -69,6 +74,7 @@ enum Val {
 }
 
 #[derive(Clone, Debug)]
+#[allow(dead_code)] // Graveyard Keeper reader/writer, not hooked up yet (only KIND is used)
 enum Node {
     /// type 250; `None`: the count was -1.
     Obj(Option<Vec<(i32, Node)>>),
@@ -80,6 +86,7 @@ enum Node {
     Leaf(usize),
 }
 
+#[allow(dead_code)] // Graveyard Keeper reader/writer, not hooked up yet (only KIND is used)
 struct Reader<'a> {
     d: &'a [u8],
     pos: usize,
@@ -88,6 +95,7 @@ struct Reader<'a> {
     types: Vec<u8>,
 }
 
+#[allow(dead_code)] // Graveyard Keeper reader/writer, not hooked up yet (only KIND is used)
 fn dec(b: u8) -> u8 {
     if b == 0 || b == 109 {
         b
@@ -96,6 +104,7 @@ fn dec(b: u8) -> u8 {
     }
 }
 
+#[allow(dead_code)] // Graveyard Keeper reader/writer, not hooked up yet (only KIND is used)
 impl<'a> Reader<'a> {
     fn take(&mut self, n: usize) -> Result<&'a [u8], String> {
         let s = self.d.get(self.pos..self.pos + n).ok_or("The save ends early")?;
@@ -246,6 +255,7 @@ impl<'a> Reader<'a> {
     }
 }
 
+#[allow(dead_code)] // Graveyard Keeper reader/writer, not hooked up yet (only KIND is used)
 pub fn looks(d: &[u8]) -> bool {
     if d.len() < HEADER + 8 {
         return false;
@@ -254,6 +264,7 @@ pub fn looks(d: &[u8]) -> bool {
     pos > HEADER as i64 && (pos as usize) < d.len() - 3 && i32::from_le_bytes(d[HEADER - 4 + 4..HEADER].try_into().unwrap_or([0; 4])) >= -1
 }
 
+#[allow(dead_code)] // Graveyard Keeper reader/writer, not hooked up yet (only KIND is used)
 struct Parsed {
     root: Node,
     leaves: Vec<Val>,
@@ -261,6 +272,7 @@ struct Parsed {
     table: Vec<Option<Str>>,
 }
 
+#[allow(dead_code)] // Graveyard Keeper reader/writer, not hooked up yet (only KIND is used)
 fn read_all(d: &[u8]) -> Result<Parsed, String> {
     if !looks(d) {
         return Err("not a Graveyard Keeper save".into());
@@ -289,6 +301,7 @@ fn read_all(d: &[u8]) -> Result<Parsed, String> {
 
 // ------------------------------------------------------------------ the tree shown
 
+#[allow(dead_code)] // Graveyard Keeper reader/writer, not hooked up yet (only KIND is used)
 fn leaf_view(v: &Val) -> Value {
     match v {
         Val::Null => Value::Null,
@@ -302,14 +315,17 @@ fn leaf_view(v: &Val) -> Value {
     }
 }
 
+#[allow(dead_code)] // Graveyard Keeper reader/writer, not hooked up yet (only KIND is used)
 fn editable_leaf(v: &Val) -> bool {
     !matches!(v, Val::Null | Val::Str(None) | Val::Idx(_, None))
 }
 
+#[allow(dead_code)] // Graveyard Keeper reader/writer, not hooked up yet (only KIND is used)
 fn label(h: i32) -> String {
     names().get(&h).map_or_else(|| h.to_string(), |s| s.to_string())
 }
 
+#[allow(dead_code)] // Graveyard Keeper reader/writer, not hooked up yet (only KIND is used)
 fn build(n: &Node, ptr: &str, p: &Parsed, edit: &mut HashMap<String, usize>) -> Value {
     match n {
         Node::Obj(None) => Value::Null,
@@ -350,6 +366,7 @@ fn build(n: &Node, ptr: &str, p: &Parsed, edit: &mut HashMap<String, usize>) -> 
 // ------------------------------------------------------------------ writing
 
 #[derive(Clone, Debug)]
+#[allow(dead_code)] // Graveyard Keeper reader/writer, not hooked up yet (only KIND is used)
 struct GkBackend {
     head: Vec<u8>,
     root: Node,
@@ -358,6 +375,7 @@ struct GkBackend {
     table: Vec<Option<Str>>,
 }
 
+#[allow(dead_code)] // Graveyard Keeper reader/writer, not hooked up yet (only KIND is used)
 struct Writer<'a> {
     out: Vec<u8>,
     leaves: &'a [Val],
@@ -365,6 +383,7 @@ struct Writer<'a> {
     table: Vec<Option<Str>>,
 }
 
+#[allow(dead_code)] // Graveyard Keeper reader/writer, not hooked up yet (only KIND is used)
 impl Writer<'_> {
     fn i32(&mut self, v: i32) {
         self.out.extend_from_slice(&v.to_le_bytes());
@@ -520,6 +539,7 @@ impl Backend for GkBackend {
     }
 }
 
+#[allow(dead_code)] // Graveyard Keeper reader/writer, not hooked up yet (only KIND is used)
 impl Writer<'_> {
     /// The root is written as a bare object (no type byte).
     fn value_root(&mut self, n: &Node) {
@@ -529,6 +549,7 @@ impl Writer<'_> {
     }
 }
 
+#[allow(dead_code)] // Graveyard Keeper reader/writer, not hooked up yet (only KIND is used)
 fn apply(old: &Val, v: &Value) -> Result<Val, String> {
     let whole = |what: &str| v.as_i64().ok_or_else(|| format!("{what} must be a whole number"));
     Ok(match old {
@@ -545,6 +566,7 @@ fn apply(old: &Val, v: &Value) -> Result<Val, String> {
     })
 }
 
+#[allow(dead_code)] // Graveyard Keeper reader/writer, not hooked up yet (only KIND is used)
 pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
     let p = read_all(d)?;
     let mut edit = HashMap::new();

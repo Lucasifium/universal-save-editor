@@ -1,7 +1,7 @@
 //! More games for the table-driven screens: one `Spec` per game, as in `specs.rs`. Values are only
 //! listed once they read correctly on a real save.
 
-use super::{List, Max, Section, Shape, Spec, Table};
+use super::{Section, Spec, Table};
 use crate::i18n::tx;
 
 pub static MORE: &[Spec] = &[STRANDED_DEEP, LOKR, BANNER_SAGA3, PROJECT_WARLOCK, HORIZON_CHASE, DOORKICKERS, DOORKICKERS_DOCTRINE, DOORKICKERS_UNLOCKED, SATELLITE_REIGN, TOOTH_AND_TAIL, CHEF, XREBIRTH, ETHERLORDS, NECROMUNDA, FOOD_TRUCK, WORKSHOP_SIM, PATHWAY, GLADIATOR_GUILD, CAT_GOES_FISHING, THYMESIA, KING_ARTHUR];

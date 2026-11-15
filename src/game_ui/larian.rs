@@ -290,7 +290,7 @@ fn risk_text(r: crate::fmt::bg3_flags::Risk) -> &'static str {
 
 /// The story's global flags by area and companion, each a check box, with risky ones marked
 /// (see `fmt::bg3_flags`).
-fn bg3_story(ui: &mut Ui, cx: &mut GameCtx, accent: Color32) {
+fn bg3_story(ui: &mut Ui, cx: &mut GameCtx, _accent: Color32) {
     let sections = keys(cx, "/Story flags");
     if sections.is_empty() {
         return;
