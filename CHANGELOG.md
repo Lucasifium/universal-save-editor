@@ -16,6 +16,9 @@
 - Fixed: Metal Gear Solid V: The Phantom Pain saves (TPP_GAME_DATA, PERSONAL_DATA, TPP_CONFIG_DATA) opened as hex instead of the game screen
 - Metal Gear Solid V: Ground Zeroes saves are decrypted for the hex view, with their checksum redone on save
 - Find my game's saves also looks in The Phantom Pain's 287700\local save folder
+- Phone-size windows (the Android app, a narrow browser window): the menus fold into one ☰ button so the toolbar is a single line (menu, file name, Undo, Save); game screens get a row of large section chips to swipe through and tap to jump to each part, marked when a part holds a change; header tiles sit two to a row and keep their − and + buttons; the Changes list takes the whole width
+- Save shows how many changes it will write ("Save (3)"), and the Changes button sits next to it
+- The note about the opened file takes one line under the toolbar (More shows all of it); Dismiss hides it for every file with the same note, and View › Show the note about this file brings it back
 
 - Light theme: text boxes have an outline, changed values and the unsaved-changes count are readable on white, the open Changes button no longer shows white text on a pale background, and switches that are off are visible
 - Windows and dialogs have more room inside their edges (phone-width screens keep the narrow margin)

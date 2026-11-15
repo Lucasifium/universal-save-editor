@@ -578,6 +578,8 @@ fn begin_sections(ctx: &egui::Context) {
 fn end_sections(ctx: &egui::Context) {
     let mut now: Vec<Section> = ctx.data_mut(|d| {
         d.remove_temp::<usize>(egui::Id::new(SEC_EDITS));
+        // A jump to a section that wasn't drawn is dropped, not kept for whatever comes later.
+        d.remove_temp::<usize>(egui::Id::new(SEC_JUMP));
         d.remove_temp(egui::Id::new(SEC_NOW))
     })
     .unwrap_or_default();

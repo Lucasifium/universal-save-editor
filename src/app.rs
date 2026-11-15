@@ -3578,7 +3578,10 @@ impl App {
                     ui.label(RichText::new(icon::SEARCH).family(theme::icons_family()).weak());
                 }
                 let id = egui::Id::new("search_box");
-                let w = if narrow(ui) { ui.available_width() - 150.0 } else { (ui.available_width() - 400.0).clamp(120.0, 320.0) };
+                if narrow(ui) && ui.available_width() < 250.0 {
+                    ui.end_row();
+                }
+                let w = if narrow(ui) { (ui.available_width() - 150.0).max(80.0) } else { (ui.available_width() - 400.0).clamp(120.0, 320.0) };
                 let hint = if self.tab == Tab::Tree { tr("Filter the tree by name or value  (Ctrl+F)") } else { tr("Search names or values  (Ctrl+F)") };
                 let r = ui.add(TextEdit::singleline(&mut self.search).id(id).hint_text(hint).desired_width(w));
                 let r = widgets::named(r, egui::WidgetType::TextEdit, hint);

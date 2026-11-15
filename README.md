@@ -1114,6 +1114,13 @@ compression, encryption and checksums.
   and make them again on another save or slot of the game; preset files can be shared.
 - **Copy changes as text** (*Edit*, or the Changes panel): the list of changes, ready to paste
   when asking for help or sharing a recipe.
+- **Save shows the count**: the Save button says how many changes it will write (*Save (3)*), with
+  the Changes button next to it. The note about the opened file takes one line (*More* shows all of
+  it); once dismissed it stays hidden until *View › Show the note about this file*.
+- **Phone-size windows** (the Android app, a narrow browser window): the menus fold into one ☰
+  button so the toolbar is a single line, game screens get large section chips to swipe through and
+  tap to jump to each part (marked when it holds a change), and header tiles sit two to a row with
+  their − and + buttons.
 
 ## Safety
 
