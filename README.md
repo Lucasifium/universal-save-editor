@@ -3,7 +3,7 @@
 > **Free, and it always will be.** No price, no ads, no account, no paid version, no online service, no
 > rate limits. If anyone is charging you for this, it isn't from here.
 
-An offline save editor and save manager for 550+ (550) PC games (edit saves, and back up, name and restore them): Cairn, Terraria (characters and a world map editor),
+An offline save editor and save manager for 550+ (552) PC games (edit saves, and back up, name and restore them): Cairn, Terraria (characters and a world map editor),
 Oxygen Not Included, RimWorld, Stardew Valley, Onimusha: Way of the Sword, Elden Ring, Dark Souls,
 Cyberpunk 2077, the Persona, Yakuza and Final Fantasy games, Ren'Py visual novels, RPG Maker games
 and more (the full list is below). Written in Rust (egui). Nothing is uploaded anywhere, and there are
@@ -721,7 +721,6 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 | Chrono Trigger (SNES, emulator `.srm` saves) | *Slots*: gold and silver points, each character's experience, tech points, HP, MP, base stats and equipment (each slot's sum is kept right; checked against the sums of a public save, not yet tried in the game) |
 | Final Fantasy VI (SNES, emulator `.srm` saves) | *Slots*: gil, steps and play time, every party member's level, HP, MP, experience, stats, esper and equipment, and the inventory's items and quantities (each slot's sum is kept right; checked against the sums of a public save, not yet tried in the game) |
 | Mystic Quest (SNES, emulator `.srm` saves) | *Slots*: money, and the hero's and partner's level, experience, HP and spell charges (each slot's checksum is kept right; checked against public saves, not yet tried in the game) |
-| The Legend of Zelda: Oracle of Ages and Oracle of Seasons (Game Boy Color, emulator `.sav` saves) | *Slots*: health, heart pieces, rupees, deaths, sword and shield levels, bombs, bombchus and every kind of seed (each slot's sum is kept right; checked against public saves, not yet tried in the game) |
 | Secret of Mana (SNES, emulator `.srm` saves) | *Slots*: money, each hero's level, experience, HP and MP, and weapon and spirit levels (each slot's checksum is kept right; checked against a public save, not yet tried in the game) |
 | Super Metroid | *Samus A / B / C* (SNES emulator `.srm` saves): energy and reserve tanks, missiles, super missiles, power bombs, play time and the beams, suits and boots she has and has equipped (each slot's sums and their copies at the end of the file are kept right; checked against the sums of a public save, not yet tried in the game) |
 | The Legend of Zelda: A Link to the Past | *Slots* (SNES emulator `.srm` saves): hearts, magic, rupees, bombs and arrows with their capacity upgrades, the sword, shield, tunic and every item, and the four bottles (the slot's sum is kept right; checked against the sum of a public save, not yet tried in the game) |
@@ -770,6 +769,15 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 |---|---|
 | Super Smash Bros. Ultimate | *Main*: gold, tickets, hammers, snacks, SP and the spirit board item counts (Switch `system_data.bin`; checked on a public save, not yet tried in the game) |
 | Xenoblade Chronicles 3 | *Party*: gold, play time, every character's level, experience and bonus experience, and the amounts of ether cylinders, gem crystals and collectibles by id (Switch saves from an emulator or a dump; checked on a public save, not yet tried in the game) |
+
+</details>
+
+<details>
+<summary><strong>Game Boy</strong> (1)</summary>
+
+| Game | Screen |
+|---|---|
+| The Legend of Zelda: Oracle of Ages and Oracle of Seasons (Game Boy Color, emulator `.sav` saves) | *Slots*: health, heart pieces, rupees, deaths, sword and shield levels, bombs, bombchus and every kind of seed (each slot's sum is kept right; checked against public saves, not yet tried in the game) |
 
 </details>
 
@@ -826,7 +834,7 @@ The folders where saves were found are remembered (in `save_locations.json` next
 
 The start page lists **Your games**: every game in the list whose saves were found on this computer,
 newest first, each one click away from its newest save. *Find my game's saves* (the big button on the
-start page, *Find saves* in the toolbar and the File menu) lists every one of the 550+ (550) PC games the editor knows, Mass Effect 1–3, the Legendary Edition and Andromeda among them, with where it
+start page, *Find saves* in the toolbar and the File menu) lists every one of the 550+ (552) PC games the editor knows, Mass Effect 1–3, the Legendary Edition and Andromeda among them, with where it
 usually keeps its saves and what the files are called, and finds them on your computer (Steam
 libraries and `userdata`, Documents wherever Windows has it, AppData, Saved Games, Ubisoft
 Connect). On Linux and the Steam Deck it also looks inside Proton prefixes

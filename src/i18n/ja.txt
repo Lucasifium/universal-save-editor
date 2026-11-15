@@ -29609,3 +29609,9 @@ Shield level
 
 Slingshot level
 = スリングショットのレベル
+
+Game screen: for each of the three slots health, heart pieces, rupees, deaths, sword and shield levels, bombs, bombchus and every kind of seed. Each slot's sum is kept right. Checked on a public save, not yet tried in the game
+= ゲーム画面:スロットごとに、体力、ハートのかけら、ルピー、死亡回数、剣と盾のレベル、ボム、ボムチュウ、すべての種。各スロットのチェックサムは正しく保たれます。公開セーブで確認済みで、ゲーム内ではまだ試していません
+
+The emulator's save folder: BGB and SameBoy keep <ROM name>.sav next to the ROM, RetroArch in saves\\
+= エミュレーターのセーブフォルダー:BGBとSameBoyはROMの隣に<ROM名>.savを、RetroArchはsaves\\に保存します

@@ -29498,3 +29498,9 @@ Shield level
 
 Slingshot level
 = Nível do estilingue
+
+Game screen: for each of the three slots health, heart pieces, rupees, deaths, sword and shield levels, bombs, bombchus and every kind of seed. Each slot's sum is kept right. Checked on a public save, not yet tried in the game
+= Tela do jogo: por slot, saúde, pedaços de coração, rupias, mortes, níveis de espada e escudo, bombas, bombchus e todos os tipos de sementes. A soma de cada slot é mantida correta. Verificado em um save público, ainda não testado no jogo
+
+The emulator's save folder: BGB and SameBoy keep <ROM name>.sav next to the ROM, RetroArch in saves\\
+= A pasta de saves do emulador: BGB e SameBoy guardam <nome da ROM>.sav ao lado da ROM, o RetroArch em saves\\

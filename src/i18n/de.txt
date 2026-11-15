@@ -29531,3 +29531,9 @@ Shield level
 
 Slingshot level
 = Steinschleuder-Stufe
+
+Game screen: for each of the three slots health, heart pieces, rupees, deaths, sword and shield levels, bombs, bombchus and every kind of seed. Each slot's sum is kept right. Checked on a public save, not yet tried in the game
+= Spielansicht: pro Slot Gesundheit, Herzteile, Rubine, Tode, Schwert- und Schildstufen, Bomben, Kugelbomben und alle Samenarten. Die Summe jedes Slots wird richtig gehalten. An einem öffentlichen Spielstand geprüft, noch nicht im Spiel ausprobiert
+
+The emulator's save folder: BGB and SameBoy keep <ROM name>.sav next to the ROM, RetroArch in saves\\
+= Der Speicherordner des Emulators: BGB und SameBoy legen <ROM-Name>.sav neben der ROM ab, RetroArch in saves\\

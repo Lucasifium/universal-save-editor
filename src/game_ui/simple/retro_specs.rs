@@ -776,6 +776,7 @@ pub const GEX64: Spec = Spec {
     Table { title: tx("Red and silver remotes"), path: "/Levels", name: &[], cols: &[(tx("Red remote 1"), "/Red remote 1"), (tx("Red remote 2"), "/Red remote 2"), (tx("Red remote 3"), "/Red remote 3"), (tx("Hidden remote"), "/Hidden remote"), (tx("Reward remote"), "/Reward remote")], only: &[], names: &[] },
     Table { title: tx("Gold remotes"), path: "/Gold remotes", name: &[], cols: &[(tx("Collected"), "/Collected")], only: &[], names: &[] },
     ],
+};
 
 // ------------------------------------------------------------------ Zelda: Oracle of Ages (Game Boy Color)
 

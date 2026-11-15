@@ -29538,3 +29538,9 @@ Shield level
 
 Slingshot level
 = Niveau du lance-pierre
+
+Game screen: for each of the three slots health, heart pieces, rupees, deaths, sword and shield levels, bombs, bombchus and every kind of seed. Each slot's sum is kept right. Checked on a public save, not yet tried in the game
+= Écran du jeu : pour chaque emplacement, santé, quarts de cœur, rubis, morts, niveaux d'épée et de bouclier, bombes, bombchus et chaque type de graines. La somme de chaque emplacement reste correcte. Vérifié sur une sauvegarde publique, pas encore essayé dans le jeu
+
+The emulator's save folder: BGB and SameBoy keep <ROM name>.sav next to the ROM, RetroArch in saves\\
+= Le dossier de sauvegarde de l'émulateur : BGB et SameBoy gardent <nom de la ROM>.sav à côté de la ROM, RetroArch dans saves\\
