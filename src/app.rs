@@ -3234,25 +3234,22 @@ impl App {
             let described = formats::describe(&doc.layers, &doc.content);
             // A game screen was found for a generic format (JSON, XML...): name the game on the chip.
             let chip_text = match doc.game.and_then(|g| g.name()) {
-                Some(n) if !kind.contains(n) => format!("{n} save"),
+                Some(n) if !kind.contains(n) => trf("{0} save", &[&n]),
                 _ => kind.clone(),
             };
-            let hover = if chip_text != kind { format!("Detected format: {kind} ({described})") } else { format!("Detected format: {described}") };
+            let hover = if chip_text != kind { trf("Detected format: {0} ({1})", &[&kind, &described]) } else { trf("Detected format: {0}", &[&described]) };
             Self::chip(ui, &chip_text, theme::ACCENT).on_hover_text(hover);
             if doc.layers.iter().any(|l| matches!(l, Layer::RenpyZip { signed: true, .. } | Layer::RenpyPersistent { signed: true })) {
                 if crate::renpy_sign::can_sign() {
-                    Self::chip(ui, "Signed \u{2014} will re-sign", theme::OK).on_hover_text(
+                    Self::chip(ui, tr("Signed \u{2014} will re-sign"), theme::OK).on_hover_text(
                         tr("Ren'Py 8.1+ signs its saves. Your Ren'Py key was found on this PC, so edited saves are re-signed and load normally."),
                     );
                 } else {
-                    Self::chip(ui, "Signed save", theme::WARN).on_hover_text(
-                        "Ren'Py 8.1+ signs its saves, but your Ren'Py key (%APPDATA%\\RenPy\\tokens) wasn't found. \
-                         The old signature will be removed; the game will ask once whether to load the save \u{2014} choose Yes.",
-                    );
+                    Self::chip(ui, tr("Signed save"), theme::WARN).on_hover_text(tr("Ren'Py 8.1+ signs its saves, but your Ren'Py key (%APPDATA%\\RenPy\\tokens) wasn't found. The old signature will be removed; the game will ask once whether to load the save \u{2014} choose Yes."));
                 }
             }
             if let Some(game) = &self.running {
-                Self::chip(ui, &format!("{game} is running"), theme::WARN).on_hover_text(
+                Self::chip(ui, &trf("{0} is running", &[game]), theme::WARN).on_hover_text(
                     tr("The game was running when this file was opened. Quit it before saving, or it may overwrite your changes."),
                 );
             }
@@ -3261,10 +3258,10 @@ impl App {
             if rpg {
                 match &doc.names.source {
                     Some(dir) => {
-                        Self::chip(ui, "Names from game data", theme::OK).on_hover_text(dir.display().to_string());
+                        Self::chip(ui, tr("Names from game data"), theme::OK).on_hover_text(dir.display().to_string());
                     }
                     None => {
-                        if Self::chip(ui, "Game data not found \u{2014} click to locate", theme::WARN)
+                        if Self::chip(ui, tr("Game data not found \u{2014} click to locate"), theme::WARN)
                             .interact(egui::Sense::click())
                             .on_hover_text(tr("Point to the game's data folder to see variable, switch and item names"))
                             .clicked()
@@ -4187,17 +4184,17 @@ impl App {
                 ui.add_space(6.0);
                 ui.label(RichText::new(platform::DISPLAY_NAME).family(theme::semibold_family()).size(26.0).color(ui.visuals().strong_text_color()));
                 ui.label(if WEB {
-                    "Edit game saves safely \u{2014} it runs in your browser and nothing is uploaded."
+                    tr("Edit game saves safely \u{2014} it runs in your browser and nothing is uploaded.")
                 } else if cfg!(target_os = "android") {
-                    "Edit game saves safely \u{2014} everything stays on this device."
+                    tr("Edit game saves safely \u{2014} everything stays on this device.")
                 } else {
-                    "Edit game saves safely \u{2014} everything stays on this computer."
+                    tr("Edit game saves safely \u{2014} everything stays on this computer.")
                 });
                 ui.add_space(14.0);
                 if self.saves_found.is_some() {
                     // Finding the saves for you comes first; picking the file yourself is the other way in.
                     let find = egui::Button::new(RichText::new(tr("Find my game's saves")).color(Color32::WHITE)).fill(theme::ACCENT).min_size(egui::vec2(220.0, 40.0));
-                    let file = egui::Button::new(widgets::icon_text(ui, self.has_icons, icon::OPEN, "Open a file\u{2026}")).min_size(egui::vec2(160.0, 40.0));
+                    let file = egui::Button::new(widgets::icon_text(ui, self.has_icons, icon::OPEN, tr("Open a file\u{2026}"))).min_size(egui::vec2(160.0, 40.0));
                     let w = 220.0 + 160.0 + ui.spacing().item_spacing.x;
                     let side_by_side = ui.available_width() >= w + 16.0;
                     let mut clicks = (false, false);
@@ -4218,7 +4215,7 @@ impl App {
                         browse = Some(None);
                     }
                 } else {
-                    let btn = egui::Button::new(widgets::icon_text_colored(ui, self.has_icons, icon::OPEN, "Open a save file", Color32::WHITE))
+                    let btn = egui::Button::new(widgets::icon_text_colored(ui, self.has_icons, icon::OPEN, tr("Open a save file"), Color32::WHITE))
                         .fill(theme::ACCENT)
                         .min_size(egui::vec2(220.0, 40.0));
                     if ui.add(btn).clicked() {
@@ -4259,23 +4256,25 @@ impl App {
                                             restore_missing = Some(p.clone());
                                         }
                                     }
-                                    ui.add(egui::Label::new(RichText::new(if exists { folder } else { "(file no longer exists)".into() }).weak().size(12.5)).truncate());
+                                    ui.add(egui::Label::new(RichText::new(if exists { folder } else { tr("(file no longer exists)").into() }).weak().size(12.5)).truncate());
                                 });
                             }
                         });
                         ui.add_space(8.0);
                         theme::card(ui, |ui| {
                             ui.label(RichText::new(tr("Find your saves")).family(theme::semibold_family()).size(16.0));
-                            ui.weak(if WEB {
-                                "The browser can't look through your folders, so pick the file yourself. On Windows most games \
-                                 keep saves in Documents\\My Games, %APPDATA%, %LOCALAPPDATA% or Steam\\userdata \u{2014} \
-                                 type one of these into the file picker's address bar to jump there."
-                            } else if cfg!(target_os = "android") {
-                                "Common places emulators and games keep save files:"
-                            } else {
-                                "Common places games keep save files on this PC:"
-                            });
-                            for (label, path) in settings::save_locations() {
+                            let locations = settings::save_locations();
+                            if WEB {
+                                ui.weak(tr("The browser can't look through your folders, so pick the file yourself. On Windows most games keep saves in Documents\\My Games, %APPDATA%, %LOCALAPPDATA% or Steam\\userdata \u{2014} type one of these into the file picker's address bar to jump there."));
+                            } else if !locations.is_empty() {
+                                // Only over a list: nothing found left "Common places…:" over nothing.
+                                ui.weak(if cfg!(target_os = "android") {
+                                    tr("Common places emulators and games keep save files:")
+                                } else {
+                                    tr("Common places games keep save files on this PC:")
+                                });
+                            }
+                            for (label, path) in locations {
                                 ui.horizontal(|ui| {
                                     if ui.link(&label).clicked() {
                                         browse = Some(Some(path.clone()));
@@ -4288,28 +4287,26 @@ impl App {
                         ui.add_space(8.0);
                         theme::card(ui, |ui| {
                             ui.label(RichText::new(tr("What it can open")).family(theme::semibold_family()).size(16.0));
-                            let games = format!(
-                                "{} games, {} of them with a screen of their own: Elden Ring, Baldur's Gate, Mass Effect, Final Fantasy, Stardew Valley, Terraria, Cyberpunk 2077 and many more \u{00B7} Pok\u{00E9}mon Gen I\u{2013}III (emulator saves) \u{00B7} {}",
-                                crate::games::GAMES.len(),
-                                crate::games::GAMES.iter().filter(|g| g.support.starts_with("Game screen")).count(),
-                                if WEB { "the full list is on the website" } else { "Find my game's saves lists them all" },
+                            let games = trf("{0} games, {1} of them with a screen of their own: Elden Ring, Baldur's Gate, Mass Effect, Final Fantasy, Stardew Valley, Terraria, Cyberpunk 2077 and many more \u{00B7} Pok\u{00E9}mon Gen I\u{2013}III (emulator saves) \u{00B7} {2}",
+                                &[
+                                    &crate::games::GAMES.len(),
+                                    &crate::games::GAMES.iter().filter(|g| g.support.starts_with("Game screen")).count(),
+                                    &if WEB { tr("the full list is on the website") } else { tr("Find my game's saves lists them all") },
+                                ],
                             );
                             let data_formats = if WEB {
-                                "JSON \u{00B7} XML \u{00B7} INI/CFG \u{00B7} TOML \u{00B7} YAML \u{00B7} plist \u{00B7} MessagePack \u{00B7} BSON \u{00B7} Python pickle (SQLite needs the downloaded app)"
+                                tr("JSON \u{00B7} XML \u{00B7} INI/CFG \u{00B7} TOML \u{00B7} YAML \u{00B7} plist \u{00B7} MessagePack \u{00B7} BSON \u{00B7} Python pickle (SQLite needs the downloaded app)")
                             } else {
-                                "JSON \u{00B7} XML \u{00B7} INI/CFG \u{00B7} TOML \u{00B7} YAML \u{00B7} plist \u{00B7} MessagePack \u{00B7} BSON \u{00B7} SQLite \u{00B7} Python pickle"
+                                tr("JSON \u{00B7} XML \u{00B7} INI/CFG \u{00B7} TOML \u{00B7} YAML \u{00B7} plist \u{00B7} MessagePack \u{00B7} BSON \u{00B7} SQLite \u{00B7} Python pickle")
                             };
                             for (title, list) in [
-                                ("Games", games.as_str()),
-                                ("Game engines", "Ren'Py \u{00B7} RPG Maker MV/MZ/XP/VX/VX Ace \u{00B7} Unreal Engine (GVAS) \u{00B7} Unity (.NET BinaryFormatter, Easy Save 3, JSON, XML) \u{00B7} Godot (store_var, encrypted) \u{00B7} Minecraft NBT \u{00B7} TyranoScript \u{00B7} Twine/SugarCube \u{00B7} Barotrauma \u{00B7} Palworld (PlZ)"),
-                                ("Data formats", data_formats),
-                                ("Wrappers", "gzip \u{00B7} zlib \u{00B7} zstd \u{00B7} LZ4 \u{00B7} xz \u{00B7} bzip2 \u{00B7} zip \u{00B7} Base64 \u{00B7} UTF-16 \u{00B7} XOR \u{00B7} AES (with password)"),
-                                ("Anything else", "Any file opens in the hex editor with value search"),
+                                (tr("Games:"), games.as_str()),
+                                (tr("Game engines:"), tr("Ren'Py \u{00B7} RPG Maker MV/MZ/XP/VX/VX Ace \u{00B7} Unreal Engine (GVAS) \u{00B7} Unity (.NET BinaryFormatter, Easy Save 3, JSON, XML) \u{00B7} Godot (store_var, encrypted) \u{00B7} Minecraft NBT \u{00B7} TyranoScript \u{00B7} Twine/SugarCube \u{00B7} Barotrauma \u{00B7} Palworld (PlZ)")),
+                                (tr("Data formats:"), data_formats),
+                                (tr("Wrappers:"), tr("gzip \u{00B7} zlib \u{00B7} zstd \u{00B7} LZ4 \u{00B7} xz \u{00B7} bzip2 \u{00B7} zip \u{00B7} Base64 \u{00B7} UTF-16 \u{00B7} XOR \u{00B7} AES (with password)")),
+                                (tr("Anything else:"), tr("Any file opens in the hex editor with value search")),
                             ] {
-                                ui.horizontal_wrapped(|ui| {
-                                    ui.label(RichText::new(format!("{title}:")).strong());
-                                    ui.weak(list);
-                                });
+                                widgets::label_text(ui, title, list, true);
                             }
                         });
                     });
@@ -5003,10 +5000,7 @@ fn game_picker_window(ctx: &egui::Context, gp: &mut GamePicker) -> (Option<PathB
                     let g = &crate::games::GAMES[i];
                     ui.heading(g.name);
                     for (k, v) in [(tr("Usually in"), crate::games::folder_text(g)), (tr("Files"), crate::games::files_text(g)), (tr("Editing"), crate::games::support_text(g))] {
-                        ui.horizontal_wrapped(|ui| {
-                            ui.strong(format!("{k}:"));
-                            ui.add(egui::Label::new(v).wrap());
-                        });
+                        widgets::label_text(ui, &format!("{k}:"), &v, false);
                     }
                     ui.add_space(6.0);
                     match &found[i] {

@@ -29136,3 +29136,97 @@ user_0.dat … (one per slot) and its backups
 
 wherever you saved the export (Options > Saving > Export save as file)
 = エクスポートを保存した場所 (Options > Saving > Export save as file)
+
+Edit game saves safely — it runs in your browser and nothing is uploaded.
+= セーブデータを安全に編集 — ブラウザー内で動作し、何もアップロードされません。
+
+Edit game saves safely — everything stays on this device.
+= セーブデータを安全に編集 — すべてこの端末内で完結します。
+
+Edit game saves safely — everything stays on this computer.
+= セーブデータを安全に編集 — すべてこのコンピューター内で完結します。
+
+Open a file…
+= ファイルを開く…
+
+(file no longer exists)
+= （ファイルはもうありません）
+
+The browser can't look through your folders, so pick the file yourself. On Windows most games keep saves in Documents\\My Games, %APPDATA%, %LOCALAPPDATA% or Steam\\userdata — type one of these into the file picker's address bar to jump there.
+= ブラウザーはフォルダーの中を調べられないため、ファイルはご自分で選んでください。Windows では多くのゲームが Documents\My Games、%APPDATA%、%LOCALAPPDATA%、Steam\userdata のいずれかにセーブデータを置きます — ファイル選択画面のアドレス欄にこれらを入力すると移動できます。
+
+Common places emulators and games keep save files:
+= エミュレーターやゲームがセーブデータを置く主な場所：
+
+Common places games keep save files on this PC:
+= この PC でゲームがセーブデータを置く主な場所：
+
+{0} games, {1} of them with a screen of their own: Elden Ring, Baldur's Gate, Mass Effect, Final Fantasy, Stardew Valley, Terraria, Cyberpunk 2077 and many more · Pokémon Gen I–III (emulator saves) · {2}
+= {0} 本のゲーム（うち {1} 本は専用画面あり）：Elden Ring、Baldur's Gate、Mass Effect、Final Fantasy、Stardew Valley、Terraria、Cyberpunk 2077 など · ポケモン第1～3世代（エミュレーターのセーブ） · {2}
+
+the full list is on the website
+= 全一覧はウェブサイトにあります
+
+Find my game's saves lists them all
+= 「自分のゲームのセーブデータを探す」で全て表示できます
+
+JSON · XML · INI/CFG · TOML · YAML · plist · MessagePack · BSON · Python pickle (SQLite needs the downloaded app)
+= JSON · XML · INI/CFG · TOML · YAML · plist · MessagePack · BSON · Python pickle（SQLite はダウンロード版のアプリが必要）
+
+JSON · XML · INI/CFG · TOML · YAML · plist · MessagePack · BSON · SQLite · Python pickle
+= JSON · XML · INI/CFG · TOML · YAML · plist · MessagePack · BSON · SQLite · Python pickle
+
+Games:
+= ゲーム：
+
+Game engines:
+= ゲームエンジン：
+
+Ren'Py · RPG Maker MV/MZ/XP/VX/VX Ace · Unreal Engine (GVAS) · Unity (.NET BinaryFormatter, Easy Save 3, JSON, XML) · Godot (store_var, encrypted) · Minecraft NBT · TyranoScript · Twine/SugarCube · Barotrauma · Palworld (PlZ)
+= Ren'Py · RPG Maker MV/MZ/XP/VX/VX Ace · Unreal Engine (GVAS) · Unity (.NET BinaryFormatter, Easy Save 3, JSON, XML) · Godot（store_var、暗号化） · Minecraft NBT · TyranoScript · Twine/SugarCube · Barotrauma · Palworld (PlZ)
+
+Data formats:
+= データ形式：
+
+Wrappers:
+= ラッパー：
+
+gzip · zlib · zstd · LZ4 · xz · bzip2 · zip · Base64 · UTF-16 · XOR · AES (with password)
+= gzip · zlib · zstd · LZ4 · xz · bzip2 · zip · Base64 · UTF-16 · XOR · AES（パスワード付き）
+
+Anything else:
+= その他：
+
+Any file opens in the hex editor with value search
+= どんなファイルも値の検索付きの16進エディターで開けます
+
+Next to each save, in a “{0}” folder
+= 各セーブの隣の「{0}」フォルダー
+
+This save doesn't list this character's attributes.
+= このセーブにはこのキャラクターの能力値がありません。
+
+Open a save file
+= セーブファイルを開く
+
+See all {0} in Find my game's saves
+= 「自分のゲームのセーブデータを探す」で {0} 件すべてを見る
+
+See every game in Find my game's saves
+= 「自分のゲームのセーブデータを探す」ですべてのゲームを見る
+
+{0} save
+= {0} のセーブ
+
+Detected format: {0} ({1})
+= 検出された形式：{0}（{1}）
+
+Detected format: {0}
+= 検出された形式：{0}
+
+{0} is running
+= {0} が起動中
+
+Ren'Py 8.1+ signs its saves, but your Ren'Py key (%APPDATA%\\RenPy\\tokens) wasn't found. The old signature will be removed; the game will ask once whether to load the save — choose Yes.
+= Ren'Py 8.1 以降はセーブに署名しますが、Ren'Py の鍵（%APPDATA%\RenPy\tokens）が見つかりませんでした。古い署名は削除されます。ゲームがセーブを読み込むか一度だけ尋ねるので「はい」を選んでください。
+

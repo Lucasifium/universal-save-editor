@@ -29109,3 +29109,97 @@ user_0.dat … (one per slot) and its backups
 
 wherever you saved the export (Options > Saving > Export save as file)
 = 你保存导出文件的位置（Options > Saving > Export save as file）
+
+Edit game saves safely — it runs in your browser and nothing is uploaded.
+= 安全地编辑游戏存档 — 在浏览器中运行，不会上传任何内容。
+
+Edit game saves safely — everything stays on this device.
+= 安全地编辑游戏存档 — 一切都保留在此设备上。
+
+Edit game saves safely — everything stays on this computer.
+= 安全地编辑游戏存档 — 一切都保留在这台电脑上。
+
+Open a file…
+= 打开文件…
+
+(file no longer exists)
+= （文件已不存在）
+
+The browser can't look through your folders, so pick the file yourself. On Windows most games keep saves in Documents\\My Games, %APPDATA%, %LOCALAPPDATA% or Steam\\userdata — type one of these into the file picker's address bar to jump there.
+= 浏览器无法查看你的文件夹，请自行选择文件。在 Windows 上，大多数游戏把存档放在 Documents\My Games、%APPDATA%、%LOCALAPPDATA% 或 Steam\userdata 中 — 在文件选择器的地址栏中输入其中之一即可跳转过去。
+
+Common places emulators and games keep save files:
+= 模拟器和游戏常用的存档位置：
+
+Common places games keep save files on this PC:
+= 这台电脑上游戏常用的存档位置：
+
+{0} games, {1} of them with a screen of their own: Elden Ring, Baldur's Gate, Mass Effect, Final Fantasy, Stardew Valley, Terraria, Cyberpunk 2077 and many more · Pokémon Gen I–III (emulator saves) · {2}
+= {0} 款游戏，其中 {1} 款有专属界面：Elden Ring、Baldur's Gate、Mass Effect、Final Fantasy、Stardew Valley、Terraria、Cyberpunk 2077 等等 · 宝可梦第一至三世代（模拟器存档） · {2}
+
+the full list is on the website
+= 完整列表见网站
+
+Find my game's saves lists them all
+= “查找我的游戏存档”中列出了全部
+
+JSON · XML · INI/CFG · TOML · YAML · plist · MessagePack · BSON · Python pickle (SQLite needs the downloaded app)
+= JSON · XML · INI/CFG · TOML · YAML · plist · MessagePack · BSON · Python pickle（SQLite 需要下载版应用）
+
+JSON · XML · INI/CFG · TOML · YAML · plist · MessagePack · BSON · SQLite · Python pickle
+= JSON · XML · INI/CFG · TOML · YAML · plist · MessagePack · BSON · SQLite · Python pickle
+
+Games:
+= 游戏：
+
+Game engines:
+= 游戏引擎：
+
+Ren'Py · RPG Maker MV/MZ/XP/VX/VX Ace · Unreal Engine (GVAS) · Unity (.NET BinaryFormatter, Easy Save 3, JSON, XML) · Godot (store_var, encrypted) · Minecraft NBT · TyranoScript · Twine/SugarCube · Barotrauma · Palworld (PlZ)
+= Ren'Py · RPG Maker MV/MZ/XP/VX/VX Ace · Unreal Engine (GVAS) · Unity (.NET BinaryFormatter, Easy Save 3, JSON, XML) · Godot（store_var、加密） · Minecraft NBT · TyranoScript · Twine/SugarCube · Barotrauma · Palworld (PlZ)
+
+Data formats:
+= 数据格式：
+
+Wrappers:
+= 封装：
+
+gzip · zlib · zstd · LZ4 · xz · bzip2 · zip · Base64 · UTF-16 · XOR · AES (with password)
+= gzip · zlib · zstd · LZ4 · xz · bzip2 · zip · Base64 · UTF-16 · XOR · AES（需密码）
+
+Anything else:
+= 其他：
+
+Any file opens in the hex editor with value search
+= 任何文件都可在带数值搜索的十六进制编辑器中打开
+
+Next to each save, in a “{0}” folder
+= 在每个存档旁边的“{0}”文件夹中
+
+This save doesn't list this character's attributes.
+= 此存档中没有该角色的属性。
+
+Open a save file
+= 打开存档文件
+
+See all {0} in Find my game's saves
+= 在“查找我的游戏存档”中查看全部 {0} 个
+
+See every game in Find my game's saves
+= 在“查找我的游戏存档”中查看所有游戏
+
+{0} save
+= {0} 存档
+
+Detected format: {0} ({1})
+= 检测到的格式：{0}（{1}）
+
+Detected format: {0}
+= 检测到的格式：{0}
+
+{0} is running
+= {0} 正在运行
+
+Ren'Py 8.1+ signs its saves, but your Ren'Py key (%APPDATA%\\RenPy\\tokens) wasn't found. The old signature will be removed; the game will ask once whether to load the save — choose Yes.
+= Ren'Py 8.1+ 会为存档签名，但未找到你的 Ren'Py 密钥（%APPDATA%\RenPy\tokens）。旧签名将被移除；游戏会询问一次是否加载该存档 — 请选择“是”。
+

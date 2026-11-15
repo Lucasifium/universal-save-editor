@@ -64,6 +64,19 @@ pub fn icon_text_colored(ui: &Ui, has_icons: bool, icon: &str, text: &str, color
     job.into()
 }
 
+/// "Label: text" as one wrapping paragraph. Two labels in `horizontal_wrapped` put the
+/// text's second line a row's height below its first, further apart than the rest.
+pub fn label_text(ui: &mut Ui, label: &str, text: &str, weak: bool) -> Response {
+    let font = egui::TextStyle::Body.resolve(ui.style());
+    let strong = ui.visuals().strong_text_color();
+    let rest = if weak { ui.visuals().weak_text_color() } else { ui.visuals().text_color() };
+    let mut job = egui::text::LayoutJob::default();
+    job.append(label, 0.0, egui::TextFormat::simple(font.clone(), strong));
+    job.append(text, 6.0, egui::TextFormat::simple(font, rest));
+    job.wrap.max_width = ui.available_width();
+    ui.add(egui::Label::new(job).wrap())
+}
+
 pub fn icon(has_icons: bool, glyph: &str, fallback: &str) -> RichText {
     if has_icons {
         RichText::new(glyph).family(theme::icons_family())

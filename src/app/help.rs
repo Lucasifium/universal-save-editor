@@ -3,7 +3,7 @@
 
 use crate::i18n::{tr, trf};
 use super::{fit, friendly_kind, Ask, App, WEB};
-use crate::{platform, theme};
+use crate::{platform, theme, widgets};
 use eframe::egui::{self, RichText};
 
 pub const SITE: &str = "https://lucasifium.github.io/universal-save-editor/";
@@ -277,12 +277,9 @@ impl App {
                     ui.add_space(4.0);
                     let folder = match &self.settings.backup_dir {
                         Some(d) => d.display().to_string(),
-                        None => format!("Next to each save, in a \u{201C}{}\u{201D} folder", crate::backups::BESIDE),
+                        None => trf("Next to each save, in a \u{201C}{0}\u{201D} folder", &[&crate::backups::BESIDE]),
                     };
-                    ui.horizontal_wrapped(|ui| {
-                        ui.label(tr("Backups go:"));
-                        ui.add(egui::Label::new(RichText::new(folder).weak()).wrap());
-                    });
+                    widgets::label_text(ui, tr("Backups go:"), &folder, true);
                     ui.horizontal(|ui| {
                         if ui.button(tr("Choose a folder\u{2026}")).clicked() {
                             pick_dir = true;

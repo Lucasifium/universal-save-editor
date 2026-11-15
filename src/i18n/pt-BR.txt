@@ -29025,3 +29025,97 @@ user_0.dat … (one per slot) and its backups
 
 wherever you saved the export (Options > Saving > Export save as file)
 = onde você salvou a exportação (Options > Saving > Export save as file)
+
+Edit game saves safely — it runs in your browser and nothing is uploaded.
+= Edite saves com segurança — funciona no seu navegador e nada é enviado.
+
+Edit game saves safely — everything stays on this device.
+= Edite saves com segurança — tudo fica neste dispositivo.
+
+Edit game saves safely — everything stays on this computer.
+= Edite saves com segurança — tudo fica neste computador.
+
+Open a file…
+= Abrir um arquivo…
+
+(file no longer exists)
+= (o arquivo não existe mais)
+
+The browser can't look through your folders, so pick the file yourself. On Windows most games keep saves in Documents\\My Games, %APPDATA%, %LOCALAPPDATA% or Steam\\userdata — type one of these into the file picker's address bar to jump there.
+= O navegador não pode vasculhar suas pastas, então escolha o arquivo você mesmo. No Windows a maioria dos jogos guarda os saves em Documents\My Games, %APPDATA%, %LOCALAPPDATA% ou Steam\userdata — digite um deles na barra de endereço do seletor de arquivos para ir até lá.
+
+Common places emulators and games keep save files:
+= Lugares comuns onde emuladores e jogos guardam saves:
+
+Common places games keep save files on this PC:
+= Lugares comuns onde os jogos guardam saves neste PC:
+
+{0} games, {1} of them with a screen of their own: Elden Ring, Baldur's Gate, Mass Effect, Final Fantasy, Stardew Valley, Terraria, Cyberpunk 2077 and many more · Pokémon Gen I–III (emulator saves) · {2}
+= {0} jogos, {1} deles com tela própria: Elden Ring, Baldur's Gate, Mass Effect, Final Fantasy, Stardew Valley, Terraria, Cyberpunk 2077 e muitos outros · Pokémon Ger. I–III (saves de emulador) · {2}
+
+the full list is on the website
+= a lista completa está no site
+
+Find my game's saves lists them all
+= “Encontrar os saves do meu jogo” lista todos
+
+JSON · XML · INI/CFG · TOML · YAML · plist · MessagePack · BSON · Python pickle (SQLite needs the downloaded app)
+= JSON · XML · INI/CFG · TOML · YAML · plist · MessagePack · BSON · Python pickle (SQLite exige o app baixado)
+
+JSON · XML · INI/CFG · TOML · YAML · plist · MessagePack · BSON · SQLite · Python pickle
+= JSON · XML · INI/CFG · TOML · YAML · plist · MessagePack · BSON · SQLite · Python pickle
+
+Games:
+= Jogos:
+
+Game engines:
+= Motores de jogo:
+
+Ren'Py · RPG Maker MV/MZ/XP/VX/VX Ace · Unreal Engine (GVAS) · Unity (.NET BinaryFormatter, Easy Save 3, JSON, XML) · Godot (store_var, encrypted) · Minecraft NBT · TyranoScript · Twine/SugarCube · Barotrauma · Palworld (PlZ)
+= Ren'Py · RPG Maker MV/MZ/XP/VX/VX Ace · Unreal Engine (GVAS) · Unity (.NET BinaryFormatter, Easy Save 3, JSON, XML) · Godot (store_var, criptografado) · Minecraft NBT · TyranoScript · Twine/SugarCube · Barotrauma · Palworld (PlZ)
+
+Data formats:
+= Formatos de dados:
+
+Wrappers:
+= Invólucros:
+
+gzip · zlib · zstd · LZ4 · xz · bzip2 · zip · Base64 · UTF-16 · XOR · AES (with password)
+= gzip · zlib · zstd · LZ4 · xz · bzip2 · zip · Base64 · UTF-16 · XOR · AES (com senha)
+
+Anything else:
+= Todo o resto:
+
+Any file opens in the hex editor with value search
+= Qualquer arquivo abre no editor hexadecimal com busca de valores
+
+Next to each save, in a “{0}” folder
+= Ao lado de cada save, numa pasta “{0}”
+
+This save doesn't list this character's attributes.
+= Este save não traz os atributos deste personagem.
+
+Open a save file
+= Abrir um arquivo de save
+
+See all {0} in Find my game's saves
+= Ver todos os {0} em “Encontrar os saves do meu jogo”
+
+See every game in Find my game's saves
+= Ver todos os jogos em “Encontrar os saves do meu jogo”
+
+{0} save
+= Save de {0}
+
+Detected format: {0} ({1})
+= Formato detectado: {0} ({1})
+
+Detected format: {0}
+= Formato detectado: {0}
+
+{0} is running
+= {0} está em execução
+
+Ren'Py 8.1+ signs its saves, but your Ren'Py key (%APPDATA%\\RenPy\\tokens) wasn't found. The old signature will be removed; the game will ask once whether to load the save — choose Yes.
+= O Ren'Py 8.1+ assina os saves, mas sua chave do Ren'Py (%APPDATA%\RenPy\tokens) não foi encontrada. A assinatura antiga será removida; o jogo perguntará uma vez se deve carregar o save — escolha Sim.
+

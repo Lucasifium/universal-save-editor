@@ -1,7 +1,7 @@
 //! "Your games" on the start page: the games whose saves were found on this computer, each
 //! with its newest save one click away.
 
-use crate::i18n::tr;
+use crate::i18n::{tr, trf};
 use super::{file_name, human_size, App, GamePicker};
 use crate::games::{self, Found, GAMES};
 use crate::theme;
@@ -109,7 +109,7 @@ impl App {
             }
             if rows.len() > SHOWN || done {
                 ui.add_space(2.0);
-                let more = if rows.len() > SHOWN { format!("See all {} in Find my game's saves", rows.len()) } else { "See every game in Find my game's saves".into() };
+                let more = if rows.len() > SHOWN { trf("See all {0} in Find my game's saves", &[&rows.len()]) } else { tr("See every game in Find my game's saves").into() };
                 if ui.link(more).clicked() {
                     show_game = Some(None);
                 }

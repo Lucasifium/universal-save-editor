@@ -56,6 +56,11 @@ pub fn dos2(ui: &mut Ui, cx: &mut GameCtx) {
     columns(ui, 360.0, 2, |ui, col| {
         if col == 0 {
             panel(ui, "Attributes", |ui| {
+                if !ATTRIBUTES.iter().any(|a| cx.num(&format!("{base}/Attributes/{a}")).is_some()) {
+                    // Without this the panel showed only the note about base points, over nothing.
+                    ui.weak(tr("This save doesn't list this character's attributes."));
+                    return;
+                }
                 for a in ATTRIBUTES {
                     cx.attribute(ui, a, &format!("{base}/Attributes/{a}"), 40.0, gold);
                 }

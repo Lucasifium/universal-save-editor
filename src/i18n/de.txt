@@ -29055,3 +29055,97 @@ user_0.dat … (one per slot) and its backups
 
 wherever you saved the export (Options > Saving > Export save as file)
 = wo auch immer Sie den Export gespeichert haben (Options > Saving > Export save as file)
+
+Edit game saves safely — it runs in your browser and nothing is uploaded.
+= Spielstände sicher bearbeiten — alles läuft in Ihrem Browser, nichts wird hochgeladen.
+
+Edit game saves safely — everything stays on this device.
+= Spielstände sicher bearbeiten — alles bleibt auf diesem Gerät.
+
+Edit game saves safely — everything stays on this computer.
+= Spielstände sicher bearbeiten — alles bleibt auf diesem Computer.
+
+Open a file…
+= Datei öffnen…
+
+(file no longer exists)
+= (Datei existiert nicht mehr)
+
+The browser can't look through your folders, so pick the file yourself. On Windows most games keep saves in Documents\\My Games, %APPDATA%, %LOCALAPPDATA% or Steam\\userdata — type one of these into the file picker's address bar to jump there.
+= Der Browser kann Ihre Ordner nicht durchsuchen, wählen Sie die Datei also selbst. Unter Windows legen die meisten Spiele ihre Spielstände in Documents\My Games, %APPDATA%, %LOCALAPPDATA% oder Steam\userdata ab — geben Sie einen davon in die Adresszeile der Dateiauswahl ein, um dorthin zu springen.
+
+Common places emulators and games keep save files:
+= Übliche Orte, an denen Emulatoren und Spiele Spielstände ablegen:
+
+Common places games keep save files on this PC:
+= Übliche Orte für Spielstände auf diesem PC:
+
+{0} games, {1} of them with a screen of their own: Elden Ring, Baldur's Gate, Mass Effect, Final Fantasy, Stardew Valley, Terraria, Cyberpunk 2077 and many more · Pokémon Gen I–III (emulator saves) · {2}
+= {0} Spiele, {1} davon mit eigener Ansicht: Elden Ring, Baldur's Gate, Mass Effect, Final Fantasy, Stardew Valley, Terraria, Cyberpunk 2077 und viele mehr · Pokémon Gen. I–III (Emulator-Spielstände) · {2}
+
+the full list is on the website
+= die vollständige Liste steht auf der Website
+
+Find my game's saves lists them all
+= „Spielstände meines Spiels finden“ listet alle auf
+
+JSON · XML · INI/CFG · TOML · YAML · plist · MessagePack · BSON · Python pickle (SQLite needs the downloaded app)
+= JSON · XML · INI/CFG · TOML · YAML · plist · MessagePack · BSON · Python pickle (SQLite nur in der heruntergeladenen App)
+
+JSON · XML · INI/CFG · TOML · YAML · plist · MessagePack · BSON · SQLite · Python pickle
+= JSON · XML · INI/CFG · TOML · YAML · plist · MessagePack · BSON · SQLite · Python pickle
+
+Games:
+= Spiele:
+
+Game engines:
+= Spiel-Engines:
+
+Ren'Py · RPG Maker MV/MZ/XP/VX/VX Ace · Unreal Engine (GVAS) · Unity (.NET BinaryFormatter, Easy Save 3, JSON, XML) · Godot (store_var, encrypted) · Minecraft NBT · TyranoScript · Twine/SugarCube · Barotrauma · Palworld (PlZ)
+= Ren'Py · RPG Maker MV/MZ/XP/VX/VX Ace · Unreal Engine (GVAS) · Unity (.NET BinaryFormatter, Easy Save 3, JSON, XML) · Godot (store_var, verschlüsselt) · Minecraft NBT · TyranoScript · Twine/SugarCube · Barotrauma · Palworld (PlZ)
+
+Data formats:
+= Datenformate:
+
+Wrappers:
+= Verpackungen:
+
+gzip · zlib · zstd · LZ4 · xz · bzip2 · zip · Base64 · UTF-16 · XOR · AES (with password)
+= gzip · zlib · zstd · LZ4 · xz · bzip2 · zip · Base64 · UTF-16 · XOR · AES (mit Passwort)
+
+Anything else:
+= Alles andere:
+
+Any file opens in the hex editor with value search
+= Jede Datei öffnet sich im Hex-Editor mit Wertsuche
+
+Next to each save, in a “{0}” folder
+= Neben jedem Spielstand, in einem Ordner „{0}“
+
+This save doesn't list this character's attributes.
+= Dieser Spielstand enthält keine Attribute für diese Figur.
+
+Open a save file
+= Spielstanddatei öffnen
+
+See all {0} in Find my game's saves
+= Alle {0} in „Spielstände meines Spiels finden“ ansehen
+
+See every game in Find my game's saves
+= Alle Spiele in „Spielstände meines Spiels finden“ ansehen
+
+{0} save
+= Spielstand: {0}
+
+Detected format: {0} ({1})
+= Erkanntes Format: {0} ({1})
+
+Detected format: {0}
+= Erkanntes Format: {0}
+
+{0} is running
+= {0} läuft
+
+Ren'Py 8.1+ signs its saves, but your Ren'Py key (%APPDATA%\\RenPy\\tokens) wasn't found. The old signature will be removed; the game will ask once whether to load the save — choose Yes.
+= Ren'Py 8.1+ signiert seine Spielstände, aber Ihr Ren'Py-Schlüssel (%APPDATA%\RenPy\tokens) wurde nicht gefunden. Die alte Signatur wird entfernt; das Spiel fragt einmal, ob der Spielstand geladen werden soll — wählen Sie Ja.
+
