@@ -2112,7 +2112,7 @@ fn peel(data: &[u8], ctx: &mut Ctx) -> Option<(Layer, Vec<u8>)> {
                 if names.len() > 1 {
                     ctx.zip_entries = names;
                 }
-                ctx.hint = Some("Kingdom Hearts Final Mix (PC): one save slot of KHFM_WW.png, the same save as on PlayStation 2. Close the game first; pick another slot from the archive's list.".into());
+                ctx.hint = Some("Kingdom Hearts HD 1.5+2.5 ReMIX (PC): one save slot of the file, the same save as the PlayStation 2 Final Mix. Close the game first; pick another slot from the archive's list.".into());
                 return Some((Layer::KhPng { png: Arc::new(data.to_vec()), entry, name }, plain));
             }
             Err(e) => {

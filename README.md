@@ -311,7 +311,7 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 </details>
 
 <details>
-<summary><strong>K</strong> (11)</summary>
+<summary><strong>K</strong> (12)</summary>
 
 | Game | Screen |
 |---|---|
@@ -320,6 +320,7 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 | Kerbal Space Program | *Space program*: career funds, science and reputation, from the save's ConfigNode text (only the values you change are rewritten; every other value, vessel and Kerbal is in the Tree). Checked on public sample saves, not yet tried in the game |
 | King Arthur: Knight's Tale | *Camelot*: gold, relic dust, soul, spire shards and every hero's level, experience and skill points; the save container is opened and packed again (checked on public saves, not yet tried in the game) |
 | Kingdom Hearts Final Mix (1.5+2.5 ReMIX, PC) | *Sora*: munny, difficulty, magic levels, the ten party members' level, experience, HP, MP, AP, strength, defense and weapon, and the stock of every item, for each save slot in `KHFM_WW.png` (checked on a real save, not yet tried in the game) |
+| Kingdom Hearts II Final Mix (1.5+2.5 ReMIX, PC) | *Sora*: munny, difficulty, magic levels, each party member's level, experience, HP, MP and bonuses, and the stock of every item, for each save slot in `KHIIFM_WW.png`; both checksums are written again (checked on a real save, not yet tried in the game) |
 | Kingdom Hearts III (PC) | *Sora*: decrypted (the key comes from the Steam id in the save's folder, or Epic's) and encrypted again with its CRC and MD5; munny (with the earned and spent totals kept in step), level, EXP, the bonus stats, Sora, Donald and Goofy's HP and MP, every synthesis material with a *Max crafting materials* button, and the items already held. Checked against the reference editor's test vectors; not yet tried on a real save |
 | Kingdom Rush | *Kingdom*: gems, the difficulty, the upgrade ranks (archers, barracks, mages, engineers, rain of fire, reinforcements) and each hero's experience, from the plain Lua text `slot_N.lua` (checked on a public save, not yet tried in the game) |
 | Kingdom Rush 5: Alliance TD | *Alliance*: gems, the difficulty, the upgrade ranks, the consumables and each hero's experience, from the plain Lua text `slot_N.lua` (checked on a public save, not yet tried in the game) |
