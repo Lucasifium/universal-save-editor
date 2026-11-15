@@ -29552,3 +29552,18 @@ Show the note about this file
 
 Hide this note for every file like this one. View › Show the note about this file brings it back.
 = この種類のすべてのファイルでこの説明を隠します。表示 › このファイルの説明を表示 で元に戻せます。
+
+Restore this backup?
+= このバックアップを復元しますか？
+
+This replaces {0} on disk with {1}.
+= ディスク上の {0} を {1} で置き換えます。
+
+Delete this preset?
+= このプリセットを削除しますか？
+
+The preset “{0}” will be deleted. This can't be undone.
+= プリセット「{0}」を削除します。元に戻せません。
+
+Your saves are not changed.
+= セーブデータは変更されません。

@@ -29525,3 +29525,18 @@ Show the note about this file
 
 Hide this note for every file like this one. View › Show the note about this file brings it back.
 = 对所有同类文件隐藏此说明。在“视图 › 显示此文件的说明”中可恢复。
+
+Restore this backup?
+= 恢复此备份？
+
+This replaces {0} on disk with {1}.
+= 这会用 {1} 替换磁盘上的 {0}。
+
+Delete this preset?
+= 删除此预设？
+
+The preset “{0}” will be deleted. This can't be undone.
+= 将删除预设“{0}”。此操作无法撤销。
+
+Your saves are not changed.
+= 你的存档不会改变。

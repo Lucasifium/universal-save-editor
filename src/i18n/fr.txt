@@ -29478,3 +29478,18 @@ Show the note about this file
 
 Hide this note for every file like this one. View › Show the note about this file brings it back.
 = Masque cette note pour tous les fichiers de ce type. Affichage › Afficher la note sur ce fichier la fait revenir.
+
+Restore this backup?
+= Restaurer cette copie ?
+
+This replaces {0} on disk with {1}.
+= Cela remplace {0} sur le disque par {1}.
+
+Delete this preset?
+= Supprimer ce préréglage ?
+
+The preset “{0}” will be deleted. This can't be undone.
+= Le préréglage « {0} » sera supprimé. Cette action est irréversible.
+
+Your saves are not changed.
+= Vos sauvegardes ne sont pas modifiées.

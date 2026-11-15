@@ -38,8 +38,15 @@ pub struct Version {
 }
 
 fn now() -> u64 {
-    SystemTime::now().duration_since(UNIX_EPOCH).map(|d| d.as_secs()).unwrap_or(0)
+    let t = SystemTime::now().duration_since(UNIX_EPOCH).map(|d| d.as_secs()).unwrap_or(0);
+    #[cfg(test)]
+    let t = t.saturating_add_signed(SKEW.load(std::sync::atomic::Ordering::Relaxed));
+    t
 }
+
+/// Seconds the clock is moved by in tests, as if the computer's clock were set wrong.
+#[cfg(test)]
+static SKEW: std::sync::atomic::AtomicI64 = std::sync::atomic::AtomicI64::new(0);
 
 /// FNV-1a, so two saves with the same name in different folders get different folders.
 fn hash(s: &str) -> u32 {
@@ -108,8 +115,22 @@ pub fn set_earlier_roots(dirs: Vec<PathBuf>) {
     }
 }
 
-/// Every kept version of `save`, newest first.
+/// How far ahead of the clock a backup's stamp may be and still count as taken now: room for a
+/// clock corrected by a few minutes, or one that kept local time and jumped by a time zone
+/// (stamps are UTC seconds, so daylight saving alone never moves them).
+const SLACK: u64 = 2 * 86_400;
+
+/// True when `when` lies further ahead than any honest clock error: the clock was set wrong
+/// when the backup was taken.
+fn is_future(when: u64, now: u64) -> bool {
+    when > now.saturating_add(SLACK)
+}
+
+/// Every kept version of `save`, newest first. Backups stamped in the future (the clock was
+/// once set ahead) come after all others, so they are pruned first and never push out the
+/// backups taken since; their files are left as they are.
 pub fn list(save: &Path) -> Vec<Version> {
+    let now = now();
     let mut out: Vec<_> = dirs(save)
         .iter()
         .filter_map(|d| std::fs::read_dir(d).ok())
@@ -129,12 +150,12 @@ pub fn list(save: &Path) -> Vec<Version> {
             };
             let (secs, n) = stamp.split_once('-').unwrap_or((stamp, "0"));
             let when = secs.parse().ok()?;
-            let order = (when, n.parse::<u32>().ok()?, meta.modified().ok());
+            let order = (!is_future(when, now), when, n.parse::<u32>().ok()?, meta.modified().ok());
             Some((order, Version { size: meta.len(), path: p, when, name }))
         })
         .collect();
-    // Newest first: by second, then by the counter added within a second, then by the
-    // time the file was written.
+    // Newest first: the future-dated last, then by second, then by the counter added within
+    // a second, then by the time the file was written.
     out.sort_by(|(a, va), (b, vb)| b.cmp(a).then_with(|| vb.path.cmp(&va.path)));
     out.into_iter().map(|(_, v)| v).collect()
 }
@@ -434,9 +455,17 @@ pub fn set_aside(save: &Path, name: &str) -> Result<PathBuf, String> {
     Ok(kept)
 }
 
-/// "3 minutes ago, 2024-05-01 14:02 UTC"-style label for a version.
+/// "3 minutes ago, 2024-05-01 14:02 UTC"-style label for a version; just the date for one
+/// stamped in the future.
 pub fn describe(when: u64) -> String {
-    let ago = now().saturating_sub(when);
+    let now = now();
+    let (y, m, d) = civil(when / 86_400);
+    let (hh, mm) = ((when % 86_400) / 3600, (when % 3600) / 60);
+    let date = format!("{y}-{m:02}-{d:02} {hh:02}:{mm:02} UTC");
+    if is_future(when, now) {
+        return date;
+    }
+    let ago = now.saturating_sub(when);
     let rel = match ago {
         0..=59 => tr("just now").to_string(),
         60..=119 => tr("1 minute ago").to_string(),
@@ -446,9 +475,7 @@ pub fn describe(when: u64) -> String {
         86_400..=172_799 => tr("1 day ago").to_string(),
         _ => trf("{0} days ago", &[&(ago / 86_400)]),
     };
-    let (y, m, d) = civil(when / 86_400);
-    let (hh, mm) = ((when % 86_400) / 3600, (when % 3600) / 60);
-    format!("{rel}, {y}-{m:02}-{d:02} {hh:02}:{mm:02} UTC")
+    format!("{rel}, {date}")
 }
 
 /// Days since 1970-01-01 to (year, month, day) — Howard Hinnant's algorithm.
@@ -934,7 +961,6 @@ pub(crate) mod tests {
     }
 
     #[test]
-    #[ignore = "backups dated in the future (clock set wrong once) are kept over newer ones"]
     fn a_backup_dated_in_the_future_does_not_push_out_newer_ones() {
         let _g = guard();
         let s = Scratch::new("future");
@@ -954,6 +980,159 @@ pub(crate) mod tests {
         for i in 0..3 {
             assert!(got.contains(&format!("today {i}").into_bytes()), "today {i} was pruned");
         }
+    }
+
+    /// Moves the clock the backups see by `secs` until dropped, as if the computer's clock
+    /// were set wrong.
+    struct Clock;
+    impl Clock {
+        fn set(secs: i64) -> Self {
+            SKEW.store(secs, std::sync::atomic::Ordering::Relaxed);
+            Clock
+        }
+    }
+    impl Drop for Clock {
+        fn drop(&mut self) {
+            SKEW.store(0, std::sync::atomic::Ordering::Relaxed);
+        }
+    }
+
+    const YEAR: i64 = 365 * 86_400;
+
+    /// Writes an automatic backup by hand with the stamp `secs`, as an older run would have.
+    fn stamped(save: &Path, file: String, bytes: &str) {
+        let dir = folder(save).unwrap();
+        std::fs::create_dir_all(&dir).unwrap();
+        std::fs::write(dir.join(file), bytes).unwrap();
+    }
+
+    fn unnamed(save: &Path) -> Vec<Vec<u8>> {
+        list(save).iter().filter(|v| v.name.is_none()).map(|v| std::fs::read(&v.path).unwrap()).collect()
+    }
+
+    #[test]
+    fn several_future_dated_backups_give_way_while_the_keep_count_holds() {
+        let _g = guard();
+        let _k = KeepReset;
+        set_keep(KEEP_MIN);
+        let s = Scratch::new("future-many");
+        let save = s.0.join("a.sav");
+        for i in 0..KEEP_MIN + 3 {
+            stamped(&save, format!("{}.sebak", 4_000_000_000u64 + i as u64), &format!("future {i}"));
+        }
+        for i in 0..20usize {
+            std::fs::write(&save, format!("today {i}")).unwrap();
+            take(&save).unwrap();
+            let got = unnamed(&save);
+            assert_eq!(got.len(), KEEP_MIN, "after save {i}");
+            // The newest real backups are all there, newest first.
+            let real: Vec<Vec<u8>> = (i.saturating_sub(KEEP_MIN - 1)..=i).rev().map(|j| format!("today {j}").into_bytes()).collect();
+            assert_eq!(got[..real.len()], real[..], "after save {i}");
+        }
+    }
+
+    #[test]
+    fn a_future_dated_named_backup_is_never_pruned() {
+        let _g = guard();
+        let _k = KeepReset;
+        set_keep(KEEP_MIN);
+        let s = Scratch::new("future-named");
+        let save = s.0.join("a.sav");
+        stamped(&save, "4000000000~before boss.sebak".into(), "boss");
+        stamped(&save, "4000000001.sebak".into(), "future");
+        for i in 0..KEEP_MIN * 3 {
+            std::fs::write(&save, format!("today {i}")).unwrap();
+            take(&save).unwrap();
+        }
+        let v = list(&save);
+        let named = v.iter().find(|v| v.name.as_deref() == Some("before boss")).expect("named backup kept");
+        assert_eq!(std::fs::read(&named.path).unwrap(), b"boss");
+        assert_eq!(v.iter().filter(|v| v.name.is_none()).count(), KEEP_MIN);
+        assert!(!unnamed(&save).contains(&b"future".to_vec()));
+    }
+
+    #[test]
+    fn a_small_clock_skew_does_not_count_as_the_future() {
+        let _g = guard();
+        let _k = KeepReset;
+        set_keep(KEEP_MIN);
+        let s = Scratch::new("skew");
+        let save = s.0.join("a.sav");
+        let t = now();
+        // Taken while the clock was a little ahead: a few minutes, or a whole time zone
+        // (a computer that keeps local time in its clock).
+        for (i, ahead) in [300u64, 3600, 14 * 3600].into_iter().enumerate() {
+            stamped(&save, format!("{}.sebak", t + ahead), &format!("ahead {i}"));
+        }
+        stamped(&save, format!("{}.sebak", t - 86_400), "yesterday");
+        std::fs::write(&save, b"now").unwrap();
+        take(&save).unwrap();
+        std::fs::write(&save, b"later").unwrap();
+        take(&save).unwrap();
+        let got = unnamed(&save);
+        assert_eq!(got.len(), KEEP_MIN);
+        for want in ["ahead 0", "ahead 1", "ahead 2"] {
+            assert!(got.contains(&want.as_bytes().to_vec()), "{want} was pruned early");
+        }
+        assert!(!got.contains(&b"yesterday".to_vec()), "the oldest goes first");
+    }
+
+    #[test]
+    fn a_clock_set_back_then_forward_keeps_the_count_and_the_newest() {
+        let _g = guard();
+        let _k = KeepReset;
+        set_keep(KEEP_MIN);
+        let s = Scratch::new("clock-jumps");
+        let save = s.0.join("a.sav");
+        let mut taken = 0;
+        let mut save_one = |tag: &str| {
+            std::fs::write(&save, format!("{tag} {taken}")).unwrap();
+            assert!(take(&save).unwrap().is_some());
+            taken += 1;
+            let got = unnamed(&save);
+            assert!(got.len() <= KEEP_MIN, "{tag}: {} kept", got.len());
+            assert_eq!(got[0], format!("{tag} {}", taken - 1).into_bytes(), "{tag}: the newest backup is listed first");
+            got
+        };
+        {
+            let _c = Clock::set(YEAR);
+            for _ in 0..KEEP_MIN {
+                save_one("ahead");
+            }
+        }
+        // The clock is put right: the backups from the year ahead go first.
+        for _ in 0..3 {
+            save_one("back");
+        }
+        let got = unnamed(&save);
+        assert_eq!(got.len(), KEEP_MIN);
+        for b in 5..8 {
+            assert!(got.contains(&format!("back {b}").into_bytes()), "back {b} was pruned");
+        }
+        // A year and more passes: nothing is in the future any more and the newest still stays.
+        let _c = Clock::set(YEAR + 3 * 86_400);
+        for _ in 0..KEEP_MIN + 2 {
+            save_one("forward");
+        }
+        let got = unnamed(&save);
+        assert_eq!(got.len(), KEEP_MIN);
+        assert!(got.iter().all(|g| g.starts_with(b"forward")));
+    }
+
+    #[test]
+    fn future_dated_backups_are_listed_after_the_real_ones_with_their_date() {
+        let _g = guard();
+        let s = Scratch::new("future-list");
+        let save = s.0.join("a.sav");
+        stamped(&save, "4000000000.sebak".into(), "future");
+        stamped(&save, format!("{}.sebak", now() - 3 * 86_400), "older");
+        std::fs::write(&save, b"today").unwrap();
+        take(&save).unwrap();
+        let got = contents(&save);
+        assert_eq!(got, vec![b"today".to_vec(), b"older".to_vec(), b"future".to_vec()]);
+        let shown = describe(4_000_000_000);
+        assert_eq!(shown, "2096-10-02 07:06 UTC", "no age for a date that hasn't come yet");
+        assert!(describe(now() + 60).starts_with(&*tr("just now")), "a few seconds of skew still reads as now");
     }
 
     #[test]

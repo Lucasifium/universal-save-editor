@@ -29467,3 +29467,18 @@ Show the note about this file
 
 Hide this note for every file like this one. View › Show the note about this file brings it back.
 = Oculta esta nota en todos los archivos de este tipo. Ver › Mostrar la nota sobre este archivo la recupera.
+
+Restore this backup?
+= ¿Restaurar esta copia?
+
+This replaces {0} on disk with {1}.
+= Esto reemplaza {0} en el disco por {1}.
+
+Delete this preset?
+= ¿Borrar este preajuste?
+
+The preset “{0}” will be deleted. This can't be undone.
+= Se borrará el preajuste “{0}”. No se puede deshacer.
+
+Your saves are not changed.
+= Tus partidas no cambian.

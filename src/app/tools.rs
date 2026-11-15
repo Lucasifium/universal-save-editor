@@ -31,6 +31,8 @@ pub(super) struct PresetApply {
     pub picked: Option<usize>,
     /// A preset opened from a file outside the presets folder.
     pub opened: Option<Preset>,
+    /// The preset in `list` waiting for "Delete this preset?" to be answered.
+    pub confirm_delete: Option<usize>,
 }
 
 /// The "Use these names for every save of this game" dialog.
@@ -279,7 +281,7 @@ impl App {
     pub(super) fn start_preset_apply(&mut self) {
         let list = crate::presets::list();
         let picked = (!list.is_empty()).then_some(0);
-        self.preset_apply = Some(PresetApply { list, picked, opened: None });
+        self.preset_apply = Some(PresetApply { list, picked, opened: None, confirm_delete: None });
         if WEB {
             self.ask(Ask::PresetFile, None, None);
         }
@@ -293,7 +295,7 @@ impl App {
         };
         match Preset::from_json(&text) {
             Ok(preset) => {
-                let pa = self.preset_apply.get_or_insert_with(|| PresetApply { list: vec![], picked: None, opened: None });
+                let pa = self.preset_apply.get_or_insert_with(|| PresetApply { list: vec![], picked: None, opened: None, confirm_delete: None });
                 pa.opened = Some(preset);
                 pa.picked = None;
             }
@@ -303,11 +305,17 @@ impl App {
 
     pub(super) fn preset_apply_dialog(&mut self, ctx: &egui::Context, now: f64) {
         let Some(mut pa) = self.preset_apply.take() else { return };
+        if let Some(i) = pa.confirm_delete.filter(|&i| i < pa.list.len()) {
+            self.preset_delete_dialog(ctx, &mut pa, i);
+            self.preset_apply = Some(pa);
+            return;
+        }
+        pa.confirm_delete = None;
         let kind = self.save_kind();
         let mut apply: Option<Preset> = None;
         let mut close = false;
         let mut open_file = false;
-        let mut delete: Option<usize> = None;
+        let mut ask_delete: Option<usize> = None;
         modal(ctx, tr("Apply a preset"), |ui| {
             ui.set_max_width(460.0);
             if pa.list.is_empty() && pa.opened.is_none() {
@@ -325,7 +333,7 @@ impl App {
                             }
                             ui.with_layout(egui::Layout::right_to_left(egui::Align::Center), |ui| {
                                 if ui.small_button(tr("Delete preset")).on_hover_text(tr("Delete this preset (saves are not changed)")).clicked() {
-                                    delete = Some(i);
+                                    ask_delete = Some(i);
                                 }
                             });
                         });
@@ -365,13 +373,8 @@ impl App {
                 }
             });
         });
-        if let Some(i) = delete {
-            let (path, p) = pa.list.remove(i);
-            match crate::vfs::remove_file(&path) {
-                Ok(()) => self.ok(trf("Deleted the preset \u{201C}{0}\u{201D}.", &[&p.name])),
-                Err(e) => self.fail(trf("Couldn't delete the preset: {0}", &[&e])),
-            }
-            pa.picked = None;
+        if ask_delete.is_some() {
+            pa.confirm_delete = ask_delete;
         }
         if let Some(p) = apply {
             self.apply_preset(&p, now);
@@ -387,6 +390,45 @@ impl App {
             #[cfg(target_arch = "wasm32")]
             let dir = None;
             self.ask(Ask::PresetFile, dir, None);
+        }
+    }
+
+    /// "Delete this preset?" over the preset list: Delete permanently / Cancel. Focus starts on
+    /// Cancel; Cancel and Escape go back to the list with the file left alone.
+    fn preset_delete_dialog(&mut self, ctx: &egui::Context, pa: &mut PresetApply, i: usize) {
+        let mut choice = None;
+        modal(ctx, tr("Delete this preset?"), |ui| {
+            ui.set_max_width(460.0);
+            ui.label(trf("The preset \u{201C}{0}\u{201D} will be deleted. This can't be undone.", &[&pa.list[i].1.name]));
+            ui.weak(tr("Your saves are not changed."));
+            ui.add_space(8.0);
+            ui.horizontal_wrapped(|ui| {
+                let delete = ui.button(tr("Delete permanently"));
+                if delete.clicked() {
+                    choice = Some(true);
+                }
+                let cancel = safe_choice(ui.button(tr("Cancel")));
+                if cancel.clicked() {
+                    choice = Some(false);
+                }
+                tab_ring(&delete, &cancel);
+            });
+        });
+        match choice {
+            Some(true) => {
+                pa.confirm_delete = None;
+                let (path, p) = pa.list.remove(i);
+                match crate::vfs::remove_file(&path) {
+                    Ok(()) => self.ok(trf("Deleted the preset \u{201C}{0}\u{201D}.", &[&p.name])),
+                    Err(e) => {
+                        self.fail(trf("Couldn't delete the preset: {0}", &[&e]));
+                        pa.list.insert(i, (path, p));
+                    }
+                }
+                pa.picked = None;
+            }
+            Some(false) => pa.confirm_delete = None,
+            None => {}
         }
     }
 

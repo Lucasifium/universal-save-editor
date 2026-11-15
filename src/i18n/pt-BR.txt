@@ -29441,3 +29441,18 @@ Show the note about this file
 
 Hide this note for every file like this one. View › Show the note about this file brings it back.
 = Oculta esta nota em todos os arquivos deste tipo. Exibir › Mostrar a nota sobre este arquivo a traz de volta.
+
+Restore this backup?
+= Restaurar este backup?
+
+This replaces {0} on disk with {1}.
+= Isso coloca {1} no lugar de {0} no disco.
+
+Delete this preset?
+= Excluir esta predefinição?
+
+The preset “{0}” will be deleted. This can't be undone.
+= A predefinição “{0}” será excluída. Isso não pode ser desfeito.
+
+Your saves are not changed.
+= Seus saves não mudam.

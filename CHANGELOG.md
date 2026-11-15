@@ -2,6 +2,9 @@
 
 ## 0.7.0
 
+- Backups › Quick restore asks before restoring: it names the backup and the save it replaces, and says the save on disk is backed up first
+- Delete preset asks before deleting the preset; Cancel or Escape keeps it
+- Fixed: backups dated in the future (taken while the computer's clock was set ahead) made each new backup be deleted on the next save, so only one recent backup was kept; they now go first when old backups are cleared out, and show their date without an age
 - The open view tab (Values, Tree, …) and the open file tab are underlined, so they stand out from the others in both themes
 - Fixed: choosing Save and close when quitting with several unsaved tabs saved one tab and closed the window; it now asks about each unsaved tab. Saving is also held back while a file is still being opened
 - Fixed: a save that is a link to a file elsewhere (for example in a synced folder) kept its link when saved or restored; before, the link was replaced by a plain file and the linked file was left unchanged

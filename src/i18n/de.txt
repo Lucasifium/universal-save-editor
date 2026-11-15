@@ -29471,3 +29471,18 @@ Show the note about this file
 
 Hide this note for every file like this one. View › Show the note about this file brings it back.
 = Diesen Hinweis für alle Dateien dieser Art ausblenden. Ansicht › Hinweis zu dieser Datei anzeigen holt ihn zurück.
+
+Restore this backup?
+= Diese Sicherung wiederherstellen?
+
+This replaces {0} on disk with {1}.
+= {0} auf der Festplatte wird durch {1} ersetzt.
+
+Delete this preset?
+= Dieses Preset löschen?
+
+The preset “{0}” will be deleted. This can't be undone.
+= Das Preset „{0}“ wird gelöscht. Das lässt sich nicht rückgängig machen.
+
+Your saves are not changed.
+= Ihre Spielstände bleiben unverändert.

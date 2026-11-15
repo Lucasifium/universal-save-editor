@@ -204,6 +204,43 @@ impl App {
         }
     }
 
+    /// "Restore this backup?" for Backups › Quick restore: Restore now / Cancel. Focus starts
+    /// on Cancel; Cancel and Escape leave everything on disk as it is.
+    pub(super) fn quick_restore_dialog(&mut self, ctx: &egui::Context) {
+        let Some((from, what)) = self.quick_restore.clone() else { return };
+        let Some(path) = self.doc.as_ref().map(|d| d.path.clone()) else {
+            self.quick_restore = None;
+            return;
+        };
+        let mut choice = None;
+        modal(ctx, tr("Restore this backup?"), |ui| {
+            ui.set_max_width(460.0);
+            ui.label(trf("This replaces {0} on disk with {1}.", &[&file_name(&path), &what]));
+            ui.add_space(4.0);
+            ui.weak(tr("The save on disk now is backed up first. Backups \u{203A} Quick restore brings it back."));
+            ui.add_space(8.0);
+            ui.horizontal_wrapped(|ui| {
+                let restore = ui.button(tr("Restore now"));
+                if restore.clicked() {
+                    choice = Some(true);
+                }
+                let cancel = safe_choice(ui.button(tr("Cancel")));
+                if cancel.clicked() {
+                    choice = Some(false);
+                }
+                tab_ring(&restore, &cancel);
+            });
+        });
+        match choice {
+            Some(true) => {
+                self.quick_restore = None;
+                self.restore_from(&from, &what);
+            }
+            Some(false) => self.quick_restore = None,
+            None => {}
+        }
+    }
+
     /// "This file changed on disk since you opened it": Reload / Save anyway / Cancel.
     pub(super) fn stale_dialog(&mut self, ctx: &egui::Context) {
         let Some(path) = self.stale_save.clone() else { return };

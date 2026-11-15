@@ -571,6 +571,9 @@ pub struct App {
     bulk: Option<Bulk>,
     preset_save: Option<PresetSave>,
     preset_apply: Option<PresetApply>,
+    /// Backups › Quick restore: the backup picked and how messages name it, while the
+    /// "Restore this backup?" dialog waits for an answer.
+    quick_restore: Option<(PathBuf, String)>,
     share_names: Option<ShareNames>,
     loading: Option<Loading>,
     saving: Option<Saving>,
@@ -724,6 +727,7 @@ impl App {
             bulk: None,
             preset_save: None,
             preset_apply: None,
+            quick_restore: None,
             share_names: None,
             loading: None,
             saving: None,
@@ -876,7 +880,13 @@ impl App {
 
     /// Escape: closes the dialog on top (the one drawn last), or does nothing when none is open.
     fn close_top_dialog(&mut self) {
-        if self.browser.is_some() {
+        if self.quick_restore.is_some() {
+            self.quick_restore = None;
+        } else if self.preset_apply.as_ref().is_some_and(|pa| pa.confirm_delete.is_some()) {
+            if let Some(pa) = &mut self.preset_apply {
+                pa.confirm_delete = None;
+            }
+        } else if self.browser.is_some() {
             self.browser = None;
         } else if self.share_names.is_some() {
             self.share_names = None;
@@ -1857,6 +1867,15 @@ impl App {
         self.ask(Ask::SaveAs, None, Some(name));
     }
 
+    /// Backups › Quick restore picked `from`: asks "Restore this backup?" first. With unsaved
+    /// changes it is refused straight away, as the restore itself would be.
+    fn ask_restore(&mut self, from: PathBuf, what: String) {
+        if self.dirty {
+            return self.fail(tr("You have unsaved changes. Save or revert them first, then restore."));
+        }
+        self.quick_restore = Some((from, what));
+    }
+
     /// Put `from` (a backup) back in place of the open file. The file as it is now is
     /// backed up first, so a restore can itself be undone.
     fn restore_from(&mut self, from: &Path, what: &str) {
@@ -2174,7 +2193,7 @@ impl App {
                         }
                         if let Some((p, what)) = pick {
                             ui.close_menu();
-                            self.restore_from(&p, &what);
+                            self.ask_restore(p, what);
                         }
                     });
                 });
@@ -4915,6 +4934,7 @@ impl App {
         }
         self.compare_window(ctx, now);
         self.stale_dialog(ctx);
+        self.quick_restore_dialog(ctx);
         self.prefs_window(ctx);
         self.help_window(ctx);
         self.browser_window(ctx);
@@ -6221,6 +6241,180 @@ mod save_tests {
         assert_eq!(gold_on_disk(&path), json!(0), "{}", app.status);
         assert_eq!(value(&app, "/gold"), Some(json!(0)));
         assert_eq!(backed_up(&path), vec![br#"{"gold": 1}"#.to_vec()]);
+    }
+
+    /// One frame of a 1000×700 window with `events`, the input going through `raw_input_hook`.
+    fn run(app: &mut App, ctx: &egui::Context, events: Vec<egui::Event>) -> egui::FullOutput {
+        let mut raw = egui::RawInput { events, screen_rect: Some(egui::Rect::from_min_size(egui::Pos2::ZERO, egui::vec2(1000.0, 700.0))), ..Default::default() };
+        app.raw_input_hook(ctx, &mut raw);
+        ctx.run(raw, |ctx| app.frame(ctx))
+    }
+
+    /// Every piece of text drawn in a frame, with the middle of where it was drawn.
+    fn texts(out: &egui::FullOutput) -> Vec<(String, egui::Pos2)> {
+        let mut found = vec![];
+        for cs in &out.shapes {
+            let mut stack = vec![&cs.shape];
+            while let Some(sh) = stack.pop() {
+                match sh {
+                    egui::epaint::Shape::Vec(v) => stack.extend(v.iter()),
+                    egui::epaint::Shape::Text(t) => found.push((t.galley.text().to_string(), t.galley.rect.translate(t.pos.to_vec2()).center())),
+                    _ => {}
+                }
+            }
+        }
+        found
+    }
+
+    fn shown(app: &mut App, ctx: &egui::Context, text: &str) -> bool {
+        (0..2).any(|_| texts(&run(app, ctx, vec![])).iter().any(|(t, _)| t.contains(text)))
+    }
+
+    /// Clicks the text starting with `text`, as a player would with the mouse.
+    fn click(app: &mut App, ctx: &egui::Context, text: &str) {
+        // A window that just opened is sized on its first frame and drawn on the next.
+        let mut all = vec![];
+        for _ in 0..3 {
+            all = texts(&run(app, ctx, vec![]));
+            if all.iter().any(|(t, _)| t.starts_with(text)) {
+                break;
+            }
+        }
+        let at = all.iter().find(|(t, _)| t.starts_with(text)).unwrap_or_else(|| panic!("{text:?} is not shown; shown: {:?}", all.iter().map(|t| &t.0).collect::<Vec<_>>())).1;
+        run(app, ctx, vec![egui::Event::PointerMoved(at)]);
+        let press = |pressed| egui::Event::PointerButton { pos: at, button: egui::PointerButton::Primary, pressed, modifiers: egui::Modifiers::NONE };
+        run(app, ctx, vec![press(true), press(false)]);
+        run(app, ctx, vec![]);
+    }
+
+    fn key(app: &mut App, ctx: &egui::Context, key: egui::Key, modifiers: egui::Modifiers) {
+        run(app, ctx, vec![egui::Event::Key { key, physical_key: Some(key), pressed: true, repeat: false, modifiers }]);
+        run(app, ctx, vec![egui::Event::Key { key, physical_key: Some(key), pressed: false, repeat: false, modifiers }]);
+        run(app, ctx, vec![]);
+    }
+
+    /// Opens Backups › Quick restore and clicks the entry starting with `entry`.
+    fn quick_restore(app: &mut App, ctx: &egui::Context, entry: &str) {
+        click(app, ctx, "Backups");
+        click(app, ctx, "Quick restore");
+        click(app, ctx, entry);
+    }
+
+    /// A save with one automatic backup of an older version and a .bak of the first one.
+    fn save_with_backups(s: &Scratch) -> PathBuf {
+        let path = s.0.join("save.json");
+        std::fs::write(&path, br#"{"gold": 0}"#).unwrap();
+        crate::backups::take(&path).unwrap();
+        std::fs::write(s.0.join("save.json.bak"), br#"{"gold": -1}"#).unwrap();
+        std::fs::write(&path, br#"{"gold": 1}"#).unwrap();
+        path
+    }
+
+    #[test]
+    fn quick_restore_asks_first_and_cancelling_changes_nothing() {
+        let _l = locks();
+        let s = Scratch::new("quick-ask");
+        let ctx = window();
+        let path = save_with_backups(&s);
+        let before = backed_up(&path);
+        let mut app = opened(&ctx, &path);
+        quick_restore(&mut app, &ctx, "just now");
+        assert_eq!(gold_on_disk(&path), json!(1), "clicking the backup alone restores nothing");
+        assert!(shown(&mut app, &ctx, "save.json"), "the dialog names the save");
+        assert!(shown(&mut app, &ctx, "Restore now"));
+        // Focus starts on Cancel: Enter cancels.
+        key(&mut app, &ctx, egui::Key::Enter, egui::Modifiers::NONE);
+        assert!(!shown(&mut app, &ctx, "Restore now"), "the dialog closed");
+        assert_eq!(gold_on_disk(&path), json!(1));
+        assert_eq!(backed_up(&path), before, "no backup was made or removed");
+        // Escape cancels too.
+        quick_restore(&mut app, &ctx, "just now");
+        key(&mut app, &ctx, egui::Key::Escape, egui::Modifiers::NONE);
+        assert!(!shown(&mut app, &ctx, "Restore now"));
+        assert_eq!(gold_on_disk(&path), json!(1));
+        assert_eq!(backed_up(&path), before);
+        // Cancel with the mouse.
+        quick_restore(&mut app, &ctx, "just now");
+        click(&mut app, &ctx, "Cancel");
+        assert!(!shown(&mut app, &ctx, "Restore now"));
+        assert_eq!(gold_on_disk(&path), json!(1));
+        assert_eq!(backed_up(&path), before);
+        // Restore now puts the backup back, after backing up the save it replaces.
+        quick_restore(&mut app, &ctx, "just now");
+        click(&mut app, &ctx, "Restore now");
+        assert_eq!(app.status_kind, StatusKind::Ok, "{}", app.status);
+        assert_eq!(gold_on_disk(&path), json!(0));
+        assert!(backed_up(&path).contains(&br#"{"gold": 1}"#.to_vec()));
+    }
+
+    #[test]
+    fn restoring_the_original_save_asks_first_and_keyboard_confirms() {
+        let _l = locks();
+        let s = Scratch::new("quick-bak");
+        let ctx = window();
+        let path = save_with_backups(&s);
+        let mut app = opened(&ctx, &path);
+        quick_restore(&mut app, &ctx, "Original save (.bak)");
+        assert_eq!(gold_on_disk(&path), json!(1));
+        assert!(shown(&mut app, &ctx, "the original save"), "the dialog says which backup");
+        // Shift+Tab from Cancel reaches Restore now; Enter presses it.
+        key(&mut app, &ctx, egui::Key::Tab, egui::Modifiers::SHIFT);
+        key(&mut app, &ctx, egui::Key::Enter, egui::Modifiers::NONE);
+        assert_eq!(gold_on_disk(&path), json!(-1), "{}", app.status);
+        assert!(backed_up(&path).contains(&br#"{"gold": 1}"#.to_vec()));
+    }
+
+    #[test]
+    fn quick_restore_with_unsaved_changes_is_refused_without_asking() {
+        let _l = locks();
+        let s = Scratch::new("quick-dirty");
+        let ctx = window();
+        let path = save_with_backups(&s);
+        let before = backed_up(&path);
+        let mut app = opened(&ctx, &path);
+        app.apply_edit("/gold".into(), json!(5), 0.0);
+        quick_restore(&mut app, &ctx, "just now");
+        assert_eq!(app.status_kind, StatusKind::Err);
+        assert!(!shown(&mut app, &ctx, "Restore now"), "nothing to confirm");
+        assert_eq!(gold_on_disk(&path), json!(1));
+        assert_eq!(backed_up(&path), before);
+        assert_eq!(value(&app, "/gold"), Some(json!(5)), "the changes are still there");
+    }
+
+    #[test]
+    fn deleting_a_preset_asks_first() {
+        let _l = locks();
+        let s = Scratch::new("preset-delete");
+        let ctx = window();
+        let path = s.0.join("save.json");
+        std::fs::write(&path, br#"{"gold": 1}"#).unwrap();
+        let file = s.0.join("rich.json");
+        let preset = crate::presets::Preset { name: "Rich".into(), game: String::new(), values: vec![], bytes: vec![] };
+        std::fs::write(&file, b"{}").unwrap();
+        let mut app = opened(&ctx, &path);
+        let open = |app: &mut App| app.preset_apply = Some(PresetApply { list: vec![(file.clone(), preset.clone())], picked: Some(0), opened: None, confirm_delete: None });
+        open(&mut app);
+        click(&mut app, &ctx, "Delete preset");
+        assert!(file.exists(), "clicking Delete preset alone deletes nothing");
+        assert!(shown(&mut app, &ctx, "Rich"), "the dialog names the preset");
+        assert!(shown(&mut app, &ctx, "Delete permanently"));
+        // Focus starts on Cancel: Enter cancels, back to the list.
+        key(&mut app, &ctx, egui::Key::Enter, egui::Modifiers::NONE);
+        assert!(file.exists());
+        assert!(!shown(&mut app, &ctx, "Delete permanently"));
+        assert!(shown(&mut app, &ctx, "Delete preset"), "the preset list is still open");
+        // Escape cancels the question only.
+        click(&mut app, &ctx, "Delete preset");
+        key(&mut app, &ctx, egui::Key::Escape, egui::Modifiers::NONE);
+        assert!(file.exists());
+        assert!(app.preset_apply.is_some(), "Escape closed only the question");
+        assert!(shown(&mut app, &ctx, "Delete preset"));
+        // Delete permanently deletes it.
+        click(&mut app, &ctx, "Delete preset");
+        click(&mut app, &ctx, "Delete permanently");
+        assert!(!file.exists(), "{}", app.status);
+        assert_eq!(app.status_kind, StatusKind::Ok, "{}", app.status);
+        assert!(app.preset_apply.as_ref().is_some_and(|pa| pa.list.is_empty()));
     }
 
     #[test]
