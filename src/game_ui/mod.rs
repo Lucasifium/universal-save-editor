@@ -539,6 +539,9 @@ fn quick_strip(ui: &mut Ui) {
 }
 
 pub fn show(game: Game, ui: &mut Ui, cx: &mut GameCtx) {
+    // What `columns` remembers about widths belongs to this game's screen only.
+    let screen = egui::Id::new(("game_screen", format!("{game:?}")));
+    ui.ctx().data_mut(|d| d.insert_temp(egui::Id::new(SCREEN_SALT), screen));
     quick_strip(ui);
     show_screen(game, ui, cx);
 }
@@ -1006,6 +1009,9 @@ pub fn meter(ui: &mut Ui, label: &str, cur: f64, max: f64, color: Color32) {
     });
 }
 
+/// Where `show` leaves the id of the game screen being drawn, for `columns`.
+const SCREEN_SALT: &str = "game_screen_salt";
+
 /// Lays `n` items out in as many columns of at least `min_w` as fit.
 pub fn columns(ui: &mut Ui, min_w: f32, n: usize, mut add: impl FnMut(&mut Ui, usize)) {
     if n == 0 {
@@ -1014,7 +1020,10 @@ pub fn columns(ui: &mut Ui, min_w: f32, n: usize, mut add: impl FnMut(&mut Ui, u
     // A column whose rows need more than `min_w` (long labels, a box and its −/+) ran under
     // the next column, which then covered its controls. The widest column seen is kept, and
     // fewer columns are used from the next frame on when it didn't fit.
-    let key = ui.id().with(("columns_need", n, min_w.to_bits()));
+    // Kept per call (its place in this Ui) and per game screen, so one group's wide column
+    // doesn't narrow another group or another game's screen.
+    let screen = ui.ctx().data(|d| d.get_temp::<egui::Id>(egui::Id::new(SCREEN_SALT))).unwrap_or(egui::Id::NULL);
+    let key = ui.next_auto_id().with(("columns_need", n, min_w.to_bits(), screen));
     let need = ui.ctx().data(|d| d.get_temp::<f32>(key)).unwrap_or(0.0);
     let avail = ui.available_rect_before_wrap().width();
     let gap = ui.spacing().item_spacing.x;
