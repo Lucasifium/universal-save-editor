@@ -27300,3 +27300,6 @@ none found
 {0} {1} not changed, the save can't hold that: {2}
 = {0} {1} non modifiés, la sauvegarde ne peut pas contenir cela : {2}
 
+
+Words in any order work ("witcher 3" or "3 witcher"), and so do short names made from the initials of the name with its numbers, such as bg3, gta5 or ff7.
+= Les mots fonctionnent dans n'importe quel ordre ("witcher 3" ou "3 witcher"), tout comme les noms courts formés des initiales du nom avec ses chiffres, comme bg3, gta5 ou ff7.

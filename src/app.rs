@@ -4501,7 +4501,8 @@ fn game_picker_window(ctx: &egui::Context, gp: &mut GamePicker) -> (Option<PathB
                 let only = gp.only_found.unwrap_or(!searching && any_here);
                 ui.horizontal_wrapped(|ui| {
                     ui.label(tr("Search:"));
-                    ui.add(TextEdit::singleline(&mut gp.query).hint_text(tr("game name")).desired_width(200.0));
+                    ui.add(TextEdit::singleline(&mut gp.query).hint_text(tr("game name")).desired_width(200.0))
+                        .on_hover_text(tr("Words in any order work (\"witcher 3\" or \"3 witcher\"), and so do short names made from the initials of the name with its numbers, such as bg3, gta5 or ff7."));
                     let mut o = only;
                     if ui
                         .checkbox(&mut o, tr("Only games found here"))

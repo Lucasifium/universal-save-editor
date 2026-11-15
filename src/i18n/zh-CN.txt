@@ -27348,3 +27348,6 @@ none found
 {0} {1} not changed, the save can't hold that: {2}
 = {0} 有 {1} 个未更改，存档无法容纳该值：{2}
 
+
+Words in any order work ("witcher 3" or "3 witcher"), and so do short names made from the initials of the name with its numbers, such as bg3, gta5 or ff7.
+= 单词顺序不限("witcher 3" 或 "3 witcher" 均可),也可以输入由名称首字母加数字组成的简称,例如 bg3、gta5 或 ff7。
