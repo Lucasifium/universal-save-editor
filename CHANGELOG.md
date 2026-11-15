@@ -2,6 +2,7 @@
 
 ## 0.7.0
 
+- The open view tab (Values, Tree, …) and the open file tab are underlined, so they stand out from the others in both themes
 - Fixed: choosing Save and close when quitting with several unsaved tabs saved one tab and closed the window; it now asks about each unsaved tab. Saving is also held back while a file is still being opened
 - Fixed: a save that is a link to a file elsewhere (for example in a synced folder) kept its link when saved or restored; before, the link was replaced by a plain file and the linked file was left unchanged
 - Fixed: Export decoded data, and the command line's decode -o, back up a file they replace; exporting over the save itself could leave a file the game can't load, with no backup
@@ -15,8 +16,6 @@
 - Fixed: Metal Gear Solid V: The Phantom Pain saves (TPP_GAME_DATA, PERSONAL_DATA, TPP_CONFIG_DATA) opened as hex instead of the game screen
 - Metal Gear Solid V: Ground Zeroes saves are decrypted for the hex view, with their checksum redone on save
 - Find my game's saves also looks in The Phantom Pain's 287700\local save folder
-
-## 0.7.0
 
 - Light theme: text boxes have an outline, changed values and the unsaved-changes count are readable on white, the open Changes button no longer shows white text on a pale background, and switches that are off are visible
 - Windows and dialogs have more room inside their edges (phone-width screens keep the narrow margin)

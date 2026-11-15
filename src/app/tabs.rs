@@ -220,6 +220,7 @@ impl App {
                         ui.group(|ui| {
                             ui.spacing_mut().item_spacing.x = 4.0;
                             let r = ui.selectable_label(i == self.tabs.active, text);
+                            crate::theme::mark_selected(ui, &r, i == self.tabs.active);
                             let r = if full.is_empty() { r } else { r.on_hover_text(full) };
                             if r.clicked() {
                                 pick = Some(i);

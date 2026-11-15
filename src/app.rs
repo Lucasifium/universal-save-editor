@@ -3402,12 +3402,16 @@ impl App {
         ui.horizontal(|ui| {
             let old = self.tab;
             if let Some(g) = game {
-                ui.selectable_value(&mut self.tab, Tab::Game, g.tab_label()).on_hover_text(tr("This game's own screen: its stats, inventory and more, laid out like the game"));
+                let r = ui.selectable_value(&mut self.tab, Tab::Game, g.tab_label()).on_hover_text(tr("This game's own screen: its stats, inventory and more, laid out like the game"));
+                theme::mark_selected(ui, &r, old == Tab::Game);
             }
-            ui.selectable_value(&mut self.tab, Tab::Values, tr("Values")).on_hover_text(tr("Every editable value in a simple list"));
-            ui.selectable_value(&mut self.tab, Tab::Tree, tr("Tree")).on_hover_text(tr("The full structure of the save, as nested groups"));
+            let r = ui.selectable_value(&mut self.tab, Tab::Values, tr("Values")).on_hover_text(tr("Every editable value in a simple list"));
+            theme::mark_selected(ui, &r, old == Tab::Values);
+            let r = ui.selectable_value(&mut self.tab, Tab::Tree, tr("Tree")).on_hover_text(tr("The full structure of the save, as nested groups"));
+            theme::mark_selected(ui, &r, old == Tab::Tree);
             if is_json {
-                ui.selectable_value(&mut self.tab, Tab::Raw, tr("Raw JSON")).on_hover_text(tr("Edit the JSON text directly"));
+                let r = ui.selectable_value(&mut self.tab, Tab::Raw, tr("Raw JSON")).on_hover_text(tr("Edit the JSON text directly"));
+                theme::mark_selected(ui, &r, old == Tab::Raw);
             }
             if old != self.tab {
                 if old == Tab::Raw {

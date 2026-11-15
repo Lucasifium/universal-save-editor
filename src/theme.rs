@@ -337,6 +337,15 @@ fn readable_on(c: Color32, dark: bool, v: &egui::Visuals) -> Color32 {
     out
 }
 
+/// Underlines the selected tab: its fill alone is too close to the panel behind it to tell
+/// which tab is open.
+pub fn mark_selected(ui: &egui::Ui, r: &egui::Response, selected: bool) {
+    if selected {
+        let y = r.rect.bottom() - 1.0;
+        ui.painter().hline(r.rect.x_range(), y, egui::Stroke::new(2.0, ui.visuals().strong_text_color()));
+    }
+}
+
 /// Text version of a status colour that stays readable on the current background.
 pub fn fg(ui: &egui::Ui, c: Color32) -> Color32 {
     readable(c, ui.visuals().dark_mode)
