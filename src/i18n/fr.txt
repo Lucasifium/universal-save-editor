@@ -908,6 +908,9 @@ Not saved. Your changes are still here.
 Close this tab (Ctrl+W)
 = Fermer cet onglet (Ctrl+W)
 
+Close tab: {0}
+= Fermer l'onglet : {0}
+
 Open another save in a new tab (Ctrl+T)
 = Ouvrir une autre sauvegarde dans un nouvel onglet (Ctrl+T)
 

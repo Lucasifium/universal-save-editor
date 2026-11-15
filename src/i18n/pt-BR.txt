@@ -908,6 +908,9 @@ Not saved. Your changes are still here.
 Close this tab (Ctrl+W)
 = Fechar esta aba (Ctrl+W)
 
+Close tab: {0}
+= Fechar aba: {0}
+
 Open another save in a new tab (Ctrl+T)
 = Abrir outro save em uma nova aba (Ctrl+T)
 

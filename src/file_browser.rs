@@ -192,7 +192,7 @@ impl FileBrowser {
                 });
 
                 if let Some(e) = &self.error {
-                    ui.colored_label(ui.visuals().error_fg_color, e);
+                    ui.colored_label(crate::theme::fg(ui, crate::theme::ERR), e);
                 }
                 let mut open_dir = None;
                 ScrollArea::vertical().auto_shrink([false, false]).show_locked(ui, |ui| {

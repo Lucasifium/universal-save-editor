@@ -976,8 +976,8 @@ impl App {
                 if secs < OPENING_BOX_AFTER {
                     // Not worth a box yet, but clicks must not reach the file being replaced.
                     let screen = ctx.screen_rect();
-                    egui::Area::new(egui::Id::new("opening_hold")).fixed_pos(screen.min).order(egui::Order::Foreground).show(ctx, |ui| {
-                        ui.allocate_response(screen.size(), egui::Sense::click());
+                    egui::Area::new(egui::Id::new("opening_hold")).fixed_pos(screen.min).sense(widgets::BLOCK_CLICKS).order(egui::Order::Foreground).show(ctx, |ui| {
+                        ui.allocate_response(screen.size(), widgets::BLOCK_CLICKS);
                     });
                     ctx.request_repaint_after(std::time::Duration::from_millis(30));
                     return;
@@ -1490,8 +1490,8 @@ impl App {
                 let secs = now - s.started;
                 // Clicks must not reach the file being saved, before the box and under it.
                 let screen = ctx.screen_rect();
-                egui::Area::new(egui::Id::new("saving_hold")).fixed_pos(screen.min).order(egui::Order::Foreground).show(ctx, |ui| {
-                    ui.allocate_response(screen.size(), egui::Sense::click());
+                egui::Area::new(egui::Id::new("saving_hold")).fixed_pos(screen.min).sense(widgets::BLOCK_CLICKS).order(egui::Order::Foreground).show(ctx, |ui| {
+                    ui.allocate_response(screen.size(), widgets::BLOCK_CLICKS);
                 });
                 if secs < SAVING_BOX_AFTER {
                     ctx.request_repaint_after(std::time::Duration::from_millis(30));
@@ -1814,7 +1814,7 @@ impl App {
                 if r.running.is_some() && ui.button(tr("Check again")).clicked() {
                     choice = Some(1);
                 }
-                if ui.button(tr("Cancel")).clicked() {
+                if safe_choice(ui.button(tr("Cancel"))).clicked() {
                     choice = Some(2);
                 }
                 ui.checkbox(&mut dont_ask, tr("Don't show this list again"));
@@ -2910,9 +2910,10 @@ impl App {
                             if c.child {
                                 ui.add_space(16.0);
                             }
-                            let mut name = RichText::new(&c.name);
+                            // A code the patch flags as risky: a warning sign as well as the colour.
+                            let mut name = RichText::new(if c.alert { format!("\u{26A0} {}", c.name) } else { c.name.clone() });
                             if c.alert {
-                                name = name.color(theme::WARN);
+                                name = name.color(theme::fg(ui, theme::WARN));
                             }
                             let r = ui.add_enabled(usable, egui::Checkbox::new(&mut p.on[i], name));
                             if !usable {
@@ -3219,7 +3220,9 @@ impl App {
             }
         };
         row(ui, &mut |ui| {
-            if ui.button(widgets::icon_text(ui, hi, icon::OPEN, tr("Open"))).on_hover_text(tr("Open a save file (Ctrl+O)")).clicked() {
+            // These buttons start with an icon glyph: `named` keeps it out of what a screen reader says.
+            let b = ui.button(widgets::icon_text(ui, hi, icon::OPEN, tr("Open")));
+            if widgets::named(b, egui::WidgetType::Button, tr("Open")).on_hover_text(tr("Open a save file (Ctrl+O)")).clicked() {
                 self.ask(Ask::Open, None, None);
             }
             if !cfg!(target_os = "android")
@@ -3233,16 +3236,19 @@ impl App {
             } else {
                 egui::Button::new(widgets::icon_text(ui, hi, icon::SAVE, tr("Save")))
             };
-            if ui.add_enabled(self.dirty, save_btn).on_hover_text(tr("Save changes to the file (Ctrl+S)")).clicked() {
+            let b = ui.add_enabled(self.dirty, save_btn);
+            if widgets::named(b, egui::WidgetType::Button, tr("Save")).on_hover_text(tr("Save changes to the file (Ctrl+S)")).clicked() {
                 self.save_clicked();
             }
             if !narrow {
                 ui.separator();
             }
-            if ui.add_enabled(!self.undo.is_empty(), egui::Button::new(widgets::icon_text(ui, hi, icon::UNDO, tr("Undo")))).on_hover_text(tr("Ctrl+Z")).clicked() {
+            let b = ui.add_enabled(!self.undo.is_empty(), egui::Button::new(widgets::icon_text(ui, hi, icon::UNDO, tr("Undo"))));
+            if widgets::named(b, egui::WidgetType::Button, tr("Undo")).on_hover_text(tr("Ctrl+Z")).clicked() {
                 self.undo_redo(true);
             }
-            if ui.add_enabled(!self.redo.is_empty(), egui::Button::new(widgets::icon_text(ui, hi, icon::REDO, tr("Redo")))).on_hover_text(tr("Ctrl+Y")).clicked() {
+            let b = ui.add_enabled(!self.redo.is_empty(), egui::Button::new(widgets::icon_text(ui, hi, icon::REDO, tr("Redo"))));
+            if widgets::named(b, egui::WidgetType::Button, tr("Redo")).on_hover_text(tr("Ctrl+Y")).clicked() {
                 self.undo_redo(false);
             }
 
@@ -3283,8 +3289,9 @@ impl App {
                         Self::chip(ui, tr("Names from game data"), theme::OK).on_hover_text(dir.display().to_string());
                     }
                     None => {
-                        if Self::chip(ui, tr("Game data not found. Click to locate it."), theme::WARN)
-                            .interact(egui::Sense::click())
+                        let text = tr("Game data not found. Click to locate it.");
+                        let chip = Self::chip(ui, text, theme::WARN).interact(egui::Sense::click());
+                        if widgets::named(chip, egui::WidgetType::Button, text)
                             .on_hover_text(tr("Point to the game's data folder to see variable, switch and item names"))
                             .clicked()
                         {
@@ -3301,9 +3308,11 @@ impl App {
                 let label = if n > 0 { crate::i18n::trf("Changes ({0})", &[&n]) } else { tr("Changes").into() };
                 // The selected colours: white on the light theme's pale selection could not be read.
                 let color = if self.show_changes { ui.visuals().selection.stroke.color } else { ui.visuals().text_color() };
-                let r = ui
-                    .toggle_value(&mut self.show_changes, widgets::icon_text_colored(ui, hi, icon::HISTORY, &label, color))
-                    .on_hover_text(tr("List everything you've changed since the last save"));
+                let r = ui.toggle_value(&mut self.show_changes, widgets::icon_text_colored(ui, hi, icon::HISTORY, &label, color));
+                // Its text starts with an icon glyph: the screen reader gets the words and the on/off state.
+                let (on, enabled) = (self.show_changes, r.enabled());
+                r.widget_info(|| egui::WidgetInfo::selected(egui::WidgetType::SelectableLabel, enabled, on, &label));
+                let r = r.on_hover_text(tr("List everything you've changed since the last save"));
                 changes_w = r.rect.width();
             };
             if narrow {
@@ -3358,13 +3367,14 @@ impl App {
                 ui.add_space(12.0);
             }
             ui.with_layout(egui::Layout::left_to_right(egui::Align::Center), |ui| {
-                let (color, glyph) = match self.status_kind {
-                    StatusKind::Info => (ui.visuals().weak_text_color(), ""),
-                    StatusKind::Ok => (theme::fg(ui, theme::OK), icon::CHECK),
-                    StatusKind::Err => (theme::fg(ui, theme::ERR), icon::WARNING),
+                // Done and failed differ by a mark as well as by colour (✔ and ⚠ without the icon font).
+                let (color, glyph, fallback) = match self.status_kind {
+                    StatusKind::Info => (ui.visuals().weak_text_color(), "", ""),
+                    StatusKind::Ok => (theme::fg(ui, theme::OK), icon::CHECK, "\u{2714}"),
+                    StatusKind::Err => (theme::fg(ui, theme::ERR), icon::WARNING, "\u{26A0}"),
                 };
-                if self.has_icons && !glyph.is_empty() {
-                    ui.label(RichText::new(glyph).family(theme::icons_family()).color(color).size(12.0));
+                if !glyph.is_empty() {
+                    ui.label(widgets::icon(self.has_icons, glyph, fallback).color(color).size(12.0));
                 }
                 if self.status_kind == StatusKind::Err && self.banner.as_deref() == Some(self.status.as_str()) {
                     // The whole message is in the banner at the top.
@@ -3418,7 +3428,7 @@ impl App {
                     self.ok(tr("Raw JSON applied."));
                 }
                 if let Some(e) = &self.raw_error {
-                    ui.colored_label(theme::ERR, e);
+                    ui.colored_label(theme::fg(ui, theme::ERR), e);
                 }
                 return;
             }
@@ -3431,12 +3441,9 @@ impl App {
                 }
                 let id = egui::Id::new("search_box");
                 let w = if narrow(ui) { ui.available_width() - 150.0 } else { (ui.available_width() - 400.0).clamp(120.0, 320.0) };
-                let r = ui.add(
-                    TextEdit::singleline(&mut self.search)
-                        .id(id)
-                        .hint_text(if self.tab == Tab::Tree { tr("Filter the tree by name or value  (Ctrl+F)") } else { tr("Search names or values  (Ctrl+F)") })
-                        .desired_width(w),
-                );
+                let hint = if self.tab == Tab::Tree { tr("Filter the tree by name or value  (Ctrl+F)") } else { tr("Search names or values  (Ctrl+F)") };
+                let r = ui.add(TextEdit::singleline(&mut self.search).id(id).hint_text(hint).desired_width(w));
+                let r = widgets::named(r, egui::WidgetType::TextEdit, hint);
                 if r.changed() {
                     self.search_typed_at = ui.input(|i| i.time);
                 }
@@ -3482,6 +3489,7 @@ impl App {
         let hint_w = ui.fonts(|f| f.layout_no_wrap(hint.to_string(), egui::TextStyle::Body.resolve(ui.style()), Color32::WHITE).size().x);
         let w = (hint_w + 12.0).clamp(200.0, 320.0).min(ui.available_width());
         let r = ui.add(TextEdit::singleline(&mut self.game_find).id(id).hint_text(hint).desired_width(w));
+        let r = widgets::named(r, egui::WidgetType::TextEdit, hint);
         if self.focus_game_find {
             r.request_focus();
             self.focus_game_find = false;
@@ -3986,7 +3994,8 @@ impl App {
                             }
                             ui.with_layout(egui::Layout::right_to_left(egui::Align::Center), |ui| {
                                 let trash = widgets::icon(self.has_icons, "\u{E74D}", "\u{00D7}").size(13.0).weak();
-                                if ui.add(egui::Button::new(trash).frame(false)).on_hover_text(tr("Forget this name (the value is not changed)")).clicked() {
+                                let tip = tr("Forget this name (the value is not changed)");
+                                if widgets::icon_button(ui, trash, tip, tip).clicked() {
                                     remove = Some(off);
                                 }
                             });
@@ -4669,7 +4678,7 @@ impl App {
                     if ui.button(tr("Close without saving")).clicked() {
                         choice = Some(1);
                     }
-                    if ui.button(tr("Cancel")).clicked() {
+                    if safe_choice(ui.button(tr("Cancel"))).clicked() {
                         choice = Some(2);
                     }
                 });
@@ -4699,7 +4708,7 @@ impl App {
                     if ui.button(tr("Open without saving")).clicked() {
                         choice = Some(1);
                     }
-                    if ui.button(tr("Cancel")).clicked() {
+                    if safe_choice(ui.button(tr("Cancel"))).clicked() {
                         choice = Some(2);
                     }
                 });
@@ -4762,7 +4771,7 @@ impl App {
                     if ui.button(tr("Close without saving")).clicked() {
                         choice = Some(1);
                     }
-                    if ui.button(tr("Cancel")).clicked() {
+                    if safe_choice(ui.button(tr("Cancel"))).clicked() {
                         choice = Some(2);
                     }
                 });
@@ -4784,6 +4793,7 @@ impl App {
         if std::mem::take(&mut self.close_now) {
             ctx.send_viewport_cmd(egui::ViewportCommand::Close);
         }
+        theme::focus_ring(ctx);
         // A save started late in this frame (from a dialog): its box and outcome need frames.
         if self.saving.is_some() {
             ctx.request_repaint_after(std::time::Duration::from_millis(30));
@@ -4826,8 +4836,8 @@ fn v_when(v: &[crate::backups::Version], p: &PathBuf) -> u64 {
 
 fn modal(ctx: &egui::Context, title: &str, add: impl FnOnce(&mut egui::Ui)) {
     let screen = ctx.screen_rect();
-    egui::Area::new(egui::Id::new("modal_dim")).fixed_pos(screen.min).order(egui::Order::Middle).show(ctx, |ui| {
-        ui.allocate_response(screen.size(), egui::Sense::click());
+    egui::Area::new(egui::Id::new("modal_dim")).fixed_pos(screen.min).sense(widgets::BLOCK_CLICKS).order(egui::Order::Middle).show(ctx, |ui| {
+        ui.allocate_response(screen.size(), widgets::BLOCK_CLICKS);
         ui.painter().rect_filled(screen, 0.0, Color32::from_black_alpha(140));
     });
     egui::Window::new(title)
@@ -4837,6 +4847,18 @@ fn modal(ctx: &egui::Context, title: &str, add: impl FnOnce(&mut egui::Ui)) {
         .order(egui::Order::Foreground)
         .anchor(egui::Align2::CENTER_CENTER, [0.0, 0.0])
         .show(ctx, add);
+}
+
+/// Gives keyboard focus to a dialog's safe choice (`r`, its Cancel) whenever focus is outside the
+/// dialog: Enter or Space can't press the destructive button, or the control behind the dialog,
+/// by accident, and Tab keeps going round the dialog's buttons.
+pub(crate) fn safe_choice(r: egui::Response) -> egui::Response {
+    let focused = r.ctx.memory(|m| m.focused());
+    let inside = focused.filter(|&id| id != r.layer_id.id.with("move")).and_then(|id| r.ctx.read_response(id)).is_some_and(|f| f.layer_id == r.layer_id);
+    if !inside {
+        r.request_focus();
+    }
+    r
 }
 
 /// How many found-save cards the game picker draws before offering "Show all".

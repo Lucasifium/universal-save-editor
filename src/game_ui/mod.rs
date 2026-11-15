@@ -71,7 +71,7 @@ pub fn find_mark(ui: &Ui, rect: egui::Rect, text: &str) {
         (d.get_temp::<usize>(egui::Id::new(FIND_TARGET)).unwrap_or(0), seen)
     });
     let current = index == target;
-    let color = if current { theme::MODIFIED } else { theme::ACCENT };
+    let color = if current { theme::fg(ui, theme::MODIFIED) } else { theme::fg(ui, theme::ACCENT) };
     ui.painter().rect_stroke(rect.expand(2.0), 4.0, egui::Stroke::new(if current { 2.0_f32 } else { 1.0 }, color));
     if current {
         // Scroll once per search / Next press, not on every frame.
@@ -888,7 +888,7 @@ impl GameCtx<'_> {
         let text_c = if on { Color32::WHITE } else { ui.visuals().weak_text_color() };
         let mut btn = egui::Button::new(RichText::new(label).color(text_c).size(13.0)).fill(fill).rounding(12.0);
         if modified {
-            btn = btn.stroke(egui::Stroke::new(1.5_f32, theme::MODIFIED));
+            btn = btn.stroke(egui::Stroke::new(1.5_f32, theme::fg(ui, theme::MODIFIED)));
         }
         let r = ui.add_enabled(editable, btn);
         find_mark(ui, r.rect, label);
@@ -957,7 +957,7 @@ pub fn tile_frame_min(ui: &mut Ui, accent: Color32, modified: bool, min: f32, ad
     if ui.layout().main_wrap() && ui.available_size_before_wrap().x < tile_w + 24.0 {
         ui.end_row();
     }
-    let stroke = if modified { egui::Stroke::new(1.5_f32, theme::MODIFIED) } else { egui::Stroke::new(1.0_f32, accent.gamma_multiply(0.45)) };
+    let stroke = if modified { egui::Stroke::new(1.5_f32, theme::fg(ui, theme::MODIFIED)) } else { egui::Stroke::new(1.0_f32, accent.gamma_multiply(0.45)) };
     egui::Frame::none()
         .fill(inset_fill(ui, accent))
         .stroke(stroke)
@@ -1132,7 +1132,7 @@ pub fn cell_grid(ui: &mut Ui, cells: &[Cell], cols: usize, selected: Option<usiz
                 let stroke = if selected == Some(i) {
                     egui::Stroke::new(2.0_f32, accent)
                 } else if cell.modified {
-                    egui::Stroke::new(1.5_f32, theme::MODIFIED)
+                    egui::Stroke::new(1.5_f32, theme::fg(ui, theme::MODIFIED))
                 } else {
                     egui::Stroke::new(1.0_f32, ui.visuals().widgets.noninteractive.bg_stroke.color)
                 };

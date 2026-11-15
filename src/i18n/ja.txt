@@ -908,6 +908,9 @@ Not saved. Your changes are still here.
 Close this tab (Ctrl+W)
 = このタブを閉じる (Ctrl+W)
 
+Close tab: {0}
+= タブを閉じる：{0}
+
 Open another save in a new tab (Ctrl+T)
 = 別のセーブデータを新しいタブで開く (Ctrl+T)
 

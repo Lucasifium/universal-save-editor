@@ -337,7 +337,7 @@ impl App {
                 ui.separator();
                 ui.label(RichText::new(&p.name).strong());
                 if !p.game.is_empty() && p.game != kind {
-                    ui.colored_label(theme::ERR, trf("Made on a {0} save; this one is a {1} save. Only the values found here are changed.", &[&p.game, &kind]));
+                    ui.colored_label(theme::fg(ui, theme::ERR), trf("Made on a {0} save; this one is a {1} save. Only the values found here are changed.", &[&p.game, &kind]));
                 }
                 ScrollArea::vertical().id_salt("preset_lines").max_height(160.0).show_locked(ui, |ui| {
                     for l in p.lines() {

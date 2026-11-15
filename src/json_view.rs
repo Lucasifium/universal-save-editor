@@ -115,7 +115,7 @@ fn label_job(ui: &Ui, main: &str, raw: Option<&str>, suffix: &str, color: Color3
         job.append(suffix, 6.0, TextFormat::simple(small.clone(), ui.visuals().weak_text_color()));
     }
     if let Some(raw) = raw {
-        job.append(raw, 8.0, TextFormat::simple(small, Color32::from_rgb(120, 150, 185)));
+        job.append(raw, 8.0, TextFormat::simple(small, theme::fg(ui, theme::RAW_KEY)));
     }
     job
 }
@@ -181,7 +181,13 @@ fn node_ui(ui: &mut Ui, key: &str, v: &Value, ptr: &str, ctx: &mut TreeCtx) {
             let row = ui.horizontal(|ui| {
                 let color = if modified { theme::fg(ui, theme::MODIFIED) } else { ui.visuals().text_color() };
                 let label_w = (ctx.value_x - ui.cursor().min.x).max(120.0);
-                let job = label_job(ui, &label, raw, "", color);
+                let mut job = label_job(ui, &label, raw, "", color);
+                // Changed values are underlined too, not only coloured.
+                if modified {
+                    if let Some(s) = job.sections.first_mut() {
+                        s.format.underline = egui::Stroke::new(1.0_f32, color);
+                    }
+                }
                 ui.allocate_ui_with_layout(egui::vec2(label_w, ui.spacing().interact_size.y), egui::Layout::left_to_right(egui::Align::Center), |ui| {
                     ui.set_width(label_w);
                     ui.add(egui::Label::new(job).truncate()).on_hover_text(crate::i18n::trf("key: {0}\npath: {1}", &[&key, &ptr]));
@@ -193,7 +199,7 @@ fn node_ui(ui: &mut Ui, key: &str, v: &Value, ptr: &str, ctx: &mut TreeCtx) {
             });
             if revealed {
                 let rect = row.response.rect;
-                ui.painter().rect_stroke(rect.expand(2.0), 4.0, egui::Stroke::new(1.5_f32, theme::ACCENT));
+                ui.painter().rect_stroke(rect.expand(2.0), 4.0, egui::Stroke::new(1.5_f32, theme::fg(ui, theme::ACCENT)));
                 if ctx.reveal_scroll {
                     ui.scroll_to_rect(rect, Some(egui::Align::Center));
                 }

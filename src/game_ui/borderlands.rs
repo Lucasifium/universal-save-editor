@@ -197,8 +197,8 @@ fn loot_table(ui: &mut Ui, cx: &GameCtx, id: &str, base: &str, cols: &[&str]) {
                         (_, None) => String::new(),
                     };
                     let color = match (c, text.as_str()) {
-                        (&"Serial check", "OK") => theme::OK,
-                        (&"Serial check", _) => theme::ERR,
+                        (&"Serial check", "OK") => theme::fg(ui, theme::OK),
+                        (&"Serial check", _) => theme::fg(ui, theme::ERR),
                         (&"Slot", s) if s != "Backpack" => theme::fg(ui, YELLOW),
                         (&"Quick slot", s) if s != "backpack" => theme::fg(ui, YELLOW),
                         (&"Equipped", "yes") => theme::fg(ui, YELLOW),

@@ -214,6 +214,7 @@ impl App {
                 ui.horizontal(|ui| {
                     for i in 0..self.tab_count() {
                         let name = self.tab_path(i).map(file_name).unwrap_or_else(|| tr("New tab").into());
+                        let close_name = crate::i18n::trf("Close tab: {0}", &[&name]);
                         let text = if self.tab_dirty(i) { format!("\u{2022} {name}") } else { name };
                         let full = self.tab_path(i).map(|p| p.display().to_string()).unwrap_or_default();
                         ui.group(|ui| {
@@ -226,12 +227,13 @@ impl App {
                             if r.middle_clicked() {
                                 close = Some(i);
                             }
-                            if ui.small_button("\u{00D7}").on_hover_text(tr("Close this tab (Ctrl+W)")).clicked() {
+                            if widgets::symbol_button(ui, "\u{00D7}", &close_name, tr("Close this tab (Ctrl+W)")).clicked() {
                                 close = Some(i);
                             }
                         });
                     }
-                    if ui.button("+").on_hover_text(tr("Open another save in a new tab (Ctrl+T)")).clicked() {
+                    let tip = tr("Open another save in a new tab (Ctrl+T)");
+                    if widgets::named(ui.button("+"), egui::WidgetType::Button, tip).on_hover_text(tip).clicked() {
                         pick = Some(usize::MAX);
                     }
                 });
@@ -375,7 +377,7 @@ impl App {
         let mut paste = false;
         let mut clear = false;
         ui.horizontal_wrapped(|ui| {
-            ui.label(RichText::new(text).color(theme::ACCENT));
+            ui.label(RichText::new(text).color(theme::fg(ui, theme::ACCENT)));
             if ui
                 .button(tr("Paste into this save"))
                 .on_hover_text(tr("Writes the copied values to the same places in this save. One Undo takes it back."))
@@ -386,7 +388,8 @@ impl App {
             if n == 1 {
                 ui.weak(tr("or right-click a value \u{203A} Paste here"));
             }
-            if ui.small_button("\u{00D7}").on_hover_text(tr("Forget the copied values")).clicked() {
+            let tip = tr("Forget the copied values");
+            if widgets::symbol_button(ui, "\u{00D7}", tip, tip).clicked() {
                 clear = true;
             }
         });

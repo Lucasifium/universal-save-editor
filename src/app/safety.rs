@@ -3,7 +3,7 @@
 //! where they can't be missed.
 
 use crate::i18n::{tr, trf};
-use super::{file_name, modal, App, StatusKind};
+use super::{file_name, modal, safe_choice, App, StatusKind};
 use crate::formats::Content;
 use crate::theme;
 use eframe::egui::{self, Color32, RichText};
@@ -227,7 +227,7 @@ impl App {
                 if ui.button(tr("Save anyway")).clicked() {
                     choice = Some(1);
                 }
-                if ui.button(tr("Cancel")).clicked() {
+                if safe_choice(ui.button(tr("Cancel"))).clicked() {
                     choice = Some(2);
                 }
             });

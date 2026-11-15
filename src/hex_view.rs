@@ -469,7 +469,7 @@ pub fn hex_grid(ui: &mut Ui, data: &[u8], baseline: &[u8], st: &mut HexState) {
             let end = (start + BYTES_PER_ROW).min(data.len());
             ui.horizontal(|ui| {
                 ui.spacing_mut().item_spacing.x = 5.0;
-                ui.monospace(RichText::new(format!("{start:08X}")).color(Color32::GRAY));
+                ui.monospace(RichText::new(format!("{start:08X}")).color(ui.visuals().weak_text_color()));
                 ui.add_space(8.0);
                 for off in start..start + BYTES_PER_ROW {
                     if off >= end {
@@ -485,15 +485,16 @@ pub fn hex_grid(ui: &mut Ui, data: &[u8], baseline: &[u8], st: &mut HexState) {
                         .filter(|(&s, l)| off < s + l.ty.size().max(1));
                     let mut text = RichText::new(format!("{:02X}", data[off])).monospace();
                     if off == st.selected {
-                        text = text.background_color(Color32::from_rgb(70, 80, 190)).color(Color32::WHITE);
+                        text = text.background_color(crate::theme::HEX_SELECTED).color(Color32::WHITE);
                     } else if baseline.get(off) != Some(&data[off]) {
-                        text = text.color(crate::theme::fg(ui, crate::theme::MODIFIED)).strong();
+                        // Underlined as well as coloured, so a changed byte does not rely on colour alone.
+                        text = text.color(crate::theme::fg(ui, crate::theme::MODIFIED)).underline();
                     } else if label.is_some() {
-                        text = text.background_color(Color32::from_rgb(30, 110, 60)).color(Color32::WHITE);
+                        text = text.background_color(crate::theme::HEX_LABELED).color(Color32::WHITE);
                     } else if in_hit {
-                        text = text.background_color(Color32::from_rgb(120, 90, 20)).color(Color32::WHITE);
+                        text = text.background_color(crate::theme::HEX_FOUND).color(Color32::WHITE);
                     } else if data[off] == 0 {
-                        text = text.color(Color32::DARK_GRAY);
+                        text = text.color(ui.visuals().weak_text_color());
                     }
                     let mut resp = ui.add(egui::Label::new(text).sense(Sense::click()));
                     if let Some((_, l)) = label {

@@ -908,6 +908,9 @@ Not saved. Your changes are still here.
 Close this tab (Ctrl+W)
 = 关闭此标签页 (Ctrl+W)
 
+Close tab: {0}
+= 关闭标签页：{0}
+
 Open another save in a new tab (Ctrl+T)
 = 在新标签页中打开另一个存档 (Ctrl+T)
 

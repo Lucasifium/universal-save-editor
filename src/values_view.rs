@@ -6,7 +6,7 @@ use crate::json_view::pointer_escape;
 use crate::names::{self, Names};
 use crate::theme;
 use crate::widgets;
-use eframe::egui::{self, text::LayoutJob, Align, Color32, FontId, Layout, RichText, Sense, TextFormat, Ui};
+use eframe::egui::{self, text::LayoutJob, Align, FontId, Layout, RichText, Sense, TextFormat, Ui};
 use serde_json::Value;
 use std::collections::{HashMap, HashSet};
 use std::fmt::Write as _;
@@ -401,6 +401,8 @@ pub fn show(ui: &mut Ui, model: &Model, disp: &[Disp], collapsed: &HashSet<usize
                     let s = &model.sections[sec];
                     let open = !collapsed.contains(&sec);
                     let (row_rect, resp) = ui.allocate_exact_size(egui::vec2(full_w, ROW_H), Sense::click());
+                    // A painted row: tell screen readers it's a heading that opens and closes (Enter or Space work as a click).
+                    resp.widget_info(|| egui::WidgetInfo::selected(egui::WidgetType::CollapsingHeader, true, open, &s.title));
                     let painter = ui.painter();
                     let fill = if resp.hovered() { ui.visuals().widgets.hovered.weak_bg_fill } else { ui.visuals().faint_bg_color };
                     painter.rect_filled(row_rect.shrink2(egui::vec2(0.0, 2.0)), 6.0, fill);
@@ -453,7 +455,7 @@ pub fn show(ui: &mut Ui, model: &Model, disp: &[Disp], collapsed: &HashSet<usize
                     }
                     if modified {
                         let bar = egui::Rect::from_min_size(row_rect.min + egui::vec2(2.0, 6.0), egui::vec2(3.0, ROW_H - 12.0));
-                        ui.painter().rect_filled(bar, 2.0, theme::MODIFIED);
+                        ui.painter().rect_filled(bar, 2.0, theme::fg(ui, theme::MODIFIED));
                     }
                     ui.allocate_ui_with_layout(egui::vec2(full_w, ROW_H), Layout::left_to_right(Align::Center), |ui| {
                         ui.set_min_size(egui::vec2(full_w, ROW_H));
@@ -478,7 +480,7 @@ pub fn show(ui: &mut Ui, model: &Model, disp: &[Disp], collapsed: &HashSet<usize
                                 job.append(r.name(), 0.0, TextFormat::simple(font.clone(), name_color));
                                 if ctx.show_raw_keys && names::raw_differs(r.raw_key(), r.name()) {
                                     let small = FontId::new(font.size * 0.82, font.family.clone());
-                                    job.append(r.raw_key(), 8.0, TextFormat::simple(small, Color32::from_rgb(120, 150, 185)));
+                                    job.append(r.raw_key(), 8.0, TextFormat::simple(small, theme::fg(ui, theme::RAW_KEY)));
                                 }
                                 let label = ui.add(egui::Label::new(job).truncate().sense(Sense::click()));
                                 label.context_menu(|ui| {
@@ -522,8 +524,9 @@ pub fn show(ui: &mut Ui, model: &Model, disp: &[Disp], collapsed: &HashSet<usize
                             }
                             if modified {
                                 let old = ctx.baseline.pointer(&r.ptr).map(widgets::display).unwrap_or_default();
-                                let btn = ui.add(egui::Button::new(widgets::icon(ctx.has_icons, theme::icon::REVERT, tr("Revert")).size(12.0)).frame(false));
-                                if btn.on_hover_text(trf("Revert to original: {0}", &[&old])).clicked() {
+                                let tip = trf("Revert to original: {0}", &[&old]);
+                                let btn = widgets::icon_button(ui, widgets::icon(ctx.has_icons, theme::icon::REVERT, tr("Revert")).size(12.0), &tip, &tip);
+                                if btn.clicked() {
                                     if let Some(orig) = ctx.baseline.pointer(&r.ptr) {
                                         ctx.edits.push((r.ptr.to_string(), orig.clone()));
                                     }

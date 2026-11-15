@@ -6,19 +6,51 @@ use crate::theme;
 use eframe::egui::{self, Color32, Response, RichText, Sense, TextEdit, Ui, WidgetText};
 use serde_json::{Number, Value};
 
-/// iOS-style on/off switch.
-pub fn toggle(ui: &mut Ui, on: &mut bool) -> Response {
-    let size = egui::vec2(2.0, 1.0) * (ui.spacing().interact_size.y - 4.0);
+/// Covers the screen under a dialog or while a file is busy: takes clicks so they don't reach
+/// what's behind, without being a stop for Tab.
+pub const BLOCK_CLICKS: Sense = Sense { click: true, drag: false, focusable: false };
+
+/// Gives a control the name a screen reader says for it. A control drawn with only an icon glyph
+/// (a private-use character of the icon font, which reads as nothing) or a symbol such as × or +
+/// needs one; so does a button whose text starts with an icon glyph.
+pub fn named(resp: Response, typ: egui::WidgetType, name: &str) -> Response {
+    let enabled = resp.enabled();
+    resp.widget_info(|| egui::WidgetInfo::labeled(typ, enabled, name));
+    resp
+}
+
+/// A small frameless button that shows only an icon (or `fallback` text without the icon font):
+/// `name` is what a screen reader says for it, and `tip` shows on hover.
+pub fn icon_button(ui: &mut Ui, glyph: RichText, name: &str, tip: &str) -> Response {
+    let btn = egui::Button::new(glyph).frame(false).min_size(egui::vec2(MIN_TARGET, MIN_TARGET));
+    named(ui.add(btn), egui::WidgetType::Button, name).on_hover_text(tip)
+}
+
+/// The smallest a pointer target should be (WCAG 2.5.8).
+pub const MIN_TARGET: f32 = 24.0;
+
+/// A small button showing a symbol (× + −): at least [`MIN_TARGET`] square, named for screen
+/// readers (the symbol alone reads as "multiplication sign" and the like), with `tip` on hover.
+pub fn symbol_button(ui: &mut Ui, symbol: &str, name: &str, tip: &str) -> Response {
+    let btn = egui::Button::new(symbol).small().min_size(egui::vec2(MIN_TARGET, MIN_TARGET));
+    named(ui.add(btn), egui::WidgetType::Button, name).on_hover_text(tip)
+}
+
+/// iOS-style on/off switch, with the name a screen reader says for it.
+pub fn toggle_named(ui: &mut Ui, on: &mut bool, name: &str) -> Response {
+    let size = egui::vec2(2.0, 1.0) * (ui.spacing().interact_size.y - 2.0).max(MIN_TARGET);
     let (rect, mut resp) = ui.allocate_exact_size(size, Sense::click());
     if resp.clicked() {
         *on = !*on;
         resp.mark_changed();
     }
+    let enabled = resp.enabled();
+    resp.widget_info(|| egui::WidgetInfo::selected(egui::WidgetType::Checkbox, enabled, *on, name));
     if ui.is_rect_visible(rect) {
         let t = ui.ctx().animate_bool(resp.id, *on);
         let radius = 0.5 * rect.height();
-        // In the light theme the button grey hardly shows behind the white knob.
-        let off_fill = if ui.visuals().dark_mode { ui.visuals().widgets.inactive.bg_fill } else { Color32::from_rgb(184, 189, 204) };
+        // Off: the button grey, with the edge and grey knob below so it shows in both themes.
+        let off_fill = ui.visuals().widgets.inactive.bg_fill;
         let mix = |a: u8, b: u8| (a as f32 + (b as f32 - a as f32) * t).round() as u8;
         let fill = Color32::from_rgb(
             mix(off_fill.r(), theme::ACCENT.r()),
@@ -26,8 +58,14 @@ pub fn toggle(ui: &mut Ui, on: &mut bool) -> Response {
             mix(off_fill.b(), theme::ACCENT.b()),
         );
         ui.painter().rect_filled(rect, radius, fill);
+        // Off, the track gets an edge and a grey knob so the switch stands out from the panel.
+        let edge = theme::edge_color(ui.visuals().dark_mode);
+        if t < 1.0 {
+            ui.painter().rect_stroke(rect, radius, egui::Stroke::new(1.0_f32, edge.gamma_multiply(1.0 - t)));
+        }
+        let knob = Color32::from_rgb(mix(edge.r(), 255), mix(edge.g(), 255), mix(edge.b(), 255));
         let cx = egui::lerp((rect.left() + radius)..=(rect.right() - radius), t);
-        ui.painter().circle_filled(egui::pos2(cx, rect.center().y), radius - 3.0, Color32::WHITE);
+        ui.painter().circle_filled(egui::pos2(cx, rect.center().y), radius - 3.0, knob);
     }
     resp
 }
@@ -36,7 +74,7 @@ pub fn toggle(ui: &mut Ui, on: &mut bool) -> Response {
 pub fn labeled_toggle(ui: &mut Ui, on: &mut bool, text: &str, tip: &str) -> bool {
     ui.horizontal(|ui| {
         ui.spacing_mut().item_spacing.x = 6.0;
-        let mut changed = toggle(ui, on).on_hover_text(tip).changed();
+        let mut changed = toggle_named(ui, on, text).on_hover_text(tip).changed();
         if ui.add(egui::Label::new(text).sense(Sense::click())).on_hover_text(tip).clicked() {
             *on = !*on;
             changed = true;
@@ -340,6 +378,14 @@ pub fn value_editor_ex(ui: &mut Ui, id_src: &str, v: &Value, editable: bool, wid
     out
 }
 
+/// A value's typing box, named after the value for screen readers (its name is a separate label).
+fn name_box(resp: Response, opts: &EditOpts) -> Response {
+    match opts.name {
+        Some(n) if !n.is_empty() => named(resp, egui::WidgetType::TextEdit, n),
+        _ => resp,
+    }
+}
+
 fn editor_body(ui: &mut Ui, id_src: &str, v: &Value, editable: bool, width: f32, opts: &EditOpts) -> (Option<Value>, Option<Response>) {
     if !editable {
         let why = opts.tree.map(|t| t.read_only_reason(id_src)).filter(|w| !w.is_empty()).unwrap_or_else(|| tr("Read-only: this value can't be edited safely").into());
@@ -349,7 +395,7 @@ fn editor_body(ui: &mut Ui, id_src: &str, v: &Value, editable: bool, width: f32,
     match v {
         Value::Bool(b) => {
             let mut on = *b;
-            let mut r = toggle(ui, &mut on);
+            let mut r = toggle_named(ui, &mut on, opts.name.unwrap_or_default());
             if let Some(t) = r.hovered().then(|| hover_extra(opts, id_src, v)).flatten() {
                 r = r.on_hover_text(t);
             }
@@ -363,6 +409,7 @@ fn editor_body(ui: &mut Ui, id_src: &str, v: &Value, editable: bool, width: f32,
             let mut text = escape_breaks(s);
             let id = ui.make_persistent_id(("str", id_src));
             let resp = ui.add_sized([width + 8.0, ui.spacing().interact_size.y], TextEdit::singleline(&mut text).id(id));
+            let resp = name_box(resp, opts);
             let resp = if s.contains(['\n', '\r']) { resp.on_hover_text(tr("\u{21A9} marks a line break (\u{00B6} a carriage return)")) } else { resp };
             let resp = match resp.hovered().then(|| hover_extra(opts, id_src, v)).flatten() {
                 Some(t) => resp.on_hover_text(t),
@@ -414,10 +461,10 @@ fn editor_body(ui: &mut Ui, id_src: &str, v: &Value, editable: bool, width: f32,
             let w = width.min(160.0).max((text_w + 20.0).min(260.0));
             let mut edit = TextEdit::singleline(&mut buf).id(id).desired_width(w);
             if !valid {
-                edit = edit.text_color(theme::ERR);
+                edit = edit.text_color(theme::fg(ui, theme::ERR));
             }
             // add_sized: a bare desired_width is cut down to what the cell has left (in a grid, a few pixels).
-            let mut resp = ui.add_sized([w + 8.0, ui.spacing().interact_size.y], edit);
+            let mut resp = name_box(ui.add_sized([w + 8.0, ui.spacing().interact_size.y], edit), opts);
             let mut out = keyed.filter(|nv| nv != v);
             if resp.changed() {
                 ui.data_mut(|d| d.insert_temp(id, buf.clone()));
@@ -441,11 +488,13 @@ fn editor_body(ui: &mut Ui, id_src: &str, v: &Value, editable: bool, width: f32,
                 if let Some(i) = n.as_i64().filter(|i| i.unsigned_abs() <= 5000) {
                     let step = ui.input(|inp| if inp.modifiers.ctrl || inp.modifiers.command { 100 } else if inp.modifiers.shift { 10 } else { 1 });
                     // As tall as the number box beside them: small buttons were hard to hit.
-                    let side = ui.spacing().interact_size.y;
-                    if ui.add_sized([side, side], egui::Button::new("\u{2212}")).on_hover_text(tr("Decrease by 1 (Shift: 10, Ctrl: 100)")).clicked() {
+                    let side = ui.spacing().interact_size.y.max(MIN_TARGET);
+                    let tip = tr("Decrease by 1 (Shift: 10, Ctrl: 100)");
+                    if named(ui.add_sized([side, side], egui::Button::new("\u{2212}")), egui::WidgetType::Button, tip).on_hover_text(tip).clicked() {
                         out = Some(clamp_to(opts.tree.and_then(|t| t.range(id_src)), Value::from(i.saturating_sub(step))));
                     }
-                    if ui.add_sized([side, side], egui::Button::new("+")).on_hover_text(tr("Increase by 1 (Shift: 10, Ctrl: 100)")).clicked() {
+                    let tip = tr("Increase by 1 (Shift: 10, Ctrl: 100)");
+                    if named(ui.add_sized([side, side], egui::Button::new("+")), egui::WidgetType::Button, tip).on_hover_text(tip).clicked() {
                         out = Some(clamp_to(opts.tree.and_then(|t| t.range(id_src)), Value::from(i.saturating_add(step))));
                     }
                 }
@@ -524,6 +573,31 @@ mod tests {
         assert_eq!(v, Value::from(16));
         frame(&ctx, &mut v, vec![key(egui::Key::ArrowDown, false)], false);
         assert_eq!(v, Value::from(15));
+    }
+
+    #[test]
+    fn switch_flips_with_space_and_icon_buttons_are_big_enough() {
+        let ctx = egui::Context::default();
+        let mut on = false;
+        let mut ids = (egui::Id::NULL, egui::Rect::NOTHING, egui::Rect::NOTHING);
+        for (n, events) in [vec![], vec![], vec![key(egui::Key::Space, false)]].into_iter().enumerate() {
+            let _ = ctx.run(egui::RawInput { events, ..Default::default() }, |ctx| {
+                egui::CentralPanel::default().show(ctx, |ui| {
+                    let r = toggle_named(ui, &mut on, "Infinite health");
+                    if n == 0 {
+                        r.request_focus();
+                    }
+                    let b = symbol_button(ui, "\u{00D7}", "Close tab: a.sav", "Close");
+                    let i = icon_button(ui, RichText::new("x"), "Forget", "Forget");
+                    ids = (r.id, b.rect, i.rect);
+                });
+            });
+        }
+        assert!(on, "Space on the focused switch turns it on");
+        assert!(ctx.memory(|m| m.has_focus(ids.0)));
+        for r in [ids.1, ids.2] {
+            assert!(r.width() >= MIN_TARGET && r.height() >= MIN_TARGET, "target {r:?} is under 24 by 24");
+        }
     }
 
     #[test]

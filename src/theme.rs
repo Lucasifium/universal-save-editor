@@ -3,11 +3,14 @@
 
 use eframe::egui::{self, Color32, FontData, FontDefinitions, FontFamily, FontId, Rounding, Stroke, TextStyle};
 
-pub const ACCENT: Color32 = Color32::from_rgb(98, 110, 240);
+/// Also the fill of the main buttons, under white text (4.6:1).
+pub const ACCENT: Color32 = Color32::from_rgb(90, 102, 235);
 pub const MODIFIED: Color32 = Color32::from_rgb(240, 170, 60);
 pub const OK: Color32 = Color32::from_rgb(90, 200, 120);
 pub const WARN: Color32 = Color32::from_rgb(235, 190, 80);
 pub const ERR: Color32 = Color32::from_rgb(240, 110, 110);
+/// The save's own key, shown small beside a friendlier name (as text: through `fg`).
+pub const RAW_KEY: Color32 = Color32::from_rgb(120, 150, 185);
 
 /// Segoe Fluent Icons / MDL2 code points (only used when the font was found).
 pub mod icon {
@@ -195,6 +198,17 @@ pub fn apply(ctx: &egui::Context, dark: bool) {
     style.spacing.button_padding = egui::vec2(10.0, 5.0);
     style.spacing.interact_size.y = 26.0;
 
+    style.visuals = visuals(dark);
+    // Pin the theme: otherwise egui follows the system (or browser) theme and, where that
+    // differs from this setting, draws its own default style instead of this one.
+    let theme = if dark { egui::Theme::Dark } else { egui::Theme::Light };
+    ctx.set_style_of(theme, style);
+    ctx.set_theme(theme);
+}
+
+/// The colours of the light or dark theme. Text keeps at least 4.5:1 against every background it
+/// is drawn on, and the edges of controls and the focus ring 3:1 (the tests below check).
+pub fn visuals(dark: bool) -> egui::Visuals {
     let mut v = if dark { egui::Visuals::dark() } else { egui::Visuals::light() };
     let rounding = Rounding::same(6.0);
     v.window_rounding = Rounding::same(10.0);
@@ -202,9 +216,12 @@ pub fn apply(ctx: &egui::Context, dark: bool) {
     for w in [&mut v.widgets.noninteractive, &mut v.widgets.inactive, &mut v.widgets.hovered, &mut v.widgets.active, &mut v.widgets.open] {
         w.rounding = rounding;
     }
-    v.selection.bg_fill = if dark { Color32::from_rgb(70, 80, 190) } else { Color32::from_rgb(190, 198, 255) };
+    v.selection.bg_fill = if dark { Color32::from_rgb(62, 70, 170) } else { Color32::from_rgb(190, 198, 255) };
     v.selection.stroke = Stroke::new(1.0_f32, if dark { Color32::WHITE } else { Color32::from_rgb(30, 40, 120) });
-    v.hyperlink_color = if dark { Color32::from_rgb(150, 165, 255) } else { Color32::from_rgb(60, 70, 200) };
+    v.hyperlink_color = focus_color(dark);
+    // The edge of text boxes, check boxes, drop-downs and buttons: without it a text box is
+    // hard to tell from the panel around it.
+    v.widgets.inactive.bg_stroke = Stroke::new(1.0_f32, edge_color(dark));
     if dark {
         v.panel_fill = Color32::from_rgb(24, 25, 30);
         v.window_fill = Color32::from_rgb(32, 33, 40);
@@ -213,20 +230,22 @@ pub fn apply(ctx: &egui::Context, dark: bool) {
         v.widgets.inactive.weak_bg_fill = Color32::from_rgb(44, 46, 56);
         v.widgets.inactive.bg_fill = Color32::from_rgb(44, 46, 56);
         v.widgets.hovered.weak_bg_fill = Color32::from_rgb(58, 61, 76);
+        // Faint ("weak") text is half-way between the text colour and this one, as are disabled
+        // controls: these two keep faint text readable.
+        v.widgets.noninteractive.fg_stroke.color = Color32::from_gray(200);
+        v.widgets.noninteractive.weak_bg_fill = Color32::from_gray(76);
     } else {
         v.panel_fill = Color32::from_rgb(246, 247, 251);
         v.window_fill = Color32::WHITE;
         v.extreme_bg_color = Color32::WHITE;
         v.faint_bg_color = Color32::from_rgb(236, 238, 246);
-        // Text boxes are white on a near-white page: without an outline they can't be seen.
-        v.widgets.inactive.bg_stroke = Stroke::new(1.0_f32, Color32::from_rgb(200, 204, 216));
+        v.widgets.noninteractive.fg_stroke.color = Color32::from_gray(40);
+        v.widgets.noninteractive.weak_bg_fill = Color32::from_gray(172);
     }
-    style.visuals = v;
-    // Pin the theme: otherwise egui follows the system (or browser) theme and, where that
-    // differs from this setting, draws its own default style instead of this one.
-    let theme = if dark { egui::Theme::Dark } else { egui::Theme::Light };
-    ctx.set_style_of(theme, style);
-    ctx.set_theme(theme);
+    // egui's own error and warning text (pure red and orange are too faint on these backgrounds).
+    v.error_fg_color = readable_on(ERR, dark, &v);
+    v.warn_fg_color = readable_on(WARN, dark, &v);
+    v
 }
 
 /// Room inside windows and dialogs: egui's 6 px left their text and buttons touching the
@@ -238,14 +257,115 @@ pub fn fit_window_margin(ctx: &egui::Context) {
     }
 }
 
-/// Text version of a status colour that stays readable on the current background.
-pub fn fg(ui: &egui::Ui, c: Color32) -> Color32 {
-    if ui.visuals().dark_mode {
+/// Links and the keyboard focus ring.
+pub fn focus_color(dark: bool) -> Color32 {
+    if dark {
+        Color32::from_rgb(150, 165, 255)
+    } else {
+        Color32::from_rgb(60, 70, 200)
+    }
+}
+
+/// The edge of a control (a text box, a switch that is off).
+pub fn edge_color(dark: bool) -> Color32 {
+    if dark {
+        Color32::from_rgb(112, 115, 128)
+    } else {
+        Color32::from_rgb(128, 131, 142)
+    }
+}
+
+/// The contrast ratio of two colours, as WCAG defines it (1 to 21).
+pub fn contrast(a: Color32, b: Color32) -> f32 {
+    fn lum(c: Color32) -> f32 {
+        let ch = |v: u8| {
+            let s = v as f32 / 255.0;
+            if s <= 0.04045 {
+                s / 12.92
+            } else {
+                ((s + 0.055) / 1.055).powf(2.4)
+            }
+        };
+        0.2126 * ch(c.r()) + 0.7152 * ch(c.g()) + 0.0722 * ch(c.b())
+    }
+    let (x, y) = (lum(a), lum(b));
+    (x.max(y) + 0.05) / (x.min(y) + 0.05)
+}
+
+/// `c` drawn at `alpha` over `bg` (how a tinted chip or strip ends up looking).
+fn over(c: Color32, alpha: f32, bg: Color32) -> Color32 {
+    let m = |f: u8, b: u8| (f as f32 * alpha + b as f32 * (1.0 - alpha)).round() as u8;
+    Color32::from_rgb(m(c.r(), bg.r()), m(c.g(), bg.g()), m(c.b(), bg.b()))
+}
+
+/// The theme's colours, made once.
+fn theme_visuals(dark: bool) -> &'static egui::Visuals {
+    static THEMES: std::sync::OnceLock<[egui::Visuals; 2]> = std::sync::OnceLock::new();
+    &THEMES.get_or_init(|| [visuals(false), visuals(true)])[dark as usize]
+}
+
+/// A version of a status colour (`OK`, `WARN`, `ERR`, `MODIFIED`, `ACCENT`…) that reads as text
+/// (4.5:1) on every background of the theme: the colour itself where it already does, otherwise
+/// moved toward white (dark theme) or black (light theme) until it does.
+pub fn readable(c: Color32, dark: bool) -> Color32 {
+    readable_on(c, dark, theme_visuals(dark))
+}
+
+/// `readable` against the backgrounds of `v`: panels, dialogs, cards, text boxes, and chips and
+/// strips tinted with the colour itself.
+fn readable_on(c: Color32, dark: bool, v: &egui::Visuals) -> Color32 {
+    let mut bgs = vec![v.panel_fill, v.window_fill, v.faint_bg_color, v.extreme_bg_color];
+    for bg in [v.panel_fill, v.window_fill, v.faint_bg_color] {
+        bgs.push(over(c, 0.18, bg));
+    }
+    let mut out = if dark {
         c
     } else {
         let d = |v: u8| (v as f32 * 0.55) as u8;
         Color32::from_rgb(d(c.r()), d(c.g()), d(c.b()))
+    };
+    let target = if dark { 255.0 } else { 0.0 };
+    for _ in 0..20 {
+        if bgs.iter().all(|&bg| contrast(out, bg) >= 4.6) {
+            break;
+        }
+        let m = |v: u8| (v as f32 + (target - v as f32) * 0.1).round() as u8;
+        out = Color32::from_rgb(m(out.r()), m(out.g()), m(out.b()));
     }
+    out
+}
+
+/// Text version of a status colour that stays readable on the current background.
+pub fn fg(ui: &egui::Ui, c: Color32) -> Color32 {
+    readable(c, ui.visuals().dark_mode)
+}
+
+/// Draws a ring around the control that has keyboard focus while the keyboard is being used to
+/// move between controls (Tab; a click hides it again). egui's own focus look is a thin edge that
+/// frameless buttons, switches and section rows don't have. Call it once a frame, last.
+pub fn focus_ring(ctx: &egui::Context) {
+    let key = egui::Id::new("keyboard_focus_ring");
+    let tabbed = ctx.input(|i| i.events.iter().any(|e| matches!(e, egui::Event::Key { key: egui::Key::Tab, pressed: true, .. })));
+    let clicked = ctx.input(|i| i.pointer.any_pressed());
+    let mut on = ctx.data(|d| d.get_temp::<bool>(key)).unwrap_or(false);
+    if tabbed {
+        on = true;
+    }
+    if clicked {
+        on = false;
+    }
+    ctx.data_mut(|d| d.insert_temp(key, on));
+    if !on {
+        return;
+    }
+    let Some(id) = ctx.memory(|m| m.focused()) else { return };
+    let Some(r) = ctx.read_response(id) else { return };
+    // Windows and scroll areas take part in Tab too, but have nothing to press: no ring around them.
+    if !r.sense.click || id == r.layer_id.id.with("move") || !r.interact_rect.is_positive() {
+        return;
+    }
+    let color = focus_color(ctx.style().visuals.dark_mode);
+    ctx.layer_painter(r.layer_id).rect_stroke(r.interact_rect.expand(2.0), Rounding::same(5.0), Stroke::new(2.0_f32, color));
 }
 
 /// A rounded "card" container for grouping related controls.
@@ -260,4 +380,82 @@ pub fn card<R>(ui: &mut egui::Ui, add: impl FnOnce(&mut egui::Ui) -> R) -> R {
             add(ui)
         })
         .inner
+}
+
+/// Backgrounds of bytes in the hex view (selected, named by a label, part of a search hit), under white text.
+pub const HEX_SELECTED: Color32 = Color32::from_rgb(70, 80, 190);
+pub const HEX_LABELED: Color32 = Color32::from_rgb(30, 110, 60);
+pub const HEX_FOUND: Color32 = Color32::from_rgb(120, 90, 20);
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    const TEXT: f32 = 4.5;
+    const EDGE: f32 = 3.0;
+
+    fn check(what: &str, fg: Color32, bgs: &[(&str, Color32)], min: f32, fails: &mut Vec<String>) {
+        for (name, bg) in bgs {
+            let r = contrast(fg, *bg);
+            if r < min {
+                fails.push(format!("{what} {fg:?} on {name} {bg:?}: {r:.2} < {min}"));
+            }
+        }
+    }
+
+    #[test]
+    fn contrast_formula() {
+        assert!((contrast(Color32::BLACK, Color32::WHITE) - 21.0).abs() < 0.01);
+        assert!((contrast(Color32::WHITE, Color32::WHITE) - 1.0).abs() < 0.001);
+        assert!((contrast(Color32::from_gray(118), Color32::WHITE) - 4.54).abs() < 0.02);
+    }
+
+    /// Every text and control colour against the backgrounds it is drawn on, in both themes.
+    #[test]
+    fn both_themes_meet_contrast_minimums() {
+        let mut fails = vec![];
+        for dark in [false, true] {
+            let t = if dark { "dark" } else { "light" };
+            let v = visuals(dark);
+            let surfaces = [("panel", v.panel_fill), ("window", v.window_fill), ("card", v.faint_bg_color), ("text box", v.extreme_bg_color)];
+            for (what, c) in [("text", v.text_color()), ("faint text", v.weak_text_color()), ("strong text", v.strong_text_color()), ("link", v.hyperlink_color), ("error text", v.error_fg_color), ("warning text", v.warn_fg_color)] {
+                check(&format!("{t} {what}"), c, &surfaces, TEXT, &mut fails);
+            }
+            // Button text on the button, at rest, under the pointer and pressed or focused.
+            for (what, w) in [("button", v.widgets.inactive), ("hovered button", v.widgets.hovered), ("active button", v.widgets.active), ("open menu", v.widgets.open)] {
+                check(&format!("{t} {what} text"), w.fg_stroke.color, &[(what, w.weak_bg_fill)], TEXT, &mut fails);
+            }
+            // Selected tabs and list rows, and text selected in a text box.
+            check(&format!("{t} selected label"), v.selection.stroke.color, &[("selection", v.selection.bg_fill)], TEXT, &mut fails);
+            check(&format!("{t} selected text"), v.text_color(), &[("selection", v.selection.bg_fill)], TEXT, &mut fails);
+            // Edges that identify a control, and the focus indicators.
+            check(&format!("{t} control edge"), v.widgets.inactive.bg_stroke.color, &surfaces, EDGE, &mut fails);
+            check(&format!("{t} hovered edge"), v.widgets.hovered.bg_stroke.color, &surfaces, EDGE, &mut fails);
+            check(&format!("{t} focused edge"), v.widgets.active.bg_stroke.color, &surfaces, EDGE, &mut fails);
+            check(&format!("{t} text box focus"), v.selection.stroke.color, &[("text box", v.extreme_bg_color), ("panel", v.panel_fill), ("window", v.window_fill)], EDGE, &mut fails);
+            check(&format!("{t} focus ring"), focus_color(dark), &surfaces, EDGE, &mut fails);
+            check(&format!("{t} switch on"), ACCENT, &surfaces[..3], EDGE, &mut fails);
+            // Status colours as text, on plain backgrounds and on chips and strips tinted with them.
+            for (what, c) in [("ACCENT", ACCENT), ("MODIFIED", MODIFIED), ("OK", OK), ("WARN", WARN), ("ERR", ERR), ("raw key", RAW_KEY)] {
+                let fg = readable(c, dark);
+                let mut bgs: Vec<(&str, Color32)> = surfaces.to_vec();
+                for (name, bg) in [("chip on panel", v.panel_fill), ("chip on window", v.window_fill), ("chip on card", v.faint_bg_color)] {
+                    bgs.push((name, over(c, 0.18, bg)));
+                }
+                check(&format!("{t} {what}"), fg, &bgs, TEXT, &mut fails);
+            }
+        }
+        // White text on filled buttons and highlighted hex bytes (the same in both themes).
+        for (what, bg) in [("main button", ACCENT), ("selected byte", HEX_SELECTED), ("labelled byte", HEX_LABELED), ("found byte", HEX_FOUND)] {
+            check("white text", Color32::WHITE, &[(what, bg)], TEXT, &mut fails);
+        }
+        assert!(fails.is_empty(), "contrast below the minimum:\n{}", fails.join("\n"));
+    }
+
+    /// Colours that already pass are left as they were.
+    #[test]
+    fn readable_keeps_colours_that_already_pass() {
+        assert_eq!(readable(OK, true), OK);
+        assert_eq!(readable(ERR, false), Color32::from_rgb(132, 60, 60));
+    }
 }

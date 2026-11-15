@@ -908,6 +908,9 @@ Not saved. Your changes are still here.
 Close this tab (Ctrl+W)
 = Diesen Tab schließen (Ctrl+W)
 
+Close tab: {0}
+= Tab schließen: {0}
+
 Open another save in a new tab (Ctrl+T)
 = Weiteren Spielstand in neuem Tab öffnen (Ctrl+T)
 

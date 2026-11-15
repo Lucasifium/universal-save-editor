@@ -908,6 +908,9 @@ Not saved. Your changes are still here.
 Close this tab (Ctrl+W)
 = Cerrar esta pestaña (Ctrl+W)
 
+Close tab: {0}
+= Cerrar pestaña: {0}
+
 Open another save in a new tab (Ctrl+T)
 = Abrir otra partida en una pestaña nueva (Ctrl+T)
 
