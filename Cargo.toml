@@ -100,6 +100,10 @@ winresource = "0.1"
 
 [profile.release]
 opt-level = 3
+# Smaller program: whole-program optimisation, one codegen unit, symbols stripped (panics still unwind, so a corrupt save fails cleanly).
+lto = "fat"
+codegen-units = 1
+strip = true
 
 # The browser version (web/build.sh, build_all.ps1 -Only web): a smaller download.
 [profile.web]
