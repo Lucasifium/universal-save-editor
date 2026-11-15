@@ -229,6 +229,15 @@ pub fn apply(ctx: &egui::Context, dark: bool) {
     ctx.set_theme(theme);
 }
 
+/// Room inside windows and dialogs: egui's 6 px left their text and buttons touching the
+/// window's edge. Phone-width screens keep 6 px, where every pixel of width counts.
+pub fn fit_window_margin(ctx: &egui::Context) {
+    let m = if ctx.screen_rect().width() < 640.0 { 6.0 } else { 12.0 };
+    if ctx.style().spacing.window_margin.left != m {
+        ctx.style_mut(|s| s.spacing.window_margin = egui::Margin::same(m));
+    }
+}
+
 /// Text version of a status colour that stays readable on the current background.
 pub fn fg(ui: &egui::Ui, c: Color32) -> Color32 {
     if ui.visuals().dark_mode {

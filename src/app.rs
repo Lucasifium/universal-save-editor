@@ -4357,7 +4357,9 @@ fn friendly_kind(layers: &[Layer], content: &Content) -> String {
 /// Phone-sized window: rows that are side by side on desktop wrap or stack instead.
 /// A window width that fits on the screen (phones, small browser windows), at most `want`.
 fn fit(ctx: &egui::Context, want: f32) -> f32 {
-    want.min(ctx.screen_rect().width() - 24.0).max(200.0)
+    // The screen less the window's own margins and a few pixels either side.
+    let m = ctx.style().spacing.window_margin.sum().x;
+    want.min(ctx.screen_rect().width() - 12.0 - m).max(200.0)
 }
 
 fn narrow(ui: &egui::Ui) -> bool {
@@ -4460,6 +4462,7 @@ impl App {
         let saving = self.saving.is_some();
         #[cfg(not(target_os = "android"))]
         self_shot(ctx);
+        theme::fit_window_margin(ctx);
         self.refresh_changes();
 
         // Files dropped on the window.
