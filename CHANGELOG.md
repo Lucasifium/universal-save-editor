@@ -1,6 +1,9 @@
 # Changelog
 
-## Unreleased
+## 0.7.0
+
+- Fixed: choosing Save and close when quitting with several unsaved tabs saved one tab and closed the window; it now asks about each unsaved tab. Saving is also held back while a file is still being opened
+sed
 
 - Fixed: Metal Gear Solid V: The Phantom Pain saves (TPP_GAME_DATA, PERSONAL_DATA, TPP_CONFIG_DATA) opened as hex instead of the game screen
 - Metal Gear Solid V: Ground Zeroes saves are decrypted for the hex view, with their checksum redone on save

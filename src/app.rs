@@ -1415,7 +1415,9 @@ impl App {
     /// Checks that the file can be saved, then writes it here or on a worker thread. Either way
     /// the same `write_save` does the work and `finish_save` takes in its outcome.
     fn save_with(&mut self, path: &Path, then: AfterSave, background: bool) {
-        if self.saving.is_some() {
+        // A file being opened (or read again) is not the one on screen yet: saving now would
+        // write the old one and leave the new one with the wrong idea of what is on disk.
+        if self.saving.is_some() || self.loading.is_some() {
             return;
         }
         if !self.commit_raw() {
@@ -1581,8 +1583,14 @@ impl App {
             AfterSave::CloseFile => self.close_file(),
             AfterSave::Open(p) => self.load_async(&p),
             AfterSave::Quit => {
-                self.allow_close = true;
-                self.close_now = true;
+                if self.any_dirty() {
+                    // Another tab still has unsaved changes: show it and ask again.
+                    self.show_first_dirty();
+                    self.confirm_close = true;
+                } else {
+                    self.allow_close = true;
+                    self.close_now = true;
+                }
             }
         }
     }
@@ -1595,7 +1603,8 @@ impl App {
 
     /// Save from the button / Ctrl+S: first show what changed and warn if the game is open.
     fn save_clicked(&mut self) {
-        if self.saving.is_some() {
+        // Not while a save is being written, nor while the file is being read again.
+        if self.saving.is_some() || self.loading.is_some() {
             return;
         }
         let Some(path) = self.doc.as_ref().map(|d| d.path.clone()) else { return };
@@ -5466,6 +5475,56 @@ mod save_tests {
         let cmds = wait(&mut app, &ctx);
         assert!(!cmds.contains(&egui::ViewportCommand::Close), "{cmds:?}");
         assert!(app.dirty);
+    }
+
+    #[test]
+    fn save_and_quit_with_two_unsaved_tabs_asks_about_the_second() {
+        let _l = locks();
+        let s = Scratch::new("quit2");
+        let ctx = window();
+        let (a, b) = (s.0.join("a.json"), s.0.join("b.json"));
+        std::fs::write(&a, br#"{"gold": 1}"#).unwrap();
+        std::fs::write(&b, br#"{"gold": 1}"#).unwrap();
+        let mut app = opened(&ctx, &a);
+        app.apply_edit("/gold".into(), json!(2), 0.0);
+        app.open_in_tab(b.clone());
+        for _ in 0..400 {
+            if app.loading.is_none() {
+                break;
+            }
+            frame(&mut app, &ctx, egui::RawInput::default());
+            std::thread::sleep(std::time::Duration::from_millis(5));
+        }
+        assert_eq!(app.doc.as_ref().map(|d| d.path.clone()), Some(b.clone()), "{}", app.status);
+        app.apply_edit("/gold".into(), json!(3), 1.0);
+        app.save_then(AfterSave::Quit);
+        assert_eq!(serde_json::from_slice::<Value>(&std::fs::read(&b).unwrap()).unwrap()["gold"], json!(3));
+        // The other tab is still unsaved: no closing yet, the question comes back for it.
+        assert!(!app.close_now && !app.allow_close && app.confirm_close);
+        assert!(app.dirty, "the unsaved tab is shown");
+        app.confirm_close = false;
+        app.save_then(AfterSave::Quit);
+        assert_eq!(serde_json::from_slice::<Value>(&std::fs::read(&a).unwrap()).unwrap()["gold"], json!(2));
+        assert!(app.close_now && app.allow_close);
+    }
+
+    #[test]
+    fn nothing_is_saved_while_a_file_is_being_opened() {
+        let _l = locks();
+        let s = Scratch::new("loading");
+        let ctx = window();
+        let path = s.0.join("save.json");
+        let original = big_json();
+        std::fs::write(&path, &original).unwrap();
+        let mut app = opened(&ctx, &path);
+        app.apply_edit("/gold".into(), json!(7), 0.0);
+        app.load_async(&path);
+        assert!(app.loading.is_some(), "big files are read on a worker thread");
+        app.save_clicked();
+        app.save_with(&path, AfterSave::Stay, true);
+        app.save_with(&path, AfterSave::Stay, false);
+        assert!(app.saving.is_none() && app.save_review.is_none());
+        assert_eq!(std::fs::read(&path).unwrap(), original);
     }
 
     #[test]
