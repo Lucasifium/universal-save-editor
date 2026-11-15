@@ -159,7 +159,11 @@ pub fn compress(data: &[u8], flags: u8, frame: bool) -> Result<Vec<u8>, String> 
             e.finish().map_err(io)?
         }
         2 if frame => {
-            let mut e = lz4_flex::frame::FrameEncoder::new(Vec::new());
+            // Larian's own frames: 64 KB linked blocks, no checksums. Baldur's Gate 3
+            // won't load a save whose frames use bigger blocks.
+            use lz4_flex::frame::{BlockMode, BlockSize, FrameInfo};
+            let info = FrameInfo::new().block_size(BlockSize::Max64KB).block_mode(BlockMode::Linked);
+            let mut e = lz4_flex::frame::FrameEncoder::with_frame_info(info, Vec::new());
             e.write_all(data).map_err(io)?;
             e.finish().map_err(|e| e.to_string())?
         }
@@ -300,6 +304,15 @@ impl Package {
 #[cfg(test)]
 pub(crate) mod tests {
     use super::*;
+
+    #[test]
+    fn lz4_frames_use_larians_block_settings() {
+        let data: Vec<u8> = (0..300_000u32).flat_map(|i| (i % 251).to_le_bytes()).collect();
+        let c = compress(&data, 0x22, true).unwrap();
+        // Magic, then FLG 0x40 (linked blocks, no checksums) and BD 0x40 (64 KB blocks).
+        assert_eq!(&c[..6], &[0x04, 0x22, 0x4d, 0x18, 0x40, 0x40]);
+        assert_eq!(decompress(&c, 0x22, data.len(), true).unwrap(), data);
+    }
 
     /// A package of `files` (name, contents) in the given version, each file packed with
     /// `flags`, laid out and checksummed the way the games write them.
