@@ -1808,7 +1808,8 @@ impl App {
             ui.add_space(8.0);
             ui.horizontal_wrapped(|ui| {
                 let label = if r.running.is_some() { tr("Save anyway") } else { tr("Save") };
-                if ui.add(egui::Button::new(RichText::new(label).color(Color32::WHITE)).fill(theme::ACCENT)).clicked() {
+                let first = ui.add(egui::Button::new(RichText::new(label).color(Color32::WHITE)).fill(theme::ACCENT));
+                if first.clicked() {
                     choice = Some(0);
                 }
                 if r.running.is_some() && ui.button(tr("Check again")).clicked() {
@@ -1817,7 +1818,8 @@ impl App {
                 if safe_choice(ui.button(tr("Cancel"))).clicked() {
                     choice = Some(2);
                 }
-                ui.checkbox(&mut dont_ask, tr("Don't show this list again"));
+                let last = ui.checkbox(&mut dont_ask, tr("Don't show this list again"));
+                tab_ring(&first, &last);
             });
         });
         if dont_ask == self.settings.confirm_save {
@@ -4476,12 +4478,13 @@ fn type_combo(ui: &mut egui::Ui, id: &str, ty: &mut NumType) {
 }
 
 impl eframe::App for App {
-    fn raw_input_hook(&mut self, _ctx: &egui::Context, raw: &mut egui::RawInput) {
+    fn raw_input_hook(&mut self, ctx: &egui::Context, raw: &mut egui::RawInput) {
         #[cfg(target_os = "android")]
         {
-            let _ = platform::android::CTX.set(_ctx.clone());
+            let _ = platform::android::CTX.set(ctx.clone());
             platform::android::take_typed(raw);
         }
+        wrap_dialog_tab(ctx, raw);
         if self.saving.is_some() {
             hold_input(raw);
         }
@@ -4504,6 +4507,7 @@ fn hold_input(raw: &mut egui::RawInput) {
 impl App {
     /// One frame of the window.
     fn frame(&mut self, ctx: &egui::Context) {
+        begin_dialogs(ctx);
         let now = ctx.input(|i| i.time);
         let saving = self.saving.is_some();
         #[cfg(not(target_os = "android"))]
@@ -4671,17 +4675,7 @@ impl App {
             modal(ctx, tr("Unsaved changes"), |ui| {
                 ui.label(tr("You have unsaved changes. Save them before closing this file?"));
                 ui.add_space(8.0);
-                ui.horizontal(|ui| {
-                    if ui.add(egui::Button::new(RichText::new(tr("Save and close")).color(Color32::WHITE)).fill(theme::ACCENT)).clicked() {
-                        choice = Some(0);
-                    }
-                    if ui.button(tr("Close without saving")).clicked() {
-                        choice = Some(1);
-                    }
-                    if safe_choice(ui.button(tr("Cancel"))).clicked() {
-                        choice = Some(2);
-                    }
-                });
+                choice = ui.horizontal(|ui| save_discard_cancel(ui, tr("Save and close"), tr("Close without saving"))).inner;
             });
             match choice {
                 Some(0) => {
@@ -4701,17 +4695,7 @@ impl App {
             modal(ctx, tr("Unsaved changes"), |ui| {
                 ui.label(crate::i18n::trf("You have unsaved changes. Save them before opening {0}?", &[&file_name(&path)]));
                 ui.add_space(8.0);
-                ui.horizontal(|ui| {
-                    if ui.add(egui::Button::new(RichText::new(tr("Save and open")).color(Color32::WHITE)).fill(theme::ACCENT)).clicked() {
-                        choice = Some(0);
-                    }
-                    if ui.button(tr("Open without saving")).clicked() {
-                        choice = Some(1);
-                    }
-                    if safe_choice(ui.button(tr("Cancel"))).clicked() {
-                        choice = Some(2);
-                    }
-                });
+                choice = ui.horizontal(|ui| save_discard_cancel(ui, tr("Save and open"), tr("Open without saving"))).inner;
             });
             match choice {
                 Some(0) => {
@@ -4764,17 +4748,7 @@ impl App {
             modal(ctx, tr("Unsaved changes"), |ui| {
                 ui.label(tr("You have unsaved changes. Save them before closing?"));
                 ui.add_space(8.0);
-                ui.horizontal(|ui| {
-                    if ui.add(egui::Button::new(RichText::new(tr("Save and close")).color(Color32::WHITE)).fill(theme::ACCENT)).clicked() {
-                        choice = Some(0);
-                    }
-                    if ui.button(tr("Close without saving")).clicked() {
-                        choice = Some(1);
-                    }
-                    if safe_choice(ui.button(tr("Cancel"))).clicked() {
-                        choice = Some(2);
-                    }
-                });
+                choice = ui.horizontal(|ui| save_discard_cancel(ui, tr("Save and close"), tr("Close without saving"))).inner;
             });
             match choice {
                 Some(0) => {
@@ -4849,9 +4823,70 @@ fn modal(ctx: &egui::Context, title: &str, add: impl FnOnce(&mut egui::Ui)) {
         .show(ctx, add);
 }
 
+/// The first and last control of the dialog showing now, for [`wrap_dialog_tab`].
+#[derive(Clone, Copy)]
+struct TabRing {
+    first: egui::Id,
+    last: egui::Id,
+}
+
+fn tab_ring_key() -> egui::Id {
+    egui::Id::new("dialog_tab_ring")
+}
+
+/// Start of a frame: no dialog has said where its Tab order begins and ends yet.
+fn begin_dialogs(ctx: &egui::Context) {
+    ctx.data_mut(|d| d.remove::<TabRing>(tab_ring_key()));
+}
+
+/// Keeps Tab inside the dialog showing now: Tab on its `last` control goes round to its `first`,
+/// and Shift+Tab on `first` to `last`. (Left to egui, Tab would pass through the controls behind
+/// the dialog first.)
+pub(crate) fn tab_ring(first: &egui::Response, last: &egui::Response) {
+    let ring = TabRing { first: first.id, last: last.id };
+    first.ctx.data_mut(|d| d.insert_temp(tab_ring_key(), ring));
+}
+
+/// Before egui sees a frame's input: takes a Tab that would leave the dialog of the last frame
+/// and moves focus round to the dialog's other end instead, so no control behind the dialog
+/// ever has focus, even for a frame (a screen reader would announce it, and an Enter in the
+/// same input would press it).
+fn wrap_dialog_tab(ctx: &egui::Context, raw: &mut egui::RawInput) {
+    let Some(ring) = ctx.data(|d| d.get_temp::<TabRing>(tab_ring_key())) else { return };
+    let Some(focused) = ctx.memory(|m| m.focused()) else { return };
+    let Some(i) = raw.events.iter().position(|e| matches!(e, egui::Event::Key { key: egui::Key::Tab, pressed: true, .. })) else { return };
+    let egui::Event::Key { modifiers, .. } = &raw.events[i] else { return };
+    let to = match (modifiers.shift, focused) {
+        (false, f) if f == ring.last => ring.first,
+        (true, f) if f == ring.first => ring.last,
+        _ => return,
+    };
+    raw.events.remove(i);
+    ctx.memory_mut(|m| m.request_focus(to));
+}
+
+/// The buttons of an "Unsaved changes" dialog: save (0), drop the changes (1) or Cancel (2).
+/// Focus starts on Cancel, and Tab goes round the three.
+fn save_discard_cancel(ui: &mut egui::Ui, save: &str, discard: &str) -> Option<u8> {
+    let mut choice = None;
+    let first = ui.add(egui::Button::new(RichText::new(save).color(Color32::WHITE)).fill(theme::ACCENT));
+    if first.clicked() {
+        choice = Some(0);
+    }
+    if ui.button(discard).clicked() {
+        choice = Some(1);
+    }
+    let cancel = safe_choice(ui.button(tr("Cancel")));
+    if cancel.clicked() {
+        choice = Some(2);
+    }
+    tab_ring(&first, &cancel);
+    choice
+}
+
 /// Gives keyboard focus to a dialog's safe choice (`r`, its Cancel) whenever focus is outside the
-/// dialog: Enter or Space can't press the destructive button, or the control behind the dialog,
-/// by accident, and Tab keeps going round the dialog's buttons.
+/// dialog (as when it opens): Enter or Space can't press the destructive button, or the control
+/// behind the dialog, by accident. Tab then goes round the dialog's controls (see [`tab_ring`]).
 pub(crate) fn safe_choice(r: egui::Response) -> egui::Response {
     let focused = r.ctx.memory(|m| m.focused());
     let inside = focused.filter(|&id| id != r.layer_id.id.with("move")).and_then(|id| r.ctx.read_response(id)).is_some_and(|f| f.layer_id == r.layer_id);
@@ -5241,6 +5276,64 @@ fn take_if_same(slot: &mut Option<String>, ptr: &str) -> bool {
         true
     } else {
         false
+    }
+}
+
+/// Keyboard focus in an "Unsaved changes" dialog: it starts on Cancel, Tab goes round the
+/// dialog's buttons, and never lands on (or passes through) the controls behind it.
+#[cfg(test)]
+mod dialog_focus_tests {
+    use super::*;
+
+    fn tab(shift: bool) -> egui::Event {
+        let modifiers = if shift { egui::Modifiers::SHIFT } else { egui::Modifiers::NONE };
+        egui::Event::Key { key: egui::Key::Tab, physical_key: Some(egui::Key::Tab), pressed: true, repeat: false, modifiers }
+    }
+
+    /// One frame of a window with a button behind the dialog. Returns where the focused control
+    /// is (its left edge and layer), if anything has focus.
+    fn frame(ctx: &egui::Context, events: Vec<egui::Event>) -> Option<(f32, egui::Order)> {
+        let mut raw = egui::RawInput { events, screen_rect: Some(egui::Rect::from_min_size(egui::Pos2::ZERO, egui::vec2(1000.0, 700.0))), ..Default::default() };
+        wrap_dialog_tab(ctx, &mut raw);
+        let _ = ctx.run(raw, |ctx| {
+            begin_dialogs(ctx);
+            egui::CentralPanel::default().show(ctx, |ui| {
+                let _ = ui.button("Behind 1");
+                let _ = ui.button("Behind 2");
+            });
+            modal(ctx, "Unsaved changes", |ui| {
+                ui.horizontal(|ui| save_discard_cancel(ui, "Save", "Don't save"));
+            });
+        });
+        let id = ctx.memory(|m| m.focused())?;
+        ctx.read_response(id).map(|r| (r.rect.left(), r.layer_id.order))
+    }
+
+    #[test]
+    fn tab_goes_round_the_dialog_starting_on_cancel() {
+        let ctx = egui::Context::default();
+        for _ in 0..3 {
+            frame(&ctx, vec![]);
+        }
+        let start = frame(&ctx, vec![]).expect("the dialog gives focus to Cancel");
+        assert_eq!(start.1, egui::Order::Foreground, "focus starts in the dialog");
+        // A full round and a bit: Cancel, Save, Don't save, Cancel, Save.
+        let mut xs = vec![start.0];
+        for _ in 0..4 {
+            let (x, order) = frame(&ctx, vec![tab(false)]).expect("something keeps focus");
+            assert_eq!(order, egui::Order::Foreground, "focus left the dialog");
+            xs.push(x);
+            // The next frame without input must not move it either (egui hands focus on a frame late).
+            let (x2, order2) = frame(&ctx, vec![]).unwrap();
+            assert_eq!((x2, order2), (x, order), "focus moved without a key");
+        }
+        let (cancel, save, discard) = (xs[0], xs[1], xs[2]);
+        assert!(save < discard && discard < cancel, "order is Save, Don't save, Cancel: {xs:?}");
+        assert_eq!(xs[3], cancel, "Tab from Don't save reaches Cancel");
+        assert_eq!(xs[4], save, "Tab from Cancel goes round to Save, the first button");
+        // Shift+Tab from the first button goes round to the last.
+        let (x, order) = frame(&ctx, vec![tab(true)]).unwrap();
+        assert_eq!((x, order), (cancel, egui::Order::Foreground));
     }
 }
 

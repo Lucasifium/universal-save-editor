@@ -3,7 +3,7 @@
 //! where they can't be missed.
 
 use crate::i18n::{tr, trf};
-use super::{file_name, modal, safe_choice, App, StatusKind};
+use super::{file_name, modal, safe_choice, tab_ring, App, StatusKind};
 use crate::formats::Content;
 use crate::theme;
 use eframe::egui::{self, Color32, RichText};
@@ -221,15 +221,19 @@ impl App {
             ui.weak(tr("Either way, whatever is on disk now is backed up before anything is written."));
             ui.add_space(8.0);
             ui.horizontal_wrapped(|ui| {
-                if path.exists() && ui.add(egui::Button::new(RichText::new(tr("Reload the newer file")).color(Color32::WHITE)).fill(theme::ACCENT)).on_hover_text(tr("Open what's on disk now. Your unsaved changes are dropped.")).clicked() {
+                let reload = path.exists().then(|| ui.add(egui::Button::new(RichText::new(tr("Reload the newer file")).color(Color32::WHITE)).fill(theme::ACCENT)).on_hover_text(tr("Open what's on disk now. Your unsaved changes are dropped.")));
+                if reload.as_ref().is_some_and(|r| r.clicked()) {
                     choice = Some(0);
                 }
-                if ui.button(tr("Save anyway")).clicked() {
+                let save = ui.button(tr("Save anyway"));
+                if save.clicked() {
                     choice = Some(1);
                 }
-                if safe_choice(ui.button(tr("Cancel"))).clicked() {
+                let cancel = safe_choice(ui.button(tr("Cancel")));
+                if cancel.clicked() {
                     choice = Some(2);
                 }
+                tab_ring(reload.as_ref().unwrap_or(&save), &cancel);
             });
         });
         match choice {

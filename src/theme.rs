@@ -233,6 +233,8 @@ pub fn visuals(dark: bool) -> egui::Visuals {
         // Faint ("weak") text is half-way between the text colour and this one, as are disabled
         // controls: these two keep faint text readable.
         v.widgets.noninteractive.fg_stroke.color = Color32::from_gray(200);
+        // Button text, and the text in text boxes (also where it is selected, on the selection fill).
+        v.widgets.inactive.fg_stroke.color = Color32::from_gray(200);
         v.widgets.noninteractive.weak_bg_fill = Color32::from_gray(76);
     } else {
         v.panel_fill = Color32::from_rgb(246, 247, 251);
@@ -427,7 +429,11 @@ mod tests {
             }
             // Selected tabs and list rows, and text selected in a text box.
             check(&format!("{t} selected label"), v.selection.stroke.color, &[("selection", v.selection.bg_fill)], TEXT, &mut fails);
-            check(&format!("{t} selected text"), v.text_color(), &[("selection", v.selection.bg_fill)], TEXT, &mut fails);
+            // A text box draws its text in the inactive widget colour (egui's TextEdit), selected or not.
+            let typed = v.widgets.inactive.text_color();
+            check(&format!("{t} typed text"), typed, &[("text box", v.extreme_bg_color)], TEXT, &mut fails);
+            check(&format!("{t} selected typed text"), typed, &[("selection", v.selection.bg_fill)], TEXT, &mut fails);
+            check(&format!("{t} selected label text"), v.text_color(), &[("selection", v.selection.bg_fill)], TEXT, &mut fails);
             // Edges that identify a control, and the focus indicators.
             check(&format!("{t} control edge"), v.widgets.inactive.bg_stroke.color, &surfaces, EDGE, &mut fails);
             check(&format!("{t} hovered edge"), v.widgets.hovered.bg_stroke.color, &surfaces, EDGE, &mut fails);
