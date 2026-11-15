@@ -177,7 +177,7 @@ mod samples {
                 got[k + 4..k + 0x12].copy_from_slice(&sys.data[k + 4..k + 0x12]);
                 assert_eq!(got, sys.data, "{p:?} {}", f.name);
                 if super::looks(&f.data) {
-                    let mut doc = super::parse(&f.data).unwrap();
+                    let doc = super::parse(&f.data).unwrap();
                     assert_eq!(doc.to_bytes().unwrap(), f.data);
                     // An edit keeps the system file in step.
                     let mut edited = f.data.clone();

@@ -54,12 +54,15 @@ impl Gen {
     pub fn max_species(self) -> usize {
         [493, 649, 721, 807, 898, 1025][self.index()]
     }
+    #[allow(dead_code)] // per-generation limit, documents the format
     pub fn max_move(self) -> usize {
         [467, 559, 621, 728, 826, 919][self.index()]
     }
+    #[allow(dead_code)] // per-generation limit, documents the format
     pub fn max_item(self) -> usize {
         [536, 638, 775, 959, 1607, 2600][self.index()]
     }
+    #[allow(dead_code)] // per-generation limit, documents the format
     pub fn max_ability(self) -> usize {
         [123, 164, 191, 233, 267, 310][self.index()]
     }
@@ -144,6 +147,7 @@ pub struct Base {
     /// HP, Attack, Defense, Speed, Sp. Atk, Sp. Def
     pub stats: [u16; 6],
     pub growth: u8,
+    #[allow(dead_code)] // part of the species data, not read yet
     pub gender: u8,
     pub abil: [u16; 3],
     pub fidx: u16,
@@ -614,6 +618,7 @@ pub enum Slot {
     /// u16 item id, u16 quantity
     Pair,
     /// u32: item id in the low 10 bits, quantity in the next 10 (Generation 6)
+    #[allow(dead_code)] // layout variant, no game uses it yet
     Packed10,
     /// u32: item id in the low 10 bits, quantity in the next 10, then flags (Generation 7)
     Packed7,
@@ -647,6 +652,7 @@ pub struct Mon {
 #[derive(Clone, Debug)]
 pub enum Finish {
     /// Nothing to fix.
+    #[allow(dead_code)] // no game needs it yet
     None,
     Custom(fn(&mut Vec<u8>, &[usize]) -> Result<Vec<u8>, String>, Vec<usize>),
 }
@@ -789,7 +795,7 @@ fn shiny_pid(g: Gen, pk: &mut Pk, on: bool) -> Result<(), String> {
 }
 
 impl Backend for PkBackend {
-    fn write(&self, view: &Value, changes: &[(usize, Value)]) -> Result<Vec<u8>, String> {
+    fn write(&self, _view: &Value, changes: &[(usize, Value)]) -> Result<Vec<u8>, String> {
         let g = self.gen;
         let n = names();
         let mut out = self.raw.clone();
@@ -1046,6 +1052,7 @@ pub struct Builder {
     pub fields: Vec<Field>,
     pub mons: Vec<Mon>,
     pub editable: HashMap<String, usize>,
+    #[allow(dead_code)] // not read yet, may be needed by later screens
     pub gen: Option<Gen>,
 }
 

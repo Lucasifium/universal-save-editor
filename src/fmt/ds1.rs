@@ -130,6 +130,7 @@ pub fn looks(d: &[u8]) -> bool {
 }
 
 /// The slot's description text (title with the play time, location), as the game shows it.
+#[cfg(test)]
 pub fn description(d: &[u8]) -> Option<String> {
     let (m, _, _) = sizes(d)?;
     Some(String::from_utf8_lossy(&d[24..24 + m]).into_owned())

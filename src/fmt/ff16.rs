@@ -253,6 +253,7 @@ pub fn dictionary(id: u32) -> Result<Vec<u8>, String> {
 }
 
 /// Lets a known dictionary be used without looking for the game (tests, other tools).
+#[allow(dead_code)] // for tests and other tools, see its doc comment
 pub fn remember_dictionary(dict: Vec<u8>) {
     let id = adler32(&dict);
     if let Ok(mut f) = FOUND.lock() {
@@ -371,6 +372,7 @@ pub fn with_crc(data: &[u8]) -> Vec<u8> {
 }
 
 /// Whether the save's own CRC-32 matches its data.
+#[cfg(test)]
 pub fn crc_ok(data: &[u8]) -> bool {
     data.len() <= 16 || data[0..4] != 16u32.to_le_bytes() || with_crc(data) == data
 }

@@ -18,7 +18,7 @@
 //! Anything unexpected in the save's layout makes the whole edit refuse.
 
 use super::lsf::{Lsf, NewAttr, Writer};
-use std::collections::{HashMap, HashSet};
+use std::collections::HashSet;
 
 const ITEMS: [&str; 4] = ["Items", "ItemFactory", "Items", "Item"];
 const ITEM_CREATORS: [&str; 4] = ["Items", "ItemFactory", "Creators", "Creator"];

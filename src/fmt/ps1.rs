@@ -44,6 +44,7 @@ pub fn extra_frames(d: &[u8]) -> usize {
 }
 
 /// A plain number (unsigned, `lo..=hi`) at `at`.
+#[allow(dead_code)] // helper for the PS1 screens, kept next to its siblings
 pub fn num(b: &mut Builder, path: &[&str], at: usize, kind: Kind, hi: i64) {
     b.ranged(path, at, kind, 0, hi);
 }
@@ -70,7 +71,7 @@ mod samples {
             let Some(off) = crate::fmt::memcard::ps1_offset(&card) else { continue };
             for s in crate::fmt::memcard::ps1_saves(&card[off..]) {
                 let d = crate::fmt::memcard::ps1_read(&card[off..], &s);
-                if let Some(mut doc) = crate::fmt::parse_binary(&d) {
+                if let Some(doc) = crate::fmt::parse_binary(&d) {
                     if !doc.kind_name.contains("save") && !doc.kind_name.contains("Save") {
                         continue;
                     }
@@ -100,7 +101,7 @@ mod ps2samples {
             let Ok(d) = std::fs::read(&p) else { continue };
             if let Some((kind, files)) = crate::fmt::pssave::open(&d, &ext) {
                 let big = files.iter().max_by_key(|f| f.data.len()).unwrap();
-                if let Some(mut doc) = crate::fmt::parse_binary(&big.data) {
+                if let Some(doc) = crate::fmt::parse_binary(&big.data) {
                     assert_eq!(doc.to_bytes().unwrap(), big.data, "{p:?}");
                     println!("{:?}: {} round-trips", p.file_name().unwrap(), doc.kind_name);
                 }
@@ -124,7 +125,7 @@ mod ps2files {
         for e in rd {
             let d = std::fs::read(e.path()).unwrap();
             match crate::fmt::parse_binary(&d) {
-                Some(mut doc) => {
+                Some(doc) => {
                     assert_eq!(doc.to_bytes().unwrap(), d, "{:?}", e.path());
                     println!("{:?}: {} round-trips", e.file_name(), doc.kind_name);
                 }

@@ -77,7 +77,7 @@ mod tests {
         for e in std::fs::read_dir(dir).unwrap().flatten() {
             let d = std::fs::read(e.path()).unwrap();
             assert!(super::looks(&d));
-            let mut doc = super::parse(&d).unwrap();
+            let doc = super::parse(&d).unwrap();
             assert_eq!(doc.to_bytes().unwrap(), d);
         }
     }

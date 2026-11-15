@@ -72,6 +72,7 @@ pub fn has_prose(s: &str) -> bool {
 
 /// The texts of the game list that are translated: every `support`, and the `folder` and `files`
 /// that have prose (see `has_prose`).
+#[cfg(test)]
 pub fn translatable_texts() -> Vec<&'static str> {
     let mut out = vec![];
     for g in GAMES {
@@ -1118,6 +1119,7 @@ fn look_in(g: &GameInfo, loc: &Located, out: &mut Vec<Found>) {
 }
 
 /// This game's saves on this computer, newest first.
+#[cfg(test)]
 pub fn find(g: &GameInfo) -> Vec<Found> {
     find_locating(g).0
 }

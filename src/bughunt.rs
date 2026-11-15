@@ -1302,7 +1302,7 @@ fn frame_timing() {
             crate::theme::install_fonts(&ctx);
             crate::theme::apply(&ctx, true);
             // The steady time per frame: the fastest of a few frames after the first ones (which lay text out).
-            let mut frame = |add: &mut dyn FnMut(&mut egui::Ui)| {
+            let frame = |add: &mut dyn FnMut(&mut egui::Ui)| {
                 let mut best = f64::MAX;
                 for i in 0..8 {
                     let input = egui::RawInput { screen_rect: Some(egui::Rect::from_min_size(egui::Pos2::ZERO, egui::vec2(1280.0, 900.0))), ..Default::default() };

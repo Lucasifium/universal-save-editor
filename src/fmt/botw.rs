@@ -64,7 +64,7 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
     let mut b = Builder::new(d);
     b.big_endian = be;
     let mut from = 0x0c;
-    let mut at = |hash: u32, from: &mut usize| -> Option<usize> {
+    let at = |hash: u32, from: &mut usize| -> Option<usize> {
         let p = find(d, be, hash, *from)?;
         *from = p + 4;
         Some(p)

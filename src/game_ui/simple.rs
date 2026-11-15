@@ -4,7 +4,7 @@
 //!
 //! Values are found by pointer and simply left out when a save doesn't have them.
 
-use crate::i18n::{tr, tr_any, trf};
+use crate::i18n::{tr, tr_any};
 use crate::widgets::ScrollLock;
 use super::{columns, hero, panel, GameCtx};
 use eframe::egui::{self, Color32, Ui};
@@ -780,6 +780,7 @@ mod delta_tests {
 }
 
 /// Every label, title and description the table-driven screens show (for the translation check).
+#[allow(dead_code)] // only the tests call it (the i18n scan stops at the first cfg(test))
 pub fn texts() -> Vec<&'static str> {
     let mut out = vec![];
     for s in all().iter() {

@@ -30,6 +30,7 @@ pub enum State {
 }
 
 impl State {
+    #[allow(dead_code)] // kept with the State enum, not used yet
     pub fn word(self) -> &'static str {
         match self {
             State::Vacuum => "vacuum",
