@@ -155,6 +155,12 @@ fn dirs(save: &Path) -> Vec<PathBuf> {
 /// Fails rather than replace an existing `dest` unless `replace` is set.
 pub fn write_verified(dest: &Path, bytes: &[u8], replace: bool) -> Result<(), String> {
     use std::io::Write;
+    // A save that is a link to a file elsewhere: replace that file, not the link.
+    let linked = match std::fs::symlink_metadata(dest) {
+        Ok(m) if replace && m.file_type().is_symlink() => std::fs::canonicalize(dest).ok(),
+        _ => None,
+    };
+    let dest = linked.as_deref().unwrap_or(dest);
     let mut tmp = dest.as_os_str().to_owned();
     tmp.push(".partial");
     let tmp = PathBuf::from(tmp);
@@ -723,6 +729,197 @@ pub(crate) mod tests {
         assert_eq!(v[0].name.as_deref(), Some("ボスの前"));
         remove(&v[0]).unwrap();
         assert!(!dir.join(BESIDE).exists());
+    }
+
+    #[cfg(unix)]
+    #[test]
+    fn writing_through_a_linked_save_updates_the_linked_file() {
+        let _g = guard();
+        let s = Scratch::new("symlink");
+        // The save the game reads is a link to a file kept elsewhere (a synced folder).
+        std::fs::create_dir_all(s.0.join("synced")).unwrap();
+        let real = s.0.join("synced").join("slot.sav");
+        std::fs::write(&real, b"old").unwrap();
+        let save = s.0.join("slot.sav");
+        std::os::unix::fs::symlink(&real, &save).unwrap();
+        write_verified(&save, b"new", true).unwrap();
+        assert!(std::fs::symlink_metadata(&save).unwrap().file_type().is_symlink(), "the link is still a link");
+        assert_eq!(std::fs::read(&real).unwrap(), b"new", "the linked file holds the new save");
+        // Restoring goes through the link the same way, after backing up what was there.
+        let v = list(&save);
+        assert!(v.is_empty());
+        let from = s.0.join("older.bin");
+        std::fs::write(&from, b"older").unwrap();
+        restore(&save, &from).unwrap();
+        assert!(std::fs::symlink_metadata(&save).unwrap().file_type().is_symlink());
+        assert_eq!(std::fs::read(&real).unwrap(), b"older");
+        assert_eq!(contents(&save), vec![b"new".to_vec()]);
+        assert!(!s.0.join("slot.sav.partial").exists() && !s.0.join("synced").join("slot.sav.partial").exists());
+    }
+
+    #[test]
+    fn a_temporary_file_left_by_a_crash_does_not_block_or_linger() {
+        let _g = guard();
+        let s = Scratch::new("leftover");
+        let save = s.0.join("game.sav");
+        std::fs::write(&save, b"current").unwrap();
+        // Half of an earlier write, cut off when the computer lost power.
+        std::fs::write(s.0.join("game.sav.partial"), b"cur").unwrap();
+        write_verified(&save, b"next", true).unwrap();
+        assert_eq!(std::fs::read(&save).unwrap(), b"next");
+        assert!(!s.0.join("game.sav.partial").exists());
+        // The same in the backup folder: the leftover is never listed nor counted.
+        let dir = folder(&save).unwrap();
+        std::fs::create_dir_all(&dir).unwrap();
+        std::fs::write(dir.join(format!("{}.sebak.partial", now())), b"ne").unwrap();
+        let p = take(&save).unwrap().unwrap();
+        assert_eq!(std::fs::read(&p).unwrap(), b"next");
+        assert_eq!(contents(&save), vec![b"next".to_vec()]);
+    }
+
+    #[test]
+    fn restoring_a_backup_that_is_gone_changes_nothing() {
+        let _g = guard();
+        let s = Scratch::new("gone");
+        let save = s.0.join("game.sav");
+        std::fs::write(&save, b"current").unwrap();
+        assert!(restore(&save, &s.0.join("deleted.sebak")).is_err());
+        assert_eq!(std::fs::read(&save).unwrap(), b"current");
+        assert!(list(&save).is_empty(), "nothing backed up for a restore that never started");
+        // A backup that is a folder (not a copy at all) is refused the same way.
+        std::fs::create_dir_all(s.0.join("dir.sebak")).unwrap();
+        assert!(restore(&save, &s.0.join("dir.sebak")).is_err());
+        assert_eq!(std::fs::read(&save).unwrap(), b"current");
+    }
+
+    #[test]
+    fn a_restore_that_cant_write_keeps_the_save_and_its_backup() {
+        let _g = guard();
+        let s = Scratch::new("restore-blocked");
+        let save = s.0.join("game.sav");
+        std::fs::write(&save, b"current").unwrap();
+        let from = s.0.join("old.bin");
+        std::fs::write(&from, b"old").unwrap();
+        // The temporary file the restored save is written to can't be made.
+        std::fs::create_dir_all(s.0.join("game.sav.partial").join("x")).unwrap();
+        assert!(restore(&save, &from).is_err());
+        assert_eq!(std::fs::read(&save).unwrap(), b"current", "left as it was");
+        assert_eq!(contents(&save), vec![b"current".to_vec()], "and backed up before the attempt");
+        assert_eq!(std::fs::read(&from).unwrap(), b"old");
+        // Once the way is clear the restore goes through, without another copy of the same bytes.
+        std::fs::remove_dir_all(s.0.join("game.sav.partial")).unwrap();
+        restore(&save, &from).unwrap();
+        assert_eq!(std::fs::read(&save).unwrap(), b"old");
+        assert_eq!(contents(&save), vec![b"current".to_vec()]);
+    }
+
+    #[test]
+    fn a_save_that_is_a_folder_is_never_set_aside_or_named() {
+        let _g = guard();
+        let s = Scratch::new("folder-save");
+        let save = s.0.join("SaveSlot");
+        std::fs::create_dir_all(&save).unwrap();
+        std::fs::write(save.join("inside.dat"), b"mine").unwrap();
+        assert!(take_named(&save, "x").is_err());
+        assert!(set_aside(&save, "x").is_err());
+        assert_eq!(std::fs::read(save.join("inside.dat")).unwrap(), b"mine");
+        assert!(list(&save).is_empty());
+    }
+
+    /// Puts the number of kept backups back when a test ends, even when it fails.
+    struct KeepReset;
+    impl Drop for KeepReset {
+        fn drop(&mut self) {
+            set_keep(KEEP);
+        }
+    }
+
+    #[test]
+    fn a_smaller_keep_setting_prunes_only_automatic_copies() {
+        let _g = guard();
+        let _k = KeepReset;
+        let s = Scratch::new("keep-min");
+        let save = s.0.join("a.sav");
+        set_keep(0); // clamped to the smallest allowed number
+        assert_eq!(keep(), KEEP_MIN);
+        std::fs::write(&save, b"named").unwrap();
+        take_named(&save, "boss").unwrap();
+        for i in 0..KEEP_MIN + 4 {
+            std::fs::write(&save, format!("v{i}")).unwrap();
+            take(&save).unwrap();
+        }
+        let v = list(&save);
+        assert_eq!(v.iter().filter(|v| v.name.is_none()).count(), KEEP_MIN);
+        assert_eq!(std::fs::read(&v[0].path).unwrap(), format!("v{}", KEEP_MIN + 3).into_bytes(), "the newest is always kept");
+        assert!(v.iter().any(|v| v.name.as_deref() == Some("boss")));
+        // A copy the player named and then unlocked is pruned like the rest, the newest still kept.
+        unlock(v.iter().find(|v| v.name.is_some()).unwrap()).unwrap();
+        std::fs::write(&save, b"last").unwrap();
+        take(&save).unwrap();
+        let v = list(&save);
+        assert_eq!(v.len(), KEEP_MIN);
+        assert_eq!(std::fs::read(&v[0].path).unwrap(), b"last");
+    }
+
+    #[test]
+    #[ignore = "backups dated in the future (clock set wrong once) are kept over newer ones; see the tech-debt notes"]
+    fn a_backup_dated_in_the_future_does_not_push_out_newer_ones() {
+        let _g = guard();
+        let s = Scratch::new("future");
+        let save = s.0.join("a.sav");
+        std::fs::write(&save, b"x").unwrap();
+        let dir = folder(&save).unwrap();
+        std::fs::create_dir_all(&dir).unwrap();
+        // A full set of copies made while the computer's clock was years ahead.
+        for i in 0..KEEP {
+            std::fs::write(dir.join(format!("{}.sebak", 4_000_000_000u64 + i as u64)), format!("future {i}")).unwrap();
+        }
+        for i in 0..3 {
+            std::fs::write(&save, format!("today {i}")).unwrap();
+            take(&save).unwrap();
+        }
+        let got = contents(&save);
+        for i in 0..3 {
+            assert!(got.contains(&format!("today {i}").into_bytes()), "today {i} was pruned");
+        }
+    }
+
+    #[test]
+    fn saves_with_the_same_name_in_two_folders_keep_apart_in_a_chosen_folder() {
+        let _g = guard();
+        let s = Scratch::new("same-name");
+        set_root(Some(s.0.join("chosen")));
+        let (a, b) = (s.0.join("Steam").join("save.sav"), s.0.join("GOG").join("save.sav"));
+        for (p, d) in [(&a, "steam one"), (&b, "gog one")] {
+            std::fs::create_dir_all(p.parent().unwrap()).unwrap();
+            std::fs::write(p, d).unwrap();
+            take(p).unwrap();
+        }
+        std::fs::write(&a, b"steam two").unwrap();
+        std::fs::write(&b, b"gog two").unwrap();
+        assert_eq!(contents(&a), vec![b"steam one".to_vec()]);
+        assert_eq!(contents(&b), vec![b"gog one".to_vec()]);
+        restore(&a, &list(&a)[0].path).unwrap();
+        assert_eq!(std::fs::read(&a).unwrap(), b"steam one");
+        assert_eq!(std::fs::read(&b).unwrap(), b"gog two", "the other save is untouched");
+        let mut got = contents(&a);
+        got.sort();
+        assert_eq!(got, vec![b"steam one".to_vec(), b"steam two".to_vec()]);
+        assert_eq!(contents(&b), vec![b"gog one".to_vec()]);
+        set_root(None);
+    }
+
+    #[test]
+    fn removing_the_last_copy_keeps_files_the_player_put_there() {
+        let _g = guard();
+        let s = Scratch::new("remove-last");
+        let save = s.0.join("a.sav");
+        std::fs::write(&save, b"x").unwrap();
+        let p = take(&save).unwrap().unwrap();
+        std::fs::write(p.parent().unwrap().join("notes.txt"), b"mine").unwrap();
+        remove(&list(&save)[0]).unwrap();
+        assert_eq!(std::fs::read(p.parent().unwrap().join("notes.txt")).unwrap(), b"mine");
+        assert_eq!(std::fs::read(&save).unwrap(), b"x");
     }
 
     #[test]

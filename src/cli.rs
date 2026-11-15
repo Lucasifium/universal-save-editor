@@ -457,7 +457,13 @@ fn go(cmd: &str, args: &[String]) -> Result<(), String> {
             let (_, _, d) = open(f, &a)?;
             let bytes = d.content.to_bytes()?;
             match &a.out {
-                Some(o) => std::fs::write(o, &bytes).map_err(|e| format!("{}: {e}", o.display()))?,
+                Some(o) => {
+                    // `-o` may name a save (even this one): keep what is there first.
+                    if let Some(b) = crate::backups::take(o)? {
+                        eprintln!("backed up the old file as {}", b.display());
+                    }
+                    crate::backups::write_verified(o, &bytes, true).map_err(|e| format!("{}: {e}", o.display()))?
+                }
                 None => {
                     use std::io::Write;
                     std::io::stdout().write_all(&bytes).map_err(|e| e.to_string())?;
@@ -505,13 +511,8 @@ fn write(path: &Path, out: Option<&Path>, bytes: &[u8], no_backup: bool) -> Resu
             eprintln!("backed up the old file as {}", b.display());
         }
     }
-    let mut tmp = target.as_os_str().to_owned();
-    tmp.push(".saving");
-    let tmp = PathBuf::from(tmp);
-    if let Err(e) = std::fs::write(&tmp, bytes).and_then(|_| std::fs::rename(&tmp, target)) {
-        let _ = std::fs::remove_file(&tmp);
-        return Err(format!("{}: {e}", target.display()));
-    }
+    // Written beside, flushed, read back and checked, then renamed over it (through a link).
+    crate::backups::write_verified(target, bytes, true).map_err(|e| format!("{}: {e}", target.display()))?;
     for (other, data) in formats::companion_files(target, bytes) {
         if !no_backup {
             let _ = crate::backups::take(&other);
@@ -557,5 +558,84 @@ mod tests {
         assert!(matches!(d.layers.first(), Some(formats::Layer::Gzip)));
         assert_eq!(run(&s(&["photo.png"])), None);
         let _ = std::fs::remove_dir_all(&dir);
+    }
+
+    /// A fresh folder for one test, removed when it ends.
+    struct Scratch(PathBuf);
+    impl Scratch {
+        fn new(tag: &str) -> Self {
+            let d = std::env::temp_dir().join(format!("use-cli-{tag}-{}", std::process::id()));
+            let _ = std::fs::remove_dir_all(&d);
+            std::fs::create_dir_all(&d).unwrap();
+            Scratch(d)
+        }
+    }
+    impl Drop for Scratch {
+        fn drop(&mut self) {
+            let _ = std::fs::remove_dir_all(&self.0);
+        }
+    }
+
+    fn args(v: &[&str]) -> Vec<String> {
+        v.iter().map(|x| x.to_string()).collect()
+    }
+
+    fn backed_up(path: &Path) -> Vec<Vec<u8>> {
+        crate::backups::list(path).iter().map(|v| std::fs::read(&v.path).unwrap()).collect()
+    }
+
+    #[test]
+    fn set_backs_up_the_save_and_a_refused_edit_writes_nothing() {
+        let _g = crate::backups::tests::LOCK.lock().unwrap_or_else(|e| e.into_inner());
+        crate::backups::set_root(None);
+        let s = Scratch::new("backup");
+        let save = s.0.join("save.json");
+        let original = br#"{"gold": 10}"#;
+        std::fs::write(&save, original).unwrap();
+        let p = save.to_string_lossy().to_string();
+        assert_eq!(run(&args(&["set", &p, "/gold=11"])), Some(0));
+        assert_eq!(backed_up(&save), vec![original.to_vec()]);
+        let now = std::fs::read(&save).unwrap();
+        // A pointer that isn't there: nothing written, nothing backed up.
+        assert_eq!(run(&args(&["set", &p, "/gold=12", "/nope=1"])), Some(1));
+        assert_eq!(std::fs::read(&save).unwrap(), now);
+        assert_eq!(backed_up(&save).len(), 1);
+        assert!(!s.0.join("save.json.saving").exists() && !s.0.join("save.json.partial").exists());
+    }
+
+    #[test]
+    fn decoding_over_an_existing_file_backs_it_up_first() {
+        let _g = crate::backups::tests::LOCK.lock().unwrap_or_else(|e| e.into_inner());
+        crate::backups::set_root(None);
+        let s = Scratch::new("decode-over");
+        use std::io::Write;
+        let mut e = flate2::write::GzEncoder::new(vec![], flate2::Compression::default());
+        e.write_all(br#"{"hp": 5}"#).unwrap();
+        let packed = e.finish().unwrap();
+        let save = s.0.join("save.dat");
+        std::fs::write(&save, &packed).unwrap();
+        let p = save.to_string_lossy().to_string();
+        // `-o` names the save itself: the packed save must not be lost.
+        assert_eq!(run(&args(&["decode", &p, "-o", &p])), Some(0));
+        let v: Value = serde_json::from_slice(&std::fs::read(&save).unwrap()).unwrap();
+        assert_eq!(v, json!({"hp": 5}));
+        assert_eq!(backed_up(&save), vec![packed]);
+    }
+
+    #[cfg(unix)]
+    #[test]
+    fn writing_through_a_linked_save_keeps_the_link() {
+        let _g = crate::backups::tests::LOCK.lock().unwrap_or_else(|e| e.into_inner());
+        crate::backups::set_root(None);
+        let s = Scratch::new("link");
+        std::fs::create_dir_all(s.0.join("synced")).unwrap();
+        let real = s.0.join("synced").join("save.json");
+        std::fs::write(&real, br#"{"gold": 1}"#).unwrap();
+        let save = s.0.join("save.json");
+        std::os::unix::fs::symlink(&real, &save).unwrap();
+        assert_eq!(run(&args(&["set", &save.to_string_lossy(), "/gold=2"])), Some(0));
+        assert!(std::fs::symlink_metadata(&save).unwrap().file_type().is_symlink());
+        let v: Value = serde_json::from_slice(&std::fs::read(&real).unwrap()).unwrap();
+        assert_eq!(v["gold"], json!(2));
     }
 }

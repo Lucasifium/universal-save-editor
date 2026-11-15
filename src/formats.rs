@@ -3225,6 +3225,39 @@ mod tests {
         }
     }
 
+    /// Saving a file nobody edited writes it back byte for byte, read the way the app reads it
+    /// (`decode_with` with the options for its path), for each kind of packing.
+    #[test]
+    fn untouched_files_save_back_byte_for_byte() {
+        let stacks: Vec<(&str, Vec<Layer>)> = vec![
+            ("save.json", vec![]),
+            ("file1.rpgsave", vec![Layer::LzString]),
+            ("file1.rmmzsave", vec![Layer::RpgMzZlib]),
+            ("save.dat", vec![Layer::Gzip]),
+            ("save.dat", vec![Layer::Zlib]),
+            ("save.dat", vec![Layer::Base64, Layer::Gzip]),
+            ("save.json", vec![Layer::Utf8Bom]),
+            ("save.json", vec![Layer::NulPadded(1)]),
+            ("vault1.sav", vec![Layer::FalloutShelter]),
+            ("save.sav", vec![Layer::Es2Wrap { version: 2 }]),
+        ];
+        for pretty in [false, true] {
+            let content = Content::Json { value: serde_json::json!({"gold": 1500, "name": "Héro ✓", "items": [1, 2.5, null, {"a": []}]}), pretty };
+            for (name, layers) in &stacks {
+                let bytes = encode(layers, &content).unwrap();
+                let opts = Options::for_path(std::path::Path::new(name));
+                let d = decode_with(&bytes, &opts);
+                assert_eq!(&d.layers, layers, "{name} {layers:?} pretty={pretty}");
+                assert_eq!(encode(&d.layers, &d.content).unwrap(), bytes, "{name} {layers:?} pretty={pretty}");
+            }
+        }
+        // A real game's file kept in the tests, through the same path.
+        let raw = std::fs::read("tests/fixtures/ffr_GameSaveData0.sav").unwrap();
+        let opts = Options::for_path(std::path::Path::new("tests/fixtures/ffr_GameSaveData0.sav"));
+        let d = decode_with(&raw, &opts);
+        assert_eq!(encode(&d.layers, &d.content).unwrap(), raw, "{:?}", d.layers);
+    }
+
     #[test]
     fn plain_json() { roundtrip(&[]); }
     #[test]

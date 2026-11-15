@@ -250,11 +250,35 @@ fn write_save(path: &Path, layers: &[Layer], content: &Content, opts: &formats::
             // Every earlier version stays restorable from Backups \u{203A} Quick restore.
             crate::backups::take(path).map_err(|e| trf("Couldn't back up the current file: {0}. Your file was not changed.", &[&e]))?;
         }
-        write_in_place(path, &bytes).map_err(|e| trf("Couldn't write {0}: {1}", &[&path.display(), &e]))?;
         // Files the game checks against this save (Persona 4 Golden's .binslot).
-        for (other, data) in formats::companion_files(path, &bytes) {
+        let companions = formats::companion_files(path, &bytes);
+        // What to put back if one of them can't be written (`Some(None)`: there was no file).
+        let before = match (companions.is_empty(), path.exists()) {
+            (true, _) => None,
+            (false, false) => Some(None),
+            (false, true) => Some(Some(crate::vfs::read(path).map_err(|e| trf("Couldn't read {0}: {1}", &[&path.display(), &e]))?)),
+        };
+        write_in_place(path, &bytes).map_err(|e| trf("Couldn't write {0}: {1}", &[&path.display(), &e]))?;
+        let mut written: Vec<(PathBuf, Vec<u8>)> = vec![];
+        for (other, data) in companions {
             let _ = crate::backups::take(&other);
-            crate::vfs::write(&other, data).map_err(|e| trf("Saved, but couldn't update {0}: {1}", &[&other.display(), &e]))?;
+            let old = crate::vfs::read(&other).ok();
+            if let Err(e) = write_in_place(&other, &data) {
+                // The save and the files that check it must agree: put back what was written.
+                let back = match &before {
+                    Some(Some(b)) => write_in_place(path, b),
+                    Some(None) => crate::vfs::remove_file(path).map_err(|e| e.to_string()),
+                    None => Ok(()),
+                };
+                let back = written.iter().try_fold((), |(), (p, b)| write_in_place(p, b)).and(back);
+                return Err(match back {
+                    Ok(()) => trf("Couldn't write {0}: {1}", &[&other.display(), &e]),
+                    Err(_) => trf("Saved, but couldn't update {0}: {1}", &[&other.display(), &e]),
+                });
+            }
+            if let Some(old) = old {
+                written.push((other, old));
+            }
         }
         #[cfg(not(target_arch = "wasm32"))]
         match crate::playerprefs::after_save(path) {
@@ -1930,7 +1954,11 @@ impl App {
         #[cfg(target_arch = "wasm32")]
         let result = result.and_then(|b| crate::web::download(&file_name(dest), &b));
         #[cfg(not(target_arch = "wasm32"))]
-        let result = result.and_then(|b| crate::vfs::write(dest, b).map_err(|e| e.to_string()));
+        let result = result.and_then(|b| {
+            // Whatever is there (perhaps a save) is kept first, like any file the app replaces.
+            crate::backups::take(dest).map_err(|e| trf("Couldn't back up the current file: {0}. Your file was not changed.", &[&e]))?;
+            write_in_place(dest, &b)
+        });
         match result {
             Ok(()) => self.ok(trf("Exported to {0}", &[&dest.display()])),
             Err(e) => self.fail(trf("Export failed: {0}", &[&e])),
@@ -5604,6 +5632,229 @@ mod save_tests {
         app.save_with(&path, AfterSave::Stay, false);
         assert_eq!(app.model_gen, gen + 2);
         assert_eq!(rows(&app.model), fresh(&app));
+    }
+
+    fn gold_on_disk(path: &Path) -> Value {
+        serde_json::from_slice::<Value>(&std::fs::read(path).unwrap()).unwrap()["gold"].clone()
+    }
+
+    fn backed_up(path: &Path) -> Vec<Vec<u8>> {
+        crate::backups::list(path).iter().map(|v| std::fs::read(&v.path).unwrap()).collect()
+    }
+
+    #[test]
+    fn a_save_never_silently_writes_over_a_file_the_game_changed() {
+        let _l = locks();
+        let s = Scratch::new("stale");
+        let ctx = window();
+        let path = s.0.join("save.json");
+        std::fs::write(&path, br#"{"gold": 1}"#).unwrap();
+        let mut app = opened(&ctx, &path);
+        app.apply_edit("/gold".into(), json!(2), 0.0);
+        // The game autosaves while the file is open.
+        let newer = br#"{"gold": 50, "new": true}"#;
+        std::fs::write(&path, newer).unwrap();
+        app.save_to(&path);
+        assert_eq!(std::fs::read(&path).unwrap(), newer, "the game's newer save is left alone");
+        assert_eq!(app.stale_save.as_deref(), Some(path.as_path()), "the player is asked first");
+        assert!(app.dirty);
+        // "Save anyway": the newer file is backed up before the player's version goes over it.
+        app.stale_save = None;
+        app.stale_ok = true;
+        app.save_to(&path);
+        assert!(!app.stale_ok);
+        assert_eq!(gold_on_disk(&path), json!(2), "{}", app.status);
+        assert!(backed_up(&path).contains(&newer.to_vec()), "the game's save can be brought back");
+        assert!(!app.dirty);
+        // Moved or deleted meanwhile: asked about too, and "Save anyway" puts it back.
+        app.apply_edit("/gold".into(), json!(3), 1.0);
+        std::fs::remove_file(&path).unwrap();
+        app.save_to(&path);
+        assert!(!path.exists());
+        assert!(app.stale_save.is_some());
+        app.stale_save = None;
+        app.stale_ok = true;
+        app.save_to(&path);
+        assert_eq!(gold_on_disk(&path), json!(3));
+    }
+
+    #[test]
+    fn an_outside_change_that_hides_from_the_check_is_still_backed_up() {
+        let _l = locks();
+        let s = Scratch::new("hidden-change");
+        let ctx = window();
+        let path = s.0.join("save.json");
+        std::fs::write(&path, br#"{"gold": 1}"#).unwrap();
+        let mut app = opened(&ctx, &path);
+        let when = std::fs::metadata(&path).unwrap().modified().unwrap();
+        app.apply_edit("/gold".into(), json!(2), 0.0);
+        // Same size and, on a file system with coarse times, the same time: not noticed.
+        let newer = br#"{"gold": 9}"#;
+        std::fs::write(&path, newer).unwrap();
+        std::fs::OpenOptions::new().write(true).open(&path).unwrap().set_modified(when).unwrap();
+        assert!(!safety::changed(&path, app.doc.as_ref().unwrap().stamp.as_ref()));
+        app.save_to(&path);
+        assert_eq!(gold_on_disk(&path), json!(2));
+        assert!(backed_up(&path).contains(&newer.to_vec()), "what was on disk can still be brought back");
+    }
+
+    #[cfg(unix)]
+    #[test]
+    fn a_save_whose_first_backup_cant_be_made_writes_nothing() {
+        let _l = locks();
+        let s = Scratch::new("no-bak");
+        let ctx = window();
+        let path = s.0.join("save.json");
+        let original = br#"{"gold": 1}"#;
+        std::fs::write(&path, original).unwrap();
+        let mut app = opened(&ctx, &path);
+        app.apply_edit("/gold".into(), json!(2), 0.0);
+        // The ".bak" copy leads nowhere, so it can't be written.
+        std::os::unix::fs::symlink(s.0.join("no such folder").join("x"), s.0.join("save.json.bak")).unwrap();
+        app.save_to(&path);
+        assert_eq!(std::fs::read(&path).unwrap(), original);
+        assert_eq!(app.status_kind, StatusKind::Err);
+        assert!(app.status.starts_with("Couldn't create backup"), "{}", app.status);
+        assert!(app.dirty);
+        assert_eq!(value(&app, "/gold"), Some(json!(2)));
+    }
+
+    #[test]
+    fn saving_again_and_undoing_after_a_save_keep_every_version() {
+        let _l = locks();
+        let s = Scratch::new("twice");
+        let ctx = window();
+        let path = s.0.join("save.json");
+        let original = br#"{"gold": 1}"#.to_vec();
+        std::fs::write(&path, &original).unwrap();
+        let mut app = opened(&ctx, &path);
+        app.apply_edit("/gold".into(), json!(2), 0.0);
+        app.save_to(&path);
+        let first = std::fs::read(&path).unwrap();
+        app.apply_edit("/gold".into(), json!(3), 10.0);
+        app.save_to(&path);
+        assert_eq!(gold_on_disk(&path), json!(3));
+        assert_eq!(std::fs::read(s.0.join("save.json.bak")).unwrap(), original, "the .bak copy is the original, never replaced");
+        assert_eq!(backed_up(&path), vec![first.clone(), original.clone()]);
+        // Saving again with nothing new keeps the file on disk once, never twice.
+        app.save_to(&path);
+        app.save_to(&path);
+        assert_eq!(backed_up(&path).len(), 3);
+        assert_eq!(gold_on_disk(&path), json!(3));
+        // Undo after saving: the change comes back as unsaved, and saving it keeps the newer file too.
+        app.undo_redo(true);
+        assert_eq!(value(&app, "/gold"), Some(json!(2)));
+        assert!(app.dirty);
+        let third = std::fs::read(&path).unwrap();
+        app.save_to(&path);
+        assert_eq!(gold_on_disk(&path), json!(2));
+        assert!(!app.dirty);
+        assert_eq!(backed_up(&path)[0], third);
+    }
+
+    #[test]
+    fn save_as_backs_up_the_file_it_replaces_and_a_failed_one_changes_nothing() {
+        let _l = locks();
+        let s = Scratch::new("save-as");
+        let ctx = window();
+        let path = s.0.join("slot1.json");
+        std::fs::write(&path, br#"{"gold": 1}"#).unwrap();
+        let other = s.0.join("slot2.json");
+        let other_bytes = br#"{"gold": 77, "slot": 2}"#;
+        std::fs::write(&other, other_bytes).unwrap();
+        let mut app = opened(&ctx, &path);
+        app.apply_edit("/gold".into(), json!(5), 0.0);
+        // Into a folder that doesn't exist: an error, and the open file is still the same one.
+        let nowhere = s.0.join("missing").join("copy.json");
+        app.save_to(&nowhere);
+        assert_eq!(app.status_kind, StatusKind::Err);
+        assert!(!nowhere.exists() && !s.0.join("missing").exists());
+        assert_eq!(app.doc.as_ref().unwrap().path, path);
+        assert!(app.dirty);
+        // Over another save: that save is backed up before it is replaced.
+        app.save_to(&other);
+        assert_eq!(gold_on_disk(&other), json!(5), "{}", app.status);
+        assert_eq!(backed_up(&other), vec![other_bytes.to_vec()]);
+        assert_eq!(std::fs::read(s.0.join("slot2.json.bak")).unwrap(), other_bytes);
+        assert_eq!(gold_on_disk(&path), json!(1), "the file it was opened from is untouched");
+        assert_eq!(app.doc.as_ref().unwrap().path, other);
+    }
+
+    #[test]
+    fn a_companion_file_that_cant_be_written_puts_the_save_back() {
+        let _l = locks();
+        let s = Scratch::new("companion");
+        let path = s.0.join("data0001.bin");
+        let original = br#"{"gold": 1}"#.to_vec();
+        std::fs::write(&path, &original).unwrap();
+        // Persona 4 Golden keeps the save's MD5 in the .binslot beside it.
+        let mut slot = b"SAVE0001".to_vec();
+        slot.resize(0x40, 0);
+        let slot_path = s.0.join("data0001.binslot");
+        std::fs::write(&slot_path, &slot).unwrap();
+        let opts = formats::Options::for_path(&path);
+        let d = formats::decode_with(&original, &opts);
+        let edited = Content::Json { value: json!({"gold": 2}), pretty: false };
+        // The .binslot can't be replaced.
+        std::fs::create_dir_all(s.0.join("data0001.binslot.partial").join("x")).unwrap();
+        let r = write_save(&path, &d.layers, &edited, &opts);
+        assert!(r.is_err(), "reported as not saved");
+        assert_eq!(std::fs::read(&path).unwrap(), original, "the save still matches its .binslot");
+        assert_eq!(std::fs::read(&slot_path).unwrap(), slot);
+        // Once it can be, both are written.
+        std::fs::remove_dir_all(s.0.join("data0001.binslot.partial")).unwrap();
+        let w = write_save(&path, &d.layers, &edited, &opts).unwrap();
+        assert_eq!(w.stamp, safety::stamp(&path));
+        use md5::Digest;
+        assert_eq!(std::fs::read(&slot_path).unwrap()[0x18..0x28], md5::Md5::digest(std::fs::read(&path).unwrap())[..]);
+    }
+
+    #[test]
+    fn exporting_over_an_existing_file_backs_it_up_first() {
+        let _l = locks();
+        let s = Scratch::new("export");
+        let ctx = window();
+        // A gzip-packed save: its decoded data is not something the game can load.
+        use std::io::Write;
+        let mut e = flate2::write::GzEncoder::new(vec![], flate2::Compression::default());
+        e.write_all(br#"{"gold": 1}"#).unwrap();
+        let packed = e.finish().unwrap();
+        let path = s.0.join("save.dat");
+        std::fs::write(&path, &packed).unwrap();
+        let app = &mut opened(&ctx, &path);
+        // Picked the save itself in the export dialog and confirmed the replace.
+        app.export_to(&path);
+        assert_eq!(app.status_kind, StatusKind::Ok, "{}", app.status);
+        assert_eq!(gold_on_disk(&path), json!(1), "the decoded data was written");
+        assert!(backed_up(&path).contains(&packed), "the packed save can be brought back");
+        // Exporting to a new file makes no backups.
+        let out = s.0.join("out.json");
+        app.export_to(&out);
+        assert!(out.exists() && crate::backups::list(&out).is_empty());
+    }
+
+    #[test]
+    fn a_restore_with_unsaved_changes_is_refused() {
+        let _l = locks();
+        let s = Scratch::new("restore-dirty");
+        let ctx = window();
+        let path = s.0.join("save.json");
+        std::fs::write(&path, br#"{"gold": 1}"#).unwrap();
+        let from = s.0.join("old.json");
+        std::fs::write(&from, br#"{"gold": 0}"#).unwrap();
+        let mut app = opened(&ctx, &path);
+        app.apply_edit("/gold".into(), json!(2), 0.0);
+        app.restore_from(&from, "old");
+        assert_eq!(app.status_kind, StatusKind::Err);
+        assert_eq!(gold_on_disk(&path), json!(1));
+        assert_eq!(value(&app, "/gold"), Some(json!(2)), "the changes are still there");
+        assert!(crate::backups::list(&path).is_empty());
+        // Without changes it goes through, and what it replaced is kept.
+        app.revert_all();
+        app.restore_from(&from, "old");
+        assert_eq!(gold_on_disk(&path), json!(0), "{}", app.status);
+        assert_eq!(value(&app, "/gold"), Some(json!(0)));
+        assert_eq!(backed_up(&path), vec![br#"{"gold": 1}"#.to_vec()]);
     }
 
     #[test]
