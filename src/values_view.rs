@@ -404,10 +404,20 @@ pub fn show(ui: &mut Ui, model: &Model, disp: &[Disp], collapsed: &HashSet<usize
                     let painter = ui.painter();
                     let fill = if resp.hovered() { ui.visuals().widgets.hovered.weak_bg_fill } else { ui.visuals().faint_bg_color };
                     painter.rect_filled(row_rect.shrink2(egui::vec2(0.0, 2.0)), 6.0, fill);
-                    let chevron = if ctx.has_icons { if open { theme::icon::DOWN } else { theme::icon::RIGHT } } else if open { "v" } else { ">" };
-                    let fam = if ctx.has_icons { theme::icons_family() } else { egui::FontFamily::Proportional };
                     let c = ui.visuals().strong_text_color();
-                    painter.text(row_rect.left_center() + egui::vec2(12.0, 0.0), egui::Align2::LEFT_CENTER, chevron, FontId::new(11.0, fam), c);
+                    if ctx.has_icons {
+                        let chevron = if open { theme::icon::DOWN } else { theme::icon::RIGHT };
+                        painter.text(row_rect.left_center() + egui::vec2(12.0, 0.0), egui::Align2::LEFT_CENTER, chevron, FontId::new(11.0, theme::icons_family()), c);
+                    } else {
+                        // No icon font (Linux, macOS, the browser): a drawn triangle, like the tree's, not a letter "v".
+                        let m = row_rect.left_center() + egui::vec2(17.0, 0.0);
+                        let pts = if open {
+                            vec![m + egui::vec2(-4.5, -2.5), m + egui::vec2(4.5, -2.5), m + egui::vec2(0.0, 3.0)]
+                        } else {
+                            vec![m + egui::vec2(-2.5, -4.5), m + egui::vec2(3.0, 0.0), m + egui::vec2(-2.5, 4.5)]
+                        };
+                        painter.add(egui::Shape::convex_polygon(pts, c, egui::Stroke::NONE));
+                    }
                     painter.text(row_rect.left_center() + egui::vec2(32.0, 0.0), egui::Align2::LEFT_CENTER, &s.title, FontId::new(16.0, theme::semibold_family()), c);
                     let mut right = format!("{count}");
                     if s.advanced {
@@ -512,7 +522,7 @@ pub fn show(ui: &mut Ui, model: &Model, disp: &[Disp], collapsed: &HashSet<usize
                             }
                             if modified {
                                 let old = ctx.baseline.pointer(&r.ptr).map(widgets::display).unwrap_or_default();
-                                let btn = ui.add(egui::Button::new(widgets::icon(ctx.has_icons, theme::icon::REVERT, "undo").size(12.0)).frame(false));
+                                let btn = ui.add(egui::Button::new(widgets::icon(ctx.has_icons, theme::icon::REVERT, tr("Revert")).size(12.0)).frame(false));
                                 if btn.on_hover_text(trf("Revert to original: {0}", &[&old])).clicked() {
                                     if let Some(orig) = ctx.baseline.pointer(&r.ptr) {
                                         ctx.edits.push((r.ptr.to_string(), orig.clone()));

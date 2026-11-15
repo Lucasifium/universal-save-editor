@@ -427,10 +427,12 @@ fn editor_body(ui: &mut Ui, id_src: &str, v: &Value, editable: bool, width: f32,
                 // Big values (experience, gold) are typed, not stepped.
                 if let Some(i) = n.as_i64().filter(|i| i.unsigned_abs() <= 5000) {
                     let step = ui.input(|inp| if inp.modifiers.ctrl || inp.modifiers.command { 100 } else if inp.modifiers.shift { 10 } else { 1 });
-                    if ui.small_button("\u{2212}").on_hover_text(tr("Decrease by 1 (Shift: 10, Ctrl: 100)")).clicked() {
+                    // As tall as the number box beside them: small buttons were hard to hit.
+                    let side = ui.spacing().interact_size.y;
+                    if ui.add_sized([side, side], egui::Button::new("\u{2212}")).on_hover_text(tr("Decrease by 1 (Shift: 10, Ctrl: 100)")).clicked() {
                         out = Some(clamp_to(opts.tree.and_then(|t| t.range(id_src)), Value::from(i.saturating_sub(step))));
                     }
-                    if ui.small_button("+").on_hover_text(tr("Increase by 1 (Shift: 10, Ctrl: 100)")).clicked() {
+                    if ui.add_sized([side, side], egui::Button::new("+")).on_hover_text(tr("Increase by 1 (Shift: 10, Ctrl: 100)")).clicked() {
                         out = Some(clamp_to(opts.tree.and_then(|t| t.range(id_src)), Value::from(i.saturating_add(step))));
                     }
                 }
