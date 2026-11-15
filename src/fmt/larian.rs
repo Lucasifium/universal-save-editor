@@ -313,7 +313,9 @@ fn bg3(plain: &[u8], archive: &[u8], pkg: &lspk::Package) -> Option<TreeDoc> {
     }
     b.info(&["Party"], Value::Array(party));
     let carried = bg3_carried(&mut b, plain);
-    bg3_add_items(&mut b, plain);
+    if BG3_ADD_ITEMS {
+        bg3_add_items(&mut b, plain);
+    }
     let story = pkg.find("StorySave.bin").and_then(|e| pkg.file(archive, e)).and_then(|d| super::osiris::read(&d));
     let flags = match (&story, Lsf::read(plain)) {
         (Some(st), Some(l)) => super::bg3_flags::add(&mut b, &l, plain, 0, st),
@@ -330,6 +332,9 @@ fn bg3(plain: &[u8], archive: &[u8], pkg: &lspk::Package) -> Option<TreeDoc> {
     };
     Some(b.finish_with(BG3, Checksum::None, Some(bg3_add_post)).with_note(note))
 }
+
+/// Adding items in BG3 is held back until a save edited this way loads in the game.
+const BG3_ADD_ITEMS: bool = false;
 
 /// "Add items" for BG3: who gets them, and how many copies of each kind of item the party
 /// carries in its bags (see `bg3_add`).

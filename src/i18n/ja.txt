@@ -27980,8 +27980,8 @@ Game screen: gold and coins, each party member's level, experience, HP, MP, SP, 
 Game screen: gold and each officer's health, attack, defense, power, speed and skill points; the stream cipher and word checksum are rewritten. Checked on a public save, not yet tried in the game
 = ゲーム画面: ゴールドと各武将の体力、攻撃、防御、パワー、速度、スキルポイント。ストリーム暗号とワードチェックサムは書き直されます。公開セーブで確認済みですが、ゲームではまだ試していません
 
-Game screen: gold and the stack size of every stacked item each companion carries (potions, arrows, scrolls), from the save's packed entity store, the party summary (origin, class, level, experience) and story flags by area and companion, kept in step with the story's own flag list, and adding copies of items from the party's bags to a character's bag; the package is packed again with its checksum on save. Checked on about a hundred public saves, not yet tried in the game
-= ゲーム画面: ゴールドと、各仲間が持っているすべてのスタック可能アイテム (ポーション、矢、巻物) のスタック数 (セーブのパックされたエンティティストアから取得)、パーティの概要 (出自、クラス、レベル、経験値)、エリアと仲間ごとのストーリーフラグ (ストーリー自身のフラグ一覧と連動して更新)、およびパーティのバッグからキャラクターのバッグへのアイテムのコピー追加。保存時にパッケージはチェックサムとともに再び圧縮されます。約 100 件の公開セーブで確認済みですが、ゲームではまだ試していません
+Game screen: gold and the stack size of every stacked item each companion carries (potions, arrows, scrolls), from the save's packed entity store, the party summary (origin, class, level, experience) and story flags by area and companion, kept in step with the story's own flag list; the package is packed again with its checksum on save. Checked on about a hundred public saves, not yet tried in the game
+= ゲーム画面: ゴールドと、各仲間が持っているすべてのスタック可能アイテム (ポーション、矢、巻物) のスタック数 (セーブのパックされたエンティティストアから取得)、パーティの概要 (出自、クラス、レベル、経験値)、エリアと仲間ごとのストーリーフラグ (ストーリー自身のフラグ一覧と連動して更新)。保存時にパッケージはチェックサムとともに再び圧縮されます。約 100 件の公開セーブで確認済みですが、ゲームではまだ試していません
 
 Game screen: gold carried, level, health, magicka and fatigue, the eight attributes, all 35 skills, resistances, reputations and the gold in each region's bank, from SaveData.txt. Checked on a public save, not yet tried in the game
 = ゲーム画面: 所持ゴールド、レベル、体力、マジカ、疲労度、8 つの能力値、35 個すべてのスキル、耐性、評判、各地域の銀行にあるゴールド (SaveData.txt から)。公開セーブで確認済みですが、ゲームではまだ試していません
