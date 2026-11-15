@@ -1,7 +1,12 @@
 # Changelog
 
-## Unreleased
+## 0.8.1
 
+- Fixed: Baldur's Gate 3 saves that were edited (gold, stack sizes, flags) could fail to load in the game ("server shutting down"); the save's packed sections are now written the way the game writes them. Adding items to Baldur's Gate 3 inventories stays hidden until an edited save is confirmed to load in the game
+- Fixed: Report a problem opened a GitHub 406 page; the form now opens with the detected save type filled in
+- Undo and Revert treat one press of a mass-edit button (Max crafting materials and similar) as a single step, so one Undo or Revert puts the whole batch back
+- Start page game rows are an even height, the Metal Gear Solid V staff table keeps a fixed size while scrolling, and scroll lists are taller on tall windows
+- Smaller downloads: release builds use whole-program optimisation and stripped symbols
 - Fixed: Metal Gear Solid V: edits to staff, resources, Mother Base platforms and other packed values couldn't be saved ("didn't read back exactly as edited"); every field now saves and reads back
 
 ## 0.8.0
