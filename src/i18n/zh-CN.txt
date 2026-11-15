@@ -25474,6 +25474,9 @@ Bank Deposit
 Blast Mask
 = 爆炸面具
 
+An emulator's 8 KiB .sav save. Per slot: health, heart pieces, rupees, deaths, sword and shield levels, bombs, bombchus and every kind of seed.
+= 模拟器的 8 KiB .sav 存档。每个存档位:生命值、心之碎片、卢比、死亡次数、剑和盾的等级、炸弹、炸弹鼠以及各种种子。
+
 Bombchus
 = 炸弹鼠
 
@@ -29540,3 +29543,42 @@ The preset “{0}” will be deleted. This can't be undone.
 
 Your saves are not changed.
 = 你的存档不会改变。
+
+Boomerang level
+= 回旋镖等级
+
+Bracelet level
+= 手镯等级
+
+Ember seeds
+= 余烬种子
+
+Gale seeds
+= 疾风种子
+
+Hook level
+= 钩索等级
+
+Max bombs
+= 炸弹上限
+
+Max health (quarter hearts)
+= 最大生命值(四分之一心)
+
+Mystery seeds
+= 神秘种子
+
+Ore chunks
+= 矿石块
+
+Pegasus seeds
+= 天马种子
+
+Scent seeds
+= 气味种子
+
+Shield level
+= 盾牌等级
+
+Slingshot level
+= 弹弓等级

@@ -776,4 +776,41 @@ pub const GEX64: Spec = Spec {
     Table { title: tx("Red and silver remotes"), path: "/Levels", name: &[], cols: &[(tx("Red remote 1"), "/Red remote 1"), (tx("Red remote 2"), "/Red remote 2"), (tx("Red remote 3"), "/Red remote 3"), (tx("Hidden remote"), "/Hidden remote"), (tx("Reward remote"), "/Reward remote")], only: &[], names: &[] },
     Table { title: tx("Gold remotes"), path: "/Gold remotes", name: &[], cols: &[(tx("Collected"), "/Collected")], only: &[], names: &[] },
     ],
+
+// ------------------------------------------------------------------ Zelda: Oracle of Ages (Game Boy Color)
+
+pub const ORACLE_AGES: Spec = Spec {
+    name: "Oracle of Ages (Game Boy Color)",
+    tab: "Slots",
+    accent: (80, 140, 220),
+    kind: Some(crate::fmt::oracle::KIND_AGES),
+    markers: &["/Info/Slots in use"],
+    subtitle: tx("An emulator's 8 KiB .sav save. Per slot: health, heart pieces, rupees, deaths, sword and shield levels, bombs, bombchus and every kind of seed."),
+    tiles: &[(tx("Slots in use"), "/Info/Slots in use")],
+    sections: &[
+    Section { title: tx("Slot 1"), rows: &[(tx("Health (quarter hearts)"), "/Slot 1/Game/Health (quarter hearts)"), (tx("Max health (quarter hearts)"), "/Slot 1/Game/Max health (quarter hearts)"), (tx("Heart pieces"), "/Slot 1/Game/Heart pieces"), (tx("Rupees"), "/Slot 1/Game/Rupees"), (tx("Deaths"), "/Slot 1/Game/Deaths"), (tx("Sword level"), "/Slot 1/Items/Sword level"), (tx("Shield level"), "/Slot 1/Items/Shield level"), (tx("Bracelet level"), "/Slot 1/Items/Bracelet level"), (tx("Hook level"), "/Slot 1/Items/Hook level"), (tx("Bombs"), "/Slot 1/Items/Bombs"), (tx("Max bombs"), "/Slot 1/Items/Max bombs"), (tx("Bombchus"), "/Slot 1/Items/Bombchus"), (tx("Ember seeds"), "/Slot 1/Items/Ember seeds"), (tx("Scent seeds"), "/Slot 1/Items/Scent seeds"), (tx("Pegasus seeds"), "/Slot 1/Items/Pegasus seeds"), (tx("Gale seeds"), "/Slot 1/Items/Gale seeds"), (tx("Mystery seeds"), "/Slot 1/Items/Mystery seeds")] },
+    Section { title: tx("Slot 2"), rows: &[(tx("Health (quarter hearts)"), "/Slot 2/Game/Health (quarter hearts)"), (tx("Max health (quarter hearts)"), "/Slot 2/Game/Max health (quarter hearts)"), (tx("Heart pieces"), "/Slot 2/Game/Heart pieces"), (tx("Rupees"), "/Slot 2/Game/Rupees"), (tx("Deaths"), "/Slot 2/Game/Deaths"), (tx("Sword level"), "/Slot 2/Items/Sword level"), (tx("Shield level"), "/Slot 2/Items/Shield level"), (tx("Bracelet level"), "/Slot 2/Items/Bracelet level"), (tx("Hook level"), "/Slot 2/Items/Hook level"), (tx("Bombs"), "/Slot 2/Items/Bombs"), (tx("Max bombs"), "/Slot 2/Items/Max bombs"), (tx("Bombchus"), "/Slot 2/Items/Bombchus"), (tx("Ember seeds"), "/Slot 2/Items/Ember seeds"), (tx("Scent seeds"), "/Slot 2/Items/Scent seeds"), (tx("Pegasus seeds"), "/Slot 2/Items/Pegasus seeds"), (tx("Gale seeds"), "/Slot 2/Items/Gale seeds"), (tx("Mystery seeds"), "/Slot 2/Items/Mystery seeds")] },
+    Section { title: tx("Slot 3"), rows: &[(tx("Health (quarter hearts)"), "/Slot 3/Game/Health (quarter hearts)"), (tx("Max health (quarter hearts)"), "/Slot 3/Game/Max health (quarter hearts)"), (tx("Heart pieces"), "/Slot 3/Game/Heart pieces"), (tx("Rupees"), "/Slot 3/Game/Rupees"), (tx("Deaths"), "/Slot 3/Game/Deaths"), (tx("Sword level"), "/Slot 3/Items/Sword level"), (tx("Shield level"), "/Slot 3/Items/Shield level"), (tx("Bracelet level"), "/Slot 3/Items/Bracelet level"), (tx("Hook level"), "/Slot 3/Items/Hook level"), (tx("Bombs"), "/Slot 3/Items/Bombs"), (tx("Max bombs"), "/Slot 3/Items/Max bombs"), (tx("Bombchus"), "/Slot 3/Items/Bombchus"), (tx("Ember seeds"), "/Slot 3/Items/Ember seeds"), (tx("Scent seeds"), "/Slot 3/Items/Scent seeds"), (tx("Pegasus seeds"), "/Slot 3/Items/Pegasus seeds"), (tx("Gale seeds"), "/Slot 3/Items/Gale seeds"), (tx("Mystery seeds"), "/Slot 3/Items/Mystery seeds")] },
+    ],
+    lists: &[],
+    tables: &[],
+};
+
+// ------------------------------------------------------------------ Zelda: Oracle of Seasons (Game Boy Color)
+
+pub const ORACLE_SEASONS: Spec = Spec {
+    name: "Oracle of Seasons (Game Boy Color)",
+    tab: "Slots",
+    accent: (220, 120, 60),
+    kind: Some(crate::fmt::oracle::KIND_SEASONS),
+    markers: &["/Info/Slots in use"],
+    subtitle: tx("An emulator's 8 KiB .sav save. Per slot: health, heart pieces, rupees, deaths, sword and shield levels, bombs, bombchus and every kind of seed."),
+    tiles: &[(tx("Slots in use"), "/Info/Slots in use")],
+    sections: &[
+    Section { title: tx("Slot 1"), rows: &[(tx("Health (quarter hearts)"), "/Slot 1/Game/Health (quarter hearts)"), (tx("Max health (quarter hearts)"), "/Slot 1/Game/Max health (quarter hearts)"), (tx("Heart pieces"), "/Slot 1/Game/Heart pieces"), (tx("Rupees"), "/Slot 1/Game/Rupees"), (tx("Deaths"), "/Slot 1/Game/Deaths"), (tx("Ore chunks"), "/Slot 1/Game/Ore chunks"), (tx("Sword level"), "/Slot 1/Items/Sword level"), (tx("Shield level"), "/Slot 1/Items/Shield level"), (tx("Boomerang level"), "/Slot 1/Items/Boomerang level"), (tx("Slingshot level"), "/Slot 1/Items/Slingshot level"), (tx("Bombs"), "/Slot 1/Items/Bombs"), (tx("Max bombs"), "/Slot 1/Items/Max bombs"), (tx("Bombchus"), "/Slot 1/Items/Bombchus"), (tx("Ember seeds"), "/Slot 1/Items/Ember seeds"), (tx("Scent seeds"), "/Slot 1/Items/Scent seeds"), (tx("Pegasus seeds"), "/Slot 1/Items/Pegasus seeds"), (tx("Gale seeds"), "/Slot 1/Items/Gale seeds"), (tx("Mystery seeds"), "/Slot 1/Items/Mystery seeds")] },
+    Section { title: tx("Slot 2"), rows: &[(tx("Health (quarter hearts)"), "/Slot 2/Game/Health (quarter hearts)"), (tx("Max health (quarter hearts)"), "/Slot 2/Game/Max health (quarter hearts)"), (tx("Heart pieces"), "/Slot 2/Game/Heart pieces"), (tx("Rupees"), "/Slot 2/Game/Rupees"), (tx("Deaths"), "/Slot 2/Game/Deaths"), (tx("Ore chunks"), "/Slot 2/Game/Ore chunks"), (tx("Sword level"), "/Slot 2/Items/Sword level"), (tx("Shield level"), "/Slot 2/Items/Shield level"), (tx("Boomerang level"), "/Slot 2/Items/Boomerang level"), (tx("Slingshot level"), "/Slot 2/Items/Slingshot level"), (tx("Bombs"), "/Slot 2/Items/Bombs"), (tx("Max bombs"), "/Slot 2/Items/Max bombs"), (tx("Bombchus"), "/Slot 2/Items/Bombchus"), (tx("Ember seeds"), "/Slot 2/Items/Ember seeds"), (tx("Scent seeds"), "/Slot 2/Items/Scent seeds"), (tx("Pegasus seeds"), "/Slot 2/Items/Pegasus seeds"), (tx("Gale seeds"), "/Slot 2/Items/Gale seeds"), (tx("Mystery seeds"), "/Slot 2/Items/Mystery seeds")] },
+    Section { title: tx("Slot 3"), rows: &[(tx("Health (quarter hearts)"), "/Slot 3/Game/Health (quarter hearts)"), (tx("Max health (quarter hearts)"), "/Slot 3/Game/Max health (quarter hearts)"), (tx("Heart pieces"), "/Slot 3/Game/Heart pieces"), (tx("Rupees"), "/Slot 3/Game/Rupees"), (tx("Deaths"), "/Slot 3/Game/Deaths"), (tx("Ore chunks"), "/Slot 3/Game/Ore chunks"), (tx("Sword level"), "/Slot 3/Items/Sword level"), (tx("Shield level"), "/Slot 3/Items/Shield level"), (tx("Boomerang level"), "/Slot 3/Items/Boomerang level"), (tx("Slingshot level"), "/Slot 3/Items/Slingshot level"), (tx("Bombs"), "/Slot 3/Items/Bombs"), (tx("Max bombs"), "/Slot 3/Items/Max bombs"), (tx("Bombchus"), "/Slot 3/Items/Bombchus"), (tx("Ember seeds"), "/Slot 3/Items/Ember seeds"), (tx("Scent seeds"), "/Slot 3/Items/Scent seeds"), (tx("Pegasus seeds"), "/Slot 3/Items/Pegasus seeds"), (tx("Gale seeds"), "/Slot 3/Items/Gale seeds"), (tx("Mystery seeds"), "/Slot 3/Items/Mystery seeds")] },
+    ],
+    lists: &[],
+    tables: &[],
 };

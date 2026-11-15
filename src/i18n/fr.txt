@@ -29493,3 +29493,48 @@ The preset “{0}” will be deleted. This can't be undone.
 
 Your saves are not changed.
 = Vos sauvegardes ne sont pas modifiées.
+
+An emulator's 8 KiB .sav save. Per slot: health, heart pieces, rupees, deaths, sword and shield levels, bombs, bombchus and every kind of seed.
+= Une sauvegarde .sav de 8 Kio d'un émulateur. Par emplacement : santé, quarts de cœur, rubis, morts, niveaux d'épée et de bouclier, bombes, bombchus et chaque type de graines.
+
+Bombchus
+= Bombchus
+
+Boomerang level
+= Niveau du boomerang
+
+Bracelet level
+= Niveau du bracelet
+
+Ember seeds
+= Graines ardentes
+
+Gale seeds
+= Graines de tempête
+
+Hook level
+= Niveau du grappin
+
+Max bombs
+= Bombes max.
+
+Max health (quarter hearts)
+= Santé max. (quarts de cœur)
+
+Mystery seeds
+= Graines mystères
+
+Ore chunks
+= Morceaux de minerai
+
+Pegasus seeds
+= Graines de Pégase
+
+Scent seeds
+= Graines parfumées
+
+Shield level
+= Niveau du bouclier
+
+Slingshot level
+= Niveau du lance-pierre

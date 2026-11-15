@@ -36,13 +36,37 @@ pub enum Kind {
     CentsI32,
     /// Money kept as tenths of the currency in a signed 32-bit integer (RollerCoaster Tycoon), shown and edited in whole units with one decimal.
     TenthsI32,
+    /// A one-byte binary-coded decimal (two digits), shown and edited as a plain number (Game Boy games).
+    Bcd8,
+    /// A two-byte little-endian binary-coded decimal (four digits).
+    Bcd16,
+}
+
+fn from_bcd(mut n: u64) -> u64 {
+    let (mut out, mut mul) = (0, 1);
+    while n > 0 {
+        out += (n & 0xf) * mul;
+        mul *= 10;
+        n >>= 4;
+    }
+    out
+}
+
+fn to_bcd(mut n: u64) -> u64 {
+    let (mut out, mut shift) = (0, 0);
+    while n > 0 {
+        out |= (n % 10) << shift;
+        shift += 4;
+        n /= 10;
+    }
+    out
 }
 
 impl Kind {
     pub fn size(self) -> usize {
         match self {
-            Kind::U8 | Kind::B8 => 1,
-            Kind::I16 | Kind::U16 => 2,
+            Kind::U8 | Kind::B8 | Kind::Bcd8 => 1,
+            Kind::I16 | Kind::U16 | Kind::Bcd16 => 2,
             Kind::U24 => 3,
             Kind::U64 | Kind::F64Int => 8,
             _ => 4,
@@ -111,6 +135,7 @@ pub fn read(d: &[u8], at: usize, kind: Kind, be: bool) -> Option<Value> {
         Kind::I16 => Value::from(u(2) as u16 as i16),
         Kind::U16 => Value::from(u(2) as u16),
         Kind::U24 => Value::from(u(3) as u32),
+        Kind::Bcd8 | Kind::Bcd16 => Value::from(from_bcd(u(kind.size()))),
         Kind::I32 => Value::from(u(4) as u32 as i32),
         Kind::U32 => Value::from(u(4) as u32),
         Kind::U64 => Value::from(u(8)),
@@ -171,6 +196,11 @@ fn encode(l: &Leaf, v: &Value) -> Result<Vec<u8>, String> {
             } else {
                 u64::from(cents as i64 as i32 as u32)
             }
+        }
+        Kind::Bcd8 | Kind::Bcd16 => {
+            let top = if l.kind == Kind::Bcd8 { 99 } else { 9999 };
+            let (lo, hi) = l.range.map_or((0, top), |(a, b)| (a.max(0), b.min(top)));
+            to_bcd(int_in(v, lo.into(), hi.into(), "This value")? as u64)
         }
         Kind::F32Int => {
             let (lo, hi) = l.range.unwrap_or((-(1 << 24), 1 << 24));

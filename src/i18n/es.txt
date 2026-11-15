@@ -25416,6 +25416,9 @@ Bank Deposit
 Blast Mask
 = Máscara Explosiva
 
+An emulator's 8 KiB .sav save. Per slot: health, heart pieces, rupees, deaths, sword and shield levels, bombs, bombchus and every kind of seed.
+= Una partida .sav de 8 KiB de un emulador. Por ranura: salud, piezas de corazón, rupias, muertes, niveles de espada y escudo, bombas, bombchus y todos los tipos de semillas.
+
 Bombchus
 = Bombchus
 
@@ -29482,3 +29485,42 @@ The preset “{0}” will be deleted. This can't be undone.
 
 Your saves are not changed.
 = Tus partidas no cambian.
+
+Boomerang level
+= Nivel del bumerán
+
+Bracelet level
+= Nivel del brazalete
+
+Ember seeds
+= Semillas ígneas
+
+Gale seeds
+= Semillas de vendaval
+
+Hook level
+= Nivel del gancho
+
+Max bombs
+= Máx. de bombas
+
+Max health (quarter hearts)
+= Salud máx. (cuartos de corazón)
+
+Mystery seeds
+= Semillas misteriosas
+
+Ore chunks
+= Trozos de mineral
+
+Pegasus seeds
+= Semillas de Pegaso
+
+Scent seeds
+= Semillas aromáticas
+
+Shield level
+= Nivel del escudo
+
+Slingshot level
+= Nivel del tirachinas

@@ -29486,3 +29486,48 @@ The preset “{0}” will be deleted. This can't be undone.
 
 Your saves are not changed.
 = Ihre Spielstände bleiben unverändert.
+
+An emulator's 8 KiB .sav save. Per slot: health, heart pieces, rupees, deaths, sword and shield levels, bombs, bombchus and every kind of seed.
+= Ein 8-KiB-.sav-Spielstand eines Emulators. Pro Slot: Gesundheit, Herzteile, Rubine, Tode, Schwert- und Schildstufen, Bomben, Kugelbomben und alle Samenarten.
+
+Bombchus
+= Kugelbomben
+
+Boomerang level
+= Bumerang-Stufe
+
+Bracelet level
+= Armreif-Stufe
+
+Ember seeds
+= Glutsamen
+
+Gale seeds
+= Sturmsamen
+
+Hook level
+= Enterhaken-Stufe
+
+Max bombs
+= Max. Bomben
+
+Max health (quarter hearts)
+= Max. Gesundheit (Viertelherzen)
+
+Mystery seeds
+= Mysteriensamen
+
+Ore chunks
+= Erzbrocken
+
+Pegasus seeds
+= Pegasus-Samen
+
+Scent seeds
+= Duftsamen
+
+Shield level
+= Schildstufe
+
+Slingshot level
+= Steinschleuder-Stufe

@@ -25501,6 +25501,9 @@ Bank Deposit
 Blast Mask
 = 爆弾のお面
 
+An emulator's 8 KiB .sav save. Per slot: health, heart pieces, rupees, deaths, sword and shield levels, bombs, bombchus and every kind of seed.
+= エミュレーターの8 KiBの.savセーブ。スロットごとに、体力、ハートのかけら、ルピー、死亡回数、剣と盾のレベル、ボム、ボムチュウ、すべての種。
+
 Bombchus
 = ボムチュウ
 
@@ -29567,3 +29570,42 @@ The preset “{0}” will be deleted. This can't be undone.
 
 Your saves are not changed.
 = セーブデータは変更されません。
+
+Boomerang level
+= ブーメランのレベル
+
+Bracelet level
+= 腕輪のレベル
+
+Ember seeds
+= エンバーの種
+
+Gale seeds
+= ゲイルの種
+
+Hook level
+= フックのレベル
+
+Max bombs
+= ボムの最大数
+
+Max health (quarter hearts)
+= 最大体力(ハート1/4単位)
+
+Mystery seeds
+= ミステリーの種
+
+Ore chunks
+= 鉱石のかけら
+
+Pegasus seeds
+= ペガサスの種
+
+Scent seeds
+= 香りの種
+
+Shield level
+= 盾のレベル
+
+Slingshot level
+= スリングショットのレベル
