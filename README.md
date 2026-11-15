@@ -1150,6 +1150,9 @@ automatic backups to keep per save and where backups go. *Help* has the keyboard
 supported games, the website, *Report a problem* and *Request a game* (open a form on GitHub with the
 version and system filled in; your save is never sent), licences and *About* with the version.
 
+Both themes meet contrast guidelines for text and control outlines, everything can be reached with
+the keyboard (a focus ring shows where Tab is), and buttons and boxes have names for screen readers.
+
 **New-version alert (optional):** *Edit › Preferences › Tell me when a new version is out* makes the program ask GitHub for the newest release when it starts and show a dismissible banner with a download link when there is one. It is **off by default**, so the program stays fully offline unless you turn it on. The only thing sent is the request for the project's public "latest release" page (no save, game or personal data); with no connection it does nothing. *Help › Check for a new version* does the same once, on demand. Not in the browser or Android versions.
 
 Japanese, Chinese and Korean names in saves use your system's fonts (Yu Gothic, Microsoft YaHei and

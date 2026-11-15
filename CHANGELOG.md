@@ -3,7 +3,14 @@
 ## 0.7.0
 
 - Fixed: choosing Save and close when quitting with several unsaved tabs saved one tab and closed the window; it now asks about each unsaved tab. Saving is also held back while a file is still being opened
-sed
+- Fixed: a save that is a link to a file elsewhere (for example in a synced folder) kept its link when saved or restored; before, the link was replaced by a plain file and the linked file was left unchanged
+- Fixed: Export decoded data, and the command line's decode -o, back up a file they replace; exporting over the save itself could leave a file the game can't load, with no backup
+- Fixed: when a file the game checks against its save (such as Persona 4 Golden's .binslot) can't be written, the save is put back so the two still match, in the app, when restoring a backup and on the command line; restoring no longer says it worked when that file couldn't be updated
+- Messages about saving, restoring, backing up and importing say whether the file on disk was changed and what to do next; confirm buttons name what they do (Restore now, Delete permanently, Open without saving); the app says "backup" throughout
+- More of the app is translated: file dialog titles, the backup list, toolbar chips, the hex view guide, keyboard shortcut list and backup ages
+- Easier to read and use: text, status colours and control outlines meet contrast guidelines in the light and dark themes; changed values and warnings are marked by more than colour
+- Keyboard: a focus ring shows where Tab is; confirm dialogs start on Cancel and Tab stays inside them
+- Screen readers: icon buttons, switches, section headers, search boxes and value boxes have names
 
 - Fixed: Metal Gear Solid V: The Phantom Pain saves (TPP_GAME_DATA, PERSONAL_DATA, TPP_CONFIG_DATA) opened as hex instead of the game screen
 - Metal Gear Solid V: Ground Zeroes saves are decrypted for the hex view, with their checksum redone on save
