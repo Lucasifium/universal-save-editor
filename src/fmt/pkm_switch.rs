@@ -202,9 +202,9 @@ pub fn looks(d: &[u8]) -> bool {
     if d.len() < 0x10_0000 || d.len() > 0x800_0000 {
         return false;
     }
-    let mut p = d[..d.len() - 32].to_vec();
     // Cheap first test: the very first byte after the key must unscramble to a plausible type.
-    xor_pad(&mut p[..64]);
+    let mut p = d[..64].to_vec();
+    xor_pad(&mut p);
     let key = u32::from_le_bytes(p[..4].try_into().unwrap());
     let t = p[4] ^ XorShift::new(key).next();
     if !matches!(t, 1 | 2 | 4 | 5 | 8..=17) {

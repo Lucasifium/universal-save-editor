@@ -77,6 +77,12 @@ pub fn open(d: &[u8]) -> Option<(Wrapped, Vec<u8>)> {
     if !looks(d) {
         return None;
     }
+    // The text must be a JSON object, and its first bytes are the first literal run (d[0] < 32):
+    // anything there but white space before a `{` rules it out before the whole file is unpacked.
+    let run = &d[1..(usize::from(d[0]) + 2).min(d.len())];
+    if run.iter().find(|b| !matches!(b, b' ' | b'\t' | b'\n' | b'\r')).is_some_and(|&b| b != b'{') {
+        return None;
+    }
     let text = String::from_utf8(lzf_inflate(d, LIMIT).ok()?).ok()?;
     if !text.contains("\"m_Dict\"") {
         return None;

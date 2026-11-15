@@ -7,6 +7,11 @@ const MARK: &str = "eyAi"; // base64 of `{ "`
 
 /// Returns the header text and the JSON bytes.
 pub fn open(data: &[u8]) -> Option<(Vec<u8>, Vec<u8>)> {
+    // The header is all hex digits up to the mark: data that has a byte other than a hex digit
+    // in its first 16 is turned down before the whole text is checked and searched.
+    if data.iter().take(16).any(|b| !b.is_ascii_hexdigit()) || data.len() < 16 {
+        return None;
+    }
     let text = std::str::from_utf8(data).ok()?;
     let at = text.find(MARK)?;
     let (head, body) = text.split_at(at);

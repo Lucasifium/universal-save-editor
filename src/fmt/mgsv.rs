@@ -54,7 +54,7 @@ fn stream(key: &str, d: &mut [u8]) {
 }
 
 fn md5_ok(p: &[u8]) -> bool {
-    p.len() > 24 && Md5::digest(&p[16..]).as_slice() == &p[..16] && matches!(&p[16..20], b"SVCS" | b"SVAR")
+    p.len() > 24 && matches!(&p[16..20], b"SVCS" | b"SVAR") && Md5::digest(&p[16..]).as_slice() == &p[..16]
 }
 
 /// Decrypts a save, trying each known file name; returns the key and the plain data.

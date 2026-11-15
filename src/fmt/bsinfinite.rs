@@ -66,7 +66,7 @@ fn player_at(d: &[u8], s: usize) -> Option<Player> {
     // The currency block: only when exactly one plausible copy follows the inventory.
     let mut found = Vec::new();
     let mut i = p;
-    while let Some(k) = b.get(i..).and_then(|r| r.windows(4).position(|w| w == CURRENCY)).map(|k| k + i) {
+    while let Some(k) = b.get(i..).and_then(|r| super::find_bytes(r, &CURRENCY)).map(|k| k + i) {
         let v: Option<Vec<i32>> = (0..9).map(|j| i32_at(b, k + 4 + 4 * j)).collect();
         if let Some(v) = v {
             if v[0] >= 0 && v[1..5].iter().all(|&z| z == 0) && v[8] == 0 && (0..=1000).contains(&v[5]) && (0..=100_000).contains(&v[6]) && (0..=100_000).contains(&v[7]) {
@@ -82,7 +82,7 @@ fn player_at(d: &[u8], s: usize) -> Option<Player> {
 fn find(d: &[u8]) -> Option<Player> {
     let m = MAGIC.to_le_bytes();
     let mut i = 4;
-    while let Some(k) = d.get(i..).and_then(|r| r.windows(4).position(|w| w == m)).map(|k| k + i) {
+    while let Some(k) = d.get(i..).and_then(|r| super::find_bytes(r, &m)).map(|k| k + i) {
         if let Some(p) = player_at(d, k - 4) {
             if p.currency.is_some() || p.items.iter().any(|(id, _)| INFUSIONS.iter().any(|(x, _)| x == id)) {
                 return Some(p);

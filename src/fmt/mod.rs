@@ -1576,3 +1576,95 @@ pub(crate) fn crc32_bzip2(d: &[u8]) -> u32 {
     });
     !d.iter().fold(0xFFFF_FFFFu32, |c, &b| (c << 8) ^ t[((c >> 24) as u8 ^ b) as usize])
 }
+
+/// CRC-32 with the 0xEDB88320 polynomial, from register `c` and without any inversion: what
+/// the bit-by-bit loops `c ^= byte; 8 × c = (c >> 1) ^ (0xEDB88320 & -(c & 1))` give, worked a
+/// byte at a time from a table.
+pub(crate) fn crc32_raw(mut c: u32, d: &[u8]) -> u32 {
+    const TABLE: [u32; 256] = {
+        let mut t = [0u32; 256];
+        let mut i = 0;
+        while i < 256 {
+            let mut c = i as u32;
+            let mut k = 0;
+            while k < 8 {
+                c = (c >> 1) ^ (0xEDB8_8320 & (c & 1).wrapping_neg());
+                k += 1;
+            }
+            t[i] = c;
+            i += 1;
+        }
+        t
+    };
+    for &b in d {
+        c = (c >> 8) ^ TABLE[((c ^ u32::from(b)) & 0xFF) as usize];
+    }
+    c
+}
+
+/// Where `needle` first appears in `hay`: `hay.windows(needle.len()).position(|w| w == needle)`,
+/// skipping eight positions at a time where the needle's first two bytes can't start.
+pub(crate) fn find_bytes(hay: &[u8], needle: &[u8]) -> Option<usize> {
+    let n = needle.len();
+    assert!(n > 0, "window size must be non-zero");
+    let last = hay.len().checked_sub(n)?;
+    let first = needle[0];
+    let second = needle.get(1).copied();
+    // A lane of `x` that is zero gets its top bit set here (other lanes may too, but no zero
+    // lane is missed).
+    let zeros = |x: u64| x.wrapping_sub(0x0101_0101_0101_0101) & !x & 0x8080_8080_8080_8080;
+    let word = |at: usize| hay.get(at..at + 8).map(|w| u64::from_le_bytes(w.try_into().unwrap()));
+    let mut i = 0;
+    while i <= last {
+        let a = word(i).map(|w| zeros(w ^ u64::from_ne_bytes([first; 8])));
+        let b = match second {
+            Some(s) => word(i + 1).map(|w| zeros(w ^ u64::from_ne_bytes([s; 8]))),
+            None => Some(u64::MAX),
+        };
+        if let (Some(a), Some(b)) = (a, b) {
+            if a & b == 0 {
+                i += 8;
+                continue;
+            }
+        }
+        let end = (i + 8).min(last + 1);
+        if let Some(j) = (i..end).find(|&j| hay[j] == first && &hay[j..j + n] == needle) {
+            return Some(j);
+        }
+        i = end;
+    }
+    None
+}
+
+#[cfg(test)]
+mod crc_tests {
+    #[test]
+    fn find_bytes_matches_windows() {
+        let hay: Vec<u8> = (0..3000u32).map(|i| b"abcab\0zabq"[(i.wrapping_mul(2_654_435_761) >> 20) as usize % 10]).collect();
+        for needle in [&b"a"[..], b"ab", b"abc", b"zab\0", b"cabab", b"abcabc", b"\0\0\0", b"q", b"bz", b"qq", b"x"] {
+            for from in [0, 1, 7, 8, 9, 2990, 2995, 2999, 3000] {
+                let h = &hay[from..];
+                assert_eq!(super::find_bytes(h, needle), h.windows(needle.len()).position(|w| w == needle), "{needle:?} from {from}");
+            }
+        }
+        assert_eq!(super::find_bytes(b"xxxxxxxxxxxxxxxxxxxxxxxxxxxab", b"ab"), Some(27));
+    }
+
+    #[test]
+    fn crc32_raw_matches_the_bitwise_loop() {
+        let d: Vec<u8> = (0..5000u32).map(|i| (i.wrapping_mul(2_654_435_761) >> 13) as u8).collect();
+        for start in [0u32, 0x1F_3FFC, 0xFFFF_FFFF] {
+            let mut c = start;
+            for &b in &d {
+                c ^= u32::from(b);
+                for _ in 0..8 {
+                    c = (c >> 1) ^ (0xEDB8_8320 & (c & 1).wrapping_neg());
+                }
+            }
+            assert_eq!(super::crc32_raw(start, &d), c);
+        }
+        let mut z = flate2::Crc::new();
+        z.update(&d);
+        assert_eq!(!super::crc32_raw(!0, &d), z.sum());
+    }
+}

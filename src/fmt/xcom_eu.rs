@@ -210,7 +210,7 @@ fn objects(d: &[u8]) -> Vec<(String, String, usize, usize)> {
 }
 
 fn find(hay: &[u8], needle: &[u8]) -> Option<usize> {
-    hay.windows(needle.len()).position(|w| w == needle)
+    super::find_bytes(hay, needle)
 }
 
 pub fn looks(d: &[u8]) -> bool {

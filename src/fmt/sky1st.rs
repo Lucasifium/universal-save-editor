@@ -18,14 +18,7 @@ pub const SEPITH_NAMES: [&str; 8] = ["Earth", "Water", "Fire", "Wind", "Time", "
 pub const SEPITH_CAP: i64 = 9999;
 
 fn crc(d: &[u8]) -> u32 {
-    let mut c = SPAN as u32;
-    for &b in &d[0x0C..0x0C + SPAN] {
-        c ^= b as u32;
-        for _ in 0..8 {
-            c = (c >> 1) ^ (0xEDB8_8320 & (c & 1).wrapping_neg());
-        }
-    }
-    c
+    super::crc32_raw(SPAN as u32, &d[0x0C..0x0C + SPAN])
 }
 
 pub fn looks(d: &[u8]) -> bool {

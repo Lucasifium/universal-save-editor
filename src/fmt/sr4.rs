@@ -17,14 +17,7 @@ fn u32_at(d: &[u8], at: usize) -> Option<u32> {
 }
 
 fn crc(d: &[u8]) -> u32 {
-    let mut c = 0u32;
-    for &b in &d[12..] {
-        c ^= u32::from(b);
-        for _ in 0..8 {
-            c = (c >> 1) ^ (0xEDB8_8320 & (c & 1).wrapping_neg());
-        }
-    }
-    c
+    super::crc32_raw(0, &d[12..])
 }
 
 /// Start and size of every section, if the whole file walks cleanly to its end.
@@ -55,7 +48,8 @@ fn player(d: &[u8]) -> Option<usize> {
 }
 
 pub fn looks(d: &[u8]) -> bool {
-    d.len() > 64 && u32_at(d, 8) == Some(crc(d)) && player(d).is_some()
+    // The section walk (which starts with the magic number) before the checksum of the whole file.
+    d.len() > 64 && player(d).is_some() && u32_at(d, 8) == Some(crc(d))
 }
 
 fn fix(d: &mut Vec<u8>) {

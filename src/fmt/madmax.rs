@@ -61,10 +61,11 @@ pub fn open(data: &[u8]) -> Option<(Vec<u8>, Vec<u8>)> {
     if data.len() < 0x100 || data.len() % 512 != 0 {
         return None;
     }
-    let plain = xor(data);
-    if u32_at(&plain, 4)? != MAGIC {
+    // The magic number first, before the whole file is unscrambled.
+    if u32_at(&xor(&data[..8]), 4)? != MAGIC {
         return None;
     }
+    let plain = xor(data);
     let spots = scrap_spots(&plain);
     let at = *spots.first()?;
     let scrap = f32::from_le_bytes(plain.get(at..at + 4)?.try_into().ok()?);

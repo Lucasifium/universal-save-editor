@@ -55,6 +55,10 @@ fn open(d: &[u8]) -> Option<Vec<u8>> {
     if d.len() < MIN_LEN || d.len() % 8 != 0 {
         return None;
     }
+    // The year at 0x10 needs only the first blocks: tested before the whole file is decoded.
+    if !(2009..2100).contains(&u32at(&decode(&d[..0x18]), 0x10)) {
+        return None;
+    }
     let p = decode(d);
     (u32at(&p, SUM_AT) == sum(&p) && (2009..2100).contains(&u32at(&p, 0x10))).then_some(p)
 }

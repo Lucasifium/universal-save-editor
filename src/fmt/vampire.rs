@@ -248,7 +248,7 @@ impl Backend for VsBackend {
 
 /// A Vampire Survivors save: a JSON object with a `checksum` key.
 pub fn looks(d: &[u8]) -> bool {
-    d.first() == Some(&b'{') && d.len() < 64 << 20 && d.windows(12).any(|w| w == b"\"checksum\":\"")
+    d.first() == Some(&b'{') && d.len() < 64 << 20 && super::find_bytes(d, b"\"checksum\":\"").is_some()
 }
 
 fn register(v: &Value, ptr: &mut String, editable: &mut HashMap<String, usize>, float: &mut Vec<bool>) {

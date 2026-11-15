@@ -21,19 +21,34 @@ fn rec(d: &[u8], o: usize) -> Option<(u16, u32, u8)> {
 /// The offset of the coin count, when exactly one record fits.
 fn coins(d: &[u8]) -> Option<usize> {
     let mut found = Vec::new();
-    for o in 35..d.len().saturating_sub(14) {
-        let Some((id, v, f)) = rec(d, o) else { break };
-        if f > 1 || !(100..=5_000_000).contains(&v) || id < 100 {
+    let stop = d.len().saturating_sub(14);
+    let mut o = 35;
+    while o < stop {
+        // Cheap tests first: the flag is 0 or 1 (and a value up to 5,000,000 has a zero top
+        // byte, so a byte above 1 at o + 6 rules out o + 1 as well), and the value fits.
+        if d[o + 6] > 1 {
+            o += 2;
             continue;
         }
-        let (Some(b), Some(a)) = (rec(d, o - 7), rec(d, o + 7)) else { continue };
-        let ascending = (1..5).all(|j| rec(d, o - 7 * j).zip(rec(d, o - 7 * (j + 1))).is_some_and(|(x, y)| y.0 < x.0));
-        let (id, bi, ai) = (id as u32, b.0 as u32, a.0 as u32);
-        if bi + 3 == id && (ai == id + 2 || ai == id + 3) && b.2 <= 1 && a.2 <= 1 && b.1 <= 30 && a.1 <= 30 && ascending {
-            found.push(o + 2);
+        let v = u32::from_le_bytes([d[o + 2], d[o + 3], d[o + 4], d[o + 5]]);
+        if (100..=5_000_000).contains(&v) {
+            found.extend(coins_at(d, o));
         }
+        o += 1;
     }
     (found.len() == 1).then(|| found[0])
+}
+
+/// The offset of the coin count when the record at `o` (35 or more) is the coins.
+fn coins_at(d: &[u8], o: usize) -> Option<usize> {
+    let (id, v, f) = rec(d, o)?;
+    if f > 1 || !(100..=5_000_000).contains(&v) || id < 100 {
+        return None;
+    }
+    let (b, a) = (rec(d, o - 7)?, rec(d, o + 7)?);
+    let ascending = (1..5).all(|j| rec(d, o - 7 * j).zip(rec(d, o - 7 * (j + 1))).is_some_and(|(x, y)| y.0 < x.0));
+    let (id, bi, ai) = (id as u32, b.0 as u32, a.0 as u32);
+    (bi + 3 == id && (ai == id + 2 || ai == id + 3) && b.2 <= 1 && a.2 <= 1 && b.1 <= 30 && a.1 <= 30 && ascending).then_some(o + 2)
 }
 
 pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
@@ -76,6 +91,31 @@ mod tests {
     #[test]
     fn refuses_unclear_data() {
         assert!(coins(&vec![0u8; 400]).is_none());
+    }
+
+    /// Every offset in turn, as the scan was first written: `coins` must find the same.
+    fn coins_by_byte(d: &[u8]) -> Vec<usize> {
+        (35..d.len().saturating_sub(14)).filter_map(|o| coins_at(d, o)).collect()
+    }
+
+    #[test]
+    fn skipping_finds_what_every_offset_finds() {
+        let mut x = 0x9E37_79B9u32;
+        for round in 0..40 {
+            let mut d = sample(1000 + round * 997);
+            // Records and noise of small numbers, zeros and the odd large byte around it.
+            for i in 0..3000 {
+                x ^= x << 13;
+                x ^= x >> 17;
+                x ^= x << 5;
+                d.push(match x % 7 { 0..=2 => 0, 3 | 4 => (x >> 8) as u8 % 3, 5 => (x >> 8) as u8, _ => (i % 251) as u8 });
+            }
+            if round % 3 == 0 {
+                d.extend(sample(5000 + round));
+            }
+            let all = coins_by_byte(&d);
+            assert_eq!(coins(&d), (all.len() == 1).then(|| all[0]), "round {round}");
+        }
     }
 
     /// Research aid: SAVE_EDITOR_DIS1 = a Dishonored `.sav`, SAVE_EDITOR_DIS1_COINS = its coins.

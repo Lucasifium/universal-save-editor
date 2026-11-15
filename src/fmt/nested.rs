@@ -50,10 +50,22 @@ fn walk(v: &mut Value, ptr: &str, paths: &mut Vec<String>, depth: usize) {
     }
 }
 
+/// Whether `{\"` or `[\"` appears in `data`.
+fn has_quoted_json(data: &[u8]) -> bool {
+    let mut from = 1;
+    while let Some(p) = data.get(from..).and_then(|d| super::find_bytes(d, b"\\\"")) {
+        if matches!(data[from + p - 1], b'{' | b'[') {
+            return true;
+        }
+        from += p + 1;
+    }
+    false
+}
+
 /// Opens the nested strings of a JSON document; `None` when it has none (or isn't JSON).
 pub fn open(data: &[u8]) -> Option<Opened> {
     // Cheap test first: a string holding JSON has an escaped quote right after its brace or bracket.
-    if data.len() > 64 << 20 || crate::formats::not_json_start(data) || !data.windows(3).any(|w| w == b"{\\\"" || w == b"[\\\"") {
+    if data.len() > 64 << 20 || crate::formats::not_json_start(data) || !has_quoted_json(data) {
         return None;
     }
     let text = std::str::from_utf8(data).ok()?;

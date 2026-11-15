@@ -28,6 +28,15 @@ pub fn es3_decrypt(data: &[u8], password: &str) -> Option<(Vec<u8>, Vec<u8>)> {
     }
     let (iv, body) = data.split_at(16);
     let key = es3_key(password, iv);
+    // The padding is in the last block, which decrypts on its own: checked before the rest.
+    let mut last = aes::cipher::generic_array::GenericArray::clone_from_slice(&body[body.len() - 16..]);
+    aes::Aes128::new(&key.into()).decrypt_block(&mut last);
+    let before = if body.len() >= 32 { &body[body.len() - 32..body.len() - 16] } else { iv };
+    last.iter_mut().zip(before).for_each(|(b, c)| *b ^= c);
+    let n = last[15];
+    if n == 0 || n > 16 || last[16 - n as usize..].iter().any(|&b| b != n) {
+        return None;
+    }
     let plain = cbc::Decryptor::<aes::Aes128>::new(&key.into(), iv.into()).decrypt_padded_vec_mut::<Pkcs7>(body).ok()?;
     Some((iv.to_vec(), plain))
 }

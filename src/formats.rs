@@ -635,13 +635,20 @@ pub fn decode_with(raw: &[u8], opts: &Options) -> Decoded {
             data = o.plain;
         }
     }
+    // What the innermost data reads as when taken as JSON, if a reader of the last layer
+    // already worked it out: kept so that a big JSON save is parsed only once.
+    let mut json_seen = None;
     while layers.len() < MAX_LAYERS {
-        match peel(&data, &mut ctx) {
+        let json = JsonOnce::new(&data);
+        match peel(&data, &mut ctx, &json) {
             Some((layer, inner)) => {
                 layers.push(layer);
                 data = inner;
             }
-            None => break,
+            None => {
+                json_seen = json.into_parsed();
+                break;
+            }
         }
     }
     // Cyberpunk 2077 keeps its table of sections in the file's tail, outside the packed data.
@@ -677,7 +684,7 @@ pub fn decode_with(raw: &[u8], opts: &Options) -> Decoded {
     });
     let content = match cyberpunk {
         Some(doc) => Content::Tree(Box::new(doc)),
-        None => classify(data, opts),
+        None => classify(data, opts, json_seen),
     };
     // A checksum kept fixed shows as zeros: it is filled in when the file is saved.
     let content = match (opts.sum, content) {
@@ -1358,7 +1365,36 @@ fn wrap(layer: &Layer, data: Vec<u8>) -> Result<Vec<u8>, String> {
     })
 }
 
-fn peel(data: &[u8], ctx: &mut Ctx) -> Option<(Layer, Vec<u8>)> {
+/// `data` read as JSON text (UTF-8, trimmed, then `parse_json`), worked out at most once:
+/// several readers ask the same question of the same data, and parsing a big save is slow.
+struct JsonOnce<'a> {
+    data: &'a [u8],
+    value: std::cell::OnceCell<Option<Value>>,
+}
+
+impl<'a> JsonOnce<'a> {
+    fn new(data: &'a [u8]) -> Self {
+        JsonOnce { data, value: std::cell::OnceCell::new() }
+    }
+
+    /// `std::str::from_utf8(data).ok().and_then(|t| parse_json(t.trim()))`, by reference.
+    fn get(&self) -> Option<&Value> {
+        self.value
+            .get_or_init(|| if not_json_start(self.data) { None } else { std::str::from_utf8(self.data).ok().and_then(|t| parse_json(t.trim())) })
+            .as_ref()
+    }
+
+    fn is_json(&self) -> bool {
+        self.get().is_some()
+    }
+
+    /// The answer, if it was asked for.
+    fn into_parsed(self) -> Option<Option<Value>> {
+        self.value.into_inner()
+    }
+}
+
+fn peel(data: &[u8], ctx: &mut Ctx, json: &JsonOnce) -> Option<(Layer, Vec<u8>)> {
     if fmt::sv6::maybe(data) {
         if let Some((p, inner)) = fmt::sv6::open(data) {
             return Some((Layer::Sv6(p), inner));
@@ -2072,7 +2108,7 @@ fn peel(data: &[u8], ctx: &mut Ctx) -> Option<(Layer, Vec<u8>)> {
     if let Some(plain) = fmt::shifted::open(data) {
         return Some((Layer::Shifted, plain));
     }
-    if let Some(plain) = fmt::looseson::open(data) {
+    if let Some(plain) = fmt::looseson::open(data, || json.is_json()) {
         return Some((Layer::LooseJson, plain));
     }
     if let Some(text) = fmt::dontstarve::open(data) {
@@ -2106,7 +2142,7 @@ fn peel(data: &[u8], ctx: &mut Ctx) -> Option<(Layer, Vec<u8>)> {
         ctx.hint = Some(format!("{} save: decrypted for you and encrypted again on save.", w.game()));
         return Some((Layer::Keyed(w), plain));
     }
-    if let Some((k, plain)) = peel_known_xor(data) {
+    if let Some((k, plain)) = peel_known_xor(data, json) {
         return Some((Layer::XorKey(k), plain));
     }
     if fmt::khpng::looks(data) {
@@ -2147,13 +2183,13 @@ fn peel(data: &[u8], ctx: &mut Ctx) -> Option<(Layer, Vec<u8>)> {
             }
         }
     }
-    if let Some((k, plain)) = peel_xor(data) {
+    if let Some((k, plain)) = peel_xor(data, json) {
         return Some((Layer::Xor(k), plain));
     }
 
     let text = std::str::from_utf8(data).ok()?;
     let trimmed = text.trim();
-    if trimmed.is_empty() || parse_json(trimmed).is_some() || trimmed.starts_with('<') {
+    if trimmed.is_empty() || json.is_json() || trimmed.starts_with('<') {
         return None;
     }
 
@@ -2175,7 +2211,7 @@ fn peel(data: &[u8], ctx: &mut Ctx) -> Option<(Layer, Vec<u8>)> {
             }
         }
         if let Ok(bytes) = STANDARD.decode(trimmed) {
-            if is_recognisable(&bytes) || peel_known_xor(&bytes).is_some() {
+            if is_recognisable(&bytes) || peel_known_xor(&bytes, &JsonOnce::new(&bytes)).is_some() {
                 return Some((Layer::Base64, bytes));
             }
         }
@@ -2603,8 +2639,8 @@ fn xor_key(data: &[u8], key: &[u8]) -> Vec<u8> {
     data.iter().zip(key.iter().cycle()).map(|(b, k)| b ^ k).collect()
 }
 
-fn peel_known_xor(data: &[u8]) -> Option<(String, Vec<u8>)> {
-    if !not_json_start(data) && std::str::from_utf8(data).is_ok_and(|t| parse_json(t.trim()).is_some()) {
+fn peel_known_xor(data: &[u8], json: &JsonOnce) -> Option<(String, Vec<u8>)> {
+    if json.is_json() {
         return None;
     }
     KNOWN_XOR_KEYS.iter().find_map(|(_, k)| {
@@ -2821,15 +2857,14 @@ fn peel_utf16(data: &[u8]) -> Option<(Layer, Vec<u8>)> {
 
 /// Single-byte XOR obfuscation: try the keys that would turn the first byte into
 /// '{', '[' or '<', and accept only if the result is valid JSON/XML.
-fn peel_xor(data: &[u8]) -> Option<(u8, Vec<u8>)> {
+fn peel_xor(data: &[u8], json: &JsonOnce) -> Option<(u8, Vec<u8>)> {
     if data.len() < 8 {
         return None;
     }
     // XOR with a key below 0x80 keeps ASCII as ASCII, so the input may look like text;
     // but never "decode" data that already is JSON/XML.
     if let Ok(t) = std::str::from_utf8(data) {
-        let t = t.trim_start();
-        if t.starts_with('<') || parse_json(t.trim_end()).is_some() {
+        if t.trim_start().starts_with('<') || json.is_json() {
             return None;
         }
     }
@@ -2850,7 +2885,13 @@ fn peel_xor(data: &[u8]) -> Option<(u8, Vec<u8>)> {
 
 fn peel_base64_lines(text: &str) -> Option<(Layer, Vec<u8>)> {
     let crlf = text.contains("\r\n");
-    let lines: Vec<&str> = text.trim_end().split(if crlf { "\r\n" } else { "\n" }).collect();
+    let sep = if crlf { "\r\n" } else { "\n" };
+    // The first line settles most texts: it must be base64, at least 16 wide, with more after it.
+    match text.trim_end().split_once(sep) {
+        Some((first, _)) if first.len() >= 16 && is_base64_charset(first) => {}
+        _ => return None,
+    }
+    let lines: Vec<&str> = text.trim_end().split(sep).collect();
     if lines.len() < 2 {
         return None;
     }
@@ -3006,7 +3047,8 @@ fn js_unescape(s: &str) -> Option<String> {
     String::from_utf16(&units).ok()
 }
 
-fn classify(data: Vec<u8>, opts: &Options) -> Content {
+/// `json`: what the data reads as when taken as JSON, when that is already known.
+fn classify(data: Vec<u8>, opts: &Options, json: Option<Option<Value>>) -> Content {
     if pickle::looks_like_pickle(&data) {
         if let Ok(doc) = pickle::parse(&data) {
             return Content::Tree(Box::new(doc));
@@ -3021,7 +3063,7 @@ fn classify(data: Vec<u8>, opts: &Options) -> Content {
     match String::from_utf8(data) {
         Ok(text) => {
             let t = text.trim();
-            if let Some(value) = parse_json(t) {
+            if let Some(value) = json.unwrap_or_else(|| parse_json(t)) {
                 let pretty = t.contains('\n');
                 Content::Json { value, pretty }
             } else if let Some(doc) = fmt::parse_text(&text, &opts.ext) {
@@ -3042,20 +3084,28 @@ fn classify(data: Vec<u8>, opts: &Options) -> Content {
     }
 }
 
-/// True when `data` certainly isn't a JSON object or array, going by its first byte that isn't
-/// white space: `parse_json` of its trimmed text would say no. A cheap test to make before
-/// decrypting or parsing a whole file. (A first byte outside ASCII may be white space of
-/// another kind or a byte order mark, so it settles nothing.)
+/// True when `data` certainly isn't a JSON object or array, going by its first bytes: it isn't
+/// UTF-8, or its first character that isn't white space is something else, so `parse_json` of
+/// its trimmed text would say no. A cheap test to make before decrypting or parsing a whole
+/// file.
 pub fn not_json_start(data: &[u8]) -> bool {
-    json_ruled_out_by_start(data) || data.iter().all(|b| matches!(b, b' ' | b'\t' | b'\n' | b'\r' | 0x0b | 0x0c))
+    json_ruled_out_by_start(&data[..data.len().min(256)]) || data.iter().all(|b| matches!(b, b' ' | b'\t' | b'\n' | b'\r' | 0x0b | 0x0c))
 }
 
 /// `not_json_start` for the first bytes of some data: true when they already show it isn't a
-/// JSON object or array. (White space alone settles nothing: the rest may follow.)
+/// JSON object or array. (White space alone settles nothing: the rest may follow; nor does a
+/// character cut off at the end of `head`.)
 pub fn json_ruled_out_by_start(head: &[u8]) -> bool {
-    match head.iter().find(|b| !matches!(b, b' ' | b'\t' | b'\n' | b'\r' | 0x0b | 0x0c)) {
-        Some(b'{' | b'[') | None => false,
-        Some(b) => b.is_ascii(),
+    let text = match std::str::from_utf8(head) {
+        Ok(t) => t,
+        // Bytes that are never UTF-8: the whole text isn't either.
+        Err(e) if e.error_len().is_some() => return true,
+        Err(e) => std::str::from_utf8(&head[..e.valid_up_to()]).unwrap_or_default(),
+    };
+    // The same white space as `str::trim`.
+    match text.chars().find(|c| !c.is_whitespace()) {
+        Some('{' | '[') | None => false,
+        Some(_) => true,
     }
 }
 
@@ -3566,12 +3616,12 @@ mod tests {
         assert_eq!(&raw[..8], b"EVAS\x01\x00\x00\x00");
         let opts = Options::default();
         let mut ctx = Ctx { opts: &opts, zip_entries: vec![], hint: None };
-        let (layer, inner) = peel(&raw, &mut ctx).unwrap();
+        let (layer, inner) = peel(&raw, &mut ctx, &JsonOnce::new(&raw)).unwrap();
         assert_eq!(layer, Layer::Evas);
         assert_eq!(inner, body);
         let mut bad = raw.clone();
         bad[12] ^= 1;
-        assert!(!matches!(peel(&bad, &mut ctx), Some((Layer::Evas, _))));
+        assert!(!matches!(peel(&bad, &mut ctx, &JsonOnce::new(&bad)), Some((Layer::Evas, _))));
     }
 
     #[test]
@@ -3885,5 +3935,53 @@ mod gzip_name_tests {
         let gz = z.finish().unwrap();
         let d = decode_with(&gz, &Options::for_path(std::path::Path::new("player.ocs")));
         assert!(matches!(d.content, Content::Json { .. }), "{}", describe(&d.layers, &d.content));
+    }
+}
+
+#[cfg(test)]
+mod speed_tests {
+    use super::*;
+
+    /// Unrelated data of a megabyte must be turned down quickly: a reader that does worse than
+    /// linear work, or slow work on the whole file, before saying no makes every save slow to
+    /// open. The bound is many times what a debug build takes (about a quarter of a second each
+    /// when this was written), so only such a reader trips it.
+    #[test]
+    fn unrelated_data_is_turned_down_quickly() {
+        const LEN: usize = 1 << 20;
+        let mut x = 0x9E37_79B9_7F4A_7C15u64;
+        let random: Vec<u8> = (0..LEN)
+            .map(|_| {
+                x ^= x << 13;
+                x ^= x >> 7;
+                x ^= x << 17;
+                (x >> 24) as u8
+            })
+            .collect();
+        let mut json = String::from("{\"items\":[");
+        let mut text = String::new();
+        for i in 0.. {
+            if json.len() >= LEN && text.len() >= LEN {
+                break;
+            }
+            json.push_str(&format!("{{\"id\":{i},\"name\":\"item {i}\",\"count\":{},\"ratio\":{}.25}},", i * 7 % 1000, i % 13));
+            text.push_str(&format!("line {i}: a plain sentence with a number {} in it\n", i * 31));
+        }
+        json.push_str("null]}");
+        let cases: [(&str, Vec<u8>); 5] = [
+            ("random", random.clone()),
+            ("random, odd length", random[..LEN - 7].to_vec()),
+            ("zeros", vec![0u8; LEN]),
+            ("JSON", json.into_bytes()),
+            ("text", text.into_bytes()),
+        ];
+        for (name, data) in &cases {
+            for file in ["slot1.sav", "data.json"] {
+                let t = std::time::Instant::now();
+                let d = decode_with(data, &Options::for_path(std::path::Path::new(file)));
+                let took = t.elapsed();
+                assert!(took.as_secs_f64() < 5.0, "{name} as {file}: {took:?} ({})", describe(&d.layers, &d.content));
+            }
+        }
     }
 }

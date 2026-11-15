@@ -88,7 +88,8 @@ pub struct SatInfo {
 }
 
 pub fn sat_open(d: &[u8]) -> Option<(SatInfo, Vec<u8>)> {
-    let first = d.windows(4).position(|w| w == SAT_TAG)?;
+    // Only a tag in the first 4 KiB counts: no need to look further.
+    let first = d[..d.len().min(4096 + 4)].windows(4).position(|w| w == SAT_TAG)?;
     if first > 4096 {
         return None;
     }

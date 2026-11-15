@@ -14,6 +14,7 @@
 - Long drop-down lists (hundreds of items) only draw the rows in view, so they open instantly; Find my game's saves shows the first 60 saves of a game with a "Show all" link
 - Find my game's saves: hovering the search box explains that words in any order and short names work
 - Saving a large file no longer freezes the window: files over 256 KB (or with 20,000 values or more) are written, backed up and verified in the background behind a "Saving the file" box, nothing can be edited meanwhile, closing the window waits for the save to finish, and the Values list is no longer rebuilt after a save that leaves it the same
+- Opening is faster still: more format checks turn a file down from its first bytes, and a large JSON save is read once instead of up to five times (a 23 MB save opens in about a quarter of the time)
 - Faster opening: the checks that work out which game a file belongs to now look at its first bytes before doing the expensive work, so large saves open sooner; files over 256 KB open in the background and the window stays responsive
 - Find my game's saves: the search box understands words in any order and short names (bg3, gta5, ff7, botw); the list of found saves is no longer worked out again on every frame
 - Changes panel and unsaved-changes tracking are much faster after large bulk edits; the panel lists the first 300 changes and says so

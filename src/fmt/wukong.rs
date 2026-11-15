@@ -68,8 +68,14 @@ struct F {
 }
 
 fn fields(b: &[u8]) -> Option<Vec<F>> {
-    let mut i = 0;
     let mut out = vec![];
+    walk(b, |f| out.push(f))?;
+    Some(out)
+}
+
+/// Reads every field of `b` in turn; `None` when it doesn't read to its end.
+fn walk(b: &[u8], mut each: impl FnMut(F)) -> Option<()> {
+    let mut i = 0;
     while i < b.len() {
         let start = i;
         let k = read_varint(b, &mut i)?;
@@ -98,9 +104,9 @@ fn fields(b: &[u8]) -> Option<Vec<F>> {
         if i > b.len() {
             return None;
         }
-        out.push(F { num, wire, start, pay, end: i });
+        each(F { num, wire, start, pay, end: i });
     }
-    Some(out)
+    Some(())
 }
 
 #[derive(Clone, Copy, Debug)]
@@ -180,10 +186,18 @@ struct WukongBackend {
 
 /// Split a file into (header message bytes, encrypted body).
 fn split(d: &[u8]) -> Option<(Vec<u8>, Vec<u8>)> {
-    let f = fields(d)?;
-    let h = f.iter().find(|x| x.num == 1 && x.wire == 2)?;
-    let b = f.iter().find(|x| x.num == 2 && x.wire == 2)?;
-    Some((d[h.pay.0..h.pay.1].to_vec(), d[b.pay.0..b.pay.1].to_vec()))
+    // Only the first header and body fields are kept: other data can read as millions of fields.
+    let (mut h, mut b) = (None, None);
+    walk(d, |x| {
+        if x.num == 1 && x.wire == 2 && h.is_none() {
+            h = Some(x.pay);
+        }
+        if x.num == 2 && x.wire == 2 && b.is_none() {
+            b = Some(x.pay);
+        }
+    })?;
+    let (h, b) = (h?, b?);
+    Some((d[h.0..h.1].to_vec(), d[b.0..b.1].to_vec()))
 }
 
 fn join(header: &[u8], body: &[u8]) -> Vec<u8> {

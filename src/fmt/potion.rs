@@ -15,8 +15,13 @@ fn xor(d: &[u8]) -> Vec<u8> {
 
 pub fn open(data: &[u8]) -> Option<Vec<u8>> {
     let text = std::str::from_utf8(data).ok()?;
+    let base64 = |l: &str| l.bytes().all(|b| b.is_ascii_alphanumeric() || matches!(b, b'+' | b'/' | b'='));
+    // Stops at the first line that isn't base64, before the lines are gathered.
+    if !text.lines().map(str::trim).filter(|l| !l.is_empty()).all(base64) {
+        return None;
+    }
     let lines: Vec<&str> = text.lines().map(str::trim).filter(|l| !l.is_empty()).collect();
-    if lines.len() < 2 || !lines.iter().all(|l| l.bytes().all(|b| b.is_ascii_alphanumeric() || matches!(b, b'+' | b'/' | b'='))) {
+    if lines.len() < 2 {
         return None;
     }
     let mut out = b"[".to_vec();

@@ -23,7 +23,7 @@ fn fix(d: &mut Vec<u8>) {
 }
 
 fn find(d: &[u8], needle: &[u8]) -> Option<usize> {
-    d.windows(needle.len()).position(|w| w == needle)
+    super::find_bytes(d, needle)
 }
 
 /// End of the length-prefixed name that starts with `name`.
@@ -34,7 +34,8 @@ fn name_end(d: &[u8], name: &[u8]) -> Option<usize> {
 }
 
 pub fn looks(d: &[u8]) -> bool {
-    d.len() > 4096 && u32::from_be_bytes([d[0], d[1], d[2], d[3]]) == fold(&d[4..]) && find(d, b"zwei/player/").is_some()
+    // The name search before the checksum of the whole file.
+    d.len() > 4096 && find(d, b"zwei/player/").is_some() && u32::from_be_bytes([d[0], d[1], d[2], d[3]]) == fold(&d[4..])
 }
 
 pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {

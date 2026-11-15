@@ -47,7 +47,7 @@ fn find(d: &[u8]) -> Option<(usize, usize)> {
     }
     let key = b"\"c\"";
     let mut from = 0;
-    while let Some(p) = d[from..].windows(key.len()).position(|w| w == key) {
+    while let Some(p) = super::find_bytes(&d[from..], key) {
         let mut i = from + p + key.len();
         while d.get(i).is_some_and(|b| b.is_ascii_whitespace()) {
             i += 1;

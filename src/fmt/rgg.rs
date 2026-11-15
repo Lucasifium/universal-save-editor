@@ -32,7 +32,11 @@ pub struct Wrap {
 }
 
 fn xor(d: &[u8], key: &[u8]) -> Vec<u8> {
-    d.iter().enumerate().map(|(i, b)| b ^ key[i % key.len()]).collect()
+    let mut out = d.to_vec();
+    for c in out.chunks_mut(key.len()) {
+        c.iter_mut().zip(key).for_each(|(b, k)| *b ^= k);
+    }
+    out
 }
 
 fn sum(check: Check, d: &[u8]) -> u32 {

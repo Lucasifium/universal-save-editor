@@ -122,7 +122,7 @@ pub fn looks(d: &[u8]) -> bool {
 }
 
 fn memchr(d: &[u8], pat: &[u8]) -> bool {
-    d.windows(pat.len()).any(|w| w == pat)
+    super::find_bytes(d, pat).is_some()
 }
 
 /// Lists the records; `None` if this isn't a Fantasian `root.json`.

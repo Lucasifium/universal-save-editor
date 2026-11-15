@@ -3,9 +3,11 @@
 
 const KEY: &str = "\"$bare";
 
-pub fn open(data: &[u8]) -> Option<Vec<u8>> {
+/// `trimmed_is_json`: whether the trimmed text reads as JSON (`formats::parse_json`), asked
+/// only when needed; the caller may know it already.
+pub fn open(data: &[u8], trimmed_is_json: impl FnOnce() -> bool) -> Option<Vec<u8>> {
     let t = std::str::from_utf8(data).ok()?;
-    if !t.trim_start().starts_with('{') || serde_json::from_str::<serde_json::Value>(t).is_ok() {
+    if !t.trim_start().starts_with('{') || reads_as_json(t, trimmed_is_json) {
         return None;
     }
     let b = t.as_bytes();
@@ -85,6 +87,16 @@ pub fn open(data: &[u8]) -> Option<Vec<u8>> {
     Some(out.into_bytes())
 }
 
+/// Whether `serde_json::from_str(t)` takes `t`, which starts with `{` after any white space:
+/// it does when the trimmed text is JSON and all that trimming took off is JSON's own white
+/// space (an object ends with `}`, so trimming takes off exactly what surrounds it).
+fn reads_as_json(t: &str, trimmed_is_json: impl FnOnce() -> bool) -> bool {
+    let json_space = |s: &str| s.bytes().all(|b| matches!(b, b' ' | b'\t' | b'\n' | b'\r'));
+    let start = t.len() - t.trim_start().len();
+    let end = t.trim_end().len();
+    json_space(&t[..start]) && json_space(&t[end..]) && trimmed_is_json()
+}
+
 fn unquote_refs(t: &str) -> String {
     const R: &str = "\"$iref:";
     let mut out = String::with_capacity(t.len());
@@ -133,6 +145,10 @@ pub fn pack(plain: &[u8]) -> Vec<u8> {
 mod tests {
     use super::*;
 
+    fn open(d: &[u8]) -> Option<Vec<u8>> {
+        super::open(d, || std::str::from_utf8(d).ok().and_then(|t| crate::formats::parse_json(t.trim())).is_some())
+    }
+
     #[test]
     fn bare_values_round_trip() {
         let src = b"{\n  \"a\": {\n    \"$type\": \"V\",\n    0.5,\n    0.42\n  },\n  \"b\": [\n    $iref:3,\n    $iref:4\n  ]\n}";
@@ -144,6 +160,9 @@ mod tests {
     #[test]
     fn plain_json_is_left_alone() {
         assert!(open(b"{\"a\": 1}").is_none());
+        assert!(open(b" \r\n{\"a\": 1}\n").is_none());
+        // White space serde_json doesn't take: not plain JSON to it, and no bare values either.
+        assert!(open("\u{a0}{\"a\": 1}".as_bytes()).is_none());
     }
 }
 
