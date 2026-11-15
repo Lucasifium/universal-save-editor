@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.7.0
+## 0.8.0
 
 - Backups › Quick restore asks before restoring: it names the backup and the save it replaces, and says the save on disk is backed up first
 - Delete preset asks before deleting the preset; Cancel or Escape keeps it
@@ -46,6 +46,9 @@
 - Status messages, hints and labels that were English-only are now translated into all six languages
 - Fixed: importing values into a structured save did not mark it as changed; some saves (Star Wars Jedi: Fallen Order, Gothic 2) were mistaken for Dragon Quest Builders 2 data
 - Optional new-version alert: Preferences › Tell me when a new version is out (off by default) checks GitHub for the latest release at startup and shows a dismissible banner with a download link; Help › Check for a new version does it once on demand. Only the request for the public latest-release page is sent
+
+## 0.7.0
+
 - New game screens: Kingdom Rush, Frontiers, Origins, Alliance TD and Vengeance (gems, difficulty, upgrades, heroes); Lua saves in the local-variable form open
 - New game screens: Sea of Stars (level, experience, gold, deaths; .NET length-prefixed JSON opened) and The Messenger (play time, deaths, New Game Plus; scrambled text opened)
 - Sonic Adventure 2 (PC): game screen for the Chao garden file (stat levels and points of every Chao), with its checksum rewritten
