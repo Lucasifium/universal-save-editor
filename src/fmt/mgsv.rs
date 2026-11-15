@@ -344,6 +344,11 @@ fn field_value(l: &Leaf, raw: u64) -> Value {
     v.into()
 }
 
+/// The number a list value stands for: its place in the list, or N for "Unknown N".
+fn list_index(list: u8, name: &str) -> Option<u64> {
+    names_of(list).iter().position(|x| x == name).map(|i| i as u64).or_else(|| name.strip_prefix("Unknown ")?.parse().ok())
+}
+
 fn u32_at(d: &[u8], p: usize) -> Option<usize> {
     Some(u32::from_le_bytes(d.get(p..p + 4)?.try_into().ok()?) as usize)
 }
@@ -621,7 +626,7 @@ impl Backend for MgsvBackend {
             if l.bits > 0 || l.list > 0 {
                 let new = if l.list > 0 {
                     let name = v.as_str().ok_or("expected a name")?;
-                    names_of(l.list).iter().position(|x| x == name).ok_or("not a known value")? as u64
+                    list_index(l.list, name).ok_or("not a known value")?
                 } else {
                     n as u64
                 };
@@ -686,7 +691,7 @@ impl Backend for MgsvBackend {
         if whole(l) {
             raw = Some(raw_of(new));
         } else if let Some(cur) = (0..self.leaves.len()).find(|&m| m != leaf && same(&self.leaves[m]) && whole(&self.leaves[m])).and_then(|m| view.pointer(&self.ptrs[m])) {
-            let n = if l.list > 0 { new.as_str().and_then(|s| names_of(l.list).iter().position(|x| x == s)).map(|i| i as u64) } else { new.as_u64().or_else(|| new.as_bool().map(|b| b as u64)) };
+            let n = if l.list > 0 { new.as_str().and_then(|s| list_index(l.list, s)) } else { new.as_u64().or_else(|| new.as_bool().map(|b| b as u64)) };
             if let Some(n) = n {
                 let mask = ((1u64 << l.bits) - 1) << l.shift;
                 raw = Some((raw_of(cur) & !mask) | ((n << l.shift) & mask));
@@ -706,7 +711,10 @@ impl Backend for MgsvBackend {
         let l = &self.leaves[leaf];
         if l.list > 0 {
             let name = v.as_str().ok_or("pick a value from the list")?;
-            return if names_of(l.list).iter().any(|x| x == name) { Ok(()) } else { Err("not a known value".into()) };
+            return match list_index(l.list, name) {
+                Some(i) if i < 1u64 << l.bits => Ok(()),
+                _ => Err("not a known value".into()),
+            };
         }
         let ty = l.ty;
         let n = v.as_f64().or_else(|| v.as_bool().map(|b| b as u8 as f64)).ok_or("expected a number")?;
@@ -833,6 +841,22 @@ mod tests {
 
     /// Every editable field, edited and saved the way the app saves: encode the layers, decode the
     /// file again (as the app does to verify it) and compare.
+    /// Typing a raw number whose bits land outside a named list still saves.
+    #[test]
+    fn raw_values_outside_the_name_lists_save() {
+        use crate::formats::{decode_with, encode, verified, Content, Options};
+        let raw = encrypt("TPP_GAME_DATA", &sample());
+        let opts = Options::default();
+        let d = decode_with(&raw, &opts);
+        let Content::Tree(mut doc) = d.content else { panic!() };
+        let ptr = doc.editable.keys().find(|p| p.contains("mbmStaffSvarsHeaders/0")).cloned().unwrap();
+        doc.set(&ptr, (0xFu64 << 3).into()).unwrap();
+        assert_eq!(doc.view.pointer("/Staff/Staff 0001/Rank"), Some(&"Unknown 15".into()));
+        let content = Content::Tree(doc);
+        let bytes = encode(&d.layers, &content).unwrap();
+        assert!(verified(&decode_with(&bytes, &opts).content, &content));
+    }
+
     #[test]
     fn every_field_round_trips_through_the_app_save_chain() {
         use crate::formats::{decode_with, encode, same_layers, verified, Content, Options};
