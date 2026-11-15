@@ -11,6 +11,15 @@ sed
 
 ## 0.7.0
 
+- Light theme: text boxes have an outline, changed values and the unsaved-changes count are readable on white, the open Changes button no longer shows white text on a pale background, and switches that are off are visible
+- Windows and dialogs have more room inside their edges (phone-width screens keep the narrow margin)
+- The − and + buttons next to number boxes are as tall as the box, so they are easier to hit
+- Values view without the Windows icon font (Linux, macOS, browser): section headers show drawn arrows instead of the letters "v" and ">", and the revert button says "Revert" in the chosen language
+- Game screens: a value shown both in the header tile and in a panel no longer shares one text box's focus between the two
+- Game screens: panels side by side switch to fewer columns when their rows don't fit, instead of running under the next panel and hiding its − and + buttons
+- The toolbar wraps onto a second line when a long file name, game name or translation doesn't fit, instead of drawing the Changes button over the format label; the game screen's find box is wide enough for its translated hint
+- Start page, toolbar labels and the backup folder text in Preferences are translated; "Label: text" lines wrap evenly; the start page no longer shows a "Common places…" heading with nothing under it
+- Divinity: Original Sin 2: a character without attributes in the save says so instead of showing an empty Attributes panel
 - Find my game's saves: each game's description (what can be edited, where its saves are, the file names) is now shown in the chosen language
 - Values view: the list of values is built about twice as fast and takes well under half the memory for very large saves (half a million values), so loading, saving and edits that rebuild it are quicker
 - Number boxes: Up and Down arrows step the value by 1 while the box has focus (Shift: 10), within the field's allowed range
