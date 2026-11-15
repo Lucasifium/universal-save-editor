@@ -39,6 +39,8 @@ sys-locale = "0.3"
 zstd = "0.13"
 lz4_flex = "0.11"
 lzma-rs = "0.3"
+# The faster decoder for the raw LZMA streams of Total War saves (lzma-rs still writes them, so saves keep their exact bytes).
+lzma-rust2 = { version = "0.25", default-features = false, features = ["std"] }
 # Pure-Rust bzip2 (also builds for the browser version).
 bzip2 = "0.6"
 # Encrypted saves (Easy Save 3, Godot).

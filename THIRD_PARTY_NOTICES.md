@@ -398,6 +398,7 @@ Item, tile and element names and ids are facts about each game, used only so the
 | lz-str | 0.2.1 | MIT OR Apache-2.0 |
 | lz4_flex | 0.11.6 | MIT |
 | lzma-rs | 0.3.0 | MIT |
+| lzma-rust2 | 0.25.0 | Apache-2.0 |
 | lzokay-native | 0.1.0 | MIT |
 | md-5 | 0.10.6 | MIT OR Apache-2.0 |
 | memchr | 2.8.3 | Unlicense OR MIT |
@@ -1223,7 +1224,7 @@ IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 DEALINGS IN THE SOFTWARE.
 ```
 
-### Used by: ahash 0.8.12, arrayvec 0.7.8, base64 0.22.1, base64 0.23.1, bitflags 2.13.2, bumpalo 3.20.3, bzip2 0.6.1, cfg-if 1.0.5, displaydoc 0.2.7, equivalent 1.0.2, ff 0.13.1, flate2 1.1.10, form_urlencoded 1.2.2, glow 0.13.1, glow 0.14.2, group 0.13.0, hashbrown 0.14.5, hashbrown 0.15.5, hashbrown 0.17.1, idna 1.1.0, idna_adapter 1.2.2, indexmap 2.14.2, khronos-egl 6.0.0, lock_api 0.4.14, log 0.4.34, num-bigint 0.4.8, num-integer 0.1.47, num-traits 0.2.19, once_cell 1.21.4, parking_lot 0.12.5, parking_lot_core 0.9.12, percent-encoding 2.3.2, png 0.18.1, renderdoc-sys 1.1.0, rustc-hash 1.1.0, scopeguard 1.2.0, smallvec 1.16.3, smol_str 0.2.2, stable_deref_trait 1.2.1, syn 1.0.109, ttf-parser 0.25.1, unicode-segmentation 1.13.3, unicode-width 0.1.14, unicode-xid 0.2.6, url 2.5.8, uuid 1.28.0
+### Used by: ahash 0.8.12, arrayvec 0.7.8, base64 0.22.1, base64 0.23.1, bitflags 2.13.2, bumpalo 3.20.3, bzip2 0.6.1, cfg-if 1.0.5, displaydoc 0.2.7, equivalent 1.0.2, ff 0.13.1, flate2 1.1.10, form_urlencoded 1.2.2, glow 0.13.1, glow 0.14.2, group 0.13.0, hashbrown 0.14.5, hashbrown 0.15.5, hashbrown 0.17.1, idna 1.1.0, idna_adapter 1.2.2, indexmap 2.14.2, khronos-egl 6.0.0, lock_api 0.4.14, log 0.4.34, lzma-rust2 0.25.0, num-bigint 0.4.8, num-integer 0.1.47, num-traits 0.2.19, once_cell 1.21.4, parking_lot 0.12.5, parking_lot_core 0.9.12, percent-encoding 2.3.2, png 0.18.1, renderdoc-sys 1.1.0, rustc-hash 1.1.0, scopeguard 1.2.0, smallvec 1.16.3, smol_str 0.2.2, stable_deref_trait 1.2.1, syn 1.0.109, ttf-parser 0.25.1, unicode-segmentation 1.13.3, unicode-width 0.1.14, unicode-xid 0.2.6, url 2.5.8, uuid 1.28.0
 
 ```text
 Apache License

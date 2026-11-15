@@ -22,6 +22,7 @@ sed
 - Divinity: Original Sin 2: a character without attributes in the save says so instead of showing an empty Attributes panel
 - Find my game's saves: each game's description (what can be edited, where its saves are, the file names) is now shown in the chosen language
 - Values view: the list of values is built about twice as fast and takes well under half the memory for very large saves (half a million values), so loading, saving and edits that rebuild it are quicker
+- Total War campaign saves open about 30% faster
 - Number boxes: Up and Down arrows step the value by 1 while the box has focus (Shift: 10), within the field's allowed range
 - Long drop-down lists (hundreds of items) only draw the rows in view, so they open instantly; Find my game's saves shows the first 60 saves of a game with a "Show all" link
 - Find my game's saves: hovering the search box explains that words in any order and short names work

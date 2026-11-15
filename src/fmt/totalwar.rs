@@ -397,7 +397,11 @@ fn unwrap(d: &[u8]) -> Result<Wrapped, String> {
     stream.extend((size as u64).to_le_bytes());
     stream.extend(data);
     let mut inner = Vec::with_capacity(size);
-    lzma_rs::lzma_decompress(&mut &stream[..], &mut inner).map_err(|e| format!("the campaign couldn't be decompressed: {e}"))?;
+    {
+        use std::io::Read;
+        let mut r = lzma_rust2::LzmaReader::new_mem_limit(&stream[..], u32::MAX, None).map_err(|e| format!("the campaign couldn't be decompressed: {e}"))?;
+        r.read_to_end(&mut inner).map_err(|e| format!("the campaign couldn't be decompressed: {e}"))?;
+    }
     if inner.len() != size {
         return Err("the campaign has the wrong size".into());
     }

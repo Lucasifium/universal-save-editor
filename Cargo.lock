@@ -2316,6 +2316,12 @@ dependencies = [
 ]
 
 [[package]]
+name = "lzma-rust2"
+version = "0.25.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "ef1d73c59a56771343712b22ea5615092c612c16ba291c0979e3105dfeec4890"
+
+[[package]]
 name = "lzokay-native"
 version = "0.1.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -4200,6 +4206,7 @@ dependencies = [
  "lz-str",
  "lz4_flex",
  "lzma-rs",
+ "lzma-rust2",
  "lzokay-native",
  "md-5",
  "num-bigint",
