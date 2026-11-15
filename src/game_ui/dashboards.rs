@@ -1259,7 +1259,7 @@ pub fn rimworld(ui: &mut Ui, cx: &mut GameCtx) {
             ui.weak(tr("No silver on the map."));
             return;
         }
-        egui::ScrollArea::vertical().max_height(220.0).id_salt("rw_silver").show_locked(ui, |ui| {
+        egui::ScrollArea::vertical().max_height(crate::widgets::list_height(ui, 220.0)).id_salt("rw_silver").show_locked(ui, |ui| {
             egui::Grid::new("rw_silver_g").num_columns(2).striped(true).spacing([14.0, 4.0]).show(ui, |ui| {
                 for s in &stacks {
                     ui.label(s);

@@ -214,7 +214,7 @@ pub fn silksong(ui: &mut Ui, cx: &mut GameCtx) {
                     .filter(|(_, n)| q.is_empty() || n.to_lowercase().contains(&q))
                     .map(|(j, n)| (n.replace('_', " "), format!("{}/savedData/{j}/Data/Amount", k("Collectables"))))
                     .collect();
-                egui::ScrollArea::vertical().id_salt("ss_items_scroll").max_height(320.0).show_locked(ui, |ui| {
+                egui::ScrollArea::vertical().id_salt("ss_items_scroll").max_height(crate::widgets::list_height(ui, 320.0)).show_locked(ui, |ui| {
                     let list: Vec<(&str, String)> = names.iter().map(|(n, p)| (n.as_str(), p.clone())).collect();
                     rows(ui, cx, "ss_items", &list, 90.0);
                 });

@@ -96,7 +96,7 @@ pub fn dos2(ui: &mut Ui, cx: &mut GameCtx) {
     let things = keys(cx, &at("Inventory"));
     if !things.is_empty() {
         panel(ui, &trf("Inventory ({0} stacks)", &[&things.len()]), |ui| {
-            egui::ScrollArea::vertical().id_salt(("dos2_inv", t)).max_height(320.0).show_locked(ui, |ui| {
+            egui::ScrollArea::vertical().id_salt(("dos2_inv", t)).max_height(crate::widgets::list_height(ui, 320.0)).show_locked(ui, |ui| {
                 columns(ui, 360.0, things.len(), |ui, i| {
                     cx.row_fixed(ui, &things[i].replace('_', " "), &format!("{base}/Inventory/{}", esc(&things[i])), 190.0, 60.0);
                 });
@@ -132,7 +132,7 @@ fn add_items(ui: &mut Ui, cx: &mut GameCtx, hint: &str) {
         if shown.len() > 300 {
             ui.weak(trf("{0} items match; type to narrow the list.", &[&shown.len()]));
         }
-        egui::ScrollArea::vertical().id_salt("dos2_add_list").max_height(360.0).show_locked(ui, |ui| {
+        egui::ScrollArea::vertical().id_salt("dos2_add_list").max_height(crate::widgets::list_height(ui, 360.0)).show_locked(ui, |ui| {
             super::screens2::value_rows(ui, cx, "dos2_add_rows", &shown[..shown.len().min(300)]);
         });
         ui.weak(hint);
@@ -220,7 +220,7 @@ fn bg3_carried(ui: &mut Ui, cx: &mut GameCtx, gold: Color32) {
         panel(ui, &trf("Stacked items ({0})", &[&things.len()]), |ui| {
             let q = super::screens2::filter_box(ui, &format!("bg3_items{t}"), tr("potion, arrow, scroll…"));
             let shown: Vec<&String> = things.iter().filter(|k| q.is_empty() || k.to_lowercase().contains(&q)).collect();
-            egui::ScrollArea::vertical().id_salt(("bg3_inv", t)).max_height(360.0).show_locked(ui, |ui| {
+            egui::ScrollArea::vertical().id_salt(("bg3_inv", t)).max_height(crate::widgets::list_height(ui, 360.0)).show_locked(ui, |ui| {
                 columns(ui, 300.0, shown.len(), |ui, i| {
                     cx.row_fixed(ui, &shown[i].replace('_', " "), &format!("{base}/Items/{}", esc(shown[i])), 190.0, 60.0);
                 });
@@ -329,7 +329,7 @@ fn bg3_story(ui: &mut Ui, cx: &mut GameCtx, _accent: Color32) {
         });
         ui.data_mut(|d| d.insert_temp(sid, show));
         let mut any = false;
-        egui::ScrollArea::vertical().id_salt("bg3_story_list").max_height(520.0).show_locked(ui, |ui| {
+        egui::ScrollArea::vertical().id_salt("bg3_story_list").max_height(crate::widgets::list_height(ui, 520.0)).show_locked(ui, |ui| {
             for (sec, ks) in &flags {
                 let label = section_label(sec);
                 let shown: Vec<&String> = ks

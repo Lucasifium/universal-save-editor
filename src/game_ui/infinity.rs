@@ -82,7 +82,7 @@ fn character(ui: &mut Ui, cx: &mut GameCtx, base: &str, accent: Color32) {
     let items = keys(cx, &items_base);
     if !items.is_empty() {
         panel(ui, "Items", |ui| {
-            egui::ScrollArea::vertical().id_salt(("ie_items", base)).max_height(380.0).show_locked(ui, |ui| {
+            egui::ScrollArea::vertical().id_salt(("ie_items", base)).max_height(crate::widgets::list_height(ui, 380.0)).show_locked(ui, |ui| {
                 egui::Grid::new(("ie_items_g", base)).num_columns(4).striped(true).spacing([14.0, 4.0]).show(ui, |ui| {
                     ui.strong(tr("Item"));
                     ui.strong(tr("Quantity / charges"));

@@ -204,7 +204,7 @@ fn story_flags(ui: &mut Ui, cx: &mut GameCtx, wotr: bool) {
     panel(ui, &crate::i18n::trf("Story flags ({0})", &[&rows.len()]), |ui| {
         super::screens2::story_guard(ui, |ui| {
             let q = super::screens2::filter_box(ui, "pf_flags", "e.g. Romance, Amiri, Unlock");
-            egui::ScrollArea::vertical().id_salt("pf_flags_scroll").max_height(340.0).show_locked(ui, |ui| {
+            egui::ScrollArea::vertical().id_salt("pf_flags_scroll").max_height(crate::widgets::list_height(ui, 340.0)).show_locked(ui, |ui| {
                 for (n, p) in rows.iter().filter(|r| q.is_empty() || r.0.to_lowercase().contains(&q)).take(400) {
                     cx.row_fixed(ui, n, p, 320.0, 90.0);
                 }

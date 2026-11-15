@@ -72,7 +72,7 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
     let items = keys(cx, &items_base);
     if !items.is_empty() {
         panel(ui, "Inventory", |ui| {
-            egui::ScrollArea::vertical().id_salt(("pst_items", &base)).max_height(360.0).show_locked(ui, |ui| {
+            egui::ScrollArea::vertical().id_salt(("pst_items", &base)).max_height(crate::widgets::list_height(ui, 360.0)).show_locked(ui, |ui| {
                 egui::Grid::new(("pst_items_g", &base)).num_columns(2).striped(true).spacing([14.0, 4.0]).show(ui, |ui| {
                     ui.strong(tr("Item"));
                     ui.strong(tr("Count / charges"));

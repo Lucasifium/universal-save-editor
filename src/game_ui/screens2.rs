@@ -371,14 +371,14 @@ pub fn renpy(ui: &mut Ui, cx: &mut GameCtx) {
             if rows.is_empty() {
                 ui.weak(tr("None match."));
             }
-            egui::ScrollArea::vertical().id_salt("renpy_num").max_height(360.0).show_locked(ui, |ui| value_rows(ui, cx, "renpy_n", &rows));
+            egui::ScrollArea::vertical().id_salt("renpy_num").max_height(crate::widgets::list_height(ui, 360.0)).show_locked(ui, |ui| value_rows(ui, cx, "renpy_n", &rows));
         });
         panel(ui, "Flags", |ui| {
             let shown: Vec<&&String> = flags.iter().filter(|k| keep(k)).collect();
             if shown.is_empty() {
                 ui.weak(tr("None match."));
             }
-            egui::ScrollArea::vertical().id_salt("renpy_flags").max_height(260.0).show_locked(ui, |ui| {
+            egui::ScrollArea::vertical().id_salt("renpy_flags").max_height(crate::widgets::list_height(ui, 260.0)).show_locked(ui, |ui| {
                 ui.horizontal_wrapped(|ui| {
                     for k in shown {
                         cx.chip(ui, k, &ptr_of[*k], accent);
@@ -391,7 +391,7 @@ pub fn renpy(ui: &mut Ui, cx: &mut GameCtx) {
             if rows.is_empty() {
                 ui.weak(tr("None match."));
             }
-            egui::ScrollArea::vertical().id_salt("renpy_txt").max_height(220.0).show_locked(ui, |ui| value_rows(ui, cx, "renpy_t", &rows));
+            egui::ScrollArea::vertical().id_salt("renpy_txt").max_height(crate::widgets::list_height(ui, 220.0)).show_locked(ui, |ui| value_rows(ui, cx, "renpy_t", &rows));
         });
     });
     ui.weak(tr("These are the game's own variable names; values inside characters or other objects are shown as name.value. Each save keeps its own copy; the Values tab also shows lists."));
@@ -443,7 +443,7 @@ pub fn eu4(ui: &mut Ui, cx: &mut GameCtx) {
         }
         let q = filter_box(ui, "eu4", tr("e.g. mercantilism"));
         let rows = scalar_rows(cx, &c, |k, v| v.is_number() && (q.is_empty() || k.contains(&q)));
-        egui::ScrollArea::vertical().id_salt("eu4_c").max_height(360.0).show_locked(ui, |ui| value_rows(ui, cx, "eu4_rows", &rows));
+        egui::ScrollArea::vertical().id_salt("eu4_c").max_height(crate::widgets::list_height(ui, 360.0)).show_locked(ui, |ui| value_rows(ui, cx, "eu4_rows", &rows));
     });
     ui.weak(tr("Stability runs \u{2212}3 to 3; prestige and legitimacy up to 100. Ironman saves are edited in place and stay ironman; the game may stop awarding achievements for an edited campaign."));
 }
@@ -547,7 +547,7 @@ pub fn mass_effect(ui: &mut Ui, cx: &mut GameCtx) {
                 Some(Value::Object(m)) => m.keys().filter(|k| q.is_empty() || k.to_lowercase().contains(&q)).map(|k| (k.clone(), join(&base, k))).collect(),
                 _ => vec![],
             };
-            egui::ScrollArea::vertical().id_salt("me_items_s").max_height(380.0).show_locked(ui, |ui| value_rows(ui, cx, &format!("me_it{t}"), &rows));
+            egui::ScrollArea::vertical().id_salt("me_items_s").max_height(crate::widgets::list_height(ui, 380.0)).show_locked(ui, |ui| value_rows(ui, cx, &format!("me_it{t}"), &rows));
             ui.weak(tr("Each item's level (I\u{2013}X). Items without a name are upgrades and ammo, shown by the game's item number."));
         });
     }
@@ -660,7 +660,7 @@ pub fn xcom(ui: &mut Ui, cx: &mut GameCtx) {
         panel(ui, "Soldiers", |ui| {
             let q = filter_box(ui, "xcom_sold", tr("name or class"));
             let stat = |base: &str, c: &str, i: usize| format!("{base}/{c}/aStats[{i}]");
-            let area = egui::ScrollArea::both().id_salt("xcom_s").max_height(420.0).show_locked(ui, |ui| {
+            let area = egui::ScrollArea::both().id_salt("xcom_s").max_height(crate::widgets::list_height(ui, 420.0)).show_locked(ui, |ui| {
                 egui::Grid::new("xcom_grid").num_columns(9).striped(true).spacing([10.0, 4.0]).show(ui, |ui| {
                     crate::widgets::header_row(ui, "xcom_s", ["Soldier", "Class", "Rank", "XP", "Kills", "HP", "Aim", "Mobility", "Will"]);
                     // The living first, then the fallen.
@@ -732,7 +732,7 @@ pub fn xcom2(ui: &mut Ui, cx: &mut GameCtx) {
         let shown: Vec<&str> = stats.iter().copied().filter(|s| soldiers.iter().any(|b| cx.get(&format!("{b}/Stats/{s}")).is_some())).collect();
         panel(ui, "Soldiers", |ui| {
             let q = filter_box(ui, "xcom2_sold", tr("name or class"));
-            let area = egui::ScrollArea::both().id_salt("xcom2_s").max_height(460.0).show_locked(ui, |ui| {
+            let area = egui::ScrollArea::both().id_salt("xcom2_s").max_height(crate::widgets::list_height(ui, 460.0)).show_locked(ui, |ui| {
                 egui::Grid::new("xcom2_grid").num_columns(6 + shown.len()).striped(true).spacing([10.0, 4.0]).show(ui, |ui| {
                     crate::widgets::header_row(ui, "xcom2_s", ["Soldier", "Class", "Rank", "Kills", "Missions", "Ability points"].into_iter().chain(shown.iter().map(|s| s.as_ref())));
                     for b in &soldiers {
@@ -1049,7 +1049,7 @@ fn ff7r_materia(ui: &mut Ui, cx: &mut GameCtx) {
     panel(ui, &trf("Materia ({0})", &[&all.len()]), |ui| {
         let q = filter_box(ui, "ff7r_materia", tr("e.g. Fire, Magnify"));
         let shown: Vec<&String> = all.iter().filter(|k| q.is_empty() || k.to_lowercase().contains(&q)).collect();
-        let area = egui::ScrollArea::vertical().id_salt("ff7r_materia_scroll").max_height(360.0).show_locked(ui, |ui| {
+        let area = egui::ScrollArea::vertical().id_salt("ff7r_materia_scroll").max_height(crate::widgets::list_height(ui, 360.0)).show_locked(ui, |ui| {
             egui::Grid::new("ff7r_materia_grid").num_columns(5).striped(true).spacing([12.0, 4.0]).show(ui, |ui| {
                 crate::widgets::header_row(ui, "ff7r_materia", ["", "Level", "AP", "Equipped", ""]);
                 for m in shown {
@@ -1107,7 +1107,7 @@ fn ff7r_inventory(ui: &mut Ui, cx: &mut GameCtx) {
         let q = filter_box(ui, "ff7r_inv", tr("e.g. Potion, Bangle"));
         let base = join("/Inventory", g);
         let names: Vec<String> = keys_of(cx, &base).into_iter().filter(|k| q.is_empty() || k.to_lowercase().contains(&q)).collect();
-        egui::ScrollArea::vertical().id_salt("ff7r_inv_scroll").max_height(360.0).show_locked(ui, |ui| {
+        egui::ScrollArea::vertical().id_salt("ff7r_inv_scroll").max_height(crate::widgets::list_height(ui, 360.0)).show_locked(ui, |ui| {
             egui::Grid::new(("ff7r_inv_grid", g.as_str())).num_columns(3).striped(true).spacing([12.0, 4.0]).show(ui, |ui| {
                 for n in &names {
                     ui.label(n);
@@ -1304,7 +1304,7 @@ pub fn dying_light2(ui: &mut Ui, cx: &mut GameCtx) {
         panel(ui, "Skills", |ui| {
             let q = filter_box(ui, "dl2_sk", tr("e.g. dash"));
             let rows: Vec<(String, String)> = skills.into_iter().filter(|(n, _)| q.is_empty() || n.to_lowercase().contains(&q)).collect();
-            egui::ScrollArea::vertical().id_salt("dl2_sk_s").max_height(320.0).show_locked(ui, |ui| value_rows(ui, cx, "dl2_skills", &rows));
+            egui::ScrollArea::vertical().id_salt("dl2_sk_s").max_height(crate::widgets::list_height(ui, 320.0)).show_locked(ui, |ui| value_rows(ui, cx, "dl2_skills", &rows));
             ui.weak(tr("1 means learned. Everything else in the save (items, map, quests) is in the Values tab."));
         });
     }
@@ -2236,7 +2236,7 @@ pub(super) fn panel_globals(ui: &mut Ui, cx: &mut GameCtx, names: &[String]) {
     panel(ui, &trf("Global variables ({0})", &[&names.len()]), |ui| story_guard(ui, |ui| {
         let q = filter_box(ui, "ie_globals", tr("e.g. CHAPTER, JOINED, QUEST"));
         let rows: Vec<(String, String)> = names.iter().filter(|k| q.is_empty() || k.to_lowercase().contains(&q)).take(400).map(|k| (k.clone(), join("/Global variables", k))).collect();
-        egui::ScrollArea::vertical().id_salt("ie_globals_scroll").max_height(320.0).show_locked(ui, |ui| value_rows(ui, cx, "ie_g", &rows));
+        egui::ScrollArea::vertical().id_salt("ie_globals_scroll").max_height(crate::widgets::list_height(ui, 320.0)).show_locked(ui, |ui| value_rows(ui, cx, "ie_g", &rows));
         ui.weak(tr("The game's own story counters: quest stages, who has joined or died, what was said. Most are 0 or 1, some count up. Changing one can skip or repeat a scene, so change few and keep the backup. Shows 400 at a time: use the filter."));
     }));
 }

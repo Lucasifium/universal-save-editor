@@ -478,7 +478,7 @@ fn progress(ui: &mut Ui, cx: &mut GameCtx) {
                 tick(cx, &|_| true);
             }
         });
-        egui::ScrollArea::vertical().max_height(320.0).id_salt(("er_progress", t)).show_locked(ui, |ui| {
+        egui::ScrollArea::vertical().max_height(crate::widgets::list_height(ui, 320.0)).id_salt(("er_progress", t)).show_locked(ui, |ui| {
             for (k, v) in &m {
                 let p = format!("{base}/{}", pointer_escape(k));
                 let mut b = v.as_bool().unwrap_or(false);

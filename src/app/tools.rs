@@ -229,7 +229,7 @@ impl App {
         let mut choice = None;
         modal(ctx, tr("Save changes as a preset"), |ui| {
             ui.label(if ps.preset.len() == 1 { trf("Keeps this {0} change to make again on another save or slot of this game:", &[&ps.preset.len()]) } else { trf("Keeps these {0} changes to make again on another save or slot of this game:", &[&ps.preset.len()]) });
-            ScrollArea::vertical().max_height(180.0).show_locked(ui, |ui| {
+            ScrollArea::vertical().max_height(crate::widgets::list_height(ui, 180.0)).show_locked(ui, |ui| {
                 for l in ps.preset.lines() {
                     ui.weak(l);
                 }
@@ -323,7 +323,7 @@ impl App {
                 ui.weak(tr("Make some changes, then use Save changes as a preset (in the Changes panel or Tools \u{203A} Presets). Presets shared by others open with Open a preset file."));
             }
             if !pa.list.is_empty() {
-                ScrollArea::vertical().id_salt("preset_list").max_height(200.0).show_locked(ui, |ui| {
+                ScrollArea::vertical().id_salt("preset_list").max_height(crate::widgets::list_height(ui, 200.0)).show_locked(ui, |ui| {
                     for (i, (_, p)) in pa.list.iter().enumerate() {
                         ui.horizontal(|ui| {
                             let text = if p.len() == 1 { trf("{0}  ({1} change)", &[&p.name, &p.len()]) } else { trf("{0}  ({1} changes)", &[&p.name, &p.len()]) };
@@ -347,7 +347,7 @@ impl App {
                 if !p.game.is_empty() && p.game != kind {
                     ui.colored_label(theme::fg(ui, theme::ERR), trf("Made on a {0} save; this one is a {1} save. Only the values found here are changed.", &[&p.game, &kind]));
                 }
-                ScrollArea::vertical().id_salt("preset_lines").max_height(160.0).show_locked(ui, |ui| {
+                ScrollArea::vertical().id_salt("preset_lines").max_height(crate::widgets::list_height(ui, 160.0)).show_locked(ui, |ui| {
                     for l in p.lines() {
                         ui.weak(l);
                     }

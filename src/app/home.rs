@@ -87,24 +87,31 @@ impl App {
                 for s in [&r.name, &r.newest.path.to_string_lossy().to_string()] {
                     theme::cjk_for(ui.ctx(), s);
                 }
+                // Every row is the same height, and the button is placed first
+                // (at the right edge) so the text takes only the room left over
+                // and truncates instead of running under it.
                 ui.horizontal(|ui| {
-                    let link = ui.link(RichText::new(&r.name).strong()).on_hover_text(r.newest.path.display().to_string());
-                    if link.clicked() {
-                        open = Some(r.newest.path.clone());
-                    }
-                    let label = r.newest.label.clone().unwrap_or_else(|| file_name(&r.newest.path));
-                    let mut line = format!("{label} \u{00B7} {} \u{00B7} {}", when(&r.newest), human_size(r.newest.size as usize));
-                    if r.count > 1 {
-                        line.push_str(&format!(" \u{00B7} {}", trf("{0} saves", &[&r.count])));
-                    }
-                    ui.add(egui::Label::new(RichText::new(line).weak().size(12.5)).truncate());
-                    if r.count > 1 {
-                        ui.with_layout(egui::Layout::right_to_left(egui::Align::Center), |ui| {
-                            if ui.small_button(tr("Other saves\u{2026}")).clicked() {
-                                show_game = Some(Some(r.game));
+                    ui.set_min_height(ui.spacing().interact_size.y);
+                    ui.with_layout(egui::Layout::right_to_left(egui::Align::Center), |ui| {
+                        if r.count > 1 && ui.small_button(tr("Other saves\u{2026}")).clicked() {
+                            show_game = Some(Some(r.game));
+                        }
+                        ui.with_layout(egui::Layout::left_to_right(egui::Align::Center), |ui| {
+                            let link = ui.link(RichText::new(&r.name).strong()).on_hover_text(r.newest.path.display().to_string());
+                            if link.clicked() {
+                                open = Some(r.newest.path.clone());
+                            }
+                            let label = r.newest.label.clone().unwrap_or_else(|| file_name(&r.newest.path));
+                            let mut line = format!("{label} \u{00B7} {} \u{00B7} {}", when(&r.newest), human_size(r.newest.size as usize));
+                            if r.count > 1 {
+                                line.push_str(&format!(" \u{00B7} {}", trf("{0} saves", &[&r.count])));
+                            }
+                            // Too little room left (a phone, a long name): leave the details out rather than run under the button.
+                            if ui.available_width() > 48.0 {
+                                ui.add(egui::Label::new(RichText::new(line).weak().size(12.5)).truncate());
                             }
                         });
-                    }
+                    });
                 });
             }
             if rows.len() > SHOWN || done {

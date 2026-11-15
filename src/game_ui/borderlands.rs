@@ -177,7 +177,7 @@ fn loot_table(ui: &mut Ui, cx: &GameCtx, id: &str, base: &str, cols: &[&str]) {
         ui.weak(tr("Nothing here."));
         return;
     }
-    egui::ScrollArea::vertical().id_salt(id).max_height(360.0).show_locked(ui, |ui| {
+    egui::ScrollArea::vertical().id_salt(id).max_height(crate::widgets::list_height(ui, 360.0)).show_locked(ui, |ui| {
         egui::Grid::new((id, "grid")).num_columns(cols.len() + 1).spacing([16.0, 4.0]).striped(true).show(ui, |ui| {
             ui.strong("#"); // i18n-ok
             for c in cols {

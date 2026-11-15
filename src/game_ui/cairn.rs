@@ -48,7 +48,7 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
         let mut open = None;
         egui::CollapsingHeader::new(trf("Saves in this slot ({0})", &[&saves.len()])).id_salt("cairn_saves").show(ui, |ui| {
             ui.weak(tr("The dated saves are the game's autosaves. Cairn continues from the newest save in the slot; pick another to open it instead (unsaved changes are dropped)."));
-            egui::ScrollArea::vertical().id_salt("cairn_save_list").max_height(220.0).show_locked(ui, |ui| {
+            egui::ScrollArea::vertical().id_salt("cairn_save_list").max_height(crate::widgets::list_height(ui, 220.0)).show_locked(ui, |ui| {
                 for (entry, label) in &saves {
                     let shown = *entry == cur;
                     let resume = if newest.as_deref() == Some(entry.as_str()) { format!("  \u{2014} {}", tr("the game continues from this one")) } else { String::new() };

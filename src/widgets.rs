@@ -714,3 +714,9 @@ pub fn sticky_headers(ui: &mut Ui, key: &str, area: egui::Rect) {
         painter.text(egui::pos2(r.left(), band.top() + 3.0), egui::Align2::LEFT_TOP, text, egui::TextStyle::Body.resolve(ui.style()), color);
     }
 }
+
+/// Height for a list that scrolls inside a screen: the given size on a small window, more of the
+/// window on a tall one, so a short fixed box doesn't leave the rest of the screen empty.
+pub fn list_height(ui: &Ui, base: f32) -> f32 {
+    (ui.ctx().screen_rect().height() * 0.55).clamp(base.min(200.0), base.max(640.0))
+}

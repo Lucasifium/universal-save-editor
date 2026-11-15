@@ -170,17 +170,31 @@ fn staff(ui: &mut Ui, cx: &mut GameCtx) {
         ui.memory_mut(|m| m.data.insert_temp(filter_id, filter.clone()));
         let shown: Vec<&String> = all.iter().filter(|n| filter == "All sections" || cx.text(&format!("/Staff/{}/Section", esc(n))).as_deref() == Some(filter.as_str())).collect();
         ui.label(trf("{0} shown. Staff have no names in the save; they are listed by slot.", &[&(shown.len())]));
-        ScrollArea::vertical().max_height(360.0).id_salt("mgsv_staff").show_rows_locked(ui, 26.0, shown.len(), |ui, range| {
+        // Fixed-size box: every cell has a set width, so the table neither changes
+        // width with the values shown nor stretches the screen while scrolling.
+        let height = (ui.ctx().screen_rect().height() * 0.6).clamp(200.0, 640.0);
+        ScrollArea::both().auto_shrink([false, false]).max_height(height).id_salt("mgsv_staff").show_rows_locked(ui, 24.0, shown.len(), |ui, range| {
+            let cell = |ui: &mut Ui, w: f32, add: &mut dyn FnMut(&mut Ui)| {
+                ui.allocate_ui_with_layout(eframe::egui::vec2(w, 24.0), eframe::egui::Layout::left_to_right(eframe::egui::Align::Center), |ui| {
+                    ui.set_min_width(w);
+                    add(ui);
+                });
+            };
             for i in range {
                 let n = shown[i];
                 ui.horizontal(|ui| {
-                    ui.label(n.as_str());
+                    ui.spacing_mut().item_spacing.x = 6.0;
+                    cell(ui, 64.0, &mut |ui| {
+                        ui.label(n.as_str());
+                    });
                     for f in ["Section", "Rank", "Skill"] {
-                        cx.editor(ui, &format!("/Staff/{}/{}", esc(n), f), 150.0);
+                        cell(ui, 156.0, &mut |ui| cx.editor(ui, &format!("/Staff/{}/{}", esc(n), f), 150.0));
                     }
                     for f in ["Morale", "Proficiency", "Stat bonus"] {
-                        ui.label(crate::i18n::tr_any(f));
-                        cx.editor(ui, &format!("/Staff/{}/{}", esc(n), f), 50.0);
+                        cell(ui, 96.0, &mut |ui| {
+                            ui.label(crate::i18n::tr_any(f));
+                        });
+                        cell(ui, 56.0, &mut |ui| cx.editor(ui, &format!("/Staff/{}/{}", esc(n), f), 50.0));
                     }
                 });
             }
@@ -219,4 +233,47 @@ fn bases(ui: &mut Ui, cx: &mut GameCtx) {
         }
         ui.weak(tr("The save lists 35 platform slots in order: Mother Base, then FOB 1 to 4, each Command, Combat, R&D, Base Development, Support, Intel, Medical (matches the in-game base screens). Not every FOB platform exists until built in the game."));
     });
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use eframe::egui;
+
+    fn root(skill: &str, rank: &str, level: i64) -> Value {
+        let mut staff = serde_json::Map::new();
+        for i in 0..80 {
+            staff.insert(format!("Staff {:04}", i + 1), json!({"Section": "Base Development", "Rank": rank, "Skill": skill, "Morale": level, "Proficiency": level, "Stat bonus": 3}));
+        }
+        json!({"Player": {"GMP": 5}, "Staff": staff})
+    }
+
+    fn size_of(root: &Value, w: f32) -> egui::Vec2 {
+        let ctx = egui::Context::default();
+        crate::theme::install_fonts(&ctx);
+        let mut size = egui::Vec2::ZERO;
+        for _ in 0..3 {
+            let input = egui::RawInput { screen_rect: Some(egui::Rect::from_min_size(egui::Pos2::ZERO, egui::vec2(w, 900.0))), ..Default::default() };
+            let _ = ctx.run(input, |ctx| {
+                egui::CentralPanel::default().show(ctx, |ui| {
+                    let mut cx = GameCtx { root, baseline: root, tree: None, edits: vec![], archive: None, open_entry: None };
+                    staff(ui, &mut cx);
+                    size = ui.min_rect().size();
+                });
+            });
+        }
+        size
+    }
+
+    /// The staff box keeps one size whatever the values in it (short or long skill names, small or
+    /// large numbers), so the screen doesn't grow or shrink as the list scrolls.
+    #[test]
+    fn staff_box_keeps_one_size() {
+        for w in [1100.0, 380.0] {
+            let a = size_of(&root("Ranger", "E", 1), w);
+            let b = size_of(&root("Intelligence Specialist Lv3", "S++", 15), w);
+            assert_eq!(a, b, "size changed with the values at width {w}");
+            assert!(a.y >= 380.0, "staff box too short: {a:?}");
+        }
+    }
 }

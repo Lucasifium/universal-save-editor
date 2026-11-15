@@ -108,7 +108,7 @@ fn estate(ui: &mut Ui, cx: &mut GameCtx) {
                 ui.weak(tr("None."));
                 return;
             }
-            egui::ScrollArea::vertical().id_salt(base).max_height(320.0).show_locked(ui, |ui| {
+            egui::ScrollArea::vertical().id_salt(base).max_height(crate::widgets::list_height(ui, 320.0)).show_locked(ui, |ui| {
                 egui::Grid::new(("dd_items", base)).num_columns(2).spacing([16.0, 4.0]).striped(true).show(ui, |ui| {
                     for k in &items {
                         let at = join(base, k);
@@ -295,7 +295,7 @@ fn dd2_profile(ui: &mut Ui, cx: &mut GameCtx) {
         if col == 0 {
             let unlocks: Vec<String> = cx.get("/m_UnlockContainer/m_Unlocks").and_then(Value::as_array).map(|a| a.iter().filter_map(Value::as_str).map(words).collect()).unwrap_or_default();
             panel(ui, &crate::i18n::trf("Unlocked at the Altar of Hope ({0})", &[&unlocks.len()]), |ui| {
-                egui::ScrollArea::vertical().id_salt("dd2_unlocks").max_height(300.0).show_locked(ui, |ui| {
+                egui::ScrollArea::vertical().id_salt("dd2_unlocks").max_height(crate::widgets::list_height(ui, 300.0)).show_locked(ui, |ui| {
                     for u in &unlocks {
                         ui.label(u);
                     }
