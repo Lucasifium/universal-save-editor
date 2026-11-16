@@ -910,7 +910,7 @@ impl GameCtx<'_> {
         let steps = self.get(p).is_some_and(widgets::steps) && self.can_edit(p);
         let whole = self.get(p).is_some_and(|v| v.as_i64().is_some() || v.as_u64().is_some());
         tile_frame_min(ui, accent, modified, need + if steps { 76.0 } else { 8.0 }, |ui| {
-            let r = ui.add(egui::Label::new(RichText::new(caption).size(12.5).color(ui.visuals().weak_text_color())).truncate());
+            let r = ui.add(egui::Label::new(RichText::new(caption).size(12.5).color(caption_color(ui))).truncate());
             find_mark(ui, r.rect, caption);
             ui.horizontal(|ui| {
                 ui.style_mut().override_font_id = Some(FontId::proportional(18.0));
@@ -1052,6 +1052,12 @@ pub fn inset_fill(ui: &Ui, accent: Color32) -> Color32 {
     blend(ui.visuals().faint_bg_color, accent, 0.10)
 }
 
+/// The colour of a tile's small caption: faint text is a little too faint on a tile's tinted
+/// fill (under 4.5:1), so it is drawn a third of the way towards the normal text colour.
+pub fn caption_color(ui: &Ui) -> Color32 {
+    blend(ui.visuals().weak_text_color(), ui.visuals().text_color(), 0.35)
+}
+
 const TILE_W: f32 = 196.0;
 
 pub fn tile_frame(ui: &mut Ui, accent: Color32, modified: bool, add: impl FnOnce(&mut Ui)) {
@@ -1087,7 +1093,7 @@ pub fn tile_frame_min(ui: &mut Ui, accent: Color32, modified: bool, min: f32, ad
 pub fn fact(ui: &mut Ui, caption: &str, value: &str, accent: Color32) {
     let caption = tr_any(caption);
     tile_frame(ui, accent, false, |ui| {
-        let r = ui.add(egui::Label::new(RichText::new(caption).size(12.5).color(ui.visuals().weak_text_color())).truncate());
+        let r = ui.add(egui::Label::new(RichText::new(caption).size(12.5).color(caption_color(ui))).truncate());
         find_mark(ui, r.rect, caption);
         ui.label(RichText::new(value).size(18.0).color(ui.visuals().strong_text_color()));
     });
@@ -1104,6 +1110,11 @@ pub fn bar(ui: &mut Ui, width: f32, frac: f32, color: Color32, text: Option<&str
         p.rect_filled(egui::Rect::from_min_size(rect.min, egui::vec2(rect.width() * f, h)), h / 2.0, color);
     }
     if let Some(t) = text {
+        // A dark copy underneath keeps the white figures readable where they lie on a light
+        // fill (green health) or straddle the end of the fill.
+        for d in [egui::vec2(1.0, 1.0), egui::vec2(-1.0, 1.0), egui::vec2(1.0, -1.0), egui::vec2(-1.0, -1.0)] {
+            p.text(rect.center() + d, egui::Align2::CENTER_CENTER, t, FontId::proportional(12.0), Color32::from_black_alpha(150));
+        }
         p.text(rect.center(), egui::Align2::CENTER_CENTER, t, FontId::proportional(12.0), Color32::WHITE);
     }
 }

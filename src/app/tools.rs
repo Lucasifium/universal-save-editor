@@ -241,7 +241,7 @@ impl App {
                 choice = Some(true);
             }
             if !WEB {
-                ui.checkbox(&mut ps.replace, tr("Replace a preset with the same name"));
+                crate::widgets::checkbox(ui, &mut ps.replace, tr("Replace a preset with the same name"));
             } else {
                 ui.weak(tr("Your browser downloads the preset; open it again with Apply preset."));
             }
@@ -562,16 +562,16 @@ impl App {
             });
             ui.add_space(4.0);
             ui.label(tr("Recognise its saves by:"));
-            ui.add_enabled_ui(!ext.is_empty(), |ui| ui.checkbox(&mut sn.by_ext, trf("the file extension (.{0})", &[&ext])));
+            ui.add_enabled_ui(!ext.is_empty(), |ui| crate::widgets::checkbox(ui, &mut sn.by_ext, trf("the file extension (.{0})", &[&ext])));
             if let Some(m) = &magic {
                 let hex: Vec<String> = m.iter().map(|b| format!("{b:02X}")).collect();
-                ui.checkbox(&mut sn.by_magic, trf("the first bytes ({0})", &[&hex.join(" ")]));
+                crate::widgets::checkbox(ui, &mut sn.by_magic, trf("the first bytes ({0})", &[&hex.join(" ")]));
             }
-            ui.checkbox(&mut sn.by_size, trf("the exact size ({0})", &[&human_size(size)])).on_hover_text(tr("Only if every save of the game is the same size"));
+            crate::widgets::checkbox(ui, &mut sn.by_size, trf("the exact size ({0})", &[&human_size(size)])).on_hover_text(tr("Only if every save of the game is the same size"));
             if let Some(s) = sum {
                 ui.weak(trf("The checksum you set ({0}) is kept fixed too.", &[&s.describe()]));
             }
-            ui.checkbox(&mut sn.replace, tr("Replace a template with the same name"));
+            crate::widgets::checkbox(ui, &mut sn.replace, tr("Replace a template with the same name"));
             ui.add_space(6.0);
             ui.horizontal(|ui| {
                 if ui.add(egui::Button::new(RichText::new(tr("Make template")).color(Color32::WHITE)).fill(theme::ACCENT)).clicked() {
@@ -692,7 +692,7 @@ impl App {
                 });
             }
             if (step == 2 || step == 3) && !WEB {
-                ui.checkbox(&mut h.auto_refine, tr("Refine by itself each time the game saves"))
+                crate::widgets::checkbox(ui, &mut h.auto_refine, tr("Refine by itself each time the game saves"))
                     .on_hover_text(tr("Watches the file and refines with the test chosen in Value search as soon as the game writes it again"));
             }
             ui.add_space(2.0);

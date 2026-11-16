@@ -29124,9 +29124,6 @@ Export decoded data as
 Export the names to
 = Namen exportieren nach
 
-Find a value by name (Values tab)
-= Wert nach Namen suchen (Tab Werte)
-
 Game data folder not found. Use Tools › Locate game data folder to see variable and item names.
 = Spieldatenordner nicht gefunden. Über Werkzeuge › Spieldatenordner suchen sehen Sie die Namen von Variablen und Gegenständen.
 
@@ -29566,3 +29563,9 @@ Show values
 
 Revert all of these
 = Alle davon zurücksetzen
+
+Find on the open tab
+= Im geöffneten Tab suchen
+
+Type a name for the backup first
+= Zuerst einen Namen für die Sicherung eingeben

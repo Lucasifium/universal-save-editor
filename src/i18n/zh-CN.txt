@@ -29181,9 +29181,6 @@ Export decoded data as
 Export the names to
 = 将名称导出到
 
-Find a value by name (Values tab)
-= 按名称查找数值（“数值”标签页）
-
 Game data folder not found. Use Tools › Locate game data folder to see variable and item names.
 = 未找到游戏数据文件夹。使用 工具 › 定位游戏数据文件夹 即可看到变量和物品名称。
 
@@ -29617,3 +29614,9 @@ Show values
 
 Revert all of these
 = 还原所有这些值
+
+Find on the open tab
+= 在当前标签页中查找
+
+Type a name for the backup first
+= 请先输入备份名称

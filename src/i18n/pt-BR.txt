@@ -29097,9 +29097,6 @@ Export decoded data as
 Export the names to
 = Exportar os nomes para
 
-Find a value by name (Values tab)
-= Encontrar um valor pelo nome (aba Valores)
-
 Game data folder not found. Use Tools › Locate game data folder to see variable and item names.
 = Pasta de dados do jogo não encontrada. Use Ferramentas › Localizar pasta de dados do jogo para ver os nomes de variáveis e itens.
 
@@ -29533,3 +29530,9 @@ Show values
 
 Revert all of these
 = Reverter todos estes
+
+Find on the open tab
+= Buscar na aba aberta
+
+Type a name for the backup first
+= Digite primeiro um nome para o backup

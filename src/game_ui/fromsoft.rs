@@ -483,7 +483,7 @@ fn progress(ui: &mut Ui, cx: &mut GameCtx) {
                 let p = format!("{base}/{}", pointer_escape(k));
                 let mut b = v.as_bool().unwrap_or(false);
                 let text = if cx.modified(&p) { RichText::new(k).color(crate::theme::fg(ui, crate::theme::MODIFIED)) } else { RichText::new(k) };
-                if ui.checkbox(&mut b, text).changed() {
+                if crate::widgets::checkbox(ui, &mut b, text).changed() {
                     cx.set(&p, serde_json::Value::Bool(b));
                 }
             }

@@ -137,7 +137,7 @@ fn member(ui: &mut Ui, cx: &mut GameCtx, p: &str, key: &str) {
                 ui.label(RichText::new(tr("Stats in the menu")).strong());
                 egui::Grid::new(("gs_shown", p)).num_columns(2).spacing([16.0, 4.0]).show(ui, |ui| {
                     for k in ["Attack", "Defense", "Agility", "Luck"] {
-                        ui.label(k);
+                        ui.label(crate::i18n::tr_any(k));
                         ui.label(cx.text(&format!("{p}/Stats/{k}")).unwrap_or_default());
                         ui.end_row();
                     }

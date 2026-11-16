@@ -29208,9 +29208,6 @@ Export decoded data as
 Export the names to
 = 名前のエクスポート先
 
-Find a value by name (Values tab)
-= 名前で値を検索（「値」タブ）
-
 Game data folder not found. Use Tools › Locate game data folder to see variable and item names.
 = ゲームのデータフォルダーが見つかりません。ツール › ゲームのデータフォルダーを指定 で、変数やアイテムの名前を表示できます。
 
@@ -29644,3 +29641,9 @@ Show values
 
 Revert all of these
 = これらをすべて元に戻す
+
+Find on the open tab
+= 開いているタブ内を検索
+
+Type a name for the backup first
+= 先にバックアップの名前を入力してください

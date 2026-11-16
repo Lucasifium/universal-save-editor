@@ -1362,7 +1362,7 @@ pub fn oxygen_not_included(ui: &mut Ui, cx: &mut GameCtx) {
                 for s in &skills {
                     let p = join(&format!("{resume}/MasteryBySkillID"), s);
                     let mut on = cx.flag(&p);
-                    if ui.checkbox(&mut on, words(s)).changed() {
+                    if crate::widgets::checkbox(ui, &mut on, words(s)).changed() {
                         cx.set(&p, Value::Bool(on));
                     }
                 }

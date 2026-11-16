@@ -272,7 +272,7 @@ fn mon_card(ui: &mut Ui, cx: &mut GameCtx, m: &str, id: &str) {
                 let c = if cx.modified(&f("@shiny")) { crate::theme::fg(ui, crate::theme::MODIFIED) } else { ui.visuals().text_color() };
                 ui.label(RichText::new(tr("Shiny")).color(c));
                 let mut v = on;
-                if ui.checkbox(&mut v, "").changed() {
+                if crate::widgets::checkbox(ui, &mut v, "").changed() {
                     cx.set(&f("@shiny"), Value::Bool(v));
                 }
                 ui.end_row();

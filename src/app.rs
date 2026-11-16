@@ -1904,7 +1904,7 @@ impl App {
                 if safe_choice(ui.button(tr("Cancel"))).clicked() {
                     choice = Some(2);
                 }
-                let last = ui.checkbox(&mut dont_ask, tr("Don't show this list again"));
+                let last = crate::widgets::checkbox(ui, &mut dont_ask, tr("Don't show this list again"));
                 tab_ring(&first, &last);
             });
         });
@@ -2305,16 +2305,15 @@ impl App {
             });
             ui.menu_button(tr("View"), |ui| {
                 let mut changed = false;
-                changed |= ui.checkbox(&mut self.settings.show_advanced, tr("Show advanced values")).changed();
-                changed |= ui.checkbox(&mut self.settings.show_raw_keys, tr("Show raw key names")).changed();
-                ui.checkbox(&mut self.show_changes, tr("Changes panel"));
+                changed |= crate::widgets::checkbox(ui, &mut self.settings.show_advanced, tr("Show advanced values")).changed();
+                changed |= crate::widgets::checkbox(ui, &mut self.settings.show_raw_keys, tr("Show raw key names")).changed();
+                crate::widgets::checkbox(ui, &mut self.show_changes, tr("Changes panel"));
                 if ui.add_enabled(self.doc.is_some() && !self.doc_note.is_empty() && self.note_hidden(), egui::Button::new(tr("Show the note about this file"))).clicked() {
                     let key = Settings::note_key(&self.doc_note);
                     self.settings.hidden_notes.retain(|k| *k != key);
                     changed = true;
                 }
-                changed |= ui
-                    .checkbox(&mut self.settings.confirm_save, tr("Review changes before saving"))
+                changed |= crate::widgets::checkbox(ui, &mut self.settings.confirm_save, tr("Review changes before saving"))
                     .on_hover_text(tr("Lists what changed and checks whether the game is running each time you save."))
                     .changed();
                 ui.separator();
@@ -2771,7 +2770,7 @@ impl App {
             ui.horizontal(|ui| {
                 ui.add(TextEdit::singleline(&mut name).hint_text(tr("backup name, e.g. first run")).desired_width(260.0));
                 let ready = !name.trim().is_empty() && path.is_file();
-                if ui.add_enabled(ready, egui::Button::new(tr("Back up this save"))).on_hover_text(tr("Keeps a named backup of the save file as it is on disk now, until you delete it. The save itself is not changed.")).clicked() {
+                if ui.add_enabled(ready, egui::Button::new(tr("Back up this save"))).on_disabled_hover_text(tr("Type a name for the backup first")).on_hover_text(tr("Keeps a named backup of the save file as it is on disk now, until you delete it. The save itself is not changed.")).clicked() {
                     keep = true;
                 }
                 if ui.add_enabled(ready, egui::Button::new(tr("Back up and start a new game"))).on_hover_text(tr("Saves a named backup, then removes the current save file so the game starts a new game. Restore the backup later to go back.")).clicked() {
@@ -3004,7 +3003,7 @@ impl App {
                 if p.layer.is_some() {
                     ui.weak(tr("This save was unpacked with the patch file's own codes when it opened; they run again when you save."));
                 }
-                ui.checkbox(&mut p.all_files, tr("Show codes for other files too"));
+                crate::widgets::checkbox(ui, &mut p.all_files, tr("Show codes for other files too"));
                 ScrollArea::vertical().show_list_fit(ui, "patch_codes", 300.0, |ui| {
                     for i in 0..p.codes.len() {
                         let c = &p.codes[i];
@@ -3027,7 +3026,7 @@ impl App {
                             if c.alert {
                                 name = name.color(theme::fg(ui, theme::WARN));
                             }
-                            let r = ui.add_enabled(usable, egui::Checkbox::new(&mut p.on[i], name));
+                            let r = widgets::square(ui, |ui| ui.add_enabled(usable, egui::Checkbox::new(&mut p.on[i], name)));
                             if !usable {
                                 r.on_disabled_hover_text(tr("This one is a Python script, which only Apollo itself can run."));
                             } else if !here {
@@ -3047,7 +3046,7 @@ impl App {
                 });
                 ui.add_space(4.0);
                 ui.horizontal(|ui| {
-                    ui.checkbox(&mut p.big_endian, tr("Big-endian (PS3)"))
+                    crate::widgets::checkbox(ui, &mut p.big_endian, tr("Big-endian (PS3)"))
                         .on_hover_text(tr("Byte order for numbers in the codes. Set from the patch file's console; change it only if you know the save uses the other one."));
                 });
                 ui.weak(tr("Back up first: a code meant for another version of the game can damage the save. Codes change the data now; save to write the file."));
@@ -3631,7 +3630,7 @@ impl App {
         bar(ui, &mut |ui| {
             let old = self.tab;
             if let Some(g) = game {
-                let r = ui.selectable_value(&mut self.tab, Tab::Game, g.tab_label()).on_hover_text(tr("This game's own screen: its stats, inventory and more, laid out like the game"));
+                let r = ui.selectable_value(&mut self.tab, Tab::Game, crate::i18n::tr_any(g.tab_label())).on_hover_text(tr("This game's own screen: its stats, inventory and more, laid out like the game"));
                 theme::mark_selected(ui, &r, old == Tab::Game);
             }
             let r = ui.selectable_value(&mut self.tab, Tab::Values, tr("Values")).on_hover_text(tr("Every editable value in a simple list"));
@@ -4374,10 +4373,10 @@ impl App {
                         {
                             refine = true;
                         }
-                        ui.checkbox(&mut h.aligned, tr("Aligned")).on_hover_text(tr("Only test offsets that are a multiple of the value size. Faster, and how most games store numbers."));
+                        crate::widgets::checkbox(ui, &mut h.aligned, tr("Aligned")).on_hover_text(tr("Only test offsets that are a multiple of the value size. Faster, and how most games store numbers."));
                     });
                     if scanning && !WEB && !guide {
-                        ui.checkbox(&mut h.auto_refine, tr("Refine by itself each time the game saves"))
+                        crate::widgets::checkbox(ui, &mut h.auto_refine, tr("Refine by itself each time the game saves"))
                             .on_hover_text(tr("Watches the file and refines with the test above as soon as the game writes it again"));
                     }
                     if start {
@@ -4413,7 +4412,7 @@ impl App {
                     ui.horizontal(|ui| {
                         ui.label(RichText::new(format!("Selected: 0x{:X}", h.selected)).family(theme::semibold_family()).size(16.0));
                         ui.with_layout(egui::Layout::right_to_left(egui::Align::Center), |ui| {
-                            ui.checkbox(&mut h.big_endian, tr("Big-endian")).on_hover_text(tr("Most PC games use little-endian (unticked)"));
+                            crate::widgets::checkbox(ui, &mut h.big_endian, tr("Big-endian")).on_hover_text(tr("Most PC games use little-endian (unticked)"));
                         });
                     });
                     ui.horizontal(|ui| {
@@ -5273,8 +5272,7 @@ fn game_picker_window(ctx: &egui::Context, gp: &mut GamePicker) -> (Option<PathB
                     ui.add(TextEdit::singleline(&mut gp.query).hint_text(tr("game name")).desired_width(200.0))
                         .on_hover_text(tr("Words in any order work (\"witcher 3\" or \"3 witcher\"), and so do short names made from the initials of the name with its numbers, such as bg3, gta5 or ff7."));
                     let mut o = only;
-                    if ui
-                        .checkbox(&mut o, tr("Only games found here"))
+                    if crate::widgets::checkbox(ui, &mut o, tr("Only games found here"))
                         .on_hover_text(tr("Show only the games whose saves were found on this computer. Typing a name searches every game."))
                         .changed()
                     {

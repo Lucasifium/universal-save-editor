@@ -885,7 +885,7 @@ pub fn diablo2(ui: &mut Ui, cx: &mut GameCtx) {
                     ui.weak(tr("Base max")).on_hover_text(tr("The maximum before items and bonuses; the game adds those on top"));
                     ui.end_row();
                     for (a, b) in [("Life", "Max life"), ("Mana", "Max mana"), ("Stamina", "Max stamina")] {
-                        ui.label(a);
+                        ui.label(crate::i18n::tr_any(a));
                         cx.compact(ui, &join("/Life and mana", a), 84.0);
                         ui.label("/");
                         cx.compact(ui, &join("/Life and mana", b), 84.0);

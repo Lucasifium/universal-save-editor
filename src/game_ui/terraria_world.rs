@@ -690,7 +690,7 @@ fn poi_panel(ui: &mut Ui, map: &WorldMap, v: &mut MapView) {
     panel(ui, "Shown on the map", |ui| {
         ui.horizontal_wrapped(|ui| {
             for (i, m) in MARKS.iter().enumerate() {
-                ui.checkbox(&mut v.marks[i], crate::i18n::tr_any(m));
+                crate::widgets::checkbox(ui, &mut v.marks[i], crate::i18n::tr_any(m));
             }
         });
         ui.horizontal_wrapped(|ui| {
@@ -702,7 +702,7 @@ fn poi_panel(ui: &mut Ui, map: &WorldMap, v: &mut MapView) {
                 let (r, _) = ui.allocate_exact_size(Vec2::splat(10.0), Sense::hover());
                 ui.painter().rect_filled(r, 2.0, c);
                 let mut on = v.shown[k];
-                if ui.checkbox(&mut on, format!("{} ({})", kind.name, counts[k])).changed() {
+                if crate::widgets::checkbox(ui, &mut on, format!("{} ({})", kind.name, counts[k])).changed() {
                     v.shown[k] = on;
                 }
             }

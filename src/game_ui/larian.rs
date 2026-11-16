@@ -365,7 +365,7 @@ fn bg3_story(ui: &mut Ui, cx: &mut GameCtx, _accent: Color32) {
                             if modified {
                                 text = text.color(theme_fg(ui, crate::theme::MODIFIED));
                             }
-                            let r = ui.add_enabled(cx.can_edit(&p), egui::Checkbox::new(&mut v, text));
+                            let r = crate::widgets::square(ui, |ui| ui.add_enabled(cx.can_edit(&p), egui::Checkbox::new(&mut v, text)));
                             super::find_mark(ui, r.rect, k);
                             if r.changed() {
                                 cx.set(&p, Value::from(i64::from(v)));

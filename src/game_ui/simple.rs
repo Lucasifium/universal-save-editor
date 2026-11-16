@@ -349,7 +349,13 @@ pub fn show(i: u16, ui: &mut Ui, cx: &mut GameCtx) {
     columns(ui, 360.0, visible.len(), |ui, k| {
         let (sec, rows) = &visible[k];
         panel(ui, &tr_text(sec.title), |ui| {
-            egui::Grid::new(("simple_grid", i, k)).num_columns(2).spacing([14.0, 5.0]).show(ui, |ui| {
+            // On a phone a long label ("Max health (sixteenths of a heart)") pushed its box off the
+            // right edge; there the label column is held to the room left of the box and wraps.
+            let mut grid = egui::Grid::new(("simple_grid", i, k)).num_columns(2).spacing([14.0, 5.0]);
+            if ui.ctx().screen_rect().width() < 640.0 {
+                grid = grid.max_col_width((ui.available_width() - 110.0 - 14.0 - 24.0).max(90.0));
+            }
+            grid.show(ui, |ui| {
                 for (label, p) in rows {
                     cx.grid_row(ui, &tr_text(label), p, 110.0);
                 }

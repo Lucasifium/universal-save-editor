@@ -312,7 +312,7 @@ pub fn map_tab(ui: &mut Ui, cx: &mut GameCtx) {
         if painting {
             ui.label(tr("Brush:"));
             ui.add(egui::DragValue::new(&mut v.size).range(1..=32).suffix(format!(" {}", crate::i18n::tr("cells"))));
-            ui.checkbox(&mut v.neutronium, crate::i18n::tr("Also change Neutronium"));
+            crate::widgets::checkbox(ui, &mut v.neutronium, crate::i18n::tr("Also change Neutronium"));
         }
     });
     ui.horizontal_wrapped(|ui| {
@@ -324,7 +324,7 @@ pub fn map_tab(ui: &mut Ui, cx: &mut GameCtx) {
             }
         }
         if v.visible.is_some() {
-            if ui.checkbox(&mut v.dim, crate::i18n::tr("Dim unexplored")).changed() {
+            if crate::widgets::checkbox(ui, &mut v.dim, crate::i18n::tr("Dim unexplored")).changed() {
                 v.dirty = true;
             }
             if ui.button(tr("Reveal this world's map")).on_hover_text(tr("Clears the fog over all of this world")).clicked() {
@@ -523,7 +523,7 @@ fn poi_panel(ui: &mut Ui, map: &OniMap, v: &mut MapView, world: &om::World) {
                 let c = Color32::from_rgb(kind.color[0], kind.color[1], kind.color[2]);
                 let (r, _) = ui.allocate_exact_size(Vec2::splat(10.0), Sense::hover());
                 ui.painter().rect_filled(r, 2.0, c);
-                ui.checkbox(&mut v.shown[k], format!("{} ({})", kind.name, counts[k]));
+                crate::widgets::checkbox(ui, &mut v.shown[k], format!("{} ({})", kind.name, counts[k]));
             }
         });
         if here.is_empty() {

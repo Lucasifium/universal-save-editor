@@ -124,8 +124,11 @@ impl Settings {
     }
 
     pub fn push_recent(&mut self, p: &std::path::Path) {
-        self.recent.retain(|r| r != p);
-        self.recent.insert(0, p.to_path_buf());
+        // Kept absolute: a file opened by a relative path (from a terminal) was listed a second
+        // time once it was opened by its full path, and stopped opening from another folder.
+        let p = std::path::absolute(p).unwrap_or_else(|_| p.to_path_buf());
+        self.recent.retain(|r| *r != p);
+        self.recent.insert(0, p);
         self.recent.truncate(MAX_RECENT);
         self.save();
     }

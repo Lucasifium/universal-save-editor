@@ -10,8 +10,28 @@ use serde_json::{Number, Value};
 /// what's behind, without being a stop for Tab.
 pub const BLOCK_CLICKS: Sense = Sense { click: true, drag: false, focusable: false };
 
+/// Draws what `add` adds with nearly square corners. A tick box drawn with the theme's round
+/// button corners is a circle, the same shape as a radio button, so the two could not be told
+/// apart; tick boxes are drawn through this (or [`checkbox`]).
+pub fn square<R>(ui: &mut Ui, add: impl FnOnce(&mut Ui) -> R) -> R {
+    let old = ui.visuals().widgets.clone();
+    let w = &mut ui.visuals_mut().widgets;
+    for v in [&mut w.noninteractive, &mut w.inactive, &mut w.hovered, &mut w.active, &mut w.open] {
+        v.rounding = egui::Rounding::same(3.0);
+    }
+    let r = add(ui);
+    ui.visuals_mut().widgets = old;
+    r
+}
+
+/// A tick box with a label (see [`square`]).
+pub fn checkbox(ui: &mut Ui, on: &mut bool, text: impl Into<WidgetText>) -> Response {
+    square(ui, |ui| ui.checkbox(on, text))
+}
+
 /// Gives a control the name a screen reader says for it. A control drawn with only an icon glyph
 /// (a private-use character of the icon font, which reads as nothing) or a symbol such as × or +
+
 /// needs one; so does a button whose text starts with an icon glyph.
 pub fn named(resp: Response, typ: egui::WidgetType, name: &str) -> Response {
     let enabled = resp.enabled();

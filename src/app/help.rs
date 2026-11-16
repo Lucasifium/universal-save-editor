@@ -21,7 +21,7 @@ const SHORTCUTS: &[(&str, &str)] = &[
     ("Ctrl+S", tx("Save (shows what changed first)")),
     ("Ctrl+Z", tx("Undo")),
     ("Ctrl+Y / Ctrl+Shift+Z", tx("Redo")),
-    ("Ctrl+F", tx("Find a value by name (Values tab)")),
+    ("Ctrl+F", tx("Find on the open tab")),
     ("Ctrl+Plus / Ctrl+Minus", tx("Zoom in / out")),
     ("Ctrl+0", tx("Reset the zoom")),
     ("Enter", tx("Confirm a typed value")),
@@ -244,28 +244,25 @@ impl App {
                         ui.ctx().set_zoom_factor(1.0);
                     }
                 });
-                changed |= ui.checkbox(&mut self.settings.show_advanced, tr("Show advanced values")).changed();
-                changed |= ui.checkbox(&mut self.settings.show_raw_keys, tr("Show raw key names")).changed();
-                changed |= ui.checkbox(&mut self.settings.hex_guide, tr("Show the find-a-value guide in the hex view")).changed();
+                changed |= crate::widgets::checkbox(ui, &mut self.settings.show_advanced, tr("Show advanced values")).changed();
+                changed |= crate::widgets::checkbox(ui, &mut self.settings.show_raw_keys, tr("Show raw key names")).changed();
+                changed |= crate::widgets::checkbox(ui, &mut self.settings.hex_guide, tr("Show the find-a-value guide in the hex view")).changed();
                 ui.separator();
                 ui.label(RichText::new(tr("Saving")).strong());
-                changed |= ui
-                    .checkbox(&mut self.settings.confirm_save, tr("Review changes before saving"))
+                changed |= crate::widgets::checkbox(ui, &mut self.settings.confirm_save, tr("Review changes before saving"))
                     .on_hover_text(tr("Show the list of changes, and warn when the game is running, before writing the save"))
                     .changed();
                 if crate::update::AVAILABLE {
                     ui.separator();
                     ui.label(RichText::new(tr("Updates")).strong());
-                    changed |= ui
-                        .checkbox(&mut self.settings.check_updates, tr("Tell me when a new version is out"))
+                    changed |= crate::widgets::checkbox(ui, &mut self.settings.check_updates, tr("Tell me when a new version is out"))
                         .on_hover_text(tr("When the program starts, asks GitHub for the newest release. Nothing else is sent. Off by default, so the program stays fully offline."))
                         .changed();
                 }
                 if !WEB && !cfg!(target_os = "android") {
                     ui.separator();
                     ui.label(RichText::new(tr("Finding saves")).strong());
-                    if ui
-                        .checkbox(&mut self.settings.search_removable, tr("Also search removable and network drives"))
+                    if crate::widgets::checkbox(ui, &mut self.settings.search_removable, tr("Also search removable and network drives"))
                         .on_hover_text(tr("Saves are always looked for on every fixed drive. USB sticks and network drives are skipped unless this is on, because they can be slow. Use Search again after changing it."))
                         .changed()
                     {

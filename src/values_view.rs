@@ -464,7 +464,7 @@ pub fn show(ui: &mut Ui, model: &Model, disp: &[Disp], collapsed: &HashSet<usize
                             if let Some(t) = ctx.ticked {
                                 let mut on = t.contains(&i);
                                 let tip = if r.editable { tr("Tick to include in Bulk edit") } else { tr("Read-only: bulk edit leaves it alone") };
-                                if ui.add_enabled(r.editable, egui::Checkbox::without_text(&mut on)).on_hover_text(tip).clicked() {
+                                if crate::widgets::square(ui, |ui| ui.add_enabled(r.editable, egui::Checkbox::without_text(&mut on))).on_hover_text(tip).clicked() {
                                     ctx.toggle_tick.push(i);
                                 }
                             }
@@ -474,7 +474,11 @@ pub fn show(ui: &mut Ui, model: &Model, disp: &[Disp], collapsed: &HashSet<usize
                                 let font = egui::TextStyle::Body.resolve(ui.style());
                                 let mut job = LayoutJob::default();
                                 if !r.context().is_empty() {
-                                    job.append(&format!("{} \u{203A} ", r.context()), 0.0, TextFormat::simple(font.clone(), ui.visuals().weak_text_color()));
+                                    // The name is what tells rows apart, so where the column is too narrow for
+                                    // both it is the "where" text in front that is cut short, from its start.
+                                    let room = name_w - text_width(ui, r.name(), &font) - 4.0;
+                                    let shown = fit_context(r.context(), room, |t| text_width(ui, t, &font));
+                                    job.append(&shown, 0.0, TextFormat::simple(font.clone(), ui.visuals().weak_text_color()));
                                 }
                                 let name_color = if modified { theme::fg(ui, theme::MODIFIED) } else { ui.visuals().strong_text_color() };
                                 job.append(r.name(), 0.0, TextFormat::simple(font.clone(), name_color));
@@ -540,8 +544,40 @@ pub fn show(ui: &mut Ui, model: &Model, disp: &[Disp], collapsed: &HashSet<usize
     });
 }
 
+/// How wide `text` is drawn in `font`.
+fn text_width(ui: &Ui, text: &str, font: &FontId) -> f32 {
+    ui.fonts(|f| f.layout_no_wrap(text.to_string(), font.clone(), egui::Color32::WHITE).size().x)
+}
+
+/// A row's "where" text with its separator ("Party › Actor 1 › "), shortened from the front
+/// ("… › Actor 1 › ", then "… › ") until it is at most `room` wide.
+fn fit_context(context: &str, room: f32, width: impl Fn(&str) -> f32) -> String {
+    const SEP: &str = " \u{203A} ";
+    let full = format!("{context}{SEP}");
+    if width(&full) <= room {
+        return full;
+    }
+    let parts: Vec<&str> = context.split(SEP).collect();
+    for from in 1..parts.len() {
+        let t = format!("\u{2026}{SEP}{}{SEP}", parts[from..].join(SEP));
+        if width(&t) <= room {
+            return t;
+        }
+    }
+    format!("\u{2026}{SEP}")
+}
+
 #[cfg(test)]
 mod tests {
+    #[test]
+    fn narrow_name_column_keeps_the_end_of_the_path() {
+        let w = |t: &str| t.chars().count() as f32;
+        assert_eq!(fit_context("Members \u{203A} #0 Hero", 40.0, w), "Members \u{203A} #0 Hero \u{203A} ");
+        assert_eq!(fit_context("Members \u{203A} #0 Hero", 14.0, w), "\u{2026} \u{203A} #0 Hero \u{203A} ");
+        assert_eq!(fit_context("Members \u{203A} #0 Hero", 5.0, w), "\u{2026} \u{203A} ");
+        assert_eq!(fit_context("Members", 3.0, w), "\u{2026} \u{203A} ");
+    }
+
     use super::*;
     use serde_json::json;
 
