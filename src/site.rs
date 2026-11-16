@@ -264,6 +264,7 @@ ol li,ul li{margin:6px 0}
 .feature{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:var(--r);padding:8px 24px 16px;margin:8px 0 24px}.feature h2{margin-top:16px}
 .dl-more{margin:4px 0 0;font-size:.92rem;color:var(--muted);line-height:1.9}.dl-more span{font-weight:600;margin-right:4px}.dl-more a{white-space:nowrap}
 .shot{margin:32px auto;max-width:760px}.shot img{display:block;width:100%;max-width:100%;height:auto;border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow)}.shot figcaption{color:var(--muted);font-size:.9rem;margin-top:8px}
+.gshot{margin:24px 0}.gshot img{display:block;width:100%;height:auto;border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow)}.gshot figcaption{color:var(--muted);font-size:.9rem;margin-top:8px}
 footer{border-top:1px solid var(--line);margin-top:64px;color:var(--muted);font-size:.9rem}footer .in{padding:24px 20px}
 @media (max-width:760px){.hero{grid-template-columns:1fr;gap:28px;padding-top:32px}header nav{margin-left:0;gap:4px 14px;flex-wrap:wrap}header nav a{padding:6px 2px}header .in{padding-top:8px;padding-bottom:8px;gap:6px}header{position:static}}
 "#;
@@ -619,6 +620,36 @@ fn group_readme_screens(text: &str) -> String {
     format!("{}{}{}", &text[..at], out.trim_end_matches('\n'), &text[end..])
 }
 
+/// Folder of the editor pictures shown on game pages (`<slug>-640.webp`, `-1200.webp` and `-2000.webp`).
+/// They are made once from the editor's own window and kept here between site builds.
+fn shots_dir() -> std::path::PathBuf {
+    std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join("docs").join("shots")
+}
+
+/// Width every game picture is made at; each page gets the height from `docs/shots/index.txt`
+/// (`<slug> <height at 1200 wide>` per line), so the pictures are cut to their content.
+const SHOT_W: u32 = 1200;
+
+fn shot_heights() -> std::collections::HashMap<String, u32> {
+    let text = std::fs::read_to_string(shots_dir().join("index.txt")).unwrap_or_default();
+    text.lines().filter_map(|l| l.split_once(' ')).filter_map(|(k, v)| Some((k.to_string(), v.trim().parse().ok()?))).collect()
+}
+
+/// The game's screen as the editor draws it, when there is a picture for it (none for games without a
+/// public sample save). The page works the same without it.
+fn shot_html(slug_dir: &str, game: &str, what: Option<&str>) -> String {
+    let name = slug_dir.trim_end_matches("-save-editor");
+    let Some(h) = shot_heights().get(name).copied() else { return String::new() };
+    let shows = what.map(card_blurb).filter(|b| !b.is_empty()).map(|b| format!(": {}", b.trim_end_matches('\u{2026}').to_lowercase())).unwrap_or_default();
+    let alt = format!("{game} save editor screen with a save open{shows}");
+    format!(
+        r#"<figure class="gshot"><a href="../shots/{name}-2000.webp"><img src="../shots/{name}-{SHOT_W}.webp" srcset="../shots/{name}-640.webp 640w, ../shots/{name}-{SHOT_W}.webp {SHOT_W}w, ../shots/{name}-2000.webp 2000w" sizes="(min-width: 960px) 1040px, 100vw" width="{SHOT_W}" height="{h}" alt="{}" loading="lazy" decoding="async"></a><figcaption>The {} screen in Universal Save Editor, opened on an example save. Select the picture to see it full size.</figcaption></figure>
+"#,
+        esc(&alt),
+        esc(game)
+    )
+}
+
 /// Up to six links to other game pages: the same series first (same first word), then games
 /// spread through the list.
 fn related_html(g: &GameInfo, pages: &[(&str, String)]) -> String {
@@ -657,9 +688,9 @@ fn build_site() {
             std::fs::write(&path, fixed).unwrap();
         }
     }
-    // Start over, except for the browser version, which web/build.sh builds separately.
+    // Start over, except for the browser version (web/build.sh builds it separately) and the game pictures.
     for e in std::fs::read_dir(&out).into_iter().flatten().flatten() {
-        if e.file_name() != "app" {
+        if e.file_name() != "app" && e.file_name() != "shots" {
             let p = e.path();
             let _ = if p.is_dir() { std::fs::remove_dir_all(&p) } else { std::fs::remove_file(&p) };
         }
@@ -802,7 +833,7 @@ fn build_site() {
 <a class="btn" href="{DOWNLOAD}">Download for free</a><a class="btn alt" href="../{WEB_APP}">Use it in your browser</a></div></section>
 <h2>What you can edit</h2>
 <div class="card">{what}</div>
-<h2>Where {n} keeps its saves</h2>
+{shot}<h2>Where {n} keeps its saves</h2>
 <div class="card"><p>Folder: <code>{folder}</code></p><p>Files: <code>{files}</code></p><p>You don't need to find it yourself: choose <em>Find my game's saves</em> in the editor, pick {n}, and it lists the saves it finds. (The browser version can't look through your folders: open the file from this folder yourself.)</p>{browser}</div>
 <h2>How to edit your {n} save</h2>
 <ol>
@@ -816,6 +847,7 @@ fn build_site() {
 <p>Edited saves are for single-player play. Don't use them in online or multiplayer modes.</p>
 {related}"#,
             why = why_short(),
+            shot = shot_html(&s, g.name, what.as_deref()),
             related = related_html(g, &pages),
             h = esc(&search),
             many = GAMES.len() / 10 * 10,
@@ -953,4 +985,34 @@ fn readme_game_count_matches_registry() {
 fn readme_screens_are_grouped() {
     let text = std::fs::read_to_string(std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join("README.md")).unwrap();
     assert!(group_readme_screens(&text) == text, "README.md's game screens are not grouped by letter: run `cargo test --release --lib build_site -- --ignored`");
+}
+
+/// The game pictures stay small: 40 / 90 / 140 KB at most per size, and 20 MB in all; every one has
+/// all three sizes and a height in the index.
+#[test]
+fn game_pictures_stay_small() {
+    let mut total = 0u64;
+    let mut names = std::collections::BTreeSet::new();
+    for f in std::fs::read_dir(shots_dir()).into_iter().flatten().flatten() {
+        let n = f.file_name().to_string_lossy().to_string();
+        if n == "index.txt" {
+            continue;
+        }
+        let size = f.metadata().unwrap().len();
+        total += size;
+        let limit = if n.ends_with("-640.webp") { 40_000 } else if n.ends_with("-1200.webp") { 90_000 } else { 140_000 };
+        assert!(n.ends_with(".webp") && size <= limit, "{n} is {size} bytes");
+        names.insert(n);
+    }
+    let heights = shot_heights();
+    for n in &names {
+        let stem = n.rsplit_once('-').map_or(n.as_str(), |(a, _)| a);
+        assert!(heights.contains_key(stem), "{n} is not in index.txt");
+    }
+    for key in heights.keys() {
+        for size in ["640", "1200", "2000"] {
+            assert!(names.contains(&format!("{key}-{size}.webp")), "{key} is in index.txt but {key}-{size}.webp is missing");
+        }
+    }
+    assert!(total <= 20_000_000, "pictures weigh {total} bytes");
 }
