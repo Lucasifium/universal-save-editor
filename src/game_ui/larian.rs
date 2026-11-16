@@ -2,7 +2,7 @@
 //! save's party summary, gold and stack sizes of what each companion carries, and the story's
 //! global flags with the risky ones marked). See `fmt/larian.rs` and `fmt/bg3_flags.rs`.
 
-use crate::i18n::{tr, trf};
+use crate::i18n::{tr, tr_any, trf};
 use crate::widgets::{ListBox, ScrollLock};
 use super::{columns, fact, fmt_num, hero, panel, tabs, GameCtx};
 use crate::fmt::larian::ATTRIBUTES;
@@ -96,10 +96,9 @@ pub fn dos2(ui: &mut Ui, cx: &mut GameCtx) {
     let things = keys(cx, &at("Inventory"));
     if !things.is_empty() {
         panel(ui, &trf("Inventory ({0} stacks)", &[&things.len()]), |ui| {
+            let rows: Vec<(String, String)> = things.iter().map(|k| (k.replace('_', " "), format!("{base}/Inventory/{}", esc(k)))).collect();
             egui::ScrollArea::vertical().show_list(ui, ("dos2_inv", t), 320.0, |ui| {
-                columns(ui, 360.0, things.len(), |ui, i| {
-                    cx.row_fixed(ui, &things[i].replace('_', " "), &format!("{base}/Inventory/{}", esc(&things[i])), 190.0, 60.0);
-                });
+                item_rows(ui, cx, ("dos2_inv_rows", t), &rows, 60.0, 84.0);
             });
             ui.weak(
                 tr("How many of each item this character carries directly (items inside bags aren't listed), named by the game's item entry. Change a stack size, or add items below; the game may trim a stack to what the item allows."),
@@ -107,6 +106,36 @@ pub fn dos2(ui: &mut Ui, cx: &mut GameCtx) {
         });
     }
     add_items(ui, cx, tr("Every kind of item found in an inventory in this save can be added, as a copy of one the game made. Items go into the chosen character's bag when you save; where they already carry a stack of the same item, that stack grows instead. Keys, containers and story items aren't offered. Keep a backup: this hasn't been tried in the game yet."));
+}
+
+/// Item rows (name, then its editor of `width`; `extra` is room for buttons beside it) in as many
+/// columns as fit, each column as wide as its longest item name needs, so no name is cut off.
+/// Only when even one column is too narrow (a phone) is a name shortened, and its full text shows
+/// on hover.
+fn item_rows(ui: &mut Ui, cx: &mut GameCtx, id: impl std::hash::Hash + Copy, rows: &[(String, String)], width: f32, extra: f32) {
+    let rows: Vec<&(String, String)> = rows.iter().filter(|(_, p)| cx.get(p).is_some()).collect();
+    if rows.is_empty() {
+        return;
+    }
+    let font = egui::TextStyle::Body.resolve(ui.style());
+    let color = ui.visuals().text_color();
+    let widest = rows.iter().map(|(l, _)| ui.fonts(|f| f.layout_no_wrap(tr_any(l).to_string(), font.clone(), color).size().x)).fold(0.0_f32, f32::max);
+    let gap = ui.spacing().item_spacing.x;
+    let label_w = widest.ceil() + 4.0;
+    let need = label_w + width + extra + gap * 2.0 + 16.0;
+    let avail = ui.available_width();
+    let cols = ((avail / need).floor() as usize).clamp(1, rows.len().min(3));
+    let per = rows.len().div_ceil(cols);
+    ui.columns(cols, |cs| {
+        for (c, chunk) in rows.chunks(per.max(1)).enumerate() {
+            let ui = &mut cs[c];
+            ui.push_id((id, c), |ui| {
+                for (label, p) in chunk {
+                    cx.row_fixed(ui, label, p, label_w, width);
+                }
+            });
+        }
+    });
 }
 
 /// "Add items": who gets them, and an amount per item kind (see `fmt::larian_add` and
@@ -133,7 +162,7 @@ fn add_items(ui: &mut Ui, cx: &mut GameCtx, hint: &str) {
             ui.weak(trf("{0} items match; type to narrow the list.", &[&shown.len()]));
         }
         egui::ScrollArea::vertical().show_list(ui, "dos2_add_list", 360.0, |ui| {
-            super::screens2::value_rows(ui, cx, "dos2_add_rows", &shown[..shown.len().min(300)]);
+            item_rows(ui, cx, "dos2_add_rows", &shown[..shown.len().min(300)], 90.0, 84.0);
         });
         ui.weak(hint); // i18n-ok: a name or value from the save, or already translated
     });
@@ -220,10 +249,9 @@ fn bg3_carried(ui: &mut Ui, cx: &mut GameCtx, gold: Color32) {
         panel(ui, &trf("Stacked items ({0})", &[&things.len()]), |ui| {
             let q = super::screens2::filter_box(ui, &format!("bg3_items{t}"), tr("potion, arrow, scroll…"));
             let shown: Vec<&String> = things.iter().filter(|k| q.is_empty() || k.to_lowercase().contains(&q)).collect();
+            let rows: Vec<(String, String)> = shown.iter().map(|k| (k.replace('_', " "), format!("{base}/Items/{}", esc(k)))).collect();
             egui::ScrollArea::vertical().show_list(ui, ("bg3_inv", t), 360.0, |ui| {
-                columns(ui, 300.0, shown.len(), |ui, i| {
-                    cx.row_fixed(ui, &shown[i].replace('_', " "), &format!("{base}/Items/{}", esc(shown[i])), 190.0, 60.0);
-                });
+                item_rows(ui, cx, ("bg3_inv_rows", t), &rows, 60.0, 84.0);
             });
             ui.weak(
                 tr("Stack sizes of what this character carries, by the game's item name. Items can't be removed here; Add items adds new ones. A stack the game split just before saving shows as read-only."),
@@ -384,4 +412,57 @@ fn bg3_story(ui: &mut Ui, cx: &mut GameCtx, _accent: Color32) {
         ui.add_space(4.0);
         ui.weak(tr("Tick a flag to set it, untick it to clear it. These are the story's global flags, named as the game's scripts name them; the story script's own list of set flags is kept in step when you save. Changing a flag doesn't replay the scene behind it. Flags marked \u{26A0} are riskier than most, so change few at a time and keep the backup."));
     }));
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use serde_json::json;
+
+    /// Every shown text that was shortened with "…".
+    fn texts(out: &egui::FullOutput) -> Vec<String> {
+        let mut all = vec![];
+        for cs in &out.shapes {
+            let mut stack = vec![&cs.shape];
+            while let Some(sh) = stack.pop() {
+                match sh {
+                    egui::epaint::Shape::Vec(v) => stack.extend(v.iter()),
+                    egui::epaint::Shape::Text(t) if t.galley.elided => all.push(t.galley.text().to_string()),
+                    _ => {}
+                }
+            }
+        }
+        all
+    }
+
+    /// Long item names (DOS2 ones run past 40 characters) are shown whole in the item lists
+    /// wherever they can fit: the list uses fewer, wider columns instead of cutting names short.
+    #[test]
+    fn item_names_are_not_cut_short() {
+        let names = ["ARM_Vendor_Leather_Gloves_Light_A_Unique", "FOR_Village_Blacksmith_FineSword_Of_Dawn", "OBJ_Scroll_Blindness"];
+        let mut items = serde_json::Map::new();
+        for n in names {
+            items.insert(n.to_string(), json!(1));
+        }
+        let root = json!({ "Items": items });
+        let rows: Vec<(String, String)> = names.iter().map(|n| (n.replace('_', " "), format!("/Items/{n}"))).collect();
+        for w in [1000.0, 700.0, 520.0] {
+            let ctx = egui::Context::default();
+            crate::theme::install_fonts(&ctx);
+            let mut shown = vec![];
+            for frame in 0..3 {
+                let input = egui::RawInput { screen_rect: Some(egui::Rect::from_min_size(egui::Pos2::ZERO, egui::vec2(w, 600.0))), ..Default::default() };
+                let out = ctx.run(input, |ctx| {
+                    egui::CentralPanel::default().show(ctx, |ui| {
+                        let mut cx = GameCtx { root: &root, baseline: &root, tree: None, edits: vec![], archive: None, open_entry: None };
+                        item_rows(ui, &mut cx, "t", &rows, 90.0, 84.0);
+                    });
+                });
+                if frame == 2 {
+                    shown = texts(&out);
+                }
+            }
+            assert!(shown.is_empty(), "names cut short at width {w}: {shown:?}");
+        }
+    }
 }

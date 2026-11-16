@@ -884,6 +884,10 @@ impl GameCtx<'_> {
                 ui.set_width(label_w);
                 let r = ui.add(egui::Label::new(RichText::new(label).color(c)).truncate());
                 find_mark(ui, r.rect, label);
+                // A name cut short shows in full on hover.
+                if r.hovered() && ui.fonts(|f| f.layout_no_wrap(label.to_string(), egui::TextStyle::Body.resolve(ui.style()), c).size().x) > label_w {
+                    r.on_hover_text(label);
+                }
             });
             self.editor(ui, p, width);
         });
