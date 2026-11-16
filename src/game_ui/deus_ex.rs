@@ -125,7 +125,7 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
     });
     if let Some(w) = cx.text("/Weapons") {
         panel(ui, "Weapons", |ui| {
-            ui.label(w);
+            ui.label(w); // i18n-ok: a name or value from the save, or already translated
         });
     }
 }

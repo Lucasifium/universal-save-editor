@@ -168,8 +168,8 @@ Back up and start a new game…
 Keeps a named backup, then removes the save file so the game starts a new game. Restore the backup any time to go back.
 = Conserve une copie de secours nommée, puis supprime le fichier de sauvegarde pour que le jeu démarre une nouvelle partie. Restaurez la copie à tout moment pour revenir en arrière.
 
-Backups for this save…
-= Copies de secours de cette sauvegarde…
+Save manager…
+= Gestionnaire de sauvegardes…
 
 All backups of this save in one window: restore, compare, delete, name. Restoring backs up the current save first.
 = Toutes les copies de secours de cette sauvegarde dans une fenêtre : restaurer, comparer, supprimer, nommer. La restauration copie d'abord la sauvegarde actuelle.
@@ -26874,8 +26874,8 @@ Applied “{0}”: 1 value changed.
 Applied “{0}”: {1} values changed.
 = « {0} » appliqué : {1} valeurs modifiées.
 
-Backed up as “{0}” and removed the save, so the game starts a new game. Restore it from Backups › Backups for this save… any time.
-= Sauvegardée sous « {0} » puis retirée : le jeu démarrera une nouvelle partie. Restaurez-la à tout moment depuis Copies de secours › Copies de secours de cette sauvegarde…
+Backed up as “{0}” and removed the save, so the game starts a new game. Restore it from Backups › Save manager… any time.
+= Sauvegardée sous « {0} » puis retirée : le jeu démarrera une nouvelle partie. Restaurez-la à tout moment depuis Copies de secours › Gestionnaire de sauvegardes…
 
 Backed up this save as “{0}”.
 = Cette sauvegarde a été copiée sous « {0} ».
@@ -29576,3 +29576,24 @@ Find on the open tab
 
 Type a name for the backup first
 = Saisissez d’abord un nom pour la copie de secours
+
+Ceramics
+= Céramiques
+
+Chiral crystals
+= Cristaux chiraux
+
+Resins
+= Résines
+
+Special alloys
+= Alliages spéciaux
+
+HQ
+= HQ
+
+V
+= V
+
+YoRHa
+= YoRHa

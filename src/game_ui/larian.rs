@@ -135,7 +135,7 @@ fn add_items(ui: &mut Ui, cx: &mut GameCtx, hint: &str) {
         egui::ScrollArea::vertical().show_list(ui, "dos2_add_list", 360.0, |ui| {
             super::screens2::value_rows(ui, cx, "dos2_add_rows", &shown[..shown.len().min(300)]);
         });
-        ui.weak(hint);
+        ui.weak(hint); // i18n-ok: a name or value from the save, or already translated
     });
 }
 

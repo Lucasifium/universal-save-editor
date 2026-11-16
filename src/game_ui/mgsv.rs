@@ -24,7 +24,7 @@ fn esc(k: &str) -> String {
 fn grid(ui: &mut Ui, cx: &mut GameCtx, group: &str, id: &str) {
     Grid::new(id).num_columns(2).spacing([14.0, 4.0]).show(ui, |ui| {
         for n in names(cx, group) {
-            ui.label(&n);
+            ui.label(&n); // i18n-ok: a name or value from the save, or already translated
             cx.editor(ui, &format!("/{group}/{}", esc(&n)), 110.0);
             ui.end_row();
         }
@@ -110,7 +110,7 @@ fn resources(ui: &mut Ui, cx: &mut GameCtx) {
             ui.strong(tr("Processed (online)"));
             ui.end_row();
             for n in &rs {
-                ui.label(n);
+                ui.label(n); // i18n-ok: a name or value from the save, or already translated
                 let p = |f: &str| format!("/Resources/{}/{f}", esc(n));
                 let total = cx.int(&p("Usable (online)")).unwrap_or(0) + cx.int(&p("Usable (local)")).unwrap_or(0);
                 ui.label(total.to_string());
@@ -234,7 +234,7 @@ fn bases(ui: &mut Ui, cx: &mut GameCtx) {
             ui.collapsing(b.as_str(), |ui| {
                 Grid::new(format!("mgsv_base_{b}")).num_columns(3).spacing([14.0, 4.0]).show(ui, |ui| {
                     for pl in names(cx, &format!("Bases/{}", esc(b))) {
-                        ui.label(&pl);
+                        ui.label(&pl); // i18n-ok: a name or value from the save, or already translated
                         let p = format!("/Bases/{}/{}", esc(b), esc(&pl));
                         cx.editor(ui, &format!("{p}/Grade (0-4)"), 50.0);
                         cx.editor(ui, &format!("{p}/Under construction"), 50.0);

@@ -71,7 +71,7 @@ fn stacks(ui: &mut Ui, cx: &mut GameCtx, id: &str, groups: &[String], note: &str
         let labels: Vec<String> = groups.iter().map(|g| format!("{g} ({})", keys(cx, &join("", g)).len())).collect();
         let t = tabs(ui, id, &labels);
         list(ui, cx, &format!("{id}{t}"), &join("", &groups[t]), "item name");
-        ui.weak(note);
+        ui.weak(note); // i18n-ok: a name or value from the save, or already translated
     });
 }
 

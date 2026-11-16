@@ -100,7 +100,7 @@ fn sheet(ui: &mut Ui, cx: &mut GameCtx) {
                     for (label, p) in [("Max hit points", "/Character/Max hit points"), ("Radiation", "/Character/Radiation"), ("Poison", "/Character/Poison")] {
                         if let Some(v) = cx.text(p) {
                             ui.label(tr_any(label));
-                            ui.label(v);
+                            ui.label(v); // i18n-ok: a name or value from the save, or already translated
                             ui.end_row();
                         }
                     }
@@ -187,7 +187,7 @@ fn sheet(ui: &mut Ui, cx: &mut GameCtx) {
                     if let Some(w) = cx.text(&join(&base, "Loaded with")) {
                         label = format!("{label}  [{w}]");
                     }
-                    ui.label(label);
+                    ui.label(label); // i18n-ok: a name or value from the save, or already translated
                     cx.compact(ui, &join(&base, "Count"), 90.0);
                     if cx.get(&join(&base, "Loaded rounds")).is_some() {
                         cx.compact(ui, &join(&base, "Loaded rounds"), 60.0);

@@ -46,7 +46,7 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx, two: bool) {
             if let Some(c) = cx.text(&format!("{s}/Career")) {
                 about = format!("{about}  \u{00B7}  {c}");
             }
-            ui.weak(about);
+            ui.weak(about); // i18n-ok: a name or value from the save, or already translated
             for group in ["Skills", "Personality"] {
                 ui.add_space(4.0);
                 ui.strong(crate::i18n::tr_any(group));
@@ -153,7 +153,7 @@ pub fn show3(ui: &mut Ui, cx: &mut GameCtx) {
                 let rows: Vec<(String, String)> = keys(cx, &format!("{s}/{g}")).into_iter().map(|k| (k.clone(), format!("{s}/{g}/{}", pointer_escape(&k)))).collect();
                 if !rows.is_empty() {
                     ui.add_space(4.0);
-                    ui.strong(title);
+                    ui.strong(title); // i18n-ok: a name or value from the save, or already translated
                     value_rows(ui, cx, &format!("sims3_{t}_{n}_{g}"), &rows);
                 }
             }

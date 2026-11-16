@@ -284,7 +284,7 @@ pub fn stardew(ui: &mut Ui, cx: &mut GameCtx) {
                     let b = base(n);
                     let pts = format!("{b}/value/Friendship/Points");
                     let Some(who) = cx.text(&format!("{b}/key/string")) else { continue };
-                    ui.label(who);
+                    ui.label(who); // i18n-ok: a name or value from the save, or already translated
                     cx.compact(ui, &pts, 70.0);
                     ui.weak(trf("{0} hearts", &[&format!("{:.1}", cx.num(&pts).unwrap_or(0.0) / 250.0)]));
                     ui.end_row();
@@ -303,7 +303,7 @@ pub fn stardew(ui: &mut Ui, cx: &mut GameCtx) {
                 for n in 0..slots {
                     let b = join(p, &format!("items/Item/{n}"));
                     let Some(name) = cx.text(&format!("{b}/name")) else { continue };
-                    ui.label(name);
+                    ui.label(name); // i18n-ok: a name or value from the save, or already translated
                     let stack = if cx.get(&format!("{b}/stack")).is_some() { format!("{b}/stack") } else { format!("{b}/Stack") };
                     cx.compact(ui, &stack, 60.0);
                     if cx.get(&format!("{b}/quality")).is_some() {
@@ -1034,7 +1034,7 @@ pub fn onimusha(ui: &mut Ui, cx: &mut GameCtx) {
                 for (k, id) in &used {
                     let p = format!("{items}/{k}");
                     let name = onimusha_item(*id).map_or_else(|| trf("Item {0}", &[&id]), str::to_string);
-                    ui.label(name);
+                    ui.label(name); // i18n-ok: a name or value from the save, or already translated
                     cx.cell(ui, &format!("{p}/EquipNum"), 70.0);
                     cx.cell(ui, &format!("{p}/BoxNum"), 70.0);
                     ui.end_row();
@@ -1215,7 +1215,7 @@ pub fn rimworld(ui: &mut Ui, cx: &mut GameCtx) {
         let t = tabs(ui, "rw_pawn", &names);
         let base = join("/Colonists", &names[t]);
         if let Some(full) = cx.text(&format!("{base}/Name")) {
-            ui.weak(full);
+            ui.weak(full); // i18n-ok: a name or value from the save, or already translated
         }
         let skills = keys(cx, &format!("{base}/Skills"));
         egui::Grid::new(("rw_skills", t)).num_columns(3).striped(true).spacing([14.0, 4.0]).show(ui, |ui| {
@@ -1243,7 +1243,7 @@ pub fn rimworld(ui: &mut Ui, cx: &mut GameCtx) {
                 egui::CollapsingHeader::new(trf("{0}  ({1} on the map)", &[&words(kind), &fmt_num(total as f64)])).id_salt(("rw_res", kind)).show(ui, |ui| {
                     egui::Grid::new(("rw_res_g", kind)).num_columns(2).striped(true).spacing([14.0, 3.0]).show(ui, |ui| {
                         for k in &stacks {
-                            ui.label(k);
+                            ui.label(k); // i18n-ok: a name or value from the save, or already translated
                             cx.compact(ui, &join(&base, k), 70.0);
                             ui.end_row();
                         }
@@ -1262,7 +1262,7 @@ pub fn rimworld(ui: &mut Ui, cx: &mut GameCtx) {
         egui::ScrollArea::vertical().show_list(ui, "rw_silver", 220.0, |ui| {
             egui::Grid::new("rw_silver_g").num_columns(2).striped(true).spacing([14.0, 4.0]).show(ui, |ui| {
                 for s in &stacks {
-                    ui.label(s);
+                    ui.label(s); // i18n-ok: a name or value from the save, or already translated
                     cx.editor(ui, &join("/Silver", s), 100.0);
                     ui.end_row();
                 }

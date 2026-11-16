@@ -164,7 +164,7 @@ fn roster(ui: &mut Ui, cx: &mut GameCtx) {
                 ui.end_row();
                 for (b, name, class) in &heroes {
                     ui.label(RichText::new(name).color(ui.visuals().strong_text_color()));
-                    ui.label(class);
+                    ui.label(class); // i18n-ok: a name or value from the save, or already translated
                     for (k, w) in [("resolveXp", 56.0), ("m_Stress", 64.0), ("actor/current_hp", 64.0), ("weapon_rank", 40.0), ("armour_rank", 40.0)] {
                         cx.compact(ui, &format!("{b}/{k}"), w);
                     }
@@ -297,7 +297,7 @@ fn dd2_profile(ui: &mut Ui, cx: &mut GameCtx) {
             panel(ui, &crate::i18n::trf("Unlocked at the Altar of Hope ({0})", &[&unlocks.len()]), |ui| {
                 egui::ScrollArea::vertical().show_list(ui, "dd2_unlocks", 300.0, |ui| {
                     for u in &unlocks {
-                        ui.label(u);
+                        ui.label(u); // i18n-ok: a name or value from the save, or already translated
                     }
                 });
             });
@@ -314,8 +314,8 @@ fn dd2_profile(ui: &mut Ui, cx: &mut GameCtx) {
                         let n = e.get(1).map(crate::widgets::display).unwrap_or_default();
                         let w = won.iter().find(|x| x.get(0).and_then(Value::as_str) == Some(&boss)).and_then(|x| x.get(1)).map(crate::widgets::display).unwrap_or_else(|| "0".into());
                         ui.label(words(&boss));
-                        ui.label(n);
-                        ui.label(w);
+                        ui.label(n); // i18n-ok: a name or value from the save, or already translated
+                        ui.label(w); // i18n-ok: a name or value from the save, or already translated
                         ui.end_row();
                     }
                 });

@@ -168,8 +168,8 @@ Back up and start a new game…
 Keeps a named backup, then removes the save file so the game starts a new game. Restore the backup any time to go back.
 = 名前を付けてバックアップし、セーブデータを削除してゲームを最初から始められるようにします。バックアップはいつでも復元して元に戻せます。
 
-Backups for this save…
-= このセーブデータのバックアップ…
+Save manager…
+= セーブマネージャー…
 
 All backups of this save in one window: restore, compare, delete, name. Restoring backs up the current save first.
 = このセーブデータのバックアップを1つのウィンドウに一覧表示：復元、比較、削除、名前付け。復元前に現在のセーブデータをバックアップします。
@@ -26951,8 +26951,8 @@ Applied “{0}”: 1 value changed.
 Applied “{0}”: {1} values changed.
 = 「{0}」を適用しました：{1} 件の値を変更。
 
-Backed up as “{0}” and removed the save, so the game starts a new game. Restore it from Backups › Backups for this save… any time.
-= 「{0}」としてバックアップし、セーブデータを取り除きました。ゲームは新しく始まります。いつでも「バックアップ › このセーブデータのバックアップ…」から復元できます。
+Backed up as “{0}” and removed the save, so the game starts a new game. Restore it from Backups › Save manager… any time.
+= 「{0}」としてバックアップし、セーブデータを取り除きました。ゲームは新しく始まります。いつでも「バックアップ › セーブマネージャー…」から復元できます。
 
 Backed up this save as “{0}”.
 = このセーブデータを「{0}」としてバックアップしました。
@@ -29647,3 +29647,24 @@ Find on the open tab
 
 Type a name for the backup first
 = 先にバックアップの名前を入力してください
+
+Ceramics
+= セラミック
+
+Chiral crystals
+= カイラル結晶
+
+Resins
+= 樹脂
+
+Special alloys
+= 特殊合金
+
+HQ
+= HQ
+
+V
+= V
+
+YoRHa
+= YoRHa

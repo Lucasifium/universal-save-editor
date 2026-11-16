@@ -2201,7 +2201,7 @@ impl App {
                     ui.close_menu();
                     self.new_game_name = Some(String::new());
                 }
-                if !WEB && ui.add_enabled(has, egui::Button::new(tr("Backups for this save\u{2026}"))).on_hover_text(tr("All backups of this save in one window: restore, compare, delete, name. Restoring backs up the current save first.")).clicked() {
+                if !WEB && ui.add_enabled(has, egui::Button::new(tr("Save manager\u{2026}"))).on_hover_text(tr("All backups of this save in one window: restore, compare, delete, name. Restoring backs up the current save first.")).clicked() {
                     ui.close_menu();
                     self.manager = self.doc.as_ref().map(|d| (d.path.clone(), String::new(), None));
                 }
@@ -2640,7 +2640,7 @@ impl App {
                 // Close the file so its old data can't be saved back over the new game.
                 self.doc = None;
                 self.dirty = false;
-                self.ok(trf("Backed up as \u{201C}{0}\u{201D} and removed the save, so the game starts a new game. Restore it from Backups \u{203A} Backups for this save\u{2026} any time.", &[&name.trim()]));
+                self.ok(trf("Backed up as \u{201C}{0}\u{201D} and removed the save, so the game starts a new game. Restore it from Backups \u{203A} Save manager\u{2026} any time.", &[&name.trim()]));
                 true
             }
             Err(e) => {
@@ -3822,14 +3822,14 @@ impl App {
                     archive: d.layers.iter().find_map(|l| if let Layer::Copeck { name, .. } = l { Some(name.as_str()) } else { None }).map(|n| (n, d.zip_entries.as_slice(), newest.as_deref())),
                     open_entry: None,
                 };
-                // Laid out to the window's width (at most 1200); a table or banner that is wider
-                // still (a phone) scrolls sideways instead of being cut off.
+                // Laid out to the window's width; a table or banner that is wider still (a phone)
+                // scrolls sideways instead of being cut off.
                 // Minus the vertical scrollbar, or the content is a little wider than the window.
                 let sb = ui.spacing().scroll.bar_width + ui.spacing().scroll.bar_inner_margin + ui.spacing().scroll.bar_outer_margin;
                 let w = (ui.available_width() - sb).max(100.0);
                 crate::game_ui::begin_find(ui.ctx(), &self.game_find, self.game_find_idx);
                 ScrollArea::both().auto_shrink([false, false]).max_width(w + sb).show_locked(ui, |ui| {
-                    ui.set_max_width(w.min(1200.0));
+                    ui.set_max_width(w);
                     crate::game_ui::show(game, ui, &mut cx);
                     ui.add_space(12.0);
                     ui.weak(tr("Everything else in this save is in the Values and Tree tabs."));

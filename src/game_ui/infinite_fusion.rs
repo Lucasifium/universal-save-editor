@@ -13,7 +13,7 @@ const P: &str = "/Part 1/player";
 const BOXES: &str = "/Part 1/storage_system/@boxes";
 const POCKETS: [&str; 8] = ["Items", "Medicine", "Poké Balls", "TMs & HMs", "Berries", "Mail", "Battle Items", "Key Items"];
 const BADGES: [&str; 16] = ["Boulder", "Cascade", "Thunder", "Rainbow", "Soul", "Marsh", "Volcano", "Earth", "Zephyr", "Hive", "Plain", "Fog", "Storm", "Mineral", "Glacier", "Rising"];
-const STATS: [(&str, &str, &str); 6] = [("HP", "HP", "@totalhp"), ("ATTACK", "Atk", "@attack"), ("DEFENSE", "Def", "@defense"), ("SPECIAL_ATTACK", "Sp. Atk", "@spatk"), ("SPECIAL_DEFENSE", "Sp. Def", "@spdef"), ("SPEED", "Speed", "@speed")];
+const STATS: [(&str, &str, &str); 6] = [("HP", crate::i18n::tx("HP"), "@totalhp"), ("ATTACK", crate::i18n::tx("Atk"), "@attack"), ("DEFENSE", crate::i18n::tx("Def"), "@defense"), ("SPECIAL_ATTACK", crate::i18n::tx("Sp. Atk"), "@spatk"), ("SPECIAL_DEFENSE", crate::i18n::tx("Sp. Def"), "@spdef"), ("SPEED", crate::i18n::tx("Speed"), "@speed")];
 
 fn len(cx: &GameCtx, p: &str) -> usize {
     cx.get(p).and_then(Value::as_array).map_or(0, Vec::len)
@@ -233,14 +233,14 @@ fn mon_card(ui: &mut Ui, cx: &mut GameCtx, m: &str, id: &str) {
         ui.horizontal_wrapped(|ui| {
             ui.label(RichText::new(nick.clone().unwrap_or_else(|| sp.clone())).size(16.0).strong());
             if nick.is_some() {
-                ui.weak(&sp);
+                ui.weak(&sp); // i18n-ok: a name or value from the save, or already translated
             }
             if shiny(cx, m) {
                 ui.label(RichText::new(tr("\u{2605} Shiny")).color(GOLD));
             }
         });
         if let Some(p) = parts {
-            ui.weak(p);
+            ui.weak(p); // i18n-ok: a name or value from the save, or already translated
         }
         let types: Vec<String> = ["@type1", "@type2"].iter().filter_map(|t| cx.text(&f(&format!("@species_data/{t}")))).map(|t| nice(&t)).collect();
         let mut facts = vec![];
@@ -289,7 +289,7 @@ fn mon_card(ui: &mut Ui, cx: &mut GameCtx, m: &str, id: &str) {
             ui.weak(tr("Stat"));
             ui.end_row();
             for (k, label, stat) in STATS {
-                ui.label(label);
+                ui.label(crate::i18n::tr_any(label));
                 cx.editor(ui, &f(&format!("@iv/{k}")), 44.0);
                 cx.editor(ui, &f(&format!("@ev/{k}")), 52.0);
                 let c = if cx.modified(&f(stat)) { crate::theme::fg(ui, crate::theme::MODIFIED) } else { ui.visuals().strong_text_color() };
@@ -302,7 +302,7 @@ fn mon_card(ui: &mut Ui, cx: &mut GameCtx, m: &str, id: &str) {
         if total > 510 {
             ui.colored_label(Color32::from_rgb(220, 120, 60), format!("{msg}. {}", crate::i18n::tr("The game never gives more than 510 in all.")));
         } else {
-            ui.weak(msg);
+            ui.weak(msg); // i18n-ok: a name or value from the save, or already translated
         }
         let moves: Vec<String> = (0..4).filter_map(|i| cx.text(&f(&format!("@moves/{i}/@id")))).map(|s| nice(&s)).collect();
         if !moves.is_empty() {

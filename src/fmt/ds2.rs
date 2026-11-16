@@ -248,7 +248,7 @@ const FACILITIES: [(u32, &str); 48] = [
     (400, "APAC"),
 ];
 
-pub const MATERIALS: [&str; 6] = ["Chiral crystals", "Resins", "Metals", "Ceramics", "Chemicals", "Special alloys"];
+pub const MATERIALS: [&str; 6] = [crate::i18n::tx("Chiral crystals"), crate::i18n::tx("Resins"), crate::i18n::tx("Metals"), crate::i18n::tx("Ceramics"), crate::i18n::tx("Chemicals"), crate::i18n::tx("Special alloys")];
 
 struct Rd<'a> {
     b: &'a [u8],

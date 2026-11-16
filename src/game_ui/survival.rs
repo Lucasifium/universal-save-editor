@@ -188,7 +188,7 @@ pub fn valheim(ui: &mut Ui, cx: &mut GameCtx) {
     });
     if let Some(why) = cx.text("/Character/Read-only") {
         panel(ui, "Read-only", |ui| {
-            ui.label(why);
+            ui.label(crate::i18n::tr_any(&why));
         });
         return;
     }

@@ -166,7 +166,7 @@ fn ammo_panel(ui: &mut Ui, cx: &mut GameCtx, capacity: bool, note: &str) {
                 }
             });
         }
-        ui.weak(note);
+        ui.weak(note); // i18n-ok: a name or value from the save, or already translated
     });
 }
 

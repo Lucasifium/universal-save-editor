@@ -255,87 +255,87 @@ impl Game {
     /// Name of the tab that shows the screen.
     pub fn tab_label(self) -> &'static str {
         match self {
-            Game::Pokemon | Game::InfiniteFusion => "Trainer",
-            Game::TerrariaWorld => "World",
-            Game::Terraria | Game::Minecraft | Game::Stardew => "Player",
-            Game::Balatro | Game::SlayTheSpire => "Run",
-            Game::Hades => "House",
-            Game::RpgMaker => "Party",
-            Game::Paradox => "Empire",
-            Game::Civ6 => "Civilizations",
-            Game::Diablo2 => "Character",
-            Game::Pathfinder => "Party",
-            Game::RimWorld | Game::OxygenNotIncluded => "Colony",
-            Game::Subnautica | Game::ReSlot => "Slot",
-            Game::GreenHell => "Survivor",
-            Game::RenPy => "Story",
-            Game::MassEffect => "Shepard",
-            Game::Xcom | Game::Xcom2 => "HQ",
-            Game::Ff7 | Game::Ff7Remake | Game::Ff9 => "Party",
-            Game::HogwartsDb => "Character",
-            Game::DyingLight2 | Game::DyingLight => "Survivor",
-            Game::Witcher3 => "Geralt",
-            Game::Cyberpunk => "V",
-            Game::Kenshi => "Faction",
-            Game::KenshiSquad => "Squad",
-            Game::Palworld => "Player",
-            Game::P3r => "Protagonist",
-            Game::P4g => "Protagonist",
-            Game::Ffx2 => "Gullwings",
-            Game::P5r => "Phantom Thieves",
-            Game::Ffx => "Party",
-            Game::Metro => "Artyom",
-            Game::Yakuza0 => "Kiryu & Majima",
-            Game::YakuzaDe => "Player",
-            Game::Kiwami => "Kiryu",
-            Game::Ffxv => "Party",
-            Game::DeathStranding2 => "Facilities",
-            Game::DeathStranding1 => "Facilities",
-            Game::Andromeda => "Pathfinder",
-            Game::Gow2018 => "Kratos",
-            Game::GowRagnarok => "Kratos",
-            Game::Cairn => "Climber",
-            Game::Borderlands | Game::Borderlands3 => "Vault Hunter",
-            Game::Wonderlands => "Hero",
-            Game::TruckSim => "Driver",
-            Game::X4 => "Pilot",
-            Game::Mgsv => "Commander",
-            Game::TotalWar => "Campaign",
-            Game::GrimDawn | Game::TitanQuest | Game::Torchlight2 => "Character",
-            Game::Fallout12 => "Pip-Boy",
-            Game::DeusEx => "JC Denton",
-            Game::Kotor => "Party",
-            Game::Infinity => "Party",
-            Game::DragonAge => "Warden",
-            Game::HalfLife | Game::HalfLife2 => "Player",
-            Game::Silksong => "Hornet",
-            Game::Deltarune => "Party",
-            Game::VampireSurvivors => "Collection",
-            Game::DarkestDungeon => "Hamlet",
-            Game::DarkestDungeon2 => "Expedition",
-            Game::Octopath => "Travellers",
-            Game::Dos2 | Game::Bg3 => "Party",
-            Game::Wasteland3 => "Rangers",
-            Game::Valheim => "Viking",
-            Game::GoldenSun => "Party",
-            Game::Torment => "Party",
-            Game::Starbound => "Character",
-            Game::Expedition33 => "Party",
-            Game::Fallout3Nv => "Character",
-            Game::Nier => "YoRHa",
-            Game::WorldOfHorror => "Unlocks",
-            Game::Sims1 | Game::Sims2 => "Families",
-            Game::Sims4 | Game::Sims3 => "Households",
-            Game::Phasmophobia => "Ghost hunter",
-            Game::LethalCompany => "Crew",
-            Game::Repo => "Team",
-            Game::DeadRising | Game::DeadRising2 => "Survivor",
-            Game::LegoBatman => "Studs",
-            Game::PlanetCrafter => "Terraformer",
-            Game::FfResonance => "Party",
-            Game::Ff16 => "Clive",
+            Game::Pokemon | Game::InfiniteFusion => crate::i18n::tx("Trainer"),
+            Game::TerrariaWorld => crate::i18n::tx("World"),
+            Game::Terraria | Game::Minecraft | Game::Stardew => crate::i18n::tx("Player"),
+            Game::Balatro | Game::SlayTheSpire => crate::i18n::tx("Run"),
+            Game::Hades => crate::i18n::tx("House"),
+            Game::RpgMaker => crate::i18n::tx("Party"),
+            Game::Paradox => crate::i18n::tx("Empire"),
+            Game::Civ6 => crate::i18n::tx("Civilizations"),
+            Game::Diablo2 => crate::i18n::tx("Character"),
+            Game::Pathfinder => crate::i18n::tx("Party"),
+            Game::RimWorld | Game::OxygenNotIncluded => crate::i18n::tx("Colony"),
+            Game::Subnautica | Game::ReSlot => crate::i18n::tx("Slot"),
+            Game::GreenHell => crate::i18n::tx("Survivor"),
+            Game::RenPy => crate::i18n::tx("Story"),
+            Game::MassEffect => crate::i18n::tx("Shepard"),
+            Game::Xcom | Game::Xcom2 => crate::i18n::tx("HQ"),
+            Game::Ff7 | Game::Ff7Remake | Game::Ff9 => crate::i18n::tx("Party"),
+            Game::HogwartsDb => crate::i18n::tx("Character"),
+            Game::DyingLight2 | Game::DyingLight => crate::i18n::tx("Survivor"),
+            Game::Witcher3 => crate::i18n::tx("Geralt"),
+            Game::Cyberpunk => crate::i18n::tx("V"),
+            Game::Kenshi => crate::i18n::tx("Faction"),
+            Game::KenshiSquad => crate::i18n::tx("Squad"),
+            Game::Palworld => crate::i18n::tx("Player"),
+            Game::P3r => crate::i18n::tx("Protagonist"),
+            Game::P4g => crate::i18n::tx("Protagonist"),
+            Game::Ffx2 => crate::i18n::tx("Gullwings"),
+            Game::P5r => crate::i18n::tx("Phantom Thieves"),
+            Game::Ffx => crate::i18n::tx("Party"),
+            Game::Metro => crate::i18n::tx("Artyom"),
+            Game::Yakuza0 => crate::i18n::tx("Kiryu & Majima"),
+            Game::YakuzaDe => crate::i18n::tx("Player"),
+            Game::Kiwami => crate::i18n::tx("Kiryu"),
+            Game::Ffxv => crate::i18n::tx("Party"),
+            Game::DeathStranding2 => crate::i18n::tx("Facilities"),
+            Game::DeathStranding1 => crate::i18n::tx("Facilities"),
+            Game::Andromeda => crate::i18n::tx("Pathfinder"),
+            Game::Gow2018 => crate::i18n::tx("Kratos"),
+            Game::GowRagnarok => crate::i18n::tx("Kratos"),
+            Game::Cairn => crate::i18n::tx("Climber"),
+            Game::Borderlands | Game::Borderlands3 => crate::i18n::tx("Vault Hunter"),
+            Game::Wonderlands => crate::i18n::tx("Hero"),
+            Game::TruckSim => crate::i18n::tx("Driver"),
+            Game::X4 => crate::i18n::tx("Pilot"),
+            Game::Mgsv => crate::i18n::tx("Commander"),
+            Game::TotalWar => crate::i18n::tx("Campaign"),
+            Game::GrimDawn | Game::TitanQuest | Game::Torchlight2 => crate::i18n::tx("Character"),
+            Game::Fallout12 => crate::i18n::tx("Pip-Boy"),
+            Game::DeusEx => crate::i18n::tx("JC Denton"),
+            Game::Kotor => crate::i18n::tx("Party"),
+            Game::Infinity => crate::i18n::tx("Party"),
+            Game::DragonAge => crate::i18n::tx("Warden"),
+            Game::HalfLife | Game::HalfLife2 => crate::i18n::tx("Player"),
+            Game::Silksong => crate::i18n::tx("Hornet"),
+            Game::Deltarune => crate::i18n::tx("Party"),
+            Game::VampireSurvivors => crate::i18n::tx("Collection"),
+            Game::DarkestDungeon => crate::i18n::tx("Hamlet"),
+            Game::DarkestDungeon2 => crate::i18n::tx("Expedition"),
+            Game::Octopath => crate::i18n::tx("Travellers"),
+            Game::Dos2 | Game::Bg3 => crate::i18n::tx("Party"),
+            Game::Wasteland3 => crate::i18n::tx("Rangers"),
+            Game::Valheim => crate::i18n::tx("Viking"),
+            Game::GoldenSun => crate::i18n::tx("Party"),
+            Game::Torment => crate::i18n::tx("Party"),
+            Game::Starbound => crate::i18n::tx("Character"),
+            Game::Expedition33 => crate::i18n::tx("Party"),
+            Game::Fallout3Nv => crate::i18n::tx("Character"),
+            Game::Nier => crate::i18n::tx("YoRHa"),
+            Game::WorldOfHorror => crate::i18n::tx("Unlocks"),
+            Game::Sims1 | Game::Sims2 => crate::i18n::tx("Families"),
+            Game::Sims4 | Game::Sims3 => crate::i18n::tx("Households"),
+            Game::Phasmophobia => crate::i18n::tx("Ghost hunter"),
+            Game::LethalCompany => crate::i18n::tx("Crew"),
+            Game::Repo => crate::i18n::tx("Team"),
+            Game::DeadRising | Game::DeadRising2 => crate::i18n::tx("Survivor"),
+            Game::LegoBatman => crate::i18n::tx("Studs"),
+            Game::PlanetCrafter => crate::i18n::tx("Terraformer"),
+            Game::FfResonance => crate::i18n::tx("Party"),
+            Game::Ff16 => crate::i18n::tx("Clive"),
             Game::Simple(i) => simple::tab_label(i),
-            _ => "Character",
+            _ => crate::i18n::tx("Character"),
         }
     }
 }
@@ -1023,7 +1023,17 @@ pub fn hero(ui: &mut Ui, accent: Color32, title: &str, subtitle: &str, add: impl
             ui.label(RichText::new(subtitle).size(14.0).color(theme::fg(ui, accent)));
         }
         ui.add_space(6.0);
+        // Tiles count themselves, so on a phone the last of an odd number can fill its row
+        // (see `tile_frame_min`); the count is known from the frame before.
+        let key = ui.id().with("hero_tiles");
+        let before = ui.ctx().data(|d| d.get_temp::<usize>(key)).unwrap_or(0);
+        ui.ctx().data_mut(|d| d.insert_temp(egui::Id::new(HERO_TILES), (before, 0usize)));
         ui.horizontal_wrapped(add);
+        let drawn = ui.ctx().data_mut(|d| d.remove_temp::<(usize, usize)>(egui::Id::new(HERO_TILES))).map_or(0, |(_, n)| n);
+        if drawn != before {
+            ui.ctx().data_mut(|d| d.insert_temp(key, drawn));
+            ui.ctx().request_repaint();
+        }
     });
     let r = resp.response.rect;
     ui.painter().rect_filled(egui::Rect::from_min_size(r.min, egui::vec2(5.0, r.height())), egui::Rounding { nw: 10.0, sw: 10.0, ne: 0.0, se: 0.0 }, accent);
@@ -1060,6 +1070,9 @@ pub fn caption_color(ui: &Ui) -> Color32 {
 
 const TILE_W: f32 = 196.0;
 
+/// While a header card lays out its tiles: (how many it had last frame, how many so far).
+const HERO_TILES: &str = "game_hero_tiles";
+
 pub fn tile_frame(ui: &mut Ui, accent: Color32, modified: bool, add: impl FnOnce(&mut Ui)) {
     tile_frame_min(ui, accent, modified, 0.0, add)
 }
@@ -1072,7 +1085,19 @@ pub fn tile_frame_min(ui: &mut Ui, accent: Color32, modified: bool, min: f32, ad
     // On a phone a tile that would want more than half the row still takes half: its box is
     // narrower and scrolls, rather than every tile below it getting a row of its own.
     let min = if ui.ctx().screen_rect().width() < 640.0 { min.min(half) } else { min };
-    let tile_w = TILE_W.max(min).min(half.max(min.min(row - 40.0)));
+    let mut tile_w = TILE_W.max(min).min(half.max(min.min(row - 40.0)));
+    // On a phone tiles sit two to a row; the last of an odd number would leave half a row
+    // blank, so it takes the width of both.
+    let phone = ui.ctx().screen_rect().width() < 640.0;
+    let id = egui::Id::new(HERO_TILES);
+    let place = ui.ctx().data_mut(|d| {
+        let at = d.get_temp::<(usize, usize)>(id)?;
+        d.insert_temp(id, (at.0, at.1 + 1));
+        Some(at)
+    });
+    if phone && place.is_some_and(|(total, i)| total % 2 == 1 && i + 1 == total) && tile_w <= half {
+        tile_w = tile_w * 2.0 + 20.0 + ui.spacing().item_spacing.x;
+    }
     // Tiles flow in rows; start a new row when this one is full (frames can't wrap by themselves).
     if ui.layout().main_wrap() && ui.available_size_before_wrap().x < tile_w + 24.0 {
         ui.end_row();

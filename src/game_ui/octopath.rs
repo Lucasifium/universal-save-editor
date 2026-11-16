@@ -39,7 +39,7 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
                     let mark = if party.contains(&(*slot as i64)) { "  \u{2605}" } else { "" };
                     ui.label(RichText::new(format!("{name}{mark}")).color(ui.visuals().strong_text_color())); // i18n-ok
                     let job = ot::ptr(root, p, "FirstJobID").and_then(|q| cx.int(&q)).map(ot::job).unwrap_or_default();
-                    ui.label(job);
+                    ui.label(job); // i18n-ok: a name or value from the save, or already translated
                     for (k, w) in [("Level", 44.0), ("Exp", 84.0), ("JobPoint", 70.0), ("RawHP", 60.0), ("RawMP", 52.0)] {
                         match ot::ptr(root, p, k) {
                             Some(q) => cx.compact(ui, &q, w),

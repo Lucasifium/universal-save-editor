@@ -168,8 +168,8 @@ Back up and start a new game…
 Keeps a named backup, then removes the save file so the game starts a new game. Restore the backup any time to go back.
 = Conserva una copia con nombre y luego elimina el archivo para que el juego empiece una partida nueva. Restaura la copia cuando quieras para volver.
 
-Backups for this save…
-= Copias de esta partida…
+Save manager…
+= Gestor de partidas…
 
 All backups of this save in one window: restore, compare, delete, name. Restoring backs up the current save first.
 = Todas las copias de esta partida en una ventana: restaurar, comparar, borrar, nombrar. Al restaurar se copia antes la partida actual.
@@ -26866,8 +26866,8 @@ Applied “{0}”: 1 value changed.
 Applied “{0}”: {1} values changed.
 = Se aplicó “{0}”: {1} valores cambiados.
 
-Backed up as “{0}” and removed the save, so the game starts a new game. Restore it from Backups › Backups for this save… any time.
-= Se guardó una copia como “{0}” y se quitó la partida, así que el juego empezará una partida nueva. Puedes restaurarla cuando quieras desde Copias de seguridad › Copias de esta partida…
+Backed up as “{0}” and removed the save, so the game starts a new game. Restore it from Backups › Save manager… any time.
+= Se guardó una copia como “{0}” y se quitó la partida, así que el juego empezará una partida nueva. Puedes restaurarla cuando quieras desde Copias de seguridad › Gestor de partidas…
 
 Backed up this save as “{0}”.
 = Se guardó una copia de esta partida como “{0}”.
@@ -29562,3 +29562,24 @@ Find on the open tab
 
 Type a name for the backup first
 = Escribe primero un nombre para la copia
+
+Ceramics
+= Cerámica
+
+Chiral crystals
+= Cristales quirales
+
+Resins
+= Resinas
+
+Special alloys
+= Aleaciones especiales
+
+HQ
+= HQ
+
+V
+= V
+
+YoRHa
+= YoRHa

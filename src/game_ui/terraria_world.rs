@@ -86,7 +86,7 @@ fn chip_panel(ui: &mut Ui, cx: &mut GameCtx, title: &str, base: &str, note: &str
             }
         });
         if !note.is_empty() {
-            ui.weak(note);
+            ui.weak(note); // i18n-ok: a name or value from the save, or already translated
         }
     });
 }

@@ -373,11 +373,11 @@ pub fn deltarune(ui: &mut Ui, cx: &mut GameCtx) {
     });
     if ch1 {
         panel(ui, "Inventory", |ui| {
-            let kinds = ["Items", "Key items", "Weapons", "Armor"];
+            let kinds = [crate::i18n::tx("Items"), crate::i18n::tx("Key items"), crate::i18n::tx("Weapons"), crate::i18n::tx("Armor")];
             egui::Grid::new("dr_inv").num_columns(5).striped(true).spacing([10.0, 3.0]).show(ui, |ui| {
                 ui.label("");
                 for kind in kinds {
-                    ui.strong(kind);
+                    ui.strong(crate::i18n::tr_any(kind));
                 }
                 ui.end_row();
                 for n in 1..=13 {

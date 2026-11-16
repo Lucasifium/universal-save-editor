@@ -678,7 +678,7 @@ pub fn xcom(ui: &mut Ui, cx: &mut GameCtx) {
                             continue;
                         }
                         ui.label(if kia { RichText::new(trf("{0} (KIA)", &[&name])).weak() } else { RichText::new(name) });
-                        ui.label(class);
+                        ui.label(class); // i18n-ok: a name or value from the save, or already translated
                         cx.compact(ui, &format!("{sp}/iRank"), 36.0);
                         cx.compact(ui, &format!("{sp}/iXP"), 64.0);
                         cx.compact(ui, &format!("{sp}/iNumKills"), 52.0);
@@ -713,7 +713,7 @@ pub fn xcom(ui: &mut Ui, cx: &mut GameCtx) {
 
 // ------------------------------------------------------------------ XCOM 2 / War of the Chosen
 
-const XCOM2_RANKS: [&str; 9] = ["Rookie", "Squaddie", "Corporal", "Sergeant", "Lieutenant", "Captain", "Major", "Colonel", "Brigadier"];
+const XCOM2_RANKS: [&str; 9] = [crate::i18n::tx("Rookie"), crate::i18n::tx("Squaddie"), crate::i18n::tx("Corporal"), crate::i18n::tx("Sergeant"), crate::i18n::tx("Lieutenant"), crate::i18n::tx("Captain"), crate::i18n::tx("Major"), crate::i18n::tx("Colonel"), crate::i18n::tx("Brigadier")];
 
 pub fn xcom2(ui: &mut Ui, cx: &mut GameCtx) {
     let accent = Color32::from_rgb(70, 150, 210);
@@ -744,13 +744,13 @@ pub fn xcom2(ui: &mut Ui, cx: &mut GameCtx) {
                         if !q.is_empty() && !name.to_lowercase().contains(&q) && !class.to_lowercase().contains(&q) {
                             continue;
                         }
-                        ui.label(name);
+                        ui.label(name); // i18n-ok: a name or value from the save, or already translated
                         ui.label(words(&class));
                         let rank = format!("{b}/Rank");
                         ui.horizontal(|ui| {
                             cx.compact(ui, &rank, 36.0);
                             if let Some(r) = cx.int(&rank).and_then(|r| XCOM2_RANKS.get(r as usize)) {
-                                ui.weak(*r);
+                                ui.weak(crate::i18n::tr_any(r));
                             }
                         });
                         for f in ["Kills", "Missions", "Ability points"] {
@@ -844,7 +844,7 @@ pub fn civ6(ui: &mut Ui, cx: &mut GameCtx) {
     if !mods.is_empty() {
         panel(ui, "Mods and DLC", |ui| {
             for m in mods {
-                ui.label(m);
+                ui.label(m); // i18n-ok: a name or value from the save, or already translated
             }
         });
     }
@@ -884,7 +884,7 @@ pub fn diablo2(ui: &mut Ui, cx: &mut GameCtx) {
                     ui.label("");
                     ui.weak(tr("Base max")).on_hover_text(tr("The maximum before items and bonuses; the game adds those on top"));
                     ui.end_row();
-                    for (a, b) in [("Life", "Max life"), ("Mana", "Max mana"), ("Stamina", "Max stamina")] {
+                    for (a, b) in [(crate::i18n::tx("Life"), crate::i18n::tx("Max life")), (crate::i18n::tx("Mana"), crate::i18n::tx("Max mana")), (crate::i18n::tx("Stamina"), crate::i18n::tx("Max stamina"))] {
                         ui.label(crate::i18n::tr_any(a));
                         cx.compact(ui, &join("/Life and mana", a), 84.0);
                         ui.label("/");
@@ -982,7 +982,7 @@ pub fn ff7(ui: &mut Ui, cx: &mut GameCtx) {
             ui.strong(tr("Base max"));
             ui.end_row();
             for (n, cur, max, base) in [("HP", "HP", "Max HP", "Base max HP"), ("MP", "MP", "Max MP", "Base max MP")] {
-                ui.label(n);
+                ui.label(crate::i18n::tr_any(n));
                 cx.cell(ui, &at(cur), 70.0);
                 cx.cell(ui, &at(max), 70.0);
                 if cx.get(&at(base)).is_some() {
@@ -1025,7 +1025,7 @@ pub fn ff7_remake(ui: &mut Ui, cx: &mut GameCtx) {
             ui.end_row();
             for m in &members {
                 let p = join("/Party", m);
-                ui.label(m);
+                ui.label(m); // i18n-ok: a name or value from the save, or already translated
                 cx.compact(ui, &join(&p, "Level"), 40.0);
                 for k in ["HP", "Max HP", "MP", "Max MP"] {
                     cx.compact(ui, &join(&p, k), 60.0);
@@ -1110,7 +1110,7 @@ fn ff7r_inventory(ui: &mut Ui, cx: &mut GameCtx) {
         egui::ScrollArea::vertical().show_list(ui, "ff7r_inv_scroll", 360.0, |ui| {
             egui::Grid::new(("ff7r_inv_grid", g.as_str())).num_columns(3).striped(true).spacing([12.0, 4.0]).show(ui, |ui| {
                 for n in &names {
-                    ui.label(n);
+                    ui.label(n); // i18n-ok: a name or value from the save, or already translated
                     cx.compact(ui, &join(&base, n), 70.0);
                     let rm = join(&join("/Remove items", g), n);
                     if cx.get(&rm).is_some() {
@@ -1253,7 +1253,7 @@ pub fn ff9(ui: &mut Ui, cx: &mut GameCtx) {
                 ui.end_row();
                 for m in &members {
                     let p = join(&party, m);
-                    ui.label(m);
+                    ui.label(m); // i18n-ok: a name or value from the save, or already translated
                     for k in COLS {
                         cx.compact(ui, &join(&p, k), if k == "Experience" { 80.0 } else { 48.0 });
                     }
@@ -1581,7 +1581,7 @@ pub fn ffx2(ui: &mut Ui, cx: &mut GameCtx) {
                 ui.end_row();
                 for m in ["Yuna", "Rikku", "Paine"] {
                     let p = join("/Party", m);
-                    ui.label(m);
+                    ui.label(m); // i18n-ok: a name or value from the save, or already translated
                     for k in COLS {
                         cx.compact(ui, &join(&p, k), if k == "Experience" { 80.0 } else { 52.0 });
                     }
@@ -1618,7 +1618,7 @@ pub fn p5r(ui: &mut Ui, cx: &mut GameCtx) {
                 }
                 ui.end_row();
                 for (label, base) in rows {
-                    ui.label(label);
+                    ui.label(label); // i18n-ok: a name or value from the save, or already translated
                     if hp {
                         let who = base.trim_end_matches("/Persona");
                         cx.compact(ui, &join(who, "HP"), 52.0);
@@ -1685,7 +1685,7 @@ pub fn ffx(ui: &mut Ui, cx: &mut GameCtx) {
                                 ui.end_row();
                                 for w in &who {
                                     let p = join(&join("", group), w);
-                                    ui.label(w);
+                                    ui.label(w); // i18n-ok: a name or value from the save, or already translated
                                     for k in cols {
                                         let w = if k.contains("mode") { 110.0 } else if k.contains("HP") || *k == "AP" { 72.0 } else { 46.0 };
                                         if cx.get(&join(&p, k)).is_some() {
@@ -1794,7 +1794,7 @@ fn ffx_flags(ui: &mut Ui, cx: &mut GameCtx, base: &str, what: &str, accent: Colo
                 }
                 for (g, gb) in &groups {
                     if !g.is_empty() {
-                        ui.strong(g);
+                        ui.strong(crate::i18n::tr_any(g));
                     }
                     ui.horizontal_wrapped(|ui| {
                         for k in keys_of(cx, gb) {
@@ -1994,7 +1994,7 @@ pub fn ffxv(ui: &mut Ui, cx: &mut GameCtx) {
                     ui.end_row();
                     for w in &who {
                         let p = join(&base, w);
-                        ui.label(w);
+                        ui.label(w); // i18n-ok: a name or value from the save, or already translated
                         for k in COLS {
                             cx.compact(ui, &join(&p, k), if k.contains("xperience") { 90.0 } else { 52.0 });
                         }
@@ -2056,12 +2056,12 @@ pub fn death_stranding2(ui: &mut Ui, cx: &mut GameCtx) {
                 ui.strong(tr("Facility"));
                 ui.strong(tr("Connection"));
                 for m in crate::fmt::ds2::MATERIALS {
-                    ui.strong(m);
+                    ui.strong(crate::i18n::tr_any(m));
                 }
                 ui.end_row();
                 for n in &names {
                     let p = join("/Facilities", n);
-                    ui.label(n);
+                    ui.label(n); // i18n-ok: a name or value from the save, or already translated
                     cx.compact(ui, &join(&p, "Connection level"), 40.0);
                     for m in crate::fmt::ds2::MATERIALS {
                         cx.compact(ui, &join(&p, m), 72.0);
@@ -2097,12 +2097,12 @@ pub fn death_stranding1(ui: &mut Ui, cx: &mut GameCtx) {
                 ui.strong(tr("Facility"));
                 ui.strong(tr("Connection"));
                 for m in crate::fmt::ds1::MATERIALS {
-                    ui.strong(m);
+                    ui.strong(crate::i18n::tr_any(m));
                 }
                 ui.end_row();
                 for n in &names {
                     let p = join("/Facilities", n);
-                    ui.label(n);
+                    ui.label(n); // i18n-ok: a name or value from the save, or already translated
                     cx.compact(ui, &join(&p, "Connection level"), 40.0);
                     for m in crate::fmt::ds1::MATERIALS {
                         cx.compact(ui, &join(&p, m), 72.0);
@@ -2149,7 +2149,7 @@ pub fn andromeda(ui: &mut Ui, cx: &mut GameCtx) {
                 ui.end_row();
                 for n in &squad {
                     let p = join("/Squad", n);
-                    ui.label(n);
+                    ui.label(n); // i18n-ok: a name or value from the save, or already translated
                     cx.compact(ui, &join(&p, "Level"), 52.0);
                     cx.compact(ui, &join(&p, "Skill points"), 60.0);
                     ui.end_row();
@@ -2196,7 +2196,7 @@ fn gow_add_panel(ui: &mut Ui, cx: &mut GameCtx, base: &str, id: &str, note: &str
                 value_rows(ui, cx, &format!("{id}_{c}"), &rows);
             });
         }
-        ui.weak(note);
+        ui.weak(note); // i18n-ok: a name or value from the save, or already translated
     });
 }
 
@@ -2283,7 +2283,7 @@ pub fn gow2018(ui: &mut Ui, cx: &mut GameCtx) {
                     .unwrap_or_default();
                 egui::CollapsingHeader::new(format!("{c} ({})", list.len())).id_salt(("gow_eq", c)).show(ui, |ui| {
                     for n in list {
-                        ui.label(n);
+                        ui.label(n); // i18n-ok: a name or value from the save, or already translated
                     }
                 });
             }
@@ -2327,7 +2327,7 @@ pub fn gow_ragnarok(ui: &mut Ui, cx: &mut GameCtx) {
                 super::crafting::offer(super::Game::GowRagnarok, ui, cx);
             }
             if !note.is_empty() {
-                ui.weak(note);
+                ui.weak(note); // i18n-ok: a name or value from the save, or already translated
             }
         });
     }

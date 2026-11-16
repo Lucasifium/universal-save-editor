@@ -168,8 +168,8 @@ Back up and start a new game…
 Keeps a named backup, then removes the save file so the game starts a new game. Restore the backup any time to go back.
 = 保留一个命名备份，然后删除存档文件，让游戏开始新游戏。随时可恢复备份回到原来的进度。
 
-Backups for this save…
-= 此存档的备份…
+Save manager…
+= 存档管理器…
 
 All backups of this save in one window: restore, compare, delete, name. Restoring backs up the current save first.
 = 在一个窗口中查看此存档的所有备份：恢复、比较、删除、命名。恢复前会先备份当前存档。
@@ -26924,8 +26924,8 @@ Applied “{0}”: 1 value changed.
 Applied “{0}”: {1} values changed.
 = 已应用“{0}”：更改了 {1} 个数值。
 
-Backed up as “{0}” and removed the save, so the game starts a new game. Restore it from Backups › Backups for this save… any time.
-= 已备份为“{0}”并移除了存档，游戏将开始新游戏。随时可在“备份 › 此存档的备份…”中恢复。
+Backed up as “{0}” and removed the save, so the game starts a new game. Restore it from Backups › Save manager… any time.
+= 已备份为“{0}”并移除了存档，游戏将开始新游戏。随时可在“备份 › 存档管理器…”中恢复。
 
 Backed up this save as “{0}”.
 = 已将此存档备份为“{0}”。
@@ -29620,3 +29620,24 @@ Find on the open tab
 
 Type a name for the backup first
 = 请先输入备份名称
+
+Ceramics
+= 陶瓷
+
+Chiral crystals
+= 开罗尔晶体
+
+Resins
+= 树脂
+
+Special alloys
+= 特殊合金
+
+HQ
+= HQ
+
+V
+= V
+
+YoRHa
+= YoRHa

@@ -280,6 +280,51 @@ mod tests {
         assert!(bad.is_empty(), "{} game-screen line(s) print English without tr()/trf():\n{}", bad.len(), bad.join("\n"));
     }
 
+    /// A game screen must not print a bare variable either (`ui.label(k)` in a loop over a list
+    /// of English labels skipped translation unnoticed): it goes through `tr_any(..)`, with the
+    /// list's texts marked `tx(..)` so the catalogs must have them, or the line says
+    /// `// i18n-ok` because it prints a name or value from the save or a text translated earlier.
+    #[test]
+    fn game_screens_print_no_bare_variables() {
+        const SHOWN: &[&str] = &["ui.label(", "ui.weak(", "ui.strong(", "ui.heading(", "ui.small(", "ui.button(", "ui.small_button("];
+        let mut bad = vec![];
+        let mut stack = vec![std::path::PathBuf::from(concat!(env!("CARGO_MANIFEST_DIR"), "/src/game_ui"))];
+        while let Some(d) = stack.pop() {
+            for e in std::fs::read_dir(&d).unwrap().flatten() {
+                let p = e.path();
+                if p.is_dir() {
+                    if !p.ends_with("simple") {
+                        stack.push(p);
+                    }
+                    continue;
+                }
+                if p.extension().is_none_or(|x| x != "rs") {
+                    continue;
+                }
+                let text = std::fs::read_to_string(&p).unwrap();
+                let text = text.split("#[cfg(test)]").next().unwrap_or("");
+                for (n, line) in text.lines().enumerate() {
+                    if line.trim_start().starts_with("//") || line.contains("i18n-ok") {
+                        continue;
+                    }
+                    for call in SHOWN {
+                        let mut from = 0;
+                        while let Some(i) = line[from..].find(call) {
+                            let at = from + i + call.len();
+                            from = at;
+                            let Some(arg) = line[at..].split(')').next() else { continue };
+                            let name = arg.trim().trim_start_matches(['&', '*']);
+                            if !name.is_empty() && name.chars().all(|c| c.is_ascii_lowercase() || c == '_' || c.is_ascii_digit()) {
+                                bad.push(format!("{}:{}: {}", p.file_name().unwrap().to_string_lossy(), n + 1, line.trim()));
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        assert!(bad.is_empty(), "{} game-screen line(s) print a variable without tr_any() or an i18n-ok note:\n{}", bad.len(), bad.join("\n"));
+    }
+
     /// Writes every text the program shows (`TRANSLATION_KEYS=<file>`), one per line.
     #[test]
     fn dump_all_texts() {

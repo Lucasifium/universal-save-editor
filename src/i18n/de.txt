@@ -168,8 +168,8 @@ Back up and start a new game…
 Keeps a named backup, then removes the save file so the game starts a new game. Restore the backup any time to go back.
 = Bewahrt eine benannte Sicherung auf und entfernt dann die Spielstand-Datei, sodass das Spiel neu beginnt. Die Sicherung lässt sich jederzeit wiederherstellen.
 
-Backups for this save…
-= Sicherungen für diesen Spielstand…
+Save manager…
+= Spielstand-Verwaltung…
 
 All backups of this save in one window: restore, compare, delete, name. Restoring backs up the current save first.
 = Alle Sicherungen dieses Spielstands in einem Fenster: wiederherstellen, vergleichen, löschen, benennen. Vor dem Wiederherstellen wird der aktuelle Spielstand gesichert.
@@ -26867,8 +26867,8 @@ Applied “{0}”: 1 value changed.
 Applied “{0}”: {1} values changed.
 = „{0}“ angewendet: {1} Werte geändert.
 
-Backed up as “{0}” and removed the save, so the game starts a new game. Restore it from Backups › Backups for this save… any time.
-= Als „{0}“ gesichert und den Spielstand entfernt, sodass das Spiel ein neues Spiel beginnt. Jederzeit wiederherstellbar über Sicherungen › Sicherungen für diesen Spielstand…
+Backed up as “{0}” and removed the save, so the game starts a new game. Restore it from Backups › Save manager… any time.
+= Als „{0}“ gesichert und den Spielstand entfernt, sodass das Spiel ein neues Spiel beginnt. Jederzeit wiederherstellbar über Sicherungen › Spielstand-Verwaltung…
 
 Backed up this save as “{0}”.
 = Dieser Spielstand wurde als „{0}“ gesichert.
@@ -29569,3 +29569,24 @@ Find on the open tab
 
 Type a name for the backup first
 = Zuerst einen Namen für die Sicherung eingeben
+
+Ceramics
+= Keramik
+
+Chiral crystals
+= Chiralkristalle
+
+Resins
+= Harze
+
+Special alloys
+= Speziallegierungen
+
+HQ
+= HQ
+
+V
+= V
+
+YoRHa
+= YoRHa

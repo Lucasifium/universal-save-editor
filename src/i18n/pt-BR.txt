@@ -168,8 +168,8 @@ Back up and start a new game…
 Keeps a named backup, then removes the save file so the game starts a new game. Restore the backup any time to go back.
 = Mantém um backup nomeado e depois remove o arquivo de save para o jogo começar um novo jogo. Restaure o backup quando quiser para voltar.
 
-Backups for this save…
-= Backups deste save…
+Save manager…
+= Gerenciador de saves…
 
 All backups of this save in one window: restore, compare, delete, name. Restoring backs up the current save first.
 = Todos os backups deste save em uma janela: restaurar, comparar, excluir, nomear. Ao restaurar, o save atual recebe um backup antes.
@@ -26840,8 +26840,8 @@ Applied “{0}”: 1 value changed.
 Applied “{0}”: {1} values changed.
 = “{0}” aplicada: {1} valores alterados.
 
-Backed up as “{0}” and removed the save, so the game starts a new game. Restore it from Backups › Backups for this save… any time.
-= Backup feito como “{0}” e o save foi removido, então o jogo começa um novo jogo. Restaure-o quando quiser em Backups › Backups deste save…
+Backed up as “{0}” and removed the save, so the game starts a new game. Restore it from Backups › Save manager… any time.
+= Backup feito como “{0}” e o save foi removido, então o jogo começa um novo jogo. Restaure-o quando quiser em Backups › Gerenciador de saves…
 
 Backed up this save as “{0}”.
 = Backup deste save feito como “{0}”.
@@ -29536,3 +29536,24 @@ Find on the open tab
 
 Type a name for the backup first
 = Digite primeiro um nome para o backup
+
+Ceramics
+= Cerâmica
+
+Chiral crystals
+= Cristais quirais
+
+Resins
+= Resinas
+
+Special alloys
+= Ligas especiais
+
+HQ
+= HQ
+
+V
+= V
+
+YoRHa
+= YoRHa

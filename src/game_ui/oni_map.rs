@@ -570,10 +570,10 @@ pub fn worlds_tab(ui: &mut Ui, cx: &mut GameCtx, accent: Color32) {
         panel(ui, k, |ui| {
             egui::Grid::new(("oni_world", k)).num_columns(2).spacing([14.0, 6.0]).show(ui, |ui| {
                 cx.grid_row(ui, "Name", &format!("{base}/Name"), 240.0);
-                for f in ["Type", "Kind", "Size"] {
+                for f in [crate::i18n::tx("Type"), crate::i18n::tx("Kind"), crate::i18n::tx("Size")] {
                     if let Some(t) = cx.text(&format!("{base}/{f}")) {
-                        ui.label(f);
-                        ui.label(t);
+                        ui.label(crate::i18n::tr_any(f));
+                        ui.label(t); // i18n-ok: a name or value from the save, or already translated
                         ui.end_row();
                     }
                 }
