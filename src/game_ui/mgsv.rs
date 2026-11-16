@@ -180,7 +180,7 @@ fn staff(ui: &mut Ui, cx: &mut GameCtx) {
                 add(ui);
             });
         };
-        let widths = [64.0, 156.0, 156.0, 156.0, 84.0, 84.0, 84.0];
+        let widths = [84.0, 156.0, 156.0, 156.0, 92.0, 92.0, 92.0];
         let heads = ["Slot", "Section", "Rank", "Skill", "Morale", "Proficiency", "Stat bonus"];
         ScrollArea::horizontal().auto_shrink([false, true]).id_salt("mgsv_staff_h").show_locked(ui, |ui| {
             ui.horizontal(|ui| {
@@ -205,7 +205,7 @@ fn staff(ui: &mut Ui, cx: &mut GameCtx) {
                             cell(ui, widths[1 + k], &mut |ui| cx.editor(ui, &format!("/Staff/{}/{}", esc(n), f), 150.0));
                         }
                         for (k, f) in ["Morale", "Proficiency", "Stat bonus"].into_iter().enumerate() {
-                            cell(ui, widths[4 + k], &mut |ui| cx.editor(ui, &format!("/Staff/{}/{}", esc(n), f), 50.0));
+                            cell(ui, widths[4 + k], &mut |ui| cx.compact(ui, &format!("/Staff/{}/{}", esc(n), f), 56.0));
                         }
                     });
                 }
