@@ -266,7 +266,7 @@ impl App {
             self.ask(Ask::Open, None, None);
         }
         if self.doc.is_some() && ctx.input_mut(|i| i.consume_key(Modifiers::COMMAND, Key::W)) {
-            self.close_tab(self.tabs.active);
+            self.close_clicked();
         }
         let n = self.tab_count();
         if n > 1 {

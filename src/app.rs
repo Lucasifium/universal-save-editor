@@ -522,7 +522,7 @@ pub struct App {
     status_kind: StatusKind,
     pending_open: Option<PathBuf>,
     confirm_close: bool,
-    /// File › Close file is waiting on the unsaved-changes question.
+    /// File › Close save is waiting on the unsaved-changes question.
     pending_close: bool,
     /// What the editor wants to say about the file just opened (what the screen edits, a missing data folder...).
     doc_note: String,
@@ -906,6 +906,18 @@ impl App {
         self.dirty = false;
         self.drop_tab(self.tabs.active);
         self.info(tr("Closed the file."));
+    }
+
+    /// Close save (button, File menu, Ctrl+W): asks first when there are unsaved changes.
+    fn close_clicked(&mut self) {
+        if self.doc.is_none() || self.saving.is_some() {
+            return;
+        }
+        if self.dirty {
+            self.pending_close = true;
+        } else {
+            self.close_file();
+        }
     }
 
     /// Escape: closes the dialog on top (the one drawn last), or does nothing when none is open.
@@ -2163,13 +2175,9 @@ impl App {
                         self.request_open(p);
                     }
                 }
-                if ui.add_enabled(has, egui::Button::new(tr("Close file"))).clicked() {
+                if ui.add_enabled(has, egui::Button::new(tr("Close save")).shortcut_text("Ctrl+W")).clicked() {
                     ui.close_menu();
-                    if self.dirty {
-                        self.pending_close = true;
-                    } else {
-                        self.close_file();
-                    }
+                    self.close_clicked();
                 }
                 ui.separator();
                 if ui.add_enabled(self.dirty, egui::Button::new(tr("Revert all changes"))).clicked() {
@@ -3439,6 +3447,15 @@ impl App {
             if widgets::named(b, egui::WidgetType::Button, tr("Redo")).on_hover_text(tr("Ctrl+Y")).clicked() {
                 self.undo_redo(false);
             }
+            if self.doc.is_some() {
+                if !wrap {
+                    ui.separator();
+                }
+                let b = ui.button(tr("Close save"));
+                if b.on_hover_text(tr("Close this save and go back to the start page (Ctrl+W)")).clicked() {
+                    self.close_clicked();
+                }
+            }
             let Some(doc) = &self.doc else { return };
             if !wrap {
                 ui.separator();
@@ -3472,6 +3489,9 @@ impl App {
             widgets::named(m, egui::WidgetType::Button, tr("Menu")).on_hover_text(tr("Menu"));
             ui.with_layout(egui::Layout::right_to_left(egui::Align::Center), |ui| {
                 self.save_button(ui);
+                if self.doc.is_some() && widgets::symbol_button(ui, "\u{00D7}", tr("Close save"), tr("Close this save and go back to the start page (Ctrl+W)")).clicked() {
+                    self.close_clicked();
+                }
                 let b = ui.add_enabled(!self.undo.is_empty(), egui::Button::new(widgets::icon(hi, icon::UNDO, "\u{21A9}").size(17.0)));
                 if widgets::named(b, egui::WidgetType::Button, tr("Undo")).on_hover_text(tr("Undo")).clicked() {
                     self.undo_redo(true);
@@ -6673,6 +6693,60 @@ mod save_tests {
 
     fn on_disk(path: &Path) -> (Vec<u8>, Vec<Vec<u8>>) {
         (std::fs::read(path).unwrap(), backed_up(path))
+    }
+
+    #[test]
+    fn close_save_asks_first_and_never_drops_unsaved_changes_silently() {
+        let _l = locks();
+        let s = Scratch::new("close-save");
+        let ctx = window();
+        let path = s.0.join("save.json");
+        std::fs::write(&path, br#"{"gold": 5}"#).unwrap();
+        let before = std::fs::read(&path).unwrap();
+        let mut app = opened(&ctx, &path);
+        assert!(shown(&mut app, &ctx, "Close save"), "the toolbar has the button");
+        app.apply_edit("/gold".into(), json!(9), 0.0);
+        assert!(app.dirty);
+        // Unsaved changes: the button asks; Cancel keeps everything.
+        click(&mut app, &ctx, "Close save");
+        assert!(app.pending_close && app.doc.is_some());
+        click(&mut app, &ctx, "Cancel");
+        assert!(app.doc.is_some() && app.dirty && !app.undo.is_empty(), "cancel changed nothing");
+        // Ctrl+W asks too.
+        key(&mut app, &ctx, egui::Key::W, egui::Modifiers::COMMAND);
+        assert!(app.pending_close && app.doc.is_some());
+        // Discarding closes without writing, and the next save opens clean.
+        click(&mut app, &ctx, "Close without saving");
+        assert!(app.doc.is_none() && !app.dirty && app.undo.is_empty() && app.redo.is_empty());
+        assert_eq!(std::fs::read(&path).unwrap(), before, "the file on disk is untouched");
+        assert!(!shown(&mut app, &ctx, "Close save"), "no button on the start page");
+        // Save and close writes first.
+        let mut app = opened(&ctx, &path);
+        app.apply_edit("/gold".into(), json!(7), 0.0);
+        click(&mut app, &ctx, "Close save");
+        click(&mut app, &ctx, "Save and close");
+        wait(&mut app, &ctx);
+        assert!(app.doc.is_none());
+        assert_eq!(serde_json::from_slice::<Value>(&std::fs::read(&path).unwrap()).unwrap()["gold"], json!(7));
+        // Nothing unsaved: closes straight away.
+        let mut app = opened(&ctx, &path);
+        key(&mut app, &ctx, egui::Key::W, egui::Modifiers::COMMAND);
+        assert!(app.doc.is_none() && !app.pending_close);
+    }
+
+    #[test]
+    fn close_save_is_reachable_at_phone_width() {
+        let _l = locks();
+        let s = Scratch::new("close-save-phone");
+        let ctx = window();
+        let path = s.0.join("save.json");
+        std::fs::write(&path, br#"{"gold": 5}"#).unwrap();
+        let mut app = opened(&ctx, &path);
+        let mut raw = egui::RawInput { screen_rect: Some(egui::Rect::from_min_size(egui::Pos2::ZERO, egui::vec2(380.0, 700.0))), ..Default::default() };
+        app.raw_input_hook(&ctx, &mut raw);
+        let out = ctx.run(raw, |ctx| app.frame(ctx));
+        let at = texts(&out).into_iter().find(|(t, _)| t == "\u{00D7}").expect("a close button on the phone toolbar").1;
+        assert!(at.x > 0.0 && at.x < 380.0, "inside the screen: {at:?}");
     }
 
     #[test]

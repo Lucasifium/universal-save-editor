@@ -19,6 +19,7 @@ pub enum Window {
 const SHORTCUTS: &[(&str, &str)] = &[
     ("Ctrl+O", tx("Open a save file")),
     ("Ctrl+S", tx("Save (shows what changed first)")),
+    ("Ctrl+W", tx("Close the open save and go back to the start page")),
     ("Ctrl+Z", tx("Undo")),
     ("Ctrl+Y / Ctrl+Shift+Z", tx("Redo")),
     ("Ctrl+F", tx("Find on the open tab")),

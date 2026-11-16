@@ -138,8 +138,14 @@ Reload from disk
 Reads the file again, for when the game or another program changed it. Unsaved changes are dropped (you are asked first).
 = Relit le fichier, au cas où le jeu ou un autre programme l'aurait modifié. Les modifications non enregistrées sont perdues (confirmation demandée).
 
-Close file
-= Fermer le fichier
+Close save
+= Fermer la sauvegarde
+
+Close this save and go back to the start page (Ctrl+W)
+= Fermer cette sauvegarde et revenir à la page d'accueil (Ctrl+W)
+
+Close the open save and go back to the start page
+= Fermer la sauvegarde ouverte et revenir à la page d'accueil
 
 Revert all changes
 = Annuler toutes les modifications

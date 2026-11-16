@@ -138,8 +138,14 @@ Reload from disk
 Reads the file again, for when the game or another program changed it. Unsaved changes are dropped (you are asked first).
 = ファイルを再読み込みします。ゲームや他のプログラムが変更した場合に使います。未保存の変更は破棄されます（先に確認します）。
 
-Close file
-= ファイルを閉じる
+Close save
+= セーブを閉じる
+
+Close this save and go back to the start page (Ctrl+W)
+= このセーブを閉じてスタートページに戻る (Ctrl+W)
+
+Close the open save and go back to the start page
+= 開いているセーブを閉じてスタートページに戻る
 
 Revert all changes
 = すべての変更を破棄

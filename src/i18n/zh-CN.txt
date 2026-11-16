@@ -138,8 +138,14 @@ Reload from disk
 Reads the file again, for when the game or another program changed it. Unsaved changes are dropped (you are asked first).
 = 重新读取文件，适用于游戏或其他程序修改了文件的情况。未保存的更改会被丢弃（会先询问）。
 
-Close file
-= 关闭文件
+Close save
+= 关闭存档
+
+Close this save and go back to the start page (Ctrl+W)
+= 关闭此存档并返回起始页 (Ctrl+W)
+
+Close the open save and go back to the start page
+= 关闭当前存档并返回起始页
 
 Revert all changes
 = 还原所有更改

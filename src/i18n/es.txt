@@ -138,8 +138,14 @@ Reload from disk
 Reads the file again, for when the game or another program changed it. Unsaved changes are dropped (you are asked first).
 = Vuelve a leer el archivo, por si el juego u otro programa lo cambió. Los cambios sin guardar se descartan (antes se te pregunta).
 
-Close file
-= Cerrar archivo
+Close save
+= Cerrar partida guardada
+
+Close this save and go back to the start page (Ctrl+W)
+= Cerrar esta partida guardada y volver a la página de inicio (Ctrl+W)
+
+Close the open save and go back to the start page
+= Cerrar la partida guardada abierta y volver a la página de inicio
 
 Revert all changes
 = Revertir todos los cambios
