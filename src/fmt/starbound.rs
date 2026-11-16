@@ -243,7 +243,7 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
     };
     let mut doc = TreeDoc::new(view, r.editable, kind, Box::new(SbBackend { raw: d.to_vec(), leaves: r.leaves }));
     if name == "PlayerEntity" && version.is_some_and(|v| v < 20) {
-        doc = doc.with_note("This character comes from an early-access version of Starbound (before 1.0); the game converts it when it loads, and the screen shows only what that older layout has.");
+        doc = doc.with_note(crate::i18n::tx("This character comes from an early-access version of Starbound (before 1.0); the game converts it when it loads, and the screen shows only what that older layout has."));
     }
     Ok(doc)
 }

@@ -133,8 +133,8 @@ pub fn parse(plain: &[u8]) -> Result<TreeDoc, String> {
         return Err("no saved games in this file".into());
     }
     Ok(b.finish("Final Fantasy IX save", Checksum::None).with_note(
-        "Gil and each character's level, experience, HP/MP and base stats, for every saved game in the file. \
-         The load screen keeps its own summary, which updates the next time you save in the game.",
+        crate::i18n::tx("Gil and each character's level, experience, HP/MP and base stats, for every saved game in the file. \
+         The load screen keeps its own summary, which updates the next time you save in the game."),
     ))
 }
 

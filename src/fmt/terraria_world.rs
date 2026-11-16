@@ -1557,7 +1557,7 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
     };
     let _ = header.spawn;
     let doc = TreeDoc::new(Value::Object(root), b.editable, "Terraria world", Box::new(backend)).with_advanced(vec!["Map edits".into()]);
-    Ok(doc.with_note("Close the world in Terraria (go back to the title screen) before saving, or the game will overwrite your edit. Keep a copy of the .wld until you've loaded it in the game."))
+    Ok(doc.with_note(crate::i18n::tx("Close the world in Terraria (go back to the title screen) before saving, or the game will overwrite your edit. Keep a copy of the .wld until you've loaded it in the game.")))
 }
 
 #[cfg(test)]

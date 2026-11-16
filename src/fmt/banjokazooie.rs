@@ -52,7 +52,7 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
     if used == 0 {
         return Err("no Banjo-Kazooie slot has been started".into());
     }
-    Ok(b.finish(KIND, Checksum::Touched(fix)).with_note("Close the emulator first. Times are in seconds. The game keeps its own totals of jiggies and notes in the flags, so change the flags and the counts together."))
+    Ok(b.finish(KIND, Checksum::Touched(fix)).with_note(crate::i18n::tx("Close the emulator first. Times are in seconds. The game keeps its own totals of jiggies and notes in the flags, so change the flags and the counts together.")))
 }
 
 fn fix(d: &mut Vec<u8>, touched: &[usize]) {

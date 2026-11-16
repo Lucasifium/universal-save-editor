@@ -392,7 +392,7 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
     }
 
     Ok(b.finish(KIND, Checksum::None).with_note(
-        "Gil, ability points, medals, each character's experience waiting to be banked (spend it by resting) and item amounts. Levels, HP and stats are shown; the game works them out from experience.",
+        crate::i18n::tx("Gil, ability points, medals, each character's experience waiting to be banked (spend it by resting) and item amounts. Levels, HP and stats are shown; the game works them out from experience."),
     ))
 }
 

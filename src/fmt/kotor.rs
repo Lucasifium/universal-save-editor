@@ -227,8 +227,8 @@ fn parse_save(d: &[u8], path: Option<&Path>) -> Result<TreeDoc, String> {
         return Err("no player found in this save".into());
     }
     Ok(doc.with_note(
-        "SAVEGAME.sav: the player and the party members. Credits, party XP, influence, components and chemicals are in \
-         PARTYTABLE.res in the same folder.",
+        crate::i18n::tx("SAVEGAME.sav: the player and the party members. Credits, party XP, influence, components and chemicals are in \
+         PARTYTABLE.res in the same folder."),
     ))
 }
 
@@ -269,8 +269,8 @@ fn parse_party(d: &[u8]) -> Result<TreeDoc, String> {
         return Err("no credits in this party table".into());
     }
     Ok(b.finish(if k2 { "Star Wars: KOTOR II party table" } else { "Star Wars: KOTOR party table" }, Checksum::None).with_note(
-        "PARTYTABLE.res: credits, party XP and (KOTOR II) influence, components and chemicals. The player and the party \
-         members' stats are in SAVEGAME.sav in the same folder.",
+        crate::i18n::tx("PARTYTABLE.res: credits, party XP and (KOTOR II) influence, components and chemicals. The player and the party \
+         members' stats are in SAVEGAME.sav in the same folder."),
     ))
 }
 
@@ -307,8 +307,8 @@ fn parse_globals(d: &[u8]) -> Result<TreeDoc, String> {
         return Err("no global variables in this file".into());
     }
     Ok(b.finish("Star Wars: KOTOR globals", Checksum::None).with_note(
-        "GLOBALVARS.res: the story's global flags and numbers (who you saved, light and dark side choices, quest steps), by the game's own names. \
-         Changing one doesn't replay the scene behind it, and flags that contradict each other can confuse later dialogue.",
+        crate::i18n::tx("GLOBALVARS.res: the story's global flags and numbers (who you saved, light and dark side choices, quest steps), by the game's own names. \
+         Changing one doesn't replay the scene behind it, and flags that contradict each other can confuse later dialogue."),
     ))
 }
 
@@ -322,7 +322,7 @@ fn parse_player(d: &[u8]) -> Result<TreeDoc, String> {
     b.info(&["Player", "Name"], pc.text("FirstName").unwrap_or_default().trim());
     creature(&mut b, &["Player"], pc, &[]);
     Ok(b.finish(if k2 { "Star Wars: KOTOR II save" } else { "Star Wars: KOTOR save" }, Checksum::None)
-        .with_note("pifo.ifo: the player as this auto-save keeps it (the game loads the player from here)."))
+        .with_note(crate::i18n::tx("pifo.ifo: the player as this auto-save keeps it (the game loads the player from here).")))
 }
 
 #[cfg(test)]

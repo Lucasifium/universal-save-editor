@@ -68,7 +68,7 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
     b.ranged(&["Player", "Respect level"], p + 20, Kind::U32, 0, 49);
     b.ranged(&["Player", "Respect in this level"], p + 16, Kind::U32, 0, 99_999_999);
     b.ranged(&["Player", "Total respect"], p + 12, Kind::U32, 0, 99_999_999);
-    Ok(b.finish(KIND, Checksum::Custom(fix)).with_note("Close the game first. Cash is in cents (500000 is $5,000). The level is stored counting from 0, so 49 is the top level. Changing the level alone doesn't change the respect the game thinks you have earned, so set total respect with it. The save's checksum is rewritten."))
+    Ok(b.finish(KIND, Checksum::Custom(fix)).with_note(crate::i18n::tx("Close the game first. Cash is in cents (500000 is $5,000). The level is stored counting from 0, so 49 is the top level. Changing the level alone doesn't change the respect the game thinks you have earned, so set total respect with it. The save's checksum is rewritten.")))
 }
 
 #[cfg(test)]

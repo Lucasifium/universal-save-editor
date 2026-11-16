@@ -29668,3 +29668,354 @@ V
 
 YoRHa
 = YoRHa
+
+# src/fmt/*.rs file notes, Bonus stat, Broken
+
+A character file. In a save folder the game loads the player from the .sav instead: open that (player.bic is updated with it).
+= キャラクターファイルです。セーブフォルダーではゲームは .sav からプレイヤーを読み込むため、そちらを開いてください（player.bic も一緒に更新されます）。
+
+A character save (1.sav, 2.sav …) from Documents\\My Games\\Borderlands 4\\Saved\\SaveGames\\<Steam id>. Open it from its own folder so the Steam account that unlocks it can be found. Cash, Eridium, level, ammunition and skill points; items and the rest are in the Tree.
+= Documents\\My Games\\Borderlands 4\\Saved\\SaveGames\\<Steam id> のキャラクターセーブ（1.sav、2.sav …）。解除に使う Steam アカウントを見つけられるよう、そのフォルダーから開いてください。現金、Eridium、レベル、弾薬、スキルポイント。アイテムなどはツリーにあります。
+
+Alyx as saved in the current map. The save's description in the game's Load menu (its health, resin and ammo) is written when the game saves, so it shows the old numbers until you save again.
+= 現在のマップに保存されている Alyx。ゲームのロードメニューに出るセーブの説明（体力、レジン、弾薬）はゲームが保存するときに書き込まれるため、再度保存するまで古い数値のままです。
+
+ArchiveSaveFile.<n>.sav from b1\\Saved\\SaveGames\\<Steam id>. Will, Sparks, level, experience and play time; the file's checksum is written again when you save. Close the game first and keep the backup. Raising the level does not add Sparks or experience for you.
+= b1\\Saved\\SaveGames\\<Steam id> の ArchiveSaveFile.<n>.sav。Will、Sparks、レベル、経験値、プレイ時間。ファイルのチェックサムは保存時に書き直されます。先にゲームを閉じ、バックアップを残してください。レベルを上げても Sparks や経験値は自動では増えません。
+
+Big sections show their first few thousand values; your own country is shown in full. \n         The game may stop awarding achievements for an edited ironman campaign.
+= 大きなセクションは最初の数千個の値のみ表示されます。自国は全件表示されます。\nアイアンマンキャンペーンを編集すると、ゲームが実績を付与しなくなることがあります。
+
+Bonus stat {0}
+= ボーナスステータス {0}
+
+Broken
+= 壊れている
+
+Checksums are fixed automatically. Changing a Pokémon's level also sets its experience and stats; empty bag slots \n         move to the end like in the game. Close the game in your emulator before saving, and don't load a save state afterwards.
+= チェックサムは自動的に修正されます。ポケモンのレベルを変えると、経験値とステータスも設定されます。空のバッグスロットはゲームと同様に末尾へ詰められます。\n保存前にエミュレーターでゲームを閉じ、その後でセーブステートを読み込まないでください。
+
+Chuck's level, PP, money and the five level-up stats. The checksum is updated when you save.
+= Chuck のレベル、PP、お金、レベルアップ時の5つのステータス。チェックサムは保存時に更新されます。
+
+Close Cairn (or go back to its title screen) before saving: the game keeps the slot file locked while a climb is loaded. Added items go at the bottom of the bag; “Shake up bag” in the game settles them.
+= 保存前に Cairn を閉じる（またはタイトル画面に戻る）してください。登山を読み込んでいる間、ゲームはスロットファイルをロックしています。追加したアイテムはバッグの末尾に入ります。ゲーム設定の「バッグを整える」で整理されます。
+
+Close OpenXcom first. Saving rewrites the data part of the file, so its comments and spacing are not kept. \n         The money is Funds > Current; the soldiers of every base are in one list, each with the name of its base.
+= 先に OpenXcom を閉じてください。保存するとファイルのデータ部分が書き直されるため、コメントや空白は保持されません。\n資金は Funds > Current にあり、全基地の兵士が1つの一覧に基地名付きで並びます。
+
+Close Terraria (or at least go back to the title screen) before saving, or the game will overwrite your edit.
+= 保存前に Terraria を閉じる（または少なくともタイトル画面に戻る）してください。そうしないとゲームが編集内容を上書きします。
+
+Close the emulator first. Attack, defense and the other derived stats are tied to equipment in this game, so they're not shown. Each slot's sum is rewritten on save.
+= 先にエミュレーターを閉じてください。このゲームでは攻撃力、防御力などの派生ステータスは装備に依存するため、表示されません。各スロットの合計値は保存時に書き直されます。
+
+Close the emulator first. Each slot's sum is rewritten on save.
+= 先にエミュレーターを閉じてください。各スロットの合計値は保存時に書き直されます。
+
+Close the emulator first. Energy and ammunition are limited to what the game can show; each slot's sums (and their copies at the end of the file) are kept right.
+= 先にエミュレーターを閉じてください。エネルギーと弾薬はゲームが表示できる範囲に制限されます。各スロットの合計値（とファイル末尾のそのコピー）は正しく保たれます。
+
+Close the emulator first. Health counts eighths of a heart (8 = one heart); rupees follow the on-screen counter. The slot's sum is kept right; the game's spare copy is left alone and is only used when the first fails its check.
+= 先にエミュレーターを閉じてください。体力はハート8分の1単位です（8 = ハート1個）。ルピーは画面上のカウンターに従います。スロットの合計値は正しく保たれます。ゲームの予備コピーはそのままで、最初のものがチェックに失敗したときだけ使われます。
+
+Close the emulator first. Health counts quarter hearts (4 = one heart). Each slot's sum is rewritten on save.
+= 先にエミュレーターを閉じてください。体力はハート4分の1単位です（4 = ハート1個）。各スロットの合計値は保存時に書き直されます。
+
+Close the emulator first. Level follows experience when the game next levels the character; each slot's sum is rewritten on save.
+= 先にエミュレーターを閉じてください。レベルは、ゲームが次にキャラクターをレベルアップさせるとき経験値に追従します。各スロットの合計値は保存時に書き直されます。
+
+Close the emulator first. Star bits are kept per course; a course's six stars and its 100-coin star are separate bits.
+= 先にエミュレーターを閉じてください。スターのビットはコースごとに保持されます。コースの6つのスターと100枚コインのスターは別々のビットです。
+
+Close the emulator first. Strength, defense and the other derived stats are worked out by the game from level and equipment, so they're not shown. Each slot's sum is rewritten on save.
+= 先にエミュレーターを閉じてください。強さ、防御力などの派生ステータスはゲームがレベルと装備から計算するため、表示されません。各スロットの合計値は保存時に書き直されます。
+
+Close the game (and DOSBox) first. The game's money is a signed 32-bit number: keep it well under 2,000,000,000, \n         because monthly income is added to it and a total past the limit wraps around.
+= 先にゲーム（と DOSBox）を閉じてください。ゲーム内のお金は符号付き32ビットの数値です。月々の収入が加算され、上限を超えると一周してしまうため、2,000,000,000 を十分下回る値にしてください。
+
+Close the game and turn off Ubisoft Connect cloud saves first. Followers raise your level; each number is stored in only as many bytes as it needs, so a small value can be raised only up to 255 or 65,535 until the game itself saves a bigger one; research points are only saved while you have some unspent.
+= 先にゲームを閉じ、Ubisoft Connect のクラウドセーブをオフにしてください。フォロワーはレベルを上げます。各数値は必要なバイト数だけで保存されるため、小さな値はゲーム自身がより大きな値を保存するまで255か65,535までしか上げられません。研究ポイントは未使用分がある間だけ保存されます。
+
+Close the game before saving. Search for a resource or upgrade by name (Ctrl+F) — the game state is large.
+= 保存前にゲームを閉じてください。リソースやアップグレードは名前で検索できます (Ctrl+F)。ゲームの状態は大きいためです。
+
+Close the game first (and turn off Steam cloud saves). Only gil is shown so far.
+= 先にゲームを閉じてください（Steam クラウドセーブもオフに）。今のところ表示されるのはギルのみです。
+
+Close the game first.
+= 先にゲームを閉じてください。
+
+Close the game first. Achievements, items seen and challenges are 0 (locked) or 1 (unlocked), numbered as in the game's own lists; the checksum is written again on save.
+= 先にゲームを閉じてください。実績、確認済みアイテム、チャレンジは0（未解除）か1（解除済み）で、ゲーム自身の一覧と同じ番号です。チェックサムは保存時に書き直されます。
+
+Close the game first. Cash is in cents (500000 is $5,000). The level is stored counting from 0, so 49 is the top level. Changing the level alone doesn't change the respect the game thinks you have earned, so set total respect with it. The save's checksum is rewritten.
+= 先にゲームを閉じてください。現金はセント単位です（500000 は $5,000）。レベルは0から数えて保存されるため、49が最高レベルです。レベルだけを変えても、ゲームが認識している獲得リスペクトは変わらないので、合計リスペクトも一緒に設定してください。セーブのチェックサムは書き直されます。
+
+Close the game first. Cash is in cents (500000 is $5,000). The save's checksum is rewritten. Changing the respect level alone doesn't change the respect the game thinks you have earned, so set total respect with it.
+= 先にゲームを閉じてください。現金はセント単位です（500000 は $5,000）。セーブのチェックサムは書き直されます。リスペクトレベルだけを変えても、ゲームが認識している獲得リスペクトは変わらないので、合計リスペクトも一緒に設定してください。
+
+Close the game first. Cash, loan and fees are in whole currency units with one decimal (the game keeps tenths). \n         The park's chunk is unpacked and packed again on save, with the file's sum written right.
+= 先にゲームを閉じてください。現金、ローン、手数料は小数1桁の通貨単位です（ゲームは10分の1単位で保持）。\nパークのチャンクは保存時に展開して再パックされ、ファイルの合計値も正しく書き込まれます。
+
+Close the game first. Edit a copy of a SAVEn.GAM, then load it in the game. The treasury and research points are the values the game itself keeps.
+= 先にゲームを閉じてください。SAVEn.GAM のコピーを編集してから、ゲームで読み込んでください。国庫と研究ポイントはゲーム自身が保持している値です。
+
+Close the game first. Edit one checkpoint at a time; the game reads Checkpoints\\*.sav and safehouse.sav.
+= 先にゲームを閉じてください。チェックポイントは1つずつ編集してください。ゲームは Checkpoints\\*.sav と safehouse.sav を読み込みます。
+
+Close the game first. Item counts go up to 20; key items are single items. Techs, titles, recipes and the Collector's Book are not shown.
+= 先にゲームを閉じてください。アイテム数は20まで、キーアイテムは1個のみです。技、称号、レシピ、コレクターズブックは表示されません。
+
+Close the game first. Level and experience are separate numbers in the save: change them together. Skills that a hero already has can change level; heroes 'not hired' are the unused pool.
+= 先にゲームを閉じてください。レベルと経験値はセーブ内で別々の数値なので、一緒に変更してください。英雄がすでに持つスキルはレベルを変更できます。「未雇用」の英雄は未使用のプールです。
+
+Close the game first. Life counts quarters: 4 is one cell (the game's most is 15 cells, 60). The load menu's copy of life and energy is written again for you.
+= 先にゲームを閉じてください。ライフは4分の1単位です（4 = 1セル、ゲームの最大は15セル = 60）。ロードメニュー側のライフとエネルギーのコピーも書き直されます。
+
+Close the game first. Money is stored divided by 10; the game's cap is 99,990. Achievements aren't shown.
+= 先にゲームを閉じてください。お金は10で割って保存されます。ゲームの上限は99,990です。実績は表示されません。
+
+Close the game first. Salt and gold are what you carry; items and the skill tree are not edited yet.
+= 先にゲームを閉じてください。塩と金は所持分です。アイテムとスキルツリーはまだ編集できません。
+
+Close the game first. Skill points are what the skill tree spends. Unlocked abilities are kept as text that changes length, so they are left alone.
+= 先にゲームを閉じてください。スキルポイントはスキルツリーで消費されます。解放済みのアビリティは長さが変わるテキストとして保存されているため、そのままです。
+
+Close the game first. The Chaos Emerald number is a bit field: Green 1, Yellow 2, Purple 4, Pink 8, Grey 16, Blue 32, Red 64 (127 = all). Play times and the extras are not shown.
+= 先にゲームを閉じてください。カオスエメラルドの数値はビットフィールドです。緑 1、黄 2、紫 4、ピンク 8、灰 16、青 32、赤 64（127 = すべて）。プレイ時間とおまけは表示されません。
+
+Close the game first. The checksum is rewritten, and CODE.BIN beside LSW.BIN is rewritten with the stud count.
+= 先にゲームを閉じてください。チェックサムは書き直され、LSW.BIN の隣の CODE.BIN にもスタッド数が書き直されます。
+
+Close the game first. The checksum is rewritten.
+= 先にゲームを閉じてください。チェックサムは書き直されます。
+
+Close the game first. The game keeps the stud wallet in several places; all of them are written.
+= 先にゲームを閉じてください。ゲームはスタッドのウォレットを複数の場所に保持しており、そのすべてに書き込まれます。
+
+Close the game first. The save's checksum is rewritten. Money is kept in two places and both should match; the on-screen figure is what counts up and down.
+= 先にゲームを閉じてください。セーブのチェックサムは書き直されます。お金は2か所に保持されており、両方を一致させる必要があります。画面上の数値は増減するカウント表示です。
+
+Close the game first. The skill points already spent are stored per skill tree and are left as they are.
+= 先にゲームを閉じてください。使用済みのスキルポイントはスキルツリーごとに保存されており、そのままです。
+
+Close the game first. This is COLLECTABLES.BLOB in a SLOTn folder; the stud wallet is saved twice and both copies are written.
+= 先にゲームを閉じてください。SLOTn フォルダー内の COLLECTABLES.BLOB です。スタッドのウォレットは2回保存されており、両方のコピーに書き込まれます。
+
+Close the game first. Weapons fill the slots from Weapon 1 with no gaps: to add one, pick its type in the first empty slot and set Level to 1.
+= 先にゲームを閉じてください。武器は Weapon 1 から隙間なくスロットを埋めます。追加するには、最初の空きスロットで種類を選び、Level を1にしてください。
+
+Close the world in Terraria (go back to the title screen) before saving, or the game will overwrite your edit. Keep a copy of the .wld until you've loaded it in the game.
+= 保存前に Terraria のワールドを閉じて（タイトル画面に戻って）ください。そうしないとゲームが編集内容を上書きします。.wld はゲームで読み込めると確認するまでコピーを残してください。
+
+Coins. Tried in the game on a save from the end of a mission. Back up the save first: runes, rewire tools and elixirs aren't located yet.
+= コイン。ミッション終了時のセーブでゲーム内で試しました。先にセーブのバックアップを取ってください。ルーン、リワイヤツール、エリクサーはまだ場所が特定されていません。
+
+Colonists' skills and passions and every silver stack can be changed. The rest of this (very large) save is kept as it is.
+= 入植者のスキルと情熱、およびすべての銀のスタックを変更できます。この（非常に大きな）セーブの残りはそのまま保持されます。
+
+Decrypted for you; the save's MD5 is worked out again and it is encrypted again on save. Edit values with Value search.
+= 復号済みです。セーブの MD5 は再計算され、保存時に再び暗号化されます。値は「値の検索」で編集してください。
+
+Duplicants, the map of every asteroid and rocket interior, world settings and rocket names can be changed; the rest of the colony is kept as it is.
+= 複製人間、すべての小惑星とロケット内部のマップ、ワールド設定、ロケット名を変更できます。コロニーの残りはそのまま保持されます。
+
+Each facility's material stocks and the likes counter; the data's MD5 is written again on save.
+= 各施設の素材ストックといいねカウンター。データの MD5 は保存時に書き直されます。
+
+Each facility's material stocks and the likes counters; the data's MD5 is written again on save.
+= 各施設の素材ストックといいねカウンター。データの MD5 は保存時に書き直されます。
+
+Each faction's treasury can be changed (the first one is yours). The save is repacked on write: the campaign is compressed again, so the file gets larger. Not yet tried in the game.
+= 各勢力の国庫を変更できます（最初のものがあなたの勢力）。セーブは書き込み時に再パックされ、キャンペーンが再圧縮されるためファイルは大きくなります。ゲームでの動作は未確認です。
+
+Each file is the copy the game loads (the one saved most often). Base stats are what the game builds a character's stats from; class, Djinn and equipment are applied on top.
+= 各ファイルはゲームが読み込むコピー（最も頻繁に保存されるもの）です。基本ステータスはゲームがキャラクターのステータスを構築する元になる値で、クラス、ジン、装備はその上に適用されます。
+
+Each of the four playable characters' money (it is kept apart), experience, skill orbs, and the eco points. The save has no checksum; close the game first.
+= 4人のプレイアブルキャラクターそれぞれのお金（別管理）、経験値、スキルオーブ、エコポイント。セーブにチェックサムはありません。先にゲームを閉じてください。
+
+Each slot's checksum is updated when you save. Max HP/MP are recalculated by the game from level and equipment when needed.
+= 各スロットのチェックサムは保存時に更新されます。最大 HP/MP は、必要に応じてゲームがレベルと装備から再計算します。
+
+Edits go into the newest of the two copies the game keeps, and checksums are fixed automatically. \n         Changing a Pokémon's level also sets its experience and stats. Close the game in your emulator before saving, \n         and don't load a save state afterwards (that would overwrite the edit).
+= 編集内容は、ゲームが保持する2つのコピーのうち新しい方に書き込まれ、チェックサムは自動的に修正されます。\nポケモンのレベルを変えると、経験値とステータスも設定されます。保存前にエミュレーターでゲームを閉じ、\nその後でセーブステートを読み込まないでください（編集が上書きされます）。
+
+Euro Truck Simulator 2 / American Truck Simulator save. Money is in `bank`, experience and skills in `driver_player`. \n         Floats written as `&3f000000` are shown as numbers. Saved again in the game's own packed form when it came packed. Turn off Steam Cloud first, or the old save may come back.
+= Euro Truck Simulator 2 / American Truck Simulator のセーブ。お金は `bank`、経験値とスキルは `driver_player` にあります。\n`&3f000000` と書かれた浮動小数点数は数値で表示されます。元がパック形式だった場合は、ゲーム自身のパック形式で再保存されます。先に Steam Cloud をオフにしないと、古いセーブが戻ることがあります。
+
+Every saved game in game.sav (newest first): XP, hacksilver and resources, the equipment each one owns, and \n         equipment to add at its base level. Pick the save by its title and date; the slot number can differ from the \n         game's list.
+= game.sav 内のすべてのセーブゲーム（新しい順）：XP、ハックシルバー、リソース、各自が所有する装備、そして\nベースレベルで追加する装備。タイトルと日付でセーブを選んでください。スロット番号は\nゲームの一覧と異なることがあります。
+
+Every saved object's numbers, by class (money is in Group › Main › Cash). Text and links between \n         objects are shown but not changed.
+= 保存されたすべてのオブジェクトの数値をクラス別に表示します（お金は Group › Main › Cash）。テキストと\nオブジェクト間のリンクは表示されますが、変更はできません。
+
+Fields whose names aren't known yet show as #hash. Numbers, ticks and choices can be edited; \n         use Tools › Compare with another save to find a value you know.
+= 名前がまだ分かっていないフィールドは #hash と表示されます。数値、ティック、選択肢は編集できます。\n知っている値を見つけるには、ツール › 別のセーブデータと比較 を使ってください。
+
+Food, seafood and crafting materials (up to 999 each), the valuables (virtue, tokens, tickets), ammunition, style experience and training orbs. The wrapper's checksum is rewritten.
+= 食料、海産物、クラフト素材（各999まで）、貴重品（美徳、トークン、チケット）、弾薬、スタイル経験値、トレーニングオーブ。ラッパーのチェックサムは書き直されます。
+
+Frank's level, PP, maximum health and skills. The block checksums are updated when you save.
+= Frank のレベル、PP、最大体力、スキル。ブロックのチェックサムは保存時に更新されます。
+
+Frank's level, PP, money and the five level-up stats (the load screen's copy is kept in step). The \n         checksums are updated when you save.
+= Frank のレベル、PP、お金、レベルアップ時の5つのステータス（ロード画面のコピーも同期されます）。\nチェックサムは保存時に更新されます。
+
+GAMEDATA slot files from Documents\\KoeiTecmo\\A18\\SAVEDATA (the original 2017 release). Cole; item qualities and recipes are left alone.
+= Documents\\KoeiTecmo\\A18\\SAVEDATA の GAMEDATA スロットファイル（2017年発売の初期版）。Cole。アイテムの品質とレシピはそのままです。
+
+GAMEDATA00 to GAMEDATA30 from Documents\\KoeiTecmo\\A17\\SAVEDATA (the original 2017 release). Cole and Tess exchange tickets; item qualities and recipes are left alone.
+= Documents\\KoeiTecmo\\A17\\SAVEDATA の GAMEDATA00〜GAMEDATA30（2017年発売の初期版）。Cole と Tess はチケットを交換します。アイテムの品質とレシピはそのままです。
+
+GLOBALVARS.res: the story's global flags and numbers (who you saved, light and dark side choices, quest steps), by the game's own names. \n         Changing one doesn't replay the scene behind it, and flags that contradict each other can confuse later dialogue.
+= GLOBALVARS.res：ストーリーのグローバルフラグと数値（誰を救ったか、ライトサイドとダークサイドの選択、クエストの段階）を、ゲーム自身の名前で表示します。\n1つ変更しても背後のシーンは再生されず、互いに矛盾するフラグは後の会話を混乱させることがあります。
+
+Game screen: GMP (and the FOB wallet), heroism and demon points, every Mother Base staff member (rank, skill, section, morale, proficiency, stat bonus; buttons to promote everyone to S++ and max morale), resource stockpiles with a Max crafting materials button, a button to open every Mother Base section, and the Mother Base and lifetime-statistics counters; every other variable in the save is in the Tree under the game's own variable names. The save's encryption and checksum are redone on write. Ground Zeroes saves (mgsv_gz_save_data_gl_en0/1 in Steam\\userdata\\<account>\\311340\\remote) are decrypted for the hex view, with the checksum redone on write. Tried on a real save
+= ゲーム画面：GMP（と FOB ウォレット）、英雄ポイントと悪魔ポイント、マザーベースの全スタッフ（ランク、スキル、部門、士気、熟練度、ステータスボーナス。全員を S++ に昇進・士気を最大にするボタン付き）、「クラフト素材を最大に」ボタン付きのリソース備蓄、マザーベースの全部門を開くボタン、マザーベースと通算統計のカウンター。セーブ内のその他の変数はすべて、ゲーム自身の変数名でツリーにあります。セーブの暗号化とチェックサムは書き込み時にやり直されます。Ground Zeroes のセーブ (Steam\\userdata\\<account>\\311340\\remote 内の mgsv_gz_save_data_gl_en0/1) は16進ビュー用に復号され、チェックサムは書き込み時にやり直されます。実際のセーブで試しました
+
+Gil and Yuna, Rikku and Paine's level, experience, HP/MP and base stats. The save's checksum is updated \n         when you save.
+= ギルと、ユウナ、リュック、パインのレベル、経験値、HP/MP、基本ステータス。セーブのチェックサムは\n保存時に更新されます。
+
+Gil and each character's level, experience, HP/MP and base stats, for every saved game in the file. \n         The load screen keeps its own summary, which updates the next time you save in the game.
+= ギルと各キャラクターのレベル、経験値、HP/MP、基本ステータス（ファイル内のすべてのセーブゲーム分）。\nロード画面は独自のサマリーを保持しており、ゲームで次に保存したときに更新されます。
+
+Gil, ability points, medals, each character's experience waiting to be banked (spend it by resting) and item amounts. Levels, HP and stats are shown; the game works them out from experience.
+= ギル、アビリティポイント、メダル、各キャラクターの未精算の経験値（休憩で消費）、アイテムの数量。レベル、HP、ステータスは表示されますが、ゲームが経験値から計算します。
+
+Gil, items, key items, every character's and aeon's HP, MP, stats, abilities and overdrives, and the Monster Arena captures. \n         The checksum is updated when you save.
+= ギル、アイテム、キーアイテム、全キャラクターと召喚獣の HP、MP、ステータス、アビリティ、オーバードライブ、そして魔物闘技場の捕獲数。\nチェックサムは保存時に更新されます。
+
+Gil, the inventory and materia (add, remove and change amounts), party levels, HP, MP and experience. The game \n         may recalculate max HP and MP from level and equipment when it loads. Weapons aren't listed.
+= ギル、インベントリとマテリア（追加、削除、数量変更）、パーティのレベル、HP、MP、経験値。ゲームは\n読み込み時に最大 HP と MP をレベルと装備から再計算することがあります。武器は一覧にありません。
+
+HQ resources and soldiers (rank, kills, missions, stats) can be changed. A stat sets its current, maximum and base \n         value together. Values the game left at their default aren't written in the save, so they can't be changed here.
+= HQ のリソースと兵士（ランク、キル数、ミッション、ステータス）を変更できます。ステータスは現在値、最大値、基本値を\nまとめて設定します。ゲームが既定値のままにしている値はセーブに書かれないため、ここでは変更できません。
+
+Household funds are saved back into the game data, which is stored uncompressed in the package (it gets bigger). Close the game first. Sim skills and traits aren't mapped yet.
+= 世帯の資金はゲームデータに保存し直されます。ゲームデータはパッケージ内に非圧縮で保存されています（サイズが大きくなります）。先にゲームを閉じてください。シムのスキルと特性はまだ対応していません。
+
+Kiryu's and Majima's money and CP, the takings waiting in the real estate and cabaret businesses, and the difficulty.
+= 龍が如くの桐生と真島のお金と CP、不動産とキャバクラ事業で待機している売上、難易度。
+
+Kiryu's money and the experience he hasn't spent yet.
+= 桐生のお金と、まだ使っていない経験値。
+
+Kiryu's money, the hostess club's money and his experience. The save has no checksum; close the game first.
+= 桐生のお金、ホステスクラブのお金、経験値。セーブにチェックサムはありません。先にゲームを閉じてください。
+
+Level (set through experience), skill points, money, Eridium (moon orbs), ammo and SDU levels can be changed; the save is encrypted again when you save. \n         Items are shown, not edited. Turn off cloud saves for the game first, or the old save may come back.
+= レベル（経験値で設定）、スキルポイント、お金、Eridium（ムーンオーブ）、弾薬、SDU レベルを変更できます。保存時にセーブは再び暗号化されます。\nアイテムは表示のみで編集できません。先にゲームのクラウドセーブをオフにしないと、古いセーブが戻ることがあります。
+
+Level, experience, fame, gold, unspent points, the four stats, health, mana and item stacks. The save is \n         scrambled again and its checksum updated when you save.
+= レベル、経験値、名声、ゴールド、未使用ポイント、4つのステータス、体力、マナ、アイテムスタック。保存時にセーブは\n再びスクランブルされ、チェックサムが更新されます。
+
+Level, experience, gold, attributes, unspent points and skill points; the file's size and checksum are fixed when you save. Gold can be at most 10,000 × level on the character.
+= レベル、経験値、ゴールド、属性、未使用ポイント、スキルポイント。保存時にファイルのサイズとチェックサムが修正されます。ゴールドはキャラクターの 10,000 × レベルまでです。
+
+Level, experience, money, unspent points, the five attributes and skill levels (skills show the game's \n         internal record names). This file has no checksum; values are changed in place.
+= レベル、経験値、お金、未使用ポイント、5つの属性、スキルレベル（スキルはゲームの\n内部レコード名で表示されます）。このファイルにチェックサムはなく、値はその場で変更されます。
+
+Level, gold, attributes, skills and base health of an Oblivion .ess save. Checked on public saves, not yet tried in the game. Back up the save first.
+= Oblivion .ess セーブのレベル、ゴールド、属性、スキル、基本体力。公開されたセーブで確認済みですが、ゲームではまだ試していません。先にセーブのバックアップを取ってください。
+
+Level, gold, attributes, skills, health, fatigue, magicka and the inventory counts of a Morrowind .ess save. Checked on public saves, not yet tried in the game. Back up the save first.
+= Morrowind .ess セーブのレベル、ゴールド、属性、スキル、体力、疲労、マジカ、インベントリ数。公開されたセーブで確認済みですが、ゲームではまだ試していません。先にセーブのバックアップを取ってください。
+
+Military-grade rounds (the metro's money) and the ammunition Artyom carries at the start of this level. \n         The level's own save (the auto save) keeps the current state.
+= 軍用弾（メトロの通貨）と、このレベルの開始時に Artyom が持っている弾薬。\nレベル自体のセーブ（オートセーブ）は現在の状態を保持します。
+
+Mira, DP, medals, Sepith, play time, difficulty, every character's stats and the bonding values. Both checksums are updated when you save.
+= Mira、DP、メダル、セピス、プレイ時間、難易度、全キャラクターのステータス、絆の値。両方のチェックサムは保存時に更新されます。
+
+Mira, the eight sepith and each character's experience, HP and EP. The save's checksum is written again on save.
+= Mira、8種のセピス、各キャラクターの経験値、HP、EP。セーブのチェックサムは保存時に書き直されます。
+
+Money, and HP, SP, levels, experience and Persona stats for the Phantom Thieves (a party member's level is \n         their Persona's).
+= お金、そして怪盗団の HP、SP、レベル、経験値、ペルソナのステータス（パーティメンバーのレベルは\nそのペルソナのレベルです）。
+
+Money, experience and skill orbs for each of the five playable characters. The save has no checksum; close the game first.
+= 5人のプレイアブルキャラクターそれぞれのお金、経験値、スキルオーブ。セーブにチェックサムはありません。先にゲームを閉じてください。
+
+Money, health, rune points, the base attributes, order points, tourists, lumber, material stone and fertilizer. The save's CRC is written again on save.
+= お金、体力、ルーンポイント、基本属性、オーダーポイント、観光客、木材、素材石、肥料。セーブの CRC は保存時に書き直されます。
+
+Money, level, experience, unspent points, attributes, skill ranks and item stacks. Skills and items show the \n         game's internal record names (the real names are in the game's own database). The save is encrypted again \n         and its checksums updated when you save.
+= お金、レベル、経験値、未使用ポイント、属性、スキルランク、アイテムスタック。スキルとアイテムは\nゲームの内部レコード名で表示されます（実際の名前はゲーム自身のデータベースにあります）。保存時にセーブは再び暗号化され、\nチェックサムが更新されます。
+
+Munny, level and experience, each character's HP, MP and boosts, synthesis materials and the items already in the inventory. Munny earned is moved with munny so the two totals still agree.
+= マニー、レベル、経験値、各キャラクターの HP、MP、ブースト、合成素材、すでにインベントリにあるアイテム。獲得マニーは所持マニーと一緒に動くため、2つの合計は一致したままです。
+
+Numbers and ticks of every saved object can be edited (soldier stats, money…); names and other text are shown as they are.
+= 保存されたすべてのオブジェクトの数値とティックを編集できます（兵士のステータス、お金など）。名前とその他のテキストはそのまま表示されます。
+
+One squad of a Kenshi save (a file in the save's platoon folder). The player's squads are the files named after your faction, "Nameless" unless you renamed it.
+= Kenshi セーブの1つの分隊（セーブの platoon フォルダー内のファイル）。プレイヤーの分隊は、名前を変えていなければ「Nameless」の、勢力名のファイルです。
+
+PARTYTABLE.res: credits, party XP and (KOTOR II) influence, components and chemicals. The player and the party \n         members' stats are in SAVEGAME.sav in the same folder.
+= PARTYTABLE.res：クレジット、パーティ XP、（KOTOR II では）影響力、コンポーネント、ケミカル。プレイヤーと\nパーティメンバーのステータスは、同じフォルダーの SAVEGAME.sav にあります。
+
+Ryder's credits, crafting materials and research data, and each squad member's level and \n         skill points. A level change is copied to the member's progression data too. Not tried in \n         the game yet.
+= Ryder のクレジット、クラフト素材、研究データ、各分隊メンバーのレベルと\nスキルポイント。レベルの変更はメンバーの成長データにもコピーされます。ゲームではまだ\n試していません。
+
+SAVEGAME.sav: the player and the party members. Credits, party XP, influence, components and chemicals are in \n         PARTYTABLE.res in the same folder.
+= SAVEGAME.sav：プレイヤーとパーティメンバー。クレジット、パーティ XP、影響力、コンポーネント、ケミカルは\n同じフォルダーの PARTYTABLE.res にあります。
+
+Shepard, resources and the squad from player.sav. Paragon and Renegade live in state.sav \n         (pick it from the archive's entries).
+= player.sav の Shepard、リソース、分隊。Paragon と Renegade は state.sav にあります\n（アーカイブのエントリーから選んでください）。
+
+Silver Eagles, salts and lockpicks, and the infusion levels you've picked (a kind you've never picked has no entry yet). The save's MD5 is written again on save. Not yet tried in the game.
+= Silver Eagles、塩、ロックピック、選択済みのインフュージョンレベル（一度も選んだことのない種類はまだエントリーがありません）。セーブの MD5 は保存時に書き直されます。ゲームではまだ試していません。
+
+Sims are listed by their file name (user00012 is Characters\\User00012.iff, which holds the Sim's own name). Change the file while the game is closed.
+= シムはファイル名で一覧表示されます（user00012 は Characters\\User00012.iff で、シム自身の名前を保持しています）。ファイルの変更はゲームを閉じている間に行ってください。
+
+Sims are listed by their id; their names are in the character files. Edited parts are stored uncompressed when you save. Change the file while the game is closed.
+= シムは ID で一覧表示されます。名前はキャラクターファイルにあります。編集した部分は保存時に非圧縮で保存されます。ファイルの変更はゲームを閉じている間に行ってください。
+
+Skill tree levels (every copy the save keeps is changed together). The game may recalculate a level \n         from the points earned in that tree.
+= スキルツリーのレベル（セーブが保持するすべてのコピーが一緒に変更されます）。ゲームは、そのツリーで\n獲得したポイントからレベルを再計算することがあります。
+
+Terra tokens, terraformation levels, your gauges, the game settings and the raw materials in your backpack. \n         Every item takes one backpack slot, so a material count can't go past the free slots. Close the game before saving.
+= Terra トークン、テラフォーミングレベル、ゲージ、ゲーム設定、バックパック内の原材料。\nすべてのアイテムはバックパックのスロットを1つ使うため、素材数は空きスロット数を超えられません。保存前にゲームを閉じてください。
+
+The game's settings and its civilisations. Each civilisation can be handed to a human player or the AI, and whose turn it is \n         can be changed (as hotseat and Play Your Damn Turn games do). Gold, faith and the map are in the packed part of the save, which isn't mapped.
+= ゲームの設定と文明。各文明は人間プレイヤーか AI に割り当てられ、誰のターンかも\n変更できます（ホットシートや Play Your Damn Turn のゲームと同様）。金、信仰、マップはセーブのパック部分にあり、対応していません。
+
+The player as saved in the current map. Values that are zero (no armour, an empty magazine) aren't stored by the game, so they can't be set here.
+= 現在のマップに保存されているプレイヤー。値がゼロのもの（防具なし、空のマガジン）はゲームが保存しないため、ここでは設定できません。
+
+The player as the game loads it (Module.ifo in the save). When you save, player.bic in the same folder gets the same values.
+= ゲームが読み込む形のプレイヤー（セーブ内の Module.ifo）。保存すると、同じフォルダーの player.bic にも同じ値が書き込まれます。
+
+The player faction's cats. Each squad's characters (stats, health) are in the save's platoon folder: open the .platoon file named after your faction (Nameless_0.platoon unless you renamed it).
+= プレイヤー勢力の猫たち。各分隊のキャラクター（ステータス、体力）はセーブの platoon フォルダーにあります。勢力名のついた .platoon ファイルを開いてください（名前を変えていなければ Nameless_0.platoon）。
+
+This character comes from an early-access version of Starbound (before 1.0); the game converts it when it loads, and the screen shows only what that older layout has.
+= このキャラクターは Starbound の早期アクセス版（1.0より前）のものです。ゲームは読み込み時に変換し、画面にはその古いレイアウトにある内容だけが表示されます。
+
+V's eurodollars, from the player's own inventory. Other values: use Value search with a number you know.
+= V のユーロダラー（プレイヤー自身のインベントリから）。その他の値は、分かっている数値で「値の検索」を使ってください。
+
+Variables are named by the hash of their Lua name; the few the Player screen uses are named. \n         The save's MD5 and encryption are redone on save. Turn off Steam Cloud first, and edit the file the game reads (in 311340\\remote for the PC version), not only the backup copy.
+= 変数は Lua 名のハッシュで名付けられており、プレイヤー画面で使われる少数のものには名前が付いています。\nセーブの MD5 と暗号化は保存時にやり直されます。先に Steam Cloud をオフにし、バックアップコピーだけでなく、ゲームが読むファイル（PC 版では 311340\\remote 内）を編集してください。
+
+XP for Kratos, Atreus and Freya, hacksilver and the other currencies, resources, Yggdrasil's dew, health and rage, \n         the level of each piece of equipment, and new pieces to add (campaign saves).
+= Kratos、Atreus、Freya の XP、ハックシルバーとその他の通貨、リソース、ユグドラシルの露、体力と怒り、\n各装備のレベル、追加する新しい装備（キャンペーンのセーブ）。
+
+YAML: saving rewrites the file, so comments and custom formatting are not kept.
+= YAML：保存するとファイルが書き直されるため、コメントや独自の書式は保持されません。
+
+Yen, level, experience and social stats. The matching .binslot file's checksum is updated when you save.
+= 円、レベル、経験値、社会ステータス。対応する .binslot ファイルのチェックサムは保存時に更新されます。
+
+Yen, level, experience, social stats, the Persona slots in use and every item count. The matching .BINslot file's checksum is updated when you save. Key items are left out (the game needs a flag as well).
+= 円、レベル、経験値、社会ステータス、使用中のペルソナスロット、すべてのアイテム数。対応する .BINslot ファイルのチェックサムは保存時に更新されます。キーアイテムは除外されています（ゲームにはフラグも必要です）。
+
+Yen, party HP, SP, level and experience, social stats and Social Link ranks. A value the game left at zero has no record in the file and is not listed.
+= 円、パーティの HP、SP、レベル、経験値、社会ステータス、コープランク。ゲームがゼロのままにしている値はファイルにレコードがなく、一覧に表示されません。
+
+pifo.ifo: the player as this auto-save keeps it (the game loads the player from here).
+= pifo.ifo：このオートセーブが保持するプレイヤー（ゲームはここからプレイヤーを読み込みます）。
+

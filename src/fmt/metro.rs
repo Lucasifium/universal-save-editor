@@ -230,8 +230,8 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
         return Err("no inventory found".into());
     }
     Ok(b.finish("Metro player save", Checksum::None).with_note(
-        "Military-grade rounds (the metro's money) and the ammunition Artyom carries at the start of this level. \
-         The level's own save (the auto save) keeps the current state.",
+        crate::i18n::tx("Military-grade rounds (the metro's money) and the ammunition Artyom carries at the start of this level. \
+         The level's own save (the auto save) keeps the current state."),
     ))
 }
 

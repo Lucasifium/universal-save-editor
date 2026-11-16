@@ -96,7 +96,7 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
         }
     }
     b.info(&["Info", "Slots in use"], found);
-    Ok(b.finish(KIND, Checksum::Custom(fix)).with_note("Close the emulator first. Level follows experience when the game next levels the character; each slot's sum is rewritten on save."))
+    Ok(b.finish(KIND, Checksum::Custom(fix)).with_note(crate::i18n::tx("Close the emulator first. Level follows experience when the game next levels the character; each slot's sum is rewritten on save.")))
 }
 
 fn fix(d: &mut Vec<u8>) {

@@ -347,7 +347,7 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
     }
     let backend = RwBackend { data: Arc::new(d.to_vec()), leaves, passions: Arc::new(passions) };
     Ok(TreeDoc::new(Value::Object(root), editable, "RimWorld save", Box::new(backend)).with_note(
-        "Colonists' skills and passions and every silver stack can be changed. The rest of this (very large) save is kept as it is.",
+        crate::i18n::tx("Colonists' skills and passions and every silver stack can be changed. The rest of this (very large) save is kept as it is."),
     ))
 }
 

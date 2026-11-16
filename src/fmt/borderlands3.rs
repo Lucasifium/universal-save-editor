@@ -445,8 +445,8 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
 
     let backend = Bl3Backend { file: Arc::new(d.to_vec()), proto: Arc::new(proto), len_at: lay.len_at, wl, targets };
     Ok(TreeDoc::new(Value::Object(view), editable, if wl { KIND_WL } else { KIND }, Box::new(backend)).with_note(
-        "Level (set through experience), skill points, money, Eridium (moon orbs), ammo and SDU levels can be changed; the save is encrypted again when you save. \
-         Items are shown, not edited. Turn off cloud saves for the game first, or the old save may come back.",
+        crate::i18n::tx("Level (set through experience), skill points, money, Eridium (moon orbs), ammo and SDU levels can be changed; the save is encrypted again when you save. \
+         Items are shown, not edited. Turn off cloud saves for the game first, or the old save may come back."),
     ))
 }
 

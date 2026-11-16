@@ -311,7 +311,7 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
     }
     let backend = D2Backend { data: Arc::new(d.to_vec()), targets };
     Ok(TreeDoc::new(Value::Object(view), editable, "Diablo II character", Box::new(backend))
-        .with_note("Level, experience, gold, attributes, unspent points and skill points; the file's size and checksum are fixed when you save. Gold can be at most 10,000 × level on the character."))
+        .with_note(crate::i18n::tx("Level, experience, gold, attributes, unspent points and skill points; the file's size and checksum are fixed when you save. Gold can be at most 10,000 × level on the character.")))
 }
 
 #[cfg(test)]

@@ -452,7 +452,7 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
         b.ranged(&["Ammo", name], at, Kind::U8, 0, 99);
     }
     Ok(b.finish(KIND, Checksum::None).with_note(
-        "Food, seafood and crafting materials (up to 999 each), the valuables (virtue, tokens, tickets), ammunition, style experience and training orbs. The wrapper's checksum is rewritten.",
+        crate::i18n::tx("Food, seafood and crafting materials (up to 999 each), the valuables (virtue, tokens, tickets), ammunition, style experience and training orbs. The wrapper's checksum is rewritten."),
     ))
 }
 

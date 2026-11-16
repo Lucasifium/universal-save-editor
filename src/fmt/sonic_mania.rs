@@ -47,5 +47,5 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
         b.ranged(&[name, "Continues"], o + 0x74, Kind::U8, 0, 99);
         b.ranged(&[name, "Next special stage"], o + 0x7C, Kind::U8, 0, 6);
     }
-    Ok(b.finish(KIND, Checksum::None).with_note("Close the game first. The Chaos Emerald number is a bit field: Green 1, Yellow 2, Purple 4, Pink 8, Grey 16, Blue 32, Red 64 (127 = all). Play times and the extras are not shown."))
+    Ok(b.finish(KIND, Checksum::None).with_note(crate::i18n::tx("Close the game first. The Chaos Emerald number is a bit field: Green 1, Yellow 2, Purple 4, Pink 8, Grey 16, Blue 32, Red 64 (127 = all). Play times and the extras are not shown.")))
 }

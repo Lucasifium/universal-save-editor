@@ -28,6 +28,6 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
     b.info(&["Game", "Saved"], format!("{:04}-{:02}-{:02} {:02}:{:02}:{:02}", t[0], t[1], t[2], t[3], t[4], t[5]));
     b.info(&["Game", "Playing as"], if d[0x4CC] == 2 { "Majima" } else { "Kiryu" });
     Ok(b.finish("Yakuza 0 save", Checksum::None).with_note(
-        "Kiryu's and Majima's money and CP, the takings waiting in the real estate and cabaret businesses, and the difficulty.",
+        crate::i18n::tx("Kiryu's and Majima's money and CP, the takings waiting in the real estate and cabaret businesses, and the difficulty."),
     ))
 }

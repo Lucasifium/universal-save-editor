@@ -360,7 +360,7 @@ pub fn parse(p: &[u8]) -> Result<TreeDoc, String> {
             o += 112;
         }
     }
-    Ok(b.finish(KIND, Checksum::None).with_note("Each facility's material stocks and the likes counters; the data's MD5 is written again on save."))
+    Ok(b.finish(KIND, Checksum::None).with_note(crate::i18n::tx("Each facility's material stocks and the likes counters; the data's MD5 is written again on save.")))
 }
 
 #[cfg(test)]

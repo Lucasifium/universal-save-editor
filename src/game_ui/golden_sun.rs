@@ -158,14 +158,16 @@ fn member(ui: &mut Ui, cx: &mut GameCtx, p: &str, key: &str) {
 fn inventory(ui: &mut Ui, cx: &mut GameCtx, p: &str, color: Color32) {
     ui.label(RichText::new(tr("Items")).strong());
     let slots = keys(cx, p);
+    // The item list shrinks on a phone so the quantity box stays inside the panel.
+    let item_w = (ui.available_width() - 130.0).clamp(110.0, 220.0);
     egui::Grid::new(("gs_items", p)).num_columns(3).striped(true).spacing([12.0, 4.0]).show(ui, |ui| {
         for s in &slots {
             let sp = join(p, s);
             let item = format!("{sp}/Item");
             let equipped = cx.flag(&format!("{sp}/Equipped"));
             let mark = if equipped { "E" } else if cx.flag(&format!("{sp}/Broken")) { "B" } else { "" };
-            ui.label(RichText::new(mark).strong().color(crate::theme::fg(ui, color))).on_hover_text(if equipped { "Equipped" } else { "" });
-            cx.editor(ui, &item, 220.0);
+            ui.label(RichText::new(mark).strong().color(crate::theme::fg(ui, color))).on_hover_text(if equipped { tr("Equipped") } else if mark == "B" { tr("Broken") } else { "" });
+            cx.editor(ui, &item, item_w);
             if cx.get(&format!("{sp}/Quantity")).is_some() && cx.text(&item).as_deref() != Some(crate::fmt::goldensun::EMPTY) {
                 ui.horizontal(|ui| {
                     ui.label("\u{00D7}");
@@ -215,7 +217,7 @@ fn djinn_grid(ui: &mut Ui, cx: &mut GameCtx, party_p: &str, party: &[String], pe
                         ui.label(RichText::new(&dn).size(13.0).color(text));
                     });
                     let shown = match holder {
-                        Some((i, set)) => format!("{} \u{00B7} {}", names[i], if set { "set" } else { "standby" }),
+                        Some((i, set)) => format!("{} \u{00B7} {}", names[i], if set { tr("set") } else { tr("standby") }),
                         None => "\u{2014}".to_string(),
                     };
                     let shown = if changed { RichText::new(shown).size(12.0).color(crate::theme::fg(ui, crate::theme::MODIFIED)) } else { RichText::new(shown).size(12.0) };

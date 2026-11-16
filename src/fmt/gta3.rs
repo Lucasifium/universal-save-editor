@@ -124,7 +124,7 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
         let kind = if float { Kind::F32Int } else { Kind::I32 };
         b.ranged(&["Statistics", label], s + off, kind, 0, max);
     }
-    Ok(b.finish(l.kind, Checksum::Custom(fix_sum)).with_note("Close the game first. The save's checksum is rewritten. Money is kept in two places and both should match; the on-screen figure is what counts up and down."))
+    Ok(b.finish(l.kind, Checksum::Custom(fix_sum)).with_note(crate::i18n::tx("Close the game first. The save's checksum is rewritten. Money is kept in two places and both should match; the on-screen figure is what counts up and down.")))
 }
 
 #[cfg(test)]

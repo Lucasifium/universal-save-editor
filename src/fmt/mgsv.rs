@@ -489,8 +489,8 @@ pub fn parse(p: &[u8]) -> Result<TreeDoc, String> {
     }
     let backend = MgsvBackend { plain: Arc::new(p.to_vec()), leaves, ptrs, reshaping };
     Ok(TreeDoc::new(Value::Object(view), editable, KIND, Box::new(backend)).with_note(
-        "Variables are named by the hash of their Lua name; the few the Player screen uses are named. \
-         The save's MD5 and encryption are redone on save. Turn off Steam Cloud first, and edit the file the game reads (in 311340\\remote for the PC version), not only the backup copy.",
+        crate::i18n::tx("Variables are named by the hash of their Lua name; the few the Player screen uses are named. \
+         The save's MD5 and encryption are redone on save. Turn off Steam Cloud first, and edit the file the game reads (in 311340\\remote for the PC version), not only the backup copy."),
     ))
 }
 

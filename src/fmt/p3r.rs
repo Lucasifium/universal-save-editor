@@ -121,7 +121,7 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
         }
     }
     Ok(b.finish("Persona 3 Reload save", Checksum::None).with_note(
-        "Yen, party HP, SP, level and experience, social stats and Social Link ranks. A value the game left at zero has no record in the file and is not listed.",
+        crate::i18n::tx("Yen, party HP, SP, level and experience, social stats and Social Link ranks. A value the game left at zero has no record in the file and is not listed."),
     ))
 }
 

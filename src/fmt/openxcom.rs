@@ -148,8 +148,8 @@ pub fn parse(text: &str) -> Result<TreeDoc, String> {
     let mut editable = HashMap::new();
     register(&view, "", &mut editable);
     Ok(TreeDoc::new(view, editable, KIND, Box::new(Backing { header, raw: text.as_bytes().to_vec() })).with_note(
-        "Close OpenXcom first. Saving rewrites the data part of the file, so its comments and spacing are not kept. \
-         The money is Funds > Current; the soldiers of every base are in one list, each with the name of its base.",
+        crate::i18n::tx("Close OpenXcom first. Saving rewrites the data part of the file, so its comments and spacing are not kept. \
+         The money is Funds > Current; the soldiers of every base are in one list, each with the name of its base."),
     ))
 }
 

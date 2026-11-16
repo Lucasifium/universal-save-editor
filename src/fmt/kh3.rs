@@ -200,7 +200,7 @@ pub fn parse(d: &[u8]) -> Result<crate::tree::TreeDoc, String> {
         b.ranged(&["Items", &key], at, Kind::U8, 0, 99);
     }
     Ok(b.finish(KIND, Checksum::Touched(keep_ledger)).with_note(
-        "Munny, level and experience, each character's HP, MP and boosts, synthesis materials and the items already in the inventory. Munny earned is moved with munny so the two totals still agree.",
+        crate::i18n::tx("Munny, level and experience, each character's HP, MP and boosts, synthesis materials and the items already in the inventory. Munny earned is moved with munny so the two totals still agree."),
     ))
 }
 

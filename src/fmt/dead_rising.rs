@@ -76,7 +76,7 @@ pub fn parse_dr1(d: &[u8]) -> Result<TreeDoc, String> {
         b.info(&["Save", "Area"], area);
     }
     Ok(b.finish(KIND_DR1, Checksum::Custom(fix_dr1)).with_note(
-        "Frank's level, PP, maximum health and skills. The block checksums are updated when you save.",
+        crate::i18n::tx("Frank's level, PP, maximum health and skills. The block checksums are updated when you save."),
     ))
 }
 
@@ -165,7 +165,7 @@ pub fn parse_dr2(d: &[u8]) -> Result<TreeDoc, String> {
     let mut b = Builder::new(d);
     stats(&mut b, "Chuck", DR2_STATS);
     Ok(b.finish(KIND_DR2, Checksum::Custom(fix_dr2)).with_note(
-        "Chuck's level, PP, money and the five level-up stats. The checksum is updated when you save.",
+        crate::i18n::tx("Chuck's level, PP, money and the five level-up stats. The checksum is updated when you save."),
     ))
 }
 
@@ -179,8 +179,8 @@ pub fn parse_otr(d: &[u8]) -> Result<TreeDoc, String> {
         b.mirror(&["Frank", k], OTR_HEADER + 4 * i);
     }
     Ok(b.finish(KIND_OTR, Checksum::Custom(fix_otr)).with_note(
-        "Frank's level, PP, money and the five level-up stats (the load screen's copy is kept in step). The \
-         checksums are updated when you save.",
+        crate::i18n::tx("Frank's level, PP, money and the five level-up stats (the load screen's copy is kept in step). The \
+         checksums are updated when you save."),
     ))
 }
 

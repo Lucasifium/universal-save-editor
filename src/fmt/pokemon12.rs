@@ -1118,8 +1118,8 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
     let backend = GbBackend { raw: d.to_vec(), game, fields: b.fields, mons: b.mons, lists: b.lists, boxes_live, cur_box: cur };
     let doc = TreeDoc::new(Value::Object(root), b.editable, game.name(), Box::new(backend));
     Ok(doc.with_note(
-        "Checksums are fixed automatically. Changing a Pokémon's level also sets its experience and stats; empty bag slots \
-         move to the end like in the game. Close the game in your emulator before saving, and don't load a save state afterwards.",
+        crate::i18n::tx("Checksums are fixed automatically. Changing a Pokémon's level also sets its experience and stats; empty bag slots \
+         move to the end like in the game. Close the game in your emulator before saving, and don't load a save state afterwards."),
     ))
 }
 

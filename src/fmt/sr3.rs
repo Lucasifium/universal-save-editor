@@ -51,7 +51,7 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
     b.ranged(&["Statistics", "Barnstorms found"], 0x3F0, Kind::U32, 0, 99);
     b.ranged(&["Statistics", "Stunt jumps found"], 0x3F8, Kind::U32, 0, 99);
     b.ranged(&["Game", "Difficulty index"], 0x2B64, Kind::U32, 0, 2);
-    Ok(b.finish(KIND, Checksum::Custom(fix)).with_note("Close the game first. Cash is in cents (500000 is $5,000). The save's checksum is rewritten. Changing the respect level alone doesn't change the respect the game thinks you have earned, so set total respect with it."))
+    Ok(b.finish(KIND, Checksum::Custom(fix)).with_note(crate::i18n::tx("Close the game first. Cash is in cents (500000 is $5,000). The save's checksum is rewritten. Changing the respect level alone doesn't change the respect the game thinks you have earned, so set total respect with it.")))
 }
 
 #[cfg(test)]

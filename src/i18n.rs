@@ -325,6 +325,15 @@ mod tests {
         assert!(bad.is_empty(), "{} game-screen line(s) print a variable without tr_any() or an i18n-ok note:\n{}", bad.len(), bad.join("\n"));
     }
 
+    /// A file note must be wrapped in `tr`/`tx` so it is translated when it is shown: a bare
+    /// literal in `with_note("...")` would show in English whatever the language.
+    #[test]
+    fn file_notes_are_marked_for_translation() {
+        let src = program_source();
+        let bare: Vec<&str> = src.lines().filter(|l| l.contains("with_note(\"") || l.contains("with_note( \"")).collect();
+        assert!(bare.is_empty(), "{} file note(s) are bare literals; wrap them in crate::i18n::tx(..): {:?}", bare.len(), &bare[..bare.len().min(3)]);
+    }
+
     /// Writes every text the program shows (`TRANSLATION_KEYS=<file>`), one per line.
     #[test]
     fn dump_all_texts() {

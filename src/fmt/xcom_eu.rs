@@ -240,7 +240,7 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
         return Err("no XCOM objects could be read".into());
     }
     Ok(b.finish("XCOM: Enemy Unknown game data", Checksum::None).with_note(
-        "Numbers and ticks of every saved object can be edited (soldier stats, money…); names and other text are shown as they are.",
+        crate::i18n::tx("Numbers and ticks of every saved object can be edited (soldier stats, money…); names and other text are shown as they are."),
     ))
 }
 

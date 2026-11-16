@@ -112,7 +112,7 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
     if used == 0 {
         return Err("no Ocarina of Time file has been started".into());
     }
-    Ok(b.finish(KIND, Checksum::Touched(fix)).with_note("Close the emulator first. Health is in sixteenths of a heart. Each edited file's sum is made again and its backup copy is updated."))
+    Ok(b.finish(KIND, Checksum::Touched(fix)).with_note(crate::i18n::tx("Close the emulator first. Health is in sixteenths of a heart. Each edited file's sum is made again and its backup copy is updated.")))
 }
 
 fn fix(d: &mut Vec<u8>, touched: &[usize]) {

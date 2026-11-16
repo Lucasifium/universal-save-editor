@@ -401,8 +401,8 @@ pub fn parse(text: &str) -> Result<TreeDoc, String> {
     let backend = PcBackend { raw: text.as_bytes().to_vec(), leaves, objects_at, woids, pack, gid_of, lines, used_ids };
     let doc = TreeDoc::new(Value::Object(root), editable, KIND, Box::new(backend));
     Ok(doc.with_note(
-        "Terra tokens, terraformation levels, your gauges, the game settings and the raw materials in your backpack. \
-         Every item takes one backpack slot, so a material count can't go past the free slots. Close the game before saving.",
+        crate::i18n::tx("Terra tokens, terraformation levels, your gauges, the game settings and the raw materials in your backpack. \
+         Every item takes one backpack slot, so a material count can't go past the free slots. Close the game before saving."),
     ))
 }
 

@@ -51,7 +51,7 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
         b.field(&["Characters", &slot, "Max EP"], at + 24, Kind::U32);
     }
     Ok(b.finish(KIND, Checksum::Custom(fix)).with_note(
-        "Mira, the eight sepith and each character's experience, HP and EP. The save's checksum is written again on save.",
+        crate::i18n::tx("Mira, the eight sepith and each character's experience, HP and EP. The save's checksum is written again on save."),
     ))
 }
 

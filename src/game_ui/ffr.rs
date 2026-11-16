@@ -131,7 +131,7 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
                             }
                         }
                         for j in 0..count(cx, &format!("{base}/baseParameterList")) {
-                            cx.grid_row(ui, &format!("Bonus stat {j}"), &format!("{base}/baseParameterList/{j}"), 90.0);
+                            cx.grid_row(ui, &trf("Bonus stat {0}", &[&j]), &format!("{base}/baseParameterList/{j}"), 90.0);
                         }
                     });
                 });

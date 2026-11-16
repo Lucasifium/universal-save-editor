@@ -354,7 +354,7 @@ pub fn renpy(ui: &mut Ui, cx: &mut GameCtx) {
     let flags: Vec<&String> = vars.iter().filter(|(_, v)| v.is_boolean()).map(|(k, _)| k).collect();
     let texts: Vec<&String> = vars.iter().filter(|(_, v)| v.as_str().is_some_and(|s| !s.starts_with('<'))).map(|(k, _)| k).collect();
     let sub = format!("{}  \u{00B7}  {}{}", trf("{0} numbers", &[&numbers.len()]), trf("{0} flags", &[&flags.len()]), if version.is_empty() { String::new() } else { format!("  \u{00B7}  {}", trf("saved with game version {0}", &[&version])) });
-    hero(ui, accent, "Story variables", &sub, |ui| {
+    hero(ui, accent, tr("Story variables"), &sub, |ui| {
         // Money and the like, if the game calls them something common.
         for (k, _) in &vars {
             let l = k.to_lowercase();

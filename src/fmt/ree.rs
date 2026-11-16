@@ -354,8 +354,8 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
     let (view, leaves, editable, _) = read(d)?;
     let backend = ReeBackend { data: std::sync::Arc::new(d.to_vec()), leaves };
     Ok(TreeDoc::new(view, editable, "RE Engine save", Box::new(backend)).with_note(
-        "Fields whose names aren't known yet show as #hash. Numbers, ticks and choices can be edited; \
-         use Tools \u{203A} Compare with another save to find a value you know.",
+        crate::i18n::tx("Fields whose names aren't known yet show as #hash. Numbers, ticks and choices can be edited; \
+         use Tools \u{203A} Compare with another save to find a value you know."),
     ))
 }
 

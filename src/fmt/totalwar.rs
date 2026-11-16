@@ -537,7 +537,7 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
     view.insert("Factions".into(), Value::Object(factions));
     let backend = TwBackend { outer: Arc::new(d.to_vec()), inner: Arc::new(w.inner), leaves };
     Ok(TreeDoc::new(Value::Object(view), editable, KIND, Box::new(backend)).with_note(
-        "Each faction's treasury can be changed (the first one is yours). The save is repacked on write: the campaign is compressed again, so the file gets larger. Not yet tried in the game.",
+        crate::i18n::tx("Each faction's treasury can be changed (the first one is yours). The save is repacked on write: the campaign is compressed again, so the file gets larger. Not yet tried in the game."),
     ))
 }
 

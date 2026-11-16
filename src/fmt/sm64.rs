@@ -89,7 +89,7 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
     if found == 0 {
         return Err("no Super Mario 64 file in this save has been started".into());
     }
-    Ok(b.finish(KIND, Checksum::Custom(fix)).with_note("Close the emulator first. Star bits are kept per course; a course's six stars and its 100-coin star are separate bits."))
+    Ok(b.finish(KIND, Checksum::Custom(fix)).with_note(crate::i18n::tx("Close the emulator first. Star bits are kept per course; a course's six stars and its 100-coin star are separate bits.")))
 }
 
 fn fix(d: &mut Vec<u8>) {

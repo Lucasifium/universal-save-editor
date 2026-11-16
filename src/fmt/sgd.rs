@@ -166,8 +166,8 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
         return Err("no objects could be read".into());
     }
     Ok(b.finish("Dying Light save", Checksum::None).with_note(
-        "Every saved object's numbers, by class (money is in Group \u{203A} Main \u{203A} Cash). Text and links between \
-         objects are shown but not changed.",
+        crate::i18n::tx("Every saved object's numbers, by class (money is in Group \u{203A} Main \u{203A} Cash). Text and links between \
+         objects are shown but not changed."),
     ))
 }
 

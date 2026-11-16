@@ -75,7 +75,7 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
     if found < 3 {
         return Err("the agent's values aren't in this file".into());
     }
-    Ok(b.finish(KIND, Checksum::None).with_note("Close the game first. Edit one checkpoint at a time; the game reads Checkpoints\\*.sav and safehouse.sav."))
+    Ok(b.finish(KIND, Checksum::None).with_note(crate::i18n::tx("Close the game first. Edit one checkpoint at a time; the game reads Checkpoints\\*.sav and safehouse.sav.")))
 }
 
 #[cfg(test)]

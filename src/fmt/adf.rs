@@ -89,7 +89,7 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
             b.field(&["Hunter", label], at + off, Kind::U32);
         }
     }
-    Ok(b.finish(KIND, Checksum::None).with_note("Close the game first. The skill points already spent are stored per skill tree and are left as they are."))
+    Ok(b.finish(KIND, Checksum::None).with_note(crate::i18n::tx("Close the game first. The skill points already spent are stored per skill tree and are left as they are.")))
 }
 
 #[cfg(test)]

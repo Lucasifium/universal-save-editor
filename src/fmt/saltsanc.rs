@@ -80,7 +80,7 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
     b.ranged(&["Character", "Sanctuary rests"], at(2), Kind::I32, 0, 99_999_999);
     b.ranged(&["Character", "Corruption"], at(3), Kind::I32, 0, 99_999_999);
     b.ranged(&["Character", "Playthrough"], at(5) + 8, Kind::I32, 0, 99);
-    Ok(b.finish(KIND, Checksum::None).with_note("Close the game first. Salt and gold are what you carry; items and the skill tree are not edited yet."))
+    Ok(b.finish(KIND, Checksum::None).with_note(crate::i18n::tx("Close the game first. Salt and gold are what you carry; items and the skill tree are not edited yet.")))
 }
 
 #[cfg(test)]

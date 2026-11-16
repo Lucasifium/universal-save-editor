@@ -95,7 +95,7 @@ pub fn parse(data: &[u8], head: usize, tail: &[u8]) -> Option<TreeDoc> {
         return None;
     }
     Some(b.finish("Cyberpunk 2077 game data", Checksum::None).with_note(
-        "V's eurodollars, from the player's own inventory. Other values: use Value search with a number you know.",
+        crate::i18n::tx("V's eurodollars, from the player's own inventory. Other values: use Value search with a number you know."),
     ))
 }
 

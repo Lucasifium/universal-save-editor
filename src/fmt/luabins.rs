@@ -192,7 +192,7 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
         None => (Value::Object(Map::new()), p.editable),
     };
     Ok(TreeDoc::new(view, editable, "Supergiant game state", Box::new(backend)).with_note(
-        "Close the game before saving. Search for a resource or upgrade by name (Ctrl+F) \u{2014} the game state is large.",
+        crate::i18n::tx("Close the game before saving. Search for a resource or upgrade by name (Ctrl+F) \u{2014} the game state is large."),
     ))
 }
 

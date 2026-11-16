@@ -87,7 +87,7 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
     if found == 0 {
         return Err("no slot in this save has been started".into());
     }
-    Ok(b.finish(KIND, Checksum::Custom(fix)).with_note("Close the emulator first. Health counts eighths of a heart (8 = one heart); rupees follow the on-screen counter. The slot's sum is kept right; the game's spare copy is left alone and is only used when the first fails its check."))
+    Ok(b.finish(KIND, Checksum::Custom(fix)).with_note(crate::i18n::tx("Close the emulator first. Health counts eighths of a heart (8 = one heart); rupees follow the on-screen counter. The slot's sum is kept right; the game's spare copy is left alone and is only used when the first fails its check.")))
 }
 
 fn fix(d: &mut Vec<u8>) {

@@ -238,7 +238,7 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
         return Err("nothing to edit in this save".into());
     }
     Ok(b.finish(KIND, Checksum::None).with_note(
-        "Level, gold, attributes, skills and base health of an Oblivion .ess save. Checked on public saves, not yet tried in the game. Back up the save first.",
+        crate::i18n::tx("Level, gold, attributes, skills and base health of an Oblivion .ess save. Checked on public saves, not yet tried in the game. Back up the save first."),
     ))
 }
 

@@ -157,8 +157,8 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
         }
     }
     Ok(b.finish("Titan Quest character", Checksum::None).with_note(
-        "Level, experience, money, unspent points, the five attributes and skill levels (skills show the game's \
-         internal record names). This file has no checksum; values are changed in place.",
+        crate::i18n::tx("Level, experience, money, unspent points, the five attributes and skill levels (skills show the game's \
+         internal record names). This file has no checksum; values are changed in place."),
     ))
 }
 

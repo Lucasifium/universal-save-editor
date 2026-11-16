@@ -444,7 +444,7 @@ fn parse_alyx(d: &[u8], c: &Container, map: &str, lv: &Level, pf: &[(String, Rec
         b.info(&["Not in this save"], missing);
     }
     Ok(b.finish(KIND_ALYX, Checksum::None).with_note(
-        "Alyx as saved in the current map. The save's description in the game's Load menu (its health, resin and ammo) is written when the game saves, so it shows the old numbers until you save again.",
+        crate::i18n::tx("Alyx as saved in the current map. The save's description in the game's Load menu (its health, resin and ammo) is written when the game saves, so it shows the old numbers until you save again."),
     ))
 }
 
@@ -635,7 +635,7 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
     }
     let kind = if gs { KIND_GOLDSRC } else { KIND_SOURCE };
     Ok(b.finish(kind, Checksum::None).with_note(
-        "The player as saved in the current map. Values that are zero (no armour, an empty magazine) aren't stored by the game, so they can't be set here.",
+        crate::i18n::tx("The player as saved in the current map. Values that are zero (no armour, an empty magazine) aren't stored by the game, so they can't be set here."),
     ))
 }
 

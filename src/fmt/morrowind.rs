@@ -184,7 +184,7 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
     vital(&mut b, "Fatigue", "Full fatigue", ACDT_FATIGUE, None);
     vital(&mut b, "Magicka", "Full magicka", ACDT_MAGICKA, None);
     Ok(b.finish(KIND, Checksum::None).with_note(
-        "Level, gold, attributes, skills, health, fatigue, magicka and the inventory counts of a Morrowind .ess save. Checked on public saves, not yet tried in the game. Back up the save first.",
+        crate::i18n::tx("Level, gold, attributes, skills, health, fatigue, magicka and the inventory counts of a Morrowind .ess save. Checked on public saves, not yet tried in the game. Back up the save first."),
     ))
 }
 

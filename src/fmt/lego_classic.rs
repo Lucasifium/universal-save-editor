@@ -176,7 +176,7 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
         b.info(&["Game"], title);
         b.info(&["Completion points"], u32at(d, d.len() - 4));
         return Ok(b.finish(KIND, Checksum::Custom(fix_hmgr)).with_note(
-            "Close the game first. The checksum is rewritten.",
+            crate::i18n::tx("Close the game first. The checksum is rewritten."),
         ));
     }
     if let Some((title, places)) = bare_game(d) {
@@ -185,7 +185,7 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
             b.mirror(&["Studs"], p);
         }
         b.info(&["Game"], title);
-        return Ok(b.finish(KIND, Checksum::None).with_note("Close the game first. The game keeps the stud wallet in several places; all of them are written."));
+        return Ok(b.finish(KIND, Checksum::None).with_note(crate::i18n::tx("Close the game first. The game keeps the stud wallet in several places; all of them are written.")));
     }
     if let Some(&(title, _, _, at, copies, stride)) = newer_game(d) {
         b.ranged(&["Studs"], HEADER + at, Kind::U64, 0, NEWER_MAX_STUDS);
@@ -193,19 +193,19 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
             b.mirror(&["Studs"], HEADER + at + k * stride);
         }
         b.info(&["Game"], title);
-        return Ok(b.finish(KIND, Checksum::None).with_note("Close the game first."));
+        return Ok(b.finish(KIND, Checksum::None).with_note(crate::i18n::tx("Close the game first.")));
     }
     if is_lsw1(d) {
         b.ranged(&["Studs"], LSW1_STUDS, Kind::U32, 0, LSW1_MAX_STUDS);
         b.info(&["Game"], "LEGO Star Wars: The Video Game");
         return Ok(b.finish(KIND, Checksum::Custom(fix_lsw1)).with_note(
-            "Close the game first. The checksum is rewritten, and CODE.BIN beside LSW.BIN is rewritten with the stud count.",
+            crate::i18n::tx("Close the game first. The checksum is rewritten, and CODE.BIN beside LSW.BIN is rewritten with the stud count."),
         ));
     }
     if is_lsw2(d) {
         b.ranged(&["Studs"], LSW2_STUDS, Kind::U32, 0, MAX_STUDS);
         b.info(&["Game"], "LEGO Star Wars II: The Original Trilogy");
-        return Ok(b.finish(KIND, Checksum::Custom(fix_lsw1)).with_note("Close the game first. The checksum is rewritten."));
+        return Ok(b.finish(KIND, Checksum::Custom(fix_lsw1)).with_note(crate::i18n::tx("Close the game first. The checksum is rewritten.")));
     }
     Err("not an older LEGO save".into())
 }

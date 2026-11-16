@@ -315,8 +315,8 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
         return Err("no XCOM 2 HQ or soldiers found".into());
     }
     Ok(b.finish("XCOM 2 game data", Checksum::None).with_note(
-        "HQ resources and soldiers (rank, kills, missions, stats) can be changed. A stat sets its current, maximum and base \
-         value together. Values the game left at their default aren't written in the save, so they can't be changed here.",
+        crate::i18n::tx("HQ resources and soldiers (rank, kills, missions, stats) can be changed. A stat sets its current, maximum and base \
+         value together. Values the game left at their default aren't written in the save, so they can't be changed here."),
     ))
 }
 

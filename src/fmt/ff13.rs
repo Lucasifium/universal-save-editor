@@ -135,7 +135,7 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
     let mut b = Builder::new(d);
     b.big_endian = true;
     b.ranged(&["Party", "Gil"], GIL, Kind::U32, 0, 9_999_999);
-    Ok(b.finish(KIND, Checksum::Custom(fix_sum)).with_note("Close the game first (and turn off Steam cloud saves). Only gil is shown so far."))
+    Ok(b.finish(KIND, Checksum::Custom(fix_sum)).with_note(crate::i18n::tx("Close the game first (and turn off Steam cloud saves). Only gil is shown so far.")))
 }
 
 #[cfg(test)]

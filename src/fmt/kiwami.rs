@@ -24,7 +24,7 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
     // Year, month, day of the week, day, hour, minute, second.
     let t: Vec<u16> = (0..7).map(|i| u16::from_le_bytes([d[8 + 2 * i], d[9 + 2 * i]])).collect();
     b.info(&["Game", "Saved"], format!("{:04}-{:02}-{:02} {:02}:{:02}:{:02}", t[0], t[1], t[3], t[4], t[5], t[6]));
-    Ok(b.finish("Yakuza Kiwami save", Checksum::None).with_note("Kiryu's money and the experience he hasn't spent yet."))
+    Ok(b.finish("Yakuza Kiwami save", Checksum::None).with_note(crate::i18n::tx("Kiryu's money and the experience he hasn't spent yet.")))
 }
 
 #[cfg(test)]

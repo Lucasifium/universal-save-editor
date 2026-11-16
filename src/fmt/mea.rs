@@ -517,9 +517,9 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
         }
     }
     Ok(b.finish(KIND, Checksum::Custom(fix)).with_note(
-        "Ryder's credits, crafting materials and research data, and each squad member's level and \
+        crate::i18n::tx("Ryder's credits, crafting materials and research data, and each squad member's level and \
          skill points. A level change is copied to the member's progression data too. Not tried in \
-         the game yet.",
+         the game yet."),
     ))
 }
 

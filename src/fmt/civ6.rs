@@ -389,8 +389,8 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
         return Err("no civilisations found in this Civilization VI save".into());
     }
     Ok(b.finish("Civilization VI save", Checksum::None).with_note(
-        "The game's settings and its civilisations. Each civilisation can be handed to a human player or the AI, and whose turn it is \
-         can be changed (as hotseat and Play Your Damn Turn games do). Gold, faith and the map are in the packed part of the save, which isn't mapped.",
+        crate::i18n::tx("The game's settings and its civilisations. Each civilisation can be handed to a human player or the AI, and whose turn it is \
+         can be changed (as hotseat and Play Your Damn Turn games do). Gold, faith and the map are in the packed part of the save, which isn't mapped."),
     ))
 }
 

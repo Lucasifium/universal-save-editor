@@ -116,7 +116,7 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
     one_byte(&mut b, "Achievements", s[0], 637, &[]);
     one_byte(&mut b, "Items seen", s[3], 732, &[43, 59, 61, 235, 587, 613, 620, 630, 648, 656, 662, 666, 718]);
     one_byte(&mut b, "Challenges", s[6], 45, &[]);
-    Ok(b.finish(KIND, Checksum::Custom(fix)).with_note("Close the game first. Achievements, items seen and challenges are 0 (locked) or 1 (unlocked), numbered as in the game's own lists; the checksum is written again on save."))
+    Ok(b.finish(KIND, Checksum::Custom(fix)).with_note(crate::i18n::tx("Close the game first. Achievements, items seen and challenges are 0 (locked) or 1 (unlocked), numbered as in the game's own lists; the checksum is written again on save.")))
 }
 
 #[cfg(test)]

@@ -274,8 +274,8 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
         return Err("no player data found".into());
     }
     Ok(b.finish("Mass Effect (2008) save", Checksum::None).with_note(
-        "Shepard, resources and the squad from player.sav. Paragon and Renegade live in state.sav \
-         (pick it from the archive's entries).",
+        crate::i18n::tx("Shepard, resources and the squad from player.sav. Paragon and Renegade live in state.sav \
+         (pick it from the archive's entries)."),
     ))
 }
 

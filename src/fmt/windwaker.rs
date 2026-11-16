@@ -41,7 +41,7 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
     for k in (0..3).filter(|&k| used(d, k) && good(d, k)) {
         add(&mut b, &[&format!("Slot {}", k + 1)], k * SLOT, ww::SLOT);
     }
-    Ok(b.finish(KIND, Checksum::Touched(fix)).with_note("Close the emulator first. Health is in quarter hearts, so 12 is three hearts. Changing the sword, shield or bracelets also sets the matching equipped flag. Each edited slot's sum is made again."))
+    Ok(b.finish(KIND, Checksum::Touched(fix)).with_note(crate::i18n::tx("Close the emulator first. Health is in quarter hearts, so 12 is three hearts. Changing the sword, shield or bracelets also sets the matching equipped flag. Each edited slot's sum is made again.")))
 }
 
 fn fix(d: &mut Vec<u8>, touched: &[usize]) {

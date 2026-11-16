@@ -308,8 +308,8 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
         }
     }
     Ok(b.finish("Torchlight II character", Checksum::None).with_note(
-        "Level, experience, fame, gold, unspent points, the four stats, health, mana and item stacks. The save is \
-         scrambled again and its checksum updated when you save.",
+        crate::i18n::tx("Level, experience, fame, gold, unspent points, the four stats, health, mana and item stacks. The save is \
+         scrambled again and its checksum updated when you save."),
     ))
 }
 

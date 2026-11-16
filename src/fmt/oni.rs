@@ -661,7 +661,7 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
     }
     let backend = OniBackend { prefix: Arc::new(prefix), body: Arc::new(body), compressed, original: Arc::new(d.to_vec()), leaves, map };
     Ok(TreeDoc::new(Value::Object(root), editable, "Oxygen Not Included save", Box::new(backend))
-        .with_note("Duplicants, the map of every asteroid and rocket interior, world settings and rocket names can be changed; the rest of the colony is kept as it is."))
+        .with_note(crate::i18n::tx("Duplicants, the map of every asteroid and rocket interior, world settings and rocket names can be changed; the rest of the colony is kept as it is.")))
 }
 
 #[cfg(test)]

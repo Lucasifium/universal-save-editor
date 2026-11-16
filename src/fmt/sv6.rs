@@ -238,8 +238,8 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
     b.ranged(&["Park", "Entrance fee (tenths of a unit)"], t + FEE, Kind::I16, 0, 3_000);
     b.info(&["Info", "Entities in the park"], (d.len() - TAIL - 4) / ENTITY);
     Ok(b.finish(KIND, Checksum::None).with_note(
-        "Close the game first. Cash, loan and fees are in whole currency units with one decimal (the game keeps tenths). \
-         The park's chunk is unpacked and packed again on save, with the file's sum written right.",
+        crate::i18n::tx("Close the game first. Cash, loan and fees are in whole currency units with one decimal (the game keeps tenths). \
+         The park's chunk is unpacked and packed again on save, with the file's sum written right."),
     ))
 }
 

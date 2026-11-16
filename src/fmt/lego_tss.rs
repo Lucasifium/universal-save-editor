@@ -66,7 +66,7 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
     b.ranged(&["Studs"], value, Kind::U64, 0, MAX_STUDS);
     b.mirror(&["Studs"], permanent);
     Ok(b.finish(KIND, Checksum::None).with_note(
-        "Close the game first. This is COLLECTABLES.BLOB in a SLOTn folder; the stud wallet is saved twice and both copies are written.",
+        crate::i18n::tx("Close the game first. This is COLLECTABLES.BLOB in a SLOTn folder; the stud wallet is saved twice and both copies are written."),
     ))
 }
 

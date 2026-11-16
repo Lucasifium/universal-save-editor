@@ -70,7 +70,7 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
     if found == 0 {
         return Err("no Super Metroid slot has been started".into());
     }
-    Ok(b.finish(KIND, Checksum::Custom(fix)).with_note("Close the emulator first. Energy and ammunition are limited to what the game can show; each slot's sums (and their copies at the end of the file) are kept right."))
+    Ok(b.finish(KIND, Checksum::Custom(fix)).with_note(crate::i18n::tx("Close the emulator first. Energy and ammunition are limited to what the game can show; each slot's sums (and their copies at the end of the file) are kept right.")))
 }
 
 fn fix(d: &mut Vec<u8>) {

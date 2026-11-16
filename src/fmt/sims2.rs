@@ -118,7 +118,7 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
     Ok(b
         .finish(KIND, Checksum::None)
         .with_advanced(vec!["Other Sims".into()])
-        .with_note("Sims are listed by their id; their names are in the character files. Edited parts are stored uncompressed when you save. Change the file while the game is closed."))
+        .with_note(crate::i18n::tx("Sims are listed by their id; their names are in the character files. Edited parts are stored uncompressed when you save. Change the file while the game is closed.")))
 }
 
 fn person(b: &mut Builder, path: &[&str], f: &dbpf::Flat) {

@@ -80,8 +80,8 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
         }
     }
     Ok(b.finish("Final Fantasy X-2 save", Checksum::Custom(fix)).with_note(
-        "Gil and Yuna, Rikku and Paine's level, experience, HP/MP and base stats. The save's checksum is updated \
-         when you save.",
+        crate::i18n::tx("Gil and Yuna, Rikku and Paine's level, experience, HP/MP and base stats. The save's checksum is updated \
+         when you save."),
     ))
 }
 
@@ -205,8 +205,8 @@ pub fn parse_ffx(d: &[u8]) -> Result<TreeDoc, String> {
         b.ranged(&["Monster Arena", l[2], l[3]], ffx::MONSTERS + i, Kind::U8, 0, l[4].parse().unwrap_or(10));
     }
     Ok(b.finish("Final Fantasy X save", Checksum::Custom(fix_ffx)).with_note(
-        "Gil, items, key items, every character's and aeon's HP, MP, stats, abilities and overdrives, and the Monster Arena captures. \
-         The checksum is updated when you save.",
+        crate::i18n::tx("Gil, items, key items, every character's and aeon's HP, MP, stats, abilities and overdrives, and the Monster Arena captures. \
+         The checksum is updated when you save."),
     ))
 }
 

@@ -127,7 +127,7 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
         b.ranged(&["Zen Garden", &name, "Times fertilized (up to 3)"], r + 0x24, Kind::U32, 0, 3);
         b.ranged(&["Zen Garden", &name, "Times watered (up to 6)"], r + 0x28, Kind::U32, 0, 6);
     }
-    Ok(b.finish(KIND, Checksum::None).with_note("Close the game first. Money is stored divided by 10; the game's cap is 99,990. Achievements aren't shown."))
+    Ok(b.finish(KIND, Checksum::None).with_note(crate::i18n::tx("Close the game first. Money is stored divided by 10; the game's cap is 99,990. Achievements aren't shown.")))
 }
 
 #[cfg(test)]

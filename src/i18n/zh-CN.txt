@@ -29641,3 +29641,354 @@ V
 
 YoRHa
 = YoRHa
+
+# src/fmt/*.rs file notes, Bonus stat, Broken
+
+A character file. In a save folder the game loads the player from the .sav instead: open that (player.bic is updated with it).
+= 这是角色文件。在存档文件夹中，游戏会改为从 .sav 加载玩家：请打开那个文件（player.bic 会随之更新）。
+
+A character save (1.sav, 2.sav …) from Documents\\My Games\\Borderlands 4\\Saved\\SaveGames\\<Steam id>. Open it from its own folder so the Steam account that unlocks it can be found. Cash, Eridium, level, ammunition and skill points; items and the rest are in the Tree.
+= 来自 Documents\\My Games\\Borderlands 4\\Saved\\SaveGames\\<Steam id> 的角色存档（1.sav、2.sav …）。请从其所在文件夹打开，以便找到能解锁它的 Steam 账号。现金、Eridium、等级、弹药和技能点；物品及其余内容在“树状”中。
+
+Alyx as saved in the current map. The save's description in the game's Load menu (its health, resin and ammo) is written when the game saves, so it shows the old numbers until you save again.
+= Alyx 在当前地图中的存档状态。游戏“读取”菜单中显示的存档描述（生命、树脂和弹药）是在游戏保存时写入的，因此再次保存前仍显示旧数字。
+
+ArchiveSaveFile.<n>.sav from b1\\Saved\\SaveGames\\<Steam id>. Will, Sparks, level, experience and play time; the file's checksum is written again when you save. Close the game first and keep the backup. Raising the level does not add Sparks or experience for you.
+= 来自 b1\\Saved\\SaveGames\\<Steam id> 的 ArchiveSaveFile.<n>.sav。Will、Sparks、等级、经验和游戏时间；保存时会重新写入文件校验和。请先关闭游戏并保留备份。提升等级不会自动增加 Sparks 或经验。
+
+Big sections show their first few thousand values; your own country is shown in full. \n         The game may stop awarding achievements for an edited ironman campaign.
+= 较大的部分只显示前几千个数值；你自己的国家会完整显示。\n         编辑过的铁人战役可能不再获得游戏成就。
+
+Bonus stat {0}
+= 额外属性 {0}
+
+Broken
+= 损坏
+
+Checksums are fixed automatically. Changing a Pokémon's level also sets its experience and stats; empty bag slots \n         move to the end like in the game. Close the game in your emulator before saving, and don't load a save state afterwards.
+= 校验和会自动修正。更改宝可梦的等级也会同步设置其经验和能力值；空的背包格会\n         像游戏中那样移到末尾。保存前请在模拟器中关闭游戏，之后不要读取即时存档。
+
+Chuck's level, PP, money and the five level-up stats. The checksum is updated when you save.
+= Chuck 的等级、PP、金钱和五项升级属性。保存时会更新校验和。
+
+Close Cairn (or go back to its title screen) before saving: the game keeps the slot file locked while a climb is loaded. Added items go at the bottom of the bag; “Shake up bag” in the game settles them.
+= 保存前请关闭 Cairn（或返回其标题画面）：攀登过程中加载着存档时，游戏会锁定存档位文件。添加的物品会放在背包底部；游戏设置中的“整理背包”可将它们归位。
+
+Close OpenXcom first. Saving rewrites the data part of the file, so its comments and spacing are not kept. \n         The money is Funds > Current; the soldiers of every base are in one list, each with the name of its base.
+= 请先关闭 OpenXcom。保存会重写文件的数据部分，因此其中的注释和间距不会保留。\n         资金是 Funds > Current；所有基地的士兵在同一个列表中，每人都标有所属基地的名称。
+
+Close Terraria (or at least go back to the title screen) before saving, or the game will overwrite your edit.
+= 保存前请关闭 Terraria（或至少返回标题画面），否则游戏会覆盖你的修改。
+
+Close the emulator first. Attack, defense and the other derived stats are tied to equipment in this game, so they're not shown. Each slot's sum is rewritten on save.
+= 请先关闭模拟器。此游戏中攻击、防御等衍生属性与装备挂钩，因此不显示。每个存档位的校验和会在保存时重写。
+
+Close the emulator first. Each slot's sum is rewritten on save.
+= 请先关闭模拟器。每个存档位的校验和会在保存时重写。
+
+Close the emulator first. Energy and ammunition are limited to what the game can show; each slot's sums (and their copies at the end of the file) are kept right.
+= 请先关闭模拟器。能量和弹药限制在游戏可显示的范围内；每个存档位的校验和（及文件末尾的副本）会保持正确。
+
+Close the emulator first. Health counts eighths of a heart (8 = one heart); rupees follow the on-screen counter. The slot's sum is kept right; the game's spare copy is left alone and is only used when the first fails its check.
+= 请先关闭模拟器。生命值以八分之一颗心计（8 = 一颗心）；卢比与屏幕上的计数一致。存档位的校验和会保持正确；游戏的备用副本不会改动，仅在第一份校验失败时使用。
+
+Close the emulator first. Health counts quarter hearts (4 = one heart). Each slot's sum is rewritten on save.
+= 请先关闭模拟器。生命值以四分之一颗心计（4 = 一颗心）。每个存档位的校验和会在保存时重写。
+
+Close the emulator first. Level follows experience when the game next levels the character; each slot's sum is rewritten on save.
+= 请先关闭模拟器。等级会在游戏下次为角色升级时跟随经验；每个存档位的校验和会在保存时重写。
+
+Close the emulator first. Star bits are kept per course; a course's six stars and its 100-coin star are separate bits.
+= 请先关闭模拟器。星星位按关卡分别保存；一个关卡的六颗星和 100 金币星是各自独立的位。
+
+Close the emulator first. Strength, defense and the other derived stats are worked out by the game from level and equipment, so they're not shown. Each slot's sum is rewritten on save.
+= 请先关闭模拟器。力量、防御等衍生属性由游戏根据等级和装备计算得出，因此不显示。每个存档位的校验和会在保存时重写。
+
+Close the game (and DOSBox) first. The game's money is a signed 32-bit number: keep it well under 2,000,000,000, \n         because monthly income is added to it and a total past the limit wraps around.
+= 请先关闭游戏（和 DOSBox）。游戏中的金钱是有符号 32 位数：请保持远低于 2,000,000,000，\n         因为每月收入会累加进去，超过上限的总额会回绕。
+
+Close the game and turn off Ubisoft Connect cloud saves first. Followers raise your level; each number is stored in only as many bytes as it needs, so a small value can be raised only up to 255 or 65,535 until the game itself saves a bigger one; research points are only saved while you have some unspent.
+= 请先关闭游戏并关闭 Ubisoft Connect 云存档。追随者会提升你的等级；每个数字只按所需字节数存储，因此较小的数值只能提高到 255 或 65,535，直到游戏自己保存更大的值；研究点数仅在你有未使用的点数时才会保存。
+
+Close the game before saving. Search for a resource or upgrade by name (Ctrl+F) — the game state is large.
+= 保存前请关闭游戏。请按名称搜索资源或升级（Ctrl+F）——游戏状态很大。
+
+Close the game first (and turn off Steam cloud saves). Only gil is shown so far.
+= 请先关闭游戏（并关闭 Steam 云存档）。目前只显示 gil。
+
+Close the game first.
+= 请先关闭游戏。
+
+Close the game first. Achievements, items seen and challenges are 0 (locked) or 1 (unlocked), numbered as in the game's own lists; the checksum is written again on save.
+= 请先关闭游戏。成就、已见物品和挑战为 0（未解锁）或 1（已解锁），编号与游戏自己的列表一致；保存时会重新写入校验和。
+
+Close the game first. Cash is in cents (500000 is $5,000). The level is stored counting from 0, so 49 is the top level. Changing the level alone doesn't change the respect the game thinks you have earned, so set total respect with it. The save's checksum is rewritten.
+= 请先关闭游戏。现金以美分计（500000 即 $5,000）。等级从 0 开始计数，因此 49 是最高等级。仅更改等级不会改变游戏认为你已获得的尊敬值，因此请同时设置总尊敬值。存档校验和会被重写。
+
+Close the game first. Cash is in cents (500000 is $5,000). The save's checksum is rewritten. Changing the respect level alone doesn't change the respect the game thinks you have earned, so set total respect with it.
+= 请先关闭游戏。现金以美分计（500000 即 $5,000）。存档校验和会被重写。仅更改尊敬等级不会改变游戏认为你已获得的尊敬值，因此请同时设置总尊敬值。
+
+Close the game first. Cash, loan and fees are in whole currency units with one decimal (the game keeps tenths). \n         The park's chunk is unpacked and packed again on save, with the file's sum written right.
+= 请先关闭游戏。现金、贷款和费用以整数货币单位加一位小数表示（游戏保留十分位）。\n         保存时会解包并重新打包公园数据块，并正确写入文件校验和。
+
+Close the game first. Edit a copy of a SAVEn.GAM, then load it in the game. The treasury and research points are the values the game itself keeps.
+= 请先关闭游戏。请编辑 SAVEn.GAM 的副本，然后在游戏中加载。国库和研究点数是游戏自己保存的数值。
+
+Close the game first. Edit one checkpoint at a time; the game reads Checkpoints\\*.sav and safehouse.sav.
+= 请先关闭游戏。每次编辑一个检查点；游戏读取 Checkpoints\\*.sav 和 safehouse.sav。
+
+Close the game first. Item counts go up to 20; key items are single items. Techs, titles, recipes and the Collector's Book are not shown.
+= 请先关闭游戏。物品数量最多 20；关键物品为单件。科技、称号、配方和收藏家手册不显示。
+
+Close the game first. Level and experience are separate numbers in the save: change them together. Skills that a hero already has can change level; heroes 'not hired' are the unused pool.
+= 请先关闭游戏。等级和经验是存档中各自独立的数字：请一起更改。英雄已有的技能可以改变等级；“未雇佣”的英雄是未使用的备选池。
+
+Close the game first. Life counts quarters: 4 is one cell (the game's most is 15 cells, 60). The load menu's copy of life and energy is written again for you.
+= 请先关闭游戏。生命以四分之一计：4 为一格（游戏最多 15 格，即 60）。读取菜单中的生命和能量副本会自动为你重写。
+
+Close the game first. Money is stored divided by 10; the game's cap is 99,990. Achievements aren't shown.
+= 请先关闭游戏。金钱按除以 10 存储；游戏上限为 99,990。成就不显示。
+
+Close the game first. Salt and gold are what you carry; items and the skill tree are not edited yet.
+= 请先关闭游戏。盐和金币是你随身携带的；物品和技能树尚不可编辑。
+
+Close the game first. Skill points are what the skill tree spends. Unlocked abilities are kept as text that changes length, so they are left alone.
+= 请先关闭游戏。技能点用于技能树消耗。已解锁的能力以长度会变化的文本保存，因此保持不动。
+
+Close the game first. The Chaos Emerald number is a bit field: Green 1, Yellow 2, Purple 4, Pink 8, Grey 16, Blue 32, Red 64 (127 = all). Play times and the extras are not shown.
+= 请先关闭游戏。Chaos Emerald 数值是位字段：绿 1、黄 2、紫 4、粉 8、灰 16、蓝 32、红 64（127 = 全部）。游戏时间和额外内容不显示。
+
+Close the game first. The checksum is rewritten, and CODE.BIN beside LSW.BIN is rewritten with the stud count.
+= 请先关闭游戏。校验和会被重写，LSW.BIN 旁的 CODE.BIN 也会随 stud 数量重写。
+
+Close the game first. The checksum is rewritten.
+= 请先关闭游戏。校验和会被重写。
+
+Close the game first. The game keeps the stud wallet in several places; all of them are written.
+= 请先关闭游戏。游戏在多处保存 stud 钱包；所有位置都会写入。
+
+Close the game first. The save's checksum is rewritten. Money is kept in two places and both should match; the on-screen figure is what counts up and down.
+= 请先关闭游戏。存档校验和会被重写。金钱保存在两处，两处应一致；屏幕上显示的数字是增减计数的那个。
+
+Close the game first. The skill points already spent are stored per skill tree and are left as they are.
+= 请先关闭游戏。已花费的技能点按技能树分别存储，保持原样。
+
+Close the game first. This is COLLECTABLES.BLOB in a SLOTn folder; the stud wallet is saved twice and both copies are written.
+= 请先关闭游戏。这是 SLOTn 文件夹中的 COLLECTABLES.BLOB；stud 钱包保存了两次，两份都会写入。
+
+Close the game first. Weapons fill the slots from Weapon 1 with no gaps: to add one, pick its type in the first empty slot and set Level to 1.
+= 请先关闭游戏。武器从“武器 1”起依次填满栏位，中间没有空位：要添加武器，请在第一个空栏位中选择其类型并将等级设为 1。
+
+Close the world in Terraria (go back to the title screen) before saving, or the game will overwrite your edit. Keep a copy of the .wld until you've loaded it in the game.
+= 保存前请关闭 Terraria 中的世界（返回标题画面），否则游戏会覆盖你的修改。在游戏中加载成功之前，请保留 .wld 的副本。
+
+Coins. Tried in the game on a save from the end of a mission. Back up the save first: runes, rewire tools and elixirs aren't located yet.
+= 金币。已在游戏中用任务结束时的存档试过。请先备份存档：符文、重连工具和灵药尚未定位。
+
+Colonists' skills and passions and every silver stack can be changed. The rest of this (very large) save is kept as it is.
+= 可以更改殖民者的技能和热情以及每一堆白银。此（非常大的）存档的其余部分保持原样。
+
+Decrypted for you; the save's MD5 is worked out again and it is encrypted again on save. Edit values with Value search.
+= 已为你解密；保存时会重新计算存档的 MD5 并再次加密。请用“数值搜索”编辑数值。
+
+Duplicants, the map of every asteroid and rocket interior, world settings and rocket names can be changed; the rest of the colony is kept as it is.
+= 可以更改复制人、每个小行星和火箭内部的地图、世界设置以及火箭名称；殖民地的其余部分保持原样。
+
+Each facility's material stocks and the likes counter; the data's MD5 is written again on save.
+= 每个设施的材料库存和点赞计数；保存时会重新写入数据的 MD5。
+
+Each facility's material stocks and the likes counters; the data's MD5 is written again on save.
+= 每个设施的材料库存和点赞计数；保存时会重新写入数据的 MD5。
+
+Each faction's treasury can be changed (the first one is yours). The save is repacked on write: the campaign is compressed again, so the file gets larger. Not yet tried in the game.
+= 可以更改每个势力的国库（第一个是你的）。写入时存档会被重新打包：战役会再次压缩，因此文件会变大。尚未在游戏中试过。
+
+Each file is the copy the game loads (the one saved most often). Base stats are what the game builds a character's stats from; class, Djinn and equipment are applied on top.
+= 每个文件都是游戏加载的那份副本（保存最频繁的那份）。基础属性是游戏据以构建角色属性的数值；职业、Djinn 和装备会叠加其上。
+
+Each of the four playable characters' money (it is kept apart), experience, skill orbs, and the eco points. The save has no checksum; close the game first.
+= 四位可玩角色各自的金钱（单独保存）、经验、技能球以及生态点数。存档没有校验和；请先关闭游戏。
+
+Each slot's checksum is updated when you save. Max HP/MP are recalculated by the game from level and equipment when needed.
+= 每个存档位的校验和会在保存时更新。需要时，游戏会根据等级和装备重新计算最大 HP/MP。
+
+Edits go into the newest of the two copies the game keeps, and checksums are fixed automatically. \n         Changing a Pokémon's level also sets its experience and stats. Close the game in your emulator before saving, \n         and don't load a save state afterwards (that would overwrite the edit).
+= 修改会写入游戏保留的两份副本中较新的一份，校验和会自动修正。\n         更改宝可梦的等级也会同步设置其经验和能力值。保存前请在模拟器中关闭游戏，\n         之后不要读取即时存档（那会覆盖修改）。
+
+Euro Truck Simulator 2 / American Truck Simulator save. Money is in `bank`, experience and skills in `driver_player`. \n         Floats written as `&3f000000` are shown as numbers. Saved again in the game's own packed form when it came packed. Turn off Steam Cloud first, or the old save may come back.
+= Euro Truck Simulator 2 / American Truck Simulator 存档。金钱在 `bank` 中，经验和技能在 `driver_player` 中。\n         写作 `&3f000000` 的浮点数会显示为数字。如果存档原本是打包的，会按游戏自己的打包形式再次保存。请先关闭 Steam Cloud，否则旧存档可能会回来。
+
+Every saved game in game.sav (newest first): XP, hacksilver and resources, the equipment each one owns, and \n         equipment to add at its base level. Pick the save by its title and date; the slot number can differ from the \n         game's list.
+= game.sav 中的每个已保存游戏（最新的在前）：XP、hacksilver 和资源、各自拥有的装备，以及\n         以基础等级添加的装备。请按标题和日期选择存档；存档位编号可能与\n         游戏中的列表不同。
+
+Every saved object's numbers, by class (money is in Group › Main › Cash). Text and links between \n         objects are shown but not changed.
+= 每个已保存对象的数值，按类别分组（金钱在 Group › Main › Cash）。文本和对象之间的\n         链接会显示但不会更改。
+
+Fields whose names aren't known yet show as #hash. Numbers, ticks and choices can be edited; \n         use Tools › Compare with another save to find a value you know.
+= 名称尚未知的字段显示为 #hash。数字、刻度和选项可以编辑；\n         请用 工具 › 与另一个存档比较 来查找你已知的数值。
+
+Food, seafood and crafting materials (up to 999 each), the valuables (virtue, tokens, tickets), ammunition, style experience and training orbs. The wrapper's checksum is rewritten.
+= 食物、海鲜和制作材料（各最多 999）、贵重物品（美德、代币、票券）、弹药、风格经验和训练球。外层包装的校验和会被重写。
+
+Frank's level, PP, maximum health and skills. The block checksums are updated when you save.
+= Frank 的等级、PP、最大生命值和技能。保存时会更新各数据块的校验和。
+
+Frank's level, PP, money and the five level-up stats (the load screen's copy is kept in step). The \n         checksums are updated when you save.
+= Frank 的等级、PP、金钱和五项升级属性（读取画面的副本会同步更新）。保存时会更新\n         校验和。
+
+GAMEDATA slot files from Documents\\KoeiTecmo\\A18\\SAVEDATA (the original 2017 release). Cole; item qualities and recipes are left alone.
+= 来自 Documents\\KoeiTecmo\\A18\\SAVEDATA 的 GAMEDATA 存档位文件（2017 年原版）。Cole；物品品质和配方保持不变。
+
+GAMEDATA00 to GAMEDATA30 from Documents\\KoeiTecmo\\A17\\SAVEDATA (the original 2017 release). Cole and Tess exchange tickets; item qualities and recipes are left alone.
+= 来自 Documents\\KoeiTecmo\\A17\\SAVEDATA 的 GAMEDATA00 至 GAMEDATA30（2017 年原版）。Cole 和 Tess 交换票券；物品品质和配方保持不变。
+
+GLOBALVARS.res: the story's global flags and numbers (who you saved, light and dark side choices, quest steps), by the game's own names. \n         Changing one doesn't replay the scene behind it, and flags that contradict each other can confuse later dialogue.
+= GLOBALVARS.res：剧情的全局标记和数字（你救了谁、光明与黑暗面的选择、任务步骤），使用游戏自己的名称。\n         更改其中一项不会重播其背后的场景，互相矛盾的标记可能会让之后的对话出错。
+
+Game screen: GMP (and the FOB wallet), heroism and demon points, every Mother Base staff member (rank, skill, section, morale, proficiency, stat bonus; buttons to promote everyone to S++ and max morale), resource stockpiles with a Max crafting materials button, a button to open every Mother Base section, and the Mother Base and lifetime-statistics counters; every other variable in the save is in the Tree under the game's own variable names. The save's encryption and checksum are redone on write. Ground Zeroes saves (mgsv_gz_save_data_gl_en0/1 in Steam\\userdata\\<account>\\311340\\remote) are decrypted for the hex view, with the checksum redone on write. Tried on a real save
+= 游戏画面：GMP（以及 FOB 钱包）、英雄值和恶魔点数、每位 Mother Base 员工（等级、技能、部门、士气、熟练度、属性加成；有按钮可将所有人晋升为 S++ 并将士气拉满）、资源储备（带“最大制作材料”按钮）、一个开启所有 Mother Base 部门的按钮，以及 Mother Base 和生涯统计计数；存档中的其他所有变量都在“树状”中，使用游戏自己的变量名。写入时会重新完成存档的加密和校验和。Ground Zeroes 存档（Steam\\userdata\\<account>\\311340\\remote 中的 mgsv_gz_save_data_gl_en0/1）会为十六进制视图解密，写入时重做校验和。已在真实存档上试过
+
+Gil and Yuna, Rikku and Paine's level, experience, HP/MP and base stats. The save's checksum is updated \n         when you save.
+= Gil 以及 Yuna、Rikku 和 Paine 的等级、经验、HP/MP 和基础属性。存档的校验和会在\n         保存时更新。
+
+Gil and each character's level, experience, HP/MP and base stats, for every saved game in the file. \n         The load screen keeps its own summary, which updates the next time you save in the game.
+= 文件中每个已保存游戏的 Gil 以及各角色的等级、经验、HP/MP 和基础属性。\n         读取画面有自己的摘要，会在你下次于游戏中保存时更新。
+
+Gil, ability points, medals, each character's experience waiting to be banked (spend it by resting) and item amounts. Levels, HP and stats are shown; the game works them out from experience.
+= Gil、技能点、奖牌、每个角色等待入账的经验（通过休息花掉）和物品数量。等级、HP 和属性会显示；游戏根据经验计算它们。
+
+Gil, items, key items, every character's and aeon's HP, MP, stats, abilities and overdrives, and the Monster Arena captures. \n         The checksum is updated when you save.
+= Gil、物品、关键物品、每个角色和召唤兽的 HP、MP、属性、能力和超限技，以及怪物竞技场捕获。\n         保存时会更新校验和。
+
+Gil, the inventory and materia (add, remove and change amounts), party levels, HP, MP and experience. The game \n         may recalculate max HP and MP from level and equipment when it loads. Weapons aren't listed.
+= Gil、物品栏和魔晶石（添加、移除和更改数量）、队伍等级、HP、MP 和经验。游戏\n         加载时可能会根据等级和装备重新计算最大 HP 和 MP。武器未列出。
+
+HQ resources and soldiers (rank, kills, missions, stats) can be changed. A stat sets its current, maximum and base \n         value together. Values the game left at their default aren't written in the save, so they can't be changed here.
+= 可以更改总部资源和士兵（等级、击杀、任务、属性）。一项属性会同时设置其当前值、最大值和基础\n         值。游戏保持默认的数值不会写入存档，因此无法在此更改。
+
+Household funds are saved back into the game data, which is stored uncompressed in the package (it gets bigger). Close the game first. Sim skills and traits aren't mapped yet.
+= 家庭资金会保存回游戏数据，这些数据在包中以未压缩形式存放（文件会变大）。请先关闭游戏。Sim 的技能和特质尚未映射。
+
+Kiryu's and Majima's money and CP, the takings waiting in the real estate and cabaret businesses, and the difficulty.
+= Kiryu 和 Majima 的金钱与 CP、不动产和夜总会生意中等待领取的收入，以及难度。
+
+Kiryu's money and the experience he hasn't spent yet.
+= Kiryu 的金钱和尚未花掉的经验。
+
+Kiryu's money, the hostess club's money and his experience. The save has no checksum; close the game first.
+= Kiryu 的金钱、女公关俱乐部的金钱和他的经验。存档没有校验和；请先关闭游戏。
+
+Level (set through experience), skill points, money, Eridium (moon orbs), ammo and SDU levels can be changed; the save is encrypted again when you save. \n         Items are shown, not edited. Turn off cloud saves for the game first, or the old save may come back.
+= 可以更改等级（通过经验设置）、技能点、金钱、Eridium（月球球）、弹药和 SDU 等级；保存时存档会再次加密。\n         物品只显示，不可编辑。请先关闭该游戏的云存档，否则旧存档可能会回来。
+
+Level, experience, fame, gold, unspent points, the four stats, health, mana and item stacks. The save is \n         scrambled again and its checksum updated when you save.
+= 等级、经验、名声、金币、未分配点数、四项属性、生命、法力和物品堆。保存时存档会再次\n         打乱并更新其校验和。
+
+Level, experience, gold, attributes, unspent points and skill points; the file's size and checksum are fixed when you save. Gold can be at most 10,000 × level on the character.
+= 等级、经验、金币、属性、未分配点数和技能点；保存时会修正文件大小和校验和。金币最多为角色上的 10,000 × 等级。
+
+Level, experience, money, unspent points, the five attributes and skill levels (skills show the game's \n         internal record names). This file has no checksum; values are changed in place.
+= 等级、经验、金钱、未分配点数、五项属性和技能等级（技能显示游戏的\n         内部记录名）。此文件没有校验和；数值就地更改。
+
+Level, gold, attributes, skills and base health of an Oblivion .ess save. Checked on public saves, not yet tried in the game. Back up the save first.
+= Oblivion .ess 存档的等级、金币、属性、技能和基础生命。已在公开存档上检查，尚未在游戏中试过。请先备份存档。
+
+Level, gold, attributes, skills, health, fatigue, magicka and the inventory counts of a Morrowind .ess save. Checked on public saves, not yet tried in the game. Back up the save first.
+= Morrowind .ess 存档的等级、金币、属性、技能、生命、疲劳、魔法值和物品栏数量。已在公开存档上检查，尚未在游戏中试过。请先备份存档。
+
+Military-grade rounds (the metro's money) and the ammunition Artyom carries at the start of this level. \n         The level's own save (the auto save) keeps the current state.
+= 军用级子弹（地铁的货币）以及 Artyom 在本关开始时携带的弹药。\n         本关自己的存档（自动存档）保存当前状态。
+
+Mira, DP, medals, Sepith, play time, difficulty, every character's stats and the bonding values. Both checksums are updated when you save.
+= Mira、DP、奖牌、Sepith、游戏时间、难度、每个角色的属性和羁绊值。保存时会更新两个校验和。
+
+Mira, the eight sepith and each character's experience, HP and EP. The save's checksum is written again on save.
+= Mira、八种 sepith 以及每个角色的经验、HP 和 EP。保存时会重新写入存档的校验和。
+
+Money, and HP, SP, levels, experience and Persona stats for the Phantom Thieves (a party member's level is \n         their Persona's).
+= 金钱，以及幻影盗贼团的 HP、SP、等级、经验和 Persona 属性（队员的等级就是\n         其 Persona 的等级）。
+
+Money, experience and skill orbs for each of the five playable characters. The save has no checksum; close the game first.
+= 五位可玩角色各自的金钱、经验和技能球。存档没有校验和；请先关闭游戏。
+
+Money, health, rune points, the base attributes, order points, tourists, lumber, material stone and fertilizer. The save's CRC is written again on save.
+= 金钱、生命、符文点数、基础属性、订单点数、游客、木材、材料石和肥料。保存时会重新写入存档的 CRC。
+
+Money, level, experience, unspent points, attributes, skill ranks and item stacks. Skills and items show the \n         game's internal record names (the real names are in the game's own database). The save is encrypted again \n         and its checksums updated when you save.
+= 金钱、等级、经验、未分配点数、属性、技能等级和物品堆。技能和物品显示游戏的\n         内部记录名（真实名称在游戏自己的数据库中）。保存时存档会再次加密，\n         并更新其校验和。
+
+Munny, level and experience, each character's HP, MP and boosts, synthesis materials and the items already in the inventory. Munny earned is moved with munny so the two totals still agree.
+= Munny、等级和经验、每个角色的 HP、MP 和强化、合成材料以及物品栏中已有的物品。获得的 Munny 与 munny 一同移动，因此两个总数仍然一致。
+
+Numbers and ticks of every saved object can be edited (soldier stats, money…); names and other text are shown as they are.
+= 每个已保存对象的数字和刻度都可以编辑（士兵属性、金钱…）；名称和其他文本按原样显示。
+
+One squad of a Kenshi save (a file in the save's platoon folder). The player's squads are the files named after your faction, "Nameless" unless you renamed it.
+= Kenshi 存档的一支小队（存档 platoon 文件夹中的一个文件）。玩家的小队是以你的势力命名的文件，除非你改过名，否则是“Nameless”。
+
+PARTYTABLE.res: credits, party XP and (KOTOR II) influence, components and chemicals. The player and the party \n         members' stats are in SAVEGAME.sav in the same folder.
+= PARTYTABLE.res：信用点、队伍 XP 以及（KOTOR II）影响力、零件和化学品。玩家和队员的\n         属性在同一文件夹的 SAVEGAME.sav 中。
+
+Ryder's credits, crafting materials and research data, and each squad member's level and \n         skill points. A level change is copied to the member's progression data too. Not tried in \n         the game yet.
+= Ryder 的信用点、制作材料和研究数据，以及每位小队成员的等级和\n         技能点。等级更改也会复制到该成员的成长数据中。尚未在游戏中试过。
+
+SAVEGAME.sav: the player and the party members. Credits, party XP, influence, components and chemicals are in \n         PARTYTABLE.res in the same folder.
+= SAVEGAME.sav：玩家和队员。信用点、队伍 XP、影响力、零件和化学品在同一文件夹的\n         PARTYTABLE.res 中。
+
+Shepard, resources and the squad from player.sav. Paragon and Renegade live in state.sav \n         (pick it from the archive's entries).
+= 来自 player.sav 的 Shepard、资源和小队。Paragon 和 Renegade 在 state.sav 中\n         （请从压缩包的条目中选择）。
+
+Silver Eagles, salts and lockpicks, and the infusion levels you've picked (a kind you've never picked has no entry yet). The save's MD5 is written again on save. Not yet tried in the game.
+= Silver Eagles、盐和开锁器，以及你选择过的灌注等级（从未选择过的种类暂无条目）。保存时会重新写入存档的 MD5。尚未在游戏中试过。
+
+Sims are listed by their file name (user00012 is Characters\\User00012.iff, which holds the Sim's own name). Change the file while the game is closed.
+= Sim 以文件名列出（user00012 即 Characters\\User00012.iff，其中保存着 Sim 自己的名字）。请在游戏关闭时更改文件。
+
+Sims are listed by their id; their names are in the character files. Edited parts are stored uncompressed when you save. Change the file while the game is closed.
+= Sim 以 id 列出；它们的名字在角色文件中。编辑过的部分保存时以未压缩形式存放。请在游戏关闭时更改文件。
+
+Skill tree levels (every copy the save keeps is changed together). The game may recalculate a level \n         from the points earned in that tree.
+= 技能树等级（存档保留的每份副本会一起更改）。游戏可能会根据该树中获得的点数\n         重新计算等级。
+
+Terra tokens, terraformation levels, your gauges, the game settings and the raw materials in your backpack. \n         Every item takes one backpack slot, so a material count can't go past the free slots. Close the game before saving.
+= Terra 代币、地球化等级、你的计量表、游戏设置以及背包中的原材料。\n         每个物品占用一个背包格，因此材料数量不能超过空闲格数。保存前请关闭游戏。
+
+The game's settings and its civilisations. Each civilisation can be handed to a human player or the AI, and whose turn it is \n         can be changed (as hotseat and Play Your Damn Turn games do). Gold, faith and the map are in the packed part of the save, which isn't mapped.
+= 游戏设置及其文明。每个文明可以交给人类玩家或 AI，轮到谁也可以\n         更改（如同热座和 Play Your Damn Turn 游戏那样）。金币、信仰和地图在存档的打包部分中，尚未映射。
+
+The player as saved in the current map. Values that are zero (no armour, an empty magazine) aren't stored by the game, so they can't be set here.
+= 当前地图中保存的玩家。值为零的数据（没有护甲、空弹匣）游戏不会存储，因此无法在此设置。
+
+The player as the game loads it (Module.ifo in the save). When you save, player.bic in the same folder gets the same values.
+= 游戏加载的玩家（存档中的 Module.ifo）。保存时，同一文件夹中的 player.bic 会获得相同的值。
+
+The player faction's cats. Each squad's characters (stats, health) are in the save's platoon folder: open the .platoon file named after your faction (Nameless_0.platoon unless you renamed it).
+= 玩家势力的猫。每个小队的角色（属性、生命）在存档的 platoon 文件夹中：请打开以你的势力命名的 .platoon 文件（除非你改过名，否则是 Nameless_0.platoon）。
+
+This character comes from an early-access version of Starbound (before 1.0); the game converts it when it loads, and the screen shows only what that older layout has.
+= 此角色来自 Starbound 的抢先体验版本（1.0 之前）；游戏加载时会转换它，画面只显示旧版结构所包含的内容。
+
+V's eurodollars, from the player's own inventory. Other values: use Value search with a number you know.
+= V 的欧元，来自玩家自己的物品栏。其他数值：请用“数值搜索”输入你已知的数字。
+
+Variables are named by the hash of their Lua name; the few the Player screen uses are named. \n         The save's MD5 and encryption are redone on save. Turn off Steam Cloud first, and edit the file the game reads (in 311340\\remote for the PC version), not only the backup copy.
+= 变量以其 Lua 名称的哈希命名；玩家画面用到的少数变量有名称。\n         保存时会重做存档的 MD5 和加密。请先关闭 Steam Cloud，并编辑游戏读取的文件（PC 版在 311340\\remote 中），而不只是备份副本。
+
+XP for Kratos, Atreus and Freya, hacksilver and the other currencies, resources, Yggdrasil's dew, health and rage, \n         the level of each piece of equipment, and new pieces to add (campaign saves).
+= Kratos、Atreus 和 Freya 的 XP、hacksilver 和其他货币、资源、Yggdrasil 的露水、生命和怒气、\n         每件装备的等级，以及要添加的新装备（战役存档）。
+
+YAML: saving rewrites the file, so comments and custom formatting are not kept.
+= YAML：保存会重写文件，因此注释和自定义格式不会保留。
+
+Yen, level, experience and social stats. The matching .binslot file's checksum is updated when you save.
+= 日元、等级、经验和社交属性。保存时会更新对应 .binslot 文件的校验和。
+
+Yen, level, experience, social stats, the Persona slots in use and every item count. The matching .BINslot file's checksum is updated when you save. Key items are left out (the game needs a flag as well).
+= 日元、等级、经验、社交属性、使用中的 Persona 栏位和每个物品的数量。保存时会更新对应 .BINslot 文件的校验和。关键物品不包含在内（游戏还需要一个标记）。
+
+Yen, party HP, SP, level and experience, social stats and Social Link ranks. A value the game left at zero has no record in the file and is not listed.
+= 日元、队伍 HP、SP、等级和经验、社交属性以及 Social Link 等级。游戏保持为零的数值在文件中没有记录，也不会列出。
+
+pifo.ifo: the player as this auto-save keeps it (the game loads the player from here).
+= pifo.ifo：此自动存档保存的玩家（游戏从这里加载玩家）。
+

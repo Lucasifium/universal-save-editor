@@ -57,7 +57,7 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
     b.ranged(&["Materials", "Fertilizer"], 0x44, Kind::I32, 0, MATERIAL_CAP);
     b.info(&["Save", "Platform"], if d.len() == PC_LEN { "PC" } else { "Switch" });
     Ok(b.finish(KIND, Checksum::Custom(fix)).with_note(
-        "Money, health, rune points, the base attributes, order points, tourists, lumber, material stone and fertilizer. The save's CRC is written again on save.",
+        crate::i18n::tx("Money, health, rune points, the base attributes, order points, tourists, lumber, material stone and fertilizer. The save's CRC is written again on save."),
     ))
 }
 

@@ -32,7 +32,7 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
     let mut b = Builder::new(&inner);
     b.inside(d, put);
     add(&mut b, &[], 0, smash64::SLOT);
-    Ok(b.finish(KIND, Checksum::Custom(fix)).with_note("Close the emulator first. Times are in 1/60 s (3600 is one minute)."))
+    Ok(b.finish(KIND, Checksum::Custom(fix)).with_note(crate::i18n::tx("Close the emulator first. Times are in 1/60 s (3600 is one minute).")))
 }
 
 fn fix(d: &mut Vec<u8>) {

@@ -480,8 +480,8 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
     let meta = super::pdxbin::SavHeader::read(d).filter(|h| h.kind == 0 && h.meta_len > 0).map(|h| (15, h.len + h.meta_len));
     let backend = PdxBackend { data: Arc::new(d.to_vec()), utf8, leaves: b.leaves, meta };
     Ok(TreeDoc::new(view, b.editable, kind, Box::new(backend)).with_note(
-        "Big sections show their first few thousand values; your own country is shown in full. \
-         The game may stop awarding achievements for an edited ironman campaign.",
+        crate::i18n::tx("Big sections show their first few thousand values; your own country is shown in full. \
+         The game may stop awarding achievements for an edited ironman campaign."),
     ))
 }
 

@@ -655,9 +655,9 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
         }
     }
     Ok(b.finish("Grim Dawn character", Checksum::None).with_note(
-        "Money, level, experience, unspent points, attributes, skill ranks and item stacks. Skills and items show the \
+        crate::i18n::tx("Money, level, experience, unspent points, attributes, skill ranks and item stacks. Skills and items show the \
          game's internal record names (the real names are in the game's own database). The save is encrypted again \
-         and its checksums updated when you save.",
+         and its checksums updated when you save."),
     ))
 }
 

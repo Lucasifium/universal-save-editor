@@ -75,7 +75,7 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
         b.ranged(&["Colonies", row, "Marines"], at + 0x130, Kind::I16, 0, 99);
         b.ranged(&["Colonies", row, "Tanks"], at + 0x132, Kind::I16, 0, 99);
     }
-    Ok(b.finish(KIND, Checksum::None).with_note("Close the game first. Edit a copy of a SAVEn.GAM, then load it in the game. The treasury and research points are the values the game itself keeps."))
+    Ok(b.finish(KIND, Checksum::None).with_note(crate::i18n::tx("Close the game first. Edit a copy of a SAVEn.GAM, then load it in the game. The treasury and research points are the values the game itself keeps.")))
 }
 
 #[cfg(test)]

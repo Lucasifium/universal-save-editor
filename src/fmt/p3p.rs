@@ -68,7 +68,7 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
         b.ranged(&["Items", cat, &label], at, Kind::U8, 0, 99);
     }
     Ok(b.finish("Persona 3 Portable save", Checksum::None).with_note(
-        "Yen, level, experience, social stats, the Persona slots in use and every item count. The matching .BINslot file's checksum is updated when you save. Key items are left out (the game needs a flag as well).",
+        crate::i18n::tx("Yen, level, experience, social stats, the Persona slots in use and every item count. The matching .BINslot file's checksum is updated when you save. Key items are left out (the game needs a flag as well)."),
     ))
 }
 

@@ -249,7 +249,7 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
             b.info(&["Households", &label, "Sims"], sims.join(", "));
         }
     }
-    Ok(b.finish(KIND, Checksum::None).with_note("Household funds are saved back into the game data, which is stored uncompressed in the package (it gets bigger). Close the game first. Sim skills and traits aren't mapped yet."))
+    Ok(b.finish(KIND, Checksum::None).with_note(crate::i18n::tx("Household funds are saved back into the game data, which is stored uncompressed in the package (it gets bigger). Close the game first. Sim skills and traits aren't mapped yet.")))
 }
 
 pub fn rebuild(original: &[u8], flat: &[u8]) -> Result<Vec<u8>, String> {

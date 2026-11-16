@@ -22,7 +22,7 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
     let mut b = Builder::new(d);
     b.ranged(&["Funds", "Money"], 0, Kind::I32, 0, 2_146_000_000);
     Ok(b.finish(KIND, Checksum::None).with_note(
-        "Close the game (and DOSBox) first. The game's money is a signed 32-bit number: keep it well under 2,000,000,000, \
-         because monthly income is added to it and a total past the limit wraps around.",
+        crate::i18n::tx("Close the game (and DOSBox) first. The game's money is a signed 32-bit number: keep it well under 2,000,000,000, \
+         because monthly income is added to it and a total past the limit wraps around."),
     ))
 }

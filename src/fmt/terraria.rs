@@ -428,7 +428,7 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
     }
     let backend = PlrBackend { raw: d.to_vec(), fields: b.fields, slot_ptrs };
     let doc = TreeDoc::new(Value::Object(root), b.editable, "Terraria player", Box::new(backend));
-    Ok(doc.with_note("Close Terraria (or at least go back to the title screen) before saving, or the game will overwrite your edit."))
+    Ok(doc.with_note(crate::i18n::tx("Close Terraria (or at least go back to the title screen) before saving, or the game will overwrite your edit.")))
 }
 
 /// A made-up player file of `version` (1.4.4 to 1.4.4.9) with `items` (inventory slot

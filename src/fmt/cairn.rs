@@ -632,7 +632,7 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
     }
     let backend = CairnBackend { raw: Arc::new(d.to_vec()), lists, boosts, fields, rows };
     Ok(TreeDoc::new(Value::Object(root), editable, "Cairn save", Box::new(backend))
-        .with_note("Close Cairn (or go back to its title screen) before saving: the game keeps the slot file locked while a climb is loaded. Added items go at the bottom of the bag; \u{201C}Shake up bag\u{201D} in the game settles them."))
+        .with_note(crate::i18n::tx("Close Cairn (or go back to its title screen) before saving: the game keeps the slot file locked while a climb is loaded. Added items go at the bottom of the bag; \u{201C}Shake up bag\u{201D} in the game settles them.")))
 }
 
 #[cfg(test)]

@@ -499,8 +499,8 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
         materia(&mut b, d, rebirth);
     }
     Ok(b.finish_with(&format!("{game} save"), Checksum::None, Some(post)).with_note(
-        "Gil, the inventory and materia (add, remove and change amounts), party levels, HP, MP and experience. The game \
-         may recalculate max HP and MP from level and equipment when it loads. Weapons aren't listed.",
+        crate::i18n::tx("Gil, the inventory and materia (add, remove and change amounts), party levels, HP, MP and experience. The game \
+         may recalculate max HP and MP from level and equipment when it loads. Weapons aren't listed."),
     ))
 }
 

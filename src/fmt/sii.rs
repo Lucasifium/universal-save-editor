@@ -296,8 +296,8 @@ pub fn parse(text: &str) -> Result<TreeDoc, String> {
     }
     let backend = SiiBackend { raw: text.as_bytes().to_vec(), leaves };
     Ok(TreeDoc::new(Value::Object(root), editable, KIND, Box::new(backend)).with_note(
-        "Euro Truck Simulator 2 / American Truck Simulator save. Money is in `bank`, experience and skills in `driver_player`. \
-         Floats written as `&3f000000` are shown as numbers. Saved again in the game's own packed form when it came packed. Turn off Steam Cloud first, or the old save may come back.",
+        crate::i18n::tx("Euro Truck Simulator 2 / American Truck Simulator save. Money is in `bank`, experience and skills in `driver_player`. \
+         Floats written as `&3f000000` are shown as numbers. Saved again in the game's own packed form when it came packed. Turn off Steam Cloud first, or the old save may come back."),
     ))
 }
 

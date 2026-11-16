@@ -24,7 +24,7 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
         b.ranged(&["Social stats", s], 3336 + 2 * i, Kind::U16, 0, 999);
     }
     Ok(b.finish("Persona 4 Golden save", Checksum::None).with_note(
-        "Yen, level, experience and social stats. The matching .binslot file's checksum is updated when you save.",
+        crate::i18n::tx("Yen, level, experience and social stats. The matching .binslot file's checksum is updated when you save."),
     ))
 }
 

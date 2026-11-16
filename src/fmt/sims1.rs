@@ -172,7 +172,7 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
     Ok(b
         .finish(KIND, Checksum::None)
         .with_advanced(vec!["Other Sims".into()])
-        .with_note("Sims are listed by their file name (user00012 is Characters\\User00012.iff, which holds the Sim's own name). Change the file while the game is closed."))
+        .with_note(crate::i18n::tx("Sims are listed by their file name (user00012 is Characters\\User00012.iff, which holds the Sim's own name). Change the file while the game is closed.")))
 }
 
 fn person(b: &mut Builder, path: &[&str], d: &[u8], data: usize) {

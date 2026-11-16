@@ -308,7 +308,7 @@ pub fn parse(p: &[u8]) -> Result<TreeDoc, String> {
     if let Some(at) = porter_counters(p) {
         b.ranged(&["Likes", "Likes received"], at + 80, Kind::U32, 0, 99_999_999);
     }
-    Ok(b.finish(KIND, Checksum::None).with_note("Each facility's material stocks and the likes counter; the data's MD5 is written again on save."))
+    Ok(b.finish(KIND, Checksum::None).with_note(crate::i18n::tx("Each facility's material stocks and the likes counter; the data's MD5 is written again on save.")))
 }
 
 #[cfg(test)]

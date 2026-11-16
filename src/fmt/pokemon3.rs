@@ -892,9 +892,9 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
     let backend = Gen3Backend { raw: d.to_vec(), layout: l.clone(), fields: b.fields, mons: b.mons };
     let doc = TreeDoc::new(Value::Object(root), b.editable, l.game.name(), Box::new(backend));
     Ok(doc.with_note(
-        "Edits go into the newest of the two copies the game keeps, and checksums are fixed automatically. \
+        crate::i18n::tx("Edits go into the newest of the two copies the game keeps, and checksums are fixed automatically. \
          Changing a Pokémon's level also sets its experience and stats. Close the game in your emulator before saving, \
-         and don't load a save state afterwards (that would overwrite the edit).",
+         and don't load a save state afterwards (that would overwrite the edit)."),
     ))
 }
 

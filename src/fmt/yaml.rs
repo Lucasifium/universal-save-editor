@@ -74,5 +74,5 @@ pub fn parse(text: &str) -> Result<TreeDoc, String> {
     register(&view, "", &mut editable);
     let backend = YamlBackend { raw: text.as_bytes().to_vec() };
     Ok(TreeDoc::new(view, editable, "YAML", Box::new(backend))
-        .with_note("YAML: saving rewrites the file, so comments and custom formatting are not kept."))
+        .with_note(crate::i18n::tx("YAML: saving rewrites the file, so comments and custom formatting are not kept.")))
 }

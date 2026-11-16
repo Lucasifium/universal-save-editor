@@ -120,7 +120,7 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
         }
     }
     Ok(b.finish("Final Fantasy VII save", Checksum::Custom(fix_checksums))
-        .with_note("Each slot's checksum is updated when you save. Max HP/MP are recalculated by the game from level and equipment when needed."))
+        .with_note(crate::i18n::tx("Each slot's checksum is updated when you save. Max HP/MP are recalculated by the game from level and equipment when needed.")))
 }
 
 #[cfg(test)]

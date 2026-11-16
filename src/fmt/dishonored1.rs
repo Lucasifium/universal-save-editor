@@ -56,7 +56,7 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
     let mut b = Builder::new(d);
     b.ranged(&["Corvo", "Coins"], at, Kind::U32, 0, COINS_MAX);
     Ok(b.finish(KIND, Checksum::None).with_note(
-        "Coins. Tried in the game on a save from the end of a mission. Back up the save first: runes, rewire tools and elixirs aren't located yet.",
+        crate::i18n::tx("Coins. Tried in the game on a save from the end of a mission. Back up the save first: runes, rewire tools and elixirs aren't located yet."),
     ))
 }
 

@@ -80,7 +80,7 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
     if used == 0 {
         return Err("no GoldenEye 007 slot has a mission time yet".into());
     }
-    Ok(b.finish(KIND, Checksum::Touched(fix)).with_note("Close the emulator first. Times are in seconds; 0 means the mission is not done and 1023 means it was skipped."))
+    Ok(b.finish(KIND, Checksum::Touched(fix)).with_note(crate::i18n::tx("Close the emulator first. Times are in seconds; 0 means the mission is not done and 1023 means it was skipped.")))
 }
 
 fn fix(d: &mut Vec<u8>, touched: &[usize]) {

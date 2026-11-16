@@ -60,7 +60,7 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
         b.info(&["Save", "Play time (hours)"], (secs / 360.0).round() / 10.0);
     }
     Ok(b.finish("Forspoken save", Checksum::None).with_note(
-        "Decrypted for you; the save's MD5 is worked out again and it is encrypted again on save. Edit values with Value search.",
+        crate::i18n::tx("Decrypted for you; the save's MD5 is worked out again and it is encrypted again on save. Edit values with Value search."),
     ))
 }
 

@@ -225,7 +225,7 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
     int(&mut b, &[g, "Map sections in the game"], &player, "TotalMapSections", 9_999);
     int(&mut b, &[g, "Deaths"], &player, "NumDeaths", 999_999);
     int(&mut b, &[g, "Revives used"], &player, "TotalRevives", 999_999);
-    Ok(b.finish(KIND, Checksum::None).with_note("Close the game first. Skill points are what the skill tree spends. Unlocked abilities are kept as text that changes length, so they are left alone."))
+    Ok(b.finish(KIND, Checksum::None).with_note(crate::i18n::tx("Close the game first. Skill points are what the skill tree spends. Unlocked abilities are kept as text that changes length, so they are left alone.")))
 }
 
 #[cfg(test)]

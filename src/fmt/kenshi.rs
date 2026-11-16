@@ -23,7 +23,7 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
     let at = find(d, MONEY).ok_or("no player money in this save")? + MONEY.len();
     let mut b = Builder::new(d);
     b.ranged(&["Player", "Money (cats)"], at, Kind::I32, 0, i32::MAX as i64);
-    Ok(b.finish("Kenshi save", Checksum::None).with_note("The player faction's cats. Each squad's characters (stats, health) are in the save's platoon folder: open the .platoon file named after your faction (Nameless_0.platoon unless you renamed it)."))
+    Ok(b.finish("Kenshi save", Checksum::None).with_note(crate::i18n::tx("The player faction's cats. Each squad's characters (stats, health) are in the save's platoon folder: open the .platoon file named after your faction (Nameless_0.platoon unless you renamed it).")))
 }
 
 // ------------------------------------------------------------------ squad (.platoon) files
@@ -278,7 +278,7 @@ pub fn parse_platoon(d: &[u8]) -> Result<TreeDoc, String> {
     let faction = recs.iter().filter(|r| r.kind == CHARACTER).find_map(|r| r.string("owner faction ID")).unwrap_or_default();
     b.info(&["Squad", "Members"], names.len() as i64);
     b.info(&["Squad", "Player's squad"], players > 0 || faction == PLAYER_FACTION);
-    Ok(b.finish("Kenshi squad", Checksum::None).with_note("One squad of a Kenshi save (a file in the save's platoon folder). The player's squads are the files named after your faction, \"Nameless\" unless you renamed it."))
+    Ok(b.finish("Kenshi squad", Checksum::None).with_note(crate::i18n::tx("One squad of a Kenshi save (a file in the save's platoon folder). The player's squads are the files named after your faction, \"Nameless\" unless you renamed it.")))
 }
 
 #[cfg(test)]

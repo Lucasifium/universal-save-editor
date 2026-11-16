@@ -1103,7 +1103,7 @@ impl App {
         self.settings.push_recent(path);
         self.running = running;
         self.doc_note = note.trim().to_string();
-        self.info(crate::i18n::trf("Opened {0} ({1}) \u{2014} {2}.", &[&file_name(path), &human_size(raw_len), &desc]));
+        self.info(crate::i18n::trf("Opened {0} ({1}) \u{2014} {2}.", &[&file_name(path), &human_size(raw_len), &kind_label(&desc)]));
     }
 
     fn rebuild_model(&mut self) {
@@ -3324,13 +3324,14 @@ impl App {
         let pad = 2.0 * ui.spacing().button_padding.x + ui.spacing().item_spacing.x;
         let dismiss_w = width(ui, tr("Dismiss")) + pad;
         let more_w = width(ui, tr("More")).max(width(ui, tr("Less"))) + pad;
-        let fits = width(ui, &self.doc_note) + dismiss_w + 8.0 <= ui.available_width();
+        let note = crate::i18n::tr_any(&self.doc_note).to_string();
+        let fits = width(ui, &note) + dismiss_w + 8.0 <= ui.available_width();
         let (mut dismiss, mut toggle) = (false, false);
         ui.horizontal_top(|ui| {
             let text_w = (ui.available_width() - dismiss_w - if fits { 0.0 } else { more_w } - 4.0).max(80.0);
             ui.allocate_ui(egui::vec2(text_w, 0.0), |ui| {
                 ui.set_width(text_w);
-                let text = RichText::new(&self.doc_note).color(ui.visuals().weak_text_color());
+                let text = RichText::new(&note).color(ui.visuals().weak_text_color());
                 if fits || self.note_open {
                     ui.add(egui::Label::new(text).wrap());
                 } else {
@@ -3508,11 +3509,12 @@ impl App {
             let kind = friendly_kind(&doc.layers, &doc.content);
             let described = formats::describe(&doc.layers, &doc.content);
             // A game screen was found for a generic format (JSON, XML...): name the game on the chip.
-            let chip_text = match doc.game.and_then(|g| g.name()) {
-                Some(n) if !kind.contains(n) => trf("{0} save", &[&n]),
-                _ => kind.clone(),
+            let named = doc.game.and_then(|g| g.name()).filter(|n| !kind.contains(n));
+            let chip_text = match named {
+                Some(n) => trf("{0} save", &[&n]),
+                None => kind_label(&kind),
             };
-            let hover = if chip_text != kind { trf("Detected format: {0} ({1})", &[&kind, &described]) } else { trf("Detected format: {0}", &[&described]) };
+            let hover = if named.is_some() { trf("Detected format: {0} ({1})", &[&kind, &described]) } else { trf("Detected format: {0}", &[&described]) };
             Self::chip(ui, &chip_text, theme::ACCENT).on_hover_text(hover);
         }
         if doc.layers.iter().any(|l| matches!(l, Layer::RenpyZip { signed: true, .. } | Layer::RenpyPersistent { signed: true })) {
@@ -4677,6 +4679,19 @@ pub(crate) fn cairn_save_label(entry: &str) -> Option<String> {
         "QUICK" => "QUICK.SAV (written by the game)".into(),
         n => n.replace('_', " ").to_lowercase(),
     })
+}
+
+/// A format name in the language in use: "<game> save" names go through the "{0} save" text,
+/// the rest through the catalog when it has them.
+fn kind_label(kind: &str) -> String {
+    let whole = crate::i18n::tr_any(kind);
+    if whole != kind {
+        return whole.to_string();
+    }
+    match kind.strip_suffix(" save") {
+        Some(game) if !game.is_empty() => trf("{0} save", &[&game]),
+        _ => crate::i18n::tr_any(kind).to_string(),
+    }
 }
 
 /// Short, player-facing name for the detected format.

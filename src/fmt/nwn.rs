@@ -126,13 +126,13 @@ pub fn parse(d: &[u8], path: Option<&Path>) -> Result<TreeDoc, String> {
         }
         character(&mut b, pc);
         Ok(b.finish("Neverwinter Nights save", Checksum::None).with_note(
-            "The player as the game loads it (Module.ifo in the save). When you save, player.bic in the same folder gets the same values.",
+            crate::i18n::tx("The player as the game loads it (Module.ifo in the save). When you save, player.bic in the same folder gets the same values."),
         ))
     } else {
         let pc = bic(d).ok_or("not a character file")?;
         character(&mut b, pc);
         Ok(b.finish("Neverwinter Nights character", Checksum::None).with_note(
-            "A character file. In a save folder the game loads the player from the .sav instead: open that (player.bic is updated with it).",
+            crate::i18n::tx("A character file. In a save folder the game loads the player from the .sav instead: open that (player.bic is updated with it)."),
         ))
     }
 }

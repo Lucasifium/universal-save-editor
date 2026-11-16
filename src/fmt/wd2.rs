@@ -113,7 +113,7 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
             _ => {}
         }
     }
-    Ok(b.finish(KIND, Checksum::None).with_note("Close the game and turn off Ubisoft Connect cloud saves first. Followers raise your level; each number is stored in only as many bytes as it needs, so a small value can be raised only up to 255 or 65,535 until the game itself saves a bigger one; research points are only saved while you have some unspent."))
+    Ok(b.finish(KIND, Checksum::None).with_note(crate::i18n::tx("Close the game and turn off Ubisoft Connect cloud saves first. Followers raise your level; each number is stored in only as many bytes as it needs, so a small value can be raised only up to 255 or 65,535 until the game itself saves a bigger one; research points are only saved while you have some unspent.")))
 }
 
 #[cfg(test)]

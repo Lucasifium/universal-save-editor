@@ -255,7 +255,7 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
             }
         }
     }
-    Ok(bl.finish(KIND, Checksum::None).with_note("Close the game first. Level and experience are separate numbers in the save: change them together. Skills that a hero already has can change level; heroes 'not hired' are the unused pool."))
+    Ok(bl.finish(KIND, Checksum::None).with_note(crate::i18n::tx("Close the game first. Level and experience are separate numbers in the save: change them together. Skills that a hero already has can change level; heroes 'not hired' are the unused pool.")))
 }
 
 #[cfg(test)]

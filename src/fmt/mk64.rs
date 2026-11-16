@@ -74,7 +74,7 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
         }
         record(&mut b, course, "Best lap", s + 0xf, Some(best + 0x18));
     }
-    Ok(b.finish(KIND, Checksum::Custom(fix)).with_note("Close the emulator first. A time of 600000 (100 minutes) means no record. The first place and best lap of each course are copied to the game's best-records list."))
+    Ok(b.finish(KIND, Checksum::Custom(fix)).with_note(crate::i18n::tx("Close the emulator first. A time of 600000 (100 minutes) means no record. The first place and best lap of each course are copied to the game's best-records list.")))
 }
 
 fn fix(d: &mut Vec<u8>) {

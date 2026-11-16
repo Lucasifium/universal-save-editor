@@ -423,7 +423,7 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
         Game::LostAge => fix_gs2,
     };
     Ok(b.finish(g.kind(), Checksum::Touched(fixer)).with_note(
-        "Each file is the copy the game loads (the one saved most often). Base stats are what the game builds a character's stats from; class, Djinn and equipment are applied on top.",
+        crate::i18n::tx("Each file is the copy the game loads (the one saved most often). Base stats are what the game builds a character's stats from; class, Djinn and equipment are applied on top."),
     ))
 }
 

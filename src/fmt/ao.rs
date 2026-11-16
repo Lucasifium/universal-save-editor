@@ -173,7 +173,7 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
         b.ranged(&["Bonding", n], 0x1B334 + i, Kind::U8, 0, 255);
     }
     Ok(b.finish("Trails to Azure save", Checksum::Custom(fix_sums)).with_note(
-        "Mira, DP, medals, Sepith, play time, difficulty, every character's stats and the bonding values. Both checksums are updated when you save.",
+        crate::i18n::tx("Mira, DP, medals, Sepith, play time, difficulty, every character's stats and the bonding values. Both checksums are updated when you save."),
     ))
 }
 

@@ -184,8 +184,8 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
         b.ranged(&["Joker", "Money"], MONEY, Kind::U32, 0, 9_999_999);
     }
     Ok(b.finish("Persona 5 Royal save", Checksum::None).with_note(
-        "Money, and HP, SP, levels, experience and Persona stats for the Phantom Thieves (a party member's level is \
-         their Persona's).",
+        crate::i18n::tx("Money, and HP, SP, levels, experience and Persona stats for the Phantom Thieves (a party member's level is \
+         their Persona's)."),
     ))
 }
 

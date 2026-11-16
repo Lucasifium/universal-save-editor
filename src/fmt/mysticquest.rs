@@ -62,7 +62,7 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
         }
     }
     b.info(&["Info", "Slots in use"], found);
-    Ok(b.finish(KIND, Checksum::Custom(fix)).with_note("Close the emulator first. Attack, defense and the other derived stats are tied to equipment in this game, so they're not shown. Each slot's sum is rewritten on save."))
+    Ok(b.finish(KIND, Checksum::Custom(fix)).with_note(crate::i18n::tx("Close the emulator first. Attack, defense and the other derived stats are tied to equipment in this game, so they're not shown. Each slot's sum is rewritten on save.")))
 }
 
 fn fix(d: &mut Vec<u8>) {

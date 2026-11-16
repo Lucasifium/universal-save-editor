@@ -65,7 +65,7 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
     for (i, name) in ITEM_NAMES.iter().enumerate() {
         b.ranged(&["Items", name], ITEMS + i, Kind::U8, 0, 20);
     }
-    Ok(b.finish(KIND, Checksum::None).with_note("Close the game first. Item counts go up to 20; key items are single items. Techs, titles, recipes and the Collector's Book are not shown."))
+    Ok(b.finish(KIND, Checksum::None).with_note(crate::i18n::tx("Close the game first. Item counts go up to 20; key items are single items. Techs, titles, recipes and the Collector's Book are not shown.")))
 }
 
 const ITEM_NAMES: [&str; 530] = [

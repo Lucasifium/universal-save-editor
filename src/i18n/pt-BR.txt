@@ -29557,3 +29557,354 @@ V
 
 YoRHa
 = YoRHa
+
+# src/fmt/*.rs file notes, Bonus stat, Broken
+
+A character file. In a save folder the game loads the player from the .sav instead: open that (player.bic is updated with it).
+= Um arquivo de personagem. Em uma pasta de save, o jogo carrega o jogador a partir do .sav: abra esse (o player.bic é atualizado junto).
+
+A character save (1.sav, 2.sav …) from Documents\\My Games\\Borderlands 4\\Saved\\SaveGames\\<Steam id>. Open it from its own folder so the Steam account that unlocks it can be found. Cash, Eridium, level, ammunition and skill points; items and the rest are in the Tree.
+= Um save de personagem (1.sav, 2.sav …) de Documents\\My Games\\Borderlands 4\\Saved\\SaveGames\\<Steam id>. Abra-o a partir da própria pasta para que a conta Steam que o desbloqueia possa ser encontrada. Dinheiro, Eridium, nível, munição e pontos de habilidade; itens e o resto estão na Árvore.
+
+Alyx as saved in the current map. The save's description in the game's Load menu (its health, resin and ammo) is written when the game saves, so it shows the old numbers until you save again.
+= Alyx como salva no mapa atual. A descrição do save no menu Carregar do jogo (saúde, resina e munição) é escrita quando o jogo salva, então mostra os números antigos até você salvar de novo.
+
+ArchiveSaveFile.<n>.sav from b1\\Saved\\SaveGames\\<Steam id>. Will, Sparks, level, experience and play time; the file's checksum is written again when you save. Close the game first and keep the backup. Raising the level does not add Sparks or experience for you.
+= ArchiveSaveFile.<n>.sav de b1\\Saved\\SaveGames\\<Steam id>. Will, Sparks, nível, experiência e tempo de jogo; o checksum do arquivo é gravado de novo ao salvar. Feche o jogo primeiro e guarde o backup. Aumentar o nível não adiciona Sparks nem experiência por você.
+
+Big sections show their first few thousand values; your own country is shown in full. \n         The game may stop awarding achievements for an edited ironman campaign.
+= As seções grandes mostram seus primeiros milhares de valores; o seu próprio país é mostrado por inteiro. \n         O jogo pode parar de conceder conquistas em uma campanha ironman editada.
+
+Bonus stat {0}
+= Bônus de atributo {0}
+
+Broken
+= Quebrado
+
+Checksums are fixed automatically. Changing a Pokémon's level also sets its experience and stats; empty bag slots \n         move to the end like in the game. Close the game in your emulator before saving, and don't load a save state afterwards.
+= Os checksums são corrigidos automaticamente. Mudar o nível de um Pokémon também define sua experiência e atributos; espaços vazios da mochila \n         vão para o fim, como no jogo. Feche o jogo no emulador antes de salvar e não carregue um save state depois.
+
+Chuck's level, PP, money and the five level-up stats. The checksum is updated when you save.
+= Nível, PP, dinheiro e os cinco atributos de subida de nível do Chuck. O checksum é atualizado ao salvar.
+
+Close Cairn (or go back to its title screen) before saving: the game keeps the slot file locked while a climb is loaded. Added items go at the bottom of the bag; “Shake up bag” in the game settles them.
+= Feche o Cairn (ou volte à tela de título) antes de salvar: o jogo mantém o arquivo do slot bloqueado enquanto uma escalada está carregada. Os itens adicionados vão para o fim da mochila; “Shake up bag” no jogo os arruma.
+
+Close OpenXcom first. Saving rewrites the data part of the file, so its comments and spacing are not kept. \n         The money is Funds > Current; the soldiers of every base are in one list, each with the name of its base.
+= Feche o OpenXcom primeiro. Salvar reescreve a parte de dados do arquivo, então os comentários e o espaçamento não são mantidos. \n         O dinheiro é Funds > Current; os soldados de todas as bases ficam em uma só lista, cada um com o nome da sua base.
+
+Close Terraria (or at least go back to the title screen) before saving, or the game will overwrite your edit.
+= Feche o Terraria (ou ao menos volte à tela de título) antes de salvar, ou o jogo vai sobrescrever sua edição.
+
+Close the emulator first. Attack, defense and the other derived stats are tied to equipment in this game, so they're not shown. Each slot's sum is rewritten on save.
+= Feche o emulador primeiro. Ataque, defesa e os outros atributos derivados dependem do equipamento neste jogo, então não são mostrados. A soma de cada slot é reescrita ao salvar.
+
+Close the emulator first. Each slot's sum is rewritten on save.
+= Feche o emulador primeiro. A soma de cada slot é reescrita ao salvar.
+
+Close the emulator first. Energy and ammunition are limited to what the game can show; each slot's sums (and their copies at the end of the file) are kept right.
+= Feche o emulador primeiro. Energia e munição ficam limitadas ao que o jogo consegue mostrar; as somas de cada slot (e suas cópias no fim do arquivo) são mantidas corretas.
+
+Close the emulator first. Health counts eighths of a heart (8 = one heart); rupees follow the on-screen counter. The slot's sum is kept right; the game's spare copy is left alone and is only used when the first fails its check.
+= Feche o emulador primeiro. A saúde conta oitavos de coração (8 = um coração); as rupias seguem o contador da tela. A soma do slot é mantida correta; a cópia reserva do jogo não é alterada e só é usada quando a primeira falha na verificação.
+
+Close the emulator first. Health counts quarter hearts (4 = one heart). Each slot's sum is rewritten on save.
+= Feche o emulador primeiro. A saúde conta quartos de coração (4 = um coração). A soma de cada slot é reescrita ao salvar.
+
+Close the emulator first. Level follows experience when the game next levels the character; each slot's sum is rewritten on save.
+= Feche o emulador primeiro. O nível acompanha a experiência quando o jogo subir o nível do personagem; a soma de cada slot é reescrita ao salvar.
+
+Close the emulator first. Star bits are kept per course; a course's six stars and its 100-coin star are separate bits.
+= Feche o emulador primeiro. Os star bits são guardados por fase; as seis estrelas de uma fase e a estrela das 100 moedas são bits separados.
+
+Close the emulator first. Strength, defense and the other derived stats are worked out by the game from level and equipment, so they're not shown. Each slot's sum is rewritten on save.
+= Feche o emulador primeiro. Força, defesa e os outros atributos derivados são calculados pelo jogo a partir do nível e do equipamento, então não são mostrados. A soma de cada slot é reescrita ao salvar.
+
+Close the game (and DOSBox) first. The game's money is a signed 32-bit number: keep it well under 2,000,000,000, \n         because monthly income is added to it and a total past the limit wraps around.
+= Feche o jogo (e o DOSBox) primeiro. O dinheiro do jogo é um número de 32 bits com sinal: mantenha-o bem abaixo de 2.000.000.000, \n         pois a renda mensal é somada a ele e um total acima do limite dá a volta.
+
+Close the game and turn off Ubisoft Connect cloud saves first. Followers raise your level; each number is stored in only as many bytes as it needs, so a small value can be raised only up to 255 or 65,535 until the game itself saves a bigger one; research points are only saved while you have some unspent.
+= Feche o jogo e desative os saves na nuvem da Ubisoft Connect primeiro. Seguidores aumentam seu nível; cada número é guardado em apenas os bytes de que precisa, então um valor pequeno só pode subir até 255 ou 65.535 até o próprio jogo salvar um maior; os pontos de pesquisa só são salvos enquanto você tem algum sem gastar.
+
+Close the game before saving. Search for a resource or upgrade by name (Ctrl+F) — the game state is large.
+= Feche o jogo antes de salvar. Procure um recurso ou melhoria pelo nome (Ctrl+F) — o estado do jogo é grande.
+
+Close the game first (and turn off Steam cloud saves). Only gil is shown so far.
+= Feche o jogo primeiro (e desative os saves na nuvem do Steam). Por enquanto só o gil é mostrado.
+
+Close the game first.
+= Feche o jogo primeiro.
+
+Close the game first. Achievements, items seen and challenges are 0 (locked) or 1 (unlocked), numbered as in the game's own lists; the checksum is written again on save.
+= Feche o jogo primeiro. Conquistas, itens vistos e desafios são 0 (bloqueado) ou 1 (desbloqueado), numerados como nas listas do próprio jogo; o checksum é gravado de novo ao salvar.
+
+Close the game first. Cash is in cents (500000 is $5,000). The level is stored counting from 0, so 49 is the top level. Changing the level alone doesn't change the respect the game thinks you have earned, so set total respect with it. The save's checksum is rewritten.
+= Feche o jogo primeiro. O dinheiro está em centavos (500000 é $5,000). O nível é guardado contando a partir de 0, então 49 é o nível máximo. Mudar só o nível não muda o respeito que o jogo acha que você ganhou, então defina o respeito total junto. O checksum do save é reescrito.
+
+Close the game first. Cash is in cents (500000 is $5,000). The save's checksum is rewritten. Changing the respect level alone doesn't change the respect the game thinks you have earned, so set total respect with it.
+= Feche o jogo primeiro. O dinheiro está em centavos (500000 é $5,000). O checksum do save é reescrito. Mudar só o nível de respeito não muda o respeito que o jogo acha que você ganhou, então defina o respeito total junto.
+
+Close the game first. Cash, loan and fees are in whole currency units with one decimal (the game keeps tenths). \n         The park's chunk is unpacked and packed again on save, with the file's sum written right.
+= Feche o jogo primeiro. Dinheiro, empréstimo e taxas estão em unidades inteiras da moeda com uma casa decimal (o jogo guarda décimos). \n         O bloco do parque é descompactado e compactado de novo ao salvar, com a soma do arquivo gravada corretamente.
+
+Close the game first. Edit a copy of a SAVEn.GAM, then load it in the game. The treasury and research points are the values the game itself keeps.
+= Feche o jogo primeiro. Edite uma cópia de um SAVEn.GAM e depois carregue-a no jogo. O tesouro e os pontos de pesquisa são os valores que o próprio jogo guarda.
+
+Close the game first. Edit one checkpoint at a time; the game reads Checkpoints\\*.sav and safehouse.sav.
+= Feche o jogo primeiro. Edite um checkpoint por vez; o jogo lê Checkpoints\\*.sav e safehouse.sav.
+
+Close the game first. Item counts go up to 20; key items are single items. Techs, titles, recipes and the Collector's Book are not shown.
+= Feche o jogo primeiro. As quantidades de itens vão até 20; itens-chave são itens únicos. Techs, títulos, receitas e o Collector's Book não são mostrados.
+
+Close the game first. Level and experience are separate numbers in the save: change them together. Skills that a hero already has can change level; heroes 'not hired' are the unused pool.
+= Feche o jogo primeiro. Nível e experiência são números separados no save: mude os dois juntos. As habilidades que um herói já tem podem mudar de nível; heróis “not hired” são o grupo não usado.
+
+Close the game first. Life counts quarters: 4 is one cell (the game's most is 15 cells, 60). The load menu's copy of life and energy is written again for you.
+= Feche o jogo primeiro. A vida conta quartos: 4 é uma célula (o máximo do jogo é 15 células, 60). A cópia de vida e energia do menu de carregar é gravada de novo para você.
+
+Close the game first. Money is stored divided by 10; the game's cap is 99,990. Achievements aren't shown.
+= Feche o jogo primeiro. O dinheiro é guardado dividido por 10; o limite do jogo é 99.990. As conquistas não são mostradas.
+
+Close the game first. Salt and gold are what you carry; items and the skill tree are not edited yet.
+= Feche o jogo primeiro. Sal e ouro são o que você carrega; itens e a árvore de habilidades ainda não são editados.
+
+Close the game first. Skill points are what the skill tree spends. Unlocked abilities are kept as text that changes length, so they are left alone.
+= Feche o jogo primeiro. Os pontos de habilidade são o que a árvore de habilidades gasta. As habilidades desbloqueadas são guardadas como texto que muda de tamanho, então ficam intactas.
+
+Close the game first. The Chaos Emerald number is a bit field: Green 1, Yellow 2, Purple 4, Pink 8, Grey 16, Blue 32, Red 64 (127 = all). Play times and the extras are not shown.
+= Feche o jogo primeiro. O número de Chaos Emeralds é um campo de bits: Green 1, Yellow 2, Purple 4, Pink 8, Grey 16, Blue 32, Red 64 (127 = todas). Os tempos de jogo e os extras não são mostrados.
+
+Close the game first. The checksum is rewritten, and CODE.BIN beside LSW.BIN is rewritten with the stud count.
+= Feche o jogo primeiro. O checksum é reescrito, e o CODE.BIN ao lado do LSW.BIN é reescrito com a contagem de studs.
+
+Close the game first. The checksum is rewritten.
+= Feche o jogo primeiro. O checksum é reescrito.
+
+Close the game first. The game keeps the stud wallet in several places; all of them are written.
+= Feche o jogo primeiro. O jogo guarda a carteira de studs em vários lugares; todos são gravados.
+
+Close the game first. The save's checksum is rewritten. Money is kept in two places and both should match; the on-screen figure is what counts up and down.
+= Feche o jogo primeiro. O checksum do save é reescrito. O dinheiro é guardado em dois lugares e os dois devem coincidir; o valor da tela é o que sobe e desce.
+
+Close the game first. The skill points already spent are stored per skill tree and are left as they are.
+= Feche o jogo primeiro. Os pontos de habilidade já gastos são guardados por árvore de habilidades e ficam como estão.
+
+Close the game first. This is COLLECTABLES.BLOB in a SLOTn folder; the stud wallet is saved twice and both copies are written.
+= Feche o jogo primeiro. Este é o COLLECTABLES.BLOB em uma pasta SLOTn; a carteira de studs é salva duas vezes e as duas cópias são gravadas.
+
+Close the game first. Weapons fill the slots from Weapon 1 with no gaps: to add one, pick its type in the first empty slot and set Level to 1.
+= Feche o jogo primeiro. As armas ocupam os slots a partir da Weapon 1 sem lacunas: para adicionar uma, escolha seu tipo no primeiro slot vazio e defina Level como 1.
+
+Close the world in Terraria (go back to the title screen) before saving, or the game will overwrite your edit. Keep a copy of the .wld until you've loaded it in the game.
+= Feche o mundo no Terraria (volte à tela de título) antes de salvar, ou o jogo vai sobrescrever sua edição. Guarde uma cópia do .wld até carregá-lo no jogo.
+
+Coins. Tried in the game on a save from the end of a mission. Back up the save first: runes, rewire tools and elixirs aren't located yet.
+= Moedas. Testado no jogo com um save do fim de uma missão. Faça um backup do save antes: runas, ferramentas de rewire e elixires ainda não foram localizados.
+
+Colonists' skills and passions and every silver stack can be changed. The rest of this (very large) save is kept as it is.
+= As habilidades e paixões dos colonos e cada pilha de prata podem ser alteradas. O resto deste save (muito grande) é mantido como está.
+
+Decrypted for you; the save's MD5 is worked out again and it is encrypted again on save. Edit values with Value search.
+= Descriptografado para você; o MD5 do save é calculado de novo e ele é criptografado de novo ao salvar. Edite valores com a Busca de valores.
+
+Duplicants, the map of every asteroid and rocket interior, world settings and rocket names can be changed; the rest of the colony is kept as it is.
+= Duplicantes, o mapa de cada asteroide e interior de foguete, configurações do mundo e nomes de foguetes podem ser alterados; o resto da colônia é mantido como está.
+
+Each facility's material stocks and the likes counter; the data's MD5 is written again on save.
+= Os estoques de material de cada instalação e o contador de curtidas; o MD5 dos dados é gravado de novo ao salvar.
+
+Each facility's material stocks and the likes counters; the data's MD5 is written again on save.
+= Os estoques de material de cada instalação e os contadores de curtidas; o MD5 dos dados é gravado de novo ao salvar.
+
+Each faction's treasury can be changed (the first one is yours). The save is repacked on write: the campaign is compressed again, so the file gets larger. Not yet tried in the game.
+= O tesouro de cada facção pode ser alterado (a primeira é a sua). O save é reempacotado ao gravar: a campanha é compactada de novo, então o arquivo fica maior. Ainda não testado no jogo.
+
+Each file is the copy the game loads (the one saved most often). Base stats are what the game builds a character's stats from; class, Djinn and equipment are applied on top.
+= Cada arquivo é a cópia que o jogo carrega (a salva com mais frequência). Os atributos base são o que o jogo usa para montar os atributos de um personagem; classe, Djinn e equipamento são aplicados por cima.
+
+Each of the four playable characters' money (it is kept apart), experience, skill orbs, and the eco points. The save has no checksum; close the game first.
+= O dinheiro de cada um dos quatro personagens jogáveis (guardado à parte), experiência, orbes de habilidade e os eco points. O save não tem checksum; feche o jogo primeiro.
+
+Each slot's checksum is updated when you save. Max HP/MP are recalculated by the game from level and equipment when needed.
+= O checksum de cada slot é atualizado ao salvar. O HP/MP máximo é recalculado pelo jogo a partir do nível e do equipamento quando necessário.
+
+Edits go into the newest of the two copies the game keeps, and checksums are fixed automatically. \n         Changing a Pokémon's level also sets its experience and stats. Close the game in your emulator before saving, \n         and don't load a save state afterwards (that would overwrite the edit).
+= As edições vão para a mais nova das duas cópias que o jogo mantém, e os checksums são corrigidos automaticamente. \n         Mudar o nível de um Pokémon também define sua experiência e atributos. Feche o jogo no emulador antes de salvar \n         e não carregue um save state depois (isso sobrescreveria a edição).
+
+Euro Truck Simulator 2 / American Truck Simulator save. Money is in `bank`, experience and skills in `driver_player`. \n         Floats written as `&3f000000` are shown as numbers. Saved again in the game's own packed form when it came packed. Turn off Steam Cloud first, or the old save may come back.
+= Save do Euro Truck Simulator 2 / American Truck Simulator. O dinheiro está em `bank`, experiência e habilidades em `driver_player`. \n         Floats escritos como `&3f000000` são mostrados como números. Salvo de novo na forma empacotada do próprio jogo quando veio empacotado. Desative o Steam Cloud primeiro, ou o save antigo pode voltar.
+
+Every saved game in game.sav (newest first): XP, hacksilver and resources, the equipment each one owns, and \n         equipment to add at its base level. Pick the save by its title and date; the slot number can differ from the \n         game's list.
+= Cada jogo salvo em game.sav (o mais novo primeiro): XP, hacksilver e recursos, o equipamento que cada um possui e \n         equipamento a adicionar em seu nível base. Escolha o save pelo título e data; o número do slot pode diferir \n         da lista do jogo.
+
+Every saved object's numbers, by class (money is in Group › Main › Cash). Text and links between \n         objects are shown but not changed.
+= Os números de cada objeto salvo, por classe (o dinheiro está em Group › Main › Cash). Textos e vínculos entre \n         objetos são mostrados, mas não alterados.
+
+Fields whose names aren't known yet show as #hash. Numbers, ticks and choices can be edited; \n         use Tools › Compare with another save to find a value you know.
+= Campos cujos nomes ainda não são conhecidos aparecem como #hash. Números, ticks e escolhas podem ser editados; \n         use Ferramentas › Comparar com outro save para encontrar um valor que você conhece.
+
+Food, seafood and crafting materials (up to 999 each), the valuables (virtue, tokens, tickets), ammunition, style experience and training orbs. The wrapper's checksum is rewritten.
+= Comida, frutos do mar e materiais de criação (até 999 cada), os valiosos (virtude, fichas, bilhetes), munição, experiência de estilo e orbes de treino. O checksum do invólucro é reescrito.
+
+Frank's level, PP, maximum health and skills. The block checksums are updated when you save.
+= Nível, PP, saúde máxima e habilidades do Frank. Os checksums dos blocos são atualizados ao salvar.
+
+Frank's level, PP, money and the five level-up stats (the load screen's copy is kept in step). The \n         checksums are updated when you save.
+= Nível, PP, dinheiro e os cinco atributos de subida de nível do Frank (a cópia da tela de carregar é mantida em sincronia). Os \n         checksums são atualizados ao salvar.
+
+GAMEDATA slot files from Documents\\KoeiTecmo\\A18\\SAVEDATA (the original 2017 release). Cole; item qualities and recipes are left alone.
+= Arquivos de slot GAMEDATA de Documents\\KoeiTecmo\\A18\\SAVEDATA (o lançamento original de 2017). Cole; qualidades de itens e receitas ficam intactas.
+
+GAMEDATA00 to GAMEDATA30 from Documents\\KoeiTecmo\\A17\\SAVEDATA (the original 2017 release). Cole and Tess exchange tickets; item qualities and recipes are left alone.
+= GAMEDATA00 a GAMEDATA30 de Documents\\KoeiTecmo\\A17\\SAVEDATA (o lançamento original de 2017). Cole e Tess trocam bilhetes; qualidades de itens e receitas ficam intactas.
+
+GLOBALVARS.res: the story's global flags and numbers (who you saved, light and dark side choices, quest steps), by the game's own names. \n         Changing one doesn't replay the scene behind it, and flags that contradict each other can confuse later dialogue.
+= GLOBALVARS.res: as flags e números globais da história (quem você salvou, escolhas do lado luz e trevas, etapas de missões), pelos nomes do próprio jogo. \n         Mudar um não reproduz de novo a cena por trás dele, e flags que se contradizem podem confundir diálogos posteriores.
+
+Game screen: GMP (and the FOB wallet), heroism and demon points, every Mother Base staff member (rank, skill, section, morale, proficiency, stat bonus; buttons to promote everyone to S++ and max morale), resource stockpiles with a Max crafting materials button, a button to open every Mother Base section, and the Mother Base and lifetime-statistics counters; every other variable in the save is in the Tree under the game's own variable names. The save's encryption and checksum are redone on write. Ground Zeroes saves (mgsv_gz_save_data_gl_en0/1 in Steam\\userdata\\<account>\\311340\\remote) are decrypted for the hex view, with the checksum redone on write. Tried on a real save
+= Tela do jogo: GMP (e a carteira da FOB), pontos de heroísmo e demônio, todos os membros da equipe da Mother Base (rank, habilidade, seção, moral, proficiência, bônus de atributo; botões para promover todos a S++ e moral máxima), estoques de recursos com um botão Max crafting materials, um botão para abrir todas as seções da Mother Base e os contadores da Mother Base e de estatísticas gerais; todas as outras variáveis do save estão na Árvore com os nomes de variável do próprio jogo. A criptografia e o checksum do save são refeitos ao gravar. Os saves do Ground Zeroes (mgsv_gz_save_data_gl_en0/1 em Steam\\userdata\\<account>\\311340\\remote) são descriptografados para a visualização hexadecimal, com o checksum refeito ao gravar. Testado em um save real
+
+Gil and Yuna, Rikku and Paine's level, experience, HP/MP and base stats. The save's checksum is updated \n         when you save.
+= Gil e o nível, experiência, HP/MP e atributos base de Yuna, Rikku e Paine. O checksum do save é atualizado \n         ao salvar.
+
+Gil and each character's level, experience, HP/MP and base stats, for every saved game in the file. \n         The load screen keeps its own summary, which updates the next time you save in the game.
+= Gil e o nível, experiência, HP/MP e atributos base de cada personagem, para cada jogo salvo no arquivo. \n         A tela de carregar mantém seu próprio resumo, que é atualizado na próxima vez que você salvar no jogo.
+
+Gil, ability points, medals, each character's experience waiting to be banked (spend it by resting) and item amounts. Levels, HP and stats are shown; the game works them out from experience.
+= Gil, pontos de habilidade, medalhas, a experiência de cada personagem esperando para ser acumulada (gaste-a descansando) e quantidades de itens. Níveis, HP e atributos são mostrados; o jogo os calcula a partir da experiência.
+
+Gil, items, key items, every character's and aeon's HP, MP, stats, abilities and overdrives, and the Monster Arena captures. \n         The checksum is updated when you save.
+= Gil, itens, itens-chave, HP, MP, atributos, habilidades e overdrives de cada personagem e aeon, e as capturas da Monster Arena. \n         O checksum é atualizado ao salvar.
+
+Gil, the inventory and materia (add, remove and change amounts), party levels, HP, MP and experience. The game \n         may recalculate max HP and MP from level and equipment when it loads. Weapons aren't listed.
+= Gil, o inventário e as materias (adicionar, remover e mudar quantidades), níveis, HP, MP e experiência do grupo. O jogo \n         pode recalcular o HP e MP máximos a partir do nível e do equipamento ao carregar. As armas não são listadas.
+
+HQ resources and soldiers (rank, kills, missions, stats) can be changed. A stat sets its current, maximum and base \n         value together. Values the game left at their default aren't written in the save, so they can't be changed here.
+= Os recursos e soldados da QG (rank, abates, missões, atributos) podem ser alterados. Um atributo define seu valor atual, máximo e base \n         juntos. Valores que o jogo deixou no padrão não são gravados no save, então não podem ser alterados aqui.
+
+Household funds are saved back into the game data, which is stored uncompressed in the package (it gets bigger). Close the game first. Sim skills and traits aren't mapped yet.
+= Os fundos da família são salvos de volta nos dados do jogo, guardados sem compactação no pacote (ele fica maior). Feche o jogo primeiro. Habilidades e traços dos Sims ainda não foram mapeados.
+
+Kiryu's and Majima's money and CP, the takings waiting in the real estate and cabaret businesses, and the difficulty.
+= Dinheiro e CP de Kiryu e Majima, a féria esperando nos negócios imobiliários e de cabaré, e a dificuldade.
+
+Kiryu's money and the experience he hasn't spent yet.
+= Dinheiro de Kiryu e a experiência que ele ainda não gastou.
+
+Kiryu's money, the hostess club's money and his experience. The save has no checksum; close the game first.
+= Dinheiro de Kiryu, dinheiro do clube de hostess e sua experiência. O save não tem checksum; feche o jogo primeiro.
+
+Level (set through experience), skill points, money, Eridium (moon orbs), ammo and SDU levels can be changed; the save is encrypted again when you save. \n         Items are shown, not edited. Turn off cloud saves for the game first, or the old save may come back.
+= Nível (definido pela experiência), pontos de habilidade, dinheiro, Eridium (moon orbs), munição e níveis de SDU podem ser alterados; o save é criptografado de novo ao salvar. \n         Os itens são mostrados, não editados. Desative os saves na nuvem do jogo primeiro, ou o save antigo pode voltar.
+
+Level, experience, fame, gold, unspent points, the four stats, health, mana and item stacks. The save is \n         scrambled again and its checksum updated when you save.
+= Nível, experiência, fama, ouro, pontos não gastos, os quatro atributos, saúde, mana e pilhas de itens. O save é \n         embaralhado de novo e seu checksum atualizado ao salvar.
+
+Level, experience, gold, attributes, unspent points and skill points; the file's size and checksum are fixed when you save. Gold can be at most 10,000 × level on the character.
+= Nível, experiência, ouro, atributos, pontos não gastos e pontos de habilidade; o tamanho e o checksum do arquivo são corrigidos ao salvar. O ouro pode ser no máximo 10.000 × o nível do personagem.
+
+Level, experience, money, unspent points, the five attributes and skill levels (skills show the game's \n         internal record names). This file has no checksum; values are changed in place.
+= Nível, experiência, dinheiro, pontos não gastos, os cinco atributos e níveis de habilidade (as habilidades mostram os \n         nomes de registro internos do jogo). Este arquivo não tem checksum; os valores são alterados no lugar.
+
+Level, gold, attributes, skills and base health of an Oblivion .ess save. Checked on public saves, not yet tried in the game. Back up the save first.
+= Nível, ouro, atributos, habilidades e saúde base de um save .ess do Oblivion. Verificado em saves públicos, ainda não testado no jogo. Faça um backup do save antes.
+
+Level, gold, attributes, skills, health, fatigue, magicka and the inventory counts of a Morrowind .ess save. Checked on public saves, not yet tried in the game. Back up the save first.
+= Nível, ouro, atributos, habilidades, saúde, fadiga, magicka e as contagens do inventário de um save .ess do Morrowind. Verificado em saves públicos, ainda não testado no jogo. Faça um backup do save antes.
+
+Military-grade rounds (the metro's money) and the ammunition Artyom carries at the start of this level. \n         The level's own save (the auto save) keeps the current state.
+= Balas de uso militar (o dinheiro do metrô) e a munição que Artyom carrega no início deste nível. \n         O save do próprio nível (o auto save) mantém o estado atual.
+
+Mira, DP, medals, Sepith, play time, difficulty, every character's stats and the bonding values. Both checksums are updated when you save.
+= Mira, DP, medalhas, Sepith, tempo de jogo, dificuldade, os atributos de cada personagem e os valores de vínculo. Os dois checksums são atualizados ao salvar.
+
+Mira, the eight sepith and each character's experience, HP and EP. The save's checksum is written again on save.
+= Mira, os oito sepith e a experiência, HP e EP de cada personagem. O checksum do save é gravado de novo ao salvar.
+
+Money, and HP, SP, levels, experience and Persona stats for the Phantom Thieves (a party member's level is \n         their Persona's).
+= Dinheiro, e HP, SP, níveis, experiência e atributos de Persona dos Phantom Thieves (o nível de um membro do grupo é \n         o de sua Persona).
+
+Money, experience and skill orbs for each of the five playable characters. The save has no checksum; close the game first.
+= Dinheiro, experiência e orbes de habilidade de cada um dos cinco personagens jogáveis. O save não tem checksum; feche o jogo primeiro.
+
+Money, health, rune points, the base attributes, order points, tourists, lumber, material stone and fertilizer. The save's CRC is written again on save.
+= Dinheiro, saúde, pontos de runa, os atributos base, pontos de ordem, turistas, madeira, pedra de material e fertilizante. O CRC do save é gravado de novo ao salvar.
+
+Money, level, experience, unspent points, attributes, skill ranks and item stacks. Skills and items show the \n         game's internal record names (the real names are in the game's own database). The save is encrypted again \n         and its checksums updated when you save.
+= Dinheiro, nível, experiência, pontos não gastos, atributos, ranks de habilidade e pilhas de itens. Habilidades e itens mostram os \n         nomes de registro internos do jogo (os nomes reais estão no banco de dados do próprio jogo). O save é criptografado de novo \n         e seus checksums atualizados ao salvar.
+
+Munny, level and experience, each character's HP, MP and boosts, synthesis materials and the items already in the inventory. Munny earned is moved with munny so the two totals still agree.
+= Munny, nível e experiência, HP, MP e boosts de cada personagem, materiais de síntese e os itens que já estão no inventário. O munny ganho é movido junto com o munny para que os dois totais continuem coincidindo.
+
+Numbers and ticks of every saved object can be edited (soldier stats, money…); names and other text are shown as they are.
+= Números e ticks de cada objeto salvo podem ser editados (atributos de soldados, dinheiro…); nomes e outros textos são mostrados como estão.
+
+One squad of a Kenshi save (a file in the save's platoon folder). The player's squads are the files named after your faction, "Nameless" unless you renamed it.
+= Um esquadrão de um save do Kenshi (um arquivo na pasta platoon do save). Os esquadrões do jogador são os arquivos com o nome da sua facção, “Nameless” a menos que você a tenha renomeado.
+
+PARTYTABLE.res: credits, party XP and (KOTOR II) influence, components and chemicals. The player and the party \n         members' stats are in SAVEGAME.sav in the same folder.
+= PARTYTABLE.res: créditos, XP do grupo e (KOTOR II) influência, componentes e substâncias químicas. O jogador e os atributos dos \n         membros do grupo estão em SAVEGAME.sav na mesma pasta.
+
+Ryder's credits, crafting materials and research data, and each squad member's level and \n         skill points. A level change is copied to the member's progression data too. Not tried in \n         the game yet.
+= Créditos, materiais de criação e dados de pesquisa de Ryder, e o nível e os \n         pontos de habilidade de cada membro do esquadrão. Uma mudança de nível é copiada também para os dados de progressão do membro. Ainda não testado \n         no jogo.
+
+SAVEGAME.sav: the player and the party members. Credits, party XP, influence, components and chemicals are in \n         PARTYTABLE.res in the same folder.
+= SAVEGAME.sav: o jogador e os membros do grupo. Créditos, XP do grupo, influência, componentes e substâncias químicas estão em \n         PARTYTABLE.res na mesma pasta.
+
+Shepard, resources and the squad from player.sav. Paragon and Renegade live in state.sav \n         (pick it from the archive's entries).
+= Shepard, recursos e o esquadrão de player.sav. Paragon e Renegade ficam em state.sav \n         (escolha-o nas entradas do arquivo).
+
+Silver Eagles, salts and lockpicks, and the infusion levels you've picked (a kind you've never picked has no entry yet). The save's MD5 is written again on save. Not yet tried in the game.
+= Silver Eagles, sais e gazuas, e os níveis de infusão que você escolheu (um tipo que você nunca escolheu ainda não tem entrada). O MD5 do save é gravado de novo ao salvar. Ainda não testado no jogo.
+
+Sims are listed by their file name (user00012 is Characters\\User00012.iff, which holds the Sim's own name). Change the file while the game is closed.
+= Os Sims são listados pelo nome do arquivo (user00012 é Characters\\User00012.iff, que guarda o nome do próprio Sim). Altere o arquivo com o jogo fechado.
+
+Sims are listed by their id; their names are in the character files. Edited parts are stored uncompressed when you save. Change the file while the game is closed.
+= Os Sims são listados pelo id; seus nomes estão nos arquivos de personagem. As partes editadas são guardadas sem compactação ao salvar. Altere o arquivo com o jogo fechado.
+
+Skill tree levels (every copy the save keeps is changed together). The game may recalculate a level \n         from the points earned in that tree.
+= Níveis da árvore de habilidades (todas as cópias que o save mantém são alteradas juntas). O jogo pode recalcular um nível \n         a partir dos pontos ganhos naquela árvore.
+
+Terra tokens, terraformation levels, your gauges, the game settings and the raw materials in your backpack. \n         Every item takes one backpack slot, so a material count can't go past the free slots. Close the game before saving.
+= Terra tokens, níveis de terraformação, seus medidores, as configurações do jogo e as matérias-primas da sua mochila. \n         Cada item ocupa um slot da mochila, então a quantidade de um material não pode passar dos slots livres. Feche o jogo antes de salvar.
+
+The game's settings and its civilisations. Each civilisation can be handed to a human player or the AI, and whose turn it is \n         can be changed (as hotseat and Play Your Damn Turn games do). Gold, faith and the map are in the packed part of the save, which isn't mapped.
+= As configurações do jogo e suas civilizações. Cada civilização pode ser entregue a um jogador humano ou à IA, e de quem é o turno \n         pode ser alterado (como nos jogos hotseat e Play Your Damn Turn). Ouro, fé e o mapa estão na parte empacotada do save, que não foi mapeada.
+
+The player as saved in the current map. Values that are zero (no armour, an empty magazine) aren't stored by the game, so they can't be set here.
+= O jogador como salvo no mapa atual. Valores zero (sem armadura, pente vazio) não são guardados pelo jogo, então não podem ser definidos aqui.
+
+The player as the game loads it (Module.ifo in the save). When you save, player.bic in the same folder gets the same values.
+= O jogador como o jogo o carrega (Module.ifo no save). Ao salvar, o player.bic na mesma pasta recebe os mesmos valores.
+
+The player faction's cats. Each squad's characters (stats, health) are in the save's platoon folder: open the .platoon file named after your faction (Nameless_0.platoon unless you renamed it).
+= Os gatos da facção do jogador. Os personagens de cada esquadrão (atributos, saúde) estão na pasta platoon do save: abra o arquivo .platoon com o nome da sua facção (Nameless_0.platoon a menos que você a tenha renomeado).
+
+This character comes from an early-access version of Starbound (before 1.0); the game converts it when it loads, and the screen shows only what that older layout has.
+= Este personagem vem de uma versão de acesso antecipado do Starbound (antes da 1.0); o jogo o converte ao carregar, e a tela mostra só o que aquele layout antigo tem.
+
+V's eurodollars, from the player's own inventory. Other values: use Value search with a number you know.
+= Eurodólares de V, do inventário do próprio jogador. Outros valores: use a Busca de valores com um número que você conhece.
+
+Variables are named by the hash of their Lua name; the few the Player screen uses are named. \n         The save's MD5 and encryption are redone on save. Turn off Steam Cloud first, and edit the file the game reads (in 311340\\remote for the PC version), not only the backup copy.
+= As variáveis são nomeadas pelo hash do seu nome em Lua; as poucas que a tela Jogador usa têm nome. \n         O MD5 e a criptografia do save são refeitos ao salvar. Desative o Steam Cloud primeiro e edite o arquivo que o jogo lê (em 311340\\remote na versão de PC), não só a cópia de backup.
+
+XP for Kratos, Atreus and Freya, hacksilver and the other currencies, resources, Yggdrasil's dew, health and rage, \n         the level of each piece of equipment, and new pieces to add (campaign saves).
+= XP de Kratos, Atreus e Freya, hacksilver e as outras moedas, recursos, orvalho de Yggdrasil, saúde e fúria, \n         o nível de cada peça de equipamento e novas peças a adicionar (saves de campanha).
+
+YAML: saving rewrites the file, so comments and custom formatting are not kept.
+= YAML: salvar reescreve o arquivo, então comentários e formatação personalizada não são mantidos.
+
+Yen, level, experience and social stats. The matching .binslot file's checksum is updated when you save.
+= Ienes, nível, experiência e atributos sociais. O checksum do arquivo .binslot correspondente é atualizado ao salvar.
+
+Yen, level, experience, social stats, the Persona slots in use and every item count. The matching .BINslot file's checksum is updated when you save. Key items are left out (the game needs a flag as well).
+= Ienes, nível, experiência, atributos sociais, os slots de Persona em uso e a contagem de cada item. O checksum do arquivo .BINslot correspondente é atualizado ao salvar. Os itens-chave ficam de fora (o jogo precisa também de uma flag).
+
+Yen, party HP, SP, level and experience, social stats and Social Link ranks. A value the game left at zero has no record in the file and is not listed.
+= Ienes, HP do grupo, SP, nível e experiência, atributos sociais e ranks de Social Link. Um valor que o jogo deixou em zero não tem registro no arquivo e não é listado.
+
+pifo.ifo: the player as this auto-save keeps it (the game loads the player from here).
+= pifo.ifo: o jogador como este auto save o mantém (o jogo carrega o jogador daqui).
+

@@ -48,7 +48,7 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
         return Err("no skill trees found".into());
     }
     Ok(b.finish("Dying Light save (2015)", Checksum::None).with_note(
-        "Skill tree levels (every copy the save keeps is changed together). The game may recalculate a level \
-         from the points earned in that tree.",
+        crate::i18n::tx("Skill tree levels (every copy the save keeps is changed together). The game may recalculate a level \
+         from the points earned in that tree."),
     ))
 }

@@ -82,7 +82,7 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
             b.ranged(&["Kiryu", "Total experience"], Y3_EXP, Kind::U32, 0, 999_999);
             b.ranged(&["Kiryu", "Experience in hand"], Y3_EXP + 4, Kind::U32, 0, 999_999);
             Ok(b.finish(KIND_Y3, Checksum::None).with_note(
-                "Kiryu's money, the hostess club's money and his experience. The save has no checksum; close the game first.",
+                crate::i18n::tx("Kiryu's money, the hostess club's money and his experience. The save has no checksum; close the game first."),
             ))
         }
         Which::Y4 => {
@@ -94,7 +94,7 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
             }
             b.ranged(&["Shared", "Eco points"], Y4_ECO, Kind::U32, 0, 999_999);
             Ok(b.finish(KIND_Y4, Checksum::None).with_note(
-                "Each of the four playable characters' money (it is kept apart), experience, skill orbs, and the eco points. The save has no checksum; close the game first.",
+                crate::i18n::tx("Each of the four playable characters' money (it is kept apart), experience, skill orbs, and the eco points. The save has no checksum; close the game first."),
             ))
         }
         Which::Y5 => {
@@ -105,7 +105,7 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
                 b.ranged(&[name, "Skill orbs"], exp + 8, Kind::U8, 0, 99);
             }
             Ok(b.finish(KIND_Y5, Checksum::None).with_note(
-                "Money, experience and skill orbs for each of the five playable characters. The save has no checksum; close the game first.",
+                crate::i18n::tx("Money, experience and skill orbs for each of the five playable characters. The save has no checksum; close the game first."),
             ))
         }
     }
