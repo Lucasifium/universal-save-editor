@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.8.2
+
+- Fixed: every Baldur's Gate 3 save edited with 0.8.1 or earlier failed to load in the game. The save's entity-store checksum is now rewritten when saving, and the packed sections use the block size the game expects
+- Baldur's Gate 3: Add items is available again, and every recruited companion (including Minthara) is listed even with nothing stacked
+- The save finder searches every fixed drive, uses the Windows known folders, remembers its results, and offers a new search when a remembered save is gone
+- Game screens use the full window width, lists and tables keep a steady size, the Metal Gear Solid V staff table has column headings, tick boxes are square, and labels wrap on phone screens
+- More of the app is translated: file notes, format names, Golden Sun Djinn and equipment texts and Bonus stat labels
+
 ## 0.8.1
 
 - Fixed: Baldur's Gate 3 saves that were edited (gold, stack sizes, flags) could fail to load in the game ("server shutting down"); the save's packed sections are now written the way the game writes them. Adding items to Baldur's Gate 3 inventories stays hidden until an edited save is confirmed to load in the game
