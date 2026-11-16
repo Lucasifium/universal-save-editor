@@ -134,6 +134,7 @@ fn ammo_panel(ui: &mut Ui, cx: &mut GameCtx, capacity: bool, note: &str) {
                 if !narrow {
                     let cap = if capacity { cx.int(&sp).and_then(|lv| ammo_capacity(n, lv)) } else { None };
                     match (cap, cx.num(&ap)) {
+                        // cap: the ammo limit for the SDU level, from ammo_capacity
                         (Some(cap), Some(a)) => bar(ui, 200.0, (a / cap as f64) as f32, YELLOW.gamma_multiply(0.85), Some(&format!("{} / {}", fmt_num(a), fmt_num(cap as f64)))),
                         _ => {
                             ui.label("");

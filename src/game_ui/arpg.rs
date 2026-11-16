@@ -79,11 +79,6 @@ fn subtitle(parts: Vec<String>) -> String {
     parts.into_iter().filter(|s| !s.is_empty()).collect::<Vec<_>>().join("  \u{00B7}  ")
 }
 
-/// Bar scale for an attribute: room above the current value.
-fn scale(cx: &GameCtx, p: &str, min: f64) -> f64 {
-    (cx.num(p).unwrap_or(0.0) * 1.25).max(min)
-}
-
 // ------------------------------------------------------------------ Grim Dawn
 
 pub fn grim_dawn(ui: &mut Ui, cx: &mut GameCtx) {
@@ -104,8 +99,7 @@ pub fn grim_dawn(ui: &mut Ui, cx: &mut GameCtx) {
             panel(ui, "Attributes", |ui| {
                 for k in ["Physique", "Cunning", "Spirit"] {
                     let p = join("/Attributes", k);
-                    let max = scale(cx, &p, 500.0);
-                    cx.attribute(ui, k, &p, max, accent);
+                    cx.attribute_open(ui, k, &p);
                 }
                 ui.add_space(6.0);
                 egui::Grid::new("gd_base").num_columns(2).spacing([14.0, 4.0]).show(ui, |ui| {
@@ -196,8 +190,7 @@ pub fn titan_quest(ui: &mut Ui, cx: &mut GameCtx) {
             panel(ui, "Attributes", |ui| {
                 for k in ["Strength", "Dexterity", "Intelligence"] {
                     let p = join("/Attributes", k);
-                    let max = scale(cx, &p, 500.0);
-                    cx.attribute(ui, k, &p, max, accent);
+                    cx.attribute_open(ui, k, &p);
                 }
                 ui.add_space(6.0);
                 egui::Grid::new("tq_base").num_columns(2).spacing([14.0, 4.0]).show(ui, |ui| {
@@ -259,8 +252,7 @@ pub fn torchlight2(ui: &mut Ui, cx: &mut GameCtx) {
             panel(ui, "Stats", |ui| {
                 for k in ["Strength", "Dexterity", "Vitality", "Focus"] {
                     let p = join("/Stats", k);
-                    let max = scale(cx, &p, 200.0);
-                    cx.attribute(ui, k, &p, max, accent);
+                    cx.attribute_open(ui, k, &p);
                 }
             });
         } else {

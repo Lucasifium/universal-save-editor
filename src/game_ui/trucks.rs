@@ -34,7 +34,8 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
     if cx.get("/driver_player").is_some() {
         panel(ui, "Skills", |ui| {
             for (name, key, max) in SKILLS {
-                cx.attribute(ui, name, &format!("/driver_player/{key}"), max, ACCENT);
+                // cap: each skill has the level count listed in SKILLS
+                cx.capped_attribute(ui, name, &format!("/driver_player/{key}"), max, ACCENT);
             }
             ui.horizontal(|ui| {
                 cx.label(ui, "ADR classes (bitmask 0\u{2013}63)", "/driver_player/adr");

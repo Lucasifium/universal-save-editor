@@ -62,7 +62,7 @@ pub fn dos2(ui: &mut Ui, cx: &mut GameCtx) {
                     return;
                 }
                 for a in ATTRIBUTES {
-                    cx.attribute(ui, a, &format!("{base}/Attributes/{a}"), 40.0, gold);
+                    cx.attribute_open(ui, a, &format!("{base}/Attributes/{a}"));
                 }
                 ui.weak(tr("Base points (10 is the starting value), before items and talents."));
             });

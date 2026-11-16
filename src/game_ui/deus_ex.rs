@@ -91,7 +91,8 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
         if i == 0 {
             panel(ui, "Health", |ui| {
                 for k in keys(cx, "/Health") {
-                    cx.attribute(ui, &k, &join("/Health", &k), 100.0, HEALTH);
+                    // cap: body-part health tops out at 100
+                    cx.capped_attribute(ui, &k, &join("/Health", &k), 100.0, HEALTH);
                 }
                 if keys(cx, "/Health").iter().any(|k| !cx.can_edit(&join("/Health", k))) && live {
                     ui.weak(tr("Body parts at full health (100) aren't written in the save, so they can't be changed here."));

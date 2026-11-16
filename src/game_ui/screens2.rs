@@ -142,7 +142,8 @@ pub fn green_hell(ui: &mut Ui, cx: &mut GameCtx) {
             ("Dirtiness", "PCM_Dirtiness", Color32::from_rgb(140, 110, 80)),
         ];
         for (name, key, color) in rows {
-            cx.attribute(ui, name, &format!("{body}/{key}"), 100.0, color);
+            // cap: the game keeps these 0 to 100 (note below the list)
+            cx.capped_attribute(ui, name, &format!("{body}/{key}"), 100.0, color);
         }
         ui.weak(tr("Each runs 0\u{2013}100 on normal settings. Low nutrition shrinks the most health you can have."));
     });
@@ -157,7 +158,8 @@ pub fn green_hell(ui: &mut Ui, cx: &mut GameCtx) {
         panel(ui, "Skills", |ui| {
             columns(ui, 300.0, skills.len(), |ui, i| {
                 let (name, p) = &skills[i];
-                cx.attribute(ui, name, p, 100.0, accent);
+                // cap: skills run 0 to 100 (note below the list)
+                cx.capped_attribute(ui, name, p, 100.0, accent);
             });
             ui.weak(tr("Skills run 0\u{2013}100."));
         });
@@ -629,11 +631,23 @@ fn power_list(ui: &mut Ui, cx: &mut GameCtx, base: &str, id: &str, accent: Color
         return;
     }
     let game = cx.text("/Save/Game").unwrap_or_default();
-    let max = if game.contains("ME1") || game.contains("2008") { 12.0 } else if game.contains('3') { 6.0 } else { 4.0 };
+    let max = if game.contains("ME1") || game.contains("2008") {
+        Some(12.0)
+    } else if game.contains('3') {
+        Some(6.0)
+    } else if game.contains('2') {
+        Some(4.0)
+    } else {
+        None
+    };
     ui.push_id(id, |ui| {
         panel(ui, "Powers", |ui| {
             columns(ui, 320.0, names.len(), |ui, i| {
-                cx.attribute(ui, &words(&names[i]), &join(base, &names[i]), max, accent);
+                match max {
+                    // cap: power ranks: 12 in ME1, 4 in ME2, 6 in ME3
+                    Some(m) => cx.capped_attribute(ui, &words(&names[i]), &join(base, &names[i]), m, accent),
+                    None => cx.attribute_open(ui, &words(&names[i]), &join(base, &names[i])),
+                }
             });
         });
     });
@@ -870,7 +884,7 @@ pub fn diablo2(ui: &mut Ui, cx: &mut GameCtx) {
         if i == 0 {
             panel(ui, "Attributes", |ui| {
                 for k in ["Strength", "Dexterity", "Vitality", "Energy"] {
-                    cx.attribute(ui, k, &join("/Attributes", k), 1023.0, accent);
+                    cx.attribute_open(ui, k, &join("/Attributes", k));
                 }
                 ui.add_space(6.0);
                 cx.grid_row(ui, "Stat points", "/Attributes/Stat points", 80.0);
@@ -903,7 +917,7 @@ pub fn diablo2(ui: &mut Ui, cx: &mut GameCtx) {
     if !skills.is_empty() {
         panel(ui, "Skills", |ui| {
             columns(ui, 300.0, skills.len(), |ui, i| {
-                cx.attribute(ui, &skills[i], &join("/Skills", &skills[i]), 20.0, accent);
+                cx.attribute_open(ui, &skills[i], &join("/Skills", &skills[i]));
             });
             ui.weak(tr("Hard points put into each skill (20 is the most the game allows from points; items add more on top)."));
         });
@@ -996,7 +1010,8 @@ pub fn ff7(ui: &mut Ui, cx: &mut GameCtx) {
         ui.add_space(6.0);
         ui.label(RichText::new(tr("Stats")).strong());
         for k in ["Strength", "Vitality", "Magic", "Spirit", "Dexterity", "Luck"] {
-            cx.attribute(ui, k, &at(k), 255.0, accent);
+            // cap: FF7 stats stop at 255
+            cx.capped_attribute(ui, k, &at(k), 255.0, accent);
         }
         ui.weak(tr("Stats go up to 255. The game works out max HP/MP again from the base max and equipment, so raise the base max to make a higher maximum stick."));
     });
@@ -1425,7 +1440,8 @@ pub fn kenshi_squad(ui: &mut Ui, cx: &mut GameCtx) {
         if i == 0 {
             panel(ui, "Attributes", |ui| {
                 for k in kenshi_keys(cx, &attrs) {
-                    cx.attribute(ui, &k, &join(&attrs, &k), 100.0, accent);
+                    // cap: Kenshi stats stop at 100
+                    cx.capped_attribute(ui, &k, &join(&attrs, &k), 100.0, accent);
                 }
                 if ui.button(tr("Max this character")).on_hover_text(tr("Every attribute and skill to 100.")).clicked() {
                     kenshi_max(cx, &base);
@@ -1435,7 +1451,8 @@ pub fn kenshi_squad(ui: &mut Ui, cx: &mut GameCtx) {
         } else {
             panel(ui, "Skills", |ui| {
                 for k in kenshi_keys(cx, &skills) {
-                    cx.attribute(ui, &k, &join(&skills, &k), 100.0, accent);
+                    // cap: Kenshi stats stop at 100
+                    cx.capped_attribute(ui, &k, &join(&skills, &k), 100.0, accent);
                 }
                 ui.weak(tr("0\u{2013}100. Skills never trained sit a little below zero; the game levels them up from there."));
             });

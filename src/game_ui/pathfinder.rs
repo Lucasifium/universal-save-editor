@@ -145,7 +145,7 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
                     let Some(s) = stats.as_deref().and_then(|s| child(cx.root, s, k)) else { continue };
                     let p = format!("{s}/m_BaseValue");
                     if cx.get(&p).is_some() {
-                        cx.attribute(ui, &format!("{k} ({short})"), &p, 30.0, accent);
+                        cx.attribute_open(ui, &format!("{k} ({short})"), &p);
                     }
                 }
                 ui.weak(tr("Base scores, before race, items and buffs."));

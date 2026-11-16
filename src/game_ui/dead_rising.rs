@@ -43,7 +43,8 @@ pub fn dead_rising2(ui: &mut Ui, cx: &mut GameCtx) {
     });
     panel(ui, "Level-up stats", |ui| {
         for (k, _, hi) in DR2_STAT_NAMES.iter().skip(3) {
-            cx.attribute(ui, k, &p(k), *hi as f64, ACCENT);
+            // cap: hi is the game's own limit for each stat
+            cx.capped_attribute(ui, k, &p(k), *hi as f64, ACCENT);
         }
         if super::quick_button(ui, tr("Max level and stats"), "") {
             for (k, _, hi) in DR2_STAT_NAMES {

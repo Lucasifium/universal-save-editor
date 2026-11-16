@@ -63,7 +63,8 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
         } else {
             panel(ui, "Abilities", |ui| {
                 for k in ["Strength", "Dexterity", "Constitution", "Intelligence", "Wisdom", "Charisma"] {
-                    cx.attribute(ui, k, &join(&base, k), 25.0, accent);
+                    // cap: Planescape: Torment ability scores stop at 25
+                    cx.capped_attribute(ui, k, &join(&base, k), 25.0, accent);
                 }
             });
         }

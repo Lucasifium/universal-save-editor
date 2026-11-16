@@ -928,8 +928,20 @@ impl GameCtx<'_> {
         });
     }
 
-    /// An attribute line: name, value with −/+, and a bar towards `max`.
-    pub fn attribute(&mut self, ui: &mut Ui, name: &str, p: &str, max: f64, color: Color32) {
+    /// An attribute line with a bar, for a value whose top is a real limit of the game
+    /// (`max`). Every call carries a `// cap:` note saying where the limit comes from; a value
+    /// that can go higher uses `attribute_open`, which has the same line without the bar.
+    pub fn capped_attribute(&mut self, ui: &mut Ui, name: &str, p: &str, max: f64, color: Color32) {
+        self.attribute_line(ui, name, p, Some((max, color)));
+    }
+
+    /// An attribute line with no bar: name, then the value with −/+. For values that can go
+    /// past any fixed top, or whose limit isn't known.
+    pub fn attribute_open(&mut self, ui: &mut Ui, name: &str, p: &str) {
+        self.attribute_line(ui, name, p, None);
+    }
+
+    fn attribute_line(&mut self, ui: &mut Ui, name: &str, p: &str, cap: Option<(f64, Color32)>) {
         let name = tr_any(name);
         let Some(n) = self.num(p) else { return };
         ui.horizontal(|ui| {
@@ -941,8 +953,10 @@ impl GameCtx<'_> {
             });
             // Decimals need a wider box than whole numbers. The line has room for −/+ on a phone.
             widgets::with_steppers(|| self.editor(ui, p, if n.fract().abs() > 1e-9 { 84.0 } else { 52.0 }));
-            let w = (ui.available_width() - 8.0).max(30.0);
-            bar(ui, w, (n / max) as f32, color, None);
+            if let Some((max, color)) = cap {
+                let w = (ui.available_width() - 8.0).max(30.0);
+                bar(ui, w, (n / max) as f32, color, None);
+            }
         });
     }
 
@@ -1359,6 +1373,45 @@ pub fn tabs(ui: &mut Ui, id: &str, names: &[String]) -> usize {
 mod tests {
     use super::*;
     use serde_json::json;
+
+    /// A bar means "this far toward the game's own limit". `capped_attribute` calls must say
+    /// where the limit comes from (`// cap: ..` on the line above); a value that can go higher,
+    /// or whose limit isn't known from public sources, uses `attribute_open` (a number box only).
+    /// Sliders are never used on a game screen.
+    #[test]
+    fn bars_only_for_values_with_a_known_cap() {
+        let mut bad = vec![];
+        let mut stack = vec![std::path::PathBuf::from(concat!(env!("CARGO_MANIFEST_DIR"), "/src/game_ui"))];
+        while let Some(d) = stack.pop() {
+            for e in std::fs::read_dir(&d).unwrap().flatten() {
+                let p = e.path();
+                if p.is_dir() {
+                    stack.push(p);
+                    continue;
+                }
+                if p.extension().is_none_or(|x| x != "rs") {
+                    continue;
+                }
+                let text = std::fs::read_to_string(&p).unwrap();
+                let text = text.split("#[cfg(test)]").next().unwrap_or("");
+                let lines: Vec<&str> = text.lines().collect();
+                let name = p.file_name().unwrap().to_string_lossy().to_string();
+                for (n, line) in lines.iter().enumerate() {
+                    let l = line.trim();
+                    if l.starts_with("//") {
+                        continue;
+                    }
+                    if l.contains("Slider::new") || l.contains(".slider(") {
+                        bad.push(format!("{name}:{}: slider on a game screen: {l}", n + 1));
+                    }
+                    if (l.contains(".capped_attribute(") || (name != "mod.rs" && l.contains("bar(ui,"))) && !(n > 0 && lines[n - 1].trim_start().starts_with("// cap:")) {
+                        bad.push(format!("{name}:{}: bar without a `// cap:` note above it: {l}", n + 1));
+                    }
+                }
+            }
+        }
+        assert!(bad.is_empty(), "bars need a known cap, otherwise use attribute_open:\n{}", bad.join("\n"));
+    }
 
     #[test]
     fn detects_games_from_their_data() {

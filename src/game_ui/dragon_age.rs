@@ -49,7 +49,7 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
         cx.tile(ui, "Level", "/Player/Level", accent);
         cx.tile(ui, "Experience", "/Player/Experience", accent);
     });
-    sheet(ui, cx, "/Player", "dao_pl", accent);
+    sheet(ui, cx, "/Player", "dao_pl");
 
     let followers = keys(cx, "/Followers");
     if !followers.is_empty() {
@@ -65,6 +65,7 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
                     cx.label(ui, "Approval", &ap);
                     cx.editor(ui, &ap, 60.0);
                     let w = (ui.available_width() - 8.0).max(40.0);
+                    // cap: approval runs -100 to 100
                     super::bar(ui, w, ((a + 100.0) / 200.0) as f32, accent, Some(&format!("{a}")));
                 });
                 ui.add_space(4.0);
@@ -74,7 +75,7 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
                     cx.tile(ui, k, &join(&base, k), accent);
                 }
             });
-            sheet(ui, cx, &base, &format!("dao_f{t}"), accent);
+            sheet(ui, cx, &base, &format!("dao_f{t}"));
         });
     }
     let others = keys(cx, "/Other approval");
@@ -113,13 +114,13 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
 }
 
 /// Attributes and unspent points of one character.
-fn sheet(ui: &mut Ui, cx: &mut GameCtx, base: &str, id: &str, accent: Color32) {
+fn sheet(ui: &mut Ui, cx: &mut GameCtx, base: &str, id: &str) {
     ui.push_id(id, |ui| {
         columns(ui, 360.0, 2, |ui, i| {
             if i == 0 {
                 panel(ui, "Attributes", |ui| {
                     for k in ATTRS {
-                        cx.attribute(ui, k, &join(base, k), 60.0, accent);
+                        cx.attribute_open(ui, k, &join(base, k));
                     }
                     ui.weak(tr("Base values, before equipment and talents."));
                 });

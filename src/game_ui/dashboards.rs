@@ -232,7 +232,8 @@ pub fn stardew(ui: &mut Ui, cx: &mut GameCtx) {
                 ("Combat", "combatLevel", 4, Color32::from_rgb(200, 70, 70)),
                 ("Luck", "luckLevel", 5, Color32::from_rgb(200, 170, 60)),
             ] {
-                cx.attribute(ui, label, &join(p, k), 10.0, c);
+                // cap: Stardew skill levels stop at 10
+                cx.capped_attribute(ui, label, &join(p, k), 10.0, c);
                 let xp = format!("{p}/experiencePoints/int/{xi}");
                 if cx.get(&xp).is_some() {
                     ui.horizontal(|ui| {

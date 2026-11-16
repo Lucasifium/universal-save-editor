@@ -435,7 +435,7 @@ mod tests {
     /// The literal text arguments of calls to the game-screen helpers.
     fn helper_literals(src: &str) -> std::collections::HashSet<String> {
         const HELPERS: &[&str] = &[
-            "panel", "grid_row", "row_fixed", "label", "tile", "attribute", "difficulty", "chip", "fact", "meter", "quick_button",
+            "panel", "grid_row", "row_fixed", "label", "tile", "attribute", "capped_attribute", "attribute_open", "difficulty", "chip", "fact", "meter", "quick_button",
             "quick_action", "materials_button", "hero",
         ];
         let b = src.as_bytes();

@@ -76,7 +76,8 @@ fn party_table(ui: &mut Ui, cx: &mut GameCtx) {
             columns(ui, 320.0, names.len(), |ui, i| {
                 let p = join("/Influence", &names[i]);
                 if cx.get(&p).is_some_and(Value::is_number) {
-                    cx.attribute(ui, &names[i], &p, 100.0, BLUE);
+                    // cap: influence runs 0 to 100
+                    cx.capped_attribute(ui, &names[i], &p, 100.0, BLUE);
                 } else {
                     ui.horizontal(|ui| {
                         ui.add_sized([110.0, 22.0], egui::Label::new(RichText::new(&names[i]).weak()).truncate());
@@ -188,10 +189,11 @@ fn sheet(ui: &mut Ui, cx: &mut GameCtx, base: &str, id: usize) {
             if i == 0 {
                 panel(ui, "Attributes", |ui| {
                     for k in ["Strength", "Dexterity", "Constitution", "Intelligence", "Wisdom", "Charisma"] {
-                        cx.attribute(ui, k, &join(&join(base, "Attributes"), k), 30.0, BLUE);
+                        cx.attribute_open(ui, k, &join(&join(base, "Attributes"), k));
                     }
                     ui.add_space(4.0);
-                    cx.attribute(ui, "Alignment", &join(base, "Alignment"), 100.0, BLUE);
+                    // cap: alignment runs 0 to 100
+                    cx.capped_attribute(ui, "Alignment", &join(base, "Alignment"), 100.0, BLUE);
                     ui.weak(tr("Alignment: 0 is the dark side, 100 the light side."));
                 });
             } else {
@@ -220,7 +222,7 @@ fn sheet(ui: &mut Ui, cx: &mut GameCtx, base: &str, id: usize) {
         if !names.is_empty() {
             panel(ui, "Skills", |ui| {
                 columns(ui, 300.0, names.len(), |ui, i| {
-                    cx.attribute(ui, &names[i], &join(&sk, &names[i]), 30.0, GOLD);
+                    cx.attribute_open(ui, &names[i], &join(&sk, &names[i]));
                 });
                 ui.weak(tr("Ranks put into each skill (attribute bonuses and items add to them in the game)."));
             });

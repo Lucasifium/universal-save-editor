@@ -71,9 +71,11 @@ fn character(ui: &mut Ui, cx: &mut GameCtx, base: &str, accent: Color32) {
         } else {
             panel(ui, "Abilities", |ui| {
                 for k in ["Strength", "Dexterity", "Constitution", "Intelligence", "Wisdom", "Charisma"] {
-                    cx.attribute(ui, k, &join(base, k), 25.0, accent);
+                    // cap: Infinity Engine ability scores stop at 25
+                    cx.capped_attribute(ui, k, &join(base, k), 25.0, accent);
                 }
-                cx.attribute(ui, "Strength 18/xx", &join(base, "Strength bonus (18/xx)"), 100.0, accent);
+                // cap: 18/xx runs 0 to 100
+                cx.capped_attribute(ui, "Strength 18/xx", &join(base, "Strength bonus (18/xx)"), 100.0, accent);
                 ui.weak(tr("The 18/xx bonus only counts for warriors with Strength 18."));
             });
         }

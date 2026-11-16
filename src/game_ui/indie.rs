@@ -364,7 +364,7 @@ pub fn deltarune(ui: &mut Ui, cx: &mut GameCtx) {
                 ui.add_space(4.0);
             }
             for (label, key) in [("Attack", "Attack"), ("Defense", "Defense"), ("Magic", "Magic"), ("Guts", "Guts")] {
-                cx.attribute(ui, label, &k(key), 30.0, accent);
+                cx.attribute_open(ui, label, &k(key));
             }
             ui.add_space(4.0);
             let list: Vec<(&str, String)> = ["HP", "Max HP", "Weapon", "Armor 1", "Armor 2"].iter().map(|n| (*n, k(n))).collect();
@@ -504,6 +504,7 @@ pub fn vampire_survivors(ui: &mut Ui, cx: &mut GameCtx) {
                     });
                     if let Some(m) = max {
                         let w = (ui.available_width() - 8.0).clamp(30.0, 120.0);
+                        // cap: each power-up has its own top rank in VS_POWERUPS
                         bar(ui, w, n as f32 / *m as f32, accent, None);
                     }
                 });

@@ -10,7 +10,6 @@ use serde_json::Value;
 
 /// Old gold and oxblood, like a tavern's sign.
 const GOLD: Color32 = Color32::from_rgb(196, 150, 60);
-const BLOOD: Color32 = Color32::from_rgb(150, 45, 40);
 
 fn join(base: &str, key: &str) -> String {
     format!("{base}/{}", pointer_escape(key))
@@ -43,7 +42,7 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
         if i == 0 {
             panel(ui, "Ability scores", |ui| {
                 for k in ["Strength", "Dexterity", "Constitution", "Intelligence", "Wisdom", "Charisma"] {
-                    cx.attribute(ui, k, &join("/Character/Attributes", k), 30.0, BLOOD);
+                    cx.attribute_open(ui, k, &join("/Character/Attributes", k));
                 }
             });
         } else {
@@ -55,8 +54,10 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
                 });
                 ui.weak(tr("Max HP includes bonuses; base HP is before them."));
                 ui.add_space(6.0);
-                cx.attribute(ui, "Good\u{2013}evil", "/Character/Alignment/Good\u{2013}evil", 100.0, GOLD);
-                cx.attribute(ui, "Law\u{2013}chaos", "/Character/Alignment/Law\u{2013}chaos", 100.0, GOLD);
+                // cap: alignment runs 0 to 100
+                cx.capped_attribute(ui, "Good\u{2013}evil", "/Character/Alignment/Good\u{2013}evil", 100.0, GOLD);
+                // cap: alignment runs 0 to 100
+                cx.capped_attribute(ui, "Law\u{2013}chaos", "/Character/Alignment/Law\u{2013}chaos", 100.0, GOLD);
                 ui.weak(tr("100 is good / lawful, 0 evil / chaotic."));
             });
         }
@@ -69,7 +70,7 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
     if !names.is_empty() {
         panel(ui, "Skills", |ui| {
             columns(ui, 300.0, names.len(), |ui, i| {
-                cx.attribute(ui, &names[i], &join(sk, &names[i]), 40.0, GOLD);
+                cx.attribute_open(ui, &names[i], &join(sk, &names[i]));
             });
             ui.weak(tr("Ranks bought with skill points (ability bonuses and items add to them in the game)."));
         });

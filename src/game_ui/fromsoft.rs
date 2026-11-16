@@ -136,7 +136,8 @@ pub fn show(g: Game, ui: &mut Ui, cx: &mut GameCtx) {
         }
         panel(ui, "Attributes", |ui| {
             for a in lk.attrs {
-                cx.attribute(ui, a, &format!("/Attributes/{a}"), 99.0, lk.accent);
+                // cap: attribute levels stop at 99
+                cx.capped_attribute(ui, a, &format!("/Attributes/{a}"), 99.0, lk.accent);
             }
             ui.add_space(4.0);
             ui.weak(trf("{0} follows these: each point is one level.", &[&(lk.level)]));

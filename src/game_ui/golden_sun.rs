@@ -144,8 +144,8 @@ fn member(ui: &mut Ui, cx: &mut GameCtx, p: &str, key: &str) {
                 });
             } else {
                 ui.label(RichText::new(tr("Base stats")).strong());
-                for (k, max) in [("Max HP", 999.0), ("Max PP", 400.0), ("Attack", 400.0), ("Defense", 200.0), ("Agility", 400.0), ("Luck", 50.0)] {
-                    cx.attribute(ui, k, &format!("{p}/Base stats/{k}"), max, color);
+                for k in ["Max HP", "Max PP", "Attack", "Defense", "Agility", "Luck"] {
+                    cx.attribute_open(ui, k, &format!("{p}/Base stats/{k}"));
                 }
                 ui.weak(tr("The game builds the menu stats from these, adding class, Djinn and equipment."));
             }

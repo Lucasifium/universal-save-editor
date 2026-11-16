@@ -89,7 +89,8 @@ fn sheet(ui: &mut Ui, cx: &mut GameCtx) {
                     let p = join("/S.P.E.C.I.A.L.", &k);
                     let bonus = cx.int(&join("/S.P.E.C.I.A.L. bonus", &k)).unwrap_or(0);
                     let label = if bonus != 0 { format!("{k} ({bonus:+})") } else { k.clone() };
-                    cx.attribute(ui, &label, &p, 10.0, GREEN);
+                    // cap: SPECIAL runs 1 to 10
+                    cx.capped_attribute(ui, &label, &p, 10.0, GREEN);
                 }
                 ui.add_space(4.0);
                 ui.label(RichText::new(tr("Base values, 1\u{2013}10. The bonus in brackets comes from traits, perks, drugs and armour and is kept separately.")).size(12.0).color(DIM));

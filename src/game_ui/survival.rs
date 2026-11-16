@@ -81,7 +81,8 @@ pub fn wasteland3(ui: &mut Ui, cx: &mut GameCtx) {
             if col == 0 {
                 panel(ui, "Attributes", |ui| {
                     for a in W3_ATTRIBUTES {
-                        cx.attribute(ui, a, &at(a), 10.0, accent);
+                        // cap: Wasteland 3 attributes stop at 10
+                        cx.capped_attribute(ui, a, &at(a), 10.0, accent);
                     }
                     ui.add_space(4.0);
                     ui.weak(tr("Attributes run from 1 to 10 in the game."));
@@ -102,7 +103,8 @@ pub fn wasteland3(ui: &mut Ui, cx: &mut GameCtx) {
         if !skills.is_empty() {
             panel(ui, "Skills", |ui| {
                 columns(ui, 300.0, skills.len(), |ui, i| {
-                    cx.attribute(ui, &wasteland3_skill(&skills[i]), &join(&at("Skills"), &skills[i]), 10.0, accent);
+                    // cap: Wasteland 3 skills stop at 10
+                    cx.capped_attribute(ui, &wasteland3_skill(&skills[i]), &join(&at("Skills"), &skills[i]), 10.0, accent);
                 });
                 ui.weak(tr("Only the skills a ranger has put points in are saved. A skill the editor has no name for shows its number."));
             });
@@ -229,7 +231,8 @@ pub fn valheim(ui: &mut Ui, cx: &mut GameCtx) {
     if !skills.is_empty() {
         panel(ui, "Skills", |ui| {
             columns(ui, 300.0, skills.len(), |ui, i| {
-                cx.attribute(ui, &skills[i], &join("/Skills", &skills[i]), 100.0, accent);
+                // cap: skill levels run 0 to 100 (note below the list)
+                cx.capped_attribute(ui, &skills[i], &join("/Skills", &skills[i]), 100.0, accent);
             });
             ui.weak(tr("Skill levels go from 0 to 100."));
         });
