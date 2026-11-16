@@ -27,7 +27,7 @@
 <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebSite","@id":"https://universalsaveeditor.com/#website","url":"https://universalsaveeditor.com/","name":"Universal Save Editor","alternateName":["Universal Save Editor (offline)","Offline Universal Save Editor"],"inLanguage":"en"},{"downloadUrl":"https://github.com/Lucasifium/universal-save-editor/releases/latest","@type":"SoftwareApplication","name":"Universal Save Editor (Attack on Titan 2 save editor)","description":"Free, offline Attack on Titan 2 save editor for PC. Find a number you know (money, ammo, experience), or one you don't by how it changes between saves, and change it. The save is shown as raw data: there is no screen for this game yet.","url":"https://universalsaveeditor.com/attack-on-titan-2-save-editor/","applicationCategory":"UtilitiesApplication","operatingSystem":"Windows, Linux, web browser","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"license":"https://www.gnu.org/licenses/gpl-3.0.html","isPartOf":{"@id":"https://universalsaveeditor.com/#website"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Universal Save Editor","item":"https://universalsaveeditor.com/"},{"@type":"ListItem","position":2,"name":"Attack on Titan 2 Save Editor","item":"https://universalsaveeditor.com/attack-on-titan-2-save-editor/"}]}]}</script>
 </head>
 <body>
-<header><div class="in"><a class="brand" href="../">Universal Save Editor</a><nav><a href="../#games">Games</a><a href="../save-manager/">Save manager</a><a href="../app/">Use in browser</a><a href="#download">Download</a><a href="https://github.com/Lucasifium/universal-save-editor">Source</a></nav></div></header>
+<header><div class="in"><a class="brand" href="../"><img src="../logo-64.png" width="26" height="26" alt="">Universal Save Editor</a><nav><a href="../#games">Games</a><a href="../save-manager/">Save manager</a><a href="../app/">Use in browser</a><a href="#download">Download</a><a href="https://github.com/Lucasifium/universal-save-editor">Source</a></nav></div></header>
 <main>
 <section class="hero game"><div><h1>Attack on Titan 2 save editor</h1>
 <p class="lead">Edit your Attack on Titan 2 save on your own PC with Universal Save Editor, a free, offline save editor and manager for 550+ (552) games. Back up, restore and start new runs from the same window. Nothing is uploaded and there are no limits.</p>
@@ -44,6 +44,19 @@
 <li>Choose <em>Find my game's saves</em>, pick <strong>Attack on Titan 2</strong> and open your save (or drag the save file onto the window).</li>
 <li>Change what you want, then <em>Save</em>. The editor checks the new file and backs up the old one first.</li>
 </ol>
+<h2>Questions about Attack on Titan 2 saves</h2>
+<h3>Where is the Attack on Titan 2 save file?</h3>
+<p>Usually in <code>Documents\KoeiTecmo\Attack on Titan2_AOT2\SAVEDATA</code>, in files named <code>Attack on Titan2_AOT2_PK_WIN0000.dat</code>. The downloaded editor finds it for you: choose <em>Find my game's saves</em> and pick Attack on Titan 2.</p>
+<h3>Will Attack on Titan 2 still load an edited save?</h3>
+<p>The editor writes the save back in the same format the game uses and reads the new file back to check it before replacing anything. The original is backed up first, so if anything looks wrong in the game, restore it from <em>Backups</em>.</p>
+<h3>Can I edit Attack on Titan 2 saves on Steam Deck or Linux?</h3>
+<p>Yes. There's a Linux build, and <em>Find my game's saves</em> also looks inside the Proton and Wine prefixes where Steam Play keeps Windows games' saves.</p>
+<h3>Can I edit my Attack on Titan 2 save in the browser?</h3>
+<p>Yes. <a href="../app/">The browser version</a> runs on your own computer and never uploads the save. Open the file yourself and keep a copy, because saving downloads the edited file instead of backing up the old one.</p>
+<h3>Is it safe to use with online play?</h3>
+<p>Edited saves are for single-player play. Don't use them in online or multiplayer modes, where they can break rules or get an account flagged.</p>
+<h3>Does it cost anything?</h3>
+<p>No. It's free and always will be: no ads, no account and no limits. The code is open source under the GPL-3.0.</p>
 <h2>Why use it</h2>
 <ul>
 <li><strong>Free, forever.</strong> No price, no ads, no account, no paid tier.</li>
@@ -52,13 +65,13 @@
 <li><strong>Works on games it doesn't know.</strong> Value search finds a number you know, or one you don't (a health bar, a hidden counter): scan, play, save, then keep what increased, decreased, changed or stayed the same.</li>
 <li><strong>Linux and Steam Deck.</strong> <em>Find my game's saves</em> also looks inside Proton and Wine prefixes, where Windows games run through Steam Play keep their saves.</li>
 <li><strong>In your language.</strong> Menus and messages in English, German, Spanish, French, Brazilian Portuguese, Japanese and Simplified Chinese, following the system language.</li>
-<li><strong>Save manager (Backups menu).</strong> Automatic and named backups kept in a folder next to each save, where no game loads them. Restore any backup (the current save is backed up first), compare it, or back up and start a new game on a one-save game and restore the old one later. Every backup is flushed to disk and checked before anything is replaced.</li>
+<li><strong>Save manager (toolbar button).</strong> Automatic and named backups kept in a folder next to each save, where no game loads them. Restore any backup (the current save is backed up first), compare it, or back up and start a new game on a one-save game and restore the old one later. Every backup is flushed to disk and checked before anything is replaced.</li>
 <li><strong>Open source.</strong> Anyone can read the code (GPL-3.0).</li>
 </ul>
 <p>Edited saves are for single-player play. Don't use them in online or multiplayer modes.</p>
 <h2>More save editors</h2>
-<ul class="grid more"><li><a href="../rogue-legacy-2-save-editor/">Rogue Legacy 2</a></li><li><a href="../car-mechanic-simulator-2018-save-editor/">Car Mechanic Simulator 2018</a></li><li><a href="../drakensang-the-dark-eye-save-editor/">Drakensang: The Dark Eye</a></li><li><a href="../hades-ii-save-editor/">Hades II</a></li><li><a href="../lego-the-hobbit-save-editor/">LEGO The Hobbit</a></li><li><a href="../pathfinder-wrath-of-the-righteous-save-editor/">Pathfinder: Wrath of the Righteous</a></li></ul>
-<p><a href="../#games">See all 552 supported games</a></p>
+<ul class="grid more"><li><a href="../lego-star-wars-the-complete-saga-save-editor/">LEGO Star Wars: The Complete Saga</a></li><li><a href="../pragmata-save-editor/">Pragmata</a></li><li><a href="../yakuza-4-remastered-save-editor/">Yakuza 4 Remastered</a></li><li><a href="../kunitsu-gami-path-of-the-goddess-save-editor/">Kunitsu-Gami: Path of the Goddess</a></li><li><a href="../assassins-creed-iii-remastered-save-editor/">Assassin's Creed III Remastered</a></li><li><a href="../deus-ex-save-editor/">Deus Ex (2000)</a></li></ul>
+<p><a href="../action-adventure-save-editors/">All Action and adventure save editors</a> · <a href="../#games">See all 552 supported games</a></p>
 
 </main>
 <footer><div class="in">Universal Save Editor is free, and always will be. Open source under the GPL-3.0. Not affiliated with any game developer or publisher; game names and trademarks belong to their owners. Always keep a backup of your saves.<br><a href="https://github.com/Lucasifium/universal-save-editor/discussions">Questions and ideas</a> · <a href="https://github.com/Lucasifium/universal-save-editor/issues/new/choose">Report a problem</a> · <a href="https://github.com/Lucasifium/universal-save-editor/releases">All versions and release notes</a> · <a href="https://github.com/Lucasifium/universal-save-editor">Source code on GitHub</a> · <a href="../code-signing/">Code signing policy</a></div></footer>

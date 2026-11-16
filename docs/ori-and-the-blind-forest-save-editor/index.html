@@ -27,7 +27,7 @@
 <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebSite","@id":"https://universalsaveeditor.com/#website","url":"https://universalsaveeditor.com/","name":"Universal Save Editor","alternateName":["Universal Save Editor (offline)","Offline Universal Save Editor"],"inLanguage":"en"},{"downloadUrl":"https://github.com/Lucasifium/universal-save-editor/releases/latest","@type":"SoftwareApplication","name":"Universal Save Editor (Ori and the Blind Forest save editor)","description":"Free, offline Ori and the Blind Forest save editor for PC. Edit level, experience, ability points, life and energy cells, keystones and more.","url":"https://universalsaveeditor.com/ori-and-the-blind-forest-save-editor/","applicationCategory":"UtilitiesApplication","operatingSystem":"Windows, Linux, web browser","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"license":"https://www.gnu.org/licenses/gpl-3.0.html","isPartOf":{"@id":"https://universalsaveeditor.com/#website"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Universal Save Editor","item":"https://universalsaveeditor.com/"},{"@type":"ListItem","position":2,"name":"Ori and the Blind Forest Save Editor","item":"https://universalsaveeditor.com/ori-and-the-blind-forest-save-editor/"}]}]}</script>
 </head>
 <body>
-<header><div class="in"><a class="brand" href="../">Universal Save Editor</a><nav><a href="../#games">Games</a><a href="../save-manager/">Save manager</a><a href="../app/">Use in browser</a><a href="#download">Download</a><a href="https://github.com/Lucasifium/universal-save-editor">Source</a></nav></div></header>
+<header><div class="in"><a class="brand" href="../"><img src="../logo-64.png" width="26" height="26" alt="">Universal Save Editor</a><nav><a href="../#games">Games</a><a href="../save-manager/">Save manager</a><a href="../app/">Use in browser</a><a href="#download">Download</a><a href="https://github.com/Lucasifium/universal-save-editor">Source</a></nav></div></header>
 <main>
 <section class="hero game"><div><h1>Ori and the Blind Forest save editor</h1>
 <p class="lead">Edit your Ori and the Blind Forest save on your own PC with Universal Save Editor, a free, offline save editor and manager for 550+ (552) games. Back up, restore and start new runs from the same window. Nothing is uploaded and there are no limits.</p>
@@ -44,6 +44,19 @@
 <li>Choose <em>Find my game's saves</em>, pick <strong>Ori and the Blind Forest</strong> and open your save (or drag the save file onto the window).</li>
 <li>Change what you want, then <em>Save</em>. The editor checks the new file and backs up the old one first.</li>
 </ol>
+<h2>Questions about Ori and the Blind Forest saves</h2>
+<h3>Where is the Ori and the Blind Forest save file?</h3>
+<p>Usually in <code>%LOCALAPPDATA%\Ori and the Blind Forest DE (the original: %LOCALAPPDATA%\Ori and the Blind Forest)</code>, in files named <code>saveFile0.sav … saveFile9.sav (and _bkup copies)</code>. The downloaded editor finds it for you: choose <em>Find my game's saves</em> and pick Ori and the Blind Forest.</p>
+<h3>Will Ori and the Blind Forest still load an edited save?</h3>
+<p>The editor reads and writes this save correctly on the test saves it was checked with, but loading an edited save in the game itself hasn't been tried yet. The original is backed up before every save, so if the game doesn't accept the edit, restore it from <em>Backups</em>.</p>
+<h3>Can I edit Ori and the Blind Forest saves on Steam Deck or Linux?</h3>
+<p>Yes. There's a Linux build, and <em>Find my game's saves</em> also looks inside the Proton and Wine prefixes where Steam Play keeps Windows games' saves.</p>
+<h3>Can I edit my Ori and the Blind Forest save in the browser?</h3>
+<p>Yes. <a href="../app/">The browser version</a> runs on your own computer and never uploads the save. Open the file yourself and keep a copy, because saving downloads the edited file instead of backing up the old one.</p>
+<h3>Is it safe to use with online play?</h3>
+<p>Edited saves are for single-player play. Don't use them in online or multiplayer modes, where they can break rules or get an account flagged.</p>
+<h3>Does it cost anything?</h3>
+<p>No. It's free and always will be: no ads, no account and no limits. The code is open source under the GPL-3.0.</p>
 <h2>Why use it</h2>
 <ul>
 <li><strong>Free, forever.</strong> No price, no ads, no account, no paid tier.</li>
@@ -52,13 +65,13 @@
 <li><strong>Works on games it doesn't know.</strong> Value search finds a number you know, or one you don't (a health bar, a hidden counter): scan, play, save, then keep what increased, decreased, changed or stayed the same.</li>
 <li><strong>Linux and Steam Deck.</strong> <em>Find my game's saves</em> also looks inside Proton and Wine prefixes, where Windows games run through Steam Play keep their saves.</li>
 <li><strong>In your language.</strong> Menus and messages in English, German, Spanish, French, Brazilian Portuguese, Japanese and Simplified Chinese, following the system language.</li>
-<li><strong>Save manager (Backups menu).</strong> Automatic and named backups kept in a folder next to each save, where no game loads them. Restore any backup (the current save is backed up first), compare it, or back up and start a new game on a one-save game and restore the old one later. Every backup is flushed to disk and checked before anything is replaced.</li>
+<li><strong>Save manager (toolbar button).</strong> Automatic and named backups kept in a folder next to each save, where no game loads them. Restore any backup (the current save is backed up first), compare it, or back up and start a new game on a one-save game and restore the old one later. Every backup is flushed to disk and checked before anything is replaced.</li>
 <li><strong>Open source.</strong> Anyone can read the code (GPL-3.0).</li>
 </ul>
 <p>Edited saves are for single-player play. Don't use them in online or multiplayer modes.</p>
 <h2>More save editors</h2>
-<ul class="grid more"><li><a href="../stardew-valley-save-editor/">Stardew Valley</a></li><li><a href="../vampire-survivors-save-editor/">Vampire Survivors</a></li><li><a href="../cloverpit-save-editor/">CloverPit</a></li><li><a href="../prey-save-editor/">Prey (2017)</a></li><li><a href="../blasphemous-save-editor/">Blasphemous</a></li><li><a href="../dishonored-2-death-of-the-outsider-save-editor/">Dishonored 2 / Death of the Outsider</a></li></ul>
-<p><a href="../#games">See all 552 supported games</a></p>
+<ul class="grid more"><li><a href="../yakuza-4-remastered-save-editor/">Yakuza 4 Remastered</a></li><li><a href="../forspoken-save-editor/">Forspoken</a></li><li><a href="../assassins-creed-brotherhood-save-editor/">Assassin's Creed Brotherhood</a></li><li><a href="../death-stranding-2-on-the-beach-save-editor/">Death Stranding 2: On the Beach</a></li><li><a href="../lego-batman-2-dc-super-heroes-save-editor/">LEGO Batman 2: DC Super Heroes</a></li><li><a href="../lego-pirates-of-the-caribbean-save-editor/">LEGO Pirates of the Caribbean</a></li></ul>
+<p><a href="../action-adventure-save-editors/">All Action and adventure save editors</a> · <a href="../#games">See all 552 supported games</a></p>
 
 </main>
 <footer><div class="in">Universal Save Editor is free, and always will be. Open source under the GPL-3.0. Not affiliated with any game developer or publisher; game names and trademarks belong to their owners. Always keep a backup of your saves.<br><a href="https://github.com/Lucasifium/universal-save-editor/discussions">Questions and ideas</a> · <a href="https://github.com/Lucasifium/universal-save-editor/issues/new/choose">Report a problem</a> · <a href="https://github.com/Lucasifium/universal-save-editor/releases">All versions and release notes</a> · <a href="https://github.com/Lucasifium/universal-save-editor">Source code on GitHub</a> · <a href="../code-signing/">Code signing policy</a></div></footer>

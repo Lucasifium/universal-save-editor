@@ -16,6 +16,7 @@ mod file_browser;
 mod fmt;
 mod formats;
 mod games;
+mod genres;
 mod game_ui;
 mod tree;
 mod hex_view;

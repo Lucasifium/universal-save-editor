@@ -171,9 +171,14 @@ jobs:
           ls -l dist
           # SHA256SUMS.txt lets users check that a download is the file published here.
           (cd dist && sha256sum UniversalSaveEditor-* > SHA256SUMS.txt && cat SHA256SUMS.txt)
-          awk -v v="${TAG#v}" '/^## /{f=($2==v);next} f' CHANGELOG.md > release-notes.md
+          bash .github/scripts/release-notes.sh "${TAG#v}" > release-notes.md
+          cat release-notes.md
+          headline=$(awk -v v="${TAG#v}" '/^## /{f=($2==v);next} f && /^> /{sub(/^> /,""); print; exit}' CHANGELOG.md)
+          title="$TAG"
+          [ -n "$headline" ] && title="$TAG: $headline"
           if gh release view "$TAG" >/dev/null 2>&1; then
             gh release upload "$TAG" dist/* --clobber
+            gh release edit "$TAG" --title "$title" --notes-file release-notes.md
           else
-            gh release create "$TAG" dist/* --title "$TAG" --notes-file release-notes.md --target "$GITHUB_SHA"
+            gh release create "$TAG" dist/* --title "$title" --notes-file release-notes.md --target "$GITHUB_SHA"
           fi

@@ -1,12 +1,18 @@
 # Changelog
 
+Each version starts with a one-line summary for players (the `> ` line), which becomes the release title.
+
 ## 0.8.3
+
+> Close a save in one click, and Raft saves now open on their own screen
 
 - A visible Close save button, Ctrl+W in the File menu and the shortcuts list
 - Raft: game mode, storage box stacks, learned and researched items, and a Max crafting materials button
 - A Questions and ideas link in the Help menu opens the project's Discussions page
 
 ## 0.8.2
+
+> Baldur's Gate 3 edits load in the game again
 
 - Fixed: every Baldur's Gate 3 save edited with 0.8.1 or earlier failed to load in the game. The save's entity-store checksum is now rewritten when saving, and the packed sections use the block size the game expects
 - Baldur's Gate 3: Add items is available again, and every recruited companion (including Minthara) is listed even with nothing stacked

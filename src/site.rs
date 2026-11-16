@@ -66,7 +66,7 @@ fn search_name(name: &str) -> String {
 
 /// Game-screen rows from the README: (names in the first cell, description).
 fn readme_rows() -> Vec<(String, String)> {
-    let readme = include_str!("../README.md");
+    let readme = include_str!("../GAMES.md");
     let table = readme.split("## Game screens").nth(1).unwrap_or("").split("\n## ").next().unwrap_or("");
     table
         .lines()
@@ -225,7 +225,7 @@ main,header .in,footer .in{max-width:1040px;margin:0 auto;padding:0 20px}
 header{position:sticky;top:0;z-index:5;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
 header .in{display:flex;align-items:center;gap:16px;min-height:60px;flex-wrap:wrap}
 header .brand{font:800 1.1rem/1 var(--head);color:var(--text);text-decoration:none;letter-spacing:-.01em;display:flex;align-items:center;gap:10px}
-header .brand::before{content:"";width:26px;height:20px;border-radius:6px;background:linear-gradient(var(--accent),var(--accent)) 5px 4px/16px 3px no-repeat,linear-gradient(var(--accent),var(--accent)) 5px 13px/16px 3px no-repeat,var(--card);border:1.5px solid var(--accent)}
+header .brand img{width:26px;height:26px;border-radius:6px;flex:none}
 header nav{margin-left:auto;display:flex;gap:20px}header nav a{color:var(--muted);text-decoration:none;font-weight:600;font-size:.95rem;padding:11px 2px;display:inline-block}header nav a:hover{color:var(--text)}
 h1{font:800 clamp(2rem,5vw,3.3rem)/1.08 var(--head);letter-spacing:-.025em;margin:0 0 16px;text-wrap:balance}
 h2{font:800 1.55rem/1.2 var(--head);letter-spacing:-.015em;margin:48px 0 14px;padding-left:14px;border-left:5px solid var(--accent)}h3{font:700 1.15rem var(--head);margin:28px 0 8px}
@@ -342,7 +342,7 @@ fn page(title: &str, desc: &str, path: &str, body: &str, schema: &str) -> String
 <script type="application/ld+json">{schema}</script>
 </head>
 <body>
-<header><div class="in"><a class="brand" href="{root}">Universal Save Editor</a><nav><a href="{root}#games">Games</a><a href="{root}save-manager/">Save manager</a><a href="{root}{WEB_APP}">Use in browser</a><a href="{dl_nav}">Download</a><a href="{REPO}">Source</a></nav></div></header>
+<header><div class="in"><a class="brand" href="{root}"><img src="{root}logo-64.png" width="26" height="26" alt="">Universal Save Editor</a><nav><a href="{root}#games">Games</a><a href="{root}save-manager/">Save manager</a><a href="{root}{WEB_APP}">Use in browser</a><a href="{dl_nav}">Download</a><a href="{REPO}">Source</a></nav></div></header>
 <main>
 {body}
 </main>
@@ -650,8 +650,68 @@ fn shot_html(slug_dir: &str, game: &str, what: Option<&str>) -> String {
     )
 }
 
+/// Common questions about one game's saves, answered only from what the catalog and the
+/// supported-games list say about that game.
+fn faq_html(g: &GameInfo, what: Option<&str>) -> String {
+    let n = esc(g.name);
+    let mut out = format!("<h2>Questions about {n} saves</h2>\n");
+    let mut q = |question: String, answer: String| {
+        let _ = write!(out, "<h3>{question}</h3>\n<p>{answer}</p>\n");
+    };
+    q(
+        format!("Where is the {n} save file?"),
+        format!("Usually in <code>{}</code>, in files named <code>{}</code>. The downloaded editor finds it for you: choose <em>Find my game's saves</em> and pick {n}.", esc(g.folder), esc(g.files)),
+    );
+    let untried = what.is_some_and(|w| w.contains("not yet tried in the game"));
+    q(
+        format!("Will {n} still load an edited save?"),
+        if untried {
+            "The editor reads and writes this save correctly on the test saves it was checked with, but loading an edited save in the game itself hasn't been tried yet. The original is backed up before every save, so if the game doesn't accept the edit, restore it from <em>Backups</em>.".to_string()
+        } else {
+            "The editor writes the save back in the same format the game uses and reads the new file back to check it before replacing anything. The original is backed up first, so if anything looks wrong in the game, restore it from <em>Backups</em>.".to_string()
+        },
+    );
+    if !g.name.contains("Xbox app") {
+    q(
+        format!("Can I edit {n} saves on Steam Deck or Linux?"),
+        "Yes. There's a Linux build, and <em>Find my game's saves</em> also looks inside the Proton and Wine prefixes where Steam Play keeps Windows games' saves.".to_string(),
+    );
+    }
+    q(
+        format!("Can I edit my {n} save in the browser?"),
+        if needs_app(g) {
+            "Not this one: the browser version can't open this game's saves. Use the downloaded app for Windows or Linux.".to_string()
+        } else {
+            format!(r#"Yes. <a href="../{WEB_APP}">The browser version</a> runs on your own computer and never uploads the save. Open the file yourself and keep a copy, because saving downloads the edited file instead of backing up the old one."#)
+        },
+    );
+    q(
+        "Is it safe to use with online play?".to_string(),
+        "Edited saves are for single-player play. Don't use them in online or multiplayer modes, where they can break rules or get an account flagged.".to_string(),
+    );
+    q("Does it cost anything?".to_string(), "No. It's free and always will be: no ads, no account and no limits. The code is open source under the GPL-3.0.".to_string());
+    out
+}
+
 /// Up to six links to other game pages: the same series first (same first word), then games
 /// spread through the list.
+/// Genre pages: (key, page slug, heading, short description).
+const GENRES: &[(&str, &str, &str, &str)] = &[
+    ("rpg", "rpg-save-editors", "RPG", "role-playing games, from classic party RPGs to open worlds and action RPGs"),
+    ("soulslike", "soulslike-save-editors", "Soulslike and Metroidvania", "soulslikes and Metroidvanias, where runes, souls and upgrade materials are the usual edits"),
+    ("action", "action-adventure-save-editors", "Action and adventure", "action and adventure games, open worlds, platformers and brawlers"),
+    ("shooter", "shooter-save-editors", "Shooter", "first- and third-person shooters, looter shooters and co-op shooters"),
+    ("roguelike", "roguelike-save-editors", "Roguelike, roguelite and idle", "roguelikes, roguelites, deckbuilders and idle games, where unlocks and meta currency carry between runs"),
+    ("survival", "survival-crafting-save-editors", "Survival and crafting", "survival, crafting and sandbox games"),
+    ("simulation", "simulation-save-editors", "Simulation, farming and management", "simulation, farming, driving, building and management games"),
+    ("strategy", "strategy-save-editors", "Strategy", "grand strategy, 4X, tactics and tower defense games"),
+];
+
+fn genre_of(name: &str) -> Option<&'static (&'static str, &'static str, &'static str, &'static str)> {
+    let key = crate::genres::GAME_GENRES.iter().find(|(n, _)| *n == name)?.1;
+    GENRES.iter().find(|g| g.0 == key)
+}
+
 fn related_html(g: &GameInfo, pages: &[(&str, String)]) -> String {
     let key = |n: &str| search_name(n).split_whitespace().next().unwrap_or("").to_lowercase();
     let mine = key(g.name);
@@ -659,6 +719,17 @@ fn related_html(g: &GameInfo, pages: &[(&str, String)]) -> String {
     let mut picked: Vec<usize> = vec![];
     if mine.len() > 3 && !["the", "final", "super", "star", "dead"].contains(&mine.as_str()) {
         picked.extend((0..pages.len()).filter(|&i| i != at && key(pages[i].0) == mine).take(4));
+    }
+    // Then games of the same genre, spread through the list.
+    let genre = genre_of(g.name).map(|x| x.0);
+    let same: Vec<usize> = (0..pages.len()).filter(|&i| i != at && !picked.contains(&i) && genre.is_some() && genre_of(pages[i].0).map(|x| x.0) == genre).collect();
+    let mut k = 0;
+    while picked.len() < 6 && k < same.len() {
+        let i = same[(at * 7 + k * 13) % same.len()];
+        if !picked.contains(&i) {
+            picked.push(i);
+        }
+        k += 1;
     }
     let mut step = 1;
     while picked.len() < 6 && step < pages.len() {
@@ -669,7 +740,8 @@ fn related_html(g: &GameInfo, pages: &[(&str, String)]) -> String {
         step += 1;
     }
     let links: String = picked.iter().map(|&i| format!(r#"<li><a href="../{}/">{}</a></li>"#, pages[i].1, esc(pages[i].0))).collect();
-    format!("<h2>More save editors</h2>\n<ul class=\"grid more\">{links}</ul>\n<p><a href=\"../#games\">See all {} supported games</a></p>\n", GAMES.len())
+    let hub = genre_of(g.name).map(|x| format!(r#"<a href="../{}/">All {} save editors</a> · "#, x.1, x.2)).unwrap_or_default();
+    format!("<h2>More save editors</h2>\n<ul class=\"grid more\">{links}</ul>\n<p>{hub}<a href=\"../#games\">See all {} supported games</a></p>\n", GAMES.len())
 }
 
 #[test]
@@ -677,11 +749,11 @@ fn related_html(g: &GameInfo, pages: &[(&str, String)]) -> String {
 fn build_site() {
     let out = std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join("docs");
     // Keep the bracketed game count in the README and Cargo.toml current.
-    for f in ["README.md", "Cargo.toml"] {
+    for f in ["README.md", "GAMES.md", "Cargo.toml"] {
         let path = std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join(f);
         let text = std::fs::read_to_string(&path).unwrap();
         let mut fixed = with_game_count(&text);
-        if f == "README.md" {
+        if f == "GAMES.md" {
             fixed = group_readme_screens(&fixed);
         }
         if fixed != text {
@@ -709,7 +781,7 @@ fn build_site() {
     std::fs::write(out.join("screenshot-phone.webp"), include_bytes!("../assets/screenshot-phone.webp")).unwrap();
     // Site icons, drawn from the app's own icon.
     std::fs::write(out.join("favicon.ico"), crate::icon::ico(&[16, 32, 48])).unwrap();
-    for (name, size) in [("favicon-16.png", 16), ("favicon-32.png", 32), ("apple-touch-icon.png", 180), ("icon-192.png", 192), ("icon-512.png", 512)] {
+    for (name, size) in [("logo-64.png", 64), ("favicon-16.png", 16), ("favicon-32.png", 32), ("apple-touch-icon.png", 180), ("icon-192.png", 192), ("icon-512.png", 512)] {
         std::fs::write(out.join(name), crate::icon::png(size)).unwrap();
     }
     std::fs::write(
@@ -747,6 +819,8 @@ fn build_site() {
     let pages: Vec<(&str, String)> = games.iter().filter(|g| crate::games::consoles_of(g.name).is_empty()).map(|g| (g.name, format!("{}-save-editor", slug(&search_name(g.name))))).collect();
     let mut pages = pages;
     let mut pokemon_listed = false;
+    let mut genre_items: std::collections::HashMap<&str, Vec<(String, String)>> = Default::default();
+    genre_items.entry("rpg").or_default().push(("pokémon".into(), POKEMON_ITEM.replace(r#"<a href=""#, r#"<a href="../"#)));
     pages.push(("Pokémon", "pokemon-save-editor".to_string()));
     for g in &games {
         // Console and emulated games have no page of their own: they only appear in their console's section.
@@ -842,11 +916,12 @@ fn build_site() {
 <li>Choose <em>Find my game's saves</em>, pick <strong>{n}</strong> and open your save (or drag the save file onto the window).</li>
 <li>Change what you want, then <em>Save</em>. The editor checks the new file and backs up the old one first.</li>
 </ol>
-<h2>Why use it</h2>
+{faq}<h2>Why use it</h2>
 {why}
 <p>Edited saves are for single-player play. Don't use them in online or multiplayer modes.</p>
 {related}"#,
             why = why_short(),
+            faq = faq_html(g, what.as_deref()),
             shot = shot_html(&s, g.name, what.as_deref()),
             related = related_html(g, &pages),
             h = esc(&search),
@@ -868,6 +943,9 @@ fn build_site() {
         let blurb_html = if blurb.is_empty() { String::new() } else { format!("<small>{}</small>", esc(&blurb)) };
         let first = g.name.chars().next().and_then(|c| c.to_uppercase().next()).filter(|c| c.is_alphabetic());
         let item = format!(r#"<li><a href="{s}/"><span>{}</span>{blurb_html}<span class="{tag_class}">{lvl}</span></a></li>"#, esc(g.name));
+        if let Some(gen) = genre_of(g.name) {
+            genre_items.entry(gen.0).or_default().push((g.name.to_lowercase(), item.replace(r#"<a href=""#, r#"<a href="../"#)));
+        }
         let (count, cards) = letters.entry((first.is_some(), first.unwrap_or('#'))).or_default();
         // The Pokémon page goes where "Pokémon" sorts among the game screens under P.
         if !pokemon_listed && first == Some('P') && (!has_screen(g) || g.name.to_lowercase().as_str() > "pokémon") {
@@ -909,6 +987,8 @@ fn build_site() {
 <figure class="shot"><picture><source media="(max-width: 600px)" type="image/webp" srcset="screenshot-phone.webp" width="780" height="1500"><source media="(max-width: 600px)" srcset="screenshot-phone.png" width="780" height="1500"><source type="image/webp" srcset="screenshot.webp"><img src="screenshot.png" width="2000" height="1322" alt="The editor with a save open: named values in groups, with number fields, text fields and switches" loading="lazy" decoding="async"></picture><figcaption>A save open in the editor: every value has a name, and numbers, text and switches are edited in place.</figcaption></figure>
 <h2>Why download a save editor?</h2>
 {WHY}
+<h2>Browse by genre</h2>
+<ul class="grid genres">{genre_links}</ul>
 <h2 id="games">Games ({n})</h2>
 <p>{full} games open on a screen made for them; the rest can be edited value by value. Type to find yours, or open the full list:</p>
 <input id="q" type="search" placeholder="Find a game" aria-label="Find a game">
@@ -919,6 +999,7 @@ fn build_site() {
 <script>var all=document.getElementById('all');if(location.hash==='#games')all.open=true;window.addEventListener('hashchange',function(){{if(location.hash==='#games')all.open=true}});document.getElementById('q').addEventListener('input',function(){{var q=this.value.toLowerCase().trim(),n=0;if(q)all.open=true;document.querySelectorAll('#list details.letter').forEach(function(d){{var h=0;d.querySelectorAll('li').forEach(function(li){{var hit=li.querySelector('span').textContent.toLowerCase().indexOf(q)>=0;li.style.display=hit?'':'none';if(hit){{h++;n++}}}});d.style.display=h?'':'none';d.open=!!q&&h>0}});document.getElementById('none').style.display=n?'none':'block'}})</script>
 "#,
         n = GAMES.len(),
+        genre_links = GENRES.iter().filter(|g| genre_items.contains_key(g.0)).map(|g| format!(r#"<li><a href="{}/"><span>{}</span><small>{} games</small></a></li>"#, g.1, g.2, genre_items[g.0].len())).collect::<String>(),
     );
     std::fs::write(out.join("index.html"), page(&format!("Universal Save Editor - Free Offline Save Editor and Manager for {}+ ({}) Games", GAMES.len() / 10 * 10, GAMES.len()), &desc, "", &body, &website_schema(&schema("Universal Save Editor", &desc, &format!("{SITE}/")), None))).unwrap();
 
@@ -931,6 +1012,34 @@ fn build_site() {
         std::fs::create_dir_all(&dir).unwrap();
         let url = format!("{SITE}/{path}");
         std::fs::write(dir.join("index.html"), page(title, &desc, path, &body, &website_schema(&schema(&format!("Universal Save Editor ({crumb})"), &desc, &url), Some((crumb, &url))))).unwrap();
+        urls.push(url);
+    }
+
+    for (key, slug, name, about) in GENRES {
+        let Some(items) = genre_items.get_mut(key) else { continue };
+        items.sort();
+        let list: String = items.iter().map(|i| i.1.as_str()).collect();
+        let others: String = GENRES.iter().filter(|g| g.0 != *key).map(|g| format!(r#"<a href="../{}/">{}</a>"#, g.1, g.2)).collect::<Vec<_>>().join(" · ");
+        let path = format!("{slug}/");
+        let title = format!("{name} Save Editors: {} games | Universal Save Editor", items.len());
+        let desc = format!("Free, offline save editor for {} {about}. Edit money, items, stats and more, with a backup before every save.", items.len());
+        let body = format!(
+            r#"<section class="hero game"><div><h1>{name} save editors</h1>
+<p class="lead">Universal Save Editor opens the saves of {n} {about}. Pick your game to see what it can change and where its saves are. It's free, works offline and backs up every save before changing it.</p>
+<a class="btn" href="{DOWNLOAD}">Download for free</a><a class="btn alt" href="../{WEB_APP}">Use it in your browser</a></div></section>
+<ul class="grid">{list}</ul>
+<h2>Other genres</h2>
+<p>{others}</p>
+<p><a href="../#games">See all {total} supported games</a></p>
+"#,
+            n = items.len(),
+            total = GAMES.len(),
+        );
+        let dir = out.join(slug);
+        std::fs::create_dir_all(&dir).unwrap();
+        let url = format!("{SITE}/{path}");
+        let crumb = format!("{name} save editors");
+        std::fs::write(dir.join("index.html"), page(&title, &desc, &path, &body, &website_schema(&schema(&format!("Universal Save Editor ({crumb})"), &desc, &url), Some((&crumb, &url))))).unwrap();
         urls.push(url);
     }
 
@@ -973,7 +1082,7 @@ fn build_site() {
 #[test]
 fn readme_game_count_matches_registry() {
     let root = std::path::Path::new(env!("CARGO_MANIFEST_DIR"));
-    for f in ["README.md", "Cargo.toml"] {
+    for f in ["README.md", "GAMES.md", "Cargo.toml"] {
         let text = std::fs::read_to_string(root.join(f)).unwrap();
         assert!(with_game_count(&text) == text, "{f} has a stale game count: run `cargo test --release --lib build_site -- --ignored`");
     }
@@ -983,8 +1092,8 @@ fn readme_game_count_matches_registry() {
 /// outside one renders as a run-on paragraph on GitHub).
 #[test]
 fn readme_screens_are_grouped() {
-    let text = std::fs::read_to_string(std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join("README.md")).unwrap();
-    assert!(group_readme_screens(&text) == text, "README.md's game screens are not grouped by letter: run `cargo test --release --lib build_site -- --ignored`");
+    let text = std::fs::read_to_string(std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join("GAMES.md")).unwrap();
+    assert!(group_readme_screens(&text) == text, "GAMES.md's game screens are not grouped by letter: run `cargo test --release --lib build_site -- --ignored`");
 }
 
 /// The game pictures stay small: 40 / 90 / 140 KB at most per size, and 20 MB in all; every one has

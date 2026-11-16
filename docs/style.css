@@ -7,7 +7,7 @@ main,header .in,footer .in{max-width:1040px;margin:0 auto;padding:0 20px}
 header{position:sticky;top:0;z-index:5;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
 header .in{display:flex;align-items:center;gap:16px;min-height:60px;flex-wrap:wrap}
 header .brand{font:800 1.1rem/1 var(--head);color:var(--text);text-decoration:none;letter-spacing:-.01em;display:flex;align-items:center;gap:10px}
-header .brand::before{content:"";width:26px;height:20px;border-radius:6px;background:linear-gradient(var(--accent),var(--accent)) 5px 4px/16px 3px no-repeat,linear-gradient(var(--accent),var(--accent)) 5px 13px/16px 3px no-repeat,var(--card);border:1.5px solid var(--accent)}
+header .brand img{width:26px;height:26px;border-radius:6px;flex:none}
 header nav{margin-left:auto;display:flex;gap:20px}header nav a{color:var(--muted);text-decoration:none;font-weight:600;font-size:.95rem;padding:11px 2px;display:inline-block}header nav a:hover{color:var(--text)}
 h1{font:800 clamp(2rem,5vw,3.3rem)/1.08 var(--head);letter-spacing:-.025em;margin:0 0 16px;text-wrap:balance}
 h2{font:800 1.55rem/1.2 var(--head);letter-spacing:-.015em;margin:48px 0 14px;padding-left:14px;border-left:5px solid var(--accent)}h3{font:700 1.15rem var(--head);margin:28px 0 8px}
