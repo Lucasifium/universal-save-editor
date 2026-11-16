@@ -1,0 +1,16 @@
+# yaml-language-server: $schema=https://aka.ms/winget-manifest.installer.1.9.0.schema.json
+PackageIdentifier: Lucasifium.UniversalSaveEditor
+PackageVersion: 0.8.3
+InstallerType: portable
+Commands:
+- UniversalSaveEditor
+ReleaseDate: 2026-11-16
+Installers:
+- Architecture: x64
+  InstallerUrl: https://github.com/Lucasifium/universal-save-editor/releases/download/v0.8.3/UniversalSaveEditor-0.8.3-windows-x64.exe
+  InstallerSha256: B2E00B1ABCF6B4BA6842693275A95FD6D5480CFC228F35556577FFC6488D15A9
+- Architecture: arm64
+  InstallerUrl: https://github.com/Lucasifium/universal-save-editor/releases/download/v0.8.3/UniversalSaveEditor-0.8.3-windows-arm64.exe
+  InstallerSha256: C8C3AFD0670040E28D6DBAE41368036EED133C6A7201D6C454BF4A0DB9F68FA9
+ManifestType: installer
+ManifestVersion: 1.9.0
