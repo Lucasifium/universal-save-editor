@@ -7,6 +7,7 @@ use crate::{platform, theme, widgets};
 use eframe::egui::{self, RichText};
 
 pub const SITE: &str = "https://universalsaveeditor.com/";
+const DISCUSSIONS: &str = "https://github.com/Lucasifium/universal-save-editor/discussions";
 pub const REPO: &str = "https://github.com/Lucasifium/universal-save-editor";
 
 #[derive(Clone, Copy, PartialEq, Eq)]
@@ -103,6 +104,10 @@ impl App {
             if ui.button(tr("Request a game\u{2026}")).on_hover_text(tr("Opens a form on GitHub")).clicked() {
                 ui.close_menu();
                 open_url(ui.ctx(), &request_url());
+            }
+            if ui.button(tr("Questions and ideas\u{2026}")).on_hover_text(tr("Opens the discussions on GitHub, to ask a question or suggest an idea")).clicked() {
+                ui.close_menu();
+                open_url(ui.ctx(), DISCUSSIONS);
             }
             if crate::update::AVAILABLE {
                 ui.separator();

@@ -800,6 +800,12 @@ Request a game…
 Opens a form on GitHub
 = GitHub のフォームを開きます
 
+Questions and ideas…
+= 質問とアイデア…
+
+Opens the discussions on GitHub, to ask a question or suggest an idea
+= GitHub のディスカッションを開き、質問したりアイデアを提案したりできます
+
 Licences and credits
 = ライセンスとクレジット
 

@@ -7,13 +7,23 @@
 <title>Universal Save Editor in your browser</title>
 <meta name="description" content="Edit game saves (save editor and manager) in your browser with Universal Save Editor. It runs on your own computer: your save is never uploaded.">
 <link rel="canonical" href="https://universalsaveeditor.com/app/">
+<link rel="icon" href="../favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32.png">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<meta name="theme-color" content="#0d111f">
 <style>
 :root{--bg:#0d111f;--card:#161d36;--line:#27304d;--text:#eaeefb;--muted:#9ba6c6;--accent:#ffc247;--focus:#ffc247;--accent2:#9fb0ff;--track:#232c4b;--head:ui-rounded,"SF Pro Rounded","Hiragino Maru Gothic ProN","Arial Rounded MT Bold","Segoe UI Variable Display","Segoe UI",system-ui,sans-serif}
 @media (prefers-color-scheme: light){:root{--bg:#eef1f8;--card:#fff;--line:#d3daea;--text:#121a30;--muted:#4f5b78;--accent:#f2a900;--focus:#2a45d6;--accent2:#2a45d6;--track:#dbe1f1}}
 html,body{margin:0;height:100%;overflow:hidden;background:var(--bg);color:var(--text);font:16px/1.6 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+#top{position:absolute;inset:0 0 auto 0;height:40px;display:flex;align-items:center;gap:12px;padding:0 12px;background:var(--card);border-bottom:1px solid var(--line);box-sizing:border-box;font-size:.9rem;z-index:2}
+#top a{color:var(--text);text-decoration:none;font-weight:700;white-space:nowrap;padding:8px 2px}#top a:hover{color:var(--accent)}#top a:focus-visible{outline:3px solid var(--focus);outline-offset:2px;border-radius:6px}
+#top .brand{display:flex;align-items:center;gap:8px;font-family:var(--head);font-weight:800}#top .brand img{width:20px;height:20px}
+#top .dl{margin-left:auto;background:var(--accent);color:#1a1400;border-radius:8px;padding:6px 12px}#top .dl:hover{color:#1a1400;filter:brightness(1.05)}
+@media (max-width:420px){#top .full,#top .home{display:none}}
+#wrap{position:absolute;inset:40px 0 0 0;overflow:hidden}
 canvas{position:absolute;inset:0;width:100%;height:100%;display:block;outline:none}
 canvas:focus-visible{outline:3px solid var(--focus);outline-offset:-3px}
-#status{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:20px;text-align:center;background:var(--bg)}
+#status{position:absolute;inset:40px 0 0 0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:20px;text-align:center;background:var(--bg)}
 #status .t{font:800 1.4rem/1.2 var(--head);letter-spacing:-.015em}
 #status small{color:var(--muted);max-width:46ch}
 #status a{color:var(--accent2);text-underline-offset:3px}#status a:focus-visible{outline:3px solid var(--focus);outline-offset:3px;border-radius:6px}
@@ -24,13 +34,15 @@ canvas:focus-visible{outline:3px solid var(--focus);outline-offset:-3px}
 </style>
 </head>
 <body>
-<canvas id="app"></canvas>
+<nav id="top" aria-label="Site"><a class="brand" href="/"><img src="../favicon-32.png" alt="">&#8203;<span><span class="full">Universal </span>Save Editor</span></a><a class="home" href="/#games" data-t="games">All games</a><a class="dl" href="/#download" data-t="dl">Download the app</a></nav>
+<div id="wrap"><canvas id="app"></canvas></div>
 <div id="status" role="status">
   <div class="bar" role="progressbar" aria-label="Loading"></div>
   <div class="t">Loading Universal Save Editor&hellip;</div>
   <small>It runs entirely in this tab: your save is read and edited on your own computer and is never uploaded.</small>
-  <noscript>This page needs JavaScript and WebAssembly. You can also <a href="https://github.com/Lucasifium/universal-save-editor/releases/latest">download the app</a>.</noscript>
+  <noscript>This page needs JavaScript and WebAssembly. You can also <a href="/#download">download the app</a>.</noscript>
 </div>
+<script>(function(){var t={de:["Alle Spiele","App herunterladen"],es:["Todos los juegos","Descargar la app"],fr:["Tous les jeux","Télécharger l’app"],pt:["Todos os jogos","Baixar o app"],ja:["すべてのゲーム","アプリをダウンロード"],zh:["所有游戏","下载应用"]};var l=(navigator.language||"en").toLowerCase().slice(0,2),v=t[l];if(!v)return;document.querySelector('[data-t="games"]').textContent=v[0];document.querySelector('[data-t="dl"]').textContent=v[1];document.documentElement.lang=navigator.language})()</script>
 <script type="module">
 import init, { start } from './universal_save_editor.js';
 const status = document.getElementById('status');
@@ -41,7 +53,7 @@ try {
 } catch (e) {
   console.error(e);
   status.innerHTML = '<div class="t">The editor couldn’t start in this browser.</div>' +
-    '<small>It needs a recent browser with WebGL. You can also <a href="https://github.com/Lucasifium/universal-save-editor/releases/latest">download the app</a> for Windows, Linux or Android.</small>';
+    '<small>It needs a recent browser with WebGL. You can also <a href="/#download">download the app</a> for Windows, Linux or Android.</small>';
 }
 </script>
 </body>

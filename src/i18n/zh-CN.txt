@@ -800,6 +800,12 @@ Request a game…
 Opens a form on GitHub
 = 在 GitHub 上打开表单
 
+Questions and ideas…
+= 问题与建议…
+
+Opens the discussions on GitHub, to ask a question or suggest an idea
+= 打开 GitHub 上的讨论区，提问或提出建议
+
 Licences and credits
 = 许可与致谢
 

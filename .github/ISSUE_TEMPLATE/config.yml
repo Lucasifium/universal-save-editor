@@ -3,3 +3,6 @@ contact_links:
   - name: Supported games and what each one can edit
     url: https://universalsaveeditor.com/
     about: Check the list first; the page for each game says what can be changed.
+  - name: Questions and ideas
+    url: https://github.com/Lucasifium/universal-save-editor/discussions
+    about: Ask a question or suggest an idea in Discussions.

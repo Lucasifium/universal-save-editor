@@ -42,6 +42,9 @@ details#all[open]>summary::before{transform:rotate(90deg)}details#all>summary:ho
 details.letter{margin:10px 0;border-top:1px solid var(--line)}details.letter>summary{cursor:pointer;font:800 1.2rem var(--head);padding:12px 0;list-style:none}details.letter>summary::before{content:"\25B8";display:inline-block;width:1.2em;color:var(--accent);transition:transform .15s}details.letter[open]>summary::before{transform:rotate(90deg)}details.letter>summary span{color:var(--muted);font:400 .95rem system-ui}
 #q{width:100%;max-width:440px;padding:12px 16px;border-radius:12px;border:1px solid var(--line);background:var(--card);color:var(--text);font-size:1rem}
 ol li,ul li{margin:6px 0}
-.shot{margin:32px 0}.shot img{display:block;width:100%;height:auto;border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow)}.shot figcaption{color:var(--muted);font-size:.9rem;margin-top:8px}
+@media (max-width:600px){.shot{max-width:340px}}
+.feature{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:var(--r);padding:8px 24px 16px;margin:8px 0 24px}.feature h2{margin-top:16px}
+.dl-more{margin:4px 0 0;font-size:.92rem;color:var(--muted);line-height:1.9}.dl-more span{font-weight:600;margin-right:4px}.dl-more a{white-space:nowrap}
+.shot{margin:32px auto;max-width:760px}.shot img{display:block;width:100%;max-width:100%;height:auto;border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow)}.shot figcaption{color:var(--muted);font-size:.9rem;margin-top:8px}
 footer{border-top:1px solid var(--line);margin-top:64px;color:var(--muted);font-size:.9rem}footer .in{padding:24px 20px}
-@media (max-width:760px){.hero{grid-template-columns:1fr;gap:28px;padding-top:32px}header nav{margin-left:0;gap:14px;flex-wrap:wrap}header .in{padding-top:8px;padding-bottom:8px;gap:6px}header{position:static}}
+@media (max-width:760px){.hero{grid-template-columns:1fr;gap:28px;padding-top:32px}header nav{margin-left:0;gap:4px 14px;flex-wrap:wrap}header nav a{padding:6px 2px}header .in{padding-top:8px;padding-bottom:8px;gap:6px}header{position:static}}

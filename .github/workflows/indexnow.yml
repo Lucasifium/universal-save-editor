@@ -1,6 +1,6 @@
 name: IndexNow
 
-# Tells search engines that support IndexNow which website pages were added or changed.
+# Sends the addresses of added or changed website pages to IndexNow.
 on:
   push:
     branches: [main]

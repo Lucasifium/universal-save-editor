@@ -8,7 +8,7 @@ use crate::games::{GameInfo, GAMES};
 use std::fmt::Write as _;
 
 const SITE: &str = "https://universalsaveeditor.com";
-/// Public by design: IndexNow checks it at {SITE}/{key}.txt.
+/// Public: served at {SITE}/{key}.txt.
 const INDEXNOW_KEY: &str = "7c0fcf00800db5fd15744abb0d1bf7e3";
 const REPO: &str = "https://github.com/Lucasifium/universal-save-editor";
 const DOWNLOAD: &str = "https://github.com/Lucasifium/universal-save-editor/releases/latest";
@@ -260,12 +260,57 @@ details#all[open]>summary::before{transform:rotate(90deg)}details#all>summary:ho
 details.letter{margin:10px 0;border-top:1px solid var(--line)}details.letter>summary{cursor:pointer;font:800 1.2rem var(--head);padding:12px 0;list-style:none}details.letter>summary::before{content:"\25B8";display:inline-block;width:1.2em;color:var(--accent);transition:transform .15s}details.letter[open]>summary::before{transform:rotate(90deg)}details.letter>summary span{color:var(--muted);font:400 .95rem system-ui}
 #q{width:100%;max-width:440px;padding:12px 16px;border-radius:12px;border:1px solid var(--line);background:var(--card);color:var(--text);font-size:1rem}
 ol li,ul li{margin:6px 0}
-.shot{margin:32px 0}.shot img{display:block;width:100%;height:auto;border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow)}.shot figcaption{color:var(--muted);font-size:.9rem;margin-top:8px}
+@media (max-width:600px){.shot{max-width:340px}}
+.feature{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:var(--r);padding:8px 24px 16px;margin:8px 0 24px}.feature h2{margin-top:16px}
+.dl-more{margin:4px 0 0;font-size:.92rem;color:var(--muted);line-height:1.9}.dl-more span{font-weight:600;margin-right:4px}.dl-more a{white-space:nowrap}
+.shot{margin:32px auto;max-width:760px}.shot img{display:block;width:100%;max-width:100%;height:auto;border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow)}.shot figcaption{color:var(--muted);font-size:.9rem;margin-top:8px}
 footer{border-top:1px solid var(--line);margin-top:64px;color:var(--muted);font-size:.9rem}footer .in{padding:24px 20px}
-@media (max-width:760px){.hero{grid-template-columns:1fr;gap:28px;padding-top:32px}header nav{margin-left:0;gap:14px;flex-wrap:wrap}header .in{padding-top:8px;padding-bottom:8px;gap:6px}header{position:static}}
+@media (max-width:760px){.hero{grid-template-columns:1fr;gap:28px;padding-top:32px}header nav{margin-left:0;gap:4px 14px;flex-wrap:wrap}header nav a{padding:6px 2px}header .in{padding-top:8px;padding-bottom:8px;gap:6px}header{position:static}}
 "#;
 
+const DOWNLOAD_BUTTON: &str = r#"<a class="btn" href="https://github.com/Lucasifium/universal-save-editor/releases/latest">Download for free</a>"#;
+const RELEASES: &str = "https://github.com/Lucasifium/universal-save-editor/releases";
+const DISCUSSIONS: &str = "https://github.com/Lucasifium/universal-save-editor/discussions";
+const REPORT: &str = "https://github.com/Lucasifium/universal-save-editor/issues/new/choose";
+
+/// The direct downloads of the current version: (id, label, file name ending).
+const DOWNLOADS: &[(&str, &str, &str)] = &[
+    ("win-x64", "Windows (64-bit)", "windows-x64.exe"),
+    ("win-arm64", "Windows on ARM", "windows-arm64.exe"),
+    ("linux-x64", "Linux (64-bit)", "linux-x64.tar.gz"),
+    ("linux-arm64", "Linux on ARM", "linux-arm64.tar.gz"),
+];
+
+fn download_url(end: &str) -> String {
+    let v = env!("CARGO_PKG_VERSION");
+    format!("{RELEASES}/download/v{v}/UniversalSaveEditor-{v}-{end}")
+}
+
+/// Turns a page's main "Download for free" button into the Windows download, with every other
+/// download (and all releases) listed under the buttons. The script picks the visitor's system
+/// and, once the latest release is known, points the links at its files.
+fn with_downloads(body: &str) -> String {
+    let Some(at) = body.find(DOWNLOAD_BUTTON) else { return body.to_string() };
+    let main = format!(r#"<a class="btn" data-dl-main href="{}">Download for Windows</a>"#, download_url(DOWNLOADS[0].2));
+    let links: String = DOWNLOADS
+        .iter()
+        .map(|(id, label, end)| format!(r#"<a data-dl="{id}" data-end="{end}" href="{}">{label}</a>"#, download_url(end)))
+        .collect::<Vec<_>>()
+        .join(" · ");
+    let more = format!(
+        r#"<p class="dl-more" id="download"><span>Version {v}:</span> {links}<br><a href="{RELEASES}">All versions and release notes</a></p>"#,
+        v = env!("CARGO_PKG_VERSION")
+    );
+    let after = at + DOWNLOAD_BUTTON.len();
+    let close = body[after..].find("</div>").map_or(body.len(), |i| after + i);
+    format!("{}{main}{}{more}{}", &body[..at], &body[after..close], &body[close..])
+}
+
+const DOWNLOAD_SCRIPT: &str = r#"<script>(function(){var m=document.querySelectorAll('[data-dl-main]');if(!m.length)return;var ua=navigator.userAgent,d=navigator.userAgentData,p=((d&&d.platform)||navigator.platform||'')+' '+ua;var os=/Android|iPhone|iPad/i.test(ua)?null:/Win/i.test(p)?'win':/Linux|X11|CrOS/i.test(p)?'linux':null;var arch=/arm|aarch64/i.test(p)?'arm64':'x64';function pick(){if(!os)return;var a=document.querySelector('[data-dl="'+os+'-'+arch+'"]');if(!a)return;m.forEach(function(b){b.href=a.href;b.textContent='Download for '+a.textContent})}if(d&&d.getHighEntropyValues){d.getHighEntropyValues(['architecture']).then(function(v){if(v.architecture)arch=v.architecture==='arm'?'arm64':'x64';pick()},pick)}else pick();if(window.fetch)fetch('https://api.github.com/repos/Lucasifium/universal-save-editor/releases/latest').then(function(r){return r.ok?r.json():null}).then(function(j){if(!j||!j.assets)return;document.querySelectorAll('[data-dl]').forEach(function(a){j.assets.forEach(function(x){if(x.name.slice(-a.dataset.end.length)===a.dataset.end)a.href=x.browser_download_url})});var s=document.querySelector('.dl-more span');if(s&&j.tag_name)s.textContent='Version '+j.tag_name.replace(/^v/,'')+':';pick()}).catch(function(){})})()</script>"#;
+
 fn page(title: &str, desc: &str, path: &str, body: &str, schema: &str) -> String {
+    let body = with_downloads(body);
+    let has_dl = body.contains("data-dl-main");
     format!(
         r##"<!doctype html>
 <html lang="en">
@@ -296,17 +341,20 @@ fn page(title: &str, desc: &str, path: &str, body: &str, schema: &str) -> String
 <script type="application/ld+json">{schema}</script>
 </head>
 <body>
-<header><div class="in"><a class="brand" href="{root}">Universal Save Editor</a><nav><a href="{root}#games">Games</a><a href="{root}save-manager/">Save manager</a><a href="{root}{WEB_APP}">Use in browser</a><a href="{DOWNLOAD}">Download</a><a href="{REPO}">Source</a></nav></div></header>
+<header><div class="in"><a class="brand" href="{root}">Universal Save Editor</a><nav><a href="{root}#games">Games</a><a href="{root}save-manager/">Save manager</a><a href="{root}{WEB_APP}">Use in browser</a><a href="{dl_nav}">Download</a><a href="{REPO}">Source</a></nav></div></header>
 <main>
 {body}
 </main>
-<footer><div class="in">Universal Save Editor is free, and always will be. Open source under the GPL-3.0. Not affiliated with any game developer or publisher; game names and trademarks belong to their owners. Always keep a backup of your saves. <a href="{root}code-signing/">Code signing policy</a>.</div></footer>
+<footer><div class="in">Universal Save Editor is free, and always will be. Open source under the GPL-3.0. Not affiliated with any game developer or publisher; game names and trademarks belong to their owners. Always keep a backup of your saves.<br><a href="{DISCUSSIONS}">Questions and ideas</a> · <a href="{REPORT}">Report a problem</a> · <a href="{RELEASES}">All versions and release notes</a> · <a href="{REPO}">Source code on GitHub</a> · <a href="{root}code-signing/">Code signing policy</a></div></footer>
+{script}
 </body>
 </html>
 "##,
         t = esc(title),
         d = esc(desc),
         root = if path.is_empty() { "./" } else { "../" },
+        dl_nav = if has_dl { "#download".to_string() } else if path.is_empty() { "./#download".to_string() } else { "../#download".to_string() },
+        script = if has_dl { DOWNLOAD_SCRIPT } else { "" },
     )
 }
 
@@ -327,7 +375,7 @@ fn schema(name: &str, desc: &str, url: &str) -> String {
     .replace("</", "<\\/")
 }
 
-/// Home page only: tells Google the site's name (used for the name shown above search results).
+/// The site's name and, on game pages, the page's place in the site.
 fn website_schema(app: &str, crumb: Option<(&str, &str)>) -> String {
     let mut app: serde_json::Value = serde_json::from_str(app).unwrap();
     app.as_object_mut().unwrap().remove("@context");
@@ -420,6 +468,8 @@ fn save_manager_body() -> String {
     )
 }
 
+const POKEMON_ITEM: &str = r#"<li><a href="pokemon-save-editor/"><span>Pokémon (Gen 1-9)</span><small>Every mainline game, Red and Blue to Scarlet and Violet: trainer, money, badges, bag, party and PC boxes</small><span class="tag screen">Game screen</span></a></li>"#;
+
 const POKEMON_DESC: &str = "Free, offline Pokémon save editor for every generation, Red and Blue to Scarlet and Violet: trainer, money, badges, bag, party and PC boxes, IVs, EVs and moves.";
 
 fn pokemon_body(rows: &[(String, String)], pages: &[(&str, String)]) -> String {
@@ -440,7 +490,7 @@ fn pokemon_body(rows: &[(String, String)], pages: &[(&str, String)]) -> String {
 <ol>
 <li>Get the save file. On an emulator, it's the game's save file (often <code>.sav</code>). On a console, back the save up to your computer with a save manager tool first.</li>
 <li>Keep a copy of the original somewhere safe.</li>
-<li><a href="{DOWNLOAD}">Download Universal Save Editor</a>, or <a href="../{WEB_APP}">use it in your browser</a>, and open the save (or drag it onto the window).</li>
+<li><a href=#download>Download Universal Save Editor</a>, or <a href="../{WEB_APP}">use it in your browser</a>, and open the save (or drag it onto the window).</li>
 <li>Change what you want, then <em>Save</em>. The editor checks the new file and, in the downloaded app, backs up the old one first.</li>
 <li>Put the edited save back where it came from.</li>
 </ol>
@@ -618,11 +668,14 @@ fn build_site() {
     std::fs::write(out.join("style.css"), STYLE).unwrap();
     std::fs::write(out.join(".nojekyll"), "").unwrap();
     std::fs::write(out.join("CNAME"), format!("{}\n", SITE.trim_start_matches("https://"))).unwrap();
-    // IndexNow: the key file proves the URL submissions made by the site workflow come from this site.
+    // IndexNow key file (see .github/workflows/indexnow.yml).
     std::fs::write(out.join(format!("{INDEXNOW_KEY}.txt")), INDEXNOW_KEY).unwrap();
     // The picture shown when a page is shared (Open Graph / Twitter card).
     std::fs::write(out.join("social-preview.png"), include_bytes!("../assets/social-preview.png")).unwrap();
     std::fs::write(out.join("screenshot.png"), include_bytes!("../assets/screenshot.png")).unwrap();
+    std::fs::write(out.join("screenshot.webp"), include_bytes!("../assets/screenshot.webp")).unwrap();
+    std::fs::write(out.join("screenshot-phone.png"), include_bytes!("../assets/screenshot-phone.png")).unwrap();
+    std::fs::write(out.join("screenshot-phone.webp"), include_bytes!("../assets/screenshot-phone.webp")).unwrap();
     // Site icons, drawn from the app's own icon.
     std::fs::write(out.join("favicon.ico"), crate::icon::ico(&[16, 32, 48])).unwrap();
     for (name, size) in [("favicon-16.png", 16), ("favicon-32.png", 32), ("apple-touch-icon.png", 180), ("icon-192.png", 192), ("icon-512.png", 512)] {
@@ -645,7 +698,7 @@ fn build_site() {
         .to_string(),
     )
     .unwrap();
-    // Google Search Console's proof that this site belongs to the project's owner.
+    // Site ownership file.
     std::fs::write(out.join("google9d120e6c8e9d3fa5.html"), "google-site-verification: google9d120e6c8e9d3fa5.html").unwrap();
     let rows = readme_rows();
     let mut urls = vec![format!("{SITE}/"), format!("{SITE}/{WEB_APP}")];
@@ -662,6 +715,7 @@ fn build_site() {
     // Every game that gets a page, for the "More save editors" lists.
     let pages: Vec<(&str, String)> = games.iter().filter(|g| crate::games::consoles_of(g.name).is_empty()).map(|g| (g.name, format!("{}-save-editor", slug(&search_name(g.name))))).collect();
     let mut pages = pages;
+    let mut pokemon_listed = false;
     pages.push(("Pokémon", "pokemon-save-editor".to_string()));
     for g in &games {
         // Console and emulated games have no page of their own: they only appear in their console's section.
@@ -723,14 +777,14 @@ fn build_site() {
             let dot = if short.ends_with('\u{2026}') { "" } else { "." };
             format!("Free, offline {search} save editor for PC. Edit {first}{}{dot}{tail}", short.chars().skip(1).collect::<String>())
         };
-        // Search engines cut descriptions at about 160 characters: keep the game name and what
+        // Descriptions stay under 160 characters: keep the game name and what
         // can be edited, and drop the boilerplate first.
         let desc = [(120, true), (120, false), (80, false), (50, false)]
             .iter()
             .map(|&(l, t)| build_desc(l, t))
             .find(|d| d.chars().count() <= 160)
             .unwrap_or_else(|| build_desc(50, false));
-        // Titles are cut at about 60 characters: the game name always comes first.
+        // Titles stay near 60 characters: the game name always comes first.
         let title = [
             format!("{search} Save Editor: free and offline | Universal Save Editor"),
             format!("{search} Save Editor | Universal Save Editor"),
@@ -752,7 +806,7 @@ fn build_site() {
 <div class="card"><p>Folder: <code>{folder}</code></p><p>Files: <code>{files}</code></p><p>You don't need to find it yourself: choose <em>Find my game's saves</em> in the editor, pick {n}, and it lists the saves it finds. (The browser version can't look through your folders: open the file from this folder yourself.)</p>{browser}</div>
 <h2>How to edit your {n} save</h2>
 <ol>
-<li><a href="{DOWNLOAD}">Download Universal Save Editor</a> for Windows or Linux; just run it. Rather not install anything? <a href="../{WEB_APP}">Use it in your browser</a> instead: it runs on your computer too, and saving downloads the edited file.</li>
+<li><a href=#download>Download Universal Save Editor</a> for Windows or Linux; just run it. Rather not install anything? <a href="../{WEB_APP}">Use it in your browser</a> instead: it runs on your computer too, and saving downloads the edited file.</li>
 <li>Close the game, so it doesn't write over your changes.</li>
 <li>Choose <em>Find my game's saves</em>, pick <strong>{n}</strong> and open your save (or drag the save file onto the window).</li>
 <li>Change what you want, then <em>Save</em>. The editor checks the new file and backs up the old one first.</li>
@@ -783,10 +837,21 @@ fn build_site() {
         let first = g.name.chars().next().and_then(|c| c.to_uppercase().next()).filter(|c| c.is_alphabetic());
         let item = format!(r#"<li><a href="{s}/"><span>{}</span>{blurb_html}<span class="{tag_class}">{lvl}</span></a></li>"#, esc(g.name));
         let (count, cards) = letters.entry((first.is_some(), first.unwrap_or('#'))).or_default();
+        // The Pokémon page goes where "Pokémon" sorts among the game screens under P.
+        if !pokemon_listed && first == Some('P') && (!has_screen(g) || g.name.to_lowercase().as_str() > "pokémon") {
+            cards.push_str(POKEMON_ITEM);
+            *count += 1;
+            pokemon_listed = true;
+        }
         *count += 1;
         cards.push_str(&item);
     }
 
+    if !pokemon_listed {
+        let (count, cards) = letters.entry((true, 'P')).or_default();
+        cards.push_str(POKEMON_ITEM);
+        *count += 1;
+    }
     let mut cards = String::new();
     for ((_, c), (count, items)) in &letters {
         let _ = write!(cards, r#"<details class="letter"><summary>{c} <span>({count})</span></summary><ul class="grid">{items}</ul></details>"#);
@@ -805,13 +870,13 @@ fn build_site() {
 <p class="lead">Universal Save Editor edits and manages your saves on your own computer (backups, named save slots, restore, and back up and start a new game): no uploads, no accounts, no rate limits. It's free, and always will be.</p>
 <div class="badges"><span class="badge free">Free forever</span><span class="badge">Offline</span><span class="badge">Open source</span><span class="badge">Windows · Linux · Browser</span></div>
 <a class="btn" href="{DOWNLOAD}">Download for free</a><a class="btn alt" href="{WEB_APP}">Use it in your browser</a></div><div class="mock" aria-hidden="true"><div class="bar"><i></i><i></i><i></i></div><div class="row"><div class="k"><span>Gold</span><b>99,999</b></div><div class="t" style="--w:92%"></div></div><div class="row"><div class="k"><span>Level</span><b>60</b></div><div class="t" style="--w:60%"></div></div><div class="row"><div class="k"><span>Crafting materials</span><b>Max</b></div><div class="t" style="--w:100%"></div></div></div></section>
+<section class="feature"><div><h2>Save manager built in</h2><p>Every time you save, the editor backs up the file first, automatically. Make a named backup before a boss or a big choice, restore any backup with one click, compare two of them, or put a save aside to start a new game and come back to it later. Backups stay next to your saves, on your computer.</p><a class="btn alt" href="save-manager/">How the save manager works</a></div></section>
 <div class="card"><strong>Don't want to run a program?</strong> <a href="{WEB_APP}">The browser version</a> is the same editor, running inside the web page on your own computer: your save is never uploaded. It can't search your folders for saves or back them up for you, so open the file yourself and keep a copy; saving downloads the edited file. A few saves need the downloaded app (SQLite saves, and Palworld or Hogwarts Legacy saves).</div>
 <p><strong>Verify your download:</strong> every release has a <code>SHA256SUMS.txt</code>. Compare it with <code>sha256sum UniversalSaveEditor-&lt;version&gt;-linux-x64.tar.gz</code> (Linux) or <code>certutil -hashfile UniversalSaveEditor-&lt;version&gt;-windows-x64.exe SHA256</code> (Windows). The builds are not code-signed, so Windows may warn about a new file; a matching checksum shows it is the one published here. If Windows shows "Windows protected your PC", the file is new and unsigned, not harmful: click <em>More info</em>, then <em>Run anyway</em>.</p>
 <p><strong>Install with Scoop (Windows):</strong> <code>scoop install https://raw.githubusercontent.com/Lucasifium/universal-save-editor/main/packaging/scoop/universal-save-editor.json</code> installs it with a Start menu shortcut and checks the download for you; <code>scoop update universal-save-editor</code> gets new releases.</p>
-<figure class="shot"><img src="screenshot.png" width="1280" height="660" alt="The editor with a save open: named values in groups, with number fields, text fields and switches" loading="lazy"><figcaption>A save open in the editor: every value has a name, and numbers, text and switches are edited in place.</figcaption></figure>
+<figure class="shot"><picture><source media="(max-width: 600px)" type="image/webp" srcset="screenshot-phone.webp" width="780" height="1300"><source media="(max-width: 600px)" srcset="screenshot-phone.png" width="780" height="1300"><source type="image/webp" srcset="screenshot.webp"><img src="screenshot.png" width="2000" height="1520" alt="The editor with a save open: named values in groups, with number fields, text fields and switches" loading="lazy" decoding="async"></picture><figcaption>A save open in the editor: every value has a name, and numbers, text and switches are edited in place.</figcaption></figure>
 <h2>Why download a save editor?</h2>
 {WHY}
-<div class="card"><strong>Save manager:</strong> back up a save before a boss, keep named saves, restore any of them, or start a new game and come back later. <a href="save-manager/">How the save manager works</a>. <strong>Pokémon:</strong> every generation from Red and Blue to Scarlet and Violet on <a href="pokemon-save-editor/">one Pokémon save editor page</a>.</div>
 <h2 id="games">Games ({n})</h2>
 <p>{full} games open on a screen made for them; the rest can be edited value by value. Type to find yours, or open the full list:</p>
 <input id="q" type="search" placeholder="Find a game" aria-label="Find a game">
@@ -843,7 +908,7 @@ fn build_site() {
     }
     sm.push_str("</urlset>\n");
     std::fs::write(out.join("sitemap.xml"), sm).unwrap();
-    // GitHub Pages serves this for unknown addresses; keep it out of the index.
+    // GitHub Pages serves this for unknown addresses.
     let nf = page("Page not found | Universal Save Editor", "That page doesn't exist. Find your game on the Universal Save Editor home page.", "", "<h1>Page not found</h1>\n<p class=\"lead\">That address doesn't exist. Every supported game is listed on the <a href=\"/#games\">home page</a>.</p>", &schema("Universal Save Editor", "Free, offline save editor and manager for PC games.", &format!("{SITE}/")))
         .replace("<meta charset=\"utf-8\">", "<meta charset=\"utf-8\">\n<meta name=\"robots\" content=\"noindex\">")
         .replace("href=\"./", "href=\"/");

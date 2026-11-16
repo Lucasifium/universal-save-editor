@@ -14,7 +14,7 @@ no rate limits.
 [![Licence: GPL-3.0](https://img.shields.io/badge/licence-GPL--3.0-blue)](LICENSE)
 [![Try it in the browser](https://img.shields.io/badge/try_it-in_your_browser-ffc247)](https://universalsaveeditor.com/app/)
 
-![The editor with a save open: named values in groups, with number fields, text fields and switches](assets/screenshot.png)
+<img src="assets/screenshot.png" width="760" alt="The editor with a save open: named values in groups, with number fields, text fields and switches">
 
 **Download:** grab the latest build from the [Releases](../../releases/latest) page (Windows and Linux; macOS in major releases).
 

@@ -800,6 +800,12 @@ Request a game…
 Opens a form on GitHub
 = Abre un formulario en GitHub
 
+Questions and ideas…
+= Preguntas e ideas…
+
+Opens the discussions on GitHub, to ask a question or suggest an idea
+= Abre las discusiones en GitHub para hacer una pregunta o proponer una idea
+
 Licences and credits
 = Licencias y créditos
 
