@@ -267,7 +267,7 @@ footer{border-top:1px solid var(--line);margin-top:64px;color:var(--muted);font-
 
 fn page(title: &str, desc: &str, path: &str, body: &str, schema: &str) -> String {
     format!(
-        r#"<!doctype html>
+        r##"<!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -286,18 +286,24 @@ fn page(title: &str, desc: &str, path: &str, body: &str, schema: &str) -> String
 <meta property="og:image:alt" content="Universal Save Editor: free, offline save editor for 550+ games">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="{SITE}/social-preview.png">
+<link rel="icon" href="{root}favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="{root}favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="{root}favicon-16.png">
+<link rel="apple-touch-icon" href="{root}apple-touch-icon.png">
+<link rel="manifest" href="{root}site.webmanifest">
+<meta name="theme-color" content="#0d111f">
 <link rel="stylesheet" href="{root}style.css">
 <script type="application/ld+json">{schema}</script>
 </head>
 <body>
-<header><div class="in"><a class="brand" href="{root}">Universal Save Editor</a><nav><a href="{root}#games">Games</a><a href="{root}{WEB_APP}">Use in browser</a><a href="{DOWNLOAD}">Download</a><a href="{REPO}">Source</a></nav></div></header>
+<header><div class="in"><a class="brand" href="{root}">Universal Save Editor</a><nav><a href="{root}#games">Games</a><a href="{root}save-manager/">Save manager</a><a href="{root}{WEB_APP}">Use in browser</a><a href="{DOWNLOAD}">Download</a><a href="{REPO}">Source</a></nav></div></header>
 <main>
 {body}
 </main>
 <footer><div class="in">Universal Save Editor is free, and always will be. Open source under the GPL-3.0. Not affiliated with any game developer or publisher; game names and trademarks belong to their owners. Always keep a backup of your saves. <a href="{root}code-signing/">Code signing policy</a>.</div></footer>
 </body>
 </html>
-"#,
+"##,
         t = esc(title),
         d = esc(desc),
         root = if path.is_empty() { "./" } else { "../" },
@@ -378,6 +384,84 @@ const WHY: &str = r#"<ul>
 <li><strong>Command line too.</strong> <code>info</code>, <code>list</code>, <code>get</code>, <code>set</code>, <code>decode</code> and <code>encode</code> work from scripts, with the same checks and backups as the window.</li>
 <li><strong>Open source.</strong> Anyone can read the code (GPL-3.0).</li>
 </ul>"#;
+
+const SAVE_MANAGER_DESC: &str = "Free, offline save manager for PC games: automatic and named backups, one-click restore, compare, and start a new game without losing your old save.";
+
+fn save_manager_body() -> String {
+    format!(
+        r#"<section class="hero game"><div><h1>Save manager for your game saves</h1>
+<p class="lead">Universal Save Editor keeps backups of your saves on your own computer. Make a named backup before a hard fight or a big choice, restore any backup in one click, or put a save aside to start a new game and come back to it later. It works for every game the editor opens, whether or not you edit anything.</p>
+<div class="badges"><span class="badge free">Free forever</span><span class="badge">Offline</span><span class="badge">Open source</span></div>
+<a class="btn" href="{DOWNLOAD}">Download for free</a></div>
+<div class="mock" aria-hidden="true"><div class="bar"><i></i><i></i><i></i></div><div class="row"><div class="k"><span>Before the final boss</span><b>Named</b></div></div><div class="row"><div class="k"><span>Today 14:02</span><b>Automatic</b></div></div><div class="row"><div class="k"><span>Today 13:47</span><b>Automatic</b></div></div><div class="row"><div class="k"><span>Restore this backup</span><b>&#8634;</b></div></div></div></section>
+<h2>What it does</h2>
+<ul>
+<li><strong>Automatic backups.</strong> Every time the editor saves a file, it first backs up the file as it was. The last 30 are kept, and you can change that number in <em>Edit › Preferences</em>.</li>
+<li><strong>Named backups.</strong> <em>Backups › Back up now…</em> makes a backup with a name you choose, such as "before the final boss". It's kept until you delete it.</li>
+<li><strong>Restore.</strong> <em>Backups › Save manager…</em> lists every backup of the open save. <em>Restore this backup</em> puts it back, and the current file is backed up first, so a restore can be undone too.</li>
+<li><strong>Quick restore.</strong> <em>Backups › Quick restore</em> puts back a recent backup without opening the list.</li>
+<li><strong>Compare.</strong> See what changed between a backup and the current save, byte by byte or value by value.</li>
+<li><strong>Start a new game, keep the old one.</strong> Many games only have one save. <em>Back up and start a new game…</em> makes a named backup and then moves the current save out of the way, so the game starts fresh. Restore the backup whenever you want your old game back.</li>
+<li><strong>Save gone?</strong> <em>Recent files</em> offers <em>Restore a backup…</em> even when the save itself no longer exists.</li>
+</ul>
+<h2>Where the backups are kept</h2>
+<div class="card"><p>Next to each save, in a folder of its own: <code>Save Editor Backups/&lt;file name&gt;/</code>. The backups have a <code>.sebak</code> extension, so no game loads them or writes over them. If the save's folder can't be written to, they go to the editor's own folder instead. You can also choose another folder, such as a synced folder or another drive.</p></div>
+<h2>Why you can trust it with your saves</h2>
+<ul>
+<li>Every backup and every restore is written to a temporary file, flushed to disk, read back and compared before it replaces anything.</li>
+<li>Nothing is replaced if the current save can't be read and backed up first, for example while a game holds it locked.</li>
+<li>If the game or a cloud sync changes a save after you opened it, the editor stops and asks before writing.</li>
+<li>Everything stays on your computer. Nothing is uploaded.</li>
+</ul>
+<p>The save manager is part of the downloaded app for Windows and Linux. <a href="../{WEB_APP}">The browser version</a> can edit saves but can't keep backups, so keep your own copy when you use it.</p>
+<p><a href="../#games">See all {n} supported games</a></p>
+"#,
+        n = GAMES.len(),
+    )
+}
+
+const POKEMON_DESC: &str = "Free, offline Pokémon save editor for every generation, Red and Blue to Scarlet and Violet: trainer, money, badges, bag, party and PC boxes, IVs, EVs and moves.";
+
+fn pokemon_body(rows: &[(String, String)], pages: &[(&str, String)]) -> String {
+    let row = |prefix: &str| rows.iter().find(|r| r.0.starts_with(prefix)).map(|r| md(&r.1)).unwrap_or_default();
+    let fusion = pages.iter().find(|p| p.0.starts_with("Pokémon Infinite Fusion")).map(|p| format!(r#"<p>Looking for the fan game? <a href="../{}/">Pokémon Infinite Fusion save editor</a>.</p>"#, p.1)).unwrap_or_default();
+    format!(
+        r#"<section class="hero game"><div><h1>Pokémon save editor</h1>
+<p class="lead">Edit the mainline Pokémon games of every generation, from Red and Blue to Scarlet and Violet, with Universal Save Editor: a free, offline save editor that runs on your own computer. Change your trainer, money and badges, fill your bag, and edit any Pokémon in your party or PC boxes. The games' encryption and checksums are handled for you.</p>
+<div class="badges"><span class="badge free">Free forever</span><span class="badge">Offline</span><span class="badge">Open source</span><span class="badge">Game screen</span></div>
+<a class="btn" href="{DOWNLOAD}">Download for free</a><a class="btn alt" href="../{WEB_APP}">Use it in your browser</a></div></section>
+<h2>Generations I to III</h2>
+<p>Red, Blue and Yellow; Gold, Silver and Crystal; Ruby, Sapphire, Emerald, FireRed and LeafGreen.</p>
+<div class="card">{gen13}</div>
+<h2>Generations IV to IX</h2>
+<p>Diamond, Pearl and Platinum; HeartGold and SoulSilver; Black and White, Black 2 and White 2; X and Y; Omega Ruby and Alpha Sapphire; Sun and Moon, Ultra Sun and Ultra Moon; Sword and Shield; Scarlet and Violet.</p>
+<div class="card">{gen49}</div>
+<h2>How to edit your Pokémon save</h2>
+<ol>
+<li>Get the save file. On an emulator, it's the game's save file (often <code>.sav</code>). On a console, back the save up to your computer with a save manager tool first.</li>
+<li>Keep a copy of the original somewhere safe.</li>
+<li><a href="{DOWNLOAD}">Download Universal Save Editor</a>, or <a href="../{WEB_APP}">use it in your browser</a>, and open the save (or drag it onto the window).</li>
+<li>Change what you want, then <em>Save</em>. The editor checks the new file and, in the downloaded app, backs up the old one first.</li>
+<li>Put the edited save back where it came from.</li>
+</ol>
+<h2>Questions</h2>
+<h3>Which games does it open?</h3>
+<p>The mainline games listed above. It recognises the game from the save itself, so you don't pick it from a list.</p>
+<h3>Will the game still accept the save?</h3>
+<p>The editor rewrites the checksums and encryption the games use, and keeps linked values in step: a Pokémon's level sets its experience and stats. Always keep a copy of the original anyway.</p>
+<h3>Can I use edited Pokémon online?</h3>
+<p>No. Edited saves are for single-player play. Don't trade or battle online with edited Pokémon.</p>
+<h3>Is it free?</h3>
+<p>Yes, and it always will be: no ads, no account, no upload, no limits. The code is open source under the GPL-3.0.</p>
+{fusion}
+<p>Pokémon is a trademark of its owners. This editor is not affiliated with or endorsed by them.</p>
+<p><a href="../#games">See all {n} supported games</a></p>
+"#,
+        gen13 = row("Pokémon (Gen I"),
+        gen49 = row("Pokémon (Gen IV"),
+        n = GAMES.len(),
+    )
+}
 
 /// A short list of reasons for a game's page; the home page keeps the full list.
 fn why_short() -> String {
@@ -539,6 +623,28 @@ fn build_site() {
     // The picture shown when a page is shared (Open Graph / Twitter card).
     std::fs::write(out.join("social-preview.png"), include_bytes!("../assets/social-preview.png")).unwrap();
     std::fs::write(out.join("screenshot.png"), include_bytes!("../assets/screenshot.png")).unwrap();
+    // Site icons, drawn from the app's own icon.
+    std::fs::write(out.join("favicon.ico"), crate::icon::ico(&[16, 32, 48])).unwrap();
+    for (name, size) in [("favicon-16.png", 16), ("favicon-32.png", 32), ("apple-touch-icon.png", 180), ("icon-192.png", 192), ("icon-512.png", 512)] {
+        std::fs::write(out.join(name), crate::icon::png(size)).unwrap();
+    }
+    std::fs::write(
+        out.join("site.webmanifest"),
+        serde_json::json!({
+            "name": "Universal Save Editor",
+            "short_name": "Save Editor",
+            "start_url": "./app/",
+            "display": "standalone",
+            "background_color": "#0d111f",
+            "theme_color": "#0d111f",
+            "icons": [
+                {"src": "icon-192.png", "sizes": "192x192", "type": "image/png"},
+                {"src": "icon-512.png", "sizes": "512x512", "type": "image/png"}
+            ]
+        })
+        .to_string(),
+    )
+    .unwrap();
     // Google Search Console's proof that this site belongs to the project's owner.
     std::fs::write(out.join("google9d120e6c8e9d3fa5.html"), "google-site-verification: google9d120e6c8e9d3fa5.html").unwrap();
     let rows = readme_rows();
@@ -555,6 +661,8 @@ fn build_site() {
 
     // Every game that gets a page, for the "More save editors" lists.
     let pages: Vec<(&str, String)> = games.iter().filter(|g| crate::games::consoles_of(g.name).is_empty()).map(|g| (g.name, format!("{}-save-editor", slug(&search_name(g.name))))).collect();
+    let mut pages = pages;
+    pages.push(("Pokémon", "pokemon-save-editor".to_string()));
     for g in &games {
         // Console and emulated games have no page of their own: they only appear in their console's section.
         let consoles = crate::games::consoles_of(g.name);
@@ -703,6 +811,7 @@ fn build_site() {
 <figure class="shot"><img src="screenshot.png" width="1280" height="660" alt="The editor with a save open: named values in groups, with number fields, text fields and switches" loading="lazy"><figcaption>A save open in the editor: every value has a name, and numbers, text and switches are edited in place.</figcaption></figure>
 <h2>Why download a save editor?</h2>
 {WHY}
+<div class="card"><strong>Save manager:</strong> back up a save before a boss, keep named saves, restore any of them, or start a new game and come back later. <a href="save-manager/">How the save manager works</a>. <strong>Pokémon:</strong> every generation from Red and Blue to Scarlet and Violet on <a href="pokemon-save-editor/">one Pokémon save editor page</a>.</div>
 <h2 id="games">Games ({n})</h2>
 <p>{full} games open on a screen made for them; the rest can be edited value by value. Type to find yours, or open the full list:</p>
 <input id="q" type="search" placeholder="Find a game" aria-label="Find a game">
@@ -716,6 +825,18 @@ fn build_site() {
     );
     std::fs::write(out.join("index.html"), page(&format!("Universal Save Editor - Free Offline Save Editor and Manager for {}+ ({}) Games", GAMES.len() / 10 * 10, GAMES.len()), &desc, "", &body, &website_schema(&schema("Universal Save Editor", &desc, &format!("{SITE}/")), None))).unwrap();
 
+    // Pages about one feature or one series rather than one game.
+    for (path, title, desc, body, crumb) in [
+        ("save-manager/", "Save Manager for PC Game Saves | Universal Save Editor", SAVE_MANAGER_DESC.to_string(), save_manager_body(), "Save manager"),
+        ("pokemon-save-editor/", "Pokémon Save Editor (Gen 1-9) | Universal Save Editor", POKEMON_DESC.to_string(), pokemon_body(&rows, &pages), "Pokémon save editor"),
+    ] {
+        let dir = out.join(path.trim_end_matches('/'));
+        std::fs::create_dir_all(&dir).unwrap();
+        let url = format!("{SITE}/{path}");
+        std::fs::write(dir.join("index.html"), page(title, &desc, path, &body, &website_schema(&schema(&format!("Universal Save Editor ({crumb})"), &desc, &url), Some((crumb, &url))))).unwrap();
+        urls.push(url);
+    }
+
     let mut sm = String::from("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n");
     for u in &urls {
         let _ = writeln!(sm, "<url><loc>{u}</loc></url>");
@@ -725,11 +846,7 @@ fn build_site() {
     // GitHub Pages serves this for unknown addresses; keep it out of the index.
     let nf = page("Page not found | Universal Save Editor", "That page doesn't exist. Find your game on the Universal Save Editor home page.", "", "<h1>Page not found</h1>\n<p class=\"lead\">That address doesn't exist. Every supported game is listed on the <a href=\"/#games\">home page</a>.</p>", &schema("Universal Save Editor", "Free, offline save editor and manager for PC games.", &format!("{SITE}/")))
         .replace("<meta charset=\"utf-8\">", "<meta charset=\"utf-8\">\n<meta name=\"robots\" content=\"noindex\">")
-        .replace("href=\"./style.css\"", "href=\"/style.css\"")
-        .replace("href=\"./#games\"", "href=\"/#games\"")
-        .replace("href=\"./app/\"", "href=\"/app/\"")
-        .replace("href=\"./code-signing/\"", "href=\"/code-signing/\"")
-        .replace("href=\"./\"", "href=\"/\"");
+        .replace("href=\"./", "href=\"/");
     std::fs::write(out.join("404.html"), nf).unwrap();
     let signing = r#"<h1>Code signing policy</h1>
 <p class="lead">How the Windows downloads of Universal Save Editor are built and signed.</p>
