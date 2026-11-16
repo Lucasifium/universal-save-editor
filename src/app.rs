@@ -4820,6 +4820,14 @@ fn file_name(p: &Path) -> String {
     p.file_name().map(|n| n.to_string_lossy().into_owned()).unwrap_or_else(|| p.display().to_string())
 }
 
+/// Saves at least this big can take a noticeable time to open.
+const LARGE_SAVE: u64 = 20 << 20;
+
+/// A short note for save lists on a big file, so a wait is expected; `None` for the rest.
+pub(crate) fn large_save_note(size: u64) -> Option<String> {
+    (size >= LARGE_SAVE).then(|| tr("large \u{2014} may take a while to open").to_string())
+}
+
 pub(crate) fn human_size(n: usize) -> String {
     match n {
         n if n < 1024 => format!("{n} bytes"),
@@ -5525,7 +5533,11 @@ fn game_picker_window(ctx: &egui::Context, gp: &mut GamePicker) -> (Option<PathB
                                                 .and_then(|t| t.duration_since(std::time::UNIX_EPOCH).ok())
                                                 .map(|d| crate::backups::describe(d.as_secs()))
                                                 .unwrap_or_default();
-                                            ui.weak(trf("{0}  \u{00B7}  {1}", &[&when, &human_size(s.size as usize)]));
+                                            let mut line = trf("{0}  \u{00B7}  {1}", &[&when, &human_size(s.size as usize)]);
+                                            if let Some(n) = large_save_note(s.size) {
+                                                line.push_str(&format!("  \u{00B7}  {n}"));
+                                            }
+                                            ui.add(egui::Label::new(RichText::new(line).weak()).truncate());
                                             ui.add(egui::Label::new(RichText::new(s.path.parent().map(|p| p.display().to_string()).unwrap_or_default()).weak().size(12.0)).truncate());
                                         });
                                     }

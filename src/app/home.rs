@@ -103,6 +103,9 @@ impl App {
                             }
                             let label = r.newest.label.clone().unwrap_or_else(|| file_name(&r.newest.path));
                             let mut line = format!("{label} \u{00B7} {} \u{00B7} {}", when(&r.newest), human_size(r.newest.size as usize));
+                            if let Some(n) = crate::app::large_save_note(r.newest.size) {
+                                line.push_str(&format!(" \u{00B7} {n}"));
+                            }
                             if r.count > 1 {
                                 line.push_str(&format!(" \u{00B7} {}", trf("{0} saves", &[&r.count])));
                             }

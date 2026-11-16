@@ -1,5 +1,8 @@
 # src/app.rs
 
+large — may take a while to open
+= volumineux — l’ouverture peut prendre du temps
+
 Closed the file.
 = Fichier fermé.
 

@@ -21,6 +21,8 @@ use std::collections::HashMap;
 use std::sync::Arc;
 
 const SECTION_BUDGET: usize = 6_000;
+/// Blocks nested deeper than this are not listed (real saves stay far below it).
+const MAX_DEPTH: usize = 256;
 const FOCUS_BUDGET: usize = 400_000;
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash)]
@@ -445,6 +447,7 @@ struct Builder<'a> {
     editable: HashMap<String, usize>,
     focus: Vec<String>,
     budget: usize,
+    depth: usize,
     /// Field ids seen without a name.
     unnamed: usize,
     named: usize,
@@ -599,6 +602,10 @@ impl Builder<'_> {
     /// Skips one value (a scalar or a whole block); returns how many values it held.
     fn skip_value(&mut self) -> usize {
         let Some(t) = self.peek() else { return 0 };
+        if t.t == T::Close {
+            // `key=` with nothing after it: the brace belongs to the block around it.
+            return 0;
+        }
         self.pos = t.end;
         match t.t {
             T::Open => self.skip_block(),
@@ -614,10 +621,10 @@ impl Builder<'_> {
         let Some(t) = self.peek() else { return Value::Null };
         self.pos = t.end;
         match t.t {
-            T::Open => self.block(ptr, false),
+            T::Open => self.nested(ptr),
             T::Rgb if self.peek().is_some_and(|n| n.t == T::Open) => {
                 self.pos += 2;
-                self.block(ptr, false)
+                self.nested(ptr)
             }
             T::Close => {
                 // `key=` with nothing after it: leave the brace for the block.
@@ -629,8 +636,20 @@ impl Builder<'_> {
         }
     }
 
+    /// A block whose `{` was just taken. Absurdly deep nesting is skipped, not recursed into.
+    fn nested(&mut self, ptr: &str) -> Value {
+        if self.depth >= MAX_DEPTH {
+            self.skip_block();
+            return Value::Null;
+        }
+        self.depth += 1;
+        let v = self.block(ptr, false);
+        self.depth -= 1;
+        v
+    }
+
     fn focused(&self, ptr: &str) -> bool {
-        self.focus.iter().any(|f| ptr == f || ptr.starts_with(&format!("{f}/")) || f.starts_with(&format!("{ptr}/")))
+        !self.focus.is_empty() && self.focus.iter().any(|f| ptr == f || ptr.starts_with(&format!("{f}/")) || f.starts_with(&format!("{ptr}/")))
     }
 
     /// The items of a block (its `{` already taken), up to its `}` (or the end of the data
@@ -639,7 +658,10 @@ impl Builder<'_> {
         let mut kv = Map::new();
         let mut list: Vec<Value> = vec![];
         let mut hidden = 0usize;
+        let mut repeats: HashMap<String, usize> = HashMap::new();
         let mut item_leaves: Vec<usize> = vec![];
+        let mut list_index: Vec<usize> = vec![];
+        let mut index = 0usize;
         loop {
             let Some(t) = self.peek() else { break };
             if t.t == T::Close {
@@ -658,10 +680,27 @@ impl Builder<'_> {
                 self.budget = SECTION_BUDGET;
             }
             if keyed {
-                let name = self.key_text(t);
-                let key = unique_key(&kv, &name);
-                let p = format!("{ptr}/{}", esc(&key));
                 self.pos = t.end + 2;
+                if self.budget == 0 && self.focus.is_empty() {
+                    // Nothing more is listed here: count the value without naming it.
+                    hidden += 1 + self.skip_value().saturating_sub(1);
+                    continue;
+                }
+                let name = self.key_text(t);
+                let key = match kv.contains_key(&name) {
+                    false => name.clone(),
+                    true => {
+                        let n = repeats.entry(name.clone()).or_insert(1);
+                        loop {
+                            *n += 1;
+                            let k = format!("{name} ({n})");
+                            if !kv.contains_key(&k) {
+                                break k;
+                            }
+                        }
+                    }
+                };
+                let p = format!("{ptr}/{}", esc(&key));
                 let focus = self.focused(&p);
                 if !focus && self.budget == 0 {
                     hidden += 1 + self.skip_value().saturating_sub(1);
@@ -678,13 +717,21 @@ impl Builder<'_> {
                 }
                 kv.insert(key, v);
             } else {
-                let p = format!("{ptr}/{}", list.len());
-                item_leaves.push(self.leaves.len());
-                if self.budget == 0 && !self.focused(&p) {
+                // Items past the budget are counted, not kept, so a huge list costs no memory.
+                if self.budget == 0 && self.focus.is_empty() {
                     hidden += self.skip_value().max(1);
-                    list.push(Value::Null);
+                    index += 1;
                     continue;
                 }
+                let p = format!("{ptr}/{index}");
+                if self.budget == 0 && !self.focused(&p) {
+                    hidden += self.skip_value().max(1);
+                    index += 1;
+                    continue;
+                }
+                item_leaves.push(self.leaves.len());
+                list_index.push(index);
+                index += 1;
                 self.budget = self.budget.saturating_sub(1);
                 let v = self.value(&p, "");
                 list.push(v);
@@ -701,8 +748,8 @@ impl Builder<'_> {
             // Keys and plain values together: keep the plain ones under numbered keys.
             let end = self.leaves.len();
             for (i, v) in list.into_iter().enumerate() {
-                let key = unique_key(&kv, &format!("#{}", i + 1));
-                let (from, to) = (format!("{ptr}/{i}"), format!("{ptr}/{}", esc(&key)));
+                let key = unique_key(&kv, &format!("#{}", list_index[i] + 1));
+                let (from, to) = (format!("{ptr}/{}", list_index[i]), format!("{ptr}/{}", esc(&key)));
                 let last = item_leaves.get(i + 1).copied().unwrap_or(end);
                 for leaf in item_leaves[i]..last {
                     let old = &self.leaf_ptrs[leaf];
@@ -1000,7 +1047,7 @@ fn parse_full(d: &[u8], game: Game, lookup: &[String], side: &[u8]) -> Result<Tr
     let mut focus = focus_paths(d, start, &fl, &names);
     let mut beside = Map::new();
     if side.len() > start && side[..start] == d[..start] {
-        let mut m = Builder { d: side, pos: start, fl, names: &names, lookup, leaves: vec![], leaf_ptrs: vec![], editable: HashMap::new(), focus: vec![], budget: SECTION_BUDGET, unnamed: 0, named: 0, bad: false };
+        let mut m = Builder { d: side, pos: start, fl, names: &names, lookup, leaves: vec![], leaf_ptrs: vec![], editable: HashMap::new(), focus: vec![], budget: SECTION_BUDGET, depth: 0, unnamed: 0, named: 0, bad: false };
         if let Value::Object(top) = m.block("", true) {
             beside = top;
         }
@@ -1008,7 +1055,7 @@ fn parse_full(d: &[u8], game: Game, lookup: &[String], side: &[u8]) -> Result<Tr
             focus = focus_paths(side, start, &fl, &names);
         }
     }
-    let mut b = Builder { d, pos: start, fl, names: &names, lookup, leaves: vec![], leaf_ptrs: vec![], editable: HashMap::new(), focus, budget: SECTION_BUDGET, unnamed: 0, named: 0, bad: false };
+    let mut b = Builder { d, pos: start, fl, names: &names, lookup, leaves: vec![], leaf_ptrs: vec![], editable: HashMap::new(), focus, budget: SECTION_BUDGET, depth: 0, unnamed: 0, named: 0, bad: false };
     let mut view = b.block("", true);
     if b.bad || view.as_object().is_none_or(|m| m.len() < 2) {
         return Err("not a Paradox binary save".into());
@@ -1180,4 +1227,33 @@ mod tests {
             println!("{p}: {}", &s[..s.len().min(1500)]);
         }
     }
+    /// Huge saves must open in seconds: repeated keys, long lists and absurd nesting once took
+    /// minutes (or overflowed the stack).
+    #[test]
+    fn large_blocks_parse_fast() {
+        let head = [b"CK2bin".to_vec(), id(0x1000), id(1), i32v(1), id(0x1001), id(1), i32v(2), id(0x2000), id(1), id(3)].concat();
+        let shapes: [(&str, Box<dyn Fn(i32) -> Vec<u8>>, usize); 3] = [
+            ("repeated key", Box::new(|i| [id(0x3000), id(1), i32v(i)].concat()), 150_000),
+            ("long list", Box::new(i32v), 600_000),
+            ("deep nesting", Box::new(|_| [id(0x3000), id(1), id(3)].concat()), 100_000),
+        ];
+        for (name, item, n) in shapes {
+            let mut d = head.clone();
+            for i in 0..n as i32 {
+                d.extend(item(i));
+            }
+            if name == "deep nesting" {
+                for _ in 0..n {
+                    d.extend(id(4));
+                }
+            }
+            d.extend(id(4));
+            let t = std::time::Instant::now();
+            let doc = parse_as(&d, Game::Ck2, &[]).unwrap_or_else(|e| panic!("{name}: {e}"));
+            assert!(t.elapsed().as_secs() < 10, "{name} took {:?}", t.elapsed());
+            assert_eq!(doc.view["0x1000"], 1, "{name}");
+        }
+    }
+
 }
+

@@ -1,5 +1,8 @@
 # src/app.rs
 
+large — may take a while to open
+= 大きいファイル — 開くのに時間がかかる場合があります
+
 Closed the file.
 = ファイルを閉じました。
 

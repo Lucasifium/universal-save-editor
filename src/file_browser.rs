@@ -204,7 +204,10 @@ impl FileBrowser {
                             let text = if *is_dir {
                                 RichText::new(format!("{name}/")).strong()
                             } else {
-                                RichText::new(format!("{name}    {}", crate::app::human_size(*size as usize)))
+                                RichText::new(match crate::app::large_save_note(*size) {
+                                    Some(n) => format!("{name}    {}  \u{00B7}  {n}", crate::app::human_size(*size as usize)),
+                                    None => format!("{name}    {}", crate::app::human_size(*size as usize)),
+                                })
                             };
                             let r = ui.add(egui::SelectableLabel::new(self.name == *name, text));
                             if r.clicked() {

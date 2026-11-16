@@ -1,5 +1,8 @@
 # src/app.rs
 
+large — may take a while to open
+= 较大 — 打开可能需要一些时间
+
 Closed the file.
 = 已关闭文件。
 
