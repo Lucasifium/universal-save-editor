@@ -27968,8 +27968,8 @@ Game screen: gold and coins, each party member's level, experience, HP, MP, SP, 
 Game screen: gold and each officer's health, attack, defense, power, speed and skill points; the stream cipher and word checksum are rewritten. Checked on a public save, not yet tried in the game
 = 游戏界面：金币以及每位武将的生命、攻击、防御、力量、速度和技能点；流密码和字校验和会重新写入。已在公开存档上检查，尚未在游戏中测试
 
-Game screen: gold and the stack size of every stacked item each companion carries (potions, arrows, scrolls), from the save's packed entity store, the party summary (origin, class, level, experience) and story flags by area and companion, kept in step with the story's own flag list; the package is packed again with its checksum on save. Checked on about a hundred public saves, not yet tried in the game
-= 游戏界面：金币，以及每位同伴所携带的每个堆叠物品（药水、箭矢、卷轴）的堆叠数量（取自存档中打包的实体存储）、队伍概览（出身、职业、等级、经验）以及按区域和同伴划分的剧情标志（与剧情自身的标志列表保持同步）；保存时会连同校验和重新打包。已在约一百个公开存档上检查，尚未在游戏中测试
+Game screen: gold and the stack size of every stacked item each companion carries (potions, arrows, scrolls), from the save's packed entity store, the party summary (origin, class, level, experience) and story flags by area and companion, kept in step with the story's own flag list, and adding copies of items from the party's bags to a character's bag; the package is packed again with its checksum on save. Checked on about a hundred public saves, not yet tried in the game
+= 游戏界面：金币，以及每位同伴所携带的每个堆叠物品（药水、箭矢、卷轴）的堆叠数量（取自存档中打包的实体存储）、队伍概览（出身、职业、等级、经验）以及按区域和同伴划分的剧情标志（与剧情自身的标志列表保持同步），还可将队伍背包中物品的副本添加到某个角色的背包；保存时会连同校验和重新打包。已在约一百个公开存档上检查，尚未在游戏中测试
 
 Game screen: gold carried, level, health, magicka and fatigue, the eight attributes, all 35 skills, resistances, reputations and the gold in each region's bank, from SaveData.txt. Checked on a public save, not yet tried in the game
 = 游戏界面：来自 SaveData.txt 的携带金币、等级、生命、魔法值和疲劳、八项属性、全部 35 项技能、抗性、声望以及各地区银行中的金币。已在公开存档上检查，尚未在游戏中测试
