@@ -12,7 +12,7 @@ Output:
 import datetime, json, os, re, sys, urllib.request
 
 REPO = "https://github.com/Lucasifium/universal-save-editor"
-SITE = "https://lucasifium.github.io/universal-save-editor/"
+SITE = "https://universalsaveeditor.com/"
 ID = "Lucasifium.UniversalSaveEditor"
 SHORT = "Free, offline save editor and save manager for PC games, with backups and restore."
 LONG = ("Universal Save Editor opens and edits save files from hundreds of PC games, with a dedicated "

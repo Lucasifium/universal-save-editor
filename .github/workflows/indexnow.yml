@@ -1,0 +1,42 @@
+name: IndexNow
+
+# Tells search engines that support IndexNow which website pages were added or changed.
+on:
+  push:
+    branches: [main]
+    paths: ['docs/**']
+
+permissions:
+  contents: read
+
+jobs:
+  submit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+      - name: Submit added and changed pages
+        env:
+          BEFORE: ${{ github.event.before }}
+        run: |
+          set -euo pipefail
+          host=$(tr -d '[:space:]' < docs/CNAME)
+          key_file=$(ls docs | grep -E '^[0-9a-f]{32}\.txt$' | head -1)
+          key=${key_file%.txt}
+          base="$BEFORE"
+          if ! git cat-file -e "$base^{commit}" 2>/dev/null; then base=HEAD~1; fi
+          # Pages that exist after this push: index.html files under docs/, except the browser app.
+          urls=$(git diff --name-only --diff-filter=AM "$base" HEAD -- 'docs/*index.html' 'docs/index.html' \
+            | grep -v '^docs/app/' \
+            | sed -e 's#^docs/##' -e 's#index\.html$##' -e "s#^#https://$host/#" \
+            | head -n 10000)
+          if [ -z "$urls" ]; then echo "No page changes."; exit 0; fi
+          echo "$urls"
+          list=$(printf '%s\n' "$urls" | jq -R . | jq -s .)
+          body=$(jq -n --arg host "$host" --arg key "$key" --argjson urls "$list" \
+            '{host: $host, key: $key, keyLocation: ("https://" + $host + "/" + $key + ".txt"), urlList: $urls}')
+          status=$(curl -sS -o /dev/null -w '%{http_code}' -X POST https://api.indexnow.org/indexnow \
+            -H 'Content-Type: application/json; charset=utf-8' --data "$body")
+          echo "IndexNow answered $status"
+          case "$status" in 200|202) ;; *) exit 1 ;; esac

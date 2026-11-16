@@ -12,13 +12,13 @@ no rate limits.
 [![Latest release](https://img.shields.io/github/v/release/Lucasifium/universal-save-editor)](../../releases/latest)
 [![Downloads](https://img.shields.io/github/downloads/Lucasifium/universal-save-editor/total)](../../releases)
 [![Licence: GPL-3.0](https://img.shields.io/badge/licence-GPL--3.0-blue)](LICENSE)
-[![Try it in the browser](https://img.shields.io/badge/try_it-in_your_browser-ffc247)](https://lucasifium.github.io/universal-save-editor/app/)
+[![Try it in the browser](https://img.shields.io/badge/try_it-in_your_browser-ffc247)](https://universalsaveeditor.com/app/)
 
 ![The editor with a save open: named values in groups, with number fields, text fields and switches](assets/screenshot.png)
 
 **Download:** grab the latest build from the [Releases](../../releases/latest) page (Windows and Linux; macOS in major releases).
 
-**No install:** the [browser version](https://lucasifium.github.io/universal-save-editor/app/) is the same
+**No install:** the [browser version](https://universalsaveeditor.com/app/) is the same
 editor compiled to WebAssembly. It runs inside the page on your own computer and never uploads the save;
 saving downloads the edited file. It can't search your folders (*Find my game's saves*), keep backups, or open
 SQLite saves and the saves of Palworld and Hogwarts Legacy: use the downloaded app for those.
@@ -68,7 +68,7 @@ Ready-made builds are on the [Releases page](../../releases):
 
 **Windows SmartScreen:** the first time you run a new release, Windows may show "Windows protected your PC". That message means the file is new and unsigned, not that anything harmful was found. Click **More info**, then **Run anyway**. Check the checksum first if you want to be sure.
 
-**Code signing:** the builds are made by GitHub Actions from this repository's source; see the [code signing policy](https://lucasifium.github.io/universal-save-editor/code-signing/). The Windows builds are not code-signed yet.
+**Code signing:** the builds are made by GitHub Actions from this repository's source; see the [code signing policy](https://universalsaveeditor.com/code-signing/). The Windows builds are not code-signed yet.
 
 **Install with Scoop (Windows):** `scoop install https://raw.githubusercontent.com/Lucasifium/universal-save-editor/main/packaging/scoop/universal-save-editor.json` installs the program and a Start menu shortcut; `scoop update universal-save-editor` gets new releases. A Scoop install checks the download against the published checksum and doesn't trigger SmartScreen.
 

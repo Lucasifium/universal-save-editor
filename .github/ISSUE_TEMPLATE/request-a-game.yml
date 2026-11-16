@@ -5,7 +5,7 @@ body:
   - type: markdown
     attributes:
       value: |
-        Check the [list of supported games](https://lucasifium.github.io/universal-save-editor/) first. Games that open in the hex view can often be edited already with Value search.
+        Check the [list of supported games](https://universalsaveeditor.com/) first. Games that open in the hex view can often be edited already with Value search.
   - type: input
     id: game
     attributes:

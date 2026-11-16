@@ -7,7 +7,9 @@
 use crate::games::{GameInfo, GAMES};
 use std::fmt::Write as _;
 
-const SITE: &str = "https://lucasifium.github.io/universal-save-editor";
+const SITE: &str = "https://universalsaveeditor.com";
+/// Public by design: IndexNow checks it at {SITE}/{key}.txt.
+const INDEXNOW_KEY: &str = "7c0fcf00800db5fd15744abb0d1bf7e3";
 const REPO: &str = "https://github.com/Lucasifium/universal-save-editor";
 const DOWNLOAD: &str = "https://github.com/Lucasifium/universal-save-editor/releases/latest";
 /// The browser version (built by `web/build.sh` into `docs/app/`, which `build_site` keeps).
@@ -531,6 +533,9 @@ fn build_site() {
     std::fs::create_dir_all(&out).unwrap();
     std::fs::write(out.join("style.css"), STYLE).unwrap();
     std::fs::write(out.join(".nojekyll"), "").unwrap();
+    std::fs::write(out.join("CNAME"), format!("{}\n", SITE.trim_start_matches("https://"))).unwrap();
+    // IndexNow: the key file proves the URL submissions made by the site workflow come from this site.
+    std::fs::write(out.join(format!("{INDEXNOW_KEY}.txt")), INDEXNOW_KEY).unwrap();
     // The picture shown when a page is shared (Open Graph / Twitter card).
     std::fs::write(out.join("social-preview.png"), include_bytes!("../assets/social-preview.png")).unwrap();
     std::fs::write(out.join("screenshot.png"), include_bytes!("../assets/screenshot.png")).unwrap();
@@ -718,13 +723,13 @@ fn build_site() {
     sm.push_str("</urlset>\n");
     std::fs::write(out.join("sitemap.xml"), sm).unwrap();
     // GitHub Pages serves this for unknown addresses; keep it out of the index.
-    let nf = page("Page not found | Universal Save Editor", "That page doesn't exist. Find your game on the Universal Save Editor home page.", "", "<h1>Page not found</h1>\n<p class=\"lead\">That address doesn't exist. Every supported game is listed on the <a href=\"/universal-save-editor/#games\">home page</a>.</p>", &schema("Universal Save Editor", "Free, offline save editor and manager for PC games.", &format!("{SITE}/")))
+    let nf = page("Page not found | Universal Save Editor", "That page doesn't exist. Find your game on the Universal Save Editor home page.", "", "<h1>Page not found</h1>\n<p class=\"lead\">That address doesn't exist. Every supported game is listed on the <a href=\"/#games\">home page</a>.</p>", &schema("Universal Save Editor", "Free, offline save editor and manager for PC games.", &format!("{SITE}/")))
         .replace("<meta charset=\"utf-8\">", "<meta charset=\"utf-8\">\n<meta name=\"robots\" content=\"noindex\">")
-        .replace("href=\"./style.css\"", "href=\"/universal-save-editor/style.css\"")
-        .replace("href=\"./#games\"", "href=\"/universal-save-editor/#games\"")
-        .replace("href=\"./app/\"", "href=\"/universal-save-editor/app/\"")
-        .replace("href=\"./code-signing/\"", "href=\"/universal-save-editor/code-signing/\"")
-        .replace("href=\"./\"", "href=\"/universal-save-editor/\"");
+        .replace("href=\"./style.css\"", "href=\"/style.css\"")
+        .replace("href=\"./#games\"", "href=\"/#games\"")
+        .replace("href=\"./app/\"", "href=\"/app/\"")
+        .replace("href=\"./code-signing/\"", "href=\"/code-signing/\"")
+        .replace("href=\"./\"", "href=\"/\"");
     std::fs::write(out.join("404.html"), nf).unwrap();
     let signing = r#"<h1>Code signing policy</h1>
 <p class="lead">How the Windows downloads of Universal Save Editor are built and signed.</p>

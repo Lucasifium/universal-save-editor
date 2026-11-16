@@ -6,7 +6,7 @@ use super::{fit, friendly_kind, Ask, App, WEB};
 use crate::{platform, theme, widgets};
 use eframe::egui::{self, RichText};
 
-pub const SITE: &str = "https://lucasifium.github.io/universal-save-editor/";
+pub const SITE: &str = "https://universalsaveeditor.com/";
 pub const REPO: &str = "https://github.com/Lucasifium/universal-save-editor";
 
 #[derive(Clone, Copy, PartialEq, Eq)]

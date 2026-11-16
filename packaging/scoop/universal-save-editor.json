@@ -1,7 +1,7 @@
 {
     "version": "0.8.2",
     "description": "Free, offline save editor and save manager for PC games, with backups and restore.",
-    "homepage": "https://lucasifium.github.io/universal-save-editor/",
+    "homepage": "https://universalsaveeditor.com/",
     "license": "GPL-3.0-or-later",
     "architecture": {
         "64bit": {
