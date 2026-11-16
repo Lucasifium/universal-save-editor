@@ -2284,7 +2284,7 @@ pub fn gow2018(ui: &mut Ui, cx: &mut GameCtx) {
     if !rows.is_empty() {
         panel(ui, "Resources", |ui| {
             value_rows(ui, cx, "gow_res", &rows);
-            super::crafting::offer(super::Game::Gow2018, ui, cx);
+            super::crafting::gow2018_button(ui, cx, &slots[t]);
             ui.weak(tr("Includes Yggdrasil's dew (the stat boosts). Resources this save hasn't found yet aren't listed."));
         });
     }

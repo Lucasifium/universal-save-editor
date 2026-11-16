@@ -75,8 +75,8 @@ pub fn about(game: Game) -> &'static str {
         }
         Game::Gow2018 => {
             "Raises the crafting resources this save has found (Dust of the Realms, the Svartalfheim steels, \
-             realm-specific ores and remnants and the rest) to 999 in each save slot, an estimate since the \
-             game states no limit. Frozen Flame and Chaos Flame are story-locked and left alone, as are \
+             realm-specific ores and remnants and the rest) to 999 in the save slot you're viewing, an estimate \
+             since the game states no limit. The other slots are left as they are. Frozen Flame and Chaos Flame are story-locked and left alone, as are \
              Yggdrasil's Dew and other stat items."
         }
         Game::GowRagnarok => {
@@ -225,6 +225,14 @@ pub fn onimusha_button(ui: &mut Ui, cx: &mut GameCtx, slot: usize) {
     let Some(base) = super::dashboards::ree_slots(cx.root) else { return };
     let list = onimusha_slot(cx, &base, slot);
     button_for(Game::Onimusha, Ok(list), crate::i18n::tr("this save slot"), ui, cx);
+}
+
+/// God of War (2018)'s button, for the one save slot on screen (`slot`, its key in the save).
+pub fn gow2018_button(ui: &mut Ui, cx: &mut GameCtx, slot: &str) {
+    let list = gow2018_slot(cx, slot);
+    if !list.is_empty() {
+        button_for(Game::Gow2018, Ok(list), crate::i18n::tr("this save slot"), ui, cx);
+    }
 }
 
 /// The button, only where this save has the game's crafting materials list (nothing otherwise).
@@ -463,11 +471,15 @@ fn gow2018_skip(name: &str) -> bool {
     matches!(name, "Frozen Flame" | "Chaos Flame") || name.starts_with("Yggdrasil's Dew")
 }
 
+/// Every slot's resources (for the catalog and tests; the screen's button works on one
+/// slot, see `gow2018_slot`).
 fn gow2018(cx: &GameCtx) -> Vec<Stack> {
-    object_keys(cx, "")
-        .into_iter()
-        .flat_map(|slot| counts_under(cx, &format!("/{}/Resources", pointer_escape(&slot)), GOW_CAP, |k| !gow2018_skip(k)))
-        .collect()
+    object_keys(cx, "").into_iter().flat_map(|slot| gow2018_slot(cx, &slot)).collect()
+}
+
+/// One save slot's resources (`slot` is its key in the save).
+pub fn gow2018_slot(cx: &GameCtx, slot: &str) -> Vec<Stack> {
+    counts_under(cx, &format!("/{}/Resources", pointer_escape(slot)), GOW_CAP, |k| !gow2018_skip(k))
 }
 
 // ------------------------------------------------------------------ God of War Ragnarök
@@ -1063,6 +1075,24 @@ mod tests {
         let mut cx = ctx(&root);
         assert_eq!(apply(Game::GowRagnarok, &mut cx), 1);
         assert_eq!(edits(&cx)["/Resources/Stonewood"], GOW_CAP);
+    }
+
+    #[test]
+    fn god_of_war_button_touches_only_the_viewed_slot() {
+        let root = json!({
+            "Slot 1": {"Resources": {"Dust of Realms": 5, "Frozen Flame": 1}},
+            "Slot 2": {"Resources": {"Dust of Realms": 7, "Chaos Flame": 1}},
+            "Slot 3": {"Resources": {"Dust of Realms": 9}}
+        });
+        let mut cx = ctx(&root);
+        let list = gow2018_slot(&cx, "Slot 2");
+        assert_eq!(raise(&list, &mut cx), 1);
+        let e = edits(&cx);
+        assert_eq!(e.len(), 1, "only the viewed slot is written: {e:?}");
+        assert_eq!(e["/Slot 2/Resources/Dust of Realms"], GOW_CAP);
+        // Every slot together is still what the catalog and `apply` count.
+        let mut all = ctx(&root);
+        assert_eq!(apply(Game::Gow2018, &mut all), 3);
     }
 
     #[test]
