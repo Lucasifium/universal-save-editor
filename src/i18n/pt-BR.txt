@@ -29938,3 +29938,30 @@ Researched items ({0})
 
 Peaceful
 = Pacífico
+
+# src/fmt/aot.rs (Attack on Titan)
+
+atwin0000.dat from Documents\\KoeiTecmo\\Attack on Titan\\SAVEDATA. Your funds and the quantity of every item you own; the stream cipher and word checksum are handled.
+= atwin0000.dat de Documents\\KoeiTecmo\\Attack on Titan\\SAVEDATA. Seus fundos e a quantidade de cada item que você tem; a cifra de fluxo e a soma de palavras são tratadas.
+
+Attack on Titan2_AOT2_PK_WIN0000.dat from Documents\\KoeiTecmo\\Attack on Titan2_AOT2\\SAVEDATA (Final Battle). The quantity of every gift you own, up to 99; the stream cipher and word checksum are handled.
+= Attack on Titan2_AOT2_PK_WIN0000.dat de Documents\\KoeiTecmo\\Attack on Titan2_AOT2\\SAVEDATA (Final Battle). A quantidade de cada presente que você tem, até 99; a cifra de fluxo e a soma de palavras são tratadas.
+
+Close the game first. The stream cipher and the word checksum are written again. Gifts are shown by their number in the save, not by name; only gifts you own are listed.
+= Feche o jogo primeiro. A cifra de fluxo e a soma de palavras são gravadas de novo. Os presentes aparecem pelo número no save, não pelo nome; só os que você tem são listados.
+
+Close the game first. The stream cipher and the word checksum are written again. Items are shown by their number in the save, not by name; only items you own are listed.
+= Feche o jogo primeiro. A cifra de fluxo e a soma de palavras são gravadas de novo. Os itens aparecem pelo número no save, não pelo nome; só os que você tem são listados.
+
+Game screen: funds and the quantity of every item you own; the stream cipher and word checksum are rewritten. Checked on a public save, not yet tried in the game
+= Tela do jogo: fundos e a quantidade de cada item que você tem; a cifra de fluxo e a soma de palavras são regravadas. Verificado em um save público, ainda não testado no jogo
+
+Game screen (Final Battle): the quantity of every gift you own; the stream cipher and word checksum are rewritten. Checked on a public save, not yet tried in the game
+= Tela do jogo (Final Battle): a quantidade de cada presente que você tem; a cifra de fluxo e a soma de palavras são regravadas. Verificado em um save público, ainda não testado no jogo
+
+Gifts (you own)
+= Presentes (que você tem)
+
+Items (you own)
+= Itens (que você tem)
+

@@ -280,6 +280,7 @@ pub mod ysf;
 pub mod gust;
 pub mod wo4;
 pub mod sw4ii;
+pub mod aot;
 pub mod dw7xl;
 pub mod wo3u;
 pub mod sw5;
@@ -768,6 +769,11 @@ pub fn parse_binary(d: &[u8]) -> Option<TreeDoc> {
     }
     if sw4ii::looks(d) {
         if let Ok(t) = sw4ii::parse(d) {
+            return Some(t);
+        }
+    }
+    if aot::looks(d) {
+        if let Ok(t) = aot::parse(d) {
             return Some(t);
         }
     }

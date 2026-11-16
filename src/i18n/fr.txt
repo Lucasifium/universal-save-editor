@@ -29978,3 +29978,30 @@ Researched items ({0})
 
 Peaceful
 = Pacifique
+
+# src/fmt/aot.rs (Attack on Titan)
+
+atwin0000.dat from Documents\\KoeiTecmo\\Attack on Titan\\SAVEDATA. Your funds and the quantity of every item you own; the stream cipher and word checksum are handled.
+= atwin0000.dat depuis Documents\\KoeiTecmo\\Attack on Titan\\SAVEDATA. Vos fonds et la quantité de chaque objet que vous possédez ; le chiffrement de flux et la somme de mots sont gérés.
+
+Attack on Titan2_AOT2_PK_WIN0000.dat from Documents\\KoeiTecmo\\Attack on Titan2_AOT2\\SAVEDATA (Final Battle). The quantity of every gift you own, up to 99; the stream cipher and word checksum are handled.
+= Attack on Titan2_AOT2_PK_WIN0000.dat depuis Documents\\KoeiTecmo\\Attack on Titan2_AOT2\\SAVEDATA (Final Battle). La quantité de chaque cadeau que vous possédez, jusqu'à 99 ; le chiffrement de flux et la somme de mots sont gérés.
+
+Close the game first. The stream cipher and the word checksum are written again. Gifts are shown by their number in the save, not by name; only gifts you own are listed.
+= Fermez d'abord le jeu. Le chiffrement de flux et la somme de mots sont réécrits. Les cadeaux sont affichés par leur numéro dans la sauvegarde, pas par leur nom ; seuls ceux que vous possédez sont listés.
+
+Close the game first. The stream cipher and the word checksum are written again. Items are shown by their number in the save, not by name; only items you own are listed.
+= Fermez d'abord le jeu. Le chiffrement de flux et la somme de mots sont réécrits. Les objets sont affichés par leur numéro dans la sauvegarde, pas par leur nom ; seuls ceux que vous possédez sont listés.
+
+Game screen: funds and the quantity of every item you own; the stream cipher and word checksum are rewritten. Checked on a public save, not yet tried in the game
+= Écran de jeu : fonds et quantité de chaque objet que vous possédez ; le chiffrement de flux et la somme de mots sont réécrits. Vérifié sur une sauvegarde publique, pas encore essayé dans le jeu
+
+Game screen (Final Battle): the quantity of every gift you own; the stream cipher and word checksum are rewritten. Checked on a public save, not yet tried in the game
+= Écran de jeu (Final Battle) : la quantité de chaque cadeau que vous possédez ; le chiffrement de flux et la somme de mots sont réécrits. Vérifié sur une sauvegarde publique, pas encore essayé dans le jeu
+
+Gifts (you own)
+= Cadeaux (que vous possédez)
+
+Items (you own)
+= Objets (que vous possédez)
+

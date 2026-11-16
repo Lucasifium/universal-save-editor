@@ -29971,3 +29971,30 @@ Researched items ({0})
 
 Peaceful
 = Friedlich
+
+# src/fmt/aot.rs (Attack on Titan)
+
+atwin0000.dat from Documents\\KoeiTecmo\\Attack on Titan\\SAVEDATA. Your funds and the quantity of every item you own; the stream cipher and word checksum are handled.
+= atwin0000.dat aus Documents\\KoeiTecmo\\Attack on Titan\\SAVEDATA. Deine Mittel und die Menge jedes Gegenstands, den du besitzt; Stromverschlüsselung und Wortprüfsumme werden berücksichtigt.
+
+Attack on Titan2_AOT2_PK_WIN0000.dat from Documents\\KoeiTecmo\\Attack on Titan2_AOT2\\SAVEDATA (Final Battle). The quantity of every gift you own, up to 99; the stream cipher and word checksum are handled.
+= Attack on Titan2_AOT2_PK_WIN0000.dat aus Documents\\KoeiTecmo\\Attack on Titan2_AOT2\\SAVEDATA (Final Battle). Die Menge jedes Geschenks, das du besitzt, bis 99; Stromverschlüsselung und Wortprüfsumme werden berücksichtigt.
+
+Close the game first. The stream cipher and the word checksum are written again. Gifts are shown by their number in the save, not by name; only gifts you own are listed.
+= Schließe zuerst das Spiel. Die Stromverschlüsselung und die Wortprüfsumme werden neu geschrieben. Geschenke erscheinen mit ihrer Nummer im Spielstand, nicht mit Namen; es werden nur Geschenke aufgeführt, die du besitzt.
+
+Close the game first. The stream cipher and the word checksum are written again. Items are shown by their number in the save, not by name; only items you own are listed.
+= Schließe zuerst das Spiel. Die Stromverschlüsselung und die Wortprüfsumme werden neu geschrieben. Gegenstände erscheinen mit ihrer Nummer im Spielstand, nicht mit Namen; es werden nur Gegenstände aufgeführt, die du besitzt.
+
+Game screen: funds and the quantity of every item you own; the stream cipher and word checksum are rewritten. Checked on a public save, not yet tried in the game
+= Spielansicht: Mittel und die Menge jedes Gegenstands, den du besitzt; Stromverschlüsselung und Wortprüfsumme werden neu geschrieben. An einem öffentlichen Spielstand geprüft, noch nicht im Spiel getestet
+
+Game screen (Final Battle): the quantity of every gift you own; the stream cipher and word checksum are rewritten. Checked on a public save, not yet tried in the game
+= Spielansicht (Final Battle): die Menge jedes Geschenks, das du besitzt; Stromverschlüsselung und Wortprüfsumme werden neu geschrieben. An einem öffentlichen Spielstand geprüft, noch nicht im Spiel getestet
+
+Gifts (you own)
+= Geschenke (in deinem Besitz)
+
+Items (you own)
+= Gegenstände (in deinem Besitz)
+

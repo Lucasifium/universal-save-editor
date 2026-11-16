@@ -19,7 +19,7 @@ pub static SPECS: &[Spec] = &[OPENXCOM, XCOM_DOS, RCT2, COTL, FALLOUT_SHELTER, D
     // PlayStation 1 and 2 (ps_specs.rs)
     SOTN, FF8, FFT, RE1, KH2, MK64, GOLDENEYE, BANJO_KAZOOIE, OOT, SMASH64, TORCHLIGHT3, WRECKFEST, EVIL_WITHIN, BORDERLANDS1,
     // PlayStation 1 and 2 (ps_specs.rs), continued
-    CRASH, KH1, GT1, BL4, WUKONG, BOTW, RAYMAN, CTR, THPS, PAYDAY2, FS_FARM, FS_CAREER, FS17, FS15, GAS_STATION_SIM, THIEF_SIM, HOUSE_FLIPPER, TAVERN_MASTER, ROAD_REDEMPTION, SILENT_HILL, SOPHIE, FIRIS, DREDGE, PC_BUILDING_SIM, OUTWARD, SUPRALAND, WARM_SNOW, READY_OR_NOT, SUNSHINE, LUIGI, WINDWAKER, TEKKEN1, TEKKEN2, TEKKEN3, DMC_PS2, WIZARD_OF_LEGEND, MAGICRAFT, KAGERO, DW7XL, WO3U, SW5, WO1, SAMURAI2, DW4H, GTASA, SPT, ARKHAM_CITY, GRANDIA2, DONT_STARVE, MON_BAZOU, DEAD_ISLAND, CHRONO_CROSS, TOV, SA2_CHAO, KIDICARUS, TKC, DQ8, POLICE_SIM, ALIENS_FE, DOT_HACK,
+    CRASH, KH1, GT1, BL4, WUKONG, BOTW, RAYMAN, CTR, THPS, PAYDAY2, FS_FARM, FS_CAREER, FS17, FS15, GAS_STATION_SIM, THIEF_SIM, HOUSE_FLIPPER, TAVERN_MASTER, ROAD_REDEMPTION, SILENT_HILL, SOPHIE, FIRIS, DREDGE, PC_BUILDING_SIM, OUTWARD, SUPRALAND, WARM_SNOW, READY_OR_NOT, SUNSHINE, LUIGI, WINDWAKER, TEKKEN1, TEKKEN2, TEKKEN3, DMC_PS2, WIZARD_OF_LEGEND, MAGICRAFT, KAGERO, AOT1, AOT2, DW7XL, WO3U, SW5, WO1, SAMURAI2, DW4H, GTASA, SPT, ARKHAM_CITY, GRANDIA2, DONT_STARVE, MON_BAZOU, DEAD_ISLAND, CHRONO_CROSS, TOV, SA2_CHAO, KIDICARUS, TKC, DQ8, POLICE_SIM, ALIENS_FE, DOT_HACK,
     MAD_MAX,
     RAFT,
     MANEATER,
@@ -12139,6 +12139,32 @@ const MAGICRAFT: Spec = Spec {
         Section { title: "Statistics", rows: &[("Deaths", "/deadCount"), ("Play time", "/playTime"), ("Selected difficulty", "/selectedDifficulty"), ("Battles entered", "/enterBattleTime")] },
     ],
     lists: &[],
+    tables: &[],
+};
+
+const AOT1: Spec = Spec {
+    name: "Attack on Titan (A.O.T.: Wings of Freedom)",
+    tab: "Resources",
+    accent: (150, 110, 60),
+    kind: Some(crate::fmt::aot::KIND1),
+    markers: &["/Resources/Funds"],
+    subtitle: "atwin0000.dat from Documents\\KoeiTecmo\\Attack on Titan\\SAVEDATA. Your funds and the quantity of every item you own; the stream cipher and word checksum are handled.",
+    tiles: &[("Funds", "/Resources/Funds")],
+    sections: &[Section { title: "Resources", rows: &[("Funds", "/Resources/Funds")] }],
+    lists: &[List { title: "Items (you own)", path: "/Items", shape: Shape::Map, names: &[], max: None }],
+    tables: &[],
+};
+
+const AOT2: Spec = Spec {
+    name: "Attack on Titan 2",
+    tab: "Gifts",
+    accent: (150, 110, 60),
+    kind: Some(crate::fmt::aot::KIND2),
+    markers: &["/Gifts"],
+    subtitle: "Attack on Titan2_AOT2_PK_WIN0000.dat from Documents\\KoeiTecmo\\Attack on Titan2_AOT2\\SAVEDATA (Final Battle). The quantity of every gift you own, up to 99; the stream cipher and word checksum are handled.",
+    tiles: &[],
+    sections: &[],
+    lists: &[List { title: "Gifts (you own)", path: "/Gifts", shape: Shape::Map, names: &[], max: None }],
     tables: &[],
 };
 
