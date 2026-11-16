@@ -7196,8 +7196,8 @@ Items HQ holds, by the game's template name.
 Items and currencies
 = Itens e moedas
 
-Items are listed by the game's item number (names aren't known yet); 999 is the most the editor lets you set.
-= Os itens são listados pelo número de item do jogo (os nomes ainda não são conhecidos); 999 é o máximo que o editor permite.
+Item names come from the game's data; an item the editor doesn't know yet shows as Item and its number. 999 is the most the editor lets you set.
+= Os nomes dos itens vêm dos dados do jogo; um item que o editor ainda não conhece aparece como Item e seu número. 999 é o máximo que o editor permite.
 
 Items are listed by their ID because the game's item names aren't in the save. Everything else is in the Values tab.
 = Os itens são listados por ID porque os nomes dos itens do jogo não estão no save. Todo o resto está na aba Valores.

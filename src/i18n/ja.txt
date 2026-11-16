@@ -7234,8 +7234,8 @@ Items HQ holds, by the game's template name.
 Items and currencies
 = アイテムと通貨
 
-Items are listed by the game's item number (names aren't known yet); 999 is the most the editor lets you set.
-= アイテムはゲーム内のアイテム番号で表示されます(名前は未判明)。エディターで設定できる最大は999です。
+Item names come from the game's data; an item the editor doesn't know yet shows as Item and its number. 999 is the most the editor lets you set.
+= アイテム名はゲームデータに基づきます。エディターがまだ知らないアイテムは「Item」と番号で表示されます。エディターで設定できる上限は 999 です。
 
 Items are listed by their ID because the game's item names aren't in the save. Everything else is in the Values tab.
 = ゲームのアイテム名はセーブに含まれないため、アイテムはIDで表示されます。その他はすべて「値」タブにあります。

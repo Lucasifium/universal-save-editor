@@ -280,6 +280,36 @@ const STATS: [(&str, &str); 11] = [
 /// Item lists in `SaveItemStruct`, in order (each: u32 count, then {id, item id, amount}).
 const ITEM_LISTS: [&str; 8] = ["Battle items", "Key items", "Food and ingredients", "Treasures", "Car items", "Leisure items", "Upgrade items", "Trunk"];
 
+/// Item names by the game's item number (game data; see THIRD_PARTY_NOTICES.md).
+fn item_names() -> &'static std::collections::HashMap<u32, String> {
+    static T: std::sync::OnceLock<std::collections::HashMap<u32, String>> = std::sync::OnceLock::new();
+    T.get_or_init(|| {
+        let mut by_id = std::collections::HashMap::new();
+        for l in include_str!("data/ffxv_items.tsv").lines().filter(|l| !l.starts_with('#')) {
+            let Some((id, name)) = l.split_once('\t') else { continue };
+            if let Ok(id) = id.parse::<u32>() {
+                by_id.insert(id, name.trim().to_string());
+            }
+        }
+        // Names are tree keys, so they must be unique: add the number to any repeat.
+        let mut count: std::collections::HashMap<String, usize> = std::collections::HashMap::new();
+        for n in by_id.values() {
+            *count.entry(n.clone()).or_default() += 1;
+        }
+        for (id, n) in by_id.iter_mut() {
+            if count[n.as_str()] > 1 {
+                *n = format!("{n} ({id})");
+            }
+        }
+        by_id
+    })
+}
+
+/// The name shown for an item: its game name, or `Item <number>` when not known.
+fn item_name(id: u32) -> String {
+    item_names().get(&id).cloned().unwrap_or_else(|| format!("Item {id}"))
+}
+
 pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
     let s = schema(d).ok_or("not a Final Fantasy XV gameplay save")?;
     let mut b = Builder::new(d);
@@ -382,7 +412,7 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
                     let e = o + 16 * k;
                     let id = le32(e + 8);
                     if id != 0 && i32_at(d, e + 12) > 0 {
-                        let key = format!("Item {id}");
+                        let key = item_name(id);
                         b.ranged(&["Items", list, &key], e + 12, Kind::I32, 0, 999);
                     }
                 }
@@ -475,6 +505,16 @@ mod tests {
     }
 
     #[test]
+    fn item_names_are_known_and_unique() {
+        assert_eq!(item_name(16789763), "Potion");
+        assert_eq!(item_name(16797899), "Elixir");
+        assert_eq!(item_name(1), "Item 1");
+        let names = item_names();
+        let mut seen = std::collections::HashSet::new();
+        assert!(names.len() > 500 && names.values().all(|n| seen.insert(n.clone())));
+    }
+
+    #[test]
     fn reads_and_edits_in_place() {
         let d = synthetic();
         let mut doc = parse(&d).unwrap();
@@ -483,13 +523,13 @@ mod tests {
         assert_eq!(doc.view.pointer("/Characters/Party/Noctis/Max HP").unwrap(), 5200);
         assert_eq!(doc.view.pointer("/Characters/Party/Noctis/Level").unwrap(), 55);
         assert_eq!(doc.view.pointer("/Characters/Party/Noctis/Experience").unwrap(), 1234);
-        assert_eq!(doc.view.pointer("/Items/Battle items/Item 16789763").unwrap(), 36);
+        assert_eq!(doc.view.pointer("/Items/Battle items/Potion").unwrap(), 36);
         doc.set("/Party/Gil", serde_json::Value::from(9_000_000)).unwrap();
-        doc.set("/Items/Battle items/Item 16789763", serde_json::Value::from(99)).unwrap();
+        doc.set("/Items/Battle items/Potion", serde_json::Value::from(99)).unwrap();
         let out = doc.to_bytes().unwrap();
         assert_eq!(out.len(), d.len());
         assert_eq!(parse(&out).unwrap().view.pointer("/Party/Gil").unwrap(), 9_000_000);
-        assert_eq!(parse(&out).unwrap().view.pointer("/Items/Battle items/Item 16789763").unwrap(), 99);
+        assert_eq!(parse(&out).unwrap().view.pointer("/Items/Battle items/Potion").unwrap(), 99);
     }
 
     #[test]

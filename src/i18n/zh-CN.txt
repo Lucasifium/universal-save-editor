@@ -7227,8 +7227,8 @@ Items HQ holds, by the game's template name.
 Items and currencies
 = 物品和货币
 
-Items are listed by the game's item number (names aren't known yet); 999 is the most the editor lets you set.
-= 物品按游戏物品编号列出(名称尚未知);编辑器允许设置的最大值为 999。
+Item names come from the game's data; an item the editor doesn't know yet shows as Item and its number. 999 is the most the editor lets you set.
+= 物品名称来自游戏数据;编辑器尚不认识的物品显示为 Item 加编号。编辑器允许设置的最大值为 999。
 
 Items are listed by their ID because the game's item names aren't in the save. Everything else is in the Values tab.
 = 由于游戏的物品名称不在存档中,物品按 ID 列出。其余内容都在“数值”标签页。

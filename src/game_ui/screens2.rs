@@ -2038,7 +2038,7 @@ pub fn ffxv(ui: &mut Ui, cx: &mut GameCtx) {
             if cx.get("/Items/Treasures").is_some() {
                 super::crafting::offer(super::Game::Ffxv, ui, cx);
             }
-            ui.weak(tr("Items are listed by the game's item number (names aren't known yet); 999 is the most the editor lets you set."));
+            ui.weak(tr("Item names come from the game's data; an item the editor doesn't know yet shows as Item and its number. 999 is the most the editor lets you set."));
         });
     }
     ui.weak(tr("Not yet tried in the game."));

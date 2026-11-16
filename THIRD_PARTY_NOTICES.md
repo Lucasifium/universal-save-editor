@@ -111,6 +111,7 @@ Universal Save Editor is free. It builds on other people's work, listed here wit
 | [bg3-savefile-parser (Baldur's Gate 3 save layout)](https://github.com/DanFinchUK/bg3-savefile-parser) | DanFinchUK | facts only (file layouts, ids and names), credited |
 | [FFXVSaveCrypt (Final Fantasy XV save encryption)](https://github.com/Surihix/FFXVSaveCrypt) | Surihix | facts only (key, footer and block shuffle), credited |
 | [FFXVTemplates (Final Fantasy XV gameplay save layout)](https://github.com/Kizari/FFXVTemplates) | Kizari, Rinual | MIT; file layout facts only, no code copied, credited |
+| Final Fantasy XV item numbers and English item names (a community Cheat Engine table's item list) | table authors | facts only (number and name pairs), re-typed and corrected |
 | [js-civ5save (Civilization V save layout)](https://github.com/bmaupin/js-civ5save) | bmaupin | MIT; file layout facts only, no code copied, credited |
 | [ds2-peko-check (Death Stranding 2 save sections, facility names)](https://github.com/binsento-netizen/ds2-peko-check) | binsento-netizen | MIT; file layout facts and the facility list only, no code copied, credited |
 | [DeathStrandingSaveDataResigner (Death Stranding key derivation and `checkpoint.dat` header)](https://github.com/mi5hmash/DeathStrandingSaveDataResigner) | mi5hmash | MIT; key derivation and file layout facts only, no code copied, credited |

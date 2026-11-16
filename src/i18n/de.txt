@@ -7218,8 +7218,8 @@ Items HQ holds, by the game's template name.
 Items and currencies
 = Gegenstände und Währungen
 
-Items are listed by the game's item number (names aren't known yet); 999 is the most the editor lets you set.
-= Gegenstände sind nach Gegenstandsnummer des Spiels aufgelistet (Namen sind noch nicht bekannt); 999 ist das Maximum, das der Editor zulässt.
+Item names come from the game's data; an item the editor doesn't know yet shows as Item and its number. 999 is the most the editor lets you set.
+= Gegenstandsnamen stammen aus den Spieldaten; ein dem Editor noch unbekannter Gegenstand erscheint als Item mit seiner Nummer. 999 ist das Maximum, das der Editor zulässt.
 
 Items are listed by their ID because the game's item names aren't in the save. Everything else is in the Values tab.
 = Gegenstände sind nach ID aufgelistet, da die Gegenstandsnamen des Spiels nicht im Spielstand stehen. Alles andere finden Sie im Reiter Werte.
