@@ -12112,7 +12112,7 @@ const RAFT: Spec = Spec {
     accent: (50, 150, 190),
     kind: Some(".NET BinaryFormatter (RGD_Game)"),
     markers: &["/World/DayCounter", "/TimePlayedSeconds"],
-    subtitle: "A world .rgd from AppData\\LocalLow\\Redbeet Interactive\\Raft\\User\\<id>\\World (.NET BinaryFormatter, read and written in place). Day, time played, time of day and weather. Close the game first.",
+    subtitle: "A world .rgd from AppData\\LocalLow\\Redbeet Interactive\\Raft\\User\\<id>\\World (.NET BinaryFormatter, read and written in place). Day, time played, time of day, weather, game mode, the amounts in every storage box and the learned and researched items. Close the game first.",
     tiles: &[("Day", "/World/DayCounter"), ("Time played", "/TimePlayedSeconds"), ("Time of day", "/World/TimeOfDay")],
     sections: &[
         Section { title: "World", rows: &[("World name", "/WorldName"), ("Day", "/World/DayCounter"), ("Time played", "/TimePlayedSeconds"), ("Time of day", "/World/TimeOfDay"), ("Weather", "/World/WeatherTypeIndex"), ("Radio tower reached", "/World/RadioTowerReached")] },

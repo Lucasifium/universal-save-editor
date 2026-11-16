@@ -23001,8 +23001,8 @@ Fall
 Pride
 = Pride
 
-A world .rgd from AppData\\LocalLow\\Redbeet Interactive\\Raft\\User\\<id>\\World (.NET BinaryFormatter, read and written in place). Day, time played, time of day and weather. Close the game first.
-= AppData\LocalLow\Redbeet Interactive\Raft\User\<id>\World 中的世界 .rgd(.NET BinaryFormatter,就地读写)。天数、游戏时间、时间和天气。请先关闭游戏。
+A world .rgd from AppData\\LocalLow\\Redbeet Interactive\\Raft\\User\\<id>\\World (.NET BinaryFormatter, read and written in place). Day, time played, time of day, weather, game mode, the amounts in every storage box and the learned and researched items. Close the game first.
+= AppData\LocalLow\Redbeet Interactive\Raft\User\<id>\World 中的世界 .rgd(.NET BinaryFormatter,就地读写)。天数、游戏时间、时间、天气、游戏模式、每个储物箱中的数量,以及已学习和已研究的物品。请先关闭游戏。
 
 Time played
 = 游戏时间
@@ -28421,8 +28421,8 @@ Game screen: the caravan's renown, supplies, morale and counts and a table of ea
 Game screen: the character's skill experience, ancient coins, maximum health and the inventory counts (items named as far as the public sample shows them). Plain JSON; checked on a public save, not yet tried in the game
 = 游戏界面：角色的技能经验、古代硬币、最大生命值和物品栏数量（物品名称以公开样本所能显示的为限）。纯 JSON；已在公开存档上检查，尚未在游戏中测试
 
-Game screen: the day, time played, time of day, weather and the radio tower flag of a world (.rgd). .NET BinaryFormatter, read and written in place; every other value of the world opens for Tree editing. Checked on a public save, not yet tried in the game
-= 游戏界面：某个世界（.rgd）的天数、游玩时间、一天中的时间、天气和无线电塔标志。.NET BinaryFormatter，就地读写；该世界的其他所有数值可在树状视图中编辑。已在公开存档上检查，尚未在游戏中测试
+Game screen: the day, time played, time of day, weather and the radio tower flag of a world (.rgd), the game mode, the amount of every stack in every storage box (with Max crafting materials) and the learned and researched items. .NET BinaryFormatter, read and written in place; every other value of the world opens for Tree editing. Checked on a public save, not yet tried in the game
+= 游戏界面：某个世界（.rgd）的天数、游玩时间、一天中的时间、天气和无线电塔标志。游戏模式、每个储物箱中每个堆叠的数量(带“最大制作材料”按钮),以及已学习和已研究的物品。.NET BinaryFormatter，就地读写；该世界的其他所有数值可在树状视图中编辑。已在公开存档上检查，尚未在游戏中测试
 
 Game screen: the difficulty rank points, New Game+ count and game time, every item and currency by its game code with its quantity, each weapon's level and unlock, and the perks. Items, weapons and perks use the game's codes because its text files aren't read. Checked on real saves and in the game. Close the game and turn Steam Cloud off for it first, or Steam may bring the old save back
 = 游戏界面：难度等级点数、New Game+ 次数和游戏时间，每件物品和货币（按游戏代码）及其数量，每件武器的等级和解锁状态，以及特技。物品、武器和特技使用游戏代码，因为不会读取其文本文件。已在真实存档和游戏中检查。请先关闭游戏并为其关闭 Steam 云存档，否则 Steam 可能会恢复旧存档
@@ -29998,3 +29998,18 @@ Yen, party HP, SP, level and experience, social stats and Social Link ranks. A v
 pifo.ifo: the player as this auto-save keeps it (the game loads the player from here).
 = pifo.ifo：此自动存档保存的玩家（游戏从这里加载玩家）。
 
+# src/game_ui/raft.rs
+Raises the planks, palm leaves, scrap, plastic, rope, nails, stone, sand, clay, glass, ores, ingots, bolts, hinges, circuit boards, vine goo, feathers, dirt, wool and leather already in your storage boxes to the game's stack size of 20. Tools, food, blueprints, plants and everything else are left alone.
+= 把储物箱里已有的木板、棕榈叶、废料、塑料、绳子、钉子、石头、沙子、黏土、玻璃、矿石、锭、螺栓、铰链、电路板、藤蔓黏液、羽毛、泥土、羊毛和皮革提高到游戏的堆叠上限 20。工具、食物、蓝图、植物和其他物品不受影响。
+
+Learned items ({0})
+= 已学习的物品 ({0})
+
+Researched items ({0})
+= 已研究的物品 ({0})
+
+{0} #{1}
+= {0} #{1}
+
+Peaceful
+= 和平

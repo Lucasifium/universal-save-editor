@@ -22947,8 +22947,8 @@ Fall
 Pride
 = Pride
 
-A world .rgd from AppData\\LocalLow\\Redbeet Interactive\\Raft\\User\\<id>\\World (.NET BinaryFormatter, read and written in place). Day, time played, time of day and weather. Close the game first.
-= Eine Welt-.rgd aus AppData\LocalLow\Redbeet Interactive\Raft\User\<id>\World (.NET BinaryFormatter, direkt gelesen und geschrieben). Tag, Spielzeit, Tageszeit und Wetter. Zuerst das Spiel schließen.
+A world .rgd from AppData\\LocalLow\\Redbeet Interactive\\Raft\\User\\<id>\\World (.NET BinaryFormatter, read and written in place). Day, time played, time of day, weather, game mode, the amounts in every storage box and the learned and researched items. Close the game first.
+= Eine Welt-.rgd aus AppData\LocalLow\Redbeet Interactive\Raft\User\<id>\World (.NET BinaryFormatter, direkt gelesen und geschrieben). Tag, Spielzeit, Tageszeit, Wetter, Spielmodus, die Mengen in jeder Lagerkiste sowie die gelernten und erforschten Gegenstände. Zuerst das Spiel schließen.
 
 Time played
 = Spielzeit
@@ -28364,8 +28364,8 @@ Game screen: the caravan's renown, supplies, morale and counts and a table of ea
 Game screen: the character's skill experience, ancient coins, maximum health and the inventory counts (items named as far as the public sample shows them). Plain JSON; checked on a public save, not yet tried in the game
 = Spielansicht: Fertigkeitserfahrung, antike Münzen, maximale Gesundheit des Charakters und die Inventaranzahlen (Gegenstände benannt, soweit das öffentliche Beispiel sie zeigt). Reines JSON; an einem öffentlichen Spielstand geprüft, noch nicht im Spiel getestet
 
-Game screen: the day, time played, time of day, weather and the radio tower flag of a world (.rgd). .NET BinaryFormatter, read and written in place; every other value of the world opens for Tree editing. Checked on a public save, not yet tried in the game
-= Spielansicht: Tag, Spielzeit, Tageszeit, Wetter und das Funkturm-Flag einer Welt (.rgd). .NET BinaryFormatter, direkt gelesen und geschrieben; jeder andere Wert der Welt öffnet sich zur Bearbeitung im Baum. An einem öffentlichen Spielstand geprüft, noch nicht im Spiel getestet
+Game screen: the day, time played, time of day, weather and the radio tower flag of a world (.rgd), the game mode, the amount of every stack in every storage box (with Max crafting materials) and the learned and researched items. .NET BinaryFormatter, read and written in place; every other value of the world opens for Tree editing. Checked on a public save, not yet tried in the game
+= Spielansicht: Tag, Spielzeit, Tageszeit, Wetter und das Funkturm-Flag einer Welt (.rgd). Spielmodus, die Menge jedes Stapels in jeder Lagerkiste (mit Max. Handwerksmaterial) sowie die gelernten und erforschten Gegenstände. .NET BinaryFormatter, direkt gelesen und geschrieben; jeder andere Wert der Welt öffnet sich zur Bearbeitung im Baum. An einem öffentlichen Spielstand geprüft, noch nicht im Spiel getestet
 
 Game screen: the difficulty rank points, New Game+ count and game time, every item and currency by its game code with its quantity, each weapon's level and unlock, and the perks. Items, weapons and perks use the game's codes because its text files aren't read. Checked on real saves and in the game. Close the game and turn Steam Cloud off for it first, or Steam may bring the old save back
 = Spielansicht: die Schwierigkeitsrangpunkte, die New-Game+-Anzahl und die Spielzeit, jeder Gegenstand und jede Währung nach ihrem Spielcode mit ihrer Menge, Level und Freischaltung jeder Waffe sowie die Perks. Gegenstände, Waffen und Perks verwenden die Codes des Spiels, weil seine Textdateien nicht gelesen werden. An echten Spielständen und im Spiel geprüft. Zuerst das Spiel schließen und Steam Cloud dafür ausschalten, sonst bringt Steam möglicherweise den alten Spielstand zurück
@@ -29947,3 +29947,18 @@ Yen, party HP, SP, level and experience, social stats and Social Link ranks. A v
 pifo.ifo: the player as this auto-save keeps it (the game loads the player from here).
 = pifo.ifo: der Spieler, wie dieser Autosave ihn führt (das Spiel lädt den Spieler von hier).
 
+# src/game_ui/raft.rs
+Raises the planks, palm leaves, scrap, plastic, rope, nails, stone, sand, clay, glass, ores, ingots, bolts, hinges, circuit boards, vine goo, feathers, dirt, wool and leather already in your storage boxes to the game's stack size of 20. Tools, food, blueprints, plants and everything else are left alone.
+= Setzt die Bretter, Palmblätter, den Schrott, Plastik, Seile, Nägel, Steine, Sand, Ton, Glas, Erze, Barren, Bolzen, Scharniere, Platinen, Pflanzenschleim, Federn, Erde, Wolle und das Leder, die schon in deinen Lagerkisten liegen, auf die Stapelgröße des Spiels von 20. Werkzeuge, Essen, Baupläne, Pflanzen und alles andere bleiben unberührt.
+
+Learned items ({0})
+= Gelernte Gegenstände ({0})
+
+Researched items ({0})
+= Erforschte Gegenstände ({0})
+
+{0} #{1}
+= {0} #{1}
+
+Peaceful
+= Friedlich

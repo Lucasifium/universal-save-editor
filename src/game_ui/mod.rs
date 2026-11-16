@@ -29,6 +29,8 @@ mod octopath;
 mod oni_map;
 mod pathfinder;
 mod planet_crafter;
+pub mod raft;
+mod raft_items;
 mod infinite_fusion;
 mod pokemon;
 mod expedition33;

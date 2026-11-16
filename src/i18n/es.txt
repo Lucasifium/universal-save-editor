@@ -22943,8 +22943,8 @@ Fall
 Pride
 = Pride
 
-A world .rgd from AppData\\LocalLow\\Redbeet Interactive\\Raft\\User\\<id>\\World (.NET BinaryFormatter, read and written in place). Day, time played, time of day and weather. Close the game first.
-= Un .rgd de mundo de AppData\LocalLow\Redbeet Interactive\Raft\User\<id>\World (.NET BinaryFormatter, leído y escrito en el propio archivo). Día, tiempo de juego, hora del día y clima. Cierra primero el juego.
+A world .rgd from AppData\\LocalLow\\Redbeet Interactive\\Raft\\User\\<id>\\World (.NET BinaryFormatter, read and written in place). Day, time played, time of day, weather, game mode, the amounts in every storage box and the learned and researched items. Close the game first.
+= Un .rgd de mundo de AppData\LocalLow\Redbeet Interactive\Raft\User\<id>\World (.NET BinaryFormatter, leído y escrito en el propio archivo). Día, tiempo de juego, hora del día, clima, modo de juego, las cantidades de cada caja de almacenamiento y los objetos aprendidos e investigados. Cierra primero el juego.
 
 Time played
 = Tiempo de juego
@@ -28363,8 +28363,8 @@ Game screen: the caravan's renown, supplies, morale and counts and a table of ea
 Game screen: the character's skill experience, ancient coins, maximum health and the inventory counts (items named as far as the public sample shows them). Plain JSON; checked on a public save, not yet tried in the game
 = Pantalla del juego: la experiencia de habilidad del personaje, monedas antiguas, salud máxima y las cantidades del inventario (objetos nombrados hasta donde los muestra la muestra pública). JSON simple; comprobado con una partida pública, aún no probado en el juego
 
-Game screen: the day, time played, time of day, weather and the radio tower flag of a world (.rgd). .NET BinaryFormatter, read and written in place; every other value of the world opens for Tree editing. Checked on a public save, not yet tried in the game
-= Pantalla del juego: el día, el tiempo jugado, la hora del día, el clima y el indicador de la torre de radio de un mundo (.rgd). .NET BinaryFormatter, leído y escrito en el sitio; cada otro valor del mundo se abre para editar en el Árbol. Comprobado con una partida pública, aún no probado en el juego
+Game screen: the day, time played, time of day, weather and the radio tower flag of a world (.rgd), the game mode, the amount of every stack in every storage box (with Max crafting materials) and the learned and researched items. .NET BinaryFormatter, read and written in place; every other value of the world opens for Tree editing. Checked on a public save, not yet tried in the game
+= Pantalla del juego: el día, el tiempo jugado, la hora del día, el clima y el indicador de la torre de radio de un mundo (.rgd). el modo de juego, la cantidad de cada pila de cada caja de almacenamiento (con Máximo de materiales de fabricación) y los objetos aprendidos e investigados. .NET BinaryFormatter, leído y escrito en el sitio; cada otro valor del mundo se abre para editar en el Árbol. Comprobado con una partida pública, aún no probado en el juego
 
 Game screen: the difficulty rank points, New Game+ count and game time, every item and currency by its game code with its quantity, each weapon's level and unlock, and the perks. Items, weapons and perks use the game's codes because its text files aren't read. Checked on real saves and in the game. Close the game and turn Steam Cloud off for it first, or Steam may bring the old save back
 = Pantalla del juego: los puntos de rango de dificultad, la cantidad de New Game+ y el tiempo de juego, cada objeto y moneda por su código del juego con su cantidad, el nivel y desbloqueo de cada arma, y las ventajas. Los objetos, armas y ventajas usan los códigos del juego porque sus archivos de texto no se leen. Comprobado con partidas reales y en el juego. Cierre antes el juego y desactive Steam Cloud para él, o Steam podría recuperar la partida antigua
@@ -29940,3 +29940,18 @@ Yen, party HP, SP, level and experience, social stats and Social Link ranks. A v
 pifo.ifo: the player as this auto-save keeps it (the game loads the player from here).
 = pifo.ifo: el jugador tal como lo guarda este autoguardado (el juego carga al jugador desde aquí).
 
+# src/game_ui/raft.rs
+Raises the planks, palm leaves, scrap, plastic, rope, nails, stone, sand, clay, glass, ores, ingots, bolts, hinges, circuit boards, vine goo, feathers, dirt, wool and leather already in your storage boxes to the game's stack size of 20. Tools, food, blueprints, plants and everything else are left alone.
+= Sube a 20, el tamaño de pila del juego, las tablas, hojas de palma, chatarra, plástico, cuerdas, clavos, piedra, arena, arcilla, vidrio, minerales, lingotes, pernos, bisagras, placas de circuito, baba de enredadera, plumas, tierra, lana y cuero que ya hay en tus cajas de almacenamiento. Herramientas, comida, planos, plantas y todo lo demás no se tocan.
+
+Learned items ({0})
+= Objetos aprendidos ({0})
+
+Researched items ({0})
+= Objetos investigados ({0})
+
+{0} #{1}
+= {0} #{1}
+
+Peaceful
+= Pacífico

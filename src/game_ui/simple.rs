@@ -423,6 +423,9 @@ pub fn show(i: u16, ui: &mut Ui, cx: &mut GameCtx) {
             });
         });
     }
+    if s.name == "Raft" {
+        super::raft::show(ui, cx);
+    }
     for (li, l) in s.lists.iter().enumerate() {
         let list = entries(cx, l);
         if list.is_empty() {
