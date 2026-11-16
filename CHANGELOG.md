@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.8.3
+
+- A visible Close save button, Ctrl+W in the File menu and the shortcuts list
+- Raft: game mode, storage box stacks, learned and researched items, and a Max crafting materials button
+- A Questions and ideas link in the Help menu opens the project's Discussions page
+
 ## 0.8.2
 
 - Fixed: every Baldur's Gate 3 save edited with 0.8.1 or earlier failed to load in the game. The save's entity-store checksum is now rewritten when saving, and the packed sections use the block size the game expects
