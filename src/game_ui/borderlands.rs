@@ -2,7 +2,7 @@
 //! with its SDU upgrades, and the loot carried (shown, not edited).
 
 use crate::i18n::{tr, trf};
-use crate::widgets::ScrollLock;
+use crate::widgets::ListBox;
 use super::{bar, blend, fmt_num, panel, tabs, GameCtx};
 use crate::fmt::borderlands::{ammo_capacity, MAX_AMMO_SDU};
 use crate::json_view::pointer_escape;
@@ -177,7 +177,7 @@ fn loot_table(ui: &mut Ui, cx: &GameCtx, id: &str, base: &str, cols: &[&str]) {
         ui.weak(tr("Nothing here."));
         return;
     }
-    egui::ScrollArea::vertical().id_salt(id).max_height(crate::widgets::list_height(ui, 360.0)).show_locked(ui, |ui| {
+    egui::ScrollArea::vertical().show_list(ui, id, 360.0, |ui| {
         egui::Grid::new((id, "grid")).num_columns(cols.len() + 1).spacing([16.0, 4.0]).striped(true).show(ui, |ui| {
             ui.strong("#"); // i18n-ok
             for c in cols {

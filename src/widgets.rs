@@ -720,3 +720,128 @@ pub fn sticky_headers(ui: &mut Ui, key: &str, area: egui::Rect) {
 pub fn list_height(ui: &Ui, base: f32) -> f32 {
     (ui.ctx().screen_rect().height() * 0.55).clamp(base.min(200.0), base.max(640.0))
 }
+
+/// A list or table that scrolls inside a game screen, kept at one steady size.
+///
+/// A plain `ScrollArea` with a maximum height shrinks to whatever it holds, so typing in its
+/// filter box, picking a row or loading another save made the box (and everything below it)
+/// jump. This box fills the width it is given and keeps the tallest content it has shown, up to
+/// [`list_height`], for as long as it stays on screen; it starts over once it is not drawn for a
+/// frame (another section, file or save), so it never keeps a stale gap.
+pub trait ListBox {
+    fn show_list<R>(self, ui: &mut Ui, key: impl std::hash::Hash, base: f32, add: impl FnOnce(&mut Ui) -> R) -> egui::scroll_area::ScrollAreaOutput<R>;
+    /// Same, for a dialog or window that sizes itself to its contents: the box keeps its height
+    /// but takes only the width its rows need, so it doesn't push the window wider.
+    fn show_list_fit<R>(self, ui: &mut Ui, key: impl std::hash::Hash, base: f32, add: impl FnOnce(&mut Ui) -> R) -> egui::scroll_area::ScrollAreaOutput<R>;
+}
+
+impl ListBox for egui::ScrollArea {
+    fn show_list<R>(self, ui: &mut Ui, key: impl std::hash::Hash, base: f32, add: impl FnOnce(&mut Ui) -> R) -> egui::scroll_area::ScrollAreaOutput<R> {
+        list_box(self, ui, key, base, true, add)
+    }
+    fn show_list_fit<R>(self, ui: &mut Ui, key: impl std::hash::Hash, base: f32, add: impl FnOnce(&mut Ui) -> R) -> egui::scroll_area::ScrollAreaOutput<R> {
+        list_box(self, ui, key, base, false, add)
+    }
+}
+
+fn list_box<R>(this: egui::ScrollArea, ui: &mut Ui, key: impl std::hash::Hash, base: f32, fill: bool, add: impl FnOnce(&mut Ui) -> R) -> egui::scroll_area::ScrollAreaOutput<R> {
+    {
+        let self_ = this;
+        let key = egui::Id::new(key);
+        let mem = ui.make_persistent_id(("list_box", key));
+        let frame = ui.ctx().cumulative_pass_nr();
+        let cap = list_height(ui, base);
+        let kept: Option<f32> = ui.data(|d| d.get_temp::<(f32, u64)>(mem)).filter(|&(h, f)| h > 1.0 && frame.saturating_sub(f) <= 2).map(|(h, _)| h);
+        let area = self_.id_salt(key);
+        let area = match kept {
+            Some(h) => area.auto_shrink([!fill, false]).min_scrolled_height(h.min(cap)).max_height(h.min(cap)),
+            None => area.auto_shrink([!fill, true]).min_scrolled_height(0.0).max_height(cap),
+        };
+        let out = area.show_locked(ui, add);
+        let tallest = kept.unwrap_or(0.0).max(out.content_size.y);
+        ui.data_mut(|d| d.insert_temp(mem, (tallest, frame)));
+        if kept.is_none_or(|k| tallest > k + 0.5) {
+            ui.ctx().request_repaint();
+        }
+        out
+    }
+}
+
+#[cfg(test)]
+mod list_box_tests {
+    use super::*;
+
+    /// Draws one frame holding a list box of `rows` rows (or nothing, when `None`) and returns
+    /// the height the box took.
+    fn frame(ctx: &egui::Context, rows: Option<usize>, w: f32, h: f32) -> f32 {
+        let input = egui::RawInput { screen_rect: Some(egui::Rect::from_min_size(egui::Pos2::ZERO, egui::vec2(w, h))), ..Default::default() };
+        let mut height = 0.0;
+        let _ = ctx.run(input, |ctx| {
+            egui::CentralPanel::default().show(ctx, |ui| {
+                if let Some(n) = rows {
+                    let top = ui.cursor().top();
+                    egui::ScrollArea::vertical().show_list(ui, "t", 300.0, |ui| {
+                        for i in 0..n {
+                            ui.label(format!("row {i}"));
+                        }
+                    });
+                    height = ui.cursor().top() - top;
+                }
+            });
+        });
+        height
+    }
+
+    /// Filtering or selecting must not make the box jump: it keeps its size while on screen, and
+    /// starts over when another screen has been shown in between.
+    #[test]
+    fn list_box_keeps_its_size_while_content_changes() {
+        for (w, h) in [(1100.0, 900.0), (380.0, 700.0)] {
+            let ctx = egui::Context::default();
+            crate::theme::install_fonts(&ctx);
+            let mut full = 0.0;
+            for _ in 0..4 {
+                full = frame(&ctx, Some(40), w, h);
+            }
+            assert!(full >= 150.0, "box too short to be usable: {full} at {w}x{h}");
+            for n in [3, 0, 12, 40, 1] {
+                for _ in 0..3 {
+                    assert_eq!(frame(&ctx, Some(n), w, h), full, "box resized with {n} rows at {w}x{h}");
+                }
+            }
+            // Another screen is shown for a while, then a short list: no stale gap.
+            for _ in 0..4 {
+                frame(&ctx, None, w, h);
+            }
+            let mut short = 0.0;
+            for _ in 0..4 {
+                short = frame(&ctx, Some(3), w, h);
+            }
+            assert!(short < full, "box kept a stale size ({short} vs {full})");
+        }
+    }
+
+    /// Every list that scrolls inside a screen goes through `show_list`; a bare ScrollArea with a
+    /// maximum height shrinks and grows with its rows.
+    #[test]
+    fn scroll_areas_with_a_max_height_use_the_shared_box() {
+        fn walk(dir: &std::path::Path, bad: &mut Vec<String>) {
+            for e in std::fs::read_dir(dir).unwrap().flatten() {
+                let p = e.path();
+                if p.is_dir() {
+                    walk(&p, bad);
+                } else if p.extension().is_some_and(|x| x == "rs") && p.file_name().is_some_and(|n| n != "widgets.rs") {
+                    let text = std::fs::read_to_string(&p).unwrap();
+                    for (i, l) in text.lines().enumerate() {
+                        if l.contains("ScrollArea::") && l.contains(".max_height(") && !l.contains("auto_shrink([false, false])") && !l.contains("auto_shrink([true, true])") {
+                            bad.push(format!("{}:{}", p.display(), i + 1));
+                        }
+                    }
+                }
+            }
+        }
+        let mut bad = vec![];
+        walk(&std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join("src"), &mut bad);
+        assert!(bad.is_empty(), "use ScrollArea::..show_list instead of max_height at: {bad:?}");
+    }
+}

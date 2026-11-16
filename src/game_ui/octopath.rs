@@ -28,7 +28,7 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
             ui.weak(tr("No travellers in this save."));
             return;
         }
-        egui::ScrollArea::horizontal().id_salt("ot_party").show_locked(ui, |ui| {
+        egui::ScrollArea::horizontal().auto_shrink([false, true]).id_salt("ot_party").show_locked(ui, |ui| {
             egui::Grid::new("ot_party_grid").num_columns(7).spacing([12.0, 5.0]).striped(true).show(ui, |ui| {
                 for h in ["Traveller", "Job", "Level", "EXP", "JP", "HP", "SP"] {
                     ui.label(RichText::new(tr_any(h)).strong());

@@ -103,7 +103,7 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
         // Only Source weapons have a second magazine.
         let second = weapons.iter().any(|w| cx.get(&join(&join("/Weapons", w), "Second magazine")).is_some());
         let mags: &[&str] = if second { &["Magazine", "Second magazine"] } else { &["Magazine"] };
-        egui::ScrollArea::horizontal().id_salt("hl_weapons_s").show_locked(ui, |ui| {
+        egui::ScrollArea::horizontal().auto_shrink([false, true]).id_salt("hl_weapons_s").show_locked(ui, |ui| {
             egui::Grid::new("hl_weapons").num_columns(mags.len() + 2).striped(true).spacing([14.0, 6.0]).show(ui, |ui| {
                 for h in std::iter::once("Weapon").chain(mags.iter().copied()).chain(["Ammo"]) {
                     ui.strong(h);

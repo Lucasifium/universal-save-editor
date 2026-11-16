@@ -2,7 +2,7 @@
 //! the backpack's stacks.
 
 use crate::i18n::{tr, trf};
-use crate::widgets::ScrollLock;
+use crate::widgets::ListBox;
 use super::{columns, fact, hero, panel, tabs, GameCtx};
 use crate::json_view::pointer_escape;
 use eframe::egui::{self, Color32, Ui};
@@ -100,7 +100,7 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
             ui.data_mut(|d| d.insert_temp(sid, q.clone()));
             let q = q.to_lowercase();
             let shown: Vec<&String> = items.iter().filter(|k| q.is_empty() || k.to_lowercase().contains(&q)).collect();
-            egui::ScrollArea::vertical().id_salt("dao_bag_s").max_height(crate::widgets::list_height(ui, 380.0)).show_locked(ui, |ui| {
+            egui::ScrollArea::vertical().show_list(ui, "dao_bag_s", 380.0, |ui| {
                 columns(ui, 340.0, shown.len(), |ui, i| {
                     let p = join("/Backpack", shown[i]);
                     let label_w = (ui.available_width() - 150.0).clamp(80.0, 240.0);

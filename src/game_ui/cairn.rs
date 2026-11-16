@@ -2,7 +2,7 @@
 //! backpack, the chalk pouch and the piton belt) as item grids.
 
 use crate::i18n::{tr, trf};
-use crate::widgets::ScrollLock;
+use crate::widgets::ListBox;
 use super::{cell_grid, hero, panel, select, selection, Cell, GameCtx};
 use crate::json_view::pointer_escape;
 use eframe::egui::{self, Color32, RichText, Ui};
@@ -48,7 +48,7 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
         let mut open = None;
         egui::CollapsingHeader::new(trf("Saves in this slot ({0})", &[&saves.len()])).id_salt("cairn_saves").show(ui, |ui| {
             ui.weak(tr("The dated saves are the game's autosaves. Cairn continues from the newest save in the slot; pick another to open it instead (unsaved changes are dropped)."));
-            egui::ScrollArea::vertical().id_salt("cairn_save_list").max_height(crate::widgets::list_height(ui, 220.0)).show_locked(ui, |ui| {
+            egui::ScrollArea::vertical().show_list(ui, "cairn_save_list", 220.0, |ui| {
                 for (entry, label) in &saves {
                     let shown = *entry == cur;
                     let resume = if newest.as_deref() == Some(entry.as_str()) { format!("  \u{2014} {}", tr("the game continues from this one")) } else { String::new() };

@@ -1,5 +1,5 @@
 use crate::file_browser::{self, FileBrowser};
-use crate::widgets::ScrollLock;
+use crate::widgets::{ListBox, ScrollLock};
 use crate::i18n::{tr, trf};
 use crate::formats::{self, Content, Layer};
 use crate::platform;
@@ -1874,7 +1874,7 @@ impl App {
                 ui.add_space(6.0);
             }
             ui.label(if r.lines.len() == 1 { trf("{0} change to {1}:", &[&r.lines.len(), &file_name(&r.path)]) } else { trf("{0} changes to {1}:", &[&r.lines.len(), &file_name(&r.path)]) });
-            ScrollArea::vertical().max_height(crate::widgets::list_height(ui, 280.0)).show_locked(ui, |ui| {
+            ScrollArea::vertical().show_list_fit(ui, "app_list1", 280.0, |ui| {
                 for l in &r.lines {
                     ui.label(format!("\u{2022} {l}"));
                 }
@@ -2222,7 +2222,8 @@ impl App {
                         let mut pick = None;
                         let mut compare = None;
                         let mut unlock = None;
-                        ScrollArea::vertical().max_height(crate::widgets::list_height(ui, 360.0)).show_locked(ui, |ui| {
+                        // Inside a pop-up menu: shrink to the rows, the menu sets the width.
+                        ScrollArea::vertical().auto_shrink([true, true]).max_height(crate::widgets::list_height(ui, 360.0)).show_locked(ui, |ui| {
                             for (i, v) in versions.iter().enumerate() {
                                 ui.horizontal(|ui| {
                                     let when = crate::backups::describe(v.when);
@@ -2782,7 +2783,7 @@ impl App {
             if versions.is_empty() {
                 ui.label(tr("No backups yet. One is made automatically each time you save, or press \u{201C}Back up this save\u{201D}."));
             }
-            ScrollArea::vertical().max_height(crate::widgets::list_height(ui, 380.0)).show_locked(ui, |ui| {
+            ScrollArea::vertical().show_list_fit(ui, "app_list3", 380.0, |ui| {
                 for (title, named) in [(tr("Named backups (kept until you delete them)"), true), (trf("Automatic backups (made each time you save; newest {0} kept)", &[&crate::backups::keep()]).as_str(), false)] {
                     let rows: Vec<&crate::backups::Version> = versions.iter().filter(|v| v.name.is_some() == named).collect();
                     if rows.is_empty() {
@@ -2973,7 +2974,7 @@ impl App {
                     }
                 });
                 if !p.found.is_empty() {
-                    ScrollArea::vertical().id_salt("patch_games").max_height(crate::widgets::list_height(ui, 110.0)).show_locked(ui, |ui| {
+                    ScrollArea::vertical().show_list_fit(ui, "patch_games", 110.0, |ui| {
                         for e in p.found.clone() {
                             let label = format!("{}  \u{2014}  {} ({})", e.title, e.id, e.platform);
                             if ui.selectable_label(p.label.starts_with(&e.title) && p.label.ends_with(&format!("({})", e.platform)), label).clicked() {
@@ -3004,7 +3005,7 @@ impl App {
                     ui.weak(tr("This save was unpacked with the patch file's own codes when it opened; they run again when you save."));
                 }
                 ui.checkbox(&mut p.all_files, tr("Show codes for other files too"));
-                ScrollArea::vertical().id_salt("patch_codes").max_height(crate::widgets::list_height(ui, 300.0)).show_locked(ui, |ui| {
+                ScrollArea::vertical().show_list_fit(ui, "patch_codes", 300.0, |ui| {
                     for i in 0..p.codes.len() {
                         let c = &p.codes[i];
                         if !p.listed(i) {
@@ -4214,7 +4215,7 @@ impl App {
                     theme::card(ui, |ui| {
                         ui.label(RichText::new(tr("Cairn saves in this slot")).family(theme::semibold_family()).size(16.0));
                         ui.weak(trf("{0} saves, the dated ones newest first; pick one to open it.", &[&saves.len()]));
-                        ScrollArea::vertical().id_salt("cairn_saves").max_height(crate::widgets::list_height(ui, 220.0)).show_locked(ui, |ui| {
+                        ScrollArea::vertical().show_list(ui, "cairn_saves", 220.0, |ui| {
                             for (entry, label) in saves {
                                 let shown = entry == current;
                                 let text = if shown { RichText::new(trf("{0}  (open)", &[&label])).strong() } else { RichText::new(label) };
@@ -4391,7 +4392,7 @@ impl App {
                     if h.searched {
                         ui.label(if h.results.len() >= hex_view::MAX_RESULTS { trf("{0} result(s) (capped)", &[&h.results.len()]) } else { trf("{0} result(s)", &[&h.results.len()]) });
                         let mut jump = None;
-                        ScrollArea::vertical().id_salt("results").max_height(crate::widgets::list_height(ui, 220.0)).show_locked(ui, |ui| {
+                        ScrollArea::vertical().show_list(ui, "results", 220.0, |ui| {
                             for &off in h.results.iter().take(1000) {
                                 let cur = hex_view::read_value(h.search_type, data, off, h.big_endian).unwrap_or_default();
                                 let name = h.labels.get(&off).map(|l| format!("  [{}]", l.name)).unwrap_or_default();

@@ -4,7 +4,7 @@
 //! names (made readable by the reader); their real names live in the game's own database.
 
 use crate::i18n::{tr, trf};
-use crate::widgets::ScrollLock;
+use crate::widgets::ListBox;
 use super::{columns, fact, fmt_num, hero, panel, tabs, GameCtx};
 use crate::json_view::pointer_escape;
 use eframe::egui::{self, Color32, Ui};
@@ -59,7 +59,7 @@ fn list(ui: &mut Ui, cx: &mut GameCtx, id: &str, base: &str, hint: &str) {
     let all = keys(cx, base);
     let q = if all.len() > 12 { filter_box(ui, id, hint) } else { String::new() };
     let shown: Vec<(String, String)> = all.iter().filter(|k| q.is_empty() || k.to_lowercase().contains(&q)).map(|k| (k.clone(), join(base, k))).collect();
-    egui::ScrollArea::vertical().id_salt((id, "scroll")).max_height(crate::widgets::list_height(ui, 420.0)).show_locked(ui, |ui| rows(ui, cx, id, &shown));
+    egui::ScrollArea::vertical().show_list(ui, (id, "scroll"), 420.0, |ui| rows(ui, cx, id, &shown));
 }
 
 /// Tabs over the groups of item stacks that exist in this save.

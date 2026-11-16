@@ -2,7 +2,7 @@
 //! point), the world's settings, bosses and events, chests, signs and town NPCs.
 
 use crate::i18n::tr;
-use crate::widgets::ScrollLock;
+use crate::widgets::ListBox;
 use super::terraria::slots;
 use super::{fact, hero, panel, select, selection, tabs, GameCtx};
 use crate::fmt::terraria_world::{self as tw, Op, WorldMap};
@@ -128,7 +128,7 @@ fn chests_tab(ui: &mut Ui, cx: &mut GameCtx) {
             })
             .collect();
         let sel = selection(ui, "tw_chest");
-        egui::ScrollArea::vertical().id_salt("tw_chest_list").max_height(crate::widgets::list_height(ui, 220.0)).show_locked(ui, |ui| {
+        egui::ScrollArea::vertical().show_list(ui, "tw_chest_list", 220.0, |ui| {
             for (i, label) in &rows {
                 if ui.selectable_label(sel == Some(*i), label).clicked() {
                     select(ui, "tw_chest", Some(*i));
@@ -713,7 +713,7 @@ fn poi_panel(ui: &mut Ui, map: &WorldMap, v: &mut MapView) {
         }
         let list: Vec<&tw::Poi> = map.pois.iter().filter(|p| v.shown[p.kind]).collect();
         egui::CollapsingHeader::new(crate::i18n::trf("List ({0})", &[&list.len()])).id_salt("tw_poi_list").show(ui, |ui| {
-            egui::ScrollArea::vertical().id_salt("tw_poi_scroll").max_height(crate::widgets::list_height(ui, 200.0)).show_locked(ui, |ui| {
+            egui::ScrollArea::vertical().show_list(ui, "tw_poi_scroll", 200.0, |ui| {
                 for p in list {
                     let k = &tw::POI_KINDS[p.kind];
                     let depth = ((p.y as f64 - map.surface) * 2.0).round() as i64;

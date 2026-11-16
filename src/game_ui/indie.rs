@@ -2,7 +2,7 @@
 //! values are found by name and simply left out when a save doesn't have them.
 
 use crate::i18n::{tr, trf};
-use crate::widgets::ScrollLock;
+use crate::widgets::ListBox;
 use super::{bar, columns, fact, fmt_num, hero, meter, panel, GameCtx};
 use crate::json_view::pointer_escape;
 use eframe::egui::{self, Color32, RichText, Ui};
@@ -214,7 +214,7 @@ pub fn silksong(ui: &mut Ui, cx: &mut GameCtx) {
                     .filter(|(_, n)| q.is_empty() || n.to_lowercase().contains(&q))
                     .map(|(j, n)| (n.replace('_', " "), format!("{}/savedData/{j}/Data/Amount", k("Collectables"))))
                     .collect();
-                egui::ScrollArea::vertical().id_salt("ss_items_scroll").max_height(crate::widgets::list_height(ui, 320.0)).show_locked(ui, |ui| {
+                egui::ScrollArea::vertical().show_list(ui, "ss_items_scroll", 320.0, |ui| {
                     let list: Vec<(&str, String)> = names.iter().map(|(n, p)| (n.as_str(), p.clone())).collect();
                     rows(ui, cx, "ss_items", &list, 90.0);
                 });

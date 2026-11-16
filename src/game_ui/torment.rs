@@ -3,7 +3,7 @@
 //! experience, level, hit points, abilities, alignment and inventory stacks.
 
 use crate::i18n::tr;
-use crate::widgets::ScrollLock;
+use crate::widgets::ListBox;
 use super::{columns, fact, fmt_num, hero, panel, tabs, GameCtx};
 use crate::json_view::pointer_escape;
 use eframe::egui::{self, Color32, RichText, Ui};
@@ -72,7 +72,7 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
     let items = keys(cx, &items_base);
     if !items.is_empty() {
         panel(ui, "Inventory", |ui| {
-            egui::ScrollArea::vertical().id_salt(("pst_items", &base)).max_height(crate::widgets::list_height(ui, 360.0)).show_locked(ui, |ui| {
+            egui::ScrollArea::vertical().show_list(ui, ("pst_items", &base), 360.0, |ui| {
                 egui::Grid::new(("pst_items_g", &base)).num_columns(2).striped(true).spacing([14.0, 4.0]).show(ui, |ui| {
                     ui.strong(tr("Item"));
                     ui.strong(tr("Count / charges"));

@@ -170,34 +170,46 @@ fn staff(ui: &mut Ui, cx: &mut GameCtx) {
         ui.memory_mut(|m| m.data.insert_temp(filter_id, filter.clone()));
         let shown: Vec<&String> = all.iter().filter(|n| filter == "All sections" || cx.text(&format!("/Staff/{}/Section", esc(n))).as_deref() == Some(filter.as_str())).collect();
         ui.label(trf("{0} shown. Staff have no names in the save; they are listed by slot.", &[&(shown.len())]));
-        // Fixed-size box: every cell has a set width, so the table neither changes
-        // width with the values shown nor stretches the screen while scrolling.
-        let height = (ui.ctx().screen_rect().height() * 0.6).clamp(200.0, 640.0);
-        ScrollArea::both().auto_shrink([false, false]).max_height(height).id_salt("mgsv_staff").show_rows_locked(ui, 24.0, shown.len(), |ui, range| {
-            let cell = |ui: &mut Ui, w: f32, add: &mut dyn FnMut(&mut Ui)| {
-                ui.allocate_ui_with_layout(eframe::egui::vec2(w, 24.0), eframe::egui::Layout::left_to_right(eframe::egui::Align::Center), |ui| {
-                    ui.set_min_width(w);
-                    add(ui);
-                });
-            };
-            for i in range {
-                let n = shown[i];
-                ui.horizontal(|ui| {
-                    ui.spacing_mut().item_spacing.x = 6.0;
-                    cell(ui, 64.0, &mut |ui| {
-                        ui.label(n.as_str());
+        // Fixed-size box: every cell has a set width and the height follows the whole staff
+        // list (not the filtered one), so neither changes while filtering, editing or scrolling.
+        // Column headings sit above the rows instead of repeating a label in every row.
+        const ROW: f32 = 24.0;
+        let cell = |ui: &mut Ui, w: f32, add: &mut dyn FnMut(&mut Ui)| {
+            ui.allocate_ui_with_layout(eframe::egui::vec2(w, ROW), eframe::egui::Layout::left_to_right(eframe::egui::Align::Center), |ui| {
+                ui.set_min_width(w);
+                add(ui);
+            });
+        };
+        let widths = [64.0, 156.0, 156.0, 156.0, 84.0, 84.0, 84.0];
+        let heads = ["Slot", "Section", "Rank", "Skill", "Morale", "Proficiency", "Stat bonus"];
+        ScrollArea::horizontal().auto_shrink([false, true]).id_salt("mgsv_staff_h").show_locked(ui, |ui| {
+            ui.horizontal(|ui| {
+                ui.spacing_mut().item_spacing.x = 6.0;
+                for (w, h) in widths.iter().zip(heads) {
+                    cell(ui, *w, &mut |ui| {
+                        ui.strong(crate::i18n::tr_any(h));
                     });
-                    for f in ["Section", "Rank", "Skill"] {
-                        cell(ui, 156.0, &mut |ui| cx.editor(ui, &format!("/Staff/{}/{}", esc(n), f), 150.0));
-                    }
-                    for f in ["Morale", "Proficiency", "Stat bonus"] {
-                        cell(ui, 96.0, &mut |ui| {
-                            ui.label(crate::i18n::tr_any(f));
+                }
+            });
+            let cap = crate::widgets::list_height(ui, 360.0);
+            let height = (all.len() as f32 * ROW + 6.0).clamp(ROW * 5.0, cap.max(ROW * 5.0));
+            ScrollArea::vertical().auto_shrink([false, false]).max_height(height).min_scrolled_height(height).id_salt("mgsv_staff").show_rows_locked(ui, ROW, shown.len(), |ui, range| {
+                for i in range {
+                    let n = shown[i];
+                    ui.horizontal(|ui| {
+                        ui.spacing_mut().item_spacing.x = 6.0;
+                        cell(ui, widths[0], &mut |ui| {
+                            ui.label(n.as_str());
                         });
-                        cell(ui, 56.0, &mut |ui| cx.editor(ui, &format!("/Staff/{}/{}", esc(n), f), 50.0));
-                    }
-                });
-            }
+                        for (k, f) in ["Section", "Rank", "Skill"].into_iter().enumerate() {
+                            cell(ui, widths[1 + k], &mut |ui| cx.editor(ui, &format!("/Staff/{}/{}", esc(n), f), 150.0));
+                        }
+                        for (k, f) in ["Morale", "Proficiency", "Stat bonus"].into_iter().enumerate() {
+                            cell(ui, widths[4 + k], &mut |ui| cx.editor(ui, &format!("/Staff/{}/{}", esc(n), f), 50.0));
+                        }
+                    });
+                }
+            });
         });
         ui.weak(tr("Rank is the staff member's stat rank (S++ is the top); every other stat follows from rank and stat distribution. The rest of each member's fields are in the Tree."));
     });

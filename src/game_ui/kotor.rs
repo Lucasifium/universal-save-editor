@@ -3,7 +3,7 @@
 //! XP and KOTOR II's influence, components and chemicals. Values come from `fmt::kotor`.
 
 use crate::i18n::{tr, trf};
-use crate::widgets::ScrollLock;
+use crate::widgets::ListBox;
 use super::{columns, hero, panel, tabs, GameCtx};
 use crate::json_view::pointer_escape;
 use eframe::egui::{self, Color32, RichText, Ui};
@@ -151,7 +151,7 @@ fn save(ui: &mut Ui, cx: &mut GameCtx) {
                 }
             });
         } else {
-            egui::ScrollArea::vertical().id_salt("kotor_inv_s").max_height(crate::widgets::list_height(ui, 300.0)).show_locked(ui, |ui| {
+            egui::ScrollArea::vertical().show_list(ui, "kotor_inv_s", 300.0, |ui| {
                 super::columns(ui, 280.0, stacks.len(), |ui, i| {
                     cx.row_fixed(ui, &stacks[i], &format!("/Items/{}", crate::json_view::pointer_escape(&stacks[i])), 180.0, 56.0);
                 });

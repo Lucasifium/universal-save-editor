@@ -3,7 +3,7 @@
 //! worlds' and rockets' settings.
 
 use crate::i18n::tr;
-use crate::widgets::ScrollLock;
+use crate::widgets::ListBox;
 use super::{panel, select, GameCtx};
 use crate::fmt::oni_map::{self as om, Cell, Op, OniMap, State};
 use crate::json_view::pointer_escape;
@@ -532,7 +532,7 @@ fn poi_panel(ui: &mut Ui, map: &OniMap, v: &mut MapView, world: &om::World) {
         }
         let list: Vec<&&om::Poi> = here.iter().filter(|p| v.shown[p.kind]).collect();
         egui::CollapsingHeader::new(crate::i18n::trf("List ({0})", &[&list.len()])).id_salt("oni_poi_list").show(ui, |ui| {
-            egui::ScrollArea::vertical().id_salt("oni_poi_scroll").max_height(crate::widgets::list_height(ui, 200.0)).show_locked(ui, |ui| {
+            egui::ScrollArea::vertical().show_list(ui, "oni_poi_scroll", 200.0, |ui| {
                 for p in list {
                     let (lx, ly) = (p.x as usize - world.x, p.y as usize - world.y);
                     if ui.selectable_label(false, format!("{}  \u{00B7}  {lx}, {ly}", p.name)).on_hover_text(tr("Show it on the map")).clicked() {
