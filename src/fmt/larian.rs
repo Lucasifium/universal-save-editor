@@ -61,6 +61,15 @@ pub fn save(archive: &[u8], file: &str, plain: &[u8]) -> Result<Vec<u8>, String>
     if lsf::unpack(&raw).as_deref() == Some(plain) {
         return Ok(archive.to_vec());
     }
+    // Baldur's Gate 3: the entity store carries a checksum of its own.
+    let mut fixed = None;
+    if let Some(a) = Lsf::read(plain).as_ref().and_then(super::bg3_add::store_attr) {
+        let mut p = plain.to_vec();
+        if super::lsmf::fix_checksum(&mut p[a.at..a.at + a.len]) {
+            fixed = Some(p);
+        }
+    }
+    let plain = fixed.as_deref().unwrap_or(plain);
     let packed = lsf::pack(plain, &raw)?;
     let mut replace = HashMap::from([(e.name.clone(), packed)]);
     // Baldur's Gate 3: flag edits are mirrored in the story's own flag list.

@@ -11,6 +11,10 @@
 //!
 //! Pointers stored inside rows are absolute offsets minus 48.
 //!
+//! The u64 at 8 is a checksum the game checks on load ("server shutting down" when it is
+//! wrong): the first half of MurmurHash3 x64_128, both halves seeded with
+//! 0xf0015eed5eedf001, over the bytes from 48 to 48 + directory offset + name block size.
+//!
 //! - `core.v0.EntityId` rows are entity GUIDs (16 bytes); the LSF `Creators` table gives each
 //!   `Item` node its entity GUID.
 //! - Each `game.inventory.v0.NewStackComponent` row is a pointer to a stack record:
@@ -25,6 +29,69 @@
 use std::collections::HashMap;
 
 const BASE: u64 = 48;
+const SEED: u64 = 0xf001_5eed_5eed_f001;
+
+/// MurmurHash3 x64_128 with `seed` in both halves; the first half.
+fn murmur3_h1(data: &[u8], seed: u64) -> u64 {
+    const C1: u64 = 0x87c3_7b91_1142_53d5;
+    const C2: u64 = 0x4cf5_ad43_2745_937f;
+    fn fmix(mut k: u64) -> u64 {
+        k ^= k >> 33;
+        k = k.wrapping_mul(0xff51_afd7_ed55_8ccd);
+        k ^= k >> 33;
+        k = k.wrapping_mul(0xc4ce_b9fe_1a85_ec53);
+        k ^ (k >> 33)
+    }
+    let (mut h1, mut h2) = (seed, seed);
+    let mut blocks = data.chunks_exact(16);
+    for b in &mut blocks {
+        let k1 = u64::from_le_bytes(b[..8].try_into().unwrap());
+        let k2 = u64::from_le_bytes(b[8..].try_into().unwrap());
+        h1 ^= k1.wrapping_mul(C1).rotate_left(31).wrapping_mul(C2);
+        h1 = h1.rotate_left(27).wrapping_add(h2).wrapping_mul(5).wrapping_add(0x52dc_e729);
+        h2 ^= k2.wrapping_mul(C2).rotate_left(33).wrapping_mul(C1);
+        h2 = h2.rotate_left(31).wrapping_add(h1).wrapping_mul(5).wrapping_add(0x3849_5ab5);
+    }
+    let tail = blocks.remainder();
+    let mut pad = [0u8; 16];
+    pad[..tail.len()].copy_from_slice(tail);
+    if tail.len() > 8 {
+        let k2 = u64::from_le_bytes(pad[8..].try_into().unwrap());
+        h2 ^= k2.wrapping_mul(C2).rotate_left(33).wrapping_mul(C1);
+    }
+    if !tail.is_empty() {
+        let k1 = u64::from_le_bytes(pad[..8].try_into().unwrap());
+        h1 ^= k1.wrapping_mul(C1).rotate_left(31).wrapping_mul(C2);
+    }
+    let len = data.len() as u64;
+    h1 ^= len;
+    h2 ^= len;
+    h1 = h1.wrapping_add(h2);
+    h2 = h2.wrapping_add(h1);
+    h1 = fmix(h1);
+    h2 = fmix(h2);
+    h1.wrapping_add(h2)
+}
+
+/// The checksum a blob should carry at 8, if its header reads.
+pub fn checksum(b: &[u8]) -> Option<u64> {
+    if b.get(0..4)? != b"LSMF" {
+        return None;
+    }
+    let end = u64_at(b, 16)?.checked_add(u64_at(b, 24)?)?.checked_add(BASE)?;
+    Some(murmur3_h1(b.get(BASE as usize..usize::try_from(end).ok()?)?, SEED))
+}
+
+/// Writes the blob's checksum again after an edit.
+pub fn fix_checksum(b: &mut [u8]) -> bool {
+    match checksum(b) {
+        Some(h) => {
+            b[8..16].copy_from_slice(&h.to_le_bytes());
+            true
+        }
+        None => false,
+    }
+}
 
 fn u16_at(d: &[u8], at: usize) -> Option<u16> {
     Some(u16::from_le_bytes(d.get(at..at + 2)?.try_into().ok()?))
@@ -129,4 +196,28 @@ pub fn stacks(b: &[u8]) -> HashMap<[u8; 16], Stack> {
         }
     }
     out
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn checksum_is_murmur3_over_the_data_and_directory() {
+        // Header: directory at 60, name block 15 bytes, so the hash covers 75 bytes from 48.
+        let mut b = b"LSMF".to_vec();
+        b.extend([0u8; 12]);
+        b.extend(60u64.to_le_bytes());
+        b.extend(15u64.to_le_bytes());
+        b.extend([0u8; 16]);
+        b.extend((0..75u32).map(|i| (i * 7 % 256) as u8));
+        // Reference value from a separate MurmurHash3 x64_128 implementation.
+        assert_eq!(checksum(&b), Some(0x920a_aab5_04a6_9a2a));
+        assert!(fix_checksum(&mut b));
+        assert_eq!(&b[8..16], &0x920a_aab5_04a6_9a2au64.to_le_bytes());
+        // The bytes it covers change it; the header's own bytes don't.
+        b[100] ^= 1;
+        assert_ne!(checksum(&b), Some(0x920a_aab5_04a6_9a2a));
+        assert_eq!(checksum(b"LSMX"), None);
+    }
 }
