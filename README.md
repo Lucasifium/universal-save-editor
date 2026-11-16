@@ -837,19 +837,12 @@ binary and stays an ironman save. It isn't converted to a normal one.
 
 ## Find my game's saves
 
-The folders where saves were found are remembered (in `save_locations.json` next to the settings), so the next start only checks those folders, which takes a moment, and drops any that are gone or no longer hold a save. The whole computer is searched on the first start, about once a week, and whenever you press *Search again* in *Find my game's saves*. Opening the list reuses those results without reading the drives again, and if a remembered save has moved, a notice offers to search again. The search covers every fixed drive (Steam libraries on other drives, and a Documents or Saved Games folder moved elsewhere); USB and network drives are only searched if you turn that on in Settings.
+*Find my game's saves* (the big button on the start page, *Find saves* in the toolbar and the File menu) lists every one of the 550+ (552) PC games the editor knows, with where it usually keeps its saves and what the files are called, and finds them on your computer: Steam libraries and `userdata`, Documents wherever Windows has it, AppData, Saved Games and Ubisoft Connect. On Linux and the Steam Deck it also looks inside Proton and Wine prefixes, so Windows games run through Steam Play show up too.
 
-The start page lists **Your games**: every game in the list whose saves were found on this computer,
-newest first, each one click away from its newest save. *Find my game's saves* (the big button on the
-start page, *Find saves* in the toolbar and the File menu) lists every one of the 550+ (552) PC games the editor knows, Mass Effect 1–3, the Legendary Edition and Andromeda among them, with where it
-usually keeps its saves and what the files are called, and finds them on your computer (Steam
-libraries and `userdata`, Documents wherever Windows has it, AppData, Saved Games, Ubisoft
-Connect). On Linux and the Steam Deck it also looks inside Proton prefixes
-(`steamapps/compatdata/<app id>/pfx` in every Steam library, including Flatpak Steam and SD cards)
-and the usual Wine, Heroic, Lutris and Bottles prefixes, so Windows games run through Steam Play
-show up too. Games with saves on this computer come first under *On this computer* (*Only games
-found here* hides the rest), and each game has a badge for how far the editor goes with it:
-*Screen* (a screen of its own), *Values* (every value by name) or *Hex* (hex view and value search).
+The start page lists **Your games**, newest first, each one click away from its newest save. Games found on this computer come first (*Only games found here* hides the rest), and each game has a badge for how far the editor goes with it: *Screen* (a screen of its own), *Values* (every value by name) or *Hex* (hex view and value search). Found folders are remembered, so later starts only recheck them; the whole computer (every fixed drive; USB and network drives only if turned on in Settings) is searched on the first start, about once a week, and whenever you press *Search again*.
+
+<details>
+<summary>Other places saves live (Flash, Unity, Xbox app, console memory cards)</summary>
 
 **Flash and AIR games**: `.sol` shared objects (AMF0 and AMF3) open with every value by name and
 are written back with each value's own type; anything the editor doesn't show (dates, byte arrays,
@@ -909,6 +902,10 @@ a file onto the window work as before for anything else.
 
 Capcom RE Engine saves need the Steam account they belong to; away from Steam's folders (on a
 phone, or a copied save) enter your 17-digit Steam ID in *Tools › Decrypt with password*.
+</details>
+
+<details>
+<summary>Formats with their own packing or encryption</summary>
 
 Games whose format isn't documented open in the hex view with Value search; for packed formats
 the data is unpacked first and packed again on save: Cyberpunk 2077 and The Witcher 3 (LZ4
@@ -916,34 +913,6 @@ chunks), XCOM 2 / War of the Chosen (LZO chunks, both checksums updated), Mass E
 Legendary Edition (zlib, checksum updated), Civilization V (zlib, in 64 KiB chunks), Dying Light (gzip), Ubisoft `.save.z` (zlib), BioShock Infinite (Unreal Engine 3 zlib chunks, MD5 updated), BioShock Remastered (zlib blocks, each packed back into its own space), Control (CRC-32 updated) and Cairn (the files inside each slot pack; the newest save, the one the game continues from, opens first; the pack's size fields are kept right when a save grows). Other RE Engine
 games (Resident Evil 4 from 2023, with its older "Lime" encryption; Monster Hunter Rise on Steam, with its "Citrus" encryption; Resident Evil Requiem, Dragon's Dogma 2, Monster Hunter Wilds and Stories 3, Pragmata,
 Dead Rising Deluxe Remaster, Kunitsu-Gami) decrypt and open with their values.
-
-**Find checksum** (*Tools*, or `checksum` on the command line): for a save the editor doesn't know,
-it tries CRC-32, CRC-32C, Adler-32, Fletcher-32, FNV-1a, CRC-16, additive sums, MD5, SHA-1 and
-SHA-256 stored at the start or end of the file, over the bytes after it, before it, or the whole
-file. Earlier copies of the file (from *Backups › Quick restore*) weed out chance matches.
-Pick one and it is written again every time you save that file; it shows as zeros while editing.
-
-**Your own templates** (*Tools › Templates folder*, desktop only): for a game the editor doesn't
-know, write a small JSON file that says how to recognise its saves (size, magic bytes, extension)
-and where each value is (offset, type, limits, drop-down names, copies kept in step, optional
-checksum). A save that matches opens as a list of those values, changed in place. The folder has a
-guide with an example; templates are easy to share with other players. You don't have to write one
-by hand: name values in the hex view and press *Use for every save…*.
-
-**Change Steam account in this save** (*Tools*, or `steamid` on the command line): finds the 64-bit
-Steam IDs stored in the save's data (as bytes, numbers or text) and changes every copy to another
-account, picked from the accounts on this computer or typed in, so a save copied from another
-account or a co-op host loads. The save's packing and checksums are redone on save as for any edit.
-
-**Cheat patches** (*Tools*, or `patch` on the command line): ready-made cheats for console saves
-from the [Apollo Save Tool](https://github.com/bucanero/apollo-ps3)'s patch collection, about 2,400
-games across PlayStation 1 to 4, PSP, Vita and Dreamcast, built in. The game is found from the
-title ID in the save's file or folder name (`BLUS30490`, `BESCES-50003`, `CUSA01615`), or by
-searching its name, and a `.savepatch` file can be opened too. Tick the codes (pick a value where a
-code offers several) and apply: Save Wizard and BSD script codes run as Apollo runs them, including
-their searches, checksum and hash fixes, ciphers and zlib streams. Codes written as Python scripts
-aren't supported. A patch meant for another region or version of the game can damage a save, so
-keep the backup.
 
 **JSON saves with a key built into the game**: Megabonk (AES), Eiyuden Chronicle: Hundred Heroes
 (Triple-DES), Suikoden I & II HD Remaster (AES with a salt, which is kept), Bounty of One, Idle Slayer
@@ -995,6 +964,39 @@ emulators store it (Mednafen and Beetle `.bkr`, Yabause and Kronos `bkram.bin`) 
 `SS_SAVE.BIN` and `SS_MEMS.BIN`. A save in an image keeps its size and its bytes go back where they
 came from. Checked on 170 real saves from saturn-save-tools in both `.bup` and `.sro` form, and on
 Comms Link block dumps, which read the same as the matching `.bup` files.
+</details>
+
+<details>
+<summary>Tools for saves the editor doesn't know</summary>
+
+**Find checksum** (*Tools*, or `checksum` on the command line): for a save the editor doesn't know,
+it tries CRC-32, CRC-32C, Adler-32, Fletcher-32, FNV-1a, CRC-16, additive sums, MD5, SHA-1 and
+SHA-256 stored at the start or end of the file, over the bytes after it, before it, or the whole
+file. Earlier copies of the file (from *Backups › Quick restore*) weed out chance matches.
+Pick one and it is written again every time you save that file; it shows as zeros while editing.
+
+**Your own templates** (*Tools › Templates folder*, desktop only): for a game the editor doesn't
+know, write a small JSON file that says how to recognise its saves (size, magic bytes, extension)
+and where each value is (offset, type, limits, drop-down names, copies kept in step, optional
+checksum). A save that matches opens as a list of those values, changed in place. The folder has a
+guide with an example; templates are easy to share with other players. You don't have to write one
+by hand: name values in the hex view and press *Use for every save…*.
+
+**Change Steam account in this save** (*Tools*, or `steamid` on the command line): finds the 64-bit
+Steam IDs stored in the save's data (as bytes, numbers or text) and changes every copy to another
+account, picked from the accounts on this computer or typed in, so a save copied from another
+account or a co-op host loads. The save's packing and checksums are redone on save as for any edit.
+
+**Cheat patches** (*Tools*, or `patch` on the command line): ready-made cheats for console saves
+from the [Apollo Save Tool](https://github.com/bucanero/apollo-ps3)'s patch collection, about 2,400
+games across PlayStation 1 to 4, PSP, Vita and Dreamcast, built in. The game is found from the
+title ID in the save's file or folder name (`BLUS30490`, `BESCES-50003`, `CUSA01615`), or by
+searching its name, and a `.savepatch` file can be opened too. Tick the codes (pick a value where a
+code offers several) and apply: Save Wizard and BSD script codes run as Apollo runs them, including
+their searches, checksum and hash fixes, ciphers and zlib streams. Codes written as Python scripts
+aren't supported. A patch meant for another region or version of the game can damage a save, so
+keep the backup.
+</details>
 
 Big files open on a worker thread, and unpacking and decryption use every core.
 
