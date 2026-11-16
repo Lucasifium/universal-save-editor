@@ -7130,4 +7130,52 @@ pub(crate) mod layout_tests {
         app.doc_note = "Something else.".into();
         assert!(!app.note_hidden());
     }
+
+    /// Every piece of text a frame painted, with where it sits, in reading order.
+    fn text_layout(out: &egui::FullOutput) -> Vec<(String, [i32; 4])> {
+        let mut v = vec![];
+        for cs in &out.shapes {
+            let mut stack = vec![&cs.shape];
+            while let Some(sh) = stack.pop() {
+                match sh {
+                    egui::epaint::Shape::Vec(x) => stack.extend(x.iter()),
+                    egui::epaint::Shape::Text(t) if !t.galley.text().trim().is_empty() => {
+                        let r = t.galley.rect.translate(t.pos.to_vec2());
+                        v.push((t.galley.text().to_string(), [r.left().round() as i32, r.top().round() as i32, r.right().round() as i32, r.bottom().round() as i32]));
+                    }
+                    _ => {}
+                }
+            }
+        }
+        v.sort();
+        v
+    }
+
+    /// Shrinking the window (to a phone size and back) must leave the same layout as a window
+    /// that was never shrunk: nothing remembered from the small size may linger.
+    #[test]
+    fn growing_the_window_back_restores_the_layout() {
+        let _lock = crate::i18n::LANG_TEST_LOCK.lock().unwrap_or_else(|e| e.into_inner());
+        crate::i18n::set(Some("en"));
+        let path = knight_save("regrow");
+        let mut problems = vec![];
+        for (big, small) in [((1280.0, 800.0), (380.0, 760.0)), ((1280.0, 800.0), (700.0, 600.0)), ((900.0, 700.0), (500.0, 700.0))] {
+            let fresh_ctx = window();
+            let mut fresh = App::with(&fresh_ctx, Settings::default(), false);
+            fresh.load(&path);
+            let want = text_layout(&run_frames(&mut fresh, &fresh_ctx, big.0, big.1, 8));
+            let ctx = window();
+            let mut app = App::with(&ctx, Settings::default(), false);
+            app.load(&path);
+            run_frames(&mut app, &ctx, big.0, big.1, 8);
+            run_frames(&mut app, &ctx, small.0, small.1, 8);
+            let got = text_layout(&run_frames(&mut app, &ctx, big.0, big.1, 8));
+            if got != want {
+                let missing: Vec<_> = want.iter().filter(|x| !got.contains(x)).take(6).collect();
+                let extra: Vec<_> = got.iter().filter(|x| !want.contains(x)).take(6).collect();
+                problems.push(format!("{big:?} -> {small:?} -> {big:?}: differs from a fresh window\n  expected {missing:?}\n  got {extra:?}"));
+            }
+        }
+        assert!(problems.is_empty(), "{}", problems.join("\n"));
+    }
 }

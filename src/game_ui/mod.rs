@@ -1190,8 +1190,9 @@ pub fn columns(ui: &mut Ui, min_w: f32, n: usize, mut add: impl FnMut(&mut Ui, u
     // doesn't narrow another group or another game's screen.
     let screen = ui.ctx().data(|d| d.get_temp::<egui::Id>(egui::Id::new(SCREEN_SALT))).unwrap_or(egui::Id::NULL);
     let key = ui.next_auto_id().with(("columns_need", n, min_w.to_bits(), screen));
-    let need = ui.ctx().data(|d| d.get_temp::<f32>(key)).unwrap_or(0.0);
     let avail = ui.available_rect_before_wrap().width();
+    // What a column needed at another window width says nothing about this one.
+    let need = ui.ctx().data(|d| d.get_temp::<(f32, f32)>(key)).filter(|&(_, w)| (w - avail).abs() < 0.5).map_or(0.0, |(n, _)| n);
     let gap = ui.spacing().item_spacing.x;
     let cols = ((avail / min_w).floor() as usize).min(((avail + gap) / (need + gap)).floor() as usize).clamp(1, n);
     let col_w = (avail - gap * (cols - 1) as f32) / cols as f32;
@@ -1203,7 +1204,7 @@ pub fn columns(ui: &mut Ui, min_w: f32, n: usize, mut add: impl FnMut(&mut Ui, u
         widest = cs.iter().map(|c| c.min_rect().width()).fold(0.0, f32::max);
     });
     if cols > 1 && widest > col_w + 1.0 && widest > need {
-        ui.ctx().data_mut(|d| d.insert_temp(key, widest));
+        ui.ctx().data_mut(|d| d.insert_temp(key, (widest, avail)));
         ui.ctx().request_repaint();
     }
 }

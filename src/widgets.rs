@@ -771,7 +771,9 @@ fn list_box<R>(this: egui::ScrollArea, ui: &mut Ui, key: impl std::hash::Hash, b
         let mem = ui.make_persistent_id(("list_box", key));
         let frame = ui.ctx().cumulative_pass_nr();
         let cap = list_height(ui, base);
-        let kept: Option<f32> = ui.data(|d| d.get_temp::<(f32, u64)>(mem)).filter(|&(h, f)| h > 1.0 && frame.saturating_sub(f) <= 2).map(|(h, _)| h);
+        // Rows wrap differently at another width, so a size kept from a different width is stale.
+        let width = ui.available_width();
+        let kept: Option<f32> = ui.data(|d| d.get_temp::<(f32, u64, f32)>(mem)).filter(|&(h, f, w)| h > 1.0 && frame.saturating_sub(f) <= 2 && (!fill || (w - width).abs() < 0.5)).map(|(h, _, _)| h);
         let area = self_.id_salt(key);
         let area = match kept {
             Some(h) => area.auto_shrink([!fill, false]).min_scrolled_height(h.min(cap)).max_height(h.min(cap)),
@@ -779,7 +781,7 @@ fn list_box<R>(this: egui::ScrollArea, ui: &mut Ui, key: impl std::hash::Hash, b
         };
         let out = area.show_locked(ui, add);
         let tallest = kept.unwrap_or(0.0).max(out.content_size.y);
-        ui.data_mut(|d| d.insert_temp(mem, (tallest, frame)));
+        ui.data_mut(|d| d.insert_temp(mem, (tallest, frame, width)));
         if kept.is_none_or(|k| tallest > k + 0.5) {
             ui.ctx().request_repaint();
         }
@@ -838,6 +840,45 @@ mod list_box_tests {
                 short = frame(&ctx, Some(3), w, h);
             }
             assert!(short < full, "box kept a stale size ({short} vs {full})");
+        }
+    }
+
+    /// A list whose rows wrap when the window is narrow takes the same room after the window
+    /// grows back as in a window that was never narrow.
+    #[test]
+    fn list_box_forgets_its_size_when_the_width_changes() {
+        fn wrapped(ctx: &egui::Context, w: f32, h: f32) -> f32 {
+            let input = egui::RawInput { screen_rect: Some(egui::Rect::from_min_size(egui::Pos2::ZERO, egui::vec2(w, h))), ..Default::default() };
+            let mut height = 0.0;
+            let _ = ctx.run(input, |ctx| {
+                egui::CentralPanel::default().show(ctx, |ui| {
+                    let top = ui.cursor().top();
+                    egui::ScrollArea::vertical().show_list(ui, "t", 300.0, |ui| {
+                        for i in 0..4 {
+                            ui.label(format!("row {i}: a rather long description that needs several lines on a narrow screen but fits one line on a wide one"));
+                        }
+                    });
+                    height = ui.cursor().top() - top;
+                });
+            });
+            height
+        }
+        let fresh = egui::Context::default();
+        crate::theme::install_fonts(&fresh);
+        let mut want = 0.0;
+        for _ in 0..4 {
+            want = wrapped(&fresh, 1100.0, 900.0);
+        }
+        let ctx = egui::Context::default();
+        crate::theme::install_fonts(&ctx);
+        for (w, h) in [(1100.0, 900.0), (320.0, 900.0), (1100.0, 900.0)] {
+            let mut got = 0.0;
+            for _ in 0..4 {
+                got = wrapped(&ctx, w, h);
+            }
+            if w > 1000.0 {
+                assert_eq!(got, want, "box kept the room it needed at a narrower width");
+            }
         }
     }
 
