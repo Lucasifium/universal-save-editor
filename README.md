@@ -9,6 +9,13 @@ Cyberpunk 2077, the Persona, Yakuza and Final Fantasy games, Ren'Py visual novel
 and more (the full list is below). Written in Rust (egui). Nothing is uploaded anywhere, and there are
 no rate limits.
 
+[![Latest release](https://img.shields.io/github/v/release/Lucasifium/universal-save-editor)](../../releases/latest)
+[![Downloads](https://img.shields.io/github/downloads/Lucasifium/universal-save-editor/total)](../../releases)
+[![Licence: GPL-3.0](https://img.shields.io/badge/licence-GPL--3.0-blue)](LICENSE)
+[![Try it in the browser](https://img.shields.io/badge/try_it-in_your_browser-ffc247)](https://lucasifium.github.io/universal-save-editor/app/)
+
+![The editor with a save open: named values in groups, with number fields, text fields and switches](assets/screenshot.png)
+
 **Download:** grab the latest build from the [Releases](../../releases/latest) page (Windows and Linux; macOS in major releases).
 
 **No install:** the [browser version](https://lucasifium.github.io/universal-save-editor/app/) is the same

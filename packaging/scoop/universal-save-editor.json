@@ -1,16 +1,16 @@
 {
-    "version": "0.5.1",
+    "version": "0.8.2",
     "description": "Free, offline save editor and save manager for PC games, with backups and restore.",
     "homepage": "https://lucasifium.github.io/universal-save-editor/",
     "license": "GPL-3.0-or-later",
     "architecture": {
         "64bit": {
-            "url": "https://github.com/Lucasifium/universal-save-editor/releases/download/v0.5.1/UniversalSaveEditor-windows-x64.exe#/UniversalSaveEditor.exe",
-            "hash": "668b5969990f90a62c99e5214c2358c470cbfd62c3659572bc118bb35188ec73"
+            "url": "https://github.com/Lucasifium/universal-save-editor/releases/download/v0.8.2/UniversalSaveEditor-0.8.2-windows-x64.exe#/UniversalSaveEditor.exe",
+            "hash": "0a57bacadcc0f98e85d5cefe230a1dfa96924aea148a1658ccf7467bef7397a0"
         },
         "arm64": {
-            "url": "https://github.com/Lucasifium/universal-save-editor/releases/download/v0.5.1/UniversalSaveEditor-windows-arm64.exe#/UniversalSaveEditor.exe",
-            "hash": "65e0f659f309708bffff9fb26caca085d14137334564775b19251515c8c69657"
+            "url": "https://github.com/Lucasifium/universal-save-editor/releases/download/v0.8.2/UniversalSaveEditor-0.8.2-windows-arm64.exe#/UniversalSaveEditor.exe",
+            "hash": "97eebdeb38254a07860cbb7794026d3ea55af4c9dd5e806aecd1a7b03539b786"
         }
     },
     "bin": "UniversalSaveEditor.exe",
@@ -24,10 +24,10 @@
     "autoupdate": {
         "architecture": {
             "64bit": {
-                "url": "https://github.com/Lucasifium/universal-save-editor/releases/download/v$version/UniversalSaveEditor-windows-x64.exe#/UniversalSaveEditor.exe"
+                "url": "https://github.com/Lucasifium/universal-save-editor/releases/download/v$version/UniversalSaveEditor-$version-windows-x64.exe#/UniversalSaveEditor.exe"
             },
             "arm64": {
-                "url": "https://github.com/Lucasifium/universal-save-editor/releases/download/v$version/UniversalSaveEditor-windows-arm64.exe#/UniversalSaveEditor.exe"
+                "url": "https://github.com/Lucasifium/universal-save-editor/releases/download/v$version/UniversalSaveEditor-$version-windows-arm64.exe#/UniversalSaveEditor.exe"
             }
         },
         "hash": {

@@ -258,6 +258,7 @@ details#all[open]>summary::before{transform:rotate(90deg)}details#all>summary:ho
 details.letter{margin:10px 0;border-top:1px solid var(--line)}details.letter>summary{cursor:pointer;font:800 1.2rem var(--head);padding:12px 0;list-style:none}details.letter>summary::before{content:"\25B8";display:inline-block;width:1.2em;color:var(--accent);transition:transform .15s}details.letter[open]>summary::before{transform:rotate(90deg)}details.letter>summary span{color:var(--muted);font:400 .95rem system-ui}
 #q{width:100%;max-width:440px;padding:12px 16px;border-radius:12px;border:1px solid var(--line);background:var(--card);color:var(--text);font-size:1rem}
 ol li,ul li{margin:6px 0}
+.shot{margin:32px 0}.shot img{display:block;width:100%;height:auto;border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow)}.shot figcaption{color:var(--muted);font-size:.9rem;margin-top:8px}
 footer{border-top:1px solid var(--line);margin-top:64px;color:var(--muted);font-size:.9rem}footer .in{padding:24px 20px}
 @media (max-width:760px){.hero{grid-template-columns:1fr;gap:28px;padding-top:32px}header nav{margin-left:0;gap:14px;flex-wrap:wrap}header .in{padding-top:8px;padding-bottom:8px;gap:6px}header{position:static}}
 "#;
@@ -277,7 +278,12 @@ fn page(title: &str, desc: &str, path: &str, body: &str, schema: &str) -> String
 <meta property="og:title" content="{t}">
 <meta property="og:description" content="{d}">
 <meta property="og:url" content="{SITE}/{path}">
-<meta name="twitter:card" content="summary">
+<meta property="og:image" content="{SITE}/social-preview.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Universal Save Editor: free, offline save editor for 550+ games">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="{SITE}/social-preview.png">
 <link rel="stylesheet" href="{root}style.css">
 <script type="application/ld+json">{schema}</script>
 </head>
@@ -370,6 +376,17 @@ const WHY: &str = r#"<ul>
 <li><strong>Command line too.</strong> <code>info</code>, <code>list</code>, <code>get</code>, <code>set</code>, <code>decode</code> and <code>encode</code> work from scripts, with the same checks and backups as the window.</li>
 <li><strong>Open source.</strong> Anyone can read the code (GPL-3.0).</li>
 </ul>"#;
+
+/// A short list of reasons for a game's page; the home page keeps the full list.
+fn why_short() -> String {
+    let keep = ["Free, forever.", "Offline.", "Safe.", "Works on games it doesn't know.", "Linux and Steam Deck.", "Save manager", "In your language.", "Open source."];
+    let items: String = WHY
+        .lines()
+        .filter(|l| keep.iter().any(|k| l.starts_with(&format!("<li><strong>{k}"))))
+        .map(|l| format!("{l}\n"))
+        .collect();
+    format!("<ul>\n{items}</ul>")
+}
 
 /// Rewrites "N+ (M) PC games" (or "N+ PC games") to the current registry numbers.
 fn with_game_count(text: &str) -> String {
@@ -466,6 +483,28 @@ fn group_readme_screens(text: &str) -> String {
     format!("{}{}{}", &text[..at], out.trim_end_matches('\n'), &text[end..])
 }
 
+/// Up to six links to other game pages: the same series first (same first word), then games
+/// spread through the list.
+fn related_html(g: &GameInfo, pages: &[(&str, String)]) -> String {
+    let key = |n: &str| search_name(n).split_whitespace().next().unwrap_or("").to_lowercase();
+    let mine = key(g.name);
+    let at = pages.iter().position(|p| p.0 == g.name).unwrap_or(0);
+    let mut picked: Vec<usize> = vec![];
+    if mine.len() > 3 && !["the", "final", "super", "star", "dead"].contains(&mine.as_str()) {
+        picked.extend((0..pages.len()).filter(|&i| i != at && key(pages[i].0) == mine).take(4));
+    }
+    let mut step = 1;
+    while picked.len() < 6 && step < pages.len() {
+        let i = (at + step * 37 + 11) % pages.len();
+        if i != at && !picked.contains(&i) {
+            picked.push(i);
+        }
+        step += 1;
+    }
+    let links: String = picked.iter().map(|&i| format!(r#"<li><a href="../{}/">{}</a></li>"#, pages[i].1, esc(pages[i].0))).collect();
+    format!("<h2>More save editors</h2>\n<ul class=\"grid more\">{links}</ul>\n<p><a href=\"../#games\">See all {} supported games</a></p>\n", GAMES.len())
+}
+
 #[test]
 #[ignore]
 fn build_site() {
@@ -492,6 +531,9 @@ fn build_site() {
     std::fs::create_dir_all(&out).unwrap();
     std::fs::write(out.join("style.css"), STYLE).unwrap();
     std::fs::write(out.join(".nojekyll"), "").unwrap();
+    // The picture shown when a page is shared (Open Graph / Twitter card).
+    std::fs::write(out.join("social-preview.png"), include_bytes!("../assets/social-preview.png")).unwrap();
+    std::fs::write(out.join("screenshot.png"), include_bytes!("../assets/screenshot.png")).unwrap();
     // Google Search Console's proof that this site belongs to the project's owner.
     std::fs::write(out.join("google9d120e6c8e9d3fa5.html"), "google-site-verification: google9d120e6c8e9d3fa5.html").unwrap();
     let rows = readme_rows();
@@ -506,6 +548,8 @@ fn build_site() {
     let mut games: Vec<&GameInfo> = GAMES.iter().filter(|g| !skip.iter().any(|s| s == g.name)).collect();
     games.sort_by_key(|g| (!has_screen(g), g.name.to_lowercase()));
 
+    // Every game that gets a page, for the "More save editors" lists.
+    let pages: Vec<(&str, String)> = games.iter().filter(|g| crate::games::consoles_of(g.name).is_empty()).map(|g| (g.name, format!("{}-save-editor", slug(&search_name(g.name))))).collect();
     for g in &games {
         // Console and emulated games have no page of their own: they only appear in their console's section.
         let consoles = crate::games::consoles_of(g.name);
@@ -548,8 +592,19 @@ fn build_site() {
                 w.trim_end_matches('.').to_string()
             } else {
                 let cut: String = w.chars().take(limit).collect();
-                let end = cut.rfind([',', ' ']).unwrap_or(cut.len());
-                format!("{}\u{2026}", cut[..end].trim_end_matches([',', ' ']))
+                // End on a whole list item where there is one, never on a dangling "/" or "(".
+                // Never leave a "(" open: cut before it instead.
+                let cut = match (cut.matches('(').count() > cut.matches(')').count(), cut.rfind('(')) {
+                    (true, Some(open)) => cut[..open].trim_end().to_string(),
+                    _ => cut,
+                };
+                match cut.rfind(", ").filter(|&e| e > limit / 3) {
+                    Some(end) => format!("{} and more", cut[..end].trim_end_matches(|c: char| !c.is_alphanumeric() && c != ')')),
+                    None => {
+                        let end = cut.rfind(' ').unwrap_or(cut.len());
+                        format!("{}\u{2026}", cut[..end].trim_end_matches(|c: char| !c.is_alphanumeric() && c != ')'))
+                    }
+                }
             };
             let first = short.chars().next().map_or(String::new(), |c| c.to_lowercase().collect());
             let dot = if short.ends_with('\u{2026}') { "" } else { "." };
@@ -590,9 +645,11 @@ fn build_site() {
 <li>Change what you want, then <em>Save</em>. The editor checks the new file and backs up the old one first.</li>
 </ol>
 <h2>Why use it</h2>
-{WHY}
+{why}
 <p>Edited saves are for single-player play. Don't use them in online or multiplayer modes.</p>
-"#,
+{related}"#,
+            why = why_short(),
+            related = related_html(g, &pages),
             h = esc(&search),
             many = GAMES.len() / 10 * 10,
             total = GAMES.len(),
@@ -638,6 +695,7 @@ fn build_site() {
 <div class="card"><strong>Don't want to run a program?</strong> <a href="{WEB_APP}">The browser version</a> is the same editor, running inside the web page on your own computer: your save is never uploaded. It can't search your folders for saves or back them up for you, so open the file yourself and keep a copy; saving downloads the edited file. A few saves need the downloaded app (SQLite saves, and Palworld or Hogwarts Legacy saves).</div>
 <p><strong>Verify your download:</strong> every release has a <code>SHA256SUMS.txt</code>. Compare it with <code>sha256sum UniversalSaveEditor-&lt;version&gt;-linux-x64.tar.gz</code> (Linux) or <code>certutil -hashfile UniversalSaveEditor-&lt;version&gt;-windows-x64.exe SHA256</code> (Windows). The builds are not code-signed, so Windows may warn about a new file; a matching checksum shows it is the one published here. If Windows shows "Windows protected your PC", the file is new and unsigned, not harmful: click <em>More info</em>, then <em>Run anyway</em>.</p>
 <p><strong>Install with Scoop (Windows):</strong> <code>scoop install https://raw.githubusercontent.com/Lucasifium/universal-save-editor/main/packaging/scoop/universal-save-editor.json</code> installs it with a Start menu shortcut and checks the download for you; <code>scoop update universal-save-editor</code> gets new releases.</p>
+<figure class="shot"><img src="screenshot.png" width="1280" height="660" alt="The editor with a save open: named values in groups, with number fields, text fields and switches" loading="lazy"><figcaption>A save open in the editor: every value has a name, and numbers, text and switches are edited in place.</figcaption></figure>
 <h2>Why download a save editor?</h2>
 {WHY}
 <h2 id="games">Games ({n})</h2>
