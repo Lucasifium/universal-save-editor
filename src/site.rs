@@ -429,7 +429,7 @@ const WHY: &str = r#"<ul>
 <li><strong>Finds your games.</strong> The start page lists the games whose saves are on this computer, newest first, one click from the latest save; <em>Find my game's saves</em> shows them first, with a badge for how much of each game can be edited.</li>
 <li><strong>Never writes over a newer save.</strong> If the game or a cloud sync saved the file after you opened it, saving stops and asks (reload, or save anyway with the newer file backed up first).</li>
 <li><strong>Japanese, Chinese and Korean names.</strong> Shown with your computer's own fonts in the downloaded app.</li>
-<li><strong>Save manager (Backups menu).</strong> Automatic and named backups kept in a folder next to each save, where no game loads them. Restore any backup (the current save is backed up first), compare it, or back up and start a new game on a one-save game and restore the old one later. Every backup is flushed to disk and checked before anything is replaced.</li>
+<li><strong>Save manager (toolbar button).</strong> Automatic and named backups kept in a folder next to each save, where no game loads them. Restore any backup (the current save is backed up first), compare it, or back up and start a new game on a one-save game and restore the old one later. Every backup is flushed to disk and checked before anything is replaced.</li>
 <li><strong>Command line too.</strong> <code>info</code>, <code>list</code>, <code>get</code>, <code>set</code>, <code>decode</code> and <code>encode</code> work from scripts, with the same checks and backups as the window.</li>
 <li><strong>Open source.</strong> Anyone can read the code (GPL-3.0).</li>
 </ul>"#;
@@ -447,7 +447,7 @@ fn save_manager_body() -> String {
 <ul>
 <li><strong>Automatic backups.</strong> Every time the editor saves a file, it first backs up the file as it was. The last 30 are kept, and you can change that number in <em>Edit › Preferences</em>.</li>
 <li><strong>Named backups.</strong> <em>Backups › Back up now…</em> makes a backup with a name you choose, such as "before the final boss". It's kept until you delete it.</li>
-<li><strong>Restore.</strong> <em>Backups › Save manager…</em> lists every backup of the open save. <em>Restore this backup</em> puts it back, and the current file is backed up first, so a restore can be undone too.</li>
+<li><strong>Restore.</strong> The <em>Save manager</em> button in the toolbar (or <em>Backups › Save manager…</em>) lists every backup of the open save. <em>Restore this backup</em> puts it back, and the current file is backed up first, so a restore can be undone too.</li>
 <li><strong>Quick restore.</strong> <em>Backups › Quick restore</em> puts back a recent backup without opening the list.</li>
 <li><strong>Compare.</strong> See what changed between a backup and the current save, byte by byte or value by value.</li>
 <li><strong>Start a new game, keep the old one.</strong> Many games only have one save. <em>Back up and start a new game…</em> makes a named backup and then moves the current save out of the way, so the game starts fresh. Restore the backup whenever you want your old game back.</li>

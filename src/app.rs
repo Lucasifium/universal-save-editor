@@ -2211,7 +2211,7 @@ impl App {
                 }
                 if !WEB && ui.add_enabled(has, egui::Button::new(tr("Save manager\u{2026}"))).on_hover_text(tr("All backups of this save in one window: restore, compare, delete, name. Restoring backs up the current save first.")).clicked() {
                     ui.close_menu();
-                    self.manager = self.doc.as_ref().map(|d| (d.path.clone(), String::new(), None));
+                    self.open_save_manager();
                 }
                 ui.separator();
                 let bak = self.doc.as_ref().map(|d| {
@@ -3386,6 +3386,11 @@ impl App {
         }
     }
 
+    /// Opens the Save manager window for the open save.
+    fn open_save_manager(&mut self) {
+        self.manager = self.doc.as_ref().map(|d| (d.path.clone(), String::new(), None));
+    }
+
     fn changes_toggle(&mut self, ui: &mut egui::Ui) {
         let hi = self.has_icons;
         // The selected colours: white on the light theme's pale selection could not be read.
@@ -3454,6 +3459,9 @@ impl App {
                 let b = ui.button(tr("Close save"));
                 if b.on_hover_text(tr("Close this save and go back to the start page (Ctrl+W)")).clicked() {
                     self.close_clicked();
+                }
+                if !WEB && ui.button(tr("Save manager")).on_hover_text(tr("All backups of this save in one window: restore, compare, delete, name. Restoring backs up the current save first.")).clicked() {
+                    self.open_save_manager();
                 }
             }
             let Some(doc) = &self.doc else { return };
