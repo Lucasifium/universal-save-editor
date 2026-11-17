@@ -30055,8 +30055,8 @@ Peaceful
 atwin0000.dat from Documents\\KoeiTecmo\\Attack on Titan\\SAVEDATA. Your funds and the quantity of every item you own; the stream cipher and word checksum are handled.
 = Documents\\KoeiTecmo\\Attack on Titan\\SAVEDATA の atwin0000.dat。資金と所持している各アイテムの数量。ストリーム暗号とワードチェックサムは自動で処理されます。
 
-Attack on Titan2_AOT2_PK_WIN0000.dat from Documents\\KoeiTecmo\\Attack on Titan2_AOT2\\SAVEDATA (Final Battle). Regiment funds, Wings of Freedom (up to 999), your experience (the level follows from it, up to level 120), the crafting materials you own with a Max crafting materials button (999 each) and the quantity of every gift you own, up to 99; the stream cipher and word checksum are handled.
-= Documents\\KoeiTecmo\\Attack on Titan2_AOT2\\SAVEDATA の Attack on Titan2_AOT2_PK_WIN0000.dat（Final Battle）。連隊資金、自由の翼（最大999）、経験値（レベルはそこから決まり、最大レベル120）、所持している素材（各999まで、素材最大化ボタン付き）、所持している各ギフトの数量（最大99）。ストリーム暗号とワードチェックサムは自動で処理されます。
+Attack on Titan2_AOT2_PK_WIN0000.dat from Documents\\KoeiTecmo\\Attack on Titan2_AOT2\\SAVEDATA (Final Battle). Regiment funds, Wings of Freedom (up to 999), your player level (up to 120) and experience, the crafting materials you own with a Max crafting materials button (999 each) and the quantity of every gift you own, up to 99; the stream cipher and word checksum are handled.
+= Documents\\KoeiTecmo\\Attack on Titan2_AOT2\\SAVEDATA の Attack on Titan2_AOT2_PK_WIN0000.dat（Final Battle）。連隊資金、自由の翼（最大999）、プレイヤーレベル（最大120）と経験値、所持している素材（各999まで、素材最大化ボタン付き）、所持している各ギフトの数量（最大99）。ストリーム暗号とワードチェックサムは自動で処理されます。
 
 Close the game first. The stream cipher and the word checksum are written again. Gifts and materials are shown by their number in the save, not by name; only ones you own are listed.
 = 先にゲームを終了してください。ストリーム暗号とワードチェックサムは書き込み時に再計算されます。ギフトと素材は名前ではなくセーブ内の番号で表示され、所持しているものだけが一覧に出ます。

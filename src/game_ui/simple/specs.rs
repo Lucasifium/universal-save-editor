@@ -12161,9 +12161,9 @@ const AOT2: Spec = Spec {
     accent: (150, 110, 60),
     kind: Some(crate::fmt::aot::KIND2),
     markers: &["/Gifts"],
-    subtitle: "Attack on Titan2_AOT2_PK_WIN0000.dat from Documents\\KoeiTecmo\\Attack on Titan2_AOT2\\SAVEDATA (Final Battle). Regiment funds, Wings of Freedom (up to 999), your experience (the level follows from it, up to level 120), the crafting materials you own with a Max crafting materials button (999 each) and the quantity of every gift you own, up to 99; the stream cipher and word checksum are handled.",
+    subtitle: "Attack on Titan2_AOT2_PK_WIN0000.dat from Documents\\KoeiTecmo\\Attack on Titan2_AOT2\\SAVEDATA (Final Battle). Regiment funds, Wings of Freedom (up to 999), your player level (up to 120) and experience, the crafting materials you own with a Max crafting materials button (999 each) and the quantity of every gift you own, up to 99; the stream cipher and word checksum are handled.",
     tiles: &[("Regiment funds", "/Resources/Regiment funds"), ("Wings of Freedom", "/Resources/Wings of Freedom")],
-    sections: &[Section { title: "Resources", rows: &[("Regiment funds", "/Resources/Regiment funds"), ("Wings of Freedom", "/Resources/Wings of Freedom")] }, Section { title: "Player", rows: &[("Experience", "/Player/Experience")] }],
+    sections: &[Section { title: "Resources", rows: &[("Regiment funds", "/Resources/Regiment funds"), ("Wings of Freedom", "/Resources/Wings of Freedom")] }, Section { title: "Player", rows: &[("Level", "/Player/Level"), ("Experience", "/Player/Experience")] }],
     lists: &[
         List {
             title: "Crafting materials (you own)",
