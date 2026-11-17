@@ -91,6 +91,8 @@ pub enum Layer {
     Ac8(fmt::ac8::Packed),
     /// RollerCoaster Tycoon 2 saved game: the park chunk, scrambled cash, file sum.
     Sv6(fmt::sv6::Packed),
+    /// RollerCoaster Tycoon (1) saved game: the whole file is run-length packed, with 4 bytes after it.
+    Sv4(fmt::sv4::Packed),
     /// Star Wars Jedi: Fallen Order: the zlib-packed actor records behind the GVAS header.
     JediFo(fmt::jedi::Packed),
     Xz,
@@ -404,6 +406,7 @@ impl Layer {
             Layer::Prey { .. } => "Prey save (RC4, zlib chunks, MD5 written again)".into(),
             Layer::Ac8(_) => "Ace Combat 8 packed data (checksum written again)".into(),
             Layer::Sv6(_) => "RollerCoaster Tycoon 2 chunks (run-length packed, file sum written again)".into(),
+            Layer::Sv4(_) => "RollerCoaster Tycoon run-length packing".into(),
             Layer::JediFo(_) => "Jedi: Fallen Order actor records (zlib)".into(),
             Layer::Xz => "xz".into(),
             Layer::Mgsv { .. } => "Metal Gear Solid V save encryption".into(),
@@ -950,6 +953,7 @@ fn wrap(layer: &Layer, data: Vec<u8>) -> Result<Vec<u8>, String> {
         Layer::Lz4 => compress(lz4_flex::frame::FrameEncoder::new(Vec::new()), &data)?.finish().map_err(|e| e.to_string())?,
         Layer::Ac8(p) => fmt::ac8::close(p, &data)?,
         Layer::Sv6(p) => fmt::sv6::close(p, &data)?,
+        Layer::Sv4(p) => fmt::sv4::close(p, &data)?,
         Layer::JediFo(p) => fmt::jedi::close(p, &data)?,
         Layer::Prey { header } => fmt::prey::close(header, &data)?,
         Layer::SizedZlib => {
@@ -1404,6 +1408,11 @@ fn peel(data: &[u8], ctx: &mut Ctx, json: &JsonOnce) -> Option<(Layer, Vec<u8>)>
             return Some((Layer::Sv6(p), inner));
         }
     }
+    if ctx.opts.ext.eq_ignore_ascii_case("sv4") && fmt::sv4::maybe(data) {
+        if let Some((p, inner)) = fmt::sv4::open(data) {
+            return Some((Layer::Sv4(p), inner));
+        }
+    }
     if data.starts_with(b"GVAS") {
         if let Some((p, inner)) = fmt::ac8::open(data) {
             return Some((Layer::Ac8(p), inner));
@@ -1484,6 +1493,10 @@ fn peel(data: &[u8], ctx: &mut Ctx, json: &JsonOnce) -> Option<(Layer, Vec<u8>)>
         }
     }
     if data.starts_with(b"PK\x03\x04") {
+        // Jurassic World Evolution careers are zips the game reads by its own rules: opened whole.
+        if fmt::jwe::looks(data) {
+            return None;
+        }
         if let Some(json) = fmt::owlcat::open(data) {
             ctx.hint = Some("Pathfinder save: its party, money and header are shown together; changed parts are written back with their checksums.".into());
             return Some((Layer::Owlcat { archive: Arc::new(data.to_vec()) }, json));

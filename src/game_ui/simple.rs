@@ -22,13 +22,14 @@ mod specs;
 mod specs_more;
 mod specs_np3;
 mod specs_sweep;
+mod specs_tycoon;
 mod words;
 pub use specs::SPECS;
 
 /// Every spec: the main list, then the games added in `specs_more.rs`.
 pub fn all() -> &'static [&'static Spec] {
     static ALL: std::sync::OnceLock<Vec<&'static Spec>> = std::sync::OnceLock::new();
-    ALL.get_or_init(|| SPECS.iter().chain(specs_more::MORE.iter()).chain(specs_np3::NP3.iter()).chain(specs_sweep::SWEEP.iter()).collect())
+    ALL.get_or_init(|| SPECS.iter().chain(specs_more::MORE.iter()).chain(specs_np3::NP3.iter()).chain(specs_sweep::SWEEP.iter()).chain(specs_tycoon::TYCOON.iter()).collect())
 }
 
 /// A panel of labelled values: `(label, pointer)`.

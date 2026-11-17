@@ -188,10 +188,11 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 </details>
 
 <details>
-<summary><strong>G</strong> (13)</summary>
+<summary><strong>G</strong> (14)</summary>
 
 | Game | Screen |
 |---|---|
+| Game Dev Tycoon | *Saved companies*: every saved company's cash, fans, research points, staff limit and level, from the game's Local Storage database (the load menu's copy of cash and fans is kept equal; checked on a public save, not yet tried in the game) |
 | Gas Station Simulator | *Station*: the player's and the station's money, fuel income and purchases, popularity level, gas station level and quest progress, from `GameSave_N.sav` / `AutoSaveN.sav` (plain Unreal GVAS; checked on public saves, not yet tried in the game) |
 | Generation Zero | *Characters*: skill points, experience, level, inventory amounts, the crafting resource store and safehouse storage with Max crafting materials, from `savegame` (checked on a public save, not yet tried in the game; the cap is an estimate) |
 | Ghost of Tsushima Director's Cut | *Jin Sakai*: supplies, flowers, Ghost Flowers, bamboo, yew wood, wax wood, iron, steel, gold, linen, leather, silk and predator hides, with a **Max crafting materials** button, and technique points to spend; the legend earned on Tsushima and Iki Island is shown. The save's checksum is made again (checked on public saves, not yet tried in the game; charms, gear levels and the difficulty are kept in a part of the save that isn't decoded yet) |
@@ -246,12 +247,14 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 </details>
 
 <details>
-<summary><strong>J</strong> (2)</summary>
+<summary><strong>J</strong> (4)</summary>
 
 | Game | Screen |
 |---|---|
 | Journey to the Savage Planet | *Stash*: the stash resources (carbon, silicon, aluminium, alien alloy) with a **Max crafting materials** button (9,999, an estimate), the bag's items and the completion percentage, from the plain Unreal save `PlayerSave_N.sav` (checked on a public save, not yet tried in the game) |
 | Judgment | *Yagami*: money and HP; decrypted with the game's key and its checksum kept right, every other value in the tree (checked on 40 public saves, not yet tried in the game) |
+| Jurassic World Evolution | *Islands*: the money a career keeps for each island, with the file's checksum written again; career, island and play time are shown (checked on a public career save, not yet tried in the game) |
+| Jurassic World Evolution 2 | *Career*: opens as a career file with its career, island and play time shown; a career money table is edited as in the first game when the save has one (checked on a public sandbox save, not yet tried in the game) |
 
 </details>
 
@@ -412,7 +415,7 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 </details>
 
 <details>
-<summary><strong>R</strong> (16)</summary>
+<summary><strong>R</strong> (17)</summary>
 
 | Game | Screen |
 |---|---|
@@ -428,6 +431,7 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 | Risk of Rain 2 | *Survivor*: Lunar coins, coins collected, runs played and play time of a profile `.xml`; unlocks, discovered items and the logbook are in the Tree. checked on a public profile, not yet tried in the game |
 | Road Redemption | *Rider*: the permanent upgrade ranks (health, damage, armor, nitro, critical hits, XP and money gain, store prices, ammo, durability, jump jets), kills, wins and the XP carried over, from the plain XML `N_N.save` (checked on a public save, not yet tried in the game) |
 | Roboquest | *Robot*: wrenches (and wrenches spent), the selected difficulty and class, the saved run's player level and the lifetime statistics (enemies destroyed, bosses taken down, damage dealt), from `RQProfile.sav` (checked on a public save, not yet tried in the game) |
+| RollerCoaster Tycoon | *Park*: cash, bank loan, maximum loan and the entrance fee from a saved park (`.SV4`, including Added Attractions and Loopy Landscapes); the file's run-length packing is opened and closed for you (checked on public parks, not yet tried in the game) |
 | RollerCoaster Tycoon 2 | *Park*: cash, bank loan, maximum loan and the entrance fee from a saved park (`.SV6`); the park's chunk is unpacked and packed again with the file's sum written right, and the game's scrambled cash is handled for you (checked on public parks, not yet tried in the game) |
 | RPG Maker MV / MZ | *Party*: gold, steps and play time; each character's name, level, EXP, HP / MP / TP, stat bonuses and learned skills (by id); the party's items, weapons and armor by database id (change a count, remove one, add one) |
 | RPG Maker XP games | *Party*: gold, steps, the party and every actor (level, EXP, HP, SP and stat bonuses), and the items, weapons and armour you carry by database number (checked on public To the Moon saves) |

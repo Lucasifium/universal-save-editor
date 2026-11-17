@@ -217,7 +217,9 @@ fn level(g: &GameInfo) -> (&'static str, &'static str) {
 }
 
 const STYLE: &str = r#":root{--bg:#0d111f;--bg2:#131930;--card:#161d36;--line:#27304d;--text:#eaeefb;--muted:#9ba6c6;--accent:#ffc247;--focus:#ffc247;--on-accent:#1a1400;--accent2:#9fb0ff;--track:#232c4b;--shadow:0 18px 50px rgba(0,0,0,.45);--r:14px;--head:ui-rounded,"SF Pro Rounded","Hiragino Maru Gothic ProN","Arial Rounded MT Bold","Segoe UI Variable Display","Segoe UI",system-ui,sans-serif}
-@media (prefers-color-scheme: light){:root{--bg:#eef1f8;--bg2:#e3e8f4;--card:#fff;--line:#d3daea;--text:#121a30;--muted:#4f5b78;--accent:#f2a900;--focus:#2a45d6;--on-accent:#1a1400;--accent2:#2a45d6;--track:#dbe1f1;--shadow:0 18px 40px rgba(30,45,100,.14)}}
+html[data-theme="light"]{color-scheme:light;--bg:#eef1f8;--bg2:#e3e8f4;--card:#fff;--line:#d3daea;--text:#121a30;--muted:#4f5b78;--accent:#f2a900;--focus:#2a45d6;--on-accent:#1a1400;--accent2:#2a45d6;--track:#dbe1f1;--shadow:0 18px 40px rgba(30,45,100,.14)}
+:root{color-scheme:dark}
+.theme-btn{background:none;border:1px solid var(--line);color:var(--muted);font:600 .9rem/1 system-ui,sans-serif;padding:8px 12px;border-radius:10px;cursor:pointer;min-height:36px}.theme-btn:hover{color:var(--text);border-color:var(--accent)}.theme-btn:focus-visible{outline:3px solid var(--focus);outline-offset:3px}
 *{box-sizing:border-box}html{scroll-behavior:smooth}
 body{margin:0;background:var(--bg);color:var(--text);font:16px/1.65 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;-webkit-text-size-adjust:100%}
 a{color:var(--accent2);text-underline-offset:3px}a:focus-visible,summary:focus-visible,input:focus-visible,.btn:focus-visible{outline:3px solid var(--focus);outline-offset:3px;border-radius:8px}
@@ -339,16 +341,18 @@ fn page(title: &str, desc: &str, path: &str, body: &str, schema: &str) -> String
 <link rel="apple-touch-icon" href="{root}apple-touch-icon.png">
 <link rel="manifest" href="{root}site.webmanifest">
 <meta name="theme-color" content="#0d111f">
+<script>try{{if(localStorage.getItem("use-theme")==="light")document.documentElement.setAttribute("data-theme","light")}}catch(e){{}}</script>
 <link rel="stylesheet" href="{root}style.css">
 <script type="application/ld+json">{schema}</script>
 </head>
 <body>
-<header><div class="in"><a class="brand" href="{root}"><img src="{root}logo-64.png" width="26" height="26" alt="">Universal Save Editor</a><nav><a href="{root}#games">Games</a><a href="{root}save-manager/">Save manager</a><a href="{root}{WEB_APP}">Use in browser</a><a href="{dl_nav}">Download</a><a href="{REPO}">Source</a></nav></div></header>
+<header><div class="in"><a class="brand" href="{root}"><img src="{root}logo-64.png" width="26" height="26" alt="">Universal Save Editor</a><nav><a href="{root}#games">Games</a><a href="{root}save-manager/">Save manager</a><a href="{root}{WEB_APP}">Use in browser</a><a href="{dl_nav}">Download</a><a href="{REPO}">Source</a><button type="button" class="theme-btn" id="theme-toggle" aria-label="Switch to light theme">Light theme</button></nav></div></header>
 <main>
 {body}
 </main>
 <footer><div class="in">Universal Save Editor is free, and always will be. Open source under the GPL-3.0. Not affiliated with any game developer or publisher; game names and trademarks belong to their owners. Always keep a backup of your saves.<br><a href="{DISCUSSIONS}">Questions and ideas</a> · <a href="{REPORT}">Report a problem</a> · <a href="{RELEASES}">All versions and release notes</a> · <a href="{REPO}">Source code on GitHub</a> · <a href="{root}code-signing/">Code signing policy</a></div></footer>
 {script}
+<script>(function(){{var b=document.getElementById("theme-toggle"),h=document.documentElement,m=document.querySelector('meta[name="theme-color"]');if(!b)return;function paint(){{var l=h.getAttribute("data-theme")==="light";b.textContent=l?"Dark theme":"Light theme";b.setAttribute("aria-label",l?"Switch to dark theme":"Switch to light theme");if(m)m.setAttribute("content",l?"#eef1f8":"#0d111f")}}b.addEventListener("click",function(){{var l=h.getAttribute("data-theme")==="light";if(l)h.removeAttribute("data-theme");else h.setAttribute("data-theme","light");try{{localStorage.setItem("use-theme",l?"dark":"light")}}catch(e){{}}paint()}});paint()}})();</script>
 </body>
 </html>
 "##,

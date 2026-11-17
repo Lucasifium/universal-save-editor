@@ -30301,3 +30301,74 @@ Unlocked squads
 profile.lua from Documents\\My Games\\Into the Breach\\profile_<name> (one folder per profile). Which squads are unlocked, and the totals the game keeps (games played, enemies killed, islands secured, pods). Pilots, achievements and the run in progress stay in the Tree. Close the game first.
 = Documents\My Games\Into the Breach\profile_<名前>（プロファイルごとに1フォルダ）の profile.lua。解放済みのスクワッドと、ゲームが記録する累計（プレイ回数、撃破数、確保した島、ポッド）。パイロット、実績、進行中のランはツリーにあります。先にゲームを終了してください。
 
+# src/game_ui/simple/specs_tycoon.rs, src/games.rs (tycoon games)
+A .career save from Saved Games\\Frontier Developments\\Jurassic World Evolution\\<id>\\Saves (the .sandbox saves hold no career money). The money the career keeps for each island, up to the 100,000,000 the game reaches. Everything else in the save is kept as it was, with the file's checksum written again. Close the game first.
+= Saved Games\Frontier Developments\Jurassic World Evolution\<id>\Saves にある .career セーブ（.sandbox セーブにはキャリアの資金がありません）。キャリアが島ごとに保持する資金を、ゲームが到達する 100,000,000 まで編集できます。セーブのそれ以外の内容はそのままで、ファイルのチェックサムは書き直されます。先にゲームを終了してください。
+
+Close the game first. A company's cash, fans and research points are changed in its saved game and in the load menu's summary. Level and staff limit change what the game reads, not what it unlocks.
+= 先にゲームを終了してください。会社の資金・ファン・研究ポイントは、セーブデータとロード画面の概要の両方で変更されます。レベルとスタッフ上限はゲームが読む値を変えるだけで、解放される内容は変わりません。
+
+Close the game first. Each island's money is the amount the career keeps for it; the game may still show the island's own balance when you open it.
+= 先にゲームを終了してください。各島の資金は、キャリアがその島のために保持している金額です。島を開くと、ゲームが島自体の残高を表示することがあります。
+
+Company level
+= 会社レベル
+
+Game screen: every saved company's cash, fans, research points, staff limit and level. The game keeps its saves in a browser-style database; the company's game and the load menu's copy of cash and fans are changed together. Checked on a public save, not yet tried in the game
+= ゲーム画面：保存された各会社の資金、ファン、研究ポイント、スタッフ上限、レベル。ゲームはブラウザのようなデータベースにセーブを保存します。会社のゲームデータとロード画面の資金・ファンのコピーは一緒に変更されます。公開セーブで確認済み、ゲーム内では未確認
+
+Game screen: the money a career keeps for each island, with the file's checksum written again; the career, island and play time are shown. Checked on a public career save, not yet tried in the game
+= ゲーム画面：キャリアが島ごとに保持する資金（ファイルのチェックサムは書き直されます）。キャリア、島、プレイ時間も表示されます。公開されたキャリアセーブで確認済み、ゲーム内では未確認
+
+Hours played
+= プレイ時間（時間）
+
+Island
+= 島
+
+Matanceros
+= Matanceros
+
+Money kept for each island
+= 島ごとの資金
+
+Muerta
+= Muerta
+
+Nublar
+= Nublar
+
+Opens as a career file: the save's zip is opened whole and its career, island and play time are shown; where the save has a career money table it is edited the same way as in the first game (not seen in a public save of this game yet). Checked on a public sandbox save, not yet tried in the game
+= キャリアファイルとして開きます。セーブの zip を丸ごと開き、キャリア、島、プレイ時間を表示します。セーブにキャリア資金のテーブルがあれば、最初の作品と同じ方法で編集します（本作の公開セーブではまだ確認されていません）。公開されたサンドボックスのセーブで確認済み、ゲーム内では未確認
+
+Pena
+= Pena
+
+Saved companies
+= 保存された会社
+
+Sorna
+= Sorna
+
+Staff limit
+= スタッフ上限
+
+Tacano
+= Tacano
+
+file__0.localstorage from AppData\\Local\\Game Dev Tycoon\\Local Storage (the game keeps its saves like a web page does). Each saved company's cash, fans, research points, staff limit and level; the load menu's own copy of cash and fans is kept equal. Close the game first.
+= AppData\Local\Game Dev Tycoon\Local Storage の file__0.localstorage（ゲームは Web ページのようにセーブを保存します）。保存された各会社の資金、ファン、研究ポイント、スタッフ上限、レベル。ロード画面の資金とファンのコピーも同じ値に保たれます。先にゲームを終了してください。
+
+# src/game_ui/simple/specs_tycoon.rs, src/fmt/sv4.rs (RollerCoaster Tycoon)
+A saved park (.SV4) from the game's Saved Games folder: Added Attractions and Loopy Landscapes parks too. The park's cash, bank loan, maximum loan and entrance fee. The file is unpacked and packed again on save. Close the game first.
+= ゲームの Saved Games フォルダーにある保存済みパーク（.SV4）。Added Attractions と Loopy Landscapes のパークにも対応します。パークの資金、銀行ローン、最大ローン、入園料を編集できます。ファイルは保存時に展開され、再び圧縮されます。先にゲームを終了してください。
+
+Game screen: a saved park's cash, bank loan, maximum loan and entrance fee (Added Attractions and Loopy Landscapes parks too); the file's run-length packing is opened and closed for you. Checked on public parks, not yet tried in the game
+= ゲーム画面：保存済みパークの資金、銀行ローン、最大ローン、入園料（Added Attractions と Loopy Landscapes のパークにも対応）。ファイルのランレングス圧縮は自動で展開・再圧縮されます。公開パークで確認済み、ゲーム内では未確認
+
+Park finances
+= パークの財務
+
+Close the game first. Cash, loan and fees are in whole currency units with one decimal (the game keeps tenths). A scenario you play for a score may not record it after its cash was changed.
+= 先にゲームを終了してください。資金、ローン、料金は小数点以下1桁の通貨単位で表示されます（ゲームは10分の1単位で保存します）。スコア目的でプレイするシナリオは、資金を変更するとスコアが記録されない場合があります。
+

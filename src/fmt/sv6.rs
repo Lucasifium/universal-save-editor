@@ -40,7 +40,7 @@ fn ror8(b: u8, n: u32) -> u8 {
     b.rotate_right(n)
 }
 
-fn rle_decode(s: &[u8]) -> Option<Vec<u8>> {
+pub(super) fn rle_decode(s: &[u8]) -> Option<Vec<u8>> {
     let mut o = Vec::with_capacity(s.len() * 2);
     let mut i = 0;
     while i < s.len() {
@@ -105,7 +105,7 @@ fn decode(enc: u8, s: &[u8]) -> Option<Vec<u8>> {
 
 /// Run-length packing as the game reads it: a byte under 128 copies that many plus one bytes, a
 /// byte from 129 repeats the next byte `257 - n` times.
-fn rle_encode(s: &[u8]) -> Vec<u8> {
+pub(super) fn rle_encode(s: &[u8]) -> Vec<u8> {
     let mut o = Vec::with_capacity(s.len() / 2);
     let mut lit_start = 0;
     let mut i = 0;

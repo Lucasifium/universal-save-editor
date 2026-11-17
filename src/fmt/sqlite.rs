@@ -26,10 +26,10 @@ struct SqliteBackend {
 }
 
 /// A temporary copy of the database that's deleted when dropped.
-struct Temp(PathBuf);
+pub(super) struct Temp(pub(super) PathBuf);
 
 impl Temp {
-    fn new(bytes: &[u8]) -> Result<Self, String> {
+    pub(super) fn new(bytes: &[u8]) -> Result<Self, String> {
         static N: AtomicUsize = AtomicUsize::new(0);
         let p = std::env::temp_dir().join(format!("save_editor_{}_{}.sqlite", std::process::id(), N.fetch_add(1, Ordering::Relaxed)));
         std::fs::write(&p, bytes).map_err(|e| e.to_string())?;
