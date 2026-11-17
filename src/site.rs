@@ -280,6 +280,7 @@ const DOWNLOADS: &[(&str, &str, &str)] = &[
     ("win-arm64", "Windows on ARM", "windows-arm64.exe"),
     ("linux-x64", "Linux (64-bit)", "linux-x64.tar.gz"),
     ("linux-arm64", "Linux on ARM", "linux-arm64.tar.gz"),
+    ("macos", "macOS", "macos.zip"),
 ];
 
 fn download_url(end: &str) -> String {
@@ -307,7 +308,7 @@ fn with_downloads(body: &str) -> String {
     format!("{}{main}{}{more}{}", &body[..at], &body[after..close], &body[close..])
 }
 
-const DOWNLOAD_SCRIPT: &str = r#"<script>(function(){var m=document.querySelectorAll('[data-dl-main]');if(!m.length)return;var ua=navigator.userAgent,d=navigator.userAgentData,p=((d&&d.platform)||navigator.platform||'')+' '+ua;var os=/Android|iPhone|iPad/i.test(ua)?null:/Win/i.test(p)?'win':/Linux|X11|CrOS/i.test(p)?'linux':null;var arch=/arm|aarch64/i.test(p)?'arm64':'x64';function pick(){if(!os)return;var a=document.querySelector('[data-dl="'+os+'-'+arch+'"]');if(!a)return;m.forEach(function(b){b.href=a.href;b.textContent='Download for '+a.textContent})}if(d&&d.getHighEntropyValues){d.getHighEntropyValues(['architecture']).then(function(v){if(v.architecture)arch=v.architecture==='arm'?'arm64':'x64';pick()},pick)}else pick();if(window.fetch)fetch('https://api.github.com/repos/Lucasifium/universal-save-editor/releases/latest').then(function(r){return r.ok?r.json():null}).then(function(j){if(!j||!j.assets)return;document.querySelectorAll('[data-dl]').forEach(function(a){j.assets.forEach(function(x){if(x.name.slice(-a.dataset.end.length)===a.dataset.end)a.href=x.browser_download_url})});var s=document.querySelector('.dl-more span');if(s&&j.tag_name)s.textContent='Version '+j.tag_name.replace(/^v/,'')+':';pick()}).catch(function(){})})()</script>"#;
+const DOWNLOAD_SCRIPT: &str = r#"<script>(function(){var m=document.querySelectorAll('[data-dl-main]');if(!m.length)return;var ua=navigator.userAgent,d=navigator.userAgentData,p=((d&&d.platform)||navigator.platform||'')+' '+ua;var os=/Android|iPhone|iPad/i.test(ua)?null:/Win/i.test(p)?'win':/Mac/i.test(p)?'mac':/Linux|X11|CrOS/i.test(p)?'linux':null;var arch=/arm|aarch64/i.test(p)?'arm64':'x64';function pick(){if(!os)return;var a=document.querySelector('[data-dl="'+(os==='mac'?'macos':os+'-'+arch)+'"]');if(!a)return;m.forEach(function(b){b.href=a.href;b.textContent='Download for '+a.textContent})}if(d&&d.getHighEntropyValues){d.getHighEntropyValues(['architecture']).then(function(v){if(v.architecture)arch=v.architecture==='arm'?'arm64':'x64';pick()},pick)}else pick();if(window.fetch)fetch('https://api.github.com/repos/Lucasifium/universal-save-editor/releases/latest').then(function(r){return r.ok?r.json():null}).then(function(j){if(!j||!j.assets)return;document.querySelectorAll('[data-dl]').forEach(function(a){j.assets.forEach(function(x){if(x.name.slice(-a.dataset.end.length)===a.dataset.end)a.href=x.browser_download_url})});var s=document.querySelector('.dl-more span');if(s&&j.tag_name)s.textContent='Version '+j.tag_name.replace(/^v/,'')+':';pick()}).catch(function(){})})()</script>"#;
 
 fn page(title: &str, desc: &str, path: &str, body: &str, schema: &str) -> String {
     let body = with_downloads(body);

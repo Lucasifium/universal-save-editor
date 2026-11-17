@@ -2,6 +2,13 @@
 
 Each version starts with a one-line summary for players (the `> ` line), which becomes the release title.
 
+## 0.8.4
+
+> Now available for macOS
+
+- macOS download (Apple Silicon and Intel in one app); it is not signed by Apple, so the first launch needs right-click > Open
+- The website and release notes list the macOS download, and the site picks it for Mac visitors
+
 ## 0.8.3
 
 > Close a save in one click, and Raft saves now open on their own screen

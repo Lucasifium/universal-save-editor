@@ -2,8 +2,8 @@
 #   - Push a tag like v0.2.0 (it must match the version in Cargo.toml): builds and publishes.
 #   - Actions tab > "Release" > Run workflow: builds only (files appear under the run's Artifacts).
 #     Fill in "tag" to publish that release from the chosen branch as well.
-# macOS uses GitHub's expensive Mac machines, so it only runs for major tags (X.0.0) or when
-# "Include macOS" is ticked on a manual run.
+# macOS is built on GitHub's hosted Mac runner (free for public repositories) for every release,
+# and on manual build-only runs when "Include macOS" is ticked.
 # There is no Android download: the app's source stays in the repo (see BUILDING.md) for anyone who
 # wants to build the APK themselves.
 # Every file goes through packaging/check_clean.py before it is published.
@@ -74,7 +74,7 @@ jobs:
         with: { name: linux, path: dist/*, if-no-files-found: error, retention-days: 1 }
 
   macos:
-    if: ${{ inputs.macos || (github.ref_type == 'tag' && endsWith(github.ref_name, '.0.0')) }}
+    if: ${{ inputs.macos || inputs.tag != '' || github.ref_type == 'tag' }}
     runs-on: macos-14
     steps:
       - uses: actions/checkout@v4

@@ -16,7 +16,7 @@ no rate limits.
 
 <img src="assets/screenshot.png" width="760" alt="The editor with a save open: named values in groups, with number fields, text fields and switches">
 
-**Download:** grab the latest build from the [Releases](../../releases/latest) page (Windows and Linux; macOS in major releases).
+**Download:** grab the latest build from the [Releases](../../releases/latest) page (Windows, Linux and macOS).
 
 **No install:** the [browser version](https://universalsaveeditor.com/app/) is the same
 editor compiled to WebAssembly. It runs inside the page on your own computer and never uploads the save;
@@ -62,9 +62,11 @@ Ready-made builds are on the [Releases page](../../releases):
 | `UniversalSaveEditor-<version>-windows-arm64.exe` | Windows 11 on ARM |
 | `UniversalSaveEditor-<version>-linux-x64.tar.gz` | Linux x64 (glibc 2.28+) |
 | `UniversalSaveEditor-<version>-linux-arm64.tar.gz` | Linux ARM64 (e.g. Raspberry Pi) |
-| `UniversalSaveEditor-<version>-macos.zip` | macOS 11+ (major releases only) |
+| `UniversalSaveEditor-<version>-macos.zip` | macOS 11+, Apple Silicon and Intel (unsigned, see below) |
 
 **Verify your download:** each release also has a `SHA256SUMS.txt`. Put it next to the file and run `sha256sum -c --ignore-missing SHA256SUMS.txt` (Linux), or on Windows run `certutil -hashfile UniversalSaveEditor-<version>-windows-x64.exe SHA256` and compare the result with the matching line. The builds are not code-signed, so Windows SmartScreen or an antivirus may warn about a new file; matching the checksum shows it is the file published here.
+
+**macOS:** unzip `UniversalSaveEditor-<version>-macos.zip` and move `UniversalSaveEditor.app` to Applications. The app is not signed or notarised by Apple, so the first time macOS says it can't verify the app: right-click (or Control-click) the app, choose **Open**, then **Open** again. On newer macOS, if there is no Open button, open System Settings > Privacy & Security and choose **Open Anyway** next to the app's name.
 
 **Windows SmartScreen:** the first time you run a new release, Windows may show "Windows protected your PC". That message means the file is new and unsigned, not that anything harmful was found. Click **More info**, then **Run anyway**. Check the checksum first if you want to be sure.
 
