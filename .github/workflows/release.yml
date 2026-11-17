@@ -75,7 +75,7 @@ jobs:
 
   macos:
     if: ${{ inputs.macos || inputs.tag != '' || github.ref_type == 'tag' }}
-    runs-on: macos-14
+    runs-on: macos-latest
     steps:
       - uses: actions/checkout@v4
 
@@ -138,7 +138,7 @@ jobs:
 
   verify:
     needs: [windows, linux, macos]
-    if: ${{ !cancelled() && !contains(needs.*.result, 'failure') }}
+    if: ${{ !cancelled() && needs.windows.result == 'success' && needs.linux.result == 'success' && (needs.macos.result == 'success' || needs.macos.result == 'skipped') }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
