@@ -1,6 +1,6 @@
 //! ASTLIBRA Revision `SAVE_<n>.DAT`: a 0x74xx-byte file that starts with "ALBR_SAV" and keeps
 //! its values at fixed places. The last eight bytes are two CRC-32s: one of everything before
-//! the final 0x400 bytes of data (the part the load screen shows), one of those 0x400 bytes.
+//! the final 400 bytes of data (the part the load screen shows), one of those 400 bytes.
 //!
 //! Offsets as published by qazmlpok's astlibra-save-editor (MIT): level 0x7370, experience
 //! towards the next level 0x7390, gold 0x7394, the six force pools from 0x73B4 (fire, earth,
@@ -91,6 +91,17 @@ mod tests {
         assert_eq!(&out[0x7394..0x7398], &99999i32.to_le_bytes());
         assert!(looks(&out), "checksums rewritten");
         assert_ne!(out, d);
+    }
+
+    /// `ASTLIBRA_SAVE=<SAVE_n.DAT> cargo test --release --lib astlibra -- --ignored --nocapture`
+    #[test]
+    #[ignore]
+    fn real_save_is_recognised() {
+        let Ok(p) = std::env::var("ASTLIBRA_SAVE") else { return };
+        let d = std::fs::read(p).unwrap();
+        assert!(looks(&d));
+        let doc = parse(&d).unwrap();
+        println!("{}", doc.view);
     }
 
     #[test]
