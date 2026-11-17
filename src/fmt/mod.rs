@@ -210,6 +210,7 @@ pub mod dead_rising;
 pub mod ff13;
 pub mod ffr;
 pub mod p5r;
+pub mod astlibra;
 pub mod cave_story;
 pub mod ori;
 pub mod lego_tss;
@@ -1035,6 +1036,11 @@ pub fn parse_binary(d: &[u8]) -> Option<TreeDoc> {
     }
     if adf::looks(d) {
         if let Ok(t) = adf::parse(d) {
+            return Some(t);
+        }
+    }
+    if astlibra::looks(d) {
+        if let Ok(t) = astlibra::parse(d) {
             return Some(t);
         }
     }

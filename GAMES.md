@@ -9,7 +9,7 @@ The games below open on a screen of their own (the first tab: *Character*, *Trai
 undo and checksums as everywhere else, and the *Values* and *Tree* tabs still show everything.
 
 <details>
-<summary><strong>A</strong> (31)</summary>
+<summary><strong>A</strong> (32)</summary>
 
 | Game | Screen |
 |---|---|
@@ -38,6 +38,7 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 | Assassin's Creed Syndicate | *Frye twins*: pounds; leather, metal, chemicals and silk with a **Max crafting materials** button (9,999, an estimate: no public source states a limit); smoke bombs, berserk darts, medicine, bullets and voltaic bombs. The save is unscrambled (the key for your account is worked out from the file itself), unpacked and packed again with its block checks. Checked on public saves, not yet tried in the game; close the game and turn cloud saves off in Ubisoft Connect first; the save ends with a 4-byte value that isn't understood yet and is kept as it is |
 | Assassin's Creed Unity | *Inventory*: money and gadget and ammunition counts (checked on public saves, not yet tried in the game) |
 | Assassin's Creed Unity | *Arno*: francs and Creed Points, smoke bombs, berserk darts, medicine, bullets, cherry bombs and stun grenades. The save is unscrambled (the key for your account is worked out from the file itself), unpacked and packed again with its block checks. Checked on public saves, not yet tried in the game; close the game and turn cloud saves off in Ubisoft Connect first |
+| ASTLIBRA Revision | Gold, level, experience towards the next level and the six force pools (fire, earth, water, darkness, wind, holy). The save's two checksums are written again. Checked on public saves, not yet tried in the game |
 | Atelier Firis: The Alchemist and the Mysterious Journey | *Resources*: Cole (original 2017 release; item qualities and recipes are left alone; checked on a public save, not yet tried in the game) |
 | Atelier Sophie: The Alchemist of the Mysterious Book | *Resources*: Cole and Tess exchange tickets (original 2017 release; item qualities and recipes are left alone; checked on a public save, not yet tried in the game) |
 | ATOM RPG | *Party*: every party member's level, experience, seven attributes, seventeen skills and free skill, stat and perk points; each member's inventory with counts (the player's rubles are the Money item). The gzip packing is handled for you (checked on a public save, not yet tried in the game) |
@@ -71,7 +72,7 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 </details>
 
 <details>
-<summary><strong>C</strong> (15)</summary>
+<summary><strong>C</strong> (16)</summary>
 
 | Game | Screen |
 |---|---|
@@ -89,12 +90,13 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 | Crusader Kings II | *Empire*: the ruler's wealth, prestige, piety and attributes. Ironman (binary) saves are edited in place, dates included (checked on a save converted to the binary layout; no save from a real ironman campaign has been tried yet) |
 | Cult of the Lamb | *Cult*: the Lamb's level, XP, hearts and fervour; cult faith, level, shrine and doctrine levels; the inventory and storage by item name, with a **Max crafting materials** button that fills lumber, stone, bones, grass, planks, stone blocks, gold nuggets and bars, crystal shards, spider silk and shells to 999 (an estimate), leaving coins, food, seeds, gifts, necklaces and boss items alone (checked on a public sample save, not yet tried in the game) |
 | Cuphead | *Inkwell Isle*: coins and deaths for both players, Djimmi's wishes, expert mode, the filters, Boatman and the other unlocks (checked on a public sample save, not yet tried in the game) |
+| Cyberdimension Neptunia: 4 Goddesses Online | Money, guild rank, and the totals the game keeps (money earned, enemies defeated, dungeons cleared, longest combo, time played). Checked on a public save, not yet tried in the game |
 | Cyberpunk 2077 | *V*: eurodollars, from V's own inventory (found through the save's section table; the table's position is updated when the save is repacked) |
 
 </details>
 
 <details>
-<summary><strong>D</strong> (39)</summary>
+<summary><strong>D</strong> (40)</summary>
 
 | Game | Screen |
 |---|---|
@@ -115,6 +117,7 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 | Deep Rock Galactic: Survivor | *Profile*: credits, the minerals and Power Cores, player rank, each class's XP and rank, and the stat upgrade levels. Open `drgs.dat` (checked on a public save, not yet tried in the game) |
 | Deltarune | Chapter 1 fully (party, inventory as item numbers, Light World); Chapters 2 to 4: dark dollars and the party's stats and equipment. Every line of the file can be edited. Not yet tried in the game |
 | Deltatraveler | *Party*: name, gold, experience, play time, party members and the item, weapon and armor ids (checked on public saves, not yet tried in the game) |
+| Destroy All Humans! (2020) | Crypto's DNA, the currency for weapon, saucer and ability upgrades. Checked on a public save, not yet tried in the game |
 | Deus Ex (2000) | JC Denton: credits, skill points, bioelectric energy, health per body part, ammo, medkits and other item counts, skill and augmentation levels (values the game left out can't be set). Not yet tried in the game |
 | Deus Ex: Mankind Divided | *Adam*: credits, Praxis kits, crafting parts (with a **Max crafting materials** button) and each ammo stack, with total experience and progress to the next Praxis kit shown (checked on real saves and in the game; close the game and turn Steam Cloud off for it first, or Steam may bring the old save back) |
 | Devil May Cry HD Collection (Devil May Cry 1) | *Slots*: red, yellow and blue orbs and play time of each used slot of the Devil May Cry 1 save `dmc1.sav` (checked on a public save, not yet tried in the game; Devil May Cry 2 and 3 saves open as hex) |
@@ -205,7 +208,7 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 </details>
 
 <details>
-<summary><strong>H</strong> (16)</summary>
+<summary><strong>H</strong> (18)</summary>
 
 | Game | Screen |
 |---|---|
@@ -216,6 +219,7 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 | Half-Life: Source | *Player*: health, armour, spare ammo by type and each carried weapon's magazine. Changed in place |
 | Hearts of Iron IV | *Empire*: political power, stability, war support, command power and experience. Binary saves (the game's default, and ironman) are edited in place and stay binary; fields outside this screen show as numbers (checked on public saves, not yet tried in the game) |
 | Heroes of Might and Magic III | *Heroes*: every player's gold and resources, and every hero's level, experience, attack, defense, spell power, knowledge, spell points, movement, army (creature and count) and the skills they already have, from a `.GM1`, `.CGM` or `.GM2` save (Shadow of Death, Armageddon's Blade and Horn of the Abyss 1.8+; the game's gzip packing is opened and closed for you; checked on public saves, not yet tried in the game) |
+| High on Life | Pesos. Every other inventory count and story flag is in the Tree. Checked on public saves, not yet tried in the game |
 | Hogwarts Legacy | *Character*: gold, experience, talent points, every resource in the bag (with a **Max crafting materials** button that fills ingredients, beast by-products and Moonstone to 999, an estimate) and talent levels, from the game's own database inside the save (unpacked and packed again when you save); if the database can't be opened, the load-screen name, house and level |
 | Hollow Knight | Geo, masks, notches, abilities and charms; spell levels, nail arts, Steel Soul mode, Kingsoul state and stag stations (those this save lists); a *Max upgrade materials* button (all 6 Pale Ore) |
 | Hollow Knight: Silksong | Rosaries, shell shards, masks, silk, needle, abilities, crests, tools and items; decrypted and encrypted again on save. Not yet tried in the game |
@@ -224,6 +228,7 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 | Horizon Zero Dawn | *Aloy*: metal shards and skill points, with level and experience (PC Complete Edition; checked on public saves, not yet tried in the game) |
 | Hotline Miami | *Progress*: overall score, masks, levels and weapons unlocked, the hidden puzzle's letters, and each level's rank and high score in `SaveData.sav` (checked on a public save, not yet tried in the game) |
 | House Flipper | *Flipper*: money (both copies the game keeps are written together), unused perk points of each skill and the statistics, from `PlayerProgress.dat` (plain JSON; checked on a public save, not yet tried in the game) |
+| Hunting Simulator 2 | Credits, shots fired, animals spotted, tracks inspected and time played. Checked on a public save, not yet tried in the game |
 | Hyper Light Drifter | Opens as JSON from `HyperLight_RecordOfTheDrifter_N.sav` (the hex header and base64 wrapper are removed and put back; every value by name; checked on a public save, not yet tried in the game) |
 
 </details>
@@ -308,7 +313,7 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 </details>
 
 <details>
-<summary><strong>M</strong> (21)</summary>
+<summary><strong>M</strong> (22)</summary>
 
 | Game | Screen |
 |---|---|
@@ -326,6 +331,7 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 | Minecraft (`level.dat`) | Health, food and XP; game mode; difficulty (Peaceful to Hard); world settings; inventory and ender chest grids; a **Max crafting materials** button that fills the ingots, raw ores, gems, string, leather and other materials already carried to 64, leaving ender pearls, eyes of ender and other progression items alone |
 | Minecraft Dungeons | *Hero*: the character `.dat` is decrypted (AES, the key as published by MCDSaveEdit) and encrypted again on save; experience, total gear power and the emerald, gold and Eye of Ender counts, with items and enchantments in the Tree. The decryption was checked on a public sample save; not yet tried in the game |
 | Mon Bazou | *Driver*: cash, the player's meters and the hard mode and permadeath flags, from `marguerite.txt` (.NET BinaryFormatter, read and written in place; the vehicle, parts and garden files open for Tree editing; checked on a public save, not yet tried in the game) |
+| Monster Train 2 | The Covenant level you play at, the highest Covenant unlocked and the story progress. Plain JSON; checked on a public save, not yet tried in the game |
 | Moonlighter | *Will*: gold, days passed and the banker's invested money; the backpack and equipped items by name with count (enchantment levels in the Tree). The `gameslot` file opens as JSON (checked on a public save, not yet tried in the game) |
 | Mortal Shell | *Fallgrim*: Tar, the shell points of each shell, max health, deaths, New Game+ level, and the Storm Mode run's Tar and Glimpses in `GPData_<slot>.sav` (inventory item names are stored as game text and aren't shown; checked on public saves, not yet tried in the game) |
 | Mortal Shell II | *Harbinger*: Gold, Gloom and Glimpses, their lifetime totals, every item's count and every unlocked shell, weapon and seal in `WorldState_<n>.sav`, with a **Max crafting materials** button that raises the Tarforge smithing materials (Ventrium, Laterite, Dorsalite, Thoracium) you have to 99 (an estimate), leaving keys, artifacts and upgrade items alone (checked on public saves, not yet tried in the game) |
@@ -428,7 +434,7 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 </details>
 
 <details>
-<summary><strong>S</strong> (38)</summary>
+<summary><strong>S</strong> (39)</summary>
 
 | Game | Screen |
 |---|---|
@@ -468,6 +474,7 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 | Streets of Rogue | *Unlocks*: nuggets, wins, deaths and games played, and every agent, item, trait and floor with whether it is unlocked and what it costs, from `GameUnlocks.dat` (checked on a public unlocks file, not yet tried in the game) |
 | Subnautica 2 | *Survival*: health, oxygen, food and water with their maximums, the player inventory and every locker, vehicle and storage container, changed in place in the save (checked on a real early-access save; needs the Oodle library of any installed game) |
 | Subnautica, Below Zero | *Slot*: game mode (Survival / Freedom / Hardcore / Creative), play time, vehicles |
+| Supermarket Simulator | Money, store level and points, the store upgrade and storage levels and the day. Easy Save 3 data; checked on a public save, not yet tried in the game |
 | Supraland | *Hero*: coins, the coin limit, sword damage and range, progress points, deaths, kills, jumps, play time and completion, from the plain Unreal GVAS `.sav` (checked on public saves, not yet tried in the game) |
 | Sword Art Online: Fatal Bullet | *Inventory*: the quantity of every weapon, costume, accessory, bullet and material, with item names, from `SaveData.sav` (encrypted blocks and the end-of-file HMAC handled; checked on a public save, not yet tried in the game) |
 
