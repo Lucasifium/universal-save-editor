@@ -29970,11 +29970,11 @@ Peaceful
 atwin0000.dat from Documents\\KoeiTecmo\\Attack on Titan\\SAVEDATA. Your funds and the quantity of every item you own; the stream cipher and word checksum are handled.
 = atwin0000.dat de Documents\\KoeiTecmo\\Attack on Titan\\SAVEDATA. Tus fondos y la cantidad de cada objeto que tienes; el cifrado de flujo y la suma de palabras se gestionan.
 
-Attack on Titan2_AOT2_PK_WIN0000.dat from Documents\\KoeiTecmo\\Attack on Titan2_AOT2\\SAVEDATA (Final Battle). Regiment funds, Wings of Freedom (up to 999) and the quantity of every gift you own, up to 99; the stream cipher and word checksum are handled.
-= Attack on Titan2_AOT2_PK_WIN0000.dat de Documents\\KoeiTecmo\\Attack on Titan2_AOT2\\SAVEDATA (Final Battle). Fondos del regimiento, Wings of Freedom (hasta 999) y la cantidad de cada regalo que tienes, hasta 99; el cifrado de flujo y la suma de palabras se gestionan.
+Attack on Titan2_AOT2_PK_WIN0000.dat from Documents\\KoeiTecmo\\Attack on Titan2_AOT2\\SAVEDATA (Final Battle). Regiment funds, Wings of Freedom (up to 999), the crafting materials you own with a Max crafting materials button (999 each) and the quantity of every gift you own, up to 99; the stream cipher and word checksum are handled.
+= Attack on Titan2_AOT2_PK_WIN0000.dat de Documents\\KoeiTecmo\\Attack on Titan2_AOT2\\SAVEDATA (Final Battle). Fondos del regimiento, Wings of Freedom (hasta 999), los materiales de fabricación que tienes con un botón Máx. materiales de fabricación (999 cada uno) y la cantidad de cada regalo que tienes, hasta 99; el cifrado de flujo y la suma de palabras se gestionan.
 
-Close the game first. The stream cipher and the word checksum are written again. Gifts are shown by their number in the save, not by name; only gifts you own are listed.
-= Cierra primero el juego. El cifrado de flujo y la suma de palabras se vuelven a escribir. Los regalos se muestran con su número en la partida, no con su nombre; solo se listan los que tienes.
+Close the game first. The stream cipher and the word checksum are written again. Gifts and materials are shown by their number in the save, not by name; only ones you own are listed.
+= Cierra primero el juego. El cifrado de flujo y la suma de palabras se vuelven a escribir. Los regalos y materiales se muestran con su número en la partida, no con su nombre; solo se listan los que tienes.
 
 Close the game first. The stream cipher and the word checksum are written again. Items are shown by their number in the save, not by name; only items you own are listed.
 = Cierra primero el juego. El cifrado de flujo y la suma de palabras se vuelven a escribir. Los objetos se muestran con su número en la partida, no con su nombre; solo se listan los que tienes.
@@ -29982,8 +29982,8 @@ Close the game first. The stream cipher and the word checksum are written again.
 Game screen: funds and the quantity of every item you own; the stream cipher and word checksum are rewritten. Checked on a public save, not yet tried in the game
 = Pantalla de juego: fondos y la cantidad de cada objeto que tienes; el cifrado de flujo y la suma de palabras se reescriben. Comprobado con una partida pública, aún no probado en el juego
 
-Game screen (Final Battle): regiment funds, Wings of Freedom and the quantity of every gift you own; the stream cipher and word checksum are rewritten. Checked on a public save, not yet tried in the game
-= Pantalla de juego (Final Battle): fondos del regimiento, Wings of Freedom y la cantidad de cada regalo que tienes; el cifrado de flujo y la suma de palabras se reescriben. Comprobado con una partida pública, aún no probado en el juego
+Game screen (Final Battle): regiment funds, Wings of Freedom, the crafting materials you own with a Max crafting materials button, and the quantity of every gift you own; the stream cipher and word checksum are rewritten. Checked on a public save, not yet tried in the game
+= Pantalla de juego (Final Battle): fondos del regimiento, Wings of Freedom, los materiales de fabricación que tienes con un botón Máx. materiales de fabricación, y la cantidad de cada regalo que tienes; el cifrado de flujo y la suma de palabras se reescriben. Comprobado con una partida pública, aún no probado en el juego
 
 Gifts (you own)
 = Regalos (que tienes)
@@ -29996,4 +29996,7 @@ Regiment funds
 
 Wings of Freedom
 = Wings of Freedom
+
+Raises every crafting material you already own to 999, the limit the game shows (many are at 999 in a completed save). Materials you don't own are left alone.
+= Sube a 999 cada material de fabricación que ya tienes, el límite que muestra el juego (muchos están en 999 en una partida completada). Los materiales que no tienes no se tocan.
 

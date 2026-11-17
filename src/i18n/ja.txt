@@ -30055,11 +30055,11 @@ Peaceful
 atwin0000.dat from Documents\\KoeiTecmo\\Attack on Titan\\SAVEDATA. Your funds and the quantity of every item you own; the stream cipher and word checksum are handled.
 = Documents\\KoeiTecmo\\Attack on Titan\\SAVEDATA の atwin0000.dat。資金と所持している各アイテムの数量。ストリーム暗号とワードチェックサムは自動で処理されます。
 
-Attack on Titan2_AOT2_PK_WIN0000.dat from Documents\\KoeiTecmo\\Attack on Titan2_AOT2\\SAVEDATA (Final Battle). Regiment funds, Wings of Freedom (up to 999) and the quantity of every gift you own, up to 99; the stream cipher and word checksum are handled.
-= Documents\\KoeiTecmo\\Attack on Titan2_AOT2\\SAVEDATA の Attack on Titan2_AOT2_PK_WIN0000.dat（Final Battle）。連隊資金、自由の翼（最大999）、所持している各ギフトの数量（最大99）。ストリーム暗号とワードチェックサムは自動で処理されます。
+Attack on Titan2_AOT2_PK_WIN0000.dat from Documents\\KoeiTecmo\\Attack on Titan2_AOT2\\SAVEDATA (Final Battle). Regiment funds, Wings of Freedom (up to 999), the crafting materials you own with a Max crafting materials button (999 each) and the quantity of every gift you own, up to 99; the stream cipher and word checksum are handled.
+= Documents\\KoeiTecmo\\Attack on Titan2_AOT2\\SAVEDATA の Attack on Titan2_AOT2_PK_WIN0000.dat（Final Battle）。連隊資金、自由の翼（最大999）、所持している素材（各999まで、素材最大化ボタン付き）、所持している各ギフトの数量（最大99）。ストリーム暗号とワードチェックサムは自動で処理されます。
 
-Close the game first. The stream cipher and the word checksum are written again. Gifts are shown by their number in the save, not by name; only gifts you own are listed.
-= 先にゲームを終了してください。ストリーム暗号とワードチェックサムは書き込み時に再計算されます。ギフトは名前ではなくセーブ内の番号で表示され、所持しているものだけが一覧に出ます。
+Close the game first. The stream cipher and the word checksum are written again. Gifts and materials are shown by their number in the save, not by name; only ones you own are listed.
+= 先にゲームを終了してください。ストリーム暗号とワードチェックサムは書き込み時に再計算されます。ギフトと素材は名前ではなくセーブ内の番号で表示され、所持しているものだけが一覧に出ます。
 
 Close the game first. The stream cipher and the word checksum are written again. Items are shown by their number in the save, not by name; only items you own are listed.
 = 先にゲームを終了してください。ストリーム暗号とワードチェックサムは書き込み時に再計算されます。アイテムは名前ではなくセーブ内の番号で表示され、所持しているものだけが一覧に出ます。
@@ -30067,8 +30067,8 @@ Close the game first. The stream cipher and the word checksum are written again.
 Game screen: funds and the quantity of every item you own; the stream cipher and word checksum are rewritten. Checked on a public save, not yet tried in the game
 = ゲーム画面：資金と所持している各アイテムの数量。ストリーム暗号とワードチェックサムは書き直されます。公開セーブで確認済み、ゲーム内ではまだ未確認
 
-Game screen (Final Battle): regiment funds, Wings of Freedom and the quantity of every gift you own; the stream cipher and word checksum are rewritten. Checked on a public save, not yet tried in the game
-= ゲーム画面（Final Battle）：連隊資金、自由の翼、所持している各ギフトの数量。ストリーム暗号とワードチェックサムは書き直されます。公開セーブで確認済み、ゲーム内ではまだ未確認
+Game screen (Final Battle): regiment funds, Wings of Freedom, the crafting materials you own with a Max crafting materials button, and the quantity of every gift you own; the stream cipher and word checksum are rewritten. Checked on a public save, not yet tried in the game
+= ゲーム画面（Final Battle）：連隊資金、自由の翼、所持している素材（素材最大化ボタン付き）、所持している各ギフトの数量。ストリーム暗号とワードチェックサムは書き直されます。公開セーブで確認済み、ゲーム内ではまだ未確認
 
 Gifts (you own)
 = ギフト（所持品）
@@ -30081,4 +30081,7 @@ Regiment funds
 
 Wings of Freedom
 = 自由の翼
+
+Raises every crafting material you already own to 999, the limit the game shows (many are at 999 in a completed save). Materials you don't own are left alone.
+= すでに所持している素材をすべて、ゲームが表示する上限の999にします（クリア済みセーブでは多くが999です）。所持していない素材は変更しません。
 

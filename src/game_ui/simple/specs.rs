@@ -12161,10 +12161,25 @@ const AOT2: Spec = Spec {
     accent: (150, 110, 60),
     kind: Some(crate::fmt::aot::KIND2),
     markers: &["/Gifts"],
-    subtitle: "Attack on Titan2_AOT2_PK_WIN0000.dat from Documents\\KoeiTecmo\\Attack on Titan2_AOT2\\SAVEDATA (Final Battle). Regiment funds, Wings of Freedom (up to 999) and the quantity of every gift you own, up to 99; the stream cipher and word checksum are handled.",
+    subtitle: "Attack on Titan2_AOT2_PK_WIN0000.dat from Documents\\KoeiTecmo\\Attack on Titan2_AOT2\\SAVEDATA (Final Battle). Regiment funds, Wings of Freedom (up to 999), the crafting materials you own with a Max crafting materials button (999 each) and the quantity of every gift you own, up to 99; the stream cipher and word checksum are handled.",
     tiles: &[("Regiment funds", "/Resources/Regiment funds"), ("Wings of Freedom", "/Resources/Wings of Freedom")],
     sections: &[Section { title: "Resources", rows: &[("Regiment funds", "/Resources/Regiment funds"), ("Wings of Freedom", "/Resources/Wings of Freedom")] }],
-    lists: &[List { title: "Gifts (you own)", path: "/Gifts", shape: Shape::Map, names: &[], max: None }],
+    lists: &[
+        List {
+            title: "Crafting materials (you own)",
+            path: "/Crafting materials",
+            shape: Shape::Map,
+            names: &[],
+            max: Some(Max {
+                ids: &["Material 01", "Material 02", "Material 03", "Material 04", "Material 05", "Material 06", "Material 07", "Material 08", "Material 09", "Material 10", "Material 11", "Material 12", "Material 13", "Material 14", "Material 15", "Material 16", "Material 17", "Material 18", "Material 19", "Material 20", "Material 21", "Material 22", "Material 23", "Material 24", "Material 25", "Material 26", "Material 27", "Material 28", "Material 29", "Material 30", "Material 31", "Material 32", "Material 33", "Material 34", "Material 35", "Material 36", "Material 37", "Material 38", "Material 39", "Material 40", "Material 41", "Material 42", "Material 43", "Material 44", "Material 45", "Material 46", "Material 47", "Material 48", "Material 49", "Material 50", "Material 51", "Material 52", "Material 53"],
+                cap: 999,
+                caps: &[],
+                estimate: false,
+                about: "Raises every crafting material you already own to 999, the limit the game shows (many are at 999 in a completed save). Materials you don't own are left alone.",
+            }),
+        },
+        List { title: "Gifts (you own)", path: "/Gifts", shape: Shape::Map, names: &[], max: None },
+    ],
     tables: &[],
 };
 

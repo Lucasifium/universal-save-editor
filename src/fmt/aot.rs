@@ -9,7 +9,8 @@
 //! Vita patch lists, checked on a public save); the second game's gift table and its offset
 //! match the public PS4 patch list shifted by 0x114740, checked on a public save. The second
 //! game's regiment funds (0x114D74, with the total acquired beside it) and Wings of Freedom
-//! (0x247A4C) were matched to values read in the game from a save of its own.
+//! (0x247A4C) were matched to values read in the game from a save of its own, and so was the
+//! crafting material table (0x146E98, 999 each).
 
 use super::fields::{Builder, Checksum, Kind};
 use crate::tree::TreeDoc;
@@ -26,6 +27,8 @@ const ITEM_ROWS1: usize = 81;
 const ITEM_STRIDE1: usize = 0x30;
 const FUNDS2: usize = P + 0x114D74;
 const WINGS2: usize = P + 0x247A4C;
+const MATERIALS2: usize = P + 0x146E98;
+const MATERIAL_ROWS2: usize = 53;
 const GIFTS2: usize = P + 0x14B698;
 const GIFT_ROWS2: usize = 50;
 const GIFT_STRIDE2: usize = 0x30;
@@ -119,13 +122,19 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
         if w32(&p, WINGS2) <= 999 {
             b.ranged(&["Resources", "Wings of Freedom"], WINGS2, Kind::U32, 0, 999);
         }
+        for i in 0..MATERIAL_ROWS2 {
+            let at = MATERIALS2 + i * GIFT_STRIDE2;
+            if w16(&p, at) != 0 && w16(&p, at) <= 999 && matches!(w16(&p, at + 2), 0x21 | 0x29) {
+                b.ranged(&["Crafting materials", &format!("Material {:02}", i + 1)], at, Kind::U16, 0, 999);
+            }
+        }
         for i in 0..GIFT_ROWS2 {
             let at = GIFTS2 + i * GIFT_STRIDE2;
             if w16(&p, at) != 0 && w16(&p, at) <= 99 {
                 b.ranged(&["Gifts", &format!("Gift {:02}", i + 1)], at, Kind::U16, 0, 99);
             }
         }
-        Ok(b.finish(KIND2, Checksum::Repack(pack)).with_note(crate::i18n::tx("Close the game first. The stream cipher and the word checksum are written again. Gifts are shown by their number in the save, not by name; only gifts you own are listed.")))
+        Ok(b.finish(KIND2, Checksum::Repack(pack)).with_note(crate::i18n::tx("Close the game first. The stream cipher and the word checksum are written again. Gifts and materials are shown by their number in the save, not by name; only ones you own are listed.")))
     }
 }
 
@@ -175,12 +184,16 @@ mod tests {
     fn second_game_round_trip() {
         let mut p = blank(false);
         p[GIFTS2 + 3 * GIFT_STRIDE2..GIFTS2 + 3 * GIFT_STRIDE2 + 2].copy_from_slice(&7u16.to_le_bytes());
+        p[MATERIALS2 + 3 * GIFT_STRIDE2..MATERIALS2 + 3 * GIFT_STRIDE2 + 4].copy_from_slice(&[0x61, 0x03, 0x29, 0x00]);
         pack(&mut p);
         let d = p;
         assert!(looks(&d));
         let mut doc = parse(&d).unwrap();
         assert_eq!(doc.to_bytes().unwrap(), d);
         doc.set("/Gifts/Gift 04", 99.into()).unwrap();
+        assert!(doc.view.pointer("/Crafting materials/Material 01").is_none());
+        doc.set("/Crafting materials/Material 04", 999.into()).unwrap();
+        assert!(doc.set("/Crafting materials/Material 04", 1000.into()).is_err());
         doc.set("/Resources/Regiment funds", 5000.into()).unwrap();
         doc.set("/Resources/Wings of Freedom", 999.into()).unwrap();
         assert!(doc.set("/Resources/Wings of Freedom", 1000.into()).is_err());
