@@ -30220,3 +30220,74 @@ Operator
 Save_<n>.sav from AppData\\LocalLow\\TeamSoda\\Duckov\\Saves (the .bac files beside it are the game's own backups). Your money and experience and the day. Items, stashes and quests stay in the Tree. Close the game first.
 = AppData\LocalLow\TeamSoda\Duckov\Saves 中的 Save_<n>.sav（旁边的 .bac 是游戏自带的备份）。你的金钱、经验和天数。物品、仓库和任务在“树”中。请先关闭游戏。
 
+# src/game_ui/simple/specs_tycoon.rs, src/games.rs (tycoon games)
+A .career save from Saved Games\\Frontier Developments\\Jurassic World Evolution\\<id>\\Saves (the .sandbox saves hold no career money). The money the career keeps for each island, up to the 100,000,000 the game reaches. Everything else in the save is kept as it was, with the file's checksum written again. Close the game first.
+= 位于 Saved Games\Frontier Developments\Jurassic World Evolution\<id>\Saves 的 .career 存档（.sandbox 存档没有生涯资金）。生涯为每座岛屿保存的资金，最高为游戏能达到的 100,000,000。存档的其余内容保持不变，文件校验和会重新写入。请先关闭游戏。
+
+Close the game first. A company's cash, fans and research points are changed in its saved game and in the load menu's summary. Level and staff limit change what the game reads, not what it unlocks.
+= 请先关闭游戏。公司的现金、粉丝和研究点数会同时在存档和读取菜单的摘要中修改。等级和员工上限只改变游戏读取的数值，不会改变解锁的内容。
+
+Close the game first. Each island's money is the amount the career keeps for it; the game may still show the island's own balance when you open it.
+= 请先关闭游戏。每座岛屿的资金是生涯为其保存的金额；打开岛屿时，游戏可能仍会显示该岛自身的余额。
+
+Company level
+= 公司等级
+
+Game screen: every saved company's cash, fans, research points, staff limit and level. The game keeps its saves in a browser-style database; the company's game and the load menu's copy of cash and fans are changed together. Checked on a public save, not yet tried in the game
+= 游戏界面：每个已保存公司的现金、粉丝、研究点数、员工上限和等级。游戏把存档保存在类似浏览器的数据库中；公司的游戏数据和读取菜单中的现金、粉丝副本会一起修改。已在公开存档上检查，尚未在游戏中试过
+
+Game screen: the money a career keeps for each island, with the file's checksum written again; the career, island and play time are shown. Checked on a public career save, not yet tried in the game
+= 游戏界面：生涯为每座岛屿保存的资金，文件校验和会重新写入；同时显示生涯、岛屿和游戏时间。已在公开的生涯存档上检查，尚未在游戏中试过
+
+Hours played
+= 游戏小时数
+
+Island
+= 岛屿
+
+Matanceros
+= Matanceros
+
+Money kept for each island
+= 每座岛屿的资金
+
+Muerta
+= Muerta
+
+Nublar
+= Nublar
+
+Opens as a career file: the save's zip is opened whole and its career, island and play time are shown; where the save has a career money table it is edited the same way as in the first game (not seen in a public save of this game yet). Checked on a public sandbox save, not yet tried in the game
+= 作为生涯文件打开：存档的 zip 会整体打开，并显示生涯、岛屿和游戏时间；如果存档中有生涯资金表，则按第一作相同的方式编辑（尚未在本作的公开存档中见到）。已在公开的沙盒存档上检查，尚未在游戏中试过
+
+Pena
+= Pena
+
+Saved companies
+= 已保存的公司
+
+Sorna
+= Sorna
+
+Staff limit
+= 员工上限
+
+Tacano
+= Tacano
+
+file__0.localstorage from AppData\\Local\\Game Dev Tycoon\\Local Storage (the game keeps its saves like a web page does). Each saved company's cash, fans, research points, staff limit and level; the load menu's own copy of cash and fans is kept equal. Close the game first.
+= 位于 AppData\Local\Game Dev Tycoon\Local Storage 的 file__0.localstorage（游戏像网页一样保存存档）。每个已保存公司的现金、粉丝、研究点数、员工上限和等级；读取菜单中的现金和粉丝副本保持一致。请先关闭游戏。
+
+# src/game_ui/simple/specs_tycoon.rs, src/fmt/sv4.rs (RollerCoaster Tycoon)
+A saved park (.SV4) from the game's Saved Games folder: Added Attractions and Loopy Landscapes parks too. The park's cash, bank loan, maximum loan and entrance fee. The file is unpacked and packed again on save. Close the game first.
+= 游戏 Saved Games 文件夹中的已保存乐园（.SV4），Added Attractions 和 Loopy Landscapes 的乐园同样适用。乐园的现金、银行贷款、最高贷款和入园费。保存时文件会被解包并重新打包。请先关闭游戏。
+
+Game screen: a saved park's cash, bank loan, maximum loan and entrance fee (Added Attractions and Loopy Landscapes parks too); the file's run-length packing is opened and closed for you. Checked on public parks, not yet tried in the game
+= 游戏界面：已保存乐园的现金、银行贷款、最高贷款和入园费（Added Attractions 和 Loopy Landscapes 的乐园同样适用）；文件的游程压缩会自动解开并重新压缩。已在公开乐园上检查，尚未在游戏中试过
+
+Park finances
+= 乐园财务
+
+Close the game first. Cash, loan and fees are in whole currency units with one decimal (the game keeps tenths). A scenario you play for a score may not record it after its cash was changed.
+= 请先关闭游戏。现金、贷款和费用以带一位小数的货币单位显示（游戏以十分之一为单位保存）。为得分而玩的场景在修改现金后可能不会记录成绩。
+

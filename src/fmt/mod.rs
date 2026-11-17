@@ -211,6 +211,8 @@ pub mod ff13;
 pub mod ffr;
 pub mod p5r;
 pub mod astlibra;
+pub mod jwe;
+pub mod sv4;
 pub mod cave_story;
 pub mod ori;
 pub mod lego_tss;
@@ -338,6 +340,8 @@ pub mod pkm_switch;
 pub mod pokemon3;
 #[cfg(not(target_arch = "wasm32"))]
 pub mod sqlite;
+#[cfg(not(target_arch = "wasm32"))]
+pub mod gdt;
 pub mod starbound;
 pub mod terraria;
 pub mod terraria_world;
@@ -558,7 +562,14 @@ pub fn parse_binary(d: &[u8]) -> Option<TreeDoc> {
     }
     if d.starts_with(b"SQLite format 3\0") {
         #[cfg(not(target_arch = "wasm32"))]
-        return sqlite::parse(d).ok();
+        {
+            if gdt::looks(d) {
+                if let Ok(t) = gdt::parse(d) {
+                    return Some(t);
+                }
+            }
+            return sqlite::parse(d).ok();
+        }
         // The browser version has no SQLite: the file opens as hex.
         #[cfg(target_arch = "wasm32")]
         return None;
@@ -681,6 +692,11 @@ pub fn parse_binary(d: &[u8]) -> Option<TreeDoc> {
     }
     if sv6::looks(d) {
         if let Ok(t) = sv6::parse(d) {
+            return Some(t);
+        }
+    }
+    if sv4::looks(d) {
+        if let Ok(t) = sv4::parse(d) {
             return Some(t);
         }
     }
@@ -1036,6 +1052,11 @@ pub fn parse_binary(d: &[u8]) -> Option<TreeDoc> {
     }
     if adf::looks(d) {
         if let Ok(t) = adf::parse(d) {
+            return Some(t);
+        }
+    }
+    if jwe::looks(d) {
+        if let Ok(t) = jwe::parse(d) {
             return Some(t);
         }
     }

@@ -30176,3 +30176,74 @@ Operator
 Save_<n>.sav from AppData\\LocalLow\\TeamSoda\\Duckov\\Saves (the .bac files beside it are the game's own backups). Your money and experience and the day. Items, stashes and quests stay in the Tree. Close the game first.
 = Save_<n>.sav de AppData\LocalLow\TeamSoda\Duckov\Saves (les .bac à côté sont les sauvegardes de secours du jeu). Votre argent, expérience et le jour. Objets, coffres et quêtes sont dans l’Arbre. Fermez d’abord le jeu.
 
+# src/game_ui/simple/specs_tycoon.rs, src/games.rs (tycoon games)
+A .career save from Saved Games\\Frontier Developments\\Jurassic World Evolution\\<id>\\Saves (the .sandbox saves hold no career money). The money the career keeps for each island, up to the 100,000,000 the game reaches. Everything else in the save is kept as it was, with the file's checksum written again. Close the game first.
+= Une sauvegarde .career de Saved Games\Frontier Developments\Jurassic World Evolution\<id>\Saves (les sauvegardes .sandbox n'ont pas d'argent de carrière). L'argent que la carrière garde pour chaque île, jusqu'aux 100 000 000 que le jeu atteint. Tout le reste de la sauvegarde est conservé et la somme de contrôle du fichier est réécrite. Fermez d'abord le jeu.
+
+Close the game first. A company's cash, fans and research points are changed in its saved game and in the load menu's summary. Level and staff limit change what the game reads, not what it unlocks.
+= Fermez d'abord le jeu. La trésorerie, les fans et les points de recherche d'une entreprise sont modifiés dans sa sauvegarde et dans le résumé du menu de chargement. Le niveau et la limite de personnel changent ce que le jeu lit, pas ce qu'il débloque.
+
+Close the game first. Each island's money is the amount the career keeps for it; the game may still show the island's own balance when you open it.
+= Fermez d'abord le jeu. L'argent de chaque île est la somme que la carrière garde pour elle ; à l'ouverture de l'île, le jeu peut encore afficher le solde propre de l'île.
+
+Company level
+= Niveau de l'entreprise
+
+Game screen: every saved company's cash, fans, research points, staff limit and level. The game keeps its saves in a browser-style database; the company's game and the load menu's copy of cash and fans are changed together. Checked on a public save, not yet tried in the game
+= Écran de jeu : trésorerie, fans, points de recherche, limite de personnel et niveau de chaque entreprise enregistrée. Le jeu garde ses sauvegardes dans une base de données de type navigateur ; la partie de l'entreprise et la copie de la trésorerie et des fans du menu de chargement sont modifiées ensemble. Vérifié sur une sauvegarde publique, pas encore essayé dans le jeu
+
+Game screen: the money a career keeps for each island, with the file's checksum written again; the career, island and play time are shown. Checked on a public career save, not yet tried in the game
+= Écran de jeu : l'argent qu'une carrière garde pour chaque île, avec la somme de contrôle du fichier réécrite ; la carrière, l'île et le temps de jeu sont affichés. Vérifié sur une sauvegarde de carrière publique, pas encore essayé dans le jeu
+
+Hours played
+= Heures jouées
+
+Island
+= Île
+
+Matanceros
+= Matanceros
+
+Money kept for each island
+= Argent gardé par île
+
+Muerta
+= Muerta
+
+Nublar
+= Nublar
+
+Opens as a career file: the save's zip is opened whole and its career, island and play time are shown; where the save has a career money table it is edited the same way as in the first game (not seen in a public save of this game yet). Checked on a public sandbox save, not yet tried in the game
+= S'ouvre comme un fichier de carrière : le zip de la sauvegarde est ouvert en entier et la carrière, l'île et le temps de jeu sont affichés ; si la sauvegarde contient une table d'argent de carrière, elle est modifiée comme dans le premier jeu (pas encore vue dans une sauvegarde publique de ce jeu). Vérifié sur une sauvegarde sandbox publique, pas encore essayé dans le jeu
+
+Pena
+= Pena
+
+Saved companies
+= Entreprises enregistrées
+
+Sorna
+= Sorna
+
+Staff limit
+= Limite de personnel
+
+Tacano
+= Tacano
+
+file__0.localstorage from AppData\\Local\\Game Dev Tycoon\\Local Storage (the game keeps its saves like a web page does). Each saved company's cash, fans, research points, staff limit and level; the load menu's own copy of cash and fans is kept equal. Close the game first.
+= file__0.localstorage de AppData\Local\Game Dev Tycoon\Local Storage (le jeu enregistre comme une page web). La trésorerie, les fans, les points de recherche, la limite de personnel et le niveau de chaque entreprise enregistrée ; la copie de la trésorerie et des fans du menu de chargement reste identique. Fermez d'abord le jeu.
+
+# src/game_ui/simple/specs_tycoon.rs, src/fmt/sv4.rs (RollerCoaster Tycoon)
+A saved park (.SV4) from the game's Saved Games folder: Added Attractions and Loopy Landscapes parks too. The park's cash, bank loan, maximum loan and entrance fee. The file is unpacked and packed again on save. Close the game first.
+= Un parc enregistré (.SV4) du dossier Saved Games du jeu, y compris les parcs d'Added Attractions et de Loopy Landscapes. La trésorerie, le prêt bancaire, le prêt maximal et le prix d'entrée du parc. Le fichier est décompressé puis recompressé à l'enregistrement. Fermez d'abord le jeu.
+
+Game screen: a saved park's cash, bank loan, maximum loan and entrance fee (Added Attractions and Loopy Landscapes parks too); the file's run-length packing is opened and closed for you. Checked on public parks, not yet tried in the game
+= Écran de jeu : la trésorerie, le prêt bancaire, le prêt maximal et le prix d'entrée d'un parc enregistré (y compris les parcs d'Added Attractions et de Loopy Landscapes) ; la compression par plages du fichier est ouverte et refermée pour vous. Vérifié sur des parcs publics, pas encore essayé dans le jeu
+
+Park finances
+= Finances du parc
+
+Close the game first. Cash, loan and fees are in whole currency units with one decimal (the game keeps tenths). A scenario you play for a score may not record it after its cash was changed.
+= Fermez d'abord le jeu. La trésorerie, le prêt et les tarifs sont en unités monétaires entières avec une décimale (le jeu garde des dixièmes). Un scénario joué pour un score peut ne pas l'enregistrer après une modification de la trésorerie.
+

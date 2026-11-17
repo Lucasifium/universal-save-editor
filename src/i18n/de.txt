@@ -30169,3 +30169,74 @@ Operator
 Save_<n>.sav from AppData\\LocalLow\\TeamSoda\\Duckov\\Saves (the .bac files beside it are the game's own backups). Your money and experience and the day. Items, stashes and quests stay in the Tree. Close the game first.
 = Save_<n>.sav aus AppData\LocalLow\TeamSoda\Duckov\Saves (die .bac-Dateien daneben sind die Sicherungen des Spiels). Dein Geld, Erfahrung und der Tag. Gegenstände, Lager und Aufträge stehen im Baum. Spiel vorher schließen.
 
+# src/game_ui/simple/specs_tycoon.rs, src/games.rs (tycoon games)
+A .career save from Saved Games\\Frontier Developments\\Jurassic World Evolution\\<id>\\Saves (the .sandbox saves hold no career money). The money the career keeps for each island, up to the 100,000,000 the game reaches. Everything else in the save is kept as it was, with the file's checksum written again. Close the game first.
+= Ein .career-Spielstand aus Saved Games\Frontier Developments\Jurassic World Evolution\<id>\Saves (die .sandbox-Spielstände enthalten kein Karrieregeld). Das Geld, das die Karriere für jede Insel führt, bis zu den 100.000.000, die das Spiel erreicht. Alles andere im Spielstand bleibt unverändert, die Prüfsumme der Datei wird neu geschrieben. Spiel vorher schließen.
+
+Close the game first. A company's cash, fans and research points are changed in its saved game and in the load menu's summary. Level and staff limit change what the game reads, not what it unlocks.
+= Spiel vorher schließen. Bargeld, Fans und Forschungspunkte einer Firma werden im gespeicherten Spiel und in der Zusammenfassung des Lademenüs geändert. Stufe und Personalgrenze ändern, was das Spiel liest, nicht was freigeschaltet wird.
+
+Close the game first. Each island's money is the amount the career keeps for it; the game may still show the island's own balance when you open it.
+= Spiel vorher schließen. Das Geld jeder Insel ist der Betrag, den die Karriere dafür führt; beim Öffnen der Insel kann das Spiel noch deren eigenen Kontostand zeigen.
+
+Company level
+= Firmenstufe
+
+Game screen: every saved company's cash, fans, research points, staff limit and level. The game keeps its saves in a browser-style database; the company's game and the load menu's copy of cash and fans are changed together. Checked on a public save, not yet tried in the game
+= Spielbildschirm: Bargeld, Fans, Forschungspunkte, Personalgrenze und Stufe jeder gespeicherten Firma. Das Spiel legt seine Spielstände in einer browserähnlichen Datenbank ab; das Spiel der Firma und die Kopie von Bargeld und Fans im Lademenü werden gemeinsam geändert. An einem öffentlichen Spielstand geprüft, noch nicht im Spiel ausprobiert
+
+Game screen: the money a career keeps for each island, with the file's checksum written again; the career, island and play time are shown. Checked on a public career save, not yet tried in the game
+= Spielbildschirm: das Geld, das eine Karriere für jede Insel führt, mit neu geschriebener Prüfsumme der Datei; Karriere, Insel und Spielzeit werden angezeigt. An einem öffentlichen Karriere-Spielstand geprüft, noch nicht im Spiel ausprobiert
+
+Hours played
+= Spielstunden
+
+Island
+= Insel
+
+Matanceros
+= Matanceros
+
+Money kept for each island
+= Geld je Insel
+
+Muerta
+= Muerta
+
+Nublar
+= Nublar
+
+Opens as a career file: the save's zip is opened whole and its career, island and play time are shown; where the save has a career money table it is edited the same way as in the first game (not seen in a public save of this game yet). Checked on a public sandbox save, not yet tried in the game
+= Öffnet sich als Karrieredatei: das Zip des Spielstands wird als Ganzes geöffnet, Karriere, Insel und Spielzeit werden angezeigt; hat der Spielstand eine Karrieregeld-Tabelle, wird sie wie im ersten Spiel bearbeitet (in einem öffentlichen Spielstand dieses Spiels noch nicht gesehen). An einem öffentlichen Sandbox-Spielstand geprüft, noch nicht im Spiel ausprobiert
+
+Pena
+= Pena
+
+Saved companies
+= Gespeicherte Firmen
+
+Sorna
+= Sorna
+
+Staff limit
+= Personalgrenze
+
+Tacano
+= Tacano
+
+file__0.localstorage from AppData\\Local\\Game Dev Tycoon\\Local Storage (the game keeps its saves like a web page does). Each saved company's cash, fans, research points, staff limit and level; the load menu's own copy of cash and fans is kept equal. Close the game first.
+= file__0.localstorage aus AppData\Local\Game Dev Tycoon\Local Storage (das Spiel speichert wie eine Webseite). Bargeld, Fans, Forschungspunkte, Personalgrenze und Stufe jeder gespeicherten Firma; die Kopie von Bargeld und Fans im Lademenü bleibt gleich. Spiel vorher schließen.
+
+# src/game_ui/simple/specs_tycoon.rs, src/fmt/sv4.rs (RollerCoaster Tycoon)
+A saved park (.SV4) from the game's Saved Games folder: Added Attractions and Loopy Landscapes parks too. The park's cash, bank loan, maximum loan and entrance fee. The file is unpacked and packed again on save. Close the game first.
+= Ein gespeicherter Park (.SV4) aus dem Ordner Saved Games des Spiels, auch Parks aus Added Attractions und Loopy Landscapes. Bargeld, Bankkredit, Höchstkredit und Eintrittspreis des Parks. Die Datei wird beim Speichern entpackt und wieder gepackt. Spiel vorher schließen.
+
+Game screen: a saved park's cash, bank loan, maximum loan and entrance fee (Added Attractions and Loopy Landscapes parks too); the file's run-length packing is opened and closed for you. Checked on public parks, not yet tried in the game
+= Spielbildschirm: Bargeld, Bankkredit, Höchstkredit und Eintrittspreis eines gespeicherten Parks (auch Parks aus Added Attractions und Loopy Landscapes); die Lauflängenpackung der Datei wird für Sie geöffnet und wieder geschlossen. An öffentlichen Parks geprüft, noch nicht im Spiel ausprobiert
+
+Park finances
+= Parkfinanzen
+
+Close the game first. Cash, loan and fees are in whole currency units with one decimal (the game keeps tenths). A scenario you play for a score may not record it after its cash was changed.
+= Spiel vorher schließen. Bargeld, Kredit und Preise stehen in ganzen Währungseinheiten mit einer Nachkommastelle (das Spiel speichert Zehntel). Ein Szenario, das Sie für eine Wertung spielen, wird nach einer Änderung des Bargelds eventuell nicht gewertet.
+

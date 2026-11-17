@@ -30162,3 +30162,74 @@ Operator
 Save_<n>.sav from AppData\\LocalLow\\TeamSoda\\Duckov\\Saves (the .bac files beside it are the game's own backups). Your money and experience and the day. Items, stashes and quests stay in the Tree. Close the game first.
 = Save_<n>.sav de AppData\LocalLow\TeamSoda\Duckov\Saves (los .bac junto a él son las copias del propio juego). Tu dinero, experiencia y el día. Los objetos, alijos y misiones están en el Árbol. Cierra antes el juego.
 
+# src/game_ui/simple/specs_tycoon.rs, src/games.rs (tycoon games)
+A .career save from Saved Games\\Frontier Developments\\Jurassic World Evolution\\<id>\\Saves (the .sandbox saves hold no career money). The money the career keeps for each island, up to the 100,000,000 the game reaches. Everything else in the save is kept as it was, with the file's checksum written again. Close the game first.
+= Un guardado .career de Saved Games\Frontier Developments\Jurassic World Evolution\<id>\Saves (los guardados .sandbox no tienen dinero de carrera). El dinero que la carrera guarda para cada isla, hasta los 100.000.000 que alcanza el juego. Todo lo demás del guardado se conserva y la suma de comprobación del archivo se vuelve a escribir. Cierra el juego antes.
+
+Close the game first. A company's cash, fans and research points are changed in its saved game and in the load menu's summary. Level and staff limit change what the game reads, not what it unlocks.
+= Cierra el juego antes. El efectivo, los fans y los puntos de investigación de una empresa se cambian en su partida guardada y en el resumen del menú de carga. El nivel y el límite de personal cambian lo que el juego lee, no lo que desbloquea.
+
+Close the game first. Each island's money is the amount the career keeps for it; the game may still show the island's own balance when you open it.
+= Cierra el juego antes. El dinero de cada isla es la cantidad que la carrera guarda para ella; al abrir la isla el juego puede mostrar aún el saldo propio de la isla.
+
+Company level
+= Nivel de la empresa
+
+Game screen: every saved company's cash, fans, research points, staff limit and level. The game keeps its saves in a browser-style database; the company's game and the load menu's copy of cash and fans are changed together. Checked on a public save, not yet tried in the game
+= Pantalla del juego: efectivo, fans, puntos de investigación, límite de personal y nivel de cada empresa guardada. El juego guarda sus partidas en una base de datos como la de un navegador; la partida de la empresa y la copia del efectivo y los fans del menú de carga se cambian juntas. Comprobado en un guardado público, aún no probado en el juego
+
+Game screen: the money a career keeps for each island, with the file's checksum written again; the career, island and play time are shown. Checked on a public career save, not yet tried in the game
+= Pantalla del juego: el dinero que una carrera guarda para cada isla, con la suma de comprobación del archivo escrita de nuevo; se muestran la carrera, la isla y el tiempo de juego. Comprobado en un guardado de carrera público, aún no probado en el juego
+
+Hours played
+= Horas jugadas
+
+Island
+= Isla
+
+Matanceros
+= Matanceros
+
+Money kept for each island
+= Dinero guardado por isla
+
+Muerta
+= Muerta
+
+Nublar
+= Nublar
+
+Opens as a career file: the save's zip is opened whole and its career, island and play time are shown; where the save has a career money table it is edited the same way as in the first game (not seen in a public save of this game yet). Checked on a public sandbox save, not yet tried in the game
+= Se abre como archivo de carrera: el zip del guardado se abre entero y se muestran la carrera, la isla y el tiempo de juego; si el guardado tiene una tabla de dinero de carrera, se edita igual que en el primer juego (aún no vista en un guardado público de este juego). Comprobado en un guardado sandbox público, aún no probado en el juego
+
+Pena
+= Pena
+
+Saved companies
+= Empresas guardadas
+
+Sorna
+= Sorna
+
+Staff limit
+= Límite de personal
+
+Tacano
+= Tacano
+
+file__0.localstorage from AppData\\Local\\Game Dev Tycoon\\Local Storage (the game keeps its saves like a web page does). Each saved company's cash, fans, research points, staff limit and level; the load menu's own copy of cash and fans is kept equal. Close the game first.
+= file__0.localstorage de AppData\Local\Game Dev Tycoon\Local Storage (el juego guarda como una página web). El efectivo, los fans, los puntos de investigación, el límite de personal y el nivel de cada empresa guardada; la copia del efectivo y los fans del menú de carga se mantiene igual. Cierra el juego antes.
+
+# src/game_ui/simple/specs_tycoon.rs, src/fmt/sv4.rs (RollerCoaster Tycoon)
+A saved park (.SV4) from the game's Saved Games folder: Added Attractions and Loopy Landscapes parks too. The park's cash, bank loan, maximum loan and entrance fee. The file is unpacked and packed again on save. Close the game first.
+= Un parque guardado (.SV4) de la carpeta Saved Games del juego, también parques de Added Attractions y Loopy Landscapes. El efectivo, el préstamo bancario, el préstamo máximo y la entrada del parque. El archivo se desempaqueta y se vuelve a empaquetar al guardar. Cierra el juego antes.
+
+Game screen: a saved park's cash, bank loan, maximum loan and entrance fee (Added Attractions and Loopy Landscapes parks too); the file's run-length packing is opened and closed for you. Checked on public parks, not yet tried in the game
+= Pantalla del juego: el efectivo, el préstamo bancario, el préstamo máximo y la entrada de un parque guardado (también parques de Added Attractions y Loopy Landscapes); la compresión por longitud de racha del archivo se abre y se cierra por ti. Comprobado en parques públicos, aún no probado en el juego
+
+Park finances
+= Finanzas del parque
+
+Close the game first. Cash, loan and fees are in whole currency units with one decimal (the game keeps tenths). A scenario you play for a score may not record it after its cash was changed.
+= Cierra el juego antes. El efectivo, el préstamo y las tarifas están en unidades monetarias enteras con un decimal (el juego guarda décimas). Un escenario que juegues por puntuación puede no registrarla tras cambiar el efectivo.
+
