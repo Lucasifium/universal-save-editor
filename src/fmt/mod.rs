@@ -50,6 +50,7 @@ pub mod civ7;
 pub mod uepack;
 pub mod stoneshard;
 pub mod mcd;
+pub mod nms;
 pub mod charxor;
 pub mod lenjson;
 pub mod nonfinite;

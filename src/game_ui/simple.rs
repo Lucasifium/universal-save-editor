@@ -267,7 +267,13 @@ pub fn apply_max(cx: &mut GameCtx, l: &List) -> usize {
         if !m.ids.contains(&id.as_str()) {
             continue;
         }
-        let cap = m.caps.iter().find(|(c, _)| *c == id).map_or(m.cap, |(_, c)| *c);
+        let mut cap = m.caps.iter().find(|(c, _)| *c == id).map_or(m.cap, |(_, c)| *c);
+        // Cap 0: each stack's own limit, stored beside its count (No Man's Sky's MaxAmount).
+        if cap == 0 {
+            let Some((base, _)) = p.rsplit_once('/') else { continue };
+            let Some(own) = cx.num(&format!("{base}/MaxAmount")) else { continue };
+            cap = own as i64;
+        }
         if cx.num(&p).is_some_and(|have| have < cap as f64) {
             set_count(cx, l, &p, Value::from(cap));
             n += 1;
@@ -436,7 +442,12 @@ pub fn show(i: u16, ui: &mut Ui, cx: &mut GameCtx) {
                 let tip = format!("{}{}", crate::i18n::tr_any(m.about), if m.estimate { format!(" {}", crate::i18n::tr("The cap is an estimate from community guides.")) } else { String::new() });
                 // With several lists, the label names which one the action is for.
                 let many = s.lists.iter().filter(|x| x.max.is_some()).count() > 1;
-                let label = if many { format!("{}: {} ({})", tr("Max crafting materials"), crate::i18n::tr_any(l.title), m.cap) } else { format!("{} ({})", tr("Max crafting materials"), m.cap) };
+                let label = match (many, m.cap) {
+                    (true, 0) => format!("{}: {}", tr("Max crafting materials"), crate::i18n::tr_any(l.title)),
+                    (false, 0) => tr("Max crafting materials").to_string(),
+                    (true, c) => format!("{}: {} ({})", tr("Max crafting materials"), crate::i18n::tr_any(l.title), c),
+                    (false, c) => format!("{} ({})", tr("Max crafting materials"), c),
+                };
                 if super::quick_button(ui, label, tip) {
                     apply_max(cx, l);
                 }
@@ -512,6 +523,10 @@ mod tests {
                             let low = l.max.as_ref().is_some_and(|m| m.ids.contains(id));
                             for k in *qty_keys {
                                 put_field(&mut o, k, json!(if low { 0 } else { 3 }));
+                            }
+                            // Cap 0 lists read each stack's own limit from MaxAmount.
+                            if l.max.as_ref().is_some_and(|m| m.cap == 0) {
+                                o.insert("MaxAmount".to_string(), json!(9999));
                             }
                             Value::Object(o)
                         })
@@ -687,6 +702,7 @@ mod tests {
                         for e in arr.as_array().unwrap() {
                             let id = match field(e, id_key).unwrap() { Value::String(s) => s.clone(), n => n.to_string() };
                             let cap = m.caps.iter().find(|(c, _)| *c == id).map_or(m.cap, |(_, c)| *c);
+                            let cap = if cap == 0 { 9999 } else { cap };
                             let want = if m.ids.contains(&id.as_str()) { cap } else { 3 };
                             for k in *qty_keys {
                                 assert_eq!(field(e, k).unwrap().as_i64(), Some(want), "{} {id} {k}", s.name);

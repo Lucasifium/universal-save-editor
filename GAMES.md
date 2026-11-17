@@ -337,7 +337,7 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 </details>
 
 <details>
-<summary><strong>N</strong> (6)</summary>
+<summary><strong>N</strong> (7)</summary>
 
 | Game | Screen |
 |---|---|
@@ -346,6 +346,7 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 | Neverwinter Nights: Enhanced Edition | *Character*: gold, experience, ability scores, hit points, alignment, skills and item stack sizes of the player (the module .sav, with player.bic kept in step) or a vault character (.bic). Not yet tried in the game |
 | NieR Replicant ver.1.22474487139... | *Slots*: health, level, experience, money, recovery items and materials with Max crafting materials (99 each), from `GAMEDATA` (checked on a public save, not yet tried in the game) |
 | NieR:Automata | Money, experience (with the level it gives), item and material counts (99 each), weapon levels (1–4) and a *Max crafting materials* button for the Materials list; no checksum (checked on a real save, not yet tried in the game) |
+| No Man's Sky | *Currencies*: units, nanites and quicksilver. *Exosuit inventory*, *Exosuit cargo*, *Freighter inventory* and *Storage container 1* and *2*: the amount in every stack, with a **Max crafting materials** button per container that raises the raw materials you hold (elements, refined metals, plants; story items, salvage and junk are left alone) to the limit stored with each stack. The save's LZ4 chunks are unpacked with the scrambled key names shown, and packed again; the `mf_` file beside it is made to agree (checked on a public save, not yet tried in the game) |
 | Noita | *Player*: gold, gold spent, health and maximum health (the game shows 25 times the stored value) from `player.xml`; wands, spells and perks are in the Tree. checked on a public save, not yet tried in the game |
 
 </details>

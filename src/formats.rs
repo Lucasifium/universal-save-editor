@@ -281,6 +281,8 @@ pub enum Layer {
     Stoneshard { salt: String },
     /// Minecraft Dungeons: `D001` header, AES-256-ECB, JSON.
     Mcd,
+    /// No Man's Sky: LZ4 chunks around a JSON text whose keys are scrambled.
+    Nms { scrambled: bool },
     /// Final Fantasy Pixel Remaster slot: base64, Rijndael-256, deflate, JSON with JSON in strings.
     Ffpr { wrapped: fmt::tld::Wrapped, bom: bool },
     /// Haxe serialization (OpenFL and HaxeFlixel saves): the original text, whose values are
@@ -487,6 +489,7 @@ impl Layer {
             Layer::RegFile(_) => "Registry values (Unity PlayerPrefs)".into(),
             Layer::Sol { .. } => "Flash shared object (.sol)".into(),
             Layer::Mcd => "Minecraft Dungeons save encryption (AES)".into(),
+            Layer::Nms { .. } => "No Man's Sky save (LZ4 chunks, scrambled keys)".into(),
             Layer::Stoneshard { .. } => "Stoneshard save (zlib and MD5)".into(),
             Layer::Astroneer => "Astroneer save (zlib)".into(),
             Layer::SizePrefixedGvas => "Length-prefixed Unreal save".into(),
@@ -1161,6 +1164,7 @@ fn wrap(layer: &Layer, data: Vec<u8>) -> Result<Vec<u8>, String> {
         Layer::RegFile(meta) => fmt::regfile::save(meta, &data)?,
         Layer::Sol { original } => fmt::sol::save(original, &data)?,
         Layer::Mcd => fmt::mcd::pack(&data),
+        Layer::Nms { scrambled } => fmt::nms::pack(&data, *scrambled)?,
         Layer::Stoneshard { salt } => fmt::stoneshard::pack(salt, &data)?,
         Layer::Astroneer => fmt::uepack::astro_pack(&data),
         Layer::SizePrefixedGvas => {
@@ -1535,6 +1539,10 @@ fn peel(data: &[u8], ctx: &mut Ctx, json: &JsonOnce) -> Option<(Layer, Vec<u8>)>
             });
             return Some((Layer::Stoneshard { salt }, json));
         }
+    }
+    if let Some((json, scrambled)) = fmt::nms::open(data) {
+        ctx.hint = Some("No Man's Sky save: unpacked for you with its keys shown by name, and packed again on save. The mf_ file beside the save is made to agree with it. Close the game first.".into());
+        return Some((Layer::Nms { scrambled }, json));
     }
     if let Some(json) = fmt::mcd::open(data) {
         ctx.hint = Some("Minecraft Dungeons save: decrypted for you and encrypted again on save.".into());
@@ -3888,6 +3896,8 @@ pub fn companion_files(path: &std::path::Path, bytes: &[u8]) -> Vec<(std::path::
     out.extend(fmt::lego_classic::companions(path, bytes));
     // Warhammer 40,000: Mechanicus: SaveState.sav holds the CRC-32 of Meta.sav.
     out.extend(fmt::mechanicus::companions(path, bytes));
+    // No Man's Sky: mf_saveN.hg beside saveN.hg holds the unpacked size.
+    out.extend(fmt::nms::companions(path, bytes));
     out
 }
 

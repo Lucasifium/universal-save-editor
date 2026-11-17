@@ -94,6 +94,9 @@ Universal Save Editor is free. It builds on other people's work, listed here wit
 | [Cult-of-the-Lamb-Save-Editor (save field names and item names; sample save used for checks only, not included)](https://github.com/fabiobarcelona/Cult-of-the-Lamb-Save-Editor) | Fabio Barcelona | MIT |
 | [shelter-editor (Fallout Shelter save encryption and layout)](https://github.com/MobileSam/shelter-editor) | MobileSam | MIT |
 | [XGP-save-extractor (Xbox app / Game Pass container layout and Store package names)](https://github.com/Z1ni/XGP-save-extractor), after [NMSSaveEditor issue 306](https://github.com/goatfungus/NMSSaveEditor/issues/306) | Z1ni; snoozbuster | MIT |
+| [MBINCompiler / libMBIN (the table that turns No Man's Sky's three-character save keys back into field names, in `src/fmt/data/nms_keys.tsv`; scrambling worked out by AndASM)](https://github.com/monkeyman192/MBINCompiler), as bundled in [nms-copilot](https://github.com/oxur/nms-copilot) | monkeyman192 and the MBINCompiler contributors; AndASM | LGPL-3.0 |
+| [nmssavetool (No Man's Sky metadata file layout and key)](https://github.com/matthew-humphrey/nmssavetool) | Matthew Humphrey | MIT |
+| [nms-copilot (No Man's Sky metadata sizes by format; save structure)](https://github.com/oxur/nms-copilot) | the NMS Copilot contributors | MIT |
 | [PlayerPrefsEditor (how Unity stores PlayerPrefs on each platform)](https://github.com/sabresaurus/PlayerPrefsEditor) | Sabresaurus | MIT |
 | [flash-lso (Flash shared object reader and writer, used as a library; its test files used for checks only)](https://github.com/ruffle-rs/rust-flash-lso) | the Ruffle project | MIT |
 | [Haxe manual, "Serialization format" (the grammar the Haxe save reader follows; no code used)](https://haxe.org/manual/std-serialization.html) | the Haxe Foundation | layout facts only |
