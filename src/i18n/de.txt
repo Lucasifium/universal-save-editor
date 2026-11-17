@@ -30168,4 +30168,58 @@ Operator
 
 Save_<n>.sav from AppData\\LocalLow\\TeamSoda\\Duckov\\Saves (the .bac files beside it are the game's own backups). Your money and experience and the day. Items, stashes and quests stay in the Tree. Close the game first.
 = Save_<n>.sav aus AppData\LocalLow\TeamSoda\Duckov\Saves (die .bac-Dateien daneben sind die Sicherungen des Spiels). Dein Geld, Erfahrung und der Tag. Gegenstände, Lager und Aufträge stehen im Baum. Spiel vorher schließen.
+# Into the Breach
+Game screen: which squads are unlocked and the totals the game keeps (games played, enemies killed, islands secured, pods, total score). The Lua profile is edited in place; checked on a public profile, not yet tried in the game
+= Spielbildschirm: welche Trupps freigeschaltet sind und die vom Spiel geführten Summen (gespielte Spiele, besiegte Gegner, gesicherte Inseln, Kapseln, Gesamtpunktzahl). Das Lua-Profil wird an Ort und Stelle bearbeitet; an einem öffentlichen Profil geprüft, noch nicht im Spiel getestet
+
+Island unlocked
+= Freigeschaltete Insel
+
+Islands secured
+= Gesicherte Inseln
+
+Pods collected
+= Gesammelte Kapseln
+
+Squad 1
+= Trupp 1
+
+Squad 10
+= Trupp 10
+
+Squad 11
+= Trupp 11
+
+Squad 2
+= Trupp 2
+
+Squad 3
+= Trupp 3
+
+Squad 4
+= Trupp 4
+
+Squad 5
+= Trupp 5
+
+Squad 6
+= Trupp 6
+
+Squad 7
+= Trupp 7
+
+Squad 8
+= Trupp 8
+
+Squad 9
+= Trupp 9
+
+Total score
+= Gesamtpunktzahl
+
+Unlocked squads
+= Freigeschaltete Trupps
+
+profile.lua from Documents\\My Games\\Into the Breach\\profile_<name> (one folder per profile). Which squads are unlocked, and the totals the game keeps (games played, enemies killed, islands secured, pods). Pilots, achievements and the run in progress stay in the Tree. Close the game first.
+= profile.lua aus Documents\My Games\Into the Breach\profile_<Name> (ein Ordner pro Profil). Welche Trupps freigeschaltet sind und die vom Spiel geführten Summen (gespielte Spiele, besiegte Gegner, gesicherte Inseln, Kapseln). Piloten, Erfolge und der laufende Durchgang stehen im Baum. Spiel vorher schließen.
 

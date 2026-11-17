@@ -30219,4 +30219,58 @@ Operator
 
 Save_<n>.sav from AppData\\LocalLow\\TeamSoda\\Duckov\\Saves (the .bac files beside it are the game's own backups). Your money and experience and the day. Items, stashes and quests stay in the Tree. Close the game first.
 = AppData\LocalLow\TeamSoda\Duckov\Saves 中的 Save_<n>.sav（旁边的 .bac 是游戏自带的备份）。你的金钱、经验和天数。物品、仓库和任务在“树”中。请先关闭游戏。
+# Into the Breach
+Game screen: which squads are unlocked and the totals the game keeps (games played, enemies killed, islands secured, pods, total score). The Lua profile is edited in place; checked on a public profile, not yet tried in the game
+= 游戏界面：已解锁的小队以及游戏记录的累计数据（游戏局数、击杀数、已守住的岛屿、容器、总分）。Lua 配置文件就地编辑；已在公开配置文件上验证，尚未在游戏中试过
+
+Island unlocked
+= 已解锁的岛屿
+
+Islands secured
+= 已守住的岛屿
+
+Pods collected
+= 已收集的容器
+
+Squad 1
+= 小队 1
+
+Squad 10
+= 小队 10
+
+Squad 11
+= 小队 11
+
+Squad 2
+= 小队 2
+
+Squad 3
+= 小队 3
+
+Squad 4
+= 小队 4
+
+Squad 5
+= 小队 5
+
+Squad 6
+= 小队 6
+
+Squad 7
+= 小队 7
+
+Squad 8
+= 小队 8
+
+Squad 9
+= 小队 9
+
+Total score
+= 总分
+
+Unlocked squads
+= 已解锁的小队
+
+profile.lua from Documents\\My Games\\Into the Breach\\profile_<name> (one folder per profile). Which squads are unlocked, and the totals the game keeps (games played, enemies killed, islands secured, pods). Pilots, achievements and the run in progress stay in the Tree. Close the game first.
+= Documents\My Games\Into the Breach\profile_<名称>（每个配置文件一个文件夹）中的 profile.lua。已解锁的小队以及游戏记录的累计数据（游戏局数、击杀数、已守住的岛屿、容器）。飞行员、成就和进行中的战役在“树”中。请先关闭游戏。
 

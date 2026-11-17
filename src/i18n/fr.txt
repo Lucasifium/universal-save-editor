@@ -30175,4 +30175,58 @@ Operator
 
 Save_<n>.sav from AppData\\LocalLow\\TeamSoda\\Duckov\\Saves (the .bac files beside it are the game's own backups). Your money and experience and the day. Items, stashes and quests stay in the Tree. Close the game first.
 = Save_<n>.sav de AppData\LocalLow\TeamSoda\Duckov\Saves (les .bac à côté sont les sauvegardes de secours du jeu). Votre argent, expérience et le jour. Objets, coffres et quêtes sont dans l’Arbre. Fermez d’abord le jeu.
+# Into the Breach
+Game screen: which squads are unlocked and the totals the game keeps (games played, enemies killed, islands secured, pods, total score). The Lua profile is edited in place; checked on a public profile, not yet tried in the game
+= Écran de jeu : quelles escouades sont débloquées et les totaux tenus par le jeu (parties, ennemis tués, îles sécurisées, capsules, score total). Le profil Lua est modifié sur place ; vérifié sur un profil public, pas encore essayé dans le jeu
+
+Island unlocked
+= Île débloquée
+
+Islands secured
+= Îles sécurisées
+
+Pods collected
+= Capsules récupérées
+
+Squad 1
+= Escouade 1
+
+Squad 10
+= Escouade 10
+
+Squad 11
+= Escouade 11
+
+Squad 2
+= Escouade 2
+
+Squad 3
+= Escouade 3
+
+Squad 4
+= Escouade 4
+
+Squad 5
+= Escouade 5
+
+Squad 6
+= Escouade 6
+
+Squad 7
+= Escouade 7
+
+Squad 8
+= Escouade 8
+
+Squad 9
+= Escouade 9
+
+Total score
+= Score total
+
+Unlocked squads
+= Escouades débloquées
+
+profile.lua from Documents\\My Games\\Into the Breach\\profile_<name> (one folder per profile). Which squads are unlocked, and the totals the game keeps (games played, enemies killed, islands secured, pods). Pilots, achievements and the run in progress stay in the Tree. Close the game first.
+= profile.lua de Documents\My Games\Into the Breach\profile_<nom> (un dossier par profil). Quelles escouades sont débloquées et les totaux du jeu (parties, ennemis tués, îles sécurisées, capsules). Pilotes, succès et la partie en cours sont dans l’Arbre. Fermez d’abord le jeu.
 

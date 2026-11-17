@@ -4,7 +4,7 @@
 use super::{Section, Spec};
 use crate::i18n::tx;
 
-pub static SWEEP: &[Spec] = &[DESTROY_ALL_HUMANS, HUNTING_SIM_2, CYBERDIMENSION, HIGH_ON_LIFE, MONSTER_TRAIN_2, ASTLIBRA, SUPERMARKET_SIM, DUCKOV];
+pub static SWEEP: &[Spec] = &[DESTROY_ALL_HUMANS, HUNTING_SIM_2, CYBERDIMENSION, HIGH_ON_LIFE, MONSTER_TRAIN_2, ASTLIBRA, SUPERMARKET_SIM, DUCKOV, INTO_THE_BREACH];
 
 // ------------------------------------------------------------------ Destroy All Humans! (2020)
 
@@ -172,6 +172,27 @@ const DUCKOV: Spec = Spec {
     subtitle: tx("Save_<n>.sav from AppData\\LocalLow\\TeamSoda\\Duckov\\Saves (the .bac files beside it are the game's own backups). Your money and experience and the day. Items, stashes and quests stay in the Tree. Close the game first."),
     tiles: &[("Money", "/EconomyData/value/money"), ("Experience", "/EXP_Value/value"), ("Day", "/GameClock/value/days")],
     sections: &[Section { title: "Operator", rows: &[("Money", "/EconomyData/value/money"), ("Experience", "/EXP_Value/value"), ("Day", "/GameClock/value/days")] }],
+    lists: &[],
+    tables: &[],
+};
+
+// ------------------------------------------------------------------ Into the Breach
+
+const INTO_THE_BREACH: Spec = Spec {
+    name: "Into the Breach",
+    tab: "Profile",
+    accent: (120, 190, 220),
+    kind: Some("Lua table"),
+    markers: &["/squads/1", "/stat_tracker/games"],
+    subtitle: tx("profile.lua from Documents\\My Games\\Into the Breach\\profile_<name> (one folder per profile). Which squads are unlocked, and the totals the game keeps (games played, enemies killed, islands secured, pods). Pilots, achievements and the run in progress stay in the Tree. Close the game first."),
+    tiles: &[("Games played", "/stat_tracker/games"), ("Enemies killed", "/stat_tracker/kills"), ("Islands secured", "/stat_tracker/islands")],
+    sections: &[
+        Section { title: "Unlocked squads", rows: &[("Squad 1", "/squads/1"),("Squad 2", "/squads/2"),("Squad 3", "/squads/3"),("Squad 4", "/squads/4"),("Squad 5", "/squads/5"),("Squad 6", "/squads/6"),("Squad 7", "/squads/7"),("Squad 8", "/squads/8"),("Squad 9", "/squads/9"),("Squad 10", "/squads/10"),("Squad 11", "/squads/11")] },
+        Section {
+            title: "Totals",
+            rows: &[("Games played", "/stat_tracker/games"), ("Enemies killed", "/stat_tracker/kills"), ("Islands secured", "/stat_tracker/islands"), ("Pods collected", "/stat_tracker/pods"), ("Total score", "/stat_tracker/total"), ("Island unlocked", "/unlocked_island")],
+        },
+    ],
     lists: &[],
     tables: &[],
 };

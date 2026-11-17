@@ -30246,4 +30246,58 @@ Operator
 
 Save_<n>.sav from AppData\\LocalLow\\TeamSoda\\Duckov\\Saves (the .bac files beside it are the game's own backups). Your money and experience and the day. Items, stashes and quests stay in the Tree. Close the game first.
 = AppData\LocalLow\TeamSoda\Duckov\Saves の Save_<n>.sav（隣の .bac はゲーム自身のバックアップ）。所持金、経験値、日数。アイテム、倉庫、クエストはツリーにあります。先にゲームを終了してください。
+# Into the Breach
+Game screen: which squads are unlocked and the totals the game keeps (games played, enemies killed, islands secured, pods, total score). The Lua profile is edited in place; checked on a public profile, not yet tried in the game
+= ゲーム画面：解放済みのスクワッドと、ゲームが記録する累計（プレイ回数、撃破数、確保した島、ポッド、合計スコア）。Lua プロファイルはその場で編集されます。公開プロファイルで確認済み、ゲーム内ではまだ未確認
+
+Island unlocked
+= 解放済みの島
+
+Islands secured
+= 確保した島
+
+Pods collected
+= 回収したポッド
+
+Squad 1
+= スクワッド 1
+
+Squad 10
+= スクワッド 10
+
+Squad 11
+= スクワッド 11
+
+Squad 2
+= スクワッド 2
+
+Squad 3
+= スクワッド 3
+
+Squad 4
+= スクワッド 4
+
+Squad 5
+= スクワッド 5
+
+Squad 6
+= スクワッド 6
+
+Squad 7
+= スクワッド 7
+
+Squad 8
+= スクワッド 8
+
+Squad 9
+= スクワッド 9
+
+Total score
+= 合計スコア
+
+Unlocked squads
+= 解放済みのスクワッド
+
+profile.lua from Documents\\My Games\\Into the Breach\\profile_<name> (one folder per profile). Which squads are unlocked, and the totals the game keeps (games played, enemies killed, islands secured, pods). Pilots, achievements and the run in progress stay in the Tree. Close the game first.
+= Documents\My Games\Into the Breach\profile_<名前>（プロファイルごとに1フォルダ）の profile.lua。解放済みのスクワッドと、ゲームが記録する累計（プレイ回数、撃破数、確保した島、ポッド）。パイロット、実績、進行中のランはツリーにあります。先にゲームを終了してください。
 

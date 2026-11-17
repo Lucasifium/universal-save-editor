@@ -235,12 +235,13 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 </details>
 
 <details>
-<summary><strong>I</strong> (2)</summary>
+<summary><strong>I</strong> (3)</summary>
 
 | Game | Screen |
 |---|---|
 | Icewind Dale: Enhanced Edition | Party gold and reputation; each party member's experience, hit points, levels, abilities, alignment and item stacks or charges (`BALDUR.gam`, the Baldur's Gate: EE layout); every global variable by name (quest stages, who has joined). No Icewind Dale save has been tried yet |
 | Inscryption | *Cabin*: act 1 currency and lives, act 2 gold and packs opened, play time, in `SaveFile.gwsave` (checked on a public save, not yet tried in the game) |
+| Into the Breach | Which squads are unlocked and the totals the game keeps (games played, enemies killed, islands secured, pods, total score). The Lua profile is edited in place; checked on a public profile, not yet tried in the game |
 
 </details>
 

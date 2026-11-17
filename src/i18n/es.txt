@@ -30161,4 +30161,58 @@ Operator
 
 Save_<n>.sav from AppData\\LocalLow\\TeamSoda\\Duckov\\Saves (the .bac files beside it are the game's own backups). Your money and experience and the day. Items, stashes and quests stay in the Tree. Close the game first.
 = Save_<n>.sav de AppData\LocalLow\TeamSoda\Duckov\Saves (los .bac junto a él son las copias del propio juego). Tu dinero, experiencia y el día. Los objetos, alijos y misiones están en el Árbol. Cierra antes el juego.
+# Into the Breach
+Game screen: which squads are unlocked and the totals the game keeps (games played, enemies killed, islands secured, pods, total score). The Lua profile is edited in place; checked on a public profile, not yet tried in the game
+= Pantalla de juego: qué escuadrones están desbloqueados y los totales que guarda el juego (partidas, enemigos eliminados, islas aseguradas, cápsulas, puntuación total). El perfil Lua se edita en su sitio; comprobado con un perfil público, aún no probado en el juego
+
+Island unlocked
+= Isla desbloqueada
+
+Islands secured
+= Islas aseguradas
+
+Pods collected
+= Cápsulas recogidas
+
+Squad 1
+= Escuadrón 1
+
+Squad 10
+= Escuadrón 10
+
+Squad 11
+= Escuadrón 11
+
+Squad 2
+= Escuadrón 2
+
+Squad 3
+= Escuadrón 3
+
+Squad 4
+= Escuadrón 4
+
+Squad 5
+= Escuadrón 5
+
+Squad 6
+= Escuadrón 6
+
+Squad 7
+= Escuadrón 7
+
+Squad 8
+= Escuadrón 8
+
+Squad 9
+= Escuadrón 9
+
+Total score
+= Puntuación total
+
+Unlocked squads
+= Escuadrones desbloqueados
+
+profile.lua from Documents\\My Games\\Into the Breach\\profile_<name> (one folder per profile). Which squads are unlocked, and the totals the game keeps (games played, enemies killed, islands secured, pods). Pilots, achievements and the run in progress stay in the Tree. Close the game first.
+= profile.lua de Documents\My Games\Into the Breach\profile_<nombre> (una carpeta por perfil). Qué escuadrones están desbloqueados y los totales del juego (partidas, enemigos eliminados, islas aseguradas, cápsulas). Los pilotos, logros y la partida en curso están en el Árbol. Cierra antes el juego.
 

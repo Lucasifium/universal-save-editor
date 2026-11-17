@@ -257,6 +257,18 @@ fn head(text: &str) -> Option<(usize, Option<&str>)> {
     if let Some(r) = t.strip_prefix("return") {
         return r.trim_start().starts_with('{').then_some((lead + 6, None));
     }
+    // A global assignment holding the whole file (`Profile = { ... }`, Into the Breach).
+    if let Some(end) = t.find(|c: char| !(c.is_ascii_alphanumeric() || c == '_')) {
+        let word = &t[..end];
+        if !word.is_empty() && word != "local" && !word.starts_with(|c: char| c.is_ascii_digit()) {
+            if let Some(after) = t[end..].trim_start().strip_prefix('=') {
+                if after.trim_start().starts_with('{') {
+                    return Some((text.len() - after.len(), None));
+                }
+            }
+            return None;
+        }
+    }
     let r = t.strip_prefix("local")?;
     if !r.starts_with(char::is_whitespace) {
         return None;
@@ -301,6 +313,17 @@ pub fn parse(text: &str) -> Result<TreeDoc, String> {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn a_global_assignment_holds_the_whole_file() {
+        let t = "Profile = {[\"version\"] = 1, [\"squads\"] = {true, false, },\n}\n";
+        let mut doc = parse(t).unwrap();
+        assert_eq!(doc.view.pointer("/version"), Some(&Value::from(1)));
+        assert_eq!(doc.to_bytes().unwrap(), t.as_bytes());
+        doc.set("/squads/2", Value::Bool(true)).unwrap();
+        assert!(String::from_utf8(doc.to_bytes().unwrap()).unwrap().contains("{true, true, }"));
+        assert!(!looks("hello = 5"));
+    }
 
     #[test]
     fn balatro_style() {
