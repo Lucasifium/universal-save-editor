@@ -29970,11 +29970,11 @@ Peaceful
 atwin0000.dat from Documents\\KoeiTecmo\\Attack on Titan\\SAVEDATA. Your funds and the quantity of every item you own; the stream cipher and word checksum are handled.
 = atwin0000.dat de Documents\\KoeiTecmo\\Attack on Titan\\SAVEDATA. Tus fondos y la cantidad de cada objeto que tienes; el cifrado de flujo y la suma de palabras se gestionan.
 
-Attack on Titan2_AOT2_PK_WIN0000.dat from Documents\\KoeiTecmo\\Attack on Titan2_AOT2\\SAVEDATA (Final Battle). Regiment funds, Wings of Freedom (up to 999), your player level (up to 120) and experience, the friendship level (0 to 10) of every character you've met, the crafting materials you own with a Max crafting materials button (999 each) and the quantity of every gift you own, up to 99; the stream cipher and word checksum are handled.
-= Attack on Titan2_AOT2_PK_WIN0000.dat de Documents\\KoeiTecmo\\Attack on Titan2_AOT2\\SAVEDATA (Final Battle). Fondos del regimiento, Wings of Freedom (hasta 999), tu nivel de jugador (hasta 120) y tu experiencia, el nivel de amistad (0 a 10) de cada personaje que conoces, los materiales de fabricación que tienes con un botón Máx. materiales de fabricación (999 cada uno) y la cantidad de cada regalo que tienes, hasta 99; el cifrado de flujo y la suma de palabras se gestionan.
+Attack on Titan2_AOT2_PK_WIN0000.dat from Documents\\KoeiTecmo\\Attack on Titan2_AOT2\\SAVEDATA (Final Battle). Regiment funds, Wings of Freedom (up to 999), your player level (up to 120) and experience, the friendship level (0 to 10) and friendship points (up to 1,000) of every character you've met, every crafting material, including ones you don't own yet, with a Max crafting materials button (999 each) and the quantity of every gift you own, up to 99; the stream cipher and word checksum are handled.
+= Attack on Titan2_AOT2_PK_WIN0000.dat de Documents\\KoeiTecmo\\Attack on Titan2_AOT2\\SAVEDATA (Final Battle). Fondos del regimiento, Wings of Freedom (hasta 999), tu nivel de jugador (hasta 120) y tu experiencia, el nivel de amistad (0 a 10) y los puntos de amistad (hasta 1000) de cada personaje que conoces, cada material de fabricación, incluidos los que aún no tienes, con un botón Máx. materiales de fabricación (999 cada uno) y la cantidad de cada regalo que tienes, hasta 99; el cifrado de flujo y la suma de palabras se gestionan.
 
-Close the game first. The stream cipher and the word checksum are written again. Gifts and materials are shown by their number in the save, not by name; only ones you own are listed.
-= Cierra primero el juego. El cifrado de flujo y la suma de palabras se vuelven a escribir. Los regalos y materiales se muestran con su número en la partida, no con su nombre; solo se listan los que tienes.
+Close the game first. The stream cipher and the word checksum are written again. Gifts and materials are shown by their number in the save, not by name. Every material is listed; giving one you don't own a quantity adds it. Only gifts you own are listed.
+= Cierra primero el juego. El cifrado de flujo y la suma de palabras se vuelven a escribir. Los regalos y materiales se muestran con su número en la partida, no con su nombre. Se listan todos los materiales; si das una cantidad a uno que no tienes, se añade. Solo se listan los regalos que tienes.
 
 Close the game first. The stream cipher and the word checksum are written again. Items are shown by their number in the save, not by name; only items you own are listed.
 = Cierra primero el juego. El cifrado de flujo y la suma de palabras se vuelven a escribir. Los objetos se muestran con su número en la partida, no con su nombre; solo se listan los que tienes.
@@ -29987,6 +29987,8 @@ Game screen (Final Battle): regiment funds, Wings of Freedom, the crafting mater
 
 Friendship (characters you've met)
 = Amistad (personajes que conoces)
+Friendship points (characters you've met)
+= Puntos de amistad (personajes que conoces)
 
 Gifts (you own)
 = Regalos (que tienes)
@@ -30000,8 +30002,8 @@ Regiment funds
 Wings of Freedom
 = Wings of Freedom
 
-Raises every crafting material you already own to 999, the limit the game shows (many are at 999 in a completed save). Materials you don't own are left alone.
-= Sube a 999 cada material de fabricación que ya tienes, el límite que muestra el juego (muchos están en 999 en una partida completada). Los materiales que no tienes no se tocan.
+Raises every crafting material to 999, the limit the game shows (many are at 999 in a completed save), including ones you don't own yet.
+= Sube a 999 cada material de fabricación, el límite que muestra el juego (muchos están en 999 en una partida completada), incluidos los que aún no tienes.
 
 
 Exosuit cargo

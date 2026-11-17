@@ -33,7 +33,10 @@ const LEVEL2: usize = P + 0x22C6BC;
 /// Experience at level 120 (identical in two level-120 saves).
 const EXP2_CAP: u32 = 605_770;
 const MATERIALS2: usize = P + 0x146E98;
-const MATERIAL_ROWS2: usize = 53;
+/// Crafting material rows. Rows 53-55, 73-74 and 115 on are never listed: a 193-hour save that
+/// owns every other material still marks them differently, so what they hold is unknown.
+const MATERIAL_ROWS2: usize = 115;
+const MATERIAL_SKIP2: [usize; 5] = [53, 54, 55, 73, 74];
 const GIFTS2: usize = P + 0x14B698;
 const GIFT_ROWS2: usize = 50;
 const GIFT_STRIDE2: usize = 0x30;
@@ -109,8 +112,33 @@ fn unpack(d: &[u8]) -> Option<(Vec<u8>, bool)> {
     (word_sum(&p[P..]) == w16(d, 0) && figures_agree(&p, first)).then_some((p, first))
 }
 
+/// The flag byte after a material's quantity, for an owned row given the flag it has while unowned.
+/// Pairs seen across a new save and two completed ones: 0x0C and 0x04 become 0x21, 0x0D becomes 0x29.
+fn owned_flag(flag: u8) -> Option<u8> {
+    match flag {
+        0x0C | 0x04 => Some(0x21),
+        0x0D => Some(0x29),
+        _ => None,
+    }
+}
+
+fn material_rows() -> impl Iterator<Item = usize> {
+    (0..MATERIAL_ROWS2).filter(|i| !MATERIAL_SKIP2.contains(i))
+}
+
 fn pack(p: &mut Vec<u8>) {
     let Some(adv) = advances(p.len()) else { return };
+    if p.len() == SIZE2 {
+        // A material given a quantity it didn't have is marked as owned, as the game does.
+        for i in material_rows() {
+            let at = MATERIALS2 + i * GIFT_STRIDE2;
+            if w16(p, at) != 0 {
+                if let Some(f) = owned_flag(p[at + 2]) {
+                    p[at + 2] = f;
+                }
+            }
+        }
+    }
     let ck = word_sum(&p[P..]);
     p[..2].copy_from_slice(&ck.to_le_bytes());
     let seed = u32::from(w16(p, 2));
@@ -147,9 +175,12 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
         if w32(&p, EXP2) <= EXP2_CAP {
             b.ranged(&["Player", "Experience"], EXP2, Kind::U32, 0, EXP2_CAP as i64);
         }
-        for i in 0..MATERIAL_ROWS2 {
+        // Every material is listed, owned or not; one you don't own yet is marked as owned on save.
+        for i in material_rows() {
             let at = MATERIALS2 + i * GIFT_STRIDE2;
-            if w16(&p, at) != 0 && w16(&p, at) <= 999 && matches!(w16(&p, at + 2), 0x21 | 0x29) {
+            let flag = p[at + 2];
+            let known = p[at + 3] == 0 && (matches!(flag, 0x21 | 0x29) || owned_flag(flag).is_some());
+            if known && w16(&p, at) <= 999 {
                 b.ranged(&["Crafting materials", &format!("Material {:02}", i + 1)], at, Kind::U16, 0, 999);
             }
         }
@@ -159,6 +190,10 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
             if (w16(&p, at) != 0 || p[at + 2] != 0) && p[at + 2] <= 10 {
                 b.ranged(&["Friendship", name], at + 2, Kind::U8, 0, 10);
             }
+            // Points add up over every level (1,000 at level 10); the bar is the share toward the next level.
+            if (w16(&p, at) != 0 || p[at + 2] != 0) && w16(&p, at) <= 1000 {
+                b.ranged(&["Friendship points", name], at, Kind::U16, 0, 1000);
+            }
         }
         for i in 0..GIFT_ROWS2 {
             let at = GIFTS2 + i * GIFT_STRIDE2;
@@ -166,7 +201,7 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
                 b.ranged(&["Gifts", &format!("Gift {:02}", i + 1)], at, Kind::U16, 0, 99);
             }
         }
-        Ok(b.finish(KIND2, Checksum::Repack(pack)).with_note(crate::i18n::tx("Close the game first. The stream cipher and the word checksum are written again. Gifts and materials are shown by their number in the save, not by name; only ones you own are listed.")))
+        Ok(b.finish(KIND2, Checksum::Repack(pack)).with_note(crate::i18n::tx("Close the game first. The stream cipher and the word checksum are written again. Gifts and materials are shown by their number in the save, not by name. Every material is listed; giving one you don't own a quantity adds it. Only gifts you own are listed.")))
     }
 }
 
@@ -218,12 +253,18 @@ mod tests {
         p[GIFTS2 + 3 * GIFT_STRIDE2..GIFTS2 + 3 * GIFT_STRIDE2 + 2].copy_from_slice(&7u16.to_le_bytes());
         p[MATERIALS2 + 3 * GIFT_STRIDE2..MATERIALS2 + 3 * GIFT_STRIDE2 + 4].copy_from_slice(&[0x61, 0x03, 0x29, 0x00]);
         p[FRIENDS2 + 29 * FRIEND_STRIDE2..FRIENDS2 + 29 * FRIEND_STRIDE2 + 3].copy_from_slice(&[0x0F, 0x27, 3]);
+        p[FRIENDS2..FRIENDS2 + 3].copy_from_slice(&[40, 0, 0]);
+        // Unowned materials as a new game marks them.
+        p[MATERIALS2 + 5 * GIFT_STRIDE2 + 2] = 0x0D;
+        p[MATERIALS2 + 6 * GIFT_STRIDE2 + 2] = 0x0C;
+        p[MATERIALS2 + 53 * GIFT_STRIDE2 + 2] = 0x0D;
         pack(&mut p);
         let d = p;
         assert!(looks(&d));
         let mut doc = parse(&d).unwrap();
         assert_eq!(doc.to_bytes().unwrap(), d);
         doc.set("/Gifts/Gift 04", 99.into()).unwrap();
+        // An all-zero row is not a material layout the game writes, so it stays hidden.
         assert!(doc.view.pointer("/Crafting materials/Material 01").is_none());
         doc.set("/Crafting materials/Material 04", 999.into()).unwrap();
         assert!(doc.set("/Crafting materials/Material 04", 1000.into()).is_err());
@@ -239,7 +280,23 @@ mod tests {
         doc.set("/Player/Experience", 605_770.into()).unwrap();
         assert!(doc.set("/Player/Experience", 605_771.into()).is_err());
         assert!(doc.set("/Gifts/Gift 04", 100.into()).is_err());
-        assert!(looks(&doc.to_bytes().unwrap()));
+        // Friendship points: Hannes's 9,999 is past the game's 1,000, so only Eren's are listed.
+        assert!(doc.view.pointer("/Friendship points/Hannes").is_none());
+        assert_eq!(doc.view.pointer("/Friendship points/Eren Jaeger").unwrap(), 40);
+        doc.set("/Friendship points/Eren Jaeger", 1000.into()).unwrap();
+        assert!(doc.set("/Friendship points/Eren Jaeger", 1001.into()).is_err());
+        // Unowned materials are listed at 0 and become owned once given a quantity.
+        assert_eq!(doc.view.pointer("/Crafting materials/Material 06").unwrap(), 0);
+        assert!(doc.view.pointer("/Crafting materials/Material 54").is_none());
+        doc.set("/Crafting materials/Material 06", 50.into()).unwrap();
+        doc.set("/Crafting materials/Material 07", 3.into()).unwrap();
+        let out = doc.to_bytes().unwrap();
+        assert!(looks(&out));
+        let (q, _) = unpack(&out).unwrap();
+        assert_eq!(&q[MATERIALS2 + 5 * GIFT_STRIDE2..][..4], &[50, 0, 0x29, 0]);
+        assert_eq!(&q[MATERIALS2 + 6 * GIFT_STRIDE2..][..4], &[3, 0, 0x21, 0]);
+        assert_eq!(&q[MATERIALS2 + 53 * GIFT_STRIDE2..][..4], &[0, 0, 0x0D, 0]);
+        assert_eq!(&q[FRIENDS2..][..2], &1000u16.to_le_bytes());
     }
 
     #[test]

@@ -30028,11 +30028,11 @@ Peaceful
 atwin0000.dat from Documents\\KoeiTecmo\\Attack on Titan\\SAVEDATA. Your funds and the quantity of every item you own; the stream cipher and word checksum are handled.
 = 来自 Documents\\KoeiTecmo\\Attack on Titan\\SAVEDATA 的 atwin0000.dat。资金以及你拥有的每件物品的数量；流加密和字校验和会自动处理。
 
-Attack on Titan2_AOT2_PK_WIN0000.dat from Documents\\KoeiTecmo\\Attack on Titan2_AOT2\\SAVEDATA (Final Battle). Regiment funds, Wings of Freedom (up to 999), your player level (up to 120) and experience, the friendship level (0 to 10) of every character you've met, the crafting materials you own with a Max crafting materials button (999 each) and the quantity of every gift you own, up to 99; the stream cipher and word checksum are handled.
-= 来自 Documents\\KoeiTecmo\\Attack on Titan2_AOT2\\SAVEDATA 的 Attack on Titan2_AOT2_PK_WIN0000.dat（Final Battle）。兵团资金、自由之翼（最多 999）、玩家等级（最高 120）和经验值、你遇到过的每个角色的友好度（0 到 10）、你拥有的制作材料（每种最多 999，带最大化材料按钮）以及你拥有的每件礼物的数量（最多 99）；流加密和字校验和会自动处理。
+Attack on Titan2_AOT2_PK_WIN0000.dat from Documents\\KoeiTecmo\\Attack on Titan2_AOT2\\SAVEDATA (Final Battle). Regiment funds, Wings of Freedom (up to 999), your player level (up to 120) and experience, the friendship level (0 to 10) and friendship points (up to 1,000) of every character you've met, every crafting material, including ones you don't own yet, with a Max crafting materials button (999 each) and the quantity of every gift you own, up to 99; the stream cipher and word checksum are handled.
+= 来自 Documents\\KoeiTecmo\\Attack on Titan2_AOT2\\SAVEDATA 的 Attack on Titan2_AOT2_PK_WIN0000.dat（Final Battle）。兵团资金、自由之翼（最多 999）、玩家等级（最高 120）和经验值、你遇到过的每个角色的友好度（0 到 10）和友好度点数（最多 1,000）、每种制作材料，包括你还没有的（每种最多 999，带最大化材料按钮）以及你拥有的每件礼物的数量（最多 99）；流加密和字校验和会自动处理。
 
-Close the game first. The stream cipher and the word checksum are written again. Gifts and materials are shown by their number in the save, not by name; only ones you own are listed.
-= 请先关闭游戏。流加密和字校验和会重新写入。礼物和材料按存档中的编号显示，而不是名称；只列出你拥有的。
+Close the game first. The stream cipher and the word checksum are written again. Gifts and materials are shown by their number in the save, not by name. Every material is listed; giving one you don't own a quantity adds it. Only gifts you own are listed.
+= 请先关闭游戏。流加密和字校验和会重新写入。礼物和材料按存档中的编号显示，而不是名称。所有材料都会列出；给你没有的材料填入数量即可添加。只列出你拥有的礼物。
 
 Close the game first. The stream cipher and the word checksum are written again. Items are shown by their number in the save, not by name; only items you own are listed.
 = 请先关闭游戏。流加密和字校验和会重新写入。物品按存档中的编号显示，而不是名称；只列出你拥有的物品。
@@ -30045,6 +30045,8 @@ Game screen (Final Battle): regiment funds, Wings of Freedom, the crafting mater
 
 Friendship (characters you've met)
 = 友好度（你遇到过的角色）
+Friendship points (characters you've met)
+= 友好度点数（你遇到过的角色）
 
 Gifts (you own)
 = 礼物（已拥有）
@@ -30058,8 +30060,8 @@ Regiment funds
 Wings of Freedom
 = 自由之翼
 
-Raises every crafting material you already own to 999, the limit the game shows (many are at 999 in a completed save). Materials you don't own are left alone.
-= 将你已拥有的每种制作材料提升到游戏显示的上限 999（在已通关的存档中许多都是 999）。你没有的材料不会被改动。
+Raises every crafting material to 999, the limit the game shows (many are at 999 in a completed save), including ones you don't own yet.
+= 将每种制作材料提升到游戏显示的上限 999（在已通关的存档中许多都是 999），包括你还没有的。
 
 
 Exosuit cargo
