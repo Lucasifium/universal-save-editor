@@ -10611,6 +10611,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 | [WukongMM (Black Myth: Wukong save layout: header checksum, XOR key and field numbers; its sample saves used for checks only, not included)](https://github.com/aloneGtz/WukongMM) | WukongMM contributors | MIT (layout facts, code reimplemented) |
 | [GothicSaveEditor (reader of the SAVEDAT.SAV script variables)](https://github.com/FlyCrafting/GothicSaveEditor) | FlyCrafting, AnImperialMan | MIT |
 | [DQB2 (CMNDAT.BIN layout and offsets)](https://github.com/turtle-insect/DQB2) | turtle-insect | GPL-3.0 |
+| [astlibra-save-editor (ASTLIBRA Revision save layout: level, experience, gold and force offsets, and the two CRC-32 blocks)](https://github.com/qazmlpok/astlibra-save-editor) | qazmlpok | MIT; layout facts used, no code copied |
 
 ## Metal Gear Solid V save variable names
 

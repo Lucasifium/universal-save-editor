@@ -30036,3 +30036,118 @@ save.hg, save2.hg … (with mf_save*.hg beside them)
 
 saveN.hg from %APPDATA%\\HelloGames\\NMS\\st_<id> (Steam) with the mf_saveN.hg beside it, which is made to agree with it. Units, nanites, quicksilver and the amount in the Exosuit, cargo, freighter and first two storage containers, with a Max crafting materials button for every container. Close the game first.
 = saveN.hg de %APPDATA%\\HelloGames\\NMS\\st_<id> (Steam) con el mf_saveN.hg de al lado, que se ajusta a él. Unidades, nanitas, mercurio y la cantidad en el exotraje, la carga, el carguero y los dos primeros contenedores de almacenamiento, con un botón Máx. materiales de fabricación para cada contenedor. Cierra el juego primero.
+# src/game_ui/simple/specs_sweep.rs, src/games.rs (open-source sweep games)
+A save from AppData\\Local\\DH\\Saved\\SaveGames (the DevAutoSave and numbered saves; SaveOptions holds only settings). Crypto's DNA, the currency spent on weapon, saucer and ability upgrades. Close the game first.
+= Una partida de AppData\Local\DH\Saved\SaveGames (DevAutoSave y las partidas numeradas; SaveOptions solo guarda ajustes). El ADN de Crypto, la moneda para mejorar armas, platillo y habilidades. Cierra antes el juego.
+
+Animals spotted
+= Animales avistados
+
+Bounty hunter
+= Cazarrecompensas
+
+Covenant level
+= Nivel de Pacto
+
+Crypto
+= Crypto
+
+Distance travelled
+= Distancia recorrida
+
+Dungeons cleared
+= Mazmorras completadas
+
+Experience towards next level
+= Experiencia para el siguiente nivel
+
+Force
+= Fuerza
+
+Game screen: Crypto's DNA, the currency for weapon, saucer and ability upgrades. Checked on a public save, not yet tried in the game
+= Pantalla de juego: el ADN de Crypto, la moneda para mejorar armas, platillo y habilidades. Comprobado con una partida pública, aún no probado en el juego
+
+Game screen: credits, shots fired, animals spotted, tracks inspected and time played. Checked on a public save, not yet tried in the game
+= Pantalla de juego: créditos, disparos, animales avistados, rastros inspeccionados y tiempo de juego. Comprobado con una partida pública, aún no probado en el juego
+
+Game screen: gold, level, experience towards the next level and the six force pools (fire, earth, water, darkness, wind, holy); the save's two checksums are written again. Checked on public saves, not yet tried in the game
+= Pantalla de juego: oro, nivel, experiencia para el siguiente nivel y las seis reservas de fuerza (fuego, tierra, agua, oscuridad, viento, sagrado); se reescriben las dos sumas de comprobación. Comprobado con partidas públicas, aún no probado en el juego
+
+Game screen: money, guild rank, and the totals the game keeps (money earned, enemies defeated, dungeons cleared, longest combo, time played). Checked on a public save, not yet tried in the game
+= Pantalla de juego: dinero, rango de gremio y los totales que guarda el juego (dinero ganado, enemigos derrotados, mazmorras completadas, combo más largo, tiempo de juego). Comprobado con una partida pública, aún no probado en el juego
+
+Game screen: money, store level and points, the store upgrade and storage levels and the day. Easy Save 3 data; checked on a public save, not yet tried in the game
+= Pantalla de juego: dinero, nivel y puntos de la tienda, niveles de mejora y de almacén y el día. Datos de Easy Save 3; comprobado con una partida pública, aún no probado en el juego
+
+Game screen: pesos. Every other inventory count and story flag is in the Tree. Checked on public saves, not yet tried in the game
+= Pantalla de juego: pesos. El resto de cantidades del inventario y las marcas de la historia están en el Árbol. Comprobado con partidas públicas, aún no probado en el juego
+
+Game screen: the Covenant level you play at, the highest Covenant unlocked and the story progress. Plain JSON; checked on a public save, not yet tried in the game
+= Pantalla de juego: el nivel de Pacto con el que juegas, el más alto desbloqueado y el progreso de la historia. JSON sin cifrar; comprobado con una partida pública, aún no probado en el juego
+
+Guild rank
+= Rango de gremio
+
+HSSave.sav from AppData\\Local\\Hunter2\\Saved\\SaveGames. Your credits, the shots fired, animals spotted and tracks inspected, and the time played. Licences, weapons and gear stay in the Tree.
+= HSSave.sav de AppData\Local\Hunter2\Saved\SaveGames. Tus créditos, los disparos, los animales avistados, los rastros inspeccionados y el tiempo de juego. Las licencias, armas y equipo están en el Árbol.
+
+Highest Covenant unlocked
+= Nivel de Pacto más alto desbloqueado
+
+Holy
+= Sagrado
+
+Hunter
+= Cazador
+
+Longest combo
+= Combo más largo
+
+Pesos
+= Pesos
+
+Railforged story chapters completed
+= Capítulos de Railforged completados
+
+SAVE_<n>.DAT from AppData\\Local\\ASTLIBRA\\SAVE (or Steam\\userdata\\<account>\\1718570\\remote). Gold, level, experience towards the next level and the six force pools (fire, earth, water, darkness, wind, holy). Both of the save's checksums are written again.
+= SAVE_<n>.DAT de AppData\Local\ASTLIBRA\SAVE (o Steam\userdata\<cuenta>\1718570\remote). Oro, nivel, experiencia para el siguiente nivel y las seis reservas de fuerza (fuego, tierra, agua, oscuridad, viento, sagrado). Se reescriben las dos sumas de comprobación.
+
+SaveData<n>.sav from AppData\\Local\\CyberdimensionNeptunia4GoddessesOnline\\Saved\\SaveGames. Your money, guild rank, the totals the game keeps (money earned, enemies defeated, dungeons cleared) and the time played. Close the game first.
+= SaveData<n>.sav de AppData\Local\CyberdimensionNeptunia4GoddessesOnline\Saved\SaveGames. Tu dinero, rango de gremio, los totales del juego (dinero ganado, enemigos derrotados, mazmorras completadas) y el tiempo de juego. Cierra antes el juego.
+
+SaveFile.es3 from AppData\\LocalLow\\Nokta Games\\Supermarket Simulator (the other .es3 files there are backups). Your money, the store level and points, the upgrade and storage levels and the day. Prices, licences and boxes stay in the Tree. Close the game first.
+= SaveFile.es3 de AppData\LocalLow\Nokta Games\Supermarket Simulator (los demás .es3 son copias de seguridad). Tu dinero, nivel y puntos de la tienda, niveles de mejora y de almacén y el día. Los precios, licencias y cajas están en el Árbol. Cierra antes el juego.
+
+Shots fired
+= Disparos realizados
+
+Slot<n>.sav from AppData\\Local\\Oregon\\Saved\\SaveGames (Profile.sav holds settings only). Your pesos. Every other inventory count and story flag is in the Tree under SaveData/DictionaryRaw. Close the game first.
+= Slot<n>.sav de AppData\Local\Oregon\Saved\SaveGames (Profile.sav solo guarda ajustes). Tus pesos. El resto de cantidades del inventario y marcas de la historia están en el Árbol, en SaveData/DictionaryRaw. Cierra antes el juego.
+
+Storage level
+= Nivel de almacén
+
+Store
+= Tienda
+
+Store level
+= Nivel de la tienda
+
+Store points
+= Puntos de la tienda
+
+Store upgrade level
+= Nivel de mejora de la tienda
+
+Story chapters completed
+= Capítulos de la historia completados
+
+Time in game (seconds)
+= Tiempo de juego (segundos)
+
+Tracks inspected
+= Rastros inspeccionados
+
+metagameSave.json from AppData\\LocalLow\\Shiny Shoe\\MonsterTrain2 (plain JSON). The Covenant level you play at and the highest you have unlocked, and the story progress. Clan levels and unlocked cards are in the Tree.
+= metagameSave.json de AppData\LocalLow\Shiny Shoe\MonsterTrain2 (JSON sin cifrar). El nivel de Pacto con el que juegas, el más alto desbloqueado y el progreso de la historia. Los niveles de clan y las cartas desbloqueadas están en el Árbol.
+
