@@ -5,6 +5,7 @@ batman-arkham-city 729
 blasphemous 760
 borderlands-2 760
 borderlands-3 760
+civilization-vi 300
 core-keeper 760
 cult-of-the-lamb 760
 cuphead 445
@@ -19,6 +20,7 @@ divinity-original-sin-2-definitive-edition 760
 dont-starve 669
 dying-light 760
 elden-ring 369
+europa-universalis-iv 365
 fable-the-lost-chapters 628
 fallout 760
 fallout-2 760
@@ -34,11 +36,15 @@ for-the-king 760
 god-of-war 486
 grand-theft-auto-iii 760
 hades 760
+hearts-of-iron-iv 308
 hollow-knight 699
 hollow-knight-silksong 365
 holocure-save-the-fans 760
 horizon-zero-dawn 605
 last-epoch 739
+lego-batman-the-videogame 334
+lego-indiana-jones-the-original-adventures 334
+lego-star-wars-the-complete-saga 334
 lethal-company 760
 like-a-dragon-ishin 396
 mass-effect 303
@@ -52,6 +58,7 @@ oxygen-not-included 760
 palworld 567
 r-e-p-o 760
 resident-evil-5 574
+rimworld 299
 roboquest 657
 rpg-maker-mv-mz-games 760
 rpg-maker-xp-games 760
