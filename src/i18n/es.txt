@@ -29970,8 +29970,8 @@ Peaceful
 atwin0000.dat from Documents\\KoeiTecmo\\Attack on Titan\\SAVEDATA. Your funds and the quantity of every item you own; the stream cipher and word checksum are handled.
 = atwin0000.dat de Documents\\KoeiTecmo\\Attack on Titan\\SAVEDATA. Tus fondos y la cantidad de cada objeto que tienes; el cifrado de flujo y la suma de palabras se gestionan.
 
-Attack on Titan2_AOT2_PK_WIN0000.dat from Documents\\KoeiTecmo\\Attack on Titan2_AOT2\\SAVEDATA (Final Battle). The quantity of every gift you own, up to 99; the stream cipher and word checksum are handled.
-= Attack on Titan2_AOT2_PK_WIN0000.dat de Documents\\KoeiTecmo\\Attack on Titan2_AOT2\\SAVEDATA (Final Battle). La cantidad de cada regalo que tienes, hasta 99; el cifrado de flujo y la suma de palabras se gestionan.
+Attack on Titan2_AOT2_PK_WIN0000.dat from Documents\\KoeiTecmo\\Attack on Titan2_AOT2\\SAVEDATA (Final Battle). Regiment funds, Wings of Freedom (up to 999) and the quantity of every gift you own, up to 99; the stream cipher and word checksum are handled.
+= Attack on Titan2_AOT2_PK_WIN0000.dat de Documents\\KoeiTecmo\\Attack on Titan2_AOT2\\SAVEDATA (Final Battle). Fondos del regimiento, Wings of Freedom (hasta 999) y la cantidad de cada regalo que tienes, hasta 99; el cifrado de flujo y la suma de palabras se gestionan.
 
 Close the game first. The stream cipher and the word checksum are written again. Gifts are shown by their number in the save, not by name; only gifts you own are listed.
 = Cierra primero el juego. El cifrado de flujo y la suma de palabras se vuelven a escribir. Los regalos se muestran con su número en la partida, no con su nombre; solo se listan los que tienes.
@@ -29982,12 +29982,18 @@ Close the game first. The stream cipher and the word checksum are written again.
 Game screen: funds and the quantity of every item you own; the stream cipher and word checksum are rewritten. Checked on a public save, not yet tried in the game
 = Pantalla de juego: fondos y la cantidad de cada objeto que tienes; el cifrado de flujo y la suma de palabras se reescriben. Comprobado con una partida pública, aún no probado en el juego
 
-Game screen (Final Battle): the quantity of every gift you own; the stream cipher and word checksum are rewritten. Checked on a public save, not yet tried in the game
-= Pantalla de juego (Final Battle): la cantidad de cada regalo que tienes; el cifrado de flujo y la suma de palabras se reescriben. Comprobado con una partida pública, aún no probado en el juego
+Game screen (Final Battle): regiment funds, Wings of Freedom and the quantity of every gift you own; the stream cipher and word checksum are rewritten. Checked on a public save, not yet tried in the game
+= Pantalla de juego (Final Battle): fondos del regimiento, Wings of Freedom y la cantidad de cada regalo que tienes; el cifrado de flujo y la suma de palabras se reescriben. Comprobado con una partida pública, aún no probado en el juego
 
 Gifts (you own)
 = Regalos (que tienes)
 
 Items (you own)
 = Objetos (que tienes)
+
+Regiment funds
+= Fondos del regimiento
+
+Wings of Freedom
+= Wings of Freedom
 

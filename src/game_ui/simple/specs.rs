@@ -12157,13 +12157,13 @@ const AOT1: Spec = Spec {
 
 const AOT2: Spec = Spec {
     name: "Attack on Titan 2",
-    tab: "Gifts",
+    tab: "Resources",
     accent: (150, 110, 60),
     kind: Some(crate::fmt::aot::KIND2),
     markers: &["/Gifts"],
-    subtitle: "Attack on Titan2_AOT2_PK_WIN0000.dat from Documents\\KoeiTecmo\\Attack on Titan2_AOT2\\SAVEDATA (Final Battle). The quantity of every gift you own, up to 99; the stream cipher and word checksum are handled.",
-    tiles: &[],
-    sections: &[],
+    subtitle: "Attack on Titan2_AOT2_PK_WIN0000.dat from Documents\\KoeiTecmo\\Attack on Titan2_AOT2\\SAVEDATA (Final Battle). Regiment funds, Wings of Freedom (up to 999) and the quantity of every gift you own, up to 99; the stream cipher and word checksum are handled.",
+    tiles: &[("Regiment funds", "/Resources/Regiment funds"), ("Wings of Freedom", "/Resources/Wings of Freedom")],
+    sections: &[Section { title: "Resources", rows: &[("Regiment funds", "/Resources/Regiment funds"), ("Wings of Freedom", "/Resources/Wings of Freedom")] }],
     lists: &[List { title: "Gifts (you own)", path: "/Gifts", shape: Shape::Map, names: &[], max: None }],
     tables: &[],
 };

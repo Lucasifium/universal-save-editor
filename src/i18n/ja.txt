@@ -30055,8 +30055,8 @@ Peaceful
 atwin0000.dat from Documents\\KoeiTecmo\\Attack on Titan\\SAVEDATA. Your funds and the quantity of every item you own; the stream cipher and word checksum are handled.
 = Documents\\KoeiTecmo\\Attack on Titan\\SAVEDATA の atwin0000.dat。資金と所持している各アイテムの数量。ストリーム暗号とワードチェックサムは自動で処理されます。
 
-Attack on Titan2_AOT2_PK_WIN0000.dat from Documents\\KoeiTecmo\\Attack on Titan2_AOT2\\SAVEDATA (Final Battle). The quantity of every gift you own, up to 99; the stream cipher and word checksum are handled.
-= Documents\\KoeiTecmo\\Attack on Titan2_AOT2\\SAVEDATA の Attack on Titan2_AOT2_PK_WIN0000.dat（Final Battle）。所持している各ギフトの数量（最大99）。ストリーム暗号とワードチェックサムは自動で処理されます。
+Attack on Titan2_AOT2_PK_WIN0000.dat from Documents\\KoeiTecmo\\Attack on Titan2_AOT2\\SAVEDATA (Final Battle). Regiment funds, Wings of Freedom (up to 999) and the quantity of every gift you own, up to 99; the stream cipher and word checksum are handled.
+= Documents\\KoeiTecmo\\Attack on Titan2_AOT2\\SAVEDATA の Attack on Titan2_AOT2_PK_WIN0000.dat（Final Battle）。連隊資金、自由の翼（最大999）、所持している各ギフトの数量（最大99）。ストリーム暗号とワードチェックサムは自動で処理されます。
 
 Close the game first. The stream cipher and the word checksum are written again. Gifts are shown by their number in the save, not by name; only gifts you own are listed.
 = 先にゲームを終了してください。ストリーム暗号とワードチェックサムは書き込み時に再計算されます。ギフトは名前ではなくセーブ内の番号で表示され、所持しているものだけが一覧に出ます。
@@ -30067,12 +30067,18 @@ Close the game first. The stream cipher and the word checksum are written again.
 Game screen: funds and the quantity of every item you own; the stream cipher and word checksum are rewritten. Checked on a public save, not yet tried in the game
 = ゲーム画面：資金と所持している各アイテムの数量。ストリーム暗号とワードチェックサムは書き直されます。公開セーブで確認済み、ゲーム内ではまだ未確認
 
-Game screen (Final Battle): the quantity of every gift you own; the stream cipher and word checksum are rewritten. Checked on a public save, not yet tried in the game
-= ゲーム画面（Final Battle）：所持している各ギフトの数量。ストリーム暗号とワードチェックサムは書き直されます。公開セーブで確認済み、ゲーム内ではまだ未確認
+Game screen (Final Battle): regiment funds, Wings of Freedom and the quantity of every gift you own; the stream cipher and word checksum are rewritten. Checked on a public save, not yet tried in the game
+= ゲーム画面（Final Battle）：連隊資金、自由の翼、所持している各ギフトの数量。ストリーム暗号とワードチェックサムは書き直されます。公開セーブで確認済み、ゲーム内ではまだ未確認
 
 Gifts (you own)
 = ギフト（所持品）
 
 Items (you own)
 = アイテム（所持品）
+
+Regiment funds
+= 連隊資金
+
+Wings of Freedom
+= 自由の翼
 

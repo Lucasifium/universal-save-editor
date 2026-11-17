@@ -7,7 +7,9 @@
 //! offset 0x604, which is how the layouts are recognised. The first game's body is the PS Vita
 //! layout behind a 0x61C-byte header (money and item quantity rows as published in the public
 //! Vita patch lists, checked on a public save); the second game's gift table and its offset
-//! match the public PS4 patch list shifted by 0x114740, checked on a public save.
+//! match the public PS4 patch list shifted by 0x114740, checked on a public save. The second
+//! game's regiment funds (0x114D74, with the total acquired beside it) and Wings of Freedom
+//! (0x247A4C) were matched to values read in the game from a save of its own.
 
 use super::fields::{Builder, Checksum, Kind};
 use crate::tree::TreeDoc;
@@ -22,6 +24,8 @@ const MONEY1: usize = P + 0x650;
 const ITEMS1: usize = P + 0x362BC;
 const ITEM_ROWS1: usize = 81;
 const ITEM_STRIDE1: usize = 0x30;
+const FUNDS2: usize = P + 0x114D74;
+const WINGS2: usize = P + 0x247A4C;
 const GIFTS2: usize = P + 0x14B698;
 const GIFT_ROWS2: usize = 50;
 const GIFT_STRIDE2: usize = 0x30;
@@ -108,6 +112,13 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
         }
         Ok(b.finish(KIND1, Checksum::Repack(pack)).with_note(crate::i18n::tx("Close the game first. The stream cipher and the word checksum are written again. Items are shown by their number in the save, not by name; only items you own are listed.")))
     } else {
+        // Current funds sit beside the total acquired (equal in a new game); wings never exceed 999.
+        if w32(&p, FUNDS2) <= w32(&p, FUNDS2 + 4) {
+            b.ranged(&["Resources", "Regiment funds"], FUNDS2, Kind::U32, 0, 99_999_999);
+        }
+        if w32(&p, WINGS2) <= 999 {
+            b.ranged(&["Resources", "Wings of Freedom"], WINGS2, Kind::U32, 0, 999);
+        }
         for i in 0..GIFT_ROWS2 {
             let at = GIFTS2 + i * GIFT_STRIDE2;
             if w16(&p, at) != 0 && w16(&p, at) <= 99 {
@@ -170,6 +181,9 @@ mod tests {
         let mut doc = parse(&d).unwrap();
         assert_eq!(doc.to_bytes().unwrap(), d);
         doc.set("/Gifts/Gift 04", 99.into()).unwrap();
+        doc.set("/Resources/Regiment funds", 5000.into()).unwrap();
+        doc.set("/Resources/Wings of Freedom", 999.into()).unwrap();
+        assert!(doc.set("/Resources/Wings of Freedom", 1000.into()).is_err());
         assert!(doc.set("/Gifts/Gift 04", 100.into()).is_err());
         assert!(looks(&doc.to_bytes().unwrap()));
     }
