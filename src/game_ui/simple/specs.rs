@@ -12161,7 +12161,7 @@ const AOT2: Spec = Spec {
     accent: (150, 110, 60),
     kind: Some(crate::fmt::aot::KIND2),
     markers: &["/Gifts"],
-    subtitle: "Attack on Titan2_AOT2_PK_WIN0000.dat from Documents\\KoeiTecmo\\Attack on Titan2_AOT2\\SAVEDATA (Final Battle). Regiment funds, Wings of Freedom (up to 999), your player level (up to 120) and experience, the crafting materials you own with a Max crafting materials button (999 each) and the quantity of every gift you own, up to 99; the stream cipher and word checksum are handled.",
+    subtitle: "Attack on Titan2_AOT2_PK_WIN0000.dat from Documents\\KoeiTecmo\\Attack on Titan2_AOT2\\SAVEDATA (Final Battle). Regiment funds, Wings of Freedom (up to 999), your player level (up to 120) and experience, the friendship level (0 to 10) of every character you've met, the crafting materials you own with a Max crafting materials button (999 each) and the quantity of every gift you own, up to 99; the stream cipher and word checksum are handled.",
     tiles: &[("Regiment funds", "/Resources/Regiment funds"), ("Wings of Freedom", "/Resources/Wings of Freedom")],
     sections: &[Section { title: "Resources", rows: &[("Regiment funds", "/Resources/Regiment funds"), ("Wings of Freedom", "/Resources/Wings of Freedom")] }, Section { title: "Player", rows: &[("Level", "/Player/Level"), ("Experience", "/Player/Experience")] }],
     lists: &[
@@ -12178,6 +12178,7 @@ const AOT2: Spec = Spec {
                 about: "Raises every crafting material you already own to 999, the limit the game shows (many are at 999 in a completed save). Materials you don't own are left alone.",
             }),
         },
+        List { title: "Friendship (characters you've met)", path: "/Friendship", shape: Shape::Map, names: &[], max: None },
         List { title: "Gifts (you own)", path: "/Gifts", shape: Shape::Map, names: &[], max: None },
     ],
     tables: &[],

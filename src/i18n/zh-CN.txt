@@ -30028,8 +30028,8 @@ Peaceful
 atwin0000.dat from Documents\\KoeiTecmo\\Attack on Titan\\SAVEDATA. Your funds and the quantity of every item you own; the stream cipher and word checksum are handled.
 = 来自 Documents\\KoeiTecmo\\Attack on Titan\\SAVEDATA 的 atwin0000.dat。资金以及你拥有的每件物品的数量；流加密和字校验和会自动处理。
 
-Attack on Titan2_AOT2_PK_WIN0000.dat from Documents\\KoeiTecmo\\Attack on Titan2_AOT2\\SAVEDATA (Final Battle). Regiment funds, Wings of Freedom (up to 999), your player level (up to 120) and experience, the crafting materials you own with a Max crafting materials button (999 each) and the quantity of every gift you own, up to 99; the stream cipher and word checksum are handled.
-= 来自 Documents\\KoeiTecmo\\Attack on Titan2_AOT2\\SAVEDATA 的 Attack on Titan2_AOT2_PK_WIN0000.dat（Final Battle）。兵团资金、自由之翼（最多 999）、玩家等级（最高 120）和经验值、你拥有的制作材料（每种最多 999，带最大化材料按钮）以及你拥有的每件礼物的数量（最多 99）；流加密和字校验和会自动处理。
+Attack on Titan2_AOT2_PK_WIN0000.dat from Documents\\KoeiTecmo\\Attack on Titan2_AOT2\\SAVEDATA (Final Battle). Regiment funds, Wings of Freedom (up to 999), your player level (up to 120) and experience, the friendship level (0 to 10) of every character you've met, the crafting materials you own with a Max crafting materials button (999 each) and the quantity of every gift you own, up to 99; the stream cipher and word checksum are handled.
+= 来自 Documents\\KoeiTecmo\\Attack on Titan2_AOT2\\SAVEDATA 的 Attack on Titan2_AOT2_PK_WIN0000.dat（Final Battle）。兵团资金、自由之翼（最多 999）、玩家等级（最高 120）和经验值、你遇到过的每个角色的友好度（0 到 10）、你拥有的制作材料（每种最多 999，带最大化材料按钮）以及你拥有的每件礼物的数量（最多 99）；流加密和字校验和会自动处理。
 
 Close the game first. The stream cipher and the word checksum are written again. Gifts and materials are shown by their number in the save, not by name; only ones you own are listed.
 = 请先关闭游戏。流加密和字校验和会重新写入。礼物和材料按存档中的编号显示，而不是名称；只列出你拥有的。
@@ -30042,6 +30042,9 @@ Game screen: funds and the quantity of every item you own; the stream cipher and
 
 Game screen (Final Battle): regiment funds, Wings of Freedom, the crafting materials you own with a Max crafting materials button, and the quantity of every gift you own; the stream cipher and word checksum are rewritten. Checked on a public save, not yet tried in the game
 = 游戏界面（Final Battle）：兵团资金、自由之翼、你拥有的制作材料（带最大化材料按钮）以及你拥有的每件礼物的数量；流加密和字校验和会重新写入。已在公开存档上验证，尚未在游戏中试过
+
+Friendship (characters you've met)
+= 友好度（你遇到过的角色）
 
 Gifts (you own)
 = 礼物（已拥有）

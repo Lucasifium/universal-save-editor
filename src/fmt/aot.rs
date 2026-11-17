@@ -37,6 +37,20 @@ const MATERIAL_ROWS2: usize = 53;
 const GIFTS2: usize = P + 0x14B698;
 const GIFT_ROWS2: usize = 50;
 const GIFT_STRIDE2: usize = 0x30;
+/// Friendship records (0x180 bytes each): u16 points, then the level (0..=10) the People Log shows.
+const FRIENDS2: usize = P + 0x166978;
+const FRIEND_STRIDE2: usize = 0x180;
+/// Record number of each character, matched by loading test levels in the game.
+const FRIEND_NAMES2: [(usize, &str); 39] = [
+    (0, "Eren Jaeger"), (1, "Mikasa Ackermann"), (2, "Armin Arlelt"), (3, "Reiner Braun"), (4, "Bertholdt Hoover"),
+    (5, "Annie Leonhart"), (6, "Jean Kirschtein"), (7, "Conny Springer"), (8, "Sasha Braus"), (9, "Christa Lenz"),
+    (10, "Ymir"), (11, "Levi"), (12, "Hange Zo\u{eb}"), (13, "Erwin Smith"), (14, "Marco Bodt"), (15, "Thomas Wagner"),
+    (16, "Mina Carolina"), (17, "Miche Zacharius"), (18, "Oruo Bozad"), (19, "Petra Ral"), (20, "Gunther Schultz"),
+    (21, "Eld Gin"), (22, "Moblit"), (23, "Ian Dietrich"), (24, "Rico Brzenska"), (25, "Mitabi Jarnach"),
+    (26, "Nile Dawk"), (27, "Marlo Freudenberg"), (28, "Hitch"), (29, "Hannes"), (30, "Dot Pyxis"), (31, "Keith Sadies"),
+    (32, "Kitz Woermann"), (33, "Dhalis Zachary"), (34, "Nanaba"), (35, "Gelgar"), (36, "Daz"), (47, "Pastor Nick"),
+    (48, "Merchant Association Boss"),
+];
 
 fn w16(d: &[u8], at: usize) -> u16 {
     u16::from_le_bytes([d[at], d[at + 1]])
@@ -139,6 +153,13 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
                 b.ranged(&["Crafting materials", &format!("Material {:02}", i + 1)], at, Kind::U16, 0, 999);
             }
         }
+        // Only characters you've met (points or a level set) are listed.
+        for (k, name) in FRIEND_NAMES2 {
+            let at = FRIENDS2 + k * FRIEND_STRIDE2;
+            if (w16(&p, at) != 0 || p[at + 2] != 0) && p[at + 2] <= 10 {
+                b.ranged(&["Friendship", name], at + 2, Kind::U8, 0, 10);
+            }
+        }
         for i in 0..GIFT_ROWS2 {
             let at = GIFTS2 + i * GIFT_STRIDE2;
             if w16(&p, at) != 0 && w16(&p, at) <= 99 {
@@ -196,6 +217,7 @@ mod tests {
         let mut p = blank(false);
         p[GIFTS2 + 3 * GIFT_STRIDE2..GIFTS2 + 3 * GIFT_STRIDE2 + 2].copy_from_slice(&7u16.to_le_bytes());
         p[MATERIALS2 + 3 * GIFT_STRIDE2..MATERIALS2 + 3 * GIFT_STRIDE2 + 4].copy_from_slice(&[0x61, 0x03, 0x29, 0x00]);
+        p[FRIENDS2 + 29 * FRIEND_STRIDE2..FRIENDS2 + 29 * FRIEND_STRIDE2 + 3].copy_from_slice(&[0x0F, 0x27, 3]);
         pack(&mut p);
         let d = p;
         assert!(looks(&d));
@@ -208,6 +230,10 @@ mod tests {
         doc.set("/Resources/Regiment funds", 5000.into()).unwrap();
         doc.set("/Resources/Wings of Freedom", 999.into()).unwrap();
         assert!(doc.set("/Resources/Wings of Freedom", 1000.into()).is_err());
+        assert!(doc.view.pointer("/Friendship/Levi").is_none());
+        assert_eq!(doc.view.pointer("/Friendship/Hannes").unwrap(), 3);
+        doc.set("/Friendship/Hannes", 10.into()).unwrap();
+        assert!(doc.set("/Friendship/Hannes", 11.into()).is_err());
         doc.set("/Player/Level", 120.into()).unwrap();
         assert!(doc.set("/Player/Level", 121.into()).is_err());
         doc.set("/Player/Experience", 605_770.into()).unwrap();

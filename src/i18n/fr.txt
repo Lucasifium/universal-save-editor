@@ -29984,8 +29984,8 @@ Peaceful
 atwin0000.dat from Documents\\KoeiTecmo\\Attack on Titan\\SAVEDATA. Your funds and the quantity of every item you own; the stream cipher and word checksum are handled.
 = atwin0000.dat depuis Documents\\KoeiTecmo\\Attack on Titan\\SAVEDATA. Vos fonds et la quantité de chaque objet que vous possédez ; le chiffrement de flux et la somme de mots sont gérés.
 
-Attack on Titan2_AOT2_PK_WIN0000.dat from Documents\\KoeiTecmo\\Attack on Titan2_AOT2\\SAVEDATA (Final Battle). Regiment funds, Wings of Freedom (up to 999), your player level (up to 120) and experience, the crafting materials you own with a Max crafting materials button (999 each) and the quantity of every gift you own, up to 99; the stream cipher and word checksum are handled.
-= Attack on Titan2_AOT2_PK_WIN0000.dat depuis Documents\\KoeiTecmo\\Attack on Titan2_AOT2\\SAVEDATA (Final Battle). Fonds du régiment, Wings of Freedom (jusqu'à 999), votre niveau de joueur (jusqu'à 120) et votre expérience, les matériaux d'artisanat que vous possédez avec un bouton Max. matériaux d'artisanat (999 chacun) et la quantité de chaque cadeau que vous possédez, jusqu'à 99 ; le chiffrement de flux et la somme de mots sont gérés.
+Attack on Titan2_AOT2_PK_WIN0000.dat from Documents\\KoeiTecmo\\Attack on Titan2_AOT2\\SAVEDATA (Final Battle). Regiment funds, Wings of Freedom (up to 999), your player level (up to 120) and experience, the friendship level (0 to 10) of every character you've met, the crafting materials you own with a Max crafting materials button (999 each) and the quantity of every gift you own, up to 99; the stream cipher and word checksum are handled.
+= Attack on Titan2_AOT2_PK_WIN0000.dat depuis Documents\\KoeiTecmo\\Attack on Titan2_AOT2\\SAVEDATA (Final Battle). Fonds du régiment, Wings of Freedom (jusqu'à 999), votre niveau de joueur (jusqu'à 120) et votre expérience, le niveau d'amitié (0 à 10) de chaque personnage rencontré, les matériaux d'artisanat que vous possédez avec un bouton Max. matériaux d'artisanat (999 chacun) et la quantité de chaque cadeau que vous possédez, jusqu'à 99 ; le chiffrement de flux et la somme de mots sont gérés.
 
 Close the game first. The stream cipher and the word checksum are written again. Gifts and materials are shown by their number in the save, not by name; only ones you own are listed.
 = Fermez d'abord le jeu. Le chiffrement de flux et la somme de mots sont réécrits. Les cadeaux et matériaux sont affichés par leur numéro dans la sauvegarde, pas par leur nom ; seuls ceux que vous possédez sont listés.
@@ -29998,6 +29998,9 @@ Game screen: funds and the quantity of every item you own; the stream cipher and
 
 Game screen (Final Battle): regiment funds, Wings of Freedom, the crafting materials you own with a Max crafting materials button, and the quantity of every gift you own; the stream cipher and word checksum are rewritten. Checked on a public save, not yet tried in the game
 = Écran de jeu (Final Battle) : fonds du régiment, Wings of Freedom, les matériaux d'artisanat que vous possédez avec un bouton Max. matériaux d'artisanat, et la quantité de chaque cadeau que vous possédez ; le chiffrement de flux et la somme de mots sont réécrits. Vérifié sur une sauvegarde publique, pas encore essayé dans le jeu
+
+Friendship (characters you've met)
+= Amitié (personnages rencontrés)
 
 Gifts (you own)
 = Cadeaux (que vous possédez)
