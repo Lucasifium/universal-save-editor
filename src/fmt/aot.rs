@@ -27,6 +27,9 @@ const ITEM_ROWS1: usize = 81;
 const ITEM_STRIDE1: usize = 0x30;
 const FUNDS2: usize = P + 0x114D74;
 const WINGS2: usize = P + 0x247A4C;
+const EXP2: usize = P + 0x22C6B8;
+/// Experience at level 120 (identical in two level-120 saves).
+const EXP2_CAP: u32 = 605_770;
 const MATERIALS2: usize = P + 0x146E98;
 const MATERIAL_ROWS2: usize = 53;
 const GIFTS2: usize = P + 0x14B698;
@@ -122,6 +125,9 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
         if w32(&p, WINGS2) <= 999 {
             b.ranged(&["Resources", "Wings of Freedom"], WINGS2, Kind::U32, 0, 999);
         }
+        if w32(&p, EXP2) <= EXP2_CAP {
+            b.ranged(&["Player", "Experience"], EXP2, Kind::U32, 0, EXP2_CAP as i64);
+        }
         for i in 0..MATERIAL_ROWS2 {
             let at = MATERIALS2 + i * GIFT_STRIDE2;
             if w16(&p, at) != 0 && w16(&p, at) <= 999 && matches!(w16(&p, at + 2), 0x21 | 0x29) {
@@ -197,6 +203,8 @@ mod tests {
         doc.set("/Resources/Regiment funds", 5000.into()).unwrap();
         doc.set("/Resources/Wings of Freedom", 999.into()).unwrap();
         assert!(doc.set("/Resources/Wings of Freedom", 1000.into()).is_err());
+        doc.set("/Player/Experience", 605_770.into()).unwrap();
+        assert!(doc.set("/Player/Experience", 605_771.into()).is_err());
         assert!(doc.set("/Gifts/Gift 04", 100.into()).is_err());
         assert!(looks(&doc.to_bytes().unwrap()));
     }
