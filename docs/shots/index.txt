@@ -16,10 +16,13 @@ car-mechanic-simulator-2021 289
 celeste 289
 civilization-vi 300
 core-keeper 760
+crusader-kings-iii 423
 cult-of-the-lamb 760
 cuphead 445
 cyberpunk-2077 369
+dark-souls-ii-scholar-of-the-first-sin 377
 dark-souls-iii 760
+dark-souls-remastered 379
 darkest-dungeon 760
 dave-the-diver 760
 dead-rising 379
@@ -94,6 +97,7 @@ moonlighter 289
 mortal-shell 303
 mutant-year-zero-road-to-eden 357
 my-summer-car 287
+neverwinter-nights-enhanced-edition 311
 nier-automata 284
 octopath-traveler 284
 omori 313
@@ -124,6 +128,8 @@ snowrunner 289
 sonic-mania 760
 sons-of-the-forest 459
 star-wars-jedi-fallen-order 760
+star-wars-knights-of-the-old-republic 311
+star-wars-knights-of-the-old-republic-ii-the-sith-lords 311
 stardew-valley 760
 stellar-blade 760
 subnautica-below-zero 282
@@ -140,6 +146,7 @@ thehunter-call-of-the-wild 311
 tiny-tinas-wonderlands 760
 titan-quest-anniversary-edition 311
 tokyo-xtreme-racer 759
+torchlight-ii 400
 total-war-attila 377
 total-war-warhammer 379
 total-war-warhammer-ii 477
@@ -152,6 +159,7 @@ wolcen-lords-of-mayhem 760
 world-war-z 289
 worldbox-god-simulator 306
 xcom-2 377
+xcom-enemy-unknown-enemy-within 309
 yakuza-0 306
 yakuza-3-remastered 495
 yakuza-kiwami 351
