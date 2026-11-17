@@ -4,7 +4,7 @@
 use super::{Section, Spec};
 use crate::i18n::tx;
 
-pub static SWEEP: &[Spec] = &[DESTROY_ALL_HUMANS, HUNTING_SIM_2, CYBERDIMENSION, HIGH_ON_LIFE, MONSTER_TRAIN_2, ASTLIBRA, SUPERMARKET_SIM];
+pub static SWEEP: &[Spec] = &[DESTROY_ALL_HUMANS, HUNTING_SIM_2, CYBERDIMENSION, HIGH_ON_LIFE, MONSTER_TRAIN_2, ASTLIBRA, SUPERMARKET_SIM, DUCKOV];
 
 // ------------------------------------------------------------------ Destroy All Humans! (2020)
 
@@ -157,6 +157,21 @@ const SUPERMARKET_SIM: Spec = Spec {
             ],
         },
     ],
+    lists: &[],
+    tables: &[],
+};
+
+// ------------------------------------------------------------------ Escape from Duckov
+
+const DUCKOV: Spec = Spec {
+    name: "Escape from Duckov",
+    tab: "Operator",
+    accent: (230, 190, 60),
+    kind: Some("Easy Save 3 data"),
+    markers: &["/EconomyData/value/money", "/EXP_Value/value"],
+    subtitle: tx("Save_<n>.sav from AppData\\LocalLow\\TeamSoda\\Duckov\\Saves (the .bac files beside it are the game's own backups). Your money and experience and the day. Items, stashes and quests stay in the Tree. Close the game first."),
+    tiles: &[("Money", "/EconomyData/value/money"), ("Experience", "/EXP_Value/value"), ("Day", "/GameClock/value/days")],
+    sections: &[Section { title: "Operator", rows: &[("Money", "/EconomyData/value/money"), ("Experience", "/EXP_Value/value"), ("Day", "/GameClock/value/days")] }],
     lists: &[],
     tables: &[],
 };

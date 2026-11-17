@@ -134,6 +134,13 @@ impl Scan<'_> {
                         }
                         _ => {}
                     }
+                    // Duckov writes a primitive without its key: `"__type" : "int"0`. The bare
+                    // value after a type name is shown as that entry's "value".
+                    if map.contains_key("__type") && !map.contains_key("value") && !matches!(self.d[self.at], b'"' | b'{' | b'[') {
+                        let v = self.value(&child(ptr, "value"))?;
+                        map.insert("value".to_string(), v);
+                        continue;
+                    }
                     // A key that is itself an object or array: shown as its text.
                     let key = if self.d[self.at] == b'"' {
                         self.string()?
@@ -235,6 +242,18 @@ mod tests {
     use super::*;
 
     const SAMPLE: &str = r#"{"PlayersMoney":{"__type":"int","value":250},"timeInDark":{"__type":"float","value":12.5},"Name":{"__type":"string","value":"a \"b\""},"Seen":{"__type":"bool","value":false},"Outfit":{"__type":"PlayerOutfit,Assembly-CSharp","value":{"Items":{{"low":2048,"high":0}:{"guid":{"value":"a8"},"materialOption":0},{"low":4,"high":0}:{"materialOption":3}}}},"Ghosts":{"__type":"Dictionary","value":{"Demon":4,"Oni":7}}}"#;
+
+    #[test]
+    fn a_primitive_written_without_its_key_is_the_entry_value() {
+        let t = "{\n\t\"Money\" : {\n\t\t\"__type\" : \"int\"0\n\t},\n\t\"Pair\" : {\"__type\" : \"Tuple\",\"Item1\" : 2,\"Item2\" : {\"__type\" : \"bool\"true}}\n}";
+        let mut doc = parse(t).unwrap();
+        assert_eq!(doc.view.pointer("/Money/value"), Some(&Value::from(0)));
+        assert_eq!(doc.view.pointer("/Pair/Item2/value"), Some(&Value::Bool(true)));
+        assert_eq!(doc.to_bytes().unwrap(), t.as_bytes());
+        doc.set("/Money/value", Value::from(77)).unwrap();
+        let out = String::from_utf8(doc.to_bytes().unwrap()).unwrap();
+        assert!(out.contains("\"int\"77"), "{out}");
+    }
 
     #[test]
     fn reads_object_keys_and_edits_in_place() {

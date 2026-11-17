@@ -144,13 +144,14 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 </details>
 
 <details>
-<summary><strong>E</strong> (9)</summary>
+<summary><strong>E</strong> (10)</summary>
 
 | Game | Screen |
 |---|---|
 | Elden Ring, Dark Souls III / II / I | Name, class and level; currency; attribute bars (level follows); HP / FP / Stamina meters; runes or souls to the next level (Elden Ring, Dark Souls III and I); inventory grids (with a search box across every list) for items, key items, storage, weapons (level and affinity / infusion), armor and talismans / rings; a *Max upgrade materials* button (Elden Ring: every Smithing Stone, Somber Smithing Stone and Glovewort to 999; Dark Souls: every titanite to 99); Elden Ring also has a **Max crafting materials** button that fills the cookbook materials you carry or store (meat, bones, flowers, mushrooms, butterflies, stones…) to 999, leaving key items alone |
 | ENDER LILIES: Quietus of the Knights | *Lily*: level, blight (experience), prayer level and prayers left, Stagnant Blight, Furious Blight and Ancient Souls with a **Max crafting materials** button that fills both blights to 999 (the most players report; Ancient Souls are left alone), and every spirit's level (checked on public saves, not yet tried in the game) |
 | Enter the Gungeon | *Gungeoneers*: each Gungeoneer's Hegemony credits, runs, deaths, enemies killed, money collected, play time, keys, blanks and floors cleared; the save's repeating-key XOR is handled. checked on a public save, not yet tried in the game |
+| Escape from Duckov | Money, experience and the day. Easy Save 3 data (the game's own quirk of writing a value without its key is read); checked on a public save, not yet tried in the game |
 | Etherlords | *Wizards*: each player's elemental resources and remaining mana and the campaign's points and day (checked on a public save, not yet tried in the game) |
 | Euro Truck Simulator 2 | *Driver*: money, loan limit, experience, the five skills and ADR classes; every vehicle's fuel, odometer and wear, with buttons to max skills, fill every tank and repair everything. Packed saves are unpacked and packed again with their checksum. |
 | Europa Universalis III | *Empire*: your country's treasury, prestige, stability, manpower, inflation, war exhaustion and army and navy tradition (every other country by tag in the Tree); edited in place in the plain-text save (checked on a public save, not yet tried in the game) |

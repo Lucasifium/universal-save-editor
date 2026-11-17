@@ -30159,4 +30159,13 @@ Tracks inspected
 
 metagameSave.json from AppData\\LocalLow\\Shiny Shoe\\MonsterTrain2 (plain JSON). The Covenant level you play at and the highest you have unlocked, and the story progress. Clan levels and unlocked cards are in the Tree.
 = metagameSave.json aus AppData\LocalLow\Shiny Shoe\MonsterTrain2 (reines JSON). Die gespielte Bund-Stufe, die höchste freigeschaltete und der Story-Fortschritt. Clanstufen und freigeschaltete Karten stehen im Baum.
+# Escape from Duckov
+Game screen: money, experience and the day. Easy Save 3 data (the game's own quirk of writing a value without its key is read); checked on a public save, not yet tried in the game
+= Spielbildschirm: Geld, Erfahrung und der Tag. Easy-Save-3-Daten (die Eigenheit des Spiels, einen Wert ohne Schlüssel zu schreiben, wird gelesen); an einem öffentlichen Spielstand geprüft, noch nicht im Spiel getestet
+
+Operator
+= Operator
+
+Save_<n>.sav from AppData\\LocalLow\\TeamSoda\\Duckov\\Saves (the .bac files beside it are the game's own backups). Your money and experience and the day. Items, stashes and quests stay in the Tree. Close the game first.
+= Save_<n>.sav aus AppData\LocalLow\TeamSoda\Duckov\Saves (die .bac-Dateien daneben sind die Sicherungen des Spiels). Dein Geld, Erfahrung und der Tag. Gegenstände, Lager und Aufträge stehen im Baum. Spiel vorher schließen.
 
