@@ -774,6 +774,59 @@ fn related_html(g: &GameInfo, pages: &[(&str, String)]) -> String {
     format!("<h2>More save editors</h2>\n<ul class=\"grid more\">{links}</ul>\n<p>{hub}<a href=\"../#games\">See all {} supported games</a></p>\n", GAMES.len())
 }
 
+/// Game names added by each commit, newest commit first, from `git log -p` output of src/games.rs
+/// (a name both removed and added in one commit was only edited).
+fn added_names(log: &str) -> Vec<String> {
+    fn name(line: &str) -> Option<&str> {
+        let rest = line.trim_start().strip_prefix("game!(\"")?;
+        rest.split('"').next()
+    }
+    let mut out = vec![];
+    for block in log.split("@@commit").skip(1) {
+        let mut plus: Vec<&str> = vec![];
+        let mut minus: Vec<&str> = vec![];
+        for l in block.lines() {
+            if let Some(n) = l.strip_prefix('+').filter(|_| !l.starts_with("+++")).and_then(name) {
+                plus.push(n);
+            } else if let Some(n) = l.strip_prefix('-').filter(|_| !l.starts_with("---")).and_then(name) {
+                minus.push(n);
+            }
+        }
+        for n in plus.into_iter().rev() {
+            if !minus.contains(&n) && !out.iter().any(|o| o == n) {
+                out.push(n.to_string());
+            }
+        }
+    }
+    out
+}
+
+/// The most recently added games that have a page (or sit under a console), newest first.
+fn newest_games(skip: &[String], limit: usize) -> Vec<&'static GameInfo> {
+    let root = env!("CARGO_MANIFEST_DIR");
+    let Ok(o) = std::process::Command::new("git").args(["-C", root, "log", "-n", "400", "-p", "--no-color", "--format=format:@@commit", "--", "src/games.rs"]).output() else { return vec![] };
+    let log = String::from_utf8_lossy(&o.stdout);
+    added_names(&log).iter().filter(|n| !skip.contains(n)).filter_map(|n| GAMES.iter().find(|g| g.name == n.as_str())).take(limit).collect()
+}
+
+fn newest_html(games: &[&GameInfo]) -> String {
+    if games.is_empty() {
+        return String::new();
+    }
+    let mut items = String::new();
+    for g in games {
+        let (lvl, _) = level(g);
+        let tag_class = if has_screen(g) { "tag screen" } else { "tag" };
+        let inner = format!(r#"<span>{}</span><span class="{tag_class}">{lvl}</span>"#, esc(g.name));
+        if crate::games::consoles_of(g.name).is_empty() {
+            let _ = write!(items, r#"<li><a href="{}-save-editor/">{inner}</a></li>"#, slug(&search_name(g.name)));
+        } else {
+            let _ = write!(items, "<li><div>{inner}</div></li>");
+        }
+    }
+    format!("<h2>Newest added</h2>\n<ul class=\"grid newest\">{items}</ul>\n")
+}
+
 #[test]
 #[ignore]
 fn build_site() {
@@ -1019,7 +1072,7 @@ fn build_site() {
 <figure class="shot"><picture><source media="(max-width: 600px)" type="image/webp" srcset="screenshot-phone.webp" width="780" height="1500"><source media="(max-width: 600px)" srcset="screenshot-phone.png" width="780" height="1500"><source type="image/webp" srcset="screenshot.webp"><img src="screenshot.png" width="2000" height="1322" alt="The editor with a save open: named values in groups, with number fields, text fields and switches" loading="lazy" decoding="async"></picture><figcaption>A save open in the editor: every value has a name, and numbers, text and switches are edited in place.</figcaption></figure>
 <h2>Why download a save editor?</h2>
 {WHY}
-<h2>Browse by genre</h2>
+{newest}<h2>Browse by genre</h2>
 <ul class="grid genres">{genre_links}</ul>
 <h2 id="games">Games ({n})</h2>
 <p>{full} games open on a screen made for them; the rest can be edited value by value. Type to find yours, or open the full list:</p>
@@ -1031,6 +1084,7 @@ fn build_site() {
 <script>var all=document.getElementById('all');if(location.hash==='#games')all.open=true;window.addEventListener('hashchange',function(){{if(location.hash==='#games')all.open=true}});document.getElementById('q').addEventListener('input',function(){{var q=this.value.toLowerCase().trim(),n=0;if(q)all.open=true;document.querySelectorAll('#list details.letter').forEach(function(d){{var h=0;d.querySelectorAll('li').forEach(function(li){{var hit=li.querySelector('span').textContent.toLowerCase().indexOf(q)>=0;li.style.display=hit?'':'none';if(hit){{h++;n++}}}});d.style.display=h?'':'none';d.open=!!q&&h>0}});document.getElementById('none').style.display=n?'none':'block'}})</script>
 "#,
         n = GAMES.len(),
+        newest = newest_html(&newest_games(&skip, 10)),
         genre_links = GENRES.iter().filter(|g| genre_items.contains_key(g.0)).map(|g| format!(r#"<li><a href="{}/"><span>{}</span><small>{} games</small></a></li>"#, g.1, g.2, genre_items[g.0].len())).collect::<String>(),
     );
     std::fs::write(out.join("index.html"), page(&format!("Universal Save Editor - Free Offline Save Editor and Manager for {}+ ({}) Games", GAMES.len() / 10 * 10, GAMES.len()), &desc, "", &body, &website_schema(&schema("Universal Save Editor", &desc, &format!("{SITE}/")), None))).unwrap();
@@ -1164,4 +1218,10 @@ fn game_pictures_stay_small() {
         }
     }
     assert!(total <= 36_000_000, "pictures weigh {total} bytes");
+}
+
+#[test]
+fn newest_games_come_from_added_registry_lines() {
+    let log = "@@commit\n+    game!(\"B\", \"x\"),\n+    game!(\"A\", \"y\"),\n-    game!(\"C\", \"old\"),\n+    game!(\"C\", \"new\"),\n@@commit\n+    game!(\"A\", \"y\"),\n+    game!(\"D\", \"z\"),\n";
+    assert_eq!(added_names(log), ["A", "B", "D"]);
 }
