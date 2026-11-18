@@ -165,9 +165,9 @@ the-binding-of-isaac-rebirth 323
 the-elder-scrolls-iii-morrowind 503
 the-elder-scrolls-iv-oblivion 311
 the-forest 346
-the-sims 433
-the-sims-3 760
-the-sims-4 433
+the-sims 623
+the-sims-3 529
+the-sims-4 423
 the-witcher-3 417
 thehunter-call-of-the-wild 311
 tiny-tinas-wonderlands 760
