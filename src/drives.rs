@@ -13,6 +13,61 @@ static REMOVABLE: AtomicBool = AtomicBool::new(false);
 /// Also search removable and network drives (off by default).
 pub fn set_include_removable(on: bool) {
     REMOVABLE.store(on, Ordering::Relaxed);
+    forget_lookups();
+}
+
+/// How long a worked-out list of folders (Steam libraries, Wine prefixes) is reused. A search
+/// asks for them once per game; this keeps that to one look at the disk per search.
+const LOOKUP_SECS: u64 = 20;
+
+/// A list of folders computed once and reused for a few seconds.
+pub struct Lookup(std::sync::Mutex<Option<(std::time::Instant, Vec<PathBuf>)>>);
+
+impl Lookup {
+    pub const fn new() -> Self {
+        Lookup(std::sync::Mutex::new(None))
+    }
+
+    pub fn get(&self, compute: impl FnOnce() -> Vec<PathBuf>) -> Vec<PathBuf> {
+        let mut slot = self.0.lock().unwrap_or_else(|e| e.into_inner());
+        if let Some((at, v)) = slot.as_ref() {
+            if at.elapsed().as_secs() < LOOKUP_SECS {
+                return v.clone();
+            }
+        }
+        let v = compute();
+        *slot = Some((std::time::Instant::now(), v.clone()));
+        v
+    }
+
+    pub fn forget(&self) {
+        *self.0.lock().unwrap_or_else(|e| e.into_inner()) = None;
+    }
+}
+
+pub static STEAM_ROOTS: Lookup = Lookup::new();
+pub static STEAM_LIBRARIES: Lookup = Lookup::new();
+pub static WINE_USERS: Lookup = Lookup::new();
+pub static UNITY_EXPORTS: Lookup = Lookup::new();
+
+static EXPORT_PREFS: AtomicBool = AtomicBool::new(true);
+
+/// Whether a search may export Unity PlayerPrefs from the registry (writes `.reg` files). Only a
+/// full search does; the quick one at start only lists what an earlier export left.
+pub fn set_export_prefs(on: bool) {
+    EXPORT_PREFS.store(on, Ordering::Relaxed);
+}
+
+pub fn export_prefs() -> bool {
+    EXPORT_PREFS.load(Ordering::Relaxed)
+}
+
+/// Makes the next search look at the disk again (after "Search again" or a changed setting).
+pub fn forget_lookups() {
+    STEAM_ROOTS.forget();
+    STEAM_LIBRARIES.forget();
+    WINE_USERS.forget();
+    UNITY_EXPORTS.forget();
 }
 
 pub fn include_removable() -> bool {

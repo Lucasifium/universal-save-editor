@@ -225,6 +225,10 @@ pub mod android {
 
 /// Steam's `userdata` folders on this machine (one subfolder per account that has played).
 pub fn steam_userdata_dirs() -> Vec<PathBuf> {
+    crate::drives::STEAM_ROOTS.get(steam_userdata_dirs_now)
+}
+
+fn steam_userdata_dirs_now() -> Vec<PathBuf> {
     let env = |k: &str| std::env::var_os(k).filter(|v| !v.is_empty()).map(PathBuf::from);
     let mut roots: Vec<PathBuf> = vec![];
     #[cfg(windows)]
@@ -242,8 +246,19 @@ pub fn steam_userdata_dirs() -> Vec<PathBuf> {
                 roots.push(PathBuf::from(p.trim().replace('/', "\\")));
             }
         }
-        if let Some(pf) = env("ProgramFiles(x86)") {
-            roots.push(pf.join("Steam"));
+        // The machine-wide install path (Steam installed for every user, or the user key missing).
+        for key in [r"HKLM\SOFTWARE\WOW6432Node\Valve\Steam", r"HKLM\SOFTWARE\Valve\Steam"] {
+            if let Ok(out) = std::process::Command::new("reg").args(["query", key, "/v", "InstallPath"]).creation_flags(CREATE_NO_WINDOW).output() {
+                let text = String::from_utf8_lossy(&out.stdout);
+                if let Some(p) = text.lines().find_map(|l| l.split("REG_SZ").nth(1)) {
+                    roots.push(PathBuf::from(p.trim().replace('/', "\\")));
+                }
+            }
+        }
+        for var in ["ProgramFiles(x86)", "ProgramFiles"] {
+            if let Some(pf) = env(var) {
+                roots.push(pf.join("Steam"));
+            }
         }
         // Steam installed on another drive that the registry does not point to.
         roots.extend(crate::drives::steam_roots_on(&crate::drives::roots()));
@@ -251,6 +266,9 @@ pub fn steam_userdata_dirs() -> Vec<PathBuf> {
     if let Some(home) = env("HOME") {
         roots.push(home.join(".local/share/Steam"));
         roots.push(home.join(".steam/steam"));
+        roots.push(home.join(".steam/root"));
+        roots.push(home.join(".steam/debian-installation"));
+        roots.push(home.join(".var/app/com.valvesoftware.Steam/.steam/steam"));
         roots.push(home.join("Library/Application Support/Steam"));
         // Flatpak Steam and the Snap package.
         roots.push(home.join(".var/app/com.valvesoftware.Steam/.local/share/Steam"));
@@ -261,6 +279,9 @@ pub fn steam_userdata_dirs() -> Vec<PathBuf> {
         let u = r.join("userdata");
         // ~/.steam/steam is usually a link to ~/.local/share/Steam: list it once.
         let u = std::fs::canonicalize(&u).unwrap_or(u);
+        // Windows gives canonical paths a `\\?\` prefix that no other path has.
+        let plain = u.to_string_lossy().strip_prefix(r"\\?\").map(PathBuf::from);
+        let u = plain.unwrap_or(u);
         if u.is_dir() && !out.contains(&u) {
             out.push(u);
         }

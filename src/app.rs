@@ -413,8 +413,10 @@ fn search_saves() -> SaveSearch {
 fn spawn_search(found: &SaveSearch, full: bool) {
     let out = found.clone();
     std::thread::spawn(move || {
+        crate::drives::forget_lookups();
         let mut cache = crate::save_cache::SaveCache::load();
         let quick = !full && cache.fresh();
+        crate::drives::set_export_prefs(!quick);
         if !quick {
             if let Ok(mut v) = out.lock() {
                 v.iter_mut().for_each(|x| *x = None);
@@ -422,8 +424,9 @@ fn spawn_search(found: &SaveSearch, full: bool) {
         }
         for (i, g) in crate::games::GAMES.iter().enumerate() {
             let known = cache.games.get(g.name).cloned().unwrap_or_default();
-            // Quick: only the remembered folders. A game with none remembered has no saves here.
-            let (f, locs) = if quick { crate::games::find_in(g, &known) } else { crate::games::find_locating(g) };
+            // Quick: the remembered folders first, then the usual places again (a game or a new
+            // account installed since the last full search has no remembered folder yet).
+            let (f, locs) = crate::games::find_remembering(g, &known, quick);
             if locs.is_empty() {
                 cache.games.remove(g.name);
             } else {

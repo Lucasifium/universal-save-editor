@@ -30274,3 +30274,6 @@ autosave1.dat, manualsave0.dat, quicksave0.dat ... (the profile file next to the
 Raises common and uncommon resources to 200, rare ones to 35 and very rare ones to 15, the largest Resource Pouch capacities the Horizon wiki lists (an estimate: no data file states them, and saves made with other tools hold more). Legendary resources, food, ammunition, outfits and key items are left alone.
 = Eleva os recursos comuns e incomuns a 200, os raros a 35 e os muito raros a 15, as maiores capacidades da bolsa de recursos listadas na wiki de Horizon (uma estimativa: nenhum arquivo de dados as informa, e saves feitos com outras ferramentas têm mais). Recursos lendários, comida, munição, roupas e itens-chave não são alterados.
 
+
+Game screen: money and pursuit bounty of a profile file (PC and PlayStation 2 layouts); the file's MD5 is made again on save. Built from published offsets, not yet tried on a real profile
+= Tela do jogo: dinheiro e recompensa de perseguição de um arquivo de perfil (formatos de PC e PlayStation 2); o MD5 do arquivo é refeito ao salvar. Feita a partir de offsets publicados, ainda não testada em um perfil real

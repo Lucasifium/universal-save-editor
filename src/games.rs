@@ -508,6 +508,7 @@ pub const GAMES: &[GameInfo] = &[
     game!("Mystic Quest (SNES, emulator saves)", "Game screen: for each of the three slots money, and the hero's and partner's level, experience, HP and spell charges. Each slot's checksum is kept right. Checked on a public save, not yet tried in the game", SNES_FOLDER, r"<ROM name>.srm (8 KiB)", [(Documents, "Snes9x"), (Documents, "ROMs")], ["*Mystic Quest*.srm", "*Mystic Quest*.sav"], 3),
     game!("Mystical Ninja Starring Goemon (N64, emulator saves)", "Game screen: per slot ryo, play time, food, headwear and bodywear, fortune doll pieces, fish, keys, each character's unlock, weapon level and items, the key and miracle items, and every castle's map and boss. Each slot's CRC is made again on save. Checked on public saves, not yet tried in the game", N64_FOLDER, r"<ROM name>.mpk (Controller Pak)", [(Documents, "Project64"), (AppData, "Project64"), (Documents, "ROMs")], ["*Goemon*.mpk", "*Goemon*.srm"], 3),
     game!("Necromunda: Hired Gun", "Game screen: credits, level, experience and each faction's reputation experience. Checked on a public save, not yet tried in the game", r"%LOCALAPPDATA%\Streumon\Necromunda\Saved\SaveGames", r"Campaign1.sav", [(LocalAppData, r"Streumon\Necromunda\Saved\SaveGames")], ["Campaign*.sav"], 1),
+    game!("Need for Speed: Most Wanted (2005)", "Game screen: money and pursuit bounty of a profile file (PC and PlayStation 2 layouts); the file's MD5 is made again on save. Built from published offsets, not yet tried on a real profile", r"Program Files (x86)\EA GAMES\Need for Speed Most Wanted\SAVE\<profile>", "<profile>", [(ProgramFilesX86, r"EA GAMES\Need for Speed Most Wanted\SAVE"), (ProgramFilesX86, r"Electronic Arts\Need for Speed Most Wanted\SAVE"), (LocalAppData, r"VirtualStore\Program Files (x86)\EA GAMES\Need for Speed Most Wanted\SAVE"), (Documents, r"NFS Most Wanted")], ["*"], 3),
     game!("Neverwinter Nights: Enhanced Edition", "Game screen: gold, experience, ability scores, hit points, alignment, skills and item stack sizes of the player (the module .sav, with player.bic kept in step) or a vault character (.bic). Not yet tried in the game", r"Documents\Neverwinter Nights\saves\<nnnnnn> - <name> (characters: Documents\Neverwinter Nights\localvault)", r"<Module>.sav (the player as the game loads it), player.bic, localvault\*.bic", [(Documents, r"Neverwinter Nights\saves"), (Documents, r"Neverwinter Nights\localvault")], ["*.sav", "*.bic"], 2),
     game!("NieR Replicant ver.1.22474487139...", "Game screen: health, level, experience and money of each used slot, plus recovery items and materials with a Max crafting materials button (99 each). Slot checksums are written again on save. Checked on a public save, not yet tried in the game", r"Documents\My Games\NieR Replicant ver.1.22474487139...\Steam\<account>", r"GAMEDATA", [(Documents, r"My Games\NieR Replicant ver.1.22474487139...\Steam")], ["GAMEDATA"], 2),
     game!("NieR:Automata", "Game screen: money, experience (with the level it gives), item and material counts, weapon levels, and Max crafting materials. Checked on a real save, not yet tried in the game", r"Documents\My Games\NieR_Automata", r"SlotData_0.dat … SlotData_2.dat (one per slot)", [(Documents, r"My Games\NieR_Automata")], ["SlotData_*.dat"], 1),
@@ -779,30 +780,215 @@ pub fn documents() -> Option<PathBuf> {
     crate::drives::known_folder(crate::drives::Known::Documents).or_else(|| env("USERPROFILE").or_else(|| env("HOME")).map(|h| h.join("Documents")))
 }
 
-fn saved_games() -> Option<PathBuf> {
-    crate::drives::known_folder(crate::drives::Known::SavedGames).or_else(|| env("USERPROFILE").map(|h| h.join("Saved Games")))
+fn push_new(v: &mut Vec<PathBuf>, p: PathBuf) {
+    if !v.contains(&p) {
+        v.push(p);
+    }
+}
+
+/// The user's home folder.
+fn home() -> Option<PathBuf> {
+    env("USERPROFILE").or_else(|| env("HOME"))
+}
+
+/// OneDrive folders: the ones Windows names in the environment, and every `OneDrive*` folder in
+/// the user folder ("OneDrive - Company").
+fn onedrive_roots() -> Vec<PathBuf> {
+    let mut v = vec![];
+    for var in ["OneDrive", "OneDriveConsumer", "OneDriveCommercial"] {
+        if let Some(p) = env(var) {
+            push_new(&mut v, p);
+        }
+    }
+    if let Some(h) = home() {
+        for e in std::fs::read_dir(h).into_iter().flatten().flatten() {
+            if e.file_name().to_string_lossy().to_lowercase().starts_with("onedrive") && e.path().is_dir() {
+                push_new(&mut v, e.path());
+            }
+        }
+    }
+    v
+}
+
+/// The folder a Linux desktop calls Documents (`XDG_DOCUMENTS_DIR`, which may carry a translated
+/// name), read from `user-dirs.dirs`.
+fn xdg_documents(home: &Path) -> Option<PathBuf> {
+    let conf = env("XDG_CONFIG_HOME").unwrap_or_else(|| home.join(".config"));
+    let text = std::fs::read_to_string(conf.join("user-dirs.dirs")).ok()?;
+    let line = text.lines().find(|l| l.trim_start().starts_with("XDG_DOCUMENTS_DIR="))?;
+    let value = line.split_once('=')?.1.trim().trim_matches('"');
+    let rel = value.strip_prefix("$HOME").unwrap_or(value);
+    Some(if rel.len() < value.len() { home.join(rel.trim_start_matches('/')) } else { PathBuf::from(value) })
+}
+
+/// Every place a game may have put Documents: the one Windows reports (redirected to another
+/// drive or to OneDrive when the user moved it), `Documents` in the user folder (some games
+/// ignore a redirect), the OneDrive copies, the shared Documents folder and the desktop's.
+pub fn documents_all() -> Vec<PathBuf> {
+    let mut v = vec![];
+    v.extend(documents());
+    if let Some(h) = home() {
+        push_new(&mut v, h.join("Documents"));
+        v.extend(xdg_documents(&h));
+    }
+    for o in onedrive_roots() {
+        push_new(&mut v, o.join("Documents"));
+    }
+    if let Some(p) = env("PUBLIC") {
+        push_new(&mut v, p.join("Documents"));
+    }
+    v.retain(|p| p.is_dir());
+    let mut seen = vec![];
+    v.retain(|p| {
+        let key = std::fs::canonicalize(p).unwrap_or_else(|_| p.clone());
+        !seen.contains(&key) && {
+            seen.push(key);
+            true
+        }
+    });
+    v
+}
+
+/// Every place a game may have put Saved Games (see `documents_all`).
+fn saved_games_all() -> Vec<PathBuf> {
+    let mut v = vec![];
+    v.extend(crate::drives::known_folder(crate::drives::Known::SavedGames));
+    if let Some(h) = home() {
+        push_new(&mut v, h.join("Saved Games"));
+    }
+    for o in onedrive_roots() {
+        push_new(&mut v, o.join("Saved Games"));
+    }
+    v.retain(|p| p.is_dir());
+    v
+}
+
+/// Library folders listed in a `libraryfolders.vdf`: `"path"` entries (current format) and
+/// `"<n>" "<path>"` lines (the older one).
+fn vdf_library_paths(text: &str) -> Vec<PathBuf> {
+    let mut out = vec![];
+    for line in text.lines() {
+        let mut parts = line.split('"').filter(|s| !s.trim().is_empty());
+        let (Some(key), Some(val)) = (parts.next(), parts.next()) else { continue };
+        let numbered = key.bytes().all(|b| b.is_ascii_digit());
+        let pathlike = val.contains('\\') || val.contains('/');
+        if key == "path" || (numbered && pathlike) {
+            out.push(PathBuf::from(val.replace(r"\\", r"\")));
+        }
+    }
+    out
 }
 
 /// Every Steam library folder (`…\steamapps\common` is under each).
 pub fn steam_libraries() -> Vec<PathBuf> {
+    crate::drives::STEAM_LIBRARIES.get(steam_libraries_now)
+}
+
+fn steam_libraries_now() -> Vec<PathBuf> {
     let mut out: Vec<PathBuf> = vec![];
     let mut steams: Vec<PathBuf> = crate::platform::steam_userdata_dirs().iter().filter_map(|u| u.parent().map(Path::to_path_buf)).collect();
     // Libraries on other drives that Steam's own list may not mention any more.
     steams.extend(crate::drives::steam_roots_on(&crate::drives::roots()));
     for steam in steams {
         out.push(steam.clone());
-        let vdf = std::fs::read_to_string(steam.join("steamapps").join("libraryfolders.vdf")).unwrap_or_default();
-        for line in vdf.lines() {
-            let mut parts = line.split('"').filter(|s| !s.trim().is_empty());
-            if parts.next() == Some("path") {
-                if let Some(p) = parts.next() {
-                    out.push(PathBuf::from(p.replace(r"\\", r"\")));
-                }
-            }
+        for vdf in [steam.join("steamapps").join("libraryfolders.vdf"), steam.join("config").join("libraryfolders.vdf")] {
+            out.extend(vdf_library_paths(&std::fs::read_to_string(vdf).unwrap_or_default()));
         }
     }
     let mut seen = std::collections::HashSet::new();
-    out.retain(|p| seen.insert(p.to_string_lossy().to_lowercase().replace('/', "\\")));
+    out.retain(|p| seen.insert(p.to_string_lossy().trim_start_matches(r"\\?\").to_lowercase().replace('/', "\\")));
+    out.retain(|p| p.is_dir());
+    out
+}
+
+/// Folders where games from other stores and launchers are installed (Epic, GOG, Xbox, EA,
+/// Ubisoft, Heroic, Lutris), for games that keep their saves in their install folder.
+fn other_install_roots() -> Vec<PathBuf> {
+    const UNDER_DRIVE: &[&str] = &[
+        "Program Files/Epic Games",
+        "Epic Games",
+        "Games/Epic Games",
+        "GOG Games",
+        "Games/GOG Games",
+        "GOG Galaxy/Games",
+        "Program Files (x86)/GOG Galaxy/Games",
+        "Program Files/GOG Galaxy/Games",
+        "XboxGames",
+        "Program Files (x86)/Ubisoft/Ubisoft Game Launcher/games",
+        "Program Files/Ubisoft/Ubisoft Game Launcher/games",
+        "Program Files (x86)/EA Games",
+        "Program Files/EA Games",
+        "Program Files (x86)/Origin Games",
+        "Games",
+    ];
+    let mut out = vec![];
+    for drive in crate::drives::roots() {
+        for rel in UNDER_DRIVE {
+            push_new(&mut out, drive.join(rel));
+        }
+    }
+    for var in ["ProgramFiles", "ProgramFiles(x86)"] {
+        if let Some(pf) = env(var) {
+            for rel in ["Epic Games", "GOG Galaxy/Games", "EA Games", "Ubisoft/Ubisoft Game Launcher/games"] {
+                push_new(&mut out, pf.join(rel));
+            }
+        }
+    }
+    if let Some(h) = env("HOME") {
+        for rel in ["Games", "GOG Games", "Games/Heroic", "Games/Epic Games", "Games/GOG Games", "Games/Lutris"] {
+            push_new(&mut out, h.join(rel));
+        }
+    }
+    out.retain(|p| p.is_dir());
+    out
+}
+
+/// Where each emulator keeps its files on Linux and macOS, by the folder name Windows uses:
+/// (folder under Documents or AppData, [(folder under home, that emulator's folder there)]).
+const EMULATOR_HOMES: &[(&str, &[(&str, &str)])] = &[
+    ("DuckStation", &[(".local/share", "duckstation"), ("Library/Application Support", "DuckStation"), (".var/app/org.duckstation.DuckStation/data", "duckstation")]),
+    ("PCSX2", &[(".config", "PCSX2"), ("Library/Application Support", "PCSX2"), (".var/app/net.pcsx2.PCSX2/config", "PCSX2")]),
+    ("Dolphin Emulator", &[(".local/share", "dolphin-emu"), ("Library/Application Support", "Dolphin"), (".var/app/org.DolphinEmu.dolphin-emu/data", "dolphin-emu")]),
+    ("Citra", &[(".local/share", "citra-emu"), (".var/app/org.citra_emu.citra/data", "citra-emu")]),
+    ("yuzu", &[(".local/share", "yuzu"), (".var/app/org.yuzu_emu.yuzu/data", "yuzu")]),
+    ("mGBA", &[(".local/share", "mgba"), ("Library/Application Support", "mGBA")]),
+];
+
+/// Extra (folder, path under it) pairs to look in for a place, beyond `bases(base)`: the
+/// Linux and macOS homes of emulators, the shared data folders that native ports use instead of
+/// `Documents\My Games`, and Dolphin's second Windows location. `home` is the user folder.
+fn extra_places(base: Base, rel: &str, home: Option<&Path>) -> Vec<(PathBuf, String)> {
+    let mut out = vec![];
+    let parts: Vec<&str> = rel.split(['\\', '/']).filter(|p| !p.is_empty()).collect();
+    let Some(first) = parts.first() else { return out };
+    let rest = |skip: usize| parts[skip..].join("/");
+    let replaced = |name: &str| std::iter::once(name).chain(parts[1..].iter().copied()).collect::<Vec<_>>().join("/");
+    if matches!(base, AppData) && first.eq_ignore_ascii_case("Dolphin Emulator") {
+        // Dolphin moved to Documents\Dolphin Emulator in newer versions.
+        for d in documents_all() {
+            out.push((d, rel.to_string()));
+        }
+    }
+    if cfg!(windows) {
+        return out;
+    }
+    let Some(home) = home else { return out };
+    if matches!(base, Documents | AppData | LocalAppData) {
+        if let Some((_, homes)) = EMULATOR_HOMES.iter().find(|(n, _)| n.eq_ignore_ascii_case(first)) {
+            for (dir, name) in *homes {
+                out.push((home.join(dir), replaced(name)));
+            }
+        }
+    }
+    if matches!(base, Documents) {
+        // Native ports keep what Windows puts in Documents\My Games\<game> in ~/.local/share/<game>.
+        let sub = if first.eq_ignore_ascii_case("My Games") { rest(1) } else { rel.replace('\\', "/") };
+        if !sub.is_empty() {
+            for dir in [".local/share", ".config"] {
+                out.push((home.join(dir), sub.clone()));
+            }
+        }
+    }
     out
 }
 
@@ -814,15 +1000,34 @@ pub fn wine_user_dirs() -> Vec<PathBuf> {
     if cfg!(windows) {
         return vec![];
     }
+    crate::drives::WINE_USERS.get(wine_user_dirs_now)
+}
+
+fn wine_user_dirs_now() -> Vec<PathBuf> {
     let mut prefixes: Vec<PathBuf> = vec![];
     for lib in steam_libraries() {
         for e in std::fs::read_dir(lib.join("steamapps").join("compatdata")).into_iter().flatten().flatten() {
             prefixes.push(e.path().join("pfx"));
         }
     }
+    if let Some(p) = env("WINEPREFIX") {
+        prefixes.push(p);
+    }
     if let Some(home) = env("HOME") {
         prefixes.push(home.join(".wine"));
-        for dir in ["Games/Heroic/Prefixes", "Games/Heroic/Prefixes/default", ".local/share/bottles/bottles", ".var/app/com.usebottles.bottles/data/bottles/bottles", "Games"] {
+        // Heroic, Lutris, Bottles, PlayOnLinux, CrossOver (Linux and macOS) and Whisky keep one
+        // prefix per game (or per bottle) inside these folders.
+        for dir in [
+            "Games/Heroic/Prefixes",
+            "Games/Heroic/Prefixes/default",
+            ".local/share/bottles/bottles",
+            ".var/app/com.usebottles.bottles/data/bottles/bottles",
+            ".PlayOnLinux/wineprefix",
+            ".cxoffice",
+            "Library/Application Support/CrossOver/Bottles",
+            "Library/Containers/com.isaacmarovitz.Whisky/Bottles",
+            "Games",
+        ] {
             for e in std::fs::read_dir(home.join(dir)).into_iter().flatten().flatten() {
                 prefixes.push(e.path());
                 prefixes.push(e.path().join("pfx"));
@@ -879,6 +1084,11 @@ fn wine_bases(base: Base) -> Vec<PathBuf> {
 /// The folders `base` stands for on this computer.
 fn bases(base: Base) -> Vec<PathBuf> {
     let mut out = native_bases(base);
+    for p in unix_bases(base) {
+        if !out.contains(&p) {
+            out.push(p);
+        }
+    }
     for p in wine_bases(base) {
         if !out.contains(&p) {
             out.push(p);
@@ -892,9 +1102,18 @@ fn native_bases(base: Base) -> Vec<PathBuf> {
     match base {
         AppData => env("APPDATA").into_iter().collect(),
         LocalAppData => env("LOCALAPPDATA").into_iter().collect(),
-        LocalLow => home.map(|h| h.join("AppData").join("LocalLow")).into_iter().collect(),
-        Documents => documents().into_iter().collect(),
-        SavedGames => saved_games().into_iter().collect(),
+        LocalLow => {
+            let mut v: Vec<PathBuf> = vec![];
+            // The LocalLow next to the real Local folder, which may not be under the user folder.
+            if let Some(l) = env("LOCALAPPDATA") {
+                v.extend(l.parent().map(|a| a.join("LocalLow")));
+            }
+            v.extend(home.map(|h| h.join("AppData").join("LocalLow")));
+            v.dedup();
+            v
+        }
+        Documents => documents_all(),
+        SavedGames => saved_games_all(),
         SteamUser(app) => crate::platform::steam_userdata_dirs()
             .into_iter()
             .flat_map(|u| std::fs::read_dir(u).into_iter().flatten().flatten().map(|e| e.path().join(app)))
@@ -905,7 +1124,13 @@ fn native_bases(base: Base) -> Vec<PathBuf> {
         UnityPrefs => {
             let mut v: Vec<PathBuf> = vec![];
             #[cfg(not(target_arch = "wasm32"))]
-            v.extend(crate::playerprefs::export_all());
+            v.extend(crate::drives::UNITY_EXPORTS.get(|| {
+                if crate::drives::export_prefs() {
+                    crate::playerprefs::export_all().into_iter().collect()
+                } else {
+                    crate::playerprefs::export_dir().into_iter().collect()
+                }
+            }));
             if let Some(h) = env("HOME") {
                 v.push(h.join(".config").join("unity3d"));
                 v.push(h.join("Library").join("Preferences"));
@@ -913,8 +1138,33 @@ fn native_bases(base: Base) -> Vec<PathBuf> {
             v.into_iter().filter(|p| p.is_dir()).collect()
         }
         GamePass(pkg) => env("LOCALAPPDATA").map(|l| crate::xgp::user_dirs(&l.join("Packages"), pkg)).unwrap_or_default(),
-        SteamGame(dir) => steam_libraries().into_iter().map(|l| l.join("steamapps").join("common").join(dir)).filter(|p| p.is_dir()).collect(),
+        SteamGame(dir) => steam_libraries()
+            .into_iter()
+            .map(|l| l.join("steamapps").join("common"))
+            .chain(other_install_roots())
+            .map(|l| l.join(dir))
+            .filter(|p| p.is_dir())
+            .collect(),
     }
+}
+
+/// The folders Linux and macOS use where Windows has AppData: `~/.config`, `~/.local/share`
+/// and `~/Library/Application Support`; Unity's LocalLow is `~/.config/unity3d`.
+fn unix_bases(base: Base) -> Vec<PathBuf> {
+    if cfg!(windows) {
+        return vec![];
+    }
+    let Some(home) = env("HOME") else { return vec![] };
+    let config = env("XDG_CONFIG_HOME").unwrap_or_else(|| home.join(".config"));
+    let data = env("XDG_DATA_HOME").unwrap_or_else(|| home.join(".local/share"));
+    let support = home.join("Library/Application Support");
+    let v = match base {
+        AppData => vec![config, data, support],
+        LocalAppData => vec![data, config, support],
+        LocalLow => vec![config.join("unity3d"), support, data],
+        _ => vec![],
+    };
+    v.into_iter().filter(|p| p.is_dir()).collect()
 }
 
 /// Folders matching `rel` (with `*` folder names) under `root`.
@@ -1109,7 +1359,8 @@ pub struct Located {
 
 fn finish(mut out: Vec<Found>) -> Vec<Found> {
     out.sort_by(|a, b| b.modified.cmp(&a.modified));
-    out.dedup_by(|a, b| a.path == b.path);
+    let mut seen = std::collections::HashSet::new();
+    out.retain(|f| seen.insert(f.path.clone()));
     out
 }
 
@@ -1131,10 +1382,13 @@ pub fn find(g: &GameInfo) -> Vec<Found> {
 pub fn find_locating(g: &GameInfo) -> (Vec<Found>, Vec<Located>) {
     let mut out = vec![];
     let mut locs = vec![];
+    let home = env("HOME");
     for (base, rel) in g.places {
         let pass = matches!(base, GamePass(_));
-        for root in bases(*base) {
-            for dir in expand(&root, rel) {
+        let mut roots: Vec<(PathBuf, String)> = bases(*base).into_iter().map(|r| (r, rel.to_string())).collect();
+        roots.extend(extra_places(*base, rel, home.as_deref()));
+        for (root, rel) in roots {
+            for dir in expand(&root, &rel) {
                 let before = out.len();
                 let loc = Located { dir, pass };
                 look_in(g, &loc, &mut out);
@@ -1145,6 +1399,21 @@ pub fn find_locating(g: &GameInfo) -> (Vec<Found>, Vec<Located>) {
         }
     }
     (finish(out), locs)
+}
+
+/// This game's saves: the folders that held them before (when `remembered_first`), then every
+/// usual place again, so a game, account or profile that appeared since the last search is found
+/// too. Cheap: the Steam and Wine folder lists are worked out once per search.
+pub fn find_remembering(g: &GameInfo, known: &[Located], remembered_first: bool) -> (Vec<Found>, Vec<Located>) {
+    let (mut found, mut locs) = if remembered_first { find_in(g, known) } else { (vec![], vec![]) };
+    let (more, more_locs) = find_locating(g);
+    found.extend(more);
+    for l in more_locs {
+        if !locs.contains(&l) {
+            locs.push(l);
+        }
+    }
+    (finish(found), locs)
 }
 
 /// Looks only in folders that held this game's saves before: no search of the computer's
@@ -1247,6 +1516,142 @@ mod tests {
         sorted.sort_by_key(|n| n.to_lowercase());
         assert_eq!(names, sorted);
         assert!(GAMES.iter().all(|g| !g.places.is_empty() && !g.patterns.is_empty() && g.depth >= 1));
+    }
+
+    #[test]
+    fn reads_both_library_list_formats() {
+        let new = "\"libraryfolders\"\n{\n\t\"0\"\n\t{\n\t\t\"path\"\t\t\"C:\\\\Program Files (x86)\\\\Steam\"\n\t\t\"apps\"\n\t\t{\n\t\t\t\"440\"\t\t\"1234\"\n\t\t}\n\t}\n\t\"1\"\n\t{\n\t\t\"path\"\t\t\"/run/media/card/steamapps-lib\"\n\t}\n}";
+        assert_eq!(vdf_library_paths(new), vec![PathBuf::from(r"C:\Program Files (x86)\Steam"), PathBuf::from("/run/media/card/steamapps-lib")]);
+        let old = "\"LibraryFolders\"\n{\n\t\"TimeNextStatsReport\"\t\t\"1234567\"\n\t\"1\"\t\t\"D:\\\\Games\\\\Steam\"\n}";
+        assert_eq!(vdf_library_paths(old), vec![PathBuf::from(r"D:\Games\Steam")]);
+    }
+
+    #[test]
+    fn emulators_and_native_ports_have_unix_places() {
+        let home = Path::new("/home/x");
+        let e = extra_places(Documents, r"DuckStation\memcards", Some(home));
+        if !cfg!(windows) {
+            assert!(e.contains(&(home.join(".local/share"), "duckstation/memcards".to_string())));
+            let m = extra_places(Documents, r"My Games\Terraria\Players", Some(home));
+            assert!(m.contains(&(home.join(".local/share"), "Terraria/Players".to_string())));
+            let c = extra_places(AppData, r"Citra\sdmc", Some(home));
+            assert!(c.contains(&(home.join(".local/share"), "citra-emu/sdmc".to_string())));
+        }
+        // Dolphin's newer Windows folder is Documents\Dolphin Emulator, whatever the system.
+        let _ = extra_places(AppData, r"Dolphin Emulator\GC", Some(home));
+    }
+
+    #[test]
+    fn finds_saves_in_onedrive_and_xdg_documents() {
+        let tmp = std::env::temp_dir().join(format!("use_docs_{}", std::process::id()));
+        let _ = std::fs::remove_dir_all(&tmp);
+        std::fs::create_dir_all(tmp.join(".config")).unwrap();
+        std::fs::create_dir_all(tmp.join("Dokumente")).unwrap();
+        std::fs::write(tmp.join(".config/user-dirs.dirs"), "XDG_DOCUMENTS_DIR=\"$HOME/Dokumente\"\n").unwrap();
+        assert_eq!(xdg_documents(&tmp), Some(tmp.join("Dokumente")));
+        let _ = std::fs::remove_dir_all(&tmp);
+    }
+
+    fn norm(s: &str) -> String {
+        s.chars().filter(|c| c.is_alphanumeric()).flat_map(char::to_lowercase).collect()
+    }
+
+    /// The screens whose name in `tests/screen-samples.tsv` is a code name: the words that appear in
+    /// the name of the catalog entry that holds their saves.
+    const SCREEN_ALIASES: &[(&str, &[&str])] = &[
+        ("Bethesda", &["Skyrim", "Fallout 3", "Fallout 4", "Fallout: New Vegas", "Oblivion", "Morrowind"]),
+        ("Bg3", &["Baldur's Gate 3"]),
+        ("Civ6", &["Civilization VI"]),
+        ("DarkSouls1", &["Dark Souls Remastered", "Dark Souls: Prepare"]),
+        ("DarkSouls2", &["Dark Souls II"]),
+        ("DarkSouls3", &["Dark Souls III"]),
+        ("DeathStranding1", &["Death Stranding (Director"]),
+        ("Diablo2", &["Diablo II"]),
+        ("Dos2", &["Divinity: Original Sin 2"]),
+        ("Fallout12", &["Fallout (1997)", "Fallout 2"]),
+        ("Ff16", &["Final Fantasy XVI"]),
+        ("Ff7", &["Final Fantasy VII (2013"]),
+        ("Ff7Remake", &["Final Fantasy VII Remake"]),
+        ("Ff9", &["Final Fantasy IX"]),
+        ("FfResonance", &["Final Fantasy Resonance"]),
+        ("Ffx", &["Final Fantasy X"]),
+        ("Ffx2", &["Final Fantasy X"]),
+        ("Ffxv", &["Final Fantasy XV"]),
+        ("Gow2018", &["God of War (2018)"]),
+        ("GowRagnarok", &["God of War Ragnar"]),
+        ("HogwartsDb", &["Hogwarts Legacy"]),
+        ("Infinity", &["Baldur's Gate"]),
+        ("X4", &["X4: Foundations"]),
+        ("Kotor", &["Knights of the Old Republic"]),
+        ("Mgsv", &["Metal Gear Solid V"]),
+        ("Need for Speed: Most Wanted (2005)", &["Need for Speed"]),
+        ("Nwn", &["Neverwinter Nights"]),
+        ("Older LEGO games", &["LEGO"]),
+        ("P3r", &["Persona 3 Reload"]),
+        ("P4g", &["Persona 4 Golden"]),
+        ("P5r", &["Persona 5 Royal"]),
+        ("Paradox", &["Crusader Kings", "Europa Universalis", "Hearts of Iron", "Stellaris"]),
+        ("Pokemon", &["Pok"]),
+        ("ReSlot", &["Resident Evil"]),
+        ("Sims1", &["The Sims (2000)"]),
+        ("Torchlight2", &["Torchlight II"]),
+        ("X-COM: UFO Defense and Terror from the Deep (original saves)", &["X-COM"]),
+        ("YakuzaDe", &["Like a Dragon", "Yakuza"]),
+    ];
+
+    /// Screens that open saves a game does not keep anywhere on its own: the file is exported or
+    /// picked by hand.
+    const NO_FIXED_PLACE: &[&str] = &[];
+
+    /// Every game with a screen has at least one place the finder looks in, and every place is
+    /// written the way the finder reads it (relative to its base, never a full path).
+    #[test]
+    fn every_screen_has_a_save_location() {
+        let screens: Vec<String> = include_str!("../tests/screen-samples.tsv")
+            .lines()
+            .filter(|l| !l.starts_with('#') && !l.trim().is_empty())
+            .map(|l| l.split('\t').next().unwrap_or("").to_string())
+            .collect();
+        let mut lost = vec![];
+        for screen in &screens {
+            if NO_FIXED_PLACE.contains(&screen.as_str()) {
+                continue;
+            }
+            let key = norm(screen);
+            let words: Vec<&str> = SCREEN_ALIASES.iter().find(|(n, _)| n == screen).map(|(_, w)| w.to_vec()).unwrap_or_default();
+            let hit = GAMES.iter().any(|g| {
+                let name = norm(g.name);
+                let by_name = key.len() > 3 && (name.contains(&key) || key.contains(&name));
+                (by_name || words.iter().any(|w| g.name.contains(w))) && !g.places.is_empty() && !g.patterns.is_empty()
+            });
+            if !hit {
+                lost.push(screen.clone());
+            }
+        }
+        assert!(lost.is_empty(), "screens with no catalog entry (add one to GAMES, or a word to SCREEN_ALIASES): {lost:?}");
+    }
+
+    #[test]
+    fn places_are_relative_and_plausible() {
+        for g in GAMES {
+            for (base, rel) in g.places {
+                assert!(!rel.starts_with(['\\', '/']) && !rel.contains(':') && !rel.contains('%') && !rel.contains('<'), "{}: place `{rel}` must be relative to its base", g.name);
+                let first = rel.split(['\\', '/']).next().unwrap_or("").to_lowercase();
+                // Starting a place with the base's own name looks in a folder that does not exist.
+                let own = match base {
+                    Documents => "documents",
+                    AppData => "appdata",
+                    LocalAppData => "localappdata",
+                    SavedGames => "saved games",
+                    LocalLow => "locallow",
+                    _ => "\0",
+                };
+                assert!(first != own, "{}: place `{rel}` repeats its base", g.name);
+                if !matches!(base, SteamGame(_) | SteamUser(_) | UnityPrefs | GamePass(_)) {
+                    assert!(!rel.is_empty(), "{}: empty place", g.name);
+                }
+            }
+        }
     }
 
     /// Research aid: lists what's found for every game in the catalog.
