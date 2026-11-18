@@ -39,6 +39,7 @@ pub mod anno;
 pub mod fable;
 pub mod slime;
 pub mod hzd;
+pub mod hzd_items;
 pub mod sleeping_dogs;
 pub mod dxmd;
 pub mod dishonored1;

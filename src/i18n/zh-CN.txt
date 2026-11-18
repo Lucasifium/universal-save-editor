@@ -28157,8 +28157,8 @@ Game screen: meat (money), level, experience, the class and resistances, the sta
 Game screen: memento souls, red souls, souls, upgrade levels, health and difficulty. .NET BinaryFormatter, read and written in place; checked on a public save, not yet tried in the game
 = 游戏界面：memento souls、red souls、souls、升级等级、生命值和难度。.NET BinaryFormatter，就地读写；已在公开存档上检查，尚未在游戏中测试
 
-Game screen: metal shards and skill points, with level and experience shown. The save's MD5 is made again on save. Checked on public saves of the PC Complete Edition, not yet tried in the game
-= 游戏界面：metal shards 和技能点，并显示等级和经验。保存时会重新生成存档的 MD5。已在 PC Complete Edition 的公开存档上检查，尚未在游戏中测试
+Game screen: metal shards, skill points and every named resource, with level and experience shown. The save's MD5 is made again on save. Checked on public saves of the PC Complete Edition, not yet tried in the game
+= 游戏界面：metal shards、技能点和每种有名称的资源，并显示等级和经验。保存时会重新生成存档的 MD5。已在 PC Complete Edition 的公开存档上检查，尚未在游戏中测试
 
 Game screen: money (both copies kept equal), unused perk points of each skill and statistics. Plain JSON; checked on a public save, not yet tried in the game
 = 游戏界面：金钱（两份副本保持一致）、每项技能未使用的特技点和统计数据。纯 JSON；已在公开存档上检查，尚未在游戏中测试
@@ -30344,4 +30344,17 @@ Park finances
 
 Close the game first. Cash, loan and fees are in whole currency units with one decimal (the game keeps tenths). A scenario you play for a score may not record it after its cash was changed.
 = 请先关闭游戏。现金、贷款和费用以带一位小数的货币单位显示（游戏以十分之一为单位保存）。为得分而玩的场景在修改现金后可能不会记录成绩。
+
+# src/fmt/hzd.rs, src/games.rs (Horizon Forbidden West)
+Game screen: metal shards, skill points and every named resource (with a Max crafting materials button), with level and experience shown. The save's checksum is made again on save. Checked on public saves of the PC Complete Edition, not yet tried in the game
+= 游戏界面：metal shards、技能点和每种有名称的资源（带“制作材料设为最大”按钮），并显示等级和经验。保存时会重新生成存档的校验和。已在 PC Complete Edition 的公开存档上检查，尚未在游戏中测试
+
+autosave1.dat, manualsave0.dat, quicksave0.dat ... (the profile file next to them is not a save)
+= autosave1.dat、manualsave0.dat、quicksave0.dat …（旁边的配置文件不是存档）
+
+<slot>.dat in Documents\\Horizon Forbidden West Complete Edition\\<Steam ID> (autosave, manualsave, quicksave and courtesy saves). The save's checksum is made again on save. Level and experience are shown but not changed. Resources are listed by name; a resource the save does not hold yet cannot be added here.
+= Documents\Horizon Forbidden West Complete Edition\<Steam ID> 中的 <slot>.dat（自动存档、手动存档、快速存档和礼遇存档）。保存时会重新生成存档的校验和。等级和经验仅显示，不会更改。资源按名称列出；存档中尚没有的资源无法在此添加。
+
+Raises common and uncommon resources to 200, rare ones to 35 and very rare ones to 15, the largest Resource Pouch capacities the Horizon wiki lists (an estimate: no data file states them, and saves made with other tools hold more). Legendary resources, food, ammunition, outfits and key items are left alone.
+= 将普通和不常见资源提高到 200，稀有资源提高到 35，非常稀有资源提高到 15，这是 Horizon 维基列出的资源袋最大容量（估计值：没有数据文件给出这些数字，用其他工具制作的存档数量更多）。传奇资源、食物、弹药、服装和关键物品保持不变。
 

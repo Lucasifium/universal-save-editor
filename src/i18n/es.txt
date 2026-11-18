@@ -28099,8 +28099,8 @@ Game screen: meat (money), level, experience, the class and resistances, the sta
 Game screen: memento souls, red souls, souls, upgrade levels, health and difficulty. .NET BinaryFormatter, read and written in place; checked on a public save, not yet tried in the game
 = Pantalla del juego: almas de recuerdo, almas rojas, almas, niveles de mejora, salud y dificultad. .NET BinaryFormatter, leído y escrito en el sitio; comprobado con una partida pública, aún no probado en el juego
 
-Game screen: metal shards and skill points, with level and experience shown. The save's MD5 is made again on save. Checked on public saves of the PC Complete Edition, not yet tried in the game
-= Pantalla del juego: fragmentos de metal y puntos de habilidad, mostrando el nivel y la experiencia. El MD5 de la partida se rehace al guardar. Comprobado con partidas públicas de la Complete Edition de PC, aún no probado en el juego
+Game screen: metal shards, skill points and every named resource, with level and experience shown. The save's MD5 is made again on save. Checked on public saves of the PC Complete Edition, not yet tried in the game
+= Pantalla del juego: fragmentos de metal, puntos de habilidad y cada recurso con nombre, mostrando el nivel y la experiencia. El MD5 de la partida se rehace al guardar. Comprobado con partidas públicas de la Complete Edition de PC, aún no probado en el juego
 
 Game screen: money (both copies kept equal), unused perk points of each skill and statistics. Plain JSON; checked on a public save, not yet tried in the game
 = Pantalla del juego: dinero (ambas copias se mantienen iguales), puntos de ventaja sin usar de cada habilidad y estadísticas. JSON simple; comprobado con una partida pública, aún no probado en el juego
@@ -30286,4 +30286,17 @@ Park finances
 
 Close the game first. Cash, loan and fees are in whole currency units with one decimal (the game keeps tenths). A scenario you play for a score may not record it after its cash was changed.
 = Cierra el juego antes. El efectivo, el préstamo y las tarifas están en unidades monetarias enteras con un decimal (el juego guarda décimas). Un escenario que juegues por puntuación puede no registrarla tras cambiar el efectivo.
+
+# src/fmt/hzd.rs, src/games.rs (Horizon Forbidden West)
+Game screen: metal shards, skill points and every named resource (with a Max crafting materials button), with level and experience shown. The save's checksum is made again on save. Checked on public saves of the PC Complete Edition, not yet tried in the game
+= Pantalla del juego: fragmentos de metal, puntos de habilidad y cada recurso con nombre (con un botón de materiales de fabricación al máximo), mostrando el nivel y la experiencia. La suma de comprobación de la partida se rehace al guardar. Comprobado con partidas públicas de la Complete Edition de PC, aún no probado en el juego
+
+autosave1.dat, manualsave0.dat, quicksave0.dat ... (the profile file next to them is not a save)
+= autosave1.dat, manualsave0.dat, quicksave0.dat … (el archivo de perfil que está al lado no es una partida)
+
+<slot>.dat in Documents\\Horizon Forbidden West Complete Edition\\<Steam ID> (autosave, manualsave, quicksave and courtesy saves). The save's checksum is made again on save. Level and experience are shown but not changed. Resources are listed by name; a resource the save does not hold yet cannot be added here.
+= <slot>.dat en Documents\Horizon Forbidden West Complete Edition\<Steam ID> (guardado automático, manual, rápido y de cortesía). La suma de comprobación de la partida se rehace al guardar. El nivel y la experiencia se muestran, pero no se cambian. Los recursos se listan por nombre; un recurso que la partida aún no tiene no se puede añadir aquí.
+
+Raises common and uncommon resources to 200, rare ones to 35 and very rare ones to 15, the largest Resource Pouch capacities the Horizon wiki lists (an estimate: no data file states them, and saves made with other tools hold more). Legendary resources, food, ammunition, outfits and key items are left alone.
+= Sube los recursos comunes y poco comunes a 200, los raros a 35 y los muy raros a 15, las mayores capacidades de la bolsa de recursos que indica la wiki de Horizon (una estimación: ningún archivo de datos las indica y las partidas hechas con otras herramientas tienen más). Los recursos legendarios, la comida, la munición, los trajes y los objetos clave no se tocan.
 

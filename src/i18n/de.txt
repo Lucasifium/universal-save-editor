@@ -28100,8 +28100,8 @@ Game screen: meat (money), level, experience, the class and resistances, the sta
 Game screen: memento souls, red souls, souls, upgrade levels, health and difficulty. .NET BinaryFormatter, read and written in place; checked on a public save, not yet tried in the game
 = Spielansicht: Memento-Seelen, rote Seelen, Seelen, Upgrade-Stufen, Gesundheit und Schwierigkeitsgrad. .NET BinaryFormatter, direkt gelesen und geschrieben; an einem öffentlichen Spielstand geprüft, noch nicht im Spiel getestet
 
-Game screen: metal shards and skill points, with level and experience shown. The save's MD5 is made again on save. Checked on public saves of the PC Complete Edition, not yet tried in the game
-= Spielansicht: Metallsplitter und Skillpunkte, mit angezeigtem Level und angezeigter Erfahrung. Das MD5 des Spielstands wird beim Speichern neu berechnet. An öffentlichen Spielständen der PC Complete Edition geprüft, noch nicht im Spiel getestet
+Game screen: metal shards, skill points and every named resource, with level and experience shown. The save's MD5 is made again on save. Checked on public saves of the PC Complete Edition, not yet tried in the game
+= Spielansicht: Metallsplitter, Skillpunkte und jede benannte Ressource, mit angezeigtem Level und angezeigter Erfahrung. Das MD5 des Spielstands wird beim Speichern neu berechnet. An öffentlichen Spielständen der PC Complete Edition geprüft, noch nicht im Spiel getestet
 
 Game screen: money (both copies kept equal), unused perk points of each skill and statistics. Plain JSON; checked on a public save, not yet tried in the game
 = Spielansicht: Geld (beide Kopien werden gleich gehalten), ungenutzte Perk-Punkte jeder Fertigkeit und Statistiken. Reines JSON; an einem öffentlichen Spielstand geprüft, noch nicht im Spiel getestet
@@ -30293,4 +30293,17 @@ Park finances
 
 Close the game first. Cash, loan and fees are in whole currency units with one decimal (the game keeps tenths). A scenario you play for a score may not record it after its cash was changed.
 = Spiel vorher schließen. Bargeld, Kredit und Preise stehen in ganzen Währungseinheiten mit einer Nachkommastelle (das Spiel speichert Zehntel). Ein Szenario, das Sie für eine Wertung spielen, wird nach einer Änderung des Bargelds eventuell nicht gewertet.
+
+# src/fmt/hzd.rs, src/games.rs (Horizon Forbidden West)
+Game screen: metal shards, skill points and every named resource (with a Max crafting materials button), with level and experience shown. The save's checksum is made again on save. Checked on public saves of the PC Complete Edition, not yet tried in the game
+= Spielansicht: Metallsplitter, Skillpunkte und jede benannte Ressource (mit Schaltfläche „Max. Handwerksmaterial“), mit angezeigtem Level und angezeigter Erfahrung. Die Prüfsumme des Spielstands wird beim Speichern neu erzeugt. An öffentlichen Spielständen der PC Complete Edition geprüft, noch nicht im Spiel getestet
+
+autosave1.dat, manualsave0.dat, quicksave0.dat ... (the profile file next to them is not a save)
+= autosave1.dat, manualsave0.dat, quicksave0.dat … (die Profildatei daneben ist kein Spielstand)
+
+<slot>.dat in Documents\\Horizon Forbidden West Complete Edition\\<Steam ID> (autosave, manualsave, quicksave and courtesy saves). The save's checksum is made again on save. Level and experience are shown but not changed. Resources are listed by name; a resource the save does not hold yet cannot be added here.
+= <slot>.dat in Documents\Horizon Forbidden West Complete Edition\<Steam ID> (Autosave, manueller Spielstand, Schnellspeicherung und Kulanzspeicherung). Die Prüfsumme des Spielstands wird beim Speichern neu erzeugt. Stufe und Erfahrung werden angezeigt, aber nicht geändert. Ressourcen sind nach Namen aufgelistet; eine Ressource, die der Spielstand noch nicht enthält, lässt sich hier nicht hinzufügen.
+
+Raises common and uncommon resources to 200, rare ones to 35 and very rare ones to 15, the largest Resource Pouch capacities the Horizon wiki lists (an estimate: no data file states them, and saves made with other tools hold more). Legendary resources, food, ammunition, outfits and key items are left alone.
+= Setzt gewöhnliche und ungewöhnliche Ressourcen auf 200, seltene auf 35 und sehr seltene auf 15, die größten Fassungsvermögen des Ressourcenbeutels laut Horizon-Wiki (eine Schätzung: keine Datendatei nennt sie, und mit anderen Werkzeugen erstellte Spielstände enthalten mehr). Legendäre Ressourcen, Nahrung, Munition, Outfits und Schlüsselgegenstände bleiben unberührt.
 

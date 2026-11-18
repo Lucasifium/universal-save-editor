@@ -210,7 +210,7 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 </details>
 
 <details>
-<summary><strong>H</strong> (18)</summary>
+<summary><strong>H</strong> (19)</summary>
 
 | Game | Screen |
 |---|---|
@@ -227,7 +227,8 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 | Hollow Knight: Silksong | Rosaries, shell shards, masks, silk, needle, abilities, crests, tools and items; decrypted and encrypted again on save. Not yet tried in the game |
 | HoloCure - Save the Fans! | *Fans*: HoloCoins and the level of every upgrade (ATK, HP, SPD, crit, pickup range, haste, damage resistance, regen, EXP, money gain, rerolls and the rest), from `save_n.dat` (base64 JSON, unpacked and packed again; checked on a public save, not yet tried in the game) |
 | Horizon Chase Turbo | *Driver*: campaign tokens and race counts, each stored in three places and all shown (checked on a public save from the Epic Games Store build, not yet tried in the game) |
-| Horizon Zero Dawn | *Aloy*: metal shards and skill points, with level and experience (PC Complete Edition; checked on public saves, not yet tried in the game) |
+| Horizon Forbidden West | *Aloy*: metal shards, skill points and every named resource (a Max crafting materials button raises common and uncommon resources to 200, rare to 35 and very rare to 15; legendary resources, food, ammunition and key items are left alone), with level and experience (PC Complete Edition; checked on public saves, not yet tried in the game) |
+| Horizon Zero Dawn | *Aloy*: metal shards, skill points and every named resource, with level and experience (PC Complete Edition; checked on public saves, not yet tried in the game) |
 | Hotline Miami | *Progress*: overall score, masks, levels and weapons unlocked, the hidden puzzle's letters, and each level's rank and high score in `SaveData.sav` (checked on a public save, not yet tried in the game) |
 | House Flipper | *Flipper*: money (both copies the game keeps are written together), unused perk points of each skill and the statistics, from `PlayerProgress.dat` (plain JSON; checked on a public save, not yet tried in the game) |
 | Hunting Simulator 2 | Credits, shots fired, animals spotted, tracks inspected and time played. Checked on a public save, not yet tried in the game |

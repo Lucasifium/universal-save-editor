@@ -195,6 +195,7 @@ pub const GAME_GENRES: &[(&str, &str)] = &[
     ("Hollow Knight: Silksong", "soulslike"),
     ("HoloCure - Save the Fans!", "roguelike"),
     ("Horizon Chase Turbo", "simulation"),
+    ("Horizon Forbidden West", "action"),
     ("Horizon Zero Dawn", "action"),
     ("Hotline Miami", "action"),
     ("House Flipper", "simulation"),

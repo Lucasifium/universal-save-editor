@@ -28073,8 +28073,8 @@ Game screen: meat (money), level, experience, the class and resistances, the sta
 Game screen: memento souls, red souls, souls, upgrade levels, health and difficulty. .NET BinaryFormatter, read and written in place; checked on a public save, not yet tried in the game
 = Tela do jogo: memento souls, almas vermelhas, almas, níveis de melhoria, saúde e dificuldade. .NET BinaryFormatter, lido e gravado no próprio arquivo; verificado em um save público, ainda não testado no jogo
 
-Game screen: metal shards and skill points, with level and experience shown. The save's MD5 is made again on save. Checked on public saves of the PC Complete Edition, not yet tried in the game
-= Tela do jogo: metal shards e pontos de habilidade, com nível e experiência mostrados. O MD5 do save é refeito ao salvar. Verificado em saves públicos da Complete Edition para PC, ainda não testado no jogo
+Game screen: metal shards, skill points and every named resource, with level and experience shown. The save's MD5 is made again on save. Checked on public saves of the PC Complete Edition, not yet tried in the game
+= Tela do jogo: metal shards, pontos de habilidade e cada recurso com nome, com nível e experiência mostrados. O MD5 do save é refeito ao salvar. Verificado em saves públicos da Complete Edition para PC, ainda não testado no jogo
 
 Game screen: money (both copies kept equal), unused perk points of each skill and statistics. Plain JSON; checked on a public save, not yet tried in the game
 = Tela do jogo: dinheiro (as duas cópias mantidas iguais), pontos de perk não usados de cada habilidade e estatísticas. JSON simples; verificado em um save público, ainda não testado no jogo
@@ -30260,4 +30260,17 @@ Park finances
 
 Close the game first. Cash, loan and fees are in whole currency units with one decimal (the game keeps tenths). A scenario you play for a score may not record it after its cash was changed.
 = Feche o jogo antes. O dinheiro, o empréstimo e as tarifas estão em unidades monetárias inteiras com uma casa decimal (o jogo guarda décimos). Um cenário jogado por pontuação pode não registrá-la depois de o dinheiro ser alterado.
+
+# src/fmt/hzd.rs, src/games.rs (Horizon Forbidden West)
+Game screen: metal shards, skill points and every named resource (with a Max crafting materials button), with level and experience shown. The save's checksum is made again on save. Checked on public saves of the PC Complete Edition, not yet tried in the game
+= Tela do jogo: metal shards, pontos de habilidade e cada recurso com nome (com um botão de materiais de criação no máximo), com nível e experiência mostrados. A soma de verificação do save é refeita ao salvar. Verificado em saves públicos da Complete Edition para PC, ainda não testado no jogo
+
+autosave1.dat, manualsave0.dat, quicksave0.dat ... (the profile file next to them is not a save)
+= autosave1.dat, manualsave0.dat, quicksave0.dat … (o arquivo de perfil ao lado não é um save)
+
+<slot>.dat in Documents\\Horizon Forbidden West Complete Edition\\<Steam ID> (autosave, manualsave, quicksave and courtesy saves). The save's checksum is made again on save. Level and experience are shown but not changed. Resources are listed by name; a resource the save does not hold yet cannot be added here.
+= <slot>.dat em Documents\Horizon Forbidden West Complete Edition\<Steam ID> (salvamento automático, manual, rápido e de cortesia). A soma de verificação do save é refeita ao salvar. Nível e experiência são mostrados, mas não alterados. Os recursos são listados por nome; um recurso que o save ainda não tem não pode ser adicionado aqui.
+
+Raises common and uncommon resources to 200, rare ones to 35 and very rare ones to 15, the largest Resource Pouch capacities the Horizon wiki lists (an estimate: no data file states them, and saves made with other tools hold more). Legendary resources, food, ammunition, outfits and key items are left alone.
+= Eleva os recursos comuns e incomuns a 200, os raros a 35 e os muito raros a 15, as maiores capacidades da bolsa de recursos listadas na wiki de Horizon (uma estimativa: nenhum arquivo de dados as informa, e saves feitos com outras ferramentas têm mais). Recursos lendários, comida, munição, roupas e itens-chave não são alterados.
 

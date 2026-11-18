@@ -3,7 +3,7 @@
 > **Free, and it always will be.** No price, no ads, no account, no paid version, no online service, no
 > rate limits. If anyone is charging you for this, it isn't from here.
 
-An offline save editor and save manager for 560+ (567) PC games (edit saves, and back up, name and restore them): Cairn, Terraria (characters and a world map editor),
+An offline save editor and save manager for 560+ (568) PC games (edit saves, and back up, name and restore them): Cairn, Terraria (characters and a world map editor),
 Oxygen Not Included, RimWorld, Stardew Valley, Onimusha: Way of the Sword, Elden Ring, Dark Souls,
 Cyberpunk 2077, the Persona, Yakuza and Final Fantasy games, Ren'Py visual novels, RPG Maker games
 and more (see the [full list](GAMES.md)). Written in Rust (egui). Nothing is uploaded anywhere, and there are
@@ -78,7 +78,7 @@ There is also a browser version on the project website. There is no ready-made A
 
 ## Supported games
 
-550+ (561) games, with a screen of their own for the most popular ones and a value editor for the rest. See the full list with what each screen edits in **[GAMES.md](GAMES.md)**, or find your game on the [website](https://universalsaveeditor.com/#games), which has a page for each one.
+550+ (568) games, with a screen of their own for the most popular ones and a value editor for the rest. See the full list with what each screen edits in **[GAMES.md](GAMES.md)**, or find your game on the [website](https://universalsaveeditor.com/#games), which has a page for each one.
 
 ## Paradox ironman and binary saves
 
@@ -107,7 +107,7 @@ binary and stays an ironman save. It isn't converted to a normal one.
 
 ## Find my game's saves
 
-*Find my game's saves* (the big button on the start page, *Find saves* in the toolbar and the File menu) lists every one of the 560+ (567) PC games the editor knows, with where it usually keeps its saves and what the files are called, and finds them on your computer: Steam libraries and `userdata`, Documents wherever Windows has it, AppData, Saved Games and Ubisoft Connect. On Linux and the Steam Deck it also looks inside Proton and Wine prefixes, so Windows games run through Steam Play show up too.
+*Find my game's saves* (the big button on the start page, *Find saves* in the toolbar and the File menu) lists every one of the 560+ (568) PC games the editor knows, with where it usually keeps its saves and what the files are called, and finds them on your computer: Steam libraries and `userdata`, Documents wherever Windows has it, AppData, Saved Games and Ubisoft Connect. On Linux and the Steam Deck it also looks inside Proton and Wine prefixes, so Windows games run through Steam Play show up too.
 
 The start page lists **Your games**, newest first, each one click away from its newest save. Games found on this computer come first (*Only games found here* hides the rest), and each game has a badge for how far the editor goes with it: *Screen* (a screen of its own), *Values* (every value by name) or *Hex* (hex view and value search). Found folders are remembered, so later starts only recheck them; the whole computer (every fixed drive; USB and network drives only if turned on in Settings) is searched on the first start, about once a week, and whenever you press *Search again*.
 

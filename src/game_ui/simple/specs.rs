@@ -10,7 +10,7 @@ use super::n64_specs::*;
 use super::{List, Max, Section, Shape, Spec, Table};
 use crate::i18n::tx;
 
-pub static SPECS: &[Spec] = &[OPENXCOM, XCOM_DOS, RCT2, COTL, FALLOUT_SHELTER, DRG, S1_MONEY, S1_RANK, S1_TIME, S1_GAME, SOTF_STATE, SOTF_GAME, SOTF_WEATHER, SOTF_ITEMS, DMD, CUPHEAD, ANTIMATTER, PVZ, CELESTE, DRGS, KH3, RF4S, SKY1ST, KSP, FFPR, MCD, STONESHARD, ROGUE_TRADER, BIOSHOCK_INFINITE, SPACE_HAVEN, SNOWRUNNER, GRAVEYARD_KEEPER, NFSMW, TOS, GTA3, GTAVC, BITBURNER, TERRA_INVICTA, PRISON, FF13, SONIC_MANIA, CAVE_STORY_PLUS, CAVE_STORY, LIES_OF_P, TXR, DAVE, MSC, ULTRAKILL, RPGXP, RE5, ANNO1800, FTK, LEGO_TSS, LEGO_CLASSIC, MYZ, CMS21, MEDIEVAL_DYNASTY, MECHANICUS, ORI, OMORI, ENDER_LILIES, SW2, ES2, MOONLIGHTER, WASTELAND2, ATOM, MORTAL_SHELL, MORTAL_SHELL_2, COTW, BEAMNG, FOREST, YAKUZA3, YAKUZA4, YAKUZA5, ISHIN, SALT, DRAKENSANG, ALPHA, TYRANNY, JEDI_FO, SR3, SR4, WD2, FABLE, WANDERING_SWORD, STELLAR_BLADE, PRAGMATA, SLIME_RANCHER, SUBNAUTICA2, HZD, SLEEPING_DOGS, DXMD, ATOMIC_HEART, DISHONORED2, GHOST_OF_TSUSHIMA, DEATHLOOP, AC_BROTHERHOOD, AC_REVELATIONS, AC3R, AC_LIBERATION, AC_BLACK_FLAG, AC_ROGUE, AC_UNITY, AC_SYNDICATE, AC_ORIGINS, AC_ODYSSEY, DISHONORED1, RDR1, RDR2, WORLDBOX, COREKEEPER, HOLOCURE, POTION_CRAFT, WWZ, ROBOQUEST, CMS18, LONGDRIVE, LONGDRIVE_PROP, XC3, MLDT, SMASH, MK7, SKC, UTY, DAGGERFALL_UNITY, DMC1, MEWGENICS, MORROWIND, OBLIVION, WOL, SOD_PROFILE, SOD_STATS, TRAVELLERS_REST, YOUTUBERS_LIFE, LUCK_LANDLORD, LUNA_NIGHTS, EVERSPACE1, STREETS_OF_ROGUE, DELTATRAVELER, PIZZA_TOWER, TEARDOWN, WOLCEN, BLASPHEMOUS, NOITA, LAST_EPOCH, GUNGEON, DISCO, CLICKER_HEROES, ISAAC, ROR2, STS2, HEROES3, MOO2, YSF, BD2, SKY3, CS1, WO4, SW4II, NIER_REPLICANT, GENZERO,
+pub static SPECS: &[Spec] = &[OPENXCOM, XCOM_DOS, RCT2, COTL, FALLOUT_SHELTER, DRG, S1_MONEY, S1_RANK, S1_TIME, S1_GAME, SOTF_STATE, SOTF_GAME, SOTF_WEATHER, SOTF_ITEMS, DMD, CUPHEAD, ANTIMATTER, PVZ, CELESTE, DRGS, KH3, RF4S, SKY1ST, KSP, FFPR, MCD, STONESHARD, ROGUE_TRADER, BIOSHOCK_INFINITE, SPACE_HAVEN, SNOWRUNNER, GRAVEYARD_KEEPER, NFSMW, TOS, GTA3, GTAVC, BITBURNER, TERRA_INVICTA, PRISON, FF13, SONIC_MANIA, CAVE_STORY_PLUS, CAVE_STORY, LIES_OF_P, TXR, DAVE, MSC, ULTRAKILL, RPGXP, RE5, ANNO1800, FTK, LEGO_TSS, LEGO_CLASSIC, MYZ, CMS21, MEDIEVAL_DYNASTY, MECHANICUS, ORI, OMORI, ENDER_LILIES, SW2, ES2, MOONLIGHTER, WASTELAND2, ATOM, MORTAL_SHELL, MORTAL_SHELL_2, COTW, BEAMNG, FOREST, YAKUZA3, YAKUZA4, YAKUZA5, ISHIN, SALT, DRAKENSANG, ALPHA, TYRANNY, JEDI_FO, SR3, SR4, WD2, FABLE, WANDERING_SWORD, STELLAR_BLADE, PRAGMATA, SLIME_RANCHER, SUBNAUTICA2, HZD, HFW, SLEEPING_DOGS, DXMD, ATOMIC_HEART, DISHONORED2, GHOST_OF_TSUSHIMA, DEATHLOOP, AC_BROTHERHOOD, AC_REVELATIONS, AC3R, AC_LIBERATION, AC_BLACK_FLAG, AC_ROGUE, AC_UNITY, AC_SYNDICATE, AC_ORIGINS, AC_ODYSSEY, DISHONORED1, RDR1, RDR2, WORLDBOX, COREKEEPER, HOLOCURE, POTION_CRAFT, WWZ, ROBOQUEST, CMS18, LONGDRIVE, LONGDRIVE_PROP, XC3, MLDT, SMASH, MK7, SKC, UTY, DAGGERFALL_UNITY, DMC1, MEWGENICS, MORROWIND, OBLIVION, WOL, SOD_PROFILE, SOD_STATS, TRAVELLERS_REST, YOUTUBERS_LIFE, LUCK_LANDLORD, LUNA_NIGHTS, EVERSPACE1, STREETS_OF_ROGUE, DELTATRAVELER, PIZZA_TOWER, TEARDOWN, WOLCEN, BLASPHEMOUS, NOITA, LAST_EPOCH, GUNGEON, DISCO, CLICKER_HEROES, ISAAC, ROR2, STS2, HEROES3, MOO2, YSF, BD2, SKY3, CS1, WO4, SW4II, NIER_REPLICANT, GENZERO,
     // SNES and N64 emulator saves (retro_specs.rs)
     // New games (new_specs.rs)
     DARKSIDERS_GENESIS, JOURNEY_SAVAGE_PLANET, MHOJ1, MHOJ2, VIKINGS_WOLVES, WAS, SEA_OF_STARS, THE_MESSENGER, KR1, KRO, KRA, KR_VENGEANCE,
@@ -3055,7 +3055,37 @@ const HZD: Spec = Spec {
         title: "Aloy",
         rows: &[("Metal shards", "/Aloy/Metal shards"), ("Skill points", "/Aloy/Skill points"), ("Level", "/Aloy/Level"), ("Experience", "/Aloy/Experience")],
     }],
-    lists: &[],
+    lists: &[List { title: "Resources", path: "/Materials", shape: Shape::Map, names: &[], max: None }],
+    tables: &[],
+};
+
+// ------------------------------------------------------------------ Horizon Forbidden West
+
+const HFW: Spec = Spec {
+    name: "Horizon Forbidden West",
+    tab: "Aloy",
+    accent: (222, 120, 60),
+    kind: Some(crate::fmt::hzd::KIND_FW),
+    markers: &["/Aloy/Metal shards"],
+    subtitle: "<slot>.dat in Documents\\Horizon Forbidden West Complete Edition\\<Steam ID> (autosave, manualsave, quicksave and courtesy saves). The save's checksum is made again on save. Level and experience are shown but not changed. Resources are listed by name; a resource the save does not hold yet cannot be added here.",
+    tiles: &[("Metal shards", "/Aloy/Metal shards"), ("Skill points", "/Aloy/Skill points"), ("Level", "/Aloy/Level")],
+    sections: &[Section {
+        title: "Aloy",
+        rows: &[("Metal shards", "/Aloy/Metal shards"), ("Skill points", "/Aloy/Skill points"), ("Level", "/Aloy/Level"), ("Experience", "/Aloy/Experience")],
+    }],
+    lists: &[List {
+        title: "Resources",
+        path: "/Materials",
+        shape: Shape::Map,
+        names: &[],
+        max: Some(Max {
+            ids: crate::fmt::hzd_items::HFW_MAX_IDS,
+            cap: 200,
+            caps: crate::fmt::hzd_items::HFW_CAPS,
+            estimate: true,
+            about: "Raises common and uncommon resources to 200, rare ones to 35 and very rare ones to 15, the largest Resource Pouch capacities the Horizon wiki lists (an estimate: no data file states them, and saves made with other tools hold more). Legendary resources, food, ammunition, outfits and key items are left alone.",
+        }),
+    }],
     tables: &[],
 };
 

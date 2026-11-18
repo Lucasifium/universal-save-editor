@@ -170,6 +170,7 @@ Universal Save Editor is free. It builds on other people's work, listed here wit
 | [RE5-Save-Editor (Resident Evil 5 Steam save cipher, checksum ranges, money and points offsets; facts, no code)](https://github.com/shinneider/RE5-Save-Editor) | shinneider | MIT |
 | [FableDecomp (Fable: The Lost Chapters save container, checksum, entity cells and hero stat fields; facts, no code)](https://github.com/BuffJesus/FableDecomp) | FableDecomp contributors | MIT |
 | [HZDCoreEditor (Horizon Zero Dawn save layout; facts, no code)](https://github.com/Nukem9/HZDCoreEditor) | Nukem9 | No licence stated; facts only |
+| [hfw-gameplay-tweaks and hzdr-gameplay-tweaks (item GUID and name pairs for Horizon Forbidden West and Zero Dawn resources; facts, no code)](https://github.com/Nukem9/hfw-gameplay-tweaks) | Nukem9 | No licence stated; facts only |
 | [SavePrism (Slime Rancher record framing; facts, no code)](https://github.com/huseyincancalti/saveprism) | Hüseyin Can Çaltı | MIT |
 | [FileDBReader (Anno FileDB / BBDom layout; facts, no code)](https://github.com/anno-mods/FileDBReader) | anno-mods | facts only (no licence file; no code used) |
 | [RDAExplorer (Anno RDA 2.2 archive layout; facts, no code)](https://github.com/lysannschlegel/RDAExplorer) | lysannschlegel | facts only (no licence file; no code used) |

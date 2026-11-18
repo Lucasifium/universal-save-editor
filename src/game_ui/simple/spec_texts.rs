@@ -501,5 +501,7 @@ pub fn all() -> Vec<&'static str> {
         tr("Format version"),
         tr("Documents\\Ghost of Tsushima DIRECTOR'S CUT\\<id>\\manual_NNNN.sav or auto.sav: supplies, flowers, Ghost Flowers, crafting materials and technique points to spend. The save's checksum is made again on save."),
         tr("Raises supplies to 9999 and bamboo, yew wood, wax wood, iron, steel, gold, linen, leather, silk and predator hides to 500 (fan wikis give 500 as the carry limit and full saves hold 500; the game states no limit itself). Amounts above that are kept. Flowers and Ghost Flowers are left alone."),
+        tr("<slot>.dat in Documents\\Horizon Forbidden West Complete Edition\\<Steam ID> (autosave, manualsave, quicksave and courtesy saves). The save's checksum is made again on save. Level and experience are shown but not changed. Resources are listed by name; a resource the save does not hold yet cannot be added here."),
+        tr("Raises common and uncommon resources to 200, rare ones to 35 and very rare ones to 15, the largest Resource Pouch capacities the Horizon wiki lists (an estimate: no data file states them, and saves made with other tools hold more). Legendary resources, food, ammunition, outfits and key items are left alone."),
     ]
 }

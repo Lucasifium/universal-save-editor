@@ -28184,8 +28184,8 @@ Game screen: meat (money), level, experience, the class and resistances, the sta
 Game screen: memento souls, red souls, souls, upgrade levels, health and difficulty. .NET BinaryFormatter, read and written in place; checked on a public save, not yet tried in the game
 = ゲーム画面: メメントソウル、赤いソウル、ソウル、アップグレードレベル、体力、難易度。.NET BinaryFormatter で、その場で読み書きします。公開セーブで確認済みですが、ゲームではまだ試していません
 
-Game screen: metal shards and skill points, with level and experience shown. The save's MD5 is made again on save. Checked on public saves of the PC Complete Edition, not yet tried in the game
-= ゲーム画面: 金属の破片とスキルポイント。レベルと経験値も表示されます。セーブの MD5 は保存時に作り直されます。PC Complete Edition の公開セーブで確認済みですが、ゲームではまだ試していません
+Game screen: metal shards, skill points and every named resource, with level and experience shown. The save's MD5 is made again on save. Checked on public saves of the PC Complete Edition, not yet tried in the game
+= ゲーム画面: 金属の破片、スキルポイント、名前付きの各リソース。レベルと経験値も表示されます。セーブの MD5 は保存時に作り直されます。PC Complete Edition の公開セーブで確認済みですが、ゲームではまだ試していません
 
 Game screen: money (both copies kept equal), unused perk points of each skill and statistics. Plain JSON; checked on a public save, not yet tried in the game
 = ゲーム画面: 所持金 (2 つのコピーを同じ値に保ちます)、各スキルの未使用パークポイント、統計。プレーンな JSON です。公開セーブで確認済みですが、ゲームではまだ試していません
@@ -30371,4 +30371,17 @@ Park finances
 
 Close the game first. Cash, loan and fees are in whole currency units with one decimal (the game keeps tenths). A scenario you play for a score may not record it after its cash was changed.
 = 先にゲームを終了してください。資金、ローン、料金は小数点以下1桁の通貨単位で表示されます（ゲームは10分の1単位で保存します）。スコア目的でプレイするシナリオは、資金を変更するとスコアが記録されない場合があります。
+
+# src/fmt/hzd.rs, src/games.rs (Horizon Forbidden West)
+Game screen: metal shards, skill points and every named resource (with a Max crafting materials button), with level and experience shown. The save's checksum is made again on save. Checked on public saves of the PC Complete Edition, not yet tried in the game
+= ゲーム画面: 金属の破片、スキルポイント、名前付きの各リソース（クラフト素材を最大にするボタン付き）。レベルと経験値も表示されます。セーブのチェックサムは保存時に作り直されます。PC Complete Edition の公開セーブで確認済みですが、ゲームではまだ試していません
+
+autosave1.dat, manualsave0.dat, quicksave0.dat ... (the profile file next to them is not a save)
+= autosave1.dat、manualsave0.dat、quicksave0.dat …（隣にあるプロフィールファイルはセーブではありません）
+
+<slot>.dat in Documents\\Horizon Forbidden West Complete Edition\\<Steam ID> (autosave, manualsave, quicksave and courtesy saves). The save's checksum is made again on save. Level and experience are shown but not changed. Resources are listed by name; a resource the save does not hold yet cannot be added here.
+= Documents\Horizon Forbidden West Complete Edition\<Steam ID> の <slot>.dat（オートセーブ、手動セーブ、クイックセーブ、コーテシーセーブ）。セーブのチェックサムは保存時に作り直されます。レベルと経験値は表示のみで変更しません。リソースは名前で一覧表示されます。セーブにまだないリソースはここで追加できません。
+
+Raises common and uncommon resources to 200, rare ones to 35 and very rare ones to 15, the largest Resource Pouch capacities the Horizon wiki lists (an estimate: no data file states them, and saves made with other tools hold more). Legendary resources, food, ammunition, outfits and key items are left alone.
+= 一般リソースと準レアリソースを 200、レア（希少）を 35、超レアを 15 にします。Horizon Wiki に載っているリソースポーチの最大容量です（推定値: データファイルには記載がなく、他のツールで作ったセーブにはこれより多く入っています）。伝説級のリソース、食料、弾薬、衣装、キーアイテムは変更しません。
 
