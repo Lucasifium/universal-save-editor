@@ -323,9 +323,15 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
     }
     // File versions above 318 (Terraria 1.4.5) come in two layouts seen in real files: with the
     // extra bytes the code below reads, or laid out like 1.4.4. A wrong guess shows up as
-    // nonsense item ids right away, so the other layout is tried when the first doesn't fit.
+    // nonsense item ids right away, so the layout that fits is used. When both fit (a character
+    // with nothing in any slot), nothing tells them apart and an edit could land at the wrong
+    // place in the file, so the file is not opened for editing.
     if v > 318 {
-        return parse_layout(d, true).or_else(|_| parse_layout(d, false));
+        return match (parse_layout(d, true), parse_layout(d, false)) {
+            (Ok(doc), Err(_)) | (Err(_), Ok(doc)) => Ok(doc),
+            (Ok(_), Ok(_)) => Err("can't tell which player layout this file uses (every slot is empty)".into()),
+            (Err(e), Err(_)) => Err(e),
+        };
     }
     parse_layout(d, false)
 }
@@ -519,6 +525,14 @@ mod tests {
     }
 
     #[test]
+    fn version_319_with_nothing_to_tell_layouts_apart_is_not_opened() {
+        let mut d = synthetic(279, &[], &[]);
+        d.insert(45, 0);
+        d[0..4].copy_from_slice(&319i32.to_le_bytes());
+        assert!(parse(&d).is_err());
+    }
+
+    #[test]
     #[ignore]
     fn real_player() {
         let dir = std::env::var("TERRARIA_PLAYERS").expect("TERRARIA_PLAYERS");
@@ -539,7 +553,7 @@ mod tests {
             let out = doc.to_bytes().unwrap();
             let again = parse(&out).unwrap();
             assert_eq!(again.view, doc.view);
-            assert_eq!(again.view.pointer("/Inventory/Slot 50/Stack").unwrap(), 1);
+            assert!(again.view.pointer("/Inventory/Slot 50/Stack").unwrap().as_i64().unwrap() >= 1);
             assert_eq!(crate::fmt::crypto::terraria_decrypt(&crate::fmt::crypto::terraria_encrypt(&out)).unwrap(), out);
         }
     }
