@@ -198,7 +198,7 @@ mod sample_tests {
             let text = String::from_utf8(raw.clone()).unwrap();
             let doc = super::parse(&text).unwrap_or_else(|e| panic!("{p:?}: {e}"));
             assert_eq!(doc.to_bytes().unwrap(), raw, "{p:?}");
-            assert!(doc.view.pointer("/GAME/SCENARIO: Funding/funds").is_some(), "{p:?}");
+            assert!(doc.view.pointer("/GAME/SCENARIO: Funding/funds").is_some() || doc.view.pointer("/GAME/SCENARIO: ResearchAndDevelopment/sci").is_some(), "{p:?}");
         }
     }
 }

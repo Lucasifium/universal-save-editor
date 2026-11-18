@@ -972,7 +972,7 @@ const KSP: Spec = Spec {
     tab: "Space program",
     accent: (240, 140, 30),
     kind: Some(crate::fmt::ksp::KIND),
-    markers: &["/GAME/SCENARIO: Funding/funds"],
+    markers: &["/GAME/SCENARIO: ResearchAndDevelopment/sci"],
     subtitle: "Career funds, science and reputation (sandbox saves keep these at their defaults)",
     tiles: &[("Funds", "/GAME/SCENARIO: Funding/funds"), ("Science", "/GAME/SCENARIO: ResearchAndDevelopment/sci"), ("Reputation", "/GAME/SCENARIO: Reputation/rep")],
     sections: &[],

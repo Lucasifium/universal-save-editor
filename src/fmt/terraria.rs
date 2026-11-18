@@ -317,11 +317,22 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
     if !looks(d) {
         return Err("not a Terraria player".into());
     }
-    let mut r = Reader { d, pos: 0 };
-    let v = r.i32()?;
+    let v = i32::from_le_bytes(d[0..4].try_into().unwrap());
     if v < MIN_VERSION {
         return Err(format!("player file version {v} is older than Terraria 1.4"));
     }
+    // File versions above 318 (Terraria 1.4.5) come in two layouts seen in real files: with the
+    // extra bytes the code below reads, or laid out like 1.4.4. A wrong guess shows up as
+    // nonsense item ids right away, so the other layout is tried when the first doesn't fit.
+    if v > 318 {
+        return parse_layout(d, true).or_else(|_| parse_layout(d, false));
+    }
+    parse_layout(d, false)
+}
+
+fn parse_layout(d: &[u8], new: bool) -> Result<TreeDoc, String> {
+    let mut r = Reader { d, pos: 0 };
+    let v = r.i32()?;
     r.take(7 + 1 + 4 + 8)?; // signature, file type, revision, favourite flags
     let mut b = Builder::default();
     let mut root = Map::new();
@@ -378,7 +389,6 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
     flag(&mut b, &mut r, &mut upgrades, Some("Old One's Army defeated"))?;
     // Terraria 1.4.5 (file version 319+) adds a byte around here; which side of the
     // tax field it's on isn't known, so tax is only editable in older files.
-    let new = v > 318;
     if new {
         r.take(5)?;
     } else {
@@ -493,6 +503,18 @@ mod tests {
         assert_eq!(doc.view.pointer("/Character/File version").unwrap(), 279);
         assert_eq!(doc.view.pointer("/Inventory/Slot 1/Item").unwrap(), "Iron Bar");
         assert_eq!(doc.view.pointer("/Piggy bank/Slot 4/Stack").unwrap(), 50);
+        assert_eq!(doc.to_bytes().unwrap(), d);
+    }
+
+    #[test]
+    fn version_319_laid_out_like_1_4_4_still_reads() {
+        // Some files that say 1.4.5 (version 319) have no extra bytes: the 1.4.4 layout must still open.
+        let mut d = synthetic(279, &[(0, 4, 1)], &[]);
+        d.insert(45, 0); // the team byte that files from version 283 on have after the hair dye
+        d[0..4].copy_from_slice(&319i32.to_le_bytes());
+        let doc = parse(&d).unwrap();
+        assert_eq!(doc.view.pointer("/Character/File version").unwrap(), 319);
+        assert!(doc.view.pointer("/Character/Tax money collected (copper)").is_some());
         assert_eq!(doc.to_bytes().unwrap(), d);
     }
 

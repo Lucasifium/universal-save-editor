@@ -64,6 +64,7 @@ hollow-knight 699
 hollow-knight-silksong 365
 holocure-save-the-fans 760
 horizon-zero-dawn 605
+kerbal-space-program 334
 kingdom-hearts-iii 356
 last-epoch 739
 lego-batman-2-dc-super-heroes 309
@@ -136,6 +137,7 @@ subnautica-below-zero 282
 tales-of-symphonia 513
 teardown 306
 terra-invicta 717
+terraria-character 378
 the-binding-of-isaac-rebirth 323
 the-elder-scrolls-iii-morrowind 503
 the-elder-scrolls-iv-oblivion 311
