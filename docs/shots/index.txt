@@ -104,8 +104,11 @@ lego-the-lord-of-the-rings 332
 lethal-company 760
 like-a-dragon-ishin 396
 mass-effect 303
+mass-effect-1-legendary-edition 1633
 mass-effect-2 522
+mass-effect-2-legendary-edition 1647
 mass-effect-3 522
+mass-effect-3-legendary-edition 1633
 mass-effect-andromeda 386
 medieval-dynasty 357
 metal-gear-solid-v-the-phantom-pain 760
