@@ -236,6 +236,7 @@ p,li{max-width:70ch}
 .hero.game{grid-template-columns:1fr;padding:44px 0 12px}
 .lead{font-size:1.18rem;color:var(--muted);max-width:60ch}
 .badges{display:flex;gap:8px;flex-wrap:wrap;margin:20px 0}.badge{border:1px solid var(--line);background:var(--card);border-radius:8px;padding:3px 12px;font-size:.88rem;color:var(--muted)}
+.badge.ok{border-color:var(--accent);color:var(--text);font-weight:600}
 .badge.free{background:var(--accent);border-color:var(--accent);color:var(--on-accent);font-weight:700}
 .btn{display:inline-block;background:var(--accent);color:var(--on-accent);text-decoration:none;font-weight:800;padding:13px 24px;border-radius:12px;margin:8px 10px 8px 0;box-shadow:0 3px 0 rgba(0,0,0,.28);transition:transform .12s,box-shadow .12s}
 .btn:hover{transform:translateY(-1px);box-shadow:0 5px 0 rgba(0,0,0,.28)}.btn:active{transform:translateY(2px);box-shadow:0 1px 0 rgba(0,0,0,.28)}
@@ -274,6 +275,30 @@ footer{border-top:1px solid var(--line);margin-top:64px;color:var(--muted);font-
 const DOWNLOAD_BUTTON: &str = r#"<a class="btn" href="https://github.com/Lucasifium/universal-save-editor/releases/latest">Download for free</a>"#;
 const RELEASES: &str = "https://github.com/Lucasifium/universal-save-editor/releases";
 const DISCUSSIONS: &str = "https://github.com/Lucasifium/universal-save-editor/discussions";
+const IN_GAME_REPORT: &str = "https://github.com/Lucasifium/universal-save-editor/issues/new?template=worked-in-game.yml";
+/// Games reported to work in the game itself (data/confirmed-in-game.txt, one name per line).
+const CONFIRMED_IN_GAME: &str = include_str!("../data/confirmed-in-game.txt");
+
+fn confirmed_in_game(name: &str) -> bool {
+    CONFIRMED_IN_GAME.lines().map(str::trim).any(|l| !l.starts_with('#') && l == name)
+}
+
+fn url_encode(s: &str) -> String {
+    s.bytes().map(|b| if b.is_ascii_alphanumeric() || b"-_.~".contains(&b) { (b as char).to_string() } else { format!("%{b:02X}") }).collect()
+}
+
+/// The "did it work in game?" box at the end of a game page.
+fn in_game_html(name: &str) -> String {
+    let done = if confirmed_in_game(name) { "<p>Edited saves of this game have been reported to load and work in the game.</p>" } else { "" };
+    format!(
+        r#"<h2>Did it work in your game?</h2>
+<div class="card">{done}<p>Tried an edit in {n}? <a href="{IN_GAME_REPORT}&amp;game={q}">Tell us whether it worked</a>. It takes a minute, and no save is sent.</p></div>
+"#,
+        n = esc(name),
+        q = url_encode(name),
+    )
+}
+
 const REPORT: &str = "https://github.com/Lucasifium/universal-save-editor/issues/new/choose";
 
 /// The direct downloads of the current version: (id, label, file name ending).
@@ -908,7 +933,7 @@ fn build_site() {
             body,
             r#"<section class="hero game"><div><h1>{h} save editor</h1>
 <p class="lead">Edit your {n} save on your own PC with Universal Save Editor, a free, offline save editor and manager for {many}+ ({total}) games. Back up, restore and start new runs from the same window. Nothing is uploaded and there are no limits.</p>
-<div class="badges"><span class="badge free">Free forever</span><span class="badge">Offline</span><span class="badge">Open source</span><span class="badge">{lvl}</span></div>
+<div class="badges"><span class="badge free">Free forever</span><span class="badge">Offline</span><span class="badge">Open source</span><span class="badge">{lvl}</span>{confirmed}</div>
 <a class="btn" href="{DOWNLOAD}">Download for free</a><a class="btn alt" href="../{WEB_APP}">Use it in your browser</a></div></section>
 <h2>What you can edit</h2>
 <div class="card">{what}</div>
@@ -921,11 +946,13 @@ fn build_site() {
 <li>Choose <em>Find my game's saves</em>, pick <strong>{n}</strong> and open your save (or drag the save file onto the window).</li>
 <li>Change what you want, then <em>Save</em>. The editor checks the new file and backs up the old one first.</li>
 </ol>
-{faq}<h2>Why use it</h2>
+{faq}{in_game}<h2>Why use it</h2>
 {why}
 <p>Edited saves are for single-player play. Don't use them in online or multiplayer modes.</p>
 {related}"#,
             why = why_short(),
+            confirmed = if confirmed_in_game(g.name) { r#"<span class="badge ok">Confirmed in game</span>"# } else { "" },
+            in_game = in_game_html(g.name),
             faq = faq_html(g, what.as_deref()),
             shot = shot_html(&s, g.name, what.as_deref()),
             related = related_html(g, &pages),
@@ -1081,6 +1108,14 @@ fn build_site() {
     let n = slugs.len();
     slugs.dedup();
     assert_eq!(n, slugs.len(), "two games share a page name");
+}
+
+/// Every name in the confirmed-in-game list is a game in the catalog.
+#[test]
+fn confirmed_in_game_names_are_games() {
+    for l in CONFIRMED_IN_GAME.lines().map(str::trim).filter(|l| !l.is_empty() && !l.starts_with('#')) {
+        assert!(GAMES.iter().any(|g| g.name == l), "{l} is not a supported game");
+    }
 }
 
 /// The README and Cargo.toml say "N+ (count) games"; keep the bracketed count equal to the registry.

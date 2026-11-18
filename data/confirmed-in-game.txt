@@ -1,0 +1,2 @@
+# Games confirmed to work in the game itself, one name per line exactly as in the supported-games list.
+# Add a game after a "Did it work in game?" report says an edited save loaded and worked.

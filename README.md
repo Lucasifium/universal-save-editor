@@ -445,6 +445,10 @@ automatic backups to keep per save and where backups go. *Help* has the keyboard
 supported games, the website, *Report a problem* and *Request a game* (open a form on GitHub with the
 version and system filled in; your save is never sent), licences and *About* with the version.
 
+Tried an edit and loaded the save in the game? [Tell us whether it worked](https://github.com/Lucasifium/universal-save-editor/issues/new?template=worked-in-game.yml)
+(no save is sent). Every game page on the website has the same link, and games reported to work in the
+game itself are marked *Confirmed in game*.
+
 Both themes meet contrast guidelines for text and control outlines, everything can be reached with
 the keyboard (a focus ring shows where Tab is), and buttons and boxes have names for screen readers.
 

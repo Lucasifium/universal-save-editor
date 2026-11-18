@@ -1,0 +1,47 @@
+name: Did it work in game?
+description: Tell us whether an edited save loaded and worked in the game itself.
+labels: ["in-game report"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for checking. Reports like this show which games are confirmed to work in the game itself.
+        Please don't attach a save or screenshots showing personal details: saves can hold your character names, Steam ID or other account details.
+  - type: input
+    id: game
+    attributes:
+      label: Game
+      description: The game and, if you know it, its version and store (Steam, GOG, Game Pass, console).
+      placeholder: e.g. Stardew Valley 1.6, Steam
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Editor version
+      description: Shown in Help › About.
+    validations:
+      required: true
+  - type: textarea
+    id: edited
+    attributes:
+      label: What you edited
+      description: For example gold, an item, a skill or a difficulty setting.
+    validations:
+      required: true
+  - type: dropdown
+    id: result
+    attributes:
+      label: Result in the game
+      options:
+        - Worked
+        - Loaded, but the change didn't show
+        - The game rejected or didn't load the save
+        - Something else
+    validations:
+      required: true
+  - type: textarea
+    id: notes
+    attributes:
+      label: Notes
+      description: Anything else, such as an error message the game showed. Optional.

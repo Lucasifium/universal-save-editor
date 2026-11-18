@@ -18,6 +18,7 @@ p,li{max-width:70ch}
 .hero.game{grid-template-columns:1fr;padding:44px 0 12px}
 .lead{font-size:1.18rem;color:var(--muted);max-width:60ch}
 .badges{display:flex;gap:8px;flex-wrap:wrap;margin:20px 0}.badge{border:1px solid var(--line);background:var(--card);border-radius:8px;padding:3px 12px;font-size:.88rem;color:var(--muted)}
+.badge.ok{border-color:var(--accent);color:var(--text);font-weight:600}
 .badge.free{background:var(--accent);border-color:var(--accent);color:var(--on-accent);font-weight:700}
 .btn{display:inline-block;background:var(--accent);color:var(--on-accent);text-decoration:none;font-weight:800;padding:13px 24px;border-radius:12px;margin:8px 10px 8px 0;box-shadow:0 3px 0 rgba(0,0,0,.28);transition:transform .12s,box-shadow .12s}
 .btn:hover{transform:translateY(-1px);box-shadow:0 5px 0 rgba(0,0,0,.28)}.btn:active{transform:translateY(2px);box-shadow:0 1px 0 rgba(0,0,0,.28)}
