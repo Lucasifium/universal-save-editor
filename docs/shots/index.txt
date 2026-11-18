@@ -138,8 +138,8 @@ resident-evil-5 574
 rimworld 299
 risk-of-rain-2 306
 roboquest 657
-rpg-maker-mv-mz-games 760
-rpg-maker-xp-games 760
+rpg-maker-mv-mz-games 334
+rpg-maker-xp-games 631
 saints-row-iv 645
 saints-row-the-third 743
 sekiro-shadows-die-twice 760
