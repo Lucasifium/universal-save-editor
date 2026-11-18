@@ -9,6 +9,7 @@ atom-rpg 566
 attack-on-titan-2 1647
 batman-arkham-city 686
 bioshock-infinite 539
+bitburner 687
 blasphemous 788
 borderlands-2 1275
 borderlands-3 1642
@@ -31,7 +32,9 @@ darkest-dungeon 753
 dave-the-diver 1647
 dead-rising 637
 death-must-die 656
+deathloop 749
 deep-rock-galactic 1647
+deep-rock-galactic-survivor 685
 deltarune 1647
 deus-ex 415
 deus-ex-mankind-divided 928
@@ -149,6 +152,7 @@ saints-row-iv 603
 saints-row-the-third 701
 sekiro-shadows-die-twice 1158
 shadow-warrior-2 805
+shape-of-dreams 597
 skyrim 1647
 sleeping-dogs-definitive-edition 559
 slime-rancher 602
@@ -161,6 +165,7 @@ star-wars-knights-of-the-old-republic-ii-the-sith-lords 1043
 starbound 1166
 stardew-valley 1257
 stellar-blade 1261
+stoneshard 619
 subnautica-below-zero 597
 tales-of-symphonia 1647
 teardown 737
@@ -187,6 +192,7 @@ tyranny 613
 undertale 1647
 undertale-yellow 1076
 valheim 1647
+warhammer-40-000-rogue-trader 791
 wasteland-3 1647
 watch-dogs-2 499
 wolcen-lords-of-mayhem 798

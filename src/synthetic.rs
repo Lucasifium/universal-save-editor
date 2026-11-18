@@ -55,20 +55,35 @@ fn is_text(ptr: &str) -> bool {
     ["name", "title", "id", "type", "class", "job", "map", "location", "version"].iter().any(|k| l.contains(k))
 }
 
-/// A made-up, plausible figure that differs between fields.
+/// A made-up, plausible mid-game figure that differs between fields.
 fn number(ptr: &str, salt: usize) -> i64 {
-    let h = ptr.bytes().fold(salt as u64 + 7, |a, b| a.wrapping_mul(31).wrapping_add(b as u64));
-    let l = ptr.to_lowercase();
-    if l.contains("level") || l.contains("lvl") || l.contains("rank") {
-        return 5 + (h % 40) as i64;
+    let h = ptr.bytes().fold(salt as u64 + 7, |a, b| a.wrapping_mul(31).wrapping_add(b as u64)) >> 3;
+    let l = ptr.rsplit('/').next().unwrap_or("").to_lowercase();
+    let has = |ks: &[&str]| ks.iter().any(|k| l.contains(k));
+    let r = |lo: u64, hi: u64| (lo + h % (hi - lo + 1)) as i64;
+    if l == "max" || l.starts_with("max") {
+        r(100, 150)
+    } else if has(&["current", "cur"]) {
+        r(40, 99)
+    } else if has(&["node", "city", "area", "chapter", "act", "difficulty"]) {
+        r(1, 6)
+    } else if has(&["level", "lvl", "rank", "tier", "grade"]) {
+        r(12, 34)
+    } else if has(&["health", "hp", "life", "energy", "mana", "stamina", "food", "water", "sleep", "hunger"]) {
+        r(60, 100)
+    } else if has(&["gold", "money", "cash", "credit", "coin", "ruble", "unit", "stardust", "gem", "crystal", "token", "fame", "currency"]) {
+        r(2_000, 48_000)
+    } else if has(&["exp", "xp", "score"]) {
+        r(3_000, 42_000)
+    } else if has(&["day", "season", "week", "month"]) {
+        r(14, 80)
+    } else if has(&["death", "kill", "win", "loss", "run", "streak", "count", "found", "complet", "finish", "visit"]) {
+        r(8, 160)
+    } else if has(&["point", "perk", "skill", "stat", "attribute", "strength", "agility", "intellect", "endurance", "perception", "luck", "charisma"]) {
+        r(4, 40)
+    } else {
+        r(10, 90)
     }
-    if l.contains("health") || l.contains("hp") || l.contains("life") {
-        return 100 + (h % 400) as i64;
-    }
-    if l.contains("gold") || l.contains("money") || l.contains("cash") || l.contains("coin") || l.contains("credit") {
-        return 1000 + (h % 90_000) as i64;
-    }
-    1 + (h % 900) as i64
 }
 
 fn value_for(ptr: &str, salt: usize) -> Value {
@@ -169,7 +184,6 @@ fn status() -> BTreeSet<String> {
 /// hold editable values and write back the same data.
 #[test]
 fn synthetic_saves_open_on_their_screens() {
-    let none = status();
     let (mut ok, mut skipped) = (0, vec![]);
     for s in simple::all().iter().filter(|s| jsonish(s)) {
         let Some(v) = build(s) else { skipped.push(s.name); continue };
@@ -188,8 +202,8 @@ fn synthetic_saves_open_on_their_screens() {
         ok += 1;
     }
     println!("synthetic: {ok} open on their own screen, skipped {}: {:?}", skipped.len(), skipped);
-    let _ = none;
-    assert!(ok > 0);
+    assert!(ok >= 60, "only {ok} synthetic saves open on their own screen");
+    assert!(skipped.len() <= 8, "too many screens skipped: {skipped:?}");
 }
 
 #[test]
@@ -209,5 +223,14 @@ fn write_synthetic_saves() {
         let slug: String = s.name.chars().map(|c| if c.is_ascii_alphanumeric() { c } else { '_' }).collect();
         std::fs::write(format!("{dir}/{slug}.json"), bytes).unwrap();
         println!("wrote {}", s.name);
+    }
+}
+
+#[test]
+#[ignore]
+fn list_synthetic_subtitles() {
+    let none = status();
+    for s in simple::all().iter().filter(|s| jsonish(s) && none.contains(s.name)) {
+        println!("## {} :: {}", s.name, s.subtitle);
     }
 }
