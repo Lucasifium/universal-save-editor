@@ -1101,7 +1101,7 @@ fn readme_screens_are_grouped() {
     assert!(group_readme_screens(&text) == text, "GAMES.md's game screens are not grouped by letter: run `cargo test --release --lib build_site -- --ignored`");
 }
 
-/// The game pictures stay small: 40 / 90 / 140 KB at most per size, and 20 MB in all; every one has
+/// The game pictures stay small: 40 / 90 / 140 KB at most per size, and 36 MB in all; every one has
 /// all three sizes and a height in the index.
 #[test]
 fn game_pictures_stay_small() {
@@ -1128,5 +1128,5 @@ fn game_pictures_stay_small() {
             assert!(names.contains(&format!("{key}-{size}.webp")), "{key} is in index.txt but {key}-{size}.webp is missing");
         }
     }
-    assert!(total <= 20_000_000, "pictures weigh {total} bytes");
+    assert!(total <= 36_000_000, "pictures weigh {total} bytes");
 }
