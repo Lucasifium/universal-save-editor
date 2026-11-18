@@ -1,4 +1,4 @@
-//! Borderlands 4 saves (`*.sav`): AES-256-ECB under a key made from the Steam account id,
+//! Borderlands 4 saves (`*.sav`): AES-256-ECB under a key made from the Steam or Epic account id,
 //! around a zlib stream, an Adler-32 and the length, holding a YAML document.
 //! The key construction and trailer follow the layout documented by the
 //! Borderlands4SaveDataResigner project (MIT).
@@ -16,10 +16,20 @@ const PUBLIC_KEY: [u8; 32] = [
     0x05, 0x78, 0xBD, 0x60, 0xBA, 0x4A, 0xA7, 0x87,
 ];
 
-fn key_for(id: u64) -> [u8; 32] {
+/// The bytes of an account that are mixed into the key: a Steam id as 8 little-endian bytes, an
+/// Epic account id (32 hex characters) as UTF-16LE text, of which the first 32 bytes count.
+pub fn steam_id(id: u64) -> Vec<u8> {
+    id.to_le_bytes().to_vec()
+}
+
+pub fn epic_id(id: &str) -> Vec<u8> {
+    id.encode_utf16().flat_map(u16::to_le_bytes).collect()
+}
+
+fn key_for(id: &[u8]) -> [u8; 32] {
     let mut k = PUBLIC_KEY;
-    for (i, b) in id.to_le_bytes().iter().enumerate() {
-        k[i] ^= b;
+    for (x, b) in k.iter_mut().zip(id) {
+        *x ^= b;
     }
     k
 }
@@ -33,7 +43,7 @@ fn adler32(d: &[u8]) -> u32 {
     (b << 16) | a
 }
 
-fn ecb(data: &[u8], id: u64, enc: bool) -> Vec<u8> {
+fn ecb(data: &[u8], id: &[u8], enc: bool) -> Vec<u8> {
     let c = Aes256::new(GenericArray::from_slice(&key_for(id)));
     let mut out = data.to_vec();
     for blk in out.chunks_exact_mut(16) {
@@ -56,11 +66,13 @@ fn unpack(body: &[u8]) -> Option<Vec<u8>> {
     let sum = u32::from_be_bytes(body[n - 8..n - 4].try_into().ok()?);
     let mut plain = Vec::new();
     flate2::read::ZlibDecoder::new(&body[..n - 8]).read_to_end(&mut plain).ok()?;
-    (plain.len() == len && adler32(&plain) == sum).then_some(plain)
+    // Some tools write the checksum little-endian; the length and a clean zlib stream still vouch for it.
+    let a = adler32(&plain);
+    (plain.len() == len && (a == sum || a == sum.swap_bytes())).then_some(plain)
 }
 
 /// The YAML text of a file the account `id` opens.
-pub fn decrypt(data: &[u8], id: u64) -> Option<Vec<u8>> {
+pub fn decrypt(data: &[u8], id: &[u8]) -> Option<Vec<u8>> {
     if data.len() < 32 || data.len() % 16 != 0 {
         return None;
     }
@@ -78,16 +90,40 @@ pub fn decrypt(data: &[u8], id: u64) -> Option<Vec<u8>> {
     unpack(&dec)
 }
 
-/// Steam ids (17 digits) named by the folders of the path, and a typed-in id.
-pub fn ids_in_path(path: &std::path::Path) -> Vec<u64> {
-    path.components().filter_map(|c| c.as_os_str().to_str()?.parse::<u64>().ok()).filter(|n| *n > 76_561_190_000_000_000).collect()
+/// Accounts named by the folders of the path: Steam ids (17 digits) and Epic account ids
+/// (32 hex characters, tried as written and in lower case).
+pub fn ids_in_path(path: &std::path::Path) -> Vec<Vec<u8>> {
+    let mut out = Vec::new();
+    for s in path.components().filter_map(|c| c.as_os_str().to_str()) {
+        if let Some(n) = s.parse::<u64>().ok().filter(|n| *n > 76_561_190_000_000_000) {
+            out.push(steam_id(n));
+        } else if s.len() == 32 && s.bytes().all(|b| b.is_ascii_hexdigit()) {
+            out.push(epic_id(s));
+            out.push(epic_id(&s.to_ascii_lowercase()));
+        }
+    }
+    out
 }
 
-pub fn find(data: &[u8], accounts: &[u64]) -> Option<(u64, Vec<u8>)> {
-    accounts.iter().find_map(|&a| decrypt(data, a).map(|p| (a, p)))
+/// What a typed-in id means: digits are a Steam id, anything else an Epic account id.
+pub fn typed_id(s: &str) -> Option<Vec<u8>> {
+    let s = s.trim();
+    if s.is_empty() {
+        None
+    } else if let Ok(n) = s.parse::<u64>() {
+        Some(steam_id(n))
+    } else if s.len() >= 10 && s.chars().all(|c| c.is_ascii_alphanumeric() || c == '-' || c == '_') {
+        Some(epic_id(s))
+    } else {
+        None
+    }
 }
 
-pub fn encrypt(plain: &[u8], id: u64) -> Result<Vec<u8>, String> {
+pub fn find(data: &[u8], accounts: &[Vec<u8>]) -> Option<(Vec<u8>, Vec<u8>)> {
+    accounts.iter().find_map(|a| decrypt(data, a).map(|p| (a.clone(), p)))
+}
+
+pub fn encrypt(plain: &[u8], id: &[u8]) -> Result<Vec<u8>, String> {
     let text = String::from_utf8_lossy(plain).replace("\r\n", "\n");
     let plain = text.as_bytes();
     let mut z = flate2::write::ZlibEncoder::new(Vec::new(), flate2::Compression::default());
@@ -288,14 +324,32 @@ mod tests {
         doc.set("/state/experience/0/level", Value::from(50)).unwrap();
         let out = String::from_utf8(doc.to_bytes().unwrap()).unwrap();
         assert_eq!(out, y.replace("29749", "999").replace("level: 5", "level: 50"));
-        let enc = encrypt(y.as_bytes(), 76561197960265729).unwrap();
-        assert_eq!(decrypt(&enc, 76561197960265729).unwrap(), y.as_bytes());
-        assert!(decrypt(&enc, 76561197960265730).is_none());
+        let me = steam_id(76561197960265729);
+        let enc = encrypt(y.as_bytes(), &me).unwrap();
+        assert_eq!(decrypt(&enc, &me).unwrap(), y.as_bytes());
+        assert!(decrypt(&enc, &steam_id(76561197960265730)).is_none());
         let p = std::path::Path::new("C:/Users/x/Documents/My Games/Borderlands 4/Saved/SaveGames/76561197960265729/1.sav");
-        assert_eq!(ids_in_path(p), vec![76561197960265729]);
+        assert_eq!(ids_in_path(p), vec![me.clone()]);
         let opts = crate::formats::Options::for_path(p);
         let d = crate::formats::decode_with(&enc, &opts);
         assert!(!d.layers.is_empty(), "the account in the path opens the file");
+    }
+
+    #[test]
+    fn epic_account_ids_open_saves() {
+        let y = "state: \n  char_guid: 1\n  char_name: Vex\n  currencies: \n    cash: 5\n";
+        let id = "0123456789abcdef0123456789ABCDEF";
+        let key = epic_id(id);
+        assert_eq!(key.len(), 64);
+        let enc = encrypt(y.as_bytes(), &key).unwrap();
+        assert_eq!(decrypt(&enc, &key).unwrap(), y.as_bytes());
+        assert!(decrypt(&enc, &steam_id(76561197960265729)).is_none());
+        let p = std::path::Path::new("C:/Saved/SaveGames/0123456789abcdef0123456789ABCDEF/Profiles/client/1.sav");
+        let d = crate::formats::decode_with(&enc, &crate::formats::Options::for_path(p));
+        assert!(!d.layers.is_empty(), "the Epic id in the path opens the file");
+        assert_eq!(typed_id("0123456789abcdef0123456789ABCDEF"), Some(key));
+        assert_eq!(typed_id("76561197960265729"), Some(steam_id(76561197960265729)));
+        assert_eq!(typed_id("bad id!"), None);
     }
 
     /// The resigner project's own sample files, if BL4_SAMPLES holds that folder.
@@ -306,7 +360,7 @@ mod tests {
         for (e, d) in [("1.sav", "1.yaml"), ("profile.sav", "profile.yaml")] {
             let enc = std::fs::read(dir.join("encrypted/76561197960265729").join(e)).unwrap();
             let plain = std::fs::read(dir.join("decrypted").join(d)).unwrap();
-            let got = decrypt(&enc, 76561197960265729).unwrap();
+            let got = decrypt(&enc, &steam_id(76561197960265729)).unwrap();
             assert_eq!(String::from_utf8_lossy(&got).replace("\r\n", "\n"), String::from_utf8_lossy(&plain).replace("\r\n", "\n"));
             let doc = parse(&String::from_utf8_lossy(&got)).unwrap();
             assert_eq!(doc.to_bytes().unwrap(), got);

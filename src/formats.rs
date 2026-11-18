@@ -259,7 +259,7 @@ pub enum Layer {
     /// its key banks) and the user id.
     Lime { original: Arc<Vec<u8>>, user: u64 },
     /// Borderlands 4: AES-256-ECB under the Steam account's key around zlib, Adler-32 and length.
-    Bl4 { user: u64 },
+    Bl4 { user: Vec<u8> },
     /// Samurai Warriors 5: AES-128-CBC keyed by the Steam account number, the IV seed kept.
     Sw5 { account: u32, seed: u32 },
     /// Capcom RE Engine "Citrus" encryption (Monster Hunter Rise on Steam): the file it came
@@ -1162,7 +1162,7 @@ fn wrap(layer: &Layer, data: Vec<u8>) -> Result<Vec<u8>, String> {
         Layer::NestedJson { paths, pretty } => fmt::nested::close(&data, paths, *pretty)?,
         Layer::Mandarin { original, game, user } => fmt::mandarin::encrypt(&data, original, &fmt::mandarin::GAMES[*game], *user)?,
         Layer::Lime { original, user } => fmt::lime::encrypt(&data, original, *user)?,
-        Layer::Bl4 { user } => fmt::bl4::encrypt(&data, *user)?,
+        Layer::Bl4 { user } => fmt::bl4::encrypt(&data, user)?,
         Layer::Sw5 { account, seed } => fmt::sw5::encrypt(&data, *account, *seed)?,
         Layer::Citrus { original, curve, steam } => fmt::citrus::encrypt(&data, original, *curve, *steam)?,
         Layer::RegFile(meta) => fmt::regfile::save(meta, &data)?,
@@ -1766,10 +1766,17 @@ fn peel(data: &[u8], ctx: &mut Ctx, json: &JsonOnce) -> Option<(Layer, Vec<u8>)>
         ctx.hint = Some("This looks like a Samurai Warriors 5 save, but none of the Steam accounts on this computer opens it. Open it from its own folder (keep steam_autocloud.vdf beside it) or enter your Steam ID in Tools \u{203A} Decrypt with password.".into());
     }
     if ctx.opts.ext == "sav" && data.len() >= 32 && data.len() % 16 == 0 {
-        let mut ids = fmt::bl4::ids_in_path(&ctx.opts.path.clone().unwrap_or_default());
-        ids.extend(ree_accounts(ctx).into_iter().flat_map(|a| [a, 76_561_197_960_265_728 + a]));
+        let mut ids: Vec<Vec<u8>> = ctx.opts.password.as_deref().and_then(fmt::bl4::typed_id).into_iter().collect();
+        if let Some(p) = ctx.opts.password.as_deref().filter(|p| p.trim().parse::<u64>().is_err()) {
+            ids.extend(fmt::bl4::typed_id(&p.to_ascii_lowercase()));
+        }
+        ids.extend(fmt::bl4::ids_in_path(&ctx.opts.path.clone().unwrap_or_default()));
+        ids.extend(ree_accounts(ctx).into_iter().flat_map(|a| [a, 76_561_197_960_265_728 + a]).map(fmt::bl4::steam_id));
         if let Some((user, plain)) = fmt::bl4::find(data, &ids) {
             return Some((Layer::Bl4 { user }, plain));
+        }
+        if ctx.opts.path.as_ref().is_some_and(|p| p.to_string_lossy().contains("Borderlands 4")) {
+            ctx.hint = Some("This looks like a Borderlands 4 save, but no account found from its folder opens it. Open it from its own folder (SaveGames\\<Steam id or Epic account id>) or enter your Steam ID or Epic account ID (32 characters) in Tools \u{203A} Decrypt with password.".into());
         }
     }
     if fmt::citrus::looks(data) {
