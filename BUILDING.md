@@ -27,3 +27,9 @@ After a release is published, run `python3 -I packaging/manifests.py` to refresh
 (`packaging/scoop/`) and the winget manifests (`packaging/winget/<version>/`) from that release's
 `SHA256SUMS.txt`, and commit them. The winget files go into a pull request to `microsoft/winget-pkgs` under
 `manifests/l/Lucasifium/UniversalSaveEditor/<version>/`.
+
+## Checking game screens against real saves
+
+Every game screen has a line in `tests/screen-samples.tsv`: `sample` when a public save of the game was opened on it and checked, `none` when no public save has been found. `cargo test` fails when a screen is added without a line, so a new screen has to be opened on a real save (or marked `none` with the reason).
+
+Saves are never committed. To check yours, list them as `<screen>	<path>` lines and run `scripts/check-samples.sh list.tsv`: each save must open on its own screen, hold editable values and write back unchanged (or read back the same where the container is rebuilt, such as a zip or a compressed save). `which_screen` (`SAVE_EDITOR_SCAN=files.txt cargo test --release which_screen -- --ignored --nocapture`) prints which screen each file in a list opens on.

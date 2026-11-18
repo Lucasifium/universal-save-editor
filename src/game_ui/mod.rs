@@ -88,7 +88,7 @@ pub fn find_mark(ui: &Ui, rect: egui::Rect, text: &str) {
 
 /// Temp-data key where a value's "Show in Tree" request (its pointer) is left for the app.
 pub const SHOW_IN_TREE: &str = "show_in_tree_request";
-mod simple;
+pub mod simple;
 
 /// Texts of the table-driven screens, for the translation check.
 #[allow(dead_code)] // only the tests call it (the i18n scan stops at the first cfg(test))

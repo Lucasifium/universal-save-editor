@@ -1,0 +1,426 @@
+# screen	status	note
+# status: `sample` = a public save of the game was opened on this screen and checked; `none` = no public save found yet.
+.hack	sample	public fixture from the game-tools-collection repository
+ASTLIBRA Revision	none	no public save found
+ATOM RPG	none	no public save found
+Aliens: Fireteam Elite	none	no public save found
+Alpha Protocol	none	no public save found
+Andromeda	none	no public save found
+Anno 1800	sample	public practice/speedrun save pack
+Antimatter Dimensions	sample	public fixture from the Antimatter-Dimensions-Save-Editor repository
+Assassin's Creed Brotherhood	none	no public save found
+Assassin's Creed III Remastered	none	no public save found
+Assassin's Creed IV Black Flag	sample	public practice/speedrun save pack
+Assassin's Creed Liberation HD	none	no public save found
+Assassin's Creed Odyssey	none	no public save found
+Assassin's Creed Origins	none	no public save found
+Assassin's Creed Revelations	none	no public save found
+Assassin's Creed Rogue	none	no public save found
+Assassin's Creed Syndicate	none	no public save found
+Assassin's Creed Unity	none	no public save found
+Atelier Firis: The Alchemist and the Mysterious Journey	none	no public save found
+Atelier Sophie: The Alchemist of the Mysterious Book	none	no public save found
+Atomic Heart	none	no public save found
+Attack on Titan (A.O.T.: Wings of Freedom)	none	no public save found
+Attack on Titan 2	none	no public save found
+Balatro	none	no public save found
+Banjo-Kazooie	sample	public fixture from the game-tools-collection repository
+Banjo-Tooie	sample	public fixture from the game-tools-collection repository
+Batman: Arkham City	sample	public fixture from the ArkhamSaveParser repository
+BeamNG.drive	none	no public save found
+Bethesda	none	no public save found
+Bg3	sample	public fixture from the bg3-savefile-parser repository
+BioShock Infinite	none	no public save found
+Bitburner	none	no public save found
+Black Myth: Wukong	none	no public save found
+Blasphemous	sample	public fixture from the GAMES repository
+Borderlands	sample	public fixture from the bl2-save-editor repository
+Borderlands (2009) and Borderlands Game of the Year Enhanced	none	no public save found
+Borderlands 4	sample	public fixture from the Borderlands4SaveDataResigner repository
+Borderlands3	sample	public fixture from the bl3_save_edit repository
+Bravely Default II	sample	public fixture from the Game-Saves repository
+Bug Fables: The Everlasting Sapling	sample	public fixture from the Bug-Fables-Save-Editor repository
+Cairn	none	no public save found
+Car Mechanic Simulator 2018	none	no public save found
+Car Mechanic Simulator 2021	none	no public save found
+Castle Flipper	none	no public save found
+Castlevania: Symphony of the Night	sample	public fixture from the game-tools-collection repository
+Cat Goes Fishing	none	no public save found
+Cave Story	none	no public save found
+Cave Story+	none	no public save found
+Celeste	none	no public save found
+Chef: A Restaurant Tycoon Game	none	no public save found
+Chrono Cross	sample	public fixture from the game-tools-collection repository
+Chrono Trigger (SNES)	sample	public fixture from the Game-Saves repository
+Civ6	sample	public fixture from the civ6-save-parser repository
+Clicker Heroes	sample	public fixture from the clicker-heroes-save-decoder repository
+Cookie Clicker	none	no public save found
+Core Keeper	sample	public fixture from the core-keeper-save-editor repository
+Crash Bandicoot	sample	public fixture from the game-tools-collection repository
+Crash Team Racing	sample	public fixture from the game-tools-collection repository
+Cult of the Lamb	sample	public fixture from the Cult-of-the-Lamb-Save-Editor repository
+Cuphead	sample	public fixture from the savefiles repository
+Cyberdimension Neptunia: 4 Goddesses Online	none	no public save found
+Cyberpunk	sample	public fixture from the Game-Saves repository
+DREDGE	sample	public fixture from the Game-Saves repository
+DarkSouls1	none	no public save found
+DarkSouls2	none	no public save found
+DarkSouls3	sample	public fixture from the savefiles repository
+DarkestDungeon	sample	public fixture from the Darkest-Dungeon-Save-Editor repository
+DarkestDungeon2	none	no public save found
+Darksiders Genesis	none	no public save found
+Dave the Diver	sample	public practice/speedrun save pack
+Dead Island	sample	public fixture from the dead-island-definitive-save-editor repository
+Dead or Alive 2	sample	public fixture from the game-tools-collection repository
+DeadRising	none	no public save found
+DeadRising2	none	no public save found
+Death Must Die	sample	public fixture from the DeathMustDieSaveEditor repository
+DeathStranding1	none	no public save found
+DeathStranding2	none	no public save found
+Deathloop	none	no public save found
+Deep Rock Galactic	sample	public fixture from the pygvas repository
+Deep Rock Galactic: Survivor	none	no public save found
+Deltarune	none	no public save found
+Deltatraveler	sample	public fixture from the DeltatravelerSaveEditor repository
+Destroy All Humans! (2020)	none	no public save found
+Deus Ex: Mankind Divided	none	no public save found
+DeusEx	none	no public save found
+Devil May Cry (PlayStation 2)	sample	public fixture from the game-tools-collection repository
+Devil May Cry HD Collection (Devil May Cry 1)	sample	public fixture from the game-tools-collection repository
+Diablo2	sample	public fixture from the PD2Smithy repository
+Disco Elysium	none	no public save found
+Dishonored	none	no public save found
+Dishonored 2	none	no public save found
+Don't Starve	sample	public fixture from the StrongARM-Ports repository
+Donkey Kong 64	sample	public fixture from the game-tools-collection repository
+Door Kickers	none	no public save found
+Dos2	sample	public practice/speedrun save pack
+Dragon Ball Z: Budokai Tenkaichi 2	sample	public fixture from the game-tools-collection repository
+Dragon Quest VIII	sample	public fixture from the game-tools-collection repository
+DragonAge	none	no public save found
+Drakensang	none	no public save found
+DyingLight	none	no public save found
+DyingLight2	sample	public fixture from the DL2_Save_Editor repository
+Dynasty Warriors 4 Hyper	none	no public save found
+Dynasty Warriors 7: Xtreme Legends Definitive Edition	none	no public save found
+ENDER LILIES: Quietus of the Knights	none	no public save found
+EVERSPACE	none	no public save found
+EldenRing	sample	public fixture from the Game-Saves repository
+Enter the Gungeon	none	no public save found
+Escape from Duckov	none	no public save found
+Etherlords	none	no public save found
+Everspace 2	none	no public save found
+Expedition33	sample	public fixture from the Game-Saves repository
+F-Zero X	sample	public fixture from the game-tools-collection repository
+Fable: The Lost Chapters	sample	public practice/speedrun save pack
+Fallout Shelter	sample	public fixture from the shelter-editor-gh-pages-wegame repository
+Fallout12	sample	public fixture from the fallout-se repository
+Fallout3Nv	none	no public save found
+Farming Simulator 15	none	no public save found
+Farming Simulator 17	none	no public save found
+Farming Simulator 19, 22 and 25	none	no public save found
+Farming Simulator 19, 22 and 25: savegame	none	no public save found
+Ff16	none	no public save found
+Ff7	sample	public fixture from the Game-Saves repository
+Ff7Remake	sample	public fixture from the Game-Saves repository
+Ff9	sample	public fixture from the ff9SaveLib repository
+FfResonance	none	no public save found
+Ffx	sample	public fixture from the Game-Saves repository
+Ffx2	sample	public fixture from the Game-Saves repository
+Ffxv	sample	public fixture from the Game-Saves repository
+Final Fantasy Pixel Remaster (I-VI)	sample	public fixture from the Game-Saves repository
+Final Fantasy Tactics	sample	public fixture from the game-tools-collection repository
+Final Fantasy VI (SNES)	sample	public fixture from the game-tools-collection repository
+Final Fantasy VIII	sample	public fixture from the game-tools-collection repository
+Final Fantasy XIII	sample	public fixture from the Game-Saves repository
+Food Truck Simulator	none	no public save found
+For The King	sample	public fixture from the Game-Saves repository
+Game Dev Tycoon	none	no public save found
+Gas Station Simulator	none	no public save found
+Generation Zero	none	no public save found
+Gestalt: Steam & Cinder	none	no public save found
+Gex 64: Enter the Gecko	sample	public fixture from the game-tools-collection repository
+Ghost of Tsushima	none	no public save found
+Gladiator Guild Manager	none	no public save found
+Goemon's Great Adventure	sample	public fixture from the game-tools-collection repository
+GoldenEye 007	sample	public fixture from the game-tools-collection repository
+GoldenSun	sample	public fixture from the game-tools-collection repository
+Gow2018	sample	public fixture from the Game-Saves repository
+GowRagnarok	none	no public save found
+Gran Turismo	sample	public fixture from the game-tools-collection repository
+Grand Theft Auto III	sample	public practice/speedrun save pack
+Grand Theft Auto: San Andreas	none	no public save found
+Grand Theft Auto: Vice City	none	no public save found
+Grandia	sample	public fixture from the game-tools-collection repository
+Grandia HD Remaster	sample	public fixture from the Game-Saves repository
+Grandia II	sample	public fixture from the game-tools-collection repository
+Graveyard Keeper	none	no public save found
+GreenHell	none	no public save found
+GrimDawn	sample	public fixture from the gd-edit repository
+Hades	sample	public fixture from the Hades-SavesExtractor repository
+HalfLife	none	no public save found
+HalfLife2	sample	public fixture from the Game-Saves repository
+Heroes of Might and Magic III	none	no public save found
+High on Life	none	no public save found
+Hogwarts	sample	public fixture from the pygvas repository
+HogwartsDb	none	no public save found
+HollowKnight	sample	public fixture from the GAMES repository
+HoloCure - Save the Fans!	sample	public fixture from the GAMES repository
+Horizon Chase Turbo	none	no public save found
+Horizon Zero Dawn	sample	public practice/speedrun save pack
+Hotline Miami	sample	public fixture from the Savegames repository
+House Flipper	none	no public save found
+Hunting Simulator 2	none	no public save found
+InfiniteFusion	none	no public save found
+Infinity	none	no public save found
+Inscryption	sample	public fixture from the Game-Saves repository
+Into the Breach	none	no public save found
+Journey to the Savage Planet	sample	public fixture from the pygvas repository
+Jurassic World Evolution	none	no public save found
+Kagero: Deception II	sample	public fixture from the game-tools-collection repository
+Kenshi	none	no public save found
+KenshiSquad	none	no public save found
+Kerbal Space Program	none	no public save found
+Kid Icarus: Uprising	none	no public save found
+King Arthur: Knight's Tale	none	no public save found
+Kingdom Hearts	sample	public fixture from the game-tools-collection repository
+Kingdom Hearts II	sample	public fixture from the game-tools-collection repository
+Kingdom Hearts III	none	no public save found
+Kingdom Rush 5: Alliance TD	none	no public save found
+Kingdom Rush Origins	none	no public save found
+Kingdom Rush Vengeance	none	no public save found
+Kingdom Rush and Kingdom Rush Frontiers	none	no public save found
+Kiwami	sample	public fixture from the Game-Saves repository
+Kotor	none	no public save found
+LEGO Star Wars: The Skywalker Saga	none	no public save found
+Last Epoch	sample	public fixture from the dotfiles repository
+Legends of Kingdom Rush	none	no public save found
+LegoBatman	none	no public save found
+LethalCompany	sample	public fixture from the GreatAsset repository
+Lies of P	none	no public save found
+Like a Dragon: Ishin!	sample	public fixture from the Game-Saves repository
+Luck be a Landlord	sample	public fixture from the LuckToBeALandlord-Saves repository
+Luigi's Mansion	sample	public fixture from the game-tools-collection repository
+Mad Max	sample	public fixture from the MadMax_Savegame_Editor_Project repository
+Magicraft	none	no public save found
+Maneater	none	no public save found
+Mario & Luigi: Dream Team	none	no public save found
+Mario Kart 64	sample	public fixture from the game-tools-collection repository
+Mario Kart 7	none	no public save found
+MassEffect	sample	public fixture from the trilogy-save-editor repository
+Master of Orion II	sample	public fixture from the masteroforion2 repository
+Medieval Dynasty	none	no public save found
+Metro	none	no public save found
+Mewgenics	none	no public save found
+Mgsv	sample	public practice/speedrun save pack
+Minecraft	sample	public fixture from the hematite_nbt repository
+Minecraft Dungeons	none	no public save found
+Mon Bazou	none	no public save found
+Monster Train 2	none	no public save found
+Moonlighter	none	no public save found
+Mortal Shell	none	no public save found
+Mortal Shell II	none	no public save found
+Mutant Year Zero: Road to Eden	none	no public save found
+My Hero One's Justice	none	no public save found
+My Hero One's Justice 2	none	no public save found
+My Summer Car	none	no public save found
+Mystic Quest (SNES)	sample	public fixture from the game-tools-collection repository
+Mystical Ninja Starring Goemon	sample	public fixture from the game-tools-collection repository
+Necromunda: Hired Gun	none	no public save found
+Need for Speed: Most Wanted (2005)	sample	public fixture from the Savegames repository
+NieR Replicant ver.1.22474487139...	none	no public save found
+Nier	none	no public save found
+No Man's Sky	none	no public save found
+Noita	none	no public save found
+Nwn	none	no public save found
+OMORI	sample	public fixture from the GAMES repository
+ONINAKI	none	no public save found
+Octopath	sample	public fixture from the Game-Saves repository
+Older LEGO games	sample	public practice/speedrun save pack
+Onimusha	none	no public save found
+OpenXcom (X-COM: UFO Defense)	sample	public fixture from the openxcom-save-editor repository
+Oracle of Ages (Game Boy Color)	sample	public fixture from the game-tools-collection repository
+Oracle of Seasons (Game Boy Color)	sample	public fixture from the game-tools-collection repository
+Ori and the Blind Forest	sample	public fixture from the Game-Saves repository
+Outer Wilds	sample	public fixture from the Game-Saves repository
+Outward	none	no public save found
+OxygenNotIncluded	sample	public fixture from the oni-save-parser repository
+P3r	none	no public save found
+P4g	none	no public save found
+P5r	sample	public fixture from the persona-5-royal-save repository
+PAYDAY 2	none	no public save found
+PC Building Simulator	none	no public save found
+Palworld	sample	public fixture from the pygvas repository
+Paper Mario	sample	public fixture from the game-tools-collection repository
+Paradox	none	no public save found
+Pathfinder	none	no public save found
+Pathway	none	no public save found
+Phasmophobia	none	no public save found
+Phoenix Wright: Ace Attorney Trilogy	sample	public fixture from the Game-Saves repository
+Pizza Tower	none	no public save found
+PlanetCrafter	none	no public save found
+Planetbase	none	no public save found
+Plants vs. Zombies	sample	public practice/speedrun save pack
+Pokemon	sample	public fixture from the game-tools-collection repository
+Police Simulator: Patrol Officers	none	no public save found
+Potion Craft: Alchemist Simulator	none	no public save found
+Pragmata	none	no public save found
+Prison Architect	none	no public save found
+Project Warlock	none	no public save found
+RPG Maker XP game	sample	public fixture from the rpgmaker-save-editor repository
+Raft	none	no public save found
+Rayman	sample	public fixture from the game-tools-collection repository
+ReSlot	none	no public save found
+Ready or Not	none	no public save found
+Red Dead Redemption	none	no public save found
+Red Dead Redemption 2	none	no public save found
+RenPy	none	no public save found
+Repo	sample	public fixture from the R.E.P.O-Save-Editor repository
+Resident Evil	sample	public fixture from the game-tools-collection repository
+Resident Evil 5	sample	public fixture from the Savegames repository
+RimWorld	none	no public save found
+Risk of Rain 2	none	no public save found
+Road Redemption	none	no public save found
+Roboquest	sample	public fixture from the Roboquest-100-Save repository
+RollerCoaster Tycoon	none	no public save found
+RollerCoaster Tycoon 2	none	no public save found
+RpgMaker	sample	public fixture from the rpgmaker-save-editor repository
+Rune Factory 4 Special	none	no public save found
+Saints Row IV	sample	public practice/speedrun save pack
+Saints Row: The Third (and Remastered)	sample	public practice/speedrun save pack
+Salt and Sanctuary	none	no public save found
+Samurai Warriors 2	none	no public save found
+Samurai Warriors 4-II	none	no public save found
+Samurai Warriors 5	none	no public save found
+Satellite Reign	none	no public save found
+Schedule I: game	none	no public save found
+Schedule I: money	none	no public save found
+Schedule I: rank	none	no public save found
+Schedule I: time	none	no public save found
+Sea of Stars	sample	public fixture from the Game-Saves repository
+Secret of Mana (SNES)	sample	public fixture from the game-tools-collection repository
+Sekiro	sample	public fixture from the savefiles repository
+Shadow Warrior 2	sample	public practice/speedrun save pack
+Shape of Dreams	none	no public save found
+Shape of Dreams (statistics)	none	no public save found
+Shin Megami Tensei: Lucifer's Call	sample	public fixture from the game-tools-collection repository
+Silent Hill	sample	public fixture from the game-tools-collection repository
+Silksong	sample	public fixture from the savefiles repository
+Sims1	none	no public save found
+Sims2	none	no public save found
+Sims3	sample	public practice/speedrun save pack
+Sims4	none	no public save found
+Single Player Tarkov (SPT)	none	no public save found
+Slay the Spire 2	none	no public save found
+SlayTheSpire	sample	public fixture from the spireslayer repository
+Sleeping Dogs	sample	public fixture from the Game-Saves repository
+Slime Rancher	sample	public practice/speedrun save pack
+SnowRunner	none	no public save found
+Sonic Adventure 2	none	no public save found
+Sonic Mania	sample	public fixture from the sonic-mania-save-editor repository
+Sons of the Forest: game clock	sample	public fixture from the ZTest repository
+Sons of the Forest: inventory	sample	public fixture from the ZTest repository
+Sons of the Forest: player	sample	public fixture from the ZTest repository
+Sons of the Forest: weather	none	no public save found
+Space Haven	none	no public save found
+Star Wars Jedi: Fallen Order / Survivor	sample	public practice/speedrun save pack
+Starbound	sample	public fixture from the starboundSaves repository
+Stardew	sample	public fixture from the stardew-save-editor repository
+Stellar Blade	sample	public fixture from the StellarBlade-save-converter repository
+Stoneshard	none	no public save found
+Stranded Deep	none	no public save found
+Streets of Rogue	sample	public fixture from the Rogue_Save_Editor_UnlockTool repository
+Subnautica	none	no public save found
+Subnautica 2	none	no public save found
+Super Kirby Clash	none	no public save found
+Super Mario 64	sample	public fixture from the game-tools-collection repository
+Super Mario Sunshine	sample	public fixture from the game-tools-collection repository
+Super Metroid	sample	public fixture from the game-tools-collection repository
+Super Smash Bros. (N64)	sample	public fixture from the game-tools-collection repository
+Super Smash Bros. Ultimate	none	no public save found
+Supermarket Simulator	none	no public save found
+Supraland	sample	public fixture from the supraland_saves repository
+Tales of Symphonia	sample	public fixture from the Game-Saves repository
+Tales of Vesperia: Definitive Edition	none	no public save found
+Tavern Master	none	no public save found
+Team Kirby Clash Deluxe	none	no public save found
+Teardown	none	no public save found
+Tekken	sample	public fixture from the game-tools-collection repository
+Tekken 2	sample	public fixture from the game-tools-collection repository
+Tekken 3	sample	public fixture from the game-tools-collection repository
+Terra Invicta	sample	public practice/speedrun save pack
+Terraria	none	no public save found
+TerrariaWorld	none	no public save found
+The Banner Saga 3	sample	public fixture from the Game-Saves repository
+The Binding of Isaac: Rebirth	sample	public fixture from the isaac-save-installer repository
+The Bouncer	sample	public fixture from the game-tools-collection repository
+The Elder Scrolls II: Daggerfall (Daggerfall Unity)	none	no public save found
+The Elder Scrolls III: Morrowind	sample	public fixture from the Game-Saves repository
+The Elder Scrolls IV: Oblivion	none	no public save found
+The Evil Within	none	no public save found
+The Forest	none	no public save found
+The Legend of Heroes: Trails in the Sky the 3rd	none	no public save found
+The Legend of Heroes: Trails of Cold Steel	none	no public save found
+The Legend of Zelda: A Link to the Past	sample	public fixture from the game-tools-collection repository
+The Legend of Zelda: Breath of the Wild	none	no public save found
+The Legend of Zelda: Majora's Mask	sample	public fixture from the game-tools-collection repository
+The Legend of Zelda: Ocarina of Time	sample	public fixture from the game-tools-collection repository
+The Legend of Zelda: The Wind Waker	sample	public fixture from the game-tools-collection repository
+The Long Drive	none	no public save found
+The Messenger	none	no public save found
+Thief Simulator	none	no public save found
+Thymesia	none	no public save found
+TitanQuest	sample	public fixture from the tqrespec repository
+Tokyo Xtreme Racer (2025)	sample	public practice/speedrun save pack
+Tony Hawk's Skateboarding	sample	public fixture from the game-tools-collection repository
+Tooth and Tail	none	no public save found
+Torchlight III	none	no public save found
+Torchlight2	none	no public save found
+Torment	none	no public save found
+TotalWar	sample	public practice/speedrun save pack
+Touhou Luna Nights	sample	public fixture from the js-civ5save repository
+Trails in the Sky 1st Chapter	none	no public save found
+Travellers Rest	none	no public save found
+TruckSim	none	no public save found
+Tyranny	none	no public save found
+ULTRAKILL	none	no public save found
+Undertale	none	no public save found
+Undertale Yellow	sample	public practice/speedrun save pack
+Valheim	sample	public fixture from the valheim-save-tools repository
+VampireSurvivors	none	no public save found
+Vikings: Wolves of Midgard	none	no public save found
+Wandering Sword	none	no public save found
+Warhammer 40,000: Mechanicus	none	no public save found
+Warhammer 40,000: Rogue Trader	none	no public save found
+Warm Snow	none	no public save found
+Warriors All-Stars	none	no public save found
+Warriors Orochi	none	no public save found
+Warriors Orochi 3 Ultimate Definitive Edition	none	no public save found
+Warriors Orochi 4	none	no public save found
+Wasteland 2	none	no public save found
+Wasteland3	sample	public fixture from the w3se repository
+Watch Dogs 2	sample	public practice/speedrun save pack
+West of Loathing	sample	public fixture from the Game-Saves repository
+Witcher3	sample	public fixture from the dotfiles repository
+Wizard of Legend	none	no public save found
+Wolcen: Lords of Mayhem	sample	public fixture from the WolcenSaveEditor repository
+Wonderlands	sample	public practice/speedrun save pack
+Workshop Simulator	none	no public save found
+World War Z (and Aftermath)	none	no public save found
+WorldBox - God Simulator	none	no public save found
+WorldOfHorror	none	no public save found
+Wreckfest	none	no public save found
+X Rebirth	none	no public save found
+X-COM: UFO Defense and Terror from the Deep (original saves)	none	no public save found
+X4	none	no public save found
+Xcom	none	no public save found
+Xcom2	none	no public save found
+Xenoblade Chronicles 3	none	no public save found
+Yakuza 3 Remastered	sample	public fixture from the Game-Saves repository
+Yakuza 4 Remastered	sample	public fixture from the Game-Saves repository
+Yakuza 5 Remastered	sample	public fixture from the Game-Saves repository
+Yakuza0	sample	public fixture from the Game-Saves repository
+YakuzaDe	sample	public fixture from the Game-Saves repository
+Youtubers Life	none	no public save found
+Ys: The Oath in Felghana	none	no public save found
+theHunter: Call of the Wild	none	no public save found

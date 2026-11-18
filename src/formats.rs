@@ -229,7 +229,7 @@ pub enum Layer {
     /// PAYDAY 2 profile: XOR key stream, MD5 blocks and a typed dictionary (the decoded file is kept to rebuild the save).
     Payday2 { plain: Arc<Vec<u8>> },
     /// Hyper Light Drifter: hex header, then base64 of a JSON text with a trailing NUL.
-    HyperLightDrifter { head: Arc<Vec<u8>> },
+    HyperLightDrifter { head: Arc<Vec<u8>>, json: Arc<Vec<u8>> },
     /// Don't Starve: `KLEI     1D`, base64, a 16-byte header and a zlib stream of Lua text.
     DontStarve,
     /// Mad Max: XOR key, integrity value kept by carrying its difference; the decoded file is kept to rebuild the save.
@@ -1148,7 +1148,7 @@ fn wrap(layer: &Layer, data: Vec<u8>) -> Result<Vec<u8>, String> {
         Layer::Bloodstained { tail } => fmt::bloodstained::pack(&data, tail),
         Layer::Wwz { seed } => fmt::wwz::pack(*seed, &data)?,
         Layer::Payday2 { plain } => fmt::payday2::pack(plain, &data)?,
-        Layer::HyperLightDrifter { head } => fmt::hld::pack(head, &data),
+        Layer::HyperLightDrifter { head, json } => fmt::hld::pack(head, json, &data),
         Layer::DontStarve => fmt::dontstarve::pack(&data),
         Layer::MadMax { plain } => fmt::madmax::pack(plain, &data)?,
         Layer::Shifted => fmt::shifted::pack(&data),
@@ -2136,7 +2136,7 @@ fn peel(data: &[u8], ctx: &mut Ctx, json: &JsonOnce) -> Option<(Layer, Vec<u8>)>
         return Some((Layer::DontStarve, text));
     }
     if let Some((head, json)) = fmt::hld::open(data) {
-        return Some((Layer::HyperLightDrifter { head: Arc::new(head) }, json));
+        return Some((Layer::HyperLightDrifter { head: Arc::new(head), json: Arc::new(json.clone()) }, json));
     }
     if let Some((plain, json)) = fmt::payday2::open(data) {
         return Some((Layer::Payday2 { plain: Arc::new(plain) }, json));

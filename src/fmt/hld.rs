@@ -3,7 +3,6 @@
 
 use base64::{engine::general_purpose::STANDARD, Engine};
 
-const MARK: &str = "eyAi"; // base64 of `{ "`
 
 /// Returns the header text and the JSON bytes.
 pub fn open(data: &[u8]) -> Option<(Vec<u8>, Vec<u8>)> {
@@ -13,7 +12,12 @@ pub fn open(data: &[u8]) -> Option<(Vec<u8>, Vec<u8>)> {
         return None;
     }
     let text = std::str::from_utf8(data).ok()?;
-    let at = text.find(MARK)?;
+    // The base64 starts with `ey` (`{` and then a space or a quote). `e` is a hex digit, so the
+    // header ends one character before the first character that is not one.
+    let at = text.bytes().position(|b| !b.is_ascii_hexdigit())?.checked_sub(1)?;
+    if !text[at..].starts_with("ey") {
+        return None;
+    }
     let (head, body) = text.split_at(at);
     if head.len() < 16 || !head.bytes().all(|b| b.is_ascii_hexdigit()) {
         return None;
@@ -26,8 +30,11 @@ pub fn open(data: &[u8]) -> Option<(Vec<u8>, Vec<u8>)> {
     Some((head.as_bytes().to_vec(), json))
 }
 
-pub fn pack(head: &[u8], json: &[u8]) -> Vec<u8> {
-    let mut body = json.to_vec();
+/// `original` is the JSON text the file held: when the edited JSON has the same data, the text
+/// is kept as it was (spacing and number formats), not written out again.
+pub fn pack(head: &[u8], original: &[u8], json: &[u8]) -> Vec<u8> {
+    let same = |a: &[u8], b: &[u8]| matches!((serde_json::from_slice::<serde_json::Value>(a), serde_json::from_slice::<serde_json::Value>(b)), (Ok(x), Ok(y)) if x == y);
+    let mut body = if same(original, json) { original.to_vec() } else { json.to_vec() };
     body.push(0);
     let mut out = head.to_vec();
     out.extend_from_slice(STANDARD.encode(&body).as_bytes());
@@ -40,9 +47,12 @@ mod tests {
 
     #[test]
     fn round_trip() {
-        let file = pack(b"0123456789abcdef", br#"{ "sword": 1.000000 }"#);
+        let file = pack(b"0123456789abcdef", b"", br#"{ "sword": 1.000000 }"#);
         let (head, json) = open(&file).unwrap();
         assert_eq!(head, b"0123456789abcdef");
-        assert_eq!(pack(&head, &json), file);
+        assert_eq!(pack(&head, &json, &json), file);
+        // Edited data written compactly still opens.
+        let edited = pack(&head, &json, br#"{"sword":2.0}"#);
+        assert_eq!(open(&edited).unwrap().1, br#"{"sword":2.0}"#);
     }
 }

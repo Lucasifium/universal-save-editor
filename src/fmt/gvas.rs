@@ -639,7 +639,15 @@ impl Backend for GvasBackend {
     }
 }
 
+/// The tree of a save costs about 200 times its size in memory (a 62 MB Palworld world took
+/// more than 12 GB), so a bigger save is left to the hex view and Value search instead of
+/// taking the whole machine down.
+const MAX_TREE_BYTES: usize = 24 << 20;
+
 pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
+    if d.len() > MAX_TREE_BYTES {
+        return Err(format!("save data of {} MB is too big for the tree view", d.len() >> 20));
+    }
     match parse_as(d, false, 0) {
         Err(e) if e.starts_with("unexpected data after properties") => parse_as(d, true, 0).or_else(|_| parse_as_magic(d, false, 0, b"GVAS", true)).map_err(|_| e),
         // Mortal Shell (UE 4.25) puts an 8-byte timestamp between the class name and the

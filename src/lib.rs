@@ -5,6 +5,8 @@
 #[cfg(test)]
 mod bughunt;
 #[cfg(test)]
+mod sample_check;
+#[cfg(test)]
 mod site;
 mod app;
 mod apollo;
