@@ -1522,8 +1522,8 @@ mod tests {
     fn reads_both_library_list_formats() {
         let new = "\"libraryfolders\"\n{\n\t\"0\"\n\t{\n\t\t\"path\"\t\t\"C:\\\\Program Files (x86)\\\\Steam\"\n\t\t\"apps\"\n\t\t{\n\t\t\t\"440\"\t\t\"1234\"\n\t\t}\n\t}\n\t\"1\"\n\t{\n\t\t\"path\"\t\t\"/run/media/card/steamapps-lib\"\n\t}\n}";
         assert_eq!(vdf_library_paths(new), vec![PathBuf::from(r"C:\Program Files (x86)\Steam"), PathBuf::from("/run/media/card/steamapps-lib")]);
-        let old = "\"LibraryFolders\"\n{\n\t\"TimeNextStatsReport\"\t\t\"1234567\"\n\t\"1\"\t\t\"D:\\\\Games\\\\Steam\"\n}";
-        assert_eq!(vdf_library_paths(old), vec![PathBuf::from(r"D:\Games\Steam")]);
+        let old = "\"LibraryFolders\"\n{\n\t\"TimeNextStatsReport\"\t\t\"1234567\"\n\t\"1\"\t\t\"C:\\\\Games\\\\Steam\"\n}";
+        assert_eq!(vdf_library_paths(old), vec![PathBuf::from(r"C:\Games\Steam")]);
     }
 
     #[test]
