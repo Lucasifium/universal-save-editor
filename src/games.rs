@@ -814,6 +814,10 @@ fn onedrive_roots() -> Vec<PathBuf> {
 /// name), read from `user-dirs.dirs`.
 fn xdg_documents(home: &Path) -> Option<PathBuf> {
     let conf = env("XDG_CONFIG_HOME").unwrap_or_else(|| home.join(".config"));
+    xdg_documents_in(&conf, home)
+}
+
+fn xdg_documents_in(conf: &Path, home: &Path) -> Option<PathBuf> {
     let text = std::fs::read_to_string(conf.join("user-dirs.dirs")).ok()?;
     let line = text.lines().find(|l| l.trim_start().starts_with("XDG_DOCUMENTS_DIR="))?;
     let value = line.split_once('=')?.1.trim().trim_matches('"');
@@ -1548,7 +1552,7 @@ mod tests {
         std::fs::create_dir_all(tmp.join(".config")).unwrap();
         std::fs::create_dir_all(tmp.join("Dokumente")).unwrap();
         std::fs::write(tmp.join(".config/user-dirs.dirs"), "XDG_DOCUMENTS_DIR=\"$HOME/Dokumente\"\n").unwrap();
-        assert_eq!(xdg_documents(&tmp), Some(tmp.join("Dokumente")));
+        assert_eq!(xdg_documents_in(&tmp.join(".config"), &tmp), Some(tmp.join("Dokumente")));
         let _ = std::fs::remove_dir_all(&tmp);
     }
 
